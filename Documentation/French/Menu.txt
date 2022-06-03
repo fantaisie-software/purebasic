@@ -139,15 +139,18 @@
 
 @Example
 @Code
-  If OpenWindow(0, 200, 200, 200, 100, "Exemple de menu")
-    If CreateMenu(0, WindowID(0))   
-      MenuTitle("Projet")
-        MenuItem(1, "Ouvrir"   +Chr(9)+"Ctrl+O")
-        MenuItem(2, "Enregistrer"   +Chr(9)+"Ctrl+E")
-        MenuItem(3, "Enregistrer sous"+Chr(9)+"Ctrl+R")
-        MenuItem(4, "Fermer"  +Chr(9)+"Ctrl+F")
+  UsePNGImageDecoder()
+
+  If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
+    If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
+      MenuTitle("Project")
+        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
+        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
+        MenuBar()
+        MenuItem(3, "Quit"  +Chr(9)+"Ctrl+Q")
     EndIf
-    Repeat : Until WaitWindowEvent()=#PB_Event_CloseWindow
+  
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @Image createmenu.png

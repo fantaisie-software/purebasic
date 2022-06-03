@@ -153,18 +153,18 @@
 
 @Example
 @Code
-  If LoadImage(0, OpenFileRequester("Choose an icon file", "", "", 0))
-    If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
-      If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
-        MenuTitle("Project")
-          MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", ImageID(0))
-          MenuItem(2, "Save"   +Chr(9)+"Ctrl+S")
-          MenuItem(3, "Save as"+Chr(9)+"Ctrl+A")
-          MenuItem(4, "Close"  +Chr(9)+"Ctrl+C")
-      EndIf
+  UsePNGImageDecoder()
 
-      Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
+    If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
+      MenuTitle("Project")
+        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
+        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
+        MenuBar()
+        MenuItem(3, "Quit"  +Chr(9)+"Ctrl+Q")
     EndIf
+  
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 

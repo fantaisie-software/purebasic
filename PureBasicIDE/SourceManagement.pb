@@ -1222,6 +1222,10 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   
   *Source\NbResourceFiles = 0
   
+  ; These configs are enabled by default, so if not present, should be 0
+  *Source\EnableXP      = 0
+  *Source\DPIAware      = 0
+  
   ClearList(*Source\UnknownIDEOptionsList$())
   
   *Source\VersionInfo = 0

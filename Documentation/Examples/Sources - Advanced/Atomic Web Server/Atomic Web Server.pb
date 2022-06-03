@@ -15,11 +15,6 @@
 ; http://127.0.0.1
 ;
 
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0)
-  End
-EndIf
-
 Port = 80
 BaseDirectory$ = "www/"
 DefaultPage$   = "Index.html"

@@ -12,10 +12,6 @@
   sondern auch das Versenden dieser Email an einen einzelnen oder mehrere Empfänger.
   Darüber hinaus können bei Bedarf optionale Anhänge erfolgen. Diese werden dann durch
   einen Mail-Server gesendet.
-  @LineBreak
-  @LineBreak
-  Alle Mail-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss @@InitNetwork 
-  aufgerufen werden, bevor diese verwendet werden können.
 @LineBreak
 @LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
@@ -141,8 +137,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     If AddMailAttachment(0, "Anhang 1", OpenFileRequester("Einen Anhang auswählen", "", "", 0))
       Debug "Anhang korrekt hinzugefügt"
@@ -200,8 +194,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
 
     If AddMailAttachmentData(0, "Anhang 1", ?Hello, 5)
@@ -253,8 +245,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
     AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
@@ -316,8 +306,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil !" + #CRLF$ + "Zweite Zeile")
     Debug "Mail erstellt"
@@ -327,7 +315,7 @@
 @EndCode
 
 @SeeAlso
-  @@InitNetwork, @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
+  @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
 
 @SupportedOS
 
@@ -380,8 +368,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     Debug GetMailAttribute(0, #PB_Mail_From)    ; wird "test@purebasic.com" ausgeben
     Debug GetMailAttribute(0, #PB_Mail_Subject) ; wird "Hello" ausgeben
@@ -409,8 +395,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil")
     Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben
@@ -496,8 +480,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
     AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
@@ -546,8 +528,6 @@
 
 @Example Simple SMTP
 @Code
-  InitNetwork()
-
   ; Hinweis: ändere die Adresse und Smtp, um ein lauffähiges Beispiel zu erhalten
   ;
   If CreateMail(0, "test@youraddress.com", "Hello")
@@ -559,8 +539,6 @@
 
 @Example Using GMail (TLS)
 @Code
-  InitNetwork()
-
   ; Seien Sie sicher, das richtige Login und Passwort zu verwenden.
   ;
   Login$ = "yourlogin"
@@ -603,8 +581,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailAttribute(0, #PB_Mail_XMailer, "PureMailer")
     Debug GetMailAttribute(0, #PB_Mail_XMailer) ; wird "PureMailer" ausgeben
@@ -638,8 +614,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil")
     Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben

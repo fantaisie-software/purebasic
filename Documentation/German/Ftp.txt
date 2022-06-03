@@ -12,10 +12,6 @@
   Diese Bibliothek implementiert die Client-Seite von Ftp, und ermöglicht das Verbinden zu 
   einem entfernten Server und das Manipulieren von Dateien (wie Download, Upload, verfügbare
   Dateien auflisten, Navigieren durch Verzeichnisse und mehr).
-  @LineBreak
-  @LineBreak
-  Alle Ftp-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek" - daher muss @@InitNetwork 
-  aufgerufen werden, bevor diese verwendet werden können.
 
 @CommandList
 
@@ -190,8 +186,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -401,8 +395,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -563,14 +555,8 @@
   Null bei einem Fehler. Wenn @#PB_Any als #Ftp Parameter verwendet wird,
   dann wird bei Erfolg die für die Verbindung generierte Nummer zurückgegeben.
 
-@Remarks
-  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden, da alle
-  FTP-Befehle auf der @LibraryLink "network" "Network-Bibliothek" basieren.
-
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     Debug "Erfolgreich verbunden"
   Else
@@ -723,8 +709,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     
     Debug "Erfolgreich verbunden"

@@ -152,12 +152,9 @@ ftp clients, etc) or even multiplayer games.
   being that two servers can not run using the same port and the same protocol (@#PB_Network_TCP and @#PB_Network_UDP).
   It's possible to create two servers using the same port, one using IPv4 and the other using IPv6.
   @@NetworkServerEvent can be used to monitor server for events.
-@LineBreak
-@LineBreak
-  @@InitNetwork must be called before using any other commands from the network library.
 
 @SeeAlso
-  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@InitNetwork
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent
 
 @SupportedOS
 
@@ -181,7 +178,6 @@ ftp clients, etc) or even multiplayer games.
   
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -194,7 +190,6 @@ ftp clients, etc) or even multiplayer games.
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()
@@ -240,21 +235,6 @@ ftp clients, etc) or even multiplayer games.
 
 @ReturnValue
   Returns the host name.
-
-@SupportedOS
-
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = InitNetwork() 
-
-@Description
-  This function must be called before any other function from the Network library.
-  
-@NoParameters
-
-@ReturnValue
-  Returns nonzero if the network was initialized correctly or zero if not.
 
 @SupportedOS
 
@@ -497,7 +477,6 @@ ftp clients, etc) or even multiplayer games.
 
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -510,7 +489,6 @@ ftp clients, etc) or even multiplayer games.
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()

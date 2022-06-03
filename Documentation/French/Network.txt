@@ -223,17 +223,11 @@
   @@NetworkServerEvent peut être utilisé 
   pour surveiller les nouveaux événements 
   serveur.
-@LineBreak
-@LineBreak  
-  Note: @@InitNetwork doit être appelée 
-  avant d'utiliser d'autres commandes de 
-  la bibliothèque réseau.
 
 @SeeAlso
   @@OpenNetworkConnection, 
   @@CloseNetworkServer, 
   @@NetworkServerEvent, 
-  @@InitNetwork
  
 @SupportedOS
 
@@ -262,7 +256,6 @@
   
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -275,7 +268,6 @@
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()
@@ -329,23 +321,6 @@
 @ReturnValue
   Renvoie le nom d'hôte.
 
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Resultat = InitNetwork()
-
-@Description
-  Cette fonction doit être appelée avant 
-  toute autre fonction de la bibliothèque 
-  Network. 
-  
-@NoParameters
-
-@ReturnValue
-  Renvoie une valeur non nulle si le réseau 
-  a été initialisé correctement, zéro sinon.  
-  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -676,7 +651,6 @@
 
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -689,7 +663,6 @@
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()

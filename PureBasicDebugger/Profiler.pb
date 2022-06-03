@@ -1470,12 +1470,12 @@ EndProcedure
 Procedure OpenProfilerWindow(*Debugger.DebuggerData)
   
   If Profiler_Arrow = 0
-    Profiler_Arrow   = CatchImage(#PB_Any, ?Profiler_Arrow)
-    Profiler_Select  = CatchImage(#PB_Any, ?Profiler_Select)
-    Profiler_Cross   = CatchImage(#PB_Any, ?Profiler_Cross)
-    Profiler_Zoomin  = CatchImage(#PB_Any, ?Profiler_Zoomin)
-    Profiler_Zoomout = CatchImage(#PB_Any, ?Profiler_Zoomout)
-    Profiler_Zoomall = CatchImage(#PB_Any, ?Profiler_Zoomall)
+    Profiler_Arrow   = CatchImageDPI(#PB_Any, ?Profiler_Arrow)
+    Profiler_Select  = CatchImageDPI(#PB_Any, ?Profiler_Select)
+    Profiler_Cross   = CatchImageDPI(#PB_Any, ?Profiler_Cross)
+    Profiler_Zoomin  = CatchImageDPI(#PB_Any, ?Profiler_Zoomin)
+    Profiler_Zoomout = CatchImageDPI(#PB_Any, ?Profiler_Zoomout)
+    Profiler_Zoomall = CatchImageDPI(#PB_Any, ?Profiler_Zoomall)
   EndIf
   
   If *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]

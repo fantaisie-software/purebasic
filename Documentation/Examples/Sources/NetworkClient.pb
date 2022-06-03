@@ -10,11 +10,6 @@
 ; Note: run the NetworkServer.pb file first to launch the server
 ;
 
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0)
-  End
-EndIf
-
 Port = 6832
 
 ConnectionID = OpenNetworkConnection("127.0.0.1", Port)

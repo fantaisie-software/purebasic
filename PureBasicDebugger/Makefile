@@ -2,7 +2,7 @@
 ifeq ($(PB_WINDOWS),1)
 	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
 	GUIDEBUGGER = $(PUREBASIC_HOME)/Compilers/PBDebugger.exe
-	DEBUGGERFLAGS = /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico
+	GUIDEBUGGERFLAGS = /DPIAWARE /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico
 	MAKEEXE = /EXE
 	ECHOQUOTE =
 	CONSTANT = /CONSTANT
@@ -19,10 +19,10 @@ else
 
 ifeq ($(PB_MACOS),1)
 	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger.app
-	DEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB3D_MacIcon.icns"
+	GUIDEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB3D_MacIcon.icns"
 else
 	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
-	DEBUGGERFLAGS = --subsystem gtk2
+	GUIDEBUGGERFLAGS = --subsystem gtk2
 endif
 
 	MAKEEXE = -e
@@ -30,13 +30,13 @@ endif
 endif
 
 GuiDebugger : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png
-	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS) $(UNICODE)
+	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(GUIDEBUGGERFLAGS) $(UNICODE)
 
 debug : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png
-	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS) $(UNICODE) $(DEBUGFLAG) $(CONSTANT) DEBUG=1
+	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(GUIDEBUGGERFLAGS) $(UNICODE) $(DEBUGFLAG) $(CONSTANT) DEBUG=1
 
 purifier : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png
-	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(DEBUGGERFLAGS)  $(UNICODE) $(DEBUGFLAG) $(CONSTANT) DEBUG=1 $(PURIFIER)
+	$(PBCOMPILER) StandaloneDebugger.pb $(MAKEEXE) $(GUIDEBUGGER) $(GUIDEBUGGERFLAGS)  $(UNICODE) $(DEBUGFLAG) $(CONSTANT) DEBUG=1 $(PURIFIER)
 
 clean:
 	

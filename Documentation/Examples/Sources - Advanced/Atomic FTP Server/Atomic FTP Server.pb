@@ -13,10 +13,6 @@
 
 #Version = "0.3"
 
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0) : End
-EndIf
-
 ClientIP.s
 Port = 21
 BaseDirectory$    = "FTP/"

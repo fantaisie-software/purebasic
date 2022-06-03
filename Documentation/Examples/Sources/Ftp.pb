@@ -8,8 +8,6 @@
 ; ------------------------------------------------------------
 ;
 
-InitNetwork()
-
 If OpenFTP(0, "127.0.0.1", "test", "test", 0)
 
   Result = SendFTPFile(0, OpenFileRequester("Choose a file to send", "", "*.*", 0), "purebasic_sent.file", 1)

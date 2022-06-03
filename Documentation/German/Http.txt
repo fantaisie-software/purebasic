@@ -17,10 +17,6 @@
   von URLs und den Empfang von entfernten Dateien zu ermöglichen.
 @LineBreak
 @LineBreak
- Die Http-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss
- vor deren Verwendung @@InitNetwork erfolgreich aufgerufen worden sein.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Http-Befehle funktionieren (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
@@ -117,16 +113,11 @@
   Datei, wie das Datum, den Server-Typ, die Version und mehr. 
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   Header$ = GetHTTPHeader("http://www.purebasic.com/index.php")
 
   Repeat
@@ -230,8 +221,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   Download = ReceiveHTTPMemory("http://www.purebasic.com/download/OgreAssimpConverter.zip", #PB_HTTP_Asynchronous)
   If Download
     Repeat
@@ -302,8 +291,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -338,8 +325,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -388,16 +373,11 @@
 @NoReturnValue
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl verwendet wird.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert
   (die meisten Linux-Distributionen haben es bereits installiert).
   
 @Example
 @Code
-  InitNetwork()
-
   HTTPProxy("socks4://127.0.0.1")
 
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
@@ -449,16 +429,11 @@
   wurde (erfolgreich oder nicht).
   
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("http://www.purebasic.com/index.php3", Filename$)
@@ -504,16 +479,11 @@
   zurückgegeben.
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   *Buffer = ReceiveHTTPMemory("http://www.purebasic.com/index.php")
   If *Buffer
     Size = MemorySize(*Buffer)
@@ -587,16 +557,11 @@
   auch wenn der Aufruf synchron erfolgte.
 
 @Remarks
-  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
   haben es bereits vorinstalliert).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
@@ -610,8 +575,6 @@
 
 @Example mit Header
 @Code
-  InitNetwork()
-  
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
   Header$("User-Agent") = "Firefox 54.0"
@@ -690,16 +653,11 @@
   auch wenn der Aufruf synchron erfolgte.
 
 @Remarks
-  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
   haben es bereits vorinstalliert).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)

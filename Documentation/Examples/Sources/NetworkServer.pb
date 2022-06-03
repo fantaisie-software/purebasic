@@ -10,11 +10,6 @@
 ; Note: run the NetworkClient.pb file to send some data to this server
 ;
 
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0)
-  End
-EndIf
-
 Port = 6832
 *Buffer = AllocateMemory(1000)
 

@@ -14,10 +14,6 @@
   designed to provide easy manipulation of URLs and the capability to retrieve remote files.
 @LineBreak
 @LineBreak
-  The Http commands are based on the @LibraryLink "Network" "network library", so @@InitNetwork 
-  must be called successfully before using them.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have the HTTP commands working (most of Linux 
   distributions comes with it already installed).
   
@@ -113,16 +109,11 @@
   server type, the version, and more. 
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
   
 @Example
 @Code
-  InitNetwork()
-
   Header$ = GetHTTPHeader("http://www.purebasic.com/index.php")
 
   Repeat
@@ -218,8 +209,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   Download = ReceiveHTTPMemory("http://www.purebasic.com/download/OgreAssimpConverter.zip", #PB_HTTP_Asynchronous)
   If Download
     Repeat
@@ -290,8 +279,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -325,8 +312,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -373,16 +358,11 @@
 @NoReturnValue
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
   
 @Example
 @Code
-  InitNetwork()
-
   HTTPProxy("socks4://127.0.0.1")
 
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
@@ -401,7 +381,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ReceiveHTTPFile(URL$, Filename$ [, Flags [, UserAgent$]])
+@Function Result = ReceiveHTTPFile(URL$, Filename$ [, Flags [, Timeout [, UserAgent$]]])
 
 @Description
   Download a file to disk from the given URL$. 
@@ -419,7 +399,14 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
+  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
+                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
+                         request.
 @EndFixedFont
+
+@OptionalParameter "Timeout"
+  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
+  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "UserAgent$"
   Change the user agent for the HTTP request. Default user agent is set to 
@@ -432,16 +419,11 @@
   when the download is finished (successfully or not).
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
   
 @Example
 @Code
-  InitNetwork()
-
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("http://www.purebasic.com/index.php", Filename$)
@@ -458,7 +440,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function *Buffer = ReceiveHTTPMemory(URL$ [, Flags [, UserAgent$]])
+@Function *Buffer = ReceiveHTTPMemory(URL$ [, Flags [, Timeout [, UserAgent$]]])
 
 @Description
   Download a file to a new memory buffer from the given URL$. 
@@ -471,7 +453,14 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously. To get the memory buffer address use @@FinishHTTP.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
+  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
+                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
+                         request.
 @EndFixedFont
+
+@OptionalParameter "Timeout"
+  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
+  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "UserAgent$"
   Change the user agent for the HTTP request. Default user agent is set to 
@@ -486,16 +475,11 @@
   when the download is finished (successfully or not).
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
 
 @Example
 @Code
-  InitNetwork()
-
   *Buffer = ReceiveHTTPMemory("http://www.purebasic.com/index.php")
   If *Buffer
     Size = MemorySize(*Buffer)
@@ -513,7 +497,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = HTTPRequest(Type, URL$ [, Data$ [, Flags [, Headers()]]])
+@Function Result = HTTPRequest(Type, URL$ [, Data$ [, Flags [, Timeout [, Headers()]]]])
 
 @Description
   Send an HTTP request with optional text data. If binary data needs to be sent, @@HTTPRequestMemory can be used.
@@ -544,7 +528,14 @@
   @#PB_HTTP_HeadersOnly : gets headers only.
   @#PB_HTTP_WeakSSL     : to support older servers.
   @#PB_HTTP_Debug       : to print in the console debug information. 
+  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
+                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
+                         request.
 @EndFixedFont
+
+@OptionalParameter "Timeout"
+  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
+  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "Headers()"
   A map of string pair to specify additional headers for the request. Example:
@@ -563,16 +554,11 @@
   @@FinishHTTP has to be always called to finish a successfully initialized HTTP request, even if the call was synchronous.
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
@@ -586,8 +572,6 @@
 
 @Example with headers
 @Code
-  InitNetwork()
-  
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
   Header$("User-Agent") = "Firefox 54.0"
@@ -610,7 +594,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = HTTPRequestMemory(Type, URL$ [, *Data, DataSize [, Flags [, Headers()]]])
+@Function Result = HTTPRequestMemory(Type, URL$ [, *Data, DataSize [, Flags [, Timeout [, Headers()]]]])
 
 @Description
   Send an HTTP request with optional binary data. If text only data needs to be sent @@HTTPRequest can be used.
@@ -641,7 +625,17 @@
   @#PB_HTTP_Asynchronous: starts the download asynchronously.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
   @#PB_HTTP_NoSSLCheck  : don't check if the SSL certificate is valid (can be useful for testing purpose).
+  @#PB_HTTP_HeadersOnly : gets headers only.
+  @#PB_HTTP_WeakSSL     : to support older servers.
+  @#PB_HTTP_Debug       : to print in the console debug information. 
+  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
+                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
+                         request.
 @EndFixedFont
+
+@OptionalParameter "Timeout"
+  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
+  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "Headers()"
   A map of string pair to specify additional headers for the request. Example:
@@ -660,16 +654,11 @@
   @@FinishHTTP has to be always called to finish a successfully initialized HTTP request, even if the call was synchronous.
 
 @Remarks
-  @@InitNetwork has to be called before using this command.
-@LineBreak
-@LineBreak
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
   distributions comes with it already installed).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
