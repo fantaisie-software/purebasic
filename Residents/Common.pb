@@ -708,7 +708,6 @@ EndEnumeration
 #PB_HTTP_HeadersOnly  = (1 << 3)
 #PB_HTTP_WeakSSL      = (1 << 4)
 #PB_HTTP_Debug        = (1 << 5)
-#PB_HTTP_FullTimeout  = (1 << 6)
 
 #PB_HTTP_Get = 0
 #PB_HTTP_Post = 1

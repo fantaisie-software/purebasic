@@ -338,7 +338,7 @@
 @Function HTTPProxy(URL$ [, User$, Password$])
 
 @Description
-  Specify a proxy to use for the following HTTP commands: @@GetHTTPHeader, @@ReceiveHTTPFile,
+  Specify a proxy to use for the following HTTP commands: @@ReceiveHTTPFile,
   @@ReceiveHTTPMemory, @@HTTPRequest and @@HTTPRequestMemory.
 
 @Parameter "URL$"
@@ -375,13 +375,56 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ReceiveHTTPFile(URL$, Filename$ [, Flags [, Timeout [, UserAgent$]]])
+@Function HTTPTimeout(ConnectTimeout [, GlobalTimeout])
+
+@Description
+  Specify a timeout to use for the following HTTP commands: @@ReceiveHTTPFile,
+  @@ReceiveHTTPMemory, @@HTTPRequest and @@HTTPRequestMemory.
+
+@Parameter "ConnectTimeout"
+  The timeout, in milliseconds, to abort the HTTP request if the remote host doesn't connect. The default timeout is set
+  to 30 seconds. @#PB_Default can be used to revert to the default timeout value (30 seconds).
+
+@Parameter "GlobalTimeout"
+  The global timeout, in milliseconds, to abort the HTTP request if it is still not finished. There is no timeout by default.
+  @#PB_Default can be used to revert to the default behaviour (no timeout). Note: if a connection is slow, it could abort 
+  a valid unfinished request.
+
+@NoReturnValue
+
+@Remarks
+  On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
+  distributions comes with it already installed).
+  
+@Example
+@Code
+  HTTPTimeout(5000) ; Allows 5 secs to connect to the server
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ReceiveHTTPFile(URL$, Filename$ [, Flags [, UserAgent$]])
 
 @Description
   Download a file to disk from the given URL$. 
@@ -399,14 +442,7 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
-  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
-                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
-                         request.
 @EndFixedFont
-
-@OptionalParameter "Timeout"
-  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
-  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "UserAgent$"
   Change the user agent for the HTTP request. Default user agent is set to 
@@ -434,13 +470,13 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function *Buffer = ReceiveHTTPMemory(URL$ [, Flags [, Timeout [, UserAgent$]]])
+@Function *Buffer = ReceiveHTTPMemory(URL$ [, Flags [, UserAgent$]])
 
 @Description
   Download a file to a new memory buffer from the given URL$. 
@@ -453,14 +489,7 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously. To get the memory buffer address use @@FinishHTTP.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
-  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
-                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
-                         request.
 @EndFixedFont
-
-@OptionalParameter "Timeout"
-  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
-  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "UserAgent$"
   Change the user agent for the HTTP request. Default user agent is set to 
@@ -491,13 +520,13 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = HTTPRequest(Type, URL$ [, Data$ [, Flags [, Timeout [, Headers()]]]])
+@Function Result = HTTPRequest(Type, URL$ [, Data$ [, Flags [, Headers()]]])
 
 @Description
   Send an HTTP request with optional text data. If binary data needs to be sent, @@HTTPRequestMemory can be used.
@@ -528,14 +557,7 @@
   @#PB_HTTP_HeadersOnly : gets headers only.
   @#PB_HTTP_WeakSSL     : to support older servers.
   @#PB_HTTP_Debug       : to print in the console debug information. 
-  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
-                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
-                         request.
 @EndFixedFont
-
-@OptionalParameter "Timeout"
-  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
-  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "Headers()"
   A map of string pair to specify additional headers for the request. Example:
@@ -594,7 +616,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = HTTPRequestMemory(Type, URL$ [, *Data, DataSize [, Flags [, Timeout [, Headers()]]]])
+@Function Result = HTTPRequestMemory(Type, URL$ [, *Data, DataSize [, Flags [, Headers()]]])
 
 @Description
   Send an HTTP request with optional binary data. If text only data needs to be sent @@HTTPRequest can be used.
@@ -628,14 +650,7 @@
   @#PB_HTTP_HeadersOnly : gets headers only.
   @#PB_HTTP_WeakSSL     : to support older servers.
   @#PB_HTTP_Debug       : to print in the console debug information. 
-  @#PB_Http_FullTimeout : the specified 'Timeout' will abort the command even if the data transfer is not finished.
-                         Use it with caution, as if a connection is very slow, it could abort perfectly legal
-                         request.
 @EndFixedFont
-
-@OptionalParameter "Timeout"
-  The timeout, in milliseconds, to abort the command if the remote host doesn't connect in the speficied time. The default timeout is set
-  to 30 seconds. Once connected there is no more timeout to receive the data, unless the @#PB_Http_FullTimeout flag is specified.
 
 @OptionalParameter "Headers()"
   A map of string pair to specify additional headers for the request. Example:
