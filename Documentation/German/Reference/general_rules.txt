@@ -9,9 +9,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 @FormatIf HTML
 <!-- There is a bug somewhere, and i had to do this work around. Mesa -->
 <blockquote>
-  Kommentare werden gekennzeichnet mittels <b><font color="#006666">;</font></b>. Alle nach
-  dem <b><font color="#006666">;</font></b> eingegebenen Texte 
-  werden vom Compiler ignoriert.
+  Kommentare werden gekennzeichnet durch ein Semikolon <b><font color="#006666">;</font></b>.
+  Alle nach dem Semikolon eingegebenen Texte, bis zum Ende der gleichen Zeile, werden vom Compiler ignoriert.
 </blockquote>
 @FormatEndIf
 
@@ -29,8 +28,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
   Alle @Bold "Schlüsselwörter" (englisch: "Keywords") werden für grundlegende Dinge innerhalb von PureBasic
   verwendet, wie das Erstellen von Arrays (Dim) oder Listen (NewList), oder die Kontrolle des Programmablaufs
-  (If : Else : EndIf). Sie werden nicht von Klammern '()' gefolgt, welche typisch für PureBasic
-  @Bold "Funktionen" sind.
+  (If : Else : EndIf). Sie werden nicht von Klammern '()' gefolgt, welche typischerweise für PureBasic
+  @Bold "Funktionen" genutzt werden.
 
   @Example
   
@@ -52,8 +51,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Funktionen
 
-  Allen Funktionen muss eine ( folgen, oder sie werden nicht als Funktion erkannt, das gilt auch für 
-  parameter-lose Funktionen.
+  Jeder @Bold "Funktion" muss ein öffnendes rundes Klammerzeichen '(' folgen, oder sie wird nicht als Funktion erkannt
+  (das gilt auch für Funktionen ohne Parameter).
 
   @Example
   
@@ -72,9 +71,9 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Konstanten
 
-  Alle Konstanten werden eingeleitet von einem @Keyword "#". Sie können nur einmal im Verlauf 
-  des Programms deklariert werden und behalten stets ihren vorgegebenen Wert. (Der Compiler ersetzt 
-  beim Kompilieren des Executable alle Konstanten-Namen durch ihre entsprechenden Werte.)
+  Allen Konstanten geht das Hash-Zeichen @Keyword "#" voraus.
+  Sie können nur einmal im Code deklariert werden und behalten immer ihre vordefinierten Werte.
+  (Der Compiler ersetzt beim Kompilieren des Executable alle Konstanten-Namen durch ihre entsprechenden Werte.)
 
   @Example
   
@@ -89,8 +88,9 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Literale Strings (Zeichenketten)
 
-  Literale Strings werden mit Hilfe des " Zeichens deklariert. Escape-Sequenzen werden
-  mittels des ~ Zeichens vor dem literalen String unterstützt. Die erlaubten Escape-Sequenzen sind:
+  Literale Strings werden mit dem Zeichen " deklariert.
+  Escape-Sequenzen werden unterstützt, indem der Literalzeichenfolge das Zeichen ~ vorangestellt wird.
+  Die unterstützten Escape-Sequenzen sind:
 @FixedFont
   \a: alarm           @Keyword Chr(7)      (Alarm)
   \b: backspace       @Keyword Chr(8)      (Rücktaste)
@@ -123,10 +123,9 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Sprungmarken
 
-  Allen Sprungmarken (Labels) muss ein @Keyword : (Doppelpunkt) folgen. Die Namen von Sprungmarken dürfen
-  keine Operatoren (+,-,...) oder Sonderzeichen (ß,ä,ö,ü,...) enthalten. Wenn die Sprungmarke innerhalb
-  einer @ReferenceLink "procedures" "Prozedur" definiert wird, dann ist die Sprungmarke nur in dieser
-  Prozedur verfügbar.
+  Allen Sprungmarken (Labels) muss ein Doppelpunkt @Keyword ":" folgen. Die Namen von Sprungmarken dürfen
+  keine Operatoren (+,-,...) oder Sonderzeichen (ß,ä,ö,ü,...) enthalten. Innerhalb einer
+  @ReferenceLink "procedures" "procedure" definierte Sprungmarken sind nur in dieser Prozedur verfügbar.
 
   @Example
   
@@ -140,8 +139,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Module
 
-  @ReferenceLink "module" "Module" verwenden ein :: (doppelten Doppelpunkt) beim Verweisen auf einen Modulnamen.
-  Verwechseln Sie diese nicht mit einfachen Doppelpunkten bei einer Sprungmarke.
+  @ReferenceLink "Module" "Module" verwenden einen :: (doppelten Doppelpunkt), wenn auf einen Modulnamen verwiesen wird.
+  Achten Sie darauf, diese nicht mit dem einfachen Doppelpunkt zu verwechseln, der von Sprungmarken verwendet wird.
 
   @Example
   
@@ -155,11 +154,12 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Ausdrücke
 
-  Ein Ausdruck ist etwas, was berechnet werden kann. Ein Ausdruck kann beliebige Variablen, Konstanten 
-  oder Funktionen desselben Typs beinhalten. Wenn Sie Zahlen innerhalb eines Ausdrucks benutzen, können 
-  Sie das $ Zeichen vor der Zahl einfügen, um die Benutzung als Hexadezimal-Zahl anzuzeigen. Oder ein % 
-  Zeichen, um eine Binär-Zahl anzuzeigen. Ohne eines der beiden Zeichen wird die Zahl als Dezimal-Zahl 
-  behandelt. Strings müssen mit Anführungszeichen eingeschlossen werden.
+  Ein Ausdruck ist etwas, das ausgewertet werden kann.
+  Ein Ausdruck kann beliebige Variablen, Konstanten oder Funktionen desselben Typs mischen.
+  Wenn Sie Zahlen in einem Ausdruck verwenden, können Sie ihnen das @Keyword "$" Symbol voranstellen,
+  um eine Hexadezimalzahl anzugeben, oder mit dem @Keyword "%" Symbol, um eine Binärzahl anzugeben.
+  Ohne eines der beiden Zeichen wird die Zahl als Dezimalzahl behandelt.
+  Strings müssen in gerade doppelte Anführungszeichen eingeschlossen werden.
 
   @Example gültige Ausdrücke:
   
@@ -197,9 +197,9 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Zeilenfortsetzung
 
-  Wenn eine Zeile einen großen Ausdruck enthält, kann diese in mehrere Zeilen aufgesplittet werden.
-  Eine aufgesplittete Zeile muss mit einem der folgenden Operatoren enden: Plus (+), Komma (,), 
-  Or (|), And, Or, Xor.
+  Lange Ausdrücke können auf mehrere Zeilen aufgeteilt werden.
+  Eine aufgesplittete Zeile muss mit einem der folgenden Operatoren enden: Plus (+), Komma (,),
+  oder (|), And, Or, Xor.
 
   @Example
 
@@ -241,9 +241,11 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
   - @Bold "Rückgabewerte" von Befehlen sind immer vom Typ @ReferenceLink "variables" "Integer", wenn kein anderer Typ
     auf der Syntax-Zeile der jeweiligen Befehlsbeschreibung angegeben ist.
   @LineBreak
-  - In der PureBasic-Dokumentation wird sowohl von "Befehlen" als auch "Funktionen" gesprochen - es handelt sich
-    dabei um ein und das Gleiche, unabhängig von einem Rückgabewert. Ob vom Befehl bzw. der Funktion ein Wert
-    zurückgegeben wird, ist der jeweiligen Befehlsbeschreibung zu entnehmen.
+  - In der PureBasic-Dokumentation werden die Begriffe "Befehle" und "Funktionen" synonym verwendet,
+    unabhängig davon, ob die Funktion einen Wert zurückgibt oder nicht.
+    Um zu erfahren, welcher Wert von einem bestimmten Befehl oder einer bestimmten Funktion zurückgegeben wird,
+  schauen Sie in die Beschreibung in der Befehls-Dokumentation.
+
   @LineBreak
 
 @FormatIf HTML

@@ -20,7 +20,7 @@ Import "oleaut32.lib"
        Api(GetActiveObject, (arg1, arg2, arg3), 12)
        Api(GetAltMonthNames, (arg1, arg2), 8)
        Api(GetErrorInfo, (arg1, arg2), 8)
-  AnsiWide(LHashValOfNameSys, (arg1, arg2, arg3), 12)
+       AnsiWide(LHashValOfNameSys, (arg1, arg2, arg3), 12)
        Api(LoadRegTypeLib, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(LoadTypeLib, (arg1, arg2), 8)
        Api(LoadTypeLibEx, (arg1, arg2, arg3), 12)
@@ -63,6 +63,7 @@ Import "oleaut32.lib"
        Api(SafeArrayGetElemsize, (arg1), 4)
        Api(SafeArrayGetLBound, (arg1, arg2, arg3), 12)
        Api(SafeArrayGetUBound, (arg1, arg2, arg3), 12)
+       Api(SafeArrayGetVartype, (arg1, arg2), 8)
        Api(SafeArrayLock, (arg1), 4)
        Api(SafeArrayPtrOfIndex, (arg1, arg2, arg3), 12)
        Api(SafeArrayPutElement, (arg1, arg2, arg3), 12)
@@ -286,9 +287,4 @@ Import "oleaut32.lib"
        Api(VarUI4FromUI1, (arg1, arg2), 8)
        Api(VarUI4FromUI2, (arg1, arg2), 8)
        Api(VectorFromBstr, (arg1, arg2), 8)
-       CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
-         SafeArrayGetVartype_(*psa, *pvt) As "_SafeArrayGetVartype"
-       CompilerElse
-         SafeArrayGetVartype_(*psa, *pvt) As "SafeArrayGetVartype"
-       CompilerEndIf
 EndImport

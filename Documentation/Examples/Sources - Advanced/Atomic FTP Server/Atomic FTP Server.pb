@@ -7,65 +7,54 @@
 ;
 ; ------------------------------------------------------------
 ;
-; This program isn't finished, the harder is done but I don't
-; have the time to implement the whole RFC 959 commands :-).
-;
-;
-; 20/05/2002
-;   Added a textgadget..
-;   Updated for PureBasic 3.20 (Cleaned the code...)
-;
-; 19/03/2001
-;   Listing is now working.
-;
-; 18/03/2001
-;   Based on the Atomic Web Server code..
-;   First version.
+; NOTE: This is a demo program, not suitable for production !
+; Only very basic commands are implemented
 ;
 
-#Version = "0.2"
-
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0) : End
-EndIf
+#Version = "0.3"
 
 ClientIP.s
 Port = 21
-BaseDirectory$    = "ftp/"
+BaseDirectory$    = "FTP/"
 CurrentDirectory$ = BaseDirectory$
-AtomicTitle$      = "Atomic FTP Server v"+#Version
 
 EOL$ = Chr(13)+Chr(10)
 
 *Buffer = AllocateMemory(10000)
 
-If CreateNetworkServer(0, Port)
+If CreateNetworkServer(0, Port, #PB_Network_IPv4 | #PB_Network_TCP, "127.0.0.1")
 
-  OpenWindow(0, 300, 300, 230, 30, "Atomic FTP Server (Port "+Str(Port)+")")
-
-  TextGadget(1, 10, 8, 200, 20, "Atomic FTP Server Ready.")
+  OpenWindow(0, 100, 200, 320, 40, "Atomic FTP Server v"+#Version+" (127.0.0.1:"+Port+")")
+  TextGadget(0, 10, 10, 300, 30, "Atomic FTP Server Ready.")
   
   Repeat
     
-    WEvent = WindowEvent()
-    SEvent = NetworkServerEvent()
-  
-    If WEvent = #PB_Event_CloseWindow
-      Quit = 1
-    EndIf
+    ; Use a non-blocking event poll, to be able to check for the network server events
+    ;
+    Repeat
+      Event = WindowEvent()
 
-    If SEvent
+      Select Event 
+        Case #PB_Event_CloseWindow 
+          Quit = 1 
+          
+       EndSelect
+    Until Event = 0
+    
+    ServerEvent = NetworkServerEvent()
+    If ServerEvent
       ClientID = EventClient()
   
-      Select SEvent
+      Select ServerEvent
       
-        Case 1  ; New client connected
-          SetGadgetText(1, "New client connected !")
-          SendNetworkString(ClientID, "220 - Atomic FTP Server v0.1 ready"+EOL$)
+        Case #PB_NetworkEvent_Connect  ; New client connected
+          SetGadgetText(0, "New client "+ClientID+"connected !")
+          SendNetworkString(ClientID, "220 - Atomic FTP Server v"+#Version+" ready"+EOL$)
 
-        Case 4  ; New client has closed the connection
-  
-        Default
+        Case #PB_NetworkEvent_Disconnect  ; Client has closed the connection
+          SetGadgetText(0, "Client "+ClientID+" disconnected.")
+          
+        Case #PB_NetworkEvent_Data
           RequestLength = ReceiveNetworkData(ClientID, *Buffer, 2000)
           If RequestLength > 3
             PokeL(*Buffer+RequestLength-2, 0)
@@ -89,15 +78,16 @@ End
 
 ProcessRequest:
 
-  Command$ = PeekS(*Buffer)
+  Command$ = PeekS(*Buffer, -1, #PB_UTF8)
   
   Position = FindString(Command$, " ", 1)
   If Position
     Argument$ = Mid(Command$, Position+1, Len(Command$)-Position)
     Command$ = UCase(RTrim(Left(Command$, Position-1)))
   EndIf
-
-  SetGadgetText(1, "Last command: "+Command$)
+  
+  Debug "Command: "+Command$
+  SetGadgetText(0, "Last command: "+Command$)
 
   Select Command$
 
@@ -121,6 +111,9 @@ ProcessRequest:
 
     Case "USER"
       Gosub Command_USER
+      
+    Case "TYPE"
+      Gosub Command_TYPE
 
     Default
       Gosub Command_UNKNOWN
@@ -140,25 +133,29 @@ Command_LIST:
   
   FTPConnection = OpenNetworkConnection(ClientIP, ClientPort)
   If FTPConnection
-    
     a$ = ""
     If ExamineDirectory(0, CurrentDirectory$, "*.*")
     
-      NumberFiles = -1
+      NumberFiles = 0
       While NextDirectoryEntry(0)
         
-        If DirectoryEntryType(0) = 2
-          a$ = a$+"drwxr-xr-x 6 1024 512 Jan 23 10:18 "+DirectoryEntryName(0)+EOL$
-        ElseIf Type = 1
-          a$ = a$+"rwxr-xr-x 6 512 "+Str(DirectoryEntrySize(0))+" Jan 23 10:18 "+DirectoryEntryName(0)+EOL$
-        EndIf
-        
-        NumberFiles+1
+        Select DirectoryEntryType(0) 
+          Case #PB_DirectoryEntry_Directory
+            a$ = a$+"drwxr-xr-x 6 1024 512 Jan 23 10:18 "+DirectoryEntryName(0)+EOL$
+            NumberFiles+1
+         
+          Case #PB_DirectoryEntry_File
+            a$ = a$+"-rwxr-xr-x 6 512 "+Str(DirectoryEntrySize(0))+" Jan 23 10:18 "+DirectoryEntryName(0)+EOL$
+            NumberFiles+1
+            
+        EndSelect
       Wend
     EndIf
     
     SendNetworkString(FTPConnection, "total "+Str(NumberFiles)+EOL$+a$)
     CloseNetworkConnection(FTPConnection)
+  Else
+    Debug "Can't open the file listing connection"
   EndIf
   
   SendNetworkString(ClientID, "226 - Listing finished"+EOL$)
@@ -167,6 +164,10 @@ Return
 
 Command_PASS:
   SendNetworkString(ClientID, "230 - Welcome, enjoy this FTP site"+EOL$)
+Return
+  
+Command_TYPE:
+  SendNetworkString(ClientID, "200 - Ok"+EOL$)
 Return
 
 
@@ -190,12 +191,12 @@ Command_PORT:
 
   ClientIP = Trim(ClientIP)
 
-  ; Get the port..
+  ; Get the port
   ;
   Position = FindString(Argument$, ",", NewPosition+1)
   
   ClientPort = Val(Mid(Argument$, NewPosition+1, Position-NewPosition-1)) << 8+Val(Right(Argument$, Len(Argument$)-Position))
-
+  
   SendNetworkString(ClientID, "200 - Ok"+EOL$)
 Return
 

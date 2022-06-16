@@ -3,10 +3,9 @@
 @Section Introduction
   PureBasic integrated commandset relies on available OS libraries. Sometimes, there is different way to achieve
   the same goal and when it makes sense, PureBasic offers the possibility to change the used underlying libraries for
-  specific commands, without changing one line of source code. For example, on Windows there is the 'OpenGL' subsystem
-  available, which will use OpenGL functions to render sprites, instead of DirectX (which is the default subsystem).
-  It can be useful to use OpenGL instead of DirectX when writing a crossplatform game, as OS X and Linux use OpenGL as default.
-  It also allows to use raw OpenGL commands directly on screen. @LineBreak
+  specific commands, without changing one line of source code. For example, on Windows there is the 'DirectX11' subsystem
+  available, which will use DirectX functions to render sprites, instead of OpenGL (which is the default subsystem).
+  It can be useful to use DirectX instead of OpenGL when wanting a bit quicker rendering on Windows. @LineBreak
   @LineBreak
   To enable a subsystem, its name has to be set in the IDE @ReferenceLink "ide_compiler" "compiler options", or through the /SUBSYSTEM @ReferenceLink "cli_compiler" "command-line" switch.
   This is a compile time option, which means an executable can not embed more than one subsystem at once. If multiple support is
@@ -24,10 +23,14 @@
   @LineBreak
   @Bold "Windows"
 @FixedFont
-  OpenGL: use OpenGL instead of DirectX. Affected libraries: 
+  DirectX9: use DirectX 9 instead of OpenGL. Affected libraries: 
           - Sprite
           - Screen
-          - All 3D engine related libraries
+          - Note: 3D engine no more available as it uses OpenGL
+  DirectX11: use DirectX 11 instead of OpenGL. Affected libraries: 
+          - Sprite
+          - Screen
+          - Note: 3D engine no more available as it uses OpenGL
 @EndFixedFont
 @LineBreak
   @Bold "Linux"

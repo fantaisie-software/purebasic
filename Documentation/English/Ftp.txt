@@ -11,10 +11,6 @@ Ftp (File Transfer Protocol) is a way to share files based amongst users on a cl
 This library implement the client side of Ftp, and allows to connect to a remote server and
 manipulate files (like download, upload, list available files, navigate through the directories
 and more).
-@LineBreak
-@LineBreak
-All the Ftp commands are based on the @LibraryLink "Network" "network library", so @@InitNetwork 
-has to be called before using them.
 
 @CommandList
 
@@ -177,8 +173,6 @@ has to be called before using them.
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -382,8 +376,6 @@ has to be called before using them.
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -539,14 +531,8 @@ has to be called before using them.
   If @#PB_Any is used as the #Ftp parameter then the generated number for the connection
   is returned on success.
 
-@Remarks
-  @@InitNetwork has to be called before using this command, as all the FTP commands
-  are based on the @LibraryLink "network" "network library".
-
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     Debug "Successfully connected"
   Else
@@ -684,8 +670,6 @@ has to be called before using them.
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     
     Debug "Successfully connected"

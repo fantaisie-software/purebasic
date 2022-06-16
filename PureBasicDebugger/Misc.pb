@@ -329,3 +329,19 @@ Procedure.s DebuggerTitle(FileName$)
     ProcedureReturn GetFilePart(FileName$)
   EndIf
 EndProcedure
+
+
+Procedure CatchImageDPI(Image, *Address)
+  Result = CatchImage(Image, *Address)
+  
+  If Image = #PB_Any
+    Image = Result  
+  EndIf
+  
+  ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
+    
+  ProcedureReturn Result
+EndProcedure
+
+
+

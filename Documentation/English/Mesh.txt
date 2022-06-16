@@ -62,10 +62,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateDataMesh(#Mesh, Array.PB_MeshVertex())
+@Function Result = CreateDataMesh(#Mesh, Array.MeshVertex() [, Mode])
 
 @Description
-  Creates a new #Mesh from the specified 2 dimensional array of PB_MeshVertex type. This command allows
+  Creates a new #Mesh from the specified 2 dimensional array of MeshVertex type. This command allows
   faster mesh creation than using @@CreateMesh by preparing an array and submitting in one batch to the command.
 
 @Parameter "#Mesh"
@@ -73,10 +73,10 @@
   auto-generate this number.
 
 @Parameter "Array"
-  A 2 dimensional array of type PB_MeshVertex, which will be used to create the new mesh. The PB_MeshVertex structure is
+  A 2 dimensional array of type MeshVertex, which will be used to create the new mesh. The MeshVertex structure is
   defined as the following:
 @Code
-  Structure PB_MeshVertex
+  Structure MeshVertex
     x.f
     y.f
     z.f
@@ -92,9 +92,18 @@
   EndStructure
 @EndCode
 
+@OptionalParameter "Mode"
+  The way to link vertices. It can be one of the following value:
+@FixedFont
+  @#PB_Mesh_DiagonalRegular1      : diagonals are aligned in the same way
+  @#PB_Mesh_DiagonalRegular2      : diagonals are aligned in the other way
+  @#PB_Mesh_DiagonalAlternate     : diagonals are once in a way and once in the other way (alternate)
+  @#PB_Mesh_DiagonalShortestLength: diagonals are between the two closest vertices
+  @#PB_Mesh_DiagonalClosestNormal : diagonals are between the two closest normals (scalar product). Best mode but requieres normals.
+@EndFixedFont
+
 @Remarks
   If the #Mesh was already created, then it is freed and replaced by a new one.
-
 
 @SupportedOS
 
@@ -210,14 +219,14 @@
   The submesh to get the data from. The first submesh index is 0 (main mesh).
 
 @Parameter "DataArray()"
-  The array to receive the data. It has to be an array of type "PB_MeshVertex" or "PB_MeshFace"
+  The array to receive the data. It has to be an array of type "MeshVertex" or "MeshFace"
   depending of the specified flags.
 
 @Parameter "Flags"
   Specifies which kind of data needs to be retrieved. It can be one of the following values:
 @FixedFont
-  @#PB_Mesh_Vertex: DataArray() is an array of type "PB_MeshVertex".
-  @#PB_Mesh_Face  : DataArray() is an array of type "PB_MeshFace".
+  @#PB_Mesh_Vertex: DataArray() is an array of type "MeshVertex".
+  @#PB_Mesh_Face  : DataArray() is an array of type "MeshFace".
 @EndFixedFont
   combined with:
 @FixedFont
@@ -227,9 +236,9 @@
   @#PB_Mesh_Tangent      : Get the tangent information (only for @#PB_Mesh_Vertex flag)
 @EndFixedFont
 
-  The "PB_MeshVertex" and "PB_MeshFace" structures are defined like this:
+  The "MeshVertex" and "MeshFace" structures are defined like this:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -244,7 +253,7 @@
     Color.l   ; only used if @#PB_Mesh_Color flag is set
   @Keyword EndStructure
 
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure
 @EndFixedFont
@@ -274,14 +283,14 @@
   The submesh to set the data to. The first submesh index is 0 (main mesh).
 
 @Parameter "DataArray()"
-  The array containing the data to set. It has to be an array of type "PB_MeshVertex" or "PB_MeshFace"
+  The array containing the data to set. It has to be an array of type "MeshVertex" or "MeshFace"
   depending on the specified flags.
 
 @Parameter "Flags"
   Specifies which kind of data needs to be set. It can be one of the following values:
 @FixedFont
-  @#PB_Mesh_Vertex: DataArray() is an array of type "PB_MeshVertex".
-  @#PB_Mesh_Face  : DataArray() is an array of type "PB_MeshFace".
+  @#PB_Mesh_Vertex: DataArray() is an array of type "MeshVertex".
+  @#PB_Mesh_Face  : DataArray() is an array of type "MeshFace".
 @EndFixedFont
   combined with:
 @FixedFont
@@ -290,9 +299,9 @@
   @#PB_Mesh_Color        : Set the color information (only for @#PB_Mesh_Vertex flag)
 @EndFixedFont
 
-  The "PB_MeshVertex" and "PB_MeshFace" structures are defined like this:
+  The "MeshVertex" and "MeshFace" structures are defined like this:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -307,7 +316,7 @@
     Color.l   ; only used if @#PB_Mesh_Color flag is set
   @Keyword EndStructure
 
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure
 @EndFixedFont
@@ -713,7 +722,7 @@
 
 @Example
 @Code
-    InitEngine3D()
+  InitEngine3D()
   InitSprite()
 
   OpenWindow(0, 0, 0, 640, 480, "IcoSphere example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1195,19 +1204,23 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshVertexTextureCoordinate(u.f, v.f)
+@Function MeshVertexTextureCoordinate(u.f [, v.f [, w.f]])
 
 @Description
-  Set UV information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex. The UV information is
+  Set UVW information to the current vertex previously added with @@MeshVertexPosition or @@MeshVertex. The UVW information is
   used to apply the texture on the mesh.
 
 @Parameter "u"
   The u value. This value is the X position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture X origin and 1 is the texture X end.
 
-@Parameter "v"
+@OptionalParameter "v"
   The v value. This value is the Y position in the texture where the vertex should map. This value is
   usually between 0 and 1, where 0 is the texture Y origin and 1 is the texture Y end.
+
+@OptionalParameter "w"
+  The w value (for cubic textures). This value is the Z position in the texture where the vertex should map. This value is
+  usually between 0 and 1, where 0 is the texture Z origin and 1 is the texture Z end.
 
 @NoReturnValue
 
@@ -1218,12 +1231,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshFace(Vertex1, Vertex2, Vertex3)
+@Function MeshFace(Vertex1, Vertex2, Vertex3 [, Vertex4])
 
 @Description
   Add or update a face to the current mesh previously created with @@CreateMesh. The specified vertices must
-  exist. The first vertex index starts from 0. The created face is a triangle. @@MeshIndex can be used
-  if the number of vertices is not three.
+  exist. The first vertex index starts from 0. The created face is a triangle or a quad. @@MeshIndex can be used
+  if the number of vertices is more than four.
 
 @Parameter "Vertex1"
   The first vertex index used to create the face.
@@ -1233,6 +1246,9 @@
 
 @Parameter "Vertex3"
   The third vertex index used to create the face.
+
+@OptionalParameter "Vertex4"
+  The fourth vertex index used to create the face, which will result in a quad.
 
 @NoReturnValue
 

@@ -324,7 +324,7 @@ InitKeyboard()
 
 ;- Window
 OpenWmain()
-OpenWindowedScreen(WindowID(Wmain), 300, 0, #SCREENWIDTH-300,#SCREENHEIGHT, 0, 0, 0,#PB_Screen_SmartSynchronization)
+OpenWindowedScreen(WindowID(Wmain), DesktopScaledX(300), DesktopScaledY(0), DesktopScaledX(#SCREENWIDTH-300), DesktopScaledY(#SCREENHEIGHT), 0, 0, 0,#PB_Screen_SmartSynchronization)
 
 ;-Textures
 txBlank = CreateTexture(#PB_Any,4,4)

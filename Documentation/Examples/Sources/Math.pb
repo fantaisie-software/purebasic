@@ -13,7 +13,7 @@ If OpenWindow(0, 200, 200, 400, 400, "Test")
 
   ImageGadget(0, 0, 0, 400, 400, 0)
 
-  CreateImage(0, 400, 400)
+  CreateImage(0, DesktopScaledX(400), DesktopScaledY(400))
 
   X.f = 40+Random(40)
   Y.f = X
@@ -32,8 +32,8 @@ If OpenWindow(0, 200, 200, 400, 400, "Test")
         x2.f = X*Cos(a) + Y*Sin(a)
         y2.f = X*Sin(a) - Y*Cos(a)
         
-        Plot(200+x2, 200+y2)
-        Plot(100+x2, 200+y2)
+        Plot(ImageWidth(0)/2+x2, ImageHeight(0)/2+y2)
+        Plot(ImageWidth(0)/2-100+x2, ImageHeight(0)/2+y2)
   
         StopDrawing()
       EndIf

@@ -7,7 +7,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-;This example shows how to load an image taking into account DPI
+; This example shows how to load an image taking into account DPI
 ;
 
  Procedure LoadImageDPI(Image, File.s)

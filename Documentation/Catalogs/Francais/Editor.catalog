@@ -5,10 +5,9 @@
 [LanguageInfo]
 Application = PB_IDE
 Language    = Francais
-LastUpdated = 06/05/2020
+LastUpdated = 07/04/2022
 Creator     = Communauté française PureBasic
 Email       = support@purebasic.com
-
 
 [MenuTitle]
 File     = &Fichier
@@ -63,7 +62,7 @@ Find              = Rec&hercher/Remplacer...
 FindNext          = Rechercher &Suivant
 FindPrevious      = Rechercher &Précédent
 FindInFiles       = Rechercher dans les &fichiers...
-Remplacer         = &Remplacer...
+Replace           = Remplacer...
 NewProject        = &Nouveau Projet...
 OpenProject       = &Ouvrir un projet...
 RecentProjects    = &Projets récents
@@ -159,7 +158,6 @@ Color_Insert          = Insérer couleur
 Color_RGB             = Insérer RGB
 Color_Save            = Ajouter couleur
 Color_Filter          = Filtre
-Color_Decimal         = Couleur (décimal)
 Variables             = Variables
 Arrays                = Tableaux
 LinkedLists           = Listes chaînées
@@ -337,7 +335,6 @@ AutoSave             = Enregistrement automatique avant 'Compiler/Exécuter'
 AutoSaveAll          = Enregistrement automatique de toutes les sources ouvertes
 TabLength            = Taille des tabulations
 RealTab              = ASCII 9
-TabIndent            = Indentation avec tabulations
 SourcePath           = Répertoire source
 MemorizeCursor       = Mémoriser la position du curseur
 MemorizeMarkers      = Mémoriser les positions de marque
@@ -400,7 +397,7 @@ Color24              = Symbole d'erreur (Débogueur)
 Color25              = Arrière-plan des points d'arrêt (Débogueur)
 Color26              = Symbole de point d'arrêt (Débogueur)
 Color27              = Arrière-plan du code non éditable (Débogueur)
-Color28              = Parenthèses correctes
+Color28              = Parenthèses incorrectes
 Color29              = Parenthèses sans correspondance
 Color30              = Arrière-plan des procédures
 Color31              = Mots-clefs utilisateur
@@ -484,8 +481,8 @@ AddBrackets          = Ajout de parenthèses aux Fonctions/Tableaux/Listes
 AddSpaces            = Ajout d'un espace après les mots-clefs PureBasic suivis d'une expression
 AddEndKeywords       = Ajout du mot clef de fermeture si 'Tab' est appuyé deux fois
 ListOptions          = Éléments à afficher dans la liste d'auto-complétion
-NoComments           = Désactiver l'affichage de la liste dans les commentaires
-NoStrings            = Désactiver l'affichage automatique de la fenêtre dans les chaînes
+NoComments           = Désactiver l'affichage des commentaires dans la liste déroulante 
+NoStrings            = Désactiver l'affichage des chaînes de caractères dans la liste déroulante 
 PopupLength          = Caractères requis avant de montrer la liste
 AutoPopupNormal      = Afficher automatiquement la fenêtre d'auto-complétion
 AutoPopupStructures  = Auto-complétion des éléments d'une Structure
@@ -933,9 +930,9 @@ Trigger11      = Remplace le visualisateur - Fichiers inconnus
 Trigger12      = Remplace le visualisateur - Fichier spécial
 Trigger13      = Code source fermé
 Trigger14      = Nouveau code source créé
-Trigger15      = Open File - with specific extension
-Trigger16      = Open File - non PB binary file
-Trigger17      = Open File - non PB text file
+Trigger15      = Ouvrir un fichier avec une extension spéciale
+Trigger16      = Ouvrir un fichier binaire non PureBasic
+Trigger17      = Ouvrir un fichier texte non non PureBasic
 Argument1      = %PATH : chemin du fichier source en cours d'édition. Vide s'il n'a pas encore été enregistré.
 Argument2      = %FILE : noms du fichier source en cours d'édition. Vide s'il n'a pas encore été énregistré.
 Argument3      = %TEMPFILE : copie temporaire du fichier source en cours d'édition. Modifiable/Effaçable après.
@@ -1019,6 +1016,8 @@ Key102           = .
 Key103           = /
 Key104           = Ver Num
 Key105           = Arrêt défil
+Key106           = Plus
+Key107           = Moins
 
 [Help]
 Title       = Aide
@@ -1305,6 +1304,7 @@ WarningsTitle    = Avertissements du compilateur
 ToolbarError     = Icône de barre d'outils introuvable.
 AutomationTimeout =  Un client Automation n'a pas répondu.%newline%La connexion va être interrompue..
 Welcome           = Bienvenue à bord !
+ImageManagerTitle = Gestionnaire d'images
 
 [Form]
 Form              = Form

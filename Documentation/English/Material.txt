@@ -41,9 +41,15 @@
   It can be one of the following values:
 @FixedFont
   @#PB_Material_Add        : Performs a pixel 'Add' operation over previous layer (black color is like transparent)
+  @#PB_Material_AddSigned  : Performs a pixel signed 'Add' operation over previous layer (black color is like transparent)
+  @#PB_Material_Substract  : Performs a pixel 'Substract' operation over previous layer (black color is like transparent)
   @#PB_Material_Replace    : Performs a pixel 'Replace' operation over previous layer
   @#PB_Material_AlphaBlend : Use the AlphaChannel layer of the texture (should be a TGA or PNG one) and blend it with the previous layer
-  @#PB_Material_Modulate   : Performs a pixel 'Modulate' operation over previous layer
+  @#PB_Material_Modulate   : Performs a pixel 'Multiply' operation over previous layer
+  @#PB_Material_ModulateX2 : Performs a pixel 'Multiply' operation over previous layer and brighten afterwards (x2)
+  @#PB_Material_ModulateX4 : Performs a pixel 'Multiply' operation over previous layer and brighten afterwards (x4)
+  @#PB_Material_BlendDiffuseAlpha: Use the AlphaChannel layer of the texture and blend it with the previous layer with diffuse
+  @#PB_Material_BlendCurrentAlpha: Use the AlphaChannel layer of the current stage and blend it with the previous layer
 @EndFixedFont
 
 @OptionalParameter "TextureCoordinateIndex"
@@ -93,7 +99,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateMaterial(#Material, TextureID)
+@Function Result = CreateMaterial(#Material, TextureID [, Color])
 
 @Description
   Creates a new material using the specified texture.
@@ -103,11 +109,346 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @Parameter "TextureID"
-  The texture to use. A valid 'TextureID' can be easily obtained with @@TextureID.
+  The texture to use or @#Null if no texture is needed. A valid 'TextureID' can be easily obtained with @@TextureID.
+
+@OptionalParameter "Color"
+  The color to use for ambiant and diffuse. A valid RGB color can be created with @@RGB.
 
 @ReturnValue
   Nonzero if the material was successfully created, zero otherwise. If @#PB_Any was used
   for the #Material parameter, then the generated number is returned on success.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateAnimatedMaterial(#Material, TextureArray(), Duration.f)
+
+@Description
+  Creates a new animated material using the specified textures.
+
+@Parameter "#Material"
+  A number to identify the new animated material.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "TextureArray()"
+  An array of TextureID, with all the textures to use for the animation. @@TextureID can be used
+  to get a valid texture identifier.
+
+@Parameter "Duration"
+  The animation duration in seconds. It can be a fractional number, for example: 1.5 which will be one second and half.
+  Once the animation is finished, it will automatically start again.
+
+@ReturnValue
+  Nonzero if the animated material was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Material parameter, then the generated number is returned on success.
+
+@Example
+@Code
+  CreateTexture(0, 256, 256)
+  CreateTexture(1, 256, 256)
+  CreateTexture(2, 256, 256)
+
+  Dim Textures(2)
+  Textures(0) = TextureID(0)
+  Textures(1) = TextureID(1)
+  Textures(2) = TextureID(2)
+
+  ; Creates an animated material with 3 textures, which will play for 500ms
+  ;
+  CreateAnimatedMaterial(0, Textures(), 0.5)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateShader(ShaderID, VertexProgram$, FragmentProgram$)
+
+@Description
+  Creates a new shader using the specified vertex and fragment programs.
+
+@Parameter "ShaderID"
+  A number between 0 and 65536 to identify the new shader. To select
+  one of the predefined shader, use one of the following values as 'ShaderID' (VertexProgram$
+  and FragmentProgram$ values will be ignored):
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+@EndFixedFont
+  
+@Parameter "VertexProgram$"
+  The GLSL program to use for vertices.
+
+@Parameter "FragmentProgram$"
+  The GLSL program to use for fragments.
+
+@ReturnValue
+  Nonzero if the shader was successfully created, zero otherwise.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateShaderMaterial(#Material, ShaderID)
+
+@Description
+  Creates a new shader based material.
+
+@Parameter "#Material"
+  A number to identify the new material.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+  
+@Parameter "ShaderID"
+  The shader identifier. @@CreateShader is used to create a new shader.
+  
+@ReturnValue
+  Nonzero if the shader based material was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Material parameter, then the generated number is returned on success.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderAutoParameter(#Material, ProgramType, ParameterName$, ParameterType, ExtraValue.f)
+
+@Description
+  Set a parameter value for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The material to use.
+
+@Parameter "ProgramType"
+  Program type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Vertex  : use the vertex program.
+  @#PB_Shader_Fragment: use the fragment program.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name of the parameter with the GLSL program to use.
+
+@Parameter "ParameterType"
+  Parameter type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_WorldMatrix
+  @#PB_Shader_InverseWorldMatrix
+  @#PB_Shader_TransposeWorldMatrix
+  @#PB_Shader_InverseTransposeWorldMatrix
+  @#PB_Shader_WorldMatrixArray3x4
+  @#PB_Shader_WorldMatrixArray
+  @#PB_Shader_WorldDualquaternionArray2x4
+  @#PB_Shader_WorldScaleShearMatrixArray3x4
+  @#PB_Shader_ViewMatrix
+  @#PB_Shader_InverseViewMatrix
+  @#PB_Shader_TransposeViewMatrix
+  @#PB_Shader_InverseTransposeViewMatrix
+  @#PB_Shader_ProjectionMatrix
+  @#PB_Shader_InverseProjectionMatrix
+  @#PB_Shader_TransposeProjectionMatrix
+  @#PB_Shader_InverseTransposeProjectionMatrix
+  @#PB_Shader_ViewprojMatrix
+  @#PB_Shader_InverseViewprojMatrix
+  @#PB_Shader_TransposeViewprojMatrix
+  @#PB_Shader_InverseTransposeViewprojMatrix
+  @#PB_Shader_WorldviewMatrix
+  @#PB_Shader_InverseWorldviewMatrix
+  @#PB_Shader_TransposeWorldviewMatrix
+  @#PB_Shader_InverseTransposeWorldviewMatrix
+  @#PB_Shader_WorldviewprojMatrix
+  @#PB_Shader_InverseWorldviewprojMatrix
+  @#PB_Shader_TransposeWorldviewprojMatrix
+  @#PB_Shader_InverseTransposeWorldviewprojMatrix
+  @#PB_Shader_RenderTargetFlipping
+  @#PB_Shader_VertexWinding
+  @#PB_Shader_FogColour
+  @#PB_Shader_FogParams
+  @#PB_Shader_SurfaceAmbientColour
+  @#PB_Shader_SurfaceDiffuseColour
+  @#PB_Shader_SurfaceSpecularColour
+  @#PB_Shader_SurfaceEmissiveColour
+  @#PB_Shader_SurfaceShininess
+  @#PB_Shader_LightCount
+  @#PB_Shader_AmbientLightColour
+  @#PB_Shader_LightDiffuseColour
+  @#PB_Shader_LightSpecularColour
+  @#PB_Shader_LightAttenuation
+  @#PB_Shader_SpotlightParams
+  @#PB_Shader_LightPosition
+  @#PB_Shader_LightPositionObjectSpace
+  @#PB_Shader_LightPositionViewSpace
+  @#PB_Shader_LightDirection
+  @#PB_Shader_LightDirectionObjectSpace
+  @#PB_Shader_LightDirectionViewSpace
+  @#PB_Shader_LightDistanceObjectSpace
+  @#PB_Shader_LightPowerScale
+  @#PB_Shader_LightDiffuseColourPowerScaled
+  @#PB_Shader_LightSpecularColourPowerScaled
+  @#PB_Shader_LightDiffuseColourArray
+  @#PB_Shader_LightSpecularColourArray
+  @#PB_Shader_LightDiffuseColourPowerScaledArray
+  @#PB_Shader_LightSpecularColourPowerScaledArray
+  @#PB_Shader_LightAttenuationArray
+  @#PB_Shader_LightPositionArray
+  @#PB_Shader_LightPositionObjectSpaceArray
+  @#PB_Shader_LightPositionViewSpaceArray
+  @#PB_Shader_LightDirectionArray
+  @#PB_Shader_LightDirectionObjectSpaceArray
+  @#PB_Shader_LightDirectionViewSpaceArray
+  @#PB_Shader_LightDistanceObjectSpaceArray
+  @#PB_Shader_LightPowerScaleArray
+  @#PB_Shader_SpotlightParamsArray
+  @#PB_Shader_DerivedAmbientLightColour
+  @#PB_Shader_DerivedSceneColour
+  @#PB_Shader_DerivedLightDiffuseColour
+  @#PB_Shader_DerivedLightSpecularColour
+  @#PB_Shader_DerivedLightDiffuseColourArray
+  @#PB_Shader_DerivedLightSpecularColourArray
+  @#PB_Shader_LightNumber
+  @#PB_Shader_LightCastsShadows
+  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_CameraPosition
+  @#PB_Shader_CameraPositionObjectSpace
+  @#PB_Shader_TextureViewprojMatrix
+  @#PB_Shader_TextureViewprojMatrixArray
+  @#PB_Shader_TextureWorldviewprojMatrix
+  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_SpotlightViewprojMatrix
+  @#PB_Shader_SpotlightViewprojMatrixArray
+  @#PB_Shader_SpotlightWorldviewprojMatrix
+  @#PB_Shader_Custom
+  @#PB_Shader_Time
+  @#PB_Shader_Time0X
+  @#PB_Shader_Costime0X
+  @#PB_Shader_Sintime0X
+  @#PB_Shader_Tantime0X
+  @#PB_Shader_Time0XPacked
+  @#PB_Shader_Time01
+  @#PB_Shader_Costime01
+  @#PB_Shader_Sintime01
+  @#PB_Shader_Tantime01
+  @#PB_Shader_Time01Packed
+  @#PB_Shader_Time02pi
+  @#PB_Shader_Costime02pi
+  @#PB_Shader_Sintime02pi
+  @#PB_Shader_Tantime02pi
+  @#PB_Shader_Time02piPacked
+  @#PB_Shader_FrameTime
+  @#PB_Shader_Fps
+  @#PB_Shader_ViewportWidth
+  @#PB_Shader_ViewportHeight
+  @#PB_Shader_InverseViewportWidth
+  @#PB_Shader_InverseViewportHeight
+  @#PB_Shader_ViewportSize
+  @#PB_Shader_ViewDirection
+  @#PB_Shader_ViewSideVector
+  @#PB_Shader_ViewUpVector
+  @#PB_Shader_Fov
+  @#PB_Shader_NearClipDistance
+  @#PB_Shader_FarClipDistance
+  @#PB_Shader_PassNumber
+  @#PB_Shader_PassIterationNumber
+  @#PB_Shader_AnimationParametric
+  @#PB_Shader_TexelOffsets
+  @#PB_Shader_SceneDepthRange
+  @#PB_Shader_ShadowSceneDepthRange
+  @#PB_Shader_ShadowColour
+  @#PB_Shader_TextureSize
+  @#PB_Shader_InverseTextureSize
+  @#PB_Shader_PackedTextureSize
+  @#PB_Shader_TextureMatrix
+  @#PB_Shader_LodCameraPosition
+  @#PB_Shader_LodCameraPositionObjectSpace
+  @#PB_Shader_LightCustom
+@EndFixedFont
+
+@Parameter "ExtraValue"
+  Extra value passed to the program parameter.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderParameter(#Material, ProgramType, ParameterName$, ParameterType, v1.f, v2.f, v3.f, v4.f)
+
+@Description
+  Set a parameter value for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The material to use.
+
+@Parameter "ProgramType"
+  Program type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Vertex  : use the vertex program.
+  @#PB_Shader_Fragment: use the fragment program.
+@EndFixedFont
+
+@Parameter "ParameterName$"
+  Name of the parameter with the GLSL program to set the new value.
+
+@Parameter "ParameterType"
+  Parameter type. It can be one of the following values:
+@FixedFont
+  @#PB_Shader_Integer: the parameter use an integer type (v2, v3 and v4 parameters are ignored)
+  @#PB_Shader_Float  : the parameter use a float type (v2, v3 and v4 parameters are ignored)
+  @#PB_Shader_Vector3: the parameter use a Vector3 type (v4 parameter is ignored)
+  @#PB_Shader_Vector4: the parameter use a Vector4 type
+@EndFixedFont
+
+@Parameter "v1"
+  First parameter value. Mandatory for all parameter types.
+
+@Parameter "v2"
+  Second parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+
+@Parameter "v3"
+  Third parameter value. Mandatory for #PB_Shader_Vector3 and #PB_Shader_Vector4 types.
+
+@Parameter "v4"
+  Fourth parameter value. Mandatory for #PB_Shader_Vector4 type.
+
+@NoReturnValue
+
+@Remarks
+  GLSL shaders uses vec4 type to pass a color. Example:
+@Code
+  MaterialShaderParam(0, #PB_Shader_Fragment, 4, Red(Color)/255, Green(Color)/255, Blue(Color)/255, Alpha(Color)/255)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderTexture(#Material, TextureID1, TextureID2, TextureID3, TextureID4)
+
+@Description
+  Sets the textures to use for the shader based material previous created with @@CreateShaderMaterial.
+
+@Parameter "#Material"
+  The shader material to use.
+
+@Parameter "TextureID1"
+  The first texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID2"
+  The second texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID3"
+  The third texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@Parameter "TextureID4"
+  The fourth texture to use. Use @@TextureID to get a valid TextureID, or #Null if not needed.
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -250,7 +591,7 @@
   The material to use.
 
 @Parameter "Type"
-  The color type to set. It can be one of the following values:
+  The color type to set. It can be a combination of the following values:
 @FixedFont
   @#PB_Material_AmbientColor:  the color used by default, without other lighting.
   @#PB_Material_DiffuseColor:  the color the material will reflect when it will be dynamically lighted.
@@ -407,7 +748,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MaterialShininess(#Material, Shininess)
+@Function MaterialShininess(#Material, Shininess [, SpecularColor])
 
 @Description
   Changes the shininess of the #Material (the size of the specular highlights).
@@ -417,6 +758,9 @@
 
 @Parameter "Shininess"
   The new shininess value.
+
+@OptionalParameter "SpecularColor"
+  The specular color to use. A valid RGB color can be created with @@RGB.
 
 @NoReturnValue
 
@@ -582,6 +926,10 @@
                             - @#PB_Material_ReflectionMap: reflection environment map
                             - @#PB_Material_NormalMap    : normal environment map
  @#PB_Material_ProjectiveTexturing: Enable projective texturing for this material. The value is a #Camera number to use.
+ @#PB_Material_PointSprite : Enables or disables point sprite for the material.
+                            If greater than zero, the value is the point size / 1000. If zero, point size is disabled.
+ @#PB_Material_DepthBias   : Enables or disables the depth bias for the material.
+                            If greater than zero, the value is the depth bias / 1000. If zero, depth bias is disabled.
 
 @EndFixedFont
 @Parameter "Value"

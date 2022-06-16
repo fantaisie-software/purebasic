@@ -4,9 +4,9 @@
   Les commandes  intégrées de PureBasic s'appuient sur les bibliothèques disponibles 
   de chaque système d'exploitation. Parfois, il est possible d'atteindre un même résultat 
   de différentes façons. Pour ce faire, PureBasic offre la possibilité de changer de 
-  bibliothèque, sans changer une ligne de code source. Par exemple, sous Windows, OpenGL  
-  peut être utiisé en utilisant le sous-système 'OpenGL' de PureBasic, qui lui, utilisera 
-  les fonctions OpenGL pour rendre les sprites par exemple, en lieu et place de DirectX 
+  bibliothèque, sans changer une ligne de code source. Par exemple, sous Windows, DirectX  
+  peut être utiisé en utilisant le sous-système 'DirectX' de PureBasic, qui lui, utilisera 
+  les fonctions DirectX pour rendre les sprites par exemple, en lieu et place de OpenGL 
   (sous-système par défaut).
   @LineBreak
   @LineBreak
@@ -35,10 +35,15 @@
   @LineBreak
   @Bold "Windows"
 @FixedFont
-  OpenGL: Utiliser OpenGL au lieu de DirectX. Bibliothèques concernées: 
+  DirectX9: Utiliser DirectX9 au lieu d'OpenGL. Bibliothèques concernées: 
           - Sprite
           - Screen
-          - Toutes les bibliothèques connexes du moteur 3D
+          - Note: Le moteur 3D n'est plus disponible car il utilise OpenGL
+  DirectX11: Utiliser DirectX 11  au lieu d'OpenGL. Bibliothèques concernées: 
+          - Sprite
+          - Screen
+          - Note: Le moteur 3D n'est plus disponible car il utilise OpenGL
+
 @EndFixedFont
 @LineBreak
   @Bold "Linux"

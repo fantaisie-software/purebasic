@@ -78,14 +78,14 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
-  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
-  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
+  @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
-  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -359,7 +359,7 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
-  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
+  @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
   @#PB_File_Append     : the file pointer position will be set at the end of file.
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
@@ -367,7 +367,7 @@
   combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
-  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -428,17 +428,17 @@
 @Function Number.a = ReadAsciiCharacter(#File)
 
 @Description
-  Read an ascii character (1 byte) from a file.
+  Read an ASCII character (1 byte) from a file.
 
 @Parameter "#File"
   The file to read from.
 
 @ReturnValue
-  Returns the read ascii character or zero if there was an error.
+  Returns the read ASCII character or zero if there was an error.
 
 @Remarks
   For an example of how to read from a file, see the @@ReadFile function - with
-  ReadAsciiCharacter() only a ascii character is read, instead of a complete line (string).
+  ReadAsciiCharacter() only an ASCII character is read, instead of a complete line (string).
 
 @SeeAlso
   @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
@@ -547,7 +547,7 @@
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
 @FixedFont
-  @#PB_Ascii  : all read string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -842,13 +842,13 @@
 @Function Result = WriteAsciiCharacter(#File, Number.a)
 
 @Description
-  Write an ascii character (1 byte) to a file.
+  Write an ASCII character (1 byte) to a file.
 
 @Parameter "#File"
   The file to write to.
 
 @Parameter "Number"
-  The ascii character value to write.
+  The ASCII character value to write.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.
@@ -859,7 +859,7 @@
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 @LineBreak
 @LineBreak
-  For an example see the @@CreateFile function - with WriteAsciiCharacter() only an ascii character is written, instead of a string.
+  For an example see the @@CreateFile function - with WriteAsciiCharacter() only an ASCII character is written, instead of a string.
 
 @SeeAlso
   @@ReadAsciiCharacter, @@WriteUnicodeCharacter, @@WriteCharacter, @@CreateFile, @@OpenFile
@@ -1186,7 +1186,7 @@
 @Parameter "Format"
   The format for which the mark should be written. It can be one of the following values:
 @FixedFont
-  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as an plain Ascii file.)
+  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as a plain ASCII file.)
   @#PB_UTF8   : UTF-8 BOM
   @#PB_Unicode: UTF-16 (little endian) BOM
 

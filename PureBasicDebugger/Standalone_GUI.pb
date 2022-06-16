@@ -148,8 +148,8 @@ EndProcedure
 
 Procedure Standalone_CreateGUI()
   
-  Image_Minimize = CatchImage(#PB_Any, ?MinimizeImageData)
-  Image_Maximize = CatchImage(#PB_Any, ?MaximizeImageData)
+  Image_Minimize = CatchImageDPI(#PB_Any, ?MinimizeImageData)
+  Image_Maximize = CatchImageDPI(#PB_Any, ?MaximizeImageData)
   
   If OpenWindow(#WINDOW_Main, DebuggerMainWindowX, DebuggerMainWindowY, DebuggerMainWindowWidth, DebuggerMainWindowHeight, "PureBasic Debugger", #PB_Window_Invisible|#PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_SizeGadget)
     

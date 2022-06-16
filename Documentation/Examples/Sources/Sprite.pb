@@ -13,9 +13,6 @@ If InitSprite() = 0 Or InitKeyboard() = 0
   End
 EndIf
 
-;
-; Now, open a 800*600 - 32 bits screen
-;
 If OpenScreen(800, 600, 32, "Sprite")
 
   ; Load our 16 bit sprite (which is a 24 bit picture in fact, as BMP doesn't support 16 bit format)

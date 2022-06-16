@@ -950,7 +950,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
     w = OutputWidth()
     h = OutputHeight()
     Box(0, 0, w, h, $FFFFFF)
-    
+
     DrawingMode(#PB_2DDrawing_Default|#PB_2DDrawing_Transparent)
     For row = 0 To *Entry\Rows ; draw also the last half row in the remaining space
       If *Entry\First + row >= FilteredPalette\Count
@@ -1021,7 +1021,7 @@ Procedure ColorPicker_Name_Setup(*Entry.ColorPickerData, CanvasX, CanvasY, Canva
   EndIf
   
   Height = CanvasHeight - ComboHeight - 10 - FilterHeight
-  *Entry\Rows  = (Height-2) / *Entry\RowHeight
+  *Entry\Rows  = DesktopScaledY(Height-2) / *Entry\RowHeight
   
   SetGadgetText(#GADGET_Color_Filter, "")
   ColorPicker_Name_UpdateFilter(*Entry)
@@ -1186,24 +1186,24 @@ Procedure ColorPicker_UpdateHistory(*Entry.ColorPickerData)
     h = OutputHeight()
     Box(0, 0, w, h, $FFFFFF)
     
-    cols = (w-5) / 23
+    cols = (w-DesktopScaledX(5)) / DesktopScaledX(23)
     If cols < 1: cols = 1: EndIf
     
     For i = 0 To #ColorPicker_History-1
-      x = 4 + (i % cols) * 23
-      y = 4 + (i / cols) * 23
+      x = DesktopScaledX(4) + (i % cols) * DesktopScaledX(23)
+      y = DesktopScaledX(4) + (i / cols) * DesktopScaledX(23)
       
       If ColorPicker_History(i)\Alpha < 0
         DrawingMode(#PB_2DDrawing_Default)
-        Box(x, y, 20, 20, ColorPicker_History(i)\Color)
+        Box(x, y, DesktopScaledX(20), DesktopScaledX(20), ColorPicker_History(i)\Color)
       Else
         DrawingMode(#PB_2DDrawing_CustomFilter)
         CustomFilterCallback(@ColorPicker_TransparentFilter())
-        Box(x, y, 20, 20, ColorPicker_AddAlpha(ColorPicker_History(i)\Color, ColorPicker_History(i)\Alpha))
+        Box(x, y, DesktopScaledX(20), DesktopScaledX(20), ColorPicker_AddAlpha(ColorPicker_History(i)\Color, ColorPicker_History(i)\Alpha))
       EndIf
       
       DrawingMode(#PB_2DDrawing_Outlined)
-      Box(x, y, 20, 20, $000000)
+      Box(x, y, DesktopScaledX(20), DesktopScaledX(20), $000000)
     Next i
     
     DrawingMode(#PB_2DDrawing_Outlined)
@@ -1262,18 +1262,8 @@ CompilerIf #CompileWindows
   
   ; To handle scrolling events in realtime one Windows. Not needed on Linux/OSX
   ;
-  Procedure ColorPicker_ScrollbarCallback(Window, Message, wParam, lParam)
-    ; call the original callback first, so the gadget state is properly updated.
-    ;
-    Result = CallWindowProc_(ScrollBarOldCallback, Window, Message, wParam, lParam)
-    
-    ; now check our event
-    ;
-    If *ColorPicker And Message = #WM_HSCROLL Or Message = #WM_VSCROLL
-      *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)
-    EndIf
-    
-    ProcedureReturn Result
+  Procedure ColorPicker_ScrollbarCallback()
+    *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)
   EndProcedure
   
 CompilerEndIf
@@ -1302,7 +1292,7 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   StringGadget(#GADGET_Color_Filter, 0, 0, 0, 0, "")
   
   CompilerIf #CompileWindows
-    ScrollBarOldCallback = SetWindowLongPtr_(GetParent_(GadgetID(#GADGET_Color_Scroll)), #GWL_WNDPROC, @ColorPicker_ScrollbarCallback())
+    BindGadgetEvent(#GADGET_Color_Scroll, @ColorPicker_ScrollbarCallback())
   CompilerEndIf
   
   CheckBoxGadget(#GADGET_Color_UseAlpha, 0, 0, 0, 0, Language("ToolsPanel", "UseAlpha"))
@@ -1642,8 +1632,8 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
       
     Case #GADGET_Color_History
       If EventType() = #PB_EventType_LeftButtonDown
-        x = GetGadgetAttribute(#GADGET_Color_History, #PB_Canvas_MouseX)
-        y = GetGadgetAttribute(#GADGET_Color_History, #PB_Canvas_MouseY)
+        x = DesktopUnscaledX(GetGadgetAttribute(#GADGET_Color_History, #PB_Canvas_MouseX))
+        y = DesktopUnscaledY(GetGadgetAttribute(#GADGET_Color_History, #PB_Canvas_MouseY))
         If x >= 4 And y >= 4
           col = (x-4) / 23
           row = (y-4) / 23

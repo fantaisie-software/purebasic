@@ -23,21 +23,23 @@ Procedure paint(canvas, state, text$)
   ;State: 0     = Pushed
   ;State: Not 0 = Released
   If StartDrawing(CanvasOutput(canvas))
-    Box(0,0,31,31,$CFFFFC) ; Yellow background
+    Width = OutputWidth()
+    Height = OutputHeight()
+    Box(0,0,Width,Height,$CFFFFC) ; Yellow background
     If state=0 ; UP
-      LineXY(0,31,31,31,$000000)
-      LineXY(31,0,31,31,$000000)
-      LineXY(0,0,31,0,$FFFFFF)
-      LineXY(0,0,0,31,$FFFFFF)
+      LineXY(0,Height,Width,Height,$000000)
+      LineXY(Width,0,Width,Height,$000000)
+      LineXY(0,0,Width,0,$FFFFFF)
+      LineXY(0,0,0,Height,$FFFFFF)
     Else       ;DOWN
-      LineXY(0,31,31,31,$FFFFFF)
-      LineXY(31,0,31,31,$FFFFFF)
-      LineXY(0,0,31,0,$000000)
-      LineXY(0,0,0,31,$000000)
+      LineXY(0,Height,Width,Height,$FFFFFF)
+      LineXY(Width,0,Width,Height,$FFFFFF)
+      LineXY(0,0,Width,0,$000000)
+      LineXY(0,0,0,Height,$000000)
     EndIf
     w=TextWidth(text$)
     h=TextHeight(text$)
-    DrawText(16-w/2, 16-h/2, Text$, $000000, $CFFFFC)
+    DrawText(Height/2-w/2, Height/2-h/2, Text$, $000000, $CFFFFC)
     
     StopDrawing()
   EndIf

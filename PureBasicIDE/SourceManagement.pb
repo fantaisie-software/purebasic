@@ -1222,6 +1222,10 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   
   *Source\NbResourceFiles = 0
   
+  ; These configs are enabled by default, so if not present, should be 0
+  *Source\EnableXP      = 0
+  *Source\DPIAware      = 0
+  
   ClearList(*Source\UnknownIDEOptionsList$())
   
   *Source\VersionInfo = 0
@@ -1580,10 +1584,10 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\ErrorLog      = 1
     *Source\EnableASM     = 0
     *Source\EnableThread  = 0
-    *Source\EnableXP      = 0
+    *Source\EnableXP      = 1
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
-    *Source\DPIAware      = 0
+    *Source\DPIAware      = 1
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1
@@ -1631,7 +1635,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
         ReturnValue = Length
       ElseIf AnalyzeSettings_ProjectFile(*Source)
         ReturnValue = Length
-      Else
+       Else
         ReturnValue = AnalyzeSettings_SourceFile(*Source, *Buffer, Length)
       EndIf
       

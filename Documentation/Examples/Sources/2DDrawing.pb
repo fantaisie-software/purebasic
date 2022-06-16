@@ -13,7 +13,7 @@ If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
   ; Create an offscreen image, with a green circle in it.
   ; It will be displayed later
   ;
-  If CreateImage(0, 300, 200)
+  If CreateImage(0, DesktopScaledX(300), DesktopScaledY(200))
     If StartDrawing(ImageOutput(0))
       Circle(100,100,50,RGB(0,0,255))  ; a nice blue circle...
 
@@ -42,7 +42,6 @@ If OpenWindow(0, 100, 200, 300, 200, "2D Drawing Test")
   ; It's very easy to understand: when an action occurs, the Event
   ; isn't 0 and we just have to see what have happened...
   ;
-  
   Repeat
     Event = WaitWindowEvent()
   Until Event = #PB_Event_CloseWindow  ; If the user has pressed on the window close button

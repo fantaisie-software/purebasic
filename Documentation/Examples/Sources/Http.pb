@@ -8,9 +8,6 @@
 ; ------------------------------------------------------------
 ;
 
-InitNetwork()
-
-
 URL$ = "http://user:pass@www.purebasic.com:1024/subdirectory/index.php?year=2008&month=12&day=3"
 Debug GetURLPart(URL$, "year")
 Debug GetURLPart(URL$, #PB_URL_Site)

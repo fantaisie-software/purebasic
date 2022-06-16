@@ -1,7 +1,7 @@
 ;
 ;     String library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library String
@@ -400,17 +400,17 @@
 @Function Ergebnis$ = LSet(String$, Länge [, Zeichen$])
 
 @Description
-  Platziert einen String an den linken Rand des Zielstrings und füllt diesen mit Leerzeichen
-  auf, um die angegebene Länge zu erreichen.
+  Passt die Länge eines Strings an, indem bei Bedarf am Ende der Zeichenfolge weitere Zeichen
+  hinzugefügt werden, um die angegebene Länge zu erreichen.
   
 @Parameter "String$"
-  Der zu platzierende String.
+  Der zu anzupassende String.
 
 @Parameter "Länge"
   Die komplette Länge (in Zeichen) des neuen Strings.
 
 @OptionalParameter "Zeichen$"
-  Das zu verwendende Zeichen, um extra Platz im neuen String zu schaffen. Das
+  Das zu verwendende Zeichen, um die Länge des neuen Strings anzupassen. Das
   Standardzeichen ist ein Leerzeichen ('Space').  
   'Zeichen$' muss ein ein Zeichen langer String sein.
 
@@ -628,17 +628,17 @@
 @Function Ergebnis$ = RSet(String$, Länge [, Zeichen$])
 
 @Description
-  Platziert einen String an den rechten Rand des Zielstrings und füllt diesen mit Leerzeichen
-  auf, um die angegebene Länge zu erreichen.
+  Passt die Länge eines Strings an, indem bei Bedarf am Anfang der Zeichenfolge weitere Zeichen
+  hinzugefügt werden, um die angegebene Länge zu erreichen.
   
 @Parameter "String$"
-  Der zu platzierende String.
+  Der zu anzupassende String.
 
 @Parameter "Länge"
   Die komplette Länge (in Zeichen) des neuen Strings.
 
 @OptionalParameter "Zeichen$"
-  Das zu verwendende Zeichen, um extra Platz im neuen String zu schaffen. Das
+  Das zu verwendende Zeichen, um die Länge des neuen Strings anzupassen. Das
   Standardzeichen ist ein Leerzeichen ('Space').  
   'Zeichen$' muss ein ein Zeichen langer String sein.
 
@@ -1093,6 +1093,8 @@
   Strings mit einer enthaltenen Ganzzahl können auch mit @@Val und
   64 Bit-Fließkommazahlen mit @@ValD (mit höherer Genauigkeit als @@ValF) 
   konvertiert werden.
+@LineBreak
+  "NaN", "-Infinity" und "+Infinity" sind erlaubt.
 
 @Example
 @Code

@@ -46,7 +46,7 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
   Creates a new blank texture with the specified dimension.
   
 @Parameter "#Texture"
-  A number to identify the texture.
+  A number to identify the new texture.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @Parameter "Width, Height"
@@ -66,6 +66,89 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
 @Example
 @Code
   CreateTexture(0, 256, 256) ; Creates a new 256x256 texture
+@EndCode
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateCubicTexture(#Texture, #Texture1, #Texture2, #Texture3, #Texture4, #Texture5, #Texture6)
+
+@Description
+  Creates a new cubic texture using the specified textures. Cubic textures are useful to create world like reflections.
+  @#PB_Material_EnvironmentMap should be specified with @@SetMaterialAttribute to enable cubic reflection.
+  
+@Parameter "#Texture"
+  A number to identify the new texture.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "#Texture1"
+  The texture to use for the first face of the cubic texture.
+
+@Parameter "#Texture2"
+  The texture to use for the second face of the cubic texture.
+
+@Parameter "#Texture3"
+  The texture to use for the third face of the cubic texture.
+
+@Parameter "#Texture4"
+  The texture to use for the fourth face of the cubic texture.
+
+@Parameter "#Texture5"
+  The texture to use for the fifth face of the cubic texture.
+
+@Parameter "#Texture6"
+  The texture to use for the sixth face of the cubic texture.
+  
+@ReturnValue
+  Nonzero if the cubic texture was successfully created, zero otherwise. If @#PB_Any was used
+  for the #Texture parameter then the generated number is returned on success.
+
+@Example
+@Code
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  OpenWindow(0, 0,0, 800, 600, "VertexColour - [Esc] quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Textures", #PB_3DArchive_FileSystem)
+  Add3DArchive(#PB_Compiler_Home + "Examples/3D/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+  Parse3DScripts()
+
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,0,-8)
+  CameraLookAt(0,0,0,0)
+
+  CreateLight(0,$ffffff, -100, 100, 50)
+  AmbientColor($111111*2)
+  CameraBackColor(0,$880044)
+
+  SkyBox("desert07.jpg")
+
+  LoadTexture(0,"desert07_RT.jpg")
+  LoadTexture(1,"desert07_LF.jpg")
+  LoadTexture(2,"desert07_UP.jpg")
+  LoadTexture(3,"desert07_DN.jpg")
+  LoadTexture(4,"desert07_FR.jpg")
+  LoadTexture(5,"desert07_BK.jpg")
+  CreateCubicTexture(10, 0, 1, 2, 3, 4, 5)
+
+  LoadTexture(11, "dirt.jpg")
+  CreateMaterial(0, TextureID(11))
+  AddMaterialLayer(0, TextureID(10), #PB_Material_Add)
+  SetMaterialAttribute(0, #PB_Material_EnvironmentMap, #PB_Material_ReflectionMap, 1)
+
+  CreateTorus(0,2,1,32,32)
+  CreateEntity(0, MeshID(0), MaterialID(0))
+
+  Repeat
+    While WindowEvent():Wend
+    ExamineKeyboard()
+    RotateEntity(0,1,1,1, #PB_Relative)
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
 @EndCode
 
 @SupportedOS

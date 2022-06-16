@@ -1,7 +1,7 @@
 ;
 ;     Menu library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Menu
@@ -15,13 +15,13 @@
   Menüs bzw. @@CreatePopupMenu für Popup-Menüs beginnen.
 @LineBreak
 @LineBreak
-  @Bold "Mac OSX:"
+  @Bold "macOS:"
 @LineBreak
-  Auf OS X wird ein Anwendungsmenü nie an das Fenster geheftet, sondern immer an den Desktop.
+  Auf macOS wird ein Anwendungsmenü nie an das Fenster geheftet, sondern immer an den Desktop.
   Das Menü am oberen Rand des Desktops zeigt die Einträge der Anwendung, welche den Fokus hat.
 @LineBreak
   Es gibt die vordefinierten Menü-Ereignisse @#PB_Menu_Quit, @#PB_Menu_About 
-  und @#PB_Menu_Preferences, um die Einträge im Anwendungs-Menü (was bei jedem OSX-Programm
+  und @#PB_Menu_Preferences, um die Einträge im Anwendungs-Menü (was bei jedem macOS-Programm
   vorhanden ist) darzustellen. Ihre Werte sind negativ, um nicht mit den im Programm definierten
   Menüeinträgen zu kollidieren. Sie werden von @@EventMenu als reguläre
   Menü-Ereignisse gemeldet.
@@ -90,26 +90,29 @@
 @LineBreak
   @@EventMenu
 
-@OS MacOS X
+@OS macOS
   @LineBreak
   @LineBreak
-  Hinweis: Auf MacOS können Sie nur eine Menüleiste haben, welche am oberen Rand des Bildschirms
-  angezeigt wird. Dies ist das Standard-Design von OS X Applikationen, weshalb Sie das Menü
+  Hinweis: Auf macOS können Sie nur eine Menüleiste haben, welche am oberen Rand des Bildschirms
+  angezeigt wird. Dies ist das Standard-Design von macOS Applikationen, weshalb Sie das Menü
   anpassen müssen, falls nötig. Sie können nicht verschiedene Menüs auf individuellen Fenstern
   gleichzeitig haben.
 @EndOS
 
 @Example
 @Code
-  If OpenWindow(0, 200, 200, 200, 100, "Menu Example")
-    If CreateMenu(0, WindowID(0))    ; hier beginnt das Erstellen des Menüs...
+  UsePNGImageDecoder()
+
+  If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
+    If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
       MenuTitle("Project")
-        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O")
-        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S")
-        MenuItem(3, "Save as"+Chr(9)+"Ctrl+A")
-        MenuItem(4, "Close"  +Chr(9)+"Ctrl+C")
+        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
+        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
+        MenuBar()
+        MenuItem(3, "Quit"  +Chr(9)+"Ctrl+Q")
     EndIf
-    Repeat : Until WaitWindowEvent()=#PB_Event_CloseWindow
+  
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @Image createmenu.png
@@ -649,7 +652,7 @@
   Gibt die Höhe (in Pixel) der Titelzeile des Menüs zurück.
 
 @Remarks
-  @Bold "Linux & MacOS X": Dieser Befehl gibt immer 0 zurück, da die Menü-Zeile nicht Bestandteil
+  @Bold "Linux & macOS": Dieser Befehl gibt immer 0 zurück, da die Menü-Zeile nicht Bestandteil
   des Fensters ist (sie befindet sich immer im Hauptmenü am oberen Rand des Bildschirms).
   Damit kann MenuHeight() problemlos auf jedem OS verwendet werden, um die Fenstergröße in
   Abhängigkeit von der tatsächlichen Menü-Höhe einzustellen.
@@ -704,16 +707,16 @@
   - "Ctrl"  : Ctrl-/Strg-Taste
   - "Shift" : Shift-/Umschalt-Taste
   - "Alt"   : Alt-Taste
-  - "Cmd"   : Command/Apple-Taste (nur auf OS X)
+  - "Cmd"   : Command/Apple-Taste (nur auf macOS)
 @EndCode
   Sie können mit Hilfe des "+" Zeichens miteinander gemixt werden: "Speichern als" + Chr(9) + "Ctrl+Shift+S".
-  Auf OS X ist es - wenn ein Tastenkürzel im Menü erstellt wird - nicht erforderlich, die @@AddKeyboardShortcut
+  Auf macOS ist es - wenn ein Tastenkürzel im Menü erstellt wird - nicht erforderlich, die @@AddKeyboardShortcut
   Funktion mit diesem Kürzel aufzurufen.
 @LineBreak
 @LineBreak
-@Bold "MacOS X": die Einträge 'Quit' (Ende), 'Preferences' (Einstellungen) und 'About' (Über) werden als
+@Bold "macOS": die Einträge 'Quit' (Ende), 'Preferences' (Einstellungen) und 'About' (Über) werden als
   spezielle Menü-Einträge behandelt und müssen im 'Application' (Anwendung) Menü platziert werden, um das Look & Feel 
-  von OS X Anwendungen zu erhalten. PureBasic unterstützt die @#PB_Menu_Quit, @#PB_Menu_Preferences und 
+  von macOS Anwendungen zu erhalten. PureBasic unterstützt die @#PB_Menu_Quit, @#PB_Menu_Preferences und 
   @#PB_Menu_About Konstanten (müssen als 'MenuItemID' angegeben werden) für diese Art von Menü-Einträgen.
   Wenn eine dieser Konstanten festgestellt wird, dann wird der Eintrag nicht am aktuellen Platz, sondern
   im 'Application'-Menü eingefügt. Wenn ein Tastenkürzel angegeben wurde, wird dies einfach ignoriert
@@ -851,7 +854,7 @@
   Beispiel: @LineBreak
   SubMenu = OpenSubMenu ("New")@LineBreak
   SetMenuItemText (0, SubMenu, "Open")@LineBreak
-  Auf Linux und Mac OSX müssen Sie mit mehreren Menüs "jonglieren" oder es "zerstören" und neu erstellen.
+  Auf Linux und macOS müssen Sie mit mehreren Menüs "jonglieren" oder es "zerstören" und neu erstellen.
 
 @Example
 @Code
@@ -974,7 +977,7 @@
   Dabei handelt es sich um eine zusätzliche Möglichkeit zur Verwaltung von Ereignissen
   (englisch "events") in PureBasic, welche problemlos mit den regulären @@WindowEvent /
   @@WaitWindowEvent Befehlen arbeitet.
-  Ein Menü-Ereignis kann mittels @@UnbindMenuEvent losgelöst (englisch "unbinded") werden.
+  Ein Menü-Ereignis kann mittels @@UnbindMenuEvent losgelöst (englisch "unbound") werden.
   
 @Parameter "#Menü"
   Das Menü, mit dem das Ereignis verknüpft werden soll.

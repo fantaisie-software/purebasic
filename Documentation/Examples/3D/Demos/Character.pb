@@ -58,12 +58,6 @@ Macro Clamp(num, min, max)
   EndIf
 EndMacro
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Structure s_Key
   Up.i
   Down.i

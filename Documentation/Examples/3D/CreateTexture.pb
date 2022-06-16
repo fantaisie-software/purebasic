@@ -14,7 +14,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY
 
-LoadFont(0, "Arial", 28, #PB_Font_Bold)
+LoadFont(0, "Arial", 18, #PB_Font_Bold)
 
 If InitEngine3D()
   

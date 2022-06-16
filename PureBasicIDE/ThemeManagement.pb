@@ -169,6 +169,13 @@ Procedure Theme_LoadImage(Image, ImageName$)
       *Buffer = ExtractZip(ThemeEntries()\ZipEntry)
       If *Buffer
         Result = CatchImage(Image, *Buffer, ThemeEntries()\ZipEntry\Uncompressed)
+        
+        ; Resize all the them image according to current DPI.
+        ;
+        If Image = #PB_Any
+          Image = Result
+        EndIf
+        ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
         FreeMemory(*Buffer)
       EndIf
       
@@ -183,7 +190,10 @@ Procedure Theme_AddToPrefslist(Filename$)
   If Theme_Open(Filename$)
     AddElement(PrefsThemeList())
     PrefsThemeList()\Filename$ = GetFilePart(Filename$)
-    PrefsThemeList()\Preview   = CreateImage(#PB_Any, #MAX_ThemePreview*19+3, 22)
+    
+    PreviewWidth  = DesktopScaledX(#MAX_ThemePreview*19+3)
+    PreviewHeight = DesktopScaledY(22)
+    PrefsThemeList()\Preview   = CreateImage(#PB_Any, PreviewWidth, PreviewHeight)
     
     ; Load the icons for preview
     ; This must be done outside the StartDrawing() as it seems to mess up the StartDrawing() on OSX else
@@ -198,11 +208,11 @@ Procedure Theme_AddToPrefslist(Filename$)
     Wend
     
     If PrefsThemeList()\Preview And StartDrawing(ImageOutput(PrefsThemeList()\Preview))
-      Box(0, 0, #MAX_ThemePreview*19+3, 22, $000000)
-      Box(1, 1, #MAX_ThemePreview*19+1, 20, $FFFFFF)
+      Box(0, 0, PreviewWidth  , PreviewHeight  , $000000)
+      Box(DesktopScaledX(1), DesktopScaledY(1), PreviewWidth-2, PreviewHeight-2, $FFFFFF)
       
       For i = 0 To count-1
-        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), i*19+3, 3)
+        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
       Next i
       
       StopDrawing()

@@ -389,16 +389,17 @@
 @Function Result$ = LSet(String$, Length [, Character$])
 
 @Description
-  Pads a string to the left by adding extra characters to fit the specified length.
+  Adjusts the length of a string by adding characters at the end of the string if necessary to 
+  reach the specified length.
 
 @Parameter "String$"
-  The string to pad.
+  The string to adjust.
 
 @Parameter "Length"
   The total length (in characters) of the new string.
 
 @OptionalParameter "Character$"
-  The character used to pad extra space in the new string. The default character is 'space'.
+  The character used to adjust the length of the new string. The default character is 'space'.
   'Character$' has to be a one character length string.
 
 @ReturnValue
@@ -609,16 +610,17 @@
 @Function Result$ = RSet(String$, Length [, Character$])
 
 @Description
-  Pads a string to the right by adding extra characters to fit the specified length.
+  Adjusts the length of the string by adding characters at the beginning of the string if necessary 
+  to reach the specified length.
 
 @Parameter "String$"
-  The string to pad.
+  The string to adjust.
 
 @Parameter "Length"
   The total length (in characters) of the new string.
 
 @OptionalParameter "Character$"
-  The character used to pad extra space in the new string. The default character is 'space'.
+  The character used to adjust the length of the new string. The default character is 'space'.
   'Character$' has to be a one character length string.
 
 @ReturnValue
@@ -1015,6 +1017,8 @@
 
 @Remarks
   Strings holding an integer can also be converted with @@Val, and 32-bit floats with @@ValF (with less accuracy than @@ValD).
+@linebreak
+  "NaN", "-Infinity" and "+Infinity" are allowed.
 
 @Example
 @Code
@@ -1043,7 +1047,9 @@
 
 @Remarks
   Strings holding an integer can also be converted with @@Val and 64-bit floats with @@ValD (with more accuracy than @@ValF).
-
+@linebreak
+  "NaN", "-Infinity" and "+Infinity" are allowed.
+  
 @Example
 @Code
   Debug ValF("10.75")     ; will display 10.75

@@ -48,8 +48,10 @@
                   <checkbox id="#GADGET_Preferences_NoSplashScreen"       lang="Preferences:NoSplashScreen" />
                   <checkbox id="#GADGET_Preferences_MemorizeWindow"       lang="Preferences:MemorizeWindow" />
                   <checkbox id="#GADGET_Preferences_AutoReload"           lang="Preferences:AutoReload" />
-                  <checkbox id="#GADGET_Preferences_DisplayFullPath"      lang="Preferences:DisplayFullPath" />                
-                  <checkbox id="#GADGET_Preferences_DisplayDarkMode"      lang="Preferences:DisplayDarkMode" />                
+                  <checkbox id="#GADGET_Preferences_DisplayFullPath"      lang="Preferences:DisplayFullPath" />
+                  <compiler if="#CompileMac">
+                    <checkbox id="#GADGET_Preferences_DisplayDarkMode"      lang="Preferences:DisplayDarkMode" />                
+                  </compiler>
                 </vbox>
 
                 <gridbox colspacing="10" colexpand="item:2">
@@ -164,7 +166,6 @@
                     <combobox id="#GADGET_Preferences_ToolbarIconType" width="140">
                       <item lang="Preferences:Separator" />
                       <item lang="Preferences:Space" />
-                      <item lang="Preferences:StandardButton" />
                       <item lang="Preferences:ThemeIcon" />
                       <item lang="Preferences:ExternalIcon" />
                     </combobox>
@@ -352,7 +353,6 @@
               <hbox expand="item:2">
                 <text lang="Preferences:DefaultColors" text=": " />
                 <combobox id="#GADGET_Preferences_ColorSchemes" />
-                <button id="#GADGET_Preferences_ColorSchemeSet" lang="Preferences:Set" width="60" height="ignore" />
               </hbox>
             </vbox>
           </frame>
@@ -801,9 +801,7 @@
             <hbox expand="equal">
               <frame lang="Preferences:DebuggerMode" margin="5">
                 <combobox id="#GADGET_Preferences_DebuggerMode">
-                  <!-- <compiler if="#CompileMac = 0"> --> <!-- Not supported on mac yet OSX-debug --> 
-                    <item lang="Preferences:IDEDebugger" />
-                  <!-- </compiler> -->
+                  <item lang="Preferences:IDEDebugger" />
                   <item lang="Preferences:GUIDebugger" />
                   <item lang="Preferences:ConsoleDebugger" />
                 </combobox>

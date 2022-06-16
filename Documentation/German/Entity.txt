@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Entity
@@ -28,7 +28,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus]])
+@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus [, PositionsModus]]])
 
 @Description
   Wendet den angegebenen Kraft-/Stärke-Wert (englisch "force") auf das Entity an.
@@ -49,6 +49,14 @@
   @#PB_Local : lokale Kraft.
   @#PB_Parent: Kraft relativ zur übergeordneten ("parent") Position.
   @#PB_World : Kraft relativ zur Welt.
+@EndFixedFont
+
+@OptionalParameter "PositionsModus"
+  Der anzuwendende Positions-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokale Position.
+  @#PB_Parent: Position relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Position relativ zur Welt.
 @EndFixedFont
 
 @NoReturnValue
@@ -1579,7 +1587,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionX(#Entity)
+@Function Ergebnis = EntityDirectionX(#Entity)
 
 @Description
   Ermittelt die 'x'-Richtung des Entity.
@@ -1597,7 +1605,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionY(#Entity)
+@Function Ergebnis = EntityDirectionY(#Entity)
 
 @Description
   Ermittelt die 'y'-Richtung des Entity.
@@ -1615,7 +1623,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionZ(#Entity)
+@Function Ergebnis = EntityDirectionZ(#Entity)
 
 @Description
   Ermittelt die 'z'-Richtung des Entity.
@@ -1628,5 +1636,23 @@
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetEntityMesh(#Entity)
+
+@Description
+  Gibt das vom Entity verwendete #Mesh zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@ReturnValue
+  Gibt das vom Entity-Objekt verwendete #Mesh zurück.
+ 
+@SeeAlso
+  @@CreateEntity
   
 @SupportedOS

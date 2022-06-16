@@ -176,6 +176,12 @@
                     das Programm erstellt wird. Dies kann eine der folgenden Konstanten sein:
     @#PB_Processor_x86     : x86 Prozessor-Architektur (auch IA-32 oder x86-32 genannt)
     @#PB_Processor_x64     : x86-64 Prozessor-Architektur (auch x64, AMD64 oder Intel64 genannt)
+    @#PB_Processor_arm32   : arm32 Prozessor-Architektur
+    @#PB_Processor_arm64   : arm64 Prozessor-Architektur (auch M1 auf Apple Computern genannt)
+
+  @#PB_Compiler_Backend : Bestimmt, welche Art von Compiler derzeit verwendet wird. Dies kann eine der folgenden Konstanten sein:
+    @#PB_Backend_Asm    : Der Compiler, der Assemblercode generiert, wird verwendet.
+    @#PB_Backend_C      : Der Compiler, der C-Code generiert, wird verwendet.
 
   @#PB_Compiler_ExecutableFormat : Bestimmt das Executable-Format. Dies kann eines der folgenden sein:
     @#PB_Compiler_Executable : Reguläres Executable
@@ -201,6 +207,9 @@
   @#PB_Compiler_EnableExplicit: Auf 1 gesetzt, wenn das Executable mit Unterstützung für 'EnableExplicit' kompiliert wird, andernfalls 0.
   @#PB_Compiler_IsMainFile    : Auf 1 gesetzt, wenn es sich bei der zu kompilierenden Datei um die Hauptdatei handelt, andernfalls 0.
   @#PB_Compiler_IsIncludeFile : Auf 1 gesetzt, wenn die zu kompilierende Datei von einer anderen Datei eingebunden ("included") wurde, andernfalls 0.
+  @#PB_Compiler_32Bit    : Auf 1 gesetzt, wenn der Compiler 32-Bit Code generiert, andernfalls 0.
+  @#PB_Compiler_64Bit    : Auf 1 gesetzt, wenn der Compiler 64-Bit Code generiert, andernfalls 0.
+  @#PB_Compiler_Optimizer: Auf 1 gesetzt, wenn der Compiler optimierten Code generiert, andernfalls 0.
 
 @EndFixedFont
 

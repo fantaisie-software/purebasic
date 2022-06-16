@@ -1,7 +1,7 @@
 ;
 ;     Camera library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Camera
@@ -707,7 +707,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCamera(#Kamera, x, y, Breite, Höhe [, SichtbarkeitsMaske])
+@Function Ergebnis = CreateCamera(#Kamera, x, y, Breite, Höhe [, SichtbarkeitsMaske [, Lod]])
 
 @Description
   Erstellt eine neue Kamera in der aktuellen Welt, an der Position 'x, y' mit den angegebenen
@@ -752,6 +752,12 @@
   Die Kamera definiert ihre eigene Maske, und wenn das Entity oder Billboard mit der
   Maske übereinstimmt, dann werden sie angezeigt. Standardmäßig haben die Entities und
   Billboards keine Maske, was bedeutet, dass sie immer auf allen Kameras angezeigt werden.
+
+@OptionalParameter "Lod"
+  Ein Lod-Bias (Level of Details) zur Anwendung auf die @LibraryLink "entity" "Entities", die ihn
+  unterstützen. Wenn Lod-Bias <1 ist, wird ein detaillierteres Objekt angezeigt. Wenn Lod-Bias >1
+  ist, wird ein weniger detailliertes Objekt angezeigt. Die Objektdistanz wird durch den Lod-Bias
+  geteilt (d.h. ein Lod-Bias von 0,5 verdoppelt die Distanz).
 
 @ReturnValue
   Gibt Null zurück, wenn die Kamera nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"

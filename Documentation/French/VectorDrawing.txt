@@ -2196,12 +2196,14 @@
 @NoReturnValue
 
 @Remarks
-  La position courante peut être réglée avec 
-  @@MovePathCursor. 
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisées.
+@LineBreak
+@LineBreak 
+  La position courante peut être réglée avec @@MovePathCursor. 
 @LineBreak
 @LineBreak
-  Après l'appel à cette fonction, le curseur 
-  est déplacé à la fin du texte.
+  Après l'appel à cette fonction, le curseur est déplacé à la fin du texte.
 @LineBreak
 @LineBreak  
   La fonction @@DrawVectorText devrait être 
@@ -4119,12 +4121,12 @@
 @NoReturnValue
 
 @Remarks
-  A la fin, le curseur sera déplacé à la fin 
-  du texte. 
+  A la fin, le curseur sera déplacé à la fin du texte. 
 @LineBreak
 @LineBreak
-  La police à utiliser peut être réglée avec 
-  @@VectorFont.
+  La police à utiliser peut être réglée avec @@VectorFont.@LineBreak
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont donc 
+  pas autorisées.
 @LineBreak
 @LineBreak
   La fonction @@DrawVectorParagraph est plus 
@@ -4214,12 +4216,13 @@
 @NoReturnValue
 
 @Remarks
-  Si le texte ne rentre pas en entier 
-  dans la boîte, il sera tronqué. 
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisées.
+@LineBreak
+  La police à utiliser peut être réglée avec @@VectorFont.  
 @LineBreak
 @LineBreak
-  La police à utiliser peut être réglée 
-  avec @@VectorFont.
+  Si le texte ne rentre pas en entier dans la boîte, il sera tronqué. 
 
 @Example 
 @Code

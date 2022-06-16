@@ -1,7 +1,7 @@
 ;
 ;     Mesh library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Mesh
@@ -22,7 +22,6 @@
 @ExampleFile All Mesh.pb
 
 @SupportedOS
-
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -72,10 +71,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateDataMesh(#Mesh, Array.PB_MeshVertex())
+@Function Ergebnis = CreateDataMesh(#Mesh, Array.MeshVertex() [, Modus])
 
 @Description
-  Erstellt ein neues '#Mesh' vom angegebenen zwei-dimensionalen Array des Typs PB_MeshVertex.
+  Erstellt ein neues '#Mesh' vom angegebenen zwei-dimensionalen Array des Typs MeshVertex.
   Dieser Befehl erlaubt eine schnellere Mesh-Erstellung als mittels @@CreateMesh, indem ein
   Array vorbereitet und mit einmal an den Befehl übergeben wird.
   
@@ -84,10 +83,10 @@
   kann verwendet werden, um diese Zahl automatisch zu generieren.
   
 @Parameter "Array"
-  Ein zwei-dimensionales Array des Typs PB_MeshVertex, das für die Erstellung des neuen
-  Meshs verwendet wird. Die PB_MeshVertex Struktur ist wie folgt definiert:
+  Ein zwei-dimensionales Array des Typs MeshVertex, das für die Erstellung des neuen
+  Meshs verwendet wird. Die MeshVertex Struktur ist wie folgt definiert:
 @Code
-  Structure PB_MeshVertex
+  Structure MeshVertex
     x.f
     y.f
     z.f
@@ -103,8 +102,20 @@
   EndStructure   
 @EndCode
 
+@OptionalParameter "Modus"
+  Die Art und Weise, die Scheitelpunkte (englisch 'vertices') zu verbinden.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_DiagonalRegular1      : Diagonalen werden auf die gleiche Weise ausgerichtet
+  @#PB_Mesh_DiagonalRegular2      : Diagonalen sind anders ausgerichtet
+  @#PB_Mesh_DiagonalAlternate     : Diagonalen sind einmal so und einmal anders (alternativ)
+  @#PB_Mesh_DiagonalShortestLength: Diagonalen liegen zwischen den beiden nächstgelegenen Scheitelpunkten
+  @#PB_Mesh_DiagonalClosestNormal : Diagonalen liegen zwischen den beiden nächsten Normalen (Skalarprodukt).
+                                   Bester Modus, erfordert aber Normalen.
+@EndFixedFont
+
 @Remarks
-  If the #Mesh was already created, then it is freed and replaced by a new one.
+  Wenn das #Mesh bereits existierte, dann wird dieses freigegeben und durch ein neues ersetzt.
   
 @SupportedOS
 
@@ -222,14 +233,14 @@
   ist 0 (Haupt-Mesh).
 
 @Parameter "DataArray()"
-  Das Array, um die Daten zu empfangen. Es muss ein Array vom Typ "PB_MeshVertex" oder "PB_MeshFace"
+  Das Array, um die Daten zu empfangen. Es muss ein Array vom Typ "MeshVertex" oder "MeshFace"
   sein - abhängig von den angegebenen Flags.
 
 @Parameter "Flags"
   Gibt an, welche Art von Daten abgerufen werden sollen. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ "PB_MeshVertex".
-  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ "PB_MeshFace".
+  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ "MeshVertex".
+  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ "MeshFace".
 @EndFixedFont
   kombiniert mit:
 @FixedFont
@@ -238,9 +249,9 @@
   @#PB_Mesh_Color        : Ermittelt die Farb-Information (nur beim @#PB_Mesh_Vertex Flag)
 @EndFixedFont
 
-  Die "PB_MeshVertex" und "PB_MeshFace" Strukturen sind wie folgt definiert:
+  Die "MeshVertex" und "MeshFace" Strukturen sind wie folgt definiert:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -255,7 +266,7 @@
     Color.l   ; nur verwendet, wenn das @#PB_Mesh_Color Flag gesetzt ist
   @Keyword EndStructure    
   
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure   
 @EndFixedFont
@@ -289,14 +300,14 @@
 
 @Parameter "DataArray()"
   Das Array, welches die festzulegenden Daten enthält. Es muss ein Array vom Typ
-  "PB_MeshVertex" oder "PB_MeshFace" sein - abhängig von den angegebenen Flags.
+  "MeshVertex" oder "MeshFace" sein - abhängig von den angegebenen Flags.
 
 @Parameter "Flags"
   Gibt an, welche Art von Daten gesetzt werden sollen. Dies kann einer der folgenden
   Werte sein:
 @FixedFont
-  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ vom "PB_MeshVertex".
-  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ vom "PB_MeshFace".
+  @#PB_Mesh_Vertex: DataArray() ist ein Array vom Typ vom "MeshVertex".
+  @#PB_Mesh_Face  : DataArray() ist ein Array vom Typ vom "MeshFace".
 @EndFixedFont
   kombiniert mit:
 @FixedFont
@@ -305,9 +316,9 @@
   @#PB_Mesh_Color        : Setzt die Farb-Information (nur beim @#PB_Mesh_Vertex Flag)
 @EndFixedFont
 
-  Die "PB_MeshVertex" und "PB_MeshFace" Strukturen sind wie folgt definiert:
+  Die "MeshVertex" und "MeshFace" Strukturen sind wie folgt definiert:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -322,7 +333,7 @@
     Color.l   ; nur verwendet, wenn das @#PB_Mesh_Color Flag gesetzt ist
   @Keyword EndStructure    
   
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure   
 @EndFixedFont
@@ -1252,6 +1263,7 @@
   Damit dies einen Effekt hat, muss das mit dem Mesh verknüpfte Material mittels
   @@SetMaterialColor(@#Material, @#PB_Material_AmbientColor, -1) und @@AmbientColor(), das
   auf einen positiven Wert gesetzt wurde, definiert werden.
+  @LineBreak
   Diese Funktion benötigt einen zuvor erstellten Eckpunkt (Vertex), um diesem eine Farbe hinzufügen zu können.
 
 @Parameter "Farbe"
@@ -1266,21 +1278,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshVertexTextureCoordinate(u.f, v.f)
+@Function MeshVertexTextureCoordinate(u.f [, v.f [, w.f]])
 
 @Description
-  Legt die "UV"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition oder @@MeshVertex
-  hinzugefügt wurde. Die "UV"-Information wird verwendet, um die Textur auf das Mesh-Objekt anzuwenden.
+  Legt die "UVW"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition oder @@MeshVertex
+  hinzugefügt wurde. Die "UVW"-Information wird verwendet, um die Textur auf das Mesh-Objekt anzuwenden.
 
 @Parameter "u"
   Der u-Wert. Dieser Wert ist die X-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
-  liegt gewöhnlich zwischen 0 und 1, wobei 0 der x-Ursprung der Textur darstellt und 1 das x-Ende der
+  liegt gewöhnlich zwischen 0 und 1, wobei 0 der X-Ursprung der Textur darstellt und 1 das X-Ende der
   Textur.
 
-@Parameter "v"
+@OptionalParameter "v"
   Der v-Wert. Dieser Wert ist die Y-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
-  liegt gewöhnlich zwischen 0 und 1, wobei 0 der y-Ursprung der Textur darstellt und 1 das y-Ende der
+  liegt gewöhnlich zwischen 0 und 1, wobei 0 der Y-Ursprung der Textur darstellt und 1 das Y-Ende der
   Textur.
+
+@OptionalParameter "w"
+  Der w-Wert (für kubische Texturen). Dieser Wert ist die Z-Position in der Textur, wo der Eckpunkt
+  liegen soll. Dieser Wert liegt gewöhnlich zwischen 0 und 1, wobei 0 der Z-Ursprung der Textur und
+  1 das Z-Ende der Textur ist.
 
 @NoReturnValue
 
@@ -1291,13 +1308,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshFace(Vertex1, Vertex2, Vertex3)
+@Function MeshFace(Vertex1, Vertex2, Vertex3 [, Vertex4])
 
 @Description
   Aktualisiert oder fügt eine (Ober-) Fläche (englisch "face") zum aktuellen Mesh hinzu, welches zuvor mittels
   @@CreateMesh erstellt wurde. Die angegebenen Eckpunkte (englisch "vertices") müssen existieren.
-  Der Index des ersten Eckpunkts (Vertex) beginnt bei 0. Die erstellte Fläche ist ein Dreieck.
-  @@MeshIndex kann verwendet werden, wenn die Anzahl an Eck-/Scheitelpunkten nicht drei beträgt.
+  Der Index des ersten Eckpunkts (Vertex) beginnt bei 0. Die erstellte Fläche ist ein Dreieck oder ein Viereck.
+  @@MeshIndex kann verwendet werden, wenn die Anzahl an Eck-/Scheitelpunkten mehr als vier beträgt.
 
 @Parameter "Vertex1"
   Der Index des ersten Eckpunkts, um die Fläche zu erstellen.
@@ -1307,6 +1324,9 @@
 
 @Parameter "Vertex3"
   Der Index des dritten Eckpunkts, um die Fläche zu erstellen.
+
+@OptionalParameter "Vertex4"
+  Der Index des vierten Eckpunkts, um die Fläche zu erstellen, was in einem Viereck resultieren wird.
 
 @NoReturnValue
 
@@ -1361,8 +1381,9 @@
 @Function BuildMeshTangents(#Mesh)
 
 @Description
-  Berechnet automatisch den Tangenten-Vektor für jeden Scheitel (Vertex) des 
+  Berechnet automatisch den Tangenten-Vektor für alle Scheitel (Vertex) des 
   angegebenen Mesh-Objekts.
+  @LineBreak
   Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
 
 @Parameter "Mesh"

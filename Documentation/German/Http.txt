@@ -17,10 +17,6 @@
   von URLs und den Empfang von entfernten Dateien zu ermöglichen.
 @LineBreak
 @LineBreak
- Die Http-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss
- vor deren Verwendung @@InitNetwork erfolgreich aufgerufen worden sein.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Http-Befehle funktionieren (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
@@ -117,16 +113,11 @@
   Datei, wie das Datum, den Server-Typ, die Version und mehr. 
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   Header$ = GetHTTPHeader("http://www.purebasic.com/index.php")
 
   Repeat
@@ -230,8 +221,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   Download = ReceiveHTTPMemory("http://www.purebasic.com/download/OgreAssimpConverter.zip", #PB_HTTP_Asynchronous)
   If Download
     Repeat
@@ -302,8 +291,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -338,8 +325,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -367,7 +352,7 @@
 
 @Description
   Gibt einen Proxy an, der für die folgenden HTTP-Befehle verwendet werden soll:
-  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory,
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory,
   @@ReceiveHTTPMemory, @@HTTPRequest und @@HTTPRequestMemory.
   
 @Parameter "URL$"
@@ -388,16 +373,11 @@
 @NoReturnValue
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl verwendet wird.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert
   (die meisten Linux-Distributionen haben es bereits installiert).
   
 @Example
 @Code
-  InitNetwork()
-
   HTTPProxy("socks4://127.0.0.1")
 
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
@@ -410,7 +390,50 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPTimeout(ConnectTimeout [, GlobalTimeout])
+
+@Description
+  Specify a timeout to use for the following HTTP commands: @@ReceiveHTTPFile,
+  @@ReceiveHTTPMemory, @@HTTPRequest and @@HTTPRequestMemory.
+
+@Parameter "ConnectTimeout"
+  The timeout, in milliseconds, to abort the HTTP request if the remote host doesn't connect. The default timeout is set
+  to 30 seconds. @#PB_Default can be used to revert to the default timeout value (30 seconds).
+
+@Parameter "GlobalTimeout"
+  The global timeout, in milliseconds, to abort the HTTP request if it is still not finished. There is no timeout by default.
+  @#PB_Default can be used to revert to the default behaviour (no timeout). Note: if a connection is slow, it could abort 
+  a valid unfinished request.
+
+@NoReturnValue
+
+@Remarks
+  On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
+  distributions comes with it already installed).
+  
+@Example
+@Code
+  HTTPTimeout(5000) ; Allows 5 secs to connect to the server
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
 
 @SupportedOS
 
@@ -449,16 +472,11 @@
   wurde (erfolgreich oder nicht).
   
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("http://www.purebasic.com/index.php3", Filename$)
@@ -469,7 +487,7 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
@@ -504,16 +522,11 @@
   zurückgegeben.
 
 @Remarks
-  @@InitNetwork muss aufgerufen werden, bevor dieser Befehl benutzt werden kann.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
 
 @Example
 @Code
-  InitNetwork()
-
   *Buffer = ReceiveHTTPMemory("http://www.purebasic.com/index.php")
   If *Buffer
     Size = MemorySize(*Buffer)
@@ -525,7 +538,7 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
@@ -571,14 +584,14 @@
 @Code
   NewMap Header$()
   Header$("Content-Type") = "text/plain"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 
 @ReturnValue
   Gibt die HTTP-Request-Kennung zurück, wenn der Aufruf erfolgreich initialisiert wurde, andernfalls Null.
   @@HTTPInfo kann verwendet werden, um Informationen zur Anfrage zu erhalten. Wenn @#PB_HTTP_Asynchronous
-  angegeben wurde, können @@HTTPProgress und @@AbortHTTP verwendet werden.
+  angegeben wurde, kann @@HTTPProgress verwendet werden und @@AbortHTTP muss verwendet werden.
   @LineBreak
   @@HTTPMemory kann verwendet werden, um das Ergebnis als Rohpuffer ("raw") abzurufen (der Rohpuffer muss
   mit @@FreeMemory freigegeben werden).
@@ -587,16 +600,11 @@
   auch wenn der Aufruf synchron erfolgte.
 
 @Remarks
-  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
   haben es bereits vorinstalliert).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
@@ -610,11 +618,9 @@
 
 @Example mit Header
 @Code
-  InitNetwork()
-  
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
@@ -674,7 +680,7 @@
 @Code
   NewMap Header$()
   Header$("ContentType") = "octectstream"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode
 
@@ -690,16 +696,11 @@
   auch wenn der Aufruf synchron erfolgte.
 
 @Remarks
-  @@InitNetwork muss vor der Verwendung dieses Befehls aufgerufen werden.
-@LineBreak
-@LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten Linux-Distributionen
   haben es bereits vorinstalliert).
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)

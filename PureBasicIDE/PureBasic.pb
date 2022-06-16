@@ -281,8 +281,11 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
   
   ; display the startup logo, as loading could take a little on slower systems..
   ; especially when lots of sources are reloaded.
-  If OpenWindow(#WINDOW_Startup, 0, 0, DesktopUnscaledX(500), DesktopUnscaledY(200), #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
+  If OpenWindow(#WINDOW_Startup, 0, 0, 500, 200, #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
     If CatchImage(#IMAGE_Startup, ?Image_Startup)
+      
+      ; Rescale the image if needed
+      ResizeImage(#IMAGE_Startup, DesktopScaledX(ImageWidth(#IMAGE_Startup)), DesktopScaledY(ImageHeight(#IMAGE_Startup)))
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
@@ -297,11 +300,11 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
         If TextWidth(Version$) > 480 And FindString(Version$, "- (c)", 1) <> 0
           CopyRight$ = Trim(Right(Version$, Len(Version$) - FindString(Version$, "- (c)", 1))) ; will still include the (c)
           Version$   = Trim(Left(Version$, FindString(Version$, "- (c)", 1) - 1))
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
-          DrawText((500-TextWidth(CopyRight$)) / 2, 145 + TextHeight(Version$) + 1, CopyRight$)
+          DrawText((OutputWidth()-TextWidth(Version$)) / 2  , DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth(CopyRight$)) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, CopyRight$)
         Else
-          DrawText((500-TextWidth(Version$)) / 2, 145, Version$)
-          DrawText((500-TextWidth("00/00/0000")) / 2, 145 + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
+          DrawText((OutputWidth()-TextWidth(Version$)) / 2    , DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth("00/00/0000")) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
         EndIf
         
         StopDrawing()

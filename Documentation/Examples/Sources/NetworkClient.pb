@@ -7,11 +7,8 @@
 ;
 ; ------------------------------------------------------------
 ;
-
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0)
-  End
-EndIf
+; Note: run the NetworkServer.pb file first to launch the server
+;
 
 Port = 6832
 

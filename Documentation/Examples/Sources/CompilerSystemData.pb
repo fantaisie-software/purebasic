@@ -1,7 +1,7 @@
 ﻿;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Some Pb Compiler, FileSystem and system datas
+;   PureBasic - Some Pb Compiler, FileSystem and system data
 ;
 ;    (c) Fantaisie Software
 ;

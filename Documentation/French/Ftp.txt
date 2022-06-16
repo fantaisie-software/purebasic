@@ -17,12 +17,6 @@ fichiers sur ce serveur comme le
 téléchargement, l'envoi de fichiers, 
 renommer, naviguer dans l'arborescence des 
 dossiers, etc.).
-@LineBreak
-@LineBreak
-Toutes les commandes FTP sont basées sur la bibliothèque
-@LibraryLink "Network" "Network", 
-donc @@InitNetwork doit être appelé avant 
-de pouvoir les utiliser.
 
 @CommandList
 
@@ -260,8 +254,6 @@ de pouvoir les utiliser.
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -495,8 +487,6 @@ de pouvoir les utiliser.
   
 @Example 
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     If ExamineFTPDirectory(0)
       While NextFTPDirectoryEntry(0)
@@ -689,20 +679,12 @@ de pouvoir les utiliser.
   ftp sera renvoyé dans 'Resultat'.
 
 @Remarks
-  Les commandes FTP sont basées sur la 
-  @LibraryLink "Network" "bibliothèque network", 
-  donc @@InitNetwork doit être appelé avant 
-  de pouvoir les utiliser.
-@LineBreak
-@LineBreak
   Pour les serveurs ftp publics, 
   'Utilisateur$' sera "anonymous" et le 
   'MotDePasse$' sera vide.
  
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     Debug "Connecté avec succès"
   Else
@@ -911,8 +893,6 @@ de pouvoir les utiliser.
 
 @Example
 @Code
-  InitNetwork()
-  
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     
     Debug "Connecté au serveur"
