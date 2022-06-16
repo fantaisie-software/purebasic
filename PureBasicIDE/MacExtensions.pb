@@ -255,7 +255,7 @@ CompilerIf #CompileMacCocoa
       
       If Update
         With TabBarGadgetInclude
-          OldFaceColor = \FaceColor
+          OldFaceColor = \FaceColor & $FFFFFF
           ; Save current appearance
           NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
           NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
@@ -289,7 +289,7 @@ CompilerIf #CompileMacCocoa
         Case "effectiveAppearance"
           If DisplayDarkMode
             With TabBarGadgetInclude
-              OldFaceColor = \FaceColor
+              OldFaceColor = \FaceColor & $FFFFFF
               ; Save current appearance
               NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
               NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
