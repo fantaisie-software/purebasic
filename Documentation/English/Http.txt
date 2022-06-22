@@ -381,49 +381,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function HTTPTimeout(ConnectTimeout [, GlobalTimeout])
-
-@Description
-  Specify a timeout to use for the following HTTP commands: @@ReceiveHTTPFile,
-  @@ReceiveHTTPMemory, @@HTTPRequest and @@HTTPRequestMemory.
-
-@Parameter "ConnectTimeout"
-  The timeout, in milliseconds, to abort the HTTP request if the remote host doesn't connect. The default timeout is set
-  to 30 seconds. @#PB_Default can be used to revert to the default timeout value (30 seconds).
-
-@Parameter "GlobalTimeout"
-  The global timeout, in milliseconds, to abort the HTTP request if it is still not finished. There is no timeout by default.
-  @#PB_Default can be used to revert to the default behaviour (no timeout). Note: if a connection is slow, it could abort 
-  a valid unfinished request.
-
-@NoReturnValue
-
-@Remarks
-  On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
-  distributions comes with it already installed).
-  
-@Example
-@Code
-  HTTPTimeout(5000) ; Allows 5 secs to connect to the server
-
-  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
-  If HttpRequest
-    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
-    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
-    
-    FinishHTTP(HTTPRequest)
-  Else
-    Debug "Request creation failed"
-  EndIf
-@EndCode
-
-@SeeAlso
-  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
 @Function Result = ReceiveHTTPFile(URL$, Filename$ [, Flags [, UserAgent$]])
 
 @Description

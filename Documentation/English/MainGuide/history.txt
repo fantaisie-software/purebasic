@@ -1,6 +1,6 @@
 @Title History
 
-@Section xx April 2022 : Version 6.00 LTS
+@Section 22 June 2022 : Version 6.00 LTS
 
 - @Green "Added": Apple M1 support ! @LineBreak
 - @Green "Added": Raspberry support (32-bit and 64-bit) ! @LineBreak
@@ -10,6 +10,7 @@
 - @Green "Added": #PB_Compiler_Optimizer which is set to #True if the optimizer is enabled @LineBreak
 - @Green "Added": support for Windows 11, OS X 11 and 12 for OSVersion() @LineBreak
 - @Green "Added": /OPTIMIZER, -z, --optimizer flag to the commandline, and a 'Use code optimizer' checkbox in IDE 'Compiler Options' to turn on C optimizations @LineBreak
+- @Green "Added": auto DPI support for Menu and ToolBar library (Windows) @LineBreak
 - @Green "Added": WebGadget() support for GTK3 on linux @LineBreak
 - @Green "Added": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
 - @Green "Added": optional parameter to MeshFace() to create a quad @LineBreak
@@ -31,17 +32,25 @@
 @LineBreak
 - @Green "Updated": SetMaterialColor() can now use several colortypes at once using '|' @LineBreak
 - @Green "Updated": fasm, polink, polib and porc to lastest versions (Windows) @LineBreak
+- @Green "Updated": Movie library on OS X to support modern OS X version @LineBreak
+- @Green "Updated": Mouse library on Windows to use RawInput instead of DirectX to support HighDPI mouse @LineBreak
+- @Green "Updated": SQLite to 3.38.2 @LineBreak
+- @Green "Updated": zlib to 1.12.12 @LineBreak
+- @Green "Updated": libpq (PostgreSQL) to 14.2 @LineBreak
 @LineBreak
 - @Orange "Changed": renamed structures PB_MeshFace -> MeshFace and PB_MeshVertex -> MeshVertex @LineBreak
 - @Orange "Changed": the name of the /EXE commandline flag to /OUTPUT to be more coherent (still work for backcompatibilty but not documented anymore) @LineBreak
 - @Orange "Changed": the short version of /CONSTANT from '-o' to '-co' as '-o' is now used for /OUTPUT @LineBreak
 - @Orange "Changed": the way the map elements are created when using passive syntax, to be more consistent @LineBreak
-- @Orange "Changed": OGRE only supports OpenGL now, which ease the porting to Linux/OSX and allow to focus on only GLSL for shaders @LineBreak
 - @Orange "Changed": the default subsystem for screen/sprite is now OpenGL on Windows for more consistency. DirectX9 is still available as a subsystem. @LineBreak
+- @Orange "Changed": enabled backface culling for sprite OpenGL subsystem to be faster and be in line with DirectX9/11 @LineBreak
+- @Orange "Changed": InitNetwork() is no more needed to use network functions (deprecated) @LineBreak
 @LineBreak
 - @Red "Removed": x86 version of PureBasic for OS X as it's no more supported since OS X Catalina (Minimum supported OS X is now 10.10 - released in 2014). @LineBreak
 - @Red "Removed": the 'Help' library on Linux @LineBreak
 - @Red "Removed": Nvidia CG support for OGRE as it's no more supported by Nvidia since a while @LineBreak
+- @Red "Removed": ToolBarStandardButton() as it doesn't support high DPI @LineBreak
+
 
 @Section 23th November 2020 : Version 5.73 LTS
 

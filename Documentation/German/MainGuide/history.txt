@@ -1,6 +1,6 @@
 @Title PureBasic Geschichte
 
-@Section xx. April 2022 : Version 6.00 LTS
+@Section 22. Juni 2022 : Version 6.00 LTS
 
 - @Green "Hinzugefügt": Apple M1 Support ! @LineBreak
 - @Green "Hinzugefügt": Raspberry Support (32-Bit und 64-Bit) ! @LineBreak
@@ -10,6 +10,7 @@
 - @Green "Hinzugefügt": #PB_Compiler_Optimizer Konstante - welche auf #True gesetzt ist, wenn der Optimizer eingeschaltet ist @LineBreak
 - @Green "Hinzugefügt": Support für Windows 11, OS X 11 und 12 bei OSVersion() @LineBreak
 - @Green "Hinzugefügt": /OPTIMIZER, -z, --optimizer Flag bei Nutzung der Kommandozeile, und eine 'Code-Optimizer verwenden' Checkbox in den IDE 'Compiler-Optionen', um die C Optimierungen einzuschalten @LineBreak
+- @Green "Hinzugefügt": auto DPI support for Menu and ToolBar library (Windows) @LineBreak
 - @Green "Hinzugefügt": WebGadget() Support für GTK3 auf Linux @LineBreak
 - @Green "Hinzugefügt": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
 - @Green "Hinzugefügt": optionaler Parameter bei MeshFace() zum Erstellen eines Vierecks (Quads) @LineBreak
@@ -31,17 +32,24 @@
 @LineBreak
 - @Green "Aktualisiert": SetMaterialColor() kann jetzt mittels '|' mehrere Farbtypen auf einmal nutzen @LineBreak
 - @Green "Aktualisiert": fasm, polink, polib und porc auf die neuesten Versionen (Windows) @LineBreak
+- @Green "Aktualisiert": Movie library on OS X to support modern OS X version @LineBreak
+- @Green "Aktualisiert": Mouse library on Windows to use RawInput instead of DirectX to support HighDPI mouse @LineBreak
+- @Green "Aktualisiert": SQLite to 3.38.2 @LineBreak
+- @Green "Aktualisiert": zlib to 1.12.12 @LineBreak
+- @Green "Aktualisiert": libpq (PostgreSQL) to 14.2 @LineBreak
 @LineBreak
 - @Orange "Geändert": umbenannte Strukturen PB_MeshFace -> MeshFace und PB_MeshVertex -> MeshVertex @LineBreak
 - @Orange "Geändert": der Name des /EXE Kommandozeilen-Flags in /OUTPUT um kohärenter zu sein (das alte Kürzel funktioniert noch für die Rückwärtskompatibilität, ist aber nicht mehr dokumentiert) @LineBreak
 - @Orange "Geändert": die kurze Version von /CONSTANT von '-o' in '-co' da '-o' jetzt für /OUTPUT genutzt wird @LineBreak
 - @Orange "Geändert": die Art und Weise, wie die Map-Elemente erstellt werden, wenn passiver Syntax verwendet wird, um konsistenter zu sein @LineBreak
-- @Orange "Geändert": OGRE unterstützt jetzt nur noch OpenGL, was die Portierung auf Linux/OSX erleichtert und es erlaubt, sich nur auf GLSL für Shader zu konzentrieren @LineBreak
 - @Orange "Geändert": Das Standard-Subsystem für Screen/Sprite ist jetzt OpenGL unter Windows für mehr Konsistenz. DirectX9 ist weiterhin als Subsystem verfügbar. @LineBreak
+- @Orange "Geändert": enabled backface culling for sprite OpenGL subsystem to be faster and be in line with DirectX9/11 @LineBreak
+- @Orange "Geändert": InitNetwork() is no more needed to use network functions (deprecated) @LineBreak
 @LineBreak
 - @Red "Entfernt": x86 Version von PureBasic für OS X, da sie seit OS X Catalina nicht mehr unterstützt wurde (das älteste unterstützte OS X ist jetzt 10.10 - veröffentlicht in 2014). @LineBreak
 - @Red "Entfernt": die 'Help' Bibliothek auf Linux @LineBreak
 - @Red "Entfernt": Nvidia CG Support für OGRE, da es von Nvidia seit einiger Zeit nicht mehr unterstützt wird @LineBreak
+- @Red "Entfernt": ToolBarStandardButton() as it doesn't support high DPI @LineBreak
 
 
 @Section 23. November 2020 : Version 5.73 LTS

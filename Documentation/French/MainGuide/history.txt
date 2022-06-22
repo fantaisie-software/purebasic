@@ -10,6 +10,7 @@
 - @Green "Ajoutée": La constante #PB_Compiler_Optimizer est égale à #True si l'optimiseur est activé @LineBreak
 - @Green "Ajoutée": OSVersion() détecte Windows 11, OS X 11 et 12 @LineBreak
 - @Green "Ajoutée": L'option /OPTIMIZER, -z, --optimizer de la commande en ligne, et une case à cocher 'Activer l'optimiseur de code' du menu 'Compilateur/Options du compilateur...' de l'IDE qui active l'optimisation du code C @LineBreak
+- @Green "Ajoutée": support automatique de la haute définition pour les bibilothèque Menu et ToolBar (Windows) @LineBreak
 - @Green "Ajoutée": WebGadget() supporte GTK3 sur linux @LineBreak
 - @Green "Ajoutée": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
 - @Green "Ajoutée": Parametre optionnel de MeshFace() pour créer un quad @LineBreak
@@ -31,17 +32,24 @@
 @LineBreak
 - @Green "Mise à jour": SetMaterialColor() peut maintenant utiliser plusieurs types de couleurs à la fois en utilisant '|' @LineBreak
 - @Green "Mise à jour": Dernière version de fasm, polink, polib et porc (Windows) @LineBreak
+- @Green "Mise à jour": bibliothèque Movie sur OS X pour supporter les versions plus récentes d'OS X @LineBreak
+- @Green "Mise à jour": bibliothèque Mouse sur Windows pour utiliser RawInput au lieu de DirectX pour support les souris haute définition @LineBreak
+- @Green "Mise à jour": SQLite à 3.38.2 @LineBreak
+- @Green "Mise à jour": zlib à 1.12.12 @LineBreak
+- @Green "Mise à jour": libpq (PostgreSQL) à 14.2 @LineBreak
 @LineBreak
 - @Orange "Modifié": Structures renommées PB_MeshFace en MeshFace et PB_MeshVertex en MeshVertex @LineBreak
 - @Orange "Modifié": L'option de commande en ligne /EXE  en /OUTPUT (fonctionne toujours pour assurer la rétro compatibilité mais sans être documenté) @LineBreak
 - @Orange "Modifié": La version courte de /CONSTANT, de '-o' en '-co' car '-o' est maintenant utilisé par /OUTPUT @LineBreak
 - @Orange "Modifié": La façon dont les éléments des Maps sont créés lors de l'utilisation de la syntaxe passive, pour être plus cohérent @LineBreak
-- @Orange "Modifié": OGRE ne prend désormais en charge qu'OpenGL, ce qui facilite le portage vers Linux/OSX et permet de se concentrer uniquement sur GLSL pour les shaders @LineBreak
 - @Orange "Modifié": Le sous-système par défaut de screen/sprite est maintenant OpenGL sous Windows pour plus de cohérence. DirectX9 est toujours disponible en tant que sous système. @LineBreak
+- @Orange "Modifié": enabled backface culling for sprite OpenGL subsystem to be faster and be in line with DirectX9/11 @LineBreak
+- @Orange "Modifié": InitNetwork() is no more needed to use network functions (deprecated) @LineBreak
 @LineBreak
 - @Red "Supprimé": La version x86 de PureBasic pour OS X qui n'est plus supporté depuis OS X Catalina (Au minimum OS X 10.10 en 2014). @LineBreak
 - @Red "Supprimé": La bibliothèque 'Help' sous Linux @LineBreak
 - @Red "Supprimé": Prise en charge de Nvidia CG pour OGRE qui ne l'est plus depuis un certain temps @LineBreak
+- @Red "Supprimé": ToolBarStandardButton() car la fonction ne supporte pas les hautes résolutions (High DPI) @LineBreak
 
 @Section 23 Novembre 2020 : Version 5.73 LTS
 
