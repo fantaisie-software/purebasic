@@ -358,10 +358,6 @@ EndProcedure
 
 Procedure UpdateCheck_Start()
   
-  If Not InitNetwork()
-    ProcedureReturn
-  EndIf
-  
   ; close any existing window
   If IsWindow(#WINDOW_Updates)
     UpdateWindowEvents(#PB_Event_CloseWindow)
