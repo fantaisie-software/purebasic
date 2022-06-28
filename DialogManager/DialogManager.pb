@@ -187,8 +187,8 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
       
       CompilerIf #CompileWindows
         AdjustWindowRectEx_(@Border.Rect, #WS_TILEDWINDOW, #False, #WS_EX_WINDOWEDGE)
-        x = (GetSystemMetrics_(#SM_CXSCREEN)-Width-(Border\bottom-Border\top)) / 2
-        y = (GetSystemMetrics_(#SM_CYSCREEN)-Height-(Border\right-Border\left)) / 2
+        x = (DesktopUnscaledX(GetSystemMetrics_(#SM_CXSCREEN)-(Border\bottom-Border\top)) - Width) / 2
+        y = (DesktopUnscaledY(GetSystemMetrics_(#SM_CYSCREEN)-(Border\right-Border\left)) - Height) / 2
       CompilerEndIf
     EndIf
     

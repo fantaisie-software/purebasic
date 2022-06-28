@@ -508,7 +508,6 @@ CompilerIf #Demo
     DemoText$ + "- Program size limited to about 800 lines."+#NewLine+#NewLine
   CompilerElse
     CompilerIf #CompileWindows
-      DemoText$ + "- No Win32 API support"+#NewLine
       DemoText$ + "- No DLL creation"+#NewLine
     CompilerEndIf
     DemoText$ + "- Code size limitation (about 800 lines)"+#NewLine+#NewLine
