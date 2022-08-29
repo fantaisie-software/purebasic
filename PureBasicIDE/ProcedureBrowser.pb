@@ -8,7 +8,7 @@
 Global Backup_ProcedureBrowserSort, Backup_DisplayProtoType
 
 
-Procedure UpdateProcedureList()
+Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means keep current position
   
   ; The Issues tool usually needs an update two when the ProcedureBrowser does,
   ; so just do this always from here for simplicity
@@ -16,7 +16,9 @@ Procedure UpdateProcedureList()
   
   If *ActiveSource = *ProjectInfo Or *ActiveSource\IsCode = 0
     ClearList(ProcedureList())
-    ClearGadgetItems(#GADGET_ProcedureBrowser)
+    If ProcedureBrowserMode = 1
+      ClearGadgetItems(#GADGET_ProcedureBrowser)
+    EndIf
     ProcedureReturn
   EndIf
   
@@ -139,13 +141,18 @@ Procedure UpdateProcedureList()
       Until Done
     EndIf
     
-    ;StartGadgetFlickerFix(#GADGET_ProcedureBrowser)
+    ; do not show jump when restoring scroll position on updates without source code switch
+    StartGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
     ; preserve the selection if possible
     OldIndex = GetGadgetState(#GADGET_ProcedureBrowser)
     NewIndex = -1
     If OldIndex <> -1
       OldText$ = GetGadgetItemText(#GADGET_ProcedureBrowser, OldIndex)
+    EndIf
+    
+    If ScrollPosition = -1
+      ScrollPosition = GetListViewScroll(#GADGET_ProcedureBrowser)
     EndIf
     
     ClearGadgetItems(#GADGET_ProcedureBrowser)
@@ -183,7 +190,9 @@ Procedure UpdateProcedureList()
       EndIf
     CompilerEndIf
     
-    ;StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
+    SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
+    
+    StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
   EndIf
   

@@ -142,6 +142,13 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
     SortParserData(*OldSource\Parser, *OldSource)
   EndIf
   
+  ; preserve procedure browser scroll position
+  If ProcedureBrowserMode = 1 And *OldSource And *OldSource <> *ProjectInfo
+    *OldSource\ProcedureBrowserScroll = GetListViewScroll(#GADGET_ProcedureBrowser)
+  Else
+    *OldSource\ProcedureBrowserScroll = 0
+  EndIf
+  
   AutoComplete_Close()
   
   If *ActiveSource And IsWindow(#WINDOW_Option)  ; make sure the options are closed
@@ -283,7 +290,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
     UpdateFolding(*ActiveSource, 0, -1)
   EndIf
   
-  UpdateProcedureList()
+  UpdateProcedureList(*ActiveSource\ProcedureBrowserScroll) ; apply previous scroll position (if any)
   UpdateVariableViewer()
   
   UpdateMenuStates()

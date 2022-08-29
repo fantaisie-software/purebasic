@@ -35,6 +35,13 @@ CompilerIf #CompileMacCocoa
     CGColorRelease(Color)
   EndImport
   
+  CompilerIf Defined(PB_Gadget, #PB_Structure) = 0
+    Structure PB_Gadget
+      *Gadget
+      *Container
+      ; Definition is incomplete, but more is not needed
+    EndStructure
+  CompilerEndIf
   
   Procedure ShowWindowMaximized(Window)
     SetWindowState(Window, #PB_Window_Maximize)
@@ -331,4 +338,23 @@ CompilerIf #CompileMacCocoa
     EndProcedure
   CompilerEndIf
   
+  Procedure GetListViewScroll(Gadget)
+    Protected *GadgetStruct.PB_Gadget, *ClipView, Bounds.CGRect
+    
+    *GadgetStruct = IsGadget(Gadget)
+    *ClipView = CocoaMessage(0, *GadgetStruct\Container, "contentView")
+    CocoaMessage(@Bounds, *ClipView, "bounds")
+    
+    ProcedureReturn Bounds\origin\y
+  EndProcedure
+  
+  Procedure SetListViewScroll(Gadget, Position)
+    Protected *GadgetStruct.PB_Gadget, *DocumentView, TargetPoint.CGPoint
+    TargetPoint\y = Position
+    
+    *GadgetStruct = IsGadget(Gadget)
+    *DocumentView = CocoaMessage(0, *GadgetStruct\Container, "documentView")
+    CocoaMessage(0, *DocumentView, "scrollPoint:@", @TargetPoint)
+  EndProcedure
+    
 CompilerEndIf

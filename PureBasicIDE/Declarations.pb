@@ -70,6 +70,8 @@ Declare.s GetExplorerName()                    ; returns the name of the system 
 Declare ShowExplorerDirectory(Directory$)      ; open a directory in the system file viewer
 Declare ModifierKeyPressed(Key)                ; Check if #PB_Shortcut_Control, _Alt, _Shift, _Command is pressed
 Declare OpenWebBrowser(Url$)                   ; open the default web browser
+Declare GetListViewScroll(Gadget)              ; Get listview vertical scroll position
+Declare SetListViewScroll(Gadget, Position)    ; Set listview vertical scroll position
 
 CompilerIf #CompileWindows
   Declare SetCodePage(Gadget)         ; set the correct codepage for the editorgadget (windows only)
@@ -501,7 +503,7 @@ Declare PreferencesWindowEvents(EventID)
 
 ;- ProcedureBrowser.pb
 ;
-Declare UpdateProcedureList() ; scan active source and update the procedure list and the autocomplete lists
+Declare UpdateProcedureList(ScrollPosition.l = -1) ; scan active source and update the procedure list and the autocomplete lists
                               ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if necessary.
 Declare JumpToProcedure()     ; jump to procedure under cursor (for double-click)
 
