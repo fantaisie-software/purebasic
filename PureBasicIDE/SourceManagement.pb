@@ -145,8 +145,6 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ; preserve procedure browser scroll position
   If ProcedureBrowserMode = 1 And *OldSource And *OldSource <> *ProjectInfo
     *OldSource\ProcedureBrowserScroll = GetListViewScroll(#GADGET_ProcedureBrowser)
-  Else
-    *OldSource\ProcedureBrowserScroll = 0
   EndIf
   
   AutoComplete_Close()
