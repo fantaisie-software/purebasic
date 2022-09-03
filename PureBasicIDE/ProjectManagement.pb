@@ -1025,7 +1025,7 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\Optimizer     = Xml_Boolean(GetXMLAttribute(*Entry, "optimizer"))
                     
                     CompilerIf #SpiderBasic
-                      ProjectTargets()\Optimizer    |= Xml_Boolean(GetXMLAttribute(*Entry, "optimizejs")) ; backward compatibility (now named "optimizer")
+                      ProjectTargets()\Optimizer    | Xml_Boolean(GetXMLAttribute(*Entry, "optimizejs")) ; backward compatibility (now named "optimizer")
                       ProjectTargets()\WebServerAddress$ = Xml_SingleLine(GetXMLAttribute(*Entry, "webserveraddress"))
                       ProjectTargets()\WindowTheme$  = Xml_SingleLine(GetXMLAttribute(*Entry, "windowtheme"))
                       ProjectTargets()\GadgetTheme$  = Xml_SingleLine(GetXMLAttribute(*Entry, "gadgettheme"))

@@ -1472,7 +1472,6 @@ EndEnumeration
 #PB_Material_AmbientColors = -1
 
 ; Colors
-
 #PB_Material_AmbientColor  = 1 << 0
 #PB_Material_DiffuseColor  = 1 << 1
 #PB_Material_SpecularColor = 1 << 2
