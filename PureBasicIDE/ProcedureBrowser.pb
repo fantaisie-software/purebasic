@@ -7,6 +7,12 @@
 
 Global Backup_ProcedureBrowserSort, Backup_DisplayProtoType
 
+CompilerIf #CompileLinux
+  ProcedureC UpdateProcedureList_GtkScroll(ScrollPosition.i)
+    SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
+  EndProcedure
+CompilerEndIf
+
 
 Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means keep current position
   
@@ -183,14 +189,17 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
     
     CompilerIf #CompileLinux
       SetGadgetState(#GADGET_ProcedureBrowser, -1)
+      
+      ; Need to postpone the scroll update untill all events in the gadget were processed
+      ; Note that PostEvent() is too early (not all gtk events will be done then)
+      g_idle_add_(@UpdateProcedureList_GtkScroll(), ScrollPosition)
     CompilerElse
       ; restore old selection
       If NewIndex <> -1
         SetGadgetState(#GADGET_ProcedureBrowser, NewIndex)
       EndIf
+      SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
     CompilerEndIf
-    
-    SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
     
     StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
