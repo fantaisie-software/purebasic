@@ -3123,6 +3123,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   CompilerIf #CompileLinux
     
     ; Workaround for the Scintilla shortcut *eating* on Linux.
+    ; Enter key handling for the other OS is done via #MENU_Scintilla_Enter shortcut
     ;
     ProcedureCDLL ScintillaShortcutHandler(*Widget, *Event._GdkEventKey, user_data)
       

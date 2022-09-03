@@ -619,6 +619,16 @@ Procedure UpdateProjectInfoPreferences()
   EndIf
 EndProcedure
 
+; Enter key handling for project file & target list
+; For Windows this is done when handling the #MENU_Scintilla_Enter shortcut in UserInterface.pb
+CompilerIf #CompileLinux
+  ProcedureC ProjectInfo_EnterKeyHandler(*Widget, *Event.GdkEventKey, Gadget)
+    Debug "Key event: " + *Event\keyval
+    If *Event\keyval = #GDK_Return
+      PostEvent(#PB_Event_Gadget, #WINDOW_Main, Gadget, #PB_EventType_LeftDoubleClick)
+    EndIf
+  EndProcedure
+CompilerEndIf
 
 
 Procedure AddProjectInfo()
@@ -671,6 +681,11 @@ Procedure AddProjectInfo()
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 6, Language("Project","BuildCountShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 7, Language("Project","FormatShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 8, Language("Project","InputFile"), 200)
+      
+      CompilerIf #CompileLinux
+        GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Files), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Files)
+        GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Targets), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Targets)
+      CompilerEndIf
       
       CompilerIf #CompileWindows
         ; Make the settings columns centered for a better look

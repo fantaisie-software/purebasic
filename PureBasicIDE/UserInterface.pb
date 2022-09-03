@@ -1711,6 +1711,8 @@ Procedure MainMenuEvent(MenuItemID)
         SetGadgetItemImage(#GADGET_ProjectInfo_Targets, index, ProjectTargetImage(@ProjectTargets()))
       EndIf
       
+      ; Enter handling in Scintilla (and other places) via global shortcut
+      ; For linux this is done via ScintillaShortcutHandler()
       CompilerIf #CompileWindows | #CompileMac
         
       Case #MENU_Scintilla_Enter
@@ -1724,6 +1726,7 @@ Procedure MainMenuEvent(MenuItemID)
             SendEditorMessage(#SCI_NEWLINE, 0, 0)
           EndIf
           
+        ; See ProjectInfo_EnterKeyHandler() in ProjectManagement.pb for Linux specific handling of this
         ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Files))
           PostEvent(#PB_Event_Gadget, #WINDOW_Main, #GADGET_ProjectInfo_Files, #PB_EventType_LeftDoubleClick)
           
