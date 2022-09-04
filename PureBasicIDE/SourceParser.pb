@@ -535,7 +535,7 @@ Procedure Parser_Comment(*pCursor.PTR)
     
     If *Start < *Cursor
       If Parser_Encoding = 1 ; utf8
-        *Item\Name$ = Trim(PeekS(*Start, *Cursor - *Start, #PB_UTF8))
+        *Item\Name$ = Trim(PeekS(*Start, *Cursor - *Start, #PB_UTF8|#PB_ByteLength))
       Else
         *Item\Name$ = Trim(PeekS(*Start, *Cursor - *Start, #PB_Ascii))
       EndIf
@@ -554,7 +554,7 @@ Procedure Parser_Comment(*pCursor.PTR)
     ; check issues
     If *Start < *Cursor And Parser_IgnoreCommentItems = #False
       If Parser_Encoding = 1 ; utf8
-        Comment$ = PeekS(*Start, *Cursor - *Start, #PB_UTF8)
+        Comment$ = PeekS(*Start, *Cursor - *Start, #PB_UTF8|#PB_ByteLength)
       Else
         Comment$ = PeekS(*Start, *Cursor - *Start, #PB_Ascii)
       EndIf
@@ -944,7 +944,7 @@ Procedure.s Parser_GetPrototype(*pCursor.PTR)
     
     If Ok And *pCursor\p > *Start And PeekB(*pCursor\p - 1) = ')' ; check if there was no error in the prototype
       If Parser_Encoding = 1
-        Result$ = Parser_Cleanup(PeekS(*Start, *pCursor\p - *Start, #PB_UTF8))
+        Result$ = Parser_Cleanup(PeekS(*Start, *pCursor\p - *Start, #PB_UTF8|#PB_ByteLength))
       Else
         Result$ = Parser_Cleanup(PeekS(*Start, *pCursor\p - *Start, #PB_Ascii))
       EndIf
