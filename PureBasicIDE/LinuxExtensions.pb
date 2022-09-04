@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; this file should contain all linux specific extension
 ; functions that are "self contained" ie, do not need anything of the

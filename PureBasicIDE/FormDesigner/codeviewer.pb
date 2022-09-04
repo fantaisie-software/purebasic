@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)

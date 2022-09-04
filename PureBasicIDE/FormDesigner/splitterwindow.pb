@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 Procedure InitSplitterWin()
   DisableWindow(#WINDOW_Main,1)
   OpenWindow(#Form_SplitterWin, 0, 0, 412, 142, "", #PB_Window_SystemMenu | #PB_Window_WindowCentered,WindowID(#WINDOW_Main))

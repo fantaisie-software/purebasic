@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; Change: Now *every* file in the source tree is included from this main file
 ; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependencies.
