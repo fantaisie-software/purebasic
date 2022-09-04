@@ -204,7 +204,7 @@ DataSection
   Data$ "CreateSphere,1,#PB_Any"
   Data$ "CreateSpline,1,#PB_Any"
   Data$ "CreateSprite,1,#PB_Any"
-  Data$ "CreateSprite,4,#PB_Sprite_PixelCollision,#PB_Sprite_PixelCollision"
+  Data$ "CreateSprite,4,#PB_Sprite_PixelCollision,#PB_Sprite_AlphaBlending"
   Data$ "CreateStaticGeometry,1,#PB_Any"
   Data$ "CreateStaticGeometry,5,#True,#False"
   Data$ "CreateStatusBar,1,#PB_Any"
@@ -247,7 +247,7 @@ DataSection
   Data$ "DragOSFormats,3,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
   Data$ "DragPrivate,2,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
   Data$ "DragText,2,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
-  Data$ "DrawingMode,1,#PB_2DDrawing_Default,#PB_2DDrawing_Transparent,#PB_2DDrawing_XOr,#PB_2DDrawing_Outlined,#PB_2DDrawing_AlphaBlend,#PB_2DDrawing_AllChannels,#PB_2DDrawing_Gradient,#PB_2DDrawing_CustomFilter"
+  Data$ "DrawingMode,1,#PB_2DDrawing_Default,#PB_2DDrawing_Transparent,#PB_2DDrawing_XOr,#PB_2DDrawing_Outlined,#PB_2DDrawing_AlphaBlend,#PB_2DDrawing_AlphaClip,#PB_2DDrawing_AlphaChannel,#PB_2DDrawing_AllChannels,#PB_2DDrawing_Gradient,#PB_2DDrawing_CustomFilter"
   Data$ "DrawVectorParagraph,4,#PB_VectorParagraph_Left,#PB_VectorParagraph_Right,#PB_VectorParagraph_Center,#PB_VectorParagraph_Block"
   
   ;- E
