@@ -2812,6 +2812,9 @@ Procedure FileMonitorEvent()
         ElseIf Size <> FileList()\DiskFileSize Or (FileList()\LastWriteDate <> GetFileDate(FileList()\FileName$, #PB_Date_Modified) And FileList()\DiskChecksum <> FileFingerprint(FileList()\FileName$, #PB_Cipher_MD5))
           ; file modified on disk
           
+          ; Set this here before making the changes, otherwise FlushEvents() below causes a recursion and we miss updates to multiple files
+          FileMonitorWindowOpen = 1
+          
           ; update disk information
           FileList()\LastWriteDate = GetFileDate(FileList()\Filename$, #PB_Date_Modified)
           FileList()\DiskFileSize  = FileSize(FileList()\Filename$)
@@ -2833,13 +2836,14 @@ Procedure FileMonitorEvent()
             
             StickyWindow(#WINDOW_FileMonitor, 1)
             DisableWindow(#WINDOW_Main, 1)
-            FileMonitorWindowOpen = 1
             
             SetActiveWindow(#WINDOW_FileMonitor)
             SetActiveGadget(#GADGET_FileMonitor_Reload)
+            
+            ProcedureReturn ; do not continue checking until the requester window is closed by the user
+          Else
+            FileMonitorWindowOpen = 0 ; should not happen
           EndIf
-          
-          ProcedureReturn ; do not continue checking until the requester window is closed by the user
           
         EndIf
       EndIf
