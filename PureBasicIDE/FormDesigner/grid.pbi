@@ -5,11 +5,11 @@
 ;    (c) gdpcomputing / Gaetan Dupont-Panon
 ;    Version 0.5
 ;-----------------------------------------------------
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 #Grid_Padding = 9
 #Grid_TextEdit_Font_Strikethrough = 8
 EnableExplicit
