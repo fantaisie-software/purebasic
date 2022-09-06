@@ -1184,7 +1184,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         length = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
         
         If *ActiveSource\Parser\Encoding = 1
-          Line$ = PeekS(range\lpstrText, length, #PB_UTF8)
+          Line$ = PeekS(range\lpstrText, length, #PB_UTF8|#PB_ByteLength)
         Else
           Line$ = PeekS(range\lpstrText, length, #PB_Ascii)
         EndIf
