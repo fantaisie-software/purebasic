@@ -1242,6 +1242,12 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   
   *Source\Watchlist$ = ""
   
+  *Source\NbConstants = 0
+  For i = 0 To #MAX_Constants-1
+    *Source\Constant$[i] = ""
+    *Source\ConstantEnabled[i] = 0
+  Next i
+  
   For i = 1 To NbLines
     index = FindString(ConfigLines$(i), "=", 1)
     If index = 0
@@ -1582,7 +1588,7 @@ EndProcedure
 Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)
   
   
-  If SaveProjectSettings = #SAVESETTINGS_DoNotSave ; don't save anything
+  If SaveProjectSettings = #SAVESETTINGS_DoNotSave And IsTempFile = 0 ; don't save anything
     ProcedureReturn Length
   EndIf
   
