@@ -402,4 +402,12 @@ CompilerIf #CompileWindows
     ShellExecute_(#Null, @"open", @Url$, @"", @"", #SW_SHOWNORMAL)
   EndProcedure
   
+  Procedure GetListViewScroll(Gadget)
+    ProcedureReturn SendMessage_(GadgetID(Gadget), #LB_GETTOPINDEX, 0, 0)
+  EndProcedure
+  
+  Procedure SetListViewScroll(Gadget, Position)
+    SendMessage_(GadgetID(Gadget), #LB_SETTOPINDEX, Position, 0)
+  EndProcedure
+  
 CompilerEndIf

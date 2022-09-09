@@ -2185,6 +2185,7 @@ Structure SourceFile Extends CompileTarget
   CurrentColumnBytes.l   ; current cursor position in bytes      (one UTF-8 char can have multiple bytes)
   CurrentColumnChars.l   ; current cursor position in characters (tab = 1 char and one UTF-8 char = 1 char)
   CurrentColumnDisplay.l ; current cursor position in columns    (tab = TabLength chars, only useful for display)
+  ProcedureBrowserScroll.l ; last scroll position in procedure browser
   
   Parser.ParserData      ; parsed source data
   
