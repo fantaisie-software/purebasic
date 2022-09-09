@@ -31,6 +31,7 @@ Global NewMap AutoComplete_LastModuleItem.s()
 
 Structure AutoCompleteConstants
   List Constants.s()
+  OnlyPBConstants.i  ; set to true if all constants in the list start with "#PB"
 EndStructure
 
 ; Map key is "<FunctionName>,<1-based-parameter-index>" in lowercase
@@ -133,6 +134,15 @@ Procedure AutoComplete_InitContextConstants()
           *Entry\Constants() = Constant$
         EndIf
       Next f
+      
+      ; Check if the list contains constants other than #PB_xxx (currently only #True & #False are used here)
+      *Entry\OnlyPBConstants = #True
+      ForEach *Entry\Constants()
+        If Left(*Entry\Constants(), 3) <> "#PB"
+          *Entry\OnlyPBConstants = #False
+          Break
+        EndIf
+      Next *Entry\Constants()
     EndIf
   Until Entry$ = ""
   
@@ -391,6 +401,19 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     If EnclosingFunction$ <> ""
       ; Map has lowercase names and 1-based parameter index
       *Context = FindMapElement(AutoComplete_ContextConstants(), LCase(EnclosingFunction$) + "," + Str(FunctionParameter))
+      
+      ; Disable context mode if the word does not start with #PB (to allow WinAPI constants for example)
+      ; This is not applied if the context list contains constants that do not start with #PB (like #True or #False)
+      If *Context And *Context\OnlyPBConstants
+        PrefixLength = Len(WordStart$)
+        If PrefixLength > 4 ; Compare up to "#PB_", but also less in case WordStart$ is shorter (i.e. "#P" only)
+          PrefixLength = 4
+        EndIf
+        
+        If CompareMemoryString(@WordStart$, @"#PB_", #PB_String_NoCase, PrefixLength) <> #PB_String_Equal
+          *Context = 0
+        EndIf
+      EndIf
     EndIf
     
     ; add PB constants
