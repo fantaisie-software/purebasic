@@ -121,3 +121,9 @@ EndMacro
 Macro DebugPointer(Ptr)
   RSet(Hex(Ptr, #PB_Integer), SizeOf(INTEGER)*2, "0")
 EndMacro
+
+Macro EnsureListIconSelection(Gadget)
+  If GetGadgetState(Gadget) = -1
+    SetGadgetState(Gadget, 0)
+  EndIf
+EndMacro

@@ -182,7 +182,9 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ResizeMainWindow()  ; make sure the EditorGadget is correctly sized
   
   If *ActiveSource = *ProjectInfo
+    EnsureListIconSelection(#GADGET_ProjectInfo_Files)
     HideGadget(#GADGET_ProjectInfo, 0)
+    SetActiveGadget(#GADGET_ProjectInfo_Files)
     
   Else
     If *ProjectInfo
