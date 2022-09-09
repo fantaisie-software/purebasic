@@ -346,18 +346,15 @@ CompilerIf #CompileLinux
   EndProcedure
   
   ImportC ""
-    ; gtk_scrollable_get_vadjustment(*Scrollable) ; for gtk3
     gtk_adjustment_get_value.d(*Adjustment)
     gtk_adjustment_set_value(*Adjustment, Position.d)
   EndImport
   
   Procedure GetListViewScroll(Gadget)
-    ; Note: for gtk3 use gtk_scrollable_get_vadjustment() instead
     ProcedureReturn gtk_adjustment_get_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)))
   EndProcedure
   
   Procedure SetListViewScroll(Gadget, Position)
-    ; Note: for gtk3 use gtk_scrollable_get_vadjustment() instead
     gtk_adjustment_set_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)), Position)
   EndProcedure
   
