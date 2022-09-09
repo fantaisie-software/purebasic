@@ -1745,6 +1745,23 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             EndIf
           EndIf
           
+          ; Skip a possible start value like #PB_Event_FirstCustomValue
+          ; Could also be a more complex expression (even with line continuation) but that seems rather unlikely
+          Parser_SkipSpace(*Cursor)
+          If *Cursor\a = '#' Or ValidCharacters(*Cursor\a)
+            *Cursor + 1
+            Parser_GetWord(@*Cursor)
+            Parser_SkipSpace(*Cursor)
+            If *Cursor\a = ':' And *Cursor\a[1] = ':' ; possible enum name with module prefix
+              *Cursor + 2
+              Parser_SkipSpace(*Cursor)
+              If *Cursor\a = '#' Or ValidCharacters(*Cursor\a)
+                *Cursor + 1
+                Parser_GetWord(@*Cursor)
+              EndIf
+            EndIf
+          EndIf
+          
       EndSelect
       
       ;- Scan Other
