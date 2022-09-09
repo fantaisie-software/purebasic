@@ -223,6 +223,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       EndIf
       
       ; get a possible fixed string size
+      ; Could be an expression with line continuation, but this is a very unlikely scenario
       If *Cursor < *BufferEnd And *Cursor\b = '{'
         Depth = 1
         *Cursor + 1
@@ -246,6 +247,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       EndIf
       
       ; get a possible array, list, map content
+      ; Could be an expression with line continuation, but this is a very unlikely scenario
       If *Cursor < *BufferEnd And (*Cursor\b = '[' Or *Cursor\b = '(')
         If *Cursor\b = '['
           CharOpen = '['
@@ -397,15 +399,41 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
       EndIf
       
       ; get the prototype
+      ; Note: This could be multiline with line continuation (especially with ",")
       If *Cursor < *BufferEnd And *Cursor\b = '('
         Depth = 1
         *Cursor + 1
         
         While *Cursor < *BufferEnd And Depth > 0
           Select *Cursor\b
+          
+            Case ':'
+              If *Cursor < (*BufferEnd - 1) And *Cursor\b[1] = ':'
+                ; module prefix (e.g. in the type definition of a method argument)
+                *Cursor + 1
+              Else
+                ; unexpected statement separator. syntax is invalid
+                Break
+              EndIf
               
-            Case 10, 13, ':', ';'
-              Break ; problem
+            Case 10, 13, ';'
+              ; end of line, but could be a line continuation
+              If IsLineContinuation(*Buffer, *Cursor)
+                ; skip comment (if any)
+                While *Cursor < *BufferEnd And *Cursor\b <> 10 And *Cursor\b <> 13
+                  *Cursor + 1
+                Wend
+                
+                ; skip extra char in case of Windows newline
+                If *Cursor < (*BufferEnd - 1) And *Cursor\b = 13 And *Cursor\b[1] = 10
+                  *Cursor + 1
+                EndIf
+                
+              Else
+                ; unexpected
+                Break
+                
+              EndIf
               
             Case '('
               Depth + 1
@@ -497,7 +525,7 @@ Procedure ParseInterface(*Buffer, Length, List Output.s())
             Default
               ; done
               AddElement(Output())
-              Output() = Trim(PeekS(*Start, *Cursor - *Start, #PB_Ascii))
+              Output() = Trim(Parser_Cleanup(PeekS(*Start, *Cursor - *Start, #PB_Ascii)))
           EndSelect
           
         EndIf
