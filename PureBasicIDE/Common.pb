@@ -2240,6 +2240,7 @@ Structure ProjectFileConfig
   AutoScan.l       ; Should the file be scanned for autocomplete ?
   ShowPanel.l      ; show in panel
   ShowWarning.l    ; show warning if file changes
+  SortIndex.l      ; for sorting
   
   PanelState$      ; string of "0"/"1" for every parent directory of the file to indicate whether it is expanded in panel (empty if ShowPanel=0)
 EndStructure
