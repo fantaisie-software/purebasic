@@ -583,7 +583,7 @@ Procedure UpdateProjectInfoPreferences()
     ; Find Project tab (position may have changed!) and update its text
     PushListPosition(FileList())
     ChangeCurrentElement(FileList(), *ProjectInfo)
-    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle"))
+    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
     PopListPosition(FileList())
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
@@ -2180,13 +2180,12 @@ Procedure ProjectOptionsEvents(EventID)
             ChangeActiveSourceCode()
           ElseIf OldProjectName$ <> ProjectName$
             ;change name of Tab, if user changed the project name
-            ;Tab can be moved by customer, therefore going through all open Tabs to find it. Maybe there is a better solution, but it works
-            For i = 0 To CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
-              If GetTabBarGadgetItemText(#GADGET_FilesPanel, i) = Language("Project", "TabTitle") + " [" + OldProjectName$ + "]"
-                SetTabBarGadgetItemText(#GADGET_FilesPanel, i, Language("Project", "TabTitle") + " [" + ProjectName$ + "]")
-                Break
-              EndIf
-            Next i
+            If *ProjectInfo
+              PushListPosition(FileList())
+              ChangeCurrentElement(FileList(), *ProjectInfo)
+              SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
+              PopListPosition(FileList())
+            EndIf
           EndIf
           
           ; Update the options
