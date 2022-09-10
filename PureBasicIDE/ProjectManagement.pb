@@ -583,7 +583,7 @@ Procedure UpdateProjectInfoPreferences()
     ; Find Project tab (position may have changed!) and update its text
     PushListPosition(FileList())
     ChangeCurrentElement(FileList(), *ProjectInfo)
-    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle"))
+    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
     PopListPosition(FileList())
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
@@ -721,10 +721,10 @@ Procedure AddProjectInfo()
       ;   Probably a bug that should be fixed there. But this workaround will do the trick
       If CountTabBarGadgetItems(#GADGET_FilesPanel) = 0
         ; first item, use #PB_Default
-        AddTabBarGadgetItem(#GADGET_FilesPanel, #PB_Default, Language("Project", "TabTitle"))
+        AddTabBarGadgetItem(#GADGET_FilesPanel, #PB_Default, Language("Project", "TabTitle") + " [" + ProjectName$ + "]")
       Else
         ; items exist: using 0 works
-        AddTabBarGadgetItem(#GADGET_FilesPanel, 0, Language("Project", "TabTitle"))
+        AddTabBarGadgetItem(#GADGET_FilesPanel, 0, Language("Project", "TabTitle") + " [" + ProjectName$ + "]")
       EndIf
       
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
@@ -970,6 +970,7 @@ Procedure LoadProject(Filename$)
               ProjectFiles()\ShowWarning = Xml_Boolean(GetXMLAttribute(*Config, "warn"))
               ProjectFiles()\LastOpen    = Xml_Boolean(GetXMLAttribute(*Config, "lastopen"))
               ProjectFiles()\PanelState$ = Xml_SingleLine(GetXMLAttribute(*Config, "panelstate")) ; the default for this is "all open", so need no backward compatibility here
+              ProjectFiles()\SortIndex   = Xml_Integer(GetXMLAttribute(*Config, "sortindex"))
             Else
               ProjectFiles()\AutoLoad    = 0
               ProjectFiles()\AutoScan    = IsCodeFile(ProjectFiles()\Filename$)
@@ -977,6 +978,7 @@ Procedure LoadProject(Filename$)
               ProjectFiles()\ShowWarning = 1
               ProjectFiles()\LastOpen    = 0
               ProjectFiles()\PanelState$ = ""
+              ProjectFiles()\SortIndex   = 999
             EndIf
             
             *Fingerprint = XMLNodeFromPath(*File, "fingerprint")
@@ -1193,8 +1195,8 @@ Procedure LoadProject(Filename$)
         EndIf
       EndIf
       
-      ; Auto-sort the project files for better handling
-      SortStructuredList(ProjectFiles(), #PB_Sort_Ascending | #PB_Sort_NoCase, OffsetOf(ProjectFile\FileName$), #PB_String)
+      ; Sort project files according to their last position in the IDE
+      SortStructuredList(ProjectFiles(), #PB_Sort_Ascending, OffsetOf(ProjectFile\SortIndex), #PB_Long)
       
       If CommandlineBuild = 0
         
@@ -1411,11 +1413,12 @@ Procedure SaveProject(ShowErrors)
       SetXMLAttribute(*File, "name", CreateRelativePath(BasePath$, ProjectFiles()\FileName$))
       
       *FileConfig = AppendNode(*File, "config")
-      SetXMLAttribute(*FileConfig, "load",     Str(ProjectFiles()\AutoLoad))
-      SetXMLAttribute(*FileConfig, "scan",     Str(ProjectFiles()\AutoScan))
-      SetXMLAttribute(*FileConfig, "panel",    Str(ProjectFiles()\ShowPanel))
-      SetXMLAttribute(*FileConfig, "warn",     Str(ProjectFiles()\ShowWarning))
-      SetXMLAttribute(*FileConfig, "lastopen", Str(ProjectFiles()\LastOpen))
+      SetXMLAttribute(*FileConfig, "load",      Str(ProjectFiles()\AutoLoad))
+      SetXMLAttribute(*FileConfig, "scan",      Str(ProjectFiles()\AutoScan))
+      SetXMLAttribute(*FileConfig, "panel",     Str(ProjectFiles()\ShowPanel))
+      SetXMLAttribute(*FileConfig, "warn",      Str(ProjectFiles()\ShowWarning))
+      SetXMLAttribute(*FileConfig, "lastopen",  Str(ProjectFiles()\LastOpen))
+      SetXMLAttribute(*FileConfig, "sortindex", Str(ProjectFiles()\SortIndex))
       
       If ProjectFiles()\ShowPanel
         SetXMLAttribute(*FileConfig, "panelstate", ProjectFiles()\PanelState$)
@@ -1757,8 +1760,15 @@ Procedure CloseProject(IsIDEShutdown = #False)
     ForEach ProjectFiles()
       If ProjectFiles()\Source
         ProjectFiles()\LastOpen = #True
+        ForEach FileList()
+          If ProjectFiles()\FileName$ = FileList()\FileName$
+            ProjectFiles()\SortIndex = ListIndex(FileList())
+            Break
+          EndIf
+        Next
       Else
         ProjectFiles()\LastOpen = #False
+        ProjectFiles()\SortIndex = 999
       EndIf
     Next ProjectFiles()
     
@@ -2160,6 +2170,8 @@ Procedure ProjectOptionsEvents(EventID)
         If ProjectOK
           
           ; In case we create a new project. Now we have a project data
+          OldProjectName$ = ProjectName$
+          ProjectName$    = Trim(GetGadgetText(#GADGET_Project_Name))
           If IsProjectCreation
             IsProject    = #True
             ProjectFile$ = NewProjectFile$
@@ -2181,10 +2193,17 @@ Procedure ProjectOptionsEvents(EventID)
             ; switch to the info source, so the user can directly get to the projects compiler options etc
             FirstElement(FileList())
             ChangeActiveSourceCode()
+          ElseIf OldProjectName$ <> ProjectName$
+            ;change name of Tab, if user changed the project name
+            If *ProjectInfo
+              PushListPosition(FileList())
+              ChangeCurrentElement(FileList(), *ProjectInfo)
+              SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
+              PopListPosition(FileList())
+            EndIf
           EndIf
           
           ; Update the options
-          ProjectName$     = Trim(GetGadgetText(#GADGET_Project_Name))
           ProjectComments$ = GetGadgetText(#GADGET_Project_Comments)
           
           If GetGadgetState(#GADGET_Project_SetDefault)
