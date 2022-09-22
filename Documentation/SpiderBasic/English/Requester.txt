@@ -103,7 +103,7 @@ all performed through standard windows called 'requesters'.
 @Description
   After a call to @@OpenFileRequester it returns the next selected file (if any). 
   It has to be called in the callback specified in @@OpenFileRequester.
-  @@SelectedFilename() and @@SelectedFileID() can be used to get info about
+  @@SelectedFilename and @@SelectedFileID can be used to get info about
   the current selected file.
 
 @NoParameters
@@ -118,7 +118,7 @@ all performed through standard windows called 'requesters'.
 @Function Result$ = SelectedFileName()
 
 @Description
-  Returns the current selected filename. It has to be called after @@NextSelectedFile().
+  Returns the current selected filename. It has to be called after @@NextSelectedFile.
   The filename shouldn't be used directly with other SpiderBasic command, see @@SelectedFileID
   for more information.
 
@@ -134,7 +134,7 @@ all performed through standard windows called 'requesters'.
 @Function Result$ = SelectedFileID()
 
 @Description
-  Returns the current selected filename identifier. It has to be called after @@NextSelectedFile().
+  Returns the current selected filename identifier. It has to be called after @@NextSelectedFile.
   Remote drives like Google Drive can have several files with the exact same filename, that's why
   a file identifier is needed to be able to select the right one.
 

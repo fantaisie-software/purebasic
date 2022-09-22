@@ -157,7 +157,7 @@ IncludeFile "../Common.pb"
 #PB_Event_LoadingError     = 19
 #PB_Event_RequesterOK      = 20
 #PB_Event_SizeDesktop      = 21
-
+#PB_Event_WebSocket        = 22
 ; Loading type
 ;
 #PB_Loading_Image = 1
@@ -187,6 +187,12 @@ IncludeFile "../Common.pb"
 #PB_EventType_Focus             = 7
 #PB_EventType_LostFocus         = 8
 #PB_EventType_Change            = 9
+#PB_EventType_Connected         = 10
+#PB_EventType_Closed            = 11
+#PB_EventType_Data              = 12
+#PB_EventType_String            = 13
+#PB_EventType_Error             = 14
+
 
 #PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
 #PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
