@@ -1649,4 +1649,8 @@ CompilerIf #CompileLinux
   EndMacro
 CompilerEndIf
 
-XIncludeFile "ConstantsData.pbi"
+CompilerIf #SpiderBasic
+  XIncludeFile "ConstantsDataSpiderBasic.pbi"
+CompilerElse
+  XIncludeFile "ConstantsData.pbi"
+CompilerEndIf 
