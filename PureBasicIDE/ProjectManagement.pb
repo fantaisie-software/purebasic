@@ -1760,12 +1760,14 @@ Procedure CloseProject(IsIDEShutdown = #False)
     ForEach ProjectFiles()
       If ProjectFiles()\Source
         ProjectFiles()\LastOpen = #True
+        PushListPosition(FileList())
         ForEach FileList()
           If ProjectFiles()\FileName$ = FileList()\FileName$
             ProjectFiles()\SortIndex = ListIndex(FileList())
             Break
           EndIf
         Next
+        PopListPosition(FileList())
       Else
         ProjectFiles()\LastOpen = #False
         ProjectFiles()\SortIndex = 999
