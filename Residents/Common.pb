@@ -486,21 +486,25 @@ EndEnumeration
 #PB_Checkbox_Unchecked = 0
 #PB_Checkbox_Inbetween = -1
 
-#PB_ListIcon_DisplayMode  = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_DisplayMode  = 2
+CompilerEndIf
 #PB_ListIcon_ColumnCount = 3
 
-#PB_ListIcon_LargeIcon = 0
-#PB_ListIcon_SmallIcon = 1
-#PB_ListIcon_List      = 2
-#PB_ListIcon_Report    = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_LargeIcon = 0
+  #PB_ListIcon_SmallIcon = 1
+  #PB_ListIcon_List      = 2
+  #PB_ListIcon_Report    = 3
 
-; keep in sync with the listicon ones
-#PB_Explorer_DisplayMode  = 2
+  ; keep in sync with the listicon ones
+  #PB_Explorer_DisplayMode  = 2
 
-#PB_Explorer_LargeIcon = 0
-#PB_Explorer_SmallIcon = 1
-#PB_Explorer_List      = 2
-#PB_Explorer_Report    = 3
+  #PB_Explorer_LargeIcon = 0
+  #PB_Explorer_SmallIcon = 1
+  #PB_Explorer_List      = 2
+  #PB_Explorer_Report    = 3
+CompilerEndIf
 
 ; String attributes
 ;
