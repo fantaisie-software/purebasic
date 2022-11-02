@@ -21,17 +21,18 @@
 @Function Result = Asc(String$)
 
 @Description
-  Return the first character value of the specified string.
+  Return the first character UTF-16 value of the specified string.
 
 @Parameter "String$"
   The string to get the first character value.
 
 @ReturnValue
-  The string first character value.
+  The string first UTF-16 character value, between 0 and 65535.
 
 @Example
 @Code
   Debug Asc("!") ; will print '33'
+  Debug Asc("•") ; will print '8226'
 @EndCode
 
 @Remarks
@@ -40,9 +41,8 @@
 @Example
 @Code
   Debug '!' ; will print '33'
+  Debug '•' ; will print '8226'
 @EndCode
-
-  A table with all Ascii values and their relating figures may be found @ReferenceLink "ascii" "here".
 
 @SeeAlso
   @@Chr
@@ -96,21 +96,19 @@
 @Function Text$ = Chr(CharacterValue)
 
 @Description
-  Returns a string created with the given character value.
+  Returns a string created with the given UTF-16 character value. 
 
 @Parameter "CharacterValue"
-  The character value.
+  The UTF-16 character value, between 0 et 65535.
 
 @ReturnValue
   Returns a string created with the given character value.
 
 @Example
 @Code
-  Debug Chr(33) ; Will display "!"
+  Debug Chr(33)   ; Will display "!"
+  Debug Chr(8226) ; Will display "•"
 @EndCode
-
-@Remarks
-  A table with all Ascii values and their relating figures may be found @ReferenceLink "ascii" "here".
 
 @SeeAlso
   @@Asc

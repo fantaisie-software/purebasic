@@ -48,7 +48,7 @@ DataSection
   Data$ "CalendarGadget,1,#PB_Any"
   Data$ "CalendarGadget,7,#PB_Calendar_Borderless"
   Data$ "CanvasGadget,1,#PB_Any"
-  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_ClipMouse,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Transparent,#PB_Canvas_Container"
+  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Transparent,#PB_Canvas_Container"
   Data$ "CanvasVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "CheckBoxGadget,1,#PB_Any"
   Data$ "CheckBoxGadget,7,#PB_CheckBox_Right,#PB_CheckBox_Center,#PB_CheckBox_ThreeState"

@@ -51,24 +51,24 @@
 @Example Macro with parameter
 
 @Code
-  Macro UMsgBox(Title, Body)
-    MessageRequester(Title, UCase(Body), 0)
+  Macro UMsgBox(Body)
+    MessageRequester(UCase(Body), #PB_MessageRequester_Ok)
   EndMacro
 
-  Text$ = "World"
-  UMsgBox("Hello", "-"+Text$+"-") ; Here the line will be expanded like that:
-                                  ; 'MessageRequester("Hello", UCase("-"+Text$+"-"), 0)'
+  Text$ = "Hello World"
+  UMsgBox("-"+Text$+"-") ; Here the line will be expanded like that:
+                         ; 'MessageRequester(UCase("-"+Text$+"-"), #PB_MessageRequester_Ok)'
 @EndCode
 
 @Example Macro with default parameter
 
 @Code
-  Macro UMsgBox(Title, Body = "Ha, no body specified")
-    MessageRequester(Title, UCase(Body), 0)
+  Macro UMsgBox(Body = "Ha, no body specified")
+    MessageRequester(UCase(Body), #PB_MessageRequester_Ok)
   EndMacro
 
-  UMsgBox("Hello") ; Here the line will be expanded like that:
-                   ; 'MessageRequester("Hello", UCase("Ha, no body specified"), 0)'
+  UMsgBox() ; Here the line will be expanded like that:
+            ; 'MessageRequester(UCase("Ha, no body specified"), #PB_MessageRequester_Ok)'
 @EndCode
 
 @Example Macro parameter concatenation
