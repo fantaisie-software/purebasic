@@ -830,7 +830,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("iOSAppResourceDirectory" , *Target\iOSAppResourceDirectory$)
     AddFlagConfigLine("iOSAppEnableResourceDirectory", *Target\iOSAppEnableResourceDirectory)
     AddStringConfigLine("iOSAppOrientation", Str(*Target\iOSAppOrientation))
-    AddFlagConfigLine("iOSAppGeolocation", *Target\iOSAppGeolocation)
     AddFlagConfigLine("iOSAppFullScreen" , *Target\iOSAppFullScreen)
     AddFlagConfigLine("iOSAppAutoUpload" , *Target\iOSAppAutoUpload)
     AddFlagConfigLine("iOSAppEnableDebugger" , *Target\iOSAppEnableDebugger)
@@ -847,7 +846,6 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppResourceDirectory" , *Target\AndroidAppResourceDirectory$)
     AddFlagConfigLine("AndroidAppEnableResourceDirectory", *Target\AndroidAppEnableResourceDirectory)
     AddStringConfigLine("AndroidAppOrientation" , Str(*Target\AndroidAppOrientation))
-    AddFlagConfigLine("AndroidAppGeolocation"   , *Target\AndroidAppGeolocation)
     AddFlagConfigLine("AndroidAppFullScreen"    , *Target\AndroidAppFullScreen)
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
@@ -1290,7 +1288,6 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "IOSAPPSTARTUPIMAGE" : *Source\iOSAppStartupImage$ = Value$
         Case "IOSAPPOUTPUT"       : *Source\iOSAppOutput$ = Value$
         Case "IOSAPPORIENTATION"  : *Source\iOSAppOrientation = Val(Value$)
-        Case "IOSAPPGEOLOCATION"  : *Source\iOSAppGeolocation = 1
         Case "IOSAPPFULLSCREEN"   : *Source\iOSAppFullScreen = 1
         Case "IOSAPPAUTOUPLOAD"   : *Source\iOSAppAutoUpload = 1
         Case "IOSAPPRESOURCEDIRECTORY"      : *Source\iOSAppResourceDirectory$ = Value$
@@ -1305,7 +1302,6 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
         Case "ANDROIDAPPOUTPUT"       : *Source\AndroidAppOutput$ = Value$
         Case "ANDROIDAPPORIENTATION"  : *Source\AndroidAppOrientation = Val(Value$)
-        Case "ANDROIDAPPGEOLOCATION"  : *Source\AndroidAppGeolocation = 1
         Case "ANDROIDAPPFULLSCREEN"   : *Source\AndroidAppFullScreen = 1
         Case "ANDROIDAPPAUTOUPLOAD"   : *Source\AndroidAppAutoUpload = 1
         Case "ANDROIDAPPRESOURCEDIRECTORY"      : *Source\AndroidAppResourceDirectory$ = Value$

@@ -77,7 +77,6 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetText(#GADGET_iOSApp_Output         , *Target\iOSAppOutput$)
       SetGadgetText(#GADGET_iOSApp_ResourceDirectory, *Target\iOSAppResourceDirectory$)
       SetGadgetState(#GADGET_iOSApp_Orientation   , *Target\iOSAppOrientation)
-      SetGadgetState(#GADGET_iOSApp_Geolocation   , *Target\iOSAppGeolocation)
       SetGadgetState(#GADGET_iOSApp_FullScreen    , *Target\iOSAppFullScreen)
       SetGadgetState(#GADGET_iOSApp_AutoUpload    , *Target\iOSAppAutoUpload)
       SetGadgetState(#GADGET_iOSApp_EnableResourceDirectory, *Target\iOSAppEnableResourceDirectory)
@@ -92,7 +91,6 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetText(#GADGET_AndroidApp_Output         , *Target\AndroidAppOutput$)
       SetGadgetText(#GADGET_AndroidApp_ResourceDirectory, *Target\AndroidAppResourceDirectory$)
       SetGadgetState(#GADGET_AndroidApp_Orientation   , *Target\AndroidAppOrientation)
-      SetGadgetState(#GADGET_AndroidApp_Geolocation   , *Target\AndroidAppGeolocation)
       SetGadgetState(#GADGET_AndroidApp_FullScreen    , *Target\AndroidAppFullScreen)
       SetGadgetState(#GADGET_AndroidApp_AutoUpload    , *Target\AndroidAppAutoUpload)
       SetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory, *Target\AndroidAppEnableResourceDirectory)
@@ -134,7 +132,6 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\iOSAppStartupImage$ <> GetGadgetText(#GADGET_iOSApp_StartupImage) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppOutput$       <> GetGadgetText(#GADGET_iOSApp_Output) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppOrientation   <> GetGadgetState(#GADGET_iOSApp_Orientation) : Changed = #True : EndIf
-  If *CurrentAppTarget\iOSAppGeolocation   <> GetGadgetState(#GADGET_iOSApp_Geolocation) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppFullScreen    <> GetGadgetState(#GADGET_iOSApp_FullScreen) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppAutoUpload    <> GetGadgetState(#GADGET_iOSApp_AutoUpload) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppEnableResourceDirectory<> GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory) : Changed = #True : EndIf
@@ -149,7 +146,6 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppStartupImage$ <> GetGadgetText(#GADGET_AndroidApp_StartupImage) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppOutput$       <> GetGadgetText(#GADGET_AndroidApp_Output) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppOrientation   <> GetGadgetState(#GADGET_AndroidApp_Orientation) : Changed = #True : EndIf
-  If *CurrentAppTarget\AndroidAppGeolocation   <> GetGadgetState(#GADGET_AndroidApp_Geolocation) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppFullScreen    <> GetGadgetState(#GADGET_AndroidApp_FullScreen) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppAutoUpload    <> GetGadgetState(#GADGET_AndroidApp_AutoUpload) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppEnableResourceDirectory<> GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory) : Changed = #True : EndIf
@@ -214,7 +210,6 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\iOSAppResourceDirectory$     = GetGadgetText(#GADGET_iOSApp_ResourceDirectory)
   *CurrentAppTarget\iOSAppEnableResourceDirectory= GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory)
   *CurrentAppTarget\iOSAppOrientation   = GetGadgetState(#GADGET_iOSApp_Orientation)
-  *CurrentAppTarget\iOSAppGeolocation   = GetGadgetState(#GADGET_iOSApp_Geolocation)
   *CurrentAppTarget\iOSAppFullScreen    = GetGadgetState(#GADGET_iOSApp_FullScreen)
   *CurrentAppTarget\iOSAppAutoUpload    = GetGadgetState(#GADGET_iOSApp_AutoUpload)
   *CurrentAppTarget\iOSAppEnableDebugger= GetGadgetState(#GADGET_iOSApp_EnableDebugger)
@@ -229,7 +224,6 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppResourceDirectory$      = GetGadgetText(#GADGET_AndroidApp_ResourceDirectory)
   *CurrentAppTarget\AndroidAppEnableResourceDirectory = GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory)
   *CurrentAppTarget\AndroidAppOrientation   = GetGadgetState(#GADGET_AndroidApp_Orientation)
-  *CurrentAppTarget\AndroidAppGeolocation   = GetGadgetState(#GADGET_AndroidApp_Geolocation)
   *CurrentAppTarget\AndroidAppFullScreen    = GetGadgetState(#GADGET_AndroidApp_FullScreen)
   *CurrentAppTarget\AndroidAppAutoUpload    = GetGadgetState(#GADGET_AndroidApp_AutoUpload)
   *CurrentAppTarget\AndroidAppEnableDebugger= GetGadgetState(#GADGET_AndroidApp_EnableDebugger)

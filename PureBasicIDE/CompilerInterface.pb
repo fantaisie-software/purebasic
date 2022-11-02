@@ -1511,7 +1511,6 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         
         If *Target\iOSAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\iOSAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
-        If *Target\iOSAppGeolocation : Command$ + Chr(9) + "GEOLOCATION" : EndIf
         If *Target\iOSAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
         
       Case #AppFormatAndroid
@@ -1519,7 +1518,6 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         
         If *Target\AndroidAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\AndroidAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
-        If *Target\AndroidAppGeolocation : Command$ + Chr(9) + "GEOLOCATION" : EndIf
         If *Target\AndroidAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
         
     EndSelect

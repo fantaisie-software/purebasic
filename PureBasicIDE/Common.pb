@@ -883,7 +883,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_IAPKey
     #GADGET_AndroidApp_Orientation
     #GADGET_AndroidApp_FullScreen
-    #GADGET_AndroidApp_Geolocation
     #GADGET_AndroidApp_AutoUpload
     #GADGET_AndroidApp_Output
     #GADGET_AndroidApp_SelectOutput
@@ -901,7 +900,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_iOSApp_PackageID
     #GADGET_iOSApp_Orientation
     #GADGET_iOSApp_FullScreen
-    #GADGET_iOSApp_Geolocation
     #GADGET_iOSApp_AutoUpload
     #GADGET_iOSApp_Output
     #GADGET_iOSApp_SelectOutput
@@ -2061,7 +2059,6 @@ Structure CompileTarget
     iOSAppStartupImage$
     iOSAppOrientation.l
     iOSAppFullScreen.l
-    iOSAppGeolocation.l
     iOSAppOutput$
     iOSAppAutoUpload.l
     iOSAppEnableResourceDirectory.l
@@ -2077,7 +2074,6 @@ Structure CompileTarget
     AndroidAppStartupImage$
     AndroidAppOrientation.l
     AndroidAppFullScreen.l
-    AndroidAppGeolocation.l
     AndroidAppOutput$
     AndroidAppAutoUpload.l
     AndroidAppEnableResourceDirectory.l
