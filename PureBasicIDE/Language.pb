@@ -1080,7 +1080,7 @@ DataSection
   CompilerIf #SpiderBasic
     Data$ "WebBrowser",  "Web browser"
     Data$ "WebServerPort",  "Default web server port"
-    Data$ "JDK",  "JDK 1.8+ path"
+    Data$ "JDK",  "JDK 8 path (JDK 9+ not supported)"
     Data$ "AppleTeamID",  "AppleTeam ID"
   CompilerEndIf
   

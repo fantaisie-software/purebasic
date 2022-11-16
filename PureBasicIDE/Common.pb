@@ -232,7 +232,9 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AutoHidePanel
   #GADGET_Preferences_NoSplashScreen
   #GADGET_Preferences_DisplayFullPath
-  #GADGET_Preferences_DisplayDarkMode
+  CompilerIf #CompileMac
+    #GADGET_Preferences_DisplayDarkMode
+  CompilerEndIf
   #GADGET_Preferences_EnableMenuIcons
   #GADGET_Preferences_DebuggerMode
   #GADGET_Preferences_AutoClearLog
