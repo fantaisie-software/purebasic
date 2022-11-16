@@ -1,5 +1,30 @@
 @Title History
 
+@Section XXX November 2022 : Version 2.40
+
+- Added: WebSocket library: OpenWebSocket(), CloseWebSocket(), SendWebSocketData(), SendWebSocketString() @LineBreak
+- Added: Packer library: CompressMemory(), UncompressMemory(), CompressString(), UncompressString() @LineBreak
+- Added: Clipboard library: SetClipboardText() @LineBreak
+- Added: DesktopResolutionX(), DesktopResolutionY(), DesktopScaledX(), DesktopScaledY(), DesktopUnscaledX(), DesktopUnscaledY() @LineBreak
+- Added: Event(), EventString(), EventWebSocket() @LineBreak
+- Added: FormatNumber() @LineBreak
+- Added: Base64Encoder(), Base64Decoder(), Base64EncoderBuffer(), Base64DecoderBuffer() @LineBreak
+- Added: #PB_EventType_Focus and #PB_EventType_LostFocus to TreeGadget() @LineBreak
+- Added: #PB_Tree_Expanded support to SetGadgetAttribute() for TreeGadget() to quickly expand/collapse all nodes @LineBreak
+- Added: HighAccuracy parameter to StartGeolocation() to use the real GPS if available. @LineBreak
+- Added: #PB_ListIcon_GridLines support @LineBreak
+- Added: a timestamp to the index.html to avoid caching problem @LineBreak
+- Added: native OS X arm64 version @LineBreak
+- Added: all IDE improvement from PureBasic @LineBreak
+ @LineBreak
+- Updated: android framework to android-32 to be able to publish app on Google PlayStore @LineBreak
+- Updated: the application license file @LineBreak
+ @LineBreak
+- Changed: the behaviour of accessing a map element, it now always creates a new element if not found. @LineBreak
+ @LineBreak
+- Removed: the "Geolocation" checkbox in "Create App" window as it is no more needed @LineBreak
+
+
 @Section 18th May 2020 : Version 2.31
 
 - Fixed: some compiler and library bugs
@@ -7,17 +32,18 @@
 
 @Section 22th November 2019 : Version 2.30
 
-- Added: MessageRequester(), InputRequester()
-- Added: DeviceAlwaysOn(), DeviceBrightness()
-- Added: #PB_Window_AllowSelection flag to OpenWindow() to allow to select gadget text for copy/paste
-- Added: LoadScript() to load an external scripts for use in the program (JS, CSS)
-- Added: #PB_Canvas_Container flag to CanvasGadget()
-- Added: CloseDebugOutput() to close the debug output window
-- Added: SDK example for LibraryMaker to create your own user libraries
-- Added: UserLibraries support (directory SpiderBasic/Libraries/UserLibraries) 
-- Added: #PB_Font_Italic and #PB_Font_Bold support for LoadFont()
-- Updated: GetWindowTitle() now works with windows with #PB_Window_BorderLess flag
-- Updated: android framework to android-29 to be able to still publish app on Google PlayStore
+- Added: MessageRequester(), InputRequester() @LineBreak
+- Added: DeviceAlwaysOn(), DeviceBrightness() @LineBreak
+- Added: #PB_Window_AllowSelection flag to OpenWindow() to allow to select gadget text for copy/paste @LineBreak
+- Added: LoadScript() to load an external scripts for use in the program (JS, CSS) @LineBreak
+- Added: #PB_Canvas_Container flag to CanvasGadget() @LineBreak
+- Added: CloseDebugOutput() to close the debug output window @LineBreak
+- Added: SDK example for LibraryMaker to create your own user libraries @LineBreak
+- Added: UserLibraries support (directory SpiderBasic/Libraries/UserLibraries)  @LineBreak
+- Added: #PB_Font_Italic and #PB_Font_Bold support for LoadFont() @LineBreak
+ @LineBreak
+- Updated: GetWindowTitle() now works with windows with #PB_Window_BorderLess flag @LineBreak
+- Updated: android framework to android-29 to be able to publish app on Google PlayStore @LineBreak
 
 @Section 13th September 2019 : Version 2.22
 

@@ -1110,6 +1110,22 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
+        Case "CORDOVALINE" ; SpiderBasic only
+          Line$ = Trim(StringField(Response$, 3, Chr(9)))
+          
+          If Line$
+            If CommandlineBuild
+              If QuietBuild = 0
+                PrintN(Line$)
+              EndIf
+            ElseIf UseProjectBuildWindow
+              BuildLogEntry(Line$)
+            Else
+              AddGadgetItem(#GADGET_Compiler_List, -1, Line$)
+              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            EndIf
+          EndIf
+          
         Case "LINES"
           Lines = Val(StringField(Response$, 3, Chr(9)))
           
@@ -1236,11 +1252,11 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
     EndIf
   ForEver
   
-  If CommandlineBuild = 0
-    HideCompilerWindow()
-  EndIf
-  
   If Response$ = "SUCCESS"
+    
+    If CommandlineBuild = 0
+      HideCompilerWindow()
+    EndIf
     
     If WarningCount > 0
       If CommandlineBuild
@@ -1261,6 +1277,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
     ProcedureReturn #True
     
   ElseIf Left(Response$, 13) = "ERROR"+Chr(9)+"SYNTAX"+Chr(9) ; syntax error
+    
     ErrorLine    = Val(StringField(Response$, 3, Chr(9)))
     IncludeLine  = -1
     
@@ -1303,6 +1320,20 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
         
       EndIf
     ForEver
+    
+    CompilerIf #SpiderBasic
+      ; Don't hide the CompilerWindow if an error occurs during the cordova creation so we can look at the logs
+      ;
+      If CommandlineBuild = 0 And ErrorLine <> -1
+        HideCompilerWindow()
+      Else
+        CompilerBusy = 0 ; Clear the compiler busy flag, so we can close the manually the CompilerWindow
+      EndIf
+    CompilerElse
+      If CommandlineBuild = 0
+        HideCompilerWindow()
+      EndIf    
+    CompilerEndIf
     
     ; Process the information
     ;
@@ -1421,6 +1452,9 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
       Case "RESOURCE" : Type$ = "Resource error"
     EndSelect
     
+    If CommandlineBuild = 0
+      HideCompilerWindow()
+    EndIf    
     
     If CommandlineBuild
       PrintN(Type$)

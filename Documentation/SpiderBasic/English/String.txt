@@ -662,7 +662,7 @@
 @EndCode
 
 @SeeAlso
-  @@StrD, @@Str, @@StrU
+  @@StrD, @@Str, @@StrU, @@FormatNumber
 
 @SupportedOS
 
@@ -685,7 +685,8 @@
 
 @Remarks
   Signed integer numbers have to be converted with @@Str and unsigned numbers with @@StrU. 
-  It is possible to omit this command when concatenating string and double, it will then use the default behaviour of @@StrD.
+  It is possible to omit this command when concatenating string and double, it will then use the default behaviour of @@StrD. @LineBreak
+  Note: the result will use exponent notation if the value is greater than 10e+21.
 
 @Example
 @Code
@@ -697,7 +698,7 @@
 @EndCode
 
 @SeeAlso
-  @@StrF, @@Str, @@StrU
+  @@StrF, @@Str, @@StrU, @@FormatNumber
 
 @SupportedOS
 
@@ -725,7 +726,7 @@
 @EndCode
 
 @SeeAlso
-  @@Val, @@Hex, @@Bin, @@StrF, @@StrD, @@StrU
+  @@Val, @@Hex, @@Bin, @@StrF, @@StrD, @@StrU, @@FormatNumber
 
 @SupportedOS
 
@@ -769,7 +770,7 @@
   @@StrF,
   @@Val,
   @@ValD,
-  @@ValF, @@Hex, @@Bin
+  @@ValF, @@Hex, @@Bin, @@FormatNumber
 
 @SupportedOS
 
@@ -949,5 +950,37 @@
 
 @SeeAlso
   @@ValD, @@ValD, @@Str, @@StrF, @@StrD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = FormatNumber(Number.d [, NbDecimals [, DecimalPoint$ [, ThousandSeparator$]]])
+
+@Description
+  Format a number into money-like format.
+
+@Parameter "Number"
+  The number to format
+
+@OptionalParameter "NbDecimals"
+  Number of decimals to display.
+
+@OptionalParameter "DecimalPoint$"
+  The string to use to split the decimal and integer parts. It can be a multiple character string. Default value is ".".
+
+@OptionalParameter "ThousandSeparator$"
+  The string to use to separate thousands. It can be a multiple character string. Default value is ",".
+
+@ReturnValue
+  The formated number.
+
+@Example
+@Code
+  Debug FormatNumber(125400.25) ; Will display: 125,400.25
+@EndCode
+
+@SeeAlso
+  @@Str, @@StrU, @@StrF, @@StrD
 
 @SupportedOS

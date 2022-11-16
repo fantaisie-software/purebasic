@@ -2960,6 +2960,7 @@
   - @@SplitterGadget @LineBreak
   - @@StringGadget @LineBreak
   - @@TrackBarGadget @LineBreak
+  - @@TreeGadget @LineBreak
   - @@WebGadget
 
 @SeeAlso
@@ -3983,6 +3984,11 @@
 @LineBreak
   - @@SetGadgetText: Change the text of the currently selected item.
 @LineBreak
+  - @@SetGadgetAttribute: With the following attributes:
+@FixedFont
+  @#PB_Tree_Expanded: If the value is @#True, then the full tree is expanded. If the value
+                     if #False, the full tree is collapsed.
+@EndFixedFont
   - @@GetGadgetItemAttribute: With the following attribute:
 @FixedFont
   @#PB_Tree_SubLevel: Returns the sublevel value of the given item.
@@ -4001,6 +4007,8 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
+  @#PB_EventType_Focus
+  @#PB_EventType_LostFocus
 @EndFixedFont
 
 @Example

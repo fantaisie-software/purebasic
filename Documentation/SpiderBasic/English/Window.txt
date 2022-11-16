@@ -222,10 +222,44 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Event = Event()
+
+@Description
+  Returns the current event. It is mainly useful when using a callback to determine which event triggered it.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the current event.
+
+@Example
+@Code
+  Procedure EventHandler()
+    Select Event() ; Use Event() to determine which object raised the callback
+      Case #PB_Event_CloseWindow
+        End
+        
+      Case #PB_Event_Gadget
+        Debug "Gadget #" + EventGadget() + " pushed"
+    EndSelect
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 300, 100, "", #PB_Window_SizeGadget | #PB_Window_SystemMenu)
+  ButtonGadget(0, 10, 10, 100, 30, "Push me")
+  
+  ; Use a single callback for all events
+  BindGadgetEvent(0, @EventHandler())
+  BindEvent(#PB_Event_CloseWindow, @EventHandler())
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Timer = EventTimer()
 
 @Description
-  After an event of type @#PB_Event_Timer use this function to determine which timer caused the event.
+  After an event of type @#PB_Event_Timer use this function to determine which timer raised the event.
 
 @NoParameters
 
@@ -234,6 +268,23 @@
   
 @SeeAlso
   @@AddWindowTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Timer = EventWebSocket()
+
+@Description
+  After an event of type @#PB_Event_WebSocket use this function to determine which WebSocket raised the event.
+
+@NoParameters
+
+@ReturnValue
+  The same value that was used in @@OpenWebSocket.
+  
+@SeeAlso
+  @@OpenWebSocket
 
 @SupportedOS
 
@@ -339,11 +390,29 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function String = EventString() 
+
+@Description
+  Get the string associated with the current event. 
+
+@NoParameters
+  
+@ReturnValue
+  Returns the string value associated with the current event. It is only supported after a @#PB_EventType_String event.
+
+@SeeAlso
+  @@PostEvent, @@EventGadget, @@EventWindow
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function EventType = EventType() 
 
 @Description
   
-  After a @#PB_Event_Gadget, use this function to determine of which
+  After a @#PB_Event_Gadget or @#PB_Event_WebSocket, use this function to determine of which
   type the event is. The following gadgets support EventType():
 @LineBreak
 @LineBreak
@@ -362,8 +431,8 @@
 @NoParameters
 
 @ReturnValue
-  The following values are possible, if an event of the type @#PB_Event_Gadget (library 
-  @LibraryLink "Gadget" "Gadget") occurs:
+  If an event of the type @#PB_Event_Gadget (library @LibraryLink "Gadget" "Gadget") occured,
+  the possible values are:
 @FixedFont
   @#PB_EventType_LeftClick       : Left mouse button click
   @#PB_EventType_RightClick      : right mouse button click
@@ -374,7 +443,18 @@
   @#PB_EventType_Change          : Content change.
 @EndFixedFont
 
-@Example
+  If an event of the type @#PB_Event_WebSocket (library @LibraryLink "WebSocket" "WebSocket") occured,
+  the possible values are:
+@FixedFont
+  @#PB_EventType_Connected: The WebSocket is now connected to the server
+  @#PB_EventType_Closed   : The WebSocket connection has been closed
+  @#PB_EventType_String   : A string has been recieved. Use @@EventString to get the string content
+  @#PB_EventType_Data     : A binary data has been recieved. Use @@EventData to get the memory buffer. Once
+                           the buffer is no more needed, use @@FreeMemory to free it
+  @#PB_EventType_Error    : An error occured on the WebSocket
+@EndFixedFont
+
+@Example Gadget example
 @Code
   Procedure GadgetEvents()
     Select EventGadget()

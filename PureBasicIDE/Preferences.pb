@@ -1737,7 +1737,6 @@ Procedure IsPreferenceChanged()
     EndIf
   Next i
   
-  If OptionOptimizer        <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
   If OptionCustomCompiler   <> GetGadgetState(#GADGET_Preferences_CustomCompiler): ProcedureReturn 1: EndIf
   If OptionCompilerVersion$ <> GetGadgetText(#GADGET_Preferences_SelectCustomCompiler): ProcedureReturn 1: EndIf
   
@@ -1754,6 +1753,7 @@ Procedure IsPreferenceChanged()
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
+    If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionOnError         <> GetGadgetState(#GADGET_Preferences_OnError): ProcedureReturn 1: EndIf
     If OptionExeFormat       <> GetGadgetState(#GADGET_Preferences_ExecutableFormat): ProcedureReturn 1: EndIf
     If OptionCPU             <> GetGadgetState(#GADGET_Preferences_CPU): ProcedureReturn 1: EndIf
@@ -1771,7 +1771,9 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
-  If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
+  CompilerIf #CompileMac
+    If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
+  CompilerEndIf
   If EnableMenuIcons       <> GetGadgetState(#GADGET_Preferences_EnableMenuIcons): ProcedureReturn 1: EndIf
   If AutoReload            <> GetGadgetState(#GADGET_Preferences_AutoReload): ProcedureReturn 1: EndIf
   If MemorizeWindow        <> GetGadgetState(#GADGET_Preferences_MemorizeWindow): ProcedureReturn 1: EndIf
@@ -2137,7 +2139,9 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
-  DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
+  CompilerIf #CompileMac
+    DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
+  CompilerEndIf
   EnableMenuIcons       = GetGadgetState(#GADGET_Preferences_EnableMenuIcons)
   AutoReload            = GetGadgetState(#GADGET_Preferences_AutoReload)
   MemorizeWindow        = GetGadgetState(#GADGET_Preferences_MemorizeWindow)
@@ -2153,7 +2157,6 @@ Procedure ApplyPreferences()
   ToolsPanelSide        = GetGadgetState(#GADGET_Preferences_ToolsPanelSide)
   FindHistorySize       = Val(GetGadgetText(#GADGET_Preferences_FindHistorySize))
   AlwaysHideLog         = GetGadgetState(#GADGET_Preferences_AlwaysHideLog)
-  OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
   OptionCustomCompiler  = GetGadgetState(#GADGET_Preferences_CustomCompiler)
   OptionCompilerVersion$= GetGadgetText(#GADGET_Preferences_SelectCustomCompiler)
   CompilerIf #SpiderBasic
@@ -2169,6 +2172,7 @@ Procedure ApplyPreferences()
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
+    OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionOnError         = GetGadgetState(#GADGET_Preferences_OnError)
     OptionExeFormat       = GetGadgetState(#GADGET_Preferences_ExecutableFormat)
     OptionCPU             = GetGadgetState(#GADGET_Preferences_CPU)
@@ -2809,7 +2813,9 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
-  SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
+  CompilerIf #CompileMac
+    SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
+  CompilerEndIf
   SetGadgetState(#GADGET_Preferences_NoSplashScreen, NoSplashScreen)
   
   SetGadgetText(#GADGET_Preferences_FileHistorySize, Str(FilesHistorySize))
@@ -2834,10 +2840,6 @@ Procedure OpenPreferencesWindow()
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RunOnce, 0)
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
-  CompilerEndIf
-  
-  CompilerIf Not #CompileMac
-    DisableGadget(#GADGET_Preferences_DisplayDarkMode, 1)
   CompilerEndIf
   
   ;- --> Language
@@ -3227,7 +3229,6 @@ Procedure OpenPreferencesWindow()
   
   SetGadgetText(#GADGET_Preferences_SubSystem, OptionSubSystem$)
   
-  SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
   SetGadgetState(#GADGET_Preferences_CustomCompiler, OptionCustomCompiler)
   
   AddGadgetItem(#GADGET_Preferences_SelectCustomCompiler, -1, DefaultCompiler\VersionString$)
@@ -3254,6 +3255,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
+    SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
     SetGadgetState(#GADGET_Preferences_ExecutableFormat, OptionExeFormat)
     SetGadgetState(#GADGET_Preferences_CPU, OptionCPU)

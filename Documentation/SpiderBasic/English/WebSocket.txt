@@ -1,0 +1,240 @@
+;
+;     WebSocket library documentation
+;
+;      (c) 2022 - Fantaisie Software
+;
+
+@Library WebSocket
+
+@Overview
+
+WebSocket is a way to communicate from a JavaScript application to a server, using a stateful
+connection (ie: always connected). It's similar to regular network socket, but more restricted and
+needs a specific Web socket server. If you are using PureBasic, you can use this excellent
+WebSocket server implementation: @InternetLink "https://github.com/Dadido3/WebSocket_Server" "https://github.com/Dadido3/WebSocket_Server".
+
+@CommandList
+
+@ExampleFile All WebSocket.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenWebSocket(#WebSocket, URL$)
+
+@Description
+  Open a new WebSocket at the specified URL$. The event @#PB_Event_WebSocket needs to be bind with @@BindEvent
+  to monitor the WebSocket activity. See @@EventType to see which event types are supported.
+
+@Parameter "#WebSocket"
+  A number to identify the new WebSocket. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "URL$"
+  The URL$ to connect to. It usually starts with 'ws://'.
+
+@ReturnValue
+  Returns @#True if the WebSocket feature is available on the device, or @#False otherwise. It doesn't mean the WebSocket
+  is actually connected, the @#PB_Event_WebSocket needs to be monitored.
+
+@Example Simple WebSocket connection
+
+@Code
+  Procedure Events()
+    Select Event()
+      Case #PB_Event_WebSocket
+        
+        Select EventType()
+          Case #PB_EventType_Connected
+            Debug "WebSocket #" + EventWebSocket() + " connected."
+            
+          Case #PB_EventType_Closed
+            Debug "WebSocket #" + EventWebSocket() + " closed."
+          
+          Case #PB_EventType_Error
+            Debug "Error on WebSocket #" + EventWebSocket() + "."
+            
+        EndSelect
+    EndSelect
+    
+  EndProcedure
+
+  ; Bind the event to monitor web sockets
+  BindEvent(#PB_Event_WebSocket, @Events())
+
+  ; Connect to a free online websocket which send back every command
+  If OpenWebSocket(2, "wss://ws.postman-echo.com/raw") 
+    Debug "Trying to open the websocket"
+  Else
+    Debug "Web socket not supported."
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CloseWebSocket, @@SendWebSocketData, @@SendWebSocketString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseWebSocket(#WebSocket)
+
+@Description
+  Closes the specified WebSocket.
+  
+@Parameter "#WebSocket"
+  The WebSocket to close. It has to be opened with @@OpenWebSocket.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenWebSocket
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SendWebSocketString(#WebSocket, String$)
+
+@Description
+  Send a string on the specified WebSocket.
+  
+@Parameter "#WebSocket"
+  The WebSocket to use. It has to be opened with @@OpenWebSocket.
+  
+@Parameter "String$"
+  The string to send on the WebSocket.
+
+@NoReturnValue
+
+@Example Simple WebSocket send string
+@Code
+  Procedure Events()
+    Select Event()
+      Case #PB_Event_Gadget
+            
+        Select EventGadget()
+          Case 0
+            ; The server will send back the same string, so we should
+            ; get it in the #PB_Event_WebSocket event
+            SendWebSocketString(2, "Hello !") 
+                      
+        EndSelect
+    
+      Case #PB_Event_WebSocket
+        
+        Select EventType()
+          Case #PB_EventType_Connected
+            Debug "WebSocket #" + EventWebSocket() + " connected."
+            
+          Case #PB_EventType_Closed
+            Debug "WebSocket #" + EventWebSocket() + " closed."
+            
+          Case #PB_EventType_String
+            Debug "String recieved on WebSocket #" + EventWebSocket() + "."
+            Debug "String content: " + EventString()
+            
+          Case #PB_EventType_Error
+            Debug "Error on WebSocket #" + EventWebSocket() + "."
+        EndSelect
+    EndSelect
+    
+  EndProcedure
+
+  BindEvent(#PB_Event_Gadget, @Events())
+  BindEvent(#PB_Event_WebSocket, @Events())
+
+  OpenWindow(0, 100, 100, 220, 50, "WebSocket test")
+  ButtonGadget(0, 10, 10, 200, 30, "Send string !")
+
+  ; Connect to a free online websocket which send back every command
+  If OpenWebSocket(2, "wss://ws.postman-echo.com/raw") 
+    Debug "Trying to open the websocket"
+  Else
+    Debug "Web socket not supported."
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenWebSocket, @@SendWebSocketData
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SendWebSocketData(#WebSocket, *Buffer [, Offset, Size])
+
+@Description
+  Send a string on the specified WebSocket.
+  
+@Parameter "#WebSocket"
+  The WebSocket to use. It has to be opened with @@OpenWebSocket.
+  
+@Parameter "*Buffer"
+  The buffer to send on the WebSocket. It has to be allocated with @@AllocateMemory.
+  
+@OptionalParameter "Offset"
+  The offset (in bytes) in the buffer. If not specified, the whole buffer is sent.
+  
+@OptionalParameter "Size"
+  The amount of bytes to be sent on the WebSocket. If not specified, the whole buffer is sent.
+
+@NoReturnValue
+
+@Example Simple WebSocket send data
+@Code
+  Procedure Events()
+    Select Event()
+      Case #PB_Event_Gadget
+            
+        Select EventGadget()
+          Case 0
+            *Buffer = AllocateMemory(100)
+            PokeA(*Buffer, 0, 84)
+            SendWebSocketData(2, *Buffer)
+                      
+        EndSelect
+    
+      Case #PB_Event_WebSocket
+        
+        Select EventType()
+          Case #PB_EventType_Connected
+            Debug "WebSocket #" + EventWebSocket() + " connected."
+            
+          Case #PB_EventType_Closed
+            Debug "WebSocket #" + EventWebSocket() + " closed."
+            
+          Case #PB_EventType_Data
+            Debug "Data recieved on WebSocket #" + EventWebSocket() + "."
+            *Buffer = EventData()
+            Debug "Data size: " + MemorySize(*Buffer) + ". First byte: " + PeekA(*Buffer, 0)
+            
+            ; Don't forget to free the buffer
+            FreeMemory(*Buffer)
+            
+          Case #PB_EventType_Error
+            Debug "Error on WebSocket #" + EventWebSocket() + "."
+        EndSelect
+    EndSelect
+    
+  EndProcedure
+
+  BindEvent(#PB_Event_Gadget, @Events())
+  BindEvent(#PB_Event_WebSocket, @Events())
+
+  OpenWindow(0, 100, 100, 220, 50, "WebSocket test")
+  ButtonGadget(0, 10, 10, 200, 30, "Send data !")
+
+  ; You can use Fuzzy_Server.pb from @InternetLink "https://github.com/Dadido3/WebSocket_Server" "https://github.com/Dadido3/WebSocket_Server" if you have PureBasic.
+  If OpenWebSocket(2, "ws://127.0.0.1:8090/")
+    Debug "Trying to open the websocket"
+  Else
+    Debug "Web socket not supported."
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenWebSocket, @@SendWebSocketString
+ 
+@SupportedOS
