@@ -881,6 +881,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_Icon
     #GADGET_AndroidApp_SelectIcon
     #GADGET_AndroidApp_Version
+    #GADGET_AndroidApp_Code
     #GADGET_AndroidApp_PackageID
     #GADGET_AndroidApp_IAPKey
     #GADGET_AndroidApp_Orientation
@@ -2071,6 +2072,7 @@ Structure CompileTarget
     AndroidAppName$
     AndroidAppIcon$
     AndroidAppVersion$
+    AndroidAppCode.l
     AndroidAppPackageID$
     AndroidAppIAPKey$
     AndroidAppStartupImage$

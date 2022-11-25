@@ -2348,6 +2348,7 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
           AppName$      = *Target\AndroidAppName$
           Icon$         = *Target\AndroidAppIcon$
           AppVersion$   = *Target\AndroidAppVersion$
+          AppCode       = *Target\AndroidAppCode
           PackageID$    = *Target\AndroidAppPackageID$
           IAPKey$       = *Target\AndroidAppIAPKey$
           StartupImage$ = *Target\AndroidAppStartupImage$
@@ -2379,6 +2380,7 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
     CompilerWriteStringValue("APPNAME", AppName$)
     CompilerWriteStringValue("ICON", Icon$)
     CompilerWriteStringValue("APPVERSION", AppVersion$)
+    CompilerWriteStringValue("APPCODE", Str(AppCode))
     CompilerWriteStringValue("PACKAGEID", PackageID$)
     CompilerWriteStringValue("IAPKEY", IAPKey$)
     CompilerWriteStringValue("STARTUPIMAGE", StartupImage$)

@@ -839,6 +839,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppName"        , *Target\AndroidAppName$)
     AddStringConfigLine("AndroidAppIcon"        , *Target\AndroidAppIcon$)
     AddStringConfigLine("AndroidAppVersion"     , *Target\AndroidAppVersion$)
+    AddStringConfigLine("AndroidAppCode"        , Str(*Target\AndroidAppCode))
     AddStringConfigLine("AndroidAppPackageID"   , *Target\AndroidAppPackageID$)
     AddStringConfigLine("AndroidAppIAPKey"      , *Target\AndroidAppIAPKey$)
     AddStringConfigLine("AndroidAppStartupImage", *Target\AndroidAppStartupImage$)
@@ -1297,6 +1298,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPNAME"         : *Source\AndroidAppName$ = Value$
         Case "ANDROIDAPPICON"         : *Source\AndroidAppIcon$ = Value$
         Case "ANDROIDAPPVERSION"      : *Source\AndroidAppVersion$ = Value$
+        Case "ANDROIDAPPCODE"         : *Source\AndroidAppCode = Val(Value$)
         Case "ANDROIDAPPPACKAGEID"    : *Source\AndroidAppPackageID$ = Value$
         Case "ANDROIDAPPIAPKEY"       : *Source\AndroidAppIAPKey$ = Value$
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
@@ -1806,7 +1808,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       *ActiveSource\ExistsOnDisk  = #True
       *ActiveSource\LastWriteDate = GetFileDate(*ActiveSource\Filename$, #PB_Date_Modified)
       *ActiveSource\DiskFileSize  = FileSize(*ActiveSource\Filename$)
-      *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
+      DisableDebugger
+        *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
+      EnableDebugger
       
       RecentFiles_AddFile(FileName$, #False)
       AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)

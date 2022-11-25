@@ -1430,6 +1430,7 @@ DataSection
     Data$ "Name",                 "App name"
     Data$ "Icon",                 "Icon"
     Data$ "Version",              "Version"
+    Data$ "Code",                 "Code"
     Data$ "IAPKey",               "IAP Key"
     Data$ "PackageID",            "Package ID"
     Data$ "StartupImage",         "Startup image"

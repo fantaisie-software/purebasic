@@ -85,6 +85,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetText(#GADGET_AndroidApp_Name           , *Target\AndroidAppName$)
       SetGadgetText(#GADGET_AndroidApp_Icon           , *Target\AndroidAppIcon$)
       SetGadgetText(#GADGET_AndroidApp_Version        , *Target\AndroidAppVersion$)
+      SetGadgetText(#GADGET_AndroidApp_Code           , Str(*Target\AndroidAppCode))
       SetGadgetText(#GADGET_AndroidApp_PackageID      , *Target\AndroidAppPackageID$)
       SetGadgetText(#GADGET_AndroidApp_IAPKey         , *Target\AndroidAppIAPKey$)
       SetGadgetText(#GADGET_AndroidApp_StartupImage   , *Target\AndroidAppStartupImage$)
@@ -141,6 +142,7 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppName$         <> GetGadgetText(#GADGET_AndroidApp_Name) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppIcon$         <> GetGadgetText(#GADGET_AndroidApp_Icon) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppVersion$      <> GetGadgetText(#GADGET_AndroidApp_Version) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppCode          <> Val(GetGadgetText(#GADGET_AndroidApp_Code)) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppPackageID$    <> GetGadgetText(#GADGET_AndroidApp_PackageID) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppIAPKey$       <> GetGadgetText(#GADGET_AndroidApp_IAPKey) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppStartupImage$ <> GetGadgetText(#GADGET_AndroidApp_StartupImage) : Changed = #True : EndIf
@@ -217,6 +219,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppName$         = GetGadgetText(#GADGET_AndroidApp_Name)
   *CurrentAppTarget\AndroidAppIcon$         = GetGadgetText(#GADGET_AndroidApp_Icon)
   *CurrentAppTarget\AndroidAppVersion$      = GetGadgetText(#GADGET_AndroidApp_Version)
+  *CurrentAppTarget\AndroidAppCode          = Val(GetGadgetText(#GADGET_AndroidApp_Code))
   *CurrentAppTarget\AndroidAppPackageID$    = GetGadgetText(#GADGET_AndroidApp_PackageID)
   *CurrentAppTarget\AndroidAppIAPKey$       = GetGadgetText(#GADGET_AndroidApp_IAPKey)
   *CurrentAppTarget\AndroidAppStartupImage$ = GetGadgetText(#GADGET_AndroidApp_StartupImage)
@@ -454,6 +457,11 @@ Procedure CreateAppWindowEvents(EventID)
                     ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
+                    
+                    ; An AAB is also automatically generated in release mode
+                    If *CurrentAppTarget\AndroidAppEnableDebugger = #False
+                      Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", ReplaceString(*CurrentAppTarget\AndroidAppOutput$, ".apk", ".aab")), Date())
+                    EndIf
                   EndIf
                 EndIf
                 
