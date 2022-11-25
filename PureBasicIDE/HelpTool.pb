@@ -26,7 +26,7 @@ CompilerIf #CompileLinux = 0
     GadgetToolTip(#GADGET_HelpTool_Help,    Language("Help","OpenHelp"))
     
     CompilerIf #CompileWindows
-      HelpToolHomeUrl$ = "mk:@MSITStore:" + PureBasicPath$ + "PureBasic.chm::/Reference/reference.html"
+      HelpToolHomeUrl$ = "mk:@MSITStore:" + PureBasicPath$ + #ProductName$ + ".chm::/Reference/reference.html"
     CompilerElse
       Select UCase(CurrentLanguage$)
         Case "FRANCAIS"
