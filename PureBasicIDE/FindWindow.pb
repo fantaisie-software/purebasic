@@ -191,7 +191,9 @@ Procedure FindWindowEvents(EventID)
               FindReplaceString$= GetGadgetText(#GADGET_Find_ReplaceWord)
               UpdateFindComboBox(#Gadget_Find_FindWord)
               UpdateFindComboBox(#GADGET_Find_ReplaceWord)
+              SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
               FindText(3)
+              SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
             EndIf
             SetWindowForeground(#WINDOW_Find)
           EndIf
