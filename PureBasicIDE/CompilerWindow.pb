@@ -645,7 +645,6 @@ Procedure UpdateBuildWindow()
 EndProcedure
 
 Procedure OpenBuildWindow(List *Targets.CompileTarget())
-  
   ; hide the windows from the normal mode compiling
   ;
   HideCompilerWarnings()
@@ -664,8 +663,16 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     SetGadgetState(#GADGET_Build_CloseWhenDone, AutoCloseBuildWindow)
     
     CompilerIf #CompileWindows
-      ; it looks just much better this way
-      SetGadgetFont(#GADGET_Build_Log, GetStockObject_(#ANSI_FIXED_FONT))
+      Static MonoFont
+      
+      If MonoFont = 0
+        MonoFont = LoadFont(#PB_Any, "Courier New", 10)
+      EndIf
+      
+      If MonoFont
+        ; it looks just much better this way
+        SetGadgetFont(#GADGET_Build_Log, FontID(MonoFont))
+      EndIf
     CompilerEndIf
     
   Else

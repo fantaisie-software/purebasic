@@ -193,10 +193,6 @@ IncludeFile "../Common.pb"
 #PB_EventType_String            = 13
 #PB_EventType_Error             = 14
 
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
-
 ; Window flags
 ;
 

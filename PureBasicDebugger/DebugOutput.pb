@@ -234,6 +234,11 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = Window
     
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]    = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
+    CompilerIf #CompileWindows
+      ; Disable RTF feature of EditorGadget() as we need to display every kind of output (https://www.purebasic.fr/english/viewtopic.php?t=79542)
+      SendMessage_(WindowID(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]), #EM_SETTEXTMODE, #TM_PLAINTEXT, 0) 
+    CompilerEndIf
+    
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
     *Debugger\Gadgets[#DEBUGGER_Gadget_Debug_Text]    = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Debug")+":")

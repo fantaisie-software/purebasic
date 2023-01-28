@@ -518,15 +518,29 @@
   EndIf
 @EndCode
 
-@Example Using GMail (TLS)
+@Example Using Hotmail (TLS)
+@Code
+  Login$ = "you@hotmail.com"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
+
+  If CreateMail(0, Login$, "Hello")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp-mail.outlook.com", 587, #PB_Mail_UseSSL, Login$, Password$)
+  EndIf
+@EndCode
+
+@Example Using GMail (TLS+SMTPS)
 @Code
   ; Be sure to use the right login and right password
   ;
   Login$ = "yourlogin"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
+  
   If CreateMail(0, Login$ + "@gmail.com", "Hello")
-    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
-
-    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Login$, "password")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL | #PB_Mail_UseSMTPS, Login$, Password$)
   EndIf
 @EndCode
 

@@ -609,7 +609,7 @@ DataSection
   Data$ "ScrollBarGadget3D,9,#PB_ScrollBar3D_Vertical"
   Data$ "ScrollMaterial,4,#PB_Material_Fixed,#PB_Material_Animated"
   Data$ "SendFTPFile,4,#True,#False"
-  Data$ "SendMail,4,#PB_Mail_Asynchronous,#PB_Mail_UseSSL"
+  Data$ "SendMail,4,#PB_Mail_Asynchronous,#PB_Mail_UseSSL,#PB_Mail_UseSMTPS,#PB_Mail_Debug"
   Data$ "SendNetworkString,3,#PB_Ascii,#PB_UTF8,#PB_Unicode"
   Data$ "SetEntityAttribute,2,#PB_Entity_Friction,#PB_Entity_Restitution,#PB_Entity_MinVelocity,#PB_Entity_MaxVelocity,#PB_Entity_ForceVelocity,#PB_Entity_LinearSleeping,#PB_Entity_AngularSleeping,#PB_Entity_DeactivationTime,#PB_Entity_DisableContactResponse"
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows

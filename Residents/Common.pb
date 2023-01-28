@@ -751,6 +751,8 @@ EndEnumeration
 
 #PB_Mail_Asynchronous = 1 << 0
 #PB_Mail_UseSSL       = 1 << 1
+#PB_Mail_UseSMTPS     = 1 << 2
+#PB_Mail_Debug        = 1 << 3
 
 ; Map Library
 ;

@@ -301,7 +301,8 @@
 
 @Description
   Returns a memory buffer containing the whole response of an HTTP request created with @@HTTPRequest or @@HTTPRequestMemory.
-  Once done with it, the buffer needs to be freed with @@FreeMemory.
+  Once done with it, the buffer needs to be freed with @@FreeMemory. If the flag @#PB_HTTP_Asynchronous was used when calling @@HTTPRequest 
+  or @@HTTPRequestMemory, this command is only valid if the request has been successful.
 
 @Parameter "HttpRequest"
   The HTTP request to get the raw response.
@@ -561,6 +562,44 @@
     Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     
     FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
+@Example Asynchronous
+@Code
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.purebasic.com/download/PureBasic_Demo.zip", "", #PB_HTTP_Asynchronous)
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    
+    Repeat
+      Progress = HTTPProgress(HttpRequest)
+      Select Progress
+        Case #PB_HTTP_Success
+          Debug "Download finished"
+          *Buffer = HTTPMemory(HTTPRequest)
+          If *Buffer
+            Debug "Memort buffer size: "+MemorySize(*buffer) ; Here the buffer can be written to disk or used directory
+            FreeMemory(*Buffer)
+          EndIf
+          FinishHTTP(HTTPRequest) ; Always call FinishHTTP() when request is finished
+          Break
+          
+        Case #PB_HTTP_Failed
+          Debug "Download failed"
+          FinishHTTP(HTTPRequest) ; Always call FinishHTTP() when request failed
+          Break
+          
+        Case #PB_HTTP_Aborted
+          Debug "Download aborted"
+          FinishHTTP(HTTPRequest) ; Always call FinishHTTP() when request is aborted
+          
+        Default
+          Debug "Current download: " + Progress ; The current download progress, in bytes
+          Delay(100)
+      EndSelect
+    ForEver
   Else
     Debug "Request creation failed"
   EndIf

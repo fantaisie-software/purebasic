@@ -958,7 +958,7 @@ EndProcedure
 ;
 Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
   *Cursor.PTR = *pCursor\p
-  Define *Item.SourceItem, ModulePrefix$
+  Define *Item.SourceItem
   
   ; We have any word here that is not a keyword. Check if it is followed by a (, [ or ::
   ; and else register it as a possible variable.
