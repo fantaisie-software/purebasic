@@ -1483,6 +1483,13 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
       ; The keywords are already skipped, so no need to do that here
       ;
       Select Keyword ;- Scan Keywords
+        
+        ; https://www.purebasic.fr/english/viewtopic.php?t=80617
+        Case #KEYWORD_CompilerIf, #KEYWORD_CompilerElseIf
+            ; skip the CompilerIf to avoid adding constants referenced by it to autocomplete in modules                     
+            While *Cursor\b And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b <> ';' And *Cursor\b <> ':'
+            *Cursor + 1
+            Wend
           
         Case #KEYWORD_Module, #KEYWORD_DeclareModule, #KEYWORD_UseModule, #KEYWORD_UnuseModule
           ; get the module name
