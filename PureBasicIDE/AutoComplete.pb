@@ -725,7 +725,14 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
         EntryType$ = StructureFieldType(AutoCompleteList())
         
         Debug "Entry: " + Entry$
-        If CompareMemoryString(@Entry$, @"StructureUnion", #PB_String_NoCase) = #PB_String_Equal
+                          
+        If CompareMemoryString(@Entry$, @"CompilerIf", #PB_String_NoCase) = #PB_String_Equal
+          DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
+          Continue                 
+        ElseIf CompareMemoryString(@Entry$, @"CompilerElseIf", #PB_String_NoCase) = #PB_String_Equal
+          DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
+          Continue                         
+        ElseIf CompareMemoryString(@Entry$, @"StructureUnion", #PB_String_NoCase) = #PB_String_Equal
           DeleteElement(AutoCompleteList()) ; ignore this
           Continue
         ElseIf CompareMemoryString(@Entry$, @"EndStructureUnion", #PB_String_NoCase) = #PB_String_Equal
