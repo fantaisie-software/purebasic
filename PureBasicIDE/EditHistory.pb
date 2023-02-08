@@ -1463,6 +1463,12 @@ Procedure OpenEditHistoryWindow(DisplaySID = -1)
     
     EditHistoryDialog = OpenDialog(?Dialog_History, WindowID(#WINDOW_Main), @EditHistoryPosition)
     If EditHistoryDialog
+      
+      ; https://www.purebasic.fr/english/viewtopic.php?t=76506  
+      If EditHistoryPosition\IsMaximized      
+        EditHistoryDialog\SizeUpdate()
+      EndIf  
+      
       EnsureWindowOnDesktop(#WINDOW_EditHistory)
       
       InitCodeViewer(#GADGET_History_Source, EnableLineNumbers)
