@@ -17,7 +17,7 @@ endif
 ifeq ($(PB_WINDOWS),1)
 	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
 	IDE = $(HOME)/$(IDENAME).exe
-	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE
+	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE /OPTIMIZER
 	MAKEEXE = /EXE
 	MAKEBUILDINFO = Build/makebuildinfo.exe
 	TOOLFLAGS = /LINENUMBERING /CONSOLE
@@ -41,7 +41,7 @@ else
 
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
-	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)"
+	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
@@ -51,7 +51,7 @@ ifeq ($(PB_MACOS),1)
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
 	IDE = $(HOME)/compilers/$(IDENAME_LOWERCASE)
-	IDEFLAGS = --thread --unicode --subsystem gtk2
+	IDEFLAGS = --thread --unicode --subsystem gtk2 --optimizer
 	MACPLIST =
 	MACPLISTCOMMAND =
 endif

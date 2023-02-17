@@ -942,6 +942,10 @@
   The created gadget starts out with just a black background. The current OpenGL context is set to this new created gadget.
   To change the current OpenGL context, use the @#PB_OpenGL_SetContext attribute. Once drawn, a frame can be displayed
   using the @#PB_OpenGL_FlipBuffers attribute.
+
+@Remarks
+  As the OpenGL gadget is meant to be a realtime rendering gadget, it doesn't store its current rendering in a seperate buffer:
+  it needs to be rendered again when the window is resized, minimized, maximized or if the gadget itself is resized or moved.
   
 @LineBreak
 @LineBreak

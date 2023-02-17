@@ -236,7 +236,7 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]    = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
     CompilerIf #CompileWindows
       ; Disable RTF feature of EditorGadget() as we need to display every kind of output (https://www.purebasic.fr/english/viewtopic.php?t=79542)
-      SendMessage_(WindowID(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]), #EM_SETTEXTMODE, #TM_PLAINTEXT, 0) 
+      SendMessage_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]), #EM_SETTEXTMODE, #TM_PLAINTEXT, 0) 
     CompilerEndIf
     
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
@@ -489,7 +489,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
           
         Case 4 ; string
           Message$ + PeekS(*Debugger\CommandData)
-          Expr$ = PeekS(*Debugger\CommandData + Len(Message$) + 1)
+          Expr$ = PeekS(*Debugger\CommandData + (Len(Message$) + 1)*#CharSize)
           
           If *Debugger\Command\Command = #COMMAND_SetVariableResult
             Message$ = Chr(34)+Message$+Chr(34)
