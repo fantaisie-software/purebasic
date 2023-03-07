@@ -1,34 +1,42 @@
 @Title Historique
 
+@Section 7 Mars 2023 : Version 6.01 LTS
+
+- @Green "Ajouté": #PB_Mail_UseSMTPS et #PB_Mail_Debug pour CreateMail() @LineBreak
+@LineBreak
+- @Green "Mise à jour": GCC en version 12.2.0 sur Windows @LineBreak
+@LineBreak
+- @Blue "Corrigé": De nombreux bogues du compilateur et des bibliothèques @LineBreak
+
 @Section 22 Juin 2022 : Version 6.00 LTS
 
-- @Green "Ajoutée": Support du microprocesseur M1 d'Apple ! @LineBreak
-- @Green "Ajoutée": Support du Raspberry  (32 bits et 64 bits) ! @LineBreak
-- @Green "Ajoutée": Un nouveau compilateur backend C pour toutes les versions de PureBasic @LineBreak
-- @Green "Ajoutée": Constantes du compilateur #PB_Compiler_Backend, #PB_Backend_C et #PB_Backend_Asm @LineBreak
-- @Green "Ajoutée": Constantes du compilateur #PB_Compiler_64Bit et #PB_Compiler_32Bit @LineBreak
-- @Green "Ajoutée": La constante #PB_Compiler_Optimizer est égale à #True si l'optimiseur est activé @LineBreak
-- @Green "Ajoutée": OSVersion() détecte Windows 11, OS X 11 et 12 @LineBreak
-- @Green "Ajoutée": L'option /OPTIMIZER, -z, --optimizer de la commande en ligne, et une case à cocher 'Activer l'optimiseur de code' du menu 'Compilateur/Options du compilateur...' de l'IDE qui active l'optimisation du code C @LineBreak
-- @Green "Ajoutée": support automatique de la haute définition pour les bibilothèque Menu et ToolBar (Windows) @LineBreak
-- @Green "Ajoutée": WebGadget() supporte GTK3 sur linux @LineBreak
-- @Green "Ajoutée": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
-- @Green "Ajoutée": Parametre optionnel de MeshFace() pour créer un quad @LineBreak
-- @Green "Ajoutée": Parametre optionnel vecteur force de WorldGravity() @LineBreak
-- @Green "Ajoutée": Parametre optionnel mode position de ApplyEntityForce() @LineBreak
-- @Green "Ajoutée": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
-- @Green "Ajoutée": Nouveaux modes pour CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
-- @Green "Ajoutée": Nouvelles structures: Vector3, Vector4  @LineBreak
-- @Green "Ajoutée": Shaders prédéfinis : #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
-- @Green "Ajoutée": Nouveaux modes pour SetMaterialAttribute(): #PB_Material_PointSprite, #PB_Material_DepthBias @LineBreak
-- @Green "Ajoutée": Nouveau parametre optionnel 'Couleur'  pour CreateMaterial() @LineBreak
-- @Green "Ajoutée": Nouveau parametre optionnel 'CouleurSpeculaire'pour MaterialShininess() @LineBreak
-- @Green "Ajoutée": Nouveaux parametres optionnel 'v' et 'w' pour MeshVertexTextureCoordinate() @LineBreak
-- @Green "Ajoutée": Nouveau parametre optionnel 'NiveauDetails' pour CreateCamera() @LineBreak
-- @Green "Ajoutée": Nouveaux modes pour AddMaterialLayer(): #PB_Material_ModulateX2, #PB_Material_ModulateX4, #PB_Material_AjoutéSigned, #PB_Material_Substract, #PB_Material_BlendDiffuseAlpha, #PB_Material_BlendCurrentAlpha @LineBreak
-- @Green "Ajoutée": Nouvelles constantes contextuelles de l'affichage d'autocomplétion de l'IDE (Fr34k - https://github.com/fantaisie-software/purebasic/pull/183) @LineBreak
-- @Green "Ajoutée": 3 nouveaux évènements (triggers) pour les outils personnalisés de l'IDE: "Ouvrir un fichier binaire non PureBasic", "Ouvrir un fichier texte non PureBasic", "Ouvrir un fichier avec une extension spéciale" (HeX0R101 - https://github.com/fantaisie-software/purebasic/pull/195) @LineBreak
-- @Green "Ajoutée": Nouveau raccourci 'Remplacer' (CTRL+H) qui ouvre la boîte de dialogue 'Rechercher/Remplacer...' avec la fonction 'Remplacer' déjà activée (ChrisRfr - https://github.com/fantaisie-software/purebasic/pull/184) @LineBreak
+- @Green "Ajouté": Support du microprocesseur M1 d'Apple ! @LineBreak
+- @Green "Ajouté": Support du Raspberry  (32 bits et 64 bits) ! @LineBreak
+- @Green "Ajouté": Un nouveau compilateur backend C pour toutes les versions de PureBasic @LineBreak
+- @Green "Ajouté": Constantes du compilateur #PB_Compiler_Backend, #PB_Backend_C et #PB_Backend_Asm @LineBreak
+- @Green "Ajouté": Constantes du compilateur #PB_Compiler_64Bit et #PB_Compiler_32Bit @LineBreak
+- @Green "Ajouté": La constante #PB_Compiler_Optimizer est égale à #True si l'optimiseur est activé @LineBreak
+- @Green "Ajouté": OSVersion() détecte Windows 11, OS X 11 et 12 @LineBreak
+- @Green "Ajouté": L'option /OPTIMIZER, -z, --optimizer de la commande en ligne, et une case à cocher 'Activer l'optimiseur de code' du menu 'Compilateur/Options du compilateur...' de l'IDE qui active l'optimisation du code C @LineBreak
+- @Green "Ajouté": support automatique de la haute définition pour les bibilothèque Menu et ToolBar (Windows) @LineBreak
+- @Green "Ajouté": WebGadget() supporte GTK3 sur linux @LineBreak
+- @Green "Ajouté": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
+- @Green "Ajouté": Parametre optionnel de MeshFace() pour créer un quad @LineBreak
+- @Green "Ajouté": Parametre optionnel vecteur force de WorldGravity() @LineBreak
+- @Green "Ajouté": Parametre optionnel mode position de ApplyEntityForce() @LineBreak
+- @Green "Ajouté": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
+- @Green "Ajouté": Nouveaux modes pour CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
+- @Green "Ajouté": Nouvelles structures: Vector3, Vector4  @LineBreak
+- @Green "Ajouté": Shaders prédéfinis : #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
+- @Green "Ajouté": Nouveaux modes pour SetMaterialAttribute(): #PB_Material_PointSprite, #PB_Material_DepthBias @LineBreak
+- @Green "Ajouté": Nouveau parametre optionnel 'Couleur'  pour CreateMaterial() @LineBreak
+- @Green "Ajouté": Nouveau parametre optionnel 'CouleurSpeculaire'pour MaterialShininess() @LineBreak
+- @Green "Ajouté": Nouveaux parametres optionnel 'v' et 'w' pour MeshVertexTextureCoordinate() @LineBreak
+- @Green "Ajouté": Nouveau parametre optionnel 'NiveauDetails' pour CreateCamera() @LineBreak
+- @Green "Ajouté": Nouveaux modes pour AddMaterialLayer(): #PB_Material_ModulateX2, #PB_Material_ModulateX4, #PB_Material_AjoutéSigned, #PB_Material_Substract, #PB_Material_BlendDiffuseAlpha, #PB_Material_BlendCurrentAlpha @LineBreak
+- @Green "Ajouté": Nouvelles constantes contextuelles de l'affichage d'autocomplétion de l'IDE (Fr34k - https://github.com/fantaisie-software/purebasic/pull/183) @LineBreak
+- @Green "Ajouté": 3 nouveaux évènements (triggers) pour les outils personnalisés de l'IDE: "Ouvrir un fichier binaire non PureBasic", "Ouvrir un fichier texte non PureBasic", "Ouvrir un fichier avec une extension spéciale" (HeX0R101 - https://github.com/fantaisie-software/purebasic/pull/195) @LineBreak
+- @Green "Ajouté": Nouveau raccourci 'Remplacer' (CTRL+H) qui ouvre la boîte de dialogue 'Rechercher/Remplacer...' avec la fonction 'Remplacer' déjà activée (ChrisRfr - https://github.com/fantaisie-software/purebasic/pull/184) @LineBreak
 @LineBreak
 - @Green "Mise à jour": SetMaterialColor() peut maintenant utiliser plusieurs types de couleurs à la fois en utilisant '|' @LineBreak
 - @Green "Mise à jour": Dernière version de fasm, polink, polib et porc (Windows) @LineBreak
