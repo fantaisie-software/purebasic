@@ -346,9 +346,16 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     CompilerIf #CompileMac
       ; Scroll the editor gadget to the bottom
       ; This function is very very slow, that's why we defer it (https://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
-      Range.NSRange\location = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length") - 1
-      Range\length = 1
-      CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
+      TextViewLength = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length")
+      ; Avoid scrolling if we've insufficient length. This may occur if an empty string is logged.
+      ; Supplying a negative location value will crash/stall the application due to NSRange being
+      ; composed of unsigned integers, meaning -1 is misinterpreted as the massive 2^64-1.
+      ; See: https://github.com/fantaisie-software/purebasic/issues/224
+      If TextViewLength > 0
+        Range.NSRange\location = TextViewLength - 1
+        Range\length = 1
+        CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
+      EndIf
     CompilerEndIf
     
     *Debugger\DebugMessage$ = ""
