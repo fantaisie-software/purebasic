@@ -833,6 +833,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddFlagConfigLine("iOSAppFullScreen" , *Target\iOSAppFullScreen)
     AddFlagConfigLine("iOSAppAutoUpload" , *Target\iOSAppAutoUpload)
     AddFlagConfigLine("iOSAppEnableDebugger" , *Target\iOSAppEnableDebugger)
+    AddFlagConfigLine("iOSAppKeepAppDirectory" , *Target\iOSAppKeepAppDirectory)
     
     ; AndroidApp
     ;
@@ -850,6 +851,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddFlagConfigLine("AndroidAppFullScreen"    , *Target\AndroidAppFullScreen)
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
+    AddFlagConfigLine("AndroidAppKeepAppDirectory", *Target\AndroidAppKeepAppDirectory)
     
   CompilerEndIf
   
@@ -1294,6 +1296,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "IOSAPPRESOURCEDIRECTORY"      : *Source\iOSAppResourceDirectory$ = Value$
         Case "IOSAPPENABLERESOURCEDIRECTORY": *Source\iOSAppEnableResourceDirectory = 1
         Case "IOSAPPENABLEDEBUGGER" : *Source\iOSAppEnableDebugger = 1
+        Case "IOSAPPKEEPAPPDIRECTORY" : *Source\iOSAppKeepAppDirectory = 1
           
         Case "ANDROIDAPPNAME"         : *Source\AndroidAppName$ = Value$
         Case "ANDROIDAPPICON"         : *Source\AndroidAppIcon$ = Value$
@@ -1309,6 +1312,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPRESOURCEDIRECTORY"      : *Source\AndroidAppResourceDirectory$ = Value$
         Case "ANDROIDAPPENABLERESOURCEDIRECTORY": *Source\AndroidAppEnableResourceDirectory = 1
         Case "ANDROIDAPPENABLEDEBUGGER" : *Source\AndroidAppEnableDebugger = 1
+        Case "ANDROIDAPPKEEPAPPDIRECTORY" : *Source\AndroidAppKeepAppDirectory = 1
           
         CompilerEndIf
         

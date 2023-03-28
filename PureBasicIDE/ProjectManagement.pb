@@ -1074,6 +1074,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\iOSAppEnableResourceDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappenableresourcedirectory"))
                       ProjectTargets()\iOSAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "iosappresourcedirectory"))
                       ProjectTargets()\iOSAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappenabledebugger"))
+                      ProjectTargets()\iOSAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappkeepappdirectory"))
                       
                       ProjectTargets()\AndroidAppName$         = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappname"))
                       ProjectTargets()\AndroidAppIcon$         = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappicon"))
@@ -1089,6 +1090,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\AndroidAppEnableResourceDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenableresourcedirectory"))
                       ProjectTargets()\AndroidAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappresourcedirectory"))
                       ProjectTargets()\AndroidAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenabledebugger"))
+                      ProjectTargets()\AndroidAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappkeepappdirectory"))
                     CompilerEndIf
                     
                   Case "purifier"
@@ -1531,6 +1533,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "iosappenableresourcedirectory", Str(ProjectTargets()\iOSAppEnableResourceDirectory))
         SetXMLAttribute(*Export, "iosappresourcedirectory", ProjectTargets()\iOSAppResourceDirectory$)
         SetXMLAttribute(*Export, "iosappenabledebugger", Str(ProjectTargets()\iOSAppEnableDebugger))
+        SetXMLAttribute(*Export, "iosappkeepappdirectory", Str(ProjectTargets()\iOSAppKeepAppDirectory))
         
         SetXMLAttribute(*Export, "androidappname"         , ProjectTargets()\AndroidAppName$)
         SetXMLAttribute(*Export, "androidappicon"         , ProjectTargets()\AndroidAppIcon$)
@@ -1546,6 +1549,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "androidappenableresourcedirectory", Str(ProjectTargets()\AndroidAppEnableResourceDirectory))
         SetXMLAttribute(*Export, "androidappresourcedirectory", ProjectTargets()\AndroidAppResourceDirectory$)
         SetXMLAttribute(*Export, "androidappenabledebugger", Str(ProjectTargets()\AndroidAppEnableDebugger))
+        SetXMLAttribute(*Export, "androidappkeepappdirectory", Str(ProjectTargets()\AndroidAppKeepAppDirectory))
         
       CompilerEndIf
       

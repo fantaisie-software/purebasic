@@ -1546,6 +1546,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         If *Target\iOSAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\iOSAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
         If *Target\iOSAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
+        If *Target\iOSAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
         
       Case #AppFormatAndroid
         Command$ + Chr(9) + "ANDROID" ; Tell the compiler we are compiler and android package
@@ -1553,6 +1554,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         If *Target\AndroidAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\AndroidAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
         If *Target\AndroidAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
+        If *Target\AndroidAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
         
     EndSelect
     

@@ -1,0 +1,141 @@
+;
+; PureBasic Correttore
+;
+
+[LanguageInfo]
+Application = PB_Debugger
+Language    = Italiano
+LastUpdated = 24/10/2013
+Creator     = Marco GLARAY for Fantaisie Software
+Email       = marco.glaray@virgilio.it
+
+[Debugger]
+OutOfMemory      = Correttore: errore di superamento memoria.
+StackUnavailable = Impossibile visualizzare informazioni sullo 'stack'.
+StackLow         = Errore: Stack in posizione inferiore rispetto all'avvio del programma.
+StackEmpty       = Stack vuoto.
+StackAlign       = Attenzione: Stack non allineato alle richieste del Sistema Operativo.
+StackLimit       = Attenzione: Stack fuori limiti del Sistema Operativo (oltrepassa lo Stack).
+StackAlignBytes  = Byte non adeguati ai limiti del registro:
+TargetNotFound   = Impossibile localizzare la variabile dell'etichetta.
+AssignStructure  = Impossibile assegnare un valore alla struttura.
+AssignValue      = Valore da assegnare assente.
+NumericString    = Impossibile inserire un valore numerioco in una stringa.
+StringNumeric    = Impossibile inserire una stringa in un valore numerico.
+Win9xDrawing     = Impossibile fermare il Correttore all'interno di 'StartDrawing(Sprite/ScreenOutput())' con Windows 95/98/ME.
+Warning          = Attenzione
+
+[External]
+InvalidStart         = Attesa un'espressione 'integer' come indirizzo di partenza.
+InvalidEnd           = Attesa un'espressione 'integer' come indirizzo di fine o di lunghezza.
+ArrayListNotFound    = Matrice, LinkedList o Mappa non trovati.
+WatchlistBig         = La lista Esamina Variabili è troppo grande (più di 1000 oggetti), meglio rimuovere variabili.
+NoStructure          = '\' non valida. La variabile non è una struttura.
+NoStructureFields    = Impossibile accedere ai campi struttura dei puntatori nella lista Esamina Variabili.
+InvalidField         = Nome del campo struttura non valido.
+LiteralOnly          = Solo espressioni 'literal' sono ammesse come indice di una matrice.
+IntegerOnly          = Solo espressioni 'integer' sono ammesse come indici di una matrice.
+MissingBracket       = Impossibile trovare ']' per struttura di matrice.
+StructureArrayBounds = Indice di struttura di matrice fuori limiti.
+VariableNotFound     = Variabile non trovata.
+InvalidCharacter     = Carattere non ammesso dopo Matrice, LinkedList o Mappa.
+InvalidListName      = Nome di LinkedList non valido.
+InvalidName          = Nome di variabile non valido.
+NoStructureDisplay   = Impossibile mostrare l'intera struttura nella lista Esamina Variabili.
+NoDynamicDisplay     = Impossibile mostrare Matrici, Liste o Mappe nella lista Esamina Variabili.
+ModuleNotFound       = Modulo non trovato.
+
+[DebuggerErrors]
+1  = Divisione per zero non ammissibile.
+2  = Resto zero non ammissibile (risulterebbe una divisione per zero).
+3  = Puntatore nullo.
+4  = Indice della matrice fuori limiti.
+5  = La lista non ha elementi correnti.
+6  = Indice della struttura della matrice fuori limiti.
+7  = La grandezza di una matrice non può essere negativa.
+8  = Solo l'ultima dimensione di una matrice può essere cambiata con 'ReDim'.
+9  = Errore di lettura dei dati: dati finiti.
+10 = 'NewMap': il parametro 'HashSize' non può essere negativo o zero.
+11 = La Mappa non ha elementi correnti.
+12 = La Mappa non è inizializzata.
+
+[SystemErrors]
+InvalidMemory      = Accesso alla memoria non valido.
+InvalidMemoryRead  = Accesso alla memoria non valido. (errore di lettura alla locazione %s)
+InvalidMemoryWrite = Accesso alla memoria non valido. (errore di scrittura alla locazione %s)
+PageError          = Errore di pagina di memoria.
+StackOverflow      = Superamento capacità dello 'Stack'.
+IllegalInstruction = Istruzione illegale. (lavora su dati binati?)
+DivisionByZero     = Divisione per zero.
+FloatInvalid       = Operazione su un 'Float' non valida.
+FloatOverflow      = Superamento capacità di un 'Float'.
+FloatUnderflow     = 'Float' troppo basso.
+IntegerOverflow    = Superamento capacità di un 'Integer'.
+ArithmeticError    = Errore aritmetico fatale.
+BadCall            = Chiamata di Sistema inadeguata.
+ProgramAbort       = Programma abortito. (dovuto a libreria esterna)
+
+[Parser]
+NoMemory             = Analizzatore sintattico oltre i limiti della memoria.
+TokenBinary          = Valore binario inadeguato.
+TokenString          = Concatenazione di caratteri non terminata
+TokenCharacter       = Letterale carattere non terminato
+Token$               = Simbolo '$' inaspettato
+TokenHex             = Valore esadecimale inadeguato.
+TokenDecimal         = Valore decimale inadeguato
+InvalidInput         = Immissione del carattere '%c' non consentita.
+ArgumentExpected     = Questo operatore si aspetta un altro argomento.
+NumericString        = Impossibile conmbinare un valore numerico con una stringa.
+InvalidStringOp      = Solo gli operatori '+' e '-' possono essere usati con una stringa.
+FloatBinary          = Operatore binario non compatibile con un 'Float'.
+NoStringOp           = Operatore non usabile con una stringa.
+NoFloatOp            = Operatore binario non compatibile con un 'Float'..
+UnmatchedLParen      = Inammissibile la '('.
+UnmatchedLBracket    = Inammissibile la '['.
+IdentifierExpected   = Atteso un identificatore.
+IdentifierExpected@  = Atteso un identificatore dopo '@'.
+IdentifierExpected?  = Atteso un identificatore dopo '?'.
+ConstantExpected     = Un nome di costante atteso dopo '#'.
+UnexpectedToken      = Simbolo inatteso.
+FieldExpected        = Atteso un nome di campo della struttura.
+IntegerIndex         = Necessaria un'espressione 'integer' per l'indice di una matrice.
+OutOfBounds          = Indice della matrice fuori limiti.
+NoArray              = Questo campo della struttura non ha una Matrice.
+FieldNotFound        = Campo della struttura non trovato:
+InvalidString        = Puntatore alla stringa non valido.
+NullStructure        = Puntatore della struttura nullo.
+InvalidStructure     = Puntatore della struttura non accede ad una memoria valida.
+VariableNotFound     = Variabile non trovata:
+UnexpectedCall       = Chiamata alla funzione di libreria inattesa.
+NoAddress            = Impossibile accedere all'indirizzo della funzione di libreria.
+ArrayInit            = Matrice non inizializzata. ('Dim' non ancora usato)
+MapInit              = Mappa non inizializzata. ('NewMap' non ancora usato)
+MapStringKey         = Necessaria un'espressione stringa come chiave per la Mappa.
+MissingArrayParen    = Dimenticata la ')' nel dimensionamento della Matrice.
+NoDimensions         = La dimensione della Matrice dev'essere almeno 1.
+TooFewDimensions     = Troppo poche dimensioni per la Matrice.
+TooManyDimensions    = Troppe dimensioni per la Matrice.
+MissingListParen     = Dimenticata la ')' dopo il nome della LinkedList.
+MissingMapparen      = Dimenticata la ')' dopo il nome della Mappa.
+NoCurrentElement     = La LinkedList non ha elementi correnti.
+MapNoCurrentElement  = La Mappa non ha elementi correnti.
+ArrayListNotFound    = Array() / LinkedList() / Map() non trovati:
+MissingOpenParen     = Dimenticata la '(' dopo una Matrice, LinkedList o Mappa.
+NoStructure          = Questa variabile non ha una struttura.
+Garbage              = Rimasugli alla fine dell'immissione.
+MissingFunctionParen = Dimenticata la ')' negli argomenti della funzione.
+TooFewArguments      = Troppo pochi argomenti per la funzione.
+TooManyArguments     = Troppi argomenti per la funzione.
+StringExpected       = Parametro inaccettabile: necessaria una stringa.
+NumberExpected       = Parametro inaccettabile: necessario un numero.
+InvalidMemory        = %s non punta ad una locazione di memoria valida.
+InvalidStringMemory  = %s non punta ad una stringa di memoria valida.
+NoReplaceMode        = Sostituzione al volo (Modo 2) non supportata qui.
+LabelNotFound        = Etichetta non trovata:
+ConstantNotFound     = Costante non trovata:
+BooleanContext       = Espressioni booleane non ammesse in questo contesto.
+NoLiteralString      = Un letterale stringa usato come espressione non è consentito.
+NoArrayListMap       = L'immissione non ha specificato una Matrice, una LinkedList o una Mappa.
+NoObject             = L'oggetto specificato non è stato inizializzato.
+InvalidModuleUse     = Uso dell'operatore per il modulo non consentito.
+ModuleNotFound       = Modulo non trovato:

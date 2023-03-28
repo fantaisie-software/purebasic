@@ -813,7 +813,11 @@ DataSection
   Data$ "ShowIndentGuides", "Show indentation guides"
   Data$ "UseTabIndentForSplittedLines", "Use tab indent for splitted lines"
   
-  Data$ "Color0",           "ASM Keywords"
+  CompilerIf #SpiderBasic
+    Data$ "Color0",         "Inline Javascript"
+  CompilerElse
+    Data$ "Color0",         "ASM Keywords"
+  CompilerEndIf
   Data$ "Color1",           "Background"
   Data$ "Color2",           "Basic Keywords"
   Data$ "Color3",           "Comments"
@@ -961,7 +965,11 @@ DataSection
   Data$ "Option_Module",    "Modules"
   
   Data$ "Option_PBKeywords",  "Keywords"
-  Data$ "Option_ASMKeywords", "ASM Keywords"
+  CompilerIf #SpiderBasic
+    Data$ "Option_ASMKeywords", "Inline Javascript"
+  CompilerElse
+    Data$ "Option_ASMKeywords", "ASM Keywords"
+  CompilerEndIf
   Data$ "Option_PBFunctions", "Library Functions"
   Data$ "Option_APIFunctions","API Functions"
   Data$ "Option_PBConstants", "Constants"
@@ -1398,6 +1406,7 @@ DataSection
     Data$ "SelectResourceDirectory","Select resource directory"
     Data$ "SelectStartupImage" ,"Select a startup image"
     Data$ "EnableDebugger"     ,"Enable debugger"
+    Data$ "KeepAppDirectory"   ,"Keep app directory"
     
     
     ; ===================================================

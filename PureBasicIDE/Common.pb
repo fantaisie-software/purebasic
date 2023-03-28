@@ -895,6 +895,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_ResourceDirectory
     #GADGET_AndroidApp_SelectResourceDirectory
     #GADGET_AndroidApp_EnableDebugger
+    #GADGET_AndroidApp_KeepAppDirectory
     
     #GADGET_iOSApp_Name
     #GADGET_iOSApp_Icon
@@ -912,6 +913,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_iOSApp_ResourceDirectory
     #GADGET_iOSApp_SelectResourceDirectory
     #GADGET_iOSApp_EnableDebugger
+    #GADGET_iOSApp_KeepAppDirectory
     #GADGET_iOSApp_CheckInstall
     
     #GADGET_App_Panel
@@ -2067,6 +2069,7 @@ Structure CompileTarget
     iOSAppEnableResourceDirectory.l
     iOSAppResourceDirectory$
     iOSAppEnableDebugger.l
+    iOSAppKeepAppDirectory.l
     
     ; Android
     AndroidAppName$
@@ -2083,6 +2086,7 @@ Structure CompileTarget
     AndroidAppEnableResourceDirectory.l
     AndroidAppResourceDirectory$
     AndroidAppEnableDebugger.l
+    AndroidAppKeepAppDirectory.l
     
   CompilerEndIf
   

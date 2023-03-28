@@ -211,7 +211,7 @@ DataSection
   Data$ "OpenFile,4,PB_LocalFile,#PB_GoogleDriveFile,#PB_File_Streaming,#PB_LocalStorage,#PB_Ascii,#PB_UTF8,#PB_Unicode"
   Data$ "OpenFileRequester,3,#PB_Requester_MultiSelection,#PB_Requester_GoogleDrive"
   Data$ "OpenWindow,1,#PB_Any"
-  Data$ "OpenWindow,7,#PB_Window_SystemMenu,#PB_Window_Background,#PB_Window_SizeGadget,#PB_Window_Invisible,#PB_Window_TitleBar,#PB_Window_Tool,#PB_Window_BorderLess,#PB_Window_ScreenCentered,#PB_Window_WindowCentered,#PB_Window_Maximize,#PB_Window_Minimize,#PB_Window_NoGadgets,#PB_Window_NoActivate"
+  Data$ "OpenWindow,7,#PB_Window_SystemMenu,#PB_Window_Background,#PB_Window_SizeGadget,#PB_Window_Invisible,#PB_Window_TitleBar,#PB_Window_Tool,#PB_Window_BorderLess,#PB_Window_ScreenCentered,#PB_Window_WindowCentered,#PB_Window_NoGadgets,#PB_Window_NoActivate"
   Data$ "OptionGadget,1,#PB_Any"
   
   ;- P

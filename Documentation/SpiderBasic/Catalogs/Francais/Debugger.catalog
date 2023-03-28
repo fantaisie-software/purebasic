@@ -1,0 +1,142 @@
+;
+; PureBasic Debugger language file
+;
+
+[LanguageInfo]
+Application = PB_Debugger
+Language    = Francais
+LastUpdated = 07/04/2022
+Creator     = PureBasic Team
+Email       = Support@PureBasic.com
+
+
+[Debugger]
+OutOfMemory      = Dépassement mémoire débogueur.
+StackUnavailable = Impossible d'afficher des informations sur la pile.
+StackLow         = Erreur: position dans la pile inférieure à celle du démarrage du programme.
+StackEmpty       = La pile est vide.
+StackAlign       = Avertissement: La pile n'est pas alignée sur les pré-requis du système d'exploitation.
+StackLimit       = Avertissement: La position dans la pile est en dehors des limites du système d'exploitation (dépassement de pile).
+StackAlignBytes  = Les Octets ne sont pas alignés sur la largeur d'un registre:
+TargetNotFound   = Impossible de localiser la variable cible.
+AssignStructure  = Impossible d'assigner une valeur à une structure.
+AssignValue      = Valeur à assigner manquante.
+NumericString    = Impossible d'écrire une valeur numérique dans une variable chaîne de caractères.
+StringNumeric    = Impossible d'écrire une valeur chaîne de caractères dans une variable numérique.
+Win9xDrawing     = Impossible de stopper le débogueur à l'intérieur d'un StartDrawing(Sprite/ScreenOutput()) sous Windows 95/98/ME.
+Warning          = Avertissement
+
+[External]
+InvalidStart         = Une expression entière est attendue comme adresse de départ.
+InvalidEnd           = Une expression entière est attendue comme adresse de fin/longueur.
+ArrayListNotFound    = Tableau, liste chaînée ou Map introuvable.
+WatchlistBig         = La liste d'alerte est trop grosse (1000 entrées), merci de supprimer des variables.
+NoStructure          = Caractère "\" invalide. La variable n'est pas une structure.
+NoStructureFields    = Impossible d'accéder aux champs de structure des pointeurs dans la liste d'alerte.
+InvalidField         = Nom de champs de structure invalide.
+LiteralOnly          = Seules les expressions littérales sont admises comme index de tableau.
+IntegerOnly          = Seuls les entiers sont admis comme index de tableau.
+MissingBracket       = Crochet ']' manquant pour tableau de structure.
+StructureArrayBounds = Index de tableau de structure hors limites.
+VariableNotFound     = Variable introuvable.
+InvalidCharacter     = Caractère invalide après tableau/liste chaînée/Map.
+InvalidListName      = Nom de liste chaînée invalide.
+InvalidName          = Nom de variable invalide.
+NoStructureDisplay   = Impossible d'afficher les structures en totalité dans la liste d'alerte.
+NoDynamicDisplay     = Impossible d'afficher des Tableaux, Listes ou Maps à l'intérieur de structures dans la liste d'alerte.
+ModuleNotFound       = Module non trouvé.
+
+[DebuggerErrors]
+1  = Division par zéro interdite.
+2  = Modulo zéro interdit (correspond à une division par zéro).
+3  = Pointeur vide.
+4  = Index de tableau hors limites.
+5  = La liste chaînée ne contient aucun élément en cours.
+6  = Index de tableau de structure hors limites.
+7  = La taille de tableau ne peut être négative.
+8  = Seule la dernière dimension d'un tableau peut être modifiée avec la commande ReDim.
+9  = Erreur de lecture des données: plus de données à lire.
+10 = NewMap: paramètre 'HashSize' ne peut être négatif ou égal à 0.
+11 = La Map n'a pas d'élément courant.
+12 = La Map n'est pas initialisée.
+
+[SystemErrors]
+InvalidMemory      = Accès mémoire invalide.
+InvalidMemoryRead  = Accès mémoire invalide. (erreur de lecture à l'adresse %s)
+InvalidMemoryWrite = Accès mémoire invalide. (erreur d'écriture à l'adresse %s)
+PageError          = Erreur de page mémoire.
+StackOverflow      = Dépassement de capacité de la pile.
+IllegalInstruction = Instruction illégale. (exécution de données binaires?)
+DivisionByZero     = Division par zéro.
+FloatInvalid       = Opération sur Flottant invalide.
+FloatOverflow      = Dépassement de capacité sur type Flottant.
+FloatUnderflow     = Soupassement de capacité sur type Flottant.
+IntegerOverflow    = Dépassement de capacité sur type Entier.
+ArithmeticError    = Erreur fatale sur opération arithmétique.
+BadCall            = Appel système erroné.
+ProgramAbort       = Programme avorté. (par librairie externe)
+
+[Parser]
+NoMemory             = Dépassement mémoire de l'analyseur syntaxique.
+TokenBinary          = Valeur binaire mal formalisée.
+TokenString          = Expression littérale de type chaîne de caractères non terminée
+TokenCharacter       = Expression littétale de type caractère non terminée
+Token$               = Symbole '$' inattendu
+TokenHex             = Valeur hexadécimale mal formalisée.
+TokenDecimal         = Valeur décimale mal formalisée
+InvalidInput         = Caractère d'entrée '%c' non supporté
+ArgumentExpected     = Cet opérateur attend un autre argument.
+NumericString        = Impossible de combiner des valeurs numériques avec une chaîne.
+InvalidStringOp      = Seul l'opérateur '+' peut être utilisé avec les chaînes de caractères.
+FloatBinary          = Les opérateurs binaires ne peuvent pas être utilisés avec les flottants.
+NoStringOp           = Cet opérateur ne peut pas être utilisé avec les chaînes de caractères.
+NoFloatOp            = Les opérateurs binaires ne peuvent pas être utilisés avec les flottants.
+UnmatchedLParen      = '(' manquant.
+UnmatchedLBracket    = '[' manquant.
+IdentifierExpected   = Un identifiant est attendu.
+IdentifierExpected@  = Un identifiant est attendu après '@'.
+IdentifierExpected?  = Un identifiant est attendu après '?'.
+ConstantExpected     = Un nom de constante est attendu après '#'.
+UnexpectedToken      = Symbole inattendu.
+FieldExpected        = Nom de champ de structure attendu.
+IntegerIndex         = une expression entière doit être fournie comme index de tableau.
+OutOfBounds          = Index de tableau hors limite.
+NoArray              = Ce champ de structure n'a aucun tableau.
+FieldNotFound        = Champ de structure introuvable:
+InvalidString        = Pointeur de chaîne invalide.
+NullStructure        = Le pointeur de structure est vide.
+InvalidStructure     = Le pointeur de structure ne pointe pas vers un emplacment mémoire valide.
+VariableNotFound     = Variable introuvable:
+UnexpectedCall       = Appel de fonction de librairie inattendu.
+NoAddress            = Impossible de trouver l'adresse d'une fonction de librairie.
+ArrayInit            = Le tableau n'est pas initialisé. (Dim n'a pas encore été appelé)
+MapInit              = La Map n'a pas été initialisée. (NewMap n'a pas encore été appelé)
+MapStringKey         = une expression de type chaîne de caractères doit être fournie comme clef d'une Map.
+MissingArrayParen    = Parenthèse fermante ')' manquante pour les dimensions du tableau.
+NoDimensions         = La dimension du tableau doit au moins être égal à 1.
+TooFewDimensions     = Pas assez de dimensions pour le tableau.
+TooManyDimensions    = Trop de dimensions pour le tableau.
+MissingListParen     = Parenthèse fermante ')' manquante après le nom de la liste chaînée.
+MissingMapParen      = Parenthèse fermante ')' manquante après le nom de la Map.
+NoCurrentElement     = La liste chaînée ne contient aucun élément courant.
+MapNoCurrentElement  = La Map ne contient aucun élément courant.
+ArrayListNotFound    = Array() / LinkedList() / Map() introuvable:
+MissingOpenParen     = Parenthèse ouvrante '(' attendue après un tableau, une liste chaînée ou une Map.
+NoStructure          = Cette variable n'a pas de structure.
+Garbage              = 'Déchets' à la fin de l'entrée.
+MissingFunctionParen = Parenthèse fermante ')' manquante dans les arguments de la fonction.
+TooFewArguments      = Pas assez d'arguments pour la fonction.
+TooManyArguments     = Trop d'arguments pour la fonction.
+StringExpected       = Mauvais type de paramètre: une chaîne de caractères est attendue.
+NumberExpected       = Mauvais type de paramètre: un valeur numérique est attendue.
+InvalidMemory        = %s ne pointe pas vers un emplacement mémoire valide.
+InvalidStringMemory  = %s ne pointe pas vers une chaîne mémoire valide.
+NoReplaceMode        = Remplacement (Mode 2) n'est pas supporté ici.
+LabelNotFound        = Label introuvable:
+ConstantNotFound     = Constante introuvable:
+BooleanContext       = Les expressions booléennes ne sont pas permises dans ce contexte.
+NoLiteralString      = Utiliser une chaîne de caractères comme expression n'est pas permis.
+NoArrayListMap       = L'entrée n'a pas spécifié un tableau, une liste chaînée ou une Map.
+NoObject             = L'objet spécifié n'est pas initialisé.
+InvalidModuleUse     = Utilisation illégale de l'opérateur de module.
+ModuleNotFound       = Module non trouvé:

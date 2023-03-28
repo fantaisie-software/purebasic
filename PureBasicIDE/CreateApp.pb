@@ -81,6 +81,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetState(#GADGET_iOSApp_AutoUpload    , *Target\iOSAppAutoUpload)
       SetGadgetState(#GADGET_iOSApp_EnableResourceDirectory, *Target\iOSAppEnableResourceDirectory)
       SetGadgetState(#GADGET_iOSApp_EnableDebugger, *Target\iOSAppEnableDebugger)
+      SetGadgetState(#GADGET_iOSApp_KeepAppDirectory, *Target\iOSAppKeepAppDirectory)
       
       SetGadgetText(#GADGET_AndroidApp_Name           , *Target\AndroidAppName$)
       SetGadgetText(#GADGET_AndroidApp_Icon           , *Target\AndroidAppIcon$)
@@ -96,6 +97,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetState(#GADGET_AndroidApp_AutoUpload    , *Target\AndroidAppAutoUpload)
       SetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory, *Target\AndroidAppEnableResourceDirectory)
       SetGadgetState(#GADGET_AndroidApp_EnableDebugger, *Target\AndroidAppEnableDebugger)
+      SetGadgetState(#GADGET_AndroidApp_KeepAppDirectory, *Target\AndroidAppKeepAppDirectory)
       
       UpdateCreateAppWindow()
       
@@ -137,7 +139,8 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\iOSAppAutoUpload    <> GetGadgetState(#GADGET_iOSApp_AutoUpload) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppEnableResourceDirectory<> GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory) : Changed = #True : EndIf
   If *CurrentAppTarget\iOSAppResourceDirectory$     <> GetGadgetText(#GADGET_iOSApp_ResourceDirectory) : Changed = #True : EndIf
-  If *CurrentAppTarget\WebAppEnableDebugger <> GetGadgetState(#GADGET_iOSApp_EnableDebugger) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppEnableDebugger <> GetGadgetState(#GADGET_iOSApp_EnableDebugger) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppKeepAppDirectory <> GetGadgetState(#GADGET_iOSApp_KeepAppDirectory) : Changed = #True : EndIf
   
   If *CurrentAppTarget\AndroidAppName$         <> GetGadgetText(#GADGET_AndroidApp_Name) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppIcon$         <> GetGadgetText(#GADGET_AndroidApp_Icon) : Changed = #True : EndIf
@@ -153,6 +156,7 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppEnableResourceDirectory<> GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppResourceDirectory$     <> GetGadgetText(#GADGET_AndroidApp_ResourceDirectory) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppEnableDebugger<> GetGadgetState(#GADGET_AndroidApp_EnableDebugger) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppKeepAppDirectory<> GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory) : Changed = #True : EndIf
   
   ProcedureReturn Changed
 EndProcedure
@@ -215,6 +219,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\iOSAppFullScreen    = GetGadgetState(#GADGET_iOSApp_FullScreen)
   *CurrentAppTarget\iOSAppAutoUpload    = GetGadgetState(#GADGET_iOSApp_AutoUpload)
   *CurrentAppTarget\iOSAppEnableDebugger= GetGadgetState(#GADGET_iOSApp_EnableDebugger)
+  *CurrentAppTarget\iOSAppKeepAppDirectory= GetGadgetState(#GADGET_iOSApp_KeepAppDirectory)
   
   *CurrentAppTarget\AndroidAppName$         = GetGadgetText(#GADGET_AndroidApp_Name)
   *CurrentAppTarget\AndroidAppIcon$         = GetGadgetText(#GADGET_AndroidApp_Icon)
@@ -230,6 +235,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppFullScreen    = GetGadgetState(#GADGET_AndroidApp_FullScreen)
   *CurrentAppTarget\AndroidAppAutoUpload    = GetGadgetState(#GADGET_AndroidApp_AutoUpload)
   *CurrentAppTarget\AndroidAppEnableDebugger= GetGadgetState(#GADGET_AndroidApp_EnableDebugger)
+  *CurrentAppTarget\AndroidAppKeepAppDirectory= GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory)
   
 EndProcedure
 
