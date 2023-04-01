@@ -31,6 +31,26 @@ Global NewList ThemeEntries.ThemeEntry()
 
 ;- Functions for internal use
 ;
+Procedure CenterImage(Image, NewImage, Width, Height, Depth = 32, BackColor = #PB_Image_Transparent)
+  Protected r1, x, y, dx, dy, image2
+    
+  r1 = CreateImage(NewImage, Width, Height, Depth, BackColor)
+  If r1
+    If NewImage = #PB_Any
+      NewImage = r1
+    EndIf
+    dx = ImageWidth(Image)
+    dy = ImageHeight(Image)
+    x = (Width - dx) / 2
+    y = (Height - dy) / 2
+    If StartDrawing(ImageOutput(NewImage))
+      DrawAlphaImage(ImageID(Image), x, y)
+      StopDrawing()
+    EndIf
+  EndIf
+  ProcedureReturn NewImage
+EndProcedure
+
 Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   ClearList(ThemeEntries())
   *ThemeFile      = 0
@@ -162,6 +182,7 @@ EndProcedure
 Procedure Theme_LoadImage(Image, ImageName$)
   Result = 0
   ImageName$ = LCase(ImageName$)
+  IsAnyImage = #False
   
   ForEach ThemeEntries()
     If ImageName$ = ThemeEntries()\IconName$
@@ -174,8 +195,20 @@ Procedure Theme_LoadImage(Image, ImageName$)
         ;
         If Image = #PB_Any
           Image = Result
+          IsAnyImage = #True
         EndIf
-        ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
+        CompilerIf #CompileMac
+          If IsAnyImage
+            Result = CenterImage(Image, #PB_Any, 24, 24)
+            FreeImage(Image)
+          Else
+            tmpImage = CenterImage(Image, #PB_Any, 24, 24)
+            CopyImage(tmpImage, Image)
+            FreeImage(tmpImage)
+          EndIf
+        CompilerElse
+          ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
+        CompilerEndIf
         FreeMemory(*Buffer)
       EndIf
       
