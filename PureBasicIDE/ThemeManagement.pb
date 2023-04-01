@@ -48,7 +48,7 @@ Procedure CenterImage(Image, NewImage, Width, Height, Depth = 32, BackColor = #P
       StopDrawing()
     EndIf
   EndIf
-  ProcedureReturn NewImage
+  ProcedureReturn r1
 EndProcedure
 
 Procedure Theme_Open(Filename$) ; pass "" to open internal theme
