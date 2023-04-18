@@ -654,7 +654,7 @@ Procedure AddProjectInfo()
       ButtonGadget(#GADGET_ProjectInfo_OpenCompilerOptions, 0, 0, 0, 0, Language("Project","CompilerOptions"))
       
       FrameGadget(#GADGET_ProjectInfo_FrameFiles, 0, 0, 0, 0, Language("Project","FileTab"))
-      ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 0, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
+      ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 300, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 1, Language("Project","FileLoadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 2, Language("Project","FileWarnShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 3, Language("Project","FileScanShort"), 60)
@@ -672,7 +672,7 @@ Procedure AddProjectInfo()
       CompilerEndIf
       
       FrameGadget(#GADGET_ProjectInfo_FrameTargets, 0, 0, 0, 0, Language("Project","ProjectTargets"))
-      ListIconGadget(#GADGET_ProjectInfo_Targets, 0, 0, 0, 0, Language("Project","TargetShort"), 200, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
+      ListIconGadget(#GADGET_ProjectInfo_Targets, 0, 0, 200, 0, Language("Project","TargetShort"), 200, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 1, Language("Project","DebugShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 2, Language("Project","ThreadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 3, Language("Project","AsmShort"), 60)

@@ -169,7 +169,7 @@ Procedure SwitchDirectoryMode(TargetMode)
         CompilerElse
           TextGadget(#GADGET_Diff_FileTitle, 0, 0, 0, 0, "", #PB_Text_Border)
         CompilerEndIf
-        ListIconGadget(#GADGET_Diff_Files, 0, 0, 0, 0, Language("Diff","Filename"), 250, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+        ListIconGadget(#GADGET_Diff_Files, 0, 0, 250, 0, Language("Diff","Filename"), 250, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
         AddGadgetColumn(#GADGET_Diff_Files, 1, Language("Diff","State"), 100)
         AddGadgetColumn(#GADGET_Diff_Files, 2, Language("Diff","Date1"), 130)
         AddGadgetColumn(#GADGET_Diff_Files, 3, Language("Diff","Date2"), 130)
