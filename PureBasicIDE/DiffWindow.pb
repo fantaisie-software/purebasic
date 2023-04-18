@@ -1521,6 +1521,10 @@ Procedure UpdateDiffFileList()
     
     If Color <> -1
       SetGadgetItemColor(#GADGET_Diff_Files, ListIndex(DiffFiles()), #PB_Gadget_BackColor, Color, -1)
+      CompilerIf #CompileMac
+        ; Fix text color for darkmode
+        SetGadgetItemColor(#GADGET_Diff_Files, ListIndex(DiffFiles()), #PB_Gadget_FrontColor, 0, -1)
+      CompilerEndIf
     EndIf
     
   Next DiffFiles()
