@@ -592,6 +592,14 @@ Procedure OpenDiffWindow()
     If OpenWindow(#WINDOW_Diff, DiffWindowPosition\x, DiffWindowPosition\y, DiffWindowPosition\Width, DiffWindowPosition\Height, Language("Diff", "Title"), Flags, WindowID(#WINDOW_Main))
       WindowBounds(#WINDOW_Diff, 200, 200, #PB_Ignore, #PB_Ignore)
       
+      CompilerIf #CompileMac
+        If OSVersion() >= #PB_OS_MacOSX_10_14
+          ; Fix Toolbar style from titlebar to expanded (Top Left)
+          #NSWindowToolbarStyleExpanded = 1
+          CocoaMessage(0, WindowID(#WINDOW_Diff), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
+        EndIf
+      CompilerEndIf
+      
       If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
         ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
         ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
