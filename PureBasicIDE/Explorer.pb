@@ -181,7 +181,7 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
     ExplorerTreeGadget(#GADGET_Explorer, 0, 0, 0, 0, ExplorerPath$+StringField(ExplorerPatternStrings$, ExplorerPattern+1, "|"), #PB_Explorer_AutoSort | ExtraFlags)
   EndIf
   
-  ListIconGadget(#GADGET_Explorer_Favorites, 0, 0, 0, 0, Language("ToolsPanel","Favorites"), 150)
+  ListIconGadget(#GADGET_Explorer_Favorites, 0, 0, 150, 0, Language("ToolsPanel","Favorites"), 150)
   SplitterGadget(#GADGET_Explorer_Splitter, 0, 0, 0, 0, #GADGET_Explorer, #GADGET_Explorer_Favorites, #PB_Splitter_SecondFixed)
   
   ButtonImageGadget(#GADGET_Explorer_AddFavorite, 0, 0, 0, 0, ImageID(#IMAGE_Explorer_AddFavorite))
