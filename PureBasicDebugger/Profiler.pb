@@ -832,7 +832,7 @@ Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
         For file = 0 To *Debugger\NbIncludedFiles
           If GetGadgetItemState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
             index = GetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file) ; get the real index
-            MenuItem(#DEBUGGER_MENU_File0+index, GetDebuggerRelativeFile(*Debugger, index << 24))
+            MenuItem(#DEBUGGER_MENU_File0+index, GetDebuggerRelativeFile(*Debugger, index << #DEBUGGER_DebuggerLineFileOffset))
           EndIf
         Next file
         
@@ -1223,7 +1223,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         Profiler_DrawAll(*Debugger)
         
       Case #DEBUGGER_MENU_File0 To #DEBUGGER_MENU_File255
-        Line = ((EventMenu() - #DEBUGGER_MENU_File0) << 24) | Profiler_CurrentLine
+        Line = MakeDebuggerLine(EventMenu() - #DEBUGGER_MENU_File0, Profiler_CurrentLine)
         Debugger_ShowLine(*Debugger, Line)
         
     EndSelect
@@ -1528,7 +1528,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
           
           For file = 0 To *Debugger\NbIncludedFiles
             ; we store the index in the data field so we can reorder the entries...
-            AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, GetDebuggerRelativeFile(*Debugger, file << 24), ImageID(*files\file[file]\ColorImage))
+            AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, GetDebuggerRelativeFile(*Debugger, file << #DEBUGGER_DebuggerLineFileOffset), ImageID(*files\file[file]\ColorImage))
             SetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, file)
           Next file
         EndIf
@@ -1696,7 +1696,7 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
         ; add to the list if the window is already open
         If *Debugger\NbIncludedFiles > 0 And *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
           ; we store the index in the data field so we can reorder the entries...
-          AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, GetDebuggerRelativeFile(*Debugger, i << 24), ImageID(*files\file[i]\ColorImage))
+          AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, GetDebuggerRelativeFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset), ImageID(*files\file[i]\ColorImage))
           SetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, i)
         EndIf
         

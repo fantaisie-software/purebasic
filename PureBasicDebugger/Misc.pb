@@ -109,7 +109,7 @@ EndProcedure
 
 Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
   
-  FileNumber = (LineNumber >> 24) & $FF
+  FileNumber = DebuggerLineGetFile(LineNumber)
   If FileNumber > *Debugger\NbIncludedFiles
     ProcedureReturn ""
   ElseIf FileNumber = 0
