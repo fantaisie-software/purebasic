@@ -600,7 +600,13 @@ Procedure OpenDiffWindow()
         EndIf
       CompilerEndIf
       
-      If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
+      CompilerIf #CompileMac
+        flags = #PB_ToolBar_Large
+      CompilerElse
+        flags = 0
+      CompilerEndIf
+      
+      If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff), Flags)
         ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
         ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
         ToolBarImageButton(#MENU_Diff_Open2, ImageID(#IMAGE_Diff_Open2))
@@ -1022,7 +1028,13 @@ Procedure UpdateDiffWindow()
   ; re-create the toolbar to apply theme changes
   FreeToolBar(#TOOLBAR_Diff)
   
-  If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
+  CompilerIf #CompileMac
+    flags = #PB_ToolBar_Large
+  CompilerElse
+    flags = 0
+  CompilerEndIf
+  
+  If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff), flags)
     ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
     ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
     ToolBarImageButton(#MENU_Diff_Open2, ImageID(#IMAGE_Diff_Open2))
