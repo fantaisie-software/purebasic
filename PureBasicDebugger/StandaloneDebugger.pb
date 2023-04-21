@@ -535,7 +535,7 @@ Procedure ProcessEvent(EventID)
           Command\Value2 = CurrentSource
           SendDebuggerCommand(*DebuggerData, @Command)
           ForEach Breakpoints()
-            If (DebuggerLineGetFile(Breakpoints()) = CurrentSource
+            If DebuggerLineGetFile(Breakpoints()) = CurrentSource
               If ListIndex(Breakpoints()) = 1
                 DeleteElement(Breakpoints())
                 ResetList(Breakpoints())
@@ -726,8 +726,8 @@ If OptionsFile$ <> ""
       Next Watchlist()
       
       ForEach Breakpoints()
-        If (DebuggerLineGetFile(Breakpoints()) = 0
-          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1)
+        If DebuggerLineGetFile(Breakpoints()) = 0
+          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1))
         Else
           WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1) + ", " + SourceFiles(DebuggerLineGetFile(Breakpoints()))\FileName$)
         EndIf
