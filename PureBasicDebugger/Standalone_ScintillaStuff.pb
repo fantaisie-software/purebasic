@@ -199,7 +199,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           If Expr$ <> ""
             Command.CommandInfo\Command = #COMMAND_EvaluateExpressionWithStruct ; structures allowed
             Command\Value1 = AsciiConst('S','C','I','N')                        ; to identify the sender
-            Command\Value2 = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0) | (CurrentSource << 24)
+            Command\Value2 = MakeDebuggerLine(CurrentSource, ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0))
             Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
             SendDebuggerCommandWithData(*DebuggerData, @Command, @Expr$)
           EndIf
@@ -373,9 +373,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; mark all breakpoints that are already set for this file (passed with optionsfile)
       ;
       ForEach BreakPoints()
-        If (BreakPoints()>>24) & $FF = CurrentSource
-          ScintillaSendMessage(Result, #SCI_MARKERADD, BreakPoints()&$FFFFFF, 7)
-          ScintillaSendMessage(Result, #SCI_MARKERADD, BreakPoints()&$FFFFFF, 8)
+        If DebuggerLineGetFile(BreakPoints()) = CurrentSource
+          ScintillaSendMessage(Result, #SCI_MARKERADD, DebuggerLineGetLine(BreakPoints()), 7)
+          ScintillaSendMessage(Result, #SCI_MARKERADD, DebuggerLineGetLine(BreakPoints()), 8)
         EndIf
       Next BreakPoints()
       
@@ -489,7 +489,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       HideGadget(SourceFiles(CurrentSource)\Gadget, 1)
     EndIf
     
-    CurrentSource = (Line >> 24) & $FF
+    CurrentSource = DebuggerLineGetFile(Line)
     SetGadgetState(#GADGET_SelectSource, CurrentSource)
     
     If SourceFiles(CurrentSource)\IsLoaded
@@ -527,21 +527,21 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Select Action
         
       Case #ACTION_MarkCurrentLine
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 1)
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 2)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 1)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 2)
         
         ; set the line into view
-        Position = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_POSITIONFROMLINE, Line & $FFFFFF, 0)
+        Position = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_POSITIONFROMLINE, DebuggerLineGetLine(Line), 0)
         ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_SETSEL, Position, Position)
         ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_SCROLLCARET, 0, 0)
         
       Case #ACTION_MarkError
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 5)
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 6)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 5)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 6)
         
       Case #ACTION_MarkWarning
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 3)
-        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line & $FFFFFF, 4)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 3)
+        ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, DebuggerLineGetLine(Line), 4)
         
     EndSelect
     
@@ -583,7 +583,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line, 7)
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERADD, Line, 8)
       RedrawGadget(SourceFiles(CurrentSource)\Gadget)
-      ProcedureReturn Line | (CurrentSource<< 24)
+      ProcedureReturn MakeDebuggerLine(CurrentSource, Line)
     Else
       ProcedureReturn -1
     EndIf
@@ -597,7 +597,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETE, Line, 7)
       ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_MARKERDELETE, Line, 8)
       RedrawGadget(SourceFiles(CurrentSource)\Gadget)
-      ProcedureReturn Line | (CurrentSource<< 24)
+      ProcedureReturn MakeDebuggerLine(CurrentSource, Line)
     Else
       ProcedureReturn -1
     EndIf
@@ -617,7 +617,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       HideGadget(SourceFiles(CurrentSource)\Gadget, 1)
     EndIf
     
-    CurrentSource = (Line >> 24) & $FF
+    CurrentSource = DebuggerLineGetFile(Line)
     SetGadgetState(#GADGET_SelectSource, CurrentSource)
     
     If SourceFiles(CurrentSource)\IsLoaded
@@ -643,7 +643,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Standalone_ResizeGUI()
     
     ; set the line into view
-    Position = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_POSITIONFROMLINE, Line & $FFFFFF, 0)
+    Position = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_POSITIONFROMLINE, DebuggerLineGetLine(Line), 0)
     ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_SETSEL, Position, Position)
     ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_SCROLLCARET, 0, 0)
     

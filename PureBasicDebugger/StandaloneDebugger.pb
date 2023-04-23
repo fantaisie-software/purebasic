@@ -535,7 +535,7 @@ Procedure ProcessEvent(EventID)
           Command\Value2 = CurrentSource
           SendDebuggerCommand(*DebuggerData, @Command)
           ForEach Breakpoints()
-            If (Breakpoints()>>24) & $FF = CurrentSource
+            If DebuggerLineGetFile(Breakpoints()) = CurrentSource
               If ListIndex(Breakpoints()) = 1
                 DeleteElement(Breakpoints())
                 ResetList(Breakpoints())
@@ -726,10 +726,10 @@ If OptionsFile$ <> ""
       Next Watchlist()
       
       ForEach Breakpoints()
-        If (Breakpoints() >> 24) & $FF = 0
-          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1))
+        If DebuggerLineGetFile(Breakpoints()) = 0
+          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1))
         Else
-          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1) + ", " + SourceFiles((Breakpoints()>>24) & $FF)\FileName$)
+          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1) + ", " + SourceFiles(DebuggerLineGetFile(Breakpoints()))\FileName$)
         EndIf
       Next Breakpoints()
       
@@ -816,8 +816,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ; add all file to the list
       For i = 0 To NbSourceFiles
-        SourceFiles(i)\FileName$ = GetDebuggerFile(*Debugger, i<<24)
-        AddGadgetItem(#GADGET_SelectSource, -1, GetDebuggerRelativeFile(*Debugger, i<<24))
+        SourceFiles(i)\FileName$ = GetDebuggerFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset)
+        AddGadgetItem(#GADGET_SelectSource, -1, GetDebuggerRelativeFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset))
       Next i
       
       ; translate the debugger breakpoint strings into line numbers
@@ -838,7 +838,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             For i = 0 To NbSourceFiles
               If IsEqualFile(FileName$, SourceFiles(i)\FileName$)
                 AddElement(Breakpoints())
-                Breakpoints() = (Val(Trim(Left(BreakpointStrings(), x-1)))-1) | i<<24
+                Breakpoints() = MakeDebuggerLine(i, Val(Trim(Left(BreakpointStrings(), x-1)))-1)
                 Break
               EndIf
             Next i
@@ -1050,9 +1050,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       
     Case #COMMAND_Error
-      Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1)+")", *Debugger\Command\TimeStamp)
+      Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
       Standalone_AddLog(Language("Debugger","LogError")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
       UpdateGadgetStates()
       
       SetCurrentLine(*Debugger\Command\Value1)
@@ -1060,9 +1060,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       
     Case #COMMAND_Warning
-      Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1)+")", *Debugger\Command\TimeStamp)
+      Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
       Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
       UpdateGadgetStates()
       
       ; just mark, do not change current line or stop program

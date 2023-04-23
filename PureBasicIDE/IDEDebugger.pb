@@ -565,7 +565,7 @@ Procedure Debugger_Started(*Debugger.DebuggerData)
           
           Command.CommandInfo\Command = #COMMAND_BreakPoint
           Command\Value1 = 1 ; set breakpoint
-          Command\Value2 = Line | (File << 24)
+          Command\Value2 = MakeDebuggerLine(File, Line)
           Command\DataSize = 0
           SendDebuggerCommand(*Debugger, @Command)
           
@@ -849,7 +849,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Error
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-      LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+      LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
       
       If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -889,7 +889,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Warning
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-      LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+      LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
       
       If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -950,13 +950,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ;       Debug "---------- Stopped ----------------------"
       ;       Debug "Line: "+Str(*Debugger\Command\Value1)
-      ;       Debug "FilePart: "+Str((*Debugger\Command\Value1 >> 24) & $FF)
+      ;       Debug "FilePart: "+Str(DebuggerLineGetFile(*Debugger\Command\Value1))
       ;       Debug GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
       
       If *Debugger\Command\Value1 <> -1 ; check to ensure correct currentline value
         
         FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-        LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+        LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
         
         If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
           ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -1204,7 +1204,7 @@ EndProcedure
 Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
   
   FileName$ = GetDebuggerFile(*Debugger, Line)
-  LineNumber = Line & $FFFFFF + 1
+  LineNumber = DebuggerLineGetLine(Line) + 1
   
   If Debugger_SwitchToFile(*Debugger, Line)
     ; make sure the linenumber is not too high (could happen in the profiler)
@@ -1417,7 +1417,7 @@ Procedure Debugger_BreakPoint(Line)
     If *Debugger
       Command.CommandInfo\Command = #COMMAND_BreakPoint
       Command\Value1 = Action
-      Command\Value2 = Line | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
+      Command\Value2 = MakeDebuggerLine(GetDebuggerFileNumber(*Debugger, *ActiveSource), Line)
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
@@ -1505,7 +1505,7 @@ Procedure Debugger_EvaluateAtCursor(position)
         Debug Expr$
         Command.CommandInfo\Command = #COMMAND_EvaluateExpressionWithStruct  ; structures allowed
         Command\Value1 = AsciiConst('S','C','I','N')                         ; to identify the sender
-        Command\Value2 = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)  | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
+        Command\Value2 = MakeDebuggerLine(GetDebuggerFileNumber(*Debugger, *ActiveSource), SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0))
         Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
         SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)
         Debug Expr$
