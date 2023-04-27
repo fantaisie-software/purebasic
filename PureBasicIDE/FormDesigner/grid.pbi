@@ -83,11 +83,14 @@ Enumeration
 EndEnumeration
 
 
-CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-  Global Grid_Scrollbar_Width = 16
-CompilerElse
-  Global Grid_Scrollbar_Width = 18
-CompilerEndIf
+CompilerSelect #PB_Compiler_OS
+  CompilerCase #PB_OS_MacOS
+    Global Grid_Scrollbar_Width = 16
+  CompilerCase #PB_OS_Linux
+    Global Grid_Scrollbar_Width = 18
+  CompilerCase #PB_OS_Windows
+    Global Grid_Scrollbar_Width = 18
+CompilerEndSelect
 
 ;- Helping functions
 Global grids_gs_windowmousedx.i, grids_gs_windowmousedy.i
@@ -617,15 +620,6 @@ Procedure GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10000
   *grid\default_row_height = DesktopScaledY(def_row_height)
   
   *grid\hscroll = ScrollBarGadget(#PB_Any,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width,0,1,1)
-  
-  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    Protected *wid.GtkWidget
-    *wid.GtkWidget = GadgetID(*grid\hscroll)
-    Grid_Scrollbar_Width = *wid\allocation\height
-    
-    ResizeGadget(*grid\hscroll,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width)
-  CompilerEndIf
-  
   *grid\vscroll = ScrollBarGadget(#PB_Any,x+width-Grid_Scrollbar_Width,y,Grid_Scrollbar_Width,height-Grid_Scrollbar_Width,0,1,1,#PB_ScrollBar_Vertical)
   
   CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
