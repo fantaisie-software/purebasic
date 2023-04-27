@@ -3627,6 +3627,7 @@ Procedure FD_LeftDown(x,y)
       If Not drawing And Not count_select
         SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Cross)
         multiselectStart = #True
+        multiselectFirstScan = #True
         multiselectParent = -1
       EndIf
     EndIf
@@ -4275,6 +4276,27 @@ Procedure FD_MoveMultiSelection(x,y)
   x + FormWindows()\paddingx - #Page_Padding - leftpadding
   y + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding
   
+  If multiselectFirstScan
+    multiselectFirstScan = #False
+    sx1 = x
+    sy1 = y
+    sx2 = x
+    sy2 = y
+  EndIf
+  
+  If sx1 > x
+    sx1 = x
+  EndIf
+  If sx2 < x
+    sx2 = x
+  EndIf
+  If sy1 > y
+    sy1 = y
+  EndIf
+  If sy2 < y
+    sy2 = y
+  EndIf
+  
   If LastElement(FormWindows()\FormGadgets())
     Repeat
       this_parent = FormWindows()\FormGadgets()\parent
@@ -4331,47 +4353,49 @@ Procedure FD_MoveMultiSelection(x,y)
       EndIf
       
       If Not hidden
-        If (x > x1 And x <= x2 And y >= y1 And y <= y2) And (x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2)
-          If multiSelectParent < 0
-            Select FormWindows()\FormGadgets()\type
-              Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
-                multiSelectParent = FormWindows()\FormGadgets()\itemnumber
-              Case #Form_Type_Splitter
-                If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
-                  If x < x1 + FormWindows()\FormGadgets()\state
-                    multiSelectParent = FormWindows()\FormGadgets()\gadget1
+        If x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2
+          If (x > x1 And x <= x2 And y >= y1 And y <= y2) Or ((x1 > sx1 And x2 <= sx2) And (y1 > sy1 And y2 <= sy2))
+            If multiSelectParent < 0
+              Select FormWindows()\FormGadgets()\type
+                Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
+                  multiSelectParent = FormWindows()\FormGadgets()\itemnumber
+                Case #Form_Type_Splitter
+                  If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
+                    If x < x1 + FormWindows()\FormGadgets()\state
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget1
+                    Else
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget2
+                    EndIf  
                   Else
-                    multiSelectParent = FormWindows()\FormGadgets()\gadget2
-                  EndIf  
-                Else
-                  If y < y1 + FormWindows()\FormGadgets()\state
-                    multiSelectParent = FormWindows()\FormGadgets()\gadget1
-                  Else
-                    multiSelectParent = FormWindows()\FormGadgets()\gadget2
-                  EndIf  
-                EndIf
-              
-              Default
-                multiSelectParent = 0
-            EndSelect
-          EndIf
-          If FormWindows()\FormGadgets()\parent = multiSelectParent
-            If Not FormWindows()\FormGadgets()\selected
-              count_select + 1
-              FormWindows()\FormGadgets()\selected = 1
-              FormWindows()\FormGadgets()\oldx = FormWindows()\FormGadgets()\x1
-              FormWindows()\FormGadgets()\oldy = FormWindows()\FormGadgets()\y1
-              redraw = 1
+                    If y < y1 + FormWindows()\FormGadgets()\state
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget1
+                    Else
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget2
+                    EndIf  
+                  EndIf
+                
+                Default
+                  multiSelectParent = 0
+              EndSelect
             EndIf
-            If (x > x1 And x <= x2 And y >= y1 And y <= y2)
-              moving = FormWindows()\FormGadgets()
-              moving_x = px
-              moving_y = py
-              moving_firstx = px
-              moving_firsty = py
+            If FormWindows()\FormGadgets()\parent = multiSelectParent
+              If Not FormWindows()\FormGadgets()\selected
+                count_select + 1
+                FormWindows()\FormGadgets()\selected = 1
+                FormWindows()\FormGadgets()\oldx = FormWindows()\FormGadgets()\x1
+                FormWindows()\FormGadgets()\oldy = FormWindows()\FormGadgets()\y1
+                redraw = 1
+              EndIf
+              If (x > x1 And x <= x2 And y >= y1 And y <= y2)
+                moving = FormWindows()\FormGadgets()
+                moving_x = px
+                moving_y = py
+                moving_firstx = px
+                moving_firsty = py
+              EndIf
             EndIf
+          
           EndIf
-        
         EndIf
       EndIf
       
@@ -4396,6 +4420,7 @@ Procedure FD_LeftUp(x,y)
   If multiselectStart
     SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Hand)
     multiselectStart = #False
+    multiselectFirstScan = #False
   EndIf
   
   If drawing And d_x1 <> d_x2 And d_y1 <> d_y2 ;{
