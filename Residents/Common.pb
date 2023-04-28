@@ -397,7 +397,7 @@ CompilerEndIf
 ; deprecated, just map it to 24bit image depth always
 ; use 24bit for better Windows GDI compatibility
 #PB_Image_DisplayFormat = 24
-#PB_Image_Transparent   = $200000000 ; CreateImage()
+#PB_Image_Transparent   = -1 ; CreateImage()
 #PB_Image_OriginalDepth = -2  ; ImageDepth()
 #PB_Image_InternalDepth = -3  ; ImageDepth()
 
