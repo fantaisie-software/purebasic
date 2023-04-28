@@ -942,6 +942,7 @@ Enumeration 0
   #MENU_NewlineLinux
   #MENU_NewlineMacOS
   ;#MENU_SortSources
+  #MENU_ShowInFolder
   
   CompilerIf #CompileMac
     #MENU_PreferenceNotUsed

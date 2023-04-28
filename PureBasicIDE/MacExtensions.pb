@@ -169,6 +169,10 @@ CompilerIf #CompileMacCocoa
     RunProgram("open", Chr(34)+Directory$+Chr(34), "")
   EndProcedure
   
+  Procedure ShowExplorerFile(File$)
+    RunProgram("open", "-R " + #DQUOTE$ + File$ + #DQUOTE$, "")
+  EndProcedure
+  
   ; Carbon event modifiers
   ;
   #activeFlagBit = 0
