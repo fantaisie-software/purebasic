@@ -1,4 +1,4 @@
-﻿; --------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -77,26 +77,27 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetText(#GADGET_iOSApp_Output         , *Target\iOSAppOutput$)
       SetGadgetText(#GADGET_iOSApp_ResourceDirectory, *Target\iOSAppResourceDirectory$)
       SetGadgetState(#GADGET_iOSApp_Orientation   , *Target\iOSAppOrientation)
-      SetGadgetState(#GADGET_iOSApp_Geolocation   , *Target\iOSAppGeolocation)
       SetGadgetState(#GADGET_iOSApp_FullScreen    , *Target\iOSAppFullScreen)
       SetGadgetState(#GADGET_iOSApp_AutoUpload    , *Target\iOSAppAutoUpload)
       SetGadgetState(#GADGET_iOSApp_EnableResourceDirectory, *Target\iOSAppEnableResourceDirectory)
       SetGadgetState(#GADGET_iOSApp_EnableDebugger, *Target\iOSAppEnableDebugger)
+      SetGadgetState(#GADGET_iOSApp_KeepAppDirectory, *Target\iOSAppKeepAppDirectory)
       
       SetGadgetText(#GADGET_AndroidApp_Name           , *Target\AndroidAppName$)
       SetGadgetText(#GADGET_AndroidApp_Icon           , *Target\AndroidAppIcon$)
       SetGadgetText(#GADGET_AndroidApp_Version        , *Target\AndroidAppVersion$)
+      SetGadgetText(#GADGET_AndroidApp_Code           , Str(*Target\AndroidAppCode))
       SetGadgetText(#GADGET_AndroidApp_PackageID      , *Target\AndroidAppPackageID$)
       SetGadgetText(#GADGET_AndroidApp_IAPKey         , *Target\AndroidAppIAPKey$)
       SetGadgetText(#GADGET_AndroidApp_StartupImage   , *Target\AndroidAppStartupImage$)
       SetGadgetText(#GADGET_AndroidApp_Output         , *Target\AndroidAppOutput$)
       SetGadgetText(#GADGET_AndroidApp_ResourceDirectory, *Target\AndroidAppResourceDirectory$)
       SetGadgetState(#GADGET_AndroidApp_Orientation   , *Target\AndroidAppOrientation)
-      SetGadgetState(#GADGET_AndroidApp_Geolocation   , *Target\AndroidAppGeolocation)
       SetGadgetState(#GADGET_AndroidApp_FullScreen    , *Target\AndroidAppFullScreen)
       SetGadgetState(#GADGET_AndroidApp_AutoUpload    , *Target\AndroidAppAutoUpload)
       SetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory, *Target\AndroidAppEnableResourceDirectory)
       SetGadgetState(#GADGET_AndroidApp_EnableDebugger, *Target\AndroidAppEnableDebugger)
+      SetGadgetState(#GADGET_AndroidApp_KeepAppDirectory, *Target\AndroidAppKeepAppDirectory)
       
       UpdateCreateAppWindow()
       
@@ -115,46 +116,47 @@ EndProcedure
 
 Procedure AppWindowChanged()
   
-  Changed | Bool(*CurrentAppTarget\WebAppName$            <> GetGadgetText(#GADGET_WebApp_Name))
-  Changed | Bool(*CurrentAppTarget\WebAppIcon$            <> GetGadgetText(#GADGET_WebApp_Icon))
-  Changed | Bool(*CurrentAppTarget\HtmlFilename$          <> GetGadgetText(#GADGET_WebApp_HtmlFilename))
-  Changed | Bool(*CurrentAppTarget\JavaScriptFilename$    <> GetGadgetText(#GADGET_WebApp_JavaScriptFilename))
-  Changed | Bool(*CurrentAppTarget\JavaScriptPath$        <> GetGadgetText(#GADGET_WebApp_JavaScriptPath))
-  Changed | Bool(*CurrentAppTarget\CopyJavaScriptLibrary  <> GetGadgetState(#GADGET_WebApp_CopyJavaScriptLibrary))
-  Changed | Bool(*CurrentAppTarget\ExportCommandLine$     <> GetGadgetText(#GADGET_WebApp_ExportCommandLine))
-  Changed | Bool(*CurrentAppTarget\ExportArguments$       <> GetGadgetText(#GADGET_WebApp_ExportArguments))
-  Changed | Bool(*CurrentAppTarget\EnableResourceDirectory<> GetGadgetState(#GADGET_WebApp_EnableResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\ResourceDirectory$     <> GetGadgetText(#GADGET_WebApp_ResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\WebAppEnableDebugger   <> GetGadgetState(#GADGET_WebApp_EnableDebugger))
+  If *CurrentAppTarget\WebAppName$            <> GetGadgetText(#GADGET_WebApp_Name) : Changed = #True : EndIf
+  If *CurrentAppTarget\WebAppIcon$            <> GetGadgetText(#GADGET_WebApp_Icon) : Changed = #True : EndIf
+  If *CurrentAppTarget\HtmlFilename$          <> GetGadgetText(#GADGET_WebApp_HtmlFilename) : Changed = #True : EndIf
+  If *CurrentAppTarget\JavaScriptFilename$    <> GetGadgetText(#GADGET_WebApp_JavaScriptFilename) : Changed = #True : EndIf
+  If *CurrentAppTarget\JavaScriptPath$        <> GetGadgetText(#GADGET_WebApp_JavaScriptPath) : Changed = #True : EndIf
+  If *CurrentAppTarget\CopyJavaScriptLibrary  <> GetGadgetState(#GADGET_WebApp_CopyJavaScriptLibrary) : Changed = #True : EndIf
+  If *CurrentAppTarget\ExportCommandLine$     <> GetGadgetText(#GADGET_WebApp_ExportCommandLine) : Changed = #True : EndIf
+  If *CurrentAppTarget\ExportArguments$       <> GetGadgetText(#GADGET_WebApp_ExportArguments) : Changed = #True : EndIf
+  If *CurrentAppTarget\EnableResourceDirectory<> GetGadgetState(#GADGET_WebApp_EnableResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\ResourceDirectory$     <> GetGadgetText(#GADGET_WebApp_ResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\WebAppEnableDebugger   <> GetGadgetState(#GADGET_WebApp_EnableDebugger) : Changed = #True : EndIf
   
-  Changed | Bool(*CurrentAppTarget\iOSAppName$         <> GetGadgetText(#GADGET_iOSApp_Name))
-  Changed | Bool(*CurrentAppTarget\iOSAppIcon$         <> GetGadgetText(#GADGET_iOSApp_Icon))
-  Changed | Bool(*CurrentAppTarget\iOSAppVersion$      <> GetGadgetText(#GADGET_iOSApp_Version))
-  Changed | Bool(*CurrentAppTarget\iOSAppPackageID$    <> GetGadgetText(#GADGET_iOSApp_PackageID))
-  Changed | Bool(*CurrentAppTarget\iOSAppStartupImage$ <> GetGadgetText(#GADGET_iOSApp_StartupImage))
-  Changed | Bool(*CurrentAppTarget\iOSAppOutput$       <> GetGadgetText(#GADGET_iOSApp_Output))
-  Changed | Bool(*CurrentAppTarget\iOSAppOrientation   <> GetGadgetState(#GADGET_iOSApp_Orientation))
-  Changed | Bool(*CurrentAppTarget\iOSAppGeolocation   <> GetGadgetState(#GADGET_iOSApp_Geolocation))
-  Changed | Bool(*CurrentAppTarget\iOSAppFullScreen    <> GetGadgetState(#GADGET_iOSApp_FullScreen))
-  Changed | Bool(*CurrentAppTarget\iOSAppAutoUpload    <> GetGadgetState(#GADGET_iOSApp_AutoUpload))
-  Changed | Bool(*CurrentAppTarget\iOSAppEnableResourceDirectory<> GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\iOSAppResourceDirectory$     <> GetGadgetText(#GADGET_iOSApp_ResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\WebAppEnableDebugger <> GetGadgetState(#GADGET_iOSApp_EnableDebugger))
+  If *CurrentAppTarget\iOSAppName$         <> GetGadgetText(#GADGET_iOSApp_Name) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppIcon$         <> GetGadgetText(#GADGET_iOSApp_Icon) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppVersion$      <> GetGadgetText(#GADGET_iOSApp_Version) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppPackageID$    <> GetGadgetText(#GADGET_iOSApp_PackageID) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppStartupImage$ <> GetGadgetText(#GADGET_iOSApp_StartupImage) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppOutput$       <> GetGadgetText(#GADGET_iOSApp_Output) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppOrientation   <> GetGadgetState(#GADGET_iOSApp_Orientation) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppFullScreen    <> GetGadgetState(#GADGET_iOSApp_FullScreen) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppAutoUpload    <> GetGadgetState(#GADGET_iOSApp_AutoUpload) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppEnableResourceDirectory<> GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppResourceDirectory$     <> GetGadgetText(#GADGET_iOSApp_ResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppEnableDebugger <> GetGadgetState(#GADGET_iOSApp_EnableDebugger) : Changed = #True : EndIf
+  If *CurrentAppTarget\iOSAppKeepAppDirectory <> GetGadgetState(#GADGET_iOSApp_KeepAppDirectory) : Changed = #True : EndIf
   
-  Changed | Bool(*CurrentAppTarget\AndroidAppName$         <> GetGadgetText(#GADGET_AndroidApp_Name))
-  Changed | Bool(*CurrentAppTarget\AndroidAppIcon$         <> GetGadgetText(#GADGET_AndroidApp_Icon))
-  Changed | Bool(*CurrentAppTarget\AndroidAppVersion$      <> GetGadgetText(#GADGET_AndroidApp_Version))
-  Changed | Bool(*CurrentAppTarget\AndroidAppPackageID$    <> GetGadgetText(#GADGET_AndroidApp_PackageID))
-  Changed | Bool(*CurrentAppTarget\AndroidAppIAPKey$       <> GetGadgetText(#GADGET_AndroidApp_IAPKey))
-  Changed | Bool(*CurrentAppTarget\AndroidAppStartupImage$ <> GetGadgetText(#GADGET_AndroidApp_StartupImage))
-  Changed | Bool(*CurrentAppTarget\AndroidAppOutput$       <> GetGadgetText(#GADGET_AndroidApp_Output))
-  Changed | Bool(*CurrentAppTarget\AndroidAppOrientation   <> GetGadgetState(#GADGET_AndroidApp_Orientation))
-  Changed | Bool(*CurrentAppTarget\AndroidAppGeolocation   <> GetGadgetState(#GADGET_AndroidApp_Geolocation))
-  Changed | Bool(*CurrentAppTarget\AndroidAppFullScreen    <> GetGadgetState(#GADGET_AndroidApp_FullScreen))
-  Changed | Bool(*CurrentAppTarget\AndroidAppAutoUpload    <> GetGadgetState(#GADGET_AndroidApp_AutoUpload))
-  Changed | Bool(*CurrentAppTarget\AndroidAppEnableResourceDirectory<> GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\AndroidAppResourceDirectory$     <> GetGadgetText(#GADGET_AndroidApp_ResourceDirectory))
-  Changed | Bool(*CurrentAppTarget\AndroidAppEnableDebugger<> GetGadgetState(#GADGET_AndroidApp_EnableDebugger))
+  If *CurrentAppTarget\AndroidAppName$         <> GetGadgetText(#GADGET_AndroidApp_Name) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppIcon$         <> GetGadgetText(#GADGET_AndroidApp_Icon) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppVersion$      <> GetGadgetText(#GADGET_AndroidApp_Version) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppCode          <> Val(GetGadgetText(#GADGET_AndroidApp_Code)) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppPackageID$    <> GetGadgetText(#GADGET_AndroidApp_PackageID) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppIAPKey$       <> GetGadgetText(#GADGET_AndroidApp_IAPKey) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppStartupImage$ <> GetGadgetText(#GADGET_AndroidApp_StartupImage) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppOutput$       <> GetGadgetText(#GADGET_AndroidApp_Output) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppOrientation   <> GetGadgetState(#GADGET_AndroidApp_Orientation) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppFullScreen    <> GetGadgetState(#GADGET_AndroidApp_FullScreen) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppAutoUpload    <> GetGadgetState(#GADGET_AndroidApp_AutoUpload) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppEnableResourceDirectory<> GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppResourceDirectory$     <> GetGadgetText(#GADGET_AndroidApp_ResourceDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppEnableDebugger<> GetGadgetState(#GADGET_AndroidApp_EnableDebugger) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppKeepAppDirectory<> GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory) : Changed = #True : EndIf
   
   ProcedureReturn Changed
 EndProcedure
@@ -214,14 +216,15 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\iOSAppResourceDirectory$     = GetGadgetText(#GADGET_iOSApp_ResourceDirectory)
   *CurrentAppTarget\iOSAppEnableResourceDirectory= GetGadgetState(#GADGET_iOSApp_EnableResourceDirectory)
   *CurrentAppTarget\iOSAppOrientation   = GetGadgetState(#GADGET_iOSApp_Orientation)
-  *CurrentAppTarget\iOSAppGeolocation   = GetGadgetState(#GADGET_iOSApp_Geolocation)
   *CurrentAppTarget\iOSAppFullScreen    = GetGadgetState(#GADGET_iOSApp_FullScreen)
   *CurrentAppTarget\iOSAppAutoUpload    = GetGadgetState(#GADGET_iOSApp_AutoUpload)
   *CurrentAppTarget\iOSAppEnableDebugger= GetGadgetState(#GADGET_iOSApp_EnableDebugger)
+  *CurrentAppTarget\iOSAppKeepAppDirectory= GetGadgetState(#GADGET_iOSApp_KeepAppDirectory)
   
   *CurrentAppTarget\AndroidAppName$         = GetGadgetText(#GADGET_AndroidApp_Name)
   *CurrentAppTarget\AndroidAppIcon$         = GetGadgetText(#GADGET_AndroidApp_Icon)
   *CurrentAppTarget\AndroidAppVersion$      = GetGadgetText(#GADGET_AndroidApp_Version)
+  *CurrentAppTarget\AndroidAppCode          = Val(GetGadgetText(#GADGET_AndroidApp_Code))
   *CurrentAppTarget\AndroidAppPackageID$    = GetGadgetText(#GADGET_AndroidApp_PackageID)
   *CurrentAppTarget\AndroidAppIAPKey$       = GetGadgetText(#GADGET_AndroidApp_IAPKey)
   *CurrentAppTarget\AndroidAppStartupImage$ = GetGadgetText(#GADGET_AndroidApp_StartupImage)
@@ -229,10 +232,10 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppResourceDirectory$      = GetGadgetText(#GADGET_AndroidApp_ResourceDirectory)
   *CurrentAppTarget\AndroidAppEnableResourceDirectory = GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory)
   *CurrentAppTarget\AndroidAppOrientation   = GetGadgetState(#GADGET_AndroidApp_Orientation)
-  *CurrentAppTarget\AndroidAppGeolocation   = GetGadgetState(#GADGET_AndroidApp_Geolocation)
   *CurrentAppTarget\AndroidAppFullScreen    = GetGadgetState(#GADGET_AndroidApp_FullScreen)
   *CurrentAppTarget\AndroidAppAutoUpload    = GetGadgetState(#GADGET_AndroidApp_AutoUpload)
   *CurrentAppTarget\AndroidAppEnableDebugger= GetGadgetState(#GADGET_AndroidApp_EnableDebugger)
+  *CurrentAppTarget\AndroidAppKeepAppDirectory= GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory)
   
 EndProcedure
 
@@ -460,6 +463,11 @@ Procedure CreateAppWindowEvents(EventID)
                     ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                     
                     Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
+                    
+                    ; An AAB is also automatically generated in release mode
+                    If *CurrentAppTarget\AndroidAppEnableDebugger = #False
+                      Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", ReplaceString(*CurrentAppTarget\AndroidAppOutput$, ".apk", ".aab")), Date())
+                    EndIf
                   EndIf
                 EndIf
                 

@@ -1,0 +1,118 @@
+;
+;     Packer library documentation
+;
+;      (c) 2022 - Fantaisie Software
+;
+
+@Library Packer
+
+@Overview
+
+The packer library provides an efficient set of functions to compress and uncompress
+data. It uses the zlib compression (also used in zip format).
+
+@CommandList
+
+@ExampleFile All Packer.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompressMemory(*Buffer [, Offset, Size]))
+
+@Description
+  Compress the specified buffer content and returns a new compressed buffer.
+  
+@Parameter "*Buffer"
+  The memory buffer to compress. It has to be allocated with @@AllocateMemory.
+
+@OptionalParameter "Offset"
+  The offset (in bytes) in the buffer. If not specified, the whole buffer is compressed.
+  
+@OptionalParameter "Size"
+  The amount of bytes to compress. If not specified, the whole buffer is compressed.
+
+@ReturnValue
+  Return the compressed buffer if it success, zero otherwise.
+
+@SeeAlso
+  @@UncompressMemory
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = UncompressMemory(*Buffer [, Offset, Size]))
+
+@Description
+  Uncompress the specified buffer and returns a new uncompressed buffer.
+  
+@Parameter "*Buffer"
+  The memory buffer to uncompress. It has to be previously compressed with @@CompressMemory.
+
+@OptionalParameter "Offset"
+  The offset (in bytes) in the buffer. If not specified, the whole buffer is uncompressed.
+  
+@OptionalParameter "Size"
+  The amount of bytes to uncompress. If not specified, the whole buffer is uncompressed.
+
+@ReturnValue
+  Return the uncompressed buffer if it success, zero otherwise.
+
+@SeeAlso
+  @@CompressMemory
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompressString(String$)
+
+@Description
+  Compress the specified string and returns a new compressed buffer.
+  
+@Parameter "String$"
+  The string to compress.
+
+@ReturnValue
+  Return the compressed buffer if it success, zero otherwise.
+
+@Example
+@Code
+  String$ = "Test "+Space(1000)+"End"
+  *Compressed = CompressString(String$)
+  Debug "Compressed size (from " + Len(String$) + " bytes): "+MemorySize(*Compressed)
+@EndCode
+
+@SeeAlso
+  @@UncompressString
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = UncompressString(String$)
+
+@Description
+  Uncompress the specified buffer and returns the uncompressed string.
+  
+@Parameter "String$"
+  The string to uncompress.
+
+@ReturnValue
+  Return the uncompressed string if it success, empty string otherwise.
+
+@Example
+@Code
+  String$ = "Test "+Space(1000)+"End"
+  *Compressed = CompressString(String$)
+  Debug "Compressed size (from " + Len(String$) + " bytes): "+MemorySize(*Compressed)
+
+  Debug "Uncompressed string: " + UncompressString(*Compressed)
+@EndCode
+
+@SeeAlso
+  @@UncompressString
+    
+@SupportedOS

@@ -6,7 +6,7 @@ Import "mscms.lib"
        Api(CheckColors, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(CloseColorProfile, (arg1), 4)
   AnsiWide(CreateColorTransform, (arg1, arg2, arg3, arg4), 16)
-       Api(CreateDeviceLinkProfile, (arg1, arg2, arg3, arg4), 16)
+       Api(CreateDeviceLinkProfile, (arg1, arg2, arg3, arg4, arg5, arg6, arg7), 28)
        Api(CreateMultiProfileTransform, (arg1, arg2, arg3, arg4, arg5, arg6), 24)
   AnsiWide(CreateProfileFromLogColorSpace, (arg1, arg2), 8)
        Api(DeleteColorTransform, (arg1), 4)

@@ -1,0 +1,141 @@
+;
+; PureBasic Debugger language file
+;
+
+[LanguageInfo]
+Application = PB_Debugger
+Language    = Deutsch
+Creator     = PureBasic Team / André
+Email       = andre@purebasic.com
+
+
+[Debugger]
+OutOfMemory      = Speicherplatz für den Debugger reicht nicht aus.
+StackUnavailable = Information über den Stack können nicht angezeigt werden.
+StackLow         = Fehler: Stack-Position ist niedriger als zum Programm-Start.
+StackEmpty       = Der Stack ist leer.
+StackAlign       = Warnung: Der Stack ist nicht an die OS-Voraussetzungen angepasst.
+StackLimit       = Warnung: Stack-Position ist außerhalb der OS-Limits (Stapelüberlauf).
+StackAlignBytes  = Bytes sind nicht an die Register-Größenbegrenzungen angepasst:
+TargetNotFound   = Kann die Ziel-Variable nicht ermitteln.
+AssignStructure  = Kann einer Struktur keinen Wert zuweisen.
+AssignValue      = Ein Wert zum Zuweisen fehlt.
+NumericString    = Kann keinen numerischen Wert in eine String-Variable schreiben.
+StringNumeric    = Kann keinen String in eine numerischer Variable schreiben.
+Win9xDrawing     = Kann den Debugger auf Windows 95/98/ME nicht innerhalb von StartDrawing(Sprite/ScreenOutput()) anhalten.
+Warning          = Warnung
+
+[External]
+InvalidStart         = Ein Ganzzahl-Ausdruck wird als Startadresse erwartet.
+InvalidEnd           = Ein Ganzzahl-Ausdruck wird als Ende-Adresse / Länge erwartet.
+ArrayListNotFound    = Array, verknüpfte Liste oder Map nicht gefunden.
+WatchlistBig         = Die Beobachtungsliste ist zu groß (1000 Einträge), bitte entfernen Sie Variablen.
+NoStructure          = Ungültiges "\". Die Variable ist keine Struktur.
+NoStructureFields    = Kann nicht auf Struktur-Felder von Zeigern in der Beobachtungsliste zugreifen.
+InvalidField         = Ungültiger Struktur-Feldname.
+LiteralOnly          = Nur wörtliche Ausdrücke sind als Array-Index erlaubt.
+IntegerOnly          = Nur Ganzzahlen sind als Array-Index erlaubt.
+MissingBracket       = Kann das passende ']' für das Struktur-Array nicht finden.
+StructureArrayBounds = Index des Struktur-Arrays außerhalb des zulässigen Bereichs.
+VariableNotFound     = Variable nicht gefunden.
+InvalidCharacter     = Ungültiges Zeichen nach Array/Liste/Map.
+InvalidListName      = Ungültiger Listen-Name.
+InvalidName          = Ungültiger Variablen-Name.
+NoStructureDisplay   = Kann keine kompletten Strukturen in der Beobachtungsliste anzeigen.
+NoDynamicDisplay     = Kann keine Arrays, Listen oder Maps in Strukturen in der Beobachtungsliste anzeigen.
+ModuleNotFound       = Modul nicht gefunden.
+
+[DebuggerErrors]
+1  = Division durch Null verboten.
+2  = Modulo Null ist verboten (resultiert in einer Null-Division).
+3  = Zeiger ist Null.
+4  = Array-Index außerhalb der zulässigen Grenzen.
+5  = Die Liste hat kein aktuelles Element.
+6  = Index des Struktur-Arrays außerhalb des zulässigen Bereichs.
+7  = Array-Größe darf nicht negativ sein.
+8  = Nur die letzte Dimension eines Arrays kann mittels ReDim geändert werden.
+9  = Fehler beim Einlesen von Daten: keine weiteren Daten.
+10 = NewMap: 'HashSize' kann nicht negativ oder 0 sein.
+11 = Die Map hat kein aktuelles Element.
+12 = Die Map ist nicht initialisiert.
+
+[SystemErrors]
+InvalidMemory      = Ungültiger Speicherzugriff.
+InvalidMemoryRead  = Ungültiger Speicherzugriff. (Lesefehler an der Adresse %s)
+InvalidMemoryWrite = Ungültiger Speicherzugriff. (Schreibfehler an der Adresse %s)
+PageError          = Speicherseiten-Fehler.
+StackOverflow      = Stapel-/Stacküberlauf.
+IllegalInstruction = Illegale Anweisung. (Ausführen von binären Daten?)
+DivisionByZero     = Division durch Null.
+FloatInvalid       = Ungültige Fließkomma-Operation.
+FloatOverflow      = Fließkomma-Überlauf.
+FloatUnderflow     = Fließkomma-Unterlauf.
+IntegerOverflow    = Ganzzahl-Überlauf.
+ArithmeticError    = Schwerer Rechenfehler.
+BadCall            = Falscher Systemaufruf.
+ProgramAbort       = Programm abgebrochen. (durch eine externe Library)
+
+[Parser]
+NoMemory             = Speicherplatz für den Parser reicht nicht aus.
+TokenBinary          = Deformierter Binär-Wert.
+TokenString          = Unbegrenzte String-Buchstabenfolge
+TokenCharacter       = Unbegrenzte Character-Buchstabenfolge
+Token$               = Unerwartetes Symbol: '$'
+TokenHex             = Deformierter Hexadezimal-Wert.
+TokenDecimal         = Deformierter Dezimal-Wert.
+InvalidInput         = Nicht unterstütztes Eingabe-Zeichen: '%c'
+ArgumentExpected     = Dieser Operator erwartet ein weiteres Argument.
+NumericString        = Kann keinen numerischen Wert mit einem String kombinieren.
+InvalidStringOp      = Nur der '+'-Operator kann mit Strings verwendet werden.
+FloatBinary          = Binäre Operatoren können nicht mit Fließkommazahlen verwendet werden.
+NoStringOp           = Dieser Operator kann nicht mit Strings verwendet werden.
+NoFloatOp            = Die binären Operatoren können nicht mit Fließkommazahlen verwendet werden.
+UnmatchedLParen      = Unpassende '('.
+UnmatchedLBracket    = Unpassende '['.
+IdentifierExpected   = Ein Bezeichner (ID) wird erwartet.
+IdentifierExpected@  = Ein Bezeichner (ID) wird erwartet nach '@'.
+IdentifierExpected?  = Ein Bezeichner (ID) wird erwartet nach '?'.
+ConstantExpected     = Ein Konstanten-Name wird erwartet nach '#'.
+UnexpectedToken      = Unerwartetes Symbol.
+FieldExpected        = Struktur-Feldname erwartet.
+IntegerIndex         = Ein Ganzzahl-Ausdruck muss als Array-Index angegeben werden.
+OutOfBounds          = Array-Index außerhalb des zulässigen Bereichs.
+NoArray              = Dieses Struktur-Feld hat kein Array.
+FieldNotFound        = Struktur-Feld nicht gefunden:
+InvalidString        = Kein gültiger String-Zeiger.
+NullStructure        = Der Struktur-Zeiger ist NULL.
+InvalidStructure     = Der Struktur-Zeiger zeigt nicht auf einen gültigen Speicherbereich.
+VariableNotFound     = Variable nicht gefunden:
+UnexpectedCall       = Unerwarteter Library-Funktionsaufruf.
+NoAddress            = Kann die Adresse der Library-Funktion nicht ermitteln.
+ArrayInit            = Das Array ist nicht initialisiert. (Dim ist noch nicht aufgerufen worden)
+MapInit              = Die Map ist nicht initialisiert. (NewMap ist noch nicht aufgerufen worden)
+MapStringKey         = Ein String-Ausdruck muss als Map-Schlüssel angegeben werden.
+MissingArrayParen    = Abschließendes ')' fehlt bei den Array-Dimensionen.
+NoDimensions         = Die Dimension des Arrays muss mindestens 1 betragen.
+TooFewDimensions     = Zu wenig Dimensionen für das Array.
+TooManyDimensions    = Zu viele Dimensionen für das Array.
+MissingListParen     = Abschließendes ')' fehlt nach dem Listen-Name.
+MissingMapParen      = Abschließendes  ')' fehlt nach dem Map-Name.
+NoCurrentElement     = Die verknüpfte Liste hat kein aktuelles Element.
+MapNoCurrentElement  = Die Map hat kein aktuelles Element.
+ArrayListNotFound    = Array() / Liste() / Map() nicht gefunden:
+MissingOpenParen     = '(' wird nach einem Array, einer Liste oder Map erwartet.
+NoStructure          = Diese Variable hat keine Struktur.
+Garbage              = Unsinnige Zeichen am Ende der Eingabe.
+MissingFunctionParen = Abschließendes ')' fehlt bei den Funktions-Argumenten.
+TooFewArguments      = Zu wenige Argumente für die Funktion.
+TooManyArguments     = Zu viele Argumente für die Funktion.
+StringExpected       = Falscher Parameter-Typ: ein String wird erwartet.
+NumberExpected       = Falscher Parameter-Typ: eine Zahl wird erwartet.
+InvalidMemory        = %s zeigt nicht auf gültigen Speicher.
+InvalidStringMemory  = %s zeigt nicht auf gültigen String-Speicher.
+NoReplaceMode        = An Ort und Stelle ersetzen (Modus 2) wird hier nicht unterstützt.
+LabelNotFound        = Sprungmarke nicht gefunden:
+ConstantNotFound     = Konstante nicht gefunden:
+BooleanContext       = Boolesche Ausdrücke sind in diesem Kontext nicht erlaubt.
+NoLiteralString      = Die Verwendung einer Zeichenkette als Ausdruck ist nicht erlaubt.
+NoArrayListMap       = Die Eingabe umfasst weder ein Array, eine Liste oder eine Map.
+NoObject             = Das angegebene Objekt ist nicht initialisiert.
+InvalidModuleUse     = Ungültige Verwendung des Modul-Operators.
+ModuleNotFound       = Modul nicht gefunden:

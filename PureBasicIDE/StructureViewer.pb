@@ -909,7 +909,6 @@ Procedure StructureViewerWindowEvents(EventID)
                 length = 0
                 For i = 1 To CountGadgetItems(#GADGET_StructureViewer_List)-2
                   Line$ =  LTrim(Trim(GetGadgetItemText(#GADGET_StructureViewer_List, i, 0)), "*") ; We need to remove the '*' when inserting the item.
-                  Debug Line$
                   newlength = FindString(Line$, ".", 1) - 1
                   If FindString(Line$, "[", 1) <> 0
                     newlength + Len(Line$) - FindString(Line$, "[", 1) + 1

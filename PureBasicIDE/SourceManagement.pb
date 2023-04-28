@@ -830,16 +830,17 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("iOSAppResourceDirectory" , *Target\iOSAppResourceDirectory$)
     AddFlagConfigLine("iOSAppEnableResourceDirectory", *Target\iOSAppEnableResourceDirectory)
     AddStringConfigLine("iOSAppOrientation", Str(*Target\iOSAppOrientation))
-    AddFlagConfigLine("iOSAppGeolocation", *Target\iOSAppGeolocation)
     AddFlagConfigLine("iOSAppFullScreen" , *Target\iOSAppFullScreen)
     AddFlagConfigLine("iOSAppAutoUpload" , *Target\iOSAppAutoUpload)
     AddFlagConfigLine("iOSAppEnableDebugger" , *Target\iOSAppEnableDebugger)
+    AddFlagConfigLine("iOSAppKeepAppDirectory" , *Target\iOSAppKeepAppDirectory)
     
     ; AndroidApp
     ;
     AddStringConfigLine("AndroidAppName"        , *Target\AndroidAppName$)
     AddStringConfigLine("AndroidAppIcon"        , *Target\AndroidAppIcon$)
     AddStringConfigLine("AndroidAppVersion"     , *Target\AndroidAppVersion$)
+    AddStringConfigLine("AndroidAppCode"        , Str(*Target\AndroidAppCode))
     AddStringConfigLine("AndroidAppPackageID"   , *Target\AndroidAppPackageID$)
     AddStringConfigLine("AndroidAppIAPKey"      , *Target\AndroidAppIAPKey$)
     AddStringConfigLine("AndroidAppStartupImage", *Target\AndroidAppStartupImage$)
@@ -847,10 +848,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppResourceDirectory" , *Target\AndroidAppResourceDirectory$)
     AddFlagConfigLine("AndroidAppEnableResourceDirectory", *Target\AndroidAppEnableResourceDirectory)
     AddStringConfigLine("AndroidAppOrientation" , Str(*Target\AndroidAppOrientation))
-    AddFlagConfigLine("AndroidAppGeolocation"   , *Target\AndroidAppGeolocation)
     AddFlagConfigLine("AndroidAppFullScreen"    , *Target\AndroidAppFullScreen)
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
+    AddFlagConfigLine("AndroidAppKeepAppDirectory", *Target\AndroidAppKeepAppDirectory)
     
   CompilerEndIf
   
@@ -1290,27 +1291,28 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "IOSAPPSTARTUPIMAGE" : *Source\iOSAppStartupImage$ = Value$
         Case "IOSAPPOUTPUT"       : *Source\iOSAppOutput$ = Value$
         Case "IOSAPPORIENTATION"  : *Source\iOSAppOrientation = Val(Value$)
-        Case "IOSAPPGEOLOCATION"  : *Source\iOSAppGeolocation = 1
         Case "IOSAPPFULLSCREEN"   : *Source\iOSAppFullScreen = 1
         Case "IOSAPPAUTOUPLOAD"   : *Source\iOSAppAutoUpload = 1
         Case "IOSAPPRESOURCEDIRECTORY"      : *Source\iOSAppResourceDirectory$ = Value$
         Case "IOSAPPENABLERESOURCEDIRECTORY": *Source\iOSAppEnableResourceDirectory = 1
         Case "IOSAPPENABLEDEBUGGER" : *Source\iOSAppEnableDebugger = 1
+        Case "IOSAPPKEEPAPPDIRECTORY" : *Source\iOSAppKeepAppDirectory = 1
           
         Case "ANDROIDAPPNAME"         : *Source\AndroidAppName$ = Value$
         Case "ANDROIDAPPICON"         : *Source\AndroidAppIcon$ = Value$
         Case "ANDROIDAPPVERSION"      : *Source\AndroidAppVersion$ = Value$
+        Case "ANDROIDAPPCODE"         : *Source\AndroidAppCode = Val(Value$)
         Case "ANDROIDAPPPACKAGEID"    : *Source\AndroidAppPackageID$ = Value$
         Case "ANDROIDAPPIAPKEY"       : *Source\AndroidAppIAPKey$ = Value$
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
         Case "ANDROIDAPPOUTPUT"       : *Source\AndroidAppOutput$ = Value$
         Case "ANDROIDAPPORIENTATION"  : *Source\AndroidAppOrientation = Val(Value$)
-        Case "ANDROIDAPPGEOLOCATION"  : *Source\AndroidAppGeolocation = 1
         Case "ANDROIDAPPFULLSCREEN"   : *Source\AndroidAppFullScreen = 1
         Case "ANDROIDAPPAUTOUPLOAD"   : *Source\AndroidAppAutoUpload = 1
         Case "ANDROIDAPPRESOURCEDIRECTORY"      : *Source\AndroidAppResourceDirectory$ = Value$
         Case "ANDROIDAPPENABLERESOURCEDIRECTORY": *Source\AndroidAppEnableResourceDirectory = 1
         Case "ANDROIDAPPENABLEDEBUGGER" : *Source\AndroidAppEnableDebugger = 1
+        Case "ANDROIDAPPKEEPAPPDIRECTORY" : *Source\AndroidAppKeepAppDirectory = 1
           
         CompilerEndIf
         
@@ -1810,7 +1812,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
       *ActiveSource\ExistsOnDisk  = #True
       *ActiveSource\LastWriteDate = GetFileDate(*ActiveSource\Filename$, #PB_Date_Modified)
       *ActiveSource\DiskFileSize  = FileSize(*ActiveSource\Filename$)
-      *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
+      DisableDebugger
+        *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
+      EnableDebugger
       
       RecentFiles_AddFile(FileName$, #False)
       AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)

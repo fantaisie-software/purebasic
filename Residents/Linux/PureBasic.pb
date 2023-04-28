@@ -416,9 +416,6 @@ CompilerEndIf
 #PB_EventType_Down              = 5
 #PB_EventType_Resize    = 6
 
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
-
 ; Drag & Drop
 ;
 CompilerIf Subsystem("qt")

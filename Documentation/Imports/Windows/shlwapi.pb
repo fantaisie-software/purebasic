@@ -1,7 +1,7 @@
 ﻿XIncludeFile "common.pbi"
 
 Import "shlwapi.lib"
-       Api(AssocCreate, (arg1, arg2, arg3, arg4, arg5, arg6), 24)
+       ; Api(AssocCreate, (arg1, arg2, arg3), 12) ; This one ask a GUID as first paramater which is 16 bytes long, we don't support this in PB.
        Api(AssocIsDangerous, (arg1), 4)
   AnsiWide(AssocQueryKey, (arg1, arg2, arg3, arg4, arg5), 20)
   AnsiWide(AssocQueryString, (arg1, arg2, arg3, arg4, arg5, arg6), 24)
@@ -121,7 +121,7 @@ Import "shlwapi.lib"
   AnsiWide(StrDup, (arg1), 4)
   AnsiWide(StrFormatByteSize, (arg1, arg2, arg3), 12)
   AnsiWide(StrFormatByteSize64, (arg1, arg2, arg3, arg4), 16)
-  AnsiWide(StrFormatKBSize, (arg1, arg2, arg3, arg4), 16)
+  AnsiWide(StrFormatKBSize, (arg1.q, arg2, arg3), 16)
   AnsiWide(StrFromTimeInterval, (arg1, arg2, arg3, arg4), 16)
   AnsiWide(StrIsIntlEqual, (arg1, arg2, arg3, arg4), 16)
   AnsiWide(StrNCat, (arg1, arg2, arg3), 12)

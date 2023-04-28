@@ -65,6 +65,19 @@ Procedure GetRequiredSize(Gadget, *Width.LONG, *Height.LONG, Flags = 0)
   *Width\l  = GadgetWidth(Gadget, #PB_Gadget_RequiredSize)
   *Height\l = GadgetHeight(Gadget, #PB_Gadget_RequiredSize)
   
+  CompilerIf #CompileMac
+    Select GadgetType(Gadget)
+      Case #PB_GadgetType_Button
+        If *Height\l < 28
+          *Height\l = 28
+        EndIf
+      Case #PB_GadgetType_String
+        If *Height\l < 24
+          *Height\l = 24
+        EndIf
+    EndSelect
+  CompilerEndIf
+  
 EndProcedure
 
 ; convenience wrappers if only one size is needed

@@ -947,8 +947,9 @@
   interfere with PB's own message processing.
 
 @Parameter "@ProcedureName()"
-  The callback @ReferenceLink "procedures" "procedure" to use. It must have 4 parameters.
-  Here is a sample code to use a callback correctly:
+  The callback @ReferenceLink "procedures" "procedure" to use. It must have 4 parameters. If the event isn't
+  processed, the result must be set to @#PB_ProcessPureBasicEvents so the event will be properly handled
+  by the PureBasic. Here is a sample code to use a callback correctly:
 @Code
   Procedure MyWindowCallback(WindowID, Message, WParam, LParam)
     Result = #PB_ProcessPureBasicEvents
@@ -959,8 +960,12 @@
   EndProcedure
 @EndCode
 
-  Here you see a working example checking some window parameters 
-  (using @InternetLink "http://msdn.microsoft.com/library" "Windows API" constants):
+@OptionalParameter "#Window"
+  A specific window to associate the callback to. If omitted the callback will be called for any window.
+
+@NoReturnValue
+
+@Example
 @Code
   Procedure WinCallback(hWnd, uMsg, WParam, LParam) 
     ; Windows fills the parameter automatically, which we will use in the callback...
@@ -982,7 +987,7 @@
   
   If OpenWindow(0, 0, 0, 200, 100, "Messages", #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget) 
     
-    SetWindowCallback(@WinCallback())    ; activate the callback
+    SetWindowCallback(@WinCallback(), 0) ; set the callback
     
     Repeat 
       Select WaitWindowEvent() 
@@ -993,11 +998,6 @@
     
   EndIf 
 @EndCode
-
-@OptionalParameter "#Window"
-  A specific window to associate the callback to. If omitted the callback will be called for any window.
-
-@NoReturnValue
 
 @SupportedOS Windows
 

@@ -813,7 +813,11 @@ DataSection
   Data$ "ShowIndentGuides", "Show indentation guides"
   Data$ "UseTabIndentForSplittedLines", "Use tab indent for splitted lines"
   
-  Data$ "Color0",           "ASM Keywords"
+  CompilerIf #SpiderBasic
+    Data$ "Color0",         "Inline Javascript"
+  CompilerElse
+    Data$ "Color0",         "ASM Keywords"
+  CompilerEndIf
   Data$ "Color1",           "Background"
   Data$ "Color2",           "Basic Keywords"
   Data$ "Color3",           "Comments"
@@ -961,7 +965,11 @@ DataSection
   Data$ "Option_Module",    "Modules"
   
   Data$ "Option_PBKeywords",  "Keywords"
-  Data$ "Option_ASMKeywords", "ASM Keywords"
+  CompilerIf #SpiderBasic
+    Data$ "Option_ASMKeywords", "Inline Javascript"
+  CompilerElse
+    Data$ "Option_ASMKeywords", "ASM Keywords"
+  CompilerEndIf
   Data$ "Option_PBFunctions", "Library Functions"
   Data$ "Option_APIFunctions","API Functions"
   Data$ "Option_PBConstants", "Constants"
@@ -1080,7 +1088,7 @@ DataSection
   CompilerIf #SpiderBasic
     Data$ "WebBrowser",  "Web browser"
     Data$ "WebServerPort",  "Default web server port"
-    Data$ "JDK",  "JDK 1.8+ path"
+    Data$ "JDK",  "JDK 8 path (JDK 9+ not supported)"
     Data$ "AppleTeamID",  "AppleTeam ID"
   CompilerEndIf
   
@@ -1398,6 +1406,7 @@ DataSection
     Data$ "SelectResourceDirectory","Select resource directory"
     Data$ "SelectStartupImage" ,"Select a startup image"
     Data$ "EnableDebugger"     ,"Enable debugger"
+    Data$ "KeepAppDirectory"   ,"Keep app directory"
     
     
     ; ===================================================
@@ -1430,12 +1439,12 @@ DataSection
     Data$ "Name",                 "App name"
     Data$ "Icon",                 "Icon"
     Data$ "Version",              "Version"
+    Data$ "Code",                 "Code"
     Data$ "IAPKey",               "IAP Key"
     Data$ "PackageID",            "Package ID"
     Data$ "StartupImage",         "Startup image"
     Data$ "Orientation",          "Orientation"
     Data$ "FullScreen",           "Fullscreen"
-    Data$ "Geolocation",          "Geolocation"
     Data$ "Output",               "Output filename"
     Data$ "AutoUpload",           "Automatically upload on USB connected device (requires enabled debugger)"
     Data$ "ResourceDirectory",    "Resource directory"
@@ -1456,7 +1465,6 @@ DataSection
     Data$ "StartupImage",         "Startup image"
     Data$ "Orientation",          "Orientation"
     Data$ "FullScreen",           "Fullscreen"
-    Data$ "Geolocation",          "Geolocation"
     Data$ "Output",               "Output filename"
     Data$ "AutoUpload",           "Automatically upload on USB connected device"
     Data$ "ResourceDirectory",    "Resource directory"

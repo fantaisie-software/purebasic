@@ -3,7 +3,7 @@
 Import "ntmsapi.lib"
        Api(AccessNtmsLibraryDoor, (arg1, arg2, arg3), 12)
        Api(AddNtmsMediaType, (arg1, arg2, arg3), 12)
-       Api(AllocateNtmsMedia, (arg1, arg2, arg3, arg4, arg5, arg6), 24)
+       Api(AllocateNtmsMedia, (arg1, arg2, arg3, arg4, arg5, arg6, arg7), 28)
        Api(CancelNtmsLibraryRequest, (arg1, arg2), 8)
        Api(CancelNtmsOperatorRequest, (arg1, arg2), 8)
        Api(ChangeNtmsMediaType, (arg1, arg2, arg3), 12)
@@ -37,7 +37,7 @@ Import "ntmsapi.lib"
        Api(InjectNtmsCleaner, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(InjectNtmsMedia, (arg1, arg2, arg3, arg4), 16)
        Api(InventoryNtmsLibrary, (arg1, arg2, arg3), 12)
-       Api(MountNtmsMedia, (arg1, arg2, arg3, arg4, arg5, arg6, arg7), 28)
+       Api(MountNtmsMedia, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), 32)
        Api(MoveToNtmsMediaPool, (arg1, arg2, arg3), 12)
        Api(OpenNtmsNotification, (arg1, arg2), 8)
   AnsiWide(OpenNtmsSession, (arg1, arg2, arg3), 12)

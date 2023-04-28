@@ -234,6 +234,11 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = Window
     
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]    = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
+    CompilerIf #CompileWindows
+      ; Disable RTF feature of EditorGadget() as we need to display every kind of output (https://www.purebasic.fr/english/viewtopic.php?t=79542)
+      SendMessage_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]), #EM_SETTEXTMODE, #TM_PLAINTEXT, 0) 
+    CompilerEndIf
+    
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
     *Debugger\Gadgets[#DEBUGGER_Gadget_Debug_Text]    = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Debug")+":")
@@ -341,9 +346,16 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     CompilerIf #CompileMac
       ; Scroll the editor gadget to the bottom
       ; This function is very very slow, that's why we defer it (https://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
-      Range.NSRange\location = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length") - 1
-      Range\length = 1
-      CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
+      TextViewLength = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length")
+      ; Avoid scrolling if we've insufficient length. This may occur if an empty string is logged.
+      ; Supplying a negative location value will crash/stall the application due to NSRange being
+      ; composed of unsigned integers, meaning -1 is misinterpreted as the massive 2^64-1.
+      ; See: https://github.com/fantaisie-software/purebasic/issues/224
+      If TextViewLength > 0
+        Range.NSRange\location = TextViewLength - 1
+        Range\length = 1
+        CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
+      EndIf
     CompilerEndIf
     
     *Debugger\DebugMessage$ = ""
@@ -484,7 +496,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
           
         Case 4 ; string
           Message$ + PeekS(*Debugger\CommandData)
-          Expr$ = PeekS(*Debugger\CommandData + Len(Message$) + 1)
+          Expr$ = PeekS(*Debugger\CommandData + (Len(Message$) + 1)*#CharSize)
           
           If *Debugger\Command\Command = #COMMAND_SetVariableResult
             Message$ = Chr(34)+Message$+Chr(34)

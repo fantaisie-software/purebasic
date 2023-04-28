@@ -157,7 +157,7 @@ IncludeFile "../Common.pb"
 #PB_Event_LoadingError     = 19
 #PB_Event_RequesterOK      = 20
 #PB_Event_SizeDesktop      = 21
-
+#PB_Event_WebSocket        = 22
 ; Loading type
 ;
 #PB_Loading_Image = 1
@@ -187,9 +187,11 @@ IncludeFile "../Common.pb"
 #PB_EventType_Focus             = 7
 #PB_EventType_LostFocus         = 8
 #PB_EventType_Change            = 9
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
+#PB_EventType_Connected         = 10
+#PB_EventType_Closed            = 11
+#PB_EventType_Data              = 12
+#PB_EventType_String            = 13
+#PB_EventType_Error             = 14
 
 ; Window flags
 ;
@@ -208,6 +210,7 @@ IncludeFile "../Common.pb"
 #PB_Window_NoActivate     = 1 << 11
 #PB_Window_Background     = 1 << 12
 #PB_Window_AllowSelection = 1 << 13
+#PB_Window_NoMove         = 1 << 14
 
 ; For WindowX/Y/Width/Height()
 ;
@@ -720,5 +723,54 @@ IncludeFile "../Common.pb"
 #PB_Shortcut_F10 = 210
 #PB_Shortcut_F11 = 211
 #PB_Shortcut_F12 = 212
+
+; Shader
+;
+#PB_Shader_Blur     = 0
+#PB_Shader_Noise    = 1
+#PB_Shader_Pixelate = 2
+#PB_Shader_Bevel    = 4
+#PB_Shader_BulgePinch = 5
+#PB_Shader_Reflection = 7
+#PB_Shader_Adjustment = 8
+
+#PB_PixelateShader_SizeX = 1
+#PB_PixelateShader_SizeY = 2
+
+#PB_NoiseShader_Seed = 3
+#PB_NoiseShader_Intensity = 4
+
+#PB_BlurShader_Intensity = 5
+#PB_BlurShader_Quality = 6
+
+#PB_BulgePinchShader_Strength = 7
+#PB_BulgePinchShader_CenterX = 8
+#PB_BulgePinchShader_CenterY = 9
+#PB_BulgePinchShader_Radius = 10
+
+#PB_BevelShader_Thickness = 12
+#PB_BevelShader_Rotation = 13
+#PB_BevelShader_LightColor = 14
+#PB_BevelShader_ShadowColor = 15
+
+#PB_ReflectionShader_AlphaStart = 16
+#PB_ReflectionShader_AlphaEnd = 17
+#PB_ReflectionShader_Boundary = 18
+#PB_ReflectionShader_AmplitudeStart = 19
+#PB_ReflectionShader_AmplitudeEnd = 20
+#PB_ReflectionShader_WaveLengthStart = 21
+#PB_ReflectionShader_WaveLengthEnd = 22
+#PB_ReflectionShader_Mirror = 23
+#PB_ReflectionShader_Time = 32
+
+#PB_AdjustmentShader_Alpha = 24
+#PB_AdjustmentShader_Gamma = 25
+#PB_AdjustmentShader_Saturation = 26
+#PB_AdjustmentShader_Contrast = 27
+#PB_AdjustmentShader_Brightness = 28
+#PB_AdjustmentShader_Red = 29
+#PB_AdjustmentShader_Green = 30
+#PB_AdjustmentShader_Blue = 31
+
 
 XIncludeFile "../CommonUnicode.pb"

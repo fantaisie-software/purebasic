@@ -138,7 +138,7 @@ DataSection
   Data$ "CopyMaterial,2,#PB_Any"
   Data$ "CopyMesh,2,#PB_Any"
   Data$ "CopySprite,2,#PB_Any"
-  Data$ "CopySprite,3,#PB_Sprite_PixelCollision,#PB_Sprite_PixelCollision"
+  Data$ "CopySprite,3,#PB_Sprite_PixelCollision,#PB_Sprite_AlphaBlending"
   Data$ "CopyTexture,2,#PB_Any"
   Data$ "CountCPUs,1,#PB_System_CPUs,#PB_System_ProcessCPUs"
   Data$ "CreateBillboardGroup,1,#PB_Any"
@@ -378,6 +378,8 @@ DataSection
   Data$ "GetSoundPosition,2,#PB_Sound_Frame,#PB_Sound_Millisecond"
   Data$ "GetUserDirectory,1,#PB_Directory_Desktop,#PB_Directory_Downloads,#PB_Directory_Documents,#PB_Directory_Videos,#PB_Directory_Musics,#PB_Directory_Pictures,#PB_Directory_Public,#PB_Directory_ProgramData,#PB_Directory_AllUserData,#PB_Directory_Programs"
   Data$ "GetVehicleAttribute,2,#PB_Vehicle_Friction,#PB_Vehicle_MaxSuspensionForce,#PB_Vehicle_SuspensionStiffness,#PB_Vehicle_MaxSuspensionCompression,#PB_Vehicle_MaxSuspensionLength,#PB_Vehicle_WheelDampingCompression,#PB_Vehicle_WheelDampingRelaxation,#PB_Vehicle_RollInfluence,#PB_Vehicle_IsInContact,#PB_Vehicle_CurrentSpeedKmHour,#PB_Vehicle_ContactPointX,#PB_Vehicle_ContactPointY,#PB_Vehicle_ContactPointZ,#PB_Vehicle_ContactPointNormalX,#PB_Vehicle_ContactPointNormalY,#PB_Vehicle_ContactPointNormalZ,#PB_Vehicle_ForwardVectorX,#PB_Vehicle_ForwardVectorY,#PB_Vehicle_ForwardVectorZ"
+  Data$ "GrabImage,2,#PB_Any"
+  Data$ "GrabSprite,1,#PB_Any"
   Data$ "GrabSprite,6,#PB_Sprite_PixelCollision,#PB_Sprite_AlphaBlending"
   
   ;- H
@@ -391,6 +393,7 @@ DataSection
   Data$ "HideMenu,2,#True,#False"
   Data$ "HideParticleEmitter,2,#True,#False"
   Data$ "HideWindow,2,#True,#False"
+  Data$ "HideWindow,3,#PB_Window_NoActivate,#PB_Window_ScreenCentered,#PB_Window_WindowCentered"
   Data$ "HideWindow3D,2,#True,#False"
   Data$ "HTTPInfo,2,#PB_Http_StatusCode,#PB_Http_Response,#PB_Http_Headers,#PB_Http_ErrorMessage"
   Data$ "HTTPInfo,3,#PB_UTF8,#PB_Ascii"
@@ -606,7 +609,7 @@ DataSection
   Data$ "ScrollBarGadget3D,9,#PB_ScrollBar3D_Vertical"
   Data$ "ScrollMaterial,4,#PB_Material_Fixed,#PB_Material_Animated"
   Data$ "SendFTPFile,4,#True,#False"
-  Data$ "SendMail,4,#PB_Mail_Asynchronous,#PB_Mail_UseSSL"
+  Data$ "SendMail,4,#PB_Mail_Asynchronous,#PB_Mail_UseSSL,#PB_Mail_UseSMTPS,#PB_Mail_Debug"
   Data$ "SendNetworkString,3,#PB_Ascii,#PB_UTF8,#PB_Unicode"
   Data$ "SetEntityAttribute,2,#PB_Entity_Friction,#PB_Entity_Restitution,#PB_Entity_MinVelocity,#PB_Entity_MaxVelocity,#PB_Entity_ForceVelocity,#PB_Entity_LinearSleeping,#PB_Entity_AngularSleeping,#PB_Entity_DeactivationTime,#PB_Entity_DisableContactResponse"
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
@@ -635,7 +638,7 @@ DataSection
   Data$ "SetVehicleAttribute,2,#PB_Vehicle_Friction,#PB_Vehicle_MaxSuspensionForce,#PB_Vehicle_SuspensionStiffness,#PB_Vehicle_MaxSuspensionCompression,#PB_Vehicle_MaxSuspensionLength,#PB_Vehicle_WheelDampingCompression,#PB_Vehicle_WheelDampingRelaxation,#PB_Vehicle_RollInfluence"
   Data$ "SetWindowState,2,#PB_Window_Normal,#PB_Window_Maximize,#PB_Window_Minimize"
   Data$ "SetXMLEncoding,2,#PB_Ascii,#PB_Unicode,#PB_UTF8"
-  Data$ "SetXMLStandalone,2,#True,#False"
+  Data$ "SetXMLStandalone,2,#PB_XML_StandaloneYes,#PB_XML_StandaloneNo,#PB_XML_StandaloneUnset"
   Data$ "ShortcutGadget,1,#PB_Any"
   Data$ "ShortcutGadget,5,#PB_Shortcut_*"
   Data$ "ShowGUI,2,#True,#False"
@@ -661,7 +664,6 @@ DataSection
   Data$ "StartAESCipher,5,#PB_Cipher_Decode,#PB_Cipher_Encode,#PB_Cipher_CBC,#PB_Cipher_ECB"
   Data$ "StartEntityAnimation,3,#PB_EntityAnimation_Once,#PB_EntityAnimation_Manual"
   Data$ "StartFingerprint,2,#PB_Cipher_CRC32,#PB_Cipher_MD5,#PB_Cipher_SHA1,#PB_Cipher_SHA2,#PB_Cipher_SHA3"
-  Data$ "StartFingerprint,3,#PB_Cipher_SHA2,#PB_Cipher_SHA3"
   Data$ "StartNodeAnimation,2,#PB_NodeAnimation_Once"
   Data$ "StatusBarImage,4,#PB_StatusBar_Raised,#PB_StatusBar_BorderLess,#PB_StatusBar_Center,#PB_StatusBar_Right"
   Data$ "StatusBarProgress,4,#PB_StatusBar_Raised,#PB_StatusBar_BorderLess"
@@ -669,7 +671,6 @@ DataSection
   Data$ "StickyWindow,2,#True,#False"
   Data$ "StringByteLength,2,#PB_Ascii,#PB_UTF8,#PB_Unicode"
   Data$ "StringFingerprint,2,#PB_Cipher_CRC32,#PB_Cipher_MD5,#PB_Cipher_SHA1,#PB_Cipher_SHA2,#PB_Cipher_SHA3"
-  Data$ "StringFingerprint,3,#PB_Cipher_SHA2,#PB_Cipher_SHA3"
   Data$ "StringFingerprint,4,#PB_UTF8,#PB_Ascii,#PB_Unicode"
   Data$ "StringGadget,1,#PB_Any"
   Data$ "StringGadget,7,#PB_String_Numeric,#PB_String_Password,#PB_String_ReadOnly,#PB_String_LowerCase,#PB_String_UpperCase,#PB_String_BorderLess"
@@ -684,8 +685,6 @@ DataSection
   Data$ "TextGadget,7,#PB_Text_Center,#PB_Text_Right,#PB_Text_Border"
   Data$ "TextGadget3D,1,#PB_Any"
   Data$ "ToolBarImageButton,3,#PB_ToolBar_Normal,#PB_ToolBar_Toggle"
-  Data$ "ToolBarStandardButton,2,#PB_ToolBarIcon_New,#PB_ToolBarIcon_Open,#PB_ToolBarIcon_Save,#PB_ToolBarIcon_Print,#PB_ToolBarIcon_PrintPreview,#PB_ToolBarIcon_Find,#PB_ToolBarIcon_Replace,#PB_ToolBarIcon_Cut,#PB_ToolBarIcon_Copy,#PB_ToolBarIcon_Paste,#PB_ToolBarIcon_Undo,#PB_ToolBarIcon_Redo,#PB_ToolBarIcon_Delete,#PB_ToolBarIcon_Properties,#PB_ToolBarIcon_Help"
-  Data$ "ToolBarStandardButton,3,#PB_ToolBar_Normal,#PB_ToolBar_Toggle"
   Data$ "TrackBarGadget,1,#PB_Any"
   Data$ "TrackBarGadget,8,#PB_TrackBar_Ticks,#PB_TrackBar_Vertical"
   Data$ "TranslateCoordinates,3,#PB_Coordinate_User,#PB_Coordinate_Source"
@@ -732,7 +731,8 @@ DataSection
   Data$ "Yaw,3,#PB_Local,#PB_Parent,#PB_World"
   
   ;- Z
-  ; Nothing yet
+  Data$ "ZoomSprite,2,#PB_Default"
+  Data$ "ZoomSprite,3,#PB_Default"
   
   ; Termination of list
   Data$ ""

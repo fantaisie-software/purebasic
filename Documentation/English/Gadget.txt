@@ -942,6 +942,10 @@
   The created gadget starts out with just a black background. The current OpenGL context is set to this new created gadget.
   To change the current OpenGL context, use the @#PB_OpenGL_SetContext attribute. Once drawn, a frame can be displayed
   using the @#PB_OpenGL_FlipBuffers attribute.
+
+@Remarks
+  As the OpenGL gadget is meant to be a realtime rendering gadget, it doesn't store its current rendering in a seperate buffer:
+  it needs to be rendered again when the window is resized, minimized, maximized or if the gadget itself is resized or moved.
   
 @LineBreak
 @LineBreak
@@ -2331,8 +2335,8 @@
 @OptionalParameter "Mode"
   Can be one of the following value:
 @FixedFont
-  - @#PB_Gadget_ActualSize  : returns the current width of the gadget, in pixels (default).
-  - @#PB_Gadget_RequiredSize: returns the width needed to fully display the gadget, in pixels.
+  @#PB_Gadget_ActualSize  : returns the current width of the gadget, in pixels (default).
+  @#PB_Gadget_RequiredSize: returns the width needed to fully display the gadget, in pixels.
 @EndFixedFont
 
 @ReturnValue
@@ -3215,7 +3219,7 @@
   @#PB_ListIcon_CheckBoxes         : Display checkboxes in the first column.
   @#PB_ListIcon_ThreeState         : The checkboxes can have an "in between" state.
   @#PB_ListIcon_MultiSelect        : Enable multiple selection.
-  @#PB_ListIcon_GridLines          : Display separator lines between rows and columns (not supported on Mac OSX).
+  @#PB_ListIcon_GridLines          : Display separator lines between rows and columns.
   @#PB_ListIcon_FullRowSelect      : The selection covers the full row instead of the first column (Windows only). 
   @#PB_ListIcon_HeaderDragDrop     : The order of columns can be changed using drag'n'drop.
   @#PB_ListIcon_AlwaysShowSelection: The selection is still visible, even when the gadget is not activated (Windows only).

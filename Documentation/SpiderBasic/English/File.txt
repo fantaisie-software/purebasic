@@ -824,7 +824,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ReadData(#File, *Buffer, SizeToRead)
+@Function Result = ReadData(#File, *Buffer, Offset, Size)
 
 @Description
   Read the content from the file to the specified memory buffer.
@@ -835,7 +835,10 @@
 @Parameter "*Buffer"
   The buffer to write the read data to. It has to be allocated with @@AllocateMemory.
 
-@Parameter "LengthToRead"
+@Parameter "Offset"
+  The offset (in bytes) in the buffer to write the read data to.
+  
+@Parameter "Size"
   The number of bytes to read.
 
 @ReturnValue

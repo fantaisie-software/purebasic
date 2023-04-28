@@ -583,7 +583,7 @@ Procedure UpdateProjectInfoPreferences()
     ; Find Project tab (position may have changed!) and update its text
     PushListPosition(FileList())
     ChangeCurrentElement(FileList(), *ProjectInfo)
-    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle"))
+    SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
     PopListPosition(FileList())
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
@@ -654,7 +654,7 @@ Procedure AddProjectInfo()
       ButtonGadget(#GADGET_ProjectInfo_OpenCompilerOptions, 0, 0, 0, 0, Language("Project","CompilerOptions"))
       
       FrameGadget(#GADGET_ProjectInfo_FrameFiles, 0, 0, 0, 0, Language("Project","FileTab"))
-      ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 0, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
+      ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 300, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 1, Language("Project","FileLoadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 2, Language("Project","FileWarnShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 3, Language("Project","FileScanShort"), 60)
@@ -672,7 +672,7 @@ Procedure AddProjectInfo()
       CompilerEndIf
       
       FrameGadget(#GADGET_ProjectInfo_FrameTargets, 0, 0, 0, 0, Language("Project","ProjectTargets"))
-      ListIconGadget(#GADGET_ProjectInfo_Targets, 0, 0, 0, 0, Language("Project","TargetShort"), 200, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
+      ListIconGadget(#GADGET_ProjectInfo_Targets, 0, 0, 200, 0, Language("Project","TargetShort"), 200, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 1, Language("Project","DebugShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 2, Language("Project","ThreadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 3, Language("Project","AsmShort"), 60)
@@ -721,10 +721,10 @@ Procedure AddProjectInfo()
       ;   Probably a bug that should be fixed there. But this workaround will do the trick
       If CountTabBarGadgetItems(#GADGET_FilesPanel) = 0
         ; first item, use #PB_Default
-        AddTabBarGadgetItem(#GADGET_FilesPanel, #PB_Default, Language("Project", "TabTitle"))
+        AddTabBarGadgetItem(#GADGET_FilesPanel, #PB_Default, Language("Project", "TabTitle") + " [" + ProjectName$ + "]")
       Else
         ; items exist: using 0 works
-        AddTabBarGadgetItem(#GADGET_FilesPanel, 0, Language("Project", "TabTitle"))
+        AddTabBarGadgetItem(#GADGET_FilesPanel, 0, Language("Project", "TabTitle") + " [" + ProjectName$ + "]")
       EndIf
       
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, 0, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
@@ -970,6 +970,7 @@ Procedure LoadProject(Filename$)
               ProjectFiles()\ShowWarning = Xml_Boolean(GetXMLAttribute(*Config, "warn"))
               ProjectFiles()\LastOpen    = Xml_Boolean(GetXMLAttribute(*Config, "lastopen"))
               ProjectFiles()\PanelState$ = Xml_SingleLine(GetXMLAttribute(*Config, "panelstate")) ; the default for this is "all open", so need no backward compatibility here
+              ProjectFiles()\SortIndex   = Xml_Integer(GetXMLAttribute(*Config, "sortindex"))
             Else
               ProjectFiles()\AutoLoad    = 0
               ProjectFiles()\AutoScan    = IsCodeFile(ProjectFiles()\Filename$)
@@ -977,6 +978,7 @@ Procedure LoadProject(Filename$)
               ProjectFiles()\ShowWarning = 1
               ProjectFiles()\LastOpen    = 0
               ProjectFiles()\PanelState$ = ""
+              ProjectFiles()\SortIndex   = 999
             EndIf
             
             *Fingerprint = XMLNodeFromPath(*File, "fingerprint")
@@ -1067,27 +1069,28 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\iOSAppStartupImage$ = Xml_SingleLine(GetXMLAttribute(*Entry, "iosappstartupimage"))
                       ProjectTargets()\iOSAppOrientation   = Val(Xml_SingleLine(GetXMLAttribute(*Entry, "iosapporientation")))
                       ProjectTargets()\iOSAppFullScreen    = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappfullscreen"))
-                      ProjectTargets()\iOSAppGeolocation   = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappgeolocation"))
                       ProjectTargets()\iOSAppOutput$       = Xml_SingleLine(GetXMLAttribute(*Entry, "iosappoutput"))
                       ProjectTargets()\iOSAppAutoUpload    = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappautoupload"))
                       ProjectTargets()\iOSAppEnableResourceDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappenableresourcedirectory"))
                       ProjectTargets()\iOSAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "iosappresourcedirectory"))
                       ProjectTargets()\iOSAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappenabledebugger"))
+                      ProjectTargets()\iOSAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "iosappkeepappdirectory"))
                       
                       ProjectTargets()\AndroidAppName$         = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappname"))
                       ProjectTargets()\AndroidAppIcon$         = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappicon"))
                       ProjectTargets()\AndroidAppVersion$      = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappversion"))
+                      ProjectTargets()\AndroidAppCode          = Xml_Integer(GetXMLAttribute(*Entry, "androidappcode"))
                       ProjectTargets()\AndroidAppPackageID$    = Xml_SingleLine(GetXMLAttribute(*Entry, "androidapppackageid"))
                       ProjectTargets()\AndroidAppIAPKey$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappiapkey"))
                       ProjectTargets()\AndroidAppStartupImage$ = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappstartupimage"))
                       ProjectTargets()\AndroidAppOrientation   = Val(Xml_SingleLine(GetXMLAttribute(*Entry, "androidapporientation")))
                       ProjectTargets()\AndroidAppFullScreen    = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappfullscreen"))
-                      ProjectTargets()\AndroidAppGeolocation   = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappgeolocation"))
                       ProjectTargets()\AndroidAppOutput$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappoutput"))
                       ProjectTargets()\AndroidAppAutoUpload    = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappautoupload"))
                       ProjectTargets()\AndroidAppEnableResourceDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenableresourcedirectory"))
                       ProjectTargets()\AndroidAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappresourcedirectory"))
                       ProjectTargets()\AndroidAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenabledebugger"))
+                      ProjectTargets()\AndroidAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappkeepappdirectory"))
                     CompilerEndIf
                     
                   Case "purifier"
@@ -1193,8 +1196,8 @@ Procedure LoadProject(Filename$)
         EndIf
       EndIf
       
-      ; Auto-sort the project files for better handling
-      SortStructuredList(ProjectFiles(), #PB_Sort_Ascending | #PB_Sort_NoCase, OffsetOf(ProjectFile\FileName$), #PB_String)
+      ; Sort project files according to their last position in the IDE
+      SortStructuredList(ProjectFiles(), #PB_Sort_Ascending, OffsetOf(ProjectFile\SortIndex), #PB_Long)
       
       If CommandlineBuild = 0
         
@@ -1411,11 +1414,12 @@ Procedure SaveProject(ShowErrors)
       SetXMLAttribute(*File, "name", CreateRelativePath(BasePath$, ProjectFiles()\FileName$))
       
       *FileConfig = AppendNode(*File, "config")
-      SetXMLAttribute(*FileConfig, "load",     Str(ProjectFiles()\AutoLoad))
-      SetXMLAttribute(*FileConfig, "scan",     Str(ProjectFiles()\AutoScan))
-      SetXMLAttribute(*FileConfig, "panel",    Str(ProjectFiles()\ShowPanel))
-      SetXMLAttribute(*FileConfig, "warn",     Str(ProjectFiles()\ShowWarning))
-      SetXMLAttribute(*FileConfig, "lastopen", Str(ProjectFiles()\LastOpen))
+      SetXMLAttribute(*FileConfig, "load",      Str(ProjectFiles()\AutoLoad))
+      SetXMLAttribute(*FileConfig, "scan",      Str(ProjectFiles()\AutoScan))
+      SetXMLAttribute(*FileConfig, "panel",     Str(ProjectFiles()\ShowPanel))
+      SetXMLAttribute(*FileConfig, "warn",      Str(ProjectFiles()\ShowWarning))
+      SetXMLAttribute(*FileConfig, "lastopen",  Str(ProjectFiles()\LastOpen))
+      SetXMLAttribute(*FileConfig, "sortindex", Str(ProjectFiles()\SortIndex))
       
       If ProjectFiles()\ShowPanel
         SetXMLAttribute(*FileConfig, "panelstate", ProjectFiles()\PanelState$)
@@ -1524,27 +1528,28 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "iosappstartupimage" , ProjectTargets()\iOSAppStartupImage$)
         SetXMLAttribute(*Export, "iosapporientation"  , Str(ProjectTargets()\iOSAppOrientation))
         SetXMLAttribute(*Export, "iosappfullscreen"   , Str(ProjectTargets()\iOSAppFullScreen))
-        SetXMLAttribute(*Export, "iosappgeolocation"  , Str(ProjectTargets()\iOSAppGeolocation))
         SetXMLAttribute(*Export, "iosappoutput"       , ProjectTargets()\iOSAppOutput$)
         SetXMLAttribute(*Export, "iosappautoupload"   , Str(ProjectTargets()\iOSAppAutoUpload))
         SetXMLAttribute(*Export, "iosappenableresourcedirectory", Str(ProjectTargets()\iOSAppEnableResourceDirectory))
         SetXMLAttribute(*Export, "iosappresourcedirectory", ProjectTargets()\iOSAppResourceDirectory$)
         SetXMLAttribute(*Export, "iosappenabledebugger", Str(ProjectTargets()\iOSAppEnableDebugger))
+        SetXMLAttribute(*Export, "iosappkeepappdirectory", Str(ProjectTargets()\iOSAppKeepAppDirectory))
         
         SetXMLAttribute(*Export, "androidappname"         , ProjectTargets()\AndroidAppName$)
         SetXMLAttribute(*Export, "androidappicon"         , ProjectTargets()\AndroidAppIcon$)
         SetXMLAttribute(*Export, "androidappversion"      , ProjectTargets()\AndroidAppVersion$)
+        SetXMLAttribute(*Export, "androidappcode"         , Str(ProjectTargets()\AndroidAppCode))
         SetXMLAttribute(*Export, "androidapppackageid"    , ProjectTargets()\AndroidAppPackageID$)
         SetXMLAttribute(*Export, "androidappiapkey"       , ProjectTargets()\AndroidAppIAPKey$)
         SetXMLAttribute(*Export, "androidappstartupimage" , ProjectTargets()\AndroidAppStartupImage$)
         SetXMLAttribute(*Export, "androidapporientation"  , Str(ProjectTargets()\AndroidAppOrientation))
         SetXMLAttribute(*Export, "androidappfullscreen"   , Str(ProjectTargets()\AndroidAppFullScreen))
-        SetXMLAttribute(*Export, "androidappgeolocation"  , Str(ProjectTargets()\AndroidAppGeolocation))
         SetXMLAttribute(*Export, "androidappoutput"       , ProjectTargets()\AndroidAppOutput$)
         SetXMLAttribute(*Export, "androidappautoupload"   , Str(ProjectTargets()\AndroidAppAutoUpload))
         SetXMLAttribute(*Export, "androidappenableresourcedirectory", Str(ProjectTargets()\AndroidAppEnableResourceDirectory))
         SetXMLAttribute(*Export, "androidappresourcedirectory", ProjectTargets()\AndroidAppResourceDirectory$)
         SetXMLAttribute(*Export, "androidappenabledebugger", Str(ProjectTargets()\AndroidAppEnableDebugger))
+        SetXMLAttribute(*Export, "androidappkeepappdirectory", Str(ProjectTargets()\AndroidAppKeepAppDirectory))
         
       CompilerEndIf
       
@@ -1757,8 +1762,17 @@ Procedure CloseProject(IsIDEShutdown = #False)
     ForEach ProjectFiles()
       If ProjectFiles()\Source
         ProjectFiles()\LastOpen = #True
+        PushListPosition(FileList())
+        ForEach FileList()
+          If ProjectFiles()\FileName$ = FileList()\FileName$
+            ProjectFiles()\SortIndex = ListIndex(FileList())
+            Break
+          EndIf
+        Next
+        PopListPosition(FileList())
       Else
         ProjectFiles()\LastOpen = #False
+        ProjectFiles()\SortIndex = 999
       EndIf
     Next ProjectFiles()
     
@@ -2160,6 +2174,8 @@ Procedure ProjectOptionsEvents(EventID)
         If ProjectOK
           
           ; In case we create a new project. Now we have a project data
+          OldProjectName$ = ProjectName$
+          ProjectName$    = Trim(GetGadgetText(#GADGET_Project_Name))
           If IsProjectCreation
             IsProject    = #True
             ProjectFile$ = NewProjectFile$
@@ -2181,10 +2197,17 @@ Procedure ProjectOptionsEvents(EventID)
             ; switch to the info source, so the user can directly get to the projects compiler options etc
             FirstElement(FileList())
             ChangeActiveSourceCode()
+          ElseIf OldProjectName$ <> ProjectName$
+            ;change name of Tab, if user changed the project name
+            If *ProjectInfo
+              PushListPosition(FileList())
+              ChangeCurrentElement(FileList(), *ProjectInfo)
+              SetTabBarGadgetItemText(#GADGET_FilesPanel, ListIndex(FileList()), Language("Project","TabTitle") + " [" + ProjectName$ + "]")
+              PopListPosition(FileList())
+            EndIf
           EndIf
           
           ; Update the options
-          ProjectName$     = Trim(GetGadgetText(#GADGET_Project_Name))
           ProjectComments$ = GetGadgetText(#GADGET_Project_Comments)
           
           If GetGadgetState(#GADGET_Project_SetDefault)

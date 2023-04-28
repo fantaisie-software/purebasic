@@ -59,7 +59,13 @@ EndProcedure
 
 Procedure CreateIDEToolBar()
   
-  *MainToolbar = CreateToolBar(#TOOLBAR, WindowID(#WINDOW_Main))
+  CompilerIf #CompileMac
+    flags = #PB_ToolBar_Large
+  CompilerElse
+    flags = 0
+  CompilerEndIf
+  
+  *MainToolbar = CreateToolBar(#TOOLBAR, WindowID(#WINDOW_Main), flags)
   If *MainToolbar
     
     NbSpaceButtons = 0

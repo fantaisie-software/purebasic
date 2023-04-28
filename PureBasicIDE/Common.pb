@@ -232,7 +232,9 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_AutoHidePanel
   #GADGET_Preferences_NoSplashScreen
   #GADGET_Preferences_DisplayFullPath
-  #GADGET_Preferences_DisplayDarkMode
+  CompilerIf #CompileMac
+    #GADGET_Preferences_DisplayDarkMode
+  CompilerEndIf
   #GADGET_Preferences_EnableMenuIcons
   #GADGET_Preferences_DebuggerMode
   #GADGET_Preferences_AutoClearLog
@@ -879,11 +881,11 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_Icon
     #GADGET_AndroidApp_SelectIcon
     #GADGET_AndroidApp_Version
+    #GADGET_AndroidApp_Code
     #GADGET_AndroidApp_PackageID
     #GADGET_AndroidApp_IAPKey
     #GADGET_AndroidApp_Orientation
     #GADGET_AndroidApp_FullScreen
-    #GADGET_AndroidApp_Geolocation
     #GADGET_AndroidApp_AutoUpload
     #GADGET_AndroidApp_Output
     #GADGET_AndroidApp_SelectOutput
@@ -893,6 +895,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_ResourceDirectory
     #GADGET_AndroidApp_SelectResourceDirectory
     #GADGET_AndroidApp_EnableDebugger
+    #GADGET_AndroidApp_KeepAppDirectory
     
     #GADGET_iOSApp_Name
     #GADGET_iOSApp_Icon
@@ -901,7 +904,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_iOSApp_PackageID
     #GADGET_iOSApp_Orientation
     #GADGET_iOSApp_FullScreen
-    #GADGET_iOSApp_Geolocation
     #GADGET_iOSApp_AutoUpload
     #GADGET_iOSApp_Output
     #GADGET_iOSApp_SelectOutput
@@ -911,6 +913,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_iOSApp_ResourceDirectory
     #GADGET_iOSApp_SelectResourceDirectory
     #GADGET_iOSApp_EnableDebugger
+    #GADGET_iOSApp_KeepAppDirectory
     #GADGET_iOSApp_CheckInstall
     
     #GADGET_App_Panel
@@ -2061,28 +2064,29 @@ Structure CompileTarget
     iOSAppStartupImage$
     iOSAppOrientation.l
     iOSAppFullScreen.l
-    iOSAppGeolocation.l
     iOSAppOutput$
     iOSAppAutoUpload.l
     iOSAppEnableResourceDirectory.l
     iOSAppResourceDirectory$
     iOSAppEnableDebugger.l
+    iOSAppKeepAppDirectory.l
     
     ; Android
     AndroidAppName$
     AndroidAppIcon$
     AndroidAppVersion$
+    AndroidAppCode.l
     AndroidAppPackageID$
     AndroidAppIAPKey$
     AndroidAppStartupImage$
     AndroidAppOrientation.l
     AndroidAppFullScreen.l
-    AndroidAppGeolocation.l
     AndroidAppOutput$
     AndroidAppAutoUpload.l
     AndroidAppEnableResourceDirectory.l
     AndroidAppResourceDirectory$
     AndroidAppEnableDebugger.l
+    AndroidAppKeepAppDirectory.l
     
   CompilerEndIf
   
@@ -2240,6 +2244,7 @@ Structure ProjectFileConfig
   AutoScan.l       ; Should the file be scanned for autocomplete ?
   ShowPanel.l      ; show in panel
   ShowWarning.l    ; show warning if file changes
+  SortIndex.l      ; for sorting
   
   PanelState$      ; string of "0"/"1" for every parent directory of the file to indicate whether it is expanded in panel (empty if ShowPanel=0)
 EndStructure

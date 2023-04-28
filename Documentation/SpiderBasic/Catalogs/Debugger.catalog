@@ -1,0 +1,142 @@
+;
+; PureBasic Debugger language file
+;
+
+[LanguageInfo]
+Application = PB_Debugger
+Language    = English
+Creator     = PureBasic Team
+Email       = Support@PureBasic.com
+
+
+[Debugger]
+OutOfMemory      = Debugger out of memory.
+StackUnavailable = Information about the stack cannot be displayed.
+StackLow         = Error: Stack position is lower than at program start.
+StackEmpty       = The Stack is empty.
+StackAlign       = Warning: The Stack is not aligned according to OS requirements.
+StackLimit       = Warning: Stack position is outside of the OS limits (stack overflow).
+StackAlignBytes  = Bytes that are not aligned at a register size boundary:
+TargetNotFound   = Cannot locate target variable.
+AssignStructure  = Cannot assign a value to a structure.
+AssignValue      = Missing a value to assign.
+NumericString    = Can't write a numerical value into a string variable.
+StringNumeric    = Can't write a string into a numerical variable.
+Win9xDrawing     = Cannot halt Debugger inside StartDrawing(Sprite/ScreenOutput()) on Windows 95/98/ME.
+Warning          = Warning
+
+[External]
+InvalidStart         = An integer expression is expected as start address.
+InvalidEnd           = An integer expression is expected as end address/length.
+ArrayListNotFound    = Array, LinkedList or Map not found.
+WatchlistBig         = The watchlist is too big (1000 items), please remove variables.
+NoStructure          = Invalid "\". The variable is not a structure.
+NoStructureFields    = Cannot access structure fields of pointers in the watchlist.
+InvalidField         = Invalid structure field name.
+LiteralOnly          = Only literal expressions are allowed as array index.
+IntegerOnly          = Only integers are allowed as array index.
+MissingBracket       = Cannot find matching ']' for structure array.
+StructureArrayBounds = Structure array index out of bounds.
+VariableNotFound     = Variable not found.
+InvalidCharacter     = Invalid character after Array/LinkedList/Map.
+InvalidListName      = Invalid LinkedList name.
+InvalidName          = Invalid variable name.
+NoStructureDisplay   = Cannot display entire structures in the watchlist.
+NoDynamicDisplay     = Cannot display Arrays, Lists or Maps in structures in the watchlist.
+ModuleNotFound       = Module not found.
+
+[DebuggerErrors]
+1  = Division by zero forbidden.
+2  = Modulo zero is forbidden (result in a zero divide).
+3  = Pointer is null.
+4  = Array index out of bounds.
+5  = The list doesn't have a current element.
+6  = Structure array index out of bounds.
+7  = Array size can't be negative.
+8  = Only the last dimension of an array can be changed with ReDim.
+9  = Read data error: no more data.
+10 = NewMap: 'HashSize' parameter can't be negative or equal to 0.
+11 = The map doesn't have a current element.
+12 = The map is not initialized.
+
+[SystemErrors]
+InvalidMemory      = Invalid memory access.
+InvalidMemoryRead  = Invalid memory access. (read error at address %s)
+InvalidMemoryWrite = Invalid memory access. (write error at address %s)
+PageError          = Memory page error.
+StackOverflow      = Stack overflow.
+IllegalInstruction = Illegal instruction. (executing binary data?)
+DivisionByZero     = Division by zero.
+FloatInvalid       = Invalid float operation.
+FloatOverflow      = Float overflow.
+FloatUnderflow     = Float underflow.
+IntegerOverflow    = Integer overflow.
+ArithmeticError    = Fatal arithmetic error.
+BadCall            = Bad system call.
+ProgramAbort       = Program aborted. (by external library)
+
+[Parser]
+NoMemory             = Parser out of memory.
+TokenBinary          = Malformed binary value.
+TokenString          = Unterminated string literal
+TokenCharacter       = Unterminated character literal
+Token$               = Unexpected token: '$'
+TokenHex             = Malformed hexadecimal value.
+TokenDecimal         = Malformed decimal value
+InvalidInput         = Unsupported input character: '%c'
+ArgumentExpected     = This operator expects another argument.
+NumericString        = Cannot combine numeric value with a string.
+InvalidStringOp      = Only the '+'-Operator can be used with strings.
+FloatBinary          = Binary Operators cannot be used with floats.
+NoStringOp           = This operator cannot be used with strings.
+NoFloatOp            = The binary Operators cannot be used with floats.
+UnmatchedLParen      = Unmatched '('.
+UnmatchedLBracket    = Unmatched '['.
+IdentifierExpected   = An identifier is expected.
+IdentifierExpected@  = An identifier is expected after '@'.
+IdentifierExpected?  = An identifier is expected after '?'.
+ConstantExpected     = A constant name is expected after '#'.
+UnexpectedToken      = Unexpected Token.
+FieldExpected        = Expected structure field name.
+IntegerIndex         = An integer expression must be given for the array index.
+OutOfBounds          = Array index out of bounds.
+NoArray              = This structure field has no array.
+FieldNotFound        = Structure field not found:
+InvalidString        = Not a valid string pointer.
+NullStructure        = The structure pointer is NULL.
+InvalidStructure     = The structure pointer does not point to valid memory.
+VariableNotFound     = Variable not found:
+UnexpectedCall       = Unexpected library function call.
+NoAddress            = Cannot get the address of a library function.
+ArrayInit            = The array is not initialized. (Dim was not called yet)
+MapInit              = The map is not initialized. (NewMap was not called yet)
+MapStringKey         = A string expression must be given as the map key.
+MissingArrayParen    = Missing closing ')' in Array dimensions.
+NoDimensions         = The dimension of the Array must be at least 1.
+TooFewDimensions     = Too few dimensions for the Array.
+TooManyDimensions    = Too many dimensions for the Array.
+MissingListParen     = Missing closing ')' after LinkedList name.
+MissingMapParen      = Missing closing ')' after Map name.
+NoCurrentElement     = The LinkedList has no current element.
+MapNoCurrentElement  = The Map has no current element.
+ArrayListNotFound    = Array() / LinkedList() / Map() not found:
+MissingOpenParen     = '(' expected after Array, LinkedList or Map.
+NoStructure          = This Variable does not have a Structure.
+Garbage              = Garbage at the end of the input.
+MissingFunctionParen = Missing closing ')' in function arguments.
+TooFewArguments      = Too few arguments for the function.
+TooManyArguments     = Too many function arguments.
+StringExpected       = Bad parameter type: a string is expected.
+NumberExpected       = Bad parameter type: a number is expected.
+InvalidMemory        = %s does not point to valid memory.
+InvalidStringMemory  = %s does not point to valid string memory.
+NoReplaceMode        = In place replacing (Mode 2) is not supported here.
+LabelNotFound        = Label not found:
+ConstantNotFound     = Constant not found:
+BooleanContext       = Boolean expressions are not allowed in this context.
+NoLiteralString      = Use of a literal string as an expression is not allowed.
+NoArrayListMap       = The input did not specify an Array, LinkedList or Map.
+NoObject             = The specified Object is not initialized.
+InvalidModuleUse     = Invalid use of the module operator.
+ModuleNotFound       = Module not found:
+

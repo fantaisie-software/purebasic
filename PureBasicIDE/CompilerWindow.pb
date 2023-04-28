@@ -168,7 +168,7 @@ Procedure DisplayCompilerWindow()
     MacroErrorWindowEvents(#PB_Event_CloseWindow)
   EndIf
   
-  If OpenWindow(#WINDOW_Compiler, 0, 0, 200, 50, #ProductName$, #PB_Window_WindowCentered | #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
+  If OpenWindow(#WINDOW_Compiler, 0, 0, 400, 50, #ProductName$, #PB_Window_TitleBar | #PB_Window_Invisible, WindowID(#WINDOW_Main))
     
     Container = ContainerGadget(#PB_Any, 5, 5, 190, 40, #PB_Container_Single)
     ; add a dummy text for size calculation
@@ -205,7 +205,7 @@ Procedure DisplayCompilerWindow()
     ButtonWidth = Max(ButtonWidth, 60)
     AbortWidth  = Max(AbortWidth, 60)
     ButtonHeight= Max(ButtonHeight, MinButtonHeight)
-    Width       = Max(20+ContainerBorderWidth+TextWidth+ButtonWidth, 200)
+    Width       = Max(20+ContainerBorderWidth+TextWidth+ButtonWidth, WindowWidth(#WINDOW_Compiler))
     Height      = 10+ContainerBorderHeight+Max(TextHeight, ButtonHeight)
     
     ; for later resizing
@@ -227,14 +227,14 @@ Procedure DisplayCompilerWindow()
       NewHeight = CompilerWindowSmall
     EndIf
     
-    ResizeWindow(#WINDOW_Compiler, WindowX(#WINDOW_Compiler)-(Width-200)/2, WindowY(#WINDOW_Compiler)-(NewHeight-50)/2, Width, NewHeight)
+    ResizeWindow(#WINDOW_Compiler, #PB_Ignore, #PB_Ignore, Width, NewHeight)
     
     ; set the real text to the textgadget
     SetGadgetText(#GADGET_Compiler_Text, Language("Compiler","Compiling"))
     AddGadgetItem(#GADGET_Compiler_List, 0, Language("Compiler","Compiling"))
     SetGadgetState(#GADGET_Compiler_List, 0)
     
-    HideWindow(#WINDOW_Compiler, 0)
+    HideWindow(#WINDOW_Compiler, #False, #PB_Window_WindowCentered)
     ; StickyWindow(#WINDOW_Compiler, 1) ; Why sticky ? If we put the IDE to background it will stay above our browser for example, which is very annoying
   EndIf
   
@@ -271,6 +271,27 @@ Procedure HideCompilerWindow()
 EndProcedure
 
 
+Procedure StopCompilerWindow()
+  
+  ; In build window mode, ignore the hide call on errors
+  If UseProjectBuildWindow = 0
+    If IsWindow(#WINDOW_Compiler)
+      CloseWindow(#WINDOW_Compiler)
+      
+      DisableMenuItem(#MENU, #MENU_CreateExecutable, 0)
+      DisableMenuAndToolbarItem(#MENU_CompileRun, 0)
+      DisableMenuAndToolbarItem(#MENU_SyntaxCheck, 0)
+    EndIf
+    
+    ; re-enable the main window
+    DisableWindow(#WINDOW_Main, 0)
+    FlushEvents()
+  EndIf
+  
+  CompilerBusy = 0
+EndProcedure
+
+
 Procedure CompilerWindowEvents(EventID)
   
   If EventID = #PB_Event_Gadget
@@ -287,6 +308,12 @@ Procedure CompilerWindowEvents(EventID)
     ElseIf EventGadget() = #GADGET_Compiler_Abort
       ; set the flag, the rest is done from the Compiler_HandleCompilerResponse() (CompilerInterface.pb)
       CompilationAborted = #True
+      
+      CompilerIf #SpiderBasic
+        If CompilerBusy = 0
+          HideCompilerWindow()
+        EndIf
+      CompilerEndIf
     EndIf
   EndIf
   
@@ -618,7 +645,6 @@ Procedure UpdateBuildWindow()
 EndProcedure
 
 Procedure OpenBuildWindow(List *Targets.CompileTarget())
-  
   ; hide the windows from the normal mode compiling
   ;
   HideCompilerWarnings()
@@ -637,8 +663,16 @@ Procedure OpenBuildWindow(List *Targets.CompileTarget())
     SetGadgetState(#GADGET_Build_CloseWhenDone, AutoCloseBuildWindow)
     
     CompilerIf #CompileWindows
-      ; it looks just much better this way
-      SetGadgetFont(#GADGET_Build_Log, GetStockObject_(#ANSI_FIXED_FONT))
+      Static MonoFont
+      
+      If MonoFont = 0
+        MonoFont = LoadFont(#PB_Any, "Courier New", 10)
+      EndIf
+      
+      If MonoFont
+        ; it looks just much better this way
+        SetGadgetFont(#GADGET_Build_Log, FontID(MonoFont))
+      EndIf
     CompilerEndIf
     
   Else

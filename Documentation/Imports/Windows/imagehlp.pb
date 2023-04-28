@@ -3,7 +3,7 @@
 Import "imagehlp.lib"
        Api(BindImage, (arg1, arg2, arg3), 12)
        Api(BindImageEx, (arg1, arg2, arg3, arg4, arg5), 20)
-       Api(CheckSumMappedFile, (arg1, arg2, arg3, arg4, arg5), 20)
+       Api(CheckSumMappedFile, (arg1, arg2, arg3, arg4), 16)
        Api(EnumerateLoadedModules, (arg1, arg2, arg3), 12)
        Api(FindDebugInfoFile, (arg1, arg2, arg3), 12)
        Api(FindExecutableImage, (arg1, arg2, arg3), 12)
@@ -15,7 +15,7 @@ Import "imagehlp.lib"
        Api(ImageEnumerateCertificates, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(ImageGetCertificateData, (arg1, arg2, arg3, arg4), 16)
        Api(ImageGetCertificateHeader, (arg1, arg2, arg3), 12)
-       Api(ImageGetDigestStream, (arg1, arg2, arg3, arg4, arg5), 20)
+       Api(ImageGetDigestStream, (arg1, arg2, arg3, arg4), 16)
        Api(ImagehlpApiVersion, (), 0)
        Api(ImagehlpApiVersionEx, (arg1), 4)
        Api(ImageLoad, (arg1, arg2), 8)

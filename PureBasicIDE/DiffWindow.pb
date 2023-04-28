@@ -169,7 +169,7 @@ Procedure SwitchDirectoryMode(TargetMode)
         CompilerElse
           TextGadget(#GADGET_Diff_FileTitle, 0, 0, 0, 0, "", #PB_Text_Border)
         CompilerEndIf
-        ListIconGadget(#GADGET_Diff_Files, 0, 0, 0, 0, Language("Diff","Filename"), 250, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+        ListIconGadget(#GADGET_Diff_Files, 0, 0, 250, 0, Language("Diff","Filename"), 250, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
         AddGadgetColumn(#GADGET_Diff_Files, 1, Language("Diff","State"), 100)
         AddGadgetColumn(#GADGET_Diff_Files, 2, Language("Diff","Date1"), 130)
         AddGadgetColumn(#GADGET_Diff_Files, 3, Language("Diff","Date2"), 130)
@@ -592,7 +592,21 @@ Procedure OpenDiffWindow()
     If OpenWindow(#WINDOW_Diff, DiffWindowPosition\x, DiffWindowPosition\y, DiffWindowPosition\Width, DiffWindowPosition\Height, Language("Diff", "Title"), Flags, WindowID(#WINDOW_Main))
       WindowBounds(#WINDOW_Diff, 200, 200, #PB_Ignore, #PB_Ignore)
       
-      If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
+      CompilerIf #CompileMac
+        If OSVersion() >= #PB_OS_MacOSX_10_14
+          ; Fix Toolbar style from titlebar to expanded (Top Left)
+          #NSWindowToolbarStyleExpanded = 1
+          CocoaMessage(0, WindowID(#WINDOW_Diff), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
+        EndIf
+      CompilerEndIf
+      
+      CompilerIf #CompileMac
+        flags = #PB_ToolBar_Large
+      CompilerElse
+        flags = 0
+      CompilerEndIf
+      
+      If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff), Flags)
         ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
         ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
         ToolBarImageButton(#MENU_Diff_Open2, ImageID(#IMAGE_Diff_Open2))
@@ -1014,7 +1028,13 @@ Procedure UpdateDiffWindow()
   ; re-create the toolbar to apply theme changes
   FreeToolBar(#TOOLBAR_Diff)
   
-  If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff))
+  CompilerIf #CompileMac
+    flags = #PB_ToolBar_Large
+  CompilerElse
+    flags = 0
+  CompilerEndIf
+  
+  If CreateToolBar(#TOOLBAR_Diff, WindowID(#WINDOW_Diff), flags)
     ToolBarImageButton(#MENU_Diff_ShowTool, ImageID(#IMAGE_Diff_ShowTool))
     ToolBarImageButton(#MENU_Diff_Open1, ImageID(#IMAGE_Diff_Open1))
     ToolBarImageButton(#MENU_Diff_Open2, ImageID(#IMAGE_Diff_Open2))
@@ -1521,6 +1541,10 @@ Procedure UpdateDiffFileList()
     
     If Color <> -1
       SetGadgetItemColor(#GADGET_Diff_Files, ListIndex(DiffFiles()), #PB_Gadget_BackColor, Color, -1)
+      CompilerIf #CompileMac
+        ; Fix text color for darkmode
+        SetGadgetItemColor(#GADGET_Diff_Files, ListIndex(DiffFiles()), #PB_Gadget_FrontColor, 0, -1)
+      CompilerEndIf
     EndIf
     
   Next DiffFiles()

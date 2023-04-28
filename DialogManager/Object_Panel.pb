@@ -103,7 +103,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   
   CompilerIf #CompileMac
     *Width\l  + 8
-    *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 4
+    *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 40
   CompilerEndIf
   
   CompilerIf #CompileLinux

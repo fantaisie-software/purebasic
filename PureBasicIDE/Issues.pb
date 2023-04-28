@@ -371,7 +371,7 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   EndIf
   SetGadgetState(#GADGET_Issues_Filter, SelectedIssue)
   
-  ListIconGadget(#GADGET_Issues_List, 0, 0, 0, 0, Language("ToolsPanel", "IssueName"), IssuesCol1, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+  ListIconGadget(#GADGET_Issues_List, 0, 0, IssuesCol1, 0, Language("ToolsPanel", "IssueName"), IssuesCol1, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
   AddGadgetColumn(#GADGET_Issues_List, 1, Language("ToolsPanel", "IssueText"), IssuesCol2)
   AddGadgetColumn(#GADGET_Issues_List, 2, Language("Misc", "Line"), IssuesCol3)
   AddGadgetColumn(#GADGET_Issues_List, 3, Language("Misc", "File"), IssuesCol4)
