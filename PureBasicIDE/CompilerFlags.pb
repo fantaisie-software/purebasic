@@ -12,29 +12,9 @@
 ;
 ; This is shared with the GUI Debugger
 
-; NOTE: The three special constants (#DEMO, #GTKVersion, #DEBUG) are now set by the
-; makefile via commandline, so no "MakeFlags.pb" is needed anymore.
-;
-; The following make targets are available:
-;   make                (build the normal IDE)
-;   make demo           (build a demo ide)
-;   make debug          (build a debug ide) (with linenumbering/gtk debug)
-;
-;   make gtk2           (build the gtk2 version) (creates a purebasic_gtk2 file)
-;   make demo_gtk2      (build the gtk2 demo)
-;   make debug_gtk2     (build the gtk2 debug version)
-;
-; NOTE: To build the standalone debugger, you must run make for the IDE first, as it requires
-; the MakeFlags.pb file too!
-;
 ; Set to 1 to compile a demo IDE (debugger always set + messages for dlls)
 CompilerIf Defined(DEMO, #PB_Constant) = 0
   #DEMO = 0
-CompilerEndIf
-
-; Set this to 1 to compile for Gtk1.2, or 2 for Gtk2.0 (remember to use the correct subsystem as well!)
-CompilerIf Defined(GTKVersion, #PB_Constant) = 0
-  #GTKVersion = 2 ; gtk2 is our default now...
 CompilerEndIf
 
 ; Set this to 1 to include Functions for debugging (OnError on windows, and signal callbacks on linux)
@@ -152,8 +132,9 @@ CompilerSelect #PB_Compiler_OS
     #CompileMac       = 0
     #CompileMacCocoa  = 0
     #CompileMacCarbon = 0
-    #CompileLinuxGtk1 = 0  ; to directly check for linux + gtk version, which is often needed
+    #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
+    #CompileLinuxGtk3 = 0
     
     #OS_PureBasic = "Windows"
     
@@ -216,7 +197,15 @@ CompilerSelect #PB_Compiler_OS
     #CompileMacCocoa  = 0
     #CompileMacCarbon = 0
     
-    #CompileLinuxGtk2 = 1
+    CompilerIf Subsystem("Gtk2")
+      #CompileLinuxGtk  = 1
+      #CompileLinuxGtk2 = 1
+      #CompileLinuxGtk3 = 0
+    CompilerElse
+      #CompileLinuxGtk  = 1
+      #CompileLinuxGtk2 = 0
+      #CompileLinuxGtk3 = 1
+    CompilerEndIf
     
     #OS_PureBasic = "Linux"
     
@@ -267,8 +256,9 @@ CompilerSelect #PB_Compiler_OS
   CompilerCase #PB_OS_MacOS ;- MacOS
     #CompileWindows   = 0
     #CompileLinux     = 0
-    #CompileLinuxGtk1 = 0  ; to directly check for linux + gtk version, which is often needed
+    #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
+    #CompileLinuxGtk3 = 0
     
     #CompileMac       = 1
     

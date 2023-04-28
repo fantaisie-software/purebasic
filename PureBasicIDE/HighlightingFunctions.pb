@@ -1589,7 +1589,7 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
             
           CompilerElse
             
-            CompilerIf #CompileLinuxGtk2 ; only true when linux + gtk2
+            CompilerIf #CompileLinuxGtk
               
               ; On Gtk2, we can use Pango markup to put bold text in a GtkLabel.. quite cool :)
               ;

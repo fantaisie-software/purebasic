@@ -84,8 +84,7 @@ Procedure OpenAboutWindow()
       
       SetGadgetText(#GADGET_About_Editor, Text$)
       
-      CompilerIf #CompileLinuxGtk2
-        ; center for gtk2
+      CompilerIf #CompileLinuxGtk
         gtk_text_view_set_justification_(GadgetID(#GADGET_About_Editor), #GTK_JUSTIFY_CENTER)
         gtk_text_view_set_wrap_mode_(GadgetID(#GADGET_About_Editor), #GTK_WRAP_WORD) ; set autowrap, as the version line is a bit long
       CompilerEndIf
@@ -99,7 +98,7 @@ Procedure OpenAboutWindow()
       
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         If AboutWindowPosition\x = -1 And AboutWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_About), #GTK_WIN_POS_CENTER)

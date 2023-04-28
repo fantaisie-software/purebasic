@@ -804,6 +804,7 @@ DataSection
   Data$ "File", "NewlineLinux":  Data.l 0
   Data$ "File", "NewlineMacOS":  Data.l 0
   ;Data$ "File", "SortSources":   Data.l 0
+  Data$ "File", "ShowInFolder":  Data.l 0
   Data$ "File", "Preferences":   Data.l 0
   Data$ "File", "EditHistory":   Data.l 0
   Data$ "File", "Quit":          Data.l 0

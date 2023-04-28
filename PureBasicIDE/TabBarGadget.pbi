@@ -2732,6 +2732,8 @@ Procedure.i TabBarGadget(Gadget.i, X.i, Y.i, Width.i, Height.i, Attributes.i, Wi
   CompilerSelect #PB_Compiler_OS
     CompilerCase #PB_OS_Windows
       TabBarGadgetInclude\DefaultFontID = GetGadgetFont(#PB_Default)
+    CompilerCase #PB_OS_Linux
+      TabBarGadgetInclude\DefaultFontID = GetGadgetFont(#PB_Default)
     CompilerDefault
       DummyGadget = TextGadget(#PB_Any, 0, 0, 10, 10, "Dummy")
       TabBarGadgetInclude\DefaultFontID = GetGadgetFont(DummyGadget)

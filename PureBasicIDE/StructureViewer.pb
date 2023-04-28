@@ -229,14 +229,10 @@ EndProcedure
 
 Procedure DisplayStructureRootList()
   
-  CompilerIf #CompileLinux
-    CompilerIf #GtkVersion = 1
-      gtk_clist_freeze_(GadgetID(#GADGET_StructureViewer_List)) ; on gtk1, its a clist
-    CompilerElse
-      *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_StructureViewer_List))
-      g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
-      gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
-    CompilerEndIf
+  CompilerIf #CompileLinuxGtk
+    *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_StructureViewer_List))
+    g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
+    gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
   CompilerEndIf
   
   ClearGadgetItems(#GADGET_StructureViewer_List)
@@ -296,13 +292,9 @@ Procedure DisplayStructureRootList()
   EndIf
   
   ; NOTE! must be done before the SetGadgetState, as it accesses the tree model which we removed!
-  CompilerIf #CompileLinux
-    CompilerIf #GtkVersion = 1
-      gtk_clist_thaw_(GadgetID(#GADGET_StructureViewer_List))
-    CompilerElse
-      gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
-      g_object_unref_(*tree_model)                                                  ; release reference
-    CompilerEndIf
+  CompilerIf #CompileLinuxGtk
+    gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
+    g_object_unref_(*tree_model)                                                  ; release reference
   CompilerEndIf
   
   If ListSize(StructureHistory()) = 1

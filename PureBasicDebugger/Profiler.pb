@@ -891,7 +891,7 @@ CompilerEndIf
 
 ; Linux specific event handler
 ;
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC Profiler_GtkMouseButtonHandler(*widget.GtkWidget, *event.GdkEventButton, *Debugger.DebuggerData)
     If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
       If *event\type = #GDK_BUTTON_PRESS And *event\button = 1

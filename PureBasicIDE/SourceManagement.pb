@@ -2677,6 +2677,19 @@ Procedure AutoSave()  ; called before compiling / creating executable to do the 
   
 EndProcedure
 
+Procedure ShowInFolder()
+  If *ActiveSource
+    If *ActiveSource = *ProjectInfo
+      FileToShow$ = ProjectFile$
+    Else
+      FileToShow$ = *ActiveSource\FileName$
+    EndIf
+    If FileToShow$
+      ShowExplorerFile(FileToShow$)
+    EndIf
+  EndIf
+EndProcedure
+
 Procedure ReloadSource()
   If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\Filename$
     If GetSourceModified() = #False Or MessageRequester(#ProductName$, Language("FileStuff","ReloadModified"), #PB_MessageRequester_YesNo|#FLAG_Warning) = #PB_MessageRequester_Yes

@@ -367,7 +367,7 @@ Procedure History_FlushEvents()
         HideWindow(#WINDOW_EditHistoryShutdown, #False)
         Hidden = #False
         
-        CompilerIf #CompileLinuxGtk2
+        CompilerIf #CompileLinuxGtk
           gtk_window_set_position_(WindowID(#WINDOW_EditHistoryShutdown), #GTK_WIN_POS_CENTER_ALWAYS)
         CompilerEndIf
         
