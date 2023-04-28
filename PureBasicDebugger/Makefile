@@ -22,7 +22,10 @@ ifeq ($(PB_MACOS),1)
 	GUIDEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB3D_MacIcon.icns"
 else
 	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
-	GUIDEBUGGERFLAGS = --subsystem gtk2
+	DEBUGGERFLAGS = 
+	ifeq ($(PB_GTK),2)
+		DEBUGGERFLAGS += --subsystem gtk2
+	endif
 endif
 
 	MAKEEXE = -e

@@ -601,7 +601,7 @@ Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   EnableGadgetDrop(#GADGET_Template_Tree, #PB_Drop_Private, #PB_Drag_Move, #DRAG_Templates)
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     ; the gtk label is by default not wrapping lines
     gtk_label_set_line_wrap_(GadgetID(#GADGET_Template_Comment), #True)
   CompilerEndIf
@@ -660,7 +660,7 @@ Procedure Template_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
     ResizeGadget(#GADGET_Template_Comment, 0, PanelHeight-65, PanelWidth, 65)
   EndIf
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     ; required for the TextGadget() to correctly wrap the lines
     ; sets the gtklabel's size request to the size of the gtkeventbox
     ; (see gtk_label_set_line_wrap_() documentation for an explanation)

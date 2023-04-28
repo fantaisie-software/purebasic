@@ -271,11 +271,7 @@ Procedure CreateIDEMenu()
     CompilerEndIf
     
     ShortcutMenuItem(#MENU_About, Language("MenuItem","About"))
-    
-    ;     If #CompileWindows Or (#CompileLinux And #GtkVersion = 2)
-    ;       ApplyMenuIcons()
-    ;     EndIf
-    
+
     Result = 1
     
     UpdateMenuStates()
@@ -583,7 +579,7 @@ Procedure CustomizeTabBarGadget()
     ; Windows defaults of the TabBarGadget are ok
   CompilerEndIf
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     *Style.GtkStyle = gtk_widget_get_style_(WindowID(#WINDOW_Main))
     TabBarGadgetInclude\TabBarColor = RGB(*Style\bg[#GTK_STATE_NORMAL]\red >> 8, *Style\bg[#GTK_STATE_NORMAL]\green >> 8, *Style\bg[#GTK_STATE_NORMAL]\blue >> 8)
     

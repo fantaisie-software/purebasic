@@ -56,7 +56,7 @@ Procedure CreateAutoCompleteWindow()
   If OpenWindow(#WINDOW_AutoComplete, 0, 0, 0, 0, "", #PB_Window_Invisible | #PB_Window_BorderLess, WindowID(#WINDOW_Main))
     ListViewGadget(#GADGET_AutoComplete_List, 0, 0, 0, 0)
     
-    CompilerIf #CompileLinuxGtk2
+    CompilerIf #CompileLinuxGtk
       ; remove window taskbar icon
       ; Note: this marks the window as a "menu", so the WM does not add the taskbar icon,
       ;       but for normal windows this should probably not be used, as i don't know what

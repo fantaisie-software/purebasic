@@ -240,11 +240,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
       ;
-      CompilerIf #CompileLinux
-        CompilerIf #GtkVersion = 2
-          Font$ = "!" + Font$
-          BoldFont$ = "!" + BoldFont$
-        CompilerEndIf
+      CompilerIf #CompileLinuxGtk
+        Font$ = "!" + Font$
+        BoldFont$ = "!" + BoldFont$
       CompilerEndIf
       
       ScintillaSendMessage(Result, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(Font$))

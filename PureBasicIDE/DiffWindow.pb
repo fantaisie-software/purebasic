@@ -755,7 +755,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
   ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
   ;
   ScintillaSendMessage(Gadget, #SCI_STYLERESETDEFAULT, 0, 0)
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     FontName$ = "!"+EditorFontName$
     ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(FontName$))
   CompilerElse
@@ -798,7 +798,7 @@ Procedure UpdateDiffGadget(IsLeft, List Style.DiffStyleBlock(), SetText)
     If EnableKeywordBolding
       ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
       ;
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         FontName$ = "!"+EditorBoldFontName$
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT,  2, ToAscii(FontName$))
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, 14, ToAscii(FontName$))
@@ -1910,7 +1910,7 @@ Procedure OpenDiffDialogWindow()
       
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         If DiffDialogWindowPosition\x = -1 And DiffDialogWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_DiffDialog), #GTK_WIN_POS_CENTER)
