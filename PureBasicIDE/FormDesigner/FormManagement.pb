@@ -111,17 +111,8 @@ EndProcedure
 Procedure ResizeFormInfo(Width, Height)
   FD_UpdateScrollbars(1)
   
-  If IsGadget(#GADGET_Form_ScrollV)
-    swidth = Width - Grid_Scrollbar_Width
-  Else
-    swidth = Width
-  EndIf
-  
-  If IsGadget(#GADGET_Form_ScrollH)
-    sheight = Height - Grid_Scrollbar_Width
-  Else
-    sheight = Height
-  EndIf
+  swidth = Width - Grid_Scrollbar_Width
+  sheight = Height - Grid_Scrollbar_Width
   
   If swidth < 1
     swidth = 1

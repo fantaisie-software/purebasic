@@ -337,15 +337,8 @@ Procedure FD_UpdateScrollbars(resizewin = 0)
     scrollv = 1
   EndIf
   
-  If scrollh And Not scrollv
-    swidth = GadgetWidth(#GADGET_Form)
-  ElseIf scrollv And Not scrollh
-    sheight = GadgetHeight(#GADGET_Form)
-  ElseIf scrollv And scrollh
-    swidth = GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width
-    sheight = GadgetHeight(#GADGET_Form)-Grid_Scrollbar_Width
-  EndIf
-  
+  swidth = GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width
+  sheight = GadgetHeight(#GADGET_Form)-Grid_Scrollbar_Width
   
   If scrollh
     If IsGadget(#GADGET_Form_ScrollH)
@@ -655,6 +648,7 @@ Procedure FD_SelectGadget(gadget)
     PopListPosition(FormWindows()\FormGadgets())
   EndIf
 EndProcedure
+
 Procedure FD_SelectWindow(window)
   If propgrid
     If grid_EventEditing(propgrid)
@@ -3252,6 +3246,13 @@ Procedure FD_LeftDown(x,y)
   ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets()\selected And FormWindows()\FormGadgets()\splitter = 0
       this_parent = FormWindows()\FormGadgets()\parent
+      
+      If this_parent
+        a_x1 = 0 : a_x2 = 0 : a_y1 = 0 : a_y2 = 0
+      Else
+        a_x1 = 0 : a_x2 = 10000 : a_y1 = 0 : a_y2 = 10000
+      EndIf
+      
       x1 = 0 : x2 = 0 : y1 = 0 : y2 = 0
       While this_parent <> 0
         PushListPosition(FormWindows()\FormGadgets())
@@ -3262,6 +3263,11 @@ Procedure FD_LeftDown(x,y)
         x2 + FormWindows()\FormGadgets()\x1 - FormWindows()\FormGadgets()\scrollx
         y1 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
         y2 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
+        
+        a_x1 + FormWindows()\FormGadgets()\x1
+        a_x2 + FormWindows()\FormGadgets()\x2
+        a_y1 + FormWindows()\FormGadgets()\y1
+        a_y2 + FormWindows()\FormGadgets()\y2
         
         If FormWindows()\FormGadgets()\type = #Form_Type_Panel
           y1 + Panel_Height
@@ -3276,39 +3282,41 @@ Procedure FD_LeftDown(x,y)
       y1 + FormWindows()\FormGadgets()\y1 - scrolly
       y2 + FormWindows()\FormGadgets()\y2 - scrolly
       
-      If FD_CheckPoint(x,y,x1,y1) ; top left
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_TopLeft
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,x2,y1) ; top right
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_TopRight
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y1) ; top middle
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_TopMiddle
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,x1,y2) ; bottom left
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomLeft
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,x2,y2) ; bottom right
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomRight
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y2) ; bottom middle
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomMiddle
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,x1,(y2 + y1) / 2) ; middle left
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleLeft
-        FormWindows()\FormGadgets()\selected = 1
-      ElseIf FD_CheckPoint(x,y,x2,(y2 + y1) / 2) ; middle right
-        FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleRight
-        FormWindows()\FormGadgets()\selected = 1
-      EndIf
-      
-      If FormWindows()\FormGadgets()\selected
-        FD_SelectGadget(FormWindows()\FormGadgets())
-      EndIf
-      
-      If FormWindows()\FormGadgets()\resizing
-        resizing = FormWindows()\FormGadgets()
-        Break
+      If x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2
+        If FD_CheckPoint(x,y,x1,y1) ; top left
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_TopLeft
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,x2,y1) ; top right
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_TopRight
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y1) ; top middle
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_TopMiddle
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,x1,y2) ; bottom left
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomLeft
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,x2,y2) ; bottom right
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomRight
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y2) ; bottom middle
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomMiddle
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,x1,(y2 + y1) / 2) ; middle left
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleLeft
+          FormWindows()\FormGadgets()\selected = 1
+        ElseIf FD_CheckPoint(x,y,x2,(y2 + y1) / 2) ; middle right
+          FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleRight
+          FormWindows()\FormGadgets()\selected = 1
+        EndIf
+        
+        If FormWindows()\FormGadgets()\selected
+          FD_SelectGadget(FormWindows()\FormGadgets())
+        EndIf
+        
+        If FormWindows()\FormGadgets()\resizing
+          resizing = FormWindows()\FormGadgets()
+          Break
+        EndIf
       EndIf
     EndIf
     
@@ -3325,6 +3333,12 @@ Procedure FD_LeftDown(x,y)
         this_parent = FormWindows()\FormGadgets()\parent
         this_parent_item = FormWindows()\FormGadgets()\parent_item
         hidden = 0
+        
+        If this_parent
+          a_x1 = 0 : a_x2 = 0 : a_y1 = 0 : a_y2 = 0
+        Else
+          a_x1 = 0 : a_x2 = 10000 : a_y1 = 0 : a_y2 = 10000
+        EndIf
         
         x1 = 0 : x2 = 0 : y1 = 0 : y2 = 0
         While this_parent <> 0
@@ -3347,11 +3361,15 @@ Procedure FD_LeftDown(x,y)
           y1 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
           y2 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
           
+          a_x1 + FormWindows()\FormGadgets()\x1
+          a_x2 + FormWindows()\FormGadgets()\x2
+          a_y1 + FormWindows()\FormGadgets()\y1
+          a_y2 + FormWindows()\FormGadgets()\y2
+          
           If FormWindows()\FormGadgets()\type = #Form_Type_Panel
             y1 + Panel_Height
             y2 + Panel_Height
           EndIf
-          
           PopListPosition(FormWindows()\FormGadgets())
         Wend
         
@@ -3364,7 +3382,7 @@ Procedure FD_LeftDown(x,y)
           hidden = 1
         EndIf
         
-        If x > x1 And x <= x2 And y >= y1 And y <= y2 And Not hidden
+        If (x > x1 And x <= x2 And y >= y1 And y <= y2) And (x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2) And Not hidden
           Select FormWindows()\FormGadgets()\type
             Case #Form_Type_Splitter
               If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
@@ -3519,7 +3537,6 @@ Procedure FD_LeftDown(x,y)
               
               FormWindows()\FormGadgets()\selected = 1
               FD_SelectGadget(FormWindows()\FormGadgets())
-              
               If FormWindows()\FormGadgets()\splitter = 0
                 moving = FormWindows()\FormGadgets()
                 moving_x = px
@@ -3606,12 +3623,19 @@ Procedure FD_LeftDown(x,y)
         d_x2 = px
         d_y2 = py
       EndIf
+      
+      If Not drawing And Not count_select
+        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Cross)
+        multiselectStart = #True
+        multiselectFirstScan = #True
+        multiselectParent = -1
+      EndIf
     EndIf
-    
   EndIf
   
   redraw = 1
 EndProcedure
+
 Procedure FD_Move(x,y)
   ChangeCurrentElement(FormWindows(),currentwindow)
   px = FD_AlignPoint(x - leftpadding + FormWindows()\paddingx - #Page_Padding)
@@ -3715,7 +3739,6 @@ Procedure FD_Move(x,y)
     moving_y = py
     slidex = moving_x - moving_firstx
     slidey = moving_y - moving_firsty
-    
     ForEach FormWindows()\FormGadgets()
       If FormWindows()\FormGadgets()\selected
         newx1 = FormWindows()\FormGadgets()\oldx + slidex
@@ -4105,17 +4128,8 @@ Procedure FD_Move(x,y)
     If update_scrollbars
       FD_UpdateScrollbars(1)
       
-      If IsGadget(#GADGET_Form_ScrollV)
-        swidth = GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width
-      Else
-        swidth = GadgetWidth(#GADGET_Form)
-      EndIf
-      
-      If IsGadget(#GADGET_Form_ScrollH)
-        sheight = GadgetHeight(#GADGET_Form)-Grid_Scrollbar_Width
-      Else
-        sheight = GadgetHeight(#GADGET_Form)
-      EndIf
+      swidth = GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width
+      sheight = GadgetHeight(#GADGET_Form)-Grid_Scrollbar_Width
       
       ResizeGadget(#GADGET_Form_Canvas,0,0,swidth,sheight)
     EndIf
@@ -4129,6 +4143,12 @@ Procedure FD_Move(x,y)
     this_parent = FormWindows()\FormGadgets()\parent
     this_parent_item = FormWindows()\FormGadgets()\parent_item
     hidden = 0
+    
+    If this_parent
+      a_x1 = 0 : a_x2 = 0 : a_y1 = 0 : a_y2 = 0
+    Else
+      a_x1 = 0 : a_x2 = 10000 : a_y1 = 0 : a_y2 = 10000
+    EndIf
     
     x1 = 0 : x2 = 0 : y1 = 0 : y2 = 0
     While this_parent <> 0
@@ -4151,6 +4171,11 @@ Procedure FD_Move(x,y)
       y1 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
       y2 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
       
+      a_x1 + FormWindows()\FormGadgets()\x1
+      a_x2 + FormWindows()\FormGadgets()\x2
+      a_y1 + FormWindows()\FormGadgets()\y1
+      a_y2 + FormWindows()\FormGadgets()\y2
+      
       If FormWindows()\FormGadgets()\type = #Form_Type_Panel
         y1 + Panel_Height
         y2 + Panel_Height
@@ -4168,48 +4193,51 @@ Procedure FD_Move(x,y)
       hidden = 1
     EndIf
     
-    If FormWindows()\FormGadgets()\selected And Not hidden And Not FormWindows()\FormGadgets()\splitter
-      If FD_CheckPoint(x,y,x1,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopLeft ; top left
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftUpRightDown)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,x2,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopRight ; top right
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftDownRightUp)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopMiddle ; top middle
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_UpDown)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,x1,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomLeft ; bottom left
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftDownRightUp)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,x2,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomRight ; bottom right
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftUpRightDown)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomMiddle ; bottom middle
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_UpDown)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,x1,(y2 + y1) / 2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleLeft ; middle left
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftRight)
-        ok = 1
-      ElseIf FD_CheckPoint(x,y,x2,(y2 + y1) / 2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleRight ; middle right
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftRight)
-        ok = 1
+    If x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2
+      
+      If FormWindows()\FormGadgets()\selected And Not hidden And Not FormWindows()\FormGadgets()\splitter
+        If FD_CheckPoint(x,y,x1,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopLeft ; top left
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftUpRightDown)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,x2,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopRight ; top right
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftDownRightUp)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y1) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_TopMiddle ; top middle
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_UpDown)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,x1,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomLeft ; bottom left
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftDownRightUp)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,x2,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomRight ; bottom right
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftUpRightDown)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,(x2 + x1) / 2,y2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_BottomMiddle ; bottom middle
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_UpDown)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,x1,(y2 + y1) / 2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleLeft ; middle left
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftRight)
+          ok = 1
+        ElseIf FD_CheckPoint(x,y,x2,(y2 + y1) / 2) Or FormWindows()\FormGadgets()\resizing = #Form_Resize_MiddleRight ; middle right
+          SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_LeftRight)
+          ok = 1
+        EndIf
+        
+        If ok
+          Break
+        EndIf
       EndIf
       
-      If ok
-        Break
-      EndIf
-    EndIf
-    
-    If x > x1 And x <= x2 And y >= y1 And y <= y2 And Not hidden
-      If FormWindows()\FormGadgets()\type = #Form_Type_Container Or FormWindows()\FormGadgets()\type = #Form_Type_Panel Or FormWindows()\FormGadgets()\type = #Form_Type_ScrollArea Or FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
-        If FD_CheckPoint(x,0,x1,0,4) Or FD_CheckPoint(x,0,x2,0,4) Or FD_CheckPoint(0,y,0,y1,4) Or FD_CheckPoint(0,y,0,y2,4) Or (FormWindows()\FormGadgets()\type = #Form_Type_Panel And y <= y1 + Panel_Height)
+      If x > x1 And x <= x2 And y >= y1 And y <= y2 And Not hidden
+        If FormWindows()\FormGadgets()\type = #Form_Type_Container Or FormWindows()\FormGadgets()\type = #Form_Type_Panel Or FormWindows()\FormGadgets()\type = #Form_Type_ScrollArea Or FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
+          If FD_CheckPoint(x,0,x1,0,4) Or FD_CheckPoint(x,0,x2,0,4) Or FD_CheckPoint(0,y,0,y1,4) Or FD_CheckPoint(0,y,0,y2,4) Or (FormWindows()\FormGadgets()\type = #Form_Type_Panel And y <= y1 + Panel_Height)
+            ok = 1
+            SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Hand)
+          EndIf
+        Else
           ok = 1
           SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Hand)
+          Break
         EndIf
-      Else
-        ok = 1
-        SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Hand)
-        Break
       EndIf
     EndIf
   Next
@@ -4239,12 +4267,161 @@ Procedure FD_Move(x,y)
   EndIf
   
 EndProcedure
-Procedure FD_LeftUp(x,y)
-  ChangeCurrentElement(FormWindows(),currentwindow)
+
+Procedure FD_MoveMultiSelection(x,y)
+  Static sx1, sx2, sy1, sy2
+  
   px = FD_AlignPoint(x - leftpadding + FormWindows()\paddingx - #Page_Padding)
   py = FD_AlignPoint(y + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding)
   x + FormWindows()\paddingx - #Page_Padding - leftpadding
   y + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding
+  
+  If multiselectFirstScan
+    multiselectFirstScan = #False
+    sx1 = x
+    sy1 = y
+    sx2 = x
+    sy2 = y
+  EndIf
+  
+  If sx1 > x
+    sx1 = x
+  EndIf
+  If sx2 < x
+    sx2 = x
+  EndIf
+  If sy1 > y
+    sy1 = y
+  EndIf
+  If sy2 < y
+    sy2 = y
+  EndIf
+  
+  If LastElement(FormWindows()\FormGadgets())
+    Repeat
+      this_parent = FormWindows()\FormGadgets()\parent
+      this_parent_item = FormWindows()\FormGadgets()\parent_item
+      hidden = 0
+      
+      If this_parent
+        a_x1 = 0 : a_x2 = 0 : a_y1 = 0 : a_y2 = 0
+      Else
+        a_x1 = 0 : a_x2 = 10000 : a_y1 = 0 : a_y2 = 10000
+      EndIf
+      
+      x1 = 0 : x2 = 0 : y1 = 0 : y2 = 0
+      While this_parent <> 0
+        PushListPosition(FormWindows()\FormGadgets())
+        FD_FindParent(this_parent)
+        
+        If FormWindows()\FormGadgets()\current_item <> this_parent_item And this_parent_item <> -1
+          hidden = 1
+        EndIf
+        
+        If FormWindows()\FormGadgets()\hidden
+          hidden = 1
+        EndIf
+        
+        this_parent = FormWindows()\FormGadgets()\parent
+        this_parent_item = FormWindows()\FormGadgets()\parent_item
+        
+        x1 + FormWindows()\FormGadgets()\x1 - FormWindows()\FormGadgets()\scrollx
+        x2 + FormWindows()\FormGadgets()\x1 - FormWindows()\FormGadgets()\scrollx
+        y1 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
+        y2 + FormWindows()\FormGadgets()\y1 - FormWindows()\FormGadgets()\scrolly
+        
+        a_x1 + FormWindows()\FormGadgets()\x1
+        a_x2 + FormWindows()\FormGadgets()\x2
+        a_y1 + FormWindows()\FormGadgets()\y1
+        a_y2 + FormWindows()\FormGadgets()\y2
+        
+        If FormWindows()\FormGadgets()\type = #Form_Type_Panel
+          y1 + Panel_Height
+          y2 + Panel_Height
+        EndIf
+        
+        PopListPosition(FormWindows()\FormGadgets())
+      Wend
+      
+      x1 + FormWindows()\FormGadgets()\x1 - scrollx
+      x2 + FormWindows()\FormGadgets()\x2 - scrollx
+      y1 + FormWindows()\FormGadgets()\y1 - scrolly
+      y2 + FormWindows()\FormGadgets()\y2 - scrolly
+      
+      If FormWindows()\FormGadgets()\hidden
+        hidden = 1
+      EndIf
+      
+      If Not hidden
+        If x > a_x1 And x <= a_x2 And y >= a_y1 And y <= a_y2
+          If (x > x1 And x <= x2 And y >= y1 And y <= y2) Or ((x1 > sx1 And x2 <= sx2) And (y1 > sy1 And y2 <= sy2))
+            If multiSelectParent < 0
+              Select FormWindows()\FormGadgets()\type
+                Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
+                  multiSelectParent = FormWindows()\FormGadgets()\itemnumber
+                Case #Form_Type_Splitter
+                  If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
+                    If x < x1 + FormWindows()\FormGadgets()\state
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget1
+                    Else
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget2
+                    EndIf  
+                  Else
+                    If y < y1 + FormWindows()\FormGadgets()\state
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget1
+                    Else
+                      multiSelectParent = FormWindows()\FormGadgets()\gadget2
+                    EndIf  
+                  EndIf
+                
+                Default
+                  multiSelectParent = 0
+              EndSelect
+            EndIf
+            If FormWindows()\FormGadgets()\parent = multiSelectParent
+              If Not FormWindows()\FormGadgets()\selected
+                count_select + 1
+                FormWindows()\FormGadgets()\selected = 1
+                FormWindows()\FormGadgets()\oldx = FormWindows()\FormGadgets()\x1
+                FormWindows()\FormGadgets()\oldy = FormWindows()\FormGadgets()\y1
+                redraw = 1
+              EndIf
+              If (x > x1 And x <= x2 And y >= y1 And y <= y2)
+                moving = FormWindows()\FormGadgets()
+                moving_x = px
+                moving_y = py
+                moving_firstx = px
+                moving_firsty = py
+              EndIf
+            EndIf
+          
+          EndIf
+        EndIf
+      EndIf
+      
+    Until PreviousElement(FormWindows()\FormGadgets()) = 0
+    
+    If multiSelectParent < 0
+      multiSelectParent = 0
+    EndIf
+    
+  EndIf
+  
+EndProcedure
+
+Procedure FD_LeftUp(x,y)
+  ChangeCurrentElement(FormWindows(),currentwindow)
+  
+  px = FD_AlignPoint(x - leftpadding + FormWindows()\paddingx - #Page_Padding)
+  py = FD_AlignPoint(y + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding)
+  x + FormWindows()\paddingx - #Page_Padding - leftpadding
+  y + FormWindows()\paddingy - #Page_Padding - topwinpadding - toptoolpadding - topmenupadding
+  
+  If multiselectStart
+    SetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_Cursor,#PB_Cursor_Hand)
+    multiselectStart = #False
+    multiselectFirstScan = #False
+  EndIf
   
   If drawing And d_x1 <> d_x2 And d_y1 <> d_y2 ;{
     If form_gadget_type = #Form_Type_Toolbar
@@ -4568,6 +4745,9 @@ Procedure FD_LeftUp(x,y)
   ForEach FormWindows()\FormGadgets()
     If FormWindows()\FormGadgets()\selected
       isselect = 1
+      ; Fix move multiple times
+      FormWindows()\FormGadgets()\oldx = FormWindows()\FormGadgets()\x1
+      FormWindows()\FormGadgets()\oldy = FormWindows()\FormGadgets()\y1
     EndIf
   Next
   
@@ -7195,7 +7375,7 @@ Procedure FD_EventMain(gadget, event_type)
         Select event_type
           Case #PB_EventType_MouseWheel
             If IsGadget(#GADGET_Form_ScrollV)
-              SetGadgetState(#GADGET_Form_ScrollV,GetGadgetState(#GADGET_Form_ScrollV) - GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_WheelDelta)*3)
+              SetGadgetState(#GADGET_Form_ScrollV,GetGadgetState(#GADGET_Form_ScrollV) - GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_WheelDelta)*10)
               FormWindows()\paddingy = GetGadgetState(#GADGET_Form_ScrollV)
               redraw = 1
             EndIf
@@ -7212,7 +7392,11 @@ Procedure FD_EventMain(gadget, event_type)
           Case #PB_EventType_MouseMove
             x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
             y = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseY)
-            FD_Move(x, y)
+            If multiselectStart
+              FD_MoveMultiSelection(x,y)
+            Else
+              FD_Move(x, y)
+            EndIf
             
           Case #PB_EventType_LeftButtonUp
             x = GetGadgetAttribute(#GADGET_Form_Canvas,#PB_Canvas_MouseX)
