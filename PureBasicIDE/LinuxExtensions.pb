@@ -217,6 +217,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "konqueror"
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "thunar"
+        AddElement(Managers()): Managers() = "nemo"
         
       ElseIf FindString(WindowManager$, "KWIN", 1)
         ; KDE
@@ -226,6 +227,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "thunar"
+        AddElement(Managers()): Managers() = "nemo"
         
         ; ElseIf FindString(WindowManager$, "XFWM", 1)
         ; Xfce (use the below fallback for that and others)
@@ -238,6 +240,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
+        AddElement(Managers()): Managers() = "nemo"
         
       EndIf
       
@@ -278,6 +281,10 @@ CompilerIf #CompileLinux
                 FileManagerName$ = "Thunar"
                 FileManagerParameters$ = ""
                 
+              Case "nemo"
+                FileManagerName$ = "Nemo"
+                FileManagerParameters$ = ""
+              
             EndSelect
             
             Break
