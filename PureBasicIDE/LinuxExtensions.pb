@@ -232,6 +232,16 @@ CompilerIf #CompileLinux
         ; ElseIf FindString(WindowManager$, "XFWM", 1)
         ; Xfce (use the below fallback for that and others)
         
+      ElseIf FindString(WindowManager$, "MUTTER", 1)
+        ; Mutter
+        AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "nautilus"
+        AddElement(Managers()): Managers() = "gnome-commander"
+        AddElement(Managers()): Managers() = "dolphin"
+        AddElement(Managers()): Managers() = "konqueror"
+        AddElement(Managers()): Managers() = "krusader"
+        AddElement(Managers()): Managers() = "thunar"
+        
       Else
         ; fallback
         AddElement(Managers()): Managers() = "thunar"
