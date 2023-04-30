@@ -218,6 +218,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "thunar"
         AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
       ElseIf FindString(WindowManager$, "KWIN", 1)
         ; KDE
@@ -228,6 +229,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "thunar"
         AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
         ; ElseIf FindString(WindowManager$, "XFWM", 1)
         ; Xfce (use the below fallback for that and others)
@@ -235,6 +237,7 @@ CompilerIf #CompileLinux
       ElseIf FindString(WindowManager$, "MUTTER", 1)
         ; Mutter
         AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "dolphin"
@@ -251,6 +254,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
       EndIf
       
