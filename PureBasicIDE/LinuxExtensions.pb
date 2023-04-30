@@ -298,6 +298,10 @@ CompilerIf #CompileLinux
               Case "nemo"
                 FileManagerName$ = "Nemo"
                 FileManagerParameters$ = ""
+                
+              Case "pcmanfm"
+                FileManagerName$ = "PcManFM"
+                FileManagerParameters$ = ""
               
             EndSelect
             
