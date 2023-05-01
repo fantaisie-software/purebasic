@@ -29,14 +29,17 @@ Procedure FormUndo()
       Else
         If FormWindows()\UndoActions()\type = #Undo_Delete
           num = ListSize(FormWindows()\UndoActions()\ActionGadget())
+          FirstElement(FormWindows()\UndoActions()\ActionGadget())
         Else
           num = ListSize(FormWindows()\UndoActions()\ActionGadget())/2
           FirstElement(FormWindows()\UndoActions()\ActionGadget())
         EndIf
-        
         For i = 1 To num
           If FormWindows()\UndoActions()\type = #Undo_Delete
-            If SelectElement(FormWindows()\FormGadgets(),FormWindows()\UndoActions()\ActionGadget()\gadgetpos)
+            If FormWindows()\UndoActions()\ActionGadget()\parent
+              LastElement(FormWindows()\FormGadgets())
+              AddElement(FormWindows()\FormGadgets())
+            ElseIf SelectElement(FormWindows()\FormGadgets(),FormWindows()\UndoActions()\ActionGadget()\gadgetpos)
               InsertElement(FormWindows()\FormGadgets())
             Else
               LastElement(FormWindows()\FormGadgets())
@@ -127,7 +130,6 @@ Procedure FormUndo()
       ;SelectGadget(FormWindows()\FormGadgets())
       FD_UpdateSplitter()
       FD_UpdateObjList()
-      
     ElseIf ListSize(FormWindows()\UndoActions()\ActionTool1()) Or ListSize(FormWindows()\UndoActions()\ActionTool2())
       CopyList(FormWindows()\UndoActions()\ActionTool1(),FormWindows()\FormToolbars())
       FD_SelectWindow(FormWindows())

@@ -217,6 +217,8 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "konqueror"
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "thunar"
+        AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
       ElseIf FindString(WindowManager$, "KWIN", 1)
         ; KDE
@@ -226,9 +228,22 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "thunar"
+        AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
         ; ElseIf FindString(WindowManager$, "XFWM", 1)
         ; Xfce (use the below fallback for that and others)
+        
+      ElseIf FindString(WindowManager$, "MUTTER", 1)
+        ; Mutter
+        AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
+        AddElement(Managers()): Managers() = "nautilus"
+        AddElement(Managers()): Managers() = "gnome-commander"
+        AddElement(Managers()): Managers() = "dolphin"
+        AddElement(Managers()): Managers() = "konqueror"
+        AddElement(Managers()): Managers() = "krusader"
+        AddElement(Managers()): Managers() = "thunar"
         
       Else
         ; fallback
@@ -238,6 +253,8 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "nautilus"
         AddElement(Managers()): Managers() = "gnome-commander"
+        AddElement(Managers()): Managers() = "nemo"
+        AddElement(Managers()): Managers() = "pcmanfm"
         
       EndIf
       
@@ -278,6 +295,14 @@ CompilerIf #CompileLinux
                 FileManagerName$ = "Thunar"
                 FileManagerParameters$ = ""
                 
+              Case "nemo"
+                FileManagerName$ = "Nemo"
+                FileManagerParameters$ = ""
+                
+              Case "pcmanfm"
+                FileManagerName$ = "PcManFM"
+                FileManagerParameters$ = ""
+              
             EndSelect
             
             Break
