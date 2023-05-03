@@ -1,7 +1,7 @@
 ;
 ;     Requester library documentation
 ;
-;      (c) 2016 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Requester
@@ -304,7 +304,7 @@ called 'requesters'.
   ;  1st: "Text (*.txt)" as name, ".txt" and ".bat" as allowed extension
   ;  2nd: "PureBasic (*.pb)" as name, ".pb" as allowed extension
   ;  3rd: "All files (*.*) as name, "*.*" as allowed extension, valid for all files
-  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|All files (*.*)|*.*"
+  Pattern$ = "Text (*.txt;*.bat)|*.txt;*.bat|PureBasic (*.pb)|*.pb|All files (*.*)|*.*"
   Pattern = 0    ; use the first of the three possible patterns as standard
   File$ = OpenFileRequester("Please choose file to load", StandardFile$, Pattern$, Pattern)
   If File$

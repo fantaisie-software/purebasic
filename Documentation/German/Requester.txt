@@ -1,7 +1,7 @@
 ;
 ;     Requester library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Requester
@@ -329,7 +329,7 @@
   ;  Erster:  "Text (*.txt)" als Name, ".txt" und ".bat" als erlaubte Dateiendungen
   ;  Zweiter: "PureBasic (*.pb)" als Name, ".pb" als erlaubte Dateiendung
   ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, gültig für alle Dateien
-  Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
+  Pattern$ = "Text (*.txt;*.bat)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
   Pattern = 0    ; wir verwenden den ersten von drei möglichen Pattern als Standard
   File$ = OpenFileRequester("Bitte Datei zum Laden auswählen", StandardFile$, Pattern$, Pattern)
   If File$

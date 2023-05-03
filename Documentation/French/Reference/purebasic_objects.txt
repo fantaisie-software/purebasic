@@ -72,13 +72,13 @@
 @Example
 @Code
   CreateImage(0, 640, 480) ; Crée une image à l'index n°0 dans l'indexation des images
-  ResizeImage(0, 320, 240) ; Redimensionne l'image n°0
+  ResizeImage(0, 320, 240) ; Redimensionne l'image n°0 et modifie le handle de l'image
 @EndCode  
 
 @Example
 @Code  
   CreateImage(2, 640, 480) ; Crée une image à l'index n°2 dans l'indexation des images
-  ResizeImage(2, 320, 240) ; Redimensionne l'image n°2
+  ResizeImage(2, 320, 240) ; Redimensionne l'image n°2 et modifie son @ReferenceLink "handles" "handle"
   CreateImage(2, 800, 800) ; Crée une nouvelle image à l'emplacement n°2. L'ancienne image n°2 est désallouée automatiquement
 @EndCode  
   
@@ -86,7 +86,7 @@
 @Code  
   For k = 0 To 9
     CreateImage(k, 640, 480) ; Crée 10 images, aux emplacements 0 à 9
-    ResizeImage(k, 320, 240) ; Recrée une nouvelle image à l'emplacement n°2. L'ancienne image n°2 est désallouée automatiquement
+    ResizeImage(k, 320, 240) ; Redimensionne les images de moitié et modifie son @ReferenceLink "handles" "handle"
   Next
 @EndCode  
   
@@ -96,7 +96,7 @@
   #ImageButton     = 1
 
   CreateImage(#ImageBackground, 640, 480) ; Crée une image à l'emplacement #ImageBackground (0)
-  ResizeImage(#ImageBackground, 320, 240) ; Redimensionne l'image 0 (ImageBackground)
+  ResizeImage(#ImageBackground, 320, 240) ; Redimensionne l'image 0 (ImageBackground)  et modifie son @ReferenceLink "handles" "handle"
   CreateImage(#ImageButton    , 800, 800) ; Crée une image (n°1)
 @EndCode  
 

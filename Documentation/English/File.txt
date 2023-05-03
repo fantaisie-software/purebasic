@@ -28,6 +28,7 @@
 @CommandList
 
 @ExampleFile All File.pb
+@ExampleFile All FileSearch.pb
 
 @SupportedOS
 
@@ -217,24 +218,24 @@
 
 @Example
 @Code
-
-  file$ = OpenFileRequester("Select a file","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
-  If file$
-    If ReadFile(0, file$)
-      length = Lof(0)                       ; read length of file
-      FileSeek(0, length - 10)              ; set the file pointer 10 chars from end of file
-      Debug "Position: " + Str(Loc(0))      ; show actual file pointer position
-      *MemoryID = AllocateMemory(10)        ; allocate the needed memory for 10 bytes
-      If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; read the last 10 chars in the file
-        Debug PeekS(*MemoryID)
-      EndIf
+  File$ = OpenFileRequester("Select a file","","All files (*.*)|*.*",0)
+  If File$
+    If ReadFile(0, File$)
+      
+      ; Read length of file
+      Length = Lof(0)                       
+      Debug "File length: "+FormatNumber(Length, 0)+" bytes"
+          
+      ; Set the file pointer 10 bytes from end of file
+      FileSeek(0, Length - 10)                                
+      Debug "Position after seek: "+FormatNumber(Loc(0), 0)
+      
       CloseFile(0)
+    Else
+      Debug "Can't read the file: "+File$
     EndIf
   EndIf
-
-@EndCode
-
+@EndCode  
 @SeeAlso
   @@Loc, @@Lof
 

@@ -105,10 +105,10 @@
   <tr>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_framegadget.png"> <a href="../gadget/framegadget.html"><u>FrameGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_hyperlinkgadget.png"> <a href="../gadget/hyperlinkgadget.html"><u>HyperLinkGadget</u></a></td>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
   </tr>
   <tr>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listicongadget.png"> <a href="../gadget/listicongadget.html"><u>ListIconGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listviewgadget.png"> <a href="../gadget/listviewgadget.html"><u>ListViewGadget</u></a></td>
   </tr>
@@ -4729,14 +4729,29 @@ utiliser l'opérateur '&':
 
 @Example
 @Code
-  [...]  
+  Procedure SizeHandler()
+    ResizeGadget(0, #PB_Ignore, #PB_Ignore, WindowWidth(0) - 20, WindowHeight(0) - 60) 
+    ResizeGadget(1, #PB_Ignore, WindowHeight(0) - 40, WindowWidth(0) - 20, #PB_Ignore) 
+  EndProcedure
   
-  ResizeGadget(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Change seulement la largeur du gadget.
-
-  ResizeGadget(0, 150, 100, #PB_Ignore, #PB_Ignore) ; Déplacement du gadget sans redimensionnement.
-
+  If OpenWindow(0, 0, 0, 220, 100, "Resize the window", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    WindowBounds(0, WindowWidth(0), WindowHeight(0), #PB_Ignore, #PB_Ignore)
+  
+    EditorGadget(0, 10, 10, WindowWidth(0) - 20, WindowHeight(0) - 60)
+    ButtonGadget(1, 10, WindowHeight(0) - 40, WindowWidth(0) - 20, 30, "Button")
+    
+    ; Use BindEvent() to have a realtime gadget resize
+    BindEvent(#PB_Event_SizeWindow, @SizeHandler())
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
 @EndCode
-
+  
 @SeeAlso
   @@GadgetX, @@GadgetY, @@GadgetWidth, 
   @@GadgetHeight

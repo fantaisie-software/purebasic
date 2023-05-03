@@ -587,6 +587,37 @@
   et les commandes 'Event' de cette
   bibliothèque permettront de récupérer la 
   donnée déposée. 
+  
+@Example
+@Code
+  ; Faites un cliquer-glisser d'un fichier vers l'un des gadgets qui affichera alors le chemin du fichier
+  ;
+  If OpenWindow(0, 0, 0, 500, 200, "Drop File Here", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    StringGadget(0, 10, 10, 500 - 20, 30, "")
+    EditorGadget(1, 10, 50, 500 - 20, 140)
+    
+    EnableGadgetDrop(0, #PB_Drop_Files, #PB_Drag_Copy)
+    EnableGadgetDrop(1, #PB_Drop_Files, #PB_Drag_Copy)
+  
+    Repeat
+        Select WaitWindowEvent()
+            Case #PB_Event_GadgetDrop
+                Select EventGadget()
+                    Case 0 ; gadgets ayant reçu l'évènement glisser-déposer de fichier/dossier
+                        If Not FindString(EventDropFiles(), Chr(10))
+                            SetGadgetText(0, EventDropFiles())
+                        EndIf
+                    Case 1
+                        SetGadgetText(1, EventDropFiles())
+                EndSelect
+            Case #PB_Event_CloseWindow
+                CloseWindow(0)
+                End
+        EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@EnableWindowDrop, @@EventDropType, 

@@ -32,14 +32,14 @@
 
 @Code
   CreateImage(0, 640, 480) ; Create an image, the n°0
-  ResizeImage(0, 320, 240) ; Resize the n°0 image
+  ResizeImage(0, 320, 240) ; Resize the n°0 image and change its @ReferenceLink "handles" "handle"
 @EndCode  
 
   @Example
 
 @Code
   CreateImage(2, 640, 480) ; Create an image, the n°2
-  ResizeImage(2, 320, 240) ; Resize the n°2 image
+  ResizeImage(2, 320, 240) ; Resize the n°2 image and change its @ReferenceLink "handles" "handle"
   CreateImage(2, 800, 800) ; Create a new image in the n°2 index, the old one is automatically free'ed
 @EndCode
 
@@ -48,7 +48,7 @@
 @Code
   For k = 0 To 9
     CreateImage(k, 640, 480) ; Create 10 different images, numbered from 0 to 9
-    ResizeImage(k, 320, 240) ; Create a new image in the n°2 index, the old one is automatically free'ed
+    ResizeImage(k, 320, 240) ; Resize images into half width/height  and change its @ReferenceLink "handles" "handle"
   Next
 @EndCode  
 

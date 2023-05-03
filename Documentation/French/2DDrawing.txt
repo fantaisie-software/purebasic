@@ -712,16 +712,16 @@ se terminent lorsque @@StopDrawing est appelé.
 @NoReturnValue
 
 @Remarks  
-  L'image sera transparente si le mode 
-  d'affichage courant @@DrawingMode est 
-  utilisé avec une des options d'alpha 
-  blending (transparence) sinon l'image 
-  est simplement copiée sur la surface de 
-  dessin en cours. 
-  Pour dessiner une image en utilisant la 
-  transparence, voir la commande 
-  @@DrawAlphaImage.
- 
+  L'image sera transparente si le mode d'affichage courant @@DrawingMode est 
+  utilisé avec une des options d'alpha blending (transparence) sinon l'image 
+  est simplement copiée sur la surface de dessin en cours. 
+  Pour dessiner une image en utilisant la transparence, voir la commande @@DrawAlphaImage.
+  @LineBreak
+  @LineBreak
+  Un certain nombre de backends (y compris @@WindowOutput sous Linux) ne peuvent pas ignorer le canal alpha. 
+  Dans ce cas DrawImage() fait la même chose que @@DrawAlphaImage. Pour plus de cohérence, utilisez simplement 
+  @@DrawAlphaImage à la place, ce qui devrait produire la même sortie sur tous les backends.
+  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "DrawImage", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)

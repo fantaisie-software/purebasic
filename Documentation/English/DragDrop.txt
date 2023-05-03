@@ -1,7 +1,7 @@
 ;
 ;     Drag & Drop library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library DragDrop
@@ -393,6 +393,37 @@
   If data was dropped on the gadget, the program will receive a @#PB_Event_GadgetDrop event. 
   @@EventGadget will indicate the target gadget and the Event functions of this
   library can be used to get the dropped data.
+
+@Example
+@Code
+  ; Drag a file to one of the gadets and you will receive the file path
+  ;
+  If OpenWindow(0, 0, 0, 500, 200, "Drop File Here", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    StringGadget(0, 10, 10, 500 - 20, 30, "")
+    EditorGadget(1, 10, 50, 500 - 20, 140)
+    
+    EnableGadgetDrop(0, #PB_Drop_Files, #PB_Drag_Copy)
+    EnableGadgetDrop(1, #PB_Drop_Files, #PB_Drag_Copy)
+  
+    Repeat
+        Select WaitWindowEvent()
+            Case #PB_Event_GadgetDrop
+                Select EventGadget()
+                    Case 0 ; gadgets that received a file/folder drag and drop event
+                        If Not FindString(EventDropFiles(), Chr(10))
+                            SetGadgetText(0, EventDropFiles())
+                        EndIf
+                    Case 1
+                        SetGadgetText(1, EventDropFiles())
+                EndSelect
+            Case #PB_Event_CloseWindow
+                CloseWindow(0)
+                End
+        EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@EnableWindowDrop, @@EventDropType, @@EventDropAction,

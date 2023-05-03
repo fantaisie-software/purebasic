@@ -1,7 +1,7 @@
 ;
 ;     Cipher library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Cipher
@@ -131,25 +131,22 @@ due to its strong resistance to attacks.
 
 @Example ECB
 @Code
-  ; Should be compiled in ascii mode
-  ;
   String$ = "Hello this is a test for AES"
   
-  *CipheredString   = AllocateMemory(Len(String$)+ SizeOf(Caractere)) ; Space for the string and its
-  *DecipheredString = AllocateMemory(Len(String$)+ SizeOf(Caractere)) ; null terminating character (ASCII mode)
+  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; Space for the string and its
+  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; null terminating character
   
-  If AESEncoder(@String$, *CipheredString, Len(String$), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Ciphered: "+PeekS(*CipheredString)
+  If AESEncoder(@String$, *CipheredString, MemorySize(*CipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Ciphered: " + PeekS(*CipheredString)
     
-    AESDecoder(*CipheredString, *DecipheredString, Len(String$), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Deciphered: "+PeekS(*DecipheredString)
+    AESDecoder(*CipheredString, *DecipheredString, MemorySize(*DecipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Deciphered: " + PeekS(*DecipheredString)
   EndIf
-
+  
   DataSection
     Key:
-      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+    Data.a $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
   EndDataSection
-  
 @EndCode
 
 @SeeAlso

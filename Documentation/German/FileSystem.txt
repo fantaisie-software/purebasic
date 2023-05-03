@@ -137,7 +137,8 @@
 @Function Ergebnis = DeleteDirectory(Verzeichnis$, Pattern$ [, Modus])
 
 @Description
-  Löscht das angegebene Verzeichnis.
+  Löscht das angegebene Verzeichnis oder Dateien in diesem Verzeichnis, auf die das
+  angegebene Pattern zutrifft.
 
 @Parameter "Verzeichnis$"
   Das zu löschende Verzeichnis.
@@ -691,6 +692,14 @@
   Gibt den vollständigen Pfad des angegebenen Verzeichnisses zurück. 
   Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
   Wenn der Typ nicht gefunden wird, dann wird ein leerer String zurückgegeben.
+
+@Example
+@Code
+  ; Einige ausgewählte Verzeichnistypen auflisten:
+  Debug "#PB_Directory_Downloads = " + GetUserDirectory(#PB_Directory_Downloads)
+  Debug "#PB_Directory_Documents = " + GetUserDirectory(#PB_Directory_Documents)
+  Debug "#PB_Directory_Programs  = " + GetUserDirectory(#PB_Directory_Programs)
+@EndCode
 
 @SeeAlso
   @@GetCurrentDirectory,

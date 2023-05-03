@@ -1,7 +1,7 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library File
@@ -27,6 +27,7 @@
 @CommandList
 
 @ExampleFile All File.pb
+@ExampleFile All FileSearch.pb
 
 @SupportedOS
 
@@ -220,20 +221,23 @@
 
 @Example
 @Code
-  file$ = OpenFileRequester("Datei auswählen...","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
-  If file$
-    If ReadFile(0, file$) 
-      length = Lof(0)                       ; ermitteln der Dateilänge
-      FileSeek(0, length - 10)              ; setzen des Zeigers auf 10 Zeichen vor Ende der Datei
-      Debug "Position: " + Str(Loc(0))      ; anzeigen der aktuellen Zeigerposition
-      *MemoryID = AllocateMemory(10)        ; reservieren des benötigten Speichers für 10 Bytes
-      If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; einlesen der letzten 10 Zeichen in der Datei
-        Debug PeekS(*MemoryID)
-      EndIf
+  File$ = OpenFileRequester("Datei auswählen...","","Alle Dateien (*.*)|*.*",0)
+  If File$
+    If ReadFile(0, File$)
+      
+      ; Lese die Länge der Datei
+      Length = Lof(0)                       
+      Debug "Datei-Länge: "+FormatNumber(Length, 0)+" Bytes"
+          
+      ; Setze den File-Pointer 10 Bytes vor dem Ende der Datei
+      FileSeek(0, Length - 10)                                
+      Debug "Position nach dem Suchen: "+FormatNumber(Loc(0), 0)
+      
       CloseFile(0)
+    Else
+      Debug "Kann die Datei nicht lesen: "+File$
     EndIf
-  EndIf  
+  EndIf
 @EndCode
 
 @SeeAlso

@@ -1,7 +1,7 @@
 ;
 ;     2DDrawing library documentation - MultiOS version !
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library 2DDrawing
@@ -436,6 +436,12 @@
   andernfalls wird das Bild einfach in die Ausgabe kopiert. Um ein Bild auf jeden Fall
   mittels Alpha-Blending zu zeichnen, muss der @@DrawAlphaImage Befehl 
   verwendet werden.
+  @LineBreak
+  @LineBreak
+  Eine Reihe von Backends (einschließlich @@WindowOutput unter Linux) können den
+  Alphakanal beim Zeichnen von Bildern nicht ignorieren. DrawImage() entspricht dort also
+  @@DrawAlphaImage. Wenn Sie konsistente Ergebnisse wünschen, verwenden Sie einfach
+  @@DrawAlphaImage, das auf allen Backends dieselbe Ausgabe erzeugen sollte.
   
 @SeeAlso
   @@DrawAlphaImage, @@ImageID

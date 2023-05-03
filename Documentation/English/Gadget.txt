@@ -3954,15 +3954,32 @@
 
 @NoReturnValue
 
-@Example
+@Example Resize gadgets according to new window size
 @Code
-  [...]
-
-  ResizeGadget(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Only change the gadget width.
-
-  ResizeGadget(0, 150, 100, #PB_Ignore, #PB_Ignore) ; Only move the gadget to a new position.
-
+  Procedure SizeHandler()
+    ResizeGadget(0, #PB_Ignore, #PB_Ignore, WindowWidth(0) - 20, WindowHeight(0) - 60) 
+    ResizeGadget(1, #PB_Ignore, WindowHeight(0) - 40, WindowWidth(0) - 20, #PB_Ignore) 
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 220, 100, "Resize the window", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    WindowBounds(0, WindowWidth(0), WindowHeight(0), #PB_Ignore, #PB_Ignore)
+  
+    EditorGadget(0, 10, 10, WindowWidth(0) - 20, WindowHeight(0) - 60)
+    ButtonGadget(1, 10, WindowHeight(0) - 40, WindowWidth(0) - 20, 30, "Button")
+    
+    ; Use BindEvent() to have a realtime gadget resize
+    BindEvent(#PB_Event_SizeWindow, @SizeHandler())
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
 @EndCode
+  
+
 
 @SeeAlso
   @@GadgetX, @@GadgetY, @@GadgetWidth, @@GadgetHeight

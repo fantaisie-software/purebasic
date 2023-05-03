@@ -389,7 +389,7 @@
   ;  1er  : "Texte (*.txt)" comme nom, ".txt" et ".bat" comme extension autorisée
   ;  2ème : "PureBasic (*.pb)" comme nom, ".pb" comme extension autorisée
   ;  3ème : "Tous les fichiers (*.*)" comme nom, "*.*" comme extension autorisée, valide pour tous les fichiers
-  Filtre$ = "Texte (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Tous les fichiers (*.*)|*.*"
+  Filtre$ = "Texte (*.txt;*.bat)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Tous les fichiers (*.*)|*.*"
   Filtre  = 0    ; utiliser  par défaut le premier des trois filtres possibles
   Fichier$ = OpenFileRequester("Choisissez un fichier à charger", FichierParDefaut$, Filtre$, Filtre)
   If Fichier$
