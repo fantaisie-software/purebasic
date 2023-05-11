@@ -542,7 +542,7 @@ DataSection
   Data$ "ParticleEmitterY,2,#PB_Absolute,#PB_Relative"
   Data$ "ParticleEmitterZ,2,#PB_Absolute,#PB_Relative"
   Data$ "PeekS,3,#PB_Ascii,#PB_UTF8,#PB_Unicode,#PB_ByteLength"
-  Data$ "Pitch,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Pitch,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   Data$ "PlaySound,2,#PB_Sound_Loop,#PB_Sound_MultiChannel"
   Data$ "PlaySound3D,2,#PB_Sound_Loop"
   Data$ "PokeS,4,#PB_Ascii,#PB_UTF8,#PB_Unicode,#PB_String_NoZero"
@@ -574,7 +574,7 @@ DataSection
   Data$ "ResetCoordinates,1,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ResetMaterial,1,#PB_Entity,#PB_ParticleEmitter,#PB_BillboardGroup"
   Data$ "ResizeImage,4,#PB_Image_Smooth,#PB_Image_Raw"
-  Data$ "Roll,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Roll,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   Data$ "RotateBillboardGroup,5,#PB_Absolute,#PB_Relative"
   Data$ "RotateCamera,5,#PB_Absolute,#PB_Relative"
   Data$ "RotateCoordinates,4,#PB_Coordinate_User,#PB_Coordinate_Source"
@@ -728,7 +728,7 @@ DataSection
   ; Nothing yet
   
   ;- Y
-  Data$ "Yaw,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Yaw,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   
   ;- Z
   Data$ "ZoomSprite,2,#PB_Default"
