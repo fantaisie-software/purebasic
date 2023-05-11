@@ -574,7 +574,7 @@ DataSection
   Data$ "ResetCoordinates,1,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ResetMaterial,1,#PB_Entity,#PB_ParticleEmitter,#PB_BillboardGroup"
   Data$ "ResizeImage,4,#PB_Image_Smooth,#PB_Image_Raw"
-  Data$ "Roll,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Roll,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   Data$ "RotateBillboardGroup,5,#PB_Absolute,#PB_Relative"
   Data$ "RotateCamera,5,#PB_Absolute,#PB_Relative"
   Data$ "RotateCoordinates,4,#PB_Coordinate_User,#PB_Coordinate_Source"
