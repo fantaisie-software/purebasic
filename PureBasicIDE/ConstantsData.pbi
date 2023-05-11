@@ -542,7 +542,7 @@ DataSection
   Data$ "ParticleEmitterY,2,#PB_Absolute,#PB_Relative"
   Data$ "ParticleEmitterZ,2,#PB_Absolute,#PB_Relative"
   Data$ "PeekS,3,#PB_Ascii,#PB_UTF8,#PB_Unicode,#PB_ByteLength"
-  Data$ "Pitch,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Pitch,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   Data$ "PlaySound,2,#PB_Sound_Loop,#PB_Sound_MultiChannel"
   Data$ "PlaySound3D,2,#PB_Sound_Loop"
   Data$ "PokeS,4,#PB_Ascii,#PB_UTF8,#PB_Unicode,#PB_String_NoZero"
@@ -728,7 +728,7 @@ DataSection
   ; Nothing yet
   
   ;- Y
-  Data$ "Yaw,3,#PB_Local,#PB_Parent,#PB_World"
+  Data$ "Yaw,3,#PB_Relative,#PB_Absolute,#PB_Local,#PB_Parent,#PB_World"
   
   ;- Z
   Data$ "ZoomSprite,2,#PB_Default"
