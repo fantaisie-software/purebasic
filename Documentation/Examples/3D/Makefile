@@ -114,8 +114,7 @@ EXAMPLES =  Demos\CarPhysic.exe \
 
 
 all: $(EXAMPLES)
-	rm -f *.exe
-	rm -f Demos/*.exe
+	
 
 %.exe : %.pb
-	pbcompiler $< /QUIET /EXE $@
+	pbcompiler $< /QUIET /CHECK

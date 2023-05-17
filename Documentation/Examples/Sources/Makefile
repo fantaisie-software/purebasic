@@ -69,7 +69,7 @@ EXAMPLES =  2DDrawing.exe \
 
 
 all: $(EXAMPLES)
-	rm -f *.exe
+	
 
 %.exe : %.pb
-	pbcompiler $< /QUIET /EXE $@
+	pbcompiler $< /QUIET /CHECK
