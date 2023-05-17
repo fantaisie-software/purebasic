@@ -1688,6 +1688,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                      #KEYWORD_IncludePath,
                      #KEYWORD_NewList,
                      #KEYWORD_NewMap,
+                     #KEYWORD_ProcedureReturn,
                      #KEYWORD_Protected,
                      #KEYWORD_Select,
                      #KEYWORD_Shared,
