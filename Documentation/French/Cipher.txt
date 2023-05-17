@@ -172,20 +172,20 @@
 @Example ECB
 @Code
   String$ = "Hello voici un test pour AES"
-  Caractere.c = '0'
-  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Caractere)) ; Espace pour la chaîne de caractères avec son
-  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Caractere)) ; caractère null de fin de chaîne
   
-  If AESEncoder(@String$, *CipheredString, StringByteLength(String$) + SizeOf(Caractere), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Codé : " + PeekS(*CipheredString)
+  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; Espace pour la chaîne de caractère
+  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; et le caractère nul de fin de chaîne
+  
+  If AESEncoder(@String$, *CipheredString, MemorySize(*CipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Chiffré: " + PeekS(*CipheredString)
     
-    AESDecoder(*CipheredString, *DecipheredString, StringByteLength(String$) + SizeOf(Caractere), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Décodé : " + PeekS(*DecipheredString)
+    AESDecoder(*CipheredString, *DecipheredString, MemorySize(*DecipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Déchiffré: " + PeekS(*DecipheredString)
   EndIf
-
+  
   DataSection
     Key:
-      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+    Data.a $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
   EndDataSection
   
 @EndCode

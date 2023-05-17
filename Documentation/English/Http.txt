@@ -564,7 +564,7 @@
   A map of string pair to specify additional headers for the request. Example:
 @Code
   NewMap Header$()
-  Header$("ContentType") = "text/plain"
+  Header$("Content-Type") = "text/plain"
   Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; When putting no string value, it will an empty parameter
 @EndCode
@@ -623,7 +623,7 @@
           Debug "Download finished"
           *Buffer = HTTPMemory(HTTPRequest)
           If *Buffer
-            Debug "Memort buffer size: "+MemorySize(*buffer) ; Here the buffer can be written to disk or used directory
+            Debug "Memory buffer size: "+MemorySize(*buffer) ; Here the buffer can be written to disk or used directory
             FreeMemory(*Buffer)
           EndIf
           FinishHTTP(HTTPRequest) ; Always call FinishHTTP() when request is finished

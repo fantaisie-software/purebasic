@@ -315,6 +315,8 @@
   Gibt einen Speicherpuffer zurück, der die gesamte Antwort einer mittels @@HTTPRequest oder @@HTTPRequestMemory
   erstellten HTTP-Anfrage ("HTTP request") enthält.
   Sobald der Vorgang abgeschlossen ist, muss der Puffer mit @@FreeMemory freigegeben werden.
+  Wenn beim Aufruf von @@HTTPRequest oder @@HTTPRequestMemory das Flag @#PB_HTTP_Asynchronous verwendet wurde,
+  ist dieser Befehl nur gültig, wenn die Anfrage erfolgreich war.
 
 @Parameter "HttpRequest"
   Die HTTP-Anfrage zum Abfragen der "rohen" (raw) Antwort.
@@ -352,8 +354,7 @@
 
 @Description
   Gibt einen Proxy an, der für die folgenden HTTP-Befehle verwendet werden soll:
-  @@ReceiveHTTPFile, @@ReceiveHTTPMemory,
-  @@ReceiveHTTPMemory, @@HTTPRequest und @@HTTPRequestMemory.
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest und @@HTTPRequestMemory.
   
 @Parameter "URL$"
   Die URL, die für den Proxy verwendet werden soll. Der Standardwert ist HTTP-Proxy,
@@ -386,6 +387,53 @@
     Debug "Success"
   Else
     Debug "Failed"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPTimeout(ConnectTimeout [, GlobalTimeout])
+
+@Description
+  Gibt das Zeitlimit ("Timeout") an, das für die folgenden HTTP-Befehle verwendet werden soll:
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest und @@HTTPRequestMemory.
+
+@Parameter "ConnectTimeout"
+  Das Zeitlimit in Millisekunden, um die HTTP-Anfrage abzubrechen, wenn der Remote-Host keine
+  Verbindung herstellt. Das Standard-Timeout ist auf 30 Sekunden eingestellt. @#PB_Default kann
+  verwendet werden, um zum Standard-Timeout-Wert (30 Sekunden) zurückzukehren.
+
+@OptionalParameter "GlobalTimeout"
+  Das globale Timeout in Millisekunden, um die HTTP-Anfrage abzubrechen, wenn sie noch nicht
+  abgeschlossen ist. Standardmäßig gibt es keine Zeitüberschreitung.
+  @#PB_Default kann verwendet werden, um zum Standardverhalten zurückzukehren (kein Timeout).
+  Hinweis: Wenn eine Verbindung langsam ist, kann es sein, dass eine gültige, nicht abgeschlossene
+  Anfrage abgebrochen wird.
+
+@NoReturnValue
+
+@Remark
+  Wenn "Thread-sicheres Executable erstellen" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
+  aktiviert ist, dann hat jeder Thread seine eigenen Timeouts, was bedeutet, dass zwei Threads
+  gleichzeitig unterschiedliche Timeouts haben können.
+  
+@Example
+@Code
+  HTTPTimeout(5000) ; Ermöglicht 5 Sekunden, um eine Verbindung zum Server herzustellen
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Response: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "Request creation failed"
   EndIf
 @EndCode
 
@@ -520,7 +568,7 @@
 @EndFixedFont
 
 @Parameter "URL$"
-  Die URL zum Senden der Anfrage.
+  Die URL, an die die Anfrage gesendet werden soll.
 
 @OptionalParameter "Daten$"
   Die mit der Anfrage zu sendenden Text-Daten (werden im UTF-8 Format gesendet).
@@ -590,6 +638,44 @@
   EndIf
 @EndCode
 
+@Example Asynchron
+@Code
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.purebasic.com/download/PureBasic_Demo.zip", "", #PB_HTTP_Asynchronous)
+  If HttpRequest
+    Debug "StatusCode: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    
+    Repeat
+      Progress = HTTPProgress(HttpRequest)
+      Select Progress
+        Case #PB_HTTP_Success
+          Debug "Download finished"
+          *Buffer = HTTPMemory(HTTPRequest)
+          If *Buffer
+            Debug "Memory buffer size: "+MemorySize(*buffer) ; Hier kann der Puffer auf die Festplatte oder in das verwendete Verzeichnis geschrieben werden
+            FreeMemory(*Buffer)
+          EndIf
+          FinishHTTP(HTTPRequest) ; Rufen Sie immer FinishHTTP() auf, wenn die Anfrage abgeschlossen ist
+          Break
+          
+        Case #PB_HTTP_Failed
+          Debug "Download failed"
+          FinishHTTP(HTTPRequest) ; Rufen Sie immer FinishHTTP() auf, wenn die Anfrage fehlschlägt
+          Break
+          
+        Case #PB_HTTP_Aborted
+          Debug "Download aborted"
+          FinishHTTP(HTTPRequest) ; Rufen Sie immer FinishHTTP() auf, wenn die Anfrage abgebrochen wird
+          
+        Default
+          Debug "Current download: " + Progress ; Der aktuelle Download-Fortschritt in Bytes
+          Delay(100)
+      EndSelect
+    ForEver
+  Else
+    Debug "Request creation failed"
+  EndIf
+@EndCode
+
 @SeeAlso
   @@URLEncoder, @@AbortHTTP
 
@@ -616,7 +702,7 @@
 @EndFixedFont
 
 @Parameter "URL$"
-  Die URL zum Senden der Anfrage.
+  Die URL, an die die Anfrage gesendet werden soll.
 
 @OptionalParameter "*Daten"
   Der mit der Anfrage zu sendende Speicherpuffer.
@@ -630,13 +716,16 @@
   @#PB_HTTP_Asynchronous: startet den Download asynchron.
   @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
   @#PB_HTTP_NoSSLCheck  : prüft nicht, ob das SSL-Zertifikat gültig ist (kann zu Testzwecken nützlich sein).
+  @#PB_HTTP_HeadersOnly : nur Header abrufen.
+  @#PB_HTTP_WeakSSL     : zur Unterstützung älterer Server.
+  @#PB_HTTP_Debug       : um Debug-Informationen in der Konsole auszugeben.
 @EndFixedFont
 
 @OptionalParameter "Headers()"
   Eine Map aus Stringpaaren, um zusätzliche Header für die Anforderung anzugeben. Beispiel:
 @Code
   NewMap Header$()
-  Header$("ContentType") = "octectstream"
+  Header$("Content-Type") = "octectstream"
   Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  ; Ohne Angabe eines String-Wertes, wird dies ein leerer Parameter sein.
 @EndCode

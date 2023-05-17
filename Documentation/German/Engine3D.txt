@@ -1,7 +1,7 @@
 ;
 ;     Engine3D library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Engine3D
@@ -17,12 +17,10 @@
   Weiterentwicklung und wird sicherlich bald eine sehr fortschrittliche
   Engine. Ihre Community wächst mehr und mehr und viele Werkzeuge (Blender,
   Lightwave und 3DS Max Exporter, Terrain Manager etc.) sind verfügbar, um das Beste 
-  aus dieser Engine herauszuholen. Weitere Informationen sind auf der 
-  @InternetLink "http://www.ogre3d.org" "OGRE Website" verfügbar. Die OGRE
-  Lizenz kann @ReferenceLink "license_engine3d" "hier" eingesehen werden
-  (lesen Sie mehr in den @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ") und
-  die an PureBasic angepassten OGRE Sourcecodes können
-  @InternetLink "http://www.purebasic.com/OgreSources.zip" "hier" heruntergeladen werden.
+  aus dieser Engine herauszuholen. Weitere Informationen über OGRE sind auf der
+  @InternetLink "http://www.ogre3d.org" "OGRE Webseite" verfügbar.
+  Die OGRE-Lizenzdatei kann @ReferenceLink "license_engine3d" "hier" eingesehen werden
+  (lesen Sie mehr in den @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ").
 @LineBreak
 @LineBreak
   Hinweis: Wenn Sie in Ihren Projekten die 3D-Engine von PureBasic verwenden
@@ -1467,9 +1465,14 @@
 @Parameter "Modus"
   Der Neigungs-/Drehungs-Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont
+  @#PB_Relative: relative Drehung/Neigung, ausgehend von der aktuellen.
+  @#PB_Absolute: absolute Drehung/Neigung (Standard).
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
   @#PB_Local : lokale Drehung/Neigung.
   @#PB_Parent: Drehung/Neigung relativ zu den übergeordneten Objekten ("Parent").
-  @#PB_World : Drehung/Neigung releativ zur Welt.
+  @#PB_World : Drehung/Neigung relativ zur Welt.
 @EndFixedFont
 
 @NoReturnValue  
@@ -1504,6 +1507,11 @@
 
 @Parameter "Modus"
   Der Roll-/Drehungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Drehung/Rollen, ausgehend von der aktuellen.
+  @#PB_Absolute: absolute Drehung/Rollen (Standard).
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Drehung/Rollen.
   @#PB_Parent: Drehung/Rollen relativ zu den übergeordneten Objekten ("Parent").
@@ -1542,6 +1550,11 @@
 
 @Parameter "Modus"
   Der Gierungs-/Drehungs-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Drehung/Gierung, ausgehend von der aktuellen.
+  @#PB_Absolute: absolute Drehung/Gierung (Standard).
+@EndFixedFont
+  kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Drehung/Gierung.
   @#PB_Parent: Drehung/Gierung relativ zu den übergeordneten Objekten ("Parent").

@@ -998,7 +998,14 @@
   wird auf dieses neu erstellte Gadget gesetzt. Um den aktuellen OpenGL-Kontext zu ändern,
   verwenden Sie das @#PB_OpenGL_SetContext Attribut. Einmal erstellt, kann mit Hilfe des
   @#PB_OpenGL_FlipBuffers Attributs ein Rahmen angezeigt werden.
-  
+
+@LineBreak
+@LineBreak
+  Da das OpenGL-Gadget als Echtzeit-Rendering-Gadget gedacht ist, speichert es sein aktuelles
+  Rendering (Inhalt) nicht in einem separaten Puffer:
+  Es muss erneut gerendert werden, wenn die Größe des Fensters geändert, minimiert oder maximiert wird
+  oder wenn das Gadget selbst in der Größe verändert oder verschoben wird.
+    
 @LineBreak
 @LineBreak
 
@@ -4145,16 +4152,6 @@
 
 @NoReturnValue
 
-@Example
-@Code
-  [...]
-
-  ResizeGadget(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Ändert nur die Gadgetbreite.
-  
-  ResizeGadget(0, 150, 100, #PB_Ignore, #PB_Ignore) ; Verschiebt das Gadget nur an eine neue Position.
-
-@EndCode
-
 @Example Gadgetgröße an veränderte Fenstergröße anpassen
 @Code
   Procedure SizeHandler()
@@ -4168,7 +4165,7 @@
     EditorGadget(0, 10, 10, WindowWidth(0) - 20, WindowHeight(0) - 60)
     ButtonGadget(1, 10, WindowHeight(0) - 40, WindowWidth(0) - 20, 30, "Button")
     
-    ; Use BindEvent() to have a realtime gadget resize
+    ; Verwende BindEvent(), um eine Echtzeit-Größenänderung der Gadgets zu erhalten
     BindEvent(#PB_Event_SizeWindow, @SizeHandler())
     
     Repeat

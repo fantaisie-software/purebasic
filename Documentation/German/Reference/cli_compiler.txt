@@ -20,10 +20,6 @@
 
   -h, --help, /? : zeigt einen kurzen Hilfstext über den Compiler an. @LineBreak
   @LineBreak  
-  -c, --commented, /COMMENTED : erstellt eine kommentierte '.asm' Ausgabedatei beim Erstellen des Executable. Diese 
-  Datei kann später re-assembliert werden, wenn die notwendigen Modifikationen erfolgt sind. Diese 
-  Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
-  @LineBreak
   -d, --debugger, /DEBUGGER : schaltet die Debugger Unterstützung ein. @LineBreak
   @LineBreak
   -pf, --purifier, /PURIFIER: schaltet den Purifier ein. Um einen Effekt zu erzielen, muß der Debugger aktiviert werden. @LineBreak
@@ -70,6 +66,14 @@
   @LineBreak
   -z, --optimizer, /OPTIMIZER: aktiviert den Code-Optimierer. @LineBreak
   @LineBreak 
+  -c, --commented, /COMMENTED : erstellt eine kommentierte 'purebasic.asm' oder 'purebasic.c' Ausgabedatei beim Erstellen des Executable.
+  Diese Datei kann später mit der '--reasm' Option re-assembliert werden, wenn die notwendigen Modifikationen erfolgt sind. @LineBreak
+  Diese Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
+  @LineBreak
+  -ra, --reasm, /REASM: re-assembliert die 'purebasic.asm' oder 'purebasic.c' Datei in ein Executable.
+  Dies ermöglicht die Verwendung der '--commented' Option, das Modifizieren der generierten Ausgabe und das erneute Erstellen des Executable. @LineBreak
+  Diese Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
+  @LineBreak  
   -pp, --preprocess, /PREPROCESS "Dateiname": Vorverarbeitet ("preprocess") den Quellcode und schreibt die
   Ausgabe in die angegebene Datei "Dateiname". Die verarbeitete Datei ist eine einzelne
   Datei mit allen Makros erweitert, Compiler-Direktiven behandelt und Mehrzeiligkeit
@@ -114,9 +118,6 @@
   /DLL: die Ausgabedatei wird eine @ReferenceLink "dll" "DLL". @LineBreak
   @LineBreak
   /XP: Fügt die Unterstützung für Windows XP-Themen zum Executable hinzu. @LineBreak
-  @LineBreak
-  /REASM: Reassembliert die PureBasic.asm Datei in ein Executable. Dies ermöglicht die Benutzung der /COMMENTED 
-  Funktion, das anschließende Modifizieren der ASM Ausgabe und das erneute Kompilieren des Executable. @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE oder /SSE2: Erstellt ein Prozessor-spezifisches Executable. Dies bedeutet, wenn eine
   prozessorspezifische Routine verfügbar ist, wird diese für das zu erstellende Executable genutzt. Deshalb

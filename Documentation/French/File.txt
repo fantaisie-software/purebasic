@@ -639,16 +639,17 @@ et à la bibliothèque
 @Function Resultat.a = ReadAsciiCharacter(#Fichier) 
 
 @Description
-  Lit un caractère ascii (1 octet non signé). 
+  Lit un caractère ASCII (1 octet non signé). 
   
 @Parameter "#Fichier"
   Le fichier à utiliser.
 
 @ReturnValue
-  Renvoie le caractère ascii ou zéro si une 
-  erreur s'est produite.
+  Renvoie le caractère ASCII ou zéro si une erreur s'est produite.
 
 @Remarks 
+  Pour un exemple de lecture à partir d'un fichier, voir la fonction @@ReadFile. Avec ReadAsciiCharacter(), 
+  seul un caractère ASCII est lu, au lieu d'une ligne complète (chaîne de caractères).
 
 @Example
 @Code

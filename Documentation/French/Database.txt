@@ -1439,7 +1439,7 @@ Les valeur du type peuvent être:
 @FixedFont
   - host: Nom de l'hôte ou adresse IP à laquelle se connecter.
   - port: Numéro de port auquel se connecter sur le serveur hôte.
-  - dbname: Nom de la base de données.
+  - dbname: Nom de la base de données. Le nom peut être entouré de guillemets simples (quotes) s'il contient des espaces : dbname='films et musiques'.
 @EndFixedFont
   
 @Example
@@ -1448,7 +1448,7 @@ Les valeur du type peuvent être:
 
   ; Vous devez avoir un serveur fonctionnant sur localhost
   ;
-  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "utilisateur", "motdepasse")
+  If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "utilisateur", "motdepasse")
     Debug "Connecté à MySQL"
   Else
     Debug "La connexion a échoué: "+DatabaseError()

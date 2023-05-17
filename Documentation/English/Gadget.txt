@@ -1,7 +1,7 @@
 ;
 ;     Gadget library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -68,10 +68,10 @@
   <tr>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_framegadget.png"> <a href="../gadget/framegadget.html"><u>FrameGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_hyperlinkgadget.png"> <a href="../gadget/hyperlinkgadget.html"><u>HyperLinkGadget</u></a></td>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
   </tr>
   <tr>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listicongadget.png"> <a href="../gadget/listicongadget.html"><u>ListIconGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listviewgadget.png"> <a href="../gadget/listviewgadget.html"><u>ListViewGadget</u></a></td>
   </tr>
@@ -942,8 +942,10 @@
   The created gadget starts out with just a black background. The current OpenGL context is set to this new created gadget.
   To change the current OpenGL context, use the @#PB_OpenGL_SetContext attribute. Once drawn, a frame can be displayed
   using the @#PB_OpenGL_FlipBuffers attribute.
+ 
+@LineBreak
+@LineBreak
 
-@Remarks
   As the OpenGL gadget is meant to be a realtime rendering gadget, it doesn't store its current rendering in a seperate buffer:
   it needs to be rendered again when the window is resized, minimized, maximized or if the gadget itself is resized or moved.
   

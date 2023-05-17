@@ -89,7 +89,10 @@
 
   @Description
   
-    Dies schaltet die Debugger-Prüfroutinen bei nach diesem Befehl folgenden Quellcode aus.
+    Dies deaktiviert die Debugger-Prüfroutinen für nach diesem Befehl folgenden Quellcode.
+    Dadurch wird der Debugger nicht vollständig ausgeschaltet. Daher sollten Performance-Prüfungen nicht
+    mittels dem @Keyword DisableDebugger Befehl durchgeführt werden, sondern durch Deaktivieren des Debuggers
+    vor dem Kompilieren des Programms.
     @LineBreak
 
 ; -------------------------------------------------------------------------------------------------

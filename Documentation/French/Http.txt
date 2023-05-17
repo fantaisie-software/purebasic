@@ -377,8 +377,10 @@
   Le tampon contenant la réponse complète (raw) d'une requête HTTP.
   
 @Remarks
-  Le tampon doit être libéré avec@@FreeMemory.
-
+  Le tampon doit être libéré avec@@FreeMemory.@LineBreak
+  Si l'option @#PB_HTTP_Asynchronous a été utilisé lors de l'appel de @@HTTPRequest ou de @@HTTPRequestMemory 
+  alors cette commande n'est valide que si la requête a abouti.
+  
 @Example
 @Code
   RequeteHTTP = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
@@ -441,6 +443,51 @@
     Debug "Succès"
   Else
     Debug "Echèc"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPTimeout(DelaideConnexion [, DelaiGlobal])
+
+@Description
+  Spécifie le délai d'attente à utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile,
+  @@ReceiveHTTPMemory, @@HTTPRequest et @@HTTPRequestMemory.
+
+@Parameter "DelaideConnexion"
+  Le délai d'attente, en millisecondes, avant d'abandonner la requête HTTP si l'hôte distant ne se connecte pas.@LineBreak
+  Le délai d'attente par défaut est défini sur 30 secondes.@LineBreak
+  @#PB_Default peut être utilisé pour revenir à la valeur de délai d'attente par défaut (30 secondes).
+
+@OptionalParameter "DelaiGlobal"
+  Délai d'attente global, en millisecondes, avant d'abandonner la requête HTTP.@LineBreak
+  Il n'y a pas de délai d'attente par défaut.@LineBreak
+  @#PB_Default peut être utilisé pour revenir au comportement par défaut (pas de délai d'attente (timeout)).@LineBreak
+  Note : Si une connexion est lente, elle peut abandonner une requête valide en cours.
+
+@NoReturnValue
+
+@Remark
+  Si "Créer un exécutable thread-safe" est activé dans les @ReferenceLink "ide_compiler" "options du compilateur" alors
+   chaque thread a ses propres délais d'attente, ce qui signifie que deux threads peuvent avoir des délais d'attente différents en même temps.
+  
+@Example
+@Code
+  HTTPTimeout(5000) ;Laisse 5 secondes pour se connecter au serveur
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "Code d'état : " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Réponse : " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "La création de la demande a échoué"
   EndIf
 @EndCode
 
@@ -648,7 +695,7 @@
    Si des données binaires doivent être envoyées, vous pouvez utiliser @@HTTPRequestMemory().
 @LineBreak
 @LineBreak
-   Cette commande est conçue pour gérer  facilement REST comme une API Web.
+   Cette commande est conçue pour gérer facilement REST comme une API Web.
 @LineBreak
 @LineBreak
   @@HTTPInfo peut être utilisé pour obtenir des informations sur la requête.@LineBreak 
@@ -691,6 +738,45 @@
   EndIf
 @EndCode
 
+@Example Requête asynchrone
+@Code
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.purebasic.com/download/PureBasic_Demo.zip", "", #PB_HTTP_Asynchronous)
+  If HttpRequest
+    Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    
+    Repeat
+      Progress = HTTPProgress(HttpRequest)
+      Select Progress
+        Case #PB_HTTP_Success
+          Debug "Téléchargement terminé"
+          *Buffer = HTTPMemory(HTTPRequest)
+          If *Buffer
+            Debug "Taille de la mémoire tampon: " + MemorySize(*buffer) ; Ici, le tampon peut être écrit sur le disque ou dans le répertoire
+            FreeMemory(*Buffer)
+          EndIf
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Break
+          
+        Case #PB_HTTP_Failed
+          Debug "Échec du téléchargement"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Break
+          
+        Case #PB_HTTP_Aborted
+          Debug "Téléchargement interrompu"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          
+        Default
+          Debug "Téléchargement en cours: " + Progression ; La progression actuelle du téléchargement, en octets
+          Delay(100)
+      EndSelect
+    ForEver
+  Else
+    Debug "La création de la requête a échoué"
+  EndIf
+@EndCode
+
+
 @SeeAlso
   @@URLEncoder, @@AbortHTTP
 
@@ -728,6 +814,10 @@
   @#PB_HTTP_Asynchronous: Téléchargement de manière asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
   @#PB_Http_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
+  @#PB_HTTP_HeadersOnly : Ne télécharge que les en-têtes.
+  @#PB_HTTP_WeakSSL     : Support des vieux serveurs.
+  @#PB_HTTP_Debug       : Affiche les informations de débogage.
+
 @EndFixedFont
 
 @OptionalParameter "EnTetes()"

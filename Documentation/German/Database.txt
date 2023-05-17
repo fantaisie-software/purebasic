@@ -1059,7 +1059,8 @@
 @FixedFont
   - host: Name des Hosts oder IP-Adresse, zu dem/der verbunden werden soll.
   - port: Port-Nummer, zu der auf dem Server-Host verbunden werden soll.
-  - dbname: Der Datenbank-Name.
+  - dbname: Der Datenbank-Name. Der Name kann in einfache Anführungszeichen gesetzt werden,
+            sofern er Leerzeichen enthält: dbname='movies and musics'.
 @EndFixedFont
   
 @Example
@@ -1068,7 +1069,7 @@
 
   ; Sie sollten einen Server als 'Localhost' laufen haben
   ;
-  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "user", "password")
+  If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "user", "password")
     Debug "Verbunden zu MySQL"
   Else
     Debug "Verbindung fehlgeschlagen: "+DatabaseError()

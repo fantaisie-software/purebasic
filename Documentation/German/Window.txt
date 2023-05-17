@@ -1,7 +1,7 @@
 ;
 ;     Window library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Window
@@ -1001,10 +1001,12 @@
   kann die PB-interne Nachrichten-Verarbeitung stören.
 
 @Parameter "@ProcedureName()"
-  Die zu verwendende Callback-@ReferenceLink "procedures" "Prozedur". Diese muss 4 Parameter haben. Hier ist ein Beispiel-Code,
-  wie ein Callback richtig benutzt wird:
+  Die zu verwendende Callback-@ReferenceLink "procedures" "Prozedur". Diese muss 4 Parameter haben.
+  Wenn das Ereignis nicht verarbeitet wird, muss das Ergebnis auf @#PB_ProcessPureBasicEvents gesetzt werden,
+  damit das Ereignis ordnungsgemäß von PureBasic verarbeitet wird. Hier ist ein Beispielcode zur korrekten
+  Verwendung eines Callbacks:
 @Code
-  Procedure MyWindowCallback(WindowID, Message, wParam, lParam)
+  Procedure MyWindowCallback(WindowID, Message, WParam, LParam)
     Result = #PB_ProcessPureBasicEvents
     ;
     ; Ihr Programmcode hier
@@ -1013,6 +1015,13 @@
   EndProcedure
 @EndCode
 
+@OptionalParameter "#Window"
+  Ein bestimmtes Fenster, dem der Callback zugewiesen werden soll. Sofern dieser Parameter
+  weggelassen wird, wird der Callback für jedes Fenster aufgerufen.
+
+@NoReturnValue
+
+@Example
   Hier sehen Sie ein lauffähiges Beispiel, welches einige Fenster-Parameter überprüft 
   (unter Verwendung von @InternetLink "http://msdn.microsoft.com/library" "Windows API" Konstanten):
 @Code
@@ -1035,8 +1044,8 @@
   
   
   If OpenWindow(0, 0, 0, 200, 100, "Messages", #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget) 
-    
-    SetWindowCallback(@WinCallback())    ; Callback aktivieren
+
+    SetWindowCallback(@WinCallback(), 0) ; Callback zuweisen
     
     Repeat 
       Select WaitWindowEvent() 
@@ -1047,12 +1056,6 @@
     
   EndIf 
 @EndCode
-
-@OptionalParameter "#Window"
-  Ein bestimmtes Fenster, dem der Callback zugewiesen werden soll. Sofern dieser Parameter
-  weggelassen wird, wird der Callback für jedes Fenster aufgerufen.
-
-@NoReturnValue
 
 @SupportedOS Windows
 

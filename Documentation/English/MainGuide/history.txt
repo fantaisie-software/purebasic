@@ -1,5 +1,18 @@
 @Title History
 
+@Section 17th May 2023 : Version 6.02 LTS
+
+- @Green "Added": HttpTimeout() to set a connection and a global timeout for Http commands. @LineBreak
+- @Green "Added": GTK3 IDE build for Linux for testing (purebasic_gtk3). @LineBreak
+- @Green "Added": ReAssembly (--reasm) support for OS X and Linux. @LineBreak
+@LineBreak
+- @Green "Updated": libarchive to 3.6.2
+- @Green "Updated": lib7z to 22.01
+@LineBreak
+- @Red "Removed": EnableASM support for C backend as it can't be used correctly (the IDE capitalize the letters for If etc.) and avoid detecting real x86/x64 asm block leading to strange errors.
+The correct way is now to use the '!' sign at the line start to use directly C code.
+
+
 @Section 7th March 2023 : Version 6.01 LTS
 
 - @Green "Added": #PB_Mail_UseSMTPS and #PB_Mail_Debug for CreateMail() @LineBreak

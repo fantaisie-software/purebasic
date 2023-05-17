@@ -607,11 +607,12 @@
   Le port du serveur mail (par défaut 25).
 
 @OptionalParameter "Options"
-  Peut être l'une des valeurs suivantes: 
+  Peut être une combinaison des valeurs suivantes: 
 @FixedFont
-  @#PB_Mail_Asynchronous: envoie le courrier en arrière-plan. Utiliser @@MailProgress pour suivre la progression.
-  @#PB_Mail_UseSSL      : envoie le courrier avec TLS/SSL (le serveur doit supporter ce protocole).
-  @#PB_Mail_UseSMTPS    : envoie le courrier avec SMTPS (le serveur doit supporter ce protocole).
+  @#PB_Mail_Asynchronous: Envoie le courrier en arrière-plan. Utiliser @@MailProgress pour suivre la progression.
+  @#PB_Mail_UseSSL      : Envoie le courrier avec TLS/SSL (le serveur doit supporter ce protocole).
+  @#PB_Mail_UseSMTPS    : Envoie le courrier avec SMTPS (le serveur doit supporter ce protocole).
+  @#PB_Mail_Debug       : Imprimer les informations de débogage dans la console.
 @EndFixedFont
 
 @OptionalParameter "Identifiant$, MotdePasse$"
@@ -635,15 +636,29 @@
   EndIf
 @EndCode
 
-@Example Utiliser GMail (TLS)
+@Example Utiliser Hotmail (TLS)
+@Code
+  Identifiant$ = "moi@hotmail.com"
+  MotdePasse$ = "MotdePasse"
+  Destinataire$ = "test@gmail.com"
+
+  If CreateMail(0, Identifiant$, "Hello")
+    AddMailRecipient(0, Destinataire$, #PB_Mail_To)
+    Debug SendMail(0, "smtp-mail.outlook.com", 587, #PB_Mail_UseSSL, Identifiant$, MotdePasse$)
+  EndIf
+@EndCode
+
+@Example Utiliser GMail (TLS+SMTPS)
 @Code
   ; Assurez-vous d'utiliser le bon login et le bon mot de passe
   ;
   Identifiant$ = "votrelogin"
+  MotdePasse$ = "MotdePasse"
+  Destinataire$ = "test@gmail.com"
+  
   If CreateMail(0, Identifiant$ + "@gmail.com", "Hello")
-    AddMailRecipient(0, "votreadresse@gmail.com", #PB_Mail_To)
-
-    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Identifiant$, "motdepasse")
+    AddMailRecipient(0, Destinataire$, #PB_Mail_To)
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL | #PB_Mail_UseSMTPS, Identifiant$, MotdePasse$)
   EndIf
 @EndCode
 

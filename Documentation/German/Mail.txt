@@ -518,6 +518,7 @@
                          um den Fortschritt zu verfolgen.
   @#PB_Mail_UseSSL      : verwendet TLS/SSL zum Senden der Email (der Server muss dieses Protokoll unterstützen).
   @#PB_Mail_UseSMTPS    : verwendet SMTPS zum Senden der Email (der Server muss dieses Protokoll unterstützen).
+  @#PB_Mail_Debug       : um Debug-Informationen in der Konsole auszugeben.
 @EndFixedFont
 
 @OptionalParameter "User$, Passwort$"
@@ -527,7 +528,7 @@
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Email korrekt gesendet wurde, und andernfalls Null.
 
-@Example Simple SMTP
+@Example Einfaches SMTP
 @Code
   ; Hinweis: ändere die Adresse und Smtp, um ein lauffähiges Beispiel zu erhalten
   ;
@@ -538,15 +539,29 @@
   EndIf
 @EndCode
 
-@Example Using GMail (TLS)
+@Example Verwendung von Hotmail (TLS)
+@Code
+  Login$ = "you@hotmail.com"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
+
+  If CreateMail(0, Login$, "Hello")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp-mail.outlook.com", 587, #PB_Mail_UseSSL, Login$, Password$)
+  EndIf
+@EndCode
+
+@Example Verwendung von GMail (TLS+SMTPS)
 @Code
   ; Seien Sie sicher, das richtige Login und Passwort zu verwenden.
   ;
   Login$ = "yourlogin"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
+  
   If CreateMail(0, Login$ + "@gmail.com", "Hello")
-    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
-
-    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Login$, "password")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL | #PB_Mail_UseSMTPS, Login$, Password$)
   EndIf
 @EndCode
 

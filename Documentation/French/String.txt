@@ -250,8 +250,7 @@
 @Function Resultat = FindString(Chaine$, ChaineCherchee$ [, PositionDepart] [, Mode]])  
 
 @Description
-  Cherche une sous-chaîne dans une 
-  chaîne de caractères.  
+  Cherche une sous-chaîne dans une chaîne de caractères.
 
 @Parameter "Chaine$"
   La chaîne de caractères à utiliser.
@@ -260,17 +259,14 @@
   La chaîne de caractères à trouver.
 
 @OptionalParameter "PositionDepart"
-  Position du caractère à partir de 
-  laquelle la recherche commence.
+  Position du caractère à partir de laquelle la recherche commence.
 @LineBreak
 @LineBreak
-  L'indice du premier caractère valide 
-  est 1.
+  L'indice du premier caractère valide est 1.
 @LineBreak
 @LineBreak  
-  Si ce paramètre n'est pas spécifié, 
-  la chaîne entière est recherchée.
-  
+  Si ce paramètre n'est pas spécifié, la chaîne entière est recherchée.
+
 @OptionalParameter "Mode"
   Peut être une des valeurs suivantes:
 @FixedFont
@@ -279,11 +275,9 @@
 @EndFixedFont
 
 @ReturnValue
-  Si 'ChaineCherchee$' est trouvée, sa 
-  position est renvoyée, en nombre de 
-  caractères, commençant à 1, sinon 
-  zéro est renvoyé.
-  
+  Renvoie la position (en caractères) de la chaîne à rechercher, ou zéro si la chaîne n'est pas trouvée. 
+  L'index du premier caractère est 1.
+
 @Example
 @Code
   Position = FindString("PureBasic", "Bas") ; 'Position' recevra la valeur 5

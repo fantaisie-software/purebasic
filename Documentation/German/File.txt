@@ -438,7 +438,7 @@
 @Function Zahl.a = ReadAsciiCharacter(#Datei)
 
 @Description
-  Liest ein ASCII-Zeichen (1 Byte) aus einer Datei.
+  Liest ein ASCII-Zeichen (1 Byte) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -451,7 +451,7 @@
   ReadAsciiCharacter() wird einfach ein ASCII-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -460,7 +460,7 @@
 @Function Zahl.b = ReadByte(#Datei)
 
 @Description
-  Liest ein Byte (1 Byte) aus einer Datei.
+  Liest ein Byte (1 Byte) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -473,7 +473,7 @@
   ReadByte() wird einfach ein Byte anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteByte, @@OpenFile, @@ReadFile
+  @@WriteByte, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -482,7 +482,7 @@
 @Function Zahl.c = ReadCharacter(#Datei [, Format])
 
 @Description
-  Liest ein Zeichen aus einer Datei.
+  Liest ein Zeichen aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -504,7 +504,7 @@
   ReadCharacter() wird einfach ein Zeichen (Character) anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -513,7 +513,7 @@
 @Function Zahl.d = ReadDouble(#Datei)
 
 @Description
-  Liest ein Double (8 Bytes) aus einer Datei.
+  Liest ein Double (8 Bytes) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -526,7 +526,7 @@
   ReadDouble() wird einfach ein Double-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteDouble, @@OpenFile, @@ReadFile
+  @@WriteDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -595,7 +595,7 @@
 @Function Zahl.f = ReadFloat(#Datei)
 
 @Description
-  Liest einen Flieﬂkomma-Wert (4 Bytes) aus einer Datei ein.  
+  Liest einen Flieﬂkomma-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -608,7 +608,7 @@
   ReadFloat() wird einfach ein Flieﬂkomma-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile
+  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -618,7 +618,7 @@
 
 @Description
   Liest einen Ganzzahl-Wert (Integer, mit 4 Bytes bei einem 32-Bit Executable bzw. 8 Bytes bei einem 64-Bit Executable)
-  aus einer Datei ein.
+  aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -631,7 +631,7 @@
   ReadInteger() wird einfach ein Ganzzahl-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteInteger, @@OpenFile, @@ReadFile
+  @@WriteInteger, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -640,7 +640,7 @@
 @Function Zahl.l = ReadLong(#Datei)
 
 @Description
-  Liest einen Long-Wert (4 Bytes) aus einer Datei ein.
+  Liest einen Long-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -653,7 +653,7 @@
   ReadLong() wird einfach ein Long-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteLong, @@OpenFile, @@ReadFile
+  @@WriteLong, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -662,7 +662,7 @@
 @Function Zahl.q = ReadQuad(#Datei)
 
 @Description
-  Liest einen Quad-Wert (8 Bytes) aus einer Datei ein.
+  Liest einen Quad-Wert (8 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -675,7 +675,7 @@
   ReadQuad() wird einfach ein Quad-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteQuad, @@OpenFile, @@ReadFile
+  @@WriteQuad, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -684,7 +684,7 @@
 @Function Ergebnis = ReadData(#Datei, *Speicherpuffer, ZuLesendeL‰nge)
 
 @Description
-  Liest den Inhalt der Datei in den angegebenen Speicherbereich.
+  Liest den Inhalt der Datei in den angegebenen Speicherbereich, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -703,7 +703,7 @@
   F¸r ein Code-Beispiel siehe die @@Lof Funktion.
 
 @SeeAlso
-  @@WriteData, @@OpenFile, @@ReadFile
+  @@WriteData, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
     
@@ -808,7 +808,7 @@
 @Function Zahl.u = ReadUnicodeCharacter(#Datei)
 
 @Description
-  Liest ein Unicode-Zeichen (2 Bytes) aus einer Datei ein.
+  Liest ein Unicode-Zeichen (2 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -821,7 +821,7 @@
   ReadUnicodeCharacter() wird einfach ein Unicode-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -830,7 +830,7 @@
 @Function Zahl.w = ReadWord(#Datei)
 
 @Description
-  Liest einen Word-Wert (2 Bytes) aus einer Datei ein.
+  Liest einen Word-Wert (2 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -843,7 +843,7 @@
   ReadWord() wird einfach ein Word-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteWord, @@OpenFile, @@ReadFile
+  @@WriteWord, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 

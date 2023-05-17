@@ -1,5 +1,17 @@
 @Title Historique
 
+@Section 17 Mai 2023 : Version 6.02 LTS
+
+- @Green "Ajouté": HttpTimeout() pour définir une connexion avec un délai global pour les commandes HTTP.@LineBreak
+- @Green "Ajouté": Construction de l'IDE GTK3 pour Linux à des fins de test (purebasic_gtk3). @LineBreak
+- @Green "Ajouté": Prise en charge du réassemblage (--reasm) pour OS X et Linux. @LineBreak
+@LineBreak
+- @Green "Mise à jour": libarchive 3.6.2
+- @Green "Mise à jour": lib7z 22.01
+@LineBreak
+- @Red "Supprimé": Activer le support ASM pour le backend C car il ne peut pas être utilisé correctement (l'IDE met en majuscule les lettres pour If etc.) et évite de détecter un vrai bloc asm x86/x64 conduisant à des erreurs étranges.@LineBreak
+La bonne façon est maintenant d'utiliser le signe '!' au début de la ligne pour utiliser directement le code C.
+
 @Section 7 Mars 2023 : Version 6.01 LTS
 
 - @Green "Ajouté": #PB_Mail_UseSMTPS et #PB_Mail_Debug pour CreateMail() @LineBreak
@@ -18,7 +30,7 @@
 - @Green "Ajouté": La constante #PB_Compiler_Optimizer est égale à #True si l'optimiseur est activé @LineBreak
 - @Green "Ajouté": OSVersion() détecte Windows 11, OS X 11 et 12 @LineBreak
 - @Green "Ajouté": L'option /OPTIMIZER, -z, --optimizer de la commande en ligne, et une case à cocher 'Activer l'optimiseur de code' du menu 'Compilateur/Options du compilateur...' de l'IDE qui active l'optimisation du code C @LineBreak
-- @Green "Ajouté": support automatique de la haute définition pour les bibilothèque Menu et ToolBar (Windows) @LineBreak
+- @Green "Ajouté": Support automatique de la haute définition pour les bibilothèques, Menus et Berres d'outils (Windows) @LineBreak
 - @Green "Ajouté": WebGadget() supporte GTK3 sur linux @LineBreak
 - @Green "Ajouté": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
 - @Green "Ajouté": Parametre optionnel de MeshFace() pour créer un quad @LineBreak

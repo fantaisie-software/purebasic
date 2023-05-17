@@ -613,9 +613,11 @@
   
   ;Barre d'outils
   If CreateToolBar(0, WindowID(0))
-    ToolBarStandardButton(1, #PB_ToolBarIcon_New)
-    ToolBarStandardButton(2, #PB_ToolBarIcon_Open)
-    ToolBarStandardButton(3, #PB_ToolBarIcon_Save)
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"))
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"))
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"))
   EndIf
   
   Repeat
@@ -1545,25 +1547,20 @@ EndIf
 @Function SetWindowCallback(@NomProcedure() [, #Fenetre]) 
 
 @Description  
-  Mise en place d'une procédure de 
-  gestion des évènements, dite de 
-  'Callback'.
+  Mise en place d'une procédure de gestion des évènements, dite de 'Callback'.
 @LineBreak 
 @LineBreak 
   Pour programmeurs expérimentés.
-  @LineBreak  
-  Cette fonction n'est disponible que 
-  sous Microsoft Windows. 
+  @LineBreak
+  Cette fonction n'est disponible que sous Microsoft Windows. 
   
 @Parameter "@NomProcedure()"
-  L'adresse de la 
-  @ReferenceLink "procedures" "procedure" 
-  de Callback à utiliser.
+  L'adresse de la @ReferenceLink "procedures" "procedure" de Callback à utiliser.
 @LineBreak
-@LineBreak   
-  La procédure de Callback doit avoir 
-  4 paramètres et se présente sous la 
-  forme suivante:
+@LineBreak
+  La procédure de Callback doit avoir 4 paramètres et si l'événement n'est pas traité, le résultat doit être 
+  défini sur @#PB_ProcessPureBasicEvents afin que l'événement soit correctement géré par PureBasic.@LineBreak
+  Voici un exemple de code :
 @Code
   Procedure MaProcedureCallback(WindowID, Message, WParam, LParam)
     Resultat = #PB_ProcessPureBasicEvents
@@ -1575,69 +1572,59 @@ EndIf
 @EndCode
   
 @OptionalParameter "#Fenetre"
-  Permet d'affecter la callback 
-  seulement à une fenêtre spécifiée. 
+  Permet d'affecter la callback seulement à une fenêtre spécifiée. 
 @LineBreak
 @LineBreak 
-  Si ce paramêtre est omis, la procedure 
-  de Callback sera appelée 
-  par toutes les fenêtres.
+  Si ce paramêtre est omis, la procedure de Callback sera appelée par toutes les fenêtres.
   
 @NoReturnValue
 
 @Remarks
-  Les évènements classiques devraient 
-  toujours être gérés avec les commandes 
-  @@WaitWindowEvent ou @@WindowEvent.
-@LineBreak
-@LineBreak  
-  Attention, c'est relativement bas niveau 
-  et peut interférer avec les évènements 
-  PureBasic si elle est incorrectement 
-  utilisée.
+  Les évènements classiques devraient toujours être gérés avec les commandes @@WaitWindowEvent ou @@WindowEvent.
 @LineBreak
 @LineBreak
-  Pour annuler une Callback (fonction de 
-  rappel), il suffit d'appeler 
-  SetWindowCallback(0 [, #Fenetre]).
+  Attention, c'est relativement bas niveau et peut interférer avec les évènements PureBasic si elle est incorrectement utilisée.
 @LineBreak
 @LineBreak
-  L'exemple qui suit montre comment tester 
-  quelques paramètres d'une fenêtre. 
-  (En utilisant les constantes de l' 
-  @InternetLink "http://msdn.microsoft.com/library" "API Windows"):
+  Pour annuler une Callback (fonction de rappel), il suffit d'appeler SetWindowCallback(0 [, #Fenetre]).
+@LineBreak
+@LineBreak
+  L'exemple qui suit montre comment tester quelques paramètres d'une fenêtre.
+  (En utilisant les constantes de l'@InternetLink "http://msdn.microsoft.com/library" "API Windows"):
+
+@Example
 @Code
-  Procedure WinCallback(hWnd, uMsg, WParam, LParam) 
+  Procedure WinCallback(hWnd, uMsg, WParam, LParam)
     ; Windows remplit automatiquement les paramètres.
     ; Ces paramètre sont utilisable dans le code de la callback.
     
-    If uMsg = #WM_SIZE 
-      Select WParam 
-        Case #SIZE_MINIMIZED 
-          Debug "La fenêtre est minimisée" 
-        Case #SIZE_RESTORED 
-          Debug "La fenêtre est rétablie" 
-        Case #SIZE_MAXIMIZED 
-          Debug "La fenêtre est agrandie" 
-      EndSelect 
-    EndIf 
-  
-    ProcedureReturn #PB_ProcessPureBasicEvents 
-  EndProcedure 
-  
-  
-  If OpenWindow(0, 0, 0, 200, 100, "Messages", #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget) 
+    If uMsg = #WM_SIZE
+      Select WParam
+        Case #SIZE_MINIMIZED
+          Debug "La fenêtre est minimisée"
+        Case #SIZE_RESTORED
+          Debug "La fenêtre est rétablie"
+        Case #SIZE_MAXIMIZED
+          Debug "La fenêtre est agrandie"
+      EndSelect
+    EndIf
+
+    ProcedureReturn #PB_ProcessPureBasicEvents
+  EndProcedure
+
+
+  If OpenWindow(0, 0, 0, 200, 100, "Messages", #PB_Window_MinimizeGadget | #PB_Window_MaximizeGadget)
     
-    SetWindowCallback(@WinCallback())    ; active la callback
+    SetWindowCallback(@WinCallback(), 0)    ; active la callback
     
     Repeat 
-      Select WaitWindowEvent() 
-        Case #PB_Event_CloseWindow 
-          End 
-      EndSelect 
-    ForEver 
-    
-  EndIf 
+      Select WaitWindowEvent()
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+
+  EndIf
 @EndCode
 
 @SupportedOS Windows

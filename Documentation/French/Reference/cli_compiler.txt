@@ -27,15 +27,6 @@
   sur le compilateur. 
   @LineBreak
   @LineBreak
-  -c, --commented, /COMMENTED : crée un fichier 
-  de sortie '.asm' commenté en même temps que 
-  l'exécutable. 
-  Ce fichier peut être ré-assemblé ultérieurement 
-  après l'avoir modifié selon vos besoins. 
-  Cette option est à destination des programmeurs 
-  avancés. 
-  @LineBreak
-  @LineBreak
   -d, --debugger, /DEBUGGER : active le débogueur. 
   @LineBreak
   @LineBreak
@@ -113,6 +104,14 @@
   -z, --optimizer, /OPTIMIZER: Active l'optimiseur de code. 
  @LineBreak
  @LineBreak 
+  -c, --commented, /COMMENTED : Crée un fichier de sortie commenté 'purebasic.asm' ou 'purebasic.c' lors de la création d'un exécutable.
+   Ce fichier peut être réassemblé avec l'option '--reasm' même après des modifications.
+   Cette option est réservée aux programmeurs avancés. @LineBreak
+   @LineBreak
+   -ra, --reasm, /REASM : Réassemble le fichier 'purebasic.asm' ou 'purebasic.c' et crée un exécutable. Cela permet d'utiliser l'option '--commented',
+   de modifier la sortie générée et de créer à nouveau l'exécutable. @LineBreak
+   Cette option est réservée aux programmeurs avancés. @LineBreak
+  @LineBreak 
   -pp, --preprocess, /PREPROCESS "Fichier": Prétraite 
   le code source et écrit la sortie dans le "Fichier" 
   spécifié. @LineBreak
@@ -167,12 +166,6 @@
   @LineBreak
   @LineBreak
   /XP: ajoute le support des thèmes ('skins') pour Windows XP. 
-  @LineBreak
-  @LineBreak
-  /REASM: réassemble le fichier PureBasic.asm file en fichier 
-  exécutable. Ceci permet d'utiliser la fonction /COMMENTED, 
-  de modifier le fichier de sortie asm et de recréer un 
-  exécutable. 
   @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE or /SSE2: génère un exécutable spécifique 

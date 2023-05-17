@@ -1,7 +1,7 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library File
@@ -429,7 +429,7 @@
 @Function Number.a = ReadAsciiCharacter(#File)
 
 @Description
-  Read an ASCII character (1 byte) from a file.
+  Read an ASCII character (1 byte) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -442,7 +442,7 @@
   ReadAsciiCharacter() only an ASCII character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -451,7 +451,7 @@
 @Function Number.b = ReadByte(#File)
 
 @Description
-  Read a byte (1 byte) from a file.
+  Read a byte (1 byte) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -464,7 +464,7 @@
   ReadByte() only a byte value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteByte, @@OpenFile, @@ReadFile
+  @@WriteByte, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -473,8 +473,7 @@
 @Function Result.c = ReadCharacter(#File [, Format])
 
 @Description
-
-  Read a character from a file.
+  Read a character from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -495,7 +494,7 @@
   ReadCharacter() only a character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -504,7 +503,7 @@
 @Function Number.d = ReadDouble(#File)
 
 @Description
-  Read a double (8 bytes) from a file.
+  Read a double (8 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -517,7 +516,7 @@
   ReadDouble() only a double value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteDouble, @@OpenFile, @@ReadFile
+  @@WriteDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -585,7 +584,7 @@
 @Function Number.f = ReadFloat(#File)
 
 @Description
-  Read a float (4 bytes) from a file.
+  Read a float (4 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -598,7 +597,7 @@
   ReadFloat() only a float value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile
+  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -607,7 +606,7 @@
 @Function Number.i = ReadInteger(#File)
 
 @Description
-  Read an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) from a file.
+  Read an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -620,7 +619,7 @@
   ReadInteger() only a integer value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteInteger, @@OpenFile, @@ReadFile
+  @@WriteInteger, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -629,7 +628,7 @@
 @Function Number.l = ReadLong(#File)
 
 @Description
-  Read a long (4 bytes) from a file.
+  Read a long (4 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -642,7 +641,7 @@
   ReadLong() only a long value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteLong, @@OpenFile, @@ReadFile
+  @@WriteLong, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -651,7 +650,7 @@
 @Function Number.q = ReadQuad(#File)
 
 @Description
-  Read a quad (8 bytes) from a file.
+  Read a quad (8 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -664,7 +663,7 @@
   ReadQuad() only a quad value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteQuad, @@OpenFile, @@ReadFile
+  @@WriteQuad, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -673,7 +672,7 @@
 @Function Result = ReadData(#File, *MemoryBuffer, LengthToRead)
 
 @Description
-  Read the content from the file to the specified memory buffer.
+  Read the content from the file to the specified memory buffer, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -692,7 +691,7 @@
   For a code example look at the @@Lof function.
 
 @SeeAlso
-  @@WriteData, @@OpenFile, @@ReadFile
+  @@WriteData, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -799,7 +798,7 @@
 @Function Number.u = ReadUnicodeCharacter(#File)
 
 @Description
-  Read a unicode character (2 bytes) from a file.
+  Read a unicode character (2 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -812,7 +811,7 @@
   ReadUnicodeCharacter() only a unicode character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -821,7 +820,7 @@
 @Function Number.w = ReadWord(#File)
 
 @Description
-  Read a word (2 bytes) from a file.
+  Read a word (2 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -834,7 +833,7 @@
   ReadWord() only a word value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteWord, @@OpenFile, @@ReadFile
+  @@WriteWord, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
