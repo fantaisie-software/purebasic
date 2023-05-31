@@ -558,10 +558,14 @@ CompilerIf #CompileWindows
     ;
     CreateSYSTEMMenu()
     
-    ; get the bold font for the statusbar
-    If GetObject_(GetStockObject_(#DEFAULT_GUI_FONT), SizeOf(LOGFONT), @fontinfo.LOGFONT)
-      fontinfo\lfWeight = #FW_BOLD
-      StatusbarBoldFontID = CreateFontIndirect_(@fontinfo)
+    
+    ;  This is the recommanded way to create a font which is correctly DPI aware. Don't use GetStockObject_(#DEFAULT_GUI_FONT) as it's not DPI aware
+    ;
+    Metrics.NONCLIENTMETRICS 
+    Metrics\cbSize = SizeOf(NONCLIENTMETRICS)
+    If SystemParametersInfo_(#SPI_GETNONCLIENTMETRICS, SizeOf(Metrics), @Metrics, 0)
+      Metrics\lfMessageFont\lfWeight = #FW_BOLD
+      StatusbarBoldFontID = CreateFontIndirect_(@Metrics\lfMessageFont)
     EndIf
     
     If StatusbarBoldFontID = 0
