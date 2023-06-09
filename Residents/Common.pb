@@ -64,6 +64,7 @@
 #PB_String     = 8
 #PB_Structure  = 7
 #PB_Float      = 9
+#PB_FixedString= 10
 #PB_Character  = 11
 #PB_Double     = 12
 #PB_Quad       = 13

@@ -678,7 +678,8 @@
   @#PB_Window_BorderLess    : Creates a window without any borders.
   @#PB_Window_ScreenCentered: Centers the window in the middle of the screen. x,y parameters are ignored.
   @#PB_Window_NoActivate    : Don't activate the window after opening.
-  @#PB_Window_AllowSelection : Allows text selection on gadgets displaying text (to copy/paste content easily)
+  @#PB_Window_AllowSelection: Allows text selection on gadgets displaying text (to copy/paste content easily)
+  @#PB_Window_NoMove        : Disable user window moving (with mouse or touch)
 @EndFixedFont
 
 @OptionalParameter "ParentWindowID"
@@ -1184,6 +1185,26 @@
 @SeeAlso
   @@OpenWindow, @@WindowX    
 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WindowOpacity(#Window, Opacity)
+
+@Description
+  Change the specified window opacity.
+  
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "Opacity"
+  The opacity level, between 0 (fully transparent) and 100 (fully opaque).
+
+@NoReturnValue
+  
+@SeeAlso
+  @@OpenWindow
+  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

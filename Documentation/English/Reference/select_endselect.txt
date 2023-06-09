@@ -13,10 +13,11 @@
 
 @Description
 
-  @Keyword Select provides the ability to determine a quick choice. The program will execute the <expression1> and retain its' value in memory. 
+  @Keyword Select provides the ability to determine a quick choice. The program will execute the <expression1> and retain its value in memory. 
   It will then compare this value to all of the @Keyword "Case" <expression> values and if a given @Keyword "Case" <expression> value is true,
   it will then execute the corresponding code and quit the @Keyword Select structure. @Keyword Case supports multi-values and value ranges
-  through the use of the optional @Keyword To keyword (numeric values only). If none of the @Keyword Case values are true, then the @Keyword Default 
+  through the use of the optional @Keyword To keyword (numeric values only). When using the @Keyword To keyword, the range must be in
+  ascending order (lower to higher). If none of the @Keyword Case values are true, then the @Keyword Default 
   code will be executed (if specified).
 
 @LineBreak

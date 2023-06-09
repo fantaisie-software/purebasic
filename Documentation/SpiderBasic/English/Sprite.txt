@@ -1,7 +1,7 @@
 ;
 ;     Sprite library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -20,7 +20,162 @@ you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/O
 @CommandList
 
 @ExampleFile All Sprite.sb
+@ExampleFile All Shaders.sb
 @ExampleFile All WindowedScreen.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSpriteShader(#Sprite, Shader [, Dynamic])
+
+@Description
+  Adds a realtime shader to the specified sprite. If the same shader is already set for this sprite,
+  it will replaced. Any number of shaders can be stacked on the sprite. The shader effect can be controlled by @@SpriteShaderAttribute.
+
+@Parameter "#Sprite"
+  The sprite use.
+  
+@Parameter "Shader"
+  The shader to apply. It can be one of the following value:
+  
+@FixedFont
+  @#PB_Shader_Blur      : Add a blur effect to the sprite.
+  @#PB_Shader_Noise     : Add a noise effect to the sprite.
+  @#PB_Shader_Pixelate  : Add a pixelate effect to the sprite.
+  @#PB_Shader_Bevel     : Add a bevel effect to the sprite (lighter/darker edges).
+  @#PB_Shader_BulgePinch: Add a bulge or pinch effect to the sprite.
+  @#PB_Shader_Adjustment: Allow to adjust color components like red, green, blue channels, alpha value and more.
+@EndFixedFont
+
+@OptionalParameter "Dynamic"
+  Sets to @#True if each sprite display (with @@DisplaySprite or @@DisplayTransparentSprite) needs to have its own shader attributes. If not specified, value is @#False.
+
+@NoReturnValue
+
+@Example
+@Code
+  OpenScreen(800, 600, 32, "Shader Test")
+  SetFrameRate(60)
+
+  Procedure RenderFrame()
+    Static x = -100
+    
+    ClearScreen(RGB(0, 0, 0))
+    
+    DisplaySprite(0, x, 100)
+    
+    If x > 800 : x = -100 : Else :  x+1 : EndIf
+
+    FlipBuffers() ; continue the rendering
+  EndProcedure
+
+  Procedure Loading(Type, Filename$)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+      AddSpriteShader(0, #PB_Shader_Blur)
+      
+      FlipBuffers() ; start the rendering
+    EndIf
+  EndProcedure
+
+  Procedure LoadingError(Type, Filename$)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+  LoadSprite(0, "Data/Geebee.png")
+@EndCode
+
+@SeeAlso
+  @@RemoveSpriteShader, @@SpriteShaderAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveSpriteShader(#Sprite, Shader)
+
+@Description
+  Removes the realtime shader from the specified sprite previously added with @@AddSpriteShader. If the shader wasn't added
+  on this sprite, this command has no effect.
+
+@Parameter "#Sprite"
+  The sprite use.
+  
+@Parameter "Shader"
+  The shader to remove. It can be one of the following value:
+  
+@FixedFont
+  @#PB_Shader_Blur      
+  @#PB_Shader_Noise     
+  @#PB_Shader_Pixelate  
+  @#PB_Shader_Bevel     
+  @#PB_Shader_BulgePinch
+  @#PB_Shader_Adjustment
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddSpriteShader, @@SpriteShaderAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SpriteShaderAttribute(#Sprite, ShaderAttribute, Value.f)
+
+@Description
+  Change the realtime shader attributes. If the shader isn't added
+  on the sprite, this command has no effect.
+
+@Parameter "#Sprite"
+  The sprite use.
+  
+@Parameter "ShaderAttribute"
+  The shader attribute to change. It can be one of the following value:
+  
+@FixedFont
+  @#PB_BlurShader_Intensity: The blur shader intensity from 0 (no blur) to 1000 (very blurred)
+  @#PB_BlurShader_Quality  : The blur quality from 0 (low quality) to 100 (high quality). Better quality means slower perfomance.
+
+  @#PB_NoiseShader_Seed     : The random seed of the noise shader. Can be any number.
+  @#PB_NoiseShader_Intensity: The intensity of the noise shader, from 0 (no noise) to 1 (full noise).
+
+  @#PB_PixelateShader_SizeX: The width (in pixels) of the pixelate shader block.
+  @#PB_PixelateShader_SizeY: The height (in pixels) of the pixelate shader block.
+
+  @#PB_BevelShader_Thickness  : The thickness (in pixel) of the bevel borders
+  @#PB_BevelShader_Rotation   : The rotation of the bevel light, in degree.
+  @#PB_BevelShader_LightColor : The light color, including alpha. @@RGBA can be used to get a valid color value.
+  @#PB_BevelShader_ShadowColor: The shadow color, including alpha. @@RGBA can be used to get a valid color value.
+
+  @#PB_BulgePinchShader_Strength: The strengh of the effect between -1 and 1 (-1 is strong pinch, 0 is no effect, 1 is strong bulge)
+  @#PB_BulgePinchShader_CenterX : The X center coordinate of the effect (in pixels)
+  @#PB_BulgePinchShader_CenterY : The Y center coordinate of the effect (in pixels)
+  @#PB_BulgePinchShader_Radius  : The radius of the effect (in pixels)
+
+  @#PB_AdjustmentShader_Alpha     : The alpha value between 0 (transparent) and 1 (opaque).
+  @#PB_AdjustmentShader_Gamma     : The gamma value between 0 and 1.
+  @#PB_AdjustmentShader_Saturation: The saturation value between 0 and 1.
+  @#PB_AdjustmentShader_Contrast  : The contrast value between 0 and 1.
+  @#PB_AdjustmentShader_Brightness: The brightness value between 0 and 1.
+  @#PB_AdjustmentShader_Red       : The red value between 0 and 1.
+  @#PB_AdjustmentShader_Green     : The green value between 0 and 1.
+  @#PB_AdjustmentShader_Blue      : The blue value between 0 and 1.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddSpriteShader, @@RemoveSpriteShader
 
 @SupportedOS
 

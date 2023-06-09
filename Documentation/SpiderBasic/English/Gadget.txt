@@ -1295,9 +1295,9 @@
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Frame_Single  : Single sunken frame (Windows only).
-  @#PB_Frame_Double  : Double sunken frame (Windows only).
-  @#PB_Frame_Flat    : Flat frame (Windows only).
+  @#PB_Frame_Single  : Ignored.
+  @#PB_Frame_Double  : Ignored.
+  @#PB_Frame_Flat    : Ignored.
 @EndFixedFont
 
 @ReturnValue
@@ -1310,14 +1310,9 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    FrameGadget(0, 10,  10, 300, 50, "<b>FrameGadget</b> Standard") ; Using HTML markup
-    FrameGadget(1, 10,  70, 300, 50, "", #PB_Frame_Single)
-    FrameGadget(2, 10, 130, 300, 50, "", #PB_Frame_Double)
-    FrameGadget(3, 10, 190, 300, 50, "", #PB_Frame_Flat)
+    FrameGadget(0, 10,  10, 300, 230, "<b>FrameGadget</b> Standard") ; Using HTML markup
   EndIf
 @EndCode
-@LineBreak
-@Image framegadget.png
 
 @SeeAlso
   @@GetGadgetText, @@SetGadgetText, @@ContainerGadget

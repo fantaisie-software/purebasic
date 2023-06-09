@@ -8,7 +8,7 @@
   The easier way to access this is to add this directory in the windows PATH variable, 
   which will give access to all the commands of this directory at all times.
   The Linux/OS X switches equivalent are also accepted on Windows to ease script creation
-  across all plateforms.
+  across all platforms.
 
 @Section Command switches
 
@@ -42,6 +42,8 @@
   /APPPERMISSION (-ap, --apppermission) "permission": add a permission to the app (it can be specified several time). Available
   permissions: @LineBreak
   - geolocation: add GPS access and other location API support to the app. @LineBreak
+  @LineBreak
+  /KEEPAPPDIR (-ka, --keepappdir): don't delete Cordova temp directory after app creation (iOS and Android only) @LineBreak
   @LineBreak
   /STARTUPIMAGE (-si, --startupimage) "image.png": set the startup image to use when launching the app (iOS and Android only) @LineBreak
   @LineBreak
@@ -151,6 +153,8 @@
   -ap, --apppermission "permission": add a permission to the app (it can be specified several time). Available
   permissions: @LineBreak
   - geolocation: add GPS access and other location API support to the app. @LineBreak
+  @LineBreak
+  -ka, --keepappdir: don't delete Cordova temp directory after app creation (iOS and Android only) @LineBreak
   @LineBreak
   -si, --startupimage "image.png": set the startup image to use when launching the app (iOS and Android only) @LineBreak
   @LineBreak

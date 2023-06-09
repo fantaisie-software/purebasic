@@ -12,29 +12,29 @@
 ; debugged output (for example function list, structure list etc)
 ;
 CompilerIf #PB_Compiler_Debugger = 0
-  Macro CompilerRead(Mode = #PB_Ascii)
+  Macro CompilerRead(Mode = #PB_UTF8)
     ReadProgramString(CompilerProgram, Mode)
   EndMacro
   
-  Macro CompilerRead_NoDebug(Mode = #PB_Ascii)
+  Macro CompilerRead_NoDebug(Mode = #PB_UTF8)
     ReadProgramString(CompilerProgram, Mode)
   EndMacro
   
-  Macro CompilerWrite(String, Mode = #PB_Ascii)
+  Macro CompilerWrite(String, Mode = #PB_UTF8)
     WriteProgramStringN(CompilerProgram, String, Mode)
   EndMacro
   
 CompilerElse
   Global CompilerRead_FirstNoDebug = 1
   
-  Procedure.s CompilerRead(Mode = #PB_Ascii)
+  Procedure.s CompilerRead(Mode = #PB_UTF8)
     CompilerRead_FirstNoDebug = 1
     Result$ = ReadProgramString(CompilerProgram, Mode)
     Debug "[COMPILER  READ] " + ReplaceString(Result$, Chr(9), "<T>")
     ProcedureReturn Result$
   EndProcedure
   
-  Procedure.s CompilerRead_NoDebug(Mode = #PB_Ascii)
+  Procedure.s CompilerRead_NoDebug(Mode = #PB_UTF8)
     If CompilerRead_FirstNoDebug
       Debug "[COMPILER      ] Skipping display of read data."
     EndIf
@@ -42,7 +42,7 @@ CompilerElse
     ProcedureReturn ReadProgramString(CompilerProgram, Mode)
   EndProcedure
   
-  Procedure CompilerWrite(String$, Mode = #PB_Ascii)
+  Procedure CompilerWrite(String$, Mode = #PB_UTF8)
     Debug "[COMPILER WRITE] " + ReplaceString(String$, Chr(9), "<T>")
     WriteProgramStringN(CompilerProgram, String$, Mode)
   EndProcedure
