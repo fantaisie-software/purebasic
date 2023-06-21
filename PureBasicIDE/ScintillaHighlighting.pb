@@ -3345,8 +3345,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     SendEditorMessage(#SCI_SETZOOM, CurrentZoom)
     
-    SendEditorMessage(#SCI_SETLEXER, #SCLEX_CONTAINER, 0)
-    
     SendEditorMessage(#SCI_SETTABINDENTS, 0, 0) ; just write tabs/spaces as normal
     SendEditorMessage(#SCI_USEPOPUP, 0, 0)      ; disable the scintilla popup to enable the ide one.
     
@@ -3432,6 +3430,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Else
       ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, #True)
       ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 1) ; Show the caret
+
+      ; When hiding the caret line, the back color is reset on new Scintilla 5.3.6. So re-apply it.
+      If EnableColoring
+        ScintillaSendMessage(Gadget, #SCI_SETCARETLINEBACK, Colors(#COLOR_CurrentLine)\DisplayValue, 0) 
+      Else
+        ScintillaSendMessage(Gadget, #SCI_SETCARETLINEBACK, $FFFFFF, 0)
+      EndIf
     EndIf
     
     SetBackgroundColor(Gadget) ; updates the 'disabled background color'
