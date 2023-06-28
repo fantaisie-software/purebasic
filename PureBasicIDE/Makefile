@@ -50,7 +50,7 @@ ifeq ($(PB_MACOS),1)
 	endif
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
-	IDE = $(HOME)/compilers/$(IDENAME_LOWERCASE)
+	IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
 	IDEFLAGS = --thread --unicode --optimizer
 	MACPLIST =
 	MACPLISTCOMMAND =
@@ -81,7 +81,7 @@ PACKLEVEL = -q -l4
 
 THEMES = \
 	Build/DefaultTheme.zip \
-	$(THEMEFOLDER)/SilkTheme.zip
+	"$(THEMEFOLDER)/SilkTheme.zip"
 
 DIALOGS = \
 Build/Find.pb \
@@ -188,13 +188,13 @@ Build/DefaultTheme.zip: data/DefaultTheme/*
 	rm -f Build/DefaultTheme.zip
 	zip -jq Build/DefaultTheme.zip data/DefaultTheme/*
 
-$(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
-	-mkdir "$(THEMEFOLDER)"
-	rm -f $(THEMEFOLDER)/SilkTheme.zip
-	zip -jq $(THEMEFOLDER)/SilkTheme.zip data/SilkTheme/*
+"$(THEMEFOLDER)/SilkTheme.zip": data/SilkTheme/*
+	mkdir -p "$(THEMEFOLDER)"
+	rm -f "$(THEMEFOLDER)/SilkTheme.zip"
+	zip -jq "$(THEMEFOLDER)/SilkTheme.zip" data/SilkTheme/*
 
 $(COLORTABLE): data/ColorTable.xml
-	cp -f data/ColorTable.xml $(COLORTABLE)
+	cp -f data/ColorTable.xml "$(COLORTABLE)"
 
 # this also works on windows
 #

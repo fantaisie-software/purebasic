@@ -1,7 +1,7 @@
 
 ifeq ($(PB_WINDOWS),1)
-	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
-	GUIDEBUGGER = $(PUREBASIC_HOME)/Compilers/PBDebugger.exe
+	PBCOMPILER = "$(PUREBASIC_HOME)/Compilers/PBCompiler" /QUIET
+	GUIDEBUGGER = "$(PUREBASIC_HOME)/Compilers/PBDebugger.exe"
 	GUIDEBUGGERFLAGS = /DPIAWARE /XP /USER /ICON ../PureBasicIDE/data/PBLogoSmall.ico
 	MAKEEXE = /EXE
 	ECHOQUOTE =
@@ -11,17 +11,17 @@ ifeq ($(PB_WINDOWS),1)
 	PURIFIER = /PURIFIER
 
 else
-	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
+	PBCOMPILER = "$(PUREBASIC_HOME)/compilers/pbcompiler" -q
 	CONSTANT = --constant
 	UNICODE = --unicode
 	DEBUGFLAG = -d
 	PURIFIER = --purifier
 
 ifeq ($(PB_MACOS),1)
-	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger.app
+	GUIDEBUGGER = "$(PUREBASIC_HOME)/compilers/pbdebugger.app"
 	GUIDEBUGGERFLAGS = --front -n "../PureBasicIDE/data/logo/PB3D_MacIcon.icns"
 else
-	GUIDEBUGGER = $(PUREBASIC_HOME)/compilers/pbdebugger
+	GUIDEBUGGER = "$(PUREBASIC_HOME)/compilers/pbdebugger"
 	DEBUGGERFLAGS = 
 	ifeq ($(PB_GTK),2)
 		DEBUGGERFLAGS += --subsystem gtk2

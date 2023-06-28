@@ -80,10 +80,11 @@ CompilerIf #CompileLinux
       PureBasicPath$ + #Separator
     EndIf
     
-    
-    If FindString(PureBasicPath$, "\ ", 1) = 0
-      PureBasicPath$ = ReplaceString(PureBasicPath$, " ", "\ ") ; this is only needed here, to work on the commandline
-    EndIf
+    ; Don't replace space with "\ " as all PureBasic commands like OpenFile() expect a real space.
+    ;
+    ; If FindString(PureBasicPath$, "\ ", 1) = 0
+    ;   PureBasicPath$ = ReplaceString(PureBasicPath$, " ", "\ ") ; this is only needed here, to work on the commandline
+    ; EndIf
     
     TempPath$         = "/tmp/"
     
@@ -130,7 +131,7 @@ CompilerIf #CompileLinux
     ; so remove them all
     ;
     If system_(ToAscii("which gnome-terminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
-      GUITerminalParameters$ = "-x "
+      GUITerminalParameters$ = "-- "
       
     ElseIf system_(ToAscii("which konsole > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "

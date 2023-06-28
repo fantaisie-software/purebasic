@@ -1922,7 +1922,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         EndIf
         
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""  ; this is for the standalone debugger
-          DebuggerParams$ = GUITerminalParameters$ + DebuggerExe$
+          DebuggerParams$ = GUITerminalParameters$ + #DQUOTE$ + DebuggerExe$ + #DQUOTE$
           DebuggerExe$ = DetectedGUITerminal$
         Else
           DebuggerParams$ = ""
@@ -2019,6 +2019,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           EndIf
           
         Case 2 ; standalone debugger
+          Debug DebuggerExe$
           ExecuteStandaloneDebugger(*Target, DebuggerExe$, Executable$, Directory$, DebuggerParams$)
           
         Case 3 ; console debugger

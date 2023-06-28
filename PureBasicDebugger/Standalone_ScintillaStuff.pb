@@ -274,7 +274,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       EndIf
       
       ScintillaSendMessage(Result, #SCI_SETREADONLY, 1, 0)
-      ScintillaSendMessage(Result, #SCI_SETLEXER, #SCLEX_CONTAINER, 0)
       ScintillaSendMessage(Result, #SCI_SETCARETLINEVISIBLE, 1, 0) ; enable the different color for the current line
       
       ScintillaSendMessage(Result, #SCI_SETMARGINTYPEN, 0, #SC_MARGIN_NUMBER)
