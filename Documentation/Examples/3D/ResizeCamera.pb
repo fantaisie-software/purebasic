@@ -69,7 +69,6 @@ If InitEngine3D()
       ResizeCamera(1,x,y,s,s)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

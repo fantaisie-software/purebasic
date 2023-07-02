@@ -138,7 +138,6 @@ If InitEngine3D()
       SetEntityAttribute(Sphere, #PB_Entity_MaxVelocity, 100)
 
       RenderWorld(40)
-      Screen3DStats()
       FlipBuffers()
      
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

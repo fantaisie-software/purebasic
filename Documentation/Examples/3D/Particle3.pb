@@ -151,7 +151,6 @@ If InitEngine3D()
       MoveParticleEmitter(6, Sin(a*5)*20, 2, Cos(a*5)*20,#PB_Absolute)
       CameraLookAt(0,0,0,0)
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

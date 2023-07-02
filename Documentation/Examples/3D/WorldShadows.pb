@@ -68,8 +68,7 @@ If InitEngine3D()
     ; Light
     ;
     CreateLight(#PB_Any, RGB(255, 255, 255), 300, 90, -300)
-    
-    
+        
     AmbientColor(RGB(20, 20, 20))
     
     Repeat
@@ -105,9 +104,7 @@ If InitEngine3D()
       RotateCamera(Camera, MouseY, MouseX, 0, #PB_Relative)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
-      
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
     
   EndIf

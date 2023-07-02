@@ -48,7 +48,6 @@ If InitEngine3D()
       RotateEntity(0, 1, 1, 1, #PB_Relative)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

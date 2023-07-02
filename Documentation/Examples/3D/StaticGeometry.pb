@@ -107,7 +107,6 @@ If InitEngine3D()
       RotateCamera(0, Pitch, Yaw, 0, #PB_Relative)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf
