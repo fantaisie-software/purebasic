@@ -12,6 +12,11 @@ IncludeFile "..\Common.pb"
 
 #PB_ProcessPureBasicEvents = -$1F1F1F1F
 
+; SetWindowCallback()
+;
+#PB_Window_ProcessChildEvents = 0
+#PB_Window_NoChildEvents      = 1
+
 ; Clipboard
 ;
 #PB_Clipboard_Image = 8 ; CF_DIB

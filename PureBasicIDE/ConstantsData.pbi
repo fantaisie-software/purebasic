@@ -636,6 +636,9 @@ DataSection
   Data$ "SetToolBarButtonState,3,#True,#False"
   Data$ "SetupTerrains,3,#PB_Terrain_Lightmap,#PB_Terrain_NormalMapping"
   Data$ "SetVehicleAttribute,2,#PB_Vehicle_Friction,#PB_Vehicle_MaxSuspensionForce,#PB_Vehicle_SuspensionStiffness,#PB_Vehicle_MaxSuspensionCompression,#PB_Vehicle_MaxSuspensionLength,#PB_Vehicle_WheelDampingCompression,#PB_Vehicle_WheelDampingRelaxation,#PB_Vehicle_RollInfluence"
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+    Data$ "SetWindowCallback,3,#PB_Window_ProcessChildEvents,#PB_Window_NoChildEvents"
+  CompilerEndIf
   Data$ "SetWindowState,2,#PB_Window_Normal,#PB_Window_Maximize,#PB_Window_Minimize"
   Data$ "SetXMLEncoding,2,#PB_Ascii,#PB_Unicode,#PB_UTF8"
   Data$ "SetXMLStandalone,2,#PB_XML_StandaloneYes,#PB_XML_StandaloneNo,#PB_XML_StandaloneUnset"

@@ -81,7 +81,7 @@ PACKLEVEL = -q -l4
 
 THEMES = \
 	Build/DefaultTheme.zip \
-	"$(THEMEFOLDER)/SilkTheme.zip"
+	$(THEMEFOLDER)/SilkTheme.zip
 
 DIALOGS = \
 Build/Find.pb \
@@ -188,8 +188,11 @@ Build/DefaultTheme.zip: data/DefaultTheme/*
 	rm -f Build/DefaultTheme.zip
 	zip -jq Build/DefaultTheme.zip data/DefaultTheme/*
 
-"$(THEMEFOLDER)/SilkTheme.zip": data/SilkTheme/*
-	mkdir -p "$(THEMEFOLDER)"
+# Use "mkdir" instead on mkdir, so on Windows it search mkdir.exe on the PATH instead of using the internal CMD mkdir.
+# It works on Linux and OS X as well.
+#
+$(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
+	"mkdir" -p "$(THEMEFOLDER)"
 	rm -f "$(THEMEFOLDER)/SilkTheme.zip"
 	zip -jq "$(THEMEFOLDER)/SilkTheme.zip" data/SilkTheme/*
 

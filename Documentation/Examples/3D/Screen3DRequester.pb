@@ -262,23 +262,8 @@ Procedure Screen3DEvents()
     Until Event = 0
     
   EndIf
-  
-  If ExamineKeyboard()
-    If KeyboardReleased(#PB_Key_F1)
-      Screen3DRequester_ShowStats = 1-Screen3DRequester_ShowStats ; Switch the ShowStats on/off
-    EndIf
-  EndIf
           
 EndProcedure
-
-
-Procedure Screen3DStats()
-  If Screen3DRequester_ShowStats
-    ; Nothing printed for now
-  EndIf
-EndProcedure
-
-        
 
 
 DataSection

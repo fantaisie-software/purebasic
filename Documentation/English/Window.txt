@@ -925,7 +925,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetWindowCallback(@ProcedureName() [, #Window])  
+@Function SetWindowCallback(@ProcedureName() [, #Window [, Mode]])  
 
 @Description
   For experienced programmers only. It's only supported on Microsoft Windows.
@@ -947,9 +947,10 @@
   interfere with PB's own message processing.
 
 @Parameter "@ProcedureName()"
-  The callback @ReferenceLink "procedures" "procedure" to use. It must have 4 parameters. If the event isn't
+  The callback @ReferenceLink "procedures" "procedure" to use. If a previous callback was set it will be replaced.
+  The callback must have 4 parameters. If the event isn't
   processed, the result must be set to @#PB_ProcessPureBasicEvents so the event will be properly handled
-  by the PureBasic. Here is a sample code to use a callback correctly:
+  by PureBasic. Here is a sample code to use a callback correctly:
 @Code
   Procedure MyWindowCallback(WindowID, Message, WParam, LParam)
     Result = #PB_ProcessPureBasicEvents
@@ -962,6 +963,13 @@
 
 @OptionalParameter "#Window"
   A specific window to associate the callback to. If omitted the callback will be called for any window.
+
+@OptionalParameter "Mode"
+  The callback mode, can one of the following value:
+@FixedFont
+  @#PB_Window_ProcessChildEvents: the child gadgets events (mostly #WM_NOTIFY) will be sent to the main window. Doesn't work for all gadgets (default).
+  @#PB_Window_NoChildEvents     : the child gadgets events won't be sent to the main window (WinAPI default behavior).
+@EndFixedFont
 
 @NoReturnValue
 
