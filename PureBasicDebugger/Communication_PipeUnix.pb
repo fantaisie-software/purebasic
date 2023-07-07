@@ -392,15 +392,10 @@ CompilerIf #CompileWindows = 0
       ; ToAscii() uses a static buffer, so it cannot be used for both string args!
       ; Note: The order is important, first In, then Out
       ;
-      CompilerIf #PB_Compiler_Unicode
-        PokeS(@ascii_wb.l, "wb", -1, #PB_Ascii) ; use a long for this short string
-        PokeS(@ascii_rb.l, "rb", -1, #PB_Ascii) ; use a long for this short string
-        *This\InPipeHandle = fopen_(ToAscii(*This\InFifoName$), @ascii_rb)
-        *This\OutPipeHandle = fopen_(ToAscii(*This\OutFifoName$), @ascii_wb)
-      CompilerElse
-        *This\InPipeHandle = fopen_(*This\InFifoName$, "rb")
-        *This\OutPipeHandle = fopen_(*This\OutFifoName$, "wb")
-      CompilerEndIf
+      PokeS(@ascii_wb.l, "wb", -1, #PB_Ascii) ; use a long for this short string
+      PokeS(@ascii_rb.l, "rb", -1, #PB_Ascii) ; use a long for this short string
+      *This\InPipeHandle = fopen_(*This\InFifoName$, @ascii_rb)
+      *This\OutPipeHandle = fopen_(*This\OutFifoName$, @ascii_wb)
       
     Else
       
