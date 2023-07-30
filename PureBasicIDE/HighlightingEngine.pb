@@ -1437,10 +1437,10 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
 
       If SeparatorChar = '!' And IsLineStart(*LineStart, *Cursor)
 
-        ; --------------------- ASM Line with "!" ---------------------
+        ; --------------------- ASM or C Line with "!" ---------------------
 
-        *StringStart = *Cursor ; highlight to lineend or comment
-        While *Cursor < *InBufferEnd And *Cursor\b <> ';' And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b
+        *StringStart = *Cursor ; highlight to lineend (do not stop on comment as ASM and C are different here)
+        While *Cursor < *InBufferEnd And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b
           *Cursor + 1
         Wend
 
