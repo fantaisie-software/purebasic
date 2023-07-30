@@ -1175,6 +1175,11 @@ Procedure Parser_GetVariables(*pCursor.PTR, DefaultType$, Scope, Mode)
     ;
     nesting = 0
     Repeat
+      Parser_SkipSpace(*Cursor)
+      
+      ; could be another module prefixed item here like in "Global x = prefix::something"
+      ModulePrefix$ = Parser_ModulePrefix(@*Cursor)
+      
       Select *Cursor\b
           
         Case 0, ':' ; abort cases for everything
