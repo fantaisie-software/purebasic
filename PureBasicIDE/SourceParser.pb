@@ -688,6 +688,19 @@ Procedure Parser_SkipType(*pCursor.PTR)
     Wend
     
     Parser_SkipSpace(*Cursor)
+    
+    ; type with module prefix
+    ; this is rare but possible for example with macros
+    If *Cursor\a = ':' And *Cursor\a[1] = ':'
+      *Cursor + 2
+      Parser_SkipSpace(*Cursor)
+      
+      While ValidCharacters(*Cursor\a) ; skip actual type
+        *Cursor + 1
+      Wend
+      
+      Parser_SkipSpace(*Cursor)
+    EndIf
   EndIf
   
   ; check this even without a ".", as it could be "Var${10}"
