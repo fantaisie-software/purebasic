@@ -1922,7 +1922,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         EndIf
         
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""  ; this is for the standalone debugger
-          DebuggerParams$ = GUITerminalParameters$ + #DQUOTE$ + DebuggerExe$ + #DQUOTE$
+          DebuggerParams$ = GUITerminalParameters$ + #DQUOTE$+DebuggerExe$+#DQUOTE$
           DebuggerExe$ = DetectedGUITerminal$
         Else
           DebuggerParams$ = ""
@@ -1937,7 +1937,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         ;       EndIf
         
         If *Target\ExecutableFormat = 1 ; this is for the Standalone Debugger
-          DebuggerParams$ = "-a Terminal.app " +#DQUOTE$+ DebuggerExe$ +#DQUOTE$
+          DebuggerParams$ = "-a Terminal.app " +#DQUOTE$+DebuggerExe$+#DQUOTE$
           DebuggerExe$ = "open"
         Else
           DebuggerParams$ = ""
@@ -1975,9 +1975,9 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
               If *Target\RunExeFormat = 1
                 DebuggerUseFIFO = 1
                 CompilerIf #CompileLinux
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$+Executable$+" " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
                 CompilerElse
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
                 CompilerEndIf
               Else
                 DebuggerUseFIFO = 0
@@ -2028,11 +2028,11 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           CompilerEndIf
           
           CompilerIf #CompileLinux
-            RunProgram(DetectedGUITerminal$, GUITerminalParameters$ + Executable$ +" " + *Target\CommandLine$, Directory$)
+            RunProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
           CompilerEndIf
           
           CompilerIf #CompileMac
-            RunProgram("open", "-a Terminal.app " +#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+            RunProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
           CompilerEndIf
           
       EndSelect
@@ -2045,7 +2045,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       
       CompilerIf #CompileLinux
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""
-          RunProgram(DetectedGUITerminal$, GUITerminalParameters$ + Executable$ +" " + *Target\CommandLine$, Directory$)
+          RunProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
         Else
           RunProgram(Executable$, *Target\CommandLine$, Directory$)
         EndIf
