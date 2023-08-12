@@ -130,6 +130,9 @@ Procedure UpdateSourceStatus(Modified)
   
 EndProcedure
 
+; Note: Do not call FlushEvents() in here as this procedure is called during file loading and processing
+;       events could change the active source again and really mess things up!
+;
 Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   
   If *OldSource = 0
@@ -268,19 +271,6 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       HideGadget(#GADGET_Form, 1)
     EndIf
   EndIf
-  
-  ; Note:
-  ;   For some odd reason, the ResizeMainWindow() above has no effect as long as the ScintillaGadget
-  ;   is not the topmost visible one on Linux. The result is that when you close all tabs, you end up
-  ;   with a newly created '<New>' source that is not visible (because its still sized 0,0)
-  ;
-  ;   This is a Linux only problem and i have no idea why, but just trying another
-  ;   resize after the proper gadget is visible and events are flushed fixes the trouble.
-  ;
-  CompilerIf #CompileLinux
-    FlushEvents() ; this still dispatches all events, so its not problematic
-    ResizeMainWindow()
-  CompilerEndIf
   
   UpdateCursorPosition()
   
