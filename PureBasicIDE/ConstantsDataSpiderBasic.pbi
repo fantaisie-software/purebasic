@@ -33,6 +33,8 @@ DataSection
   Data$ "AllocateMemory,2,#PB_Memory_NoClear"
   
   ;- B
+  Data$ "Base64Encoder,4,#PB_Cipher_NoPadding,#PB_Cipher_URL"
+  Data$ "Base64EncoderBuffer,7,#PB_Cipher_NoPadding,#PB_Cipher_URL"
   Data$ "Bin,2,#PB_Quad,#PB_Byte,#PB_Ascii,#PB_Word,#PB_Unicode,#PB_Long"
   Data$ "BindEvent,1,#PB_Event_*"
   Data$ "BindEvent,3,#PB_All"
