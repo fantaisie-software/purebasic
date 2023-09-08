@@ -48,6 +48,8 @@ DataSection
   Data$ "ApplyEntityTorqueImpulse,5,#PB_Local,#PB_Parent,#PB_World"
   
   ;- B
+  Data$ "Base64Encoder,3,#PB_Cipher_NoPadding,#PB_Cipher_URL"
+  Data$ "Base64EncoderBuffer,5,#PB_Cipher_NoPadding,#PB_Cipher_URL"
   Data$ "BillboardGroupX,2,#PB_Absolute,#PB_Relative"
   Data$ "BillboardGroupY,2,#PB_Absolute,#PB_Relative"
   Data$ "BillboardGroupZ,2,#PB_Absolute,#PB_Relative"
