@@ -204,15 +204,17 @@
     Age.w
   EndStructure
  
-  Debug OffsetOf(Personne\Age) ; Affichera 8 car une 'string' occupe 4 octets en mémoire
-                               ;(16 avec un compilateur 64 bits, car une 'string' occupe 8 octets en mémoire)
+  Debug OffsetOf(Personne\Age) ; Affichera  8 sur le compilateur 32-bit car une 'string' est un pointeur qui occupe 4 octets en mémoire
+                               ; Affichera 16 sur le compilateur 64-bit car une 'string' est un pointeur qui occupe 8 octets en mémoire
  
   Interface ITest
     Creer()
     Detruire(Options)
   EndInterface
  
-  Debug OffsetOf(ITest\Detruire()) ; Affichera 4
+  Debug OffsetOf(ITest\Detruire()) ; Affichera 4 sur le compilateur 32-bit car un pointeur occupe 4 octets en mémoire
+                                   ; Affichera 8 sur le compilateur 64-bit car un pointeur occupe 8 octets en mémoire
+ 
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -273,11 +275,12 @@
     Age.w
   EndStructure
  
-  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 (4+4+2)
+  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 sur le compilateur 32-bit car une 'string' est un pointeur qui occupe 4 octets en mémoire
+                                                                        ; Affichera 18 sur le compilateur 64-bit car une 'string' est un pointeur qui occupe 8 octets en mémoire
  
   Jean.Personne\Nom = "Jean"
  
-  Debug SizeOf(Jean) ; Affichera 10 aussi
+  Debug SizeOf(Jean) ; Affichera la même chose
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------

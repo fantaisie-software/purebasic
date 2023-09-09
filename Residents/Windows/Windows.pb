@@ -7971,15 +7971,15 @@ Structure POLYTEXT
 EndStructure
 
 Structure FIXED
-  fract.w
+  fract.u
   Value.w
 EndStructure
 
 Structure MAT2
-  eM11.l
-  eM12.l
-  eM21.l
-  eM22.l
+  eM11.FIXED
+  eM12.FIXED
+  eM21.FIXED
+  eM22.FIXED
 EndStructure
 
 Structure GLYPHMETRICS
@@ -7991,13 +7991,13 @@ Structure GLYPHMETRICS
 EndStructure
 
 Structure POINTFX
-  x.l
-  y.l
+  x.FIXED
+  y.FIXED
 EndStructure
 
 Structure TTPOLYCURVE
-  wType.w
-  cpfx.w
+  wType.u
+  cpfx.u
   StructureUnion
     apfx.POINTFX[0]
     dummyapfx.POINTFX[1]

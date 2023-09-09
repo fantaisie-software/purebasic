@@ -39,11 +39,12 @@
     Age.w 
   EndStructure
   
-  Debug "The size of my friend is "+Str(Sizeof(Person))+" bytes" ; will be 10 (4+4+2)
+  Debug "The size of my friend is "+Str(Sizeof(Person))+" bytes" ; will be 10 on 32-bit compiler as a string pointer is 4 bytes in memory
+                                                                 ; will be 18 on 64-bit compiler as a string pointer is 8 bytes in memory
   
   John.Person\Name = "John"
   
-  Debug SizeOf(John) ; will be also 10 
+  Debug SizeOf(John) ; will be the same
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -71,15 +72,16 @@
     Age.w 
   EndStructure
   
-  Debug OffsetOf(Person\Age) ; will be 8 as a string is 4 byte in memory
-                             ; (16 with the 64-bit compiler, as a string is 8 bytes there)
+  Debug OffsetOf(Person\Age) ; will be  8 on 32-bit compiler as a string pointer is 4 bytes in memory
+                             ; will be 16 on 64-bit compiler as a string pointer is 8 bytes in memory
   
   Interface ITest
     Create()
     Destroy(Flags) 
   EndInterface
   
-  Debug OffsetOf(ITest\Destroy()) ; will be 4
+  Debug OffsetOf(ITest\Destroy()) ; will be 4 on 32-bit compiler as a pointer is 4 bytes in memory
+                                  ; will be 8 on 64-bit compiler as a pointer is 8 bytes in memory
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------

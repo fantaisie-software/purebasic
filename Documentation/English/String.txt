@@ -108,10 +108,11 @@
   Returns a string created with the given character value.
 
 @Parameter "CharacterValue"
-  The character value.
+  The unicode character value. It must be a value between 0 and $D7FF or between $E000 and $FFFF. 
+  The range between $D800 and $DFFF is reserved for surrogate characters.
 
 @ReturnValue
-  Returns a string created with the given character value.
+  Returns a string created with the given character value. If the value is invalid, it will returns an empty string.
 
 @Example
 @Code
