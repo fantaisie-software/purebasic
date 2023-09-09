@@ -445,7 +445,12 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
 
     ; scan for issues
     ; remove the ';' from the scanned string
-    Comment$ = PeekS(*StringStart+1, *LineEnd - *StringStart, SourceStringFormat|#PB_ByteLength)
+    If StringFormat = #PB_UTF8
+      Comment$ = PeekS(*StringStart+1, *LineEnd-*StringStart, StringFormat | #PB_ByteLength) ; #PB_ByteLength is only valid for UTF8
+    Else
+      Comment$ = PeekS(*StringStart+1, *LineEnd-*StringStart, StringFormat)
+    EndIf
+    
     ScanCommentIssues(Comment$, Found(), #True) ; highlight mode
 
     ; add them one by one (and manage space in between)
