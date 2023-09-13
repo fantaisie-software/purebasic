@@ -120,7 +120,7 @@ DataSection
   Data$ "ComboBoxGadget,6,#PB_ComboBox_Editable,#PB_ComboBox_LowerCase,#PB_ComboBox_UpperCase,#PB_ComboBox_Image"
   Data$ "ComboBoxGadget3D,1,#PB_Any"
   Data$ "ComboBoxGadget3D,6,#PB_ComboBox3D_Editable"
-  Data$ "CompareMemoryString,3,#PB_String_CaseSensitive,#PB_String_NoCase"
+  Data$ "CompareMemoryString,3,#PB_String_CaseSensitive,#PB_String_NoCase,#PB_String_NoCaseAscii"
   Data$ "CompareMemoryString,5,#PB_UTF8,#PB_Ascii,#PB_Unicode"
   Data$ "ComposeJSON,2,#PB_JSON_PrettyPrint"
   Data$ "ComposeXML,2,#PB_XML_StringFormat,#PB_XML_NoDeclaration"

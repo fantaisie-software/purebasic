@@ -2862,6 +2862,5 @@ CompilerIf #PB_Compiler_Debugger
   Global InDebuggerCallback = #False
 CompilerEndIf
 
-
 UseMD5Fingerprint()
 UseCRC32Fingerprint()

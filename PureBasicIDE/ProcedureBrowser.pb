@@ -121,13 +121,13 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
             EndIf
             
           ElseIf ProcedureBrowserSort = 2
-            If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCase) < 0
+            If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCaseAscii) < 0
               Change = 1
             EndIf
             
           ElseIf ProcedureBrowserSort = 3
             If ProcedureList()\Type = *Previous\Type
-              If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCase) < 0
+              If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCaseAscii) < 0
                 Change = 1
               EndIf
             ElseIf ProcedureList()\Type < *Previous\Type
@@ -182,7 +182,7 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
       AddGadgetItem(#GADGET_ProcedureBrowser, -1, Text$)
       
       ; check if this is our old selection
-      If CompareMemoryString(@OldText$, @Text$, #PB_String_NoCase) = 0 And OldIndex <> -1
+      If CompareMemoryString(@OldText$, @Text$, #PB_String_NoCaseAscii) = 0 And OldIndex <> -1
         NewIndex = CountGadgetItems(#GADGET_ProcedureBrowser)-1
       EndIf
     Next ProcedureList()
@@ -213,7 +213,7 @@ Procedure FindProcedureFromSorted(*Parser.ParserData, *Name, Type, ModuleName$)
   
   *Item.SourceItem = *Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
   While *Item
-    Select CompareMemoryString(*Name, @*Item\Name$, #PB_String_NoCase)
+    Select CompareMemoryString(*Name, @*Item\Name$, #PB_String_NoCaseAscii)
       Case #PB_String_Equal
         ProcedureReturn *Item
       Case #PB_String_Greater:

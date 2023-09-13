@@ -33,7 +33,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
   Wend
   
   ; Properly skip any 'Align' part
-  If *BufferEnd-*Cursor >= 6 And CompareMemoryString(*Cursor, ToAscii("Align"), #PB_String_NoCase, 5, #PB_Ascii) = #PB_String_Equal And ValidCharacters(*Cursor\a[5]) = 0
+  If *BufferEnd-*Cursor >= 6 And CompareMemoryString(*Cursor, ToAscii("Align"), #PB_String_NoCaseAscii, 5, #PB_Ascii) = #PB_String_Equal And ValidCharacters(*Cursor\a[5]) = 0
     *Cursor + 5
     
     ; the align part is an expression which may be multiline
@@ -136,7 +136,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
       ; Check for Array, List, Map def
       ; Note: "List .l" is a valid structure entry, so check for this
       ;
-      If *Cursor < *BufferEnd-6 And (PeekB(*Cursor+5) = ' ' Or PeekB(*Cursor+5) = 9) And CompareMemoryString(*Cursor, ToAscii("Array"), #PB_String_NoCase, 5, #PB_Ascii) = #PB_String_Equal
+      If *Cursor < *BufferEnd-6 And (PeekB(*Cursor+5) = ' ' Or PeekB(*Cursor+5) = 9) And CompareMemoryString(*Cursor, ToAscii("Array"), #PB_String_NoCaseAscii, 5, #PB_Ascii) = #PB_String_Equal
         *Cursor2.BYTE = *Cursor+5
         While *Cursor2 < *BufferEnd And (*Cursor2\b = ' ' Or *Cursor2\b = 9)
           *Cursor2 + 1
@@ -148,7 +148,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
           *Start = *Cursor
         EndIf
         
-      ElseIf *Cursor < *BufferEnd-5 And (PeekB(*Cursor+4) = ' ' Or PeekB(*Cursor+4) = 9) And CompareMemoryString(*Cursor, ToAscii("List"), #PB_String_NoCase, 4, #PB_Ascii) = #PB_String_Equal
+      ElseIf *Cursor < *BufferEnd-5 And (PeekB(*Cursor+4) = ' ' Or PeekB(*Cursor+4) = 9) And CompareMemoryString(*Cursor, ToAscii("List"), #PB_String_NoCaseAscii, 4, #PB_Ascii) = #PB_String_Equal
         *Cursor2.BYTE = *Cursor+4
         While *Cursor2 < *BufferEnd And (*Cursor2\b = ' ' Or *Cursor2\b = 9)
           *Cursor2 + 1
@@ -160,7 +160,7 @@ Procedure ParseStructure(*Buffer, Length, List Output.s())
           *Start = *Cursor
         EndIf
         
-      ElseIf *Cursor < *BufferEnd-4 And (PeekB(*Cursor+3) = ' ' Or PeekB(*Cursor+3) = 9) And CompareMemoryString(*Cursor, ToAscii("Map"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal
+      ElseIf *Cursor < *BufferEnd-4 And (PeekB(*Cursor+3) = ' ' Or PeekB(*Cursor+3) = 9) And CompareMemoryString(*Cursor, ToAscii("Map"), #PB_String_NoCaseAscii, 3, #PB_Ascii) = #PB_String_Equal
         *Cursor2.BYTE = *Cursor+3
         While *Cursor2 < *BufferEnd And (*Cursor2\b = ' ' Or *Cursor2\b = 9)
           *Cursor2 + 1
@@ -580,7 +580,7 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
   ; walk all Structures or interfaces in this source
   *Item.SourceItem = *Source\Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
   While *Item
-    If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+    If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
       Break
     EndIf
     *Item = *Item\NextSorted
@@ -590,7 +590,7 @@ Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName
   If *Item = 0 And ModuleName$ <> ""
     *Item.SourceItem = *Source\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
     While *Item
-      If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+      If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
         Break
       EndIf
       *Item = *Item\NextSorted
@@ -700,7 +700,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
     
     If Type = #ITEM_Structure
       For i = StructureHT(c, 0) To StructureHT(c, 1) ; will be "0 To -1" if no entry
-        If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCase) = #PB_String_Equal
+        If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCaseAscii) = #PB_String_Equal
           
           ; Request structure content
           ForceDefaultCompiler()
@@ -722,7 +722,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
       
     Else
       For i = InterfaceHT(c, 0) To InterfaceHT(c, 1)
-        If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = #PB_String_Equal
+        If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCaseAscii) = #PB_String_Equal
           
           ; Request structure content
           ForceDefaultCompiler()
@@ -788,7 +788,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
         ; walk all Structures in this source
         *Item.SourceItem = ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
         While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
             Break
           EndIf
           *Item = *Item\NextSorted
@@ -798,7 +798,7 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
         If *Item = 0 And ModuleName$ <> ""
           *Item.SourceItem = ProjectFiles()\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
           While *Item
-            If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+            If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
               Break
             EndIf
             *Item = *Item\NextSorted
@@ -853,11 +853,11 @@ Procedure.s StructureFieldKind(Entry$)
   Entry$ = Trim(ReplaceString(Entry$, Chr(9), " ")) ; do not remove yet for the List/Array/Map check
   
   ; Test also for the space, as it could be "ArraySomething.l" else
-  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal
+  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCaseAscii, 6) = #PB_String_Equal
     ProcedureReturn "Array"
-  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal
+  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCaseAscii, 5) = #PB_String_Equal
     ProcedureReturn "List"
-  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal
+  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCaseAscii, 4) = #PB_String_Equal
     ProcedureReturn "Map"
   Else
     ProcedureReturn ""
@@ -867,11 +867,11 @@ EndProcedure
 Procedure.s StructureFieldName(Entry$)
   Entry$ = Trim(ReplaceString(Entry$, Chr(9), " ")) ; do not remove yet for the List/Array/Map check
   
-  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCase, 6) = #PB_String_Equal
+  If CompareMemoryString(@Entry$, @"Array ", #PB_String_NoCaseAscii, 6) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-6)
-  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCase, 5) = #PB_String_Equal
+  ElseIf CompareMemoryString(@Entry$, @"List ", #PB_String_NoCaseAscii, 5) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-5)
-  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCase, 4) = #PB_String_Equal
+  ElseIf CompareMemoryString(@Entry$, @"Map ", #PB_String_NoCaseAscii, 4) = #PB_String_Equal
     Entry$ = Right(Entry$, Len(Entry$)-4)
   EndIf
   
@@ -913,7 +913,7 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
         ; walk all Structures or interfaces in this source
         *Item.SourceItem = FileList()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes[Bucket]
         While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
             ChangeCurrentElement(FileList(), *ActiveSource) ; important
             ProcedureReturn *Item
           EndIf
@@ -934,7 +934,7 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
         ; walk all Structures in this source
         *Item.SourceItem = ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes[Bucket]
         While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
             ProcedureReturn *Item
           EndIf
           *Item = *Item\NextSorted

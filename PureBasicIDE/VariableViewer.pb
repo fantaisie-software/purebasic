@@ -146,7 +146,7 @@ Procedure UpdateVariableViewer()
       
       ForEach VariableViewerItems()
         ; The PeekI is because @StringList() is a pointer to the list element
-        If CompareMemoryString(*Last, PeekI(@VariableViewerItems()), #PB_String_NoCase) <> #PB_String_Equal
+        If CompareMemoryString(*Last, PeekI(@VariableViewerItems()), #PB_String_NoCaseAscii) <> #PB_String_Equal
           *Last = PeekI(@VariableViewerItems())
           
           If index < OldCount

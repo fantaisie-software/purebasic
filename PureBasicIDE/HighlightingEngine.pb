@@ -445,7 +445,12 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
 
     ; scan for issues
     ; remove the ';' from the scanned string
-    Comment$ = PeekS(*StringStart+1, *LineEnd - *StringStart, SourceStringFormat|#PB_ByteLength)
+    If StringFormat = #PB_UTF8
+      Comment$ = PeekS(*StringStart+1, *LineEnd-*StringStart, StringFormat | #PB_ByteLength) ; #PB_ByteLength is only valid for UTF8
+    Else
+      Comment$ = PeekS(*StringStart+1, *LineEnd-*StringStart, StringFormat)
+    EndIf
+    
     ScanCommentIssues(Comment$, Found(), #True) ; highlight mode
 
     ; add them one by one (and manage space in between)
@@ -913,7 +918,7 @@ Procedure IsCustomKeyword(Word$)
   If k
     While Quit = 0 And k <= NbCustomKeywords
 
-      Compare = CompareMemoryString(@CustomKeywords(k), @Word$, #PB_String_NoCase)  ; Case insensitive compare
+      Compare = CompareMemoryString(@CustomKeywords(k), @Word$, #PB_String_NoCaseAscii)  ; Case insensitive compare
 
       If Compare <= 0
         If Compare = 0
@@ -944,7 +949,7 @@ Procedure IsKnownConstant(Word$)
   EndIf
 
   For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-    If CompareMemoryString(@Word$, @ConstantList(i), #PB_String_NoCase) = 0
+    If CompareMemoryString(@Word$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
       KnownConstant$ = ConstantList(i)
       ProcedureReturn 1
     EndIf
@@ -993,13 +998,13 @@ Procedure IsAfterStructure(Keyword, *LineStart, *Cursor.HighlightPTR)
   EndIf
 
   Length = *WordEnd - *Cursor
-  If Length = 9 And CompareMemoryString(*Cursor, *KeywordStructure, #PB_String_NoCase, 9, #PB_Ascii) = #PB_String_Equal
+  If Length = 9 And CompareMemoryString(*Cursor, *KeywordStructure, #PB_String_NoCaseAscii, 9, #PB_Ascii) = #PB_String_Equal
     ; extends/align on structure
     ProcedureReturn #True
-  ElseIf Keyword = #KEYWORD_Extends And Length = 9 And CompareMemoryString(*Cursor, *KeywordInterface, #PB_String_NoCase, 9, #PB_Ascii) = #PB_String_Equal
+  ElseIf Keyword = #KEYWORD_Extends And Length = 9 And CompareMemoryString(*Cursor, *KeywordInterface, #PB_String_NoCaseAscii, 9, #PB_Ascii) = #PB_String_Equal
     ; extends on interface (no align allowed)
     ProcedureReturn #True
-  ElseIf Keyword = #KEYWORD_Align And Length = 7 And CompareMemoryString(*Cursor, *KeywordExtends, #PB_String_NoCase, 7, #PB_Ascii) = #PB_String_Equal
+  ElseIf Keyword = #KEYWORD_Align And Length = 7 And CompareMemoryString(*Cursor, *KeywordExtends, #PB_String_NoCaseAscii, 7, #PB_Ascii) = #PB_String_Equal
     ; align after extends (Structure X Extends Y Align Z is allowed)
     ProcedureReturn #True
   Else
@@ -1380,35 +1385,35 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
 
           ; special cases for p-ascii, p-unicode, p-bstr
           ;
-        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-8 And CompareMemoryString(*Cursor, ToAscii(".p-ascii"), #PB_String_NoCase, 8, #PB_Ascii) = 0
+        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-8 And CompareMemoryString(*Cursor, ToAscii(".p-ascii"), #PB_String_NoCaseAscii, 8, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 7, *NormalTextColor, 0, 0)
           *Cursor + 8
           SeparatorChar = #SkipSeparator
 
-        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-10 And CompareMemoryString(*Cursor, ToAscii(".p-unicode"), #PB_String_NoCase, 10, #PB_Ascii) = 0
+        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-10 And CompareMemoryString(*Cursor, ToAscii(".p-unicode"), #PB_String_NoCaseAscii, 10, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 9, *NormalTextColor, 0, 0)
           *Cursor + 10
           SeparatorChar = #SkipSeparator
 
-        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-7 And CompareMemoryString(*Cursor, ToAscii(".p-bstr"), #PB_String_NoCase, 7, #PB_Ascii) = 0
+        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-7 And CompareMemoryString(*Cursor, ToAscii(".p-bstr"), #PB_String_NoCaseAscii, 7, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 6, *NormalTextColor, 0, 0)
           *Cursor + 7
           SeparatorChar = #SkipSeparator
 
-        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-10 And CompareMemoryString(*Cursor, ToAscii(".p-variant"), #PB_String_NoCase, 10, #PB_Ascii) = 0
+        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-10 And CompareMemoryString(*Cursor, ToAscii(".p-variant"), #PB_String_NoCaseAscii, 10, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 9, *NormalTextColor, 0, 0)
           *Cursor + 10
           SeparatorChar = #SkipSeparator
 
-        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-7 And CompareMemoryString(*Cursor, ToAscii(".p-utf8"), #PB_String_NoCase, 7, #PB_Ascii) = 0
+        ElseIf NextWord$ = "P" And *Cursor < *InBufferEnd-7 And CompareMemoryString(*Cursor, ToAscii(".p-utf8"), #PB_String_NoCaseAscii, 7, #PB_Ascii) = 0
           Callback(*StringStart, *Cursor-*StringStart, *NormalTextColor, 0, 0)
           Callback(*Cursor, 1, *SeparatorColor, 0, 0)
           Callback(*Cursor+1, 6, *NormalTextColor, 0, 0)
