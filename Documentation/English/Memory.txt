@@ -160,7 +160,9 @@
   Character comparison mode. This can be one of the following values:
 @FixedFont
   @#PB_String_CaseSensitive : Case sensitive search (a=a). (default)
-  @#PB_String_NoCase: String comparison is case insensitive (a=A).
+  @#PB_String_NoCase        : Case insensitive search using all unicode character set (ä=Ä).
+  @#PB_String_NoCaseAscii   : Case insensitive search using only ascii character set (a=A). 
+                             Much faster than @#PB_String_NoCase when full unicode support is not required.
 @EndFixedFont
 
 @OptionalParameter "Length"

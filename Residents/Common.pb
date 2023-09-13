@@ -1017,6 +1017,7 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_String_InPlace = 2
+  #PB_String_NoCaseAscii = 3
 CompilerEndIf
 
 #PB_String_Equal   = 0
