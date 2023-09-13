@@ -523,7 +523,7 @@ Procedure StructureViewerWindowEvents(EventID)
         
         If Left(Text$, 1) = "#" ; must be a constant
           For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
               IsConstant = i
               Break
             EndIf
@@ -531,14 +531,14 @@ Procedure StructureViewerWindowEvents(EventID)
           
         Else ; can be anything...
           For i = StructureHT(char, 0) To StructureHT(char, 1)
-            If CompareMemoryString(@Text$, @StructureList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @StructureList(i), #PB_String_NoCaseAscii) = 0
               IsStructure = i
               Break
             EndIf
           Next i
           
           For i = InterfaceHT(char, 0) To InterfaceHT(char, 1)
-            If CompareMemoryString(@Text$, @InterfaceList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @InterfaceList(i), #PB_String_NoCaseAscii) = 0
               IsInterface = i
               Break
             EndIf
@@ -546,7 +546,7 @@ Procedure StructureViewerWindowEvents(EventID)
           
           Text$ = "#" + Text$ ; try also constants here
           For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
               IsConstant = i
               Break
             EndIf
@@ -724,7 +724,7 @@ Procedure StructureViewerWindowEvents(EventID)
               If Text$ <> ""
                 If StructureViewerMode = 0
                   If StructureListSize > 0
-                    While index < StructureListSize And CompareMemoryString(@Text$, @StructureList(index), #PB_String_NoCase, Length) > 0
+                    While index < StructureListSize And CompareMemoryString(@Text$, @StructureList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
                     If CompareMemoryString(@Text$, @StructureList(index), 1, Length) < 0
@@ -734,10 +734,10 @@ Procedure StructureViewerWindowEvents(EventID)
                   EndIf
                 ElseIf StructureViewerMode = 1
                   If InterfaceListSize > 0
-                    While index < InterfaceListSize And CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCase, Length) > 0
+                    While index < InterfaceListSize And CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
-                    If CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCase, Length) < 0
+                    If CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCaseAscii, Length) < 0
                       index - 1
                     EndIf
                     index - InterfaceHT(CurrentDisplayChar, 0)
@@ -746,10 +746,10 @@ Procedure StructureViewerWindowEvents(EventID)
                   If ConstantListSize > 0
                     If Left(Text$, 1) <> "#": Text$ = "#" + Text$: EndIf
                     Length = Len(Text$)
-                    While index < ConstantListSize And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCase, Length) > 0
+                    While index < ConstantListSize And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
-                    If index > 0 And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCase, Length) < 0
+                    If index > 0 And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCaseAscii, Length) < 0
                       index - 1
                     EndIf
                     index - ConstantHT(CurrentDisplayChar, 0)
@@ -778,7 +778,7 @@ Procedure StructureViewerWindowEvents(EventID)
             If Trim(Name$) <> ""
               If StructureViewerMode = 0
                 For i = 0 To StructureListSize-1
-                  If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCase) = 0
+                  If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCaseAscii) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
                     StructureHistory()\Line  = index
@@ -788,7 +788,7 @@ Procedure StructureViewerWindowEvents(EventID)
                 Next i
               Else
                 For i = 0 To InterfaceListSize-1
-                  If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = 0
+                  If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCaseAscii) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
                     StructureHistory()\Line  = index

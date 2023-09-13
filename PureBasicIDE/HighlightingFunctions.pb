@@ -1037,7 +1037,7 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
       ; macros go first
       *Item.SourceItem = *Module\Sorted\Macros[Bucket]
       While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
@@ -1046,7 +1046,7 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
       
       *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
       While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
@@ -1055,7 +1055,7 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
       
       *Item.SourceItem = *Module\Sorted\Declares[Bucket]
       While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
@@ -1064,7 +1064,7 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
       
       *Item.SourceItem = *Module\Sorted\Imports[Bucket]
       While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal  : ProcedureReturn *Item
           Case #PB_String_Greater: *Item = *Item\NextSorted
           Default                : Break
@@ -1231,7 +1231,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
           ; process the items
           ForEach QuickHelpStructureList()
             Entry$ = StructureFieldName(QuickHelpStructureList())
-            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
               ; on to the next stack item
               Type$ = StructureFieldType(QuickHelpStructureList())
               SubitemFound = 1
@@ -1254,7 +1254,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
         ForEach QuickHelpStructureList()
           Entry$     = StructureFieldName(QuickHelpStructureList())
           EntryType$ = StructureFieldType(QuickHelpStructureList())
-          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
             ; Its a structure, so the item must have a prototype as type, else it cannot be with arguments
             *ProtoItem.SourceItem = FindPrototype(EntryType$)
             If *ProtoItem And *ProtoItem\Prototype$
@@ -1272,7 +1272,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
           Entry$ = InterfaceFieldName(QuickHelpStructureList())
           Proto$ = Trim(Right(QuickHelpStructureList(), Len(QuickHelpStructureList())-(FindString(QuickHelpStructureList(), "(", 1)-1)))
           
-          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
             Message$ = Entry$ + Proto$ ; use only Name+Prototype, no return type
             Break
           EndIf

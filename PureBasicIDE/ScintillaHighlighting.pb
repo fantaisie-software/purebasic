@@ -1319,7 +1319,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     c = IndentKeywordVT(*Cursor\c)
     If c <> -1
       Repeat
-        r = CompareMemoryString(*Cursor, @IndentKeywords(c)\Keyword$, #PB_String_NoCase, IndentKeywords(c)\Length)
+        r = CompareMemoryString(*Cursor, @IndentKeywords(c)\Keyword$, #PB_String_NoCaseAscii, IndentKeywords(c)\Length)
         If r = #PB_String_Equal And ValidCharacters(PeekC(*Cursor + IndentKeywords(c)\Length * #CharSize)) = 0
           ProcedureReturn c
         Else
@@ -2535,7 +2535,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       ; Look for repetitions of the selection
       While *Pointer <= *BufferEnd
-        If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCase, SelectionLength, #PB_UTF8) = #PB_String_Equal
+        If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCaseAscii, SelectionLength, #PB_UTF8) = #PB_String_Equal
           Position = *Pointer-*BufferStart
           ; don't mark the selection itself and check that this is a whole word before marking it
           If Position <> selStart And

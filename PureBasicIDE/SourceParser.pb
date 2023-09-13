@@ -335,11 +335,11 @@ Procedure IsLineContinuation(*Buffer, *Pointer.PTR)
       ProcedureReturn #True
       
     ElseIf *LineEnd-*Pointer >= 2 And ValidCharacters(*Pointer\a[2]) = 0
-      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("Or"), #PB_String_NoCase, 2, #PB_Ascii) = #PB_String_Equal)
+      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("Or"), #PB_String_NoCaseAscii, 2, #PB_Ascii) = #PB_String_Equal)
       
     ElseIf *LineEnd-*Pointer >= 3 And ValidCharacters(*Pointer\a[3]) = 0
-      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("And"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal Or
-                           CompareMemoryString(*Pointer, ToAscii("Xor"), #PB_String_NoCase, 3, #PB_Ascii) = #PB_String_Equal)
+      ProcedureReturn Bool(CompareMemoryString(*Pointer, ToAscii("And"), #PB_String_NoCaseAscii, 3, #PB_Ascii) = #PB_String_Equal Or
+                           CompareMemoryString(*Pointer, ToAscii("Xor"), #PB_String_NoCaseAscii, 3, #PB_Ascii) = #PB_String_Equal)
       
     EndIf
   EndIf
@@ -800,15 +800,15 @@ Procedure.s Parser_Cleanup(Input$)
         ; handle Array, List, Map
         If ValidCharacters(*Cursor\c & $FF)  ; must mask for unicode chars!
           
-          If CompareMemoryString(*Cursor, @"Array", #PB_String_NoCase, 5) = #PB_String_Equal And ValidCharacters(*Cursor\c[5] & $FF) = 0
+          If CompareMemoryString(*Cursor, @"Array", #PB_String_NoCaseAscii, 5) = #PB_String_Equal And ValidCharacters(*Cursor\c[5] & $FF) = 0
             CopyMemory(@"Array", *Cursor, 5*#CharSize) ; correct the case
             *Cursor + 5*#CharSize
             PreserveSpace = #True
-          ElseIf CompareMemoryString(*Cursor, @"List", #PB_String_NoCase, 4) = #PB_String_Equal And ValidCharacters(*Cursor\c[4] & $FF) = 0
+          ElseIf CompareMemoryString(*Cursor, @"List", #PB_String_NoCaseAscii, 4) = #PB_String_Equal And ValidCharacters(*Cursor\c[4] & $FF) = 0
             CopyMemory(@"List", *Cursor, 4*#CharSize) ; correct the case
             *Cursor + 4*#CharSize
             PreserveSpace = #True
-          ElseIf CompareMemoryString(*Cursor, @"Map", #PB_String_NoCase, 3) = #PB_String_Equal And ValidCharacters(*Cursor\c[3] & $FF) = 0
+          ElseIf CompareMemoryString(*Cursor, @"Map", #PB_String_NoCaseAscii, 3) = #PB_String_Equal And ValidCharacters(*Cursor\c[3] & $FF) = 0
             CopyMemory(@"Map", *Cursor, 3*#CharSize) ; correct the case
             *Cursor + 3*#CharSize
             PreserveSpace = #True
@@ -2097,7 +2097,7 @@ Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
     *List\Bucket[Index] = *Item
     
   Else
-    compare = CompareMemoryString(*Name, @*List\Bucket[Index]\Name$, #PB_String_NoCase)
+    compare = CompareMemoryString(*Name, @*List\Bucket[Index]\Name$, #PB_String_NoCaseAscii)
     
     If compare = 0 ; do not add duplicates
                    ; if the found variable had no type and we have one, then set it now
@@ -2114,7 +2114,7 @@ Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
       *Previous.SourceItem = *List\Bucket[Index]
       
       While *Previous\NextSorted
-        compare = CompareMemoryString(*Name, @*Previous\NextSorted\Name$, #PB_String_NoCase)
+        compare = CompareMemoryString(*Name, @*Previous\NextSorted\Name$, #PB_String_NoCaseAscii)
         
         If compare = 0
           ProcedureReturn ; do not add duplicates
@@ -2980,7 +2980,7 @@ Procedure FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Lis
       Case #ITEM_UseModule
         Closed = #False
         ForEach ClosedModules()
-          If CompareMemoryString(@*Item\Name$, PeekI(@ClosedModules()), #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@*Item\Name$, PeekI(@ClosedModules()), #PB_String_NoCaseAscii) = #PB_String_Equal
             Closed = #True
             Break
           EndIf
@@ -3075,7 +3075,7 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
       ;
       *Item.SourceItem = *Module\Sorted\Structures[Bucket]
       While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal
             If ModuleNames() = ""
               ProcedureReturn Type$
@@ -3094,7 +3094,7 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
       ;
       *Item.SourceItem = *Module\Sorted\Interfaces[Bucket]
       While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal
             If ModuleNames() = ""
               ProcedureReturn Type$
@@ -3113,7 +3113,7 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
       ;
       *Item.SourceItem = *Module\Sorted\Prototypes[Bucket]
       While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal
             If ModuleNames() = ""
               ProcedureReturn Type$
@@ -3148,7 +3148,7 @@ Procedure.s ResolveStructureType(*Parser.ParserData, *Item.SourceItem, Line, Typ
   EndIf
   
   ; Check for basic types
-  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCase)) Or LCase(Left(Type$, 2)) = "s{"
+  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCaseAscii)) Or LCase(Left(Type$, 2)) = "s{"
     ProcedureReturn Type$
   EndIf
   
@@ -3243,7 +3243,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
       ;
       *Item.SourceItem = *Module\Sorted\Macros[Bucket]
       While *Item
-        Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+        Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
           Case #PB_String_Equal
             ; Check if the macro is a function macro or not
             If (*InputItem\Type = #ITEM_Variable And *Item\Prototype$ <> "") Or (*InputItem\Type <> #ITEM_Variable And *Item\Prototype$ = "")
@@ -3263,7 +3263,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         ;
         *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *Item\Type
               ProcedureReturn *Item\Prototype$
@@ -3274,7 +3274,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         
         *Item.SourceItem = *Module\Sorted\Declares[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *Item\Type
               ProcedureReturn *Item\Prototype$
@@ -3285,7 +3285,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         
         *Item.SourceItem = *Module\Sorted\Arrays[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *Item\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
@@ -3297,7 +3297,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         
         *Item.SourceItem = *Module\Sorted\LinkedLists[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *Item\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
@@ -3309,7 +3309,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         
         *Item.SourceItem = *Module\Sorted\Maps[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *Item\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
@@ -3325,7 +3325,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
         ;
         *Item.SourceItem = *Module\Sorted\Variables[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
@@ -3344,7 +3344,7 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
       ElseIf *InputItem\Type <= #ITEM_LastSorted
         *Item.SourceItem = *Module\Indexed[*InputItem\Type]\Bucket[Bucket]
         While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCase)
+          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
             Case #PB_String_Equal
               *OutType\i = *InputItem\Type
               Type$ = StringField(*Item\Type$, 1, Chr(10))
@@ -3439,7 +3439,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
             EndIf
             
           Case #ITEM_Variable
-            If *OutType\i = #ITEM_Variable And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCase) = #PB_String_Equal
+            If *OutType\i = #ITEM_Variable And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               If Type$ <> ""
                 ProcedureReturn ResolveStructureType(@*ActiveSource\Parser, *Item, Line, Type$)
@@ -3450,7 +3450,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
               ; If we have a variable with a prototype, the input may be an UnknownBraced as we call the prototype,
               ; so check for this case
               ;
-            ElseIf *OutType\i = #ITEM_UnknownBraced And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCase) = #PB_String_Equal
+            ElseIf *OutType\i = #ITEM_UnknownBraced And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               Type$ = ResolveStructureType(@*ActiveSource\Parser, *Item, Line, Type$)
               If Type$ And FindPrototype(Type$)
@@ -3461,7 +3461,7 @@ Procedure.s ResolveItemType(*InputItem.SourceItem, InputLine, *OutType.INTEGER)
             EndIf
             
           Case #ITEM_Array, #ITEM_LinkedList, #ITEM_Map
-            If (*OutType\i = *Item\Type Or *OutType\i = #ITEM_UnknownBraced) And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCase) = #PB_String_Equal
+            If (*OutType\i = *Item\Type Or *OutType\i = #ITEM_UnknownBraced) And CompareMemoryString(@*Item\Name$, @*InputItem\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
               *OutType\i = *Item\Type ; update in case it was UnknownBraced
               Type$ = StringField(*Item\Type$, 1, Chr(10))
               If Type$ <> ""

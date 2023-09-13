@@ -124,7 +124,7 @@ Procedure AutoComplete_InitContextConstants()
           ; Wildcard entry: Have to do a lookup in the ConstantList for all matches
           Prefix = Len(Constant$)-1
           For i = 0 To ConstantListSize-1
-            If CompareMemoryString(@Constant$, @ConstantList(i), #PB_String_NoCase, Prefix) = #PB_String_Equal
+            If CompareMemoryString(@Constant$, @ConstantList(i), #PB_String_NoCaseAscii, Prefix) = #PB_String_Equal
               AddElement(*Entry\Constants())
               *Entry\Constants() = ConstantList(i)
             EndIf
@@ -149,7 +149,7 @@ Procedure AutoComplete_InitContextConstants()
   ; Build a map of predefined #PB_ Constants so we can ignore them in context sensitive mode
   ClearMap(PredefinedPBConstants())
   For i = 0 To ConstantListSize-1
-    If CompareMemoryString(@"#PB_", @ConstantList(i), #PB_String_NoCase, 4) = #PB_String_Equal
+    If CompareMemoryString(@"#PB_", @ConstantList(i), #PB_String_NoCaseAscii, 4) = #PB_String_Equal
       PredefinedPBConstants(ConstantList(i)) = 1
     EndIf
   Next i
@@ -410,7 +410,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
           PrefixLength = 4
         EndIf
         
-        If CompareMemoryString(@WordStart$, @"#PB_", #PB_String_NoCase, PrefixLength) <> #PB_String_Equal
+        If CompareMemoryString(@WordStart$, @"#PB_", #PB_String_NoCaseAscii, PrefixLength) <> #PB_String_Equal
           *Context = 0
         EndIf
       EndIf
@@ -422,7 +422,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
       If *Context = 0
         ; Normal mode
         For i = 0 To ConstantListSize-1
-          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ConstantList(i), #PB_String_NoCase, Length) = #PB_String_Equal
+          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ConstantList(i), #PB_String_NoCaseAscii, Length) = #PB_String_Equal
             AddElement(AutoCompleteList())
             AutoCompleteList() = ConstantList(i)
           EndIf
@@ -430,7 +430,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
       Else
         ; Context sensitive mode
         ForEach *Context\Constants()
-          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, PeekI(@*Context\Constants()), #PB_String_NoCase, Length) = #PB_String_Equal
+          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, PeekI(@*Context\Constants()), #PB_String_NoCaseAscii, Length) = #PB_String_Equal
             AddElement(AutoCompleteList())
             AutoCompleteList() = *Context\Constants()
           EndIf
@@ -726,21 +726,21 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
         
         Debug "Entry: " + Entry$
                           
-        If CompareMemoryString(@Entry$, @"CompilerIf", #PB_String_NoCase) = #PB_String_Equal
+        If CompareMemoryString(@Entry$, @"CompilerIf", #PB_String_NoCaseAscii) = #PB_String_Equal
           DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
           Continue                 
-        ElseIf CompareMemoryString(@Entry$, @"CompilerElseIf", #PB_String_NoCase) = #PB_String_Equal
+        ElseIf CompareMemoryString(@Entry$, @"CompilerElseIf", #PB_String_NoCaseAscii) = #PB_String_Equal
           DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
           Continue                         
-        ElseIf CompareMemoryString(@Entry$, @"StructureUnion", #PB_String_NoCase) = #PB_String_Equal
+        ElseIf CompareMemoryString(@Entry$, @"StructureUnion", #PB_String_NoCaseAscii) = #PB_String_Equal
           DeleteElement(AutoCompleteList()) ; ignore this
           Continue
-        ElseIf CompareMemoryString(@Entry$, @"EndStructureUnion", #PB_String_NoCase) = #PB_String_Equal
+        ElseIf CompareMemoryString(@Entry$, @"EndStructureUnion", #PB_String_NoCaseAscii) = #PB_String_Equal
           DeleteElement(AutoCompleteList()) ; ignore this
           Continue
         EndIf
         
-        If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+        If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
           ; Repeat outer loop with the new sub-type
           Type$ = EntryType$
           AutoComplete_CurrentStructure$ = EntryType$
@@ -882,7 +882,7 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
         Wend
         
         ; need "OffsetOf" now (we must be on the 'F' now then)
-        If *Cursor >= *Buffer + 7*#CharSize And CompareMemoryString(*Cursor-7*#CharSize, @"OffsetOf", #PB_String_NoCase, 8) = #PB_String_Equal
+        If *Cursor >= *Buffer + 7*#CharSize And CompareMemoryString(*Cursor-7*#CharSize, @"OffsetOf", #PB_String_NoCaseAscii, 8) = #PB_String_Equal
           
           ; check what precedes the "OffsetOf"
           If *Cursor = *Buffer + 7*#CharSize Or ValidCharacters(PeekC(*Cursor - 8*#CharSize)) = 0
@@ -891,13 +891,13 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
           EndIf
           
           ; same for TypeOf or SizeOf
-        ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"SizeOf", #PB_String_NoCase, 6) = #PB_String_Equal
+        ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"SizeOf", #PB_String_NoCaseAscii, 6) = #PB_String_Equal
           If *Cursor = *Buffer + 5*#CharSize Or ValidCharacters(PeekC(*Cursor - 6*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
           EndIf
           
-        ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"TypeOf", #PB_String_NoCase, 6) = #PB_String_Equal
+        ElseIf *Cursor >= *Buffer + 5*#CharSize And CompareMemoryString(*Cursor-5*#CharSize, @"TypeOf", #PB_String_NoCaseAscii, 6) = #PB_String_Equal
           If *Cursor = *Buffer + 5*#CharSize Or ValidCharacters(PeekC(*Cursor - 6*#CharSize)) = 0
             ; success
             ProcedureReturn Name$
