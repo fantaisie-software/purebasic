@@ -2066,18 +2066,16 @@ Procedure GetBucket(*Name.Character)
     ProcedureReturn 0 ; fallback bucket
   EndIf
   
-  If *Name\c = '*' Or *Name\c = '#'
-    *Name + 1
-  EndIf
-  
-  Index = ByteUcase(*Name\c) - 'A' + 1
-  
-  ; Put words starting with _ (or invalid word chars) in bucket 0
-  If Index < 0 Or Index >= #PARSER_VTSize
-    Index = 0
-  EndIf
-  
-  ProcedureReturn Index
+  Hash.c = 7 ; Unsigned hash to avoid negative numbers
+  MaxLength = 20
+
+  While *Name\c <> 0 And MaxLength > 0
+    Hash = Hash*31 + ByteUcase(*Name\c)
+    *Name+SizeOf(Character)
+    MaxLength-1
+  Wend
+    
+  ProcedureReturn Hash % #PARSER_VTSize
 EndProcedure
 
 Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
@@ -3148,7 +3146,7 @@ Procedure.s ResolveStructureType(*Parser.ParserData, *Item.SourceItem, Line, Typ
   EndIf
   
   ; Check for basic types
-  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCaseAscii)) Or LCase(Left(Type$, 2)) = "s{"
+  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCase)) Or LCase(Left(Type$, 2)) = "s{"
     ProcedureReturn Type$
   EndIf
   

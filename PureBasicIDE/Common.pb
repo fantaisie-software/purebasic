@@ -1797,7 +1797,7 @@ EndStructure
 ; special scope value (in addition to the debugger ones)
 #SCOPE_UNKNOWN = -1
 
-#PARSER_VTSize = 27   ; number of indexed entries per sorted array
+#PARSER_VTSize = 2048   ; number of indexed entries per sorted array
 
 ; To represent a SourcItem with its associated line number
 ;
