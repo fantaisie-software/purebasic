@@ -2324,16 +2324,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
           If Keyword
             OriginalLine = *ActiveSource\CurrentLine-1
-            
-            ; Re-scan the current line to ensure all scanned tokens are up to date
-            ; (also update procedure browser etc if needed, as any changes are missed there else)
-            If ScanLine(*ActiveSource, OriginalLine)
-              UpdateFolding(*ActiveSource, OriginalLine, OriginalLine+2)
-              
-              ; defere other updates to a later time
-              *ActiveSource\ParserDataChanged = #True
-            EndIf
-            
+           
             ; find the SourceItem in that represents this keyword
             *OriginalItem.SourceItem = LocateSourceItem(@*ActiveSource\Parser, OriginalLine, CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, StartIndex))
             If *OriginalItem And *OriginalItem\Type = #ITEM_Keyword
@@ -2581,7 +2572,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             
             ; Re-scan the current line to ensure all scanned tokens are up to date
             ; (also update procedure browser etc if needed, as any changes are missed there else)
-            If ScanLine(*ActiveSource, OriginalLine)
+            ; Only do it if the source is really modified as it can be slow on big source code.
+            ;
+            If *ActiveSource\ModifiedSinceUpdate And ScanLine(*ActiveSource, OriginalLine)
               UpdateFolding(*ActiveSource, OriginalLine, *ActiveSource\CurrentLine+2)
               UpdateProcedureList()
               UpdateVariableViewer()
@@ -2794,6 +2787,15 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           ; since we have this check, we can do an update even when the user is selecting stuff (as no typing happens between the selections)
           If *ActiveSource\ModifiedSinceUpdate = 1 And *ActiveSource\IsCode
             
+            ; Reset the flag as it's now handled
+            *ActiveSource\ModifiedSinceUpdate = 0
+                        
+            ; As the source is modified, scan the line once for all to update all internal token. ScanLine() can be very slow on big sources
+            ;
+            If *ActiveSource\CurrentLineOld > 0
+              LineChanged = ScanLine(*ActiveSource, *ActiveSource\CurrentLineOld-1) ; returns true if line content changed, very cool
+            EndIf
+            
             If *ActiveSource\CurrentLine <> *ActiveSource\CurrentLineOld And *ActiveSource\CurrentLineOld > 0
               foldlevel = ScintillaSendMessage(EditorGadget, #SCI_GETFOLDLEVEL, *ActiveSource\CurrentLineOld-1, 0)
               OldLine$ = GetLine(*ActiveSource\CurrentLineOld-1) ; use the case corrected line!
@@ -2833,12 +2835,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 SendEditorMessage(#SCI_SETCURRENTPOS, currentPos, 0)
               EndIf
               
-              ; re-scanning one line is very fast now, so do it always
-              If ScanLine(*ActiveSource, *ActiveSource\CurrentLineOld-1) ; returns true if line content changed, very cool
+              If LineChanged
                 UpdateFolding(*ActiveSource, *ActiveSource\CurrentLineOld-1, *ActiveSource\CurrentLineOld+2)
                 UpdateProcedureList()
                 UpdateVariableViewer()
-                *ActiveSource\ModifiedSinceUpdate = 0
                 *ActiveSource\ParserDataChanged = #False ; full update done here
               EndIf
               
@@ -2871,9 +2871,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
         
       Case #SCN_MODIFIED
-        If *ActiveSource\IsCode
+        
+        If *ActiveSource\IsCode And *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT)
+          
           *ActiveSource\ModifiedSinceUpdate = 1 ; the source has been modified
-          If EnableLineNumbers And *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT)
+          
+          If EnableLineNumbers
             UpdateLineNumbers(*ActiveSource)
           EndIf
           
@@ -2891,7 +2894,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             EndIf
           EndIf
           
-          If *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT) And NoUserChange = 0
+          If NoUserChange = 0
             If *scinotify\linesAdded >= 1 Or *scinotify\linesAdded <= -1
               line = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
               

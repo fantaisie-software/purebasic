@@ -1288,9 +1288,10 @@ EndProcedure
 
 Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
   
-  ; For the structure and prototype check we must ensure that the line data is up to date
+  ; For the structure and prototype check we must ensure that the line data is up to date.
+  ; Only call ScanLine() if the source is modified as it can be rather slow on big sources.
   ;
-  If ScanLine(*ActiveSource, line)
+  If *ActiveSource\ModifiedSinceUpdate And ScanLine(*ActiveSource, line)
     UpdateFolding(*ActiveSource, line-1, line+2)
     *ActiveSource\ParserDataChanged = #True  ; defere any updating to when the current line changes
   EndIf
