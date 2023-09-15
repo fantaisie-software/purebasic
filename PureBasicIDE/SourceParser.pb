@@ -3148,7 +3148,7 @@ Procedure.s ResolveStructureType(*Parser.ParserData, *Item.SourceItem, Line, Typ
   EndIf
   
   ; Check for basic types
-  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCaseAscii)) Or LCase(Left(Type$, 2)) = "s{"
+  If (Len(Type$) = 1 And FindString("bawuclqifd", Type$, 1, #PB_String_NoCase)) Or LCase(Left(Type$, 2)) = "s{"
     ProcedureReturn Type$
   EndIf
   
