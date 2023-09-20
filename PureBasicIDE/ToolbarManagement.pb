@@ -584,25 +584,25 @@ DataSection
   ;
   ;- ToolBarClassic
   ToolBarClassic:
-  Data.l 12  ; item count
-  Data$ "Standard:New",            "Menu:New"  ; button name, menu action
-  Data$ "Standard:Open",           "Menu:Open"
-  Data$ "Standard:Save",           "Menu:Save"
-  Data$ "Separator",               ""
-  Data$ "Standard:Delete",         "Menu:Close"
-  Data$ "Separator",               ""
-  Data$ "Standard:Cut",            "Menu:Cut"
-  Data$ "Standard:Copy",           "Menu:Copy"
-  Data$ "Standard:Paste",          "Menu:Paste"
-  Data$ "Separator",               ""
-  Data$ "Standard:Redo",           "Menu:Compile"
+  Data.l 11  ; item count
+  Data$ "Menu:New",            "Menu:New"
+  Data$ "Menu:Open",           "Menu:Open"
+  Data$ "Menu:Save",           "Menu:Save"
+  Data$ "Separator",           ""
+  Data$ "Menu:Close",          "Menu:Close"
+  Data$ "Separator",           ""
+  Data$ "Menu:Cut",            "Menu:Cut"
+  Data$ "Menu:Copy",           "Menu:Copy"
+  Data$ "Menu:Paste",          "Menu:Paste"
+  Data$ "Separator",           ""
+  Data$ "Menu:Compile",        "Menu:Compile"
   
   
   ; this specifies the new toolbar layout
   ;
   ;- ToolbarPureBasic
   ToolbarPureBasic:
-  Data.l 24 ; item count
+  Data.l 23 ; item count
   Data$ "Menu:New",        "Menu:New"
   Data$ "Menu:Open",       "Menu:Open"
   Data$ "Menu:Save",       "Menu:Save"
