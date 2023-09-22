@@ -36,6 +36,12 @@
   @@ResizeGadget or @@HideGadget may be used with the scintilla
   control. Furthermore it provides the @@ScintillaSendMessage function to communicate
   with the control to use its full potential. All structures and constants needed are already defined in PureBasic.
+  
+@LineBreak
+@LineBreak
+
+  On Windows, the Scintilla.dll found in the "Compilers" folder of the PureBasic package needs to be shipped
+  with your application. On OS X or Linux, the library is linked statically, so there is no extra shared object to include.
 
 @LineBreak
 @LineBreak
@@ -74,7 +80,9 @@
 
 @Description
   Creates a new scintilla editing control in the current GadgetList.
-  @@InitScintilla has to be called successfully before using this command.
+  @@InitScintilla has to be called successfully before using this command. @Linebreak
+  On Windows, the Scintilla.dll found in the "Compilers" folder of the PureBasic package needs to be shipped
+  with your application. On OS X or Linux, the library is linked statically, so there is no extra shared object to include.
 
 @Parameter "#Gadget"
   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can

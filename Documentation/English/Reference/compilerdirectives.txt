@@ -70,7 +70,7 @@
   Generates an error or a warning, as if it was a syntax error and display the associated message. It can be useful
   when doing specialized routines, or to inform a source code is not available on an particular OS.
   @LineBreak
-  Note: While @Keyword "CompilerWarning" displays "only" warnings, but the compilation process continues, the command
+  Note: @Keyword "CompilerWarning" displays warnings, but the compilation process continues, while the command
   @Keyword "CompilerError" stops the compilation process.
 
   @Example Generates an error
@@ -197,7 +197,8 @@
   @#PB_Compiler_IsIncludeFile : Set to 1 if the file being compiled has been included by another file, set to 0 else.
   @#PB_Compiler_32Bit    : Set to 1 if the compiler generates 32-bit code, set to 0 else.
   @#PB_Compiler_64Bit    : Set to 1 if the compiler generates 64-bit code, set to 0 else.
-  @#PB_Compiler_Optimizer: Set to 1 if the compiler generates optimizer code, set to 0 else.
+  @#PB_Compiler_Optimizer: Set to 1 if the compiler generates optimized code, set to 0 else.
+  @#PB_Compiler_DPIAware : Set to 1 if the compiler generates a DPI aware executable, set to 0 else.
   
 @EndFixedFont  
 

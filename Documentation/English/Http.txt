@@ -51,7 +51,7 @@
 
 @Description
   Free the resources associated to the specified asynchronous download, started either with @@ReceiveHTTPFile or
-  @@ReceiveHTTPMemory.
+  @@ReceiveHTTPMemory. It must be always called after a successful call of @@ReceiveHTTPFile or @@ReceiveHTTPMemory.
 
 @Parameter "HttpConnection"
   The HTTP connection to finish.
@@ -457,16 +457,17 @@
 
 @Remarks
   On Linux, 'libcurl' needs to be installed to have this command working (most of Linux 
-  distributions comes with it already installed).
+  distributions comes with it already installed). @LineBreak
+  If the remote file was not found, it will contains the webserver error.
   
 @Example
 @Code
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
-  If ReceiveHTTPFile("http://www.purebasic.com/index.php", Filename$)
-    Debug "Success"
+  If ReceiveHTTPFile("https://www.purebasic.com/index.php", Filename$)
+    Debug "File recieved and written to disk. If the remote file was not found, it will contains the webserver error."
   Else
-    Debug "Failed"
+    Debug "No file recieved (network error)."
   EndIf
 @EndCode
 

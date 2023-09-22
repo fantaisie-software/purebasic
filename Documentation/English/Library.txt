@@ -457,6 +457,10 @@
   If @#PB_Any was used as the #Library parameter then the generated number for the
   library is returned on success.
 
+@Remarks
+  It's mandatory, that the created PureBasic executable and the shared library are using
+  the same architecture (for example a x86 DLL can't be opened by x64 executables).
+
 @SeeAlso
   @@CloseLibrary, @@GetFunction, @ReferenceLink "prototypes" "prototypes"
 

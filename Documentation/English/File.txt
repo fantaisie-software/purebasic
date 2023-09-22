@@ -485,6 +485,8 @@
   @#PB_Unicode: 2 bytes character (default in @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
 @EndFixedFont
+  If this flag isn't set, then the format for reading the character depends on the related setting at
+  the previously used @@CreateFile, @@OpenFile or @@ReadFile command.
 
 @ReturnValue
   Returns the read character or zero if there was an error.
@@ -545,7 +547,8 @@
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
-  combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
+  combined with one of the following values (the following flags affect the behaviour of @@ReadString
+  and @@ReadCharacter):
 @FixedFont
   @#PB_Ascii  : all read string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read string operation will use UTF-8 if not specified otherwise (default).
@@ -681,13 +684,15 @@
   The address to write the read data to.
 
 @Parameter "LengthToRead"
-  The number of bytes to read.
+  The number of bytes to read. The maximum length is 2 GB.
 
 @ReturnValue
   Returns the number of bytes actually read from the file. If there is an error,
   the return value is zero.
 
 @Remarks
+  @LineBreak
+  @LineBreak
   For a code example look at the @@Lof function.
 
 @SeeAlso
@@ -718,6 +723,8 @@
   @#PB_File_IgnoreEOL: ignores the end of line (but the resulting string will still contain them) until the specified
                       length or the end of file.
 @EndFixedFont
+  If this flag isn't set, then the format for reading the string depends on the related setting at
+  the previously used @@CreateFile, @@OpenFile or @@ReadFile command.
 
 @OptionalParameter "Length"
   Read the file until the length (in characters) have been reached. If an end of line is encountered
@@ -728,7 +735,7 @@
 
 @Remarks
   For detecting the string encoding format (byte order mark) used in a file there is the
-@@ReadStringFormat function available.
+  @@ReadStringFormat function available.
 @LineBreak
 @LineBreak
   For an example see the @@ReadFile.
@@ -916,6 +923,8 @@
   @#PB_Unicode: 2 bytes character (default, see @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
 @EndFixedFont
+  If this flag isn't set, then the format for writing the character depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful or zero if it failed.
@@ -1068,7 +1077,7 @@
   The memory address of the data to write to the file.
 
 @Parameter "Length"
-  The number of bytes to write to the file.
+  The number of bytes to write to the file. The maximum length is 2 GB.
 
 @ReturnValue
   Returns the number of bytes actually written to the file.
@@ -1150,6 +1159,8 @@
   @#PB_UTF8   : Writes the string in UTF8 format
   @#PB_Unicode: Writes the string in UTF16 format
 @EndFixedFont
+  If this flag isn't set, then the format for writing the string depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.
@@ -1247,6 +1258,8 @@
   @#PB_UTF8   : Writes the string in UTF8 format
   @#PB_Unicode: Writes the string in UTF16 format
 @EndFixedFont
+  If this flag isn't set, then the format for writing the string depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.
