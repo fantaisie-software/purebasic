@@ -129,7 +129,9 @@ EndProcedure
 Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
   *Width\l  = 0
   *Height\l = 0
-  
+  MaxWidth = 0
+  MaxHeight = 0
+
   If *THIS\NbRows > 0
     
     For row = 0 To *THIS\NbRows-1
@@ -155,6 +157,20 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
         
       Next col
     Next row
+
+		If *THIS\colExpand = #Dlg_Expand_Equal
+			For row = 0 To *THIS\NbRows-1
+				For col = 0 To *THIS\NbColumns-1
+					*THIS\colSize[col]=MaxWidth
+				Next col
+			Next row
+		EndIf
+		
+		If *THIS\rowExpand = #Dlg_Expand_Equal
+			For row = 0 To *THIS\NbRows-1
+				*THIS\rowSize[row]= MaxHeight
+			Next row
+		EndIf
     
     ; calculate effects by spanning children
     ;
