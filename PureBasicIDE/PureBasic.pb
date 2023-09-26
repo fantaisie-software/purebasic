@@ -122,6 +122,7 @@ XIncludeFile "DiffWindow.pb"
 XIncludeFile "LinuxHelp.pb"
 XIncludeFile "EditHistory.pb"
 XIncludeFile "UpdateCheck.pb"
+XIncludeFile "RadixTree.pb"
 
 CompilerIf #SpiderBasic
   XIncludeFile "CreateApp.pb"

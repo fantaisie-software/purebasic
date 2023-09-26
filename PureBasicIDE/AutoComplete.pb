@@ -14,13 +14,18 @@
 Global NewList AutoCompleteModules.s()
 Global NewList AutoCompleteList.s()
 Global NewList AutoCompleteStack.s() ; sub-structures in structure mode
+Global NewList AutoCompleteStructure.s() ; structure/interface matches
 Global NewList DummyList.s()         ; for use in FindStructure() when content is not needed
-Global AutoComplete_Start, AutoComplete_End ; range of displayed items in the gadget
 Global AutoComplete_CurrentMaxWidth, AutoComplete_CurrentMaxHeight
 Global AutoComplete_IsStructure
 Global AutoComplete_StructureStart
 Global AutoComplete_IsModule
 Global AutoComplete_ModuleStart
+Global AutoComplete_StartColumn
+
+Global AutoCompleteTree.RadixTree       ; indexes AutoCompleteList() for fast prefix access and ordering
+Global NewList *AutoCompleteItems()     ; for temp storage while enumerating only
+Global NewList *AutoCompleteDisplay()   ; string pointers
 
 ; cache recent AutoComplete selections for structure and module autocomplete (to use in case no word is entered yet)
 ; the cache is on a per-module or per-structure basis
@@ -156,52 +161,65 @@ Procedure AutoComplete_InitContextConstants()
 
 EndProcedure
 
+Procedure AutoComplete_Clear()
+  ClearList(AutoCompleteList())
+  RadixFree(AutoCompleteTree)
+EndProcedure
+
+Procedure AutoComplete_AddEntry(Entry$)
+  AddElement(AutoCompleteList())
+  AutoCompleteList() = Entry$
+  RadixInsert(AutoCompleteTree, Entry$, PeekI(@AutoCompleteList())) ; insert direct string pointer as value
+EndProcedure
+
 
 Procedure AutoComplete_AddItem(*Item.SourceItem)
-  AddElement(AutoCompleteList())
-  AutoCompleteList() = *Item\Name$
+  Entry$ = *Item\Name$
   
   If AutoCompleteAddBrackets
     Select *Item\Type
       Case #ITEM_Procedure, #ITEM_Declare
         If RemoveString(RemoveString(*Item\Prototype$, " "), Chr(9)) = "()"
-          AutoCompleteList() + "()"
+          Entry$ + "()"
         Else
-          AutoCompleteList() + "("
+          Entry$ + "("
         EndIf
         
       Case #ITEM_Macro
         If RemoveString(RemoveString(*Item\Prototype$, " "), Chr(9)) = "()"
-          AutoCompleteList() + "()"
+          Entry$ + "()"
         ElseIf FindString(*Item\Prototype$, "(", 1) <> 0 ; do not add brackets for none function macros
-          AutoCompleteList() + "("
+          Entry$ + "("
         EndIf
         
       Case #ITEM_Import
         If RemoveString(RemoveString(StringField(*Item\Type$, 2, Chr(9)), " "), Chr(9)) = "()"
-          AutoCompleteList() + "()"
+          Entry$ + "()"
         Else
-          AutoCompleteList() + "("
+          Entry$ + "("
         EndIf
         
       Case #ITEM_Array, #ITEM_Map, #ITEM_UnknownBraced
-        AutoCompleteList() + "("
+        Entry$ + "("
         
       Case #ITEM_LinkedList
-        AutoCompleteList() + "()"
+        Entry$ + "()"
         
       Case #ITEM_DeclareModule
-        AutoCompleteList() + "::"
+        Entry$ + "::"
         
     EndSelect
   EndIf
+  
+  AutoComplete_AddEntry(Entry$)
 EndProcedure
+
 
 ; Constants are separate as they are clearly marked by the first # char
 ; This way we only have to lookup one kind of item for this
 ; Also we now have special handling for PB_ constants in context sensitive mode
 ;
-Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, *Context.AutoCompleteConstants)
+Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Prefix$, *Ignore.SourceItem, *Context.AutoCompleteConstants)
   
   ; Note:
   ; The source parser detects all constants in the code, even If they are just Read And Not defined).
@@ -209,123 +227,52 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Bucket, *Ignor
   ; they are explicitly ignored in this case.
   
   If *Parser\SortedValid
-    If Bucket < 0
-      ; display full list, so we have to add from all buckets
-      ;
-      ForEach AutoCompleteModules()
-        For Bucket = 0 To #PARSER_VTSize-1
-          *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants[Bucket]
-          While *Item
-            If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
-              AddElement(AutoCompleteList())
-              AutoCompleteList() = *Item\Name$
-            EndIf
-            *Item = *Item\NextSorted
-          Wend
-        Next Bucket
-      Next AutoCompleteModules()
-      
-    Else
-      ; We now add all items that match the first char, even when
-      ; the exact match option is on, so we just have to lookup the one bucket
-      ; and add all
-      ;
-      ForEach AutoCompleteModules()
-        *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants[Bucket]
-        While *Item
-          If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
-            AddElement(AutoCompleteList())
-            AutoCompleteList() = *Item\Name$
-          EndIf
-          *Item = *Item\NextSorted
-        Wend
-      Next AutoCompleteModules()
-      
-    EndIf
+    ForEach AutoCompleteModules()
+      RadixEnumeratePrefix(*Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants, Prefix$, *AutoCompleteItems())
+      ForEach *AutoCompleteItems()
+        *Item.SourceItem = *AutoCompleteItems()
+        If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
+          AutoComplete_AddEntry(*Item\Name$)
+        EndIf
+      Next *AutoCompleteItems()
+    Next AutoCompleteModules()
   EndIf
   
 EndProcedure
 
-Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Bucket, *Ignore.SourceItem, SingleModuleOnly)
+Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Prefix$, *Ignore.SourceItem, SingleModuleOnly)
   
   If *Parser\SortedValid
-    If Bucket < 0
-      ; display full list, so we have to add from all buckets
-      ;
-      For Type = 0 To #ITEM_LastSorted
-        If AutocompleteOptions(Type) And Type <> #ITEM_Constant  ; constants are separate
-          
-          If Type = #ITEM_DeclareModule
-            ; module names are indexed in the main module
-            ; do not show modules if a prefix:: is provided before the word
-            If SingleModuleOnly = 0
-              For Bucket = 0 To #PARSER_VTSize-1
-                *Item.SourceItem = *Parser\MainModule\Indexed[Type]\Bucket[Bucket]
-                While *Item
-                  If *Item <> *Ignore
-                    AutoComplete_AddItem(*Item)
-                  EndIf
-                  *Item = *Item\NextSorted
-                Wend
-              Next Bucket
-            EndIf
-            
-          Else
-            ; other stuff
-            ForEach AutoCompleteModules()
-              For Bucket = 0 To #PARSER_VTSize-1
-                *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type]\Bucket[Bucket]
-                While *Item
-                  If *Item <> *Ignore
-                    AutoComplete_AddItem(*Item)
-                  EndIf
-                  *Item = *Item\NextSorted
-                Wend
-              Next Bucket
-            Next AutoCompleteModules()
-            
+    For Type = 0 To #ITEM_LastSorted
+      If AutocompleteOptions(Type) And Type <> #ITEM_Constant ; constants are separate
+        
+        If Type = #ITEM_DeclareModule
+          ; module names are indexed in the main module
+          ; do not show modules if a prefix:: is provided before the word
+          If SingleModuleOnly = 0
+            RadixEnumeratePrefix(*Parser\MainModule\Indexed[Type], Prefix$, *AutoCompleteItems())
+            ForEach *AutoCompleteItems()
+              If *AutoCompleteItems() <> *Ignore
+                AutoComplete_AddItem(*AutoCompleteItems())
+              EndIf
+            Next *AutoCompleteItems()
           EndIf
-        EndIf
-      Next Type
-      
-    Else
-      ; We now add all items that match the first char, even when
-      ; the exact match option is on, so we just have to lookup the one bucket
-      ; and add all
-      ;
-      For Type = 0 To #ITEM_LastSorted
-        If AutocompleteOptions(Type) And Type <> #ITEM_Constant ; constants are separate
           
-          If Type = #ITEM_DeclareModule
-            ; module names are indexed in the main module
-            ; do not show modules if a prefix:: is provided before the word
-            If SingleModuleOnly = 0
-              *Item.SourceItem = *Parser\MainModule\Indexed[Type]\Bucket[Bucket]
-              While *Item
-                If *Item <> *Ignore
-                  AutoComplete_AddItem(*Item)
-                EndIf
-                *Item = *Item\NextSorted
-              Wend
-            EndIf
-            
-          Else
-            ; other stuff
-            ForEach AutoCompleteModules()
-              *Item.SourceItem = *Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type]\Bucket[Bucket]
-              While *Item
-                If *Item <> *Ignore
-                  AutoComplete_AddItem(*Item)
-                EndIf
-                *Item = *Item\NextSorted
-              Wend
-            Next AutoCompleteModules()
-            
-          EndIf
+        Else
+          ; other stuff
+          ForEach AutoCompleteModules()
+            RadixEnumeratePrefix(*Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type], Prefix$, *AutoCompleteItems())
+            ForEach *AutoCompleteItems()
+              If *AutoCompleteItems() <> *Ignore
+                AutoComplete_AddItem(*AutoCompleteItems())
+              EndIf
+            Next *AutoCompleteItems()
+          Next AutoCompleteModules()
+          
         EndIf
-      Next Type
-      
-    EndIf
+      EndIf
+    Next Type
+
   EndIf
   
 EndProcedure
@@ -336,12 +283,8 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
   ;
   AutocompleteOptions(#ITEM_Declare) = AutocompleteOptions(#ITEM_Procedure)
   
+  Length = Len(WordStart$)
   FirstChar$ = Left(WordStart$, 1)
-  If AutoCompleteCharMatchOnly = 1 And FirstChar$ <> "#" And FirstChar$ <> "*"
-    Length = 1
-  Else  ; for constants, compare the second char!
-    Length = 2
-  EndIf
   
   ; We may not add the SourceItem right under the cursor, so check
   ; if there is one
@@ -378,20 +321,6 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     EndIf
   EndIf
   
-  If AutoCompleteCharMatchOnly = 0 Or SingleModuleOnly
-    ; add all entries in these cases
-    Bucket = -1
-  Else
-    Bucket = GetBucket(@WordStart$) ; for adding sorted stuff
-  EndIf
-  
-  
-  
-  ; Note: Our LinkedList now contains all words that start with the wanted character even if
-  ;   the AutoCompleteCharMatchOnly=2. We will filter this when displaying in the gadget
-  ;   This way the list never needs to be rebuild while the window is open
-  ;   (as the window closes when the first char is erased.)
-  
   ; fill the list:
   ;
   If FirstChar$ = "#" Or WordStart$ = ""  ; constants
@@ -421,18 +350,16 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
       
       If *Context = 0
         ; Normal mode
-        For i = 0 To ConstantListSize-1
-          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ConstantList(i), #PB_String_NoCaseAscii, Length) = #PB_String_Equal
-            AddElement(AutoCompleteList())
-            AutoCompleteList() = ConstantList(i)
-          EndIf
-        Next i
+        If RadixFindRange(ConstantTree, WordStart$, @FirstMatch, @LastMatch)
+          For i = FirstMatch-1 To LastMatch-1 ; Values stored are index+1
+            AutoComplete_AddEntry(ConstantList(i))
+          Next i
+        EndIf
       Else
         ; Context sensitive mode
         ForEach *Context\Constants()
-          If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, PeekI(@*Context\Constants()), #PB_String_NoCaseAscii, Length) = #PB_String_Equal
-            AddElement(AutoCompleteList())
-            AutoCompleteList() = *Context\Constants()
+          If CompareMemoryString(@WordStart$, PeekI(@*Context\Constants()), #PB_String_NoCaseAscii, Length) = #PB_String_Equal
+            AutoComplete_AddEntry(*Context\Constants())
           EndIf
         Next *Context\Constants()
       EndIf
@@ -442,15 +369,15 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     If AutoCompleteOptions(#ITEM_Constant)
       
       ; Add the constants from this source
-      AutoComplete_AddConstantsFromSorted(@*ActiveSource\Parser, Bucket, *CurrentItem, *Context)
+      AutoComplete_AddConstantsFromSorted(@*ActiveSource\Parser, WordStart$, *CurrentItem, *Context)
       
       ; Add constants from project sources
       If AutoCompleteProject And *ActiveSource\ProjectFile
         ForEach ProjectFiles()
           If ProjectFiles()\Source = 0
-            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, Bucket, *CurrentItem, *Contex)
+            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, WordStart$, *CurrentItem, *Contex)
           ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Source\Parser, Bucket, *CurrentItem, *Context)
+            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Source\Parser, WordStart$, *CurrentItem, *Context)
           EndIf
         Next ProjectFiles()
       EndIf
@@ -459,7 +386,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
       If AutoCompleteAllFiles
         ForEach FileList()
           If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
-            AutoComplete_AddConstantsFromSorted(@FileList()\Parser, Bucket, *CurrentItem, *Context)
+            AutoComplete_AddConstantsFromSorted(@FileList()\Parser, WordStart$, *CurrentItem, *Context)
           EndIf
         Next FileList()
         ChangeCurrentElement(FileList(), *ActiveSource) ; important!
@@ -473,72 +400,67 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     
     ; add PB items
     If AutocompletePBOptions(#PBITEM_Keyword) And SingleModuleOnly = #False
-      For i = 1 To #NbBasicKeywords
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @BasicKeywordsReal(i), 1, Length) = 0
-          AddElement(AutoCompleteList())
+      If RadixFindRange(BasicKeywordsTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch To LastMatch ; tree does not store "index+1"
           If AutoCompleteAddSpaces
-            AutoCompleteList() = BasicKeywordsReal(i) + BasicKeywordsSpaces(i)
+            AutoComplete_AddEntry(BasicKeywordsReal(i) + BasicKeywordsSpaces(i))
           Else
-            AutoCompleteList() = BasicKeywordsReal(i)
+            AutoComplete_AddEntry(BasicKeywordsReal(i))
           EndIf
-        EndIf
-      Next i
+        Next i
+      EndIf
     EndIf
     
     If AutocompletePBOptions(#PBITEM_ASMKeyword) And SingleModuleOnly = #False
-      For i = 1 To NbASMKeywords
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @ASMKeywords(i), 1, Length) = 0
-          AddElement(AutoCompleteList())
-          AutoCompleteList() = ASMKeywords(i)
-        EndIf
-      Next i
+      If RadixFindRange(ASMKeywordsTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch To LastMatch ; tree does not store "index+1"
+          AutoComplete_AddEntry(ASMKeywords(i))
+        Next i
+      EndIf
     EndIf
     
     If AutocompletePBOptions(#PBITEM_Function) And SingleModuleOnly = #False
-      For i = 0 To NbBasicFunctions-1
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @BasicFunctions(i)\Name$, 1, Length) = 0
-          AddElement(AutoCompleteList())
+      If RadixFindRange(BasicFunctionsTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch-1 To LastMatch-1 ; tree stores index+1
           If AutoCompleteAddBrackets
             If Left(BasicFunctions(i)\Proto$, 2) = "()"
-              AutoCompleteList() = BasicFunctions(i)\Name$+"()"
+              AutoComplete_AddEntry(BasicFunctions(i)\Name$+"()")
             Else
-              AutoCompleteList() = BasicFunctions(i)\Name$+"("
+              AutoComplete_AddEntry(BasicFunctions(i)\Name$+"(")
             EndIf
           Else
-            AutoCompleteList() = BasicFunctions(i)\Name$
+            AutoComplete_AddEntry(BasicFunctions(i)\Name$)
           EndIf
-        EndIf
-      Next i
+        Next i
+      EndIf
     EndIf
     
     If AutocompletePBOptions(#PBITEM_APIFunction) And SingleModuleOnly = #False
-      For i = 0 To NbApiFunctions-1
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @APIFunctions(i)\Name$, 1, Length) = 0
-          AddElement(AutoCompleteList())
-          AutoCompleteList() = APIFunctions(i)\Name$+"_"
+      If RadixFindRange(APIFunctionsTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch-1 To LastMatch-1 ; tree stores index+1
           If AutoCompleteAddBrackets
-            AutoCompleteList() + "("
+            AutoComplete_AddEntry(APIFunctions(i)\Name$+"_(")
+          Else
+            AutoComplete_AddEntry(APIFunctions(i)\Name$+"_")
           EndIf
-        EndIf
-      Next i
+        Next i
+      EndIf
     EndIf
     
     If AutocompletePBOptions(#PBITEM_Structure) And SingleModuleOnly = #False
-      For i = 0 To StructureListSize-1
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @StructureList(i), 1, Length) = 0
-          AddElement(AutoCompleteList())
-          AutoCompleteList() = StructureList(i)
-        EndIf
-      Next i
+      If RadixFindRange(StructureTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch-1 To LastMatch-1 ; Values stored are index+1
+          AutoComplete_AddEntry(StructureList(i))
+        Next i
+      EndIf
     EndIf
     
     If AutocompletePBOptions(#PBITEM_Interface) And SingleModuleOnly = #False
-      For i = 0 To InterfaceListSize-1
-        If AutoCompleteCharMatchOnly = 0 Or CompareMemoryString(@WordStart$, @InterfaceList(i), 1, Length) = 0
-          AddElement(AutoCompleteList())
-          AutoCompleteList() = InterfaceList(i)
-        EndIf
-      Next i
+      If RadixFindRange(InterfaceTree, WordStart$, @FirstMatch, @LastMatch)
+        For i = FirstMatch-1 To LastMatch-1 ; Values stored are index+1
+          AutoComplete_AddEntry(InterfaceList(i))
+        Next i
+      EndIf
     EndIf
     
     ; Add items from current source (Global scope)
@@ -549,7 +471,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     ; so this should be fast enough
     ;
     SortParserData(@*ActiveSource\Parser, *ActiveSource)
-    AutoComplete_AddFromSorted(@*ActiveSource\Parser, Bucket, *CurrentItem, SingleModuleOnly)
+    AutoComplete_AddFromSorted(@*ActiveSource\Parser, WordStart$, *CurrentItem, SingleModuleOnly)
     
     ; Add items from the current source (local scope)
     ; For this, check backwards to see if there is even a procedure
@@ -638,9 +560,9 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     If AutoCompleteProject And *ActiveSource\ProjectFile
       ForEach ProjectFiles()
         If ProjectFiles()\Source = 0
-          AutoComplete_AddFromSorted(@ProjectFiles()\Parser, Bucket, *CurrentItem, SingleModuleOnly)
+          AutoComplete_AddFromSorted(@ProjectFiles()\Parser, WordStart$, *CurrentItem, SingleModuleOnly)
         ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-          AutoComplete_AddFromSorted(@ProjectFiles()\Source\Parser, Bucket, *CurrentItem, SingleModuleOnly)
+          AutoComplete_AddFromSorted(@ProjectFiles()\Source\Parser, WordStart$, *CurrentItem, SingleModuleOnly)
         EndIf
       Next ProjectFiles()
     EndIf
@@ -649,7 +571,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
     If AutoCompleteAllFiles
       ForEach FileList()
         If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (AutoCompleteProject = 0 Or FileList()\ProjectFile = 0)
-          AutoComplete_AddFromSorted(@FileList()\Parser, Bucket, *CurrentItem, SingleModuleOnly)
+          AutoComplete_AddFromSorted(@FileList()\Parser, WordStart$, *CurrentItem, SingleModuleOnly)
         EndIf
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource) ; important!
@@ -703,40 +625,41 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
     EndIf
     SubItemFound = 0
     
-    ClearList(AutoCompleteList())
+    AutoComplete_Clear()
+    ClearList(AutoCompleteStructure())
     
-    If FindStructure(Type$, AutoCompleteList())
+    If FindStructure(Type$, AutoCompleteStructure())
       
       ; process the items
-      ForEach AutoCompleteList()
-        Select StructureFieldKind(AutoCompleteList())
+      ForEach AutoCompleteStructure()
+        Select StructureFieldKind(AutoCompleteStructure())
           Case "Array": Bracket$ = "("
           Case "List" : Bracket$ = "()"
           Case "Map"  : Bracket$ = "("
           Default
-            If FindString(AutoCompleteList(), "[", 1) ; static array
+            If FindString(AutoCompleteStructure(), "[", 1) ; static array
               Bracket$ = "["
             Else
               Bracket$ = ""
             EndIf
         EndSelect
         
-        Entry$     = StructureFieldName(AutoCompleteList()) ; this cuts any "List " prefix
-        EntryType$ = StructureFieldType(AutoCompleteList())
+        Entry$     = StructureFieldName(AutoCompleteStructure()) ; this cuts any "List " prefix
+        EntryType$ = StructureFieldType(AutoCompleteStructure())
         
         Debug "Entry: " + Entry$
                           
         If CompareMemoryString(@Entry$, @"CompilerIf", #PB_String_NoCaseAscii) = #PB_String_Equal
-          DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
-          Continue                 
+          ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
+          Continue
         ElseIf CompareMemoryString(@Entry$, @"CompilerElseIf", #PB_String_NoCaseAscii) = #PB_String_Equal
-          DeleteElement(AutoCompleteList()) ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
-          Continue                         
+          ; ignore this (https://www.purebasic.fr/english/viewtopic.php?t=59911)
+          Continue
         ElseIf CompareMemoryString(@Entry$, @"StructureUnion", #PB_String_NoCaseAscii) = #PB_String_Equal
-          DeleteElement(AutoCompleteList()) ; ignore this
+          ; ignore this
           Continue
         ElseIf CompareMemoryString(@Entry$, @"EndStructureUnion", #PB_String_NoCaseAscii) = #PB_String_Equal
-          DeleteElement(AutoCompleteList()) ; ignore this
+          ; ignore this
           Continue
         EndIf
         
@@ -750,55 +673,55 @@ Procedure AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem.SourceI
           ; store the processed entry
           If AutoCompleteAddBrackets And IsOffsetOf = 0 ; any brackes in OffsetOf are a syntax error (with structures)
             If Bracket$
-              AutoCompleteList() = Entry$ + Bracket$
+              AutoComplete_AddEntry(Entry$ + Bracket$)
             Else
               *ProtoItem.SourceItem = FindPrototype(EntryType$)
               If *ProtoItem And *ProtoItem\Prototype$
                 If RemoveString(RemoveString(*ProtoItem\Prototype$, " "), Chr(9)) = "()"
-                  AutoCompleteList() = Entry$ + "()"
+                  AutoComplete_AddEntry(Entry$ + "()")
                 Else
-                  AutoCompleteList() = Entry$ + "("
+                  AutoComplete_AddEntry(Entry$ + "(")
                 EndIf
               ElseIf FindStructure(EntryType$, DummyList()) Or FindInterface(EntryType$, DummyList())
-                AutoCompleteList() = Entry$ + "\"
+                AutoComplete_AddEntry(Entry$ + "\")
               Else
-                AutoCompleteList() = Entry$
+                AutoComplete_AddEntry(Entry$)
               EndIf
             EndIf
           Else
-            AutoCompleteList() = Entry$
+            AutoComplete_AddEntry(Entry$)
           EndIf
         EndIf
-      Next AutoCompleteList()
+      Next AutoCompleteStructure()
       
       ; If we get here and SubItem$ is not empty, it means we have a subitem without a match
       ; so do not offer any choices then
       If SubItem$ And SubItemFound = 0
-        ClearList(AutoCompleteList())
+        AutoComplete_Clear()
         ProcedureReturn
       EndIf
       
-    ElseIf FindInterface(Type$, AutoCompleteList())
+    ElseIf FindInterface(Type$, AutoCompleteStructure())
       If Subitem$
         ; Interfaces can have no further nesting
-        ClearList(AutoCompleteList())
+        AutoComplete_Clear()
         ProcedureReturn
       Else
         ; process the items
-        ForEach AutoCompleteList()
-          Entry$ = InterfaceFieldName(AutoCompleteList())
+        ForEach AutoCompleteStructure()
+          Entry$ = InterfaceFieldName(AutoCompleteStructure())
           
           If AutoCompleteAddBrackets
             ; for OffsetOF, we always need a "()", so add that then
-            If IsOffsetOf Or Left(RemoveString(RemoveString(AutoCompleteList(), Chr(9)), " "), 2) = "()"
-              AutoCompleteList() = Entry$ + "()"
+            If IsOffsetOf Or Left(RemoveString(RemoveString(AutoCompleteStructure(), Chr(9)), " "), 2) = "()"
+              AutoComplete_AddEntry(Entry$ + "()")
             Else
-              AutoCompleteList() = Entry$ + "("
+              AutoComplete_AddEntry(Entry$ + "(")
             EndIf
           Else
-            AutoCompleteList() = Entry$
+            AutoComplete_AddEntry(Entry$)
           EndIf
-        Next AutoCompleteList()
+        Next AutoCompleteStructure()
       EndIf
       
     Else
@@ -949,6 +872,7 @@ Procedure OpenAutoCompleteWindow()
       SortParserData(@*ActiveSource\Parser, *ActiveSource)
       
       Column = *ActiveSource\CurrentColumnChars-1
+      AutoComplete_StartColumn = Column
       found = GetWordBoundary(@Line$, Len(Line$), Column, @StartIndex, @EndIndex, 1)
       
       ; This is for normal and structure mode
@@ -1064,9 +988,7 @@ Procedure OpenAutoCompleteWindow()
       Debug "--------------------------------------"
     CompilerEndIf
     
-    ClearList(AutoCompleteList())
-    AutoComplete_Start = 0
-    AutoComplete_End = -1
+    AutoComplete_Clear()
     
     If AutoComplete_IsStructure
       AutoComplete_FillStructured(WordStart$, StructName$, *BaseItem, BaseItemLine)
@@ -1076,148 +998,76 @@ Procedure OpenAutoCompleteWindow()
     
     If AutoComplete_IsStructure Or AutoComplete_IsModule Or WordStart$ <> ""
       
-      If ListSize(AutoCompleteList()) > 0
-        
-        ; NOW we do the sorting ...
-        SortList(AutoCompleteList(), 2)
-        
-        ; cut double values
-        Last$ = ""
-        ForEach AutoCompleteList()
-          ; Note: @List() returns the list element, not string pointer, therefore the PeekI()
-          If CompareMemoryString(@Last$, PeekI(@AutoCompleteList()), 1) = 0
-            DeleteElement(AutoCompleteList())
-          Else
-            Last$ = AutoCompleteList()
-          EndIf
-        Next AutoCompleteList()
-        
-        ; Now we check the charmatch options
-        ; For Options 0 and 1, the list is exactly what must be displayed now,
-        ; for the 2 option we need to filter
-        ;
-        If (AutoComplete_IsStructure Or AutoComplete_IsModule) And AutoCompleteCharMatchOnly = 1 And WordStart$ <> ""
-          ; AutoComplete_FillStructured() and salso the module mode always adds the whole structure, so we must cut some stuff here
-          
-          AutoComplete_Start = -1
-          ResetList(AutoCompleteList())
-          While NextElement(AutoCompleteList())
-            If CompareMemoryString(PeekI(@AutoCompleteList()), @WordStart$, 1, 1) >= 0
-              AutoComplete_Start = ListIndex(AutoCompleteList())
-              Break
-            EndIf
-          Wend
-          
-          AutoComplete_End = -1
-          If AutoComplete_Start <> -1 And LastElement(AutoCompleteList())
-            Repeat
-              If CompareMemoryString(PeekI(@AutoCompleteList()), @WordStart$, 1, 1) <= 0
-                AutoComplete_End = ListIndex(AutoCompleteList())
-                Break
-              EndIf
-            Until Not PreviousElement(AutoCompleteList())
-          EndIf
-          
-        ElseIf AutoCompleteCharMatchOnly <> 2
-          AutoComplete_Start = 0
-          AutoComplete_End = ListSize(AutoCompleteList())-1
-          
-        ElseIf ListSize(AutoCompleteList()) > 0
-          
-          ; find new start and end
-          length = Len(WordStart$)
-          
-          AutoComplete_Start = -1
-          ResetList(AutoCompleteList())
-          While NextElement(AutoCompleteList())
-            If CompareMemoryString(PeekI(@AutoCompleteList()), @WordStart$, 1, length) >= 0
-              AutoComplete_Start = ListIndex(AutoCompleteList())
-              Break
-            EndIf
-          Wend
-          
-          AutoComplete_End = -1
-          If AutoComplete_Start <> -1 And LastElement(AutoCompleteList())
-            Repeat
-              If CompareMemoryString(PeekI(@AutoCompleteList()), @WordStart$, 1, length) <= 0
-                AutoComplete_End = ListIndex(AutoCompleteList())
-                Break
-              EndIf
-            Until Not PreviousElement(AutoCompleteList())
-          EndIf
-          
-        EndIf
+      ; Note:
+      ;   AutoCompleteList() is unsorted And contains duplicates. But *AutoCompleteItems is sorted And has no duplicates
+      ;   Some code does add items with not the exact prefix (structure mode and local variables) so do another fast prefix
+      ;   lookup to fill the actual gadget
+      ;
+      If WordStart$ = ""
+        ; this can happen in structure or module mode
+        RadixEnumerateAll(AutoCompleteTree, *AutoCompleteDisplay())
+      Else
+        RadixEnumeratePrefix(AutoCompleteTree, WordStart$, *AutoCompleteDisplay())
+      EndIf
+
+      If ListSize(*AutoCompleteDisplay()) > 0
         
         ; If there is only one single possible match, and this matches exactly,
         ; then do not open the window
         ;
-        If AutoComplete_Start >= 0 And AutoComplete_Start = AutoComplete_End And WordStart$
-          SelectElement(AutoCompleteList(), AutoComplete_Start)
-          If CompareMemoryString(PeekI(@AutoCompleteList()), @WordStart$, 1) = 0
-            AutoComplete_Start = -1
+        If ListSize(*AutoCompleteDisplay()) = 1 And WordStart$
+          FirstElement(*AutoCompleteDisplay())
+          If CompareMemoryString(*AutoCompleteDisplay(), @WordStart$, 1) = 0
+            AutoCompleteWindowOpen = 0
+            ProcedureReturn
           EndIf
         EndIf
+          
+        CompilerIf #CompileMac
+          ; Note: On OSX we have to re-create the Window every time, as otherwise the key forwarding to the Scintilla stops working.
+          ;   To be further investigated if this causes any further trouble
+          ;
+          CreateAutoCompleteWindow()
+        CompilerEndIf
         
-        If AutoComplete_Start > AutoComplete_End Or AutoComplete_Start < 0  ; if the options are set that nothing was added, do not open the window
-          AutoCompleteWindowOpen = 0
-          
-        Else
-          
-          CompilerIf #CompileMac
-            ; Note: On OSX we have to re-create the Window every time, as otherwise the key forwarding to the Scintilla stops working.
-            ;   To be further investigated if this causes any further trouble
-            ;
-            CreateAutoCompleteWindow()
-          CompilerEndIf
-          
-          ; add items and find the closest item to select
-          ClearGadgetItems(#GADGET_AutoComplete_List)
-          SelectElement(AutoCompleteList(), AutoComplete_Start)
-          
-          Repeat
-            AddGadgetItem(#GADGET_AutoComplete_List, -1, AutoCompleteList())
-          Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
-          
-          CompilerIf #CompileLinuxGtk2
-            ; reset scrolling position on linux for a better look
-            ; (as we never close the window, a horizontal scroll could remain from the last autocomplete)
-            gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
-          CompilerEndIf
-          
-          Width = AutoCompleteWindowWidth
-          Height = AutoCompleteWindowHeight
-          AutoComplete_GetWordPosition(@X, @Y, @Width, @Height)
-          
-          AutoComplete_CurrentMaxWidth  = Width
-          AutoComplete_CurrentMaxHeight = Height
-          
-          ResizeWindow(#WINDOW_AutoComplete, X, Y, Width, Height)
-          ResizeGadget(#GADGET_AutoComplete_List, 0, 0, Width, Height)
-          
-          AutoComplete_AdjustWindowSize(Width, Height)
-          
-          CompilerIf #CompileMacCocoa
-            HideWindow(#WINDOW_AutoComplete, 0, #PB_Window_NoActivate)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Up,     #MENU_AutocompleteUp)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Down,   #MENU_AutocompleteDown)
-            AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Escape, #MENU_AutocompleteEscape)
-          CompilerElse
-            HideWindow(#WINDOW_AutoComplete, 0)
-            SetActiveWindow(#WINDOW_AutoComplete)
-            SetActiveGadget(#GADGET_AutoComplete_List)
-          CompilerEndIf
-          
-          ; set the logical focus to the scintilla (not real focus),
-          ; so the blinking cursor remains visible
-          SendEditorMessage(#SCI_SETFOCUS, 1, 0)
-          
-          ; Update the selected item
-          ; signal that this is the initial open, so we can select the last inserted item in structure or module mode
-          AutoComplete_WordUpdate(#True)
-          AutoCompleteWindowOpen = 1
-          
-        EndIf
+        CompilerIf #CompileLinuxGtk2
+          ; reset scrolling position on linux for a better look
+          ; (as we never close the window, a horizontal scroll could remain from the last autocomplete)
+          gtk_tree_view_scroll_to_point_(GadgetID(#GADGET_AutoComplete_List), 0, -1) ; scroll x=0 and ignore y
+        CompilerEndIf
         
+        Width = AutoCompleteWindowWidth
+        Height = AutoCompleteWindowHeight
+        AutoComplete_GetWordPosition(@X, @Y, @Width, @Height)
+        
+        AutoComplete_CurrentMaxWidth  = Width
+        AutoComplete_CurrentMaxHeight = Height
+        
+        ResizeWindow(#WINDOW_AutoComplete, X, Y, Width, Height)
+        ResizeGadget(#GADGET_AutoComplete_List, 0, 0, Width, Height)
+        
+        AutoComplete_AdjustWindowSize(Width, Height)
+        
+        CompilerIf #CompileMacCocoa
+          HideWindow(#WINDOW_AutoComplete, 0, #PB_Window_NoActivate)
+          AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Up,     #MENU_AutocompleteUp)
+          AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Down,   #MENU_AutocompleteDown)
+          AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Escape, #MENU_AutocompleteEscape)
+        CompilerElse
+          HideWindow(#WINDOW_AutoComplete, 0)
+          SetActiveWindow(#WINDOW_AutoComplete)
+          SetActiveGadget(#GADGET_AutoComplete_List)
+        CompilerEndIf
+        
+        ; set the logical focus to the scintilla (not real focus),
+        ; so the blinking cursor remains visible
+        SendEditorMessage(#SCI_SETFOCUS, 1, 0)
+        
+        ; Update the selected item
+        ; signal that this is the initial open, so we can select the last inserted item in structure or module mode
+        AutoComplete_WordUpdate(#True)
+        AutoCompleteWindowOpen = 1
+
       EndIf
     EndIf
   EndIf
@@ -1470,120 +1320,42 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
   ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And (Word$ = "" Or Word$ = "*" Or Word$ = "#" Or (AutoPopupNormal And Len(Word$) < AutoCompletePopupLength))
     AutoComplete_Close()
     
-  ElseIf AutoCompleteCharMatchOnly = 0 Or (AutoCompleteCharMatchOnly = 1 And AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0)
-    ; If we display the full list, or only words that match the first char,
-    ; the gadget items do never change (except if the word is empty in structure mode), so only update the position
-    ;
-    found = 0
-    ForEach AutoCompleteList()
-      result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
-      
-      If result < 0
-        If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
-          SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList()))
-          found = 1
-        EndIf
-        Break ; if this did not succeed, there are no more matches
-        
-      ElseIf result = 0
-        SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList()))
-        found = 1
-        Break
-      EndIf
-    Next AutoCompleteList()
-    
-    If found = 0
-      AutoComplete_Close()
-    EndIf
+  ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And Column < AutoComplete_StartColumn
+    ; We now have a shorter start word than what is indexed in our current tree... must rebuild it
+    OpenAutoCompleteWindow()
     
   Else
     ; "Only Words that match the typed word" is on, we must find out which
     ; items to display and change the gadget content
     ;
-    OldStart = AutoComplete_Start
-    OldEnd   = AutoComplete_End
-    
     If Word$ = ""
       ; this can happen in structure or module mode
-      AutoComplete_Start = 0
-      AutoComplete_End   = ListSize(AutoCompleteList())
-      
+      RadixEnumerateAll(AutoCompleteTree, *AutoCompleteDisplay())
     Else
-      If (AutoComplete_IsStructure Or AutoComplete_IsModule) And AutoCompleteCharMatchOnly = 1
-        Length = 1 ; for the first-char filtering in structure mode
-      Else
-        Length = Len(Word$)
-      EndIf
-      
-      ; find new start and end
-      AutoComplete_Start = -1
-      ResetList(AutoCompleteList())
-      While NextElement(AutoCompleteList())
-        If CompareMemoryString(PeekI(@AutoCompleteList()), @Word$, 1, Length) >= 0
-          AutoComplete_Start = ListIndex(AutoCompleteList())
-          Break
-        EndIf
-      Wend
-      
-      
-      AutoComplete_End = -1
-      If AutoComplete_Start <> -1 And LastElement(AutoCompleteList())
-        Repeat
-          If CompareMemoryString(PeekI(@AutoCompleteList()), @Word$, 1, Length) <= 0
-            AutoComplete_End = ListIndex(AutoCompleteList())
-            Break
-          EndIf
-        Until Not PreviousElement(AutoCompleteList())
-      EndIf
-    EndIf
-    
-    If AutoComplete_End >= ListSize(AutoCompleteList())
-      AutoComplete_End = ListSize(AutoCompleteList())-1
+      RadixEnumeratePrefix(AutoCompleteTree, Word$, *AutoCompleteDisplay())
     EndIf
     
     ; If there is only one single possible match, and this matches exactly,
     ; then close the autocomplete window
     ;
-    If AutoComplete_Start = AutoComplete_End And AutoComplete_Start <> -1
-      SelectElement(AutoCompleteList(), AutoComplete_Start)
-      If Word$ <> "" And CompareMemoryString(PeekI(@AutoCompleteList()), @Word$, 1) = 0
-        AutoComplete_Start = -1
+    If ListSize(*AutoCompleteDisplay()) = 1
+      FirstElement(*AutoCompleteDisplay())
+      If Word$ <> "" And CompareMemoryString(*AutoCompleteDisplay(), @Word$, 1) = 0
+        AutoComplete_Close()
+        ProcedureReturn
       EndIf
     EndIf
     
-    If AutoComplete_Start > AutoComplete_End Or AutoComplete_Start = -1
+    If ListSize(*AutoCompleteDisplay()) = 0
       ; no more items to display
       AutoComplete_Close()
     Else
       
-      ; add/remove gadget items as needed
-      If OldStart < AutoComplete_Start
-        For i = OldStart+1 To AutoComplete_Start
-          RemoveGadgetItem(#GADGET_AutoComplete_List, 0)
-        Next i
-        AutoComplete_Redraw()
-      ElseIf OldStart > AutoComplete_Start
-        SelectElement(AutoCompleteList(), OldStart-1)
-        Repeat
-          AddGadgetItem(#GADGET_AutoComplete_List, 0, AutoCompleteList())
-        Until ListIndex(AutoCompleteList()) = AutoComplete_Start Or PreviousElement(AutoCompleteList()) = 0
-        AutoComplete_Redraw()
-      EndIf
-      
-      If OldEnd > AutoComplete_End
-        Last = CountGadgetItems(#GADGET_AutoComplete_List)-1
-        For i = AutoComplete_End+1 To OldEnd
-          RemoveGadgetItem(#GADGET_AutoComplete_List, Last)
-          Last-1
-        Next i
-        AutoComplete_Redraw()
-      ElseIf OldEnd < AutoComplete_End
-        SelectElement(AutoCompleteList(), OldEnd+1)
-        Repeat
-          AddGadgetItem(#GADGET_AutoComplete_List, -1, AutoCompleteList())
-        Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
-        AutoComplete_Redraw()
-      EndIf
+      ; update gadget content
+      ClearGadgetItems(#GADGET_AutoComplete_List)
+      ForEach *AutoCompleteDisplay()
+        AddGadgetItem(#GADGET_AutoComplete_List, -1, PeekS(*AutoCompleteDisplay()))
+      Next *AutoCompleteDisplay()
       
       ; call the OS function for dynamic resizing of the window
       ; do this before selecting the item for a correct selection
@@ -1601,13 +1373,13 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         
         found = 0
         If Previous$ <> ""
-          SelectElement(AutoCompleteList(), AutoComplete_Start)
-          Repeat
-            If Previous$ = LCase(AutoCompleteList())
-              SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
+          ForEach *AutoCompleteDisplay()
+            If Previous$ = LCase(PeekS(*AutoCompleteDisplay()))
+              SetGadgetState(#GADGET_AutoComplete_List, ListIndex(*AutoCompleteDisplay()))
               found = 1
+              Break
             EndIf
-          Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
+          Next *AutoCompleteDisplay()
         EndIf
         
         If found = 0
@@ -1618,24 +1390,23 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       Else
         
         ; select best match
-        SelectElement(AutoCompleteList(), AutoComplete_Start)
         found = 0
-        Repeat
-          result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
+        ForEach *AutoCompleteDisplay()
+          result = CompareMemoryString(@Word$, *AutoCompleteDisplay(), 1)
           
           If result < 0
-            If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
-              SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
+            If CompareMemoryString(@Word$, *AutoCompleteDisplay(), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
+              SetGadgetState(#GADGET_AutoComplete_List, ListIndex(*AutoCompleteDisplay()))
               found = 1
             EndIf
             Break  ; if this did not succeed, there are no more items
             
           ElseIf result = 0
-            SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
+            SetGadgetState(#GADGET_AutoComplete_List, ListIndex(*AutoCompleteDisplay()))
             found = 1
             Break
           EndIf
-        Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
+        Next *AutoCompleteDisplay()
         
         If found=0
           AutoComplete_Close()
@@ -1660,4 +1431,4 @@ CompilerIf #SpiderBasic
   XIncludeFile "ConstantsDataSpiderBasic.pbi"
 CompilerElse
   XIncludeFile "ConstantsData.pbi"
-CompilerEndIf 
+CompilerEndIf

@@ -60,6 +60,17 @@ Procedure.s VariableViewer_OptionName(index)
   ProcedureReturn Result$
 EndProcedure
 
+Procedure VariableViewer_AddFromTree(*Node.RadixNode, ModuleName$)
+  Static NewList *SourceItems()
+  
+  RadixEnumerateAll(*ActiveSource\Parser\Modules()\Indexed[Type], *SourceItems())
+  
+  ForEach *SourceItems()
+    *Item.SourceItem = *SourceItems()
+    AddElement(VariableViewerItems())
+    VariableViewerItems() = ModulePrefix(*Item\Name$, ModuleName$)
+  Next *SourceItems()
+EndProcedure
 
 Procedure UpdateVariableViewer()
   
@@ -81,14 +92,7 @@ Procedure UpdateVariableViewer()
       ; add ActiveSource items
       ForEach *ActiveSource\Parser\Modules()
         If Left(MapKey(*ActiveSource\Parser\Modules()), 6) <> "IMPL::"
-          For Bucket = 0 To #PARSER_VTSize-1
-            *Item.SourceItem = *ActiveSource\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
-            While *Item
-              AddElement(VariableViewerItems())
-              VariableViewerItems() = ModulePrefix(*Item\Name$, *ActiveSource\Parser\Modules()\Name$)
-              *Item = *Item\NextSorted
-            Wend
-          Next Bucket
+          VariableViewer_AddFromTree(*ActiveSource\Parser\Modules()\Indexed[Type], *ActiveSource\Parser\Modules()\Name$)
         EndIf
       Next *ActiveSource\Parser\Modules()
       
@@ -97,19 +101,11 @@ Procedure UpdateVariableViewer()
         ForEach ProjectFiles()
           ForEach ProjectFiles()\Parser\Modules()
             If Left(MapKey(ProjectFiles()\Parser\Modules()), 6) <> "IMPL::"
-              For Bucket = 0 To #PARSER_VTSize-1
-                If ProjectFiles()\Source = 0
-                  *Item.SourceItem = ProjectFiles()\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
-                ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-                  *Item.SourceItem = ProjectFiles()\Source\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
-                EndIf
-                
-                While *Item
-                  AddElement(VariableViewerItems())
-                  VariableViewerItems() = ModulePrefix(*Item\Name$, ProjectFiles()\Parser\Modules()\Name$)
-                  *Item = *Item\NextSorted
-                Wend
-              Next Bucket
+              If ProjectFiles()\Source = 0
+                VariableViewer_AddFromTree(ProjectFiles()\Parser\Modules()\Indexed[Type], ProjectFiles()\Parser\Modules()\Name$)
+              ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
+                VariableViewer_AddFromTree(ProjectFiles()\Source\Parser\Modules()\Indexed[Type], ProjectFiles()\Parser\Modules()\Name$)
+              EndIf
             EndIf
           Next ProjectFiles()\Parser\Modules()
         Next ProjectFiles()
@@ -121,14 +117,7 @@ Procedure UpdateVariableViewer()
           If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And (*VariableViewer\ShowProject = 0 Or FileList()\ProjectFile = 0)
             ForEach FileList()\Parser\Modules()
               If Left(MapKey(FileList()\Parser\Modules()), 6) <> "IMPL::"
-                For Bucket = 0 To #PARSER_VTSize-1
-                  *Item.SourceItem = FileList()\Parser\Modules()\Indexed[Type]\Bucket[Bucket]
-                  While *Item
-                    AddElement(VariableViewerItems())
-                    VariableViewerItems() = ModulePrefix(*Item\Name$, FileList()\Parser\Modules()\Name$)
-                    *Item = *Item\NextSorted
-                  Wend
-                Next Bucket
+                VariableViewer_AddFromTree(FileList()\Parser\Modules()\Indexed[Type], FileList()\Parser\Modules()\Name$)
               EndIf
             Next FileList()\Parser\Modules()
           EndIf

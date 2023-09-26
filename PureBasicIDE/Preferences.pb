@@ -807,7 +807,6 @@ Procedure LoadPreferences()
   
   ;- - AutoComplete
   PreferenceGroup("AutoComplete")
-  AutoCompleteCharMatchOnly   = ReadPreferenceLong("CharMatchOnly",      2) ; 0=list all, 1=list those matching 1st char, 2=list only matching all word
   AutoCompleteAddBrackets     = ReadPreferenceLong("AddBrackets",        0)
   AutoCompleteAddSpaces       = ReadPreferenceLong("AddSpaces",          0)
   AutoCompleteAddEndKeywords  = ReadPreferenceLong("AddEndKeyWords",     0)
@@ -1524,7 +1523,6 @@ Procedure SavePreferences()
     ;- - AutoComplete
     PreferenceComment("")
     PreferenceGroup("AutoComplete")
-    WritePreferenceLong  ("CharMatchOnly",      AutoCompleteCharMatchOnly)
     WritePreferenceLong  ("AddBrackets",        AutoCompleteAddBrackets)
     WritePreferenceLong  ("AddSpaces",          AutoCompleteAddSpaces)
     WritePreferenceLong  ("AddEndKeywords",     AutoCompleteAddEndKeywords)
@@ -1909,18 +1907,6 @@ Procedure IsPreferenceChanged()
   If DebugOutFontSize   <> PreferenceDebugOutFontSize: ProcedureReturn 1: EndIf
   If DebugOutFontStyle  <> PreferenceDebugOutFontStyle: ProcedureReturn 1: EndIf
   If Val(GetGadgetText(#GADGET_Preferences_DebuggerTimeout)) <> DebuggerTimeout: ProcedureReturn 1: EndIf
-  
-  If GetGadgetState(#GADGET_Preferences_CharMatch1)
-    CharMatchOnly = 0
-  ElseIf GetGadgetState(#GADGET_Preferences_CharMatch2)
-    CharMatchOnly = 1
-  Else
-    CharMatchOnly = 2
-  EndIf
-  
-  If CharMatchOnly <> AutoCompleteCharMatchOnly
-    ProcedureReturn 1
-  EndIf
   
   For i = 0 To #ITEM_LastOption
     If GetGadgetItemState(#GADGET_Preferences_CodeOptions, i) & #PB_ListIcon_Checked
@@ -2330,14 +2316,6 @@ Procedure ApplyPreferences()
   ; to know if we need to restart the compiler (for language change)
   OldLanguage$     = CurrentLanguage$
   CurrentLanguage$ = GetGadgetText(#GADGET_Preferences_Languages)
-  
-  If GetGadgetState(#GADGET_Preferences_CharMatch1)
-    AutoCompleteCharMatchOnly = 0
-  ElseIf GetGadgetState(#GADGET_Preferences_CharMatch2)
-    AutoCompleteCharMatchOnly = 1
-  Else
-    AutoCompleteCharMatchOnly = 2
-  EndIf
   
   For i = 0 To #ITEM_LastOption
     If GetGadgetItemState(#GADGET_Preferences_CodeOptions, i) & #PB_ListIcon_Checked
@@ -3082,7 +3060,6 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_AddSpaces, AutoCompleteAddSpaces)
   SetGadgetState(#GADGET_Preferences_AddEndKeywords, AutoCompleteAddEndKeywords)
   SetGadgetState(#GADGET_Preferences_AutoPopup, AutoPopupNormal)
-  SetGadgetState(#GADGET_Preferences_CharMatch1+AutoCompleteCharMatchOnly, 1)
   ;  SetGadgetState(#GADGET_Preferences_NoComments, AutoCompleteNoComments)
   ;  SetGadgetState(#GADGET_Preferences_NoStrings, AutoCompleteNoStrings)
   SetGadgetState(#GADGET_Preferences_StructureItems, AutoPopupStructures)

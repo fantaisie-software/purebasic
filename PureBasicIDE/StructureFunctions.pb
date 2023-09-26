@@ -575,26 +575,13 @@ EndProcedure
 ;
 Procedure FindStructureInterfaceFromSource(*Source.SourceFile, Name$, ModuleName$, Type, List Output.s(), Recursion)
   Success = #False
-  Bucket = GetBucket(@Name$)
-  
-  ; walk all Structures or interfaces in this source
-  *Item.SourceItem = *Source\Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-  While *Item
-    If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-      Break
-    EndIf
-    *Item = *Item\NextSorted
-  Wend
+
+  ; lookup in the source
+  *Item.SourceItem = RadixLookupValue(*Source\Parser\Modules(UCase(ModuleName$))\Indexed[Type], Name$)
   
   ; check also the module body (if any)
   If *Item = 0 And ModuleName$ <> ""
-    *Item.SourceItem = *Source\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-    While *Item
-      If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-        Break
-      EndIf
-      *Item = *Item\NextSorted
-    Wend
+    *Item.SourceItem = RadixLookupValue(*Source\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type], Name$)
   EndIf
   
   If *Item
@@ -689,59 +676,48 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
   ; Check predefined structures (only if there is a loaded compiler)
   ; This is not needed if a module prefix is given
   If CompilerReady And ModuleName$ = ""
-    c = Asc(UCase(Left(Name$, 1)))
-    If c = '_'
-      c = 27
-    ElseIf c >= 'A' And c <= 'Z'
-      c - 'A' + 1
-    Else
-      c = 0
-    EndIf
     
     If Type = #ITEM_Structure
-      For i = StructureHT(c, 0) To StructureHT(c, 1) ; will be "0 To -1" if no entry
-        If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCaseAscii) = #PB_String_Equal
+      If RadixLookupValue(StructureTree, Name$)
+        
+        ; Request structure content
+        ForceDefaultCompiler()
+        CompilerWrite("STRUCTURE"+Chr(9)+Trim(Name$))
+        Repeat
+          Response$ = CompilerRead()
           
-          ; Request structure content
-          ForceDefaultCompiler()
-          CompilerWrite("STRUCTURE"+Chr(9)+Trim(Name$))
-          Repeat
-            Response$ = CompilerRead()
-            
-            If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
-              Break
-            Else
-              AddElement(Output())
-              Output() = Response$
-            EndIf
-          ForEver
-          ProcedureReturn #True
-          
-        EndIf
-      Next i
+          If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
+            Break
+          Else
+            AddElement(Output())
+            Output() = Response$
+          EndIf
+        ForEver
+        ProcedureReturn #True
+        
+      EndIf
       
     Else
-      For i = InterfaceHT(c, 0) To InterfaceHT(c, 1)
-        If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCaseAscii) = #PB_String_Equal
+      If RadixLookupValue(InterfaceTree, Name$)
+        
+        ; Request structure content
+        ForceDefaultCompiler()
+        CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
+        Repeat
+          Response$ = CompilerRead()
           
-          ; Request structure content
-          ForceDefaultCompiler()
-          CompilerWrite("INTERFACE"+Chr(9)+Trim(Name$))
-          Repeat
-            Response$ = CompilerRead()
-            
-            If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
-              Break
-            Else
-              AddElement(Output())
-              Output() = Response$
-            EndIf
-          ForEver
-          ProcedureReturn #True
-          
-        EndIf
-      Next i
-      
+          If Response$ = "OUTPUT"+Chr(9)+"COMPLETE"
+            Break
+          Else
+            AddElement(Output())
+            Output() = Response$
+          EndIf
+        ForEver
+        ProcedureReturn #True
+
+        
+      EndIf
+
     EndIf
     
   EndIf
@@ -779,30 +755,16 @@ Procedure FindStructureInterface(Name$, Type, List Output.s(), Recursion)
   ; Check all project files that are not open
   ; These should have the Structure content as a Chr(10) separated list in the SourceItem
   ;
-  Bucket = GetBucket(@Name$)
-  
   If AutoCompleteProject And *ActiveSource\ProjectFile
     Current = ListIndex(ProjectFiles())
     ForEach ProjectFiles()
       If ProjectFiles()\Source = 0
-        ; walk all Structures in this source
-        *Item.SourceItem = ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-        While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-            Break
-          EndIf
-          *Item = *Item\NextSorted
-        Wend
+        ; lookup in the source
+        *Item.SourceItem = RadixLookupValue(ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Indexed[Type], Name$)
         
         ; check also the module impl
         If *Item = 0 And ModuleName$ <> ""
-          *Item.SourceItem = ProjectFiles()\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-          While *Item
-            If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-              Break
-            EndIf
-            *Item = *Item\NextSorted
-          Wend
+          *Item.SourceItem = RadixLookupValue(ProjectFiles()\Parser\Modules("IMPL::" + UCase(ModuleName$))\Indexed[Type], Name$)
         EndIf
         
         If *Item
@@ -898,9 +860,7 @@ Procedure.s InterfaceFieldName(Entry$)
 EndProcedure
 
 Procedure FindPrototypeInModule(Name$, ModuleName$)
-  
-  Bucket = GetBucket(@Name$)
-  
+
   ; check all open files that are included in autocomplete listing
   ; All files have sorted data now (as we just sorted the active source above)
   
@@ -910,15 +870,13 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
   ForEach FileList()
     If @FileList() <> *ProjectInfo
       If AutoCompleteAllFiles Or @FileList() = *ActiveSource Or (AutoCompleteProject And *ActiveSource\ProjectFile And FileList()\ProjectFile)
-        ; walk all Structures or interfaces in this source
-        *Item.SourceItem = FileList()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes[Bucket]
-        While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-            ChangeCurrentElement(FileList(), *ActiveSource) ; important
-            ProcedureReturn *Item
-          EndIf
-          *Item = *Item\NextSorted
-        Wend
+
+        *Item.SourceItem = RadixLookupValue(FileList()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes, Name$)
+        If *Item
+          ChangeCurrentElement(FileList(), *ActiveSource) ; important
+          ProcedureReturn *Item
+        EndIf
+        
       EndIf
     EndIf
   Next FileList()
@@ -932,13 +890,10 @@ Procedure FindPrototypeInModule(Name$, ModuleName$)
     ForEach ProjectFiles()
       If ProjectFiles()\Source = 0
         ; walk all Structures in this source
-        *Item.SourceItem = ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes[Bucket]
-        While *Item
-          If CompareMemoryString(@Name$, @*Item\Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
-            ProcedureReturn *Item
-          EndIf
-          *Item = *Item\NextSorted
-        Wend
+        *Item.SourceItem = RadixLookupValue(ProjectFiles()\Parser\Modules(UCase(ModuleName$))\Sorted\Prototypes, Name$)
+        If *Item
+          ProcedureReturn *Item
+        EndIf
       EndIf
     Next ProjectFiles()
     SelectElement(ProjectFiles(), Current)

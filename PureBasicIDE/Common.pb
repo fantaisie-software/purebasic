@@ -365,9 +365,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_EnableKeywordMatch
   #GADGET_Preferences_SelectFont
   #GADGET_Preferences_CurrentFont
-  #GADGET_Preferences_CharMatch1
-  #GADGET_Preferences_CharMatch2
-  #GADGET_Preferences_CharMatch3
   #GADGET_Preferences_BoxWidth
   #GADGET_Preferences_BoxHeight
   #GADGET_Preferences_AutoPopup
@@ -1764,7 +1761,7 @@ Structure SourceItem
   *Next.SourceItem       ; Linked list per Source Line
   *Previous.SourceItem
   
-  *NextSorted.SourceItem ; (single) Linked list per sorted code data
+  *NextSorted.SourceItem ; TODO: Only used by ParserData.SortedIssues anymore. To be removed
   SortedLine.l           ; line number (only valid for sorted code items!)
   
   Type.w
@@ -1794,10 +1791,19 @@ Structure SourceItem
   EndStructureUnion
 EndStructure
 
+Structure RadixNode
+  Chars$            ; Incoming prefix for this node (stored in uppercase)
+  *Child.RadixNode  ; First child node (if any)
+  *Next.RadixNode   ; Next sibling node in same parent (single linked list, sorted by prefix)
+  *Value            ; Stored value or null
+EndStructure
+
+Structure RadixTree
+  *Node             ; First child of the root node (other children are under Child\Next). Null for an empty tree
+EndStructure
+
 ; special scope value (in addition to the debugger ones)
 #SCOPE_UNKNOWN = -1
-
-#PARSER_VTSize = 27   ; number of indexed entries per sorted array
 
 ; To represent a SourcItem with its associated line number
 ;
@@ -1806,28 +1812,24 @@ Structure SourceItemPair
   Line.l
 EndStructure
 
-Structure IndexedData
-  *Bucket.SourceItem[#PARSER_VTSize]
-EndStructure
-
 Structure SortedData
-  *Variables.SourceItem[#PARSER_VTSize]
-  *Arrays.SourceItem[#PARSER_VTSize]
-  *LinkedLists.SourceItem[#PARSER_VTSize]
-  *Maps.SourceItem[#PARSER_VTSize]
-  *Procedures.SourceItem[#PARSER_VTSize]
-  *Macros.SourceItem[#PARSER_VTSize]
-  *Imports.SourceItem[#PARSER_VTSize]
-  *Constants.SourceItem[#PARSER_VTSize]
-  *Modules.SourceItem[#PARSER_VTSize]
-  *Prototypes.SourceItem[#PARSER_VTSize]
-  *Structures.SourceItem[#PARSER_VTSize]
-  *Interfaces.SourceItem[#PARSER_VTSize]
-  *Labels.SourceItem[#PARSER_VTSize]
-  *Declares.SourceItem[#PARSER_VTSize]
+  Variables.RadixTree
+  Arrays.RadixTree
+  LinkedLists.RadixTree
+  Maps.RadixTree
+  Procedures.RadixTree
+  Macros.RadixTree
+  Imports.RadixTree
+  Constants.RadixTree
+  Modules.RadixTree
+  Prototypes.RadixTree
+  Structures.RadixTree
+  Interfaces.RadixTree
+  Labels.RadixTree
+  Declares.RadixTree
 EndStructure
 
-CompilerIf SizeOf(SortedData) <> (SizeOf(IndexedData) * (#ITEM_LastSorted+1))
+CompilerIf SizeOf(SortedData) <> (SizeOf(RadixTree) * (#ITEM_LastSorted+1))
   CompilerError "Parser Structures out of sync with constants"
 CompilerEndIf
 
@@ -1846,8 +1848,8 @@ EndStructure
 Structure SortedModule
   Name$ ; module name in proper case (without and "IMPL::" prefix)
   StructureUnion
-    Indexed.IndexedData[#ITEM_LastSorted+1] ; indexed access per #ITEM_...
-    Sorted.SortedData                       ; named access per \Arrays[x]
+    Indexed.RadixTree[#ITEM_LastSorted+1]   ; indexed access per #ITEM_...
+    Sorted.SortedData                       ; named access per \Arrays
   EndStructureUnion
 EndStructure
 
@@ -1870,7 +1872,7 @@ Structure ParserData
   ;
   SortedValid.l
   Map Modules.SortedModule()
-  *MainModule.SortedModule ; points inside the Modules() map
+  *MainModule.SortedModule         ; points inside the Modules() map
   
   ; The Issues are not sorted by name, but simply by line for fast access
   ; Note that we still use the *NextSorted and SortedLine fields for this list
@@ -2636,7 +2638,7 @@ Global AddTools_RunFileViewer, AddHelpFiles_Count, AddTools_ExecutableName$
 Global CurrentTheme$, CodeFileExtensions$
 
 Global AutoCompleteAddBrackets, AutoCompleteAddSpaces, AutoCompleteAddEndKeywords
-Global AutoCompleteCharMatchOnly, AutoCompleteWindowWidth
+Global AutoCompleteWindowWidth
 Global AutoCompleteWindowHeight, AutoCompleteWindowOpen, AutoCompleteKeywordInserted
 Global AutoCompleteNoStrings, AutoCompleteNoComments, AutoCompletePopupLength
 Global AutoCompleteProject, AutoCompleteAllFiles
