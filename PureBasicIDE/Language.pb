@@ -806,6 +806,7 @@ DataSection
   Data$ "EnableBraceMatch", "Enable marking of matching Braces"
   Data$ "EnableKeywordMatch","Enable marking of matching Keywords"
   Data$ "EnableLineNumbers","Display Line numbers"
+  Data$ "EnableAccessibility","Enable accessibility features"
   Data$ "EnableMarkers",    "Enable Line Markers"
   Data$ "ExtraWordChars",   "Extra characters included in word selection"
   Data$ "SelectFont",       "Select Font"

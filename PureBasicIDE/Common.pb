@@ -357,6 +357,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_EnableCaseCorrection
   #GADGET_Preferences_EnableLineNumbers
   ;  #GADGET_Preferences_EnableMarkers
+  #GADGET_Preferences_EnableAccessibility
   #GADGET_Preferences_ExtraWordChars
   #GADGET_Preferences_ShowWhiteSpace
   #GADGET_Preferences_ShowIndentGuides
@@ -2630,7 +2631,7 @@ Global *ModuleColor, *BadEscapeColor
 Global *MainMenu, *MainToolbar, *MainStatusBar, *ActiveSource.SourceFile, CompilerReady, *DebuggerMenuItem, *ErrorLogMenuItem
 Global ExplorerMode, ExplorerPattern, ExplorerPatternStrings$, ExplorerSavePath, ExplorerShowHidden, ExplorerSplitter
 Global FilesHistorySize, DisplayedRecentFiles, DisplayedRecentProjects, CompilerReady, CompilerBusy
-Global EnableLineNumbers, EnableMarkers
+Global EnableLineNumbers, EnableMarkers, EnableAccessibility
 Global AddTools_CompiledFile$, AddTools_PatternStrings$, AddTools_File$
 Global AddTools_RunFileViewer, AddHelpFiles_Count, AddTools_ExecutableName$
 Global CurrentTheme$, CodeFileExtensions$
