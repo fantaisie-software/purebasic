@@ -2049,6 +2049,7 @@ DataSection
   Data$ "ToolbarError",     "Could not find Toolbar Icon"
   Data$ "AutomationTimeout","An Automation client failed to respond to communication.%newline%The connection will be terminated."
   Data$ "Welcome",          "Welcome aboard !"
+  Data$ "AskScreenReader",  "A Screen Reader software was detected. Do you wish to enable accessibility features?%newline%%newline%(You can change this option later under File - Preferences - General)"
   
   Data$ "ImageManagerTitle","Image Manager"
   

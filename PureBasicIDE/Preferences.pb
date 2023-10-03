@@ -110,6 +110,7 @@ Procedure LoadPreferences()
   UpdateCheckVersions         = ReadPreferenceLong  ("UpdateCheckVersions", #UPDATE_Version_Final)
   LastUpdateCheck             = ReadPreferenceLong  ("LastUpdateCheck", 0)
   EnableMenuIcons             = ReadPreferenceLong  ("EnableMenuIcons", 1)
+  ScreenReaderChecked         = ReadPreferenceLong  ("ScreenReaderChecked", 0)
   
   ; Force a default starting zoom
   CurrentZoom = #ZOOM_Default
@@ -1111,6 +1112,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("UpdateCheckInterval",  UpdateCheckInterval)
     WritePreferenceLong  ("UpdateCheckVersions",  UpdateCheckVersions)
     WritePreferenceLong  ("LastUpdateCheck",      LastUpdateCheck)
+    WritePreferenceLong  ("ScreenReaderChecked",  ScreenReaderChecked)
     
     ;- - Editor
     PreferenceComment("")
@@ -5915,6 +5917,7 @@ DataSection
   
   
   Data$ "Accessibility"
+AccessibilityColorScheme:
   Data.l 0        ;  ToolsPanelFrontColor
   Data.l $FFFFFF  ;  ToolsPanelBackColor
   Data.l $000000  ; #COLOR_ASMKeyword

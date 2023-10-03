@@ -518,6 +518,8 @@ CompilerIf #Demo
   FlushEvents()
 CompilerEndIf
 
+StartupCheckScreenReader()
+
 AddTools_Execute(#TRIGGER_EditorStart, 0)
 
 ;MessageRequester("startup time", Str(ElapsedMilliseconds()-__time))

@@ -62,7 +62,6 @@ CompilerIf #CompileWindows
   EndProcedure
   
   
-  
   Procedure OSStartupCode()
     Shared DontCreateExtensions
     
@@ -835,5 +834,27 @@ CompilerIf #CompileWindows
     ProcedureReturn Result
   EndProcedure
   
+  Procedure IsScreenReaderActive()
+    
+    ; Detect screen readers that properly announce their presence
+    ;
+    IsActive = 0
+    If SystemParametersInfo_(#SPI_GETSCREENREADER, 0, @IsActive, 0)
+      If IsActive
+        ProcedureReturn #True
+      EndIf
+    EndIf
+    
+    ; Special case for the "Narrator" reader included in Windows which does not use the above setting
+    ; (this is not documented)
+    ;
+    hMutex = OpenMutex_(#SYNCHRONIZE, #False, @"NarratorRunning")
+    If hMutex
+      CloseHandle_(hMutex)
+      ProcedureReturn #True
+    EndIf
+
+    ProcedureReturn #False
+  EndProcedure
   
 CompilerEndIf

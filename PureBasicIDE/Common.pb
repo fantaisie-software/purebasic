@@ -2543,6 +2543,7 @@ Global CurrentZoom, SynchronizingZoom
 Global ExtraWordChars$
 Global UseTabIndentForSplittedLines
 Global NbSchemes
+Global ScreenReaderChecked
 
 ; Dialog Window data
 ;
