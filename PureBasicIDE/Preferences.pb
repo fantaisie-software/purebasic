@@ -171,6 +171,8 @@ Procedure LoadPreferences()
     ; NOTE: The Accessibility color scheme uses -1 here to indicate that the syscolors
     ; should always be used.
     ;
+    ; If EnableAccessibility is set then it also forces the sys colors
+    ;
     Colors(#COLOR_Selection)\UserValue      = GetSysColor_(#COLOR_HIGHLIGHT)
     Colors(#COLOR_SelectionFront)\UserValue = GetSysColor_(#COLOR_HIGHLIGHTTEXT)
   CompilerEndIf
@@ -1773,6 +1775,7 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
+  If EnableAccessibility   <> GetGadgetState(#GADGET_Preferences_EnableAccessibility): ProcedureReturn 1: EndIf
   CompilerIf #CompileMac
     If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
   CompilerEndIf
@@ -1801,7 +1804,6 @@ Procedure IsPreferenceChanged()
   If SourcePath$           <> GetGadgetText(#GADGET_Preferences_SourcePath): ProcedureReturn 1: EndIf
   If FilesHistorySize      <> Val(GetGadgetText(#GADGET_Preferences_FileHistorySize)): ProcedureReturn 1: EndIf
   If EnableLineNumbers     <> GetGadgetState(#GADGET_Preferences_EnableLineNumbers): ProcedureReturn 1: EndIf
-  If EnableAccessibility   <> GetGadgetState(#GADGET_Preferences_EnableAccessibility): ProcedureReturn 1: EndIf
   ;  If EnableMarkers         <> GetGadgetState(#GADGET_Preferences_EnableMarkers): ProcedureReturn 1: EndIf
   If ExtraWordChars$       <> GetGadgetText(#GADGET_Preferences_ExtraWordChars) : ProcedureReturn 1 : EndIf
   If ShowWhiteSpace        <> GetGadgetState(#GADGET_Preferences_ShowWhiteSpace): ProcedureReturn 1: EndIf
@@ -2142,6 +2144,7 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
+  EnableAccessibility   = GetGadgetState(#GADGET_Preferences_EnableAccessibility)
   CompilerIf #CompileMac
     DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
   CompilerEndIf
@@ -2191,7 +2194,6 @@ Procedure ApplyPreferences()
   SourcePath$           = GetGadgetText(#GADGET_Preferences_SourcePath)
   FilesHistorySize      = Val(GetGadgetText(#GADGET_Preferences_FileHistorySize))
   EnableLineNumbers     = GetGadgetState(#GADGET_Preferences_EnableLineNumbers)
-  EnableAccessibility   = GetGadgetState(#GADGET_Preferences_EnableAccessibility)
   ;  EnableMarkers         = GetGadgetState(#GADGET_Preferences_EnableMarkers)
   ExtraWordChars$       = GetGadgetText(#GADGET_Preferences_ExtraWordChars)
   ShowWhiteSpace        = GetGadgetState(#GADGET_Preferences_ShowWhiteSpace)
@@ -2817,6 +2819,8 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
+  SetGadgetState(#GADGET_Preferences_EnableAccessibility, EnableAccessibility)
+  
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
   CompilerEndIf
@@ -2890,6 +2894,10 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_EnableMenuIcons, EnableMenuIcons)
   SetGadgetState(#GADGET_Preferences_ShowMainToolbar, ShowMainToolbar)
   
+  If EnableAccessibility
+    DisableGadget(#GADGET_Preferences_EnableMenuIcons, #True) ; forced off in accessibility mode
+  EndIf
+  
   ;- --> Toolbar
   ;
   PreferenceToolbarCount = ToolbarItemCount
@@ -2952,7 +2960,6 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_EnableBolding, EnableKeywordBolding)
   SetGadgetState(#GADGET_Preferences_EnableCaseCorrection, EnableCaseCorrection)
   SetGadgetState(#GADGET_Preferences_EnableLineNumbers, EnableLineNumbers)
-  SetGadgetState(#GADGET_Preferences_EnableAccessibility, EnableAccessibility)
   ;  SetGadgetState(#GADGET_Preferences_EnableMarkers, EnableMarkers)
   SetGadgetState(#GADGET_Preferences_EnableBraceMatch, EnableBraceMatch)
   SetGadgetState(#GADGET_Preferences_EnableKeywordMatch, EnableKeywordMatch)
@@ -4450,6 +4457,15 @@ Procedure PreferencesWindowEvents(EventID)
         EndIf
         SetActiveGadget(#GADGET_Preferences_Tree)
         PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
+      Case #GADGET_Preferences_EnableAccessibility
+        ; disable the menu icons setting (force it to off) if this is enabled
+        If GetGadgetState(#GADGET_Preferences_EnableAccessibility)
+          SetGadgetState(#GADGET_Preferences_EnableMenuIcons, 0)
+          DisableGadget(#GADGET_Preferences_EnableMenuIcons, #True)
+        Else
+          DisableGadget(#GADGET_Preferences_EnableMenuIcons, #False)
+        EndIf
         
       Case #GADGET_Preferences_EnableHistory
         Enabled = GetGadgetState(#GADGET_Preferences_EnableHistory)
