@@ -57,6 +57,7 @@
 @Description
   Gibt die mit dem angegebenen asynchronen Download, der entweder mit @@ReceiveHTTPFile
   oder @@ReceiveHTTPMemory gestartet wurde, verknüpften Ressourcen frei.
+  Dies muss immer nach einem erfolgreichen Aufruf von @@ReceiveHTTPFile bzw. @@ReceiveHTTPMemory aufgerufen werden.
 
 @Parameter "HttpVerbindung"
   Die zu beendende Http-Verbindung.
@@ -479,15 +480,17 @@
 @Remarks
   Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
   Linux-Distributionen haben es bereits standardmäßig installiert).
-
+  @LineBreak
+  Wenn die Remote-Datei nicht gefunden wurde, enthält sie den Webserver-Fehler.
+  
 @Example
 @Code
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
-  If ReceiveHTTPFile("http://www.purebasic.com/index.php3", Filename$)
-    Debug "Success"
+  If ReceiveHTTPFile("https://www.purebasic.com/index.php", Filename$)
+    Debug "Datei empfangen und auf Disk geschrieben. Wenn die Remote-Datei nicht gefunden wurde, enthält sie den Webserver-Fehler."
   Else
-    Debug "Failed"
+    Debug "Keine Datei empfangen (Netzwerk-Fehler).
   EndIf
 @EndCode
 

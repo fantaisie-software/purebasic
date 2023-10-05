@@ -661,14 +661,14 @@
 @LineBreak
 @LineBreak
 
-@Bold "Zugehöriges 'End'-Schlüsselwort hinzufügen, wenn 2x Tab/Enter gedrückt wird"
+@Bold "Zugehöriges 'End'-Schlüsselwort hinzufügen, wenn das Einfügen-Tastenkürzel 2x gedrückt wird"
 @LineBreak
-  Wenn Sie Tab oder Enter zweimal drücken, wird das zugehörige End-Schlüsselwort
-  (zum Beispiel "EndSelect" zu "Select" oder "EndIf" zu "If") zum gerade von Ihnen
-  eingefügten Schlüsselwort hinzugefügt. Das End-Schlüsselwort wird nach dem
-  Cursor eingefügt, weshalb Sie nach dem zuerst eingefügten Schlüsselwort die 
-  Eingabe fortsetzen können.
-
+  Wenn das ausgewählte Schlüsselwort ein zugehöriges End-Schlüsselwort hat, zum Beispiel
+  "EndSelect" zu "Select" oder "EndIf" zu "If", kann das Einfügen-Tastenkürzel (Standard =
+  Tabulatortaste) ein zweites Mal gedrückt werden, um diesen Text automatisch ebenfalls
+  hinzuzufügen. Das End-Schlüsselwort wird nach dem Cursor eingefügt, sodass Sie nach dem
+  ersten eingefügten Schlüsselwort mit der Eingabe fortfahren können.
+  
 @LineBreak
 @LineBreak
 
@@ -789,7 +789,31 @@
     Ein regulärer Ausdruck, welcher das Muster ("Pattern") für das Problem definiert.
     Dieser reguläre Ausdruck wird auf alle Kommentare im Quellcode angewandt. Jede
     Übereinstimmung des Ausdrucks gilt als Übereinstimmung mit dem Problem-Typ.
+  @LineBreak
+    Zwei optionale Namens-Gruppen (benannt "display" und "mark") können in den regulären
+    Ausdruck eingefügt werden, um zu steuern, welcher Teil der Übereinstimmung hervorgehoben ("mark")
+    und welcher Teil im Tool angezeigt ("display") wird. 
+  @LineBreak
+  @LineBreak
+    Beispiel: Das Standard TODO Muster, zeigt jedoch nur den Teil nach dem TODO im Tool an
+  @LineBreak
+  @LineBreak
+  @FixedFont
+    \bTODO\b(?<display>.*)
+  @EndFixedFont
   
+    Beispiel: Finde alles in {}, aber markiere nur den inneren Teil (zeigt die vollständige
+	Übereinstimmung im Tool an)
+  @LineBreak
+  @LineBreak
+  @FixedFont
+    {(?<mark>.*)}
+  @EndFixedFont
+
+  Für die vollständige Kontrolle können beide Namens-Gruppen auch in einem einzigen regulären
+  Ausdruck verwendet werden. Wenn im regulären Ausdruck keine Gruppen mit diesen Namen vorhanden
+  sind, wird die vollständige Übereinstimmung verwendet.
+    
   @LineBreak
   @LineBreak
   

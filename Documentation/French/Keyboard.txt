@@ -59,21 +59,22 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = ExamineKeyboard()
+@Function ExamineKeyboard()
 
 @Description
   Met à jour l'état du clavier. 
 
 @NoParameters  
 
-@ReturnValue
-  Renvoie une valeur non nulle si l'état 
-  du clavier a changé, zéro sinon.
+@NoReturnValue
   
 @Remarks
-  Cette fonction doit être appelée avant 
-  d'utiliser les commandes @@KeyboardInkey, 
-  @@KeyboardPushed et @@KeyboardReleased.
+  Cette fonction doit être appelée avant d'utiliser les commandes @@KeyboardInkey, @@KeyboardPushed et @@KeyboardReleased.
+@LineBreak
+@LineBreak
+  En @Link "Screen/OpenScreen" "mode plein écran", la commande @@FlipBuffers doit être appelée dans la boucle d'événements pour gérer 
+  correctement tous les événements.
+
 
 @SeeAlso
   @@InitKeyboard, @@KeyboardMode, @@KeyboardInkey, 

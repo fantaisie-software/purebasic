@@ -2198,6 +2198,9 @@
   - Das übergeordnete Gadget (@@ContainerGadget, @@PanelGadget etc.) wird freigegeben.
   @LineBreak
   - Das Programm endet.
+@LineBreak
+@LineBreak
+  Verknüpfte Ereignisse (mittels @@BindEvent) werden beim Freigeben des Gadgets automatisch aufgelöst.
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -3375,7 +3378,7 @@
   @#PB_ListIcon_ThreeState          : Die Checkboxen können einen "Dazwischen"-Status haben.
   @#PB_ListIcon_MultiSelect         : Schaltet die Mehrfach-Selektion ein.
   @#PB_ListIcon_GridLines           : Zeigt Separator-Linien zwischen Zeilen und Spalten an.
-  @#PB_ListIcon_FullRowSelect       : Die Auswahl erfolgt über die gesamte Zeile anstelle nur der ersten Spalte (nur auf Windows).
+  @#PB_ListIcon_FullRowSelect       : Die Auswahl erfolgt über die gesamte Zeile anstelle nur der ersten Spalte (nur auf Windows und QT).
   @#PB_ListIcon_HeaderDragDrop      : Die Reihenfolge der Spalten kann per Drag'n'Drop verändert werden.
   @#PB_ListIcon_AlwaysShowSelection : Die Auswahl ist noch sichtbar, auch wenn das Gadget nicht aktiv ist (nur auf Windows).
 @EndFixedFont
@@ -5315,8 +5318,9 @@
   Flags zum Verändern des Gadget-Verhaltens. Dies kann eine Kombination
   (verknüpft mit dem bitweisen '|' OR-Operator) der folgenden Konstanten sein:
 @FixedFont
-  @#PB_Spin_ReadOnly : Das StringGadget ist nicht editierbar, die Nummer ist nur über die Pfeile änderbar (nicht verfügbar auf Linux).
-  @#PB_Spin_Numeric  : Das SpinGadget wird den Text automatisch mit dem aktuellen Wert des SpinGadgets-Status aktualisieren, womit @@SetGadgetText nicht benötigt wird.
+  @#PB_Spin_ReadOnly : Das StringGadget ist nicht editierbar, die Nummer ist nur über die Pfeile änderbar.
+  @#PB_Spin_Numeric  : Das SpinGadget wird den Text automatisch mit dem aktuellen Wert des SpinGadgets-Status aktualisieren,
+                      womit @@SetGadgetText nicht benötigt wird.
 @EndFixedFont
 
 @ReturnValue
@@ -6187,6 +6191,9 @@
 @Code
   Procedure ButtonHandler()
     Debug "Button click event on gadget #" + EventGadget()
+    
+    UnbindGadgetEvent(0, @ButtonHandler()) ; sofort wieder loslösen ("unbind")
+    Debug "Event unbound"
   EndProcedure
   
   OpenWindow(0, 100, 100, 200, 50, "Click test", #PB_Window_SystemMenu)
@@ -6194,7 +6201,6 @@
   ButtonGadget(0, 10, 10, 180, 30, "Click me")
   
   BindGadgetEvent(0, @ButtonHandler())
-  UnbindGadgetEvent(0, @ButtonHandler()) ; sofort wieder loslösen ("unbind")
   
   Repeat
     Event = WaitWindowEvent()

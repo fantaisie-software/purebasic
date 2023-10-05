@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Entity
@@ -369,7 +369,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Wert1, Wert2, Wert3, Wert4)
+@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Wert1.f, Wert2.f, Wert3.f, Wert4.f)
 
 @Description
   Legt einen benutzerdefinierten Parameter im Material-Shader-Skript des #Entity fest.
@@ -402,6 +402,19 @@
   Wert ignoriert).
 
 @NoReturnValue
+
+@Remarks
+  Um Parameter bei einem Material festzulegen, müssen Sie diese in einem Material-Skript wie
+  zum Beispiel param_named_auto 'VariableName' custom 'ParameterIndex' definieren:
+@FixedFont
+  param_named_auto foo custom 1
+  param_named_auto bar custom 2
+@EndFixedFont  
+  Die Definition und die Größe der Parameter wird im Shader-Skript definiert, zum Beispiel:
+@FixedFont
+  uniform float foo;
+  uniform vec3 bar;
+@EndFixedFont
 
   Für weitere Informationen siehe das folgende Beispiel:
   
@@ -1324,7 +1337,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GetEntityAttribute(#Entity, Attribut)
+@Function Ergebnis.f = GetEntityAttribute(#Entity, Attribut)
 
 @Description
   Ermittelt das angegebene Attribut des angegebenen Entity.
@@ -1370,7 +1383,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAttribute(#Entity, Attribut, Wert)
+@Function SetEntityAttribute(#Entity, Attribut, Wert.f)
 
 @Description
   Setzt den angegebenen Attribut-Wert beim angegebenen Entity.

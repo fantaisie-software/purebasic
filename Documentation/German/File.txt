@@ -495,6 +495,8 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard im @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Zeichens von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
 @ReturnValue
   Gibt das gelesene Zeichen zurück, oder Null bei einem Fehler.
@@ -556,8 +558,8 @@
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
 @EndFixedFont
-  kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString(), @@WriteStringN, 
-  @@ReadString, @@ReadCharacter und @@WriteCharacter):
+  kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von
+  @@ReadString und @@ReadCharacter):
 @FixedFont
   @#PB_Ascii  : alle Lese/Schreib-String-Operationen werden ASCII verwenden, wenn nicht anders angegeben.
   @#PB_UTF8   : alle Lese/Schreib-String-Operationen werden UTF-8 verwenden, wenn nicht anders angegeben (Standard).
@@ -693,7 +695,7 @@
   Die Adresse, an welche die gelesenen Daten geschrieben werden sollen.
 
 @Parameter "ZuLesendeLänge"
-  Die Anzahl der einzulesenden Bytes.
+  Die Anzahl der einzulesenden Bytes. Die maximale Länge beträgt 2 GByte.
 
 @ReturnValue
   Gibt die Anzahl an Bytes zurück, welche tatsächlich aus der Datei gelesen wurden.
@@ -730,8 +732,8 @@
   @#PB_File_IgnoreEOL: ignoriert das Ende der Zeile (aber der daraus resultierende String wird sie noch enthalten)
                       bis zur angegebenen Länge oder dem Ende der Datei.
 @EndFixedFont
-
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format gelesen.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
 @OptionalParameter "Länge"
   Liest die Datei, bis die Länge (in Zeichen) erreicht wird. Wenn ein "Ende der Zeile" (EOL) auftritt,
@@ -932,6 +934,8 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard, siehe @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Characters von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, oder Null bei einem Fehler.
@@ -1095,7 +1099,7 @@
   Die Speicheradresse der Daten, welche in die Datei geschrieben werden sollen.
 
 @Parameter "Länge"
-  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen.
+  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen. Die maximale Länge beträgt 2 GByte.
 
 @ReturnValue
   Gibt die Anzahl an Bytes zurück, welche tatsächlich in die Datei geschrieben wurden.
@@ -1179,7 +1183,8 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format
   @#PB_Unicode: Schreibt den String im UTF16-Format
 @EndFixedFont
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format geschrieben.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
@@ -1284,7 +1289,8 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format, auch wenn das Programm im ASCII-Modus kompiliert ist
   @#PB_Unicode: Schreibt den String im UTF16-Format (das Programm kann entweder in Unicode- oder ASCII-Modus kompiliert sein)
 @EndFixedFont
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format geschrieben.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.

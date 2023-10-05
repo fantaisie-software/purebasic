@@ -61,6 +61,9 @@
   %FILE : Dateiname des aktuellen Quellcodes. Bleibt leer, wenn dieser noch nicht gespeichert wurde. Wenn Sie das
   Werkzeug konfigurieren, um den @ReferenceLink "ide_tools" "Dateibetrachter" zu ersetzen, dann repräsentiert 
   dieser Platzhalter die zu öffnende Datei.
+  Sie sollten niemals den Inhalt der %FILE-Datei ändern. Diese Datei enthält den Zustand des Quellcodes, wie er vom
+  Benutzer zuletzt gespeichert wurde. Dies kann sich stark von dem unterscheiden, was derzeit im Editor angezeigt wird.
+  Wenn Sie diese Datei überschreiben, könnte der Benutzer Daten verlieren.
 @LineBreak
   %TEMPFILE : Wenn diese Option genutzt wird, dann wird der aktuelle Quellcode in eine temporäre Datei gespeichert und
   deren Dateiname wird hier eingefügt. Sie können die Datei auf Wunsch modifizieren oder löschen.

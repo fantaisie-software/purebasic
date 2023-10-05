@@ -679,7 +679,11 @@
    Si @#PB_Any a été utilisé à la place de 
    #Bibliothèque alors le numéro généré pour le
    bibliothèque est retourné en cas de succès.
-  
+
+@Remarks
+  Il est obligatoire que l'exécutable PureBasic créé et la bibliothèque partagée utilisent
+  la même architecture (par exemple une DLL x86 ne peut pas être ouverte par les exécutables x64).
+
 @SeeAlso
   @@CloseLibrary, @@GetFunction, 
   @ReferenceLink "prototypes" "prototypes"

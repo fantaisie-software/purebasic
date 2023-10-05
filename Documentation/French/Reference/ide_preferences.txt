@@ -638,12 +638,11 @@
 @LineBreak
 @LineBreak
 
-@Bold "Ajout du mot clef de fermeture si Tabulation/Entrée est appuyée deux fois"
+@Bold "Ajout du mot clef de fermeture si la touche de raccourci d'insertion (TAB par défaut) est appuyée deux fois"
 @LineBreak
-  Si la touche 'Entrée' ou 'Tabulation' est appuyée deux fois, le mot clef
-  de fermeture sera automatiquement inséré (ex: "EndSelect" pour "Select",
-  "EndIf " pour "If") après le mot clef lui-même (et après le curseur, dont
-  il possible de continuer l'édition immédiatement après l'auto-complétion).
+   Lorsque le mot clé sélectionné possède un mot clé de fin complémentaire, par exemple "EndSelect" pour "Select" ou "EndIf" pour "If",
+   le raccourci d'insertion (TAB défaut) peut être répété une seconde fois pour ajouter automatiquement ce texte.
+   Le mot-clé de fin sera inséré après le curseur, vous pourrez donc continuer à taper après le premier mot-clé inséré.
 
 @LineBreak
 @LineBreak
@@ -761,7 +760,28 @@
   @LineBreak
     Une expression régulière définissant le motif de la Note. Cette expression régulière 
     est appliquée à tous les commentaires dans le code source. Chaque match de l'expression 
-    est considéré en fonction du type de Note.
+    est considéré en fonction du type de Note.@LineBreak
+    Deux groupes facultatifs nommés 'display' et 'mark' peuvent être inclus dans l'expression régulière pour contrôler quelle partie 
+    de la correspondance est mise en surbrillance et quelle partie est affichée dans l'outil.
+    @LineBreak
+    @LineBreak
+
+  Exemple: Le modèle TODO affiche par défaut uniquement la partie après le TODO dans l'outil @LineBreak
+  @LineBreak
+  @FixedFont
+    \bTODO\b(?<display>.*)
+  @EndFixedFont
+
+  Exemple: Match tout ce qui se trouve dans {}, mais affiche en surbrillance uniquement la partie intérieure (affichz la correspondance complète dans l'outil) @LineBreak
+  @LineBreak
+  @FixedFont
+    {(?<mark>.*)}
+  @EndFixedFont
+
+  Les deux groupes de noms peuvent également être utilisés dans une seule expression régulière pour un contrôle total. 
+  Si aucun groupe portant ces noms n’existe dans l’expression régulière, la correspondance complète sera utilisée.
+
+
   @LineBreak
   @LineBreak
   

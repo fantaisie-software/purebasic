@@ -1,7 +1,7 @@
 ;
 ;     Packer library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Packer
@@ -39,6 +39,49 @@
   Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich zur Paket-Datei hinzugefügt wurde.
   Wenn die Datei nicht komprimiert werden kann, dann wird sie "so wie sie ist" in der Paket-Datei
   gespeichert.
+
+@Example Verwendung einer Baum-Dateistruktur
+@Code
+  UseZipPacker()
+  
+  Path$ = "C:/ProgramData/PureBasic/Examples/Sources/"  ; Pfad zu den PureBasic Examples Quelldateien
+  PackFile$ = "C:/ProgramData/PureBasic/Examples/MyCompressedFiles.zip"  ; Pfad zur Paket-Datei, welche erstellt und später geöffnet werden soll
+  If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
+    AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
+    AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
+    AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
+    ClosePack(0)
+    Debug "Paket-Datei erfolgreich erstellt: " + PackFile$
+  Else
+    Debug "Fehler beim Erstellen der Paket-Datei!"
+  EndIf
+  
+  Path$ = "C:/ProgramData/PureBasic/Examples/test_delete/"  ; Pfad zu einem Verzeichnis, in welches die Paket-Dateien entpackt werden sollen
+  If OpenPack(0, PackFile$)
+    If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
+      If ExaminePack(0)
+        Debug "Zu entpackender Archiv-Inhalt:"
+        While NextPackEntry(0)
+          Debug " - Name: " + PackEntryName(0) + ", Größe: " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Fehler beim Entpacken der Datei: " + PackEntryName(0)
+          EndIf
+        Wend
+      Else
+        Debug "Fehler beim Untersuchen der Paket-Datei!"
+      EndIf
+      ClosePack(0)
+      RunProgram(Path$)  ; Öffnet das Verzeichnis mit den entpackten Dateien
+    Else
+      Debug "Fehler beim Erstellen des Ordners zum Entpacken des Archiv-Inhalts!"  
+    EndIf
+  Else
+    Debug "Fehler beim Öffnen der Paket-Datei!"
+  EndIf
+@EndCode
+
+  Für ein weiteres Beispiel siehe @@UncompressPackFile.
 
 @SeeAlso
   @@CreatePack
@@ -465,6 +508,47 @@
 @ReturnValue
   Gibt die unkomprimierte Größe zurück, wenn der Paket-Eintrag erfolgreich in den Dateinamen
   entpackt wurde, andernfalls -1.
+  
+@Example 
+@Code
+  UseZipPacker()
+  
+  Path$ = "C:/ProgramData/PureBasic/Examples/Sources/Data/"  ; Pfad zu den PureBasic Examples Daten/Media Dateien
+  PackFile$ = "C:/ProgramData/PureBasic/Examples/MyCompressedFiles.zip"  ; Pfad zur Paket-Datei, die erstellt und später geöffnet werden soll
+  If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "world.png", "world.png")
+    AddPackFile(0, Path$ + "test.pref", "test.pref")
+    AddPackFile(0, Path$ + "CdPlayer.ico", "CdPlayer.ico")
+    AddPackFile(0, Path$ + "Background.bmp", "Background.bmp")
+    ClosePack(0)
+    Debug "Paket-Datei erfolgreich erstellt: " + PackFile$
+  Else
+    Debug "Fehler beim Erstellen der Paket-Datei!"
+  EndIf
+  
+  Path$ = "C:/ProgramData/PureBasic/Examples/test_delete/"  ; Pfad zu einem Verzeichnis, in das die Paket-Dateien entpackt werden sollen
+  If OpenPack(0, PackFile$)
+    If CreateDirectory(Path$) Or FileSize(Path$) = -2
+      If ExaminePack(0)
+        Debug "Zu entpackender Archiv-Inhalt:"
+        While NextPackEntry(0)
+          Debug " - Name: " + PackEntryName(0) + ", Größe: " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Fehler beim Entpacken der Datei: " + PackEntryName(0)
+          EndIf
+        Wend
+      EndIf
+      ClosePack(0)
+      RunProgram(Path$)  ; Öffnet das Verzeichnis mit den entpackten Dateien
+    Else
+      Debug "Fehler beim Erstellen des Ordners zum Entpacken des Archiv-Inhalts!"
+    EndIf
+  Else
+    Debug "Fehler beim Öffnen der Paket-Datei!"
+  EndIf
+@EndCode
+
+  Für ein weiteres Beispiel siehe @@AddPackFile.
   
 @SeeAlso
   @@OpenPack, @@ExaminePack, @@NextPackEntry

@@ -167,6 +167,47 @@
                                                                     ; which will fires a menu event '15'
 @EndCode
 
+@Example Extended example with keyboard shortcuts for menu items and standalone
+@Code
+  #Window = 0
+  Enumeration Menu
+    #Menu
+    #PopupMenu
+  EndEnumeration
+  Enumeration Menu_items
+    #mOpen
+    #mCopy
+    #mDummy
+  EndEnumeration
+  
+  If OpenWindow(#Window, 200, 200, 200, 100, "Press Ctrl+D")
+    If CreateMenu(#Menu, WindowID(#Window))  ; Create a regular menu with title and one item
+      MenuTitle("File")
+      MenuItem(#mOpen, "Open" + #TAB$ + "Ctrl+O")
+    EndIf
+    If CreatePopupMenu(#PopupMenu)  ; Create an additional pop-up menu
+      MenuItem(#mCopy, "Copy" + #TAB$ + "Ctrl+Shift+C")
+    EndIf
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_D, #mDummy)  ; keyboard shortcut standalone (without menu item)
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_O, #mOpen)   ; shortcut for the menu item
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_C, #mCopy)  ; shortcut for the pop-up menu item
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_RightClick  ; Display the pop-up menu on right mouse-click
+          DisplayPopupMenu(#PopupMenu, WindowID(#Window))
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case #mDummy : Debug "Dummy"
+            Case #mOpen : Debug "Open"
+            Case #mCopy : Debug "Copy"
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@RemoveKeyboardShortcut
     

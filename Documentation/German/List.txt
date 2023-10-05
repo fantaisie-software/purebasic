@@ -1,7 +1,7 @@
 ;
 ;     List library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library List
@@ -37,7 +37,12 @@
 @LineBreak
   Andere Möglichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
   und @LibraryLink "map" "Maps".
-  
+@LineBreak
+@LineBreak
+  Bei Verwendung von @LibraryLink "thread" "Threads" kann nicht in verschiedenen Threads gleichzeitig auf
+  dieselbe Liste zugegriffen oder diese geändert werden. Mutexe können verwendet werden, um sicherzustellen,
+  dass die Liste nur von einem Thread verwendet wird.    
+
 @CommandList
 
 @ExampleFile All List.pb

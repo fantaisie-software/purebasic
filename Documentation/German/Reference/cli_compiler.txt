@@ -4,8 +4,7 @@
 
   Der Kommandozeilen-Compiler befindet sich im Unterordner 'compilers' des PureBasic Verzeichnisses. 
   Eine einfachere Möglichkeit ist das Hinzufügen dieses Verzeichnisses zur 'PATH Variable', um von 
-  überall Zugriff auf die Befehle in diesem Verzeichnis zu haben. Kommandozeilen-Parameter, die mit '/' 
-  beginnen, betreffen nur Windows. 
+  überall Zugriff auf die Befehle in diesem Verzeichnis zu haben. 
   @LineBreak
   @LineBreak
   Es gibt zwei Compiler für PureBasic: @LineBreak
@@ -18,6 +17,10 @@
 
 @Section Crossplattforme Kommandozeilen-Parameter (Switch)
 
+  Hinweis: Alle Kommandozeilen-Parameter, die mit '/' beginnen, sind nur auf Windows gültig (d.h. '/DEBUGGER').
+  Wenn Sie Crossplattform-kompatibel schreiben müssen, können Sie das '-' bzw. '--' Format verwenden (d.h. '-d' bzw. '--debugger).
+  @LineBreak
+  @LineBreak
   -h, --help, /? : zeigt einen kurzen Hilfstext über den Compiler an. @LineBreak
   @LineBreak  
   -d, --debugger, /DEBUGGER : schaltet die Debugger Unterstützung ein. @LineBreak

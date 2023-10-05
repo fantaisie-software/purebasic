@@ -1,7 +1,7 @@
 ;
 ;     Mouse library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Mouse
@@ -61,7 +61,11 @@
   or @Link "Screen/OpenWindowedScreen" "'WindowedScreen'".
   The mouse is available again on your whole system after calling @Link "ReleaseMouse" "ReleaseMouse(#True)"
   or after the end of that program.
-
+  @LineBreak
+  @LineBreak
+  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
+  event loop to handle all events properly.
+  
 @SeeAlso
   @@ExamineMouse, @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY, @@MouseButton
 

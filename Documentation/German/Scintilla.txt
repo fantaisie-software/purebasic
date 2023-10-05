@@ -1,7 +1,7 @@
 ;
 ;     Scintilla library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Scintilla
@@ -34,6 +34,11 @@
   mit dem Scintilla-Control verwendet werden. Weiterhin bietet sie die @@ScintillaSendMessage 
   Funktion, um mit dem Control zu kommunizieren, um dessen volles Potential zu nutzen. Alle benötigten
   Strukturen und Konstanten sind bereits in PureBasic definiert.
+@LineBreak
+@LineBreak
+  Unter Windows muss die Scintilla.dll aus dem Ordner "Compilers" des PureBasic-Pakets mit Ihrer Anwendung mitgeliefert
+  werden. Unter OS X oder Linux ist die Bibliothek statisch verknüpft, sodass keine zusätzliche Datei mitgeliefert
+  werden muss.
 @LineBreak
 @LineBreak
 
@@ -73,6 +78,10 @@
 @Description
   Erstellt ein neues Scintilla Editor-Control innerhalb der aktuellen Gadgetliste.
   @@InitScintilla muss erfolgreich aufgerufen worden sein, bevor dieser Befehl verwendet wird.
+  @Linebreak
+  Unter Windows muss die Scintilla.dll aus dem Ordner "Compilers" des PureBasic-Pakets mit Ihrer Anwendung mitgeliefert
+  werden. Unter OS X oder Linux ist die Bibliothek statisch verknüpft, sodass keine zusätzliche Datei mitgeliefert
+  werden muss.
   
 @Parameter "#Gadget"
   Eine Nummer zum Identifizieren des neuen Gadgets. @ReferenceLink "purebasic_objects" "#PB_Any"
@@ -165,6 +174,33 @@
 
 @ReturnValue
   Das Ergebnis der gesendeten Nachricht.
+
+@Example Text mit roter Hervorhebung (Indikator)
+@Code 
+  #num_indicator = 0
+  
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    If InitScintilla()
+      ScintillaGadget(0, 5, 5, 320, 80, 0)
+      *Text = UTF8("This is a simple ScintillaGadget with text..." + #LF$ + "More text" + #LF$ + "Even more text!")
+      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
+      FreeMemory(*Text) ; der von UTF8() erstellte Puffer muss freigegeben werden, um ein Speicherleck zu vermeiden
+      
+      ScintillaSendMessage(0, #SCI_INDICSETSTYLE, #num_indicator, #INDIC_STRAIGHTBOX) ; erster Indikator mit Stil 8 (0-19)
+      ScintillaSendMessage(0, #SCI_INDICSETFORE, #num_indicator, #Red)                ; erster Indikator mit roter Farbe
+      ScintillaSendMessage(0, #SCI_SETINDICATORCURRENT, #num_indicator, #INDIC_STRAIGHTBOX) ; legt den Indikator als den aktuellen fest
+      ScintillaSendMessage(0, #SCI_INDICSETUNDER, #num_indicator, 1)   ; der Indikator wird unter den Text gelegt, d. h. er wird nicht verdeckt
+      ScintillaSendMessage(0, #SCI_INDICSETALPHA, #num_indicator, 127) ; legt die Transparenz fest
+      nLine = 1 ; die Zeilennummern beginnen bei 0
+      start = ScintillaSendMessage(0, #SCI_POSITIONFROMLINE, nLine)
+      length = ScintillaSendMessage(0, #SCI_GETLINEENDPOSITION, nLine) - start
+      ScintillaSendMessage(0, #SCI_INDICATORFILLRANGE, start, length) ; Start und Länge
+    EndIf
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

@@ -1,7 +1,7 @@
 ;
 ;     Keyboard library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Keyboard
@@ -52,6 +52,10 @@
 @NoParameters
 
 @NoReturnValue
+
+@Remarks
+  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
+  event loop to handle all events properly.
 
 @SeeAlso
   @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.

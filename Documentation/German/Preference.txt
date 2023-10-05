@@ -1,7 +1,7 @@
 ;
 ;     Preference library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Preference
@@ -38,7 +38,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Wählt die Gruppe "Window" aus
   PreferenceGroup("Window")
@@ -101,8 +101,8 @@
   
   ; Erstellt eine Gruppe namens "Window"
   PreferenceGroup("Window")
-    WritePreferenceLong ("X", 10)     ; X = 10
-    WritePreferenceLong ("Y", 10)     ; Y = 10
+    WritePreferenceLong("X", 10)      ; X = 10
+    WritePreferenceLong("Y", 10)      ; Y = 10
     WritePreferenceLong("W", 800)     ; W = 800
     WritePreferenceLong("H", 600)     ; H = 600
     WritePreferenceFloat("%", 20)     ; % = 20.000000
@@ -133,7 +133,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Untersucht die Gruppen
   ExaminePreferenceGroups()
@@ -170,15 +170,15 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Wählt eine Gruppe aus
   PreferenceGroup("Window")
   
   ; Untersucht die Schlüssel in der Gruppe 'Window'
   ExaminePreferenceKeys()
-  While  NextPreferenceKey() ; Solange ein Schlüssel existiert...
-    MessageRequester("Schlüssel-Gruppe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; ...wird der Schlüssel mit seinen Daten angezeigt
+  While NextPreferenceKey() ; Solange ein Schlüssel existiert...
+    Debug "Schlüssel-Gruppe 'Window': " + PreferenceKeyName() + " = " + PreferenceKeyValue()  ; ...wird der Schlüssel mit seinen Daten angezeigt
   Wend
   
   ; Schließt die Preference-Datei
@@ -233,7 +233,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Untersucht die Gruppen
   ExaminePreferenceGroups()
@@ -269,7 +269,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Auswählen einer Gruppe
   PreferenceGroup("Window")
@@ -306,7 +306,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Gruppen untersuchen
   ExaminePreferenceGroups()
@@ -340,7 +340,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Auswählen einer Gruppe
   PreferenceGroup("Window")
@@ -377,7 +377,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Auswählen einer Gruppe
   PreferenceGroup("Window")
@@ -391,6 +391,8 @@
   ; Schließt die Preference-Datei
   ClosePreferences()  
 @EndCode  
+
+  Für ein weiteres Beispiel (die Schlüssel sind selbst die Daten) siehe @@WritePreferenceString.
    
 @SeeAlso
   @@ExaminePreferenceKeys, @@PreferenceKeyName
@@ -444,7 +446,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Gruppen untersuchen
   ExaminePreferenceGroups()
@@ -489,11 +491,17 @@
 
 @ReturnValue
   Ein Wert ungleich Null, wenn die Gruppe bereits existierte, andernfalls Null.
- 
+
+@Remarks
+  Wenn die Gruppe noch nicht existiert, wird sie nicht sofort erstellt. Stattdessen wird sie
+  erstellt, sobald der erste Schlüssel in diese geschrieben wird. Dies ermöglicht die Verwendung
+  der PreferenceGroup()-Funktion zum Testen, ob eine Gruppe vorhanden ist, ohne viele leere
+  Gruppen zu erstellen. Bei der Suche nach Gruppen wird die Groß-/Kleinschreibung nicht beachtet.
+
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Auswählen einer Gruppe
   PreferenceGroup("Window")
@@ -507,12 +515,6 @@
   ; Schließt die Preference-Datei
   ClosePreferences()  
 @EndCode  
- 
-@Remarks
-  Wenn die Gruppe noch nicht existierte, wird diese nicht sofort erstellt. Sie wird
-  stattdessen erstellt, sobald der erste Schlüssel in diese geschrieben wird. Dies ermöglicht
-  die Verwendung des PreferenceGroup() Befehls zum Testen, ob eine Gruppe existiert, 
-  ohne das Erstellen vieler leerer Gruppen.
  
 @SupportedOS
 
@@ -570,7 +572,7 @@
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
   
   ; Öffnen der Gruppe 'Window'
   PreferenceGroup("Window")
@@ -581,15 +583,15 @@
   NextPreferenceKey() ; w = 800
   
   ; Lesen des Schlüssels
-  cle$= PreferenceKeyName()
+  key$ = PreferenceKeyName()
   
   ; Anzeigen des Schlüssels und seiner Daten in verschiedenen Formaten
-    MessageRequester("Key Integer", Str(ReadPreferenceInteger(cle$,0)))
-    MessageRequester("Key Float", StrF(ReadPreferenceFloat(cle$,0),6))
-    MessageRequester("Key Double", StrD(ReadPreferenceDouble(cle$,0),15))
-    MessageRequester("Key Long", Str(ReadPreferenceLong(cle$,0)))
-    MessageRequester("Key Quad", Str(ReadPreferenceQuad(cle$,0)))
-    MessageRequester("Key String", ReadPreferenceString(cle$,"0"))
+  MessageRequester("Integer-Key", Str(ReadPreferenceInteger(key$, 0)))
+  MessageRequester("Float-Key", StrF(ReadPreferenceFloat(key$, 0), 6))
+  MessageRequester("Double-Key", StrD(ReadPreferenceDouble(key$, 0), 15))
+  MessageRequester("Long-Key", Str(ReadPreferenceLong(key$, 0)))
+  MessageRequester("Quad-Key", Str(ReadPreferenceQuad(key$, 0)))
+  MessageRequester("String-Key", ReadPreferenceString(key$, "0"))
     
   ; Schließt die Preference-Datei
   ClosePreferences() 
@@ -647,7 +649,7 @@
   Wenn der Schlüssel nicht gefunden wurde, dann wird der Standardwert zurückgegeben.
 
 @Example
-  Siehe das Beispiel bei @@ReadPreferenceDouble.
+  Siehe die Beispiele bei @@WritePreferenceInteger und @@ReadPreferenceDouble.
   
 @SeeAlso
   @@ReadPreferenceDouble, @@ReadPreferenceFloat, @@ReadPreferenceLong, @@ReadPreferenceQuad, @@ReadPreferenceString
@@ -913,7 +915,32 @@
 @NoReturnValue
 
 @Example
-  Siehe das Beispiel bei @@WritePreferenceFloat.
+@Code
+  ; Erstellt eine 'test.ini' Preference-Datei in Temp-Ordner des Anwenders.
+  ; Da wir nicht viele Werte speichern, verzichten wir auf das Erstellen von PreferenceGroups...
+  If CreatePreferences(GetTemporaryDirectory()+"test.ini")
+    WritePreferenceInteger("x", 35)
+    WritePreferenceInteger("y", 46)
+    WritePreferenceInteger("w", 200)
+    WritePreferenceInteger("h", 100)
+    ClosePreferences()
+  Else
+    Debug "Error: Can't create the 'test.ini' file!"
+  EndIf
+  
+  ; Lesen dieser Datei und Ausgeben der Werte
+  If OpenPreferences(GetTemporaryDirectory()+"test.ini")
+    Debug ReadPreferenceInteger("x", 0)
+    Debug ReadPreferenceInteger("y", 0)
+    Debug ReadPreferenceInteger("w", 400)
+    Debug ReadPreferenceInteger("h", 600)
+    ClosePreferences()
+  Else
+    Debug "Error: Can't open the 'test.ini' file!"
+  EndIf
+@EndCode
+
+  Für ein weiteres Beispiel siehe @@WritePreferenceFloat.
 
 @SeeAlso
   @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceLong, @@WritePreferenceQuad, @@WritePreferenceString
@@ -993,8 +1020,34 @@
 
 @NoReturnValue
 
-@Example
+@Example "Standard"
   Siehe das Beispiel bei @@WritePreferenceFloat.
+
+@Example "Verwenden der Preference-Schlüssel zum direkten Speichern der Daten"
+@Code
+  ; Erstellen einer 'ColorList.ini' Preference-Datei
+  ; Hinweis: In diesem Fall müssen die Daten-Werte einmalig sein (keine doppelten Schlüssel).
+  If CreatePreferences(GetTemporaryDirectory()+"ColorList.ini", #PB_Preference_NoSpace)
+    WritePreferenceString("FF0000", "")
+    WritePreferenceString("00FF00", "")
+    WritePreferenceString("0000FF", "")
+    WritePreferenceString("FF00FF", "")
+    ClosePreferences()
+  Else
+    Debug "Error: Can't create the 'ColorList.ini' file!"
+  EndIf
+  
+  ; Lesen der 'ColorList.ini' Datei und Ausgeben der Schlüssel (welche hier selbst die Daten sind)
+  If OpenPreferences(GetTemporaryDirectory()+"ColorList.ini")
+    ExaminePreferenceKeys()
+    While NextPreferenceKey()
+      Debug PreferenceKeyName()
+    Wend
+    ClosePreferences()
+  Else
+    Debug "Error: Can't read the 'ColorList.ini' file!"
+  EndIf
+@EndCode
 
 @SeeAlso
   @@WritePreferenceFloat, @@WritePreferenceDouble, @@WritePreferenceInteger, @@WritePreferenceLong, @@WritePreferenceQuad

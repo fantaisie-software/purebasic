@@ -40,11 +40,13 @@
     Alter.w 
   EndStructure
   
-  Debug "Die Größe meines Freundes ist "+Str(Sizeof(Person))+" Bytes" ; wird 10 (4+4+2) ergeben
-  
+  Debug "Die Größe meines Freundes ist "+Str(Sizeof(Person))+" Bytes" ; wird 10 (4+4+2) auf einem 32-Bit Compiler ergeben, da ein String-Pointer 4 Bytes im Speicher umfasst
+                                                                      ; wird 18 (8+8+2) auf einem 64-Bit Compiler ergeben, da ein String-Pointer 8 Bytes im Speicher umfasst
+
   John.Person\Name = "John"
   
-  Debug SizeOf(John)  ; wird auch 10 ergeben
+  Debug SizeOf(John)  ; wird das Gleiche ergeben
+  
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -72,16 +74,16 @@
     Alter.w 
   EndStructure
   
-  Debug OffsetOf(Person\Alter) ; wird 8 ergeben, da ein String(-Pointer) 4 Byte im Speicher belegt 
-                               ; (16 mit dem 64 Bit Compiler, da ein String dort 8 Bytes belegt)
-  
+  Debug OffsetOf(Person\Alter) ; wird 8 auf einem 32-Bit Compiler ergeben, da ein String-Pointer 4 Byte im Speicher belegt 
+                               ; wird 16 auf einem 64-Bit Compiler ergeben, da ein String-Pointer 8 Bytes im Speicher belegt
   
   Interface ITest
     Create()
     Destroy(Flags) 
   EndInterface
   
-  Debug OffsetOf(ITest\Destroy()) ; wird 4 ergeben
+  Debug OffsetOf(ITest\Destroy()) ; wird 4 auf einem 32-Bit Compiler ergeben, da ein Zeiger (Pointer) 4 Bytes im Speicher belegt
+                                  ; wird 8 auf einem 64-Bit Compiler ergeben, da ein Zeiger (Pointer) 8 Bytes im Speicher belegt
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -148,8 +150,8 @@
 @Description
 
   @Keyword Subsystem kann verwendet werden, um herauszufinden, ob ein @ReferenceLink "subsystems" "Subsystem" 
-  für das zu kompilierende Programm verwendet wird. Der Name des Subsystems unterscheidet zwischen Groß- und
-  Kleinschreibung.
+  für das zu kompilierende Programm verwendet wird. Beim angegebenen Subsystem-Namen wird die
+  Groß-/Kleinschreibung nicht beachtet.
 
 @Example
 

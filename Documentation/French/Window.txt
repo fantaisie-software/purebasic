@@ -193,6 +193,49 @@
                                                                     ; qui générera un évènement de valeur 15.
 @EndCode  
 
+
+@Example Exemple étendu avec des raccourcis clavier avec ou sans menu
+@Code
+  #Window = 0
+  Enumeration Menu
+    #Menu
+    #PopupMenu
+  EndEnumeration
+  Enumeration Menu_elements
+    #mOuvrir
+    #mCopier
+    #mFactice
+  EndEnumeration
+  
+  If OpenWindow(#Window, 200, 200, 600, 100, "Appuyer sur Ctrl+D  |  Ctrl+O  |  Ctrl+Maj+C")
+    If CreateMenu(#Menu, WindowID(#Window))  ; Créer un menu standard avec un titre et un élément de menu
+      MenuTitle("Fichier")
+      MenuItem(#mOuvrir, "Ouvrir" + #TAB$ + "Ctrl+O")
+    EndIf
+    If CreatePopupMenu(#PopupMenu)  ; Créer un menu contextuel supplémentaire
+      MenuItem(#mCopier, "Copier" + #TAB$ + "Ctrl+Shift+C")
+    EndIf
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_D, #mFactice)  ; Raccourci clavier autonome (sans élément de menu)
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_O, #mOuvrir)   ; Raccourci pour l'élément de menu
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_C, #mCopier)  ; Raccourci pour l'élément de menu contextuel
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_RightClick  ; Afficher le menu contextuel avec le clic droit de la souris
+          DisplayPopupMenu(#PopupMenu, WindowID(#Window))
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case #mFactice : Debug "Autonome"
+            Case #mOuvrir : Debug "Ouvrir"
+            Case #mCopier : Debug "Copier"
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
+
 @SeeAlso
   @@RemoveKeyboardShortcut
   
@@ -752,6 +795,7 @@ EndIf
   - @@OpenGLGadget  
   - @@SpinGadget 
   - @@StringGadget 
+  - @@TreeGadget
   - @@WebGadget (Le WebGadget a un ensemble spécial de types d'évènement.)
 @LineBreak
   (Voir la définition du gadget pour connaître les évènements valides)
@@ -1297,7 +1341,7 @@ EndIf
 @Function Resultat = PostEvent(Evenement [, Fenetre, Objet [, Type [, Valeur]]])
 
 @Description
-  Envoie un évènement à la fin de la file d'attente interne.
+  Envoie un évènement à la fin de la file d'attente interne et continue l'exécution du programme sans attendre le traitement du message.
   
 @Parameter "Evenement"
   L'évènement à envoyer.
@@ -1544,7 +1588,7 @@ EndIf
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetWindowCallback(@NomProcedure() [, #Fenetre]) 
+@Function SetWindowCallback(@NomProcedure() [, #Fenetre [, Mode]]) 
 
 @Description  
   Mise en place d'une procédure de gestion des évènements, dite de 'Callback'.
@@ -1576,7 +1620,14 @@ EndIf
 @LineBreak
 @LineBreak 
   Si ce paramêtre est omis, la procedure de Callback sera appelée par toutes les fenêtres.
-  
+
+@OptionalParameter "Mode"
+  Le mode de rappel peut prendre l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Window_ProcessChildEvents: Les événements des gadgets enfants (principalement #WM_NOTIFY) seront envoyés à la fenêtre principale. Ne fonctionne pas pour tous les gadgets (par défaut).
+  @#PB_Window_NoChildEvents     : Les événements des gadgets enfants ne seront pas envoyés à la fenêtre principale (comportement par défaut de WinAPI).
+@EndFixedFont
+
 @NoReturnValue
 
 @Remarks
@@ -1584,6 +1635,11 @@ EndIf
 @LineBreak
 @LineBreak
   Attention, c'est relativement bas niveau et peut interférer avec les évènements PureBasic si elle est incorrectement utilisée.
+@LineBreak
+@LineBreak
+  Cette fonction associe un rappel (callback) pour gérer les événements de toutes les fenêtres ouvertes.@LineBreak
+  Tous les événements sont capturés par ce rappel et peuvent être traités ici. Pour définir un rappel pour une fenêtre 
+  spécifique uniquement, il suffit d'ajouter l'identifiant de la fenêtre concernée dans le paramètre facultatif [#Fenetre].
 @LineBreak
 @LineBreak
   Pour annuler une Callback (fonction de rappel), il suffit d'appeler SetWindowCallback(0 [, #Fenetre]).

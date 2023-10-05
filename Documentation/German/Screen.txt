@@ -1,7 +1,7 @@
 ;
 ;     Screen library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Screen
@@ -124,6 +124,11 @@ Hardware-Beschleunigung ermöglicht.
 @Remarks
   FlipBuffers() muss stets außerhalb eines @@StartDrawing : ... :
   @@StopDrawing Programmblocks aufgerufen werden.
+  @LineBreak
+  @LineBreak
+  FlipBuffers() muss in jeder Ereignisschleife auf einem @Link "Screen/OpenScreen" "Vollbildschirm"
+  aufgerufen werden, um die Ereignisse für @Link "Joystick/ExamineJoystick" "Joystick" /
+  @Link "Keyboard/ExamineKeyboard" "Keyboard"" / @Link "Mouse/ExamineMouse" "Mouse" korrekt zu verarbeiten.
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen

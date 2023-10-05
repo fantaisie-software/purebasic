@@ -50,7 +50,50 @@
 @Remarks
   L'ajout d'un grand fichier peut prendre 
   un temps assez long.
-  
+
+@Example Utilisation d'une arborescence de fichiers  
+@Code
+
+  UseZipPacker()
+
+  Path$ =  #PB_Compiler_Home + "Examples/Sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
+  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
+    If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
+    AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
+    AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
+    AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
+    ClosePack(0)
+    Debug "Fichier compressé créé avec succès : " + PackFile$
+  Else
+    Debug "Erreur lors de la création du fichier compressé !"
+  EndIf
+
+  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accès au répertoire dans lequel les fichiers compressés doivent être extraits
+  If OpenPack(0, PackFile$)
+    If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
+      If ExaminePack(0)
+        Debug "Contenu des archives à décompresser :"
+        While NextPackEntry(0)
+          Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Erreur : échec de décompression du fichier compressé : " + PackEntryName(0)
+          EndIf
+        Wend
+      Else
+        Debug "Erreur lors de l'examen du fichier compressé !"
+      EndIf
+      ClosePack(0)
+    
+      RunProgram(PackFile$) ; Ouverture du répertoire contenant les fichiers décompressés
+    Else
+      Debug "Erreur lors de la création du dossier de décompression de l'archive !"  
+    EndIf
+  Else
+    Debug "Erreur lors de l'ouverture du fichier compressé !"
+  EndIf
+@EndCode
+
 @SeeAlso
   @@CreatePack
   
@@ -581,7 +624,50 @@
   Si le nom de fichier existe déjà, il sera 
   effacé et remplacé par les nouvelles 
   données non compressées.
-  
+
+@Example Utilisation d'une arborescence de fichiers  
+@Code
+
+  UseZipPacker()
+
+  Path$ =  #PB_Compiler_Home + "Examples/Sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
+  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
+    If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
+    AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
+    AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
+    AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
+    ClosePack(0)
+    Debug "Fichier compressé créé avec succès : " + PackFile$
+  Else
+    Debug "Erreur lors de la création du fichier compressé !"
+  EndIf
+
+  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accès au répertoire dans lequel les fichiers compressés doivent être extraits
+  If OpenPack(0, PackFile$)
+    If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
+      If ExaminePack(0)
+        Debug "Contenu des archives à décompresser :"
+        While NextPackEntry(0)
+          Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Erreur : échec de décompression du fichier compressé : " + PackEntryName(0)
+          EndIf
+        Wend
+      Else
+        Debug "Erreur lors de l'examen du fichier compressé !"
+      EndIf
+      ClosePack(0)
+    
+      RunProgram(PackFile$) ; Ouverture du répertoire contenant les fichiers décompressés
+    Else
+      Debug "Erreur lors de la création du dossier de décompression de l'archive !"  
+    EndIf
+  Else
+    Debug "Erreur lors de l'ouverture du fichier compressé !"
+  EndIf
+@EndCode
+
 @SeeAlso
   @@OpenPack, @@ExaminePack, @@NextPackEntry
 

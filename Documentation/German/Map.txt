@@ -1,7 +1,7 @@
 ;
 ;     Map library documentation
 ;
-;      (c) 2022 Fantaisie Software
+;      (c) 2023 Fantaisie Software
 ;
 
 @Library Map
@@ -30,6 +30,11 @@
 @LineBreak
   Andere Möglichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
   und @LibraryLink "list" "verknüpften Listen".
+@LineBreak
+@LineBreak
+  Bei Verwendung von @LibraryLink "thread" "Threads" kann nicht in verschiedenen Threads gleichzeitig auf
+  dieselbe Map zugegriffen oder diese geändert werden. Mutexe können verwendet werden, um sicherzustellen,
+  dass die Map nur von einem Thread verwendet wird.
 
 @CommandList
 

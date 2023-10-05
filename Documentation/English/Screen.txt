@@ -1,7 +1,7 @@
 ;
 ;     Screen library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Screen
@@ -105,7 +105,12 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 @Remarks
   FlipBuffers() has to be called outside a @@StartDrawing : ... : @@StopDrawing program block.
-
+  @LineBreak
+  @LineBreak
+  FlipBuffers() must be called in each event loop on a @Link "Screen/OpenScreen" "fullscreen" to handle
+  events for @Link "Joystick/ExamineJoystick" "joystick" / @Link "Keyboard/ExamineKeyboard" "keyboard"" /
+  @Link "Mouse/ExamineMouse" "mouse" properly.
+  
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen
 

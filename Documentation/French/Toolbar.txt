@@ -63,10 +63,7 @@
   Cette barre d'outils devient celle par défaut 
   pour les créations des éléments qu'elle doit 
   contenir. 
-  Vous pouvez maintenant utiliser 
-  @@ToolBarStandardButton, 
-  @@ToolBarImageButton et @@ToolBarSeparator 
-  pour ajouter des éléments.
+  Vous pouvez maintenant utiliser @@ToolBarImageButton et @@ToolBarSeparator pour ajouter des éléments.
 @LineBreak
 @LineBreak  
   La détection des évènements sur les barres 
@@ -83,9 +80,11 @@
 @Code
   If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateToolBar(0, WindowID(0))
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"))
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"))
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"))
     EndIf
     Repeat
       Event = WaitWindowEvent()
@@ -99,8 +98,7 @@
 @Image createtoolbar.png
 
 @SeeAlso
-  @@ToolBarStandardButton, @@ToolBarImageButton, 
-  @@ToolBarSeparator, @@FreeToolBar
+  @@ToolBarImageButton, @@ToolBarSeparator, @@FreeToolBar
   
 @SupportedOS
 
@@ -154,16 +152,19 @@
   
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 150, 60, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 180, 60, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateToolBar(0, WindowID(0))
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"))
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"))
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"))
       DisableToolBarButton(0, 1, 1) : Disabled = #True
     EndIf
 
     ButtonGadget(0, 10, 30, 130, 20, "Active l'icône 'Ouvrir'")
-
+    ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
+    
     Repeat
       Event = WaitWindowEvent()
       If Event = #PB_Event_Gadget
@@ -171,10 +172,12 @@
           If Disabled = #True
             DisableToolBarButton(0, 1, 0)
             SetGadgetText(0,"Désactive l'icône 'Ouvrir'")
+            ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
             Disabled = #False
           Else
             DisableToolBarButton(0, 1, 1)
             SetGadgetText(0,"Active l'icône 'Ouvrir'")
+            ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
             Disabled = #True
           EndIf
         EndIf
@@ -186,7 +189,7 @@
 @Image disabletoolbarbutton.png  
 
 @SeeAlso
-  @@ToolBarStandardButton, @@ToolBarImageButton
+  @@ToolBarImageButton
 
 @SupportedOS
 
@@ -390,7 +393,7 @@
 @Image toolbarimagebutton.png  
 
 @SeeAlso
-  @@CreateToolBar, @@ToolBarStandardButton, @@ToolBarSeparator
+  @@CreateToolBar, @@ToolBarSeparator
 
 @SupportedOS
 
@@ -414,11 +417,13 @@
 @Code
   If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateToolBar(0, WindowID(0))
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"))
       ToolBarSeparator()
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"))
       ToolBarSeparator()
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"))
       ToolBarSeparator()
       ToolBarSeparator()
     EndIf
@@ -434,96 +439,7 @@
 @Image toolbarseparator.png
 
 @SeeAlso
-  @@CreateToolBar, @@ToolBarStandardButton, 
-  @@ToolBarImageButton
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function ToolBarStandardButton(#Bouton, #IconeBouton [, Mode [, Texte$]])
-
-@Description
-  Ajoute un bouton standard à la barre d'outils 
-  en cours de construction. @LineBreak
-  Un bouton standard est un bouton dont l'icône 
-  est fournie par le système d'exploitation.
-  
-@Parameter "#Button"  
-  Le numéro du nouveau bouton.
-  
-@Parameter "#IconeBouton"  
-    Peut être l'une des constantes suivantes :
-@FixedFont
-  @#PB_ToolBarIcon_New          (Nouveau fichier)
-  @#PB_ToolBarIcon_Open         (Ouvrir Fichier)
-  @#PB_ToolBarIcon_Save         (Enregistrer Fichier)
-  @#PB_ToolBarIcon_Print        (Imprimer)
-  @#PB_ToolBarIcon_PrintPreview (Aperçu avant impression)
-  @#PB_ToolBarIcon_Find         (Chercher une occurence)
-  @#PB_ToolBarIcon_Replace      (Remplacer une occurence)
-
-  @#PB_ToolBarIcon_Cut          (Couper)
-  @#PB_ToolBarIcon_Copy         (Copier)
-  @#PB_ToolBarIcon_Paste        (Coller)
-  @#PB_ToolBarIcon_Undo         (Annuler l'action)
-  @#PB_ToolBarIcon_Redo         (Repéter l'action)
-
-  @#PB_ToolBarIcon_Delete       (Effacer)
-  @#PB_ToolBarIcon_Properties   (Propriétés)
-  @#PB_ToolBarIcon_Help         (Aide)
-@EndFixedFont
-
-@OptionalParameter "Mode"
-  Peut prendre l'une des valeurs suivantes:
-@FixedFont
-  @#PB_ToolBar_Normal: Bouton standard (par défaut)
-  @#PB_ToolBar_Toggle: Bouton bascule (soit enfoncé, soit relâché)
-@EndFixedFont
-  Les commandes @@GetToolBarButtonState et
-  @@SetToolBarButtonState permettent de changer 
-  l'état d'un bouton de type @#PB_ToolBar_Toggle.
-
-@OptionalParameter "Texte$"
-  Le texte à afficher avec le bouton.
-@LineBreak
-@LineBreak
- La barre d'outils doit être créée avec l'option @#PB_ToolBar_Text 
- sinon le texte ne sera pas affiché.
-
-@NoReturnValue
-
-@Remarks
-  La fonction @@CreateToolBar doit avoir été 
-  appelée avant d'utiliser cette fonction.  
-@LineBreak
-@LineBreak
-  La détection des évènements sur les barres 
-  d'outils est similaire à celle des menus, 
-  et nécessite donc la commande @@EventMenu.
-
-@Example
-@Code
-  If OpenWindow(0, 0, 0, 150, 25, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If CreateToolBar(0, WindowID(0))
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
-    EndIf
-    Repeat
-      Event = WaitWindowEvent()
-      If Event = #PB_Event_Menu
-        Debug "Identifiant de la barre d'outils : "+Str(EventMenu())
-      EndIf
-    Until Event = #PB_Event_CloseWindow 
-  EndIf
-@EndCode
-@LineBreak
-@Image createtoolbar.png
-
-@SeeAlso
-  @@CreateToolBar, @@ToolBarImageButton, 
-  @@ToolBarSeparator
+  @@CreateToolBar, @@ToolBarImageButton
 
 @SupportedOS
 
@@ -550,21 +466,23 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 150, 20, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 200, 80, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateToolBar(0, WindowID(0), #PB_ToolBar_Large | #PB_ToolBar_Text)
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New,  0, "Nouveau")
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open, 0, "Ouvrir")
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save, 0, "Enregistrer")
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"), #PB_ToolBar_Normal, "Nouveau")
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"), #PB_ToolBar_Normal, "Ouvrir")
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"), #PB_ToolBar_Normal, "Enregistrer")
       ToolBarButtonText(0, 0, "Vieux !")
     EndIf
     Repeat
     Until WaitWindowEvent() = #PB_Event_CloseWindow 
-  EndIf
+  EndI
 @EndCode
 @LineBreak
 
 @SeeAlso
-  @@ToolBarStandardButton, @@ToolBarImageButton, @@ToolBarSeparator, @@CreateToolBar
+  @@ToolBarImageButton, @@ToolBarSeparator, @@CreateToolBar
 
 @SupportedOS
 
@@ -599,9 +517,11 @@
 @Code
   If OpenWindow(0, 0, 0, 150, 60, "Barre d'outils", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateToolBar(0, WindowID(0))
-      ToolBarStandardButton(0, #PB_ToolBarIcon_New)
-      ToolBarStandardButton(1, #PB_ToolBarIcon_Open)
-      ToolBarStandardButton(2, #PB_ToolBarIcon_Save)
+      UsePNGImageDecoder()
+      Path$ = #PB_Compiler_Home  + "Examples" + #PS$ + "Sources" + #PS$ + "Data" + #PS$ + "ToolBar" + #PS$ + ""
+      ToolBarImageButton(0, LoadImage(0, Path$ + "New.png"))
+      ToolBarImageButton(1, LoadImage(1, Path$ + "Open.png"))
+      ToolBarImageButton(2, LoadImage(2, Path$ + "Save.png"))
       ToolBarToolTip(0, 0, "Nouveau document")
       ToolBarToolTip(0, 1, "Ouvrir un document")
       ToolBarToolTip(0, 2, "Enregistrer le document")
@@ -614,8 +534,7 @@
 @Image toolbartooltip.png
 
 @SeeAlso
-  @@ToolBarStandardButton, @@ToolBarImageButton, 
-  @@ToolBarSeparator
+  @@ToolBarImageButton, @@ToolBarSeparator
   
 @SupportedOS
 
