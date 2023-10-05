@@ -263,29 +263,3 @@ The system library offers access to specialized commands.
   
   
 @SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function LoadStyle(URL$, Callback)
-
-@Description
-  Load a CSS script (.css) into the app
-  
-@Parameter "URL$"
-  The URL of the CSS script to load.
-  
-@Parameter "Callback"
-  The callback called once the loading has finished.
-  If the loading is successful, the 'Success' callback parameter will be set to @#True, if
-  not it will be set to @#False. It has to use the following syntax:
-
-@Code
-  Procedure Callback(URL$, Success)
-    ; Code here
-  EndProcedure
-@EndCode
-  
-@NoReturnValue
-   
-
-@SupportedOS
