@@ -250,11 +250,11 @@
   String$ = "This is a simple line...."
   
   Repeat
-  	Last = Position
-  	Position = FindString(String$ , "i", Position + 1)
-  	If Position > 0
-  	  Debug "'i' found at position: " + Position
-  	EndIf
+    Last = Position
+    Position = FindString(String$ , "i", Position + 1)
+    If Position > 0
+      Debug "'i' found at position: " + Position
+    EndIf
   Until Not Position
   
   Debug "Last position 'i' was found: " + Last
