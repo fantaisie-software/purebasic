@@ -502,5 +502,8 @@ CompilerIf #CompileLinux
     EndIf
   EndProcedure
   
+  Procedure IsScreenReaderActive()
+    ProcedureReturn #False
+  EndProcedure
   
 CompilerEndIf

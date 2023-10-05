@@ -124,13 +124,13 @@ Procedure UpdateCodeViewer(Gadget)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 16, Colors(#COLOR_BadBrace)\DisplayValue)
     
     CompilerIf #CompileWindows
-      If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
+      If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
       Else
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
       EndIf
       
-      If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+      If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
         ScintillaSendMessage(Gadget, #SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
       Else
         ScintillaSendMessage(Gadget, #SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)

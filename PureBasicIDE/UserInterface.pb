@@ -9,6 +9,75 @@ Global RunOnceMessageID ; setup in WindowsMisc.pb, handled in here, because mess
 
 #WINDOW_Main_Flags = #PB_Window_Invisible | #PB_Window_SizeGadget | #PB_Window_MaximizeGadget | #PB_Window_MinimizeGadget | #PB_Window_SystemMenu
 
+Procedure StartupCheckScreenReader()
+  
+  ; Only ask this on the first start so we do not annoy the user
+  If ScreenReaderChecked = #False 
+    
+    If IsScreenReaderActive()
+      If MessageRequester(#ProductName$, Language("Misc", "AskScreenReader"), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+        
+        ; Set the accessibility flag and disable related options
+        EnableAccessibility = #True
+        EnableMenuIcons = #False
+        
+        ; Switch to the "Accessibility" scheme
+        Restore AccessibilityColorScheme
+        Read.l ToolsPanelFrontColor
+        Read.l ToolsPanelBackColor
+        For i = 0 To #COLOR_Last
+          Read.l Colors(i)\UserValue
+        Next i
+        
+        ; Refresh the main menu
+        CreateIDEMenu()
+        CreateIDEPopupMenu()
+        
+        ; Refresh editor colors
+        CalculateHighlightingColors()
+        *Source = *ActiveSource
+        ForEach FileList()
+          If @FileList() <> *ProjectInfo
+            *ActiveSource = @FileList()
+
+            If EnableColoring
+              SetUpHighlightingColors() ; needed for every gadget individually now (scintilla)
+              SetBackgroundColor()
+              SetLineNumberColor()
+              UpdateHighlighting()   ; highlight everything after a prefs update
+            Else
+              RemoveAllColoring()
+            EndIf
+          EndIf
+        Next FileList()
+        ChangeCurrentElement(FileList(), *Source)
+        *ActiveSource = *Source
+        
+        ; Destroy and recreate toolspanel for the color change
+        ForEach UsedPanelTools()
+          *ToolData.ToolsPanelEntry = UsedPanelTools()
+          If *ToolData\NeedDestroyFunction
+            PanelTool.ToolsPanelInterface = UsedPanelTools()
+            PanelTool\DestroyFunction()
+          EndIf
+        Next UsedPanelTools()
+        
+        If IsGadget(#GADGET_ToolsPanel)
+          ClearGadgetItems(#GADGET_ToolsPanel) ; no more freegadget
+        EndIf
+        
+        ToolsPanel_Create(#True)
+        ToolsPanel_ApplyColors(#GADGET_ErrorLog)
+        
+      EndIf
+    EndIf
+    
+    ScreenReaderChecked = #True
+    SavePreferences()
+  EndIf
+  
+EndProcedure
+
 
 Procedure CreateIDEMenu()
   

@@ -806,6 +806,7 @@ DataSection
   Data$ "EnableBraceMatch", "Enable marking of matching Braces"
   Data$ "EnableKeywordMatch","Enable marking of matching Keywords"
   Data$ "EnableLineNumbers","Display Line numbers"
+  Data$ "EnableAccessibility","Enable accessibility features"
   Data$ "EnableMarkers",    "Enable Line Markers"
   Data$ "ExtraWordChars",   "Extra characters included in word selection"
   Data$ "SelectFont",       "Select Font"
@@ -2048,6 +2049,7 @@ DataSection
   Data$ "ToolbarError",     "Could not find Toolbar Icon"
   Data$ "AutomationTimeout","An Automation client failed to respond to communication.%newline%The connection will be terminated."
   Data$ "Welcome",          "Welcome aboard !"
+  Data$ "AskScreenReader",  "A Screen Reader software was detected. Do you wish to enable accessibility features?%newline%%newline%(You can change this option later under File - Preferences - General)"
   
   Data$ "ImageManagerTitle","Image Manager"
   

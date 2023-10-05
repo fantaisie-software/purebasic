@@ -97,8 +97,8 @@ Declare Session_End(OSSessonID$)           ; end session
 Declare AutoComplete_SetFocusCallback()    ; set up a callback that ends the autocomplete if the autocomplete window looses focus
 Declare AutoComplete_AdjustWindowSize(MaxWidth, MaxHeight) ; allows to dynamically resize the autocomplete window
 Declare ToolsPanel_ApplyColors(Gadget)                     ; change gadget colors & font. (for toolspanel gadgets), currently supports listview, listicon, explorertree, explorerlist
-                                                           ; Declare GetCPUInfo(*Free.LONG, *Used.LONG) ; update the cpu monitor list, and fill the general values with info
-                                                           ; Declare CPUMonitor_Init()              ; initialiue the cpu monitoring feature
+Declare IsScreenReaderActive()        ; attempt to detect running screen reader software
+
 CompilerIf #CompileWindows
   Declare CreateSYSTEMMenu()           ; adds the Debugger menu to the window systemmenu
   Declare IsAdmin()
@@ -705,6 +705,7 @@ Declare CheckForUpdatesSchedule()     ; perform an update check if the configure
 
 ;- UserInterface.pb
 ;
+Declare StartupCheckScreenReader()    ; Check for screen reader on first IDE start and ask to set accessibility mode
 Declare CreateIDEMenu()               ; (re)create the main menu
 Declare CreateIDEPopupMenu()          ; (re)create the popup menu
 Declare CreateGUI()                   ; create the main window gui

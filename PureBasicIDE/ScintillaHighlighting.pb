@@ -301,13 +301,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         SendEditorMessage(#SCI_SETWHITESPACEFORE, #True, Colors(#COLOR_Whitespace)\DisplayValue)
         
         CompilerIf #CompileWindows
-          If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
+          If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
             SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
           Else
             SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
           EndIf
           
-          If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+          If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
             SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
           Else
             SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)

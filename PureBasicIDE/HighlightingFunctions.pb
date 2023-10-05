@@ -1579,12 +1579,22 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
           CompilerIf #CompileWindows
             Shared StatusBarOwnerDrawText$
             
-            time.q = ElapsedMilliseconds()
+            If EnableAccessibility
+              
+              ; Do not ownerdraw to make it better readable by screen readers
+              Message$ = Left(Message$, position) + "   => " + Mid(Message$, position+1, Endposition-position-1) + " <=   " + Right(Message$, Len(Message$)-Endposition+1)
+              ChangeStatus(Message$, 0)
+              
+            Else
             
-            If StatusMessageTimeout < time
-              StatusMessageTimeout = 0
-              StatusBarOwnerDrawText$ = Message$
-              SendMessage_(*MainStatusBar, #SB_SETTEXT, 1|#SBT_NOBORDERS|#SBT_OWNERDRAW, position | Endposition<<16)
+              time.q = ElapsedMilliseconds()
+              
+              If StatusMessageTimeout < time
+                StatusMessageTimeout = 0
+                StatusBarOwnerDrawText$ = Message$
+                SendMessage_(*MainStatusBar, #SB_SETTEXT, 1|#SBT_NOBORDERS|#SBT_OWNERDRAW, position | Endposition<<16)
+              EndIf
+            
             EndIf
             
           CompilerElse
