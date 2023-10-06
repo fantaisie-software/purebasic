@@ -70,10 +70,11 @@ Procedure StartupCheckScreenReader()
         ToolsPanel_ApplyColors(#GADGET_ErrorLog)
         
       EndIf
+      
+      ScreenReaderChecked = #True
+      SavePreferences()
     EndIf
     
-    ScreenReaderChecked = #True
-    SavePreferences()
   EndIf
   
 EndProcedure
