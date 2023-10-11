@@ -1,6 +1,19 @@
 @Title Historique
 
-@Section xx Mai 2023 : Version 6.02 LTS
+@Section 11 Octobre 2023 : Version 6.03 LTS
+
+- @Green "Ajouté": support de #PB_String_NoCaseAscii pour CompareMemoryString() pour avoir des comparaison plus rapides avec les chaines de caractères ASCII @LineBreak
+- @Green "Ajouté": la constante de compilation #PB_Compiler_DPIAware @LineBreak
+@LineBreak
+- @Green "Mise à jour": Scintilla 5.3.5 sur toutes les plateformes@LineBreak
+@LineBreak
+- @Green "Optimisé": code C généré plus petit et facile à lire. @LineBreak
+@LineBreak
+- @Orange "Modifié": l'IDE sous Linux utilise maintenant GTK3 par défaut (l'IDE GTK2 est maintenant nommé 'purebasic_gtk2') @LineBreak
+@LineBreak
+- @Blue "Corrigé":  De nombreux bogues du compilateur et des bibliothèques @LineBreak
+
+@Section 17 Mai 2023 : Version 6.02 LTS
 
 - @Green "Ajouté": HttpTimeout() pour définir une connexion avec un délai global pour les commandes HTTP.@LineBreak
 - @Green "Ajouté": Construction de l'IDE GTK3 pour Linux à des fins de test (purebasic_gtk3). @LineBreak
@@ -11,6 +24,8 @@
 @LineBreak
 - @Red "Supprimé": Activer le support ASM pour le backend C car il ne peut pas être utilisé correctement (l'IDE met en majuscule les lettres pour If etc.) et évite de détecter un vrai bloc asm x86/x64 conduisant à des erreurs étranges.@LineBreak
 La bonne façon est maintenant d'utiliser le signe '!' au début de la ligne pour utiliser directement le code C.
+@LineBreak
+- @Blue "Corrigé":  De nombreux bogues du compilateur et des bibliothèques @LineBreak
 
 @Section 7 Mars 2023 : Version 6.01 LTS
 
