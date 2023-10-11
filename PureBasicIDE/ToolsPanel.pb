@@ -413,6 +413,12 @@ Procedure ToolsPanel_CheckAutoHide()
     
     If MouseX <> -1 And WindowMouseY(#WINDOW_Main) <> -1 ; do nothing if mouse is outside of the window
       
+      ; Convert cursor X position from physical to logical pixels to ensure that scale is
+      ; consistent with editor and tool-panel widths.
+      ; This must be done only after it's determined to be in-frame; unscaling prior will
+      ; result in failure at high scale factors (where -1 becomes 0).
+      MouseX = DesktopUnscaledX(MouseX)
+      
       If ToolsPanelSide = 0 ; right side
         Offset = EditorWindowWidth - MouseX
         ToolsPanelWidth = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
