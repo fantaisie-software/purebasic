@@ -2866,3 +2866,29 @@ CompilerEndIf
 
 UseMD5Fingerprint()
 UseCRC32Fingerprint()
+
+; Limit ResizeGadget
+
+Procedure ResizeGadgetLimit(Gadget, x, y, Width, Height)
+  If Width < 0 And Width <> #PB_Ignore
+    Width = 0
+  EndIf
+  If Height < 0 And Height <> #PB_Ignore
+    Height = 0
+  EndIf
+  ResizeGadget(Gadget, x, y, Width, Height)
+EndProcedure
+
+Macro ResizeGadget(Gadget, x, y, Width, Height)
+  ResizeGadgetLimit(Gadget, x, y, Width, Height)
+EndMacro
+
+  
+    
+; IDE Options = PureBasic 6.03 LTS - C Backend (Linux - arm64)
+; CursorPosition = 2879
+; FirstLine = 2856
+; Folding = ------
+; Markers = 1621
+; EnableXP
+; DPIAware

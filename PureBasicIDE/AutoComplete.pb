@@ -1618,24 +1618,27 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       Else
         
         ; select best match
-        SelectElement(AutoCompleteList(), AutoComplete_Start)
         found = 0
-        Repeat
-          result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
-          
-          If result < 0
-            If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
+        
+        If AutoComplete_Start >= 0 And AutoComplete_End >= AutoComplete_Start
+          SelectElement(AutoCompleteList(), AutoComplete_Start)
+          Repeat
+            result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
+            
+            If result < 0
+              If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
+                SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
+                found = 1
+              EndIf
+              Break  ; if this did not succeed, there are no more items
+              
+            ElseIf result = 0
               SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
               found = 1
+              Break
             EndIf
-            Break  ; if this did not succeed, there are no more items
-            
-          ElseIf result = 0
-            SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
-            found = 1
-            Break
-          EndIf
-        Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
+          Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
+        EndIf
         
         If found=0
           AutoComplete_Close()
