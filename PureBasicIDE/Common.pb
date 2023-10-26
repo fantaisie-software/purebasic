@@ -2882,13 +2882,3 @@ EndProcedure
 Macro ResizeGadget(Gadget, x, y, Width, Height)
   ResizeGadgetLimit(Gadget, x, y, Width, Height)
 EndMacro
-
-  
-    
-; IDE Options = PureBasic 6.03 LTS - C Backend (Linux - arm64)
-; CursorPosition = 2879
-; FirstLine = 2856
-; Folding = ------
-; Markers = 1621
-; EnableXP
-; DPIAware

@@ -1663,4 +1663,4 @@ CompilerIf #SpiderBasic
   XIncludeFile "ConstantsDataSpiderBasic.pbi"
 CompilerElse
   XIncludeFile "ConstantsData.pbi"
-CompilerEndIf 
+CompilerEndIf
