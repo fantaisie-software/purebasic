@@ -38,12 +38,6 @@ EndStructure
 Global NewMap AutoComplete_ContextConstants.AutoCompleteConstants(4096)
 Global NewMap PredefinedPBConstants.l(4096)
 
-Macro AutoComplete_Redraw()
-  CompilerIf #CompileLinux
-    FlushEvents()
-  CompilerEndIf
-EndMacro
-
 Procedure CreateAutoCompleteWindow()
   ;
   ; Create the autocomplete window (hidden), so it is later only hidden/shown
@@ -1561,13 +1555,11 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
         For i = OldStart+1 To AutoComplete_Start
           RemoveGadgetItem(#GADGET_AutoComplete_List, 0)
         Next i
-        AutoComplete_Redraw()
       ElseIf OldStart > AutoComplete_Start
         SelectElement(AutoCompleteList(), OldStart-1)
         Repeat
           AddGadgetItem(#GADGET_AutoComplete_List, 0, AutoCompleteList())
         Until ListIndex(AutoCompleteList()) = AutoComplete_Start Or PreviousElement(AutoCompleteList()) = 0
-        AutoComplete_Redraw()
       EndIf
       
       If OldEnd > AutoComplete_End
@@ -1576,13 +1568,11 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
           RemoveGadgetItem(#GADGET_AutoComplete_List, Last)
           Last-1
         Next i
-        AutoComplete_Redraw()
       ElseIf OldEnd < AutoComplete_End
         SelectElement(AutoCompleteList(), OldEnd+1)
         Repeat
           AddGadgetItem(#GADGET_AutoComplete_List, -1, AutoCompleteList())
         Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
-        AutoComplete_Redraw()
       EndIf
       
       ; call the OS function for dynamic resizing of the window
@@ -1618,27 +1608,24 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
       Else
         
         ; select best match
+        SelectElement(AutoCompleteList(), AutoComplete_Start)
         found = 0
-        
-        If AutoComplete_Start >= 0 And AutoComplete_End >= AutoComplete_Start
-          SelectElement(AutoCompleteList(), AutoComplete_Start)
-          Repeat
-            result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
-            
-            If result < 0
-              If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
-                SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
-                found = 1
-              EndIf
-              Break  ; if this did not succeed, there are no more items
-              
-            ElseIf result = 0
+        Repeat
+          result = CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1)
+          
+          If result < 0
+            If CompareMemoryString(@Word$, PeekI(@AutoCompleteList()), 1, Len(Word$)) = 0 ; only keep the window open when there is a possible match left
               SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
               found = 1
-              Break
             EndIf
-          Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
-        EndIf
+            Break  ; if this did not succeed, there are no more items
+            
+          ElseIf result = 0
+            SetGadgetState(#GADGET_AutoComplete_List, ListIndex(AutoCompleteList())-AutoComplete_Start)
+            found = 1
+            Break
+          EndIf
+        Until ListIndex(AutoCompleteList()) = AutoComplete_End Or NextElement(AutoCompleteList()) = 0
         
         If found=0
           AutoComplete_Close()
@@ -1663,4 +1650,4 @@ CompilerIf #SpiderBasic
   XIncludeFile "ConstantsDataSpiderBasic.pbi"
 CompilerElse
   XIncludeFile "ConstantsData.pbi"
-CompilerEndIf
+CompilerEndIf 
