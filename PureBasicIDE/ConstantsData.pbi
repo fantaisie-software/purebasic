@@ -378,6 +378,7 @@ DataSection
   Data$ "GetMaterialColor,2,#PB_Material_AmbientColor,#PB_Material_DiffuseColor,#PB_Material_SpecularColor,#PB_Material_SelfIlluminationColor"
   Data$ "GetSerialPortStatus,2,#PB_SerialPort_RI,#PB_SerialPort_DCD,#PB_SerialPort_DSR,#PB_SerialPort_CTS,#PB_SerialPort_XonCharacter,#PB_SerialPort_XoffCharacter"
   Data$ "GetSoundPosition,2,#PB_Sound_Frame,#PB_Sound_Millisecond"
+  Data$ "GetURLPart,2,#PB_URL_Protocol,#PB_URL_Site,#PB_URL_Port,#PB_URL_Parameters,#PB_URL_Path,#PB_URL_User,#PB_URL_Password"
   Data$ "GetUserDirectory,1,#PB_Directory_Desktop,#PB_Directory_Downloads,#PB_Directory_Documents,#PB_Directory_Videos,#PB_Directory_Musics,#PB_Directory_Pictures,#PB_Directory_Public,#PB_Directory_ProgramData,#PB_Directory_AllUserData,#PB_Directory_Programs"
   Data$ "GetVehicleAttribute,2,#PB_Vehicle_Friction,#PB_Vehicle_MaxSuspensionForce,#PB_Vehicle_SuspensionStiffness,#PB_Vehicle_MaxSuspensionCompression,#PB_Vehicle_MaxSuspensionLength,#PB_Vehicle_WheelDampingCompression,#PB_Vehicle_WheelDampingRelaxation,#PB_Vehicle_RollInfluence,#PB_Vehicle_IsInContact,#PB_Vehicle_CurrentSpeedKmHour,#PB_Vehicle_ContactPointX,#PB_Vehicle_ContactPointY,#PB_Vehicle_ContactPointZ,#PB_Vehicle_ContactPointNormalX,#PB_Vehicle_ContactPointNormalY,#PB_Vehicle_ContactPointNormalZ,#PB_Vehicle_ForwardVectorX,#PB_Vehicle_ForwardVectorY,#PB_Vehicle_ForwardVectorZ"
   Data$ "GrabImage,2,#PB_Any"
