@@ -48,7 +48,15 @@
   Nonzero if the systray icon has been successfully added, zero otherwise.
 
 @Remarks
-  All SysTray icons are automatically removed when the program ends.
+  All SysTray icons are automatically removed when the program ends.@LineBreak
+@LineBreak
+  The following events are supported through @@EventType:
+@FixedFont
+  @#PB_EventType_LeftClick
+  @#PB_EventType_RightClick (Not supported on MacOS)
+  @#PB_EventType_LeftDoubleClick (Not supported on MacOS)
+  @#PB_EventType_RightDoubleClick (Not supported on MacOS)
+  @EndFixedFont
 
 @Example
 @Code

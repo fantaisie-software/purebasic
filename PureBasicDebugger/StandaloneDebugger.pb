@@ -226,7 +226,6 @@ CompilerEndIf
 
 ;
 ;- Parse Commandline
-
 ExeName$  = ProgramParameter()
 ExeNameU$ = UCase(ExeName$)
 
@@ -274,7 +273,8 @@ CompilerEndIf
 ;
 CustomWarningMode = -1
 
-If OptionsFile$ <> ""
+; Ignore the default OS X file as well as it's empty anyway
+If OptionsFile$ <> "" And OptionsFile$ <> "/tmp/.pbstandalone.out"
   If ReadFile(0, OptionsFile$)
     
     While Eof(0) = 0
@@ -311,7 +311,8 @@ If OptionsFile$ <> ""
     
     CloseFile(0)
   Else
-    MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Warning)
+    ; Don't use Language() here, as it's not yet initialized
+    MessageRequester("PureBasic Debugger","Can't read option file: "+OptionsFile$, #FLAG_Warning)
   EndIf
 EndIf
 
