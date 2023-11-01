@@ -1995,7 +1995,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
                 CompilerIf #CompileLinux
                   *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
                 CompilerElse
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
                 CompilerEndIf
               Else
                 DebuggerUseFIFO = 0
@@ -2050,7 +2050,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           CompilerEndIf
           
           CompilerIf #CompileMac
-            RunProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+            RunProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
           CompilerEndIf
           
       EndSelect
@@ -2072,7 +2072,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       CompilerIf #CompileMac
         ; On OS X, "open" launch automatically the 'Terminal' application, which is just perfect in our case
         If *Target\ExecutableFormat = 1
-          RunProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+          RunProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
         Else
           RunProgram(Executable$, *Target\CommandLine$, Directory$)
         EndIf
