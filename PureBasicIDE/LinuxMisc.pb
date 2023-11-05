@@ -148,6 +148,9 @@ CompilerIf #CompileLinux
     ElseIf system_(ToAscii("which xterm > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "
       
+    ElseIf system_(ToAscii("which lxterminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
+      GUITerminalParameters$ = " -e "
+    
     Else
       GUITerminalParameters$ = ""
       

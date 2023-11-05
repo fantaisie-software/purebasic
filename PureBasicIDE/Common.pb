@@ -2870,13 +2870,15 @@ UseCRC32Fingerprint()
 ; Limit ResizeGadget
 
 Procedure ResizeGadgetLimit(Gadget, x, y, Width, Height)
-  If Width < 0 And Width <> #PB_Ignore
-    Width = 0
+  If IsGadget(Gadget)
+    If Width < 0 And Width <> #PB_Ignore
+      Width = 0
+    EndIf
+    If Height < 0 And Height <> #PB_Ignore
+      Height = 0
+    EndIf
+    ResizeGadget(Gadget, x, y, Width, Height)
   EndIf
-  If Height < 0 And Height <> #PB_Ignore
-    Height = 0
-  EndIf
-  ResizeGadget(Gadget, x, y, Width, Height)
 EndProcedure
 
 Macro ResizeGadget(Gadget, x, y, Width, Height)
