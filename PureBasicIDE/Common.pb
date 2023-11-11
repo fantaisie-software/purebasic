@@ -2866,21 +2866,3 @@ CompilerEndIf
 
 UseMD5Fingerprint()
 UseCRC32Fingerprint()
-
-; Limit ResizeGadget
-
-Procedure ResizeGadgetLimit(Gadget, x, y, Width, Height)
-  If IsGadget(Gadget)
-    If Width < 0 And Width <> #PB_Ignore
-      Width = 0
-    EndIf
-    If Height < 0 And Height <> #PB_Ignore
-      Height = 0
-    EndIf
-    ResizeGadget(Gadget, x, y, Width, Height)
-  EndIf
-EndProcedure
-
-Macro ResizeGadget(Gadget, x, y, Width, Height)
-  ResizeGadgetLimit(Gadget, x, y, Width, Height)
-EndMacro
