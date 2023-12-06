@@ -68,6 +68,7 @@ Procedure AddFormInfo(FileName$ = "")
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
+  FileList()\DllProtection    = OptionDllProtection
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat

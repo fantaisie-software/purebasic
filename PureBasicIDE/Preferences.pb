@@ -764,6 +764,7 @@ Procedure LoadPreferences()
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
+  OptionDllProtection        = ReadPreferenceLong("DllProtection", 0)
   OptionThread               = ReadPreferenceLong("Thread",    0)
   OptionOnError              = ReadPreferenceLong("OnError",   0)
   OptionCPU                  = ReadPreferenceLong("CPU",       0)
@@ -1485,6 +1486,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
+    WritePreferenceLong  ("DllProtection",      OptionDllProtection)
     WritePreferenceLong  ("Thread",             OptionThread)
     WritePreferenceLong  ("OnError",            OptionOnError)
     WritePreferenceLong  ("CPU",                OptionCPU)
@@ -1758,6 +1760,7 @@ Procedure IsPreferenceChanged()
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
+    If OptionDllProtection   <> GetGadgetState(#GADGET_Preferences_DllProtection): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
     If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionOnError         <> GetGadgetState(#GADGET_Preferences_OnError): ProcedureReturn 1: EndIf
@@ -2179,6 +2182,7 @@ Procedure ApplyPreferences()
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
+    OptionDllProtection   = GetGadgetState(#GADGET_Preferences_DllProtection)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
     OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionOnError         = GetGadgetState(#GADGET_Preferences_OnError)
@@ -3268,6 +3272,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
+    SetGadgetState(#GADGET_Preferences_DllProtection, OptionDllProtection)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
     SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
@@ -3282,6 +3287,7 @@ Procedure OpenPreferencesWindow()
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
     DisableGadget(#GADGET_Preferences_VistaUser, 1)
     DisableGadget(#GADGET_Preferences_DPIAware, 1)
+    DisableGadget(#GADGET_Preferences_DllProtection, 1)
   CompilerEndIf
   
   

@@ -1250,6 +1250,7 @@ DataSection
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
   Data$ "DPIAware",         "Enable DPI aware executable (Windows)"
+  Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
   Data$ "ExeFormat",        "Executable format"

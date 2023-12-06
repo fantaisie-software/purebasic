@@ -1571,6 +1571,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
     If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf
     If *Target\DPIAware           : Command$ + Chr(9) + "DPIAWARE" : EndIf
+    If *Target\DllProtection      : Command$ + Chr(9) + "DLLPROTECTION" : EndIf
     
     If *Target\EnableAdmin
       Command$ + Chr(9) + "ADMINISTRATOR"
