@@ -76,6 +76,11 @@ CompilerIf #CompileWindows
     #COMPILER_EXECUTABLE = "Compilers\pbcompiler.exe"
     #COMPILER_UNICODE    = " /UNICODE" ; still needed to set in older compilers
   CompilerEndIf
+  
+  ; For now, the Windows compiler uses non-unicode API to handle files, so we need to pass the name in ASCII. On Linux/OSX, utf-8 should be used.
+  ; When the compiler on Windows will be migrated to unicode API, we should remove this patch.
+  ;
+  #COMPILER_FileFormat = #PB_Ascii
 CompilerElse
   CompilerIf #CompileMac And Not #SpiderBasic
     #COMPILER_STANDBY    = " --standby -f -ibp" ; extra flags for osx only
@@ -92,6 +97,8 @@ CompilerElse
     #COMPILER_EXECUTABLE = "compilers/pbcompiler"
     #COMPILER_UNICODE    = " --unicode" ; still needed to set in older compilers
   CompilerEndIf
+  
+  #COMPILER_FileFormat = #PB_UTF8
 CompilerEndIf
 
 
@@ -2181,32 +2188,32 @@ Procedure Compiler_CompileRun(SourceFileName$, *Source.SourceFile, CheckSyntax)
   ;
   RegisterDeleteFile(TargetFileName$)
   
-  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$)
-  CompilerWrite("TARGET"+Chr(9)+TargetFileName$)
+  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$, #COMPILER_FileFormat)
+  CompilerWrite("TARGET"+Chr(9)+TargetFileName$, #COMPILER_FileFormat)
   
   If *Source\FileName$ <> ""
-    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Source\FileName$))
+    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Source\FileName$), #COMPILER_FileFormat)
     
     If *Source\FileName$ <> SourceFileName$
-      CompilerWrite("SOURCEALIAS"+Chr(9)+*Source\FileName$)
+      CompilerWrite("SOURCEALIAS"+Chr(9)+*Source\FileName$, #COMPILER_FileFormat)
     EndIf
   EndIf
   
   If *Source\LinkerOptions$ <> ""
-    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\LinkerOptions$))
+    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\LinkerOptions$), #COMPILER_FileFormat)
   EndIf
   
   CompilerIf #CompileWindows
     ResourceFile$ = CreateResourceFile(*Source)
     If ResourceFile$
-      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$)
+      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$, #COMPILER_FileFormat)
     EndIf
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
     CompilerIf #CompileWindows | #CompileMac
       If *Source\UseIcon
-        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\IconName$))
+        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\IconName$), #COMPILER_FileFormat)
       EndIf
     CompilerEndIf
   CompilerEndIf
@@ -2393,33 +2400,33 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
     
   CompilerEndIf
   
-  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$)
-  CompilerWrite("TARGET"+Chr(9)+TargetFileName$)
+  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$, #COMPILER_FileFormat)
+  CompilerWrite("TARGET"+Chr(9)+TargetFileName$, #COMPILER_FileFormat)
   
   If *Target\FileName$ <> ""
     ; do not use the BasePath$ here. Includes are always relative to the main file, not the project
-    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Target\FileName$))
+    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Target\FileName$), #COMPILER_FileFormat)
     
     If *Target\FileName$ <> SourceFileName$
-      CompilerWrite("SOURCEALIAS"+Chr(9)+*Target\FileName$)
+      CompilerWrite("SOURCEALIAS"+Chr(9)+*Target\FileName$, #COMPILER_FileFormat)
     EndIf
   EndIf
   
   If *Target\LinkerOptions$ <> ""
-    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(BasePath$, *Target\LinkerOptions$))
+    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(BasePath$, *Target\LinkerOptions$), #COMPILER_FileFormat)
   EndIf
   
   CompilerIf #CompileWindows
     ResourceFile$ = CreateResourceFile(*Target)
     If ResourceFile$
-      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$)
+      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$, #COMPILER_FileFormat)
     EndIf
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
     CompilerIf #CompileWindows | #CompileMac
       If *Target\UseIcon
-        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(BasePath$, *Target\IconName$))
+        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(BasePath$, *Target\IconName$), #COMPILER_FileFormat)
       EndIf
     CompilerEndIf
   CompilerEndIf
