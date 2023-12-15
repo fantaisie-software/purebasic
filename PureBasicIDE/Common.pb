@@ -320,6 +320,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_VistaAdmin
   #GADGET_Preferences_VistaUser
   #GADGET_Preferences_DPIAware
+  #GADGET_Preferences_DllProtection
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
   #GADGET_Preferences_CustomCompiler
@@ -582,6 +583,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
     #GADGET_Option_DPIAware
+    #GADGET_Option_DllProtection
     #GADGET_Option_EnableOnError
     #GADGET_Option_ExecutableFormat
     #GADGET_Option_EnableASM
@@ -2101,6 +2103,7 @@ Structure CompileTarget
   EnableAdmin.l
   EnableUser.l
   DPIAware.l
+  DllProtection.l
   EnableOnError.l
   
   ; For backward compatibility in project files (only read/stored in project files)
@@ -2585,7 +2588,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
 Global OptionCustomCompiler, OptionCompilerVersion$
