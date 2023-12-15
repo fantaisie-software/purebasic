@@ -316,6 +316,7 @@ EndStructure
 #PB_Cipher_ECB       = 1 << 3 ; Used by AES
 #PB_Cipher_URL       = 1 << 4 ; Used by Base64Encoder
 #PB_Cipher_NoPadding = 1 << 5 ; Used by Base64Encoder
+#PB_Cipher_HMAC      = 1 << 16
 
 ; Date
 ;
@@ -763,10 +764,12 @@ EndEnumeration
 ; Memory library
 ;
 #PB_Memory_NoClear = 1
+#PB_Memory_FollowPointers = (1 << 8)
 
 ; Menu library
 ;
-#PB_Menu_ModernLook = 1
+#PB_Menu_ModernLook  = (1 << 0)
+#PB_Menu_SystrayLook = (1 << 2)
 
 ; Network
 ;
@@ -891,6 +894,7 @@ CompilerEndIf
 ;
 #PB_Preference_NoSpace        = 1 << 0
 #PB_Preference_GroupSeparator = 1 << 1
+#PB_Preference_NoBOM          = 1 << 2
 
 ; Screen library
 ;
@@ -1010,6 +1014,10 @@ CompilerEndIf
 #PB_Sort_Descending = 1
 #PB_Sort_NoCase     = 2
 
+#PB_Sort_Greater = 1
+#PB_Sort_Equal   = 0
+#PB_Sort_Lesser  = -1
+
 ; String library
 ;
 #PB_String_CaseSensitive = 0
@@ -1028,6 +1036,7 @@ CompilerEndIf
 
 #PB_String_EscapeInternal = 0
 #PB_String_EscapeXML      = 1
+#PB_String_EscapeJSON     = 2
 
 ; System library
 ;
