@@ -328,6 +328,9 @@ EndStructure
 #PB_Date_Minute = 5
 #PB_Date_Second = 6
 
+#PB_Date_LocalTime = 0
+#PB_Date_UTC       = 1
+
 ; Database
 ;
 #PB_Database_ODBC = 1
@@ -513,10 +516,10 @@ CompilerEndIf
 #PB_String_MaximumLength = 1
 
 ; WebGadget constants are common on all OS
-#PB_Web_Back = $1
-#PB_Web_Forward = $2
-#PB_Web_Refresh = $4
-#PB_Web_Stop = $3
+#PB_Web_Back    = 1
+#PB_Web_Forward = 2
+#PB_Web_Stop    = 3
+#PB_Web_Refresh = 4
 
 ; for Get/SetGadgetItemText()
 ;
@@ -536,6 +539,8 @@ CompilerEndIf
 #PB_Web_ScrollX            = 7 ; get/set the X scroll position
 #PB_Web_ScrollY            = 8 ; get/set the Y scroll position
 
+; Flags
+#PB_Web_Edge = 1 << 0
 
 ; CanvasGadget/OpenGLGadget
 ;

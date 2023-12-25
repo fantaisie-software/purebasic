@@ -195,7 +195,7 @@ DataSection
   Data$ "CreatePopupImageMenu,1,#PB_Any"
   Data$ "CreatePopupImageMenu,2,#PB_Menu_ModernLook"
   Data$ "CreatePopupMenu,1,#PB_Any"
-  Data$ "CreatePreferences,2,#PB_Preference_NoSpace,#PB_Preference_NoSpace"
+  Data$ "CreatePreferences,2,#PB_Preference_NoSpace,#PB_Preference_GroupSeparator,#PB_Preference_NoBOM"
   Data$ "CreateRegularExpression,1,#PB_Any"
   Data$ "CreateRegularExpression,3,#PB_RegularExpression_DotAll,#PB_RegularExpression_Extended,#PB_RegularExpression_MultiLine,#PB_RegularExpression_AnyNewLine,#PB_RegularExpression_NoCase"
   Data$ "CreateRenderTexture,1,#PB_Any"
