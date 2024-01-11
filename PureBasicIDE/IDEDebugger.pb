@@ -73,7 +73,7 @@ Procedure IsDebuggedFile(*Source.SourceFile)
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
                                                        ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
-        FileName$ = UniqueFilename(PeekAscii(*Cursor))
+        FileName$ = UniqueFilename(PeekUTF8(*Cursor))
         If IsEqualFile(*Source\FileName$, FileName$)
           ProcedureReturn @RunningDebuggers() ; return the debugger structure
         EndIf
@@ -130,7 +130,7 @@ Procedure GetDebuggerFileNumber(*Debugger.DebuggerData, *Source.SourceFile)
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To *Debugger\NbIncludedFiles   ; check all included files
-        If IsEqualFile(*Source\FileName$, PeekAscii(*Cursor))
+        If IsEqualFile(*Source\FileName$, PeekUTF8(*Cursor))
           ProcedureReturn i ; return the file number
         EndIf
         *Cursor + MemoryAsciiLength(*Cursor) + 1
@@ -705,7 +705,7 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
               *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
               For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
                                                                ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
-                FileName$ = UniqueFilename(PeekAscii(*Cursor))
+                FileName$ = UniqueFilename(PeekUTF8(*Cursor))
                 If IsEqualFile(FileList()\FileName$, FileName$)
                   If @RunningDebuggers() = *Debugger
                     ThisDebugger = #True

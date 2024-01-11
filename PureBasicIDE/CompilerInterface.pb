@@ -77,10 +77,7 @@ CompilerIf #CompileWindows
     #COMPILER_UNICODE    = " /UNICODE" ; still needed to set in older compilers
   CompilerEndIf
   
-  ; For now, the Windows compiler uses non-unicode API to handle files, so we need to pass the name in ASCII. On Linux/OSX, utf-8 should be used.
-  ; When the compiler on Windows will be migrated to unicode API, we should remove this patch.
-  ;
-  #COMPILER_FileFormat = #PB_Ascii
+  #COMPILER_FileFormat = #PB_UTF8
 CompilerElse
   CompilerIf #CompileMac And Not #SpiderBasic
     #COMPILER_STANDBY    = " --standby -f -ibp" ; extra flags for osx only
