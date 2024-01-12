@@ -355,6 +355,18 @@ EndStructure
 #PB_Event_FirstCustomValue     = 1 << 16
 #PB_EventType_FirstCustomValue = 1 << 18
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_EventType_LeftClick         = 0
+  #PB_EventType_RightClick        = 1
+  #PB_EventType_LeftDoubleClick   = 2
+  #PB_EventType_RightDoubleClick  = 3
+  #PB_EventType_Up                = 4
+  #PB_EventType_Down              = 5
+  #PB_EventType_Resize            = 6
+  #PB_EventType_Refresh           = 7
+  #PB_EventType_ColumnClick       = 8
+CompilerEndIf
+
 ; File library
 ;
 #PB_File_NoShare     = 0
@@ -494,7 +506,30 @@ EndEnumeration
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_DisplayMode  = 2
 CompilerEndIf
+
 #PB_ListIcon_ColumnCount = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ClickedColumn = 4
+CompilerEndIf
+
+; Gadget attributes
+#PB_ListIcon_ColumnWidth = 1
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ColumnAlignment = 5
+CompilerEndIf
+  
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Left   = 0
+  #PB_ListIcon_Right  = 1
+  #PB_ListIcon_Center = 2
+CompilerEndIf
+
+; Item attributes
+#PB_ListIcon_Selected  = 1
+#PB_ListIcon_Checked   = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Inbetween = 4
+CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_LargeIcon = 0
