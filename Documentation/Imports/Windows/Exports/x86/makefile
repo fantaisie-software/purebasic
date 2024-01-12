@@ -24,6 +24,7 @@ OBJECTS = $(EXPORTS)/atl.lib \
 					$(EXPORTS)/hlink.lib \
 					$(EXPORTS)/icmp.lib \
 					$(EXPORTS)/mslsp32.lib \
+					$(EXPORTS)/msvcrt.lib \
 					$(EXPORTS)/nal.lib \
 					$(EXPORTS)/ntdll.lib \
 					$(EXPORTS)/penwin32.lib \
