@@ -467,6 +467,11 @@ Procedure ToolsPanel_Hide()
       State = GetGadgetState(#GADGET_LogSplitter) ; somehow the reparenting makes the slider jump in the second splitter on linux, so only reset it after ResizeWindow()
     EndIf
     
+    CompilerIf #CompileWindows
+      ; Temporarily disable painting to avoid flickering while reparenting.
+      SendMessage_(WindowID(#WINDOW_Main), #WM_SETREDRAW, #False, 0)
+    CompilerEndIf
+    
     If ToolsPanelSide = 0
       ToolsPanelWidth_Hidden = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_ToolsDummy)
@@ -476,9 +481,13 @@ Procedure ToolsPanel_Hide()
     EndIf
     
     ToolsPanelVisible = 0
-    HideGadget(#GADGET_ToolsSplitter, 1)
     HideGadget(#GADGET_ToolsPanelFake, 0)
     ResizeMainWindow()
+    CompilerIf #CompileWindows
+      ; Restore painting to have updated visuals reflected.
+      SendMessage_(WindowID(#WINDOW_Main), #WM_SETREDRAW, #True, 0)
+    CompilerEndIf
+    HideGadget(#GADGET_ToolsSplitter, 1)
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)
