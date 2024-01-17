@@ -188,13 +188,22 @@ Build/DefaultTheme.zip: data/DefaultTheme/*
 	rm -f Build/DefaultTheme.zip
 	zip -jq Build/DefaultTheme.zip data/DefaultTheme/*
 
-# Use "mkdir" instead on mkdir, so on Windows it search mkdir.exe on the PATH instead of using the internal CMD mkdir.
-# It works on Linux and OS X as well.
+# On Linux and OS X, use "mkdir" (mkdir.exe) instead of mkdir, to make it works
+# On Windows, use internal mkdir command, mkdir.exe does not exist and internal mkdir does not support -p switch
+# %OS% is the type of windows: Windows_NT
 #
+ifeq ($(OS),Windows_NT)
 $(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
-	"mkdir" -p "$(THEMEFOLDER)"
+	mkdir "$(THEMEFOLDER)"
 	rm -f "$(THEMEFOLDER)/SilkTheme.zip"
 	zip -jq "$(THEMEFOLDER)/SilkTheme.zip" data/SilkTheme/*
+
+else
+$(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
+	"mkdir.exe" -p "$(THEMEFOLDER)"
+	rm -f "$(THEMEFOLDER)/SilkTheme.zip"
+	zip -jq "$(THEMEFOLDER)/SilkTheme.zip" data/SilkTheme/*
+endif
 
 $(COLORTABLE): data/ColorTable.xml
 	cp -f data/ColorTable.xml "$(COLORTABLE)"
