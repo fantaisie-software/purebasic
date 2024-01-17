@@ -77,7 +77,7 @@ CompilerIf #CompileWindows
     #COMPILER_UNICODE    = " /UNICODE" ; still needed to set in older compilers
   CompilerEndIf
   
-  #COMPILER_FileFormat = #PB_UTF8
+  #COMPILER_FileFormat = #PB_Ascii
 CompilerElse
   CompilerIf #CompileMac And Not #SpiderBasic
     #COMPILER_STANDBY    = " --standby -f -ibp" ; extra flags for osx only
@@ -95,7 +95,7 @@ CompilerElse
     #COMPILER_UNICODE    = " --unicode" ; still needed to set in older compilers
   CompilerEndIf
   
-  #COMPILER_FileFormat = #PB_UTF8
+  #COMPILER_FileFormat = #PB_Ascii
 CompilerEndIf
 
 

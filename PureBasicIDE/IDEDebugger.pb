@@ -875,9 +875,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Else
         Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" "+Language("Misc","Line")+": " + Str(LineNumber), *Debugger\Command\TimeStamp)
       EndIf
-      Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
+      Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" " + PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+          
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekUTF8(*Debugger\CommandData), -1)
       
       If DebuggerKillOnError
         Debugger_Ended(*Debugger)
@@ -907,9 +907,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Else
         Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" "+Language("Misc","Line")+": " + Str(LineNumber), *Debugger\Command\TimeStamp)
       EndIf
-      Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" " + PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
       
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekUTF8(*Debugger\CommandData), -1)
       
       
     Case #COMMAND_Stopped
@@ -1050,7 +1050,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Select *Debugger\Command\Value2 ; result code
             
           Case 0 ; error
-            Message$ = "Debugger: " + PeekAscii(*Debugger\CommandData)
+            Message$ = "Debugger: " + PeekUTF8(*Debugger\CommandData)
             Debug Message$
             
             ; Variable not found is common (place the cursor on a keyword etc),

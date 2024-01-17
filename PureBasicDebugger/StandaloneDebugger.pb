@@ -1051,8 +1051,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Error
       Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       SetCurrentLine(*Debugger\Command\Value1)
@@ -1061,8 +1061,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Warning
       Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       ; just mark, do not change current line or stop program
