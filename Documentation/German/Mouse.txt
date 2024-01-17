@@ -1,7 +1,7 @@
 ;
 ;     Mouse library documentation - MultiOS version !
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Mouse
@@ -65,9 +65,13 @@
 @Remarks
   Der erste Aufruf von ExamineMouse() begrenzt die Maus auf den aktiven @Link "Screen/OpenScreen" "Screen"
   oder @Link "Screen/OpenWindowedScreen" "'WindowedScreen'".
-  Dies Maus ist nach einem Aufruf von @Link "ReleaseMouse" "ReleaseMouse(#True)" oder nach Ende dieses
+  Die Maus ist nach einem Aufruf von @Link "ReleaseMouse" "ReleaseMouse(#True)" oder nach Ende dieses
   Programms wieder für das gesamte System verfügbar.
-  
+  @LineBreak
+  @LineBreak
+  Im @Link "Screen/OpenScreen" "Vollbild-Modus" muss der Befehl @@FlipBuffers innerhalb Ihrer
+  Ereignisschleife aufgerufen werden, um alle Ereignisse korrekt zu verarbeiten.
+
 @SeeAlso
   @@ExamineMouse, @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY, @@MouseButton
   

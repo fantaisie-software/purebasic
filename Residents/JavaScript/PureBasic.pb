@@ -352,11 +352,6 @@ IncludeFile "../Common.pb"
 #PB_Frame_Single   = 2
 #PB_Frame_Flat     = 3
 
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-
-#PB_ListIcon_ColumnWidth = 1
-
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
 

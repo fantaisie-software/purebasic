@@ -1,7 +1,7 @@
 ;
 ;     Keyboard library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Keyboard
@@ -43,7 +43,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ExamineKeyboard()
+@Function ExamineKeyboard()
 
 @Description
   Updates the keyboard state. This function has to be called before using @@KeyboardInkey,
@@ -52,6 +52,10 @@
 @NoParameters
 
 @NoReturnValue
+
+@Remarks
+  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
+  event loop to handle all events properly.
 
 @SeeAlso
   @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.

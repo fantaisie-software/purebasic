@@ -262,14 +262,6 @@ IncludeFile "../Common.pb"
 #PB_ListIcon_GridLines = 16
 #PB_ListIcon_HeaderDragDrop = 32
 
-; Item attributes
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-; Gadget attributes
-#PB_ListIcon_ColumnWidth = 1
-
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2 ; NOT SUPPORTED
 
@@ -438,15 +430,8 @@ IncludeFile "../Common.pb"
 ;
 #PB_EventType_Change = $300
 #PB_EventType_Focus = $100
-#PB_EventType_LeftClick = 0
-#PB_EventType_LeftDoubleClick = 2
 #PB_EventType_LostFocus = $200
-#PB_EventType_RightClick = 1
-#PB_EventType_RightDoubleClick = 3
 #PB_EventType_DragStart = $800
-#PB_EventType_Up        = 4
-#PB_EventType_Down      = 5
-#PB_EventType_Resize    = 6
 
 ; Drag & Drop
 ;
@@ -766,16 +751,16 @@ CompilerEndIf
 #PB_Shortcut_LeftWindows  = 0
 #PB_Shortcut_RightWindows = 0
 #PB_Shortcut_Apps = 0
-#PB_Shortcut_Pad0 = 48
-#PB_Shortcut_Pad1 = 49
-#PB_Shortcut_Pad2 = 50
-#PB_Shortcut_Pad3 = 51
-#PB_Shortcut_Pad4 = 52
-#PB_Shortcut_Pad5 = 53
-#PB_Shortcut_Pad6 = 54
-#PB_Shortcut_Pad7 = 55
-#PB_Shortcut_Pad8 = 56
-#PB_Shortcut_Pad9 = 57
+#PB_Shortcut_Pad0 = 130
+#PB_Shortcut_Pad1 = 131
+#PB_Shortcut_Pad2 = 132
+#PB_Shortcut_Pad3 = 133
+#PB_Shortcut_Pad4 = 134
+#PB_Shortcut_Pad5 = 135
+#PB_Shortcut_Pad6 = 136
+#PB_Shortcut_Pad7 = 137
+#PB_Shortcut_Pad8 = 138
+#PB_Shortcut_Pad9 = 139
 #PB_Shortcut_Multiply  = 42
 #PB_Shortcut_Add       = 43
 #PB_Shortcut_Separator = 0

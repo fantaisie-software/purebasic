@@ -82,24 +82,35 @@
   automatiquement supprimées à la 
   fermeture du programme.
 
-@Example 
+@Example
 @Code
-  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
-  
-  UsePNGImageDecoder()
-  
-  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
-  
-  ; Ajout d'une icône dans la zone de notification
-  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
-  
-  Repeat
-    Event = WaitWindowEvent()
-  Until Event = #PB_Event_CloseWindow
-  
-EndIf
-@EndCode  
-  
+  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
+    ; Créer un menu contextuel et une icône Systray (symbole CD) :
+    If CreatePopupImageMenu(0)
+      MenuItem(0, "Quitter")
+    EndIf
+    AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\CdPlayer.ico"))
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_SysTray
+          Select EventType()
+            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
+              DisplayPopupMenu(0, WindowID(0)) ; Afficher le menu contextuel après un clic sur l'icône Systray
+          EndSelect
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case 0 ; Quitter
+              RemoveSysTrayIcon(0)
+              FreeMenu(0)
+              CloseWindow(0)
+              End
+          EndSelect
+      EndSelect
+    ForEver
+  EndIf
+@EndCode 
+
 @SeeAlso
   @@RemoveSysTrayIcon, @@ChangeSysTrayIcon
   
@@ -128,29 +139,51 @@ EndIf
 
 @NoReturnValue
 
-@Example 
+@Example
 @Code
-  If OpenWindow(0, 100, 150, 300, 100, "Zone de notification", #PB_Window_SystemMenu)
-  
-  UsePNGImageDecoder()
-  
-  Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
-  
-  ; Ajout d'une icône dans la zone de notification
-  AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
-
-  MessageRequester("Info", "Changement de l'icône de la zone de notification.")
-  Icone$ = #PB_Compiler_Home + "examples/sources/Data/Drive.bmp"
-  ; Changement de l'icône 
-  ChangeSysTrayIcon (0, LoadImage(0, Icone$))
-  MessageRequester("Info", "Icône remplacée." + Chr(10) + "Observez la transparence de cette nouvelle icône...")
+  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
+    ; Créer une image avec une case jaune comme icône Systray :
+    If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 16 , 16, $00DDDD)
+      StopDrawing()
+    EndIf
+    AddSysTrayIcon(0, WindowID(0), ImageID(0))
+    ; Créer un menu contextuel à utiliser avec l'icône Systray :
+    If CreatePopupImageMenu(0)
+      MenuItem(0, "Quitter")
+    EndIf
     
-  Repeat
-    Event = WaitWindowEvent()
-  Until Event = #PB_Event_CloseWindow
-  
-EndIf
-@EndCode  
+    AddWindowTimer(0, 0, 1000) ; Ajouter un minuteur de fenêtre qui entraînera un changement de l'icône Systray toutes les 1 000 ms.
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Timer
+          ; Mettre à jour l'image de l'icône Systray avec un cercle rouge de taille aléatoire sur fond jaune
+          If StartDrawing(ImageOutput(0))
+            Box(0, 0, 16 , 16, $00DDDD)
+            Radius = Random(6, 2)
+            Circle(8, 8, Radius, $0000DD)
+            StopDrawing()
+            ChangeSysTrayIcon(0, ImageID(0))
+          EndIf
+        Case #PB_Event_SysTray
+          Select EventType()
+            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
+              DisplayPopupMenu(0, WindowID(0)) ; Afficher le menu contextuel après un clic sur l'icône Systray
+          EndSelect
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case 0 ; Quittez après avoir cliqué sur l'élément de menu 'Quitter' associé à l'icône Systray
+              RemoveSysTrayIcon(0)
+              FreeMenu(0)
+              CloseWindow(0)
+              End
+          EndSelect
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
   
 @SeeAlso
   @@AddSysTrayIcon, @@RemoveSysTrayIcon

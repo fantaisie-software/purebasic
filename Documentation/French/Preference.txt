@@ -47,7 +47,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Choisir le groupe "Window"
   PreferenceGroup("Window")
@@ -117,8 +117,8 @@
   
   ; Créer un groupe nommé "Window"
   PreferenceGroup("Window")
-    WritePreferenceLong ("X", 10)     ; X = 10
-    WritePreferenceLong ("Y", 10)     ; Y = 10
+    WritePreferenceLong("X", 10)      ; X = 10
+    WritePreferenceLong("Y", 10)      ; Y = 10
     WritePreferenceLong("W", 800)     ; W = 800
     WritePreferenceLong("H", 600)     ; H = 600
     WritePreferenceFloat("%", 20)     ; % = 20.000000
@@ -154,7 +154,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Recherche des groupes dans le fichier préférence
   ExaminePreferenceGroups()
@@ -192,7 +192,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Groupe à examiner
   PreferenceGroup("Window")
@@ -200,7 +200,7 @@
   ; Recherche des clés dans le groupe 'Window'  
   ExaminePreferenceKeys()
   While  NextPreferenceKey() ; Tant qu'il existe une clé à afficher
-    MessageRequester("Clés du groupe 'Window'", PreferenceKeyName() + " = " + PreferenceKeyValue())  ; Afficher la clé et sa valeur
+    Debug "Clés du groupe 'Window': " + PreferenceKeyName() + " = " + PreferenceKeyValue()  ; Afficher la clé et sa valeur
   Wend
   
   ; Fermer le fichier préférence
@@ -256,7 +256,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Recherche des groupes dans le fichier préférence
   ExaminePreferenceGroups()
@@ -297,7 +297,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Groupe à examiner
   PreferenceGroup("Window")
@@ -337,7 +337,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Recherche des groupes dans le fichier préférence
   ExaminePreferenceGroups()
@@ -375,7 +375,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Groupe à examiner
   PreferenceGroup("Window")
@@ -417,7 +417,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Groupe à examiner
   PreferenceGroup("Window")
@@ -431,7 +431,9 @@
   ; Fermer le fichier préférence
   ClosePreferences()  
 @EndCode  
- 
+
+  Un autre exemple où les clés sont les données elles-mêmes, voir @@WritePreferenceString.
+
 @SeeAlso
   @@ExaminePreferenceKeys, @@PreferenceKeyName
 
@@ -492,7 +494,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Examen des Groupes
   ExaminePreferenceGroups()
@@ -537,26 +539,23 @@
   zéro sinon. 
 
 @Remarks
-  Toutes les opérations de lecture ou d'écriture 
-  qui suivent ne concernent que ce groupe.
+  Toutes les opérations de lecture ou d'écriture qui suivent ne concernent que ce groupe.
 @LineBreak
 @LineBreak
-  Si le groupe n'existe pas, il ne sera pas 
-  immédiatement créé. 
-  Il sera créé uniquement lorsqu'au moins une 
-  clé sera écrite dans ce groupe. Ceci permet 
-  d'utiliser PreferenceGroup() pour tester si 
-  un groupe existe sans créer plein de groupes 
-  vides.
+  Si le groupe n'existe pas, il ne sera pas immédiatement créé. 
+  Il sera créé uniquement lorsqu'au moins une clé sera écrite dans ce groupe. Ceci permet 
+  d'utiliser PreferenceGroup() pour tester si un groupe existe sans créer plein de groupes vides.
 @LineBreak
-@LineBreak 
-  Pour quitter un groupe, un "Nom$" vide peut
-  être utilisé. 
+@LineBreak
+  Pour quitter un groupe, un "Nom$" vide peut être utilisé. 
+@LineBreak
+@LineBreak
+  La recherche de groupe est insensible à la casse.
  
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Groupe à examiner
   PreferenceGroup("Window")
@@ -640,7 +639,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'Window'
   PreferenceGroup("Window")
@@ -705,7 +704,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'window'
   PreferenceGroup("window")
@@ -770,7 +769,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'window'
   PreferenceGroup("window")
@@ -794,7 +793,9 @@
   ; Fermer le fichier préférence
   ClosePreferences() 
 @EndCode  
-   
+
+ Voir aussi l'exemple de @@WritePreferenceInteger.
+
 @SeeAlso
   @@ReadPreferenceDouble, @@ReadPreferenceFloat, 
   @@ReadPreferenceLong, @@ReadPreferenceQuad, 
@@ -835,7 +836,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'window'
   PreferenceGroup("window")
@@ -900,7 +901,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'window'
   PreferenceGroup("window")
@@ -965,7 +966,7 @@
 @Example
 @Code
   ; Ouvrir un fichier préférence
-  OpenPreferences(#PB_Compiler_Home +"Examples\Sources\Data\test.pref")
+  OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
   
   ; Ouvrir le Groupe 'window'
   PreferenceGroup("window")
@@ -1400,6 +1401,32 @@
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
     EndIf
 @EndCode  
+
+@Example "Stocker des données"
+@Code
+  ; Créer un fichier de préférences 'ColorList.ini'
+  ; Remarque : Dans ce cas, les valeurs des données doivent être uniques (pas de clés en double).
+  If CreatePreferences(GetTemporaryDirectory()+"ColorList.ini", #PB_Preference_NoSpace)
+    WritePreferenceString("FF0000", "")
+    WritePreferenceString("00FF00", "")
+    WritePreferenceString("0000FF", "")
+    WritePreferenceString("FF00FF", "")
+    ClosePreferences()
+  Else
+    Debug "Erreur : Impossible de créer le fichier 'ColorList.ini' !"
+  EndIf
+  
+  ; Lire le fichier 'ColorList.ini' et afficher les clés (qui sont les données ici)
+  If OpenPreferences(GetTemporaryDirectory()+"ColorList.ini")
+    ExaminePreferenceKeys()
+    While NextPreferenceKey()
+      Debug PreferenceKeyName()
+    Wend
+    ClosePreferences()
+  Else
+    Debug "Erreur : Impossible de créer le fichier 'ColorList.ini' !"
+  EndIf
+@EndCode
 
 @SeeAlso
   @@WritePreferenceFloat, 

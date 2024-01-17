@@ -120,7 +120,7 @@ Procedure.s GetDebuggerFile(*Debugger.DebuggerData, LineNumber)
       *Pointer + MemoryAsciiLength(*Pointer) + 1
     Next i
     
-    FileName$ = PeekAscii(*Pointer)
+    FileName$ = PeekUTF8(*Pointer)
     
     ; NOTE: the FileName$ can contain "../", so we need to remove this
     ;
@@ -174,7 +174,7 @@ Procedure.s GetDebuggerRelativeFile(*Debugger.DebuggerData, LineNumber)
   FileName$ = GetDebuggerFile(*Debugger, LineNumber)
   
   If *Debugger\IncludedFiles
-    SourcePath$ = PeekAscii(*Debugger\IncludedFiles) ; first is the source path
+    SourcePath$ = PeekUTF8(*Debugger\IncludedFiles) ; first is the source path
     FileName$ = CreateRelativePath(SourcePath$, FileName$)
   EndIf
   

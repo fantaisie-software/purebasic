@@ -43,12 +43,6 @@ EndStructure
 Global NewMap AutoComplete_ContextConstants.AutoCompleteConstants(4096)
 Global NewMap PredefinedPBConstants.l(4096)
 
-Macro AutoComplete_Redraw()
-  CompilerIf #CompileLinux
-    FlushEvents()
-  CompilerEndIf
-EndMacro
-
 Procedure CreateAutoCompleteWindow()
   ;
   ; Create the autocomplete window (hidden), so it is later only hidden/shown

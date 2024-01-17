@@ -56,6 +56,8 @@
 @LineBreak
   %FILE : filename of the current source code. Remains empty if it has not yet been saved. If you configure 
   the tool to replace the file viewer, this token represents the file that is to be opened.
+  You should never modify the contents of the %FILE file. This file contains the state of the source code as the user last saved it.
+  This could be much different from what is currently visible in the editor. If you overwrite this file, the user might lose data.
 @LineBreak
   %TEMPFILE : When this option is given, the current source code is saved in a temporary file, and the 
   filename is inserted here. You may modify or delete the file at will.

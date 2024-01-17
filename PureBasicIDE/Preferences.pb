@@ -84,6 +84,7 @@ Procedure LoadPreferences()
   EnableKeywordBolding        = ReadPreferenceLong  ("EnableKeywordBolding", 1)
   EnableCaseCorrection        = ReadPreferenceLong  ("EnableCaseCorrection", 1)
   EnableLineNumbers           = ReadPreferenceLong  ("EnableLineNumbers" ,  1)
+  EnableAccessibility         = ReadPreferenceLong  ("EnableAccessibility" ,  0)
   ShowWhiteSpace              = ReadPreferenceLong  ("ShowWhiteSpace"    , 0)
   ShowIndentGuides            = ReadPreferenceLong  ("ShowIndentGuides"  , 0)
   UseTabIndentForSplittedLines = ReadPreferenceLong ("UseTabIndentForSplittedLines", 0)
@@ -109,6 +110,7 @@ Procedure LoadPreferences()
   UpdateCheckVersions         = ReadPreferenceLong  ("UpdateCheckVersions", #UPDATE_Version_Final)
   LastUpdateCheck             = ReadPreferenceLong  ("LastUpdateCheck", 0)
   EnableMenuIcons             = ReadPreferenceLong  ("EnableMenuIcons", 1)
+  ScreenReaderChecked         = ReadPreferenceLong  ("ScreenReaderChecked", 0)
   
   ; Force a default starting zoom
   CurrentZoom = #ZOOM_Default
@@ -169,6 +171,8 @@ Procedure LoadPreferences()
     ; On Windows, default to the system colors for this, as Screen readers rely on it.
     ; NOTE: The Accessibility color scheme uses -1 here to indicate that the syscolors
     ; should always be used.
+    ;
+    ; If EnableAccessibility is set then it also forces the sys colors
     ;
     Colors(#COLOR_Selection)\UserValue      = GetSysColor_(#COLOR_HIGHLIGHT)
     Colors(#COLOR_SelectionFront)\UserValue = GetSysColor_(#COLOR_HIGHLIGHTTEXT)
@@ -760,6 +764,7 @@ Procedure LoadPreferences()
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
+  OptionDllProtection        = ReadPreferenceLong("DllProtection", 0)
   OptionThread               = ReadPreferenceLong("Thread",    0)
   OptionOnError              = ReadPreferenceLong("OnError",   0)
   OptionCPU                  = ReadPreferenceLong("CPU",       0)
@@ -1080,6 +1085,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("EnableKeywordBolding", EnableKeywordBolding)
     WritePreferenceLong  ("EnableCaseCorrection", EnableCaseCorrection)
     WritePreferenceLong  ("EnableLineNumbers",    EnableLineNumbers)
+    WritePreferenceLong  ("EnableAccessibility",  EnableAccessibility)
     ;WritePreferenceLong  ("EnableMarkers",        EnableMarkers)
     WritePreferenceLong  ("ShowWhiteSpace",       ShowWhiteSpace)
     WritePreferenceLong  ("UseTabIndentForSplittedLines", UseTabIndentForSplittedLines)
@@ -1106,6 +1112,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("UpdateCheckInterval",  UpdateCheckInterval)
     WritePreferenceLong  ("UpdateCheckVersions",  UpdateCheckVersions)
     WritePreferenceLong  ("LastUpdateCheck",      LastUpdateCheck)
+    WritePreferenceLong  ("ScreenReaderChecked",  ScreenReaderChecked)
     
     ;- - Editor
     PreferenceComment("")
@@ -1478,6 +1485,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
+    WritePreferenceLong  ("DllProtection",      OptionDllProtection)
     WritePreferenceLong  ("Thread",             OptionThread)
     WritePreferenceLong  ("OnError",            OptionOnError)
     WritePreferenceLong  ("CPU",                OptionCPU)
@@ -1750,6 +1758,7 @@ Procedure IsPreferenceChanged()
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
+    If OptionDllProtection   <> GetGadgetState(#GADGET_Preferences_DllProtection): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
     If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionOnError         <> GetGadgetState(#GADGET_Preferences_OnError): ProcedureReturn 1: EndIf
@@ -1769,6 +1778,7 @@ Procedure IsPreferenceChanged()
   ;  If AutoCompleteNoStrings <> GetGadgetState(#GADGET_Preferences_NoStrings): ProcedureReturn 1: EndIf
   If NoSplashScreen        <> GetGadgetState(#GADGET_Preferences_NoSplashScreen): ProcedureReturn 1: EndIf
   If DisplayFullPath       <> GetGadgetState(#GADGET_Preferences_DisplayFullPath): ProcedureReturn 1: EndIf
+  If EnableAccessibility   <> GetGadgetState(#GADGET_Preferences_EnableAccessibility): ProcedureReturn 1: EndIf
   CompilerIf #CompileMac
     If DisplayDarkMode       <> GetGadgetState(#GADGET_Preferences_DisplayDarkMode): ProcedureReturn 1: EndIf
   CompilerEndIf
@@ -2125,6 +2135,7 @@ Procedure ApplyPreferences()
   ;  AutoCompleteNoStrings = GetGadgetState(#GADGET_Preferences_NoStrings)
   NoSplashScreen        = GetGadgetState(#GADGET_Preferences_NoSplashScreen)
   DisplayFullPath       = GetGadgetState(#GADGET_Preferences_DisplayFullPath)
+  EnableAccessibility   = GetGadgetState(#GADGET_Preferences_EnableAccessibility)
   CompilerIf #CompileMac
     DisplayDarkMode       = GetGadgetState(#GADGET_Preferences_DisplayDarkMode)
   CompilerEndIf
@@ -2157,6 +2168,7 @@ Procedure ApplyPreferences()
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
+    OptionDllProtection   = GetGadgetState(#GADGET_Preferences_DllProtection)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
     OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionOnError         = GetGadgetState(#GADGET_Preferences_OnError)
@@ -2791,6 +2803,8 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_MemorizeWindow, MemorizeWindow)
   SetGadgetState(#GADGET_Preferences_AutoReload, AutoReload)
   SetGadgetState(#GADGET_Preferences_DisplayFullPath, DisplayFullPath)
+  SetGadgetState(#GADGET_Preferences_EnableAccessibility, EnableAccessibility)
+  
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_DisplayDarkMode, DisplayDarkMode)
   CompilerEndIf
@@ -2863,6 +2877,10 @@ Procedure OpenPreferencesWindow()
   
   SetGadgetState(#GADGET_Preferences_EnableMenuIcons, EnableMenuIcons)
   SetGadgetState(#GADGET_Preferences_ShowMainToolbar, ShowMainToolbar)
+  
+  If EnableAccessibility
+    DisableGadget(#GADGET_Preferences_EnableMenuIcons, #True) ; forced off in accessibility mode
+  EndIf
   
   ;- --> Toolbar
   ;
@@ -3231,6 +3249,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
+    SetGadgetState(#GADGET_Preferences_DllProtection, OptionDllProtection)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
     SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
@@ -3245,6 +3264,7 @@ Procedure OpenPreferencesWindow()
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
     DisableGadget(#GADGET_Preferences_VistaUser, 1)
     DisableGadget(#GADGET_Preferences_DPIAware, 1)
+    DisableGadget(#GADGET_Preferences_DllProtection, 1)
   CompilerEndIf
   
   
@@ -4422,6 +4442,15 @@ Procedure PreferencesWindowEvents(EventID)
         EndIf
         SetActiveGadget(#GADGET_Preferences_Tree)
         PostEvent(#PB_Event_Gadget, #WINDOW_Preferences, #GADGET_Preferences_Tree, #PB_EventType_Change)
+        
+      Case #GADGET_Preferences_EnableAccessibility
+        ; disable the menu icons setting (force it to off) if this is enabled
+        If GetGadgetState(#GADGET_Preferences_EnableAccessibility)
+          SetGadgetState(#GADGET_Preferences_EnableMenuIcons, 0)
+          DisableGadget(#GADGET_Preferences_EnableMenuIcons, #True)
+        Else
+          DisableGadget(#GADGET_Preferences_EnableMenuIcons, #False)
+        EndIf
         
       Case #GADGET_Preferences_EnableHistory
         Enabled = GetGadgetState(#GADGET_Preferences_EnableHistory)
@@ -5871,6 +5900,7 @@ DataSection
   
   
   Data$ "Accessibility"
+AccessibilityColorScheme:
   Data.l 0        ;  ToolsPanelFrontColor
   Data.l $FFFFFF  ;  ToolsPanelBackColor
   Data.l $000000  ; #COLOR_ASMKeyword

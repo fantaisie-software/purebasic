@@ -413,6 +413,12 @@ Procedure ToolsPanel_CheckAutoHide()
     
     If MouseX <> -1 And WindowMouseY(#WINDOW_Main) <> -1 ; do nothing if mouse is outside of the window
       
+      ; Convert cursor X position from physical to logical pixels to ensure that scale is
+      ; consistent with editor and tool-panel widths.
+      ; This must be done only after it's determined to be in-frame; unscaling prior will
+      ; result in failure at high scale factors (where -1 becomes 0).
+      MouseX = DesktopUnscaledX(MouseX)
+      
       If ToolsPanelSide = 0 ; right side
         Offset = EditorWindowWidth - MouseX
         ToolsPanelWidth = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
@@ -461,6 +467,11 @@ Procedure ToolsPanel_Hide()
       State = GetGadgetState(#GADGET_LogSplitter) ; somehow the reparenting makes the slider jump in the second splitter on linux, so only reset it after ResizeWindow()
     EndIf
     
+    CompilerIf #CompileWindows
+      ; Temporarily disable painting to avoid flickering while reparenting.
+      SendMessage_(WindowID(#WINDOW_Main), #WM_SETREDRAW, #False, 0)
+    CompilerEndIf
+    
     If ToolsPanelSide = 0
       ToolsPanelWidth_Hidden = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
       SetGadgetAttribute(#GADGET_ToolsSplitter, #PB_Splitter_FirstGadget, #GADGET_ToolsDummy)
@@ -470,9 +481,13 @@ Procedure ToolsPanel_Hide()
     EndIf
     
     ToolsPanelVisible = 0
-    HideGadget(#GADGET_ToolsSplitter, 1)
     HideGadget(#GADGET_ToolsPanelFake, 0)
     ResizeMainWindow()
+    CompilerIf #CompileWindows
+      ; Restore painting to have updated visuals reflected.
+      SendMessage_(WindowID(#WINDOW_Main), #WM_SETREDRAW, #True, 0)
+    CompilerEndIf
+    HideGadget(#GADGET_ToolsSplitter, 1)
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)

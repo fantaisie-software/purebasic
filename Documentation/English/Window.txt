@@ -167,6 +167,47 @@
                                                                     ; which will fires a menu event '15'
 @EndCode
 
+@Example Extended example with keyboard shortcuts for menu items and standalone
+@Code
+  #Window = 0
+  Enumeration Menu
+    #Menu
+    #PopupMenu
+  EndEnumeration
+  Enumeration Menu_items
+    #mOpen
+    #mCopy
+    #mDummy
+  EndEnumeration
+  
+  If OpenWindow(#Window, 200, 200, 200, 100, "Press Ctrl+D")
+    If CreateMenu(#Menu, WindowID(#Window))  ; Create a regular menu with title and one item
+      MenuTitle("File")
+      MenuItem(#mOpen, "Open" + #TAB$ + "Ctrl+O")
+    EndIf
+    If CreatePopupMenu(#PopupMenu)  ; Create an additional pop-up menu
+      MenuItem(#mCopy, "Copy" + #TAB$ + "Ctrl+Shift+C")
+    EndIf
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_D, #mDummy)  ; keyboard shortcut standalone (without menu item)
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_O, #mOpen)   ; shortcut for the menu item
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_C, #mCopy)  ; shortcut for the pop-up menu item
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_RightClick  ; Display the pop-up menu on right mouse-click
+          DisplayPopupMenu(#PopupMenu, WindowID(#Window))
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case #mDummy : Debug "Dummy"
+            Case #mOpen : Debug "Open"
+            Case #mCopy : Debug "Copy"
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@RemoveKeyboardShortcut
     
@@ -445,6 +486,7 @@
   - @@OpenGLGadget @LineBreak
   - @@SpinGadget @LineBreak
   - @@StringGadget @LineBreak
+  - @@TreeGadget @LineBreak
   - @@WebGadget - The WebGadget has a special set of event types. @LineBreak
 @LineBreak
  (See the gadget definition to see which events are supported.)  
@@ -786,7 +828,7 @@
 @Function Result = PostEvent(Event [, Window, Object [, Type [, Data]]])
 
 @Description
-  Posts an event at the end of the internal event queue.
+  Posts an event at the end of the internal event queue and continues program execution without waiting for message processing.
   
 @Parameter "Event"
   The event to post. For a list of PureBasic event, see @@WindowEvent. When using custom event,
@@ -925,7 +967,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetWindowCallback(@ProcedureName() [, #Window [, Mode]])  
+@Function SetWindowCallback(@ProcedureName() [, #Window [, Mode]])
 
 @Description
   For experienced programmers only. It's only supported on Microsoft Windows.
@@ -940,7 +982,7 @@
   only, the optional parameter can be used to pass the PB window number.
 @LineBreak
 @LineBreak
-  To remove/disable a previous set Callback just call SetWindowCallback(0 [, #Window]).
+  To remove/disable a previous set callback just call SetWindowCallback(0 [, #Window]).
 @LineBreak
 @LineBreak
   @Bold "Warning: " this way is lowlevel. Incorrect handling of the messages in the callback can
@@ -948,14 +990,13 @@
 
 @Parameter "@ProcedureName()"
   The callback @ReferenceLink "procedures" "procedure" to use. If a previous callback was set it will be replaced.
-  The callback must have 4 parameters. If the event isn't
-  processed, the result must be set to @#PB_ProcessPureBasicEvents so the event will be properly handled
-  by PureBasic. Here is a sample code to use a callback correctly:
+  The callback must have 4 parameters. If the event isn't processed, the result must be set to @#PB_ProcessPureBasicEvents
+  so the event will be properly handled by PureBasic. Here is a sample code to use a callback correctly:
 @Code
   Procedure MyWindowCallback(WindowID, Message, WParam, LParam)
     Result = #PB_ProcessPureBasicEvents
     ;
-    ; you code here
+    ; your code here
     ;
     ProcedureReturn Result
   EndProcedure
@@ -965,9 +1006,10 @@
   A specific window to associate the callback to. If omitted the callback will be called for any window.
 
 @OptionalParameter "Mode"
-  The callback mode, can one of the following value:
+  The callback mode, can be one of the following value:
 @FixedFont
-  @#PB_Window_ProcessChildEvents: the child gadgets events (mostly #WM_NOTIFY) will be sent to the main window. Doesn't work for all gadgets (default).
+  @#PB_Window_ProcessChildEvents: the child gadgets events (mostly #WM_NOTIFY) will be sent to the main window.
+                                 Doesn't work for all gadgets (default).
   @#PB_Window_NoChildEvents     : the child gadgets events won't be sent to the main window (WinAPI default behavior).
 @EndFixedFont
 

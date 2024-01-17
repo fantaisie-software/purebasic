@@ -2524,6 +2524,10 @@ EndIf
    @@PanelGadget, etc) est libéré.
 @LineBreak
    - Le programme se termine.
+@LineBreak
+@LineBreak
+    Les événements liés avec @@BindEvent sont automatiquement libérés lors de la libération du gadget.
+
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -5994,7 +5998,7 @@ utiliser l'opérateur '&':
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_Spin_ReadOnly: Le gadget n'est pas éditable, sa valeur ne peut être changée que par les flèches (pas supporté par Linux).
+  @#PB_Spin_ReadOnly: Le gadget n'est pas éditable, sa valeur ne peut être changée que par les flèches.
   @#PB_Spin_Numeric : Le gadget va mettre à jour automatiquement le texte affiché, donc @@SetGadgetText n'est pas nécessaire.
 @EndFixedFont 
  
@@ -6967,6 +6971,9 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
 @Code
   Procedure ButtonHandler()
     Debug "Clic sur le ButtonGadget #" + EventGadget()
+ 
+    UnbindGadgetEvent(0, @ButtonHandler()) ; Suppression immédiate
+    Debug "Évènement détaché"
   EndProcedure
   
   OpenWindow(0, 100, 100, 200, 50, "Test clic", #PB_Window_SystemMenu)
@@ -6974,7 +6981,7 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
   ButtonGadget(0, 10, 10, 180, 30, "Cliquez moi !")
   
   BindGadgetEvent(0, @ButtonHandler())
-  UnbindGadgetEvent(0, @ButtonHandler()) ; Suppression immédiate
+  UnbindGadgetEvent(0, @ButtonHandler()) ; 
   
   Repeat
     Event = WaitWindowEvent()

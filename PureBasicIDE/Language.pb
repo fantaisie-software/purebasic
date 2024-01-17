@@ -806,6 +806,7 @@ DataSection
   Data$ "EnableBraceMatch", "Enable marking of matching Braces"
   Data$ "EnableKeywordMatch","Enable marking of matching Keywords"
   Data$ "EnableLineNumbers","Display Line numbers"
+  Data$ "EnableAccessibility","Enable accessibility features"
   Data$ "EnableMarkers",    "Enable Line Markers"
   Data$ "ExtraWordChars",   "Extra characters included in word selection"
   Data$ "SelectFont",       "Select Font"
@@ -1089,7 +1090,7 @@ DataSection
   CompilerIf #SpiderBasic
     Data$ "WebBrowser",  "Web browser"
     Data$ "WebServerPort",  "Default web server port"
-    Data$ "JDK",  "JDK 8 path (JDK 9+ not supported)"
+    Data$ "JDK",  "JDK 11 path (JDK 12+ not supported)"
     Data$ "AppleTeamID",  "AppleTeam ID"
   CompilerEndIf
   
@@ -1249,6 +1250,7 @@ DataSection
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
   Data$ "DPIAware",         "Enable DPI aware executable (Windows)"
+  Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
   Data$ "ExeFormat",        "Executable format"
@@ -1434,7 +1436,7 @@ DataSection
     ; ===================================================
     
     Data$ "Settings",             "Settings"
-    Data$ "NoJDK",                "Path to JDK 1.8+ needs to be set in general Preferences/Compiler to create an Android App."
+    Data$ "NoJDK",                "Path to JDK 11 needs to be set in general Preferences/Compiler to create an Android App."
     Data$ "InvalidJDK",           "Invalid specified JDK directory (needs to be a full JDK, not a JRE)."
     Data$ "InvalidPackageID",     "Invalid specified package id. It should respect the following syntax: domain.yourcompany.appname" + #CR$ + #CR$ +"Each field can only contain ASCII character (a-z, 0-9) and has to start with a lowercase letter character."
     Data$ "Name",                 "App name"
@@ -2048,6 +2050,7 @@ DataSection
   Data$ "ToolbarError",     "Could not find Toolbar Icon"
   Data$ "AutomationTimeout","An Automation client failed to respond to communication.%newline%The connection will be terminated."
   Data$ "Welcome",          "Welcome aboard !"
+  Data$ "AskScreenReader",  "A Screen Reader software was detected. Do you wish to enable accessibility features?%newline%%newline%(You can change this option later under File - Preferences - General)"
   
   Data$ "ImageManagerTitle","Image Manager"
   

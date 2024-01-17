@@ -788,15 +788,15 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Init
       If *Debugger\IncludedFiles ; use the filename as stored in the exe
-        SourcePath$   = PeekAscii(*Debugger\IncludedFiles)
-        RealFileName$ = PeekAscii(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
+        SourcePath$   = PeekUTF8(*Debugger\IncludedFiles)
+        RealFileName$ = PeekUTF8(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
         RealFileName$ = ResolveRelativePath(SourcePath$, RealFileName$) ; the stored main file is relative to the source path
       EndIf
       
       ; if real filename was passed, use this for displaying
       If MainFileName$ <> ""
         If *Debugger\IncludedFiles
-          SourcePath$ = PeekAscii(*Debugger\IncludedFiles) ; first is the source path
+          SourcePath$ = PeekUTF8(*Debugger\IncludedFiles) ; first is the source path
           *Debugger\FileName$ = CreateRelativePath(SourcePath$, MainFileName$)
         Else
           *Debugger\FileName$ = MainFileName$

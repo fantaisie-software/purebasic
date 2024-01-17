@@ -730,7 +730,9 @@ et à la bibliothèque
   @#PB_Unicode: 2 octets non signés (par défaut en mode @ReferenceLink "unicode" "unicode").
   @#PB_UTF8   : entre 1 et 4 octets non signés.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie le caractère lu ou zéro si une 
   erreur s'est produite.
@@ -1042,7 +1044,7 @@ et à la bibliothèque
   données du fichier.
 
 @Parameter "Longueur"
-  Le nombre d'octets à lire.
+  Le nombre d'octets à lire. Attention la limite est de 2 Go.
 
 @ReturnValue
   Renvoie le nombre d'octets effectivement 
@@ -1065,6 +1067,10 @@ et à la bibliothèque
     EndIf
   EndIf
 @EndCode    
+
+@Remarks
+  Pour un exemple de code, voir la procedure @@Lof.
+
 
 @SeeAlso
   @@WriteData, @@OpenFile, @@ReadFile
@@ -1094,7 +1100,9 @@ et à la bibliothèque
   @#PB_File_IgnoreEOL: Ignore le caractère de fin de ligne et la lecture se poursuit jusqu'à ce que la longueur spécifiée soit atteinte ou jusqu'à
                       la fin du fichier.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @OptionalParameter "Longueur"
   Le nombre de caractères à lire.
 @Indent
@@ -1436,13 +1444,18 @@ et à la bibliothèque
   @#PB_Unicode: 2 octets non signés (par défaut, voir @ReferenceLink "unicode" "unicode").
   @#PB_UTF8   : entre 1 et 4 octets non signés.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi ou zéro si elle a 
   échoué.
 
-@Remarks  
+@Remarks 
+  Attention la limite est de 2 Go.
+  @LineBreak
+  @LineBreak 
   En raison de la mise en mémoire 
   @Link "FileBuffersSize" "tampon", cette 
   fonction peut retourner une valeur avec 
@@ -1714,8 +1727,7 @@ et à la bibliothèque
   dans le fichier.
 
 @Parameter "Longueur"
-  Le nombre d'octets à écrire dans le 
-  fichier.
+  Le nombre d'octets à écrire dans le fichier. Attention la limite est de 2Go.
 
 @ReturnValue
   Renvoie le nombre d'octets qui ont été 
@@ -1829,7 +1841,9 @@ et à la bibliothèque
   @#PB_UTF8   : Ecrit le texte en UTF-8.
   @#PB_Unicode: Ecrit le texte en UTF-16. 
 @EndFixedFont
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi et zéro si elle a 
@@ -2008,7 +2022,9 @@ et à la bibliothèque
   @#PB_UTF8   : Ecrit le texte en UTF-8.
   @#PB_Unicode: Ecrit le texte en UTF-16.
 @EndFixedFont
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi et zéro si elle a 

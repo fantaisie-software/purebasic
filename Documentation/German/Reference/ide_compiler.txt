@@ -285,6 +285,15 @@
 @LineBreak
 @LineBreak
 
+@Bold "Enable DLL Protection" (Windows only)
+@LineBreak
+  Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable.
+
+@LineBreak
+@LineBreak
+
+
 @Bold "OnError-Unterstützung einschalten" (nur bei Windows)
 @LineBreak
   Bindet Informationen zu den Zeilennummern zur Verwendung mit der @LibraryLink "onerror" "OnError" Bibliothek in
@@ -450,7 +459,7 @@
 @Bold "Executable-Kommandozeile"
 @LineBreak
   Die hier eingegebene Zeichenfolge wird als Kommandozeile an das Programm übergeben, wenn dieses
-  von der IDE gestartet wird. 
+  von der IDE gestartet wird. Der Inhalt dieses Strings kann mit @@ProgramParameter ermittelt werden.
 
 @LineBreak
 @LineBreak
@@ -657,7 +666,7 @@
 
   Hinweis: Da Ressourcen spezifisch für die Windows-Plattform sind, wird von PB keine Library
   zu deren Verwaltung eingebunden. Daher sind diese hier auch nicht weiter dokumentiert. Sehen
-  Sie in die Dokumentation der @InternetLink "http://msdn.microsoft.com/library/" "Windows API" 
+  Sie in die Dokumentation der @InternetLink "https://learn.microsoft.com/de-de/windows/win32/apiindex/windows-api-list" "Windows API" 
   über Ressourcen für weitere Informationen.
 
 

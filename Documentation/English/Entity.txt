@@ -342,7 +342,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Value1, Value2, Value3, Value4)
+@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Value1.f, Value2.f, Value3.f, Value4.f)
 
 @Description
   Set a custom parameter value to the #Entity material shader script. To have any effect, the material
@@ -371,6 +371,17 @@ saving CPU clocks.
 
 @NoReturnValue
 
+@Remarks
+  To set parameters in a material, you need to define them in the material script as param_named_auto 'VariableName' custom 'ParameterIndex', for example:
+@FixedFont
+  param_named_auto foo custom 1
+  param_named_auto bar custom 2
+@EndFixedFont  
+  The definition and size of the parameter is defined in the shaders script, for example:
+@FixedFont
+  uniform float foo;
+  uniform vec3 bar;
+@EndFixedFont
   For more information see the following example:
   
 @ExampleFile All RustyBall.pb
@@ -1259,7 +1270,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = GetEntityAttribute(#Entity, Attribute)
+@Function Result.f = GetEntityAttribute(#Entity, Attribute)
 
 @Description
   Get the specified attribute of the given entity.
@@ -1304,7 +1315,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAttribute(#Entity, Attribute, Value)
+@Function SetEntityAttribute(#Entity, Attribute, Value.f)
 
 @Description
   Set the specified attribute value to the given entity.

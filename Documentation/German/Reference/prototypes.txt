@@ -37,6 +37,9 @@
 @Example 
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "This sample only works on Windows"
+  CompilerEndIf
 
   Prototype.i ProtoMessageBox(Window.i, Body$, Title$, Flags.i = 0)
 
@@ -44,30 +47,32 @@
    
     ; 'MsgBox' ist eine Variable mit einem 'ProtoMessageBox' Typ
     ;
-    MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxA")
+    MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxW")
     
     MsgBox(0, "Hello", "World") ; wir geben keine Flags an
-  EndIf
-    
+  EndIf    
 @EndCode
 
 
 @Example Mit Pseudotypes
 
 @Code
-  ; Wir verwenden den 'p-unicode' Pseudotype für die String Parameter, da
-  ; MessageBoxW() eine nur unter Unicode verwendbare Funktion ist. Der Compiler
-  ; wird - sofern notwendig - die Strings automatisch nach Unicode konvertieren.
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "This sample only works on Windows"
+  CompilerEndIf
+
+  ; Wir verwenden den 'p-ascii' Pseudotype für die String-Parameter, da
+  ; MessageBoxA() eine reine ASCII-Funktion ist. Der Compiler wird -
+  ; sofern notwendig - die Strings automatisch nach Unicode konvertieren.
   ;
-  Prototype.i ProtoMessageBoxW(Window.i, Body.p-unicode, Title.p-unicode, Flags.i = 0)
+  Prototype.i ProtoMessageBoxA(Window.i, Body.p-ascii, Title.p-ascii, Flags.i = 0)
 
   If OpenLibrary(0, "User32.dll")
    
-    ; 'MsgBox' ist eine Variable mit einem 'ProtoMessageBoxW' Typ
+    ; 'MsgBox' ist eine Variable mit einem 'ProtoMessageBoxA' Typ
     ;
-    MsgBox.ProtoMessageBoxW = GetFunction(0, "MessageBoxW")
+    MsgBox.ProtoMessageBoxA = GetFunction(0, "MessageBoxA")
     
     MsgBox(0, "Hello", "World") ; wir geben keine Flags an
-  EndIf
-    
+  EndIf    
 @EndCode

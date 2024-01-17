@@ -316,6 +316,7 @@ EndStructure
 #PB_Cipher_ECB       = 1 << 3 ; Used by AES
 #PB_Cipher_URL       = 1 << 4 ; Used by Base64Encoder
 #PB_Cipher_NoPadding = 1 << 5 ; Used by Base64Encoder
+#PB_Cipher_HMAC      = 1 << 16
 
 ; Date
 ;
@@ -326,6 +327,9 @@ EndStructure
 #PB_Date_Hour   = 4
 #PB_Date_Minute = 5
 #PB_Date_Second = 6
+
+#PB_Date_LocalTime = 0
+#PB_Date_UTC       = 1
 
 ; Database
 ;
@@ -350,6 +354,18 @@ EndStructure
 ;
 #PB_Event_FirstCustomValue     = 1 << 16
 #PB_EventType_FirstCustomValue = 1 << 18
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_EventType_LeftClick         = 0
+  #PB_EventType_RightClick        = 1
+  #PB_EventType_LeftDoubleClick   = 2
+  #PB_EventType_RightDoubleClick  = 3
+  #PB_EventType_Up                = 4
+  #PB_EventType_Down              = 5
+  #PB_EventType_Resize            = 6
+  #PB_EventType_Refresh           = 7
+  #PB_EventType_ColumnClick       = 8
+CompilerEndIf
 
 ; File library
 ;
@@ -490,7 +506,30 @@ EndEnumeration
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_DisplayMode  = 2
 CompilerEndIf
+
 #PB_ListIcon_ColumnCount = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ClickedColumn = 4
+CompilerEndIf
+
+; Gadget attributes
+#PB_ListIcon_ColumnWidth = 1
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ColumnAlignment = 5
+CompilerEndIf
+  
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Left   = 0
+  #PB_ListIcon_Right  = 1
+  #PB_ListIcon_Center = 2
+CompilerEndIf
+
+; Item attributes
+#PB_ListIcon_Selected  = 1
+#PB_ListIcon_Checked   = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Inbetween = 4
+CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_LargeIcon = 0
@@ -512,10 +551,10 @@ CompilerEndIf
 #PB_String_MaximumLength = 1
 
 ; WebGadget constants are common on all OS
-#PB_Web_Back = $1
-#PB_Web_Forward = $2
-#PB_Web_Refresh = $4
-#PB_Web_Stop = $3
+#PB_Web_Back    = 1
+#PB_Web_Forward = 2
+#PB_Web_Stop    = 3
+#PB_Web_Refresh = 4
 
 ; for Get/SetGadgetItemText()
 ;
@@ -535,6 +574,8 @@ CompilerEndIf
 #PB_Web_ScrollX            = 7 ; get/set the X scroll position
 #PB_Web_ScrollY            = 8 ; get/set the Y scroll position
 
+; Flags
+#PB_Web_Edge = 1 << 0
 
 ; CanvasGadget/OpenGLGadget
 ;
@@ -763,10 +804,12 @@ EndEnumeration
 ; Memory library
 ;
 #PB_Memory_NoClear = 1
+#PB_Memory_FollowPointers = (1 << 8)
 
 ; Menu library
 ;
-#PB_Menu_ModernLook = 1
+#PB_Menu_ModernLook  = (1 << 0)
+#PB_Menu_SystrayLook = (1 << 2)
 
 ; Network
 ;
@@ -891,6 +934,7 @@ CompilerEndIf
 ;
 #PB_Preference_NoSpace        = 1 << 0
 #PB_Preference_GroupSeparator = 1 << 1
+#PB_Preference_NoBOM          = 1 << 2
 
 ; Screen library
 ;
@@ -1010,6 +1054,10 @@ CompilerEndIf
 #PB_Sort_Descending = 1
 #PB_Sort_NoCase     = 2
 
+#PB_Sort_Greater = 1
+#PB_Sort_Equal   = 0
+#PB_Sort_Lesser  = -1
+
 ; String library
 ;
 #PB_String_CaseSensitive = 0
@@ -1028,6 +1076,7 @@ CompilerEndIf
 
 #PB_String_EscapeInternal = 0
 #PB_String_EscapeXML      = 1
+#PB_String_EscapeJSON     = 2
 
 ; System library
 ;

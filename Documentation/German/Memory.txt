@@ -1,7 +1,7 @@
 ;
 ;     Memory library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Memory
@@ -173,7 +173,9 @@
   Der Modus des String-Vergleichs. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_String_CaseSensitive : String-Vergleich beachtet die Groß-/Kleinschreibung (a=a). Standard-Wert, wenn der Parameter weggelassen wird.
-  @#PB_String_NoCase: String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung (a = A).
+  @#PB_String_NoCase        : String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung unter Verwendung des kompletten Unicode-Zeichensatzes (ä=Ä).
+  @#PB_String_NoCaseAscii   : String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung und nur unter Verwendung des ASCII-Zeichensatzes (a=A).
+                             Viel schneller als @#PB_String_NoCase, wenn nicht der vollständige Unicode-Support benötigt wird.
 @EndFixedFont
 
 @OptionalParameter "Länge"

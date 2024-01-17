@@ -61,10 +61,7 @@
 @Function Resultat = FinishHTTP(ConnexionHttp)
 
 @Description
-  Libère les ressources associées 
-  au téléchargement asynchrone 
-  spécifié, commencé soit avec 
-  @@ReceiveHTTPFile soit avec 
+  Libère les ressources associées au téléchargement asynchrone spécifié, commencé soit avec @@ReceiveHTTPFile soit avec 
   @@ReceiveHTTPMemory.
 
 @Parameter "ConnexionHttp"
@@ -82,6 +79,9 @@
 
 @Remarks
   La valeur @#PB_HTTP_Aborted sera envoyée par la fonction @@HTTPProgress.
+@LineBreak
+@LineBreak
+  Il doit toujours être appelé après un appel réussi de @@ReceiveHTTPFile ou @@ReceiveHTTPMemory.
 
 @SeeAlso
   @@HTTPProgress, @@AbortHTTP
@@ -501,15 +501,13 @@
 @Function Resultat = ReceiveHTTPFile(URL$, NomFichier$ [, Options [, AgentUtilisateur$]])
 
 @Description
-  Télécharge un fichier sur le 
-  disque à partir d'une URL. 
+  Télécharge un fichier sur le disque à partir d'une URL. 
   
 @Parameter "URL$"  
   L'URL de téléchargement.
   
 @Parameter "NomFichier$"  
-  Le nom du fichier qui sera 
-  enregistré sur le disque.
+  Le nom du fichier qui sera enregistré sur le disque.
 @LineBreak
 @LineBreak 
   Si le nom de fichier ne contient 
@@ -546,18 +544,19 @@
   téléchargement ait été effectué avec succès ou non.
 
 @Remarks
-  Sous Linux, 'libcurl' doit être installé pour 
-  que cette commande fonctionne (déjà installé 
-  dans la plupart des distributions Linux).
-  
+  Sous Linux, 'libcurl' doit être installé pour que cette commande fonctionne (déjà installé dans la plupart des distributions Linux).
+ @LineBreak
+@LineBreak
+  Si le fichier distant n'a pas été trouvé, le fichier créé contiendra l'erreur du serveur Web.
+
 @Example 
 @Code
   NomDeFichier$ = SaveFileRequester("Enregistrer index.php ?", "", "", 0)
 
-  If ReceiveHTTPFile("http://www.purebasic.com/index.php", NomDeFichier$)
-    Debug "Succès"
+  If ReceiveHTTPFile("https://www.purebasic.com/index.php", NomDeFichier$)
+    Debug "Fichier reçu et écrit sur le disque. Si le fichier distant n'a pas été trouvé, il contiendra l'erreur du serveur Web."
   Else
-    Debug "Echec"
+    Debug "Aucun fichier reçu (erreur réseau)."
   EndIf
 @EndCode
 

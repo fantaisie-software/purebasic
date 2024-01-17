@@ -2084,6 +2084,9 @@
   - The parent of the gadget (@@ContainerGadget, @@PanelGadget etc.) is freed.
 @LineBreak
   - The program ends.
+@LineBreak
+@LineBreak
+  Bound events (using @@BindEvent) are automatically resolved when freeing the gadget.
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -5082,7 +5085,7 @@
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Spin_ReadOnly : The StringGadget is not editable, the number is only changeable by the arrows (not available on Linux)
+  @#PB_Spin_ReadOnly : The StringGadget is not editable, the number is only changeable by the arrows
   @#PB_Spin_Numeric  : The SpinGadget will automatically update the text with value of the state, so @@SetGadgetText is not needed.
 @EndFixedFont
 
@@ -5617,8 +5620,9 @@
 @Function Result = UseGadgetList(WindowID)
 
 @Description
-  Select the GadgetList window to which gadgets will be added. If there is no GadgetList on this window so far it will be created.
-  (because it was created with the @#PB_Window_NoGadgets flag in @@OpenWindow or because it is not a PB window)  
+  Selects the GadgetList window to which gadgets will be added. If there is no GadgetList on this window yet
+  (because it was created with the @#PB_Window_NoGadgets flag in @@OpenWindow or because it is not a PB window)
+  it will be created.
 
 @Parameter "WindowID"
   The new window to add gadgets to. It can be obtained with the @@WindowID function.
@@ -5912,6 +5916,9 @@
 @Code
   Procedure ButtonHandler()
     Debug "Button click event on gadget #" + EventGadget()
+    
+    UnbindGadgetEvent(0, @ButtonHandler()) ; Unbind it immediately
+    Debug "Event unbound"
   EndProcedure
   
   OpenWindow(0, 100, 100, 200, 50, "Click test", #PB_Window_SystemMenu)
@@ -5919,7 +5926,6 @@
   ButtonGadget(0, 10, 10, 180, 30, "Click me")
   
   BindGadgetEvent(0, @ButtonHandler())
-  UnbindGadgetEvent(0, @ButtonHandler()) ; Unbind it immediately
   
   Repeat
     Event = WaitWindowEvent()

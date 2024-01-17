@@ -1,7 +1,7 @@
 ;
 ;     Sort library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Sort
@@ -61,11 +61,12 @@
 @NoReturnValue
 
 @Remarks
+  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstützt.
+  @LineBreak
   Ist ein Array nicht vollständig gefüllt, dann werden 'Null'-Elemente an den Anfang
   des Arrays (bei aufsteigender Sortier-Richtung) bzw. an das Ende des Arrays (bei absteigender
   Sortier-Richtung) sortiert.
   @LineBreak
-  @ReferenceLink "variables" "Fixed strings" (Strings mit fester Größe) werden nicht von der Sortierfunktion unterstützt. @LineBreak
   @Link "Math/IsNaN" "Nicht-Zahlenwerte (NaN)" werden beim Sortieren nicht akzeptiert, da dies
   zufällige Ergebnisse produziert.
 
@@ -105,8 +106,8 @@
 @NoReturnValue
 
 @Remarks
-  @ReferenceLink "variables" "Fixed strings" (Strings mit fester Größe) werden nicht von der Sortierfunktion unterstützt.
-  
+  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstützt.
+
 @SeeAlso
   @@SortStructuredList, @@RandomizeList
   

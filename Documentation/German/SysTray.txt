@@ -1,7 +1,7 @@
 ;
 ;     SysTray library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library SysTray
@@ -56,6 +56,35 @@
 @Remarks
   Alle SysTray-Icons werden automatisch entfernt, wenn das Programm endet.
 
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
+    ; Erstellt ein Pop-up Menü und ein Systray Icon (CD-Symbol), mit dem das Pop-up Menü verknüpft wird:
+    If CreatePopupImageMenu(0)
+      MenuItem(0, "Exit")
+    EndIf
+    AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\CdPlayer.ico"))
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_SysTray
+          Select EventType()
+            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
+              DisplayPopupMenu(0, WindowID(0)) ; Zeige das Pop-up Menü nach einem Rechtsklick auf das Systray Icon
+          EndSelect
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case 0 ; Exit 
+              RemoveSysTrayIcon(0)
+              FreeMenu(0)
+              CloseWindow(0)
+              End
+          EndSelect
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@RemoveSysTrayIcon, @@ChangeSysTrayIcon
   
@@ -77,6 +106,51 @@
   @@ImageID kann benutzt werden, um einfach diese ID zu ermitteln.
 
 @NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
+    ; Erstellt ein Bild mit einer gelben Box, welches für das Systray-Icon verwendet wird:
+    If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
+      Box(0, 0, 16 , 16, $00DDDD)
+      StopDrawing()
+    EndIf
+    AddSysTrayIcon(0, WindowID(0), ImageID(0))
+    ; Erstellt ein Pop-up Menü, welches später mit dem Systray Icon verwendet wird:
+    If CreatePopupImageMenu(0)
+      MenuItem(0, "Exit")
+    EndIf
+    
+    AddWindowTimer(0, 0, 1000) ; Fügt einen Window-Timer hinzu, der einen Wechsel des Systray Icons aller 1000 ms auslösen soll
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Timer
+          ; Aktualisiere das Bild des Systray Icons mit einem zufälligen roten Kreis auf gelbem Hintergrund
+          If StartDrawing(ImageOutput(0))
+            Box(0, 0, 16 , 16, $00DDDD)
+            Radius = Random(6, 2)
+            Circle(8, 8, Radius, $0000DD)
+            StopDrawing()
+            ChangeSysTrayIcon(0, ImageID(0))
+          EndIf
+        Case #PB_Event_SysTray
+          Select EventType()
+            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
+              DisplayPopupMenu(0, WindowID(0)) ; Zeige das Pop-up Menü nach einem Mausklick auf das Systray Icon
+          EndSelect
+        Case #PB_Event_Menu
+          Select EventMenu()
+            Case 0 ; Programm beenden nach einem Klick auf das 'Exit'-Menü, welches mit dem Systray-Icon verknüpft wurde
+              RemoveSysTrayIcon(0)
+              FreeMenu(0)
+              CloseWindow(0)
+              End
+          EndSelect
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@AddSysTrayIcon

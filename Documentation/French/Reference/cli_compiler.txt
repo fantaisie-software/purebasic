@@ -8,8 +8,6 @@
   d'ajouter ce répertoire à la variable PATH, 
   ce qui vous donnera un accès permanent à 
   toutes les commandes de ce répertoire.
-  Chaque commutateur de commande qui commence 
-  par '/' ne concerne que Windows.
 @LineBreak
 @LineBreak
   Il existe deux compilateurs pour PureBasic :  @LineBreak
@@ -23,6 +21,10 @@
 
 @Section Paramètres du compilateur (multi-plateforme)
 
+  Note: Tous les noms de commutateurs commençant par '/' ne sont valides que sous Windows (Par exemple :  '/DEBUGGER'). 
+  Si vous avez besoin d'écrire une ligne de commande multiplateforme, vous pouvez utiliser le format '-' ou '--' (comme : '-d' ou '--debugger).
+  @LineBreak
+  @LineBreak
   -h, --help, /? : affiche une aide simplifiée 
   sur le compilateur. 
   @LineBreak
@@ -236,6 +238,11 @@
   /DPIAWARE: Activer le support DPI sur l'exécutable. @LineBreak
   @LineBreak
   @LineBreak 
+  /DLLPROTECTION: Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable. 
+  @LineBreak
+  @LineBreak 
+  
   @Bold "Exemples:"
   @FixedFont
     CLI> pbcompiler "C:\Project\Source\DLLSource.pb" /EXE "C:\Projet\projet.dll" /DLL

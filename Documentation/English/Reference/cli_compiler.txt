@@ -5,7 +5,7 @@
   The command line compiler is located in the subdirectory 'compilers' from the PureBasic folder. 
   The easier way to access it is to add this directory in the PATH variable, 
   which will give access to all the commands of this directory at all times. 
-  Every command switch which starts with '/' are Windows only. @LineBreak
+  @LineBreak
 @LineBreak
   There is two compilers for PureBasic: @LineBreak
   - 'pbcompiler' which is generating assembly code (x86 and x64)@LineBreak
@@ -16,6 +16,10 @@
   
 @Section Cross-platform command switches
 
+  Note: All switches name which begin with '/' are only valid on Windows (ie: '/DEBUGGER'). If you need to write cross-plaform
+  commandline, you can use the '-' or '--' format (ie: '-d' or '--debugger).
+  @LineBreak
+  @LineBreak
   -h, --help, /?: displays a quick help about the compiler. @LineBreak
   @LineBreak
   -d, --debugger, /DEBUGGER: enables the debugger support. @LineBreak
@@ -135,6 +139,9 @@
   /USER: The program will run as the user who started it. Virtualization for the exe is turned off. @LineBreak
   @LineBreak
   /DPIAWARE: Enable DPI support to the executable. @LineBreak
+  @LineBreak
+  /DLLPROTECTION: Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable. @LineBreak
   @LineBreak
   
   @Bold "Examples:"

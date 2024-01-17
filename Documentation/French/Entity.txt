@@ -510,7 +510,7 @@ Si ce masque correspond au masque spécifié par
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityCustomParameter(#Entity, SousEntity, IndexParametre, Valeur1, Valeur2, Valeur3, Valeur4)
+@Function EntityCustomParameter(#Entity, SousEntity, IndexParametre, Valeur1.f, Valeur2.f, Valeur3.f, Valeur4.f)
 
 @Description
   Définit des paramètres personnalisés pour 
@@ -533,14 +533,29 @@ Si ce masque correspond au masque spécifié par
 @Parameter "IndexParametre"
   L'indice de paramètre dans le shader script.
 
-@Parameter "Valeur1, Valeur2, Valeur3, Valeur4"
+@Parameter "Valeur1.f, Valeur2.f, Valeur3.f, Valeur4.f"
   Les valeurs du paramètre.
 @LineBreak
 @LineBreak 
-  Si le paramètre ne peut accepter une valeur, 
-  cette valeur sera ignorée.
+  Si le paramètre ne peut accepter une valeur, cette valeur sera ignorée.
 
 @NoReturnValue
+
+@Remarks
+   Pour définir des paramètres dans un matériau, vous devez les définir dans le script du matériau sous la forme param_named_auto 'VariableName' 
+   custom 'ParameterIndex', par exemple :
+@FixedFont
+   param_named_auto foo custom 1
+   param_named_auto barre custom 2
+@EndFixedFont
+   La définition et la taille du paramètre sont définies dans le script shaders, par exemple :
+@FixedFont
+  uniform float foo;
+  uniform vec3 bar;
+@EndFixedFont
+   Pour plus d’informations, consultez l’exemple suivant :
+
+@ExampleFile All RustyBall.pb
 
 @SeeAlso
   @@EntityVelocity, @@EntityLinearFactor, 
@@ -1652,7 +1667,7 @@ Si ce masque correspond au masque spécifié par
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = GetEntityAttribute(#Entity, Attribut)
+@Function Resultat.f = GetEntityAttribute(#Entity, Attribut)
 
 @Description
   Renvoie la valeur d'un attribut d'une 
@@ -1700,7 +1715,7 @@ Si ce masque correspond au masque spécifié par
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAttribute(#Entity, Attribut, Valeur)
+@Function SetEntityAttribute(#Entity, Attribut, Valeur.f)
 
 @Description
   Assigne la valeur d'un attribut de 
@@ -1727,7 +1742,7 @@ Si ce masque correspond au masque spécifié par
   @#PB_Entity_DisableContactResponse: Désactive ou active les contacts physiques pour cette entité. La valeur peut être @#True ou @#False.
 @EndFixedFont
 
-@Parameter "Valeur"
+@Parameter "Valeur.f"
   Valeur de l'attribut.
   
 @NoReturnValue

@@ -168,19 +168,20 @@
   la souris a changé, zéro sinon.
   
 @Remarks
-   Cette commande doit être utilisée avant 
-   @@MouseDeltaX, @@MouseDeltaY, @@MouseX, 
-   @@MouseY ou @@MouseButton.
-@LineBreak 
+   Cette commande doit être utilisée avant @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY ou @@MouseButton.
 @LineBreak
-   Le premier appel à ExamineMouse() capture la souris dans l'écran (surface accélérée) 
-   en cours, aussi bien en plein écran (@Link "Screen/OpenScreen" "Screen" ) que dans 
-   un écran fenêtré (@Link "Screen/OpenWindowedScreen" "WindowedScreen").
-@LineBreak  
 @LineBreak
-   La souris est à nouveau disponible pour l’ensemble du système après avoir appelé 
-   @Link "ReleaseMouse" "ReleaseMouse(#True)" ou après la fin de ce programme.
- 
+   Le premier appel à ExamineMouse() capture la souris dans l'écran (surface accélérée) en cours, aussi bien en plein écran 
+   (@Link "Screen/OpenScreen" "Screen" ) que dans un écran fenêtré (@Link "Screen/OpenWindowedScreen" "WindowedScreen").
+@LineBreak
+@LineBreak
+   La souris est à nouveau disponible pour l’ensemble du système après avoir appelé @Link "ReleaseMouse" "ReleaseMouse(#True)" 
+   ou après la fin de ce programme.
+@LineBreak
+@LineBreak
+  En @Link "Screen/OpenScreen" "mode plein écran", la commande @@FlipBuffers doit être appelée dans la boucle d'événements pour gérer 
+  correctement tous les événements.
+
 @Example 
 @Code
   ; Initialisation du monde 2D

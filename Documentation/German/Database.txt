@@ -1141,7 +1141,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseSQLiteDatabase([LibraryName$])
+@Function Ergebnis = UseSQLiteDatabase([LibraryName$])
 
 @Description
   Initialisiert die SQLite Datenbank-Programmumgebung zur weiteren Benutzung.
@@ -1154,9 +1154,11 @@
   @LineBreak
   Ohne diese Datei wird wie üblich die statische Library verwendet und das Executable wird größer sein.
   @LineBreak
-  Es kommt keine Fehlermeldung, wenn die Datei nicht gefunden wird.
-  
-@NoReturnValue
+
+@ReturnValue
+  Bei Verwendung des optionalen 'LibraryName$' Parameters wird @#True zurückgegeben, wenn die 
+  dynamische Library korrekt geladen wurde, andernfalls @#False. Wenn der optionale 'LibraryName$'
+  Parameter nicht angegeben wird, wird immer @#True zurückgegeben.
 
 @Remarks
   SQLite ist ein datei-basierter, serverloser Datenbank-Manager. Es gibt keinen Treiber oder zusätzliche

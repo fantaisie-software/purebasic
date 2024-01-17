@@ -104,9 +104,8 @@
   des routines spécifiques et indiquer qu'elles ne sont pas disponibles pour un OS
   particulier.
   @LineBreak
-  Note: Alors que @Keyword "CompilerWarning" affiche des avertissements "seulement", 
-  pendant que le processus de compilation se poursuit, la commande @Keyword "CompilerError" 
-  arrête le processus de compilation.
+  Note: @Keyword "CompilerWarning" affiche des avertissements" et le processus de compilation se poursuit, 
+  alors que la commande @Keyword "CompilerError" arrête le processus de compilation.
 
 @Example Génère une erreur
 @Code
@@ -245,7 +244,8 @@
   @#PB_Compiler_32Bit    : Mis à 1 si le compilateur génère du code 32 bits, mis à 0 sinon.
   @#PB_Compiler_64Bit    : Mis à 1 si le compilateur génère du code 64 bits, mis à 0 sinon.
   @#PB_Compiler_Optimizer: Mis à 1 si le compilateur génère du code optimisé, mis à 0 sinon.
-
+  @#PB_Compiler_DPIAware : Mis à 1 si le compilateur génère un exécutable compatible DPI, mis à 0 sinon.
+  
 @EndFixedFont
 
 @ExampleFile All Compiler_FileSystem_and_System_Datas.pb

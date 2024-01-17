@@ -43,42 +43,41 @@
 @Example 
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "This sample only works on Windows"
+  CompilerEndIf
+
   Import "User32.lib"
    
     ; No need to use 'As' as PureBasic decorates the function correctly
     ; We also define the 'Flags' as optional, with a default value of 0 (when omitted)
     ;
-    MessageBoxA(Window.i, Body$, Title$, Flags.i = 0)
+    MessageBoxW(Window.i, Body$, Title$, Flags.i = 0)
     
-    ; This time PureBasic can't find it alone as the function 
-    ; name isn't the same than the one used by the symbol
-    ;
-    MsgBox(Window.i, Body$, Title$, Flags.i) As "_MessageBoxA@16" 
-                                                   
   EndImport
   
-  MessageBoxA(0, "Hello", "World") ; We don't specify the flags
-  MsgBox(0, "Hello", "World 2", 0)
-    
+  MessageBoxW(0, "Hello", "World") ; We don't specify the flags
 @EndCode
 
 
 @Example With pseudotypes
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "This sample only works on Windows"
+  CompilerEndIf
+
   Import "User32.lib"
    
     ; We use the 'p-unicode' pseudotype for the string parameters, as
     ; MessageBoxW() is an unicode only function. The compiler will 
     ; automatically converts the strings to unicode when needed.
     ;
-    MessageBoxW(Window.l, Body.p-unicode, Title.p-unicode, Flags.l = 0)
+    MessageBoxA(Window.i, Body.p-ascii, Title.p-ascii, Flags.i = 0)
                                                   
   EndImport
   
-  ;
-  MessageBoxW(0, "Hello", "World")
-    
+  MessageBoxA(0, "Hello", "World")
 @EndCode
 
 

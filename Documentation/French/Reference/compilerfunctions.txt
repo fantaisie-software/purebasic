@@ -144,25 +144,11 @@
   Resultat = @Keyword Subsystem(<expression texte constante>)
 
 @Description
-  @Keyword Subsystem permet de savoir si un 
-  @ReferenceLink "subsystems" "sous-système" 
-  est utilisé pour le programme en cours de 
+  @Keyword Subsystem permet de savoir si un @ReferenceLink "subsystems" "sous-système" est utilisé pour le programme en cours de 
   compilation. 
-  
-@Parameter "expression texte constante"
-  Le nom de sous-système.@LineBreak 
-  Peut prendre une des valeurs suivantes: 
-  Sensible à la casse.
-@FixedFont
-  OpenGL
-  DirectX11
-@EndFixedFont
+@LineBreak
+  Le nom du sous-système est insensible à la casse.
 
-@ReturnValue
-  Renvoie une valeur ni nulle si le sous 
-  système est utilisé,
-  zéro sinon.
-  
 @Example
 @Code
   CompilerIf Subsystem("OpenGL")
@@ -204,17 +190,15 @@
     Age.w
   EndStructure
  
-  Debug OffsetOf(Personne\Age) ; Affichera  8 sur le compilateur 32-bit car une 'string' est un pointeur qui occupe 4 octets en mémoire
-                               ; Affichera 16 sur le compilateur 64-bit car une 'string' est un pointeur qui occupe 8 octets en mémoire
+  Debug OffsetOf(Personne\Age) ; Affichera 8 car une 'string' occupe 4 octets en mémoire
+                               ;(16 avec un compilateur 64 bits, car une 'string' occupe 8 octets en mémoire)
  
   Interface ITest
     Creer()
     Detruire(Options)
   EndInterface
  
-  Debug OffsetOf(ITest\Detruire()) ; Affichera 4 sur le compilateur 32-bit car un pointeur occupe 4 octets en mémoire
-                                   ; Affichera 8 sur le compilateur 64-bit car un pointeur occupe 8 octets en mémoire
- 
+  Debug OffsetOf(ITest\Detruire()) ; Affichera 4
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -275,12 +259,11 @@
     Age.w
   EndStructure
  
-  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 sur le compilateur 32-bit car une 'string' est un pointeur qui occupe 4 octets en mémoire
-                                                                        ; Affichera 18 sur le compilateur 64-bit car une 'string' est un pointeur qui occupe 8 octets en mémoire
+  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 (4+4+2)
  
   Jean.Personne\Nom = "Jean"
  
-  Debug SizeOf(Jean) ; Affichera la même chose
+  Debug SizeOf(Jean) ; Affichera 10 aussi
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------

@@ -23,20 +23,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndStructure
   
   ; Fix for the #SCI_COUNTCHARACTERS message. Don't use that message directly because of the below newline trouble
+  ; (Fix no longer needed in newer Scintilla versions)
   ;
   Procedure CountCharacters(Gadget, startPos, endPos)
-    Count = ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
-    
-    ; The #SCI_COUNTCHARACTERS message counts CRLF as one char!
-    ; This is especially weird, since its counterpart #SCI_POSITIONRELATIVE counts it as two!
-    ; So scan the range and fix up the count so the two match (and also match our own memory buffers)
-    For pos = startPos To endPos - 1
-      If ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos) = 13 And ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos + 1) = 10
-        Count + 1
-      EndIf
-    Next pos
-    
-    ProcedureReturn Count
+    ProcedureReturn ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
   EndProcedure
   
   Procedure SendEditorFontMessage(Style, FontName$, FontSize)
@@ -301,13 +291,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         SendEditorMessage(#SCI_SETWHITESPACEFORE, #True, Colors(#COLOR_Whitespace)\DisplayValue)
         
         CompilerIf #CompileWindows
-          If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
+          If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
             SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
           Else
             SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
           EndIf
           
-          If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+          If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
             SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
           Else
             SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)

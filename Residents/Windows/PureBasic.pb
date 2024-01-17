@@ -125,18 +125,11 @@ IncludeFile "..\Common.pb"
 #PB_Event_ClientDisconnected = 4
 
 
-; EventType
+; Specific EventType
 ;
 #PB_EventType_Focus             = 14000 ; PB reserved value
 #PB_EventType_LostFocus         = 14001 ; PB reserved value
 #PB_EventType_Change            = 768
-#PB_EventType_LeftClick         = 0
-#PB_EventType_RightClick        = 1
-#PB_EventType_LeftDoubleClick   = 2
-#PB_EventType_RightDoubleClick  = 3
-#PB_EventType_Up                = 4
-#PB_EventType_Down              = 5
-#PB_EventType_Resize            = 6
 
 ; Window flags
 ;
@@ -289,12 +282,6 @@ IncludeFile "..\Common.pb"
 #PB_Frame_Double   = 1
 #PB_Frame_Single   = 2
 #PB_Frame_Flat     = 3
-
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-#PB_ListIcon_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL

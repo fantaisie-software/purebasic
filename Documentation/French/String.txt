@@ -144,6 +144,17 @@
   Debug Chr($BD)  ; Affiche le caractère "½"
 @EndCode
 
+@Example Symboles spéciaux (icônes) et boucle avec sortie de lettres latines majuscules
+  ; L'affichage des symboles spéciaux dépend de la police de caractère utilisé par le débogueur
+@Code
+  Debug Chr($26309) ; soleil astrologique
+  Debug Chr($25BC) ; triangle pointe en bas
+  For i = 65 To 90
+      Debug Chr(i)
+  Next
+@EndCode
+
+
 @SeeAlso
   @@Asc, @@Val
    
@@ -291,6 +302,22 @@
   @@ReverseString,
   @@StringByteLength,
   @@StringField
+
+@Example
+@Code
+  Texte$ = "Ceci est une simple ligne de texte...."
+  
+  Repeat
+    Dernier = Position
+    Position = FindString(Texte$ , "i", Position + 1)
+    If Position > 0
+      Debug "'i' trouvée à l'emplacement: " + Position
+    EndIf
+  Until Not Position
+  
+  Debug "La dernière position de 'i' a été trouvée à la position : " + Dernier
+@EndCode
+
 
 @SupportedOS
 
@@ -690,7 +717,6 @@
                       extrêmement rapide pour ce cas particulier. Quand cette option est utilisée, le résultat 
                       renvoyé par ReplaceString() doit être ignoré (car c'est la chaîne de caractères passée en 
                       paramètre qui est modifiée).
-                      Les @ReferenceLink "variables" "chaînes fixes" (fixed strings) ne sont pas supportées par ce mode.
 @EndFixedFont
   
 @OptionalParameter "PositionDepart"

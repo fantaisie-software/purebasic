@@ -254,6 +254,14 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 @LineBreak
 @LineBreak
 
+@Bold "Enable DLL Protection" (Windows only)
+@LineBreak
+  Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable.
+
+@LineBreak
+@LineBreak
+
 @Bold "Enable OnError lines support" (Windows only)
 @LineBreak
   Includes line numbers information with the executable for the @LibraryLink "onerror" "OnError-Library".
@@ -410,6 +418,7 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 @Bold "Executable command-line"
 @LineBreak
   The string given here will be passed as the command-line to the program when running it from the IDE.
+  The content of this string can be got with @@ProgramParameter.
 
 @LineBreak
 @LineBreak
@@ -598,7 +607,7 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 
   Note: Since Resources are a specific to the Windows platform only, PB does not include a
   Library to manage them and they are not further documented here. See documentation on the
-  @InternetLink "http://msdn.microsoft.com/library/" "Windows API" and resources for more information.
+  @InternetLink "https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" "Windows API" and resources for more information.
 
 ; == END WINDOWS ONLY ==
 

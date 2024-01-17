@@ -47,6 +47,10 @@
 @Example 
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Dieses Beispiel funktioniert nur auf Windows"
+  CompilerEndIf
+
   Import "User32.lib"
    
     ; Keine Notwendigkeit für die Verwendung von 'As' da PureBasic die Funktion
@@ -54,37 +58,30 @@
     ; Wir definieren die 'Flags' auch als optional, mit einem Standardwert 
     ; von 0 (wenn sie weggelassen werden).
     ;
-    MessageBoxA(Window.i, Body$, Title$, Flags.i = 0)
+    MessageBoxW(Window.i, Body$, Title$, Flags.i = 0)
     
-    ; Diesmal findet PureBasic sie nicht allein, da der Funktionsname nicht
-    ; der gleiche ist, wie der vom Funktionssymbol verwendete.
-    ;
-    MsgBox(Window.i, Body$, Title$, Flags.i) As "_MessageBoxA@16" 
-                                                   
   EndImport
   
-  MessageBoxA(0, "Hello", "World") ; wir geben keine Flags an
-  MsgBox(0, "Hello", "World 2", 0)
-    
+  MessageBoxW(0, "Hello", "World") ; Wir geben keine Flags an    
 @EndCode
 
 
 @Example Mit Pseudotypes
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Dieses Beispiel funktioniert nur auf Windows"
+  CompilerEndIf
+
   Import "User32.lib"
    
     ; Wir verwenden den 'p-unicode' Pseudotype für die String Parameter, da
     ; MessageBoxW() eine nur unter Unicode verwendbare Funktion ist. Der Compiler
     ; wird - sofern notwendig - die Strings automatisch nach Unicode konvertieren.
     ;
-    MessageBoxW(Window.l, Body.p-unicode, Title.p-unicode, Flags.l = 0)
+    MessageBoxA(Window.i, Body.p-ascii, Title.p-ascii, Flags.i = 0)
                                                   
   EndImport
   
-  MessageBoxW(0, "Hello", "World")
-    
+  MessageBoxA(0, "Hello", "World")
 @EndCode
-
-
-

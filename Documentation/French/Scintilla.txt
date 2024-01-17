@@ -59,7 +59,12 @@
   l'exploiter à son plein potentiel. 
   Toutes les structures et constantes sont 
   définies de base dans PureBasic.
-  
+@LineBreak
+@LineBreak
+  Sous Windows, le fichier Scintilla.dll trouvé dans le dossier "Compilers" du package PureBasic doit être livré avec votre application. 
+  Sous OS X ou Linux, la bibliothèque est liée de manière statique, il n'y a donc aucun objet partagé supplémentaire à inclure.
+
+
 @CommandList
  
 ; @ExampleFile ; TODO
@@ -142,25 +147,22 @@
   succès, zéro sinon.
 
 @Remarks
-  Les événements suivants sont pris en 
-  charge par @@EventType:
+  Les événements suivants sont pris en charge par @@EventType:
 @FixedFont
   @#PB_EventType_RightClick
 @EndFixedFont
 @LineBreak
 @LineBreak 
- @@InitScintilla doit être appelé avec 
- succès avant d'utiliser cette commande.
+ @@InitScintilla doit être appelé avec succès avant d'utiliser cette commande.
 @LineBreak
 @LineBreak 
-  Les commandes spécifiques de Scintilla 
-  peuvent être envoyées au gadget avec la 
-  commande @@ScintillaSendMessage .@LineBreak  
-  En outre les commandes de gadgets communes 
-  comme @@ResizeGadget ou @@HideGadget 
-  peuvent aussi bien être utilisées par le 
-  contrôle.
- 
+  Les commandes spécifiques de Scintilla peuvent être envoyées au gadget avec la commande @@ScintillaSendMessage .@LineBreak  
+  En outre les commandes de gadgets communes comme @@ResizeGadget ou @@HideGadget peuvent aussi bien être utilisées par le contrôle.
+@LineBreak
+@LineBreak 
+  Sous Windows, le fichier Scintilla.dll qui se trouve dans le dossier "Compilers" de PureBasic doit être livré avec votre application. 
+  Sous OS X ou Linux, la bibliothèque est liée de manière statique, il n'y a donc aucun objet partagé supplémentaire à inclure.
+  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 400, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -231,6 +233,33 @@
 
 @ReturnValue
   Renvoie le résultat du message envoyé.
+
+@Example Texte surligné en rouge
+@Code 
+  #num_indic = 0
+  
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    If InitScintilla()
+      ScintillaGadget(0, 5, 5, 320, 80, 0)
+      *Texte = UTF8("Ceci est un simple ScintillaGadget avec du texte..." + #LF$ + "Plus de texte" + #LF$ + "Encore plus !")
+      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Texte)
+      FreeMemory(*Texte) ; Le tampon créé par UTF8() doit être libéré pour éviter une fuite de mémoire
+      
+      ScintillaSendMessage(0, #SCI_INDICSETSTYLE, #num_indic, #INDIC_STRAIGHTBOX) ; "indicateur" de style : style  n°8 (0-19)
+      ScintillaSendMessage(0, #SCI_INDICSETFORE, #num_indic, #Red)                ; "indicateur" de couleur : rouge
+      ScintillaSendMessage(0, #SCI_SETINDICATORCURRENT, #num_indic, #INDIC_STRAIGHTBOX) ; cet "indicateur" est traité comme indicateur en cours
+      ScintillaSendMessage(0, #SCI_INDICSETUNDER, #num_indic, 1)   ; l'"indicateur" est derrière le texte, c'est-à-dire ne l'obscurcit pas
+      ScintillaSendMessage(0, #SCI_INDICSETALPHA, #num_indic, 127) ; transparence de 127
+      nLigne = 1 ; le numéro de ligne commence à 0
+      debut = ScintillaSendMessage(0, #SCI_POSITIONFROMLINE, nLigne)
+      longueur = ScintillaSendMessage(0, #SCI_GETLINEENDPOSITION, nLigne) - debut
+      ScintillaSendMessage(0, #SCI_INDICATORFILLRANGE, debut, longueur) ; Départ et longueur
+    EndIf
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

@@ -220,18 +220,17 @@
 @NoReturnValue
 
 @Remarks
-  La fonction FlipBuffers() doit toujours 
-  être appelée en dehors d'un bloc 
-  @@StartDrawing : @@StopDrawing.
+  La fonction FlipBuffers() doit toujours être appelée en dehors d'un bloc @@StartDrawing : @@StopDrawing.
 @LineBreak
 @LineBreak
-  Un écran doit avoir été ouvert avec 
-  @@OpenScreen ou @@OpenWindowedScreen.
-  @LineBreak 
-  La manière dont les tampons sont 
-  interchangés (avec ou sans synchronisation) 
-  est fixé par @@OpenScreen ou 
-  @@OpenWindowedScreen.
+  Un écran doit avoir été ouvert avec @@OpenScreen ou @@OpenWindowedScreen.
+@LineBreak 
+  La manière dont les tampons sont interchangés (avec ou sans synchronisation) est fixé par @@OpenScreen ou @@OpenWindowedScreen.
+@LineBreak
+@LineBreak
+  FlipBuffers() doit être appelé dans la boucle d'événement en @Link "Screen/OpenScreen" "mode plein écran" afin de gérer correctement 
+  les événements des @Link "Joystick/ExamineJoystick" "joysticks", du @Link "Keyboard/ExamineKeyboard" "clavier" et de la 
+  @Link "Mouse/ExamineMouse" "souris".
   
 @Example
 @Code

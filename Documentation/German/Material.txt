@@ -215,7 +215,28 @@
 
 @ReturnValue
   Ein Wert ungleich Null, wenn der Shader erfolgreich erstellt wurde, andernfalls Null.
+
+@Remarks
+  Shader müssen normalerweise Parameter erhalten, um zu funktionieren, und zwei Funktionen
+  ermöglichen die Übergabe dieser Parameter: @@MaterialShaderAutoParameter (automatischer
+  Parameter) und @@MaterialShaderParameter (Shader-Parameter).@LineBreak
+  PureBasic ermöglicht es auch, diese Parameter direkt in den Shader-Programmen einzustellen,
+  indem am Ende der 'uniform' Deklarationszeile folgendes hinzugefügt wird: "//" gefolgt von
+  entweder:@LineBreak
+   - die Auto-Parameternummer mit vorangestelltem "+" (vgl. 'ParameterTyp'-Konstanten der Funktion
+     @@MaterialShaderAutoParameter). @LineBreak
+   - ein oder mehrere Werte (durch Leerzeichen getrennt), entsprechend dem Shader-Parameter
+     (@@MaterialShaderParameter). @LineBreak
+@LineBreak
+  Beispiel:@LineBreak
+  uniform vec4 camera_pos;//+76 <- automatischer Parameter @#PB_Shader_CameraPosition @LineBreak
+  uniform vec4 fog_params;//+31 <- automatischer Parameter @#PB_Shader_FogParams @LineBreak
+  uniform vec3 speed;//0.5 1 0 <- Shader-Parameter 'speed' @LineBreak
+  uniform sampler2D diffuseMap;//1 <- Shader-Parameter Textur-Nummer @LineBreak
   
+@SeeAlso
+  @@CreateShaderMaterial, @@MaterialShaderAutoParameter, @@MaterialShaderParameter
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -232,6 +253,232 @@
   
 @Parameter "ShaderID"
   Die Shader-ID. @@CreateShader wird verwendet, um einen neuen Shader zu erstellen.
+  Der ShaderID Parameter muss einen der folgenden Werte enthalten@linebreak 
+  - die ID des zuvor mit @@CreateShader erstellten Shaders @LineBreak 
+  - die ID eines vordefinierten Shaders: @LineBreak 
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+  @#PB_MaterialShader_CubicEnvShader
+  @#PB_MaterialShader_CubicEnvBumpShader
+@EndFixedFont
+
+
+  Beschreibung der vordefinierten Shader:
+@FixedFont
+  ___________________________________________________________________________________________
+  @#PB_Material_ColorShader
+  
+  Effekt: einheitliche Farbe in 'perpixel'.
+  
+  Textur(en): keine
+  
+  MaterialShaderParameter: keiner
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, color)
+  - MaterialShininess(@#Material, Glanz, Glanzfarbe)
+  - AmbiantColor
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_PerpixelShader
+  
+  Effekt: Material in 'perpixel'
+  
+  Textur(en):
+  - 0: sampler2D Farbe
+  
+  MaterialShaderParameter: keiner
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, color)
+  - MaterialShininess(@#Material, Glanz, Glanzfarbe)
+  - LightAttenuation
+  - AmbiantColor
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_BumpShader
+  
+  Effekt: Material mit Relief
+  
+  Textur(en):
+  - 0: sampler2D Farbe
+  - 1: sampler2D normal
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Fragment
+  - float bumpy - Standardwert: 1 (Relief-Amplitude)
+
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, color)
+  - MaterialShininess(@#Material, Glanz, Glanzfarbe)
+  - LightAttenuation
+  - AmbiantColor
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Hinweis(e):
+  - die Tangenten müssen definiert werden (verwenden Sie 'BuildMeshTangent')
+  ___________________________________________________________________________________________
+  @#PB_Material_SkyShader
+  
+  Effekt: zeigt einen Himmel mit Wolken und Sonne
+  
+  Textur(en)::
+  - 0: einheitliche Sampler2D-Farbe (Wolken)
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Fragment
+   - vec3 speed - Standardwert: 10 0 0 (Geschwindigkeit der Wolken (X Z))
+   - float height - Standardwert: 200 (Höhe der ersten Wolkenschicht)
+   - int layer - Standardwert: 2 (Anzahl zusätzlicher Wolkenschichten)
+   - float scale - Standardwert: 4000 (Texturskalierung)
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor, Farbe): Farbe des Sonnenhimmels im Zenit
+  - SetMaterialColor(@#Material, @#PB_Material_DiffuseColor, Farbe): Farbe der Himmelssonne am Horizont
+  - Fog
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_WaterShader
+  
+  Effekt: ermöglicht die Anzeige einer Wasseroberfläche
+  
+  Textur(en):
+  - 0: sampler2D normal
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Fragment
+  - float scale - Standardwert: 0.1 (Texturskala)
+  - float height - Standardwert: 1 (Wellenhöhe)
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_DiffuseColor, Farbe): Wasserfarbe (Alpha: Deckkraft)
+  - SetMaterialColor(@#Material, @#PB_Material_SpecularColor, Farbe): Reflexionsfarbe des Himmels
+  - Fog
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_WaterShaderRTT
+  
+  Effekt: ermöglicht die Darstellung einer Wasseroberfläche mit Spiegelung (über RTT)
+  
+  Textur(en):
+  - 0: sampler2D normal
+  - 1: sampler2D RTT (in Textur rendern)
+  
+  MaterialShaderParameter: keiner
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_DiffuseColor, Farbe): Wasserfarbe (Alpha: Deckkraft)
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_OceanShader
+  
+  Effekt: ermöglicht die Darstellung einer Wasseroberfläche mit Wellen
+  
+  Textur(en):
+  - 0: sampler2D normal
+  - 1: sampler2D Farbe (Schaum)
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Vertex
+   - float wavebig - Standardwert: 0.5 (Wellenamplitude)
+   - float swell - Standardwert: 0.5 (Anschwell-Amplitude)
+  @#PB_Shader_Fragment
+  - float wavelittle - Standardwert: 0.5 (Amplitude von "kleinen" Wellen)
+  - float foam - Standardwert: 0.5 (Schaum)
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor, Farbe): Wasserfarbe
+  - SetMaterialColor(@#Material, @#PB_Material_DiffuseColor, Farbe): Farbe der Himmelsreflexion
+  - Fog
+  
+  Hinweis(e):
+  - der Alpha-Wert der Textur 'normal' enthält die Höhe der Welle
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_PointSpriteSphereShader
+  
+  Effekt: zeigt Kugeln an den Scheitelpunkten des Meshes an
+  
+  Textur(en): keine
+  
+  MaterialShaderParameter: keiner
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Farbe)
+  - MaterialShininess(@#Material, Shininess, Glanzfarbe)
+  - AmbientColor
+  - Fog
+  
+  Hinweis(e):
+  - das Material muss vom Typ PointSprite sein: SetMaterialAttribute(0, @#PB_Material_PointSprite, 1)
+  - das Mesh muss vom Typ PointList sein: CreateMesh(@#Mesh, @#PB_Mesh_PointList)
+  - Der Radius der Kugel wird durch die Texturkoordinate U definiert
+  - Die Farbe der Kugel wird durch die Scheitelpunktfarbe definiert
+  Beispiel: MeshVertex(posX, posY, posZ, 10, 0, RGB(255,0,0))
+  
+  _______________________________________________________________________________________
+  @#PB_MaterialShader_CubicEnv
+  
+  Effekt: Reflexion über kubische Textur
+  
+  Textur(en):
+  - 0: samplerCube Cubemap
+  - 1: einheitliche sampler2D Farbe
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Fragment
+  - float glossy - Standardwert: 0.5 (Reflexionsintensität)
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Farbe)
+  - AmbiantColor
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Hinweis(e):
+  - kubische Texturen müssen eingespannt ('clamped') werden: SetMaterialAttribute(@#Texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  
+  ___________________________________________________________________________________________
+  @#PB_MaterialShader_CubicEnvBump
+  
+  Effekt: Reflexion über kubische Textur mit Relief
+  
+  Textur(en):
+  - 0: samplerCube Cubemap
+  - 1: sampler2D Farbe
+  - 2: sampler2D normal
+  
+  MaterialShaderParameter:
+  @#PB_Shader_Fragment
+  - float glossy - Standardwert: 0.5 (Reflexionsintensität)
+  - float bumpy - Standardwert: 1 (Relief-Amplitude)
+  
+  Unter Berücksichtigung von:
+  - SetMaterialColor(@#Material, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Farbe)
+  - MaterialShininess(@#Material, Shininess , Glanzfarbe)
+  - AmbiantColor
+  - Fog
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Hinweis(e):
+  - kubische Texturen müssen eingespannt ('clamped') werden: SetMaterialAttribute(@#Texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  - die Tangenten müssen definiert sein (use 'BuildMeshTangent')
+
+@EndFixedFont
   
 @ReturnValue
   Ein Wert ungleich Null, wenn das Shader-basierte Material erfolgreich erstellt wurde,
@@ -264,141 +511,153 @@
 @Parameter "ParameterTyp"
   Der Parameter-Typ. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Shader_WorldMatrix
-  @#PB_Shader_InverseWorldMatrix
-  @#PB_Shader_TransposeWorldMatrix
-  @#PB_Shader_InverseTransposeWorldMatrix
-  @#PB_Shader_WorldMatrixArray3x4
-  @#PB_Shader_WorldMatrixArray
-  @#PB_Shader_WorldDualquaternionArray2x4
-  @#PB_Shader_WorldScaleShearMatrixArray3x4
-  @#PB_Shader_ViewMatrix
-  @#PB_Shader_InverseViewMatrix
-  @#PB_Shader_TransposeViewMatrix
-  @#PB_Shader_InverseTransposeViewMatrix
-  @#PB_Shader_ProjectionMatrix
-  @#PB_Shader_InverseProjectionMatrix
-  @#PB_Shader_TransposeProjectionMatrix
-  @#PB_Shader_InverseTransposeProjectionMatrix
-  @#PB_Shader_ViewprojMatrix
-  @#PB_Shader_InverseViewprojMatrix
-  @#PB_Shader_TransposeViewprojMatrix
-  @#PB_Shader_InverseTransposeViewprojMatrix
-  @#PB_Shader_WorldviewMatrix
-  @#PB_Shader_InverseWorldviewMatrix
-  @#PB_Shader_TransposeWorldviewMatrix
-  @#PB_Shader_InverseTransposeWorldviewMatrix
-  @#PB_Shader_WorldviewprojMatrix
-  @#PB_Shader_InverseWorldviewprojMatrix
-  @#PB_Shader_TransposeWorldviewprojMatrix
-  @#PB_Shader_InverseTransposeWorldviewprojMatrix
-  @#PB_Shader_RenderTargetFlipping
-  @#PB_Shader_VertexWinding
-  @#PB_Shader_FogColour
-  @#PB_Shader_FogParams
-  @#PB_Shader_SurfaceAmbientColour
-  @#PB_Shader_SurfaceDiffuseColour
-  @#PB_Shader_SurfaceSpecularColour
-  @#PB_Shader_SurfaceEmissiveColour
-  @#PB_Shader_SurfaceShininess
-  @#PB_Shader_LightCount
   @#PB_Shader_AmbientLightColour
-  @#PB_Shader_LightDiffuseColour
-  @#PB_Shader_LightSpecularColour
-  @#PB_Shader_LightAttenuation
-  @#PB_Shader_SpotlightParams
-  @#PB_Shader_LightPosition
-  @#PB_Shader_LightPositionObjectSpace
-  @#PB_Shader_LightPositionViewSpace
-  @#PB_Shader_LightDirection
-  @#PB_Shader_LightDirectionObjectSpace
-  @#PB_Shader_LightDirectionViewSpace
-  @#PB_Shader_LightDistanceObjectSpace
-  @#PB_Shader_LightPowerScale
-  @#PB_Shader_LightDiffuseColourPowerScaled
-  @#PB_Shader_LightSpecularColourPowerScaled
-  @#PB_Shader_LightDiffuseColourArray
-  @#PB_Shader_LightSpecularColourArray
-  @#PB_Shader_LightDiffuseColourPowerScaledArray
-  @#PB_Shader_LightSpecularColourPowerScaledArray
-  @#PB_Shader_LightAttenuationArray
-  @#PB_Shader_LightPositionArray
-  @#PB_Shader_LightPositionObjectSpaceArray
-  @#PB_Shader_LightPositionViewSpaceArray
-  @#PB_Shader_LightDirectionArray
-  @#PB_Shader_LightDirectionObjectSpaceArray
-  @#PB_Shader_LightDirectionViewSpaceArray
-  @#PB_Shader_LightDistanceObjectSpaceArray
-  @#PB_Shader_LightPowerScaleArray
-  @#PB_Shader_SpotlightParamsArray
-  @#PB_Shader_DerivedAmbientLightColour
-  @#PB_Shader_DerivedSceneColour
-  @#PB_Shader_DerivedLightDiffuseColour
-  @#PB_Shader_DerivedLightSpecularColour
-  @#PB_Shader_DerivedLightDiffuseColourArray
-  @#PB_Shader_DerivedLightSpecularColourArray
-  @#PB_Shader_LightNumber
-  @#PB_Shader_LightCastsShadows
-  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_AnimationParametric
   @#PB_Shader_CameraPosition
   @#PB_Shader_CameraPositionObjectSpace
-  @#PB_Shader_TextureViewprojMatrix
-  @#PB_Shader_TextureViewprojMatrixArray
-  @#PB_Shader_TextureWorldviewprojMatrix
-  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_Costime02pi
+  @#PB_Shader_Costime0X
+  @#PB_Shader_Custom
+  @#PB_Shader_DerivedAmbientLightColour
+  @#PB_Shader_DerivedLightDiffuseColour
+  @#PB_Shader_DerivedLightDiffuseColourArray
+  @#PB_Shader_DerivedLightSpecularColour
+  @#PB_Shader_DerivedLightSpecularColourArray
+  @#PB_Shader_DerivedSceneColour
+  @#PB_Shader_FarClipDistance
+  @#PB_Shader_FogColour
+  @#PB_Shader_Fov
+  @#PB_Shader_Fps
+  @#PB_Shader_Fragment
+  @#PB_Shader_Integer
+  @#PB_Shader_InverseProjectionMatrix
+  @#PB_Shader_InverseTextureSize
+  @#PB_Shader_InverseTransposeProjectionMatrix
+  @#PB_Shader_InverseTransposeViewMatrix
+  @#PB_Shader_InverseTransposeViewprojMatrix
+  @#PB_Shader_InverseTransposeWorldMatrix
+  @#PB_Shader_InverseTransposeWorldviewMatrix
+  @#PB_Shader_InverseTransposeWorldviewprojMatrix
+  @#PB_Shader_InverseViewMatrix
+  @#PB_Shader_InverseViewportHeight
+  @#PB_Shader_InverseViewportWidth
+  @#PB_Shader_InverseViewprojMatrix
+  @#PB_Shader_InverseWorldMatrix
+  @#PB_Shader_InverseWorldviewMatrix
+  @#PB_Shader_InverseWorldviewprojMatrix
+  @#PB_Shader_LightAttenuation
+  @#PB_Shader_LightAttenuationArray
+  @#PB_Shader_LightCastsShadows
+  @#PB_Shader_LightCount
+  @#PB_Shader_LightCustom
+  @#PB_Shader_LightDiffuseColour
+  @#PB_Shader_LightDiffuseColourArray
+  @#PB_Shader_LightDiffuseColourPowerScaled
+  @#PB_Shader_LightDiffuseColourPowerScaledArray
+  @#PB_Shader_LightDirection
+  @#PB_Shader_LightDirectionArray
+  @#PB_Shader_LightDirectionObjectSpace
+  @#PB_Shader_LightDirectionObjectSpaceArray
+  @#PB_Shader_LightDirectionViewSpace
+  @#PB_Shader_LightDirectionViewSpaceArray
+  @#PB_Shader_LightDistanceObjectSpace
+  @#PB_Shader_LightDistanceObjectSpaceArray
+  @#PB_Shader_LightNumber
+  @#PB_Shader_LightPosition
+  @#PB_Shader_LightPositionArray
+  @#PB_Shader_LightPositionObjectSpace
+  @#PB_Shader_LightPositionObjectSpaceArray
+  @#PB_Shader_LightPositionViewSpace
+  @#PB_Shader_LightPositionViewSpaceArray
+  @#PB_Shader_LightPowerScale
+  @#PB_Shader_LightPowerScaleArray
+  @#PB_Shader_LightSpecularColour
+  @#PB_Shader_LightSpecularColourArray
+  @#PB_Shader_LightSpecularColourPowerScaled
+  @#PB_Shader_LightSpecularColourPowerScaledArray
+  @#PB_Shader_LodCameraPosition
+  @#PB_Shader_LodCameraPositionObjectSpace
+  @#PB_Shader_NearClipDistance
+  @#PB_Shader_PackedTextureSize
+  @#PB_Shader_PassIterationNumber
+  @#PB_Shader_PassNumber
+  @#PB_Shader_ProjectionMatrix
+  @#PB_Shader_SceneDepthRange
+  @#PB_Shader_ShadowColour
+  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_ShadowSceneDepthRange
+  @#PB_Shader_Sintime01
+  @#PB_Shader_Sintime02pi
+  @#PB_Shader_Sintime0X
+  @#PB_Shader_SpotlightParams
+  @#PB_Shader_SpotlightParamsArray
   @#PB_Shader_SpotlightViewprojMatrix
   @#PB_Shader_SpotlightViewprojMatrixArray
   @#PB_Shader_SpotlightWorldviewprojMatrix
-  @#PB_Shader_Custom
-  @#PB_Shader_Time
-  @#PB_Shader_Time0X
-  @#PB_Shader_Costime0X
-  @#PB_Shader_Sintime0X
-  @#PB_Shader_Tantime0X
-  @#PB_Shader_Time0XPacked
-  @#PB_Shader_Time01
-  @#PB_Shader_Costime01
-  @#PB_Shader_Sintime01
+  @#PB_Shader_SurfaceAmbientColour
+  @#PB_Shader_SurfaceDiffuseColour
+  @#PB_Shader_SurfaceEmissiveColour
+  @#PB_Shader_SurfaceShininess
+  @#PB_Shader_SurfaceSpecularColour
   @#PB_Shader_Tantime01
+  @#PB_Shader_Tantime02pi
+  @#PB_Shader_Tantime0X
+  @#PB_Shader_TexelOffsets
+  @#PB_Shader_TextureMatrix
+  @#PB_Shader_TextureSize
+  @#PB_Shader_TextureViewprojMatrix
+  @#PB_Shader_TextureViewprojMatrixArray
+  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_Time
+  @#PB_Shader_Time01
   @#PB_Shader_Time01Packed
   @#PB_Shader_Time02pi
-  @#PB_Shader_Costime02pi
-  @#PB_Shader_Sintime02pi
-  @#PB_Shader_Tantime02pi
   @#PB_Shader_Time02piPacked
-  @#PB_Shader_FrameTime
-  @#PB_Shader_Fps
-  @#PB_Shader_ViewportWidth
-  @#PB_Shader_ViewportHeight
-  @#PB_Shader_InverseViewportWidth
-  @#PB_Shader_InverseViewportHeight
-  @#PB_Shader_ViewportSize
+  @#PB_Shader_Time0X
+  @#PB_Shader_Time0XPacked
+  @#PB_Shader_TransposeProjectionMatrix
+  @#PB_Shader_TransposeViewMatrix
+  @#PB_Shader_TransposeViewprojMatrix
+  @#PB_Shader_TransposeWorldMatrix
+  @#PB_Shader_TransposeWorldviewMatrix
+  @#PB_Shader_TransposeWorldviewprojMatrix
+  @#PB_Shader_Vector3
+  @#PB_Shader_Vector4
+  @#PB_Shader_Vertex
+  @#PB_Shader_VertexWinding
   @#PB_Shader_ViewDirection
+  @#PB_Shader_ViewMatrix
+  @#PB_Shader_ViewportSize
+  @#PB_Shader_ViewportWidth
+  @#PB_Shader_ViewprojMatrix
   @#PB_Shader_ViewSideVector
   @#PB_Shader_ViewUpVector
-  @#PB_Shader_Fov
-  @#PB_Shader_NearClipDistance
-  @#PB_Shader_FarClipDistance
-  @#PB_Shader_PassNumber
-  @#PB_Shader_PassIterationNumber
-  @#PB_Shader_AnimationParametric
-  @#PB_Shader_TexelOffsets
-  @#PB_Shader_SceneDepthRange
-  @#PB_Shader_ShadowSceneDepthRange
-  @#PB_Shader_ShadowColour
-  @#PB_Shader_TextureSize
-  @#PB_Shader_InverseTextureSize
-  @#PB_Shader_PackedTextureSize
-  @#PB_Shader_TextureMatrix
-  @#PB_Shader_LodCameraPosition
-  @#PB_Shader_LodCameraPositionObjectSpace
-  @#PB_Shader_LightCustom
+  @#PB_Shader_WorldDualquaternionArray2x4
+  @#PB_Shader_WorldMatrix
+  @#PB_Shader_WorldMatrixArray
+  @#PB_Shader_WorldMatrixArray3x4
+  @#PB_Shader_WorldviewMatrix
+  @#PB_Shader_WorldviewprojMatrix
 @EndFixedFont
 
-@Parameter "ExtraValue"
+@Parameter "ExtraWert"
   Extra-Wert, der an den Programmparameter übergeben wird.
 
 @NoReturnValue
+
+@Remarks
+  Die automatischen Parameter entsprechen den Parametern der 3D-Engine (Positionen der Kamera, Lichter,
+  Materialfarbe, Nebel...).
+  Diese Funktion ermöglicht es, die Verbindung zwischen der 'einheitlichen' Variable des Shaders und
+  diesen Parametern herzustellen.@LineBreak
+
+@Example
+@Code
+  MaterialShaderAutoParameter(#Material, #PB_Shader_Fragment, #PB_Shader_CameraPosition, "camerapos", 0)
+@EndCode
+ 
+@SeeAlso
+  @@CreateShaderMaterial
 
 @SupportedOS
 
@@ -407,9 +666,8 @@
 @Function MaterialShaderParameter(#Material, ProgrammTyp, ParameterName$, ParameterTyp, v1.f, v2.f, v3.f, v4.f)
 
 @Description
-  Legt einen Parameterwert für das Shader-basierte Material fest, das zuvor mit @@CreateShaderMaterial
-  erstellt wurde.
-
+  Legt bestimmte Parameter für den Shader fest.
+  
 @Parameter "#Material"
   Das zu verwendende Material.
 
@@ -450,6 +708,7 @@
   GLSL-Shader verwenden den Typ vec4, um eine Farbe zu übergeben. Beispiel:
 @Code
   MaterialShaderParameter(0, #PB_Shader_Fragment, 4, Red(Color)/255, Green(Color)/255, Blue(Color)/255, Alpha(Color)/255)
+  MaterialShaderParameter(#Material, #PB_Shader_Fragment, "bumpy", #PB_Shader_Float, 0.5,0,0,0)
 @EndCode
 
 @SupportedOS

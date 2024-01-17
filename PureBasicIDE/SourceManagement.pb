@@ -339,6 +339,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
+  FileList()\DllProtection    = OptionDllProtection
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -871,6 +872,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     NbLines + 1
     ConfigLines$(NbLines) = "DPIAware"
   EndIf
+  If *Target\DllProtection And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "DllProtection"
+  EndIf
   If *Target\EnableOnError And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "EnableOnError"
@@ -1223,6 +1228,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   ; These configs are enabled by default, so if not present, should be 0
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
+  *Source\DllProtection = 0
   
   ClearList(*Source\UnknownIDEOptionsList$())
   
@@ -1312,6 +1318,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
       Case "DPIAWARE":         *Source\DPIAware = 1
+      Case "DLLPROTECTION":    *Source\DllProtection = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
       Case "ENABLEONERROR":    *Source\EnableOnError = 1
       Case "DISABLEDEBUGGER":  *Source\Debugger = 0
@@ -1593,6 +1600,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
+    *Source\DllProtection = 0
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1

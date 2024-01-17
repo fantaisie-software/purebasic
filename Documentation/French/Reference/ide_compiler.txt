@@ -276,7 +276,13 @@ MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour crée
 @LineBreak
 @LineBreak
 
+@Bold "Enable DLL Protection" (Windows only)
+@LineBreak
+  Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable.
 
+@LineBreak
+@LineBreak
 
 @Bold "bibliothèque Sous-système" 
 @LineBreak
@@ -413,7 +419,8 @@ LineBreak
 
 @Bold "Paramètre de l'éxecutable"
 @LineBreak
-  La chaîne donnée ici sera passée en tant que ligne de commande pour le programme lorsqu'il est exécuté à partir de l'IDE. 
+  La chaîne donnée ici sera passée en tant que ligne de commande pour le programme lorsqu'il est exécuté à partir de l'IDE.@LineBreak
+  Le contenu de cette chaîne peut être obtenu avec @@ProgramParameter.
 
 @LineBreak
 @LineBreak
@@ -608,6 +615,9 @@ LineBreak
 @LineBreak
 @LineBreak
 
+  Remarque : Étant donné que les ressources sont spécifiques à la plate-forme Windows uniquement, PB n'inclut pas de
+  bibliothèques pour les gérer et ils ne sont pas documentés davantage ici. Voir la documentation sur le
+  @InternetLink "https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" "API Windows" et ressources pour plus d'informations.
 ; == END WINDOWS ONLY ==
 
 @EndOS

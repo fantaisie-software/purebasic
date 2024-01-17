@@ -1,7 +1,7 @@
 ;
 ;     Process library documentation
 ;
-;      (c) 2016 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Process
@@ -358,7 +358,7 @@
   Gets the next parameter string that was passed to the executable when it was launched.
   
 @OptionalParameter "Index"
-  If specified, the parameter for that index will be returned. The first parameter indes starts from 0.
+  If specified, the parameter for that index will be returned. The first parameter index starts from 0.
   
 @ReturnValue
   The next parameter value, or an empty string if no more parameters are found. If index is specified
@@ -373,7 +373,11 @@
   since the function also returns an empty string if an empty string was passed in "" on the command-line.
   The prefered method which should be used to get all parameters, is to get the count with @@CountProgramParameters
   and then to call ProgramParameter() as often as needed.
-
+@LineBreak
+@LineBreak
+  To check the behaviour of this function, or do several tests, please read the 'Executable command-line' paragraph
+  in the page @ReferenceLink "ide_compiler" "IDE Compiler options".
+ 
 @Example
 @Code
   MyProgram.exe MyText.txt /FAST "Special Mode"

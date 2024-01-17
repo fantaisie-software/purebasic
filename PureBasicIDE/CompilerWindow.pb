@@ -73,6 +73,7 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\EnableAdmin      = OptionVistaAdmin
   *Target\EnableUser       = OptionVistaUser
   *Target\DPIAware         = OptionDPIAware
+  *Target\DllProtection    = OptionDllProtection
   *Target\EnableOnError    = OptionOnError
   *Target\ExecutableFormat = OptionExeFormat
   *Target\CPU              = OptionCPU

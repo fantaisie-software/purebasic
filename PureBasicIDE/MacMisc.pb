@@ -295,6 +295,10 @@ CompilerIf #CompileMacCocoa
     EndIf
   EndProcedure
   
+  Procedure IsScreenReaderActive()
+    ProcedureReturn #False
+  EndProcedure
+  
   ; Procedure CPUMonitor_Init()
   ;
   ;   IsCPUMonitorInitialized = 0
