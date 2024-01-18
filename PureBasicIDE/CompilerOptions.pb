@@ -583,6 +583,8 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
               AddGadgetItem(#GADGET_Option_SelectWindowTheme, -1, DirectoryEntryName(0))
             EndIf
           Wend
+          
+          FinishDirectory(0)
         EndIf
         
         ; Scan the available gadget themes
@@ -593,6 +595,8 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
               AddGadgetItem(#GADGET_Option_SelectGadgetTheme, -1, DirectoryEntryName(0))
             EndIf
           Wend
+          
+          FinishDirectory(0)
         EndIf
         
       CompilerElse

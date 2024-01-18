@@ -575,6 +575,8 @@ Procedure CompilerCleanup()
         
       EndIf
     Wend
+    
+    FinishDirectory(0)
   EndIf
   
 EndProcedure
