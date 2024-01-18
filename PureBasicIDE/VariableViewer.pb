@@ -63,7 +63,7 @@ EndProcedure
 Procedure VariableViewer_AddFromTree(*Node.RadixNode, ModuleName$)
   Static NewList *SourceItems()
   
-  RadixEnumerateAll(*ActiveSource\Parser\Modules()\Indexed[Type], *SourceItems())
+  RadixEnumerateAll(*Node, *SourceItems())
   
   ForEach *SourceItems()
     *Item.SourceItem = *SourceItems()
