@@ -555,6 +555,16 @@ EndMacro
 
 Declare ShutdownIDE() ; perform all code for an orderly shutdown.
 
+;- RadixTree.pb
+;
+Declare RadixFree(*Tree.RadixTree)                                              ; Free all tree nodes
+Declare RadixFindPrefix(*Tree.RadixTree, Prefix$, ExactMatchOnly = #False)      ; Lookup RadixNode by prefix. Returns RadixNode, not node value!
+Declare RadixLookupValue(*Tree.RadixTree, Name$)                                ; Lookup stored value by exact name match (case insensitive)
+Declare RadixFindRange(*Tree.RadixTree, Prefix$, *First.INTEGER, *Last.INTEGER) ; Lookup first and last value matching the given prefix. Returns true/false if any match is found
+Declare RadixEnumerateAll(*Tree.RadixTree, List *Values())                      ; Enumerate all stored values (sorted alphabetically). Clears the list
+Declare RadixEnumeratePrefix(*Tree.RadixTree, Name$, List *Values())            ; Enumerate all stored values with given prefix (sorted alphabetically). Clears the list
+Declare RadixInsert(*Tree.RadixTree, Name$, *Value)                             ; Insert a value into the tree
+
 ;- RecentFiles.pb
 ;
 Declare RecentFiles_AddMenuEntries(IsProject)  ; add entries to the recentfiles menu (doesn't create submenu)
@@ -613,7 +623,6 @@ Declare FullSourceScan(*Source.SourceFile)      ; rescan entire source
 Declare PartialSourceScan(*Source.SourceFile, StartLine, EndLine)  ; rescan some lines (returns true if line(s) changed)
 Declare ScanLine(*Source.SourceFile, Line)                         ; scan single line ( + continuations) returns true if line(s) changed
 Declare ScanFile(FileName$, *Parser.ParserData)                    ; scan a file from disk (for project management)
-Declare GetBucket(*Name.Character)                                 ; gets the bucket index for the given name
 Declare SortParserData(*Parser.ParserData, *Source.SourceFile=0)   ; update the sorted parser data
 Declare SourceLineCorrection(*Source.SourceFile, Line, LinesAdded) ; adjust line offset in scanned tree
 Declare LocateSourceItem(*Parser.ParserData, Line, Position)       ; Return the SourceItem pointer for the item at the given location (if any)

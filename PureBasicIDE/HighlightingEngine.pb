@@ -159,11 +159,6 @@ Global Dim CustomKeywordsHT.l(#MaxSizeHT)
 Global NbCustomKeywords
 
 
-Global Dim ConstantList.S(0)   ; from StructureViewer, but works also if not included (ConstantListSize will simply be 0)
-Global Dim ConstantHT.L(27, 1)
-Global ConstantListSize
-
-
 Global Dim ASMKeywordsHT.l(#MaxSizeHT)
 
 Global Dim APIFunctionsHT.l(#MaxSizeHT)
@@ -171,6 +166,27 @@ Global NewMap BasicFunctionMap.l(4096)
 
 Global BasicKeyword$, ASMKeyword$, KnownConstant$, CustomKeyword$
 Global NbBasicFunctions, NbApiFunctions
+
+CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
+  
+  Global BasicKeywordsTree.RadixTree   ; Stores index in array (not "index+1" since index 0 is invalid anyway)
+  Global ASMKeywordsTree.RadixTree     ; Stores index in array (not "index+1"!)
+  Global BasicFunctionsTree.RadixTree  ; Stores index+1
+  Global APIFunctionsTree.RadixTree    ; Stores index+1
+  
+  ; Redeclared from StructureViewer.pb
+  Global Dim ConstantList.s(0)
+  Global ConstantTree.RadixTree
+  
+CompilerElse
+  ; Replace functions that only have meaning in the IDE
+  Macro RadixInsert(a, b, c)
+  EndMacro
+  
+  Macro RadixFree(x)
+  EndMacro
+CompilerEndIf
+
 
 ;- Keyword constants
 ;
@@ -551,6 +567,7 @@ Procedure InitSyntaxCheckArrays()
   ; Now, init the internal PureBasic keywords
   ; can be done here, as it does not need the compiler
   ;
+  RadixFree(BasicKeywordsTree)
   CurrentChar = 0
   Restore BasicKeywords
   For k=1 To #NbBasicKeywords
@@ -558,6 +575,7 @@ Procedure InitSyntaxCheckArrays()
     BasicKeywords(k) = LCase(BasicKeywordsReal(k))
     Read.s BasicKeywordsEndKeywords(k)
     Read.s BasicKeywordsSpaces(k)
+    RadixInsert(BasicKeywordsTree, BasicKeywordsReal(k), k)
 
     Char = Asc(BasicKeywords(k))
     If Char <> CurrentChar
@@ -576,6 +594,7 @@ Procedure InitSyntaxCheckArrays()
   ; And next, init the ASM keywords
   ;
   CurrentChar = 0
+  RadixFree(ASMKeywordsTree)
   Restore ASMKeywords
 
   Read.l NbASMKeywords
@@ -584,6 +603,7 @@ Procedure InitSyntaxCheckArrays()
 
   For k=1 To NbASMKeywords
     Read.s ASMKeywords(k)
+    RadixInsert(ASMKeywordsTree, ASMKeywords(k), k)
 
     Char = Asc(ASMKeywords(k))
     If Char <> CurrentChar
@@ -617,6 +637,7 @@ Procedure InitSyntaxHighlighting()
       NbBasicFunctions = Val(Response$)
       If NbBasicFunctions < 10000 And NbBasicFunctions > 0  ; Sanity check... If over, it's a bit strange...
         Dim BasicFunctions.FunctionEntry(NbBasicFunctions)
+        RadixFree(BasicFunctionsTree)
 
         CurrentFunction = 0
         Repeat
@@ -644,11 +665,12 @@ Procedure InitSyntaxHighlighting()
         ; PB compare functions so our hashing stops working
         ; So we add a sort step here to be sure
         SortStructuredArray(BasicFunctions(), #PB_Sort_Ascending|#PB_Sort_NoCase, OffsetOf(FunctionEntry\Name$), #PB_String, 0, NbBasicFunctions-1)
-
+                
         ; Do the conversion to ascii now, as our pointer field is wrong else!
         For i = 0 To NbBasicFunctions-1
           PokeS(@BasicFunctions(i)\AsciiBuffer[0], BasicFunctions(i)\Name$, 255, #PB_Ascii)
           BasicFunctions(i)\Ascii = @BasicFunctions(i)\AsciiBuffer[0]
+          RadixInsert(BasicFunctionsTree, BasicFunctions(i)\Name$, i+1)
         Next i
 
       EndIf
@@ -672,6 +694,7 @@ Procedure InitSyntaxHighlighting()
 
     NbAPIFunctions = 0
     Global Dim APIFunctions.FunctionEntry(0)
+    RadixFree(APIFunctionsTree)
 
     ; Only load these files when we are inside the IDE or debugger
     ;
@@ -735,6 +758,7 @@ Procedure InitSyntaxHighlighting()
           For i = 0 To NbAPIFunctions-1
             PokeS(@APIFunctions(i)\AsciiBuffer[0], APIFunctions(i)\Name$, 255, #PB_Ascii)
             APIFunctions(i)\Ascii = @APIFunctions(i)\AsciiBuffer[0]
+            RadixInsert(APIFunctionsTree, APIFunctions(i)\Name$, i+1)
           Next i
 
           FreeMemory(*APIFunctionsBuffer)
@@ -939,22 +963,18 @@ EndProcedure
 
 
 Procedure IsKnownConstant(Word$)
-  ascii = Asc(UCase(Mid(Word$, 2, 1))) ; the word is guaranteed to be longer that that (checked below)
-  If ascii = '_'
-    char = 27
-  ElseIf ascii >= 'A' And ascii <= 'Z'
-    char = ascii - 'A' + 1
-  Else
-    ProcedureReturn 0
-  EndIf
-
-  For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-    If CompareMemoryString(@Word$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
-      KnownConstant$ = ConstantList(i)
+  
+  CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
+    
+    Match = RadixLookupValue(ConstantTree, Word$)
+    If Match
+      KnownConstant$ = ConstantList(Match-1) ; The tree stores index+1
       ProcedureReturn 1
     EndIf
-  Next i
-
+    
+  CompilerEndIf
+    
+  ProcedureReturn 0
 EndProcedure
 
 ; for detection. use global so it does not need to be done all the time

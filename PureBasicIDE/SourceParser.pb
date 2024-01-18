@@ -206,6 +206,8 @@ Procedure BuildFoldingVT()
   
 EndProcedure
 
+
+
 ; frees a linkedlist of *SourceItem structures
 Procedure FreeSourceItems(*Item.SourceItem)
   While *Item
@@ -242,6 +244,11 @@ Procedure FreeSourceItemArray(*Parser.ParserData)
     *Parser\SourceItemArray = 0
   EndIf
   
+  ForEach *Parser\Modules()
+    For i = 0 To #ITEM_LastSorted
+      RadixFree(*Parser\Modules()\Indexed[i])
+    Next i
+  Next *Parser\Modules()
   ClearMap(*Parser\Modules())
   
   ; Sorted data no longer valid
@@ -1504,7 +1511,7 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         
         ; https://www.purebasic.fr/english/viewtopic.php?t=80617
         Case #KEYWORD_CompilerIf, #KEYWORD_CompilerElseIf
-            ; skip the CompilerIf to avoid adding constants referenced by it to autocomplete in modules                     
+            ; skip the CompilerIf to avoid adding constants referenced by it to autocomplete in modules
             While *Cursor\b And *Cursor\b <> 10 And *Cursor\b <> 13 And *Cursor\b <> ';' And *Cursor\b <> ':'
             *Cursor + 1
             Wend
@@ -2061,74 +2068,13 @@ Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
   EndIf
 EndProcedure
 
-Procedure GetBucket(*Name.Character)
-  If *Name = 0
-    ProcedureReturn 0 ; fallback bucket
-  EndIf
-  
-  If *Name\c = '*' Or *Name\c = '#'
-    *Name + 1
-  EndIf
-  
-  Index = ByteUcase(*Name\c) - 'A' + 1
-  
-  ; Put words starting with _ (or invalid word chars) in bucket 0
-  If Index < 0 Or Index >= #PARSER_VTSize
-    Index = 0
-  EndIf
-  
-  ProcedureReturn Index
-EndProcedure
 
-Procedure Parser_AddSorted(*List.IndexedData, *Item.SourceItem, Line)
+Procedure Parser_AddSorted(*Tree.RadixTree, *Item.SourceItem, Line)
   
   ; This is actually only valid inside a sorted item
   *Item\SortedLine = Line
   
-  ; Get name pointer and get bucket index
-  ;
-  Index = GetBucket(@*Item\Name$)
-  
-  ; for the comparing, we include the first char again
-  *Name = @*Item\Name$
-  
-  If *List\Bucket[Index] = 0
-    *Item\NextSorted    = 0
-    *List\Bucket[Index] = *Item
-    
-  Else
-    compare = CompareMemoryString(*Name, @*List\Bucket[Index]\Name$, #PB_String_NoCaseAscii)
-    
-    If compare = 0 ; do not add duplicates
-                   ; if the found variable had no type and we have one, then set it now
-      If *Item\Type = #ITEM_Variable And *List\Bucket[Index]\Type$ = ""
-        *List\Bucket[Index]\Type$ = *Item\Type$
-      EndIf
-      ProcedureReturn
-      
-    ElseIf compare < 0
-      *Item\NextSorted    = *List\Bucket[Index]
-      *List\Bucket[Index] = *Item
-      
-    Else
-      *Previous.SourceItem = *List\Bucket[Index]
-      
-      While *Previous\NextSorted
-        compare = CompareMemoryString(*Name, @*Previous\NextSorted\Name$, #PB_String_NoCaseAscii)
-        
-        If compare = 0
-          ProcedureReturn ; do not add duplicates
-        ElseIf compare < 0
-          Break
-        Else
-          *Previous = *Previous\NextSorted
-        EndIf
-      Wend
-      
-      *Item\NextSorted     = *Previous\NextSorted
-      *Previous\NextSorted = *Item
-    EndIf
-  EndIf
+  RadixInsert(*Tree, *Item\Name$, *Item)
   
 EndProcedure
 
@@ -2150,6 +2096,11 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
   EndIf
   
   ; clear any old data
+  ForEach *Parser\Modules()
+    For i = 0 To #ITEM_LastSorted
+      RadixFree(*Parser\Modules()\Indexed[i])
+    Next i
+  Next *Parser\Modules()
   ClearMap(*Parser\Modules())
   *CurrentModule.SortedModule = AddMapElement(*Parser\Modules(), "")
   *CurrentModule\Name$ = ""
@@ -2336,6 +2287,7 @@ EndProcedure
 Procedure ScanFile(FileName$, *Parser.ParserData)
   Protected NewList *LineStarts()
   Protected NewList Items.s()
+  Protected NewList *StartItems()
   
   ; Clean up old data (has a 0-check)
   FreeSourceItemArray(*Parser)
@@ -2405,48 +2357,47 @@ Procedure ScanFile(FileName$, *Parser.ParserData)
             EndIf
             
             ForEach *Parser\Modules()
-              For bucket = 0 To #PARSER_VTSize-1
-                *StartItem.SourceItem = *Parser\Modules()\Indexed[Type]\Bucket[bucket]
-                While *StartItem
-                  SelectElement(*LineStarts(), *StartItem\SortedLine)
-                  *StartCursor = *LineStarts() + *StartItem\Position + *StartItem\FullLength ; FullLength includes "Extends xxx"
-                  *EndCursor   = 0
-                  
-                  ; Cut any previously scanned content
-                  ; Note: the first field is reserved for "Extends" structure name
-                  ;
-                  *StartItem\Content$ = StringField(*StartItem\Content$, 1, Chr(10))
-                  
-                  ; locate the structure/interface end
-                  *EndItem.SourceItem = *StartItem
-                  Line = *StartItem\SortedLine
-                  While *EndItem
-                    If *EndItem\Type = #ITEM_Keyword And *EndItem\Keyword = EndKeyword
-                      SelectElement(*LineStarts(), Line)
-                      *EndCursor = *LineStarts() + *EndItem\Position
-                      Break
-                    EndIf
-                    Parser_NextItem(*Parser, *EndItem, Line)
-                  Wend
-                  
-                  If *EndCursor
-                    ClearList(Items())
-                    If Type = #ITEM_Structure
-                      ParseStructure(*StartCursor, *EndCursor-*StartCursor, Items())
-                    Else
-                      ParseInterface(*StartCursor, *EndCursor-*StartCursor, Items())
-                    EndIf
-                    
-                    ; Add our new parsed content to the start item
-                    ;
-                    ForEach Items()
-                      *StartItem\Content$ + Chr(10) + Items()
-                    Next Items()
+              RadixEnumerateAll(*Parser\Modules()\Indexed[Type], *StartItems())
+              
+              ForEach *StartItems()
+                *StartItem.SourceItem = *StartItems()
+                
+                SelectElement(*LineStarts(), *StartItem\SortedLine)
+                *StartCursor = *LineStarts() + *StartItem\Position + *StartItem\FullLength ; FullLength includes "Extends xxx"
+                *EndCursor   = 0
+                
+                ; Cut any previously scanned content
+                ; Note: the first field is reserved for "Extends" structure name
+                ;
+                *StartItem\Content$ = StringField(*StartItem\Content$, 1, Chr(10))
+                
+                ; locate the structure/interface end
+                *EndItem.SourceItem = *StartItem
+                Line = *StartItem\SortedLine
+                While *EndItem
+                  If *EndItem\Type = #ITEM_Keyword And *EndItem\Keyword = EndKeyword
+                    SelectElement(*LineStarts(), Line)
+                    *EndCursor = *LineStarts() + *EndItem\Position
+                    Break
+                  EndIf
+                  Parser_NextItem(*Parser, *EndItem, Line)
+                Wend
+                
+                If *EndCursor
+                  ClearList(Items())
+                  If Type = #ITEM_Structure
+                    ParseStructure(*StartCursor, *EndCursor-*StartCursor, Items())
+                  Else
+                    ParseInterface(*StartCursor, *EndCursor-*StartCursor, Items())
                   EndIf
                   
-                  *StartItem = *StartItem\NextSorted
-                Wend
-              Next bucket
+                  ; Add our new parsed content to the start item
+                  ;
+                  ForEach Items()
+                    *StartItem\Content$ + Chr(10) + Items()
+                  Next Items()
+                EndIf
+              Next *StartItems()
             Next *Parser\Modules()
           Next t
         EndIf
@@ -3063,70 +3014,23 @@ Procedure.s ResolveStructureTypeFromSorted(*Parser.ParserData, Type$, List Modul
   ; does nothing if already sorted
   SortParserData(*Parser, *Source)
   
-  Bucket = GetBucket(@Type$)
-  
   ; look at each module name separately
   ForEach ModuleNames()
     
     *Module.SortedModule = FindMapElement(*Parser\Modules(), UCase(ModuleNames()))
     If *Module
       
-      ; Structures
+      ; Check Structures or Interfaces and Prototypes
       ;
-      *Item.SourceItem = *Module\Sorted\Structures[Bucket]
-      While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal
-            If ModuleNames() = ""
-              ProcedureReturn Type$
-            ElseIf UCase(Left(ModuleNames(), 6)) = "IMPL::"
-              ProcedureReturn LCase(Mid(ModuleNames(), 7)) + "::" + Type$
-            Else
-              ProcedureReturn LCase(ModuleNames()) + "::" + Type$
-            EndIf
-            
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default:                  Break
-        EndSelect
-      Wend
-      
-      ; Interfaces
-      ;
-      *Item.SourceItem = *Module\Sorted\Interfaces[Bucket]
-      While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal
-            If ModuleNames() = ""
-              ProcedureReturn Type$
-            ElseIf UCase(Left(ModuleNames(), 6)) = "IMPL::"
-              ProcedureReturn LCase(Mid(ModuleNames(), 7)) + "::" + Type$
-            Else
-              ProcedureReturn LCase(ModuleNames()) + "::" + Type$
-            EndIf
-            
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default:                  Break
-        EndSelect
-      Wend
-      
-      ; Prototypes
-      ;
-      *Item.SourceItem = *Module\Sorted\Prototypes[Bucket]
-      While *Item
-        Select CompareMemoryString(@Type$, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal
-            If ModuleNames() = ""
-              ProcedureReturn Type$
-            ElseIf UCase(Left(ModuleNames(), 6)) = "IMPL::"
-              ProcedureReturn LCase(Mid(ModuleNames(), 7)) + "::" + Type$
-            Else
-              ProcedureReturn LCase(ModuleNames()) + "::" + Type$
-            EndIf
-            
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default:                  Break
-        EndSelect
-      Wend
+      If RadixLookupValue(*Module\Sorted\Structures, Type$) Or RadixLookupValue(*Module\Sorted\Interfaces, Type$) Or RadixLookupValue(*Module\Sorted\Prototypes, Type$)
+        If ModuleNames() = ""
+          ProcedureReturn Type$
+        ElseIf UCase(Left(ModuleNames(), 6)) = "IMPL::"
+          ProcedureReturn LCase(Mid(ModuleNames(), 7)) + "::" + Type$
+        Else
+          ProcedureReturn LCase(ModuleNames()) + "::" + Type$
+        EndIf
+      EndIf
       
     EndIf
     
@@ -3231,8 +3135,6 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
   ; does nothing if already sorted
   SortParserData(*Parser, *Source)
   
-  Bucket = GetBucket(@*InputItem\Name$)
-  
   ; look at each module name separately
   ForEach ModuleNames()
     
@@ -3241,119 +3143,77 @@ Procedure.s ResolveItemTypeFromSorted(*Parser.ParserData, *InputItem.SourceItem,
       
       ; Check the macros first for all item types
       ;
-      *Item.SourceItem = *Module\Sorted\Macros[Bucket]
-      While *Item
-        Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal
-            ; Check if the macro is a function macro or not
-            If (*InputItem\Type = #ITEM_Variable And *Item\Prototype$ <> "") Or (*InputItem\Type <> #ITEM_Variable And *Item\Prototype$ = "")
-              Break
-            Else
-              *OutType\i = #ITEM_Macro
-              ProcedureReturn *Item\Prototype$
-            EndIf
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default:                  Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Macros, *InputItem\Name$)
+      If *Item
+        ; Check if the macro is a function macro or not
+        If (*InputItem\Type = #ITEM_Variable And *Item\Prototype$ <> "") Or (*InputItem\Type <> #ITEM_Variable And *Item\Prototype$ = "")
+          Break
+        Else
+          *OutType\i = #ITEM_Macro
+          ProcedureReturn *Item\Prototype$
+        EndIf
+      EndIf
       
       If *InputItem\Type = #ITEM_UnknownBraced
         
         ; Check all the types that can be UnknownBraced items
         ;
-        *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *Item\Type
-              ProcedureReturn *Item\Prototype$
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\Procedures, *InputItem\Name$)
+        If *Item
+          *OutType\i = *Item\Type
+          ProcedureReturn *Item\Prototype$
+        EndIf
         
-        *Item.SourceItem = *Module\Sorted\Declares[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *Item\Type
-              ProcedureReturn *Item\Prototype$
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\Declares, *InputItem\Name$)
+        If *Item
+          *OutType\i = *Item\Type
+          ProcedureReturn *Item\Prototype$
+        EndIf
         
-        *Item.SourceItem = *Module\Sorted\Arrays[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *Item\Type
-              Type$ = StringField(*Item\Type$, 1, Chr(10))
-              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\Arrays, *InputItem\Name$)
+        If *Item
+          *OutType\i = *Item\Type
+          Type$ = StringField(*Item\Type$, 1, Chr(10))
+          ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
+        EndIf
         
-        *Item.SourceItem = *Module\Sorted\LinkedLists[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *Item\Type
-              Type$ = StringField(*Item\Type$, 1, Chr(10))
-              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\LinkedLists, *InputItem\Name$)
+        If *Item
+          *OutType\i = *Item\Type
+          Type$ = StringField(*Item\Type$, 1, Chr(10))
+          ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
+        EndIf
         
-        *Item.SourceItem = *Module\Sorted\Maps[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *Item\Type
-              Type$ = StringField(*Item\Type$, 1, Chr(10))
-              ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\Maps, *InputItem\Name$)
+        If *Item
+          *OutType\i = *Item\Type
+          Type$ = StringField(*Item\Type$, 1, Chr(10))
+          ProcedureReturn ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
+        EndIf
         
         ; Variables can be #ITEM_UnknownBraced as well, if they are prototypes
         ; If the given variable is no Prototype then there is no match, as a
         ; List can not match a variable etc
         ;
-        *Item.SourceItem = *Module\Sorted\Variables[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              Type$ = StringField(*Item\Type$, 1, Chr(10))
-              Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
-              
-              If Type$ And FindPrototype(Type$)
-                *OutType\i = *Item\Type
-                ProcedureReturn Type$
-              Else
-                Break
-              EndIf
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Sorted\Variables, *InputItem\Name$)
+        If *Item
+          Type$ = StringField(*Item\Type$, 1, Chr(10))
+          Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
+          
+          If Type$ And FindPrototype(Type$)
+            *OutType\i = *Item\Type
+            ProcedureReturn Type$
+          EndIf
+        EndIf
         
       ElseIf *InputItem\Type <= #ITEM_LastSorted
-        *Item.SourceItem = *Module\Indexed[*InputItem\Type]\Bucket[Bucket]
-        While *Item
-          Select CompareMemoryString(@*InputItem\Name$, @*Item\Name$, #PB_String_NoCaseAscii)
-            Case #PB_String_Equal
-              *OutType\i = *InputItem\Type
-              Type$ = StringField(*Item\Type$, 1, Chr(10))
-              Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
-              ProcedureReturn Type$
-            Case #PB_String_Greater: *Item = *Item\NextSorted
-            Default:                  Break
-          EndSelect
-        Wend
+        *Item.SourceItem = RadixLookupValue(*Module\Indexed[*InputItem\Type], *InputItem\Name$)
+        If *Item
+          *OutType\i = *InputItem\Type
+          Type$ = StringField(*Item\Type$, 1, Chr(10))
+          Type$ = ResolveStructureType(*Parser, *Item, *Item\SortedLine, Type$)
+          ProcedureReturn Type$
+        EndIf
         
       EndIf
       
