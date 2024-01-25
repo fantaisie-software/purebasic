@@ -68,15 +68,45 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Date.q = ConvertDate(Date, Format)
+
+@Description
+  Converts a date between local time and UTC time.
+
+@Parameter "Date"
+  The date to convert.
+
+@Parameter "Format"
+  The new date format. It can be one of the following constants:
+@FixedFont
+  @#PB_Date_LocalTime: Will convert an UTC date into local time date.
+  @#PB_Date_UTC      : Will convert a local time date into an UTC date.
+@EndFixedFont
+
+@ReturnValue
+  Returns converted date, or -1 if the conversion failed.
+
+@Example
+@Code
+  Debug FormatDate("Local time: %hh:%ii:%ss", ConvertDate(DateUTC(), #PB_Date_LocalTime))
+  Debug FormatDate("  UTC time: %hh:%ii:%ss", ConvertDate(Date(), #PB_Date_UTC))
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date, @@DateUTC
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Date = Date([Year, Month, Day, Hour, Minute, Second])
 
 @Description
-  Returns the date value expressing the given parameters, or the current system
-  date if no parameters are specified.
+  Returns the date value created from the given parameters, or the local system time
+  if no parameters are specified.
 
 @OptionalParameter "Year, Month, Day, Hour, Minute, Second"
-  The components of the date to return. If these parameters are
-  not specified, then the current system date and time are used.
+  The components used to create the date. If these parameters are not specified, the local system time is returned.
 
 @ReturnValue
   Returns the specified date value.
@@ -89,8 +119,28 @@
 @EndCode
 
 @SeeAlso
-  @@FormatDate, 
+  @@FormatDate, @@DateUTC
   @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Date.q = DateUTC()
+
+@Description
+  Returns the system date as UTC time.
+
+@ReturnValue
+  Returns the system date as UTC time.
+
+@Example
+@Code
+  Debug FormatDate("UTC time: %hh:%ii:%ss", DateUTC())
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date
 
 @SupportedOS
 

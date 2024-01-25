@@ -335,7 +335,7 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 60, "ButtonImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered) 
-    If LoadImage(0,  #PB_Compiler_Home + "/Examples/Sources/Data/PureBasic.bmp")    ; change 2nd parameter to the path/filename of your image
+    If LoadImage(0,  #PB_Compiler_Home + "examples/sources/Data/PureBasic.bmp")    ; change 2nd parameter to the path/filename of your image
       ButtonImageGadget(0, 10, 10, 180, 40, ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -520,18 +520,6 @@
   @@SetGadgetState, @@GetGadgetState, @@SetGadgetItemState, @@GetGadgetItemState, @@SetGadgetAttribute, @@GetGadgetAttribute, 
   @@SetGadgetColor, @@GetGadgetColor,
   @@DateGadget, @@Date, @@FormatDate
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function ChangeListIconGadgetDisplay(#Gadget, Mode)
-
-@Description
-@Deprecated
-
-  This function has been replaced by @@SetGadgetAttribute with the attribute @#PB_ListIcon_DisplayMode. 
-  See the @@ListIconGadget documentation for more details.
 
 @SupportedOS
 
@@ -1180,18 +1168,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClearGadgetItemList(#Gadget)
-
-@Description
-@Deprecated
-
-  This function has been replaced by @@ClearGadgetItems. Use that instead.
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-
 @Function ClearGadgetItems(#Gadget)
 
 @Description
@@ -1478,18 +1454,6 @@
 
 @SeeAlso
   @@AddGadgetItem, @@RemoveGadgetItem, @@ClearGadgetItems
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = CreateGadgetList(WindowID)
-
-@Description
-@Deprecated
-
-  This function is no longer needed. @@OpenWindow now implicitly creates a gadgetlist. Use
-  @@UseGadgetList to create a gadgetlist on Windows created using API functions.
 
 @SupportedOS
 
@@ -1897,6 +1861,7 @@
   @#PB_EventType_LeftDoubleClick  : User double-clicked on an item with the left mouse button.
   @#PB_EventType_RightDoubleClick : User double-clicked on an item with the right mouse button.
   @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation.
+  @#PB_EventType_Refresh          : The gadget content has been refreshed due to a filesystem change in the displayed directory (Windows only).
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
   a Drag & Drop operation.
@@ -2128,7 +2093,7 @@
   Returns the OS handle for the item or zero on failure.
 
 @Remarks
-  This function is currently only supported by @@TreeGadget on Windows. It returns zero in other cases.
+  This function is currently only supported by @@TreeGadget and @@PanelGadget on Windows. It returns zero in other cases.
 
 @SeeAlso
   @@TreeGadget
@@ -3282,8 +3247,9 @@
 @LineBreak
   - @@GetGadgetAttribute with the following attribute:
 @FixedFont
-  @#PB_ListIcon_ColumnCount: Returns the number of columns in the gadget
-  @#PB_ListIcon_DisplayMode: Returns the current display mode of the gadget (Windows only)
+  @#PB_ListIcon_ColumnCount  : Returns the number of columns in the gadget
+  @#PB_ListIcon_DisplayMode  : Returns the current display mode of the gadget (Windows only)
+  @#PB_ListIcon_ClickedColumn: Returns the last clicked column index. The first column has index 0.
 @EndFixedFont
   - @@SetGadgetAttribute with the following attribute:
 @FixedFont
@@ -3294,9 +3260,17 @@
     @#PB_ListIcon_Report   : Report mode (columns, default mode)
 @EndFixedFont
 @LineBreak
-  - @@GetGadgetItemAttribute / @@SetGadgetItemAttribute: With the following attribute:
+  - @@GetGadgetItemAttribute: With the following attributes:
 @FixedFont
-  @#PB_ListIcon_ColumnWidth : Returns/Changes the width of the given 'Column'. The 'Item' parameter is ignored.
+  @#PB_ListIcon_ColumnWidth: Returns the width of the given 'Column'. The 'Item' parameter is ignored.
+@EndFixedFont
+  @@SetGadgetItemAttribute: With the following attribute:
+@FixedFont
+  @#PB_ListIcon_ColumnWidth    : Changes the width of the given 'Column'. The 'Item' parameter is ignored.
+  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Item' parameter can be one of the following value:
+     - @#PB_ListIcon_Left  : Text is left aligned (default).
+     - @#PB_ListIcon_Right : Text is right aligned.
+     - @#PB_ListIcon_Center: Text is centered.
 @EndFixedFont
 
 
@@ -3316,6 +3290,7 @@
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
   @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation.
+  @PB_EventType_ColumnClick: a column title has been clicked. Use @GetGadgetAttribute with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
   a Drag & Drop operation.
@@ -3360,7 +3335,7 @@
       Next
     Next
     ; Here we change the ListIcon display to large icons and show an image
-    If LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\File.bmp")     ; change path/filename to your own 32x32 pixel image
+    If LoadImage(0, #PB_Compiler_Home+"examples/sources/Data/File.bmp")     ; change path/filename to your own 32x32 pixel image
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
       AddGadgetItem(5, 1, "Picture 1", ImageID(0))
       AddGadgetItem(5, 2, "Picture 2", ImageID(0))
@@ -3723,6 +3698,8 @@
   - @@GetGadgetItemData: Retrieve the value associated with the specified item.
 @LineBreak
   - @@SetGadgetItemData: Associate a value with the specified item.
+@LineBreak
+  - @@GadgetItemID: Return the OS handle of the specified item (Windows only, useful for API functions).
 @LineBreak
 @LineBreak
   - @@SetGadgetState: Change the active panel.
@@ -5662,7 +5639,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = WebGadget(#Gadget, x, y, Width, Height, URL$)
+@Function Result = WebGadget(#Gadget, x, y, Width, Height, URL$ [, Flags])
 
 @Description
   Creates a Web gadget in the current GadgetList. It can display html pages.
@@ -5676,6 +5653,14 @@
 
 @Parameter "URL$"
   The url to load after the gadget is created.
+
+@OptionalParameter "Flags"
+  Can be following constant:
+@FixedFont
+  @#PB_Web_Edge: Uses the WebView2 engine to render the web page (Windows only). WebView2 is the Edge based component
+                to have modern web page display in Windows application. It's built-in for up-to-date Windows 10 and
+                Windows 11. For older Windows version, it needs to be installed (if not already): @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide".
+@EndFixedFont
 
 @ReturnValue
   Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
@@ -5692,7 +5677,7 @@
 @LineBreak
   @Bold "Windows"
 @Indent
-  The WebGadget uses the Internet Explorer 4.0+ ActiveX object on Windows.
+  The WebGadget uses the Internet Explorer 11 ActiveX object on Windows. If the flag @#PB_Web_Edge is used, then it uses  the modern Edge based component instead.
 @LineBreak
 @LineBreak  
   Remember to replace "\" with "/" in your codes.
@@ -5824,16 +5809,6 @@
 @SeeAlso
   @@GetGadgetText, @@SetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText, @@SetGadgetState,
   @@GetGadgetAttribute, @@SetGadgetAttribute
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = WebGadgetPath(LibraryFile$ [, MozillaPath$])
-
-@Description
-@Deprecated
-  This function is no longer needed. It does nothing and returns nonzero.
 
 @SupportedOS
 

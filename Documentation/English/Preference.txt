@@ -64,10 +64,11 @@
 @OptionalParameter "Flags"
   It can be a combination of the following values:
 @FixedFont
-  @#PB_Preference_NoSpace: no spaces will be put around the equal sign joining key and values.
-                          It can be useful when dealing with external preferences files which doesn't
-                          accept spaces around equal sign.
+  @#PB_Preference_NoSpace       : no spaces will be put around the equal sign joining key and values.
+                                 It can be useful when dealing with external preferences files which doesn't
+                                 accept spaces around equal sign.
   @#PB_Preference_GroupSeparator: add an empty line between the groups to ease readability of the file.
+  @#PB_Preference_NoBOM         : Don't add the UTF-8 BOM when writing the file. The file will still be written using UTF-8 encoding.
 @EndFixedFont
 
 @ReturnValue
@@ -374,7 +375,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = OpenPreferences(Filename$ [, Flags])
+@Function Result = OpenPreferences(Filename$ [, Flags [, Encoding]])
 
 @Description
   Opens a previously existing preference file. 
@@ -389,6 +390,14 @@
                           It can be useful when dealing with external preferences files which doesn't
                           accept spaces around equal sign.
   @#PB_Preference_GroupSeparator: add an empty line between the groups to ease readability of the file.
+@EndFixedFont
+
+@OptionalParameter "Encoding"
+  To force a string encoding when reading the preference file. If an UTF-8 BOM is found in at the start of 
+  the file, this parameter is ignored and UTF-8 will be used. It can be one of the following value:
+@FixedFont
+  @#PB_UTF8
+  @#PB_Ascii
 @EndFixedFont
 
 @ReturnValue

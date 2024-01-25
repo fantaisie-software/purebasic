@@ -288,7 +288,7 @@
   You must include the brackets after the list name.
 
 @ReturnValue
-  The total number of elements in the list.
+  The total number of elements in the list. If the list is not initialized, it returns -1 (for example after @FreeList).
 
 @Example
 @Code
@@ -307,17 +307,6 @@
 
 @SeeAlso
   @@ListIndex
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = CountList(List())
-
-@Description
-@Deprecated
-  
-  This function has been replaced by @@ListSize. Use that instead.
 
 @SupportedOS
 

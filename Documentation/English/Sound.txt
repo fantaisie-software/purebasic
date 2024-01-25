@@ -10,7 +10,7 @@
 
 The PureBasic sound system provides an easy way to have sound inside
 application or game. It uses special functions to get the maximum speed
-of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL library.
+of available hardware.
 
 @CommandList
 
@@ -218,26 +218,20 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = InitSound()
+@Function Result = InitSound([NbMaxChannels])
 
 @Description
   Initializes the sound environment. This function must be always called before
   any other sound function and should always check its result. If the sound environment fails,
   it's absolutely necessary to disable all the sound functions calls.
 
-@NoParameters
+@OptionalParameter "NbMaxChannels"
+  Sets the maximum number of channels to use simultaneously to play sounds. It can range from 1 to 254 (the default value if this
+  parameter is not specified is 64).
 
 @ReturnValue
-  Nonzero if the sound environment has been setup correctly, zero otherwise.
-
-@OS Windows
-  Possible causes of failure under MS Windows: DirectX 7 isn't available or no sound card are present. If the program
-  need to run on NT4.0, be sure to enable the 'NT4.0 Compliant executable' in the compiler
-  options.
+  Nonzero if the sound environment has been setup correctly, zero otherwise (for example if no sound card is available).
   
-@OS Linux
-  Possible causes of failure under Linux: SDL isn't available or no sound card are present.
-
 @Example
 @Code  
  InitSound()           ; Initialize Sound system

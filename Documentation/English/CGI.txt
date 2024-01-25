@@ -665,7 +665,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = InitFastCGI(LocalPort)
+@Function Result = InitFastCGI(LocalPort [, BindedIP$])
 
 @Description
   Initializes FastCGI support. Once called, all the CGI commands switch automatically to FastCGI support.
@@ -680,6 +680,9 @@
       
 @Parameter "LocalPort"
   The local port to bind the FastCGI application. The web-server needs to be configured to use this port.
+
+@OptionalParameter "BindedIP$"
+  The IP address to bind the FastCGI application. For now, only "localhost" or "127.0.0.1" is accepted.
 
 @ReturnValue
   Returns non-zero if the FastCGI environment has been correctly initialized.

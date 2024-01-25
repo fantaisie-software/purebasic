@@ -8,12 +8,12 @@
   It can be useful to use DirectX instead of OpenGL when wanting a bit quicker rendering on Windows. @LineBreak
   @LineBreak
   To enable a subsystem, its name has to be set in the IDE @ReferenceLink "ide_compiler" "compiler options", or through the /SUBSYSTEM @ReferenceLink "cli_compiler" "command-line" switch.
-  This is a compile time option, which means an executable can not embed more than one subsystem at once. If multiple support is
+  The subsystem name is not case-sensitive. This is a compile time option, which means an executable can not embed more than one subsystem at once for a specific library. If multiple support is
   needed (for example shipping an OpenGL and DirectX version of a game), two executables needs to be created. @LineBreak
   @LineBreak
   The available subsystems are located in the PureBasic 'subsystems' folder. Any residents or libraries found in this drawer
   will have precedency over the default libraries and residents, when a subsystem is specified. Any number of different subsystems
-  can be specified (as long it doesn't affect the same libraries). As a subsystem is a directory, the subsystem name is case-sensitive on Linux but not on Windows or OS X.@LineBreak
+  can be specified (as long it doesn't affect the same libraries). @LineBreak
   @LineBreak
   The @Keyword Subsystem @ReferenceLink "compilerfunctions" "compiler function" can be used to detect if a specific subsystem is used
   for the compilation.
@@ -35,7 +35,7 @@
 @LineBreak
   @Bold "Linux"
 @FixedFont
-  gtk2: Affected libraries:
+  Gtk2: Use GTK2 instead of GTK3 for GUI toolkit. Affected libraries:
           - 2D Drawing
           - AudioCD
           - Clipboard
@@ -54,7 +54,7 @@
           - Toolbar
           - Window
           
-  qt: Affected libraries:
+  Qt: Use QT instead of GTK3 for GUI toolkit. Affected libraries:
           - 2D Drawing
           - AudioCD
           - Clipboard

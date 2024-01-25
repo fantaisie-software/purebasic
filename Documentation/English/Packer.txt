@@ -40,10 +40,10 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Example Using a tree file structure 
 @Code
-  UseZipPacker()
+    UseZipPacker()
   
-  Path$ = "C:/ProgramData/PureBasic/Examples/Sources/"  ; path to the PureBasic examples source files
-  PackFile$ = "C:/ProgramData/PureBasic/Examples/MyCompressedFiles.zip"  ; path to the pack file which should be created and opened later
+  Path$ = #PB_Compiler_Home + "examples/sources/" ; path to the PureBasic examples data/media files
+  PackFile$ = GetTemporaryDirectory() + "PureBasicTest.zip"  ; path to the pack file which should be created and opened later
   If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
     AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
@@ -55,11 +55,11 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
     Debug "Error creating the pack file!"
   EndIf
   
-  Path$ = "C:/ProgramData/PureBasic/Examples/test_delete/"  ; path to a directory into which the pack files should be extracted
+  Path$ = GetTemporaryDirectory() + "PureBasicTestTree/"  ; path to a directory into which the pack files should be extracted
   If OpenPack(0, PackFile$)
     If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
       If ExaminePack(0)
-        Debug "Archive contents to be unpacked:"
+        Debug "Extracting archive into: " + Path$
         While NextPackEntry(0)
           Debug " - name: " + PackEntryName(0) + ", size: " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
@@ -80,6 +80,27 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @EndCode
 
   For another example see @@UncompressPackFile.
+  
+@SeeAlso
+  @@CreatePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AddPackDirectory(#Pack, DirectoryName$)
+
+@Description
+  Add a new empty directory to the specified pack previously created with @@CreatePack.
+
+@Parameter "#Pack"
+  The pack to use.
+
+@Parameter "DirectoryName$"
+  The empty directory name add to the pack.
+
+@ReturnValue
+  Nonzero if the empty directory has been successfully added to the packfile.
   
 @SeeAlso
   @@CreatePack
@@ -494,8 +515,8 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @Code
   UseZipPacker()
   
-  Path$ = "C:/ProgramData/PureBasic/Examples/Sources/Data/"  ; path to the PureBasic examples data/media files
-  PackFile$ = "C:/ProgramData/PureBasic/Examples/MyCompressedFiles.zip"  ; path to the pack file which should be created and opened later
+  Path$ = #PB_Compiler_Home + "examples/sources/Data/" ; path to the PureBasic examples data/media files
+  PackFile$ = GetTemporaryDirectory() + "PureBasicTest.zip"  ; path to the pack file which should be created and opened later
   If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "world.png", "world.png")
     AddPackFile(0, Path$ + "test.pref", "test.pref")
@@ -507,11 +528,11 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
     Debug "Error creating the pack file!"
   EndIf
   
-  Path$ = "C:/ProgramData/PureBasic/Examples/test_delete/"  ; path to a directory into which the pack files should be extracted
+  Path$ = GetTemporaryDirectory() + "PureBasicTest/"  ; path to a directory into which the pack files should be extracted
   If OpenPack(0, PackFile$)
     If CreateDirectory(Path$) Or FileSize(Path$) = -2
       If ExaminePack(0)
-        Debug "Archive contents to be unpacked:"
+        Debug "Extracting archive into: " + Path$
         While NextPackEntry(0)
           Debug " - name: " + PackEntryName(0) + ", size: " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
@@ -522,7 +543,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
       ClosePack(0)
       RunProgram(Path$)  ; open the directory with the unpacked files
     Else
-      Debug "Error while creating the folder to unpack the archive contents!"
+      Debug "Error while creating the folder '" + Path$ + "' to unpack the archive contents!"
     EndIf
   Else
     Debug "Error opening the pack file!"

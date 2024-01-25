@@ -56,7 +56,7 @@
 
 @ReturnValue
   Returns the size of the array dimension.
-  If the array isn't yet declared (or its allocation has failed), it will return -1.
+  If the array is not initialized, it returns -1 (for example after @FreeArray or if its initialization has failed).
   
 @Remarks
   As specified with @ReferenceLink "dim" "Dim", the number of elements is equal to the size + 1.

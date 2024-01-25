@@ -53,8 +53,8 @@
   @LineBreak
   -t, --thread, /THREAD: uses thread safe runtime for strings and general routines.@LineBreak
   @LineBreak
-  -s, --subsystem, /SUBSYSTEM "name": uses the specific subsystem to replace a set of internal functions. For
-  more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
+  -s, --subsystem, /SUBSYSTEM "name": uses the specific subsystem to replace a set of internal functions. The subsystem name is
+  not case-sensitive. For more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
   @LineBreak
   -k, --check, /CHECK: checks the syntax only, doesn't create or launch the executable. @LineBreak
   @LineBreak 
@@ -74,6 +74,18 @@
   and is available in a flat file format. No comments are included by default, but the flag '--commented' can be
   used to have all untouched original source as comments and allow comments processing. The preprocessed
   file can be recompiled as any other PureBasic source file to create the final executable. @LineBreak
+  @LineBreak
+  -ls, --liststructures, /LISTSTRUCTURES: creates a file with all the built-in structures known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -lf, --listfunction, /LISTFUNCTIONS: creates a file with all the built-in purebasic commands known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -li, --listinterfaces, /LISTINTERFACES: creates a file with all the built-in interfaces known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -qs, --querystructure, /QUERYSTRUCTURE "name": creates a file with the structure definition. The filename can
+  be specified with '--output. @LineBreak
   @LineBreak
   -g, --language, /LANGUAGE \"language\": uses the specified language for the compiler error messages. @LineBreak
   @LineBreak
