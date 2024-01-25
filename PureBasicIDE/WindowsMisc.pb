@@ -111,14 +111,6 @@ CompilerIf #CompileWindows
       PureBasicPath$ = GetPathPart(PureBasicPath$)
     EndIf
     
-    ; initialize the scintilla dll. if it does not work, output a proper message,
-    ; otherwise the ide acts quite weird.
-    ;
-    If InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll") = 0
-      MessageRequester(#ProductName$, "Cannot initialize Scintilla engine!"+#NewLine+"Make sure the 'Scintilla.dll' is placed in the 'Compilers' subdirectory of your "+#ProductName$+" setup.", #FLAG_Error)
-      End
-    EndIf
-    
     TempPath$        = GetTemporaryDirectory()
     
     If PreferencesFile$ = "" ; Only change if not set by commandline

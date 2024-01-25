@@ -133,6 +133,7 @@ DataSection
   Data$ "ConvertCoordinateX,4,#PB_Coordinate_Device,#PB_Coordinate_Output,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ConvertCoordinateY,3,#PB_Coordinate_Device,#PB_Coordinate_Output,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ConvertCoordinateY,4,#PB_Coordinate_Device,#PB_Coordinate_Output,#PB_Coordinate_User,#PB_Coordinate_Source"
+  Data$ "ConvertDate,2,#PB_Date_UTC,#PB_Date_LocalTime"
   Data$ "CopyDirectory,4,#PB_FileSystem_Recursive,#PB_FileSystem_Force"
   Data$ "CopyEntity,2,#PB_Any"
   Data$ "CopyImage,2,#PB_Any"
@@ -370,6 +371,7 @@ DataSection
   Data$ "GetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
   Data$ "GetGadgetItemAttribute,2,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth,#PB_Tree_SubLevel"
   Data$ "GetGadgetItemColor,3,#PB_Gadget_FrontColor,#PB_Gadget_BackColor"
+  Data$ "GetGadgetItemText,2,#PB_Web_HtmlCode,#PB_Web_PageTitle,#PB_Web_StatusMessage,#PB_Web_SelectedText"
   Data$ "GetHTTPHeader,2,#PB_HTTP_NoRedirect"
   Data$ "GetJointAttribute,2,#PB_PointJoint_Tau,#PB_PointJoint_Damping,#PB_ConeTwistJoint_SwingSpan,#PB_ConeTwistJoint_SwingSpan2,#PB_ConeTwistJoint_TwistSpan,#PB_HingeJoint_LowerLimit,#PB_HingeJoint_UpperLimit,#PB_SliderJoint_LowerLimit,#PB_SliderJoint_UpperLimit"
   Data$ "GetLightColor,2,#PB_Light_DiffuseColor,#PB_Light_SpecularColor"
@@ -626,6 +628,7 @@ DataSection
   Data$ "SetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
   Data$ "SetGadgetItemAttribute,3,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth"
   Data$ "SetGadgetItemColor,3,#PB_Gadget_FrontColor,#PB_Gadget_BackColor"
+  Data$ "SetGadgetItemText,2,#PB_WebView_HtmlCode,#PB_Web_HtmlCode"
   Data$ "SetJointAttribute,2,#PB_Joint_EnableSpring,#PB_Joint_Stiffness,#PB_Joint_Damping,#PB_Joint_Position,#PB_Joint_NoLimit,#PB_Joint_LowerLimit,#PB_PointJoint_Tau,#PB_PointJoint_Damping,#PB_ConeTwistJoint_SwingSpan,#PB_ConeTwistJoint_SwingSpan2,#PB_ConeTwistJoint_TwistSpan,#PB_HingeJoint_LowerLimit,#PB_HingeJoint_UpperLimit,#PB_SliderJoint_LowerLimit,#PB_SliderJoint_UpperLimit"
   Data$ "SetLightColor,2,#PB_Light_DiffuseColor,#PB_Light_SpecularColor"
   Data$ "SetMailAttribute,2,#PB_Mail_From,#PB_Mail_Subject,#PB_Mail_XMailer,#PB_Mail_Date,#PB_Mail_Custom"
@@ -712,6 +715,8 @@ DataSection
   Data$ "VectorTextWidth,2,#PB_VectorText_Default,#PB_VectorText_Visible,#PB_VectorText_Offset"
   
   ;- W
+  Data$ "WebGadget,7,#PB_Web_Edge"
+  Data$ "WebViewGadget,6,#PB_WebView_Debug"
   Data$ "WindowHeight,2,#PB_Window_InnerCoordinate,#PB_Window_FrameCoordinate"
   Data$ "WindowVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "WindowWidth,2,#PB_Window_InnerCoordinate,#PB_Window_FrameCoordinate"

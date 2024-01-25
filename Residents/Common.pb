@@ -550,6 +550,15 @@ CompilerEndIf
 ;
 #PB_String_MaximumLength = 1
 
+; WebViewGadget constants
+
+; Flags
+#PB_WebView_Debug = 1
+
+; SetGadgetItemText()
+#PB_WebView_HtmlCode = 1  ; readonly
+
+
 ; WebGadget constants are common on all OS
 #PB_Web_Back    = 1
 #PB_Web_Forward = 2

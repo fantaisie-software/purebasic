@@ -152,11 +152,6 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
               "; Event procedures needs to be put in another source file." + #Endline +
               ";" + #Endline + #Endline
   
-  If scintilla
-    content + "InitScintilla()" + #Endline
-    content + "" + #Endline
-  EndIf
-  
   If windowvar <> ""
     content + "Global "+windowvar + #Endline
     content + "" + #Endline
