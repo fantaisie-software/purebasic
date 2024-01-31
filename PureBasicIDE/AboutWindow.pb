@@ -15,7 +15,10 @@ Procedure OpenAboutWindow()
       ; Image
       If IsImage(#IMAGE_PureBasiclogo) = 0
         CatchImage(#IMAGE_PureBasiclogo, ?Image_AboutWindow)
-        ResizeImage(#IMAGE_PureBasiclogo, DesktopScaledX(ImageWidth(#IMAGE_PureBasiclogo)), DesktopScaledY(ImageHeight(#IMAGE_PureBasiclogo)))
+        
+        ; Image is HDPI with twice the wanted size. So resize it according to current screen DPI
+        ;
+        ResizeImage(#IMAGE_PureBasiclogo, DesktopScaledX(ImageWidth(#IMAGE_PureBasiclogo)/2), DesktopScaledY(ImageHeight(#IMAGE_PureBasiclogo)/2))
       EndIf
       SetGadgetState(#GADGET_About_Image, ImageID(#IMAGE_PureBasiclogo))
       
@@ -147,9 +150,9 @@ DataSection
   
   Image_AboutWindow:
     CompilerIf #SpiderBasic
-      IncludeBinary "data/SpiderBasic/About.bmp"
+      IncludeBinary "data/SpiderBasic/About_hdpi.png"
     CompilerElse
-      IncludeBinary "data/purebasiclogo.bmp"
+      IncludeBinary "data/purebasiclogo_hdpi.png"
     CompilerEndIf
 
 EndDataSection

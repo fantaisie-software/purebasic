@@ -41,7 +41,7 @@ else
 
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
-	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer
+	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer --dpiaware
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 

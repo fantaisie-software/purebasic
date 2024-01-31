@@ -285,12 +285,20 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
   If OpenWindow(#WINDOW_Startup, 0, 0, 500, 200, #ProductName$ + " loading...", #PB_Window_ScreenCentered|#PB_Window_BorderLess|#PB_Window_Invisible)
     If CatchImage(#IMAGE_Startup, ?Image_Startup)
       
-      ; Rescale the image if needed
-      ResizeImage(#IMAGE_Startup, DesktopScaledX(ImageWidth(#IMAGE_Startup)), DesktopScaledY(ImageHeight(#IMAGE_Startup)))
+      ; Image is HDPI with twice the wanted size. So resize it according to current screen DPI.
+      ;
+      ResizeImage(#IMAGE_Startup, DesktopScaledX(ImageWidth(#IMAGE_Startup)/2), DesktopScaledY(ImageHeight(#IMAGE_Startup)/2))
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
         DrawingMode(1)
-        FrontColor($FFFFFF)
+        
+        CompilerIf #SpiderBasic
+          FrontColor($777777) ; SpiderBasic splash screen background is white, so change the font color to a dark one
+          OffsetX = DesktopScaledX(130) ; Spider has a logo at the left of the window, so shift the text display
+        CompilerElse
+          FrontColor($FFFFFF)
+          OffsetX = 0
+        CompilerEndIf  
         
         CompilerIf #CompileWindows
           DrawingFont(GetGadgetFont(#PB_Default)) ; The default GFX font on Windows is a bit ugly, so use the gadget one
@@ -301,11 +309,11 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
         If TextWidth(Version$) > 480 And FindString(Version$, "- (c)", 1) <> 0
           CopyRight$ = Trim(Right(Version$, Len(Version$) - FindString(Version$, "- (c)", 1))) ; will still include the (c)
           Version$   = Trim(Left(Version$, FindString(Version$, "- (c)", 1) - 1))
-          DrawText((OutputWidth()-TextWidth(Version$)) / 2  , DesktopScaledY(145), Version$)
-          DrawText((OutputWidth()-TextWidth(CopyRight$)) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, CopyRight$)
+          DrawText((OutputWidth()-TextWidth(Version$)-OffsetX) / 2 + OffsetX, DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth(CopyRight$)-OffsetX) / 2 + OffsetX, DesktopScaledY(145) + TextHeight(Version$) + 1, CopyRight$)
         Else
-          DrawText((OutputWidth()-TextWidth(Version$)) / 2    , DesktopScaledY(145), Version$)
-          DrawText((OutputWidth()-TextWidth("00/00/0000")) / 2, DesktopScaledY(145) + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
+          DrawText((OutputWidth()-TextWidth(Version$)-OffsetX) / 2 + OffsetX, DesktopScaledY(145), Version$)
+          DrawText((OutputWidth()-TextWidth("00/00/0000")-OffsetX) / 2 + OffsetX, DesktopScaledY(145) + TextHeight(Version$) + 1, FormatDate("%mm/%dd/%yyyy", #PB_Compiler_Date))
         EndIf
         
         StopDrawing()
@@ -773,9 +781,9 @@ DataSection
   
   Image_Startup:
     CompilerIf #SpiderBasic
-      IncludeBinary "data/SpiderBasic/SplashScreen.png"
+      IncludeBinary "data/SpiderBasic/SplashScreen_hdpi.png"
     CompilerElse
-      IncludeBinary "data/startuplogo.png"
+      IncludeBinary "data/startuplogo_hdpi.png"
     CompilerEndIf
   
 EndDataSection
