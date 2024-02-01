@@ -614,7 +614,7 @@ Procedure ForceDefaultCompiler()
 EndProcedure
 
 
-Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS.INTEGER, *Processor.INTEGER)
+Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS.INTEGER, *Processor.INTEGER, *cBackend.INTEGER = 0)
   Version$ = Trim(UCase(Version$))
   
   If StringField(Version$, 1, " ") = UCase(#ProductName$)
@@ -657,6 +657,10 @@ Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS
       *Processor\i = #PB_Processor_mc68000 ; also unlikely
     EndIf
     
+    If *cBackend And FindString(Version$, "C BACKEND") 
+      *cBackend\i = 1
+    EndIf
+    
     ProcedureReturn #True
   Else
     ProcedureReturn #False
@@ -665,11 +669,14 @@ EndProcedure
 
 Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
   
-  If TokenizeCompilerVersion(Version1$, @Version1, @Beta1, @OS1, @Processor1) = #False
+  Protected Version1, Beta1, OS1, Processor1, cBackend1
+  Protected Version2, Beta2, OS2, Processor2, cBackend2
+  
+  If TokenizeCompilerVersion(Version1$, @Version1, @Beta1, @OS1, @Processor1, @cBackend1) = #False
     ProcedureReturn #False
   EndIf
   
-  If TokenizeCompilerVersion(Version2$, @Version2, @Beta2, @OS2, @Processor2) = #False
+  If TokenizeCompilerVersion(Version2$, @Version2, @Beta2, @OS2, @Processor2, @cBackend2) = #False
     ProcedureReturn #False
   EndIf
   
@@ -682,10 +689,7 @@ Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
   EndIf
   
   If Flags & #MATCH_VersionUp
-    Base1 = Version1 - (Version1 % 10)
-    Base2 = Version2 - (Version2 % 10)
-    
-    If Base1 <> Base2 Or Version1 > Version2 ; 4.40 -> 4.41 etc is ok
+    If Version1 > Version2
       ProcedureReturn #False
     EndIf
   EndIf
@@ -702,6 +706,10 @@ Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
     ProcedureReturn #False
   EndIf
   
+  If cBackend1 <> cBackend2
+    ProcedureReturn #False
+  EndIf
+    
   ProcedureReturn #True
 EndProcedure
 
