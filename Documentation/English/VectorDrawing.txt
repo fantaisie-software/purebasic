@@ -225,9 +225,9 @@
 @LineBreak
   @@CanvasVectorOutput: Drawing will be rendered directly on the @@CanvasGadget
 @LineBreak
-  @@PdfVectorOutput: Drawing will be rendered to a PDF file (Linux and OSX only)
+  @@PdfVectorOutput: Drawing will be rendered to a PDF file
 @LineBreak
-  @@SvgVectorOutput: Drawing will be rendered to an SVG file (Linux only)
+  @@SvgVectorOutput: Drawing will be rendered to an SVG file
 
 @ReturnValue
   Returns nonzero if drawing is possible or zero if the operation failed.
@@ -550,8 +550,6 @@
   @@PrinterVectorOutput
 @LineBreak
   @@PdfVectorOutput
-@LineBreak
-  @@SvgVectorOutput
     
 @NoParameters
 @NoReturnValue
@@ -3602,9 +3600,6 @@
   Creates a PDF file and returns the OutputID to perform vector drawing operations.
   The actual drawing operations must be enclosed in a @@StartVectorDrawing / @@StopVectorDrawing block.
   The PDF file can have multiple pages using the @@NewVectorPage command.
-@LineBreak
-@LineBreak
-  @Bold "Note: " This function is only available on Linux and Mac OSX.
   
 @Parameter "FileName$"
   Specifies the filename of the PDF to create. If the file exists, it will be overwritten.
@@ -3658,9 +3653,6 @@
   Creates an SVG (scalable vector graphics) file and returns the OutputID to perform vector drawing operations.
   The actual drawing operations must be enclosed in a @@StartVectorDrawing / @@StopVectorDrawing block.
   The SVG file can have multiple pages using the @@NewVectorPage command.
-@LineBreak
-@LineBreak
-  @Bold "Note: " This function is only available on Linux.
 
 @Parameter "FileName$"
   Specifies the filename of the SVG file to create. If the file exists, it will be overwritten.

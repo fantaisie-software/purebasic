@@ -218,6 +218,53 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = CompareList(List1(), List2() [, Flags])
+
+@Description
+  Compare each elements of the two lists for equality. Recursively compares
+  also contents of structured lists with dynamic elements (such as embedded arrays, lists or maps).
+  The two lists are considered the equal if they have the same type and size and if each
+  pair of elements is equal.
+
+@Parameter "List1(), List2()"
+  The lists to compare.
+  
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself.
+                              Caution: Only use this if all pointers in the structure point to valid memory!
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if both lists are the same or zero if they differ.
+
+@Example
+@Code
+  NewList A$()
+  AddElement(A$()) : A$() = "Jim"
+  AddElement(A$()) : A$() = "John"
+  AddElement(A$()) : A$() = "Jack"
+  
+  NewList B$()
+  AddElement(B$()) : B$() = "JIM"  ; Case differs
+  AddElement(B$()) : B$() = "John"
+  AddElement(B$()) : B$() = "Jack"
+  
+  Debug CompareList(A$(), B$())                     ; Not equal
+  Debug CompareList(A$(), B$(), #PB_String_NoCase)  ; Equal
+@EndCode
+
+@SeeAlso
+  @@CompareArray, @@CompareMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result = CopyList(SourceList(), DestinationList())
 
 @Description

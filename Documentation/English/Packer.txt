@@ -199,7 +199,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Description
   Start to examine the pack content. @@NextPackEntry has to be called to list the entries found
-  in the pack file. The pack has to be previously opened with @@OpenPack. Packs being created
+  in the pack file. The pack has to be previously opened with @@OpenPack or @@CatchPack. Packs being created
   with @@CreatePack can not be examined.
   
 @Parameter "#Pack"
@@ -227,7 +227,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @EndCode
   
 @SeeAlso
-  @@OpenPack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@NextPackEntry
     
 @SupportedOS
 
@@ -247,7 +247,33 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   Nonzero if the pack contain another entry, zero otherwise.
 
 @SeeAlso
-  @@OpenPack, @@PackEntrySize, @@PackEntryType, @@PackEntryName, @@UncompressPackMemory, @@UncompressPackFile
+  @@OpenPack, @@CatchPack, @@PackEntrySize, @@PackEntryDate, @@PackEntryType, @@PackEntryName, @@UncompressPackMemory, @@UncompressPackFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.q = PackEntryDate(#Pack [, DateType])
+
+@Description
+  Returns the file date of the current pack entry, set with @@NextPackEntry.
+  
+@Parameter "#Pack"
+  The pack to use.
+  
+@Parameter "DateType"
+  The kind of date to return. It can be one of the following values:
+@FixedFont
+  @#PB_Date_Created : returns the file creation date.
+  @#PB_Date_Accessed: returns the last file access date.
+  @#PB_Date_Modified: returns the last file modification date.
+@EndFixedFont
+
+@ReturnValue
+  Returns the file date or -1 if no date is available.
+
+@SeeAlso
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryType
     
 @SupportedOS
 
@@ -269,7 +295,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @EndFixedFont
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryDate
     
 @SupportedOS
 
@@ -295,7 +321,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   Returns the size of the current entry.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName, @@PackEntryDate
     
 @SupportedOS
 
@@ -313,7 +339,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   Returns the name of the current entry.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize, @@PackEntryDate
     
 @SupportedOS
 
@@ -418,7 +444,44 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @EndCode
 
 @SeeAlso
-  @@ClosePack, @@ExaminePack
+  @@ClosePack, @@ExaminePack, @@CatchPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CatchPack(#Pack, *MemoryAddress, Size [, Plugin])
+
+@Description
+  Open a previously existing pack file from memory. Before opening a pack file, at least one packer has to be registered 
+  with one of the following command: @@UseZipPacker, @@UseLzmaPacker, @@UseTarPacker, @@UseBriefLZPacker.
+  Once opened, the pack content can be listed with @@ExaminePack.
+
+@Parameter "#Pack"
+  A number to identify pack file to open. @ReferenceLink "purebasic_objects" "#PB_Any" can be used as
+  a parameter to auto-generate this number.
+
+@Parameter "*MemoryAddress"
+  The memory address where the pack file is located.
+
+@Parameter "Size"
+  The size of the pack file in bytes.
+  
+@OptionalParameter "Plugin"
+  The plugin to use, if more than one packer plugin has been registered. It can be one of the following value:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: use the BriefLZ packer to open the pack file. @@UseBriefLZPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Zip    : use the Zip packer to open the pack file. @@UseZipPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Lzma   : use the Lzma packer to open the pack file. @@UseLzmaPacker has to be called to have any effect.
+  @#PB_PackerPlugin_Tar    : use the Tar packer to open the pack file. @@UseTarPacker has to be called to have any effect.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the pack file has been successfully opened, zero otherwise. If @#PB_Any
+  was used as the #Pack parameter then the generated pack number is returned.
+
+@SeeAlso
+  @@ClosePack, @@ExaminePack, @@OpenPack
 
 @SupportedOS
 
@@ -485,7 +548,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   Return the uncompressed size if the pack entry has been successfully uncompressed into the memory buffer, -1 otherwise.
   
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 
@@ -553,7 +616,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   For another example see @@AddPackFile.
   
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 

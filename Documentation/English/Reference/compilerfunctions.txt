@@ -263,6 +263,61 @@
 
 @Syntax
 
+  @Keyword CompareStructure(*Pointer1, *Pointer2, Structure [, Flags])
+
+@Description
+
+  @Keyword CompareStructure compares the memory of two @ReferenceLink "structures" "structures" for equality.
+  The comparison is recursively applied also to child elements such as @ReferenceLink "dim" "arrays", 
+  @ReferenceLink "newlist" "lists", and @ReferenceLink "newmap" "maps". Returns nonzero if the structures are the same
+  or zero if they differ.
+@LineBreak
+@LineBreak
+  The "Flags" parameter is optional and can have one of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself.
+                              Caution: Only use this if all pointers in the structure point to valid memory!
+@EndFixedFont
+
+@Example
+
+@Code
+  Structure People
+    Name$
+    LastName$
+    Map Friends$()
+    Age.l
+  EndStructure
+
+  StudentA.People\Name$ = "Paul"
+  StudentA\LastName$ = "Morito"
+  StudentA\Friends$("Tom") = "Jones"
+  StudentA\Friends$("Jim") = "Doe"
+
+  StudentB.People\Name$ = "Paul"
+  StudentB\LastName$ = "Morito"
+  StudentB\Friends$("Tom") = "Jones"
+  StudentB\Friends$("Jim") = "Doe"
+
+  StudentC.People\Name$ = "Paul"
+  StudentC\LastName$ = "Morito"
+  StudentC\Friends$("Tom") = "Hanks" ; Not the same as in StudentA
+  StudentC\Friends$("Jim") = "Doe"
+
+  Debug CompareStructure(@StudentA, @StudentB, People) ; Equal
+  Debug CompareStructure(@StudentA, @StudentC, People) ; Not equal
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
   @Keyword CopyStructure(*Source, *Destination, Structure)
 
 @Description

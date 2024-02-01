@@ -7,13 +7,13 @@
 @Library Date
 
 @Overview
-  The Date library allows for the manipulation of Date and Time from 1970 up to 2038 using the Unix 32-bit method
-  (i.e. the number of seconds elapsed since the 1st of January 1970).
+  The Date library allows for the manipulation of Date and Time from the year 1601 up to 9999 using the Unix method
+  (i.e. the number of seconds elapsed since the 1st of January 1970). Dates before the year 1970 are represented as negative values.
 @LineBreak
 @LineBreak
-  Note: supported date/time values are 1970-01-01, 00:00:00 for the minimum and 2038-01-19, 03:14:07 for the maximum.
-  See also @InternetLink "https://en.wikipedia.org/wiki/Year_2038_problem" "https://en.wikipedia.org/wiki/Year_2038_problem".
-
+  Note: In order to use the full available date range, values returned by this library must be stored in Quad type variables (.q).
+  Using a 32bit data type (Long or Integer on 32bit systems) results in invalid values starting with the year 2038.
+  
 @CommandList
 
 @ExampleFile All Date.pb
@@ -22,12 +22,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Date = AddDate(Date, Type, Value)
+@Function Date.q = AddDate(Date.q, Type, Value)
 
 @Description
   Add an amount of time to a date. 
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date value to which the value should be added.
 
 @Parameter "Type"
@@ -68,12 +68,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Date.q = ConvertDate(Date, Format)
+@Function Date.q = ConvertDate(Date.q, Format)
 
 @Description
   Converts a date between local time and UTC time.
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date to convert.
 
 @Parameter "Format"
@@ -99,7 +99,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Date = Date([Year, Month, Day, Hour, Minute, Second])
+@Function Date.q = Date([Year, Month, Day, Hour, Minute, Second])
 
 @Description
   Returns the date value created from the given parameters, or the local system time
@@ -107,6 +107,7 @@
 
 @OptionalParameter "Year, Month, Day, Hour, Minute, Second"
   The components used to create the date. If these parameters are not specified, the local system time is returned.
+  The allowed range for the Year value is 1601 to 9999.
 
 @ReturnValue
   Returns the specified date value.
@@ -146,12 +147,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Day(Date)
+@Function Result = Day(Date.q)
 
 @Description
   Returns the day component of the specified date. 
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date value from which to extract the day.
   
 @ReturnValue
@@ -170,12 +171,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = DayOfWeek(Date)
+@Function Result = DayOfWeek(Date.q)
 
 @Description
   Returns the weekday of the specified date.
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date value from which to extract the weekday.
 
 @ReturnValue
@@ -203,12 +204,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = DayOfYear(Date)
+@Function Result = DayOfYear(Date.q)
 
 @Description
   Returns the number of days elapsed since the beginning of the year of the specified date.
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date value from which to extract the number of days.
 
 @ReturnValue
@@ -228,12 +229,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Month(Date)
+@Function Result = Month(Date.q)
 
 @Description
   Returns the month value of the specified date. 
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date from which to extract the month.
 
 @ReturnValue
@@ -252,12 +253,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Year(Date)
+@Function Result = Year(Date.q)
 
 @Description
   Returns the year value of the specified date. 
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date from which to extract the year.
 
 @ReturnValue
@@ -276,12 +277,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Hour(Date)
+@Function Result = Hour(Date.q)
 
 @Description
   Returns the hour value of the specified date.
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date from which to extract the hour.
 
 @ReturnValue
@@ -300,12 +301,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Minute(Date)
+@Function Result = Minute(Date.q)
 
 @Description
   Returns the minute value of the specified date. 
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date from which to extract the minutes.
 
 @ReturnValue
@@ -325,12 +326,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = Second(Date)
+@Function Result = Second(Date.q)
 
 @Description
   Returns the second value of the specified date.
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date from which to extract the seconds.
 
 @ReturnValue
@@ -349,7 +350,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = FormatDate(Mask$, Date)
+@Function Text$ = FormatDate(Mask$, Date.q)
 
 @Description
   Returns a string representation of the given Date.
@@ -366,7 +367,7 @@
   %ss: Will be replaced by the second value, on 2 digits.
 @EndFixedFont
 
-@Parameter "Date"
+@Parameter "Date.q"
   The date value to use.
 
 @ReturnValue
@@ -392,7 +393,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Date = ParseDate(Mask$, String$)
+@Function Date.q = ParseDate(Mask$, String$)
 
 @Description
   Transforms a string date into a regular date value which then can be used by other date functions. 

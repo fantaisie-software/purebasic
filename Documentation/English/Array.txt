@@ -116,6 +116,55 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = CompareArray(Array1(), Array2() [, Flags])
+
+@Description
+  Compare each elements of the two arrays for equality. Recursively compares
+  also contents of structured arrays with dynamic elements (such as embedded arrays, lists or maps).
+  The two arrays are considered the equal if they have the same type and dimensions and if each
+  pair of elements is equal.
+
+@Parameter "Array1(), Array2()"
+  The arrays to compare.
+  
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself.
+                              Caution: Only use this if all pointers in the structure point to valid memory!
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if both arrays are the same or zero if they differ.
+
+@Example
+@Code
+  Dim A(4)
+  A(0) = 10
+  A(1) = 20
+  A(2) = 30
+  A(3) = 40
+
+  Dim B(4)
+  B(0) = 10
+  B(1) = 20
+  B(2) = 50 ; Not equal to A(2)
+  B(3) = 40
+
+  Debug CompareArray(A(), B()) ; Not equal
+@EndCode
+
+@SeeAlso
+  @@CompareList, @@CompareMap
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result = CopyArray(SourceArray(), DestinationArray())
 
 @Description
