@@ -1249,7 +1249,7 @@ DataSection
   Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
-  Data$ "DPIAware",         "Enable DPI aware executable (Windows)"
+  Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
   Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"

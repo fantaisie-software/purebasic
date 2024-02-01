@@ -70,13 +70,13 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_UseIcon, 1)
     DisableGadget(#GADGET_Option_IconName, 1)
     DisableGadget(#GADGET_Option_SelectIcon, 1)
+    DisableGadget(#GADGET_Option_DPIAware, 1)
   CompilerEndIf
   
   CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic; this stuff is windows only
     DisableGadget(#GADGET_Option_EnableXP, 1)
     DisableGadget(#GADGET_Option_EnableAdmin, 1)
     DisableGadget(#GADGET_Option_EnableUser, 1)
-    DisableGadget(#GADGET_Option_DPIAware, 1)
     DisableGadget(#GADGET_Option_DllProtection, 1)
   CompilerEndIf
   
