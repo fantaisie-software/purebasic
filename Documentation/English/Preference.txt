@@ -396,8 +396,8 @@
   To force a string encoding when reading the preference file. If an UTF-8 BOM is found in at the start of 
   the file, this parameter is ignored and UTF-8 will be used. It can be one of the following value:
 @FixedFont
-  @#PB_UTF8
-  @#PB_Ascii
+  @#PB_UTF8 : The file will be read as UTF-8, even if it doesn't have a BOM.
+  @#PB_Ascii: The file will be read as Ascii, unless there an UTF-8 BOM. If the preferences are written back to file, it will be using UTF-8.
 @EndFixedFont
 
 @ReturnValue
@@ -530,8 +530,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group. 
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -582,8 +581,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group.
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -609,8 +607,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group.
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -636,8 +633,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group.
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -663,8 +659,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group.
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -690,8 +685,7 @@
   Try to read the specified associated 'Key$' value. 
   
 @Parameter "Key$"  
-  The key to read the value from. If @@PreferenceGroup has been
-  used, then the search is restricted to the current group. 
+  The key to read the value from. If the key is inside a group, @@PreferenceGroup has to be used to change the current group.
 
 @Parameter "DefaultValue"  
   The default value to return if the key isn't found or the
@@ -735,22 +729,22 @@
       WritePreferenceString("percentage", "percentage")
       WritePreferenceFloat("%", 100)
       
-      ClosePreferences()
-    
-      RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf  
-    
-    MessageRequester("Info", "Delete the group 'event' ")
-    
-  ; Open a preference file
-    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
-    
-  ; Delete the group 'event'  
-    RemovePreferenceGroup("event")
-    
     ClosePreferences()
-      
+    
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  EndIf  
+    
+  MessageRequester("Info", "Delete the group 'event' ")
+  
+  ; Open a preference file
+  OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+  
+  ; Delete the group 'event'  
+  RemovePreferenceGroup("event")
+  
+  ClosePreferences()
+    
+  RunProgram(GetTemporaryDirectory()+"Prefs.txt")
 @EndCode  
  
 @SeeAlso
