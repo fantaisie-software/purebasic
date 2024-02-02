@@ -2004,6 +2004,10 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
     Format = ReadStringFormat(#FILE_LoadSource)
     FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; subtract the BOM size!
     
+    If FileLength > 0
+    *Buffer = AllocateMemory(FileLength+1)
+  EndIf
+    
     If Format = #PB_Ascii
       *ActiveSource\Parser\Encoding = 0
       SendEditorMessage(#SCI_SETCODEPAGE, 0, 0)
@@ -2014,6 +2018,8 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
     
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
+    Else ; For empty text, we need to clear the scintilla component (https://www.purebasic.fr/english/viewtopic.php?p=615379#p615379)
+      StreamTextIn(ToUTF8(""), 0)
     EndIf
     
     If *Buffer

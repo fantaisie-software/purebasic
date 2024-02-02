@@ -194,7 +194,7 @@ DataSection
   Data$ "CreateParticleEmitter,5,#PB_Particle_Point,#PB_Particle_Box"
   Data$ "CreatePlane,1,#PB_Any"
   Data$ "CreatePopupImageMenu,1,#PB_Any"
-  Data$ "CreatePopupImageMenu,2,#PB_Menu_ModernLook"
+  Data$ "CreatePopupImageMenu,2,#PB_Menu_ModernLook,#PB_Menu_SysTrayLook"
   Data$ "CreatePopupMenu,1,#PB_Any"
   Data$ "CreatePreferences,2,#PB_Preference_NoSpace,#PB_Preference_GroupSeparator,#PB_Preference_NoBOM"
   Data$ "CreateRegularExpression,1,#PB_Any"

@@ -818,7 +818,7 @@ EndEnumeration
 ; Menu library
 ;
 #PB_Menu_ModernLook  = (1 << 0)
-#PB_Menu_SystrayLook = (1 << 2)
+#PB_Menu_SysTrayLook = (1 << 2)
 
 ; Network
 ;

@@ -1227,7 +1227,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             ; Variable not found is common (place the cursor on a keyword etc),
             ; so display nothing if this happens.
             If IsVariableExpression = 0 Or (Left(Message$, 29) <> "Debugger: Variable not found:" And Left(Message$, 43) <> "Debugger: Array() / LinkedList() not found:" And Message$ <> "Debugger: Garbage at the end of the input.")
-              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, 9)
             EndIf
             
@@ -1236,13 +1236,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 2 ; quad
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekQ(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 3 ; double
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 4 ; string
@@ -1350,13 +1350,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekL(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 7 ; float (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
         EndSelect
