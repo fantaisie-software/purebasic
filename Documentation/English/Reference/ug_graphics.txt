@@ -37,7 +37,7 @@ Drawing the wave forms - demonstrates the @@LineXY command and shows how to use 
   #imgPlotH = 645
   
   ; Event variables
-  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  Define Event, EventWindow, EventGadget, EventType, EventMenu
   
   ; Implementation
   Procedure CreateWindow()
@@ -152,7 +152,7 @@ Drawing the wave forms - demonstrates the @@LineXY command and shows how to use 
   Procedure PlotFunction(alngPlot1, alngPlot2)
     ; Draws the waveforms on the image #drgPlot.
     
-    Protected.l lngSX, lngEX
+    Protected lngSX, lngEX
     Protected.f fltRad1, fltRad2, fltSY1, fltEY1, fltSY2, fltEY2, fltSY3, fltEY3
     
     StartDrawing(ImageOutput(#drgPlot))

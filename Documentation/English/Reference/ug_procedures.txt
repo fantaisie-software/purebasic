@@ -31,7 +31,7 @@ identified in the program in previous items.
   Procedure FilesExamine(Folder.s, List Files.FILEITEM())
     ; Obtains file properties from Folder into Files.
     
-    Protected.l Result
+    Protected Result
     
     ; Clear current contents.
     ClearList(Files())
@@ -159,7 +159,7 @@ identified in the program in previous items.
   
   ; And some working variables to make things happen.
   Define.s Folder
-  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  Define Event, EventWindow, EventGadget, EventType, EventMenu
   
   ; This function gets the home directory for the logged on user.
   Folder = GetHomeDirectory()
