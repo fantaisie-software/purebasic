@@ -802,3 +802,5 @@ CompilerElse
 #PB_Shortcut_Scroll = $FF14 ; #define GDK_Scroll_Lock 0xFF14
 
 CompilerEndIf
+
+#PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it

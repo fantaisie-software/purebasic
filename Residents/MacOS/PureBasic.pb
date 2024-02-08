@@ -794,3 +794,4 @@ CompilerEndIf
 #PB_Shortcut_Numlock= 27
 #PB_Shortcut_Scroll = 0 ; Not supported on OS X
 
+#PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it
