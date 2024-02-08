@@ -57,9 +57,10 @@ Procedure RadixFindPrefix(*Tree.RadixTree, Prefix$, ExactMatchOnly = #False)
   If Prefix$ = ""
     ProcedureReturn #Null
   EndIf
-    
-  PrefixU$ = UCase(Prefix$)
-  *PrefixCursor.Character = @PrefixU$
+  
+  ; Use LCase() instead of UCase() to be compatiable to internal PB case insensitive compare (https://www.purebasic.fr/english/viewtopic.php?p=615646)
+  PrefixL$ = LCase(Prefix$)
+  *PrefixCursor.Character = @PrefixL$
   
   *Node.RadixNode = *Tree\Node
   While *Node
@@ -219,8 +220,9 @@ Procedure RadixInsert(*Tree.RadixTree, Name$, *Value)
     ProcedureReturn
   EndIf
   
-  PrefixU$ = UCase(Name$)
-  *PrefixCursor.Character = @PrefixU$
+  ; Use LCase() instead of UCase() to be compatiable to internal PB case insensitive compare (https://www.purebasic.fr/english/viewtopic.php?p=615646)
+  PrefixL$ = LCase(Name$)
+  *PrefixCursor.Character = @PrefixL$
   
   If *Tree\Node = #Null
     

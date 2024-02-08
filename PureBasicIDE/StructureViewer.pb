@@ -27,7 +27,6 @@ EndStructure
 
 Global NewList StructureHistory.StructureHistory()
 
-Global StructureListSize, InterfaceListSize, ConstantListSize
 Global StructureViewerMode, IsRootDisplay, CurrentDisplayChar
 
 

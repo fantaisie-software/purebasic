@@ -2669,6 +2669,8 @@ Global HistoryDatabaseFile$, EnableHistory, HistoryActive, EditHistorySplitter
 Global HistoryTimer, MaxSessionCount, MaxSessionDays, HistoryPurgeMode ; 0=off, 1=count, 2=days
 Global HistoryMaxFileSize
 
+Global StructureListSize, InterfaceListSize, ConstantListSize
+
 ; debugger stuff
 ;
 Global ErrorLogHeight, SplitterCursor2
