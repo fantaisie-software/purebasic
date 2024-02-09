@@ -60,7 +60,7 @@
   @Example Array as procedure parameter
   
 @Code  
-  Procedure fill(Array Numbers(1), Length)  ; the 1 stays for the number of dimensions in the array
+  Procedure fill(Array Numbers(1), Length)  ; the 1 stands for the number of dimensions in the array
     For i = 0 To Length
       Numbers(i) = i
     Next
@@ -88,7 +88,7 @@
 @Description
 
   @Keyword ReDim is used to 'resize' an already declared array while preserving its content. The
-  new size can be larger or smaller, but the number of dimension of the array can not be changed.
+  new size can be larger or smaller, but the number of dimension of the array cannot be changed.
   @LineBreak
   @LineBreak
   If @Keyword ReDim is used with a multi-dimension array, only its last dimension can be changed.
@@ -113,7 +113,7 @@
   
   ;  ReDim MyTab(4,1,1) ; NO !
   ;  ReDim MyTab(1,4,1) ; NO !
-  ReDim MyTab(1,1,4) ; YES ! only its last dimension can be changed.
+  ReDim MyTab(1,1,4) ; YES, only its last dimension can be changed!
   MyTab(1,1,4) = 3
 @EndCode
 
