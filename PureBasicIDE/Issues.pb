@@ -379,10 +379,10 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
   If EnableAccessibility
     ; TODO: These should eventually be native optionGadgets. As it stands currently though, PB doesn't support changing the selection with the keyboard, so we stick with buttons for now.
-    ButtonGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, Language("AccessibilityStuff", "SingleFile"), #PB_Button_Toggle)
-    ButtonGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, Language("AccessibiiltyStuff", "MultiFile"), #PB_Button_Toggle)
+    ButtonGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, Language("ToolsPanel", "SingleFile"), #PB_Button_Toggle)
+    ButtonGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, Language("ToolsPanel", "MultiFile"), #PB_Button_Toggle)
     
-    ButtonGadget(#GADGET_Issues_Export,    0, 0, 0, 0, Language("AccessibiiltyStuff", "Export"))
+    ButtonGadget(#GADGET_Issues_Export,    0, 0, 0, 0, Language("ToolsPanel", "Export"))
     
     SetActiveGadget(#GADGET_Issues_List)
   Else
