@@ -378,22 +378,22 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   AddGadgetColumn(#GADGET_Issues_List, 4, Language("ToolsPanel", "Priority"), IssuesCol5)
   
   If EnableAccessibility
-    ; TODO: These should eventually be native optionGadgets. As it stands currently though, PB doesn't support changing the selection with the keyboard, so we stick with buttons for now.
-    ButtonGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, Language("ToolsPanel", "SingleFile"), #PB_Button_Toggle)
-    ButtonGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, Language("ToolsPanel", "MultiFile"), #PB_Button_Toggle)
-    
-    ButtonGadget(#GADGET_Issues_Export,    0, 0, 0, 0, Language("ToolsPanel", "Export"))
-    
     SetActiveGadget(#GADGET_Issues_List)
-  Else
-    ButtonImageGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, ImageID(#IMAGE_IssueSingleFile), #PB_Button_Toggle)
-    ButtonImageGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, ImageID(#IMAGE_IssueMultiFile), #PB_Button_Toggle)
-    ButtonImageGadget(#GADGET_Issues_Export,     0, 0, 0, 0, ImageID(#IMAGE_IssueExport))
   EndIf
+  
+  ButtonImageGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, ImageID(#IMAGE_IssueSingleFile), #PB_Button_Toggle)
+  ButtonImageGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, ImageID(#IMAGE_IssueMultiFile), #PB_Button_Toggle)
+  ButtonImageGadget(#GADGET_Issues_Export,     0, 0, 0, 0, ImageID(#IMAGE_IssueExport))
   
   GadgetToolTip(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
   GadgetToolTip(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
   GadgetToolTip(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  
+  If EnableAccessibility
+    SetGadgetText(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
+    SetGadgetText(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
+    SetGadgetText(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  EndIf
   
   If IssueMultiFile
     SetGadgetState(#GADGET_Issues_MultiFile, 1)
