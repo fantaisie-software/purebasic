@@ -231,16 +231,17 @@ EndStructure
 
 ; 2D Drawing
 ;
-#PB_2DDrawing_Default      =  0
-#PB_2DDrawing_Transparent  =  1
-#PB_2DDrawing_XOr          =  2
-#PB_2DDrawing_Outlined     =  4
-#PB_2DDrawing_AlphaChannel =  8
-#PB_2DDrawing_AlphaBlend   = 16
-#PB_2DDrawing_AlphaClip    = 32
-#PB_2DDrawing_Gradient     = 64
-#PB_2DDrawing_CustomFilter = 128
-#PB_2DDrawing_AllChannels  = 256
+#PB_2DDrawing_Default      = 0
+#PB_2DDrawing_Transparent  = 1 << 0
+#PB_2DDrawing_XOr          = 1 << 1
+#PB_2DDrawing_Outlined     = 1 << 2
+#PB_2DDrawing_AlphaChannel = 1 << 3
+#PB_2DDrawing_AlphaBlend   = 1 << 4
+#PB_2DDrawing_AlphaClip    = 1 << 5
+#PB_2DDrawing_Gradient     = 1 << 6
+#PB_2DDrawing_CustomFilter = 1 << 7
+#PB_2DDrawing_AllChannels  = 1 << 8
+#PB_2DDrawing_NativeText   = 1 << 9
 
 #PB_PixelFormat_8Bits      = 1 << 0
 #PB_PixelFormat_15Bits     = 1 << 1

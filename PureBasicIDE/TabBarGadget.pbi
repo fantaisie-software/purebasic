@@ -1442,7 +1442,7 @@ Procedure TabBarGadget_DrawItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetIt
     Else
       RoundBox(*Item\Layout\X+LayoutX, *Item\Layout\Y+LayoutY, *Item\Layout\Width+LayoutWidth, *Item\Layout\Height+LayoutHeight, *TabBarGadget\Radius, *TabBarGadget\Radius, \BorderColor)
     EndIf
-    DrawingMode(#PB_2DDrawing_Transparent|#PB_2DDrawing_AlphaBlend)
+    DrawingMode(#PB_2DDrawing_Transparent|#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_NativeText)
     
     If *TabBarGadget\Attributes & #TabBarGadget_Vertical
       Angle = 90 + 180*Bool(*TabBarGadget\Attributes&#TabBarGadget_MirroredTabs)

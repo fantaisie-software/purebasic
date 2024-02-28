@@ -951,7 +951,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
     h = OutputHeight()
     Box(0, 0, w, h, $FFFFFF)
 
-    DrawingMode(#PB_2DDrawing_Default|#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     For row = 0 To *Entry\Rows ; draw also the last half row in the remaining space
       If *Entry\First + row >= FilteredPalette\Count
         Break

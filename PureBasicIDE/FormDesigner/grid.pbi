@@ -1157,7 +1157,7 @@ Procedure grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   *grid\cols()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(*grid\font))
   
   *grid\cols()\wtext = TextWidth(caption)
@@ -1282,7 +1282,7 @@ Procedure grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   *grid\rows()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(*grid\font))
   
   *grid\rows()\wtext = TextWidth(caption)
@@ -2778,7 +2778,7 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
   xpos1 = 0
   xpos2 = 0
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   
   cell.s = Str(*grid\col(current_column))+"x"+Str(*grid\row(current_row))
   
@@ -3409,12 +3409,12 @@ Procedure grid_DrawCombo(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
   y1 = drawing_y
   y2 = drawing_y2 - 1
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1 + 1, y1 + 1, x2 - x1 - 2, (y2 - y1) -2,RGB(235,235,235))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2,3,3,RGB(250,250,250))
   RoundBox(x1, y1, x2 - x1, y2 - y1,3,3,RGB(111,111,111))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Line(drawing_x2 - 1 - 21 + 5,drawing_y + (drawing_y2 - drawing_y - 5) / 2, 9, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 6,drawing_y + (drawing_y2 - drawing_y - 5) / 2 + 1, 7, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 7,drawing_y + (drawing_y2 - drawing_y - 5) / 2 + 2, 5, 1,RGB(40,40,40))
@@ -3430,7 +3430,7 @@ Procedure grid_DrawSpin(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
   y1 = drawing_y
   y2 = drawing_y2 - 1
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   boxheight = (drawing_y2 - drawing_y) / 2
   ; up
   Line(drawing_x2 - 1 - 21 + 9,drawing_y + (boxheight - 5) / 2 , 1, 1,RGB(40,40,40))
@@ -3460,7 +3460,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
   If Not *grid\hidden
     
     StartDrawing(CanvasOutput(*grid\canvas))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     DrawingFont(FontID(*grid\font))
     
     Define w = OutputWidth()
@@ -3673,7 +3673,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
                   Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(180,220,255,200))
                 EndIf
                 
-                DrawingMode(#PB_2DDrawing_Transparent)
+                DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
               EndIf
             EndIf
             
@@ -4100,7 +4100,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
         EndIf
       EndIf
       StartDrawing(ImageOutput(*grid\edit_dc))
-      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
       
       Box(0,0, *grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1,grid_GetCellBackColor( *grid, *grid\edit_col, *grid\edit_row))
       
@@ -4161,7 +4161,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
           
           ; Need to use the inverted color using formula below, but then change text color!
           Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255))
-          DrawingMode(#PB_2DDrawing_Transparent)
+          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
           
           sel_start + 1
           sel_end + 1
@@ -4332,7 +4332,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     EndIf
     
     StartDrawing(CanvasOutput(*grid\ac_list))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     DrawingFont(FontID(*grid\ac_font))
     
     Box(0,0,OutputWidth(),OutputHeight(),RGB(255,255,255))
@@ -4354,7 +4354,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     
     DrawingMode(#PB_2DDrawing_Outlined)
     Box(0,0,OutputWidth(),OutputHeight(),RGB(100,100,100))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     
     StopDrawing()
   EndIf

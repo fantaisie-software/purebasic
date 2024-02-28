@@ -290,7 +290,7 @@ If CommandlineBuild = 0 And NoSplashScreen = 0
       ResizeImage(#IMAGE_Startup, DesktopScaledX(ImageWidth(#IMAGE_Startup)/2), DesktopScaledY(ImageHeight(#IMAGE_Startup)/2))
       
       If StartDrawing(ImageOutput(#IMAGE_Startup))
-        DrawingMode(1)
+        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
         
         CompilerIf #SpiderBasic
           FrontColor($777777) ; SpiderBasic splash screen background is white, so change the font color to a dark one
