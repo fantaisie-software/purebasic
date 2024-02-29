@@ -80,11 +80,6 @@ Procedure CreateAutoCompleteWindow()
       
     CompilerEndIf
     
-    CompilerIf #CompileMac
-      ; key handling for OSX
-      AutoComplete_SetupRawKeyHandler()
-    CompilerEndIf
-    
     ; These shortcuts are now in the Preferences shortcut list, so they get added automatically below.
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Escape, #MENU_AutoComplete_Abort)
     ;     AddKeyboardShortcut(#WINDOW_AutoComplete, #PB_Shortcut_Return, #MENU_AutoComplete_Ok)

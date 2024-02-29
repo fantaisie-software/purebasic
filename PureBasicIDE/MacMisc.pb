@@ -159,16 +159,10 @@ CompilerIf #CompileMacCocoa
     ;Debug "Preferences: "+ PreferencesFile$
     ;Debug "Tools settings: "+AddToolsFile$
     
-    
-    ;  #GDK_SB_H_DOUBLE_ARROW = 108
-    ;  #GDK_SB_V_DOUBLE_ARROW = 116
-    ;  SplitterCursor    = gdk_cursor_new_(#GDK_SB_H_DOUBLE_ARROW)
-    ;  SplitterCursor2   = gdk_cursor_new_(#GDK_SB_V_DOUBLE_ARROW)
-    
     ButtonBackgroundColor = GetButtonBackgroundColor()
     
     ; Install the "Open Document" event handler
-    ; Do not do this in OSStartupCode so we only receive this event when we wre ready
+    ; Do not do this in OSStartupCode so we only receive this event when we are ready
     ; to actually load a file...
     ;
     PB_Gadget_SetOpenFinderFiles(@OpenDocument())
@@ -244,26 +238,6 @@ CompilerIf #CompileMacCocoa
   EndProcedure
   
   Procedure Session_End(OSSessionID$)
-  EndProcedure
-  
-  ; Handler to redirect all key input back to Scintilla
-  ; Just forwards all messages
-  ;
-  ProcedureC RawKeyEventHandler(*NextHandler, *event, *handlerdata)
-    Debug "."
-    
-    ; Call down the handler chain to see if this key will be handled (shortcut etc)
-    ; If not, dispatch this event to the ScintillaGadget. Works quite well
-    ;
-    If CallNextEventHandler_(*NextHandler, *event) <> #noErr
-      SendEventToEventTarget_(*event, GetControlEventTarget_(GadgetID(*ActiveSource\EditorGadget)))
-    EndIf
-    
-    ProcedureReturn #noErr
-  EndProcedure
-  
-  Procedure AutoComplete_SetupRawKeyHandler()
-    ; We use the other way around on OS X Cocoa (accelerators on the main window)
   EndProcedure
   
   

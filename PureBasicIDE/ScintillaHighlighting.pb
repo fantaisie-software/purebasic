@@ -3708,8 +3708,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       EndIf
     EndIf
     
-    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + DesktopScaledX(GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate))
-    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + DesktopScaledY(GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize)
+    OffsetX = GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate)
+    OffsetY = GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize
+    
+    CompilerIf #CompileWindows
+      ; Doesn't work the same on OSX (#SCI_POINTXFROMPOSITION probably doesn't return unscaled coordinates)
+      OffsetX = DesktopScaledX(OffsetX)
+      OffsetY = DesktopScaledY(OffsetY)
+    CompilerEndIf
+    
+    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + OffsetX
+    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + OffsetY
     
     CompilerIf #CompileWindows
       *Y\i + 8
