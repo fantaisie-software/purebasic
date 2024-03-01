@@ -390,6 +390,8 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   GadgetToolTip(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
   
   If EnableAccessibility
+    ; Sets a label on the buttons for screen reader users.
+    ; This label is only ever seen by screen readers, and never visually shown.
     SetGadgetText(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
     SetGadgetText(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
     SetGadgetText(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
