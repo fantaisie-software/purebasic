@@ -377,6 +377,10 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   AddGadgetColumn(#GADGET_Issues_List, 3, Language("Misc", "File"), IssuesCol4)
   AddGadgetColumn(#GADGET_Issues_List, 4, Language("ToolsPanel", "Priority"), IssuesCol5)
   
+  If EnableAccessibility
+    SetActiveGadget(#GADGET_Issues_List)
+  EndIf
+  
   ButtonImageGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, ImageID(#IMAGE_IssueSingleFile), #PB_Button_Toggle)
   ButtonImageGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, ImageID(#IMAGE_IssueMultiFile), #PB_Button_Toggle)
   ButtonImageGadget(#GADGET_Issues_Export,     0, 0, 0, 0, ImageID(#IMAGE_IssueExport))
@@ -384,6 +388,14 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   GadgetToolTip(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
   GadgetToolTip(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
   GadgetToolTip(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  
+  If EnableAccessibility
+    ; Sets a label on the buttons for screen reader users.
+    ; This label is only ever seen by screen readers, and never visually shown.
+    SetGadgetText(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
+    SetGadgetText(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
+    SetGadgetText(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  EndIf
   
   If IssueMultiFile
     SetGadgetState(#GADGET_Issues_MultiFile, 1)
