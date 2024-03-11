@@ -1341,10 +1341,15 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
     Else
       
       ; update gadget content
+      ;
+      StartGadgetFlickerFix(#GADGET_AutoComplete_List) ; Disable redraw for faster update on Windows (https://www.purebasic.fr/english/viewtopic.php?t=83775)
+      
       ClearGadgetItems(#GADGET_AutoComplete_List)
       ForEach *AutoCompleteDisplay()
         AddGadgetItem(#GADGET_AutoComplete_List, -1, PeekS(*AutoCompleteDisplay()))
       Next *AutoCompleteDisplay()
+      
+      StopGadgetFlickerFix(#GADGET_AutoComplete_List)
       
       ; call the OS function for dynamic resizing of the window
       ; do this before selecting the item for a correct selection

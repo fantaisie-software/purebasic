@@ -249,6 +249,9 @@ Procedure DisplayStructureRootList()
     gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
   CompilerEndIf
   
+  ; Stop the redraw for a faster update
+  StartGadgetFlickerFix(#GADGET_StructureViewer_List)
+  
   ClearGadgetItems(#GADGET_StructureViewer_List)
   
   SetGadgetText(#GADGET_StructureViewer_Name, "")
@@ -310,6 +313,8 @@ Procedure DisplayStructureRootList()
     gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
     g_object_unref_(*tree_model)                                                  ; release reference
   CompilerEndIf
+  
+  StopGadgetFlickerFix(#GADGET_StructureViewer_List)
   
   If ListSize(StructureHistory()) = 1
     If IsRootDisplay
