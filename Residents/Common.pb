@@ -1328,10 +1328,16 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Engine3D_DebugOutput = 1 << 1
 
 ; Rotations type
-#PB_Orientation_PitchYawRoll = 1 << 7
-#PB_Orientation_Quaternion   = 1 << 8
-#PB_Orientation_Direction    = 1 << 9
-
+#PB_Orientation_PitchYawRoll   = 1 << 7
+#PB_Orientation_Quaternion     = 1 << 8
+#PB_Orientation_AngleAxis      = 1 << 9
+#PB_Orientation_DirectionLDVX  = 1 << 10
+#PB_Orientation_DirectionLDVY  = 1 << 11
+#PB_Orientation_DirectionLDVZ  = 1 << 12
+#PB_Orientation_DirectionLDVXN = 1 << 13
+#PB_Orientation_DirectionLDVYN = 1 << 14
+#PB_Orientation_DirectionLDVZN = 1 << 15
+#PB_Orientation_Direction      = #PB_Orientation_DirectionLDVZN
 
 #PB_Shadow_None            = 0
 #PB_Shadow_Modulative      = 1

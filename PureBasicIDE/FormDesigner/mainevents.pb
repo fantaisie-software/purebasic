@@ -192,7 +192,7 @@ Procedure PropGridFoldImgProc(x,y,width,height,column,row)
   Box(xpos, ypos, 11, 11, RGB(255, 255, 255))
   DrawingMode(#PB_2DDrawing_Outlined)
   Box(xpos, ypos, 11, 11, RGB(0, 0, 0))
-  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+  DrawingMode(#PB_2DDrawing_Transparent)
   If type = 1
     Line(xpos + 5, ypos + 3, 1, 5, RGB(0, 0, 0))
   EndIf
@@ -1150,7 +1150,7 @@ EndProcedure
 
 
 Procedure FD_DrawResizeButton(x,y)
-  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+  DrawingMode(#PB_2DDrawing_Transparent)
   Box(x-4,y-4,8,8,RGB(0,0,0))
   Box(x-3,y-3,6,6,RGB(255,255,255))
 EndProcedure
@@ -1286,7 +1286,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       DrawingMode(#PB_2DDrawing_AllChannels)
       Box(0,0,OutputWidth(),OutputHeight(),  RGBA(0,0,0,0))
       
-      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
       gadgfrontcolor = -1
       gadgbackcolor = -1
       
@@ -1359,7 +1359,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
             Case #PB_OS_Windows
               Select FormSkinVersion
@@ -1370,12 +1370,12 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
                   LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
                   LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
                 Case 8
                   DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                   Box(x1,y1,x2 - x1, y2 - y1,RGBA(171,173,179,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2, color)
               EndSelect
             Case #PB_OS_Linux
@@ -1385,7 +1385,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
           EndSelect
           
@@ -1427,11 +1427,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 FrontColor(RGBA(244,244,244,255))
                 LinearGradient(x1+1,y1+1,x1+1, y1+9)
                 Box(x1+1,y1+1,x2 - x1-2, 10)
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1+1,y1+11,x2 - x1-2, 10,RGBA(236,236,236,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1,y1,x2 - x1, 22,3,3,RGBA(144,144,144,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(fd_fontid))
                 x = x1 + (x2 - x1 - TextWidth(caption)) / 2
                 y = y1 + (y2 - y1 - TextHeight(caption)) / 2
@@ -1439,7 +1439,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Else
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1,y1,x2 - x1, y2 - y1, 4, 4, RGBA(220,220,220,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 RoundBox(x1 + 1,y1 + 1,x2 - x1 - 2, y2 - y1 - 2, 4, 4, RGBA(241,241,241,255))
                 
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -1448,7 +1448,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 Line(x1 + 3, y1 + 3, x2 - x1 - 6, 1,RGBA(250,250,250,255))
                 Line(x1 + 2, y1 + 4, x2 - x1 - 4, 1,RGBA(246,246,246,255))
                 
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(fd_fontid))
                 x = x1 + (x2 - x1 - TextWidth(caption)) / 2
                 y = y1 + (y2 - y1 - TextHeight(caption)) / 2
@@ -1458,7 +1458,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
             Case #PB_OS_Windows
               Select FormSkinVersion
                 Case 7
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   height1 = (y2 - y1) * 0.45 -2
                   Box(x1 + 1, y1 + 1, x2 - x1 - 2, height1,RGBA(235,235,235,255))
                   Box(x1 + 1, y1 + 1 + height1, x2 - x1 - 2, (y2 - y1) * 0.55 -2,RGBA(211,211,211,255))
@@ -1466,7 +1466,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   RoundBox(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2,3,3,RGBA(250,250,250,255))
                   RoundBox(x1, y1, x2 - x1, y2 - y1,3,3,RGBA(111,111,111,255))
                   
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   
                   DrawingFont(FontID(fd_fontid))
                   
@@ -1482,7 +1482,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                   Box(x1, y1, x2 - x1, y2 - y1,RGBA(172,172,172,255))
                   
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   
                   DrawingFont(FontID(fd_fontid))
                   
@@ -1493,7 +1493,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
             Case #PB_OS_Linux
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
               RoundBox(x1,y1,x2 - x1, y2 - y1, 4, 4, RGBA(220,220,220,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               RoundBox(x1 + 1,y1 + 1,x2 - x1 - 2, y2 - y1 - 2, 4, 4, RGBA(241,241,241,255))
               
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -1504,7 +1504,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
               x = x1 + (x2 - x1 - TextWidth(caption)) / 2
               y = y1 + (y2 - y1 - TextHeight(caption)) / 2
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               DrawingFont(FontID(fd_fontid))
               DrawText(x,y,caption,color)
           EndSelect
@@ -1518,7 +1518,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           
           LinearGradient(x1+1,y1+1,x1+1, y2-1)
           Box(x1+1,y1+1,x2 - x1-2, y2 - y1-2)
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           ; Draw Image
           If *pointer
             PushListPosition(FormWindows()\FormGadgets())
@@ -1528,9 +1528,9 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               ChangeCurrentElement(FormWindows()\FormImg(),FormWindows()\FormGadgets()\image)
               g_data = ImageManager(FormWindows()\FormImg()\img)
               If IsImage(g_data)
-                DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
                 DrawImage(ImageID(g_data),x1 + (x2 - x1 - ImageWidth(g_data))/2,y1 + (y2 - y1 - ImageHeight(g_data))/2)
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               EndIf
             EndIf
             
@@ -1544,7 +1544,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
             color = RGBA(0,0,0,255)
           EndIf
           
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If *pointer
             PushListPosition(FormWindows()\FormGadgets())
@@ -1604,7 +1604,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           DrawText(x1 + 14 + 3, y1 + (y2 - y1 - 15) / 2,caption,color)
           ;}
         Case #Form_Type_Text, #Form_Type_HyperLink ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           DrawingFont(FontID(fd_fontid))
           
           If type = #Form_Type_Text ; draw a background if it's a TextGadget
@@ -1654,7 +1654,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           
           ;}
         Case #Form_Type_Option ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If *pointer
             PushListPosition(FormWindows()\FormGadgets())
@@ -1722,7 +1722,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_TreeGadget ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(142,142,142,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           If gadgbackcolor <> -1
             color = gadgbackcolor
           Else
@@ -1767,7 +1767,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_ListView ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(142,142,142,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If gadgbackcolor <> -1
             color = gadgbackcolor
@@ -1809,7 +1809,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_ListIcon ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(142,142,142,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If gadgbackcolor <> -1
             color = gadgbackcolor
@@ -1822,7 +1822,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           FrontColor(RGBA(244,244,244,255))
           LinearGradient(x1+1,y1+1,x1+1, x1+9)
           Box(x1+1,y1+1,x2 - x1-2, 8)
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           Box(x1+1,y1+9,x2 - x1-2, 6,RGBA(236,236,236,255))
           Line(x1+1,y1+15,x2-x1-2,1,RGBA(244,244,244,255))
           Line(x1+1,y1+16,x2-x1-2,1,RGBA(182,182,182,255))
@@ -1885,22 +1885,22 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               FrontColor(RGBA(244,244,244,255))
               LinearGradient(x1+1,y1+1,x1+1, x1+9)
               Box(x1+1,y1+1,x2 - x1-2, 10)
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+1,y1+11,x2 - x1-2, 9,RGBA(236,236,236,255))
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
               RoundBox(x1,y1,x2 - x1, 22,3,3,RGBA(144,144,144,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               DrawAlphaImage(ImageID(#Img_Combo),x2 - 12,y1 + 5)
               DrawingFont(FontID(fd_fontid))
               DrawText(x1 + 6,y1 + (22 - TextHeight(" ")) / 2,"Item 1", color)
               
             Case #PB_OS_Windows
               If flag & FlagValue("#PB_ComboBox_Editable")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1,y1,x2 - x1, y2 - y1,RGBA(255,255,255,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 Box(x1,y1,x2 - x1, y2 - y1,RGBA(150,150,150,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Select FormSkinVersion
                   Case 7
                     DrawAlphaImage(ImageID(#Img_ArrowDown),x2 - 12,y1 + (y2 - y1 - ImageHeight(#Img_ArrowDown)) / 2)
@@ -1912,7 +1912,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Else
                 Select FormSkinVersion
                   Case 7
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1 + 1, y1 + 1, x2 - x1 - 2, (y2 - y1) * 0.45 -2,RGBA(235,235,235,255))
                     Box(x1 + 1, y1 + 1 + (y2 - y1) * 0.45, x2 - x1 - 2, (y2 - y1) * 0.55 -2,RGBA(211,211,211,255))
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -1929,29 +1929,29 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                     Box(x1, y1, x2 - x1, y2 - y1,RGBA(172,172,172,255))
                     DrawAlphaImage(ImageID(#Img_Win8ArrowDown),x2 - 12,y1 + (y2 - y1 - ImageHeight(#Img_Win8ArrowDown)) / 2)
                 EndSelect
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(fd_fontid))
                 DrawText(x1 + 4,y1 + (y2 - y1  - TextHeight(" ")) / 2,"Item 1", color)
               EndIf
               
             Case #PB_OS_Linux
               If flag & FlagValue("#PB_ComboBox_Editable")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1,y1,x2 - x1, y2 - y1,RGBA(255,255,255,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 Box(x1,y1,x2 - x1, y2 - y1,RGBA(150,150,150,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawAlphaImage(ImageID(#Img_ArrowDown),x2 - 12,y1 + (y2 - y1 - ImageHeight(#Img_ArrowDown)) / 2)
                 DrawingFont(FontID(fd_fontid))
                 DrawText(x1 + 3,y1 + (y2 - y1  - TextHeight(" ")) / 2,"Item 1", color)
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1 + 1, y1 + 1, x2 - x1 - 2, (y2 - y1) * 0.45 -2,RGBA(235,235,235,255))
                 Box(x1 + 1, y1 + 1 + (y2 - y1) * 0.45, x2 - x1 - 2, (y2 - y1) * 0.55 -2,RGBA(211,211,211,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2,3,3,RGBA(250,250,250,255))
                 RoundBox(x1, y1, x2 - x1, y2 - y1,3,3,RGBA(111,111,111,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawAlphaImage(ImageID(#Img_ArrowDown),x2 - 12,y1 + (y2 - y1 - ImageHeight(#Img_ArrowDown)) / 2)
                 DrawingFont(FontID(fd_fontid))
                 DrawText(x1 + 4,y1 + (y2 - y1  - TextHeight(" ")) / 2,"Item 1", color)
@@ -1975,7 +1975,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
               DrawImage(ImageID(#Img_Spin),x2 + 7,y1 + (y2-y1-23)/2)
             Case #PB_OS_Windows
@@ -1988,14 +1988,14 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
                   LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
                   LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
                   DrawImage(ImageID(#Img_Spin),x2 + 7,y1 + (y2-y1-23)/2)
                 Case 8
                   x2 - ImageWidth(#Img_Win8Spin) - 1
                   DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                   Box(x1,y1,x2 - x1, y2 - y1,RGBA(171,173,179,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2, color)
                   DrawImage(ImageID(#Img_Win8Spin),x2 + 1,y1 + (y2-y1-ImageHeight(#Img_Win8Spin))/2)
               EndSelect
@@ -2007,7 +2007,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+2,y1+3,x2 - x1-4, y2 - y1 - 4,color)
               DrawImage(ImageID(#Img_Spin),x2 + 7,y1 + (y2-y1-23)/2)
           EndSelect
@@ -2029,7 +2029,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               If flag & FlagValue("#PB_TrackBar_Vertical")
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1 + 3,y1,5,y2-y1,1,1,RGBA(116,116,116,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Line(x1+4,y1+1,1,y2 - y1 - 2,RGBA(170,170,170,255))
                 Line(x1+5,y1+1,1,y2 - y1 - 2,RGBA(193,193,193,255))
                 Line(x1+6,y1+1,1,y2 - y1 - 2,RGBA(205,205,205,255))
@@ -2047,7 +2047,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Else
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1,y1 + 3,x2 - x1, 5,1,1,RGBA(116,116,116,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Line(x1+1,y1+4,x2 - x1 - 2,1,RGBA(170,170,170,255))
                 Line(x1+1,y1+5,x2 - x1 - 2,1,RGBA(193,193,193,255))
                 Line(x1+1,y1+6,x2 - x1 - 2,1,RGBA(205,205,205,255))
@@ -2067,7 +2067,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
             Case #PB_OS_Windows
               If flag & FlagValue("#PB_TrackBar_Vertical")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 RoundBox(x1 + 3,y1,5,y2-y1,1,1,RGBA(231,231,231,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1 + 3,y1,5,y2-y1,1,1,RGBA(176,176,176,255))
@@ -2082,11 +2082,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Wend
                 EndIf
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 RoundBox(x1,y1 + 3,x2 - x1, 5,1,1,RGBA(231,231,231,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1,y1 + 3,x2 - x1, 5,1,1,RGBA(176,176,176,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawAlphaImage(ImageID(#Img_Win7Trackbar),x1,y1)
                 If flag & FlagValue("#PB_TrackBar_Ticks")
                   wfinish = x2 - 9
@@ -2100,7 +2100,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
             Case #PB_OS_Linux
               If flag & FlagValue("#PB_TrackBar_Vertical")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 RoundBox(x1 + 3,y1,5,y2-y1,1,1,RGBA(231,231,231,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1 + 3,y1,5,y2-y1,1,1,RGBA(176,176,176,255))
@@ -2115,11 +2115,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Wend
                 EndIf
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 RoundBox(x1,y1 + 3,x2 - x1, 5,1,1,RGBA(231,231,231,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(x1,y1 + 3,x2 - x1, 5,1,1,RGBA(176,176,176,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawAlphaImage(ImageID(#Img_Win7Trackbar),x1,y1)
                 If flag & FlagValue("#PB_TrackBar_Ticks")
                   wfinish = x2 - 9
@@ -2133,7 +2133,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           EndSelect
           ;}
         Case #Form_Type_ProgressBar ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           If gadgbackcolor <> -1
             color = gadgbackcolor
           Else
@@ -2182,9 +2182,9 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               ChangeCurrentElement(FormWindows()\FormImg(),FormWindows()\FormGadgets()\image)
               g_data = ImageManager(FormWindows()\FormImg()\img)
               If IsImage(g_data)
-                DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
                 DrawImage(ImageID(g_data),x1 + (x2 - x1 - ImageWidth(g_data))/2,y1 + (y2 - y1 - ImageHeight(g_data))/2)
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               EndIf
             Else
               DrawingFont(FontID(fd_fontid))
@@ -2198,7 +2198,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           Select FormSkin
             Case #PB_OS_MacOS
               If flag & FlagValue("#PB_ScrollBar_Vertical")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Line(x1,y1,1,y2-y1,RGBA(228,228,228,255))
                 Line(x1+1,y1,1,y2-y1,RGBA(242,242,242,255))
                 Line(x1+2,y1,1,y2-y1,RGBA(244,244,244,255))
@@ -2207,7 +2207,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 
                 RoundBox(x1 + 4,y1 + 1, 8,(y2 - y1)/3,3,3,RGBA(195,195,195,255))
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Line(x1,y1,x2-x1,1,RGBA(228,228,228,255))
                 Line(x1,y1+1,x2-x1,1,RGBA(242,242,242,255))
                 Line(x1,y1+2,x2-x1,1,RGBA(244,244,244,255))
@@ -2221,7 +2221,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               If flag & FlagValue("#PB_ScrollBar_Vertical")
                 Select FormSkinVersion
                   Case 7
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1,y1,x2-x1,y2-y1,RGBA(240,240,240,255))
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                     Box(x1,y1,x2-x1,y2-y1,RGBA(233,233,233,255))
@@ -2229,11 +2229,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                     DrawAlphaImage(ImageID(#Img_ScrollDown),x1 +  (x2 - x1 - 6) / 2, y2 - 10)
                     
                     RoundBox(x1 + 1,y1 + 17 + 1, x2-x1-2,(y2 - y1 - 34)/3,1,1,RGBA(155,155,155,255))
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1 + 2, y1 + 17 + 2, (x2-x1)*3/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(236,236,236,255))
                     Box(x1 + 2 + (x2-x1)*3/8, y1 + 17 + 2, (x2-x1)*5/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(202,202,202,255))
                   Case 8
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1, y1, x2 - x1, y2 - y1, RGBA(240,240,240,255))
                     Line(x1,y1,1,y2 - y1,RGBA(255,255,255,255))
                     DrawAlphaImage(ImageID(#Img_Win8ScrollUp),x1 +  (x2 - x1 - ImageWidth(#Img_Win8ScrollUp)) / 2, y1 + 5)
@@ -2244,7 +2244,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Else
                 Select FormSkinVersion
                   Case 7
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1,y1,x2-x1,y2-y1,RGBA(240,240,240,255))
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                     Box(x1,y1,x2-x1,y2-y1,RGBA(233,233,233,255))
@@ -2252,11 +2252,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                     DrawAlphaImage(ImageID(#Img_ScrollRight),x2 - 10, y1 + (y2 - y1 - 6) / 2)
                     
                     RoundBox(x1 + 17 + 1,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1 + 17 + 2,y1 + 2, (x2 - x1 - 34)/3 - 2,(y2-y1)*3/8 - 4,RGBA(236,236,236,255))
                     Box(x1 + 17 + 2,y1 + 2 + (y2-y1)*3/8, (x2 - x1 - 34)/3 - 2,(y2-y1)*5/8 - 4,RGBA(202,202,202,255))
                   Case 8
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(x1, y1, x2 - x1, y2 - y1, RGBA(240,240,240,255))
                     Line(x1,y1,x2 - x1,1,RGBA(255,255,255,255))
                     DrawAlphaImage(ImageID(#Img_Win8ScrollLeft),x1 + 5, y1 +  (y2 - y1 - ImageHeight(#Img_Win8ScrollLeft)) / 2)
@@ -2268,7 +2268,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               
             Case #PB_OS_Linux
               If flag & FlagValue("#PB_ScrollBar_Vertical")
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1,y1,x2-x1,y2-y1,RGBA(240,240,240,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 Box(x1,y1,x2-x1,y2-y1,RGBA(233,233,233,255))
@@ -2276,11 +2276,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 DrawAlphaImage(ImageID(#Img_ScrollDown),x1 +  (x2 - x1 - 6) / 2, y2 - 10)
                 
                 RoundBox(x1 + 1,y1 + 17 + 1, x2-x1-2,(y2 - y1 - 34)/3,1,1,RGBA(155,155,155,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1 + 2, y1 + 17 + 2, (x2-x1)*3/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(236,236,236,255))
                 Box(x1 + 2 + (x2-x1)*3/8, y1 + 17 + 2, (x2-x1)*5/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(202,202,202,255))
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1,y1,x2-x1,y2-y1,RGBA(240,240,240,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 Box(x1,y1,x2-x1,y2-y1,RGBA(233,233,233,255))
@@ -2288,7 +2288,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 DrawAlphaImage(ImageID(#Img_ScrollRight),x2 - 10, y1 + (y2 - y1 - 6) / 2)
                 
                 RoundBox(x1 + 17 + 1,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(x1 + 17 + 2,y1 + 2, (x2 - x1 - 34)/3 - 2,(y2-y1)*3/8 - 4,RGBA(236,236,236,255))
                 Box(x1 + 17 + 2,y1 + 2 + (y2-y1)*3/8, (x2 - x1 - 34)/3 - 2,(y2-y1)*5/8 - 4,RGBA(202,202,202,255))
               EndIf
@@ -2297,7 +2297,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_Editor, #Form_Type_Scintilla ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(194,194,194,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           If gadgbackcolor <> -1
             color = gadgbackcolor
           Else
@@ -2346,7 +2346,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_ExplorerTree ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(142,142,142,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           If gadgbackcolor <> -1
             color = gadgbackcolor
           Else
@@ -2366,7 +2366,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_ExplorerList ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(142,142,142,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           If gadgbackcolor <> -1
             color = gadgbackcolor
           Else
@@ -2378,7 +2378,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           FrontColor(RGBA(244,244,244,255))
           LinearGradient(x1+1,y1+1,x1+1, x1+9)
           Box(x1+1,y1+1,x2 - x1-2, 8)
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           Box(x1+1,y1+9,x2 - x1-2, 6,RGBA(236,236,236,255))
           Line(x1+1,y1+15,x2-x1-2,1,RGBA(244,244,244,255))
           Line(x1+1,y1+16,x2-x1-2,1,RGBA(182,182,182,255))
@@ -2405,7 +2405,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2426,7 +2426,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               DrawImage(ImageID(#Img_Date),x2 + 6,y1 + (y2 - y1 - 22) / 2)
               
             Case #PB_OS_Windows
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2442,7 +2442,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Else
                 color = RGBA(0,0,0,255)
               EndIf
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               DrawText(x1 + 3,y1 + (y2 - y1  - TextHeight(caption)) / 2,caption,color)
               
             Case #PB_OS_Linux
@@ -2453,7 +2453,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               LineXY(x1+1,y1+2,x2-2,y1+2,RGBA(245,245,245,255))
               LineXY(x1+1,y1+2,x1+1,y2-2,RGBA(245,245,245,255))
               LineXY(x2-2,y1+2,x2-2,y2-2,RGBA(245,245,245,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2476,7 +2476,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           
           ;}
         Case #Form_Type_Calendar ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If gadgbackcolor <> -1
             color = gadgbackcolor
@@ -2486,7 +2486,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           Box(x1,y1,x2-x1,y2-y1,color)
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2-x1,y2-y1,RGBA(0,0,0,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           DrawingFont(FontID(fd_fontid))
           
           If gadgfrontcolor <> -1
@@ -2510,7 +2510,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 Box(x1,y1,x2-x1,y2-y1,RGBA(0,0,0,255))
               Else
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(#Form_FontColumnHeader))
                 DrawText(x1+10,y1,caption,RGBA(0,0,0,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
@@ -2543,7 +2543,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                                                                             ;top
                 If caption <> ""
                   Line(x1, y1 + 9, 8, 1, RGBA(221,221,221,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   DrawingFont(FontID(#Form_FontColumnHeader))
                   twidth = TextWidth(caption) + 2
                   Line(x1 + 10 + twidth, y1 + 9, x2 - x1 - 10 - twidth, 1, RGBA(221,221,221,255))
@@ -2551,7 +2551,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Line(x1, y1 + 9, x2 - x1, 1, RGBA(221,221,221,255))
                 EndIf
                 
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(#Form_FontColumnHeader))
                 DrawText(x1+10,y1,caption,RGBA(0,0,0,255),RGBA(240,240,240,255))
               EndIf
@@ -2581,7 +2581,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                                                                             ;top
                 If caption <> ""
                   Line(x1, y1 + 9, 8, 1, RGBA(221,221,221,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   DrawingFont(FontID(#Form_FontColumnHeader))
                   twidth = TextWidth(caption) + 2
                   Line(x1 + 10 + twidth, y1 + 9, x2 - x1 - 10 - twidth, 1, RGBA(221,221,221,255))
@@ -2589,7 +2589,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Line(x1, y1 + 9, x2 - x1, 1, RGBA(221,221,221,255))
                 EndIf
                 
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(#Form_FontColumnHeader))
                 DrawText(x1+10,y1,caption,RGBA(0,0,0,255),RGBA(240,240,240,255))
               EndIf
@@ -2603,7 +2603,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Box(x1,y1,x2-x1,y2-y1,RGBA(130,130,130,255))
               x1+1 : x2-2 : y1+1 : y2-2
               
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2664,7 +2664,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Box(x1,y1,x2-x1,y2-y1,RGBA(130,130,130,255))
               x1+1 : x2-2 : y1+1 : y2-2
               
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2700,11 +2700,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Select FormSkinVersion
                     Case 7
                       RoundBox(x1 + 1,y1 + 17 + 1 + start, x2-x1-2,(y2 - y1 - 34)/3,1,1,RGBA(155,155,155,255))
-                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                       Box(x1 + 2, y1 + 17 + 2 + start, (x2-x1)*3/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(236,236,236,255))
                       Box(x1 + 2 + (x2-x1)*3/8, y1 + 17 + 2 + start, (x2-x1)*5/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(202,202,202,255))
                     Case 8
-                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                       Box(x1 + 1, y1 + 17 + start, x2 - x1 - 1,(y2 - y1 - 34)/3,RGBA(205,205,205,255))
                   EndSelect
                 EndIf
@@ -2740,11 +2740,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   Select FormSkinVersion
                     Case 7
                       RoundBox(x1 + 17 + 1 + start,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
-                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                       Box(x1 + 17 + 2 + start,y1 + 2, (x2 - x1 - 34)/3 - 2,(y2-y1)*3/8 - 4,RGBA(236,236,236,255))
                       Box(x1 + 17 + 2 + start,y1 + 2 + (y2-y1)*3/8, (x2 - x1 - 34)/3 - 2,(y2-y1)*5/8 - 4,RGBA(202,202,202,255))
                     Case 8
-                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                       Box(x1 + 17 + start, y1 + 1, (x2 - x1 - 34)/3, y2 - y1 - 1,RGBA(205,205,205,255))
                   EndSelect
                 EndIf
@@ -2756,7 +2756,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               Box(x1,y1,x2-x1,y2-y1,RGBA(130,130,130,255))
               x1+1 : x2-2 : y1+1 : y2-2
               
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               If gadgbackcolor <> -1
                 color = gadgbackcolor
               Else
@@ -2783,7 +2783,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   start * (y2-y1-34 - length)
                   
                   RoundBox(x1 + 1,y1 + 17 + 1 + start, x2-x1-2,(y2 - y1 - 34)/3,1,1,RGBA(155,155,155,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1 + 2, y1 + 17 + 2 + start, (x2-x1)*3/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(236,236,236,255))
                   Box(x1 + 2 + (x2-x1)*3/8, y1 + 17 + 2 + start, (x2-x1)*5/8 - 4,(y2 - y1 - 34)/3 - 2,RGBA(202,202,202,255))
                 EndIf
@@ -2810,7 +2810,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   start.f = FormWindows()\FormGadgets()\scrollx / maxscroll
                   start * (x2-x1-34 - length)
                   RoundBox(x1 + 17 + 1 + start,y1 + 1, (x2 - x1 - 34)/3,y2-y1-2,1,1,RGBA(155,155,155,255))
-                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                   Box(x1 + 17 + 2 + start,y1 + 2, (x2 - x1 - 34)/3 - 2,(y2-y1)*3/8 - 4,RGBA(236,236,236,255))
                   Box(x1 + 17 + 2 + start,y1 + 2 + (y2-y1)*3/8, (x2 - x1 - 34)/3 - 2,(y2-y1)*5/8 - 4,RGBA(202,202,202,255))
                 EndIf
@@ -2821,7 +2821,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
         Case #Form_Type_Web ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2 - x1, y2 - y1,RGBA(194,194,194,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           Box(x1+1,y1+1,x2 - x1-2, y2 - y1 - 2,RGBA(255,255,255,255))
           DrawingFont(FontID(fd_fontid))
           x = x1 + 3
@@ -2830,7 +2830,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           
           ;}
         Case #Form_Type_Container,#Form_Type_Custom ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
           If gadgbackcolor <> -1
             color = gadgbackcolor
@@ -2861,12 +2861,12 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           Select FormSkin
             Case #PB_OS_MacOS
               theight = 11
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               RoundBox(x1+2,y1 + theight + 2,x2-x1-4,y2-y1- theight-4,3,3,RGBA(231,231,231,255))
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
               RoundBox(x1+1,y1 + theight+1,x2-x1-2,y2-y1- theight-2,3,3,RGBA(222,222,222,255))
               RoundBox(x1,y1 + theight,x2-x1,y2-y1- theight,3,3,RGBA(200,200,200,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               
               If *pointer And items > 0
                 PushListPosition(FormWindows()\FormGadgets())
@@ -2885,11 +2885,11 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                 FrontColor(RGBA(244,244,244,255))
                 LinearGradient(nx1+1,y1+1,nx1+1, nx1+9)
                 Box(nx1+1,y1+1,width-2, 10)
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 Box(nx1+1,y1+11,width-2, 9,RGBA(236,236,236,255))
                 DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                 RoundBox(nx1,y1,width, 22,3,3,RGBA(144,144,144,255))
-                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                 DrawingFont(FontID(fd_fontid))
                 
                 ForEach FormWindows()\FormGadgets()\Items()
@@ -2925,7 +2925,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               theight = 11
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
               Box(x1,y1+20,x2-x1,y2-y1-20,RGBA(137,140,140,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               Box(x1+1,y1+21,x2-x1-2,y2-y1-22,RGBA(255,255,255,255))
               
               If *pointer And items > 0
@@ -2939,7 +2939,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   If FormWindows()\FormGadgets()\current_item = ListIndex( FormWindows()\FormGadgets()\Items())
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                     Box(nx1, y1,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 12,21,RGBA(137,140,140,255))
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     Box(nx1 + 1, y1 + 1,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 10,20,RGBA(255,255,255,255))
                   Else
                     Box(nx1, y1 + 2,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 12,19,RGBA(137,140,140,255))
@@ -2957,7 +2957,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
               theight = 11
               DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
               RoundBox(x1,y1+28,x2-x1,y2-y1-28,3,3,RGBA(184,180,176,255))
-              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
               RoundBox(x1+1,y1+29,x2-x1-2,y2-y1-30,3,3,RGBA(247,246,246,255))
               Box(x1+1,y1+29,3,3,RGBA(247,246,246,255))
               Line(x1,y1+28,3,1,RGBA(184,180,176,255))
@@ -2973,12 +2973,12 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
                   If FormWindows()\FormGadgets()\current_item = ListIndex( FormWindows()\FormGadgets()\Items())
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                     RoundBox(nx1, y1,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 14,31,3,3,RGBA(184,180,176,255))
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     RoundBox(nx1 + 1, y1 + 1,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 12,34,3,3,RGBA(247,246,246,255))
                   Else
                     DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
                     RoundBox(nx1, y1 + 2,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 14,29,3,3,RGBA(200,197,194,255))
-                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
                     RoundBox(nx1 + 1, y1 + 3,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 12,32,3,3,RGBA(232,232,232,255))
                     
                     Box(nx1, y1 + 29,TextWidth(FormWindows()\FormGadgets()\Items()\name) + 14,6,RGBA(247,246,246,255))
@@ -2995,20 +2995,20 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           EndSelect
           ;}
         Case #Form_Type_Canvas ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           Box(x1,y1,x2-x1,y2-y1,RGBA(237, 237, 237,255))
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2-x1,y2-y1,RGBA(0,0,0,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           DrawingFont(FontID(fd_fontid))
           DrawText(x1+3,y1+3,"Canvas Gadget",RGBA(0,0,0,255))
           ;}
         Case #Form_Type_OpenGL ;{
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           Box(x1,y1,x2-x1,y2-y1,RGBA(237, 237, 237,255))
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
           Box(x1,y1,x2-x1,y2-y1,RGBA(0,0,0,255))
-          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           DrawingFont(FontID(fd_fontid))
           DrawText(x1+3,y1+3,"OpenGL Gadget",RGBA(0,0,0,255))
           ;}
@@ -3020,7 +3020,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       
       StopDrawing()
       StartDrawing(ImageOutput(#Drawing_Img))
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
       If ox1 < xmin Or ox2 > xmax Or oy1 < ymin Or oy2 > ymax ; fast check to avoid using slow filter
         DrawingMode(#PB_2DDrawing_CustomFilter)
         CustomFilterCallback(@FD_FilterCallback())
@@ -5021,13 +5021,13 @@ Procedure FD_Redraw()
     
     
     StartDrawing(ImageOutput(#Drawing_Img))
-    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+    DrawingMode(#PB_2DDrawing_Transparent)
     Box(0,0,OutputWidth(),OutputHeight(), RGB(150, 150, 150))
     
     ;{ Draw the window
     Select FormSkin
       Case #PB_OS_MacOS
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         color = RGB(237, 237, 237)
         
         If FormWindows()\color > -1
@@ -5040,7 +5040,7 @@ Procedure FD_Redraw()
         
         FD_DrawResizeButton(#Page_Padding - FormWindows()\paddingx + FormWindows()\width + 2,#Page_Padding - FormWindows()\paddingy + FormWindows()\height + topmenupadding + toptoolpadding + topwinpadding + 2)
       Case #PB_OS_Windows
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         color = RGB(240, 240, 240)
         
         If FormWindows()\color > -1
@@ -5060,7 +5060,7 @@ Procedure FD_Redraw()
             DrawingMode(#PB_2DDrawing_Outlined)
             RoundBox(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy - 1,FormWindows()\width + 16,FormWindows()\height + topwinpadding + 8, 4,4, RGB(37, 37, 37))
             Box(#Page_Padding - FormWindows()\paddingx + 7, #Page_Padding - FormWindows()\paddingy + topwinpadding - 1, FormWindows()\width + 2, FormWindows()\height + 2, RGB(93, 108, 122))
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
             Box(#Page_Padding - FormWindows()\paddingx + 8, #Page_Padding - FormWindows()\paddingy + topwinpadding , FormWindows()\width, FormWindows()\height, color)
             
           Case 8
@@ -5068,13 +5068,13 @@ Procedure FD_Redraw()
             DrawingMode(#PB_2DDrawing_Outlined)
             Box(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy - 1,FormWindows()\width + 16,FormWindows()\height + topwinpadding + 8, RGB(82,132,188))
             Box(#Page_Padding - FormWindows()\paddingx + 7, #Page_Padding - FormWindows()\paddingy + topwinpadding - 1, FormWindows()\width + 2, FormWindows()\height + 2, RGB(91, 147, 209))
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
             Box(#Page_Padding - FormWindows()\paddingx + 8, #Page_Padding - FormWindows()\paddingy + topwinpadding , FormWindows()\width, FormWindows()\height, color)
         EndSelect
         
         FD_DrawResizeButton(#Page_Padding - FormWindows()\paddingx + FormWindows()\width + 16 + 2,#Page_Padding - FormWindows()\paddingy + FormWindows()\height + topwinpadding + 8 + 2)
       Case #PB_OS_Linux
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         color = RGB(242,241,240)
         
         If FormWindows()\color > -1
@@ -5088,7 +5088,7 @@ Procedure FD_Redraw()
         
         DrawingMode(#PB_2DDrawing_Outlined)
         Box(#Page_Padding - 1 - FormWindows()\paddingx,#Page_Padding - 1 - FormWindows()\paddingy + topwinpadding,FormWindows()\width + 2,FormWindows()\height + 2,RGB(70,70,70))
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         
         FD_DrawResizeButton(#Page_Padding - FormWindows()\paddingx + FormWindows()\width + 2,#Page_Padding - FormWindows()\paddingy + FormWindows()\height + topwinpadding + 2)
     EndSelect ;}
@@ -5138,7 +5138,7 @@ Procedure FD_Redraw()
           EndIf
           
           FillArea(#Page_Padding - FormWindows()\paddingx + 3,#Page_Padding - FormWindows()\paddingy + topmenupadding + 20,RGB(184,184,184))
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           
           If toptoolpadding = 0
             Line(#Page_Padding - FormWindows()\paddingx - 1,#Page_Padding - 1 - FormWindows()\paddingy + topmenupadding+22,FormWindows()\width + 2,1,RGB(105,105,105))
@@ -5205,7 +5205,7 @@ Procedure FD_Redraw()
               DrawText(pos,#Page_Padding - FormWindows()\paddingy + 8,FormWindows()\caption,RGB(0,0,0))
           EndSelect
         Case #PB_OS_Linux
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           color = RGB(70,70,70)
           RoundBox(#Page_Padding - 1 - FormWindows()\paddingx,#Page_Padding - 1 - FormWindows()\paddingy,FormWindows()\width + 2,P_WinHeight, 6,6, color)
           Box(#Page_Padding - 1 - FormWindows()\paddingx,#Page_Padding - 1 - FormWindows()\paddingy + 6,FormWindows()\width + 2,P_WinHeight -6, color)
@@ -5237,19 +5237,19 @@ Procedure FD_Redraw()
           LinearGradient(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topmenupadding,#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topmenupadding + 90)
           Box(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding,FormWindows()\width,toptoolpadding)
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topmenupadding+ topwinpadding + toptoolpadding,FormWindows()\width,1,RGB(105,105,105))
           
           toolx = #Page_Padding - FormWindows()\paddingx + 7
           tooly = #Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding + 3
         Case #PB_OS_Windows
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Box(#Page_Padding - FormWindows()\paddingx +8,#Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding,FormWindows()\width,toptoolpadding,RGB(240, 240, 240))
           
           toolx = #Page_Padding - FormWindows()\paddingx + 8 + 5
           tooly = #Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding + 3
         Case #PB_OS_Linux
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Box(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding,FormWindows()\width,toptoolpadding,RGB(242, 241, 240))
           
           toolx = #Page_Padding - FormWindows()\paddingx + 8 + 5
@@ -5273,7 +5273,7 @@ Procedure FD_Redraw()
           If propgrid_toolbar = FormWindows()\FormToolbars()
             DrawingMode(#PB_2DDrawing_Outlined)
             Box(toolx - 1, tooly - 1, 8, 18, RGB(0,0,0))
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
           EndIf
           
           Select FormSkin
@@ -5299,19 +5299,19 @@ Procedure FD_Redraw()
           
           If IsImage(img)
             If ImageDepth(img) = 32
-              DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
             Else
-              DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_Transparent)
             EndIf
             
             DrawImage(ImageID(img),toolx,tooly,16,16)
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
           EndIf
           
           If propgrid_toolbar = FormWindows()\FormToolbars()
             DrawingMode(#PB_2DDrawing_Outlined)
             Box(toolx - 1, tooly - 1, 18, 18, RGB(0,0,0))
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
           EndIf
           
           FormWindows()\FormToolbars()\x1 = toolx
@@ -5324,9 +5324,9 @@ Procedure FD_Redraw()
       FormWindows()\toolbar_buttonx = toolx
       FormWindows()\toolbar_buttony = tooly
       
-      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
       DrawImage(ImageID(#Img_Plus),toolx,tooly)
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
     EndIf ;}
     
     ;{ Draw Status Bar
@@ -5336,7 +5336,7 @@ Procedure FD_Redraw()
           sbx = #Page_Padding - FormWindows()\paddingx + 7
           sby = #Page_Padding - FormWindows()\paddingy + topmenupadding + topwinpadding + toptoolpadding + FormWindows()\height - bottompaddingsb
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(sbx - 7,sby,FormWindows()\width,1,RGB(184,184,184))
           
           DrawingMode(#PB_2DDrawing_Gradient)
@@ -5346,20 +5346,20 @@ Procedure FD_Redraw()
           
           RoundBox(#Page_Padding,sby,FormWindows()\width,bottompaddingsb,3,3)
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(sbx - 7,sby,FormWindows()\width,1,RGB(118,118,118))
           DrawingFont(FontID(#Form_Font))
         Case #PB_OS_Windows
           sbx = #Page_Padding - FormWindows()\paddingx + 8 + 7
           sby = #Page_Padding - FormWindows()\paddingy + topwinpadding + FormWindows()\height - bottompaddingsb
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(sbx - 7,sby,FormWindows()\width,1,RGB(145,145,145))
         Case #PB_OS_Linux
           sbx = #Page_Padding - FormWindows()\paddingx + 8 + 7
           sby = #Page_Padding - FormWindows()\paddingy + topwinpadding + FormWindows()\height - bottompaddingsb
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(sbx - 8 - 7,sby,FormWindows()\width,1,RGB(145,145,145))
       EndSelect ;}
       
@@ -5385,7 +5385,7 @@ Procedure FD_Redraw()
         If propgrid_statusbar = FormWindows()\FormStatusbars()
           DrawingMode(#PB_2DDrawing_Outlined)
           Box(sbx, sby, sbwidth, bottompaddingsb, RGB(0,0,0))
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
         EndIf
         
         If statusdragpos
@@ -5399,7 +5399,7 @@ Procedure FD_Redraw()
         EndIf
         
         If FormWindows()\FormStatusbars()\text <> ""
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           
           If FormWindows()\FormStatusbars()\flags & FlagValue("#PB_StatusBar_Center")
             DrawText(sbx + (sbwidth - TextWidth(FormWindows()\FormStatusbars()\text))/2,sby+4,FormWindows()\FormStatusbars()\text,RGB(0,0,0))
@@ -5414,7 +5414,7 @@ Procedure FD_Redraw()
           x2 = sbx + sbwidth
           y2 = sby + 23 - 5
           
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           If FormSkin = #PB_OS_Windows And FormSkinVersion = 8
             color = RGB(230,230,230)
           Else
@@ -5462,13 +5462,13 @@ Procedure FD_Redraw()
             EndIf
             
             If ImageDepth(img) = 32
-              DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
             Else
-              DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+              DrawingMode(#PB_2DDrawing_Transparent)
             EndIf
             
             DrawImage(ImageID(img),toolx,tooly)
-            DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+            DrawingMode(#PB_2DDrawing_Transparent)
           EndIf
         EndIf
         
@@ -5490,9 +5490,9 @@ Procedure FD_Redraw()
         EndIf
       Next
       
-      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
       DrawImage(ImageID(#Img_Plus),sbx,sby + 4)
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
       FormWindows()\status_buttonx = sbx
       FormWindows()\status_buttony = sby
     EndIf ;}
@@ -5501,7 +5501,7 @@ Procedure FD_Redraw()
     If FormSkin = #PB_OS_MacOS
       DrawingMode(#PB_2DDrawing_Outlined)
       RoundBox(#Page_Padding - FormWindows()\paddingx - 1,#Page_Padding - 1 - FormWindows()\paddingy + topmenupadding,FormWindows()\width + 2,FormWindows()\height + 2 + topwinpadding + toptoolpadding, 4,4,RGB(118,118,118))
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
     EndIf ;}
     
     ;{ draw all gadgets. messy code to check if the gadget is visible (esp. when parent is a panel or scrollarea)
@@ -5643,7 +5643,7 @@ Procedure FD_Redraw()
               EndIf
               
               If Not FormWindows()\FormGadgets()\splitter
-                DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_Transparent)
                 FD_DrawResizeButton(x1,y1)
                 FD_DrawResizeButton(x2,y1)
                 FD_DrawResizeButton(x1,y2)
@@ -5680,7 +5680,7 @@ Procedure FD_Redraw()
     ;{ Draw menu
     Select FormSkin ;{
       Case #PB_OS_MacOS
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         Line(0,0,OutputWidth(),1,RGB(85,85,85))
         If ListSize(FormWindows()\FormMenus()) Or FormWindows()\menu_visible
           DrawingMode(#PB_2DDrawing_Gradient)
@@ -5688,7 +5688,7 @@ Procedure FD_Redraw()
           FrontColor(RGB(218,218,218))
           LinearGradient(0,1,0,22)
           Box(0,1,OutputWidth(),21)
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Line(0,22,OutputWidth(),1,RGB(118,118,118))
           menux = 20
           menuy = 4
@@ -5696,7 +5696,7 @@ Procedure FD_Redraw()
         EndIf
       Case #PB_OS_Windows
         If ListSize(FormWindows()\FormMenus()) Or FormWindows()\menu_visible
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Select FormSkinVersion
             Case 7
               Box(#Page_Padding - FormWindows()\paddingx + 8,#Page_Padding - FormWindows()\paddingy + topwinpadding,FormWindows()\width,7,RGB(245,245,245))
@@ -5716,7 +5716,7 @@ Procedure FD_Redraw()
         
       Case #PB_OS_Linux
         If ListSize(FormWindows()\FormMenus()) Or FormWindows()\menu_visible
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
           Box(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topwinpadding,FormWindows()\width,topmenupadding - 1,RGB(245,246,247))
           Line(#Page_Padding - FormWindows()\paddingx,#Page_Padding - FormWindows()\paddingy + topwinpadding + topmenupadding - 1,FormWindows()\width,1,RGB(232,233,234))
           
@@ -5727,7 +5727,7 @@ Procedure FD_Redraw()
         
     EndSelect ;}
     
-    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+    DrawingMode(#PB_2DDrawing_Transparent)
     DrawingFont(FontID(#Form_FontMenu))
     
     If propgrid_menu
@@ -5768,7 +5768,7 @@ Procedure FD_Redraw()
         If propgrid_menu = FormWindows()\FormMenus()
           DrawingMode(#PB_2DDrawing_Outlined)
           Box(FormWindows()\FormMenus()\x1 - 1, FormWindows()\FormMenus()\y1 - 1, FormWindows()\FormMenus()\x2 - FormWindows()\FormMenus()\x1 , FormWindows()\FormMenus()\y2 - FormWindows()\FormMenus()\y1 + 2, RGB(0,0,0))
-          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+          DrawingMode(#PB_2DDrawing_Transparent)
         EndIf
       EndIf
     Next
@@ -5776,9 +5776,9 @@ Procedure FD_Redraw()
     If ListSize(FormWindows()\FormMenus()) Or FormWindows()\menu_visible
       FormWindows()\menu_buttonx = menux
       FormWindows()\menu_buttony = menuy
-      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
       DrawImage(ImageID(#Img_Plus),menux,menuy)
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
     EndIf
     
     If propgrid_menu And ListSize(items()) >= 1
@@ -5855,11 +5855,11 @@ Procedure FD_Redraw()
           Break
         EndIf
         
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         Box(submenux,submenuy,width,height,RGB(255,255,255))
         DrawingMode(#PB_2DDrawing_Outlined)
         Box(submenux,submenuy,width,height,RGB(200,200,200))
-        DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+        DrawingMode(#PB_2DDrawing_Transparent)
         ChangeCurrentElement(FormWindows()\FormMenus(),items())
         
         level = FormWindows()\FormMenus()\level + 1
@@ -5894,13 +5894,13 @@ Procedure FD_Redraw()
                   
                   If IsImage(img)
                     If ImageDepth(img) = 32
-                      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_AlphaBlend | #PB_2DDrawing_Transparent)
                     Else
-                      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                      DrawingMode(#PB_2DDrawing_Transparent)
                     EndIf
                     
                     DrawImage(ImageID(img),submenux + 3,posy + 2,16,16)
-                    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                    DrawingMode(#PB_2DDrawing_Transparent)
                   EndIf
                 EndIf
                 
@@ -5925,9 +5925,9 @@ Procedure FD_Redraw()
                 PopListPosition(FormWindows()\FormMenus())
                 
                 If sub
-                  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText | #PB_2DDrawing_AlphaBlend)
+                  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_AlphaBlend)
                   DrawImage(ImageID(#Img_MacSubMenu),submenux + width - 20,posy + 4)
-                  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                  DrawingMode(#PB_2DDrawing_Transparent)
                 EndIf
                 
                 posy + 20
@@ -5936,7 +5936,7 @@ Procedure FD_Redraw()
               If propgrid_menu = FormWindows()\FormMenus()
                 DrawingMode(#PB_2DDrawing_Outlined)
                 Box(FormWindows()\FormMenus()\x1, FormWindows()\FormMenus()\y1, FormWindows()\FormMenus()\x2 - FormWindows()\FormMenus()\x1 , FormWindows()\FormMenus()\y2 - FormWindows()\FormMenus()\y1, RGB(0,0,0))
-                DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+                DrawingMode(#PB_2DDrawing_Transparent)
               EndIf
             EndIf
           Else
@@ -6018,7 +6018,7 @@ Procedure FD_Redraw()
     StopDrawing()
     
     If StartDrawing(CanvasOutput(#GADGET_Form_Canvas))
-      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
+      DrawingMode(#PB_2DDrawing_Transparent)
       DrawImage(ImageID(#Drawing_Img),0,0)
       StopDrawing()
     EndIf

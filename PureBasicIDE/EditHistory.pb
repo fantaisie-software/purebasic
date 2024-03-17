@@ -1492,6 +1492,8 @@ Procedure OpenEditHistoryWindow(DisplaySID = -1)
   CurrentHistoryFile$ = ""
   CurrentHistorySource = -1
   
+  EditHistoryDialog\SizeUpdate()
+  
 EndProcedure
 
 Procedure UpdateEditHistoryWindow()
@@ -1549,6 +1551,10 @@ Procedure EditHistoryWindowEvent(EventID)
           
       EndSelect
       
+    Case #PB_Event_SizeWindow
+      ; force size splitter gadget
+      SetGadgetData(#GADGET_History_Splitter, -1)
+      
     Case #PB_Event_CloseWindow
       If MemorizeWindow
         EditHistorySplitter = GetGadgetState(#GADGET_History_Splitter)
@@ -1568,6 +1574,3 @@ Procedure EditHistoryWindowEvent(EventID)
   EndSelect
   
 EndProcedure
-
-
-
