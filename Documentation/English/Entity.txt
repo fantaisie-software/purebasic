@@ -638,7 +638,7 @@ saving CPU clocks.
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh. If the bone name is empty, then the object is not attached to a bone
+  The bone name in the OGRE mesh, or as specified in @@CreateBone. If the bone name is empty, then the object is not attached to a bone
   but directly to the entity.
 
 @Parameter "ObjectID"  
@@ -693,14 +693,14 @@ saving CPU clocks.
 @Function EnableManualEntityBoneControl(#Entity, Bone$, State, InheritOrientation)
 
 @Description
-  Enable the manual control of a bone. It can be manually moved with @@MoveEntityBone and
-  rotated with @@RotateEntityBone.
+  Enable the manual control of a bone. It can be manually moved with @@MoveEntityBone,
+  rotated with @@RotateEntityBone or scaled with @@ScaleEntityBone.
 
 @Parameter "#Entity"
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "State"  
   It can be one of the following value:
@@ -731,7 +731,7 @@ saving CPU clocks.
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "x, y, z"  
   The new position of the bone.
@@ -752,7 +752,37 @@ saving CPU clocks.
 @NoReturnValue  
 
 @SeeAlso
-  @@RotateEntityBone
+  @@RotateEntityBone, @@ScaleEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntityBone(#Entity, Bone$, x, y, z, Mode)
+
+@Description
+  Scale the specified entity bone. The bone has to be in manual mode, set with @@EnableManualEntityBoneControl.
+
+@Parameter "#Entity"
+  The entity to use.
+
+@Parameter "Bone$"
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
+
+@Parameter "x, y, z"  
+  The new scale of the bone.
+
+@Parameter "Mode"
+ The scale mode. It can be one of the following value:
+@FixedFont
+  @#PB_Relative: relative scale, based on the previous size (default). Using 1.0 for scale value will let this value unchanged.
+  @#PB_Absolute: absolute scale, in world unit.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntityBone, @@MoveEntityBone
 
 @SupportedOS
 
@@ -798,7 +828,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -825,7 +855,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -852,7 +882,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -879,7 +909,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current pitch value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -900,7 +930,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current yaw value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -921,7 +951,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current roll value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -1119,13 +1149,13 @@ saving CPU clocks.
 @Function RotateEntityBone(#Entity, Bone$, x, y, z, Mode)
 
 @Description
-  Rotates the entity bone according to the specified x,y,z angle values.
+  Rotates the entity bone according to the specified x,y,z angle values. The bone has to be in manual mode, set with @@EnableManualEntityBoneControl.
 
 @Parameter "#Entity"
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "x, y, z"
   The rotation to apply, in degree. Valid values are from to 0 to 359.
@@ -1140,7 +1170,7 @@ saving CPU clocks.
 @NoReturnValue
 
 @SeeAlso
-  @@MoveEntityBone
+  @@MoveEntityBone, @@ScaleEntityBone
 
 @SupportedOS
 

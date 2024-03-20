@@ -1,7 +1,7 @@
 ;
 ;     Packer library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Packer
@@ -40,7 +40,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Example Using a tree file structure 
 @Code
-    UseZipPacker()
+  UseZipPacker()
   
   Path$ = #PB_Compiler_Home + "examples/sources/" ; path to the PureBasic examples data/media files
   PackFile$ = GetTemporaryDirectory() + "PureBasicTest.zip"  ; path to the pack file which should be created and opened later
@@ -97,7 +97,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   The pack to use.
 
 @Parameter "DirectoryName$"
-  The empty directory name add to the pack.
+  The empty directory name to be added to the pack.
 
 @ReturnValue
   Nonzero if the empty directory has been successfully added to the packfile.
@@ -262,7 +262,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   The pack to use.
   
 @Parameter "DateType"
-  The kind of date to return. It can be one of the following values:
+  The type of the date to return. It can be one of the following values:
 @FixedFont
   @#PB_Date_Created : returns the file creation date.
   @#PB_Date_Accessed: returns the last file access date.

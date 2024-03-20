@@ -1,0 +1,199 @@
+;
+;     Skeleton library documentation
+;
+;      (c) 2024 - Fantaisie Software
+;
+
+@Library Skeleton
+
+@Overview
+  Skeleton are composed of bones and can associated to a @LibraryLink "Mesh" "mesh" to animate it
+  in a realistic manner.
+@LineBreak
+@LineBreak
+  @@InitEngine3D must be called successfully before using the Skeleton functions.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateSkeleton(#Mesh)
+
+@Description
+  Creates or replaces the skeleton of the #Mesh.
+
+@Parameter "#Mesh"
+  The number to identify the new mesh. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateBone(#Mesh, Bone$, ParentBone$, x, y, z, RotationX, RotationY, RotationZ, RotationW, Mode)
+
+@Description
+  Creates a new bone for the specified #Mesh. If the mesh doesn't have a skeleton, it has to be created with @@CreateSkeleton before using this command.
+
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "Bone$"
+  The new bone name.
+
+@Parameter "ParentBone$"
+  The parent bone name. If this string value is empty, the bone is created at the root of the skeleton.
+  
+@Parameter "x, y, z"
+  The new bone coordinate, in world unit.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  The new bone rotation.
+
+@Parameter "Mode"
+  The mode to use for the bone rotation. It can be one of the following value:
+@FixedFont
+  @#PB_Orientation_PitchYawRoll  : 'RotationX' (pitch), 'RotationY' (yaw), 'RotationZ' (roll), applied in this order (default).
+  @#PB_Orientation_Quaternion    : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' for quaternion values
+  @#PB_Orientation_AngleAxis     : 'RotationX', 'RotationY', 'RotationZ' for rotation axis, and 'RotationW' for the angle (in degree).
+  @#PB_Orientation_Direction     : alias for @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector X), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVY : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector Y), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVZ : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector Z), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVXN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -X), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVYN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -Y), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVZN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -Z), and 'RotationW' for angle (in degree).
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VertexBoneAssignment(#Mesh, SubMesh, VertexIndex, BoneIndex, Weight.f)
+
+@Description
+  Assign a vertex to a bone (the same vertex can be assigned to several bones: the sum of
+  bone weight must be equals to 1). Once the vertex assignement is finished, @@FinishBoneAssignment has to be called.
+
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "SubMesh"
+  The submesh to get the data from. The first submesh index is 0 (main mesh).
+
+@Parameter "VertexIndex"
+  The vertex index. The first index is 0.
+  
+@Parameter "BoneIndex"
+  The bone index, in creation order. The first index is 0.
+
+@Parameter "Weight"
+  The bone weight, must be between 0 and 1.
+  
+@NoReturnValue
+  
+@SeeAlso
+  @@FinishBoneAssignment
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishBoneAssignment(#Mesh, SubMesh)
+
+@Description
+  Finish bone assignments for a mesh, previously started with @@VertexBoneAssignment.
+
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "SubMesh"
+  The submesh to use. The first submesh index is 0 (main mesh).
+  
+@NoReturnValue
+
+@SeeAlso
+  @@VertexBoneAssignment
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateSkeletonAnimation(#Mesh, AnimationName$, Length)
+
+@Description
+  Creates a new skeleton animation. A skeleton has to be created for this mesh with @@CreateSkeleton.
+  The new animation is empty and steps have to be created with @@AddSkeletonAnimationKeyFrame.
+
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "AnimationName$"
+  The name of the animation.
+
+@Parameter "Length"
+  The length of the animation (in milliseconds).
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddSkeletonAnimationKeyFrame, @@CreateSkeleton
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSkeletonAnimationKeyFrame(#Mesh, AnimationName$, Bone$, Time, RotationX, RotationY, RotationZ, RotationW, Mode [, TranslateX, TranslateY, TranslateZ [, ScaleX, ScaleY, ScaleZ]])
+
+@Description
+  Creates a new step for the specified animation. A skeleton animation can be created with @@CreateSkeletonAnimation.
+
+@Parameter "#Mesh"
+  The mesh to use.
+
+@Parameter "AnimationName$"
+  The name of the animation to add the step.
+
+@Parameter "Bone$"
+  The bone name to use.
+
+@Parameter "Time"
+  The time in the animation to set the keyframe (in milliseconds). This value has to be between zero and the 'Length'
+  defined in @@CreateSkeletonAnimation.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  The bone rotation for this step.
+
+@Parameter "Mode"
+  The mode to use for the bone rotation. It can be one of the following value:
+@FixedFont
+  @#PB_Orientation_PitchYawRoll  : 'RotationX' (pitch), 'RotationY' (yaw), 'RotationZ' (roll), applied in this order (default).
+  @#PB_Orientation_Quaternion    : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' for quaternion values
+  @#PB_Orientation_AngleAxis     : 'RotationX', 'RotationY', 'RotationZ' for rotation axis, and 'RotationW' for the angle (in degree).
+  @#PB_Orientation_Direction     : alias for @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector X), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVY : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector Y), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVZ : 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector Z), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVXN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -X), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVYN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -Y), and 'RotationW' for angle (in degree).
+  @#PB_Orientation_DirectionLDVZN: 'RotationX', 'RotationY', 'RotationZ' for direction vector (local direction vector -Z), and 'RotationW' for angle (in degree).
+@EndFixedFont
+
+@OptionalParameter "TranslateX, TranslateY, TranslateZ"
+  The bone translation for this step.
+
+@OptionalParameter "ScaleX, ScaleY, ScaleZ"
+  The bone scale for this step.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateSkeletonAnimation
+  
+@SupportedOS

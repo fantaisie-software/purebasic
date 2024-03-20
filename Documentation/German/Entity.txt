@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Entity
@@ -688,8 +688,8 @@
   Das zu verwendende Entity.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh. Bleibt der Knochen-Name leer, dann wird das Objekt nicht
-  zu einem Knochen sondern direkt zum Entity-Objekt hinzugefügt.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben. Bleibt der Knochen-Name leer,
+  dann wird das Objekt nicht zu einem Knochen sondern direkt zum Entity-Objekt hinzugefügt.
 
 @Parameter "ObjektID"
   Das hinzuzufügende Objekt. Dies kann eines der folgenden Typen sein:
@@ -744,13 +744,13 @@
 
 @Description
   Aktiviert die manuelle Kontrolle eines Knochens ("Bone"). Dieser kann manuell mit @@MoveEntityBone
-  bewegt und mit @@RotateEntityBone gedreht werden.
+  bewegt, mit @@RotateEntityBone gedreht oder mit @@ScaleEntityBone skaliert werden.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "Status"  
   Dies kann einer der folgenden Werte sein:
@@ -777,13 +777,13 @@
 
 @Description
   Bewegt den angegebenen Entity-Knochen ("Bone"). Der Knochen muss sich im manuellen Modus befinden,
-  siehe bei @@EnableManualEntityBoneControl.
+  eingestellt mit @@EnableManualEntityBoneControl.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "x, y, z"  
   Die neue Position des Knochens.
@@ -804,7 +804,39 @@
 @NoReturnValue  
 
 @SeeAlso
-  @@RotateEntityBone
+  @@RotateEntityBone, @@ScaleEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntityBone(#Entity, Bone$, x, y, z, Modus)
+
+@Description
+  Skaliert den angegebenen Entity-Knochen ("Bone"). Der Knochen muss sich im manuellen Modus befinden,
+  eingestellt mit @@EnableManualEntityBoneControl.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
+
+@Parameter "x, y, z"  
+  Die neue Skalierung des Knochens.
+
+@Parameter "Modus"
+  Der Skalierungsmodus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Bei Verwendung
+                von 1.0 als Skalenwert bleibt dieser Wert unverändert.
+  @#PB_Absolute: absolute Skalierung, in Welteinheiten.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntityBone, @@MoveEntityBone
 
 @SupportedOS
 
@@ -850,7 +882,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -877,7 +909,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -904,7 +936,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -931,7 +963,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Nick-Wert (Pitch) des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -953,7 +985,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Gier-Wert (Yaw) des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -975,7 +1007,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Roll-Wert des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -1176,12 +1208,13 @@
 
 @Description
   Rotiert/dreht den Entity-Knochen entsprechend der angegebenen x,y,z Winkel-Angaben.
-
+  Der Knochen muss sich im manuellen Modus befinden, eingestellt mit @@EnableManualEntityBoneControl.
+  
 @Parameter "#Entity"
   Das zu verwendende Entity.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "x, y, z"
   Die anzuwendende Rotation, in Grad. Gültige Werte reichen von 0 bis 359.
@@ -1196,7 +1229,7 @@
 @NoReturnValue
 
 @SeeAlso
-  @@MoveEntityBone
+  @@MoveEntityBone, @@ScaleEntityBone
 
 @SupportedOS
 

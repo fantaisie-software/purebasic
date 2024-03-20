@@ -7,19 +7,22 @@
 @Library WebView
 
 @Overview
-  The WebView library is a modern web browser gadget which can be used to easily create HTML/CSS UI in PureBasic. It allows to have
-  rich cross-platform UI which behaves and looks the same, while having access to advanced CSS functions to enhance the user
-  experience. The component is directly embedded in the PureBasic program for minimal footprint and using native callbacks to interact between the 
-  web content (which is JavaScript) and the PureBasic code.
+  Die WebView-Bibliothek ist ein modernes Webbrowser-Gadget, das zum einfachen Erstellen einer HTML/CSS-Benutzeroberfläche
+  in PureBasic verwendet werden kann. Es ermöglicht eine umfassende plattformübergreifende Benutzeroberfläche, die sich
+  gleich verhält und gleich aussieht, und gleichzeitig Zugriff auf erweiterte CSS-Funktionen bietet, um die Benutzererfahrung
+  zu verbessern. Die Komponente ist direkt in das PureBasic-Programm eingebettet, um den Platzbedarf zu minimieren und
+  verwendet native Callbacks für die Interaktion zwischen dem Webinhalt (der JavaScript ist) und dem PureBasic-Code.
 @LineBreak
 @LineBreak
-  The WebView gadget is leveraging the built-in OS web components (WebView2 on Windows, WebKit-GTK on Linux/Raspberry and WebKit on macOS). On Windows 10 and above,
-  no additional component is required but if older Windows support is needed, the WebView2 redistributable might need to be installed:
+  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten (WebView2 unter Windows, WebKit-GTK unter
+  Linux/Raspberry und WebKit unter macOS). Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
+  Wenn jedoch Unterstützung für ältere Windows-Versionen benötigt wird, muss möglicherweise die weiterverteilbare Datei
+  (Redistributable) WebView2 installiert werden:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
 @LineBreak
 @LineBreak
-  As the WebView component is a PureBasic @LibraryLink "Gadget" "gadget library", standard commands like
-  @@ResizeGadget or @@HideGadget can be used to control it. 
+  Da es sich bei der WebView-Komponente um eine PureBasic @LibraryLink "Gadget" "Gadget-Bibliothek" handelt, können
+  Standardbefehle wie @@ResizeGadget oder @@HideGadget zur Steuerung verwendet werden.
 @LineBreak
 @LineBreak
 
@@ -31,45 +34,50 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = WebViewGadget(#Gadget, x, y, Width, Height [, Flags])
+@Function Ergebnis = WebViewGadget(#Gadget, x, y, Breite, Höhe [, Flags])
 
 @Description
-  Creates a new web view gadget in the current GadgetList.
+  Erstellt ein neues Webview-Gadget in der aktuellen Gadget-Liste.
 
 @Parameter "#Gadget"
-  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
-  be used to auto-generate this number.
+  Eine Nummer zur Identifizierung des neuen Gadgets. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
 
-@Parameter "x, y, Width, Height"
-  The position and dimensions of the new gadget.
+@Parameter "x, y, Breite, Höhe"
+  Die Position und Abmessungen des neuen Gadgets.
 
 @OptionalParameter "Flags"
-  Flags to modify the gadget behavior. It can be composed (using the '|' operator) of one of the following constants:
+  Flags zum Ändern des Gadget-Verhaltens. Es kann (mit dem Operator '|') aus einer der folgenden
+  Konstanten zusammengesetzt sein:
 @FixedFont
-  @#PB_WebView_Debug: Enable the 'inspect' menu item in the context menu to display the web inspector and console.
+  @#PB_WebView_Debug: Aktiviert den Menüpunkt "Inspizieren" (englisch 'inspect') im Kontextmenü,
+                     um den Web-Inspektor und die Konsole anzuzeigen.
 @EndFixedFont
 
 @ReturnValue
-  Nonzero on success, zero otherwise. If @#PB_Any was used as the #Gadget parameter
-  then the return-value is the auto-generated gadget number on success.
+  Bei Erfolg ungleich Null, ansonsten Null. Wenn @#PB_Any als #Gadget-Parameter verwendet wurde,
+  beinhaltet der Rückgabewert die automatisch generierte Gadget-Nummer bei Erfolg.
 
 @Remarks
-  After creation, use @@BindWebViewCallback to interact with the JavaScript code of the UI.
-  In addition common gadget commands like @@ResizeGadget or @@HideGadget may be used with the control as well.
+  Verwenden Sie nach der Erstellung @@BindWebViewCallback, um mit dem JavaScript-Code der
+  Benutzeroberfläche zu interagieren. Darüber hinaus können auch gängige Gadget-Befehle wie
+  @@ResizeGadget oder @@HideGadget mit dem Steuerelement verwendet werden.
 @LineBreak
 @LineBreak
-  The following functions can be used to act on a WebViewGadget:
+  Die folgenden Funktionen können verwendet werden, um das WebViewGadget zu beeinflussen:
 @LineBreak
 @LineBreak
-  - @@SetGadgetText: Change the current URL. It can be a local file URL like 'file://c:/purebasic/svn/webview.html' or a regular HTTP URL. When using
-  a local file URL, it needs to be the full pathname. You can easily construct the local URL by adding 'file://' to the
-  pathname.
+  - @@SetGadgetText: Ändert die aktuelle URL. Es kann sich um eine lokale Datei-URL wie
+  'file://c:/purebasic/svn/webview.html' oder eine reguläre HTTP-URL handeln. Wenn Sie eine lokale
+  Datei-URL verwenden, muss es sich um den vollständigen Pfadnamen handeln. Sie können die lokale
+  URL einfach erstellen, indem Sie 'file://' zum Pfadnamen hinzufügen.
 @LineBreak
 @LineBreak
-  - @@SetGadgetItemText: With @#PB_WebView_HtmlCode as 'Item' html code can be streamed into the gadget.
+  - @@SetGadgetItemText: Mit @#PB_WebView_HtmlCode als 'Eintrag' kann HTML-Code in das Gadget
+  gestreamt werden.
 @LineBreak
 
-@Example using local HTML and CSS files
+@Example mit lokalen HTML- und CSS-Dateien
 @Code
   Procedure IncrementJS(JsonParameters$)
     Static i
@@ -96,7 +104,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@Example using inline HTML code
+@Example mit Inline-HTML-Code
 @Code
   Procedure IncrementJS(JsonParameters$)
     Static i
@@ -148,7 +156,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@Example with disabled right-click menu
+@Example mit deaktiviertem Rechtsklick-Menü
 @Code
   Html$ = ~"<html style=\"margin:0px;height:100%;width:100%\">"+
           ~"<body oncontextmenu=\"return false;\" style=\"margin:0px;min-height:100%;width:100%\">"+
@@ -171,25 +179,28 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BindWebViewCallback(#Gadget, JavaScriptFunction$, @Callback())
+@Function BindWebViewCallback(#Gadget, JavaScriptFunktion$, @Callback())
 
 @Description
-  Bind a PureBasic callback to a new JavaScript function. The JavaScript function will be automatically created in the web view and will be available in the JavaScript code.
-  When the JavaScript function will be called in the webview gadget, the PureBasic 'Callback' will be called. The JavaScript code will be halted until the PureBasic callback
-  finish its execution.
+  Bindet einen PureBasic-Callback an eine neue JavaScript-Funktion. Die JavaScript-Funktion wird automatisch
+  in der Webansicht erstellt und ist im JavaScript-Code verfügbar.
+  @LineBreak
+  Wenn die JavaScript-Funktion im Webview-Gadget aufgerufen wird, wird der PureBasic 'Callback' aufgerufen.
+  Der JavaScript-Code wird angehalten, bis der PureBasic-Callback seine Ausführung abgeschlossen hat.
   
 @Parameter "#Gadget"
-  The web view gadget to bind the event to.
+  Das Webview-Gadget, an das das Ereignis gebunden werden soll.
 
-@Parameter "JavaScriptFunction$"
-  The case-sensitive name of the JavaScript function to create and to bind the callback to.
+@Parameter "JavaScriptFunktion$"
+  Der Name (unter Beachtung der Groß- und Kleinschreibung) der zu erstellenden JavaScript-Funktion, an
+  welche der Callback gebunden werden soll.
 
 @Parameter "@Callback()"
-  The callback procedure to call when the JavaScript function is called. It has to be declared like this:
+  Die beim Aufruf der JavaScript-Funktion aufzurufende Callback-Prozedur. Diese muss wie folgt deklariert werden:
 @Code
   Procedure JavaScriptCallback(JsonParameters$)
     ; 
-    ; 'JsonParameters$' contains all the parameters which were specified when the JavaScript function was called in JSON format.
+    ; 'JsonParameters$' enthält alle Parameter, die beim Aufruf der JavaScript-Funktion im JSON-Format angegeben wurden.
     ;
     
     ; Code
@@ -197,13 +208,13 @@
     ProcedureReturn UTF8(JsonResult$)
   EndProcedure
 @EndCode
-  The callback procedure can return a result which can be used by the JavaScript function. 
+  Die Callback-Prozedur kann ein Ergebnis zurückgeben, das von der JavaScript-Funktion verwendet werden kann.
 
 @NoReturnValue
 
-@Example with a 2 parameters Javascript function
+@Example mit einer 2-Parameter-Javascript-Funktion
 @Code
-  ; A simple button which will change its label by the result of the PureBasic callback
+  ; Eine einfache Schaltfläche, deren Beschriftung sich je nach Ergebnis des PureBasic-Rückrufs ändert
   ;
   Html$ =  ~"<button id=\"displayInfo\">Display Info</button>\n"+
            ~"<script>\n"+
@@ -251,16 +262,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UnbindWebViewCallback(#Gadget, JavaScriptFunction$)
+@Function UnbindWebViewCallback(#Gadget, JavaScriptFunktion$)
 
 @Description
-  Unbind a JavaScript function previously binded with @@BindWebViewCallback. The JavaScript function will be automatically removed from the web view and won't be be available anymore in the JavaScript code.
+  Entbindet eine zuvor mit @@BindWebViewCallback gebundene JavaScript-Funktion. Die JavaScript-Funktion
+  wird automatisch aus der Webansicht entfernt und ist im JavaScript-Code nicht mehr verfügbar.
   
 @Parameter "#Gadget"
-  The web view gadget to use.
+  Das zu verwendende Webview-Gadget.
 
-@Parameter "JavaScriptFunction$"
-  The case-sensitive name of the JavaScript function to unbind.
+@Parameter "JavaScriptFunktion$"
+  Der Name (unter Beachtung der Groß- und Kleinschreibung) der zu lösenden JavaScript-Funktion.
 
 @NoReturnValue
 
@@ -273,13 +285,13 @@
 @Function WebViewExecuteScript(#Gadget, JavaScript$)
 
 @Description
-  Executes a JavaScript expression asynchronuously in the web view.
+  Führt einen JavaScript-Ausdruck asynchron in der Webansicht aus.
   
 @Parameter "#Gadget"
-  The web view gadget to use.
+  Das zu verwendende Webview-Gadget.
 
 @Parameter "JavaScript$"
-  The JavaScript expression to execute.
+  Der auszuführende JavaScript-Ausdruck.
 
 @NoReturnValue
 
@@ -297,7 +309,7 @@
            ~"</script>";
     
   Procedure DisplayInfoCallback(JsonParameters$)
-    ; Execute a script in the webview
+    ; Führt ein Skript in der Webansicht aus
     WebViewExecuteScript(0, ~"const element=document.getElementById(\"displayInfo\"); element.textContent=\"Hello from Callback !\";");
   EndProcedure
 

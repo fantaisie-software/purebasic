@@ -167,6 +167,60 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat = CompareMap(Map1(), Map2() [, Options])
+
+@Description
+  Compare chaque élément des deux cartes pour vérifier leur égalité. 
+
+@parameter "Map1(), Map2()"
+  Les maps à comparer.
+
+@OptionalParameter "Options"
+   Peut être une combinaison des valeurs suivantes :
+@FixedFont
+   @#PB_String_CaseSensitive  : La comparaison de chaînes est sensible à la casse (a=a). (par défaut)
+   @#PB_String_NoCase         : La comparaison de chaînes n'est pas sensible à la casse (A=a).
+   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, compare récursivement la cible du pointeur.
+                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si les deux maps sont identiques, zéro sinon.
+
+@Remarks
+  Compare de manière récursive également le contenu de cartes structurées avec des éléments 
+  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@linebreak
+  Les deux maps sont considérées comme égales si elles ont le même type et la même taille et si 
+  chaque paire d’éléments est identique.
+@LineBreak
+@LineBreak
+   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
+   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
+   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
+   se renvoie à elle-même).
+   
+@Example
+@Code
+  NewMap A()
+  A("de") = 49
+  A("fr") = 33
+  A("uk") = 44
+
+  NewMap B() ; un élément est manquant
+  B("de") = 49
+  B("uk") = 44 
+
+  Debug CompareMap(A(), B()) ; Pas égal
+@EndCode
+
+@SeeAlso
+   @@CompareArray, @@CompareList
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
 @Function Resultat = CopyMap(MapSource(), MapDestination())
 
 @Description
@@ -244,16 +298,13 @@
   La map à utiliser.
 
 @ReturnValue
-  Renvoie le nombre d'éléments contenus 
-  dans la Map() spécifiée.
+  Renvoie le nombre d'éléments contenus dans la Map() spécifiée.
 
 @Remarks
-  Cette fonction ne modifie pas l'élément 
-  courant. 
-  Elle est très rapide (elle utilise une 
-  valeur précalculée) et peut être utilisée 
-  sereinement pour savoir si une map est 
-  vide ou non.
+  Cette fonction ne modifie pas l'élément courant. @linebreak
+  Elle est très rapide (elle utilise une valeur précalculée) et peut être utilisée 
+  sereinement pour savoir si une map est vide ou non.@linebreak
+  Si la carte n'est pas initialisée, elle renvoie -1 (par exemple après @@FreeMap).
     
 @Example  
 @Code

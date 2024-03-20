@@ -12,16 +12,16 @@
   @LineBreak
   Um ein Subsystem zu aktivieren, muss sein Name in den IDE @ReferenceLink "ide_compiler" "Compiler-Optionen" eingetragen
   werden, oder durch Verwendung der /SUBSYSTEM @ReferenceLink "cli_compiler" "Kommandozeilen"-Option.
-  Dies ist eine Option zum Zeitpunkt des Kompilierens, was bedeutet, dass ein Executable nicht mehr als ein Subsystem
-  gleichzeitig einbetten kann. Wenn die Unterstützung mehrerer Subsysteme benötigt wird (zum Beispiel für das Anbieten
+  Beim Namen des Subsystems wird die Groß-/Kleinschreibung nicht beachtet. Dies ist eine Option zum Zeitpunkt des
+  Kompilierens, was bedeutet, dass ein Executable nicht mehr als ein Subsystem gleichzeitig für eine bestimmte
+  Bibliothek einbetten kann. Wenn die Unterstützung mehrerer Subsysteme benötigt wird (zum Beispiel für das Anbieten
   einer OpenGL und einer DirectX version eines Spiels), müssen zwei Executables erstellt werden.
   @LineBreak
   @LineBreak
   Die verfügbaren Subsysteme befinden sich im PureBasic 'subsystems' Ordner. Alle in diesem Ordner gefundenen Residents
   bzw. Befehlsbibliotheken haben Vorrang gegenüber den Standard-Bibliotheken und Residents, wenn ein Subsystem angegeben
   wird. Eine beliebige Anzahl verschiedener Subsysteme kann angegeben werden (solange sie nicht die gleichen Bibliotheken
-  betreffen). Da es sich bei einem Subsystem um ein Verzeichnis handelt, muss beim Subsystem-Namen unter Linux die
-  Groß-/Kleinschreibung beachtet werden, nicht jedoch auf Windows oder OS X.
+  betreffen).
   @LineBreak
   @LineBreak
   Die @Keyword Subsystem @ReferenceLink "compilerfunctions" "Compiler-Funktion" kann verwendet werden, um festzustellen,
@@ -45,7 +45,7 @@
 @LineBreak
   @Bold "Linux"
 @FixedFont
-  gtk2: Betroffene Bibliotheken:
+  Gtk2: Verwendet GTK2 anstelle von GTK3 für das GUI-Toolkit. Betroffene Bibliotheken:
           - 2D Drawing
           - AudioCD
           - Clipboard
@@ -64,7 +64,7 @@
           - Toolbar
           - Window
           
-  qt: Betroffene Bibliotheken:
+  Qt: Verwendet QT anstelle von GTK3 für das GUI-Toolkit. Betroffene Bibliotheken:
           - 2D Drawing
           - AudioCD
           - Clipboard

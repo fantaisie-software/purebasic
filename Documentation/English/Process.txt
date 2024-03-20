@@ -1,7 +1,7 @@
 ;
 ;     Process library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Process
@@ -384,6 +384,21 @@
 @EndCode
   The first time that ProgramParameter() is called, it will return "MyText.txt", the second time
   "/FAST" and the third time "Special Mode".
+
+@Example Call the compiled program from command-line with the file to display as parameter
+@Code
+  If OpenWindow(0, 0, 0, 520, 510, "Example...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    EditorGadget(0, 5, 5, 510, 500, #PB_Editor_WordWrap)
+    path$ = ProgramParameter()
+    If FileSize(path$) >= 0
+      If ReadFile(0, path$)
+        Text$ = ReadString(0, #PB_File_IgnoreEOL)
+      EndIf
+      SetGadgetText(0, Text$)
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

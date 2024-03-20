@@ -1,7 +1,7 @@
 ;
 ;     Gadget library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -398,7 +398,7 @@
   - @@GetGadgetState: Used with @#PB_Button_Toggle buttons to get the actual state of the button (1 = toggled, 0 = normal).
 
 ; Such system-specific things should not be documented imho, especially when 
-; they are not guaranteed to work anyway on all systems (see XP thing)
+; they are not guaranteed to work anyway on all systems (see Vista thing)
 ; -- freak
 ;
 ;@OS Windows
@@ -408,7 +408,7 @@
 ;  @LineBreak
 ;  In the button 'Text$' you can use the special '&' character to underline a specific letter: "&Button" will give in reality : @Underline "B"utton
 ;  @LineBreak
-;  (Note: under Windows XP the underlined letter will only be displayed if this is not deactivated in the system settings.)
+;  (Note: under Windows the underlined letter will only be displayed if this is not deactivated in the system settings.)
 ;  @LineBreak
 ;  @LineBreak
 ;  In combination with the @@AddKeyboardShortcut function a keyboard shortcut
@@ -715,9 +715,9 @@
   @#PB_Cursor_Cross          : crosshair cursor
   @#PB_Cursor_IBeam          : I-cursor used for text selection
   @#PB_Cursor_Hand           : hand cursor
-  @#PB_Cursor_Busy           : hourglass or watch cursor (not available on MacOS)
+  @#PB_Cursor_Busy           : hourglass or watch cursor
   @#PB_Cursor_Denied         : slashed circle or X cursor
-  @#PB_Cursor_Arrows         : arrows in all direction (not available on MacOS)
+  @#PB_Cursor_Arrows         : arrows in all direction (not available on Mac OSX)
   @#PB_Cursor_LeftRight      : left and right arrows
   @#PB_Cursor_UpDown         : up and down arrows
   @#PB_Cursor_LeftUpRightDown: diagonal arrows (Windows only)
@@ -1860,11 +1860,11 @@
   @#PB_EventType_RightClick       : User clicked on an item with the right mouse button.
   @#PB_EventType_LeftDoubleClick  : User double-clicked on an item with the left mouse button.
   @#PB_EventType_RightDoubleClick : User double-clicked on an item with the right mouse button.
-  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation. @ExamineDraggedItems can be used to get the dragged items information.
   @#PB_EventType_Refresh          : The gadget content has been refreshed due to a filesystem change in the displayed directory (Windows only).
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -1937,6 +1937,8 @@
 @LineBreak
   - @@GetGadgetState: Check if the selected item is a file or a directory.
 @LineBreak
+  - @@GetGadgetItemText: Returns the full path of the specified item.
+@LineBreak
 @LineBreak
 
   This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with
@@ -1954,10 +1956,10 @@
   @#PB_EventType_RightClick       : User clicked on an item with the right mouse button.
   @#PB_EventType_LeftDoubleClick  : User double-clicked on an item with the left mouse button.
   @#PB_EventType_RightDoubleClick : User double-clicked on an item with the right mouse button.
-  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation. @ExamineDraggedItems can be used to get the dragged items information.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -1996,9 +1998,9 @@
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Frame_Single  : Single sunken frame (Windows and MacOS only).
+  @#PB_Frame_Single  : Single sunken frame (Windows only).
   @#PB_Frame_Double  : Double sunken frame (Windows only).
-  @#PB_Frame_Flat    : Flat frame (Windows and MacOS only).
+  @#PB_Frame_Flat    : Flat frame (Windows only).
 @EndFixedFont
 
 @ReturnValue
@@ -2458,7 +2460,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color will probably be overwritten 
+  @Bold "Note:" With activated Windows style the color will probably be overwritten 
   by the style.
 @EndOS
 
@@ -2609,7 +2611,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color will probably be overwritten 
+  @Bold "Note:" With activated Windows style the color will probably be overwritten 
   by the style.
 @EndOS
 
@@ -2763,6 +2765,8 @@
   - @@EditorGadget - 'Item' is the text line in the EditorGadget. 'Column' will be ignored.
 @LineBreak
   - @@ExplorerListGadget - returns the name of the 'Item', without the path. If 'Item' = -1, the 'Column' header is returned.
+@LineBreak
+  - @@ExplorerTreeGadget - returns the full path of the 'Item'.
 @LineBreak
   - @@ListIconGadget - returns the entry of the given 'Item' and 'Column'. If 'Item' = -1, the 'Column' header is returned.
 @LineBreak
@@ -3068,7 +3072,7 @@
   @#PB_EventType_DragStart
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 @LineBreak
 @LineBreak
   If the support of more event types or double-buffering for regularly updated image contents
@@ -3289,11 +3293,11 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
-  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation.
-  @PB_EventType_ColumnClick: a column title has been clicked. Use @GetGadgetAttribute with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
+  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation. @ExamineDraggedItems can be used to get the dragged items information.
+  @#PB_EventType_ColumnClick: a column title has been clicked. Use GetGadgetAttribute() with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -3775,7 +3779,7 @@
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
   @#PB_ProgressBar_Smooth   : The progress bar is smooth instead of using blocks
-                             (Note: On Windows XP with enabled skins and on OS X, this flag has no effect).
+                             (Note: On Windows with enabled skins and on OS X, this flag has no effect).
   @#PB_ProgressBar_Vertical : The progress bar is in vertical mode.
 @EndFixedFont
 
@@ -3808,7 +3812,7 @@
 @EndFixedFont
 
   This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with
-  the following values as 'ColorType'. (Note: Windows only. On Windows XP with enabled skins, this coloring has no effect.)
+  the following values as 'ColorType'. (Note: Windows only. On Windows with enabled skins, this coloring has no effect.)
 @FixedFont
   @#PB_Gadget_FrontColor: Progressbarcolor
   @#PB_Gadget_BackColor : Backgroundcolor
@@ -4369,7 +4373,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color settings will probably be ignored
+  @Bold "Note:" With activated Windows style the color settings will probably be ignored
   or overwritten by the style.
 @EndOS
 
@@ -4592,7 +4596,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color settings will probably be ignored
+  @Bold "Note:" With activated Windows style the color settings will probably be ignored
   or overwritten by the style.
 @EndOS
 
@@ -5557,10 +5561,10 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
-  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation. @ExamineDraggedItems can be used to get the dragged items information.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code

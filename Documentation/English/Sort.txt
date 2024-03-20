@@ -140,15 +140,14 @@
 
 @Description
   Sorts the specified @LibraryLink "List" "list", according to the given options using a custom procedure
-  to compare array elements. The array may have a @ReferenceLink "Structures" "structure" or one of
+  to compare list elements. The list may have a @ReferenceLink "Structures" "structure" or one of
   @ReferenceLink "variables" "basic type": byte, word, long, integer, string or float. 
-  Multi-dimensioned arrays are not supported.
 
 @Parameter "ListName()"
   The list to sort.
   
 @Parameter "@CompareProcedure()"
-  The address of a procedure to compare array elements. The procedure must have two parameters that will receive
+  The address of a procedure to compare list elements. The procedure must have two parameters that will receive
   the memory address of the two elements to compare and return one of the following values:
 @FixedFont
   @#PB_Sort_Greater: The first element is greater than the second one.

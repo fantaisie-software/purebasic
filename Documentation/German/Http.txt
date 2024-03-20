@@ -80,71 +80,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = GetHTTPHeader(URL$ [, Flags [, UserAgent$]])
-
-@Description
-  Ermittelt die HTTP-Header (Kopfzeilen) der angegebenen URL.
-
-@Deprecated
-  Hinweis: Diese Funktion wurde von @@HTTPRequest ersetzt. Verwenden Sie diese stattdessen.
-
-@Parameter "URL$"
-  Die URL (Adresse) für die Abfrage.
-  Die URL muss vollständig angegeben werden, einschließlich dem Präfix "http://" oder "https://".
-  
-@OptionalParameter "Flags"
-  Dies kann der folgenden Werte sein:
-@FixedFont
-  @#PB_HTTP_NoRedirect: folgt keinen automatischen Umleitungen.
-@EndFixedFont
-
-@OptionalParameter "UserAgent$"
-  Ändert den  Benutzeragenten (englisch "User agent") für die HTTP-Anforderung. Der
-  Standardbenutzer-Agent ist gesetzt auf "Mozilla/5.0 Gecko/41.0 Firefox/41.0" für maximale Kompatibilität.
-
-@ReturnValue
-  Gibt einen String zurück, welcher die Kopfzeilen (Header) enthält.
-  Jede Zeile endet mit einem @Link "String/Chr" "Chr(10)" Zeichen.
-  @@StringField kann verwendet werden, um diese
-  in einzelne Strings zu aufzuteilen.
-@LineBreak
-@LineBreak
-  Der Inhalt der Header ist vom Typ des Web-Servers abhängig und ihr Inhalt variiert daher,
-  aber der vom Server zurückgegebene Header bietet sehr nützliche Informationen über die
-  Datei, wie das Datum, den Server-Typ, die Version und mehr. 
-
-@Remarks
-  Auf Linux muss 'libcurl' installiert sein, damit dieser Befehl funktioniert (die meisten
-  Linux-Distributionen haben es bereits standardmäßig installiert).
-
-@Example
-@Code
-  Header$ = GetHTTPHeader("http://www.purebasic.com/index.php")
-
-  Repeat
-   Index+1
-   Line$ = StringField(Header$, Index, #LF$)
-   Debug Line$
-  Until Line$ = ""
-@EndCode
-
-  Beispiel für zurückgegebene Header:
-
-@FixedFont
-  HTTP/1.1 200 OK
-  Date: Fri, 21 Mar 2008 09:49:30 GMT
-  Server: Apache/1.3.34 (Debian) mod_vhost_online/1.1 mod_fastcgi/2.4.2 mod_log_online/0.1
-  X-Powered-By: PHP/4.4.8-1
-  Content-Type: text/html
-@EndFixedFont
-
-@SeeAlso
-  @@ReceiveHTTPFile, @@URLEncoder
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
 @Function Ergebnis$ = GetURLPart(URL$, Parameter$)
 
 @Description
@@ -418,7 +353,7 @@
 
 @NoReturnValue
 
-@Remark
+@Remarks
   Wenn "Thread-sicheres Executable erstellen" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
   aktiviert ist, dann hat jeder Thread seine eigenen Timeouts, was bedeutet, dass zwei Threads
   gleichzeitig unterschiedliche Timeouts haben können.

@@ -1,10 +1,11 @@
 @Title Configuration système requise
 
-  PureBasic fonctionne sur les versions 32 bits et 64 bits de Windows XP, Vista, Windows 7, Windows 8 et Windows 10, 
-  Linux (noyau 2.2 et ultérieur) et MacOS X (10.8.5 et ultérieur). @LineBreak
+  PureBasic fonctionne sur Windows Vista, Windows 7, Windows 8, Windows 10 et 11 en version 32 bits et 
+  64 bits, Linux (noyau 2.2 et ultérieur) et MacOS X (10.11 et ultérieur) et Raspberry PI OS 
+  (bookworm/debian 12 ou supérieur). @LineBreak
   @LineBreak
   Si vous rencontrez un problème sur l'une des configurations ci-dessus, n'hésitez pas à
-  nous en informer.
+  nous en informer: support@purebasic.com.
 
 @Section Windows
   Afin d'utiliser les nombreuses fonctions graphiques @LibraryLink "engine3d" "3D" ainsi que les @LibraryLink "sprite" "Sprites", 
@@ -21,7 +22,7 @@
 
 Paquets nécessaires pour utiliser PureBasic sous Linux:  
 @Indent @Section
-  - sdl 1.2 devel (pour les commandes multimédias) @LineBreak
+  - sdl 1.2 devel (pour les bibliothèques 'Joystick' et 'AudioCD') @LineBreak
   - gtk 3 (Pour les programmes GUI) @LineBreak
   - libstdc++ devel @LineBreak
   - gcc correctement installé @LineBreak
@@ -30,7 +31,7 @@ Paquets nécessaires pour utiliser PureBasic sous Linux:
 @LineBreak
   - libwebkit doit être installé pour utiliser @@WebGadget. @LineBreak
 @LineBreak
-  - xine et xine-devel pour les commandes @LibraryLink "movie" "Movie" 
+  - libvlc-devel pour les commandes @LibraryLink "movie" "Movie" 
   
 Pour plus d'information, consulter les fichiers INSTALL et README.
 

@@ -549,7 +549,7 @@
 @NoParameters
 
 @ReturnValue
-  The result can be a combination (with bitwise or)  of the following flags:
+  The result can be a combination (with bitwise or) of the following flags:
 
 @FixedFont
   @#PB_PixelFormat_8Bits      : 1 byte per pixel, palletised
@@ -560,6 +560,7 @@
   @#PB_PixelFormat_32Bits_RGB : 4 bytes per pixel (RRGGBB)
   @#PB_PixelFormat_32Bits_BGR : 4 bytes per pixel (BBGGRR)
   @#PB_PixelFormat_ReversedY  : The Y-Coordinate of the output is reversed in memory (the bottom row is stored first).
+  @#PB_PixelFormat_NoAlpha    : The pixel format is 32-bits but the alpha component is not used.
 @EndFixedFont 
 
 @Remarks
@@ -638,6 +639,12 @@
   If this flag is set then the background will be transparent with the @@DrawText command.
   @LineBreak
   @Image PB_2DDrawing_Transparent.png
+@EndIndent
+
+  @#PB_2DDrawing_NativeText
+@Indent
+  If this flag is set then the @@DrawText and @@DrawRotatedText commands will use native text output to have gadget-like text rendering.
+  All special effects like XOR, AlphaBlend, CustomFilters, etc. are not available with this mode.
 @EndIndent
 
   @#PB_2DDrawing_XOr
@@ -734,12 +741,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawRotatedText(x, y, Text$, Angle.f [, Color])
+@Function DrawRotatedText(x.d, y.d, Text$, Angle.f [, Color])
 
 @Description
-  Displays the given string on the current output at the given angle.
+  Displays the given text on the current output at the given angle. To have gadget-like text output,
+  the drawing mode @#PB_2DDrawing_NativeText can be used.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   The location of the top/left corner of the text in the output.
   This is also the location around which the string will be rotated.
 
@@ -780,7 +788,7 @@
 @Image rotatedtext.png
 
 @SeeAlso
-  @@DrawText, @@DrawingFont, @@FrontColor
+  @@DrawText, @@DrawingFont, @@FrontColor, @@DrawingMode
 
 @SupportedOS
 
@@ -919,13 +927,14 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = DrawText(x, y, Text$ [, FrontColor [, BackColor]])
+@Function Result.d = DrawText(x.d, y.d, Text$ [, FrontColor [, BackColor]])
 
 @Description
   Display the given string on the current output at the given x,y position.
-  The current output is set with @@StartDrawing. 
+  The current output is set with @@StartDrawing. To have gadget-like text output,
+  the drawing mode @#PB_2DDrawing_NativeText can be used.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   The location at which to draw the text.
 
 @Parameter "Text$"
@@ -975,7 +984,7 @@
 @Image text.png
 
 @SeeAlso 
-  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor
+  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor, @@DrawingMode
 
 @SupportedOS
 
@@ -1266,7 +1275,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Height = TextHeight(Text$)  
+@Function Height.d = TextHeight(Text$)  
 
 @Description
   Return the height of the given string in the current output using the current font. 
@@ -1275,7 +1284,7 @@
   The text to measure.
 
 @ReturnValue
-  Returns the height of the given text in pixels.
+  Returns the height of the given text.
 
 @SeeAlso
   @@TextWidth, @@DrawingFont
@@ -1284,7 +1293,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Width = TextWidth(Text$)  
+@Function Width.d = TextWidth(Text$)  
 
 @Description
   Return the width of the given string in the current output using the current font. 
@@ -1293,7 +1302,7 @@
   The text to measure.
 
 @ReturnValue
-  Returns the width of the given text in pixels.
+  Returns the width of the given text.
 
 @SeeAlso
   @@TextHeight, @@DrawingFont
@@ -1362,7 +1371,7 @@
 @Parameter "@FilterCallback()"
   The address of a callback function to call. It must have the following form:
 @Code
-  Procedure CustomCallback(x, y, SourceColor, TargetColor)
+  Procedure CustomCallback(x, y, SourceColor.l, TargetColor.l)
     ;
     ; Calculate ResultColor from the given input
     ;
@@ -1393,7 +1402,7 @@
 
 @Example
 @Code
-  Procedure FilterCallback(x, y, SourceColor, TargetColor)
+  Procedure FilterCallback(x, y, SourceColor.l, TargetColor.l)
     ; Take only the Red component from the Source, do not modify the others
     ProcedureReturn RGBA(Red(SourceColor), Green(TargetColor), Blue(TargetColor), Alpha(TargetColor))
   EndProcedure

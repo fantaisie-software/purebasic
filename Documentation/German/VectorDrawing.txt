@@ -1,7 +1,7 @@
 ;
 ;     VectorDrawing library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library VectorDrawing
@@ -240,9 +240,9 @@
 @LineBreak
   @@CanvasVectorOutput: Zeichnen wird direkt auf dem @@CanvasGadget gerendert
 @LineBreak
-  @@PdfVectorOutput: Zeichnen wird direkt in einer PDF-Datei gerendert (nur auf Linux und OSX)
+  @@PdfVectorOutput: Zeichnen wird direkt in einer PDF-Datei gerendert
 @LineBreak
-  @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert (nur auf Linux)
+  @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn das Zeichnen möglich ist. Oder Null, wenn die
@@ -571,8 +571,6 @@
   @@PrinterVectorOutput
 @LineBreak
   @@PdfVectorOutput
-@LineBreak
-  @@SvgVectorOutput
     
 @NoParameters
 @NoReturnValue
@@ -3175,7 +3173,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
 
@@ -3202,7 +3200,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
     LoadFont(0, "Impact", 20, #PB_Font_Bold)    
 
     If StartVectorDrawing(CanvasVectorOutput(0))
@@ -3269,7 +3267,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
@@ -3713,9 +3711,6 @@
   Vektorzeichnen-Operationen auszuführen. Die aktuellen Zeichenoperationen müssen in
   einen @@StartVectorDrawing / @@StopVectorDrawing Block eingeschlossen werden.
   Die PDF-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
-@LineBreak
-@LineBreak
-  @Bold "Hinweis: " Diese Funktion ist nur verfügbar auf Linux und Mac OSX.
   
 @Parameter "Dateiname$"
   Gibt den Dateinamen des zu erstellenden PDF-Dokuments an. Wenn die Datei existiert,
@@ -3773,9 +3768,6 @@
   Die aktuellen Zeichenoperationen müssen in einen @@StartVectorDrawing / @@StopVectorDrawing
   Block eingeschlossen werden.
   Die SVG-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
-@LineBreak
-@LineBreak
-  @Bold "Hinweis: " Diese Funktion ist nur auf Linux verfügbar.
 
 @Parameter "Dateiname$"
   Gibt den Dateinamen der zu erstellenden SVG-Datei an. Wenn die Datei existiert,
