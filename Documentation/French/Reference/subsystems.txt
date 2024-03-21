@@ -12,11 +12,12 @@
   @LineBreak
   Pour activer un sous-système, son nom doit être défini dans l'IDE avec le menu 
   @ReferenceLink "ide_compiler" "Options du compilateur", ou par l'intermédiaire du 
-  commutateur /SUBSYSTEM en /@ReferenceLink "cli_compiler" "ligne de commande". 
+  commutateur /SUBSYSTEM en /@ReferenceLink "cli_compiler" "ligne de commande".
+  Le nom du sous-système n'est pas sensible à la casse.  
   Il s'agit d'une option de compilation, ce qui signifie qu'un exécutable ne peut pas 
-  incorporer plus d'un sous-système à la fois. Si le support de multiple sous-systèmes 
-  est nécessaire (par exemple l'envoi d'une version OpenGL et DirectX d'un jeu), 
-  deux exécutables doivent être créés.
+  incorporer plus d'un sous-système à la fois pour une bibliothèque donnée. Si le support 
+  de multiple sous-systèmes est nécessaire (par exemple l'envoi d'une version OpenGL et 
+  DirectX d'un jeu), deux exécutables doivent être créés.
   @LineBreak
   @LineBreak
   Les sous-systèmes disponibles sont situés dans le dossier 'subsystems' de PureBasic. 
@@ -24,8 +25,6 @@
   dans ce dossier auront préséance sur les bibliothèques par défaut et les résidents.
   N'importe quel nombre de sous-systèmes différents peuvent être spécifiés (pour autant 
   que cela n'affecte pas les mêmes bibliothèques).
-  Comme un sous-système est un répertoire, le nom du sous-système est sensible à la casse 
-  sous Linux mais pas sous Windows ou OS X.@LineBreak
   @LineBreak
   @LineBreak
   La @ReferenceLink "compilerfunctions" "fonction du compilateur" @Keyword Subsystem peut 
@@ -50,7 +49,7 @@
 @LineBreak
   @Bold "Linux"
 @FixedFont
-  gtk2: Bibliothèques affectées:
+  Gtk2 : Utilise GTK2 au lieu de GTK3 pour la boîte à outils GUI. Bibliothèques concernées :
 
           - 2D Drawing
           - AudioCD
@@ -70,7 +69,7 @@
           - Toolbar
           - Window
                               
-  qt: Bibliothèques affectées:
+  Qt : Utilise QT au lieu de GTK3 pour la boîte à outils GUI. Bibliothèques concernées :  
           - 2D Drawing
           - AudioCD
           - Clipboard

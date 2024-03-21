@@ -446,7 +446,7 @@ Bouton à bascule: Option @#PB_Button_Toggle
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 60, "ButtonImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered) 
-    If LoadImage(0,  #PB_Compiler_Home + "/Examples/Sources/Data/PureBasic.bmp")    ; changez le 2ème paramètre en indiquant le chemin/fichier contenant votre image
+    If LoadImage(0,  #PB_Compiler_Home + "/examples/sources/Data/PureBasic.bmp")    ; changez le 2ème paramètre en indiquant le chemin/fichier contenant votre image
       ButtonImageGadget(0, 10, 10, 180, 40, ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -533,7 +533,7 @@ Bouton à bascule: Option @#PB_Button_Toggle
   le 'Texte$' du bouton : "&Bouton" affichera 
   : @Underline "B"outon
   @LineBreak
-  (Note: Sous Windows XP et suivant, le support 
+  (Note: Sous Windows, le support 
   des thèmes d'affichage peut empêcher le 
   caractère souligné de s'afficher.)
   @LineBreak
@@ -631,10 +631,10 @@ Bouton à bascule: Option @#PB_Button_Toggle
                           
   - @@SetGadgetColor et @@GetGadgetColor avec les constantes suivantes comme 'TypeCouleur':
     @#PB_Gadget_BackColor      : Couleur de fond
-    @#PB_Gadget_FrontColor     : Couleur du texte pour les jours affichés (non pris en charge sur Windows Vista +)
-    @#PB_Gadget_TitleBackColor : Couleur du fond du titre du mois (non pris en charge sur Windows Vista +)
-    @#PB_Gadget_TitleFrontColor: Couleur du texte du titre du mois (non pris en charge sur Windows Vista +)
-    @#PB_Gadget_GrayTextColor  : Couleur du texte pour les jours n'appartenant pas au mois courant (non pris en charge sur Windows Vista +)
+    @#PB_Gadget_FrontColor     : Couleur du texte pour les jours affichés (non pris en charge sous Windows)
+    @#PB_Gadget_TitleBackColor : Couleur du fond du titre du mois (non pris en charge sous Windows)
+    @#PB_Gadget_TitleFrontColor: Couleur du texte du titre du mois (non pris en charge sous Windows)
+    @#PB_Gadget_GrayTextColor  : Couleur du texte pour les jours n'appartenant pas au mois courant (non pris en charge sous Windows)
 @EndFixedFont
 
 @Example
@@ -2278,13 +2278,13 @@ EndIf
   @#PB_EventType_RightClick      : L'utilisateur a cliqué sur un élément avec le bouton droit de la souris.
   @#PB_EventType_LeftDoubleClick : L'utilisateur a double-cliqué sur un élément avec le bouton gauche de la souris.
   @#PB_EventType_RightDoubleClick: L'utilisateur a double-cliqué sur un élément avec le bouton droit de la souris.
-  @#PB_EventType_DragStart       : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'.
+  @#PB_EventType_DragStart       : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'. 
+                                  @ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
+  @#PB_EventType_Refresh         : Le contenu du gadget a été actualisé en raison d'un changement de système de fichiers dans le répertoire affiché (Windows uniquement).
 @EndFixedFont
-  Après un évènement @#PB_EventType_DragStart, 
-  la bibliothèque 
-  @LibraryLink "dragdrop" "Drag & Drop" peut 
-  être utilisée pour commencer une opération 
-  de 'Glisser & Déposer'.
+  Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
+  peut être utilisée pour commencer une opération de 'Glisser & Déposer'. Sous MacOS X, l'événement 
+  @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent ou de @@BindGadgetEvent.
 
 @Example
 @Code
@@ -2377,6 +2377,7 @@ EndIf
   - @@GetGadgetText : Renvoie le chemin complet du répertoire ou fichier sélectionné.
   - @@SetGadgetText : Change l'élément actuellement sélectionné.
   - @@GetGadgetState: Permet de savoir si l'élément sélectionné est un répertoire ou un fichier.
+  - @@GetGadgetItemText : Renvoie le chemin complet de l'élément spécifié.
   
   - @@SetGadgetColor et @@GetGadgetColor avec les valeurs suivantes comme 'TypeCouleur':
     @#PB_Gadget_FrontColor: Couleur du texte 
@@ -2393,13 +2394,12 @@ EndIf
   @#PB_EventType_RightClick      : L'utilisateur a cliqué sur un élément avec le bouton droit de la souris.
   @#PB_EventType_LeftDoubleClick : L'utilisateur a double-cliqué sur un élément avec le bouton gauche de la souris.
   @#PB_EventType_RightDoubleClick: L'utilisateur a double-cliqué sur un élément avec le bouton droit de la souris.
-  @#PB_EventType_DragStart       : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'.
+  @#PB_EventType_DragStart       : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'. 
+                                  @ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
 @EndFixedFont
-  Après un évènement 
-  @#PB_EventType_DragStart , la bibliothèque 
-  @LibraryLink "dragdrop" "Drag & Drop" peut 
-  être utilisée pour commencer une opération 
-  de 'Glisser & Déposer'.
+  Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
+  peut être utilisée pour commencer une opération de 'Glisser & Déposer'. Sous MacOS X, l'événement 
+  @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent ou de @@BindGadgetEvent.
 
 @Example
 @Code
@@ -2567,34 +2567,27 @@ EndIf
 @Function Resultat = GadgetItemID(#Gadget, Element) 
 
 @Description
-  Renvoie l'identifiant propre à l'OS de 
-  l'élément d'un gadget. 
+  Renvoie l'identifiant propre à l'OS de l'élément d'un gadget. 
 
 @Parameter "#Gadget"
   Le gadget à utiliser.
   
 @Parameter "Element"
-  L'élément dont le 
-  @ReferenceLink "handles" "handle" doit 
-  être renvoyé. 
+  L'élément dont le @ReferenceLink "handles" "handle" doit être renvoyé. 
 @LineBreak
 @LineBreak
-  Le premier élément dans le gadget 
-  commence à 0.
+  Le premier élément dans le gadget commence à 0.
 
 @ReturnValue
-  Renvoie le Handle de l'élément ou 0 en 
-  cas d'échec.
+  Renvoie le Handle de l'élément ou 0 en cas d'échec.
   
 @Remarks  
-  Cette fonction est pour l'instant 
-  seulement supportée par le @@TreeGadget 
+  Cette fonction est pour l'instant seulement supportée par le @@TreeGadget et @@PanelGadget 
   sous Windows. @LineBreak
   Elle renvoie 0 dans les autres cas.
 @LineBreak
 @LineBreak
-  C'est utile pour pouvoir utiliser l'API 
-  avec les éléments des gadgets PureBasic.
+  C'est utile pour pouvoir utiliser l'API avec les éléments des gadgets PureBasic.
 
 @SeeAlso
   @@TreeGadget
@@ -2987,7 +2980,7 @@ EndIf
 
 @OS Windows
   @Bold "Note:" Avec le support des skins 
-  activé sur Windows XP, les couleurs 
+  activé sur Windows, les couleurs 
   personnalisées ne seront probablement pas
   prises en compte sur certains gadgets.
 @EndOS
@@ -3190,7 +3183,7 @@ EndIf
 
 @OS Windows
   @Bold "Note:" Avec le support des skins 
-  activé sur Windows XP, les couleurs 
+  activé sur Windows, les couleurs 
   personnalisées ne seront probablement pas
   prises en compte sur certains gadgets.
 @EndOS
@@ -3360,6 +3353,7 @@ EndIf
   - @@EditorGadget      : Renvoie le texte de l'élément (la ligne) de l'editor ('Colonne' est ignorée).
   - @@ExplorerListGadget: Renvoie le nom du l'élément, sans son chemin complet. 
                           Si 'Element' = -1, alors le titre de la colonne est renvoyé.
+  - @@ExplorerTreeGadget: Renvoie le chemin complet de l'élément.
   - @@ListIconGadget    : Renvoie le texte de l'élément de la liste. 
                           'Colonne' est l'index de la colonne (commence à partir de 0).
                           Si 'Element' = -1, alors le titre de la colonne est renvoyé.
@@ -3709,9 +3703,11 @@ utiliser l'opérateur '&':
     @#PB_EventType_LeftDoubleClick : L'utilisateur a double-cliqué sur un élément avec le bouton gauche de la souris.
     @#PB_EventType_RightDoubleClick: L'utilisateur a double-cliqué sur un élément avec le bouton droit de la souris.
     @#PB_EventType_DragStart       : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'.
+                                    @ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
 
   Après un évènement @#PB_EventType_DragStart , la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" peut être 
-  utilisée pour commencer une opération 'Glisser & Déposer'.
+  utilisée pour commencer une opération 'Glisser & Déposer'. Sous MacOS X, l'événement 
+  @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent ou de @@BindGadgetEvent.
 
   Si vous avez besoin de plus de types d'évènements ou de l'affichage avec double-tampon pour une mise à jour 
   régulière de l'image alors jetez un oeil au canvas gadget @@CanvasGadget.
@@ -3926,8 +3922,9 @@ utiliser l'opérateur '&':
   - @@SetGadgetState    : Change l'élément sélectionné (tous les autres éléments sont alors désélectionnés). 
                           Si -1 est utilisé, tous les éléments seront désélectionnés.
   - @@GetGadgetAttribute avec l'attribut suivant :
-      @#PB_ListIcon_ColumnCount: Renvoie le nombre de colonnes 
-      @#PB_ListIcon_DisplayMode: Renvoie le mode d'affichage du gadget (Windows uniquement)
+      @#PB_ListIcon_ColumnCount   : Renvoie le nombre de colonnes 
+      @#PB_ListIcon_DisplayMode   : Renvoie le mode d'affichage du gadget (Windows uniquement)
+      @#PB_ListIcon_ClickedColumn : Renvoie le dernier index de colonne cliquée. La première colonne a l'index 0.
 
   - @@SetGadgetAttribute avec l'attribut suivant (seulement sous Windows):
       @#PB_ListIcon_DisplayMode : Change le mode d'affichage du gadget. 
@@ -3937,10 +3934,16 @@ utiliser l'opérateur '&':
            @#PB_ListIcon_List        : Mode Liste
            @#PB_ListIcon_Report      : Mode Détails (colonnes, mode par défaut)
 
-  - @@GetGadgetItemAttribute / @@SetGadgetItemAttribute: Avec l'attribut suivant:
-      @ConstantColor  "#PB_ListIcon_ColumnWidth" : Renvoie / Change la largeur de la 'Colonne' spécifiée. 
-      Le paramètre 'Element' est ignoré.
+  - @@GetGadgetItemAttribute : Avec l'attribut suivant:
+      @#PB_ListIcon_ColumnWidth : Renvoie la largeur de la 'Colonne' spécifiée. Le paramètre 'Element' est ignoré.
 
+  - @@SetGadgetItemAttribute : Avec les attributs suivants:
+      @#PB_ListIcon_ColumnWidth    : Modifie la largeur de la colonne. Le paramètre 'Element' est ignoré.
+      @#PB_ListIcon_ColumnAlignment: Modifie l'alignement du texte de la colonne. 
+           Le paramètre 'Element' peut avoir l'une des valeurs suivantes:
+           - @#PB_ListIcon_Left  : Le texte est aligné à gauche (par défaut).
+           - @#PB_ListIcon_Right : Le texte est aligné à droite.
+           - @#PB_ListIcon_Center: Le texte est centré.
 
   Si vous voulez ajouter du contenu à un gadget ListIcon contenant plusieurs colonnes en utilisant
   @@AddGadgetItem, utilisez le format "première colonne"+chr(10)+"deuxième colonne" comme paramètre Texte$. 
@@ -3965,11 +3968,12 @@ utiliser l'opérateur '&':
   @#PB_EventType_RightDoubleClick : Double-clic avec le bouton droit de la souris
   @#PB_EventType_Change           : L'élément sélectionné a été changé
   @#PB_EventType_DragStart        : L'utilisateur a essayé de lancer une opération de 'Glisser & Déposer'.
+                                   @ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
+  @#PB_EventType_ColumnClick      : Un en-tête de colonne a été cliqué. Utilisez GetGadgetAttribute() avec @#PB_ListIcon_ClickedColumn pour savoir sur lequel a été cliqué.
 @EndFixedFont
-  Après un évènement @#PB_EventType_DragStart, 
-  la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
-  peut être utilisée pour commencer une 
-  opération 'Glisser & Déposer'.
+  Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
+  peut être utilisée pour commencer une opération de 'Glisser & Déposer'. Sous MacOS X, l'événement 
+  @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent ou de @@BindGadgetEvent.
 
 @Example 
 @Code
@@ -4012,7 +4016,7 @@ utiliser l'opérateur '&':
       Next
     Next
     ; Ici nous changeons l'affichage de la liste avec icônes en mode grandes icônes et nous affichons une image
-    If LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\File.bmp")     ; changez le chemin/fichier contenant votre image 32x32 pixel
+    If LoadImage(0, #PB_Compiler_Home+"examples\sources\Data\File.bmp")     ; changez le chemin/fichier contenant votre image 32x32 pixel
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
       AddGadgetItem(5, 1, "Image 1", ImageID(0))
       AddGadgetItem(5, 2, "Image 2", ImageID(0))
@@ -4466,6 +4470,7 @@ utiliser l'opérateur '&':
   - @@SetGadgetItemImage: Change l'image de l'élément spécifié (non pris en charge sur OS X).  
   - @@GetGadgetItemData : Renvoie la valeur associée à l'élément spécifié.
   - @@SetGadgetItemData : Associe une valeur à l'élément spécifié.
+  - @@GadgetItemID      : Renvoie le handle du système d'exploitation de l'élément spécifié (Windows uniquement, utile pour les fonctions API).
   - @@SetGadgetState    : Change l'onglet affiché. 
   - @@GetGadgetState    : Renvoie le numéro de l'onglet actuellement affiché.
 
@@ -4558,7 +4563,7 @@ utiliser l'opérateur '&':
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_ProgressBar_Smooth  : La progression est précise, au lieu d'utiliser des blocs (Note: sous Windows XP avec
+  @#PB_ProgressBar_Smooth  : La progression est précise, au lieu d'utiliser des blocs (Note: sous Windows avec
                             le support des skins activé et sous OS X, cette option n'a aucun effet).
   @#PB_ProgressBar_Vertical: La barre de progression sera verticale.
 @EndFixedFont 
@@ -4592,7 +4597,7 @@ utiliser l'opérateur '&':
     @#PB_ProgressBar_Maximum: Renvoie la valeur maximale. 
 
   -@@SetGadgetColor et @@GetGadgetColor avec les valeurs suivantes comme 'TypeCouleur' 
-  (Note: Sous Windows XP avec le support des skins activé, la couleur n'a aucun effet):
+  (Note: Sous Windows avec le support des skins activé, la couleur n'a aucun effet):
     @#PB_Gadget_FrontColor: Couleur de la barre de progression
     @#PB_Gadget_BackColor : Couleur du fond
 
@@ -5225,7 +5230,7 @@ utiliser l'opérateur '&':
   @LineBreak
   @LineBreak
   @Bold "Note:" Avec le support des thèmes 
-  activés sur Windows XP et suivants, les 
+  activés sur Windows et suivants, les 
   couleurs personnalisées ne seront 
   probablement pas prises en compte sur 
   certains gadgets.
@@ -5507,7 +5512,7 @@ utiliser l'opérateur '&':
 
 @OS Windows
   @Bold "Note:" Avec le support des skins 
-  activé sur Windows XP, les couleurs 
+  activé sur Windows, les couleurs 
   personnalisées ne seront probablement pas
   prises en compte sur certains gadgets.
 @EndOS
@@ -6535,9 +6540,11 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
     @#PB_EventType_RightDoubleClick : Double-Clic droit sur un élément.
     @#PB_EventType_Change           : L'élément courant a changé
     @#PB_EventType_DragStart        : L'utilisateur a essayé de lancer une opération 'Glisser & Déposer'.
+                                     @ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
 
-  Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" peut être utilisée pour commencer une opération de 'Glisser & Déposer'.
-@EndFixedFont
+  Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
+  peut être utilisée pour commencer une opération de 'Glisser & Déposer'. Sous MacOS X, l'événement 
+  @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent ou de @@BindGadgetEvent.@EndFixedFont
 
 @Example
 @Code
@@ -6645,60 +6652,56 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = WebGadget(#Gadget, X, Y, Largeur, Hauteur, URL$)
+@Function Resultat = WebGadget(#Gadget, X, Y, Largeur, Hauteur, URL$ [, Options]))
 
 @Description
-  Crée un Navigateur Internet (WebGadget) 
-  dans la GadgetList en cours.
+  Crée un Navigateur Internet (WebGadget) dans la GadgetList en cours.
   
 @Parameter "#Gadget"
   Le numéro d'identification du nouveau 
   gadget. 
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer 
   automatiquement ce numéro.
 
 @Parameter "X, Y, Largeur, Hauteur"
-  La position et les dimensions du nouveau 
-  gadget.
+  La position et les dimensions du nouveau gadget.
 
 @Parameter "URL$"  
   L'URL à charger.
 
+@OptionalParameter "Options"
+  Peut être la constante suivante :
+@FixedFont
+  @#PB_Web_Edge: Utilise le moteur WebView2 pour afficher la page Web (Windows uniquement). 
+@EndFixedFont
+
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  Renvoie une valeur non nulle en cas de succès, zéro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé pour le paramètre 
-  #Gadget, alors la valeur de retour est le 
-  numéro d'identification du gadget, généré 
-  automatiquement.
+  Si @#PB_Any a été utilisé pour le paramètre #Gadget, alors la valeur de retour est le 
+  numéro d'identification du gadget, généré automatiquement.
 @LineBreak
 @LineBreak
-  Cette fonction échoue si les composants 
-  requis pour le WebGadget ne peuvent pas 
-  être chargés. 
-  Voir ci-dessous les exigences pour le 
-  WebGadget sur chaque OS.
+  Cette fonction échoue si les composants requis pour le WebGadget ne peuvent pas être chargés. 
+  Voir ci-dessous les exigences pour le WebGadget sur chaque OS.
 
 @Remarks
-   Les composants suivants sont requis pour 
-   utiliser le WebGadget sur chaque OS. 
-   Ces composants sont nécessaires pour 
-   utiliser le WebGadget, pas seulement 
-   pour la compilation du programme.
+   Les composants suivants sont requis pour utiliser le WebGadget sur chaque OS. 
+   Ces composants sont nécessaires pour utiliser le WebGadget, pas seulement pour 
+   la compilation du programme.
 @LineBreak
 @LineBreak
   @Bold "Windows"
 @Indent
-  Sur Microsoft Windows, ce gadget utilise 
-  l'object ActiveX Internet Explorer 4.0+.
-@LineBreak
-@LineBreak  
-  Pensez à remplacer les "\" par des "/" dans vos codes.
+  Le WebGadget utilise l'objet ActiveX d'Internet Explorer 11 de Windows.@LineBreak 
+  Si l'indicateur @#PB_Web_Edge est utilisé, il utilise à la place le composant Edge moderne WebView2.@LineBreak
+  WebView2 est le composant basé sur Edge permettant d'afficher une page Web moderne dans une 
+  application Windows. Il est intégré à Windows 10 et Windows 11. 
+  Pour les anciennes versions de Windows, il doit être installé (si ce n'est déjà fait) : 
+  @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "guide de distribution".
 @EndIndent
 
   @Bold "Linux"
@@ -6833,18 +6836,6 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
   @@SetGadgetState, @@GetGadgetAttribute, 
   @@SetGadgetAttribute
 
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Resultat = WebGadgetPath(FichierBibliotheque$ [, MozillaPath$]) 
-
-@Description
-@Deprecated  
-  Cette fonction n'est plus nécessaire. 
-  Elle ne fait rien et renvoie une valeur
-  différente de zéro.
-  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

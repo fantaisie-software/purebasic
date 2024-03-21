@@ -1,7 +1,7 @@
 ;
 ;     Preference library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Preference
@@ -766,26 +766,26 @@
 
 @Example
 @Code
- If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
     PreferenceGroup("Window")
       WritePreferenceLong ("X", 100)
       WritePreferenceLong ("Y", 125)
       WritePreferenceString("Title", "PureNote")    
     ClosePreferences()   
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf  
+  EndIf  
     
-    MessageRequester("Info", "Delete the key 'Title' ")
+  MessageRequester("Info", "Delete the key 'Title' ")
     
   ; Open the preference file
-    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
-    PreferenceGroup("Window")
+  OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+  PreferenceGroup("Window")
        
   ; Delete the key 'Title'  
-    RemovePreferenceKey("Title")
+  RemovePreferenceKey("Title")
     
-    ClosePreferences()      
-    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  ClosePreferences()      
+  RunProgram(GetTemporaryDirectory()+"Prefs.txt")
 @EndCode  
  
 @SeeAlso
@@ -826,7 +826,7 @@
       WritePreferenceDouble("D", 0.0123456789 )
     ClosePreferences()   
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf
+  EndIf
 @EndCode  
 
 @SeeAlso

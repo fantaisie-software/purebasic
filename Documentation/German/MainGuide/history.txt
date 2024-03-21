@@ -1,23 +1,87 @@
 @Title PureBasic Geschichte
 
-@Section 13 December 2023 : Version 6.04 LTS
+@Section XX. März 2024 : Version 6.10 LTS
 
-- @Green "Added": /DLLPROTECTION flag in commandline and a switch in 'Compiler options' to enable DLL preloading protection (Windows) @LineBreak
+- @Green "Hinzugefügt": WebView-Bibliothek zum einfachen Erstellen einer HTML/CSS-basierten Benutzeroberfläche! @LineBreak
+- @Green "Hinzugefügt": Vollständige Überarbeitung der Date-Bibliothek, um Jahre von 1601 bis 9999 zu verarbeiten! @LineBreak
+- @Green "Hinzugefügt": Skeleton-Bibliothek zum Erstellen eines benutzerdefinierten Skeletons (Skeletts) zu einem Mesh! @LineBreak
+- @Green "Hinzugefügt": SvgVectorOutput() und PdfVectorOutput() für alle OS @LineBreak
+- @Green "Hinzugefügt": DPI-Aware-Unterstützung für OS X @LineBreak
+- @Green "Hinzugefügt": ExamineDraggedItems(), NextDraggedItem() und DraggedItemIndex() für Drag'n'drop @LineBreak
+- @Green "Hinzugefügt": GetGadgetItemText() Unterstützung für das ExplorerTreeGadget() @LineBreak
+- @Green "Hinzugefügt": CompareStructure(), CompareArray(), CompareList() und CompareMap() Funktionen @LineBreak
+- @Green "Hinzugefügt": CustomSortList() und CustomSortArray() Funktionen für die Sort-Bibliothek @LineBreak
+- @Green "Hinzugefügt": CatchPack(), PackEntryDate() @LineBreak
+- @Green "Hinzugefügt": CreatePasswordHash() und VerifyPasswordHash() Funktionen (BCrypt-Algorithmus) @LineBreak
+- @Green "Hinzugefügt": DeriveCipherKey() zum Erstellen eines Chiffrierschlüssels aus einem Passwort (PBKDF2-Algorithmus) @LineBreak
+- @Green "Hinzugefügt": DateUTC() um das Datum in UTC-Zeit zu erhalten @LineBreak
+- @Green "Hinzugefügt": ConvertDate(Datum, #PB_Date_LocalTime/#PB_Date_UTC) zum Konvertieren des Datums zwischen UTC und Ortszeit @LineBreak
+- @Green "Hinzugefügt": ScaleEntityBone(), MeshDirectAdd() und Unterstützung für den #PB_Mesh_Direct Modus bei CreateMesh() @LineBreak
+- @Green "Hinzugefügt": AddPackDirectory(#Packer, Verzeichnisname$) für leere Verzeichnisse @LineBreak
+- @Green "Hinzugefügt": UseDialogWebGadget(), UseDialogOpenGLGadget(), UseDialogScintillaGadget(), um standardmäßig große Bibliotheks-Abhängigkeiten bei der Verwendung von Dialogen zu vermeiden. @LineBreak
+- @Green "Hinzugefügt": AnzMaxKanäle Parameter für InitSound(). Bereich von 1 bis 254. @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Kodierung' Parameter bei OpenPreference(), um UTF-8-Dateien ohne BOM korrekt zu verarbeiten @LineBreak
+- @Green "Hinzugefügt": Unterstützung des übergeordneten Fensters (ParentWindow) für alle Requester @LineBreak
+- @Green "Hinzugefügt": WebGadget basierend auf der Edge-Komponente mit der #PB_Web_Edge Konstante (nur Windows) @LineBreak
+- @Green "Hinzugefügt": Localhost-Bindung für InitFastCGI() @LineBreak
+- @Green "Hinzugefügt": SystrayIconMenu() um beim Klick auf das Icon automatisch ein Menü anzuzeigen @LineBreak
+- @Green "Hinzugefügt": Unterstützung für die Spaltenausrichtung beim ListIconGaget() @LineBreak
+- @Green "Hinzugefügt": Laufzeitwarnung, wenn CreateThread() ohne den ThreadSafe-Modus verwendet wird @LineBreak
+- @Green "Hinzugefügt": GadgetItemID() Unterstützung für PanelGadget() (nur Windows) @LineBreak
+- @Green "Hinzugefügt": #PB_Preference_NoBOM Flag für CreatePreference() zum Erstellen von UTF-8-Einstellungsdateien ohne BOM @LineBreak
+- @Green "Hinzugefügt": #PB_Cipher_HMAC Flag bei den Fingerprint (Fingerabdruck)-Funktionen @LineBreak
+
+- @Green "Hinzugefügt": #PB_2DDrawing_NativeText Unterstützung für DrawingMode() @LineBreak
+- @Green "Hinzugefügt": #PB_PixelFormat_NoAlpha für DrawingBufferFormat() @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_ColumnClick für ListIconGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_String_EscapeJSON Unterstützung für EscapeString() und UnescapeString(). @LineBreak
+- @Green "Hinzugefügt": #PB_Menu_SysTrayLook Unterstützung für ein besser aussehendes Popup-Menü bei dessen Verwendung mit dem SysTray (nur Windows) @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Refresh Unterstützung für ExplorerListGadget() (nur Window) @LineBreak
+- @Green "Hinzugefügt": Subsystem-Unterstützung ohne Berücksichtigung der Groß-/Kleinschreibung unter Linux @LineBreak
+- @Green "Hinzugefügt": --listfunctions/constants/interfaces und --querystructure Unterstützung für den Windows-Compiler. @LineBreak
+ @LineBreak
+
+- @Green "Aktualisiert": Unicode-Dateinamen-Unterstützung für den Windows-Compiler @LineBreak
+- @Green "Aktualisiert": Libvlc anstelle der alten xine Bibliothek unter Linux zum Abspielen von Filmen @LineBreak
+- @Green "Aktualisiert": Die Sound- und Music-Bibliotheken wurden überarbeitet, um MiniAudio unter Windows, OS X und Linux zu verwenden (SDL-Abhängigkeit ist für Sounds unter Linux nicht mehr gegeben). @LineBreak
+- @Green "Aktualisiert": SQLite Version auf 3.45.0 @LineBreak
+- @Green "Aktualisiert": Toolchain unter Windows verwendet jetzt VisualStudio 2022 und das neue MSVCRT für schnellere PureBasic-Programme und einfachere Integration externer Bibliotheken. @LineBreak
+- @Green "Aktualisiert": Mindestversion für Linux x86 ist jetzt Debian 12 @LineBreak
+- @Green "Aktualisiert": Mindestversion für Raspberry ist jetzt ein Debian 12-basiertes PI OS @LineBreak
+ @LineBreak
+- @Orange "Geändert": TextWidth(), TextHeight(), DrawText() und DrawRotatedText() verwenden jetzt Doubles für die X- und Y-Koordinaten. @LineBreak
+- @Orange "Geändert": Scintilla ist jetzt unter Windows statisch verknüpft (das Mitliefern der scintilla.dll mit dem Executable ist nicht mehr erforderlich) @LineBreak
+- @Orange "Geändert": Die SysTray-Bibliothek unter Linux verwendet jetzt AppIndicator, um moderne Linux-Distributionen unter GTK3 zu unterstützen @LineBreak
+- @Orange "Geändert": Die DESFingerprint() Funktion ist veraltet - verwenden Sie stattdessen das neue CreatePasswordHash(). @LineBreak
+- @Orange "Geändert": ListSize() und MapSize() geben jetzt ordnungsgemäß -1 zurück, wenn die Liste oder Map freigegeben wurde. @LineBreak
+ @LineBreak
+- @Red "Entfernt": --listpath unter Linux/OSX (verwenden Sie --output, um die Ausgabedatei anzugeben) @LineBreak
+- @Red "Entfernt": Windows XP-Unterstützung. Die älteste unterstützte Windows-Version für erstellte Executables ist jetzt Windows Vista. @LineBreak
+- @Red "Entfernt": Einige sehr alte veraltete Funktionen. @LineBreak
+ @LineBreak
+- @Blue "Repariert": viele Bugs in den Bibliotheken @LineBreak
+
+
+@Section 13. Dezember 2023 : Version 6.04 LTS
+
+- @Green "Hinzugefügt": /DLLPROTECTION Flag in der Kommandozeile und eine Auswahl in den 'Compiler-Optionen' zum Aktivieren des 'DLL-Preloading'-Schutzes (Windows) @LineBreak
 @LineBreak
-- @Blue "Fixed": Some IDE issues and libraries bugs mainly on OS X @LineBreak
+- @Blue "Repariert": Einige IDE-Probleme und Fehler in den Bibliotheken, hauptsächlich auf OS X @LineBreak
+
 
 @Section 11. Oktober 2023 : Version 6.03 LTS
 
 - @Green "Hinzugefügt": #PB_String_NoCaseAscii Unterstützung für CompareMemoryString(), um einen viel schnelleren String-Vergleich zu haben, wenn nur ASCII-Zeichen involviert sind @LineBreak
 - @Green "Hinzugefügt": #PB_Compiler_DPIAware Compiler-Konstante. @LineBreak
 @LineBreak
-- @Green "Aktualisiert" Scintilla auf 5.3.5 für alle Plattformen @LineBreak
+- @Green "Aktualisiert": Scintilla auf 5.3.5 für alle Plattformen @LineBreak
 @LineBreak
 - @Green "Optimiert": Kleinere und besser lesbare C generierte Datei. @LineBreak
 @LineBreak
 - @Orange "Geändert": IDE auf Linux verwendet jetzt standardmäßig GTK3 (die GTK2 IDE lautet purebasic_gtk2) @LineBreak
-@LineBreak 
-- @Blue "Repariert": viele Bugs im Compiler und den Bibliotheken @LineBreak
+@LineBreak
+- @Blue "Repariert": Eine Menge Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 17. Mai 2023 : Version 6.02 LTS
 
@@ -30,7 +94,7 @@
 @LineBreak
 - @Red "Entfernt": EnableASM Unterstützung für das C-Backend, da es nicht korrekt verwendet werden kann (die IDE wandelt die Buchstaben für If in Großbuchstaben um, etc.) und die Erkennung eines echten x86/x64-ASM-Blocks verhindert, was zu seltsamen Fehlern führt.
 Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen, um direkt C-Code zu verwenden.
-- @Blue "Repariert": viele Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 7. März 2023 : Version 6.01 LTS
 

@@ -18,7 +18,7 @@ a procedure it will become local.
 @Bold "D" and @Bold "E" are long integers too. However, they will be initialized to the stated
 constants. Notice too the alternative syntax of @ReferenceLink "define" "Define" used.
 @Code
-  Define D = 10, E = 20
+  Define.l D = 10, E = 20
 @EndCode
 
 @LineBreak
@@ -82,11 +82,11 @@ Within a procedure:
   Procedure TestVariables()
     
     ; N and P will be local.
-    Define N
-    Protected P
+    Define.l N
+    Protected.l P
     
     ; Q will be a static local.
-    Static Q
+    Static.l Q
     
     ; The main scope variable F and the string list K will be available within this procedure.
     Shared F, K()

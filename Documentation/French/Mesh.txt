@@ -8,19 +8,15 @@
 
 @Overview
 
-  Les Meshs (maillages en 3D) sont des objets 3D 
-  composés de triangles reliés entre eux pour 
-  donner une forme finale, toujours en 3D. Un 
-  Mesh peut posséder un squelette s'il est 
-  animé, permettant des animations réalistes 
-  et de qualité. Un Mesh ne peut pas être 
-  affiché directement dans le monde 3D, il 
-  doit être encapsulé dans une 
-  @LibraryLink "Entity" "entity". 
+  Les Meshs (maillages en 3D) sont des objets 3D composés de triangles reliés entre eux pour 
+  donner une forme finale, toujours en 3D. Un mesh peut avoir un "squelette" 
+  @LibraryLink "Skeleton" facultatif, avec des os pour permettre une animation en temps réel. 
+  Le squelette peut être soit directement trouvé dans le fichier mesh, soit créé dynamiquement.
+  Un mesh ne peut pas être déplacé ou affiché directement, mais nécessite d'être manipulé via une 
+  "entité" @LibraryLink "Entity".
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
-  avant de pouvoir utiliser les commandes 
+  @@InitEngine3D doit être appelé avec succès avant de pouvoir utiliser les commandes 
   relatives aux Meshs.
 
 @CommandList

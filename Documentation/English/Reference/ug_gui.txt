@@ -36,10 +36,10 @@ managing GUI elements, using that gadget would defeat this object a bit.
   
   ; And some working variables to make things happen.
   Define.s Access, Attrib, Create, Folder, Modify, Msg, Num, Size
-  Define Result, Flags
+  Define.l Result, Flags
   
   ; These variables will receive details of GUI events as they occur in the program.
-  Define Event, EventWindow, EventGadget, EventType, EventMenu
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
   
   ; This function gets the home directory for the logged on user.
   Folder = GetHomeDirectory()

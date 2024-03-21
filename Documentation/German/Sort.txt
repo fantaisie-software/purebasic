@@ -1,7 +1,7 @@
 ;
 ;     Sort library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Sort
@@ -34,6 +34,219 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function CustomSortArray(ArrayName(), @CompareProcedure() [, Optionen [, Start, Ende]])
+
+@Description
+  Sortiert das angegebene @ReferenceLink "dim" "Array" entsprechend den angegebenen Optionen
+  unter Verwendung einer benutzerdefinierten Prozedur zum Vergleichen von Array-Elementen.
+  @LineBreak
+  Das Array kann eine @ReferenceLink "structures" "Struktur" oder einen der
+  @ReferenceLink "variables" "Basistypen" haben: Byte, Word, Long, Integer, String oder Float.
+  Mehrdimensionale Arrays werden nicht unterstützt.
+
+@Parameter "ArrayName()"
+  Das zu sortierende Array.
+  
+@Parameter "@CompareProcedure()"
+  Die Adresse einer Prozedur zum Vergleichen der Array-Elemente. Die Prozedur muss über zwei
+  Parameter verfügen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
+  und sie muss einen der folgenden Werte zurückgeben:
+@FixedFont
+  @#PB_Sort_Greater: Das erste Element ist größer als das zweite.
+  @#PB_Sort_Equal  : Beide Elemente sind gleich.
+  @#PB_Sort_Lesser : Das erste Element ist kleiner als das zweite.
+@EndFixedFont
+  Die Vergleichsprozedur wird während des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
+  möglichst wenig Arbeit erledigen und schnell ausgeführt werden können.
+
+@OptionalParameter "Optionen"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Sort_Ascending : Sortiert das Array in aufsteigender Richtung (kleine Zahlen zuerst). Dies ist der Standard.
+  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (große Zahlen zuerst).
+@EndFixedFont
+
+@OptionalParameter "Start, Ende"
+  Der Index des ersten und letzten Elements im Array, die sortiert werden sollen.
+  Wenn diese Parameter nicht angegeben werden, wird das gesamte Array sortiert.
+
+@NoReturnValue
+
+@Example Strukturiertes Array sortieren
+@Code
+  Structure CustomStruct
+    Value$
+  EndStructure
+  
+  ; Nach numerischem Wert im String-Element der Struktur sortieren
+  Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
+    If Val(*a\Value$) < Val(*b\Value$)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Val(*a\Value$) > Val(*b\Value$)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  Dim Test.CustomStruct(6)
+  
+  Test(0)\Value$ = "0005"
+  Test(1)\Value$ = "2"
+  Test(2)\Value$ = "42"
+  Test(3)\Value$ = "7"
+  Test(4)\Value$ = "23"
+  Test(5)\Value$ = "100"
+  Test(6)\Value$ = "101"
+  
+  CustomSortArray(Test(), @CustomCompare(), #PB_Sort_Ascending)
+  
+  For i = 0 To 6
+    Debug Test(i)\Value$
+  Next
+@EndCode
+
+@Example Array mit Basistyp sortieren
+@Code
+  ; Float-Elemente nach absolutem Wert (ohne Berücksichtigung des Vorzeichens) sortieren
+  Procedure AbsCompare(*a.Float, *b.Float)
+    If Abs(*a\f) < Abs(*b\f)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Abs(*a\f) > Abs(*b\f)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  Dim Test.f(4)
+  Test(0) = 2.5
+  Test(1) = -3.0
+  Test(2) = 0
+  Test(3) = 12
+  Test(4) = -100
+  
+  CustomSortArray(Test(), @AbsCompare())
+  
+  For i = 0 To 4
+    Debug Test(i)
+  Next
+@EndCode
+
+@SeeAlso
+  @@SortArray, @@SortStructuredArray, @@RandomizeArray
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomSortList(ListenName(), @CompareProcedure() [, Optionen [, Start, Ende]])
+
+@Description
+  Sortiert die angegebene @LibraryLink "list" "Liste" entsprechend den angegebenen Optionen
+  unter Verwendung einer benutzerdefinierten Prozedur zum Vergleichen von Listen-Elementen.
+  @LineBreak
+  Die Liste kann eine @ReferenceLink "structures" "Struktur" oder einen der
+  @ReferenceLink "variables" "Basistypen" haben: Byte, Word, Long, Integer, String oder Float.
+
+@Parameter "ListenName()"
+  Die zu sortierende Liste.
+
+@Parameter "@CompareProcedure()"
+  Die Adresse einer Prozedur zum Vergleichen der Listen-Elemente. Die Prozedur muss über zwei
+  Parameter verfügen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
+  und sie muss einen der folgenden Werte zurückgeben:
+@FixedFont
+  @#PB_Sort_Greater: Das erste Element ist größer als das zweite.
+  @#PB_Sort_Equal  : Beide Elemente sind gleich.
+  @#PB_Sort_Lesser : Das erste Element ist kleiner als das zweite.
+@EndFixedFont
+  Die Vergleichsprozedur wird während des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
+  möglichst wenig Arbeit erledigen und schnell ausgeführt werden können.
+
+@OptionalParameter "Optionen"
+  Dies kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_Sort_Ascending : Sortiert die Liste in aufsteigender Richtung (kleine Zahlen zuerst). Dies ist der Standard.
+  @#PB_Sort_Descending: Sortiert die Liste in absteigender Richtung (große Zahlen zuerst).
+@EndFixedFont
+
+@OptionalParameter "Start, Ende"
+  Der Index des ersten und letzten Elements in der Liste, die sortiert werden sollen.
+  Wenn diese Parameter nicht angegeben werden, wird die gesamte Liste sortiert.
+  @LineBreak
+  Das erste Listenelement steht an Position 0, das nächste an Position 1 und so weiter.
+
+@NoReturnValue
+
+@Example Strukturierte Liste sortieren
+@Code
+  Structure CustomStruct
+    Value$
+  EndStructure
+  
+  ; Nach numerischem Wert im String-Element der Struktur sortieren
+  Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
+    If Val(*a\Value$) < Val(*b\Value$)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Val(*a\Value$) > Val(*b\Value$)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  NewList Test.CustomStruct()
+  
+  AddElement(Test()) : Test()\Value$ = "0005"
+  AddElement(Test()) : Test()\Value$ = "2"
+  AddElement(Test()) : Test()\Value$ = "42"
+  AddElement(Test()) : Test()\Value$ = "7"
+  AddElement(Test()) : Test()\Value$ = "23"
+  AddElement(Test()) : Test()\Value$ = "100"
+  AddElement(Test()) : Test()\Value$ = "101"
+  
+  CustomSortList(Test(), @CustomCompare(), #PB_Sort_Ascending)
+  
+  ForEach Test()
+    Debug Test()\Value$
+  Next
+@EndCode
+
+@Example Liste mit Basistyp sortieren
+@Code
+  ; Float-Elemente nach absolutem Wert (ohne Berücksichtigung des Vorzeichens) sortieren
+  Procedure AbsCompare(*a.Float, *b.Float)
+    If Abs(*a\f) < Abs(*b\f)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Abs(*a\f) > Abs(*b\f)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  NewList Test.f()
+  AddElement(Test()) : Test() = 2.5
+  AddElement(Test()) : Test() = -3.0
+  AddElement(Test()) : Test() = 0
+  AddElement(Test()) : Test() = 12
+  AddElement(Test()) : Test() = -100
+  
+  CustomSortList(Test(), @AbsCompare())
+  
+  ForEach Test()
+    Debug Test()
+  Next
+@EndCode
+
+@SeeAlso
+  @@SortList, @@SortStructuredList, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function SortArray(ArrayName(), Optionen [, Start, Ende])
 
 @Description
@@ -56,7 +269,7 @@
 
 @OptionalParameter "Start, Ende"
   Der Index des ersten und letzten Elements im Array, welche sortiert werden sollen.
-  Wenn diese Parameter nicht angegeben werden, dann wird das ganze Arrays sortiert.
+  Wenn diese Parameter nicht angegeben werden, dann wird das ganze Array sortiert.
 
 @NoReturnValue
 
@@ -71,7 +284,7 @@
   zufällige Ergebnisse produziert.
 
 @SeeAlso
-  @@SortStructuredArray, @@RandomizeArray
+  @@SortStructuredArray, @@CustomSortArray, @@RandomizeArray
   
 @SupportedOS
 
@@ -109,7 +322,7 @@
   @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstützt.
 
 @SeeAlso
-  @@SortStructuredList, @@RandomizeList
+  @@SortStructuredList, @@CustomSortList, @@RandomizeList
   
 @SupportedOS
 
@@ -205,7 +418,7 @@
 @EndCode
 
 @SeeAlso
-  @@SortArray, @@RandomizeArray
+  @@SortArray, @@CustomSortArray, @@RandomizeArray
 
 @SupportedOS
 
@@ -299,7 +512,7 @@
 @EndCode
 
 @SeeAlso
-  @@SortList, @@RandomizeList
+  @@SortList, @@CustomSortList, @@RandomizeList
 
 @SupportedOS
 

@@ -8,12 +8,9 @@
 
 @Overview
 
-  La bibliothèque Packer propose un ensemble 
-  de fonctions efficaces pour compresser / 
-  décompresser des données et gérer les 
-  archives compressées.@LineBreak
-  Plusieurs formats de compressions sont pris 
-  en charge, de Zip à Lzma.
+  La bibliothèque Packer propose un ensemble de fonctions efficaces pour compresser / 
+  décompresser des données et gérer les archives compressées.@LineBreak
+  Plusieurs formats de compressions sont pris en charge, de Zip à Lzma.
 
 @CommandList
 
@@ -26,9 +23,7 @@
 @Function Resultat = AddPackFile(#Archive, Fichier$, FichierCompresser$)
 
 @Description
-  Ajoute et compresse un fichier dans une 
-  archive préalablement créée avec 
-  @@CreatePack. 
+  Ajoute et compresse un fichier dans une archive préalablement créée avec @@CreatePack. 
  
 @Parameter "#Archive"
   L'archive à utiliser.
@@ -37,26 +32,22 @@
   Le fichier à ajouter à l'archive.
 
 @Parameter "FichierCompresser$"
-  Le nom de fichier à utiliser dans 
-  l'archive.
+  Le nom de fichier à utiliser dans l'archive.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le fichier 
-  a été ajouté avec succès à l'archive.
+  Renvoie une valeur non nulle si le fichier a été ajouté avec succès à l'archive.
   @LineBreak
-  Si le fichier ne peut pas être compressé, 
-  il sera stocké tel quel dans l'archive.
+  Si le fichier ne peut pas être compressé, il sera stocké tel quel dans l'archive.
 
 @Remarks
-  L'ajout d'un grand fichier peut prendre 
-  un temps assez long.
+  L'ajout d'un grand fichier peut prendre un temps assez long.
 
 @Example Utilisation d'une arborescence de fichiers  
 @Code
 
   UseZipPacker()
 
-  Path$ =  #PB_Compiler_Home + "Examples/Sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
+  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
   PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
     If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
@@ -73,7 +64,7 @@
   If OpenPack(0, PackFile$)
     If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
       If ExaminePack(0)
-        Debug "Contenu des archives à décompresser :"
+         Debug "Fichier compressé créé avec succès : " + PackFile$
         While NextPackEntry(0)
           Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
@@ -100,6 +91,27 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AddPackDirectory(#Archive, Repertoire$)
+
+@Description
+   Ajoute un nouveau répertoire vide à l'archive créée avec @@CreatePack.
+
+@Parameter "#Pack"
+   L'archive à utiliser.
+
+@Parameter "NomRépertoire$"
+   Le nom du répertoire vide à ajouter à l'archive.
+
+@ReturnValue
+   Renvoie une valeur non nulle si le répertoire vide a été ajouté avec succès à l'archive.
+  
+@SeeAlso
+  @@CreatePack
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
 
 @Function Resultat = AddPackMemory(#Archive, *MemoireTampon, Longueur , FichierCompresser$)
 
@@ -231,20 +243,17 @@
   L'archive à utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'archive 
-  peut être examinée, zéro sinon.
+  Renvoie une valeur non nulle si l'archive peut être examinée, zéro sinon.
 
 @Remarks
-  @@NextPackEntry doit être appelé pour lister 
-  les entrées dans le fichier archive.
+  @@NextPackEntry doit être appelé pour lister les entrées dans le fichier archive.
   @LineBreak
-  L'archive doit être préalablement ouverte 
-  avec @@OpenPack.@LineBreak 
-  Les archives créées avec @@CreatePack ne 
-  peuvent pas être examinées.
+  L'archive doit être préalablement ouverte avec @@OpenPack ou @@CatchPack.@LineBreak 
+  Les archives créées avec @@CreatePack ne peuvent pas être examinées.
   
 @Example
 @Code
+
   UseZipPacker()
 
   ; Ouvre le fichier compressé
@@ -262,7 +271,7 @@
 @EndCode
   
 @SeeAlso
-  @@OpenPack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@NextPackEntry
     
 @SupportedOS
 
@@ -277,26 +286,49 @@
   L'archive à utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'archive 
-  contient une autre entrée, zéro sinon.
+  Renvoie une valeur non nulle si l'archive contient une autre entrée, zéro sinon.
   
 @Remarks
   @@ExaminePack doit être appelé auparavant.
   @LineBreak
-  Pour obtenir plus d'informations sur l'entrée 
-  en cours, voir @@PackEntrySize, @@PackEntryType 
+  Pour obtenir plus d'informations sur l'entrée en cours, voir @@PackEntrySize, @@PackEntryType 
   et @@PackEntryName.@LineBreak
-  Pour décompresser l'entrée courante, voir 
-  @@UncompressPackMemory ou @@UncompressPackFile.
+  Pour décompresser l'entrée courante, voir @@UncompressPackMemory ou @@UncompressPackFile.
   
 @SeeAlso
-  @@OpenPack, @@PackEntrySize, @@PackEntryType, 
-  @@PackEntryName, @@UncompressPackMemory, 
-  @@UncompressPackFile
+  @@OpenPack, @@CatchPack, @@PackEntrySize, @@PackEntryDate, @@PackEntryType, @@PackEntryName,
+  @@UncompressPackMemory, @@UncompressPackFile
+
     
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = PackEntryDate(#Archive [, TypeDate])
+
+@Description
+   Renvoie la date du fichier de l'entrée actuelle de l'archive, définie avec @@NextPackEntry.
+  
+@Parameter "#Pack"
+   L'archive à utiliser.
+  
+@Parameter "TypeDate"
+   Le genre de date à renvoyer. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+   @#PB_Date_Created  : Renvoie la date de création du fichier.
+   @#PB_Date_Accessed : Renvoie la date du dernier accès au fichier.
+   @#PB_Date_Modified : Renvoie la date de la dernière modification du fichier.
+@EndFixedFont
+
+@ReturnValue
+   Renvoie la date du fichier ou -1 si aucune date n'est disponible.
+
+@SeeAlso
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryType
+    
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
 
 @Function Resultat = PackEntryType(#Archive)
 
@@ -315,8 +347,7 @@
 @EndFixedFont
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, 
-  @@PackEntrySize, @@PackEntryName.
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName.
     
 @SupportedOS
 
@@ -344,8 +375,7 @@
   Renvoie la taille de l'entrée courante.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntryType, 
-  @@PackEntryName.
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName.
     
 @SupportedOS
 
@@ -364,8 +394,7 @@
   Renvoie le nom de l'entrée courante.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, 
-  @@PackEntryType, @@PackEntrySize.
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize.
     
 @SupportedOS
 
@@ -498,11 +527,54 @@
 @EndCode
 
 @SeeAlso
-  @@ClosePack, @@ExaminePack
+  @@ClosePack, @@ExaminePack, @@CatchPack
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CatchPack(#Archive, *AdresseMemoire, Taille [, Plugin])
+
+@Description
+  Ouvre un fichier archive depuis la mémoire. 
+
+@Parameter "#Archive"
+  Le numéro d'identification de l'archive à ouvrir. 
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé comme paramètre pour générer 
+  automatiquement ce numéro.
+
+@Parameter "*AdresseMemoire"
+  L'adresse mémoire où se trouve le fichier archive.
+
+@Parameter "Taille"
+  La taille du fichier archive en octets.
+
+@OptionalParameter "Plugin"
+   Le plugin à utiliser, si plusieurs plugins packer ont été enregistrés. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+   @#PB_PackerPlugin_BriefLZ : Utilise le packer BriefLZ pour ouvrir l'archive. @@UseBriefLZPacker doit être appelé avant.
+   @#PB_PackerPlugin_Zip     : Utilise le packer Zip pour ouvrir l'archive. @@UseZipPacker doit être appelé avant.
+   @#PB_PackerPlugin_Lzma    : Utilise le packer Lzma pour ouvrir l'archive. @@UseLzmaPacker doit être appelé avant.
+   @#PB_PackerPlugin_Tar     : Utilise le packer Tar pour ouvrir l'archive. @@UseTarPacker doit être appelé avant.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si le fichier archive a été ouvert avec succès, zéro sinon. 
+  Si @#PB_Any a été utilisé comme paramètre #Archive, un numéro généré est renvoyé.
+
+@Remarks
+  Avant d'ouvrir un fichier archive, au moins un packer doit être enregistré avec l'une des 
+  commandes suivantes : @@UseZipPacker, @@UseLzmaPacker, @@UseTarPacker, @@UseBriefLZPacker.@LineBreak
+  Une fois ouvert, le contenu de l'archive peut être répertorié avec @@ExaminePack.
+
+@SeeAlso
+  @@ClosePack, @@ExaminePack, @@OpenPack
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
 
 @Function Resultat = UncompressMemory(*MemoireTampon, Taille, *Sortie, SortieTaille [, Plugin])
 
@@ -587,7 +659,7 @@
   dans la mémoire tampon, zéro sinon.
   
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 
@@ -630,7 +702,7 @@
 
   UseZipPacker()
 
-  Path$ =  #PB_Compiler_Home + "Examples/Sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
+  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
   PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
     If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
@@ -647,7 +719,7 @@
   If OpenPack(0, PackFile$)
     If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
       If ExaminePack(0)
-        Debug "Contenu des archives à décompresser :"
+        Debug ""Extraction de l'archive dans : " + Path$
         While NextPackEntry(0)
           Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
@@ -669,7 +741,7 @@
 @EndCode
 
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 

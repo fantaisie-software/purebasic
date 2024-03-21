@@ -271,6 +271,66 @@
 
 @Syntax
 
+  @Keyword CompareStructure(*Zeiger1, *Zeiger2, Struktur [, Flags])
+
+@Description
+
+  @Keyword CompareStructure vergleicht den Speicher zweier @ReferenceLink "structures" "Strukturen" auf Gleichheit.
+  Der Vergleich wird rekursiv auch auf untergeordnete Elemente wie @ReferenceLink "dim" "Arrays", 
+  @ReferenceLink "newlist" "Listen" und @ReferenceLink "newmap" "Maps" angewendet. Gibt einen Wert ungleich Null
+  zurück, wenn die Strukturen gleich sind oder Null, wenn sie unterschiedlich sind.
+@LineBreak
+@LineBreak
+  Der Parameter "Flags" ist optional und kann einen der folgenden Werte haben:
+@FixedFont
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger ist, der nicht 0 ist, vergleichen Sie das Zeigerziel rekursiv.
+                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
+@EndFixedFont
+
+@Bold "Achtung:"
+  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
+  Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
+
+@Example
+
+@Code
+  Structure People
+    Name$
+    LastName$
+    Map Friends$()
+    Age.l
+  EndStructure
+
+  StudentA.People\Name$ = "Paul"
+  StudentA\LastName$ = "Morito"
+  StudentA\Friends$("Tom") = "Jones"
+  StudentA\Friends$("Jim") = "Doe"
+
+  StudentB.People\Name$ = "Paul"
+  StudentB\LastName$ = "Morito"
+  StudentB\Friends$("Tom") = "Jones"
+  StudentB\Friends$("Jim") = "Doe"
+
+  StudentC.People\Name$ = "Paul"
+  StudentC\LastName$ = "Morito"
+  StudentC\Friends$("Tom") = "Hanks" ; Nicht dasselbe wie in StudentA
+  StudentC\Friends$("Jim") = "Doe"
+
+  Debug CompareStructure(@StudentA, @StudentB, People) ; Gleich
+  Debug CompareStructure(@StudentA, @StudentC, People) ; Nicht gleich
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
   @Keyword CopyStructure(*Quelle, *Ziel, Struktur)
 
 @Description

@@ -48,15 +48,7 @@
   Nonzero if the systray icon has been successfully added, zero otherwise.
 
 @Remarks
-  All SysTray icons are automatically removed when the program ends.@LineBreak
-@LineBreak
-  The following events are supported through @@EventType:
-@FixedFont
-  @#PB_EventType_LeftClick
-  @#PB_EventType_RightClick (Not supported on MacOS)
-  @#PB_EventType_LeftDoubleClick (Not supported on MacOS)
-  @#PB_EventType_RightDoubleClick (Not supported on MacOS)
-  @EndFixedFont
+  All SysTray icons are automatically removed when the program ends.
 
 @Example
 @Code
@@ -110,6 +102,7 @@
 
 @Example
 @Code
+  ; Invisible window to just have the systray
   OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
   
   ; Create an image with a yellow box to be used for the Systray icon:
@@ -118,6 +111,7 @@
     StopDrawing()
   EndIf
   
+  ; Associate the menu to the systray
   AddSysTrayIcon(0, WindowID(0), ImageID(0))
   
   ; Create a pop-up menu to be used with the Systray icon later:
@@ -181,7 +175,7 @@
 @Function SysTrayIconMenu(#SysTrayIcon, MenuID)
 
 @Description
-  Associates the specified popup menu with the SysTray icon. The menu should be create with @@CreatePopupImageMenu using
+  Associates the specified popup menu with the SysTray icon. The menu should be created with @@CreatePopupImageMenu using
   the @#PB_Menu_SysTrayLook flag. It's the best way to associate a popup menu with a SysTray icon as it will display the
   popup menu at the correct position on all OS when the user click on the icon.
 

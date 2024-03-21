@@ -83,6 +83,8 @@
                                  Utile quand il s'agit d'un fichier de préférences externes qui 
                                  n'accepte pas les espaces autour du signe égal.
   @#PB_Preference_GroupSeparator: Ajoute une ligne vide entre les groupes pour faciliter la lisibilité.
+  @#PB_Preference_NoBOM         : N'ajoute pas la nomenclature UTF-8 (BOM) lors de l'écriture du fichier. 
+                                 Le fichier sera toujours écrit en utilisant le codage UTF-8.
 @EndFixedFont
 
 @ReturnValue
@@ -441,7 +443,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = OpenPreferences(Fichier$ [, Options])
+@Function Resultat = OpenPreferences(Fichier$ [, Options [, Encodage]])])
 
 @Description
   Ouvre un fichier de préférences. 
@@ -458,38 +460,37 @@
   @#PB_Preference_GroupSeparator: Ajoute une ligne vide entre les groupes pour faciliter la lisibilité.
 @EndFixedFont
 
+@OptionalParameter "Encodage"
+  Permet de forcer l'utilisation d'un encodage de chaîne particulier lors de la lecture du 
+  fichier de préférences. Si une nomenclature UTF-8 (BOM) est trouvée au début du fichier, ce paramètre 
+  est ignoré et UTF-8 sera utilisé. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+   @#PB_UTF8  : Le fichier sera lu en UTF-8, même s'il n'a pas de nomenclature (BOM).
+   @#PB_Ascii : Le fichier sera lu en Ascii, sauf s'il existe une nomenclature UTF-8 (BOM). 
+                Si les préférences sont réécrites dans un fichier, elles utiliseront UTF-8.
+@EndFixedFont
+
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, 
-  zéro sinon. 
+  Renvoie une valeur non nulle en cas de succès, zéro sinon. 
   
 @Remarks
-  Si le fichier ne peut pas être ouvert, le 
-  programmeur peut malgré tout utiliser la 
-  commande de lecture, celle-ci renvoyant alors 
-  la valeur spécifiée par défaut. 
-  Ceci est très pratique pour initialiser en une 
-  fois les variables du programme.
-  Les fonctions comme @@ReadPreferenceString 
-  peuvent être utilisées pour lire les valeurs 
+  Si le fichier ne peut pas être ouvert, le programmeur peut malgré tout utiliser la commande de 
+  lecture, celle-ci renvoyant alors la valeur spécifiée par défaut. 
+  Ceci est très pratique pour initialiser en une fois les variables du programme.
+  Les fonctions comme @@ReadPreferenceString peuvent être utilisées pour lire les valeurs 
   de préférences stockées dans le fichier.
 @LineBreak
 @LineBreak
-  Pour effacer une clé ou un groupe, utiliser 
-  @@RemovePreferenceKey ou @@RemovePreferenceGroup.
+  Pour effacer une clé ou un groupe, utiliser @@RemovePreferenceKey ou @@RemovePreferenceGroup.
   @LineBreak 
-  @@PreferenceGroup permet de créer ou de changer 
-  le groupe courant.
+  @@PreferenceGroup permet de créer ou de changer le groupe courant.
 @LineBreak
 @LineBreak
-  Il est possible de modifier les valeurs 
-  existantes avec @@WritePreferenceString ou 
-  une commande ad hoc.
+  Il est possible de modifier les valeurs existantes avec @@WritePreferenceString ou une commande ad hoc.
 @LineBreak
 @LineBreak
-  Une fois les opérations sur le fichier terminées, 
-  il faut utiliser @@ClosePreferences pour mettre à 
-  jour, écrire et fermer le fichier préférences sur 
-  le disque.
+  Une fois les opérations sur le fichier terminées, il faut utiliser @@ClosePreferences pour mettre à 
+  jour, écrire et fermer le fichier préférences sur le disque.
  
 @Example
 @Code
@@ -613,27 +614,21 @@
 @Function Resultat.d = ReadPreferenceDouble(Clé$, ValeurParDefaut)
 
 @Description
-  Lit et renvoie le nombre 
-  @ReferenceLink "variables" "Double" 
-  associé à une clé. 
+  Lit et renvoie le nombre @ReferenceLink "variables" "Double" associé à une clé. 
   
 @Parameter "Clé$"  
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été utilisée 
-  alors la recherche est limitée au groupe courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé n'existe 
-  pas ou si le fichier de préférences n'a pas été 
+  La valeur par défaut à renvoyer si la clé n'existe pas ou si le fichier de préférences n'a pas été 
   ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie le nombre à virgule en double précision 
-  @ReferenceLink "variables" "Double" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
+  Renvoie le nombre à virgule en double précision @ReferenceLink "variables" "Double" associée à la clé. 
+  Si ce nombre n'existe pas alors la valeur par défaut 'ValeurParDefaut' 
   est renvoyée.
 
 @Example
@@ -676,29 +671,22 @@
 @Function Resultat.f = ReadPreferenceFloat(Clé$, ValeurParDefaut)
 
 @Description
-  Lit et renvoie le nombre 
-  @ReferenceLink "variables" "Float" 
-  associé à une clé. 
+  Lit et renvoie le nombre @ReferenceLink "variables" "Float" associé à une clé. 
   
 @Parameter "Clé$"  
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été 
-  utilisée alors la recherche est limitée au 
-  groupe courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
+
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé 
-  n'existe pas ou si le fichier de préférences 
-  n'a pas été ouvert correctement (fichier 
-  absent par exemple).
+  La valeur par défaut à renvoyer si la clé n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie le nombre à virgule en simple précision 
-  @ReferenceLink "variables" "Float" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
+  Renvoie le nombre à virgule en simple précision @ReferenceLink "variables" "Float" 
+  associée à la clé. Si ce nombre n'existe pas alors la valeur par défaut 'ValeurParDefaut' 
   est renvoyée.
 
 @Example
@@ -749,22 +737,16 @@
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été utilisée 
-  alors la recherche est limitée au groupe 
-  courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
+
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé 
-  n'existe pas ou si le fichier de préférences 
-  n'a pas été ouvert correctement (fichier 
-  absent par exemple).
+  La valeur par défaut à renvoyer si la clé n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie le nombre entier 
-  @ReferenceLink "variables" "Integer" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
-  est renvoyée.
+  Renvoie le nombre entier @ReferenceLink "variables" "Integer" associée à la clé. Si ce nombre 
+  n'existe pas alors la valeur par défaut 'ValeurParDefaut' est renvoyée.
 
 @Example
 @Code
@@ -808,30 +790,22 @@
 @Function Resultat.l = ReadPreferenceLong(Clé$, ValeurParDefaut)
 
 @Description
-  Lit et renvoie le nombre entier 
-  @ReferenceLink "variables" "Long" 
-  associé à une clé. 
+  Lit et renvoie le nombre entier @ReferenceLink "variables" "Long" associé à une clé. 
   
 @Parameter "Clé$"  
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été utilisée 
-  alors la recherche est limitée au groupe 
-  courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
+
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé 
-  n'existe pas ou si le fichier de préférences 
-  n'a pas été ouvert correctement (fichier 
-  absent par exemple).
+  La valeur par défaut à renvoyer si la clé n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie le nombre entier 
-  @ReferenceLink "variables" "Long" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
-  est renvoyée.
+  Renvoie le nombre entier @ReferenceLink "variables" "Long" associée à la clé. Si ce nombre 
+  n'existe pas alors la valeur par défaut 'ValeurParDefaut' est renvoyée.
 
 @Example
 @Code
@@ -873,30 +847,22 @@
 @Function Resultat.q = ReadPreferenceQuad(Clé$, ValeurParDefaut)
 
 @Description
-  Lit et renvoie le nombre entier 
-  @ReferenceLink "variables" "Quad" 
-  associé à une clé. 
+  Lit et renvoie le nombre entier @ReferenceLink "variables" "Quad" associé à une clé. 
   
 @Parameter "Clé$"  
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été utilisée 
-  alors la recherche est limitée au groupe 
-  courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
+
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé 
-  n'existe pas ou si le fichier de préférences 
-  n'a pas été ouvert correctement (fichier 
-  absent par exemple).
+  La valeur par défaut à renvoyer si la clé  n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie le nombre entier 
-  @ReferenceLink "variables" "Quad" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
-  est renvoyée.
+  Renvoie le nombre entier @ReferenceLink "variables" "Quad" associée à la clé. Si ce nombre 
+  n'existe pas alors la valeur par défaut 'ValeurParDefaut' est renvoyée.
 
 @Example
 @Code
@@ -938,30 +904,22 @@
 @Function Resultat$ = ReadPreferenceString(Clé$, ValeurParDefaut)
 
 @Description
-  Lit et renvoie la chaîne de caractères 
-  @ReferenceLink "variables" "String" 
-  associé à une clé. 
+  Lit et renvoie la chaîne de caractères @ReferenceLink "variables" "String" associé à une clé. 
   
 @Parameter "Clé$"  
   Le nom de la clé à lire. 
 @LineBreak
 @LineBreak
-  Si la commande @@PreferenceGroup a été utilisée 
-  alors la recherche est limitée au groupe 
-  courant.
+  Si la clé se trouve dans un groupe, @@PreferenceGroup doit être utilisé pour changer le groupe actuel.  
+
 
 @Parameter "ValeurParDefaut"  
-  la valeur par défaut à renvoyer si la clé 
-  n'existe pas ou si le fichier de préférences 
-  n'a pas été ouvert correctement (fichier 
-  absent par exemple).
+  La valeur par défaut à renvoyer si la clé n'existe pas ou si le fichier de préférences 
+  n'a pas été ouvert correctement (fichier absent par exemple).
 
 @ReturnValue
-  Renvoie la chaîne de caractères 
-  @ReferenceLink "variables" "String" 
-  associée à la clé. Si ce nombre n'existe pas 
-  alors la valeur par défaut 'ValeurParDefaut' 
-  est renvoyée.
+  Renvoie la chaîne de caractères @ReferenceLink "variables" "String" associée à la clé. Si ce nombre 
+  n'existe pas alors la valeur par défaut 'ValeurParDefaut' est renvoyée.
 
 @Example
 @Code
@@ -1068,19 +1026,19 @@
       WritePreferenceString("Titre", "PureNote")    
     ClosePreferences()   
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf  
+ EndIf  
     
-    MessageRequester("Info", "Ok pour supprimer la clé 'Titre' ")
+  MessageRequester("Info", "Ok pour supprimer la clé 'Titre' ")
     
   ; Ouvrir le fichier préférence
-    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
-    PreferenceGroup("Window")
+  OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+  PreferenceGroup("Window")
        
   ; Supprimer la clé 'Titre'  
-    RemovePreferenceKey("Titre")
-    
-    ClosePreferences()      
-    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  RemovePreferenceKey("Titre")
+  
+  ClosePreferences()      
+  RunProgram(GetTemporaryDirectory()+"Prefs.txt")
 @EndCode  
  
 @SeeAlso

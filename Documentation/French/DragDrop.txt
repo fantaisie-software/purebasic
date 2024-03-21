@@ -86,8 +86,42 @@
   'Drag & Drop' est en réponse à un évènement 
   sur un @LibraryLink "Gadget" "Gadget" avec 
   un @@EventType valant
-  @#PB_EventType_DragStart.  
+  @#PB_EventType_DragStart. 
+@LineBreak
+@LineBreak
+  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  ou de @@BindGadgetEvent.
   
+@Example
+@Code
+  Procedure DragStartHandler()
+    ExamineDraggedItems()
+    While NextDraggedItem()
+      Texte$ + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
+    Wend
+    
+    Debug "Texte en cours de déplacement : " + Texte$
+    
+    DragText(Texte$)
+  EndProcedure
+
+  ; Sélectionnez des fichiers ou des dossiers et faites-les glisser vers une autre application.
+  ;
+  If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
+    ListViewGadget(0, 10, 10, 380, 380, #PB_ListView_MultiSelect)
+    AddGadgetItem(0, -1, "Element 1")
+    AddGadgetItem(0, -1, "Element 2")
+    AddGadgetItem(0, -1, "Element 3")
+    
+    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
 @SeeAlso
   @@DragFiles, @@DragImage, @@DragPrivate, 
   @@DragOSFormats, @@SetDragCallback
@@ -99,8 +133,7 @@
 @Function Resultat = DragImage(ImageID [, Actions])
 
 @Description
-  Lance une opération de 'Drag & Drop' en 
-  utilisant une donnée de type image. 
+  Lance une opération de 'Drag & Drop' en utilisant une donnée de type image. 
 
 @Parameter "ImageID"
   L'image à transférer. 
@@ -152,7 +185,11 @@
   réponse à un évènement sur un 
   @LibraryLink "Gadget" "Gadget" avec un 
   @@EventType valant @#PB_EventType_DragStart.
-
+@LineBreak
+@LineBreak
+  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  ou de @@BindGadgetEvent.
+  
 @Example
 @Code
   ; Glissez une image vers une application qui les accepte comme une application de bureau ou un programme graphique.
@@ -252,28 +289,34 @@
   'Drag & Drop' est en réponse à un évènement 
   sur un @LibraryLink "Gadget" "Gadget" avec 
   un @@EventType valant @#PB_EventType_DragStart.
-
+@LineBreak
+@LineBreak
+  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  ou de @@BindGadgetEvent.
+  
 @Example
 @Code
-  ; Sélectionnez quelques fichiers ou dossiers et glissez-les dans une autre application
+  Procedure DragStartHandler()
+    ExamineDraggedItems()
+    While NextDraggedItem()
+      Fichiers$ + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
+    Wend
+    
+    Debug "Fichiers en cours de déplacement : " + Fichiers$
+    
+    DragFiles(Fichiers$)
+  EndProcedure
+
+  ; Sélectionnez dess fichiers ou des dossiers et faites-les glisser vers une autre application.
   ;
-  If OpenWindow(1, 200, 200, 400, 400, "Drag & Drop", #PB_Window_SystemMenu)
-    ExplorerListGadget(1, 10, 10, 380, 380, "*", #PB_Explorer_MultiSelect)
-  
+  If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
+    ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
+    
+    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
     Repeat
       Event = WaitWindowEvent()  
-          
-      If Event = #PB_Event_Gadget And EventGadget() = 1 And EventType() = #PB_EventType_DragStart
-        Files$ = ""       
-        For i = 0 To CountGadgetItems(1)-1
-          If GetGadgetItemState(1, i) & #PB_Explorer_Selected
-            Files$ + GetGadgetText(1) + GetGadgetItemText(1, i) + Chr(10)
-          EndIf
-        Next i        
-        
-        DragFiles(Files$)
-      EndIf      
-      
     Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
@@ -1084,30 +1127,7 @@
 
 @Bold "MacOSX:"
 @Indent
-@Code
-  Procedure DragCallback(DragReference, isStart)
-  
-  EndProcedure
-@EndCode
-  La callback n'est appelée seulement qu'au 
-  début ou à la fin de l'opération "Drag & 
-  Drop" (="glisser/déposer"). 
-  Le paramètre 'DragReference' précise le 
-  contexte 'Drag' de Carbon pour cette 
-  opération, contexte qui prend la forme d'une 
-  valeur 'DragRef'. 
-  'isStart' précise s'il s'agit du début ou de 
-  la fin de l'opération 'Drag & Drop'. La 
-  valeur de retour de cette fonction callback 
-  est ignorée.
-@LineBreak
-@LineBreak  
-  Toutes les fonctions du "Drag Manager" de 
-  Carbon peuvent être utilisées pour modifier 
-  l'opération 'Drag' avant qu'elle ne commence 
-  (ajouter plusieurs choix par exemple) et 
-  pour obtenir plus d'informations une fois 
-  qu'elle est terminée.
+  Non supporté.
 @EndIndent
 
 @NoReturnValue
@@ -1115,7 +1135,7 @@
 @SeeAlso
   @@SetDropCallback
     
-@SupportedOS
+@SupportedOS Window, Linux
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -1153,7 +1173,7 @@
 @LineBreak
 
 @Code
-  Procedure DropCallback(Handle, Etat, Format, Action, x, y)
+  Procedure DropCallback(Handle, Etat.l, Format.l, Action.l, x.l, y.l)
   
     ProcedureReturn #True
   EndProcedure
@@ -1221,3 +1241,86 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function ExamineDraggedItems()
+
+@Description
+  Examine les éléments à déplacés.
+  
+@NoReturnValue
+
+@Remarks
+  L'examen des éléments à déplacer nécessitera l'utilisation des fonctions @@NextDraggedItem 
+  et @@DraggedItemIndex. @LineBreak 
+  Il doit être utilisé après un @#PB_Event_DragStart.
+  @LineBreak
+  @LineBreak
+  Cette fonction est prise en charge pour les gadgets suivants : @@ExplorerListGadget,
+  @@ExplorerTreeGadget, @@ListIconGadget, @@ListViewGadget et @@TreeGadget.
+
+
+@Example
+@Code
+  Procedure DragStartHandler()
+    
+    ; Examine les éléments à déplacer. Doit être après un événement #PB_EventType_DragStart
+    ;
+    ExamineDraggedItems()
+    
+    ; Itérer les éléments à déplacer
+    ;
+    While NextDraggedItem()
+      Debug "Eléments à déplacer : " + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex())
+    Wend
+  EndProcedure
+
+  ; Sélectionner des fichiers ou des dossiers et faites-les glisser vers une autre application.
+  ;
+  If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
+    ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
+    
+    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
+    Repeat
+      Event = WaitWindowEvent()  
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextDraggedItem, @@DraggedItemIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = NextDraggedItem()
+
+@Description
+  Cette fonction doit être appelée après @@ExamineDraggedItems qui parcourra les éléments à déplacer. 
+   
+@ReturnValue
+ Renvoie une valeur non nulle si un autre élément à déplacer est disponible ou zéro sinon.
+
+@SeeAlso
+  @@ExamineDraggedItems, @@DraggedItemIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = DraggedItemIndex()
+
+@Description
+  Renvoie l'index de l'élément en cours à déplacer. 
+   
+@ReturnValue
+  Renvoie l'index de l'élément actuellement déplacé (le premier index est zéro).
+
+@Remarks
+  Cette fonction doit être appelée après @@NextDraggedItem.
+
+@SeeAlso
+  @@ExamineDraggedItems, @@NextDraggedItem
+
+@SupportedOS

@@ -1,7 +1,7 @@
 ;
 ;     Menu library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Menu
@@ -288,7 +288,8 @@
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Menu_ModernLook: Farbverlauf und modernes Aussehen aktivieren (hat nur einen Effekt auf Windows)
+  @#PB_Menu_ModernLook : Farbverlauf und modernes Aussehen aktivieren (hat nur einen Effekt auf Windows)
+  @#PB_Menu_SysTrayLook: Aktiviert den "Systray-Look" zur Verwendung mit @@SysTrayIconMenu (hat nur einen Effekt auf Windows)
 @EndFixedFont
 
 @ReturnValue
@@ -329,41 +330,40 @@
     StopDrawing()
   EndIf
     
-  If OpenWindow(0, 200, 200, 200, 120, "Image Popup-Menu Example")
+  OpenWindow(0, 200, 200, 200, 120, "Image Popup-Menu Example")
   
-    If LoadImage(1,#PB_Compiler_Home + "Examples\Sources\Data\ToolBar\Open.png")  ; lädt ein Icon
-      If CreatePopupImageMenu(0, #PB_Menu_ModernLook)      ; hier beginnt das Erstellen des Popup-Menüs...
-        MenuItem(1, "Open", ImageID(1))      ; Zeigt das Icon an
-        MenuItem(2, "Save")      ; Sie können alle Befehle zum Erstellen eines Menüs
-        MenuItem(3, "Save as")   ; verwenden, ganz wie bei einem normalen Menü...
-        MenuItem(4, "Quit", ImageID(0))      ; Zeigt unser eigenes Icon an
-        MenuBar()
-        OpenSubMenu("Recent files")
-          MenuItem(5, "PureBasic.exe")
-          MenuItem(6, "Test.txt")
-        CloseSubMenu()
-      EndIf
-      
-      Repeat
-        Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
-        
-        Select Event
-          Case #PB_Event_RightClick  ; rechte Maustaste wurde gedrückt =>
-            DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-Menü an
-          
-          Case #PB_Event_Menu        ; ein Eintrag des Popup-Menüs wurde angeklickt
-            Select EventMenu()       ; ermittle den angeklickten Menü-Eintrag...
-              Case 1 : Debug "Menu: Open"
-              Case 2 : Debug "Menu: Save"
-              Case 3 : Debug "Menu: Save as"
-              Case 4 : End
-              Case 5 : Debug "Menu: PureBasic.exe"
-              Case 6 : Debug "Menu: Text.txt"
-            EndSelect
-          
-        EndSelect
-      Until Event = #PB_Event_CloseWindow
+  If LoadImage(1,#PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png")  ; lädt ein Icon
+    If CreatePopupImageMenu(0, #PB_Menu_ModernLook)      ; hier beginnt das Erstellen des Popup-Menüs...
+      MenuItem(1, "Open", ImageID(1))      ; Zeigt das Icon an
+      MenuItem(2, "Save")      ; Sie können alle Befehle zum Erstellen eines Menüs
+      MenuItem(3, "Save as")   ; verwenden, ganz wie bei einem normalen Menü...
+      MenuItem(4, "Quit", ImageID(0))      ; Zeigt unser eigenes Icon an
+      MenuBar()
+      OpenSubMenu("Recent files")
+        MenuItem(5, "PureBasic.exe")
+        MenuItem(6, "Test.txt")
+      CloseSubMenu()
     EndIf
+  
+    Repeat
+    Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
+    
+      Select Event
+        Case #PB_Event_RightClick  ; rechte Maustaste wurde gedrückt =>
+          DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-Menü an
+          
+        Case #PB_Event_Menu        ; ein Eintrag des Popup-Menüs wurde angeklickt
+          Select EventMenu()       ; ermittle den angeklickten Menü-Eintrag...
+            Case 1 : Debug "Menu: Open"
+            Case 2 : Debug "Menu: Save"
+            Case 3 : Debug "Menu: Save as"
+            Case 4 : End
+            Case 5 : Debug "Menu: PureBasic.exe"
+            Case 6 : Debug "Menu: Text.txt"
+          EndSelect
+          
+      EndSelect
+    Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
 

@@ -312,8 +312,8 @@
   @@ImageVectorOutput  : Une image (voir @@CreateImage)
   @@PrinterVectorOutput: Une imprimante
   @@CanvasVectorOutput : Un @@CanvasGadget
-  @@PdfVectorOutput    : Un fichier PDF (Linux et MacOS seulement)
-  @@SvgVectorOutput    : Un fichier SVG (Linux seulement)
+  @@PdfVectorOutput    : Un fichier PDF
+  @@SvgVectorOutput    : Un fichier SVG
 @EndFixedFont
 
 @ReturnValue
@@ -738,21 +738,15 @@
 @Function NewVectorPage()
 
 @Description
-  Termine la page de dessin vectoriel 
-  en cours et commence une nouvelle page.
+  Termine la page de dessin vectoriel en cours et commence une nouvelle page.
 
 @Remarks
-  Les sorties suivantes sont prises 
-  en charge:
+  Les sorties suivantes sont prises en charge:
 @LineBreak
 @LineBreak
   @@PrinterVectorOutput
 @LineBreak
-  @@PdfVectorOutput (Linux et MacOS 
-  seulement)
-@LineBreak
-  @@SvgVectorOutput (Linux seulement)
- 
+  @@PdfVectorOutput
  
 @NoParameters
 
@@ -3965,7 +3959,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
 
@@ -3991,7 +3985,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
     LoadFont(0, "Impact", 20, #PB_Font_Bold)    
 
     If StartVectorDrawing(CanvasVectorOutput(0))
@@ -4076,7 +4070,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
@@ -4568,8 +4562,7 @@
 @Function Resultat = PdfVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier PDF (Linux et Mac OSX 
-  seulement).
+  Crée un fichier PDF.
   
 @Parameter "Fichier$"
   Le nom du fichier PDF à créer. @LineBreak
@@ -4639,8 +4632,7 @@
 @Function Resultat = SvgVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier SVG (scalable vector 
-  graphics) (Linux seulement).
+  Crée un fichier SVG (scalable vector graphics).
   
 @Parameter "Fichier$"
   Le nom du fichier SVG à créer. @LineBreak

@@ -1,7 +1,7 @@
 ;
 ;     Window library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Window
@@ -790,7 +790,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenWindow(#Window, x, y, InnereBreite, InnereHöhe, Titel$ [, Flags [, ParentWindowID]])
+@Function Ergebnis = OpenWindow(#Window, x, y, InnereBreite, InnereHöhe, Titel$ [, Flags [, ParentID]])
 
 @Description
   Öffnet ein neues Fenster entsprechend den übergegebenen Parametern.
@@ -841,9 +841,8 @@
   @#PB_Window_NoActivate    : Aktiviert das Fenster nach dem Öffnen nicht.
 @EndFixedFont
 
-@OptionalParameter "ParentWindowID"
-  Die WindowID, zu der das neue Fenster gehört. Der 'ParentWindowID' Wert kann
-  einfach mittels @@WindowID ermittelt werden.
+@OptionalParameter "ParentID"
+  Der Bezeichner des übergeordneten Fensters. Eine gültige Fensterkennung kann mit @@WindowID abgerufen werden.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn das Fensters erfolgreich erstellt wurde, andernfalls Null.
@@ -1133,7 +1132,7 @@
 
 @NoReturnValue
 
-@Remark
+@Remarks
   @@GetWindowColor kann verwendet werden, um die aktuelle Hintergrundfarbe des Fensters
   zu ermitteln.
 

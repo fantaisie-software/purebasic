@@ -1,7 +1,7 @@
 ;
 ;     String library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library String
@@ -195,6 +195,8 @@
                              für erlaubte Escape-Sequenzen) (Standard).
   @#PB_String_EscapeXML     : maskiert den String mittels der XML Escape-Zeichen. Dies kann nützlich sein, um einen
                              beliebigen String in einen XML-Baum einzufügen.
+  @#PB_String_EscapeJSON    : maskiert den String mittels der JSON-Escape-Zeichen. Dies kann nützlich sein, um einen
+                             beliebigen String in einen JSON-Wert einzufügen.
 @EndFixedFont
 
 @ReturnValue
@@ -1051,7 +1053,9 @@
   @#PB_String_EscapeInternal: demaskiert den String mittels des PureBasic internen Formats (siehe @ReferenceLink "general_rules" "Allgemeine Regeln"
                              für erlaubte Escape-Sequenzen) (Standard).
   @#PB_String_EscapeXML     : demaskiert den String mittels der XML Escape-Zeichen. Dies kann nützlich sein, um einen
-                             beliebigen String in einen XML-Baum einzufügen.
+                             beliebigen String aus einem XML-Baum zu lesen.
+  @#PB_String_EscapeJSON    : demaskiert den String mittels der JSON-Escape-Zeichen. Dies kann nützlich sein, um einen
+                             beliebigen String aus einem JSON-Wert zu lesen.
 @EndFixedFont
 
 @ReturnValue

@@ -25,24 +25,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = ColorRequester([Couleur])
+@Function Resultat = ColorRequester([Couleur] [, ParentID]))
 
 @Description
-  Ouvre une boîte de dialogue standard 
-  pour choisir une couleur 24 bits (3 octets).
+  Ouvre une boîte de dialogue standard pour choisir une couleur 24 bits (3 octets).
  
 @OptionalParameter "Couleur"
-  Couleur par défaut lors de l'ouverture de 
-  la boîte.
+  Couleur par défaut lors de l'ouverture de la boîte.
 
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue  
-  La couleur 24 bits (3 octets) sélectionnée ou  -1 ou si 
-  l'utilisateur a annulé la sélection.
+  La couleur 24 bits (3 octets) sélectionnée ou  -1 si l'utilisateur a annulé la sélection.
 @LineBreak
 @LineBreak  
-  Pour récupérer facilement la valeur de 
-  chacune des composantes, utiliser les 
-  commandes @@Red, @@Green et @@Blue.    
+  Pour récupérer facilement la valeur de chacune des composantes, utiliser les commandes 
+  @@Red, @@Green et @@Blue.    
 
 @Remarks
   La bibliothèque @LibraryLink "VectorDrawing" "VectorDrawing" fonctionne avec les 
@@ -72,7 +74,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = FontRequester(Police$, TaillePolice, Options [, Couleur [, Style]])
+@Function Resultat = FontRequester(Police$, TaillePolice, Options [, Couleur [, Style [, ParentID]]])
 
 @Description
   Ouvre une boîte de dialogue standard 
@@ -107,10 +109,15 @@
 @LineBreak   
   Voir @@SelectedFontStyle pour obtenir les 
   styles disponibles.
-  
+
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue
-  Renvoie une valeur non nulle si une police 
-  a été choisie, zéro si l'utilisateur a annulé 
+  Renvoie une valeur non nulle si une police a été choisie, zéro si l'utilisateur a annulé 
   la boîte de dialogue.
 
 @Remarks
@@ -157,7 +164,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = InputRequester(Titre$, Message$, TexteParDefaut$ [, Option])
+@Function Resultat$ = InputRequester(Titre$, Message$, TexteParDefaut$ [, Option [, ParentID]])
 
 @Description
   Ouvre une boîte de dialogue permettant 
@@ -178,6 +185,12 @@
                                Le texte affiché sera caché.
 @EndFixedFont
 
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue
   Renvoie le texte du champ de saisie, 
   ou une chaîne de caractères vide si
@@ -204,7 +217,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = MessageRequester(Titre$, Message$ [, Options])
+@Function Resultat = MessageRequester(Titre$, Message$ [, Options [, ParentID]])
 
 @Description
   Ouvre une boîte de dialogue permettant 
@@ -233,6 +246,12 @@
   @#PB_MessageRequester_Error  : Affiche une icône erreur (X)
 @EndFixedFont
 
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue
   Les valeurs de retour sont les suivantes:
 @FixedFont
@@ -309,7 +328,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = OpenFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition [, Options])
+@Function Resultat$ = OpenFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition [, Options [, ParentID]])
 
 @Description
   Ouvre une boîte de dialogue standard 
@@ -363,6 +382,12 @@
   @#PB_Requester_MultiSelection : Active la multi-sélection. (voir @@NextSelectedFileName)
 @EndFixedFont
 
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue
   Renvoie le chemin et le nom du ou des fichiers 
   sélectionnés ou une chaîne de caractères vide si
@@ -408,7 +433,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = PathRequester(Titre$, CheminInitial$)
+@Function Resultat$ = PathRequester(Titre$, CheminInitial$ [, ParentID])
 
 @Description
   Ouvre une boîte de dialogue standard 
@@ -421,7 +446,13 @@
 @Parameter "CheminInitial$"
   Permet d'initialiser la boîte de dialogue 
   sur le chemin spécifié. 
- 
+
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @Remarks
   Sous Windows, le chemin est renvoyé avec un  
   '\' de fin.@LineBreak
@@ -450,7 +481,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = SaveFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition)
+@Function Resultat$ = SaveFileRequester(Titre$, FichierParDefaut$, Filtre$, FiltrePosition [, ParentID])
 
 @Description
   Ouvre une boîte de dialogue standard pour 
@@ -498,6 +529,12 @@
   n'ont aucun effet sur Mac OSX 
   (tous les fichiers seront toujours affichés).
 
+@OptionalParameter "ParentID"
+   L'identifiant de la fenêtre parent. 
+@LineBreak
+@LineBreak
+   Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+   
 @ReturnValue
   Renvoie le nom du fichier entré ou une chaîne de 
   caractères vide si l'utilisateur a annulé la boîte.
