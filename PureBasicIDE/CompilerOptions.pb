@@ -647,6 +647,16 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
         GadgetToolTip(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
         GadgetToolTip(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
         
+        If EnableAccessibility
+          ; Give all these controls labels to screen readers, using a hack with SetGadgetText() on ButtonImageGadgets that adds an accessibility label.
+          SetGadgetText(#GADGET_Option_AddTarget,    Language("Compiler","AddTarget"))
+          SetGadgetText(#GADGET_Option_EditTarget,   Language("Compiler","RenameTarget"))
+          SetGadgetText(#GADGET_Option_CopyTarget,   Language("Compiler","CopyTarget"))
+          SetGadgetText(#GADGET_Option_RemoveTarget, Language("Compiler","RemoveTarget"))
+          SetGadgetText(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
+          SetGadgetText(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
+        EndIf
+        
         ; resize with the actual button images and fold state
         OptionWindowDialog\GuiUpdate()
         
