@@ -377,27 +377,22 @@
   Le numéro d'identification du menu.
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_Menu_ModernLook: Active le nouveau look et affiche un dégradé (Windows seulement).
+  @#PB_Menu_ModernLook  : Active le nouveau look et affiche un dégradé (Windows seulement).
+  @#PB_Menu_SysTrayLook : Active l'apparence de la barre d'état système. À utiliser avec @@SysTrayIconMenu (n'a d'effet que sous Windows).
 @EndFixedFont
 
 @ReturnValue 
-  Renvoie une valeur non nulle en cas de succès, 
-  zéro sinon.@LineBreak 
-  Si @#PB_Any a été utilisé le numéro du menu 
-  est renvoyé en cas de succès.
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.@LineBreak 
+  Si @#PB_Any a été utilisé le numéro du menu est renvoyé en cas de succès.
 
 @Remarks   
-  Une fois créé, il devient le menu courant 
-  et il est alors possible d'utiliser les 
-  fonctions @@MenuTitle, @@MenuItem, @@MenuBar, 
-  et @@OpenSubMenu pour remplir le menu.
+  Une fois créé, il devient le menu courant et il est alors possible d'utiliser les 
+  fonctions @@MenuTitle, @@MenuItem, @@MenuBar, et @@OpenSubMenu pour remplir le menu.
 @LineBreak
 @LineBreak  
   Les dimensions des images sont de 16x16 pixels.
@@ -429,7 +424,7 @@
       StopDrawing()
     EndIf
                                    ; On peut aussi charger une icône toute prête.
-    If LoadImage(1,#PB_Compiler_Home + "Examples\Sources\Data\ToolBar\Open.png")         
+    If LoadImage(1,#PB_Compiler_Home + "examples\sources\Data\ToolBar\Open.png")         
     If CreatePopupImageMenu(0, #PB_Menu_ModernLook) ; La création du menu contextuel commence...
       ;MenuTitle("Projet")        ; Décommenter pour voir la différence
         MenuItem(1, "Ouvrir",ImageID(1)) ; Ajout de l'icône
@@ -1120,7 +1115,7 @@ EndIf
 
 @Example
 @Code
-  ;Note : Sous Windows XP et suivant, pour que le trait souligné apparaisse en permanence, 
+  ;Note : Sous Windows Vista et suivant, pour que le trait souligné apparaisse en permanence, 
   ;décochez l'option : 'Masquer les lettres soulignées pour la navigation au clavier jusqu'à ce que j'appuie sur la touche Alt'
   ;dans les propriétés du bureau puis affichage / Apparence / Effets.
 
@@ -1214,7 +1209,7 @@ EndIf
   
 @Example
 @Code
-  ;Note : Sous Windows XP et suivant, pour que le trait souligné apparaisse en permanence, 
+  ;Note : Sous Windows Vista et suivant, pour que le trait souligné apparaisse en permanence, 
   ;décochez l'option : 'Masquer les lettres soulignées pour la navigation au clavier jusqu'à ce que j'appuie sur la touche Alt'
   ;dans les propriétés du bureau puis affichage / Apparence / Effets.
   If OpenWindow(0, 200, 200, 200, 100, "Exemple MenuTitle")

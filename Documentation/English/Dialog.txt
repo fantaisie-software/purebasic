@@ -1,7 +1,7 @@
 ;
 ;     Dialog library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Dialog
@@ -169,7 +169,7 @@
   To access the dialog gadgets use @@DialogGadget. To get the window number of this dialog use @@DialogWindow. @LineBreak
 @LineBreak
   @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget and @@UseDialogWebViewGadget can be used to
-  enable support for these gadgets in the dialog lib. There are not enabled by default to reduce the dialog
+  enable support for these gadgets in the dialog lib. They are not enabled by default to reduce the dialog
   library size footprint.
 
 @Parameter "#Dialog"
@@ -409,6 +409,7 @@
   <opengl> - UseDialogOpenGLGadget() needs to be called to enable <opengl> support.
   <panel> - can contain <tab> items only
   <progressbar min max value> 
+  <scintilla> - callback remains empty. UseDialogOpenGLGadget() needs to be called to enable <scintilla> support.
   <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior.
   <scrollbar min max page value> - page = page length.
   <spin min max value>
@@ -419,7 +420,6 @@
   <tree>
   <web> - UseDialogWebGadget() needs to be called to enable <web> support.
   <webview> - UseDialogWebViewGadget() needs to be called to enable <webview> support.
-  <scintilla> - callback remains empty. UseDialogOpenGLGadget() needs to be called to enable <scintilla> support.
 
   Gadget related elements:
   <tab> - single element container, for panel tabs (attribute 'text' is supported).

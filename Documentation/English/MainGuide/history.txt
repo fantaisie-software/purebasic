@@ -1,5 +1,65 @@
 @Title History
 
+@Section XX March 2024 : Version 6.10 LTS
+
+- @Green "Added": WebView library to easily create HTML/CSS based UI ! @LineBreak
+- @Green "Added": Full rework of the date library to handle years from 1601 to 9999 ! @LineBreak
+- @Green "Added": Skeleton library to create custom skeleton to a mesh ! @LineBreak
+- @Green "Added": SvgVectorOutput() and PdfVectorOutput() for all OS @LineBreak
+- @Green "Added": DPI-Aware support for OS X @LineBreak
+- @Green "Added": ExamineDraggedItems(), NextDraggedItem() and DraggedItemIndex() for Drag'n'drop @LineBreak
+- @Green "Added": GetGadgetItemText() support for ExplorerTreeGadget() @LineBreak
+- @Green "Added": CompareStructure(), CompareArray(), CompareList() and CompareMap() functions @LineBreak
+- @Green "Added": CustomSortList() and CustomSortArray() functions to Sort library @LineBreak
+- @Green "Added": CatchPack(), PackEntryDate() @LineBreak
+- @Green "Added": CreatePasswordHash() and VerifyPasswordHash() functions (BCrypt algorithm) @LineBreak
+- @Green "Added": DeriveCipherKey() to create a cipher key from a password (PBKDF2 algorithm) @LineBreak
+- @Green "Added": DateUTC() to get the date in UTC time @LineBreak
+- @Green "Added": ConvertDate(Date, #PB_Date_LocalTime/#PB_Date_UTC) to convert the date between UTC and localtime @LineBreak
+- @Green "Added": ScaleEntityBone(), MeshDirectAdd() and #PB_Mesh_Direct mode support to CreateMesh() @LineBreak
+- @Green "Added": AddPackDirectory(#Packer, PackedDirectoryName$) for empty directory @LineBreak
+- @Green "Added": UseDialogWebGadget(), UseDialogOpenGLGadget(), UseDialogScintillaGadget() to avoid big lib dependency by default when using dialogs. @LineBreak
+- @Green "Added": NbMaxChannels parameter for InitSound(). Range from 1 to 254. @LineBreak
+- @Green "Added": 'Encoding' optional parameter to OpenPreference() to handle properly UTF-8 files without BOM @LineBreak
+- @Green "Added": Parent window support to all requesters @LineBreak
+- @Green "Added": WebGadget based on Edge component with the #PB_Web_Edge constant (Windows only) @LineBreak
+- @Green "Added": Localhost binding for InitFastCGI() @LineBreak
+- @Green "Added": SystrayIconMenu() to automatically display a menu when clicking on the icon @LineBreak
+- @Green "Added": ListIconGaget() column alignment support @LineBreak
+- @Green "Added": Runtime warning if CreateThread() is used without ThreadSafe mode @LineBreak
+- @Green "Added": GadgetItemID() support for PanelGadget() (Windows only) @LineBreak
+- @Green "Added": #PB_Preference_NoBOM flag for CreatePreference() to create UTF-8 preference files without BOM @LineBreak
+- @Green "Added": #PB_Cipher_HMAC flag to fingerprint functions @LineBreak
+- @Green "Added": #PB_2DDrawing_NativeText support for DrawingMode() @LineBreak
+- @Green "Added": #PB_PixelFormat_NoAlpha for DrawingBufferFormat() @LineBreak
+- @Green "Added": #PB_EventType_ColumnClick for ListIconGadget() @LineBreak
+- @Green "Added": #PB_String_EscapeJSON support to EscapeString() and UnescapeString(). @LineBreak
+- @Green "Added": #PB_Menu_SysTrayLook support to have better looking popup menu when used with SysTray (Windows only) @LineBreak
+- @Green "Added": #PB_EventType_Refresh support for ExplorerListGadget() (Window only) @LineBreak
+- @Green "Added": Case-insensitive subsystem support on Linux @LineBreak
+- @Green "Added": --listfunctions/constants/interfaces and --querystructure support to Windows compiler. @LineBreak
+ @LineBreak
+- @Green "Updated": Unicode filename support for Windows compiler @LineBreak
+- @Green "Updated": Libvlc instead of the old xine lib on Linux to play movies @LineBreak
+- @Green "Updated": Reworked the Sound and Music library to use MiniAudio on Windows, OS X and Linux (SDL dependency is no more requiered for sounds on Linux). @LineBreak
+- @Green "Updated": SQLite version to 3.45.0 @LineBreak
+- @Green "Updated": Toolchain on Windows now use VisualStudio 2022 and new MSVCRT for faster PureBasic programs and easier external libs integration. @LineBreak
+- @Green "Updated": Minimum version for Linux x86 is now Debian 12 @LineBreak
+- @Green "Updated": Minimum version for Raspberry is now Debian 12 based PI OS @LineBreak
+ @LineBreak
+- @Orange "Changed": TextWidth(), TextHeight(), DrawText() and DrawRotatedText() now use double for X, Y coordinates. @LineBreak
+- @Orange "Changed": Scintilla is now linked statically on Windows (distributing the scintilla.dll along your executable isn't needed anymore) @LineBreak
+- @Orange "Changed": the SysTray lib on Linux now use AppIndicator to support modern Linux distro in GTK3 @LineBreak
+- @Orange "Changed": deprecated DESFingerprint() function - use the new CreatePasswordHash() instead. @LineBreak
+- @Orange "Changed": ListSize() and MapSize() now properly return -1 if the list or map is freed. @LineBreak
+ @LineBreak
+- @Red "Removed": --listpath on Linux/OSX (use --output to specify the output file) @LineBreak
+- @Red "Removed": Windows XP support. Minimum supported Windows version for created executables is now Windows Vista. @LineBreak
+- @Red "Removed": Some very old deprecated functions. @LineBreak
+ @LineBreak
+- @Blue "Fixed": A lot of libraries bugs @LineBreak
+
+
 @Section 13 December 2023 : Version 6.04 LTS
 
 - @Green "Added": /DLLPROTECTION flag in commandline and a switch in 'Compiler options' to enable DLL preloading protection (Windows) @LineBreak
@@ -12,7 +72,7 @@
 - @Green "Added": #PB_String_NoCaseAscii support for CompareMemoryString() to have much faster string comparison when only ascii characters are involved @LineBreak
 - @Green "Added": #PB_Compiler_DPIAware compiler constant. @LineBreak
 @LineBreak
-- @Green "Updated" Scintilla to 5.3.5 for all platforms @LineBreak
+- @Green "Updated": Scintilla to 5.3.5 for all platforms @LineBreak
 @LineBreak
 - @Green "Optimized": Smaller and more readable C generated file. @LineBreak
 @LineBreak

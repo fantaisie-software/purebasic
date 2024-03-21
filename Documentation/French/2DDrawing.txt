@@ -979,6 +979,7 @@ se terminent lorsque @@StopDrawing est appelé.
   @#PB_PixelFormat_32Bits_RGB  : 4 octets par pixel (RRGGBB)
   @#PB_PixelFormat_32Bits_BGR  : 4 octets par pixel (BBGGRR)
   @#PB_PixelFormat_ReversedY   : Les lignes sont inversées en hauteur (la dernière ligne est la première)
+  @#PB_PixelFormat_NoAlpha     : Le format des pixels est de 32 bits mais la composante alpha n'est pas utilisée.
 @EndFixedFont
 
 @Remarks
@@ -1105,6 +1106,13 @@ se terminent lorsque @@StopDrawing est appelé.
 @EndIndent
 @LineBreak
 @LineBreak
+  @#PB_2DDrawing_NativeText
+@Indent
+  Avec ce mode, les commandes @@DrawText et @@DrawRotatedText utiliseront la sortie texte native pour avoir un rendu de texte de type gadget.
+   Tous les effets spéciaux comme XOR, AlphaBlend, CustomFilters, etc. ne sont pas disponibles avec ce mode.
+@EndIndent
+@LineBreak
+@LineBreak
   @#PB_2DDrawing_XOr
 @Indent
   Active le mode XOR. Toutes les couleurs des graphiques seront inversées par rapport à la couleur du fond. La
@@ -1127,7 +1135,8 @@ se terminent lorsque @@StopDrawing est appelé.
 @Image PB_2DDrawing_Outlined.png
 @LineBreak
 @EndIndent
-@Bold "Note:" Les modes suivants ne fonctionnent qu'avec @@SpriteOutput et @@CanvasOutput. Ils sont ignorés pour toutes les autres sorties:
+@Bold "Note:" Les modes suivants ne fonctionnent qu'avec @@ImageOutput, @@CanvasOutput et 
+@@SpriteOutput. Ils sont ignorés pour toutes les autres sorties:
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_AlphaBlend
@@ -1208,16 +1217,13 @@ se terminent lorsque @@StopDrawing est appelé.
 
 ;------------------------------------------------------------------------------------
 
-@Function DrawRotatedText(X, Y, Texte$, Angle.f [, Couleur])
+@Function DrawRotatedText(X.d, Y.d, Texte$, Angle.f [, Couleur])
 
 @Description
-  Affiche une chaîne de caractères avec 
-  un angle donné sur la surface de 
-  dessin en cours.
+  Affiche un texte avec un angle donné sur la surface de dessin en cours.
   
-@Parameter "X, Y" 
-  L'emplacement du coin en haut et à 
-  gauche du texte.@LineBreak
+@Parameter "X.d, Y.d" 
+  L'emplacement du coin en haut et à gauche du texte.@LineBreak
 @LineBreak
   C'est aussi le centre de rotation du texte.
   
@@ -1243,7 +1249,11 @@ se terminent lorsque @@StopDrawing est appelé.
   Le fond du texte est toujours transparent.
 
 @NoReturnValue
-   
+
+@Remarks
+  Pour avoir une sortie de texte de type gadget, le mode de dessin @#PB_2DDrawing_NativeText 
+  peut être utilisé (Voir @@DrawingMode).
+  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "DrawRotatedText Exemple", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1266,7 +1276,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @Image rotatedtext.png
 
 @SeeAlso
-  @@DrawText, @@DrawingFont, @@FrontColor
+  @@DrawText, @@DrawingFont, @@FrontColor, @@DrawingMode
 
 @SupportedOS
 
@@ -1473,56 +1483,47 @@ se terminent lorsque @@StopDrawing est appelé.
 
 ;------------------------------------------------------------------------------------
 
-@Function Resultat = DrawText(X, Y, Texte$ [, CouleurTexte [, CouleurFond]])
+@Function Resultat.d = DrawText(X.d, Y.d, Texte$ [, CouleurTexte [, CouleurFond]])
 
 @Description
-  Affiche une chaîne de caractères sur 
-  la surface de dessin en cours.
+  Affiche un texte sur la surface de dessin en cours.
 
-@Parameter "X, Y"
+@Parameter "X.d, Y.d,"
   Position du texte.
   
 @Parameter "Texte$"
   Le texte à afficher.
   
-@OptionalParameter "CouleurTexte"   
-  Couleur du texte.@LineBreak
+@OptionalParameter "CouleurTexte" 
+  Couleur du texte.
 @LineBreak
-  Si le paramètre  n'est pas précisé, 
-  la couleur définie par @@FrontColor 
-  sera utilisée par défaut. @LineBreak
 @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
-  une couleur.
+  Si le paramètre  n'est pas précisé, la couleur définie par @@FrontColor sera utilisée par défaut. 
+@LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être utilisées pour définir facilement une couleur.
   
 @OptionalParameter "CouleurFond"  
-  Couleur de fond.@LineBreak
-@LineBreak
-  Si le paramètre  n'est pas précisé, la 
-  couleur définie par @@BackColor sera 
-  utilisée par défaut. @LineBreak
-@LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être 
-  utilisées pour définir facilement une 
-  couleur.
+  Couleur de fond.
 @LineBreak
 @LineBreak
-  Si le @@DrawingMode courant utilise 
-  l'option @#PB_2DDrawing_Transparent 
-  alors ce paramètre est ignoré et le fond 
-  est transparent.@LineBreak 
-  Si @@DrawingMode est configuré pour avoir 
-  un fond opaque et que le mode de dessin 
-  courant utilise le canal alpha alors le 
-  texte est d'abord mélangé au fond 
-  et ensuite appliqué sur la zone de dessin.
+  Si le paramètre  n'est pas précisé, la couleur définie par @@BackColor sera utilisée par défaut. 
+@LineBreak
+@LineBreak
+  Les fonctions @@RGB ou @@RGBA peuvent être utilisées pour définir facilement une couleur.
 
 @ReturnValue  
-  Renvoie la nouvelle position en X du 
-  curseur texte, juste après le dernier 
-  caractère affiché. 
+  Renvoie la nouvelle position en X du curseur texte, juste après le dernier caractère affiché. 
 
+@Remarks
+  Si le @@DrawingMode courant utilise l'option @#PB_2DDrawing_Transparent alors le fond est transparent.@LineBreak 
+  Si @@DrawingMode est configuré pour avoir un fond opaque et que le mode de dessin courant utilise 
+  le canal alpha alors le texte est d'abord mélangé au fond et ensuite appliqué sur la zone de dessin.
+@LineBreak
+@LineBreak
+  Pour avoir une sortie de texte de type gadget, le mode de dessin @#PB_2DDrawing_NativeText peut être 
+  utilisé (Voir @@DrawingMode).
+  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "DrawText Exemple", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1546,8 +1547,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @Image text.png
 
 @SeeAlso 
-  @@DrawRotatedText, @@DrawingFont, 
-  @@FrontColor, @@BackColor
+  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor, @@DrawingMode
  
 @SupportedOS
 
@@ -1951,29 +1951,24 @@ se terminent lorsque @@StopDrawing est appelé.
 
 ;------------------------------------------------------------------------------------
 
-@Function Resultat = TextHeight(Texte$)
+@Function Resultat.d = TextHeight(Texte$)
 
 @Description
-  Renvoie la hauteur d'une chaîne de 
-  caractère sur la surface de dessin 
-  en cours. 
+  Renvoie la hauteur d'une chaîne de caractère. 
   
-
 @Parameter "Texte$"
   Le texte à mesurer.
 
 @ReturnValue
-  Renvoie la hauteur du texte donné en 
-  pixels avec la police de caractères 
-  actuelle.
+  Renvoie la hauteur du texte en précision Double dans la police de caractères en cours.
 
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "Dimensions texte", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
       DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
-      Debug "Longueur du texte en pixels : " + Str(TextWidth("PUREBASIC"))
-      Debug "Hauteur du texte en pixels  : " + Str(TextHeight("PUREBASIC"))
+      Debug "Longueur du texte : " + Str(TextWidth("PUREBASIC"))
+      Debug "Hauteur du texte  : " + Str(TextHeight("PUREBASIC"))
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
     EndIf
@@ -1991,28 +1986,24 @@ se terminent lorsque @@StopDrawing est appelé.
 
 ;------------------------------------------------------------------------------------
 
-@Function Resultat = TextWidth(Texte$)
+@Function Resultat.d = TextWidth(Texte$)
 
 @Description
-  Renvoie la longueur d'une chaîne de 
-  caractère sur la surface de dessin 
-  en cours.
+  Renvoie la longueur d'une chaîne de caractère.
 
 @Parameter "Texte$"
   Le texte à mesurer.
 
 @ReturnValue
-  Renvoie la longueur du texte donné en 
-  pixels avec la police de caractères 
-  actuelle.
+  Renvoie la longueur du texte en précision Double dans la police de caractères en cours.
 
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "Dimensions texte", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
       DrawText(50, 80, "PUREBASIC", RGB(255, 255, 0))
-      Debug "Longueur du texte en pixels : " + Str(TextWidth("PUREBASIC"))
-      Debug "Hauteur du texte en pixels  : " + Str(TextHeight("PUREBASIC"))
+      Debug "Longueur du texte : " + Str(TextWidth("PUREBASIC"))
+      Debug "Hauteur du texte  : " + Str(TextHeight("PUREBASIC"))
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
     EndIf
@@ -2156,7 +2147,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   La procédure doit avoir la forme suivante:
 @Code
-  Procedure CustomCallback(X, Y, CouleurSource, CouleurCible)
+  Procedure CustomCallback(X, Y, CouleurSource.l, CouleurCible.l)
     ;
     ; Calcule la nouvelle Couleur à partir des entrées
     ; et la renvoie avec ProcedureReturn
@@ -2206,7 +2197,7 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Example
 @Code
-  Procedure CallbackFiltre(X, Y, CouleurSource, CouleurCible)
+  Procedure CallbackFiltre(X, Y, CouleurSource.l, CouleurCible.l)
     ; Ne modifie que la composante rouge de la Source
     ProcedureReturn RGBA(Red(CouleurSource), Green(CouleurCible), Blue(CouleurCible), Alpha(CouleurCible))
   EndProcedure

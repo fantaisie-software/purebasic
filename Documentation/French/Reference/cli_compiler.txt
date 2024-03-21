@@ -95,10 +95,9 @@
   commandes.
   @LineBreak
   @LineBreak
-  -s, --subsystem, /SUBSYSTEM "Nom": utilise le sous-système 
-  spécifié pour remplacer des commandes internes. 
-  Pour plus d'informations, voir 
-  @ReferenceLink "subsystems" "sous-systèmes".
+  -s, --subsystem, /SUBSYSTEM "Nom": utilise le sous-système spécifié pour remplacer des commandes 
+  internes. Le nom du sous-système n'est pas sensible à la casse.
+  Pour plus d'informations, voir @ReferenceLink "subsystems" "sous-systèmes".
   -k, --check, /CHECK: vérifie la syntaxe uniquement, 
   ne créer pas ni ne lance l'exécutable.
  @LineBreak
@@ -128,7 +127,23 @@
   autre fichier source PureBasic pour créer l'exécutable 
   final.
   @LineBreak
-  @LineBreak 
+  @LineBreak
+  -ls, --liststructures, /LISTSTRUCTURES : crée un fichier avec toutes les structures intégrées connues 
+  par le compilateur. Le nom du fichier peut être spécifié avec '--output'. 
+  @LineBreak
+  @LineBreak
+  -lf, --listfunction, /LISTFUNCTIONS : crée un fichier avec toutes les commandes purebasic intégrées 
+  connues par le compilateur. Le nom du fichier peut être spécifié avec '--output'.
+  @LineBreak
+  @LineBreak
+   -li, --listinterfaces, /LISTINTERFACES : crée un fichier avec toutes les interfaces intégrées 
+   connues par le compilateur. Le nom du fichier peut être spécifié avec '--output'.
+  @LineBreak
+  @LineBreak
+   -qs, --querystructure, /QUERYSTRUCTURE "nom" : crée un fichier avec la définition de la structure. 
+   Le nom du fichier peut être spécifié avec '--output. 
+  @LineBreak
+  @LineBreak
   -g, --language, /LANGUAGE \"language\": utilise la langue 
   spécifiée pour les messages d'erreur du compilateur. 
   @LineBreak
@@ -167,7 +182,7 @@
   /DLL: le fichier de sortie est une @ReferenceLink "dll" "DLL". 
   @LineBreak
   @LineBreak
-  /XP: ajoute le support des thèmes ('skins') pour Windows XP. 
+  /XP: ajoute le support des thèmes ('skins') pour Windows. 
   @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE or /SSE2: génère un exécutable spécifique 
@@ -238,8 +253,9 @@
   /DPIAWARE: Activer le support DPI sur l'exécutable. @LineBreak
   @LineBreak
   @LineBreak 
-  /DLLPROTECTION: Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
-  instead of in the System32 directory of the Windows operating system. This option is not XP compatiable. 
+  /DLLPROTECTION: Active la protection contre le préchargement des DLL sur l'exécutable. 
+  Cela empêche que les DLL système soient d'abord recherchées dans le répertoire du programme plutôt 
+  que dans le répertoire System32 du système d'exploitation Windows.
   @LineBreak
   @LineBreak 
   

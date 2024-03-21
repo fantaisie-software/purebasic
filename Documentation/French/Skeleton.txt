@@ -1,0 +1,230 @@
+;
+;     Skeleton library documentation
+;
+;      (c) Fantaisie Software
+;
+
+;
+; Documentation de la bibliothèque squelette
+;
+; (c) Logiciel Fantaisie
+;
+
+@Library Skeleton
+
+@Overview
+  Les squelettes sont composés d'os et peuvent être associés à un @LibraryLink "mesh" "mesh" pour 
+  l'animer de manière réaliste.
+@LineBreak
+@LineBreak
+  @@InitEngine3D doit être appelé avec succès avant d'utiliser les fonctions Skeleton.
+
+@CommandList
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
+@Function CreateSkeleton(#Mesh)
+
+@Description
+  Crée ou remplace le squelette du #Mesh.
+
+@Parameter "#Mesh"
+  Le numéro d'identification du nouveau mesh. 
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour
+  générer automatiquement ce numéro.
+
+@NoReturnValue
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
+@Function CreateBone(#Mesh, Os$, ParentOs$, X, Y, Z, RotationX, RotationY, RotationZ, RotationW, Mode)
+
+@Description
+  Crée un nouvel os pour le #Mesh spécifié.
+
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "Os$"
+  Le nouveau nom de l'os.
+
+@Parameter "ParentOs$"
+  Le nom de l'os parent. 
+@LineBreak
+  Si cette valeur de chaîne est vide, l'os est créé à la racine du squelette.
+  
+@Parameter "X, Y, Z"
+  La nouvelle coordonnée de l'os, en unité monde.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  La nouvelle rotation de l'os.
+
+@Parameter "Mode"
+  Le mode à utiliser pour la rotation de l'os. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Orientation_PitchYawRoll   : 'RotationX' (tangage), 'RotationY' (lacet), 'RotationZ' (roulis), appliqués dans cet ordre (par défaut).
+  @#PB_Orientation_Quaternion     : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' pour les valeurs de quaternion
+  @#PB_Orientation_AngleAxis      : 'RotationX', 'RotationY', 'RotationZ' pour l'axe de rotation et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_Direction      :  Alias pour @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local X) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVY  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local Y) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVZ  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local Z) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVXN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -X) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVYN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -Y) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVZN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -Z) et 'RotationW' pour l'angle (en degrés).
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Si le mesh n'a pas de squelette, il faut le créer avec @@CreateSkeleton avant d'utiliser cette commande.
+
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
+@Function VertexBoneAssignment(#Mesh, SousMesh, VertexIndex, OsIndex, Poids.f)
+
+@Description
+  Attribue un sommet à un os.
+
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "SousMesh"
+  Le sous-mesh à partir duquel obtenir les données. 
+@LineBreak
+  Le premier indice du sous-mesh est 0 (mesh principal).
+
+@Parameter "VertexIndex"
+  L'indice du sommet. 
+@LineBreak
+  Le premier indice est 0.
+  
+@Parameter "OsIndex"
+  L'index de l'os, dans l'ordre de création. 
+@LineBreak
+  Le premier indice est 0.
+
+@Parameter "Poids"
+  Le poids de l'os doit être compris entre 0 et 1.
+  
+@NoReturnValue
+  
+@Remarks
+  Un même sommet peut être attribué à plusieurs os : la somme des poids des os doit être égal à 1.@LineBreak 
+  Une fois l'affectation des sommets terminée, @@FinishBoneAssignment doit être appelé.
+  
+@SeeAlso
+  @@FinishBoneAssignment
+  
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
+@Function FinishBoneAssignment(#Mesh, SousMesh)
+
+@Description
+  Termine les affectations des os du mesh précédemment démarrées avec @@VertexBoneAssignment.
+
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "SousMesh"
+  Le sous-mesh à utiliser. 
+@LineBreak
+  Le premier indice du sous-mesh est 0 (mesh principal).
+  
+@NoReturnValue
+
+@SeeAlso
+  @@VertexBoneAssignment
+  
+@SupportedOS
+
+;---------------------------------------------------------------- -------------------------------------------------- -----
+
+@Function CreateSkeletonAnimation(#Mesh, NomAnimation$, Duree)
+
+@Description
+  Crée une nouvelle animation de squelette.
+  
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "NomAnimation$"
+  Le nom de l'animation.
+
+@Parameter "Duree"
+  La durée de l'animation (en millisecondes).
+
+@NoReturnValue
+
+@Remarks
+  Pour ce mesh, un squelette doit être créé avec @@CreateSkeleton.@LineBreak
+  La nouvelle animation est vide et les étapes doivent être créées avec @@AddSkeletonAnimationKeyFrame.
+
+@SeeAlso
+  @@AddSkeletonAnimationKeyFrame, @@CreateSkeleton
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSkeletonAnimationKeyFrame(#Mesh, NomAnimation$, Os$, Temps, RotationX, RotationY, RotationZ, RotationW, Mode [, TranslationX, TranslationY, TranslationZ [, EchelleX, EchelleY, EchelleZ]])
+
+@Description
+  Crée une nouvelle étape pour l'animation spécifiée. 
+
+@Parameter "#Mesh"
+  Le mesh à utiliser.
+
+@Parameter "NomAnimation$"
+  Le nom de l'animation à ajouter à l'étape en cours.
+
+@Parameter "Os$"
+  Le nom de l'os à utiliser.
+
+@Parameter "Temps"
+  Le temps dans l'animation auquel sera défini l'image clé (en millisecondes).
+@LineBreak
+  Cette valeur doit être comprise entre zéro et la 'Durée' définie dans @@CreateSkeletonAnimation.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  La rotation de l'os pour cette étape.
+
+@Parameter "Mode"
+  Le mode à utiliser pour la rotation de l'os. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Orientation_PitchYawRoll  : 'RotationX' (tangage), 'RotationY' (lacet), 'RotationZ' (roulis), appliqué dans cet ordre (par défaut).
+  @#PB_Orientation_Quaternion    : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' pour les valeurs de quaternion
+  @#PB_Orientation_AngleAxis    : 'RotationX', 'RotationY', 'RotationZ' pour l'axe de rotation et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_Direction    :  Alias pour @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local X) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVY  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local Y) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVZ  : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local Z) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVXN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -X) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVYN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -Y) et 'RotationW' pour l'angle (en degrés).
+  @#PB_Orientation_DirectionLDVZN : 'RotationX', 'RotationY', 'RotationZ' pour le vecteur de direction (vecteur de direction local -Z) et 'RotationW' pour l'angle (en degrés).
+@EndFixedFont
+
+@OptionalParameter "TranslationX, TranslationY, TranslationZ"
+  La translation de l'os pour cette étape.
+
+@OptionalParameter "EchelleX, EchelleY, EchelleZ"
+  L'échelle de l'os pour cette étape.
+
+@NoReturnValue
+
+@Remarks
+  Une animation de squelette peut être créée avec @@CreateSkeletonAnimation.
+  
+@SeeAlso
+  @@CreateSkeletonAnimation
+  
+@SupportedOS

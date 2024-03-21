@@ -8,15 +8,16 @@
 
 @Overview
 
- La bibliothèque Date permet de gérer le temps et les dates depuis l'année 1970 
- jusqu'à l'année 2038, en utilisant le modèle Unix 32 bits (nombre de secondes écoulées 
- depuis le 1er janvier 1970).
+ La bibliothèque Date permet de gérer le temps et les dates depuis l'année 1601 
+ jusqu'à l'année 9999, en utilisant le modèle Unix (nombre de secondes écoulées 
+ depuis le 1er janvier 1970). Les dates antérieures à 1970 sont représentées par 
+ des valeurs négatives.
 @LineBreak
 @LineBreak
-  @Bold "Note:" Seulement entre le 01 janvier 1970 à 00h 00m 00s et le 19 janvier 2038 
-  à 03h 14m 07s".
-  Voir @InternetLink "https://fr.wikipedia.org/wiki/Bug_de_l%27an_2038" "https://fr.wikipedia.org/wiki/Bug_de_l%27an_2038".
-
+  Remarque : Afin d'utiliser toute la plage de dates disponible, les valeurs renvoyées 
+  par cette bibliothèque doivent être stockées dans des variables de type Quad (.q).
+  L'utilisation d'un type de données 32 bits (Long ou Integer sur les systèmes 32 bits) 
+  entraîne des valeurs non valides à partir de l'année 2038.
 
 @CommandList
 
@@ -26,12 +27,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = AddDate(Date, Plage, Valeur)
+@Function Resultat.q = AddDate(Date.q, Plage, Valeur)
 
 @Description
   Ajouter une quantité de temps à une date. 
   
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @Parameter "Plage"  
@@ -46,19 +47,15 @@
 @EndFixedFont
 
 @Indent
-  Note: l'utilisation de @#PB_Date_Month 
-  peut entrainer un arrondi automatique 
-  du jour si nécessaire: Par exemple, 
-  ajouter un mois au '31 mars 2008' 
-  renverra '30 avril 2008', car il n'y a 
-  pas 31 jours en avril.
+  Note: l'utilisation de @#PB_Date_Month peut entrainer un arrondi automatique 
+  du jour si nécessaire: Par exemple, ajouter un mois au '31 mars 2008' 
+  renverra '30 avril 2008', car il n'y a pas 31 jours en avril.
 @EndIndent
 
 @Parameter "Valeur
   La quantité à ajouter à la date.
   @LineBreak 
-  Une valeur négative est autorisée et 
-  permet de soustraire deux dates.
+  Une valeur négative est autorisée et permet de soustraire deux dates.
 
 @ReturnValue
   Renvoie la nouvelle date. 
@@ -81,21 +78,53 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Date([Annee, Mois, Jour, Heure, Minute, Seconde])
+@Function Resultat.q = ConvertDate(Date.q, Format)
 
 @Description
-  Renvoie la valeur du temps système 
-  (nombre de secondes écoulées depuis 
-  le '01/01/1970 0:00:00'). 
+  Convertit une date entre l'heure locale et l'heure UTC (Temps universel coordonné).
+
+@Parameter "Date.q"
+  La date à convertir.
+
+@Parameter "Format"
+ Le format de date. Il peut s'agir de l'une des constantes suivantes :
+@FixedFont
+  @#PB_Date_LocalTime: Convertit une date UTC en date d’heure locale.
+  @#PB_Date_UTC      : Convertit une date d’heure locale en date UTC.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la date convertie, ou -1 si la conversion a échoué.
+
+@Example
+@Code
+  Debug FormatDate("Temps Local : %hh:%ii:%ss", ConvertDate(DateUTC(), #PB_Date_LocalTime))
+  Debug FormatDate("Temps UTC   : %hh:%ii:%ss", ConvertDate(Date(), #PB_Date_UTC))
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date, @@DateUTC
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.q = Date([Annee, Mois, Jour, Heure, Minute, Seconde])
+
+@Description
+  Renvoie la valeur de date créée à partir des paramètres donnés, ou la date du système local 
+  si aucun paramètre n'est spécifié.
 
 @OptionalParameter "Annee, Mois, Jour, Heure, Minute, Seconde"
-  Si les variables Annee, Mois, Jour, 
-  Heure, Minute et Seconde sont spécifiées, 
-  la représentation en secondes de cette 
-  date est renvoyée. 
+  Les composants utilisés pour créer la date. 
+@LineBreak
+@LineBreak   
+  Si ces paramètres ne sont pas spécifiés, la date système locale est renvoyée.@LineBreak  
+  La plage autorisée pour la valeur "Annee" est comprise entre 1 601 et 9 999. 
 
 @ReturnValue  
-  Renvoie le nombre de secondes écoulée.
+  Renvoie la date demandée (nombre de secondes écoulées depuis le 1er janvier 1970, les dates 
+  antérieures à 1970 sont représentées par des valeurs négatives.)
   @LineBreak
   Si les paramètres donnés ne sont pas valides ou en dehors de la plage de dates supportée, 
   -1 sera renvoyé.
@@ -106,26 +135,39 @@
   Debug Date(1999, 12, 31, 23, 59, 59)  ; Affiche '946684799' (nombre de secondes entre 01/01/1970 0:00:00 et 12/31/1999 23:59:59)
 @EndCode
 
-  Note: Le temps et les dates supportées 
-  vont de '1970-01-01, 00:00:00' pour le 
-  minimum à '2038-01-19, 03:14:07' pour 
-  le maximum.
-
 @SeeAlso
-  @@FormatDate, 
-  @@Year, @@Month, @@Day, @@Hour, 
-  @@Minute, @@Second
+  @@FormatDate, @@DateUTC, @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Day(Date)
+@Function Resultat.q = DateUTC()
+
+@Description
+  Renvoie la date du système sous forme d'heure UTC.
+
+@ReturnValue
+  Renvoie la date du système sous forme d'heure UTC.
+
+@Example
+@Code
+  Debug FormatDate("Temps UTC : %hh:%ii:%ss", DateUTC())
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = Day(Date.q)
 
 @Description
   Renvoie le jour. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -148,12 +190,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = DayOfWeek(Date)
+@Function Resultat = DayOfWeek(Date.q)
 
 @Description
   Renvoie le rang du jour de la semaine. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -184,13 +226,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = DayOfYear(Date)
+@Function Resultat = DayOfYear(Date.q)
 
 @Description
   Renvoie le nombre de jours écoulés 
   depuis le début de l'année. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -214,12 +256,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Month(Date)
+@Function Resultat = Month(Date.q)
 
 @Description
   Renvoie le mois. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -241,12 +283,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Year(Date)
+@Function Resultat = Year(Date.q)
 
 @Description
   Renvoie l'année. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -268,12 +310,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Hour(Date)
+@Function Resultat = Hour(Date.q)
 
 @Description
   Renvoie l'heure. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -290,12 +332,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Minute(Date)
+@Function Resultat = Minute(Date.q)
 
 @Description
   Renvoie les minutes.
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -317,12 +359,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = Second(Date)
+@Function Resultat = Second(Date.q)
 
 @Description
   Renvoie les secondes. 
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -344,7 +386,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = FormatDate(Masque$, Date)
+@Function Resultat$ = FormatDate(Masque$, Date.q)
 
 @Description
   Renvoie une date formatée par l'utilisateur.
@@ -362,7 +404,7 @@
     %ss: Les secondes seront affichées avec 2 chiffres.
 @EndFixedFont
 
-@Parameter "Date"  
+@Parameter "Date.q"  
   La date à utiliser.
   
 @ReturnValue
@@ -392,7 +434,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = ParseDate(Masque$, Date$)
+@Function Resultat.q = ParseDate(Masque$, Date$)
 
 @Description
   Transforme une date donnée sous la 

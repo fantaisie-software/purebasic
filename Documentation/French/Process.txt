@@ -501,11 +501,23 @@
   MonProgramme.exe MonTexte.txt /RAPIDE "Mode Special"
 @EndCode
 
-  La première fois que ProgramParameter() 
-  est appelé, la commande va renvoyer 
-  "MonTexte.txt", la seconde fois
-  "/RAPIDE" et la troisième fois 
-  "Mode Special".
+  La première fois que ProgramParameter() est appelé, la commande va renvoyer "MonTexte.txt", la seconde 
+  fois "/RAPIDE" et la troisième fois "Mode Special".
+
+@Example Executez ce programme (une fois compilé) en ligne de commande avec un fichier en paramètre
+@Code
+  If OpenWindow(0, 0, 0, 520, 510, "Exemple...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    EditorGadget(0, 5, 5, 510, 500, #PB_Editor_WordWrap)
+    Chemin$ = ProgramParameter()
+    If FileSize(path$) >= 0
+      If ReadFile(0, Chemin$)
+        Texte$ = ReadString(0, #PB_File_IgnoreEOL)
+      EndIf
+      SetGadgetText(0, Texte$)
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

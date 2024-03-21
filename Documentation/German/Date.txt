@@ -1,18 +1,20 @@
 ;
 ;     Date library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Date
 
 @Overview
-  Die 'Date' (Datums) Bibliothek ermöglicht den Umgang mit Datums- und Zeitangaben zwischen 1970 und 2038.
-  Benutzt wird dabei die Unix-32-Bit-Methode (d.h. die Anzahl der seit dem 1. Januar 1970 vergangenen Sekunden).
+  Die 'Date' (Datums) Bibliothek ermöglicht den Umgang mit Datums- und Zeitangaben vom Jahr 1601 bis 9999 mithilfe
+  der Unix-Methode (d.h. der Anzahl der seit dem 1. Januar 1970 vergangenen Sekunden). Daten vor dem Jahr 1970
+  werden als negative Werte dargestellt.
 @LineBreak
 @LineBreak
-  Hinweis: Unterstützte Datums-/Zeit-Werte sind 01.01.1970, 00:00:00 als Minimum und 19.01.2038,
-  03:14:07 als Maximum. Siehe auch @InternetLink "https://de.wikipedia.org/wiki/Jahr-2038-Problem" "https://de.wikipedia.org/wiki/Jahr-2038-Problem".
+  Hinweis: Um den gesamten verfügbaren Datumsbereich nutzen zu können, müssen die von dieser Bibliothek zurückgegebenen
+  Werte in Variablen vom Typ Quad (.q) gespeichert werden.
+  Die Verwendung eines 32-Bit-Datentyps (Long oder Integer auf 32-Bit-Systemen) führt ab dem Jahr 2038 zu ungültigen Werten.
 
 @CommandList
 
@@ -22,12 +24,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Datum = AddDate(Datum, Typ, Wert)
+@Function Datum.q = AddDate(Datum.q, Typ, Wert)
 
 @Description
   Fügt einen Wert zu einem Datum hinzu.
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datums-Wert, zu welchem der Wert hinzu addiert werden soll.
 
 @Parameter "Typ"
@@ -68,17 +70,47 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Datumswert = Date([Jahr, Monat, Tag, Stunde, Minute, Sekunde])
+@Function Datum.q = ConvertDate(Datum.q, Format)
 
 @Description
-  Gibt den Datumswert entsprechend der angegebenen Parameter zurück, oder den
-  aktuellen Systemdatums-Wert (Anzahl der Sekunden zwischen dem 01.01.1970 00:00:00 Uhr
-  und der aktuellen Zeit), wenn keine Parameter angegeben wurden.
+  Konvertiert ein Datum zwischen Ortszeit (englisch "local time") und UTC-Zeit ("koordinierte Weltzeit").
+
+@Parameter "Datum.q"
+  Das zu konvertierende Datum.
+
+@Parameter "Format"
+  Das neue Datumsformat. Es kann eine der folgenden Konstanten sein:
+@FixedFont
+  @#PB_Date_LocalTime: Konvertiert ein UTC-Datum in ein Ortszeitdatum.
+  @#PB_Date_UTC      : Konvertiert ein Ortszeitdatum in ein UTC-Datum.
+@EndFixedFont
+
+@ReturnValue
+  Gibt das konvertierte Datum zurück, oder -1, wenn die Konvertierung fehlgeschlagen ist.
+
+@Example
+@Code
+  Debug FormatDate("Local time: %hh:%ii:%ss", ConvertDate(DateUTC(), #PB_Date_LocalTime))
+  Debug FormatDate("  UTC time: %hh:%ii:%ss", ConvertDate(Date(), #PB_Date_UTC))
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date, @@DateUTC
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Datumswert.q = Date([Jahr, Monat, Tag, Stunde, Minute, Sekunde])
+
+@Description
+  Gibt den aus den angegebenen Parametern erstellten Datumswert oder die lokale Systemzeit
+  zurück, wenn keine Parameter angegeben wurden.
 
 @OptionalParameter "Jahr, Monat, Tag, Stunde, Minute, Sekunde"
-  Die Komponenten des zurückzugebenden Datums.
-  Wenn diese Parameter nicht angegeben werden, dann werden das aktuelle
-  Systemdatum und die aktuelle Systemzeit verwendet.
+  Die zur Erstellung des Datums verwendeten Komponenten. Werden diese Parameter nicht angegeben,
+  wird die lokale Systemzeit zurückgegeben.
+  Der zulässige Bereich für den Jahreswert liegt zwischen 1601 und 9999.
 
 @ReturnValue
   Gibt den angegebenen Datumswert zurück.
@@ -96,19 +128,39 @@
 @EndCode
 
 @SeeAlso
-  @@FormatDate, 
+  @@FormatDate, @@DateUTC,
   @@Year, @@Month, @@Day, @@Hour, @@Minute, @@Second
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Day(Datum)
+@Function Datum.q = DateUTC()
+
+@Description
+  Gibt das Systemdatum als UTC-Zeit ("koordinierte Weltzeit") zurück.
+
+@ReturnValue
+  Gibt das Systemdatum als UTC-Zeit zurück.
+
+@Example
+@Code
+  Debug FormatDate("UTC time: %hh:%ii:%ss", DateUTC())
+@EndCode
+
+@SeeAlso
+  @@FormatDate, @@Date
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = Day(Datum.q)
 
 @Description
   Gibt den Tages-Wert des angegebenen Datums zurück.
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem der Tag ausgegeben werden soll.
   
 @ReturnValue
@@ -127,12 +179,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = DayOfWeek(Datum)
+@Function Ergebnis = DayOfWeek(Datum.q)
 
 @Description
   Gibt den Wochentag des angegebenen Datums zurück.
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem der Wochentag ausgegeben werden soll.
 
 @ReturnValue
@@ -160,12 +212,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = DayOfYear(Datum)
+@Function Ergebnis = DayOfYear(Datum.q)
 
 @Description
   Gibt die Anzahl der bis zum angegebenen Datum seit Jahresanfang vergangenen Tage zurück.
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem die Anzahl der Tage ausgegeben werden soll, andernfalls -1.
 
 @ReturnValue
@@ -185,12 +237,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Month(Datum)
+@Function Ergebnis = Month(Datum.q)
 
 @Description
   Gibt den Monats-Wert des angegebenen Datums zurück. 
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem der Monat ausgegeben werden soll.
   
 @ReturnValue
@@ -209,12 +261,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Year(Datum)
+@Function Ergebnis = Year(Datum.q)
 
 @Description
   Gibt den Jahres-Wert des angegebenen Datums zurück. 
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem das Jahr ausgegeben werden soll.
   
 @ReturnValue
@@ -233,12 +285,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Hour(Datum)
+@Function Ergebnis = Hour(Datum.q)
 
 @Description
   Gibt den Stunden-Wert des angegebenen Datums zurück. 
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem die Stunden ausgegeben werden sollen.
   
 @ReturnValue
@@ -257,12 +309,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Minute(Datum)
+@Function Ergebnis = Minute(Datum.q)
 
 @Description
   Gibt den Minuten-Wert des angegebenen Datums zurück. 
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem die Minuten ausgegeben werden sollen.
   
 @ReturnValue
@@ -281,12 +333,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = Second(Datum)
+@Function Ergebnis = Second(Datum.q)
 
 @Description
   Gibt den Sekunden-Wert des angegebenen Datums zurück. 
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der Datumswert, von dem die Sekunden ausgegeben werden sollen.
   
 @ReturnValue
@@ -305,7 +357,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = FormatDate(Maske$, Datum)
+@Function Text$ = FormatDate(Maske$, Datum.q)
 
 @Description
   Gibt einen formatierten String vom angegebenen Datum zurück.
@@ -323,7 +375,7 @@
   %ss: wird durch den Sekunden-Wert ersetzt, auf 2 Stellen.
 @EndFixedFont
 
-@Parameter "Datum"
+@Parameter "Datum.q"
   Der zu verwendende Datumswert.
 
 @ReturnValue
@@ -348,7 +400,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Datum = ParseDate(Maske$, String$)
+@Function Datum.q = ParseDate(Maske$, String$)
 
 @Description
   Wandelt einen Datums-String in einen regulären Datums-Wert um, welcher danach mit

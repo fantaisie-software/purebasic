@@ -861,8 +861,9 @@ et à la bibliothèque
     CloseFile(0)
   EndIf
   If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+  Format = ReadStringFormat(0)
     While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
-      Debug ReadString(0)      ; Affiche du fichier
+      Debug ReadString(0, Format) ; Affiche du fichier
     Wend
     CloseFile(0)               ; Ferme le fichier précédemment créé ou ouvert
   Else

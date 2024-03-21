@@ -1,7 +1,7 @@
 ;
 ;     Cipher library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Cipher
@@ -1061,15 +1061,19 @@ due to its strong resistance to attacks.
 
 @Example
 @Code
-  *Text = UTF8("This is a test string!")
-    
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text) - 1)
- ;Encoded$ = Base64Encoder(*Text, StringByteLength("This is a test string!",#PB_UTF8))
+  String$ = "This is a test string!"
+  
+  ; Encoding an Ascii string
+  *Text = Ascii(String$)
+  Encoded$ = Base64Encoder(*Text, StringByteLength(String$, #PB_Ascii))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)
   Base64Decoder(Encoded$, *DecodedBuffer, 1024)
-  Debug "Decoded: " + PeekS(*DecodedBuffer, -1, #PB_UTF8)
+  Debug "Decoded: '" + PeekS(*DecodedBuffer, -1, #PB_Ascii) + "'"
+  
+  FreeMemory(*Text)
+  FreeMemory(*DecodedBuffer)
 @EndCode
 
 @SeeAlso
@@ -1105,15 +1109,19 @@ due to its strong resistance to attacks.
 
 @Example
 @Code
-  *Text = UTF8("This is a test string!")
-    
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text - 1))
- ;Encoded$ = Base64Encoder(*Text, StringByteLength("This is a test string!",#PB_UTF8))
+  String$ = "This is a test string!"
+  
+  ; Encoding an UTF-8 string
+  *Text = UTF8(String$)
+  Encoded$ = Base64Encoder(*Text, StringByteLength(String$, #PB_UTF8))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)
   Base64Decoder(Encoded$, *DecodedBuffer, 1024)
-  Debug "Decoded: " + PeekS(*DecodedBuffer, -1, #PB_UTF8)
+  Debug "Decoded: '" + PeekS(*DecodedBuffer, -1, #PB_UTF8) + "'"
+  
+  FreeMemory(*Text)
+  FreeMemory(*DecodedBuffer)
 @EndCode
 
 @SeeAlso

@@ -52,8 +52,8 @@ to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory bu
   EndEnumeration
   
   ;- Variables
-  Define Event, EventWindow, EventGadget, EventType, EventMenu
-  Define Length
+  Define.l Event, EventWindow, EventGadget, EventType, EventMenu
+  Define.l Length
   Define.s File
   Define *Buffer
   
@@ -68,7 +68,7 @@ to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory bu
   Procedure WindowCreate()  
     ; Create the window.
     
-    Protected Col
+    Protected.l Col
     Protected.s Label
     
     If OpenWindow(#WindowHex, 50, 50, 500, 400, "Hex View", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
@@ -100,7 +100,7 @@ to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory bu
   Procedure WindowResize()
     ; Resize gadgets to new window size.
     
-    Protected X, Y, W, H
+    Protected.l X, Y, W, H
     
     ; Explorer List
     W = WindowWidth(#WindowHex) - 10
@@ -138,7 +138,7 @@ to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory bu
     
     Protected *Byte
     Protected Peek
-    Protected Rows, Cols, Offset
+    Protected.l Rows, Cols, Offset
     Protected.s OffsetString, Row, String
     
     ; Clear current contents.
@@ -209,7 +209,7 @@ to overwrite the buffer's contents and @@FreeMemory to de-allocate the memory bu
     Shared Length, File, *Buffer
     
     Protected.b ReadByte
-    Protected FileNumber, ReadLong, Size
+    Protected.l FileNumber, ReadLong, Size
     
     ; Stop if file is empty.
     If File = ""

@@ -250,7 +250,13 @@ Procedure AutoComplete_AddFromSorted(*Parser.ParserData, Prefix$, *Ignore.Source
         Else
           ; other stuff
           ForEach AutoCompleteModules()
-            RadixEnumeratePrefix(*Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type], Prefix$, *AutoCompleteItems())
+            
+            If Prefix$ <> ""
+              RadixEnumeratePrefix(*Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type], Prefix$, *AutoCompleteItems())
+            Else
+              RadixEnumerateAll(*Parser\Modules(UCase(AutoCompleteModules()))\Indexed[Type], *AutoCompleteItems())
+            EndIf
+            
             ForEach *AutoCompleteItems()
               If *AutoCompleteItems() <> *Ignore
                 AutoComplete_AddItem(*AutoCompleteItems())

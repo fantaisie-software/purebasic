@@ -1,7 +1,7 @@
 ;
 ;     Requester library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Requester
@@ -21,7 +21,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Farbe = ColorRequester([AktuelleFarbe])
+@Function Farbe = ColorRequester([AktuelleFarbe] [, ParentID])
 
 @Description
   Öffnet einen Standard-Requester zum Auswählen einer Farbe. Die ausgewählte Farbe
@@ -32,6 +32,10 @@
   Legt die Standardfarbe fest, wenn der Requester geöffnet wird. @@RGB kann verwendet
   werden, um eine gültige Farbe zu erhalten.
   
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
+
 @ReturnValue
   Die ausgewählte Farbe - oder -1, wenn der Benutzer den Requester abgebrochen hat.
   Um einfach die Werte der RGB-Komponenten zu ermitteln, können
@@ -59,7 +63,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = FontRequester(FontName$, FontGröße, Flags [, Farbe [, Stil]])
+@Function Ergebnis = FontRequester(FontName$, FontGröße, Flags [, Farbe [, Stil]] [, ParentID]]])
 
 @Description
   Öffnet den Standard-Requester zum Auswählen eines Zeichensatzes.
@@ -88,6 +92,10 @@
 @OptionalParameter "Stil"
   Legt den Standardstil fest, wenn der Requester geöffnet wird.
   Siehe @@SelectedFontStyle für die verfügbaren Stile.
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Ein Wert ungleich Null, wenn ein Zeichensatz ausgewählt wurde, und Null wenn der
@@ -128,7 +136,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = InputRequester(Titel$, Mitteilung$, StandardText$ [, Flags])
+@Function Text$ = InputRequester(Titel$, Mitteilung$, StandardText$ [, Flags] [, ParendID]])
 
 @Description
   Öffnet einen (das Programm) "blockierenden" Eingabe-Requester, um eine
@@ -148,6 +156,10 @@
 @FixedFont
   @#PB_InputRequester_Password: setzt den Feld-Typ auf 'Passwort'. Der angezeigte Text wird versteckt.
 @EndFixedFont
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Gibt den Text im Eingabefeld zurück, oder einen leeren String, wenn der Requester ohne Anklicken
@@ -172,7 +184,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = MessageRequester(Titel$, Text$, [, Flags])
+@Function Ergebnis = MessageRequester(Titel$, Text$, [, Flags] [, ParentID]])
 
 @Description
   Öffnet einen ('blocking') Requester zum Anzeigen einiger Informationen. Die
@@ -198,6 +210,10 @@
   @#PB_MessageRequester_Warning: zeigt ein Warnungs-Icon an
   @#PB_MessageRequester_Error  : zeigt ein Fehler-Icon an
 @EndFixedFont  
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Dies kann eine der folgenden Konstanten sein:
@@ -277,7 +293,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DateiName$ = OpenFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, Flags])
+@Function DateiName$ = OpenFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, Flags] [, ParentID]])
 
 @Description
   Öffnet einen Standard-Requester für den Anwender zum Auswählen einer Datei. Der Titel kann
@@ -311,6 +327,10 @@
 @FixedFont
   @#PB_Requester_MultiSelection : Schaltet die Mehrfach-Selektion ein. (siehe @@NextSelectedFileName)
 @EndFixedFont
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Der ausgewählte Dateiname - oder ein leerer String, wenn der Requester vom Anwender
@@ -348,7 +368,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Pfad$ = PathRequester(Titel$, UrsprungsPfad$)
+@Function Pfad$ = PathRequester(Titel$, UrsprungsPfad$ [, ParendID])
 
 @Description
   Öffnet den Standard-Verzeichnis-Requester für den Anwender zum Auswählen eines
@@ -359,6 +379,10 @@
 
 @Parameter "UrsprungsPfad$"
   Der beim Öffnen des Requesters zu verwendende anfängliche Pfad.
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Der ausgewählte Pfad - oder ein leerer String, wenn der Requester vom Anwender
@@ -385,7 +409,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DateiName$ = SaveFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition)
+@Function DateiName$ = SaveFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, ParentID])
 
 @Description
   Öffnet einen Standard-Requester für den Anwender zum Auswählen einer zu
@@ -411,6 +435,10 @@
   Anzahl der Patterns minus 1 (da der Index für den ersten Pattern bei 0 beginnt). Sobald der Requester
   geschlossen wurde, kann @@SelectedFilePattern benutzt 
   werden, um den ausgewählten Pattern zu ermitteln. (Nicht unterstützt auf OSX.)
+
+@OptionalParameter "ParentID"
+  Die Kennung des übergeordneten Fensters. Eine gültige Fensterkennung kann mit
+  @@WindowID abgerufen werden.
 
 @ReturnValue
   Der ausgewählte Dateiname - oder ein leerer String, wenn der Requester vom

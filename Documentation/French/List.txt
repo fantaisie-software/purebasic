@@ -266,6 +266,62 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat = CompareList(Liste1(), Liste2() [, Options])
+
+@Description
+  Compare chaque élément des deux listes pour vérifier leur égalité. 
+
+@parameter "Liste1(), Liste2()"
+  Les listes à comparer.
+  
+@OptionalParameter "Options"
+   Peut être une combinaison des valeurs suivantes :
+@FixedFont
+   @#PB_String_CaseSensitive  : La comparaison des chaînes est sensible à la casse (a=a). (par défaut)
+   @#PB_String_NoCase         : La comparaison des chaînes n'est pas sensible à la casse (A=a).
+   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, compare récursivement la cible du pointeur.
+                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si les deux listes sont identiques, zéro sinon.
+
+@Remarks
+  Compare de manière récursive également le contenu de listes structurées avec des éléments 
+  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@linebreak
+  Les deux listes sont considérées comme égales si elles ont le même type et la même taille 
+  et si chaque paire d’éléments est identique.
+@LineBreak
+@LineBreak
+   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
+   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
+   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
+   se renvoie à elle-même).
+   
+@Example
+@Code
+  NewList A$()
+  AddElement(A$()) : A$() = "Jean"
+  AddElement(A$()) : A$() = "Charles"
+  AddElement(A$()) : A$() = "Didier"
+  
+  NewList B$()
+  AddElement(B$()) : B$() = "JEAN"  ; Casse différente
+  AddElement(B$()) : B$() = "Charles"
+  AddElement(B$()) : B$() = "Didier"
+  
+  Debug CompareList(A$(), B$())                     ; Pas égal
+  Debug CompareList(A$(), B$(), #PB_String_NoCase)  ; Égal
+@EndCode
+
+@SeeAlso
+  @@CompareArray, @@CompareMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Resultat = CopyList(ListeSource(), ListeDestination())
 
 @Description
@@ -339,23 +395,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat  = ListSize(Liste()) 
+@Function Resultat = ListSize(Liste()) 
 
 @Description
-  Renvoie le nombre d'éléments contenus 
-  dans la liste. 
+  Renvoie le nombre d'éléments contenus dans la liste. 
 
 @Parameter "Liste()"
   La liste à utiliser.
 
 @ReturnValue
-  Le nombre total d'éléments dans la liste.
+  Le nombre total d'éléments dans la liste.@linebreak
+  Si la liste n'est pas initialisée, renvoie -1 (par exemple après @@FreeList).
 
 @Remarks
-  Cette fonction ne modifie pas l'élément 
-  courant. @LineBreak
-  Elle est très rapide (pas d'itération) et 
-  peut être utilisée sereinement pour savoir 
+  Cette fonction ne modifie pas l'élément courant. @LineBreak
+  Elle est très rapide (pas d'itération) et peut être utilisée sereinement pour savoir 
   si une liste est vide ou non.
   
 @Example

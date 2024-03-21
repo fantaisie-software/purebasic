@@ -40,7 +40,7 @@
     CompilerError "Cet exemple ne fonctionne que sous Windows"
   CompilerEndIf
   
-  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
+  
   Prototype.i ProtoMessageBox(Fenetre.i, Corps$, Titre$, Options.i = 0)
 
   If OpenLibrary(0, "User32.dll")
@@ -49,7 +49,7 @@
     ;
     MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxW")
     
-    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
   EndIf
     
 @EndCode
@@ -66,7 +66,7 @@
   ; (texte à afficher et titre) car l'api MessageBoxW est une fonction unicode. Le compilateur
   ; convertira automatiquement les chaînes ascii en unicode pour les besoins de la fonction 
   ;
-  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
+ 
   Prototype.i ProtoMessageBoxA(Fenetre.i, Corps.p-ascii, Titre.p-ascii, Options.i = 0)
 
   If OpenLibrary(0, "User32.dll")
@@ -75,7 +75,7 @@
     ;
     MsgBox.ProtoMessageBoxA = GetFunction(0, "MessageBoxA")
     
-    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
   EndIf
     
 @EndCode

@@ -17,10 +17,12 @@
   </tr>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#InitializeStructure"><u>InitializeStructure</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#CompareStructure"><u>CompareStructure</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#CopyStructure"><u>CopyStructure</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#ClearStructure"><u>ClearStructure</u></a></td>
   </tr>
   <tr>
+    <td align="center" vAlign="center" nowrap><a href="#ClearStructure"><u>ClearStructure</u></a></td>
+  
     <td align="center" vAlign="center" nowrap><a href="#ResetStructure"><u>ResetStructure</u></a></td>
   </tr>  
     </table>
@@ -399,6 +401,70 @@
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
+
+@FormatIf HTML
+<br><hr><br>
+<a name="CompareStructure"></a>
+@FormatEndIf
+
+@Syntax
+  @Keyword CompareStructure(*Pointeur1, *Pointeur2, Structure [, Options])
+  
+@Description
+   @Keyword CompareStructure compare la mémoire de deux @ReferenceLink "structures" "structures" pour 
+   vérifier leur égalité.
+   La comparaison est également appliquée de manière récursive aux éléments enfants tels que 
+   @ReferenceLink "dim" "arrays", @ReferenceLink "newlist" "listes" et @ReferenceLink "newmap" "maps". 
+   Renvoie une valeur non nulle si les structures sont les identiques, zéro sinon.
+@LineBreak
+@LineBreak
+   Le paramètre "Options" est facultatif et peut prendre l'une des valeurs suivantes :
+@FixedFont
+   @#PB_String_CaseSensitive  : La comparaison de chaînes est sensible à la casse (a=a). (par défaut)
+   @#PB_String_NoCase         : La comparaison de chaînes n'est pas sensible à la casse (A=a).
+   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, comparez récursivement la cible du pointeur.
+                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+@EndFixedFont
+
+@Bold "Attention:" 
+   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
+   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
+   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
+   se renvoie à elle-même).
+
+
+@Example
+
+@Code
+   Structure Personne
+     Nom$
+     Prenom$
+     Map Amis$()
+     Age.l
+  EndStructure
+
+ EtudiantA.Personne\Prenom$ = "Paul"
+ EtudiantA\Nom$ = "Morito"
+ EtudiantA\Amis$("Tom") = "Dupont"
+ EtudiantA\Amis$("Jim") = "Durand"
+
+ EtudiantB.Personne\Prenom$ = "Paul"
+ EtudiantB\Nom$ = "Morito"
+ EtudiantB\Amis$("Tom") = "Dupont"
+ EtudiantB\Amis$("Jim") = "Durand"
+
+ EtudiantC.Personne\Prenom$ = "Paul"
+ EtudiantC\Nom$ = "Morito"
+ EtudiantC\Amis$("Tom") = "Fontaine" ; Différent dans EtudiantA
+ EtudiantC\Amis$("Jim") = "Durand"
+
+  Debug CompareStructure(@EtudiantA, @EtudiantB, Personne) ; Egal
+  Debug CompareStructure(@EtudiantA, @EtudiantC, Personne) ; Pas égal
+@EndCode
+; -------------------------------------------------------------------------------------------------
+
+
 @FormatIf HTML
 <br><hr><br>
 <a name="CopyStructure"></a>
