@@ -297,6 +297,10 @@ Procedure OpenReadGadgetParams(line.s)
       If num >= FormWindows()\c_web
         FormWindows()\c_web = num + 1
       EndIf
+    ElseIf leftvar = "WebKit"
+      If num >= FormWindows()\c_webkit
+        FormWindows()\c_webkit = num + 1
+      EndIf
     ElseIf leftvar = "Container"
       If num >= FormWindows()\c_container
         FormWindows()\c_container = num + 1
@@ -1591,6 +1595,16 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\type = #Form_Type_Web
         start = OpenReadGadgetParams(line)
         start = OpenReadGadgetCaption(line, start)
+        OpenReadGadgetFlags(line, start)
+        FormWindows()\FormGadgets()\backcolor = -1
+        FormWindows()\FormGadgets()\frontcolor = -1
+        OpenReadGadgetParent()
+        Continue
+      EndIf ;}
+      If procname = "WebViewGadget" ;{
+        AddElement(FormWindows()\FormGadgets())
+        FormWindows()\FormGadgets()\type = #Form_Type_WebKit
+        start = OpenReadGadgetParams(line)
         OpenReadGadgetFlags(line, start)
         FormWindows()\FormGadgets()\backcolor = -1
         FormWindows()\FormGadgets()\frontcolor = -1

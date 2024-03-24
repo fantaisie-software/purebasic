@@ -2829,6 +2829,17 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           DrawText(x,y,"WebView",RGBA(0,0,0,255))
           
           ;}
+        Case #Form_Type_WebKit ;{
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
+          Box(x1,y1,x2 - x1, y2 - y1,RGBA(194,194,194,255))
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
+          Box(x1+1,y1+1,x2 - x1-2, y2 - y1 - 2,RGBA(255,255,255,255))
+          DrawingFont(FontID(fd_fontid))
+          x = x1 + 3
+          y = y1 + 3
+          DrawText(x,y,"WebKit",RGBA(0,0,0,255))
+          
+          ;}
         Case #Form_Type_Container,#Form_Type_Custom ;{
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
           
@@ -4528,6 +4539,9 @@ Procedure FD_LeftUp(x,y)
         Case #Form_Type_Web
           var = "WebView_"+Str(FormWindows()\c_web)
           FormWindows()\c_web + 1
+        Case #Form_Type_WebKit
+          var = "WebKit_"+Str(FormWindows()\c_webkit)
+          FormWindows()\c_webkit + 1
         Case #Form_Type_Container
           var = "Container_"+Str(FormWindows()\c_container)
           FormWindows()\c_container + 1
@@ -8193,6 +8207,9 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
             Case #Form_Type_Web
               var = "WebView_"+Str(FormWindows()\c_web)
               FormWindows()\c_web + 1
+            Case #Form_Type_WebKit
+              var = "WebKit_"+Str(FormWindows()\c_webkit)
+              FormWindows()\c_webkit + 1
             Case #Form_Type_Container
               var = "Container_"+Str(FormWindows()\c_container)
               FormWindows()\c_container + 1
