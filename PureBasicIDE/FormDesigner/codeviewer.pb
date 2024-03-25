@@ -548,7 +548,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 line + "ScrollAreaGadget("
               Case #Form_Type_Web
                 line + "WebGadget("
-              Case #Form_Type_WebKit
+              Case #Form_Type_WebView
                 line + "WebViewGadget("
               Case #Form_Type_Container
                 line + "ContainerGadget("

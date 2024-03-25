@@ -297,10 +297,6 @@ Procedure OpenReadGadgetParams(line.s)
       If num >= FormWindows()\c_web
         FormWindows()\c_web = num + 1
       EndIf
-    ElseIf leftvar = "WebKit"
-      If num >= FormWindows()\c_webkit
-        FormWindows()\c_webkit = num + 1
-      EndIf
     ElseIf leftvar = "Container"
       If num >= FormWindows()\c_container
         FormWindows()\c_container = num + 1
@@ -1603,7 +1599,7 @@ Procedure FD_Open(file.s,update = 0)
       EndIf ;}
       If procname = "WebViewGadget" ;{
         AddElement(FormWindows()\FormGadgets())
-        FormWindows()\FormGadgets()\type = #Form_Type_WebKit
+        FormWindows()\FormGadgets()\type = #Form_Type_WebView
         start = OpenReadGadgetParams(line)
         OpenReadGadgetFlags(line, start)
         FormWindows()\FormGadgets()\backcolor = -1
