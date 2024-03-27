@@ -1597,6 +1597,16 @@ Procedure FD_Open(file.s,update = 0)
         OpenReadGadgetParent()
         Continue
       EndIf ;}
+      If procname = "WebViewGadget" ;{
+        AddElement(FormWindows()\FormGadgets())
+        FormWindows()\FormGadgets()\type = #Form_Type_WebView
+        start = OpenReadGadgetParams(line)
+        OpenReadGadgetFlags(line, start)
+        FormWindows()\FormGadgets()\backcolor = -1
+        FormWindows()\FormGadgets()\frontcolor = -1
+        OpenReadGadgetParent()
+        Continue
+      EndIf ;}
       If procname = "ContainerGadget" ;{
         AddElement(FormWindows()\FormGadgets())
         FormWindows()\FormGadgets()\type = #Form_Type_Container

@@ -2826,6 +2826,17 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           DrawingFont(FontID(fd_fontid))
           x = x1 + 3
           y = y1 + 3
+          DrawText(x,y,"Web",RGBA(0,0,0,255))
+          
+          ;}
+        Case #Form_Type_WebView ;{
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
+          Box(x1,y1,x2 - x1, y2 - y1,RGBA(194,194,194,255))
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
+          Box(x1+1,y1+1,x2 - x1-2, y2 - y1 - 2,RGBA(255,255,255,255))
+          DrawingFont(FontID(fd_fontid))
+          x = x1 + 3
+          y = y1 + 3
           DrawText(x,y,"WebView",RGBA(0,0,0,255))
           
           ;}
@@ -4526,6 +4537,9 @@ Procedure FD_LeftUp(x,y)
           var = "ScrollArea_"+Str(FormWindows()\c_scrollarea)
           FormWindows()\c_scrollarea + 1
         Case #Form_Type_Web
+          var = "WebView_"+Str(FormWindows()\c_web)
+          FormWindows()\c_web + 1
+        Case #Form_Type_WebView
           var = "WebView_"+Str(FormWindows()\c_web)
           FormWindows()\c_web + 1
         Case #Form_Type_Container
@@ -8191,6 +8205,9 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               var = "ScrollArea_"+Str(FormWindows()\c_scrollarea)
               FormWindows()\c_scrollarea + 1
             Case #Form_Type_Web
+              var = "WebView_"+Str(FormWindows()\c_web)
+              FormWindows()\c_web + 1
+            Case #Form_Type_WebView
               var = "WebView_"+Str(FormWindows()\c_web)
               FormWindows()\c_web + 1
             Case #Form_Type_Container

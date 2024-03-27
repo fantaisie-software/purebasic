@@ -481,6 +481,9 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
                     Case #Form_Type_Web
                       var = "WebView_"+Str(FormWindows()\c_web)
                       FormWindows()\c_web + 1
+                    Case #Form_Type_WebView
+                      var = "WebView_"+Str(FormWindows()\c_web)
+                      FormWindows()\c_web + 1
                     Case #Form_Type_Container
                       var = "Container_"+Str(FormWindows()\c_container)
                       FormWindows()\c_container + 1
