@@ -1600,6 +1600,8 @@ Enumeration
   #PB_Material_WaterShaderRTT
   #PB_Material_OceanShader
   #PB_Material_PointSpriteSphereShader
+  #PB_Material_CubicEnvShader
+  #PB_Material_CubicEnvBumpShader
 EndEnumeration
 
 ; Shader type

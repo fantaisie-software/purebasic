@@ -203,7 +203,7 @@ DataSection
   Data$ "CreateRenderTexture,5,#PB_Texture_AutomaticUpdate,#PB_Texture_ManualUpdate,#PB_Texture_CameraViewPort"
   Data$ "CreateRibbonEffect,1,#PB_Any"
   Data$ "CreateShaderMaterial,1,#PB_Any"
-  Data$ "CreateShaderMaterial,2,#PB_Material_ColorShader,#PB_Material_PerpixelShader,#PB_Material_BumpShader,#PB_Material_SkyShader,#PB_Material_WaterShader,#PB_Material_WaterShaderRTT,#PB_Material_OceanShader,#PB_Material_PointSpriteSphereShader"
+  Data$ "CreateShaderMaterial,2,#PB_Material_ColorShader,#PB_Material_PerpixelShader,#PB_Material_BumpShader,#PB_Material_SkyShader,#PB_Material_WaterShader,#PB_Material_WaterShaderRTT,#PB_Material_OceanShader,#PB_Material_PointSpriteSphereShader,#PB_Material_CubicEnvShader,#PB_Material_CubicEnvBumpShader"
   Data$ "CreateSphere,1,#PB_Any"
   Data$ "CreateSpline,1,#PB_Any"
   Data$ "CreateSprite,1,#PB_Any"
