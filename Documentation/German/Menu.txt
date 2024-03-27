@@ -346,8 +346,8 @@
     EndIf
   
     Repeat
-    Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
-    
+	  Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
+	  
       Select Event
         Case #PB_Event_RightClick  ; rechte Maustaste wurde gedrückt =>
           DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-Menü an

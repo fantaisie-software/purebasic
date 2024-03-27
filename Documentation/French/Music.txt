@@ -245,7 +245,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = MusicVolume(#Music, Volume)
+@Function Resultat = MusicVolume(#Music, Volume.f)
 
 @Description
   Change le volume général en temps réel. 
@@ -253,12 +253,11 @@
 @Parameter "#Music"
   Le module musical à utiliser.
 
-@Parameter "Volume"
+@Parameter "Volume.f"
   Le nouveau volume sonore entre 0 et 100.
 @LineBreak
 @LineBreak 
-  Utile pour les fondus enchaînés (fade 
-  in/fade out).
+  Utile pour les fondus enchaînés (fade in/fade out).
 
 @NoReturnValue
 

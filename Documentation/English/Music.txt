@@ -1,7 +1,7 @@
 ;
 ;     Music library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Music
@@ -178,7 +178,7 @@ before using any of the music related functions.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MusicVolume(#Music, Volume)
+@Function MusicVolume(#Music, Volume.f)
 
 @Description
   Change the master volume of the specified music, in real-time.
@@ -186,7 +186,7 @@ before using any of the music related functions.
 @Parameter "#Music"
   The music module to use.
 
-@Parameter "Volume"
+@Parameter "Volume.f"
   The new volume to set for the music. Volume values can be from 0 to 100. Can be useful for fade-in/fade-out.
 
 @NoReturnValue

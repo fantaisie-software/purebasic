@@ -762,13 +762,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawRotatedText(x, y, Text$, Winkel.f [, Farbe])
+@Function DrawRotatedText(x.d, y.d, Text$, Winkel.f [, Farbe])
 
 @Description
   Zeigt den angegebenen Text auf der aktuellen Ausgabe im angegebenen Winkel an. Um eine Gadget-ähnliche
   Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText verwendet werden.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   Die Position der linken oberen Ecke des Textes in der Ausgabe.
   Dies ist auch der Punkt, um den der String gedreht wird.
   
@@ -959,7 +959,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = DrawText(x, y, Text$ [, VordergrundFarbe [, HintergrundFarbe]])
+@Function Ergebnis = DrawText(x.d, y.d, Text$ [, VordergrundFarbe [, HintergrundFarbe]])
 
 @Description
   Stellt den angegebenen String auf dem aktuellen Ausgabekanal an der angegebenen (x,y) 
@@ -967,7 +967,7 @@
   Um eine Gadget-ähnliche Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText
   verwendet werden.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   Die Position, an welcher der Text gezeichnet werden soll.
 
 @Parameter "Text$"
@@ -1312,7 +1312,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe = TextHeight(Text$)  
+@Function Höhe.d = TextHeight(Text$)  
 
 @Description
   Ermittelt die Höhe des angegebenen String, der in der aktuellen Ausgabe und mittels
@@ -1322,7 +1322,7 @@
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Höhe des angegebenen Textes in Pixel zurück.
+  Gibt die Höhe des angegebenen Textes zurück.
 
 @SeeAlso
   @@TextWidth, @@DrawingFont
@@ -1331,7 +1331,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Breite = TextWidth(Text$)  
+@Function Breite.d = TextWidth(Text$)  
 
 @Description
   Ermittelt die Breite des angegebenen String, der in der aktuellen Ausgabe und mittels
@@ -1341,7 +1341,7 @@
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Breite des angegebenen Textes in Pixel zurück.
+  Gibt die Breite des angegebenen Textes zurück.
 
 @SeeAlso
   @@TextHeight, @@DrawingFont

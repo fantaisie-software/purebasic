@@ -551,7 +551,7 @@
       PlaySound(0, #PB_Sound_Loop, 20)
       
       MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
-    
+	  
       MessageRequester("Info", "Ok zum Stoppen.")
       
       FreeSound(0) ; Der Sound wird freigegeben
@@ -797,7 +797,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundVolume(#Sound, Lautstärke [, Kanal])
+@Function SoundVolume(#Sound, Lautstärke.f [, Kanal])
 
 @Description
   Ändert in Echtzeit die Lautstärke des Sounds.
@@ -805,7 +805,7 @@
 @Parameter "#Sound"
   Der zu verwendende Sound. Wenn @#PB_All angegeben wird, dann sind alle Sounds (und alle Kanäle) betroffen.
 
-@Parameter "Lautstärke"
+@Parameter "Lautstärke.f"
   Die neue Lautstärke des Sounds. Gültige Werte reichen von 0 (keine Lautstärke) bis 100 (volle Lautstärke).
 
 @OptionalParameter "Kanal"
