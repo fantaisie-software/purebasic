@@ -237,12 +237,16 @@
 
 @Example
 @Code
-  CatchImage(0, ?Logo)
-  End
-
+  If OpenWindow(0, 0, 0, 148, 148, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CatchImage(0, ?Geebee)
+      ImageGadget(0, 10, 10, 0, 0, ImageID(0))
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+  
   DataSection
-    Logo:
-      IncludeBinary "Logo.bmp"
+    GeeBee:
+    IncludeBinary #PB_Compiler_Home + "examples/sources/Data/Geebee2.bmp"
   EndDataSection
 @EndCode
   Hinweis: Das "?" ist ein Zeiger auf eine Sprungmarke. Weitere Informationen über Zeiger und

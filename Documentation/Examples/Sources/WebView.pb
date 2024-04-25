@@ -36,7 +36,7 @@ EndProcedure
 OpenWindow(0, 100, 100, 400, 400, "Hello", #PB_Window_SystemMenu | #PB_Window_Invisible)
 
 WebViewGadget(0, 0, 0, 400, 400)
-SetGadgetText(0, "file://" + GetCurrentDirectory() + "Data/WebView/webview.html")
+SetGadgetText(0, "file://" + #PB_Compiler_Home + "examples/sources/Data/WebView/webview.html")
   
 BindWebViewCallback(0, "increment", @IncrementCallback())
 BindWebViewCallback(0, "compute", @ComputeCallback())

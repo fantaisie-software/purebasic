@@ -3081,9 +3081,9 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 245, 105, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If LoadImage(0, "map.bmp")    ; change 2nd parameter to the path/filename of your image
-      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                      ; imagegadget standard
-      ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)     ; imagegadget with border
+    If LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/Map.bmp")
+      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                     ; imagegadget standard
+      ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)   ; imagegadget with border
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -3294,7 +3294,7 @@
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
   @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation. @@ExamineDraggedItems can be used to get the dragged items information.
-  @#PB_EventType_ColumnClick: a column title has been clicked. Use @@GetGadgetAttribute with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
+  @#PB_EventType_ColumnClick: a column title has been clicked. Use GetGadgetAttribute() with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
   a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
@@ -3341,8 +3341,8 @@
     ; Here we change the ListIcon display to large icons and show an image
     If LoadImage(0, #PB_Compiler_Home+"examples/sources/Data/File.bmp")     ; change path/filename to your own 32x32 pixel image
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Picture 1", ImageID(0))
-      AddGadgetItem(5, 2, "Picture 2", ImageID(0))
+      AddGadgetItem(5, 0, "Picture 1", ImageID(0))
+      AddGadgetItem(5, 1, "Picture 2", ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -4859,6 +4859,8 @@
 @LineBreak
   - @@WebGadget: Change the html code in the gadget with @#PB_Web_HtmlCode as 'Item'.
 @LineBreak
+  - @@WebViewGadget: Change the html code in the gadget with @#PB_Web_HtmlCode as 'Item'.
+@LineBreak
 
 @SeeAlso
   @@GetGadgetItemText, @@GetGadgetText, @@SetGadgetText
@@ -4990,6 +4992,8 @@
   - @@TreeGadget: change the text of the currently selected item.
 @LineBreak
   - @@WebGadget: change the current URL.
+@LineBreak
+  - @@WebViewGadget: change the current URL.
 
 @SeeAlso
   @@GetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText

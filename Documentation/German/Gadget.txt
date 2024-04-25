@@ -3230,7 +3230,7 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 245, 105, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If LoadImage(0, "map.bmp")    ; ändern Sie den 2. Parameter in den Pfad/Dateiname Ihres Bildes
+    If LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/Map.bmp")
       ImageGadget(0,  10, 10, 100, 83, ImageID(0))                     ; Imagegadget Standard
       ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)   ; Imagegadget mit Rand
     EndIf
@@ -3514,8 +3514,8 @@
     ; Hier ändern wir die Anzeige des ListIcons in große Icons und zeigen ein Bild an
     If LoadImage(0, #PB_Compiler_Home+"examples/sources/Data/File.bmp")     ; ändern Sie Pfad/Dateiname für Ihr eigenes 32x32 Pixel Bild
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Picture 1", ImageID(0))
-      AddGadgetItem(5, 2, "Picture 2", ImageID(0))
+      AddGadgetItem(5, 0, "Picture 1", ImageID(0))
+      AddGadgetItem(5, 1, "Picture 2", ImageID(0))
     EndIf  
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -5087,6 +5087,7 @@
 @LineBreak
   - @@WebGadget: Ändert den Html-Code im Gadget mittels @#PB_Web_HtmlCode als 'Eintrag'.
 @LineBreak
+  - @@WebViewGadget: Ändert den Html-Code im Gadget mittels @#PB_Web_HtmlCode als 'Eintrag'.
 
 @SeeAlso
   @@GetGadgetItemText, @@GetGadgetText, @@SetGadgetText
@@ -5227,6 +5228,8 @@
   - @@TreeGadget: ändert den Text des aktuell ausgewählten Eintrags.
 @LineBreak
   - @@WebGadget: ändert die aktuelle URL.
+@LineBreak
+  - @@WebViewGadget: ändert die aktuelle URL.
 
 @SeeAlso
   @@GetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText

@@ -3716,8 +3716,8 @@ utiliser l'opérateur '&':
 @Example
 @Code
   If OpenWindow(0, 0, 0, 245, 105, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If LoadImage(0, "map.bmp")    ; changez le 2ème paramètre en indiquant le chemin/fichier contenant votre image
-      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                      ; imagegadget standard
+    If LoadImage(0,  #PB_Compiler_Home + "examples/sources/Data/Map.bmp")
+      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                       ; imagegadget standard
       ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)     ; imagegadget avec cadre
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -3969,7 +3969,7 @@ utiliser l'opérateur '&':
   @#PB_EventType_Change           : L'élément sélectionné a été changé
   @#PB_EventType_DragStart        : L'utilisateur a essayé de lancer une opération de 'Glisser & Déposer'.
                                    @@ExamineDraggedItems peut être utilisé pour obtenir les informations sur les éléments déplacés.
-  @#PB_EventType_ColumnClick      : Un en-tête de colonne a été cliqué. Utilisez GetGadgetAttribute() avec @#PB_ListIcon_ClickedColumn pour savoir sur lequel a été cliqué.
+  @#PB_EventType_ColumnClick      : Un en-tête de colonne a été cliqué. Pour le connaître, utilisez @@GetGadgetAttribute avec @#PB_ListIcon_ClickedColumn.
 @EndFixedFont
   Après un évènement @#PB_EventType_DragStart, la bibliothèque @LibraryLink "dragdrop" "Drag & Drop" 
   peut être utilisée pour commencer une opération de 'Glisser & Déposer'. Sous MacOS X, l'événement 
@@ -3977,8 +3977,8 @@ utiliser l'opérateur '&':
 
 @Example 
 @Code
- If OpenWindow(0, 100, 100, 300, 100, "ListIconGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-   ListIconGadget(0, 5, 5, 290, 90, "Nom", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
+ If OpenWindow(0, 100, 100, 400, 100, "ListIconGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+   ListIconGadget(0, 5, 5, 390, 90, "Nom", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
    AddGadgetColumn(0, 1, "Adresse", 250)
    AddGadgetItem(0, -1, "Harry Rannit"+Chr(10)+"12 Parliament Way, Battle Street, By the Bay")
    AddGadgetItem(0, -1, "Ginger Brokeit"+Chr(10)+"130 PureBasic Road, BigTown, CodeCity")
@@ -4018,8 +4018,8 @@ utiliser l'opérateur '&':
     ; Ici nous changeons l'affichage de la liste avec icônes en mode grandes icônes et nous affichons une image
     If LoadImage(0, #PB_Compiler_Home+"examples\sources\Data\File.bmp")     ; changez le chemin/fichier contenant votre image 32x32 pixel
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Image 1", ImageID(0))
-      AddGadgetItem(5, 2, "Image 2", ImageID(0))
+      AddGadgetItem(5, 0, "Image 1", ImageID(0))
+      AddGadgetItem(5, 1, "Image 2", ImageID(0))
     EndIf  
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -5792,7 +5792,8 @@ utiliser l'opérateur '&':
   - @@MDIGadget
   - @@PanelGadget
   - @@TreeGadget
-  - @@WebGadget: Change le code html dans le gadget avec @#PB_Web_HtmlCode comme 'Element'.
+  - @@WebGadget    : Change le code html dans le gadget avec @#PB_Web_HtmlCode comme 'Element'.
+  - @@WebViewGadget: Change le code html dans le gadget avec @#PB_Web_HtmlCode comme 'Element'.
 @EndFixedFont
 
 @SeeAlso
@@ -5897,7 +5898,8 @@ utiliser l'opérateur '&':
   - @@StringGadget @LineBreak
   - @@TextGadget @LineBreak
   - @@TreeGadget @LineBreak
-  - @@WebGadget
+  - @@WebGadget @LineBreak
+  - @@WebViewGadget
 
 @SeeAlso
   @@GetGadgetText, @@GetGadgetItemText, 

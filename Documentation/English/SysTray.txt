@@ -179,7 +179,10 @@
   the @#PB_Menu_SysTrayLook flag. It's the best way to associate a popup menu with a SysTray icon as it will display the
   popup menu at the correct position on all OS when the user click on the icon.
 
-@Parameter "#MenuID"
+@Parameter "#SysTrayIcon"
+  The systray icon to use.
+
+@Parameter "MenuID"
   The popup menu to associate with the SysTray. @@MenuID can be used to get this value.
 
 @NoReturnValue
@@ -212,6 +215,9 @@
     EndSelect
   ForEver
 @EndCode
+
+@SeeAlso
+  @@CreatePopupImageMenu
   
 @SupportedOS
 
@@ -249,5 +255,3 @@
   All remaining SysTray icons are automatically removed when the program ends.
   
 @SupportedOS
-
-
