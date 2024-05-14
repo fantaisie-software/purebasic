@@ -158,6 +158,8 @@ IncludeFile "../Common.pb"
 #PB_Event_RequesterOK      = 20
 #PB_Event_SizeDesktop      = 21
 #PB_Event_WebSocket        = 22
+#PB_Event_Mobile           = 23
+
 ; Loading type
 ;
 #PB_Loading_Image = 1
@@ -767,5 +769,39 @@ IncludeFile "../Common.pb"
 #PB_AdjustmentShader_Green = 30
 #PB_AdjustmentShader_Blue = 31
 
+; Mobile
+;
+#PB_Mobile_Container = 1 << 0
+#PB_Mobile_Left      = 1 << 1
+#PB_Mobile_Right     = 1 << 2
+#PB_Mobile_Center    = 1 << 3
+#PB_Mobile_Search    = 1 << 4
+#PB_Mobile_Password  = 1 << 5
+#PB_Mobile_Numeric   = 1 << 6
+#PB_Mobile_Tappable  = 1 << 7
+#PB_Mobile_Chevron     = 1 << 8
+#PB_Mobile_NoDivider   = 1 << 9
+#PB_Mobile_LongDivider = 1 << 10
+#PB_Mobile_Header      = 1 << 11
+#PB_Mobile_Expandable  = 1 << 12
+#PB_Mobile_Swipeable   = 1 << 13
+#PB_Mobile_Icon        = 1 << 14
+#PB_Mobile_Circular    = 1 << 15
+#PB_Mobile_Indeterminate = 1 << 16
+#PB_Mobile_BackButton = 1 << 17
 
-XIncludeFile "../CommonUnicode.pb"
+#PB_Mobile_InSet   = 1
+
+#PB_Mobile_Page    = 0
+#PB_Mobile_Section = 1
+#PB_Mobile_Row = 2
+#PB_Mobile_Template = 3
+#PB_Mobile_Dialog = 4
+#PB_Mobile_PopOver = 5
+
+#PB_Mobile_Push = 1
+#PB_Mobile_Pop = 0
+
+#PB_Mobile_Auto = 0
+#PB_Mobile_Android = 1
+#PB_Mobile_iOS = 2
