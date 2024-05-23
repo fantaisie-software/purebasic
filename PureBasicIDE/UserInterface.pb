@@ -279,9 +279,10 @@ Procedure CreateIDEMenu()
       ShortcutMenuItem(#MENU_ClearErrorMarks, Language("MenuItem","ClearErrorMarks")) ; this one makes sense without the log even
     EndIf
     
+    MenuBar()
+    ShortcutMenuItem(#MENU_DebugOutput, Language("MenuItem", "DebugOutput"))
+    
     CompilerIf Not #SpiderBasic
-      MenuBar()
-      ShortcutMenuItem(#MENU_DebugOutput, Language("MenuItem", "DebugOutput"))
       ShortcutMenuItem(#MENU_Watchlist, Language("MenuItem", "WatchList"))
       ShortcutMenuItem(#MENU_VariableList, Language("MenuItem", "VariableList"))
       ShortcutMenuItem(#MENU_Profiler, Language("MenuItem", "Profiler"))
@@ -300,7 +301,9 @@ Procedure CreateIDEMenu()
     
     MenuTitle(Language("MenuTitle","Tools"))
     
-    CompilerIf Not #SpiderBasic
+    CompilerIf #SpiderBasic
+      ShortcutMenuItem(#MENU_WebView, Language("MenuItem","WebView"))
+    CompilerElse
       ShortcutMenuItem(#MENU_VisualDesigner , Language("MenuItem","VisualDesigner"))
     CompilerEndIf
     ShortcutMenuItem(#MENU_FileViewer, Language("MenuItem","FileViewer"))
@@ -1579,6 +1582,9 @@ Procedure MainMenuEvent(MenuItemID)
       
     Case #MENU_Explorer
       ActivateTool("Explorer")
+      
+    Case #MENU_WebView
+      ActivateTool("WebView")
       
     Case #MENU_ProcedureBrowser
       ActivateTool("ProcedureBrowser")

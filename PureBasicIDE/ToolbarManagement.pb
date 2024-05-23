@@ -5,7 +5,7 @@
 ; --------------------------------------------------------------------------------------------
 
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 99-24 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 99-23 ; menu items specified in the datasection
 CompilerElse
   #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
 CompilerEndIf
@@ -232,6 +232,7 @@ Procedure.s ConvertToolbarIconName(OldName$)
       Case "ToolsProcedureBrowser": ProcedureReturn "Menu:ProcedureBrowser"
       Case "ToolsStructureViewer" : ProcedureReturn "Menu:StructureViewer"
       Case "ToolsVariableViewer"  : ProcedureReturn "Menu:VariableViewer"
+      Case "ToolsWebView"         : ProcedureReturn "Menu:WebView"
         
       Default
         ProcedureReturn OldName$
@@ -574,6 +575,9 @@ DataSection
   Data.l #MENU_ProjectPanel:        Data$ "Menu:ProjectPanel"
   Data.l #MENU_Templates:           Data$ "Menu:Templates"
   Data.l #MENU_Diff:                Data$ "Menu:Diff"
+  CompilerIf #SpiderBasic
+    Data.l #MENU_WebView:             Data$ "Menu:WebView"
+  CompilerEndIf
   Data.l #MENU_AddTools:            Data$ "Menu:AddTools"
   
   Data.l #MENU_Help:                Data$ "Menu:Help"

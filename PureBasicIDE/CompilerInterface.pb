@@ -1877,27 +1877,62 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       
       Url$ = "http://"+WebLaunchedServers(RootPath$)+"/" + GetFilePart(Executable$)
       
-      CompilerIf #CompileWindows
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram(Url$) ; Will launch the default browser
+      ; Clear all the remaining 'red' error lines before launching a new app
+      ;
+      ForEach FileList()
+        ClearErrorLines(@FileList()) ; clear the errors in all lines
+      Next FileList()
+      ChangeCurrentElement(FileList(), *ActiveSource)
+    
+      If WebViewOpen
+        
+        ; Setup the debugger. We can only have one in SpiderBasic
+        If *WebViewDebugger = 0
+          AddElement(RunningDebuggers()) ; Use the RunningDebuggers() list, so every window debugger events will be handled automatically
+          *WebViewDebugger = @RunningDebuggers()
         EndIf
         
-      CompilerElseIf #CompileLinux
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram("xdg-open", Url$, "") ; Will launch the default browser
+        ; Close any previous window before launching a new one
+        ;
+        If IsWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
+          CloseWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
         EndIf
         
-      CompilerElseIf #CompileMac
-        If OptionWebBrowser$
-          RunProgram("open", "-a " + OptionWebBrowser$ + " " + Url$, "")
-        Else
-          RunProgram("open", Url$, "") ; Will launch the default browser
-        EndIf
-      CompilerEndIf
+        CreateDebugWindow(*WebViewDebugger)
+        
+        ; Run the app in the built-in webview
+        ;
+        SetGadgetText(#GADGET_WebView_WebView, Url$)
+        ActivateTool("WebView")
+        SetActiveGadget(#GADGET_WebView_WebView)
+        
+      Else
+        
+        ; Run the app in a real browser
+        ;
+        CompilerIf #CompileWindows
+          If OptionWebBrowser$
+            RunProgram(OptionWebBrowser$, Url$, "")
+          Else
+            RunProgram(Url$) ; Will launch the default browser
+          EndIf
+          
+        CompilerElseIf #CompileLinux
+          If OptionWebBrowser$
+            RunProgram(OptionWebBrowser$, Url$, "")
+          Else
+            RunProgram("xdg-open", Url$, "") ; Will launch the default browser
+          EndIf
+          
+        CompilerElseIf #CompileMac
+          If OptionWebBrowser$
+            RunProgram("open", "-a " + OptionWebBrowser$ + " " + Url$, "")
+          Else
+            RunProgram("open", Url$, "") ; Will launch the default browser
+          EndIf
+        CompilerEndIf
+        
+      EndIf
       
     EndIf
     

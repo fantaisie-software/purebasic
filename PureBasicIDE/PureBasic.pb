@@ -180,6 +180,9 @@ XIncludeFile "ProcedureBrowser.pb"
 XIncludeFile "VariableViewer.pb"
 XIncludeFile "HelpTool.pb"
 XIncludeFile "Issues.pb"
+CompilerIf #SpiderBasic
+  XIncludeFile "WebView.pb"
+CompilerEndIf
 
 ; windows specific
 XIncludeFile "WindowsMisc.pb"

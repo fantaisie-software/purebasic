@@ -507,6 +507,7 @@ DataSection
   Data$ "AsciiTable",       "&Character Table"
   Data$ "Explorer",         "&Explorer"
   Data$ "ProcedureBrowser", "&Procedure Browser"
+  Data$ "WebView",          "&WebView"
   Data$ "Issues",           "&Issue Browser"
   Data$ "Templates",        "&Templates"
   Data$ "ProjectPanel",     "P&roject Panel"
@@ -536,6 +537,9 @@ DataSection
   Data$ "FormLong",         "Form Panel"
   Data$ "HelpToolShort",    "Help"
   Data$ "HelpToolLong",     "Help Tool"
+  
+  Data$ "WebViewShort", "WebView"
+  Data$ "WebViewLong",  "WebView"
   
   Data$ "ColorPicker",      "Color Picker"
   Data$ "Mode_RGB",         "RGB"

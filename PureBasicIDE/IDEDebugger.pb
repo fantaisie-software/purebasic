@@ -239,7 +239,11 @@ Procedure SetDebuggerMenuStates()
           
       EndSelect
       
-      DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerEndIf
       
       ; not available if not compiled in purifier mode
       If *Debugger\IsPurifier
@@ -881,7 +885,10 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       If DebuggerKillOnError
         Debugger_Ended(*Debugger)
-        Debugger_ForceDestroy(*Debugger)
+        
+        CompilerIf Not #SpiderBasic
+          Debugger_ForceDestroy(*Debugger)
+        CompilerEndIf
       EndIf
       
       SetDebuggerMenuStates()

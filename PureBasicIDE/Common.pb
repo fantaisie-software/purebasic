@@ -191,6 +191,9 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_HelpTool_Home
   #GADGET_HelpTool_Help
   
+  ; webview tool (SpiderBasic)
+  #GADGET_WebView_WebView
+  
   #GADGET_Build_Targets
   #GADGET_Build_Log
   #GADGET_Build_WorkContainer
@@ -1040,6 +1043,7 @@ Enumeration 0
   #MENU_ProjectPanel
   #MENU_Templates
   #MENU_Diff
+  #MENU_WebView
   #MENU_AddTools
   
   #MENU_Help
@@ -2597,6 +2601,9 @@ Global OptionCustomCompiler, OptionCompilerVersion$
 
 CompilerIf #SpiderBasic
   Global OptionWebBrowser$, OptionWebServerPort, OptionJDK$, OptionAppleTeamID$
+  
+  ; WebView related globals
+  Global WebViewOpen
 CompilerEndIf
 
 
