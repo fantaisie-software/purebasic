@@ -45,7 +45,7 @@ Procedure OpenAboutWindow()
               #NewLine +
               FormerDevelopers$ +
               #ProductName$ + ", all the provided tools and components" + #NewLine +
-              "are copyright © 1998-2023 Fantaisie Software" + #NewLine +
+              "are copyright © 1998-2024 Fantaisie Software" + #NewLine +
               #NewLine +
               #ProductWebSite$ + #NewLine +
               #NewLine +
@@ -60,7 +60,7 @@ Procedure OpenAboutWindow()
               "Thanks to Neil Hodgson for the scintilla" + #NewLine +
               "editing component." + #NewLine +
               #NewLine +
-              "Scintilla © 1998-2023 Neil Hodgson <neilh@scintilla.org> " + #NewLine +
+              "Scintilla © 1998-2024 Neil Hodgson <neilh@scintilla.org> " + #NewLine +
               #NewLine +
               "Thanks to Wimer Hazenberg for Monokai color palette." + #NewLine +
               "http://www.monokai.nl/"
@@ -75,6 +75,7 @@ Procedure OpenAboutWindow()
         ; Let's have a cool centered text box on Windows
         ; must be before the SetGadgetText!
         ;
+        SendMessage_(GadgetID(#GADGET_About_Editor), #EM_SETTEXTMODE, #TM_RICHTEXT, 0)
         Format.PARAFORMAT\cbSize = SizeOf(PARAFORMAT)
         Format\dwMask     = #PFM_ALIGNMENT
         Format\wAlignment = #PFA_CENTER

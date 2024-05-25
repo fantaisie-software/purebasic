@@ -871,7 +871,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         ChangeCurrentElement(FileList(), *ActiveSource)
         
         MarkErrorLine(LineNumber)
-        MarkCurrentLine(LineNumber)
+        CompilerIf #SpiderBasic
+          ; As we don't have a read only scintilla, the red line is overriden by the active line background and we don't see it. So just select the line below and so we can see it.
+          MarkCurrentLine(LineNumber+1)
+        CompilerElse
+          MarkCurrentLine(LineNumber)
+        CompilerEndIf
       EndIf
       
       If FileName$ <> ""

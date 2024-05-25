@@ -191,8 +191,11 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_HelpTool_Home
   #GADGET_HelpTool_Help
   
-  ; webview tool (SpiderBasic)
-  #GADGET_WebView_WebView
+  CompilerIf #SpiderBasic
+    #GADGET_WebView_Url
+    #GADGET_WebView_OpenBrowser
+    #GADGET_WebView_WebView
+  CompilerEndIf
   
   #GADGET_Build_Targets
   #GADGET_Build_Log
@@ -1399,6 +1402,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_FormIcons_TrackBar
   #IMAGE_FormIcons_Tree
   #IMAGE_FormIcons_Web
+  
+  #IMAGE_WebView_OpenBrowser
   
   ; Form images
   #Img_Up

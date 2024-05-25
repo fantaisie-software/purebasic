@@ -3419,6 +3419,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure SetReadOnly(Gadget, State)
+    
+    CompilerIf #SpiderBasic
+      ; As a Javascript app is never blocking, we can't know if it finished running, so never disable the sources
+      ProcedureReturn
+    CompilerEndIf
+      
+    
     ScintillaSendMessage(Gadget, #SCI_SETREADONLY, State, 0)
     
     If State

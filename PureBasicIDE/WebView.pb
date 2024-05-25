@@ -95,6 +95,9 @@ Procedure WebView_Callback(JsonParameters$)
         *Output + PokeS(*Output, InitParameter\Includes(), -1, #PB_UTF8) + 1
       Next
       
+      ; The output window is always created
+      CreateDebugWindow(*WebViewDebugger)
+      
     Case #COMMAND_Error
       
       ; Map the JSON To a PB Structure
@@ -149,16 +152,10 @@ EndProcedure
 
 Procedure WebView_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
-  ;CreateDebugWindow(@WebViewDebugger)
+  StringGadget(#GADGET_WebView_Url, 4, 4, 0, 25, "")
+  ButtonImageGadget(#GADGET_WebView_OpenBrowser, 0, 4, 25, 25, ImageID(#IMAGE_WebView_OpenBrowser))
   
-  ;WebViewDebugger\Command\Command = 
-  
-  ; DebugOutput_DebuggerEvent()
-  ;WebViewDebugger\IsDebugMessage = #True
-  ;WebViewDebugger\DebugMessage$ = "Hello world"
-  ;UpdateDebugOutputWindow(@WebViewDebugger)
-  
-  WebViewGadget(#GADGET_WebView_WebView, 0, 0, 0, 0, #PB_WebView_Debug)
+  WebViewGadget(#GADGET_WebView_WebView, 0, 33, 0, 0, #PB_WebView_Debug)
   BindWebViewCallback(#GADGET_WebView_WebView, "spiderDebug", @WebView_Callback())
   
   WebViewOpen = #True
@@ -172,11 +169,19 @@ EndProcedure
 
 Procedure WebView_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
   
-  ResizeGadget(#GADGET_WebView_WebView, 0, 0, PanelWidth, PanelHeight)
+  ResizeGadget(#GADGET_WebView_Url        , #PB_Ignore   , #PB_Ignore, PanelWidth-35, #PB_Ignore)
+  ResizeGadget(#GADGET_WebView_OpenBrowser, PanelWidth-27, #PB_Ignore, #PB_Ignore   , #PB_Ignore)
+  ResizeGadget(#GADGET_WebView_WebView, #PB_Ignore, #PB_Ignore, PanelWidth, PanelHeight-GadgetY(#GADGET_WebView_WebView))
   
 EndProcedure
 
 Procedure WebView_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
+  
+  Select EventGadgetID
+    Case #GADGET_WebView_OpenBrowser
+      OpenSpiderWebBrowser(GetGadgetText(#GADGET_WebView_Url))
+  EndSelect
+
 EndProcedure
 
 
@@ -202,6 +207,46 @@ EndProcedure
 
 Procedure WebView_PreferenceChanged(*Entry.ToolsPanelEntry, IsConfigOpen)
 EndProcedure
+
+Procedure SetWebViewUrl(Url$)
+  SetGadgetText(#GADGET_WebView_Url, Url$)
+  SetGadgetText(#GADGET_WebView_WebView, Url$)
+  
+  ActivateTool("WebView")
+  SetActiveGadget(#GADGET_WebView_WebView)
+EndProcedure
+
+
+Procedure OpenSpiderWebBrowser(Url$)
+  
+  If Url$ = ""
+    ProcedureReturn
+  EndIf
+  
+  CompilerIf #CompileWindows
+    If OptionWebBrowser$
+      RunProgram(OptionWebBrowser$, Url$, "")
+    Else
+      RunProgram(Url$) ; Will launch the default browser
+    EndIf
+    
+  CompilerElseIf #CompileLinux
+    If OptionWebBrowser$
+      RunProgram(OptionWebBrowser$, Url$, "")
+    Else
+      RunProgram("xdg-open", Url$, "") ; Will launch the default browser
+    EndIf
+    
+  CompilerElseIf #CompileMac
+    If OptionWebBrowser$
+      RunProgram("open", "-a " + OptionWebBrowser$ + " " + Url$, "")
+    Else
+      RunProgram("open", Url$, "") ; Will launch the default browser
+    EndIf
+  CompilerEndIf
+  
+EndProcedure
+
 
 
 ;- Initialisation code

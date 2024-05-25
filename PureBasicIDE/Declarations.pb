@@ -507,6 +507,11 @@ Declare UpdateProcedureList(ScrollPosition.l = -1) ; scan active source and upda
                               ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if necessary.
 Declare JumpToProcedure()     ; jump to procedure under cursor (for double-click)
 
+;- WebView.pb
+;
+Declare SetWebViewUrl(Url$)
+Declare OpenSpiderWebBrowser(Url$)
+
 ;- ProjectManagement.pb
 ;
 Declare AddProjectDefaultMenuEntries()
