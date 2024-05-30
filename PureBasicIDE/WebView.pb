@@ -28,6 +28,14 @@ Structure WebViewDebugParameter Extends WebViewBaseParameter
   text.s
 EndStructure
 
+
+Structure WebViewControlDebugOutputParameter Extends WebViewBaseParameter
+  value.i
+  filename.s
+EndStructure
+
+
+
 ; Settings here are also in Global variables because they are needed elsewhere
 
 Procedure WebView_Callback(JsonParameters$)
@@ -142,6 +150,24 @@ Procedure WebView_Callback(JsonParameters$)
       *WebViewDebugger\IsDebugMessage = #True
       *WebViewDebugger\DebugMessage$ = DebugParameter\text
       UpdateDebugOutputWindow(*WebViewDebugger)
+      
+    Case #COMMAND_ControlDebugOutput
+      
+      ; Map the JSON To a PB Structure
+      ;
+      ExtractJSONStructure(ParameterJSON, @ControlDebugOutputParameter.WebViewControlDebugOutputParameter, WebViewControlDebugOutputParameter)
+      Debug "****** ControlDebugOutput"
+      Debug ControlDebugOutputParameter\value
+      
+      *WebViewDebugger\Command\Value1 = ControlDebugOutputParameter\value
+      
+      ; Use a dynamic allocated memory for 'CommandData' as it could be automatically freed
+      *WebViewDebugger\CommandData = AllocateMemory((Len(ControlDebugOutputParameter\filename)+1)*SizeOf(Character))
+      PokeS(*WebViewDebugger\CommandData, ControlDebugOutputParameter\filename)
+      
+      *WebViewDebugger\Command\DataSize = Len(ControlDebugOutputParameter\filename)
+      
+      DebugOutput_DebuggerEvent(*WebViewDebugger)
      
   EndSelect
   
