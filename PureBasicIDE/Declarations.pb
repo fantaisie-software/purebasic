@@ -486,8 +486,6 @@ Declare.s StrByteSize(Size.q)                                  ; get a nice look
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
-Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!
-Declare StringToAscii(String$)                                 ; returns the Ascii version of the string, needs to be freed with FreeMemory()!
 Declare.s ModulePrefix(Name$, ModuleName$)                     ; prefix a module name (if not empty)
 Declare StringToCodePage(CodePage, String$)                    ; transform string to Scintilla compatible code page (must be freed!)
 Declare CodePageLength(CodePage, String$)                      ; get length of string in Scintilla compatible code page

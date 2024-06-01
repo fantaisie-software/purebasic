@@ -30,6 +30,12 @@ IncludeFile "../Common.pb"
 
 #PB_File_Streaming = 1 << 0
 
+; #PB_Compiler_App constants
+;
+#PB_App_Web = 0
+#PB_App_Android = 1
+#PB_App_IOS = 2
+
 ; In app purchase
 ;
 #PB_Product_Consumable    = 0

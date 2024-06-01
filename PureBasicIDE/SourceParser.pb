@@ -429,7 +429,7 @@ Procedure IsContinuedLineStart(Line$)
     
     ; IsLineContinuation() needs ascii input
     ;
-    *String = StringToAscii(PeekS(*LineStart, (*Pointer - *LineStart) / #CharSize))
+    *String = Ascii(PeekS(*LineStart, (*Pointer - *LineStart) / #CharSize))
     Result = IsLineContinuation(*String, *String + (*Pointer - *LineStart) / #CharSize)
     FreeMemory(*String)
     ProcedureReturn Result

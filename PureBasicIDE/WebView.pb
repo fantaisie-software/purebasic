@@ -103,6 +103,12 @@ Procedure WebView_Callback(JsonParameters$)
         *Output + PokeS(*Output, InitParameter\Includes(), -1, #PB_UTF8) + 1
       Next
       
+      ; Close any previous window before launching a new one
+      ;
+      If IsWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
+        CloseWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
+      EndIf
+      
       ; The output window is always created
       CreateDebugWindow(*WebViewDebugger)
       

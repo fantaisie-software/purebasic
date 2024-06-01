@@ -20,20 +20,6 @@ CompilerIf Not Defined(MaxSizeHT, #PB_Constant)
 CompilerEndIf
 
 
-CompilerIf Not Defined(StringToAscii, #PB_Procedure)
-  Procedure StringToAscii(String$)
-
-    *Buffer = AllocateMemory(StringByteLength(String$, #PB_Ascii) + 1)
-    If *Buffer
-      PokeS(*Buffer, String$, -1, #PB_Ascii)
-    EndIf
-
-    ProcedureReturn *Buffer
-  EndProcedure
-CompilerEndIf
-
-
-
 ; the following are repeated declarations, for the case
 ; that the engine is used standalone
 ;
@@ -978,9 +964,9 @@ Procedure IsKnownConstant(Word$)
 EndProcedure
 
 ; for detection. use global so it does not need to be done all the time
-Global *KeywordStructure = StringToAscii("Structure") ; Don't use ToAscii as it use a single buffer
-Global *KeywordInterface = StringToAscii("Interface")
-Global *KeywordExtends   = StringToAscii("Extends")
+Global *KeywordStructure = Ascii("Structure") ; Don't use ToAscii as it use a single buffer
+Global *KeywordInterface = Ascii("Interface")
+Global *KeywordExtends   = Ascii("Extends")
 
 ; returns true if the current position is after
 ; a structure or interface keyword

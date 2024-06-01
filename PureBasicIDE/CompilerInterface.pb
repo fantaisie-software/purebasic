@@ -1731,6 +1731,14 @@ CompilerIf #SpiderBasic
     
     ProcedureReturn Result
   EndProcedure
+  
+  Procedure.s StringToUTF8String(String$)
+    *UTF8 = UTF8(String$)
+    UTF8$ = PeekS(*UTF8, #PB_All, #PB_Ascii)
+    FreeMemory(*UTF8)
+    
+    ProcedureReturn UTF8$
+  EndProcedure
 CompilerEndIf
 
 ; ---------------------------------------------------------------------
@@ -1860,10 +1868,17 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       If Error = #False
         AddElement(OpenedWebServers())
         
+        CompilerIf #CompileWindows
+          ; Note: sbmongoose support UNICODE path on Windows, but it needs to be put on the commandline as UTF8
+          ;
+          RootPath$ = StringToUTF8String(RootPath$)
+          PureBasicPath$ = StringToUTF8String(PureBasicPath$)
+        CompilerEndIf
+        
         Debug "Mongoose address: " + MongooseAddress$
         Debug "Mongoose document_root: " + RootPath$
         Debug "Mongoose spiderbasic_root: " + PureBasicPath$
-        
+                
         OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
                                                                                  " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
                                                                                  " -spiderbasic_root "+#DQUOTE$+ReplaceString(PureBasicPath$, "\", "/")+#DQUOTE$, "", #PB_Program_Open | #PB_Program_Hide)
@@ -1890,12 +1905,6 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         If *WebViewDebugger = 0
           AddElement(RunningDebuggers()) ; Use the RunningDebuggers() list, so every window debugger events will be handled automatically
           *WebViewDebugger = @RunningDebuggers()
-        EndIf
-        
-        ; Close any previous window before launching a new one
-        ;
-        If IsWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
-          CloseWindow(*WebViewDebugger\Windows[#DEBUGGER_WINDOW_Debug])
         EndIf
         
         ; Run the app in the built-in webview
