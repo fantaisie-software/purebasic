@@ -33,8 +33,9 @@
   For this purpose pass the array, the list or the map as parameter to the procedure.
   @LineBreak
   @LineBreak
-  If no value is specified for @Keyword ProcedureReturn, the returned value will be undefined
-  (see @ReferenceLink "inlinedasm" "inline assembly" for more information).
+  If no value is specified for @Keyword ProcedureReturn, the return value will be zero if the compiler uses the C backend and for all processors managed by PureBasic, 
+  or the content of the 'eax' register in 32 bits (X86 processors) or 'rax' in 64 bits (X64 processors) if the compiler uses the ASM back-end, 
+  (see @ReferenceLink "inlinedasm" for more information).
   @LineBreak
   @LineBreak
   Note: To return strings from DLLs, see @ReferenceLink "DLL" DLLs. For advanced programmers @Keyword ProcedureC is available
