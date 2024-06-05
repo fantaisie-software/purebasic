@@ -184,7 +184,7 @@ EndProcedure
 
 Procedure WebView_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   
-  StringGadget(#GADGET_WebView_Url, 4, 4, 0, 25, "")
+  StringGadget(#GADGET_WebView_Url, 4, 4, 0, 25, "", #PB_String_ReadOnly)
   ButtonImageGadget(#GADGET_WebView_OpenBrowser, 0, 4, 25, 25, ImageID(#IMAGE_WebView_OpenBrowser))
   
   WebViewGadget(#GADGET_WebView_WebView, 0, 33, 0, 0, #PB_WebView_Debug)
@@ -309,5 +309,3 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "WebView"
 AvailablePanelTools()\PanelTitle$          = "WebViewShort"
 AvailablePanelTools()\ToolName$            = "WebViewLong"
-
-

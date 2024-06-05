@@ -5,7 +5,7 @@
 ; --------------------------------------------------------------------------------------------
 
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 99-23 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 99-22 ; menu items specified in the datasection
 CompilerElse
   #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
 CompilerEndIf
@@ -537,6 +537,7 @@ DataSection
   Data.l #MENU_BuildAllTargets:     Data$ "Menu:BuildAllTargets"
   
   Data.l #MENU_Debugger:            Data$ "Menu:Debugger"
+  Data.l #MENU_Kill:                Data$ "Menu:Kill"
   CompilerIf Not #SpiderBasic
     Data.l #MENU_Stop:                Data$ "Menu:Stop"
     Data.l #MENU_Run:                 Data$ "Menu:Run"
@@ -544,7 +545,6 @@ DataSection
     Data.l #MENU_StepX:               Data$ "Menu:StepX"
     Data.l #MENU_StepOver:            Data$ "Menu:StepOver"
     Data.l #MENU_StepOut:             Data$ "Menu:StepOut"
-    Data.l #MENU_Kill:                Data$ "Menu:Kill"
     Data.l #MENU_BreakPoint:          Data$ "Menu:BreakPoint"
     Data.l #MENU_BreakClear:          Data$ "Menu:BreakClear"
     Data.l #MENU_DataBreakPoints:     Data$ "Menu:DataBreakPoints"

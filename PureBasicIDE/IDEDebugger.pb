@@ -285,7 +285,13 @@ Procedure SetDebuggerMenuStates()
       DisableMenuAndToolbarItem(#MENU_StepX, 1)
       DisableMenuAndToolbarItem(#MENU_StepOver, 1)
       DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      CompilerEndIf
+      
       DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
       DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
       DisableMenuAndToolbarItem(#MENU_VariableList, 1)
@@ -307,7 +313,12 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse   
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
     
     DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
     DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
@@ -338,7 +349,13 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse 
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
+    
     DisableMenuAndToolbarItem(#MENU_BreakPoint, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_BreakClear, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)

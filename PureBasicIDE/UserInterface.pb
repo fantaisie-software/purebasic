@@ -245,7 +245,9 @@ Procedure CreateIDEMenu()
     CompilerIf Not #SpiderBasic
       ShortcutMenuItem(#MENU_Stop, Language("MenuItem", "Stop"))
       ShortcutMenuItem(#MENU_Run, Language("MenuItem", "Run"))
+    CompilerEndIf
       ShortcutMenuItem(#MENU_Kill, Language("MenuItem", "Kill"))
+    CompilerIf Not #SpiderBasic
       MenuBar()
       ShortcutMenuItem(#MENU_Step, Language("MenuItem", "Step"))
       ShortcutMenuItem(#MENU_StepX, Language("MenuItem", "StepX"))
@@ -1620,8 +1622,12 @@ Procedure MainMenuEvent(MenuItemID)
       Debugger_StepOut()
       
     Case #MENU_Kill
-      Debugger_Kill()
-      
+      CompilerIf #SpiderBasic
+        SetWebViewUrl("") ; Set a blank URL to empty the webview and actually stop the JS program
+      CompilerElse
+        Debugger_Kill()
+      CompilerEndIf
+            
     Case #MENU_BreakPoint
       UpdateCursorPosition() ; to get the current line
       Debugger_BreakPoint(*ActiveSource\CurrentLine-1)
