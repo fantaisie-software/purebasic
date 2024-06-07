@@ -764,17 +764,28 @@ EndProcedure
 Procedure Debugger_SwitchToFile(*Debugger.DebuggerData, Line)
   FileName$ = GetDebuggerFile(*Debugger, Line)
   
-  If FileName$ = "" ; main source, and not saved yet
-    *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
-    If *Source And *Source\IsProject = 0 ; sanity check
-      If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
-        ChangeCurrentElement(FileList(), *Source)
-        ChangeActiveSourceCode()
-      EndIf
-      result = 1
-    Else
-      result = 0
+  CompilerIf #SpiderBasic
+    If LCase(GetFilePart(FileName$)) = "pb_editoroutput.pb" ; File not yet saved (https://forums.spiderbasic.com/viewtopic.php?t=2549)
+      FileName$ = ""
     EndIf
+  CompilerEndIf
+  
+  If FileName$ = "" ; main source, and not saved yet
+    CompilerIf #SpiderBasic
+      ; SpiderBasic can only have one active debugger, so it's always the active source if the file wasn't saved
+      result = 1
+    CompilerElse
+      *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
+      If *Source And *Source\IsProject = 0 ; sanity check
+        If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
+          ChangeCurrentElement(FileList(), *Source)
+          ChangeActiveSourceCode()
+        EndIf
+        result = 1
+      Else
+        result = 0
+      EndIf
+    CompilerEndIf
   ElseIf IsEqualFile(FileName$, *ActiveSource\FileName$)
     result = 1
   Else

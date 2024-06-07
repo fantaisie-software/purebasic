@@ -177,7 +177,7 @@ Procedure DisplayCompilerWindow()
     ButtonGadget(#GADGET_Compiler_Details, 240, 15, 50, 20, Language("Compiler", "Details"), #PB_Button_Toggle)
     CloseGadgetList()
     
-    ListViewGadget(#GADGET_Compiler_List, 5, 55, 190, 100)
+    EditorGadget(#GADGET_Compiler_List, 5, 55, 190, 100, #PB_Editor_ReadOnly)
     ProgressBarGadget(#GADGET_Compiler_Progress, 5, 160, 190, 20, 0, 1000)
     ButtonGadget(#GADGET_Compiler_Abort, 145, 160, 50, 20, Language("Misc", "Abort"))
     

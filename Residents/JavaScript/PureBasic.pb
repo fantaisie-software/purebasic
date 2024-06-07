@@ -253,6 +253,11 @@ IncludeFile "../Common.pb"
 #PB_Script_JavaScript = 0
 #PB_Script_CSS = 1
 
+; SplashScreenControl()
+;
+#PB_SplashScreen_Close = 0
+#PB_SplashScreen_NoAutoClose = 1
+
 ; Used by Get/SetFileDate() and DirectoryEntryDate()
 ;
 #PB_Date_Created  = 0
