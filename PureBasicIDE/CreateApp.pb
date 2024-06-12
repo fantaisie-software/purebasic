@@ -98,6 +98,7 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory, *Target\AndroidAppEnableResourceDirectory)
       SetGadgetState(#GADGET_AndroidApp_EnableDebugger, *Target\AndroidAppEnableDebugger)
       SetGadgetState(#GADGET_AndroidApp_KeepAppDirectory, *Target\AndroidAppKeepAppDirectory)
+      SetGadgetState(#GADGET_AndroidApp_InsecureFileMode, *Target\AndroidAppInsecureFileMode)
       
       UpdateCreateAppWindow()
       
@@ -157,6 +158,7 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppResourceDirectory$     <> GetGadgetText(#GADGET_AndroidApp_ResourceDirectory) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppEnableDebugger<> GetGadgetState(#GADGET_AndroidApp_EnableDebugger) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppKeepAppDirectory<> GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppInsecureFileMode<> GetGadgetState(#GADGET_AndroidApp_InsecureFileMode) : Changed = #True : EndIf
   
   ProcedureReturn Changed
 EndProcedure
@@ -236,6 +238,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppAutoUpload    = GetGadgetState(#GADGET_AndroidApp_AutoUpload)
   *CurrentAppTarget\AndroidAppEnableDebugger= GetGadgetState(#GADGET_AndroidApp_EnableDebugger)
   *CurrentAppTarget\AndroidAppKeepAppDirectory= GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory)
+  *CurrentAppTarget\AndroidAppInsecureFileMode= GetGadgetState(#GADGET_AndroidApp_InsecureFileMode)
   
 EndProcedure
 

@@ -1456,6 +1456,7 @@ DataSection
     Data$ "AutoUpload",           "Automatically upload on USB connected device (requires enabled debugger)"
     Data$ "ResourceDirectory",    "Resource directory"
     Data$ "WrongOutputExtension", "Android app filename extension needs to be '.apk'"
+    Data$ "InsecureFileMode",     "Enable insecure HTTP support (not recommended)"
     
     ; ===================================================
     ;- Group - Resources

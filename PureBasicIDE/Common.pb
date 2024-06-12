@@ -902,6 +902,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_SelectResourceDirectory
     #GADGET_AndroidApp_EnableDebugger
     #GADGET_AndroidApp_KeepAppDirectory
+    #GADGET_AndroidApp_InsecureFileMode
     
     #GADGET_iOSApp_Name
     #GADGET_iOSApp_Icon
@@ -2102,6 +2103,7 @@ Structure CompileTarget
     AndroidAppResourceDirectory$
     AndroidAppEnableDebugger.l
     AndroidAppKeepAppDirectory.l
+    AndroidAppInsecureFileMode.l
     
   CompilerEndIf
   

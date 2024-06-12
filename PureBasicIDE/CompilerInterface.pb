@@ -1569,6 +1569,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         If *Target\AndroidAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
         If *Target\AndroidAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
         If *Target\AndroidAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
+        If *Target\AndroidAppInsecureFileMode : Command$ + Chr(9) + "INSECUREFILEMODE" : EndIf
         
     EndSelect
     
