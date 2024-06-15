@@ -326,38 +326,7 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     
     AddGadgetItem(Gadget, -1, *Debugger\DebugMessage$)
     
-    CompilerIf #CompileLinuxGtk
-      Static *Mark
-      
-      If *Mark = 0
-        *Mark = gtk_text_mark_new_("EndDocumentMark", #True);
-      EndIf
-      
-      *Buffer = gtk_text_view_get_buffer_(GadgetID(Gadget))
-      gtk_text_buffer_get_end_iter_(*Buffer, @iter.GtkTextIter)
-      gtk_text_buffer_add_mark_(*Buffer, *Mark , @iter)
-      gtk_text_view_scroll_to_mark_(GadgetID(Gadget), *Mark , 0.0, #True, 0.0, 0.17) ; gtk_text_view_scroll_to_iter_() is broken, so use the mark system
-      gtk_text_buffer_delete_mark_(*Buffer, *Mark)
-    CompilerEndIf
-    
-    CompilerIf #CompileWindows
-      SendMessage_(GadgetID(Gadget), #WM_VSCROLL, #SB_BOTTOM, #Null)
-    CompilerEndIf
-    
-    CompilerIf #CompileMac
-      ; Scroll the editor gadget to the bottom
-      ; This function is very very slow, that's why we defer it (https://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
-      TextViewLength = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length")
-      ; Avoid scrolling if we've insufficient length. This may occur if an empty string is logged.
-      ; Supplying a negative location value will crash/stall the application due to NSRange being
-      ; composed of unsigned integers, meaning -1 is misinterpreted as the massive 2^64-1.
-      ; See: https://github.com/fantaisie-software/purebasic/issues/224
-      If TextViewLength > 0
-        Range.NSRange\location = TextViewLength - 1
-        Range\length = 1
-        CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
-      EndIf
-    CompilerEndIf
+    ScrollEditorGadgetToEnd(Gadget)
     
     *Debugger\DebugMessage$ = ""
     *Debugger\IsDebugMessage = #False

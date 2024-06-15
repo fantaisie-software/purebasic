@@ -1253,7 +1253,6 @@ DataSection
   Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
-  Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
   Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
@@ -1283,7 +1282,9 @@ DataSection
     Data$ "ExportCommandLineSuccess", "Post processing tool launched (%commandline%)."
     Data$ "ExportCommandLineError", "Post processing tool can't be launched (%commandline%)."
     Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
+    Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
+    Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
   CompilerEndIf
   

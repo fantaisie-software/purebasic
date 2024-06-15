@@ -571,6 +571,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
   #GADGET_Option_Optimizer
+  #GADGET_Option_DPIAware
   CompilerIf #SpiderBasic
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
@@ -585,7 +586,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_EnableXP
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
-    #GADGET_Option_DPIAware
     #GADGET_Option_DllProtection
     #GADGET_Option_EnableOnError
     #GADGET_Option_ExecutableFormat

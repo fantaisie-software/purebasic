@@ -290,6 +290,7 @@ Declare SetCompileTargetDefaults(*Target.CompileTarget) ; set defaults for a new
 Declare CompilerReady()                                 ; called after compiler is loaded
 Declare DisplayCompilerWindow()                         ; display 'compileing in progress'
 Declare HideCompilerWindow()
+Declare AddCompilerWindowItem(Text$)
 Declare CompilerWindowEvents(EventID)
 Declare BuildWindowEvents(EventID)
 Declare UpdateBuildWindow()

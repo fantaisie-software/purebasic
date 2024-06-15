@@ -1000,8 +1000,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
         BuildLogEntry(Language("Compiler","Aborting"))
       Else
         SetGadgetText(#GADGET_Compiler_Text, Language("Compiler","Aborting"))
-        AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Aborting"))
-        SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+        AddCompilerWindowItem(Language("Compiler","Aborting"))
       EndIf
       
       DisableMenuItem(#MENU, #MENU_StructureViewer, 1)
@@ -1085,8 +1084,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(Log$)
           Else
             If Purcents = 20 ; Only add it once
-              AddGadgetItem(#GADGET_Compiler_List, -1, Language("App","Creating") + "...")
-              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+              AddCompilerWindowItem(Language("App","Creating") + "...")
             EndIf
             
             SetGadgetText(#GADGET_Compiler_Text, Log$)
@@ -1102,9 +1100,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
@@ -1118,9 +1114,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
@@ -1135,8 +1129,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             ElseIf UseProjectBuildWindow
               BuildLogEntry(Line$)
             Else
-              AddGadgetItem(#GADGET_Compiler_List, -1, Line$)
-              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+              AddCompilerWindowItem(Line$)
             EndIf
           EndIf
           
@@ -1172,8 +1165,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Language("Compiler","Including")+": "+Include$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Including")+": "+Include$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Including")+": "+Include$)
           EndIf
           
         Case "ASSEMBLING"
@@ -1186,8 +1178,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(LanguagePattern("Compiler", "LinesCompiled", "%count%", Str(Lines)))
             BuildLogEntry(Language("Compiler","Finishing"))
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Finishing"))
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Finishing"))
             SetGadgetState(#GADGET_Compiler_Progress, 1000)
           EndIf
           
@@ -1582,7 +1573,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     EndIf
   EndIf
   
-  CompilerIf #CompileMac | #CompileWindows
+  CompilerIf #CompileMac | #CompileWindows | #SpiderBasic
     If *Target\DPIAware : Command$ + Chr(9) + "DPIAWARE" : EndIf
   CompilerEndIf
   
