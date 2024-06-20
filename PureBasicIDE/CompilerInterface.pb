@@ -367,7 +367,7 @@ Procedure StartCompiler(*Compiler.Compiler)
     Parameters$ + #COMPILER_LANGUAGE + CurrentLanguage$
   EndIf
   
-  CompilerIf #CompileWindows = 0 And #DEBUG = 1
+  CompilerIf #CompileWindows = 0 And #DEBUG = 1 And Not #SpiderBasic
     ; Append the -ds parameter so debug symbols are not cut. This is mainly so
     ; I can properly debug the Debugger library which is compiled into the exe
     Parameters$ + " -ds"
