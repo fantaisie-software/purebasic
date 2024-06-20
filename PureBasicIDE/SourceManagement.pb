@@ -835,6 +835,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppPackageID"   , *Target\AndroidAppPackageID$)
     AddStringConfigLine("AndroidAppIAPKey"      , *Target\AndroidAppIAPKey$)
     AddStringConfigLine("AndroidAppStartupImage", *Target\AndroidAppStartupImage$)
+    AddStringConfigLine("AndroidAppStartupColor", *Target\AndroidAppStartupColor$)
     AddStringConfigLine("AndroidAppOutput"      , *Target\AndroidAppOutput$)
     AddStringConfigLine("AndroidAppResourceDirectory" , *Target\AndroidAppResourceDirectory$)
     AddFlagConfigLine("AndroidAppEnableResourceDirectory", *Target\AndroidAppEnableResourceDirectory)
@@ -1302,6 +1303,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPPACKAGEID"    : *Source\AndroidAppPackageID$ = Value$
         Case "ANDROIDAPPIAPKEY"       : *Source\AndroidAppIAPKey$ = Value$
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
+        Case "ANDROIDAPPSTARTUPCOLOR" : *Source\AndroidAppStartupColor$ = Value$
         Case "ANDROIDAPPOUTPUT"       : *Source\AndroidAppOutput$ = Value$
         Case "ANDROIDAPPORIENTATION"  : *Source\AndroidAppOrientation = Val(Value$)
         Case "ANDROIDAPPFULLSCREEN"   : *Source\AndroidAppFullScreen = 1

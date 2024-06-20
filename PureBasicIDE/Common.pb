@@ -897,6 +897,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_SelectOutput
     #GADGET_AndroidApp_StartupImage
     #GADGET_AndroidApp_SelectStartupImage
+    #GADGET_AndroidApp_StartupColor
+    #GADGET_AndroidApp_SelectStartupColor
     #GADGET_AndroidApp_EnableResourceDirectory
     #GADGET_AndroidApp_ResourceDirectory
     #GADGET_AndroidApp_SelectResourceDirectory
@@ -1510,6 +1512,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Explorer_FilePB
   #IMAGE_Explorer_Directory
   
+  #IMAGE_CreateApp_StartupColor
+  
   #IMAGE_History_Session
   #IMAGE_History_File
   #IMAGE_History_First
@@ -2095,6 +2099,7 @@ Structure CompileTarget
     AndroidAppPackageID$
     AndroidAppIAPKey$
     AndroidAppStartupImage$
+    AndroidAppStartupColor$
     AndroidAppOrientation.l
     AndroidAppFullScreen.l
     AndroidAppOutput$

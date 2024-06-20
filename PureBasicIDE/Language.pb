@@ -1451,6 +1451,7 @@ DataSection
     Data$ "IAPKey",               "IAP Key"
     Data$ "PackageID",            "Package ID"
     Data$ "StartupImage",         "Startup image"
+    Data$ "StartupColor",         "Back"
     Data$ "Orientation",          "Orientation"
     Data$ "FullScreen",           "Fullscreen"
     Data$ "Output",               "Output filename"
