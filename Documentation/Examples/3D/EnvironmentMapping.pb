@@ -44,7 +44,7 @@ tx_rock_diff=LoadTexture(#PB_Any,"dirt_grayrocky_diffusespecular.jpg")
 tx_rock_normal=LoadTexture(#PB_Any,"dirt_grayrocky_normalheight.jpg")
 
 Dim tx_Cubic(50)
-Debug  #PB_Shader_Float
+
 For j=0 To 6
 	For i=0 To 6
 		c+1

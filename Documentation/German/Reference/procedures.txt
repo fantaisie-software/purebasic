@@ -37,8 +37,12 @@
   als Parameter an die Prozedur.
   @LineBreak
   @LineBreak
-  Wenn für @Keyword ProcedureReturn kein (Rückgabe-) Wert angegeben wird, dann wird der zurückgegebene
-  Wert undefiniert sein (siehe @ReferenceLink "inlinedasm" "Inline-ASM" für weitere Informationen).
+  Wenn für @Keyword ProcedureReturn kein (Rückgabe-) Wert angegeben wird, ist der Rückgabewert
+  @LineBreak
+  - Null, wenn der Compiler das C-Backend verwendet (auf allen von PureBasic unterstützten Prozessoren), oder
+  @LineBreak
+  - der Inhalt des Registers 'eax' auf 32 Bit (X86-Prozessoren) bzw. 'rax' auf 64 Bit (X64-Prozessoren),
+  wenn der Compiler das ASM-Backend verwendet (siehe @ReferenceLink "inlinedasm" "Inline-ASM" für weitere Informationen).
   @LineBreak
   @LineBreak
   Hinweis: Für die Rückgabe von Strings aus DLLs siehe @ReferenceLink "DLL" "DLLs". Für fortgeschrittene

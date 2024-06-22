@@ -47,7 +47,7 @@ MaterialShaderParameter(0,1,"wavelittle",	1,#ocean_wavelittle,0,0,0)
 MaterialShaderParameter(0,1,"foam",				1,#ocean_foam,0,0,0)
 CreatePlane(0,250,250,250,250,16,16)
 CreateEntity(0,MeshID(0),MaterialID(0))
-Debug #PB_Shader_Vector3
+
 ;sky
 CreateShaderMaterial(1,#PB_Material_SkyShader)
 MaterialShaderTexture(1,TextureID(tx_sky),0,0,0)

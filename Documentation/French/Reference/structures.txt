@@ -274,8 +274,8 @@
 @Syntax
 
   @Keyword StructureUnion
-    Field1.Type
-    Field2.Type
+    Champs.Type
+    Champs.Type
     ...
   @Keyword EndStructureUnion
 
@@ -286,54 +286,88 @@
   @LineBreak
   @LineBreak
   Note: Chaque champ dans la déclaration @Keyword "StructureUnion" peut être d'un @ReferenceLink "variables" "type" différent.
-
+  @LineBreak
+  Note: Chaque champ dans la déclaration @Keyword "StructureUnion" est placé à la même adresse mémoire.
+  
 @Example 
 
 @Code
   Structure Type
     Nom$
     StructureUnion
-      Long.l      ; Chaque champ (Long, Float et Byte) est placé à la
-      Float.f     ; même adresse mémoire.
+      Long.l      ; Chaque champ (Long, Float et Byte) est placé à la même adresse mémoire.
+      Float.f     ; 
       String.b    ; 
     EndStructureUnion    
   EndStructure 
 @EndCode
 
-@Example Exemple extended  (gestion des dates)
+@Example Exemple RVB
 
 @Code
-  Structure date
-    jour.s{2}
-    pk1.s{1}
-    mois.s{2}
-    pk2.s{1}
-    an.s{4}
+  Structure StrCouleur
+    Rouge.a
+    Vert.a
+    Bleu.a
+    Alpha.a
   EndStructure
-  
-  Structure date2
+
+  Structure StrCouleurU
     StructureUnion
-      s.s{10}
-      d.date
+      Composant.StrCouleur
+      Couleur.l
+      Octet.a[4]
     EndStructureUnion
   EndStructure
-  
-  Dim d1.date2(5)
-  
-  d1(0)\s = "05.04.2008"
-  d1(1)\s = "07.05.2009"
-  
-  Debug d1(0)\d\jour
-  Debug d1(0)\d\mois
-  Debug d1(0)\d\an
-  
-  Debug d1(1)\d\jour
-  Debug d1(1)\d\mois
-  Debug d1(1)\d\an
-    
-  d2.date2\s = "15.11.2010"
-  
-  Debug d2\d\jour
-  Debug d2\d\mois
-  Debug d2\d\an
+
+  Define Couleur1.StrCouleurU
+
+  Couleur1\Couleur = RGBA($10, $20, $30, $FF)
+  Debug "hex = " + Hex(Couleur1\Couleur, #PB_Long)    ;hex = FF302010 (processeurs little-endian)
+  Debug "r = "   + Hex(Couleur1\Composant\Rouge)      ;r = 10
+  Debug "v = "   + Hex(Couleur1\Composant\Vert)       ;v = 20
+  Debug "b = "   + Hex(Couleur1\Composant\Bleu)       ;b = 30
+  Debug "a = "   + Hex(Couleur1\Composant\Alpha)      ;a = FF
+
+  Debug "Octet0 = " + Hex(Couleur1\Octet[0])          ;Octet0 = 10
+  Debug "Octet1 = " + Hex(Couleur1\Octet[1])          ;Octet1 = 20
+  Debug "Octet2 = " + Hex(Couleur1\Octet[2])          ;Octet2 = 30
+  Debug "Octet3 = " + Hex(Couleur1\Octet[3])          ;Octet3 = FF
+
+@EndCode
+
+@Example Exemple gestion de dates
+
+@Code
+  Structure StrDate ;jj.mm.aaa
+    jour.s{2}
+    separateur1.s{1}
+    mois.s{2}
+    separateur2.s{1}
+    an.s{4}
+  EndStructure
+
+  Structure StrDateU
+    StructureUnion
+      s.s{10}
+      d.StrDate
+    EndStructureUnion
+  EndStructure
+
+  ;Un tableau
+  Dim MaDate.StrDateU(365)
+  MaDate(0)\s = "05.04.2028"
+
+  Debug MaDate(0)\d\jour    ; 05
+  Debug MaDate(0)\d\mois    ; 04
+  Debug MaDate(0)\d\an      ; 2028
+  Debug MaDate(0)\s         ; 05.04.2028
+
+  ;Une variable
+  MaDate2.StrDateU\s = "15.11.2030"
+
+  Debug MaDate2\d\jour      ; 15
+  Debug MaDate2\d\mois      ; 11
+  Debug MaDate2\d\an        ; 2030
+  Debug MaDate2\s           ; 15.11.2030
 @EndCode

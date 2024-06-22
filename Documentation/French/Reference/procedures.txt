@@ -92,10 +92,10 @@
   dans la procédure.
   @LineBreak
   @LineBreak  
-  Si aucune valeur n'est spécifiée pour 
-  @Keyword ProcedureReturn, la valeur renvoyée sera 
-  indéterminée (voir 
-  @ReferenceLink "inlinedasm" "assembleur en ligne" 
+  Si aucune valeur n'est spécifiée pour @Keyword ProcedureReturn, la valeur renvoyée sera 
+  zéro si le compilateur utilise le back-end C ou le contenu du registre 'eax' en 32 bits 
+  ou 'rax' en 64 bits si le compilateur utilise le back-end ASM. 
+indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne" 
   pour plus d'information).
   @LineBreak
   @LineBreak

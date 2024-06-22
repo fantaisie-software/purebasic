@@ -222,7 +222,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = HTTPInfo(RequeteHttp, Type [, Options])
+@Function Resultat$ = HTTPInfo(RequeteHttp, Type [, Options])
 
 @Description
   Renvoie des informations sur une requête HTTP créée avec @@HTTPRequest ou
@@ -281,7 +281,7 @@
   La requête HTTP.
   
 @ReturnValue
-  Le tampon contenant la réponse complète (raw) d'une requête HTTP.
+  L'adresse mémoire du tampon contenant la réponse complète (raw) d'une requête HTTP.
   
 @Remarks
   Le tampon doit être libéré avec@@FreeMemory.@LineBreak
