@@ -616,40 +616,12 @@ Procedure LoadPreferences()
   
   ; read the ID's of the enabled tools
   ;
-  If ActiveToolsCount = -1 ; value didn't exist.. use the default setup
+  If ActiveToolsCount = -1 ; value doesn't exist, use the default setup
     ForEach AvailablePanelTools()
       Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROCEDUREBROWSER"
+      If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
         AddElement(UsedPanelTools())  ; add the tool to the active list
         UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "FORM"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROJECTPANEL"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()  ; add explorer after procedurebrowser!
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "EXPLORER"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
       EndIf
     Next AvailablePanelTools()
     
@@ -945,6 +917,11 @@ Procedure LoadPreferences()
   LogTimeStamp               = ReadPreferenceLong("LogTimeStamp", 1)
   ErrorLogHeight             = ReadPreferenceLong("ErrorLogHeight", 150)
   DebuggerKillOnError        = ReadPreferenceLong("KillOnError", 0)
+  
+  CompilerIf #SpiderBasic
+    DebuggerKillOnError = 1
+  CompilerEndIf
+  
   AutoClearLog               = ReadPreferenceLong("AutoClearLog", 0)
   DisplayErrorWindow         = ReadPreferenceLong("DisplayErrorWindow", 1)
   WarningMode                = ReadPreferenceLong("WarningMode", 1)

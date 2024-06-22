@@ -5,7 +5,7 @@
 ; --------------------------------------------------------------------------------------------
 
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 99-24 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 99-22 ; menu items specified in the datasection
 CompilerElse
   #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
 CompilerEndIf
@@ -232,6 +232,7 @@ Procedure.s ConvertToolbarIconName(OldName$)
       Case "ToolsProcedureBrowser": ProcedureReturn "Menu:ProcedureBrowser"
       Case "ToolsStructureViewer" : ProcedureReturn "Menu:StructureViewer"
       Case "ToolsVariableViewer"  : ProcedureReturn "Menu:VariableViewer"
+      Case "ToolsWebView"         : ProcedureReturn "Menu:WebView"
         
       Default
         ProcedureReturn OldName$
@@ -536,6 +537,7 @@ DataSection
   Data.l #MENU_BuildAllTargets:     Data$ "Menu:BuildAllTargets"
   
   Data.l #MENU_Debugger:            Data$ "Menu:Debugger"
+  Data.l #MENU_Kill:                Data$ "Menu:Kill"
   CompilerIf Not #SpiderBasic
     Data.l #MENU_Stop:                Data$ "Menu:Stop"
     Data.l #MENU_Run:                 Data$ "Menu:Run"
@@ -543,7 +545,6 @@ DataSection
     Data.l #MENU_StepX:               Data$ "Menu:StepX"
     Data.l #MENU_StepOver:            Data$ "Menu:StepOver"
     Data.l #MENU_StepOut:             Data$ "Menu:StepOut"
-    Data.l #MENU_Kill:                Data$ "Menu:Kill"
     Data.l #MENU_BreakPoint:          Data$ "Menu:BreakPoint"
     Data.l #MENU_BreakClear:          Data$ "Menu:BreakClear"
     Data.l #MENU_DataBreakPoints:     Data$ "Menu:DataBreakPoints"
@@ -574,6 +575,9 @@ DataSection
   Data.l #MENU_ProjectPanel:        Data$ "Menu:ProjectPanel"
   Data.l #MENU_Templates:           Data$ "Menu:Templates"
   Data.l #MENU_Diff:                Data$ "Menu:Diff"
+  CompilerIf #SpiderBasic
+    Data.l #MENU_WebView:             Data$ "Menu:WebView"
+  CompilerEndIf
   Data.l #MENU_AddTools:            Data$ "Menu:AddTools"
   
   Data.l #MENU_Help:                Data$ "Menu:Help"

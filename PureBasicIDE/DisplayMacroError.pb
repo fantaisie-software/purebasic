@@ -203,7 +203,7 @@ Procedure DisplayMacroError(MacroErrorLine, List MacroLines.s())
       EndIf
     Next i
     
-    *Buffer = StringToAscii(Buffer$) ; Needs to be freed with FreeMemory() !
+    *Buffer = Ascii(Buffer$) ; Needs to be freed with FreeMemory() !
     If *Buffer
       SetCodeViewer(#GADGET_MacroError_Scintilla, *Buffer, *ActiveSource\Parser\Encoding)
       FreeMemory(*Buffer)

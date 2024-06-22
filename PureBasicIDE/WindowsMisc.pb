@@ -495,24 +495,29 @@ CompilerIf #CompileWindows
       
       ; Menu ids in the sysmenu should be below $F000 and above $000F (as the low 4 bits are masked out)
       ;
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Stop<<4,  LanguageStringAddress("MenuItem","Stop"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Run<<4,   LanguageStringAddress("MenuItem","Run"))
+      CompilerIf Not #SpiderBasic
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Stop<<4,  LanguageStringAddress("MenuItem","Stop"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Run<<4,   LanguageStringAddress("MenuItem","Run"))
+      CompilerEndIf
       AppendMenu_(hSubMenu, #MF_STRING, #MENU_Kill<<4,  LanguageStringAddress("MenuItem","Kill"))
       AppendMenu_(hSubMenu, #MF_SEPARATOR, 0, @"")
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Step<<4,  LanguageStringAddress("MenuItem","Step"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepX<<4, LanguageStringAddress("MenuItem","StepX"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOver<<4, LanguageStringAddress("MenuItem","StepOver"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOut<<4, LanguageStringAddress("MenuItem","StepOut"))
-      AppendMenu_(hSubMenu, #MF_SEPARATOR, 0, @"")
+      CompilerIf Not #SpiderBasic
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Step<<4,  LanguageStringAddress("MenuItem","Step"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepX<<4, LanguageStringAddress("MenuItem","StepX"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOver<<4, LanguageStringAddress("MenuItem","StepOver"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_StepOut<<4, LanguageStringAddress("MenuItem","StepOut"))
+        AppendMenu_(hSubMenu, #MF_SEPARATOR, 0, @"")
+      CompilerEndIf
       AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugOutput<<4,  LanguageStringAddress("MenuItem","DebugOutput"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Watchlist<<4,    LanguageStringAddress("MenuItem","WatchList"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_VariableList<<4, LanguageStringAddress("MenuItem","VariableList"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Profiler<<4, LanguageStringAddress("MenuItem","Profiler"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_History<<4,      LanguageStringAddress("MenuItem","History"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_Memory<<4,       LanguageStringAddress("MenuItem","Memory"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_LibraryViewer<<4,       LanguageStringAddress("MenuItem","LibraryViewer"))
-      AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugAsm<<4,     LanguageStringAddress("MenuItem","DebugAsm"))
-      
+      CompilerIf Not #SpiderBasic
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Watchlist<<4,    LanguageStringAddress("MenuItem","WatchList"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_VariableList<<4, LanguageStringAddress("MenuItem","VariableList"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Profiler<<4, LanguageStringAddress("MenuItem","Profiler"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_History<<4,      LanguageStringAddress("MenuItem","History"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_Memory<<4,       LanguageStringAddress("MenuItem","Memory"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_LibraryViewer<<4,       LanguageStringAddress("MenuItem","LibraryViewer"))
+        AppendMenu_(hSubMenu, #MF_STRING, #MENU_DebugAsm<<4,     LanguageStringAddress("MenuItem","DebugAsm"))
+      CompilerEndIf      
       
       ; insert into system menu
       ;

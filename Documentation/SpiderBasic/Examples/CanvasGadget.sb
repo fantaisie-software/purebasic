@@ -75,7 +75,7 @@ EndProcedure
 
 CurrentMode  = #GADGET_Brush
 CreateImage(#IMAGE_Color, 55, 35, 24)
-CreateImage(#IMAGE_Content, 380, 380, 24)
+CreateImage(#IMAGE_Content, DesktopScaledX(380), DesktopScaledY(380), 24) ; If DPI Aware is on, we need to scale our backend image to the actual DPI
 
 
 Procedure GenerateRandomColor()
@@ -89,7 +89,7 @@ EndProcedure
 
 Procedure ClearCanvas()
   If StartDrawing(CanvasOutput(#GADGET_Canvas))
-    Box(0, 0, GadgetWidth(#GADGET_Canvas), GadgetHeight(#GADGET_Canvas), $FFFFFF)
+    Box(0, 0, OutputWidth(), OutputHeight(), $FFFFFF)
     StopDrawing()
   EndIf
 EndProcedure

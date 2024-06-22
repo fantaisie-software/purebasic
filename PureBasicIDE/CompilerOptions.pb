@@ -139,7 +139,8 @@ Procedure SetTargetOptions(*Target.CompileTarget)
   
   SetGadgetState(#GADGET_Option_Debugger , *Target\Debugger)
   SetGadgetState(#GADGET_Option_Optimizer, *Target\Optimizer)
-  
+  SetGadgetState(#GADGET_Option_DPIAware     , *Target\DPIAware)
+
   CompilerIf #SpiderBasic
     SetGadgetText(#GADGET_Option_SelectWindowTheme, *Target\WindowTheme$)
     SetGadgetText(#GADGET_Option_SelectGadgetTheme, *Target\GadgetTheme$)
@@ -159,7 +160,6 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableXP     , *Target\EnableXP)
     SetGadgetState(#GADGET_Option_EnableAdmin  , *Target\EnableAdmin)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
-    SetGadgetState(#GADGET_Option_DPIAware     , *Target\DPIAware)
     SetGadgetState(#GADGET_Option_DllProtection, *Target\DllProtection)
     SetGadgetState(#GADGET_Option_EnableOnError, *Target\EnableOnError)
     
@@ -258,6 +258,8 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
   
   If *Target\Debugger          <> GetGadgetState(#GADGET_Option_Debugger): Changed = 1: EndIf
   If *Target\Optimizer         <> GetGadgetState(#GADGET_Option_Optimizer): Changed = 1: EndIf
+  If *Target\DPIAware          <> GetGadgetState(#GADGET_Option_DPIAware): Changed = 1: EndIf
+  
   CompilerIf #SpiderBasic
     If *Target\WindowTheme$           <> GetGadgetText(#GADGET_Option_SelectWindowTheme): Changed = 1: EndIf
     If *Target\GadgetTheme$           <> GetGadgetText(#GADGET_Option_SelectGadgetTheme): Changed = 1: EndIf
@@ -270,7 +272,6 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
     If *Target\EnableXP          <> GetGadgetState(#GADGET_Option_EnableXP): Changed = 1: EndIf
     If *Target\EnableAdmin       <> GetGadgetState(#GADGET_Option_EnableAdmin): Changed = 1: EndIf
     If *Target\EnableUser        <> GetGadgetState(#GADGET_Option_EnableUser): Changed = 1: EndIf
-    If *Target\DPIAware          <> GetGadgetState(#GADGET_Option_DPIAware): Changed = 1: EndIf
     If *Target\DllProtection     <> GetGadgetState(#GADGET_Option_DllProtection): Changed = 1: EndIf
     If *Target\EnableOnError     <> GetGadgetState(#GADGET_Option_EnableOnError): Changed = 1: EndIf
     If *Target\CPU               <> GetGadgetState(#GADGET_Option_CPU): Changed = 1: EndIf
@@ -360,6 +361,8 @@ Procedure GetTargetOptions(*Target.CompileTarget)
   
   *Target\Debugger         = GetGadgetState(#GADGET_Option_Debugger)
   *Target\Optimizer        = GetGadgetState(#GADGET_Option_Optimizer)
+  *Target\DPIAware         = GetGadgetState(#GADGET_Option_DPIAware)
+  
   CompilerIf #SpiderBasic
     *Target\WebServerAddress$ = GetGadgetText(#GADGET_Option_WebServerAddress)
     *Target\WindowTheme$    = GetGadgetText(#GADGET_Option_SelectWindowTheme)
@@ -372,7 +375,6 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     *Target\EnableXP         = GetGadgetState(#GADGET_Option_EnableXP)
     *Target\EnableAdmin      = GetGadgetState(#GADGET_Option_EnableAdmin)
     *Target\EnableUser       = GetGadgetState(#GADGET_Option_EnableUser)
-    *Target\DPIAware         = GetGadgetState(#GADGET_Option_DPIAware)
     *Target\DllProtection    = GetGadgetState(#GADGET_Option_DllProtection)
     *Target\EnableOnError    = GetGadgetState(#GADGET_Option_EnableOnError)
     *Target\CPU              = GetGadgetState(#GADGET_Option_CPU)

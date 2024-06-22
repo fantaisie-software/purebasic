@@ -41,8 +41,12 @@ ifeq ($(PB_WINDOWS),1)
 	THEMEFOLDER = $(HOME)/Themes
 
 else
-	PBCOMPILER = pbcompiler -q
-
+  ifeq ($(C_BACKEND),1)
+    PBCOMPILER = pbcompilerc -q
+  else
+    PBCOMPILER = pbcompiler -q
+  endif
+	
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
 	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer --dpiaware

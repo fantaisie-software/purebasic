@@ -507,6 +507,7 @@ DataSection
   Data$ "AsciiTable",       "&Character Table"
   Data$ "Explorer",         "&Explorer"
   Data$ "ProcedureBrowser", "&Procedure Browser"
+  Data$ "WebView",          "&WebView"
   Data$ "Issues",           "&Issue Browser"
   Data$ "Templates",        "&Templates"
   Data$ "ProjectPanel",     "P&roject Panel"
@@ -536,6 +537,9 @@ DataSection
   Data$ "FormLong",         "Form Panel"
   Data$ "HelpToolShort",    "Help"
   Data$ "HelpToolLong",     "Help Tool"
+  
+  Data$ "WebViewShort", "WebView"
+  Data$ "WebViewLong",  "WebView"
   
   Data$ "ColorPicker",      "Color Picker"
   Data$ "Mode_RGB",         "RGB"
@@ -1249,7 +1253,6 @@ DataSection
   Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
-  Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
   Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
@@ -1279,7 +1282,9 @@ DataSection
     Data$ "ExportCommandLineSuccess", "Post processing tool launched (%commandline%)."
     Data$ "ExportCommandLineError", "Post processing tool can't be launched (%commandline%)."
     Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
+    Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
+    Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
   CompilerEndIf
   
@@ -1446,12 +1451,14 @@ DataSection
     Data$ "IAPKey",               "IAP Key"
     Data$ "PackageID",            "Package ID"
     Data$ "StartupImage",         "Startup image"
+    Data$ "StartupColor",         "Back"
     Data$ "Orientation",          "Orientation"
     Data$ "FullScreen",           "Fullscreen"
     Data$ "Output",               "Output filename"
     Data$ "AutoUpload",           "Automatically upload on USB connected device (requires enabled debugger)"
     Data$ "ResourceDirectory",    "Resource directory"
     Data$ "WrongOutputExtension", "Android app filename extension needs to be '.apk'"
+    Data$ "InsecureFileMode",     "Enable insecure HTTP support (not recommended)"
     
     ; ===================================================
     ;- Group - Resources

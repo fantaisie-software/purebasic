@@ -89,8 +89,10 @@ Procedure Debugger_UpdateWindowPreferences()
       UpdatePurifierWindow(@RunningDebuggers())
     EndIf
     
-    UpdateWatchListWindow(@RunningDebuggers()) ; this is always open
-    UpdateDataBreakpointWindow(@RunningDebuggers()) ; also always open
+    CompilerIf Not #SpiderBasic
+      UpdateWatchListWindow(@RunningDebuggers()) ; this is always open
+      UpdateDataBreakpointWindow(@RunningDebuggers()) ; also always open
+    CompilerEndIf
     
     ; update the stay on top setting
     ;

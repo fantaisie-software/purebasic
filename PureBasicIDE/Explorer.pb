@@ -173,10 +173,7 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
       RemoveGadgetColumn(#GADGET_Explorer, 1)
     CompilerEndIf
     
-    CompilerIf #CompileWindows
-      SendMessage_(GadgetID(#GADGET_Explorer), #LVM_SETCOLUMNWIDTH, 0, 150)
-    CompilerEndIf
-    
+    SetGadgetItemAttribute(#GADGET_Explorer, 0, #PB_Explorer_ColumnWidth, 150, 0)
   Else
     ExplorerTreeGadget(#GADGET_Explorer, 0, 0, 0, 0, ExplorerPath$+StringField(ExplorerPatternStrings$, ExplorerPattern+1, "|"), #PB_Explorer_AutoSort | ExtraFlags)
   EndIf
@@ -242,12 +239,10 @@ Procedure Explorer_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
     ResizeGadget(#GADGET_Explorer_RemoveFavorite, PanelWidth-Width, PanelHeight-Height-2, Width, Height)
   EndIf
   
-  CompilerIf #CompileWindows
-    If ExplorerMode = 0
-      SendMessage_(GadgetID(#GADGET_Explorer), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-    EndIf
-    SendMessage_(GadgetID(#GADGET_Explorer_Favorites), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-  CompilerEndIf
+  If ExplorerMode = 0
+    SetGadgetItemAttribute(#GADGET_Explorer, 0, #PB_Explorer_ColumnWidth, GadgetWidth(#GADGET_Explorer)-8, 0)
+  EndIf
+  SetGadgetItemAttribute(#GADGET_Explorer_Favorites, 0, #PB_ListIcon_ColumnWidth, GadgetWidth(#GADGET_Explorer_Favorites)-8, 0)
   
   If GadgetHeight(#GADGET_Explorer_Splitter) > 0
     If ExplorerSplitterApplied = #False

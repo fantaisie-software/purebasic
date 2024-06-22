@@ -626,6 +626,7 @@ DataSection
   ;Data$ "SetGadgetAttribute,2,"      ; leave out because of the many different constants depending on the gadget type
   ;Data$ "SetGadgetAttribute3D,2,"    ; leave out because of the many different constants depending on the gadget type
   Data$ "SetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
+  Data$ "SetGadgetFont,1,#PB_Default"
   Data$ "SetGadgetItemAttribute,3,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth"
   Data$ "SetGadgetItemColor,3,#PB_Gadget_FrontColor,#PB_Gadget_BackColor"
   Data$ "SetGadgetItemText,2,#PB_WebView_HtmlCode,#PB_Web_HtmlCode"

@@ -239,7 +239,11 @@ Procedure SetDebuggerMenuStates()
           
       EndSelect
       
-      DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerEndIf
       
       ; not available if not compiled in purifier mode
       If *Debugger\IsPurifier
@@ -281,7 +285,13 @@ Procedure SetDebuggerMenuStates()
       DisableMenuAndToolbarItem(#MENU_StepX, 1)
       DisableMenuAndToolbarItem(#MENU_StepOver, 1)
       DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      CompilerEndIf
+      
       DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
       DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
       DisableMenuAndToolbarItem(#MENU_VariableList, 1)
@@ -303,7 +313,12 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse   
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
     
     DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
     DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
@@ -334,7 +349,13 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse 
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
+    
     DisableMenuAndToolbarItem(#MENU_BreakPoint, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_BreakClear, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)
@@ -743,17 +764,28 @@ EndProcedure
 Procedure Debugger_SwitchToFile(*Debugger.DebuggerData, Line)
   FileName$ = GetDebuggerFile(*Debugger, Line)
   
-  If FileName$ = "" ; main source, and not saved yet
-    *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
-    If *Source And *Source\IsProject = 0 ; sanity check
-      If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
-        ChangeCurrentElement(FileList(), *Source)
-        ChangeActiveSourceCode()
-      EndIf
-      result = 1
-    Else
-      result = 0
+  CompilerIf #SpiderBasic
+    If LCase(GetFilePart(FileName$)) = "pb_editoroutput.pb" ; File not yet saved (https://forums.spiderbasic.com/viewtopic.php?t=2549)
+      FileName$ = ""
     EndIf
+  CompilerEndIf
+  
+  If FileName$ = "" ; main source, and not saved yet
+    CompilerIf #SpiderBasic
+      ; SpiderBasic can only have one active debugger, so it's always the active source if the file wasn't saved
+      result = 1
+    CompilerElse
+      *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
+      If *Source And *Source\IsProject = 0 ; sanity check
+        If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
+          ChangeCurrentElement(FileList(), *Source)
+          ChangeActiveSourceCode()
+        EndIf
+        result = 1
+      Else
+        result = 0
+      EndIf
+    CompilerEndIf
   ElseIf IsEqualFile(FileName$, *ActiveSource\FileName$)
     result = 1
   Else
@@ -867,7 +899,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         ChangeCurrentElement(FileList(), *ActiveSource)
         
         MarkErrorLine(LineNumber)
-        MarkCurrentLine(LineNumber)
+        CompilerIf #SpiderBasic
+          ; As we don't have a read only scintilla, the red line is overriden by the active line background and we don't see it. So just select the line below and so we can see it.
+          ChangeActiveLine(LineNumber+1, -5)
+        CompilerElse
+          MarkCurrentLine(LineNumber)
+        CompilerEndIf
       EndIf
       
       If FileName$ <> ""
@@ -881,7 +918,10 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       If DebuggerKillOnError
         Debugger_Ended(*Debugger)
-        Debugger_ForceDestroy(*Debugger)
+        
+        CompilerIf Not #SpiderBasic
+          Debugger_ForceDestroy(*Debugger)
+        CompilerEndIf
       EndIf
       
       SetDebuggerMenuStates()

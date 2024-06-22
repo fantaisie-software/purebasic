@@ -835,6 +835,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppPackageID"   , *Target\AndroidAppPackageID$)
     AddStringConfigLine("AndroidAppIAPKey"      , *Target\AndroidAppIAPKey$)
     AddStringConfigLine("AndroidAppStartupImage", *Target\AndroidAppStartupImage$)
+    AddStringConfigLine("AndroidAppStartupColor", *Target\AndroidAppStartupColor$)
     AddStringConfigLine("AndroidAppOutput"      , *Target\AndroidAppOutput$)
     AddStringConfigLine("AndroidAppResourceDirectory" , *Target\AndroidAppResourceDirectory$)
     AddFlagConfigLine("AndroidAppEnableResourceDirectory", *Target\AndroidAppEnableResourceDirectory)
@@ -843,6 +844,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
     AddFlagConfigLine("AndroidAppKeepAppDirectory", *Target\AndroidAppKeepAppDirectory)
+    AddFlagConfigLine("AndroidAppInsecureFileMode", *Target\AndroidAppInsecureFileMode)
     
   CompilerEndIf
   
@@ -1301,6 +1303,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPPACKAGEID"    : *Source\AndroidAppPackageID$ = Value$
         Case "ANDROIDAPPIAPKEY"       : *Source\AndroidAppIAPKey$ = Value$
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
+        Case "ANDROIDAPPSTARTUPCOLOR" : *Source\AndroidAppStartupColor$ = Value$
         Case "ANDROIDAPPOUTPUT"       : *Source\AndroidAppOutput$ = Value$
         Case "ANDROIDAPPORIENTATION"  : *Source\AndroidAppOrientation = Val(Value$)
         Case "ANDROIDAPPFULLSCREEN"   : *Source\AndroidAppFullScreen = 1
@@ -1309,8 +1312,9 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPENABLERESOURCEDIRECTORY": *Source\AndroidAppEnableResourceDirectory = 1
         Case "ANDROIDAPPENABLEDEBUGGER" : *Source\AndroidAppEnableDebugger = 1
         Case "ANDROIDAPPKEEPAPPDIRECTORY" : *Source\AndroidAppKeepAppDirectory = 1
+        Case "ANDROIDAPPINSECUREFILEMODE" : *Source\AndroidAppInsecureFileMode = 1
           
-        CompilerEndIf
+      CompilerEndIf
         
       Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1

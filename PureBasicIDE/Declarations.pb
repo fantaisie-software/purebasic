@@ -290,6 +290,7 @@ Declare SetCompileTargetDefaults(*Target.CompileTarget) ; set defaults for a new
 Declare CompilerReady()                                 ; called after compiler is loaded
 Declare DisplayCompilerWindow()                         ; display 'compileing in progress'
 Declare HideCompilerWindow()
+Declare AddCompilerWindowItem(Text$)
 Declare CompilerWindowEvents(EventID)
 Declare BuildWindowEvents(EventID)
 Declare UpdateBuildWindow()
@@ -486,8 +487,6 @@ Declare.s StrByteSize(Size.q)                                  ; get a nice look
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
-Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!
-Declare StringToAscii(String$)                                 ; returns the Ascii version of the string, needs to be freed with FreeMemory()!
 Declare.s ModulePrefix(Name$, ModuleName$)                     ; prefix a module name (if not empty)
 Declare StringToCodePage(CodePage, String$)                    ; transform string to Scintilla compatible code page (must be freed!)
 Declare CodePageLength(CodePage, String$)                      ; get length of string in Scintilla compatible code page
@@ -506,6 +505,11 @@ Declare PreferencesWindowEvents(EventID)
 Declare UpdateProcedureList(ScrollPosition.l = -1) ; scan active source and update the procedure list and the autocomplete lists
                               ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if necessary.
 Declare JumpToProcedure()     ; jump to procedure under cursor (for double-click)
+
+;- WebView.pb
+;
+Declare SetWebViewUrl(Url$)
+Declare OpenSpiderWebBrowser(Url$)
 
 ;- ProjectManagement.pb
 ;

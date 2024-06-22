@@ -32,6 +32,16 @@ Procedure UpdateCreateAppWindow()
 EndProcedure
 
 
+Procedure UpdateCreateAppStartupColor(Color$)
+  
+  ; Recreate the image with the right background color
+  Color = RGB(Val("$"+Mid(Color$, 2, 2)), Val("$"+Mid(Color$, 4, 2)), Val("$"+Mid(Color$, 6, 2)))
+  CreateImage(#IMAGE_CreateApp_StartupColor, 30, 30, 24, Color)
+  SetGadgetAttribute(#GADGET_AndroidApp_SelectStartupColor, #PB_Button_Image, ImageID(#IMAGE_CreateApp_StartupColor))
+  SetGadgetText(#GADGET_AndroidApp_StartupColor, Color$)
+  
+EndProcedure
+
 
 Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
   
@@ -49,6 +59,16 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       EndIf
     EndIf
     
+    ; Default value if not set
+    ;
+    If *Target\AndroidAppStartupColor$ = "" 
+      *Target\AndroidAppStartupColor$ = "#FFFFFF" ; white background by default
+    EndIf
+    
+    If *Target\AndroidAppCode = 0
+      *Target\AndroidAppCode = 1 ; can't be zero, so avoid a wrong value
+    EndIf
+      
     CreateAppWindowDialog = OpenDialog(?Dialog_CreateApp, WindowID(#WINDOW_Main), @CreateAppWindowPosition)
     If CreateAppWindowDialog
       EnsureWindowOnDesktop(#WINDOW_CreateApp)
@@ -98,6 +118,8 @@ Procedure OpenCreateAppWindow(*Target.CompileTarget, IsProject)
       SetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory, *Target\AndroidAppEnableResourceDirectory)
       SetGadgetState(#GADGET_AndroidApp_EnableDebugger, *Target\AndroidAppEnableDebugger)
       SetGadgetState(#GADGET_AndroidApp_KeepAppDirectory, *Target\AndroidAppKeepAppDirectory)
+      SetGadgetState(#GADGET_AndroidApp_InsecureFileMode, *Target\AndroidAppInsecureFileMode)
+      UpdateCreateAppStartupColor(*Target\AndroidAppStartupColor$)
       
       UpdateCreateAppWindow()
       
@@ -149,6 +171,7 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppPackageID$    <> GetGadgetText(#GADGET_AndroidApp_PackageID) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppIAPKey$       <> GetGadgetText(#GADGET_AndroidApp_IAPKey) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppStartupImage$ <> GetGadgetText(#GADGET_AndroidApp_StartupImage) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppStartupColor$ <> GetGadgetText(#GADGET_AndroidApp_StartupColor) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppOutput$       <> GetGadgetText(#GADGET_AndroidApp_Output) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppOrientation   <> GetGadgetState(#GADGET_AndroidApp_Orientation) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppFullScreen    <> GetGadgetState(#GADGET_AndroidApp_FullScreen) : Changed = #True : EndIf
@@ -157,6 +180,7 @@ Procedure AppWindowChanged()
   If *CurrentAppTarget\AndroidAppResourceDirectory$     <> GetGadgetText(#GADGET_AndroidApp_ResourceDirectory) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppEnableDebugger<> GetGadgetState(#GADGET_AndroidApp_EnableDebugger) : Changed = #True : EndIf
   If *CurrentAppTarget\AndroidAppKeepAppDirectory<> GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory) : Changed = #True : EndIf
+  If *CurrentAppTarget\AndroidAppInsecureFileMode<> GetGadgetState(#GADGET_AndroidApp_InsecureFileMode) : Changed = #True : EndIf
   
   ProcedureReturn Changed
 EndProcedure
@@ -228,6 +252,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppPackageID$    = GetGadgetText(#GADGET_AndroidApp_PackageID)
   *CurrentAppTarget\AndroidAppIAPKey$       = GetGadgetText(#GADGET_AndroidApp_IAPKey)
   *CurrentAppTarget\AndroidAppStartupImage$ = GetGadgetText(#GADGET_AndroidApp_StartupImage)
+  *CurrentAppTarget\AndroidAppStartupColor$ = GetGadgetText(#GADGET_AndroidApp_StartupColor)
   *CurrentAppTarget\AndroidAppOutput$       = GetGadgetText(#GADGET_AndroidApp_Output)
   *CurrentAppTarget\AndroidAppResourceDirectory$      = GetGadgetText(#GADGET_AndroidApp_ResourceDirectory)
   *CurrentAppTarget\AndroidAppEnableResourceDirectory = GetGadgetState(#GADGET_AndroidApp_EnableResourceDirectory)
@@ -236,6 +261,7 @@ Procedure UpdateCreateAppSettings()
   *CurrentAppTarget\AndroidAppAutoUpload    = GetGadgetState(#GADGET_AndroidApp_AutoUpload)
   *CurrentAppTarget\AndroidAppEnableDebugger= GetGadgetState(#GADGET_AndroidApp_EnableDebugger)
   *CurrentAppTarget\AndroidAppKeepAppDirectory= GetGadgetState(#GADGET_AndroidApp_KeepAppDirectory)
+  *CurrentAppTarget\AndroidAppInsecureFileMode= GetGadgetState(#GADGET_AndroidApp_InsecureFileMode)
   
 EndProcedure
 
@@ -348,6 +374,14 @@ Procedure CreateAppWindowEvents(EventID)
         Case #GADGET_AndroidApp_SelectStartupImage
           RelativeFilenameRequester(#GADGET_AndroidApp_StartupImage, Language("App", "SelectStartupImage"), "PNG images|*.png")
           
+        Case #GADGET_AndroidApp_SelectStartupColor
+          Color = ColorRequester(0, WindowID(#WINDOW_CreateApp))
+          If Color <> -1
+            UpdateCreateAppStartupColor("#"+RSet(Hex(Red(Color))  , 2, "0") +
+                                            RSet(Hex(Green(Color)), 2, "0") +
+                                            RSet(Hex(Blue(Color)), 2, "0"))
+          EndIf
+
         Case #GADGET_AndroidApp_SelectOutput
           RelativeFilenameRequester(#GADGET_AndroidApp_Output, Language("Android", "SelectOutput"), "APK files|*.apk")
           

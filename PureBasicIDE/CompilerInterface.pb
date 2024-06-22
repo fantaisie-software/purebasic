@@ -367,7 +367,7 @@ Procedure StartCompiler(*Compiler.Compiler)
     Parameters$ + #COMPILER_LANGUAGE + CurrentLanguage$
   EndIf
   
-  CompilerIf #CompileWindows = 0 And #DEBUG = 1
+  CompilerIf #CompileWindows = 0 And #DEBUG = 1 And Not #SpiderBasic
     ; Append the -ds parameter so debug symbols are not cut. This is mainly so
     ; I can properly debug the Debugger library which is compiled into the exe
     Parameters$ + " -ds"
@@ -1000,8 +1000,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
         BuildLogEntry(Language("Compiler","Aborting"))
       Else
         SetGadgetText(#GADGET_Compiler_Text, Language("Compiler","Aborting"))
-        AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Aborting"))
-        SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+        AddCompilerWindowItem(Language("Compiler","Aborting"))
       EndIf
       
       DisableMenuItem(#MENU, #MENU_StructureViewer, 1)
@@ -1085,8 +1084,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(Log$)
           Else
             If Purcents = 20 ; Only add it once
-              AddGadgetItem(#GADGET_Compiler_List, -1, Language("App","Creating") + "...")
-              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+              AddCompilerWindowItem(Language("App","Creating") + "...")
             EndIf
             
             SetGadgetText(#GADGET_Compiler_Text, Log$)
@@ -1102,9 +1100,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
@@ -1118,9 +1114,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
@@ -1135,8 +1129,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             ElseIf UseProjectBuildWindow
               BuildLogEntry(Line$)
             Else
-              AddGadgetItem(#GADGET_Compiler_List, -1, Line$)
-              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+              AddCompilerWindowItem(Line$)
             EndIf
           EndIf
           
@@ -1172,8 +1165,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Language("Compiler","Including")+": "+Include$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Including")+": "+Include$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Including")+": "+Include$)
           EndIf
           
         Case "ASSEMBLING"
@@ -1186,8 +1178,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(LanguagePattern("Compiler", "LinesCompiled", "%count%", Str(Lines)))
             BuildLogEntry(Language("Compiler","Finishing"))
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Finishing"))
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Finishing"))
             SetGadgetState(#GADGET_Compiler_Progress, 1000)
           EndIf
           
@@ -1569,6 +1560,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         If *Target\AndroidAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
         If *Target\AndroidAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
         If *Target\AndroidAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
+        If *Target\AndroidAppInsecureFileMode : Command$ + Chr(9) + "INSECUREFILEMODE" : EndIf
         
     EndSelect
     
@@ -1581,7 +1573,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     EndIf
   EndIf
   
-  CompilerIf #CompileMac | #CompileWindows
+  CompilerIf #CompileMac | #CompileWindows | #SpiderBasic
     If *Target\DPIAware : Command$ + Chr(9) + "DPIAWARE" : EndIf
   CompilerEndIf
   
@@ -1731,6 +1723,14 @@ CompilerIf #SpiderBasic
     
     ProcedureReturn Result
   EndProcedure
+  
+  Procedure.s StringToUTF8String(String$)
+    *UTF8 = UTF8(String$)
+    UTF8$ = PeekS(*UTF8, #PB_All, #PB_Ascii)
+    FreeMemory(*UTF8)
+    
+    ProcedureReturn UTF8$
+  EndProcedure
 CompilerEndIf
 
 ; ---------------------------------------------------------------------
@@ -1860,10 +1860,17 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       If Error = #False
         AddElement(OpenedWebServers())
         
+        CompilerIf #CompileWindows
+          ; Note: sbmongoose support UNICODE path on Windows, but it needs to be put on the commandline as UTF8
+          ;
+          RootPath$ = StringToUTF8String(RootPath$)
+          PureBasicPath$ = StringToUTF8String(PureBasicPath$)
+        CompilerEndIf
+        
         Debug "Mongoose address: " + MongooseAddress$
         Debug "Mongoose document_root: " + RootPath$
         Debug "Mongoose spiderbasic_root: " + PureBasicPath$
-        
+                
         OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
                                                                                  " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
                                                                                  " -spiderbasic_root "+#DQUOTE$+ReplaceString(PureBasicPath$, "\", "/")+#DQUOTE$, "", #PB_Program_Open | #PB_Program_Hide)
@@ -1875,29 +1882,32 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
     
     If Error = #False
       
-      Url$ = "http://"+WebLaunchedServers(RootPath$)+"/" + GetFilePart(Executable$)
+      Url$ = "http://"+WebLaunchedServers(RootPath$)+"/" + GetFilePart(Executable$) + "?t=" + Date()
       
-      CompilerIf #CompileWindows
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram(Url$) ; Will launch the default browser
+      ; Clear all the remaining 'red' error lines before launching a new app
+      ;
+      ForEach FileList()
+        ClearErrorLines(@FileList()) ; clear the errors in all lines
+      Next FileList()
+      ChangeCurrentElement(FileList(), *ActiveSource)
+    
+      If WebViewOpen
+        
+        ; Setup the debugger. We can only have one in SpiderBasic
+        If *WebViewDebugger = 0
+          AddElement(RunningDebuggers()) ; Use the RunningDebuggers() list, so every window debugger events will be handled automatically
+          *WebViewDebugger = @RunningDebuggers()
         EndIf
         
-      CompilerElseIf #CompileLinux
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram("xdg-open", Url$, "") ; Will launch the default browser
-        EndIf
+        ; Run the app in the built-in webview
+        ;
+        SetWebViewUrl(Url$)
         
-      CompilerElseIf #CompileMac
-        If OptionWebBrowser$
-          RunProgram("open", "-a " + OptionWebBrowser$ + " " + Url$, "")
-        Else
-          RunProgram("open", Url$, "") ; Will launch the default browser
-        EndIf
-      CompilerEndIf
+      Else
+        
+        OpenSpiderWebBrowser(Url$)
+        
+      EndIf
       
     EndIf
     
@@ -2369,12 +2379,15 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
           AppName$      = *Target\AndroidAppName$
           Icon$         = *Target\AndroidAppIcon$
           AppVersion$   = *Target\AndroidAppVersion$
-          AppCode       = *Target\AndroidAppCode
           PackageID$    = *Target\AndroidAppPackageID$
-          IAPKey$       = *Target\AndroidAppIAPKey$
           StartupImage$ = *Target\AndroidAppStartupImage$
           AppDebugger   = *Target\AndroidAppEnableDebugger
           
+          ; Android specific
+          CompilerWriteStringValue("IAPKEY", *Target\AndroidAppIAPKey$)
+          CompilerWriteStringValue("APPCODE", Str(*Target\AndroidAppCode))
+          CompilerWriteStringValue("STARTUPCOLOR", *Target\AndroidAppStartupColor$)
+              
           Select *Target\AndroidAppOrientation ; Default case is Any, and we don't need to send it to the compiler
             Case 1
               Orientation$ = "PORTRAIT"
@@ -2401,9 +2414,7 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
     CompilerWriteStringValue("APPNAME", AppName$)
     CompilerWriteStringValue("ICON", Icon$)
     CompilerWriteStringValue("APPVERSION", AppVersion$)
-    CompilerWriteStringValue("APPCODE", Str(AppCode))
     CompilerWriteStringValue("PACKAGEID", PackageID$)
-    CompilerWriteStringValue("IAPKEY", IAPKey$)
     CompilerWriteStringValue("STARTUPIMAGE", StartupImage$)
     CompilerWriteStringValue("RESOURCEDIRECTORY", ResourceDirectory$)
     CompilerWriteStringValue("ORIENTATION", Orientation$)

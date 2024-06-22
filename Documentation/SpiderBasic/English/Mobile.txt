@@ -1,0 +1,2022 @@
+;
+;     Mobile library documentation
+;
+;      (c) 2024 - Fantaisie Software
+;
+
+@Library Mobile
+
+@Overview
+
+  The Mobile library is a powerful way to build native looking mobile application in SpiderBasic for both Android and iOS.
+  It provide a large set of components and an easy layout for fast creation. This library is powered by @InternetLink "https://onsen.io/" "Onsen UI".
+  
+@CommandList
+
+@ExampleFile All Mobile.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddListMobileItem(#Mobile, Text$ [, Flags]])
+
+@Description
+  Add a new item to the specified mobile list previously created with @@ListMobile.
+
+@Parameter "#Mobile"
+  The mobile list to use.
+
+@Parameter "Text$"
+  The text for the new item.
+
+@OptionalParameter "Flags"
+  It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_Chevron     : Add a chevron mark to to the item, useful with @#PB_Mobile_Tappable.
+  @#PB_Mobile_NoDivider   : Remove the line divider below the item.
+  @#PB_Mobile_LongDivider : Display a longer divider below the item.
+  @#PB_Mobile_Expandable  : The item expands when the user click on. This automatically opens a new container where mobile items can be added. Once finished, it has to be closed with @@CloseMobileContainer.
+  @#PB_Mobile_Tappable    : Creates a tappable item, which generate a @#PB_EventType_LeftClick event.
+  @#PB_Mobile_Header      : The item will be an header item which can be useful to group items by categories. 
+  @#PB_Mobile_Container   : The item will be a 3 slots container (left, center, right). Once the mobile objects added, it has to be closed with @@CloseMobileContainer.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    AddListMobileItem(0, "Header", #PB_Mobile_Header)
+    AddListMobileItem(0, "Basic item")
+    AddListMobileItem(0, "Basic item 2")
+    
+    ; List item with a container With 3 placeholder: left, center, right
+    If AddListMobileItem(0, "Hello", #PB_Mobile_Container)
+      TextMobile(#PB_Any, "PopOver", #PB_Mobile_Left)
+      ButtonMobile(1, "Open PopOver !", #PB_Mobile_Center)
+      SwitchMobile(2, #PB_Mobile_Right)
+      CloseMobileContainer() ; Important to close the container once the item have been added
+    EndIf
+    
+    AddListMobileItem(0, "Another title", #PB_Mobile_Header)
+    AddListMobileItem(0, "Chevron", #PB_Mobile_Chevron | #PB_Mobile_Tappable)
+    
+    ; Expandable list item 
+    If AddListMobileItem(0, "Expandable", #PB_Mobile_Expandable)
+      ButtonMobile(1, "Hidden button !")
+      CloseMobileContainer() ; Important to close the container once the item have been added
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ListMobile, @@CloseMobileContainer
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ListMobile(#Mobile [, Flags])
+
+@Description
+  Create a mobile list in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@OptionalParameter "Flags"
+  It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_InSet : Change the display of the list by adding border
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  The following functions can be used to act on the list:
+@LineBreak
+@LineBreak
+  - @@AddListMobileItem can be used to add a new item in the list.
+@LineBreak
+  - @@GetMobileState can be used to get the last clicked list item index (starting from 0).
+ 
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    AddListMobileItem(0, "Header", #PB_Mobile_Header)
+    AddListMobileItem(0, "Basic item")
+    AddListMobileItem(0, "Basic item 2")
+    
+    ; List item with a container With 3 placeholder: left, center, right
+    If AddListMobileItem(0, "Hello", #PB_Mobile_Container)
+      TextMobile(#PB_Any, "PopOver", #PB_Mobile_Left)
+      ButtonMobile(1, "Open PopOver !", #PB_Mobile_Center)
+      SwitchMobile(2, #PB_Mobile_Right)
+      CloseMobileContainer() ; Important to close the container once the item have been added
+    EndIf
+    
+    AddListMobileItem(0, "Another title", #PB_Mobile_Header)
+    AddListMobileItem(0, "Chevron", #PB_Mobile_Chevron | #PB_Mobile_Tappable)
+    
+    ; Expandable list item 
+    If AddListMobileItem(0, "Expandable", #PB_Mobile_Expandable)
+      ButtonMobile(1, "Hidden button !")
+      CloseMobileContainer() ; Important to close the container once the item have been added
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@Example Item click detection
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    For k = 0 To 20
+      AddListMobileItem(0, "Item " + k, #PB_Mobile_Tappable | #PB_Mobile_NoDivider)
+    Next
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 0
+        Debug "Item " + GetMobileState(0) + " clicked"
+    EndSelect
+  EndProcedure
+  
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@AddListMobileItem
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ButtonMobile(#Mobile, Text$ [, Flags])
+
+@Description
+  Create a mobile button in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Text$"
+  The text to display on the button. If the flags @#PB_Mobile_Icon is used, then the text will be
+  used as icon name.
+
+@OptionalParameter "Flags"
+  It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_Icon      : Display an icon instead of text. The 'Text$' parameter is used as icon name.
+  @#PB_Mobile_BackButton: Creates a back button which is mainly used in @@ToolBarMobile.
+@EndFixedFont
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the button should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The button will be set in the left slot.
+  @#PB_Mobile_Center: The button will be set in the center slot.
+  @#PB_Mobile_Right : The button will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the button:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the text of the button.
+@LineBreak
+  - @@GetMobileText: Returns the text of the button.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the button has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(0, "Click me")
+    HtmlMobile("<br><br>")
+    ButtonMobile(1, "Click me too !")
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 0
+        Debug "Button 0 clicked !"
+        
+      Case 1
+        Debug "Button 1 clicked !"
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckBoxMobile(#Mobile, Text$ [, Flags])
+
+@Description
+  Create a mobile checkbox in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Text$"
+  The label to use for the checkbox.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the checkbox should be created (a checkbox can't be set in the center slot as it's
+  always where the label will be displayed):
+@FixedFont
+  @#PB_Mobile_Left  : The checkbox will be set in the left slot.
+  @#PB_Mobile_Right : The checkbox will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the button:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the label of the checkbox.
+@LineBreak
+  - @@GetMobileText: Returns the label of the checkbox.
+@LineBreak
+  - @@SetMobileState: Changes the state of the checkbox (1 to check the checkbox, 0 to uncheck it).
+@LineBreak
+  - @@GetMobileState: Returns the state of the checkbox (1 if the checkbox is checked, 0 if not).
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the checkbox has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    If AddListMobileItem(0, "", #PB_Mobile_Container)
+      CheckBoxMobile(1, "Click me left", #PB_Mobile_Left)
+      CloseMobileContainer()
+    EndIf
+    If AddListMobileItem(0, "", #PB_Mobile_Container)
+      CheckBoxMobile(2, "Click me right !", #PB_Mobile_Right)
+      CloseMobileContainer()
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Debug "Checkbox 1 clicked. State: " + GetMobileState(1)
+        
+      Case 2
+        Debug "Checkbox 2 clicked. State: " + GetMobileState(2)
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText, @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OptionMobile(#Mobile, Text$, Group$ [, Flags])
+
+@Description
+  Create a mobile option in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Text$"
+  The label to use for the option.
+
+@Parameter "Group$"
+  The group identifier to use. Each option with the same group identifier will be
+  linked together.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the option should be created (an option can't be set in the center slot as it's
+  always where the label will be displayed):
+@FixedFont
+  @#PB_Mobile_Left  : The option will be set in the left slot.
+  @#PB_Mobile_Right : The option will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the button:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the label of the option.
+@LineBreak
+  - @@GetMobileText: Returns the label of the option.
+@LineBreak
+  - @@SetMobileState: Changes the state of the option (1 to activate the option, 0 to deactivate it).
+@LineBreak
+  - @@GetMobileState: Returns the state of the option (1 if the option is active, 0 if not).
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the option has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    If AddListMobileItem(0, "", #PB_Mobile_Container)
+      CheckBoxMobile(1, "Click me left", #PB_Mobile_Left)
+      CloseMobileContainer()
+    EndIf
+    If AddListMobileItem(0, "", #PB_Mobile_Container)
+      CheckBoxMobile(2, "Click me right !", #PB_Mobile_Right)
+      CloseMobileContainer()
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Debug "Checkbox 1 clicked. State: " + GetMobileState(1)
+        
+      Case 2
+        Debug "Checkbox 2 clicked. State: " + GetMobileState(2)
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText, @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SwitchMobile(#Mobile, [, Flags])
+
+@Description
+  Create a new mobile switch in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the switch should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The switch will be set in the left slot.
+  @#PB_Mobile_Center: The switch will be set in the center slot.
+  @#PB_Mobile_Right : The switch will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the switch:
+@LineBreak
+@LineBreak
+  - @@SetMobileState: Changes the state of the switch (1 to activate the switch, 0 to deactivate it).
+@LineBreak
+  - @@GetMobileState: Returns the state of the switch (1 if the switch is activate, 0 if not).
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the switch has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "padding:16px")
+    SwitchMobile(1)
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Debug "Switch changed. State: " + GetMobileState(1)
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HtmlMobile(Text$)
+
+@Description
+  Insert raw HTML text in the current container. It can be useful to tweak a bit the layout.
+
+@Parameter "Text$"
+  The HTML text to insert.
+
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(0, "Click me")
+    HtmlMobile("<br><br>It's a <b>raw</b> text<br><br>")
+    ButtonMobile(1, "Click me too !")
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ContainerMobile(#Mobile, Type [, Style$ [, Page$]])
+
+@Description
+  Create a mobile new mobile container. Once the mobile objects have been added, it needs
+  to be closed with @@CloseMobileContainer.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Type"
+  Container type. It can be one of the following value:
+@FixedFont
+  @#PB_Mobile_Page    : Creates a new page which is immediately displayed. It's a top level container.
+  @#PB_Mobile_Template: Creates a new template which is invisible. It's a top level container.
+  @#PB_Mobile_Dialog  : A new dialog container which will be displayed with @@ShowMobile.
+  @#PB_Mobile_PopOver : A new pop over container which will be displayed with @@ShowMobile.
+  @#PB_Mobile_Row     : A 3 slot container. It's a child container.
+  @#PB_Mobile_Section : A simple section container, with no extra formatting. It's a child container.
+@EndFixedFont
+
+@OptionalParameter "Style$"
+  CSS style to apply to the container.
+
+@OptionalParameter "Page$"
+  The page identifier for this container. It is only useful for @#PB_Mobile_Template container.
+  This identifier can be used in @@AddTabBarMobileItem, @@NavigatorMobile and @@ChangeNavigatorMobilePage.
+  
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Example Main page with a button
+@Code
+  ; Create the main page with a single button
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(0, "Click me")
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Handle the events
+  ;
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 0
+        Debug "Button clicked"
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@Example Simple dynamic dialog
+@Code
+    Enumeration
+    #Dialog
+    #Open
+    #Close
+  EndEnumeration
+
+  ; Create the dialog content, will be only visible with ShowMobile()
+  ;
+  If ContainerMobile(#Dialog, #PB_Mobile_Dialog, "padding:8px")
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      TextMobile(#PB_Any, "This is a dynamic dialog box", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      ButtonMobile(#Close, "Close", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Create the main page with a single button
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(#Open, "Open the dialog")
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Handle the events
+  ;
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #Open
+        ShowMobile(#Dialog, #True)
+        
+      Case #Close
+        ShowMobile(#Dialog, #False)
+        
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@AddTabBarMobileItem, @@NavigatorMobile, @@ChangeNavigatorMobilePage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeMobile(#Mobile)
+
+@Description
+  Free and remove the mobile object from the display.
+
+@Parameter "#Mobile"
+  The mobile object to free. If @#PB_All is specified, all the remaining mobile objects are freed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining mobile objects are automatically freed when the program ends.
+
+@SeeAlso
+  @@IsMobile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsMobile(#Mobile)
+
+@Description
+  Tests if the given mobile number is a valid and correctly initialized mobile object. 
+
+@Parameter "#Mobile"
+  The mobile object to use.
+
+@ReturnValue
+  Returns nonzero if the input is a valid mobile object and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. This is the correct way to ensure a mobile object is ready to use.
+
+@SeeAlso
+  @@FreeMobile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableMobile(#Mobile, State)
+
+@Description
+  Disable or enable the mobile object. 
+
+@Parameter "#Mobile"
+  The mobile object to enable or disable.
+
+@Parameter "State"
+  The new state of the mobile object.
+  If 'State' is @#True, the mobile object will be disabled, if 'State' is @#False it will be enabled.
+
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(0, "Click me")
+    HtmlMobile("<br><br>")
+    ButtonMobile(1, "Can't click me")
+    DisableMobile(1, #True) ; Disable the mobile button so it can't be clicked
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AlertMobile(Text$)
+
+@Description
+  Display a non blocking mobile alert.
+
+@Parameter "Text$"
+  HTML Text to display in the alert.
+
+@NoReturnValue
+
+@Example
+@Code
+  AlertMobile("<br>Do you <b>really</b> want to do this ?")
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TextMobile(#Mobile, Text$ [, Flags])
+
+@Description
+  Create a mobile text in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Text$"
+  The text to display.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the text should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The text will be set in the left slot.
+  @#PB_Mobile_Center: The text will be set in the center slot.
+  @#PB_Mobile_Right : The text will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the text:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the text.
+@LineBreak
+  - @@GetMobileText: Returns the text.
+@LineBreak
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    TextMobile(0, "Hello World !")
+  EndIf
+@EndCode
+
+@Example With a 3 slot container
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row) ; A row is a 3 slot container
+      TextMobile(0, "Left", #PB_Mobile_Left)
+      TextMobile(1, "Center", #PB_Mobile_Center)
+      TextMobile(2, "Right", #PB_Mobile_Right)
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = InputMobile(#Mobile, Text$ [, PlaceHolder$ [, Flags]])
+
+@Description
+  Create a mobile input in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Text$"
+  The initial text to display in the input.
+
+@OptionalParameter "PlaceHolder$"
+  The placeholder text of the input (displayed when no text is entered).
+
+@OptionalParameter "Flags"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_Mobile_Search  : Add a search indicator to the input.
+  @#PB_Mobile_Password: A password input field, with hidden characters.
+  @#PB_Mobile_Numeric : A numeric only entry.
+@EndFixedFont
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the input should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The input will be set in the left slot.
+  @#PB_Mobile_Center: The input will be set in the center slot.
+  @#PB_Mobile_Right : The input will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the input:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the entered text of the input.
+@LineBreak
+  - @@GetMobileText: Returns the entered text of the input.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_Change   : the input content has changed.
+  - @#PB_EventType_Focus    : the input got the focus.
+  - @#PB_EventType_LostFocus: the input lost the focus.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    InputMobile(1, "ju", "Search a name", #PB_Mobile_Search)
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Select EventType()
+          Case #PB_EventType_Focus
+            Debug "Got the focus"
+            
+          Case #PB_EventType_LostFocus
+            Debug "Focus lost"
+            
+          Case #PB_EventType_Change
+            Debug "Content changed: "+GetMobileText(1)
+        EndSelect
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TrackBarMobile(#Mobile, Min, Max, Step [, Flags])
+
+@Description
+  Create a new mobile trackbar in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Min"
+  The minimum value of the trackbar.
+
+@Parameter "Max"
+  The maximum value of the trackbar.
+
+@Parameter "Step"
+  The step between two values. For example if the step is 3 and the minimum value is 0,
+  the available values will be 0, 3, 6, 9, 12 etc. up to the maximum value.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the trackbar should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The trackbar will be set in the left slot.
+  @#PB_Mobile_Center: The trackbar will be set in the center slot.
+  @#PB_Mobile_Right : The trackbar will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the trackbar:
+@LineBreak
+@LineBreak
+  - @@SetMobileState: Changes the current value of the trackbar.
+@LineBreak
+  - @@GetMobileState: Returns the current value of the trackbar.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_Change: the trackbar value has been changed.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    TrackBarMobile(1, 0, 100, 4) ; We use a step of 4 for the demonstration
+    
+    CloseMobileContainer()
+  EndIf
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Select EventType()
+          Case #PB_EventType_Change
+            Debug "Trackbar changed: "+GetMobileState(1)
+        EndSelect
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ProgressBarMobile(#Mobile [, Flags])
+
+@Description
+  Create a new mobile progressbar in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@OptionalParameter "Flags"
+   It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_Circular     : Use a circular look instead of a line look.
+  @#PB_Mobile_Indeterminate: The progressbar is infinite and doesn't have a custom value. It's useful when the remaining time is unknown.
+@EndFixedFont
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the progressbar should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The progressbar will be set in the left slot.
+  @#PB_Mobile_Center: The progressbar will be set in the center slot.
+  @#PB_Mobile_Right : The progressbar will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the progressbar:
+@LineBreak
+@LineBreak
+  - @@SetMobileState: Changes the current value of the progressbar (between 0 and 100).
+@LineBreak
+  - @@GetMobileState: Returns the current value of the progressbar (between 0 and 100).
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_Change: the progressbar value has been changed.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ProgressBarMobile(1, #PB_Mobile_Circular | #PB_Mobile_Indeterminate)
+    HtmlMobile("<br>")
+    ProgressBarMobile(0)
+    SetMobileState(0, 70) ; Set the progress to 70%
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IconMobile(#Mobile, Name$ [, Flags])
+
+@Description
+  Create a new mobile icon in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Name$"
+  The name of the icon. Several icon set are availables: @LineBreak
+  @LineBreak
+  Material Design Icons: to use them, use the 'md-' prefix before the name. The list of the available icons can be found here:
+  @InternetLink "http://zavoloklom.github.io/material-design-iconic-font/icons.html" "Material Design Icons" @LineBreak
+  @LineBreak
+  FontAwesome icons: to use them, use the 'fa-' prefix before the name. The list of the available icons can be found here (only free icons): @InternetLink "https://fontawesome.com/icons" "FontAwesome" @LineBreak
+  @LineBreak
+  Iconic icons: to use them, use the 'ion-' prefix before the name. The list of the available icons can be found here: @InternetLink "https://ionic.io/ionicons" "IonIcons" @LineBreak
+  
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the icon should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The icon will be set in the left slot.
+  @#PB_Mobile_Center: The icon will be set in the center slot.
+  @#PB_Mobile_Right : The icon will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the icon:
+@LineBreak
+@LineBreak
+  - @@SetMobileText: Changes the icon name.
+@LineBreak
+  - @@GetMobileText: Returns the icon name.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the icon has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin: 8px")
+    
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row)
+      IconMobile(0, "md-volume-down", #PB_Mobile_Left) ; Use Material Design icon
+      TrackBarMobile(1, 0, 100, 1, #PB_Mobile_Center)
+      IconMobile(2, "md-volume-up", #PB_Mobile_Right)
+      CloseMobileContainer()
+    EndIf
+    
+    IconMobile(3, "ion-ios-calendar") ; Use a Ionic icon
+    HtmlMobile("<br><br>")
+    IconMobile(4, "fa-redhat")        ; Use a FontAwesome icon
+    
+    CloseMobileContainer()
+  EndIf
+  
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 4
+        Select EventType()
+          Case #PB_EventType_LeftClick
+            Debug "Icon 4 clicked"
+        EndSelect
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@SetMobileText, @@GetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ToolBarMobile(#Mobile)
+
+@Description
+  Create a new mobile toolbar at the top of the current container. The new toolbar automatically open a 3 slots container: once
+  the mobile objects have been added it has to be closed with @@CloseMobileContainer.
+  
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    If ToolBarMobile(0)
+      ButtonMobile(1, "Right", #PB_Mobile_Right)
+      TextMobile(#PB_Any, "SpiderBasic App", #PB_Mobile_Center)
+      ButtonMobile(2, "Left", #PB_Mobile_Left)
+      
+      CloseMobileContainer()
+    EndIf
+  
+    HtmlMobile("<br><center>Some Text here</center><br>")
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@CloseMobileContainer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseMobileContainer()
+
+@Description
+  Close the current container and go back to the previously opened container. The following commands
+  can create a new container: @@ContainerMobile, @@ToolBarMobile and @@AddListMobileItem.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    If ToolBarMobile(0)
+      ButtonMobile(1, "Right", #PB_Mobile_Right)
+      TextMobile(#PB_Any, "SpiderBasic App", #PB_Mobile_Center)
+      ButtonMobile(2, "Left", #PB_Mobile_Left)
+      
+      CloseMobileContainer() ; Close the toolbar container and go back to the main page
+    EndIf
+  
+    HtmlMobile("<br><center>Some Text here</center><br>")
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ContainerMobile, ToolBarMobile, AddListMobileItem
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageMobile(#Mobile, ImageID [, Flags])
+
+@Description
+  Create a new mobile image in the current container.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "ImageID"
+  The image to display. A valid image identifier can be retrieved with @@ImageID.
+
+@OptionalParameter "Flags"
+  If the current container is a 3 slots container, the following constants can be used to
+  select in which slot the image should be created:
+@FixedFont
+  @#PB_Mobile_Left  : The image will be set in the left slot.
+  @#PB_Mobile_Center: The image will be set in the center slot.
+  @#PB_Mobile_Right : The image will be set in the right slot.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the image:
+@LineBreak
+@LineBreak
+  - @@SetMobileState: Changes the current image. A valid image identifier can be retrieved with @@ImageID.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_LeftClick: the image has been clicked.
+@EndFixedFont
+
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    CreateImage(0, 150, 50, 24, RGB(255, 0, 0))
+    ImageMobile(#PB_Any, ImageID(0))
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMobileState, @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = GetMobileText(#Mobile)
+
+@Description
+  Returns the text content of the specified mobile object. 
+
+@Parameter "#Mobile"
+  The mobile object to use.
+
+@ReturnValue
+  Returns the text content, or an empty string if the mobile object does not support text content.
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ButtonMobile(0, "Hello World")
+       
+    Debug "Gadget 0 text content: " + GetMobileText(0)
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @@SetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMobileText(#Mobile, Text$)
+
+@Description
+  Changes the text content of the specified mobile object. 
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "Text$"
+  The new text content.
+
+@NoReturnValue
+
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ButtonMobile(0, "Hello World")
+
+    SetMobileText(0, "New Text !") ; Change the text after creation
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @@GetMobileText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = GetMobileAttribute(#Mobile, Attribute$ [, Item])
+
+@Description
+  Returns the attribute of the specified mobile object.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "Attribute$"
+  The attribute to get. Raw HTML attribute can be specified as well (for example: "style", "value" etc.).
+
+@OptionalParameter "Item"
+  The mobile gadget item to get the attribute. It only works with @@TabBarMobile for now.
+
+@ReturnValue
+  Returns the attribute of the specified mobile object.
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    
+    ButtonMobile(0, "Hello World")
+    SetMobileAttribute(0, "style", "margin:50px;") ; Set a 50px margin around the button
+    Debug GetMobileAttribute(0, "style")
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @@SetMobileAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMobileAttribute(#Mobile, Attribute$, Value$ [, Item])
+
+@Description
+  Changes the attribute value of the specified mobile object.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "Attribute$"
+  The attribute to set. Raw HTML attribute can be specified as well (for example: "style", "value" etc.).
+
+@Parameter "Value$"
+  The new attribute value to set.
+
+@OptionalParameter "Item"
+  The mobile gadget item to set the attribute. It only works with @@TabBarMobile for now.
+
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    
+    ButtonMobile(0, "Hello World")
+    SetMobileAttribute(0, "style", "margin:50px;") ; Set a 50px margin around the button
+    Debug GetMobileAttribute(0, "style")
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @@GetMobileAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function State = GetMobileState(#Mobile)
+
+@Description
+  Returns the state of the specified mobile object. The mobile object needs to be displayed before being able to called
+  this function.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@ReturnValue
+  Returns the state of the specified mobile object.
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "padding:16px")
+    SwitchMobile(0)
+    
+    Debug "Enabling the switch..."
+    SetMobileState(0, #True)
+    
+    CloseMobileContainer()
+  EndIf
+  
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 0
+        Debug "Switch state: " + GetMobileState(0)
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+
+@SeeAlso
+  @@SetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetMobileState(#Mobile, State)
+
+@Description
+  Changes the state of the specified mobile object.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "State"
+  The new state value.
+  
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "padding:16px")
+    SwitchMobile(0)
+    
+    Debug "Enabling the switch..."
+    SetMobileState(0, #True)
+    
+    CloseMobileContainer()
+  EndIf
+  
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 0
+        Debug "Switch state: " + GetMobileState(0)
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+
+@SeeAlso
+  @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TabBarMobile(#Mobile [, Flags])
+
+@Description
+  Create a new mobile tabbar in the current container. A new container is automatically opened and 
+  @@AddTabBarMobileItem can be called to add as many tabs as needed. @@CloseMobileContainer has to be
+  called once all the tabs have been added.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@OptionalParameter "Flags"
+   It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_Swipeable: Enable swipe support to change the tabs.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the progressbar:
+@LineBreak
+@LineBreak
+  - @@AddTabBarMobileItem: Add a new tab (at the end) in the tabbar.
+@LineBreak
+  - @@SetMobileState: Changes the current displayed tab (first tab index is 0).
+@LineBreak
+  - @@GetMobileState: Returns the current displayed tab (first tab index is 0).
+@LineBreak
+  - @@SetMobileAttribute: Changes the tab attribute value. The following attributes are supported:
+@FixedFont
+    @#PB_Mobile_TabLabel     : Change the tab label
+    @#PB_Mobile_TabIcon      : Change the displayed tab icon
+    @#PB_Mobile_TabActiveIcon: Change the displayed tab active icon
+    @#PB_Mobile_TabBadge     : Change the number of tab badges
+@EndFixedFont
+@LineBreak
+  - @@GetMobileAttribute: Get the tab attribute value.
+@FixedFont
+    @#PB_Mobile_TabLabel     : Get the tab label
+    @#PB_Mobile_TabIcon      : Get the tab icon name
+    @#PB_Mobile_TabActiveIcon: Get the tab active icon name
+    @#PB_Mobile_TabBadge     : Get the number of tab badges
+@EndFixedFont
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_Change: the current displayed tab has been changed.
+@EndFixedFont
+
+
+@Example
+@Code
+  ; Template page 1 for the TabBar.
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab1")
+    HtmlMobile("Tab 1")
+    CloseMobileContainer()
+  EndIf
+
+  ; Template page 2 for the TabBar
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab2")
+    HtmlMobile("Tab 2")
+    CloseMobileContainer()
+  EndIf
+
+  ; Template page 3 for the TabBar
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab3")
+    HtmlMobile("Tab 3")
+    CloseMobileContainer()
+  EndIf
+
+  ; This is the main page
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "", "")
+    
+    If TabBarMobile(0, #PB_Mobile_Swipeable)
+      AddTabBarMobileItem(0, "", "md-face", "md-face", "tab1")
+      AddTabBarMobileItem(0, "Info", "", "", "tab2")
+      AddTabBarMobileItem(0, "Params", "md-settings", "md-settings", "tab3", 5)
+      CloseMobileContainer()
+    EndIf
+
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SetMobileState, @@GetMobileState, @@SetMobileAttribute, @@GetMobileAttribute, @@CloseMobileContainer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddTabBarMobileItem(#Mobile, Text$, Icon$, ActiveIcon$, Page$ [, NbBadges])
+
+@Description
+  Add a new tab to the current tabbar previously created with @@TabBarMobile. Once all tabs have been
+  added, @@CloseMobileContainer needs to be called. It's not possible to add more tabs once @@CloseMobileContainer
+  have been called.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "Text$"
+  The displayed label of the tab. If empty, then the tab won't have a label displayed (only the icon).
+
+@Parameter "Icon$"
+  The name of the icon to display. See @@IconMobile for more info about icon naming.
+  
+@Parameter "ActiveIcon$"
+  The name of the active icon (displayed if the tab is the current active tab). See @@IconMobile for more info about icon naming.
+
+@Parameter "Page$"
+  The case-sensitive name of the page to use. It needs to be a @@ContainerMobile created with the @#PB_Mobile_Template type.
+  
+@OptionalParameter "NbBadges"
+  The number of badge to display over the icon. If 0, nothing is displayed.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Template page 1 for the TabBar.
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab1")
+    HtmlMobile("Tab 1")
+    CloseMobileContainer()
+  EndIf
+
+  ; Template page 2 for the TabBar
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab2")
+    HtmlMobile("Tab 2")
+    CloseMobileContainer()
+  EndIf
+
+  ; Template page 3 for the TabBar
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab3")
+    HtmlMobile("Tab 3")
+    CloseMobileContainer()
+  EndIf
+
+  ; This is the main page
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "", "")
+    
+    If TabBarMobile(0, #PB_Mobile_Swipeable)
+      AddTabBarMobileItem(0, "", "md-face", "md-face", "tab1")
+      AddTabBarMobileItem(0, "Info", "", "", "tab2")
+      AddTabBarMobileItem(0, "Params", "md-settings", "md-settings", "tab3", 5)
+      CloseMobileContainer()
+    EndIf
+
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+
+@SeeAlso
+  @@TabBarMobile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NavigatorMobile(#Mobile, Page$, [, Flags])
+
+@Description
+  Create a new mobile navigator in the current container. A navigator allow to stack pages
+  and to unstack them easily. When a @@ToolBarMobile is also created on the page, an automatic
+  back button can be added.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "Page$"
+  The case-sensitive name of the first page to use. It needs to be a @@ContainerMobile created with the @#PB_Mobile_Template type.
+
+@OptionalParameter "Flags"
+   It can be a combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Mobile_Swipeable: Enable swipe support to unstack the pages.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the progressbar:
+@LineBreak
+@LineBreak
+  - @@ChangeNavigatorMobilePage: Change the current displayed page.
+@LineBreak
+@LineBreak
+  The following events are supported with @@EventType:
+@FixedFont
+  - @#PB_EventType_Change: the current displayed page has been changed.
+@EndFixedFont
+
+
+@Example
+@Code
+  Enumeration
+    #Navigator
+    #Button1
+    #Button2
+    #Button3
+  EndEnumeration
+
+  ; Create 3 different pages. It needs to be of 'Template' style to be used with the Navigator as they are hidden/shown on demand.
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page1")
+    If ToolBarMobile(#PB_Any)
+      TextMobile(#PB_Any, "Page 1", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    ButtonMobile(#Button1, "Push page 2", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page2")
+    If ToolBarMobile(#PB_Any)
+      ButtonMobile(#PB_Any, "Page 1", #PB_Mobile_Left | #PB_Mobile_BackButton) ; Back button flag adds an automatic back arrow on the toolbar
+      TextMobile(#PB_Any, "Page 2", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    ButtonMobile(#Button2, "Push page 3", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page3")
+    If ToolBarMobile(#PB_Any)
+      ButtonMobile(#PB_Any, "Page 2", #PB_Mobile_Left | #PB_Mobile_BackButton)
+      TextMobile(#PB_Any, "Page 3", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    TextMobile(#PB_Any, "Page 3", #PB_Mobile_Center)
+    ButtonMobile(#Button3, "Back", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  ; Create the Navigator, initialized with the first page
+  ;
+  NavigatorMobile(#Navigator, "page1") 
+
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #Navigator
+        Debug "Page changed"
+        
+      Case #Button1
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Push, "page2")
+        
+      Case #Button2
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Push, "page3")
+        
+      Case #Button3
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Pop)
+     EndSelect
+    
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@ChangeNavigatorMobilePage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ChangeNavigatorMobilePage(#Mobile, Action [, Page$])
+
+@Description
+  Change the current mobile navigator page.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+  
+@Parameter "Action"
+  The action to perform. It can be one of the following constant:
+@FixedFont
+  @#PB_Mobile_Push: Push a new page on the stack. The "Page$" parameter needs to be specified.
+  @#PB_Mobile_Pop : Pop the current page and displayed the previous page.
+@EndFixedFont
+
+@OptionalParameter "Page$"
+  The case-sensitive name of the page to push. It needs to be a @@ContainerMobile created with the @#PB_Mobile_Template type.
+  
+@NoReturnValue
+
+@Example
+@Code
+  Enumeration
+    #Navigator
+    #Button1
+    #Button2
+    #Button3
+  EndEnumeration
+
+  ; Create 3 different pages. It needs to be of 'Template' style to be used with the Navigator as they are hidden/shown on demand.
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page1")
+    If ToolBarMobile(#PB_Any)
+      TextMobile(#PB_Any, "Page 1", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    ButtonMobile(#Button1, "Push page 2", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page2")
+    If ToolBarMobile(#PB_Any)
+      ButtonMobile(#PB_Any, "Page 1", #PB_Mobile_Left | #PB_Mobile_BackButton) ; Back button flag adds an automatic back arrow on the toolbar
+      TextMobile(#PB_Any, "Page 2", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    ButtonMobile(#Button2, "Push page 3", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page3")
+    If ToolBarMobile(#PB_Any)
+      ButtonMobile(#PB_Any, "Page 2", #PB_Mobile_Left | #PB_Mobile_BackButton)
+      TextMobile(#PB_Any, "Page 3", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    TextMobile(#PB_Any, "Page 3", #PB_Mobile_Center)
+    ButtonMobile(#Button3, "Back", #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+
+  ; Create the Navigator, initialized with the first page
+  ;
+  NavigatorMobile(#Navigator, "page1") 
+
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #Navigator
+        Debug "Page changed"
+        
+      Case #Button1
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Push, "page2")
+        
+      Case #Button2
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Push, "page3")
+        
+      Case #Button3
+        ChangeNavigatorMobilePage(#Navigator, #PB_Mobile_Pop)
+     EndSelect
+    
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+
+@SeeAlso
+  @@NavigatorMobile
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SplitterMobile(#Mobile, MenuPage$, ContentPage$ [, Flags])
+
+@Description
+  Create a new mobile plitter in the current container. A splitter allow to display a dynamic menu at the right
+  of the UI and changing the displayed page accordingly.
+
+@Parameter "#Mobile"
+  A number to identify the new mobile object. @ReferenceLink "spiderbasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "MenuPage$"
+  The case-sensitive name of the page used to display the menu. It needs to be a @@ContainerMobile created with the @#PB_Mobile_Template type.
+
+@Parameter "ContentPage$"
+  The case-sensitive name of the current displayed page. This page will usually have a @@ToolBarMobile with an
+  hambuger menu on the left. It needs to be a @@ContainerMobile created with the @#PB_Mobile_Template type.
+
+@OptionalParameter "Flags"
+   Not used for now.
+
+@ReturnValue
+  Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Mobile parameter
+  then the return-value is the auto-generated number on success.
+
+@Remarks
+  The following functions can be used to act on the progressbar:
+@LineBreak
+@LineBreak
+  - @@SetMobileState: Display (if 'State' is 1) or hide (if 'State' is 0) the splitter menu.
+@LineBreak
+  - @@SetMobileText: Change the current displayed page. The page name is case-sensitive.
+@LineBreak
+@LineBreak
+
+@Example
+@Code
+  Enumeration
+    #Splitter
+    #MenuList
+    #SplitterButtton1
+    #ToolBar2
+    #SplitterButtton2
+  EndEnumeration
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page1")
+    ToolBarMobile(#PB_Any)
+      ButtonMobile(#SplitterButtton1, "md-menu", #PB_Mobile_Left | #PB_Mobile_Icon)
+      TextMobile(#PB_Any, "Page 1", #PB_Mobile_Center)
+    CloseMobileContainer()
+    
+    HtmlMobile("<center><h1>Page1 !</h1></center>")
+    CloseMobileContainer()
+  EndIf
+
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "page2")
+    ToolBarMobile(#PB_Any)
+      ButtonMobile(#SplitterButtton2, "md-menu", #PB_Mobile_Left | #PB_Mobile_Icon)
+      TextMobile(#PB_Any, "Page 2", #PB_Mobile_Center)
+    CloseMobileContainer()
+    
+    HtmlMobile("<center><h1>Page2 !</h1></center>")
+    CloseMobileContainer()
+  EndIf
+
+  ; The menu to display when clicking on the hamburger menu
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "menu")
+    ListMobile(#MenuList)
+    AddListMobileItem(#MenuList, "Page 1", #PB_Mobile_NoDivider | #PB_Mobile_Tappable)
+    AddListMobileItem(#MenuList, "Page 2", #PB_Mobile_NoDivider | #PB_Mobile_Tappable)
+    CloseMobileContainer()
+  EndIf
+
+  SplitterMobile(#Splitter, "menu", "page1")
+
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #SplitterButtton1, #SplitterButtton2
+        SetMobileState(#Splitter, 1) ; Display the splitter menu
+    
+      Case #MenuList
+        SetMobileText(0, "page"+Str(GetMobileState(#MenuList)+1))
+        SetMobileState(#Splitter, 0) ; Hide the menu
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@ChangeNavigatorMobilePage
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ShowMobile(#Mobile, State [, #TargetMobile])
+
+@Description
+  Changes the visibility of the specified mobile dialog or popover object. 
+
+@Parameter "#Mobile"
+  The mobile object to show. It has to be a @@ContainerMobile of type @#PB_Mobile_Dialog or @#PB_Mobile_PopOver.
+  
+@Parameter "State"
+  The new visibility state value. If 'State' is 0, the mobile object will be hidden, else it will be shown. 
+  
+@NoReturnValue
+
+@Example
+@Code
+  Enumeration
+    #Dialog
+    #Open
+    #Close
+  EndEnumeration
+
+  ; Create the dialog content, will be only visible with ShowMobile()
+  ;
+  If ContainerMobile(#Dialog, #PB_Mobile_Dialog, "padding:8px")
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      TextMobile(#PB_Any, "This is a dynamic dialog box", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      ButtonMobile(#Close, "Close", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Create the main page with a single button
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    ButtonMobile(#Open, "Open the dialog")
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Handle the events
+  ;
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #Open
+        ShowMobile(#Dialog, #True)
+        
+      Case #Close
+        ShowMobile(#Dialog, #False)
+        
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+
+@Example PopOver example
+@Code
+  Enumeration
+    #PopOver
+    #Button
+    #Close
+  EndEnumeration
+
+  ; Create the dialog content, will be only visible with ShowMobile()
+  ;
+  If ContainerMobile(#PopOver, #PB_Mobile_PopOver, "padding:8px")
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      TextMobile(#PB_Any, "This is a pop over box", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+      ButtonMobile(#Close, "Close", #PB_Mobile_Center)
+      CloseMobileContainer()
+    EndIf
+    CloseMobileContainer()
+  EndIf
+  
+  ; Create the main page with a single button
+  ;
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "margin:8px")
+    HtmlMobile("<br><br><br><br><br><br><br><br><br>") ; Give some space at top
+    ButtonMobile(#Button, "Open the popover")
+    
+    CloseMobileContainer()
+  EndIf
+  
+  ; Handle the events
+  ;
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case #Button
+        ShowMobile(#PopOver, #True, #Button)
+        
+      Case #Close
+        ShowMobile(#PopOver, #False)        
+
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@GetMobileState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MobileStyle(Style)
+
+@Description
+  Force the style for the UI rendering. It's mainly useful when designing the UI for both Android and iOS app. It needs to be called before any other command of the this library. If this command isn't used, the UI will automatically choose the proper look depending of the device (Android or iOS).
+
+@Parameter "Style"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Mobile_iOS: Use the iOS look (default).
+  @#PB_Mobile_Android: Use the Android look (Material Design).
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example
+@Code
+  MobileStyle(#PB_Mobile_Android)
+  
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page, "padding:16px")
+    SwitchMobile(1)
+    
+    CloseMobileContainer()
+  EndIf
+@EndCode
+
+@SupportedOS

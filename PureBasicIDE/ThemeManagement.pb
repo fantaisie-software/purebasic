@@ -396,6 +396,8 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
       Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
       
+      Theme_LoadImage(#IMAGE_WebView_OpenBrowser, "WebView:OpenBrowser")
+      
       Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
       Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")
       Theme_LoadImage(#IMAGE_Help_Home,           "Help:Home")
@@ -522,6 +524,8 @@ Procedure LoadTheme()
   Theme_LoadImage(#IMAGE_FileViewer_Close,   "FileViewer:Close")
   Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
   Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
+  
+  Theme_LoadImage(#IMAGE_WebView_OpenBrowser, "WebView:OpenBrowser")
   
   Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
   Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")

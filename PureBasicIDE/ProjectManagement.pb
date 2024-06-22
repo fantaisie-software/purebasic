@@ -1084,6 +1084,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\AndroidAppPackageID$    = Xml_SingleLine(GetXMLAttribute(*Entry, "androidapppackageid"))
                       ProjectTargets()\AndroidAppIAPKey$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappiapkey"))
                       ProjectTargets()\AndroidAppStartupImage$ = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappstartupimage"))
+                      ProjectTargets()\AndroidAppStartupColor$ = Xml_SingleLine(GetXMLAttribute(*Entry, "androidstartupcolor"))
                       ProjectTargets()\AndroidAppOrientation   = Val(Xml_SingleLine(GetXMLAttribute(*Entry, "androidapporientation")))
                       ProjectTargets()\AndroidAppFullScreen    = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappfullscreen"))
                       ProjectTargets()\AndroidAppOutput$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappoutput"))
@@ -1092,6 +1093,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\AndroidAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappresourcedirectory"))
                       ProjectTargets()\AndroidAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenabledebugger"))
                       ProjectTargets()\AndroidAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappkeepappdirectory"))
+                      ProjectTargets()\AndroidAppInsecureFileMode = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappinsecurefilemode"))
                     CompilerEndIf
                     
                   Case "purifier"
@@ -1546,6 +1548,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "androidapppackageid"    , ProjectTargets()\AndroidAppPackageID$)
         SetXMLAttribute(*Export, "androidappiapkey"       , ProjectTargets()\AndroidAppIAPKey$)
         SetXMLAttribute(*Export, "androidappstartupimage" , ProjectTargets()\AndroidAppStartupImage$)
+        SetXMLAttribute(*Export, "androidappstartupcolor" , ProjectTargets()\AndroidAppStartupColor$)
         SetXMLAttribute(*Export, "androidapporientation"  , Str(ProjectTargets()\AndroidAppOrientation))
         SetXMLAttribute(*Export, "androidappfullscreen"   , Str(ProjectTargets()\AndroidAppFullScreen))
         SetXMLAttribute(*Export, "androidappoutput"       , ProjectTargets()\AndroidAppOutput$)
@@ -1554,6 +1557,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "androidappresourcedirectory", ProjectTargets()\AndroidAppResourceDirectory$)
         SetXMLAttribute(*Export, "androidappenabledebugger", Str(ProjectTargets()\AndroidAppEnableDebugger))
         SetXMLAttribute(*Export, "androidappkeepappdirectory", Str(ProjectTargets()\AndroidAppKeepAppDirectory))
+        SetXMLAttribute(*Export, "androidappinsecurefilemode", Str(ProjectTargets()\AndroidAppInsecureFileMode))
         
       CompilerEndIf
       

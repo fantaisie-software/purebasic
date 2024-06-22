@@ -191,6 +191,12 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_HelpTool_Home
   #GADGET_HelpTool_Help
   
+  CompilerIf #SpiderBasic
+    #GADGET_WebView_Url
+    #GADGET_WebView_OpenBrowser
+    #GADGET_WebView_WebView
+  CompilerEndIf
+  
   #GADGET_Build_Targets
   #GADGET_Build_Log
   #GADGET_Build_WorkContainer
@@ -565,6 +571,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_UseCompiler  ; First to be disabled/enabled in "Main file" loop
   #GADGET_Option_SelectCompiler
   #GADGET_Option_Optimizer
+  #GADGET_Option_DPIAware
   CompilerIf #SpiderBasic
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
@@ -579,7 +586,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_EnableXP
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
-    #GADGET_Option_DPIAware
     #GADGET_Option_DllProtection
     #GADGET_Option_EnableOnError
     #GADGET_Option_ExecutableFormat
@@ -891,11 +897,14 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_SelectOutput
     #GADGET_AndroidApp_StartupImage
     #GADGET_AndroidApp_SelectStartupImage
+    #GADGET_AndroidApp_StartupColor
+    #GADGET_AndroidApp_SelectStartupColor
     #GADGET_AndroidApp_EnableResourceDirectory
     #GADGET_AndroidApp_ResourceDirectory
     #GADGET_AndroidApp_SelectResourceDirectory
     #GADGET_AndroidApp_EnableDebugger
     #GADGET_AndroidApp_KeepAppDirectory
+    #GADGET_AndroidApp_InsecureFileMode
     
     #GADGET_iOSApp_Name
     #GADGET_iOSApp_Icon
@@ -1040,6 +1049,7 @@ Enumeration 0
   #MENU_ProjectPanel
   #MENU_Templates
   #MENU_Diff
+  #MENU_WebView
   #MENU_AddTools
   
   #MENU_Help
@@ -1396,6 +1406,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_FormIcons_Tree
   #IMAGE_FormIcons_Web
   
+  #IMAGE_WebView_OpenBrowser
+  
   ; Form images
   #Img_Up
   #Img_Down
@@ -1499,6 +1511,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Explorer_File
   #IMAGE_Explorer_FilePB
   #IMAGE_Explorer_Directory
+  
+  #IMAGE_CreateApp_StartupColor
   
   #IMAGE_History_Session
   #IMAGE_History_File
@@ -2085,6 +2099,7 @@ Structure CompileTarget
     AndroidAppPackageID$
     AndroidAppIAPKey$
     AndroidAppStartupImage$
+    AndroidAppStartupColor$
     AndroidAppOrientation.l
     AndroidAppFullScreen.l
     AndroidAppOutput$
@@ -2093,6 +2108,7 @@ Structure CompileTarget
     AndroidAppResourceDirectory$
     AndroidAppEnableDebugger.l
     AndroidAppKeepAppDirectory.l
+    AndroidAppInsecureFileMode.l
     
   CompilerEndIf
   
@@ -2597,6 +2613,9 @@ Global OptionCustomCompiler, OptionCompilerVersion$
 
 CompilerIf #SpiderBasic
   Global OptionWebBrowser$, OptionWebServerPort, OptionJDK$, OptionAppleTeamID$
+  
+  ; WebView related globals
+  Global WebViewOpen
 CompilerEndIf
 
 

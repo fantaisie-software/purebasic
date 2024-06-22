@@ -30,6 +30,12 @@ IncludeFile "../Common.pb"
 
 #PB_File_Streaming = 1 << 0
 
+; #PB_Compiler_App constants
+;
+#PB_App_Web = 0
+#PB_App_Android = 1
+#PB_App_IOS = 2
+
 ; In app purchase
 ;
 #PB_Product_Consumable    = 0
@@ -246,6 +252,12 @@ IncludeFile "../Common.pb"
 ;
 #PB_Script_JavaScript = 0
 #PB_Script_CSS = 1
+
+; SplashScreenControl()
+;
+#PB_SplashScreen_Close = 0
+#PB_SplashScreen_NoAutoClose = 1
+#PB_SplashScreen_AutoClose = 2
 
 ; Used by Get/SetFileDate() and DirectoryEntryDate()
 ;
@@ -805,3 +817,8 @@ IncludeFile "../Common.pb"
 #PB_Mobile_Auto = 0
 #PB_Mobile_Android = 1
 #PB_Mobile_iOS = 2
+
+#PB_Mobile_TabLabel = "label"
+#PB_Mobile_TabIcon  = "icon"
+#PB_Mobile_TabActiveIcon = "active-icon"
+#PB_Mobile_TabBadge = "badge"

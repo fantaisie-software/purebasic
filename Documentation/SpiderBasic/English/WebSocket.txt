@@ -238,3 +238,24 @@ WebSocket server implementation: @InternetLink "https://github.com/Dadido3/WebSo
   @@OpenWebSocket, @@SendWebSocketString
  
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsWebSocket(#WebSocket)
+
+@Description
+  Tests if the given websocket number is a valid and correctly initialized websocket object. 
+
+@Parameter "#WebSocket"
+  The websocket object to test.
+
+@ReturnValue
+  Returns nonzero if the websocket is valid and zero otherwise.
+
+@Remarks
+  This function is bulletproof and can be used with any value. This is the correct way to ensure a websocket object is still available.
+
+@SeeAlso
+  @@CloseWebSocket
+
+@SupportedOS
