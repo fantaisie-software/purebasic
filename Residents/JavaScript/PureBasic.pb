@@ -257,6 +257,7 @@ IncludeFile "../Common.pb"
 ;
 #PB_SplashScreen_Close = 0
 #PB_SplashScreen_NoAutoClose = 1
+#PB_SplashScreen_AutoClose = 2
 
 ; Used by Get/SetFileDate() and DirectoryEntryDate()
 ;
@@ -816,3 +817,8 @@ IncludeFile "../Common.pb"
 #PB_Mobile_Auto = 0
 #PB_Mobile_Android = 1
 #PB_Mobile_iOS = 2
+
+#PB_Mobile_TabLabel = "label"
+#PB_Mobile_TabIcon  = "icon"
+#PB_Mobile_TabActiveIcon = "active-icon"
+#PB_Mobile_TabBadge = "badge"
