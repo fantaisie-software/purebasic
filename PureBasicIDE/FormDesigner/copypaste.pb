@@ -347,7 +347,10 @@ Procedure FD_DuplicateGadget()
       FormWindows()\FormGadgets()\selected = 0
       
       c = CountString(clipboard()\variable, "_")
-      
+      If c = 0
+        clipboard()\variable = clipboard()\variable + "_"
+      EndIf
+        
       pos = 0
       For i = 1 To c
         pos = FindString(clipboard()\variable, "_", pos + 1)

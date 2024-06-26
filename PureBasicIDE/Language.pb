@@ -2078,6 +2078,7 @@ DataSection
   Data$ "Separator",          "Separator"
   Data$ "Shortcut",           "Shortcut"
   Data$ "OutOfMemoryError",   "Can't render gadget of %size% pixels (out of memory)."
+  Data$ "N/A",                 "N/A"
   
   ;Data$ "_GROUP_",            "StatusWindow"
   ; ===================================================
@@ -2108,13 +2109,14 @@ DataSection
   
   ;Data$ "_GROUP_",            "SplitterWindow"
   ; ===================================================
-  Data$ "FirstGadget",      "First gadget:"
-  Data$ "SecondGadget",     "Second gadget:"
-  Data$ "StartDrawing",     "Start drawing"
-  Data$ "Cancel",           "Cancel"
-  Data$ "OK",               "OK"
-  Data$ "SelectError",      "You need to select two different gadgets."
-  Data$ "GadgetListError",  "The two gadgets need to belong to the same gadget list."
+  Data$ "CreateSplitterTitle",  "Create Splitter"
+  Data$ "FirstGadget",          "First gadget:"
+  Data$ "SecondGadget",         "Second gadget:"
+  Data$ "StartDrawing",         "Start drawing"
+  Data$ "Cancel",               "Cancel"
+  Data$ "OK",                   "OK"
+  Data$ "SelectError",          "You need to select two different gadgets."
+  Data$ "GadgetListError",      "The two gadgets need to belong to the same gadget list."
   
   ;Data$ "_GROUP_",            "HelpingFunctions"
   ; ===================================================
@@ -2169,6 +2171,10 @@ DataSection
   
   ;Data$ "_GROUP_",            "Window"
   ; ===================================================
+  Data$ "ParentTitle",          "Set Parent For '%id%'"
+  Data$ "EditItemsTitle",       "Edit Items For '%id%'"
+  Data$ "EditColumnsTitle",     "Edit Columns For '%id%'"
+  
   Data$ "SelectEventFileFirst", "You need to select an event file first."
   Data$ "CreateEventFile",      "The file doesn't exist - do you want to create it?"
   Data$ "FileAlreadyOpened",    "This file is already opened."
@@ -2248,6 +2254,7 @@ DataSection
   Data$ "Parent",               "Parent"
   Data$ "ParentItem",           "Parent Item"
   
+ 
   ; ===================================================
   ;- Group - Updates
   Data$ "_GROUP_",            "Updates"
