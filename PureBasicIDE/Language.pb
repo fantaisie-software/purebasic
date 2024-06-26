@@ -1459,6 +1459,7 @@ DataSection
     Data$ "ResourceDirectory",    "Resource directory"
     Data$ "WrongOutputExtension", "Android app filename extension needs to be '.apk'"
     Data$ "InsecureFileMode",     "Enable insecure HTTP support (not recommended)"
+    Data$ "EnableDebugger",       "Enable debugger (no additional '.aab' package will be created)"
     
     ; ===================================================
     ;- Group - Resources
