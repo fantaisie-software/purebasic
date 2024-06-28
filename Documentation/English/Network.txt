@@ -110,7 +110,7 @@ ftp clients, etc) or even multiplayer games.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateNetworkServer(#Server, Port [, Mode [, BindedIP$]])
+@Function Result = CreateNetworkServer(#Server, Port [, Mode [, BoundIP$]])
 
 @Description
   Create a new network server on the local computer using the specified port. 
@@ -136,7 +136,7 @@ ftp clients, etc) or even multiplayer games.
   @#PB_Network_IPv6: create a server using IPv6
 @EndFixedFont
 
-@OptionalParameter "BindedIP$"
+@OptionalParameter "BoundIP$"
   The local IP address to bind the server. By default, the server is created on all available local interfaces, and accept
   connections from them. It can be useful to restrict the server to only one interface (for example "127.0.0.1")
   to avoid connection attempt from other interfaces. On Windows, binding only to the localhost avoid to trigger the
