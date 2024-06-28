@@ -1579,7 +1579,6 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   
   CompilerIf #CompileWindows
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
-    If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf
     If *Target\DllProtection      : Command$ + Chr(9) + "DLLPROTECTION" : EndIf
     
     If *Target\EnableAdmin
@@ -1590,6 +1589,9 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
+    ; We honor the console flag even for OSX/Linux as it can be useful combined with #PB_Compiler_ExecutableFormat (https://www.purebasic.fr/english/viewtopic.php?t=65478)
+    If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf
+
     If (*Target\Debugger|ForceDebugger)&~ForceNoDebugger
       Command$ + Chr(9) + "DEBUGGER"
       IsDebuggerUsed = 1
