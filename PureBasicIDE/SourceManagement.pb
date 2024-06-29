@@ -245,7 +245,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       
       FD_SelectNone()
       
-      CompilerIf #CompileWindows | #CompileMac
+      CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -255,7 +255,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   Else
     currentwindow = 0 ; no more active form
     
-    CompilerIf #CompileWindows | #CompileMac
+    CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)

@@ -25,9 +25,28 @@ CompilerIf #CompileLinux
     XGetWMName(display, w, text_prop_return)
   EndImport
   
-  ImportC ""
-    gtk_widget_get_window_(window) As "gtk_widget_get_window" ; Gtk 2.14 or newer
-  EndImport
+  CompilerIf #CompileLinuxGtk
+    ImportC ""
+      gtk_widget_get_window_(window) As "gtk_widget_get_window" ; Gtk 2.14 or newer
+    EndImport
+  CompilerEndIf
+  
+  CompilerIf #CompileLinuxQt
+    ImportC "Build/QtHelpers.a"
+      Qt_ScrollEditorToBottom(*Widget)
+      QT_CenterEditor(*Widget)
+      QT_SelectComboBoxText(*Widget)
+      QT_GetListViewScroll(*Widget)
+      QT_SetListViewScroll(*Widget, Value)
+      QT_WindowBackgroundColor(*Window)
+      QT_GetViewPort(*Widget)
+      QT_SetEventFilter(*Widget, *Handler)
+      QT_SendEvent(*Widget, *Event)
+      QT_EventType(*Event)
+      QT_EventKey(*Event)
+      QT_EventButton(*Event)
+    EndImport
+  CompilerEndIf
   
   
   #Success = 0
@@ -84,10 +103,11 @@ CompilerIf #CompileLinux
     ProcedureReturn Result$
   EndProcedure
   
-  
-  Procedure GTKSignalConnect(*Widget, Signal$, Function, user_data)
-    g_signal_connect_data_(*Widget, Signal$, Function, user_data, 0, 0)
-  EndProcedure
+  CompilerIf #CompileLinuxGtk
+    Procedure GTKSignalConnect(*Widget, Signal$, Function, user_data)
+      g_signal_connect_data_(*Widget, Signal$, Function, user_data, 0, 0)
+    EndProcedure
+  CompilerEndIf
   
   
   Procedure ShowWindowMaximized(Window)
@@ -117,13 +137,21 @@ CompilerIf #CompileLinux
   EndProcedure
   
   Procedure SetWindowForeground(Window)
-    gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
+    CompilerIf #CompileLinuxGtk
+      gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
+    CompilerElse
+      QtScript("window(" + Window + ").raise()")
+    CompilerEndIf
     SetActiveWindow(Window)
   EndProcedure
   
   ; set window to the foreground without giving it the focus (and without a focus event!)
   Procedure SetWindowForeground_NoActivate(Window)
-    gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
+    CompilerIf #CompileLinuxGtk
+      gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
+    CompilerElse
+      QtScript("window(" + Window + ").raise()")
+    CompilerEndIf
   EndProcedure
   
   Procedure SetWindowStayOnTop(Window, StayOnTop)
@@ -140,25 +168,26 @@ CompilerIf #CompileLinux
   EndProcedure
   
   
-  Procedure GetPanelItemID(Gadget, Item)
-    
-    ProcedureReturn gtk_notebook_get_nth_page_(GadgetID(Gadget), Item)
-    
-  EndProcedure
-  
-  
   Procedure SelectComboBoxText(Gadget)
-    *Entry = gtk_bin_get_child_(GadgetID(Gadget))
-    
-    If *Entry
-      gtk_editable_select_region_(*Entry, 0, -1)
-      gtk_widget_grab_focus_(*Entry)
-    EndIf
+    CompilerIf #CompileLinuxGtk
+      *Entry = gtk_bin_get_child_(GadgetID(Gadget))
+      
+      If *Entry
+        gtk_editable_select_region_(*Entry, 0, -1)
+        gtk_widget_grab_focus_(*Entry)
+      EndIf
+    CompilerElse
+      QT_SelectComboBoxText(GadgetID(Gadget))
+    CompilerEndIf
   EndProcedure
   
   
   Procedure RedrawGadget(Gadget)
-    gtk_widget_queue_draw_(GadgetID(Gadget))
+    CompilerIf #CompileLinuxGtk
+      gtk_widget_queue_draw_(GadgetID(Gadget))
+    CompilerElse
+      QtScript("gadget(" + Gadget + ").update()")
+    CompilerEndIf
   EndProcedure
   
   Procedure GetButtonBackgroundColor()
@@ -184,12 +213,14 @@ CompilerIf #CompileLinux
     Next i
   EndProcedure
   
-  ImportC ""
-    ; This is a varargs function, so do an import which allows us to set 1 value
-    ; Terminator MUST be -1
-    gtk_list_store_set_1(*Store, *Item, Column, *Value, Terminator) As "gtk_list_store_set"
-    gtk_tree_store_set_1(*Store, *Item, Column, *Value, Terminator) As "gtk_tree_store_set"
-  EndImport
+  CompilerIf #CompileLinuxGtk
+    ImportC ""
+      ; This is a varargs function, so do an import which allows us to set 1 value
+      ; Terminator MUST be -1
+      gtk_list_store_set_1(*Store, *Item, Column, *Value, Terminator) As "gtk_list_store_set"
+      gtk_tree_store_set_1(*Store, *Item, Column, *Value, Terminator) As "gtk_tree_store_set"
+    EndImport
+  CompilerEndIf
   
   Global FileManagerExe$
   Global FileManagerParameters$
@@ -337,21 +368,8 @@ CompilerIf #CompileLinux
   EndProcedure
   
   Procedure ModifierKeyPressed(Key)
-    Select Key
-      Case #PB_Shortcut_Shift:   mod = #GDK_SHIFT_MASK
-      Case #PB_Shortcut_Control: mod = #GDK_CONTROL_MASK
-      Case #PB_Shortcut_Alt:     mod = #GDK_MOD1_MASK
-    EndSelect
-    
-    ; We don't need the pointer, so just use the main window as reference
-    *Window.GtkWidget = WindowID(#WINDOW_Main)
-    gdk_window_get_pointer_(*Window\window, @x, @y, @mask)
-    
-    If mask & mod
-      ProcedureReturn #True
-    Else
-      ProcedureReturn #False
-    EndIf
+    ; Not used on Linux
+    ProcedureReturn 0
   EndProcedure
   
   Procedure OpenWebBrowser(Url$)
@@ -375,17 +393,27 @@ CompilerIf #CompileLinux
     
   EndProcedure
   
-  ImportC ""
-    gtk_adjustment_get_value.d(*Adjustment)
-    gtk_adjustment_set_value(*Adjustment, Position.d)
-  EndImport
+  CompilerIf #CompileLinuxGtk
+    ImportC ""
+      gtk_adjustment_get_value.d(*Adjustment)
+      gtk_adjustment_set_value(*Adjustment, Position.d)
+    EndImport
+  CompilerEndIf
   
   Procedure GetListViewScroll(Gadget)
-    ProcedureReturn gtk_adjustment_get_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)))
+    CompilerIf #CompileLinuxGtk
+      ProcedureReturn gtk_adjustment_get_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)))
+    CompilerElse
+      ProcedureReturn QT_GetListViewScroll(GadgetID(Gadget))
+    CompilerEndIf
   EndProcedure
   
   Procedure SetListViewScroll(Gadget, Position)
-    gtk_adjustment_set_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)), Position)
+    CompilerIf #CompileLinuxGtk
+      gtk_adjustment_set_value(gtk_tree_view_get_vadjustment_(GadgetID(Gadget)), Position)
+    CompilerElse
+      QT_SetListViewScroll(GadgetID(Gadget), Position)
+    CompilerEndIf
   EndProcedure
   
 CompilerEndIf

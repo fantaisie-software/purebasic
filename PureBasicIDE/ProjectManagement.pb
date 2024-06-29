@@ -621,7 +621,7 @@ EndProcedure
 
 ; Enter key handling for project file & target list
 ; For Windows this is done when handling the #MENU_Scintilla_Enter shortcut in UserInterface.pb
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC ProjectInfo_EnterKeyHandler(*Widget, *Event.GdkEventKey, Gadget)
     Debug "Key event: " + *Event\keyval
     If *Event\keyval = #GDK_Return
@@ -682,7 +682,7 @@ Procedure AddProjectInfo()
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 7, Language("Project","FormatShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 8, Language("Project","InputFile"), 200)
       
-      CompilerIf #CompileLinux
+      CompilerIf #CompileLinuxGtk
         GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Files), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Files)
         GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Targets), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Targets)
       CompilerEndIf
@@ -2646,7 +2646,10 @@ Procedure OpenProjectOptions(NewProject)
       ClearList(ProjectConfig()) ; no files in the list yet
       ProjectOptionsDialog\GuiUpdate() ; to resize from the new strings
       
-      DisableWindow(#WINDOW_Main, 1)
+      CompilerIf #CompileLinuxQt = 0
+        ; On QT disabling the main window disables its child too so this will lock the IDE
+        DisableWindow(#WINDOW_Main, 1)
+      CompilerEndIf
       SetActiveGadget(#GADGET_Project_File)
 
     Else

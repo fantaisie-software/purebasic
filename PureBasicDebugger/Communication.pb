@@ -464,7 +464,7 @@ Procedure SendDebuggerCommandWithData(*Debugger.DebuggerData, *Command.CommandIn
   If *Debugger\Communication And *Debugger\ProgramState <> -1 ; can only send to loaded executables!
     *Debugger\Communication\Send(*Command, *CommandData)
     
-    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3
+    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3 TODO-QT
       ; Send an X event to the child (actually to all x windows), which should make its WaitWindowEvent() return.
       Event.GdkEventClient
       Event\type         = #GDK_CLIENT_EVENT

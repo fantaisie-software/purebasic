@@ -135,7 +135,7 @@ Procedure AsmWindowEvents(*Debugger.DebuggerData, EventID)
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Asm])-20)
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       ; the resize fails on Linux else
       ; (failure to calculate the PanelGadget size?)
       FlushEvents()

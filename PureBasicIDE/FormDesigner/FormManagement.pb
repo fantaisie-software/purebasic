@@ -172,7 +172,7 @@ EndProcedure
 
 ;- FormPanel plugin functions
 
-Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry)
   
   PanelGadget(#Form_Prop, 0, 0, 50, 50)
   AddGadgetItem(#Form_Prop, 0, Language("Form", "Toolbox"))

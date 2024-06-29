@@ -648,7 +648,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20)
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       ; the resize fails on Linux else when opening the window
       FlushEvents()
     CompilerEndIf
@@ -959,7 +959,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       EndIf
       VariableWindowEvents(*Debugger, #PB_Event_SizeWindow)
       
-      CompilerIf #CompileLinux
+      CompilerIf #CompileLinuxGtk
         FlushEvents() ; Flush the events to finish window creation/resize or SetGadgetState() could fail on linux: https://www.purebasic.fr/english/viewtopic.php?f=23&t=48589
       CompilerEndIf
       

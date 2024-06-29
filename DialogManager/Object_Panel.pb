@@ -106,7 +106,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
     *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 40
   CompilerEndIf
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     If *THIS\NbChildren > 0
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
@@ -115,6 +115,11 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
       *Height\l + Size\height + 14
       *Width\l  + 4
     EndIf
+  CompilerEndIf
+  
+  CompilerIf #CompileLinuxQt
+    *Width\l  + 4
+    *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 2
   CompilerEndIf
   
   *Width\l  = Max(*Width\l,  *THIS\StaticData\MinWidth)
@@ -131,7 +136,9 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
     Height = GetGadgetAttribute(*THIS\Gadget, #PB_Panel_ItemHeight)
   CompilerEndIf
   
-  CompilerIf #CompileLinux
+  Debug "" + Width + "  " + Height
+
+  CompilerIf #CompileLinuxGtk
     If *THIS\NbChildren > 0
       ; works in most places.. still a bit a hack though
       *Label.GtkWidget = gtk_notebook_get_tab_label_(GadgetID(*THIS\Gadget), gtk_notebook_get_nth_page_(GadgetID(*THIS\Gadget), 0))
@@ -140,6 +147,13 @@ Procedure DlgPanel_SizeApply(*THIS.DlgPanel, x, y, Width, Height)
       Height - Size\height - 14
       Width  - 4
     EndIf
+  CompilerEndIf
+  
+  CompilerIf #CompileLinuxQt
+    ; We have to wait for the resize events to be fully processed after ResizeGadget() for #PB_Panel_ItemWidth etc to be correct
+    ; So calculate some estimated values here instead to have them available immediately
+    Height - GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) - 2
+    Width - 4
   CompilerEndIf
   
   For i = 0 To *THIS\NbChildren-1

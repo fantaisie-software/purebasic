@@ -94,6 +94,11 @@ Procedure GetRequiredHeight(Gadget, Flags = 0)
   ProcedureReturn Height
 EndProcedure
 
+CompilerIf #CompileLinuxQt
+  ImportC "../PureBasicIDE/Build/QtHelpers.a"
+    QT_Frame3DTopOffset(*Widget)
+  EndImport
+CompilerEndIf
 
 ; Calculate the top offset for a Frame3DGadget
 Procedure Frame3DTopOffset(Gadget)
@@ -107,9 +112,14 @@ Procedure Frame3DTopOffset(Gadget)
     ProcedureReturn Max(Size\cy, 10)
   CompilerEndIf
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     gtk_widget_size_request_(gtk_frame_get_label_widget_(GadgetID(Gadget)), @Size.GtkRequisition)
     ProcedureReturn Size\Height
+  CompilerEndIf
+  
+  CompilerIf #CompileLinuxQt
+    ; Imported via PureBasicIDE/LinuxExtensions.pb
+    ProcedureReturn QT_Frame3DTopOffset(GadgetID(Gadget))
   CompilerEndIf
   
   CompilerIf #CompileMac

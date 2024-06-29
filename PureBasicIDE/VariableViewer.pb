@@ -162,7 +162,7 @@ Procedure UpdateVariableViewer()
 EndProcedure
 
 
-Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData, PanelItemID)
+Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData)
   
   *Entry\Combo = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
   For i = 0 To #VariableViewer_NbOptions-1

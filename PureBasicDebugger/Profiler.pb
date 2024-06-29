@@ -36,8 +36,8 @@ Global Profiler_CurrentLine ; holds the line under cursor when the popup menu is
 ; as this calculation is needed often.
 ;
 Procedure Profiler_CalculateViewport(*Debugger.DebuggerData, *Area.ProfilerDrawing)
-  w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
-  h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
+  w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
+  h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
   
   *Area\x = 16+*Debugger\ProfilerNumberLength*7
   *Area\y = 11
@@ -228,115 +228,96 @@ EndProcedure
 
 Procedure Profiler_DrawAll(*Debugger.DebuggerData)
   
-  w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
-  h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]))
+  w = DesktopScaledX(GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
+  h = DesktopScaledY(GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
   
-  ; We re-create the image if the size changed (quicker than a resize, which does the same but additional blitting)
-  ;
-  If *Debugger\ProfilerImage
-    If w <> ImageWidth(*Debugger\ProfilerImage) Or h <> ImageHeight(*Debugger\ProfilerImage)
-      FreeImage(*Debugger\ProfilerImage)
-      *Debugger\ProfilerImage = 0
-    EndIf
-  EndIf
-  
-  If *Debugger\ProfilerImage = 0 And w > 0 And h > 0
-    *Debugger\ProfilerImage = CreateImage(#PB_Any, w, h)
-  EndIf
-  
-  If *Debugger\ProfilerImage
-    If StartDrawing(ImageOutput(*Debugger\ProfilerImage))
-      Box(0, 0, w, h, $FFFFFF)
+  If StartDrawing(CanvasOutput(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
+    Box(0, 0, w, h, $FFFFFF)
+    
+    If *Debugger\ProfilerFiles And *Debugger\ProfilerData
+      *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
       
-      If *Debugger\ProfilerFiles And *Debugger\ProfilerData
-        *files.Debugger_ProfilerList = *Debugger\ProfilerFiles
-        
-        Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
-        DrawingMode(#PB_2DDrawing_Outlined)
-        Box(Area\x-1, Area\y-1, Area\w+2, Area\h+2, $000000)
-        
-        Area\lineStart  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY])
-        Area\countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX])
-        Area\lines      = Area\h / *Debugger\ProfilerRatioY
-        Area\counts     = Area\w / *Debugger\ProfilerRatioX
-        
-        DrawingMode(#PB_2DDrawing_Default)
-        
-        ; draw the data
-        ;
-        If *Debugger\NbIncludedFiles = 0
-          Profiler_DrawFile(*Debugger, @Area, 0, $FF0000)
-          
-        Else
-          Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
-          
-          ; go backwards, so the top file entry draws on top as well
-          For i = *Debugger\NbIncludedFiles To 0 Step -1
-            If GetGadgetItemState(Gadget, i) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
-              index = GetGadgetItemData(Gadget, i) ; get the real index
-              Profiler_DrawFile(*Debugger, @Area, index, *files\file[index]\Color)
-            EndIf
-          Next i
-          
-        EndIf
-        
-        ; draw line numbers
-        ;
-        maxline   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum)
-        stepvalue = Profiler_StepValue(20 / *Debugger\ProfilerRatioY) ; min 20 pixels between two entries
-        first     = Int(Round((Area\lineStart+1) / stepvalue, 1) * stepvalue)
-        offset    = Area\y + Int((first-Area\lineStart-1)  * *Debugger\ProfilerRatioY + *Debugger\ProfilerRatioY/2)
-        i         = 0
-        x         = Area\x-4
-        y         = 0
-        
-        While y <= Area\y+Area\h And (first + i*stepvalue -1) <= maxline
-          y = offset + i * stepvalue * *Debugger\ProfilerRatioY
-          If y >= Area\y And y <= Area\y+Area\h
-            Line(x, y, 3, 1, $000000)
-            Profiler_DrawNumber(10, y - 4, (first + i*stepvalue), $000000, 0, *Debugger\ProfilerNumberLength)
-          EndIf
-          i + 1
-        Wend
-        
-        ; draw count numbers
-        ;
-        maxcount  = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum)
-        stepvalue = Profiler_StepValue((Len(Str(maxcount))*7+10) / *Debugger\ProfilerRatioX) ; min difference between 2 labels
-        
-        If Area\countStart = 0
-          first = 0
-        Else
-          first = Int(Round(Area\countStart / stepvalue, 1) * stepvalue)
-        EndIf
-        
-        offset = Area\x + Int((first-Area\countStart)  * *Debugger\ProfilerRatioX)
-        i      = 0
-        x      = 0
-        y      = Area\y+Area\h+1
-        
-        While x <= Area\x+Area\w And (first + i*stepvalue) <= maxcount
-          x = offset + i * stepvalue * *Debugger\ProfilerRatioX
-          If x >= Area\x And x <= Area\x+Area\w
-            count = first + i*stepvalue
-            Line(x, y, 1, 3, $000000)
-            Profiler_DrawNumber(x - (Len(Str(count))*7 - 1)/2, y + 7, count, $000000)
-          EndIf
-          i + 1
-        Wend
+      Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
+      DrawingMode(#PB_2DDrawing_Outlined)
+      Box(Area\x-1, Area\y-1, Area\w+2, Area\h+2, $000000)
+      
+      Area\lineStart  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY])
+      Area\countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX])
+      Area\lines      = Area\h / *Debugger\ProfilerRatioY
+      Area\counts     = Area\w / *Debugger\ProfilerRatioX
+      
+      DrawingMode(#PB_2DDrawing_Default)
+      
+      ; draw the data
+      ;
+      If *Debugger\NbIncludedFiles = 0
+        Profiler_DrawFile(*Debugger, @Area, 0, $FF0000)
         
       Else
-        DrawText(10, 10, Language("Debugger","ProfilerNoData"), $000000, $FFFFFF)
+        Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files]
+        
+        ; go backwards, so the top file entry draws on top as well
+        For i = *Debugger\NbIncludedFiles To 0 Step -1
+          If GetGadgetItemState(Gadget, i) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
+            index = GetGadgetItemData(Gadget, i) ; get the real index
+            Profiler_DrawFile(*Debugger, @Area, index, *files\file[index]\Color)
+          EndIf
+        Next i
+        
       EndIf
       
-      StopDrawing()
+      ; draw line numbers
+      ;
+      maxline   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum)
+      stepvalue = Profiler_StepValue(20 / *Debugger\ProfilerRatioY) ; min 20 pixels between two entries
+      first     = Int(Round((Area\lineStart+1) / stepvalue, 1) * stepvalue)
+      offset    = Area\y + Int((first-Area\lineStart-1)  * *Debugger\ProfilerRatioY + *Debugger\ProfilerRatioY/2)
+      i         = 0
+      x         = Area\x-4
+      y         = 0
+      
+      While y <= Area\y+Area\h And (first + i*stepvalue -1) <= maxline
+        y = offset + i * stepvalue * *Debugger\ProfilerRatioY
+        If y >= Area\y And y <= Area\y+Area\h
+          Line(x, y, 3, 1, $000000)
+          Profiler_DrawNumber(10, y - 4, (first + i*stepvalue), $000000, 0, *Debugger\ProfilerNumberLength)
+        EndIf
+        i + 1
+      Wend
+      
+      ; draw count numbers
+      ;
+      maxcount  = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum)
+      stepvalue = Profiler_StepValue((Len(Str(maxcount))*7+10) / *Debugger\ProfilerRatioX) ; min difference between 2 labels
+      
+      If Area\countStart = 0
+        first = 0
+      Else
+        first = Int(Round(Area\countStart / stepvalue, 1) * stepvalue)
+      EndIf
+      
+      offset = Area\x + Int((first-Area\countStart)  * *Debugger\ProfilerRatioX)
+      i      = 0
+      x      = 0
+      y      = Area\y+Area\h+1
+      
+      While x <= Area\x+Area\w And (first + i*stepvalue) <= maxcount
+        x = offset + i * stepvalue * *Debugger\ProfilerRatioX
+        If x >= Area\x And x <= Area\x+Area\w
+          count = first + i*stepvalue
+          Line(x, y, 1, 3, $000000)
+          Profiler_DrawNumber(x - (Len(Str(count))*7 - 1)/2, y + 7, count, $000000)
+        EndIf
+        i + 1
+      Wend
+      
+    Else
+      DrawText(10, 10, Language("Debugger","ProfilerNoData"), $000000, $FFFFFF)
     EndIf
     
-    SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
-  Else
-    SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], 0)
+    StopDrawing()
   EndIf
-  
+
 EndProcedure
 
 
@@ -518,7 +499,7 @@ Procedure Profiler_DrawSelect(*Debugger.DebuggerData, x1, y1, x2, y2)
     Swap y1, y2
   EndIf
   
-  If StartDrawing(ImageOutput(*Debugger\ProfilerImage))
+  If StartDrawing(CanvasOutput(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
     DrawingMode(#PB_2DDrawing_XOr | #PB_2DDrawing_Outlined)
     Box(x1, y1, x2-x1+1, y2-y1+1, $FFFFFF)
     
@@ -551,7 +532,7 @@ Procedure Profiler_DrawCross(*Debugger.DebuggerData, x, y)
   ;
   If x >= Area\x And x < Area\x+Area\w And y >= Area\y And y < Area\y+Area\h
     
-    If StartDrawing(ImageOutput(*Debugger\ProfilerImage))
+    If StartDrawing(CanvasOutput(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]))
       DrawingMode(#PB_2DDrawing_XOr | #PB_2DDrawing_Transparent)
       
       ; draw the lines
@@ -626,32 +607,13 @@ CompilerIf #CompileWindows
   
 CompilerEndIf
 
-;
-; Common code for the mouse handling, called from the OS specific event handlers
-;
-CompilerIf #CompileWindows
-  Macro Profiler_GrabMouse(GrabWindow): SetCapture_(GrabWindow): EndMacro
-  Macro Profiler_ReleaseMouse(): ReleaseCapture_(): EndMacro
-CompilerEndIf
-
-CompilerIf #CompileLinux
-  Macro Profiler_GrabMouse(GrabWindow): gdk_pointer_grab_(GrabWindow, 1, #GDK_POINTER_MOTION_MASK | #GDK_POINTER_MOTION_HINT_MASK | #GDK_BUTTON_RELEASE_MASK | #GDK_BUTTON_PRESS_MASK, GrabWindow, 0, 0): EndMacro
-  Macro Profiler_ReleaseMouse(): gdk_pointer_ungrab_(0): EndMacro
-CompilerEndIf
-
-CompilerIf #CompileMac
-  Macro Profiler_GrabMouse(GrabWindow): EndMacro
-  Macro Profiler_ReleaseMouse(): EndMacro
-CompilerEndIf
 
 Global Profiler_CaptureMode, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY
 
-Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
+Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y)
   ; if we were in mode 3, we simply switch to the new mode now, else start capturing
   If Profiler_CaptureMode = 3
     Profiler_DrawCross(*Debugger, Profiler_OldX, Profiler_OldY)
-  Else
-    Profiler_GrabMouse(*GrabWindow)
   EndIf
   
   Profiler_DownX = x
@@ -665,12 +627,10 @@ Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
     Profiler_CaptureMode = 2
     Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY)
   EndIf
-  SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
 EndProcedure
 
 Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
   If Profiler_CaptureMode = 1 Or Profiler_CaptureMode = 2
-    Profiler_ReleaseMouse()
     
     If Profiler_CaptureMode = 2
       Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
@@ -732,16 +692,14 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
   EndIf
 EndProcedure
 
-Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y, *GrabWindow)
+Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y)
   
   If Profiler_CaptureMode = 0 And GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Cross])
     ; start cross display
     Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
     If x >= Area\x And x <= Area\x + Area\w And y >= Area\y And y <= Area\y+Area\h
-      Profiler_GrabMouse(*GrabWindow)
       Profiler_CaptureMode = 3
       Profiler_DrawCross(*Debugger, x, y)
-      SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
     EndIf
     
   ElseIf Profiler_CaptureMode = 3 ; continue cross display
@@ -752,10 +710,8 @@ Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y, *GrabWindow)
       Profiler_DrawCross(*Debugger, x, y)
     Else
       ; stop the capture
-      Profiler_ReleaseMouse()
       Profiler_CaptureMode = 0
     EndIf
-    SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
     
   ElseIf Profiler_CaptureMode = 1 ; drag
     countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]) - (x - Profiler_OldX) / *Debugger\ProfilerRatioX
@@ -790,7 +746,6 @@ Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y, *GrabWindow)
     If Profiler_OldX <> x Or Profiler_OldY <> y
       Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY) ; erase with xor
       Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, x, y)
-      SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
     EndIf
     
   EndIf
@@ -799,9 +754,8 @@ Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y, *GrabWindow)
   Profiler_OldY = y
 EndProcedure
 
-Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
+Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y)
   If Profiler_CaptureMode > 0
-    Profiler_ReleaseMouse()
     
     If Profiler_CaptureMode = 2
       Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY) ; erase with xor
@@ -810,7 +764,6 @@ Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
     EndIf
     
     Profiler_CaptureMode = 0
-    SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], ImageID(*Debugger\ProfilerImage))
   EndIf
   
   Profiler_CalculateViewport(*Debugger, @Area.ProfilerDrawing)
@@ -843,204 +796,6 @@ Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
     EndIf
   EndIf
 EndProcedure
-
-
-; Windows specific event handler
-;
-CompilerIf #CompileWindows
-  
-  Procedure Profiler_WindowsMouseHandler(Window, Message, wParam, lParam)
-    Result = 0
-    
-    *Debugger.DebuggerData = GetWindowLongPtr_(Window, #GWL_USERDATA)
-    If *Debugger
-      
-      If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
-        
-        If Message = #WM_LBUTTONDOWN
-          ; use PeekW to correctly preserves signed values
-          Profiler_LButtonDown(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
-          
-        ElseIf Message = #WM_LBUTTONUP
-          Profiler_LButtonUp(*Debugger)
-          
-        ElseIf Message = #WM_MOUSEMOVE
-          Profiler_MouseMove(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
-          
-        ElseIf Message = #WM_RBUTTONDOWN
-          Profiler_RButtonDown(*Debugger, PeekW(@lParam), PeekW(@lParam+2), Window)
-          
-        Else
-          Result = CallWindowProc_(*Debugger\ProfilerImageCallback, Window, Message, wParam, lParam)
-          
-        EndIf
-        
-      Else
-        Result = CallWindowProc_(*Debugger\ProfilerImageCallback, Window, Message, wParam, lParam)
-        
-      EndIf
-      
-    Else
-      Result = DefWindowProc_(Window, Message, wParam, lParam)
-    EndIf
-    
-    ProcedureReturn Result
-  EndProcedure
-  
-CompilerEndIf
-
-; Linux specific event handler
-;
-CompilerIf #CompileLinuxGtk
-  ProcedureC Profiler_GtkMouseButtonHandler(*widget.GtkWidget, *event.GdkEventButton, *Debugger.DebuggerData)
-    If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
-      If *event\type = #GDK_BUTTON_PRESS And *event\button = 1
-        Profiler_LButtonDown(*Debugger, *event\x, *event\y, *widget\window)
-        ProcedureReturn #True  ; call no other handlers
-        
-      ElseIf *event\type = #GDK_BUTTON_PRESS And *event\button = 3
-        Profiler_RButtonDown(*Debugger, *event\x, *event\y, *widget\window)
-        ProcedureReturn #True
-        
-      ElseIf *event\type = #GDK_BUTTON_RELEASE And *event\button = 1
-        Profiler_LButtonUp(*Debugger)
-        ProcedureReturn #True
-        
-      EndIf
-    EndIf
-    
-    ProcedureReturn #False ; call other handlers
-  EndProcedure
-  
-  ProcedureC Profiler_GtkMouseMoveHandler(*widget.GtkWidget, *event.GdkEventMotion, *Debugger.DebuggerData)
-    If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
-      Profiler_MouseMove(*Debugger, *event\x, *event\y, *widget\window)
-    EndIf
-    
-    ProcedureReturn #False ; call other handlers
-  EndProcedure
-CompilerEndIf
-
-
-; OSX specific event handlers
-;
-CompilerIf #CompileMacCarbon
-  
-  #kEventClassMouse = AsciiConst('m','o','u','s')
-  
-  #kEventMouseDown = 1
-  #kEventMouseUp = 2
-  #kEventMouseMoved = 5
-  #kEventMouseDragged = 6
-  #kEventMouseEntered = 8
-  #kEventMouseExited = 9
-  #kEventMouseWheelMoved = 10
-  
-  #kEventParamMouseButton = AsciiConst('m','b','t','n')
-  #typeMouseButton = AsciiConst('m','b','t','n')
-  
-  #kEventMouseButtonPrimary = 1
-  #kEventMouseButtonSecondary = 2
-  #kEventMouseButtonTertiary = 3
-  
-  #kEventParamKeyModifiers = AsciiConst('k','m','o','d')
-  #typeUInt32 = AsciiConst('m','a','g','n')
-  
-  #controlKeyBit = 12
-  #controlKey = 1 << #controlKeyBit
-  
-  #noErr = 0
-  #eventNotHandledErr = -9874
-  
-  #Profiler_MacEventsCount = 4
-  DataSection
-    ; EventTypeSpec structure is two longs: class, kind
-    Profiler_MacEvents:
-    Data.l #kEventClassMouse, #kEventMouseDown
-    Data.l #kEventClassMouse, #kEventMouseUp
-    Data.l #kEventClassMouse, #kEventMouseMoved
-    Data.l #kEventClassMouse, #kEventMouseDragged ; moved with mouse down
-    
-  EndDataSection
-  
-  
-  ProcedureDLL Profiler_MacEvents(*NextHandler, *Event, *Debugger.DebuggerData)
-    Window = *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
-    x = WindowMouseX(Window)
-    y = WindowMouseY(Window)
-    
-    ; filter mouse moves on the title region
-    If x > 0 And y > 0 And *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
-      GetControlBounds_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), @Rect.Rect)
-      x - Rect\left
-      y - Rect\top
-      
-      If x >= 0 And x < (Rect\right-Rect\Left) And y >= 0 And y < (Rect\bottom-Rect\top)
-        kind = GetEventKind_(*Event)
-        
-        button.w = 0
-        modifiers.l = 0
-        If kind = #kEventMouseDown Or kind = #kEventMouseUp
-          GetEventParameter_(*Event, #kEventParamMouseButton, #typeMouseButton, #Null, 2, #Null, @button)
-          GetEventParameter_(*Event, #kEventParamKeyModifiers, #typeUInt32, #Null, 4, #Null, @modifiers)
-          
-          If button = #kEventMouseButtonPrimary And modifiers & #controlKey
-            button = #kEventMouseButtonSecondary  ; Ctrl+Click is a rightclick on one button mouse
-          EndIf
-        EndIf
-        
-        Select kind
-            
-          Case #kEventMouseDown
-            If button = #kEventMouseButtonPrimary
-              Profiler_LButtonDown(*Debugger, x, y, Window)
-            ElseIf button = #kEventMouseButtonSecondary
-              Profiler_RButtonDown(*Debugger, x, y, Window)
-            EndIf
-            
-          Case #kEventMouseUp
-            If button = #kEventMouseButtonPrimary
-              Profiler_LButtonUp(*Debugger)
-            EndIf
-            
-          Case #kEventMouseMoved, #kEventMouseDragged
-            Profiler_MouseMove(*Debugger, x, y, Window)
-            
-        EndSelect
-        
-        ; Ok, here is the weird part:
-        ;   If we propagate the event with CallNextEventHandler_() as the docs say, the "mouse up" event is often
-        ;   not reaching our callback anymore (probably due to the ImageGadget drag start detection), so return
-        ;   #noErr directly For any event inside our imagegadget (its important To catch the mouse-up For proper user interaction)
-        ;
-        ;   BUT: If the window does not have the focus yet, returning #noErr causes it to not get to the foreground
-        ;   and also in this case the mouse-up is properly received, so propagate the event in this spechial case
-        ;
-        ;   Also do the normal propagation for events on the right button for correct context menu handling
-        If GetActiveWindow() = Window Or button = #kEventMouseButtonSecondary
-          ProcedureReturn #noErr
-        EndIf
-      EndIf
-      
-    EndIf
-    
-    ProcedureReturn CallNextEventHandler_(*NextHandler, *Event) ; important for gadget events and window activation!!
-  EndProcedure
-  
-  Procedure Profiler_SetupMacEvents(*Debugger.DebuggerData)
-    Static *EventsUPP = 0
-    
-    If *EventsUPP = 0
-      *EventsUPP = NewEventHandlerUPP_(@Profiler_MacEvents())
-    EndIf
-    
-    ; mouse events only go to the window!
-    InstallEventHandler_(GetWindowEventTarget_(WindowID(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
-    ;InstallEventHandler_(GetApplicationEventTarget_(), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
-    
-  EndProcedure
-  
-CompilerEndIf
 
 ; Update bounds for the displayed files and adjust scrollbars as needed
 ;
@@ -1232,6 +987,20 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
   ElseIf EventID = #PB_Event_Gadget
     Select EventGadget()
         
+      Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]
+        x = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas], #PB_Canvas_MouseX)
+        y = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas], #PB_Canvas_MouseY)
+        Select EventType()
+          Case #PB_EventType_MouseEnter, #PB_EventType_MouseMove
+            Profiler_MouseMove(*Debugger, x, y)
+          Case #PB_EventType_LeftButtonDown
+            Profiler_LButtonDown(*Debugger, x, y)
+          Case #PB_EventType_LeftButtonUp
+            Profiler_LButtonUp(*Debugger)
+          Case #PB_EventType_RightButtonDown
+            Profiler_RButtonDown(*Debugger, x, y)
+        EndSelect
+        
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Start]
         Command.CommandInfo\Command = #COMMAND_StartProfiler
         SendDebuggerCommand(*Debugger, @Command)
@@ -1263,7 +1032,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
       Case *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Splitter]
         Width  = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])-#ContainerBorder
         Height = GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])-#ContainerBorder
-        ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], 0, 0, Width-15, Height-15)
+        ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas], 0, 0, Width-15, Height-15)
         ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0, Height-15, Width-15, 15)
         ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], Width-15, 0, 15, Height-15)
         Profiler_UpdatePageLength(*Debugger) ; adjust the scrollbars
@@ -1418,7 +1187,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
       Height = Height-20 - #ContainerBorder
     EndIf
     
-    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image], 0, 0, Width-#Profiler_ScrollbarWidth, Height-#Profiler_ScrollbarWidth)
+    ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas], 0, 0, Width-#Profiler_ScrollbarWidth, Height-#Profiler_ScrollbarWidth)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], 0, Height-#Profiler_ScrollbarWidth, Width-#Profiler_ScrollbarWidth, #Profiler_ScrollbarWidth)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], Width-#Profiler_ScrollbarWidth, 0, #Profiler_ScrollbarWidth, Height-#Profiler_ScrollbarWidth)
     
@@ -1450,11 +1219,6 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
     EndIf
     
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])
-    
-    If *Debugger\ProfilerImage ; free the displayed image
-      FreeImage(*Debugger\ProfilerImage)
-      *Debugger\ProfilerImage = 0
-    EndIf
     
     ;     If *Debugger\ProfilerPreview
     ;       FreeImage(*Debugger\ProfilerPreview)
@@ -1507,7 +1271,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select], 1)
       
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Double)
-      *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]     = ImageGadget(#PB_Any, 0, 0, 0, 0, 0)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Canvas]    = CanvasGadget(#PB_Any, 0, 0, 0, 0, #PB_Canvas_ClipMouse)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]   = ScrollBarGadget(#PB_Any, 0, 0, 100, 15, 0, 1, 10000) ; max will automatically be changed when data arrives
       *Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]   = ScrollBarGadget(#PB_Any, 0, 0, 15, 100, 0, 1, 1000, #PB_ScrollBar_Vertical)
       CloseGadgetList()
@@ -1542,25 +1306,6 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
         ;
         SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container]), #GWL_USERDATA, *Debugger)
         *Debugger\ProfilerScrollCallback = SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container]), #GWL_WNDPROC, @Profiler_ScrollbarCallback())
-        
-        SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), #GWL_USERDATA, *Debugger)
-        *Debugger\ProfilerImageCallback = SetWindowLongPtr_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), #GWL_WNDPROC, @Profiler_WindowsMouseHandler())
-      CompilerEndIf
-      
-      CompilerIf #CompileLinux
-        Container = GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Container])
-        gtk_widget_add_events_(Container, #GDK_POINTER_MOTION_MASK | #GDK_POINTER_MOTION_HINT_MASK | #GDK_BUTTON_RELEASE_MASK | #GDK_BUTTON_PRESS_MASK)
-        GTKSignalConnect(Container, "motion-notify-event" , @Profiler_GtkMouseMoveHandler(), *Debugger)
-        GTKSignalConnect(Container, "button-press-event"  , @Profiler_GtkMouseButtonHandler(), *Debugger)
-        GTKSignalConnect(Container, "button-release-event", @Profiler_GtkMouseButtonHandler(), *Debugger)
-      CompilerEndIf
-      
-      CompilerIf #CompileMacCarbon
-        Profiler_SetupMacEvents(*Debugger)
-      CompilerEndIf
-      
-      CompilerIf #DEFAULT_CanWindowStayOnTop
-        SetWindowStayOnTop(Window, DebuggerOnTop)
       CompilerEndIf
       
       Debugger_AddShortcuts(Window)

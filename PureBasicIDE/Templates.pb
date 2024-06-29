@@ -547,7 +547,7 @@ Procedure Template_DropEvent()
   
 EndProcedure
 
-Procedure Template_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure Template_CreateFunction(*Entry.ToolsPanelEntry)
   Shared Templae_FirstResize
   
   ButtonImageGadget(#GADGET_Template_Add,       0, 0, 0, 0, ImageID(#IMAGE_Template_Add))

@@ -111,15 +111,6 @@ CompilerIf #CompileWindows
     ProcedureReturn GetGadgetAttribute(Gadget, #PB_Panel_ItemHeight)
   EndProcedure
   
-  Procedure GetPanelItemID(Gadget, Item)
-    tc.TC_ITEM\mask = #TCIF_PARAM
-    If SendMessage_(GadgetID(Gadget), #TCM_GETITEM, Item, @tc)
-      ProcedureReturn tc\lParam
-    Else
-      ProcedureReturn 0
-    EndIf
-  EndProcedure
-  
   
   Procedure SelectComboBoxText(Gadget)
     

@@ -56,7 +56,6 @@ Declare SetWindowForeground_NoActivate(Window) ; set window to the foreground wi
 Declare SetWindowStayOnTop(Window, StayOnTop)  ; make window stay on top
 Declare GetPanelWidth(Gadget)                  ; get width of panelgadget items
 Declare GetPanelHeight(Gadget)                 ; get height of panelgadget items
-Declare GetPanelItemID(Gadget, Item)           ; get id of panelgadget item (only for plugins)
 Declare RedrawGadget(Gadget)                   ; trigger an update of the gadget (must work with the EditorGadget!)
 Declare SelectComboBoxText(Gadget)             ; select all text in editable combobox
 Declare SetStringBufferSize(NewSize)           ; set the size of the string manipoulation buffer (for debugger)

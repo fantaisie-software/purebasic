@@ -1182,7 +1182,7 @@ Procedure AddTools_WindowEvents(EventID)
           
           RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_All)
           
-          CompilerIf #CompileWindows | #CompileMac ; re-add the shortcuts for tab/enter
+          CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt; re-add the shortcuts for tab/enter
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
