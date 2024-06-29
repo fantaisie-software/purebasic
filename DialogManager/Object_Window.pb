@@ -29,7 +29,7 @@ Structure DlgWindow Extends DlgBinBase
   Window.i
 EndStructure
 
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC GtkFontUpdate(*object, *paramspect, user_data)
     
     ForEach DialogWindowList()
@@ -42,7 +42,7 @@ CompilerEndIf
 Procedure DlgWindow_New(*StaticData.DialogObjectData, ParentID)
   *THIS.DlgWindow = AllocateMemory(SizeOf(DlgWindow))
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     Static FontCallbackSet
     
     If FontCallbackSet = 0

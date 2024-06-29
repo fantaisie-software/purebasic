@@ -632,7 +632,7 @@ Enumeration
   #DEBUGGER_GADGET_Profiler_Container
   #DEBUGGER_GADGET_Profiler_Splitter
   #DEBUGGER_GADGET_Profiler_Files
-  #DEBUGGER_GADGET_Profiler_Image
+  #DEBUGGER_GADGET_Profiler_Canvas
   ;#DEBUGGER_GADGET_Profiler_Preview
   #DEBUGGER_GADGET_Profiler_ScrollX
   #DEBUGGER_GADGET_Profiler_ScrollY
@@ -774,7 +774,6 @@ Structure DebuggerData
   ProfilerRunning.l  ; state of the profiler
   *ProfilerFiles     ; Debugger_ProfilerList pointer with per-file info
   *ProfilerData      ; array of longs with counts for ALL includefiles
-  ProfilerImage.i    ; the image we draw the profiler view on
                      ;ProfilerPreview.i ; preview image
   ProfilerNumberLength.l ; length of the linenumbers part of the display (in digits)
   ProfilerRatioX.d       ; scale factor x
@@ -782,7 +781,6 @@ Structure DebuggerData
   
   CompilerIf #CompileWindows
     ProfilerScrollCallback.i
-    ProfilerImageCallback.i
   CompilerEndIf
   
   PurifierGlobal.l   ; purifier granularities (0 = disable)

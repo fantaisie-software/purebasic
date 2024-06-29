@@ -7,7 +7,7 @@
 
 Global Backup_ProcedureBrowserSort, Backup_DisplayProtoType
 
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC UpdateProcedureList_GtkScroll(ScrollPosition.i)
     SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
   EndProcedure
@@ -187,7 +187,7 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
       EndIf
     Next ProcedureList()
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       SetGadgetState(#GADGET_ProcedureBrowser, -1)
       
       ; Need to postpone the scroll update untill all events in the gadget were processed
@@ -198,6 +198,11 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
       If NewIndex <> -1
         SetGadgetState(#GADGET_ProcedureBrowser, NewIndex)
       EndIf
+      
+      ; TODO-QT
+      ; This is also to soon for QT (same as Gtk above) but I found no way to trigger it later.
+      ; (PostEvent() is too soon, so is QApplication::postEvent() with a custom event)
+      ; A timer works but is a visible delay (even a 0ms timer) so this is no solution.
       SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
     CompilerEndIf
     
@@ -384,7 +389,7 @@ EndProcedure
 ;- ToolsPanel plugin functions
 
 
-Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure ProcedureBrowser_CreateFunction(*Entry.ToolsPanelEntry)
   
   ListViewGadget(#GADGET_ProcedureBrowser, 0, 0, 0, 0)
   
@@ -422,7 +427,7 @@ EndProcedure
 
 Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
   
-  If *ActiveSource <> *ProjectInfo And (*ActiveSource\IsForm = 0 Or (*ActiveSource\IsForm = 1 And FormWindows()\current_view = 0))
+  If *ActiveSource <> *ProjectInfo And (*ActiveSource\IsForm = 0 Or (*ActiveSource\IsForm = 1 And FormWindows()\current_view = 0))   
     ;
     ; On OSX, for some reason we get events when you type in the Scintilla, so only react when the browser is focused
     ; as else the Caret jumps around to the selected procedure all the time
@@ -447,8 +452,9 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         ; Unfold the procedure block if it was folded
         SendEditorMessage(#SCI_ENSUREVISIBLE, ProcedureList()\Line)
         
-        CompilerIf #CompileMac Or #CompileLinux
+        CompilerIf #CompileMac Or #CompileLinuxGtk
           ; remove selection so the we won't get more jumps to the procedure start! (OSX/Linux specific problem)
+          ; Don't do it on QT as it causes another event causing the cursor to jump back to the first procedure
           SetGadgetState(#GADGET_ProcedureBrowser, -1)
         CompilerEndIf
       EndIf

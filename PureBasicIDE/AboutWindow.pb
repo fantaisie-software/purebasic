@@ -93,6 +93,10 @@ Procedure OpenAboutWindow()
         gtk_text_view_set_wrap_mode_(GadgetID(#GADGET_About_Editor), #GTK_WRAP_WORD) ; set autowrap, as the version line is a bit long
       CompilerEndIf
       
+      CompilerIf #CompileLinuxQt
+        QT_CenterEditor(GadgetID(#GADGET_About_Editor))
+      CompilerEndIf
+      
       CompilerIf #CompileMacCocoa
         PB_Gadget_CenterEditorGadget(GadgetID(#GADGET_About_Editor))
       CompilerEndIf

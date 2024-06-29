@@ -7035,7 +7035,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
           
           FormWindows()\current_view = 1
           
-          CompilerIf #CompileWindows | #CompileMac
+          CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
