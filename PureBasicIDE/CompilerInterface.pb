@@ -1789,19 +1789,30 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
   ; Add the Compiler directory to the (library-)path, so the 3D engine and other
   ; libraries can be loaded by the exe
   ;
+  NewPath$ = *Target\RunCompilerPath$
+  
   CompilerIf #CompileWindows
     PreviousPath$ = GetEnvironmentVariable("PATH")
-    SetEnvironmentVariable("PATH", *Target\RunCompilerPath$+";"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ";" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("PATH", NewPath$)
   CompilerEndIf
   
   CompilerIf #CompileLinux
     PreviousPath$ = GetEnvironmentVariable("LD_LIBRARY_PATH")
-    SetEnvironmentVariable("LD_LIBRARY_PATH", *Target\RunCompilerPath$+":"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ":" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("LD_LIBRARY_PATH", NewPath$)
   CompilerEndIf
   
   CompilerIf #CompileMac
     PreviousPath$ = GetEnvironmentVariable("DYLD_LIBRARY_PATH")
-    SetEnvironmentVariable("DYLD_LIBRARY_PATH", *Target\RunCompilerPath$+":"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ":" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("DYLD_LIBRARY_PATH", NewPath$)
   CompilerEndIf
   
   Debug "----"
