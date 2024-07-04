@@ -285,7 +285,7 @@ DataSection
   Data$ "EntityYaw,2,#PB_Absolute,#PB_Relative,#PB_Engine3D_Raw,#PB_Engine3D_Adjusted"
   Data$ "EntityZ,2,#PB_Absolute,#PB_Relative"
   Data$ "ErrorMessage,1,#PB_OnError_InvalidMemory,#PB_OnError_Floatingpoint,#PB_OnError_Breakpoint,#PB_OnError_IllegalInstruction,#PB_OnError_PriviledgedInstruction,#PB_OnError_DivideByZero"
-  Data$ "EscapeString,2,#PB_String_EscapeInternal,#PB_String_EscapeXML"
+  Data$ "EscapeString,2,#PB_String_EscapeInternal,#PB_String_EscapeJSON,#PB_String_EscapeXML"
   Data$ "EventDropImage,1,#PB_Any"
   Data$ "ExamineIPAddresses,1,#PB_Network_IPv4,#PB_Network_IPv6"
   Data$ "ExamineWorldCollisions,1,#True,#False"
@@ -706,7 +706,7 @@ DataSection
   Data$ "UnbindEvent,5,#PB_EventType_*"
   Data$ "UnbindGadgetEvent,3,#PB_EventType_*"
   Data$ "UncompressMemory,5,#PB_PackerPlugin_BriefLZ,#PB_PackerPlugin_Zip,#PB_PackerPlugin_Lzma,#PB_PackerPlugin_Jcalg1"
-  Data$ "UnescapeString,2,#PB_String_EscapeInternal,#PB_String_EscapeXML"
+  Data$ "UnescapeString,2,#PB_String_EscapeInternal,#PB_String_EscapeJSON,#PB_String_EscapeXML"
   Data$ "URLDecoder,2,#PB_UTF8,#PB_Ascii"
   Data$ "URLEncoder,2,#PB_UTF8,#PB_Ascii"
   
