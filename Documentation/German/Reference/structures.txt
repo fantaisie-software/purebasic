@@ -293,39 +293,68 @@
   EndStructure
 @EndCode
 
+    @Example RGB-Beispiel
+
+@Code
+  Structure StrColor
+    Red.a
+    Green.a
+    Blue.a
+    Alpha.a
+  EndStructure
+
+  Structure StrColorU
+    StructureUnion
+      Component.StrColor
+      Color.l
+      Byte.a[4]
+    EndStructureUnion
+  EndStructure
+
+  Define Color1.StrColorU
+
+  Color1\Color = RGBA($10,$20,$30,$FF)
+  Debug "hex = " + Hex(Color1\Color, #PB_Long)  ; hex = FF302010 (Little-Endian CPU)
+  Debug "r = " + Hex(Color1\Component\Red)      ; r = 10
+  Debug "g = " + Hex(Color1\Component\Green)    ; g = 20
+  Debug "b = " + Hex(Color1\Component\Blue)     ; b = 30
+  Debug "a = " + Hex(Color1\Component\Alpha)    ; a = FF
+
+  Debug "by0 = " + Hex(Color1\Byte[0])          ; by0 = 10
+  Debug "by1 = " + Hex(Color1\Byte[1])          ; by1 = 20
+  Debug "by2 = " + Hex(Color1\Byte[2])          ; by2 = 30
+  Debug "by3 = " + Hex(Color1\Byte[3])          ; by3 = FF
+@EndCode
 
   @Example Erweitertes Beispiel (Datums-Verwaltung)
 
 @Code
-  Structure date
+  Structure date ; jj.mm.yyyy
     day.s{2}
-    pk1.s{1}
+    dot.s{1}
     month.s{2}
-    pk2.s{1}
+    dot.s{1}
     year.s{4}
   EndStructure
   
-  Structure date2
+  Structure dateU
     StructureUnion
       s.s{10}
       d.date
     EndStructureUnion
   EndStructure
   
-  Dim d1.date2(5)
-  
-  d1(0)\s = "05.04.2008"
-  d1(1)\s = "07.05.2009"
-  
+  Dim d1.dateU(365)
+ 
+  ; Ein Array 
+  d1(0)\s = "05.04.2028"
+
   Debug d1(0)\d\day
   Debug d1(0)\d\month
   Debug d1(0)\d\year
-  
-  Debug d1(1)\d\day
-  Debug d1(1)\d\month
-  Debug d1(1)\d\year
-    
-  d2.date2\s = "15.11.2010"
+
+  ; Eine Variable
+  d2.date2\s = "15.11.2030"
   
   Debug d2\d\day
   Debug d2\d\month

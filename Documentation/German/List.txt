@@ -1,7 +1,7 @@
 ;
 ;     List library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library List
@@ -220,6 +220,62 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Ergebnis = CompareList(Liste1(), Liste2() [, Flags])
+
+@Description
+  Vergleicht alle Elemente der beiden Listen auf Gleichheit. Vergleicht rekursiv auch Inhalte
+  @ReferenceLink "Structures" "strukturierter" Listen mit dynamischen Elementen (wie eingebetteter
+  Arrays, Listen oder Maps).
+  @LineBreak
+  Die beiden Listen gelten als gleich, wenn sie den gleichen Typ und die gleiche Größe haben und
+  wenn jedes Elemente-Paar gleich ist.
+
+@Parameter "Liste1(), Liste2()"
+  Die zu vergleichenden Listen.
+  
+@OptionalParameter "Flags"
+  Kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
+                             Zeigers rekursiv verglichen.
+                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten für weitere Details.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn beide Listen gleich sind, oder Null, wenn sie sich unterscheiden.
+
+@Remarks
+  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
+  Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
+
+@Example
+@Code
+  NewList A$()
+  AddElement(A$()) : A$() = "Jim"
+  AddElement(A$()) : A$() = "John"
+  AddElement(A$()) : A$() = "Jack"
+  
+  NewList B$()
+  AddElement(B$()) : B$() = "JIM"  ; Groß-/Kleinschreibung unterscheidet sich
+  AddElement(B$()) : B$() = "John"
+  AddElement(B$()) : B$() = "Jack"
+  
+  Debug CompareList(A$(), B$())                     ; Nicht gleich
+  Debug CompareList(A$(), B$(), #PB_String_NoCase)  ; Gleich
+@EndCode
+
+@SeeAlso
+  @@CompareArray, @@CompareMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Ergebnis = CopyList(QuellListe(), ZielListe())
 
 @Description
@@ -295,6 +351,7 @@
 
 @ReturnValue
   Die Gesamtzahl der Elemente in der verknüpften Liste.
+  Wenn die Liste nicht initialisiert ist, wird -1 zurückgegeben (zum Beispiel nach @@FreeList).
 
 @Example
 @Code
@@ -313,17 +370,6 @@
 
 @SeeAlso
   @@ListIndex
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Ergebnis = CountList(Liste())
-
-@Description
-@Deprecated
-
-  Diese Funktion wurde durch @@ListSize ersetzt. Verwenden Sie diese stattdessen.
 
 @SupportedOS
 

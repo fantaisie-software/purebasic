@@ -226,7 +226,6 @@ CompilerEndIf
 
 ;
 ;- Parse Commandline
-
 ExeName$  = ProgramParameter()
 ExeNameU$ = UCase(ExeName$)
 
@@ -274,7 +273,8 @@ CompilerEndIf
 ;
 CustomWarningMode = -1
 
-If OptionsFile$ <> ""
+; Ignore the default OS X file as well as it's empty anyway
+If OptionsFile$ <> "" And OptionsFile$ <> "/tmp/.pbstandalone.out"
   If ReadFile(0, OptionsFile$)
     
     While Eof(0) = 0
@@ -311,7 +311,8 @@ If OptionsFile$ <> ""
     
     CloseFile(0)
   Else
-    MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Warning)
+    ; Don't use Language() here, as it's not yet initialized
+    MessageRequester("PureBasic Debugger","Can't read option file: "+OptionsFile$, #FLAG_Warning)
   EndIf
 EndIf
 
@@ -788,15 +789,15 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Init
       If *Debugger\IncludedFiles ; use the filename as stored in the exe
-        SourcePath$   = PeekAscii(*Debugger\IncludedFiles)
-        RealFileName$ = PeekAscii(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
+        SourcePath$   = PeekUTF8(*Debugger\IncludedFiles)
+        RealFileName$ = PeekUTF8(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
         RealFileName$ = ResolveRelativePath(SourcePath$, RealFileName$) ; the stored main file is relative to the source path
       EndIf
       
       ; if real filename was passed, use this for displaying
       If MainFileName$ <> ""
         If *Debugger\IncludedFiles
-          SourcePath$ = PeekAscii(*Debugger\IncludedFiles) ; first is the source path
+          SourcePath$ = PeekUTF8(*Debugger\IncludedFiles) ; first is the source path
           *Debugger\FileName$ = CreateRelativePath(SourcePath$, MainFileName$)
         Else
           *Debugger\FileName$ = MainFileName$
@@ -1051,8 +1052,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Error
       Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       SetCurrentLine(*Debugger\Command\Value1)
@@ -1061,8 +1062,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Warning
       Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       ; just mark, do not change current line or stop program
@@ -1222,12 +1223,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Select *Debugger\Command\Value2 ; result code
             
           Case 0 ; error
-            Message$ = "Debugger: " + PeekAscii(*Debugger\CommandData)
+            Message$ = "Debugger: " + PeekUTF8(*Debugger\CommandData)
             
             ; Variable not found is common (place the cursor on a keyword etc),
             ; so display nothing if this happens.
             If IsVariableExpression = 0 Or (Left(Message$, 29) <> "Debugger: Variable not found:" And Left(Message$, 43) <> "Debugger: Array() / LinkedList() not found:" And Message$ <> "Debugger: Garbage at the end of the input.")
-              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, 9)
             EndIf
             
@@ -1236,13 +1237,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 2 ; quad
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekQ(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 3 ; double
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 4 ; string
@@ -1350,13 +1351,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekL(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 7 ; float (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
         EndSelect

@@ -83,7 +83,8 @@
   afin d'obtenir ces 16 octets minimum.
 
 @Parameter "*Cle"
-  Un tampon contenant la clé de codage.
+  Un tampon contenant la clé de codage.@LineBreak
+  @@DeriveCipherKey peut être utilisée pour créer cette clé à partir d'un mot de passe.
 @FixedFont  
   Sa taille dépend du paramètre 'Bits': 
     l6 octets pour le cryptage 128 bits 
@@ -191,7 +192,7 @@
 @EndCode
 
 @SeeAlso
-  @@AESDecoder, @@StartAESCipher
+  @@AESDecoder, @@StartAESCipher, @@DeriveCipherKey
   
 @SupportedOS
 
@@ -222,7 +223,8 @@
   afin d'obtenir ces 16 octets minimum.
 
 @Parameter "*Cle"
-  Un tampon contenant la clé de codage. 
+  Un tampon contenant la clé de codage.@LineBreak
+  @@DeriveCipherKey peut être utilisée pour créer cette clé à partir d'un mot de passe. 
 @FixedFont  
   Sa taille dépend du paramètre 'Bits': 
     l6 octets pour le cryptage 128 bits 
@@ -264,7 +266,88 @@
   AES et voir des exemples: @@AESEncoder.
 
 @SeeAlso
-  @@AESEncoder, @@StartAESCipher
+  @@AESEncoder, @@StartAESCipher, @@DeriveCipherKey
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = CreatePasswordHash(MotDePasse$ [, FacteurdeTravail])
+
+@Description
+  Crée un résumé de hachage d'un mot de passe pour son stockage et sa vérification ultérieure.@LineBreak 
+ 
+@Parameter "MotDePasse$"
+  Le mot de passe à hasher.
+  
+@OptionalParameter "FacteurdeTravail"
+  Ce paramètre influence la quantité de travail que la fonction de hachage devra utiliser pour 
+  créer ou vérifier un hachage de mot de passe.@LineBreak 
+  Plus la valeur est élevée et plus la tentative de déchiffrement d'un mot de passe par force brute 
+  sera coûteux, mais cela rendra également la création et la vérification du mot de passe plus 
+  coûteuses pour l'application elle-même.
+@LineBreak 
+@LineBreak 
+  Les valeurs autorisées sont comprises entre 4 et 31. @LineBreak 
+  Augmenter ce paramètre de un double la quantité de travail effectuée par la fonction pour créer 
+  ou vérifier ultérieurement un mot de passe.@LineBreak  
+  La valeur par défaut est 10.
+
+@ReturnValue  
+  Renvoie le hachage du mot de passe.
+  
+@Remarks  
+  Il n'est pas possible de récupérer le mot de passe saisi à partir de la valeur de hachage, 
+  mais les mots de passe peuvent être vérifiés pour voir s'ils correspondent au hachage en utilisant 
+  @@VerifyPasswordHash.
+@LineBreak
+@LineBreak
+  Le hachage du mot de passe renvoyé inclut un composant aléatoire (une valeur de 'salage') pour garantir 
+  que plusieurs hachages créés à partir du même mot de passe d'entrée ne créent pas la même valeur 
+  de hachage. Il n'est donc pas possible de comparer directement le résultat de cette fonction pour 
+  vérifier un mot de passe. La fonction @@VerifyPasswordHash doit être appelée pour vérifier 
+  un mot de passe.
+@LineBreak
+@LineBreak
+ Cette fonction implémente l'algorithme de hachage de mot de passe bcrypt.
+
+@Example
+@Code
+  ; Créer un résumé de hachage pour un stockage sécurisé
+  Hash$ = CreatePasswordHash("secret")
+
+  ; Vérifiez les mots de passe par rapport au hachage
+  Debug VerifyPasswordHash("secret", Hash$)      ; correct
+  Debug VerifyPasswordHash("autresecret", Hash$) ; incorrect
+@EndCode
+
+@SeeAlso
+  @@VerifyPasswordHash
+ 
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = VerifyPasswordHash(MotDePasse$, Hash$)
+
+@Description
+  Vérifie si un mot de passe correspond à la valeur de hachage créée avec @@CreatePasswordHash.
+
+@Parameter "MotDePasse$"
+  Le mot de passe à vérifier.
+
+@Parameter "Hash$"
+ Le résultat de l’appel à @@CreatePasswordHash.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le mot de passe correspond à la valeur de hachage, zéro sinon 
+  (pas de correspondance ou valeur de hachage non valide).
+.
+
+@Example
+  Voir @@CreatePasswordHash.
+
+@SeeAlso
+  @@CreatePasswordHash
  
 @SupportedOS
 
@@ -273,75 +356,108 @@
 @Function Resultat$ = DESFingerprint(MotDePasse$, Cle$)
 
 @Description
-  Renvoie une version cryptée d'un mot de passe, 
-  en utilisant le cryptage DES.
- 
-@Parameter "MotDePasse$"
-  Le mot de passe à crypter.@LineBreak
-  Il peut contenir jusqu'à 8 caractères 
-  au maximum, les autres caractéres sont 
-  tout simplement ignorés.@LineBreak
-  @@StringFingerprint peut être utilisé 
-  pour traiter un tampon plus grand.
-
-@Parameter "Cle$"
-  Clé de cryptage.@LineBreak
-@Indent
-  Elle est est également appelée paramètre 'Salt' 
-  (grain de sel), bien connu des 
-  utilisateurs de Linux/Unix/BSD.
-  Lorsque l'on utilise une clé de 2 
-  caractères, cette fonction renvoie une 
-  chaîne 'Salt2', compatible avec tout
-  mot de passe standard Linux (/etc/passwd). 
-  Cette commande est basée sur la fonction 
-  open source 'crypt()'.
-@EndIndent
-
-@ReturnValue  
-  Renvoie le mot de passe crypté.
-  
-@Remarks  
-  Cet algorithme est basé sur la méthode 
-  de chiffrement DES (Data Encryption 
-  Standard) pour générer une chaîne de
-  13 caractères. Cette chaîne est unique 
-  et non réversible entrainant une grande 
-  difficulté pour la 'cracker' lorsque le 
-  mot de passe est correctement choisi.
-
-@Example
-@Code
-  Debug DESFingerprint("Mot de passe", "Key007")
-  Debug DESFingerprint("Nouveau mot de passe", "Key007")
-@EndCode
+@Deprecated
+  Renvoie une version cryptée DES du mot de passe.@LineBreak
+  Cette commande est obsolète car elle n'est plus suffisamment sécurisée pour les utilisations modernes.@LineBreak
+  Utilisez plutôt la fonction @@CreatePasswordHash.
 
 @SeeAlso
-  @@StringFingerprint, @@FingerPrint
-   
+  @@CreatePasswordHash
+  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = StartFingerprint(#Fingerprint, Plugin [, Bits])
+@Function Resultat = DeriveCipherKey(MotDePasse$, Salage$, Iterations, *Cle, CleBits, Plugin [, PluginBits])
 
 @Description
-  Initialise le calcul d'une empreinte 
-  en plusieurs étapes. 
+  Crée une clé de chiffrement avec le nombre spécifié de bits à partir d'un mot de passe d'entrée pour 
+  une utilisation dans d'autres fonctions de chiffrement comme le cryptage ou le déchiffrement. 
+  Cette fonction implémente l'algorithme de dérivation de clé PBKDF2.
+
+@Parameter "MotDePasse$"
+  Le mot de passe pour la génération de la clé.
+
+@Parameter "Salage$"
+  Une chaîne de "salage" ("salt string") afin de rendre le résultat de la fonction unique même si le 
+  même mot de passe est utilisé. Cela rend les attaques par force brute plus difficiles et empêche 
+  la divulgation d'informations en cas de correspondance des mots de passe.
+@LineBreak
+@LineBreak
+  Cette valeur ne doit pas nécessairement être secrète mais elle doit être unique si possible.
+  
+@Parameter "Iterations"
+  Le nombre d'itérations de la boucle de génération de clé PBKDF2. 
+@LineBreak
+@LineBreak  
+  Un nombre plus élevé augmente le temps/calculs nécessaires pour calculer la clé et rend donc 
+  les attaques par force brute plus difficiles.
+  
+@Parameter "*Cle"
+  Pointeur vers l'emplacement mémoire de la clé. @LineBreak
+  La zone mémoire doit avoir une taille d'au moins KeyBits/8 octets.
+  
+@Parameter "CleBits"
+  La taille de la clé à générer en bits.
+  
+@Parameter "Plugin"
+  Le plugin pour la fonction d'empreinte digitale à utiliser dans le calcul des clés. 
+  Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Cipher_MD5  : Utilise l'algorithme MD5.  @@UseMD5Fingerprint doit être appelé avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA1 : Utilise l'algorithme SHA1. @@UseSHA1Fingerprint doit être appelé avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA2 : Utilise l'algorithme SHA2. @@UseSHA2Fingerprint doit être appelé avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA3 : Utilise l'algorithme SHA3. @@UseSHA3Fingerprint doit être appelé avant d'enregistrer ce plugin.
+@EndFixedFont
+
+@OptionalParameter "PluginBits"
+  Le nombre de bits à utiliser pour la fonction d'empreinte digitale (fingerpriint). Il n'est pris en 
+  charge que pour le plugin suivant :
+@FixedFont
+  @#PB_Cipher_SHA2 : Peut être 224, 256 (par défaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : Peut être 224, 256 (par défaut), 384 ou 512.
+@EndFixedFont
+  Le nombre de bits pour la fonction d'empreinte digitale est indépendant de la taille de la clé à 
+  générer. Toute combinaison est autorisée.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la clé a été générée. Renvoie zéro uniquement si les paramètres du 
+  plugin n'étaient pas valides.
+
+@Example
+@Code
+  UseSHA2Fingerprint()
+  *Cle = AllocateMemory(32)
+
+  ; Créez une clé de 256 bits à l'aide de la fonction de hachage SHA-512 et de 500 000 itérations
+  DeriveCipherKey("MotdePasseSecret", "SalageNonSecret", 500000, *Cle, 256, #PB_Cipher_SHA2, 512)
+
+  ; Montrer la clé
+  ShowMemoryViewer(*Cle, 32)
+@EndCode
+
+@SeeAlso
+  @@AESEncoder, @@AESDecoder, @@StartAESCipher
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = StartFingerprint(#Fingerprint, Plugin [, Bits [, CleHmac$ [,FormatCleHmac]]])
+
+@Description
+  Initialise le calcul d'une empreinte en plusieurs étapes. 
 @LineBreak
 @LineBreak   
-  Contrairement à la commande @@Fingerprint, 
-  elle permet de calculer l'empreinte de grandes 
-  quantités de données sans avoir à charger 
-  le tout dans un tampon de mémoire continue. 
+  Contrairement à la commande @@Fingerprint, elle permet de calculer l'empreinte de grandes 
+  quantités de données sans avoir à charger le tout dans un tampon de mémoire continue. 
 
 @Parameter "#Fingerprint"
   L'identifiant de ce calcul de type 'checksum'. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut est utilisé pour générer automatiquement 
-  ce nombre.
+  peut est utilisé pour générer automatiquement ce nombre.
 
 @Parameter "Plugin"
   Le plugin à utiliser. Peut être l'une des valeurs suivantes:
@@ -352,7 +468,11 @@
   @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
   @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
 @EndFixedFont
-
+  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
+     
 @OptionalParameter "Bits"
   Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
 @FixedFont
@@ -360,15 +480,26 @@
   @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
 
+@OptionalParameter "CleHmac$"
+    La clé secrète à utiliser dans le calcul HMAC. 
+@LineBreak
+@LineBreak 
+  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  
+@OptionalParameter "FormatCleHmac"
+  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Ascii  : Encoder la clé en ASCII
+  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
+  @#PB_Unicode: Encoder la clé en Unicode
+@EndFixedFont
+
 @ReturnValue  
-  Renvoie la valeur #FingerPrint si 
-  @#PB_Any a été utilisé pour ce paramètre.
+  Renvoie la valeur #FingerPrint si @#PB_Any a été utilisé pour ce paramètre.
 
 @Remarks
-  @@AddFingerprintBuffer permet d'ajouter des 
-  blocs de données au calcul et 
-  @@FinishFingerprint le terminera et 
-  renverra le résultat.
+  @@AddFingerprintBuffer permet d'ajouter des blocs de données au calcul et 
+  @@FinishFingerprint le terminera et renverra le résultat.
    
 @Example
 @Code
@@ -395,8 +526,7 @@
 @EndCode
 
 @SeeAlso
-  @@Fingerprint, @@FileFingerprint, 
-  @@StringFingerprint
+  @@Fingerprint, @@FileFingerprint, @@StringFingerprint
  
 @SupportedOS
 
@@ -551,7 +681,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = FileFingerprint(Fichier$, Plugin [, Bits  [, Decalage [, Longueur]]))
+@Function Resultat$ = FileFingerprint(Fichier$, Plugin [, Bits  [, Decalage [, Longueur [, CleHmac$ [,FormatCleHmac]]]]])
 
 @Description
   Renvoie une empreinte d'un fichier.
@@ -568,7 +698,11 @@
   @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
   @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
 @EndFixedFont
-
+  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
+  
 @OptionalParameter "Bits"
   Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
 @FixedFont
@@ -577,32 +711,41 @@
 @EndFixedFont
   
 @OptionalParameter "Decalage"
-  Le décalage en octets (offset), à partir du 
-  début du fichier avant de lancer le 
-  calcul de la somme de contrôle.
+  Le décalage en octets (offset), à partir du début du fichier avant de lancer le calcul de la somme 
+  de contrôle.
 
 @OptionalParameter "Longueur"
-  La longueur (en octets) à utiliser pour 
-  le calcul de la somme de contrôle.
+  La longueur (en octets) à utiliser pour le calcul de la somme de contrôle.
+ 
+@OptionalParameter "CleHmac$"
+    La clé secrète à utiliser dans le calcul HMAC. 
+@LineBreak
+@LineBreak 
+  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
   
+@OptionalParameter "FormatCleHmac"
+  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Ascii  : Encoder la clé en ASCII
+  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
+  @#PB_Unicode: Encoder la clé en Unicode
+@EndFixedFont
+ 
 @ReturnValue  
-  Renvoie l'empreinte si le calcul a été un 
-  succès.
+  Renvoie l'empreinte si le calcul a été un succès.
 @LineBreak
 @LineBreak   
-   Si le fichier est introuvable ou qu'une 
-   erreur s'est produite, le résultat 
-   sera une chaîne de caractères vide.
+   Si le fichier est introuvable ou qu'une erreur s'est produite, le résultat sera une chaîne de 
+   caractères vide.
 
 @SeeAlso
-  @@Fingerprint, @@StartFingerprint, 
-  @@StringFingerprint
+  @@Fingerprint, @@StartFingerprint, @@StringFingerprint
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = Fingerprint(*Tampon, Taille, Plugin [, Bits])
+@Function Resultat$ = Fingerprint(*Tampon, Taille, Plugin [, Bits [, CleHmac$ [,FormatCleHmac]]])
 
 @Description
   Renvoie l'empreinte des données contenues 
@@ -623,7 +766,11 @@
   @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
   @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
 @EndFixedFont
-
+  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
+  
 @OptionalParameter "Bits"
   Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
 @FixedFont
@@ -631,9 +778,22 @@
   @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
 
+@OptionalParameter "CleHmac$"
+    La clé secrète à utiliser dans le calcul HMAC. 
+@LineBreak
+@LineBreak 
+  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  
+@OptionalParameter "FormatCleHmac"
+  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Ascii  : Encoder la clé en ASCII
+  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
+  @#PB_Unicode: Encoder la clé en Unicode
+@EndFixedFont
+
 @ReturnValue
-  Renvoie l'empreinte sous forme d'une chaîne 
-  de caractères hexadécimale.
+  Renvoie l'empreinte sous forme d'une chaîne de caractères hexadécimale.
 
 @Example (Une chaîne en tant que tampon mémoire)
 @Code
@@ -656,14 +816,13 @@
 @EndCode
 
 @SeeAlso
-  @@FileFingerprint, @@StartFingerprint, 
-  @@StringFingerprint
+  @@FileFingerprint, @@StartFingerprint, @@StringFingerprint
    
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = StringFingerprint(Texte$, Plugin [, Bits [, Format]])
+@Function Resultat$ = StringFingerprint(Texte$, Plugin [, Bits [, Format [, CleHmac$ [,FormatCleHmac]]]])
 
 @Description 
   Renvoie l'empreinte d'une chaîne de caractères.
@@ -680,6 +839,9 @@
   @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
   @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
 @EndFixedFont
+  Le plugin peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. 
+  Dans ce cas, le paramètre "CleHmac$" est également nécessaire.
 
 @OptionalParameter "Bits"
   Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
@@ -698,6 +860,20 @@
   @#PB_Unicode : la chaîne sera 'hashée' au format Unicode (UTF16).
 @EndFixedFont
 
+@OptionalParameter "CleHmac$"
+    La clé secrète à utiliser dans le calcul HMAC. 
+@LineBreak
+@LineBreak 
+  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  
+@OptionalParameter "FormatCleHmac"
+  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Ascii  : Encoder la clé en ASCII
+  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
+  @#PB_Unicode: Encoder la clé en Unicode
+@EndFixedFont
+
 @ReturnValue
   Renvoie l'empreinte sous forme d'une chaîne 
   de caractères hexadécimale.
@@ -707,6 +883,15 @@
   UseMD5Fingerprint()
 
   Debug StringFingerprint("UnMotdePasse", #PB_Cipher_MD5)
+@EndCode
+
+@Example HMAC
+@Code
+  UseSHA2Fingerprint()
+
+  ; Utilise hmacSha256 avec la clé et le message en ascii.
+  ; Devrait être 4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988.
+   Debug StringFingerprint("le message à hacher ici", #PB_Cipher_SHA2|#PB_Cipher_HMAC, 256, #PB_Ascii, "la clé secrète partagée ici", #PB_Ascii)
 @EndCode
 
 @SeeAlso
@@ -942,11 +1127,11 @@
   La taille de la mémoire tampon de sortie.
 @Indent
   La mémoire tampon de sortie peut être 
-  jusqu'à 33% plus petite que le tampon 
+  jusqu'à 25% plus petite que le tampon 
   d'entrée, avec une taille minimale de 
   64 octets.@LineBreak
   Il est recommandé de faire un tampon 
-  légèrement plus grand, par exemple 30%, 
+  légèrement plus grand, par exemple 20%, 
   pour éviter les débordements.
 @EndIndent
 
@@ -1060,11 +1245,11 @@
   La taille de la mémoire tampon de sortie.
 @Indent
   La mémoire tampon de sortie peut être 
-  jusqu'à 33% plus petite que le tampon 
+  jusqu'à 25% plus petite que le tampon 
   d'entrée, avec une taille minimale de 
   64 octets.@LineBreak
   Il est recommandé de faire un tampon 
-  légèrement plus grand, par exemple 30%, 
+  légèrement plus grand, par exemple 20%, 
   pour éviter les débordements.
 @EndIndent
 
@@ -1160,15 +1345,20 @@
 
 @Example
 @Code
-  *Texte = UTF8("Voici un texte !")
+  String$ = "Voici un texte !"
+  
+  ; Encodage d'une chaîne Ascii
+  *Texte = ASCII(String$)
     
-  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte) - 1)
- ;Encoder$ = Base64Encoder(*Texte, StringByteLength("Voici un texte !",#PB_UTF8))
+  Encoder$ = Base64Encoder(*Texte, StringByteLength(String$, #PB_Ascii))
   Debug "Texte encodé: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)
   Base64Decoder(Encoder$, *TamponDecoder, 1024)
-  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8)
+  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_Ascii) + "'"
+  
+  FreeMemory(*Texte)
+  FreeMemory(*TamponDecoder)
 @EndCode
 
 @SeeAlso
@@ -1205,15 +1395,20 @@ seulement de 32 à 127 caractères) pour les fichiers binaires bruts.
 
 @Example
 @Code
-  *Texte = UTF8("Voici un texte !")
+  String$ = "Voici un texte !"
+  
+  ; Encodage d'une chaîne 
+  *Texte = UTF8( String$)
     
-  Encoder$ = Base64Encoder(*Texte, MemorySize(*Texte) - 1)
- ;Encoder$ = Base64Encoder(*Texte, StringByteLength("Voici un texte !",#PB_UTF8))
+  Encoder$ = Base64Encoder(*Texte, StringByteLength(String$, #PB_UTF8))
   Debug "Texte encodé: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)
   Base64Decoder(Encoder$, *TamponDecoder, 1024)
-  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8)
+  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8) + "'"
+  
+  FreeMemory(*Texte)
+  FreeMemory(*TamponDecoder)
 @EndCode
 
 @SeeAlso
@@ -1232,8 +1427,7 @@ seulement de 32 à 127 caractères) pour les fichiers binaires bruts.
   L'identifiant du nouveau chiffrement.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer 
   automatiquement ce numéro.
 
 @Parameter "*Cle"
@@ -1246,10 +1440,9 @@ seulement de 32 à 127 caractères) pour les fichiers binaires bruts.
 @EndFixedfont
 
 @Parameter "Bits"
-   La taille de la clé utilisée par le 
-   chiffrement. @LineBreak
-   Les valeurs valides sont 128, 192 et 
-   256.
+   La taille de la clé utilisée par le chiffrement. @LineBreak
+   Les valeurs valides sont 128, 192 et 256.@LineBreak
+   @@DeriveCipherKey peut être utilisé pour créer cette clé à partir d'un mot de passe.
    
 @Parameter "*VecteurInitialisation"
    Est un bloc de données aléatoires, 
@@ -1279,26 +1472,20 @@ avec
 @EndFixedFont
 
 @ReturnValue
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Cipher alors un numéro 
-  généré automatiquement est retourné.
+  Si @#PB_Any a été utilisé pour le paramètre #Cipher alors un numéro généré automatiquement
+  est renvoyé.
 
 @Remarks
-  Les nouveaux tampons à encoder ou à 
-  décoder peuvent être ajoutés avec 
-  @@AddCipherBuffer.
+  Les nouveaux tampons à encoder ou à décoder peuvent être ajoutés avec @@AddCipherBuffer.
   @LineBreak
   @LineBreak
-  Une fois le codage terminé, 
-  @@FinishCipher doit être appelé.
+  Une fois le codage terminé, @@FinishCipher doit être appelé.
   @LineBreak
   @LineBreak
-  Pour plus d'information à propos de 
-  AES, voir @@AESEncoder.
+  Pour plus d'information à propos de AES, voir @@AESEncoder.
 
 @SeeAlso
-  @@AddCipherBuffer, @@FinishCipher, 
-  @@AESEncoder, @@AESDecoder
+  @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder, @@DeriveCipherKey
   
 @SupportedOS
 

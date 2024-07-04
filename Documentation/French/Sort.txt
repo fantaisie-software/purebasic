@@ -35,6 +35,223 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function CustomSortArray(Tableau(), @ProcedureCompare() [, Options [, Debut, Fin]])
+
+@Description
+  Trie le @ReferenceLink "dim" "tableau" selon les options données par une procédure personnalisée
+  pour comparer les éléments du tableau.
+
+@Parameter "Tableau()"
+  Le tableau à trier.
+  
+@Parameter "@ProcedureCompare()"
+  L'adresse d'une procédure pour comparer les éléments du tableau. La procédure doit avoir deux 
+  paramètres qui recevront l'adresse mémoire des deux éléments à comparer et renvoyer l'une des 
+  valeurs suivantes :
+@FixedFont
+   @#PB_Sort_Greater : Le premier élément est supérieur au second.
+   @#PB_Sort_Equal   : Les deux éléments sont égaux.
+   @#PB_Sort_Lesser  : Le premier élément est inférieur au second.
+@EndFixedFont
+  La procédure de comparaison est appelée très souvent pendant le processus de tri, elle doit donc 
+  effectuer le moins de travail possible et être rapide à exécuter.
+
+@OptionalParameter "Options"
+   Il peut s'agir d'une combinaison des valeurs suivantes :
+@FixedFont
+  @#PB_Sort_Ascending  : Trie le tableau par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par défaut.
+  @#PB_Sort_Descending : Trie le tableau par ordre décroissant (les valeurs les plus élevées en premier)
+@EndFixedFont
+
+@OptionalParameter "Debut, Fin"
+  L'index du premier et du dernier élément du tableau qui doit être trié.@LineBreak 
+  Si ces paramètres ne sont pas spécifiés alors tout le tableau est trié.
+
+@NoReturnValue
+
+@Remarks
+  Le tableau peut avoir une @ReferenceLink "Structures" "structure" 
+  ou l'un des @ReferenceLink "variables" "types de base" : octet, mot, long, entier, chaîne ou flottant 
+  (byte, word, long, integer, string ou float).
+  Les tableaux multidimensionnels ne sont pas pris en charge.
+
+@Example Trier un tableau structuré
+@Code
+   Structure CustomStruct
+     Valeur$
+   EndStructure
+  
+   ; Trier par valeur numérique dans l'élément chaîne de la structure
+   Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
+    If Val(*a\Valeur$) < Val(*b\Valeur$)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Val(*a\Valeur$) > Val(*b\Valeur$)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+   Dim Test.CustomStruct(6)
+  
+   Test(0)\Valeur$ = "0005"
+   Test(1)\Valeur$ = "2"
+   Test(2)\Valeur$ = "42"
+   Test(3)\Valeur$ = "7"
+   Test(4)\Valeur$ = "23"
+   Test(5)\Valeur$ = "100"
+   Test(6)\Valeur$ = "101"
+  
+   CustomSortArray(Test(), @CustomCompare(), #PB_Sort_Ascending)
+  
+  For i = 0 To 6
+     Debug Test(i)\Valeur$
+  Next i
+@EndCode
+
+@Example Trier un tableau avec un  type de base
+@Code
+   ; Trier les éléments flottants par valeur absolue (en ignorant le signe)
+   Procedure AbsCompare(*a.Float, *b.Float)
+    If Abs(*a\f) < Abs(*b\f)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Abs(*a\f) > Abs(*b\f)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+   Dim Test.f(4)
+   Test(0) = 2.5
+   Test(1) = -3.0
+   Test(2) = 0
+   Test(3) = 12
+   Test(4) = -100
+  
+   CustomSortArray(Test(), @AbsCompare())
+  
+  For i = 0 To 4
+    Debug Test(i)
+  Next i
+@EndCode
+
+@SeeAlso
+  @@SortArray, @@SortStructuredArray, @@RandomizeArray
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CustomSortList(Liste(), @ProcedureCompare() [, Options [, Debut, Fin]])
+
+@Description
+  Trie la  @LibraryLink "List" "liste" selon les options données à l'aide d'une procédure personnalisée
+  pour comparer les éléments du tableau.
+
+@Parameter "Liste()"
+  La liste à trier.
+
+@Parameter "@ProcedureCompare()"
+  L'adresse de la procédure pour comparer les éléments de la liste. 
+  La procédure doit avoir deux paramètres qui recevront l'adresse mémoire des deux éléments à comparer 
+  et renvoyer l'une des valeurs suivantes :
+@FixedFont
+   @#PB_Sort_Greater : Le premier élément est supérieur au second.
+   @#PB_Sort_Equal   : Les deux éléments sont égaux.
+   @#PB_Sort_Lesser  : Le premier élément est inférieur au second.
+@EndFixedFont
+  La procédure de comparaison est appelée très souvent pendant le processus de tri, elle doit donc 
+  effectuer le moins de travail possible et être rapide à exécuter.
+
+@OptionalParameter "Options"
+  Il peut s'agir d'une combinaison des valeurs suivantes :
+@FixedFont
+   @#PB_Sort_Ascending  : Trie la liste par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par défaut.
+   @#PB_Sort_Descending : Trie la liste par ordre décroissant (les valeurs les plus élevées en premier)
+@EndFixedFont
+
+@OptionalParameter "Debut, Fin"
+  L'index du premier et du dernier élément de la liste qui doit être trié. 
+  Si ces paramètres ne sont pas spécifiés, alors toute la liste est triée.
+  @LineBreak
+  Le premier élément de la liste est à la position 0, le suivant à 1 et ainsi de suite.
+
+@NoReturnValue
+
+@Remarks
+  La liste peut avoir une @ReferenceLink "Structures" "structure"
+  ou l'un des @ReferenceLink "variables" "types de base" : Octet, mot, long, entier, chaîne ou flottant 
+  (byte, word, long, integer, string ou float).@LineBreak
+
+@Example Trier la liste structurée
+@Code
+   Structure CustomStruct
+     Valeur$
+   EndStructure
+  
+   ; Trier par valeur numérique dans l'élément chaîne de la structure
+    Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
+    If Val(*a\Valeur$) < Val(*b\Valeur$)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Val(*a\Valeur$) > Val(*b\Valeur$)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  NewList Test.CustomStruct()
+  
+   AddElement(Test()) : Test()\Valeur$ = "0005"
+   AddElement(Test()) : Test()\Valeur$ = "2"
+   AddElement(Test()) : Test()\Valeur$ = "42"
+   AddElement(Test()) : Test()\Valeur$ = "7"
+   AddElement(Test()) : Test()\Valeur$ = "23"
+   AddElement(Test()) : Test()\Valeur$ = "100"
+   AddElement(Test()) : Test()\Valeur$ = "101"
+  
+   CustomSortList(Test(), @CustomCompare(), #PB_Sort_Ascending)
+  
+  ForEach Test()
+    Debug Test()\Valeur$
+  Next
+@EndCode
+
+@Example Trier la liste avec un type de base
+@Code
+   ; Trier les éléments flottants par valeur absolue (en ignorant le signe)
+   Procedure AbsCompare(*a.Float, *b.Float)
+    If Abs(*a\f) < Abs(*b\f)
+      ProcedureReturn #PB_Sort_Lesser
+    ElseIf Abs(*a\f) > Abs(*b\f)
+      ProcedureReturn #PB_Sort_Greater
+    Else
+      ProcedureReturn #PB_Sort_Equal
+    EndIf
+  EndProcedure
+  
+  NewList Test.f()
+   AddElement(Test()):Test() = 2.5
+   AddElement(Test()):Test() = -3.0
+   AddElement(Test()):Test() = 0
+   AddElement(Test()):Test() = 12
+   AddElement(Test()):Test() = -100
+  
+  CustomSortList(Test(), @AbsCompare())
+  
+  ForEach Test()
+    Debug Test()
+  Next
+@EndCode
+
+@SeeAlso
+  @@SortList, @@SortStructuredList, @@RandomizeList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function SortArray(Tableau(), Options [, Debut, Fin])
 
 @Description
@@ -89,7 +306,7 @@
   ils produisent des résultats aléatoires.
   
 @SeeAlso
-  @@SortList, @@SortStructuredArray, 
+  @@SortList, @@CustomSortArray, @@SortStructuredArray, 
   @@SortStructuredList, @@RandomizeArray, 
   @@RandomizeList, @@Random, @@RandomSeed
   
@@ -143,7 +360,7 @@
   
 @SeeAlso
   @@SortArray, @@SortStructuredArray, 
-  @@SortStructuredList, @@RandomizeArray, 
+  @@SortStructuredList, @@CustomSortList, @@RandomizeArray, 
   @@RandomizeList, @@Random, @@RandomSeed
 
 @SupportedOS
@@ -259,7 +476,7 @@
 @EndCode
 
 @SeeAlso
-  @@SortArray, @@SortList, 
+  @@SortArray, @@CustomSortArray, @@SortList, 
   @@SortStructuredList , 
   @@RandomizeArray, 
   @@RandomizeList, 
@@ -382,7 +599,7 @@
   @@SortArray, @@SortList, 
   @@SortStructuredArray, 
   @@RandomizeArray, 
-  @@RandomizeList, 
+  @@RandomizeList, @@CustomSortList, 
   @@Random, 
   @@RandomSeed
   

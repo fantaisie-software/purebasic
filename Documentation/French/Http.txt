@@ -90,99 +90,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = GetHTTPHeader(URL$ [, Options [, AgentUtilisateur$]])
-
-@Description
-  Récupère l'en-tête HTTP d'une URL. 
-  @LineBreak
-  @LineBreak
-  @Deprecated
- @Bold "Note:" Veuillez utiliser @@HTTPRequest à la place.
-
-  
-@Parameter "URL$"  
-  L'URL à utiliser.
-@LineBreak
-@LineBreak
-  L'URL doit être complète, en 
-  incluant le préfixe "http://" 
-  ou "https://". 
-  
-@OptionalParameter "Options"
-  Peut avoir l'une des valeurs suivantes:
-@FixedFont
-  @#PB_HTTP_NoRedirect: Pas de redirections automatiques.
-@EndFixedFont
-
-@OptionalParameter "AgentUtilisateur$"
-  Change l'agent utilisateur (UserAgent) pour la requête HTTP.@LineBreak  
-  L'agent utilisateur par défaut est défini sur "Mozilla / 5.0 Gecko / 41.0 
-  Firefox / 41.0" pour une compatibilité maximale.
-  
-@ReturnValue  
-  Renvoie une chaîne de caractères 
-  contenant l'en-tête. 
-@LineBreak
-@LineBreak    
-  Chaque ligne est terminée 
-  par #LF$ (voir aussi 
-  @Link "String/Chr" "Chr(10)").
-  @LineBreak
-  @@StringField peut servir 
-  à séparer facilement chaque 
-  ligne de l'en-tête.
-@LineBreak
-@LineBreak  
-  Le contenu des en-têtes est 
-  dépendant du type de serveur 
-  Web, il est donc possible d'avoir 
-  des informations différentes 
-  en fonction du serveur.@LineBreak 
-  Les serveurs produisent des 
-  informations utiles comme la 
-  date, le type de serveur, sa 
-  version, et plus encore. 
-@LineBreak
-@LineBreak
-  Exemple d'un en-tête:
-@FixedFont
-  HTTP/1.1 200 OK
-  Date: Sat, 02 Aug 2014 09:15:32 GMT
-  Server: Apache/2.2.16 (Debian)
-  X-Powered-By: PHP/5.3.3-7+squeeze19
-  Vary: Accept-Encoding
-  Content-Type: text/html
-@EndFixedFont  
-
-@Remarks
-  Certains antivirus sont tellement 
-  stricts qu'ils empêchent l'envoi 
-  de telles requêtes à moins d'activer 
-  leur mode 'Jeu'.
-@LineBreak
-@LineBreak  
-  Sous Linux, 'libcurl' doit être installé pour 
-  que cette commande fonctionne (déjà installé 
-  dans la plupart des distributions Linux).
-  
-@Example 
-@Code
-  EnTete$ = GetHTTPHeader("http://www.purebasic.com/index.php")
-  
-  Repeat 
-    Index+1
-    Ligne$ = StringField(EnTete$, Index, #LF$)
-    Debug Ligne$
-  Until Ligne$ = ""
-@EndCode
-
-@SeeAlso
-  @@HTTPRequest, @@ReceiveHTTPFile, @@URLEncoder
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
 @Function Resultat$ = GetURLPart(URL$, Parametre$)
 
 @Description
@@ -315,7 +222,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = HTTPInfo(RequeteHttp, Type [, Options])
+@Function Resultat$ = HTTPInfo(RequeteHttp, Type [, Options])
 
 @Description
   Renvoie des informations sur une requête HTTP créée avec @@HTTPRequest ou
@@ -374,7 +281,7 @@
   La requête HTTP.
   
 @ReturnValue
-  Le tampon contenant la réponse complète (raw) d'une requête HTTP.
+  L'adresse mémoire du tampon contenant la réponse complète (raw) d'une requête HTTP.
   
 @Remarks
   Le tampon doit être libéré avec@@FreeMemory.@LineBreak
@@ -472,9 +379,14 @@
 
 @NoReturnValue
 
-@Remark
+@Remarks
   Si "Créer un exécutable thread-safe" est activé dans les @ReferenceLink "ide_compiler" "options du compilateur" alors
-   chaque thread a ses propres délais d'attente, ce qui signifie que deux threads peuvent avoir des délais d'attente différents en même temps.
+  chaque thread a ses propres délais d'attente, ce qui signifie que deux threads peuvent avoir des délais d'attente différents en même temps.
+@LineBreak
+@LineBreak
+  Sous Linux, "libcurl" doit être installé pour que cette commande fonctionne ce qui est déjà le cas de 
+  la plupart des distributions Linux.
+  
   
 @Example
 @Code

@@ -1,7 +1,7 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library File
@@ -551,10 +551,10 @@
 @OptionalParameter "Flags"
   Kann eine Kombination (mit Hilfe des '| Operanden) der folgenden Werte sein:
 @FixedFont
-  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess für eine Lese-Operation geöffnet
-                        wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
-  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess für eine Schreib-Operation geöffnet
-                        wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
+  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess oder Thread für eine Lese-Operation 
+                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
+  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess oder Thread für eine Schreib-Operation
+                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
 @EndFixedFont
@@ -577,13 +577,14 @@
 
 @Example
 @Code
-  If ReadFile(0, "Text.txt")   ; wenn die Datei geöffnet werden konnte, setzen wir fort...
-    While Eof(0) = 0           ; sich wiederholende Schleife bis das Ende der Datei ("end of file") erreicht ist
-      Debug ReadString(0)      ; Zeile für Zeile im Debugger-Fenster anzeigen
+  If ReadFile(0, "Text.txt")       ; wenn die Datei geöffnet werden konnte, setzen wir fort...
+    Format = ReadStringFormat(0)
+    While Eof(0) = 0               ; sich wiederholende Schleife solange das Ende der Datei ("end of file") noch nicht erreicht wurde
+      Debug ReadString(0, Format)  ; Zeile für Zeile im Debugger-Fenster anzeigen
     Wend
-    CloseFile(0)               ; schließen der zuvor geöffneten Datei
+    CloseFile(0)                   ; schließen der zuvor geöffneten Datei
   Else
-    MessageRequester("Information","Konnte Datei nicht öffnen!")
+    MessageRequester("Information", "Konnte Datei nicht öffnen!")
   EndIf
 @EndCode
 

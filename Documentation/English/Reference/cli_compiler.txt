@@ -5,7 +5,7 @@
   The command line compiler is located in the subdirectory 'compilers' from the PureBasic folder. 
   The easier way to access it is to add this directory in the PATH variable, 
   which will give access to all the commands of this directory at all times. 
-  @LineBreak
+@LineBreak
 @LineBreak
   There is two compilers for PureBasic: @LineBreak
   - 'pbcompiler' which is generating assembly code (x86 and x64)@LineBreak
@@ -13,6 +13,9 @@
 @LineBreak
   The C backend compiler is available on all supported platforms, while the ASM backend compiler
   is only supported on Windows (x86, x64), Linux (x86, x64) and OS X (x64).
+@LineBreak
+@LineBreak
+  The backend C compiler does not allow entering assembly code.
   
 @Section Cross-platform command switches
 
@@ -53,8 +56,8 @@
   @LineBreak
   -t, --thread, /THREAD: uses thread safe runtime for strings and general routines.@LineBreak
   @LineBreak
-  -s, --subsystem, /SUBSYSTEM "name": uses the specific subsystem to replace a set of internal functions. For
-  more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
+  -s, --subsystem, /SUBSYSTEM "name": uses the specific subsystem to replace a set of internal functions. The subsystem name is
+  not case-sensitive. For more information, see @ReferenceLink "subsystems" "subsystems". @LineBreak
   @LineBreak
   -k, --check, /CHECK: checks the syntax only, doesn't create or launch the executable. @LineBreak
   @LineBreak 
@@ -74,6 +77,18 @@
   and is available in a flat file format. No comments are included by default, but the flag '--commented' can be
   used to have all untouched original source as comments and allow comments processing. The preprocessed
   file can be recompiled as any other PureBasic source file to create the final executable. @LineBreak
+  @LineBreak
+  -ls, --liststructures, /LISTSTRUCTURES: creates a file with all the built-in structures known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -lf, --listfunction, /LISTFUNCTIONS: creates a file with all the built-in purebasic commands known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -li, --listinterfaces, /LISTINTERFACES: creates a file with all the built-in interfaces known by the compiler. The filename can
+  be specified with '--output'. @LineBreak
+  @LineBreak
+  -qs, --querystructure, /QUERYSTRUCTURE "name": creates a file with the structure definition. The filename can
+  be specified with '--output. @LineBreak
   @LineBreak
   -g, --language, /LANGUAGE \"language\": uses the specified language for the compiler error messages. @LineBreak
   @LineBreak
@@ -104,7 +119,7 @@
   @LineBreak
   /DLL: output file is a @ReferenceLink "dll" "DLL". @LineBreak
   @LineBreak
-  /XP: Add the Windows XP theme support to the executable. @LineBreak
+  /XP: Add the Windows theme support to the executable. @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE or /SSE2: Creates a processor specific executable. This means if a 
   processor specific routine is available it will be used for this executable. 
@@ -139,6 +154,9 @@
   /USER: The program will run as the user who started it. Virtualization for the exe is turned off. @LineBreak
   @LineBreak
   /DPIAWARE: Enable DPI support to the executable. @LineBreak
+  @LineBreak
+  /DLLPROTECTION: Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system. @LineBreak
   @LineBreak
   
   @Bold "Examples:"

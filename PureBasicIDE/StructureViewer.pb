@@ -9,6 +9,13 @@ Global Dim InterfaceList.s(0)
 Global Dim ConstantList.s(0)
 Global Dim ConstantValueList.s(0)
 
+; The values stored in the tree are indexes into StructureList(), InterfaceList() and ConstantList() "index+1" actually
+; This is for easy access with RadixFindRange(). The +1 is to avoid 0 value which are not stored in the radix tree
+Global ConstantTree.RadixTree
+Global StructureTree.RadixTree
+Global InterfaceTree.RadixTree
+
+; Still used to show structure content based on selection of the first start character below
 Global Dim ConstantHT.l(27, 1)
 Global Dim StructureHT.l(27, 1)
 Global Dim InterfaceHT.l(27, 1)
@@ -20,7 +27,6 @@ EndStructure
 
 Global NewList StructureHistory.StructureHistory()
 
-Global StructureListSize, InterfaceListSize, ConstantListSize
 Global StructureViewerMode, IsRootDisplay, CurrentDisplayChar
 
 
@@ -51,6 +57,7 @@ Procedure LoadConstantList()
   ConstantListSize = ListSize(TempList())
   Dim ConstantList.s(ConstantListSize)
   Dim ConstantValueList.s(ConstantListSize)
+  RadixFree(ConstantTree)
   
   ; make all HT entries invalid
   For i = 0 To 27
@@ -96,6 +103,8 @@ Procedure LoadConstantList()
       ConstantList(i) = Left(ConstantList(i), Len(ConstantList(i))-1) + "$"
     EndIf
     
+    RadixInsert(ConstantTree, ConstantList(i), i+1)
+    
     c = Asc(UCase(Mid(ConstantList(i), 2, 1)))
     If c = '_'
       c = 27
@@ -131,6 +140,7 @@ Procedure InitStructureViewer()
   
   StructureListSize = Val(Response$)
   Dim StructureList.s(StructureListSize) ; no -1 here in case StructureListSize = 0
+  RadixFree(StructureTree)
   
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
   ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
@@ -156,6 +166,8 @@ Procedure InitStructureViewer()
   ; build ht
   k = 0
   For i = 0 To StructureListSize - 1
+    RadixInsert(StructureTree, StructureList(i), i+1)
+    
     c = Asc(UCase(Left(StructureList(i), 1)))
     If c = '_'
       c = 27
@@ -180,7 +192,7 @@ Procedure InitStructureViewer()
   
   InterfaceListSize = Val(Response$)
   Dim InterfaceList.s(InterfaceListSize) ; no -1 here in case InterfaceListSize = 0
-  
+  RadixFree(InterfaceTree)
   
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
   ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
@@ -206,6 +218,8 @@ Procedure InitStructureViewer()
   ; build ht
   k = 0
   For i = 0 To InterfaceListSize - 1
+    RadixInsert(InterfaceTree, InterfaceList(i), i+1)
+    
     c = Asc(UCase(Left(InterfaceList(i), 1)))
     If c = '_'
       c = 27
@@ -234,6 +248,9 @@ Procedure DisplayStructureRootList()
     g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
     gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
   CompilerEndIf
+  
+  ; Stop the redraw for a faster update
+  StartGadgetFlickerFix(#GADGET_StructureViewer_List)
   
   ClearGadgetItems(#GADGET_StructureViewer_List)
   
@@ -296,6 +313,8 @@ Procedure DisplayStructureRootList()
     gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
     g_object_unref_(*tree_model)                                                  ; release reference
   CompilerEndIf
+  
+  StopGadgetFlickerFix(#GADGET_StructureViewer_List)
   
   If ListSize(StructureHistory()) = 1
     If IsRootDisplay

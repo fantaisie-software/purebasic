@@ -1,7 +1,7 @@
 ;
 ;     Gadget library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -102,6 +102,17 @@
   </tr>
   </table>
   </center>
+  <p>
+  <center> 
+  <table WIDTH="96%" BORDER=0>
+  <caption> <b>Additional gadgets:</b> </caption>
+  <tr>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_scintillagadget.png"> <a href="../Scintilla/index.html"><u>Scintilla</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_webviewgadget.png"> <a href="../WebView/index.html"><u>Webview</u></a></td>
+     </tr>
+  </table>
+  </center> 
+
 @FormatEndIf
 
 
@@ -335,7 +346,7 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 60, "ButtonImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered) 
-    If LoadImage(0,  #PB_Compiler_Home + "/Examples/Sources/Data/PureBasic.bmp")    ; change 2nd parameter to the path/filename of your image
+    If LoadImage(0,  #PB_Compiler_Home + "examples/sources/Data/PureBasic.bmp")    ; change 2nd parameter to the path/filename of your image
       ButtonImageGadget(0, 10, 10, 180, 40, ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -398,7 +409,7 @@
   - @@GetGadgetState: Used with @#PB_Button_Toggle buttons to get the actual state of the button (1 = toggled, 0 = normal).
 
 ; Such system-specific things should not be documented imho, especially when 
-; they are not guaranteed to work anyway on all systems (see XP thing)
+; they are not guaranteed to work anyway on all systems (see Vista thing)
 ; -- freak
 ;
 ;@OS Windows
@@ -408,7 +419,7 @@
 ;  @LineBreak
 ;  In the button 'Text$' you can use the special '&' character to underline a specific letter: "&Button" will give in reality : @Underline "B"utton
 ;  @LineBreak
-;  (Note: under Windows XP the underlined letter will only be displayed if this is not deactivated in the system settings.)
+;  (Note: under Windows the underlined letter will only be displayed if this is not deactivated in the system settings.)
 ;  @LineBreak
 ;  @LineBreak
 ;  In combination with the @@AddKeyboardShortcut function a keyboard shortcut
@@ -520,18 +531,6 @@
   @@SetGadgetState, @@GetGadgetState, @@SetGadgetItemState, @@GetGadgetItemState, @@SetGadgetAttribute, @@GetGadgetAttribute, 
   @@SetGadgetColor, @@GetGadgetColor,
   @@DateGadget, @@Date, @@FormatDate
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function ChangeListIconGadgetDisplay(#Gadget, Mode)
-
-@Description
-@Deprecated
-
-  This function has been replaced by @@SetGadgetAttribute with the attribute @#PB_ListIcon_DisplayMode. 
-  See the @@ListIconGadget documentation for more details.
 
 @SupportedOS
 
@@ -1180,18 +1179,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClearGadgetItemList(#Gadget)
-
-@Description
-@Deprecated
-
-  This function has been replaced by @@ClearGadgetItems. Use that instead.
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-
 @Function ClearGadgetItems(#Gadget)
 
 @Description
@@ -1478,18 +1465,6 @@
 
 @SeeAlso
   @@AddGadgetItem, @@RemoveGadgetItem, @@ClearGadgetItems
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = CreateGadgetList(WindowID)
-
-@Description
-@Deprecated
-
-  This function is no longer needed. @@OpenWindow now implicitly creates a gadgetlist. Use
-  @@UseGadgetList to create a gadgetlist on Windows created using API functions.
 
 @SupportedOS
 
@@ -1896,10 +1871,11 @@
   @#PB_EventType_RightClick       : User clicked on an item with the right mouse button.
   @#PB_EventType_LeftDoubleClick  : User double-clicked on an item with the left mouse button.
   @#PB_EventType_RightDoubleClick : User double-clicked on an item with the right mouse button.
-  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation. @@ExamineDraggedItems can be used to get the dragged items information.
+  @#PB_EventType_Refresh          : The gadget content has been refreshed due to a filesystem change in the displayed directory (Windows only).
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -1972,6 +1948,8 @@
 @LineBreak
   - @@GetGadgetState: Check if the selected item is a file or a directory.
 @LineBreak
+  - @@GetGadgetItemText: Returns the full path of the specified item.
+@LineBreak
 @LineBreak
 
   This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with
@@ -1989,10 +1967,10 @@
   @#PB_EventType_RightClick       : User clicked on an item with the right mouse button.
   @#PB_EventType_LeftDoubleClick  : User double-clicked on an item with the left mouse button.
   @#PB_EventType_RightDoubleClick : User double-clicked on an item with the right mouse button.
-  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart        : User tried to start a Drag & Drop operation. @@ExamineDraggedItems can be used to get the dragged items information.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -2128,7 +2106,7 @@
   Returns the OS handle for the item or zero on failure.
 
 @Remarks
-  This function is currently only supported by @@TreeGadget on Windows. It returns zero in other cases.
+  This function is currently only supported by @@TreeGadget and @@PanelGadget on Windows. It returns zero in other cases.
 
 @SeeAlso
   @@TreeGadget
@@ -2493,7 +2471,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color will probably be overwritten 
+  @Bold "Note:" With activated Windows style the color will probably be overwritten 
   by the style.
 @EndOS
 
@@ -2644,7 +2622,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color will probably be overwritten 
+  @Bold "Note:" With activated Windows style the color will probably be overwritten 
   by the style.
 @EndOS
 
@@ -2798,6 +2776,8 @@
   - @@EditorGadget - 'Item' is the text line in the EditorGadget. 'Column' will be ignored.
 @LineBreak
   - @@ExplorerListGadget - returns the name of the 'Item', without the path. If 'Item' = -1, the 'Column' header is returned.
+@LineBreak
+  - @@ExplorerTreeGadget - returns the full path of the 'Item'.
 @LineBreak
   - @@ListIconGadget - returns the entry of the given 'Item' and 'Column'. If 'Item' = -1, the 'Column' header is returned.
 @LineBreak
@@ -3103,7 +3083,7 @@
   @#PB_EventType_DragStart
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 @LineBreak
 @LineBreak
   If the support of more event types or double-buffering for regularly updated image contents
@@ -3112,9 +3092,9 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 245, 105, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If LoadImage(0, "map.bmp")    ; change 2nd parameter to the path/filename of your image
-      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                      ; imagegadget standard
-      ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)     ; imagegadget with border
+    If LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/Map.bmp")
+      ImageGadget(0,  10, 10, 100, 83, ImageID(0))                     ; imagegadget standard
+      ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)   ; imagegadget with border
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -3282,8 +3262,9 @@
 @LineBreak
   - @@GetGadgetAttribute with the following attribute:
 @FixedFont
-  @#PB_ListIcon_ColumnCount: Returns the number of columns in the gadget
-  @#PB_ListIcon_DisplayMode: Returns the current display mode of the gadget (Windows only)
+  @#PB_ListIcon_ColumnCount  : Returns the number of columns in the gadget
+  @#PB_ListIcon_DisplayMode  : Returns the current display mode of the gadget (Windows only)
+  @#PB_ListIcon_ClickedColumn: Returns the last clicked column index. The first column has index 0.
 @EndFixedFont
   - @@SetGadgetAttribute with the following attribute:
 @FixedFont
@@ -3294,9 +3275,17 @@
     @#PB_ListIcon_Report   : Report mode (columns, default mode)
 @EndFixedFont
 @LineBreak
-  - @@GetGadgetItemAttribute / @@SetGadgetItemAttribute: With the following attribute:
+  - @@GetGadgetItemAttribute: With the following attributes:
 @FixedFont
-  @#PB_ListIcon_ColumnWidth : Returns/Changes the width of the given 'Column'. The 'Item' parameter is ignored.
+  @#PB_ListIcon_ColumnWidth: Returns the width of the given 'Column'. The 'Item' parameter is ignored.
+@EndFixedFont
+  @@SetGadgetItemAttribute: With the following attribute:
+@FixedFont
+  @#PB_ListIcon_ColumnWidth    : Changes the width of the given 'Column'. The 'Item' parameter is ignored.
+  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Item' parameter can be one of the following value:
+     - @#PB_ListIcon_Left  : Text is left aligned (default).
+     - @#PB_ListIcon_Right : Text is right aligned.
+     - @#PB_ListIcon_Center: Text is centered.
 @EndFixedFont
 
 
@@ -3315,10 +3304,11 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
-  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation. @@ExamineDraggedItems can be used to get the dragged items information.
+  @#PB_EventType_ColumnClick: a column title has been clicked. Use GetGadgetAttribute() with @#PB_ListIcon_ClickedColumn to know which one has been clicked.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -3360,10 +3350,10 @@
       Next
     Next
     ; Here we change the ListIcon display to large icons and show an image
-    If LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\File.bmp")     ; change path/filename to your own 32x32 pixel image
+    If LoadImage(0, #PB_Compiler_Home+"examples/sources/Data/File.bmp")     ; change path/filename to your own 32x32 pixel image
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Picture 1", ImageID(0))
-      AddGadgetItem(5, 2, "Picture 2", ImageID(0))
+      AddGadgetItem(5, 0, "Picture 1", ImageID(0))
+      AddGadgetItem(5, 1, "Picture 2", ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -3724,6 +3714,8 @@
 @LineBreak
   - @@SetGadgetItemData: Associate a value with the specified item.
 @LineBreak
+  - @@GadgetItemID: Return the OS handle of the specified item (Windows only, useful for API functions).
+@LineBreak
 @LineBreak
   - @@SetGadgetState: Change the active panel.
 @LineBreak
@@ -3798,7 +3790,7 @@
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
   @#PB_ProgressBar_Smooth   : The progress bar is smooth instead of using blocks
-                             (Note: On Windows XP with enabled skins and on OS X, this flag has no effect).
+                             (Note: On Windows with enabled skins and on OS X, this flag has no effect).
   @#PB_ProgressBar_Vertical : The progress bar is in vertical mode.
 @EndFixedFont
 
@@ -3831,7 +3823,7 @@
 @EndFixedFont
 
   This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with
-  the following values as 'ColorType'. (Note: Windows only. On Windows XP with enabled skins, this coloring has no effect.)
+  the following values as 'ColorType'. (Note: Windows only. On Windows with enabled skins, this coloring has no effect.)
 @FixedFont
   @#PB_Gadget_FrontColor: Progressbarcolor
   @#PB_Gadget_BackColor : Backgroundcolor
@@ -4392,7 +4384,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color settings will probably be ignored
+  @Bold "Note:" With activated Windows style the color settings will probably be ignored
   or overwritten by the style.
 @EndOS
 
@@ -4615,7 +4607,7 @@
 @OS Windows
   @LineBreak
   @LineBreak
-  @Bold "Note:" With activated Windows XP style the color settings will probably be ignored
+  @Bold "Note:" With activated Windows style the color settings will probably be ignored
   or overwritten by the style.
 @EndOS
 
@@ -4878,6 +4870,8 @@
 @LineBreak
   - @@WebGadget: Change the html code in the gadget with @#PB_Web_HtmlCode as 'Item'.
 @LineBreak
+  - @@WebViewGadget: Change the html code in the gadget with @#PB_Web_HtmlCode as 'Item'.
+@LineBreak
 
 @SeeAlso
   @@GetGadgetItemText, @@GetGadgetText, @@SetGadgetText
@@ -5009,6 +5003,8 @@
   - @@TreeGadget: change the text of the currently selected item.
 @LineBreak
   - @@WebGadget: change the current URL.
+@LineBreak
+  - @@WebViewGadget: change the current URL.
 
 @SeeAlso
   @@GetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText
@@ -5580,10 +5576,10 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
-  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation.
+  @#PB_EventType_DragStart: the user tried to start a Drag & Drop operation. @@ExamineDraggedItems can be used to get the dragged items information.
 @EndFixedFont
   After a @#PB_EventType_DragStart event, the @LibraryLink "dragdrop" "Drag & Drop library" can be used to start
-  a Drag & Drop operation.
+  a Drag & Drop operation. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -5662,7 +5658,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = WebGadget(#Gadget, x, y, Width, Height, URL$)
+@Function Result = WebGadget(#Gadget, x, y, Width, Height, URL$ [, Flags])
 
 @Description
   Creates a Web gadget in the current GadgetList. It can display html pages.
@@ -5676,6 +5672,14 @@
 
 @Parameter "URL$"
   The url to load after the gadget is created.
+
+@OptionalParameter "Flags"
+  Can be following constant:
+@FixedFont
+  @#PB_Web_Edge: Uses the WebView2 engine to render the web page (Windows only). WebView2 is the Edge based component
+                to have modern web page display in Windows application. It's built-in for up-to-date Windows 10 and
+                Windows 11. For older Windows version, it needs to be installed (if not already): @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide".
+@EndFixedFont
 
 @ReturnValue
   Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
@@ -5692,7 +5696,7 @@
 @LineBreak
   @Bold "Windows"
 @Indent
-  The WebGadget uses the Internet Explorer 4.0+ ActiveX object on Windows.
+  The WebGadget uses the Internet Explorer 11 ActiveX object on Windows. If the flag @#PB_Web_Edge is used, then it uses  the modern Edge based component instead.
 @LineBreak
 @LineBreak  
   Remember to replace "\" with "/" in your codes.
@@ -5824,16 +5828,6 @@
 @SeeAlso
   @@GetGadgetText, @@SetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText, @@SetGadgetState,
   @@GetGadgetAttribute, @@SetGadgetAttribute
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = WebGadgetPath(LibraryFile$ [, MozillaPath$])
-
-@Description
-@Deprecated
-  This function is no longer needed. It does nothing and returns nonzero.
 
 @SupportedOS
 

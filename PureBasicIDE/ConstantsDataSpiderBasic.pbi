@@ -252,6 +252,7 @@ DataSection
   ;Data$ "SetGadgetAttribute,2,"      ; leave out because of the many different constants depending on the gadget type
   ;Data$ "SetGadgetAttribute3D,2,"    ; leave out because of the many different constants depending on the gadget type
   Data$ "SetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
+  Data$ "SetGadgetFont,1,#PB_Default"
   Data$ "SetGadgetItemAttribute,3,#PB_ListIcon_ColumnWidth"
   Data$ "SetSoundPosition,3,#PB_Sound_Frame,#PB_Sound_Millisecond"
   Data$ "SetToolBarButtonState,3,#True,#False"

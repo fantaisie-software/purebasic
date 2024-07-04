@@ -665,7 +665,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = InitFastCGI(LocalPort)
+@Function Result = InitFastCGI(LocalPort [, BoundIP$])
 
 @Description
   Initializes FastCGI support. Once called, all the CGI commands switch automatically to FastCGI support.
@@ -681,6 +681,9 @@
 @Parameter "LocalPort"
   The local port to bind the FastCGI application. The web-server needs to be configured to use this port.
 
+@OptionalParameter "BoundIP$"
+  The IP address to bind the FastCGI application. For now, only "localhost" or "127.0.0.1" is accepted.
+
 @ReturnValue
   Returns non-zero if the FastCGI environment has been correctly initialized.
 
@@ -693,7 +696,7 @@
 @FixedFont  
   ProxyPass /myfastcgiapp/ fcgi://localhost:5600/
 @EndFixedFont  
-  Here, the url '/myfastcgiapp' will redirect to the FastCGI program binded on the port 5600. It's also possible to
+  Here, the url '/myfastcgiapp' will redirect to the FastCGI program bound on the port 5600. It's also possible to
   run the FastCGI program on distant server.
 @Example
 @Code

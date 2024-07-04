@@ -950,6 +950,9 @@ Global AutoOpenPurifier
 
 Global EnableMenuIcons ; from IDE settings (for profiler popup menu)
 
+CompilerIf #SpiderBasic
+  Global *WebViewDebugger.DebuggerData
+CompilerEndIf
 
 
 Global NewList RunningDebuggers.DebuggerData()

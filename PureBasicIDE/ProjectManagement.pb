@@ -1036,6 +1036,7 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableAdmin   = Xml_Boolean(GetXMLAttribute(*Entry, "admin"))
                     ProjectTargets()\EnableUser    = Xml_Boolean(GetXMLAttribute(*Entry, "user"))
                     ProjectTargets()\DPIAware      = Xml_Boolean(GetXMLAttribute(*Entry, "dpiaware"))
+                    ProjectTargets()\DllProtection = Xml_Boolean(GetXMLAttribute(*Entry, "dllprotection"))
                     ProjectTargets()\EnableOnError = Xml_Boolean(GetXMLAttribute(*Entry, "onerror"))
                     ProjectTargets()\Debugger      = Xml_Boolean(GetXMLAttribute(*Entry, "debug"))
                     ProjectTargets()\EnableUnicode = Xml_Boolean(GetXMLAttribute(*Entry, "unicode"))
@@ -1083,6 +1084,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\AndroidAppPackageID$    = Xml_SingleLine(GetXMLAttribute(*Entry, "androidapppackageid"))
                       ProjectTargets()\AndroidAppIAPKey$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappiapkey"))
                       ProjectTargets()\AndroidAppStartupImage$ = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappstartupimage"))
+                      ProjectTargets()\AndroidAppStartupColor$ = Xml_SingleLine(GetXMLAttribute(*Entry, "androidstartupcolor"))
                       ProjectTargets()\AndroidAppOrientation   = Val(Xml_SingleLine(GetXMLAttribute(*Entry, "androidapporientation")))
                       ProjectTargets()\AndroidAppFullScreen    = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappfullscreen"))
                       ProjectTargets()\AndroidAppOutput$       = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappoutput"))
@@ -1091,6 +1093,7 @@ Procedure LoadProject(Filename$)
                       ProjectTargets()\AndroidAppResourceDirectory$      = Xml_SingleLine(GetXMLAttribute(*Entry, "androidappresourcedirectory"))
                       ProjectTargets()\AndroidAppEnableDebugger   = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappenabledebugger"))
                       ProjectTargets()\AndroidAppKeepAppDirectory = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappkeepappdirectory"))
+                      ProjectTargets()\AndroidAppInsecureFileMode = Xml_Boolean   (GetXMLAttribute(*Entry, "androidappinsecurefilemode"))
                     CompilerEndIf
                     
                   Case "purifier"
@@ -1492,6 +1495,9 @@ Procedure SaveProject(ShowErrors)
       If ProjectTargets()\DPIAware
         SetXMLAttribute(*Options, "dpiaware",  "1")
       EndIf
+      If ProjectTargets()\DllProtection
+        SetXMLAttribute(*Options, "dllprotection",  "1")
+      EndIf
       If ProjectTargets()\EnableOnError
         SetXMLAttribute(*Options, "onerror", "1")
       EndIf
@@ -1542,6 +1548,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "androidapppackageid"    , ProjectTargets()\AndroidAppPackageID$)
         SetXMLAttribute(*Export, "androidappiapkey"       , ProjectTargets()\AndroidAppIAPKey$)
         SetXMLAttribute(*Export, "androidappstartupimage" , ProjectTargets()\AndroidAppStartupImage$)
+        SetXMLAttribute(*Export, "androidappstartupcolor" , ProjectTargets()\AndroidAppStartupColor$)
         SetXMLAttribute(*Export, "androidapporientation"  , Str(ProjectTargets()\AndroidAppOrientation))
         SetXMLAttribute(*Export, "androidappfullscreen"   , Str(ProjectTargets()\AndroidAppFullScreen))
         SetXMLAttribute(*Export, "androidappoutput"       , ProjectTargets()\AndroidAppOutput$)
@@ -1550,6 +1557,7 @@ Procedure SaveProject(ShowErrors)
         SetXMLAttribute(*Export, "androidappresourcedirectory", ProjectTargets()\AndroidAppResourceDirectory$)
         SetXMLAttribute(*Export, "androidappenabledebugger", Str(ProjectTargets()\AndroidAppEnableDebugger))
         SetXMLAttribute(*Export, "androidappkeepappdirectory", Str(ProjectTargets()\AndroidAppKeepAppDirectory))
+        SetXMLAttribute(*Export, "androidappinsecurefilemode", Str(ProjectTargets()\AndroidAppInsecureFileMode))
         
       CompilerEndIf
       

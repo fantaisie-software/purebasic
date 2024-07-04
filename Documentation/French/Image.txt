@@ -1316,7 +1316,33 @@ Peut prendre une des valeurs suivantes:
   LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp") ; Charge l'image depuis un fichier
   SaveImage(0, GetTemporaryDirectory() + "ok.bmp") ; Enregistre
 @EndCode
+
+@Example
+@Code
+  ;Dessine un rectangle bleu et l'enregistre dans un fichier PNG
+  UsePNGImageEncoder()
   
+  If CreateImage(0, 33, 33)
+    If StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Transparent)
+        Box(0, 0, 33, 33, $FF0000) 
+      StopDrawing()
+    EndIf
+    Fichier$ = SaveFileRequester("Enregistrer sous...", GetCurrentDirectory(), "*.png|*.png", 0)
+    If Fichier$
+      If GetExtensionPart(Fichier$) = ""
+        Fichier$ + ".png"  ; Ajouter l'extension de fichier si nécessaire
+      EndIf
+      If SaveImage(0, Fichier$, #PB_ImagePlugin_PNG)
+        MessageRequester("Fichier enregistré", Fichier$)
+      Else
+        MessageRequester("Erreur", "Échec de l'enregistrement du fichier")
+      EndIf
+    EndIf
+    FreeImage(0)
+  EndIf
+@EndCode
+
 @SeeAlso 
   @@ImageDepth,
   @LibraryLink "ImagePlugin" "ImagePlugin library"

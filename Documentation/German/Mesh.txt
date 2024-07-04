@@ -1,16 +1,18 @@
 ;
 ;     Mesh library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Mesh
 
 @Overview
-  Mesh's sind 3D-Objekte, welche aus vielen Scheiteln (englisch: "vertices" bzw. "vertexes")
-  und Dreiecken bestehen, die miteinander verbunden sind, um die endgültige Form zu
-  ergeben. Ein Mesh kann ein optionales Skelett (englisch "skeleton") mit Knochen (englisch "bones") haben, um Echtzeit-Animation zu
-  ermöglichen. Ein Mesh kann nicht direkt bewegt oder angezeigt werden, sondern muss mittels
+  Meshes sind 3D-Objekte, welche aus vielen Scheiteln (englisch: "vertices" bzw. "vertexes")
+  und Dreiecken ("triangles") bestehen, die miteinander verbunden sind, um die endgültige Form zu
+  ergeben. Ein Mesh kann ein optionales @LibraryLink "Skeleton" "Skelett" (englisch "skeleton")
+  mit Knochen (englisch "bones") haben, um Echtzeit-Animation zu ermöglichen. 
+  Das Skelett kann entweder direkt in der Mesh-Datei gefunden oder dynamisch erstellt werden.  
+  Ein Mesh kann nicht direkt bewegt oder angezeigt werden, sondern muss mittels
   eines @LibraryLink "Entity" "Entity" (Wesen) benutzt/manipuliert werden.
 @LineBreak
 @LineBreak

@@ -384,6 +384,7 @@ Enumeration
   #Form_Type_Frame3D
   #Form_Type_ScrollArea
   #Form_Type_Web
+  #Form_Type_WebView
   #Form_Type_Container
   #Form_Type_Panel
   #Form_Type_Canvas
@@ -674,7 +675,9 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightC
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightDoubleClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
+AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Refresh"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_DragStart"
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ExplorerTree
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ExplorerTree
@@ -764,8 +767,10 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftCl
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightDoubleClick"
+AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_ColumnClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_DragStart"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ListView
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ListView
@@ -905,10 +910,21 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Tree_CheckBoxes" :
 Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Tree_ThreeState" : Gadgets()\Flags()\value = #PB_Tree_ThreeState
 Gadgets()\Flags()\ivalue = 1 << 4
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Web
+Gadgets()\node = 1
+Gadgets()\name = "Web"
+Gadgets()\icon = #IMAGE_FormIcons_Web
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Web_Edge" : Gadgets()\Flags()\value = #PB_Web_Edge
+Gadgets()\Flags()\ivalue = 1 << 0
+
+AddElement(Gadgets()) : Gadgets()\type = #Form_Type_WebView
 Gadgets()\node = 1
 Gadgets()\name = "WebView"
 Gadgets()\icon = #IMAGE_FormIcons_Web
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_WebView_Debug" : Gadgets()\Flags()\value = #PB_WebView_Debug
+Gadgets()\Flags()\ivalue = 1 << 0
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Toolbar
 Gadgets()\node = 3
 Gadgets()\name = "ToolBar"

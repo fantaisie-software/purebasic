@@ -1,7 +1,7 @@
 ;
 ;     Array library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Array
@@ -58,8 +58,8 @@
 
 @ReturnValue
   Gibt die Größe der Array-Dimension zurück.
-  Wenn das Array noch nicht deklariert wurde (oder das Anlegen fehlgeschlagen ist), wird -1 
-  zurückgegeben. 
+  Wenn das Array noch nicht deklariert wurde, wird -1 zurückgegeben (zum Beispiel nach einem @FastLink "FreeArray()"
+  oder wenn das Initialisieren fehlgeschlagen ist).
   
 @Remarks
   Wie bei @ReferenceLink "dim" "Dim" angegeben, entspricht die Anzahl der Elemente gleich Größe + 1.
@@ -114,6 +114,63 @@
 
 @SeeAlso
   @@ListSize, @@MapSize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CompareArray(Array1(), Array2() [, Flags])
+
+@Description
+  Vergleicht alle Elemente der beiden Arrays auf Gleichheit. Vergleicht rekursiv auch Inhalte
+  @ReferenceLink "Structures" "strukturierter" Arrays mit dynamischen Elementen (wie eingebetteter
+  Arrays, Listen oder Maps).
+  @LineBreak
+  Die beiden Arrays gelten als gleich, wenn sie den gleichen Typ und die gleichen Dimensionen haben und
+  wenn jedes Elemente-Paar gleich ist.
+
+@Parameter "Array1(), Array2()"
+  Die zu vergleichenden Arrays.
+  
+@OptionalParameter "Flags"
+  Kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
+                             Zeigers rekursiv verglichen.
+                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten für weitere Details.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn beide Arrays gleich sind, oder Null, wenn sie sich unterscheiden.
+
+@Remarks
+  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
+  Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
+
+@Example
+@Code
+  Dim A(4)
+  A(0) = 10
+  A(1) = 20
+  A(2) = 30
+  A(3) = 40
+
+  Dim B(4)
+  B(0) = 10
+  B(1) = 20
+  B(2) = 50 ; Nicht gleich zu A(2)
+  B(3) = 40
+
+  Debug CompareArray(A(), B()) ; Nicht gleich
+@EndCode
+
+@SeeAlso
+  @@CompareList, @@CompareMap
 
 @SupportedOS
 

@@ -290,6 +290,7 @@ Declare SetCompileTargetDefaults(*Target.CompileTarget) ; set defaults for a new
 Declare CompilerReady()                                 ; called after compiler is loaded
 Declare DisplayCompilerWindow()                         ; display 'compileing in progress'
 Declare HideCompilerWindow()
+Declare AddCompilerWindowItem(Text$)
 Declare CompilerWindowEvents(EventID)
 Declare BuildWindowEvents(EventID)
 Declare UpdateBuildWindow()
@@ -486,8 +487,6 @@ Declare.s StrByteSize(Size.q)                                  ; get a nice look
 Declare IsNumeric(Text$, *Output.INTEGER)                      ; check if a text is a valid number and return it if true
 Declare.s RGBString(Color)                                     ; turns a color into a string "RGB(a,b,c)" as a platform independent color representation
 Declare ColorFromRGBString(String$)                            ; turns the result of RGBString() back into a color
-Declare StringToUTF8(String$)                                  ; returns the UTF8 version of the string, needs to be freed with FreeMemory()!
-Declare StringToAscii(String$)                                 ; returns the Ascii version of the string, needs to be freed with FreeMemory()!
 Declare.s ModulePrefix(Name$, ModuleName$)                     ; prefix a module name (if not empty)
 Declare StringToCodePage(CodePage, String$)                    ; transform string to Scintilla compatible code page (must be freed!)
 Declare CodePageLength(CodePage, String$)                      ; get length of string in Scintilla compatible code page
@@ -506,6 +505,11 @@ Declare PreferencesWindowEvents(EventID)
 Declare UpdateProcedureList(ScrollPosition.l = -1) ; scan active source and update the procedure list and the autocomplete lists
                               ;Declare ProcedureList_LineUpdate()    ; check if the current line is in the procedure list and update if necessary.
 Declare JumpToProcedure()     ; jump to procedure under cursor (for double-click)
+
+;- WebView.pb
+;
+Declare SetWebViewUrl(Url$)
+Declare OpenSpiderWebBrowser(Url$)
 
 ;- ProjectManagement.pb
 ;
@@ -554,6 +558,16 @@ Macro MessageRequester
 EndMacro
 
 Declare ShutdownIDE() ; perform all code for an orderly shutdown.
+
+;- RadixTree.pb
+;
+Declare RadixFree(*Tree.RadixTree)                                              ; Free all tree nodes
+Declare RadixFindPrefix(*Tree.RadixTree, Prefix$, ExactMatchOnly = #False)      ; Lookup RadixNode by prefix. Returns RadixNode, not node value!
+Declare RadixLookupValue(*Tree.RadixTree, Name$)                                ; Lookup stored value by exact name match (case insensitive)
+Declare RadixFindRange(*Tree.RadixTree, Prefix$, *First.INTEGER, *Last.INTEGER) ; Lookup first and last value matching the given prefix. Returns true/false if any match is found
+Declare RadixEnumerateAll(*Tree.RadixTree, List *Values())                      ; Enumerate all stored values (sorted alphabetically). Clears the list
+Declare RadixEnumeratePrefix(*Tree.RadixTree, Name$, List *Values())            ; Enumerate all stored values with given prefix (sorted alphabetically). Clears the list
+Declare RadixInsert(*Tree.RadixTree, Name$, *Value)                             ; Insert a value into the tree
 
 ;- RecentFiles.pb
 ;
@@ -613,7 +627,6 @@ Declare FullSourceScan(*Source.SourceFile)      ; rescan entire source
 Declare PartialSourceScan(*Source.SourceFile, StartLine, EndLine)  ; rescan some lines (returns true if line(s) changed)
 Declare ScanLine(*Source.SourceFile, Line)                         ; scan single line ( + continuations) returns true if line(s) changed
 Declare ScanFile(FileName$, *Parser.ParserData)                    ; scan a file from disk (for project management)
-Declare GetBucket(*Name.Character)                                 ; gets the bucket index for the given name
 Declare SortParserData(*Parser.ParserData, *Source.SourceFile=0)   ; update the sorted parser data
 Declare SourceLineCorrection(*Source.SourceFile, Line, LinesAdded) ; adjust line offset in scanned tree
 Declare LocateSourceItem(*Parser.ParserData, Line, Position)       ; Return the SourceItem pointer for the item at the given location (if any)

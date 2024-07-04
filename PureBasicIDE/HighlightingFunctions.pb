@@ -1027,7 +1027,7 @@ Procedure CheckStringComment(Cursor)
   EndIf
 EndProcedure
 
-Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List ModuleNames.s())
+Procedure FindQuickHelpFromSorted(*Parser.ParserData, Word$, List ModuleNames.s())
   
   ForEach ModuleNames()
     
@@ -1035,41 +1035,25 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
     If *Module
       
       ; macros go first
-      *Item.SourceItem = *Module\Sorted\Macros[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Macros, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Procedures, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Declares[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Declares, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Imports[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCaseAscii)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Imports, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
     EndIf
     
@@ -1125,7 +1109,6 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     ; does nothing if the data is already indexed
     SortParserData(@*ActiveSource\Parser, *ActiveSource)
     
-    Bucket = GetBucket(@Word$)
     *Item.SourceItem = 0
     
     ; find out if we are inside a module and find the open modules
@@ -1148,15 +1131,15 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     EndIf
     
     ; check add ActiveSource items
-    *Item = FindQuickHelpFromSorted(@*ActiveSource\Parser, @Word$, Bucket, ModuleNames())
+    *Item = FindQuickHelpFromSorted(@*ActiveSource\Parser, Word$, ModuleNames())
     
     ; check project sources
     If *Item = 0 And *ActiveSource\ProjectFile
       ForEach ProjectFiles()
         If ProjectFiles()\Source = 0
-          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Parser, Word$, ModuleNames())
         ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Source\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Source\Parser, Word$, ModuleNames())
         EndIf
         
         If *Item
@@ -1169,7 +1152,7 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     If *Item = 0
       ForEach FileList()
         If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And FileList()\ProjectFile = 0
-          *Item = FindQuickHelpFromSorted(@FileList()\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@FileList()\Parser, Word$, ModuleNames())
           If *Item
             Break
           EndIf

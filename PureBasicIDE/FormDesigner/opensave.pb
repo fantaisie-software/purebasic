@@ -64,7 +64,7 @@ Procedure FD_Save(Filename$)
     
     MajorVersion = #PB_Compiler_Version/100
     MinorVersion = #PB_Compiler_Version - MajorVersion*100
-    WriteStringN(handle,"; Form Designer for Purebasic - " + MajorVersion + "." +RSet(Str(MinorVersion), 2, "0"))
+    WriteStringN(handle,"; Form Designer for PureBasic - " + MajorVersion + "." +RSet(Str(MinorVersion), 2, "0"))
     WriteStringN(handle,"; Warning: this file uses a strict syntax, if you edit it, make sure to respect the Form Designer limitation or it won't be opened again.")
     WriteStringN(handle, "")
     
@@ -1591,6 +1591,16 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\type = #Form_Type_Web
         start = OpenReadGadgetParams(line)
         start = OpenReadGadgetCaption(line, start)
+        OpenReadGadgetFlags(line, start)
+        FormWindows()\FormGadgets()\backcolor = -1
+        FormWindows()\FormGadgets()\frontcolor = -1
+        OpenReadGadgetParent()
+        Continue
+      EndIf ;}
+      If procname = "WebViewGadget" ;{
+        AddElement(FormWindows()\FormGadgets())
+        FormWindows()\FormGadgets()\type = #Form_Type_WebView
+        start = OpenReadGadgetParams(line)
         OpenReadGadgetFlags(line, start)
         FormWindows()\FormGadgets()\backcolor = -1
         FormWindows()\FormGadgets()\frontcolor = -1

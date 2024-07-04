@@ -513,12 +513,9 @@ Si ce masque correspond au masque spécifié par
 @Function EntityCustomParameter(#Entity, SousEntity, IndexParametre, Valeur1.f, Valeur2.f, Valeur3.f, Valeur4.f)
 
 @Description
-  Définit des paramètres personnalisés pour 
-  le 'script shader' matériau d'une entité.
+  Définit des paramètres personnalisés pour le 'script shader' matériau d'une entité.
   @LineBreak  
-  Pour avoir un effet, le matériau associé 
-  à l'entité doit avoir un 'script shader', 
-  soit GLSL soit HLSL.
+  Pour avoir un effet, le matériau associé à l'entité doit avoir un 'script shader', soit GLSL soit HLSL.
 
 @Parameter "#Entity"
   L'entité à utiliser.
@@ -527,8 +524,7 @@ Si ce masque correspond au masque spécifié par
   La sous-entité à utiliser. 
 @LineBreak
 @LineBreak   
-  Le premier indice commence à 0 
-  (reprensentant l'entité principale).
+  Le premier indice commence à 0 (reprensentant l'entité principale).
 
 @Parameter "IndexParametre"
   L'indice de paramètre dans le shader script.
@@ -911,19 +907,16 @@ Si ce masque correspond au masque spécifié par
 @Function AttachEntityObject(#Entity, Os$, ObjetID [, X, Y, Z, Tangage, Roulis, Lacet])
 
 @Description
-  Attache un objet existant à un os d'une 
-  entité. 
+  Attache un objet existant à un os d'une entité. 
   
 @Parameter "#Entity"
   L'entité à utiliser.
 
 @Parameter "Os$
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE ou celui spécifié par @@CreateBone.
 @LineBreak
 @LineBreak
-  Si le nom de l'os est vide, l'objet n'est 
-  pas attaché à un os, mais directement à 
-  l'entité.
+  Si le nom de l'os est vide, l'objet n'est pas attaché à un os, mais directement à l'entité.
   
 @Parameter "ObjetID"
   Peut être un des objets suivants:
@@ -946,8 +939,7 @@ Si ce masque correspond au masque spécifié par
 @NoReturnValue
 
 @Remarks
-  Un objet peut être détaché de l'os d'une 
-  entité avec @@DetachEntityObject.
+  Un objet peut être détaché de l'os d'une entité avec @@DetachEntityObject.
    
 @SeeAlso
   @@DetachEntityObject
@@ -997,7 +989,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE ou comme spécifié dans @@CreateBone.
 
 @Parameter "Etat"  
   Peut être une des valeurs suivantes:
@@ -1018,9 +1010,8 @@ Si ce masque correspond au masque spécifié par
 @NoReturnValue  
 
 @Remarks
-  Il peut être déplacé manuellement avec 
-  @@MoveEntityBone et tourné avec 
-  @@RotateEntityBone.
+  Il peut être déplacé manuellement avec @@MoveEntityBone, tourné avec @@RotateEntityBone et
+  ou changer d'échelle avec @@ScaleEntityBone.
 
 @SupportedOS
 
@@ -1035,7 +1026,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE ou comme spécifié dans @@CreateBone.
 
 @Parameter "X, Y, Z"  
   Nouvelle position de l'os.
@@ -1060,7 +1051,41 @@ Si ce masque correspond au masque spécifié par
   @@EnableManualEntityBoneControl.
 
 @SeeAlso
-  @@RotateEntityBone
+  @@RotateEntityBone, @@ScaleEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntityBone(#Entity, Os$, X, Y, Z, Mode)
+
+@Description
+  Met à l'échelle l'os de l'entité spécifiée.
+
+@Parameter "#Entity"
+  L'entité à utiliser.
+
+@Parameter "Os$"
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+
+@Parameter "X, Y, Z"  
+  La nouvelle échelle de l'os.
+
+@Parameter "Mode"
+  Le mode échelle. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Relative : Échelle relative, basée sur la taille précédente (par défaut). 
+                  L’utilisation de 1.0 pour la valeur d’échelle laissera cette valeur inchangée.
+  @#PB_Absolute : Échelle absolue, en unité monde.
+@EndFixedFont
+
+@NoReturnValue  
+
+@Remarks
+ L'os doit être en mode manuel, défini avec @@EnableManualEntityBoneControl.
+
+@SeeAlso
+  @@RotateEntityBone, @@MoveEntityBone
 
 @SupportedOS
 
@@ -1105,21 +1130,19 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneX(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
-  Renvoie la position en X d'un os d'une 
-  entité.
+  Renvoie la position en X d'un os d'une entité.
 
 @Parameter "#Entity"
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE .
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
   Le décalage par rapport à l'os.
 
 @ReturnValue
-  Renvoie la position en X de l'os dans le 
-  monde.
+  Renvoie la position en X de l'os dans le monde.
   
 @SeeAlso
   @@EntityBoneY, @@EntityBoneZ
@@ -1131,21 +1154,19 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneY(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
- Renvoie la position en Y d'un os d'une 
- entité.
+ Renvoie la position en Y d'un os d'une entité.
 
 @Parameter "#Entity"
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE .
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
   Le décalage par rapport à l'os.
 
 @ReturnValue
-  Renvoie la position en Y de l'os dans le 
-  monde.
+  Renvoie la position en Y de l'os dans le monde.
   
 @SeeAlso
   @@EntityBoneX, @@EntityBoneZ
@@ -1157,21 +1178,19 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneZ(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
-  Renvoie la position en Z d'un os d'une 
-  entité.
+  Renvoie la position en Z d'un os d'une entité.
 
 @Parameter "#Entity"
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE .
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
   Le décalage par rapport à l'os.
 
 @ReturnValue
-  Renvoie la position en Z de l'os dans le 
-  monde.
+  Renvoie la position en Z de l'os dans le monde.
    
 @SeeAlso
   @@EntityBoneX, @@EntityBoneY
@@ -1190,7 +1209,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @ReturnValue
   La valeur du tangage de l'os. 
@@ -1216,7 +1235,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @ReturnValue
   La valeur du lacet de l'os. 
@@ -1242,7 +1261,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @ReturnValue
   La valeur du roulis de l'os. 
@@ -1495,7 +1514,7 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE.
+  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
 
 @Parameter "X, Y, Z"
   La valeur de rotation en X, Y, Z, 
@@ -1509,8 +1528,11 @@ Si ce masque correspond au masque spécifié par
 
 @NoReturnValue
 
+@Remarks
+ L'os doit être en mode manuel, défini avec @@EnableManualEntityBoneControl.
+ 
 @SeeAlso
-  @@MoveEntityBone
+  @@MoveEntityBone, @@ScaleEntityBone
 
 @SupportedOS
 

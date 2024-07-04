@@ -84,31 +84,31 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Créer un menu contextuel et une icône Systray (symbole CD) :
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Quitter")
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\CdPlayer.ico"))
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Afficher le menu contextuel après un clic sur l'icône Systray
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Quitter
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
-  EndIf
+  ; Fenêtre invisible pour avoir juste le systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Crée un menu contextuel à afficher par la barre d'état système avec un aspect de barre d'état système
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "À Propos de PureBasic...")
+    MenuBar()
+    MenuItem(1, "Quitter")
+
+  ; Associer le menu à la zone de notification
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Quitter 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode 
 
 @SeeAlso
@@ -127,61 +127,60 @@
   Le numéro de l'icône à changer.
 
 @Parameter "ImageID"  
-  Numéro de la nouvelle image préalablement 
-  chargée par la fonction @@LoadImage. 
+  Numéro de la nouvelle image préalablement chargée par la fonction @@LoadImage. 
 @LineBreak
 @LineBreak  
   Le format PNG a l'avantage d'utiliser la transparence.
 @LineBreak
 @LineBreak  
-  Un ImageID valide peut être obtenu 
-  simplement avec la fonction @@ImageID.
+  Un ImageID valide peut être obtenu simplement avec la fonction @@ImageID.
 
 @NoReturnValue
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Créer une image avec une case jaune comme icône Systray :
-    If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
-      Box(0, 0, 16 , 16, $00DDDD)
-      StopDrawing()
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), ImageID(0))
-    ; Créer un menu contextuel à utiliser avec l'icône Systray :
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Quitter")
-    EndIf
-    
-    AddWindowTimer(0, 0, 1000) ; Ajouter un minuteur de fenêtre qui entraînera un changement de l'icône Systray toutes les 1 000 ms.
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_Timer
-          ; Mettre à jour l'image de l'icône Systray avec un cercle rouge de taille aléatoire sur fond jaune
-          If StartDrawing(ImageOutput(0))
-            Box(0, 0, 16 , 16, $00DDDD)
-            Radius = Random(6, 2)
-            Circle(8, 8, Radius, $0000DD)
-            StopDrawing()
-            ChangeSysTrayIcon(0, ImageID(0))
-          EndIf
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Afficher le menu contextuel après un clic sur l'icône Systray
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Quittez après avoir cliqué sur l'élément de menu 'Quitter' associé à l'icône Systray
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
+
+; Fenêtre invisible pour avoir juste avoir le systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+  
+  ; Crée une image avec un carré jaune à utiliser pour l'icône Systray :
+  If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
+    Box(0, 0, 16 , 16, $00DDDD)
+    StopDrawing()
   EndIf
+  
+  ; Associer une icône au systray
+  AddSysTrayIcon(0, WindowID(0), ImageID(0))
+  
+  ; Crée un menu contextuel à utiliser ultérieurement avec l'icône Systray:
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "Quitter")
+    
+  SysTrayIconMenu(0, MenuID(0))
+  
+  ;Ajoute un minuteur de fenêtre, ce qui devrait entraîner un changement de l'icône Systray toutes les 1 000 ms.
+  AddWindowTimer(0, 0, 1000) 
+  
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Timer
+        ; Met à jour l'image de l'icône Systray avec un cercle rouge de taille aléatoire sur fond jaune
+        If StartDrawing(ImageOutput(0))
+          Box(0, 0, 16 , 16, $00DDDD)
+          Radius = Random(6, 2)
+          Circle(8, 8, Radius, $0000DD)
+          StopDrawing()
+          ChangeSysTrayIcon(0, ImageID(0))
+        EndIf
+        
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 0 ;Quitter après avoir cliqué sur l'élément de menu 'Quitter' associé à l'icône Systray
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode
 
   
@@ -217,6 +216,64 @@
   
 @SeeAlso
   @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconMenu(#SysTrayIcone, MenuID)
+
+@Description
+  Associe un menu contextuel à l'icône SysTray. 
+
+@Parameter "#SysTrayIcone"
+  L'icône systray à utiliser.
+
+@Parameter "MenuID"
+  Le menu contextuel à associer au SysTray. 
+@LineBreak
+@LineBreak
+  @@MenuID peut être utilisé pour obtenir cette valeur.
+
+@NoReturnValue
+
+@Remarks
+  Le menu doit être créé avec @@CreatePopupImageMenu en utilisant l'option @#PB_Menu_SysTrayLook. 
+  C'est le meilleur moyen d'associer un menu contextuel à une icône SysTray car il affichera le menu 
+  contextuel à la bonne position sur tous les systèmes d'exploitation lorsque l'utilisateur clique 
+  sur l'icône.
+
+@Example
+@Code
+  ; Fenêtre invisible pour avoir juste le systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Crée un menu contextuel à afficher par la barre d'état système (utilisez #PB_Menu_SysTrayLook)
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "À Propos de PureBasic...")
+    MenuBar()
+    MenuItem(1, "Quitter")
+
+  ; Associe le menu à la zone de notification
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Quitter 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
+@EndCode
+
+@SeeAlso
+  @@CreatePopupImageMenu
   
 @SupportedOS
 

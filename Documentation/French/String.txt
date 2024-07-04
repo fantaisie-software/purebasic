@@ -219,6 +219,7 @@
   @#PB_String_EscapeInternal: échappe une chaîne en utilisant le format de PureBasic (Par défaut). 
                             (voir @ReferenceLink "general_rules" "Règles générales")                          
   @#PB_String_EscapeXML     : échappe une chaîne en utilisant le format XML. Utile pour insérer une chaîne dans un arbre XML.
+  @#PB_String_EscapeJSON    : échappe une chaîne en utilisant le format JSON. Utile pour insérer une chaîne dans une valeur JSON.
 @EndFixedFont
 
 @ReturnValue
@@ -318,6 +319,8 @@
   Debug "La dernière position de 'i' a été trouvée à la position : " + Dernier
 @EndCode
 
+@SeeAlso
+  @@ReplaceString
 
 @SupportedOS
 
@@ -756,7 +759,8 @@
   @@RemoveString,
   @@ReverseString,
   @@StringByteLength,
-  @@StringField
+  @@StringField, @@ReplaceRegularExpression
+
   
 @SupportedOS
 
@@ -1329,10 +1333,12 @@ caractères.
 
 @OptionalParameter "Mode"
 @FixedFont
-  @#PB_String_EscapeInternal: deséchappe la chaîne en utilisant le format de PureBasic (Par défaut).
+  @#PB_String_EscapeInternal: Deséchappe la chaîne en utilisant le format de PureBasic (Par défaut).
                              (voir @ReferenceLink "general_rules" "Règles de syntaxe générales".
-  @#PB_String_EscapeXML     : deséchappe la chaîne en utilisant le format XML. 
+  @#PB_String_EscapeXML     : Deséchappe la chaîne en utilisant le format XML. 
                              Utile pour lire une chaîne provenant d'un arbre XML.
+  @#PB_String_EscapeJSON    : Deséchappe la chaîne en utilisant le format JSON. 
+                             Utile pour lire une chaîne provenant d'une valeur JSON.   
 @EndFixedFont
 
 @ReturnValue

@@ -23,20 +23,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndStructure
   
   ; Fix for the #SCI_COUNTCHARACTERS message. Don't use that message directly because of the below newline trouble
+  ; (Fix no longer needed in newer Scintilla versions)
   ;
   Procedure CountCharacters(Gadget, startPos, endPos)
-    Count = ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
-    
-    ; The #SCI_COUNTCHARACTERS message counts CRLF as one char!
-    ; This is especially weird, since its counterpart #SCI_POSITIONRELATIVE counts it as two!
-    ; So scan the range and fix up the count so the two match (and also match our own memory buffers)
-    For pos = startPos To endPos - 1
-      If ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos) = 13 And ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos + 1) = 10
-        Count + 1
-      EndIf
-    Next pos
-    
-    ProcedureReturn Count
+    ProcedureReturn ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
   EndProcedure
   
   Procedure SendEditorFontMessage(Style, FontName$, FontSize)
@@ -303,18 +293,25 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         CompilerIf #CompileWindows
           If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
             SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, GetSysColor_(#COLOR_HIGHLIGHT))
           Else
             SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
           EndIf
           
           If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
             SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, GetSysColor_(#COLOR_HIGHLIGHTTEXT) | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
           Else
             SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, Colors(#COLOR_SelectionFront)\DisplayValue | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
           EndIf
         CompilerElse
           SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
+          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
+          
           SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
+          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, Colors(#COLOR_SelectionFront)\DisplayValue | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
         CompilerEndIf
         
         SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMatch,    Colors(#COLOR_GoodBrace)\DisplayValue)
@@ -1274,9 +1271,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_SETTARGETEND, SendEditorMessage(#SCI_GETLINEENDPOSITION, Index, 0), 0)
     
     If *ActiveSource\Parser\Encoding = 1 ; ugly hack.. to be changed for unicode compatibility
-      *NewLine = StringToUTF8(NewLine$)
+      *NewLine = UTF8(NewLine$)
     Else
-      *NewLine = StringToAscii(NewLine$)
+      *NewLine = Ascii(NewLine$)
     EndIf
     
     SendEditorMessage(#SCI_REPLACETARGET, -1, *NewLine)
@@ -2806,9 +2803,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
                 If *ActiveSource\Parser\Encoding = 1
-                  *HighlightBuffer = StringToUTF8(HighlightLine$)
+                  *HighlightBuffer = UTF8(HighlightLine$)
                 Else
-                  *HighlightBuffer = StringToAscii(HighlightLine$)
+                  *HighlightBuffer = Ascii(HighlightLine$)
                 EndIf
                 
                 HighlightOffset = SendEditorMessage(#SCI_POSITIONFROMLINE, *ActiveSource\CurrentLineOld-1, 0)
@@ -3382,7 +3379,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     SendEditorMessage(#SCI_SETFOLDFLAGS, 0, 0)
     
-    *AsciiOne = StringToAscii("1")
+    *AsciiOne = Ascii("1")
     SendEditorMessage(#SCI_SETPROPERTY , ToAscii("fold"), *AsciiOne)
     FreeMemory(*AsciiOne)
     
@@ -3422,6 +3419,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure SetReadOnly(Gadget, State)
+    
+    CompilerIf #SpiderBasic
+      ; As a Javascript app is never blocking, we can't know if it finished running, so never disable the sources
+      ProcedureReturn
+    CompilerEndIf
+      
+    
     ScintillaSendMessage(Gadget, #SCI_SETREADONLY, State, 0)
     
     If State
@@ -3711,8 +3715,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       EndIf
     EndIf
     
-    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + DesktopScaledX(GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate))
-    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + DesktopScaledY(GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize)
+    OffsetX = GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate)
+    OffsetY = GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize
+    
+    CompilerIf #CompileWindows
+      ; Doesn't work the same on OSX (#SCI_POINTXFROMPOSITION probably doesn't return unscaled coordinates)
+      OffsetX = DesktopScaledX(OffsetX)
+      OffsetY = DesktopScaledY(OffsetY)
+    CompilerEndIf
+    
+    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + OffsetX
+    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + OffsetY
     
     CompilerIf #CompileWindows
       *Y\i + 8
@@ -3799,12 +3812,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       If *ActiveSource\Parser\Encoding = 1 ; UTF8
         StringMode = #PB_UTF8
-        Find\lpstrText = StringToUTF8(FindSearchString$)
-        *ReplaceString = StringToUTF8(FindReplaceString$)
+        Find\lpstrText = UTF8(FindSearchString$)
+        *ReplaceString = UTF8(FindReplaceString$)
       Else
         StringMode = #PB_Ascii
-        Find\lpstrText = StringToAscii(FindSearchString$)
-        *ReplaceString = StringToAscii(FindReplaceString$)
+        Find\lpstrText = Ascii(FindSearchString$)
+        *ReplaceString = Ascii(FindReplaceString$)
       EndIf
       
       If FindSelectionOnly

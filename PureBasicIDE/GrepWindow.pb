@@ -107,10 +107,10 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
         *NextAbortChecked = *Buffer + 50000
         
         If StringMode = #PB_UTF8
-          *String = StringToUTF8(String$)
+          *String = UTF8(String$)
           StringLength = StringByteLength(String$, #PB_UTF8)
         Else
-          *String = StringToAscii(String$)
+          *String = Ascii(String$)
         EndIf
         
         While *Buffer < *BufferEnd

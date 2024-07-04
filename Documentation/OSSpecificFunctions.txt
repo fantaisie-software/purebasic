@@ -5,12 +5,12 @@
 ;
 ; ------------------------------------------------------------------------------
 ; 
-; This file is used to automatically generate @SupportedOS tags for the help,
+; This file is used to automatically generate @SupportedOS tags for the help, 
 ; and for any other purpose where such a list might be useful.
 ; Keep the syntax strict, as it is automatically parsed.
 ;
-; This file lists ONLY commands which do not work on all OS. Any command not
-; listed here will be marked as supported by all OS.
+; This file lists ONLY commands which do not work on all OS. Any command not listed
+; here will be marked as supported by all OS.
 ;
 ; File syntax:
 ; - Empty lines and ";" lines are ignored
@@ -23,7 +23,7 @@
 ;   <functionname> : <os tags>
 ;   <functionname> : <os tags> - <comment>
 ;
-; <os tags> can be one of these separated by ",":
+; <os tags> can be one of these separated by ",": 
 ;   Windows       - Windows, all subsystems
 ;   Linux         - Linux, all subsystems
 ;   MacOS         - OSX, all subsystems, all processor types
@@ -36,17 +36,15 @@
 ;
 ;   If a new tag is added, please document its use here.
 ;
-;   If such a tag is present, it means the function works on this OS. If the tag
-;   is present in brackets, like "(Windows)", it means that the command exists
-;   only as a dummy function, so it compiles but does nothing. If a tag is not
-;   present at all, it means that the command is entirely missing on that OS.
+;   If such a tag is present, it means the function works on this OS. If the tag is present in brackets, like "(Windows)",
+;   it means that the command exists only as a dummy function, so it compiles but does nothing. If a tag is not present at all,
+;   it means that the command is entirely missing on that OS.
 ;
-;   The dummy tags will be ignored for the manual, but they might be useful for
-;   other purposes. (for example to do a tool to advise on platform problems)
+;   The dummy tags will be ignored for the manual, but they might be useful for other purposes.
+;   (for example to do a tool to advise on platform problems)
 ;   
-; <comment> can be a short comment about platform compatibility of this command.
-;   Something like "Only has a meaning on Windows" or similar may be helpful.
-;   (also ignored for the manual)
+; <comment> can be a short comment about platform compatibility of this command. Something like
+;   "Only has a meaning on Windows" or similar may be helpful. (also ignored for the manual)
 ;
 ;
 ; Special grouping tag (for entire libraries etc):
@@ -56,12 +54,10 @@
 ;
 ;   Applies <os tags> and the optional <comment> to all commands in the list.
 ;   Useful when entire libraries have the same tags and comments.
-;   The function list is one function per line. (empty lines, comments and
-;   #Library lines are allowed)
+;   The function list is one function per line (empty lines, comments and #Library lines are allowed)
 ;
 ;
-; Example: (indicates that the command is supported on Windows and has a dummy
-;           on Linux and MacOS, with a comment about that)
+; Example: (indicates that the command is supported on Windows and has a dummy on Linux and MacOS, with a comment about that)
 ;   #Library: Window
 ;   SmartWindowRefresh: Windows, (Linux), (MacOS) - Only has an effect on Windows
 ;
@@ -87,8 +83,8 @@ DesktopFrequency: Windows, (Linux), MacOS  - Always returns 0 on Linux
 ; AudioCD Library
 ;
 #Library: AudioCD
-AudioCDLength:    Windows, (Linux), MacOS  - Always returns 0 on Linux
-EjectAudioCD:     Windows,  Linux, (MacOS) - Does nothing on MacOS
+AudioCDLength: Windows, (Linux), MacOS  - Always returns 0 on Linux
+EjectAudioCD:  Windows,  Linux, (MacOS) - Does nothing on MacOS
 
 ; Console Library
 ;
@@ -114,8 +110,8 @@ DragText
 ; Gadget Library
 ;
 #Library: Gadget
-GadgetItemID:  Windows, (Linux), (MacOS) - Only for TreeGadget on Windows, returns 0 else
-MDIGadget:     Windows                   - The MDI concept is not present on Linux (GTK) or MacOSX
+GadgetItemID:                Windows, (Linux), (MacOS) - Only for TreeGadget on Windows, returns 0 else
+MDIGadget:                   Windows                   - The MDI concept is not present on Linux (GTK) or MacOSX
 
 ; Scintilla Library
 ;
@@ -125,13 +121,13 @@ InitScintilla: Windows, (Linux), (MacOS) - Only has an effect on Windows, return
 ; Keyboard Library
 ;
 #Library: Keyboard
-KeyboardMode:  Windows, (Linux), (MacOS) - Only has an effect on Windows, ignored else
+KeyboardMode: Windows, (Linux), (MacOS) - Only has an effect on Windows, ignored else
 
 ; Library Library
 ;
 #Library: Library
-GetFunctionEntry:  Windows        - Only present on Windows
-#StartGroup:       Windows, Linux - Examining Library content is not possible on MacOS
+GetFunctionEntry: Windows        - Only present on Windows
+#StartGroup:      Windows, Linux - Examining Library content is not possible on MacOS
   CountLibraryFunctions
   ExamineLibraryFunctions
   LibraryFunctionAddress
@@ -143,26 +139,30 @@ GetFunctionEntry:  Windows        - Only present on Windows
 ; Movie Library
 ;
 #Library: Movie
-MovieAudio:        Windows, (Linux),  MacOS  - Always returns 0 on Linux
-MovieInfo:         Windows, (Linux),  MacOS  - Always returns 0 on Linux
-MovieLength:       Windows, (Linux),  MacOS  - Always returns 0 on Linux
-MovieSeek:         Windows, (Linux),  MacOS  - Always returns 0 on Linux
+MovieAudio:       Windows, (Linux),  MacOS  - Always returns 0 on Linux
+MovieInfo:        Windows, (Linux),  MacOS  - Always returns 0 on Linux
+MovieLength:      Windows, (Linux),  MacOS  - Always returns 0 on Linux
+MovieSeek:        Windows, (Linux),  MacOS  - Always returns 0 on Linux
 
 ; Mouse Library
 ;
 #Library: Mouse
 MouseWheel: Windows, (Linux), (MacOS) - Works only on Windows, returns 0 on the other OS
 
+; Menu Library
+;
+#Library: Menu
+HideMenu: Windows, Linux
 
 ; System Library
 ;
 #Library: Packer
-UseJCALG1Packer:   Windows - Only available on Windows x86
-
+UseJCALG1Packer: Windows - Only available on Windows x86
+ 
 ; System Library
 ;
 #Library: System
-CocoaMessage:      MacOS - It's an OS X specific command.
+CocoaMessage: MacOS - It's an OS X specific command.
 
 ; Requester Library
 ;
@@ -172,25 +172,20 @@ SelectedFontColor: Windows, (Linux), (MacOS) - Returns the passed color on Linux
 ; Screen Library
 ;
 #Library: Screen
-ChangeGamma:       WindowsPlain, (WindowsOpenGL), (Linux), (MacOS) - Only works with DirectX9, ignored else
-ScreenID:          WindowsPlain, LinuxPlain, (WindowsOpenGL), (LinuxOpenGL), (MacOS) - Does not work with OpenGL, returns 0 there
+ChangeGamma:           WindowsPlain, (WindowsOpenGL), (Linux), (MacOS) - Only works with DirectX9, ignored else
+ScreenID:              WindowsPlain, LinuxPlain, (WindowsOpenGL), (LinuxOpenGL), (MacOS) - Does not work with OpenGL, returns 0 there
 
 ; Sound Library
 ;
 #Library: Sound
 GetSoundFrequency: Windows, (Linux), (MacOS) - Only works on Windows, does nothing else
 SetSoundFrequency: Windows, (Linux), (MacOS) - Only works on Windows, does nothing else
-SoundPan:          Windows, (Linux),  MacOS  - Only works on Windows and MacOS, does nothing on Linux
+SoundPan:       Windows, (Linux),  MacOS  - Only works on Windows and MacOS, does nothing on Linux
 
 ; Thread Library
 ;
 #Library: Thread
 ThreadPriority: Windows, (Linux), (MacOS) - Returns 16 (default) and has no effect on Linux and MacOS
-
-; ToolBar Library
-;
-#Library: ToolBar
-ToolBarStandardButton: Windows, Linux, (MacOS) - On MacOS, adds an item without an image, as no standard set is available
 
 ; Window Library
 ;
@@ -199,11 +194,5 @@ EventLParam:        Windows                   - Windows specific Event handling
 EventWParam:        Windows                   - Windows specific Event handling
 SetWindowCallback:  Windows                   - Windows specific Event handling
 SmartWindowRefresh: Windows, (Linux), (MacOS) - Only has an effect on Windows, ignored else
-
-; VectorDrawing Library
-;
-#Library: VectorDrawing
-PdfVectorOutput:    Linux, MacOS
-SvgVectorOutput:    Linux
 
 ; --------------------------------------------------------------------------------------

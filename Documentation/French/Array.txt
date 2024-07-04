@@ -60,23 +60,18 @@
   Le tableau à tester.
   
 @OptionalParameter "Dimension"  
-  Pour les tableaux multidimensionnels, 
-  permet de renvoyer la taille d'une 
-  dimension donnée. 
+  Pour les tableaux multidimensionnels, permet de renvoyer la taille d'une dimension donnée. 
 @LineBreak
 @LineBreak
   La première dimension commence à 1. 
 
 @ReturnValue
-  Renvoie la taille de la dimension du 
-  tableau telle qu'elle a été spécifiée 
-  lors de sa déclaration avec 
-  @ReferenceLink "dim" "Dim" ou 
-  @ReferenceLink "dim" "ReDim". 
+  Renvoie la taille de la dimension du tableau telle qu'elle a été spécifiée 
+  lors de sa déclaration avec @ReferenceLink "dim" "Dim" ou @ReferenceLink "dim" "ReDim". 
 @LineBreak
 @LineBreak
-  Si le tableau n'est pas encore déclaré 
-  ou si son allocation a échoué, il renverra -1.
+  Renvoie -1 si le tableau n'est pas initialisé, (par exemple après @FastLink "FreeArray()" ou si son initialisation 
+  a échoué).
 
 @Remarks
   Attention, le nombre d'éléments est égale à la taille plus 1.@LineBreak
@@ -135,6 +130,64 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
   @@ListSize, @@MapSize
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CompareArray(Tableau1(), Tableau2() [, Options])
+
+@Description
+  Compare chaque élément des deux tableaux pour vérifier leur égalité. 
+
+@Parameter "Tableau1(), Tableau2()"
+  Les tableaux à comparer.
+  
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes :
+@FixedFont
+  @#PB_String_CaseSensitive : La comparaison de chaînes est sensible à la casse (a=a). (Par défaut)
+  @#PB_String_NoCase        : La comparaison de chaînes n'est pas sensible à la casse (A=a).
+  @#PB_Memory_FollowPointers: Si un élément de structure est un pointeur qui n'est pas 0, comparez récursivement la cible du pointeur. 
+                             La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si les deux tableaux sont identiques, zéro sinon.
+
+@Remarks
+  Compare également de manière récursive le contenu des tableaux structurés contenant des éléments 
+  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@LineBreak 
+  Les deux tableaux sont considérés comme égaux s’ils ont le même type et les mêmes dimensions et si
+  chaque paire d’éléments est égale.
+@LineBreak
+@LineBreak
+   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
+   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
+   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
+   se renvoie à elle-même).
+   
+@Example
+@Code
+  Dim A(4)
+  A(0) = 10
+  A(1) = 20
+  A(2) = 30
+  A(3) = 40
+
+  Dim B(4)
+  B(0) = 10
+  B(1) = 20
+  B(2) = 50 ; Pas égal à A(2)
+  B(3) = 40
+
+  Debug CompareArray(A(), B()) ; Différent
+@EndCode
+
+@SeeAlso
+  @@CompareList, @@CompareMap
+
+@SupportedOS
+
 
 ;--------------------------------------------------------------------------------------------------------
 

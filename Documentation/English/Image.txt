@@ -1,7 +1,7 @@
 ;
 ;     Image library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Image
@@ -217,12 +217,16 @@
 
 @Example
 @Code
-  CatchImage(0, ?Logo)
-  End
-
+  If OpenWindow(0, 0, 0, 148, 148, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    If CatchImage(0, ?Geebee)
+      ImageGadget(0, 10, 10, 0, 0, ImageID(0))
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+  
   DataSection
-    Logo:
-      IncludeBinary "Logo.bmp"
+    GeeBee:
+    IncludeBinary #PB_Compiler_Home + "examples/sources/Data/Geebee2.bmp"
   EndDataSection
 @EndCode
   Note: The "?" is a pointer to a label. More information about pointers and memory access can be found
@@ -786,6 +790,31 @@
 
 @ReturnValue
   Returns nonzero if the operation succeeded and zero if it failed.
+
+@Example
+@Code
+  UsePNGImageEncoder()
+  
+  If CreateImage(0, 33, 33)
+    If StartDrawing(ImageOutput(0))
+      DrawingMode(#PB_2DDrawing_Transparent)
+        Box(0, 0, 33, 33, $FF0000) ; draw a blue box and save it as PNG image file below
+      StopDrawing()
+    EndIf
+    file$ = SaveFileRequester("Select file to save", GetCurrentDirectory(), "*.png|*.png", 0)
+    If file$
+      If GetExtensionPart(file$) = ""
+        file$ + ".png"  ; add the file extension if needed
+      EndIf
+      If SaveImage(0, file$, #PB_ImagePlugin_PNG)
+        MessageRequester("File created", file$)
+      Else
+        MessageRequester("Error", "Failed to save file")
+      EndIf
+    EndIf
+    FreeImage(0)
+  EndIf
+@EndCode
 
 @SeeAlso
   @@ImageDepth,

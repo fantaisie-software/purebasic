@@ -951,7 +951,7 @@ Procedure ColorPicker_Name_Update(*Entry.ColorPickerData)
     h = OutputHeight()
     Box(0, 0, w, h, $FFFFFF)
 
-    DrawingMode(#PB_2DDrawing_Default|#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     For row = 0 To *Entry\Rows ; draw also the last half row in the remaining space
       If *Entry\First + row >= FilteredPalette\Count
         Break
@@ -1258,15 +1258,11 @@ Procedure ColorPicker_TriggerResize(*Entry.ColorPickerData)
   EndIf
 EndProcedure
 
-CompilerIf #CompileWindows
-  
-  ; To handle scrolling events in realtime one Windows. Not needed on Linux/OSX
-  ;
-  Procedure ColorPicker_ScrollbarCallback()
-    *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)
-  EndProcedure
-  
-CompilerEndIf
+; To handle scrolling events in realtime on Windows/macOS. Not needed on Linux
+;
+Procedure ColorPicker_ScrollbarCallback()
+  *ColorPicker\EventFunction(*ColorPicker, #GADGET_Color_Scroll, 0)
+EndProcedure
 
 ;- ----- ToolsPanel interface -----
 
@@ -1291,9 +1287,8 @@ Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
   ScrollBarGadget(#GADGET_Color_Scroll, 0, 0, 0, 0, 0, 100, 10, #PB_ScrollBar_Vertical)
   StringGadget(#GADGET_Color_Filter, 0, 0, 0, 0, "")
   
-  CompilerIf #CompileWindows
-    BindGadgetEvent(#GADGET_Color_Scroll, @ColorPicker_ScrollbarCallback())
-  CompilerEndIf
+  ; Use bind event for scrollbar gadget to be sure it update in realtime
+  BindGadgetEvent(#GADGET_Color_Scroll, @ColorPicker_ScrollbarCallback())
   
   CheckBoxGadget(#GADGET_Color_UseAlpha, 0, 0, 0, 0, Language("ToolsPanel", "UseAlpha"))
   CanvasGadget(#GADGET_Color_CanvasAlpha, 0, 0, 0, 0, #PB_Canvas_ClipMouse)

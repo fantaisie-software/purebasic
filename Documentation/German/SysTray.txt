@@ -1,7 +1,7 @@
 ;
 ;     SysTray library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library SysTray
@@ -58,31 +58,31 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Erstellt ein Pop-up Menü und ein Systray Icon (CD-Symbol), mit dem das Pop-up Menü verknüpft wird:
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Exit")
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\CdPlayer.ico"))
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Zeige das Pop-up Menü nach einem Rechtsklick auf das Systray Icon
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Exit 
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
-  EndIf
+  ; Unsichtbares Fenster, um nur den Systray anzuzeigen
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Erstellt ein Popup-Menü, das im Systray im Systray-Look angezeigt wird
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "About PureBasic...")
+    MenuBar()
+    MenuItem(1, "Exit")
+
+  ; Verknüpft das Menü mit dem Systray
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Exit 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode
 
 @SeeAlso
@@ -109,47 +109,46 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Erstellt ein Bild mit einer gelben Box, welches für das Systray-Icon verwendet wird:
-    If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
-      Box(0, 0, 16 , 16, $00DDDD)
-      StopDrawing()
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), ImageID(0))
-    ; Erstellt ein Pop-up Menü, welches später mit dem Systray Icon verwendet wird:
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Exit")
-    EndIf
-    
-    AddWindowTimer(0, 0, 1000) ; Fügt einen Window-Timer hinzu, der einen Wechsel des Systray Icons aller 1000 ms auslösen soll
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_Timer
-          ; Aktualisiere das Bild des Systray Icons mit einem zufälligen roten Kreis auf gelbem Hintergrund
-          If StartDrawing(ImageOutput(0))
-            Box(0, 0, 16 , 16, $00DDDD)
-            Radius = Random(6, 2)
-            Circle(8, 8, Radius, $0000DD)
-            StopDrawing()
-            ChangeSysTrayIcon(0, ImageID(0))
-          EndIf
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Zeige das Pop-up Menü nach einem Mausklick auf das Systray Icon
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Programm beenden nach einem Klick auf das 'Exit'-Menü, welches mit dem Systray-Icon verknüpft wurde
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
+  ; Unsichtbares Fenster, um nur den Systray anzuzeigen
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+  
+  ; Erstellt ein Bild mit einer gelben Box, welches für das Systray-Icon verwendet wird:
+  If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
+    Box(0, 0, 16 , 16, $00DDDD)
+    StopDrawing()
   EndIf
+  
+  AddSysTrayIcon(0, WindowID(0), ImageID(0))
+  
+  ; Erstellt ein Pop-up Menü, welches später mit dem Systray Icon verwendet wird:
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "Exit")
+    
+  ; Verknüpft das Menü mit dem Systray
+  SysTrayIconMenu(0, MenuID(0))
+  
+  AddWindowTimer(0, 0, 1000) ; Fügt einen Window-Timer hinzu, der einen Wechsel des Systray Icons aller 1000 ms auslösen soll
+  
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Timer
+        ; Aktualisiert das Bild des Systray Icons mit einem zufälligen roten Kreis auf gelbem Hintergrund
+        If StartDrawing(ImageOutput(0))
+          Box(0, 0, 16 , 16, $00DDDD)
+          Radius = Random(6, 2)
+          Circle(8, 8, Radius, $0000DD)
+          StopDrawing()
+          ChangeSysTrayIcon(0, ImageID(0))
+        EndIf
+        
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 0 ; Programm beenden nach einem Klick auf das 'Exit'-Menü, welches mit dem Systray-Icon verknüpft wurde
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode
 
 @SeeAlso
@@ -176,6 +175,59 @@
 
 @SeeAlso
   @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconMenu(#SysTrayIcon, MenuID)
+
+@Description
+  Ordnet das angegebene Popup-Menü dem SysTray-Icon zu. Das Menü sollte mit @@CreatePopupImageMenu
+  unter Verwendung des Flags @#PB_Menu_SysTrayLook erstellt werden. Dies ist die beste Möglichkeit,
+  ein Popup-Menü mit einem SysTray-Icon zu verknüpfen, da das Popup-Menü auf allen Betriebssystemen
+  an der richtigen Position angezeigt wird, wenn der Benutzer auf das Icon klickt.
+
+@Parameter "#SysTrayIcon"
+  Das zu verwendende Systray-Icon.
+
+@Parameter "MenuID"
+  Das Popup-Menü, das mit dem SysTray verknüpft werden soll.
+  @@MenuID kann verwendet werden, um diesen Wert abzurufen.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Unsichtbares Fenster, um nur den Systray anzuzeigen
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Erstellt ein Pop-up Menü, welches im Systray mit Systray-Look angezeigt werden soll
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "About PureBasic...")
+    MenuBar()
+    MenuItem(1, "Exit")
+
+  ; Verknüpft das Menü mit dem Systray
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Exit 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
+@EndCode
+
+@SeeAlso
+  @@CreatePopupImageMenu
   
 @SupportedOS
 

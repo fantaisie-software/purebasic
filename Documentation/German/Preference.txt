@@ -1,7 +1,7 @@
 ;
 ;     Preference library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Preference
@@ -75,6 +75,8 @@
                           sein, welche kein Leerzeichen rings um das Leerzeichen akzeptieren.
   @#PB_Preference_GroupSeparator: fügt eine leere Zeile zwischen den Gruppen ein, um die
                                  Lesbarkeit der Datei zu erhöhen.
+  @#PB_Preference_NoBOM         : Beim Schreiben der Datei wird kein UTF-8-BOM hinzugefügt. Die Datei
+                                 wird trotzdem mit der UTF-8-Kodierung geschrieben.
 @EndFixedFont
 
 @ReturnValue
@@ -401,7 +403,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenPreferences(Dateiname$ [, Flags])
+@Function Ergebnis = OpenPreferences(Dateiname$ [, Flags] [, Kodierung]])
 
 @Description
   Öffnet eine bereits existierende Preference-Datei. 
@@ -418,6 +420,16 @@
                           sein, welche kein Leerzeichen rings um das Leerzeichen akzeptieren.
   @#PB_Preference_GroupSeparator: fügt eine leere Zeile zwischen den Gruppen ein, um die
                                  Lesbarkeit der Datei zu erhöhen.
+@EndFixedFont
+
+@OptionalParameter "Kodierung"
+  Um eine String-Kodierung beim Lesen der Preference-Datei zu erzwingen. Wenn am Anfang der Datei
+  ein UTF-8-BOM gefunden wird, wird dieser Parameter ignoriert und UTF-8 verwendet.
+  Es kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_UTF8: Die Datei wird als UTF-8 gelesen, auch wenn sie kein BOM hat.
+  @#PB_Ascii: Die Datei wird als ASCII gelesen, es sei denn, es gibt ein UTF-8-BOM. Wenn die
+             Einstellungen in die Datei zurückgeschrieben werden, wird UTF-8 verwendet.
 @EndFixedFont
 
 @ReturnValue
@@ -558,9 +570,9 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
-
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
+  
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
   Preference-Datei nicht korrekt geöffnet wurde (z.B. Datei nicht gefunden).
@@ -610,8 +622,8 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
 
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
@@ -637,8 +649,8 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
 
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
@@ -664,8 +676,8 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
 
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
@@ -691,8 +703,8 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
 
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
@@ -718,8 +730,8 @@
   Versucht den zum Schlüssel 'Schlüssel$' gehörenden Wert zu lesen.
 
 @Parameter "Schlüssel$"  
-  Der Schlüssel, dessen Wert gelesen werden soll. Wenn @@PreferenceGroup benutzt
-  wurde, dann beschränkt sich die Suche auf die aktuelle Gruppe. 
+  Der Schlüssel, dessen Wert gelesen werden soll. Wenn sich der Schlüssel innerhalb einer Gruppe
+  befindet, muss @@PreferenceGroup verwendet werden, um die aktuelle Gruppe zu ändern.  
 
 @Parameter "StandardWert"  
   Der zurückzugebende Standardwert, wenn der Schlüssel nicht gefunden oder die
@@ -800,26 +812,26 @@
 
 @Example
 @Code
- If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
+  If CreatePreferences(GetTemporaryDirectory()+"Prefs.txt", #PB_Preference_GroupSeparator)
     PreferenceGroup("Window")
       WritePreferenceLong ("X", 100)
       WritePreferenceLong ("Y", 125)
       WritePreferenceString("Title", "PureNote")    
     ClosePreferences()   
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf  
+  EndIf  
     
-    MessageRequester("Info", "Delete the key 'Title' ")
+  MessageRequester("Info", "Delete the key 'Title' ")
     
   ; Öffnet die Preference-Datei
-    OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
-    PreferenceGroup("Window")
+  OpenPreferences(GetTemporaryDirectory()+"Prefs.txt")
+  PreferenceGroup("Window")
        
   ; Löscht den Schlüssel 'Title'  
-    RemovePreferenceKey("Title")
+  RemovePreferenceKey("Title")
     
-    ClosePreferences()      
-    RunProgram(GetTemporaryDirectory()+"Prefs.txt")
+  ClosePreferences()      
+  RunProgram(GetTemporaryDirectory()+"Prefs.txt")
 @EndCode  
  
 @SeeAlso
@@ -860,7 +872,7 @@
       WritePreferenceDouble("D", 0.0123456789 )
     ClosePreferences()   
     RunProgram(GetTemporaryDirectory()+"Prefs.txt")
-    EndIf
+  EndIf
 @EndCode  
 
 @SeeAlso

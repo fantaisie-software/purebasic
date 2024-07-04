@@ -2826,6 +2826,17 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
           DrawingFont(FontID(fd_fontid))
           x = x1 + 3
           y = y1 + 3
+          DrawText(x,y,"Web",RGBA(0,0,0,255))
+          
+          ;}
+        Case #Form_Type_WebView ;{
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Outlined)
+          Box(x1,y1,x2 - x1, y2 - y1,RGBA(194,194,194,255))
+          DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
+          Box(x1+1,y1+1,x2 - x1-2, y2 - y1 - 2,RGBA(255,255,255,255))
+          DrawingFont(FontID(fd_fontid))
+          x = x1 + 3
+          y = y1 + 3
           DrawText(x,y,"WebView",RGBA(0,0,0,255))
           
           ;}
@@ -4526,6 +4537,9 @@ Procedure FD_LeftUp(x,y)
           var = "ScrollArea_"+Str(FormWindows()\c_scrollarea)
           FormWindows()\c_scrollarea + 1
         Case #Form_Type_Web
+          var = "WebView_"+Str(FormWindows()\c_web)
+          FormWindows()\c_web + 1
+        Case #Form_Type_WebView
           var = "WebView_"+Str(FormWindows()\c_web)
           FormWindows()\c_web + 1
         Case #Form_Type_Container
@@ -6357,6 +6371,7 @@ Procedure FD_UpdateSelectParent()
 EndProcedure
 Procedure FD_InitSelectParent(parent_gadget)
   Protected xml
+  Protected Title$
   
   xml = CatchXML(#PB_Any, ?FormParent_Start, ?FormParent_End - ?FormParent_Start)
   If XMLStatus(xml) <> #PB_XML_Success Or Not CreateDialog(#WINDOW_Form_Parent)
@@ -6370,7 +6385,13 @@ Procedure FD_InitSelectParent(parent_gadget)
   
   DisableWindow(#WINDOW_Main,1)
   
-  SetWindowTitle(#WINDOW_Form_Parent, Language("Form","Parent"))
+  If FormWindows()\FormGadgets()\pbany
+    Title$ = ReplaceString(Language("Form","ParentTitle"), "%id%", FormWindows()\FormGadgets()\variable)
+  Else
+    Title$ = ReplaceString(Language("Form","ParentTitle"), "%id%", "#" + FormWindows()\FormGadgets()\variable)
+  EndIf  
+  
+  SetWindowTitle(#WINDOW_Form_Parent, Title$)
   SetGadgetText(#GADGET_Form_Parent_Select_Text, Language("Form","Parent"))
   SetGadgetText(#GADGET_Form_Parent_SelectItem_Text, Language("Form","ParentItem"))
   SetGadgetText(#GADGET_Form_Parent_OK, Language("Form","OK"))
@@ -6677,7 +6698,7 @@ Procedure FD_ProcessEventGridGadget(col,row)
         ; if it does not => add the procedure
         ;If FormWindows()\event_file = ""
         ;  grid_SetCellString(propgrid, 2,row,"")
-        ;  MessageRequester("", Language("Form","SelectEventFileFirst"))
+        ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
         ;Else
         FormWindows()\FormGadgets()\event_proc = grid_GetCellString(propgrid, 2, i)
         ;EndIf
@@ -6793,7 +6814,7 @@ Procedure FD_ProcessEventGridWindow(col,row)
       ; if it does not => add the procedure
       ;If FormWindows()\event_file = ""
       ;  grid_SetCellString(propgrid, 2,row,"")
-      ;  MessageRequester("", Language("Form","SelectEventFileFirst"))
+      ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
       ;Else
       FormWindows()\event_proc = grid_GetCellString(propgrid, 2, row)
       ;EndIf
@@ -6839,7 +6860,7 @@ Procedure FD_ProcessEventGridMenu(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester("", Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormMenus()\event = grid_GetCellString(propgrid, 2,6)
       
@@ -6881,7 +6902,7 @@ Procedure FD_ProcessEventGridToolbar(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester("", Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormToolbars()\event = grid_GetCellString(propgrid, 2, 6)
       
@@ -7281,7 +7302,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If items_gadget
         FD_InitItems()
       Else
-        MessageRequester("",Language("Form", "NoGadgetSelected"))
+        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
       EndIf
       
     Case #Menu_Columns
@@ -7297,7 +7318,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If column_gadget
         FD_InitColumns()
       Else
-        MessageRequester("",Language("Form", "NoGadgetSelected"))
+        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
       EndIf
       
       
@@ -8193,6 +8214,9 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
             Case #Form_Type_Web
               var = "WebView_"+Str(FormWindows()\c_web)
               FormWindows()\c_web + 1
+            Case #Form_Type_WebView
+              var = "WebView_"+Str(FormWindows()\c_web)
+              FormWindows()\c_web + 1
             Case #Form_Type_Container
               var = "Container_"+Str(FormWindows()\c_container)
               FormWindows()\c_container + 1
@@ -8466,4 +8490,3 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
     redraw = 0
   EndIf
 EndProcedure
-

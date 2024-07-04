@@ -208,22 +208,7 @@ Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means 
 EndProcedure
 
 Procedure FindProcedureFromSorted(*Parser.ParserData, *Name, Type, ModuleName$)
-  
-  Bucket = GetBucket(*Name)
-  
-  *Item.SourceItem = *Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-  While *Item
-    Select CompareMemoryString(*Name, @*Item\Name$, #PB_String_NoCaseAscii)
-      Case #PB_String_Equal
-        ProcedureReturn *Item
-      Case #PB_String_Greater:
-        *Item = *Item\NextSorted
-      Default
-        Break
-    EndSelect
-  Wend
-  
-  ProcedureReturn 0
+  ProcedureReturn RadixLookupValue(*Parser\Modules(UCase(ModuleName$))\Indexed[Type], PeekS(*Name))
 EndProcedure
 
 Procedure JumpToProcedure() ; return 1 if a jump was done

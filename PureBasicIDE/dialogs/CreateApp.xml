@@ -162,6 +162,9 @@
             <hbox expand="item:1">
               <string id="#GADGET_AndroidApp_StartupImage" width="150" />
               <button id="#GADGET_AndroidApp_SelectStartupImage" text="..." width="30" height="ignore"/>
+              <text lang="AndroidApp:StartupColor" text=":" />
+              <text id="#GADGET_AndroidApp_StartupColor" text=" " width="50" />
+              <buttonimage id="#GADGET_AndroidApp_SelectStartupColor" width="20" height="ignore"/>
             </hbox>
             
             <text lang="AndroidApp:Orientation" text=": " />
@@ -190,9 +193,11 @@
             <button id="#GADGET_AndroidApp_SelectOutput" text="..." width="30" height="ignore" />
           </hbox>
           
+          <checkbox id="#GADGET_AndroidApp_EnableDebugger" lang="AndroidApp:EnableDebugger" />
+
           <checkbox id="#GADGET_AndroidApp_AutoUpload" lang="AndroidApp:AutoUpload" />
 
-          <checkbox id="#GADGET_AndroidApp_EnableDebugger" lang="App:EnableDebugger" />
+          <checkbox id="#GADGET_AndroidApp_InsecureFileMode" lang="AndroidApp:InsecureFileMode" />
           
           <checkbox id="#GADGET_AndroidApp_KeepAppDirectory" lang="App:KeepAppDirectory" />
 

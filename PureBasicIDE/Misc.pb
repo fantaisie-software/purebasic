@@ -312,31 +312,6 @@ Procedure ColorFromRGBString(String$)
   ProcedureReturn RGB(Val(StringField(String$, 1, ",")), Val(StringField(String$, 2, ",")), Val(StringField(String$, 3, ",")))
 EndProcedure
 
-; Right now the IDE is ascii only, but since that will somewhen change,
-; we do not use a string to return the buffer (as it will fail in unicode mode)
-; The buffer that is returned must be freed!
-;
-Procedure StringToUTF8(String$)
-  
-  *Buffer = AllocateMemory(StringByteLength(String$, #PB_UTF8) + 1)
-  If *Buffer
-    PokeS(*Buffer, String$, -1, #PB_UTF8)
-  EndIf
-  
-  ProcedureReturn *Buffer
-EndProcedure
-
-
-Procedure StringToAscii(String$)
-  
-  *Buffer = AllocateMemory(StringByteLength(String$, #PB_Ascii) + 1)
-  If *Buffer
-    PokeS(*Buffer, String$, -1, #PB_Ascii)
-  EndIf
-  
-  ProcedureReturn *Buffer
-EndProcedure
-
 
 Procedure.s ModulePrefix(Name$, ModuleName$)
   If ModuleName$ <> ""

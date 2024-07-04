@@ -130,8 +130,8 @@ et à la bibliothèque
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus (Windows uniquement).
-  @#PB_File_SharedWrite: le fichier ouvert par un processus peut être écrit par un autre processus (Windows uniquement).
+  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus ou par un thread (Windows uniquement).
+  @#PB_File_SharedWrite: le fichier ouvert par un processus peut être écrit par un autre processus ou par un thread (Windows uniquement).
   @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
                         @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
 @EndFixedFont
@@ -861,8 +861,9 @@ et à la bibliothèque
     CloseFile(0)
   EndIf
   If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+  Format = ReadStringFormat(0)
     While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
-      Debug ReadString(0)      ; Affiche du fichier
+      Debug ReadString(0, Format) ; Affiche du fichier
     Wend
     CloseFile(0)               ; Ferme le fichier précédemment créé ou ouvert
   Else

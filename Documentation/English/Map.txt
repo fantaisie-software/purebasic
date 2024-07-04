@@ -136,6 +136,55 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = CompareMap(Map1(), Map2() [, Flags])
+
+@Description
+  Compare each elements of the two maps for equality. Recursively compares
+  also contents of structured maps with dynamic elements (such as embedded arrays, lists or maps).
+  The two maps are considered the equal if they have the same type and size and if each
+  pair of elements is equal.
+
+@Parameter "Map1(), Map2()"
+  The maps to compare.
+  
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself. See remarks below for details.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if both maps are the same or zero if they differ.
+  
+@Remarks
+  The @#PB_Memory_FollowPointers option is for advanced users and requires special care to avoid crashes.
+  If this option is used then all pointer values must point to valid and initialized memory or have the value 0.
+  It is also not allowed to have loops in the pointed elements (a chain of pointers that refers back to itself).
+
+@Example
+@Code
+  NewMap A()
+  A("de") = 49
+  A("fr") = 33
+  A("uk") = 44
+
+  NewMap B() ; one element missing
+  B("de") = 49
+  B("uk") = 44 
+
+  Debug CompareMap(A(), B()) ; Not equal
+@EndCode
+
+@SeeAlso
+  @@CompareArray, @@CompareList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result = CopyMap(SourceMap(), DestinationMap())
 
 @Description
@@ -206,6 +255,7 @@
 @Remarks
   This function is very fast (it doesn't iterate all the map but
   uses a cached result) and can be safely used to determine if a map is empty or not.
+  If the map is not initialized, it returns -1 (for example after @@FreeMap).
 
 @Example
 @Code

@@ -1,7 +1,7 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library File
@@ -540,9 +540,9 @@
 @OptionalParameter "Flags"
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
-  @#PB_File_SharedRead : if the file has been already opened by another process for read operation,
+  @#PB_File_SharedRead : if the file has been already opened by another process or thread for read operation,
                         this flag is needed to access it (Windows only).
-  @#PB_File_SharedWrite: if the file has been already opened by another process for write operation,
+  @#PB_File_SharedWrite: if the file has been already opened by another process or thread for write operation,
                         this flag is needed to access it (Windows only).
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
@@ -565,16 +565,15 @@
 
 @Example
 @Code
-
-  If ReadFile(0, "Text.txt")   ; if the file could be read, we continue...
-    While Eof(0) = 0           ; loop as long the 'end of file' isn't reached
-      Debug ReadString(0)      ; display line by line in the debug window
+  If ReadFile(0, "Text.txt")        ; if the file could be read, we continue ...
+    Format = ReadStringFormat(0)
+    While Eof(0) = 0                ; loop as long the 'end of file' isn't reached
+      Debug ReadString(0, Format)   ; display line by line in the debug window
     Wend
-    CloseFile(0)               ; close the previously opened file
+    CloseFile(0)                    ; close the previously opened file
   Else
-    MessageRequester("Information","Couldn't open the file!")
+    MessageRequester("Information", "Couldn't open the file!")
   EndIf
-
 @EndCode
 
 @SeeAlso

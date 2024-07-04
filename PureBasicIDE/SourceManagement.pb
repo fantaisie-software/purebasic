@@ -339,6 +339,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
+  FileList()\DllProtection    = OptionDllProtection
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -834,6 +835,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddStringConfigLine("AndroidAppPackageID"   , *Target\AndroidAppPackageID$)
     AddStringConfigLine("AndroidAppIAPKey"      , *Target\AndroidAppIAPKey$)
     AddStringConfigLine("AndroidAppStartupImage", *Target\AndroidAppStartupImage$)
+    AddStringConfigLine("AndroidAppStartupColor", *Target\AndroidAppStartupColor$)
     AddStringConfigLine("AndroidAppOutput"      , *Target\AndroidAppOutput$)
     AddStringConfigLine("AndroidAppResourceDirectory" , *Target\AndroidAppResourceDirectory$)
     AddFlagConfigLine("AndroidAppEnableResourceDirectory", *Target\AndroidAppEnableResourceDirectory)
@@ -842,6 +844,7 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     AddFlagConfigLine("AndroidAppAutoUpload"    , *Target\AndroidAppAutoUpload)
     AddFlagConfigLine("AndroidAppEnableDebugger", *Target\AndroidAppEnableDebugger)
     AddFlagConfigLine("AndroidAppKeepAppDirectory", *Target\AndroidAppKeepAppDirectory)
+    AddFlagConfigLine("AndroidAppInsecureFileMode", *Target\AndroidAppInsecureFileMode)
     
   CompilerEndIf
   
@@ -870,6 +873,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   If *Target\DPIAware And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "DPIAware"
+  EndIf
+  If *Target\DllProtection And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "DllProtection"
   EndIf
   If *Target\EnableOnError And IsCodeFile
     NbLines + 1
@@ -1223,6 +1230,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   ; These configs are enabled by default, so if not present, should be 0
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
+  *Source\DllProtection = 0
   
   ClearList(*Source\UnknownIDEOptionsList$())
   
@@ -1295,6 +1303,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPPACKAGEID"    : *Source\AndroidAppPackageID$ = Value$
         Case "ANDROIDAPPIAPKEY"       : *Source\AndroidAppIAPKey$ = Value$
         Case "ANDROIDAPPSTARTUPIMAGE" : *Source\AndroidAppStartupImage$ = Value$
+        Case "ANDROIDAPPSTARTUPCOLOR" : *Source\AndroidAppStartupColor$ = Value$
         Case "ANDROIDAPPOUTPUT"       : *Source\AndroidAppOutput$ = Value$
         Case "ANDROIDAPPORIENTATION"  : *Source\AndroidAppOrientation = Val(Value$)
         Case "ANDROIDAPPFULLSCREEN"   : *Source\AndroidAppFullScreen = 1
@@ -1303,8 +1312,9 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         Case "ANDROIDAPPENABLERESOURCEDIRECTORY": *Source\AndroidAppEnableResourceDirectory = 1
         Case "ANDROIDAPPENABLEDEBUGGER" : *Source\AndroidAppEnableDebugger = 1
         Case "ANDROIDAPPKEEPAPPDIRECTORY" : *Source\AndroidAppKeepAppDirectory = 1
+        Case "ANDROIDAPPINSECUREFILEMODE" : *Source\AndroidAppInsecureFileMode = 1
           
-        CompilerEndIf
+      CompilerEndIf
         
       Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
@@ -1312,6 +1322,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
       Case "DPIAWARE":         *Source\DPIAware = 1
+      Case "DLLPROTECTION":    *Source\DllProtection = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
       Case "ENABLEONERROR":    *Source\EnableOnError = 1
       Case "DISABLEDEBUGGER":  *Source\Debugger = 0
@@ -1593,6 +1604,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
+    *Source\DllProtection = 0
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1
@@ -1996,6 +2008,10 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
     Format = ReadStringFormat(#FILE_LoadSource)
     FileLength = Lof(#FILE_LoadSource)-Loc(#FILE_LoadSource) ; subtract the BOM size!
     
+    If FileLength > 0
+    *Buffer = AllocateMemory(FileLength+1)
+  EndIf
+    
     If Format = #PB_Ascii
       *ActiveSource\Parser\Encoding = 0
       SendEditorMessage(#SCI_SETCODEPAGE, 0, 0)
@@ -2006,6 +2022,8 @@ Procedure LoadTempFile(FileName$)  ; load the specified file over the current op
     
     If FileLength > 0
       *Buffer = AllocateMemory(FileLength+1)
+    Else ; For empty text, we need to clear the scintilla component (https://www.purebasic.fr/english/viewtopic.php?p=615379#p615379)
+      StreamTextIn(ToUTF8(""), 0)
     EndIf
     
     If *Buffer

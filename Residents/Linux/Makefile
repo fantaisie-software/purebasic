@@ -6,8 +6,6 @@ all: resident
 resident:
 	pbcompiler -q PureBasic.pb -r "$(PUREBASIC_HOME)/residents/purebasic.res" -ir purebasic.res
 	pbcompiler -q PureBasic.pb -r "$(PUREBASIC_HOME)/subsystems/qt/residents/purebasic.res" -ir purebasic.res -s qt
-	pbcompiler -q Unicode.pb -r "$(PUREBASIC_HOME)/residents/unicode/unicode.res" -ir unicode.res --unicode
-	pbcompiler -q Unicode.pb -r "$(PUREBASIC_HOME)/residents/unicode.res" -ir unicode.res
 	pbcompiler -q ../expat.pb -r "$(PUREBASIC_HOME)/residents/expat.res" -ir expat.res
 	pbcompiler -q ../Scintilla.pb -r "$(PUREBASIC_HOME)/residents/scintilla.res" -ir scintilla.res
 	pbcompiler -q ../OpenGL.pb -r "$(PUREBASIC_HOME)/residents/opengl.res" -ir opengl.res

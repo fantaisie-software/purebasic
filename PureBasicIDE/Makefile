@@ -15,9 +15,13 @@ endif
 
 
 ifeq ($(PB_WINDOWS),1)
-	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler /QUIET
+  ifeq ($(C_BACKEND),1)
+  	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompilerc
+  else
+  	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler
+  endif
 	IDE = $(HOME)/$(IDENAME).exe
-	IDEFLAGS = /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE /OPTIMIZER
+	IDEFLAGS = /QUIET /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE /OPTIMIZER
 	MAKEEXE = /EXE
 	MAKEBUILDINFO = Build/makebuildinfo.exe
 	TOOLFLAGS = /LINENUMBERING /CONSOLE
@@ -37,11 +41,15 @@ ifeq ($(PB_WINDOWS),1)
 	THEMEFOLDER = $(HOME)/Themes
 
 else
-	PBCOMPILER = pbcompiler -q
-
+  ifeq ($(C_BACKEND),1)
+    PBCOMPILER = pbcompilerc -q
+  else
+    PBCOMPILER = pbcompiler -q
+  endif
+	
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
-	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer
+	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer --dpiaware
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
@@ -50,12 +58,14 @@ ifeq ($(PB_MACOS),1)
 	endif
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
-	IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
 	IDEFLAGS = --thread --unicode --optimizer
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
+		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_gtk2"
 		IDEFLAGS += --subsystem gtk2
+	else
+		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
 	endif
 endif
 

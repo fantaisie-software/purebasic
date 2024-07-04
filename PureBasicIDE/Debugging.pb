@@ -269,6 +269,7 @@ CompilerIf #DEBUG
   EndProcedure
   
   Procedure DebuggingWindowEvents(EventID)
+    Static NewList *Items()
     
     If EventID = #PB_Event_Gadget
       If EventGadget() = Debugging_Display
@@ -363,24 +364,14 @@ CompilerIf #DEBUG
                   Default              : Title$ = "----- Unknown type -----"
                 EndSelect
                 
-                First = #True
-                For Char = 0 To #PARSER_VTSize-1
-                  *Item.SourceItem = *ActiveSource\Parser\Modules()\Indexed[Type]\Bucket[Char]
-                  While *Item
-                    If First
-                      Content$ + #NewLine + Title$ + #NewLine
-                      First = #False
-                    EndIf
-                    
-                    If Char = 0
-                      Content$ + "_  "
-                    Else
-                      Content$ + Chr(Char-1+'A') + "  "
-                    EndIf
+                RadixEnumerateAll(*ActiveSource\Parser\Modules()\Indexed[Type], *Items())
+                If ListSize(*Items()) > 0
+                  Content$ + #NewLine + Title$ + #NewLine
+                  ForEach *Items()
+                    *Item.SourceItem = *Items()
                     Content$ + *Item\Name$ + " " + *Item\StringData$ + #NewLine
-                    *Item = *Item\NextSorted
-                  Wend
-                Next Char
+                  Next *Items()
+                EndIf
               Next Type
             Next *ActiveSource\Parser\Modules()
             
@@ -434,24 +425,14 @@ CompilerIf #DEBUG
                         Default              : Title$ = "----- Unknown type -----"
                       EndSelect
                       
-                      First = #True
-                      For Char = 0 To #PARSER_VTSize-1
-                        *Item.SourceItem = *Parser\Modules()\Indexed[Type]\Bucket[Char]
-                        While *Item
-                          If First
-                            Content$ + #NewLine + Title$ + #NewLine
-                            First = #False
-                          EndIf
-                          
-                          If Char = 0
-                            Content$ + "_  "
-                          Else
-                            Content$ + Chr(Char-1+'A') + "  "
-                          EndIf
+                      RadixEnumerateAll(*Parser\Modules()\Indexed[Type], *Items())
+                      If ListSize(*Items()) > 0
+                        Content$ + #NewLine + Title$ + #NewLine
+                        ForEach *Items()
+                          *Item.SourceItem = *Items()
                           Content$ + *Item\Name$ + " " + *Item\StringData$ + #NewLine
-                          *Item = *Item\NextSorted
-                        Wend
-                      Next Char
+                        Next *Items()
+                      EndIf
                     Next Type
                   Next *Parser\Modules()
                   

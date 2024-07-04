@@ -1,7 +1,7 @@
 ;
 ;     2DDrawing library documentation - MultiOS version !
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library 2DDrawing
@@ -567,14 +567,15 @@
   Das Ergebnis kann eine Kombination (mit bitweisem 'OR') der folgenden Werte sein:
 
 @FixedFont
-  @#PB_PixelFormat_8Bits       ; 1 Byte pro Pixel, mit Palette ("palettised")
-  @#PB_PixelFormat_15Bits      ; 2 Byte pro Pixel 
-  @#PB_PixelFormat_16Bits      ; 2 Byte pro Pixel
-  @#PB_PixelFormat_24Bits_RGB  ; 3 Byte pro Pixel (RRGGBB)
-  @#PB_PixelFormat_24Bits_BGR  ; 3 Byte pro Pixel (BBGGRR)
-  @#PB_PixelFormat_32Bits_RGB  ; 4 Byte pro Pixel (RRGGBB)
-  @#PB_PixelFormat_32Bits_BGR  ; 4 Byte pro Pixel (BBGGRR)
-  @#PB_PixelFormat_ReversedY   ; Die Y-Koordinate der Ausgabe ist umgekehrt im Speicher (die untere Reihe ist zuerst gespeichert).
+  @#PB_PixelFormat_8Bits       : 1 Byte pro Pixel, mit Palette ("palettised")
+  @#PB_PixelFormat_15Bits      : 2 Byte pro Pixel 
+  @#PB_PixelFormat_16Bits      : 2 Byte pro Pixel
+  @#PB_PixelFormat_24Bits_RGB  : 3 Byte pro Pixel (RRGGBB)
+  @#PB_PixelFormat_24Bits_BGR  : 3 Byte pro Pixel (BBGGRR)
+  @#PB_PixelFormat_32Bits_RGB  : 4 Byte pro Pixel (RRGGBB)
+  @#PB_PixelFormat_32Bits_BGR  : 4 Byte pro Pixel (BBGGRR)
+  @#PB_PixelFormat_ReversedY   : Die Y-Koordinate der Ausgabe wird im Speicher umgekehrt (die untere Zeile wird zuerst gespeichert).
+  @#PB_PixelFormat_NoAlpha     : Das Pixelformat ist 32-Bit, die Alpha-Komponente wird jedoch nicht verwendet.
 @EndFixedFont
 
 @Remarks
@@ -650,9 +651,16 @@
 
   @#PB_2DDrawing_Transparent
 @Indent
-  Wenn dieser Flag gesetzt ist, dann wird der Hintergrund beim @@DrawText Befehl transparent sein.
+  Wenn dieses Flag gesetzt ist, dann wird der Hintergrund beim @@DrawText Befehl transparent sein.
   @LineBreak
   @Image PB_2DDrawing_Transparent.png
+@EndIndent
+
+  @#PB_2DDrawing_NativeText
+@Indent
+  Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText die native
+  Textausgabe, um eine Gadget-ähnliche Textwiedergabe zu ermöglichen.
+  Alle Spezialeffekte wie XOR, AlphaBlend, CustomFilters usw. sind in diesem Modus nicht verfügbar.
 @EndIndent
 
   @#PB_2DDrawing_XOr
@@ -754,12 +762,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawRotatedText(x, y, Text$, Winkel.f [, Farbe])
+@Function DrawRotatedText(x.d, y.d, Text$, Winkel.f [, Farbe])
 
 @Description
-  Zeigt den angegebenen String auf der aktuellen Ausgabe im angegebenen Winkel an.
+  Zeigt den angegebenen Text auf der aktuellen Ausgabe im angegebenen Winkel an. Um eine Gadget-ähnliche
+  Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText verwendet werden.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   Die Position der linken oberen Ecke des Textes in der Ausgabe.
   Dies ist auch der Punkt, um den der String gedreht wird.
   
@@ -800,7 +809,7 @@
 @Image rotatedtext.png
 
 @SeeAlso
-  @@DrawText, @@DrawingFont, @@FrontColor
+  @@DrawText, @@DrawingFont, @@FrontColor, @@DrawingMode
 
 @SupportedOS
 
@@ -950,13 +959,15 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = DrawText(x, y, Text$ [, VordergrundFarbe [, HintergrundFarbe]])
+@Function Ergebnis = DrawText(x.d, y.d, Text$ [, VordergrundFarbe [, HintergrundFarbe]])
 
 @Description
   Stellt den angegebenen String auf dem aktuellen Ausgabekanal an der angegebenen (x,y) 
   Position dar. Der aktuelle Ausgabekanal wird mittels @@StartDrawing definiert.
+  Um eine Gadget-ähnliche Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText
+  verwendet werden.
 
-@Parameter "x, y"
+@Parameter "x.d, y.d"
   Die Position, an welcher der Text gezeichnet werden soll.
 
 @Parameter "Text$"
@@ -1006,7 +1017,7 @@
 @Image text.png
 
 @SeeAlso 
-  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor
+  @@DrawRotatedText, @@DrawingFont, @@FrontColor, @@BackColor, @@DrawingMode
 
 @SupportedOS
 
@@ -1301,7 +1312,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe = TextHeight(Text$)  
+@Function Höhe.d = TextHeight(Text$)  
 
 @Description
   Ermittelt die Höhe des angegebenen String, der in der aktuellen Ausgabe und mittels
@@ -1311,7 +1322,7 @@
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Höhe des angegebenen Textes in Pixel zurück.
+  Gibt die Höhe des angegebenen Textes zurück.
 
 @SeeAlso
   @@TextWidth, @@DrawingFont
@@ -1320,7 +1331,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Breite = TextWidth(Text$)  
+@Function Breite.d = TextWidth(Text$)  
 
 @Description
   Ermittelt die Breite des angegebenen String, der in der aktuellen Ausgabe und mittels
@@ -1330,7 +1341,7 @@
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Breite des angegebenen Textes in Pixel zurück.
+  Gibt die Breite des angegebenen Textes zurück.
 
 @SeeAlso
   @@TextHeight, @@DrawingFont
@@ -1400,7 +1411,7 @@
   Die Adresse einer Callback-Funktion, welche aufgerufen werden soll.
   Sie muss die folgende Form haben:
 @Code
-  Procedure CustomCallback(x, y, QuellFarbe, ZielFarbe)
+  Procedure CustomCallback(x, y, QuellFarbe.l, ZielFarbe.l)
     ;
     ; Berechne die ErgebnisFarbe anhand der gemachten Eingaben
     ;
@@ -1432,7 +1443,7 @@
 
 @Example
 @Code
-  Procedure FilterCallback(x, y, QuellFarbe, ZielFarbe)
+  Procedure FilterCallback(x, y, QuellFarbe.l, ZielFarbe.l)
     ; Nehme nur die Rot-Komponente aus der Quelle, ändere nicht die anderen
     ProcedureReturn RGBA(Red(QuellFarbe), Green(ZielFarbe), Blue(ZielFarbe), Alpha(ZielFarbe))
   EndProcedure

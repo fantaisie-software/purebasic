@@ -97,7 +97,7 @@ CompilerIf #CompileLinux = 0
           If Left(Page$, 1) = "/"
             Page$ = Right(Page$, Len(Page$)-1)
           EndIf
-          OpenHelp(PureBasicPath$ + "PureBasic.chm", Page$)
+          OpenHelp(PureBasicPath$ + #ProductName$ + ".chm", Page$)
         CompilerElse
           OpenHelpWindow()
           SetGadgetText(#GADGET_Help_Viewer, GetGadgetText(#GADGET_HelpTool_Viewer))

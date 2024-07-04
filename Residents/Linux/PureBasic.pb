@@ -226,14 +226,6 @@ CompilerElse
   #PB_ListIcon_FullRowSelect = 0       ; NOT SUPPORTED
 CompilerEndIf
 
-; Item attributes
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-; Gadget attributes
-#PB_ListIcon_ColumnWidth = 1
-
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2
 
@@ -406,15 +398,8 @@ CompilerEndIf
 ;
 #PB_EventType_Change = $300
 #PB_EventType_Focus = $100
-#PB_EventType_LeftClick = 0
-#PB_EventType_LeftDoubleClick = 2
 #PB_EventType_LostFocus = $200
-#PB_EventType_RightClick = 1
-#PB_EventType_RightDoubleClick = 3
 #PB_EventType_DragStart = $800
-#PB_EventType_Up                = 4
-#PB_EventType_Down              = 5
-#PB_EventType_Resize    = 6
 
 ; Drag & Drop
 ;
@@ -817,3 +802,5 @@ CompilerElse
 #PB_Shortcut_Scroll = $FF14 ; #define GDK_Scroll_Lock 0xFF14
 
 CompilerEndIf
+
+#PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it

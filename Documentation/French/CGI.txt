@@ -814,7 +814,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = InitFastCGI(PortLocal)
+@Function Resultat = InitFastCGI(PortLocal [, LiaisonIP$])
 
 @Description
   Initialise le support de FastCGI. 
@@ -843,6 +843,10 @@
   Le port local à utiliser.@LineBreak
   Le serveur web doit être configuré pour 
   utiliser ce port.
+  
+@OptionalParameter "LiaisonIP$"
+  L'adresse IP à lier à l'application FastCGI. @LineBreak
+  Pour l'instant, seuls "localhost" ou "127.0.0.1" sont acceptés.
 
 @ReturnValue
   Renvoie une valeur non nulle si 

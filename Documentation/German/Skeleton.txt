@@ -1,0 +1,204 @@
+;
+;     Skeleton library documentation
+;
+;      (c) 2024 - Fantaisie Software
+;
+
+@Library Skeleton
+
+@Overview
+  Skelette (auf Englisch "skeleton") bestehen aus Knochen ("bones") und können einem
+  @LibraryLink "mesh" "Mesh" zugeordnet werden, um es auf realistische Weise zu animieren.
+@LineBreak
+@LineBreak
+  @@InitEngine3D muss erfolgreich aufgerufen werden, bevor die Skeleton-Funktionen verwendet
+  werden können.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateSkeleton(#Mesh)
+
+@Description
+  Erstellt oder ersetzt das Skelett des #Mesh.
+
+@Parameter "#Mesh"
+  Die Nummer zur Identifizierung des neuen Mesh. @ReferenceLink "purebasic_objects" "#PB_Any" 
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateBone(#Mesh, Bone$, ParentBone$, x, y, z, RotationX, RotationY, RotationZ, RotationW, Modus)
+
+@Description
+  Erstellt einen neuen Bone ("Knochen") für das angegebene #Mesh. Wenn das Mesh kein Skelett hat, muss
+  es vor Verwendung dieses Befehls mit @@CreateSkeleton erstellt werden.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "Bone$"
+  Der neue Knochenname.
+
+@Parameter "ParentBone$"
+  Der Name des übergeordneten Knochens. Wenn dieser String leer ist, wird der Knochen an der Wurzel
+  des Skeletts erstellt.
+  
+@Parameter "x, y, z"
+  Die neue Knochenkoordinate in Welteinheiten.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  Die neue Knochenrotation.
+
+@Parameter "Modus"
+  Der für die Knochenrotation zu verwendende Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Orientation_PitchYawRoll  : 'RotationX' (Neigung), 'RotationY' (Gieren), 'RotationZ' (Rollen), angewendet in dieser Reihenfolge (Standard).
+  @#PB_Orientation_Quaternion    : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' für Quaternionwerte
+  @#PB_Orientation_AngleAxis     : 'RotationX', 'RotationY', 'RotationZ' für die Rotationsachse und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_Direction     : Alias für @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor X) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVY : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor Y) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVZ : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor Z) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVXN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -X) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVYN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -Y) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVZN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -Z) und 'RotationW' für den Winkel (in Grad).
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VertexBoneAssignment(#Mesh, SubMesh, VertexIndex, BoneIndex, Gewicht.f)
+
+@Description
+  Weist einem Knochen einen Scheitelpunkt (auf Englisch "vertex") zu (derselbe Scheitelpunkt kann mehreren
+  Knochen zugewiesen werden: die Summe der Knochengewichte muss gleich 1 sein). Sobald die Scheitelpunktzuweisung
+  abgeschlossen ist, muss @@FinishBoneAssignment aufgerufen werden.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "SubMesh"
+  Das Submesh, aus dem die Daten abgerufen werden sollen. Der erste Submesh-Index ist 0 (Hauptmesh).
+
+@Parameter "VertexIndex"
+  Der Scheitelpunktindex. Der erste Index ist 0.
+  
+@Parameter "BoneIndex"
+  Der Knochenindex, in der Reihenfolge der Erstellung. Der erste Index ist 0.
+
+@Parameter "Gewicht"
+  Das Knochengewicht, dieses muss zwischen 0 und 1 liegen.
+  
+@NoReturnValue
+  
+@SeeAlso
+  @@FinishBoneAssignment
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FinishBoneAssignment(#Mesh, SubMesh)
+
+@Description
+  Beendet die Bone-Zuweisungen für ein Mesh, die zuvor mit @@VertexBoneAssignment gestartet wurden.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "SubMesh"
+  Das zu verwendende Submesh. Der erste Submesh-Index ist 0 (Hauptmesh).
+  
+@NoReturnValue
+
+@SeeAlso
+  @@VertexBoneAssignment
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CreateSkeletonAnimation(#Mesh, AnimationName$, Länge)
+
+@Description
+  Erstellt eine neue Skelettanimation. Für dieses Mesh muss mit @@CreateSkeleton ein Skelett erstellt werden.
+   Die neue Animation ist leer und Schritte müssen mit @@AddSkeletonAnimationKeyFrame erstellt werden.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "AnimationName$"
+  Der Name der Animation.
+
+@Parameter "Länge"
+  Die Länge der Animation (in Millisekunden).
+  
+@NoReturnValue
+
+@SeeAlso
+  @@AddSkeletonAnimationKeyFrame, @@CreateSkeleton
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddSkeletonAnimationKeyFrame(#Mesh, AnimationName$, Bone$, Zeit, RotationX, RotationY, RotationZ, RotationW, Modus [, TranslateX, TranslateY, TranslateZ [, ScaleX, ScaleY, ScaleZ]])
+
+@Description
+  Erstellt einen neuen Schritt für die angegebene Animation. Eine Skelettanimation kann mit
+  @@CreateSkeletonAnimation erstellt werden.
+
+@Parameter "#Mesh"
+  Das zu verwendende Mesh.
+
+@Parameter "AnimationName$"
+  Der Name der Animation, die dem Schritt hinzugefügt werden soll.
+
+@Parameter "Bone$"
+  Der Name des zu verwendenden Bone (Knochens).
+
+@Parameter "Zeit"
+  Die Zeit in der Animation, um den Keyframe festzulegen (in Millisekunden). Dieser Wert muss zwischen Null
+  und der in @@CreateSkeletonAnimation definierten 'Länge' liegen.
+  
+@Parameter "RotationX, RotationY, RotationZ, RotationW"
+  Die Knochenrotation für diesen Schritt.
+
+@Parameter "Modus"
+  Der für die Knochenrotation zu verwendende Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Orientation_PitchYawRoll  : 'RotationX' (Neigung), 'RotationY' (Gieren), 'RotationZ' (Rollen), angewendet in dieser Reihenfolge (Standard).
+  @#PB_Orientation_Quaternion    : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' für Quaternionwerte
+  @#PB_Orientation_AngleAxis     : 'RotationX', 'RotationY', 'RotationZ' für die Rotationsachse und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_Direction     : Alias für @#PB_Orientation_DirectionLDVZN
+  @#PB_Orientation_DirectionLDVX : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor X) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVY : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor Y) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVZ : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor Z) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVXN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -X) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVYN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -Y) und 'RotationW' für den Winkel (in Grad).
+  @#PB_Orientation_DirectionLDVZN: 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor (lokaler Richtungsvektor -Z) und 'RotationW' für den Winkel (in Grad).
+@EndFixedFont
+
+@OptionalParameter "TranslateX, TranslateY, TranslateZ"
+  Die Knochen-Übersetzung ("Bone translation") für diesen Schritt.
+
+@OptionalParameter "ScaleX, ScaleY, ScaleZ"
+  Der Knochenmaßstab ("Bone scale") für diesen Schritt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@CreateSkeletonAnimation
+  
+@SupportedOS

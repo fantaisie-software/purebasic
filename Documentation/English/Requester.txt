@@ -21,7 +21,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Color = ColorRequester([CurrentColor])
+@Function Color = ColorRequester([CurrentColor [, ParentID])
 
 @Description
   Opens the standard requester to choose a color. The chosen color is returned 
@@ -29,6 +29,9 @@ called 'requesters'.
 
 @OptionalParameter "CurrentColor"
   Sets the default color when the requester is opened. @@RGB can be used to get a valid color.
+
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
   
 @ReturnValue
   The selected color, or -1 if the user canceled the requester. To easily get each RGB component value, @@Red, @@Green
@@ -56,7 +59,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = FontRequester(FontName$, FontSize, Flags [, Color [, Style]])
+@Function Result = FontRequester(FontName$, FontSize, Flags [, Color [, Style [, ParentID]]])
 
 @Description
   Opens the standard requester to choose a font. The functions @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize 
@@ -81,6 +84,9 @@ called 'requesters'.
 @OptionalParameter "Style"
   Sets the default style when the requester is opened. See @@SelectedFontStyle for available styles.
 
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
+  
 @ReturnValue
   Nonzero if a font has been choosen, zero if the user canceled the requester.
 
@@ -119,7 +125,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = InputRequester(Title$, Message$, DefaultText$ [, Flags])
+@Function Text$ = InputRequester(Title$, Message$, DefaultText$ [, Flags [, ParendID]])
 
 @Description
   Opens a blocking input requester to enter some text. 
@@ -139,6 +145,9 @@ called 'requesters'.
   @#PB_InputRequester_Password: set the field type as 'password'. The displayed text will be hidden.
 @EndFixedFont
 
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
+  
 @ReturnValue
   Returns the text in the input field, or an empty string if the requester has been closed without hitting the "OK" button.
 
@@ -161,7 +170,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = MessageRequester(Title$, Text$ [, Flags])
+@Function Result = MessageRequester(Title$, Text$ [, Flags [, ParentID]])
 
 @Description
   Opens a blocking requester to display some information. The program execution 
@@ -186,7 +195,9 @@ called 'requesters'.
   @#PB_MessageRequester_Warning: displays a warning icon
   @#PB_MessageRequester_Error  : displays an error icon
 @EndFixedFont
-  
+
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.  
 
 @ReturnValue
   It can be one of the following constants:
@@ -258,7 +269,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Filename$ = OpenFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition [, Flags])
+@Function Filename$ = OpenFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition [, Flags [, ParentID]])
 
 @Description
   Opens the standard requester for the user to choose a file. The title can be 
@@ -289,6 +300,9 @@ called 'requesters'.
 @FixedFont
   @#PB_Requester_MultiSelection: Enable the multiselection. (see @@NextSelectedFilename)
 @EndFixedFont
+
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
 
 @ReturnValue
   The selected filename, or an empty string if the requester has been canceled by the user.
@@ -323,7 +337,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Path$ = PathRequester(Title$, InitialPath$)
+@Function Path$ = PathRequester(Title$, InitialPath$ [, ParendID])
 
 @Description
   Opens the standard path requester for the user to select a path.
@@ -333,6 +347,9 @@ called 'requesters'.
 
 @Parameter "InitialPath$"
   The initial path to use when the requester is opened.
+
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
 
 @ReturnValue
   The selected path, or an empty string if the requester has been canceled by the user.
@@ -357,7 +374,7 @@ called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Filename$ = SaveFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition)
+@Function Filename$ = SaveFileRequester(Title$, DefaultFile$, Pattern$, PatternPosition [, ParentID])
 
 @Description
   Opens the standard requester for the user to save a file.
@@ -382,6 +399,9 @@ called 'requesters'.
   @@SelectedFilePattern can be used to get back 
   the selected pattern (not supported on OSX).
 
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
+  
 @ReturnValue
   The selected filename, or an empty string if the requester has been canceled by the user.
 

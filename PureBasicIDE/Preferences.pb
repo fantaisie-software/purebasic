@@ -616,40 +616,12 @@ Procedure LoadPreferences()
   
   ; read the ID's of the enabled tools
   ;
-  If ActiveToolsCount = -1 ; value didn't exist.. use the default setup
+  If ActiveToolsCount = -1 ; value doesn't exist, use the default setup
     ForEach AvailablePanelTools()
       Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROCEDUREBROWSER"
+      If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
         AddElement(UsedPanelTools())  ; add the tool to the active list
         UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "FORM"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROJECTPANEL"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
-      EndIf
-    Next AvailablePanelTools()
-    
-    ForEach AvailablePanelTools()  ; add explorer after procedurebrowser!
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "EXPLORER"
-        AddElement(UsedPanelTools())  ; add the tool to the active list
-        UsedPanelTools() = @AvailablePanelTools()
-        Break
       EndIf
     Next AvailablePanelTools()
     
@@ -764,6 +736,7 @@ Procedure LoadPreferences()
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
+  OptionDllProtection        = ReadPreferenceLong("DllProtection", 0)
   OptionThread               = ReadPreferenceLong("Thread",    0)
   OptionOnError              = ReadPreferenceLong("OnError",   0)
   OptionCPU                  = ReadPreferenceLong("CPU",       0)
@@ -811,7 +784,6 @@ Procedure LoadPreferences()
   
   ;- - AutoComplete
   PreferenceGroup("AutoComplete")
-  AutoCompleteCharMatchOnly   = ReadPreferenceLong("CharMatchOnly",      2) ; 0=list all, 1=list those matching 1st char, 2=list only matching all word
   AutoCompleteAddBrackets     = ReadPreferenceLong("AddBrackets",        0)
   AutoCompleteAddSpaces       = ReadPreferenceLong("AddSpaces",          0)
   AutoCompleteAddEndKeywords  = ReadPreferenceLong("AddEndKeyWords",     0)
@@ -945,6 +917,11 @@ Procedure LoadPreferences()
   LogTimeStamp               = ReadPreferenceLong("LogTimeStamp", 1)
   ErrorLogHeight             = ReadPreferenceLong("ErrorLogHeight", 150)
   DebuggerKillOnError        = ReadPreferenceLong("KillOnError", 0)
+  
+  CompilerIf #SpiderBasic
+    DebuggerKillOnError = 1
+  CompilerEndIf
+  
   AutoClearLog               = ReadPreferenceLong("AutoClearLog", 0)
   DisplayErrorWindow         = ReadPreferenceLong("DisplayErrorWindow", 1)
   WarningMode                = ReadPreferenceLong("WarningMode", 1)
@@ -1485,6 +1462,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
+    WritePreferenceLong  ("DllProtection",      OptionDllProtection)
     WritePreferenceLong  ("Thread",             OptionThread)
     WritePreferenceLong  ("OnError",            OptionOnError)
     WritePreferenceLong  ("CPU",                OptionCPU)
@@ -1530,7 +1508,6 @@ Procedure SavePreferences()
     ;- - AutoComplete
     PreferenceComment("")
     PreferenceGroup("AutoComplete")
-    WritePreferenceLong  ("CharMatchOnly",      AutoCompleteCharMatchOnly)
     WritePreferenceLong  ("AddBrackets",        AutoCompleteAddBrackets)
     WritePreferenceLong  ("AddSpaces",          AutoCompleteAddSpaces)
     WritePreferenceLong  ("AddEndKeywords",     AutoCompleteAddEndKeywords)
@@ -1758,6 +1735,7 @@ Procedure IsPreferenceChanged()
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
+    If OptionDllProtection   <> GetGadgetState(#GADGET_Preferences_DllProtection): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
     If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionOnError         <> GetGadgetState(#GADGET_Preferences_OnError): ProcedureReturn 1: EndIf
@@ -1916,18 +1894,6 @@ Procedure IsPreferenceChanged()
   If DebugOutFontSize   <> PreferenceDebugOutFontSize: ProcedureReturn 1: EndIf
   If DebugOutFontStyle  <> PreferenceDebugOutFontStyle: ProcedureReturn 1: EndIf
   If Val(GetGadgetText(#GADGET_Preferences_DebuggerTimeout)) <> DebuggerTimeout: ProcedureReturn 1: EndIf
-  
-  If GetGadgetState(#GADGET_Preferences_CharMatch1)
-    CharMatchOnly = 0
-  ElseIf GetGadgetState(#GADGET_Preferences_CharMatch2)
-    CharMatchOnly = 1
-  Else
-    CharMatchOnly = 2
-  EndIf
-  
-  If CharMatchOnly <> AutoCompleteCharMatchOnly
-    ProcedureReturn 1
-  EndIf
   
   For i = 0 To #ITEM_LastOption
     If GetGadgetItemState(#GADGET_Preferences_CodeOptions, i) & #PB_ListIcon_Checked
@@ -2179,6 +2145,7 @@ Procedure ApplyPreferences()
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
+    OptionDllProtection   = GetGadgetState(#GADGET_Preferences_DllProtection)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
     OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionOnError         = GetGadgetState(#GADGET_Preferences_OnError)
@@ -2338,14 +2305,6 @@ Procedure ApplyPreferences()
   ; to know if we need to restart the compiler (for language change)
   OldLanguage$     = CurrentLanguage$
   CurrentLanguage$ = GetGadgetText(#GADGET_Preferences_Languages)
-  
-  If GetGadgetState(#GADGET_Preferences_CharMatch1)
-    AutoCompleteCharMatchOnly = 0
-  ElseIf GetGadgetState(#GADGET_Preferences_CharMatch2)
-    AutoCompleteCharMatchOnly = 1
-  Else
-    AutoCompleteCharMatchOnly = 2
-  EndIf
   
   For i = 0 To #ITEM_LastOption
     If GetGadgetItemState(#GADGET_Preferences_CodeOptions, i) & #PB_ListIcon_Checked
@@ -3096,7 +3055,6 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_AddSpaces, AutoCompleteAddSpaces)
   SetGadgetState(#GADGET_Preferences_AddEndKeywords, AutoCompleteAddEndKeywords)
   SetGadgetState(#GADGET_Preferences_AutoPopup, AutoPopupNormal)
-  SetGadgetState(#GADGET_Preferences_CharMatch1+AutoCompleteCharMatchOnly, 1)
   ;  SetGadgetState(#GADGET_Preferences_NoComments, AutoCompleteNoComments)
   ;  SetGadgetState(#GADGET_Preferences_NoStrings, AutoCompleteNoStrings)
   SetGadgetState(#GADGET_Preferences_StructureItems, AutoPopupStructures)
@@ -3268,6 +3226,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
+    SetGadgetState(#GADGET_Preferences_DllProtection, OptionDllProtection)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
     SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
@@ -3282,6 +3241,7 @@ Procedure OpenPreferencesWindow()
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
     DisableGadget(#GADGET_Preferences_VistaUser, 1)
     DisableGadget(#GADGET_Preferences_DPIAware, 1)
+    DisableGadget(#GADGET_Preferences_DllProtection, 1)
   CompilerEndIf
   
   

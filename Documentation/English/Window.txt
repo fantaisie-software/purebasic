@@ -330,7 +330,7 @@
   Note: The following items created for a window are also automatically freed when the window
   is closed: @LibraryLink "gadget" "Gadgets", @Link "AddKeyboardShortcut" "Keyboard shortcuts",
   @LibraryLink "menu" "Menus", @LibraryLink "statusbar" "StatusBars", @Link "AddWindowTimer" "Timers",
-  @LibraryLink "toolbar" "Toolbars" and binded events (with @@BindEvent).
+  @LibraryLink "toolbar" "Toolbars" and bound events (with @@BindEvent).
 
 @SeeAlso
   @@OpenWindow
@@ -758,7 +758,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = OpenWindow(#Window, x, y, InnerWidth, InnerHeight, Title$ [, Flags [, ParentWindowID]])
+@Function Result = OpenWindow(#Window, x, y, InnerWidth, InnerHeight, Title$ [, Flags [, ParentID]])
 
 @Description
   Opens a new window according to the specified parameters. The new window becomes the active window, 
@@ -791,7 +791,7 @@
   @#PB_Window_Tool          : Creates a window with a smaller titlebar and no taskbar entry. 
   @#PB_Window_BorderLess    : Creates a window without any borders.
   @#PB_Window_ScreenCentered: Centers the window in the middle of the screen. x,y parameters are ignored.
-  @#PB_Window_WindowCentered: Centers the window in the middle of the parent window ('ParentWindowID' must be specified).
+  @#PB_Window_WindowCentered: Centers the window in the middle of the parent window ('ParentID' parameter must be specified).
                                              x,y parameters are ignored.
   @#PB_Window_Maximize      : Opens the window maximized. (Note: on Linux, not all Windowmanagers support this)
   @#PB_Window_Minimize      : Opens the window minimized.
@@ -799,8 +799,8 @@
   @#PB_Window_NoActivate    : Don't activate the window after opening.
 @EndFixedFont
 
-@OptionalParameter "ParentWindowID"
-  The WindowID the new window belongs to. 'ParentWindowID' value can be easily obtained with @@WindowID.
+@OptionalParameter "ParentID"
+  The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
 
 @ReturnValue
   Nonzero if the window was successfully created, zero otherwise. If @#PB_Any was used
@@ -1068,7 +1068,7 @@
 
 @NoReturnValue
 
-@Remark
+@Remarks
   @@GetWindowColor can be used to get the current background color of the window.
 
 @SeeAlso

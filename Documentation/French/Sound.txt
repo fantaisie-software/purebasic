@@ -8,23 +8,10 @@
 
 @Overview
 
-  La bibliothèque "Son" de PureBasic permet 
-  d'ajouter simplement du son à une application 
-  ou à un jeu.
-  Les commandes disponibles sont spécialement 
-  optimisées pour tirer le maximum du matériel.
-  DirectX est utilisé sous Windows et la 
-  bibliothèque SDL est utilisée sous Linux.
-  
-@OS Windows
-@LineBreak
-@LineBreak  
-  Une version récente de 
-  DirectX 9  doit être installée (voir ici: 
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
-
-@EndOS
-
+  La bibliothèque "Son" de PureBasic permet d'ajouter simplement du son à une application ou à un jeu.
+  Les commandes disponibles sont spécialement optimisées pour tirer le maximum du matériel.
+ 
+ 
 @CommandList
 
 @ExampleFile All Sound.pb
@@ -136,31 +123,36 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement de 2 sons depuis 2 fichiers
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
- 
- ; La sirène joue 
- PlaySound(0)
- 
- ; Afficher la position pendant que la sirène joue
-  Repeat
-   Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
-   Delay(100)   ; Attendre 100 ms
-   Debug Pos    ; Afficher la position toutes les 100 ms environ
-   If Pos>1000  ; Arrêter après 1 seconde environ
-     Break
-   EndIf
-  ForEver
- 
- ; Puis les 2 sons sont joués en même temps
-   PlaySound(1)
-
- MessageRequester("Info", "Ok pour quitter.") 
- End 
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement de 2 sons depuis 2 fichiers
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    If LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
+      
+      ; La sirène joue 
+      PlaySound(0)
+      
+      ; Afficher la position pendant que la sirène joue
+      Repeat
+        Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
+        Delay(100)   ; Attendre 100 ms
+        Debug Pos    ; Afficher la position toutes les 100 ms environ
+        If Pos>1000  ; Arrêter après 1 seconde environ
+          Break
+        EndIf
+      ForEver
+      
+      ; Puis les 2 sons sont joués en même temps
+      PlaySound(1)
+      
+      MessageRequester("Info", "Ok pour quitter.") 
+      End
+    EndIf
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
 
 @SeeAlso
@@ -202,20 +194,24 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- 
- ; Le son joue
- PlaySound(0)
- 
- ; Mettre la position a 2 secondes
- SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
- 
- MessageRequester("Info", "Ok pour quitter.") 
- End 
+If  InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()    ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    
+    ; Le son joue
+    PlaySound(0)
+    
+    ; Mettre la position a 2 secondes
+    SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
+    
+    MessageRequester("Info", "Ok pour quitter.") 
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
 
 @SeeAlso
@@ -247,18 +243,22 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop)
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode  
 
 @SeeAlso
@@ -268,49 +268,44 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = InitSound()
+@Function Resultat = InitSound([NbMaxCanaux])
 
 @Description
   Initialise l'environnement sonore. 
 
-@NoParameters
+@OptionalParameter "NbMaxCanaux"
+  Définit le nombre maximum de canaux à utiliser simultanément pour jouer des sons. 
+@LineBreak  
+@LineBreak 
+  De 1 à 254 et la valeur par défaut est 64.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
-
-@OS Windows
-  @LineBreak
-  Les principales causes d'échec sous Windows 
-  sont: DirectX non trouvé ou carte son non 
-  détectée.@LineBreak
-  (voir ici: @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
-@EndOS  
-
-@OS Linux
-  Les causes possibles d'échec sous Linux sont: 
-  SDL n'est pas présent ou carte son non 
-  disponible.
-@EndOS
+  Renvoie une valeur non nulle en cas de succès, zéro sinon (par exemple si aucune carte son n'est disponible)..
 
 @Remarks
-  Cette fonction doit toujours être appelée 
-  avant toute autre fonction de la bibliothèque 
-  Sound.
+  Cette fonction doit toujours être appelée avant toute autre fonction de la bibliothèque Sound.
+  De plus si cette fonction échoue alors il faut absolument désactiver tous les appels des fonctions 
+  sonores.
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop)
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop)  
- 
- MessageRequester("Info", "Ok pour quitter.") 
- 
- End
 @EndCode
 
 @SupportedOS
@@ -390,18 +385,23 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop)
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
 @EndCode 
 
 @SeeAlso
@@ -440,24 +440,28 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok pour mettre en pause.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok pour reprendre.")
- ResumeSound(0)  ; Reprendre la lecture
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop)
+    
+    MessageRequester("Info", "Ok pour mettre en pause.")
+    PauseSound(0)  ; Pause
+    
+    MessageRequester("Info", "Ok pour reprendre.")
+    ResumeSound(0)  ; Reprendre la lecture
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
    
 @SeeAlso
@@ -495,24 +499,28 @@
  
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok pour mettre en pause.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok pour reprendre.")
- ResumeSound(0)  ; Reprendre la lecture
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop)
+    
+    MessageRequester("Info", "Ok pour mettre en pause.")
+    PauseSound(0)  ; Pause
+    
+    MessageRequester("Info", "Ok pour reprendre.")
+    ResumeSound(0)  ; Reprendre la lecture
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
       
 @SeeAlso
@@ -555,18 +563,22 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SeeAlso
@@ -597,20 +609,24 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
- 
- MessageRequester("Info", "Ok pour quitter.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    
+    MessageRequester("Info", "Ok pour quitter.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SeeAlso
@@ -655,25 +671,29 @@
  
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
- PauseSound(0)
- 
- SetSoundFrequency(0,16000)
- 
- ResumeSound(0)
- 
- MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    PauseSound(0)
+    
+    SetSoundFrequency(0,16000)
+    
+    ResumeSound(0)
+    
+    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SeeAlso
@@ -709,46 +729,50 @@
 
 @Example
 @Code  
-  Procedure SelectStatus(Status)
-    Select Status
-      Case #PB_Sound_Stopped
-        MessageRequester("Info", "Le son est arrêté.")
-        
-      Case #PB_Sound_Playing
-        MessageRequester("Info", "Le son est joué.")
-        
-      Case  #PB_Sound_Paused
-        MessageRequester("Info", "Le son est en pause.")
-        
-      Case #PB_Sound_Unknown
-        MessageRequester("Info", "Statut inconnu.")
-        
-      Default
-        MessageRequester("Info", "Statut inconnu.")
-        
-    EndSelect
-  EndProcedure
+Procedure SelectStatus(Status)
+  Select Status
+    Case #PB_Sound_Stopped
+      MessageRequester("Info", "Le son est arrêté.")
+      
+    Case #PB_Sound_Playing
+      MessageRequester("Info", "Le son est joué.")
+      
+    Case  #PB_Sound_Paused
+      MessageRequester("Info", "Le son est en pause.")
+      
+    Case #PB_Sound_Unknown
+      MessageRequester("Info", "Statut inconnu.")
+      
+    Default
+      MessageRequester("Info", "Statut inconnu.")
+      
+  EndSelect
+EndProcedure
 
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
- SelectStatus(SoundStatus(0))
-
- PauseSound(0)
- SelectStatus(SoundStatus(0))
- 
- ResumeSound(0)
- SelectStatus(SoundStatus(0))
- 
- StopSound(0)
- SelectStatus(SoundStatus(0))
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If  LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    SelectStatus(SoundStatus(0))
+    
+    PauseSound(0)
+    SelectStatus(SoundStatus(0))
+    
+    ResumeSound(0)
+    SelectStatus(SoundStatus(0))
+    
+    StopSound(0)
+    SelectStatus(SoundStatus(0))
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
     
 @SeeAlso
@@ -792,27 +816,31 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
-
- MessageRequester("Info", "Le son est joué en stéréo.")
- 
- SoundPan(0, -100)
- MessageRequester("Info", "Le son est joué en mono sur le canal gauche.")
- 
- SoundPan(0, 100)
- MessageRequester("Info", "Le son est joué en mono sur le canal droit.")
- 
- SoundPan(0, 0)
- MessageRequester("Info", "Le son est joué en stéréo.")
- 
- FreeSound(0) ; Le son est libéré
- End
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
+  
+  ; Chargement d'un son depuis un fichier
+  If  LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "Le son est joué en stéréo.")
+    
+    SoundPan(0, -100)
+    MessageRequester("Info", "Le son est joué en mono sur le canal gauche.")
+    
+    SoundPan(0, 100)
+    MessageRequester("Info", "Le son est joué en mono sur le canal droit.")
+    
+    SoundPan(0, 0)
+    MessageRequester("Info", "Le son est joué en stéréo.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SupportedOS
@@ -845,27 +873,31 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
   
- MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0)) + " frames.")
-   
- MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
- 
- FreeSound(0) ; Le son est libéré
- End
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0)) + " frames.")
+    
+    MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundVolume(#Son, Volume [, Canal])
+@Function SoundVolume(#Son, Volume.f [, Canal])
 
 @Description
   Change le volume en temps réel. 
@@ -877,7 +909,7 @@
   Si @#PB_All est spécifié, tous les Sons 
   (et tous les canaux) reprennent la lecture.
 
-@Parameter "Volume"
+@Parameter "Volume.f"
   Le nouveau volume. 
 @LineBreak
 @LineBreak 
@@ -899,21 +931,25 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
+If  InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()    ; Utilisation des fichiers ogg
   
- MessageRequester("Info", "Le volume sonore est à 20%")
- 
- SoundVolume(0, 80)
- MessageRequester("Info", "Le volume sonore est à 80%")
- 
- FreeSound(0) ; Le son est libéré
- End
+  ; Chargement d'un son depuis un fichier
+  If  LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "Le volume sonore est à 20%")
+    
+    SoundVolume(0, 80)
+    MessageRequester("Info", "Le volume sonore est à 80%")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SeeAlso
@@ -946,21 +982,25 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisation des Sons
- UseOGGSoundDecoder()  ; Utilisation des fichiers ogg
-
- ; Chargement d'un son depuis un fichier
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Le son joue en boucle
- PlaySound(0, #PB_Sound_Loop, 20)
+If InitSound()           ; Initialisation des Sons
+  UseOGGSoundDecoder()   ; Utilisation des fichiers ogg
   
- MessageRequester("Info", "Ok pour stopper le son")
- 
- StopSound(0)
- MessageRequester("Info", "Son stoppé")
- 
- FreeSound(0) ; Le son est libéré
- End
+  ; Chargement d'un son depuis un fichier
+  If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
+    ; Le son joue en boucle
+    PlaySound(0, #PB_Sound_Loop, 20)
+    
+    MessageRequester("Info", "Ok pour stopper le son")
+    
+    StopSound(0)
+    MessageRequester("Info", "Son stoppé")
+    
+    FreeSound(0) ; Le son est libéré
+    End
+  EndIf
+Else
+  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+EndIf
 @EndCode
   
 @SeeAlso

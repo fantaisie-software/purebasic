@@ -507,6 +507,7 @@ DataSection
   Data$ "AsciiTable",       "&Character Table"
   Data$ "Explorer",         "&Explorer"
   Data$ "ProcedureBrowser", "&Procedure Browser"
+  Data$ "WebView",          "&WebView"
   Data$ "Issues",           "&Issue Browser"
   Data$ "Templates",        "&Templates"
   Data$ "ProjectPanel",     "P&roject Panel"
@@ -536,6 +537,9 @@ DataSection
   Data$ "FormLong",         "Form Panel"
   Data$ "HelpToolShort",    "Help"
   Data$ "HelpToolLong",     "Help Tool"
+  
+  Data$ "WebViewShort", "WebView"
+  Data$ "WebViewLong",  "WebView"
   
   Data$ "ColorPicker",      "Color Picker"
   Data$ "Mode_RGB",         "RGB"
@@ -1249,7 +1253,7 @@ DataSection
   Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
-  Data$ "DPIAware",         "Enable DPI aware executable (Windows)"
+  Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
   Data$ "ExeFormat",        "Executable format"
@@ -1278,7 +1282,9 @@ DataSection
     Data$ "ExportCommandLineSuccess", "Post processing tool launched (%commandline%)."
     Data$ "ExportCommandLineError", "Post processing tool can't be launched (%commandline%)."
     Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
+    Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
+    Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
   CompilerEndIf
   
@@ -1445,12 +1451,15 @@ DataSection
     Data$ "IAPKey",               "IAP Key"
     Data$ "PackageID",            "Package ID"
     Data$ "StartupImage",         "Startup image"
+    Data$ "StartupColor",         "Back"
     Data$ "Orientation",          "Orientation"
     Data$ "FullScreen",           "Fullscreen"
     Data$ "Output",               "Output filename"
     Data$ "AutoUpload",           "Automatically upload on USB connected device (requires enabled debugger)"
     Data$ "ResourceDirectory",    "Resource directory"
     Data$ "WrongOutputExtension", "Android app filename extension needs to be '.apk'"
+    Data$ "InsecureFileMode",     "Enable insecure HTTP support (not recommended)"
+    Data$ "EnableDebugger",       "Enable debugger (no additional '.aab' package will be created)"
     
     ; ===================================================
     ;- Group - Resources
@@ -2070,6 +2079,7 @@ DataSection
   Data$ "Separator",          "Separator"
   Data$ "Shortcut",           "Shortcut"
   Data$ "OutOfMemoryError",   "Can't render gadget of %size% pixels (out of memory)."
+  Data$ "N/A",                 "N/A"
   
   ;Data$ "_GROUP_",            "StatusWindow"
   ; ===================================================
@@ -2100,13 +2110,14 @@ DataSection
   
   ;Data$ "_GROUP_",            "SplitterWindow"
   ; ===================================================
-  Data$ "FirstGadget",      "First gadget:"
-  Data$ "SecondGadget",     "Second gadget:"
-  Data$ "StartDrawing",     "Start drawing"
-  Data$ "Cancel",           "Cancel"
-  Data$ "OK",               "OK"
-  Data$ "SelectError",      "You need to select two different gadgets."
-  Data$ "GadgetListError",  "The two gadgets need to belong to the same gadget list."
+  Data$ "CreateSplitterTitle",  "Create Splitter"
+  Data$ "FirstGadget",          "First gadget:"
+  Data$ "SecondGadget",         "Second gadget:"
+  Data$ "StartDrawing",         "Start drawing"
+  Data$ "Cancel",               "Cancel"
+  Data$ "OK",                   "OK"
+  Data$ "SelectError",          "You need to select two different gadgets."
+  Data$ "GadgetListError",      "The two gadgets need to belong to the same gadget list."
   
   ;Data$ "_GROUP_",            "HelpingFunctions"
   ; ===================================================
@@ -2161,6 +2172,10 @@ DataSection
   
   ;Data$ "_GROUP_",            "Window"
   ; ===================================================
+  Data$ "ParentTitle",          "Set Parent For '%id%'"
+  Data$ "EditItemsTitle",       "Edit Items For '%id%'"
+  Data$ "EditColumnsTitle",     "Edit Columns For '%id%'"
+  
   Data$ "SelectEventFileFirst", "You need to select an event file first."
   Data$ "CreateEventFile",      "The file doesn't exist - do you want to create it?"
   Data$ "FileAlreadyOpened",    "This file is already opened."
@@ -2240,6 +2255,7 @@ DataSection
   Data$ "Parent",               "Parent"
   Data$ "ParentItem",           "Parent Item"
   
+ 
   ; ===================================================
   ;- Group - Updates
   Data$ "_GROUP_",            "Updates"

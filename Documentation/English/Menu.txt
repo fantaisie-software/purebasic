@@ -1,7 +1,7 @@
 ;
 ;     Menu library documentation
 ;
-;      (c) 2021 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Menu
@@ -126,7 +126,7 @@
   The window for the new menu. It can be obtained using the @@WindowID function.
 
 @OptionalParameter "Flags"
-  This can be a combination of the following values:
+  This can be the following value:
 @FixedFont
   @#PB_Menu_ModernLook: Enable gradient and modern look (only has an effect on Windows)
 @EndFixedFont
@@ -265,9 +265,10 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @OptionalParameter "Flags"
-  This can be a combination of the following values:
+  Can be one of the following options:
 @FixedFont
-  @#PB_Menu_ModernLook: Enable gradient and modern look (only has an effect on Windows)
+  @#PB_Menu_ModernLook : Enable gradient and modern look (only has an effect on Windows)
+  @#PB_Menu_SysTrayLook: Enable systray look to be use with @@SysTrayIconMenu (only has an effect on Windows)
 @EndFixedFont
 
 @ReturnValue
@@ -297,17 +298,17 @@
 @Code
   UsePNGImageDecoder()
 
-    If CreateImage(0,16,16,32)
-      StartDrawing(ImageOutput(0))
-      Box(0,0,15,15,RGB(255,255,128))
-      DrawRotatedText(-5,3, "+", 45, RGB(255,0,128))
-      StopDrawing()
-    EndIf
+  If CreateImage(0,16,16,32)
+    StartDrawing(ImageOutput(0))
+    Box(0,0,15,15,RGB(255,255,128))
+    DrawRotatedText(-5,3, "+", 45, RGB(255,0,128))
+    StopDrawing()
+  EndIf
 
-  If OpenWindow(0, 200, 200, 200, 120, "Image Popup-Menu Example")
+  OpenWindow(0, 200, 200, 200, 120, "Image Popup-Menu Example")
 
-    If LoadImage(1,#PB_Compiler_Home + "Examples\Sources\Data\ToolBar\Open.png")  ; load an icon
-    If CreatePopupImageMenu(0, #PB_Menu_ModernLook)      ; creation of the pop-up menu begins...
+  If LoadImage(1,#PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png")  ; load an icon
+    If CreatePopupImageMenu(0)      ; creation of the pop-up menu begins...
       MenuItem(1, "Open", ImageID(1))      ; Display the icon
       MenuItem(2, "Save")      ; just like in a normal menu...
       MenuItem(3, "Save as")
@@ -339,12 +340,11 @@
       EndSelect
     Until Event = #PB_Event_CloseWindow
   EndIf
-  EndIf
 @EndCode
 
 @SeeAlso
   @@CreatePopupMenu, @@DisplayPopupMenu,
-  @@CreateMenu, @@CreateImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu
+  @@CreateMenu, @@CreateImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu, @@SysTrayIconMenu
 
 @SupportedOS
 

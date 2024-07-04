@@ -68,6 +68,7 @@ Procedure AddFormInfo(FileName$ = "")
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
+  FileList()\DllProtection    = OptionDllProtection
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -478,6 +479,9 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
                       var = "ScrollArea_"+Str(FormWindows()\c_scrollarea)
                       FormWindows()\c_scrollarea + 1
                     Case #Form_Type_Web
+                      var = "WebView_"+Str(FormWindows()\c_web)
+                      FormWindows()\c_web + 1
+                    Case #Form_Type_WebView
                       var = "WebView_"+Str(FormWindows()\c_web)
                       FormWindows()\c_web + 1
                     Case #Form_Type_Container

@@ -1,7 +1,7 @@
 ;
 ;     SysTray library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library SysTray
@@ -52,31 +52,31 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Create a pop-up menu and a Systray icon (CD symbol) with this menu associated:
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Exit")
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\CdPlayer.ico"))
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Show pop-up menu after a mouse-click on the Systray icon
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Exit 
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
-  EndIf
+  ; Invisible window to just have the systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Create a pop-up menu to be displayed by the systray with a systray look
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "About PureBasic...")
+    MenuBar()
+    MenuItem(1, "Exit")
+
+  ; Associate the menu to the systray
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Exit 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode
 
 @SeeAlso
@@ -102,47 +102,46 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 100, "", #PB_Window_Invisible)
-    ; Create an image with a yellow box to be used for the Systray icon:
-    If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
-      Box(0, 0, 16 , 16, $00DDDD)
-      StopDrawing()
-    EndIf
-    AddSysTrayIcon(0, WindowID(0), ImageID(0))
-    ; Create a pop-up menu to be used with the Systray icon later:
-    If CreatePopupImageMenu(0)
-      MenuItem(0, "Exit")
-    EndIf
-    
-    AddWindowTimer(0, 0, 1000) ; Add a window timer, which should cause a change of the Systray icon after every 1000 ms
-    
-    Repeat
-      Select WaitWindowEvent()
-        Case #PB_Event_Timer
-          ; Update the Systray icon image with a randomly sized red circle on the yellow background
-          If StartDrawing(ImageOutput(0))
-            Box(0, 0, 16 , 16, $00DDDD)
-            Radius = Random(6, 2)
-            Circle(8, 8, Radius, $0000DD)
-            StopDrawing()
-            ChangeSysTrayIcon(0, ImageID(0))
-          EndIf
-        Case #PB_Event_SysTray
-          Select EventType()
-            Case #PB_EventType_RightClick, #PB_EventType_LeftClick
-              DisplayPopupMenu(0, WindowID(0)) ; Show pop-up menu after a mouse-click on the Systray icon
-          EndSelect
-        Case #PB_Event_Menu
-          Select EventMenu()
-            Case 0 ; Quit after clicking on the 'Exit' menu item associated to the Systray icon
-              RemoveSysTrayIcon(0)
-              FreeMenu(0)
-              CloseWindow(0)
-              End
-          EndSelect
-      EndSelect
-    ForEver
+  ; Invisible window to just have the systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+  
+  ; Create an image with a yellow box to be used for the Systray icon:
+  If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
+    Box(0, 0, 16 , 16, $00DDDD)
+    StopDrawing()
   EndIf
+  
+  ; Associate the menu to the systray
+  AddSysTrayIcon(0, WindowID(0), ImageID(0))
+  
+  ; Create a pop-up menu to be used with the Systray icon later:
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "Exit")
+    
+  SysTrayIconMenu(0, MenuID(0))
+  
+  AddWindowTimer(0, 0, 1000) ; Add a window timer, which should cause a change of the Systray icon after every 1000 ms
+  
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Timer
+        ; Update the Systray icon image with a randomly sized red circle on the yellow background
+        If StartDrawing(ImageOutput(0))
+          Box(0, 0, 16 , 16, $00DDDD)
+          Radius = Random(6, 2)
+          Circle(8, 8, Radius, $0000DD)
+          StopDrawing()
+          ChangeSysTrayIcon(0, ImageID(0))
+        EndIf
+        
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 0 ; Quit after clicking on the 'Exit' menu item associated to the Systray icon
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
 @EndCode
 
 @SeeAlso
@@ -168,6 +167,57 @@
 
 @SeeAlso
   @@AddSysTrayIcon
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SysTrayIconMenu(#SysTrayIcon, MenuID)
+
+@Description
+  Associates the specified popup menu with the SysTray icon. The menu should be created with @@CreatePopupImageMenu using
+  the @#PB_Menu_SysTrayLook flag. It's the best way to associate a popup menu with a SysTray icon as it will display the
+  popup menu at the correct position on all OS when the user click on the icon.
+
+@Parameter "#SysTrayIcon"
+  The systray icon to use.
+
+@Parameter "MenuID"
+  The popup menu to associate with the SysTray. @@MenuID can be used to get this value.
+
+@NoReturnValue
+
+@Example
+@Code
+  ; Invisible window to just have the systray
+  OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
+
+  UsePNGImageDecoder()
+  AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+  ; Create a pop-up menu to be displayed by the systray with a systray look
+  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+    MenuItem(0, "About PureBasic...")
+    MenuBar()
+    MenuItem(1, "Exit")
+
+  ; Associate the menu to the systray
+  SysTrayIconMenu(0, MenuID(0))
+
+  Repeat
+    Select WaitWindowEvent()
+      Case #PB_Event_Menu
+        Select EventMenu()
+          Case 1 ; Exit 
+            RemoveSysTrayIcon(0)
+            End
+        EndSelect
+    EndSelect
+  ForEver
+@EndCode
+
+@SeeAlso
+  @@CreatePopupImageMenu
   
 @SupportedOS
 
@@ -205,5 +255,3 @@
   All remaining SysTray icons are automatically removed when the program ends.
   
 @SupportedOS
-
-

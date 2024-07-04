@@ -1,7 +1,7 @@
 ;
 ;     Map library documentation
 ;
-;      (c) 2023 Fantaisie Software
+;      (c) 2024 Fantaisie Software
 ;
 
 @Library Map
@@ -139,6 +139,60 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Ergebnis = CompareMap(Map1(), Map2() [, Flags])
+
+@Description
+  Vergleicht alle Elemente der beiden Maps auf Gleichheit. Vergleicht rekursiv auch Inhalte
+  @ReferenceLink "Structures" "strukturierter" Maps mit dynamischen Elementen (wie eingebetteter
+  Arrays, Listen oder Maps).
+  @LineBreak
+  Die beiden Maps gelten als gleich, wenn sie den gleichen Typ und die gleiche Größe haben und
+  wenn jedes Elemente-Paar gleich ist.
+
+@Parameter "Map1(), Map2()"
+  Die zu vergleichenden Maps.
+  
+@OptionalParameter "Flags"
+  Kann eine Kombination der folgenden Werte sein:
+@FixedFont
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
+                             Zeigers rekursiv verglichen.
+                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten für weitere Details.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn beide Maps gleich sind, oder Null, wenn sie sich unterscheiden.
+
+@Remarks
+  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
+  Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
+
+@Example
+@Code
+  NewMap A()
+  A("de") = 49
+  A("fr") = 33
+  A("uk") = 44
+
+  NewMap B() ; ein Element fehlt
+  B("de") = 49
+  B("uk") = 44 
+
+  Debug CompareMap(A(), B()) ; Nicht gleich
+@EndCode
+
+@SeeAlso
+  @@CompareArray, @@CompareList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Ergebnis = CopyMap(QuellMap(), ZielMap())
 
 @Description
@@ -207,6 +261,7 @@
 
 @ReturnValue
   Gibt die Anzahl der Elemente in der Map zurück.
+  Wenn die Map nicht initialisiert ist, wird -1 zurückgegeben (zum Beispiel nach @@FreeMap).
 
 @Remarks
   Diese Funktion ist sehr schnell (sie durchläuft nicht

@@ -30,6 +30,12 @@ IncludeFile "../Common.pb"
 
 #PB_File_Streaming = 1 << 0
 
+; #PB_Compiler_App constants
+;
+#PB_App_Web = 0
+#PB_App_Android = 1
+#PB_App_IOS = 2
+
 ; In app purchase
 ;
 #PB_Product_Consumable    = 0
@@ -158,6 +164,8 @@ IncludeFile "../Common.pb"
 #PB_Event_RequesterOK      = 20
 #PB_Event_SizeDesktop      = 21
 #PB_Event_WebSocket        = 22
+#PB_Event_Mobile           = 23
+
 ; Loading type
 ;
 #PB_Loading_Image = 1
@@ -244,6 +252,12 @@ IncludeFile "../Common.pb"
 ;
 #PB_Script_JavaScript = 0
 #PB_Script_CSS = 1
+
+; SplashScreenControl()
+;
+#PB_SplashScreen_Close = 0
+#PB_SplashScreen_NoAutoClose = 1
+#PB_SplashScreen_AutoClose = 2
 
 ; Used by Get/SetFileDate() and DirectoryEntryDate()
 ;
@@ -351,11 +365,6 @@ IncludeFile "../Common.pb"
 #PB_Frame_Double   = 1
 #PB_Frame_Single   = 2
 #PB_Frame_Flat     = 3
-
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-
-#PB_ListIcon_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
@@ -772,5 +781,44 @@ IncludeFile "../Common.pb"
 #PB_AdjustmentShader_Green = 30
 #PB_AdjustmentShader_Blue = 31
 
+; Mobile
+;
+#PB_Mobile_Container = 1 << 0
+#PB_Mobile_Left      = 1 << 1
+#PB_Mobile_Right     = 1 << 2
+#PB_Mobile_Center    = 1 << 3
+#PB_Mobile_Search    = 1 << 4
+#PB_Mobile_Password  = 1 << 5
+#PB_Mobile_Numeric   = 1 << 6
+#PB_Mobile_Tappable  = 1 << 7
+#PB_Mobile_Chevron     = 1 << 8
+#PB_Mobile_NoDivider   = 1 << 9
+#PB_Mobile_LongDivider = 1 << 10
+#PB_Mobile_Header      = 1 << 11
+#PB_Mobile_Expandable  = 1 << 12
+#PB_Mobile_Swipeable   = 1 << 13
+#PB_Mobile_Icon        = 1 << 14
+#PB_Mobile_Circular    = 1 << 15
+#PB_Mobile_Indeterminate = 1 << 16
+#PB_Mobile_BackButton = 1 << 17
 
-XIncludeFile "../CommonUnicode.pb"
+#PB_Mobile_InSet   = 1
+
+#PB_Mobile_Page    = 0
+#PB_Mobile_Section = 1
+#PB_Mobile_Row = 2
+#PB_Mobile_Template = 3
+#PB_Mobile_Dialog = 4
+#PB_Mobile_PopOver = 5
+
+#PB_Mobile_Push = 1
+#PB_Mobile_Pop = 0
+
+#PB_Mobile_Auto = 0
+#PB_Mobile_Android = 1
+#PB_Mobile_iOS = 2
+
+#PB_Mobile_TabLabel = "label"
+#PB_Mobile_TabIcon  = "icon"
+#PB_Mobile_TabActiveIcon = "active-icon"
+#PB_Mobile_TabBadge = "badge"

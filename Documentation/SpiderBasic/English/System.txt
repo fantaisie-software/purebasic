@@ -127,7 +127,7 @@ The system library offers access to specialized commands.
   @#PB_Device_Platform: The underlying platform ("Android" or "iOS").
   @#PB_Device_UUID    : The unique ID identifier of the device
   @#PB_Device_Version : The OS version (ie: "4" for iOS 4, "4.1" for Android 4.1 etc.)
-  @#PB_Device_Manufacturer: The manufcaturer ("Apple", "Motorola" etc.)
+  @#PB_Device_Manufacturer: The manufacturer ("Apple", "Motorola" etc.)
   @#PB_Device_Serial  : The device hardware serial number
 @EndFixedFont  
     
@@ -262,4 +262,80 @@ The system library offers access to specialized commands.
 @EndCode
   
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddTimer(Timer, Timeout)
+
+@Description
+  Creates a new timer. @@BindEvent can be used with @#PB_Event_Timer
+  to get the event. @@RemoveTimer function can be used to remove the timer.
+
+@Parameter "Timer"
+  An user-defined number that identifies this timer. This value will later be returned from @@EventTimer when a 
+  @#PB_Event_Timer is received. It can also be used to remove the timer again with 
+  the @@RemoveTimer function.
+
+@Parameter "Timeout"
+  Specifies the amount of time (in milliseconds) between each @#PB_Event_Timer events.
+  The timer events will only be generated when there are no other events to be processed (timers are
+  low-priority events). This means that the time that elapses between two timer events may be larger than
+  the specified Timeout value. Timers are therefore not suited for precise timing but are rather intended
+  to perform periodic tasks such as updating a gadget content or similar.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure TimerEvents()
+    Debug "Timer event: " + EventTimer()
+  EndProcedure
+  
+  AddTimer(0, 1000) ; First timer every seconds
+  AddTimer(1, 3000) ; Second timer every 3 seconds
+      
+  BindEvent(#PB_Event_Timer, @TimerEvents())
+@EndCode
+
+@SeeAlso
+  @@RemoveTimer, @@EventTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveTimer(Timer)
+
+@Description
+  Removes the timer.
+
+@Parameter "Timer"
+  The same value that was used in @@AddTimer to create the timer. 
+  There will be no further events received for this timer.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddTimer
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SplashScreenControl(State)
+
+@Description
+  Gives more control when the splashscreen should closed.
+
+@Parameter "State"
+  It can be one of the following constant:
+@FixedFont 
+  - @#PB_SplashScreen_AutoClose  : The splashscreen will be automatically closed when the application has been launched (default).
+  - @#PB_SplashScreen_NoAutoClose: Disable the auto splashscreen closing. It will need to be manually closed with @#PB_SplashScreen_Close. 
+  - @#PB_SplashScreen_Close      : Force closing the splashscreen.
+@EndFixedFont
+
+@NoReturnValue
+
 @SupportedOS

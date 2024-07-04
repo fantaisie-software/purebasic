@@ -1,20 +1,23 @@
 ;
 ;     Music library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Music
 
 @Overview
   PureBasic kann Standard Musik-Module abspielen, um während eines Spiels oder einer
-  Applikation eine hübsche Hintergrundmusik zu haben. Die Module sind wohlbekannt von
+  Applikation eine schöne Hintergrundmusik zu haben. Die Module sind wohlbekannt von
   den Demo-Makern, da sie eine rationelle Möglichkeit darstellen, Musik auf dem Computer
   zu erstellen. Die zum Erstellen der Module benutzten Werkzeuge werden 'Tracker'
-  (ProTracker, FastTracker, ImpulseTracker...) genannt. Der Vorteil von Musik-Modulen
+  (ProTracker, FastTracker, ImpulseTracker...) genannt.
+  @LineBreak
+  Der Vorteil von Musik-Modulen
   gegenüber .wav/mp3 Dateien sind ihre sehr geringe Größe, eine prinzipiell endlose
   Länge, die sehr schnellen Abspielroutinen, der mögliche Sprung zu einem bestimmten
   Musikabschnitt - passend zur gerade laufenden Action auf dem Bildschirm, etc...
+  @LineBreak
   Es ist natürlich möglich, @LibraryLink "sound" "Standard-Sound" und Modul-Sound zu mischen, um beide
   gleichzeitig abspielen zu können.
 @LineBreak
@@ -36,43 +39,50 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CatchMusic(#Musik, Speicheradresse, Groesse)
+@Function Ergebnis = CatchMusic(#Musik, *Puffer, Größe)
 
 @Description
   Lädt das angegebene Musik-Modul vom angegebenen Speicherbereich.
-  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#Musik' Parameter verwendet wird,
-  dann wird die Nummer des neuen Musik-Moduls als 'Ergebnis' zurückgegeben.
-@LineBreak
-@LineBreak
-  Ist 'Ergebnis' ungleich 0, wurde das Musik-Modul korrekt geladen und ist bereit zum Abspielen
-  mittels @@PlayMusic. Andernfalls ist das Laden des Moduls fehlgeschlagen.
-  Wenn zuvor ein anderes Musik-Modul mit der gleichen #Musik Nummer geladen wurde, dann wird
-  dieses vorherige Musik-Modul automatisch freigegeben.
-@LineBreak
-@LineBreak
+  @PlayMusic kann verwendet werden, um das Abspielen der Musik zu starten.
+  @LineBreak
   @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" unterstützt eine Menge an
-  Musik-Modul-Formaten, zu diesen gehören: Protracker (4 Kanäle), FastTracker (bis zu 32 Kanäle, 
+  Musik-Formaten, zu diesen gehören: Protracker (4 Kanäle), FastTracker (bis zu 32 Kanäle, 
   16 Bit-Qualität), Impulse Tracker, etc.
-@LineBreak
-@LineBreak
+
+@Parameter "#Musik"
+  Eine Nummer zum Identifizieren des neuen Musik-Moduls.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "*Puffer"
+  Der Speicherpuffer, aus dem das Musikmodul geladen werden soll.
+
+@Parameter "Größe"
+  Die Puffergröße.
+
+@ReturnValue
+  Ungleich Null, wenn das Musikmodul erfolgreich geladen wurde, andernfalls Null.
+
+@Remarks
   Diese Funktion ist nützlich bei Verwendung des '@ReferenceLink "includes" "IncludeBinary"' PureBasic Schlüsselworts.
   Damit können Musik-Module mit in das Executable gepackt werden. Verwenden Sie diese Option
   trotzdem mit Bedacht, da mehr Speicher als beim Speichern des Musik-Moduls in einer externen Datei
   benötigt wird (das Modul befindet sich sowohl im Speicher des Executable und wird auch
   in den physikalischen Speicher geladen).
-@LineBreak
-@LineBreak
-  Beispiel:
+
+@Example
 @Code
   CatchMusic(0, ?Music, ?MusicEnd-?Music)
   End
 
   DataSection
-    Music: 
+    Music:
       IncludeBinary "Music.xm"
     MusicEnd:
   EndDataSection
 @EndCode
+
+@SeeAlso
+  @@LoadMusic, @@PlayMusic
 
 @SupportedOS
 
@@ -100,8 +110,16 @@
 @Function Position = GetMusicPosition(#Musik)
 
 @Description
-  Gibt die aktuelle Pattern-Position des laufenden '#Musik'-Moduls zurück. Das erste Pattern
-  beginnt bei 0.
+  Gibt die aktuelle Pattern-Position des laufenden Musik-Moduls zurück.
+
+@Parameter "#Musik"
+  Das zu verwendende Musik-Modul.
+
+@ReturnValue
+  Die aktuelle Pattern-Position des abgespielten Musikmoduls. Die erste Patternposition ist Null.
+
+@SeeAlso
+  @@SetMusicPosition
   
 @SupportedOS
 
@@ -110,8 +128,17 @@
 @Function Reihe = GetMusicRow(#Musik)
 
 @Description
-  Gibt die Reihen-Position im geraden abgespielten Pattern des '#Musik'-Moduls zurück. Die erste
-  Reihe ("Row") beginnt bei 0.
+  Gibt die aktuelle Reihen-Position im Pattern des abgespielten Musik-Moduls zurück.
+
+@Parameter "#Musik"
+  Das zu verwendende Musik-Modul.
+
+@ReturnValue
+  Die aktuelle Reihen-Position im Pattern des abgespielten Musik-Moduls. Die erste
+  Reihe-Position ("Row") ist 0.
+
+@SeeAlso
+  @@SetMusicPosition
   
 @SupportedOS
 
@@ -120,48 +147,64 @@
 @Function Ergebnis = IsMusic(#Musik)
 
 @Description
-  Überprüft, ob die angegebene '#Musik'-Modul Nummer gültig und ein korrekt initialisiertes Musik-Modul ist.
-  Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
-  Dies ist der richtige Weg, um sicher zu stellen, dass ein Musik-Modul bereit zur Verwendung ist.
+  Testet, ob das angegebene Musikmodul gültig und korrekt initialisiert ist.
+
+@Parameter "#Musik"
+  Das zu überprüfende Musikmodul.
+
+@ReturnValue
+  Ungleich Null, wenn das Musikmodul gültig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Dies ist der
+  richtige Weg, um sicherzustellen, dass ein Musikmodul bereit zur Verwendung ist.
+
+@SeeAlso
+  @@LoadMusic, @@CatchMusic
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = LoadMusic(#Musik, "DateiName")
+@Function Ergebnis = LoadMusic(#Musik, Dateiname$)
 
 @Description
-  Lädt das angegebene Musik-Modul in den Speicher. 
-  Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#Musik' Parameter verwendet wird,
-  dann wird die Nummer des neuen Musik-Moduls als 'Ergebnis' zurückgegeben.
-@LineBreak
-@LineBreak
-  Ist 'Ergebnis' ungleich 0, wurde das Musik-Modul korrekt geladen und ist bereit zum Abspielen
-  mittels @@PlayMusic. Andernfalls ist das Laden des Musik-Moduls fehlgeschlagen.
-  Wenn zuvor ein anderes Musik-Modul mit der gleichen #Musik Nummer geladen wurde, dann wird
-  dieses vorherige Modul automatisch freigegeben.
-@LineBreak
-@LineBreak
+  Lädt das angegebene Musik-Modul. @PlayMusic kann verwendet werden, um das Abspielen der Musik zu starten.
+  @LineBreak
   @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" unterstützt eine Menge an
-  Musik-Modul-Formaten, zu diesen gehören: Protracker (4 Kanäle), FastTracker (bis zu 32 Kanäle, 
+  Musik-Formaten, zu diesen gehören: Protracker (4 Kanäle), FastTracker (bis zu 32 Kanäle, 
   16 Bit-Qualität), Impulse Tracker, etc.
-  
-@OS Amiga
-@LineBreak
-@LineBreak
-  Das Modul muss im ProTracker 3.0+ Format (4 Kanäle) vorliegen.
+
+@Parameter "#Musik"
+  Eine Nummer zum Identifizieren des neuen Musik-Moduls.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "Dateiname$"
+  Der Dateiname des zu ladenden Musikmoduls.
+
+@ReturnValue
+  Ungleich Null, wenn das Musikmodul erfolgreich geladen wurde, andernfalls Null.
+
+@SeeAlso
+  @@CatchMusic, @@PlayMusic
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = MusicVolume(#Musik, Lautstärke)
+@Function MusicVolume(#Musik, Lautstärke.f)
 
 @Description
-  Ändert die "Master"-'Lautstärke' des angegebenen '#Musik'-Moduls in Echtzeit. Der 'Lautstärke'-Wert
-  kann zwischen 0 und 100 liegen. Nützlich für schönes "Fade-In/Fade-Out" (Ein- und Ausblenden
-  der Musik).
+  Ändert die Gesamtlautstärke ("Master-Volume") der angegebenen Musik, in Echtzeit.
+
+@Parameter "#Musik"
+  Das zu verwendende Musik-Modul.
+
+@Parameter "Lautstärke.f"
+  Die neue Lautstärke, die für die Musik eingestellt werden soll. Die Lautstärkewerte können
+  zwischen 0 und 100 liegen. Dies kann beim Ein-/Ausblenden ("Fade-in/Fade-out") hilfreich sein.
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -170,8 +213,15 @@
 @Function PlayMusic(#Musik)
 
 @Description
-  Beginnt das Abspielen des angegebenen '#Musik'-Moduls, welches zuvor mittels dem
-  @@LoadMusic Befehl geladen wurde.
+  Startet die Wiedergabe der angegebenen Musik, die zuvor mit der @@LoadMusic Funktion geladen wurde.
+
+@Parameter "#Musik"
+  Das abzuspielende Musikmodul.
+
+@NoReturnValue
+
+@SeeAlso
+  @@LoadMusic, @@CatchMusic, @@StopMusic
   
 @SupportedOS
 
@@ -180,8 +230,18 @@
 @Function SetMusicPosition(#Musik, Position)
 
 @Description
-  Ändert die aktuelle Pattern-Position des laufenden '#Musik'-Moduls auf die neu angegebene
-  Position. Das erste Pattern beginnt bei 0.
+  Ändert die aktuelle Pattern-Position der abgespielten Musik auf die neu angegebene Position.
+
+@Parameter "#Musik"
+  Das zu verwendende Musik-Modul.
+
+@Parameter "Position"
+  Die neue Pattern-Position des Musikmoduls. Die erste Pattern-Position beginnt bei 0.
+
+@NoReturnValue
+
+@SeeAlso
+  @@GetMusicPosition
   
 @SupportedOS
 
@@ -190,8 +250,16 @@
 @Function StopMusic(#Musik)
 
 @Description
-  Stoppt das '#Musik'-Modul (sofern es gerade abgespielt wird). Wenn '#Musik' gleich -1 ist,
-  dann werden alle gerade abgespielten Module gestoppt.
+  Stoppt die Musik (sofern sie gerade abgespielt wird). 
+
+@Parameter "#Musik"
+  Das zu stoppende Musikmodul. Wenn auf @#PB_All gesetzt, werden alle aktuell abgespielten
+  Musik-Module gestoppt.
+
+@NoReturnValue
+
+@SeeAlso
+  @@PlayMusic
   
 @SupportedOS
 
