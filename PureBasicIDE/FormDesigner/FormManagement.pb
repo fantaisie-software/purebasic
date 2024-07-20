@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 Procedure AddFormInfo(FileName$ = "")
   
   LastElement(FileList())
@@ -63,10 +63,12 @@ Procedure AddFormInfo(FileName$ = "")
   FileList()\FileName$        = FileName$
   FileList()\Debugger         = OptionDebugger  ; set the default values
   FileList()\EnablePurifier   = OptionPurifier
+  FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
+  FileList()\DllProtection    = OptionDllProtection
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -79,6 +81,8 @@ Procedure AddFormInfo(FileName$ = "")
   FileList()\UseBuildCount    = OptionUseBuildCount
   FileList()\UseCompileCount  = OptionUseCompileCount
   FileList()\TemporaryExePlace= OptionTemporaryExe
+  FileList()\CustomCompiler   = OptionCustomCompiler
+  FileList()\CompilerVersion$ = OptionCompilerVersion$
   FileList()\CurrentDirectory$= ""
   FileList()\ToggleFolds      = 1
   FileList()\CustomCompiler   = 0
@@ -108,17 +112,8 @@ EndProcedure
 Procedure ResizeFormInfo(Width, Height)
   FD_UpdateScrollbars(1)
   
-  If IsGadget(#GADGET_Form_ScrollV)
-    swidth = Width - Grid_Scrollbar_Width
-  Else
-    swidth = Width
-  EndIf
-  
-  If IsGadget(#GADGET_Form_ScrollH)
-    sheight = Height - Grid_Scrollbar_Width
-  Else
-    sheight = Height
-  EndIf
+  swidth = Width - Grid_Scrollbar_Width
+  sheight = Height - Grid_Scrollbar_Width
   
   If swidth < 1
     swidth = 1
@@ -484,6 +479,9 @@ Procedure FormPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
                       var = "ScrollArea_"+Str(FormWindows()\c_scrollarea)
                       FormWindows()\c_scrollarea + 1
                     Case #Form_Type_Web
+                      var = "WebView_"+Str(FormWindows()\c_web)
+                      FormWindows()\c_web + 1
+                    Case #Form_Type_WebView
                       var = "WebView_"+Str(FormWindows()\c_web)
                       FormWindows()\c_web + 1
                     Case #Form_Type_Container

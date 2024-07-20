@@ -1,14 +1,20 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Global Backup_ProcedureBrowserSort, Backup_DisplayProtoType
 
+CompilerIf #CompileLinux
+  ProcedureC UpdateProcedureList_GtkScroll(ScrollPosition.i)
+    SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
+  EndProcedure
+CompilerEndIf
 
-Procedure UpdateProcedureList()
+
+Procedure UpdateProcedureList(ScrollPosition.l = -1) ; scroll position -1 means keep current position
   
   ; The Issues tool usually needs an update two when the ProcedureBrowser does,
   ; so just do this always from here for simplicity
@@ -16,7 +22,9 @@ Procedure UpdateProcedureList()
   
   If *ActiveSource = *ProjectInfo Or *ActiveSource\IsCode = 0
     ClearList(ProcedureList())
-    ClearGadgetItems(#GADGET_ProcedureBrowser)
+    If ProcedureBrowserMode = 1
+      ClearGadgetItems(#GADGET_ProcedureBrowser)
+    EndIf
     ProcedureReturn
   EndIf
   
@@ -113,13 +121,13 @@ Procedure UpdateProcedureList()
             EndIf
             
           ElseIf ProcedureBrowserSort = 2
-            If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCase) < 0
+            If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCaseAscii) < 0
               Change = 1
             EndIf
             
           ElseIf ProcedureBrowserSort = 3
             If ProcedureList()\Type = *Previous\Type
-              If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCase) < 0
+              If CompareMemoryString(@ProcedureList()\Name$, @*Previous\Name$, #PB_String_NoCaseAscii) < 0
                 Change = 1
               EndIf
             ElseIf ProcedureList()\Type < *Previous\Type
@@ -139,13 +147,18 @@ Procedure UpdateProcedureList()
       Until Done
     EndIf
     
-    ;StartGadgetFlickerFix(#GADGET_ProcedureBrowser)
+    ; do not show jump when restoring scroll position on updates without source code switch
+    StartGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
     ; preserve the selection if possible
     OldIndex = GetGadgetState(#GADGET_ProcedureBrowser)
     NewIndex = -1
     If OldIndex <> -1
       OldText$ = GetGadgetItemText(#GADGET_ProcedureBrowser, OldIndex)
+    EndIf
+    
+    If ScrollPosition = -1
+      ScrollPosition = GetListViewScroll(#GADGET_ProcedureBrowser)
     EndIf
     
     ClearGadgetItems(#GADGET_ProcedureBrowser)
@@ -169,43 +182,33 @@ Procedure UpdateProcedureList()
       AddGadgetItem(#GADGET_ProcedureBrowser, -1, Text$)
       
       ; check if this is our old selection
-      If CompareMemoryString(@OldText$, @Text$, #PB_String_NoCase) = 0 And OldIndex <> -1
+      If CompareMemoryString(@OldText$, @Text$, #PB_String_NoCaseAscii) = 0 And OldIndex <> -1
         NewIndex = CountGadgetItems(#GADGET_ProcedureBrowser)-1
       EndIf
     Next ProcedureList()
     
     CompilerIf #CompileLinux
       SetGadgetState(#GADGET_ProcedureBrowser, -1)
+      
+      ; Need to postpone the scroll update untill all events in the gadget were processed
+      ; Note that PostEvent() is too early (not all gtk events will be done then)
+      g_idle_add_(@UpdateProcedureList_GtkScroll(), ScrollPosition)
     CompilerElse
       ; restore old selection
       If NewIndex <> -1
         SetGadgetState(#GADGET_ProcedureBrowser, NewIndex)
       EndIf
+      SetListViewScroll(#GADGET_ProcedureBrowser, ScrollPosition)
     CompilerEndIf
     
-    ;StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
+    StopGadgetFlickerFix(#GADGET_ProcedureBrowser)
     
   EndIf
   
 EndProcedure
 
 Procedure FindProcedureFromSorted(*Parser.ParserData, *Name, Type, ModuleName$)
-  
-  Bucket = GetBucket(*Name)
-  
-  *Item.SourceItem = *Parser\Modules(UCase(ModuleName$))\Indexed[Type]\Bucket[Bucket]
-  While *Item
-    Select CompareMemoryString(*Name, @*Item\Name$, #PB_String_NoCase)
-      Case #PB_String_Equal
-        ProcedureReturn *Item
-      Case #PB_String_Greater:
-        *Item = *Item\NextSorted
-      Default
-        Break
-    EndSelect
-  Wend
-  
-  ProcedureReturn 0
+  ProcedureReturn RadixLookupValue(*Parser\Modules(UCase(ModuleName$))\Indexed[Type], PeekS(*Name))
 EndProcedure
 
 Procedure JumpToProcedure() ; return 1 if a jump was done

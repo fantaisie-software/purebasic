@@ -74,6 +74,13 @@
 @LineBreak
 @LineBreak
 
+@Bold "Enable Appearance Dark Mode"
+@LineBreak
+  Is set, allows the appearance 'Dark Mode'.
+
+@LineBreak
+@LineBreak
+
 @Bold "Recent Files list"
 @LineBreak
   This setting specifies how many entries are shown in the "Recent Files" 
@@ -608,13 +615,11 @@
 @LineBreak
 @LineBreak
 
-@Bold "Add matching ‘End' keyword if Tab/Enter is pressed twice"
+@Bold "Add matching ‘End' keyword if insert shortcut is pressed twice"
 @LineBreak
-  If you press Tab or Enter twice, it will insert the corresponding end 
-  keyword (for example "EndSelect" to "Select" or "EndIf " to "If") to 
-  the keyword you have just inserted. The end keyword will be inserted 
-  after the cursor, so you can continue typing after the first keyword 
-  that was inserted.
+  When the selected keyword has a complementary end keyword, for example "EndSelect" to "Select" or "EndIf" to "If",
+  the insert shortcut (default Tab) can be repeated a second time to automatically add this text too.
+  The end keyword will be inserted after the cursor, so you can continue typing after the first keyword that was inserted.
 
 @LineBreak
 @LineBreak
@@ -728,7 +733,24 @@
   @LineBreak
     A regular expression defining the pattern for the issue. This regular expression
     is applied to all comments in the source code. Each match of the expression is
-    considered to match the issue type.
+    considered to match the issue type. @LineBreak
+    Two optional named groups (named "display" and "mark") can be included in the regex to control which part of the match 
+    is highlighted and which part is displayed in the tool. @LineBreak
+    @LineBreak
+    
+  Example: The default TODO pattern, but only display the part after the TODO in the tool @LineBreak
+  @LineBreak
+  @FixedFont
+    \bTODO\b(?<display>.*)
+  @EndFixedFont
+
+  Example: Match everything in {}, but only highlight the inner part (display the full match in the tool) @LineBreak
+  @LineBreak
+  @FixedFont
+    {(?<mark>.*)}
+  @EndFixedFont
+
+  Both named groups can also be used in a single regex for full control. If no groups with these names exist in the regex, the full match will be used.
   
   @LineBreak
   @LineBreak

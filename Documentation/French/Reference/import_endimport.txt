@@ -43,41 +43,43 @@
 @Example 
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Cet exemple ne fonctionne que sous Windows"
+  CompilerEndIf
+  
   Import "User32.lib"
    
     ; Pas besoin d'utiliser 'As' car PureBasic préfixe la fonction correctement
     ; Nous définissons également le paramètre 'Options' comme facultatif, avec une valeur par défaut de 0 (quand il est omis)
     ;
-    MessageBoxA(Fenetre.i, Corps$, Titre$, Options.i = 0)
-   
-    ; Cette fois PureBasic ne peut pas se débrouiller tout seul, car le
-    ; nom de la fonction n'est pas le même que celui utilisé par le symbole
-    ;
-    BoiteDeMessage(Fenetre.i, Corps$, Titre$, Options.i) As "_MessageBoxA@16"
-                                                   
+    MessageBox(Fenetre.i, Corps$, Titre$, Options.i = 0)
+
   EndImport
  
-  MessageBoxA(0, "Salut", "le Monde") ; Nous ne précisons pas les options
-  BoiteDeMessage(0, "Salut", "le Monde 2", 0)
-    
+  MessageBoxW(0, "Salut", "le Monde") ; Nous ne précisons pas les options
+
 @EndCode
 
 
 @Example Avec les pseudotypes
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Cet exemple ne fonctionne que sous Windows"
+  CompilerEndIf
+  
   Import "User32.lib"
    
     ; Nous utilisons le pseudotype 'p-unicode' pour les paramètres chaîne, car
     ; MessageBoxW() est une fonction unicode seulement. Le compilateur va
     ; automatiquement convertir les chaînes en unicode quand nécessaire.
     ;
-    MessageBoxW(Fenetre.l, Corps.p-unicode, Titre.p-unicode, Options.l = 0)
+    MessageBoxA(Fenetre.i, Corps.p-ascii, Titre.p-ascii, Options.i = 0)
                                                  
   EndImport
  
   ;
-  MessageBoxW(0, "Salut", "le Monde") 
+  MessageBoxA(0, "Salut", "le Monde") 
     
 @EndCode
 

@@ -33,20 +33,22 @@ If OpenWindow(#Window, 0, 0, 760, 310, "Drag & Drop", #PB_Window_SystemMenu|#PB_
   
   ; Create some images for the image demonstration
   ;
-  CreateImage(#ImageSource, 136, 136)
+  CreateImage(#ImageSource, DesktopScaledX(136), DesktopScaledY(136))
   If StartDrawing(ImageOutput(#ImageSource))
-    Box(0, 0, 136, 136, $FFFFFF)
+    Box(0, 0, ImageWidth(0), ImageHeight(0), $FFFFFF)
+    DrawingMode(#PB_2DDrawing_NativeText)
     DrawText(5, 5, "Drag this image", $000000, $FFFFFF)
-    For i = 45 To 1 Step -1
-      Circle(70, 80, i, Random($FFFFFF))
+    For i = DesktopScaledX(45) To 1 Step -1
+      Circle(DesktopScaledX(70), DesktopScaledY(80), i, Random($FFFFFF))
     Next i
     
     StopDrawing()
   EndIf
   
-  CreateImage(#ImageTarget, 136, 136)
+  CreateImage(#ImageTarget, DesktopScaledX(136), DesktopScaledY(136))
   If StartDrawing(ImageOutput(#ImageTarget))
-    Box(0, 0, 136, 136, $FFFFFF)
+    Box(0, 0, ImageWidth(0), ImageHeight(0), $FFFFFF)
+    DrawingMode(#PB_2DDrawing_NativeText)
     DrawText(5, 5, "Drop images here", $000000, $FFFFFF)
     StopDrawing()
   EndIf

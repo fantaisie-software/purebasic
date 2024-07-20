@@ -1,7 +1,7 @@
 ;
 ;     Screen library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Screen
@@ -15,7 +15,163 @@ or using the whole display (fullscreen mode).
 @CommandList
 
 @ExampleFile All Screen.sb
+@ExampleFile All Shaders.sb
 @ExampleFile All WindowedScreen.sb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddScreenShader(Shader)
+
+@Description
+  Adds a realtime shader to the screen. If the same shader is already set,
+  it will replaced. Any number of shaders can be stacked on the screen. The shader effect can be controlled by @@ScreenShaderAttribute.
+
+@Parameter "Shader"
+  The shader to apply. It can be one of the following value:
+  
+@FixedFont
+  @#PB_Shader_Blur      : Add a blur effect to the screen.
+  @#PB_Shader_Noise     : Add a noise effect to the screen.
+  @#PB_Shader_Pixelate  : Add a pixelate effect to the screen.
+  @#PB_Shader_Bevel     : Add a bevel effect to the screen (lighter/darker edges).
+  @#PB_Shader_BulgePinch: Add a bulge or pinch effect to the screen.
+  @#PB_Shader_Adjustment: Allow to adjust color components like red, green, blue channels, alpha value and more.
+  @#PB_Shader_Reflection: Add a screen reflection effect.
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  OpenScreen(800, 600, 32, "Shader Test")
+  SetFrameRate(60)
+
+  Procedure RenderFrame()
+    Static Time.d
+    
+    DisplaySprite(0, 0, 0)
+    
+    ; Animate the reflection wave
+    Time + 0.05
+    ScreenShaderAttribute(#PB_ReflectionShader_Time, Time)
+  
+    FlipBuffers() ; continue the rendering
+  EndProcedure
+
+  Procedure Loading(Type, Filename$)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+      AddScreenShader(#PB_Shader_Reflection)
+      ScreenShaderAttribute(#PB_ReflectionShader_Boundary, 0.80)
+      
+      FlipBuffers() ; start the rendering
+    EndIf
+  EndProcedure
+
+  Procedure LoadingError(Type, Filename$)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+  LoadSprite(0, "Data/Mountain.jpg")
+@EndCode
+
+@SeeAlso
+  @@RemoveScreenShader, @@ScreenShaderAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveScreenShader(Shader)
+
+@Description
+  Removes the realtime shader from the screen previously added with @@AddScreenShader. If the shader wasn't added
+  on the screen, this command has no effect.
+
+@Parameter "Shader"
+  The shader to remove. It can be one of the following value:
+  
+@FixedFont
+  @#PB_Shader_Blur      
+  @#PB_Shader_Noise     
+  @#PB_Shader_Pixelate  
+  @#PB_Shader_Bevel     
+  @#PB_Shader_BulgePinch
+  @#PB_Shader_Adjustment
+  @#PB_Shader_Reflection
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddScreenShader, @@ScreenShaderAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScreenShaderAttribute(ShaderAttribute, Value.f)
+
+@Description
+  Change the realtime shader attributes. If the shader isn't added
+  on the screen, this command has no effect.
+
+@Parameter "ShaderAttribute"
+  The shader attribute to change. It can be one of the following value:
+  
+@FixedFont
+  @#PB_BlurShader_Intensity: The blur shader intensity from 0 (no blur) to 1000 (very blurred)
+  @#PB_BlurShader_Quality  : The blur quality from 0 (low quality) to 100 (high quality). Better quality means slower perfomance.
+
+  @#PB_NoiseShader_Seed     : The random seed of the noise shader. Can be any number.
+  @#PB_NoiseShader_Intensity: The intensity of the noise shader, from 0 (no noise) to 1 (full noise).
+
+  @#PB_PixelateShader_SizeX: The width (in pixels) of the pixelate shader block.
+  @#PB_PixelateShader_SizeY: The height (in pixels) of the pixelate shader block.
+
+  @#PB_BevelShader_Thickness  : The thickness (in pixel) of the bevel borders
+  @#PB_BevelShader_Rotation   : The rotation of the bevel light, in degree.
+  @#PB_BevelShader_LightColor : The light color, including alpha. @@RGBA can be used to get a valid color value.
+  @#PB_BevelShader_ShadowColor: The shadow color, including alpha. @@RGBA can be used to get a valid color value.
+
+  @#PB_BulgePinchShader_Strength: The strengh of the effect between -1 and 1 (-1 is strong pinch, 0 is no effect, 1 is strong bulge)
+  @#PB_BulgePinchShader_CenterX : The X center coordinate of the effect (in pixels)
+  @#PB_BulgePinchShader_CenterY : The Y center coordinate of the effect (in pixels)
+  @#PB_BulgePinchShader_Radius  : The radius of the effect (in pixels)
+
+  @#PB_AdjustmentShader_Alpha     : The alpha value between 0 (transparent) and 1 (opaque).
+  @#PB_AdjustmentShader_Gamma     : The gamma value between 0 and 1.
+  @#PB_AdjustmentShader_Saturation: The saturation value between 0 and 1.
+  @#PB_AdjustmentShader_Contrast  : The contrast value between 0 and 1.
+  @#PB_AdjustmentShader_Brightness: The brightness value between 0 and 1.
+  @#PB_AdjustmentShader_Red       : The red value between 0 and 1.
+  @#PB_AdjustmentShader_Green     : The green value between 0 and 1.
+  @#PB_AdjustmentShader_Blue      : The blue value between 0 and 1.
+  
+  @#PB_ReflectionShader_AlphaStart: The starting alpha value, between 0 and 1 (default 1).
+  @#PB_ReflectionShader_AlphaEnd  : The ending alpha value, between 0 and 1 (default 1).
+  @#PB_ReflectionShader_Boundary  : To define where to start the reflection on the screen, between 0 and 1 (lower value produce a larger reflection).
+  @#PB_ReflectionShader_AmplitudeStart : The starting amplitude value (default 0).
+  @#PB_ReflectionShader_AmplitudeEnd   : The ending amplitude value (default 20).
+  @#PB_ReflectionShader_WaveLengthStart: The starting wave length value (default 30).
+  @#PB_ReflectionShader_WaveLengthEnd  : The ending wave length value (default 100).
+  @#PB_ReflectionShader_Mirror    : Set to @#True to enable the mirror mode (default) or to @#False to disable it.
+  @#PB_ReflectionShader_Time      : The time (in milliseconds) for animating position of waves.
+@EndFixedFont
+
+@NoReturnValue
+
+@SeeAlso
+  @@AddScreenShader, @@RemoveScreenShader
 
 @SupportedOS
 
@@ -294,6 +450,29 @@ or using the whole display (fullscreen mode).
 
 @Remarks
   The screen dimension can't be greater than the window size or artefacts can occurs.
+
+@SeeAlso
+  @@OpenScreen, @@OpenWindowedScreen
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FullScreen(State)
+
+@Description
+  Changes the fullscreen state. The user will be asked to enter or the leave the fullscreen state, it's not
+  an automatic operation.
+
+@Parameter "State"
+  The new screen state, can be one of the following values:
+
+@FixedFont
+  @#True : Enters fullscreen mode.
+  @#False: Leaves fullscreen mode.
+@EndFixedFont
+
+@NoReturnValue
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen

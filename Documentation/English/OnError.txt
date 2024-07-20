@@ -1,7 +1,7 @@
 ;
 ;     OnError library documentation
 ;
-;       (c) 2008 - Fantaisie Software
+;       (c) 2023 - Fantaisie Software
 ;
 
 @Library OnError
@@ -21,7 +21,7 @@
 @LineBreak
   @Bold "Note:" If both this library and the @ReferenceLink "ide_debugger" "PureBasic debugger" are used, not all errors will be caught
   by the OnError library as some checks are made and reported by the debugger even before the actual code with
-  the error is executed.
+  the error is executed. To test OnError in the IDE, be sure to turn off the debugger (@Keyword DisableDebugger is not enough).
 @LineBreak
 @LineBreak
   This library can provide information about the source code file and line at which the error occurred through
@@ -391,7 +391,7 @@
 @LineBreak
 @LineBreak
   @Bold "Important:" The disassembly commands use the @InternetLink "http://udis86.sourceforge.net/" "Udis86 disassembler library"
-  to decode the instructions. This library is released under the BSD license which can be viewed @MainGuideLink "udis86" "here".
+  to decode the instructions. This library is released under the BSD license which can be viewed @MainGuideLink "license_udis86" "here".
   If @@ExamineAssembly and the related commands are used in a program that is to be made public, the above linked
   licence text must be included with the software.
 

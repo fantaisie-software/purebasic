@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; describes one entry in the gadget
@@ -64,7 +64,7 @@ Structure VariableGadget
   SortDirection.l ; 1 or -1
   IndexSort.l     ; true if the main level should be sorted by index rather than name
   
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     TreeModel.i ; While the gadget is locked, store the model here
   CompilerEndIf
 EndStructure
@@ -590,7 +590,7 @@ Procedure VariableGadget_Lock(Gadget)
     SendMessage_(GadgetID(Gadget), #WM_SETREDRAW, #False, 0)
   CompilerEndIf
   
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     *VariableGadget.VariableGadget = GetGadgetData(Gadget)
     *VariableGadget\TreeModel = gtk_tree_view_get_model_(GadgetID(Gadget))
     g_object_ref_(*VariableGadget\TreeModel) ; must be ref'ed or it is destroyed
@@ -607,7 +607,7 @@ Procedure VariableGadget_Unlock(Gadget)
     InvalidateRect_(GadgetID(Gadget), #Null, #True);
   CompilerEndIf
   
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     *VariableGadget.VariableGadget = GetGadgetData(Gadget)
     gtk_tree_view_set_model_(GadgetID(Gadget), *VariableGadget\TreeModel) ; reconnect the model
     g_object_unref_(*VariableGadget\TreeModel)                            ; release reference

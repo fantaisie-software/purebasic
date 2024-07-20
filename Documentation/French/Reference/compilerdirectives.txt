@@ -104,9 +104,8 @@
   des routines spécifiques et indiquer qu'elles ne sont pas disponibles pour un OS
   particulier.
   @LineBreak
-  Note: Alors que @Keyword "CompilerWarning" affiche des avertissements "seulement", 
-  pendant que le processus de compilation se poursuit, la commande @Keyword "CompilerError" 
-  arrête le processus de compilation.
+  Note: @Keyword "CompilerWarning" affiche des avertissements" et le processus de compilation se poursuit, 
+  alors que la commande @Keyword "CompilerError" arrête le processus de compilation.
 
 @Example Génère une erreur
 @Code
@@ -209,10 +208,16 @@
     @#PB_OS_Linux   : Le compilateur est exécuté sur Linux
     @#PB_OS_MacOS   : Le compilateur est exécuté sur Mac OS X
 
-  @#PB_Compiler_Processor : Détermine le type de processeur pour lequel le programme est créé. Il peut être l'un des suivants:
+  @#PB_Compiler_Processor : Détermine le type de processeur pour lequel le programme est créé. Il peut s'agir de l'un des éléments suivants:
     @#PB_Processor_x86     : Architecture de processeur x86 (aussi appelé IA-32 ou x86-32)
     @#PB_Processor_x64     : Architecture de processeur x86-64 (aussi appelé x64, AMD64 ou Intel64)
-  
+    @#PB_Processor_arm32   : Architecture de processeur  arm32
+    @#PB_Processor_arm64   : Architecture de processeur arm64 (appelé M1 sur les ordinateurs Apple)
+
+  @#PB_Compiler_Backend : Détermine quel type de compilateur est actuellement utilisé. Il peut s'agir de l'un des éléments suivants :
+    @#PB_Backend_Asm    : Le compilateur assembleur génére le code.
+    @#PB_Backend_C      : Le compilateur C génére le code.
+   
   @#PB_Compiler_ExecutableFormat : Détermine le format de l'exécutable. Il peut être l'un des suivants:
     @#PB_Compiler_Executable : Exécutable standard
     @#PB_Compiler_Console    : Exécutable console (Uniquement sur Windows, les autres OS utiliseront le format exécutable standard)
@@ -236,7 +241,14 @@
   @#PB_Compiler_EnableExplicit: Egal à 1 si l'exécutable est compilé en mode 'explicit', égal à 0 sinon.
   @#PB_Compiler_IsMainFile    : Egal à 1 si l'exécutable en cours de compilation est le fichier principal, égal à 0 sinon.
   @#PB_Compiler_IsIncludeFile : Egal à 1 si l'exécutable en cours de compilation a été inclus par un autre fichier, égal à 0 sinon.
-@EndFixedFont  
+  @#PB_Compiler_32Bit    : Mis à 1 si le compilateur génère du code 32 bits, mis à 0 sinon.
+  @#PB_Compiler_64Bit    : Mis à 1 si le compilateur génère du code 64 bits, mis à 0 sinon.
+  @#PB_Compiler_Optimizer: Mis à 1 si le compilateur génère du code optimisé, mis à 0 sinon.
+  @#PB_Compiler_DPIAware : Mis à 1 si le compilateur génère un exécutable compatible DPI, mis à 0 sinon.
+  
+@EndFixedFont
+
+@ExampleFile All Compiler_FileSystem_and_System_Datas.pb
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML

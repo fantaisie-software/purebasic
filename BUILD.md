@@ -2,20 +2,29 @@
 
 How to build the __[PureBasic OpenSource Projects]__.
 
-Currently, the only supported toolchain is that for the Windows OS (this will change soon), therefore these instructions only cover building the PureBasic IDE for Windows.
+## Precondition: A PureBasic installation
 
-That said, you can try to compile on Linux/OSX as the makefile contains all the required info to do so.
+To compile and test the tools in this repository you need a PureBasic installation. This installation is used both for compilation as well as for testing which is why the compiled IDE and debugger are directly copied into that PureBasic installation for direct testing (this will overwrite the original IDE).
 
-For more detailed information, see also the following pages on the [project Wiki]:
+It is therefore recommended to set aside a dedicated PureBasic directory for development with this repository. You can just copy your regular installation to a new directory for this. There is no need to install anything.
 
-- [Building on Windows]
-- [Building on Linux]
-- [Building on macOS]
+The following conditions should be met for this:
 
+- You need write permissions to the PureBasic directory (do not use "Program Files" or similar)
+- You should avoid spaces or special characters in the Path to that directory to avoid any trouble with the build scripts
 
-# 1. Get the GNU Dependencies
+## Building on Windows (quick & easy method)
 
-The build scripts require some Unix utilities from the [GnuWin] project to be present on the system.
+To compile the IDE, open a command shell and run the `MakeWindows.cmd` script from within the [`PureBasicIDE`][PureBasicIDE] directory and provide the full path to your PureBasic installation as the parameter:
+```
+MakeWindows.cmd <YourPureBasicPath>
+```
+
+The same can be done in the [`PureBasicDebugger`][PureBasicDebugger] directory. Other directories do not have a such a quick & easy scripts. See below for the setup of the full build environment.
+
+## Building on Windows (official method)
+
+The official way to build is using the makefiles. This requires some Unix utilities from the [GnuWin] project to be present on the system.
 
 [ChrisRfr] has kindly prepared an _ad hoc_ package with all the required tools:
 
@@ -23,43 +32,49 @@ The build scripts require some Unix utilities from the [GnuWin] project to be pr
 
 Download the Zip archive, unpack it and add it to your [PATH]  (full instructions inside the Zip file).
 
-# 2. Install VisualStudio C++ 2013 Community Edition
+Run the `BuildEnv.cmd` script from the main directory with your PureBasic installation as a parameter:
+```
+BuildEnv.cmd <YourPureBasicPath>
+```
 
-The project contains some C source code which requires Visual Studio to compile.
-The recommended version is VS 2013, which is also available as _Community Edition_ for free:
+In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-- [MS Visual Studio 2013 download page]
+## Building on Linux
 
-You could also try using a more recent version, but we use the 2013 version here.
+Make sure you have build tools such as `make` installed in your distribution.
 
-# 3. Install the Windows Platform SDK
+Run the `BuildEnv.sh` script from the main directory with your PureBasic installation as parameter:
+```
+./BuildEnv.sh <YourPureBasicPath>
+```
 
-We use an old SDK version (7.0) but a newer version might also work.
+Alternatively, you can source the script into your `.bashrc` file to automatically setup the build environment whenever you start a shell:
+```
+source BuildEnv.sh <YourPureBasicPath>
+```
 
-- [Windows SDK for Windows 7 download page]
+In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-# 4. Tune the launch script
+The default is to build the IDE with Gtk3. You can use the Gtk2 subsystem by setting the `PB_GTK=2` environment variable before running the `BuildEnv.sh` script.
 
-Create a copy of the `Window-x64.cmd` or `Window-x86.cmd` script and edit it:
+## Building on MacOS
 
-- Set `PUREBASIC_HOME` to a working PureBasic installation.
-- Check all the other paths to see if they match your local system.
+PureBasic for MacOS comes as as single `PureBasic.app` package. To prepare a directory for IDE compilation and testing, some additional steps are needed:
 
+- Copy the `PureBasic.app` into an empty directory
+- Ctrl-click (or right-click) on the `PureBasic.app` and select "Show Package Content" from the context menu
+- Copy all files and directories from `Contents/Resources` from inside the package outside next to the `PureBasic.app` file
+- Use this directory with the `PureBasic.app` and the extracted resources as the `<YourPureBasicPath>` parameter for the `BuildEnv.sh` script
 
-# 5. Launch the makefile
+After these steps you can follow the build steps for Linux described above to setup the build environment.
 
-- Double-click on `Window-x64.cmd`.
-- Go to the [`PureBasicIDE`][PureBasicIDE] directory.
-- Type: `make`.
+## More information
 
-If all is setup correctly, it should compile all the dependencies and the IDE.
-A `Build` directory will be created with all temporary files in it.
+For more detailed information, see also the following pages on the [project Wiki]:
 
-Once you have successfully launched the `make` once, you can then use
-PureBasic to open the "`PureBasicIDE.pbp`" project file and
-run it from PureBasic itself (be sure to adjust the constants in 'Compilers Options.../Contants')
-
-- The `#BUILD_DIRECTORY` constant must point to the `Build/x64/ide/` folder created before by the execution of `make`.
+- [Building on Windows]
+- [Building on Linux]
+- [Building on macOS]
 
 Don't hesitate to [drop a word] to improve this build guide, as right now it's very slim!
 
@@ -79,6 +94,7 @@ Have fun hacking,
 <!-- repo files and folders -->
 
 [PureBasicIDE]: ./PureBasicIDE/ "Navigate to the 'PureBasicIDE/' folder"
+[PureBasicDebugger]: ./PureBasicDebugger/ "Navigate to the 'PureBasicDebugger/' folder"
 
 <!-- 3rd party websites -->
 
@@ -100,8 +116,6 @@ Have fun hacking,
 
 <!-- download links -->
 
-[MS Visual Studio 2013 download page]: https://visualstudio.microsoft.com/vs/older-downloads/#visual-studio-2013-and-other-products "Go to the download page of MSVS 2013"
-[Windows SDK for Windows 7 download page]: https://www.microsoft.com/en-us/download/details.aspx?id=8279
 [UnixTools-4-Win.zip]: https://github.com/fantaisie-software/purebasic/wiki/UnixTools-4-Win.zip "Download the ZIP file with the GNU dependencies for Windows"
 
 <!-- people -->

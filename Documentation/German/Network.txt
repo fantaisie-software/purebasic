@@ -163,13 +163,9 @@
   Es ist jedoch möglich, zwei Server mit dem gleichen Port zu erstellen, einen unter Verwendung
   von IPv4 und den anderen unter Verwendung von IPv6.
   @@NetworkServerEvent kann verwendet werden, um Server auf Events (Ereignisse) zu überwachen.
-@LineBreak
-@LineBreak
-  @@InitNetwork muss aufgerufen werden, bevor jegliche andere Befehle der
-  Network-Bibliothek verwendet werden.
 
 @SeeAlso
-  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@InitNetwork
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent
 
 @SupportedOS
 
@@ -195,7 +191,6 @@
   
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -208,7 +203,6 @@
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()
@@ -255,21 +249,6 @@
 @ReturnValue
   Gibt den Host-Namen zurück.
 
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Ergebnis = InitNetwork() 
-
-@Description
-  Dieser Befehl muss vor allen anderen Befehlen der Network-Bibliothek aufgerufen werden.
-
-@NoParameters
-
-@ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Netzwerk (Network) korrekt initialisiert
-  wurde, und Null wenn nicht.
-  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -537,7 +516,6 @@
 
 @Example IPv4
 @Code
-  InitNetwork()
   If ExamineIPAddresses()
     Repeat
       IP = NextIPAddress()
@@ -550,7 +528,6 @@
 
 @Example IPv6
 @Code
-  InitNetwork()
   If ExamineIPAddresses(#PB_Network_IPv6)
     Repeat
       IP = NextIPAddress()

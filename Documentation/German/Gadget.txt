@@ -1,7 +1,7 @@
 ;
 ;     Gadget library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -74,10 +74,10 @@
   <tr>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_framegadget.png"> <a href="../gadget/framegadget.html"><u>FrameGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_hyperlinkgadget.png"> <a href="../gadget/hyperlinkgadget.html"><u>HyperLinkGadget</u></a></td>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
   </tr>
   <tr>
-    <td vAlign="center" nowrap><img src="../HelpPictures/vd_imagegadget.png"> <a href="../gadget/imagegadget.html"><u>ImageGadget</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_ipaddressgadget.png"> <a href="../gadget/ipaddressgadget.html"><u>IPAddressGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listicongadget.png"> <a href="../gadget/listicongadget.html"><u>ListIconGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_listviewgadget.png"> <a href="../gadget/listviewgadget.html"><u>ListViewGadget</u></a></td>
   </tr>
@@ -108,6 +108,18 @@
   </tr>
   </table>
   </center>
+  </center>
+  <p>
+  <center> 
+  <table WIDTH="96%" BORDER=0>
+  <caption> <b>Weitere Gadgets:</b> </caption>
+  <tr>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_scintillagadget.png"> <a href="../Scintilla/index.html"><u>Scintilla</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_webviewgadget.png"> <a href="../WebView/index.html"><u>Webview</u></a></td>
+     </tr>
+  </table>
+  </center> 
+
 @FormatEndIf
 
 
@@ -357,7 +369,7 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 60, "ButtonImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered) 
-    If LoadImage(0,  #PB_Compiler_Home + "/Examples/Sources/Data/PureBasic.bmp")    ; ändern Sie den 2. Parameter in den Pfad/Dateinamen Ihres Bildes
+    If LoadImage(0,  #PB_Compiler_Home + "/examples/sources/Data/PureBasic.bmp")    ; ändern Sie den 2. Parameter in den Pfad/Dateinamen Ihres Bildes
       ButtonImageGadget(0, 10, 10, 180, 40, ImageID(0))
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -547,18 +559,6 @@
   @@SetGadgetColor, @@GetGadgetColor,
   @@DateGadget, @@Date, @@FormatDate
 
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function ChangeListIconGadgetDisplay(#Gadget, Modus)
-
-@Description
-@Deprecated
-
-  Diese Funktion wurde ersetzt von @@SetGadgetAttribute mit dem Attribut @#PB_ListIcon_DisplayMode.
-  Siehe die @@ListIconGadget Dokumentation für weitere Details.
-  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -998,7 +998,14 @@
   wird auf dieses neu erstellte Gadget gesetzt. Um den aktuellen OpenGL-Kontext zu ändern,
   verwenden Sie das @#PB_OpenGL_SetContext Attribut. Einmal erstellt, kann mit Hilfe des
   @#PB_OpenGL_FlipBuffers Attributs ein Rahmen angezeigt werden.
-  
+
+@LineBreak
+@LineBreak
+  Da das OpenGL-Gadget als Echtzeit-Rendering-Gadget gedacht ist, speichert es sein aktuelles
+  Rendering (Inhalt) nicht in einem separaten Puffer:
+  Es muss erneut gerendert werden, wenn die Größe des Fensters geändert, minimiert oder maximiert wird
+  oder wenn das Gadget selbst in der Größe verändert oder verschoben wird.
+    
 @LineBreak
 @LineBreak
 
@@ -1240,17 +1247,6 @@
 
 @SeeAlso
   @@GetGadgetState, @@SetGadgetState, @@OptionGadget
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function ClearGadgetItemList(#Gadget)
-
-@Description
-@Deprecated
-
-  Diese Funktion wurde ersetzt durch @@ClearGadgetItems. Verwenden Sie diese stattdessen.
 
 @SupportedOS
 
@@ -1547,19 +1543,6 @@
 @SeeAlso
   @@AddGadgetItem, @@RemoveGadgetItem, @@ClearGadgetItems
 
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Ergebnis = CreateGadgetList(WindowID)
-
-@Description
-@Deprecated
-
-  Diese Funktion wird nicht länger benötigt. @@OpenWindow erstellt jetzt grundsätzlich immer auch eine Gadgetliste.
-  Verwenden Sie @@UseGadgetList, um eine Gadgetliste auf Fenstern zu erstellen, welche mittels API-Funktionen
-  erstellt wurden.
-  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1993,10 +1976,13 @@
   @#PB_EventType_RightClick       : Der Anwender hat einen Eintrag mit der rechten Maustaste angeklickt.
   @#PB_EventType_LeftDoubleClick  : Der Anwender hat einen Eintrag mit der linken Maustaste doppelt angeklickt.
   @#PB_EventType_RightDoubleClick : Der Anwender hat einen Eintrag mit der rechten Maustaste doppelt angeklickt.
-  @#PB_EventType_DragStart        : Der Anwender versucht, eine Drag & Drop Operation zu starten.
+  @#PB_EventType_DragStart        : Der Anwender versucht, eine Drag & Drop Operation zu starten. @@ExamineDraggedItems
+                                   kann verwendet werden, um Informationen zu den gezogenen Elementen abzurufen.
+  @#PB_EventType_Refresh          : Der Gadget-Inhalt wurde aufgrund einer Dateisystemänderung im angezeigten Verzeichnis aktualisiert (nur Windows).
 @EndFixedFont
   Nach einem @#PB_EventType_DragStart Ereignis kann die @LibraryLink "dragdrop" "Drag & Drop Bibliothek" verwendet
-  werden, um eine Drag & Drop Operation zu starten.
+  werden, um eine Drag & Drop Operation zu starten. Unter MacOS X muss das Ereignis @#PB_EventType_DragStart mit
+  @@BindEvent oder @@BindGadgetEvent behandelt werden.
 
 @Example
 @Code
@@ -2074,6 +2060,8 @@
 @LineBreak
   - @@GetGadgetState: Überprüft, ob der ausgewählte Eintrag eine Datei oder ein Verzeichnis ist.
 @LineBreak
+  - @@GetGadgetItemText: Gibt den vollständigen Pfad des angegebenen Elements zurück.
+@LineBreak
 @LineBreak
 
   Dieses Gadget unterstützt die @@SetGadgetColor und @@GetGadgetColor 
@@ -2091,10 +2079,12 @@
   @#PB_EventType_RightClick       : Der Anwender hat einen Eintrag mit der rechten Maustaste angeklickt.
   @#PB_EventType_LeftDoubleClick  : Der Anwender hat einen Eintrag mit der linken Maustaste doppelt angeklickt.
   @#PB_EventType_RightDoubleClick : Der Anwender hat einen Eintrag mit der rechten Maustaste doppelt angeklickt.
-  @#PB_EventType_DragStart        : Der Anwender versucht, eine Drag & Drop Operation zu starten.
+  @#PB_EventType_DragStart        : Der Anwender versucht, eine Drag & Drop Operation zu starten. @@ExamineDraggedItems
+                                   kann verwendet werden, um Informationen zu den gezogenen Elementen abzurufen.
 @EndFixedFont
   Nach einem @#PB_EventType_DragStart Ereignis kann die @LibraryLink "dragdrop" "Drag & Drop Bibliothek" verwendet
-  werden, um eine Drag & Drop Operation zu starten.
+  werden, um eine Drag & Drop Operation zu starten. Unter MacOS X muss das Ereignis @#PB_EventType_DragStart mit
+  @@BindEvent oder @@BindGadgetEvent behandelt werden.
 
 @Example
 @Code
@@ -2191,6 +2181,9 @@
   - Das übergeordnete Gadget (@@ContainerGadget, @@PanelGadget etc.) wird freigegeben.
   @LineBreak
   - Das Programm endet.
+@LineBreak
+@LineBreak
+  Verknüpfte Ereignisse (mittels @@BindEvent) werden beim Freigeben des Gadgets automatisch aufgelöst.
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -2233,8 +2226,8 @@
   Gibt das OS-Handle für den Eintrag zurück, oder Null bei einem Fehler.
 
 @Remarks
-  Diese Funktion wird gegenwärtig nur vom @@TreeGadget auf Windows unterstützt.
-  In anderen Fällen gibt die Null zurück.
+  Diese Funktion wird gegenwärtig nur vom @@TreeGadget und @@PanelGadget auf Windows unterstützt.
+  In anderen Fällen gibt sie Null zurück.
 
 @SeeAlso
   @@TreeGadget
@@ -2454,8 +2447,8 @@
 @OptionalParameter "Modus"
   Kann einer der folgenden Werte sein:
 @FixedFont
-  - @#PB_Gadget_ActualSize  : gibt die aktuelle Breite des Gadgets zurück, in Pixel (Standard).
-  - @#PB_Gadget_RequiredSize: gibt die für eine vollständige Darstellung des Gadgets benötigte Breite zurück, in Pixel.
+  @#PB_Gadget_ActualSize  : gibt die aktuelle Breite des Gadgets zurück, in Pixel (Standard).
+  @#PB_Gadget_RequiredSize: gibt die für eine vollständige Darstellung des Gadgets benötigte Breite zurück, in Pixel.
 @EndFixedFont
 
 @ReturnValue
@@ -2923,6 +2916,8 @@
   - @@ExplorerListGadget - gibt den Namen des 'Eintrag's zurück, ohne den Dateipfad.
     Wenn 'Eintrag' = -1, wird der 'Spalten'-Titel zurückgegeben.
 @LineBreak
+  - @@ExplorerTreeGadget - gibt den vollständigen Pfad des 'Eintrag's zurück.
+@LineBreak
   - @@ListIconGadget - gibt den Inhalt des angegebenen 'Eintrag's und der 'Spalte' zurück.
     Wenn 'Eintrag' = -1, wird der 'Spalten'-Titel zurückgegeben.
 @LineBreak
@@ -3237,7 +3232,8 @@
   @#PB_EventType_DragStart
 @EndFixedFont
   Nach einem @#PB_EventType_DragStart Ereignis kann die @LibraryLink "dragdrop" "Drag & Drop Library" verwendet
-  werden, um eine Drag & Drop Operation zu starten.
+  werden, um eine Drag & Drop Operation zu starten. Unter MacOS X muss das Ereignis @#PB_EventType_DragStart mit
+  @@BindEvent oder @@BindGadgetEvent behandelt werden.
 @LineBreak
 @LineBreak
   Wenn die Unterstützung weiterer Ereignis-Typen oder "Double-Buffering" für regelmäßig aktualisierte
@@ -3246,7 +3242,7 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 245, 105, "ImageGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    If LoadImage(0, "map.bmp")    ; ändern Sie den 2. Parameter in den Pfad/Dateiname Ihres Bildes
+    If LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/Map.bmp")
       ImageGadget(0,  10, 10, 100, 83, ImageID(0))                     ; Imagegadget Standard
       ImageGadget(1, 130, 10, 100, 83, ImageID(0), #PB_Image_Border)   ; Imagegadget mit Rand
     EndIf
@@ -3367,8 +3363,8 @@
   @#PB_ListIcon_CheckBoxes          : Zeigt Checkboxen (Häkchen-Boxen) in der ersten Spalte.
   @#PB_ListIcon_ThreeState          : Die Checkboxen können einen "Dazwischen"-Status haben.
   @#PB_ListIcon_MultiSelect         : Schaltet die Mehrfach-Selektion ein.
-  @#PB_ListIcon_GridLines           : Zeigt Separator-Linien zwischen Zeilen und Spalten an. (nicht unterstützt auf Mac OSX)
-  @#PB_ListIcon_FullRowSelect       : Die Auswahl erfolgt über die gesamte Zeile anstelle nur der ersten Spalte (nur auf Windows).
+  @#PB_ListIcon_GridLines           : Zeigt Separator-Linien zwischen Zeilen und Spalten an.
+  @#PB_ListIcon_FullRowSelect       : Die Auswahl erfolgt über die gesamte Zeile anstelle nur der ersten Spalte (nur auf Windows und QT).
   @#PB_ListIcon_HeaderDragDrop      : Die Reihenfolge der Spalten kann per Drag'n'Drop verändert werden.
   @#PB_ListIcon_AlwaysShowSelection : Die Auswahl ist noch sichtbar, auch wenn das Gadget nicht aktiv ist (nur auf Windows).
 @EndFixedFont
@@ -3432,8 +3428,9 @@
 @LineBreak
   - @@GetGadgetAttribute mit den folgenden Attributen:
 @FixedFont
-  @#PB_ListIcon_ColumnCount: Gibt die Anzahl an Spalten im Gadget zurück
-  @#PB_ListIcon_DisplayMode: Gibt den aktuellen Anzeigemodus des Gadgets zurück (nur auf Windows)
+  @#PB_ListIcon_ColumnCount  : Gibt die Anzahl an Spalten im Gadget zurück
+  @#PB_ListIcon_DisplayMode  : Gibt den aktuellen Anzeigemodus des Gadgets zurück (nur auf Windows)
+  @#PB_ListIcon_ClickedColumn: Gibt den zuletzt angeklickten Spaltenindex zurück. Die erste Spalte hat den Index 0.
 @EndFixedFont
   - @@SetGadgetAttribute mit den folgenden Attributen:
 @FixedFont
@@ -3444,10 +3441,17 @@
     @#PB_ListIcon_Report    : Report-Modus (Spalten, Standardmodus)
 @EndFixedFont
 @LineBreak
-  - @@GetGadgetItemAttribute / @@SetGadgetItemAttribute: Mit den folgenden Attributen:
+  - @@GetGadgetItemAttribute: Mit den folgenden Attributen:
 @FixedFont
-  @#PB_ListIcon_ColumnWidth : Gibt die Breite der angegebenen 'Spalte' zurück bzw. ändert diese. Der Parameter
-                                     'Eintrag' wird ignoriert.
+  @#PB_ListIcon_ColumnWidth: Gibt die Breite der angegebenen 'Spalte' zurück. Der Parameter 'Eintrag' wird ignoriert.
+@EndFixedFont
+  @@SetGadgetItemAttribute: With the following attribute:
+@FixedFont
+  @#PB_ListIcon_ColumnWidth    : Ändert die Breite der angegebenen 'Spalte'. Der Parameter 'Eintrag' wird ignoriert.
+  @#PB_ListIcon_ColumnAlignment: Ändert die Textausrichtung der angegebenen 'Spalte'. Der Parameter 'Eintrag' kann einer der folgenden Werte sein:
+     - @#PB_ListIcon_Left  : Text wird linksbündig ausgerichtet (Standard).
+     - @#PB_ListIcon_Right : Text wird rechtsbündig ausgerichtet.
+     - @#PB_ListIcon_Center: Text wird zentriert.
 @EndFixedFont
 
   Dieses Gadget unterstützt die @@SetGadgetColor und @@GetGadgetColor 
@@ -3460,15 +3464,19 @@
 
   Die folgenden Ereignisse ("Events") werden durch @@EventType unterstützt:
 @FixedFont  
-  @#PB_EventType_LeftClick : linker Mausklick auf einen Eintrag, oder ein Häkchen wurde gesetzt/entfernt
+  @#PB_EventType_LeftClick   : linker Mausklick auf einen Eintrag, oder ein Häkchen wurde gesetzt/entfernt
   @#PB_EventType_LeftDoubleClick
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
-  @#PB_EventType_Change : der aktuelle Eintrag wurde verändert
-  @#PB_EventType_DragStart : der Anwender versucht, eine Drag & Drop Operation zu starten
+  @#PB_EventType_Change      : der aktuelle Eintrag wurde verändert
+  @#PB_EventType_DragStart   : der Anwender versucht, eine Drag & Drop Operation zu starten. @@ExamineDraggedItems
+                              kann verwendet werden, um die Informationen zu den gezogenen Elementen abzurufen.
+  @#PB_EventType_ColumnClick : ein Spaltentitel wurde angeklickt. Verwenden Sie GetGadgetAttribute() mit
+                              @#PB_ListIcon_ClickedColumn, um die angeklickte Spalte zu ermitteln.
 @EndFixedFont
   Nach einem @#PB_EventType_DragStart Ereignis kann die @LibraryLink "dragdrop" "Drag & Drop Library" verwendet
-  werden, um eine Drag & Drop Operation zu starten.
+  werden, um eine Drag & Drop Operation zu starten. Unter MacOS X muss das Ereignis @#PB_EventType_DragStart mit
+  @@BindEvent oder @@BindGadgetEvent behandelt werden.
 
 @LineBreak
 @LineBreak
@@ -3516,10 +3524,10 @@
       Next
     Next
     ; Hier ändern wir die Anzeige des ListIcons in große Icons und zeigen ein Bild an
-    If LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\File.bmp")     ; ändern Sie Pfad/Dateiname für Ihr eigenes 32x32 Pixel Bild
+    If LoadImage(0, #PB_Compiler_Home+"examples/sources/Data/File.bmp")     ; ändern Sie Pfad/Dateiname für Ihr eigenes 32x32 Pixel Bild
       SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Picture 1", ImageID(0))
-      AddGadgetItem(5, 2, "Picture 2", ImageID(0))
+      AddGadgetItem(5, 0, "Picture 1", ImageID(0))
+      AddGadgetItem(5, 1, "Picture 2", ImageID(0))
     EndIf  
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -3901,6 +3909,8 @@
   - @@GetGadgetItemData: ermittelt den Wert, der mit dem angegebenen Eintrag gespeichert wurde.
   @LineBreak
   - @@SetGadgetItemData: speichert einen Wert mit dem angegebenen Eintrag.
+  @LineBreak
+  - @@GadgetItemID: gibt das Betriebssystem-Handle des angegebenen Eintrags zurück (nur auf Windows, nützlich für API-Funktionen).
 @LineBreak
 @LineBreak
   - @@SetGadgetState: ändert den aktiven Panel (Schalttafel).
@@ -4145,16 +4155,31 @@
 
 @NoReturnValue
 
-@Example
+@Example Gadgetgröße an veränderte Fenstergröße anpassen
 @Code
-  [...]
-
-  ResizeGadget(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Ändert nur die Gadgetbreite.
+  Procedure SizeHandler()
+    ResizeGadget(0, #PB_Ignore, #PB_Ignore, WindowWidth(0) - 20, WindowHeight(0) - 60) 
+    ResizeGadget(1, #PB_Ignore, WindowHeight(0) - 40, WindowWidth(0) - 20, #PB_Ignore) 
+  EndProcedure
   
-  ResizeGadget(0, 150, 100, #PB_Ignore, #PB_Ignore) ; Verschiebt das Gadget nur an eine neue Position.
-
+  If OpenWindow(0, 0, 0, 220, 100, "Resize the window", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+    WindowBounds(0, WindowWidth(0), WindowHeight(0), #PB_Ignore, #PB_Ignore)
+  
+    EditorGadget(0, 10, 10, WindowWidth(0) - 20, WindowHeight(0) - 60)
+    ButtonGadget(1, 10, WindowHeight(0) - 40, WindowWidth(0) - 20, 30, "Button")
+    
+    ; Verwende BindEvent(), um eine Echtzeit-Größenänderung der Gadgets zu erhalten
+    BindEvent(#PB_Event_SizeWindow, @SizeHandler())
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
 @EndCode
-
+  
 @SeeAlso
   @@GadgetX, @@GadgetY, @@GadgetWidth, @@GadgetHeight
 
@@ -5074,6 +5099,7 @@
 @LineBreak
   - @@WebGadget: Ändert den Html-Code im Gadget mittels @#PB_Web_HtmlCode als 'Eintrag'.
 @LineBreak
+  - @@WebViewGadget: Ändert den Html-Code im Gadget mittels @#PB_Web_HtmlCode als 'Eintrag'.
 
 @SeeAlso
   @@GetGadgetItemText, @@GetGadgetText, @@SetGadgetText
@@ -5214,6 +5240,8 @@
   - @@TreeGadget: ändert den Text des aktuell ausgewählten Eintrags.
 @LineBreak
   - @@WebGadget: ändert die aktuelle URL.
+@LineBreak
+  - @@WebViewGadget: ändert die aktuelle URL.
 
 @SeeAlso
   @@GetGadgetText, @@GetGadgetItemText, @@SetGadgetItemText
@@ -5293,8 +5321,9 @@
   Flags zum Verändern des Gadget-Verhaltens. Dies kann eine Kombination
   (verknüpft mit dem bitweisen '|' OR-Operator) der folgenden Konstanten sein:
 @FixedFont
-  @#PB_Spin_ReadOnly : Das StringGadget ist nicht editierbar, die Nummer ist nur über die Pfeile änderbar (nicht verfügbar auf Linux).
-  @#PB_Spin_Numeric  : Das SpinGadget wird den Text automatisch mit dem aktuellen Wert des SpinGadgets-Status aktualisieren, womit @@SetGadgetText nicht benötigt wird.
+  @#PB_Spin_ReadOnly : Das StringGadget ist nicht editierbar, die Nummer ist nur über die Pfeile änderbar.
+  @#PB_Spin_Numeric  : Das SpinGadget wird den Text automatisch mit dem aktuellen Wert des SpinGadgets-Status aktualisieren,
+                      womit @@SetGadgetText nicht benötigt wird.
 @EndFixedFont
 
 @ReturnValue
@@ -5810,12 +5839,14 @@
   @#PB_EventType_LeftDoubleClick
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
-  @#PB_EventType_Change : der aktuelle Eintrag wurde verändert
-  @#PB_EventType_DragStart : der Anwender versucht, eine Drag & Drop Operation zu starten
+  @#PB_EventType_Change    : der aktuelle Eintrag wurde verändert
+  @#PB_EventType_DragStart : der Anwender versucht, eine Drag & Drop Operation zu starten. @@ExamineDraggedItems
+                            kann verwendet werden, um die Informationen zu den gezogenen Elementen abzurufen.
 @EndFixedFont
   Nach einem @#PB_EventType_DragStart Ereignis kann die @LibraryLink "dragdrop" "Drag & Drop Library" verwendet
-  werden, um eine Drag & Drop Operation zu starten.
-
+  werden, um eine Drag & Drop Operation zu starten. Unter MacOS X muss das Ereignis @#PB_EventType_DragStart mit
+  @@BindEvent oder @@BindGadgetEvent behandelt werden.
+  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 355, 180, "TreeGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -5896,7 +5927,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = WebGadget(#Gadget, x, y, Breite, Höhe, URL$)
+@Function Ergebnis = WebGadget(#Gadget, x, y, Breite, Höhe, URL$ [, Flags])
 
 @Description
   Erstellt ein Web-Gadget in der aktuellen Gadgetliste. Dieses kann Html-Seiten darstellen.
@@ -5910,6 +5941,15 @@
 
 @Parameter "URL$"
   Die nach dem Erstellen des Gadgets zu ladende URL.
+
+@OptionalParameter "Flags"
+  Kann folgende Konstante sein:
+@FixedFont
+  @#PB_Web_Edge: Verwendet die WebView2-Engine zum Rendern der Webseite (nur Windows). WebView2 ist die
+                Edge-basierte Komponente für die moderne Webseitenanzeige in Windows-Anwendungen. Sie
+                ist beim aktuellen Windows 10 und Windows 11 integriert. Für ältere Windows-Versionen
+                muss sie installiert werden (falls nicht bereits geschehen): @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide".
+@EndFixedFont
 
 @ReturnValue
   Gibt bei Erfolg einen Wert ungleich Null zurück, oder Null bei einem Fehler. Wenn
@@ -5928,7 +5968,8 @@
 @LineBreak
   @Bold "Windows"
 @Indent
-  Das WebGadget verwendet auf Windows das "Internet Explorer 4.0+ ActiveX Objekt".
+  Das WebGadget verwendet das Internet Explorer 11 ActiveX-Objekt unter Windows. Wenn das Flag
+  @#PB_Web_Edge verwendet wird, wird stattdessen die moderne Edge-basierte Komponente verwendet.
 @LineBreak
 @LineBreak  
   Denken Sie daran, in Ihren Codes "\" mit "/" zu ersetzen.
@@ -6069,16 +6110,6 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = WebGadgetPath(LibraryDatei$ [, MozillaPfad$]) 
-
-@Description
-@Deprecated
-  Diese Funktion wird nicht länger benötigt. Sie tut nicht und gibt einen Wert ungleich Null zurück.
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
 @Function BindGadgetEvent(#Gadget, @Callback() [, EventTyp])
 
 @Description
@@ -6165,6 +6196,9 @@
 @Code
   Procedure ButtonHandler()
     Debug "Button click event on gadget #" + EventGadget()
+    
+    UnbindGadgetEvent(0, @ButtonHandler()) ; sofort wieder loslösen ("unbind")
+    Debug "Event unbound"
   EndProcedure
   
   OpenWindow(0, 100, 100, 200, 50, "Click test", #PB_Window_SystemMenu)
@@ -6172,7 +6206,6 @@
   ButtonGadget(0, 10, 10, 180, 30, "Click me")
   
   BindGadgetEvent(0, @ButtonHandler())
-  UnbindGadgetEvent(0, @ButtonHandler()) ; sofort wieder loslösen ("unbind")
   
   Repeat
     Event = WaitWindowEvent()

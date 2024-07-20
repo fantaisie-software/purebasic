@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;
 ; Constants and structures which are the same for all OS
 ;
@@ -44,6 +44,11 @@
 #PB_Processor_PowerPC    = 3
 #PB_Processor_x64        = 4
 #PB_Processor_JavaScript = 5
+#PB_Processor_Arm64      = 6
+#PB_Processor_Arm32      = 7
+
+#PB_Backend_Asm = 0
+#PB_Backend_C = 1
 
 #PB_Structure_AlignC = -1
 
@@ -59,6 +64,7 @@
 #PB_String     = 8
 #PB_Structure  = 7
 #PB_Float      = 9
+#PB_FixedString= 10
 #PB_Character  = 11
 #PB_Double     = 12
 #PB_Quad       = 13
@@ -126,6 +132,7 @@
 #PB_OS_Windows_8_1            = 100
 #PB_OS_Windows_Server_2012_R2 = 105
 #PB_OS_Windows_10             = 110
+#PB_OS_Windows_11             = 120
 #PB_OS_Windows_Future         = 200
 
 #PB_OS_Linux_2_2 = 1000
@@ -134,21 +141,24 @@
 #PB_OS_Linux_Future = 2000
 
 #PB_OS_MacOSX_10_0   = 10000
-#PB_OS_MacOSX_10_1   = 10100
-#PB_OS_MacOSX_10_2   = 10200
-#PB_OS_MacOSX_10_3   = 10300
-#PB_OS_MacOSX_10_4   = 10400
-#PB_OS_MacOSX_10_5   = 10500
-#PB_OS_MacOSX_10_6   = 10600
-#PB_OS_MacOSX_10_7   = 10700
-#PB_OS_MacOSX_10_8   = 10800
-#PB_OS_MacOSX_10_9   = 10900
-#PB_OS_MacOSX_10_10  = 11000
-#PB_OS_MacOSX_10_11  = 11100
-#PB_OS_MacOSX_10_12  = 11200
-#PB_OS_MacOSX_10_13  = 11300
-#PB_OS_MacOSX_10_14  = 11400
-#PB_OS_MacOSX_Future = 60000
+#PB_OS_MacOSX_10_1   = 10010
+#PB_OS_MacOSX_10_2   = 10020
+#PB_OS_MacOSX_10_3   = 10030
+#PB_OS_MacOSX_10_4   = 10040
+#PB_OS_MacOSX_10_5   = 10050
+#PB_OS_MacOSX_10_6   = 10060
+#PB_OS_MacOSX_10_7   = 10070
+#PB_OS_MacOSX_10_8   = 10080
+#PB_OS_MacOSX_10_9   = 10090
+#PB_OS_MacOSX_10_10  = 10100
+#PB_OS_MacOSX_10_11  = 10110
+#PB_OS_MacOSX_10_12  = 10120
+#PB_OS_MacOSX_10_13  = 10130
+#PB_OS_MacOSX_10_14  = 10140
+#PB_OS_MacOSX_10_15  = 10150
+#PB_OS_MacOSX_11     = 11000
+#PB_OS_MacOSX_12     = 12000
+#PB_OS_MacOSX_Future = 99999
 
 #PB_Default = -1  ; Common default value, used by SetGadgetFont(), TransparentSpriteColor, etc..
 #PB_All     = -1
@@ -206,18 +216,32 @@ Structure Integer
   i.i
 EndStructure
 
+Structure Vector3
+  x.f
+  y.f
+  z.f
+EndStructure
+
+Structure Vector4
+  x.f
+  y.f
+  z.f
+  w.f
+EndStructure
+
 ; 2D Drawing
 ;
-#PB_2DDrawing_Default      =  0
-#PB_2DDrawing_Transparent  =  1
-#PB_2DDrawing_XOr          =  2
-#PB_2DDrawing_Outlined     =  4
-#PB_2DDrawing_AlphaChannel =  8
-#PB_2DDrawing_AlphaBlend   = 16
-#PB_2DDrawing_AlphaClip    = 32
-#PB_2DDrawing_Gradient     = 64
-#PB_2DDrawing_CustomFilter = 128
-#PB_2DDrawing_AllChannels  = 256
+#PB_2DDrawing_Default      = 0
+#PB_2DDrawing_Transparent  = 1 << 0
+#PB_2DDrawing_XOr          = 1 << 1
+#PB_2DDrawing_Outlined     = 1 << 2
+#PB_2DDrawing_AlphaChannel = 1 << 3
+#PB_2DDrawing_AlphaBlend   = 1 << 4
+#PB_2DDrawing_AlphaClip    = 1 << 5
+#PB_2DDrawing_Gradient     = 1 << 6
+#PB_2DDrawing_CustomFilter = 1 << 7
+#PB_2DDrawing_AllChannels  = 1 << 8
+#PB_2DDrawing_NativeText   = 1 << 9
 
 #PB_PixelFormat_8Bits      = 1 << 0
 #PB_PixelFormat_15Bits     = 1 << 1
@@ -293,6 +317,7 @@ EndStructure
 #PB_Cipher_ECB       = 1 << 3 ; Used by AES
 #PB_Cipher_URL       = 1 << 4 ; Used by Base64Encoder
 #PB_Cipher_NoPadding = 1 << 5 ; Used by Base64Encoder
+#PB_Cipher_HMAC      = 1 << 16
 
 ; Date
 ;
@@ -303,6 +328,9 @@ EndStructure
 #PB_Date_Hour   = 4
 #PB_Date_Minute = 5
 #PB_Date_Second = 6
+
+#PB_Date_LocalTime = 0
+#PB_Date_UTC       = 1
 
 ; Database
 ;
@@ -327,6 +355,18 @@ EndStructure
 ;
 #PB_Event_FirstCustomValue     = 1 << 16
 #PB_EventType_FirstCustomValue = 1 << 18
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_EventType_LeftClick         = 0
+  #PB_EventType_RightClick        = 1
+  #PB_EventType_LeftDoubleClick   = 2
+  #PB_EventType_RightDoubleClick  = 3
+  #PB_EventType_Up                = 4
+  #PB_EventType_Down              = 5
+  #PB_EventType_Resize            = 6
+  #PB_EventType_Refresh           = 7
+  #PB_EventType_ColumnClick       = 8
+CompilerEndIf
 
 ; File library
 ;
@@ -363,7 +403,7 @@ CompilerEndIf
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
   #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
-  
+
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754
   #PB_ImagePlugin_TIFF     = $46464954
@@ -413,7 +453,7 @@ CompilerEndIf
 ;
 Enumeration  ; gadget types
   #PB_GadgetType_Unknown = 0
-  
+
   #PB_GadgetType_Button
   #PB_GadgetType_String
   #PB_GadgetType_Text
@@ -448,6 +488,7 @@ Enumeration  ; gadget types
   #PB_GadgetType_Shortcut
   #PB_GadgetType_Canvas
   #PB_GadgetType_OpenGL
+  #PB_GadgetType_WebView
 EndEnumeration
 
 ; for SetGadgetState
@@ -464,31 +505,58 @@ EndEnumeration
 #PB_Checkbox_Unchecked = 0
 #PB_Checkbox_Inbetween = -1
 
-#PB_ListIcon_DisplayMode  = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_DisplayMode  = 2
+CompilerEndIf
+
 #PB_ListIcon_ColumnCount = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ClickedColumn = 4
+CompilerEndIf
 
-#PB_ListIcon_LargeIcon = 0
-#PB_ListIcon_SmallIcon = 1
-#PB_ListIcon_List      = 2
-#PB_ListIcon_Report    = 3
+; Gadget attributes
+#PB_ListIcon_ColumnWidth = 1
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ColumnAlignment = 5
+CompilerEndIf
+  
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Left   = 0
+  #PB_ListIcon_Right  = 1
+  #PB_ListIcon_Center = 2
+CompilerEndIf
 
-; keep in sync with the listicon ones
-#PB_Explorer_DisplayMode  = 2
+; Item attributes
+#PB_ListIcon_Selected  = 1
+#PB_ListIcon_Checked   = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_Inbetween = 4
+CompilerEndIf
 
-#PB_Explorer_LargeIcon = 0
-#PB_Explorer_SmallIcon = 1
-#PB_Explorer_List      = 2
-#PB_Explorer_Report    = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_LargeIcon = 0
+  #PB_ListIcon_SmallIcon = 1
+  #PB_ListIcon_List      = 2
+  #PB_ListIcon_Report    = 3
+
+  ; keep in sync with the listicon ones
+  #PB_Explorer_DisplayMode  = 2
+
+  #PB_Explorer_LargeIcon = 0
+  #PB_Explorer_SmallIcon = 1
+  #PB_Explorer_List      = 2
+  #PB_Explorer_Report    = 3
+CompilerEndIf
 
 ; String attributes
 ;
 #PB_String_MaximumLength = 1
 
 ; WebGadget constants are common on all OS
-#PB_Web_Back = $1
-#PB_Web_Forward = $2
-#PB_Web_Refresh = $4
-#PB_Web_Stop = $3
+#PB_Web_Back    = 1
+#PB_Web_Forward = 2
+#PB_Web_Stop    = 3
+#PB_Web_Refresh = 4
 
 ; for Get/SetGadgetItemText()
 ;
@@ -507,7 +575,21 @@ EndEnumeration
 #PB_Web_Busy               = 6 ; check if the Gadget is busy loading/rendering (readonly)
 #PB_Web_ScrollX            = 7 ; get/set the X scroll position
 #PB_Web_ScrollY            = 8 ; get/set the Y scroll position
+#PB_Web_ICoreController    = 10; get the ICoreWebView2Controller interface (Windows only)
 
+; Flags
+#PB_Web_Edge = 1 << 0
+
+
+; WebViewGadget constants
+
+; Flags
+#PB_WebView_Debug = 1
+
+; SetGadgetItemText()
+#PB_WebView_HtmlCode = 1  ; readonly
+
+#PB_WebView_ICoreController = #PB_Web_ICoreController
 
 ; CanvasGadget/OpenGLGadget
 ;
@@ -725,6 +807,8 @@ EndEnumeration
 
 #PB_Mail_Asynchronous = 1 << 0
 #PB_Mail_UseSSL       = 1 << 1
+#PB_Mail_UseSMTPS     = 1 << 2
+#PB_Mail_Debug        = 1 << 3
 
 ; Map Library
 ;
@@ -734,10 +818,12 @@ EndEnumeration
 ; Memory library
 ;
 #PB_Memory_NoClear = 1
+#PB_Memory_FollowPointers = (1 << 8)
 
 ; Menu library
 ;
-#PB_Menu_ModernLook = 1
+#PB_Menu_ModernLook  = (1 << 0)
+#PB_Menu_SysTrayLook = (1 << 2)
 
 ; Network
 ;
@@ -862,6 +948,7 @@ CompilerEndIf
 ;
 #PB_Preference_NoSpace        = 1 << 0
 #PB_Preference_GroupSeparator = 1 << 1
+#PB_Preference_NoBOM          = 1 << 2
 
 ; Screen library
 ;
@@ -900,7 +987,7 @@ CompilerEndIf
 #PB_System_TotalSwap     = 4
 #PB_System_FreeSwap      = 5
 #PB_System_PageSize      = 6
- 
+
 
 ; Sound library
 ;
@@ -981,6 +1068,10 @@ CompilerEndIf
 #PB_Sort_Descending = 1
 #PB_Sort_NoCase     = 2
 
+#PB_Sort_Greater = 1
+#PB_Sort_Equal   = 0
+#PB_Sort_Lesser  = -1
+
 ; String library
 ;
 #PB_String_CaseSensitive = 0
@@ -988,6 +1079,7 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_String_InPlace = 2
+  #PB_String_NoCaseAscii = 3
 CompilerEndIf
 
 #PB_String_Equal   = 0
@@ -998,6 +1090,7 @@ CompilerEndIf
 
 #PB_String_EscapeInternal = 0
 #PB_String_EscapeXML      = 1
+#PB_String_EscapeJSON     = 2
 
 ; System library
 ;
@@ -1040,7 +1133,7 @@ CompilerEndIf
 
 #PB_XML_CutSpace        = (1 << 5)
 #PB_XML_ReduceSpace     = (1 << 6)
- 
+
 #PB_XML_ReFormat        = (1 << 7)
 #PB_XML_ReIndent        = (1 << 8)
 
@@ -1058,7 +1151,7 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
     #PB_XML_Success
     #PB_XML_Error
   EndEnumeration
-  
+
 CompilerElse
 
   ; Return values for XMLStatus()
@@ -1107,7 +1200,7 @@ CompilerElse
     #PB_XML_ReservedPrefixXMLNS
     #PB_XML_ReservedNamespaceURI
   EndEnumeration
-  
+
 CompilerEndIf
 
 ; VectorDrawing lib
@@ -1233,13 +1326,18 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Engine3D_NoLog       = 0
 #PB_Engine3D_DebugLog    = 1 << 0
 #PB_Engine3D_DebugOutput = 1 << 1
-#PB_Engine3D_EnableCG    = 1 << 2
 
 ; Rotations type
-#PB_Orientation_PitchYawRoll = 1 << 7
-#PB_Orientation_Quaternion   = 1 << 8
-#PB_Orientation_Direction    = 1 << 9
-
+#PB_Orientation_PitchYawRoll   = 1 << 7
+#PB_Orientation_Quaternion     = 1 << 8
+#PB_Orientation_AngleAxis      = 1 << 9
+#PB_Orientation_DirectionLDVX  = 1 << 10
+#PB_Orientation_DirectionLDVY  = 1 << 11
+#PB_Orientation_DirectionLDVZ  = 1 << 12
+#PB_Orientation_DirectionLDVXN = 1 << 13
+#PB_Orientation_DirectionLDVYN = 1 << 14
+#PB_Orientation_DirectionLDVZN = 1 << 15
+#PB_Orientation_Direction      = #PB_Orientation_DirectionLDVZN
 
 #PB_Shadow_None            = 0
 #PB_Shadow_Modulative      = 1
@@ -1426,6 +1524,12 @@ EndEnumeration
 #PB_Material_Modulate   = 2
 #PB_Material_AlphaBlend = 3
 #PB_Material_Color      = 4
+#PB_Material_ModulateX2 = 7
+#PB_Material_ModulateX4 = 8
+#PB_Material_AddSigned  = 10
+#PB_Material_Substract  = 12
+#PB_Material_BlendDiffuseAlpha = 13
+#PB_Material_BlendCurrentAlpha = 15
 
 #PB_Material_None        = 0
 #PB_Material_Bilinear    = 1
@@ -1445,10 +1549,10 @@ EndEnumeration
 #PB_Material_AmbientColors = -1
 
 ; Colors
-#PB_Material_DiffuseColor  = 0
-#PB_Material_SpecularColor = 1
-#PB_Material_AmbientColor  = 2
-#PB_Material_SelfIlluminationColor = 3
+#PB_Material_AmbientColor  = 1 << 0
+#PB_Material_DiffuseColor  = 1 << 1
+#PB_Material_SpecularColor = 1 << 2
+#PB_Material_SelfIlluminationColor = 1 << 3
 
 ; Atttributes
 #PB_Material_Shininess      = 0
@@ -1466,6 +1570,8 @@ EndEnumeration
 #PB_Material_ProjectiveTexturing = 16
 #PB_Material_AlphaReject    = 17
 #PB_Material_TAM            = 20
+#PB_Material_PointSprite    = 21
+#PB_Material_DepthBias      = 22
 
 ; #PB_Material_EnvironmentMap values
 #PB_Material_NoMap         = -1
@@ -1479,14 +1585,174 @@ EndEnumeration
 #PB_Material_MirrorTAM = 1
 #PB_Material_ClampTAM  = 2
 #PB_Material_BorderTAM = 3
-            
+
 #PB_Material_NoCulling         = 1
 #PB_Material_ClockWiseCull     = 2
 #PB_Material_AntiClockWiseCull = 3
 
+;
+Enumeration
+  #PB_Material_ColorShader = $10000
+  #PB_Material_PerpixelShader
+  #PB_Material_BumpShader
+  #PB_Material_SkyShader
+  #PB_Material_WaterShader
+  #PB_Material_WaterShaderRTT
+  #PB_Material_OceanShader
+  #PB_Material_PointSpriteSphereShader
+  #PB_Material_CubicEnvShader
+  #PB_Material_CubicEnvBumpShader
+EndEnumeration
+
+; Shader type
+;
+#PB_Shader_Vertex   = 0
+#PB_Shader_Fragment = 1
+
+; Shader Parameter
+;
+#PB_Shader_Integer = 0
+#PB_Shader_Float   = 1
+#PB_Shader_Vector3 = 3
+#PB_Shader_Vector4 = 4
+
+; Shader Auto Parameter
+;
+Enumeration
+  #PB_Shader_WorldMatrix
+  #PB_Shader_InverseWorldMatrix
+  #PB_Shader_TransposeWorldMatrix
+  #PB_Shader_InverseTransposeWorldMatrix
+  #PB_Shader_WorldMatrixArray3x4
+  #PB_Shader_WorldMatrixArray
+  #PB_Shader_WorldDualquaternionArray2x4
+  #PB_Shader_WorldScaleShearMatrixArray3x4
+  #PB_Shader_ViewMatrix
+  #PB_Shader_InverseViewMatrix
+  #PB_Shader_TransposeViewMatrix
+  #PB_Shader_InverseTransposeViewMatrix
+  #PB_Shader_ProjectionMatrix
+  #PB_Shader_InverseProjectionMatrix
+  #PB_Shader_TransposeProjectionMatrix
+  #PB_Shader_InverseTransposeProjectionMatrix
+  #PB_Shader_ViewprojMatrix
+  #PB_Shader_InverseViewprojMatrix
+  #PB_Shader_TransposeViewprojMatrix
+  #PB_Shader_InverseTransposeViewprojMatrix
+  #PB_Shader_WorldviewMatrix
+  #PB_Shader_InverseWorldviewMatrix
+  #PB_Shader_TransposeWorldviewMatrix
+  #PB_Shader_InverseTransposeWorldviewMatrix
+  #PB_Shader_WorldviewprojMatrix
+  #PB_Shader_InverseWorldviewprojMatrix
+  #PB_Shader_TransposeWorldviewprojMatrix
+  #PB_Shader_InverseTransposeWorldviewprojMatrix
+  #PB_Shader_RenderTargetFlipping
+  #PB_Shader_VertexWinding
+  #PB_Shader_FogColour
+  #PB_Shader_FogParams
+  #PB_Shader_SurfaceAmbientColour
+  #PB_Shader_SurfaceDiffuseColour
+  #PB_Shader_SurfaceSpecularColour
+  #PB_Shader_SurfaceEmissiveColour
+  #PB_Shader_SurfaceShininess
+  #PB_Shader_LightCount
+  #PB_Shader_AmbientLightColour
+  #PB_Shader_LightDiffuseColour
+  #PB_Shader_LightSpecularColour
+  #PB_Shader_LightAttenuation
+  #PB_Shader_SpotlightParams
+  #PB_Shader_LightPosition
+  #PB_Shader_LightPositionObjectSpace
+  #PB_Shader_LightPositionViewSpace
+  #PB_Shader_LightDirection
+  #PB_Shader_LightDirectionObjectSpace
+  #PB_Shader_LightDirectionViewSpace
+  #PB_Shader_LightDistanceObjectSpace
+  #PB_Shader_LightPowerScale
+  #PB_Shader_LightDiffuseColourPowerScaled
+  #PB_Shader_LightSpecularColourPowerScaled
+  #PB_Shader_LightDiffuseColourArray
+  #PB_Shader_LightSpecularColourArray
+  #PB_Shader_LightDiffuseColourPowerScaledArray
+  #PB_Shader_LightSpecularColourPowerScaledArray
+  #PB_Shader_LightAttenuationArray
+  #PB_Shader_LightPositionArray
+  #PB_Shader_LightPositionObjectSpaceArray
+  #PB_Shader_LightPositionViewSpaceArray
+  #PB_Shader_LightDirectionArray
+  #PB_Shader_LightDirectionObjectSpaceArray
+  #PB_Shader_LightDirectionViewSpaceArray
+  #PB_Shader_LightDistanceObjectSpaceArray
+  #PB_Shader_LightPowerScaleArray
+  #PB_Shader_SpotlightParamsArray
+  #PB_Shader_DerivedAmbientLightColour
+  #PB_Shader_DerivedSceneColour
+  #PB_Shader_DerivedLightDiffuseColour
+  #PB_Shader_DerivedLightSpecularColour
+  #PB_Shader_DerivedLightDiffuseColourArray
+  #PB_Shader_DerivedLightSpecularColourArray
+  #PB_Shader_LightNumber
+  #PB_Shader_LightCastsShadows
+  #PB_Shader_ShadowExtrusionDistance
+  #PB_Shader_CameraPosition
+  #PB_Shader_CameraPositionObjectSpace
+  #PB_Shader_TextureViewprojMatrix
+  #PB_Shader_TextureViewprojMatrixArray
+  #PB_Shader_TextureWorldviewprojMatrix
+  #PB_Shader_TextureWorldviewprojMatrixArray
+  #PB_Shader_SpotlightViewprojMatrix
+  #PB_Shader_SpotlightViewprojMatrixArray
+  #PB_Shader_SpotlightWorldviewprojMatrix
+  #PB_Shader_Custom
+  #PB_Shader_Time
+  #PB_Shader_Time0X
+  #PB_Shader_Costime0X
+  #PB_Shader_Sintime0X
+  #PB_Shader_Tantime0X
+  #PB_Shader_Time0XPacked
+  #PB_Shader_Time01
+  #PB_Shader_Costime01
+  #PB_Shader_Sintime01
+  #PB_Shader_Tantime01
+  #PB_Shader_Time01Packed
+  #PB_Shader_Time02pi
+  #PB_Shader_Costime02pi
+  #PB_Shader_Sintime02pi
+  #PB_Shader_Tantime02pi
+  #PB_Shader_Time02piPacked
+  #PB_Shader_FrameTime
+  #PB_Shader_Fps
+  #PB_Shader_ViewportWidth
+  #PB_Shader_ViewportHeight
+  #PB_Shader_InverseViewportWidth
+  #PB_Shader_InverseViewportHeight
+  #PB_Shader_ViewportSize
+  #PB_Shader_ViewDirection
+  #PB_Shader_ViewSideVector
+  #PB_Shader_ViewUpVector
+  #PB_Shader_Fov
+  #PB_Shader_NearClipDistance
+  #PB_Shader_FarClipDistance
+  #PB_Shader_PassNumber
+  #PB_Shader_PassIterationNumber
+  #PB_Shader_AnimationParametric
+  #PB_Shader_TexelOffsets
+  #PB_Shader_SceneDepthRange
+  #PB_Shader_ShadowSceneDepthRange
+  #PB_Shader_ShadowColour
+  #PB_Shader_TextureSize
+  #PB_Shader_InverseTextureSize
+  #PB_Shader_PackedTextureSize
+  #PB_Shader_TextureMatrix
+  #PB_Shader_LodCameraPosition
+  #PB_Shader_LodCameraPositionObjectSpace
+  #PB_Shader_LightCustom
+EndEnumeration
+
 ; Mesh
 ;
-Structure PB_MeshVertex
+Structure MeshVertex
   x.f
   y.f
   z.f
@@ -1501,7 +1767,7 @@ Structure PB_MeshVertex
   Color.l
 EndStructure
 
-Structure PB_MeshFace
+Structure MeshFace
   Index.l
 EndStructure
 
@@ -1522,6 +1788,12 @@ EndStructure
 
 #PB_Mesh_Static  = 0
 #PB_Mesh_Dynamic = 1
+
+#PB_Mesh_DiagonalShortestLength = 0
+#PB_Mesh_DiagonalClosestNormal= 1
+#PB_Mesh_DiagonalAlternate= 2
+#PB_Mesh_DiagonalRegular1= 3
+#PB_Mesh_DiagonalRegular2= 4
 
 ; NodeAnimation
 ;
@@ -1633,3 +1905,66 @@ Structure DragDataFormat
 EndStructure
 
 CompilerEndIf
+
+;
+; Unicode specific
+;
+Structure Character
+  c.c
+EndStructure
+
+
+;- special ASCII chars (moved to Unicode.res to have the string ones in unicode!)
+#NUL = 0
+#Empty$ = ""
+#SOH$   = Chr(001)  :  #SOH =   1 ;    (Start of Header)
+#STX$   = Chr(002)  :  #STX =   2 ;    (Start of Text)
+#ETX$   = Chr(003)  :  #ETX =   3 ;    (End of Text)
+#EOT$   = Chr(004)  :  #EOT =   4 ;    (End of Transmission)
+#ENQ$   = Chr(005)  :  #ENQ =   5 ;    (Enquiry)
+#ACK$   = Chr(006)  :  #ACK =   6 ;    (Acknowledgment)
+#BEL$   = Chr(007)  :  #BEL =   7 ;    (Bell)
+#BS$    = Chr(008)  :  #BS  =   8 ;    (Backspace)
+#HT$    = Chr(009)  :  #HT  =   9 ;    (Horizontal Tab)
+#TAB$   = Chr(009)  :  #TAB =   9 ;    (TAB)
+#LF$    = Chr(010)  :  #LF  =  10 ;    (Line Feed)
+#VT$    = Chr(011)  :  #VT  =  11 ;    (Vertical Tab)
+#FF$    = Chr(012)  :  #FF  =  12 ;    (Form Feed)
+#CR$    = Chr(013)  :  #CR  =  13 ;    (Carriage Return)
+#SO$    = Chr(014)  :  #SO  =  14 ;    (Shift Out)
+#SI$    = Chr(015)  :  #SI  =  15 ;    (Shift In)
+#DLE$   = Chr(016)  :  #DLE =  16 ;    (Data Link Escape)
+#DC1$   = Chr(017)  :  #DC1 =  17 ;    (Device Control 1) (XON)
+#DC2$   = Chr(018)  :  #DC2 =  18 ;    (Device Control 2)
+#DC3$   = Chr(019)  :  #DC3 =  19 ;    (Device Control 3) (XOFF)
+#DC4$   = Chr(020)  :  #DC4 =  20 ;    (Device Control 4)
+#NAK$   = Chr(021)  :  #NAK =  21 ;    (Negative Acknowledgement)
+#SYN$   = Chr(022)  :  #SYN =  22 ;    (Synchronous Idle)
+#ETB$   = Chr(023)  :  #ETB =  23 ;    (End of Trans. Block)
+#CAN$   = Chr(024)  :  #CAN =  24 ;    (Cancel)
+#EM$    = Chr(025)  :  #EM  =  25 ;    (End of Medium)
+#SUB$   = Chr(026)  :  #SUB =  26 ;    (Substitute)
+#ESC$   = Chr(027)  :  #ESC =  27 ;    (Escape)
+#FS$    = Chr(028)  :  #FS  =  28 ;    (File Separator)
+#GS$    = Chr(029)  :  #GS  =  29 ;    (Group Separator)
+#RS$    = Chr(030)  :  #RS  =  30 ;    (Request to Send)(Record Separator)
+#US$    = Chr(031)  :  #US  =  31 ;    (Unit Separator)
+#DEL$   = Chr(127)  :  #DEL = 127 ;    (delete)
+#CRLF$  = Chr(13) + Chr(10)
+#LFCR$  = Chr(10) + Chr(13)
+#DOUBLEQUOTE$ = Chr(34)
+#DQUOTE$      = Chr(34)
+
+; Path separator constants
+;
+CompilerIf (#PB_Compiler_OS = #PB_OS_Windows)
+  #PS  = '\'
+  #NPS = '/'
+CompilerElse
+  #PS  = '/'
+  #NPS = '\'
+CompilerEndIf
+
+#PS$  = Chr(#PS)
+#NPS$ = Chr(#NPS)
+

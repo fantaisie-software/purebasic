@@ -11,10 +11,8 @@
 #CameraSpeed = 0.4
 #Speed = 60
 
-Enumeration
-  #MainWindow
-  #Editor
-EndEnumeration
+#MainWindow = 0
+#TextGadget = 0
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -73,7 +71,7 @@ If InitEngine3D()
     RatioX = CameraViewWidth(0) / 1920
     RatioY = CameraViewHeight(0) / 1080
     OpenWindow3D(#MainWindow, 0, 0, 390 * RatioX, 110 * RatioY, "EntityCollide")
-    StringGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 350 * RatioX, 40 * RatioY, "Clic somewhere", #PB_String3D_ReadOnly)
+    TextGadget3D(#TextGadget, 10 * RatioX, 20 * RatioY, 350 * RatioX, 40 * RatioY, "Clic somewhere")
         
     ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
     
@@ -140,7 +138,6 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

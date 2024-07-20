@@ -1,42 +1,41 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; linux specific file:
 CompilerIf #CompileLinux
   
+  Structure XClientMessageEvent
+    type.l        ; int
+    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+      alignment1.l
+    CompilerEndIf
+    serial.i      ; unsigned long    /* # of last request processed by server */
+    send_event.l  ; Bool (=int)    /* true if this came from a SendEvent request */
+    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+      alignment2.l
+    CompilerEndIf
+    *display      ; pointer  /* Display the event was read from */
+    window.i      ; Window (= pointer)
+    message_type.i; Atom (= pointer)
+    format.l      ; int
+    CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+      alignment3.l
+    CompilerEndIf
+    StructureUnion
+      b.b[20]      ; char
+      s.w[10]      ; short
+      l.i[5]       ; long is 64bit on Linux64!
+    EndStructureUnion
+  EndStructure
+  
   Global AlreadyRunning
   
   Procedure OSStartupCode()
     Shared DetectedGUITerminal$, GUITerminalParameters$ ; for the debugger
-    
-    ; Set the default Path Values
-    ;
-    ;  *home = getenv_("HOME")
-    ;  If *home
-    ;    Home$ = PeekS(*home)
-    ;    If Right(Home$, 1) <> #Separator
-    ;      Home$ + #Separator
-    ;    EndIf
-    ;  Else
-    ;    Home$ = ""
-    ;  EndIf
-    ;
-    ;  If PureBasicPath$ = "" ; Only change if not set by commandline
-    ;    *directory = getenv_("PUREBASIC_HOME")
-    ;    If *directory
-    ;      PureBasicPath$ = PeekS(*directory)
-    ;      If Right(PureBasicPath$, 1) <> #Separator
-    ;        PureBasicPath$ + #Separator
-    ;      EndIf
-    ;    Else
-    ;      PureBasicPath$ = "/usr/share/purebasic/"
-    ;    EndIf
-    ;
-    ;  EndIf
     
     Home$ = GetEnvironmentVariable("HOME")
     If Right(Home$, 1) <> #Separator
@@ -81,10 +80,11 @@ CompilerIf #CompileLinux
       PureBasicPath$ + #Separator
     EndIf
     
-    
-    If FindString(PureBasicPath$, "\ ", 1) = 0
-      PureBasicPath$ = ReplaceString(PureBasicPath$, " ", "\ ") ; this is only needed here, to work on the commandline
-    EndIf
+    ; Don't replace space with "\ " as all PureBasic commands like OpenFile() expect a real space.
+    ;
+    ; If FindString(PureBasicPath$, "\ ", 1) = 0
+    ;   PureBasicPath$ = ReplaceString(PureBasicPath$, " ", "\ ") ; this is only needed here, to work on the commandline
+    ; EndIf
     
     TempPath$         = "/tmp/"
     
@@ -123,12 +123,6 @@ CompilerIf #CompileLinux
     ;Debug "Preferences: "+ PreferencesFile$
     ;Debug "Tools settings: "+AddToolsFile$
     
-    
-    ;   #GDK_SB_H_DOUBLE_ARROW = 108
-    ;   #GDK_SB_V_DOUBLE_ARROW = 116
-    ;   SplitterCursor    = gdk_cursor_new_(#GDK_SB_H_DOUBLE_ARROW)
-    ;   SplitterCursor2   = gdk_cursor_new_(#GDK_SB_V_DOUBLE_ARROW)
-    
     ButtonBackgroundColor = GetButtonBackgroundColor()
     
     
@@ -137,7 +131,7 @@ CompilerIf #CompileLinux
     ; so remove them all
     ;
     If system_(ToAscii("which gnome-terminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
-      GUITerminalParameters$ = "-x "
+      GUITerminalParameters$ = "-- "
       
     ElseIf system_(ToAscii("which konsole > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "
@@ -154,6 +148,9 @@ CompilerIf #CompileLinux
     ElseIf system_(ToAscii("which xterm > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "
       
+    ElseIf system_(ToAscii("which lxterminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
+      GUITerminalParameters$ = " -e "
+    
     Else
       GUITerminalParameters$ = ""
       
@@ -187,7 +184,7 @@ CompilerIf #CompileLinux
   EndProcedure
   
   
-  Declare RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event._GdkEventClient, user_data)
+  Declare RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event.GdkEventClient, user_data)
   
   
   ; determine things like StatusBarHeight once after the GUI is created.
@@ -212,7 +209,9 @@ CompilerIf #CompileLinux
     ; Set up the callback for the RunOnce event
     ; (don't do this in OSStartupCode(), because at this point it is not determined if there is already an editor Window)
     ;
-    gdk_add_client_message_filter_(gdk_atom_intern_("PureBasic_RunOnceSignal", 0), @RunOnce_MessageFilter(), 0)
+    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3
+      gdk_add_client_message_filter_(gdk_atom_intern_("PureBasic_RunOnceSignal", 0), @RunOnce_MessageFilter(), 0)
+    CompilerEndIf
     
   EndProcedure
   
@@ -274,7 +273,7 @@ CompilerIf #CompileLinux
     ;ResizeMainWindow()
   EndProcedure
   
-  ProcedureC RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event._GdkEventClient, user_data)
+  ProcedureC RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event.GdkEventClient, user_data)
     Static LastEventSender
     
     If Editor_RunOnce
@@ -346,13 +345,15 @@ CompilerIf #CompileLinux
   
   Procedure EmitRunOnceSignal()
     
-    Event._GdkEventClient
-    Event\type         = #GDK_CLIENT_EVENT
-    Event\send_event   = 1
-    Event\message_type = gdk_atom_intern_("PureBasic_RunOnceSignal", 0)
-    Event\data_format  = 32
-    Event\l[0]         = getpid_() ; identify the sender, to filter out multiple arriving signals
-    gdk_event_send_clientmessage_toall_(@Event)
+    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3
+      Event.GdkEventClient
+      Event\type         = #GDK_CLIENT_EVENT
+      Event\send_event   = 1
+      Event\message_type = gdk_atom_intern_("PureBasic_RunOnceSignal", 0)
+      Event\data_format  = 32
+      Event\l[0]         = getpid_() ; identify the sender, to filter out multiple arriving signals
+      gdk_event_send_clientmessage_toall_(@Event)
+    CompilerEndIf
     
   EndProcedure
   
@@ -420,7 +421,7 @@ CompilerIf #CompileLinux
   EndProcedure
   
   
-  ProcedureC AutoComplete_TabHandler(*Widget, *Event._GdkEventKey, user_data)
+  ProcedureC AutoComplete_TabHandler(*Widget, *Event.GdkEventKey, user_data)
     
     If AutoCompleteWindowOpen
       Accelerators = g_object_get_data_(gtk_widget_get_toplevel_(*Widget), "pb_accelerators")
@@ -504,5 +505,8 @@ CompilerIf #CompileLinux
     EndIf
   EndProcedure
   
+  Procedure IsScreenReaderActive()
+    ProcedureReturn #False
+  EndProcedure
   
 CompilerEndIf

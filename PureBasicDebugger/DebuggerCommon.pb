@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ;- Debugging options
@@ -390,8 +390,8 @@ Macro IS_UNICODE(type)    : (((type) & #TYPEMASK) = #TYPE_UNICODE):     EndMacro
 ; -> Now 9 (changes for array, list, map in structure)
 ; -> Now 10 (changes for module support)
 ; -> Now 11 (changes for better module context when evaluating expressions)
-#DEBUGGER_Version  = 11
-
+; -> Now 12 (changes to support more included file in debugger (up to 8192))
+#DEBUGGER_Version  = 12
 
 ; size of the stack for pending commands
 ; (a protection against overflow is in place)
@@ -402,6 +402,23 @@ Macro IS_UNICODE(type)    : (((type) & #TYPEMASK) = #TYPE_UNICODE):     EndMacro
 ; (currently 36 on POWERPC)
 ;
 #MAX_REGISTERS = 36
+
+
+; Helpers to get the line and the file from the debugger line (which includes both)
+;
+#DEBUGGER_DebuggerLineFileOffset = 20
+
+Macro DebuggerLineGetLine(a)
+  ((a) & ((1 << #DEBUGGER_DebuggerLineFileOffset)-1))
+EndMacro
+
+Macro DebuggerLineGetFile(a)
+  (((a) >> #DEBUGGER_DebuggerLineFileOffset) & ((1 << (32-#DEBUGGER_DebuggerLineFileOffset))-1))
+EndMacro
+
+Macro MakeDebuggerLine(File, Line)
+  ((File << #DEBUGGER_DebuggerLineFileOffset) | Line)
+EndMacro
 
 ;- Communication interface
 
@@ -933,6 +950,9 @@ Global AutoOpenPurifier
 
 Global EnableMenuIcons ; from IDE settings (for profiler popup menu)
 
+CompilerIf #SpiderBasic
+  Global *WebViewDebugger.DebuggerData
+CompilerEndIf
 
 
 Global NewList RunningDebuggers.DebuggerData()
@@ -1031,3 +1051,5 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant) = 0 ; only define if it is the s
   #FILE_LoadFunctions = 0
   #FILE_LoadAPI = 1
 CompilerEndIf
+
+

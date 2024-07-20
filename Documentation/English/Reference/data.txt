@@ -29,10 +29,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumericData:
+    Data.w 120, 250, 645 ; 3 'word' sized numbers
   EndDataSection
 @EndCode
 
@@ -55,10 +54,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumericData:
+    Data.w 0, 1, 2
   EndDataSection
 @EndCode
 
@@ -81,8 +79,11 @@
 @Example
 
 @Code
-  Data.l 100, 200, -250, -452, 145
-  Data.s "Hello", "This", "is ", "What ?"
+  DataSection
+    MixedData:
+    Data.l 100, 200, -250, -452, 145
+    Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
 @EndCode
 
 For advanced programmers: it's also possible to put a @ReferenceLink "procedures" "procedure" @ReferenceLink "memory" "address"
@@ -99,6 +100,7 @@ This can be used to build easy virtual function tables for example.
   Label:
     
   DataSection
+    MixedData:
     Data.i ?Label, @Max()
   EndDataSection
 @EndCode

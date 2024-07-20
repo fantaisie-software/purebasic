@@ -40,7 +40,7 @@ Import "uxtheme.lib"
        Api(GetThemeTextExtent, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9), 36)
        Api(GetThemeTextMetrics, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(GetWindowTheme, (arg1), 4)
-       Api(HitTestThemeBackground, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10), 40)
+       Api(HitTestThemeBackground, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, pt.q, arg9), 40)
        Api(IsAppThemed, (), 0)
        Api(IsThemeActive, (), 0)
        Api(IsThemeBackgroundPartiallyTransparent, (arg1, arg2, arg3), 12)

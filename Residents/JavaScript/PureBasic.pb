@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;
 ; SpiderBasic resident
 ;
@@ -29,6 +29,12 @@ IncludeFile "../Common.pb"
 #PB_Status_Saved = 3
 
 #PB_File_Streaming = 1 << 0
+
+; #PB_Compiler_App constants
+;
+#PB_App_Web = 0
+#PB_App_Android = 1
+#PB_App_IOS = 2
 
 ; In app purchase
 ;
@@ -157,6 +163,8 @@ IncludeFile "../Common.pb"
 #PB_Event_LoadingError     = 19
 #PB_Event_RequesterOK      = 20
 #PB_Event_SizeDesktop      = 21
+#PB_Event_WebSocket        = 22
+#PB_Event_Mobile           = 23
 
 ; Loading type
 ;
@@ -187,9 +195,11 @@ IncludeFile "../Common.pb"
 #PB_EventType_Focus             = 7
 #PB_EventType_LostFocus         = 8
 #PB_EventType_Change            = 9
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
+#PB_EventType_Connected         = 10
+#PB_EventType_Closed            = 11
+#PB_EventType_Data              = 12
+#PB_EventType_String            = 13
+#PB_EventType_Error             = 14
 
 ; Window flags
 ;
@@ -208,6 +218,7 @@ IncludeFile "../Common.pb"
 #PB_Window_NoActivate     = 1 << 11
 #PB_Window_Background     = 1 << 12
 #PB_Window_AllowSelection = 1 << 13
+#PB_Window_NoMove         = 1 << 14
 
 ; For WindowX/Y/Width/Height()
 ;
@@ -241,6 +252,12 @@ IncludeFile "../Common.pb"
 ;
 #PB_Script_JavaScript = 0
 #PB_Script_CSS = 1
+
+; SplashScreenControl()
+;
+#PB_SplashScreen_Close = 0
+#PB_SplashScreen_NoAutoClose = 1
+#PB_SplashScreen_AutoClose = 2
 
 ; Used by Get/SetFileDate() and DirectoryEntryDate()
 ;
@@ -348,11 +365,6 @@ IncludeFile "../Common.pb"
 #PB_Frame_Double   = 1
 #PB_Frame_Single   = 2
 #PB_Frame_Flat     = 3
-
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-
-#PB_ListIcon_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
@@ -721,4 +733,92 @@ IncludeFile "../Common.pb"
 #PB_Shortcut_F11 = 211
 #PB_Shortcut_F12 = 212
 
-XIncludeFile "../CommonUnicode.pb"
+; Shader
+;
+#PB_Shader_Blur     = 0
+#PB_Shader_Noise    = 1
+#PB_Shader_Pixelate = 2
+#PB_Shader_Bevel    = 4
+#PB_Shader_BulgePinch = 5
+#PB_Shader_Reflection = 7
+#PB_Shader_Adjustment = 8
+
+#PB_PixelateShader_SizeX = 1
+#PB_PixelateShader_SizeY = 2
+
+#PB_NoiseShader_Seed = 3
+#PB_NoiseShader_Intensity = 4
+
+#PB_BlurShader_Intensity = 5
+#PB_BlurShader_Quality = 6
+
+#PB_BulgePinchShader_Strength = 7
+#PB_BulgePinchShader_CenterX = 8
+#PB_BulgePinchShader_CenterY = 9
+#PB_BulgePinchShader_Radius = 10
+
+#PB_BevelShader_Thickness = 12
+#PB_BevelShader_Rotation = 13
+#PB_BevelShader_LightColor = 14
+#PB_BevelShader_ShadowColor = 15
+
+#PB_ReflectionShader_AlphaStart = 16
+#PB_ReflectionShader_AlphaEnd = 17
+#PB_ReflectionShader_Boundary = 18
+#PB_ReflectionShader_AmplitudeStart = 19
+#PB_ReflectionShader_AmplitudeEnd = 20
+#PB_ReflectionShader_WaveLengthStart = 21
+#PB_ReflectionShader_WaveLengthEnd = 22
+#PB_ReflectionShader_Mirror = 23
+#PB_ReflectionShader_Time = 32
+
+#PB_AdjustmentShader_Alpha = 24
+#PB_AdjustmentShader_Gamma = 25
+#PB_AdjustmentShader_Saturation = 26
+#PB_AdjustmentShader_Contrast = 27
+#PB_AdjustmentShader_Brightness = 28
+#PB_AdjustmentShader_Red = 29
+#PB_AdjustmentShader_Green = 30
+#PB_AdjustmentShader_Blue = 31
+
+; Mobile
+;
+#PB_Mobile_Container = 1 << 0
+#PB_Mobile_Left      = 1 << 1
+#PB_Mobile_Right     = 1 << 2
+#PB_Mobile_Center    = 1 << 3
+#PB_Mobile_Search    = 1 << 4
+#PB_Mobile_Password  = 1 << 5
+#PB_Mobile_Numeric   = 1 << 6
+#PB_Mobile_Tappable  = 1 << 7
+#PB_Mobile_Chevron     = 1 << 8
+#PB_Mobile_NoDivider   = 1 << 9
+#PB_Mobile_LongDivider = 1 << 10
+#PB_Mobile_Header      = 1 << 11
+#PB_Mobile_Expandable  = 1 << 12
+#PB_Mobile_Swipeable   = 1 << 13
+#PB_Mobile_Icon        = 1 << 14
+#PB_Mobile_Circular    = 1 << 15
+#PB_Mobile_Indeterminate = 1 << 16
+#PB_Mobile_BackButton = 1 << 17
+
+#PB_Mobile_InSet   = 1
+
+#PB_Mobile_Page    = 0
+#PB_Mobile_Section = 1
+#PB_Mobile_Row = 2
+#PB_Mobile_Template = 3
+#PB_Mobile_Dialog = 4
+#PB_Mobile_PopOver = 5
+
+#PB_Mobile_Push = 1
+#PB_Mobile_Pop = 0
+
+#PB_Mobile_Auto = 0
+#PB_Mobile_Android = 1
+#PB_Mobile_iOS = 2
+
+#PB_Mobile_TabLabel = "label"
+#PB_Mobile_TabIcon  = "icon"
+#PB_Mobile_TabActiveIcon = "active-icon"
+#PB_Mobile_TabBadge = "badge"

@@ -1,7 +1,7 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library File
@@ -28,6 +28,7 @@
 @CommandList
 
 @ExampleFile All File.pb
+@ExampleFile All FileSearch.pb
 
 @SupportedOS
 
@@ -78,14 +79,14 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
-  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
-  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
+  @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
+  @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
-  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -217,24 +218,24 @@
 
 @Example
 @Code
-
-  file$ = OpenFileRequester("Select a file","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
-  If file$
-    If ReadFile(0, file$)
-      length = Lof(0)                       ; read length of file
-      FileSeek(0, length - 10)              ; set the file pointer 10 chars from end of file
-      Debug "Position: " + Str(Loc(0))      ; show actual file pointer position
-      *MemoryID = AllocateMemory(10)        ; allocate the needed memory for 10 bytes
-      If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; read the last 10 chars in the file
-        Debug PeekS(*MemoryID)
-      EndIf
+  File$ = OpenFileRequester("Select a file","","All files (*.*)|*.*",0)
+  If File$
+    If ReadFile(0, File$)
+      
+      ; Read length of file
+      Length = Lof(0)                       
+      Debug "File length: "+FormatNumber(Length, 0)+" bytes"
+          
+      ; Set the file pointer 10 bytes from end of file
+      FileSeek(0, Length - 10)                                
+      Debug "Position after seek: "+FormatNumber(Loc(0), 0)
+      
       CloseFile(0)
+    Else
+      Debug "Can't read the file: "+File$
     EndIf
   EndIf
-
-@EndCode
-
+@EndCode  
 @SeeAlso
   @@Loc, @@Lof
 
@@ -359,7 +360,7 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_File_SharedRead : the opened file can be read by another process (Windows only).
-  @#PB_File_SharedWrite: the opened file can be write by another process (Windows only).
+  @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
   @#PB_File_Append     : the file pointer position will be set at the end of file.
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
@@ -367,7 +368,7 @@
   combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
 @FixedFont
-  @#PB_Ascii  : all read/write string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read/write string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read/write string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read/write string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -428,20 +429,20 @@
 @Function Number.a = ReadAsciiCharacter(#File)
 
 @Description
-  Read an ascii character (1 byte) from a file.
+  Read an ASCII character (1 byte) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
 
 @ReturnValue
-  Returns the read ascii character or zero if there was an error.
+  Returns the read ASCII character or zero if there was an error.
 
 @Remarks
   For an example of how to read from a file, see the @@ReadFile function - with
-  ReadAsciiCharacter() only a ascii character is read, instead of a complete line (string).
+  ReadAsciiCharacter() only an ASCII character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -450,7 +451,7 @@
 @Function Number.b = ReadByte(#File)
 
 @Description
-  Read a byte (1 byte) from a file.
+  Read a byte (1 byte) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -463,7 +464,7 @@
   ReadByte() only a byte value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteByte, @@OpenFile, @@ReadFile
+  @@WriteByte, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -472,8 +473,7 @@
 @Function Result.c = ReadCharacter(#File [, Format])
 
 @Description
-
-  Read a character from a file.
+  Read a character from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -485,6 +485,8 @@
   @#PB_Unicode: 2 bytes character (default in @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
 @EndFixedFont
+  If this flag isn't set, then the format for reading the character depends on the related setting at
+  the previously used @@CreateFile, @@OpenFile or @@ReadFile command.
 
 @ReturnValue
   Returns the read character or zero if there was an error.
@@ -494,7 +496,7 @@
   ReadCharacter() only a character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -503,7 +505,7 @@
 @Function Number.d = ReadDouble(#File)
 
 @Description
-  Read a double (8 bytes) from a file.
+  Read a double (8 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -516,7 +518,7 @@
   ReadDouble() only a double value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteDouble, @@OpenFile, @@ReadFile
+  @@WriteDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -538,16 +540,17 @@
 @OptionalParameter "Flags"
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
-  @#PB_File_SharedRead : if the file has been already opened by another process for read operation,
+  @#PB_File_SharedRead : if the file has been already opened by another process or thread for read operation,
                         this flag is needed to access it (Windows only).
-  @#PB_File_SharedWrite: if the file has been already opened by another process for write operation,
+  @#PB_File_SharedWrite: if the file has been already opened by another process or thread for write operation,
                         this flag is needed to access it (Windows only).
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
 @EndFixedFont
-  combined with one of the following values (the following flags affect the @@ReadString and @@ReadCharacter behaviour):
+  combined with one of the following values (the following flags affect the behaviour of @@ReadString
+  and @@ReadCharacter):
 @FixedFont
-  @#PB_Ascii  : all read string operation will use ascii if not specified otherwise.
+  @#PB_Ascii  : all read string operation will use ASCII if not specified otherwise.
   @#PB_UTF8   : all read string operation will use UTF-8 if not specified otherwise (default).
   @#PB_Unicode: all read string operation will use Unicode if not specified otherwise.
 @EndFixedFont
@@ -562,16 +565,15 @@
 
 @Example
 @Code
-
-  If ReadFile(0, "Text.txt")   ; if the file could be read, we continue...
-    While Eof(0) = 0           ; loop as long the 'end of file' isn't reached
-      Debug ReadString(0)      ; display line by line in the debug window
+  If ReadFile(0, "Text.txt")        ; if the file could be read, we continue ...
+    Format = ReadStringFormat(0)
+    While Eof(0) = 0                ; loop as long the 'end of file' isn't reached
+      Debug ReadString(0, Format)   ; display line by line in the debug window
     Wend
-    CloseFile(0)               ; close the previously opened file
+    CloseFile(0)                    ; close the previously opened file
   Else
-    MessageRequester("Information","Couldn't open the file!")
+    MessageRequester("Information", "Couldn't open the file!")
   EndIf
-
 @EndCode
 
 @SeeAlso
@@ -584,7 +586,7 @@
 @Function Number.f = ReadFloat(#File)
 
 @Description
-  Read a float (4 bytes) from a file.
+  Read a float (4 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -597,7 +599,7 @@
   ReadFloat() only a float value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile
+  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -606,7 +608,7 @@
 @Function Number.i = ReadInteger(#File)
 
 @Description
-  Read an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) from a file.
+  Read an integer (4 bytes in 32-bit executable, 8 bytes in 64-bit executable) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -619,7 +621,7 @@
   ReadInteger() only a integer value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteInteger, @@OpenFile, @@ReadFile
+  @@WriteInteger, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -628,7 +630,7 @@
 @Function Number.l = ReadLong(#File)
 
 @Description
-  Read a long (4 bytes) from a file.
+  Read a long (4 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -641,7 +643,7 @@
   ReadLong() only a long value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteLong, @@OpenFile, @@ReadFile
+  @@WriteLong, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -650,7 +652,7 @@
 @Function Number.q = ReadQuad(#File)
 
 @Description
-  Read a quad (8 bytes) from a file.
+  Read a quad (8 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -663,7 +665,7 @@
   ReadQuad() only a quad value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteQuad, @@OpenFile, @@ReadFile
+  @@WriteQuad, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -672,7 +674,7 @@
 @Function Result = ReadData(#File, *MemoryBuffer, LengthToRead)
 
 @Description
-  Read the content from the file to the specified memory buffer.
+  Read the content from the file to the specified memory buffer, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -681,7 +683,7 @@
   The address to write the read data to.
 
 @Parameter "LengthToRead"
-  The number of bytes to read.
+  The number of bytes to read. The maximum length is 2 GB.
 
 @ReturnValue
   Returns the number of bytes actually read from the file. If there is an error,
@@ -691,7 +693,7 @@
   For a code example look at the @@Lof function.
 
 @SeeAlso
-  @@WriteData, @@OpenFile, @@ReadFile
+  @@WriteData, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -718,6 +720,8 @@
   @#PB_File_IgnoreEOL: ignores the end of line (but the resulting string will still contain them) until the specified
                       length or the end of file.
 @EndFixedFont
+  If this flag isn't set, then the format for reading the string depends on the related setting at
+  the previously used @@CreateFile, @@OpenFile or @@ReadFile command.
 
 @OptionalParameter "Length"
   Read the file until the length (in characters) have been reached. If an end of line is encountered
@@ -728,7 +732,7 @@
 
 @Remarks
   For detecting the string encoding format (byte order mark) used in a file there is the
-@@ReadStringFormat function available.
+  @@ReadStringFormat function available.
 @LineBreak
 @LineBreak
   For an example see the @@ReadFile.
@@ -798,7 +802,7 @@
 @Function Number.u = ReadUnicodeCharacter(#File)
 
 @Description
-  Read a unicode character (2 bytes) from a file.
+  Read a unicode character (2 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -811,7 +815,7 @@
   ReadUnicodeCharacter() only a unicode character is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -820,7 +824,7 @@
 @Function Number.w = ReadWord(#File)
 
 @Description
-  Read a word (2 bytes) from a file.
+  Read a word (2 bytes) from a file, starting at the current file position.
 
 @Parameter "#File"
   The file to read from.
@@ -833,7 +837,7 @@
   ReadWord() only a word value is read, instead of a complete line (string).
 
 @SeeAlso
-  @@WriteWord, @@OpenFile, @@ReadFile
+  @@WriteWord, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -842,13 +846,13 @@
 @Function Result = WriteAsciiCharacter(#File, Number.a)
 
 @Description
-  Write an ascii character (1 byte) to a file.
+  Write an ASCII character (1 byte) to a file.
 
 @Parameter "#File"
   The file to write to.
 
 @Parameter "Number"
-  The ascii character value to write.
+  The ASCII character value to write.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.
@@ -859,7 +863,7 @@
   The file must be opened using a write-capable function (i.e. not with @@ReadFile).
 @LineBreak
 @LineBreak
-  For an example see the @@CreateFile function - with WriteAsciiCharacter() only an ascii character is written, instead of a string.
+  For an example see the @@CreateFile function - with WriteAsciiCharacter() only an ASCII character is written, instead of a string.
 
 @SeeAlso
   @@ReadAsciiCharacter, @@WriteUnicodeCharacter, @@WriteCharacter, @@CreateFile, @@OpenFile
@@ -916,6 +920,8 @@
   @#PB_Unicode: 2 bytes character (default, see @ReferenceLink "unicode" "unicode" mode).
   @#PB_UTF8   : multi-bytes character (from 1 to 4 bytes).
 @EndFixedFont
+  If this flag isn't set, then the format for writing the character depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful or zero if it failed.
@@ -1068,7 +1074,7 @@
   The memory address of the data to write to the file.
 
 @Parameter "Length"
-  The number of bytes to write to the file.
+  The number of bytes to write to the file. The maximum length is 2 GB.
 
 @ReturnValue
   Returns the number of bytes actually written to the file.
@@ -1150,6 +1156,8 @@
   @#PB_UTF8   : Writes the string in UTF8 format
   @#PB_Unicode: Writes the string in UTF16 format
 @EndFixedFont
+  If this flag isn't set, then the format for writing the string depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.
@@ -1186,7 +1194,7 @@
 @Parameter "Format"
   The format for which the mark should be written. It can be one of the following values:
 @FixedFont
-  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as an plain Ascii file.)
+  @#PB_Ascii  : Writes no BOM at all (this is usually interpreted as a plain ASCII file.)
   @#PB_UTF8   : UTF-8 BOM
   @#PB_Unicode: UTF-16 (little endian) BOM
 
@@ -1247,6 +1255,8 @@
   @#PB_UTF8   : Writes the string in UTF8 format
   @#PB_Unicode: Writes the string in UTF16 format
 @EndFixedFont
+  If this flag isn't set, then the format for writing the string depends on the related setting at
+  the previously used @@CreateFile or @@OpenFile command.
 
 @ReturnValue
   Returns nonzero if the operation was successful and zero if it failed.

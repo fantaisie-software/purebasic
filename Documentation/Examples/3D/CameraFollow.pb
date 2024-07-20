@@ -101,7 +101,6 @@ If InitEngine3D()
       CameraLookAt(Camera, EntityX(Ninja), 40, EntityZ(Ninja))
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

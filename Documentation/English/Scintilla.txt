@@ -1,7 +1,7 @@
 ;
 ;     Scintilla library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Scintilla
@@ -9,7 +9,7 @@
 @Overview
   Scintilla is a free source code editing component. It comes with complete source code and a
   license that permits use in any project or product personal or commercial. The license may be viewed
-@MainGuideLink "scintilla" "here". The source code, as well as the library documentation may be found
+@MainGuideLink "license_scintilla" "here". The source code, as well as the library documentation may be found
   on the @InternetLink "http://www.scintilla.org/" "Scintilla Homepage".
 @LineBreak
 @LineBreak
@@ -33,10 +33,9 @@
 @LineBreak
 
   PureBasic integrates the Scintilla library with the @LibraryLink "Gadget" "gadget library", so standard commands like
-  @@ResizeGadget or @@HideGadget may be used with the scintilla
-  control. Furthermore it provides the @@ScintillaSendMessage function to communicate
+  @@ResizeGadget or @@HideGadget can be used to control it. Furthermore it provides the @@ScintillaSendMessage function to communicate
   with the control to use its full potential. All structures and constants needed are already defined in PureBasic.
-
+  
 @LineBreak
 @LineBreak
 
@@ -52,19 +51,9 @@
 @Function Result = InitScintilla([LibraryName$])
 
 @Description
-  Loads the Scintilla DLL which is needed to use the commands of this library.
-  
-@OptionalParameter "LibraryName$"
-  Specifies the path and name of the DLL file (default is 'scintilla.dll').
-  The scintilla DLL file is included in the "Compilers" folder of the PureBasic package.
+@Deprecated
 
-@ReturnValue
-  Nonzero if the library was loaded successfully, zero otherwise. On OS X and Linux, the return value is always
-  @#True as the library is linked statically.
-
-@Remarks
-  This command is useful only on Windows, as on the other OS, the scintilla library is
-  linked statically with the executable and therefore does not need to be loaded or distributed with the program.
+  This command is deprecated and no more needed.
 
 @SupportedOS
 
@@ -74,7 +63,6 @@
 
 @Description
   Creates a new scintilla editing control in the current GadgetList.
-  @@InitScintilla has to be called successfully before using this command.
 
 @Parameter "#Gadget"
   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -114,23 +102,21 @@
 @Code 
   If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     
-    If InitScintilla()
-      ScintillaGadget(0, 10, 10, 320, 70, 0)
-      
-      ; Output set to red color
-      ScintillaSendMessage(0, #SCI_STYLESETFORE, 0, RGB(255, 0, 0))
-      
-      ; Set the initial text to the ScintillaGadget
-      *Text=UTF8("This is a simple ScintillaGadget with text...")
-      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
-      FreeMemory(*Text) ; The buffer made by UTF8() has to be freed, to avoid memory leak
-      
-      ; Adding a second line of text with linebreak before
-      Text$ = Chr(10) + "Second line"
-      *Text=UTF8(Text$)
-      ScintillaSendMessage(0, #SCI_APPENDTEXT, Len(Text$), *Text)
-      FreeMemory(*Text)
-    EndIf
+    ScintillaGadget(0, 10, 10, 320, 70, 0)
+    
+    ; Output set to red color
+    ScintillaSendMessage(0, #SCI_STYLESETFORE, 0, RGB(255, 0, 0))
+    
+    ; Set the initial text to the ScintillaGadget
+    *Text=UTF8("This is a simple ScintillaGadget with text...")
+    ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
+    FreeMemory(*Text) ; The buffer made by UTF8() has to be freed, to avoid memory leak
+    
+    ; Adding a second line of text with linebreak before
+    Text$ = Chr(10) + "Second line"
+    *Text=UTF8(Text$)
+    ScintillaSendMessage(0, #SCI_APPENDTEXT, Len(Text$), *Text)
+    FreeMemory(*Text)
     
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -164,6 +150,31 @@
 
 @ReturnValue
   The result of the message sent.
+
+@Example Text with red highlighting
+@Code 
+  #num_indicator = 0
+  
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    ScintillaGadget(0, 5, 5, 320, 80, 0)
+    *Text = UTF8("This is a simple ScintillaGadget with text..." + #LF$ + "More text" + #LF$ + "Even more text!")
+    ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Text)
+    FreeMemory(*Text) ; The buffer made by UTF8() has to be freed, to avoid memory leak
+    
+    ScintillaSendMessage(0, #SCI_INDICSETSTYLE, #num_indicator, #INDIC_STRAIGHTBOX) ; first indicator with style 8 (0-19)
+    ScintillaSendMessage(0, #SCI_INDICSETFORE, #num_indicator, #Red)                ; first indicator with red color
+    ScintillaSendMessage(0, #SCI_SETINDICATORCURRENT, #num_indicator, #INDIC_STRAIGHTBOX) ; set the indicator as the current one
+    ScintillaSendMessage(0, #SCI_INDICSETUNDER, #num_indicator, 1)   ; set indicator under the text, i.e. doesn't obscure it
+    ScintillaSendMessage(0, #SCI_INDICSETALPHA, #num_indicator, 127) ; set transparency
+    nLine = 1 ; line number starts from 0
+    start = ScintillaSendMessage(0, #SCI_POSITIONFROMLINE, nLine)
+    length = ScintillaSendMessage(0, #SCI_GETLINEENDPOSITION, nLine) - start
+    ScintillaSendMessage(0, #SCI_INDICATORFILLRANGE, start, length) ; start and length
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

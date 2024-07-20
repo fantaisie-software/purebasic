@@ -198,7 +198,7 @@ due to its strong resistance to attacks.
   The output buffer. It has to be allocated with @@AllocateMemory and be different than the
   input buffer.
 
-@Parameter "InputOffset"
+@Parameter "OutputOffset"
   The offset (in bytes) in the output buffer.
 
 @Parameter "Size"
@@ -238,6 +238,221 @@ due to its strong resistance to attacks.
 @SeeAlso
   @@AESEncoder, @@StartAESCipher
  
+@SupportedOS
+
+--------------------------------------------------------------------------------------------------------
+
+@Function Result = Base64DecoderBuffer(*Input, InputOffset, InputSize, *Output, OutputOffset, OutputSize)
+
+@Description
+  Decodes the specified @Link "Base64EncoderBuffer" "Base64 encoded" buffer. 
+
+@Parameter "*Input"
+  The buffer containing the encoded data. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+  
+@Parameter "InputSize"
+  The size of the input buffer.
+
+@Parameter "*Output"
+  The output buffer where the plain data will be copied. It has to be allocated with @@AllocateMemory and be different than the
+  input buffer.
+
+@Parameter "OutputOffset"
+  The offset (in bytes) in the output buffer.
+
+@Parameter "OutputSize"
+  The size of the output buffer.
+@LineBreak
+@LineBreak
+  The output buffer can be up to 33% smaller than the input buffer, with a minimum size of 64 bytes.
+  It's recommended to get a slightly larger buffer, like 30% smaller to avoid overflows.
+
+@ReturnValue
+  Returns the length of the decoded data in bytes.
+
+@Example
+@Code
+  Text$ = "This is a test string!"
+
+  *Text = AllocateMemory(100)
+  PokeS(*Text, 0, Text$)
+
+  *Encoded = AllocateMemory(200)
+      
+  Base64EncoderBuffer(*Text, 0, Len(Text$), *Encoded, 0, MemorySize(*Encoded))
+  Debug "Encoded: " + PeekS(*Encoded, 0, -1, #PB_Ascii)
+    
+  *Decoded = AllocateMemory(1024)
+  Base64DecoderBuffer(*Encoded, 0, MemorySize(*Encoded), *Decoded, 0, 1024)
+  Debug "Decoded: " + PeekS(*Decoded, 0, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64EncoderBuffer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Base64EncoderBuffer(*Input, InputOffset, InputSize, *Output, OutputOffset, OutputSize [, Flags])
+
+@Description
+  Encodes the specified buffer using the Base64 algorithm. This is widely used in e-mail
+  programs but can be useful for any other programs which need an ASCII only (7 bit, only
+  from 32 to 127 characters) encoding for raw binary files. 
+
+@Parameter "*Input"
+  The buffer containing the plain data. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+
+@Parameter "InputSize"
+  The size of the input buffer.
+
+@Parameter "*Output"
+  The output buffer where the encoded data will be copied. It has to be allocated with @@AllocateMemory and be different than the
+  input buffer.
+
+@Parameter "OutputOffset"
+  The offset (in bytes) in the output buffer.
+  
+@Parameter "OutputSize"
+  The size of the output buffer.
+@LineBreak
+@LineBreak
+  The output buffer should be at last 33% bigger than the input buffer, with a minimum size of 64 bytes. 
+  It's recommended to get a slightly larger buffer, like 35% bigger to avoid overflows. 
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont  
+  @#PB_Cipher_NoPadding: it will not insert additional '=' at the end of the encoded buffer to pad it to 3 bytes boundary.
+  @#PB_Cipher_URL      : it will use a slightly different encoding, mainly used in URL. The usual '+' and '/' encoded characters
+                        will be respectively encoded to '-' and '_'
+@EndFixedFont
+
+@ReturnValue
+  Returns the length of the encoded data in bytes.
+
+@Example
+@Code
+  Text$ = "This is a test string!"
+
+  *Text = AllocateMemory(100)
+  PokeS(*Text, 0, Text$)
+
+  *Encoded = AllocateMemory(200)
+      
+  Base64EncoderBuffer(*Text, 0, Len(Text$), *Encoded, 0, MemorySize(*Encoded))
+  Debug "Encoded: " + PeekS(*Encoded, 0, -1, #PB_Ascii)
+    
+  *Decoded = AllocateMemory(1024)
+  Base64DecoderBuffer(*Encoded, 0, MemorySize(*Encoded), *Decoded, 0, 1024)
+  Debug "Decoded: " + PeekS(*Decoded, 0, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64DecoderBuffer
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = Base64Decoder(Input$, *Output, OutputSize)  
+
+@Description
+  Decodes the specified @Link "Base64Encoder" "Base64 encoded" string. 
+
+@Parameter "Input$"
+  A string containing the encoded data.
+
+@Parameter "*Output"
+  The output buffer where the plain data will be copied.It has to be allocated with @@AllocateMemory.
+
+@Parameter "OutputOffset"
+  The offset (in bytes) in the output buffer.
+
+@Parameter "OutputSize"
+  The size of the output buffer.
+@LineBreak
+@LineBreak
+  The output buffer can be up to 33% smaller than the input buffer, with a minimum size of 64 bytes.
+  It's recommended to get a slightly larger buffer, like 30% smaller to avoid overflows.
+
+@ReturnValue
+  Returns the length of the decoded data in bytes.
+
+@Example
+@Code
+  Text$ = "This is a test string!"
+
+  *Text = AllocateMemory(100)
+  PokeS(*Text, 0, Text$)
+      
+  Encoded$ = Base64Encoder(*Text, 0, Len(Text$))
+  Debug "Encoded: " + Encoded$
+    
+  *DecodedBuffer = AllocateMemory(1024)
+  Base64Decoder(Encoded$, *DecodedBuffer, 0, 1024)
+  Debug "Decoded: " + PeekS(*DecodedBuffer, 0, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64Encoder
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = Base64Encoder(*Input, InputOffset, InputSize [, Flags])  
+
+@Description
+  Encodes the specified buffer using the Base64 algorithm. This is widely used in e-mail
+  programs but can be useful for any other programs which need an ASCII only (7 bit, only
+  from 32 to 127 characters) encoding for raw binary files. 
+
+@Parameter "*Input"
+  The buffer containing the plain data. It has to be allocated with @@AllocateMemory.
+
+@Parameter "InputOffset"
+  The offset (in bytes) in the input buffer.
+
+@Parameter "InputSize"
+  The size of the input buffer.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont  
+  @#PB_Cipher_NoPadding: it will not insert additional '=' at the end of the encoded buffer to pad it to 3 bytes boundary.
+  @#PB_Cipher_URL      : it will use a slightly different encoding, mainly used in URL. The usual '+' and '/' encoded characters
+                        will be respectively encoded to '-' and '_'
+@EndFixedFont
+
+@ReturnValue
+  Returns the encoded data as a string.
+
+@Example
+@Code
+  Text$ = "This is a test string!"
+
+  *Text = AllocateMemory(100)
+  PokeS(*Text, 0, Text$)
+      
+  Encoded$ = Base64Encoder(*Text, 0, Len(Text$))
+  Debug "Encoded: " + Encoded$
+    
+  *DecodedBuffer = AllocateMemory(1024)
+  Base64Decoder(Encoded$, *DecodedBuffer, 0, 1024)
+  Debug "Decoded: " + PeekS(*DecodedBuffer, 0, -1, #PB_UTF8)
+@EndCode
+
+@SeeAlso
+  @@Base64Decoder, @@Base64DecoderBuffer, @@Base64EncoderBuffer
+  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

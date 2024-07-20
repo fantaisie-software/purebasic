@@ -104,6 +104,7 @@ EXAMPLES =  Demos\CarPhysic.exe \
             Text3D.exe \
             Texture.exe \
             Vehicle.exe \
+            VehicleTerrain.exe \
             VertexAnimation.exe \
             VisibilityMask.exe \
             Water.exe \
@@ -113,8 +114,7 @@ EXAMPLES =  Demos\CarPhysic.exe \
 
 
 all: $(EXAMPLES)
-	rm -f *.exe
-	rm -f Demos/*.exe
+	
 
 %.exe : %.pb
-	pbcompiler $< /QUIET /EXE $@
+	pbcompiler $< /QUIET /CHECK

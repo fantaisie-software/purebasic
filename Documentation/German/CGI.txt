@@ -1,7 +1,7 @@
 ;
 ;     CGI library documentation
 ;
-;      (c) 2015 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library CGI
@@ -699,7 +699,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = InitFastCGI(LokalerPort)
+@Function Ergebnis = InitFastCGI(LokalerPort [, BindedIP$])
 
 @Description
   Initialisiert die FastCGI-Unterstützung. Einmal aufgerufen, schalten alle CGI-Befehle
@@ -718,6 +718,10 @@
 @Parameter "LokalerPort"
   Der lokale Port, an den die FastCGI-Anwendung gebunden werden soll. Der Web-Server
   muss so konfiguriert sein, dass dieser Port auch verwendet wird.
+
+@OptionalParameter "BindedIP$"
+  Die IP-Adresse zum Binden der FastCGI-Anwendung. Derzeit werden nur "localhost" oder
+  "127.0.0.1" akzeptiert.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die FastCGI-Umgebung korrekt initialisiert

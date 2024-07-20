@@ -102,7 +102,6 @@ If InitEngine3D(#PB_Engine3D_DebugLog | #PB_Engine3D_DebugOutput)
       RotateCamera(0,  MouseY, MouseX, 0, #PB_Relative)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
       
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

@@ -4,22 +4,33 @@
 
   Der Kommandozeilen-Compiler befindet sich im Unterordner 'compilers' des PureBasic Verzeichnisses. 
   Eine einfachere Möglichkeit ist das Hinzufügen dieses Verzeichnisses zur 'PATH Variable', um von 
-  überall Zugriff auf die Befehle in diesem Verzeichnis zu haben. Kommandozeilen-Parameter, die mit '/' 
-  beginnen, betreffen nur Windows. Verschiedene Optionen können beim Start des Compilers angegeben werden :
+  überall Zugriff auf die Befehle in diesem Verzeichnis zu haben. 
+  @LineBreak
+  @LineBreak
+  Es gibt zwei Compiler für PureBasic: @LineBreak
+  - 'pbcompiler' welcher Assembler-Code generiert (x86 und x64)@LineBreak
+  - 'pbcompilerc' (oder 'pbcompiler' auf Plattformen, welche das Assembler-Backend nicht unterstützen) welcher C-Code generiert
+  @LineBreak
+  @LineBreak
+  Der C-Backend Compiler ist verfügbar auf allen unterstützten Plattformen, während der ASM-Backend
+  Compiler nur auf Windows (x86, x64), Linux (x86, x64) und OS X (x64) unterstützt wird.
+@LineBreak
+@LineBreak
+  Der C-Backend Compiler erlaubt keine Eingabe von Assembler-Code.
 
 @Section Crossplattforme Kommandozeilen-Parameter (Switch)
 
+  Hinweis: Alle Kommandozeilen-Parameter, die mit '/' beginnen, sind nur auf Windows gültig (d.h. '/DEBUGGER').
+  Wenn Sie Crossplattform-kompatibel schreiben müssen, können Sie das '-' bzw. '--' Format verwenden (d.h. '-d' bzw. '--debugger).
+  @LineBreak
+  @LineBreak
   -h, --help, /? : zeigt einen kurzen Hilfstext über den Compiler an. @LineBreak
   @LineBreak  
-  -c, --commented, /COMMENTED : erstellt eine kommentierte '.asm' Ausgabedatei beim Erstellen des Executable. Diese 
-  Datei kann später re-assembliert werden, wenn die notwendigen Modifikationen erfolgt sind. Diese 
-  Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
-  @LineBreak
   -d, --debugger, /DEBUGGER : schaltet die Debugger Unterstützung ein. @LineBreak
   @LineBreak
-  -pf, --purifier, /PURIFIER: schaltet den Purifier ein. Um einen Effekt zu erzielen, muß der Debugger aktiviert werden. @LineBreak
+  -pf, --purifier, /PURIFIER: schaltet den Purifier ein. Um einen Effekt zu erzielen, muss der Debugger aktiviert werden. @LineBreak
   @LineBreak
-  -e, --executable, /EXE "Dateiname" : erstellt ein ausführbares Programm ('Standalone Executable') oder eine DLL mit
+  -o, --output, /OUTPUT "Dateiname" : erstellt ein ausführbares Programm ('Standalone Executable') oder eine DLL mit
   dem angegebenen Dateinamen im gewünschten Dateipfad. Auf MacOS X ist es möglich ein Programmpacket
   zu erstellen, durch Hinzufügen von '.app' an den Dateinamen des Programms. Hiermit wird automatisch 
   die gesamte Verzeichnisstruktur erzeugt. @LineBreak
@@ -41,7 +52,7 @@
   meistens nützlich beim Updaten einer bereits existierenden Resident-Datei, weshalb diese nicht geladen werden soll.
   @LineBreak
   @LineBreak
-  -o, --constant,/CONSTANT Name=Wert: Erstellt die angegebene Konstante mit dem angegebenen Ausdruck.
+  -co, --constant,/CONSTANT Name=Wert: Erstellt die angegebene Konstante mit dem angegebenen Ausdruck.
   Beispiel: 'pbcompiler test.pb /CONSTANT MyConstant=10'. Die Konstante @#MyConstant
   wird "on-the-fly" mit dem Wert 10 erstellt, bevor das Programm kompiliert wird.
   @LineBreak
@@ -50,6 +61,7 @@
   @LineBreak
   @LineBreak
   -s, --subsystem, /SUBSYSTEM "Name": Verwendet das angegebene SubSystem, um ein Set an internen Funktionen zu ersetzen.
+  Beim Namen des Subsystems wird die Groß-/Kleinschreibung nicht beachtet.
   Für weitere Informationen siehe das Kapitel @ReferenceLink "subsystems" "Subsysteme".
   @LineBreak
   @LineBreak
@@ -59,6 +71,16 @@
   @LineBreak
   -k, --check,/CHECK: Überprüft nur den Syntax, erstellt oder startet jedoch kein Executable. @LineBreak
   @LineBreak
+  -z, --optimizer, /OPTIMIZER: aktiviert den Code-Optimierer. @LineBreak
+  @LineBreak 
+  -c, --commented, /COMMENTED : erstellt eine kommentierte 'purebasic.asm' oder 'purebasic.c' Ausgabedatei beim Erstellen des Executable.
+  Diese Datei kann später mit der '--reasm' Option re-assembliert werden, wenn die notwendigen Modifikationen erfolgt sind. @LineBreak
+  Diese Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
+  @LineBreak
+  -ra, --reasm, /REASM: re-assembliert die 'purebasic.asm' oder 'purebasic.c' Datei in ein Executable.
+  Dies ermöglicht die Verwendung der '--commented' Option, das Modifizieren der generierten Ausgabe und das erneute Erstellen des Executable. @LineBreak
+  Diese Option ist nur für fortgeschrittene Programmierer bestimmt. @LineBreak
+  @LineBreak  
   -pp, --preprocess, /PREPROCESS "Dateiname": Vorverarbeitet ("preprocess") den Quellcode und schreibt die
   Ausgabe in die angegebene Datei "Dateiname". Die verarbeitete Datei ist eine einzelne
   Datei mit allen Makros erweitert, Compiler-Direktiven behandelt und Mehrzeiligkeit
@@ -70,6 +92,17 @@
   andere PureBasic Quellcode-Datei erneut kompiliert werden, um das endgültige Executable
   zu erstellen.
   @LineBreak
+  -ls, --liststructures, /LISTSTRUCTURES: erstellt eine Datei mit allen dem Compiler bekannten integrierten Strukturen.
+  Der Dateiname kann mit '--output' angegeben werden. @LineBreak
+  @LineBreak
+  -lf, --listfunction, /LISTFUNCTIONS: erstellt eine Datei mit allen dem Compiler bekannten eingebauten PureBasic-Befehlen.
+  Der Dateiname kann mit '--output' angegeben werden. @LineBreak
+  @LineBreak
+  -li, --listinterfaces, /LISTINTERFACES: erstellt eine Datei mit allen dem Compiler bekannten integrierten Interfaces.
+  Der Dateiname kann mit '--output' angegeben werden. @LineBreak
+  @LineBreak
+  -qs, --querystructure, /QUERYSTRUCTURE "name": erstellt eine Datei mit der Struktur-Definition.
+  Der Dateiname kann mit '--output' angegeben werden. @LineBreak
   @LineBreak
   -g, --language, /LANGUAGE \"language\": verwendet die spezifische Sprache für die Compiler - Fehlermeldungen. @LineBreak
   @LineBreak
@@ -101,11 +134,8 @@
   /CONSOLE: erstellt das Executable im @LibraryLink "console" "Konsolen"-Format. Das Standard-Format ist Win32. @LineBreak
   @LineBreak
   /DLL: die Ausgabedatei wird eine @ReferenceLink "dll" "DLL". @LineBreak
-  @LineBreak
-  /XP: Fügt die Unterstützung für Windows XP-Themen zum Executable hinzu. @LineBreak
-  @LineBreak
-  /REASM: Reassembliert die PureBasic.asm Datei in ein Executable. Dies ermöglicht die Benutzung der /COMMENTED 
-  Funktion, das anschließende Modifizieren der ASM Ausgabe und das erneute Kompilieren des Executable. @LineBreak
+  ;@LineBreak
+  ;/XP: Fügt die Unterstützung für Windows XP-Themen zum Executable hinzu. @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE oder /SSE2: Erstellt ein Prozessor-spezifisches Executable. Dies bedeutet, wenn eine
   prozessorspezifische Routine verfügbar ist, wird diese für das zu erstellende Executable genutzt. Deshalb
@@ -146,6 +176,10 @@
   Executable ist ausgeschalten.
   @LineBreak
   /DPIAWARE: DPI-Unterstützung für das Executable einschalten.
+  @LineBreak
+  @LineBreak
+  /DLLPROTECTION: Aktiviert den 'DLL-Preloading'-Schutz für das Executable. Es verhindert, dass System-DLLs
+  zunächst im Programmverzeichnis statt im System32-Verzeichnis des Windows-Betriebssystems gesucht werden.
   @LineBreak
   @LineBreak
   @Bold "Beispiel:"

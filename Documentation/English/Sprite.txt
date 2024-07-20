@@ -1,7 +1,7 @@
 ;
 ;     Sprite library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -361,6 +361,8 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
   The following functions can be used to enable automatically more image formats:
 @LineBreak
 @LineBreak
+  @@UseGIFImageDecoder
+@LineBreak
   @@UseJPEGImageDecoder
 @LineBreak
   @@UseJPEG2000ImageDecoder
@@ -635,6 +637,9 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 @Description
   Rotates the specified #Sprite to the given 'Angle'.
+
+@Parameter "#Sprite"
+  The sprite to rotate.
   
 @Parameter "Angle.f"
    Angle value, in degree (from 0 to 360). The rotation is performed clockwise.
@@ -706,6 +711,9 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
   real-time transformations. Warning, as a sprite is a combination of 2 triangles, the transformation
   could looks strange. If one of the optional 'z' parameter is specified, all need to be specified.
 
+@Parameter "#Sprite"
+  The sprite to transform.
+
 @Parameter "x1, y1"
   First point coordinate, in pixel
   
@@ -746,6 +754,9 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 @Description
   Zooms the specified #Sprite from the given dimension.
+
+@Parameter "#Sprite"
+  The sprite to zoom.
 
 @Parameter "Width"
   New sprite width (in pixels). If @#PB_Default is specified, the initial sprite width is restored.

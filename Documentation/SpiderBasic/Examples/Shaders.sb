@@ -1,0 +1,374 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Shader example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+CloseDebugOutput()
+
+#NbSprites = 20
+#MaxSpeed = 4
+
+;- Structures
+;
+Structure GadgetStatus
+  NoiseEnabled.i
+  PixelateEnabled.i
+  BlurEnabled.i
+  AdjustmentEnabled.i
+  Alpha.i
+  Red.i
+  Saturation.i
+EndStructure
+
+
+Structure Sprite
+  Sprite.i
+  X.i
+  Y.i
+  SpeedX.i
+  SpeedY.i
+EndStructure
+
+;- Constants
+;
+Runtime Enumeration Gadget
+  #GadgetScreen
+  #GadgetSprite
+  #GadgetEnableReflection
+  #GadgetEnableBulgePinch
+  #GadgetEnableNoise
+  #GadgetEnablePixelate
+  #GadgetEnableBlur
+  #GadgetEnableAdjustment
+  #GadgetAdjustmentAlpha
+  #GadgetAdjustmentRed
+  #GadgetAdjustmentSaturation
+EndEnumeration  
+
+Enumeration Sprite
+  #SpriteBackground
+  #SpriteGeebee
+EndEnumeration
+
+#Xml = 0
+#Dialog = 0
+
+Global NewList Sprites.Sprite()
+
+
+;- Screen rendering 
+;
+Procedure RenderFrame()
+  Static Time.d
+  
+  ; Adjust our background to the real screen size
+  ZoomSprite(#SpriteBackground, ScreenWidth(), ScreenHeight())
+  
+  DisplaySprite(#SpriteBackground, 0, 0)
+  
+  ; If reflection is enabled, adjust the bottom so the sprite bounce properly
+  ;
+  If GetGadgetState(#GadgetEnableReflection)
+    ScreenBottom = ScreenHeight()*0.66
+  Else
+    ScreenBottom = ScreenHeight()
+  EndIf
+  
+  ; Display the sprites
+  ;
+  ForEach Sprites()
+    
+    With Sprites() 
+      
+      ; Move the sprite
+      ;
+      \X + \SpeedX
+      \Y + \SpeedY
+      
+      ; Inverse the speed
+      ;
+      If \X < 0 Or \X > ScreenWidth()-SpriteWidth(\Sprite)
+        \SpeedX = -\SpeedX 
+      EndIf
+      If \Y < 0 Or \Y > ScreenBottom-SpriteHeight(\Sprite)
+        \SpeedY = -\SpeedY
+      EndIf
+      
+      ; Ensures the sprite is properly moved into the screen area if we enable the reflection or resize the screen
+      ;
+      If \X > ScreenWidth()-SpriteWidth(\Sprite)
+        \X = ScreenWidth()-SpriteWidth(\Sprite)
+      EndIf
+      If \X < 0
+        \X = 0
+      EndIf
+      
+      If \Y > ScreenBottom-SpriteHeight(\Sprite)
+        \Y = ScreenBottom-SpriteHeight(\Sprite)
+      EndIf
+      If \Y < 0
+        \Y = 0
+      EndIf 
+      
+      ; Display it
+      DisplayTransparentSprite(\Sprite, \X, \Y) ; half transparency
+    EndWith
+  Next
+  
+  ; Animate the wave
+  Time + 0.05
+  ScreenShaderAttribute(#PB_ReflectionShader_Time, Time)
+  
+  ; Animate the noise for screen
+  ScreenShaderAttribute(#PB_NoiseShader_Seed, Random(1000))
+  
+  ; Animate the noise for sprite
+  SpriteShaderAttribute(#SpriteGeebee, #PB_NoiseShader_Seed, Random(1000))
+
+  
+  FlipBuffers() ; continue the rendering
+EndProcedure
+
+;- Loading and starting app
+;
+Procedure Loading(Type, Filename$)
+  Static NbLoadedElements
+  
+  NbLoadedElements+1
+  If NbLoadedElements = 2 ; Finished the loading of all images and sounds, we can start the applications
+        
+    ; Add a few sprites with random position and speed
+    ;
+    For k = 0 To #NbSprites-1
+      AddElement(Sprites())
+      Sprites()\Sprite = #SpriteGeebee
+      Sprites()\X = Random(ScreenWidth()-SpriteWidth(#SpriteGeebee)-1)
+      Sprites()\Y = Random(ScreenHeight()-SpriteHeight(#SpriteGeebee)-1)
+      Sprites()\SpeedX = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
+      Sprites()\SpeedY = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
+    Next
+    
+    FlipBuffers() ; start the rendering
+  EndIf
+EndProcedure
+
+
+Procedure LoadingError(Type, Filename$)
+  Debug Filename$ + ": loading error"
+EndProcedure
+
+
+; Resize the screen when the browser is resized, or when the phone orientation is changed
+;
+Procedure OnSizeDesktop()
+  ExamineDesktops()
+  ScreenWidth = DesktopWidth(0)
+  ScreenHeight = DesktopHeight(0)
+  ResizeScreen(ScreenWidth, ScreenHeight)
+  
+      
+EndProcedure
+
+#PB_Event_SizeDesktop = 21
+BindEvent(#PB_Event_SizeDesktop, @OnSizeDesktop())
+
+OpenScreen(10, 10, 32, "400 sprites")
+OnSizeDesktop()
+
+
+; Register the loading event before calling any resource load command
+BindEvent(#PB_Event_Loading, @Loading())
+BindEvent(#PB_Event_LoadingError, @LoadingError())
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+
+LoadSprite(#SpriteBackground, "Data/Mountain.jpg")
+LoadSprite(#SpriteGeebee, "Data/Geebee.png")
+
+
+Procedure UpdateAdjustmentGadgets()
+  If GetGadgetState(#GadgetEnableAdjustment)
+    DisableGadget(#GadgetAdjustmentAlpha, #False)
+    DisableGadget(#GadgetAdjustmentRed, #False)
+    DisableGadget(#GadgetAdjustmentSaturation, #False)
+  Else
+    DisableGadget(#GadgetAdjustmentAlpha, #True)
+    SetGadgetState(#GadgetAdjustmentAlpha, 100)
+    DisableGadget(#GadgetAdjustmentRed, #True)
+    SetGadgetState(#GadgetAdjustmentRed, 100)
+    DisableGadget(#GadgetAdjustmentSaturation, #True)
+    SetGadgetState(#GadgetAdjustmentSaturation, 100)
+  EndIf
+  
+EndProcedure
+
+;- UI
+;
+; Define our dialog window here, using regular XML
+;
+XML$ = "<window id='#PB_Any' name='dialog1' text='Shader controls' minwidth='250' minheight='auto' maxheight='auto' flags='#PB_Window_System | #PB_Window_NoMove'>" +
+       "    <vbox>" +
+       "      <checkbox id='#GadgetEnableReflection' text='Enable screen reflection'/>" +
+       "      <checkbox id='#GadgetEnableBulgePinch' text='Enable screen bulge pinch'/>" +
+       "      <hbox>" +
+       "        <option id='#GadgetScreen' text='Screen mode'/>" +
+       "        <option id='#GadgetSprite' text='Sprite mode'/>" +
+       "      </hbox>" +
+       "      <checkbox id='#GadgetEnableNoise'  text='Enable noise'/>" +
+       "      <checkbox id='#GadgetEnablePixelate'  text='Enable pixelate'/>" +
+       "      <checkbox id='#GadgetEnableBlur'  text='Enable blur'/>" +
+       "      <checkbox id='#GadgetEnableAdjustment'  text='Enable adjustment'/>" +
+       "      <gridbox columns='2'>" +
+       "        <text id='#PB_Any' text='Alpha' />" +
+       "        <trackbar id='#GadgetAdjustmentAlpha' min='0' max='100'/>" +
+       "        <text id='#PB_Any' text='Red channel' />" +
+       "        <trackbar id='#GadgetAdjustmentRed' min='0' max='100'/>" +
+       "        <text id='#PB_Any' text='Saturation' />" +
+       "        <trackbar id='#GadgetAdjustmentSaturation' min='0' max='100'/>" +
+       "      </gridbox>" +
+       "    </vbox>" +
+       "  </window>"
+
+If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+  If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "dialog1")
+    
+    ResizeWindow(DialogWindow(#Dialog), 2, 2, #PB_Ignore, #PB_Ignore)
+    SetGadgetState(#GadgetScreen, #True)
+    
+    WindowOpacity(DialogWindow(#Dialog), 95)
+    
+    UpdateAdjustmentGadgets()
+  Else
+    Debug "Dialog error: " + DialogError(#Dialog)
+  EndIf
+Else
+  Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+EndIf  
+
+
+Procedure SwitchScreenShader(Gadget, Shader)
+  If GetGadgetState(Gadget)
+    If GetGadgetState(#GadgetScreen)
+      AddScreenShader(Shader)
+    Else
+      AddSpriteShader(#SpriteGeebee, Shader)
+    EndIf
+  Else
+    If GetGadgetState(#GadgetScreen)
+      RemoveScreenShader(Shader)
+    Else
+      RemoveSpriteShader(#SpriteGeebee, Shader)
+    EndIf
+  EndIf
+EndProcedure
+
+
+Procedure ChangeShaderAttribute(Attribute, Value.d)
+  If GetGadgetState(#GadgetScreen)
+    ScreenShaderAttribute(Attribute, Value)
+  Else
+    SpriteShaderAttribute(#SpriteGeebee, Attribute, Value)
+  EndIf
+EndProcedure
+
+; When we switch between Screen and Sprite for shader, we need to preserve the current gadget status
+;
+Procedure SwitchMode()
+  Static SpriteStatus.GadgetStatus, ScreenStatus.GadgetStatus ; Static as we want this to be persistent between the procedure calls
+  Define *Status.GadgetStatus, *PreviousStatus.GadgetStatus
+  
+  If GetGadgetState(#GadgetScreen)  ; we switch to screen mode
+    *Status = @SpriteStatus         ; save the current status to the sprite structure
+    *PreviousStatus = @ScreenStatus ; restore the previous screen status
+  Else
+    *Status = @ScreenStatus
+    *PreviousStatus = @SpriteStatus
+  EndIf
+  
+  ; Save the status
+  ;
+  *Status\NoiseEnabled      = GetGadgetState(#GadgetEnableNoise)
+  *Status\PixelateEnabled   = GetGadgetState(#GadgetEnablePixelate)
+  *Status\BlurEnabled       = GetGadgetState(#GadgetEnableBlur)
+  *Status\AdjustmentEnabled = GetGadgetState(#GadgetEnableAdjustment)
+  *Status\Alpha             = GetGadgetState(#GadgetAdjustmentAlpha)
+  *Status\Red               = GetGadgetState(#GadgetAdjustmentRed)
+  *Status\Saturation        = GetGadgetState(#GadgetAdjustmentSaturation)
+  
+  ; Restore the previous status
+  ;
+  SetGadgetState(#GadgetEnableNoise,          *PreviousStatus\NoiseEnabled)
+  SetGadgetState(#GadgetEnablePixelate,       *PreviousStatus\PixelateEnabled)
+  SetGadgetState(#GadgetEnableBlur,           *PreviousStatus\BlurEnabled)
+  SetGadgetState(#GadgetEnableAdjustment,     *PreviousStatus\AdjustmentEnabled)
+  SetGadgetState(#GadgetAdjustmentAlpha,      *PreviousStatus\Alpha)
+  SetGadgetState(#GadgetAdjustmentRed,        *PreviousStatus\Red)
+  SetGadgetState(#GadgetAdjustmentSaturation, *PreviousStatus\Saturation)
+  UpdateAdjustmentGadgets()
+  
+EndProcedure
+
+;- UI Events
+;
+Procedure GadgetEvents()
+  
+  Select EventGadget()
+      
+    Case #GadgetScreen, #GadgetSprite
+      SwitchMode()
+      
+    Case #GadgetEnableReflection
+      If GetGadgetState(#GadgetEnableReflection)
+        AddScreenShader(#PB_Shader_Reflection)
+        ScreenShaderAttribute(#PB_ReflectionShader_Boundary, 0.66)
+      Else
+        RemoveScreenShader(#PB_Shader_Reflection)
+      EndIf
+      
+    Case #GadgetEnableBulgePinch
+      If GetGadgetState(#GadgetEnableBulgePinch)
+        AddScreenShader(#PB_Shader_BulgePinch)
+        ScreenShaderAttribute(#PB_BulgePinchShader_Radius, ScreenHeight()/3)
+        ScreenShaderAttribute(#PB_BulgePinchShader_Strength, 0.5)
+      Else
+        RemoveScreenShader(#PB_Shader_BulgePinch)
+      EndIf
+      
+    Case #GadgetEnableNoise
+      SwitchScreenShader(#GadgetEnableNoise, #PB_Shader_Noise)
+      ChangeShaderAttribute(#PB_NoiseShader_Intensity, 0.3)
+      
+    Case #GadgetEnablePixelate
+      SwitchScreenShader(#GadgetEnablePixelate, #PB_Shader_Pixelate)
+      
+      ChangeShaderAttribute(#PB_PixelateShader_SizeX, 3)
+      ChangeShaderAttribute(#PB_PixelateShader_SizeY, 3)
+
+    Case #GadgetEnableBlur
+      SwitchScreenShader(#GadgetEnableBlur, #PB_Shader_Blur)
+      
+    Case #GadgetEnableAdjustment
+      SwitchScreenShader(#GadgetEnableAdjustment, #PB_Shader_Adjustment)
+      UpdateAdjustmentGadgets()
+      
+    Case #GadgetAdjustmentAlpha
+      ChangeShaderAttribute(#PB_AdjustmentShader_Alpha, GetGadgetState(#GadgetAdjustmentAlpha) / 100)
+      
+    Case #GadgetAdjustmentRed
+      ChangeShaderAttribute(#PB_AdjustmentShader_Red, GetGadgetState(#GadgetAdjustmentRed) / 100)
+      
+    Case #GadgetAdjustmentSaturation
+      ChangeShaderAttribute(#PB_AdjustmentShader_Saturation, GetGadgetState(#GadgetAdjustmentSaturation) / 100)
+      
+  EndSelect 
+ 
+EndProcedure
+
+BindEvent(#PB_Event_Gadget, @GadgetEvents())
+

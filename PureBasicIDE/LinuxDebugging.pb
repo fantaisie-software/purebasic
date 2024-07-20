@@ -1,55 +1,11 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 CompilerIf #DEBUG
-  ;   CompilerIf #CompileLinux
-  ;
-  ;     ;/* log flags */
-  ;     #G_LOG_FLAG_RECURSION		= 1 << 0
-  ;     #G_LOG_FLAG_FATAL		    = 1 << 1
-  ;
-  ;     ;/* GLib log levels */
-  ;     #G_LOG_LEVEL_ERROR		  = 1 << 2	;/* always fatal */
-  ;     #G_LOG_LEVEL_CRITICAL		= 1 << 3
-  ;     #G_LOG_LEVEL_WARNING		= 1 << 4
-  ;     #G_LOG_LEVEL_MESSAGE		= 1 << 5
-  ;     #G_LOG_LEVEL_INFO		    = 1 << 6
-  ;     #G_LOG_LEVEL_DEBUG		  = 1 << 7
-  ;
-  ;     #G_LOG_LEVEL_MASK		    = ~(#G_LOG_FLAG_RECURSION | #G_LOG_FLAG_FATAL)
-  ;
-  ;     DisableDebugger
-  ;
-  ;     ProcedureC GtkErrorHandler(*log_domain, log_level, *message, user_data)
-  ;       Protected Message$ = PeekS(*log_domain, -1, #PB_Ascii) + ": " + PeekS(*message)
-  ;
-  ;
-  ;       !EXTRN PB_DEBUGGER_SendError
-  ;       !PUSH  dword [p.v_Message$]
-  ;       !CALL  PB_DEBUGGER_SendError
-  ;       !ADD   esp, 4
-  ;
-  ;     EndProcedure
-  ;
-  ;     EnableDebugger
-  ;
-  ;     g_log_set_handler_(@"Gtk", #G_LOG_LEVEL_ERROR|#G_LOG_FLAG_FATAL, @GtkErrorHandler(), 6)
-  ;     g_log_set_handler_(@"Gtk", #G_LOG_LEVEL_CRITICAL, @GtkErrorHandler(), 2)
-  ;     g_log_set_handler_(@"Gtk", #G_LOG_LEVEL_WARNING, @GtkErrorHandler(), 2)
-  ;
-  ;     g_log_set_handler_(@"Gdk", #G_LOG_LEVEL_ERROR|#G_LOG_FLAG_FATAL, @GtkErrorHandler(), 6)
-  ;     g_log_set_handler_(@"Gdk", #G_LOG_LEVEL_CRITICAL, @GtkErrorHandler(), 2)
-  ;     g_log_set_handler_(@"Gdk", #G_LOG_LEVEL_WARNING, @GtkErrorHandler(), 2)
-  ;
-  ;     g_log_set_handler_(@"Pango", #G_LOG_LEVEL_ERROR|#G_LOG_FLAG_FATAL, @GtkErrorHandler(), 6)
-  ;     g_log_set_handler_(@"Pango", #G_LOG_LEVEL_CRITICAL, @GtkErrorHandler(), 2)
-  ;     g_log_set_handler_(@"Pango", #G_LOG_LEVEL_WARNING, @GtkErrorHandler(), 2)
-  ;
-  ;   CompilerEndIf
   
   ; This might also work on linux... to check
   ;

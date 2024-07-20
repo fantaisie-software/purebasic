@@ -1,7 +1,7 @@
 ;
 ;     Xml library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library XML
@@ -13,7 +13,7 @@
 @LineBreak
   Die XML Bibliothek bietet eine Reihe an Funktionen, um zu Anwendungen leicht das Parsen (syntaktische Analyse) und 
   die Fähigkeit zum Erstellen von XML hinzuzufügen. Sie basiert auf dem @InternetLink "http://expat.sourceforge.net/" "expat XML Parser",
-  welcher unter der MIT Lizenz (kann @MainGuideLink "expat" "hier" eingesehen werden) lizenziert ist.
+  welcher unter der MIT Lizenz (kann @MainGuideLink "license_expat" "hier" eingesehen werden) lizenziert ist.
   expat wird in vielen Projekten (wie Mozilla oder Perl) verwendet. Er ist sehr stabil und sehr schnell.
 @LineBreak
 @LineBreak
@@ -22,9 +22,11 @@
   einer Software verwendet werden, welche öffentlich zugänglich gemacht wird, dann muss die oben verlinkte
   Lizenz in die Software integriert werden.
 @LineBreak
-@LineBreak  
-  Die expat Funktionen können auch direkt - wie andere API Funktionen - mit einem abschließenden Unterstrich aufgerufen
-  werden. Dies ermöglicht auch die Nutzung von expat Funktionen, welche nicht direkt von dieser Bibliothek angeboten werden.
+@LineBreak
+  Die expat-Funktionen können wie andere API-Funktionen auch direkt von PureBasic aufgerufen werden.
+  Allerdings müssen Sie - zusätzlich zum abschließenden Unterstrich - am Anfang des Funktionsnamens ein "pb_" hinzufügen.
+  Dies ermöglicht die Nutzung von expat-Funktionen, die nicht direkt von dieser Bibliothek bereitgestellt werden.
+@LineBreak
   Die in expat.h definierten Konstanten und Strukturen sind direkt in PureBasic verfügbar.
   Für detaillierte Informationen über die expat Funktionen schauen Sie in die Dokumentation, welche im
   Download-Paket auf @InternetLink "http://expat.sourceforge.net/" "http://expat.sourceforge.net/" angeboten wird.
@@ -71,6 +73,7 @@
 @CommandList
 
 @ExampleFile All Xml.pb
+@ExampleFile All Xml_Expat_API.pb
 
 @SupportedOS
 
@@ -369,6 +372,9 @@
   @#PB_XML_ReservedPrefixXMLNS : reserviertes Präfix (xmlns) darf nicht deklariert oder undeklariert werden
   @#PB_XML_ReservedNamespaceURI: Präfix darf nicht an einen der reservierten Namespace-Namen grenzen
 @EndFixedFont
+
+@SeeAlso
+  @@ParseXML
 
 @SupportedOS
 

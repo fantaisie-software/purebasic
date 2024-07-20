@@ -51,6 +51,8 @@ If InitEngine3D()
     EditorGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 530 * RatioX, 90 * RatioY, #PB_Editor3D_ReadOnly)
     SetGadgetText3D(#Editor, "[F2]/[F3] = Change SkyDome " + Chr(10) + "[F4] = Disable SkyDome")
     
+    SkyDome("clouds.jpg", 30)
+    
     ShowGUI(128, 1)
     
     Repeat
@@ -93,7 +95,6 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
      
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

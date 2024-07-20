@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2022 - Fantaisie Software
 ;
 
 @Library Entity
@@ -27,7 +27,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Mode]])
+@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Mode [, PositionMode]]])
 
 @Description
   Apply the specified force to the entity. The new force value replace any previous force previously
@@ -49,6 +49,15 @@ saving CPU clocks.
   @#PB_Parent: force relative to the parent position.
   @#PB_World : force relative to the world.
 @EndFixedFont
+
+@OptionalParameter "PositionMode"
+  The applied position mode. It can be one of the following values:
+@FixedFont
+  @#PB_Local : local position.
+  @#PB_Parent: position relative to the parent position.
+  @#PB_World : position relative to the world.
+@EndFixedFont
+
 
 @NoReturnValue
 
@@ -333,7 +342,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Value1, Value2, Value3, Value4)
+@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Value1.f, Value2.f, Value3.f, Value4.f)
 
 @Description
   Set a custom parameter value to the #Entity material shader script. To have any effect, the material
@@ -362,6 +371,17 @@ saving CPU clocks.
 
 @NoReturnValue
 
+@Remarks
+  To set parameters in a material, you need to define them in the material script as param_named_auto 'VariableName' custom 'ParameterIndex', for example:
+@FixedFont
+  param_named_auto foo custom 1
+  param_named_auto bar custom 2
+@EndFixedFont  
+  The definition and size of the parameter is defined in the shaders script, for example:
+@FixedFont
+  uniform float foo;
+  uniform vec3 bar;
+@EndFixedFont
   For more information see the following example:
   
 @ExampleFile All RustyBall.pb
@@ -618,7 +638,7 @@ saving CPU clocks.
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh. If the bone name is empty, then the object is not attached to a bone
+  The bone name in the OGRE mesh, or as specified in @@CreateBone. If the bone name is empty, then the object is not attached to a bone
   but directly to the entity.
 
 @Parameter "ObjectID"  
@@ -673,14 +693,14 @@ saving CPU clocks.
 @Function EnableManualEntityBoneControl(#Entity, Bone$, State, InheritOrientation)
 
 @Description
-  Enable the manual control of a bone. It can be manually moved with @@MoveEntityBone and
-  rotated with @@RotateEntityBone.
+  Enable the manual control of a bone. It can be manually moved with @@MoveEntityBone,
+  rotated with @@RotateEntityBone or scaled with @@ScaleEntityBone.
 
 @Parameter "#Entity"
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "State"  
   It can be one of the following value:
@@ -711,7 +731,7 @@ saving CPU clocks.
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "x, y, z"  
   The new position of the bone.
@@ -732,7 +752,37 @@ saving CPU clocks.
 @NoReturnValue  
 
 @SeeAlso
-  @@RotateEntityBone
+  @@RotateEntityBone, @@ScaleEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntityBone(#Entity, Bone$, x, y, z, Mode)
+
+@Description
+  Scale the specified entity bone. The bone has to be in manual mode, set with @@EnableManualEntityBoneControl.
+
+@Parameter "#Entity"
+  The entity to use.
+
+@Parameter "Bone$"
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
+
+@Parameter "x, y, z"  
+  The new scale of the bone.
+
+@Parameter "Mode"
+ The scale mode. It can be one of the following value:
+@FixedFont
+  @#PB_Relative: relative scale, based on the previous size (default). Using 1.0 for scale value will let this value unchanged.
+  @#PB_Absolute: absolute scale, in world unit.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntityBone, @@MoveEntityBone
 
 @SupportedOS
 
@@ -778,7 +828,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -805,7 +855,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -832,7 +882,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @OptionalParameter "OffsetX"
   The 'x' offset relative to the bone.
@@ -859,7 +909,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current pitch value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -880,7 +930,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current yaw value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -901,7 +951,7 @@ saving CPU clocks.
   The entity to use.
   
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @ReturnValue
   The current roll value of the bone. This value is always between -180.0 and 180.0 degrees.
@@ -1099,13 +1149,13 @@ saving CPU clocks.
 @Function RotateEntityBone(#Entity, Bone$, x, y, z, Mode)
 
 @Description
-  Rotates the entity bone according to the specified x,y,z angle values.
+  Rotates the entity bone according to the specified x,y,z angle values. The bone has to be in manual mode, set with @@EnableManualEntityBoneControl.
 
 @Parameter "#Entity"
   The entity to use.
 
 @Parameter "Bone$"
-  The bone name in the OGRE mesh.
+  The bone name in the OGRE mesh, or as specified in @@CreateBone.
 
 @Parameter "x, y, z"
   The rotation to apply, in degree. Valid values are from to 0 to 359.
@@ -1120,7 +1170,7 @@ saving CPU clocks.
 @NoReturnValue
 
 @SeeAlso
-  @@MoveEntityBone
+  @@MoveEntityBone, @@ScaleEntityBone
 
 @SupportedOS
 
@@ -1250,7 +1300,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = GetEntityAttribute(#Entity, Attribute)
+@Function Result.f = GetEntityAttribute(#Entity, Attribute)
 
 @Description
   Get the specified attribute of the given entity.
@@ -1295,7 +1345,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAttribute(#Entity, Attribute, Value)
+@Function SetEntityAttribute(#Entity, Attribute, Value.f)
 
 @Description
   Set the specified attribute value to the given entity.
@@ -1505,7 +1555,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionX(#Entity)
+@Function Result = EntityDirectionX(#Entity)
 
 @Description
   Get the 'x' direction of the entity.
@@ -1523,7 +1573,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionY(#Entity)
+@Function Result = EntityDirectionY(#Entity)
 
 @Description
   Get the 'y' direction of the entity.
@@ -1541,7 +1591,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionZ(#Entity)
+@Function Result = EntityDirectionZ(#Entity)
 
 @Description
   Get the 'z' direction of the entity.
@@ -1554,5 +1604,23 @@ saving CPU clocks.
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetEntityMesh(#Entity)
+
+@Description
+  Returns the #Mesh used by the entity.
+
+@Parameter "#Entity"
+  The entity to use.
+
+@ReturnValue
+  Returns the #Mesh used by the entity.
+ 
+@SeeAlso
+  @@CreateEntity
   
 @SupportedOS

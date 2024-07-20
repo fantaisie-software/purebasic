@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure DisableOptionGadgets()
@@ -70,13 +70,14 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_UseIcon, 1)
     DisableGadget(#GADGET_Option_IconName, 1)
     DisableGadget(#GADGET_Option_SelectIcon, 1)
+    DisableGadget(#GADGET_Option_DPIAware, 1)
   CompilerEndIf
   
   CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic; this stuff is windows only
     DisableGadget(#GADGET_Option_EnableXP, 1)
     DisableGadget(#GADGET_Option_EnableAdmin, 1)
     DisableGadget(#GADGET_Option_EnableUser, 1)
-    DisableGadget(#GADGET_Option_DPIAware, 1)
+    DisableGadget(#GADGET_Option_DllProtection, 1)
   CompilerEndIf
   
 EndProcedure
@@ -136,10 +137,11 @@ Procedure SetTargetOptions(*Target.CompileTarget)
   
   SetGadgetText(#GADGET_Option_SubSystem,   *Target\SubSystem$)
   
-  SetGadgetState(#GADGET_Option_Debugger     , *Target\Debugger)
-  
+  SetGadgetState(#GADGET_Option_Debugger , *Target\Debugger)
+  SetGadgetState(#GADGET_Option_Optimizer, *Target\Optimizer)
+  SetGadgetState(#GADGET_Option_DPIAware     , *Target\DPIAware)
+
   CompilerIf #SpiderBasic
-    SetGadgetState(#GADGET_Option_OptimizeJS, *Target\OptimizeJS)
     SetGadgetText(#GADGET_Option_SelectWindowTheme, *Target\WindowTheme$)
     SetGadgetText(#GADGET_Option_SelectGadgetTheme, *Target\GadgetTheme$)
     SetGadgetText(#GADGET_Option_WebServerAddress, *Target\WebServerAddress$)
@@ -158,7 +160,7 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableXP     , *Target\EnableXP)
     SetGadgetState(#GADGET_Option_EnableAdmin  , *Target\EnableAdmin)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
-    SetGadgetState(#GADGET_Option_DPIAware     , *Target\DPIAware)
+    SetGadgetState(#GADGET_Option_DllProtection, *Target\DllProtection)
     SetGadgetState(#GADGET_Option_EnableOnError, *Target\EnableOnError)
     
     SetGadgetState(#GADGET_Option_SelectDebugger, *Target\CustomDebugger)
@@ -255,8 +257,10 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
   EndIf
   
   If *Target\Debugger          <> GetGadgetState(#GADGET_Option_Debugger): Changed = 1: EndIf
+  If *Target\Optimizer         <> GetGadgetState(#GADGET_Option_Optimizer): Changed = 1: EndIf
+  If *Target\DPIAware          <> GetGadgetState(#GADGET_Option_DPIAware): Changed = 1: EndIf
+  
   CompilerIf #SpiderBasic
-    If *Target\OptimizeJS             <> GetGadgetState(#GADGET_Option_OptimizeJS): Changed = 1: EndIf
     If *Target\WindowTheme$           <> GetGadgetText(#GADGET_Option_SelectWindowTheme): Changed = 1: EndIf
     If *Target\GadgetTheme$           <> GetGadgetText(#GADGET_Option_SelectGadgetTheme): Changed = 1: EndIf
     If *Target\WebServerAddress$      <> GetGadgetText(#GADGET_Option_WebServerAddress): Changed = 1: EndIf
@@ -268,7 +272,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
     If *Target\EnableXP          <> GetGadgetState(#GADGET_Option_EnableXP): Changed = 1: EndIf
     If *Target\EnableAdmin       <> GetGadgetState(#GADGET_Option_EnableAdmin): Changed = 1: EndIf
     If *Target\EnableUser        <> GetGadgetState(#GADGET_Option_EnableUser): Changed = 1: EndIf
-    If *Target\DPIAware          <> GetGadgetState(#GADGET_Option_DPIAware): Changed = 1: EndIf
+    If *Target\DllProtection     <> GetGadgetState(#GADGET_Option_DllProtection): Changed = 1: EndIf
     If *Target\EnableOnError     <> GetGadgetState(#GADGET_Option_EnableOnError): Changed = 1: EndIf
     If *Target\CPU               <> GetGadgetState(#GADGET_Option_CPU): Changed = 1: EndIf
     If *Target\ExecutableFormat  <> GetGadgetState(#GADGET_Option_ExecutableFormat): Changed = 1: EndIf
@@ -356,8 +360,10 @@ Procedure GetTargetOptions(*Target.CompileTarget)
   EndIf
   
   *Target\Debugger         = GetGadgetState(#GADGET_Option_Debugger)
+  *Target\Optimizer        = GetGadgetState(#GADGET_Option_Optimizer)
+  *Target\DPIAware         = GetGadgetState(#GADGET_Option_DPIAware)
+  
   CompilerIf #SpiderBasic
-    *Target\OptimizeJS      = GetGadgetState(#GADGET_Option_OptimizeJS)
     *Target\WebServerAddress$ = GetGadgetText(#GADGET_Option_WebServerAddress)
     *Target\WindowTheme$    = GetGadgetText(#GADGET_Option_SelectWindowTheme)
     *Target\GadgetTheme$    = GetGadgetText(#GADGET_Option_SelectGadgetTheme)
@@ -369,7 +375,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     *Target\EnableXP         = GetGadgetState(#GADGET_Option_EnableXP)
     *Target\EnableAdmin      = GetGadgetState(#GADGET_Option_EnableAdmin)
     *Target\EnableUser       = GetGadgetState(#GADGET_Option_EnableUser)
-    *Target\DPIAware         = GetGadgetState(#GADGET_Option_DPIAware)
+    *Target\DllProtection    = GetGadgetState(#GADGET_Option_DllProtection)
     *Target\EnableOnError    = GetGadgetState(#GADGET_Option_EnableOnError)
     *Target\CPU              = GetGadgetState(#GADGET_Option_CPU)
     *Target\TemporaryExePlace= GetGadgetState(#GADGET_Option_TemporaryExe)
@@ -579,6 +585,8 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
               AddGadgetItem(#GADGET_Option_SelectWindowTheme, -1, DirectoryEntryName(0))
             EndIf
           Wend
+          
+          FinishDirectory(0)
         EndIf
         
         ; Scan the available gadget themes
@@ -589,6 +597,8 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
               AddGadgetItem(#GADGET_Option_SelectGadgetTheme, -1, DirectoryEntryName(0))
             EndIf
           Wend
+          
+          FinishDirectory(0)
         EndIf
         
       CompilerElse
@@ -638,6 +648,16 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
         GadgetToolTip(#GADGET_Option_RemoveTarget, Language("Compiler","RemoveTarget"))
         GadgetToolTip(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
         GadgetToolTip(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
+        
+        If EnableAccessibility
+          ; Give all these controls labels to screen readers, using a hack with SetGadgetText() on ButtonImageGadgets that adds an accessibility label.
+          SetGadgetText(#GADGET_Option_AddTarget,    Language("Compiler","AddTarget"))
+          SetGadgetText(#GADGET_Option_EditTarget,   Language("Compiler","RenameTarget"))
+          SetGadgetText(#GADGET_Option_CopyTarget,   Language("Compiler","CopyTarget"))
+          SetGadgetText(#GADGET_Option_RemoveTarget, Language("Compiler","RemoveTarget"))
+          SetGadgetText(#GADGET_Option_TargetUp,     Language("Compiler","TargetUp"))
+          SetGadgetText(#GADGET_Option_TargetDown,   Language("Compiler","TargetDown"))
+        EndIf
         
         ; resize with the actual button images and fold state
         OptionWindowDialog\GuiUpdate()

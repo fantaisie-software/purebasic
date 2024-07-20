@@ -1,7 +1,7 @@
 ;
 ;     Joystick library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Joystick
@@ -52,6 +52,10 @@
 
 @ReturnValue
   Returns nonzero if the joystick state has been correctly updated, returns zero otherwise.
+
+@Remarks
+  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
+  event loop to handle all events properly.
 
 @SeeAlso
   @@JoystickButton, @@JoystickAxisX, @@JoystickAxisY, @@JoystickAxisZ.

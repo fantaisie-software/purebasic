@@ -1,7 +1,7 @@
 ;
 ;     Cipher library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Cipher
@@ -67,7 +67,7 @@ due to its strong resistance to attacks.
 @Parameter "*Key"
   A buffer containing the key for encoding.
   Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 192 bit
-  and 32 bytes for 256-bit.
+  and 32 bytes for 256-bit. @@DeriveCipherKey can be used to create this key from a password.
 
 @Parameter "Bits"
   The size of the key used by the ciphering. Valid values are 128, 192 and 256.
@@ -131,29 +131,26 @@ due to its strong resistance to attacks.
 
 @Example ECB
 @Code
-  ; Should be compiled in ascii mode
-  ;
   String$ = "Hello this is a test for AES"
   
-  *CipheredString   = AllocateMemory(Len(String$)+ SizeOf(Caractere)) ; Space for the string and its
-  *DecipheredString = AllocateMemory(Len(String$)+ SizeOf(Caractere)) ; null terminating character (ASCII mode)
+  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; Space for the string and its
+  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; null terminating character
   
-  If AESEncoder(@String$, *CipheredString, Len(String$), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Ciphered: "+PeekS(*CipheredString)
+  If AESEncoder(@String$, *CipheredString, MemorySize(*CipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Ciphered: " + PeekS(*CipheredString)
     
-    AESDecoder(*CipheredString, *DecipheredString, Len(String$), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Deciphered: "+PeekS(*DecipheredString)
+    AESDecoder(*CipheredString, *DecipheredString, MemorySize(*DecipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
+    Debug "Deciphered: " + PeekS(*DecipheredString)
   EndIf
-
+  
   DataSection
     Key:
-      Data.b $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
+    Data.a $06, $a9, $21, $40, $36, $b8, $a1, $5b, $51, $2e, $03, $d5, $34, $12, $00, $06
   EndDataSection
-  
 @EndCode
 
 @SeeAlso
-  @@AESDecoder, @@StartAESCipher
+  @@AESDecoder, @@StartAESCipher, @@DeriveCipherKey
  
 @SupportedOS
 
@@ -178,7 +175,7 @@ due to its strong resistance to attacks.
 @Parameter "*Key"
   A buffer containing the key for decoding.
   Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 192 bit
-  and 32 bytes for 256-bit.
+  and 32 bytes for 256-bit. @@DeriveCipherKey can be used to create this key from a password.
 
 @Parameter "Bits"
   The size of the key used by the ciphering. Valid values are 128, 192 and 256.
@@ -206,7 +203,80 @@ due to its strong resistance to attacks.
   For more information about AES and source examples, see @@AESEncoder.
 
 @SeeAlso
-  @@AESEncoder, @@StartAESCipher
+  @@AESEncoder, @@StartAESCipher, @@DeriveCipherKey
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CreatePasswordHash(Password$ [, WorkFactor])
+
+@Description
+  Creates a hash digest of a password for storage and later verification of a password. It is not possible to
+  recover the input password from the hash value, but passwords can be verified to see if they
+  match the hash using @@VerifyPasswordHash later.
+
+@Parameter "Password$"
+  The password to hash.
+
+@OptionalParameter "WorkFactor"
+  A parameter to influence the amount of work the hash function should require to create or verify a password hash.
+  Larger values for this factor make it more costly to try to break a password by brute force but it will also
+  make creating and verifying the password more costly for the application itself.
+@LineBreak
+@LineBreak
+  Allowed values are 4 to 31. Increasing the WorkFactor by one doubles the amount of work that the function
+  does to create or later verify a password. The default value is 10.
+
+@ReturnValue
+  Returns the hash of the password.
+
+@Remarks
+  The returned password hash includes a random component (a salt value) to ensure that multiple hashes created from
+  the same input password do not create the same hash value. It is therefore not possible to compare the result
+  from this function directly to check a password. The @@VerifyPasswordHash function must be called to check a password
+  instead.
+@LineBreak
+@LineBreak
+  This function implements the bcrypt password hashing algorithm.
+  
+@Example
+@Code
+  ; Create a hash digest for secure storage
+  Hash$ = CreatePasswordHash("secret")
+
+  ; Check passwords agains the hash
+  Debug VerifyPasswordHash("secret", Hash$)      ; correct
+  Debug VerifyPasswordHash("othersecret", Hash$) ; incorrect
+@EndCode
+
+@SeeAlso
+  @@VerifyPasswordHash
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = VerifyPasswordHash(Password$, Hash$)
+
+@Description
+  Checks if a given password matches the hash value previously created with @@CreatePasswordHash.
+
+@Parameter "Password$"
+  The password to check.
+
+@Parameter "Hash$"
+  The result from a previous call to @@CreatePasswordHash.
+
+@ReturnValue
+  Returns non-zero if the password matches the hash value or zero if it does not match or if the
+  hash value was not valid.
+
+@Example
+  See @@CreatePasswordHash for an example.
+
+@SeeAlso
+  @@CreatePasswordHash
  
 @SupportedOS
 
@@ -215,42 +285,84 @@ due to its strong resistance to attacks.
 @Function Result$ = DESFingerprint(Password$, Key$)
 
 @Description
-  Returns a DES encrypted version of the given Password$.
-
-@Parameter "Password$"
-  The password to encrypt.
-  It can be up to 8 characters long (all further 
-  characters are simply ignored). @@StringFingerprint can be used to hash a bigger buffer.
-
-@Parameter "Key$"
-  The Key$ is also known as the 'Salt' parameter, well know from Linux/Unix/BSD users. When using a 2 
-  characters long Key$, this function returns a 'Salt2' string, compatible
-  which any standard Linux hash password (/etc/passwd). This function is based on the open source crypt()
-  function.
-
-@ReturnValue
-  Returns the encrypted password.
-
-@Remarks  
-  This algorithm is based on the DES (Data Encryption Standard) crypt method to generates a 13 characters
-  string. This string is mean to be unique and non-reversible implying a strong encryption, hardly crackable
-  when the password is correctly chosen. 
-
-@Example
-@Code
-  Debug DESFingerprint("Password", "Key007")
-  Debug DESFingerprint("NewPass", "Key007")
-
-@EndCode
+@Deprecated
+  Returns a DES encrypted version of the given Password$. 
+  This command is deprecated because it is no longer secure enough for modern uses.
+  Use the @@CreatePasswordHash function instead.
 
 @SeeAlso
-  @@StringFingerprint, @@Fingerprint
+  @@CreatePasswordHash
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = StartFingerprint(#Fingerprint, Plugin [, Bits])
+@Function Result = DeriveCipherKey(Password$, Salt$, Iterations, *Key, KeyBits, Plugin [, PluginBits])
+
+@Description
+  Creates a cypher key with the specified number of bits from an input password for use in other cypher
+  functions like encryption or decryption. This function implements the PBKDF2 key derivation algorithm.
+
+@Parameter "Password$"
+  The password for the key generation.
+
+@Parameter "Salt$"
+  A "salt" string to make the result of the function unique even if the same password is used. This makes
+  brute force attacks harder and prevents information disclosure in case of matching passwords.
+@LineBreak
+@LineBreak
+  This value does not have to be secret but it should be unique if possible.
+  
+@Parameter "Iterations"
+  The number of iterations of the PBKDF2 key generation loop. A larger number increases the time/computations
+  needed to compute the key and therefore makes brute force attacks harder.
+  
+@Parameter "*Key"
+  A pointer to the memory location that receives the generated key. The memory area must be at least KeyBits/8 bytes in size.
+
+@Parameter "KeyBits"
+  The size of the key to generate in bits.
+  
+@Parameter "Plugin"
+  The plugin for the fingerprint function to use in the key computation. It can be one of the following values:
+@FixedFont
+  @#PB_Cipher_MD5  : uses MD5 algorithm. @@UseMD5Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA1 : uses SHA1 algorithm. @@UseSHA1Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
+  @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
+@EndFixedFont
+
+@OptionalParameter "PluginBits"
+  The bits number to use for the fingerprint function. It is only supported for the following plugin:
+@FixedFont
+  @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
+  @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+  The number of bits for the fingerprint function is independent of the key size to generate. Any combination is allowed.
+
+@ReturnValue
+  Returns nonzero if the key was generated. Returns zero only if the plugin parameters were invalid.
+
+@Example
+@Code
+  UseSHA2Fingerprint()
+  *Key = AllocateMemory(32)
+
+  ; Create a 256bit key using SHA-512 hash function and 500000 iterations
+  DeriveCipherKey("SecretPassword", "NonSecretSalt", 500000, *Key, 256, #PB_Cipher_SHA2, 512)
+
+  ; Show the key
+  ShowMemoryViewer(*Key, 32)
+@EndCode
+
+@SeeAlso
+  @@AESEncoder, @@AESDecoder, @@StartAESCipher
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StartFingerprint(#Fingerprint, Plugin [, Bits [, HmacKey$ [, HmacKeyFormat]]])
 
 @Description
   Initializes the calculation of a fingerprint in several steps. Unlike 
@@ -262,7 +374,7 @@ due to its strong resistance to attacks.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @Parameter "Plugin"
-  The plugin to use. It can be one of the following value:
+  The plugin to use. It can be one of the following values:
 @FixedFont
   @#PB_Cipher_CRC32: uses CRC32 algorithm. @@UseCRC32Fingerprint needs to be called before to register this plugin.
   @#PB_Cipher_MD5  : uses MD5 algorithm. @@UseMD5Fingerprint needs to be called before to register this plugin.
@@ -270,12 +382,26 @@ due to its strong resistance to attacks.
   @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
   @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
 @EndFixedFont
+  The plugin to use can be combined with the @#PB_Cipher_HMAC flag to compute a HMAC (hash based message authentication code) instead
+  of a regular fingerprint. In this case the "HmacKey$" parameter is needed as well.
+  See @@StringFingerprint for example usage of the HMAC flag.
 
 @OptionalParameter "Bits"
   The bits number to use for the fingerprint. It is only supported for the following plugin:
 @FixedFont
   @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
   @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+
+@OptionalParameter "HmacKey$"
+  The secret key to use in the HMAC computation. This parameter is only used if the @#PB_Cipher_HMAC is added to the plugin parameter.
+  
+@OptionalParameter "HmacKeyFormat"
+  The string format to use for the HMAC key. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : encode the key in ASCII
+  @#PB_UTF8   : encode the key on UTF-8 (default).
+  @#PB_Unicode: encode the key in Unicode
 @EndFixedFont
 
 @ReturnValue
@@ -434,7 +560,7 @@ due to its strong resistance to attacks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = FileFingerprint(Filename$, Plugin [, Bits [, Offset [, Length]]])
+@Function Result$ = FileFingerprint(Filename$, Plugin [, Bits [, Offset [, Length [, HmacKey$ [, HmacKeyFormat]]]]])
 
 @Description
   Returns a fingerprint for the specified file.
@@ -451,6 +577,9 @@ due to its strong resistance to attacks.
   @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
   @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
 @EndFixedFont
+  The plugin to use can be combined with the @#PB_Cipher_HMAC flag to compute a HMAC (hash based message authentication code) instead
+  of a regular fingerprint. In this case the "HmacKey$" parameter is needed as well.
+  See @@StringFingerprint for example usage of the HMAC flag.
 
 @OptionalParameter "Bits"
   The bits number to use for the fingerprint. It is only supported for the following plugin:
@@ -464,6 +593,17 @@ due to its strong resistance to attacks.
 
 @OptionalParameter "Length"
   The length (in bytes) to use for the checksum calculation.
+  
+@OptionalParameter "HmacKey$"
+  The secret key to use in the HMAC computation. This parameter is only used if the @#PB_Cipher_HMAC is added to the plugin parameter.
+  
+@OptionalParameter "HmacKeyFormat"
+  The string format to use for the HMAC key. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : encode the key in ASCII
+  @#PB_UTF8   : encode the key on UTF-8 (default).
+  @#PB_Unicode: encode the key in Unicode
+@EndFixedFont
 
 @ReturnValue
   Returns the fingerprint if the calculation was successful.
@@ -476,7 +616,7 @@ due to its strong resistance to attacks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = Fingerprint(*Buffer, Size, Plugin [, Bits])
+@Function Result$ = Fingerprint(*Buffer, Size, Plugin [, Bits [, HmacKey$ [, HmacKeyFormat]]])
 
 @Description 
   Returns a fingerprint for the given buffer.
@@ -496,12 +636,26 @@ due to its strong resistance to attacks.
   @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
   @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
 @EndFixedFont
+  The plugin to use can be combined with the @#PB_Cipher_HMAC flag to compute a HMAC (hash based message authentication code) instead
+  of a regular fingerprint. In this case the "HmacKey$" parameter is needed as well.
+  See @@StringFingerprint for example usage of the HMAC flag.
 
 @OptionalParameter "Bits"
   The bits number to use for the fingerprint. It is only supported for the following plugin:
 @FixedFont
   @#PB_Cipher_SHA2 : can be 224, 256 (default), 384 or 512.
   @#PB_Cipher_SHA3 : can be 224, 256 (default), 384 or 512.
+@EndFixedFont
+
+@OptionalParameter "HmacKey$"
+  The secret key to use in the HMAC computation. This parameter is only used if the @#PB_Cipher_HMAC is added to the plugin parameter.
+  
+@OptionalParameter "HmacKeyFormat"
+  The string format to use for the HMAC key. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : encode the key in ASCII
+  @#PB_UTF8   : encode the key on UTF-8 (default).
+  @#PB_Unicode: encode the key in Unicode
 @EndFixedFont
 
 @ReturnValue
@@ -527,7 +681,7 @@ due to its strong resistance to attacks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = StringFingerprint(String$, Plugin [, Bits [, Format]])
+@Function Result$ = StringFingerprint(String$, Plugin [, Bits [, Format[, HmacKey$ [, HmacKeyFormat]]]])
 
 @Description 
   Returns a fingerprint for the given string.
@@ -544,6 +698,8 @@ due to its strong resistance to attacks.
   @#PB_Cipher_SHA2 : uses SHA2 algorithm. @@UseSHA2Fingerprint needs to be called before to register this plugin.
   @#PB_Cipher_SHA3 : uses SHA3 algorithm. @@UseSHA3Fingerprint needs to be called before to register this plugin.
 @EndFixedFont
+  The plugin to use can be combined with the @#PB_Cipher_HMAC flag to compute a HMAC (hash based message authentication code) instead
+  of a regular fingerprint. In this case the "HmacKey$" parameter is needed as well.
 
 @OptionalParameter "Bits"
   The bits number to use for the fingerprint. It is only supported for the following plugin:
@@ -560,6 +716,17 @@ due to its strong resistance to attacks.
   @#PB_Unicode : the string will be hashed in Unicode (UTF16) format.
 @EndFixedFont
 
+@OptionalParameter "HmacKey$"
+  The secret key to use in the HMAC computation. This parameter is only used if the @#PB_Cipher_HMAC is added to the plugin parameter.
+  
+@OptionalParameter "HmacKeyFormat"
+  The string format to use for the HMAC key. This can be one of the following values:
+@FixedFont
+  @#PB_Ascii  : encode the key in ASCII
+  @#PB_UTF8   : encode the key on UTF-8 (default).
+  @#PB_Unicode: encode the key in Unicode
+@EndFixedFont
+
 @ReturnValue
   Returns the fingerprint as an hexadecimal string.
 
@@ -568,6 +735,15 @@ due to its strong resistance to attacks.
   UseMD5Fingerprint()
 
   Debug StringFingerprint("yourpassword", #PB_Cipher_MD5)
+@EndCode
+
+@Example HMAC
+@Code
+  UseSHA2Fingerprint()
+
+  ; Use hmacSha256 with both key and message in ascii
+  ; Should be 4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988
+  Debug StringFingerprint("the message to hash here", #PB_Cipher_SHA2|#PB_Cipher_HMAC, 256, #PB_Ascii, "the shared secret key here", #PB_Ascii)
 @EndCode
 
 @SeeAlso
@@ -757,8 +933,8 @@ due to its strong resistance to attacks.
   The size of the output buffer.
 @LineBreak
 @LineBreak
-  The output buffer can be up to 33% smaller than the input buffer, with a minimum size of 64 bytes.
-  It's recommended to get a slightly larger buffer, like 30% smaller to avoid overflows.
+  The output buffer can be up to 25% smaller than the input buffer, with a minimum size of 64 bytes.
+  It's recommended to get a slightly larger buffer, like 20% smaller to avoid overflows.
 
 @ReturnValue
   Returns the length of the decoded data in bytes.
@@ -877,22 +1053,27 @@ due to its strong resistance to attacks.
   The size of the output buffer.
 @LineBreak
 @LineBreak
-  The output buffer can be up to 33% smaller than the input buffer, with a minimum size of 64 bytes.
-  It's recommended to get a slightly larger buffer, like 30% smaller to avoid overflows.
+  The output buffer can be up to 25% smaller than the input buffer, with a minimum size of 64 bytes.
+  It's recommended to get a slightly larger buffer, like 20% smaller to avoid overflows.
 
 @ReturnValue
   Returns the length of the decoded data in bytes.
 
 @Example
 @Code
-  *Text = UTF8("This is a test string!")
-    
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text))
+  String$ = "This is a test string!"
+  
+  ; Encoding an Ascii string
+  *Text = Ascii(String$)
+  Encoded$ = Base64Encoder(*Text, StringByteLength(String$, #PB_Ascii))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)
   Base64Decoder(Encoded$, *DecodedBuffer, 1024)
-  Debug "Decoded: " + PeekS(*DecodedBuffer, -1, #PB_UTF8)
+  Debug "Decoded: '" + PeekS(*DecodedBuffer, -1, #PB_Ascii) + "'"
+  
+  FreeMemory(*Text)
+  FreeMemory(*DecodedBuffer)
 @EndCode
 
 @SeeAlso
@@ -928,14 +1109,19 @@ due to its strong resistance to attacks.
 
 @Example
 @Code
-  *Text = UTF8("This is a test string!")
-    
-  Encoded$ = Base64Encoder(*Text, MemorySize(*Text))
+  String$ = "This is a test string!"
+  
+  ; Encoding an UTF-8 string
+  *Text = UTF8(String$)
+  Encoded$ = Base64Encoder(*Text, StringByteLength(String$, #PB_UTF8))
   Debug "Encoded: " + Encoded$
   
   *DecodedBuffer = AllocateMemory(1024)
   Base64Decoder(Encoded$, *DecodedBuffer, 1024)
-  Debug "Decoded: " + PeekS(*DecodedBuffer, -1, #PB_UTF8)
+  Debug "Decoded: '" + PeekS(*DecodedBuffer, -1, #PB_UTF8) + "'"
+  
+  FreeMemory(*Text)
+  FreeMemory(*DecodedBuffer)
 @EndCode
 
 @SeeAlso
@@ -957,7 +1143,7 @@ due to its strong resistance to attacks.
 @Parameter "*Key"
   A buffer containing the key for decoding.
   Its size depends of the 'Bits' parameter: 16 bytes for 128-bit encryption, 24 bytes for 196-bit
-  and 32 bytes for 256-bit.
+  and 32 bytes for 256-bit. @@DeriveCipherKey can be used to create this key from a password.
 
 @Parameter "Bits"
   The size of the key used by the ciphering. Valid values are 128, 192 and 256.
@@ -994,7 +1180,7 @@ with
   For more information about AES, see @@AESEncoder.
 
 @SeeAlso
-  @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder
+  @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder, @@DeriveCipherKey
  
 @SupportedOS
 

@@ -8,22 +8,28 @@
   d'ajouter ce répertoire à la variable PATH, 
   ce qui vous donnera un accès permanent à 
   toutes les commandes de ce répertoire.
-  Chaque commutateur de commande qui commence 
-  par '/' ne concerne que Windows.  
-
+@LineBreak
+@LineBreak
+  Il existe deux compilateurs pour PureBasic :  @LineBreak
+   - 'pbcompiler' qui génère du code assembleur (x86 et x64). @LineBreak
+   - 'pbcompilerc' (ou 'pbcompiler' sur une plate-forme qui ne prend pas en charge le backend d'assemblage) 
+   qui génère du code C. 
+ @LineBreak
+ @LineBreak
+   Le compilateur backend C est disponible sur toutes les plateformes prises en charge, tandis que le 
+   compilateur backend ASM n'est pris en charge que sur Windows (x86, x64), Linux (x86, x64) et OS X (x64).    
+ @LineBreak
+ @LineBreak
+   Le compilateur backend C ne permet pas d'entrer du code assembleur.
+ 
 @Section Paramètres du compilateur (multi-plateforme)
 
+  Note: Tous les noms de commutateurs commençant par '/' ne sont valides que sous Windows (Par exemple :  '/DEBUGGER'). 
+  Si vous avez besoin d'écrire une ligne de commande multiplateforme, vous pouvez utiliser le format '-' ou '--' (comme : '-d' ou '--debugger).
+  @LineBreak
+  @LineBreak
   -h, --help, /? : affiche une aide simplifiée 
   sur le compilateur. 
-  @LineBreak
-  @LineBreak
-  -c, --commented, /COMMENTED : crée un fichier 
-  de sortie '.asm' commenté en même temps que 
-  l'exécutable. 
-  Ce fichier peut être ré-assemblé ultérieurement 
-  après l'avoir modifié selon vos besoins. 
-  Cette option est à destination des programmeurs 
-  avancés. 
   @LineBreak
   @LineBreak
   -d, --debugger, /DEBUGGER : active le débogueur. 
@@ -34,7 +40,7 @@
   le purifier. 
   @LineBreak
   @LineBreak
-  -e, --executable, /EXE "Fichier" : crée un 
+  -o, --output, /OUTPUT "Fichier" : crée un 
   fichier exécutable ou une DLL indépendant ayant 
   pour nom 'Fichier' et enregistré dans le chemin 
   désiré. Sur MacOS X, il est possible de créer un
@@ -79,7 +85,7 @@
   fichier résident déjà existant. 
   @LineBreak
   @LineBreak
-  -o, --constant, /CONSTANT Nom=Valeur: crée la constante 
+  -co, --constant, /CONSTANT Nom=Valeur: crée la constante 
   spécifiée avec la valeur indiquée. @LineBreak
   Exemple: 'pbcompiler test.pb /CONSTANT MaConstante=10'. 
   La constante @#MaConstante sera créée automatiquement 
@@ -92,14 +98,24 @@
   commandes.
   @LineBreak
   @LineBreak
-  -s, --subsystem, /SUBSYSTEM "Nom": utilise le sous-système 
-  spécifié pour remplacer des commandes internes. 
-  Pour plus d'informations, voir 
-  @ReferenceLink "subsystems" "sous-systèmes".
+  -s, --subsystem, /SUBSYSTEM "Nom": utilise le sous-système spécifié pour remplacer des commandes 
+  internes. Le nom du sous-système n'est pas sensible à la casse.
+  Pour plus d'informations, voir @ReferenceLink "subsystems" "sous-systèmes".
   -k, --check, /CHECK: vérifie la syntaxe uniquement, 
   ne créer pas ni ne lance l'exécutable.
  @LineBreak
  @LineBreak
+  -z, --optimizer, /OPTIMIZER: Active l'optimiseur de code. 
+ @LineBreak
+ @LineBreak 
+  -c, --commented, /COMMENTED : Crée un fichier de sortie commenté 'purebasic.asm' ou 'purebasic.c' lors de la création d'un exécutable.
+   Ce fichier peut être réassemblé avec l'option '--reasm' même après des modifications.
+   Cette option est réservée aux programmeurs avancés. @LineBreak
+   @LineBreak
+   -ra, --reasm, /REASM : Réassemble le fichier 'purebasic.asm' ou 'purebasic.c' et crée un exécutable. Cela permet d'utiliser l'option '--commented',
+   de modifier la sortie générée et de créer à nouveau l'exécutable. @LineBreak
+   Cette option est réservée aux programmeurs avancés. @LineBreak
+  @LineBreak 
   -pp, --preprocess, /PREPROCESS "Fichier": Prétraite 
   le code source et écrit la sortie dans le "Fichier" 
   spécifié. @LineBreak
@@ -114,7 +130,23 @@
   autre fichier source PureBasic pour créer l'exécutable 
   final.
   @LineBreak
-  @LineBreak 
+  @LineBreak
+  -ls, --liststructures, /LISTSTRUCTURES : crée un fichier avec toutes les structures intégrées connues 
+  par le compilateur. Le nom du fichier peut être spécifié avec '--output'. 
+  @LineBreak
+  @LineBreak
+  -lf, --listfunction, /LISTFUNCTIONS : crée un fichier avec toutes les commandes purebasic intégrées 
+  connues par le compilateur. Le nom du fichier peut être spécifié avec '--output'.
+  @LineBreak
+  @LineBreak
+   -li, --listinterfaces, /LISTINTERFACES : crée un fichier avec toutes les interfaces intégrées 
+   connues par le compilateur. Le nom du fichier peut être spécifié avec '--output'.
+  @LineBreak
+  @LineBreak
+   -qs, --querystructure, /QUERYSTRUCTURE "nom" : crée un fichier avec la définition de la structure. 
+   Le nom du fichier peut être spécifié avec '--output. 
+  @LineBreak
+  @LineBreak
   -g, --language, /LANGUAGE \"language\": utilise la langue 
   spécifiée pour les messages d'erreur du compilateur. 
   @LineBreak
@@ -153,13 +185,7 @@
   /DLL: le fichier de sortie est une @ReferenceLink "dll" "DLL". 
   @LineBreak
   @LineBreak
-  /XP: ajoute le support des thèmes ('skins') pour Windows XP. 
-  @LineBreak
-  @LineBreak
-  /REASM: réassemble le fichier PureBasic.asm file en fichier 
-  exécutable. Ceci permet d'utiliser la fonction /COMMENTED, 
-  de modifier le fichier de sortie asm et de recréer un 
-  exécutable. 
+  /XP: ajoute le support des thèmes ('skins') pour Windows. 
   @LineBreak
   @LineBreak
   /MMX, /3DNOW, /SSE or /SSE2: génère un exécutable spécifique 
@@ -230,6 +256,12 @@
   /DPIAWARE: Activer le support DPI sur l'exécutable. @LineBreak
   @LineBreak
   @LineBreak 
+  /DLLPROTECTION: Active la protection contre le préchargement des DLL sur l'exécutable. 
+  Cela empêche que les DLL système soient d'abord recherchées dans le répertoire du programme plutôt 
+  que dans le répertoire System32 du système d'exploitation Windows.
+  @LineBreak
+  @LineBreak 
+  
   @Bold "Exemples:"
   @FixedFont
     CLI> pbcompiler "C:\Project\Source\DLLSource.pb" /EXE "C:\Projet\projet.dll" /DLL

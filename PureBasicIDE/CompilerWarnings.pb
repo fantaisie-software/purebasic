@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure WarningWindowEvents(EventID)
@@ -100,7 +100,7 @@ Procedure DisplayCompilerWarnings()
   EndIf
   
   If OpenWindow(#WINDOW_Warnings, WarningWindowPosition\x, WarningWindowPosition\y, WarningWindowPosition\Width, WarningWindowPosition\Height, Language("Misc","WarningsTitle"), Flags, WindowID(#WINDOW_Main))
-    ListIconGadget(#GADGET_Warnings_List, 0, 0, 0, 0, Language("Compiler", "Warning"), ColumnWidth, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+    ListIconGadget(#GADGET_Warnings_List, 0, 0, ColumnWidth, 0, Language("Compiler", "Warning"), ColumnWidth, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
     AddGadgetColumn(#GADGET_Warnings_List, 1, Language("Misc","Line"), 40)
     AddGadgetColumn(#GADGET_Warnings_List, 2, Language("Misc","File"), 140)
     

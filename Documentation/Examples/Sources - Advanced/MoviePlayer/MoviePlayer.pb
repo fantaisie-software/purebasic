@@ -175,7 +175,7 @@ If OpenWindow(0, 100, 100, #WindowWidth, #WindowHeight, "PureBasic Movie Player 
           ; ---------------- Misc -------------------
             
           Case 12 ; About
-            MessageRequester("Info", "PureBasic Movie Player"+Chr(10)+Chr(10)+"http://www.purebasic.com")
+            MessageRequester("Info", "PureBasic Movie Player"+Chr(10)+Chr(10)+"https://www.purebasic.com")
         
         EndSelect
         

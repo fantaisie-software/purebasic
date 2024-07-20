@@ -18,7 +18,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function StartGeolocation([Timeout])
+@Function StartGeolocation([Timeout [, HighAccuracy]])
 
 @Description
   Starts geolocation data monitoring.
@@ -28,6 +28,11 @@
   during this period, all geolocation functions will returns the error value. This can be useful
   where up-to-date geolocation information are mandatory (ex: for a car navigation application).
   If not specified, no timeout is set.
+
+@OptionalParameter "HighAccuracy"
+  If sets to @#True, enable the use of real GPS if available, and fallback to WiFi or other less
+  accurate methods if not found. Default value is @#False, which only use WiFi or less accurate methods for
+  geolocation.
 
 @NoReturnValue
 

@@ -9,15 +9,8 @@
 ;
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-#PB_Material_AmbientColor = 2
 #PlayerSpeed = 0.4
 #CameraSpeed = 1
-
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
 
 Structure s_Key
   Up.i
@@ -298,12 +291,10 @@ Procedure AddShoot(*Entity.s_Entity)
   
 EndProcedure
 
+
 Procedure Shootbullet()
   ForEach Bullets()
     With Bullets()
-      
-
-      
       If ElapsedMilliseconds()-Bullets()\Life>10000
         If IsEntity(\Bullet)
           FreeEntity(\Bullet)
@@ -320,7 +311,7 @@ Procedure HandleEntity(*Entity.s_Entity)
   Protected.Vector3 Forward, PosMain, PosDir
   Protected Speed.f, Speed2.f, x.f, y.f
   Protected MouseX.f, MouseY.f
-  Static Rot.Vector3, Trans.Vector3, Clic, AngleCanon.f, Time
+  Static Rot.Vector3, Trans.Vector3, Clic, AngleCanon.f, Time, FirstShort=1
   
   With *Entity
     GetNodePosition(PosMain, \MainNode)
@@ -341,7 +332,8 @@ Procedure HandleEntity(*Entity.s_Entity)
         AngleCanon = -3
       EndIf
       
-      If MouseButton(#PB_MouseButton_Left) And ElapsedMilliseconds()-Time > 500
+      If MouseButton(#PB_MouseButton_Left) And (ElapsedMilliseconds()-Time > 500 Or FirstShort = 1)
+        FirstShort = 0
         Time = ElapsedMilliseconds()
         AddShoot(*Entity)
       EndIf

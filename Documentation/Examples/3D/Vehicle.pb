@@ -13,12 +13,6 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Global.f KeyX, KeyY, MouseX, MouseY, ElapsedTime
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Macro VECTOR3(V, a, b, c)
   V\x = a
   V\y = b

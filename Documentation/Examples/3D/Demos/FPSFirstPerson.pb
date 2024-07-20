@@ -17,12 +17,6 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 #PlayerSpeed = 80
 #CameraSpeed = 10
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Structure s_Key
   Up.i
   Down.i

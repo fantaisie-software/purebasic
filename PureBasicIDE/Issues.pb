@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; Note: the issues stuff has its own prefs panel, so the data is stored in
@@ -226,7 +226,7 @@ Procedure UpdateIssueList()
     
     ; Lock the list update, as on GTK2 it's really slow
     ; Note: we may not call SetGadgetState() after this!
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_Issues_List))
       g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), #Null) ; disconnect the model for a faster update
@@ -265,7 +265,7 @@ Procedure UpdateIssueList()
       
     Next DisplayedIssues()
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       gtk_tree_view_set_model_(GadgetID(#GADGET_Issues_List), *tree_model) ; reconnect the model
       g_object_unref_(*tree_model)                                         ; release reference
     CompilerEndIf
@@ -371,11 +371,15 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   EndIf
   SetGadgetState(#GADGET_Issues_Filter, SelectedIssue)
   
-  ListIconGadget(#GADGET_Issues_List, 0, 0, 0, 0, Language("ToolsPanel", "IssueName"), IssuesCol1, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+  ListIconGadget(#GADGET_Issues_List, 0, 0, IssuesCol1, 0, Language("ToolsPanel", "IssueName"), IssuesCol1, #PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
   AddGadgetColumn(#GADGET_Issues_List, 1, Language("ToolsPanel", "IssueText"), IssuesCol2)
   AddGadgetColumn(#GADGET_Issues_List, 2, Language("Misc", "Line"), IssuesCol3)
   AddGadgetColumn(#GADGET_Issues_List, 3, Language("Misc", "File"), IssuesCol4)
   AddGadgetColumn(#GADGET_Issues_List, 4, Language("ToolsPanel", "Priority"), IssuesCol5)
+  
+  If EnableAccessibility
+    SetActiveGadget(#GADGET_Issues_List)
+  EndIf
   
   ButtonImageGadget(#GADGET_Issues_SingleFile, 0, 0, 0, 0, ImageID(#IMAGE_IssueSingleFile), #PB_Button_Toggle)
   ButtonImageGadget(#GADGET_Issues_MultiFile,  0, 0, 0, 0, ImageID(#IMAGE_IssueMultiFile), #PB_Button_Toggle)
@@ -384,6 +388,14 @@ Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
   GadgetToolTip(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
   GadgetToolTip(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
   GadgetToolTip(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  
+  If EnableAccessibility
+    ; Sets a label on the buttons for screen reader users.
+    ; This label is only ever seen by screen readers, and never visually shown.
+    SetGadgetText(#GADGET_Issues_SingleFile, Language("ToolsPanel", "SingleFile"))
+    SetGadgetText(#GADGET_Issues_MultiFile,  Language("ToolsPanel", "MultiFile"))
+    SetGadgetText(#GADGET_Issues_Export,     Language("ToolsPanel", "Export"))
+  EndIf
   
   If IssueMultiFile
     SetGadgetState(#GADGET_Issues_MultiFile, 1)

@@ -12,23 +12,10 @@
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
-Structure Quaternion
-  x.f
-  y.f
-  z.f
-  w.f
-EndStructure
-
-Declare ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Quaternion, *Position.Vector3)
+Declare ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Vector4, *Position.Vector3)
 
 Define.f KeyX, KeyY, MouseX, MouseY, RollZ, sens = -1
-Define Pos.Vector3, Orientation.Quaternion
+Define Pos.Vector3, Orientation.Vector4
 Define.Vector3 Resultat, C1, C2
 
 C1\x = -25 : C1\y = -25 : C1\z = -25
@@ -110,7 +97,7 @@ Macro CROSS_PRODUCT(N, V1, V2)
   N\z = ((V1\x * V2\y) - (V1\y * V2\x))
 EndMacro
 
-Procedure QuaternionVector3(*R.Vector3, *Q.Quaternion, *P.Vector3)
+Procedure QuaternionVector3(*R.Vector3, *Q.Vector4, *P.Vector3)
   ; nVidia SDK implementation
   Protected.Vector3 uv, uuv
   CROSS_PRODUCT(uv, *Q, *P)
@@ -122,7 +109,7 @@ Procedure QuaternionVector3(*R.Vector3, *Q.Quaternion, *P.Vector3)
   *R\z = *P\z + uv\z + uuv\z
 EndProcedure
 
-Procedure ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Quaternion, *Position.Vector3)
+Procedure ConvertLocalToWorld(*N.Vector3, *P.Vector3, *Orientation.Vector4, *Position.Vector3)
   Protected.Vector3 R
   QuaternionVector3(@R, *Orientation, *P)
   *N\x = R\x + *Position\x

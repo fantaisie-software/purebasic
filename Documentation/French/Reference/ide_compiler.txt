@@ -189,6 +189,13 @@ MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour crée
 @LineBreak
 @LineBreak
 
+@Bold "Activer l'optimiseur de code"
+@LineBreak
+  Active l'optimisation du code C.
+
+@LineBreak
+@LineBreak
+
 @Bold "Activer la colorisation des mots clés assembleur"
 @LineBreak
   Active la colorisation des mots clés de l'assembleur. 
@@ -220,7 +227,7 @@ MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour crée
 @Bold "Activer le support des thèmes" (Uniquement pour Windows)
 @LineBreak
   Ajoute un fichier permettant la gestion des thèmes Windows (fenêtres et gadgets skinées), lorsque le programme est 
-  exécuté sur Windows XP, Windows Vista, Windows 7, Windows 8 (fortement recommandé) ou Windows 10.
+  exécuté sur Windows Vista, Windows 7, Windows 8 (fortement recommandé), Windows 10 ou Windows 11.
 
 @LineBreak
 @LineBreak
@@ -268,8 +275,13 @@ MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour crée
 
 @LineBreak
 @LineBreak
-
-
+@Bold "Activer la protection DLL" (Windows uniquement)
+@LineBreak
+   Active la protection contre le préchargement de DLL de l'exécutable. Cela empêche que les DLLs 
+   système soient d'abord recherchées dans le répertoire du programme plutôt que dans le répertoire 
+   System32 du système d'exploitation Windows.
+@LineBreak
+@LineBreak
 
 @Bold "bibliothèque Sous-système" 
 @LineBreak
@@ -406,7 +418,8 @@ LineBreak
 
 @Bold "Paramètre de l'éxecutable"
 @LineBreak
-  La chaîne donnée ici sera passée en tant que ligne de commande pour le programme lorsqu'il est exécuté à partir de l'IDE. 
+  La chaîne donnée ici sera passée en tant que ligne de commande pour le programme lorsqu'il est exécuté à partir de l'IDE.@LineBreak
+  Le contenu de cette chaîne peut être obtenu avec @@ProgramParameter.
 
 @LineBreak
 @LineBreak
@@ -601,6 +614,9 @@ LineBreak
 @LineBreak
 @LineBreak
 
+  Remarque : Étant donné que les ressources sont spécifiques à la plate-forme Windows uniquement, PB n'inclut pas de
+  bibliothèques pour les gérer et ils ne sont pas documentés davantage ici. Voir la documentation sur le
+  @InternetLink "https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" "API Windows" et ressources pour plus d'informations.
 ; == END WINDOWS ONLY ==
 
 @EndOS

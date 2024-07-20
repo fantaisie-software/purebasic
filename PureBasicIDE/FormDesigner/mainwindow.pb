@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure FD_InitBasicPropGridRows(gadget = 0)
@@ -136,6 +136,7 @@ Procedure FD_Init()
   MenuItem(#Menu_Cut,Language("Form", "Cut"))
   MenuItem(#Menu_Copy,Language("Form", "Copy"))
   MenuItem(#Menu_Paste,Language("Form", "Paste"))
+  MenuItem(#MENU_Duplicate,Language("Form", "Duplicate"))
   MenuBar()
   MenuItem(#Menu_AlignLeft,Language("Form", "AlignLeft"))
   MenuItem(#Menu_AlignTop,Language("Form", "AlignTop"))
@@ -149,6 +150,7 @@ Procedure FD_Init()
   MenuItem(#Menu_Cut,Language("Form", "Cut"))
   MenuItem(#Menu_Copy,Language("Form", "Copy"))
   MenuItem(#Menu_Paste,Language("Form", "Paste"))
+  MenuItem(#MENU_Duplicate,Language("Form", "Duplicate"))
   MenuBar()
   MenuItem(#MENU_Form_EditItems,Language("Form", "EditItems"))
   MenuItem(#Menu_Columns,Language("Form", "EditColumns"))
@@ -164,6 +166,7 @@ Procedure FD_Init()
   MenuItem(#Menu_Cut,Language("Form", "Cut"))
   MenuItem(#Menu_Copy,Language("Form", "Copy"))
   MenuItem(#Menu_Paste,Language("Form", "Paste"))
+  MenuItem(#MENU_Duplicate,Language("Form", "Duplicate"))
   MenuBar()
   MenuItem(#MENU_Form_EditItems,Language("Form", "EditItems"))
   MenuBar()

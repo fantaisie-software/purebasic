@@ -1,11 +1,12 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
-Procedure OpenFindWindow()
+Procedure OpenFindWindow(Replace = #False)
+  Protected FindFromSelection
   
   If IsWindow(#WINDOW_Find) = 0
     
@@ -32,10 +33,17 @@ Procedure OpenFindWindow()
         SetGadgetState(#GADGET_Find_SelectionOnly,FindSelectionOnly)
         SetGadgetState(#GADGET_Find_AutoWrap,     FindAutoWrap)
         
-        SetGadgetState(#GADGET_Find_DoReplace,  0) ; doreplace should always be disabled when opening this window.
-        DisableGadget(#GADGET_Find_ReplaceWord, 1)
-        DisableGadget(#GADGET_Find_Replace, 1)
-        DisableGadget( #GADGET_Find_Replaceall, 1)
+        If Replace
+          SetGadgetState(#GADGET_Find_DoReplace,  1)
+          DisableGadget(#GADGET_Find_ReplaceWord, 0)
+          DisableGadget(#GADGET_Find_Replace, 0)
+          DisableGadget( #GADGET_Find_Replaceall, 0)
+        Else
+          SetGadgetState(#GADGET_Find_DoReplace,  0) ; doreplace should always be disabled when opening this window.
+          DisableGadget(#GADGET_Find_ReplaceWord, 1)
+          DisableGadget(#GADGET_Find_Replace, 1)
+          DisableGadget( #GADGET_Find_Replaceall, 1)
+        EndIf
         
         SetGadgetState(#GADGET_Find_FindWord, 0) ; select the last entry
         
@@ -50,6 +58,7 @@ Procedure OpenFindWindow()
             ; display the default selection in the box
             Line$ = Mid(GetLine(LineStart-1), RowStart, RowEnd-RowStart)
             SetGadgetText(#GADGET_Find_FindWord, Line$)
+            FindFromSelection = #True
           EndIf
         EndIf
       EndIf
@@ -60,8 +69,15 @@ Procedure OpenFindWindow()
     SetWindowForeground(#WINDOW_Find)
   EndIf
   
-  SelectComboBoxText(#GADGET_Find_FindWord)
-  SetActiveGadget(#GADGET_Find_FindWord)
+  ; If replacement is requested from a selection, use that selection as the search word and select the last entry replacement word
+  If GetGadgetState(#GADGET_Find_DoReplace)  And FindFromSelection
+    SetGadgetState(#GADGET_Find_ReplaceWord, 0) ; select the last entry
+    SelectComboBoxText(#GADGET_Find_ReplaceWord)
+    SetActiveGadget(#GADGET_Find_ReplaceWord)
+  Else
+    SelectComboBoxText(#GADGET_Find_FindWord)
+    SetActiveGadget(#GADGET_Find_FindWord)
+  EndIf
   
 EndProcedure
 
@@ -175,7 +191,9 @@ Procedure FindWindowEvents(EventID)
               FindReplaceString$= GetGadgetText(#GADGET_Find_ReplaceWord)
               UpdateFindComboBox(#Gadget_Find_FindWord)
               UpdateFindComboBox(#GADGET_Find_ReplaceWord)
+              SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
               FindText(3)
+              SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
             EndIf
             SetWindowForeground(#WINDOW_Find)
           EndIf

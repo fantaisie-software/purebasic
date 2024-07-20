@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -646,6 +646,7 @@ CompilerIf #CompileLinux | #CompileWindows
   #SHORTCUT_FindNext           = #PB_Shortcut_F3
   #SHORTCUT_FindPrevious       = #PB_Shortcut_Shift | #PB_Shortcut_F3
   #SHORTCUT_FindInFiles        = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_F
+  #SHORTCUT_Replace            = #PB_Shortcut_Control | #PB_Shortcut_H
   #SHORTCUT_NewProject         = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_N
   #SHORTCUT_OpenProject        = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_O
   #SHORTCUT_CloseProject       = #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_W
@@ -724,6 +725,7 @@ CompilerElse
   #SHORTCUT_FindNext           = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_F
   #SHORTCUT_FindPrevious       = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_P
   #SHORTCUT_FindInFiles        = 0
+  #SHORTCUT_Replace            = #PB_Shortcut_Command | #PB_Shortcut_H
   #SHORTCUT_NewProject         = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_N
   #SHORTCUT_OpenProject        = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_O
   #SHORTCUT_CloseProject       = #PB_Shortcut_Command | #PB_Shortcut_Shift | #PB_Shortcut_W
@@ -802,6 +804,7 @@ DataSection
   Data$ "File", "NewlineLinux":  Data.l 0
   Data$ "File", "NewlineMacOS":  Data.l 0
   ;Data$ "File", "SortSources":   Data.l 0
+  Data$ "File", "ShowInFolder":  Data.l 0
   Data$ "File", "Preferences":   Data.l 0
   Data$ "File", "EditHistory":   Data.l 0
   Data$ "File", "Quit":          Data.l 0
@@ -828,6 +831,7 @@ DataSection
   Data$ "Edit", "FindNext":       Data.l #SHORTCUT_FindNext
   Data$ "Edit", "FindPrevious":   Data.l #SHORTCUT_FindPrevious
   Data$ "Edit", "FindInFiles":    Data.l #SHORTCUT_FindInFiles
+  Data$ "Edit", "Replace":        Data.l #SHORTCUT_Replace
   
   Data$ "Project", "NewProject":         Data.l #SHORTCUT_NewProject
   Data$ "Project", "OpenProject":        Data.l #SHORTCUT_OpenProject
@@ -889,6 +893,7 @@ DataSection
   Data$ "Tools", "ProjectPanel":     Data.l 0
   Data$ "Tools", "Templates":        Data.l 0
   Data$ "Tools", "Diff":             Data.l 0
+  Data$ "Tools", "WebView":          Data.l 0
   Data$ "Tools", "AddTools":         Data.l 0
   
   Data$ "Help", "Help":              Data.l #SHORTCUT_Help

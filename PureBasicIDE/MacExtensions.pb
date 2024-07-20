@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; this file should contain all OS X specific extension
 ; functions that are "self contained" ie, do not need anything of the
@@ -35,6 +35,13 @@ CompilerIf #CompileMacCocoa
     CGColorRelease(Color)
   EndImport
   
+  CompilerIf Defined(PB_Gadget, #PB_Structure) = 0
+    Structure PB_Gadget
+      *Gadget
+      *Container
+      ; Definition is incomplete, but more is not needed
+    EndStructure
+  CompilerEndIf
   
   Procedure ShowWindowMaximized(Window)
     SetWindowState(Window, #PB_Window_Maximize)
@@ -147,8 +154,8 @@ CompilerIf #CompileMacCocoa
   EndStructure
   
   
-  #ListProperty = 'LIST'
-  #PureImageColumnID = 'PURI'
+  #ListProperty = AsciiConst('L', 'I', 'S', 'T')
+  #PureImageColumnID = AsciiConst('P', 'U', 'R', 'I')
   
   #kDataBrowserNoItem = 0
   #kDataBrowserItemNoProperty = 0
@@ -160,6 +167,10 @@ CompilerIf #CompileMacCocoa
   
   Procedure ShowExplorerDirectory(Directory$)
     RunProgram("open", Chr(34)+Directory$+Chr(34), "")
+  EndProcedure
+  
+  Procedure ShowExplorerFile(File$)
+    RunProgram("open", "-R " + #DQUOTE$ + File$ + #DQUOTE$, "")
   EndProcedure
   
   ; Carbon event modifiers
@@ -231,4 +242,123 @@ CompilerIf #CompileMacCocoa
     EndIf
   EndProcedure
   
+  ; Ignore the apparence support if we are compiling the standalone debugger
+  CompilerIf Defined(PUREBASIC_IDE, #PB_Constant)
+    
+    ; Appearance support
+    
+    Procedure UpdateAppearance()
+      Protected NSApp, NSAppearance, NSAppearanceAqua, NSEffectiveAppearance, NSAppearanceSave
+      Protected Update, OldFaceColor, Item, ItemCount
+      
+      NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
+      NSAppearance = CocoaMessage(0, NSApp, "appearance")
+      
+      If Not DisplayDarkMode And NSAppearance = 0
+        NSAppearanceAqua = CocoaMessage(0, 0, "NSAppearance appearanceNamed:$", @"NSAppearanceNameAqua")
+        CocoaMessage(0, NSApp, "setAppearance:", NSAppearanceAqua)
+        Update = #True
+      ElseIf DisplayDarkMode And NSAppearance <> 0
+        NSAppearanceAqua = #nil
+        CocoaMessage(0, NSApp, "setAppearance:", #nil)
+        Update = #True
+      EndIf
+      
+      If Update
+        With TabBarGadgetInclude
+          OldFaceColor = \FaceColor & $FFFFFF
+          ; Save current appearance
+          NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
+          NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
+          CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSEffectiveAppearance)
+          \BorderColor = GetCocoaColor("systemGrayColor")
+          \TabBarColor = GetCocoaColor("windowBackgroundColor")
+          \TextColor   = GetCocoaColor("windowFrameTextColor")
+          \FaceColor   = GetCocoaColor("windowBackgroundColor")
+          ; Restore current appearance
+          CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceSave)
+          ; Update tabbar item with default colors
+          ItemCount = CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
+          For Item = 0 To ItemCount
+            If GetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor) = OldFaceColor
+              SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_FrontColor, \TextColor)
+              SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor, \FaceColor)
+            EndIf
+          Next
+        EndWith
+      EndIf
+      
+    EndProcedure
+    
+    EnumerationBinary
+      #NSKeyValueObservingOptionNew
+      #NSKeyValueObservingOptionOld
+    EndEnumeration
+    
+    ProcedureC KVO_Appearance(obj, sel, keyPath, object, change, context)
+      Select PeekS(CocoaMessage(0, keyPath, "UTF8String"), -1, #PB_UTF8)
+        Case "effectiveAppearance"
+          If DisplayDarkMode
+            With TabBarGadgetInclude
+              OldFaceColor = \FaceColor & $FFFFFF
+              ; Save current appearance
+              NSAppearanceSave = CocoaMessage(0, 0, "NSAppearance currentAppearance")
+              NSEffectiveAppearance = CocoaMessage(0, NSApp, "effectiveAppearance")
+              CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSEffectiveAppearance)
+              \BorderColor = GetCocoaColor("systemGrayColor")
+              \TabBarColor = GetCocoaColor("windowBackgroundColor")
+              \TextColor   = GetCocoaColor("windowFrameTextColor")
+              \FaceColor   = GetCocoaColor("windowBackgroundColor")
+              ; Restore current appearance
+              CocoaMessage(0, 0, "NSAppearance setCurrentAppearance:", NSAppearanceSave)
+              ; Update tabbar item with default colors
+              ItemCount = CountTabBarGadgetItems(#GADGET_FilesPanel) - 1
+              For Item = 0 To ItemCount
+                If GetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor) = OldFaceColor
+                  SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_FrontColor, \TextColor)
+                  SetTabBarGadgetItemColor(#GADGET_FilesPanel, Item, #PB_Gadget_BackColor, \FaceColor)
+                EndIf
+              Next
+            EndWith
+          EndIf
+      EndSelect
+    EndProcedure
+
+    Procedure InitAppearanceObserver()
+      Protected NSApp, KVO_Class, KVO_Object
+   
+      ; Create Key-Value Observer class (PB_KVO_Appearance)
+      KVO_Class = objc_allocateClassPair_(objc_getClass_("NSObject"), "PB_KVO_Appearance", 0)
+      class_addMethod_(KVO_Class, sel_registerName_("observeValueForKeyPath:ofObject:change:context:"), @KVO_Appearance(), "v@:@@@^v")
+      objc_registerClassPair_(KVO_Class)
+
+      ; Create PB_KVO class instance (KVO)
+      KVO_Object = CocoaMessage(0, 0, "PB_KVO_Appearance new")
+
+      ; Add observer
+      NSApp = CocoaMessage(0, 0, "NSApplication sharedApplication")
+      CocoaMessage(0, NSApp, "addObserver:", KVO_Object, "forKeyPath:$", @"effectiveAppearance", "options:", #NSKeyValueObservingOptionNew, "context:", #nil)
+
+    EndProcedure
+  CompilerEndIf
+  
+  Procedure GetListViewScroll(Gadget)
+    Protected *GadgetStruct.PB_Gadget, *ClipView, Bounds.CGRect
+    
+    *GadgetStruct = IsGadget(Gadget)
+    *ClipView = CocoaMessage(0, *GadgetStruct\Container, "contentView")
+    CocoaMessage(@Bounds, *ClipView, "bounds")
+    
+    ProcedureReturn Bounds\origin\y
+  EndProcedure
+  
+  Procedure SetListViewScroll(Gadget, Position)
+    Protected *GadgetStruct.PB_Gadget, *DocumentView, TargetPoint.CGPoint
+    TargetPoint\y = Position
+    
+    *GadgetStruct = IsGadget(Gadget)
+    *DocumentView = CocoaMessage(0, *GadgetStruct\Container, "documentView")
+    CocoaMessage(0, *DocumentView, "scrollPoint:@", @TargetPoint)
+  EndProcedure
+    
 CompilerEndIf

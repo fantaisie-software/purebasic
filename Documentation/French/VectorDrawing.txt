@@ -312,8 +312,8 @@
   @@ImageVectorOutput  : Une image (voir @@CreateImage)
   @@PrinterVectorOutput: Une imprimante
   @@CanvasVectorOutput : Un @@CanvasGadget
-  @@PdfVectorOutput    : Un fichier PDF (Linux et MacOS seulement)
-  @@SvgVectorOutput    : Un fichier SVG (Linux seulement)
+  @@PdfVectorOutput    : Un fichier PDF
+  @@SvgVectorOutput    : Un fichier SVG
 @EndFixedFont
 
 @ReturnValue
@@ -738,21 +738,15 @@
 @Function NewVectorPage()
 
 @Description
-  Termine la page de dessin vectoriel 
-  en cours et commence une nouvelle page.
+  Termine la page de dessin vectoriel en cours et commence une nouvelle page.
 
 @Remarks
-  Les sorties suivantes sont prises 
-  en charge:
+  Les sorties suivantes sont prises en charge:
 @LineBreak
 @LineBreak
   @@PrinterVectorOutput
 @LineBreak
-  @@PdfVectorOutput (Linux et MacOS 
-  seulement)
-@LineBreak
-  @@SvgVectorOutput (Linux seulement)
- 
+  @@PdfVectorOutput
  
 @NoParameters
 
@@ -2196,12 +2190,14 @@
 @NoReturnValue
 
 @Remarks
-  La position courante peut être réglée avec 
-  @@MovePathCursor. 
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisées.
+@LineBreak
+@LineBreak 
+  La position courante peut être réglée avec @@MovePathCursor. 
 @LineBreak
 @LineBreak
-  Après l'appel à cette fonction, le curseur 
-  est déplacé à la fin du texte.
+  Après l'appel à cette fonction, le curseur est déplacé à la fin du texte.
 @LineBreak
 @LineBreak  
   La fonction @@DrawVectorText devrait être 
@@ -3963,7 +3959,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
 
@@ -3989,7 +3985,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
     LoadFont(0, "Impact", 20, #PB_Font_Bold)    
 
     If StartVectorDrawing(CanvasVectorOutput(0))
@@ -4074,7 +4070,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
@@ -4119,12 +4115,12 @@
 @NoReturnValue
 
 @Remarks
-  A la fin, le curseur sera déplacé à la fin 
-  du texte. 
+  A la fin, le curseur sera déplacé à la fin du texte. 
 @LineBreak
 @LineBreak
-  La police à utiliser peut être réglée avec 
-  @@VectorFont.
+  La police à utiliser peut être réglée avec @@VectorFont.@LineBreak
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont donc 
+  pas autorisées.
 @LineBreak
 @LineBreak
   La fonction @@DrawVectorParagraph est plus 
@@ -4214,12 +4210,13 @@
 @NoReturnValue
 
 @Remarks
-  Si le texte ne rentre pas en entier 
-  dans la boîte, il sera tronqué. 
+  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisées.
+@LineBreak
+  La police à utiliser peut être réglée avec @@VectorFont.  
 @LineBreak
 @LineBreak
-  La police à utiliser peut être réglée 
-  avec @@VectorFont.
+  Si le texte ne rentre pas en entier dans la boîte, il sera tronqué. 
 
 @Example 
 @Code
@@ -4565,8 +4562,7 @@
 @Function Resultat = PdfVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier PDF (Linux et Mac OSX 
-  seulement).
+  Crée un fichier PDF.
   
 @Parameter "Fichier$"
   Le nom du fichier PDF à créer. @LineBreak
@@ -4636,8 +4632,7 @@
 @Function Resultat = SvgVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier SVG (scalable vector 
-  graphics) (Linux seulement).
+  Crée un fichier SVG (scalable vector graphics).
   
 @Parameter "Fichier$"
   Le nom du fichier SVG à créer. @LineBreak

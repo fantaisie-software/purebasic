@@ -1,7 +1,7 @@
 ;
 ;     String library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library String
@@ -43,9 +43,9 @@
   Debug "Please check that your IDE is in UTF8: File \ File Format \ Encoding: Utf8 must be checked."
   Debug '!'      ; will print '33'
   Debug Asc("!") ; will print '33'
-  Debug Asc("Ä") ; will print '8364' = 20AC in hexadecimal
+  Debug Asc("‚Ç¨") ; will print '8364' = 20AC in hexadecimal
 
-  unicode$="ÄÄ "
+  unicode$="‚Ç¨‚Ç¨ "
   Debug Asc(unicode$) ; will print '8364'
   ShowMemoryViewer(@unicode$,8)
 
@@ -108,10 +108,11 @@
   Returns a string created with the given character value.
 
 @Parameter "CharacterValue"
-  The character value.
+  The unicode character value. It must be a value between 0 and $D7FF or between $E000 and $FFFF. 
+  The range between $D800 and $DFFF is reserved for surrogate characters.
 
 @ReturnValue
-  Returns a string created with the given character value.
+  Returns a string created with the given character value. If the value is invalid, it will returns an empty string.
 
 @Example
 @Code
@@ -125,9 +126,18 @@
   This command works in @ReferenceLink "unicode" "Unicode" and then
   returns the related characters associated to the given value.
 @Code
-  Debug Chr(8364) ; will display "Ä"
-  Debug Chr($BC)  ; will display "º"
-  Debug Chr($BD)  ; will display "Ω"
+  Debug Chr(8364) ; will display "‚Ç¨"
+  Debug Chr($BC)  ; will display "¬º"
+  Debug Chr($BD)  ; will display "¬Ω"
+@EndCode
+
+@Example Special symbols (icons) and a loop with output of latin letters
+@Code
+  Debug Chr($2630) ; ‚ò∞
+  Debug Chr($25BC) ; ‚ñº
+  For i = 65 To 90
+      Debug Chr(i)
+  Next
 @EndCode
 
 @SeeAlso
@@ -180,6 +190,8 @@
                              for accepted escape sequences) (default).
   @#PB_String_EscapeXML     : escape the string using the XML escape characters. This can be useful to easily put any string in a
                              XML tree.
+  @#PB_String_EscapeJSON    : escape the string using the JSON escape characters. This can be useful to easily put any string in a
+                             JSON value.
 @EndFixedFont
 
 @ReturnValue
@@ -227,6 +239,24 @@
 @Code
   Debug FindString("PureBasic", "Bas") ; will display 5
 @EndCode
+
+@Example
+@Code
+  String$ = "This is a simple line...."
+  
+  Repeat
+  Last = Position
+  Position = FindString(String$ , "i", Position + 1)
+  If Position > 0
+    Debug "'i' found at position: " + Position
+  EndIf
+  Until Not Position
+  
+  Debug "Last position 'i' was found: " + Last
+@EndCode
+
+@SeeAlso
+  @@ReplaceString
 
 @SupportedOS
 
@@ -325,7 +355,7 @@
   The string converted into lowercase.
 
 @Remarks
-  This function also supports accent letters, so if a upper '…' is found, it will be transformed into 'È'.
+  This function also supports accent letters, so if a upper '√â' is found, it will be transformed into '√©'.
 
 @Example
 @Code
@@ -389,16 +419,17 @@
 @Function Result$ = LSet(String$, Length [, Character$])
 
 @Description
-  Pads a string to the left by adding extra characters to fit the specified length.
+  Adjusts the length of a string by adding characters at the end of the string if necessary to 
+  reach the specified length.
 
 @Parameter "String$"
-  The string to pad.
+  The string to adjust.
 
 @Parameter "Length"
   The total length (in characters) of the new string.
 
 @OptionalParameter "Character$"
-  The character used to pad extra space in the new string. The default character is 'space'.
+  The character used to adjust the length of the new string. The default character is 'space'.
   'Character$' has to be a one character length string.
 
 @ReturnValue
@@ -546,6 +577,7 @@
                       a dangerous option, for advanced users only. The advantage is the very high speed of the
                       replacement. When using this option, the result of ReplaceString() has to be ignored.
                       Only the string passed in parameter 'String$' is changed and it's the result.
+                      @ReferenceLink "variables" "Fixed strings" are not supported using this mode.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -564,16 +596,16 @@
   Debug ReplaceString("This is Art", " is", " was") ; Will display "This was Art"
 
   test$ = "Hello again, hello again"
-  Result$ = ReplaceString(test$, "HELLO", "oh no...", 1, 10) ; Will display "Hello again, oh no... again"
+  Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; Will display "Hello again, oh no... again"
   Debug Result$
 
   test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", 2, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
+  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
   Debug test$   ; Output of the changed string and will display "Zundy, Zarbie, Zuddy"
 @EndCode
 
 @SeeAlso
-  @@RemoveString, @@InsertString
+  @@RemoveString, @@InsertString, @@FindString, @@ReplaceRegularExpression
 
 @SupportedOS
 
@@ -609,16 +641,17 @@
 @Function Result$ = RSet(String$, Length [, Character$])
 
 @Description
-  Pads a string to the right by adding extra characters to fit the specified length.
+  Adjusts the length of the string by adding characters at the beginning of the string if necessary 
+  to reach the specified length.
 
 @Parameter "String$"
-  The string to pad.
+  The string to adjust.
 
 @Parameter "Length"
   The total length (in characters) of the new string.
 
 @OptionalParameter "Character$"
-  The character used to pad extra space in the new string. The default character is 'space'.
+  The character used to adjust the length of the new string. The default character is 'space'.
   'Character$' has to be a one character length string.
 
 @ReturnValue
@@ -697,7 +730,7 @@
 
 @Example
 @Code
-  Debug StringByteLength("‰", #PB_UTF8) ; will display 2
+  Debug StringByteLength("√§", #PB_UTF8) ; will display 2
 @EndCode
 
 @SupportedOS
@@ -952,7 +985,7 @@
   The string converted into uppercase.
 
 @Remarks
-  This function also supports accent letters, so if a lower 'È' is found, it will be transformed into '…'.
+  This function also supports accent letters, so if a lower '√©' is found, it will be transformed into '√â'.
 
 @Example
 @Code
@@ -980,8 +1013,10 @@
 @FixedFont
   @#PB_String_EscapeInternal: unescape the string using PureBasic internal format (see @ReferenceLink "general_rules" "General rules"
                              for accepted escape sequences) (default).
-  @#PB_String_EscapeXML     : unescape the string using the XML escape characters. This can be useful to easily read any string from an
+  @#PB_String_EscapeXML     : unescape the string using the XML escape characters. This can be useful to easily read any string from a
                              XML tree.
+  @#PB_String_EscapeJSON    : unescape the string using the JSON escape characters. This can be useful to easily read any string from a
+                             JSON value.                            
 @EndFixedFont
 
 @ReturnValue
@@ -1015,6 +1050,8 @@
 
 @Remarks
   Strings holding an integer can also be converted with @@Val, and 32-bit floats with @@ValF (with less accuracy than @@ValD).
+@linebreak
+  "NaN", "-Infinity" and "+Infinity" are allowed.
 
 @Example
 @Code
@@ -1043,7 +1080,9 @@
 
 @Remarks
   Strings holding an integer can also be converted with @@Val and 64-bit floats with @@ValD (with more accuracy than @@ValF).
-
+@linebreak
+  "NaN", "-Infinity" and "+Infinity" are allowed.
+  
 @Example
 @Code
   Debug ValF("10.75")     ; will display 10.75
@@ -1109,7 +1148,7 @@
 
 @Example
 @Code
-  *Ascii = Ascii("HÈlÈ")
+  *Ascii = Ascii("H√©l√©")
   ShowMemoryViewer(*Ascii, 4)
 @EndCode
 
@@ -1142,10 +1181,10 @@
 
 @Example
 @Code
-  *UTF8 = UTF8("HÈlÈ")
+  *UTF8 = UTF8("H√©l√©")
   ShowMemoryViewer(*UTF8, MemorySize(*UTF8))
 
-  Debug PeekS(*UTF8, -1, #PB_UTF8) ; Displays "HÈlÈ"
+  Debug PeekS(*UTF8, -1, #PB_UTF8) ; Displays "H√©l√©"
 @EndCode
 
 @Example
@@ -1154,8 +1193,8 @@
     PeekS(Mem, -1, Type)
   EndMacro
 
-  *Mem1 = Ascii("Test - È‡Óˆ ‹")
-  *Mem2 = UTF8("Test - È‡Óˆ ‹")
+  *Mem1 = Ascii("Test - √©√†√Æ√∂√ä√ú")
+  *Mem2 = UTF8("Test - √©√†√Æ√∂√ä√ú")
 
   Text.s = Unicode(*Mem1)
   Debug Text

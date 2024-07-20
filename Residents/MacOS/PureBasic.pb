@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;
 ; PureBasic OSX resident file
 ;
@@ -85,25 +85,8 @@ IncludeFile "../Common.pb"
 #PB_Sort_Double = 12
 #PB_Sort_Quad = 13
 
-
-; ToolBar icon definitions
+; Toolbar
 ;
-#PB_ToolBarIcon_Cut    = 0
-#PB_ToolBarIcon_Copy   = 1
-#PB_ToolBarIcon_Paste  = 2
-#PB_ToolBarIcon_Undo   = 3
-#PB_ToolBarIcon_Redo   = 4
-#PB_ToolBarIcon_Delete = 5
-#PB_ToolBarIcon_New    = 6
-#PB_ToolBarIcon_Open   = 7
-#PB_ToolBarIcon_Save   = 8
-#PB_ToolBarIcon_PrintPreview = 9
-#PB_ToolBarIcon_Properties   = 10
-#PB_ToolBarIcon_Help    = 11
-#PB_ToolBarIcon_Find    = 12
-#PB_ToolBarIcon_Replace = 13
-#PB_ToolBarIcon_Print   = 14
-
 #PB_ToolBar_Normal = 0
 #PB_ToolBar_Toggle = 1
 
@@ -279,14 +262,6 @@ IncludeFile "../Common.pb"
 #PB_ListIcon_GridLines = 16
 #PB_ListIcon_HeaderDragDrop = 32
 
-; Item attributes
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-; Gadget attributes
-#PB_ListIcon_ColumnWidth = 1
-
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2 ; NOT SUPPORTED
 
@@ -455,18 +430,8 @@ IncludeFile "../Common.pb"
 ;
 #PB_EventType_Change = $300
 #PB_EventType_Focus = $100
-#PB_EventType_LeftClick = 0
-#PB_EventType_LeftDoubleClick = 2
 #PB_EventType_LostFocus = $200
-#PB_EventType_RightClick = 1
-#PB_EventType_RightDoubleClick = 3
 #PB_EventType_DragStart = $800
-#PB_EventType_Up        = 4
-#PB_EventType_Down      = 5
-#PB_EventType_Resize    = 6
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
 
 ; Drag & Drop
 ;
@@ -786,16 +751,16 @@ CompilerEndIf
 #PB_Shortcut_LeftWindows  = 0
 #PB_Shortcut_RightWindows = 0
 #PB_Shortcut_Apps = 0
-#PB_Shortcut_Pad0 = 48
-#PB_Shortcut_Pad1 = 49
-#PB_Shortcut_Pad2 = 50
-#PB_Shortcut_Pad3 = 51
-#PB_Shortcut_Pad4 = 52
-#PB_Shortcut_Pad5 = 53
-#PB_Shortcut_Pad6 = 54
-#PB_Shortcut_Pad7 = 55
-#PB_Shortcut_Pad8 = 56
-#PB_Shortcut_Pad9 = 57
+#PB_Shortcut_Pad0 = 130
+#PB_Shortcut_Pad1 = 131
+#PB_Shortcut_Pad2 = 132
+#PB_Shortcut_Pad3 = 133
+#PB_Shortcut_Pad4 = 134
+#PB_Shortcut_Pad5 = 135
+#PB_Shortcut_Pad6 = 136
+#PB_Shortcut_Pad7 = 137
+#PB_Shortcut_Pad8 = 138
+#PB_Shortcut_Pad9 = 139
 #PB_Shortcut_Multiply  = 42
 #PB_Shortcut_Add       = 43
 #PB_Shortcut_Separator = 0
@@ -829,3 +794,4 @@ CompilerEndIf
 #PB_Shortcut_Numlock= 27
 #PB_Shortcut_Scroll = 0 ; Not supported on OS X
 
+#PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it

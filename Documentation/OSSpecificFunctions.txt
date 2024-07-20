@@ -149,6 +149,10 @@ MovieSeek:        Windows, (Linux),  MacOS  - Always returns 0 on Linux
 #Library: Mouse
 MouseWheel: Windows, (Linux), (MacOS) - Works only on Windows, returns 0 on the other OS
 
+; Menu Library
+;
+#Library: Menu
+HideMenu: Windows, Linux
 
 ; System Library
 ;
@@ -183,11 +187,6 @@ SoundPan:       Windows, (Linux),  MacOS  - Only works on Windows and MacOS, doe
 #Library: Thread
 ThreadPriority: Windows, (Linux), (MacOS) - Returns 16 (default) and has no effect on Linux and MacOS
 
-; ToolBar Library
-;
-#Library: ToolBar
-ToolBarStandardButton: Windows, Linux, (MacOS) - On MacOS, adds an item without an image, as no standard set is available
-
 ; Window Library
 ;
 #Library: Window
@@ -195,11 +194,5 @@ EventLParam:        Windows                   - Windows specific Event handling
 EventWParam:        Windows                   - Windows specific Event handling
 SetWindowCallback:  Windows                   - Windows specific Event handling
 SmartWindowRefresh: Windows, (Linux), (MacOS) - Only has an effect on Windows, ignored else
-
-; VectorDrawing Library
-;
-#Library: VectorDrawing
-PdfVectorOutput:    Linux, MacOS
-SvgVectorOutput:    Linux
 
 ; --------------------------------------------------------------------------------------

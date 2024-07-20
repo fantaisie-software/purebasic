@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 Global items_gadget, items_grid
 Procedure FD_UpdateItems()
   grid_DeleteAllRows(items_grid)
@@ -31,7 +31,16 @@ EndProcedure
 Procedure FD_InitItems()
   DisableWindow(#WINDOW_Main, #True) ; Important to disable the main window or it can lead to some issues: https://www.purebasic.fr/english/viewtopic.php?p=471724#p471724
   
-  OpenWindow(#Form_Items, 0, 0, 600, 400, "",#PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_WindowCentered | #PB_Window_SizeGadget, WindowID(#WINDOW_Main))
+  Define Title$, ID$
+  
+  If FormWindows()\FormGadgets()\pbany
+    ID$ = FormWindows()\FormGadgets()\variable
+  Else
+    ID$ = "#" + FormWindows()\FormGadgets()\variable
+  EndIf
+  Title$ = ReplaceString(Language("Form","EditItemsTitle"), "%id%", ID$)
+  
+  OpenWindow(#Form_Items, 0, 0, 600, 400, Title$, #PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_WindowCentered | #PB_Window_SizeGadget, WindowID(#WINDOW_Main))
   AddKeyboardShortcut(#Form_Items, #PB_Shortcut_Command | #PB_Shortcut_C, #Menu_Copy)
   AddKeyboardShortcut(#Form_Items, #PB_Shortcut_Command | #PB_Shortcut_X, #Menu_Cut)
   AddKeyboardShortcut(#Form_Items, #PB_Shortcut_Command | #PB_Shortcut_V, #Menu_Paste)
@@ -41,7 +50,11 @@ Procedure FD_InitItems()
   
   grid_SetColumnCaption(items_grid,0,Language("Form", "Item"))
   grid_SetColumnWidth(items_grid,0,300)
-  grid_SetColumnCaption(items_grid,1,Language("Form", "Item"))
+  If FormWindows()\FormGadgets()\type = #Form_Type_TreeGadget
+    grid_SetColumnCaption(items_grid,1,Language("Form", "Level"))
+  Else
+    grid_SetColumnCaption(items_grid,1,Language("Form", "N/A"))
+  EndIf
   grid_SetColumnWidth(items_grid,1,50)
   grid_SetColumnCaption(items_grid,2," ")
   grid_SetColumnWidth(items_grid,2,22)
@@ -93,7 +106,17 @@ Procedure FD_UpdateColumns()
   PopListPosition(FormWindows()\FormGadgets())
 EndProcedure
 Procedure FD_InitColumns()
-  OpenWindow(#Form_Columns, 0, 0, 600, 400, "",#PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_WindowCentered | #PB_Window_SizeGadget,WindowID(#WINDOW_Main))
+  
+  Define Title$, ID$
+  
+  If FormWindows()\FormGadgets()\pbany
+    ID$ = FormWindows()\FormGadgets()\variable
+  Else
+    ID$ = "#" + FormWindows()\FormGadgets()\variable
+  EndIf
+  Title$ = ReplaceString(Language("Form","EditColumnsTitle"), "%id%", ID$)
+  
+  OpenWindow(#Form_Columns, 0, 0, 600, 400, Title$,#PB_Window_SystemMenu | #PB_Window_TitleBar | #PB_Window_WindowCentered | #PB_Window_SizeGadget,WindowID(#WINDOW_Main))
   AddKeyboardShortcut(#Form_Columns, #PB_Shortcut_Command | #PB_Shortcut_C, #Menu_Copy)
   AddKeyboardShortcut(#Form_Columns, #PB_Shortcut_Command | #PB_Shortcut_X, #Menu_Cut)
   AddKeyboardShortcut(#Form_Columns, #PB_Shortcut_Command | #PB_Shortcut_V, #Menu_Paste)

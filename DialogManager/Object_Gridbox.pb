@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 XIncludeFile "Object_BoxBase.pb"
@@ -129,7 +129,9 @@ EndProcedure
 Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
   *Width\l  = 0
   *Height\l = 0
-  
+  MaxWidth = 0
+  MaxHeight = 0
+
   If *THIS\NbRows > 0
     
     For row = 0 To *THIS\NbRows-1
@@ -146,15 +148,29 @@ Procedure DlgGridBox_SizeRequest(*THIS.DlgGridBox, *Width.LONG, *Height.LONG)
           ;
           If *THIS\Rows[row]\Cols[col]\Colspan = 1
             *THIS\colSize[col] = Max(*THIS\colSize[col], Width)
+            MaxWidth = Max(*THIS\colSize[col], MaxWidth)
           EndIf
           
           If *THIS\Rows[row]\Cols[col]\Rowspan = 1
             *THIS\rowSize[row] = Max(*THIS\rowSize[row], Height)
+            MaxHeight = Max(*THIS\rowSize[row], MaxHeight)
           EndIf
         EndIf
         
       Next col
     Next row
+
+        If *THIS\colExpand = #Dlg_Expand_Equal
+          For col = 0 To *THIS\NbColumns-1
+             *THIS\colSize[col]=MaxWidth
+          Next col
+        EndIf
+        
+        If *THIS\rowExpand = #Dlg_Expand_Equal
+                For row = 0 To *THIS\NbRows-1
+                        *THIS\rowSize[row]= MaxHeight
+                Next row
+        EndIf
     
     ; calculate effects by spanning children
     ;

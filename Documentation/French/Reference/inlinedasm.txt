@@ -1,25 +1,19 @@
 @Title L'assembleur en ligne x86 
 
-  PureBasic permet d'inclure toute commande 
-  assembleur x86 (y compris les instructions 
-  MMX et FPU) directement dans le code source 
-  comme dans un vrai source assembleur. Vous 
-  pouvez également utiliser directement les 
-  @ReferenceLink "variables" "variables" ou 
-  @ReferenceLink "memory" "pointeurs" avec 
-  les instructions assembleur et pouvez 
-  intégrer plusieurs commandes assembleur 
-  sur une même ligne. 
+  Avec le compilateur utilisant le backend ASM, PureBasic permet d'inclure toute commande 
+  assembleur x86 (y compris les instructions MMX et FPU) directement dans le code source 
+  comme dans un vrai source assembleur (pour les processeurs X86 et X64 seulement). 
+  Vous pouvez également utiliser directement les @ReferenceLink "variables" "variables" ou 
+  @ReferenceLink "memory" "pointeurs" avec les instructions assembleur et pouvez intégrer 
+  plusieurs commandes assembleur sur une même ligne. 
 @LineBreak
 @LineBreak  
   Sous Windows et Linux, PureBasic utilise @Bold "fasm" (
   @InternetLink "http://flatassembler.net/" "http://flatassembler.net"), 
-  alors pour plus d'information à propose 
-  de la syntaxe, lire le guide fasm. @LineBreak
+  alors pour plus d'information à propos de la syntaxe, lire le guide fasm. @LineBreak
   Sous OS X, PureBasic utilise @Bold "yasm" (
   @InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), 
-  alors pour plus d'information à propose de 
-  la syntaxe, lire le guide yasm. 
+  alors pour plus d'information à propos de la syntaxe, lire le guide yasm. 
 @LineBreak
 @LineBreak
   Pour utiliser l'assembleur en ligne, utiliser 
@@ -118,7 +112,7 @@
   @LineBreak
   @LineBreak
   - Pour renvoyer directement la valeur du 
-  registre 'eax' (ou 'rax' sur x64)comme valeur 
+  registre 'eax' (ou 'rax' sur x64) comme valeur 
   de retour, il suffit d'utiliser 
   @Keyword "ProcedureReturn", sans paramètre. 
   Le contenu du registre 'eax' (ou 'rax' sur x64) 
@@ -138,7 +132,7 @@
   indexées par rapport au registre de la @Bold pile (ESP) 
   ce qui implique qu'un changement de la valeur de 
   ce registre par une instruction assembleur (tel 
-  que PUSH, POP etc..) la référence vers la variable 
+  que PUSH, POP etc..) implique que la référence vers la variable 
   ne sera plus correcte.
 @LineBreak  
 @LineBreak

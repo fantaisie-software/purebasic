@@ -115,7 +115,7 @@ Import "user32.lib"
   AnsiWide(DlgDirListComboBox, (arg1, arg2, arg3, arg4, arg5), 20)
   AnsiWide(DlgDirSelectComboBoxEx, (arg1, arg2, arg3, arg4), 16)
   AnsiWide(DlgDirSelectEx, (arg1, arg2, arg3, arg4), 16)
-       Api(DragDetect, (arg1, arg2, arg3), 12)
+       Api(DragDetect, (arg1, pt.q), 12)
        Api(DragObject, (arg1, arg2, arg3, arg4, arg5), 20)
        Api(DrawAnimatedRects, (arg1, arg2, arg3, arg4), 16)
        Api(DrawCaption, (arg1, arg2, arg3, arg4), 16)

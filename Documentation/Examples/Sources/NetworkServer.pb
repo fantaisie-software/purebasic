@@ -7,39 +7,36 @@
 ;
 ; ------------------------------------------------------------
 ;
-
-If InitNetwork() = 0
-  MessageRequester("Error", "Can't initialize the network !", 0)
-  End
-EndIf
+; Note: run the NetworkClient.pb file to send some data to this server
+;
 
 Port = 6832
 *Buffer = AllocateMemory(1000)
 
-If CreateNetworkServer(0, Port)
+If CreateNetworkServer(0, Port, #PB_Network_IPv4 | #PB_Network_TCP, "127.0.0.1")
 
-  MessageRequester("PureBasic - Server", "Server created (Port "+Str(Port)+").", 0)
+  MessageRequester("PureBasic - Server", "Server created (Port "+Port+").", 0)
   
   Repeat
       
-    SEvent = NetworkServerEvent()
+    ServerEvent = NetworkServerEvent()
   
-    If SEvent
+    If ServerEvent
     
       ClientID = EventClient()
   
-      Select SEvent
+      Select ServerEvent
       
         Case #PB_NetworkEvent_Connect
           MessageRequester("PureBasic - Server", "A new client has connected !", 0)
   
         Case #PB_NetworkEvent_Data
-          MessageRequester("PureBasic - Server", "Client "+Str(ClientID)+" has send a packet !", 0)
+          MessageRequester("PureBasic - Server", "Client "+ClientID+" has send a packet !", 0)
           ReceiveNetworkData(ClientID, *Buffer, 1000)
           MessageRequester("Info", "String: "+PeekS(*Buffer, -1, #PB_UTF8), 0)
   
         Case #PB_NetworkEvent_Disconnect
-          MessageRequester("PureBasic - Server", "Client "+Str(ClientID)+" has closed the connection...", 0)
+          MessageRequester("PureBasic - Server", "Client "+ClientID+" has closed the connection...", 0)
           Quit = 1
     
       EndSelect

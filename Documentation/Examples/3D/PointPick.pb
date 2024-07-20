@@ -132,7 +132,6 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

@@ -1,13 +1,10 @@
 	
 all: 
-	pbcompiler "Sources - Advanced/Atomic FTP Server/Atomic FTP Server.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/Atomic Web Server/Atomic Web Server.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/DirectX 7 - Interfaces/DirectX 7.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/MoviePlayer/MoviePlayer.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/OpenGL Cube/OpenGL.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/Quake3 Launcher/Quake3Launcher.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/QuickSort/QuickSort.pb" /QUIET /EXE temporary.exe
-	pbcompiler "Sources - Advanced/Waponez II/Waponez II.pb" /QUIET /EXE temporary.exe
+	pbcompiler "Sources - Advanced/Atomic FTP Server/Atomic FTP Server.pb" /QUIET /CHECK
+	pbcompiler "Sources - Advanced/Atomic Web Server/Atomic Web Server.pb" /QUIET /CHECK
+	pbcompiler "Sources - Advanced/MoviePlayer/MoviePlayer.pb" /QUIET /CHECK
+	pbcompiler "Sources - Advanced/OpenGL Cube/OpenGL.pb" /QUIET /CHECK
+	pbcompiler "Sources - Advanced/QuickSort/QuickSort.pb" /QUIET /CHECK
+	pbcompiler "Sources - Advanced/Waponez II/Waponez II.pb" /QUIET /CHECK
 	make --quiet --directory 3D
 	make --quiet --directory Sources
-	rm -f temporary.exe

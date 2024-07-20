@@ -1,12 +1,14 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; linux only file
 CompilerIf #CompileLinux
+  
+  UseBriefLZPacker()
   
   Structure Help_Contents
     SubLevel.l
@@ -119,7 +121,7 @@ CompilerIf #CompileLinux
         File$ = LCase(#ProductName$)+".help"
       EndIf
       
-      If OpenPack(0, PureBasicPath$ + File$)
+      If OpenPack(0, PureBasicPath$ + File$, #PB_PackerPlugin_BriefLZ)
         
         ExaminePack(0)
         
@@ -509,15 +511,15 @@ CompilerIf #CompileLinux
   EndProcedure
   
   
-  ProcedureC HelpMouseEvents(*Window._GtkWidget, *Event._GdkEventButton, user_type)
+  ProcedureC HelpMouseEvents(*Window.GtkWidget, *Event.GdkEventButton, user_type)
     If *Event\button = 1
-      
-      position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor))
+      position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor)-GadgetX(#GADGET_Help_Splitter), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor)-GadgetY(#GADGET_Help_Splitter))
       If position <> -1
         ForEach Help_Links()
           
           If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position
-            LoadHelpPage(Help_Links()\Link$, 1)
+            ;LoadHelpPage(Help_Links()\Link$, 1) move to HelpWindowEvents
+            PostEvent(#PB_Event_Gadget, #WINDOW_Help, #GADGET_Help_Editor, #PB_EventType_FirstCustomValue)
             ProcedureReturn 1 ; ignore event
             
           EndIf
@@ -843,6 +845,12 @@ CompilerIf #CompileLinux
             ResizeGadget(#GADGET_Help_SearchValue  , 10, 10, PanelWidth-20, StringHeight)
             ResizeGadget(#GADGET_Help_SearchGo     , (PanelWidth-ButtonWidth)/2, 20+StringHeight, ButtonWidth, ButtonHeight)
             ResizeGadget(#GADGET_Help_SearchResults, 0, 30+StringHeight+ButtonHeight, PanelWidth, PanelHeight-30-StringHeight-ButtonHeight)
+            
+          Case #GADGET_HELP_Editor
+            Select EventType()
+              Case #PB_EventType_FirstCustomValue
+                LoadHelpPage(Help_Links()\Link$, 1)
+            EndSelect
             
         EndSelect
         

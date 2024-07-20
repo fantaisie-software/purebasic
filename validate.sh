@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# "validate.sh"  by Tristano Ajmone                          v3.1.0 | 2020/11/23
+# "validate.sh"  by Tristano Ajmone                          v3.2.0 | 2022/05/15
 #-------------------------------------------------------------------------------
 # 1. Check that PureBasic sources don't contain saved IDE settings.
 # 2. Validate code style consistency in the repository via EditorConfig settings
@@ -51,55 +51,8 @@ fi
 echo -e "\033[32;1m/// Test Passed ///\033[0m"
 rm $tmpLog
 
-# **************************************************
-# 2. Check PureBasic Sources for Trailing Whitespace
-# **************************************************
-# Currently EditorConfig can't be used to check for the presence of trailing
-# whitespace due to the PureBasic IDE indenting empty lines that precede an
-# indented line, which EClint would consider as trailing whitespace.
-# (see editorconfig/editorconfig#238)
-#
-# So we have to grep all PB sources looking for trailing spaces in lines that
-# contain at least one non-space/tab character...
-
-echo -e "\n\033[34;1m=================================================="
-echo -e "\033[33;1mChecking PureBasic Sources for Trailing Whitespace "
-echo -e "\033[34;1m==================================================\033[0m"
-
-tmpLog=$(mktemp)
-passed=true
-
-# Change Internal Field Separator ($IFS) to handle filenames with spaces:
-IFS_COPY=$IFS
-IFS=$(echo -en "\n\b")
-
-for pbfile in $(find . 	-name '*.pb'  -o \
-						-name '*.pbi' -o \
-						-name '*.pbf' );
-do
-	result="$(grep -cE '[^ \\t].*( |\\t)+[[:cntrl:]]*$' $pbfile)"
-	if [ "$result" != "0" ] ; then
-		echo "$pbfile" >> $tmpLog
-		passed=
-	fi
-done
-IFS=$IFS_COPY # Restore original IFS!
-
-if [ "$passed" != true ] ; then
-	echo -e "\033[31;1m~~~ ERROR! ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo -e "\033[31;1mThe following files contain trailing whitespace:\n\033[33;1m"
-	cat $tmpLog
-	rm $tmpLog
-	echo -e "\033[31;1m\nPlease clean up your sources and fix the problem."
-	echo -e "\033[31;1m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-	echo -e "\033[31;1m/// Aborting All Tests ///\033[0m"
-	exit 1
-fi
-echo -e "\033[32;1m/// Test Passed ///\033[0m"
-rm $tmpLog
-
 # *******************************************
-# 3. Check Sources for Code Style Consistency
+# 2. Check Sources for Code Style Consistency
 # *******************************************
 
 echo -e "\n\033[34;1m================================================"

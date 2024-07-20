@@ -45,7 +45,7 @@
   La sortie peut être effectivement lue soit avec @@ReadProgramString 
   soit avec @@ReadProgramData. 
 @LineBreak
-  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquée indifiniment si le 
+  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquée indéfiniment si le 
   programme réclame l'intervention de l'utilisateur. Comme par exemple, renvoyer un choix 
   oui/non au programme pour qu'il se poursuive.
   
@@ -459,8 +459,8 @@
 @LineBreak
 @LineBreak
   Note: La valeur renvoyée peut être fausse si le process est lancé par un wrapper 
-  comme c'est le cas avec Windows 10 et les application UWP (Universal Windows Platform) 
-  lancée par ApplicationFrameHost.exe (AFH).
+  comme c'est le cas avec Windows 10 et les applications UWP (Universal Windows Platform) 
+  lancées par ApplicationFrameHost.exe (AFH).
 @EndOS
 
 @SupportedOS
@@ -484,34 +484,40 @@
   spécifié.
 
 @Remarks   
-  Cette commande est particulièrement 
-  utile avec les  
-  @LibraryLink "console" "programmes en mode console", 
-  où l'utilisateur passe un ou plusieurs 
-  paramètres au démarrage du programme. 
+  Cette commande est particulièrement utile avec les @LibraryLink "console" "programmes en mode console", 
+  où l'utilisateur passe un ou plusieurs paramètres au démarrage du programme. 
 @LineBreak
 @LineBreak
-  @Bold "Note:" Se baser sur le renvoi 
-  d'une chaîne vide pour détecter le dernier 
-  paramètre n'est pas forcément l'idéal
-  car la commande renverra aussi une 
-  chaîne vide si "" est passé sur la 
-  ligne de commande.@LineBreak
-  Il est recommandé d'utiliser 
-  @@CountProgramParameters
-  et d'appeler ProgramParameter() 
-  autant de fois que nécessaire.
+  @Bold "Note:" Se baser sur le renvoi d'une chaîne vide pour détecter le dernier paramètre n'est pas forcément l'idéal
+  car la commande renverra aussi une chaîne vide si "" est passé sur la ligne de commande.@LineBreak
+  Il est recommandé d'utiliser @@CountProgramParameters et d'appeler ProgramParameter() autant de fois que nécessaire.
+@LineBreak
+@LineBreak
+  Pour vérifier le comportement de cette fonction, ou faire plusieurs tests, veuillez lire le paragraphe 'Ligne de commande exécutable' 
+  dans la page @ReferenceLink "ide_compiler" "Options du compilateur IDE".
 
 @Example
 @Code
   MonProgramme.exe MonTexte.txt /RAPIDE "Mode Special"
 @EndCode
 
-  La première fois que ProgramParameter() 
-  est appelé, la commande va renvoyer 
-  "MonTexte.txt", la seconde fois
-  "/RAPIDE" et la troisième fois 
-  "Mode Special".
+  La première fois que ProgramParameter() est appelé, la commande va renvoyer "MonTexte.txt", la seconde 
+  fois "/RAPIDE" et la troisième fois "Mode Special".
+
+@Example Executez ce programme (une fois compilé) en ligne de commande avec un fichier en paramètre
+@Code
+  If OpenWindow(0, 0, 0, 520, 510, "Exemple...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    EditorGadget(0, 5, 5, 510, 500, #PB_Editor_WordWrap)
+    Chemin$ = ProgramParameter()
+    If FileSize(path$) >= 0
+      If ReadFile(0, Chemin$)
+        Texte$ = ReadString(0, #PB_File_IgnoreEOL)
+      EndIf
+      SetGadgetText(0, Texte$)
+    EndIf
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 
@@ -586,7 +592,7 @@
   Pour éviter ce blocage, la commande  @@AvailableProgramOutput peut être 
   utilisée pour vérifier si il y a bien des  données en attente.
   @LineBreak
-  Cependant la fonction reste bloquée indifiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.  
 
@@ -644,7 +650,7 @@
 @Function Resultat$ = ReadProgramString(Programme [, Options])
 
 @Description
-  Lit une ligne texte provenant de la 
+  Lit une ligne de texte provenant de la 
   sortie standard (stdout) d'un programme.
 
 @Parameter "Programme"
@@ -652,7 +658,7 @@
 @LineBreak
 @LineBreak  
   Il doit être lancé avant en utilisant 
-  @@RunProgram avec l'option @#PB_Program_Error.
+  @@RunProgram avec l'option @#PB_Program_Read.
   
 @OptionalParameter "Options"
  Le format de chaîne de caractères à utiliser 
@@ -679,7 +685,7 @@
   attend également qu'une ligne complète soit reçue. Si une lecture
   binaire est nécessaire, la commande @@ReadProgramData peut être utilisée.
 @LineBreak
-  Cependant la fonction reste bloquée indifiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.
   
@@ -762,7 +768,7 @@
   Les commandes suivantes peuvent être utilisées lorsque l'option @#PB_Program_Open est spécifiée:
 @LineBreak
 @LineBreak
- - @@IsProgram: teste si le numéro réprésente un programme lancé avec RunProgram().
+ - @@IsProgram: teste si le numéro représente un programme lancé avec RunProgram().
 @LineBreak
  - @@ProgramID: renvoie l'identifiant système du programme.
 @LineBreak
@@ -811,7 +817,7 @@
 
 @Example
 @Code
-  ; Execute le compilateur PureBasic avec l'option -h et affiche la sortie
+  ; Exécute le compilateur PureBasic avec l'option -h et affiche la sortie
   ;
   Compilateur = RunProgram(#PB_Compiler_Home+"compilers/pbcompiler", "-h", "", #PB_Program_Open | #PB_Program_Read)
   Sortie$ = ""
@@ -824,7 +830,7 @@
     Sortie$ + Chr(13) + Chr(13)
     Sortie$ + "Code de retour : " + Str(ProgramExitCode(Compilateur))
     
-    CloseProgram(Compilateur) ; Ferme la connection vers le programme
+    CloseProgram(Compilateur) ; Ferme la connexion vers le programme
   EndIf
   
   MessageRequester("Sortie", Sortie$)

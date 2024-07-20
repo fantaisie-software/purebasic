@@ -76,11 +76,10 @@ If InitEngine3D()
       RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
       MoveCamera  (0, KeyX, 0, KeyY)
       
-      RotateCamera(1, MouseY, MouseX, 0, #PB_Relative)
+      RotateCamera(1, -MouseY, -MouseX, 0, #PB_Relative)
       MoveCamera  (1, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

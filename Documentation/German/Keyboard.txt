@@ -1,7 +1,7 @@
 ;
 ;     Keyboard library documentation - MultiOS version !
 ;
-;      (c) 2015 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Keyboard
@@ -42,7 +42,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ExamineKeyboard()  
+@Function ExamineKeyboard()  
 
 @Description
   Aktualisiert den Tastatur-Status. Dieser Befehl muss vor der Verwendung von @@KeyboardInkey, 
@@ -55,9 +55,13 @@
 @Remarks
   Zur Initialisierung der Tastaturabfrage muss zu Beginn des Programms 
   @@InitKeyboard aufgerufen worden sein.
-
+  @LineBreak
+  @LineBreak
+  Im @Link "Screen/OpenScreen" "Vollbild-Modus" muss der Befehl @@FlipBuffers innerhalb Ihrer
+  Ereignisschleife aufgerufen werden, um alle Ereignisse korrekt zu verarbeiten.
+  
 @SeeAlso
-  @@KeyboardInkey, @@KeyboardPushed @@KeyboardReleased.
+  @@KeyboardInkey, @@KeyboardPushed, @@KeyboardReleased
 
 @SupportedOS
 

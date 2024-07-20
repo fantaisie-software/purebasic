@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -28,7 +28,7 @@ Procedure.s FetchGitInfo()
   
   ; Get branch name (ie: master)
   ;
-  git = RunProgram(#Git, "rev-parse --abbrev-ref HEAD", "C:\PureBasic\Svn\v5.70\GitHub\purebasic\PureBasicIDE\", #PB_Program_Open|#PB_Program_Read|#PB_Program_Hide|#PB_Program_Ascii)
+  git = RunProgram(#Git, "rev-parse --abbrev-ref HEAD", GetCurrentDirectory(), #PB_Program_Open|#PB_Program_Read|#PB_Program_Hide|#PB_Program_Ascii)
   If git
     While ProgramRunning(git)
       GitBranch$ + ReadProgramString(git)

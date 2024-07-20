@@ -1,0 +1,320 @@
+;
+; PureBasic Debugger - Libraries language file
+;
+
+[LanguageInfo]
+Application = PB_Libraries
+Language    = English
+Creator     = PureBasic Team
+Email       = Support@PureBasic.com
+
+
+[Common]
+InitNeeded        = %s must be called successfully before using any %s commands.
+ScreenNeeded      = OpenScreen() or OpenWindowedScreen() must be called before using any %s commands.
+CallOnce          = %s can be called only once.
+CallNeeded        = %s must be successfully called before calling %s.
+CallNeededAny     = %s must be successfully called before using this command.
+CallNeededLib     = %s must be called before another %s function.
+NoDrawingCall     = can't be called inside a StartDrawing()/StopDrawing() block.
+HighNumber        = %s object number is very high (over %i), are You sure of that ?
+NoObject          = The specified %s is not initialised.
+NullAddress       = Procedure address is null.
+NullBuffer        = The specified buffer is 0.
+NullPointer       = The specified pointer is null.
+NullArgument      = The specified '%s' is null.
+InvalidArgument   = The specified '%s' is not valid.
+NullLength        = The specified length is 0.
+NegativeLength    = The specified length is negative.
+NegativeSize      = The specified size is negative.
+InvalidLength     = The specified length is not valid.
+Negative          = The specified '%s' is negative.
+NullNegative      = The specified '%s' is 0 or negative.
+FileNotFound      = The specified file does not exist.
+InvalidPort       = 'Port' is not a valid port number.
+OutOfRange        = '%s' is out of range.
+NoLabel           = The specified '%s' is not a Label pointer.
+NoProcedure       = The specified '%s' is not a Procedure pointer.
+WrongType         = The Procedure specified in '%s' does not have the required argument or returntype.
+AmbiguousElements = The Structure '%s' contains ambiguous elements '%s' and '%s'.
+InvalidValue      = %s(): invalid value specified for parameter '%s'.
+
+[2DDrawing]
+PlotOutside     = Plot() is outside the drawing area.
+PointOutside    = Point() is outside the drawing area.
+NullOutput      = The specified output is NULL (0 value).
+InvalidOutput   = The specified output is invalid.
+NullFontID      = The specified FontID is NULL (0 value).
+NeedStopDrawing = StopDrawing() must be called before calling StartDrawing() again.
+NoStartDrawing  = StopDrawing() must be called only after a successful StartDrawing().
+
+[AudioCD]
+NoCurrent  = There is no current AudioCD unit selected.
+NoTrack    = Specified track number to big: Track non-existent
+OutOfRange = Specified AudioCD unit is out of range
+
+[Camera]
+InvalidCameraWidth  = Invalid camera width (valid range is 0 to 100).
+InvalidCameraHeight = Invalid camera height (valid range is 0 to 100).
+
+[CGI]
+InvalidIndex     = Invalid 'Index' value.
+InvalidLocalPort = 'LocalPort' is not a valid port number.
+
+[Cipher]
+SmallOutput              = The OutputLength should be at least 33% more than the InputLength.
+WrongKeySize             = The key size for AES has to be 128, 192 or 256.
+NullKeyBuffer            = The key buffer is null.
+NullInitializationVector = *InitializationVector can't be null when using #PB_Cipher_CBC.
+MinimalBufferSize        = The minimum buffer size for AES is 16 bytes.
+PluginMissing            = The specified cipher plugin is missing.
+
+[Console]
+NoConsole   = No console is currently opened. OpenConsole() must be called first.
+WrongColor  = Console color values must be between 0 and 15.
+NoGraphical = This command is not supported in graphical mode.
+
+[Database]
+InvalidLibraryNameSQLite = Empty dynamic library filename not allowed.
+NoPlugin                 = UseODBCDatabase(), UseSQLiteDatase() or UsePostgreSQLDatabase() need to be called before using database commands.
+InvalidIndex             = 'StatementIndex' parameter can't be negative.
+InvalidColumnIndex       = 'Column' index can't be negative.
+
+[DragDrop]
+InvalidAction  = Invalid value for 'Action'.
+ZeroAction     = #PB_Drag_None cannot be specified as 'Action'.
+NoEvent        = No Drag&Drop event has take place.
+EmptyList      = Cannot drag an empty list of files.
+EmptyString    = Cannot drag an empty string.
+NoFileEvent    = The Drag&Drop Event was not a #PB_Drop_Files Event.
+NoImageEvent   = The Drag&Drop Event was not a #PB_Drop_Image Event.
+NoPrivateEvent = The Drag&Drop Event was not a #PB_Drop_Private Event.
+NoTextEvent    = The Drag&Drop Event was not a #PB_Drop_Text Event.
+
+[Engine3D]
+NotInitialized    = InitEngine3D() must be called successfully before using the 3D commands set.
+NoTerrain         = No terrain are currently created.
+CallBeforeSprites = InitEngine3D() has to be called before InitSprite().
+
+[Entity]
+NegativeScale = Scale value can't be negative.
+
+[Event]
+WindowAll = When using #PB_All for 'Window', 'Object' and 'EventType' has to be set to #PB_All as well.
+ObjectAll = When using #PB_All for 'Object', 'EventType' has to be set to #PB_All as well.
+
+[File]
+NegativeSeek       = Cannot absolute seek to a negative position .
+SeekBehindEnd      = Cannot absolute seek beyond the end of the file.
+NegativeBufferSize = The buffer size can't be negative.
+
+[Gadget]
+NeedOpenGadgetList   = OpenGadgetList() must be called before calling AddGadgetItem() again on this Gadget.
+NoOpenGadgetList     = CloseGadgetList() can only be called after OpenGadgetList() or container gadgets.
+NoGadgetList         = There is no current GadgetList.
+NotDifferent         = #Gadget1 and #Gadget2 must be different.
+SplitterChilds       = Cannot create SplitterGadget with same Number as one of its childs.
+ScrollBarRange       = ScrollBar range must be between 0 and 10000
+MaxGadgetWidth       = Maximum supported gadget width is 32767 pixels
+MaxGadgetHeight      = Maximum supported gadget height is 32767 pixels
+NegativeGadgetWidth  = Gadget width can't be negative
+NegativeGadgetHeight = Gadget height can't be negative
+
+[Gadget3D]
+NotDifferent   = #Gadget3D1 and #Gadget3D2 must be different.
+SplitterChilds = Cannot create SplitterGadget3D with same Number as one of its childs.
+NeedAWindow    = A 3D window needs to be opened before adding gadgets on it.
+
+[Image]
+HeightLarge        = Image 'Height' is > 32000 pixels.
+WidthLarge         = Image 'Width' is > 32000 pixels.
+InvalidDepth       = Invalid image 'Depth': possible values are 24 and 32.
+InvalidSaveDepth   = Invalid 'Depth': possible values are 1, 2, 4, 8, 24 and 32.
+IconNotResizable   = The #Image in the icon (.ico) format can't be resized.
+HeightSmall        = Image 'Height' is too small, should be > 0.
+WidthSmall         = Image 'Width' is too small, should be > 0.
+InvalidImageFrame  = Image frame out of bounds.
+MultiFrameNoResize = Multi-frame image can't be resized.
+
+[Joystick]
+ButtonInvalid = Button number out of range. Should be between 1 and 32.
+
+[Json]
+NullValue         = Invalid JSON value. (0)
+ExpectTypeString  = A JSON value of type string is expected.
+ExpectTypeNumber  = A JSON value of type number is expected.
+ExpectTypeBoolean = A JSON value of type boolean is expected.
+ExpectTypeArray   = A JSON value of type array is expected.
+ExpectTypeObject  = A JSON value of type object is expected.
+InvalidIndex      = Array index out of bounds.
+NoExamine         = There is no current examined member in this object.
+
+[Library]
+WrongIndex = The index value for GetFunctionEntry() starts from 1.
+
+[LinkedList]
+NotInitialized  = LinkedList not initialised.
+NegativeIndex   = SelectElement(): index value can not be negative.
+FirstNull       = SwapElement(): first element is null.
+SecondNull      = SwapElement(): second element is null.
+NoCurrent       = The LinkedList has no current element.
+RelativeNull    = A *RelativeElement has to be specified.
+PushedElement   = Cannot delete a pushed current element.
+PushedElement2  = Cannot move a pushed current element to another list.
+NoPushedElement = There is no remembered current element to restore.
+
+[Map]
+NotInitialized  = Map not initialized.
+NoCurrent       = The Map has no current element.
+PushedElement   = Cannot delete a pushed current element.
+NoPushedElement = There is no remembered current element to restore.
+
+[Math]
+MinNegative    = Min value can't be negative.
+MaxNegative    = Max value can't be negative.
+MinSuperiorMax = Min value can't be superior to Max value.
+
+[Memory]
+NullAddress   = Specified address is null.
+NullAlloc     = Can't allocate a memory block of size 0.
+NegativeAlloc = Can't allocate a memory block with a negative size.
+NullSource    = Source memory pointer is 0.
+NullDest      = Destination memory pointer is 0.
+WrongLength   = Specified length is < -1.
+WrongSize     = Specified size is < -1.
+
+[Menu]
+NoCurrent = There is no current Menu.
+
+[Mesh]
+Add3DArchiveBeforeLoadMesh = Add3DArchive has to be called at least once before LoadMesh().
+
+[Music]
+InvalidVolume = The volume must be between 0 and 100
+
+[Network]
+NegativeTimeOut     = OpenNetworkConnection() timeout can not be negative.
+IPv6FieldOutOfRange = IPAddressField() field index has to be between 0 and 7 for IPv6 address.
+IPv4FieldOutOfRange = IPAddressField() field index has to be between 0 and 3 for IPv4 address.
+InvalidLocalPort    = 'LocalPort' is not a valid port number.
+
+[Node]
+ObjectNotAttached = The specified object isn't attached the node.
+NegativeScale     = Scale value can't be negative.
+
+[OnError]
+DebuggerPresent = The OnError library may not catch all errors with enabled debugger.
+LinesDisabled   = The OnError lines support is not enabled.
+NoHandler       = This function can only be called inside an error handler.
+
+[Packer]
+NoPack = No pack file is currently opened.
+
+[Preference]
+InvalidKeyword             = The keyword$ for Read/WritePreference() functions is not valid.
+KeywordForbiddenCharacters = The keyword$ for Read/WritePreference() can't contain '=', 'LF' or 'CR' characters.
+
+[Process]
+InvalidName  = The Environment Variable name is empty.
+NoVariable   = No current environment Variable.
+ProgramEnded = The Program is no longer running.
+FileNeeded   = A Filename must be specified.
+Flags1       = Invalid Flags: Cannot combine #PB_Program_Wait with the communication flags.
+Flags2       = Invalid Flags: #PB_Program_Open MUST be set to use the communication flags.
+NotEnded     = The Program has not yet closed. (ExitCode not available)
+NullRead     = Cannot read 0 number of bytes from the Program.
+NullWrite    = Cannot write 0 number of bytes to the Program.
+
+[RegularExpression]
+WrongType       = Result array for ExtractRegularExpression() has to be of string type.
+WrongDimensions = Result array for ExtractRegularExpression() can't have more than 1 dimension.
+NoCurrentMatch  = There is no current match being examined.
+NoGroups        = There are no groups in this regular expression.
+GroupNotFound   = The specified named group does not exist.
+
+[Screen]
+NoScreen       = There is no open screen.
+WrongDepth     = The screen depth must be 4, 8, 16, 24 or 32.
+WrongGamma     = A gamma value has to be between 0 and 255.
+WrongFrameRate = Frame rate can't be less than 1.
+
+[Sort]
+MultiDimensionedArrayNotSupported = Multi-dimensioned array is not support by SortArray().
+NotSimpleList                     = SortList() can't be used with a structured list.
+NotStructuredList                 = SortStructuredList() can't be used with a non structured list.
+
+[SpecialEffect]
+InvalidNbChains   = NbChains needs to be greater than 0.
+InvalidNbElements = NbElements needs to be greater than 0.
+InvalidLength     = Length needs to be greater than 0.
+
+[Sprite]
+EqualID          = Sprite1 and Sprite2 have the same ID.
+NoPixelCollision = A sprite should be created with the flag #PB_Sprite_PixelCollision to support SpritePixelCollision() command.
+NoStartDrawing   = This function can't be called inside a StartDrawing()/StopDrawing() block.
+
+[StatusBar]
+NoCurrent     = There is no current StatusBar.
+TooManyFields = More fields than 64 are not allowed.
+WidthHigh     = Width cannot be bigger than 8192.
+
+[String]
+IncorrectTrimCharacterLength  = 'Character$' length for Trim() has to be one.
+IncorrectLTrimCharacterLength = 'Character$' length for LTrim() has to be one.
+IncorrectRTrimCharacterLength = 'Character$' length for RTrim() has to be one.
+NegativeDecimalNumber         = Number of decimals for StrF() or StrD() can't be negative.
+InvalidSringFieldIndex        = Field index for StringField() invalid, should be at least 1.
+
+[Terrain]
+TerrainBeforeCamera = The terrain has to be created before any cameras.
+
+[Text3D]
+NegativeScale = Scale value can't be negative.
+
+[Texture]
+Add3DArchiveBeforeLoadTexture = Add3DArchive has to be called at least once before LoadTexture().
+
+[Thread]
+InvalidThread    = The specified Thread does not exists.
+InvalidMutex     = The specified Mutex does not exist.
+InvalidSemaphore = The specified Semaphore does not exist.
+
+[Toolbar]
+NeedXPSkins = Modern XP theme needs to be enabled to use #PB_ToolBar_Text.
+
+[VectorDrawing]
+NoSavedState     = There is no saved drawing state to restore.
+NoLayer          = There is no drawing layer to end.
+OpenLayer        = There is still an unfinished drawing layer on this output.
+SinglePage       = The current output is not a multi-page drawing output.
+FixedCoordinate  = The specified coordinate system is not modifiable.
+InvalidDashArray = The specified array is not a one-dimensional array with double values.
+
+[Window]
+NeedOneWindow             = At least one window should be opened to use this command.
+InvalidParent             = ParentID is not a valid WindowID().
+InvalidEvent              = The 'Event' value of AddKeyboardShortcut() has to be between 0 and 64000.
+OpenWindowMainThread      = OpenWindow() can only be called from the main thread.
+WindowEventMainThread     = WindowEvent() and WaitWindowEvent() can only be called from the main thread.
+WindowEventInsideCallback = WindowEvent() and WaitWindowEvent() can not be called from a 'binded' event callback.
+
+[Window3D]
+BeforeAnyWindow = SetGUITheme3D() has to be called before any other Window3D command.
+
+[Xml]
+NullNode             = Invalid XML Node. (0)
+InvalidIndex         = Index must be >= 1.
+NoNameNode           = This type of XML node does not have a name.
+InvalidNodeName      = Invalid node name.
+InvalidAttributeName = Invalid attribute name.
+NoAttributeNode      = This type of XML node cannot have attributes.
+NoChildren           = A Comment/CData/DTD node cannot have children.
+PreviousWrongTree    = The given previous node is not in the same XML tree as the parent node.
+PreviousDirectChild  = The given previous node is not a direct child of the parent node.
+CannotCreateRoot     = A root node cannot be created manually.
+CannotMoveRoot       = The root node cannot be copied/moved.
+CannotDeleteRoot     = The root node of an XML tree cannot be deleted.
+CannotMove1          = The node cannot be moved into itself. (ParentNode is a child or grandchild of Node)
+CannotMove2          = The node to move and the PreviousNode are equal.
+CannotMove3          = The node cannot be moved into itself. (Node and ParentNode are equal)
+

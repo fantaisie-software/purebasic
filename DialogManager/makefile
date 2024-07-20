@@ -2,25 +2,23 @@
 # needed for building the IDE
 #
 
-TARGET = $(PB_BUILDTARGET)/dialogcompiler
-
 ifeq ($(PB_WINDOWS),1)
-	PBCOMPILER = $(PUREBASIC_HOME)/Compilers/PBCompiler /QUIET
+	PBCOMPILER = "$(PUREBASIC_HOME)/Compilers/PBCompiler" /QUIET
 	MAKEEXE = /EXE
-	DIALOGCOMPILER = $(TARGET)/DialogCompiler.exe
+	DIALOGCOMPILER = Build/DialogCompiler.exe
 else
-	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler -q
+	PBCOMPILER = "$(PUREBASIC_HOME)/compilers/pbcompiler" -q
 	MAKEEXE = -e
-	DIALOGCOMPILER = $(TARGET)/dialogcompiler
+	DIALOGCOMPILER = Build/dialogcompiler
 endif
 
 
-dialogcompiler : DialogCompiler.pb $(TARGET)/dummy
-	$(PBCOMPILER) DialogCompiler.pb $(MAKEEXE) $(DIALOGCOMPILER) $(PBPACKFLAGS)
+dialogcompiler : DialogCompiler.pb Build/dummy
+	$(PBCOMPILER) DialogCompiler.pb $(MAKEEXE) $(DIALOGCOMPILER)
 
-$(TARGET)/dummy:
-	mkdir "$(TARGET)"
-	touch $(TARGET)/dummy
+Build/dummy:
+	mkdir "Build"
+	touch Build/dummy
 
 clean:
-	rm -rf $(TARGET)
+	rm -rf Build

@@ -220,18 +220,17 @@
 @NoReturnValue
 
 @Remarks
-  La fonction FlipBuffers() doit toujours 
-  être appelée en dehors d'un bloc 
-  @@StartDrawing : @@StopDrawing.
+  La fonction FlipBuffers() doit toujours être appelée en dehors d'un bloc @@StartDrawing : @@StopDrawing.
 @LineBreak
 @LineBreak
-  Un écran doit avoir été ouvert avec 
-  @@OpenScreen ou @@OpenWindowedScreen.
-  @LineBreak 
-  La manière dont les tampons sont 
-  interchangés (avec ou sans synchronisation) 
-  est fixé par @@OpenScreen ou 
-  @@OpenWindowedScreen.
+  Un écran doit avoir été ouvert avec @@OpenScreen ou @@OpenWindowedScreen.
+@LineBreak 
+  La manière dont les tampons sont interchangés (avec ou sans synchronisation) est fixé par @@OpenScreen ou @@OpenWindowedScreen.
+@LineBreak
+@LineBreak
+  FlipBuffers() doit être appelé dans la boucle d'événement en @Link "Screen/OpenScreen" "mode plein écran" afin de gérer correctement 
+  les événements des @Link "Joystick/ExamineJoystick" "joysticks", du @Link "Keyboard/ExamineKeyboard" "clavier" et de la 
+  @Link "Mouse/ExamineMouse" "souris".
   
 @Example
 @Code
@@ -625,17 +624,8 @@ Repeat
     End ; Si collision alors on ferme le programme
   EndIf 
   
-  ;Calcul du FPS  (image par seconde)
-  FPS_Counter + 1
-  If FPS_Counter >= FPS
-    FPS = FPS_Counter * 1000 / (ElapsedMilliseconds() - FPS_ElapsedTime)
-    FPS_Counter = 0
-    FPS_ElapsedTime = ElapsedMilliseconds()
-  EndIf
-  
-  ;Affichage du FPS et du texte
+  ;Affichage du texte
   StartDrawing(ScreenOutput())
-  DrawText(0, 0, "FPS : " + StrD(FPS, 1))
   DrawText(0, 75, "Appuyez sur ESC pour quitter",RGB(0,0,0), RGB(255,255,255))
   DrawText(0, 550, "Appuyez sur les touches fléchées du clavier tout en bougeant la souris",RGB(255,0,0), RGB(0,255,0))
   StopDrawing()
@@ -663,7 +653,7 @@ Until KeyboardPushed(#PB_Key_Escape) ;On quitte l'application en  appuyant sur l
  ; Idée   : Remplacer la ligne de code : If OpenScreen(800,600,32,"Exemple OpenScreen") = 0
  ; par    : If OpenScreen(800,600,32,"Exemple OpenScreen", #PB_Screen_NoSynchronization) = 0
  ; ou par : If OpenScreen(800,600,32,"Exemple OpenScreen", #PB_Screen_SmartSynchronization) = 0
- ; et observez le FPS ainsi que la qualité de l'image (bouger la souris)
+ ; et observez la qualité de l'image (bouger la souris)
 
 @EndCode
 

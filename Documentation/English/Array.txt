@@ -1,7 +1,7 @@
 ;
 ;     Array library documentation
 ;
-;      (c) 2011 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Array
@@ -24,14 +24,14 @@
   be randomized using @@RandomizeArray.
 @LineBreak
 @LineBreak
-  Note: These arrays are dynamic because they can change size. In PureBasic, they exist
-  however arrays said static, not resizable and used only in the structures. These arrays 
+  Note: These arrays are called dynamic because they can change size. However, there are
+  also so-called static arrays, which can not be resized and are only used in structures. These arrays
   are written with square brackets. For example: ArrayStatic[2]. See @ReferenceLink "structures" "here". 
   The functions of this Array library can not be used with this type of array.
   
 @CommandList
 
-@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sort & misc.
+@Section Sort & misc.
   @@sortArray @LineBreak
   @@SortStructuredArray @LineBreak
   @@RandomizeArray @LineBreak
@@ -56,7 +56,7 @@
 
 @ReturnValue
   Returns the size of the array dimension.
-  If the array isn't yet declared (or its allocation has failed), it will return -1.
+  If the array is not initialized, it returns -1 (for example after @FastLink "FreeArray()" or if its initialization has failed).
   
 @Remarks
   As specified with @ReferenceLink "dim" "Dim", the number of elements is equal to the size + 1.
@@ -113,6 +113,59 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
   @@ListSize, @@MapSize
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CompareArray(Array1(), Array2() [, Flags])
+
+@Description
+  Compare each elements of the two arrays for equality. Recursively compares
+  also contents of structured arrays with dynamic elements (such as embedded arrays, lists or maps).
+  The two arrays are considered the equal if they have the same type and dimensions and if each
+  pair of elements is equal.
+
+@Parameter "Array1(), Array2()"
+  The arrays to compare.
+  
+@OptionalParameter "Flags"
+  Can be a combination of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself. See remarks below for details.
+@EndFixedFont
+
+@ReturnValue
+  Returns nonzero if both arrays are the same or zero if they differ.
+  
+@Remarks
+  The @#PB_Memory_FollowPointers option is for advanced users and requires special care to avoid crashes.
+  If this option is used then all pointer values must point to valid and initialized memory or have the value 0.
+  It is also not allowed to have loops in the pointed elements (a chain of pointers that refers back to itself).
+
+@Example
+@Code
+  Dim A(4)
+  A(0) = 10
+  A(1) = 20
+  A(2) = 30
+  A(3) = 40
+
+  Dim B(4)
+  B(0) = 10
+  B(1) = 20
+  B(2) = 50 ; Not equal to A(2)
+  B(3) = 40
+
+  Debug CompareArray(A(), B()) ; Not equal
+@EndCode
+
+@SeeAlso
+  @@CompareList, @@CompareMap
+
+@SupportedOS
+
 
 ;--------------------------------------------------------------------------------------------------------
 

@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 XIncludeFile "Object_BinBase.pb"
@@ -67,6 +67,18 @@ Procedure DlgWindow_New(*StaticData.DialogObjectData, ParentID)
     EndIf
     
     *THIS\Window = OpenWindow(*StaticData\Gadget, 0, 0, 0, 0, DialogObjectText(*StaticData), Flags, ParentID)
+    
+    CompilerIf #CompileMac
+      If OSVersion() >= #PB_OS_MacOSX_10_14
+        ; Fix Toolbar style from titlebar to expanded (Top Left)
+        #NSWindowToolbarStyleExpanded = 1
+        If *StaticData\Gadget = #PB_Any
+          CocoaMessage(0, WindowID(*THIS\Window), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
+        Else
+          CocoaMessage(0, WindowID(*StaticData\Gadget), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
+        EndIf  
+      EndIf
+    CompilerEndIf
     
     If *StaticData\Gadget <> -1
       *THIS\Window = *StaticData\Gadget

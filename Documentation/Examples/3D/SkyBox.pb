@@ -58,6 +58,8 @@ If InitEngine3D()
     EditorGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 530 * RatioX, 90 * RatioY, #PB_Editor3D_ReadOnly)
     SetGadgetText3D(#Editor, "[F2]/[F3] = Change SkyBox " + Chr(10) + "[F4] = Disable SkyBox")
     
+    SkyBox("stevecube.jpg")
+    
     ShowGUI(155, 0)
     
     Repeat

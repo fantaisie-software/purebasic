@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -50,7 +50,6 @@ XIncludeFile "Misc.pb"
 XIncludeFile "VariableGadget.pb"
 XIncludeFile "Communication_PipeWindows.pb"
 XIncludeFile "Communication_PipeUnix.pb"
-XIncludeFile "Communication_Network.pb"
 XIncludeFile "Communication.pb"
 XIncludeFile "DebugOutput.pb"
 XIncludeFile "AsmDebug.pb"
@@ -165,10 +164,6 @@ CompilerEndIf
 ;   pbdebugger <exefile> [<exe commandline>]
 ;   pbdebugger [-o <filename>] [<exefile>] [<exe commandline>]
 ;
-; Network mode:
-;   pbdebugger /Connect=<host[:port]> [/password=<passwd>]
-;   pbdebugger --connect=<host[:port]> [--password=<passwd>]
-;
 ; The -o option allows to pass a file to the debugger, which can be used to communicate
 ; stuff like breakpoints or watchlist objects to it.
 ;
@@ -187,19 +182,6 @@ CompilerEndIf
 ; COMMANDLINE <string>
 ;   allows to specify the commandline for the executable in this file, the commandline
 ;   given to the debugger will be ignored
-;
-; NETWORK <Mode>
-;   switch to network mode. <Mode> can be SERVER or CLIENT
-;
-; HOST <host>
-;   specify the host for network CLIENT mode
-;   In SERVER mode, specify the interface to bind to (optional in this case)
-;
-; PORT <port>
-;   specify the port for network mode (CLIENT and SERVER)
-;
-; PASSWORD <passwd>
-;   specify the password for network mode (CLIENT or SERVER)
 ;
 ; SOURCEFILE <filename>
 ;   allows to overwrite the "Main Source" filename, as it is stored in the debugged executable.
@@ -244,83 +226,16 @@ CompilerEndIf
 
 ;
 ;- Parse Commandline
-
-NetworkMode   = 0
-NetworkHost$  = ""
-NetworkPort   = #DEBUGGER_DefaultPort
-NetworkPass$  = ""
-
 ExeName$  = ProgramParameter()
 ExeNameU$ = UCase(ExeName$)
 
 PurifierSettings$ = ""
 
-; Check for the parameters of Network Client mode
-;
-If Left(ExeNameU$, 9) = "/CONNECT=" Or Left(ExeNameU$, 10) = "--CONNECT="
-  NetworkMode = 1 ; network client mode
-  NetworkHost$ = Right(ExeName$, Len(ExeName$)-FindString(ExeName$, "=", 1))
-  ExeName$ = ""
-  
-  PortSep = FindString(NetworkHost$, ":", 1)
-  If PortSep
-    NetworkPort  = Val(Right(NetworkHost$, Len(NetworkHost$)-PortSep))
-    NetworkHost$ = Left(NetworkHost$, PortSep-1)
-  EndIf
-  
-  Pass$ = ProgramParameter()
-  If UCase(Left(Pass$, 10)) = "/PASSWORD=" Or UCase(Left(Pass$, 11)) = "--PASSWORD="
-    NetworkPass$ = Right(Pass$, Len(Pass$)-FindString(Pass$, "=", 1))
-  EndIf
-  
-ElseIf ExeNameU$ = "/LISTEN" Or ExeNameU$ = "--LISTEN" Or Left(ExeNameU$, 8) = "/LISTEN=" Or Left(ExeNameU$, 9) = "--LISTEN="
-  NetworkMode = 2 ; network server mode
-  
-  ; Option can contain host and port, but all is optional
-  ;
-  OptionSep = FindString(ExeName$, "=", 1)
-  If OptionSep
-    Option$ = Right(ExeName$, Len(ExeName$)-OptionSep)
-    
-    PortSep = FindString(Option$, ":", 1)
-    
-    If PortSep
-      NetworkHost$ = Left(Option$, PortSep-1)
-      NetworkPort  = Val(Right(Option$, Len(Option$)-PortSep))
-      
-    Else
-      ; If Option only contains numbers, we assume it is a port only and not a host interface
-      NonNumber = 0
-      For i = 1 To Len(Option$)
-        If Asc(Mid(Option$, i, 1)) < '0' Or Asc(Mid(Option$, i, 1)) > '9'
-          NonNumber = 1
-          Break
-        EndIf
-      Next i
-      
-      If NonNumber = 0
-        NetworkPort = Val(Option$)
-      Else
-        NetworkHost$ = Option$
-      EndIf
-      
-    EndIf
-    
-  EndIf
-  ExeName$ = ""
-  
-  Pass$ = ProgramParameter()
-  If UCase(Left(Pass$, 10)) = "/PASSWORD=" Or UCase(Left(Pass$, 11)) = "--PASSWORD="
-    NetworkPass$ = Right(Pass$, Len(Pass$)-FindString(Pass$, "=", 1))
-  EndIf
-  
-ElseIf ExenameU$ = "-O"  ; Check for the Parameter of the Option file
+If ExenameU$ = "-O"  ; Check for the Parameter of the Option file
   OptionsFile$ = ProgramParameter()
   ExeName$ = ProgramParameter()
-  
 Else
   OptionsFile$ = ""
-  
 EndIf
 
 ; Read remaining commandline
@@ -349,7 +264,7 @@ CompilerEndIf
 ; use a fixed filename for this case. Ugly, but works
 ;
 CompilerIf #CompileMac
-  If OptionsFile$ = "" And ExeName$ = "" And NetworkMode = 0
+  If OptionsFile$ = "" And ExeName$ = ""
     OptionsFile$ = "/tmp/.pbstandalone.out"
   EndIf
 CompilerEndIf
@@ -358,7 +273,8 @@ CompilerEndIf
 ;
 CustomWarningMode = -1
 
-If OptionsFile$ <> ""
+; Ignore the default OS X file as well as it's empty anyway
+If OptionsFile$ <> "" And OptionsFile$ <> "/tmp/.pbstandalone.out"
   If ReadFile(0, OptionsFile$)
     
     While Eof(0) = 0
@@ -373,17 +289,6 @@ If OptionsFile$ <> ""
         Case "PREFERENCES": PreferenceFile$ = Value$
           
         Case "PURIFIER": PurifierSettings$ = Value$
-          
-        Case "NETWORK"
-          If UCase(Value$) = "CLIENT"
-            NetworkMode = 1
-          ElseIf UCase(Value$) = "SERVER"
-            NetworkMode = 2
-          EndIf
-          
-        Case "HOST":     NetworkHost$ = Value$ ; no port allowed here
-        Case "PORT":     NetworkPort  = Val(Value$)
-        Case "PASSWORD": NetworkPass$ = Value$
           
           ; if this option is not set, we use the preferences default
         Case "WARNINGS"
@@ -406,7 +311,8 @@ If OptionsFile$ <> ""
     
     CloseFile(0)
   Else
-    MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Warning)
+    ; Don't use Language() here, as it's not yet initialized
+    MessageRequester("PureBasic Debugger","Can't read option file: "+OptionsFile$, #FLAG_Warning)
   EndIf
 EndIf
 
@@ -445,7 +351,7 @@ Standalone_ResizeGUI()
 
 ;- start executable
 
-If NetworkMode = 0 And ExeName$ = ""
+If ExeName$ = ""
   MessageRequester("PureBasic Debugger",Language("StandaloneDebugger","Commandline"), #FLAG_Error)
   End
 EndIf
@@ -467,28 +373,16 @@ CompilerIf #CompileMac
   EndIf
 CompilerEndIf
 
-If NetworkMode = 0 ; no network
-  DebuggerUseFIFO = 0 ; no need for this here
-  *DebuggerData = Debugger_ExecuteProgram(ExeName$, CommandLine$, CurrentDirectory$)
-  If *DebuggerData = 0
-    MessageRequester("PureBasic Debugger",ReplaceString(Language("StandaloneDebugger","ExecuteError"), "%filename%", ExeName$), #FLAG_Error)
-    End
-  EndIf
-  
-  Standalone_AddLog(Language("Debugger","Waiting"), Date())
-  StatusBarText(#STATUSBAR, 0, Language("Debugger","Waiting"))
-  
-Else
-  Standalone_AddLog(Language("NetworkDebugger","Waiting"), Date())
-  StatusBarText(#STATUSBAR, 0, Language("NetworkDebugger","Waiting"))
-  SetGadgetText(#GADGET_Waiting, Language("NetworkDebugger","Waiting"))
-  
-  *DebuggerData = Debugger_NetworkConnect(NetworkMode, NetworkHost$, NetworkPort, NetworkPass$)
-  If *DebuggerData = 0
-    End ; error messages are displayed by the network code
-  EndIf
-  
+DebuggerUseFIFO = 0 ; no need for this here
+*DebuggerData = Debugger_ExecuteProgram(ExeName$, CommandLine$, CurrentDirectory$)
+If *DebuggerData = 0
+  MessageRequester("PureBasic Debugger",ReplaceString(Language("StandaloneDebugger","ExecuteError"), "%filename%", ExeName$), #FLAG_Error)
+  End
 EndIf
+
+Standalone_AddLog(Language("Debugger","Waiting"), Date())
+StatusBarText(#STATUSBAR, 0, Language("Debugger","Waiting"))
+
 
 ;- Event processing
 
@@ -642,7 +536,7 @@ Procedure ProcessEvent(EventID)
           Command\Value2 = CurrentSource
           SendDebuggerCommand(*DebuggerData, @Command)
           ForEach Breakpoints()
-            If (Breakpoints()>>24) & $FF = CurrentSource
+            If DebuggerLineGetFile(Breakpoints()) = CurrentSource
               If ListIndex(Breakpoints()) = 1
                 DeleteElement(Breakpoints())
                 ResetList(Breakpoints())
@@ -833,10 +727,10 @@ If OptionsFile$ <> ""
       Next Watchlist()
       
       ForEach Breakpoints()
-        If (Breakpoints() >> 24) & $FF = 0
-          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1))
+        If DebuggerLineGetFile(Breakpoints()) = 0
+          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1))
         Else
-          WriteStringN(0, "BREAK "+Str((Breakpoints() & $FFFFFF) + 1) + ", " + SourceFiles((Breakpoints()>>24) & $FF)\FileName$)
+          WriteStringN(0, "BREAK "+Str(DebuggerLineGetLine(Breakpoints()) + 1) + ", " + SourceFiles(DebuggerLineGetFile(Breakpoints()))\FileName$)
         EndIf
       Next Breakpoints()
       
@@ -895,15 +789,15 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Init
       If *Debugger\IncludedFiles ; use the filename as stored in the exe
-        SourcePath$   = PeekAscii(*Debugger\IncludedFiles)
-        RealFileName$ = PeekAscii(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
+        SourcePath$   = PeekUTF8(*Debugger\IncludedFiles)
+        RealFileName$ = PeekUTF8(*Debugger\IncludedFiles + MemoryAsciiLength(*Debugger\IncludedFiles) + 1)
         RealFileName$ = ResolveRelativePath(SourcePath$, RealFileName$) ; the stored main file is relative to the source path
       EndIf
       
       ; if real filename was passed, use this for displaying
       If MainFileName$ <> ""
         If *Debugger\IncludedFiles
-          SourcePath$ = PeekAscii(*Debugger\IncludedFiles) ; first is the source path
+          SourcePath$ = PeekUTF8(*Debugger\IncludedFiles) ; first is the source path
           *Debugger\FileName$ = CreateRelativePath(SourcePath$, MainFileName$)
         Else
           *Debugger\FileName$ = MainFileName$
@@ -923,8 +817,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ; add all file to the list
       For i = 0 To NbSourceFiles
-        SourceFiles(i)\FileName$ = GetDebuggerFile(*Debugger, i<<24)
-        AddGadgetItem(#GADGET_SelectSource, -1, GetDebuggerRelativeFile(*Debugger, i<<24))
+        SourceFiles(i)\FileName$ = GetDebuggerFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset)
+        AddGadgetItem(#GADGET_SelectSource, -1, GetDebuggerRelativeFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset))
       Next i
       
       ; translate the debugger breakpoint strings into line numbers
@@ -945,7 +839,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             For i = 0 To NbSourceFiles
               If IsEqualFile(FileName$, SourceFiles(i)\FileName$)
                 AddElement(Breakpoints())
-                Breakpoints() = (Val(Trim(Left(BreakpointStrings(), x-1)))-1) | i<<24
+                Breakpoints() = MakeDebuggerLine(i, Val(Trim(Left(BreakpointStrings(), x-1)))-1)
                 Break
               EndIf
             Next i
@@ -1157,9 +1051,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       
     Case #COMMAND_Error
-      Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogError")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
+      Standalone_AddLog(Language("Debugger","LogError")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       SetCurrentLine(*Debugger\Command\Value1)
@@ -1167,9 +1061,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       
     Case #COMMAND_Warning
-      Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1)+")", *Debugger\Command\TimeStamp)
-      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
-      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str((*Debugger\Command\Value1 & $FFFFFF)+1) +" - " +  PeekAscii(*Debugger\CommandData))
+      Standalone_AddLog(Language("Debugger","LogWarning")+" "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value1) + " ("+Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1)+")", *Debugger\Command\TimeStamp)
+      Standalone_AddLog(Language("Debugger","LogWarning")+" "+PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      StatusBarText(#STATUSBAR, 0, Language("Misc","Line")+": " + Str(DebuggerLineGetLine(*Debugger\Command\Value1)+1) +" - " +  PeekUTF8(*Debugger\CommandData))
       UpdateGadgetStates()
       
       ; just mark, do not change current line or stop program
@@ -1329,12 +1223,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Select *Debugger\Command\Value2 ; result code
             
           Case 0 ; error
-            Message$ = "Debugger: " + PeekAscii(*Debugger\CommandData)
+            Message$ = "Debugger: " + PeekUTF8(*Debugger\CommandData)
             
             ; Variable not found is common (place the cursor on a keyword etc),
             ; so display nothing if this happens.
             If IsVariableExpression = 0 Or (Left(Message$, 29) <> "Debugger: Variable not found:" And Left(Message$, 43) <> "Debugger: Array() / LinkedList() not found:" And Message$ <> "Debugger: Garbage at the end of the input.")
-              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+              ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
               ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, 9)
             EndIf
             
@@ -1343,13 +1237,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 2 ; quad
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekQ(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 3 ; double
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / SizeOf(Character))
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 4 ; string
@@ -1457,13 +1351,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + Str(PeekL(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 7 ; float (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / SizeOf(Character))
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
-            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_CALLTIPSETHLT, 0, Len(Name$))
             
         EndSelect

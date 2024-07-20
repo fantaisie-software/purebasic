@@ -10,7 +10,7 @@
 
 The PureBasic sound system provides an easy way to have sound inside
 application or game. It uses special functions to get the maximum speed
-of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL library.
+of available hardware.
 
 @CommandList
 
@@ -98,31 +98,36 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 
 @Example
 @Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads 2 sounds
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
- 
- ; The siren is playing 
- PlaySound(0)
- 
- ; Display the position
-  Repeat
-   Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
-   Delay(100)   ; Wait 100 ms
-   Debug Pos    ; Display the position
-   If Pos>1000  ; Stop after 1 second
-     Break
-   EndIf
-  ForEver
- 
- ; Then 2 sounds are playing together
-   PlaySound(1)
-
- MessageRequester("Info", "Ok to stop.") 
- End 
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads 2 sounds
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      If LoadSound(1, #PB_Compiler_Home + "Examples/3D/Data/Roar.ogg")
+        
+        ; The siren is playing 
+        PlaySound(0)
+        
+        ; Display the position
+        Repeat
+          Pos = GetSoundPosition(0, #PB_Sound_Millisecond)
+          Delay(100)     ; Wait 100 ms
+          Debug Pos      ; Display the position
+          If Pos > 1000  ; Stop after 1 second
+            Break
+          EndIf
+        ForEver
+        
+        ; Then 2 sounds are playing together
+        PlaySound(1)
+        
+        MessageRequester("Info", "Ok to stop.") 
+        End
+      EndIf
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -160,21 +165,25 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- 
- ; The is playing
- PlaySound(0)
- 
- ; Change the position at 2 seconds
- SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
- 
- MessageRequester("Info", "Ok to stop.") 
- End 
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      
+      ; The siren is playing
+      PlaySound(0)
+      
+      ; Change the position at 2 seconds
+      SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
+      
+      MessageRequester("Info", "Ok to stop.") 
+      End 
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -200,57 +209,59 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 
 @Example
 @Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing 
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      ; The sound is playing 
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode  
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = InitSound()
+@Function Result = InitSound([NbMaxChannels])
 
 @Description
   Initializes the sound environment. This function must be always called before
   any other sound function and should always check its result. If the sound environment fails,
   it's absolutely necessary to disable all the sound functions calls.
 
-@NoParameters
+@OptionalParameter "NbMaxChannels"
+  Sets the maximum number of channels to use simultaneously to play sounds. It can range from 1 to 254 (the default value if this
+  parameter is not specified is 64).
 
 @ReturnValue
-  Nonzero if the sound environment has been setup correctly, zero otherwise.
-
-@OS Windows
-  Possible causes of failure under MS Windows: DirectX 7 isn't available or no sound card are present. If the program
-  need to run on NT4.0, be sure to enable the 'NT4.0 Compliant executable' in the compiler
-  options.
+  Nonzero if the sound environment has been setup correctly, zero otherwise (for example if no sound card is available).
   
-@OS Linux
-  Possible causes of failure under Linux: SDL isn't available or no sound card are present.
-
 @Example
 @Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop)  
- 
- MessageRequester("Info", "Ok to stop.") 
- 
- End
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      PlaySound(0, #PB_Sound_Loop) ; Start playing the sound in a loop
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+    EndIf
+    End
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SupportedOS
@@ -313,19 +324,22 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   Nonzero if the sound has been successfully loaded, zero otherwise.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      PlaySound(0, #PB_Sound_Loop) ; Start playing the sound in a loop
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+    EndIf
+    End
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode 
 
 @SeeAlso
@@ -353,25 +367,29 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok to pause.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok to resume.")
- ResumeSound(0)  ; Resume
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "Ok to pause.")
+      PauseSound(0)  ; Pause
+      
+      MessageRequester("Info", "Ok to resume.")
+      ResumeSound(0)  ; Resume
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
      
 @SeeAlso
@@ -400,24 +418,28 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
  
 @Example
 @Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok to pause.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok to resume.")
- ResumeSound(0)  ; Resume
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "Ok to pause.")
+      PauseSound(0)  ; Pause
+      
+      MessageRequester("Info", "Ok to resume.")
+      ResumeSound(0)  ; Resume
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
   
 @SeeAlso
@@ -453,19 +475,23 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   The channel number, if the @#PB_Sound_MultiChannel flag is used.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+    EndIf
+    End
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -491,21 +517,25 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   Returns the current frequency (in Hz) of the sound.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
- 
- MessageRequester("Info", "Ok to stop.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
     
 @SeeAlso
@@ -534,26 +564,30 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @NoReturnValue 
  
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
- PauseSound(0)
- 
- SetSoundFrequency(0,16000)
- 
- ResumeSound(0)
- 
- MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
+      PauseSound(0)
+      
+      SetSoundFrequency(0, 16000)
+      
+      ResumeSound(0)
+      
+      MessageRequester("Info", "The average frequency is " + Str(GetSoundFrequency(0))+" Hz")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
    
 @SeeAlso
@@ -585,7 +619,7 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @EndFixedFont
 
 @Example
-@Code  
+@Code
   Procedure SelectStatus(Status)
     Select Status
       Case #PB_Sound_Stopped
@@ -605,27 +639,31 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
         
     EndSelect
   EndProcedure
-
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
- SelectStatus(SoundStatus(0))
-
- PauseSound(0)
- SelectStatus(SoundStatus(0))
- 
- ResumeSound(0)
- SelectStatus(SoundStatus(0))
- 
- StopSound(0)
- SelectStatus(SoundStatus(0))
- 
- FreeSound(0) ; The sound is freed
- End
+  
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      SelectStatus(SoundStatus(0))
+      
+      PauseSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      ResumeSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      StopSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
  
 @SupportedOS
@@ -652,28 +690,32 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
-
- MessageRequester("Info", "The sound is playing in stereo.")
- 
- SoundPan(0, -100)
- MessageRequester("Info", "The sound is playing only on the left channel.")
- 
- SoundPan(0, 100)
- MessageRequester("Info", "The sound is playing only on the right channel.")
- 
- SoundPan(0, 0)
- MessageRequester("Info", "The sound is playing in stereo.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "The sound is playing in stereo.")
+      
+      SoundPan(0, -100)
+      MessageRequester("Info", "The sound is playing only on the left channel.")
+      
+      SoundPan(0, 100)
+      MessageRequester("Info", "The sound is playing only on the right channel.")
+      
+      SoundPan(0, 0)
+      MessageRequester("Info", "The sound is playing in stereo.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
     
 @SupportedOS
@@ -702,28 +744,32 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
   Sounds loaded with the @#PB_Sound_Streaming flag are not supported.
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "The length of the sound is "+ Str(SoundLength(0)) + " frames.")
-   
- MessageRequester("Info", "The length of the sound is "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "The length of the sound is "+ Str(SoundLength(0)) + " frames.")
+      
+      MessageRequester("Info", "The length of the sound is "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundVolume(#Sound, Volume [, Channel])
+@Function SoundVolume(#Sound, Volume.f [, Channel])
 
 @Description
   Change the sound volume, in real-time.
@@ -731,7 +777,7 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @Parameter "#Sound"
   The sound to use. If @#PB_All is specified, all the sounds (and all channels) are affected.
 
-@Parameter "Volume"
+@Parameter "Volume.f"
   The new volume for the sound. Valid values are from 0 (no volume) to 100 (full volume).
 
 @OptionalParameter "Channel"
@@ -741,22 +787,26 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "The sound volume is at 20%")
- 
- SoundVolume(0, 80)
- MessageRequester("Info", "The sound volume is at 80%")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "The sound volume is at 20%")
+      
+      SoundVolume(0, 80)
+      MessageRequester("Info", "The sound volume is at 80%")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -782,22 +832,26 @@ of available hardware. It uses DirectX on Windows. On Linux, it requires the SDL
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialize Sound system
- UseOGGSoundDecoder()  ; Use ogg files
-
- ; Loads a sound from a file
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; The sound is playing
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "Ok to stop.")
- 
- StopSound(0)
- MessageRequester("Info", "Sound stopped")
- 
- FreeSound(0) ; The sound is freed
- End
+@Code
+  If InitSound()           ; Initialize Sound system
+    UseOGGSoundDecoder()   ; Use ogg files
+    
+    ; Loads a sound from a file
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; The sound is playing
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Ok to stop.")
+      
+      StopSound(0)
+      MessageRequester("Info", "Sound stopped")
+      
+      FreeSound(0) ; The sound is freed
+      End
+    EndIf
+  Else
+    Debug "Warning! The sound enviroment couldn't be initialized. So no sound commands can be used..."
+  EndIf
 @EndCode
 
 @SeeAlso

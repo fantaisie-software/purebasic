@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Structure FileViewer
@@ -81,9 +81,23 @@ Procedure OpenFileViewerWindow()
     If OpenWindow(#WINDOW_FileViewer, FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, Language("FileViewer","Title"), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_Invisible, WindowID(#WINDOW_Main))
       EnableDebugger
       
+      CompilerIf #CompileMac
+        If OSVersion() >= #PB_OS_MacOSX_10_14
+          ; Fix Toolbar style from titlebar to expanded (Top Left)
+          #NSWindowToolbarStyleExpanded = 1
+          CocoaMessage(0, WindowID(#WINDOW_FileViewer), "setToolbarStyle:", #NSWindowToolbarStyleExpanded)
+        EndIf
+      CompilerEndIf
+      
       SmartWindowRefresh(#WINDOW_FileViewer, 1)
       
-      If CreateToolBar(#TOOLBAR_FileViewer, WindowID(#WINDOW_FileViewer))
+      CompilerIf #CompileMac
+        flags = #PB_ToolBar_Large
+      CompilerElse
+        flags = 0
+      CompilerEndIf
+      
+      If CreateToolBar(#TOOLBAR_FileViewer, WindowID(#WINDOW_FileViewer), flags)
         ToolBarImageButton(#MENU_FileViewer_Open, ImageID(#IMAGE_FileViewer_Open))
         ToolBarImageButton(#MENU_FileViewer_Close, ImageID(#IMAGE_FileViewer_Close))
         ToolBarSeparator()

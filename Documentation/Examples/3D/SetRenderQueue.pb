@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-;Use [F5]/[F6]
+; Use [F5]/[F6]
 
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
@@ -61,7 +61,6 @@ If InitEngine3D()
       EndIf
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

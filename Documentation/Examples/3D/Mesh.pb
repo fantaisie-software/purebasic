@@ -8,10 +8,6 @@
 ; ------------------------------------------------------------
 ;
 
-
-#PB_Material_SpecularColor = 1
-#PB_Material_AmbientColor  = 2
-
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY
@@ -89,7 +85,6 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

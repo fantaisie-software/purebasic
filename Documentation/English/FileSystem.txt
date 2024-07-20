@@ -131,8 +131,8 @@ possible to read a directory content, create a new directory and more...
 @Function Result = DeleteDirectory(Directory$, Pattern$ [, Mode])
 
 @Description
-  Deletes the specified Directory$.
-
+  Deletes the specified Directory$ or files in that Directory$ matching the provided pattern.
+ 
 @Parameter "Directory$"
   The directory to delete.
 
@@ -669,6 +669,14 @@ possible to read a directory content, create a new directory and more...
   Returns the full path of the specified directory. It will end with a directory separator
   ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
   If the type is not found it will return an empty string.
+
+@Example
+@Code
+  ; List some of the user directories:
+  Debug "#PB_Directory_Downloads = " + GetUserDirectory(#PB_Directory_Downloads)
+  Debug "#PB_Directory_Documents = " + GetUserDirectory(#PB_Directory_Documents)
+  Debug "#PB_Directory_Programs  = " + GetUserDirectory(#PB_Directory_Programs)
+@EndCode
 
 @SeeAlso
   @@GetCurrentDirectory,

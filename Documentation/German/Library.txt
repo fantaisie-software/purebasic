@@ -1,7 +1,7 @@
 ;
 ;     Library library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Library
@@ -467,7 +467,11 @@
   Gibt einen Wert ungleich Null zurück, wenn die Library erfolgreich geöffnet wurde - und Null, wenn nicht.
   Wenn @#PB_Any als #Library Parameter verwendet wurde, dann wird bei Erfolg
   die für die Library generierte Nummer zurückgegeben.
-  
+
+@Remarks
+  Es ist zwingend erforderlich, dass das erstellte PureBasic-Executable und die "shared" Library
+  dieselbe Architektur verwenden (z. B. kann eine x86-DLL nicht von x64-Executables geöffnet werden).
+
 @SeeAlso
   @@CloseLibrary, @@GetFunction, @ReferenceLink "prototypes" "Prototypes"
 

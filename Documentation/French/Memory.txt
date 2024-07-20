@@ -227,14 +227,15 @@
   en mémoire.
   
 @Parameter "*Texte1, *Texte2"
-  Les adresses des deux chaînes de caractères 
-  à comparer.
+  Les adresses des deux chaînes de caractères à comparer.
   
 @OptionalParameter "Mode"  
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#PB_String_CaseSensitive : La recherche est sensible à  la casse (a=a) (Par défaut).
   @#PB_String_NoCase        : Comparaison insensible à la casse (a=A).
+  @#PB_String_NoCaseAscii   : Recherche insensible à la casse utilisant uniquement le jeu de caractères ascii (a=A). 
+                             Beaucoup plus rapide que @#PB_String_NoCase lorsque la prise en charge complète d'Unicode n'est pas requise.
 @EndFixedFont
 
 @OptionalParameter "Longueur"

@@ -19,9 +19,9 @@
   (pop-up).
 @LineBreak
 @LineBreak
-  @Bold "Mac OSX:"
+  @Bold "MacOS:"
 @LineBreak
-  Sur OSX un menu n'est jamais affiché dans une 
+  Sur MacOS un menu n'est jamais affiché dans une 
   fenêtre, mais toujours sur le bureau. Le menu 
   en haut du bureau affiche les éléments de 
   l'application qui a le focus.
@@ -30,7 +30,7 @@
   Il existe les événements de menu prédéfinis 
   suivants @#PB_Menu_Quit, @#PB_Menu_About et 
   @#PB_Menu_Preferences présents dans le menu 
-  de chaque programme OSX. Leurs valeurs sont 
+  de chaque programme MacOS. Leurs valeurs sont 
   négatives pour ne pas entrer en conflit avec 
   les éléments de menu définis par ailleurs 
   dans le programme qui eux sont signalés avec 
@@ -127,27 +127,30 @@
 @LineBreak
   @@EventMenu
 
-@OS MacOS X
+@OS MacOS
 @LineBreak
 @LineBreak
   Note: Sur MacOS vous ne pouvez avoir une 
   barre de menu, qui sera affiché en haut 
   de l'écran. C'est le nouveau designe des 
-  applications OSX. Vous ne pouvez pas avoir 
+  applications MacOS. Vous ne pouvez pas avoir 
   de menus sur les fenêtres individuelles.
 @EndOS
 
 @Example
 @Code
-  If OpenWindow(0, 200, 200, 200, 100, "Exemple de menu")
-    If CreateMenu(0, WindowID(0))   
+  UsePNGImageDecoder()
+
+  If OpenWindow(0, 200, 200, 200, 100, "Exemple menu image")
+    If CreateImageMenu(0, WindowID(0))
       MenuTitle("Projet")
-        MenuItem(1, "Ouvrir"   +Chr(9)+"Ctrl+O")
-        MenuItem(2, "Enregistrer"   +Chr(9)+"Ctrl+E")
-        MenuItem(3, "Enregistrer sous"+Chr(9)+"Ctrl+R")
-        MenuItem(4, "Fermer"  +Chr(9)+"Ctrl+F")
+        MenuItem(1, "Ouvrir"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
+        MenuItem(2, "Sauvegarder"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
+        MenuBar()
+        MenuItem(3, "Quitter"  +Chr(9)+"Ctrl+Q")
     EndIf
-    Repeat : Until WaitWindowEvent()=#PB_Event_CloseWindow
+  
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
 @Image createmenu.png
@@ -374,27 +377,22 @@
   Le numéro d'identification du menu.
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @OptionalParameter "Options"
-  Peut être une combinaison de:
+  Peut être une l'une des options suivantes:
 @FixedFont
-  @#PB_Menu_ModernLook: Active le nouveau look et affiche un dégradé (Windows seulement).
+  @#PB_Menu_ModernLook  : Active le nouveau look et affiche un dégradé (Windows seulement).
+  @#PB_Menu_SysTrayLook : Active l'apparence de la barre d'état système. À utiliser avec @@SysTrayIconMenu (n'a d'effet que sous Windows).
 @EndFixedFont
 
 @ReturnValue 
-  Renvoie une valeur non nulle en cas de succès, 
-  zéro sinon.@LineBreak 
-  Si @#PB_Any a été utilisé le numéro du menu 
-  est renvoyé en cas de succès.
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.@LineBreak 
+  Si @#PB_Any a été utilisé le numéro du menu est renvoyé en cas de succès.
 
 @Remarks   
-  Une fois créé, il devient le menu courant 
-  et il est alors possible d'utiliser les 
-  fonctions @@MenuTitle, @@MenuItem, @@MenuBar, 
-  et @@OpenSubMenu pour remplir le menu.
+  Une fois créé, il devient le menu courant et il est alors possible d'utiliser les 
+  fonctions @@MenuTitle, @@MenuItem, @@MenuBar, et @@OpenSubMenu pour remplir le menu.
 @LineBreak
 @LineBreak  
   Les dimensions des images sont de 16x16 pixels.
@@ -426,7 +424,7 @@
       StopDrawing()
     EndIf
                                    ; On peut aussi charger une icône toute prête.
-    If LoadImage(1,#PB_Compiler_Home + "Examples\Sources\Data\ToolBar\Open.png")         
+    If LoadImage(1,#PB_Compiler_Home + "examples\sources\Data\ToolBar\Open.png")         
     If CreatePopupImageMenu(0, #PB_Menu_ModernLook) ; La création du menu contextuel commence...
       ;MenuTitle("Projet")        ; Décommenter pour voir la différence
         MenuItem(1, "Ouvrir",ImageID(1)) ; Ajout de l'icône
@@ -461,6 +459,10 @@
   EndIf
   EndIf
 @EndCode
+
+@SeeAlso
+  @@CreatePopupMenu, @@DisplayPopupMenu,
+  @@CreateMenu, @@CreateImageMenu, @@FreeMenu, @@MenuTitle, @@MenuItem, @@MenuBar, @@OpenSubMenu, @@SysTrayIconMenu
 
 @SupportedOS
 
@@ -987,7 +989,7 @@ EndIf
   d'affichage (zone client) d'une fenêtre.
 @LineBreak
 @LineBreak 
-  @Bold "Linux & MacOS X": Cette commande renverra 
+  @Bold "Linux & MacOS": Cette commande renverra 
   toujours 0, car la barre de menu ne fait pas 
   partie intégrante de la fenêtre (elle est 
   toujours située dans la barre principale tout 
@@ -1069,7 +1071,7 @@ EndIf
 @LineBreak 
   Si vous désirez associer un raccourci clavier 
   (qui sera créé avec la commande 
-  @@AddKeyboardShortcut, sauf sous OS X) 
+  @@AddKeyboardShortcut, sauf sous MacOS) 
   aligné sur le côté droit du menu (par exemple, 
   "Sauvegarder    Ctrl+S") alors vous pouvez 
   utiliser le caractère 'tabulation' pour donner 
@@ -1085,23 +1087,23 @@ EndIf
   - "Ctrl"  : touche 'Contrôle'
   - "Shift" : touche 'Majuscule'
   - "Alt"   : touche 'Alt'
-  - "Cmd"   : touche 'Commande/Pomme' (OS X seulement)
+  - "Cmd"   : touche 'Commande/Pomme' (MacOS seulement)
 @EndCode
 
   Ils peuvent être combinés entre eux à l'aide 
   du caractère "+": "Enregistrer sous" + Chr(9) 
   + "Ctrl+Shift+S". @LineBreak
-  Sous OS X, quand un raccourci est défini dans 
+  Sous MacOS, quand un raccourci est défini dans 
   le menu, il n'est pas nécessaire de le 
   redéclarer à l'aide de la fonction 
   @@AddKeyboardShortcut.
 @LineBreak
 @LineBreak
-  @Bold "MacOS X" : les éléments 'Quitter', 
+  @Bold "MacOS" : les éléments 'Quitter', 
   'Préférences' et 'A propos' sont considérés 
   comme spéciaux et doivent être placés dans le 
   menu 'Application' pour avoir l'apparence et 
-  le comportement des applications OS X. 
+  le comportement des applications MacOS. 
   PureBasic fournit les constantes 
   @#PB_Menu_Quit, @#PB_Menu_Preferences et 
   @#PB_Menu_About pour gérer ce genre d'éléments 
@@ -1117,7 +1119,7 @@ EndIf
 
 @Example
 @Code
-  ;Note : Sous Windows XP et suivant, pour que le trait souligné apparaisse en permanence, 
+  ;Note : Sous Windows Vista et suivant, pour que le trait souligné apparaisse en permanence, 
   ;décochez l'option : 'Masquer les lettres soulignées pour la navigation au clavier jusqu'à ce que j'appuie sur la touche Alt'
   ;dans les propriétés du bureau puis affichage / Apparence / Effets.
 
@@ -1211,7 +1213,7 @@ EndIf
   
 @Example
 @Code
-  ;Note : Sous Windows XP et suivant, pour que le trait souligné apparaisse en permanence, 
+  ;Note : Sous Windows Vista et suivant, pour que le trait souligné apparaisse en permanence, 
   ;décochez l'option : 'Masquer les lettres soulignées pour la navigation au clavier jusqu'à ce que j'appuie sur la touche Alt'
   ;dans les propriétés du bureau puis affichage / Apparence / Effets.
   If OpenWindow(0, 200, 200, 200, 100, "Exemple MenuTitle")
@@ -1265,7 +1267,7 @@ EndIf
   Ex:@LineBreak 
   SubMenu = OpenSubMenu("Nouveau")@LineBreak 
   SetMenuItemText(0, SubMenu, "Ouvrir")@LineBreak 
-  Sous Linux et MacOsX vous devrez jongler entre plusieurs menus ou détruire et recréer le 
+  Sous Linux et MacOS vous devrez jongler entre plusieurs menus ou détruire et recréer le 
   menu à convenance.
   
 @Example

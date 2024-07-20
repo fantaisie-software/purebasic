@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure.s DebugOutput_Selection(*Debugger.DebuggerData)
@@ -245,6 +245,12 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\OutputStatusbar = CreateStatusBar(#PB_Any, WindowID(Window))
     AddStatusBarField(#PB_Ignore)
     
+    CompilerIf #SpiderBasic
+      ; We don't support this yet
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry], #True)
+      DisableGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display], #True)
+    CompilerEndIf
+    
     If DebugOutFontID <> #PB_Default
       SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List], DebugOutFontID)
     EndIf
@@ -320,31 +326,7 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     
     AddGadgetItem(Gadget, -1, *Debugger\DebugMessage$)
     
-    CompilerIf #CompileLinux
-      Static *Mark
-      
-      If *Mark = 0
-        *Mark = gtk_text_mark_new_("EndDocumentMark", #True);
-      EndIf
-      
-      *Buffer = gtk_text_view_get_buffer_(GadgetID(Gadget))
-      gtk_text_buffer_get_end_iter_(*Buffer, @iter.GtkTextIter)
-      gtk_text_buffer_add_mark_(*Buffer, *Mark , @iter)
-      gtk_text_view_scroll_to_mark_(GadgetID(Gadget), *Mark , 0.0, #True, 0.0, 0.17) ; gtk_text_view_scroll_to_iter_() is broken, so use the mark system
-      gtk_text_buffer_delete_mark_(*Buffer, *Mark)
-    CompilerEndIf
-    
-    CompilerIf #CompileWindows
-      SendMessage_(GadgetID(Gadget), #WM_VSCROLL, #SB_BOTTOM, #Null)
-    CompilerEndIf
-    
-    CompilerIf #CompileMac
-      ; Scroll the editor gadget to the bottom
-      ; This function is very very slow, that's why we defer it (https://www.purebasic.fr/english/viewtopic.php?f=24&t=55924)
-      Range.NSRange\location = CocoaMessage(0, CocoaMessage(0, GadgetID(Gadget), "string"), "length") - 1
-      Range\length = 1
-      CocoaMessage(0, GadgetID(Gadget), "scrollRangeToVisible:@", @Range);
-    CompilerEndIf
+    ScrollEditorGadgetToEnd(Gadget)
     
     *Debugger\DebugMessage$ = ""
     *Debugger\IsDebugMessage = #False
@@ -484,7 +466,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
           
         Case 4 ; string
           Message$ + PeekS(*Debugger\CommandData)
-          Expr$ = PeekS(*Debugger\CommandData + Len(Message$) + 1)
+          Expr$ = PeekS(*Debugger\CommandData + (Len(Message$) + 1)*#CharSize)
           
           If *Debugger\Command\Command = #COMMAND_SetVariableResult
             Message$ = Chr(34)+Message$+Chr(34)

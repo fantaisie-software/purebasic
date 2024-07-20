@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; --------------------------------------------------------------
@@ -31,6 +31,7 @@ CompilerEndIf
 
 ; Creates a unique representation of a filename, by doing this:
 ;  - replaces any "../directory" parts to get a direct path
+;  - removes multiple redundant "//" in the path
 ;  - cutting any "./" in the path
 ;  - on Windows, replaces all "/" by "\" as both are allowed.
 ;
@@ -88,6 +89,20 @@ Procedure.s UniqueFilename(FileName$)
       ElseIf PeekS(*Cursor, 3) = #Separator + "." + #Separator
         ; simply remove this reference to the own directory
         PokeS(*Cursor, PeekS(*Cursor + 2*SizeOf(Character)))
+        
+      ElseIf PeekS(*Cursor, 2) = #Separator + #Separator
+        ; Redundant "\\" or "//". Remove one of them
+        
+        ; Special case: On Windows a path starting with \\ is a UNC network oath
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          If *Cursor = @FileName$
+            *Cursor + (SizeOf(Character) * 2)
+            Continue
+          EndIf
+        CompilerEndIf
+        
+        PokeS(*Cursor, PeekS(*Cursor + SizeOf(Character)))
+        ; Do not skip the remaining "/" yet to reprocess it in the next loop so do not increase *Cursor here
         
       Else
         *Cursor + SizeOf(Character)

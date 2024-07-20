@@ -14,7 +14,7 @@ UseGIFImageDecoder()
 ; Loading a GIF file
 If LoadImage(0, #PB_Compiler_Home+"Examples/Sources/Data/PureBasicLogo.gif")
 
-  OpenWindow(0, 100, 100, ImageWidth(0), ImageHeight(0), "GIF viewer")
+  OpenWindow(0, 100, 100, DesktopUnscaledX(ImageWidth(0)), DesktopUnscaledY(ImageHeight(0)), "GIF viewer")
  
   CanvasGadget(0, 0, 0, ImageWidth(0), ImageHeight(0))
   

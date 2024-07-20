@@ -14,7 +14,7 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY
 
-LoadFont(0, "Arial", 28, #PB_Font_Bold)
+LoadFont(0, "Arial", 18, #PB_Font_Bold)
 
 If InitEngine3D()
   
@@ -85,8 +85,6 @@ If InitEngine3D()
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

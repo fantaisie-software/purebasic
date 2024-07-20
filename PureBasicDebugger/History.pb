@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Procedure HistoryWindowEvents(*Debugger.DebuggerData, EventID)
@@ -300,7 +300,7 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
             Call$ = PeekS(*Pointer): *Pointer + MemoryStringLengthBytes(*Pointer) + #CharSize ; not ascii!
             
             *history\item[i]\Container   = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
-            *history\item[i]\Line      = TextGadget(#PB_Any, 5, 5, 0, 25, Language("Debugger","Line")+": "+Str((Line & $FFFFFF)+1))
+            *history\item[i]\Line      = TextGadget(#PB_Any, 5, 5, 0, 25, Language("Debugger","Line")+": "+Str(DebuggerLineGetLine(Line)+1))
             *history\item[i]\File      = TextGadget(#PB_Any, 5, 35, 0, 25, Language("Debugger","File")+": "+GetDebuggerRelativeFile(*Debugger, Line))
             *history\item[i]\Show      = ButtonGadget(#PB_Any, 0, 5, 110, 25, Language("Debugger","ShowVariables"), #PB_Button_Toggle)
             *history\item[i]\Call      = StringGadget(#PB_Any, 5, 65, 0, 25, Call$, #PB_String_ReadOnly)
@@ -317,7 +317,7 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
         EndIf
       EndIf
       
-      SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentLine], Language("Debugger","Line")+": "+Str((*Debugger\Command\Value2 & $FFFFFF) + 1))
+      SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentLine], Language("Debugger","Line")+": "+Str(DebuggerLineGetLine(*Debugger\Command\Value2) + 1))
       SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentFile], Language("Debugger","File")+": "+GetDebuggerRelativeFile(*Debugger, *Debugger\Command\Value2))
       
       HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Updating], 1)

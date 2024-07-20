@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; Functions for Plugins
@@ -389,13 +389,6 @@ Procedure LibraryViewerEvents(*Debugger.DebuggerData, EventID)
             Width  = GadgetWidth(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2])  - 4
             Height = GadgetHeight(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectData2]) - 4
             ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_Container], 0, 0, Width, Height)
-            
-            ; no longer needed since 4.60
-            ;             CompilerIf #CompileLinux
-            ;               Width - 4; due to the Gtk borders (on the inner container!)
-            ;               Height - 4
-            ;             CompilerEndIf
-            
             *Plugin\SetObjectSize(*Debugger\CurrentObjectData, Width, Height)
           EndIf
         EndIf

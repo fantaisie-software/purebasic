@@ -39,11 +39,12 @@
     Age.w 
   EndStructure
   
-  Debug "The size of my friend is "+Str(Sizeof(Person))+" bytes" ; will be 10 (4+4+2)
+  Debug "The size of my friend is "+Str(Sizeof(Person))+" bytes" ; will be 10 on 32-bit compiler as a string pointer is 4 bytes in memory
+                                                                 ; will be 18 on 64-bit compiler as a string pointer is 8 bytes in memory
   
   John.Person\Name = "John"
   
-  Debug SizeOf(John) ; will be also 10 
+  Debug SizeOf(John) ; will be the same
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -71,15 +72,16 @@
     Age.w 
   EndStructure
   
-  Debug OffsetOf(Person\Age) ; will be 8 as a string is 4 byte in memory
-                             ; (16 with the 64-bit compiler, as a string is 8 bytes there)
+  Debug OffsetOf(Person\Age) ; will be  8 on 32-bit compiler as a string pointer is 4 bytes in memory
+                             ; will be 16 on 64-bit compiler as a string pointer is 8 bytes in memory
   
   Interface ITest
     Create()
     Destroy(Flags) 
   EndInterface
   
-  Debug OffsetOf(ITest\Destroy()) ; will be 4
+  Debug OffsetOf(ITest\Destroy()) ; will be 4 on 32-bit compiler as a pointer is 4 bytes in memory
+                                  ; will be 8 on 64-bit compiler as a pointer is 8 bytes in memory
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -146,7 +148,7 @@
 @Description
 
   @Keyword Subsystem can be used to find out if a @ReferenceLink "subsystems" "subsystem" is in use for the
-  program being compiled. The name of the subsystem is case sensitive.
+  program being compiled. The specified subsystem name is not case-sensitive.
 
 @Example
 
@@ -252,6 +254,65 @@
   ForEach *Student\Friends()
     Debug *Student\Friends()
   Next
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword CompareStructure(*Pointer1, *Pointer2, Structure [, Flags])
+
+@Description
+
+  @Keyword CompareStructure compares the memory of two @ReferenceLink "structures" "structures" for equality.
+  The comparison is recursively applied also to child elements such as @ReferenceLink "dim" "arrays", 
+  @ReferenceLink "newlist" "lists", and @ReferenceLink "newmap" "maps". Returns nonzero if the structures are the same
+  or zero if they differ.
+@LineBreak
+@LineBreak
+  The "Flags" parameter is optional and can have one of the following values:
+@FixedFont
+  @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
+  @#PB_String_NoCase        : String comparison is case insensitive(a=A).
+  @#PB_Memory_FollowPointers: If a structure element is a pointer that is not 0, recursively compare the pointer target. 
+                              The default is to compare only the pointer value itself.
+@EndFixedFont
+
+@Bold "Caution:" 
+The @#PB_Memory_FollowPointers option is for advanced users and requires special care to avoid crashes.
+If this option is used then all pointer values must point to valid and initialized memory or have the value 0.
+It is also not allowed to have loops in the pointed elements (a chain of pointers that refers back to itself).
+
+@Example
+
+@Code
+  Structure People
+    Name$
+    LastName$
+    Map Friends$()
+    Age.l
+  EndStructure
+
+  StudentA.People\Name$ = "Paul"
+  StudentA\LastName$ = "Morito"
+  StudentA\Friends$("Tom") = "Jones"
+  StudentA\Friends$("Jim") = "Doe"
+
+  StudentB.People\Name$ = "Paul"
+  StudentB\LastName$ = "Morito"
+  StudentB\Friends$("Tom") = "Jones"
+  StudentB\Friends$("Jim") = "Doe"
+
+  StudentC.People\Name$ = "Paul"
+  StudentC\LastName$ = "Morito"
+  StudentC\Friends$("Tom") = "Hanks" ; Not the same as in StudentA
+  StudentC\Friends$("Jim") = "Doe"
+
+  Debug CompareStructure(@StudentA, @StudentB, People) ; Equal
+  Debug CompareStructure(@StudentA, @StudentC, People) ; Not equal
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------

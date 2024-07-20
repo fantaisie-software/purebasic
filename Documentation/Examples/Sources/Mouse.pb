@@ -1,7 +1,7 @@
 ﻿;
 ; ------------------------------------------------------------
 ;
-;   PureBasic - Mouse example file
+;   PureBasic - Fullscreen mouse example file
 ;
 ;    (c) Fantaisie Software
 ;
@@ -9,7 +9,7 @@
 ;
 
 If InitMouse() = 0 Or InitSprite() = 0 Or InitKeyboard() = 0
-  MessageRequester("Error", "Can't open DirectX", 0)
+  MessageRequester("Error", "Can't initialize GFX", 0)
   End
 EndIf
 
@@ -17,9 +17,10 @@ EndIf
 ;-------- MessageReq and OpenScreen --------
 ;
 
-MessageRequester("Information", "This will test the fast mouse access..."+Chr(10)+"Press any mouse button to quit!", 0)
+MessageRequester("Information", "This will test the fast mouse access..."+ #LF$ +
+                                "Press any mouse button to quit!", 0)
 
-If OpenScreen(800, 600, 32, "Mouse") = 0
+If OpenScreen(1920, 1080, 32, "Mouse") = 0
   MessageRequester("Error", "Impossible to open a 800*600 32-bit screen",0)
   End
 EndIf
@@ -50,7 +51,7 @@ Repeat
   x+MouseWheel()*10
   
   If MouseButton(#PB_MouseButton_Middle)
-    MouseLocate(400, 300)
+    MouseLocate(ScreenWidth()/2, ScreenHeight()/2)
   EndIf
 
   DisplaySprite(0, x-SpriteWidth(0)/2, y-SpriteHeight(0)/2)

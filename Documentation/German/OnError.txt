@@ -1,7 +1,7 @@
 ;
 ;     OnError library documentation
 ;
-;       (c) 2015 - Fantaisie Software
+;       (c) 2023 - Fantaisie Software
 ;
 
 @Library OnError
@@ -25,7 +25,8 @@
   @Bold "Hinweis:" Wenn sowohl diese Bibliothek als auch der @ReferenceLink "ide_debugger" "PureBasic Debugger" 
   verwendet werden, werden nicht alle Fehler von der OnError Bibliothek abgefangen, da einige Überprüfungen
   durch den Debugger bereits vorgenommen und gemeldet werden, noch bevor der entsprechende Programmcode mit
-  dem Fehler ausgeführt wird.
+  dem Fehler ausgeführt wird. Um OnError in der IDE zu testen, stellen Sie bitte sicher, dass Debugger
+  ausgeschalten ist (@Keyword DisableDebugger ist nicht genug).
 @LineBreak
 @LineBreak
   Diese Bibliothek kann mit Hilfe der Befehle @@ErrorFile und @@ErrorLine
@@ -420,7 +421,7 @@
 @LineBreak
   @Bold "Wichtig:" Die Disassembler Befehle verwenden die @InternetLink "http://udis86.sourceforge.net/" "Udis86 Disassembler Library",
   um die Anweisungen zu dekodieren. Diese Bibliothek wurde unter der BSD-Lizenz veröffentlicht, welche 
-  @MainGuideLink "udis86" "hier" eingesehen werden kann.
+  @MainGuideLink "license_udis86" "hier" eingesehen werden kann.
   Wenn @@ExamineAssembly und zugehörige Befehle in einem Programm verwendet werden, das
   öffentlich gemacht werden soll, muss der oben verlinkte Lizenz-Text mit in die Software aufgenommen 
   werden.

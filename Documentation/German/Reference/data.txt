@@ -32,10 +32,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumerischeDaten:
+    Data.w 120, 250, 645 ; drei Zahlen der Größe 'Word'
   EndDataSection
 @EndCode
 
@@ -58,10 +57,9 @@
 @Example
 
 @Code
-  Label:
-    
   DataSection
-    Data.i ?Label, @Max()
+    NumerischeDaten:
+    Data.w 0, 1, 2
   EndDataSection
 @EndCode
 
@@ -86,8 +84,11 @@
   @Example
 
 @Code
-  Data.l 100, 200, -250, -452, 145
-  Data.s "Hello", "This", "is ", "What ?"
+  DataSection
+    GemischteDaten:
+    Data.l 100, 200, -250, -452, 145
+    Data.s "Hello", "This", "is ", "What ?"
+  EndDataSection
 @EndCode
 
 
@@ -107,6 +108,7 @@
   Label:
     
   DataSection
+    GemischteDaten:
     Data.i ?Label, @Max()
   EndDataSection
 @EndCode

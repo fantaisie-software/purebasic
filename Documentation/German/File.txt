@@ -1,13 +1,13 @@
 ;
 ;     File library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library File
 
 @Overview
-  Dateien sind die wichtigste Methode für die Speicherung auf Computern. PureBasic ermöglicht
+  Dateien sind die wichtigste Methode für das Speichern von Daten auf Computern. PureBasic ermöglicht
   dem Programmierer das Erstellen von Applikationen in einer solchen Art und Weise, dass die 
   zum Umgang mit diesen Dateien verwendeten Methoden einfach anzuwenden, aber trotzdem optimiert
   sind. Eine beliebige Anzahl an Dateien kann gleichzeitig verwaltet werden. Diese Bibliothek 
@@ -27,6 +27,7 @@
 @CommandList
 
 @ExampleFile All File.pb
+@ExampleFile All FileSearch.pb
 
 @SupportedOS
 
@@ -220,20 +221,23 @@
 
 @Example
 @Code
-  file$ = OpenFileRequester("Datei auswählen...","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
-  If file$
-    If ReadFile(0, file$) 
-      length = Lof(0)                       ; ermitteln der Dateilänge
-      FileSeek(0, length - 10)              ; setzen des Zeigers auf 10 Zeichen vor Ende der Datei
-      Debug "Position: " + Str(Loc(0))      ; anzeigen der aktuellen Zeigerposition
-      *MemoryID = AllocateMemory(10)        ; reservieren des benötigten Speichers für 10 Bytes
-      If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; einlesen der letzten 10 Zeichen in der Datei
-        Debug PeekS(*MemoryID)
-      EndIf
+  File$ = OpenFileRequester("Datei auswählen...","","Alle Dateien (*.*)|*.*",0)
+  If File$
+    If ReadFile(0, File$)
+      
+      ; Lese die Länge der Datei
+      Length = Lof(0)                       
+      Debug "Datei-Länge: "+FormatNumber(Length, 0)+" Bytes"
+          
+      ; Setze den File-Pointer 10 Bytes vor dem Ende der Datei
+      FileSeek(0, Length - 10)                                
+      Debug "Position nach dem Suchen: "+FormatNumber(Loc(0), 0)
+      
       CloseFile(0)
+    Else
+      Debug "Kann die Datei nicht lesen: "+File$
     EndIf
-  EndIf  
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -434,7 +438,7 @@
 @Function Zahl.a = ReadAsciiCharacter(#Datei)
 
 @Description
-  Liest ein ASCII-Zeichen (1 Byte) aus einer Datei.
+  Liest ein ASCII-Zeichen (1 Byte) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -447,7 +451,7 @@
   ReadAsciiCharacter() wird einfach ein ASCII-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteAsciiCharacter, @@ReadUnicodeCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -456,7 +460,7 @@
 @Function Zahl.b = ReadByte(#Datei)
 
 @Description
-  Liest ein Byte (1 Byte) aus einer Datei.
+  Liest ein Byte (1 Byte) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -469,7 +473,7 @@
   ReadByte() wird einfach ein Byte anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteByte, @@OpenFile, @@ReadFile
+  @@WriteByte, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -478,7 +482,7 @@
 @Function Zahl.c = ReadCharacter(#Datei [, Format])
 
 @Description
-  Liest ein Zeichen aus einer Datei.
+  Liest ein Zeichen aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -491,6 +495,8 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard im @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Zeichens von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
 @ReturnValue
   Gibt das gelesene Zeichen zurück, oder Null bei einem Fehler.
@@ -500,7 +506,7 @@
   ReadCharacter() wird einfach ein Zeichen (Character) anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile
+  @@WriteCharacter, @@ReadAsciiCharacter, @@ReadUnicodeCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -509,7 +515,7 @@
 @Function Zahl.d = ReadDouble(#Datei)
 
 @Description
-  Liest ein Double (8 Bytes) aus einer Datei.
+  Liest ein Double (8 Bytes) aus einer Datei, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -522,7 +528,7 @@
   ReadDouble() wird einfach ein Double-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteDouble, @@OpenFile, @@ReadFile
+  @@WriteDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -545,15 +551,15 @@
 @OptionalParameter "Flags"
   Kann eine Kombination (mit Hilfe des '| Operanden) der folgenden Werte sein:
 @FixedFont
-  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess für eine Lese-Operation geöffnet
-                        wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
-  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess für eine Schreib-Operation geöffnet
-                        wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
+  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess oder Thread für eine Lese-Operation 
+                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
+  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess oder Thread für eine Schreib-Operation
+                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
 @EndFixedFont
-  kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString(), @@WriteStringN, 
-  @@ReadString, @@ReadCharacter und @@WriteCharacter):
+  kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von
+  @@ReadString und @@ReadCharacter):
 @FixedFont
   @#PB_Ascii  : alle Lese/Schreib-String-Operationen werden ASCII verwenden, wenn nicht anders angegeben.
   @#PB_UTF8   : alle Lese/Schreib-String-Operationen werden UTF-8 verwenden, wenn nicht anders angegeben (Standard).
@@ -571,13 +577,14 @@
 
 @Example
 @Code
-  If ReadFile(0, "Text.txt")   ; wenn die Datei geöffnet werden konnte, setzen wir fort...
-    While Eof(0) = 0           ; sich wiederholende Schleife bis das Ende der Datei ("end of file") erreicht ist
-      Debug ReadString(0)      ; Zeile für Zeile im Debugger-Fenster anzeigen
+  If ReadFile(0, "Text.txt")       ; wenn die Datei geöffnet werden konnte, setzen wir fort...
+    Format = ReadStringFormat(0)
+    While Eof(0) = 0               ; sich wiederholende Schleife solange das Ende der Datei ("end of file") noch nicht erreicht wurde
+      Debug ReadString(0, Format)  ; Zeile für Zeile im Debugger-Fenster anzeigen
     Wend
-    CloseFile(0)               ; schließen der zuvor geöffneten Datei
+    CloseFile(0)                   ; schließen der zuvor geöffneten Datei
   Else
-    MessageRequester("Information","Konnte Datei nicht öffnen!")
+    MessageRequester("Information", "Konnte Datei nicht öffnen!")
   EndIf
 @EndCode
 
@@ -591,7 +598,7 @@
 @Function Zahl.f = ReadFloat(#Datei)
 
 @Description
-  Liest einen Fließkomma-Wert (4 Bytes) aus einer Datei ein.  
+  Liest einen Fließkomma-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -604,7 +611,7 @@
   ReadFloat() wird einfach ein Fließkomma-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile
+  @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -614,7 +621,7 @@
 
 @Description
   Liest einen Ganzzahl-Wert (Integer, mit 4 Bytes bei einem 32-Bit Executable bzw. 8 Bytes bei einem 64-Bit Executable)
-  aus einer Datei ein.
+  aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -627,7 +634,7 @@
   ReadInteger() wird einfach ein Ganzzahl-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteInteger, @@OpenFile, @@ReadFile
+  @@WriteInteger, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -636,7 +643,7 @@
 @Function Zahl.l = ReadLong(#Datei)
 
 @Description
-  Liest einen Long-Wert (4 Bytes) aus einer Datei ein.
+  Liest einen Long-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -649,7 +656,7 @@
   ReadLong() wird einfach ein Long-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteLong, @@OpenFile, @@ReadFile
+  @@WriteLong, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -658,7 +665,7 @@
 @Function Zahl.q = ReadQuad(#Datei)
 
 @Description
-  Liest einen Quad-Wert (8 Bytes) aus einer Datei ein.
+  Liest einen Quad-Wert (8 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -671,7 +678,7 @@
   ReadQuad() wird einfach ein Quad-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteQuad, @@OpenFile, @@ReadFile
+  @@WriteQuad, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -680,7 +687,7 @@
 @Function Ergebnis = ReadData(#Datei, *Speicherpuffer, ZuLesendeLänge)
 
 @Description
-  Liest den Inhalt der Datei in den angegebenen Speicherbereich.
+  Liest den Inhalt der Datei in den angegebenen Speicherbereich, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -689,7 +696,7 @@
   Die Adresse, an welche die gelesenen Daten geschrieben werden sollen.
 
 @Parameter "ZuLesendeLänge"
-  Die Anzahl der einzulesenden Bytes.
+  Die Anzahl der einzulesenden Bytes. Die maximale Länge beträgt 2 GByte.
 
 @ReturnValue
   Gibt die Anzahl an Bytes zurück, welche tatsächlich aus der Datei gelesen wurden.
@@ -699,7 +706,7 @@
   Für ein Code-Beispiel siehe die @@Lof Funktion.
 
 @SeeAlso
-  @@WriteData, @@OpenFile, @@ReadFile
+  @@WriteData, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
     
@@ -726,8 +733,8 @@
   @#PB_File_IgnoreEOL: ignoriert das Ende der Zeile (aber der daraus resultierende String wird sie noch enthalten)
                       bis zur angegebenen Länge oder dem Ende der Datei.
 @EndFixedFont
-
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format gelesen.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
 @OptionalParameter "Länge"
   Liest die Datei, bis die Länge (in Zeichen) erreicht wird. Wenn ein "Ende der Zeile" (EOL) auftritt,
@@ -804,7 +811,7 @@
 @Function Zahl.u = ReadUnicodeCharacter(#Datei)
 
 @Description
-  Liest ein Unicode-Zeichen (2 Bytes) aus einer Datei ein.
+  Liest ein Unicode-Zeichen (2 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -817,7 +824,7 @@
   ReadUnicodeCharacter() wird einfach ein Unicode-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile
+  @@WriteUnicodeCharacter, @@ReadAsciiCharacter, @@ReadCharacter, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -826,7 +833,7 @@
 @Function Zahl.w = ReadWord(#Datei)
 
 @Description
-  Liest einen Word-Wert (2 Bytes) aus einer Datei ein.
+  Liest einen Word-Wert (2 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -839,7 +846,7 @@
   ReadWord() wird einfach ein Word-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
-  @@WriteWord, @@OpenFile, @@ReadFile
+  @@WriteWord, @@OpenFile, @@ReadFile, @@Loc
 
 @SupportedOS
 
@@ -928,6 +935,8 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard, siehe @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Characters von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, oder Null bei einem Fehler.
@@ -1091,7 +1100,7 @@
   Die Speicheradresse der Daten, welche in die Datei geschrieben werden sollen.
 
 @Parameter "Länge"
-  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen.
+  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen. Die maximale Länge beträgt 2 GByte.
 
 @ReturnValue
   Gibt die Anzahl an Bytes zurück, welche tatsächlich in die Datei geschrieben wurden.
@@ -1175,7 +1184,8 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format
   @#PB_Unicode: Schreibt den String im UTF16-Format
 @EndFixedFont
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format geschrieben.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
@@ -1280,7 +1290,8 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format, auch wenn das Programm im ASCII-Modus kompiliert ist
   @#PB_Unicode: Schreibt den String im UTF16-Format (das Programm kann entweder in Unicode- oder ASCII-Modus kompiliert sein)
 @EndFixedFont
-  Wenn dieser Parameter nicht angegeben wird, dann wird der String im UTF8-Format geschrieben.
+  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.

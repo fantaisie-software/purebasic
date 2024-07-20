@@ -1,7 +1,7 @@
 ;
 ;     VectorDrawing library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library VectorDrawing
@@ -240,9 +240,9 @@
 @LineBreak
   @@CanvasVectorOutput: Zeichnen wird direkt auf dem @@CanvasGadget gerendert
 @LineBreak
-  @@PdfVectorOutput: Zeichnen wird direkt in einer PDF-Datei gerendert (nur auf Linux und OSX)
+  @@PdfVectorOutput: Zeichnen wird direkt in einer PDF-Datei gerendert
 @LineBreak
-  @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert (nur auf Linux)
+  @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn das Zeichnen möglich ist. Oder Null, wenn die
@@ -571,8 +571,6 @@
   @@PrinterVectorOutput
 @LineBreak
   @@PdfVectorOutput
-@LineBreak
-  @@SvgVectorOutput
     
 @NoParameters
 @NoReturnValue
@@ -1796,6 +1794,9 @@
 @NoReturnValue
 
 @Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
+@LineBreak
+@LineBreak
   Das Konvertieren von Text in einen Pfad ist ein aufwändiger Vorgang und kann zu einem
   Verlust an Textqualität und sogar zu einer etwas anderen Textform (je nach Schriftart)
   führen - im Vergleich zum direkten Zeichnen des Textes auf die Ausgabe mittels
@@ -3172,7 +3173,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
 
@@ -3199,7 +3200,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
     LoadFont(0, "Impact", 20, #PB_Font_Bold)    
 
     If StartVectorDrawing(CanvasVectorOutput(0))
@@ -3266,7 +3267,7 @@
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
     
-    LoadImage(0, #PB_Compiler_Home + "examples/Sources/Data/PureBasicLogo.bmp")
+    LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/PureBasicLogo.bmp")
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
@@ -3312,6 +3313,9 @@
 @NoReturnValue
 
 @Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
+@LineBreak
+@LineBreak
   Diese Funktion zeichnet nur einzelne Zeilen mit Text. Mehrere Aufrufe müssen erfolgen,
   um mehrere Zeilen zu zeichnen. Verwenden Sie @@VectorTextWidth und @@VectorTextHeight,
   um die Abmessungen des Textes zu bestimmen, um diesen richtig mit anderem Inhalt
@@ -3390,6 +3394,9 @@
 @EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
 
 @Example 
 
@@ -3704,9 +3711,6 @@
   Vektorzeichnen-Operationen auszuführen. Die aktuellen Zeichenoperationen müssen in
   einen @@StartVectorDrawing / @@StopVectorDrawing Block eingeschlossen werden.
   Die PDF-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
-@LineBreak
-@LineBreak
-  @Bold "Hinweis: " Diese Funktion ist nur verfügbar auf Linux und Mac OSX.
   
 @Parameter "Dateiname$"
   Gibt den Dateinamen des zu erstellenden PDF-Dokuments an. Wenn die Datei existiert,
@@ -3764,9 +3768,6 @@
   Die aktuellen Zeichenoperationen müssen in einen @@StartVectorDrawing / @@StopVectorDrawing
   Block eingeschlossen werden.
   Die SVG-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
-@LineBreak
-@LineBreak
-  @Bold "Hinweis: " Diese Funktion ist nur auf Linux verfügbar.
 
 @Parameter "Dateiname$"
   Gibt den Dateinamen der zu erstellenden SVG-Datei an. Wenn die Datei existiert,

@@ -1,14 +1,21 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 Global Dim StructureList.s(0)
 Global Dim InterfaceList.s(0)
 Global Dim ConstantList.s(0)
 Global Dim ConstantValueList.s(0)
 
+; The values stored in the tree are indexes into StructureList(), InterfaceList() and ConstantList() "index+1" actually
+; This is for easy access with RadixFindRange(). The +1 is to avoid 0 value which are not stored in the radix tree
+Global ConstantTree.RadixTree
+Global StructureTree.RadixTree
+Global InterfaceTree.RadixTree
+
+; Still used to show structure content based on selection of the first start character below
 Global Dim ConstantHT.l(27, 1)
 Global Dim StructureHT.l(27, 1)
 Global Dim InterfaceHT.l(27, 1)
@@ -20,7 +27,6 @@ EndStructure
 
 Global NewList StructureHistory.StructureHistory()
 
-Global StructureListSize, InterfaceListSize, ConstantListSize
 Global StructureViewerMode, IsRootDisplay, CurrentDisplayChar
 
 
@@ -51,6 +57,7 @@ Procedure LoadConstantList()
   ConstantListSize = ListSize(TempList())
   Dim ConstantList.s(ConstantListSize)
   Dim ConstantValueList.s(ConstantListSize)
+  RadixFree(ConstantTree)
   
   ; make all HT entries invalid
   For i = 0 To 27
@@ -96,6 +103,8 @@ Procedure LoadConstantList()
       ConstantList(i) = Left(ConstantList(i), Len(ConstantList(i))-1) + "$"
     EndIf
     
+    RadixInsert(ConstantTree, ConstantList(i), i+1)
+    
     c = Asc(UCase(Mid(ConstantList(i), 2, 1)))
     If c = '_'
       c = 27
@@ -131,6 +140,7 @@ Procedure InitStructureViewer()
   
   StructureListSize = Val(Response$)
   Dim StructureList.s(StructureListSize) ; no -1 here in case StructureListSize = 0
+  RadixFree(StructureTree)
   
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
   ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
@@ -156,6 +166,8 @@ Procedure InitStructureViewer()
   ; build ht
   k = 0
   For i = 0 To StructureListSize - 1
+    RadixInsert(StructureTree, StructureList(i), i+1)
+    
     c = Asc(UCase(Left(StructureList(i), 1)))
     If c = '_'
       c = 27
@@ -180,7 +192,7 @@ Procedure InitStructureViewer()
   
   InterfaceListSize = Val(Response$)
   Dim InterfaceList.s(InterfaceListSize) ; no -1 here in case InterfaceListSize = 0
-  
+  RadixFree(InterfaceTree)
   
   ; We read until OUTPUT<T>COMPLETE. Even if we read all entries yet.
   ; If this is not done, the OUTPUT<T>COMPLETE will remain in the buffer!
@@ -206,6 +218,8 @@ Procedure InitStructureViewer()
   ; build ht
   k = 0
   For i = 0 To InterfaceListSize - 1
+    RadixInsert(InterfaceTree, InterfaceList(i), i+1)
+    
     c = Asc(UCase(Left(InterfaceList(i), 1)))
     If c = '_'
       c = 27
@@ -229,15 +243,14 @@ EndProcedure
 
 Procedure DisplayStructureRootList()
   
-  CompilerIf #CompileLinux
-    CompilerIf #GtkVersion = 1
-      gtk_clist_freeze_(GadgetID(#GADGET_StructureViewer_List)) ; on gtk1, its a clist
-    CompilerElse
-      *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_StructureViewer_List))
-      g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
-      gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
-    CompilerEndIf
+  CompilerIf #CompileLinuxGtk
+    *tree_model = gtk_tree_view_get_model_(GadgetID(#GADGET_StructureViewer_List))
+    g_object_ref_(*tree_model) ; must be ref'ed or it is destroyed
+    gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), #Null) ; disconnect the model for a faster update
   CompilerEndIf
+  
+  ; Stop the redraw for a faster update
+  StartGadgetFlickerFix(#GADGET_StructureViewer_List)
   
   ClearGadgetItems(#GADGET_StructureViewer_List)
   
@@ -296,14 +309,12 @@ Procedure DisplayStructureRootList()
   EndIf
   
   ; NOTE! must be done before the SetGadgetState, as it accesses the tree model which we removed!
-  CompilerIf #CompileLinux
-    CompilerIf #GtkVersion = 1
-      gtk_clist_thaw_(GadgetID(#GADGET_StructureViewer_List))
-    CompilerElse
-      gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
-      g_object_unref_(*tree_model)                                                  ; release reference
-    CompilerEndIf
+  CompilerIf #CompileLinuxGtk
+    gtk_tree_view_set_model_(GadgetID(#GADGET_StructureViewer_List), *tree_model) ; reconnect the model
+    g_object_unref_(*tree_model)                                                  ; release reference
   CompilerEndIf
+  
+  StopGadgetFlickerFix(#GADGET_StructureViewer_List)
   
   If ListSize(StructureHistory()) = 1
     If IsRootDisplay
@@ -531,7 +542,7 @@ Procedure StructureViewerWindowEvents(EventID)
         
         If Left(Text$, 1) = "#" ; must be a constant
           For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
               IsConstant = i
               Break
             EndIf
@@ -539,14 +550,14 @@ Procedure StructureViewerWindowEvents(EventID)
           
         Else ; can be anything...
           For i = StructureHT(char, 0) To StructureHT(char, 1)
-            If CompareMemoryString(@Text$, @StructureList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @StructureList(i), #PB_String_NoCaseAscii) = 0
               IsStructure = i
               Break
             EndIf
           Next i
           
           For i = InterfaceHT(char, 0) To InterfaceHT(char, 1)
-            If CompareMemoryString(@Text$, @InterfaceList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @InterfaceList(i), #PB_String_NoCaseAscii) = 0
               IsInterface = i
               Break
             EndIf
@@ -554,7 +565,7 @@ Procedure StructureViewerWindowEvents(EventID)
           
           Text$ = "#" + Text$ ; try also constants here
           For i = ConstantHT(char, 0) To ConstantHT(char, 1)
-            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCase) = 0
+            If CompareMemoryString(@Text$, @ConstantList(i), #PB_String_NoCaseAscii) = 0
               IsConstant = i
               Break
             EndIf
@@ -732,7 +743,7 @@ Procedure StructureViewerWindowEvents(EventID)
               If Text$ <> ""
                 If StructureViewerMode = 0
                   If StructureListSize > 0
-                    While index < StructureListSize And CompareMemoryString(@Text$, @StructureList(index), #PB_String_NoCase, Length) > 0
+                    While index < StructureListSize And CompareMemoryString(@Text$, @StructureList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
                     If CompareMemoryString(@Text$, @StructureList(index), 1, Length) < 0
@@ -742,10 +753,10 @@ Procedure StructureViewerWindowEvents(EventID)
                   EndIf
                 ElseIf StructureViewerMode = 1
                   If InterfaceListSize > 0
-                    While index < InterfaceListSize And CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCase, Length) > 0
+                    While index < InterfaceListSize And CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
-                    If CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCase, Length) < 0
+                    If CompareMemoryString(@Text$, @InterfaceList(index), #PB_String_NoCaseAscii, Length) < 0
                       index - 1
                     EndIf
                     index - InterfaceHT(CurrentDisplayChar, 0)
@@ -754,10 +765,10 @@ Procedure StructureViewerWindowEvents(EventID)
                   If ConstantListSize > 0
                     If Left(Text$, 1) <> "#": Text$ = "#" + Text$: EndIf
                     Length = Len(Text$)
-                    While index < ConstantListSize And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCase, Length) > 0
+                    While index < ConstantListSize And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCaseAscii, Length) > 0
                       index + 1
                     Wend
-                    If index > 0 And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCase, Length) < 0
+                    If index > 0 And CompareMemoryString(@Text$, @ConstantList(index), #PB_String_NoCaseAscii, Length) < 0
                       index - 1
                     EndIf
                     index - ConstantHT(CurrentDisplayChar, 0)
@@ -786,7 +797,7 @@ Procedure StructureViewerWindowEvents(EventID)
             If Trim(Name$) <> ""
               If StructureViewerMode = 0
                 For i = 0 To StructureListSize-1
-                  If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCase) = 0
+                  If CompareMemoryString(@Name$, @StructureList(i), #PB_String_NoCaseAscii) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
                     StructureHistory()\Line  = index
@@ -796,7 +807,7 @@ Procedure StructureViewerWindowEvents(EventID)
                 Next i
               Else
                 For i = 0 To InterfaceListSize-1
-                  If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCase) = 0
+                  If CompareMemoryString(@Name$, @InterfaceList(i), #PB_String_NoCaseAscii) = 0
                     AddElement(StructureHistory())
                     StructureHistory()\Name$ = Name$
                     StructureHistory()\Line  = index
@@ -917,7 +928,6 @@ Procedure StructureViewerWindowEvents(EventID)
                 length = 0
                 For i = 1 To CountGadgetItems(#GADGET_StructureViewer_List)-2
                   Line$ =  LTrim(Trim(GetGadgetItemText(#GADGET_StructureViewer_List, i, 0)), "*") ; We need to remove the '*' when inserting the item.
-                  Debug Line$
                   newlength = FindString(Line$, ".", 1) - 1
                   If FindString(Line$, "[", 1) <> 0
                     newlength + Len(Line$) - FindString(Line$, "[", 1) + 1

@@ -62,6 +62,7 @@ EXAMPLES =  2DDrawing.exe \
             Thread.exe \
             ToolBar.exe \
             WebBrowser.exe \
+            WebView.exe \
             Win32_API.exe \
             Window.exe \
             WindowedScreen.exe \
@@ -69,7 +70,7 @@ EXAMPLES =  2DDrawing.exe \
 
 
 all: $(EXAMPLES)
-	rm -f *.exe
+	
 
 %.exe : %.pb
-	pbcompiler $< /QUIET /EXE $@
+	pbcompiler $< /QUIET /CHECK

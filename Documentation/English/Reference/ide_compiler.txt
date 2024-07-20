@@ -178,6 +178,13 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 @LineBreak
 @LineBreak
 
+@Bold "Optimize generated code"
+@LineBreak
+  This enables the C code optimizer.
+
+@LineBreak
+@LineBreak
+
 @Bold "Enable inline ASM syntax coloring"
 @LineBreak
   This enables the inline ASM syntax coloring. See the @ReferenceLink "inlinedasm" "Inline x86 ASM" section of the help-file
@@ -200,7 +207,7 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 
 @Bold "Enable modern theme support" (Windows only)
 @LineBreak
-  Adds support for skinned windows on Windows XP, Windows Vista, Windows 7 or Windows 8.
+  Adds support for skinned windows on Windows Vista, Windows 7 or Windows 8.
 
 @LineBreak
 @LineBreak
@@ -243,6 +250,14 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
   This option enable DPI awareness when creating an executable. That means than GUI created in PureBasic
   will scale automatically if the DPI of the screen is above 100%. Most of the process is seemless, but some
   case needs to be worked out, like pixel based gadgets (ImageGadget, CanvasGadget etc.).
+
+@LineBreak
+@LineBreak
+
+@Bold "Enable DLL Protection" (Windows only)
+@LineBreak
+  Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
+  instead of in the System32 directory of the Windows operating system.
 
 @LineBreak
 @LineBreak
@@ -403,6 +418,7 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 @Bold "Executable command-line"
 @LineBreak
   The string given here will be passed as the command-line to the program when running it from the IDE.
+  The content of this string can be got with @@ProgramParameter.
 
 @LineBreak
 @LineBreak
@@ -591,7 +607,7 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 
   Note: Since Resources are a specific to the Windows platform only, PB does not include a
   Library to manage them and they are not further documented here. See documentation on the
-  @InternetLink "http://msdn.microsoft.com/library/" "Windows API" and resources for more information.
+  @InternetLink "https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" "Windows API" and resources for more information.
 
 ; == END WINDOWS ONLY ==
 

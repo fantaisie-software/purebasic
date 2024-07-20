@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 Structure AsciiTableStructure Extends ToolsPanelEntry
@@ -12,7 +12,7 @@ EndStructure
 
 Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
   
-  ListIconGadget(#GADGET_AsciiTable, 0, 0, 0, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
+  ListIconGadget(#GADGET_AsciiTable, 0, 0, 50, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
   AddGadgetColumn(#GADGET_AsciiTable, 1, "Ascii", 50)
   AddGadgetColumn(#GADGET_AsciiTable, 2, "Hex", 50)
   AddGadgetColumn(#GADGET_AsciiTable, 3, "Html", 80)

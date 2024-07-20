@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; General
 ;
@@ -11,6 +11,11 @@ IncludeFile "..\Common.pb"
 
 
 #PB_ProcessPureBasicEvents = -$1F1F1F1F
+
+; SetWindowCallback()
+;
+#PB_Window_ProcessChildEvents = 0
+#PB_Window_NoChildEvents      = 1
 
 ; Clipboard
 ;
@@ -41,33 +46,13 @@ IncludeFile "..\Common.pb"
 #PB_OnError_PriviledgedInstruction = $C0000096 ; EXCEPTION_PRIV_INSTRUCTION
 #PB_OnError_DivideByZero           = $C0000094 ; EXCEPTION_INT_DIVIDE_BY_ZERO
 
-
-
-; ToolBar icon definitions
+; ToolBar
 ;
-
-#PB_ToolBarIcon_Cut    = 0
-#PB_ToolBarIcon_Copy   = 1
-#PB_ToolBarIcon_Paste  = 2
-#PB_ToolBarIcon_Undo   = 3
-#PB_ToolBarIcon_Redo   = 4
-#PB_ToolBarIcon_Delete = 5
-#PB_ToolBarIcon_New    = 6
-#PB_ToolBarIcon_Open   = 7
-#PB_ToolBarIcon_Save   = 8
-#PB_ToolBarIcon_PrintPreview = 9
-#PB_ToolBarIcon_Properties   = 10
-#PB_ToolBarIcon_Help    = 11
-#PB_ToolBarIcon_Find    = 12
-#PB_ToolBarIcon_Replace = 13
-#PB_ToolBarIcon_Print   = 14
-
 #PB_ToolBar_Normal = 0
 #PB_ToolBar_Toggle = 1
 
 ; StatusBar
 ;
-
 #PB_StatusBar_Raised     = 1
 #PB_StatusBar_BorderLess = 2
 #PB_StatusBar_Center     = 4
@@ -140,21 +125,11 @@ IncludeFile "..\Common.pb"
 #PB_Event_ClientDisconnected = 4
 
 
-; EventType
+; Specific EventType
 ;
 #PB_EventType_Focus             = 14000 ; PB reserved value
 #PB_EventType_LostFocus         = 14001 ; PB reserved value
 #PB_EventType_Change            = 768
-#PB_EventType_LeftClick         = 0
-#PB_EventType_RightClick        = 1
-#PB_EventType_LeftDoubleClick   = 2
-#PB_EventType_RightDoubleClick  = 3
-#PB_EventType_Up                = 4
-#PB_EventType_Down              = 5
-#PB_EventType_Resize            = 6
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
 
 ; Window flags
 ;
@@ -307,12 +282,6 @@ IncludeFile "..\Common.pb"
 #PB_Frame_Double   = 1
 #PB_Frame_Single   = 2
 #PB_Frame_Flat     = 3
-
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-#PB_ListIcon_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
@@ -687,46 +656,5 @@ IncludeFile "..\Common.pb"
 #PB_Shortcut_Numlock= 144
 #PB_Shortcut_Scroll =145
 ;
-; ;- special ASCII chars (moved to WindowsUnicode.res to have the string ones in unicode!)
-; #SOH$   = Chr(001)  :  #SOH =   1 ;    (Start of Header)
-; #STX$   = Chr(002)  :  #STX =   2 ;    (Start of Text)
-; #ETX$   = Chr(003)  :  #ETX =   3 ;    (End of Text)
-; #EOT$   = Chr(004)  :  #EOT =   4 ;    (End of Transmission)
-; #ENQ$   = Chr(005)  :  #ENQ =   5 ;    (Enquiry)
-; #ACK$   = Chr(006)  :  #ACK =   6 ;    (Acknowledgment)
-; #BEL$   = Chr(007)  :  #BEL =   7 ;    (Bell)
-; #BS$    = Chr(008)  :  #BS  =   8 ;    (Backspace)
-; #HT$    = Chr(009)  :  #HT  =   9 ;    (Horizontal Tab)
-; #TAB$   = Chr(009)  :  #TAB =   9 ;    (TAB)
-; #LF$    = Chr(010)  :  #LF  =  10 ;    (Line Feed)
-; #VT$    = Chr(011)  :  #VT  =  11 ;    (Vertical Tab)
-; #FF$    = Chr(012)  :  #FF  =  12 ;    (Form Feed)
-; #CR$    = Chr(013)  :  #CR  =  13 ;    (Carriage Return)
-; #SO$    = Chr(014)  :  #SO  =  14 ;    (Shift Out)
-; #SI$    = Chr(015)  :  #SI  =  15 ;    (Shift In)
-; #DLE$   = Chr(016)  :  #DLE =  16 ;    (Data Link Escape)
-; #DC1$   = Chr(017)  :  #DC1 =  17 ;    (Device Control 1) (XON)
-; #DC2$   = Chr(018)  :  #DC2 =  18 ;    (Device Control 2)
-; #DC3$   = Chr(019)  :  #DC3 =  19 ;    (Device Control 3) (XOFF)
-; #DC4$   = Chr(020)  :  #DC4 =  20 ;    (Device Control 4)
-; #NAK$   = Chr(021)  :  #NAK =  21 ;    (Negative Acknowledgement)
-; #SYN$   = Chr(022)  :  #SYN =  22 ;    (Synchronous Idle)
-; #ETB$   = Chr(023)  :  #ETB =  23 ;    (End of Trans. Block)
-; #CAN$   = Chr(024)  :  #CAN =  24 ;    (Cancel)
-; #EM$    = Chr(025)  :  #EM  =  25 ;    (End of Medium)
-; #SUB$   = Chr(026)  :  #SUB =  26 ;    (Substitute)
-; #ESC$   = Chr(027)  :  #ESC =  27 ;    (Escape)
-; #FS$    = Chr(028)  :  #FS  =  28 ;    (File Separator)
-; #GS$    = Chr(029)  :  #GS  =  29 ;    (Group Separator)
-; #RS$    = Chr(030)  :  #RS  =  30 ;    (Request to Send)(Record Separator)
-; #US$    = Chr(031)  :  #US  =  31 ;    (Unit Separator)
-; #DEL$   = Chr(127)  :  #DEL = 127 ;    (delete)
-; #CRLF$  = Chr(13) + Chr(10)
-; #LFCR$  = Chr(10) + Chr(13)
-; #DOUBLEQUOTE$ = Chr(34)
-; #DQUOTE$      = Chr(34)
 
-
-;Structure Character ; This one is located in the WindowsUnicode.res
-;  c.c
-;EndStructure
+#PB_Input_Eof = Chr(4) ; end of file character for Input()

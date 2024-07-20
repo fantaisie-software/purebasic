@@ -12,11 +12,12 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #CameraSpeed = 0.4
 
+#MainWindow = 0
+
 Enumeration
-  #MainWindow
-  #Editor1
-  #Editor2
-  #Editor3
+  #Text1
+  #Text2
+  #Text3
 EndEnumeration
 
 Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY, SpeedRotate
@@ -75,9 +76,9 @@ If InitEngine3D()
     RatioX = CameraViewWidth(0) / 1920
     RatioY = CameraViewHeight(0) / 1080
     OpenWindow3D(#MainWindow, 0, 0, 490 * RatioX, 190 * RatioY, "Who Is on Screen ?")
-    StringGadget3D(#Editor1, 10 * RatioX,  20 * RatioY, 430 * RatioX, 40 * RatioY, "", #PB_String3D_ReadOnly)
-    StringGadget3D(#Editor2, 10 * RatioX,  60 * RatioY, 430 * RatioX, 40 * RatioY, "", #PB_String3D_ReadOnly)
-    StringGadget3D(#Editor3, 10 * RatioX, 100 * RatioY, 430 * RatioX, 40 * RatioY, "", #PB_String3D_ReadOnly)
+    TextGadget3D(#Text1, 10 * RatioX,  20 * RatioY, 430 * RatioX, 40 * RatioY, "")
+    TextGadget3D(#Text2, 10 * RatioX,  60 * RatioY, 430 * RatioX, 40 * RatioY, "")
+    TextGadget3D(#Text3, 10 * RatioX, 100 * RatioY, 430 * RatioX, 40 * RatioY, "")
     
     ShowGUI(128, 1)
     
@@ -118,15 +119,14 @@ If InitEngine3D()
         EndIf
         
       EndIf
-      IsOnScreen(#Editor1, "Cube", EntityID(1))
-      IsOnScreen(#Editor2, "Sphere", EntityID(2))
-      IsOnScreen(#Editor3, "Cylinder", EntityID(3))
+      IsOnScreen(#Text1, "Cube", EntityID(1))
+      IsOnScreen(#Text2, "Sphere", EntityID(2))
+      IsOnScreen(#Text3, "Cylinder", EntityID(3))
       
       RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
       MoveCamera  (0, KeyX, 0, KeyY)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

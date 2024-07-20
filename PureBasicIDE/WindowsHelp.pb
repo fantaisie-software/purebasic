@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ;windows only
@@ -217,8 +217,8 @@ CompilerIf #CompileWindows
           HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", "")
           
         Else ; build in command or userlib
-          If LCase(Right(HelpDirectory$, 4)) = ".chm"  ; A .chm has been defined in the .DESC -> It's a user lib with its own help
-            HtmlHelp(PureBasicPath$+"Help\"+HelpDirectory$, CurrentWord$+".html")
+          If LCase(GetExtensionPart(HelpDirectory$)) = "chm"  ; A .chm has been defined in the .DESC -> It's a user lib with its own help
+            HtmlHelp(PureBasicPath$+"Help\"+HelpDirectory$, GetFilePart(HelpDirectory$, #PB_FileSystem_NoExtension)+"/"+CurrentWord$+".html")
           Else
             HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", HelpDirectory$+"/"+CurrentWord$+".html")
           EndIf

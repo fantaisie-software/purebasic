@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -148,8 +148,8 @@ EndProcedure
 
 Procedure Standalone_CreateGUI()
   
-  Image_Minimize = CatchImage(#PB_Any, ?MinimizeImageData)
-  Image_Maximize = CatchImage(#PB_Any, ?MaximizeImageData)
+  Image_Minimize = CatchImageDPI(#PB_Any, ?MinimizeImageData)
+  Image_Maximize = CatchImageDPI(#PB_Any, ?MaximizeImageData)
   
   If OpenWindow(#WINDOW_Main, DebuggerMainWindowX, DebuggerMainWindowY, DebuggerMainWindowWidth, DebuggerMainWindowHeight, "PureBasic Debugger", #PB_Window_Invisible|#PB_Window_SystemMenu|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_SizeGadget)
     
@@ -269,21 +269,10 @@ EndProcedure
 
 
 DataSection
-  
-  CompilerIf #CompileWindows
-    
-    MinimizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.ico"
-    MaximizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.ico"
-    
-  CompilerElse
-    
-    MinimizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateUp.png"
-    MaximizeImageData:
-    IncludeBinary #BUILD_DIRECTORY + "TemplateDown.png"
-    
-  CompilerEndIf
-  
+ 
+  MinimizeImageData:
+    IncludeBinary "../PureBasicIDE/data/DefaultTheme/TemplateUp.png"
+  MaximizeImageData:
+    IncludeBinary "../PureBasicIDE/data/DefaultTheme/TemplateDown.png"
+
 EndDataSection

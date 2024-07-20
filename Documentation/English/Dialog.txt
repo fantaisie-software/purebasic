@@ -1,7 +1,7 @@
 ;
 ;     Dialog library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Dialog
@@ -166,7 +166,11 @@
 
 @Description
   Open the specified dialog and display it on the screen. 
-  To access the dialog gadgets use @@DialogGadget. To get the window number of this dialog use @@DialogWindow. 
+  To access the dialog gadgets use @@DialogGadget. To get the window number of this dialog use @@DialogWindow. @LineBreak
+@LineBreak
+  @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget and @@UseDialogWebViewGadget can be used to
+  enable support for these gadgets in the dialog lib. They are not enabled by default to reduce the dialog
+  library size footprint.
 
 @Parameter "#Dialog"
   The dialog to use. It has to be previously created with @@CreateDialog.
@@ -402,18 +406,20 @@
   <listicon> 
   <listview>
   <option group> - use the same 'group' number to create linked @@OptionGadget.
+  <opengl> - UseDialogOpenGLGadget() needs to be called to enable <opengl> support.
   <panel> - can contain <tab> items only
   <progressbar min max value> 
-  <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior
-  <scrollbar min max page value> - page = page length
+  <scintilla> - callback remains empty. UseDialogScintillaGadget() needs to be called to enable <scintilla> support.
+  <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior.
+  <scrollbar min max page value> - page = page length.
   <spin min max value>
   <splitter firstmin="value or auto" secondmin> - must contain 2 subitems, so its a 2 item container basically, minimum size is determined by contained gadgets. If "auto" is specified, the min value will be the minimum size of the child.
   <string>
   <text>
   <trackbar min max value>
   <tree>
-  <web>
-  <scintilla> - callback remains empty
+  <web> - UseDialogWebGadget() needs to be called to enable <web> support.
+  <webview> - UseDialogWebViewGadget() needs to be called to enable <webview> support.
 
   Gadget related elements:
   <tab> - single element container, for panel tabs (attribute 'text' is supported).
@@ -617,5 +623,65 @@
 
 @SeeAlso
   @@CreateDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseDialogOpenGLGadget()
+
+@Description
+  Enable @@OpenGLGadget support in the dialog library. This is not enabled by default to reduce the dialog
+  library size footprint if @@OpenGLGadget is not needed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseDialogScintillaGadget()
+
+@Description
+  Enable @@ScintillaGadget support in the dialog library. This is not enabled by default to reduce the dialog
+  library size footprint if @@ScintillaGadget is not needed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseDialogWebGadget()
+
+@Description
+  Enable @@WebGadget support in the dialog library. This is not enabled by default to reduce the dialog
+  library size footprint if @@WebGadget is not needed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenXMLDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseDialogWebViewGadget()
+
+@Description
+  Enable @@WebViewGadget support in the dialog library. This is not enabled by default to reduce the dialog
+  library size footprint if @@WebViewGadget is not needed.
+
+@NoReturnValue
+
+@SeeAlso
+  @@OpenXMLDialog
 
 @SupportedOS

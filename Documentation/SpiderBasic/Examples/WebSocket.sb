@@ -1,0 +1,58 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - WebSocket example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+#Window           = 0
+#SendStringGadget = 0
+#WebSocket        = 0
+
+Procedure Events()
+  Select Event()
+    Case #PB_Event_Gadget
+          
+      Select EventGadget()
+        Case #SendStringGadget
+          ; The server will send back the same string, so we should
+          ; get it in the #PB_Event_WebSocket event
+          SendWebSocketString(#WebSocket, "Hello !") 
+                    
+      EndSelect
+  
+    Case #PB_Event_WebSocket
+      
+      Select EventType()
+        Case #PB_EventType_Connected
+          Debug "WebSocket #" + EventWebSocket() + " connected."
+          
+        Case #PB_EventType_Closed
+          Debug "WebSocket #" + EventWebSocket() + " closed."
+          
+        Case #PB_EventType_String
+          Debug "String recieved on WebSocket #" + EventWebSocket() + "."
+          Debug "String content: " + EventString()
+          
+        Case #PB_EventType_Error
+          Debug "Error on WebSocket #" + EventWebSocket() + "."
+      EndSelect
+  EndSelect
+  
+EndProcedure
+
+BindEvent(#PB_Event_Gadget, @Events())
+BindEvent(#PB_Event_WebSocket, @Events())
+
+OpenWindow(#Window, 100, 100, 220, 50, "WebSocket test")
+ButtonGadget(#SendStringGadget, 10, 10, 200, 30, "Send string !")
+
+; Connect to a free online websocket which send back every command
+If OpenWebSocket(#WebSocket, "wss://ws.postman-echo.com/raw") 
+  Debug "Trying to open the websocket"
+Else
+  Debug "Web socket not supported."
+EndIf

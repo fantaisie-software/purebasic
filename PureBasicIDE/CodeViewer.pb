@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ;
 ; Methods to create a readonly scintilla gadget for code display
@@ -53,9 +53,9 @@ Procedure UpdateCodeViewer(Gadget)
     LineNumbers = #False
   EndIf
   
-  ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
+  ; Gtk2+ 'Pango' need an "!" before the font name (else it will use GDK font)
   ;
-  CompilerIf #CompileLinuxGtk2
+  CompilerIf #CompileLinuxGtk
     FontName$ = "!"+EditorFontName$
     ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, #STYLE_DEFAULT, ToAscii(FontName$))
   CompilerElse
@@ -85,7 +85,7 @@ Procedure UpdateCodeViewer(Gadget)
     If EnableKeywordBolding
       ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
       ;
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         FontName$ = "!"+EditorBoldFontName$
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT,  2, ToAscii(FontName$))
         ScintillaSendMessage(Gadget, #SCI_STYLESETFONT, 14, ToAscii(FontName$))
@@ -124,13 +124,13 @@ Procedure UpdateCodeViewer(Gadget)
     ScintillaSendMessage(Gadget, #SCI_STYLESETFORE, 16, Colors(#COLOR_BadBrace)\DisplayValue)
     
     CompilerIf #CompileWindows
-      If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
+      If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
       Else
         ScintillaSendMessage(Gadget, #SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
       EndIf
       
-      If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+      If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
         ScintillaSendMessage(Gadget, #SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
       Else
         ScintillaSendMessage(Gadget, #SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)

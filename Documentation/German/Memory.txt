@@ -1,7 +1,7 @@
 ;
 ;     Memory library documentation
 ;
-;      (c) 2016 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Memory
@@ -100,7 +100,7 @@
 @Remarks
   Dieser Befehl ist für fortgeschrittene Anwender und sollte für die meisten Programme
   nicht benötigt werden. Es ist oftmals die bessere Wahl, ein strukturiertes
-  @LibraryLink "array" "Array", @LibraryLink "list" "List" oder @LibraryLink "map" "Map"
+  @LibraryLink "array" "Array", eine @LibraryLink "list" "Liste" oder eine @LibraryLink "map" "Map"
   zu verwenden, um dynamisch strukturierte Einträge zu speichern.
 @LineBreak
 @LineBreak
@@ -173,7 +173,9 @@
   Der Modus des String-Vergleichs. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_String_CaseSensitive : String-Vergleich beachtet die Groß-/Kleinschreibung (a=a). Standard-Wert, wenn der Parameter weggelassen wird.
-  @#PB_String_NoCase: String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung (a = A).
+  @#PB_String_NoCase        : String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung unter Verwendung des kompletten Unicode-Zeichensatzes (ä=Ä).
+  @#PB_String_NoCaseAscii   : String-Vergleich erfolgt unabhängig von Groß-/Kleinschreibung und nur unter Verwendung des ASCII-Zeichensatzes (a=A).
+                             Viel schneller als @#PB_String_NoCase, wenn nicht der vollständige Unicode-Support benötigt wird.
 @EndFixedFont
 
 @OptionalParameter "Länge"

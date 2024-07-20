@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 Procedure OpenAboutWindow()
   
@@ -14,8 +14,11 @@ Procedure OpenAboutWindow()
       
       ; Image
       If IsImage(#IMAGE_PureBasiclogo) = 0
-        CatchPackedImage(#IMAGE_PureBasiclogo, ?General_Images, 1)
-        ResizeImage(#IMAGE_PureBasiclogo, DesktopScaledX(ImageWidth(#IMAGE_PureBasiclogo)), DesktopScaledY(ImageHeight(#IMAGE_PureBasiclogo)))
+        CatchImage(#IMAGE_PureBasiclogo, ?Image_AboutWindow)
+        
+        ; Image is HDPI with twice the wanted size. So resize it according to current screen DPI
+        ;
+        ResizeImage(#IMAGE_PureBasiclogo, DesktopScaledX(ImageWidth(#IMAGE_PureBasiclogo)/2), DesktopScaledY(ImageHeight(#IMAGE_PureBasiclogo)/2))
       EndIf
       SetGadgetState(#GADGET_About_Image, ImageID(#IMAGE_PureBasiclogo))
       
@@ -42,7 +45,7 @@ Procedure OpenAboutWindow()
               #NewLine +
               FormerDevelopers$ +
               #ProductName$ + ", all the provided tools and components" + #NewLine +
-              "are copyright © 1998-2020 Fantaisie Software" + #NewLine +
+              "are copyright © 1998-2024 Fantaisie Software" + #NewLine +
               #NewLine +
               #ProductWebSite$ + #NewLine +
               #NewLine +
@@ -57,7 +60,7 @@ Procedure OpenAboutWindow()
               "Thanks to Neil Hodgson for the scintilla" + #NewLine +
               "editing component." + #NewLine +
               #NewLine +
-              "Scintilla © 1998-2020 Neil Hodgson <neilh@scintilla.org> " + #NewLine +
+              "Scintilla © 1998-2024 Neil Hodgson <neilh@scintilla.org> " + #NewLine +
               #NewLine +
               "Thanks to Wimer Hazenberg for Monokai color palette." + #NewLine +
               "http://www.monokai.nl/"
@@ -72,6 +75,7 @@ Procedure OpenAboutWindow()
         ; Let's have a cool centered text box on Windows
         ; must be before the SetGadgetText!
         ;
+        SendMessage_(GadgetID(#GADGET_About_Editor), #EM_SETTEXTMODE, #TM_RICHTEXT, 0)
         Format.PARAFORMAT\cbSize = SizeOf(PARAFORMAT)
         Format\dwMask     = #PFM_ALIGNMENT
         Format\wAlignment = #PFA_CENTER
@@ -84,8 +88,7 @@ Procedure OpenAboutWindow()
       
       SetGadgetText(#GADGET_About_Editor, Text$)
       
-      CompilerIf #CompileLinuxGtk2
-        ; center for gtk2
+      CompilerIf #CompileLinuxGtk
         gtk_text_view_set_justification_(GadgetID(#GADGET_About_Editor), #GTK_JUSTIFY_CENTER)
         gtk_text_view_set_wrap_mode_(GadgetID(#GADGET_About_Editor), #GTK_WRAP_WORD) ; set autowrap, as the version line is a bit long
       CompilerEndIf
@@ -99,7 +102,7 @@ Procedure OpenAboutWindow()
       
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         If AboutWindowPosition\x = -1 And AboutWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_About), #GTK_WIN_POS_CENTER)
@@ -143,3 +146,14 @@ Procedure AboutWindowEvents(EventID)
   EndIf
   
 EndProcedure
+
+DataSection
+  
+  Image_AboutWindow:
+    CompilerIf #SpiderBasic
+      IncludeBinary "data/SpiderBasic/About_hdpi.png"
+    CompilerElse
+      IncludeBinary "data/purebasiclogo_hdpi.png"
+    CompilerEndIf
+
+EndDataSection

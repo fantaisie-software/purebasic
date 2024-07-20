@@ -97,7 +97,6 @@
                 <item text="Landscape" />
               </combobox>
               <checkbox id="#GADGET_iOSApp_FullScreen" lang="iOSApp:FullScreen"/>
-              <checkbox id="#GADGET_iOSApp_Geolocation" lang="iOSApp:Geolocation"/>
             </hbox>
             
             <checkbox id="#GADGET_iOSApp_EnableResourceDirectory" lang="iOSApp:ResourceDirectory" text=": " />
@@ -120,6 +119,8 @@
           
           <checkbox id="#GADGET_iOSApp_EnableDebugger" lang="App:EnableDebugger" />
           
+          <checkbox id="#GADGET_iOSApp_KeepAppDirectory" lang="App:KeepAppDirectory" />
+          
           <hbox expand="item:2">
             <button width="250" id="#GADGET_iOSApp_CheckInstall" lang="iOSApp:CheckInstall" />
             <text />
@@ -138,9 +139,11 @@
       
             <text lang="AndroidApp:Name" text=": " /> 
             <hbox>
-              <string id="#GADGET_AndroidApp_Name" width="150" />
+              <string id="#GADGET_AndroidApp_Name" width="130" />
               <text lang="AndroidApp:Version" text=": " />
-              <string id="#GADGET_AndroidApp_Version" width="100" />
+              <string id="#GADGET_AndroidApp_Version" width="60" />
+              <text lang="AndroidApp:Code" text=": " />
+              <string id="#GADGET_AndroidApp_Code" width="40" flags="#PB_String_Numeric" />
             </hbox>
             
             <text lang="AndroidApp:Icon"  text=": " />
@@ -159,6 +162,9 @@
             <hbox expand="item:1">
               <string id="#GADGET_AndroidApp_StartupImage" width="150" />
               <button id="#GADGET_AndroidApp_SelectStartupImage" text="..." width="30" height="ignore"/>
+              <text lang="AndroidApp:StartupColor" text=":" />
+              <text id="#GADGET_AndroidApp_StartupColor" text=" " width="50" />
+              <buttonimage id="#GADGET_AndroidApp_SelectStartupColor" width="20" height="ignore"/>
             </hbox>
             
             <text lang="AndroidApp:Orientation" text=": " />
@@ -169,7 +175,6 @@
                 <item text="Landscape" />
               </combobox>
               <checkbox id="#GADGET_AndroidApp_FullScreen" lang="AndroidApp:FullScreen"/>
-              <checkbox id="#GADGET_AndroidApp_Geolocation" lang="AndroidApp:Geolocation"/>
             </hbox>
             
             <checkbox id="#GADGET_AndroidApp_EnableResourceDirectory" lang="AndroidApp:ResourceDirectory" text=": " />
@@ -188,9 +193,13 @@
             <button id="#GADGET_AndroidApp_SelectOutput" text="..." width="30" height="ignore" />
           </hbox>
           
+          <checkbox id="#GADGET_AndroidApp_EnableDebugger" lang="AndroidApp:EnableDebugger" />
+
           <checkbox id="#GADGET_AndroidApp_AutoUpload" lang="AndroidApp:AutoUpload" />
 
-          <checkbox id="#GADGET_AndroidApp_EnableDebugger" lang="App:EnableDebugger" />
+          <checkbox id="#GADGET_AndroidApp_InsecureFileMode" lang="AndroidApp:InsecureFileMode" />
+          
+          <checkbox id="#GADGET_AndroidApp_KeepAppDirectory" lang="App:KeepAppDirectory" />
 
           </vbox>
 

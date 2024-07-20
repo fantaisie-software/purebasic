@@ -94,12 +94,12 @@ If InitEngine3D()
         
       EndIf
       
-      Pitch(NodeID(NodePitch),MouseY, #PB_Local)
-      Yaw(NodeID(NodeYaw),MouseX, #PB_World)
-      MoveNode(NodeYaw, KeyX, 0, KeyY, #PB_Local)
+      Pitch(NodeID(NodePitch), MouseY, #PB_Local | #PB_Relative)
+      Yaw  (NodeID(NodeYaw)  , MouseX, #PB_World | #PB_Relative)
+      
+      MoveNode(NodeYaw, KeyX, 0, KeyY, #PB_Local | #PB_Relative)
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

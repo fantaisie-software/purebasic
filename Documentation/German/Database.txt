@@ -1059,7 +1059,8 @@
 @FixedFont
   - host: Name des Hosts oder IP-Adresse, zu dem/der verbunden werden soll.
   - port: Port-Nummer, zu der auf dem Server-Host verbunden werden soll.
-  - dbname: Der Datenbank-Name.
+  - dbname: Der Datenbank-Name. Der Name kann in einfache Anführungszeichen gesetzt werden,
+            sofern er Leerzeichen enthält: dbname='movies and musics'.
 @EndFixedFont
   
 @Example
@@ -1068,7 +1069,7 @@
 
   ; Sie sollten einen Server als 'Localhost' laufen haben
   ;
-  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "user", "password")
+  If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "user", "password")
     Debug "Verbunden zu MySQL"
   Else
     Debug "Verbindung fehlgeschlagen: "+DatabaseError()
@@ -1140,7 +1141,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseSQLiteDatabase([LibraryName$])
+@Function Ergebnis = UseSQLiteDatabase([LibraryName$])
 
 @Description
   Initialisiert die SQLite Datenbank-Programmumgebung zur weiteren Benutzung.
@@ -1153,9 +1154,11 @@
   @LineBreak
   Ohne diese Datei wird wie üblich die statische Library verwendet und das Executable wird größer sein.
   @LineBreak
-  Es kommt keine Fehlermeldung, wenn die Datei nicht gefunden wird.
-  
-@NoReturnValue
+
+@ReturnValue
+  Bei Verwendung des optionalen 'LibraryName$' Parameters wird @#True zurückgegeben, wenn die 
+  dynamische Library korrekt geladen wurde, andernfalls @#False. Wenn der optionale 'LibraryName$'
+  Parameter nicht angegeben wird, wird immer @#True zurückgegeben.
 
 @Remarks
   SQLite ist ein datei-basierter, serverloser Datenbank-Manager. Es gibt keinen Treiber oder zusätzliche

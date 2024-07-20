@@ -61,6 +61,9 @@
   %FILE : Dateiname des aktuellen Quellcodes. Bleibt leer, wenn dieser noch nicht gespeichert wurde. Wenn Sie das
   Werkzeug konfigurieren, um den @ReferenceLink "ide_tools" "Dateibetrachter" zu ersetzen, dann repräsentiert 
   dieser Platzhalter die zu öffnende Datei.
+  Sie sollten niemals den Inhalt der %FILE-Datei ändern. Diese Datei enthält den Zustand des Quellcodes, wie er vom
+  Benutzer zuletzt gespeichert wurde. Dies kann sich stark von dem unterscheiden, was derzeit im Editor angezeigt wird.
+  Wenn Sie diese Datei überschreiben, könnte der Benutzer Daten verlieren.
 @LineBreak
   %TEMPFILE : Wenn diese Option genutzt wird, dann wird der aktuelle Quellcode in eine temporäre Datei gespeichert und
   deren Dateiname wird hier eingefügt. Sie können die Datei auf Wunsch modifizieren oder löschen.
@@ -274,6 +277,44 @@
   oder mittels Doppelklick auf eine @ReferenceLink "includes" "Includebinary" Anweisung im
   Quellcode zu öffnen.
 
+@LineBreak
+@LineBreak
+
+@Bold "Datei öffnen – spezielle Dateiendungen"
+@LineBreak
+  Dies wird ausgelöst (englisch "triggered") bei bestimmten Dateiendungen.
+  Dieser Auslöser hat eine höhere Priorität als "Datei öffnen – nicht-PB Binärdateien"
+  und "Datei öffnen – nicht-PB Textdateien".
+  Geben Sie die Dateiendungen, welche das Tool unterstützen soll, in der Editier-Box
+  rechts an. Mehrere Dateiendungen können angegeben werden.
+@LineBreak
+@LineBreak
+  Hinweis:
+  Die "Datei öffnen" Auslöser werden dann aktiv, wenn man eine Datei über das Datei/Öffnen Menü der IDE öffnet
+  oder eine Datei per Drag&Drop auf die IDE gezogen wird.
+  Diese Auslöser haben eine höhere Priorität für die Datei/Öffnen Tasks.
+  Nur wenn kein aktives Werkzeug vorhanden ist, werden die "Dateianzeiger ersetzen"-Auslöser behandelt.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei öffnen – nicht-PB Binärdateien"
+@LineBreak
+  Dieser Auslöser wird getriggert bei Binärdateien, die nicht zu PureBasic gehören
+  (also praktisch alle).
+@LineBreak
+@LineBreak
+  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben. Alle anderen Tools mit diesem Trigger werden ignoriert.
+
+@LineBreak
+@LineBreak
+
+@Bold "Datei öffnen – nicht-PB Textdateien"
+@LineBreak
+  Dieser wird getriggert bei Textdateien, die nicht zu PureBasic gehören.
+@LineBreak
+@LineBreak
+  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben.
 
 @Section Andere Optionen auf der rechten Seite
 

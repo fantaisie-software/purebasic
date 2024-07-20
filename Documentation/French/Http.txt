@@ -18,14 +18,6 @@
   distants.
 @LineBreak
 @LineBreak  
-  Comme les commandes HTTP sont basées 
-  sur la bibliothèque 
-  @LibraryLink "Network" "réseau", 
-  alors la fonction @@InitNetwork 
-  doit être appelée avec succès avant 
-  d'utiliser les commandes Http.
-@LineBreak
-@LineBreak
  Sous Linux, 'libcurl' doit être installé pour 
  que certaines commandes HTTP fonctionnent (déjà installé 
  dans la plupart des distributions Linux).
@@ -69,10 +61,7 @@
 @Function Resultat = FinishHTTP(ConnexionHttp)
 
 @Description
-  Libère les ressources associées 
-  au téléchargement asynchrone 
-  spécifié, commencé soit avec 
-  @@ReceiveHTTPFile soit avec 
+  Libère les ressources associées au téléchargement asynchrone spécifié, commencé soit avec @@ReceiveHTTPFile soit avec 
   @@ReceiveHTTPMemory.
 
 @Parameter "ConnexionHttp"
@@ -90,109 +79,12 @@
 
 @Remarks
   La valeur @#PB_HTTP_Aborted sera envoyée par la fonction @@HTTPProgress.
+@LineBreak
+@LineBreak
+  Il doit toujours être appelé après un appel réussi de @@ReceiveHTTPFile ou @@ReceiveHTTPMemory.
 
 @SeeAlso
   @@HTTPProgress, @@AbortHTTP
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Resultat$ = GetHTTPHeader(URL$ [, Options [, AgentUtilisateur$]])
-
-@Description
-  Récupère l'en-tête HTTP d'une URL. 
-  @LineBreak
-  @LineBreak
-  @Deprecated
- @Bold "Note:" Veuillez utiliser @@HTTPRequest à la place.
-
-  
-@Parameter "URL$"  
-  L'URL à utiliser.
-@LineBreak
-@LineBreak
-  L'URL doit être complète, en 
-  incluant le préfixe "http://" 
-  ou "https://". 
-  
-@OptionalParameter "Options"
-  Peut avoir l'une des valeurs suivantes:
-@FixedFont
-  @#PB_HTTP_NoRedirect: Pas de redirections automatiques.
-@EndFixedFont
-
-@OptionalParameter "AgentUtilisateur$"
-  Change l'agent utilisateur (UserAgent) pour la requête HTTP.@LineBreak  
-  L'agent utilisateur par défaut est défini sur "Mozilla / 5.0 Gecko / 41.0 
-  Firefox / 41.0" pour une compatibilité maximale.
-  
-@ReturnValue  
-  Renvoie une chaîne de caractères 
-  contenant l'en-tête. 
-@LineBreak
-@LineBreak    
-  Chaque ligne est terminée 
-  par #LF$ (voir aussi 
-  @Link "String/Chr" "Chr(10)").
-  @LineBreak
-  @@StringField peut servir 
-  à séparer facilement chaque 
-  ligne de l'en-tête.
-@LineBreak
-@LineBreak  
-  Le contenu des en-têtes est 
-  dépendant du type de serveur 
-  Web, il est donc possible d'avoir 
-  des informations différentes 
-  en fonction du serveur.@LineBreak 
-  Les serveurs produisent des 
-  informations utiles comme la 
-  date, le type de serveur, sa 
-  version, et plus encore. 
-@LineBreak
-@LineBreak
-  Exemple d'un en-tête:
-@FixedFont
-  HTTP/1.1 200 OK
-  Date: Sat, 02 Aug 2014 09:15:32 GMT
-  Server: Apache/2.2.16 (Debian)
-  X-Powered-By: PHP/5.3.3-7+squeeze19
-  Vary: Accept-Encoding
-  Content-Type: text/html
-@EndFixedFont  
-
-@Remarks
-  @@InitNetwork doit avoir été 
-  appelé avec succès avant de 
-  pouvoir utiliser cette commande.
-@LineBreak
-@LineBreak
-  Certains antivirus sont tellement 
-  stricts qu'ils empêchent l'envoi 
-  de telles requêtes à moins d'activer 
-  leur mode 'Jeu'.
-@LineBreak
-@LineBreak  
-  Sous Linux, 'libcurl' doit être installé pour 
-  que cette commande fonctionne (déjà installé 
-  dans la plupart des distributions Linux).
-  
-@Example 
-@Code
-  InitNetwork()
-  
-  EnTete$ = GetHTTPHeader("http://www.purebasic.com/index.php")
-  
-  Repeat 
-    Index+1
-    Ligne$ = StringField(EnTete$, Index, #LF$)
-    Debug Ligne$
-  Until Ligne$ = ""
-@EndCode
-
-@SeeAlso
-  @@HTTPRequest, @@ReceiveHTTPFile, @@URLEncoder
 
 @SupportedOS
 
@@ -289,8 +181,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   Telechargement = ReceiveHTTPMemory("http://www.purebasic.com/download/OgreAssimpConverter.zip", #PB_HTTP_Asynchronous)
   If Telechargement
     Repeat
@@ -332,7 +222,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = HTTPInfo(RequeteHttp, Type [, Options])
+@Function Resultat$ = HTTPInfo(RequeteHttp, Type [, Options])
 
 @Description
   Renvoie des informations sur une requête HTTP créée avec @@HTTPRequest ou
@@ -363,8 +253,6 @@
 
 @Example
 @Code
-  InitNetwork()
-  
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Réponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
@@ -393,15 +281,15 @@
   La requête HTTP.
   
 @ReturnValue
-  Le tampon contenant la réponse complète (raw) d'une requête HTTP.
+  L'adresse mémoire du tampon contenant la réponse complète (raw) d'une requête HTTP.
   
 @Remarks
-  Le tampon doit être libéré avec@@FreeMemory.
-
+  Le tampon doit être libéré avec@@FreeMemory.@LineBreak
+  Si l'option @#PB_HTTP_Asynchronous a été utilisé lors de l'appel de @@HTTPRequest ou de @@HTTPRequestMemory 
+  alors cette commande n'est valide que si la requête a abouti.
+  
 @Example
 @Code
-  InitNetwork()
-  
   RequeteHTTP = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If RequeteHTTP
     Debug "Réponse: " + HTTPInfo(RequeteHTTP, #PB_HTTP_Response)
@@ -428,7 +316,7 @@
 @Function HTTPProxy(URL$ [, Utilisateur$, MotdePasse$])
 
 @Description
-  Spécifie un proxy à utiliser pour les commandes HTTP suivantes: @@GetHTTPHeader, @@ReceiveHTTPFile 
+  Spécifie un proxy à utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile 
   @@ReceiveHTTPMemory, @@HTTPRequest et @@HTTPRequestMemory.
 
 @Parameter "URL$"
@@ -449,16 +337,11 @@
 @NoReturnValue
 
 @Remarks
-  @@InitNetwork doit être appelé avant d'utiliser cette commande.
-@LineBreak
-@LineBreak
   Sur Linux, 'libcurl' doit être installé pour que cette commande fonctionne 
   (déjà installées sur la plupart des distributions Linux).
   
 @Example
 @Code
-  InitNetwork()
-
   HTTPProxy("socks4://127.0.0.1")
 
   Fichier$ = SaveFileRequester("Enregistrer le fichier index.php ?", "", "", 0)
@@ -471,7 +354,57 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPTimeout(DelaideConnexion [, DelaiGlobal])
+
+@Description
+  Spécifie le délai d'attente à utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile,
+  @@ReceiveHTTPMemory, @@HTTPRequest et @@HTTPRequestMemory.
+
+@Parameter "DelaideConnexion"
+  Le délai d'attente, en millisecondes, avant d'abandonner la requête HTTP si l'hôte distant ne se connecte pas.@LineBreak
+  Le délai d'attente par défaut est défini sur 30 secondes.@LineBreak
+  @#PB_Default peut être utilisé pour revenir à la valeur de délai d'attente par défaut (30 secondes).
+
+@OptionalParameter "DelaiGlobal"
+  Délai d'attente global, en millisecondes, avant d'abandonner la requête HTTP.@LineBreak
+  Il n'y a pas de délai d'attente par défaut.@LineBreak
+  @#PB_Default peut être utilisé pour revenir au comportement par défaut (pas de délai d'attente (timeout)).@LineBreak
+  Note : Si une connexion est lente, elle peut abandonner une requête valide en cours.
+
+@NoReturnValue
+
+@Remarks
+  Si "Créer un exécutable thread-safe" est activé dans les @ReferenceLink "ide_compiler" "options du compilateur" alors
+  chaque thread a ses propres délais d'attente, ce qui signifie que deux threads peuvent avoir des délais d'attente différents en même temps.
+@LineBreak
+@LineBreak
+  Sous Linux, "libcurl" doit être installé pour que cette commande fonctionne ce qui est déjà le cas de 
+  la plupart des distributions Linux.
+  
+  
+@Example
+@Code
+  HTTPTimeout(5000) ;Laisse 5 secondes pour se connecter au serveur
+
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
+  If HttpRequest
+    Debug "Code d'état : " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "Réponse : " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    
+    FinishHTTP(HTTPRequest)
+  Else
+    Debug "La création de la demande a échoué"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ReceiveHTTPFile, @@ReceiveHTTPMemory, @@HTTPRequest, @@HTTPRequestMemory
 
 @SupportedOS
 
@@ -480,15 +413,13 @@
 @Function Resultat = ReceiveHTTPFile(URL$, NomFichier$ [, Options [, AgentUtilisateur$]])
 
 @Description
-  Télécharge un fichier sur le 
-  disque à partir d'une URL. 
+  Télécharge un fichier sur le disque à partir d'une URL. 
   
 @Parameter "URL$"  
   L'URL de téléchargement.
   
 @Parameter "NomFichier$"  
-  Le nom du fichier qui sera 
-  enregistré sur le disque.
+  Le nom du fichier qui sera enregistré sur le disque.
 @LineBreak
 @LineBreak 
   Si le nom de fichier ne contient 
@@ -525,30 +456,24 @@
   téléchargement ait été effectué avec succès ou non.
 
 @Remarks
-  @@InitNetwork doit avoir été 
-  appelé avec succès avant de 
-  pouvoir utiliser cette commande.
+  Sous Linux, 'libcurl' doit être installé pour que cette commande fonctionne (déjà installé dans la plupart des distributions Linux).
+ @LineBreak
 @LineBreak
-@LineBreak  
-  Sous Linux, 'libcurl' doit être installé pour 
-  que cette commande fonctionne (déjà installé 
-  dans la plupart des distributions Linux).
-  
+  Si le fichier distant n'a pas été trouvé, le fichier créé contiendra l'erreur du serveur Web.
+
 @Example 
 @Code
-  InitNetwork()
-
   NomDeFichier$ = SaveFileRequester("Enregistrer index.php ?", "", "", 0)
 
-  If ReceiveHTTPFile("http://www.purebasic.com/index.php", NomDeFichier$)
-    Debug "Succès"
+  If ReceiveHTTPFile("https://www.purebasic.com/index.php", NomDeFichier$)
+    Debug "Fichier reçu et écrit sur le disque. Si le fichier distant n'a pas été trouvé, il contiendra l'erreur du serveur Web."
   Else
-    Debug "Echec"
+    Debug "Aucun fichier reçu (erreur réseau)."
   EndIf
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
@@ -599,11 +524,6 @@
   terminé avec succès ou non.
 
 @Remarks
-  @@InitNetwork doit avoir été 
-  appelé avec succès avant de 
-  pouvoir utiliser cette commande.
-@LineBreak  
-@LineBreak
   Lors d'un téléchargement 
   asynchrone, il est possible 
   d'obtenir l'adresse du tampon 
@@ -616,8 +536,6 @@
   
 @Example
 @Code
-  InitNetwork()
-
   *Buffer = ReceiveHTTPMemory("http://www.purebasic.com/index.php")
   If *Buffer
     Taille = MemorySize(*Buffer)
@@ -629,7 +547,7 @@
 @EndCode
 
 @SeeAlso
-  @@GetHTTPHeader, @@URLEncoder
+  @@URLEncoder
 
 @SupportedOS
 
@@ -672,7 +590,7 @@
 @Code
   NewMap Header$()
   Header$("Content-Type") = "text/plain"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  
 @EndCode
 
@@ -681,9 +599,6 @@
   zéro sinon . 
 
 @Remarks
-  @@InitNetwork doit être appelé avant d'utiliser cette commande.
-@LineBreak
-@LineBreak
   Sous Linux, vous devez installer 'libcurl' pour que cette commande fonctionne 
   (la plupart des distributions Linux l'ont déjà).
 @LineBreak
@@ -691,12 +606,12 @@
    Si des données binaires doivent être envoyées, vous pouvez utiliser @@HTTPRequestMemory().
 @LineBreak
 @LineBreak
-   Cette commande est conçue pour gérer  facilement REST comme une API Web.
+   Cette commande est conçue pour gérer facilement REST comme une API Web.
 @LineBreak
 @LineBreak
   @@HTTPInfo peut être utilisé pour obtenir des informations sur la requête.@LineBreak 
-  Si @#PB_HTTP_Asynchronous a été spécifié, @@HTTPProgress et @@AbortHTTP peuvent être 
-  utilisés.@LineBreak
+  Si @#PB_HTTP_Asynchronous a été spécifié, @@HTTPProgress peut être utilisé et @@AbortHTTP 
+  doit être utilisé.@LineBreak
   @@HTTPMemory peut être utilisé pour obtenir le résultat sous forme de tampon brut 
   (le tampon brut doit être libéré avec @@FreeMemory).
 @LineBreak
@@ -706,8 +621,6 @@
    
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
@@ -721,11 +634,9 @@
 
 @Example Avec en-têtes
 @Code
-  InitNetwork()
-  
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
@@ -737,6 +648,45 @@
     Debug "La requête a échoué"
   EndIf
 @EndCode
+
+@Example Requête asynchrone
+@Code
+  HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.purebasic.com/download/PureBasic_Demo.zip", "", #PB_HTTP_Asynchronous)
+  If HttpRequest
+    Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    
+    Repeat
+      Progress = HTTPProgress(HttpRequest)
+      Select Progress
+        Case #PB_HTTP_Success
+          Debug "Téléchargement terminé"
+          *Buffer = HTTPMemory(HTTPRequest)
+          If *Buffer
+            Debug "Taille de la mémoire tampon: " + MemorySize(*buffer) ; Ici, le tampon peut être écrit sur le disque ou dans le répertoire
+            FreeMemory(*Buffer)
+          EndIf
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Break
+          
+        Case #PB_HTTP_Failed
+          Debug "Échec du téléchargement"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Break
+          
+        Case #PB_HTTP_Aborted
+          Debug "Téléchargement interrompu"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          
+        Default
+          Debug "Téléchargement en cours: " + Progression ; La progression actuelle du téléchargement, en octets
+          Delay(100)
+      EndSelect
+    ForEver
+  Else
+    Debug "La création de la requête a échoué"
+  EndIf
+@EndCode
+
 
 @SeeAlso
   @@URLEncoder, @@AbortHTTP
@@ -775,6 +725,10 @@
   @#PB_HTTP_Asynchronous: Téléchargement de manière asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
   @#PB_Http_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
+  @#PB_HTTP_HeadersOnly : Ne télécharge que les en-têtes.
+  @#PB_HTTP_WeakSSL     : Support des vieux serveurs.
+  @#PB_HTTP_Debug       : Affiche les informations de débogage.
+
 @EndFixedFont
 
 @OptionalParameter "EnTetes()"
@@ -783,7 +737,7 @@
 @Code
   NewMap Header$()
   Header$("Content-Type") = "octectstream"
-  Header$("UserAgent") = "Firefox 54.0"
+  Header$("User-Agent") = "Firefox 54.0"
   Header$("NoParamHeader") = ""  
 @EndCode
 
@@ -792,9 +746,6 @@
   zéro sinon . 
 
 @Remarks
-  @@InitNetwork doit être appelé avant d'utiliser cette commande.
-@LineBreak
-@LineBreak
   Sous Linux, vous devez installer 'libcurl' pour que cette commande fonctionne 
   (la plupart des distributions Linux l'ont déjà).
 @LineBreak
@@ -817,8 +768,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)

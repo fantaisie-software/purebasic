@@ -1,7 +1,7 @@
 ;
 ;     Xml library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library XML
@@ -10,7 +10,7 @@
 
   The XML library provides set of functions to easily add XML parsing and creating capability to
   applications. It is based on the @InternetLink "http://expat.sourceforge.net/" "expat XML parser",
-  which is licensed under the MIT license which can be viewed @MainGuideLink "expat" "here".
+  which is licensed under the MIT license which can be viewed @MainGuideLink "license_expat" "here".
   expat is used in many projects (like Mozilla or Perl). It is very stable and very fast. 
 @LineBreak
 @LineBreak
@@ -19,8 +19,9 @@
   be made public, the above linked license must be included with the software.
 @LineBreak
 @LineBreak  
-  The expat functions can also be called directly like other API functions with an ending underscore. This allows
-  to take advantage of expat features not directly provided by this library.
+  The expat functions can also be called directly from PureBasic like other API functions.
+  However you will have to add "pb_" at the beginning of the function name in addition to the ending 'underscore'.
+  This allows to take advantage of expat features not directly provided by this library.
   The constants and structures defined in expat.h are directly available in PureBasic. 
   For detailed information on the expat functions, refer to the documentation provided in the download package on
   @InternetLink "http://expat.sourceforge.net/" "http://expat.sourceforge.net/"  
@@ -62,6 +63,7 @@
 @CommandList
 
 @ExampleFile All Xml.pb
+@ExampleFile All Xml_Expat_API.pb
 
 @SupportedOS
 
@@ -333,6 +335,9 @@
   @#PB_XML_ReservedPrefixXMLNS : reserved prefix (xmlns) must not be declared or undeclared
   @#PB_XML_ReservedNamespaceURI: prefix must not be bound to one of the reserved namespace names
 @EndFixedFont
+
+@SeeAlso
+  @@ParseXML
 
 @SupportedOS
 

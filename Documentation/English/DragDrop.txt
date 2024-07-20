@@ -1,7 +1,7 @@
 ;
 ;     Drag & Drop library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library DragDrop
@@ -62,7 +62,37 @@
   Drag & Drop can basically be started any time, but the
   left mouse button should be currently pressed as otherwise the operation will end immediately without success.
   The usual time to start a Drag & Drop operation is when a @LibraryLink "Gadget" "Gadget" reported an event with
-  @@EventType of @#PB_EventType_DragStart.
+  @@EventType of @#PB_EventType_DragStart. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
+
+@Example
+@Code
+  Procedure DragStartHandler()
+    ExamineDraggedItems()
+    While NextDraggedItem()
+      Text$ + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
+    Wend
+    
+    Debug "Dragging text: " + Text$
+    
+    DragText(Text$)
+  EndProcedure
+
+  ; Select some files or folders and drag them to another application
+  ;
+  If OpenWindow(0, 200, 200, 400, 400, "Drag & Drop")
+    ListViewGadget(0, 10, 10, 380, 380, #PB_ListView_MultiSelect)
+    AddGadgetItem(0, -1, "Item 1")
+    AddGadgetItem(0, -1, "Item 2")
+    AddGadgetItem(0, -1, "Item 3")
+    
+    ; BindGadgetEvent() is required to handle the drag start event
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
+    Repeat
+      Event = WaitWindowEvent()
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SeeAlso
   @@DragFiles, @@DragImage, @@DragPrivate, @@DragOSFormats,
@@ -106,7 +136,7 @@
   Drag & Drop can basically be started any time, but the
   left mouse button should be currently pressed as otherwise the operation will end immediately without success.
   The usual time to start a Drag & Drop operation is when a @LibraryLink "Gadget" "Gadget" reported an event with
-  @@EventType of @#PB_EventType_DragStart.
+  @@EventType of @#PB_EventType_DragStart. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
@@ -172,29 +202,31 @@
   Drag & Drop can basically be started any time, but the
   left mouse button should be currently pressed as otherwise the operation will end immediately without success.
   The usual time to start a Drag & Drop operation is when a @LibraryLink "Gadget" "Gadget" reported an event with
-  @@EventType of @#PB_EventType_DragStart.
+  @@EventType of @#PB_EventType_DragStart. On MacOS X the @#PB_EventType_DragStart event has to be handled using @@BindEvent or @@BindGadgetEvent.
 
 @Example
 @Code
+  Procedure DragStartHandler()
+    ExamineDraggedItems()
+    While NextDraggedItem()
+      Files$ + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
+    Wend
+    
+    Debug "Dragging files: "+Files$
+    
+    DragFiles(Files$)
+  EndProcedure
+
   ; Select some files or folders and drag them to another application
   ;
-  If OpenWindow(1, 200, 200, 400, 400, "Drag & Drop", #PB_Window_SystemMenu)
-    ExplorerListGadget(1, 10, 10, 380, 380, "*", #PB_Explorer_MultiSelect)
-  
+  If OpenWindow(0, 200, 200, 400, 400, "Drag & Drop")
+    ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
+    
+    ; BindGadgetEvent() is required to handle the drag start event
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
     Repeat
       Event = WaitWindowEvent()  
-          
-      If Event = #PB_Event_Gadget And EventGadget() = 1 And EventType() = #PB_EventType_DragStart
-        Files$ = ""       
-        For i = 0 To CountGadgetItems(1)-1
-          If GetGadgetItemState(1, i) & #PB_Explorer_Selected
-            Files$ + GetGadgetText(1) + GetGadgetItemText(1, i) + Chr(10)
-          EndIf
-        Next i        
-        
-        DragFiles(Files$)
-      EndIf      
-      
     Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode
@@ -393,6 +425,37 @@
   If data was dropped on the gadget, the program will receive a @#PB_Event_GadgetDrop event. 
   @@EventGadget will indicate the target gadget and the Event functions of this
   library can be used to get the dropped data.
+
+@Example
+@Code
+  ; Drag a file to one of the gadets and you will receive the file path
+  ;
+  If OpenWindow(0, 0, 0, 500, 200, "Drop File Here", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+    StringGadget(0, 10, 10, 500 - 20, 30, "")
+    EditorGadget(1, 10, 50, 500 - 20, 140)
+    
+    EnableGadgetDrop(0, #PB_Drop_Files, #PB_Drag_Copy)
+    EnableGadgetDrop(1, #PB_Drop_Files, #PB_Drag_Copy)
+  
+    Repeat
+        Select WaitWindowEvent()
+            Case #PB_Event_GadgetDrop
+                Select EventGadget()
+                    Case 0 ; gadgets that received a file/folder drag and drop event
+                        If Not FindString(EventDropFiles(), Chr(10))
+                            SetGadgetText(0, EventDropFiles())
+                        EndIf
+                    Case 1
+                        SetGadgetText(1, EventDropFiles())
+                EndSelect
+            Case #PB_Event_CloseWindow
+                CloseWindow(0)
+                End
+        EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@EnableWindowDrop, @@EventDropType, @@EventDropAction,
@@ -760,25 +823,14 @@
 
 @Bold "MacOSX:"
 @Indent
-@Code
-  Procedure DragCallback(DragReference, isStart)
-  
-  EndProcedure
-@EndCode
-  The callback is only called at the start and the end of a Drag & Drop operation. The 'DragReference' parameter
-  specifies the Carbon drag context of this operation in form of a 'DragRef' value, 'isStart' specifies whether 
-  this is the start or the end of the operation. The return-value of the callback is ignored.
-@LineBreak
-@LineBreak  
-  All functions of the Carbon Drag Manager can be used to influence the drag operation before it starts
-  (adding more flavors/items for example) and to get more information about the operation after it completed.
+  Not supported.
 
 @NoReturnValue
 
 @SeeAlso
   @@SetDropCallback
   
-@SupportedOS
+@SupportedOS Window, Linux
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -804,7 +856,7 @@
   The form of the callback is described below: 
 
 @Code
-  Procedure DropCallback(TargetHandle, State, Format, Action, x, y)
+  Procedure DropCallback(TargetHandle, State.l, Format.l, Action.l, x.l, y.l)
   
     ProcedureReturn #True
   EndProcedure
@@ -857,3 +909,74 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function ExamineDraggedItems()
+
+@Description
+  Start to examine the dragged items with the functions @@NextDraggedItem and @@DraggedItemIndex. It has to be used after a @#PB_Event_DragStart.
+  This function is supported for the following gadgets: @@ExplorerListGadget, @@ExplorerTreeGadget, @@ListIconGadget, @@ListViewGadget and @@TreeGadget.
+
+@NoReturnValue
+
+@Example
+@Code
+  Procedure DragStartHandler()
+    
+    ; Start to examine the dragged items. Have to be after a #PB_EventType_DragStart event
+    ;
+    ExamineDraggedItems()
+    
+    ; Iterate over the dragged items
+    ;
+    While NextDraggedItem()
+      Debug "Dragged item: " + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex())
+    Wend
+  EndProcedure
+
+  ; Select some files or folders and drag them to another application
+  ;
+  If OpenWindow(0, 200, 200, 400, 400, "Drag & Drop")
+    ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
+    
+    ; BindGadgetEvent() is required to handle the drag start event
+    BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
+    
+    Repeat
+      Event = WaitWindowEvent()  
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextDraggedItem, @@DraggedItemIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = NextDraggedItem()
+
+@Description
+  This function must be called after @@ExamineDraggedItems. It will iterate over dragged items. 
+   
+@ReturnValue
+  Returns nonzero if another dragged item is available or zero if there are no more dragged item.
+  
+@SeeAlso
+  @@ExamineDraggedItems, @@DraggedItemIndex
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DraggedItemIndex()
+
+@Description
+  Return the current dragged item index. This function has to be called after @@NextDraggedItem. 
+   
+@ReturnValue
+  Returns the index of the current dragged item (first index is zero).
+  
+@SeeAlso
+  @@ExamineDraggedItems, @@NextDraggedItem
+
+@SupportedOS

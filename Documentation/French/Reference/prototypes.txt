@@ -36,7 +36,11 @@
 @Example 
 
 @Code
-  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Cet exemple ne fonctionne que sous Windows"
+  CompilerEndIf
+  
+  
   Prototype.i ProtoMessageBox(Fenetre.i, Corps$, Titre$, Options.i = 0)
 
   If OpenLibrary(0, "User32.dll")
@@ -45,7 +49,7 @@
     ;
     MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxW")
     
-    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
   EndIf
     
 @EndCode
@@ -54,20 +58,24 @@
 @Example Avec des pseudotypes
 
 @Code
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    CompilerError "Cet exemple ne fonctionne que sous Windows"
+  CompilerEndIf
+  
   ; Nous spécifions le pseudotype 'p-unicode'pour les 2 paramètres de type string
   ; (texte à afficher et titre) car l'api MessageBoxW est une fonction unicode. Le compilateur
   ; convertira automatiquement les chaînes ascii en unicode pour les besoins de la fonction 
   ;
-  ;MessageRequester("Exemple","Prototype...") ; Décommenter cette ligne sous Windows XP
-  Prototype.i ProtoMessageBoxW(Fenetre.i, Corps.p-unicode, Titre.p-unicode, Options.i = 0)
+ 
+  Prototype.i ProtoMessageBoxA(Fenetre.i, Corps.p-ascii, Titre.p-ascii, Options.i = 0)
 
   If OpenLibrary(0, "User32.dll")
    
-    ; 'MsgBox' est une variable de type 'ProtoMessageBoxW' 
+    ; 'MsgBox' est une variable de type 'ProtoMessageBoxA' 
     ;
-    MsgBox.ProtoMessageBoxW = GetFunction(0, "MessageBoxW")
+    MsgBox.ProtoMessageBoxA = GetFunction(0, "MessageBoxA")
     
-    MsgBox(0, "Hello", "World") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
   EndIf
     
 @EndCode

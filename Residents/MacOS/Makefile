@@ -5,10 +5,8 @@ all: residents
 
 # We need to separate imports and constants for the build server
 residents:
-	rm -f $(PUREBASIC_HOME)/$(SUBSYSTEM)residents/purebasic.res
-	pbcompiler PureBasic.pb -q -r $(PUREBASIC_HOME)/residents/purebasic.res -ir purebasic.res
-	pbcompiler Unicode.pb -q -r $(PUREBASIC_HOME)/residents/unicode.res -ir unicode.res
-	pbcompiler Unicode.pb -q -r $(PUREBASIC_HOME)/residents/unicode/unicode.res --unicode -ir unicode.res
-	pbcompiler ../expat.pb -q -r $(PUREBASIC_HOME)/residents/expat.res -ir expat.res
-	pbcompiler ../Scintilla.pb -q -r $(PUREBASIC_HOME)/residents/scintilla.res -ir scintilla.res
-	pbcompiler ../OpenGL.pb -q -r $(PUREBASIC_HOME)/residents/opengl.res -ir opengl.res
+	rm -f "$(PUREBASIC_HOME)/$(SUBSYSTEM)residents/purebasic.res"
+	pbcompiler PureBasic.pb -q -r "$(PUREBASIC_HOME)/residents/purebasic.res" -ir purebasic.res
+	pbcompiler ../expat.pb -q -r "$(PUREBASIC_HOME)/residents/expat.res" -ir expat.res
+	pbcompiler ../Scintilla.pb -q -r "$(PUREBASIC_HOME)/residents/scintilla.res" -ir scintilla.res
+	pbcompiler ../OpenGL.pb -q -r "$(PUREBASIC_HOME)/residents/opengl.res" -ir opengl.res

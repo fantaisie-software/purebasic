@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 #WINDOW_Grep_Width  = 480
@@ -107,10 +107,10 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
         *NextAbortChecked = *Buffer + 50000
         
         If StringMode = #PB_UTF8
-          *String = StringToUTF8(String$)
+          *String = UTF8(String$)
           StringLength = StringByteLength(String$, #PB_UTF8)
         Else
-          *String = StringToAscii(String$)
+          *String = Ascii(String$)
         EndIf
         
         While *Buffer < *BufferEnd

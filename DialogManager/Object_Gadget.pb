@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 XIncludeFile "Object_Base.pb"
@@ -122,7 +122,12 @@ Procedure DlgGadget_New(*StaticData.DialogObjectData)
         *THIS\HasTitle = #False
         
       Case #DIALOG_ComboBox
-        *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
+        CompilerIf #CompileMac
+          ; Fixed macOS background drawing issue from the ComboBox, needs minimum size
+          *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 100, 25, *StaticData\Flags)
+        CompilerElse
+          *THIS\Gadget = ComboBoxGadget(*StaticData\Gadget, 0, 0, 0, 0, *StaticData\Flags)
+        CompilerEndIf
         *THIS\HasTitle = #False
         
         CompilerIf Defined(DIALOG_USE_EXPLORER, #PB_Constant)
@@ -396,6 +401,3 @@ DataSection
   
   
 EndDataSection
-
-
-

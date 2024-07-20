@@ -74,6 +74,152 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result.d = DesktopResolutionX()
+
+@Description
+  Returns the desktop DPI resolution factor on the 'x' axis. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the desktop DPI resolution factor on the 'x' axis. If the value is '1', then no DPI factor has been applied to the display on the 'x' axis.
+  If the value is '1.25', a 125% factor has been applied to the display on the 'x' axis.
+  
+@Example
+@Code
+  Debug "Desktop DPI 'x' factor: " + DesktopResolutionX()
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionY, @@DesktopScaledX, @@DesktopScaledY, @@DesktopUnscaledX, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = DesktopResolutionY()
+
+@Description
+  Returns the desktop DPI resolution factor on the 'y' axis. 
+
+@NoParameters
+
+@ReturnValue
+  Returns the desktop DPI resolution factor on the 'y' axis. If the value is '1', then no DPI factor has been applied to the display on the 'y' axis.
+  If the value is '1.25', a 125% factor has been applied to the display on the 'y' axis.
+  
+@Example
+@Code
+  Debug "Desktop DPI 'y' factor: " + DesktopResolutionY()
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionX, @@DesktopScaledX, @@DesktopScaledY, @@DesktopUnscaledX, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopScaledX(Value)
+
+@Description
+  Returns the scaled value according to current display DPI on 'x' axis. This is mostly
+  useful to calculate real pixel position independently of the display DPI.
+
+@Parameter "Value"
+  The value to use.
+
+@Remarks
+  The application needs to be compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" to have this command returning scaled DPI value. 
+  If not, the result will be always be the same as 'Value' parameter.
+
+@Example
+@Code
+  Debug "Desktop DPI 'x' scaled value of 100: " + DesktopScaledX(100)
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionX, @@DesktopResolutionY, @@DesktopScaledY, @@DesktopUnscaledX, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopScaledY(Value)
+
+@Description
+  Returns the scaled value according to current display DPI on 'y' axis. This is mostly
+  useful to calculate real pixel position independently of the display DPI.
+
+@Parameter "Value"
+  The value to use.
+
+@ReturnValue
+  Returns the scaled value according to current display DPI on 'y' axis. For example, on a display
+  with a 125% DPI applied, a value of 100 will result to 125.
+  
+@Example
+@Code
+  Debug "Desktop DPI 'y' scaled value of 100: " + DesktopScaledY(100)
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionX, @@DesktopResolutionY, @@DesktopScaledX, @@DesktopUnscaledX, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopUnscaledX(Value)
+
+@Description
+  Returns the unscaled value according to current display DPI on 'x' axis. This is mostly
+  useful to calculate real pixel position independently of the display DPI.
+
+@Parameter "Value"
+  The value to use.
+
+@ReturnValue
+  Returns the unscaled value according to current display DPI on 'x' axis. For example, on a display
+  with a 125% DPI applied, a value of 125 will result to 100.
+
+@Example
+@Code
+  Debug "Desktop DPI 'x' unscaled value of 125: " + DesktopUnscaledX(125)
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionX, @@DesktopResolutionY, @@DesktopScaledX, @@DesktopScaledY, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = DesktopUnscaledY(Value)
+
+@Description
+  Returns the unscaled value according to current display DPI on 'y' axis. This is mostly
+  useful to calculate real pixel position independently of the display DPI.
+
+@Parameter "Value"
+  The value to use.
+
+@ReturnValue
+  Returns the unscaled value according to current display DPI on 'y' axis. For example, on a display
+  with a 125% DPI applied, a value of 125 will result to 100.
+
+@Example
+@Code
+  Debug "Desktop DPI 'y' unscaled value of 125: " + DesktopUnscaledY(125)
+@EndCode
+
+@SeeAlso
+  @@DesktopResolutionX, @@DesktopResolutionY, @@DesktopScaledX, @@DesktopScaledY, @@DesktopUnscaledX 
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result = DesktopFrequency(#Desktop)
 
 @Description
@@ -113,7 +259,9 @@
   The index of the desktop. Should be always zero as only one web page is active at once.
 
 @ReturnValue
-  Returns the height in pixels.
+  Returns the height in pixels. The returned value is DPI independant, which means it's not 
+  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @DesktopScaledY
+  to scale the result.
 
 @Remarks
   @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
@@ -121,7 +269,13 @@
 @Example
 @Code
   ExamineDesktops()
-  MessageRequester("Display Information", "Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+  MessageRequester("Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+@EndCode
+
+@Example Real pixel height
+@Code
+  ExamineDesktops()
+  MessageRequester("Real physical resolution = " + DesktopScaledX(DesktopWidth(0)) + "x" +  DesktopScaledY(DesktopHeight(0)) + "x" + DesktopDepth(0))
 @EndCode
 
 @SeeAlso
@@ -281,7 +435,9 @@
   The index of the desktop. Should be always zero as only one web page is active at once.
 
 @ReturnValue
-  Returns the width in pixels.
+  Returns the width in pixels. The returned value is DPI independant, which means it's not 
+  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @DesktopScaledX
+  to scale the result.
 
 @Remarks
   @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
@@ -289,7 +445,13 @@
 @Example
 @Code
   ExamineDesktops()
-  MessageRequester("Display Information", "Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+  MessageRequester("Current resolution = " + DesktopWidth(0) + "x" +  DesktopHeight(0) + "x" + DesktopDepth(0))
+@EndCode
+
+@Example Real pixel width
+@Code
+  ExamineDesktops()
+  MessageRequester("Real physical resolution = " + DesktopScaledX(DesktopWidth(0)) + "x" +  DesktopScaledY(DesktopHeight(0)) + "x" + DesktopDepth(0))
 @EndCode
 
 @SeeAlso

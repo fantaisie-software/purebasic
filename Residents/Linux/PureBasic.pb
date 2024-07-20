@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;
 ; PureBasic Linux resident file
 ;
@@ -72,25 +72,6 @@ IncludeFile "../Common.pb"
 #PB_OnError_IllegalInstruction     =  4 ; SIGILL
 #PB_OnError_PriviledgedInstruction = 31 ; SIGSYS
 #PB_OnError_DivideByZero           = -1 ; Windows only, linux reports SIGFPE instead here
-
-
-; ToolBar icon definitions
-;
-#PB_ToolBarIcon_Cut    = 0
-#PB_ToolBarIcon_Copy   = 1
-#PB_ToolBarIcon_Paste  = 2
-#PB_ToolBarIcon_Undo   = 3
-#PB_ToolBarIcon_Redo   = 4
-#PB_ToolBarIcon_Delete = 5
-#PB_ToolBarIcon_New    = 6
-#PB_ToolBarIcon_Open   = 7
-#PB_ToolBarIcon_Save   = 8
-#PB_ToolBarIcon_PrintPreview = 9
-#PB_ToolBarIcon_Properties   = 10
-#PB_ToolBarIcon_Help    = 11
-#PB_ToolBarIcon_Find    = 12
-#PB_ToolBarIcon_Replace = 13
-#PB_ToolBarIcon_Print   = 14
 
 ; Requester
 ;
@@ -244,14 +225,6 @@ CompilerIf Subsystem("qt")
 CompilerElse
   #PB_ListIcon_FullRowSelect = 0       ; NOT SUPPORTED
 CompilerEndIf
-
-; Item attributes
-#PB_ListIcon_Selected  = 1
-#PB_ListIcon_Checked   = 2
-#PB_ListIcon_Inbetween = 4
-
-; Gadget attributes
-#PB_ListIcon_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2
@@ -425,18 +398,8 @@ CompilerEndIf
 ;
 #PB_EventType_Change = $300
 #PB_EventType_Focus = $100
-#PB_EventType_LeftClick = 0
-#PB_EventType_LeftDoubleClick = 2
 #PB_EventType_LostFocus = $200
-#PB_EventType_RightClick = 1
-#PB_EventType_RightDoubleClick = 3
 #PB_EventType_DragStart = $800
-#PB_EventType_Up                = 4
-#PB_EventType_Down              = 5
-#PB_EventType_Resize    = 6
-
-#PB_EventType_SizeItem   = $FFFE  ; for MDIGadget
-#PB_EventType_CloseItem  = $FFFF  ; for MDIGadget
 
 ; Drag & Drop
 ;
@@ -839,3 +802,5 @@ CompilerElse
 #PB_Shortcut_Scroll = $FF14 ; #define GDK_Scroll_Lock 0xFF14
 
 CompilerEndIf
+
+#PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it

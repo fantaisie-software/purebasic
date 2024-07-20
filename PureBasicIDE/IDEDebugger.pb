@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; shortcuts that are added to every debugger window
@@ -73,7 +73,7 @@ Procedure IsDebuggedFile(*Source.SourceFile)
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
                                                        ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
-        FileName$ = UniqueFilename(PeekAscii(*Cursor))
+        FileName$ = UniqueFilename(PeekUTF8(*Cursor))
         If IsEqualFile(*Source\FileName$, FileName$)
           ProcedureReturn @RunningDebuggers() ; return the debugger structure
         EndIf
@@ -130,7 +130,7 @@ Procedure GetDebuggerFileNumber(*Debugger.DebuggerData, *Source.SourceFile)
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the source path string
       *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
       For i = 1 To *Debugger\NbIncludedFiles   ; check all included files
-        If IsEqualFile(*Source\FileName$, PeekAscii(*Cursor))
+        If IsEqualFile(*Source\FileName$, PeekUTF8(*Cursor))
           ProcedureReturn i ; return the file number
         EndIf
         *Cursor + MemoryAsciiLength(*Cursor) + 1
@@ -239,7 +239,11 @@ Procedure SetDebuggerMenuStates()
           
       EndSelect
       
-      DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Debugger, 1) ; cannot enable/disable the debugger wile it is running
+      CompilerEndIf
       
       ; not available if not compiled in purifier mode
       If *Debugger\IsPurifier
@@ -281,7 +285,13 @@ Procedure SetDebuggerMenuStates()
       DisableMenuAndToolbarItem(#MENU_StepX, 1)
       DisableMenuAndToolbarItem(#MENU_StepOver, 1)
       DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      
+      CompilerIf #SpiderBasic
+        ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+      CompilerElse       
+        DisableMenuAndToolbarItem(#MENU_Kill, 1)
+      CompilerEndIf
+      
       DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
       DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
       DisableMenuAndToolbarItem(#MENU_VariableList, 1)
@@ -303,7 +313,12 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse   
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
     
     DisableMenuAndToolbarItem(#MENU_DebugOutput, 1)
     DisableMenuAndToolbarItem(#MENU_Watchlist, 1)
@@ -334,7 +349,13 @@ Procedure SetDebuggerMenuStates()
     DisableMenuAndToolbarItem(#MENU_StepX, 1)
     DisableMenuAndToolbarItem(#MENU_StepOver, 1)
     DisableMenuAndToolbarItem(#MENU_StepOut, 1)
-    DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    
+    CompilerIf #SpiderBasic
+      ; We don't know when a program exits in JS as there is no blocking event loop, so let all the menu/toolbar item always active
+    CompilerElse 
+      DisableMenuAndToolbarItem(#MENU_Kill, 1)
+    CompilerEndIf
+    
     DisableMenuAndToolbarItem(#MENU_BreakPoint, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_BreakClear, NonPBFile)
     DisableMenuAndToolbarItem(#MENU_DataBreakPoints, 1)
@@ -565,7 +586,7 @@ Procedure Debugger_Started(*Debugger.DebuggerData)
           
           Command.CommandInfo\Command = #COMMAND_BreakPoint
           Command\Value1 = 1 ; set breakpoint
-          Command\Value2 = Line | (File << 24)
+          Command\Value2 = MakeDebuggerLine(File, Line)
           Command\DataSize = 0
           SendDebuggerCommand(*Debugger, @Command)
           
@@ -705,7 +726,7 @@ Procedure Debugger_Ended(*Debugger.DebuggerData)
               *Cursor + MemoryAsciiLength(*Cursor) + 1 ; skip the main source name (checked above)
               For i = 1 To RunningDebuggers()\NbIncludedFiles  ; check all included files
                                                                ; the included filenames may include "../" so use ResolveRelativePath() on them, which resolves that to get a unique filename
-                FileName$ = UniqueFilename(PeekAscii(*Cursor))
+                FileName$ = UniqueFilename(PeekUTF8(*Cursor))
                 If IsEqualFile(FileList()\FileName$, FileName$)
                   If @RunningDebuggers() = *Debugger
                     ThisDebugger = #True
@@ -743,17 +764,28 @@ EndProcedure
 Procedure Debugger_SwitchToFile(*Debugger.DebuggerData, Line)
   FileName$ = GetDebuggerFile(*Debugger, Line)
   
-  If FileName$ = "" ; main source, and not saved yet
-    *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
-    If *Source And *Source\IsProject = 0 ; sanity check
-      If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
-        ChangeCurrentElement(FileList(), *Source)
-        ChangeActiveSourceCode()
-      EndIf
-      result = 1
-    Else
-      result = 0
+  CompilerIf #SpiderBasic
+    If LCase(GetFilePart(FileName$)) = "pb_editoroutput.pb" ; File not yet saved (https://forums.spiderbasic.com/viewtopic.php?t=2549)
+      FileName$ = ""
     EndIf
+  CompilerEndIf
+  
+  If FileName$ = "" ; main source, and not saved yet
+    CompilerIf #SpiderBasic
+      ; SpiderBasic can only have one active debugger, so it's always the active source if the file wasn't saved
+      result = 1
+    CompilerElse
+      *Source.SourceFile = FindTargetFromID(*Debugger\SourceID)
+      If *Source And *Source\IsProject = 0 ; sanity check
+        If *Source <> *ActiveSource        ; check to reduce flickering (especially for step)
+          ChangeCurrentElement(FileList(), *Source)
+          ChangeActiveSourceCode()
+        EndIf
+        result = 1
+      Else
+        result = 0
+      EndIf
+    CompilerEndIf
   ElseIf IsEqualFile(FileName$, *ActiveSource\FileName$)
     result = 1
   Else
@@ -831,6 +863,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Case 1: Text$ + " - x86"
         Case 2: Text$ + " - x64"
         Case 3: Text$ + " - ppc"
+        Case 4: Text$ + " - arm64"
       EndSelect
       
       If *Debugger\Is64bit
@@ -848,7 +881,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Error
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-      LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+      LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
       
       If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -866,7 +899,12 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         ChangeCurrentElement(FileList(), *ActiveSource)
         
         MarkErrorLine(LineNumber)
-        MarkCurrentLine(LineNumber)
+        CompilerIf #SpiderBasic
+          ; As we don't have a read only scintilla, the red line is overriden by the active line background and we don't see it. So just select the line below and so we can see it.
+          ChangeActiveLine(LineNumber+1, -5)
+        CompilerElse
+          MarkCurrentLine(LineNumber)
+        CompilerEndIf
       EndIf
       
       If FileName$ <> ""
@@ -874,13 +912,16 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Else
         Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" "+Language("Misc","Line")+": " + Str(LineNumber), *Debugger\Command\TimeStamp)
       EndIf
-      Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      Debugger_AddLog(*Debugger, Language("Debugger", "LogError") +" " + PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
       
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekUTF8(*Debugger\CommandData), -1)
       
       If DebuggerKillOnError
         Debugger_Ended(*Debugger)
-        Debugger_ForceDestroy(*Debugger)
+        
+        CompilerIf Not #SpiderBasic
+          Debugger_ForceDestroy(*Debugger)
+        CompilerEndIf
       EndIf
       
       SetDebuggerMenuStates()
@@ -888,7 +929,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
     Case #COMMAND_Warning
       FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-      LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+      LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
       
       If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
         ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -906,9 +947,9 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       Else
         Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" "+Language("Misc","Line")+": " + Str(LineNumber), *Debugger\Command\TimeStamp)
       EndIf
-      Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" " + PeekAscii(*Debugger\CommandData), *Debugger\Command\TimeStamp)
+      Debugger_AddLog(*Debugger, Language("Debugger", "LogWarning") +" " + PeekUTF8(*Debugger\CommandData), *Debugger\Command\TimeStamp)
       
-      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekAscii(*Debugger\CommandData), -1)
+      ChangeStatus(Language("Misc","Line")+": " + Str(LineNumber) +" - " +  PeekUTF8(*Debugger\CommandData), -1)
       
       
     Case #COMMAND_Stopped
@@ -949,13 +990,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
       
       ;       Debug "---------- Stopped ----------------------"
       ;       Debug "Line: "+Str(*Debugger\Command\Value1)
-      ;       Debug "FilePart: "+Str((*Debugger\Command\Value1 >> 24) & $FF)
+      ;       Debug "FilePart: "+Str(DebuggerLineGetFile(*Debugger\Command\Value1))
       ;       Debug GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
       
       If *Debugger\Command\Value1 <> -1 ; check to ensure correct currentline value
         
         FileName$ = GetDebuggerFile(*Debugger, *Debugger\Command\Value1)
-        LineNumber = *Debugger\Command\Value1 & $FFFFFF + 1
+        LineNumber = DebuggerLineGetLine(*Debugger\Command\Value1) + 1
         
         If Debugger_SwitchToFile(*Debugger, *Debugger\Command\Value1)
           ; the compiled file has the IDE settings appended to it, so the reported error line
@@ -1049,13 +1090,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
         Select *Debugger\Command\Value2 ; result code
             
           Case 0 ; error
-            Message$ = "Debugger: " + PeekAscii(*Debugger\CommandData)
+            Message$ = "Debugger: " + PeekUTF8(*Debugger\CommandData)
             Debug Message$
             
             ; Variable not found is common (place the cursor on a keyword etc),
             ; so display nothing if this happens.
             If IsVariableExpression = 0 Or (Left(Message$, 29) <> "Debugger: Variable not found:" And Left(Message$, 43) <> "Debugger: Array() / LinkedList() not found:" And Message$ <> "Debugger: Garbage at the end of the input.")
-              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+              SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
               SendEditorMessage(#SCI_CALLTIPSETHLT, 0, 9)
             EndIf
             
@@ -1065,13 +1106,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 2 ; quad
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / #CharSize)
             Message$ = Name$ + " = " + Str(PeekQ(*Debugger\CommandData))
-            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 3 ; double
             Name$    = PeekS(*Debugger\CommandData+8, (*Debugger\Command\DataSize-8) / #CharSize)
             Message$ = Name$ + " = " + StrD_Debug(PeekD(*Debugger\CommandData))
-            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 4 ; string
@@ -1179,13 +1220,13 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
           Case 6 ; long (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / #CharSize)
             Message$ = Name$ + " = " + Str(PeekL(*Debugger\CommandData))
-            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
             
           Case 7 ; float (ppc only)
             Name$    = PeekS(*Debugger\CommandData+4, (*Debugger\Command\DataSize-4) / #CharSize)
             Message$ = Name$ + " = " + StrF_Debug(PeekF(*Debugger\CommandData))
-            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToAscii(Message$))
+            SendEditorMessage(#SCI_CALLTIPSHOW, MouseDwellPosition, ToUTF8(Message$))
             SendEditorMessage(#SCI_CALLTIPSETHLT, 0, Len(Name$))
             
         EndSelect
@@ -1203,7 +1244,7 @@ EndProcedure
 Procedure Debugger_ShowLine(*Debugger.DebuggerData, Line)
   
   FileName$ = GetDebuggerFile(*Debugger, Line)
-  LineNumber = Line & $FFFFFF + 1
+  LineNumber = DebuggerLineGetLine(Line) + 1
   
   If Debugger_SwitchToFile(*Debugger, Line)
     ; make sure the linenumber is not too high (could happen in the profiler)
@@ -1222,17 +1263,8 @@ Procedure ProcessDebuggerEvent()
   
   StandaloneDebuggers_CheckExits()
   
-  CompilerIf #CompileWindows
-    ; automation requests are handled through WM_COPYDATA here
-    If Debugger_ProcessIncomingCommands() = 0
-    EndIf
-    
-  CompilerElse
-    ; process debugger and automation requests
-    ; if there are debugger messages, automation is not checked, so the debugger has priority
-    If Debugger_ProcessIncomingCommands() = 0 And ProcessAutomationRequest() = 0
-    EndIf
-  CompilerEndIf
+  If Debugger_ProcessIncomingCommands() = 0
+  EndIf
   
 EndProcedure
 
@@ -1425,7 +1457,7 @@ Procedure Debugger_BreakPoint(Line)
     If *Debugger
       Command.CommandInfo\Command = #COMMAND_BreakPoint
       Command\Value1 = Action
-      Command\Value2 = Line | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
+      Command\Value2 = MakeDebuggerLine(GetDebuggerFileNumber(*Debugger, *ActiveSource), Line)
       Command\DataSize = 0
       SendDebuggerCommand(*Debugger, @Command)
     EndIf
@@ -1513,7 +1545,7 @@ Procedure Debugger_EvaluateAtCursor(position)
         Debug Expr$
         Command.CommandInfo\Command = #COMMAND_EvaluateExpressionWithStruct  ; structures allowed
         Command\Value1 = AsciiConst('S','C','I','N')                         ; to identify the sender
-        Command\Value2 = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)  | (GetDebuggerFileNumber(*Debugger, *ActiveSource) << 24)
+        Command\Value2 = MakeDebuggerLine(GetDebuggerFileNumber(*Debugger, *ActiveSource), SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0))
         Command\DataSize = (Len(Expr$)+1) * SizeOf(Character)
         SendDebuggerCommandWithData(*Debugger, @Command, @Expr$)
         Debug Expr$

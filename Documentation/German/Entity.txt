@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Entity
@@ -28,7 +28,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus]])
+@Function ApplyEntityForce(#Entity, x, y, z [, PositionX, PositionY, PositionZ [, Modus [, PositionsModus]]])
 
 @Description
   Wendet den angegebenen Kraft-/Stärke-Wert (englisch "force") auf das Entity an.
@@ -49,6 +49,14 @@
   @#PB_Local : lokale Kraft.
   @#PB_Parent: Kraft relativ zur übergeordneten ("parent") Position.
   @#PB_World : Kraft relativ zur Welt.
+@EndFixedFont
+
+@OptionalParameter "PositionsModus"
+  Der anzuwendende Positions-Modus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Local : lokale Position.
+  @#PB_Parent: Position relativ zur übergeordneten ("parent") Position.
+  @#PB_World : Position relativ zur Welt.
 @EndFixedFont
 
 @NoReturnValue
@@ -361,7 +369,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Wert1, Wert2, Wert3, Wert4)
+@Function EntityCustomParameter(#Entity, SubEntity, ParameterIndex, Wert1.f, Wert2.f, Wert3.f, Wert4.f)
 
 @Description
   Legt einen benutzerdefinierten Parameter im Material-Shader-Skript des #Entity fest.
@@ -394,6 +402,19 @@
   Wert ignoriert).
 
 @NoReturnValue
+
+@Remarks
+  Um Parameter bei einem Material festzulegen, müssen Sie diese in einem Material-Skript wie
+  zum Beispiel param_named_auto 'VariableName' custom 'ParameterIndex' definieren:
+@FixedFont
+  param_named_auto foo custom 1
+  param_named_auto bar custom 2
+@EndFixedFont  
+  Die Definition und die Größe der Parameter wird im Shader-Skript definiert, zum Beispiel:
+@FixedFont
+  uniform float foo;
+  uniform vec3 bar;
+@EndFixedFont
 
   Für weitere Informationen siehe das folgende Beispiel:
   
@@ -667,8 +688,8 @@
   Das zu verwendende Entity.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh. Bleibt der Knochen-Name leer, dann wird das Objekt nicht
-  zu einem Knochen sondern direkt zum Entity-Objekt hinzugefügt.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben. Bleibt der Knochen-Name leer,
+  dann wird das Objekt nicht zu einem Knochen sondern direkt zum Entity-Objekt hinzugefügt.
 
 @Parameter "ObjektID"
   Das hinzuzufügende Objekt. Dies kann eines der folgenden Typen sein:
@@ -723,13 +744,13 @@
 
 @Description
   Aktiviert die manuelle Kontrolle eines Knochens ("Bone"). Dieser kann manuell mit @@MoveEntityBone
-  bewegt und mit @@RotateEntityBone gedreht werden.
+  bewegt, mit @@RotateEntityBone gedreht oder mit @@ScaleEntityBone skaliert werden.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "Status"  
   Dies kann einer der folgenden Werte sein:
@@ -756,13 +777,13 @@
 
 @Description
   Bewegt den angegebenen Entity-Knochen ("Bone"). Der Knochen muss sich im manuellen Modus befinden,
-  siehe bei @@EnableManualEntityBoneControl.
+  eingestellt mit @@EnableManualEntityBoneControl.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "x, y, z"  
   Die neue Position des Knochens.
@@ -783,7 +804,39 @@
 @NoReturnValue  
 
 @SeeAlso
-  @@RotateEntityBone
+  @@RotateEntityBone, @@ScaleEntityBone
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScaleEntityBone(#Entity, Bone$, x, y, z, Modus)
+
+@Description
+  Skaliert den angegebenen Entity-Knochen ("Bone"). Der Knochen muss sich im manuellen Modus befinden,
+  eingestellt mit @@EnableManualEntityBoneControl.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@Parameter "Bone$"
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
+
+@Parameter "x, y, z"  
+  Die neue Skalierung des Knochens.
+
+@Parameter "Modus"
+  Der Skalierungsmodus. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Bei Verwendung
+                von 1.0 als Skalenwert bleibt dieser Wert unverändert.
+  @#PB_Absolute: absolute Skalierung, in Welteinheiten.
+@EndFixedFont
+
+@NoReturnValue  
+
+@SeeAlso
+  @@RotateEntityBone, @@MoveEntityBone
 
 @SupportedOS
 
@@ -829,7 +882,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -856,7 +909,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -883,7 +936,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @OptionalParameter "OffsetX"
   Der 'x' Offset relativ zum Knochen.
@@ -910,7 +963,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Nick-Wert (Pitch) des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -932,7 +985,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Gier-Wert (Yaw) des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -954,7 +1007,7 @@
   Das zu verwendende Entity.
   
 @Parameter "Bone$"
-  Der Name des Knochens (Bone) im OGRE-Mesh.
+  Der Name des Knochens (Bone) im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @ReturnValue
   Der aktuelle Roll-Wert des Knochens (Bone). Dieser Wert liegt immer zwischen
@@ -1155,12 +1208,13 @@
 
 @Description
   Rotiert/dreht den Entity-Knochen entsprechend der angegebenen x,y,z Winkel-Angaben.
-
+  Der Knochen muss sich im manuellen Modus befinden, eingestellt mit @@EnableManualEntityBoneControl.
+  
 @Parameter "#Entity"
   Das zu verwendende Entity.
 
 @Parameter "Bone$"
-  Der Knochen-Name ("bone") im OGRE-Mesh.
+  Der Knochen-Name ("bone") im OGRE-Mesh, oder wie bei @@CreateBone angegeben.
 
 @Parameter "x, y, z"
   Die anzuwendende Rotation, in Grad. Gültige Werte reichen von 0 bis 359.
@@ -1175,7 +1229,7 @@
 @NoReturnValue
 
 @SeeAlso
-  @@MoveEntityBone
+  @@MoveEntityBone, @@ScaleEntityBone
 
 @SupportedOS
 
@@ -1316,7 +1370,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GetEntityAttribute(#Entity, Attribut)
+@Function Ergebnis.f = GetEntityAttribute(#Entity, Attribut)
 
 @Description
   Ermittelt das angegebene Attribut des angegebenen Entity.
@@ -1362,7 +1416,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAttribute(#Entity, Attribut, Wert)
+@Function SetEntityAttribute(#Entity, Attribut, Wert.f)
 
 @Description
   Setzt den angegebenen Attribut-Wert beim angegebenen Entity.
@@ -1579,7 +1633,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionX(#Entity)
+@Function Ergebnis = EntityDirectionX(#Entity)
 
 @Description
   Ermittelt die 'x'-Richtung des Entity.
@@ -1597,7 +1651,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionY(#Entity)
+@Function Ergebnis = EntityDirectionY(#Entity)
 
 @Description
   Ermittelt die 'y'-Richtung des Entity.
@@ -1615,7 +1669,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityDirectionZ(#Entity)
+@Function Ergebnis = EntityDirectionZ(#Entity)
 
 @Description
   Ermittelt die 'z'-Richtung des Entity.
@@ -1628,5 +1682,23 @@
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = GetEntityMesh(#Entity)
+
+@Description
+  Gibt das vom Entity verwendete #Mesh zurück.
+
+@Parameter "#Entity"
+  Das zu verwendende Entity-Objekt.
+
+@ReturnValue
+  Gibt das vom Entity-Objekt verwendete #Mesh zurück.
+ 
+@SeeAlso
+  @@CreateEntity
   
 @SupportedOS

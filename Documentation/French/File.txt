@@ -45,6 +45,7 @@ et à la bibliothèque
 @CommandList
 
 @ExampleFile All File.pb
+@ExampleFile All FileSearch.pb
 
 @SupportedOS
 
@@ -129,8 +130,8 @@ et à la bibliothèque
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus (Windows uniquement).
-  @#PB_File_SharedWrite: le fichier ouvert par un processus peut être écrit par un autre processus (Windows uniquement).
+  @#PB_File_SharedRead : Le fichier ouvert par un processus peut être lu par un autre processus ou par un thread (Windows uniquement).
+  @#PB_File_SharedWrite: le fichier ouvert par un processus peut être écrit par un autre processus ou par un thread (Windows uniquement).
   @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
                         @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
 @EndFixedFont
@@ -351,20 +352,23 @@ et à la bibliothèque
   
 @Example
 @Code
-  Fichier$ = OpenFileRequester("Sélectionner un fichier","","Texte (.txt)|*.txt|Tous (*.*)|*.*",0)
-  If Fichier$
-    If ReadFile(0, Fichier$) 
-      length = Lof(0)                       ; Lit la taille en octets du fichier
-      FileSeek(0, length - 10)              ; place le pointeur 10 caractères avant la fin du fichier
-      Debug "Position: " + Str(Loc(0))      ; Affiche la position du pointeur
-      *MemoryID = AllocateMemory(10)        ; alloue un bloc mémoire pour 10 octets
-      If *MemoryID
-        bytes = ReadData(0, *MemoryID, 10)  ; Lit les 10 derniers caractères du fichier
-        Debug PeekS(*MemoryID)
-      EndIf
+  File$ = OpenFileRequester("Sélectionner un fichier", "", "Tous (*.*)|*.*", 0)
+  If File$
+    If ReadFile(0, File$)
+      
+      ; Lit la taille en octets du fichier
+      Length = Lof(0)                       
+      Debug "Taille du fichier : " + FormatNumber(Length, 0) + " octets"
+          
+      ; Place le pointeur 10 caractères avant la fin du fichier
+      FileSeek(0, Length - 10)                                
+      Debug "Position : " + FormatNumber(Loc(0), 0)
+      
       CloseFile(0)
+    Else
+      Debug "Erreur de lecture : " + File$
     EndIf
-  EndIf  
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -635,16 +639,17 @@ et à la bibliothèque
 @Function Resultat.a = ReadAsciiCharacter(#Fichier) 
 
 @Description
-  Lit un caractère ascii (1 octet non signé). 
+  Lit un caractère ASCII (1 octet non signé). 
   
 @Parameter "#Fichier"
   Le fichier à utiliser.
 
 @ReturnValue
-  Renvoie le caractère ascii ou zéro si une 
-  erreur s'est produite.
+  Renvoie le caractère ASCII ou zéro si une erreur s'est produite.
 
 @Remarks 
+  Pour un exemple de lecture à partir d'un fichier, voir la fonction @@ReadFile. Avec ReadAsciiCharacter(), 
+  seul un caractère ASCII est lu, au lieu d'une ligne complète (chaîne de caractères).
 
 @Example
 @Code
@@ -725,7 +730,9 @@ et à la bibliothèque
   @#PB_Unicode: 2 octets non signés (par défaut en mode @ReferenceLink "unicode" "unicode").
   @#PB_UTF8   : entre 1 et 4 octets non signés.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie le caractère lu ou zéro si une 
   erreur s'est produite.
@@ -854,8 +861,9 @@ et à la bibliothèque
     CloseFile(0)
   EndIf
   If ReadFile(0, "Test.txt")   ; Si le fichier peut être lu , on continue...
+  Format = ReadStringFormat(0)
     While Eof(0) = 0           ; Boucle tant que la fin du fichier n'est pas atteinte. (Eof = 'End Of File') 
-      Debug ReadString(0)      ; Affiche du fichier
+      Debug ReadString(0, Format) ; Affiche du fichier
     Wend
     CloseFile(0)               ; Ferme le fichier précédemment créé ou ouvert
   Else
@@ -1037,7 +1045,7 @@ et à la bibliothèque
   données du fichier.
 
 @Parameter "Longueur"
-  Le nombre d'octets à lire.
+  Le nombre d'octets à lire. Attention la limite est de 2 Go.
 
 @ReturnValue
   Renvoie le nombre d'octets effectivement 
@@ -1060,6 +1068,10 @@ et à la bibliothèque
     EndIf
   EndIf
 @EndCode    
+
+@Remarks
+  Pour un exemple de code, voir la procedure @@Lof.
+
 
 @SeeAlso
   @@WriteData, @@OpenFile, @@ReadFile
@@ -1089,7 +1101,9 @@ et à la bibliothèque
   @#PB_File_IgnoreEOL: Ignore le caractère de fin de ligne et la lecture se poursuit jusqu'à ce que la longueur spécifiée soit atteinte ou jusqu'à
                       la fin du fichier.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @OptionalParameter "Longueur"
   Le nombre de caractères à lire.
 @Indent
@@ -1431,13 +1445,18 @@ et à la bibliothèque
   @#PB_Unicode: 2 octets non signés (par défaut, voir @ReferenceLink "unicode" "unicode").
   @#PB_UTF8   : entre 1 et 4 octets non signés.
 @EndFixedFont  
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi ou zéro si elle a 
   échoué.
 
-@Remarks  
+@Remarks 
+  Attention la limite est de 2 Go.
+  @LineBreak
+  @LineBreak 
   En raison de la mise en mémoire 
   @Link "FileBuffersSize" "tampon", cette 
   fonction peut retourner une valeur avec 
@@ -1709,8 +1728,7 @@ et à la bibliothèque
   dans le fichier.
 
 @Parameter "Longueur"
-  Le nombre d'octets à écrire dans le 
-  fichier.
+  Le nombre d'octets à écrire dans le fichier. Attention la limite est de 2Go.
 
 @ReturnValue
   Renvoie le nombre d'octets qui ont été 
@@ -1824,7 +1842,9 @@ et à la bibliothèque
   @#PB_UTF8   : Ecrit le texte en UTF-8.
   @#PB_Unicode: Ecrit le texte en UTF-16. 
 @EndFixedFont
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi et zéro si elle a 
@@ -2003,7 +2023,9 @@ et à la bibliothèque
   @#PB_UTF8   : Ecrit le texte en UTF-8.
   @#PB_Unicode: Ecrit le texte en UTF-16.
 @EndFixedFont
-
+  Si cet indicateur n'est pas définie, le format de lecture dépend de l'option utilisée avec 
+  @@CreateFile, @@OpenFile ou @@ReadFile.
+  
 @ReturnValue
   Renvoie une valeur non nulle si 
   l'opération a réussi et zéro si elle a 

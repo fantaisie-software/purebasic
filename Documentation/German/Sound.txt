@@ -11,9 +11,6 @@
   von Applikationen oder Spielen zu integrieren. Es benutzt spezielle 
   Funktionen, um die maximale Geschwindigkeit auf der verfügbaren Hardware
   zu erhalten.
-@LineBreak
-@LineBreak
-  Es verwendet DirectX auf Windows. Auf Linux benötigt es die SDL-Bibliothek.
 
 @CommandList
 
@@ -109,31 +106,36 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisiert das Sound-System
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Laden von 2 Sounds
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
- 
- ; Die Sirene wird abgespielt
- PlaySound(0)
- 
- ; Zeigt die Position an
-  Repeat
-   Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
-   Delay(100)   ; Warten über 100 ms
-   Debug Pos    ; Anzeigen der Position
-   If Pos>1000  ; Stoppen nach 1 Sekunde
-     Break
-   EndIf
-  ForEver
- 
- ; Dann werden 2 Sounds zusammen abgespielt
-   PlaySound(1)
-
- MessageRequester("Info", "Ok zum Stoppen.") 
- End 
+  If InitSound()           ; Initialisiert das Sound-System
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Laden von 2 Sounds
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      If LoadSound(1, #PB_Compiler_Home + "Examples/3D/Data/Roar.ogg")
+        
+        ; Die Sirene wird abgespielt
+        PlaySound(0)
+        
+        ; Zeigt die Position an
+        Repeat
+          Pos = GetSoundPosition(0, #PB_Sound_Millisecond)
+          Delay(100)     ; Warten über 100 ms
+          Debug Pos      ; Anzeigen der Position
+          If Pos > 1000  ; Stoppen nach 1 Sekunde
+            Break
+          EndIf
+        ForEver
+        
+        ; Dann werden 2 Sounds zusammen abgespielt
+        PlaySound(1)
+        
+        MessageRequester("Info", "Ok zum Stoppen.") 
+        End
+      EndIf
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -172,20 +174,24 @@
 
 @Example
 @Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- 
- ; Dieser wird abgespielt
- PlaySound(0)
- 
- ; Ändert die Position auf 2 Sekunden
- SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
- 
- MessageRequester("Info", "Ok zum Stoppen.") 
- End 
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      
+      ; Die Sirene wird abgespielt
+      PlaySound(0)
+      
+      ; Ändert die Position auf 2 Sekunden
+      SetSoundPosition(0, 2000, #PB_Sound_Millisecond)
+      
+      MessageRequester("Info", "Ok zum Stoppen.") 
+      End 
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -212,26 +218,30 @@
   Alle verbliebenen Sounds werden automatisch freigegeben, wenn das Programm endet.
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode  
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = InitSound()
+@Function Ergebnis = InitSound([AnzMaxKanäle])
 
 @Description
   Initialisiert die Sound-Programmumgebung. Diese Funktion muss immer vor allen anderen
@@ -239,38 +249,32 @@
   der Sound-Umgebung fehlschlägt, ist es absolut notwendig, alle weiteren Aufrufe von
   Soundbefehlen zu deaktivieren.
 
-@NoParameters
+@OptionalParameter "AnzMaxKanäle"
+  Legt die maximale Anzahl von Kanälen fest, die gleichzeitig zum Abspielen von Sounds
+  verwendet werden sollen. Der Wert kann zwischen 1 und 254 liegen (der Standardwert,
+  wenn dieser Parameter nicht angegeben wird, ist 64).
 
 @ReturnValue
   Ein Wert ungleich Null, wenn die Sound-Umgebung korrekt eingerichtet wurde,
-  andernfalls Null.
-
-@OS Windows
-  @LineBreak
-  @LineBreak
-  Mögliche Fehlerursachen unter MS Windows: DirectX 7 kann nicht aufgerufen werden oder
-  es ist keine Soundkarte verfügbar. Wenn Ihr Programm unter NT4.0 laufen soll, markieren
-  sie unbedingt 'NT4.0 kompatibles Executable' in den Compiler-Optionen.
-
-@OS Linux
-  @LineBreak
-  @LineBreak
-  Mögliche Fehlerursachen unter Linux: SDL ist nicht verfügbar oder es ist keine
-  Soundkarte vorhanden.
+  andernfalls Null (z.B. wenn keine Soundkarte verfügbar ist).
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop)  
- 
- MessageRequester("Info", "Ok zum Stoppen.") 
- 
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      PlaySound(0, #PB_Sound_Loop) ; Abspielen des Sounds in einer Schleife starten
+      
+      MessageRequester("Info", "Ok zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+    EndIf
+    End
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SupportedOS
@@ -341,19 +345,22 @@
   Ein Wert ungleich Null, wenn der Sound erfolgreich geladen wurde, andernfalls Null.
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Dieser Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      PlaySound(0, #PB_Sound_Loop) ; Abspielen des Sounds in einer Schleife starten
+      
+      MessageRequester("Info", "OK zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+    EndIf
+    End
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode 
 
 @SeeAlso
@@ -383,25 +390,29 @@
   Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
     
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Dieser Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok zum Anhalten.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok zum Fortsetzen.")
- ResumeSound(0)  ; Fortsetzen
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Dieser Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "Ok zum Anhalten.")
+      PauseSound(0)  ; Pause
+      
+      MessageRequester("Info", "Ok zum Fortsetzen.")
+      ResumeSound(0)  ; Fortsetzen
+      
+      MessageRequester("Info", "Ok zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
      
 @SeeAlso
@@ -430,25 +441,29 @@
   Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Dieser Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop)
- 
- MessageRequester("Info", "Ok zum Anhalten.")
- PauseSound(0)  ; Pause
- 
- MessageRequester("Info", "Ok zum Fortsetzen.")
- ResumeSound(0)  ; Fortsetzen
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Dieser Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop)
+      
+      MessageRequester("Info", "Ok zum Anhalten.")
+      PauseSound(0)  ; Pause
+      
+      MessageRequester("Info", "Ok zum Fortsetzen.")
+      ResumeSound(0)  ; Fortsetzen
+      
+      MessageRequester("Info", "Ok zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -484,19 +499,23 @@
   Die Kanal-Nummer, wenn das @#PB_Sound_MultiChannel Flag verwendet wird.
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "OK zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+    EndIf
+    End
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -522,21 +541,25 @@
   Gibt die aktuelle Frequenz (in Hz) des Sounds zurück.
   
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
- 
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+	  
+      MessageRequester("Info", "Ok zum Stoppen.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -566,26 +589,30 @@
 @NoReturnValue 
   
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
- 
- MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
- PauseSound(0)
- 
- SetSoundFrequency(0,16000)
- 
- ResumeSound(0)
- 
- MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+      PauseSound(0)
+      
+      SetSoundFrequency(0, 16000)
+      
+      ResumeSound(0)
+      
+      MessageRequester("Info", "Die durchschnittliche Frequenz ist " + Str(GetSoundFrequency(0))+" Hz")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -618,7 +645,7 @@
 @EndFixedFont
 
 @Example
-@Code  
+@Code
   Procedure SelectStatus(Status)
     Select Status
       Case #PB_Sound_Stopped
@@ -638,27 +665,31 @@
         
     EndSelect
   EndProcedure
-
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
- SelectStatus(SoundStatus(0))
-
- PauseSound(0)
- SelectStatus(SoundStatus(0))
- 
- ResumeSound(0)
- SelectStatus(SoundStatus(0))
- 
- StopSound(0)
- SelectStatus(SoundStatus(0))
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+  
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      SelectStatus(SoundStatus(0))
+      
+      PauseSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      ResumeSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      StopSound(0)
+      SelectStatus(SoundStatus(0))
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
  
 @SupportedOS
@@ -687,28 +718,32 @@
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
-
- MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
- 
- SoundPan(0, -100)
- MessageRequester("Info", "Der Sound wird nur auf dem linken Kanal abgespielt.")
- 
- SoundPan(0, 100)
- MessageRequester("Info", "Der Sound wird nur auf dem rechten Kanal abgespielt.")
- 
- SoundPan(0, 0)
- MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
+      
+      SoundPan(0, -100)
+      MessageRequester("Info", "Der Sound wird nur auf dem linken Kanal abgespielt.")
+      
+      SoundPan(0, 100)
+      MessageRequester("Info", "Der Sound wird nur auf dem rechten Kanal abgespielt.")
+      
+      SoundPan(0, 0)
+      MessageRequester("Info", "Der Sound wird in Stereo abgespielt.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SupportedOS
@@ -737,28 +772,32 @@
   Sounds, die mit dem @#PB_Sound_Streaming Flag geladen wurden, werden nicht unterstützt.
     
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0)) + " Frames.")
-   
- MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0)) + " Frames.")
+      
+      MessageRequester("Info", "Die Länge des Sounds ist "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundVolume(#Sound, Lautstärke [, Kanal])
+@Function SoundVolume(#Sound, Lautstärke.f [, Kanal])
 
 @Description
   Ändert in Echtzeit die Lautstärke des Sounds.
@@ -766,7 +805,7 @@
 @Parameter "#Sound"
   Der zu verwendende Sound. Wenn @#PB_All angegeben wird, dann sind alle Sounds (und alle Kanäle) betroffen.
 
-@Parameter "Lautstärke"
+@Parameter "Lautstärke.f"
   Die neue Lautstärke des Sounds. Gültige Werte reichen von 0 (keine Lautstärke) bis 100 (volle Lautstärke).
 
 @OptionalParameter "Kanal"
@@ -777,22 +816,26 @@
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "Die Sound-Lautstärke liegt bei 20%")
- 
- SoundVolume(0, 80)
- MessageRequester("Info", "Die Sound-Lautstärke liegt bei 80%")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Die Sound-Lautstärke liegt bei 20%")
+      
+      SoundVolume(0, 80)
+      MessageRequester("Info", "Die Sound-Lautstärke liegt bei 80%")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso
@@ -818,22 +861,26 @@
 @NoReturnValue
 
 @Example
-@Code  
- InitSound()           ; Initialisieren des Sound-Systems
- UseOGGSoundDecoder()  ; Verwenden von Ogg-Dateien
-
- ; Lädt einen Sound aus einer Datei
- LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
- ; Der Sound wird abgespielt
- PlaySound(0, #PB_Sound_Loop, 20)
-  
- MessageRequester("Info", "Ok zum Stoppen.")
- 
- StopSound(0)
- MessageRequester("Info", "Sound gestoppt")
- 
- FreeSound(0) ; Der Sound wird freigegeben
- End
+@Code
+  If InitSound()           ; Initialisieren des Sound-Systems
+    UseOGGSoundDecoder()   ; Verwenden von Ogg-Dateien
+    
+    ; Lädt einen Sound aus einer Datei
+    If LoadSound(0, #PB_Compiler_Home +"Examples/3D/Data/Siren.ogg")
+      ; Der Sound wird abgespielt
+      PlaySound(0, #PB_Sound_Loop, 20)
+      
+      MessageRequester("Info", "Ok zum Stoppen.")
+      
+      StopSound(0)
+      MessageRequester("Info", "Sound gestoppt")
+      
+      FreeSound(0) ; Der Sound wird freigegeben
+      End
+    EndIf
+  Else
+    Debug "Warnung! Die Sound-Umgebung konnte nicht initialisiert werden. Daher können keine Sound-Befehle verwendet werden..."
+  EndIf
 @EndCode
 
 @SeeAlso

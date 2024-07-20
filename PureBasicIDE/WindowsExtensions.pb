@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ;windows only
 CompilerIf #CompileWindows
@@ -335,6 +335,13 @@ CompilerIf #CompileWindows
     EndIf
   EndProcedure
   
+  CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+    Import ""
+      PB_Gadget_IsThemed.l
+    EndImport
+  CompilerEndIf
+    
+  
   ; Windows only
   ;
   ; Column: -1 to reset
@@ -345,7 +352,9 @@ CompilerIf #CompileWindows
     
     ; PB_Gadget_GetCommonControlsVersion() is called by ListIconGadget, so this is ok
     ;
-    CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
+    CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+      IsThemed = PB_Gadget_IsThemed
+    CompilerElseIf #PB_Compiler_Processor = #PB_Processor_x86
       !extrn _PB_Gadget_IsThemed
       !mov eax, [_PB_Gadget_IsThemed]
       !mov [p.v_IsThemed], eax
@@ -375,6 +384,10 @@ CompilerIf #CompileWindows
     ShellExecute_(#Null, @"explore", @Directory$, #Null, #Null, #SW_SHOWNORMAL)
   EndProcedure
   
+  Procedure ShowExplorerFile(File$)
+    RunProgram("explorer.exe", "/SELECT," + #DQUOTE$ + File$ + #DQUOTE$, "")
+  EndProcedure
+  
   Procedure ModifierKeyPressed(Key)
     Select Key
       Case #PB_Shortcut_Shift:   vKey = #VK_SHIFT
@@ -391,6 +404,14 @@ CompilerIf #CompileWindows
   
   Procedure OpenWebBrowser(Url$)
     ShellExecute_(#Null, @"open", @Url$, @"", @"", #SW_SHOWNORMAL)
+  EndProcedure
+  
+  Procedure GetListViewScroll(Gadget)
+    ProcedureReturn SendMessage_(GadgetID(Gadget), #LB_GETTOPINDEX, 0, 0)
+  EndProcedure
+  
+  Procedure SetListViewScroll(Gadget, Position)
+    SendMessage_(GadgetID(Gadget), #LB_SETTOPINDEX, Position, 0)
   EndProcedure
   
 CompilerEndIf

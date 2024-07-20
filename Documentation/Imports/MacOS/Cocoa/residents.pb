@@ -1,6 +1,6 @@
 ﻿; *** Macros ***
 
-CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+CompilerIf #PB_Compiler_64Bit
   Macro CGFloat:d:EndMacro
 CompilerElse
   Macro CGFloat:f:EndMacro
@@ -16,7 +16,7 @@ CompilerEndIf
 #kCFAllocatorDefault = 0
 #kCFNotFound = -1
 
-CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+CompilerIf #PB_Compiler_64Bit
   #NSNotFound = $7fffffffffffffff
 CompilerElse
   #NSNotFound = $7fffffff
@@ -198,8 +198,13 @@ EndEnumeration
 
 Enumeration
   #NSLeftTextAlignment
-  #NSRightTextAlignment
-  #NSCenterTextAlignment
+  CompilerIf #PB_Compiler_Processor = #PB_Processor_Arm64
+    #NSCenterTextAlignment
+    #NSRightTextAlignment
+  CompilerElse
+    #NSRightTextAlignment
+    #NSCenterTextAlignment
+  CompilerEndIf
   #NSJustifiedTextAlignment
   #NSNaturalTextAlignment
 EndEnumeration

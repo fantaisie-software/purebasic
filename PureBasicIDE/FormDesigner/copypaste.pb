@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 Procedure FD_CopyGadget(gadget,parent)
   ChangeCurrentElement(FormWindows()\FormGadgets(),gadget)
@@ -347,7 +347,10 @@ Procedure FD_DuplicateGadget()
       FormWindows()\FormGadgets()\selected = 0
       
       c = CountString(clipboard()\variable, "_")
-      
+      If c = 0
+        clipboard()\variable = clipboard()\variable + "_"
+      EndIf
+        
       pos = 0
       For i = 1 To c
         pos = FindString(clipboard()\variable, "_", pos + 1)

@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; Not for linux for now, because of WebKitGtk instabilities
@@ -26,7 +26,7 @@ CompilerIf #CompileLinux = 0
     GadgetToolTip(#GADGET_HelpTool_Help,    Language("Help","OpenHelp"))
     
     CompilerIf #CompileWindows
-      HelpToolHomeUrl$ = "mk:@MSITStore:" + PureBasicPath$ + "PureBasic.chm::/Reference/reference.html"
+      HelpToolHomeUrl$ = "mk:@MSITStore:" + PureBasicPath$ + #ProductName$ + ".chm::/Reference/reference.html"
     CompilerElse
       Select UCase(CurrentLanguage$)
         Case "FRANCAIS"
@@ -97,7 +97,7 @@ CompilerIf #CompileLinux = 0
           If Left(Page$, 1) = "/"
             Page$ = Right(Page$, Len(Page$)-1)
           EndIf
-          OpenHelp(PureBasicPath$ + "PureBasic.chm", Page$)
+          OpenHelp(PureBasicPath$ + #ProductName$ + ".chm", Page$)
         CompilerElse
           OpenHelpWindow()
           SetGadgetText(#GADGET_Help_Viewer, GetGadgetText(#GADGET_HelpTool_Viewer))

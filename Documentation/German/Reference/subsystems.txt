@@ -5,16 +5,16 @@
   um das gleiche Ziel zu erreichen. Und wenn es Sinn macht, bietet PureBasic die Möglichkeit, die manchen Befehlen
   zugrundeliegenden Bibliotheken zu ändern, ohne auch nur eine Zeile des Quellcodes zu verändern.
   @LineBreak
-  Zum Beispiel gibt es unter Windows das 'OpenGL' Subsystem, welches OpenGL-Funktionen zum Rendern von Sprites verwendet,
-  anstelle von DirectX (was das Standard-Subsystem ist). Es kann sinnvoll sein, beim Schreiben eines Crossplattform-Spiels
-  OpenGL anstelle von DirectX zu verwenden, da OS X und Linux beide OpenGL als Standard verwenden.
-  Es ermöglicht auch die Verwendung direkter ("raw") OpenGL-Befehle auf den Screen.
+  Zum Beispiel gibt es unter Windows das 'DirectX11' Subsystem, welches DirectX-Funktionen zum Rendern von Sprites verwendet,
+  anstelle von OpenGL (was das Standard-Subsystem ist). Es kann sinnvoll sein, DirectX anstelle von OpenGL zu verwenden,
+  wenn ein etwas schnelleres Rendern auf Windows gewünscht wird.
   @LineBreak
   @LineBreak
   Um ein Subsystem zu aktivieren, muss sein Name in den IDE @ReferenceLink "ide_compiler" "Compiler-Optionen" eingetragen
   werden, oder durch Verwendung der /SUBSYSTEM @ReferenceLink "cli_compiler" "Kommandozeilen"-Option.
-  Dies ist eine Option zum Zeitpunkt des Kompilierens, was bedeutet, dass ein Executable nicht mehr als ein Subsystem
-  gleichzeitig einbetten kann. Wenn die Unterstützung mehrerer Subsysteme benötigt wird (zum Beispiel für das Anbieten
+  Beim Namen des Subsystems wird die Groß-/Kleinschreibung nicht beachtet. Dies ist eine Option zum Zeitpunkt des
+  Kompilierens, was bedeutet, dass ein Executable nicht mehr als ein Subsystem gleichzeitig für eine bestimmte
+  Bibliothek einbetten kann. Wenn die Unterstützung mehrerer Subsysteme benötigt wird (zum Beispiel für das Anbieten
   einer OpenGL und einer DirectX version eines Spiels), müssen zwei Executables erstellt werden.
   @LineBreak
   @LineBreak
@@ -33,15 +33,19 @@
   @LineBreak
   @Bold "Windows"
 @FixedFont
-  OpenGL: verwendet OpenGL anstelle von DirectX. Betroffene Bibliotheken:
+  DirectX9: verwendet DirectX 9 anstelle von OpenGL. Betroffene Bibliotheken:
           - Sprite
           - Screen
-          - Alle die 3D-Engine betreffenden Bibliotheken
+          - Hinweis: Die 3D-Engine ist dann nicht mehr verfügbar, da sie OpenGL verwendet.
+  DirectX11: verwendet DirectX 11 anstelle von OpenGL. Betroffene Bibliotheken:
+          - Sprite
+          - Screen
+          - Hinweis: Die 3D-Engine ist dann nicht mehr verfügbar, da sie OpenGL verwendet.
 @EndFixedFont
 @LineBreak
   @Bold "Linux"
 @FixedFont
-  gtk2: Betroffene Bibliotheken:
+  Gtk2: Verwendet GTK2 anstelle von GTK3 für das GUI-Toolkit. Betroffene Bibliotheken:
           - 2D Drawing
           - AudioCD
           - Clipboard
@@ -60,7 +64,7 @@
           - Toolbar
           - Window
           
-  qt: Betroffene Bibliotheken:
+  Qt: Verwendet QT anstelle von GTK3 für das GUI-Toolkit. Betroffene Bibliotheken:
           - 2D Drawing
           - AudioCD
           - Clipboard

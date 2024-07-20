@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -23,27 +23,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndStructure
   
   ; Fix for the #SCI_COUNTCHARACTERS message. Don't use that message directly because of the below newline trouble
+  ; (Fix no longer needed in newer Scintilla versions)
   ;
   Procedure CountCharacters(Gadget, startPos, endPos)
-    Count = ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
-    
-    ; The #SCI_COUNTCHARACTERS message counts CRLF as one char!
-    ; This is especially weird, since its counterpart #SCI_POSITIONRELATIVE counts it as two!
-    ; So scan the range and fix up the count so the two match (and also match our own memory buffers)
-    For pos = startPos To endPos - 1
-      If ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos) = 13 And ScintillaSendMessage(Gadget, #SCI_GETCHARAT, pos + 1) = 10
-        Count + 1
-      EndIf
-    Next pos
-    
-    ProcedureReturn Count
+    ProcedureReturn ScintillaSendMessage(Gadget, #SCI_COUNTCHARACTERS, startPos, endPos)
   EndProcedure
   
   Procedure SendEditorFontMessage(Style, FontName$, FontSize)
     
     ; Gtk2 'Pango' need an "!" before the font name (else it will use GDK font)
     ;
-    CompilerIf #CompileLinuxGtk2
+    CompilerIf #CompileLinuxGtk
       FontName$ = "!"+FontName$
     CompilerEndIf
     
@@ -301,20 +291,27 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         SendEditorMessage(#SCI_SETWHITESPACEFORE, #True, Colors(#COLOR_Whitespace)\DisplayValue)
         
         CompilerIf #CompileWindows
-          If Colors(#COLOR_Selection)\DisplayValue = -1 ; special accessibility scheme
+          If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
             SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, GetSysColor_(#COLOR_HIGHLIGHT))
           Else
             SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
           EndIf
           
-          If Colors(#COLOR_SelectionFront)\DisplayValue = -1
+          If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
             SendEditorMessage(#SCI_SETSELFORE,    1, GetSysColor_(#COLOR_HIGHLIGHTTEXT))
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, GetSysColor_(#COLOR_HIGHLIGHTTEXT) | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
           Else
             SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, Colors(#COLOR_SelectionFront)\DisplayValue | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
           EndIf
         CompilerElse
           SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
+          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
+          
           SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
+          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, Colors(#COLOR_SelectionFront)\DisplayValue | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
         CompilerEndIf
         
         SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMatch,    Colors(#COLOR_GoodBrace)\DisplayValue)
@@ -1184,7 +1181,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         length = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETTEXTRANGE, 0, @range)
         
         If *ActiveSource\Parser\Encoding = 1
-          Line$ = PeekS(range\lpstrText, length, #PB_UTF8)
+          Line$ = PeekS(range\lpstrText, length, #PB_UTF8|#PB_ByteLength)
         Else
           Line$ = PeekS(range\lpstrText, length, #PB_Ascii)
         EndIf
@@ -1274,9 +1271,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_SETTARGETEND, SendEditorMessage(#SCI_GETLINEENDPOSITION, Index, 0), 0)
     
     If *ActiveSource\Parser\Encoding = 1 ; ugly hack.. to be changed for unicode compatibility
-      *NewLine = StringToUTF8(NewLine$)
+      *NewLine = UTF8(NewLine$)
     Else
-      *NewLine = StringToAscii(NewLine$)
+      *NewLine = Ascii(NewLine$)
     EndIf
     
     SendEditorMessage(#SCI_REPLACETARGET, -1, *NewLine)
@@ -1319,7 +1316,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     c = IndentKeywordVT(*Cursor\c)
     If c <> -1
       Repeat
-        r = CompareMemoryString(*Cursor, @IndentKeywords(c)\Keyword$, #PB_String_NoCase, IndentKeywords(c)\Length)
+        r = CompareMemoryString(*Cursor, @IndentKeywords(c)\Keyword$, #PB_String_NoCaseAscii, IndentKeywords(c)\Length)
         If r = #PB_String_Equal And ValidCharacters(PeekC(*Cursor + IndentKeywords(c)\Length * #CharSize)) = 0
           ProcedureReturn c
         Else
@@ -1688,6 +1685,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                      #KEYWORD_IncludePath,
                      #KEYWORD_NewList,
                      #KEYWORD_NewMap,
+                     #KEYWORD_ProcedureReturn,
                      #KEYWORD_Protected,
                      #KEYWORD_Select,
                      #KEYWORD_Shared,
@@ -2534,7 +2532,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       ; Look for repetitions of the selection
       While *Pointer <= *BufferEnd
-        If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCase, SelectionLength, #PB_UTF8) = #PB_String_Equal
+        If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCaseAscii, SelectionLength, #PB_UTF8) = #PB_String_Equal
           Position = *Pointer-*BufferStart
           ; don't mark the selection itself and check that this is a whole word before marking it
           If Position <> selStart And
@@ -2805,9 +2803,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
                 If *ActiveSource\Parser\Encoding = 1
-                  *HighlightBuffer = StringToUTF8(HighlightLine$)
+                  *HighlightBuffer = UTF8(HighlightLine$)
                 Else
-                  *HighlightBuffer = StringToAscii(HighlightLine$)
+                  *HighlightBuffer = Ascii(HighlightLine$)
                 EndIf
                 
                 HighlightOffset = SendEditorMessage(#SCI_POSITIONFROMLINE, *ActiveSource\CurrentLineOld-1, 0)
@@ -3123,8 +3121,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   CompilerIf #CompileLinux
     
     ; Workaround for the Scintilla shortcut *eating* on Linux.
+    ; Enter key handling for the other OS is done via #MENU_Scintilla_Enter shortcut
     ;
-    ProcedureCDLL ScintillaShortcutHandler(*Widget, *Event._GdkEventKey, user_data)
+    ProcedureCDLL ScintillaShortcutHandler(*Widget, *Event.GdkEventKey, user_data)
       
       If *Event\keyval = $FF09 Or *Event\keyval = $FF0D Or *Event\keyval = $FF8D ; handle the autocomplete events
         
@@ -3343,8 +3342,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     SendEditorMessage(#SCI_SETZOOM, CurrentZoom)
     
-    SendEditorMessage(#SCI_SETLEXER, #SCLEX_CONTAINER, 0)
-    
     SendEditorMessage(#SCI_SETTABINDENTS, 0, 0) ; just write tabs/spaces as normal
     SendEditorMessage(#SCI_USEPOPUP, 0, 0)      ; disable the scintilla popup to enable the ide one.
     
@@ -3382,7 +3379,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     SendEditorMessage(#SCI_SETFOLDFLAGS, 0, 0)
     
-    *AsciiOne = StringToAscii("1")
+    *AsciiOne = Ascii("1")
     SendEditorMessage(#SCI_SETPROPERTY , ToAscii("fold"), *AsciiOne)
     FreeMemory(*AsciiOne)
     
@@ -3422,6 +3419,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure SetReadOnly(Gadget, State)
+    
+    CompilerIf #SpiderBasic
+      ; As a Javascript app is never blocking, we can't know if it finished running, so never disable the sources
+      ProcedureReturn
+    CompilerEndIf
+      
+    
     ScintillaSendMessage(Gadget, #SCI_SETREADONLY, State, 0)
     
     If State
@@ -3430,6 +3434,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Else
       ScintillaSendMessage(Gadget, #SCI_SETCARETLINEVISIBLE, #True)
       ;ScintillaSendMessage(Gadget, #SCI_SETCARETSTYLE, 1) ; Show the caret
+
+      ; When hiding the caret line, the back color is reset on new Scintilla 5.3.6. So re-apply it.
+      If EnableColoring
+        ScintillaSendMessage(Gadget, #SCI_SETCARETLINEBACK, Colors(#COLOR_CurrentLine)\DisplayValue, 0) 
+      Else
+        ScintillaSendMessage(Gadget, #SCI_SETCARETLINEBACK, $FFFFFF, 0)
+      EndIf
     EndIf
     
     SetBackgroundColor(Gadget) ; updates the 'disabled background color'
@@ -3704,8 +3715,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       EndIf
     EndIf
     
-    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + DesktopScaledX(GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate))
-    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + DesktopScaledY(GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize)
+    OffsetX = GadgetX(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate)
+    OffsetY = GadgetY(*ActiveSource\EditorGadget, #PB_Gadget_ScreenCoordinate) + EditorFontSize
+    
+    CompilerIf #CompileWindows
+      ; Doesn't work the same on OSX (#SCI_POINTXFROMPOSITION probably doesn't return unscaled coordinates)
+      OffsetX = DesktopScaledX(OffsetX)
+      OffsetY = DesktopScaledY(OffsetY)
+    CompilerEndIf
+    
+    *X\i = SendEditorMessage(#SCI_POINTXFROMPOSITION, 0, Position) + OffsetX
+    *Y\i = SendEditorMessage(#SCI_POINTYFROMPOSITION, 0, Position) + OffsetY
     
     CompilerIf #CompileWindows
       *Y\i + 8
@@ -3792,12 +3812,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       
       If *ActiveSource\Parser\Encoding = 1 ; UTF8
         StringMode = #PB_UTF8
-        Find\lpstrText = StringToUTF8(FindSearchString$)
-        *ReplaceString = StringToUTF8(FindReplaceString$)
+        Find\lpstrText = UTF8(FindSearchString$)
+        *ReplaceString = UTF8(FindReplaceString$)
       Else
         StringMode = #PB_Ascii
-        Find\lpstrText = StringToAscii(FindSearchString$)
-        *ReplaceString = StringToAscii(FindReplaceString$)
+        Find\lpstrText = Ascii(FindSearchString$)
+        *ReplaceString = Ascii(FindReplaceString$)
       EndIf
       
       If FindSelectionOnly

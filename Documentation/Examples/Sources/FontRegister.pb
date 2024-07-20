@@ -28,7 +28,7 @@ EndProcedure
 
 ; Now let's open a Window with a ListIconGadget
 OpenWindow(0, 0, 0, 920, 670, "Font US-ASCII", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-ListIconGadget(0, 0, 0, 910, 667, "0..31", 110, #PB_ListIcon_GridLines)
+ListIconGadget(0, 0, 0, 920, 670, "0..31", 110, #PB_ListIcon_GridLines)
 
 AddGadgetColumn(0, 1, "32..64", 110)
 AddGadgetColumn(0, 2, "65..96", 110)

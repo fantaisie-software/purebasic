@@ -1006,7 +1006,7 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
 @FixedFont
   - host: Name of host or IP address to connect to.
   - port: Port number to connect to at the server host.
-  - dbname: The database name.
+  - dbname: The database name. The name can be surrounded with single quotes if it contains spaces: dbname='movies and musics'.
 
 @EndFixedFont
   
@@ -1016,7 +1016,7 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
 
   ; You should have a server running on localhost
   ;
-  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "user", "password")
+  If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "user", "password")
     Debug "Connected to MySQL"
   Else
     Debug "Connection failed: "+DatabaseError()
@@ -1078,7 +1078,7 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseSQLiteDatabase([LibraryName$])
+@Function Result = UseSQLiteDatabase([LibraryName$])
 
 @Description
   Initialize the SQLite database environment for future use. 
@@ -1090,10 +1090,10 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
   without waiting for a PB update.
   @LineBreak
    Without this file, the static library will be used as usual and the executable will be larger.
-  @LineBreak
-  It won't rise any error message if the file is not found.
   
-@NoReturnValue
+@ReturnValue
+  When using the optional 'LibraryName$' parameter, it will return @#True if the dynamic library has been correctly loaded or @#False otherwise. If the optional 'LibraryName$' parameter
+  is not specified, it will always returns @#True.
 
 @Remarks
   SQLite is a file based, serverless database

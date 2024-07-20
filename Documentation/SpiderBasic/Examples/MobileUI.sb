@@ -1,0 +1,254 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Mobile UI example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+EnableExplicit
+
+; Will use iOS style on iOS device and web and Material style on Android device. To force the style, use #PB_Mobile_Android or #PB_Mobile_iOS
+;MobileStyle(#PB_Mobile_Android)
+
+Enumeration
+  #Dialog
+  #OpenDialogButton
+  #CloseDialogButton
+  #AddRowButton
+  #InputName
+  #List
+  #PopOver
+  #OpenPopOverButton
+  #ClosePopOverButton
+  #Option1
+  #Option2
+  #Option3
+  #ListInSet
+  #ListInSet2
+  #TrackBar
+  #CheckBox
+  #TrackBarInfo
+  #ToolBar
+  #ToolBarLeftButton
+  #ToolBarRightButton
+  #TabBar
+  #GoToTab3
+EndEnumeration
+
+
+If ContainerMobile(#Dialog, #PB_Mobile_Dialog, "padding:8px")
+  If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+    TextMobile(#PB_Any, "This is a dynamic dialog box", #PB_Mobile_Center)
+    CloseMobileContainer()
+  EndIf
+  
+  If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+    ButtonMobile(#CloseDialogButton, "Close", #PB_Mobile_Center)
+    CloseMobileContainer()
+  EndIf
+  
+  CloseMobileContainer()
+EndIf
+
+; The PopOver dialog
+;
+If ContainerMobile(#PopOver, #PB_Mobile_PopOver)
+  If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+    ButtonMobile(#ClosePopOverButton, "Close", #PB_Mobile_Center)
+    CloseMobileContainer()
+  EndIf
+  
+  CloseMobileContainer()
+EndIf
+
+; Create an image
+;
+CreateImage(0, 200, 30, 24, RGB(255, 0, 0))
+If StartDrawing(ImageOutput(0))
+  Box(4, 4, 192, 22, RGB(255, 128, 128))
+  StopDrawing()
+EndIf
+
+; Template page 1 for the TabBar
+;
+If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab1")
+  
+  If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+    ButtonMobile(#OpenDialogButton, "Open Dialog", #PB_Mobile_Left)
+    ImageMobile(#PB_Any, ImageID(0), #PB_Mobile_Center)
+    ProgressBarMobile(#PB_Any, #PB_Mobile_Indeterminate | #PB_Mobile_Circular | #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+  
+  If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding:8px")
+    ButtonMobile(#AddRowButton, "Add Row", #PB_Mobile_Left)  
+    InputMobile(#InputName, "", "Enter your name", #PB_Mobile_Search | #PB_Mobile_Center)
+    SwitchMobile(#PB_Any, #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+  
+  ListMobile(#List)
+  AddListMobileItem(#List, "Hello", #PB_Mobile_Container)
+    TextMobile(#PB_Any, "PopOver", #PB_Mobile_Left)
+    ButtonMobile(#OpenPopOverButton, "Open PopOver !", #PB_Mobile_Center)
+    SwitchMobile(#PB_Any, #PB_Mobile_Right)
+  CloseMobileContainer()
+  
+  AddListMobileItem(#List, "", #PB_Mobile_Container)
+    ButtonMobile(#GoToTab3, "Go Tab 3", #PB_Mobile_Left)
+    InputMobile(#PB_Any, "Label", "Enter name", #PB_Mobile_Center | #PB_Mobile_Numeric)
+    SwitchMobile(#PB_Any, #PB_Mobile_Right)
+  CloseMobileContainer()
+    
+  AddListMobileItem(#List, "", #PB_Mobile_Container)
+    IconMobile(#PB_Any, "md-volume-down", #PB_Mobile_Left)  
+    TrackBarMobile(#TrackBar, 0, 200, 10, #PB_Mobile_Center)  
+    IconMobile(#PB_Any, "md-volume-up", #PB_Mobile_Right)  
+  CloseMobileContainer()
+  
+  ; Add an expandable item to the list
+  ;
+  If AddListMobileItem(#List, "Expand me !", #PB_Mobile_Expandable)
+    If ContainerMobile(#PB_Any, #PB_Mobile_Row, "padding: 8px;", "")
+      TextMobile(#TrackBarInfo, "", #PB_Mobile_Left)
+      ImageMobile(#PB_Any, ImageID(0), #PB_Mobile_Center)
+      SwitchMobile(#PB_Any, #PB_Mobile_Right)
+      CloseMobileContainer()
+    EndIf
+    CloseMobileContainer()
+  EndIf
+
+  AddListMobileItem(#List, "", #PB_Mobile_Tappable | #PB_Mobile_Container)
+    CheckBoxMobile(#CheckBox, "Click me !", #PB_Mobile_Left)
+  CloseMobileContainer()
+    
+  AddListMobileItem(#List, "Options", #PB_Mobile_Header)
+  If AddListMobileItem(#List, "", #PB_Mobile_Tappable | #PB_Mobile_Container)
+    OptionMobile(#Option1, "Red", "Colors", #PB_Mobile_Left)
+    CloseMobileContainer()
+  EndIf
+  If AddListMobileItem(#List, "", #PB_Mobile_Tappable | #PB_Mobile_Container)
+    OptionMobile(#Option2, "Green", "Colors", #PB_Mobile_Left)
+    CloseMobileContainer()
+  EndIf
+  If AddListMobileItem(#List, "", #PB_Mobile_Tappable | #PB_Mobile_Container)
+    OptionMobile(#Option3, "Blue", "Colors", #PB_Mobile_Left)
+    CloseMobileContainer()
+  EndIf
+  
+  AddListMobileItem(#List, "Tappable item", #PB_Mobile_Tappable)
+  AddListMobileItem(#List, "Chevron item", #PB_Mobile_Chevron | #PB_Mobile_Tappable)
+
+  
+  AddListMobileItem(#List, "No Divider", #PB_Mobile_Header)
+  AddListMobileItem(#List, "Item 1", #PB_Mobile_NoDivider)
+  AddListMobileItem(#List, "Item 2", #PB_Mobile_NoDivider)
+  
+  AddListMobileItem(#List, "Long Divider", #PB_Mobile_Header)
+  AddListMobileItem(#List, "Item 3", #PB_Mobile_LongDivider)
+  AddListMobileItem(#List, "Item 4", #PB_Mobile_LongDivider)
+  AddListMobileItem(#List, "Item 5", #PB_Mobile_LongDivider)
+  
+  HtmlMobile("<br/>")
+  ListMobile(#ListInSet, #PB_Mobile_InSet)
+  AddListMobileItem(#ListInSet, "InSet", #PB_Mobile_Header)
+  AddListMobileItem(#ListInSet, "Item", #PB_Mobile_NoDivider)
+  AddListMobileItem(#ListInSet, "Item 2", #PB_Mobile_NoDivider)
+  HtmlMobile("<br/>")
+  
+  CloseMobileContainer()
+EndIf
+
+; Template page 2 for the TabBar
+;
+If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab2")
+  TextMobile(#PB_Any, "Page 2", #PB_Mobile_Center)
+  SwitchMobile(#PB_Any, #PB_Mobile_Right)
+  
+  CloseMobileContainer()
+EndIf
+
+; Template page 3 for the TabBar
+;
+If ContainerMobile(#PB_Any, #PB_Mobile_Template, "", "tab3")
+  TextMobile(#PB_Any, "Page 3", #PB_Mobile_Center)
+  InputMobile(#PB_Any, "place !", "Initial text", #PB_Mobile_Search)
+  
+  CloseMobileContainer()
+EndIf
+
+; Template page 4 for the TabBar
+;
+If ContainerMobile(#PB_Any, #PB_Mobile_Template, "padding-top:8px", "tab4")
+  ListMobile(#ListInSet2, #PB_Mobile_InSet)
+  AddListMobileItem(#ListInSet2, "InSet", #PB_Mobile_Header)
+  AddListMobileItem(#ListInSet2, "Item 1", #PB_Mobile_NoDivider)
+  AddListMobileItem(#ListInSet2, "Item 2", #PB_Mobile_NoDivider)
+ 
+  CloseMobileContainer()
+EndIf
+  
+; This is the main page where all the components are added
+;
+If ContainerMobile(#PB_Any, #PB_Mobile_Page, "", "")
+  
+  ; A top toolbar
+  ;
+  ToolBarMobile(#ToolBar)
+    ButtonMobile(#ToolBarRightButton, "Right", #PB_Mobile_Right)
+    TextMobile(#PB_Any, "SpiderBasic App", #PB_Mobile_Center)
+    ButtonMobile(#ToolBarLeftButton, "Left", #PB_Mobile_Left)
+  CloseMobileContainer()
+  
+  TabBarMobile(#TabBar)
+    AddTabBarMobileItem(#TabBar, "", "md-face", "md-face", "tab1")
+    AddTabBarMobileItem(#TabBar, "Info", "", "", "tab2")
+    AddTabBarMobileItem(#TabBar, "Params", "md-settings", "md-settings", "tab3", 10)
+    AddTabBarMobileItem(#TabBar, "List", "md-settings", "md-settings", "tab4")
+  CloseMobileContainer()
+
+  CloseMobileContainer()
+EndIf
+
+
+Procedure MobileEvents()
+  Debug "#Mobile: "+EventMobile() + " - EventType: " + EventType() + " - EventData: " + EventData()
+  
+  Select EventMobile()
+    Case #OpenDialogButton
+      ShowMobile(#Dialog, #True)
+  
+    Case #CloseDialogButton
+      ShowMobile(#Dialog, #False)
+      
+    Case #OpenPopOverButton
+      ShowMobile(#PopOver, #True, #OpenPopOverButton)
+      
+    Case #ClosePopOverButton
+      ShowMobile(#PopOver, #False)
+  
+    Case #AddRowButton
+      AddListMobileItem(#List, "New row (random: "+Random(20000)+")", #PB_Mobile_LongDivider)
+      
+    Case #TrackBar
+      SetMobileText(#TrackBarInfo, Str(GetMobileState(#TrackBar)))
+      
+    Case #TabBar
+      Debug "Tab changed: "+GetMobileState(#TabBar)
+      
+    Case #GoToTab3
+      SetMobileState(#TabBar, 3)
+      
+    Case #ToolBarLeftButton
+      Debug "NbBadges on tab2: " + GetMobileAttribute(#TabBar, "badge", 2)
+      SetMobileAttribute(#TabBar, "badge", Str(Random(9)), 2)
+      
+  EndSelect
+  
+EndProcedure
+
+
+BindEvent(#PB_Event_Mobile, @MobileEvents())

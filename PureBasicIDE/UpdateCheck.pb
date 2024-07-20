@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; The URL that contains the update check file
 ;
@@ -316,7 +316,7 @@ Procedure UpdateCheckTimer()
       
       ; fix required for the centereing of non-resizable windows in the dialog manager
       ; (works only if window is visible)
-      CompilerIf #CompileLinuxGtk2
+      CompilerIf #CompileLinuxGtk
         If UpdateWindowPosition\x = -1 And UpdateWindowPosition\y = -1
           While WindowEvent(): Wend
           gtk_window_set_position_(WindowID(#WINDOW_Updates), #GTK_WIN_POS_CENTER)
@@ -357,10 +357,6 @@ Procedure UpdateCheck_Download(Dummy)
 EndProcedure
 
 Procedure UpdateCheck_Start()
-  
-  If Not InitNetwork()
-    ProcedureReturn
-  EndIf
   
   ; close any existing window
   If IsWindow(#WINDOW_Updates)

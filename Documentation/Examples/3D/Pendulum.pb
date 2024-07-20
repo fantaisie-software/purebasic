@@ -8,8 +8,6 @@
 ; ------------------------------------------------------------
 ; Thanks to kelebrindae for this nice code.
 
-#PB_Material_AmbientColor  = 2
-
 IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #CameraSpeed = 0.4
@@ -19,7 +17,6 @@ If InitEngine3D()
   InitSprite()
   InitKeyboard()
   InitMouse()
-
   
   If Screen3DRequester()
      
@@ -150,7 +147,6 @@ If InitEngine3D()
       Next i
       
       RenderWorld()
-      Screen3DStats()
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

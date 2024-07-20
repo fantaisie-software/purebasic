@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 ; Note: The Explorer stores it's values in global variables instead of in the
 ; ToolsPanelEntry structure, because other editor parts (like FileViewer) access them
@@ -173,15 +173,12 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
       RemoveGadgetColumn(#GADGET_Explorer, 1)
     CompilerEndIf
     
-    CompilerIf #CompileWindows
-      SendMessage_(GadgetID(#GADGET_Explorer), #LVM_SETCOLUMNWIDTH, 0, 150)
-    CompilerEndIf
-    
+    SetGadgetItemAttribute(#GADGET_Explorer, 0, #PB_Explorer_ColumnWidth, 150, 0)
   Else
     ExplorerTreeGadget(#GADGET_Explorer, 0, 0, 0, 0, ExplorerPath$+StringField(ExplorerPatternStrings$, ExplorerPattern+1, "|"), #PB_Explorer_AutoSort | ExtraFlags)
   EndIf
   
-  ListIconGadget(#GADGET_Explorer_Favorites, 0, 0, 0, 0, Language("ToolsPanel","Favorites"), 150)
+  ListIconGadget(#GADGET_Explorer_Favorites, 0, 0, 150, 0, Language("ToolsPanel","Favorites"), 150)
   SplitterGadget(#GADGET_Explorer_Splitter, 0, 0, 0, 0, #GADGET_Explorer, #GADGET_Explorer_Favorites, #PB_Splitter_SecondFixed)
   
   ButtonImageGadget(#GADGET_Explorer_AddFavorite, 0, 0, 0, 0, ImageID(#IMAGE_Explorer_AddFavorite))
@@ -242,12 +239,10 @@ Procedure Explorer_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
     ResizeGadget(#GADGET_Explorer_RemoveFavorite, PanelWidth-Width, PanelHeight-Height-2, Width, Height)
   EndIf
   
-  CompilerIf #CompileWindows
-    If ExplorerMode = 0
-      SendMessage_(GadgetID(#GADGET_Explorer), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-    EndIf
-    SendMessage_(GadgetID(#GADGET_Explorer_Favorites), #LVM_SETCOLUMNWIDTH, 0, #LVSCW_AUTOSIZE_USEHEADER)
-  CompilerEndIf
+  If ExplorerMode = 0
+    SetGadgetItemAttribute(#GADGET_Explorer, 0, #PB_Explorer_ColumnWidth, GadgetWidth(#GADGET_Explorer)-8, 0)
+  EndIf
+  SetGadgetItemAttribute(#GADGET_Explorer_Favorites, 0, #PB_ListIcon_ColumnWidth, GadgetWidth(#GADGET_Explorer_Favorites)-8, 0)
   
   If GadgetHeight(#GADGET_Explorer_Splitter) > 0
     If ExplorerSplitterApplied = #False

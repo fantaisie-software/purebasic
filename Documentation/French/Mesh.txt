@@ -8,19 +8,15 @@
 
 @Overview
 
-  Les Meshs (maillages en 3D) sont des objets 3D 
-  composés de triangles reliés entre eux pour 
-  donner une forme finale, toujours en 3D. Un 
-  Mesh peut posséder un squelette s'il est 
-  animé, permettant des animations réalistes 
-  et de qualité. Un Mesh ne peut pas être 
-  affiché directement dans le monde 3D, il 
-  doit être encapsulé dans une 
-  @LibraryLink "Entity" "entity". 
+  Les Meshs (maillages en 3D) sont des objets 3D composés de triangles reliés entre eux pour 
+  donner une forme finale, toujours en 3D. Un mesh peut avoir un "squelette" 
+  @LibraryLink "Skeleton" facultatif, avec des os pour permettre une animation en temps réel. 
+  Le squelette peut être soit directement trouvé dans le fichier mesh, soit créé dynamiquement.
+  Un mesh ne peut pas être déplacé ou affiché directement, mais nécessite d'être manipulé via une 
+  "entité" @LibraryLink "Entity".
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
-  avant de pouvoir utiliser les commandes 
+  @@InitEngine3D doit être appelé avec succès avant de pouvoir utiliser les commandes 
   relatives aux Meshs.
 
 @CommandList
@@ -94,10 +90,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateDataMesh(#Mesh, Array.PB_MeshVertex())
+@Function Resultat = CreateDataMesh(#Mesh, Array.MeshVertex() [, Mode])
 
 @Description
-  Crée un nouveau #Mesh à partir d'un tableau à 2 dimensions du type PB_MeshVertex.
+  Crée un nouveau #Mesh à partir d'un tableau à 2 dimensions du type MeshVertex.
   
 @Parameter "#Mesh"
   Le numéro d'identification du nouveau mesh. 
@@ -107,11 +103,11 @@
   peut être utilisé pour générer automatiquement 
   ce numéro.
   
-@Parameter "Array.PB_MeshVertex()"
-  Le tableau à 2 dimensions de type PB_MeshVertex.@LineBreak
-  La structure PB_MeshVertex est définie comme suit:
+@Parameter "Array.MeshVertex()"
+  Le tableau à 2 dimensions de type MeshVertex.@LineBreak
+  La structure MeshVertex est définie comme suit:
 @Code
-  Structure PB_MeshVertex
+  Structure MeshVertex
     x.f
     y.f
     z.f
@@ -126,6 +122,16 @@
     Couleur.l
   EndStructure   
 @EndCode
+
+@OptionalParameter "Mode"
+  La façon de lier les sommets. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Mesh_DiagonalRegular1      : Les diagonales sont alignées de le même sens
+  @#PB_Mesh_DiagonalRegular2      : Les diagonales sont alignées dans l'autre sens
+  @#PB_Mesh_DiagonalAlternate     : Les diagonales sont une fois dans un sens et une fois dans l'autre sens (alterné)
+  @#PB_Mesh_DiagonalShortestLength: Les diagonales sont liées entre les deux sommets les plus proches
+  @#PB_Mesh_DiagonalClosestNormal : Les diagonales sont liées entre les deux normales les plus proches (produit scalaire). Meilleur mode mais nécessite des normales.
+@EndFixedFont
 
 @Remarks
   Si #Mesh a déjà été créé, il est libéré et remplacé par le nouveau.
@@ -330,7 +336,7 @@
 @Parameter "TableauData()"
   Le tableau pour recevoir les données. 
   Il doit être un tableau de type 
-  "PB_MeshVertex" ou "PB_MeshFace" en 
+  "MeshVertex" ou "MeshFace" en 
   fonction des paramètres 'Options'.
 
 @Parameter "Options"
@@ -338,8 +344,8 @@
   récupérées. Peut être l'une des valeurs suivantes: 
 
 @FixedFont
-  @#PB_Mesh_Vertex: TableauData() est un tableau de type "PB_MeshVertex".
-  @#PB_Mesh_Face  : TableauData() est un tableau de type "PB_MeshFace".
+  @#PB_Mesh_Vertex: TableauData() est un tableau de type "MeshVertex".
+  @#PB_Mesh_Face  : TableauData() est un tableau de type "MeshFace".
 @EndFixedFont
   En combinaison avec:
 @FixedFont
@@ -349,10 +355,10 @@
   @#PB_Mesh_Tangent      : Obtenir les informations de tangente (seulement pour l'option @#PB_Mesh_Vertex)
 @EndFixedFont
 
-  Les structures "PB_MeshVertex" et 
-  "PB_MeshFace" sont définis comme suit:
+  Les structures "MeshVertex" et 
+  "MeshFace" sont définis comme suit:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -367,7 +373,7 @@
     Color.l   ; qu'avec l'option @#PB_Mesh_Color
   @Keyword EndStructure    
   
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure   
 @EndFixedFont
@@ -408,7 +414,7 @@
 @Parameter "TableauData()"
   Le tableau qui contient les données. @LineBreak 
   Ce doit être un tableau de type 
-  "PB_MeshVertex" ou "PB_MeshFace" en 
+  "MeshVertex" ou "MeshFace" en 
   fonction des paramètres 'Options'.
 
 @Parameter "Options"
@@ -417,8 +423,8 @@
   suivantes: 
 
 @FixedFont
-  @#PB_Mesh_Vertex: TableauData() est un tableau de type "PB_MeshVertex".
-  @#PB_Mesh_Face  : TableauData() est un tableau de type "PB_MeshFace".
+  @#PB_Mesh_Vertex: TableauData() est un tableau de type "MeshVertex".
+  @#PB_Mesh_Face  : TableauData() est un tableau de type "MeshFace".
 @EndFixedFont
   En combinaison avec:
 @FixedFont
@@ -427,10 +433,10 @@
   @#PB_Mesh_Color        : Les informations de couleurs (seulement pour l'option @#PB_Mesh_Vertex)
 @EndFixedFont
 
-  Les structures "PB_MeshVertex" et 
-  "PB_MeshFace" sont définis comme suit:
+  Les structures "MeshVertex" et 
+  "MeshFace" sont définis comme suit:
 @FixedFont
-  @Keyword Structure PB_MeshVertex
+  @Keyword Structure MeshVertex
     x.f
     y.f
     z.f
@@ -445,7 +451,7 @@
     Color.l   ; qu'avec l'option @#PB_Mesh_Color
   @Keyword EndStructure    
   
-  @Keyword Structure PB_MeshFace
+  @Keyword Structure MeshFace
     Index.l
   @Keyword EndStructure   
 @EndFixedFont
@@ -1606,10 +1612,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshVertexTextureCoordinate(U.f, V.f)
+@Function MeshVertexTextureCoordinate(U.f, [V.f [, W.f]])
 
 @Description
-  Définit l'information UV pour le sommet en cours, précédemment ajouté avec 
+  Définit l'information UVW pour le sommet en cours, précédemment ajouté avec 
   @@MeshVertexPosition ou @@MeshVertex. 
 
 @Parameter "U.f"
@@ -1617,22 +1623,27 @@
   Cette valeur est la position X dans la 
   texture où le sommet devrait être. 
   Cette valeur est généralement comprise 
-  entre 0 et 1, où 0 est l'origine et 1 
-  est la fin.
+  entre 0 et 1, où 0 est l'origine en X et 1 
+  est la fin en X de la texture.
 
-@Parameter "V.f"
+@OptionalParameter "V.f"
   La valeur V. @LineBreak
   Cette valeur est la position Y dans la 
   texture où le sommet devrait être. 
   Cette valeur est généralement comprise 
-  entre 0 et 1, où 0 est l'origine et 1 
-  est la fin.
+  entre 0 et 1, où 0 est l'origine en Y et 1 
+  est la fin en Y  de la texture.
 
+@OptionalParameter "W.f"
+  La valeur W (pour les textures cubiques). @LineBreak
+  Cette valeur est la position Z dans la texture où le sommet devrait être mappé. 
+  Cette valeur est généralement comprise entre 0 et 1, où 0 est l'origine en Z de la texture 
+  et 1 est la fin en Z de la texture.
+  
 @NoReturnValue
 
 @Remarks
-  Les coordonnées UV sont utilisées 
-  pour appliquer la texture sur le mesh.
+  Les coordonnées UVW sont utilisées pour appliquer la texture sur le mesh.
 
 
 @SeeAlso
@@ -1644,7 +1655,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MeshFace(Sommet1, Sommet2, Sommet3)
+@Function MeshFace(Sommet1, Sommet2, Sommet3 [, Sommet4]))
 
 @Description
   Ajoute ou met à jour une nouvelle face 
@@ -1663,14 +1674,16 @@
   Le troisième indice de sommet utilisé 
   pour créer la face.
 
+@OptionalParameter "Sommet4"
+  Le quatrième indice de sommet utilisé pour créer la face, ce qui se traduira par un carré (quad).
+
 @NoReturnValue
 
 @Remarks
   Les sommets spécifiés doivent exister. @LineBreak
   Le premier indice de sommet débute à 0.@LineBreak 
-  La face créée est un triangle. @LineBreak
-  @@MeshIndex peut être utilisé si le 
-  nombre de sommets n'est pas trois.
+  La face créée est un triangle ou un carré. @LineBreak
+  @@MeshIndex peut être utilisé si le nombre de sommets est supérieur à quatre.
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertex

@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 CompilerIf #PRINT_DEBUGGER_COMMANDS
@@ -464,7 +464,7 @@ Procedure SendDebuggerCommandWithData(*Debugger.DebuggerData, *Command.CommandIn
   If *Debugger\Communication And *Debugger\ProgramState <> -1 ; can only send to loaded executables!
     *Debugger\Communication\Send(*Command, *CommandData)
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3
       ; Send an X event to the child (actually to all x windows), which should make its WaitWindowEvent() return.
       Event.GdkEventClient
       Event\type         = #GDK_CLIENT_EVENT
@@ -1013,88 +1013,6 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
   ;
   CompilerIf #LOG_DEBUGGER_COMMANDS
     LogProgramCreation(Executable$, CommandLine$, Directory$)
-  CompilerEndIf
-  
-  
-  ; all done, process & debugger successfully created
-  ; return the debugger structure
-  ProcedureReturn @RunningDebuggers()
-EndProcedure
-
-Procedure Debugger_NetworkConnect(Mode, Host$, Port, Password$)
-  
-  ;
-  ; Errors are displayed to the user inside Communication\Connect()
-  ; and CreateNetworkClientCommunication() because there we only know
-  ; what the errors are
-  ;
-  
-  Debug "Debugger_NetworkConnect():"
-  Debug Mode
-  Debug Host$
-  Debug Port
-  Debug Password$
-  
-  ; add a new debugger structure
-  ;
-  LastElement(RunningDebuggers())
-  If AddElement(RunningDebuggers()) = 0
-    Debug " -- Debugger_ConnectProgram() failed: AddElement()"
-    ProcedureReturn 0
-  EndIf
-  
-  ; generate a unique ID to represent this structure
-  ;
-  RunningDebuggers()\ID = GetUniqueID()
-  
-  RunningDebuggers()\Communication = CreateNetworkCommunication(Mode, Host$, Port, Password$)
-  If RunningDebuggers()\Communication = 0
-    DeleteElement(RunningDebuggers())
-    Debug " -- Debugger_ConnectProgram() failed: CreateNetworkClientCommunication()"
-    ProcedureReturn 0
-  EndIf
-  
-  RunningDebuggers()\IsNetwork = #True
-  
-  ; This must be done before the \Connect() call as it will process window events!
-  ;
-  RunningDebuggers()\ProgramState = -1 ; indicate that exe is not loaded yet. (or has not called PB_DEBUGGER_Start())
-  RunningDebuggers()\LastProgramState = -1
-  
-  ; the watchlist window is always open, but invisible, same for the debug one
-  ;
-  CreateWatchlistWindow(@RunningDebuggers())
-  CreateDebugWindow(@RunningDebuggers())
-  CreateDataBreakpointWindow(@RunningDebuggers())
-  
-  ; Default purifier options if not set otherwise later
-  RunningDebuggers()\PurifierGlobal = 1
-  RunningDebuggers()\PurifierLocal  = 1
-  RunningDebuggers()\PurifierString = 64
-  RunningDebuggers()\PurifierDynamic = 1
-  
-  ; Try to connect the communication
-  ;
-  If RunningDebuggers()\Communication\Connect() = 0
-    RunningDebuggers()\Communication\Close()  ; cleanup
-    RunningDebuggers()\Communication = 0
-    
-    ; need some more cleanup here, as we already opened windows and allowed events
-    Debugger_ForceDestroy(@RunningDebuggers())
-    
-    Debug " -- Debugger_ConnectProgram() failed: Communication\Connect()"
-    ProcedureReturn 0
-  EndIf
-  
-  ;
-  ; Debugging
-  ;
-  CompilerIf #LOG_DEBUGGER_COMMANDS
-    If Mode = 1
-      LogProgramCreation("Network Client: " + Host$ + ":" + Str(Port), "", "")
-    Else
-      LogProgramCreation("Network Server: Port: " + Str(Port), "", "")
-    EndIf
   CompilerEndIf
   
   

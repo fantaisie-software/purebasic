@@ -1,5 +1,172 @@
 @Title PureBasic Geschichte
 
+@Section 5 June 2024 : Version 6.11 LTS
+
+- @Green "Added": 24-bit and 32-bit WAV support @LineBreak
+- @Green "Added": runtime debugger support for whole Packer library @LineBreak
+@LineBreak
+- @Green "Updated": replaced polink with lld-link on Windows to generate smaller executables
+@LineBreak
+- @Blue "Fixed": A few libraries bugs @LineBreak
+
+
+@Section 27. März 2024 : Version 6.10 LTS
+
+- @Green "Hinzugefügt": WebView-Bibliothek zum einfachen Erstellen einer HTML/CSS-basierten Benutzeroberfläche! @LineBreak
+- @Green "Hinzugefügt": Vollständige Überarbeitung der Date-Bibliothek, um Jahre von 1601 bis 9999 zu verarbeiten! @LineBreak
+- @Green "Hinzugefügt": Skeleton-Bibliothek zum Erstellen eines benutzerdefinierten Skeletons (Skeletts) zu einem Mesh! @LineBreak
+- @Green "Hinzugefügt": SvgVectorOutput() und PdfVectorOutput() für alle OS @LineBreak
+- @Green "Hinzugefügt": DPI-Aware-Unterstützung für OS X @LineBreak
+- @Green "Hinzugefügt": ExamineDraggedItems(), NextDraggedItem() und DraggedItemIndex() für Drag'n'drop @LineBreak
+- @Green "Hinzugefügt": GetGadgetItemText() Unterstützung für das ExplorerTreeGadget() @LineBreak
+- @Green "Hinzugefügt": CompareStructure(), CompareArray(), CompareList() und CompareMap() Funktionen @LineBreak
+- @Green "Hinzugefügt": CustomSortList() und CustomSortArray() Funktionen für die Sort-Bibliothek @LineBreak
+- @Green "Hinzugefügt": CatchPack(), PackEntryDate() @LineBreak
+- @Green "Hinzugefügt": CreatePasswordHash() und VerifyPasswordHash() Funktionen (BCrypt-Algorithmus) @LineBreak
+- @Green "Hinzugefügt": DeriveCipherKey() zum Erstellen eines Chiffrierschlüssels aus einem Passwort (PBKDF2-Algorithmus) @LineBreak
+- @Green "Hinzugefügt": DateUTC() um das Datum in UTC-Zeit zu erhalten @LineBreak
+- @Green "Hinzugefügt": ConvertDate(Datum, #PB_Date_LocalTime/#PB_Date_UTC) zum Konvertieren des Datums zwischen UTC und Ortszeit @LineBreak
+- @Green "Hinzugefügt": ScaleEntityBone(), MeshDirectAdd() und Unterstützung für den #PB_Mesh_Direct Modus bei CreateMesh() @LineBreak
+- @Green "Hinzugefügt": AddPackDirectory(#Packer, Verzeichnisname$) für leere Verzeichnisse @LineBreak
+- @Green "Hinzugefügt": UseDialogWebGadget(), UseDialogOpenGLGadget(), UseDialogScintillaGadget(), um standardmäßig große Bibliotheks-Abhängigkeiten bei der Verwendung von Dialogen zu vermeiden. @LineBreak
+- @Green "Hinzugefügt": AnzMaxKanäle Parameter für InitSound(). Bereich von 1 bis 254. @LineBreak
+- @Green "Hinzugefügt": Optionaler 'Kodierung' Parameter bei OpenPreference(), um UTF-8-Dateien ohne BOM korrekt zu verarbeiten @LineBreak
+- @Green "Hinzugefügt": Unterstützung des übergeordneten Fensters (ParentWindow) für alle Requester @LineBreak
+- @Green "Hinzugefügt": WebGadget basierend auf der Edge-Komponente mit der #PB_Web_Edge Konstante (nur Windows) @LineBreak
+- @Green "Hinzugefügt": Localhost-Bindung für InitFastCGI() @LineBreak
+- @Green "Hinzugefügt": SystrayIconMenu() um beim Klick auf das Icon automatisch ein Menü anzuzeigen @LineBreak
+- @Green "Hinzugefügt": Unterstützung für die Spaltenausrichtung beim ListIconGaget() @LineBreak
+- @Green "Hinzugefügt": Laufzeitwarnung, wenn CreateThread() ohne den ThreadSafe-Modus verwendet wird @LineBreak
+- @Green "Hinzugefügt": GadgetItemID() Unterstützung für PanelGadget() (nur Windows) @LineBreak
+- @Green "Hinzugefügt": #PB_Preference_NoBOM Flag für CreatePreference() zum Erstellen von UTF-8-Einstellungsdateien ohne BOM @LineBreak
+- @Green "Hinzugefügt": #PB_Cipher_HMAC Flag bei den Fingerprint (Fingerabdruck)-Funktionen @LineBreak
+
+- @Green "Hinzugefügt": #PB_2DDrawing_NativeText Unterstützung für DrawingMode() @LineBreak
+- @Green "Hinzugefügt": #PB_PixelFormat_NoAlpha für DrawingBufferFormat() @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_ColumnClick für ListIconGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_String_EscapeJSON Unterstützung für EscapeString() und UnescapeString(). @LineBreak
+- @Green "Hinzugefügt": #PB_Menu_SysTrayLook Unterstützung für ein besser aussehendes Popup-Menü bei dessen Verwendung mit dem SysTray (nur Windows) @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Refresh Unterstützung für ExplorerListGadget() (nur Window) @LineBreak
+- @Green "Hinzugefügt": Subsystem-Unterstützung ohne Berücksichtigung der Groß-/Kleinschreibung unter Linux @LineBreak
+- @Green "Hinzugefügt": --listfunctions/constants/interfaces und --querystructure Unterstützung für den Windows-Compiler. @LineBreak
+ @LineBreak
+
+- @Green "Aktualisiert": Unicode-Dateinamen-Unterstützung für den Windows-Compiler @LineBreak
+- @Green "Aktualisiert": Libvlc anstelle der alten xine Bibliothek unter Linux zum Abspielen von Filmen @LineBreak
+- @Green "Aktualisiert": Die Sound- und Music-Bibliotheken wurden überarbeitet, um MiniAudio unter Windows, OS X und Linux zu verwenden (SDL-Abhängigkeit ist für Sounds unter Linux nicht mehr gegeben). @LineBreak
+- @Green "Aktualisiert": SQLite Version auf 3.45.0 @LineBreak
+- @Green "Aktualisiert": Toolchain unter Windows verwendet jetzt VisualStudio 2022 und das neue MSVCRT für schnellere PureBasic-Programme und einfachere Integration externer Bibliotheken. @LineBreak
+- @Green "Aktualisiert": Mindestversion für Linux x86 ist jetzt Debian 12 @LineBreak
+- @Green "Aktualisiert": Mindestversion für Raspberry ist jetzt ein Debian 12-basiertes PI OS @LineBreak
+ @LineBreak
+- @Orange "Geändert": TextWidth(), TextHeight(), DrawText() und DrawRotatedText() verwenden jetzt Doubles für die X- und Y-Koordinaten. @LineBreak
+- @Orange "Geändert": Scintilla ist jetzt unter Windows statisch verknüpft (das Mitliefern der scintilla.dll mit dem Executable ist nicht mehr erforderlich) @LineBreak
+- @Orange "Geändert": Die SysTray-Bibliothek unter Linux verwendet jetzt AppIndicator, um moderne Linux-Distributionen unter GTK3 zu unterstützen @LineBreak
+- @Orange "Geändert": Die DESFingerprint() Funktion ist veraltet - verwenden Sie stattdessen das neue CreatePasswordHash(). @LineBreak
+- @Orange "Geändert": ListSize() und MapSize() geben jetzt ordnungsgemäß -1 zurück, wenn die Liste oder Map freigegeben wurde. @LineBreak
+ @LineBreak
+- @Red "Entfernt": --listpath unter Linux/OSX (verwenden Sie --output, um die Ausgabedatei anzugeben) @LineBreak
+- @Red "Entfernt": Windows XP-Unterstützung. Die älteste unterstützte Windows-Version für erstellte Executables ist jetzt Windows Vista. @LineBreak
+- @Red "Entfernt": Einige sehr alte veraltete Funktionen. @LineBreak
+ @LineBreak
+- @Blue "Repariert": viele Bugs in den Bibliotheken @LineBreak
+
+
+@Section 13. Dezember 2023 : Version 6.04 LTS
+
+- @Green "Hinzugefügt": /DLLPROTECTION Flag in der Kommandozeile und eine Auswahl in den 'Compiler-Optionen' zum Aktivieren des 'DLL-Preloading'-Schutzes (Windows) @LineBreak
+@LineBreak
+- @Blue "Repariert": Einige IDE-Probleme und Fehler in den Bibliotheken, hauptsächlich auf OS X @LineBreak
+
+
+@Section 11. Oktober 2023 : Version 6.03 LTS
+
+- @Green "Hinzugefügt": #PB_String_NoCaseAscii Unterstützung für CompareMemoryString(), um einen viel schnelleren String-Vergleich zu haben, wenn nur ASCII-Zeichen involviert sind @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_DPIAware Compiler-Konstante. @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Scintilla auf 5.3.5 für alle Plattformen @LineBreak
+@LineBreak
+- @Green "Optimiert": Kleinere und besser lesbare C generierte Datei. @LineBreak
+@LineBreak
+- @Orange "Geändert": IDE auf Linux verwendet jetzt standardmäßig GTK3 (die GTK2 IDE lautet purebasic_gtk2) @LineBreak
+@LineBreak
+- @Blue "Repariert": Eine Menge Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 17. Mai 2023 : Version 6.02 LTS
+
+- @Green "Hinzugefügt": HttpTimeout() zum Festlegen eines Verbindungs- und eines globalen Timeouts für HTTP-Befehle. @LineBreak
+- @Green "Hinzugefügt": GTK3 IDE Build auf Linux zum Testen (purebasic_gtk3). @LineBreak
+- @Green "Hinzugefügt": ReAssembly (--reasm) Unterstützung für OS X und Linux. @LineBreak
+@LineBreak
+- @Green "Aktualisiert": libarchive auf 3.6.2
+- @Green "Aktualisiert": lib7z auf 22.01
+@LineBreak
+- @Red "Entfernt": EnableASM Unterstützung für das C-Backend, da es nicht korrekt verwendet werden kann (die IDE wandelt die Buchstaben für If in Großbuchstaben um, etc.) und die Erkennung eines echten x86/x64-ASM-Blocks verhindert, was zu seltsamen Fehlern führt.
+Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen, um direkt C-Code zu verwenden.
+
+
+@Section 7. März 2023 : Version 6.01 LTS
+
+- @Green "Hinzugefügt": #PB_Mail_UseSMTPS und #PB_Mail_Debug für CreateMail() @LineBreak
+@LineBreak
+- @Green "Aktualisiert": GCC auf Windows für das C-Backend auf die 12.2.0 Version @LineBreak
+@LineBreak
+- @Blue "Repariert": viele Bugs im Compiler und den Bibliotheken @LineBreak
+
+
+@Section 22. Juni 2022 : Version 6.00 LTS
+
+- @Green "Hinzugefügt": Apple M1 Support ! @LineBreak
+- @Green "Hinzugefügt": Raspberry Support (32-Bit und 64-Bit) ! @LineBreak
+- @Green "Hinzugefügt": ein neuer C-Backend-Compiler für alle PureBasic-Versionen @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Backend, #PB_Backend_C und #PB_Backend_Asm Compiler-Konstanten @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_64Bit und #PB_Compiler_32Bit Compiler-Konstanten @LineBreak
+- @Green "Hinzugefügt": #PB_Compiler_Optimizer Konstante - welche auf #True gesetzt ist, wenn der Optimizer eingeschaltet ist @LineBreak
+- @Green "Hinzugefügt": Support für Windows 11, OS X 11 und 12 bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": /OPTIMIZER, -z, --optimizer Flag bei Nutzung der Kommandozeile, und eine 'Code-Optimizer verwenden' Checkbox in den IDE 'Compiler-Optionen', um die C Optimierungen einzuschalten @LineBreak
+- @Green "Hinzugefügt": automatische DPI-Unterstützung für die Menu und ToolBar Bibliotheken (Windows) @LineBreak
+- @Green "Hinzugefügt": WebGadget() Support für GTK3 auf Linux @LineBreak
+- @Green "Hinzugefügt": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
+- @Green "Hinzugefügt": optionaler Parameter bei MeshFace() zum Erstellen eines Vierecks (Quads) @LineBreak
+- @Green "Hinzugefügt": optionaler Gravitationskraftvektor bei WorldGravity() @LineBreak
+- @Green "Hinzugefügt": optionaler PositionsModus bei ApplyEntityForce() @LineBreak
+- @Green "Hinzugefügt": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
+- @Green "Hinzugefügt": neuer Modus bei CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
+- @Green "Hinzugefügt": neue Strukturen: Vector3, Vector4  @LineBreak
+- @Green "Hinzugefügt": vordefinierte Shader: #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
+- @Green "Hinzugefügt": neue Modi bei SetMaterialAttribute(): #PB_Material_PointSprite, #PB_Material_DepthBias @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Farbe' Parameter bei CreateMaterial() @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Glanzfarbe' Parameter bei MaterialShininess() @LineBreak
+- @Green "Hinzugefügt": neue optionale 'v' und 'w' Parameter bei MeshVertexTextureCoordinate() @LineBreak
+- @Green "Hinzugefügt": neuer optionaler 'Lod' Parameter bei CreateCamera() @LineBreak
+- @Green "Hinzugefügt": neue Modi bei AddMaterialLayer(): #PB_Material_ModulateX2, #PB_Material_ModulateX4, #PB_Material_AddSigned, #PB_Material_Substract, #PB_Material_BlendDiffuseAlpha, #PB_Material_BlendCurrentAlpha @LineBreak
+- @Green "Hinzugefügt": Neue kontextbezogene Konstantenanzeige für Auto-Complete in der IDE (Fr34k - https://github.com/fantaisie-software/purebasic/pull/183) @LineBreak
+- @Green "Hinzugefügt": 3 neue Trigger für benutzerdefinierte Werkzeuge in der IDE: "Datei öffnen - nicht-PB Binärdatei", "Datei öffnen - nicht-PB Textdatei", "Datei öffnen - mit spezieller Dateiendung" (HeX0R101 - https://github.com/fantaisie-software/purebasic/pull/195) @LineBreak
+- @Green "Hinzugefügt": Neues 'Ersetzen' Tastenkürzel (STRG+H) in der IDE, welches den Finden-Dialog mit aktiviertem Ersetzen-Modus öffnet (ChrisRfr - https://github.com/fantaisie-software/purebasic/pull/184) @LineBreak
+@LineBreak
+- @Green "Aktualisiert": SetMaterialColor() kann jetzt mittels '|' mehrere Farbtypen auf einmal nutzen @LineBreak
+- @Green "Aktualisiert": fasm, polink, polib und porc auf die neuesten Versionen (Windows) @LineBreak
+- @Green "Aktualisiert": Movie Bibliothek auf OS X zwecks Unterstützung moderner OS X Versionen @LineBreak
+- @Green "Aktualisiert": Mouse Bibliothek auf Windows zwecks Verwendung von RawInput anstelle von DirectX, um HighDPI-Mäuse zu unterstützen @LineBreak
+- @Green "Aktualisiert": SQLite auf 3.38.2 @LineBreak
+- @Green "Aktualisiert": zlib auf 1.12.12 @LineBreak
+- @Green "Aktualisiert": libpq (PostgreSQL) auf 14.2 @LineBreak
+@LineBreak
+- @Orange "Geändert": umbenannte Strukturen PB_MeshFace -> MeshFace und PB_MeshVertex -> MeshVertex @LineBreak
+- @Orange "Geändert": der Name des /EXE Kommandozeilen-Flags in /OUTPUT um kohärenter zu sein (das alte Kürzel funktioniert noch für die Rückwärtskompatibilität, ist aber nicht mehr dokumentiert) @LineBreak
+- @Orange "Geändert": die kurze Version von /CONSTANT von '-o' in '-co' da '-o' jetzt für /OUTPUT genutzt wird @LineBreak
+- @Orange "Geändert": die Art und Weise, wie die Map-Elemente erstellt werden, wenn passiver Syntax verwendet wird, um konsistenter zu sein @LineBreak
+- @Orange "Geändert": Das Standard-Subsystem für Screen/Sprite ist jetzt OpenGL unter Windows für mehr Konsistenz. DirectX9 ist weiterhin als Subsystem verfügbar. @LineBreak
+- @Orange "Geändert": Backface-Culling für das Sprite-OpenGL-Subsystem aktiviert, um schneller zu sein und mit DirectX9/11 übereinzustimmen @LineBreak
+- @Orange "Geändert": InitNetwork() wird nicht mehr benötigt, um Netzwerk-Funktionen zu verwenden (veraltet) @LineBreak
+@LineBreak
+- @Red "Entfernt": x86 Version von PureBasic für OS X, da sie seit OS X Catalina nicht mehr unterstützt wurde (das älteste unterstützte OS X ist jetzt 10.10 - veröffentlicht in 2014). @LineBreak
+- @Red "Entfernt": die 'Help' Bibliothek auf Linux @LineBreak
+- @Red "Entfernt": Nvidia CG Support für OGRE, da es von Nvidia seit einiger Zeit nicht mehr unterstützt wird @LineBreak
+- @Red "Entfernt": ToolBarStandardButton() da er kein High-DPI unterstützt @LineBreak
+
+
 @Section 23. November 2020 : Version 5.73 LTS
 
 - @Green "Hinzugefügt": #PB_HTTP_WeakSSL bei HTTRequest() um ältere Server zu unterstützen @LineBreak
@@ -13,6 +180,7 @@
 - @Blue "Repariert": Auto-Vervollständigung auf Linux (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/94" "link" @LineBreak
 - @Blue "Repariert": IDE-Absturz auf MacOS mit TouchBar (mk-soft) @InternetLink "https://github.com/fantaisie-software/purebasic/pull/110" "link" @LineBreak
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 30. März 2020 : Version 5.72 LTS
 
@@ -176,7 +344,6 @@
 - @Green "Hinzugefügt": ResetStructure() zum Löschen und erneut Initialisierten eines Struktur-Puffers @LineBreak
 - @Green "Hinzugefügt": UTF8() und Ascii() zum einfachen Erstellen von UTF8 und Ascii String-Puffern (müssen mit FreeMemory() freigegeben werden) @LineBreak
 - @Green "Hinzugefügt": FormatNumber() um leicht wie Geld formatierte Zahlen zu erhalten @LineBreak
-- @Green "Hinzugefügt": @#StringConstant$ Syntax-Unterstützung, um die Adresse einer String-Konstante zu erhalten @LineBreak
 - @Green "Hinzugefügt": #PB_MessageRequester_Info, #PB_MessageRequester_Error und #PB_MessageRequester_Warning für MessageRequester() @LineBreak
 @LineBreak
 - @Green "Aktualisiert": SQLite Version 3.13.0 @LineBreak

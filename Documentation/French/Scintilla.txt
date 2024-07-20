@@ -13,7 +13,7 @@
   une licence autorisant son utilisation dans 
   tout projet libre ou commercial. 
   La licence peut être consultée 
-  @MainGuideLink "scintilla" "ici".
+  @MainGuideLink "license_scintilla" "ici".
   Le code source, ainsi que la documentation 
   peuvent être trouvés sur le site de 
   @InternetLink "http://www.scintilla.org/" "Scintilla".
@@ -59,7 +59,10 @@
   l'exploiter à son plein potentiel. 
   Toutes les structures et constantes sont 
   définies de base dans PureBasic.
-  
+@LineBreak
+@LineBreak
+
+
 @CommandList
  
 ; @ExampleFile ; TODO
@@ -71,32 +74,9 @@
 
 @Function Resultat = InitScintilla([NomBibliotheque$])
 
-@Description
-  Charge la dll Scintilla qui est nécessaire 
-  à l'utilisation des commandes Scintilla.
-  
-@OptionalParameter "NomBibliotheque$"
-  Permet d'indiquer le chemin et le nom du 
-  fichier de la dll ('scintilla.dll' par 
-  défaut). @LineBreak
-  La dll scintilla est incluse dans le 
-  répertoire "Compilers" du dossier PureBasic.
+@Deprecated
 
-@ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
-  Sous MacOs et Linux, la valeur de retour 
-  est toujours @#True car la bibliothèque 
-  est liée statiquement.
-  
-@Remarks
-  Cette commande n'est présente que sur 
-  Windows, car sur les autres OS, la 
-  bibliothèque Scintilla est liée statiquement 
-  avec l'exécutable et n'a donc pas besoin 
-  d'être chargée ou distribuée avec le 
-  programme. 
-
+  Cette commande est obsolète et n’est plus nécessaire.
 
 @SupportedOS
 
@@ -105,29 +85,21 @@
 @Function Resultat = ScintillaGadget(#Scintilla, X, Y, Largeur, Hauteur, @Callback())
 
 @Description
-  Crée un nouveau contrôle d'édition 
-  scintilla.
+  Crée un nouveau contrôle d'édition scintilla.
   
 @Parameter "#Scintilla"  
-  Le numéro d'identification du nouveau 
-  gadget scintilla.
+  Le numéro d'identification du nouveau gadget scintilla.
 @LineBreak
 @LineBreak  
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
   
 @Parameter "X, Y, Largeur, Hauteur"  
-  La position et les dimensions du nouveau 
-  gadget.
+  La position et les dimensions du nouveau gadget.
   
 @Parameter "@Callback()" 
-  L'adresse de la procédure qui recevra les 
-  évènements émis par le gadget. @LineBreak  
-  Elle doit être définie de la façon suivante, 
-  avec 'Gadget' qui est le numéro du contrôle 
-  et *scinotify qui pointe vers une structure
-  comportant les informations sur l'évènement:  
+  L'adresse de la procédure qui recevra les évènements émis par le gadget. @LineBreak  
+  Elle doit être définie de la façon suivante, avec 'Gadget' qui est le numéro du contrôle 
+  et *scinotify qui pointe vers une structure comportant les informations sur l'évènement:  
 @Code
 
   ProcedureDLL ScintillaCallBack(Gadget, *scinotify.SCNotification)
@@ -138,34 +110,21 @@
 @EndCode
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
 
 @Remarks
-  Les événements suivants sont pris en 
-  charge par @@EventType:
+  Les événements suivants sont pris en charge par @@EventType:
 @FixedFont
   @#PB_EventType_RightClick
 @EndFixedFont
-@LineBreak
-@LineBreak 
- @@InitScintilla doit être appelé avec 
- succès avant d'utiliser cette commande.
-@LineBreak
-@LineBreak 
-  Les commandes spécifiques de Scintilla 
-  peuvent être envoyées au gadget avec la 
-  commande @@ScintillaSendMessage .@LineBreak  
-  En outre les commandes de gadgets communes 
-  comme @@ResizeGadget ou @@HideGadget 
-  peuvent aussi bien être utilisées par le 
-  contrôle.
+  
+  Les commandes spécifiques de Scintilla peuvent être envoyées au gadget avec la commande @@ScintillaSendMessage .@LineBreak  
+  En outre les commandes de gadgets communes comme @@ResizeGadget ou @@HideGadget peuvent aussi bien être utilisées par le contrôle.
  
 @Example
 @Code
   If OpenWindow(0, 0, 0, 400, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
  
-       If InitScintilla()
           ScintillaGadget(0, 10, 10, 390, 70, 0)
        
           ; Texte en rouge
@@ -181,7 +140,6 @@
           *Texte=UTF8(Texte$)
           ScintillaSendMessage(0, #SCI_APPENDTEXT, Len(Texte$), *Texte)
           FreeMemory(*Texte)
-       EndIf
      
        Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
     EndIf
@@ -196,41 +154,58 @@
 @Function Resultat = ScintillaSendMessage(#Scintilla, Message [, Param [, LParam]])
 
 @Description
-  Envoie un message au gadget scintilla pour 
-  exécuter une tâche spécifique.
+  Envoie un message au gadget scintilla pour exécuter une tâche spécifique.
 
 @Parameter "#Scintilla"
-  Le numéro d'identification du gadget 
-  scintilla.
+  Le numéro d'identification du gadget scintilla.
   
 @Parameter "Message"
   Le message à envoyer.
 @LineBreak
 @LineBreak 
-  C'est un nombre entier sous la forme d'une 
-  constante prédéfinie qui commence par 
-  '#SCI_'.
+  C'est un nombre entier sous la forme d'une constante prédéfinie qui commence par '#SCI_'.
 @LineBreak
 @LineBreak 
-  Vous trouverez plus d'informations sur les
-  messages possibles sur le 
+  Vous trouverez plus d'informations sur les messages possibles sur le 
   @InternetLink "http://www.scintilla.org/" "site Scintilla".
-  Les constantes @#SCI_[...] représentant les 
-  valeurs possibles pour le 'Message' sont 
+  Les constantes @#SCI_[...] représentant les valeurs possibles pour le 'Message' sont 
   déjà définies dans PB. 
 
 @OptionalParameter "Param"
   Le premier paramètre du message.@LineBreak
-  S'il est omis alors la valeur par défaut 
-  est zéro.
+  S'il est omis alors la valeur par défaut est zéro.
 
 @OptionalParameter "LParam"
   Le second paramètre du message.@LineBreak
-  S'il est omis alors la valeur par défaut 
-  est zéro.
+  S'il est omis alors la valeur par défaut est zéro.
 
 @ReturnValue
   Renvoie le résultat du message envoyé.
+
+@Example Texte surligné en rouge
+@Code 
+  #num_indic = 0
+  
+  If OpenWindow(0, 0, 0, 330, 90, "ScintillaGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  
+      ScintillaGadget(0, 5, 5, 320, 80, 0)
+      *Texte = UTF8("Ceci est un simple ScintillaGadget avec du texte..." + #LF$ + "Plus de texte" + #LF$ + "Encore plus !")
+      ScintillaSendMessage(0, #SCI_SETTEXT, 0, *Texte)
+      FreeMemory(*Texte) ; Le tampon créé par UTF8() doit être libéré pour éviter une fuite de mémoire
+      
+      ScintillaSendMessage(0, #SCI_INDICSETSTYLE, #num_indic, #INDIC_STRAIGHTBOX) ; "indicateur" de style : style  n°8 (0-19)
+      ScintillaSendMessage(0, #SCI_INDICSETFORE, #num_indic, #Red)                ; "indicateur" de couleur : rouge
+      ScintillaSendMessage(0, #SCI_SETINDICATORCURRENT, #num_indic, #INDIC_STRAIGHTBOX) ; cet "indicateur" est traité comme indicateur en cours
+      ScintillaSendMessage(0, #SCI_INDICSETUNDER, #num_indic, 1)   ; l'"indicateur" est derrière le texte, c'est-à-dire ne l'obscurcit pas
+      ScintillaSendMessage(0, #SCI_INDICSETALPHA, #num_indic, 127) ; transparence de 127
+      nLigne = 1 ; le numéro de ligne commence à 0
+      debut = ScintillaSendMessage(0, #SCI_POSITIONFROMLINE, nLigne)
+      longueur = ScintillaSendMessage(0, #SCI_GETLINEENDPOSITION, nLigne) - debut
+      ScintillaSendMessage(0, #SCI_INDICATORFILLRANGE, debut, longueur) ; Départ et longueur
+    
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SupportedOS
 

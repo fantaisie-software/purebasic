@@ -1,7 +1,7 @@
 ;
 ;     Sprite library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2023 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -416,6 +416,8 @@ Hardware-Beschleunigung ermöglicht.
 @LineBreak
   Die folgenden Befehle können zum automatischen Aktivieren weiterer Bildformate verwendet werden:
 @LineBreak
+  @@UseGIFImageDecoder
+@LineBreak
   @@UseJPEGImageDecoder
 @LineBreak
   @@UseJPEG2000ImageDecoder
@@ -706,6 +708,9 @@ Hardware-Beschleunigung ermöglicht.
 @Description
   Dreht (rotiert) das angegebene #Sprite zu dem angegebenen 'Winkel'.
   
+@Parameter "#Sprite"
+  Das zu drehende Sprite.
+  
 @Parameter "Winkel.f"
   Der Winkel-Wert, in Grad (von 0 bis 360). Die Drehung wird im Uhrzeigersinn durchgeführt.
 
@@ -783,6 +788,9 @@ Hardware-Beschleunigung ermöglicht.
 @LineBreak
   Wenn einer der optionalen 'z'-Parameter verwendet wird, müssen alle angegeben werden.
 
+@Parameter "#Sprite"
+  Das zu verformende Sprite.
+
 @Parameter "x1, y1"
   Die Koordinaten des ersten Punktes, in Pixel.
   
@@ -821,6 +829,9 @@ Hardware-Beschleunigung ermöglicht.
 
 @Description
   Zoomt (vergrößert/verkleinert) das angegebene #Sprite auf die angegebenen Dimensionen.
+
+@Parameter "#Sprite"
+  Das zu zoomende Sprite.
 
 @Parameter "Breite"
   Neue Sprite-Breite, in Pixel. Wenn @#PB_Default angegeben wird, dann wird die anfängliche Sprite-Breite wiederhergestellt.

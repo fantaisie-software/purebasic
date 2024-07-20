@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; update the enabled / disabled states for
@@ -89,8 +89,10 @@ Procedure Debugger_UpdateWindowPreferences()
       UpdatePurifierWindow(@RunningDebuggers())
     EndIf
     
-    UpdateWatchListWindow(@RunningDebuggers()) ; this is always open
-    UpdateDataBreakpointWindow(@RunningDebuggers()) ; also always open
+    CompilerIf Not #SpiderBasic
+      UpdateWatchListWindow(@RunningDebuggers()) ; this is always open
+      UpdateDataBreakpointWindow(@RunningDebuggers()) ; also always open
+    CompilerEndIf
     
     ; update the stay on top setting
     ;

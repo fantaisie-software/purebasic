@@ -1439,7 +1439,7 @@ Les valeur du type peuvent être:
 @FixedFont
   - host: Nom de l'hôte ou adresse IP à laquelle se connecter.
   - port: Numéro de port auquel se connecter sur le serveur hôte.
-  - dbname: Nom de la base de données.
+  - dbname: Nom de la base de données. Le nom peut être entouré de guillemets simples (quotes) s'il contient des espaces : dbname='films et musiques'.
 @EndFixedFont
   
 @Example
@@ -1448,7 +1448,7 @@ Les valeur du type peuvent être:
 
   ; Vous devez avoir un serveur fonctionnant sur localhost
   ;
-  If OpenDatabase(0, "host=localhost port=3306 dbname=test", "utilisateur", "motdepasse")
+  If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "utilisateur", "motdepasse")
     Debug "Connecté à MySQL"
   Else
     Debug "La connexion a échoué: "+DatabaseError()
@@ -1526,7 +1526,7 @@ Les valeur du type peuvent être:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseSQLiteDatabase([NomBibliotheque$])
+@Function Resultat = UseSQLiteDatabase([NomBibliotheque$])
 
 @Description
   Initialise l'environnement de base de données SQLite pour un usage ultérieur. 
@@ -1534,32 +1534,25 @@ Les valeur du type peuvent être:
 @OptionalParameter "NomBibliotheque$"
   Nom de fichier (et chemin si nécessaire) de la bibliothèque dynamique à utiliser.
 
-@NoReturnValue
+@ReturnValue
+   Lors de l'utilisation du paramètre facultatif 'NomBibliotheque$', la fonction renverra @#True 
+   si la bibliothèque dynamique a été correctement chargée ou @#False dans le cas contraire. 
+   S'il n'est pas spécifié, elle renverra toujours @#True.
 
 @Remarks
-  SQLite est un
-  gestionnaire de base de données sans serveur, 
-  utilisant un fichier comme stockage. Il n'y 
-  a rien à déployer ou à configurer, il est 
-  tout de suite opérationnel. SQLite est 
-  largement utilisé dans l'industrie et est 
-  considéré comme un des meilleurs gestionnaire
-  de base de données embarqué. Pour plus 
-  d'informations: 
+  SQLite est un gestionnaire de base de données sans serveur, utilisant un fichier comme stockage. 
+  Il n'y a rien à déployer ou à configurer, il est tout de suite opérationnel. SQLite est 
+  largement utilisé dans l'industrie et est considéré comme un des meilleurs gestionnaire
+  de base de données embarqué. Pour plus d'informations: 
   @InternetLink "http://www.sqlite.org" "http://www.sqlite.org".
 @LineBreak
 @LineBreak
-  Pour créer une nouvelle base de données 
-  vide, il suffit de créer un fichier vide à 
-  l'aide de @@CreateFile. 
-  Les commandes SQL sont maintenant 
-  disponibles pour créer les tables et 
-  insérer des enregistrements.
+  Pour créer une nouvelle base de données vide, il suffit de créer un fichier vide à l'aide de @@CreateFile. 
+  Les commandes SQL sont maintenant disponibles pour créer les tables et insérer des enregistrements.
 @LineBreak
 @LineBreak
-  La base SQLite doit être ouverte avec 
-  @@OpenDatabase avant de pouvoir utiliser 
-  les commandes de cette bibliothèque.
+  La base SQLite doit être ouverte avec @@OpenDatabase avant de pouvoir utiliser les commandes de
+  cette bibliothèque.
 @LineBreak
 @LineBreak
   En utilisant "NomBibliotheque$", vous pourrez ainsi utiliser la dernière version du 
@@ -1567,8 +1560,6 @@ Les valeur du type peuvent être:
 @LineBreak
   Sans ce fichier, c'est la bibliothèque statique qui sera utilisée comme d'habitude 
   et l'exécutable sera plus gros. 
-@LineBreak
-  Aucun message d'erreur n'est levé si le fichier est absent.
   
 @Example 
 @Code

@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; Set this to 1 to debug all commiunication with the compiler
@@ -12,29 +12,29 @@
 ; debugged output (for example function list, structure list etc)
 ;
 CompilerIf #PB_Compiler_Debugger = 0
-  Macro CompilerRead(Mode = #PB_Ascii)
+  Macro CompilerRead(Mode = #PB_UTF8)
     ReadProgramString(CompilerProgram, Mode)
   EndMacro
   
-  Macro CompilerRead_NoDebug(Mode = #PB_Ascii)
+  Macro CompilerRead_NoDebug(Mode = #PB_UTF8)
     ReadProgramString(CompilerProgram, Mode)
   EndMacro
   
-  Macro CompilerWrite(String, Mode = #PB_Ascii)
+  Macro CompilerWrite(String, Mode = #PB_UTF8)
     WriteProgramStringN(CompilerProgram, String, Mode)
   EndMacro
   
 CompilerElse
   Global CompilerRead_FirstNoDebug = 1
   
-  Procedure.s CompilerRead(Mode = #PB_Ascii)
+  Procedure.s CompilerRead(Mode = #PB_UTF8)
     CompilerRead_FirstNoDebug = 1
     Result$ = ReadProgramString(CompilerProgram, Mode)
     Debug "[COMPILER  READ] " + ReplaceString(Result$, Chr(9), "<T>")
     ProcedureReturn Result$
   EndProcedure
   
-  Procedure.s CompilerRead_NoDebug(Mode = #PB_Ascii)
+  Procedure.s CompilerRead_NoDebug(Mode = #PB_UTF8)
     If CompilerRead_FirstNoDebug
       Debug "[COMPILER      ] Skipping display of read data."
     EndIf
@@ -42,7 +42,7 @@ CompilerElse
     ProcedureReturn ReadProgramString(CompilerProgram, Mode)
   EndProcedure
   
-  Procedure CompilerWrite(String$, Mode = #PB_Ascii)
+  Procedure CompilerWrite(String$, Mode = #PB_UTF8)
     Debug "[COMPILER WRITE] " + ReplaceString(String$, Chr(9), "<T>")
     WriteProgramStringN(CompilerProgram, String$, Mode)
   EndProcedure
@@ -76,6 +76,8 @@ CompilerIf #CompileWindows
     #COMPILER_EXECUTABLE = "Compilers\pbcompiler.exe"
     #COMPILER_UNICODE    = " /UNICODE" ; still needed to set in older compilers
   CompilerEndIf
+  
+  #COMPILER_FileFormat = #PB_UTF8
 CompilerElse
   CompilerIf #CompileMac And Not #SpiderBasic
     #COMPILER_STANDBY    = " --standby -f -ibp" ; extra flags for osx only
@@ -92,6 +94,8 @@ CompilerElse
     #COMPILER_EXECUTABLE = "compilers/pbcompiler"
     #COMPILER_UNICODE    = " --unicode" ; still needed to set in older compilers
   CompilerEndIf
+  
+  #COMPILER_FileFormat = #PB_UTF8
 CompilerEndIf
 
 
@@ -363,7 +367,7 @@ Procedure StartCompiler(*Compiler.Compiler)
     Parameters$ + #COMPILER_LANGUAGE + CurrentLanguage$
   EndIf
   
-  CompilerIf #CompileWindows = 0 And #DEBUG = 1
+  CompilerIf #CompileWindows = 0 And #DEBUG = 1 And Not #SpiderBasic
     ; Append the -ds parameter so debug symbols are not cut. This is mainly so
     ; I can properly debug the Debugger library which is compiled into the exe
     Parameters$ + " -ds"
@@ -571,6 +575,8 @@ Procedure CompilerCleanup()
         
       EndIf
     Wend
+    
+    FinishDirectory(0)
   EndIf
   
 EndProcedure
@@ -608,7 +614,7 @@ Procedure ForceDefaultCompiler()
 EndProcedure
 
 
-Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS.INTEGER, *Processor.INTEGER)
+Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS.INTEGER, *Processor.INTEGER, *cBackend.INTEGER = 0)
   Version$ = Trim(UCase(Version$))
   
   If StringField(Version$, 1, " ") = UCase(#ProductName$)
@@ -645,8 +651,14 @@ Procedure TokenizeCompilerVersion(Version$, *Version.INTEGER, *Beta.INTEGER, *OS
       *Processor\i = #PB_Processor_x64
     ElseIf FindString(Version$, "POWERPC", 1)
       *Processor\i = #PB_Processor_PowerPC
+    ElseIf FindString(Version$, "ARM64", 1)
+      *Processor\i = #PB_Processor_Arm64
     Else
       *Processor\i = #PB_Processor_mc68000 ; also unlikely
+    EndIf
+    
+    If *cBackend And FindString(Version$, "C BACKEND") 
+      *cBackend\i = 1
     EndIf
     
     ProcedureReturn #True
@@ -657,11 +669,14 @@ EndProcedure
 
 Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
   
-  If TokenizeCompilerVersion(Version1$, @Version1, @Beta1, @OS1, @Processor1) = #False
+  Protected Version1, Beta1, OS1, Processor1, cBackend1
+  Protected Version2, Beta2, OS2, Processor2, cBackend2
+  
+  If TokenizeCompilerVersion(Version1$, @Version1, @Beta1, @OS1, @Processor1, @cBackend1) = #False
     ProcedureReturn #False
   EndIf
   
-  If TokenizeCompilerVersion(Version2$, @Version2, @Beta2, @OS2, @Processor2) = #False
+  If TokenizeCompilerVersion(Version2$, @Version2, @Beta2, @OS2, @Processor2, @cBackend2) = #False
     ProcedureReturn #False
   EndIf
   
@@ -674,10 +689,7 @@ Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
   EndIf
   
   If Flags & #MATCH_VersionUp
-    Base1 = Version1 - (Version1 % 10)
-    Base2 = Version2 - (Version2 % 10)
-    
-    If Base1 <> Base2 Or Version1 > Version2 ; 4.40 -> 4.41 etc is ok
+    If Version1 > Version2
       ProcedureReturn #False
     EndIf
   EndIf
@@ -694,6 +706,10 @@ Procedure MatchCompilerVersion(Version1$, Version2$, Flags = #MATCH_Exact)
     ProcedureReturn #False
   EndIf
   
+  If cBackend1 <> cBackend2
+    ProcedureReturn #False
+  EndIf
+    
   ProcedureReturn #True
 EndProcedure
 
@@ -710,12 +726,20 @@ Procedure SortCompilers()
 EndProcedure
 
 Procedure FindCompiler(Version$)
-  ;
-  ; We ignore the OS in our matches to have better crossplatform compatibility
-  ; (you won't find several different OS compilers on the same OS anyway)
-  ;
   
-  ; Look for an exact match first
+  ; Look for the exact same compiler first
+  ;
+  If Version$ = DefaultCompiler\VersionString$
+    ProcedureReturn @DefaultCompiler
+  Else
+    ForEach Compilers()
+      If Compilers()\Validated And Version$ = Compilers()\VersionString$
+        ProcedureReturn @Compilers()
+      EndIf
+    Next Compilers()
+  EndIf
+  
+  ; Look for an exact match, ignoring OS to have better crossplatform compatibility
   ;
   If MatchCompilerVersion(Version$, DefaultCompiler\VersionString$, #MATCH_Version|#MATCH_Beta|#MATCH_Processor)
     ProcedureReturn @DefaultCompiler
@@ -976,8 +1000,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
         BuildLogEntry(Language("Compiler","Aborting"))
       Else
         SetGadgetText(#GADGET_Compiler_Text, Language("Compiler","Aborting"))
-        AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Aborting"))
-        SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+        AddCompilerWindowItem(Language("Compiler","Aborting"))
       EndIf
       
       DisableMenuItem(#MENU, #MENU_StructureViewer, 1)
@@ -1061,8 +1084,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(Log$)
           Else
             If Purcents = 20 ; Only add it once
-              AddGadgetItem(#GADGET_Compiler_List, -1, Language("App","Creating") + "...")
-              SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+              AddCompilerWindowItem(Language("App","Creating") + "...")
             EndIf
             
             SetGadgetText(#GADGET_Compiler_Text, Log$)
@@ -1078,9 +1100,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
           EndIf
           
@@ -1094,10 +1114,23 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Log$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Log$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
-            
+            AddCompilerWindowItem(Log$)
             SetGadgetText(#GADGET_Compiler_Text, Log$)
+          EndIf
+          
+        Case "CORDOVALINE" ; SpiderBasic only
+          Line$ = Trim(StringField(Response$, 3, Chr(9)))
+          
+          If Line$
+            If CommandlineBuild
+              If QuietBuild = 0
+                PrintN(Line$)
+              EndIf
+            ElseIf UseProjectBuildWindow
+              BuildLogEntry(Line$)
+            Else
+              AddCompilerWindowItem(Line$)
+            EndIf
           EndIf
           
         Case "LINES"
@@ -1132,8 +1165,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
           ElseIf UseProjectBuildWindow
             BuildLogEntry(Language("Compiler","Including")+": "+Include$)
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Including")+": "+Include$)
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Including")+": "+Include$)
           EndIf
           
         Case "ASSEMBLING"
@@ -1146,8 +1178,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
             BuildLogEntry(LanguagePattern("Compiler", "LinesCompiled", "%count%", Str(Lines)))
             BuildLogEntry(Language("Compiler","Finishing"))
           Else
-            AddGadgetItem(#GADGET_Compiler_List, -1, Language("Compiler","Finishing"))
-            SetGadgetState(#GADGET_Compiler_List, CountGadgetItems(#GADGET_Compiler_List)-1)
+            AddCompilerWindowItem(Language("Compiler","Finishing"))
             SetGadgetState(#GADGET_Compiler_Progress, 1000)
           EndIf
           
@@ -1226,11 +1257,11 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
     EndIf
   ForEver
   
-  If CommandlineBuild = 0
-    HideCompilerWindow()
-  EndIf
-  
   If Response$ = "SUCCESS"
+    
+    If CommandlineBuild = 0
+      HideCompilerWindow()
+    EndIf
     
     If WarningCount > 0
       If CommandlineBuild
@@ -1251,6 +1282,7 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
     ProcedureReturn #True
     
   ElseIf Left(Response$, 13) = "ERROR"+Chr(9)+"SYNTAX"+Chr(9) ; syntax error
+    
     ErrorLine    = Val(StringField(Response$, 3, Chr(9)))
     IncludeLine  = -1
     
@@ -1293,6 +1325,20 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
         
       EndIf
     ForEver
+    
+    CompilerIf #SpiderBasic
+      ; Don't hide the CompilerWindow if an error occurs during the cordova creation so we can look at the logs
+      ;
+      If CommandlineBuild = 0 And ErrorLine <> -1
+        HideCompilerWindow()
+      Else
+        CompilerBusy = 0 ; Clear the compiler busy flag, so we can close the manually the CompilerWindow
+      EndIf
+    CompilerElse
+      If CommandlineBuild = 0
+        HideCompilerWindow()
+      EndIf    
+    CompilerEndIf
     
     ; Process the information
     ;
@@ -1411,6 +1457,9 @@ Procedure Compiler_HandleCompilerResponse(*Target.CompileTarget)
       Case "RESOURCE" : Type$ = "Resource error"
     EndSelect
     
+    If CommandlineBuild = 0
+      HideCompilerWindow()
+    EndIf    
     
     If CommandlineBuild
       PrintN(Type$)
@@ -1479,8 +1528,9 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   
   If *Target\EnableThread  : Command$ + Chr(9) + "THREAD"    : EndIf
   
+  If *Target\Optimizer  : Command$ + Chr(9) + "OPTIMIZER" : EndIf
+
   CompilerIf #SpiderBasic
-    If *Target\OptimizeJS  : Command$ + Chr(9) + "OPTIMIZEJS" : EndIf
     
     Select *Target\AppFormat
       Case #AppFormatWeb ; Can be also when using Compile/Run
@@ -1500,16 +1550,17 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
         
         If *Target\iOSAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\iOSAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
-        If *Target\iOSAppGeolocation : Command$ + Chr(9) + "GEOLOCATION" : EndIf
         If *Target\iOSAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
+        If *Target\iOSAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
         
       Case #AppFormatAndroid
         Command$ + Chr(9) + "ANDROID" ; Tell the compiler we are compiler and android package
         
         If *Target\AndroidAppFullScreen : Command$ + Chr(9) + "FULLSCREEN" : EndIf
         If *Target\AndroidAppAutoUpload : Command$ + Chr(9) + "DEPLOY" : EndIf
-        If *Target\AndroidAppGeolocation : Command$ + Chr(9) + "GEOLOCATION" : EndIf
         If *Target\AndroidAppEnableDebugger : Command$ + Chr(9) + "DEBUGGER" : EndIf
+        If *Target\AndroidAppKeepAppDirectory : Command$ + Chr(9) + "KEEPAPPDIR" : EndIf
+        If *Target\AndroidAppInsecureFileMode : Command$ + Chr(9) + "INSECUREFILEMODE" : EndIf
         
     EndSelect
     
@@ -1522,10 +1573,13 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     EndIf
   EndIf
   
+  CompilerIf #CompileMac | #CompileWindows | #SpiderBasic
+    If *Target\DPIAware : Command$ + Chr(9) + "DPIAWARE" : EndIf
+  CompilerEndIf
+  
   CompilerIf #CompileWindows
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
-    If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf
-    If *Target\DPIAware           : Command$ + Chr(9) + "DPIAWARE" : EndIf
+    If *Target\DllProtection      : Command$ + Chr(9) + "DLLPROTECTION" : EndIf
     
     If *Target\EnableAdmin
       Command$ + Chr(9) + "ADMINISTRATOR"
@@ -1535,6 +1589,9 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
+    ; We honor the console flag even for OSX/Linux as it can be useful combined with #PB_Compiler_ExecutableFormat (https://www.purebasic.fr/english/viewtopic.php?t=65478)
+    If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf
+
     If (*Target\Debugger|ForceDebugger)&~ForceNoDebugger
       Command$ + Chr(9) + "DEBUGGER"
       IsDebuggerUsed = 1
@@ -1668,6 +1725,14 @@ CompilerIf #SpiderBasic
     
     ProcedureReturn Result
   EndProcedure
+  
+  Procedure.s StringToUTF8String(String$)
+    *UTF8 = UTF8(String$)
+    UTF8$ = PeekS(*UTF8, #PB_All, #PB_Ascii)
+    FreeMemory(*UTF8)
+    
+    ProcedureReturn UTF8$
+  EndProcedure
 CompilerEndIf
 
 ; ---------------------------------------------------------------------
@@ -1724,19 +1789,30 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
   ; Add the Compiler directory to the (library-)path, so the 3D engine and other
   ; libraries can be loaded by the exe
   ;
+  NewPath$ = *Target\RunCompilerPath$
+  
   CompilerIf #CompileWindows
     PreviousPath$ = GetEnvironmentVariable("PATH")
-    SetEnvironmentVariable("PATH", *Target\RunCompilerPath$+";"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ";" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("PATH", NewPath$)
   CompilerEndIf
   
   CompilerIf #CompileLinux
     PreviousPath$ = GetEnvironmentVariable("LD_LIBRARY_PATH")
-    SetEnvironmentVariable("LD_LIBRARY_PATH", *Target\RunCompilerPath$+":"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ":" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("LD_LIBRARY_PATH", NewPath$)
   CompilerEndIf
   
   CompilerIf #CompileMac
     PreviousPath$ = GetEnvironmentVariable("DYLD_LIBRARY_PATH")
-    SetEnvironmentVariable("DYLD_LIBRARY_PATH", *Target\RunCompilerPath$+":"+PreviousPath$)
+    If PreviousPath$ ; Only combine if the previous path isn't empty, or it will add the current dir as well (https://www.purebasic.fr/english/viewtopic.php?t=71355)
+      NewPath$ + ":" + PreviousPath$
+    EndIf
+    SetEnvironmentVariable("DYLD_LIBRARY_PATH", NewPath$)
   CompilerEndIf
   
   Debug "----"
@@ -1797,10 +1873,17 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       If Error = #False
         AddElement(OpenedWebServers())
         
+        CompilerIf #CompileWindows
+          ; Note: sbmongoose support UNICODE path on Windows, but it needs to be put on the commandline as UTF8
+          ;
+          RootPath$ = StringToUTF8String(RootPath$)
+          PureBasicPath$ = StringToUTF8String(PureBasicPath$)
+        CompilerEndIf
+        
         Debug "Mongoose address: " + MongooseAddress$
         Debug "Mongoose document_root: " + RootPath$
         Debug "Mongoose spiderbasic_root: " + PureBasicPath$
-        
+                
         OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
                                                                                  " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
                                                                                  " -spiderbasic_root "+#DQUOTE$+ReplaceString(PureBasicPath$, "\", "/")+#DQUOTE$, "", #PB_Program_Open | #PB_Program_Hide)
@@ -1812,29 +1895,32 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
     
     If Error = #False
       
-      Url$ = "http://"+WebLaunchedServers(RootPath$)+"/" + GetFilePart(Executable$)
+      Url$ = "http://"+WebLaunchedServers(RootPath$)+"/" + GetFilePart(Executable$) + "?t=" + Date()
       
-      CompilerIf #CompileWindows
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram(Url$) ; Will launch the default browser
+      ; Clear all the remaining 'red' error lines before launching a new app
+      ;
+      ForEach FileList()
+        ClearErrorLines(@FileList()) ; clear the errors in all lines
+      Next FileList()
+      ChangeCurrentElement(FileList(), *ActiveSource)
+    
+      If WebViewOpen
+        
+        ; Setup the debugger. We can only have one in SpiderBasic
+        If *WebViewDebugger = 0
+          AddElement(RunningDebuggers()) ; Use the RunningDebuggers() list, so every window debugger events will be handled automatically
+          *WebViewDebugger = @RunningDebuggers()
         EndIf
         
-      CompilerElseIf #CompileLinux
-        If OptionWebBrowser$
-          RunProgram(OptionWebBrowser$, Url$, "")
-        Else
-          RunProgram("xdg-open", Url$, "") ; Will launch the default browser
-        EndIf
+        ; Run the app in the built-in webview
+        ;
+        SetWebViewUrl(Url$)
         
-      CompilerElseIf #CompileMac
-        If OptionWebBrowser$
-          RunProgram("open", "-a " + OptionWebBrowser$ + " " + Url$, "")
-        Else
-          RunProgram("open", Url$, "") ; Will launch the default browser
-        EndIf
-      CompilerEndIf
+      Else
+        
+        OpenSpiderWebBrowser(Url$)
+        
+      EndIf
       
     EndIf
     
@@ -1877,7 +1963,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         EndIf
         
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""  ; this is for the standalone debugger
-          DebuggerParams$ = GUITerminalParameters$ + DebuggerExe$
+          DebuggerParams$ = GUITerminalParameters$ + #DQUOTE$+DebuggerExe$+#DQUOTE$
           DebuggerExe$ = DetectedGUITerminal$
         Else
           DebuggerParams$ = ""
@@ -1892,7 +1978,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         ;       EndIf
         
         If *Target\ExecutableFormat = 1 ; this is for the Standalone Debugger
-          DebuggerParams$ = "-a Terminal.app " +#DQUOTE$+ DebuggerExe$ +#DQUOTE$
+          DebuggerParams$ = "-a Terminal.app " +#DQUOTE$+DebuggerExe$+#DQUOTE$
           DebuggerExe$ = "open"
         Else
           DebuggerParams$ = ""
@@ -1930,9 +2016,9 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
               If *Target\RunExeFormat = 1
                 DebuggerUseFIFO = 1
                 CompilerIf #CompileLinux
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$+Executable$+" " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
                 CompilerElse
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
                 CompilerEndIf
               Else
                 DebuggerUseFIFO = 0
@@ -1974,6 +2060,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           EndIf
           
         Case 2 ; standalone debugger
+          Debug DebuggerExe$
           ExecuteStandaloneDebugger(*Target, DebuggerExe$, Executable$, Directory$, DebuggerParams$)
           
         Case 3 ; console debugger
@@ -1982,11 +2069,11 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           CompilerEndIf
           
           CompilerIf #CompileLinux
-            RunProgram(DetectedGUITerminal$, GUITerminalParameters$ + Executable$ +" " + *Target\CommandLine$, Directory$)
+            RunProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
           CompilerEndIf
           
           CompilerIf #CompileMac
-            RunProgram("open", "-a Terminal.app " +#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+            RunProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
           CompilerEndIf
           
       EndSelect
@@ -1999,7 +2086,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       
       CompilerIf #CompileLinux
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""
-          RunProgram(DetectedGUITerminal$, GUITerminalParameters$ + Executable$ +" " + *Target\CommandLine$, Directory$)
+          RunProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
         Else
           RunProgram(Executable$, *Target\CommandLine$, Directory$)
         EndIf
@@ -2008,7 +2095,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       CompilerIf #CompileMac
         ; On OS X, "open" launch automatically the 'Terminal' application, which is just perfect in our case
         If *Target\ExecutableFormat = 1
-          RunProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
+          RunProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
         Else
           RunProgram(Executable$, *Target\CommandLine$, Directory$)
         EndIf
@@ -2134,32 +2221,32 @@ Procedure Compiler_CompileRun(SourceFileName$, *Source.SourceFile, CheckSyntax)
   ;
   RegisterDeleteFile(TargetFileName$)
   
-  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$)
-  CompilerWrite("TARGET"+Chr(9)+TargetFileName$)
+  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$, #COMPILER_FileFormat)
+  CompilerWrite("TARGET"+Chr(9)+TargetFileName$, #COMPILER_FileFormat)
   
   If *Source\FileName$ <> ""
-    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Source\FileName$))
+    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Source\FileName$), #COMPILER_FileFormat)
     
     If *Source\FileName$ <> SourceFileName$
-      CompilerWrite("SOURCEALIAS"+Chr(9)+*Source\FileName$)
+      CompilerWrite("SOURCEALIAS"+Chr(9)+*Source\FileName$, #COMPILER_FileFormat)
     EndIf
   EndIf
   
   If *Source\LinkerOptions$ <> ""
-    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\LinkerOptions$))
+    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\LinkerOptions$), #COMPILER_FileFormat)
   EndIf
   
   CompilerIf #CompileWindows
     ResourceFile$ = CreateResourceFile(*Source)
     If ResourceFile$
-      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$)
+      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$, #COMPILER_FileFormat)
     EndIf
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
     CompilerIf #CompileWindows | #CompileMac
       If *Source\UseIcon
-        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\IconName$))
+        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(GetPathPart(*Source\FileName$), *Source\IconName$), #COMPILER_FileFormat)
       EndIf
     CompilerEndIf
   CompilerEndIf
@@ -2306,10 +2393,14 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
           Icon$         = *Target\AndroidAppIcon$
           AppVersion$   = *Target\AndroidAppVersion$
           PackageID$    = *Target\AndroidAppPackageID$
-          IAPKey$       = *Target\AndroidAppIAPKey$
           StartupImage$ = *Target\AndroidAppStartupImage$
           AppDebugger   = *Target\AndroidAppEnableDebugger
           
+          ; Android specific
+          CompilerWriteStringValue("IAPKEY", *Target\AndroidAppIAPKey$)
+          CompilerWriteStringValue("APPCODE", Str(*Target\AndroidAppCode))
+          CompilerWriteStringValue("STARTUPCOLOR", *Target\AndroidAppStartupColor$)
+              
           Select *Target\AndroidAppOrientation ; Default case is Any, and we don't need to send it to the compiler
             Case 1
               Orientation$ = "PORTRAIT"
@@ -2337,40 +2428,39 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
     CompilerWriteStringValue("ICON", Icon$)
     CompilerWriteStringValue("APPVERSION", AppVersion$)
     CompilerWriteStringValue("PACKAGEID", PackageID$)
-    CompilerWriteStringValue("IAPKEY", IAPKey$)
     CompilerWriteStringValue("STARTUPIMAGE", StartupImage$)
     CompilerWriteStringValue("RESOURCEDIRECTORY", ResourceDirectory$)
     CompilerWriteStringValue("ORIENTATION", Orientation$)
     
   CompilerEndIf
   
-  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$)
-  CompilerWrite("TARGET"+Chr(9)+TargetFileName$)
+  CompilerWrite("SOURCE"+Chr(9)+SourceFileName$, #COMPILER_FileFormat)
+  CompilerWrite("TARGET"+Chr(9)+TargetFileName$, #COMPILER_FileFormat)
   
   If *Target\FileName$ <> ""
     ; do not use the BasePath$ here. Includes are always relative to the main file, not the project
-    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Target\FileName$))
+    CompilerWrite("INCLUDEPATH"+Chr(9)+GetPathPart(*Target\FileName$), #COMPILER_FileFormat)
     
     If *Target\FileName$ <> SourceFileName$
-      CompilerWrite("SOURCEALIAS"+Chr(9)+*Target\FileName$)
+      CompilerWrite("SOURCEALIAS"+Chr(9)+*Target\FileName$, #COMPILER_FileFormat)
     EndIf
   EndIf
   
   If *Target\LinkerOptions$ <> ""
-    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(BasePath$, *Target\LinkerOptions$))
+    CompilerWrite("LINKER"+Chr(9)+ResolveRelativePath(BasePath$, *Target\LinkerOptions$), #COMPILER_FileFormat)
   EndIf
   
   CompilerIf #CompileWindows
     ResourceFile$ = CreateResourceFile(*Target)
     If ResourceFile$
-      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$)
+      CompilerWrite("RESOURCE"+Chr(9)+ResourceFile$, #COMPILER_FileFormat)
     EndIf
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
     CompilerIf #CompileWindows | #CompileMac
       If *Target\UseIcon
-        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(BasePath$, *Target\IconName$))
+        CompilerWrite("ICON"+Chr(9)+ResolveRelativePath(BasePath$, *Target\IconName$), #COMPILER_FileFormat)
       EndIf
     CompilerEndIf
   CompilerEndIf

@@ -1,15 +1,15 @@
 ;
 ;     String library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library String
 
 @Overview
   Strings sind die verwendete Methode, um eine Reihe von Zeichen zu speichern.
-  Mit den in dieser Bibliothek gelieferten Funktionen können viele wichtige
-  Aktionen mit den Strings ausgeführt werden. Standardmäßig werden Strings als
+  Mit den in dieser Bibliothek gelieferten Funktionen kÃ¶nnen viele wichtige
+  Aktionen mit den Strings ausgefÃ¼hrt werden. StandardmÃ¤ÃŸig werden Strings als
   Unicode-Strings angesehen.
 
 @CommandList
@@ -23,7 +23,7 @@
 @Function Ergebnis = Asc(String$)
 
 @Description
-  Gibt den Wert des ersten Zeichens im angegebenen String zurück.
+  Gibt den Wert des ersten Zeichens im angegebenen String zurÃ¼ck.
 
 @Parameter "String$"
   Der String, von dem der Wert des ersten Zeichens ermittelt werden soll.
@@ -33,19 +33,19 @@
 
 @Example
 @Code
-  Debug "Bitte überprüfen Sie, dass Ihre IDE im UTF8-Format eingestellt ist: Datei \ Datei-Format \ Codierung: Utf8 muss abgehakt sein."
+  Debug "Bitte Ã¼berprÃ¼fen Sie, dass Ihre IDE im UTF8-Format eingestellt ist: Datei \ Datei-Format \ Codierung: Utf8 muss abgehakt sein."
   Debug "!"      ; wird '33' ausgeben
   Debug Asc("!") ; wird '33' ausgeben
-  Debug Asc("€") ; wird '8364' ausgeben = 20AC in Hexadezimal
+  Debug Asc("â‚¬") ; wird '8364' ausgeben = 20AC in Hexadezimal
 
-  unicode$="€€ "
+  unicode$="â‚¬â‚¬ "
   Debug Asc(unicode$) ; wird '8364' ausgeben
   ShowMemoryViewer(@unicode$, 8)
   
 @EndCode
 
 @Remarks
-  Es ist auch möglich, den Wert eines konstanten Zeichens zu erhalten, indem man dieses
+  Es ist auch mÃ¶glich, den Wert eines konstanten Zeichens zu erhalten, indem man dieses
   in Apostrophe setzt.
 
 @Example
@@ -53,7 +53,7 @@
   Debug '!' ; wird '33' ausgeben
 @EndCode
 
-  Eine Tabelle mit allen ASCII-Werten und ihren zugehörigen Zeichen finden Sie @ReferenceLink "ascii" "hier".
+  Eine Tabelle mit allen ASCII-Werten und ihren zugehÃ¶rigen Zeichen finden Sie @ReferenceLink "ascii" "hier".
  
 @SeeAlso
   @@Chr
@@ -65,7 +65,7 @@
 @Function Ergebnis$ = Bin(Wert.q [, Typ])
 
 @Description
-  Konvertiert einen numerischen Quad-Wert in einen String im Binärformat.
+  Konvertiert einen numerischen Quad-Wert in einen String im BinÃ¤rformat.
 
 @Parameter "Wert.q"
   Der zu konvertierende Wert.
@@ -83,7 +83,7 @@
 @EndFixedFont
 
 @ReturnValue
-  Ein String, der die binäre Darstellung des angegebenen Wertes beinhaltet.
+  Ein String, der die binÃ¤re Darstellung des angegebenen Wertes beinhaltet.
 
 @Example
 @Code
@@ -92,7 +92,7 @@
 @EndCode
 
 @Remarks
-  Wenn im Ausgabestring führende Nullen benötigt werden, benutzen Sie den
+  Wenn im Ausgabestring fÃ¼hrende Nullen benÃ¶tigt werden, benutzen Sie den
   @@RSet Befehl wie folgt:
 
 @Code
@@ -109,13 +109,15 @@
 @Function Text$ = Chr(ZeichenWert)
 
 @Description
-  Gibt einen String zurück, der aus dem angegebenen Zeichenwert erstellt wurde.
+  Gibt einen String zurÃ¼ck, der aus dem angegebenen Zeichenwert erstellt wurde.
 
 @Parameter "ZeichenWert"
-  Der Zeichenwert.
+  Der Unicode-Zeichenwert. Dies muss ein Wert zwischen 0 und $D7FF oder zwischen $E000 und $FFFF
+  sein. Der Bereich zwischen $D800 und $DFFF ist fÃ¼r Ersatzzeichen reserviert.
 
 @ReturnValue
-  Gibt einen String zurück, der aus dem angegebenen Zeichenwert erstellt wurde.
+  Gibt einen String zurÃ¼ck, der aus dem angegebenen Zeichenwert erstellt wurde.
+  Ist der Wert ungÃ¼ltig, wird ein leerer String zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -123,15 +125,24 @@
 @EndCode
 
 @Remarks
-  Eine Tabelle mit allen ASCII-Werten und ihren zugehörigen Zeichen finden Sie @ReferenceLink "ascii" "hier".
+  Eine Tabelle mit allen ASCII-Werten und ihren zugehÃ¶rigen Zeichen finden Sie @ReferenceLink "ascii" "hier".
 @LineBreak
 @LineBreak
   Dieser Befehl arbeitet mit @ReferenceLink "unicode" "Unicode" und gibt dann
-  die zum angegebenen Wert gehörenden Zeichen zurück.
+  die zum angegebenen Wert gehÃ¶renden Zeichen zurÃ¼ck.
 @Code
-  Debug Chr(8364) ; wird "€" ausgeben
-  Debug Chr($BC)  ; wird "¼" ausgeben
-  Debug Chr($BD)  ; wird "½" ausgeben
+  Debug Chr(8364) ; wird "â‚¬" ausgeben
+  Debug Chr($BC)  ; wird "Â¼" ausgeben
+  Debug Chr($BD)  ; wird "Â½" ausgeben
+@EndCode
+
+@Example Spezielle Symbole (Icons) und eine Schleife mit Ausgabe lateinischer Buchstaben
+@Code
+  Debug Chr($2630) ; â˜°
+  Debug Chr($25BC) ; â–¼
+  For i = 65 To 90
+      Debug Chr(i)
+  Next
 @EndCode
 
 @SeeAlso
@@ -144,20 +155,20 @@
 @Function Ergebnis = CountString(String$, StringToCount$)
 
 @Description
-  Gibt die Anzahl zurück, wie oft 'StringToCount$' im 'String$' vorkommt.
+  Gibt die Anzahl zurÃ¼ck, wie oft 'StringToCount$' im 'String$' vorkommt.
 
 @Parameter "String$"
   Der zu verwendende Eingabestring.
 
 @Parameter "StringToCount$"
-  Der String, dessen Häufigkeit im Eingabestring gezählt werden soll.
+  Der String, dessen HÃ¤ufigkeit im Eingabestring gezÃ¤hlt werden soll.
 
 @ReturnValue
   Die Anzahl, wie oft 'StringToCount$' im 'String$' gefunden wurde.
 
 @Remarks
-  Das Zählen erfolgt nicht Wort-basiert, was bedeutet: wenn 'StringToCount$' Teil
-  eines Wortes ist, wird es trotzdem gezählt, wie im folgenden Beispiel dargestellt.
+  Das ZÃ¤hlen erfolgt nicht Wort-basiert, was bedeutet: wenn 'StringToCount$' Teil
+  eines Wortes ist, wird es trotzdem gezÃ¤hlt, wie im folgenden Beispiel dargestellt.
 
 @Example
 @Code
@@ -171,8 +182,8 @@
 @Function Ergebnis$ = EscapeString(String$ [, Modus])
 
 @Description
-  Gibt die maskierte (englisch "escaped") Version des Strings zurück. @@UnescapeString
-  kann verwendet werden, um die umgekehrte Operation durchzuführen.
+  Gibt die maskierte (englisch "escaped") Version des Strings zurÃ¼ck. @@UnescapeString
+  kann verwendet werden, um die umgekehrte Operation durchzufÃ¼hren.
 
 @Parameter "String$"
   Der zu maskierende String.
@@ -181,9 +192,11 @@
   Der beim Maskieren des Strings zu verwendende Modus.
 @FixedFont
   @#PB_String_EscapeInternal: maskiert den String mittels des PureBasic internen Formats (siehe @ReferenceLink "general_rules" "Allgemeine Regeln"
-                             für erlaubte Escape-Sequenzen) (Standard).
-  @#PB_String_EscapeXML     : maskiert den String mittels der XML Escape-Zeichen. Dies kann nützlich sein, um einen
-                             beliebigen String in einen XML-Baum einzufügen.
+                             fÃ¼r erlaubte Escape-Sequenzen) (Standard).
+  @#PB_String_EscapeXML     : maskiert den String mittels der XML Escape-Zeichen. Dies kann nÃ¼tzlich sein, um einen
+                             beliebigen String in einen XML-Baum einzufÃ¼gen.
+  @#PB_String_EscapeJSON    : maskiert den String mittels der JSON-Escape-Zeichen. Dies kann nÃ¼tzlich sein, um einen
+                             beliebigen String in einen JSON-Wert einzufÃ¼gen.
 @EndFixedFont
 
 @ReturnValue
@@ -216,23 +229,41 @@
   Der zu suchende String.
   
 @OptionalParameter "StartPosition"
-  Die Startposition, um mit der Suche zu beginnen. Der Index des ersten gültigen Zeichens lautet 1.
+  Die Startposition, um mit der Suche zu beginnen. Der Index des ersten gÃ¼ltigen Zeichens lautet 1.
   Wird dieser Parameter nicht angegeben, dann wird der gesamte String durchsucht.
   
 @OptionalParameter "Modus"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive: Suche unter Beachtung der Groß-/Kleinschreibung ("case sensitive", (a=a)) (Standard).
-  @#PB_String_NoCase       : Suche ohne Beachtung der Groß-/Kleinschreibung (A=a).
+  @#PB_String_CaseSensitive: Suche unter Beachtung der GroÃŸ-/Kleinschreibung ("case sensitive", (a=a)) (Standard).
+  @#PB_String_NoCase       : Suche ohne Beachtung der GroÃŸ-/Kleinschreibung (A=a).
 @EndFixedFont
 
 @ReturnValue
-  Gibt die Position (in Zeichen) des zu suchenden Strings zurück, oder Null wenn der String nicht gefunden
+  Gibt die Position (in Zeichen) des zu suchenden Strings zurÃ¼ck, oder Null wenn der String nicht gefunden
   wurde. Der Index des ersten Zeichens lautet 1.
 
 @Code
   Debug FindString("PureBasic", "Bas") ; wird 5 ausgeben
 @EndCode
+
+@Example
+@Code
+  String$ = "This is a simple line...."
+  
+  Repeat
+  	Last = Position
+  	Position = FindString(String$ , "i", Position + 1)
+  	If Position > 0
+  	  Debug "'i' found at position: " + Position
+  	EndIf
+  Until Not Position
+  
+  Debug "Last position 'i' was found: " + Last
+@EndCode
+
+@SeeAlso
+  @@ReplaceString
 
 @SupportedOS
 
@@ -268,7 +299,7 @@
 @EndCode
 
 @Remarks
-  Wenn im Ausgabestring führende Nullen benötigt werden, benutzen Sie den
+  Wenn im Ausgabestring fÃ¼hrende Nullen benÃ¶tigt werden, benutzen Sie den
   @@RSet Befehl wie folgt:
 
 @Code
@@ -285,7 +316,7 @@
 @EndCode
 
 @SeeAlso 
-  @@Str, @@Val, @@Bin.
+  @@Str, @@Val, @@Bin
 
 @SupportedOS
 
@@ -294,20 +325,20 @@
 @Function Ergebnis$ = InsertString(String$, StringToInsert$, Position)
 
 @Description
-  Fügt den String 'StringToInsert$' in den 'String$' an der angegebenen 'Position' ein. 
+  FÃ¼gt den String 'StringToInsert$' in den 'String$' an der angegebenen 'Position' ein. 
   
 @Parameter "String$"
   Der zu verwendende String.
   
 @Parameter "StringToInsert$"
-  Der einzufügende String.
+  Der einzufÃ¼gende String.
   
 @Parameter "Position"
-  Die Position im String, an der der neue String eingefügt werden soll. 
+  Die Position im String, an der der neue String eingefÃ¼gt werden soll. 
   Der Index der ersten Position lautet 1.
 
 @ReturnValue
-  Ein neuer String mit dem an der angegebenen Position eingefügten String.
+  Ein neuer String mit dem an der angegebenen Position eingefÃ¼gten String.
 
 @Example
 @Code
@@ -325,7 +356,7 @@
 @Function Ergebnis$ = LCase(String$)  
 
 @Description
-  Gibt den originalen String - konvertiert in Kleinbuchstaben (wenn möglich) - zurück.
+  Gibt den originalen String - konvertiert in Kleinbuchstaben (wenn mÃ¶glich) - zurÃ¼ck.
   
 @Parameter "String$"
   Der in Kleinbuchstaben zu konvertierende String.
@@ -334,8 +365,8 @@
   Der in Kleinbuchstaben konvertierte String.
 
 @Remarks
-  Diese Funktion unterstützt auch Buchstaben mit Betonung; wenn also ein großes 'É'
-  gefunden wurde, wird dieses in ein kleines 'é' konvertiert. 
+  Diese Funktion unterstÃ¼tzt auch Buchstaben mit Betonung; wenn also ein groÃŸes 'Ã‰'
+  gefunden wurde, wird dieses in ein kleines 'Ã©' konvertiert. 
 
 @Example
 @Code
@@ -349,17 +380,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = Left(String$, Länge)  
+@Function Ergebnis$ = Left(String$, LÃ¤nge)  
 
 @Description
-  Gibt die angegebene Anzahl an Zeichen vom linken Rand des Strings zurück.
+  Gibt die angegebene Anzahl an Zeichen vom linken Rand des Strings zurÃ¼ck.
 
 @Parameter "String$"
   Der zu verwendende String.
 
-@Parameter "Länge"
-  Die Anzahl zurückzugebender Zeichen. Wenn dieser Wert die Anzahl an Zeichen im
-  String überschreitet, wird der gesamte String zurückgegeben.
+@Parameter "LÃ¤nge"
+  Die Anzahl zurÃ¼ckzugebender Zeichen. Wenn dieser Wert die Anzahl an Zeichen im
+  String Ã¼berschreitet, wird der gesamte String zurÃ¼ckgegeben.
   
 @ReturnValue
   Ein String, der die angegebene Anzahl an Zeichen von der linken Seite des
@@ -377,7 +408,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Länge = Len(String$)  
+@Function LÃ¤nge = Len(String$)  
 
 @Description
   Ermittelt die Anzahl Zeichen im angegebenen String.
@@ -386,7 +417,7 @@
   Der zu verwendende String.
 
 @ReturnValue
-  Die Zeichenlänge des Strings.
+  Die ZeichenlÃ¤nge des Strings.
 
 @Example
 @Code
@@ -397,30 +428,30 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = LSet(String$, Länge [, Zeichen$])
+@Function Ergebnis$ = LSet(String$, LÃ¤nge [, Zeichen$])
 
 @Description
-  Platziert einen String an den linken Rand des Zielstrings und füllt diesen mit Leerzeichen
-  auf, um die angegebene Länge zu erreichen.
+  Passt die LÃ¤nge eines Strings an, indem bei Bedarf am Ende der Zeichenfolge weitere Zeichen
+  hinzugefÃ¼gt werden, um die angegebene LÃ¤nge zu erreichen.
   
 @Parameter "String$"
-  Der zu platzierende String.
+  Der zu anzupassende String.
 
-@Parameter "Länge"
-  Die komplette Länge (in Zeichen) des neuen Strings.
+@Parameter "LÃ¤nge"
+  Die komplette LÃ¤nge (in Zeichen) des neuen Strings.
 
 @OptionalParameter "Zeichen$"
-  Das zu verwendende Zeichen, um extra Platz im neuen String zu schaffen. Das
+  Das zu verwendende Zeichen, um die LÃ¤nge des neuen Strings anzupassen. Das
   Standardzeichen ist ein Leerzeichen ('Space').  
   'Zeichen$' muss ein ein Zeichen langer String sein.
 
 @ReturnValue
-  Ein neuer String, der den originalen String - aufgefüllt mit dem angegebenen
-  Zeichen, um die Länge zu erreichen - beinhaltet.
+  Ein neuer String, der den originalen String - aufgefÃ¼llt mit dem angegebenen
+  Zeichen, um die LÃ¤nge zu erreichen - beinhaltet.
 
 @Remarks
-  Ist der String länger als die angegebene Länge, wird er beginnend von der rechten
-  Seite des Strings gekürzt.
+  Ist der String lÃ¤nger als die angegebene LÃ¤nge, wird er beginnend von der rechten
+  Seite des Strings gekÃ¼rzt.
 
 @Example
 @Code
@@ -442,16 +473,16 @@
   Entfernt alle angegebenen Zeichen vom Anfang des Strings.
 
 @Parameter "String$"
-  Der zu kürzende String.
+  Der zu kÃ¼rzende String.
 
 @OptionalParameter "Zeichen$"
-  Das für das Kürzen des Strings zu verwendende Zeichen. Das Standardzeichen
+  Das fÃ¼r das KÃ¼rzen des Strings zu verwendende Zeichen. Das Standardzeichen
   ist ein Leerzeichen ('Space'). 'Zeichen$' muss ein ein Zeichen langer
   String sein.
 
 @ReturnValue
   Ein neuer String, der den originalen String - mit entfernten Anfangszeichen -
-  enthält.
+  enthÃ¤lt.
 
 @Example
 @Code
@@ -466,10 +497,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = Mid(String$, StartPosition [, Länge])
+@Function Ergebnis$ = Mid(String$, StartPosition [, LÃ¤nge])
 
 @Description
-  Ermittelt einen String der angegebenen Länge aus dem vorgegebenen String.
+  Ermittelt einen String der angegebenen LÃ¤nge aus dem vorgegebenen String.
 
 @Parameter "String$"
   Der zu verwendende String.
@@ -478,7 +509,7 @@
   Gibt die Zeichenposition an, bei der das Extrahieren starten soll. Die
   Position des ersten Zeichens lautet 1.
 
-@OptionalParameter "Länge"
+@OptionalParameter "LÃ¤nge"
   Gibt an, wieviele Zeichen ausgeschnitten werden sollen. Wird dieser Parameter
   weggelassen, werden alle Zeichen bis zum Ende des Strings extrahiert.
 
@@ -495,22 +526,22 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function String$ = RemoveString(String$, LöschString$ [, Modus [, StartPosition [, AnzahlVorkommen]]])
+@Function String$ = RemoveString(String$, LÃ¶schString$ [, Modus [, StartPosition [, AnzahlVorkommen]]])
 
 @Description
-  Ermittelt alle Vorkommen des 'LöschString$' im angegebenen 'String$' und entfernt diese.
+  Ermittelt alle Vorkommen des 'LÃ¶schString$' im angegebenen 'String$' und entfernt diese.
 
 @Parameter "String$"
   Der zu verwendende String.
 
-@Parameter "LöschString$"
+@Parameter "LÃ¶schString$"
   Der zu entfernende String.
 
 @OptionalParameter "Modus"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Suchen/Entfernen berücksichtigt Groß-/Kleinschreibung (a=a). (Standard)
-  @#PB_String_NoCase        : Suchen/Entfernen unabhängig von Groß-/Kleinschreibung (A=a).
+  @#PB_String_CaseSensitive : Suchen/Entfernen berÃ¼cksichtigt GroÃŸ-/Kleinschreibung (a=a). (Standard)
+  @#PB_String_NoCase        : Suchen/Entfernen unabhÃ¤ngig von GroÃŸ-/Kleinschreibung (A=a).
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -555,14 +586,15 @@
 @OptionalParameter "Modus"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Suchen/Ersetzen berücksichtigt Groß-/Kleinschreibung (a=a). (Standard)
-  @#PB_String_NoCase        : Suchen/Ersetzen unabhängig von Groß-/Kleinschreibung (A=a).
+  @#PB_String_CaseSensitive : Suchen/Ersetzen berÃ¼cksichtigt GroÃŸ-/Kleinschreibung (a=a). (Standard)
+  @#PB_String_NoCase        : Suchen/Ersetzen unabhÃ¤ngig von GroÃŸ-/Kleinschreibung (A=a).
   @#PB_String_InPlace       : "In place" (an Ort und Stelle) ersetzen. Dies bedeutet, dass der String direkt
-                             im Speicher ersetzt wird. Der 'SuchString$' und der 'ErsatzString$' müssen die
-                             gleiche Länge haben! Dies ist eine gefährliche Option, nur für fortgeschrittene
+                             im Speicher ersetzt wird. Der 'SuchString$' und der 'ErsatzString$' mÃ¼ssen die
+                             gleiche LÃ¤nge haben! Dies ist eine gefÃ¤hrliche Option, nur fÃ¼r fortgeschrittene
                              Anwender. Der Vorteil ist die sehr hohe Geschwindigkeit beim Ersetzen. Wenn diese
                              Option verwendet wird, muss das Ergebnis von ReplaceString() ignoriert werden. Nur
-                             der als Parameter übergebene 'String$' wird verändert und stellt das Ergebnis dar.
+                             der als Parameter Ã¼bergebene 'String$' wird verÃ¤ndert und stellt das Ergebnis dar.
+                             @ReferenceLink "variables" "Fixed (feste) Strings" werden in diesem Modus nicht unterstÃ¼tzt.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -574,7 +606,7 @@
   Wird dieser weggelassen, werden alle Strings ersetzt.
 
 @ReturnValue
-  Ein neuer String mit den ersetzten Strings (siehe den @#PB_String_InPlace Modus für ein
+  Ein neuer String mit den ersetzten Strings (siehe den @#PB_String_InPlace Modus fÃ¼r ein
   abweichendes Verhalten).
 
 @Example
@@ -582,32 +614,32 @@
   Debug ReplaceString("This is Art", " is", " was") ; wird "This was Art" anzeigen
   
   test$ = "Hello again, hello again"
-  Result$ = ReplaceString(test$, "HELLO", "oh no...", 1, 10) ; wird "Hello again, oh no... again" anzeigen
+  Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; wird "Hello again, oh no... again" anzeigen
   Debug Result$
   
   test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", 2, 1)  ; alle B werden in Z geändert (direkt im Speicher, es gibt hier keinen gültigen Rückgabewert)
-  Debug test$   ; Ausgabe des geänderten Strings, wird "Zundy, Zarbie, Zuddy" ausgeben
+  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; alle B werden in Z geÃ¤ndert (direkt im Speicher, es gibt hier keinen gÃ¼ltigen RÃ¼ckgabewert)
+  Debug test$   ; Ausgabe des geÃ¤nderten Strings, wird "Zundy, Zarbie, Zuddy" ausgeben
 @EndCode
 
 @SeeAlso
-  @@RemoveString, @@InsertString
+  @@RemoveString, @@InsertString, @@FindString, @@ReplaceRegularExpression
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = Right(String$, Länge)  
+@Function Ergebnis$ = Right(String$, LÃ¤nge)  
 
 @Description
-  Gibt die angegebene Anzahl an Zeichen vom rechten Ende des Strings zurück.
+  Gibt die angegebene Anzahl an Zeichen vom rechten Ende des Strings zurÃ¼ck.
 
 @Parameter "String$"
   Der zu verwendende String.
 
-@Parameter "Länge"
-  Die Anzahl zurückzugebender Zeichen. Wenn dieser Wert die Anzahl an Zeichen im
-  String überschreitet, wird der gesamte String zurückgegeben.
+@Parameter "LÃ¤nge"
+  Die Anzahl zurÃ¼ckzugebender Zeichen. Wenn dieser Wert die Anzahl an Zeichen im
+  String Ã¼berschreitet, wird der gesamte String zurÃ¼ckgegeben.
   
 @ReturnValue
   Ein String, der die angegebene Anzahl an Zeichen von der rechten Seite des
@@ -625,30 +657,30 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = RSet(String$, Länge [, Zeichen$])
+@Function Ergebnis$ = RSet(String$, LÃ¤nge [, Zeichen$])
 
 @Description
-  Platziert einen String an den rechten Rand des Zielstrings und füllt diesen mit Leerzeichen
-  auf, um die angegebene Länge zu erreichen.
+  Passt die LÃ¤nge eines Strings an, indem bei Bedarf am Anfang der Zeichenfolge weitere Zeichen
+  hinzugefÃ¼gt werden, um die angegebene LÃ¤nge zu erreichen.
   
 @Parameter "String$"
-  Der zu platzierende String.
+  Der zu anzupassende String.
 
-@Parameter "Länge"
-  Die komplette Länge (in Zeichen) des neuen Strings.
+@Parameter "LÃ¤nge"
+  Die komplette LÃ¤nge (in Zeichen) des neuen Strings.
 
 @OptionalParameter "Zeichen$"
-  Das zu verwendende Zeichen, um extra Platz im neuen String zu schaffen. Das
+  Das zu verwendende Zeichen, um die LÃ¤nge des neuen Strings anzupassen. Das
   Standardzeichen ist ein Leerzeichen ('Space').  
   'Zeichen$' muss ein ein Zeichen langer String sein.
 
 @ReturnValue
-  Ein neuer String, der den originalen String - aufgefüllt mit dem angegebenen
-  Zeichen, um die Länge zu erreichen - beinhaltet.
+  Ein neuer String, der den originalen String - aufgefÃ¼llt mit dem angegebenen
+  Zeichen, um die LÃ¤nge zu erreichen - beinhaltet.
 
 @Remarks
-  Ist der String länger als die angegebene Länge, wird er beginnend von der rechten
-  Seite des Strings gekürzt.
+  Ist der String lÃ¤nger als die angegebene LÃ¤nge, wird er beginnend von der rechten
+  Seite des Strings gekÃ¼rzt.
 
 @Example
 @Code
@@ -670,16 +702,16 @@
   Entfernt alle angegebenen Zeichen vom Ende des Strings.
 
 @Parameter "String$"
-  Der zu kürzende String.
+  Der zu kÃ¼rzende String.
 
 @OptionalParameter "Zeichen$"
-  Das für das Kürzen des Strings zu verwendende Zeichen. Das Standardzeichen
+  Das fÃ¼r das KÃ¼rzen des Strings zu verwendende Zeichen. Das Standardzeichen
   ist ein Leerzeichen ('Space'). 'Zeichen$' muss ein ein Zeichen langer
   String sein.
 
 @ReturnValue
   Ein neuer String, der den originalen String - mit entfernten Endzeichen -
-  enthält.
+  enthÃ¤lt.
 
 @Example
 @Code
@@ -697,8 +729,8 @@
 @Function Ergebnis = StringByteLength(String$ [, Format])
 
 @Description
-  Gibt die Anzahl an Bytes zurück, welche zum Speichern des Strings im Speicher
-  im angegebenen Format benötigt werden.
+  Gibt die Anzahl an Bytes zurÃ¼ck, welche zum Speichern des Strings im Speicher
+  im angegebenen Format benÃ¶tigt werden.
   
 @Parameter "String$"
   Der zu verwendende String.
@@ -714,17 +746,17 @@
   (@ReferenceLink "unicode" "Unicode" oder Ascii) verwendet.
 
 @ReturnValue
-  Die Anzahl an benötigten Bytes, um den String im angegebenen Format im Speicher
+  Die Anzahl an benÃ¶tigten Bytes, um den String im angegebenen Format im Speicher
   zu speichern.
 
 @Remarks
-  Die zurückgegebene Anzahl an Bytes beinhaltet nicht das abschließende
-  Null-Zeichen des Strings. Die Größe des Null-Zeichens ist 1 Byte bei ASCII und
+  Die zurÃ¼ckgegebene Anzahl an Bytes beinhaltet nicht das abschlieÃŸende
+  Null-Zeichen des Strings. Die GrÃ¶ÃŸe des Null-Zeichens ist 1 Byte bei ASCII und
   UTF8 sowie 2 Bytes bei Unicode.
 
 @Example
 @Code
-  Debug StringByteLength("ä", #PB_UTF8) ; wird 2 ausgeben
+  Debug StringByteLength("Ã¤", #PB_UTF8) ; wird 2 ausgeben
 @EndCode
 
 @SupportedOS
@@ -734,16 +766,16 @@
 @Function Ergebnis$ = StringField(String$, Index, Trennzeichen$)
 
 @Description
-  Gibt den Inhalt des Stringfelds an der Stelle 'Index' zurück.
+  Gibt den Inhalt des Stringfelds an der Stelle 'Index' zurÃ¼ck.
 
 @Parameter "String$"
   Der zu durchsuchende (zu "parsende") String.
 
 @Parameter "Index"
-  Der zurückzugebende Feld-Index. Der erste Index lautet 1.
+  Der zurÃ¼ckzugebende Feld-Index. Der erste Index lautet 1.
 
 @Parameter "Trennzeichen$"
-  Das für die Trennung der Felder zu verwendende String-Trennzeichen.
+  Das fÃ¼r die Trennung der Felder zu verwendende String-Trennzeichen.
   Dies kann auch ein Trennzeichen mit mehreren Zeichen sein.
 
 @Example
@@ -760,7 +792,7 @@
 @Function Ergebnis$ = StrF(Wert.f [, Stellen])
 
 @Description
-  Konvertiert eine Fließkomma-Zahl in einen String.
+  Konvertiert eine FlieÃŸkomma-Zahl in einen String.
 
 @Parameter "Wert.f"
   Der zu konvertierende Wert.
@@ -768,7 +800,7 @@
 @OptionalParameter "Stellen"
   Die maximale Zahl an Dezimalstellen ('Stellen') der konvertierten Zahl.
   Wird diese nicht angegeben, wird die Zahl auf 10 Nachkommastellen gesetzt und die
-  abschließenden Nullen entfernt.
+  abschlieÃŸenden Nullen entfernt.
   @LineBreak
   Die Zahl wird gerundet, wenn 'Stellen' kleiner als die existierenden Dezimalstellen
   von 'Wert.f' sind.
@@ -778,17 +810,17 @@
 
 @Remarks
   Ganzzahlen (mit Vorzeichen) werden mit dem Befehl @@Str und vorzeichenlose Zahlen
-  mit dem Befehl @@StrU konvertiert. Es ist möglich, diesen Befehl beim Verketten
-  von String und Fließkomma-Zahlen wegzulassen, es wird dann das Standardverhalten
+  mit dem Befehl @@StrU konvertiert. Es ist mÃ¶glich, diesen Befehl beim Verketten
+  von String und FlieÃŸkomma-Zahlen wegzulassen, es wird dann das Standardverhalten
   von @@StrF verwendet.
 
 @Example
 @Code
   value.f = 10.54
-  Debug "Ergebnis: " + StrF(value)    ; wir verwenden nicht den 2. Parameter, bekommen eine Fließkommazahl gerundet auf 10 Nachkommastellen
+  Debug "Ergebnis: " + StrF(value)    ; wir verwenden nicht den 2. Parameter, bekommen eine FlieÃŸkommazahl gerundet auf 10 Nachkommastellen
   Debug "Ergebnis: " + value          ; analog der vorherigen Zeile
-  Debug "Ergebnis: " + StrF(value,2)  ; wir möchten ein Ergebnis mit zwei Dezimalstellen, es ist kein Runden nötig, da nur zwei vorhanden sind
-  Debug "Ergebnis: " + StrF(value,0)  ; wir möchten ein Ergebnis ohne Dezimalstellen, daher wird der Wert gerundet
+  Debug "Ergebnis: " + StrF(value,2)  ; wir mÃ¶chten ein Ergebnis mit zwei Dezimalstellen, es ist kein Runden nÃ¶tig, da nur zwei vorhanden sind
+  Debug "Ergebnis: " + StrF(value,0)  ; wir mÃ¶chten ein Ergebnis ohne Dezimalstellen, daher wird der Wert gerundet
 @EndCode
 
 @SeeAlso
@@ -801,7 +833,7 @@
 @Function Ergebnis$ = StrD(Wert.d [, Stellen])
 
 @Description
-  Konvertiert eine Fließkomma-Zahl doppelter Genauigkeit (Double) in einen String.
+  Konvertiert eine FlieÃŸkomma-Zahl doppelter Genauigkeit (Double) in einen String.
 
 @Parameter "Wert.d"
   Der zu konvertierende Wert.
@@ -809,9 +841,9 @@
 @OptionalParameter "Stellen"
   Die maximale Zahl an Dezimalstellen ('Stellen') der konvertierten Zahl.
   Wird diese nicht angegeben, wird die Zahl auf 10 Nachkommastellen gesetzt und die
-  abschließenden Nullen entfernt.
+  abschlieÃŸenden Nullen entfernt.
   @LineBreak
-  Die Zahl wird auf die nächste Dezimalstelle gerundet (vergleiche mit @@Round), wenn 'Stellen' kleiner
+  Die Zahl wird auf die nÃ¤chste Dezimalstelle gerundet (vergleiche mit @@Round), wenn 'Stellen' kleiner
   als die existierenden Dezimalstellen von 'Wert.d' sind.
 
 @ReturnValue
@@ -819,17 +851,17 @@
 
 @Remarks
   Ganzzahlen (mit Vorzeichen) werden mit dem Befehl @@Str und vorzeichenlose Zahlen
-  mit dem Befehl @@StrU konvertiert. Es ist möglich, diesen Befehl beim Verketten
-  von String und Double Fließkomma-Zahlen wegzulassen, es wird dann das Standardverhalten
+  mit dem Befehl @@StrU konvertiert. Es ist mÃ¶glich, diesen Befehl beim Verketten
+  von String und Double FlieÃŸkomma-Zahlen wegzulassen, es wird dann das Standardverhalten
   von @@StrD verwendet.
 
 @Example
 @Code
   Value.d = 10.54
-  Debug "Ergebnis: " + StrF(value)     ; wir verwenden nicht den 2. Parameter, bekommen eine Fließkommazahl gerundet auf 10 Nachkommastellen
+  Debug "Ergebnis: " + StrF(value)     ; wir verwenden nicht den 2. Parameter, bekommen eine FlieÃŸkommazahl gerundet auf 10 Nachkommastellen
   Debug "Ergebnis: " + value           ; analog der vorherigen Zeile
-  Debug "Ergebnis: " + StrD(Value, 2)  ; wir möchten ein Ergebnis mit zwei Dezimalstellen, es ist kein Runden nötig, da nur zwei vorhanden sind
-  Debug "Ergebnis: " + StrD(Value, 0)  ; wir möchten ein Ergebnis ohne Dezimalstellen, daher wird der Wert gerundet
+  Debug "Ergebnis: " + StrD(Value, 2)  ; wir mÃ¶chten ein Ergebnis mit zwei Dezimalstellen, es ist kein Runden nÃ¶tig, da nur zwei vorhanden sind
+  Debug "Ergebnis: " + StrD(Value, 0)  ; wir mÃ¶chten ein Ergebnis ohne Dezimalstellen, daher wird der Wert gerundet
 @EndCode
 
 @SeeAlso
@@ -851,8 +883,8 @@
   Ein String, der den konvertierten Wert beinhaltet.
 
 @Remarks
-  Fließkommazahlen müssen mit dem Befehl @@StrF, Doubles mit @@StrD und vorzeichenlose
-  Zahlen mit dem Befehl @@StrU konvertiert werden. Es ist möglich, diesen Befehl beim Verketten
+  FlieÃŸkommazahlen mÃ¼ssen mit dem Befehl @@StrF, Doubles mit @@StrD und vorzeichenlose
+  Zahlen mit dem Befehl @@StrU konvertiert werden. Es ist mÃ¶glich, diesen Befehl beim Verketten
   von Strings und Ganzzahlen wegzulassen, es wird dann das Standardverhalten von @@Str verwendet.
 
 @Example
@@ -891,8 +923,8 @@
   Ein String, der den konvertierten Wert beinhaltet.
 
 @Remarks
-  Ganzzahlen (mit Vorzeichen) müssen mit dem Befehl @@Str und 
-  Fließkommazahlen mit dem Befehl @@StrF bzw. @@StrD konvertiert werden.
+  Ganzzahlen (mit Vorzeichen) mÃ¼ssen mit dem Befehl @@Str und 
+  FlieÃŸkommazahlen mit dem Befehl @@StrF bzw. @@StrD konvertiert werden.
 
 @Example
 @Code
@@ -933,17 +965,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = Space(Länge)
+@Function Ergebnis$ = Space(LÃ¤nge)
 
 @Description
-  Erstellt einen leeren String in der angegebenen 'Länge', der mit Leerzeichen
-  ('Space') gefüllt wird.
+  Erstellt einen leeren String in der angegebenen 'LÃ¤nge', der mit Leerzeichen
+  ('Space') gefÃ¼llt wird.
 
-@Parameter "Länge"
-  Die Länge (in Zeichen) des neuen Strings.
+@Parameter "LÃ¤nge"
+  Die LÃ¤nge (in Zeichen) des neuen Strings.
 
 @ReturnValue
-  Ein neuer String, gefüllt mit Leerzeichen ('Space').
+  Ein neuer String, gefÃ¼llt mit Leerzeichen ('Space').
 
 @Example
 @Code
@@ -960,10 +992,10 @@
   Entfernt alle angegebenen Zeichen, die sich am Beginn und am Ende eines Strings befinden.
 
 @Parameter "String$"
-  Der zu kürzende String.
+  Der zu kÃ¼rzende String.
 
 @OptionalParameter "Zeichen$"
-  Das für das Kürzen des Strings verwendete Zeichen. Das Standardzeichen ist das Leerzeichen
+  Das fÃ¼r das KÃ¼rzen des Strings verwendete Zeichen. Das Standardzeichen ist das Leerzeichen
   ('Space'). 'Zeichen$' muss ein ein Zeichen langer String sein.
 
 @ReturnValue
@@ -985,17 +1017,17 @@
 @Function Ergebnis$ = UCase(String$)  
 
 @Description
-  Gibt den originalen String - konvertiert in Großbuchstaben (wenn möglich) - zurück.
+  Gibt den originalen String - konvertiert in GroÃŸbuchstaben (wenn mÃ¶glich) - zurÃ¼ck.
   
 @Parameter "String$"
-  Der in Großbuchstaben zu konvertierende String.
+  Der in GroÃŸbuchstaben zu konvertierende String.
   
 @ReturnValue
-  Der in Großbuchstaben konvertierte String.
+  Der in GroÃŸbuchstaben konvertierte String.
 
 @Remarks
-  Diese Funktion unterstützt auch Buchstaben mit Betonung; wenn also ein kleines 'é'
-  gefunden wurde, wird dieses in ein  großes 'É' konvertiert. 
+  Diese Funktion unterstÃ¼tzt auch Buchstaben mit Betonung; wenn also ein kleines 'Ã©'
+  gefunden wurde, wird dieses in ein  groÃŸes 'Ã‰' konvertiert. 
 
 @Example
 @Code
@@ -1012,8 +1044,8 @@
 @Function Ergebnis$ = UnescapeString(String$ [, Modus])
 
 @Description
-  Gibt die demaskierte (englisch "unescaped") Version des Strings zurück. @@EscapeString
-  kann verwendet werden, um die umgekehrte Operation durchzuführen.
+  Gibt die demaskierte (englisch "unescaped") Version des Strings zurÃ¼ck. @@EscapeString
+  kann verwendet werden, um die umgekehrte Operation durchzufÃ¼hren.
 
 @Parameter "String$"
   Der zu demaskierende String.
@@ -1022,9 +1054,11 @@
   Der beim Demaskieren des Strings zu verwendende Modus.
 @FixedFont
   @#PB_String_EscapeInternal: demaskiert den String mittels des PureBasic internen Formats (siehe @ReferenceLink "general_rules" "Allgemeine Regeln"
-                             für erlaubte Escape-Sequenzen) (Standard).
-  @#PB_String_EscapeXML     : demaskiert den String mittels der XML Escape-Zeichen. Dies kann nützlich sein, um einen
-                             beliebigen String in einen XML-Baum einzufügen.
+                             fÃ¼r erlaubte Escape-Sequenzen) (Standard).
+  @#PB_String_EscapeXML     : demaskiert den String mittels der XML Escape-Zeichen. Dies kann nÃ¼tzlich sein, um einen
+                             beliebigen String aus einem XML-Baum zu lesen.
+  @#PB_String_EscapeJSON    : demaskiert den String mittels der JSON-Escape-Zeichen. Dies kann nÃ¼tzlich sein, um einen
+                             beliebigen String aus einem JSON-Wert zu lesen.
 @EndFixedFont
 
 @ReturnValue
@@ -1048,7 +1082,7 @@
 @Function Ergebnis.d = ValD(String$)
 
 @Description
-  Wandelt einen String in einen Double-Wert (Fließkommazahl doppelter Genauigkeit) um.
+  Wandelt einen String in einen Double-Wert (FlieÃŸkommazahl doppelter Genauigkeit) um.
   Der String muss ein Double im dezimalen oder wissenschaftlichen (Exponent) Format sein.
   Das Parsen (Suchen) nach Zahlen stoppt beim ersten nicht numerischen Zeichen.
 
@@ -1059,8 +1093,8 @@
   Der Double-Wert des Strings.
 
 @Remarks
-  Strings mit einer enthaltenen Ganzzahl können auch mit @@Val und 
-  32 Bit-Fließkommazahlen mit @@ValF (mit geringerer Genauigkeit als @@ValD) 
+  Strings mit einer enthaltenen Ganzzahl kÃ¶nnen auch mit @@Val und 
+  32 Bit-FlieÃŸkommazahlen mit @@ValF (mit geringerer Genauigkeit als @@ValD) 
   konvertiert werden.
 
 @Example
@@ -1079,7 +1113,7 @@
 @Function Ergebnis.f = ValF(String$)  
 
 @Description
-  Wandelt einen String in eine Fließkomma-Zahl um. Der String muss ein Fließkomma-Wert
+  Wandelt einen String in eine FlieÃŸkomma-Zahl um. Der String muss ein FlieÃŸkomma-Wert
   im dezimalen oder wissenschaftlichen (Exponent) Format sein.
   Das Parsen (Suchen) nach Zahlen stoppt beim ersten nicht numerischen Zeichen.
 
@@ -1087,12 +1121,14 @@
   Der zu konvertierende String.
 
 @ReturnValue
-  Der Fließkomma-Wert des Strings.
+  Der FlieÃŸkomma-Wert des Strings.
 
 @Remarks
-  Strings mit einer enthaltenen Ganzzahl können auch mit @@Val und
-  64 Bit-Fließkommazahlen mit @@ValD (mit höherer Genauigkeit als @@ValF) 
+  Strings mit einer enthaltenen Ganzzahl kÃ¶nnen auch mit @@Val und
+  64 Bit-FlieÃŸkommazahlen mit @@ValD (mit hÃ¶herer Genauigkeit als @@ValF) 
   konvertiert werden.
+@LineBreak
+  "NaN", "-Infinity" und "+Infinity" sind erlaubt.
 
 @Example
 @Code
@@ -1111,7 +1147,7 @@
 
 @Description
   Wandelt einen String in einen numerischen Wert (Quad) um. Der String kann ein Ganzzahl-Wert
-  im Dezimalformat, Hexadezimal-Format (mit '$' Präfix) oder Binär-Format (mit '%' Präfix) sein.
+  im Dezimalformat, Hexadezimal-Format (mit '$' PrÃ¤fix) oder BinÃ¤r-Format (mit '%' PrÃ¤fix) sein.
   Das Parsen (Suchen) nach Zahlen stoppt beim ersten nicht numerischen Zeichen.
 
 @Parameter "String$"
@@ -1121,8 +1157,8 @@
   Der numerische Wert des Strings.
 
 @Remarks
-  Strings mit einer enthaltenen 32-Bit Fließkommazahl können mit @@ValF und
-  64-Bit Fließkommazahlen mit @@ValD konvertiert werden.
+  Strings mit einer enthaltenen 32-Bit FlieÃŸkommazahl kÃ¶nnen mit @@ValF und
+  64-Bit FlieÃŸkommazahlen mit @@ValD konvertiert werden.
 
 @Example
 @Code
@@ -1141,7 +1177,7 @@
 @Function *Puffer = Ascii(String$)
 
 @Description
-  Erstellt eine ASCII-Darstellung des Strings. Wenn diese nicht mehr benötigt wird, muss
+  Erstellt eine ASCII-Darstellung des Strings. Wenn diese nicht mehr benÃ¶tigt wird, muss
   der Puffer mittels @@FreeMemory freigegeben werden.
 
 @Parameter "String$"
@@ -1151,7 +1187,7 @@
   Die ASCII-Darstellung des Strings.
 
 @Remarks
-  Diese Funktion ist vor allem dann nützlich, wenn mit Bibliotheken von Drittanbietern
+  Diese Funktion ist vor allem dann nÃ¼tzlich, wenn mit Bibliotheken von Drittanbietern
   gearbeitet wird, die Ascii als Eingabe erfordern.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-ascii' kann auch verwendet werden, um
   den Umwandlungsprozess beim Importieren externer Funktionen zu automatisieren.
@@ -1161,7 +1197,7 @@
 
 @Example
 @Code
-  *Ascii = Ascii("Hélé")
+  *Ascii = Ascii("HÃ©lÃ©")
   ShowMemoryViewer(*Ascii, 4)
 @EndCode
 
@@ -1175,7 +1211,7 @@
 @Function *Puffer = UTF8(String$)
 
 @Description
-  Erstellt einen Puffer mit einer UTF8-Darstellung des Strings. Wenn er nicht mehr benötigt wird, muss
+  Erstellt einen Puffer mit einer UTF8-Darstellung des Strings. Wenn er nicht mehr benÃ¶tigt wird, muss
   der Puffer mittels @@FreeMemory freigegeben werden.
 
 @Parameter "String$"
@@ -1185,7 +1221,7 @@
   Die UTF8-Darstellung des Strings.
 
 @Remarks
-  Diese Funktion ist vor allem dann nützlich, wenn mit Bibliotheken von Drittanbietern
+  Diese Funktion ist vor allem dann nÃ¼tzlich, wenn mit Bibliotheken von Drittanbietern
   gearbeitet wird, die UTF8 als Eingabe erfordern.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-utf8' kann auch verwendet werden, um
   den Umwandlungsprozess beim Importieren externer Funktionen zu automatisieren.
@@ -1195,10 +1231,10 @@
 
 @Example
 @Code
-  *UTF8 = UTF8("Hélé")
+  *UTF8 = UTF8("HÃ©lÃ©")
   ShowMemoryViewer(*UTF8, MemorySize(*UTF8))
   
-  Debug PeekS(*UTF8, -1, #PB_UTF8) ; Zeigt "Hélé" an
+  Debug PeekS(*UTF8, -1, #PB_UTF8) ; Zeigt "HÃ©lÃ©" an
 @EndCode
 
 @Example
@@ -1207,8 +1243,8 @@
     PeekS(Mem, -1, Type)
   EndMacro
 
-  *Mem1 = Ascii("Test - éàîöÊÜ")
-  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem1 = Ascii("Test - Ã©Ã Ã®Ã¶ÃŠÃœ")
+  *Mem2 = UTF8("Test - Ã©Ã Ã®Ã¶ÃŠÃœ")
 
   Text.s = Unicode(*Mem1)
   Debug Text 
@@ -1227,7 +1263,7 @@
 @Function Ergebnis$ = FormatNumber(Nummer.d [, Stellen [, DezimalPunkt$ [, TausenderTrennzeichen$]]])
 
 @Description
-  Formatiert eine Zahl in ein Geld-ähnliches Format.
+  Formatiert eine Zahl in ein Geld-Ã¤hnliches Format.
 
 @Parameter "Nummer"
   Die zu formatierende Zahl.

@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 CompilerSelect #PB_Compiler_OS
   CompilerCase #PB_OS_Windows
     #Slash = '\'
@@ -81,7 +81,7 @@ Procedure DrawFileRequester(x,y,width,height,col,row)
   height - 1
   width - 2
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(#Form_Font))
   address = grid_GetCellData(propgrid,col,row)
   text.s = ""
@@ -99,11 +99,11 @@ Procedure DrawFileRequester(x,y,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 18,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - TextWidth("...")) / 2
   y = y1 -2
   DrawingFont(FontID(#Form_Font))
@@ -113,7 +113,7 @@ Procedure DrawFontPicker(x,y,width,height,col,row)
   height - 1
   width - 2
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(#Form_Font))
   address = grid_GetCellData(propgrid,col,row)
   text.s = ""
@@ -131,11 +131,11 @@ Procedure DrawFontPicker(x,y,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, height,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - TextWidth("...")) / 2
   y = y1 -2
   DrawingFont(FontID(#Form_Font))
@@ -148,7 +148,7 @@ Procedure DrawColorPicker(x,y,width,height,col,row)
   color = grid_GetCellData(propgrid,col,row)
   
   If color > -1
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     Box(x,y,32,height,color)
   Else
     DrawingMode(#PB_2DDrawing_Outlined)
@@ -164,11 +164,11 @@ Procedure DrawColorPicker(x,y,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, height,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - TextWidth("...")) / 2
   y = y1 -2
   DrawingFont(FontID(#Form_Font))
@@ -183,11 +183,11 @@ Procedure DrawButton(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, x1+9)
   Box(x1+1,y1+1,width-2, 8)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+9,width-2, 7,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 18,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(#Form_Font))
   caption.s = Language("Form", "Select")
   x = x1 + (width- TextWidth(caption)) / 2
@@ -202,11 +202,11 @@ Procedure DrawButtonB(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, x1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 22,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(#Form_Font))
   caption.s = Language("Form", "Select")
   x = x1 + (width- TextWidth(caption)) / 2
@@ -221,11 +221,11 @@ Procedure DrawButtonC(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, x1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 22,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(#Form_Font))
   caption.s = Language("Form", "SetRelativePath")
   x = x1 + (width- TextWidth(caption)) / 2
@@ -238,11 +238,11 @@ Procedure DrawUp(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 22,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - ImageWidth(#Img_Up)) / 2
   y = y1 + (22 - ImageHeight(#Img_Up)) / 2
   DrawAlphaImage(ImageID(#Img_Up),x,y)
@@ -253,11 +253,11 @@ Procedure DrawDown(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 22,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - ImageWidth(#Img_Down)) / 2
   y = y1 + (22 - ImageHeight(#Img_Down)) / 2
   DrawAlphaImage(ImageID(#Img_Down),x,y)
@@ -268,11 +268,11 @@ Procedure DrawDelete(x1,y1,width,height,col,row)
   FrontColor(RGB(244,244,244))
   LinearGradient(x1+1,y1+1,x1+1, y1+9)
   Box(x1+1,y1+1,width-2, 10)
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1+1,y1+11,width-2, 9,RGB(236,236,236))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1,y1,width, 22,3,3,RGB(144,144,144))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   x = x1 + (width - ImageWidth(#Img_Delete)) / 2
   y = y1 + (22 - ImageHeight(#Img_Delete)) / 2
   DrawAlphaImage(ImageID(#Img_Delete),x,y)

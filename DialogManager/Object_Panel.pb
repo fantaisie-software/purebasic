@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 XIncludeFile "Object_BoxBase.pb" ; DlgPanel is a Box
@@ -103,7 +103,7 @@ Procedure DlgPanel_SizeRequest(*THIS.DlgPanel, *Width.LONG, *Height.LONG)
   
   CompilerIf #CompileMac
     *Width\l  + 8
-    *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 4
+    *Height\l + GetGadgetAttribute(*THIS\Gadget, #PB_Panel_TabHeight) + 40
   CompilerEndIf
   
   CompilerIf #CompileLinux

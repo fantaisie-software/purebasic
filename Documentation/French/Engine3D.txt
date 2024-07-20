@@ -27,7 +27,7 @@ Plus d'informations à propos de ce moteur 3D
 sont disponible sur: 
 @InternetLink "http://www.ogre3d.org" "http://www.ogre3d.org".
 La licence relative à l'usage de OGRE est 
-consultable @MainGuideLink "ogre_mit" "ici" 
+consultable @ReferenceLink "license_engine3d" "ici" 
 (plus d'informations ici 
 @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ").
 @LineBreak
@@ -838,8 +838,7 @@ consultable @MainGuideLink "ogre_mit" "ici"
                             dans un exécutable distribuable...
   @#PB_Engine3D_DebugOutput: Les actions sont affichées sur la console. Activez au préalable l'option Console du compilateur 
                             dans menu Compilateur \ Options du compilateur... \ Options de compilation \ Format de l'exécutable
-  @#PB_Engine3D_EnableCG   : Utilise le 'Cg ToolKit' de NVIDIA (fonctionne avec DirectX et OpenGL).
-                            Doit être installé au préalable, voir @InternetLink "https://developer.nvidia.com/cg-toolkit-download" "nvidia website".
+
  @EndFixedFont
 
 @OptionalParameter "Bibliotheque$"
@@ -867,9 +866,7 @@ consultable @MainGuideLink "ogre_mit" "ici"
   depuis le dossier PureBasic/compilateurs/). 
   Si elle échoue, c'est probablement parce 
   que la bibliothèque est introuvable. Sous 
-  Windows, une version récente de DirectX 9 
-  doit être installée (voir ici: 
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+  Windows, une version récente du pilote graphique OpenGL doit être installée. 
   
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, 
@@ -1954,17 +1951,20 @@ suivantes:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WorldGravity(Gravitation)
+@Function WorldGravity(Gravitation.f [, x, y, z])
 
 @Description
   Change la gravité du monde 3D.
   
-@Parameter "Gravitation"
+@Parameter "Gravitation.f"
   Valeur de la nouvelle pesanteur.
 @LineBreak
 @LineBreak
   La valeur par défaut est -9.806, ce 
   qui correspond à la gravité terrestre.
+  
+@OptionalParameter "x, y, z"  
+  Les coordonnées du vecteur gravitation à utiliser pour changer la direction de la gravité.
 
 @NoReturnValue
 
@@ -1975,8 +1975,7 @@ suivantes:
 @LineBreak
   Quelques exemples de pesanteur:
 @FixedFont
-  Attraction de la pesanteur en % de 
-  celle de la terre
+  Attraction de la pesanteur en % de celle de la terre
   LUNE   : 16%
   MERCURE: 38%
   VENUS  : 90%
@@ -2048,8 +2047,12 @@ suivantes:
   La valeur du tangage en degré.
   
 @Parameter "Mode"
-  Le mode de tangage. Peut être l'une 
-  des valeurs suivantes:
+  Le mode de tangage. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Tangage relatif au tangage en cours.
+  @#PB_Absolute: Tangage absolu (par défaut).
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.
@@ -2088,8 +2091,12 @@ suivantes:
   La valeur du roulis en degré.
   
 @Parameter "Mode"
-  Le mode de roulis. Peut être l'une des 
-  valeurs suivantes:
+  Le mode de roulis. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Roulis relatif au roulis en cours.
+  @#PB_Absolute: Roulis absolu (par défaut).
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.
@@ -2129,8 +2136,12 @@ suivantes:
   La valeur du lacet en degré.
   
 @Parameter "Mode"
-  Le mode de lacet. Peut être l'une des 
-  valeurs suivantes:
+  Le mode de lacet. Peut être l'une des valeurs suivantes:
+@FixedFont
+  @#PB_Relative: Lacet relatif au lacet en cours.
+  @#PB_Absolute: Lacet absolu (par défaut).
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.

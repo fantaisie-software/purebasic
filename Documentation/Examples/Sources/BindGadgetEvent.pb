@@ -37,7 +37,7 @@ Procedure OnMouseMove()
   If GetGadgetAttribute(0,#PB_Canvas_Buttons) & #PB_Canvas_LeftButton
     x = GetGadgetAttribute(0,#PB_Canvas_MouseX)
     If x < 0 : x = 0 : EndIf
-    If x > GadgetWidth(0) : x = GadgetWidth(0) : EndIf
+    If x > DesktopScaledX(GadgetWidth(0)) : x = DesktopScaledX(GadgetWidth(0)) : EndIf
     RepaintCanvas( x )
   EndIf
 EndProcedure

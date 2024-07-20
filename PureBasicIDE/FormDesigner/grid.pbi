@@ -5,11 +5,11 @@
 ;    (c) gdpcomputing / Gaetan Dupont-Panon
 ;    Version 0.5
 ;-----------------------------------------------------
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software and Gaetan DUPONT-PANON. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 #Grid_Padding = 9
 #Grid_TextEdit_Font_Strikethrough = 8
 EnableExplicit
@@ -83,11 +83,14 @@ Enumeration
 EndEnumeration
 
 
-CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-  Global Grid_Scrollbar_Width = 16
-CompilerElse
-  Global Grid_Scrollbar_Width = 18
-CompilerEndIf
+CompilerSelect #PB_Compiler_OS
+  CompilerCase #PB_OS_MacOS
+    Global Grid_Scrollbar_Width = 16
+  CompilerCase #PB_OS_Linux
+    Global Grid_Scrollbar_Width = 18
+  CompilerCase #PB_OS_Windows
+    Global Grid_Scrollbar_Width = 18
+CompilerEndSelect
 
 ;- Helping functions
 Global grids_gs_windowmousedx.i, grids_gs_windowmousedy.i
@@ -387,11 +390,11 @@ Declare grid_DoEditFieldEvent(*grid.Grid_Struct, key)
 Declare grid_GetCellTextWidth(*grid.Grid_Struct, col_index, row_index)
 Declare grid_ResizeGadget(*grid.Grid_Struct, x, y, width, height)
 Declare grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
-DeclareDLL grid_ScrollEvent()
-DeclareDLL grid_CanvasEvent()
-DeclareDLL grid_ACListEvent()
-DeclareDLL grid_TimerEvent()
-DeclareDLL grid_WindowEvent()
+Declare grid_ScrollEvent()
+Declare grid_CanvasEvent()
+Declare grid_ACListEvent()
+Declare grid_TimerEvent()
+Declare grid_WindowEvent()
 
 
 CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
@@ -566,7 +569,7 @@ Procedure grid_DrawCheckbox(*grid.Grid_Struct)
   StopDrawing()
 EndProcedure
 
-ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 1000000, def_row_height = 21, def_col_width = 100, dfont.s = "Arial", dfontsize.w = 11, dfontcolor.l = 0, parent = -1, parent_item = 0)
+Procedure GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 1000000, def_row_height = 21, def_col_width = 100, dfont.s = "Arial", dfontsize.w = 11, dfontcolor.l = 0, parent = -1, parent_item = 0)
   Protected i, style.i, oldgadgetlist, *grid.Grid_Struct
   
   *grid = AddElement(grid_grids())
@@ -617,15 +620,6 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   *grid\default_row_height = DesktopScaledY(def_row_height)
   
   *grid\hscroll = ScrollBarGadget(#PB_Any,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width,0,1,1)
-  
-  CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    Protected *wid.GtkWidget
-    *wid.GtkWidget = GadgetID(*grid\hscroll)
-    Grid_Scrollbar_Width = *wid\allocation\height
-    
-    ResizeGadget(*grid\hscroll,x,y+height-Grid_Scrollbar_Width,width-Grid_Scrollbar_Width,Grid_Scrollbar_Width)
-  CompilerEndIf
-  
   *grid\vscroll = ScrollBarGadget(#PB_Any,x+width-Grid_Scrollbar_Width,y,Grid_Scrollbar_Width,height-Grid_Scrollbar_Width,0,1,1,#PB_ScrollBar_Vertical)
   
   CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
@@ -733,7 +727,7 @@ ProcedureDLL GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10
   ProcedureReturn *grid
 EndProcedure
 
-ProcedureDLL grid_FreeGadget(*grid.Grid_Struct)
+Procedure grid_FreeGadget(*grid.Grid_Struct)
   
   ; Unbind all events to avoid issues
   ;
@@ -774,7 +768,7 @@ ProcedureDLL grid_FreeGadget(*grid.Grid_Struct)
 EndProcedure
 
 
-ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
+Procedure grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
   Protected xscroll.b, diff, maxscroll, more, yscroll.b, max, oldglist
   
   Select attribute
@@ -919,7 +913,7 @@ ProcedureDLL grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
   EndSelect
   
 EndProcedure
-ProcedureDLL.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
+Procedure.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
   Protected value.i, drawing_x, drawing_y, current_row, current_column, indexed_current_column, indexed_current_row
   
   Select attribute
@@ -992,17 +986,17 @@ ProcedureDLL.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
   ProcedureReturn value
 EndProcedure
 
-ProcedureDLL grid_SetActiveGadget(*grid.Grid_Struct)
+Procedure grid_SetActiveGadget(*grid.Grid_Struct)
   SetActiveGadget(*grid\canvas)
 EndProcedure
 
-ProcedureDLL grid_IsActiveGadget(*grid.Grid_Struct)
+Procedure grid_IsActiveGadget(*grid.Grid_Struct)
   If GetActiveGadget() = *grid\canvas
     ProcedureReturn #True
   EndIf
 EndProcedure
 
-ProcedureDLL grid_ResizeGadget(*grid.Grid_Struct, x, y, width, height)
+Procedure grid_ResizeGadget(*grid.Grid_Struct, x, y, width, height)
   Protected maxscroll, more
   
   If x <> #PB_Ignore
@@ -1050,31 +1044,31 @@ ProcedureDLL grid_ResizeGadget(*grid.Grid_Struct, x, y, width, height)
   *grid\redraw = #True
 EndProcedure
 
-ProcedureDLL grid_GadgetX(*grid.Grid_Struct)
+Procedure grid_GadgetX(*grid.Grid_Struct)
   ProcedureReturn *grid\x
 EndProcedure
 
-ProcedureDLL grid_GadgetY(*grid.Grid_Struct)
+Procedure grid_GadgetY(*grid.Grid_Struct)
   ProcedureReturn *grid\y
 EndProcedure
 
-ProcedureDLL grid_GadgetWidth(*grid.Grid_Struct)
+Procedure grid_GadgetWidth(*grid.Grid_Struct)
   ProcedureReturn *grid\width
 EndProcedure
 
-ProcedureDLL grid_GadgetHeight(*grid.Grid_Struct)
+Procedure grid_GadgetHeight(*grid.Grid_Struct)
   ProcedureReturn *grid\height
 EndProcedure
 
-ProcedureDLL grid_GadgetInnerWidth(*grid.Grid_Struct)
+Procedure grid_GadgetInnerWidth(*grid.Grid_Struct)
   ProcedureReturn DesktopScaledX(*grid\innerwidth)
 EndProcedure
 
-ProcedureDLL grid_GadgetInnerHeight(*grid.Grid_Struct)
+Procedure grid_GadgetInnerHeight(*grid.Grid_Struct)
   ProcedureReturn DesktopScaledY(*grid\innerheight)
 EndProcedure
 
-ProcedureDLL grid_SetGadgetColor(*grid.Grid_Struct,ColorType,Color)
+Procedure grid_SetGadgetColor(*grid.Grid_Struct,ColorType,Color)
   Select ColorType
     Case #Grid_Color_CellFirstSelected
       *grid\color_cellfirstsel = Color
@@ -1100,31 +1094,31 @@ ProcedureDLL grid_SetGadgetColor(*grid.Grid_Struct,ColorType,Color)
   
   *grid\redraw = #True
 EndProcedure
-ProcedureDLL grid_SetMaxGridRowsColumns(cols,rows)
+Procedure grid_SetMaxGridRowsColumns(cols,rows)
   grid_maxcols = cols
   grid_maxrows = rows
 EndProcedure
 
-ProcedureDLL grid_HideGadget(*grid.Grid_Struct, value.b)
+Procedure grid_HideGadget(*grid.Grid_Struct, value.b)
   *grid\hidden = value
   
   HideGadget(*grid\canvas,value)
 EndProcedure
 
-ProcedureDLL grid_Redraw(*grid.Grid_Struct)
+Procedure grid_Redraw(*grid.Grid_Struct)
   *grid\redraw = #True
 EndProcedure
 
 
-ProcedureDLL.i grid_GetNumberOfColumns(*grid.Grid_Struct)
+Procedure.i grid_GetNumberOfColumns(*grid.Grid_Struct)
   ProcedureReturn *grid\maxnumcols
 EndProcedure
 
-ProcedureDLL.i grid_GetNumberOfRows(*grid.Grid_Struct)
+Procedure.i grid_GetNumberOfRows(*grid.Grid_Struct)
   ProcedureReturn *grid\maxnumrows
 EndProcedure
 
-ProcedureDLL grid_SetDefaultStyle(*grid.Grid_Struct, font.s, size.w, color.l)
+Procedure grid_SetDefaultStyle(*grid.Grid_Struct, font.s, size.w, color.l)
   *grid\dfont = font
   *grid\dfontcolor = color
   *grid\dfontsize = size
@@ -1137,7 +1131,7 @@ ProcedureDLL grid_SetDefaultStyle(*grid.Grid_Struct, font.s, size.w, color.l)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_SetColumnButton(*grid.Grid_Struct, index, *imageID)
+Procedure grid_SetColumnButton(*grid.Grid_Struct, index, *imageID)
   Protected col.s
   
   col.s = Str(*grid\col(index))
@@ -1152,7 +1146,7 @@ ProcedureDLL grid_SetColumnButton(*grid.Grid_Struct, index, *imageID)
     *grid\cols()\wh = *grid\default_col_width
   EndIf
 EndProcedure
-ProcedureDLL grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
+Procedure grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   Protected col.s
   
   col.s = Str(*grid\col(index))
@@ -1163,7 +1157,7 @@ ProcedureDLL grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   *grid\cols()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(*grid\font))
   
   *grid\cols()\wtext = TextWidth(caption)
@@ -1175,7 +1169,7 @@ ProcedureDLL grid_SetColumnCaption(*grid.Grid_Struct, index, caption.s)
   
   *grid\redraw = #True
 EndProcedure
-ProcedureDLL grid_SetColumnData(*grid.Grid_Struct, index, g_data.i)
+Procedure grid_SetColumnData(*grid.Grid_Struct, index, g_data.i)
   Protected col.s
   
   col.s = Str(*grid\col(index))
@@ -1191,7 +1185,7 @@ ProcedureDLL grid_SetColumnData(*grid.Grid_Struct, index, g_data.i)
   
 EndProcedure
 
-ProcedureDLL grid_GetColumnData(*grid.Grid_Struct, index)
+Procedure grid_GetColumnData(*grid.Grid_Struct, index)
   Protected caption.s, g_data
   
   If FindMapElement(*grid\cols(), Str(*grid\col(index)))
@@ -1202,7 +1196,7 @@ ProcedureDLL grid_GetColumnData(*grid.Grid_Struct, index)
   
   ProcedureReturn g_data
 EndProcedure
-ProcedureDLL.s grid_GetColumnCaption(*grid.Grid_Struct, index)
+Procedure.s grid_GetColumnCaption(*grid.Grid_Struct, index)
   Protected caption.s
   
   If FindMapElement(*grid\cols(), Str(*grid\col(index)))
@@ -1214,7 +1208,7 @@ ProcedureDLL.s grid_GetColumnCaption(*grid.Grid_Struct, index)
   ProcedureReturn caption
 EndProcedure
 
-ProcedureDLL grid_SetColumnWidth(*grid.Grid_Struct, index, width = -1, padding = 0)
+Procedure grid_SetColumnWidth(*grid.Grid_Struct, index, width = -1, padding = 0)
   Protected col.s, i, cell_width, caption.s
   
   col.s = Str(*grid\col(index))
@@ -1264,7 +1258,7 @@ ProcedureDLL grid_SetColumnWidth(*grid.Grid_Struct, index, width = -1, padding =
   *grid\redraw = #True
 EndProcedure
 
-ProcedureDLL grid_GetColumnWidth(*grid.Grid_Struct, index)
+Procedure grid_GetColumnWidth(*grid.Grid_Struct, index)
   Protected col.s, width
   
   col.s = Str(*grid\col(index))
@@ -1277,7 +1271,7 @@ ProcedureDLL grid_GetColumnWidth(*grid.Grid_Struct, index)
   
   ProcedureReturn width
 EndProcedure
-ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
+Procedure grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   Protected row.s
   
   row.s = Str(*grid\row(index))
@@ -1288,7 +1282,7 @@ ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   *grid\rows()\caption = caption
   
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   DrawingFont(FontID(*grid\font))
   
   *grid\rows()\wtext = TextWidth(caption)
@@ -1300,7 +1294,7 @@ ProcedureDLL grid_SetRowCaption(*grid.Grid_Struct, index, caption.s)
   
   *grid\redraw = #True
 EndProcedure
-ProcedureDLL grid_SetRowData(*grid.Grid_Struct, index, g_data)
+Procedure grid_SetRowData(*grid.Grid_Struct, index, g_data)
   Protected row.s
   
   row.s = Str(*grid\row(index))
@@ -1315,7 +1309,7 @@ ProcedureDLL grid_SetRowData(*grid.Grid_Struct, index, g_data)
   EndIf
   
 EndProcedure
-ProcedureDLL grid_GetRowData(*grid.Grid_Struct, index)
+Procedure grid_GetRowData(*grid.Grid_Struct, index)
   Protected caption.s, g_data
   
   If FindMapElement(*grid\rows(), Str(*grid\row(index)))
@@ -1326,7 +1320,7 @@ ProcedureDLL grid_GetRowData(*grid.Grid_Struct, index)
   
   ProcedureReturn g_data
 EndProcedure
-ProcedureDLL.s grid_GetRowCaption(*grid.Grid_Struct, index)
+Procedure.s grid_GetRowCaption(*grid.Grid_Struct, index)
   Protected caption.s
   
   If FindMapElement(*grid\rows(), Str(*grid\row(index)))
@@ -1337,7 +1331,7 @@ ProcedureDLL.s grid_GetRowCaption(*grid.Grid_Struct, index)
   
   ProcedureReturn caption
 EndProcedure
-ProcedureDLL grid_SetRowHeight(*grid.Grid_Struct, index, height)
+Procedure grid_SetRowHeight(*grid.Grid_Struct, index, height)
   Protected row.s
   
   row.s = Str(*grid\row(index))
@@ -1349,7 +1343,7 @@ ProcedureDLL grid_SetRowHeight(*grid.Grid_Struct, index, height)
   
   *grid\redraw = #True
 EndProcedure
-ProcedureDLL grid_GetRowHeight(*grid.Grid_Struct, index)
+Procedure grid_GetRowHeight(*grid.Grid_Struct, index)
   Protected row.s, height
   
   row.s = Str(*grid\row(index))
@@ -1362,7 +1356,7 @@ ProcedureDLL grid_GetRowHeight(*grid.Grid_Struct, index)
   ProcedureReturn height
 EndProcedure
 
-ProcedureDLL grid_HideRow(*grid.Grid_Struct, index, hide.b)
+Procedure grid_HideRow(*grid.Grid_Struct, index, hide.b)
   Protected row.s
   
   row.s = Str(*grid\row(index))
@@ -1383,7 +1377,7 @@ EndProcedure
 
 
 
-ProcedureDLL grid_SetCellData(*grid.Grid_Struct, col_index, row_index, value)
+Procedure grid_SetCellData(*grid.Grid_Struct, col_index, row_index, value)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1411,7 +1405,7 @@ ProcedureDLL grid_SetCellData(*grid.Grid_Struct, col_index, row_index, value)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_GetCellData(*grid.Grid_Struct, col_index, row_index)
+Procedure grid_GetCellData(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, c_data.i
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1423,7 +1417,7 @@ ProcedureDLL grid_GetCellData(*grid.Grid_Struct, col_index, row_index)
   ProcedureReturn c_data
 EndProcedure
 
-ProcedureDLL grid_SetCellString(*grid.Grid_Struct, col_index, row_index, value.s)
+Procedure grid_SetCellString(*grid.Grid_Struct, col_index, row_index, value.s)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1453,7 +1447,7 @@ ProcedureDLL grid_SetCellString(*grid.Grid_Struct, col_index, row_index, value.s
   *grid\redraw = #True
 EndProcedure
 
-ProcedureDLL.s grid_GetCellString(*grid.Grid_Struct, col_index, row_index)
+Procedure.s grid_GetCellString(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, content.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1465,7 +1459,7 @@ ProcedureDLL.s grid_GetCellString(*grid.Grid_Struct, col_index, row_index)
   ProcedureReturn content
 EndProcedure
 
-ProcedureDLL grid_SetCellBackColor(*grid.Grid_Struct, col_index, row_index, backcolor)
+Procedure grid_SetCellBackColor(*grid.Grid_Struct, col_index, row_index, backcolor)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1478,7 +1472,7 @@ ProcedureDLL grid_SetCellBackColor(*grid.Grid_Struct, col_index, row_index, back
   *grid\cells()\backColorSet = #True
 EndProcedure
 
-ProcedureDLL.l grid_GetCellBackColor(*grid.Grid_Struct, col_index, row_index)
+Procedure.l grid_GetCellBackColor(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, color
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1492,7 +1486,7 @@ ProcedureDLL.l grid_GetCellBackColor(*grid.Grid_Struct, col_index, row_index)
   ProcedureReturn color
 EndProcedure
 
-ProcedureDLL grid_SetCellAlign(*grid.Grid_Struct, col_index, row_index, align.b)
+Procedure grid_SetCellAlign(*grid.Grid_Struct, col_index, row_index, align.b)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1505,7 +1499,7 @@ ProcedureDLL grid_SetCellAlign(*grid.Grid_Struct, col_index, row_index, align.b)
   *grid\cells()\halign = align
 EndProcedure
 
-ProcedureDLL grid_SetCellVerticalAlign(*grid.Grid_Struct, col_index, row_index, align.b)
+Procedure grid_SetCellVerticalAlign(*grid.Grid_Struct, col_index, row_index, align.b)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1518,7 +1512,7 @@ ProcedureDLL grid_SetCellVerticalAlign(*grid.Grid_Struct, col_index, row_index, 
   *grid\cells()\valign = align
 EndProcedure
 
-ProcedureDLL grid_CellIdentRight(*grid.Grid_Struct, col_index, row_index)
+Procedure grid_CellIdentRight(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1531,7 +1525,7 @@ ProcedureDLL grid_CellIdentRight(*grid.Grid_Struct, col_index, row_index)
   *grid\cells()\ident + 10
 EndProcedure
 
-ProcedureDLL grid_CellIdentLeft(*grid.Grid_Struct, col_index, row_index)
+Procedure grid_CellIdentLeft(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1548,7 +1542,7 @@ ProcedureDLL grid_CellIdentLeft(*grid.Grid_Struct, col_index, row_index)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_SetCellType(*grid.Grid_Struct, col_index, row_index, type)
+Procedure grid_SetCellType(*grid.Grid_Struct, col_index, row_index, type)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1580,7 +1574,7 @@ ProcedureDLL grid_SetCellType(*grid.Grid_Struct, col_index, row_index, type)
   *grid\redraw = #True
 EndProcedure
 
-ProcedureDLL grid_SetCellState(*grid.Grid_Struct, col_index, row_index, state.i)
+Procedure grid_SetCellState(*grid.Grid_Struct, col_index, row_index, state.i)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1595,7 +1589,7 @@ ProcedureDLL grid_SetCellState(*grid.Grid_Struct, col_index, row_index, state.i)
   
 EndProcedure
 
-ProcedureDLL grid_GetCellType(*grid.Grid_Struct, col_index, row_index)
+Procedure grid_GetCellType(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, value.i
   
   If col_index > -1 And row_index > -1
@@ -1608,7 +1602,7 @@ ProcedureDLL grid_GetCellType(*grid.Grid_Struct, col_index, row_index)
   
   ProcedureReturn value
 EndProcedure
-ProcedureDLL grid_GetCellState(*grid.Grid_Struct, col_index, row_index)
+Procedure grid_GetCellState(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, value.i
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1620,7 +1614,7 @@ ProcedureDLL grid_GetCellState(*grid.Grid_Struct, col_index, row_index)
   ProcedureReturn value
 EndProcedure
 
-ProcedureDLL grid_SetColumnType(*grid.Grid_Struct, index, type)
+Procedure grid_SetColumnType(*grid.Grid_Struct, index, type)
   Protected col.s, i, cell_width
   
   col.s = Str(*grid\col(index))
@@ -1639,7 +1633,7 @@ ProcedureDLL grid_SetColumnType(*grid.Grid_Struct, index, type)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_GetColumnType(*grid.Grid_Struct, index)
+Procedure grid_GetColumnType(*grid.Grid_Struct, index)
   Protected caption.s, g_data
   
   If FindMapElement(*grid\cols(), Str(*grid\col(index)))
@@ -1652,7 +1646,7 @@ ProcedureDLL grid_GetColumnType(*grid.Grid_Struct, index)
 EndProcedure
 
 
-ProcedureDLL grid_CreateComboBox(*grid.Grid_Struct)
+Procedure grid_CreateComboBox(*grid.Grid_Struct)
   Protected value.i
   
   AddElement(*grid\combolists())
@@ -1661,7 +1655,7 @@ ProcedureDLL grid_CreateComboBox(*grid.Grid_Struct)
   ProcedureReturn value
 EndProcedure
 
-ProcedureDLL grid_AddComboBoxItem(*grid.Grid_Struct, *combo, index, value.s)
+Procedure grid_AddComboBoxItem(*grid.Grid_Struct, *combo, index, value.s)
   Protected max
   
   ChangeCurrentElement( *grid\combolists(), *combo)
@@ -1679,20 +1673,20 @@ ProcedureDLL grid_AddComboBoxItem(*grid.Grid_Struct, *combo, index, value.s)
   *grid\combolists()\values()\value = value
 EndProcedure
 
-ProcedureDLL grid_RemoveComboBoxItem(*grid.Grid_Struct, *combo, index)
+Procedure grid_RemoveComboBoxItem(*grid.Grid_Struct, *combo, index)
   ChangeCurrentElement( *grid\combolists(), *combo)
   
   SelectElement(*grid\combolists()\values(),index)
   DeleteElement(  *grid\combolists()\values())
 EndProcedure
 
-ProcedureDLL grid_ClearComboBoxItems(*grid.Grid_Struct, *combo)
+Procedure grid_ClearComboBoxItems(*grid.Grid_Struct, *combo)
   ChangeCurrentElement( *grid\combolists(), *combo)
   
   ClearList(*grid\combolists()\values())
 EndProcedure
 
-ProcedureDLL grid_SetComboBoxItemData(*grid.Grid_Struct, *combo, index, value)
+Procedure grid_SetComboBoxItemData(*grid.Grid_Struct, *combo, index, value)
   ChangeCurrentElement(*grid\combolists(), *combo)
   
   SelectElement(*grid\combolists()\values(),index)
@@ -1700,7 +1694,7 @@ ProcedureDLL grid_SetComboBoxItemData(*grid.Grid_Struct, *combo, index, value)
   *grid\combolists()\values()\c_data = value
 EndProcedure
 
-ProcedureDLL grid_SetCellLockState(*grid.Grid_Struct, col_index, row_index, locked.b)
+Procedure grid_SetCellLockState(*grid.Grid_Struct, col_index, row_index, locked.b)
   Protected cell.s
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1713,7 +1707,7 @@ ProcedureDLL grid_SetCellLockState(*grid.Grid_Struct, col_index, row_index, lock
   *grid\cells()\locked = locked
 EndProcedure
 
-ProcedureDLL.b grid_GetCellLockState(*grid.Grid_Struct, col_index, row_index)
+Procedure.b grid_GetCellLockState(*grid.Grid_Struct, col_index, row_index)
   Protected cell.s, locked.b
   
   cell.s = Str(*grid\col(col_index))+"x"+Str(*grid\row(row_index))
@@ -1726,7 +1720,7 @@ ProcedureDLL.b grid_GetCellLockState(*grid.Grid_Struct, col_index, row_index)
   
   ProcedureReturn locked
 EndProcedure
-ProcedureDLL.s grid_GetCellCursorSelection(*grid.Grid_Struct)
+Procedure.s grid_GetCellCursorSelection(*grid.Grid_Struct)
   Protected text.s, sel_start, sel_end
   
   text.s = ""
@@ -1743,7 +1737,7 @@ ProcedureDLL.s grid_GetCellCursorSelection(*grid.Grid_Struct)
   ProcedureReturn text
 EndProcedure
 
-ProcedureDLL grid_CopyCellCursorSelection(*grid.Grid_Struct)
+Procedure grid_CopyCellCursorSelection(*grid.Grid_Struct)
   Protected text.s, sel_start, sel_end
   
   text.s = ""
@@ -1759,7 +1753,7 @@ ProcedureDLL grid_CopyCellCursorSelection(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_CutCellCursorSelection(*grid.Grid_Struct)
+Procedure grid_CutCellCursorSelection(*grid.Grid_Struct)
   Protected text.s, sel_start, sel_end, content.s, min, max, cell.s, oldend
   
   text.s = ""
@@ -1807,7 +1801,7 @@ ProcedureDLL grid_CutCellCursorSelection(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_PasteCellCursorSelection(*grid.Grid_Struct)
+Procedure grid_PasteCellCursorSelection(*grid.Grid_Struct)
   Protected cell.s, text.s, content.s, min, max, oldend
   
   If *grid\edit_row > -1 And *grid\edit_col > -1
@@ -1879,7 +1873,7 @@ ProcedureDLL grid_PasteCellCursorSelection(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_CopySelection(*grid.Grid_Struct)
+Procedure grid_CopySelection(*grid.Grid_Struct)
   Protected clipboard.s, row_start, row_end, col_end, col_start, cell.s, i, j
   
   LastElement(*grid\sel())
@@ -1914,7 +1908,7 @@ ProcedureDLL grid_CopySelection(*grid.Grid_Struct)
   
 EndProcedure
 
-ProcedureDLL grid_PasteToSelection(*grid.Grid_Struct)
+Procedure grid_PasteToSelection(*grid.Grid_Struct)
   Protected clipboard.s, ty, tpos, clip_line.s, tx
   
   clipboard.s = GetClipboardText()
@@ -1948,7 +1942,7 @@ ProcedureDLL grid_PasteToSelection(*grid.Grid_Struct)
   Wend
 EndProcedure
 
-ProcedureDLL.s grid_GetCursorStyleFontName(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
+Procedure.s grid_GetCursorStyleFontName(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
   Protected cell.s, pos, fontname.s
   
   If col_index = -1 And row_index = -1
@@ -1974,7 +1968,7 @@ ProcedureDLL.s grid_GetCursorStyleFontName(*grid.Grid_Struct, cursor = -1, col_i
   ProcedureReturn fontname
 EndProcedure
 
-ProcedureDLL grid_GetCursorStyleFontSize(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
+Procedure grid_GetCursorStyleFontSize(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
   Protected cell.s, pos, fontsize
   
   If col_index = -1 And row_index = -1
@@ -1999,7 +1993,7 @@ ProcedureDLL grid_GetCursorStyleFontSize(*grid.Grid_Struct, cursor = -1, col_ind
   ProcedureReturn fontsize
 EndProcedure
 
-ProcedureDLL grid_GetCursorStyleColor(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
+Procedure grid_GetCursorStyleColor(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
   Protected cell.s, pos, color.i
   
   If col_index = -1 And row_index = -1
@@ -2025,7 +2019,7 @@ ProcedureDLL grid_GetCursorStyleColor(*grid.Grid_Struct, cursor = -1, col_index 
   ProcedureReturn color
 EndProcedure
 
-ProcedureDLL grid_GetCursorStyleFontFlags(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
+Procedure grid_GetCursorStyleFontFlags(*grid.Grid_Struct, cursor = -1, col_index = -1, row_index = -1)
   Protected cell.s, pos, flags
   
   If col_index = -1 And row_index = -1
@@ -2051,7 +2045,7 @@ ProcedureDLL grid_GetCursorStyleFontFlags(*grid.Grid_Struct, cursor = -1, col_in
   ProcedureReturn flags
 EndProcedure
 
-ProcedureDLL grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,fontname.s = "", fontsize = -1, bold.b = -1, italic.b = -1, underline.b = -1, strikethrough = -1, color = -1,s_start = -1,s_end = -1)
+Procedure grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,fontname.s = "", fontsize = -1, bold.b = -1, italic.b = -1, underline.b = -1, strikethrough = -1, color = -1,s_start = -1,s_end = -1)
   Protected cell.s, selecting, realselend, realselstart, selstart, selend, add_start.b, add_end.b, old_color, old_end, old_flags, old_fontname.s, old_fontsize, fontkey.s
   
   If col_index = -1
@@ -2265,7 +2259,7 @@ ProcedureDLL grid_SetSelectionStyle(*grid.Grid_Struct,col_index ,row_index ,font
   *grid\redraw = #True
 EndProcedure
 
-ProcedureDLL grid_InsertRow(*grid.Grid_Struct,index)
+Procedure grid_InsertRow(*grid.Grid_Struct,index)
   Protected endloop, i, col.s
   
   If index = -1
@@ -2302,7 +2296,7 @@ ProcedureDLL grid_InsertRow(*grid.Grid_Struct,index)
   grid_BuildScrollbarSize(*grid)
 EndProcedure
 
-ProcedureDLL grid_InsertColumn(*grid.Grid_Struct,index, caption.s = "", width = -1)
+Procedure grid_InsertColumn(*grid.Grid_Struct,index, caption.s = "", width = -1)
   Protected endloop, i
   
   If index = -1
@@ -2334,7 +2328,7 @@ ProcedureDLL grid_InsertColumn(*grid.Grid_Struct,index, caption.s = "", width = 
   grid_BuildScrollbarSize(*grid)
 EndProcedure
 
-ProcedureDLL grid_DeleteColumn(*grid.Grid_Struct,index)
+Procedure grid_DeleteColumn(*grid.Grid_Struct,index)
   Protected maxcolminus.b, i, cell.s, col.s, endloop
   
   ; delete the cells in this column
@@ -2376,7 +2370,7 @@ ProcedureDLL grid_DeleteColumn(*grid.Grid_Struct,index)
   grid_BuildScrollbarSize(*grid)
 EndProcedure
 
-ProcedureDLL grid_DeleteRow(*grid.Grid_Struct,index)
+Procedure grid_DeleteRow(*grid.Grid_Struct,index)
   Protected maxcolminus.b, cell.s, i, col.s, endloop
   
   ; delete the cells in this column
@@ -2418,7 +2412,7 @@ ProcedureDLL grid_DeleteRow(*grid.Grid_Struct,index)
   grid_BuildScrollbarSize(*grid)
 EndProcedure
 
-ProcedureDLL grid_DeleteAllColumns(*grid.Grid_Struct)
+Procedure grid_DeleteAllColumns(*grid.Grid_Struct)
   Protected maxcolminus.b, i, cell.s, col.s, endloop
   
   ; delete all cells
@@ -2450,7 +2444,7 @@ ProcedureDLL grid_DeleteAllColumns(*grid.Grid_Struct)
   grid_BuildScrollbarSize(*grid)
 EndProcedure
 
-ProcedureDLL grid_DeleteAllRows(*grid.Grid_Struct)
+Procedure grid_DeleteAllRows(*grid.Grid_Struct)
   Protected maxcolminus.b, cell.s, i, col.s, endloop
   
   ; delete all cells
@@ -2784,7 +2778,7 @@ Procedure grid_GetEditPosFromMouse(*grid.Grid_Struct, current_column, current_ro
   xpos1 = 0
   xpos2 = 0
   StartDrawing(ImageOutput(*grid\tempimg))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   
   cell.s = Str(*grid\col(current_column))+"x"+Str(*grid\row(current_row))
   
@@ -3415,12 +3409,12 @@ Procedure grid_DrawCombo(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
   y1 = drawing_y
   y2 = drawing_y2 - 1
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Box(x1 + 1, y1 + 1, x2 - x1 - 2, (y2 - y1) -2,RGB(235,235,235))
   DrawingMode(#PB_2DDrawing_Outlined)
   RoundBox(x1 + 1, y1 + 1, x2 - x1 - 2, y2 - y1 - 2,3,3,RGB(250,250,250))
   RoundBox(x1, y1, x2 - x1, y2 - y1,3,3,RGB(111,111,111))
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   Line(drawing_x2 - 1 - 21 + 5,drawing_y + (drawing_y2 - drawing_y - 5) / 2, 9, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 6,drawing_y + (drawing_y2 - drawing_y - 5) / 2 + 1, 7, 1,RGB(40,40,40))
   Line(drawing_x2 - 1 - 21 + 7,drawing_y + (drawing_y2 - drawing_y - 5) / 2 + 2, 5, 1,RGB(40,40,40))
@@ -3436,7 +3430,7 @@ Procedure grid_DrawSpin(drawing_x, drawing_x2, drawing_y,drawing_y2, *grid)
   y1 = drawing_y
   y2 = drawing_y2 - 1
   
-  DrawingMode(#PB_2DDrawing_Transparent)
+  DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
   boxheight = (drawing_y2 - drawing_y) / 2
   ; up
   Line(drawing_x2 - 1 - 21 + 9,drawing_y + (boxheight - 5) / 2 , 1, 1,RGB(40,40,40))
@@ -3466,7 +3460,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
   If Not *grid\hidden
     
     StartDrawing(CanvasOutput(*grid\canvas))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     DrawingFont(FontID(*grid\font))
     
     Define w = OutputWidth()
@@ -3679,7 +3673,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
                   Box(drawing_x,drawing_y,width + *grid\vline,height + *grid\hline,RGBA(180,220,255,200))
                 EndIf
                 
-                DrawingMode(#PB_2DDrawing_Transparent)
+                DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
               EndIf
             EndIf
             
@@ -4106,7 +4100,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
         EndIf
       EndIf
       StartDrawing(ImageOutput(*grid\edit_dc))
-      DrawingMode(#PB_2DDrawing_Transparent)
+      DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
       
       Box(0,0, *grid\edit_x2 - *grid\edit_x - 1, *grid\edit_y2 - *grid\edit_y - 1,grid_GetCellBackColor( *grid, *grid\edit_col, *grid\edit_row))
       
@@ -4167,7 +4161,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
           
           ; Need to use the inverted color using formula below, but then change text color!
           Box(selstart, toppadding,selend - selstart,height, *grid\cells()\backColor ! $FFFFFFFF) ;RGBA(180,215,255,255))
-          DrawingMode(#PB_2DDrawing_Transparent)
+          DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
           
           sel_start + 1
           sel_end + 1
@@ -4338,7 +4332,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     EndIf
     
     StartDrawing(CanvasOutput(*grid\ac_list))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     DrawingFont(FontID(*grid\ac_font))
     
     Box(0,0,OutputWidth(),OutputHeight(),RGB(255,255,255))
@@ -4360,7 +4354,7 @@ Procedure grid_RedrawComboList(*grid.Grid_Struct)
     
     DrawingMode(#PB_2DDrawing_Outlined)
     Box(0,0,OutputWidth(),OutputHeight(),RGB(100,100,100))
-    DrawingMode(#PB_2DDrawing_Transparent)
+    DrawingMode(#PB_2DDrawing_Transparent | #PB_2DDrawing_NativeText)
     
     StopDrawing()
   EndIf
@@ -5691,11 +5685,11 @@ Procedure grid_DoCheckboxEvent(*grid.Grid_Struct, mousex, mousey)
   
 EndProcedure
 
-ProcedureDLL grid_FirstSelectionRange(*grid.Grid_Struct)
+Procedure grid_FirstSelectionRange(*grid.Grid_Struct)
   *grid\selectionrange = -1
 EndProcedure
 
-ProcedureDLL grid_NextSelectionRange(*grid.Grid_Struct)
+Procedure grid_NextSelectionRange(*grid.Grid_Struct)
   Protected result
   
   If *grid\selectionrange = -1
@@ -5711,13 +5705,13 @@ ProcedureDLL grid_NextSelectionRange(*grid.Grid_Struct)
   
   ProcedureReturn result
 EndProcedure
-ProcedureDLL.s grid_GetSelectionRange(*grid.Grid_Struct)
+Procedure.s grid_GetSelectionRange(*grid.Grid_Struct)
   ChangeCurrentElement( *grid\sel(), *grid\selectionrange)
   
   ProcedureReturn Str(*grid\sel()\sel_col)+","+Str(*grid\sel()\sel_col_end)+"x"+Str(*grid\sel()\sel_row)+","+Str(*grid\sel()\sel_row_end)
 EndProcedure
 
-ProcedureDLL grid_SetCellSelection(*grid.Grid_Struct, col, col_end, row, row_end)
+Procedure grid_SetCellSelection(*grid.Grid_Struct, col, col_end, row, row_end)
   ClearList(*grid\sel())
   
   AddElement(*grid\sel())
@@ -5728,7 +5722,7 @@ ProcedureDLL grid_SetCellSelection(*grid.Grid_Struct, col, col_end, row, row_end
   *grid\redraw = #True
   
 EndProcedure
-ProcedureDLL grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end)
+Procedure grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end)
   AddElement(*grid\sel())
   *grid\sel()\sel_col = col
   *grid\sel()\sel_col_end = col_end
@@ -5738,15 +5732,15 @@ ProcedureDLL grid_AddCellSelection(*grid.Grid_Struct, col, col_end, row, row_end
   
 EndProcedure
 
-ProcedureDLL grid_EventEditingRow(*grid.Grid_Struct)
+Procedure grid_EventEditingRow(*grid.Grid_Struct)
   ProcedureReturn *grid\edit_row
 EndProcedure
 
-ProcedureDLL grid_EventEditingColumn(*grid.Grid_Struct)
+Procedure grid_EventEditingColumn(*grid.Grid_Struct)
   ProcedureReturn *grid\edit_col
 EndProcedure
 
-ProcedureDLL grid_EventEditing(*grid.Grid_Struct)
+Procedure grid_EventEditing(*grid.Grid_Struct)
   If *grid And *grid\edit_col > -1 And *grid\edit_row > -1
     ProcedureReturn #True
   EndIf
@@ -5754,7 +5748,7 @@ ProcedureDLL grid_EventEditing(*grid.Grid_Struct)
   ProcedureReturn #False
 EndProcedure
 
-ProcedureDLL grid_EventColumn(*grid.Grid_Struct)
+Procedure grid_EventColumn(*grid.Grid_Struct)
   Protected col.i
   If *grid\c_event_cell = #Grid_Event_Cell_CellsDeleted
     If *grid\c_event_index_cells > -1
@@ -5770,7 +5764,7 @@ ProcedureDLL grid_EventColumn(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_EventRow(*grid.Grid_Struct)
+Procedure grid_EventRow(*grid.Grid_Struct)
   Protected row.i
   
   If *grid\c_event_cell = #Grid_Event_Cell_CellsDeleted
@@ -5787,11 +5781,11 @@ ProcedureDLL grid_EventRow(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_EventType(*grid.Grid_Struct)
+Procedure grid_EventType(*grid.Grid_Struct)
   ProcedureReturn *grid\c_event_cell
 EndProcedure
 
-ProcedureDLL grid_EventNextCell(*grid.Grid_Struct)
+Procedure grid_EventNextCell(*grid.Grid_Struct)
   If *grid\c_event_index_cells < (ListSize(*grid\c_event_cells()) - 1)
     *grid\c_event_index_cells + 1
     ProcedureReturn 1
@@ -5801,12 +5795,12 @@ ProcedureDLL grid_EventNextCell(*grid.Grid_Struct)
   EndIf
 EndProcedure
 
-ProcedureDLL grid_EventFirstCell(*grid.Grid_Struct)
+Procedure grid_EventFirstCell(*grid.Grid_Struct)
   *grid\c_event_index_cells = -1
 EndProcedure
 
 ; BindEvent procedures
-ProcedureDLL grid_ACListEvent()
+Procedure grid_ACListEvent()
   Protected gadget
   Protected pos
   
@@ -5871,7 +5865,7 @@ ProcedureDLL grid_ACListEvent()
   
 EndProcedure
 
-ProcedureDLL grid_CanvasEvent()
+Procedure grid_CanvasEvent()
   Protected gadget
   Protected char, key, modifier, firstcell_row, firstcell_col, mousex, mousey, grid.s, col, row, scroll
   
@@ -6019,7 +6013,7 @@ ProcedureDLL grid_CanvasEvent()
   
 EndProcedure
 
-ProcedureDLL grid_ScrollEvent()
+Procedure grid_ScrollEvent()
   Protected gadget
   
   gadget = EventGadget()
@@ -6057,7 +6051,7 @@ ProcedureDLL grid_ScrollEvent()
   
 EndProcedure
 
-ProcedureDLL grid_TimerEvent()
+Procedure grid_TimerEvent()
   Protected scrollx, scrolly, mousex, mousey
   
   ForEach grid_grids()
@@ -6195,7 +6189,7 @@ ProcedureDLL grid_TimerEvent()
   Next
 EndProcedure
 
-ProcedureDLL grid_WindowEvent()
+Procedure grid_WindowEvent()
   ForEach grid_grids()
     If grid_grids()\ac_active
       grid_CloseCombo(grid_grids())
@@ -6203,7 +6197,7 @@ ProcedureDLL grid_WindowEvent()
   Next
 EndProcedure
 
-ProcedureDLL grid_Event(*grid.Grid_Struct)
+Procedure grid_Event(*grid.Grid_Struct)
   Protected event
   
   If FirstElement(*grid\events())

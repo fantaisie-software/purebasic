@@ -1,0 +1,19 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Packer example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+; Create a compressed buffer from a string
+;
+String$ = "Test "+Space(1000)+"End"
+*Compressed = CompressString(String$)
+Debug "Compressed size (from " + Len(String$) + " bytes): "+MemorySize(*Compressed)
+
+; Now, uncompress the buffer and display the string
+;
+Debug "Uncompressed string: " + UncompressString(*Compressed)

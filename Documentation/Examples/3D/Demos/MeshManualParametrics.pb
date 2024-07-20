@@ -67,7 +67,6 @@ If InitEngine3D()
   InitMouse()
   
   If Screen3DRequester()
-    
     CreateSuperQuadratics()
     CreateMaterial(0, LoadTexture(0, "White.jpg"))
     DisableMaterialLighting(0, #True)
@@ -142,9 +141,6 @@ If InitEngine3D()
       Text3DCaption(0, StrF(Engine3DStatus(#PB_Engine3D_CurrentFPS), 2))
       
       RenderWorld()
-      
-      Screen3DStats()
-      
       FlipBuffers()
     Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
   EndIf

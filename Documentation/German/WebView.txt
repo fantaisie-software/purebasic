@@ -1,0 +1,332 @@
+;
+;     WebView library documentation
+;
+;      (c) 2024 - Fantaisie Software
+;
+
+@Library WebView
+
+@Overview
+  Die WebView-Bibliothek ist ein modernes Webbrowser-Gadget, das zum einfachen Erstellen einer HTML/CSS-Benutzeroberfläche
+  in PureBasic verwendet werden kann. Es ermöglicht eine umfassende plattformübergreifende Benutzeroberfläche, die sich
+  gleich verhält und gleich aussieht, und gleichzeitig Zugriff auf erweiterte CSS-Funktionen bietet, um die Benutzererfahrung
+  zu verbessern. Die Komponente ist direkt in das PureBasic-Programm eingebettet, um den Platzbedarf zu minimieren und
+  verwendet native Callbacks für die Interaktion zwischen dem Webinhalt (der JavaScript ist) und dem PureBasic-Code.
+@LineBreak
+@LineBreak
+  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten (WebView2 unter Windows, WebKit-GTK unter
+  Linux/Raspberry und WebKit unter macOS). Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
+  Wenn jedoch Unterstützung für ältere Windows-Versionen benötigt wird, muss möglicherweise die weiterverteilbare Datei
+  (Redistributable) WebView2 installiert werden:
+  @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
+@LineBreak
+@LineBreak
+  Da es sich bei der WebView-Komponente um eine PureBasic @LibraryLink "Gadget" "Gadget-Bibliothek" handelt, können
+  Standardbefehle wie @@ResizeGadget oder @@HideGadget zur Steuerung verwendet werden.
+@LineBreak
+@LineBreak
+
+@CommandList
+
+@ExampleFile All WebView.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WebViewGadget(#Gadget, x, y, Breite, Höhe [, Flags])
+
+@Description
+  Erstellt ein neues Webview-Gadget in der aktuellen Gadget-Liste.
+
+@Parameter "#Gadget"
+  Eine Nummer zur Identifizierung des neuen Gadgets. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "x, y, Breite, Höhe"
+  Die Position und Abmessungen des neuen Gadgets.
+
+@OptionalParameter "Flags"
+  Flags zum Ändern des Gadget-Verhaltens. Es kann (mit dem Operator '|') aus einer der folgenden
+  Konstanten zusammengesetzt sein:
+@FixedFont
+  @#PB_WebView_Debug: Aktiviert den Menüpunkt "Inspizieren" (englisch 'inspect') im Kontextmenü,
+                     um den Web-Inspektor und die Konsole anzuzeigen.
+@EndFixedFont
+
+@ReturnValue
+  Bei Erfolg ungleich Null, ansonsten Null. Wenn @#PB_Any als #Gadget-Parameter verwendet wurde,
+  beinhaltet der Rückgabewert die automatisch generierte Gadget-Nummer bei Erfolg.
+
+@Remarks
+  Verwenden Sie nach der Erstellung @@BindWebViewCallback, um mit dem JavaScript-Code der
+  Benutzeroberfläche zu interagieren. Darüber hinaus können auch gängige Gadget-Befehle wie
+  @@ResizeGadget oder @@HideGadget mit dem Steuerelement verwendet werden.
+@LineBreak
+@LineBreak
+  Die folgenden Funktionen können verwendet werden, um das WebViewGadget zu beeinflussen:
+@LineBreak
+@LineBreak
+  - @@SetGadgetText: Ändert die aktuelle URL. Es kann sich um eine lokale Datei-URL wie
+  'file://c:/purebasic/svn/webview.html' oder eine reguläre HTTP-URL handeln. Wenn Sie eine lokale
+  Datei-URL verwenden, muss es sich um den vollständigen Pfadnamen handeln. Sie können die lokale
+  URL einfach erstellen, indem Sie 'file://' zum Pfadnamen hinzufügen.
+@LineBreak
+@LineBreak
+  - @@SetGadgetItemText: Mit @#PB_WebView_HtmlCode als 'Eintrag' kann HTML-Code in das Gadget
+  gestreamt werden.
+@LineBreak
+
+@Example mit lokalen HTML- und CSS-Dateien
+@Code
+  Procedure IncrementJS(JsonParameters$)
+    Static i
+    Debug "IncrementJS "+JsonParameters$
+    i+1
+    ProcedureReturn UTF8(~"{ \"count\": "+Str(i)+ "}")
+  EndProcedure
+
+  Procedure ComputeJS(JsonParameters$)
+    Debug "ComputeJS "+JsonParameters$
+    ProcedureReturn UTF8(~"150")
+  EndProcedure
+
+  OpenWindow(0, 100, 100, 400, 400, "Hello", #PB_Window_SystemMenu)
+
+  WebViewGadget(0, 0, 0, 400, 400)
+  SetGadgetText(0, "file://" + #PB_Compiler_Home + "examples/sources/Data/WebView/webview.html")
+    
+  BindWebViewCallback(0, "increment", @IncrementJS())
+  BindWebViewCallback(0, "compute", @ComputeJS())
+
+  Repeat 
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@Example mit Inline-HTML-Code
+@Code
+  Procedure IncrementJS(JsonParameters$)
+    Static i
+    Debug "IncrementJS "+JsonParameters$
+    i+1
+    ProcedureReturn UTF8(~"{ \"count\": "+Str(i)+ "}")
+  EndProcedure
+
+  Procedure ComputeJS(JsonParameters$)
+    Debug "ComputeJS "+JsonParameters$
+    ProcedureReturn UTF8(~"150")
+  EndProcedure
+
+  OpenWindow(0, 100, 100, 400, 400, "Hello", #PB_Window_SystemMenu)
+
+  WebViewGadget(0, 0, 0, 400, 400)
+
+  SetGadgetItemText(0, #PB_WebView_HtmlCode, 
+                    ~"<button id=\"increment\">Tap me</button>\n"+
+                    ~"<div>You tapped <span id=\"count\">0</span> time(s).</div>\n"+
+                    ~"<button id=\"compute\">Compute</button>\n"+
+                    ~"<div>Result of computation: <span id=\"compute-result\">0</span></div>\n"+
+                    ~"<script>\n"+
+                    ~"  const [incrementElement, countElement, computeElement, "+
+                    ~"computeResultElement] =\n"+
+                    ~"    document.querySelectorAll(\"#increment, #count, #compute, "+
+                    ~"#compute-result\");\n"+
+                    ~"  document.addEventListener(\"DOMContentLoaded\", () => {\n"+
+                    ~"    incrementElement.addEventListener(\"click\", () => {\n"+
+                    ~"      window.increment().then(result => {\n"+
+                    ~"        countElement.textContent = result.count;\n"+
+                    ~"      });\n"+
+                    ~"    });\n"+
+                    ~"    computeElement.addEventListener(\"click\", () => {\n"+
+                    ~"      computeElement.disabled = true;\n"+
+                    ~"      window.compute(6, 7).then(result => {\n"+
+                    ~"        computeResultElement.textContent = result;\n"+
+                    ~"        computeElement.disabled = false;\n"+
+                    ~"      });\n"+
+                    ~"    });\n"+
+                    ~"  });\n"+
+                    ~"</script>")
+    
+  BindWebViewCallback(0, "increment", @IncrementJS())
+  BindWebViewCallback(0, "compute", @ComputeJS())
+
+  Repeat 
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@Example mit deaktiviertem Rechtsklick-Menü
+@Code
+  Html$ = ~"<html style=\"margin:0px;height:100%;width:100%\">"+
+          ~"<body oncontextmenu=\"return false;\" style=\"margin:0px;min-height:100%;width:100%\">"+
+          ~"<button id=\"displayInfo\">Display Info</button>"+
+          ~"</body></html>\n"
+  
+  OpenWindow(0, 100, 100, 400, 400, "No right click UI", #PB_Window_SystemMenu)
+
+  WebViewGadget(0, 0, 0, 400, 400)
+  SetGadgetItemText(0, #PB_WebView_HtmlCode, Html$)
+
+  Repeat 
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function BindWebViewCallback(#Gadget, JavaScriptFunktion$, @Callback())
+
+@Description
+  Bindet einen PureBasic-Callback an eine neue JavaScript-Funktion. Die JavaScript-Funktion wird automatisch
+  in der Webansicht erstellt und ist im JavaScript-Code verfügbar.
+  @LineBreak
+  Wenn die JavaScript-Funktion im Webview-Gadget aufgerufen wird, wird der PureBasic 'Callback' aufgerufen.
+  Der JavaScript-Code wird angehalten, bis der PureBasic-Callback seine Ausführung abgeschlossen hat.
+  
+@Parameter "#Gadget"
+  Das Webview-Gadget, an das das Ereignis gebunden werden soll.
+
+@Parameter "JavaScriptFunktion$"
+  Der Name (unter Beachtung der Groß- und Kleinschreibung) der zu erstellenden JavaScript-Funktion, an
+  welche der Callback gebunden werden soll.
+
+@Parameter "@Callback()"
+  Die beim Aufruf der JavaScript-Funktion aufzurufende Callback-Prozedur. Diese muss wie folgt deklariert werden:
+@Code
+  Procedure JavaScriptCallback(JsonParameters$)
+    ; 
+    ; 'JsonParameters$' enthält alle Parameter, die beim Aufruf der JavaScript-Funktion im JSON-Format angegeben wurden.
+    ;
+    
+    ; Code
+    
+    ProcedureReturn UTF8(JsonResult$)
+  EndProcedure
+@EndCode
+  Die Callback-Prozedur kann ein Ergebnis zurückgeben, das von der JavaScript-Funktion verwendet werden kann.
+
+@NoReturnValue
+
+@Example mit einer 2-Parameter-Javascript-Funktion
+@Code
+  ; Eine einfache Schaltfläche, deren Beschriftung sich je nach Ergebnis des PureBasic-Rückrufs ändert
+  ;
+  Html$ =  ~"<button id=\"displayInfo\">Display Info</button>\n"+
+           ~"<script>\n"+
+           ~"  const displayInfoElement=document.getElementById(\"displayInfo\");\n"+
+           ~"  document.addEventListener(\"DOMContentLoaded\", () => {\n"+
+           ~"    displayInfoElement.addEventListener(\"click\", () => {\n"+
+           ~"      window.displayInfo(1000, 2000).then(result => {\n"+
+           ~"        displayInfoElement.textContent = result.sum;\n"+
+           ~"      });\n"+
+           ~"    });\n"+
+           ~"  });\n"+
+           ~"</script>";
+    
+  Procedure IncrementJS(JsonParameters$)
+    
+    Dim Parameters(0)
+    
+    ParseJSON(0, JsonParameters$)
+    ExtractJSONArray(JSONValue(0), Parameters())
+    
+    Debug "Nb Parameters: " + ArraySize(Parameters())
+    
+    Debug "Parameter 1: " + Parameters(0)
+    Debug "Parameter 2: " + Parameters(1)
+    
+    ProcedureReturn UTF8(~"{ \"sum\": "+Str(Parameters(0) + Parameters(1))+ "}")
+  EndProcedure
+
+
+  OpenWindow(0, 100, 100, 400, 400, "Hello", #PB_Window_SystemMenu)
+
+  WebViewGadget(0, 0, 0, 400, 400)
+  SetGadgetItemText(0, #PB_WebView_HtmlCode, Html$)
+    
+  BindWebViewCallback(0, "displayInfo", @IncrementJS())
+
+  Repeat 
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewGadget, @@UnbindWebViewCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UnbindWebViewCallback(#Gadget, JavaScriptFunktion$)
+
+@Description
+  Entbindet eine zuvor mit @@BindWebViewCallback gebundene JavaScript-Funktion. Die JavaScript-Funktion
+  wird automatisch aus der Webansicht entfernt und ist im JavaScript-Code nicht mehr verfügbar.
+  
+@Parameter "#Gadget"
+  Das zu verwendende Webview-Gadget.
+
+@Parameter "JavaScriptFunktion$"
+  Der Name (unter Beachtung der Groß- und Kleinschreibung) der zu lösenden JavaScript-Funktion.
+
+@NoReturnValue
+
+@SeeAlso @@WebViewGadget, @@BindWebViewCallback
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function WebViewExecuteScript(#Gadget, JavaScript$)
+
+@Description
+  Führt einen JavaScript-Ausdruck asynchron in der Webansicht aus.
+  
+@Parameter "#Gadget"
+  Das zu verwendende Webview-Gadget.
+
+@Parameter "JavaScript$"
+  Der auszuführende JavaScript-Ausdruck.
+
+@NoReturnValue
+
+@Example
+@Code
+  Html$ =  ~"<button id=\"displayInfo\">Display Info</button>\n"+
+           ~"<script>\n"+
+           ~"  const displayInfoElement=document.getElementById(\"displayInfo\");\n"+
+           ~"  document.addEventListener(\"DOMContentLoaded\", () => {\n"+
+           ~"    displayInfoElement.addEventListener(\"click\", () => {\n"+
+           ~"      window.displayInfo(1000, 2000).then(result => {\n"+
+           ~"      });\n"+
+           ~"    });\n"+
+           ~"  });\n"+
+           ~"</script>";
+    
+  Procedure DisplayInfoCallback(JsonParameters$)
+    ; Führt ein Skript in der Webansicht aus
+    WebViewExecuteScript(0, ~"const element=document.getElementById(\"displayInfo\"); element.textContent=\"Hello from Callback !\";");
+  EndProcedure
+
+  OpenWindow(0, 100, 100, 400, 400, "Hello", #PB_Window_SystemMenu)
+
+  WebViewGadget(0, 0, 0, 400, 400)
+  SetGadgetItemText(0, #PB_WebView_HtmlCode, Html$)
+    
+  BindWebViewCallback(0, "displayInfo", @DisplayInfoCallback())
+
+  Repeat 
+    Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

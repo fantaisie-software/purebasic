@@ -1,7 +1,7 @@
 ;
 ;     Packer library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Packer
@@ -40,6 +40,70 @@
   Wenn die Datei nicht komprimiert werden kann, dann wird sie "so wie sie ist" in der Paket-Datei
   gespeichert.
 
+@Example Verwendung einer Baum-Dateistruktur
+@Code
+  UseZipPacker()
+  
+  Path$ = #PB_Compiler_Home + "examples/sources/" ; Pfad zu den PureBasic Examples Daten/Media-Dateien
+  PackFile$ = GetTemporaryDirectory() + "PureBasicTest.zip"  ; Pfad zur Paket-Datei, welche erstellt und später geöffnet werden soll
+  If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
+    AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
+    AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
+    AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
+    ClosePack(0)
+    Debug "Paket-Datei erfolgreich erstellt: " + PackFile$
+  Else
+    Debug "Fehler beim Erstellen der Paket-Datei!"
+  EndIf
+  
+  Path$ = GetTemporaryDirectory() + "PureBasicTestTree/"  ; Pfad zu einem Verzeichnis, in welches die Paket-Dateien entpackt werden sollen
+  If OpenPack(0, PackFile$)
+    If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
+      If ExaminePack(0)
+        Debug "Entpacken des Archivs nach: " + Path$
+        While NextPackEntry(0)
+          Debug " - Name: " + PackEntryName(0) + ", Größe: " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Fehler beim Entpacken der Datei: " + PackEntryName(0)
+          EndIf
+        Wend
+      Else
+        Debug "Fehler beim Untersuchen der Paket-Datei!"
+      EndIf
+      ClosePack(0)
+      RunProgram(Path$)  ; Öffnet das Verzeichnis mit den entpackten Dateien
+    Else
+      Debug "Fehler beim Erstellen des Ordners zum Entpacken des Archiv-Inhalts!"  
+    EndIf
+  Else
+    Debug "Fehler beim Öffnen der Paket-Datei!"
+  EndIf
+@EndCode
+
+  Für ein weiteres Beispiel siehe @@UncompressPackFile.
+
+@SeeAlso
+  @@CreatePack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AddPackDirectory(#Pack, VerzeichnisName$)
+
+@Description
+  Fügt dem angegebenen Paket, das zuvor mit @@CreatePack erstellt wurde, ein neues leeres Verzeichnis hinzu.
+
+@Parameter "#Pack"
+  Das zu verwendende Paket.
+
+@Parameter "DirectoryName$"
+  Der Name des leeren Verzeichnisses, das dem Paket hinzugefügt werden soll.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn das leere Verzeichnis erfolgreich zur Paketdatei hinzugefügt wurde.
+  
 @SeeAlso
   @@CreatePack
 
@@ -143,7 +207,7 @@
 
 @Description
   Beginnt den Paket-Inhalt zu untersuchen. @@NextPackEntry muss aufgerufen werden, um die in der Paket-Datei
-  gefundenen Einträge aufzulisten. Das Paket muss zuvor mit @@OpenPack geöffnet worden sein. Pakete, welche
+  gefundenen Einträge aufzulisten. Das Paket muss zuvor mit @@OpenPack oder @@CatchPack geöffnet worden sein. Pakete, welche
   gerade mit @@CreatePack erstellt wurden, können nicht untersucht werden.
   
 @Parameter "#Pack"
@@ -171,7 +235,7 @@
 @EndCode
   
 @SeeAlso
-  @@OpenPack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@NextPackEntry
     
 @SupportedOS
 
@@ -183,6 +247,7 @@
   Geht zum nächsten Eintrag in der Paket-Datei. @@ExaminePack vor dem Aufrufen dieses Befehls aufgerufen
   worden sein. Um weitere Informationen über den aktuellen Eintrag zu erhalten, verwenden Sie
   @@PackEntrySize, @@PackEntryType und @@PackEntryName.
+  @LineBreak
   Um den aktuellen Eintrag zu entpacken, verwenden Sie @@UncompressPackMemory oder @@UncompressPackFile.
   
 @Parameter "#Pack"
@@ -192,7 +257,33 @@
   Gibt einen Wert ungleich Null zurück, wenn das Paket einen weiteren Eintrag enthält, andernfalls Null.
 
 @SeeAlso
-  @@OpenPack, @@PackEntrySize, @@PackEntryType, @@PackEntryName, @@UncompressPackMemory, @@UncompressPackFile
+  @@OpenPack, @@CatchPack, @@PackEntrySize, @@PackEntryDate, @@PackEntryType, @@PackEntryName, @@UncompressPackMemory, @@UncompressPackFile
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.q = PackEntryDate(#Pack [, DatumsTyp])
+
+@Description
+  Gibt das Dateidatum des aktuellen Paket-Eintrags zurück, festgelegt mit @@NextPackEntry.
+
+@Parameter "#Pack"
+  Das zu verwendende Paket.
+  
+@Parameter "DatumsTyp"
+  Der Typ des zurückzugebenden Datums. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Date_Created : gibt das Erstellungsdatum der Datei zurück.
+  @#PB_Date_Accessed: gibt das Datum des letzten Dateizugriffs zurück.
+  @#PB_Date_Modified: gibt das Datum der letzten Dateiänderung zurück.
+@EndFixedFont
+
+@ReturnValue
+  Gibt das Dateidatum oder -1 zurück, wenn kein Datum verfügbar ist.
+
+@SeeAlso
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryType
     
 @SupportedOS
 
@@ -214,7 +305,7 @@
 @EndFixedFont
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryDate
     
 @SupportedOS
 
@@ -240,7 +331,7 @@
   Gibt die Größe des aktuellen Eintrags zurück.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName, @@PackEntryDate
     
 @SupportedOS
 
@@ -258,7 +349,7 @@
   Gibt den Namen des aktuellen Eintrags zurück.
 
 @SeeAlso
-  @@OpenPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize
+  @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize, @@PackEntryDate
     
 @SupportedOS
 
@@ -368,7 +459,48 @@
 @EndCode
 
 @SeeAlso
-  @@ClosePack, @@ExaminePack
+  @@ClosePack, @@ExaminePack, @@CatchPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CatchPack(#Pack, *SpeicherAdresse, Größe [, Plugin])
+
+@Description
+  Öffnet eine zuvor vorhandene Paketdatei aus dem Speicher. Vor dem Öffnen einer Paketdatei muss mindestens
+  ein Packer mit einem der folgenden Befehle registriert werden: @@UseZipPacker, @@UseLzmaPacker,
+  @@UseTarPacker, @@UseBriefLZPacker.
+  @LineBreak
+  Nach dem Öffnen kann der Inhalt des Pakets mit @@ExaminePack aufgelistet werden.
+
+@Parameter "#Pack"
+  Eine Nummer zum Identifizeren der zu öffnenden Paket-Datei. @ReferenceLink "purebasic_objects" "#PB_Any"
+  kann als Parameter verwendet werden, um diese Nummer automatisch zu generieren.
+
+@Parameter "*SpeicherAdresse"
+  Die Speicheradresse, an der sich die Paketdatei befindet.
+
+@Parameter "Größe"
+  Die Größe der Paketdatei in Bytes.
+  
+@OptionalParameter "Plugin"
+  Das zu verwendende Plugin, wenn mehr als ein Packer-Plugin registriert wurde. Dies kann einer der
+  folgenden Werte sein:
+@FixedFont  
+  @#PB_PackerPlugin_BriefLZ: verwendet den BriefLZ Packer, um die Paket-Datei zu öffnen. @@UseBriefLZPacker muss verwendet werden, damit dies einen Effekt hat.
+  @#PB_PackerPlugin_Zip    : verwendet den Zip Packer, um die Paket-Datei zu öffnen. @@UseZipPacker muss verwendet werden, damit dies einen Effekt hat.
+  @#PB_PackerPlugin_Lzma   : verwendet den Lzma Packer, um die Paket-Datei zu öffnen. @@UseLzmaPacker muss verwendet werden, damit dies einen Effekt hat.
+  @#PB_PackerPlugin_Tar    : verwendet den Tar Packer, um die Paket-Datei zu öffnen. @@UseTarPacker muss verwendet werden, damit dies einen Effekt hat.
+@EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Paket-Datei erfolgreich geöffnet wurde, andernfalls
+  Null. Wenn @#PB_Any als #Pack Parameter verwendet wurde, dann wird die generierte Paket-Nummer
+  zurückgegeben.
+
+@SeeAlso
+  @@ClosePack, @@ExaminePack, @@OpenPack
 
 @SupportedOS
 
@@ -438,7 +570,7 @@
   entpackt wurde, andernfalls -1.
   
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 
@@ -466,8 +598,49 @@
   Gibt die unkomprimierte Größe zurück, wenn der Paket-Eintrag erfolgreich in den Dateinamen
   entpackt wurde, andernfalls -1.
   
+@Example 
+@Code
+  UseZipPacker()
+  
+  Path$ = #PB_Compiler_Home + "examples/sources/Data/"       ; Pfad zu den PureBasic Examples Daten/Media-Dateien
+  PackFile$ = GetTemporaryDirectory() + "PureBasicTest.zip"  ; Pfad zur Paket-Datei, die erstellt und später geöffnet werden soll
+  If CreatePack(0, PackFile$)
+    AddPackFile(0, Path$ + "world.png", "world.png")
+    AddPackFile(0, Path$ + "test.pref", "test.pref")
+    AddPackFile(0, Path$ + "CdPlayer.ico", "CdPlayer.ico")
+    AddPackFile(0, Path$ + "Background.bmp", "Background.bmp")
+    ClosePack(0)
+    Debug "Paket-Datei erfolgreich erstellt: " + PackFile$
+  Else
+    Debug "Fehler beim Erstellen der Paket-Datei!"
+  EndIf
+  
+  Path$ = GetTemporaryDirectory() + "PureBasicTest/"  ; Pfad zu einem Verzeichnis, in das die Paket-Dateien entpackt werden sollen
+  If OpenPack(0, PackFile$)
+    If CreateDirectory(Path$) Or FileSize(Path$) = -2
+      If ExaminePack(0)
+        Debug "Entpacken des Archivs nach: " + Path$
+        While NextPackEntry(0)
+          Debug " - Name: " + PackEntryName(0) + ", Größe: " + PackEntrySize(0)
+          If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
+            Debug "Fehler beim Entpacken der Datei: " + PackEntryName(0)
+          EndIf
+        Wend
+      EndIf
+      ClosePack(0)
+      RunProgram(Path$)  ; Öffnet das Verzeichnis mit den entpackten Dateien
+    Else
+      Debug "Fehler beim Erstellen des Ordners '" + Path$ + "' zum Entpacken des Archiv-Inhalts!"
+    EndIf
+  Else
+    Debug "Fehler beim Öffnen der Paket-Datei!"
+  EndIf
+@EndCode
+
+  Für ein weiteres Beispiel siehe @@AddPackFile.
+  
 @SeeAlso
-  @@OpenPack, @@ExaminePack, @@NextPackEntry
+  @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
 
 @SupportedOS
 

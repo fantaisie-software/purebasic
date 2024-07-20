@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 ; to be able to display the QuickHelp to the function where the cursor is currently inside, even when it is not over it
@@ -1027,7 +1027,7 @@ Procedure CheckStringComment(Cursor)
   EndIf
 EndProcedure
 
-Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List ModuleNames.s())
+Procedure FindQuickHelpFromSorted(*Parser.ParserData, Word$, List ModuleNames.s())
   
   ForEach ModuleNames()
     
@@ -1035,41 +1035,25 @@ Procedure FindQuickHelpFromSorted(*Parser.ParserData, *Word, Bucket, List Module
     If *Module
       
       ; macros go first
-      *Item.SourceItem = *Module\Sorted\Macros[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Macros, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Procedures[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Procedures, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Declares[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Declares, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
-      *Item.SourceItem = *Module\Sorted\Imports[Bucket]
-      While *Item
-        Select CompareMemoryString(*Word, @*Item\Name$, #PB_String_NoCase)
-          Case #PB_String_Equal  : ProcedureReturn *Item
-          Case #PB_String_Greater: *Item = *Item\NextSorted
-          Default                : Break
-        EndSelect
-      Wend
+      *Item.SourceItem = RadixLookupValue(*Module\Sorted\Imports, Word$)
+      If *Item
+        ProcedureReturn *Item
+      EndIf
       
     EndIf
     
@@ -1125,7 +1109,6 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     ; does nothing if the data is already indexed
     SortParserData(@*ActiveSource\Parser, *ActiveSource)
     
-    Bucket = GetBucket(@Word$)
     *Item.SourceItem = 0
     
     ; find out if we are inside a module and find the open modules
@@ -1148,15 +1131,15 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     EndIf
     
     ; check add ActiveSource items
-    *Item = FindQuickHelpFromSorted(@*ActiveSource\Parser, @Word$, Bucket, ModuleNames())
+    *Item = FindQuickHelpFromSorted(@*ActiveSource\Parser, Word$, ModuleNames())
     
     ; check project sources
     If *Item = 0 And *ActiveSource\ProjectFile
       ForEach ProjectFiles()
         If ProjectFiles()\Source = 0
-          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Parser, Word$, ModuleNames())
         ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
-          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Source\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@ProjectFiles()\Source\Parser, Word$, ModuleNames())
         EndIf
         
         If *Item
@@ -1169,7 +1152,7 @@ Procedure.s GenerateQuickHelpFromWord(Line$, Word$, line, Column)
     If *Item = 0
       ForEach FileList()
         If @FileList() <> *ProjectInfo And @FileList() <> *ActiveSource And FileList()\ProjectFile = 0
-          *Item = FindQuickHelpFromSorted(@FileList()\Parser, @Word$, Bucket, ModuleNames())
+          *Item = FindQuickHelpFromSorted(@FileList()\Parser, Word$, ModuleNames())
           If *Item
             Break
           EndIf
@@ -1231,7 +1214,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
           ; process the items
           ForEach QuickHelpStructureList()
             Entry$ = StructureFieldName(QuickHelpStructureList())
-            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+            If Subitem$ And CompareMemoryString(@Subitem$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
               ; on to the next stack item
               Type$ = StructureFieldType(QuickHelpStructureList())
               SubitemFound = 1
@@ -1254,7 +1237,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
         ForEach QuickHelpStructureList()
           Entry$     = StructureFieldName(QuickHelpStructureList())
           EntryType$ = StructureFieldType(QuickHelpStructureList())
-          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
             ; Its a structure, so the item must have a prototype as type, else it cannot be with arguments
             *ProtoItem.SourceItem = FindPrototype(EntryType$)
             If *ProtoItem And *ProtoItem\Prototype$
@@ -1272,7 +1255,7 @@ Procedure.s GenerateQuickHelpFromStructure(Word$, *BaseItem.SourceItem, BaseItem
           Entry$ = InterfaceFieldName(QuickHelpStructureList())
           Proto$ = Trim(Right(QuickHelpStructureList(), Len(QuickHelpStructureList())-(FindString(QuickHelpStructureList(), "(", 1)-1)))
           
-          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCase) = #PB_String_Equal
+          If CompareMemoryString(@Word$, @Entry$, #PB_String_NoCaseAscii) = #PB_String_Equal
             Message$ = Entry$ + Proto$ ; use only Name+Prototype, no return type
             Break
           EndIf
@@ -1323,22 +1306,15 @@ Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
   ProcedureReturn GenerateQuickHelpFromWord(Line$, Word$, line, Column)
 EndProcedure
 
-Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
-  Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
+; Find enclosing function (or array) from the given cursor position (0 based)
+;
+; Returns function name or empty string if not inside any
+; *StartPosition\i will be the position of the function name in Line$ (0 based)
+; *Parameter\i will be the parameter index in the function (1 based)
+;
+Procedure.s FindEnclosingFunction(Line$, Cursor, *StartPosition.INTEGER, *Parameter.INTEGER)
   
-  If *ActiveSource\IsCode = 0
-    ChangeStatus("", 0)
-    ProcedureReturn
-  EndIf
-  
-  Line$ = GetContinuationLine(line, @StartOffset)
-  cursorposition + StartOffset
-  
-  If position > Len(Line$) ; something is wrong here
-    ProcedureReturn
-  Else
-    ScanLine$ = UCase(Left(Line$, cursorposition)) ; cut everything after the current position
-  EndIf
+  ScanLine$ = UCase(Left(Line$, Cursor)) ; cut everything after the current position
   
   Stack = 0
   ClearStructure(@QuickHelpStack(0), QuickHelpStack)
@@ -1440,16 +1416,43 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
     
   Wend
   
-  Stack - 1 ; the last stack position is not valid
+  Stack - 1 ; the last stack position is the inside of the () if any
   
-  ; update the quickhelp
-  ;
   While Stack > 0 And QuickHelpStack(Stack)\Word$ = ""  ; go back all empty spaces
     Stack - 1                                           ; Example: Function( ( ( ...
   Wend
   
   If Stack >= 0 And QuickHelpStack(Stack)\Word$ <> ""
-    Message$ = GenerateQuickHelpText(Line$, QuickHelpStack(Stack)\Word$, line, QuickHelpStack(Stack)\Position)
+    *StartPosition\i = QuickHelpStack(Stack)\Position
+    *Parameter\i = QuickHelpStack(Stack+1)\Parameter + 1 ; the argument index is +1 in the stack (because they are inside the '(' )
+    ProcedureReturn QuickHelpStack(Stack)\Word$
+  Else
+    *StartPosition\i = 0
+    *Parameter\i = 0
+    ProcedureReturn ""
+  EndIf
+EndProcedure
+
+
+Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
+  Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
+  
+  If *ActiveSource\IsCode = 0
+    ChangeStatus("", 0)
+    ProcedureReturn
+  EndIf
+  
+  Line$ = GetContinuationLine(line, @StartOffset)
+  cursorposition + StartOffset
+  
+  If cursorposition > Len(Line$) ; something is wrong here
+    ProcedureReturn
+  EndIf
+  
+  EnclosingFunction$ = FindEnclosingFunction(Line$, cursorposition, @FunctionStart, @Argument)
+
+  If EnclosingFunction$ <> ""
+    Message$ = GenerateQuickHelpText(Line$, EnclosingFunction$, line, FunctionStart)
     
     If Message$ = "" Or FindString(Message$, "(", 1) = 0 Or FindString(Message$, ")", 1) = 0
       ChangeStatus(Message$, 0)
@@ -1526,15 +1529,13 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
       
       Test$ = Left(Test$, position-1) ; ignore the description part (Test$ now has all strings blocked out)
       
-      Argument = QuickHelpStack(Stack+1)\Parameter ; the argument index is +1 in the stack (because they are inside the '(' )
-      
       If Right(RTrim(Test$), 1) = "(" ; the function had no parameters '()'
         ChangeStatus(Message$, 0)
         
       Else
         
         position = FindString(Test$, "(", 1)
-        While Argument > 0 And position <> 0
+        While Argument > 1 And position <> 0
           position = FindString(Test$, ",", position+1)
           Argument - 1
         Wend
@@ -1561,17 +1562,27 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
           CompilerIf #CompileWindows
             Shared StatusBarOwnerDrawText$
             
-            time.q = ElapsedMilliseconds()
+            If EnableAccessibility
+              
+              ; Do not ownerdraw to make it better readable by screen readers
+              Message$ = Left(Message$, position) + "   => " + Mid(Message$, position+1, Endposition-position-1) + " <=   " + Right(Message$, Len(Message$)-Endposition+1)
+              ChangeStatus(Message$, 0)
+              
+            Else
             
-            If StatusMessageTimeout < time
-              StatusMessageTimeout = 0
-              StatusBarOwnerDrawText$ = Message$
-              SendMessage_(*MainStatusBar, #SB_SETTEXT, 1|#SBT_NOBORDERS|#SBT_OWNERDRAW, position | Endposition<<16)
+              time.q = ElapsedMilliseconds()
+              
+              If StatusMessageTimeout < time
+                StatusMessageTimeout = 0
+                StatusBarOwnerDrawText$ = Message$
+                SendMessage_(*MainStatusBar, #SB_SETTEXT, 1|#SBT_NOBORDERS|#SBT_OWNERDRAW, position | Endposition<<16)
+              EndIf
+            
             EndIf
             
           CompilerElse
             
-            CompilerIf #CompileLinuxGtk2 ; only true when linux + gtk2
+            CompilerIf #CompileLinuxGtk
               
               ; On Gtk2, we can use Pango markup to put bold text in a GtkLabel.. quite cool :)
               ;

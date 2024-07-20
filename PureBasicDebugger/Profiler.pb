@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -832,7 +832,7 @@ Procedure Profiler_RButtonDown(*Debugger.DebuggerData, x, y, *GrabWindow)
         For file = 0 To *Debugger\NbIncludedFiles
           If GetGadgetItemState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file) & (#PB_ListIcon_Checked|#PB_ListIcon_Selected)
             index = GetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file) ; get the real index
-            MenuItem(#DEBUGGER_MENU_File0+index, GetDebuggerRelativeFile(*Debugger, index << 24))
+            MenuItem(#DEBUGGER_MENU_File0+index, GetDebuggerRelativeFile(*Debugger, index << #DEBUGGER_DebuggerLineFileOffset))
           EndIf
         Next file
         
@@ -891,7 +891,7 @@ CompilerEndIf
 
 ; Linux specific event handler
 ;
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC Profiler_GtkMouseButtonHandler(*widget.GtkWidget, *event.GdkEventButton, *Debugger.DebuggerData)
     If *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
       If *event\type = #GDK_BUTTON_PRESS And *event\button = 1
@@ -1223,7 +1223,7 @@ Procedure ProfilerWindowEvents(*Debugger.DebuggerData, EventID)
         Profiler_DrawAll(*Debugger)
         
       Case #DEBUGGER_MENU_File0 To #DEBUGGER_MENU_File255
-        Line = ((EventMenu() - #DEBUGGER_MENU_File0) << 24) | Profiler_CurrentLine
+        Line = MakeDebuggerLine(EventMenu() - #DEBUGGER_MENU_File0, Profiler_CurrentLine)
         Debugger_ShowLine(*Debugger, Line)
         
     EndSelect
@@ -1470,12 +1470,12 @@ EndProcedure
 Procedure OpenProfilerWindow(*Debugger.DebuggerData)
   
   If Profiler_Arrow = 0
-    Profiler_Arrow   = CatchImage(#PB_Any, ?Profiler_Arrow)
-    Profiler_Select  = CatchImage(#PB_Any, ?Profiler_Select)
-    Profiler_Cross   = CatchImage(#PB_Any, ?Profiler_Cross)
-    Profiler_Zoomin  = CatchImage(#PB_Any, ?Profiler_Zoomin)
-    Profiler_Zoomout = CatchImage(#PB_Any, ?Profiler_Zoomout)
-    Profiler_Zoomall = CatchImage(#PB_Any, ?Profiler_Zoomall)
+    Profiler_Arrow   = CatchImageDPI(#PB_Any, ?Profiler_Arrow)
+    Profiler_Select  = CatchImageDPI(#PB_Any, ?Profiler_Select)
+    Profiler_Cross   = CatchImageDPI(#PB_Any, ?Profiler_Cross)
+    Profiler_Zoomin  = CatchImageDPI(#PB_Any, ?Profiler_Zoomin)
+    Profiler_Zoomout = CatchImageDPI(#PB_Any, ?Profiler_Zoomout)
+    Profiler_Zoomall = CatchImageDPI(#PB_Any, ?Profiler_Zoomall)
   EndIf
   
   If *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
@@ -1528,7 +1528,7 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
           
           For file = 0 To *Debugger\NbIncludedFiles
             ; we store the index in the data field so we can reorder the entries...
-            AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, GetDebuggerRelativeFile(*Debugger, file << 24), ImageID(*files\file[file]\ColorImage))
+            AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, GetDebuggerRelativeFile(*Debugger, file << #DEBUGGER_DebuggerLineFileOffset), ImageID(*files\file[file]\ColorImage))
             SetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], file, file)
           Next file
         EndIf
@@ -1696,7 +1696,7 @@ Procedure Profiler_DebuggerEvent(*Debugger.DebuggerData)
         ; add to the list if the window is already open
         If *Debugger\NbIncludedFiles > 0 And *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
           ; we store the index in the data field so we can reorder the entries...
-          AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, GetDebuggerRelativeFile(*Debugger, i << 24), ImageID(*files\file[i]\ColorImage))
+          AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, GetDebuggerRelativeFile(*Debugger, i << #DEBUGGER_DebuggerLineFileOffset), ImageID(*files\file[i]\ColorImage))
           SetGadgetItemData(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Files], i, i)
         EndIf
         
@@ -1743,21 +1743,12 @@ EndProcedure
 
 DataSection
   
-  CompilerIf #CompileWindows
-    Profiler_Arrow:   : IncludeBinary #BUILD_DIRECTORY + "arrow.ico"
-    Profiler_Select:  : IncludeBinary #BUILD_DIRECTORY + "select.ico"
-    Profiler_Cross:   : IncludeBinary #BUILD_DIRECTORY + "cross.ico"
-    Profiler_Zoomin:  : IncludeBinary #BUILD_DIRECTORY + "zoomin.ico"
-    Profiler_Zoomout: : IncludeBinary #BUILD_DIRECTORY + "zoomout.ico"
-    Profiler_Zoomall: : IncludeBinary #BUILD_DIRECTORY + "zoomall.ico"
-  CompilerElse
-    Profiler_Arrow:   : IncludeBinary #BUILD_DIRECTORY + "arrow.png"
-    Profiler_Select:  : IncludeBinary #BUILD_DIRECTORY + "select.png"
-    Profiler_Cross:   : IncludeBinary #BUILD_DIRECTORY + "cross.png"
-    Profiler_Zoomin:  : IncludeBinary #BUILD_DIRECTORY + "zoomin.png"
-    Profiler_Zoomout: : IncludeBinary #BUILD_DIRECTORY + "zoomout.png"
-    Profiler_Zoomall: : IncludeBinary #BUILD_DIRECTORY + "zoomall.png"
-  CompilerEndIf
+  Profiler_Arrow:   : IncludeBinary "Data/arrow.png"
+  Profiler_Select:  : IncludeBinary "Data/select.png"
+  Profiler_Cross:   : IncludeBinary "Data/cross.png"
+  Profiler_Zoomin:  : IncludeBinary "Data/zoomin.png"
+  Profiler_Zoomout: : IncludeBinary "Data/zoomout.png"
+  Profiler_Zoomall: : IncludeBinary "Data/zoomall.png"
   
   
   Profiler_Colors:

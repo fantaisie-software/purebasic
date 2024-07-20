@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 
@@ -302,48 +302,6 @@ Procedure IsNumeric(Text$, *Output.INTEGER)
   ProcedureReturn #True
 EndProcedure
 
-
-; Load an image that was packed & included with the
-; tools/pbpack.pb tool.
-;
-; Format:
-; LONG: compressed size
-; LONG: uncompressed size (if =-1 then compressed size is the full size, and the file is not compressed)
-; [packed data]
-;
-; The index is the 0 based index in a packed file that contains multiple
-; images.
-;
-Procedure CatchPackedImage(Image, *Address.LONG, Index)
-  Result = 0
-  
-  UseBriefLZPacker()
-  
-  For i = 1 To Index ; skip the images before the wanted one
-    *Address + *Address\l + 8 ; skip length of data + 2x long
-  Next i
-  
-  Compressed = *Address\l
-  *Address + 4 ; skip the compressed size
-  
-  Uncompressed = *Address\l
-  *Address + 4
-  
-  If Uncompressed = -1 ; uncompressed image
-    Result = CatchImage(Image, *Address)
-  Else
-    *Buffer = AllocateMemory(Uncompressed) ; allocate memory for uncompressed image
-    If *Buffer
-      If UncompressMemory(*Address, Compressed, *Buffer, Uncompressed, #PB_PackerPlugin_BriefLZ)
-        Result = CatchImage(Image, *Buffer)
-      EndIf
-      FreeMemory(*Buffer)
-    EndIf
-  EndIf
-  
-  ProcedureReturn Result
-EndProcedure
-
 Procedure.s RGBString(Color)
   ProcedureReturn "RGB("+Str(Red(Color))+", "+Str(Green(Color))+", "+Str(Blue(Color))+")"
 EndProcedure
@@ -352,31 +310,6 @@ Procedure ColorFromRGBString(String$)
   String$ = UCase(RemoveString(RemoveString(String$, " "), Chr(9)))
   String$ = RemoveString(RemoveString(String$, "RGB("), ")")
   ProcedureReturn RGB(Val(StringField(String$, 1, ",")), Val(StringField(String$, 2, ",")), Val(StringField(String$, 3, ",")))
-EndProcedure
-
-; Right now the IDE is ascii only, but since that will somewhen change,
-; we do not use a string to return the buffer (as it will fail in unicode mode)
-; The buffer that is returned must be freed!
-;
-Procedure StringToUTF8(String$)
-  
-  *Buffer = AllocateMemory(StringByteLength(String$, #PB_UTF8) + 1)
-  If *Buffer
-    PokeS(*Buffer, String$, -1, #PB_UTF8)
-  EndIf
-  
-  ProcedureReturn *Buffer
-EndProcedure
-
-
-Procedure StringToAscii(String$)
-  
-  *Buffer = AllocateMemory(StringByteLength(String$, #PB_Ascii) + 1)
-  If *Buffer
-    PokeS(*Buffer, String$, -1, #PB_Ascii)
-  EndIf
-  
-  ProcedureReturn *Buffer
 EndProcedure
 
 

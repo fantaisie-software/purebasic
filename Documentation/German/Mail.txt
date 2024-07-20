@@ -12,10 +12,6 @@
   sondern auch das Versenden dieser Email an einen einzelnen oder mehrere Empfänger.
   Darüber hinaus können bei Bedarf optionale Anhänge erfolgen. Diese werden dann durch
   einen Mail-Server gesendet.
-  @LineBreak
-  @LineBreak
-  Alle Mail-Befehle basieren auf der @LibraryLink "Network" "Network Bibliothek", daher muss @@InitNetwork 
-  aufgerufen werden, bevor diese verwendet werden können.
 @LineBreak
 @LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
@@ -141,8 +137,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     If AddMailAttachment(0, "Anhang 1", OpenFileRequester("Einen Anhang auswählen", "", "", 0))
       Debug "Anhang korrekt hinzugefügt"
@@ -200,8 +194,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
 
     If AddMailAttachmentData(0, "Anhang 1", ?Hello, 5)
@@ -253,8 +245,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
     AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
@@ -316,8 +306,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil !" + #CRLF$ + "Zweite Zeile")
     Debug "Mail erstellt"
@@ -327,7 +315,7 @@
 @EndCode
 
 @SeeAlso
-  @@InitNetwork, @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
+  @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment, @@AddMailAttachmentData, @@SendMail, @@FreeMail
 
 @SupportedOS
 
@@ -380,8 +368,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     Debug GetMailAttribute(0, #PB_Mail_From)    ; wird "test@purebasic.com" ausgeben
     Debug GetMailAttribute(0, #PB_Mail_Subject) ; wird "Hello" ausgeben
@@ -409,8 +395,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil")
     Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben
@@ -496,8 +480,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
     AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
@@ -535,6 +517,8 @@
   @#PB_Mail_Asynchronous: sendet die Email im Hintergrund (asynchron). @@MailProgress kann verwendet werden,
                          um den Fortschritt zu verfolgen.
   @#PB_Mail_UseSSL      : verwendet TLS/SSL zum Senden der Email (der Server muss dieses Protokoll unterstützen).
+  @#PB_Mail_UseSMTPS    : verwendet SMTPS zum Senden der Email (der Server muss dieses Protokoll unterstützen).
+  @#PB_Mail_Debug       : um Debug-Informationen in der Konsole auszugeben.
 @EndFixedFont
 
 @OptionalParameter "User$, Passwort$"
@@ -544,10 +528,8 @@
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Email korrekt gesendet wurde, und andernfalls Null.
 
-@Example Simple SMTP
+@Example Einfaches SMTP
 @Code
-  InitNetwork()
-
   ; Hinweis: ändere die Adresse und Smtp, um ein lauffähiges Beispiel zu erhalten
   ;
   If CreateMail(0, "test@youraddress.com", "Hello")
@@ -557,17 +539,29 @@
   EndIf
 @EndCode
 
-@Example Using GMail (TLS)
+@Example Verwendung von Hotmail (TLS)
 @Code
-  InitNetwork()
+  Login$ = "you@hotmail.com"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
 
+  If CreateMail(0, Login$, "Hello")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp-mail.outlook.com", 587, #PB_Mail_UseSSL, Login$, Password$)
+  EndIf
+@EndCode
+
+@Example Verwendung von GMail (TLS+SMTPS)
+@Code
   ; Seien Sie sicher, das richtige Login und Passwort zu verwenden.
   ;
   Login$ = "yourlogin"
+  Password$ = "password"
+  Receiver$ = "test@gmail.com"
+  
   If CreateMail(0, Login$ + "@gmail.com", "Hello")
-    AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
-
-    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL, Login$, "password")
+    AddMailRecipient(0, Receiver$, #PB_Mail_To)
+    Debug SendMail(0, "smtp.gmail.com", 465, #PB_Mail_UseSSL | #PB_Mail_UseSMTPS, Login$, Password$)
   EndIf
 @EndCode
 
@@ -603,8 +597,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailAttribute(0, #PB_Mail_XMailer, "PureMailer")
     Debug GetMailAttribute(0, #PB_Mail_XMailer) ; wird "PureMailer" ausgeben
@@ -638,8 +630,6 @@
 
 @Example
 @Code
-  InitNetwork()
-
   If CreateMail(0, "test@purebasic.com", "Hello")
     SetMailBody(0, "Dies ist der Hauptteil")
     Debug GetMailBody(0) ; wird "Dies ist der Hauptteil" ausgeben

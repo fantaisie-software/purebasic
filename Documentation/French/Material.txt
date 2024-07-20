@@ -70,10 +70,16 @@
     
 @OptionalParameter "Mode"
 @FixedFont
-  @#PB_Material_Add        : Combine la nouvelle couche en ajoutant (Add) la valeur des pixels (donc le noir est complètement transparent)
-  @#PB_Material_Replace    : Combine la nouvelle couche en remplaçant (Replace) les pixels
-  @#PB_Material_AlphaBlend : Utilise le canal alpha de la texture (la texture doit être en TGA ou PNG) et la combine avec la couche précédente
-  @#PB_Material_Modulate   : Combine la nouvelle couche sur la précédente en modulant la valeur des pixels (Modulate)
+  @#PB_Material_Add               : Combine la nouvelle couche en ajoutant (Add) la valeur des pixels (donc le noir est complètement transparent)
+  @#PB_Material_AddSigned         : Effectue une opération 'Add' signée sur les pixels du calque précédent (la couleur noire est comme transparente)
+  @#PB_Material_Substract         : Effectue une opération 'Substract' signée sur les pixels du calque précédent (la couleur noire est comme transparente)
+  @#PB_Material_Replace           : Combine la nouvelle couche en remplaçant (Replace) les pixels
+  @#PB_Material_AlphaBlend        : Utilise le canal alpha de la texture (la texture doit être en TGA ou PNG) et la combine avec la couche précédente
+  @#PB_Material_Modulate          : Combine la nouvelle couche sur la précédente en modulant la valeur des pixels (Modulate)
+  @#PB_Material_ModulateX2        : Effectue une opération "Multiplier" sur les pixels du calque précédent et éclaircit ensuite (x2)
+  @#PB_Material_ModulateX4        : Effectue une opération "Multiplier" sur les pixels du calque précédent et éclaircit ensuite (x4)
+  @#PB_Material_BlendDiffuseAlpha : Utilise le calque du canal Alpha de la texture et le mélange avec le calque précédent avec diffusion
+  @#PB_Material_BlendCurrentAlpha : Utilise le calque du canal Alpha de l'étape en cours et le mélange avec le calque précédent
 @EndFixedFont
 
 @OptionalParameter "IndexCoordonneeTexture"
@@ -142,7 +148,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateMaterial(#Matiere, TextureID)
+@Function Resultat = CreateMaterial(#Matiere, TextureID [, Couleur])
 
 @Description
   Crée une nouvelle matière basée sur la 
@@ -160,9 +166,12 @@
   ce numéro.
 @LineBreak
 @LineBreak   
-  Un 'TextureID' valide est obtenu 
-  facilement à l'aide de la commande 
-  @@TextureID.
+  Un 'TextureID' valide ou @#Null si la texture n'est pas nécessaire, est obtenu 
+  facilement à l'aide de la commande @@TextureID.
+
+@OptionalParameter "Couleur"
+  La couleur à utiliser pour la couleur d'ambiance et diffuse.@LineBreak 
+  Une couleur RVB valide peut être créée avec @@RGB.
   
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
@@ -175,6 +184,606 @@
   
 @SeeAlso
   @@FreeMaterial, @@IsMaterial, @@MaterialID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateAnimatedMaterial(#Matiere, Texture(), Duree.f)
+
+@Description
+  Crée une nouvelle matière animée à l'aide des textures spécifiées.
+
+@Parameter "#Matiere"
+  La nouvelle matière.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+
+@Parameter "Texture()"
+  Un tableau de TextureID contenant les textures à utiliser pour l'animation.@LineBreak  
+  @@TextureID peut être utilisé pour obtenir un identifiant de texture valide.
+  
+@Parameter "Duree"
+  La durée de l'animation en secondes. @LineBreak  
+  Il peut s'agir d'un nombre fractionnaire, par exemple : 1,5 soit une seconde et demie.
+  Une fois l'animation terminée, elle recommencera automatiquement.
+
+@ReturnValue
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+@LineBreak
+@LineBreak  
+  Si @#PB_Any a été utilisé pour le paramètre #Matiere, le nombre généré est renvoyé en cas de succès. 
+  
+@Example
+@Code
+  CreateTexture(0, 256, 256)
+  CreateTexture(1, 256, 256)
+  CreateTexture(2, 256, 256)
+
+  Dim Textures(2)
+  Textures(0) = TextureID(0)
+  Textures(1) = TextureID(1)
+  Textures(2) = TextureID(2)
+
+  ; Crée une matière animée avec 3 textures, qui jouera pendant 500 ms
+  ;
+  CreateAnimatedMaterial(0, Textures(), 0.5)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateShader(ShaderID, ProgrammeVertex$, ProgrammeFragment$)
+
+@Description
+  Crée un nouveau shader en utilisant les programmes de vertex et de fragments spécifiés.
+
+@Parameter "ShaderID"
+  Un nombre entre 0 et 65536 identifie le nouveau shader.@LineBreak 
+  Pour sélectionner l'un des shaders prédéfinis, utilisez l'une des valeurs suivantes comme 'ShaderID' 
+  (les valeurs ProgrammeVertex$ et ProgrammeFragment$ seront ignorées) :
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+@EndFixedFont
+  
+@Parameter "ProgrammeVertex$"
+  Le programme GLSL à utiliser pour les sommets (vertices).
+
+@Parameter "ProgrammeFragment$"
+ Le programme GLSL à utiliser pour les fragments.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le shader a été créé avec succès, zéro sinon.
+  
+  @Remarks
+   Les shaders ont généralement besoin de recevoir des paramètres pour fonctionner et deux fonctions permettent de passer ces paramètres :
+   @@MaterialShaderAutoParameter (paramètre automatique) et @@MaterialShaderParameter (paramètre shader).@LineBreak
+   PureBasic permet également de définir ces paramètres directement dans les programmes de shaders en ajoutant à la fin de la ligne de 
+   déclaration 'uniform' : "//" suivi soit de :@LineBreak
+   - le numéro du paramètre auto précédé d'un "+" (cf. les constantes 'ParameterType' de la fonction @@MaterialShaderAutoParameter).@LineBreak
+   - une ou plusieurs valeurs (séparées par un espace) correspondant au paramètre du shader (@@MaterialShaderParameter).@LineBreak
+@LineBreak
+   Exemple :@LineBreak
+   uniform vec4 camera_pos;//+76 <- paramètre automatique @#PB_Shader_CameraPosition@LineBreak
+   uniform vec4 fog_params ;//+31 <- paramètre automatique @#PB_Shader_FogParams@LineBreak
+   uniform vec3 speed;//0.5 1 0 <- paramètre de shader 'speed'@LineBreak
+   uniform sampler2D diffuseMap;//1 <- shader paramètre texture number@LineBreak
+
+@SeeAlso
+  @@CreateShaderMaterial, @@MaterialShaderAutoParameter, @@MaterialShaderParameter
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateShaderMaterial(#Matiere, ShaderID)
+
+@Description
+  Crée une nouvelle matière basée sur le shader.
+
+@Parameter "#Matiere"
+  La nouvelle matière.
+@LineBreak
+@LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+  
+@Parameter "ShaderID"
+  L'identifiant du shader. @LineBreak
+  @@CreateShader peut être utilisée pour créer un nouveau shader.@linebreak
+  ShaderID doit contenir soit@linebreak 
+  - l'ID d'un shader préalablement créé avec @@CreateShader@linebreak
+  - l'ID d'un shader prédéfini :@linebreak 
+@FixedFont
+  @#PB_Material_ColorShader
+  @#PB_Material_PerpixelShader
+  @#PB_Material_BumpShader
+  @#PB_Material_SkyShader
+  @#PB_Material_WaterShader
+  @#PB_Material_WaterShaderRTT
+  @#PB_Material_OceanShader
+  @#PB_Material_PointSpriteSphereShader
+  @#PB_MaterialShader_CubicEnvShader
+  @#PB_MaterialShader_CubicEnvBumpShader
+@EndFixedFont
+
+
+  Description des shaders prédéfinis:
+@FixedFont
+  ___________________________________________________________________________________________
+  @#PB_Material_ColorShader
+  
+  Effet : Couleur uniforme en 'perpixel'.
+  
+  texture : Aucune
+  
+  MaterialShaderParameter : Aucun
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
+  - Couleur Ambiante
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_PerpixelShader
+  
+  Effet : Matière en 'perpixel'
+  
+  texture :
+  - 0: Couleur sampler2D
+  
+  MaterialShaderParameter : Aucun
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
+  - Atténuation de la lumière
+  - Couleur Ambiante
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_BumpShader
+  
+  Effet : Matière avec relief
+  
+  textures :
+  - 0: Couleur sampler2D
+  - 1: Sampler2D normal
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Fragment
+  - float bumpy - valeur par défaut: 1 (amplitude du relief)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
+  - Atténuation de la lumière
+  - Couleur Ambiante
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Remarque:
+  - Les tangentes doivent être définies (utiliser 'BuildMeshTangent')
+  ___________________________________________________________________________________________
+  @#PB_Material_SkyShader
+  
+  Effet : Affiche un ciel avec des nuages etun soleil
+  
+  texture :
+  - 0: Couleur uniforme sampler2D (nuages)
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Fragment
+  - vec3 speed   - Valeur par défaut : 10 0 0 (vitesse des nuages (X Z))
+  - float height - Valeur par défaut : 200 (hauteur de la 1ère couche nuageuse)
+  - int layer    - Valeur par défaut : 2 (nombre de couches nuageuses supplémentaires)
+  - float scale  - Valeur par défaut : 4000 (échelle de texture)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor, Couleur) : Couleur du ciel ensoleillé au zénith
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur du ciel ensoleillé à l'horizon
+  - Brouillard
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_WaterShader
+  
+  Effet : Permet d'afficher une surface d'eau
+  
+  texture :
+  - 0: Sampler2D normal
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Fragment
+  - float scale - Valeur par défaut : 0.1 (échelle de texture)
+  - float height - Valeur par défaut : 1 (hauteur des vagues)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur)  : Couleur de l'eau (Alpha : opacité)
+  - SetMaterialColor(@#Matiere, @#PB_Material_SpecularColor, color) : Couleur de réflexion du ciel
+  - Brouillard
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_WaterShaderRTT
+  
+  Effet : Permet d'afficher une surface d'eau avec réflexion (via RTT)
+  
+  textures :
+  - 0 : Sampler2D normal
+  - 1 : Sampler2D RTT (rendu sur texture)
+  
+  MaterialShaderParameter : Aucun
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur de l'eau (Alpha : opacité)
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_OceanShader
+  
+  Effet : Permet d'afficher une surface d'eau avec des vagues
+  textures :
+  - 0: Sampler2D normal
+  - 1: Couleur sampler2D (écume)
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Vertex
+  - float wavebig - Valeur par défaut : 0.5 (amplitude des vagues)
+  - float swell - Valeur par défaut : 0.5 (amplitude de la houle)
+  @#PB_Shader_Fragment
+  - float wavelittle - Valeur par défaut : 0.5 (amplitude des "petites" vagues)
+  - float foam - Valeur par défaut : 0.5 (écume)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor, Couleur) : Couleur de l'eau
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur du reflet du ciel
+  - Brouillard
+  
+  Remarque:
+  - La valeur alpha de la texture 'normale' contient la hauteur de la vague
+  
+  ___________________________________________________________________________________________
+  @#PB_Material_PointSpriteSphereShader
+  
+  Effet : Affiche les sphères aux sommets du maillage (mesh)
+  
+  texture(s) : Aucune
+  
+  MaterialShaderParameter : Aucun
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
+  - AmbientColor
+  - Brouillard
+  
+  Remarques :
+  - La matière doit être de type PointSprite : SetMaterialAttribute(0,@#PB_Material_PointSprite,1)
+  - Le maillage (mesh) doit être de type PointList : CreateMesh(@#Mesh,@#PB_Mesh_PointList)
+  - Le rayon de la sphère est défini par la coordonnée U de la texture
+  - La couleur de la sphère est définie par la couleur du sommet (vertex)
+  Exemple: MeshVertex(posX, posY, posZ, 10, 0,RGB(255,0,0))
+  
+  _______________________________________________________________________________________
+  @#PB_MaterialShader_CubicEnv
+  
+  Effet : Réflexion via une texture cubique
+  
+  textures :
+  - 0: SamplerCube cubemap
+  - 1: Couleur uniforme sampler2D
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Fragment
+  - float glossy - Valeur par défaut  : 0.5 (intensité du reflet)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - Couleur Ambiante
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Remarque :
+  - Les textures cubiques doivent être "clampées": SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  
+  ___________________________________________________________________________________________
+  @#PB_MaterialShader_CubicEnvBump
+  
+  Effet : Réflexion avec texture cubique en relief
+  
+  textures :
+  - 0: samplerCube cubemap
+  - 1: Couleur sampler2D
+  - 2: Sampler2D normal
+  
+  MaterialShaderParameter :
+  @#PB_Shader_Fragment
+  - float glossy - Valeur par défaut  : 0.5 (intensité du reflet)
+  - float bumpy  - Valeur par défaut  : 1 (amplitude du reflet)
+  
+ Prise en compte de :
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
+  - MaterialShininess(@#Material, Shininess, SpecularColor)
+  - Couleur Ambiante
+  - Brouillard
+  - ScaleMaterial / ScrollMaterial / RotateMaterial
+  
+  Remarques :
+  - Les textures cubiques doivent être "clampées" : SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  - Les tangentes doivent être définies (utiliser 'BuildMeshTangent')
+
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si la matière basée sur le shader a été créé avec succès, zéro sinon. 
+@LineBreak
+@LineBreak
+  Si @#PB_Any a été utilisé pour le paramètre #Matiere, le nombre généré est renvoyé en cas de succès.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderAutoParameter(#Matiere, TypeProgramme, NomParametre$, TypeParametre, Extra.f)
+
+@Description
+  Définit une valeur de paramètre pour la matière basée sur le shader créé précédemment avec @@CreateShaderMaterial.
+
+@Parameter "#Matiere"
+  La matière à utiliser.
+
+@Parameter "TypeProgramme"
+  Type de programme. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Shader_Vertex  : Utiliser le programme vertex.
+  @#PB_Shader_Fragment: Utiliser le programme vertex de fragment.
+@EndFixedFont
+
+@Parameter "NomParametre$"
+  Nom du paramètre à utiliser avec le programme GLSL.
+
+@Parameter "TypeParametre"
+   Type de paramètre. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Shader_AmbientLightColour
+  @#PB_Shader_AnimationParametric
+  @#PB_Shader_CameraPosition
+  @#PB_Shader_CameraPositionObjectSpace
+  @#PB_Shader_Costime02pi
+  @#PB_Shader_Costime0X
+  @#PB_Shader_Custom
+  @#PB_Shader_DerivedAmbientLightColour
+  @#PB_Shader_DerivedLightDiffuseColour
+  @#PB_Shader_DerivedLightDiffuseColourArray
+  @#PB_Shader_DerivedLightSpecularColour
+  @#PB_Shader_DerivedLightSpecularColourArray
+  @#PB_Shader_DerivedSceneColour
+  @#PB_Shader_FarClipDistance
+  @#PB_Shader_FogColour
+  @#PB_Shader_Fov
+  @#PB_Shader_Fps
+  @#PB_Shader_Fragment
+  @#PB_Shader_Integer
+  @#PB_Shader_InverseProjectionMatrix
+  @#PB_Shader_InverseTextureSize
+  @#PB_Shader_InverseTransposeProjectionMatrix
+  @#PB_Shader_InverseTransposeViewMatrix
+  @#PB_Shader_InverseTransposeViewprojMatrix
+  @#PB_Shader_InverseTransposeWorldMatrix
+  @#PB_Shader_InverseTransposeWorldviewMatrix
+  @#PB_Shader_InverseTransposeWorldviewprojMatrix
+  @#PB_Shader_InverseViewMatrix
+  @#PB_Shader_InverseViewportHeight
+  @#PB_Shader_InverseViewportWidth
+  @#PB_Shader_InverseViewprojMatrix
+  @#PB_Shader_InverseWorldMatrix
+  @#PB_Shader_InverseWorldviewMatrix
+  @#PB_Shader_InverseWorldviewprojMatrix
+  @#PB_Shader_LightAttenuation
+  @#PB_Shader_LightAttenuationArray
+  @#PB_Shader_LightCastsShadows
+  @#PB_Shader_LightCount
+  @#PB_Shader_LightCustom
+  @#PB_Shader_LightDiffuseColour
+  @#PB_Shader_LightDiffuseColourArray
+  @#PB_Shader_LightDiffuseColourPowerScaled
+  @#PB_Shader_LightDiffuseColourPowerScaledArray
+  @#PB_Shader_LightDirection
+  @#PB_Shader_LightDirectionArray
+  @#PB_Shader_LightDirectionObjectSpace
+  @#PB_Shader_LightDirectionObjectSpaceArray
+  @#PB_Shader_LightDirectionViewSpace
+  @#PB_Shader_LightDirectionViewSpaceArray
+  @#PB_Shader_LightDistanceObjectSpace
+  @#PB_Shader_LightDistanceObjectSpaceArray
+  @#PB_Shader_LightNumber
+  @#PB_Shader_LightPosition
+  @#PB_Shader_LightPositionArray
+  @#PB_Shader_LightPositionObjectSpace
+  @#PB_Shader_LightPositionObjectSpaceArray
+  @#PB_Shader_LightPositionViewSpace
+  @#PB_Shader_LightPositionViewSpaceArray
+  @#PB_Shader_LightPowerScale
+  @#PB_Shader_LightPowerScaleArray
+  @#PB_Shader_LightSpecularColour
+  @#PB_Shader_LightSpecularColourArray
+  @#PB_Shader_LightSpecularColourPowerScaled
+  @#PB_Shader_LightSpecularColourPowerScaledArray
+  @#PB_Shader_LodCameraPosition
+  @#PB_Shader_LodCameraPositionObjectSpace
+  @#PB_Shader_NearClipDistance
+  @#PB_Shader_PackedTextureSize
+  @#PB_Shader_PassIterationNumber
+  @#PB_Shader_PassNumber
+  @#PB_Shader_ProjectionMatrix
+  @#PB_Shader_SceneDepthRange
+  @#PB_Shader_ShadowColour
+  @#PB_Shader_ShadowExtrusionDistance
+  @#PB_Shader_ShadowSceneDepthRange
+  @#PB_Shader_Sintime01
+  @#PB_Shader_Sintime02pi
+  @#PB_Shader_Sintime0X
+  @#PB_Shader_SpotlightParams
+  @#PB_Shader_SpotlightParamsArray
+  @#PB_Shader_SpotlightViewprojMatrix
+  @#PB_Shader_SpotlightViewprojMatrixArray
+  @#PB_Shader_SpotlightWorldviewprojMatrix
+  @#PB_Shader_SurfaceAmbientColour
+  @#PB_Shader_SurfaceDiffuseColour
+  @#PB_Shader_SurfaceEmissiveColour
+  @#PB_Shader_SurfaceShininess
+  @#PB_Shader_SurfaceSpecularColour
+  @#PB_Shader_Tantime01
+  @#PB_Shader_Tantime02pi
+  @#PB_Shader_Tantime0X
+  @#PB_Shader_TexelOffsets
+  @#PB_Shader_TextureMatrix
+  @#PB_Shader_TextureSize
+  @#PB_Shader_TextureViewprojMatrix
+  @#PB_Shader_TextureViewprojMatrixArray
+  @#PB_Shader_TextureWorldviewprojMatrixArray
+  @#PB_Shader_Time
+  @#PB_Shader_Time01
+  @#PB_Shader_Time01Packed
+  @#PB_Shader_Time02pi
+  @#PB_Shader_Time02piPacked
+  @#PB_Shader_Time0X
+  @#PB_Shader_Time0XPacked
+  @#PB_Shader_TransposeProjectionMatrix
+  @#PB_Shader_TransposeViewMatrix
+  @#PB_Shader_TransposeViewprojMatrix
+  @#PB_Shader_TransposeWorldMatrix
+  @#PB_Shader_TransposeWorldviewMatrix
+  @#PB_Shader_TransposeWorldviewprojMatrix
+  @#PB_Shader_Vector3
+  @#PB_Shader_Vector4
+  @#PB_Shader_Vertex
+  @#PB_Shader_VertexWinding
+  @#PB_Shader_ViewDirection
+  @#PB_Shader_ViewMatrix
+  @#PB_Shader_ViewportSize
+  @#PB_Shader_ViewportWidth
+  @#PB_Shader_ViewprojMatrix
+  @#PB_Shader_ViewSideVector
+  @#PB_Shader_ViewUpVector
+  @#PB_Shader_WorldDualquaternionArray2x4
+  @#PB_Shader_WorldMatrix
+  @#PB_Shader_WorldMatrixArray
+  @#PB_Shader_WorldMatrixArray3x4
+  @#PB_Shader_WorldviewMatrix
+  @#PB_Shader_WorldviewprojMatrix
+
+@EndFixedFont
+
+@Parameter "Extra.f"
+   Valeur supplémentaire transmise au paramètre de programme.
+   
+@NoReturnValue
+
+@Remarks
+  Les paramètres automatiques correspondent aux paramètres du moteur 3D (positions de la caméra, lumières, couleur du matériau, 
+  brouillard...) cette fonction permet de faire le lien entre la variable 'uniform' du shader et ces paramètres.@LineBreak
+
+@Example
+@Code
+  MaterialShaderAutoParameter(#Matiere, #PB_Shader_Fragment, #PB_Shader_CameraPosition, "camerapos", 0)
+@EndCode
+ 
+@SeeAlso
+  @@CreateShaderMaterial
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderParameter(#Matiere,  TypeProgramme, NomParametre$, TypeParametre, v1.f, v2.f, v3.f, v4.f)
+
+@Description
+  Définit une valeur de paramètre du shader.
+
+@Parameter "#Matiere"
+  La matière à utiliser.
+
+@Parameter "TypeProgramme"
+  Type de programme. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Shader_Vertex  : Utiliser le programme vertex.
+  @#PB_Shader_Fragment: Utiliser le programme vertex de fragment.
+@EndFixedFont
+
+@Parameter "NomParametre$"
+  Nom du paramètre à utiliser avec le programme GLSL.
+
+@Parameter "TypeParametre"
+   Type de paramètre. Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Shader_Integer: Le paramètre utilise un type entier (les paramètres v2, v3 et v4 sont ignorés)
+  @#PB_Shader_Float  : Le paramètre utilise un type float (les paramètres v2, v3 et v4 sont ignorés)
+  @#PB_Shader_Vector3: Le paramètre utilise un type Vector3 (le paramètre v4 est ignoré)
+  @#PB_Shader_Vector4: Le paramètre utilise un type Vector4
+@EndFixedFont
+
+@Parameter "v1"
+  Valeur du premier paramètre. Obligatoire pour tous les types de paramètres.
+
+@Parameter "v2"
+  Valeur du deuxième paramètre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
+
+@Parameter "v3"
+  Valeur du troisième paramètre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
+
+@Parameter "v4"
+  Valeur du quatrième paramètre.  Obligatoire pour le type @#PB_Shader_Vector4.
+
+@NoReturnValue
+
+@Remarks
+ Les shaders GLSL utilisent le type vec4 pour transmettre une couleur. Exemple:
+@Code
+  MaterialShaderParameter(0, #PB_Shader_Fragment, 4, Red(Couleur)/255, Green(Couleur)/255, Blue(Couleur)/255, Alpha(Couleur)/255)
+  MaterialShaderParameter(#Matiere, #PB_Shader_Fragment, "bumpy", #PB_Shader_Float, 0.5,0,0,0)
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MaterialShaderTexture(#Matiere, TextureID1, TextureID2, TextureID3, TextureID4)
+
+@Description
+  Définit les textures à utiliser pour la matière basée sur le shader créé précédemment avec @@CreateShaderMaterial.
+
+@Parameter "#Matiere"
+  La matière basée sur le shader à utiliser.
+
+@Parameter "TextureID1"
+  La première texture à utiliser.@LineBreak 
+  Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
+
+@Parameter "TextureID2"
+  La seconde texture à utiliser.@LineBreak 
+  Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
+
+@Parameter "TextureID3"
+  La troisième texture à utiliser.@LineBreak 
+  Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
+
+@Parameter "TextureID4"
+  La quatrième texture à utiliser.@LineBreak 
+  Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
+
+@NoReturnValue
 
 @SupportedOS
 
@@ -359,8 +968,7 @@
   La matière à utiliser.
 
 @Parameter "Type"
-  Le type de couleur à obtenir. Peut être une 
-  des valeurs suivantes:
+  Le type de couleur à obtenir. Peut être une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Material_AmbientColor:  La couleur utilisée par défaut, sans autre éclairage.
   @#PB_Material_DiffuseColor:  La couleur que le matériau reflètera quand il sera éclairé de façon dynamique. 
@@ -558,7 +1166,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MaterialShininess(#Matiere, Brillance)
+@Function MaterialShininess(#Matiere, Brillance [, CouleurSpeculaire])
 
 @Description
   Modifie la brillance d'une matière.
@@ -568,6 +1176,10 @@
  
 @Parameter "Brillance"
   Nouvelle brillance.
+  
+@OptionalParameter "CouleurSpeculaire"
+  La couleur spéculaire à utiliser.@LineBreak 
+  Une couleur RVB valide peut être créée avec @@RGB.
 
 @NoReturnValue 
 
@@ -762,18 +1374,23 @@
                                semi-transparentes comme les arbres, les fenêtres, etc.).
   @#PB_Material_TAM           : Change le 'Mode d'adressage de texture' (TAM). 
                                Il peut s'agir de l'une des valeurs suivantes
-                               - @#PB_Material_WrapTAM  : Mode enveloppement
-                               - @#PB_Material_MirrorTAM: Mode miroir
-                               - @#PB_Material_ClampTAM : Mode serrage
-                               - @#PB_Material_BorderTAM: Mode frontière
-  @#PB_Material_EnvironmentMap: Active la carte de l'environnement. 
+                               @#PB_Material_WrapTAM  : Mode enveloppement
+                               @#PB_Material_MirrorTAM: Mode miroir
+                               @#PB_Material_ClampTAM : Mode serrage
+                               @#PB_Material_BorderTAM: Mode frontière
+  @#PB_Material_EnvironmentMap: Active la Map (carte) de l'environnement. 
                               Il peut s'agir de l'une des valeurs suivantes
-                               - @#PB_Material_NoMap        : Désactive l'environnement 
-                               - @#PB_Material_PlanarMap    : Carte de l'environnement planaire
-                               - @#PB_Material_CurvedMap    : Carte de l'environnement courbe
-                               - @#PB_Material_ReflectionMap: Carte de l'environnement de réflexion
-                               - @#PB_Material_NormalMap    : Carte de l'environnement normal
+                               @#PB_Material_NoMap        : Désactive l'environnement 
+                               @#PB_Material_PlanarMap    : Map de l'environnement planaire
+                               @#PB_Material_CurvedMap    : Map de l'environnement courbe
+                               @#PB_Material_ReflectionMap: Map de l'environnement de réflexion
+                               @#PB_Material_NormalMap    : Map de l'environnement normal
    @#PB_Material_ProjectiveTexturing: Active la texturation projective pour ce matériau. La valeur est un numéro de #Camera à utiliser.          
+   @#PB_Material_PointSprite  : Active ou désactive le point sprite pour le matériau.
+                              Si supérieur à zéro, la valeur est la taille en points/1000. Si zéro, la taille en points est désactivée
+   @#PB_Material_DepthBias    :Active ou désactive le bias de profondeur pour le matériau.
+                              Si supérieur à zéro, la valeur est le bias de profondeur/1000. Si zéro, le bias de profondeur est désactivé
+
 @EndFixedFont
 
  @Parameter "Valeur"

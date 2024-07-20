@@ -1,7 +1,7 @@
 ﻿;|-------------------------------------------------------------------------------------------------
 ;|
 ;|  Title            : TabBarGadget
-;|  Version          : 1.5 Beta 2 (2014-08-05)
+;|  Version          : 'kenmo-mods' fork based off v1.5 Beta 2a
 ;|  Copyright        : UnionBytes
 ;|                     (Martin Guttmann alias STARGÅTE)
 ;|  PureBasic        : 5.20+
@@ -13,8 +13,8 @@
 ;|
 ;|  Description      : Gadget for displaying and using tabs like in the browser
 ;|
-;|  Forum Topic      : https://www.purebasic.fr/german/viewtopic.php?f=8&t=24788
-;|                     https://www.purebasic.fr/english/viewtopic.php?f=12&t=47588
+;|  Forum Topic      : http://www.purebasic.fr/german/viewtopic.php?f=8&t=24788
+;|                     http://www.purebasic.fr/english/viewtopic.php?f=12&t=47588
 ;|  Website          : http://www.unionbytes.de/includes/tabbargadget/
 ;|
 ;|  Documentation    : http://help.unionbytes.de/tbg/
@@ -24,9 +24,9 @@
 
 
 
-
-EnableExplicit
-
+CompilerIf #PB_Compiler_IsMainFile
+  EnableExplicit
+CompilerEndIf
 
 
 
@@ -61,6 +61,19 @@ Enumeration
   #TabBarGadget_MaxTabLength         = 1<<27
   #TabBarGadget_MinTabLength         = 1<<28
   #TabBarGadget_TabRounding          = 1<<29
+EndEnumeration
+
+; Global attributes for all TabBarGadgets
+Enumeration
+  #TabBarGadgetGlobal_WheelDirection   = 1 << 0
+  #TabBarGadgetGlobal_WheelAction      = 1 << 1
+  #TabBarGadgetGlobal_DrawDisabled     = 1 << 2
+  #TabBarGadgetGlobal_MiddleClickClose = 1 << 3
+  #TabBarGadgetGlobal_DoubleClickNew   = 1 << 4
+  #TabBarGadgetGlobal_TabBarColor      = 1 << 5
+  #TabBarGadgetGlobal_BorderColor      = 1 << 6
+  #TabBarGadgetGlobal_FaceColor        = 1 << 7
+  #TabBarGadgetGlobal_TextColor        = 1 << 8
 EndEnumeration
 
 ; Ereignisse von TabBarGadgetEvent
@@ -101,8 +114,20 @@ Enumeration
   #TabBarGadgetUpdate_PostEvent = 1
 EndEnumeration
 
+; MouseWheel actions
+Enumeration
+  #TabBarGadgetWheelAction_None   = 0
+  #TabBarGadgetWheelAction_Scroll = 1
+  #TabBarGadgetWheelAction_Change = 2
+EndEnumeration
+
 #TabBarGadget_DefaultHeight     = 1
 
+; Default colors
+#TabBarGadgetColor_TabBarDefault = $D0D0D0
+#TabBarGadgetColor_BorderDefault = $808080
+#TabBarGadgetColor_FaceDefault   = $D0D0D0
+#TabBarGadgetColor_TextDefault   = $000000
 
 
 ; Interne Konstanten
@@ -114,6 +139,19 @@ EndEnumeration
 #TabBarGadgetItem_ActiveFace  = 2
 #TabBarGadgetItem_MoveFace    = 3
 
+; Compile switch for extra safety - could affect callback performance!
+CompilerIf Not Defined(TabBarGadget_EnableCallbackGadgetCheck, #PB_Constant)
+  #TabBarGadget_EnableCallbackGadgetCheck = #False
+CompilerEndIf
+
+; Compile switch to use WinAPI for drawing clearer text
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  CompilerIf Not Defined(TabBarGadget_EnableWinAPIText, #PB_Constant)
+    #TabBarGadget_EnableWinAPIText = #True
+  CompilerEndIf
+CompilerElse
+  #TabBarGadget_EnableWinAPIText = #False
+CompilerEndIf
 
 
 
@@ -255,6 +293,11 @@ Structure TabBarGadget
   Editor.TabBarGadgetEditor         ; Editor für eine Karte
   Layout.TabBarGadgetLayout         ; Layout der Leiste
   UpdatePosted.i                    ; Nach einem PostEvent #True
+  CompilerIf #TabBarGadget_EnableWinAPIText
+    DrawingID.i                     ; Drawing handle for API text drawing
+    PrevFont.i                      ; Store previous font handle to restore
+    DrawRect.RECT                   ; Allocate a RECT struct for WinAPI
+  CompilerEndIf
 EndStructure
 
 ; Timer für das kontinuierliche Scrollen
@@ -290,10 +333,13 @@ Structure TabBarGadgetInclude
   NormalTabLength.i               ; [für später]
   FadeOut.i                       ; Länge der Farbausblendung bei einer Navigation
   WheelDirection.i                ; Scrollrichtung bei Mausradbewegung
+  WheelAction.i                   ; Action for MouseWheel events
   RowDirection.i                  ; Reihenfolge der Zeilen
   EnableDoubleClickForNewTab.i    ; Doppelklick ins "Leere" erzeigt ein Ereignis
   EnableMiddleClickForCloseTab.i  ; Mittelklick auf eine Karte erzeigt ein Ereignis
   Timer.TabBarGadget_Timer        ; Timer für das kontinuierliche Scrollen
+  DefaultFontID.i                 ; System default font ID
+  DrawDisabled.i                  ; Disable redraw for batch tab changes
 EndStructure
 
 
@@ -318,24 +364,24 @@ With TabBarGadgetInclude
       \FaceColor     = $FF<<24 | GetSysColor_(#COLOR_BTNFACE)
       \TextColor     = $FF<<24 | GetSysColor_(#COLOR_BTNTEXT)
     CompilerDefault
-      \TabBarColor   = $FFD0D0D0
-      \BorderColor   = $FF808080
-      \FaceColor     = $FFD0D0D0
-      \TextColor     = $FF000000
+      \TabBarColor   = $FF<<24 | #TabBarGadgetColor_TabBarDefault
+      \BorderColor   = $FF<<24 | #TabBarGadgetColor_BorderDefault
+      \FaceColor     = $FF<<24 | #TabBarGadgetColor_FaceDefault
+      \TextColor     = $FF<<24 | #TabBarGadgetColor_TextDefault
   CompilerEndSelect
   \HoverColorPlus               = $FF101010
   \ActivColorPlus               = $FF101010
-  \PaddingX                     = 6  ; Space from tab border to text
-  \PaddingY                     = 5  ; Space from tab border to text
-  \Margin                       = 4  ; Space from tab to border
-  \ImageSpace                   = 3  ; Space from image zu text
-  \ImageSize                    = 16
-  \CloseButtonSize              = 13 ; Size of the close cross
-  \CheckBoxSize                 = 10
-  \ArrowSize                    = 5  ; Size of the Arrow in the button in navigation
-  \ArrowWidth                   = 12 ; Width of the Arrow-Button in navigation
-  \ArrowHeight                  = 18 ; Height of the Arrow-Button in navigation
-  \Radius                       = 3  ; Radius of the edge of the tab
+  \PaddingX                     = DesktopScaledX(6)  ; Space from tab border to text
+  \PaddingY                     = DesktopScaledX(5)  ; Space from tab border to text
+  \Margin                       = 4                  ; Space from tab to border
+  \ImageSpace                   = DesktopScaledX(3)  ; Space from image zu text
+  \ImageSize                    = DesktopScaledX(16)
+  \CloseButtonSize              = DesktopScaledX(13) ; Size of the close cross
+  \CheckBoxSize                 = DesktopScaledX(10)
+  \ArrowSize                    = DesktopScaledX(5)  ; Size of the Arrow in the button in navigation
+  \ArrowWidth                   = DesktopScaledX(12) ; Width of the Arrow-Button in navigation
+  \ArrowHeight                  = DesktopScaledY(18) ; Height of the Arrow-Button in navigation
+  \Radius                       = DesktopScaledX(3)  ; Radius of the edge of the tab
   \TabTextAlignment             = -1
   \VerticalTextBugFix           = 1.05
   \MinTabLength                 = 0
@@ -343,6 +389,7 @@ With TabBarGadgetInclude
   \NormalTabLength              = 150
   \FadeOut                      = 32 ; Length of fade out to the navi
   \WheelDirection               = -1
+  \WheelAction                  = #TabBarGadgetWheelAction_Scroll
   \RowDirection                 = 1 ; not used
   \EnableDoubleClickForNewTab   = #True
   \EnableMiddleClickForCloseTab = #True
@@ -366,6 +413,50 @@ EndWith
 ;-  4.1 Private procedures for internal calculations ! Not for use !
 ;¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
 
+; StartDrawing() wrapper which saves handle for WinAPI drawing
+Procedure.i TabBarGadget_StartDrawing(*TabBarGadget.TabBarGadget)
+  CompilerIf #TabBarGadget_EnableWinAPIText
+    With *TabBarGadget
+      \DrawingID = StartDrawing(CanvasOutput(*TabBarGadget\Number))
+      If \DrawingID
+        \PrevFont = SelectObject_(\DrawingID, \FontID)
+        \DrawRect\right  = OutputWidth()
+        \DrawRect\bottom = OutputHeight()
+        SetBkMode_(\DrawingID, #TRANSPARENT)
+      EndIf
+      ProcedureReturn \DrawingID
+    EndWith
+  CompilerElse
+    ProcedureReturn StartDrawing(CanvasOutput(*TabBarGadget\Number))
+  CompilerEndIf
+EndProcedure
+
+; StopDrawing() wrapper which clears handle for WinAPI drawing
+Procedure.i TabBarGadget_StopDrawing(*TabBarGadget.TabBarGadget)
+  CompilerIf #TabBarGadget_EnableWinAPIText
+    With *TabBarGadget
+      If (\DrawingID)
+        SelectObject_(\DrawingID, \PrevFont)
+        \DrawingID = #Null
+      EndIf
+    EndWith
+  CompilerEndIf
+  StopDrawing()
+EndProcedure
+
+; DrawText() wrapper which uses Windows API if enabled
+Procedure TabBarGadget_DrawText(*TabBarGadget.TabBarGadget, x.i, y.i, Text.s, Color.i)
+  CompilerIf #TabBarGadget_EnableWinAPIText
+    With *TabBarGadget
+      \DrawRect\left = x
+      \DrawRect\top  = y
+      SetTextColor_(\DrawingID, Color & $00FFFFFF)
+      DrawText_(\DrawingID, @Text, -1, @\DrawRect, #DT_NOPREFIX | #DT_SINGLELINE)
+    EndWith
+  CompilerElse
+    DrawText(x, y, Text, Color)
+  CompilerEndIf
+EndProcedure
 
 
 ; Gitb die Adresse (ID) der Registerkarte zurück.
@@ -467,6 +558,37 @@ EndProcedure
 
 ; Entfernt die Registerkarte und aktualisiert die Select-Hierarchie
 Procedure TabBarGadget_RemoveItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetItem) ; Code OK
+  
+  If *Item = #Null
+    ProcedureReturn
+  EndIf
+  
+  With *TabBarGadget
+    If (\HoverItem = *Item)
+      \HoverItem = #Null
+    EndIf
+    If (\HoverCheck = *Item)
+      \HoverCheck = #Null
+    EndIf
+    If (\HoverClose = *Item)
+      \HoverClose = #Null
+    EndIf
+    If (\LockedItem = *Item)
+      \LockedItem = #Null
+    EndIf
+    If (\LockedCheck = *Item)
+      \LockedCheck = #Null
+    EndIf
+    If (\LockedClose = *Item)
+      \LockedClose = #Null
+    EndIf
+    If (\MoveItem = *Item)
+      \MoveItem = #Null
+    EndIf
+    If (\ReadyToMoveItem = *Item)
+      \ReadyToMoveItem = #Null
+    EndIf
+  EndWith
   
   TabBarGadget_ClearItem(*TabBarGadget, *Item)
   If *TabBarGadget\SelectedItem
@@ -926,10 +1048,11 @@ Procedure TabBarGadget_ReplaceImage(*TabBarGadget.TabBarGadget, *Item.TabBarGadg
     CompilerElse
       *Item\Image = CreateImage(#PB_Any, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize, 32|#PB_Image_Transparent)
     CompilerEndIf
-    StartDrawing(ImageOutput(*Item\Image))
-    DrawingMode(#PB_2DDrawing_AlphaBlend)
-    DrawImage(NewImageID, 0, 0, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize)
-    StopDrawing()
+    If StartDrawing(ImageOutput(*Item\Image))
+      DrawingMode(#PB_2DDrawing_AlphaBlend)
+      DrawImage(NewImageID, 0, 0, TabBarGadgetInclude\ImageSize, TabBarGadgetInclude\ImageSize)
+      StopDrawing()
+    EndIf
     TabBarGadget_RotateImage(*TabBarGadget, *Item)
   EndIf
   
@@ -941,6 +1064,20 @@ EndProcedure
 Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetItem)
   
   Protected TextAreaLength.i = *Item\Length - 2 * TabBarGadgetInclude\PaddingX
+  Protected NextSelected.i, PreviousSelected.i
+  
+  PushListPosition(*TabBarGadget\Item())
+  If *Item\Selected
+    ChangeCurrentElement(*TabBarGadget\Item(), *Item)
+    If NextElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
+      NextSelected = #True
+    EndIf
+    ChangeCurrentElement(*TabBarGadget\Item(), *Item)
+    If PreviousElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
+      PreviousSelected = #True
+    EndIf
+  EndIf
+  PopListPosition(*TabBarGadget\Item())
   
   With TabBarGadgetInclude
     
@@ -962,7 +1099,7 @@ Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadget
       *Item\Layout\Height = *Item\Length
       *Item\Layout\Width  = *TabBarGadget\TabSize + 1
       If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs
-        *Item\Layout\X      = *TabBarGadget\TabSize * *Item\Row - 1
+        *Item\Layout\X      = *TabBarGadget\TabSize * *Item\Row; - 1
       Else
         *Item\Layout\X      = OutputWidth() - *TabBarGadget\TabSize * (*Item\Row+1)
       EndIf
@@ -971,19 +1108,14 @@ Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadget
       Else
         *Item\Layout\Y    = OutputHeight() - *Item\Position - *Item\Length
       EndIf
-      If *Item = *TabBarGadget\SelectedItem Or *Item\Selected
-        *Item\Layout\Height + \Margin
+      If *Item\Selected
         *Item\Layout\Width  + \Margin
-        *Item\Layout\Y      - \Margin/2
         If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs = 0
           *Item\Layout\X    - \Margin
         EndIf
-        *Item\Layout\PaddingX = \PaddingY + \Margin/2
-        *Item\Layout\PaddingY = \PaddingX + \Margin/2
-      Else
-        *Item\Layout\PaddingX = \PaddingY
-        *Item\Layout\PaddingY = \PaddingX
       EndIf
+      *Item\Layout\PaddingX = \PaddingY
+      *Item\Layout\PaddingY = \PaddingX
       *Item\Layout\CrossX = *Item\Layout\X + (*Item\Layout\Width-\CloseButtonSize)/2
       *Item\Layout\CheckX = *Item\Layout\X + (*Item\Layout\Width-\CheckBoxSize)/2
       If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs
@@ -1018,6 +1150,25 @@ Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadget
         *Item\Layout\CheckY = *Item\Layout\TextY+\ImageSpace
         If *TabBarGadget\Attributes & #TabBarGadget_ReverseOrdering : *Item\Layout\TextY - TextWidth(*Item\ShortText)*\VerticalTextBugFix : EndIf
       EndIf
+      If *Item\Selected
+        If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs XOr *TabBarGadget\Attributes & #TabBarGadget_ReverseOrdering
+          If PreviousSelected = #False
+            *Item\Layout\Y - \Margin/2
+            *Item\Layout\Height + \Margin/2
+          EndIf
+          If NextSelected = #False
+            *Item\Layout\Height + \Margin/2
+          EndIf
+        Else
+          If NextSelected = #False
+            *Item\Layout\Y - \Margin/2
+            *Item\Layout\Height + \Margin/2
+          EndIf
+          If PreviousSelected = #False
+            *Item\Layout\Height + \Margin/2
+          EndIf
+        EndIf
+      EndIf
     Else
       *Item\Layout\Width  = *Item\Length
       *Item\Layout\Height = *TabBarGadget\TabSize + 1
@@ -1027,23 +1178,18 @@ Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadget
         *Item\Layout\X      = *Item\Position
       EndIf
       If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs
-        *Item\Layout\Y      = *TabBarGadget\TabSize * *Item\Row - 1
+        *Item\Layout\Y      = *TabBarGadget\TabSize * *Item\Row; - 1
       Else
         *Item\Layout\Y      = OutputHeight() - *TabBarGadget\TabSize * (*Item\Row+1)
       EndIf
-      If *Item = *TabBarGadget\SelectedItem Or *Item\Selected
-        *Item\Layout\Width  + \Margin
+      If *Item\Selected
         *Item\Layout\Height + \Margin
-        *Item\Layout\X      - \Margin/2
         If *TabBarGadget\Attributes & #TabBarGadget_MirroredTabs = 0
           *Item\Layout\Y    - \Margin
         EndIf
-        *Item\Layout\PaddingX = \PaddingX + \Margin/2
-        *Item\Layout\PaddingY = \PaddingY + \Margin/2
-      Else
-        *Item\Layout\PaddingX = \PaddingX
-        *Item\Layout\PaddingY = \PaddingY
       EndIf
+      *Item\Layout\PaddingX = \PaddingX
+      *Item\Layout\PaddingY = \PaddingY
       *Item\Layout\CrossY = *Item\Layout\Y + (*Item\Layout\Height-\CloseButtonSize)/2
       *Item\Layout\CheckY = *Item\Layout\Y + (*Item\Layout\Height-\CheckBoxSize)/2
       *Item\Layout\TextY  = *Item\Layout\Y + (*Item\Layout\Height-TextHeight("|"))/2
@@ -1071,6 +1217,25 @@ Procedure TabBarGadget_ItemLayout(*TabBarGadget.TabBarGadget, *Item.TabBarGadget
           *Item\Layout\TextX + \CheckBoxSize + \ImageSpace
         EndIf
         *Item\Layout\CheckX = *Item\Layout\TextX - \CheckBoxSize - \ImageSpace
+      EndIf
+      If *Item\Selected
+        If *TabBarGadget\Attributes & #TabBarGadget_ReverseOrdering
+          If NextSelected = #False
+            *Item\Layout\X - \Margin/2
+            *Item\Layout\Width + \Margin/2
+          EndIf
+          If PreviousSelected = #False
+            *Item\Layout\Width + \Margin/2
+          EndIf
+        Else
+          If PreviousSelected = #False
+            *Item\Layout\X - \Margin/2
+            *Item\Layout\Width + \Margin/2
+          EndIf
+          If NextSelected = #False
+            *Item\Layout\Width + \Margin/2
+          EndIf
+        EndIf
       EndIf
     EndIf
     
@@ -1253,20 +1418,20 @@ Procedure TabBarGadget_DrawItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetIt
         GradientColor(1.0, TabBarGadget_ColorMinus(Color, $FF101010))
     EndSelect
     
-    ; andere ausgewählte Nachbarn
-    If *Item <> *TabBarGadget\NewTabItem And *Item\Selected
-      PushListPosition(*TabBarGadget\Item())
-      ChangeCurrentElement(*TabBarGadget\Item(), *Item)
-      If NextElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
-        LayoutWidth - \Margin/2
-      EndIf
-      ChangeCurrentElement(*TabBarGadget\Item(), *Item)
-      If PreviousElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
-        LayoutX     + \Margin/2
-        LayoutWidth - \Margin/2
-      EndIf
-      PopListPosition(*TabBarGadget\Item())
-    EndIf
+    ;     ; andere ausgewählte Nachbarn
+    ;     If *Item <> *TabBarGadget\NewTabItem And *Item\Selected
+    ;       PushListPosition(*TabBarGadget\Item())
+    ;       ChangeCurrentElement(*TabBarGadget\Item(), *Item)
+    ;       If NextElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
+    ;         LayoutWidth - \Margin/2
+    ;       EndIf
+    ;       ChangeCurrentElement(*TabBarGadget\Item(), *Item)
+    ;       If PreviousElement(*TabBarGadget\Item()) And *TabBarGadget\Item()\Selected
+    ;         LayoutX     + \Margin/2
+    ;         LayoutWidth - \Margin/2
+    ;       EndIf
+    ;       PopListPosition(*TabBarGadget\Item())
+    ;     EndIf
     
     ; Registerkarte zeichnen
     DrawingMode(#PB_2DDrawing_Transparent|#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Gradient)
@@ -1277,7 +1442,7 @@ Procedure TabBarGadget_DrawItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetIt
     Else
       RoundBox(*Item\Layout\X+LayoutX, *Item\Layout\Y+LayoutY, *Item\Layout\Width+LayoutWidth, *Item\Layout\Height+LayoutHeight, *TabBarGadget\Radius, *TabBarGadget\Radius, \BorderColor)
     EndIf
-    DrawingMode(#PB_2DDrawing_Transparent|#PB_2DDrawing_AlphaBlend)
+    DrawingMode(#PB_2DDrawing_Transparent|#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_NativeText)
     
     If *TabBarGadget\Attributes & #TabBarGadget_Vertical
       Angle = 90 + 180*Bool(*TabBarGadget\Attributes&#TabBarGadget_MirroredTabs)
@@ -1307,7 +1472,7 @@ Procedure TabBarGadget_DrawItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetIt
       If *Item\Disabled
         DrawText(*Item\Layout\TextX, *Item\Layout\TextY, *Item\ShortText, *Item\Color\Text&$FFFFFF|$40<<24)
       Else
-        DrawText(*Item\Layout\TextX, *Item\Layout\TextY, *Item\ShortText, *Item\Color\Text)
+        TabBarGadget_DrawText(*TabBarGadget, *Item\Layout\TextX, *Item\Layout\TextY, *Item\ShortText, *Item\Color\Text)
         If *TabBarGadget\Editor\Item = *Item
           DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_XOr)
           If *TabBarGadget\Editor\Selection < 0
@@ -1362,9 +1527,9 @@ Procedure TabBarGadget_DrawItem(*TabBarGadget.TabBarGadget, *Item.TabBarGadgetIt
         EndIf
       EndIf
       If *Item\Disabled
-        TabBarGadget_DrawCross(*Item\Layout\CrossX+3, *Item\Layout\CrossY+3, \CloseButtonSize-6, *Item\Color\Text&$FFFFFF|$40<<24)
+        TabBarGadget_DrawCross(*Item\Layout\CrossX+DesktopScaledX(3), *Item\Layout\CrossY+DesktopScaledY(3), \CloseButtonSize-DesktopScaledX(6), *Item\Color\Text&$FFFFFF|$40<<24)
       Else
-        TabBarGadget_DrawCross(*Item\Layout\CrossX+3, *Item\Layout\CrossY+3, \CloseButtonSize-6, *Item\Color\Text)
+        TabBarGadget_DrawCross(*Item\Layout\CrossX+DesktopScaledX(3), *Item\Layout\CrossY+DesktopScaledY(3), \CloseButtonSize-DesktopScaledX(6), *Item\Color\Text)
       EndIf
     EndIf
     
@@ -1587,12 +1752,15 @@ Procedure TabBarGadget_Examine(*TabBarGadget.TabBarGadget)
     ; Navigation
     If \Attributes & (#TabBarGadget_PreviousArrow|#TabBarGadget_NextArrow)
       
+      ; MouseWheel Scroll Action
       If EventType() = #PB_EventType_MouseWheel
-        \Shift + TabBarGadgetInclude\WheelDirection * GetGadgetAttribute(\Number, #PB_Canvas_WheelDelta)
-        If \Shift < 0
-          \Shift = 0
-        ElseIf \Shift > \LastShift
-          \Shift = \LastShift
+        If TabBarGadgetInclude\WheelAction = #TabBarGadgetWheelAction_Scroll
+          \Shift + TabBarGadgetInclude\WheelDirection * GetGadgetAttribute(\Number, #PB_Canvas_WheelDelta)
+          If \Shift < 0
+            \Shift = 0
+          ElseIf \Shift > \LastShift
+            \Shift = \LastShift
+          EndIf
         EndIf
       EndIf
       
@@ -1632,6 +1800,20 @@ Procedure TabBarGadget_Examine(*TabBarGadget.TabBarGadget)
       EndIf
       UnlockMutex(TabBarGadgetInclude\Timer\Mutex)
       
+    EndIf
+    
+    ; MouseWheel Change Action
+    If EventType() = #PB_EventType_MouseWheel
+      If TabBarGadgetInclude\WheelAction = #TabBarGadgetWheelAction_Change
+        If TabBarGadget_ItemID(*TabBarGadget, #TabBarGadgetItem_Selected)
+          Index = ListIndex(\Item()) + TabBarGadgetInclude\WheelDirection * Sign(GetGadgetAttribute(\Number, #PB_Canvas_WheelDelta))
+          If (Index >= 0) And (Index < ListSize(\Item()))
+            TabBarGadget_SelectItem(*TabBarGadget, TabBarGadget_ItemID(*TabBarGadget, Index))
+            \EventTab = Index
+            PostEvent(#PB_Event_Gadget, \Window, \Number, #TabBarGadget_EventType_Change, \EventTab)
+          EndIf
+        EndIf
+      EndIf
     EndIf
     
     ; Popup-Button
@@ -2136,14 +2318,14 @@ Procedure TabBarGadget_Update(*TabBarGadget.TabBarGadget)
     
     ; Größenänderung des Gadgets
     If Rows <> \Rows And (EventType() >= #PB_EventType_FirstCustomValue Or GetGadgetAttribute(\Number, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton = #False)
-      StopDrawing()
+      TabBarGadget_StopDrawing(*TabBarGadget)
       If \Attributes & #TabBarGadget_Vertical
-        ResizeGadget(\Number, #PB_Ignore, #PB_Ignore, Rows*\TabSize+TabBarGadgetInclude\Margin, #PB_Ignore)
+        ResizeGadget(\Number, #PB_Ignore, #PB_Ignore, DesktopUnscaledX(Rows*\TabSize+TabBarGadgetInclude\Margin), #PB_Ignore)
       Else
-        ResizeGadget(\Number, #PB_Ignore, #PB_Ignore, #PB_Ignore, Rows*\TabSize+TabBarGadgetInclude\Margin)
+        ResizeGadget(\Number, #PB_Ignore, #PB_Ignore, #PB_Ignore, DesktopUnscaledY(Rows*\TabSize+TabBarGadgetInclude\Margin))
       EndIf
       PostEvent(#PB_Event_Gadget, \Window, \Number, #TabBarGadget_EventType_Resize, -1)
-      StartDrawing(CanvasOutput(\Number))
+      TabBarGadget_StartDrawing(*TabBarGadget)
       DrawingFont(\FontID)
       \Resized = #True
       \Rows = Rows
@@ -2218,10 +2400,13 @@ EndProcedure
 ; Zeichnet das gesamte TabBarGadget
 Procedure TabBarGadget_Draw(*TabBarGadget.TabBarGadget)
   
+  If TabBarGadgetInclude\DrawDisabled
+    ProcedureReturn
+  EndIf
+  
   Protected X.i, Y.i, Size.i, SelectedItemDrawed.i, MoveItemDrawed.i, Row.i, *LastItem
   
   With *TabBarGadget
-    
     ; Initialisierung
     DrawingFont(\FontID)
     DrawingMode(#PB_2DDrawing_AllChannels)
@@ -2398,7 +2583,9 @@ Procedure TabBarGadget_Timer(Null.i) ; Code OK
         Repeat
           LockMutex(\Mutex)
           If \TabBarGadget
-            PostEvent(#PB_Event_Gadget, \TabBarGadget\Window, \TabBarGadget\Number, #TabBarGadget_EventType_Pushed, \Type)
+            CompilerIf (#PB_Compiler_OS <> #PB_OS_MacOS) Or (#PB_Compiler_Version >= 560)
+              PostEvent(#PB_Event_Gadget, \TabBarGadget\Window, \TabBarGadget\Number, #TabBarGadget_EventType_Pushed, \Type)
+            CompilerEndIf
             UnlockMutex(\Mutex)
           Else
             UnlockMutex(\Mutex)
@@ -2431,7 +2618,16 @@ EndProcedure
 ; Callback für BindGadgetEvent()
 Procedure TabBarGadget_Callback() ; Code OK
   
+  CompilerIf (#TabBarGadget_EnableCallbackGadgetCheck)
+    If Not IsGadget(EventGadget())
+      ProcedureReturn
+    EndIf
+  CompilerEndIf
+  
   Protected *TabBarGadget.TabBarGadget = GetGadgetData(EventGadget())
+  If *TabBarGadget = #Null
+    ProcedureReturn
+  EndIf
   
   If EventType() >= #PB_EventType_FirstCustomValue
     *TabBarGadget\EventTab = EventData()
@@ -2447,24 +2643,26 @@ Procedure TabBarGadget_Callback() ; Code OK
               *TabBarGadget\Shift + 1
             EndIf
         EndSelect
-        If StartDrawing(CanvasOutput(*TabBarGadget\Number))
+        If TabBarGadget_StartDrawing(*TabBarGadget)
           TabBarGadget_Update(*TabBarGadget)
           TabBarGadget_Draw(*TabBarGadget)
-          StopDrawing()
+          TabBarGadget_StopDrawing(*TabBarGadget)
         EndIf
       Case #TabBarGadget_EventType_Updated
-        If StartDrawing(CanvasOutput(*TabBarGadget\Number))
+        If TabBarGadget_StartDrawing(*TabBarGadget)
           TabBarGadget_Update(*TabBarGadget)
           TabBarGadget_Draw(*TabBarGadget)
-          StopDrawing()
+          TabBarGadget_StopDrawing(*TabBarGadget)
+        Else
+          *TabBarGadget\UpdatePosted = #False
         EndIf
     EndSelect
   Else
-    If StartDrawing(CanvasOutput(*TabBarGadget\Number))
+    If TabBarGadget_StartDrawing(*TabBarGadget)
       TabBarGadget_Examine(*TabBarGadget)
       TabBarGadget_Update(*TabBarGadget)
       TabBarGadget_Draw(*TabBarGadget)
-      StopDrawing()
+      TabBarGadget_StopDrawing(*TabBarGadget)
     EndIf
   EndIf
   
@@ -2484,10 +2682,10 @@ Procedure UpdateTabBarGadget(Gadget.i) ; Code OK, Hilfe OK
   
   Protected *TabBarGadget.TabBarGadget = GetGadgetData(Gadget)
   
-  If StartDrawing(CanvasOutput(Gadget))
+  If TabBarGadget_StartDrawing(*TabBarGadget)
     TabBarGadget_Update(*TabBarGadget)
     TabBarGadget_Draw(*TabBarGadget)
-    StopDrawing()
+    TabBarGadget_StopDrawing(*TabBarGadget)
   EndIf
   
 EndProcedure
@@ -2497,14 +2695,20 @@ EndProcedure
 ; Gibt das angegebene TabBarGadget wieder frei.
 Procedure FreeTabBarGadget(Gadget.i) ; Code OK, Hilfe OK
   
-  Protected *TabBarGadget.TabBarGadget = GetGadgetData(Gadget)
+  If Not IsGadget(Gadget)
+    ProcedureReturn
+  EndIf
   
+  Protected *TabBarGadget.TabBarGadget = GetGadgetData(Gadget)
+  SetGadgetData(Gadget, #Null)
+  
+  UnbindGadgetEvent(*TabBarGadget\Number, @TabBarGadget_Callback())
+  FreeGadget(Gadget)
   ForEach *TabBarGadget\Item()
     TabBarGadget_ClearItem(*TabBarGadget, *TabBarGadget\Item())
   Next
   ClearStructure(*TabBarGadget, TabBarGadget)
   FreeMemory(*TabBarGadget)
-  FreeGadget(Gadget)
   
 EndProcedure
 
@@ -2525,6 +2729,17 @@ Procedure.i TabBarGadget(Gadget.i, X.i, Y.i, Width.i, Height.i, Attributes.i, Wi
   EndIf
   SetGadgetData(Gadget, *TabBarGadget)
   
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_Windows
+      TabBarGadgetInclude\DefaultFontID = GetGadgetFont(#PB_Default)
+    CompilerCase #PB_OS_Linux
+      TabBarGadgetInclude\DefaultFontID = GetGadgetFont(#PB_Default)
+    CompilerDefault
+      DummyGadget = TextGadget(#PB_Any, 0, 0, 10, 10, "Dummy")
+      TabBarGadgetInclude\DefaultFontID = GetGadgetFont(DummyGadget)
+      FreeGadget(DummyGadget)
+  CompilerEndSelect
+  
   With *TabBarGadget
     \Attributes                  = Attributes
     \Number                      = Gadget
@@ -2536,14 +2751,7 @@ Procedure.i TabBarGadget(Gadget.i, X.i, Y.i, Width.i, Height.i, Attributes.i, Wi
     \MaxTabLength                = TabBarGadgetInclude\MaxTabLength
     \NormalTabLength             = TabBarGadgetInclude\NormalTabLength
     \TabTextAlignment            = TabBarGadgetInclude\TabTextAlignment
-    CompilerSelect #PB_Compiler_OS
-      CompilerCase #PB_OS_Windows
-        \FontID                  = GetGadgetFont(#PB_Default)
-      CompilerDefault
-        DummyGadget = TextGadget(#PB_Any, 0, 0, 10, 10, "")
-        \FontID                  = GetGadgetFont(DummyGadget)
-        FreeGadget(DummyGadget)
-    CompilerEndSelect
+    \FontID                      = TabBarGadgetInclude\DefaultFontID
     \EventTab                    = #TabBarGadgetItem_None
   EndWith
   
@@ -2827,10 +3035,13 @@ Procedure SetTabBarGadgetFont(Gadget.i, FontID.i) ; Code OK, Hilfe OK
   Protected *TabBarGadget.TabBarGadget = GetGadgetData(Gadget)
   
   If FontID = #PB_Default
-    *TabBarGadget\FontID = GetGadgetFont(#PB_Default)
+    *TabBarGadget\FontID = TabBarGadgetInclude\DefaultFontID
   Else
     *TabBarGadget\FontID = FontID
   EndIf
+  
+  ; Reset to 0 to force a new size calculation
+  *TabBarGadget\TabSize = 0
   
   TabBarGadget_PostUpdate(*TabBarGadget)
   
@@ -2905,6 +3116,112 @@ Procedure.s GetTabBarGadgetText(Gadget.i) ; Code OK, Hilfe OK
   If *TabBarGadget\SelectedItem
     ProcedureReturn *TabBarGadget\SelectedItem\Text
   EndIf
+  
+EndProcedure
+
+
+
+; Set attributes global to all TabBarGadgets
+Procedure SetTabBarGadgetGlobalAttribute(Attribute.i, Value.i)
+  
+  Select Attribute
+    Case #TabBarGadgetGlobal_WheelDirection
+      If Value > 0
+        TabBarGadgetInclude\WheelDirection = 1
+      Else
+        TabBarGadgetInclude\WheelDirection = -1
+      EndIf
+    Case #TabBarGadgetGlobal_WheelAction
+      TabBarGadgetInclude\WheelAction = Value
+    Case #TabBarGadgetGlobal_DrawDisabled
+      If Value
+        TabBarGadgetInclude\DrawDisabled = #True
+      Else
+        TabBarGadgetInclude\DrawDisabled = #False
+      EndIf
+    Case #TabBarGadgetGlobal_MiddleClickClose
+      If Value
+        TabBarGadgetInclude\EnableMiddleClickForCloseTab = #True
+      Else
+        TabBarGadgetInclude\EnableMiddleClickForCloseTab = #False
+      EndIf
+    Case #TabBarGadgetGlobal_DoubleClickNew
+      If Value
+        TabBarGadgetInclude\EnableDoubleClickForNewTab = #True
+      Else
+        TabBarGadgetInclude\EnableDoubleClickForNewTab = #False
+      EndIf
+    Case #TabBarGadgetGlobal_TabBarColor
+      If Value = #PB_Default
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          TabBarGadgetInclude\TabBarColor = GetSysColor_(#COLOR_BTNFACE)
+        CompilerElse
+          TabBarGadgetInclude\TabBarColor = #TabBarGadgetColor_TabBarDefault
+        CompilerEndIf
+      Else
+        TabBarGadgetInclude\TabBarColor = Value
+      EndIf
+      TabBarGadgetInclude\TabBarColor | ($FF << 24)
+    Case #TabBarGadgetGlobal_BorderColor
+      If Value = #PB_Default
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          TabBarGadgetInclude\BorderColor = GetSysColor_(#COLOR_3DSHADOW)
+        CompilerElse
+          TabBarGadgetInclude\BorderColor = #TabBarGadgetColor_BorderDefault
+        CompilerEndIf
+      Else
+        TabBarGadgetInclude\BorderColor = Value
+      EndIf
+      TabBarGadgetInclude\BorderColor | ($FF << 24)
+    Case #TabBarGadgetGlobal_FaceColor
+      If Value = #PB_Default
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          TabBarGadgetInclude\FaceColor = GetSysColor_(#COLOR_BTNFACE)
+        CompilerElse
+          TabBarGadgetInclude\FaceColor = #TabBarGadgetColor_FaceDefault
+        CompilerEndIf
+      Else
+        TabBarGadgetInclude\FaceColor = Value
+      EndIf
+      TabBarGadgetInclude\FaceColor | ($FF << 24)
+    Case #TabBarGadgetGlobal_TextColor
+      If Value = #PB_Default
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          TabBarGadgetInclude\TextColor = GetSysColor_(#COLOR_BTNTEXT)
+        CompilerElse
+          TabBarGadgetInclude\TextColor = #TabBarGadgetColor_TextDefault
+        CompilerEndIf
+      Else
+        TabBarGadgetInclude\TextColor = Value
+      EndIf
+      TabBarGadgetInclude\TextColor | ($FF << 24)
+  EndSelect
+  
+EndProcedure
+
+; Get attributes global to all TabBarGadgets
+Procedure GetTabBarGadgetGlobalAttribute(Attribute.i)
+  
+  Select Attribute
+    Case #TabBarGadgetGlobal_WheelDirection
+      ProcedureReturn TabBarGadgetInclude\WheelDirection
+    Case #TabBarGadgetGlobal_WheelAction
+      ProcedureReturn TabBarGadgetInclude\WheelAction
+    Case #TabBarGadgetGlobal_DrawDisabled
+      ProcedureReturn TabBarGadgetInclude\DrawDisabled
+    Case #TabBarGadgetGlobal_MiddleClickClose
+      ProcedureReturn TabBarGadgetInclude\EnableMiddleClickForCloseTab
+    Case #TabBarGadgetGlobal_DoubleClickNew
+      ProcedureReturn TabBarGadgetInclude\EnableDoubleClickForNewTab
+    Case #TabBarGadgetGlobal_TabBarColor
+      ProcedureReturn TabBarGadgetInclude\TabBarColor & $FFFFFF
+    Case #TabBarGadgetGlobal_BorderColor
+      ProcedureReturn TabBarGadgetInclude\BorderColor & $FFFFFF
+    Case #TabBarGadgetGlobal_FaceColor
+      ProcedureReturn TabBarGadgetInclude\FaceColor & $FFFFFF
+    Case #TabBarGadgetGlobal_TextColor
+      ProcedureReturn TabBarGadgetInclude\TextColor & $FFFFFF
+  EndSelect
   
 EndProcedure
 
@@ -3012,9 +3329,9 @@ Procedure.i GetTabBarGadgetItemColor(Gadget.i, Tab.i, Type.i) ; Code OK, Hilfe O
   If *Item
     Select Type
       Case #PB_Gadget_FrontColor
-        ProcedureReturn *Item\Color\Text
+        ProcedureReturn *Item\Color\Text & $FFFFFF
       Case #PB_Gadget_BackColor
-        ProcedureReturn *Item\Color\Background
+        ProcedureReturn *Item\Color\Background & $FFFFFF
     EndSelect
   EndIf
   
@@ -3046,7 +3363,11 @@ Procedure SetTabBarGadgetItemPosition(Gadget.i, Tab.i, Position.i) ; Code OK, Hi
   
   If *Item And *Item <> *TabBarGadget\NewTabItem
     If *NewItem And *NewItem <> *TabBarGadget\NewTabItem
-      MoveElement(*TabBarGadget\Item(), #PB_List_Before, *NewItem)
+      If Position > Tab
+        MoveElement(*TabBarGadget\Item(), #PB_List_After, *NewItem)
+      Else
+        MoveElement(*TabBarGadget\Item(), #PB_List_Before, *NewItem)
+      EndIf
     Else
       MoveElement(*TabBarGadget\Item(), #PB_List_Last)
     EndIf
@@ -3160,5 +3481,6 @@ Procedure.s GetTabBarGadgetItemText(Gadget.i, Tab.i) ; Code OK, Hilfe OK
   EndIf
   
 EndProcedure
+
 
 

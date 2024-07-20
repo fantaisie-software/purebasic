@@ -10,8 +10,7 @@
 
   The Gadgets in SpiderBasic (in other languages also called "controls" or "widgets")
   are a generic name for all the interface components:
-  button, combobox, listview, panels, ... This library is OS independent and
-  uses the real OS Graphical User Interface (GUI) components.
+  button, combobox, listview, panels, ...
 @LineBreak
 @LineBreak
   Before using gadgets there will be normally opened a @Link "Window/OpenWindow" "window" first,
@@ -19,10 +18,8 @@
   when creating graphical user interfaces.
 @linebreak
 @linebreak
-  The functions that create a new gadget return the new gadget number (called #Gadget in this library)
-  if @#PB_Any was used to create the gadget. If a static number was given to identify
-  the gadget instead of @#PB_Any, then the functions return the OS identifier for the
-  created Gadget.
+  This library is mainly used to create desktop like application, meant to run in a desktop browser.
+  The @LibraryLink "Mobile" "Mobile" library can be used to create nice looking mobile application.
 
 @FormatIf HTML
   <p>
@@ -286,7 +283,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Text$"
-  The text to display on the button.
+  The text (HTML format) to display on the button.
 
 @OptionalParameter "Flags"
   A combination (using the bitwise OR operator '|') of the following constants:
@@ -317,31 +314,13 @@
 @LineBreak
   - @@GetGadgetState: Used with @#PB_Button_Toggle buttons to get the actual state of the button (1 = toggled, 0 = normal).
 
-; Such system-specific things should not be documented imho, especially when 
-; they are not guaranteed to work anyway on all systems (see XP thing)
-; -- freak
-;
-;@OS Windows
-;  @LineBreak
-;  @LineBreak
-;  @Underline "Special Windows feature":
-;  @LineBreak
-;  In the button 'Text$' you can use the special '&' character to underline a specific letter: "&Button" will give in reality : @Underline "B"utton
-;  @LineBreak
-;  (Note: under Windows XP the underlined letter will only be displayed if this is not deactivated in the system settings.)
-;  @LineBreak
-;  @LineBreak
-;  In combination with the @@AddKeyboardShortcut function a keyboard shortcut
-;  for the button can be realized this way.
-;@EndOS
-
 @Example
 @Code
   ; Shows possible flags of ButtonGadget in action...
   If OpenWindow(0, 0, 0, 222, 200, "ButtonGadgets", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     ButtonGadget(0, 10, 10, 200, 20, "Standard Button")
     ButtonGadget(1, 10, 40, 200, 20, "Left Button", #PB_Button_Left)
-    ButtonGadget(2, 10, 70, 200, 20, "Right Button", #PB_Button_Right)
+    ButtonGadget(2, 10, 70, 200, 20, "<b>Right Button</b>", #PB_Button_Right) ; Using HTML markup
     ButtonGadget(3, 10,100, 200, 60, "Multiline Button  (longer text gets automatically wrapped)", #PB_Button_MultiLine)
     ButtonGadget(4, 10,170, 200, 20, "Toggle Button", #PB_Button_Toggle)
   EndIf
@@ -457,7 +436,6 @@
   Flags to modify the gadget behavior. It can be a combination of the following constants:
 @FixedFont
   @#PB_Canvas_Border     : Draws a border around the gadget.
-  @#PB_Canvas_ClipMouse  : Automatically clips the mouse to the gadget area while a mouse button is down.
   @#PB_Canvas_Keyboard   : Allows the gadget to receive the keyboard focus and keyboard events.
   @#PB_Canvas_DrawFocus  : Draws a focus rectangle on the gadget if it has keyboard focus.
   @#PB_Canvas_Transparent: The canvas background will be transparent.
@@ -577,11 +555,6 @@
   directly in a command like @@DrawImage and not stored for future use.
 @EndIndent
 
-  @#PB_Canvas_Clip
-@Indent
-  Returns non-zero if the mouse is currently clipped to the gadget area or zero if not.
-@EndIndent
-
   @#PB_Canvas_Cursor
 @Indent
   Returns the cursor that is currently used in the gadget. See below for a list of possible values.
@@ -601,18 +574,6 @@
 @Indent
   Applies the given @Link "Image/ImageID" ImageID to the CanvasGadget. The gadget makes a copy of the input image so it can be freed or reused
   after this call. Setting this attribute is the same as using @@StartDrawing, @@CanvasOutput and @@DrawImage to draw the image onto the CanvasGadget.
-@EndIndent
-
-  @#PB_Canvas_Clip
-@Indent
-  If the value is set to a non-zero value, the mouse cursor will be confined to the area of the canvas gadget. Setting the value to
-  zero removes the clipping.
-@LineBreak
-@LineBreak
-  Note: Mouse clipping should only be done as a direct result of user interaction with the gadget such as a mouse click and
-  care must be taken to properly remove the clipping again or the user's mouse will be trapped inside the gadget. The 
-  @#PB_Canvas_ClipMouse gadget flag can be used to automatically clip/unclip the mouse when the user presses or releases
-  a mouse button in the gadget.
 @EndIndent
 
   @#PB_Canvas_Cursor
@@ -790,7 +751,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Text$"
-  The text to display next to the checkbox.
+  The text (HTML format) to display next to the checkbox.
 
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination
@@ -816,7 +777,7 @@
   If OpenWindow(0, 0, 0, 270, 130, "CheckBoxGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CheckBoxGadget(0, 10,  10, 250, 20, "CheckBox standard")
     CheckBoxGadget(1, 10,  40, 250, 20, "CheckBox checked") : SetGadgetState(1, #PB_Checkbox_Checked)
-    CheckBoxGadget(2, 10,  70, 250, 20, "CheckBox right", #PB_CheckBox_Right)
+    CheckBoxGadget(2, 10,  70, 250, 20, "<i>CheckBox right</i>", #PB_CheckBox_Right) ; Using HTML format
     CheckBoxGadget(3, 10, 100, 250, 20, "CheckBox center", #PB_CheckBox_Center)
   EndIf
 @EndCode
@@ -1325,15 +1286,15 @@
   The position and dimensions of the new gadget. 
 
 @Parameter "Text$"
-  A text to display in the frame.
+  A text (HTML format) to display in the frame.
   This parameter is only valid if no borders are specified, else it will be ignored.
 
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Frame_Single  : Single sunken frame (Windows only).
-  @#PB_Frame_Double  : Double sunken frame (Windows only).
-  @#PB_Frame_Flat    : Flat frame (Windows only).
+  @#PB_Frame_Single  : Ignored.
+  @#PB_Frame_Double  : Ignored.
+  @#PB_Frame_Flat    : Ignored.
 @EndFixedFont
 
 @ReturnValue
@@ -1346,14 +1307,9 @@
 @Example
 @Code
   If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    FrameGadget(0, 10,  10, 300, 50, "FrameGadget Standard")
-    FrameGadget(1, 10,  70, 300, 50, "", #PB_Frame_Single)
-    FrameGadget(2, 10, 130, 300, 50, "", #PB_Frame_Double)
-    FrameGadget(3, 10, 190, 300, 50, "", #PB_Frame_Flat)
+    FrameGadget(0, 10,  10, 300, 230, "<b>FrameGadget</b> Standard") ; Using HTML markup
   EndIf
 @EndCode
-@LineBreak
-@Image framegadget.png
 
 @SeeAlso
   @@GetGadgetText, @@SetGadgetText, @@ContainerGadget
@@ -1416,7 +1372,7 @@
   The gadget to use.
 
 @Parameter "Text$"
-  The tooltip text.
+  The tooltip text (HTML format).
 
 @NoReturnValue
 
@@ -1450,7 +1406,7 @@
 @Code
   If OpenWindow(0, 0, 0, 270, 100, "GadgetTooltip", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     ButtonGadget(0, 10, 30, 250, 30, "Button with tooltip")
-    GadgetToolTip(0, "Tooltip for Button")
+    GadgetToolTip(0, "<i>Tooltip</i> for Button") : Using HTML markup
   EndIf
 @EndCode
 @LineBreak
@@ -1525,8 +1481,8 @@
 @OptionalParameter "Mode"
   Can be one of the following value:
 @FixedFont
-  - @#PB_Gadget_ActualSize  : returns the current height of the gadget, in pixels (default).
-  - @#PB_Gadget_RequiredSize: returns the height needed to fully display the gadget, in pixels.
+  @#PB_Gadget_ActualSize  : returns the current height of the gadget, in pixels (default).
+  @#PB_Gadget_RequiredSize: returns the height needed to fully display the gadget, in pixels.
 @EndFixedFont
 
 @ReturnValue
@@ -1594,8 +1550,8 @@
 @OptionalParameter "Mode"
   Can be one of the following value:
 @FixedFont
-  - @#PB_Gadget_ActualSize  : returns the current width of the gadget, in pixels (default).
-  - @#PB_Gadget_RequiredSize: returns the width needed to fully display the gadget, in pixels.
+  @#PB_Gadget_ActualSize  : returns the current width of the gadget, in pixels (default).
+  @#PB_Gadget_RequiredSize: returns the width needed to fully display the gadget, in pixels.
 @EndFixedFont
 
 @ReturnValue
@@ -2012,7 +1968,7 @@
   The gadget to use.
 
 @ReturnValue
-  Returns the gadget text, or an empty string if the gadget does not support text content.
+  Returns the gadget text (HTML format), or an empty string if the gadget does not support text content.
 
 @Remarks 
   This function is especially useful for:
@@ -2109,7 +2065,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Text$"
-  The text to display on the link.
+  The text (HTML format) to display on the link.
 
 @Parameter "Color"
   The color for the text when the mouse is over the gadget. The text color for the non-highlighted state
@@ -2267,8 +2223,8 @@
   @#PB_ListIcon_CheckBoxes         : Display checkboxes in the first column.
   @#PB_ListIcon_MultiSelect        : Enable multiple selection.
   @#PB_ListIcon_GridLines          : Display separator lines between rows and columns.
-  @#PB_ListIcon_FullRowSelect      : The selection covers the full row instead of the first column (Windows only). 
-  @#PB_ListIcon_AlwaysShowSelection: The selection is still visible, even when the gadget is not activated (Windows only).
+  @#PB_ListIcon_FullRowSelect      : No effect (for PureBasic source compatibility only). 
+  @#PB_ListIcon_AlwaysShowSelection: No effect (for PureBasic source compatibility only).
 @EndFixedFont
 
 @ReturnValue
@@ -2314,15 +2270,6 @@
 @LineBreak
   - @@SetGadgetState: Change the selected item (all other selected items will be deselected). If -1 is specified, no more item will be selected.
 @LineBreak
-  - @@GetGadgetAttribute / @@SetGadgetAttribute: With the following attribute:
-@FixedFont
-  @#PB_ListIcon_DisplayMode : Changes the display of the gadget. Can be one of the following constants (Windows only):
-    @#PB_ListIcon_LargeIcon: Large icon mode
-    @#PB_ListIcon_SmallIcon: Small icon mode
-    @#PB_ListIcon_List     : List icon mode
-    @#PB_ListIcon_Report   : Report mode (columns, default mode)
-@EndFixedFont
-@LineBreak
   - @@GetGadgetItemAttribute / @@SetGadgetItemAttribute: With the following attribute:
 @FixedFont
   @#PB_ListIcon_ColumnWidth : Returns/Changes the width of the given 'Column'. The 'Item' parameter is ignored.
@@ -2349,7 +2296,7 @@
 @Example
 @Code
  If OpenWindow(0, 100, 100, 300, 100, "ListIcon Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-   ListIconGadget(0, 5, 5, 290, 90, "Name", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
+   ListIconGadget(0, 5, 5, 290, 90, "Name", 100)
    AddGadgetColumn(0, 1, "Address", 250)
    AddGadgetItem(0, -1, "Harry Rannit"+Chr(10)+"12 Parliament Way, Battle Street, By the Bay")
    AddGadgetItem(0, -1, "Ginger Brokeit"+Chr(10)+"130 SpiderBasic Road, BigTown, CodeCity")
@@ -2359,22 +2306,18 @@
 @Example
 @Code
   ; Shows possible flags of ListIconGadget in action...
-  If OpenWindow(0, 0, 0, 640, 300, "ListIconGadgets", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 640, 450, "ListIconGadgets", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     ; left column
-    TextGadget    (6,  10,  10, 300, 20, "ListIcon Standard", #PB_Text_Center)
-    ListIconGadget(0,  10,  25, 300, 70, "Column 1", 100)
-    TextGadget    (7,  10, 105, 300, 20, "ListIcon with Checkbox", #PB_Text_Center)
-    ListIconGadget(1,  10, 120, 300, 70, "Column 1", 100, #PB_ListIcon_CheckBoxes)  ; ListIcon with checkbox
-    TextGadget    (8,  10, 200, 300, 20, "ListIcon with Multi-Selection", #PB_Text_Center)
-    ListIconGadget(2,  10, 215, 300, 70, "Column 1", 100, #PB_ListIcon_MultiSelect) ; ListIcon with multi-selection
+    TextGadget    (#PB_Any,  10,  10, 300, 20, "ListIcon Standard", #PB_Text_Center)
+    ListIconGadget(0,  10,  25, 300, 120, "Column 1", 100)
+    TextGadget    (#PB_Any,  10, 155, 300, 20, "ListIcon with Checkbox", #PB_Text_Center)
+    ListIconGadget(1,  10, 170, 300, 120, "Column 1", 100, #PB_ListIcon_CheckBoxes)  ; ListIcon with checkbox
+    TextGadget    (#PB_Any,  10, 300, 300, 20, "ListIcon with Multi-Selection", #PB_Text_Center)
+    ListIconGadget(2,  10, 315, 300, 120, "Column 1", 100, #PB_ListIcon_MultiSelect) ; ListIcon with multi-selection
     ; right column
-    TextGadget    (9, 330,  10, 300, 20, "ListIcon with separator lines",#PB_Text_Center)
-    ListIconGadget(3, 330,  25, 300, 70, "Column 1", 100, #PB_ListIcon_GridLines)
-    TextGadget   (10, 330, 105, 300, 20, "ListIcon with FullRowSelect and AlwaysShowSelection",#PB_Text_Center)
-    ListIconGadget(4, 330, 120, 300, 70, "Column 1", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
-    TextGadget   (11, 330, 200, 300, 20, "ListIcon Standard with large icons",#PB_Text_Center)
-    ListIconGadget(5, 330, 220, 300, 65, "", 200,#PB_ListIcon_GridLines)
-    For a = 0 To 4            ; add columns to each of the first 5 listicons
+    TextGadget    (#PB_Any, 330,  10, 300, 20, "ListIcon with separator lines",#PB_Text_Center)
+    ListIconGadget(3, 330,  25, 300, 120, "Column 1", 100, #PB_ListIcon_GridLines)
+    For a = 0 To 3            ; add columns to each of the first 4 listicons
       For b = 2 To 4          ; add 3 more columns to each listicon
         AddGadgetColumn(a, b, "Column " + Str(b), 65)
       Next
@@ -2382,12 +2325,6 @@
         AddGadgetItem(a, b, "Item 1"+Chr(10)+"Item 2"+Chr(10)+"Item 3"+Chr(10)+"Item 4")
       Next
     Next
-    ; Here we change the ListIcon display to large icons and show an image
-    If LoadImage(0, "map2.bmp")     ; change path/filename to your own 32x32 pixel image
-      SetGadgetAttribute(5, #PB_ListIcon_DisplayMode, #PB_ListIcon_LargeIcon)
-      AddGadgetItem(5, 1, "Picture 1", ImageID(0))
-      AddGadgetItem(5, 2, "Picture 2", ImageID(0))
-    EndIf
   EndIf
 @EndCode
 
@@ -2550,7 +2487,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Text$"
-  The text to display.
+  The text (HTML format) to display.
 
 @ReturnValue
   Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
@@ -2570,7 +2507,7 @@
   If OpenWindow(0, 0, 0, 140, 110, "OptionGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     OptionGadget(0, 30, 20, 100, 20, "Option 1")
     OptionGadget(1, 30, 45, 100, 20, "Option 2")
-    OptionGadget(2, 30, 70, 100, 20, "Option 3")
+    OptionGadget(2, 30, 70, 100, 20, "<b>Option 3</b>") ; Using HTML markup
     SetGadgetState(1, 1)   ; set second option as active one
   EndIf
 @EndCode
@@ -2615,9 +2552,9 @@
 @LineBreak
   - @@ClearGadgetItems: Remove all panels.
 @LineBreak
-  - @@GetGadgetItemText: Retrieve the text of the specified item.
+  - @@GetGadgetItemText: Retrieve the text (HTML format) of the specified item.
 @LineBreak
-  - @@SetGadgetItemText: Change the text of the specified item.
+  - @@SetGadgetItemText: Change the text (HTML format) of the specified item.
 @LineBreak
   - @@SetGadgetItemImage: Change the image of the specified item.
 @LineBreak
@@ -2656,7 +2593,7 @@
     PanelGadget     (0, 8, 8, 306, 203)
       AddGadgetItem (0, -1, "Panel 1")
         PanelGadget (1, 5, 5, 290, 166)
-          AddGadgetItem(1, -1, "Sub-Panel 1")
+          AddGadgetItem(1, -1, "<i>Sub-Panel 1</i>") ; Using HTML markup
           AddGadgetItem(1, -1, "Sub-Panel 2")
           AddGadgetItem(1, -1, "Sub-Panel 3")
         CloseGadgetList()
@@ -2944,7 +2881,8 @@
 
 @Description
   Activates (sets the keyboard focus on) the gadget specified by the given gadget number. Activating a gadget allows
-  it to become the current object to receive messages and handle keystrokes.
+  it to become the current object to receive messages and handle keystrokes. The gadget needs to be actually displayed,
+  it won't work if the window containing the gadget is hidden.
 
 @Parameter "#Gadget"
   The gadget to activate.
@@ -3014,6 +2952,7 @@
   - @@SplitterGadget @LineBreak
   - @@StringGadget @LineBreak
   - @@TrackBarGadget @LineBreak
+  - @@TreeGadget @LineBreak
   - @@WebGadget
 
 @SeeAlso
@@ -3429,7 +3368,7 @@
   The item to use. The first item in the gadget has index 0.
 
 @Parameter "Text$"
-  The new text to set.
+  The new text (HTML format) to set.
 
 @OptionalParameter "Column"
   The column to use for gadgets that support multiple columns.
@@ -3532,7 +3471,7 @@
   The gadget to use.
 
 @Parameter "Text$"
-  The new text to set.
+  The new text (HTML format) to set.
 
 @NoReturnValue
 
@@ -3847,7 +3786,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Text$"
-  The text to display.
+  The text (HTML format) to display.
 
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
@@ -3878,12 +3817,13 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 270, 160, "TextGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 270, 190, "TextGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     TextGadget(0, 10,  10, 250, 20, "TextGadget Standard (Left)")
     TextGadget(1, 10,  70, 250, 20, "TextGadget Center", #PB_Text_Center)
     TextGadget(2, 10,  40, 250, 20, "TextGadget Right", #PB_Text_Right)
     TextGadget(3, 10, 100, 250, 20, "TextGadget Border", #PB_Text_Border)
     TextGadget(4, 10, 130, 250, 20, "TextGadget Center + Border", #PB_Text_Center | #PB_Text_Border)
+    TextGadget(5, 10, 160, 250, 20, "<b>Bold</b> TextGadget") ; Using HTML markup
   EndIf
 @EndCode
 @LineBreak
@@ -4036,6 +3976,11 @@
 @LineBreak
   - @@SetGadgetText: Change the text of the currently selected item.
 @LineBreak
+  - @@SetGadgetAttribute: With the following attributes:
+@FixedFont
+  @#PB_Tree_Expanded: If the value is @#True, then the full tree is expanded. If the value
+                     if #False, the full tree is collapsed.
+@EndFixedFont
   - @@GetGadgetItemAttribute: With the following attribute:
 @FixedFont
   @#PB_Tree_SubLevel: Returns the sublevel value of the given item.
@@ -4054,6 +3999,8 @@
   @#PB_EventType_RightClick
   @#PB_EventType_RightDoubleClick
   @#PB_EventType_Change: the current item changed
+  @#PB_EventType_Focus
+  @#PB_EventType_LostFocus
 @EndFixedFont
 
 @Example

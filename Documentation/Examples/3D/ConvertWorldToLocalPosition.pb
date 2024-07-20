@@ -13,12 +13,6 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 ; Button left to draw
 ; Button right to clear
 
-Structure Vector3
-  x.f
-  y.f
-  z.f
-EndStructure
-
 Declare DrawOnWhiteBoard()
 
 Define.f KeyX, KeyY, MouseX, MouseY

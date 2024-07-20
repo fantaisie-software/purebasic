@@ -1,8 +1,8 @@
-﻿;--------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
-;--------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 
 
 XIncludeFile "ToolbarManagement.pb"
@@ -31,6 +31,26 @@ Global NewList ThemeEntries.ThemeEntry()
 
 ;- Functions for internal use
 ;
+Procedure CenterImage(Image, NewImage, Width, Height, Depth = 32, BackColor = #PB_Image_Transparent)
+  Protected r1, x, y, dx, dy, image2
+    
+  r1 = CreateImage(NewImage, Width, Height, Depth, BackColor)
+  If r1
+    If NewImage = #PB_Any
+      NewImage = r1
+    EndIf
+    dx = ImageWidth(Image)
+    dy = ImageHeight(Image)
+    x = (Width - dx) / 2
+    y = (Height - dy) / 2
+    If StartDrawing(ImageOutput(NewImage))
+      DrawAlphaImage(ImageID(Image), x, y)
+      StopDrawing()
+    EndIf
+  EndIf
+  ProcedureReturn r1
+EndProcedure
+
 Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   ClearList(ThemeEntries())
   *ThemeFile      = 0
@@ -162,6 +182,7 @@ EndProcedure
 Procedure Theme_LoadImage(Image, ImageName$)
   Result = 0
   ImageName$ = LCase(ImageName$)
+  IsAnyImage = #False
   
   ForEach ThemeEntries()
     If ImageName$ = ThemeEntries()\IconName$
@@ -169,6 +190,25 @@ Procedure Theme_LoadImage(Image, ImageName$)
       *Buffer = ExtractZip(ThemeEntries()\ZipEntry)
       If *Buffer
         Result = CatchImage(Image, *Buffer, ThemeEntries()\ZipEntry\Uncompressed)
+        
+        ; Resize all the them image according to current DPI.
+        ;
+        If Image = #PB_Any
+          Image = Result
+          IsAnyImage = #True
+        EndIf
+        CompilerIf #CompileMac
+          If IsAnyImage
+            Result = CenterImage(Image, #PB_Any, 24, 24)
+            FreeImage(Image)
+          Else
+            tmpImage = CenterImage(Image, #PB_Any, 24, 24)
+            CopyImage(tmpImage, Image)
+            FreeImage(tmpImage)
+          EndIf
+        CompilerElse
+          ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
+        CompilerEndIf
         FreeMemory(*Buffer)
       EndIf
       
@@ -183,7 +223,10 @@ Procedure Theme_AddToPrefslist(Filename$)
   If Theme_Open(Filename$)
     AddElement(PrefsThemeList())
     PrefsThemeList()\Filename$ = GetFilePart(Filename$)
-    PrefsThemeList()\Preview   = CreateImage(#PB_Any, #MAX_ThemePreview*19+3, 22)
+    
+    PreviewWidth  = DesktopScaledX(#MAX_ThemePreview*19+3)
+    PreviewHeight = DesktopScaledY(22)
+    PrefsThemeList()\Preview   = CreateImage(#PB_Any, PreviewWidth, PreviewHeight)
     
     ; Load the icons for preview
     ; This must be done outside the StartDrawing() as it seems to mess up the StartDrawing() on OSX else
@@ -198,11 +241,11 @@ Procedure Theme_AddToPrefslist(Filename$)
     Wend
     
     If PrefsThemeList()\Preview And StartDrawing(ImageOutput(PrefsThemeList()\Preview))
-      Box(0, 0, #MAX_ThemePreview*19+3, 22, $000000)
-      Box(1, 1, #MAX_ThemePreview*19+1, 20, $FFFFFF)
+      Box(0, 0, PreviewWidth  , PreviewHeight  , $000000)
+      Box(DesktopScaledX(1), DesktopScaledY(1), PreviewWidth-2, PreviewHeight-2, $FFFFFF)
       
       For i = 0 To count-1
-        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), i*19+3, 3)
+        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
       Next i
       
       StopDrawing()
@@ -353,6 +396,8 @@ Procedure LoadTheme()
       Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
       Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
       
+      Theme_LoadImage(#IMAGE_WebView_OpenBrowser, "WebView:OpenBrowser")
+      
       Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
       Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")
       Theme_LoadImage(#IMAGE_Help_Home,           "Help:Home")
@@ -479,6 +524,8 @@ Procedure LoadTheme()
   Theme_LoadImage(#IMAGE_FileViewer_Close,   "FileViewer:Close")
   Theme_LoadImage(#IMAGE_FileViewer_Left,    "FileViewer:Left")
   Theme_LoadImage(#IMAGE_FileViewer_Right,   "FileViewer:Right")
+  
+  Theme_LoadImage(#IMAGE_WebView_OpenBrowser, "WebView:OpenBrowser")
   
   Theme_LoadImage(#IMAGE_Help_Back,           "Help:Back")
   Theme_LoadImage(#IMAGE_Help_Forward,        "Help:Forward")
@@ -633,7 +680,7 @@ EndProcedure
 DataSection
   
   DefaultTheme:
-  IncludeBinary #BUILD_DIRECTORY+"DefaultTheme.zip"
+  IncludeBinary "Build/DefaultTheme.zip"
   EndDefaultTheme:
   
 EndDataSection
