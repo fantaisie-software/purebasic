@@ -417,8 +417,11 @@ Procedure ToolsPanel_CheckAutoHide()
       ; consistent with editor and tool-panel widths.
       ; This must be done only after it's determined to be in-frame; unscaling prior will
       ; result in failure at high scale factors (where -1 becomes 0).
-      MouseX = DesktopUnscaledX(MouseX)
-      
+      ;
+      CompilerIf #CompileWindows
+        MouseX = DesktopUnscaledX(MouseX)
+      CompilerEndIf
+
       If ToolsPanelSide = 0 ; right side
         Offset = EditorWindowWidth - MouseX
         ToolsPanelWidth = GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
