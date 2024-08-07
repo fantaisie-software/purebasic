@@ -8,13 +8,18 @@ CompilerIf #CompileWindows
   
   CompilerIf #DEBUG
     
-    ; It's used in debugging.pb as well, so declare them in the global scope
-    CompilerIf #CompileX86
-      !extrn _PB_StringHeap
-      !extrn _PB_Memory_Heap
+     CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+      ; Do Nothing as we can't easily access externals vars for now (should be added in a future PB version)
+      ;
     CompilerElse
-      !extrn PB_StringHeap
-      !extrn PB_Memory_Heap
+      ; It's used in debugging.pb as well, so declare them in the global scope
+      CompilerIf #CompileX86
+        !extrn _PB_StringHeap
+        !extrn _PB_Memory_Heap
+      CompilerElse
+        !extrn PB_StringHeap
+        !extrn PB_Memory_Heap
+      CompilerEndIf
     CompilerEndIf
     
     ; For easier bug hunting (use with GetLastError_() for example
@@ -30,35 +35,41 @@ CompilerIf #CompileWindows
     Procedure _TestHeaps(File$, Line)
       Protected StringHeap, MemoryBase, MemoryHeap
       
-      CompilerIf #CompileX86
-        !mov eax, dword [_PB_StringHeap]
-        !mov [p.v_StringHeap], eax
-        !mov eax, dword [_PB_MemoryBase]
-        !mov [p.v_MemoryBase], eax
-        !mov eax, dword [_PB_Memory_Heap]
-        !mov [p.v_MemoryHeap], eax
+      CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+        ; Do Nothing as we can't easily access externals vars for now (should be added in a future PB version)
+        ;
       CompilerElse
-        !mov rax, qword [PB_StringHeap]
-        !mov [p.v_StringHeap], rax
-        !mov rax, qword [_PB_MemoryBase]
-        !mov [p.v_MemoryBase], rax
-        !mov rax, qword [PB_Memory_Heap]
-        !mov [p.v_MemoryHeap], rax
+        
+        CompilerIf #CompileX86
+          !mov eax, dword [_PB_StringHeap]
+          !mov [p.v_StringHeap], eax
+          !mov eax, dword [_PB_MemoryBase]
+          !mov [p.v_MemoryBase], eax
+          !mov eax, dword [_PB_Memory_Heap]
+          !mov [p.v_MemoryHeap], eax
+        CompilerElse
+          !mov rax, qword [PB_StringHeap]
+          !mov [p.v_StringHeap], rax
+          !mov rax, qword [_PB_MemoryBase]
+          !mov [p.v_MemoryBase], rax
+          !mov rax, qword [PB_Memory_Heap]
+          !mov [p.v_MemoryHeap], rax
+        CompilerEndIf
+      
+        If HeapValidate_(StringHeap, 0, 0) = 0
+          MessageRequester("StringHeap corrupted !", File$+" : "+Str(Line))
+        EndIf
+        
+        If HeapValidate_(MemoryBase, 0, 0) = 0
+          MessageRequester("MemoryBase heap corrupted !", File$+" : "+Str(Line))
+        EndIf
+        
+        If HeapValidate_(MemoryHeap, 0, 0) = 0
+          MessageRequester("AllocateMemory heap corrupted !", File$+" : "+Str(Line))
+        EndIf
       CompilerEndIf
-      
-      If HeapValidate_(StringHeap, 0, 0) = 0
-        MessageRequester("StringHeap corrupted !", File$+" : "+Str(Line))
-      EndIf
-      
-      If HeapValidate_(MemoryBase, 0, 0) = 0
-        MessageRequester("MemoryBase heap corrupted !", File$+" : "+Str(Line))
-      EndIf
-      
-      If HeapValidate_(MemoryHeap, 0, 0) = 0
-        MessageRequester("AllocateMemory heap corrupted !", File$+" : "+Str(Line))
-      EndIf
     EndProcedure
-    
+        
     Macro TestHeaps
       _TestHeaps(#PB_Compiler_File, #PB_Compiler_Line)
     EndMacro

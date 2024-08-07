@@ -488,7 +488,7 @@ CompilerIf #DEBUG
             EndIf
             
           Case #DEBUG_MemoryStats ; memory stats
-            CompilerIf #CompileWindows
+            CompilerIf #CompileWindows And  #PB_Compiler_Backend <> #PB_Backend_C
               Protected StringHeap, MemoryBase, MemoryHeap
               
               ; The needed !extrn are in WindowsDebugging.pb already.
@@ -532,7 +532,7 @@ CompilerIf #DEBUG
               
               
             CompilerElse
-              Content$ = "-- Windows only --"
+              Content$ = "-- Windows ASM only --"
             CompilerEndIf
             
         EndSelect
