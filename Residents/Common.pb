@@ -158,6 +158,9 @@
 #PB_OS_MacOSX_10_15  = 10150
 #PB_OS_MacOSX_11     = 11000
 #PB_OS_MacOSX_12     = 12000
+#PB_OS_MacOSX_13     = 13000
+#PB_OS_MacOSX_14     = 14000
+#PB_OS_MacOSX_15     = 15000
 #PB_OS_MacOSX_Future = 99999
 
 #PB_Default = -1  ; Common default value, used by SetGadgetFont(), TransparentSpriteColor, etc..
@@ -491,6 +494,15 @@ Enumeration  ; gadget types
   #PB_GadgetType_WebView
 EndEnumeration
 
+; Coloring options
+;
+#PB_Gadget_FrontColor      = 1
+#PB_Gadget_BackColor       = 2
+#PB_Gadget_LineColor       = 3
+#PB_Gadget_TitleFrontColor = 4
+#PB_Gadget_TitleBackColor  = 5
+#PB_Gadget_GrayTextColor   = 6
+
 ; for SetGadgetState
 #PB_ProgressBar_Unknown = -1
 
@@ -546,6 +558,86 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Explorer_SmallIcon = 1
   #PB_Explorer_List      = 2
   #PB_Explorer_Report    = 3
+CompilerEndIf
+
+; Container Flags
+;
+#PB_Container_BorderLess = 0
+#PB_Container_Flat       = 1
+#PB_Container_Raised     = 2
+#PB_Container_Single     = 4
+#PB_Container_Double     = 8
+
+; HyperLink flags
+;
+#PB_HyperLink_Underline  = 1
+
+; Panel Attributes
+;
+#PB_Panel_ItemWidth  = 1
+#PB_Panel_ItemHeight = 2
+#PB_Panel_TabHeight  = 3
+
+; ScrollArea Flags
+;
+#PB_ScrollArea_Flat = 1
+#PB_ScrollArea_Raised = 2
+#PB_ScrollArea_Single = 4
+#PB_ScrollArea_BorderLess = 8
+#PB_ScrollArea_Center = 16
+
+; ScrollArea Attributes
+;
+#PB_ScrollArea_InnerWidth  = 1
+#PB_ScrollArea_InnerHeight = 2
+#PB_ScrollArea_X = 3
+#PB_ScrollArea_Y = 4
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ScrollArea_ScrollStep = 5
+CompilerEndIf
+
+; ScrollBar Flags
+;
+#PB_ScrollBar_Vertical = 1
+
+; ScrollBar Attributes
+;
+#PB_ScrollBar_Minimum    = 1
+#PB_ScrollBar_Maximum    = 2
+#PB_ScrollBar_PageLength = 3
+
+; Splitter Flags
+;
+#PB_Splitter_Vertical = 1
+#PB_Splitter_Separator = 2
+#PB_Splitter_FirstFixed = 4
+#PB_Splitter_SecondFixed = 8
+
+; Splitter Attributes
+;
+#PB_Splitter_FirstMinimumSize = 1
+#PB_Splitter_SecondMinimumSize = 2
+#PB_Splitter_FirstGadget = 3
+#PB_Splitter_SecondGadget = 4
+
+; TrackBar Flags
+;
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_TrackBar_Ticks    = 1
+CompilerEndIf
+#PB_TrackBar_Vertical = 2
+
+; TrackBar Attributes
+;
+#PB_TrackBar_Minimum = 1
+#PB_TrackBar_Maximum = 2
+
+
+#PB_Frame_Double   = 1
+#PB_Frame_Single   = 2
+#PB_Frame_Flat     = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Frame_Container = 1 << 3
 CompilerEndIf
 
 ; String attributes

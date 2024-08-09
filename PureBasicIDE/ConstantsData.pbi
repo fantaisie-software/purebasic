@@ -320,7 +320,7 @@ DataSection
   Data$ "FontRequester,5,#PB_Font_Bold,#PB_Font_Italic"
   Data$ "FormatXML,2,#PB_XML_WindowsNewline,#PB_XML_LinuxNewline,#PB_XML_MacNewline,#PB_XML_CutNewline,#PB_XML_ReduceNewline,#PB_XML_CutSpace,#PB_XML_ReduceSpace,#PB_XML_ReFormat,#PB_XML_ReIndent"
   Data$ "FrameGadget,1,#PB_Any"
-  Data$ "FrameGadget,7,#PB_Frame_Single,#PB_Frame_Double,#PB_Frame_Flat"
+  Data$ "FrameGadget,7,#PB_Frame_Single,#PB_Frame_Double,#PB_Frame_Flat,#PB_Frame_Container"
   Data$ "FrameGadget3D,1,#PB_Any"
   Data$ "FreeBillboardGroup,1,#PB_All"
   Data$ "FreeCamera,1,#PB_All"
