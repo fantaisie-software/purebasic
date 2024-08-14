@@ -1,7 +1,7 @@
 ;
 ;     Library library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Library
@@ -30,11 +30,13 @@
 
 @LineBreak
 @LineBreak
-@OS Windows
-  Auf dem Windows OS sind "shared" Libraries (in Deutsch "geteilte" oder "gemeinsam genutzte" Bibliotheken) gut
-  bekannt als: 'DLL's, oder "Dynamic Link Libraries".
-@OS Linux
-  Unter Linux sind "shared" Libraries bekannt als: 'SO's, "System Objects".
+  Auf Windows sind "shared" Libraries (auf Deutsch: "geteilte" oder "gemeinsam genutzte" Bibliotheken) bekannt als: 'DLL's, oder "Dynamic Link Libraries".
+@LineBreak
+  Auf Linux sind "shared" Libraries bekannt als: 'SO's, oder "System Objects".
+@LineBreak
+  Auf MacOS sind "shared" Libraries bekannt als: 'DYLIB's, oder "Dynamic Libraries".
+@LineBreak
+
 
 @CommandList
 
@@ -462,6 +464,9 @@
   Der Dateiname der zu ladenden "shared" Library an.
   Wenn der Dateiname keinen Pfad enthält, dann wird das Betriebssystem in seinen System-Ordnern,
   im Programm-Verzeichnis und im aktuellen Verzeichnis nach der Library suchen.
+  @LineBreak
+  Um auf Linux oder MacOS die Bibliothek aus dem aktuellen Verzeichnis zu laden, muss das
+  Pfadpräfix './' angegeben werden.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Library erfolgreich geöffnet wurde - und Null, wenn nicht.

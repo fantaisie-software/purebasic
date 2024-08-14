@@ -1,7 +1,7 @@
 ;
 ;     Clipboard library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Clipboard
@@ -62,7 +62,22 @@
   dann wird die neue Image Nummer zurückgegeben.
 
 @Remarks
+  Auf Windows wird die Transparenz möglicherweise nicht erkannt, nachdem das Bild aus der Zwischenablage
+  in Drittanbietersoftware eingefügt wurde. (Wenn dieses Bild als PNG-Datei gespeichert wird, bleibt die
+  Transparenz erhalten.)
+  @LineBreak
+  Dies ist ein Problem des BMP-Formats und der Art und Weise, wie Windows damit umgeht. Es ist möglich,
+  ein 32-Bit-Bitmap ohne Alphakanal zu haben. In diesem Fall sind alle Alphawerte 0, das Bild soll dabei
+  undurchsichtig sein.
+  @LineBreak
+  Da Bilder in GetClipboardImage() von außerhalb als PB stammen können, können wir nicht wissen, ob dies
+  ein vollständig transparentes oder vollständig undurchsichtiges Bild sein soll. Aus diesem Grund
+  verwenden wir den Alphakanal nur, wenn mindestens ein Pixel einen anderen Wert als 0 hat. Andernfalls
+  behandeln wir es als undurchsichtiges Bild.
+  @LineBreak
+  @LineBreak
   Das Bild kann mittels der Funktion @@FreeImage freigegeben werden.
+  @LineBreak
   Zur weiteren Verwendung des Bildes sind Befehle wie z.B. @@DrawImage 
   oder @@ImageGadget verfügbar.
 

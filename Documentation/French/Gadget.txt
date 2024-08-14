@@ -628,9 +628,6 @@ Bouton à bascule: Option @#PB_Button_Toggle
   - @@SetGadgetState: Change la date actuellement affichée.
   - @@GetGadgetState: Renvoie la date actuellement affichée.
 
-  - @@SetGadgetItemState: Fait apparaître une date donnée en gras (Windows seulement).
-  - @@GetGadgetItemState: Détermine si une date donnée est en gras (Windows seulement).
-
   - @@SetGadgetAttribute avec les attributs suivants:
     @#PB_Calendar_Minimum: Change la date minimale que l'utilisateur peut choisir
     @#PB_Calendar_Maximum: Change la date maximale que l'utilisateur peut choisir avec ce gadget
@@ -3413,9 +3410,6 @@ EndIf
   qui fonctionne avec presque tous les 
   gadgets comportant des éléments:
 @FixedFont
-  - @@CalendarGadget    : Renvoie @#PB_Calendar_Bold quand la date spécifiée est affichée en gras, sinon @#PB_Calendar_Normal 
-                          est renvoyé. 'Element' doit être une @LibraryLink "Date" "date" au format PureBasic.
-
   - @@ExplorerListGadget: Renvoie une combinaison des valeurs suivantes:
     @#PB_Explorer_File     : L'élément est un fichier.
     @#PB_Explorer_Directory: L'élément est un répertoire (ou un disque).
@@ -5727,11 +5721,6 @@ utiliser l'opérateur '&':
   Cette commande est disponible pour les 
   gadgets suivants:
 @FixedFont 
-  - @@CalendarGadget: 'Etat' 
-    @#PB_Calendar_Bold : Afficher la date en gras.
-    @#PB_Calendar_Normal Afficher la date sans graisse (normal). 
-                      'Element' est une date au format PureBasic.
-  
   - @@ExplorerListGadget: 'Etat' 
     @#PB_Explorer_Selected : L'élément sera selectionné.
 

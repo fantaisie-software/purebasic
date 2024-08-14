@@ -31,11 +31,12 @@
 
 @LineBreak
 @LineBreak
-
-@OS Windows
-  Under the Windows OS, shared libraries are well known as: 'DLL's, or Dynamic Link Libraries.
-@OS Linux
-  Under Linux shared libraries are known as: 'SO's, System Objects.
+  On Windows, shared libraries are known as: 'DLL's, or Dynamic Link Libraries.@LineBreak
+@LineBreak
+  On Linux shared libraries are known as: 'SO's, or System Objects.
+@LineBreak
+  On MacOS shared libraries are known as: 'DYLIB's, or Dynamic Libraries.
+@LineBreak
 
 @CommandList
 
@@ -450,7 +451,8 @@
 @Parameter "Filename$"
   The filename of the library to load. If the filename does not include a path, then the 
   operating system will search for the library in its system folders, the applications directory and
-  the current directory.
+  the current directory. On Linux and MacOS, to load the library from the current directory, the
+  './' path prefix needs to be specified.
 
 @ReturnValue
   Returns nonzero if the library was opened successfully and zero if not.

@@ -458,8 +458,9 @@ possible to read a directory content, create a new directory and more...
 
 @Remarks
   To retrieve the file or the path part from a full path, look at the
-  @@GetFilePart and @@GetPathPart
-  functions.
+  @@GetFilePart and @@GetPathPart functions.
+  If the path does not contain a file name then the result may be random.
+  For example GetExtensionPart(".htaccess")" or GetExtensionPart(".access.") are not valid.
 
 @SeeAlso
   @@GetFilePart,
@@ -597,7 +598,7 @@ possible to read a directory content, create a new directory and more...
 
 @ReturnValue
   Returns the full path of the current directory.
-  It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+  It will end with a path separator @#PS, @ConstantColor "#PS$" ('\' for Windows or '/' otherwise).
 @LineBreak
 @LineBreak
   It's very unlikely, but if this function fails, it will return an empty string.
@@ -625,7 +626,7 @@ possible to read a directory content, create a new directory and more...
 
 @ReturnValue
   Returns the full path of the home directory.
-  It will end with a directory separator ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+  It will end with a path separator @#PS, @ConstantColor "#PS$" ('\' for Windows or '/' otherwise).
 @LineBreak
 @LineBreak
   It's very unlikely, but if this function fails, it will return an empty string.
@@ -666,8 +667,8 @@ possible to read a directory content, create a new directory and more...
 @EndFixedFont
 
 @ReturnValue
-  Returns the full path of the specified directory. It will end with a directory separator
-  ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+  Returns the full path of the specified directory.   It will end with a path separator @#PS, @ConstantColor "#PS$" 
+  ('\' for Windows or '/' otherwise).
   If the type is not found it will return an empty string.
 
 @Example
@@ -695,8 +696,8 @@ possible to read a directory content, create a new directory and more...
 @NoParameters
 
 @ReturnValue
-  Returns the full path to the temporary directory. It will end with a directory separator
-  ('\', @#PS, @ConstantColor "#PS$" for Windows or '/', @#NPS, @ConstantColor "#NPS$" otherwise).
+  Returns the full path to the temporary directory.   It will end with a path separator @#PS, 
+  @ConstantColor "#PS$" ('\' for Windows or '/' otherwise).
 @LineBreak
 @LineBreak
   It's very unlikely, but if this function fails, it will return an empty string.

@@ -155,7 +155,7 @@ If InitEngine3D()
       
       Entity = MouseRayCast(0, Mx, My,-1)
       
-      If Entity>0
+      If Entity>=0
         
         CreateLine3D(11, PickX(), PickY(), PickZ(), RGB(255,255,0),
                          PickX() + NormalX()*#N,

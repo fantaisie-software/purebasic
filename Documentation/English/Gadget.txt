@@ -487,10 +487,6 @@
 @LineBreak
   - @@GetGadgetState: Get the currently displayed date.
 @LineBreak
-  - @@SetGadgetItemState: Make a specific date appear bold (Windows only).
-@LineBreak
-  - @@GetGadgetItemState: Get the bold state of a specific date (Windows only).
-@LineBreak
   - @@SetGadgetAttribute: With the following attributes:
 @FixedFont
   @#PB_Calendar_Minimum: Set the minimum selectable date
@@ -2816,10 +2812,6 @@
 @Remarks
   This is a universal function that works for almost all gadgets which handle several items:
 @LineBreak
-  - @@CalendarGadget: returns @#PB_Calendar_Bold when the specified date is displayed bold,
-    @#PB_Calendar_Normal otherwise.
-    'Item' must be a PureBasic @LibraryLink "Date" "date" value.
-@LineBreak
   - @@ExplorerListGadget: returns a combination of the following values
 @FixedFont
   @#PB_Explorer_File      : The item is a file.
@@ -4792,8 +4784,6 @@
 @Remarks
   This is a universal function which works for almost all
   gadgets which handle several items. 'State' can take the following values:
-@LineBreak
-  - @@CalendarGadget: @#PB_Calendar_Bold to make a date appear bold, @#PB_Calendar_Normal otherwise.
 @LineBreak
   - @@ExplorerListGadget: with the following value:
 @FixedFont
