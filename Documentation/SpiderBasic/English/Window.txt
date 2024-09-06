@@ -334,7 +334,7 @@
 @Function GadgetNumber = EventGadget()
 
 @Description
-  After an event of type @#PB_Event_Gadget, use this function to determine which gadget has been triggered.
+  After an event of type @#PB_Event_Gadget, use this function to determine which @LibraryLink "gadget" "gadget" has been triggered.
   
 @NoParameters
 
@@ -366,6 +366,23 @@
 
 @SeeAlso
   @@EventGadget, @@EventWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetNumber = EventMobile()
+
+@Description
+  After an event of type @#PB_Event_Mobile, use this function to determine which @LibraryLink "mobile" "mobile" object has been triggered.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the #Mobile number associated to the event.
+
+@SeeAlso
+  @@EventTimer, @@EventType
 
 @SupportedOS
 

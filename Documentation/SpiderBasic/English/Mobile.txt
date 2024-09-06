@@ -372,11 +372,16 @@
   If ContainerMobile(#PB_Any, #PB_Mobile_Page)
     ListMobile(0)
     If AddListMobileItem(0, "", #PB_Mobile_Container)
-      CheckBoxMobile(1, "Click me left", #PB_Mobile_Left)
+      OptionMobile(1, "Red", "Colors", #PB_Mobile_Left)
       CloseMobileContainer()
     EndIf
     If AddListMobileItem(0, "", #PB_Mobile_Container)
-      CheckBoxMobile(2, "Click me right !", #PB_Mobile_Right)
+      OptionMobile(2, "Green", "Colors", #PB_Mobile_Left)
+      CloseMobileContainer()
+    EndIf
+    If AddListMobileItem(0, "", #PB_Mobile_Container)
+      OptionMobile(3, "Blue", "Colors", #PB_Mobile_Left)
+      SetMobileState(3, #True) ; Selected by default
       CloseMobileContainer()
     EndIf
     
@@ -385,11 +390,8 @@
 
   Procedure MobileEvents()
     Select EventMobile()
-      Case 1
-        Debug "Checkbox 1 clicked. State: " + GetMobileState(1)
-        
-      Case 2
-        Debug "Checkbox 2 clicked. State: " + GetMobileState(2)
+      Case 1, 2, 3
+        Debug "Option "+Str(EventMobile())+" clicked. State: " + GetMobileState(EventMobile())
     EndSelect
   EndProcedure
 
@@ -1887,6 +1889,9 @@
   
 @Parameter "State"
   The new visibility state value. If 'State' is 0, the mobile object will be hidden, else it will be shown. 
+
+@Parameter "#TargetMobile"
+  The mobile object to use to display the PopOver. It has to be a @@ContainerMobile of type @#PB_Mobile_PopOver.
   
 @NoReturnValue
 
