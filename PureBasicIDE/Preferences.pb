@@ -754,7 +754,7 @@ Procedure LoadPreferences()
     LoadDialogPosition(@CreateAppWindowPosition, -1, -1, 0, 0, "CreateApp")
     OptionTemporaryExe       = #True ; Always create the output in the source directory as we launch a webserver and don't want to launch it in temp
     OptionWebBrowser$        = ReadPreferenceString("WebBrowser", "")
-    OptionWebServerPort      = ReadPreferenceLong("WebServerPort", 9080)
+    OptionWebServerPort      = ReadPreferenceLong("WebServerPort", 19080)
     OptionJDK$               = ReadPreferenceString("JDK", "")
     OptionAppleTeamID$       = ReadPreferenceString("AppleTeamID", "")
   CompilerElse
