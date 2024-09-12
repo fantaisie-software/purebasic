@@ -1173,7 +1173,7 @@
 @LineBreak
 
 @Code
-  Procedure DropCallback(Handle, Etat.l, Format.l, Action.l, x.l, y.l)
+  Procedure DropCallback(Handle, Etat, Format, Action, x, y)
   
     ProcedureReturn #True
   EndProcedure
@@ -1224,13 +1224,10 @@
   @#PB_Drag_Link: La donnée sera liée
 @EndFixedFont  
 
-  En renvoyant @#True, la callback permet que 
-  l'action se déroule normalement.
-  En renvoyant @#False, la callback interdit 
-  l'action (le curseur sera changé en "panneau 
-  d'interdiction" par la source du transfert).
-  Si l'Etat' est @#PB_Drag_Finish, renvoyer 
-  @#False annulera le 'Drag & Drop'.
+  En renvoyant @#True, la callback permet que l'action se déroule normalement.
+  En renvoyant @#False, la callback interdit l'action (le curseur sera changé en "panneau 
+  d'interdiction" par la source du transfert sauf sous Linux GTK où le curseur ne changera pas).
+  Si l'Etat' est @#PB_Drag_Finish, renvoyer @#False annulera le 'Drag & Drop'.
 
 @NoReturnValue
 

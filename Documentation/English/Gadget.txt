@@ -487,10 +487,6 @@
 @LineBreak
   - @@GetGadgetState: Get the currently displayed date.
 @LineBreak
-  - @@SetGadgetItemState: Make a specific date appear bold (Windows only).
-@LineBreak
-  - @@GetGadgetItemState: Get the bold state of a specific date (Windows only).
-@LineBreak
   - @@SetGadgetAttribute: With the following attributes:
 @FixedFont
   @#PB_Calendar_Minimum: Set the minimum selectable date
@@ -2009,9 +2005,11 @@
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Frame_Single  : Single sunken frame (Windows only).
-  @#PB_Frame_Double  : Double sunken frame (Windows only).
-  @#PB_Frame_Flat    : Flat frame (Windows only).
+  @#PB_Frame_Container: Enables container support so gadgets can be added to it (strongly recommanded to avoid various issues).
+                       @@CloseGadgetList needs to be called to go back to previous gadget list like any other container gadget.
+  @#PB_Frame_Single   : Single sunken frame (Windows only).
+  @#PB_Frame_Double   : Double sunken frame (Windows only).
+  @#PB_Frame_Flat     : Flat frame (Windows only).
 @EndFixedFont
 
 @ReturnValue
@@ -2020,6 +2018,19 @@
 
 @Remarks
   As this Gadget is decorative only, @@GadgetToolTip cannot be used. This Gadget also receives no events.
+
+@Example With Container
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    FrameGadget(0, 10,  10, 300, 200, "Options", #PB_Frame_Container)
+      CheckBoxGadget(1, 10, 40, 200, 30, "Enable Optimizer")
+      CheckBoxGadget(2, 10, 75, 200, 30, "Validate Output")
+    CloseGadgetList()
+
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @Example
 @Code
@@ -2033,6 +2044,7 @@
     Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
+
 @LineBreak
 @Image framegadget.png
 
@@ -2300,6 +2312,7 @@
   @#PB_GadgetType_TrackBar      : @@TrackBarGadget
   @#PB_GadgetType_Tree          : @@TreeGadget
   @#PB_GadgetType_Web           : @@WebGadget
+  @#PB_GadgetType_WebView       : @@WebViewGadget 
   @#PB_GadgetType_Unknown       : The type is unknown. Most likely it is not a PB gadget at all.
 @EndFixedFont
 
@@ -2816,10 +2829,6 @@
 @Remarks
   This is a universal function that works for almost all gadgets which handle several items:
 @LineBreak
-  - @@CalendarGadget: returns @#PB_Calendar_Bold when the specified date is displayed bold,
-    @#PB_Calendar_Normal otherwise.
-    'Item' must be a PureBasic @LibraryLink "Date" "date" value.
-@LineBreak
   - @@ExplorerListGadget: returns a combination of the following values
 @FixedFont
   @#PB_Explorer_File      : The item is a file.
@@ -3282,7 +3291,7 @@
   @@SetGadgetItemAttribute: With the following attribute:
 @FixedFont
   @#PB_ListIcon_ColumnWidth    : Changes the width of the given 'Column'. The 'Item' parameter is ignored.
-  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Item' parameter can be one of the following value:
+  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Value' parameter can be one of the following value:
      - @#PB_ListIcon_Left  : Text is left aligned (default).
      - @#PB_ListIcon_Right : Text is right aligned.
      - @#PB_ListIcon_Center: Text is centered.
@@ -3722,6 +3731,7 @@
   - @@GetGadgetState: Get the index of the current panel.
 @LineBreak
   - @@GetGadgetAttribute: With one of the following attributes: (there must be at least 1 item for this to work)
+    (not supported on Linux GTK)
 @FixedFont
   @#PB_Panel_ItemWidth : Returns the width of the inner area where the gadgets are displayed.
   @#PB_Panel_ItemHeight: Returns the height of the inner area where the gadgets are displayed.
@@ -4793,8 +4803,6 @@
   This is a universal function which works for almost all
   gadgets which handle several items. 'State' can take the following values:
 @LineBreak
-  - @@CalendarGadget: @#PB_Calendar_Bold to make a date appear bold, @#PB_Calendar_Normal otherwise.
-@LineBreak
   - @@ExplorerListGadget: with the following value:
 @FixedFont
   @#PB_Explorer_Selected : The item should be selected.
@@ -5742,13 +5750,13 @@
   @#PB_Web_SelectedText : Get the currently selected text inside the gadget.
 @EndFixedFont
 
-  - @@SetGadgetAttribute: Set the following attributes  (Windows only):
+  - @@SetGadgetAttribute: Set the following attributes:
 @FixedFont
-  @#PB_Web_ScrollX       : Set the horizontal scrolling position.
-  @#PB_Web_ScrollY       : Set the vertical scrolling position.
-  @#PB_Web_BlockPopups   : Block popup windows. @#PB_EventType_PopupWindow is fired if this setting is enabled.
-  @#PB_Web_BlockPopupMenu: Block standard the popup menu. @#PB_EventType_PopupMenu is fired if this setting is enabled.
   @#PB_Web_NavigationCallback: Set a callback for monitoring (and disabling) navigation.
+  @#PB_Web_ScrollX           : Set the horizontal scrolling position (Windows only).
+  @#PB_Web_ScrollY           : Set the vertical scrolling position (Windows only).
+  @#PB_Web_BlockPopups       : Block popup windows. @#PB_EventType_PopupWindow is fired if this setting is enabled (Windows only).
+  @#PB_Web_BlockPopupMenu    : Block standard the popup menu. @#PB_EventType_PopupMenu is fired if this setting is enabled (Windows only).
 @EndFixedFont
 
   The Navigation callback must have the following format: (Windows only)

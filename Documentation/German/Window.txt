@@ -907,6 +907,10 @@
   und der Haupt-Ereignis-Warteschlange sein. Zum Beispiel kann ein Thread ein benutzerdefiniertes Ereignis
   (mit zugewiesenen Daten) senden, wenn er mit seiner Verarbeitung fertig ist, wodurch die
   Haupt-Ereignis-Warteschlange dieses erhält und die weitere Verarbeitung stattfinden kann.
+@Linebreak
+@Linebreak
+  Alle von PureBasic generierten Ereignisse werden immer vor Systemereignissen verarbeitet (wenn Sie also ein
+  neues Ereignis hinzufügen, ohne andere zu verarbeiten, kommt dieses immer zuerst).
 
 @Code
   ; Alle unsere beutzerdefinierten Ereignisse

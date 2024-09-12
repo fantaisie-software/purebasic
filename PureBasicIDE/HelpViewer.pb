@@ -513,23 +513,13 @@ CompilerIf #CompileMac
       HelpFile$ = "reference/reference.html"
     EndIf
     
-    CompilerIf #CompileMacCarbon
-      
-      ; Use the old way on OS X, due to faulty WebGadget() on Carbon (consumes 100% CPU)
-      ;
-      RunProgram("open", HelpDirectory$ + HelpFile$, "")
-      
-    CompilerElse
-      
-      If UseHelpToolF1 And HelpToolOpen
-        SetGadgetText(#GADGET_HelpTool_Viewer, "file://"+ReplaceString(HelpDirectory$, " ", "%20")+HelpFile$) ; we need escaped space as it's a web path
-        ActivateTool("HelpTool")                                                                              ; switches to the tool
-      Else
-        OpenHelpWindow()
-        LoadHelpPage(HelpFile$)
-      EndIf
-      
-    CompilerEndIf
+    If UseHelpToolF1 And HelpToolOpen
+      SetGadgetText(#GADGET_HelpTool_Viewer, "file://"+ReplaceString(HelpDirectory$, " ", "%20")+HelpFile$) ; we need escaped space as it's a web path
+      ActivateTool("HelpTool")                                                                              ; switches to the tool
+    Else
+      OpenHelpWindow()
+      LoadHelpPage(HelpFile$)
+    EndIf
     
   EndProcedure
   

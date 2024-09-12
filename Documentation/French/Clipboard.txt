@@ -59,43 +59,44 @@
 @Function Resultat = GetClipboardImage(#Image [, Profondeur])
 
 @Description
-  Crée une nouvelle image à partir d'une 
-  image contenue dans le presse-papier (si 
-  elle existe).
+  Crée une nouvelle image à partir d'une image contenue dans le presse-papier (si elle existe).
   
 @Parameter "#Image"
   Numéro de la nouvelle image.
 @LineBreak
 @LineBreak  
-  @ReferenceLink "purebasic_objects" "PB_Any#" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  @ReferenceLink "purebasic_objects" "PB_Any#" peut être utilisé pour générer automatiquement ce numéro. 
  
 @OptionalParameter "Profondeur"
   La profondeur de couleur de l'image.
 @LineBreak
 @LineBreak    
-  Les valeurs valides sont 24 bits (par défaut) 
-  ou 32 bits.
+  Les valeurs valides sont 24 bits (par défaut) ou 32 bits.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, 
-  zéro sinon. 
+  Renvoie une valeur non nulle en cas de succès, zéro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any est utilisé pour le paramètre 
-  '#Image', le numéro de la nouvelle image 
+  Si @#PB_Any est utilisé pour le paramètre '#Image', le numéro de la nouvelle image 
   sera renvoyé dans 'Resultat'.
   
-@Remarks   
-  L'image ainsi obtenue peut être détruite à 
-  l'aide de la commande @@FreeImage.
+@Remarks
+  Sous Windows, il se peut que la transparence ne soit pas détectée une fois l'image du presse-papier 
+  collée dans un logiciel tiers. (L'enregistrement de cette image au format png conserve la transparence.)
+  Il s'agit d'un problème lié au format BMP et à la façon dont Windows 
+  le gère. Il est possible d'avoir une image bitmap 32 bits sans canal alpha. Dans ce cas, toutes les 
+  valeurs alpha sont 0 mais l'image est censée être opaque.
+  Étant donné que les images dans GetClipboardImage() peuvent provenir de l'extérieur de PB, nous ne 
+  pouvons pas savoir si l'image est censée être entièrement transparente ou entièrement opaque. C'est 
+  pourquoi nous n'utilisons le canal alpha que s'il y a au moins un pixel avec une valeur autre que 0. 
+  Sinon, nous la traitons comme une image opaque. 
 @LineBreak
 @LineBreak
-  Pour plus d'information sur les images, voir 
-  la bibliothèque 
-  @LibraryLink "Image" "Image" ou le gadget 
-  @@ImageGadget.
+  L'image ainsi obtenue peut être détruite à l'aide de la commande @@FreeImage.
+@LineBreak
+@LineBreak
+  Pour plus d'information sur les images, voir la bibliothèque @LibraryLink "Image" "Image" 
+  ou le gadget @@ImageGadget.
 
 @Example 
 @Code
@@ -123,6 +124,36 @@
   ; et collez le contenu du presse-papier (Edition puis Coller), 
   ; et vous verrez le drapeau japonais ;-)
 @EndCode
+
+@Example avec transparence
+@Code
+  #Shift= 10
+  Global ImageSource.s
+
+  CreateImage(0,200,200,32,#PB_Image_Transparent)
+  StartDrawing(ImageOutput(0))
+  DrawingMode(#PB_2DDrawing_AlphaChannel) 
+  Box(0, 0, 100, 50, $00000000)
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
+  DrawText(10,50,"PUREBASIC", RGBA(255, 255, 0, 255), RGBA(0, 0, 0, 0))
+  Circle(100,100, 50,RGBA(255, 255, 255,128))
+  StopDrawing() 
+  SetClipboardImage(0)
+  GetClipboardImage(1,32)
+
+
+  CreateImage(0,200,200,32,#Blue)
+  StartDrawing(ImageOutput(0))
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
+  DrawImage(ImageID(1),#Shift,-#Shift)
+  StopDrawing()
+
+  OpenWindow(0,0,0,200,200,Str(ImageDepth(1)))
+    ImageGadget(0,0,0,200,200,ImageID(0))
+  Repeat : Select WaitWindowEvent() : Case #PB_Event_CloseWindow : End : EndSelect : ForEver
+@EndCode
+
+
 
 @SeeAlso
   @@SetClipboardImage, @@GetClipboardText

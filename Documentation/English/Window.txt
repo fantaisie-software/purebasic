@@ -859,6 +859,9 @@
   This command can be very useful to communicate between @LibraryLink "thread" "threads" and the main event loop. For example, a thread can send
   a custom event when it has finished its processing (with an associated data), so the main loop will get it and further
   processing can be done.
+@Linebreak
+@Linebreak
+  All PureBasic generated events are always handled before systems events (so as you add a new event without processing others it always comes first).
 
 @Code
   ; All our custom events

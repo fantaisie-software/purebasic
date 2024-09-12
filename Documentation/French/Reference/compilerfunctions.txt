@@ -36,7 +36,7 @@
 @FormatEndIf
 
 @Syntax
-  @Keyword Bool(<expression booléenne>)
+  Resultat = @Keyword Bool(<expression booléenne>)
 
 @Description
   @Keyword Bool permet d'évaluer une 
@@ -119,7 +119,8 @@
   @#PB_Enumeration
 @EndFixedFont
 
-@NoReturnValue
+@ReturnValue
+  Renvoie une valeur non nulle si l'objet est défini, zéro sinon.
 
 @Example
 @Code
@@ -150,6 +151,16 @@
   compilation. 
 @LineBreak
   Le nom du sous-système est insensible à la casse.
+
+@Parameter "expression texte constante"
+  Le nom du sous-système.@LineBreak
+  Windows: DirectX9, DirectX11 @LineBreak
+  Linux  : Gtk2, Qt @LineBreak
+  MacOS X: Rien
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le sous-système est utilisé, zéro sinon.
+
 
 @Example
 @Code
@@ -232,7 +243,7 @@
   Le type de l'objet.
 
 @ReturnValue
-  La taille de l'objet en mémoire, en octets
+  La taille de l'objet en mémoire, en octets.
 
 @Remarks  
   C'est très utile dans de nombreux cas, notamment 
@@ -415,9 +426,17 @@
    vérifier leur égalité.
    La comparaison est également appliquée de manière récursive aux éléments enfants tels que 
    @ReferenceLink "dim" "arrays", @ReferenceLink "newlist" "listes" et @ReferenceLink "newmap" "maps". 
-   Renvoie une valeur non nulle si les structures sont les identiques, zéro sinon.
-@LineBreak
-@LineBreak
+
+@Parameter "*Pointeur1"
+  L'adresse mémoire de la première variable structurée a tester.
+  
+@Parameter "*Pointeur2"
+  L'adresse mémoire de la seconde variable structurée a tester.
+  
+@Parameter "Structure"
+  La structure utilisée.
+
+@OptionalParameter "Options"
    Le paramètre "Options" est facultatif et peut prendre l'une des valeurs suivantes :
 @FixedFont
    @#PB_String_CaseSensitive  : La comparaison de chaînes est sensible à la casse (a=a). (par défaut)
@@ -426,6 +445,7 @@
                                La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
 @EndFixedFont
 
+@Remarks
 @Bold "Attention:" 
    L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
    particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
@@ -433,6 +453,8 @@
    pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
    se renvoie à elle-même).
 
+@ReturnValue
+     Renvoie une valeur non nulle si les structures sont les identiques, zéro sinon.
 
 @Example
 

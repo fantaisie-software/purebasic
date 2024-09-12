@@ -1221,37 +1221,26 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = MouseRayCast(#Camera, X, Y, MasqueSelection)
 
 @Description
-  Jette un rayon depuis un point 2D à 
-  travers la scène, et vérifie si un 
-  objet traverse le rayon. 
+  Jette un rayon depuis un point 2D à travers la scène, et vérifie si un objet traverse le rayon. 
 
 @Parameter "#Camera"
   La caméra à utiliser.
 
 @Parameter "X, Y"
-  Coordonnées 2D, en pixels, du point 
-  de départ.
+  Coordonnées 2D, en pixels, du point de départ.
 
 @Parameter "MasqueSelection"
   Le masque entité à utiliser. 
 @LineBreak
 @LineBreak
-  Seules les entités avec un masque 
-  correspondant à la valeur 
-  'MasqueSelection' seront 
-  signalées. Si ce paramètre est omis, 
-  toutes les entités sont des valeurs 
-  admissibles pour la détection des 
-  rayons. Le masque peut être une 
-  combinaison, pour sélectionner 
-  plus d'un groupe d'entités.@LineBreak
-  Pour avoir plus d'informations sur le 
-  masque de sélection, voir @@CreateEntity.
+  Seules les entités avec un masque correspondant à la valeur 'MasqueSelection' seront signalées. 
+  Si ce paramètre est omis,toutes les entités sont des valeurs admissibles pour la détection des 
+  rayons. Le masque peut être une combinaison, pour sélectionner plus d'un groupe d'entités.
+  @LineBreak
+  Pour avoir plus d'informations sur lemasque de sélection, voir @@CreateEntity.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le 
-  rayon est entré en collision avec 
-  un objet.
+  Renvoie le numéro de l'objet en contact avec le rayon, -1 sinon.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ

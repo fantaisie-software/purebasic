@@ -12,7 +12,7 @@
   n'importe quel type @ReferenceLink "Variables" "basic" ou @ReferenceLink "Structures" "structuré". 
   Pour consulter toutes les commandes nécessaires à la manipulation des maps, voir la bibliothèque @LibraryLink "Map" "Map". @LineBreak
   @LineBreak
-  Quand une nouvelle clef est utilisée lors d'une affectation, un nouvel élément est automatiquement ajouté à la map. Si un autre élément avec
+  Quand une nouvelle clef est utilisée, un nouvel élément est automatiquement ajouté à la map même sans affectation. Si un autre élément avec
   la même clef était déjà présent dans la map, il sera remplacé par le nouveau. Une fois qu'un élément a été créé ou accédé, il devient l'
   élément courant de la map, et les accès à cet élément peuvent ensuite s'effectuer sans avoir à spécifier de clef. C'est très utile
   lors de l'utilisation d'une map structurée, car la recherche de l'élément ne sera plus nécéssaire pour accéder aux différents champs. @LineBreak
@@ -98,4 +98,19 @@
     Debug "Poids: "+Str(Voitures()\Poids)
   Next
  
+@EndCode
+
+  @Example Élémént de Map créé sans affectation
+  
+@Code
+  NewMap IconeMap()
+
+  IconeMap("1")=1
+  IconeMap("2")=2
+
+  Debug FindMapElement(IconeMap(),"3"); Affiche 0 car l'élément n'existe pas
+
+  If IconeMap("3"):EndIf; PureBasic le crée sans affectation parce qu'une nouvelle clé a été détectée
+
+  Debug FindMapElement(IconeMap(),"3"); Affiche le pointeur vers ce nouvel élément. 
 @EndCode

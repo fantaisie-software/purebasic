@@ -914,7 +914,7 @@
   Die Form des Callbacks wird nachfolgend beschrieben:
 
 @Code
-  Procedure DropCallback(ZielHandle, Status.l, Format.l, Aktion.l, x.l, y.l)
+  Procedure DropCallback(ZielHandle, Status, Format, Aktion, x, y)
   
     ProcedureReturn #True
   EndProcedure
@@ -955,7 +955,7 @@
   
   Durch die Rückgabe von @#True erlaubt der Callback, dass die Aktion an diesem Punkt stattfindet.
   Durch die Rückgabe von @#False unterbindet der Callback die Aktion (der Mauscursor wird 
-  durch die "Drag"-Quelle in einen "Verboten"-Cursor geändert).
+  durch die "Drag"-Quelle in einen "Verboten"-Cursor geändert, außer auf Linux GTK).
   Insbesondere wenn 'Status' gleich @#PB_Drag_Finish ist, wird das Zurückgeben von 
   @#False die gesamte Drag & Drop Operation fehlschlagen lassen.
 

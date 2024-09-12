@@ -388,7 +388,7 @@ Declare GrepWindowEvents(EventID)
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
 Declare InitSyntaxHighlighting()      ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
-Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode) ; call the engine
+Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode, DisableFormatting = 0) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 
 ;- HighlightingFunctions.pb

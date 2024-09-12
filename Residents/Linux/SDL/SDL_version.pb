@@ -2,8 +2,8 @@
 #SDL_MINOR_VERSION = 2
 #SDL_PATCHLEVEL = 6
 Structure SDL_version
-  major.b
-  minor.b
-  patch.b
+  major.a
+  minor.a
+  patch.a
 EndStructure
 

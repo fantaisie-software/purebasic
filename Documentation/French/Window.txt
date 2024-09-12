@@ -1408,16 +1408,15 @@ EndIf
   interne s'est déroulé sans erreur, zéro sinon.
 
 @Remarks
-  Cette commande peut être très utile pour 
-  communiquer entre les 
-  @LibraryLink "thread" "threads" et la 
-  boucle principale des évènements. Par 
-  exemple, un thread peut envoyer un 
-  évènement personnalisé quand il a fini 
-  son traitement (avec une donnée associée), 
-  de sorte que la boucle principale peut 
-  utiliser cette donnée dans un traitement 
-  ultérieur.
+  Cette commande peut être très utile pour communiquer entre les @LibraryLink "thread" "threads" 
+  et la boucle principale des évènements. Par exemple, un thread peut envoyer un évènement 
+  personnalisé quand il a fini son traitement (avec une donnée associée), de sorte que la 
+  boucle principale peut utiliser cette donnée dans un traitement ultérieur.
+@Linebreak
+@Linebreak
+  Tous les événements générés par PureBasic sont toujours traités avant les événements 
+  système (donc lorsque vous ajoutez un nouvel événement sans en traiter d'autres, il 
+  vient toujours en premier).
 
 @Code
   ; Tous nos évènements personnalisés

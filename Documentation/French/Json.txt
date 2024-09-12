@@ -2047,8 +2047,7 @@ La valeur JSON.
   automatiquement ce numéro. 
   
 @Parameter "Fichier$" 
-  Le nom du fichier au format UTF-8 contenant les données 
-  JSON.
+  Le nom du fichier au format UTF-8 contenant les données JSON.
 
 @OptionalParameter "Options"
   @#PB_JSON_NoCase : Insensible à la casse.
@@ -2371,7 +2370,7 @@ La valeur JSON.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = SaveJSON(#JSON, NomFichier$ [, Options])
+@Function Resultat = SaveJSON(#JSON, Fichier$ [, Options])
 
 @Description
   Sauvegarde les données JSON dans un 
@@ -2383,6 +2382,9 @@ La valeur JSON.
 
 @Parameter "#JSON"
   Le JSON à enregistrer.
+  
+@Parameter "Fichier$" 
+  Le nom du fichier au format UTF-8 contenant les données JSON.
   
 @OptionalParameter "Options"
   @#PB_JSON_PrettyPrint : Les données 

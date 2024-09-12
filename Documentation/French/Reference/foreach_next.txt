@@ -19,6 +19,9 @@
   Après l'un de ces changements, le prochain cycle de boucle continue avec l'élément qui suit l'élément courant.
   @LineBreak
   @LineBreak
+  Lors du l'utilisation en conjonction avec une map, veuillez à ne pas mettre de clé (voir exemple ci-dessous).
+  @LineBreak
+  @LineBreak
   Il est possible de quitter une boucle @Keyword ForEach : @Keyword Next à tout moment à l'aide de la commande 
   @ReferenceLink "Break_Continue" Break. La commande @ReferenceLink "Break_Continue" Continue permet de passer 
   directement à l'itération suivante, sans exécuter la fin du code contenu dans la boucle. @LineBreak
@@ -55,5 +58,6 @@
 
   ForEach Pays()
     Debug Pays()
+    ;Debug Pays("FR") ; Non, ne pas mettre de clé car cela peut engendrer une boucle infinie
   Next
 @EndCode  

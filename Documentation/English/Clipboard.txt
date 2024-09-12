@@ -58,7 +58,14 @@
   If @#PB_Any was used as the #Image parameter, then the new image number is returned.
 
 @Remarks
-  The image may be freed by using the @@FreeImage function.
+  On Windows, transparency may not be detected after pasting the clipboard image into third-party 
+  software. (Saving this image as a .png preserves transparency.)
+  This is a problem of the BMP format and how Windows handles it. It is possible to have a 32bit bitmap 
+  without alpha channel. In this case all alpha values are 0 but the image is supposed to be opaque.
+  Since images in GetClipboardImage() can come from outside of PB we cannot know whether this is supposed 
+  to be a fully transparent or fully opaque image. This is why we only use the alpha channel if there is 
+  at least one pixel with a value other than 0. Otherwise we treat it as an opaque image.@LineBreak
+  The image may be freed by using the @@FreeImage function.@LineBreak
   For further use of the image, there are functions available such as @@DrawImage
   or @@ImageGadget.
 

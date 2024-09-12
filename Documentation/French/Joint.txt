@@ -32,6 +32,7 @@
 
 @ExampleFile All Joint.pb
 @ExampleFile All ConeJoint.pb
+@ExampleFile All GenericJoint.pb
 @ExampleFile All HingeJoint.pb
 @ExampleFile All PointJoint.pb
 @ExampleFile All SliderJoint.pb
@@ -161,7 +162,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = GenericJoint(#Charniere, EntiteID, TransformX, TransformY, TransformZ, EntiteID2, TransformX2, TransformY2, TransformZ2)
+@Function Resultat = GenericJoint(#Charniere, EntiteID1, X1, Y1, Z1, EntiteID2, X2, Y2, Z2)
 
 @Description
   Crée une nouvelle charnière basée sur un 
@@ -176,7 +177,7 @@
   peut être utilisé pour générer automatiquement 
   ce numéro.
 
-@Parameter "EntiteID"
+@Parameter "EntiteID1"
   Le numéro d'identification de l'entité 
   associée à la charnière. 
 @LineBreak
@@ -184,8 +185,8 @@
   Pour obtenir un identifiant valide, utiliser 
   @@EntityID.
 
-@Parameter "TransformX, TransformY, TransformZ"
-  La transformation à appliquer sur la première entité.
+@Parameter "X1, Y1, Z1"
+ Point d'attache sur la première entité
 
 @OptionalParameter "EntiteID2"
   La deuxième entité associée à la charnière. 
@@ -203,8 +204,8 @@
   Pour obtenir un identifiant valide, utiliser 
   @@EntityID.
 
-@OptionalParameter "TransformX2, TransformY2, TransformZ2"
-   La transformation à appliquer sur la seconde entité.
+@OptionalParameter "X2, Y2, Z2"
+  Point d'attache de la seconde entité.
 
 @ReturnValue
   Renvoie zéro si la charnière ne peut être créée. 

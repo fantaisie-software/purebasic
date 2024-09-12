@@ -1679,12 +1679,14 @@ Enumeration 0
   #ITEM_Interface
   #ITEM_Label
   #ITEM_Declare
+  #ITEM_InlineASM     ; EnableJS / EnableC / EnableASM blocks
   
   ; Items following are not in the Sorted[] array
   #ITEM_FoldStart      ; for the folding only
   #ITEM_FoldEnd
   #ITEM_MacroEnd       ; so we know what stuff to ignore later on
   #ITEM_ProcedureEnd   ; for procedure background color
+  #ITEM_InlineASMEnd   
   #ITEM_Define
   #ITEM_Keyword
   #ITEM_CommentMark    ; ";-" marks
@@ -1924,17 +1926,19 @@ EndStructure
 #MARKER_LastIssue         = 10
 #MAX_IssueMarkers         = #MARKER_LastIssue - #MARKER_FirstIssue + 1
 
-#MARKER_Marker            = 22 ; line markers
+#MARKER_InlineASM         = 11 ; To detect when we are in an inline ASM block
+
+#MARKER_Breakpoint        = 15
+#MARKER_CurrentLine       = 16 ; line backgrounds
+#MARKER_Warning           = 17
+#MARKER_Error             = 18
 
 #MARKER_WarningSymbol     = 19
 #MARKER_ErrorSymbol       = 20 ; merker symbols
 #MARKER_BreakpointSymbol  = 21
+#MARKER_Marker            = 22 ; line markers
 #MARKER_CurrentLineSymbol = 23
 
-#MARKER_CurrentLine       = 16 ; line backgrounds
-#MARKER_Warning           = 17
-#MARKER_Error             = 18
-#MARKER_Breakpoint        = 15
 
 ;- Styling related constants
 

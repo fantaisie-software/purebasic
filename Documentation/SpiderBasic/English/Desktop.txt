@@ -129,6 +129,10 @@
 @Parameter "Value"
   The value to use.
 
+@ReturnValue
+  Returns the scaled value according to current display DPI on 'x' axis. For example, on a display
+  with a 125% DPI applied, a value of 100 will result to 125.
+
 @Remarks
   The application needs to be compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" to have this command returning scaled DPI value. 
   If not, the result will be always be the same as 'Value' parameter.
@@ -157,6 +161,10 @@
 @ReturnValue
   Returns the scaled value according to current display DPI on 'y' axis. For example, on a display
   with a 125% DPI applied, a value of 100 will result to 125.
+  
+@Remarks
+  The application needs to be compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" to have this command returning scaled DPI value. 
+  If not, the result will be always be the same as 'Value' parameter.  
   
 @Example
 @Code
@@ -260,8 +268,8 @@
 
 @ReturnValue
   Returns the height in pixels. The returned value is DPI independant, which means it's not 
-  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @DesktopScaledY
-  to scale the result.
+  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @@DesktopScaledY
+  to scale the result (the @ReferenceLink "ide_compiler" "'DPI Aware' switch" needs to be activated).
 
 @Remarks
   @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.
@@ -436,8 +444,8 @@
 
 @ReturnValue
   Returns the width in pixels. The returned value is DPI independant, which means it's not 
-  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @DesktopScaledX
-  to scale the result.
+  the real pixel count if the DPI factor is not 1. To get the real pixel count, use @@DesktopScaledX
+  to scale the result (the @ReferenceLink "ide_compiler" "'DPI Aware' switch" needs to be activated).
 
 @Remarks
   @@ExamineDesktops must be called before using this function to retrieve information about the available desktops.

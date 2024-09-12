@@ -18,6 +18,9 @@
   After one of the mentioned changes the next loop continues with the element following the current element.
   @LineBreak
   @LineBreak
+  When used with map, please do not put a key (see example below).
+  @LineBreak
+  @LineBreak
   With the @ReferenceLink "Break_Continue" Break command its possible to exit the @Keyword ForEach : @Keyword Next loop
   at any moment, with the @ReferenceLink "Break_Continue" Continue command the end of the current iteration can be skipped. 
 
@@ -51,5 +54,6 @@
 
   ForEach Country()
     Debug Country()
+   ;Debug Country("FR") ; No, do not put a key because sometimes it can cause an infinite loop
   Next
 @EndCode  

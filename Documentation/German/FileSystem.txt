@@ -34,6 +34,7 @@
 @CommandList
 
 @ExampleFile All FileSystem.pb
+@ExampleFile All CompilerSystemData.pb
 
 @SupportedOS
 
@@ -475,8 +476,10 @@
 
 @Remarks
   Um den Dateinamen oder den Pfad aus einem kompletten Dateipfad zu ermitteln, 
-  verwenden Sie die @@GetFilePart und @@GetPathPart
-  Befehle.
+  verwenden Sie die @@GetFilePart und @@GetPathPart Befehle.
+  @LineBreak
+  Wenn der Pfad keinen Dateinamen enthält, kann das Ergebnis zufällig sein.
+  Zum Beispiel sind GetExtensionPart(".htaccess") oder GetExtensionPart(".access.") ungültig.
 
 @SeeAlso
   @@GetFilePart,
@@ -619,7 +622,7 @@
 
 @ReturnValue
   Gibt den vollständigen Pfad des aktuellen Verzeichnisses zurück.
-  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+  Dieser wird mit einem Verzeichnis-Trennzeichen @#PS, @ConstantColor "#PS$" ('\' auf Windows, ansonsten '/') enden.
 @LineBreak
 @LineBreak
   Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.
@@ -647,7 +650,7 @@
 
 @ReturnValue
   Gibt den vollständigen Pfad des 'Home'-Verzeichnisses zurück.
-  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+  Dieser wird mit einem Verzeichnis-Trennzeichen @#PS, @ConstantColor "#PS$" ('\' auf Windows, ansonsten '/') enden.
 @LineBreak
 @LineBreak
   Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.
@@ -690,7 +693,7 @@
 
 @ReturnValue
   Gibt den vollständigen Pfad des angegebenen Verzeichnisses zurück. 
-  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+  Dieser wird mit einem Verzeichnis-Trennzeichen @#PS, @ConstantColor "#PS$" ('\' auf Windows, ansonsten '/') enden.
   Wenn der Typ nicht gefunden wird, dann wird ein leerer String zurückgegeben.
 
 @Example
@@ -719,7 +722,7 @@
 
 @ReturnValue
   Gibt den vollständigen Pfad des temporären Verzeichnisses zurück.
-  Dieser wird mit einem Verzeichnis-Trennzeichen ('\', @#PS, @ConstantColor "#PS$" auf Windows bzw. sonst '/', @#NPS, @ConstantColor "#NPS$") enden.
+  Dieser wird mit einem Verzeichnis-Trennzeichen @#PS, @ConstantColor "#PS$" ('\' auf Windows, ansonsten '/') enden.
 @LineBreak
 @LineBreak
   Es ist sehr unwahrscheinlich, aber wenn diese Funktion fehlschlägt, wird ein leerer String zurückgegeben.

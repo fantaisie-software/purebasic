@@ -46,7 +46,7 @@
 @CommandList
 
 @ExampleFile All FileSystem.pb
-@ExampleFile All Compiler_FileSystem_and_System_Datas.pb
+@ExampleFile All CompilerSystemData.pb
 
 @SupportedOS
 
@@ -676,20 +676,21 @@
 @Function Resultat$ = GetExtensionPart(CheminComplet$)
 
 @Description
-  Extrait l'extension d'un fichier d'après son 
-  chemin complet.
+  Extrait l'extension d'un fichier d'après son chemin complet.
 
 @Parameter "CheminComplet$"
   Le chemin d'accès complet au fichier.
 
 @ReturnValue
   Renvoie l'extension du fichier. @LineBreak
-  Par exemple, si le chemin d'accès complet est 
-  "C:\PureBasic\PB.exe", le résultat sera "exe".
+  Par exemple, si le chemin d'accès complet est "C:\PureBasic\PB.exe", le résultat sera "exe".
   
 @Remarks
-  Pour récupérer le nom du fichier ou son chemin, 
-  voir les fonctions @@GetFilePart et @@GetPathPart.
+  Pour récupérer le nom du fichier ou son chemin, voir les fonctions @@GetFilePart et @@GetPathPart.
+@LineBreak
+@LineBreak
+  Si le chemin ne contient pas de nom de fichier alors le résultat peut-être aléatoire. 
+  Par exemple GetExtensionPart(".htaccess")" ou GetExtensionPart(".access.") ne sont pas valides.
 
 @Example  
 @Code
@@ -713,8 +714,7 @@
 @EndCode
 
 @SeeAlso
-  @@GetFilePart,
-  @@GetPathPart
+  @@GetFilePart, @@GetPathPart
   
 @SupportedOS
 
@@ -940,8 +940,8 @@
 @ReturnValue 
   Renvoie le chemin complet du répertoire courant. 
   @LineBreak
-  Il se termine par un séparateur de répertoire 
-  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+  Il se termine par un séparateur de répertoire @#PS, @ConstantColor "#PS$" 
+  ('\' pour Windows, '/' pour Linux et MacOSX).
 @LineBreak
 @LineBreak
   Cette fonction renvoie une chaîne vide dans le 
@@ -986,8 +986,8 @@
 @ReturnValue 
   Renvoie le chemin complet du répertoire courant. 
   @LineBreak
-  Il se termine par un séparateur de répertoire 
-  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+ Il se termine par un séparateur de répertoire @#PS, @ConstantColor "#PS$" 
+ ('\' pour Windows, '/' pour Linux et MacOSX).
 @LineBreak
 @LineBreak
   Cette fonction renvoie une chaîne vide dans le 
@@ -1046,8 +1046,9 @@
 @EndFixedFont
 
 @ReturnValue
-  Renvoie le chemin complet du répertoire demandé et terminé par un séparateur d'annuaire 
-  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS). @LineBreak
+  Renvoie le chemin complet du répertoire demandé qui se termine par un séparateur de répertoire 
+  @#PS, @ConstantColor "#PS$" ('\' pour Windows, '/' pour Linux et MacOSX).
+  @LineBreak
    Renvoie une chaîne vide si le type n'est pas trouvé.
 
 @Example
@@ -1083,8 +1084,8 @@
 @ReturnValue 
   Renvoie le chemin complet et le nom du répertoire 
   temporaire. @LineBreak
-  Il se termine par un séparateur de répertoire 
-  ('\', @#PS, @ConstantColor "#PS$" pour Windows ou '/', @#NPS, @ConstantColor "#NPS$" pour les autres OS).
+   Il se termine par un séparateur de répertoire @#PS, @ConstantColor "#PS$" 
+   ('\' pour Windows, '/' pour Linux et MacOSX).
 @LineBreak
 @LineBreak
   Cette fonction renvoie une chaîne vide dans le 

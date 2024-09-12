@@ -37,12 +37,12 @@ Procedure OpenFindWindow(Replace = #False)
           SetGadgetState(#GADGET_Find_DoReplace,  1)
           DisableGadget(#GADGET_Find_ReplaceWord, 0)
           DisableGadget(#GADGET_Find_Replace, 0)
-          DisableGadget( #GADGET_Find_Replaceall, 0)
+          DisableGadget( #GADGET_Find_ReplaceAll, 0)
         Else
           SetGadgetState(#GADGET_Find_DoReplace,  0) ; doreplace should always be disabled when opening this window.
           DisableGadget(#GADGET_Find_ReplaceWord, 1)
           DisableGadget(#GADGET_Find_Replace, 1)
-          DisableGadget( #GADGET_Find_Replaceall, 1)
+          DisableGadget( #GADGET_Find_ReplaceAll, 1)
         EndIf
         
         SetGadgetState(#GADGET_Find_FindWord, 0) ; select the last entry
@@ -119,11 +119,11 @@ Procedure FindWindowEvents(EventID)
           If GetGadgetState(#GADGET_Find_DoReplace)
             DisableGadget(#GADGET_Find_ReplaceWord, 0)
             DisableGadget(#GADGET_Find_Replace, 0)
-            DisableGadget( #GADGET_Find_Replaceall, 0)
+            DisableGadget( #GADGET_Find_ReplaceAll, 0)
           Else
             DisableGadget(#GADGET_Find_ReplaceWord, 1)
             DisableGadget(#GADGET_Find_Replace, 1)
-            DisableGadget( #GADGET_Find_Replaceall, 1)
+            DisableGadget( #GADGET_Find_ReplaceAll, 1)
           EndIf
           
         Case #GADGET_Find_FindNext,
@@ -155,7 +155,7 @@ Procedure FindWindowEvents(EventID)
         Case #GADGET_Find_Replace
           If *ActiveSource <> *ProjectInfo
             *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource)
-            If *Debugger And *Debugger\CanDestroy = 0 ; no error if the code finished executing
+            If *Debugger And *Debugger\CanDestroy = 0 And #SpiderBasic = 0 ; no error if the code finished executing. In SpiderBasic the file is never locked.
               MessageRequester(#ProductName$, Language("Debugger","EditError"), #FLAG_INFO)
             Else
               FindCaseSensitive = GetGadgetState(#GADGET_Find_Case)
@@ -174,10 +174,10 @@ Procedure FindWindowEvents(EventID)
             SetWindowForeground(#WINDOW_Find)
           EndIf
           
-        Case #GADGET_Find_Replaceall
+        Case #GADGET_Find_ReplaceAll
           If *ActiveSource <> *ProjectInfo
             *Debugger.DebuggerData = IsDebuggedFile(*ActiveSource)
-            If *Debugger And *Debugger\CanDestroy = 0 ; no error if the code finished executing
+            If *Debugger And *Debugger\CanDestroy = 0 And #SpiderBasic = 0 ; no error if the code finished executing. In SpiderBasic the file is never locked.
               MessageRequester(#ProductName$, Language("Debugger","EditError"), #FLAG_INFO)
             Else
               FindCaseSensitive = GetGadgetState(#GADGET_Find_Case)

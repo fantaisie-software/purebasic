@@ -38,14 +38,16 @@
   
 @LineBreak
 @LineBreak
-@OS Windows
   Sous Windows, ces bibliothèques sont bien connues 
   sous le nom de 'DLL' (Dynamically Linked Library).
-@EndOS
-@OS Linux
+@LineBreak
+@LineBreak
   Sous Linux, ces bibliothèques sont connue sous le 
   nom de 'SO' (Shared Object).
-@EndOS
+@LineBreak
+@LineBreak
+  Sous MacOS, ces bibliothèques sont connue sous le 
+  nom de 'DYLIB' (Dynamically linked shared Library.)
 
 @CommandList
 
@@ -668,7 +670,9 @@
   alors le système d'exploitation recherche la 
   bibliothèque dans ses dossiers systèmes, le 
   répertoire des applications et le répertoire 
-  courant.
+  courant. Sous Linux et MacOS, pour charger la 
+  bibliothèque à partir du répertoire courant, le 
+  préfixe de chemin './' doit être spécifié.
 @EndIndent
 
 @ReturnValue

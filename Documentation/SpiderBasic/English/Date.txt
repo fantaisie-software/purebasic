@@ -7,11 +7,11 @@
 @Library Date
 
 @Overview
-  The Date library allows for the manipulation of Date and Time from 1970 up to 2038 using the Unix method
-  (i.e. the number of seconds elapsed since the 1st of January 1970).
+  The Date library allows for the manipulation of Date and Time from the year 1601 up to 9999 using the Unix method
+  (i.e. the number of seconds elapsed since the 1st of January 1970). Dates before the year 1970 are represented as negative values.
 @LineBreak
 @LineBreak
-  Note: supported date/time values are 1970-01-01, 00:00:00 for the minimum and 2038-01-19, 03:14:07 for the maximum.
+  Note: In order to use the full available date range, values returned by this library must be stored in Quad type variables (.q).
 
 @CommandList
 

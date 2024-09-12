@@ -11,7 +11,7 @@
   so there can be as many as needed. A map can have any @ReferenceLink "Variables" "standard" or @ReferenceLink "Structures" "structured" type. 
   To view all commands used to manage maps, see the @LibraryLink Map Map library. @LineBreak
   @LineBreak
-  When using a new key for an assignment, a new element is automatically added to the map. If another element with the same key is already
+  When using a new key, a new element is automatically added to the map even without an assignment. If another element with the same key is already
   in the map, it will be replaced by the new one. Once an element as been accessed or created, it becomes the current element of the map,
   and further access to this element can be done without specify the key. This is useful when using structured map, as no more element
   lookup is needed to access different structure field.@LineBreak
@@ -95,4 +95,19 @@
     Debug "Weight: "+Str(Cars()\Weight)
   Next
  
+@EndCode
+
+  @Example Item created without assignment
+  
+@Code
+  NewMap IconMap()
+  
+  IconMap("1") = 1
+  IconMap("2") = 2
+  
+  Debug FindMapElement(IconMap(), "3") ; Displays 0 because the item does not exist
+
+  If IconMap("3") : EndIf ; PureBasic creates the item without assignment because a new key is detected
+  
+  Debug FindMapElement(IconMap(), "3") ; Displays the memory address of the element
 @EndCode

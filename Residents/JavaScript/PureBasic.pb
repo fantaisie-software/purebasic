@@ -265,15 +265,6 @@ IncludeFile "../Common.pb"
 #PB_Date_Accessed = 1
 #PB_Date_Modified = 2
 
-
-; Colors
-#PB_Gadget_FrontColor = 1
-#PB_Gadget_BackColor  = 2
-#PB_Gadget_LineColor  = 3
-#PB_Gadget_TitleFrontColor = 4
-#PB_Gadget_TitleBackColor  = 5
-#PB_Gadget_GrayTextColor   = 6
-
 #PB_Button_Right     = 1 << 0
 #PB_Button_Left      = 1 << 1
 #PB_Button_Default   = 1 << 2
@@ -298,12 +289,6 @@ IncludeFile "../Common.pb"
 #PB_ComboBox_LowerCase = 1 << 1
 #PB_ComboBox_UpperCase = 1 << 2
 #PB_ComboBox_Image     = 1 << 3
-
-#PB_Container_BorderLess = 0
-#PB_Container_Flat       = 1
-#PB_Container_Raised     = 2
-#PB_Container_Single     = 4
-#PB_Container_Double     = 8
 
 #PB_Date_Calendar = 0
 #PB_Date_UpDown   = 1
@@ -362,10 +347,6 @@ IncludeFile "../Common.pb"
 #PB_Editor_ReadOnly = 1 << 0
 #PB_Editor_WordWrap = 1 << 1
 
-#PB_Frame_Double   = 1
-#PB_Frame_Single   = 2
-#PB_Frame_Flat     = 3
-
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
 
@@ -390,45 +371,6 @@ IncludeFile "../Common.pb"
 
 #PB_MDI_Image     = 3 ; Attributes
 #PB_MDI_TileImage = 4
-
-
-; Flags
-;
-#PB_ScrollArea_Flat = 1
-#PB_ScrollArea_Raised = 2
-#PB_ScrollArea_Single = 4
-#PB_ScrollArea_BorderLess = 8
-#PB_ScrollArea_Center = 16
-
-; Attributes
-;
-#PB_ScrollArea_InnerWidth  = 1
-#PB_ScrollArea_InnerHeight = 2
-#PB_ScrollArea_X = 3
-#PB_ScrollArea_Y = 4
-;#PB_ScrollArea_ScrollStep = 5
-
-
-#PB_ScrollBar_Vertical = 1
-
-#PB_ScrollBar_Minimum = 1 ; Attributes
-#PB_ScrollBar_Maximum = 2
-#PB_ScrollBar_PageLength = 3
-
-; Flags
-;
-#PB_Splitter_Vertical    = 1
-#PB_Splitter_Separator   = 2
-#PB_Splitter_FirstFixed  = 4
-#PB_Splitter_SecondFixed = 8
-
-; Attributes
-;
-#PB_Splitter_FirstMinimumSize  = 1
-#PB_Splitter_SecondMinimumSize = 2
-#PB_Splitter_FirstGadget       = 3
-#PB_Splitter_SecondGadget      = 4
-
 
 ; String flags
 ;
@@ -470,19 +412,6 @@ IncludeFile "../Common.pb"
 
 #PB_ProgressBar_Minimum  = 1  ; Attributes
 #PB_ProgressBar_Maximum  = 2
-
-#PB_Panel_ItemWidth  = 1 ; Attributes
-#PB_Panel_ItemHeight = 2
-#PB_Panel_TabHeight  = 3
-
-; Not supported yet
-; #PB_TrackBar_Ticks    = 1
-#PB_TrackBar_Vertical = 2
-
-#PB_TrackBar_Minimum = 1 ; Attributes
-#PB_TrackBar_Maximum = 2
-
-#PB_HyperLink_Underline  = 1
 
 #PB_Text_Center = 1 << 0
 #PB_Text_Right  = 1 << 1

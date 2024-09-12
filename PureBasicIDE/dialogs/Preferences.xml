@@ -66,16 +66,6 @@
                     <string id="#GADGET_Preferences_FindHistorySize" flags="#PB_String_Numeric"  width="80" />
                   </singlebox>
                 </gridbox>
-                  
-                <compiler if="#CompileMacCarbon">
-                  <gridbox colspacing="10" colexpand="item:2">
-                    <text text="ToolsPanel Size: " />
-                    <scrollbar name="Mac_ToolsPanelSize" min="30" max="100" page="10" height="20" />
-                    <text text="Errorlog Size: " />
-                    <scrollbar name="Mac_ErrorLogSize" min="30" max="100" page="10" height="20" />
-                  </gridbox>
-                </compiler>
-    
               </vbox>
             </frame>
 
@@ -285,11 +275,7 @@
               -->
               <checkbox id="#GADGET_Preferences_EnableBolding" lang="Preferences:EnableBolding" />
               <checkbox id="#GADGET_Preferences_EnableCaseCorrection" lang="Preferences:EnableCase" />
-              <compiler if="#CompileMacCarbon"> <!-- disabled on OSX due to flickering -->                    
-                <checkbox id="#GADGET_Preferences_EnableBraceMatch"   disabled="yes" lang="Preferences:EnableBraceMatch" />                    
-              <compilerelse/>
-                <checkbox id="#GADGET_Preferences_EnableBraceMatch" lang="Preferences:EnableBraceMatch" />
-              </compiler>
+              <checkbox id="#GADGET_Preferences_EnableBraceMatch" lang="Preferences:EnableBraceMatch" />
               <checkbox id="#GADGET_Preferences_EnableKeywordMatch" lang="Preferences:EnableKeywordMatch" />
               <checkbox id="#GADGET_Preferences_EnableLineNumbers" lang="Preferences:EnableLineNumbers" />
               <!-- removed 

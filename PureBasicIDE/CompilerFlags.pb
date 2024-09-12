@@ -131,7 +131,6 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinux     = 0
     #CompileMac       = 0
     #CompileMacCocoa  = 0
-    #CompileMacCarbon = 0
     #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
     #CompileLinuxGtk3 = 0
@@ -196,7 +195,6 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinux     = 1
     #CompileMac       = 0
     #CompileMacCocoa  = 0
-    #CompileMacCarbon = 0
     
     CompilerIf Subsystem("Gtk2")
       #CompileLinuxGtk  = 1
@@ -270,14 +268,7 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinuxQt   = 0
     
     #CompileMac       = 1
-    
-    CompilerIf Subsystem("carbon")
-      #CompileMacCocoa  = 0
-      #CompileMacCarbon = 1
-    CompilerElse
-      #CompileMacCocoa  = 1
-      #CompileMacCarbon = 0
-    CompilerEndIf
+    #CompileMacCocoa  = 1
     
     #OS_PureBasic = "MacOSX"
     

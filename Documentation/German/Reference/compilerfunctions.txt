@@ -23,6 +23,12 @@
   Hinweis: Eine Character (.c) Variable ist @ReferenceLink "unicode" "Unicode" und verwendet 2 Bytes.
   Eine Ascii-Variable (.a) ist ASCII und verwendet 1 Byte.
 
+@Parameter "Typ"
+  Der Typ des Objekts.
+
+@ReturnValue
+  Die Größe des Objekts im Speicher, in Bytes.
+
 @Example 1
 @Code
   char.c='!'
@@ -62,9 +68,14 @@
 @Description
 
   @Keyword OffsetOf kann verwendet werden, um den Adress-Offset eines @ReferenceLink "Structures" "Struktur"-Feldes oder den 
-  Adress-Offset einer @ReferenceLink "Interfaces" "Interface"-Funktion herauszufinden. Bei der Verwendung mit einem @ReferenceLink "Interfaces" "Interface"
-  ist der Funktions-Index der Speicher-Offset, es gilt deshalb IndexOfTheFunction*SizeOf(Integer).
+  Adress-Offset einer @ReferenceLink "Interfaces" "Interface"-Funktion herauszufinden. Bei der Verwendung mit einem @ReferenceLink "Interfaces" "Interface" ist der Funktions-Index der Speicher-Offset, es gilt deshalb IndexOfTheFunction*SizeOf(Integer).
+  
+@Parameter "Struktur\Feld oder Interface\Funktion()"
+  Das Feld der Struktur oder die Funktion des Interface.
 
+@ReturnValue
+  Gibt den Index des Felds oder der Funktion zurück, andernfalls Null.
+    
 @Example
 
 @Code
@@ -99,6 +110,14 @@
 
   @Keyword TypeOf kann verwendet werden, um den Typ einer @ReferenceLink "variables" "Variable"
   oder eines @ReferenceLink "structures" "Struktur-Feldes" herauszufinden.
+ 
+@Parameter "Objekt"
+  Das zu verwendende Objekt.
+
+@ReturnValue
+  Der Typ des Objekts.
+@LineBreak  
+@LineBreak
   Der Typ kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Byte      
@@ -145,13 +164,22 @@
 
 @Syntax
 
-  Ergebnis = @Keyword Subsystem(<Konstanter String Ausdruck>)
+  Ergebnis = @Keyword Subsystem(<Konstanter String-Ausdruck>)
 
 @Description
 
   @Keyword Subsystem kann verwendet werden, um herauszufinden, ob ein @ReferenceLink "subsystems" "Subsystem" 
   für das zu kompilierende Programm verwendet wird. Beim angegebenen Subsystem-Namen wird die
   Groß-/Kleinschreibung nicht beachtet.
+
+@Parameter "Konstanter String-Ausdruck"
+  Der Subsystem-Name.@LineBreak
+  Windows: DirectX9, DirectX11 @LineBreak
+  Linux  : Gtk2, Qt @LineBreak
+  MacOS X: Keiner
+ 
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Subsystem verwendet wird, andernfalls Null.
 
 @Example
 
@@ -175,13 +203,14 @@
   @Keyword Defined überprüft, ob ein bestimmtes Objekt innerhalb des Quellcodes wie 
   @ReferenceLink "structures" "Struktur", @ReferenceLink "interfaces" "Interface", @ReferenceLink "variables" "Variable" 
   bereits definiert ist oder nicht. 
-  @LineBreak
-  @LineBreak
-  Der Parameter 'Name' muss ohne jeden Zusatz (z.B. ohne '#' für eine @ReferenceLink "general_rules" "Konstante",
+ 
+@Parameter "Name"
+  Der Name des Objekts.
+  Der 'Name' muss ohne jeden Zusatz (z.B. ohne '#' für eine @ReferenceLink "general_rules" "Konstante",
   ohne '()' für ein @ReferenceLink "dim" "Array", einer @ReferenceLink "newlist" "verknüpften Liste" oder einer
   @ReferenceLink "newmap" "Map") angegeben werden.
-  @LineBreak
-  @LineBreak
+  
+@Parameter "Typ"
   Der Parameter 'Typ' kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Constant
@@ -199,6 +228,9 @@
   @#PB_Module
   @#PB_Enumeration
 @EndFixedFont
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Objekt definiert ist, andernfalls Null.
 
 @Example
 
@@ -230,13 +262,23 @@
   @Keyword InitializeStructure initialisiert den angegebenen @ReferenceLink "structures" "strukturierten" Speicherbereich.
   Es initialisiert die Struktur-Objekte ("members") vom Typ @ReferenceLink "dim" "Array", @ReferenceLink "newlist" "Liste" oder
   @ReferenceLink "newmap" "Map", andere Objekte sind nicht betroffen (.s, .l, .i etc.).
+  
+@Parameter "*Zeiger"
+  Die zu verwendende Speicheradresse.
+  
+@Parameter "Struktur"
   'Struktur' ist der Name der Struktur, welche zum Durchführen der Initialisierung verwendet werden soll. Es gibt keine
-  interne Überprüfung, um sicherzugehen, dass die Struktur zum Speicherbereich passt. Warnung: mehrfache Aufrufe von
+  interne Überprüfung, um sicherzugehen, dass die Struktur zum Speicherbereich passt.
+  @LineBreak
+  Warnung: mehrfache Aufrufe von
   @Keyword InitializeStructure verursachen einen Speicherverlust ("memory leak"), da die alten Struktur-Objekte nicht
   freigegeben werden (@Keyword ClearStructure muss aufgerufen werden, bevor @Keyword InitializeStructure ein weiteres Mal
   aufgerufen wird). Diese Funktion ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+  @LineBreak
   Um dynamische Strukturen zu allokieren, verwenden Sie @@AllocateStructure().
-  
+   
+@NoReturnValue 
+
 @Example
 
 @Code
@@ -271,17 +313,25 @@
 
 @Syntax
 
-  @Keyword CompareStructure(*Zeiger1, *Zeiger2, Struktur [, Flags])
+  Ergebnis = @Keyword CompareStructure(*Zeiger1, *Zeiger2, Struktur [, Flags])
 
 @Description
 
   @Keyword CompareStructure vergleicht den Speicher zweier @ReferenceLink "structures" "Strukturen" auf Gleichheit.
   Der Vergleich wird rekursiv auch auf untergeordnete Elemente wie @ReferenceLink "dim" "Arrays", 
-  @ReferenceLink "newlist" "Listen" und @ReferenceLink "newmap" "Maps" angewendet. Gibt einen Wert ungleich Null
-  zurück, wenn die Strukturen gleich sind oder Null, wenn sie unterschiedlich sind.
-@LineBreak
-@LineBreak
-  Der Parameter "Flags" ist optional und kann einen der folgenden Werte haben:
+  @ReferenceLink "newlist" "Listen" und @ReferenceLink "newmap" "Maps" angewendet.
+
+@Parameter "*Zeiger1"
+  Die Speicheradresse der ersten strukturierten Variable, die getestet werden soll.
+
+@Parameter "*Zeiger2"
+  Die Speicheradresse der ersten strukturierten Variable, die getestet werden soll.
+
+@Parameter "Struktur"
+  Die verwendete Struktur.
+
+@OptionalParameter "Flags"
+  Dieser kann einen der folgenden Werte haben:
 @FixedFont
   @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
   @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
@@ -289,6 +339,7 @@
                              Standardmäßig wird nur der Zeigerwert selbst verglichen.
 @EndFixedFont
 
+@Remarks
 @Bold "Achtung:"
   Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
   um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
@@ -296,6 +347,9 @@
   Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
 
 @Example
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Strukturen gleich sind, oder Null wenn sie sich unterscheiden.
 
 @Code
   Structure People
@@ -349,6 +403,17 @@
   @LineBreak
   Es gibt keine interne Überprüfung, dass die Struktur auch zu den beiden Speicherbereichen passt.
   Diese Funktion ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+    
+@Parameter "*Quelle"
+  Die Speicheradresse, welche die zu kopierende Struktur enthält.
+  
+@Parameter "*Ziel"
+  Die Speicheradresse der Kopie.
+  
+@Parameter "Struktur"
+  Der Name der Struktur, die zum Ausführen des Kopiervorgangs verwendet werden soll.
+  
+@NoReturnValue
   
 @Example
 
@@ -387,10 +452,17 @@
   @Keyword ClearStructure löscht einen @ReferenceLink "structures" "strukturierten" Speicherbereich.
   Dies ist nützlich, wenn die Struktur @ReferenceLink "variables" "Strings", @ReferenceLink "dim" "Arrays",
   @ReferenceLink "newlist" "Listen" oder @ReferenceLink "newmap" "Maps"  beinhaltet, welche intern von PureBasic allokiert wurden.
-  'Struktur' ist der Name der Struktur, welche zum Ausführen des Löschens verwendet werden soll. Alle Felder werden auf Null
-  gesetzt. Es gibt keine interne Überprüfung, um sicherzustellen, dass die Struktur zum Speicherbereich passt. Diese Funktion
-  ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+  Diese Funktion ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+    
+@Parameter "*Zeiger"
+  Die Speicheradresse, die die zu löschende Struktur enthält.
   
+@Parameter "Struktur"
+  Der Name der Struktur, welche zum Ausführen des Löschens verwendet werden soll. Alle Felder werden auf Null
+  gesetzt. Es gibt keine interne Überprüfung, um sicherzustellen, dass die Struktur zum Speicherbereich passt.
+  
+@NoReturnValue
+
 @Example
 
 @Code
@@ -428,8 +500,15 @@
   und initialisiert diesen, damit dieser sofort einsatzbereit ist.
   Dies ist nützlich, wenn die Struktur @ReferenceLink "variables" "Strings", @ReferenceLink "dim" "Arrays",
   @ReferenceLink "newlist" "Listen" oder @ReferenceLink "newmap" "Maps"  beinhaltet, welche intern von PureBasic allokiert wurden.
-  'Struktur' ist der Name der Struktur, welche zum Ausführen des Löschens verwendet werden soll. Alle Felder werden auf Null
-  gesetzt. Diese Funktion ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+  Diese Funktion ist für fortgeschrittene Anwender und sollte mit Bedacht verwendet werden.
+   
+@Parameter "*Zeiger"
+  Die Speicheradresse, die die neu zu initialisierende Struktur enthält.
+   
+@Parameter "Struktur"
+  Der Name der Struktur, welche zum Durchführen des Löschens verwendet werden soll.
+   
+@NoReturnValue
   
 @Example
 
@@ -454,14 +533,19 @@
 
 @Syntax
 
-  @Keyword Bool(<Boolescher Ausdruck>)
+  Ergebnis = @Keyword Bool(<Boolescher Ausdruck>)
 
 @Description
 
   @Keyword Bool kann verwendet werden, um einen booleschen Ausdruck außerhalb der regulären bedingten Operatoren wie
-  @Keyword If, @Keyword While, @Keyword Until etc. auszuwerten. Wenn der boolesche Ausdruck wahr ist, wird @#True
-  zurückgegeben, andernfalls wird @#False zurückgegeben.
+  @Keyword If, @Keyword While, @Keyword Until etc. auszuwerten.
 
+@Parameter "Boolescher Ausdruck"
+  Der zu testende Boolesche Ausdruck.
+
+@ReturnValue
+  Gibt @#True zurück, wenn der Boolesche Ausdruck wahr ist, andernfalls @#False.
+  
 @Example
 
 @Code

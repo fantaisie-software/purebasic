@@ -27,6 +27,8 @@
   @LineBreak
   -d, --debugger, /DEBUGGER: enables the debugger support. @LineBreak
   @LineBreak
+  -cl, --console, /CONSOLE: output file in @LibraryLink "console" "Console" format. Default format on Windows is Win32. @LineBreak
+  @LineBreak
   -pf, --purifier, /PURIFIER: enables the purifier. The debugger needs to be activated to have any effect. @LineBreak
   @LineBreak
   -o, --output, /OUTPUT "filename": creates a standalone executable or DLL specified by the filename at the desired path location. 
@@ -36,8 +38,7 @@
   -r, --resident, /RESIDENT "filename": creates a resident file specified by the filename. @LineBreak
   @LineBreak
   -i, --import, /IMPORT "filename": creates an import file to the given filename. Only one Import/EndImport block is allowed
-  in the file. The imported functions will be loaded automatically for every PureBasic projects.
-@LineBreak
+  in the file. The imported functions will be loaded automatically for every PureBasic projects. @LineBreak
   @LineBreak
   -l or --linenumbering, /LINENUMBERING: adds lines and files information to the executable, which can slow it considerably. 
   This allows the @LibraryLink "OnError" "OnError library" to report the file and line-number of an error. @LineBreak
@@ -114,8 +115,6 @@
 @Section Windows specific command switches
 
   /ICON "IconName.ico" : add the specified icon to the executable. @LineBreak
-  @LineBreak
-  /CONSOLE: output file in @LibraryLink "console" "Console" format. Default format is Win32. @LineBreak
   @LineBreak
   /DLL: output file is a @ReferenceLink "dll" "DLL". @LineBreak
   @LineBreak

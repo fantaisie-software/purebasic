@@ -22,6 +22,13 @@
   Note: A Character (.c) variable is @ReferenceLink "unicode" "unicode" and uses 2 bytes. An Ascii variable (.a) is Ascii 
   and uses 1 byte. 
 
+@Parameter "Type"
+  The type of the object.
+
+@ReturnValue
+  The size of the object in memory, in bytes.
+
+
 @Example 1
 @Code
   char.c='!'
@@ -62,7 +69,13 @@
   @Keyword OffsetOf can be used to find out the address offset of a @ReferenceLink "Structures" Structure field or the address offset  
   of an Interface function. When used with an @ReferenceLink "Interfaces" Interface, the function index is the memory 
   offset, so it will be IndexOfTheFunction*SizeOf(Integer). 
+  
+@Parameter "Structure\Field or Interface\Function()"
+  The field of the structure or function of the interface.
 
+@ReturnValue
+  Returns the index of the field or function, zero otherwise.
+    
 @Example
 
 @Code
@@ -96,8 +109,17 @@
 @Description
 
   @Keyword TypeOf can be used to find out the type of a @ReferenceLink "variables" "variable",
-  or a @ReferenceLink "structures" "structure field". The type can be
-  one of the following values:
+  or a @ReferenceLink "structures" "structure field".
+
+ 
+@Parameter "Object"
+  The object to use.
+
+@ReturnValue  
+  The type of the object.
+@LineBreak  
+@LineBreak
+  The type can be one of the following values:
 @FixedFont
   @#PB_Byte      
   @#PB_Word      
@@ -150,6 +172,15 @@
   @Keyword Subsystem can be used to find out if a @ReferenceLink "subsystems" "subsystem" is in use for the
   program being compiled. The specified subsystem name is not case-sensitive.
 
+@Parameter "constant string expression"
+  The subsystem name.@LineBreak
+  Windows: DirectX9, DirectX11 @LineBreak
+  Linux  : Gtk2, Qt @LineBreak
+  MacOS X: None
+ 
+@ReturnValue
+  Returns nonzero if the subsystem is used, zero otherwise.
+
 @Example
 
 @Code
@@ -171,11 +202,16 @@
 
   @Keyword Defined checks if a particular object of a code source like @ReferenceLink "structures" "structure", 
   @ReferenceLink "interfaces" "interface", @ReferenceLink "variables" "variables" etc.
-  is already defined or not. The 'Name' parameter has to be specified without any extra decoration
+  is already defined or not. 
+ 
+
+@Parameter "Name"
+  The name of the object.
+  The 'Name' parameter has to be specified without any extra decoration
   (ie: without the '#' for a @ReferenceLink "general_rules" "constant", without '()' for an 
   @ReferenceLink "dim" "array", a @ReferenceLink "newlist" "list" or a @ReferenceLink "newmap" "map").
-  @LineBreak
-  @LineBreak
+  
+@Parameter "Type"
   The 'Type' parameter can be one of the following values:
 @FixedFont
   @#PB_Constant
@@ -193,6 +229,9 @@
   @#PB_Module
   @#PB_Enumeration
 @EndFixedFont
+
+@ReturnValue
+  Returns nonzero if the object is defined, zero otherwise.
 
 @Example
 
@@ -223,12 +262,19 @@
 
   @Keyword InitializeStructure initialize the specified @ReferenceLink "structures" "structured" memory area.
   It initializes structure members of type Array, List and Map, other members are not affected (.s, .l, .i etc).
+  
+@Parameter "*Pointer"
+  The memory address to use.  
+  
+ @Parameter "Structure" 
   'Structure' is the name of the structure which should be used to perform the initialization. There is no internal check to ensures 
   the structure match the memory area. Warning: multiple calls to @Keyword InitializeStructure create a memory leak
   because the old members are not freed (@Keyword ClearStructure has to be called before calling @Keyword InitializeStructure 
   once more). This function is for advanced users and should be used with care. To allocate dynamic structure,
   use @@AllocateStructure().
-  
+   
+@NoReturnValue 
+
 @Example
 
 @Code
@@ -263,17 +309,25 @@
 
 @Syntax
 
-  @Keyword CompareStructure(*Pointer1, *Pointer2, Structure [, Flags])
+  Result = @Keyword CompareStructure(*Pointer1, *Pointer2, Structure [, Flags])
 
 @Description
 
   @Keyword CompareStructure compares the memory of two @ReferenceLink "structures" "structures" for equality.
   The comparison is recursively applied also to child elements such as @ReferenceLink "dim" "arrays", 
-  @ReferenceLink "newlist" "lists", and @ReferenceLink "newmap" "maps". Returns nonzero if the structures are the same
-  or zero if they differ.
-@LineBreak
-@LineBreak
-  The "Flags" parameter is optional and can have one of the following values:
+  @ReferenceLink "newlist" "lists", and @ReferenceLink "newmap" "maps".
+
+@Parameter "*Pointer1"
+  The memory address of the first structured variable to be tested.
+
+@Parameter "*Pointer2"
+  The memory address of the second structured variable to be tested.
+
+@Parameter "Structure"
+  The structure used.
+
+@OptionalParameter "Flags"
+  It can have one of the following values:
 @FixedFont
   @#PB_String_CaseSensitive : String comparison is case sensitive (a=a). (default)
   @#PB_String_NoCase        : String comparison is case insensitive(a=A).
@@ -281,10 +335,14 @@
                               The default is to compare only the pointer value itself.
 @EndFixedFont
 
+@Remarks
 @Bold "Caution:" 
 The @#PB_Memory_FollowPointers option is for advanced users and requires special care to avoid crashes.
 If this option is used then all pointer values must point to valid and initialized memory or have the value 0.
 It is also not allowed to have loops in the pointed elements (a chain of pointers that refers back to itself).
+
+@ReturnValue
+  Returns nonzero if the structures are the same or zero if they differ.
 
 @Example
 
@@ -335,7 +393,18 @@ It is also not allowed to have loops in the pointed elements (a chain of pointer
   it could crash, as random values will be used by the clear routine.
   There is no internal check to ensures that the structure match the two memory area. 
   This function is for advanced users and should be used with care.
+    
+@Parameter "*Source"
+  The memory address containing the structure to copy.
   
+@Parameter "*Destination"
+  The memory address of the copy.  
+  
+@Parameter "Structure"
+  The name of the structure that should be used to perform the copy.
+  
+@NoReturnValue
+
 @Example
 
 @Code
@@ -372,10 +441,18 @@ It is also not allowed to have loops in the pointed elements (a chain of pointer
 
   @Keyword ClearStructure clears a @ReferenceLink "structures" "structured" memory area.
   This is useful when the structure contains strings, array, list or map which have been allocated internally by PureBasic.
-  'Structure' is the name of the structure which should be used to perform the clearing. All the fields will be
-  set to zero, even native type like long, integer etc. There is no internal check to ensures the structure 
-  match the memory area. This function is for advanced users and should be used with care.
+  This function is for advanced users and should be used with care.
+    
+@Parameter "*Pointer"
+  The memory address containing the structure to be erased.
   
+@Parameter "Structure"
+  The name of the structure which should be used to perform the clearing. All the fields will be
+  set to zero, even native type like long, integer etc. There is no internal check to ensures the structure 
+  match the memory area.
+  
+@NoReturnValue
+
 @Example
 
 @Code
@@ -412,9 +489,16 @@ It is also not allowed to have loops in the pointed elements (a chain of pointer
   @Keyword ResetStructure clears a @ReferenceLink "structures" "structured" memory area
   and initialize it to be ready to use.
   This is useful when the structure contains strings, array, list or map which have been allocated internally by PureBasic.
-  'Structure' is the name of the structure which should be used to perform the clearing. 
   This function is for advanced users and should be used with care.
-  
+   
+@Parameter "*Pointer"
+   The memory address containing the structure to be reinitialized.
+   
+@Parameter "Structure"
+  The name of the structure which should be used to perform the clearing. 
+   
+@NoReturnValue
+ 
 @Example
 
 @Code
@@ -438,14 +522,19 @@ It is also not allowed to have loops in the pointed elements (a chain of pointer
 
 @Syntax
 
-  @Keyword Bool(<boolean expression>)
+  Result = @Keyword Bool(<boolean expression>)
 
 @Description
 
   @Keyword Bool can be used to evaluate a boolean expression outside of regular conditional operator like
   @Keyword If, @Keyword While, @Keyword Until etc.
-  If the boolean expression is true, it will return @#True, otherwise it will return @#False.
 
+@Parameter "boolean expression"
+  The Boolean expression to test.
+
+@ReturnValue
+  Returns @#True if the boolean expression is true, @#False otherwise.
+  
 @Example
 
 @Code

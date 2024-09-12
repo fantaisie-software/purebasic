@@ -17,11 +17,6 @@ Global PreferenceCurrentPage, IsApplyPreferences
 
 Global NewList PreferenceCompilers.Compiler()
 
-CompilerIf #CompileMacCarbon
-  Global GADGET_ErrorLogSize, GADGET_ToolsPanelSize
-CompilerEndIf
-
-
 
 Procedure LoadDialogPosition(*Position.DialogPosition, x=-1, y=-1, Width=0, Height=0, Prefix$="")
   *Position\x           = ReadPreferenceLong(Prefix$+"X", x)
@@ -229,8 +224,8 @@ Procedure LoadPreferences()
   EnableFolding    = ReadPreferenceLong("EnableFolding",  1)
   
   ; default
-  NbFoldStartWords = 9
-  NbFoldEndWords = 6
+  NbFoldStartWords = 10
+  NbFoldEndWords = 7
   FoldStart$(1) = ";{"
   FoldStart$(2) = "Macro"
   FoldStart$(3) = "Procedure"
@@ -240,12 +235,23 @@ Procedure LoadPreferences()
   FoldStart$(7) = "Module"
   FoldStart$(8) = "DeclareModule"
   FoldStart$(9) = "CompilerIf"
+  CompilerIf #SpiderBasic 
+    FoldStart$(10) = "EnableJS" 
+  CompilerElse 
+    FoldStart$(10) = "EnableASM" 
+  CompilerEndIf
+  
   FoldEnd$(1) = ";}"
   FoldEnd$(2) = "EndMacro"
   FoldEnd$(3) = "EndProcedure"
   FoldEnd$(4) = "EndModule"
   FoldEnd$(5) = "EndDeclareModule"
   FoldEnd$(6) = "CompilerEndIf"
+  CompilerIf #SpiderBasic 
+    FoldEnd$(7) = "DisableJS"
+  CompilerElse 
+    FoldEnd$(7) = "DisableASM"
+  CompilerEndIf
   
   NbFoldStartWords = ReadPreferenceLong("StartWords", NbFoldStartWords)
   NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)
@@ -754,7 +760,7 @@ Procedure LoadPreferences()
     LoadDialogPosition(@CreateAppWindowPosition, -1, -1, 0, 0, "CreateApp")
     OptionTemporaryExe       = #True ; Always create the output in the source directory as we launch a webserver and don't want to launch it in temp
     OptionWebBrowser$        = ReadPreferenceString("WebBrowser", "")
-    OptionWebServerPort      = ReadPreferenceLong("WebServerPort", 9080)
+    OptionWebServerPort      = ReadPreferenceLong("WebServerPort", 19080)
     OptionJDK$               = ReadPreferenceString("JDK", "")
     OptionAppleTeamID$       = ReadPreferenceString("AppleTeamID", "")
   CompilerElse
@@ -2793,19 +2799,6 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_UpdateCheckInterval, UpdateCheckInterval)
   SetGadgetState(#GADGET_Preferences_UpdateCheckVersions, UpdateCheckVersions)
   
-  CompilerIf #CompileMacCarbon
-    ; add the splitter replacement option for errorlog & toolspanel size (temporary solution)
-    ; The \Gadget() receives the gadget with the set name tag (they are PB_Any created)
-    ;
-    GADGET_ToolsPanelSize = PreferenceWindowDialog\Gadget("Mac_ToolsPanelSize")
-    GADGET_ErrorLogSize   = PreferenceWindowDialog\Gadget("Mac_ErrorLogSize")
-    
-    SetGadgetAttribute(GADGET_ToolsPanelSize, #PB_ScrollBar_Maximum, WindowWidth(#WINDOW_Main)-30)
-    SetGadgetAttribute(GADGET_ErrorLogSize, #PB_ScrollBar_Maximum, WindowHeight(#WINDOW_Main)-200)
-    SetGadgetState(GADGET_ToolsPanelSize, ToolsPanelWidth)
-    SetGadgetState(GADGET_ErrorLogSize, ErrorLogHeight)
-  CompilerEndIf
-  
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RunOnce, 0)
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
@@ -3288,12 +3281,6 @@ Procedure OpenPreferencesWindow()
   If DebugOutUseFont = 0
     DisableGadget(#GADGET_Preferences_DebugOutFont, 1)
   EndIf
-  
-  ; not supported here
-  CompilerIf #CompileMacCarbon
-    HideGadget(#GADGET_Preferences_DebugOutUseFont, 1)
-    HideGadget(#GADGET_Preferences_DebugOutFont, 1)
-  CompilerEndIf
   
   SetGadgetState(#GADGET_Preferences_RegisterIsHex, RegisterIsHex)
   SetGadgetState(#GADGET_Preferences_StackIsHex, StackIsHex)
@@ -5180,24 +5167,6 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetText(#GADGET_Preferences_IndentAfter, "")
         EndIf
         
-        CompilerIf #CompileMacCarbon
-          
-        Case GADGET_ToolsPanelSize
-          ToolsPanelWidth = GetGadgetState(GADGET_ToolsPanelSize)
-          If ToolsPanelWidth > EditorWindowWidth-20
-            ToolsPanelWidth = EditorWindowWidth-20
-          EndIf
-          ResizeMainWindow()
-          
-        Case GADGET_ErrorLogSize
-          ErrorLogHeight = GetGadgetState(GADGET_ErrorLogSize)
-          If ErrorLogHeight > EditorWindowHeight-60
-            ErrorLogHeight = EditorWindowHeight-60
-          EndIf
-          ResizeMainWindow()
-          
-        CompilerEndIf
-        
       Case #GADGET_Preferences_IssueList
         index = GetGadgetState(#GADGET_Preferences_IssueList)
         If index < 0
@@ -5447,7 +5416,7 @@ DataSection
     Data$ "SpiderBasic"
     Data.l $000000 ;  ToolsPanelFrontColor
     Data.l $FFFFFF ;  ToolsPanelBackColor
-    Data.l $800000 ; #COLOR_ASMKeyword
+    Data.l $800080 ; #COLOR_ASMKeyword
     Data.l $FFFFFF ; #COLOR_GlobalBackground
     Data.l $C37B23 ; #COLOR_BasicKeyword
     Data.l $009001 ; #COLOR_Comment

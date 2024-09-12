@@ -1,7 +1,7 @@
 ;
 ;     OnError library documentation
 ;
-;       (c) 2023 - Fantaisie Software
+;       (c) 2024 - Fantaisie Software
 ;
 
 @Library OnError
@@ -37,6 +37,11 @@
   @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren über die 
   @ReferenceLink "cli_compiler" "Kommandozeile" den /LINENUMBERING (Windows) bzw. --linenumbering 
   (Linux, Mac OSX) Kommandozeilen-Switch an.
+@LineBreak
+@LineBreak
+  Unter Linux sollte bei der Behandlung schwerwiegender Fehler (im "Error-Handler") die Benutzeroberfläche (UI)
+  nicht verwendet und das Programm so schnell wie möglich beendet werden, da es sich in einem instabilen Zustand
+  befindet.
 
 @CommandList
 
