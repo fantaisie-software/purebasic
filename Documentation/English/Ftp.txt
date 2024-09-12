@@ -1,5 +1,5 @@
 ;
-;     Ftp library documentation
+;     FTP library documentation
 ;
 ;      (c) Fantaisie Software
 ;
@@ -7,8 +7,8 @@
 @Library Ftp
 
 @Overview
-Ftp (File Transfer Protocol) is a way to share files based amongst users on a client-server model. 
-This library implement the client side of Ftp, and allows to connect to a remote server and
+FTP (File Transfer Protocol) is a way to share files based amongst users on a client-server model. 
+This library implement the client side of FTP and SFTP, and allows to connect to a remote server and
 manipulate files (like download, upload, list available files, navigate through the directories
 and more).
 
@@ -504,14 +504,15 @@ and more).
 @Function Result = OpenFTP(#Ftp, ServerName$, User$, Password$ [, Passive [, Port]])
 
 @Description
-  Tries to open a connection on the specified FTP server. 
+  Tries to open a connection on the specified FTP or SFTP server. 
 
 @Parameter "#Ftp"
   The number to identify the new connection. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
   auto-generate this number.
 
 @Parameter "ServerName$"
-  The URL or address of the server to connect to.
+  The URL or address of the server to connect to. To connect to a SFTP server the prefix "sftp://" has to be
+  added before the server address.
 
 @Parameter "User$"
   The user name to authenticate on the server.
@@ -524,19 +525,28 @@ and more).
   If this parameter is not specified, passive mode will be used.
 
 @OptionalParameter "Port"
-  The port to use for the connection. The default is port 21.
+  The port to use for the connection. The default is port 21 for FTP and 22 for SFTP.
 
 @ReturnValue
   Returns nonzero if the connection was established correctly and zero if there was an error.
   If @#PB_Any is used as the #Ftp parameter then the generated number for the connection
   is returned on success.
 
-@Example
+@Example For FTP
 @Code
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     Debug "Successfully connected"
   Else
     Debug "Can't connect to ftp.free.fr"
+  EndIf
+@EndCode
+
+@Example For SFTP
+@Code
+  If OpenFTP(0, "sftp://test.rebex.net", "demo", "password") ; Use a public SFTP test server
+    Debug "Successfully connected"
+  Else
+    Debug "Can't connect to test.rebex.net"
   EndIf
 @EndCode
 

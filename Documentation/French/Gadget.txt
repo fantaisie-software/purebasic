@@ -2460,6 +2460,12 @@ EndIf
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
+  @#PB_Frame_Container : Active la prise en charge des conteneurs 
+                        afin que des gadgets puissent y être ajoutés 
+                        (fortement recommandé pour éviter divers problèmes).
+                        @@CloseGadgetList doit être appelé pour revenir à 
+                        la liste de gadgets précédente comme tout autre gadget conteneur.
+ Avec
   @#PB_Frame_Single: Cadre enfoncé (Windows seulement)
   @#PB_Frame_Double: Cadre doublement enfoncé (Windows seulement)
   @#PB_Frame_Flat  : Cadre simple (Windows seulement)
@@ -2479,6 +2485,19 @@ EndIf
   Comme ce gadget est seulement décoratif, 
   @@GadgetToolTip ne peut pas être utilisé 
   (ce gadget ne reçoit aucun évènement).
+
+@Example Avec Container
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    FrameGadget(0, 10,  10, 300, 200, "Options", #PB_Frame_Container)
+      CheckBoxGadget(1, 10, 40, 200, 30, "Activer l'optimiseur")
+      CheckBoxGadget(2, 10, 75, 200, 30, "Valider la sortie")
+    CloseGadgetList()
+
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @Example
 @Code
@@ -2805,7 +2824,8 @@ EndIf
   @#PB_GadgetType_Text          : @@TextGadget 
   @#PB_GadgetType_TrackBar      : @@TrackBarGadget 
   @#PB_GadgetType_Tree          : @@TreeGadget 
-  @#PB_GadgetType_Web           : @@WebGadget 
+  @#PB_GadgetType_Web           : @@WebGadget
+  @#PB_GadgetType_WebView       : @@WebViewGadget  
   @#PB_GadgetType_Unknown       : Type inconnu, probablement pas un gadget PureBasic.
 @EndFixedFont  
  
@@ -4481,6 +4501,7 @@ utiliser l'opérateur '&':
   - @@GetGadgetState    : Renvoie le numéro de l'onglet actuellement affiché.
 
   - @@GetGadgetAttribute avec un des attributs suivants (il doit y avoir au moins un élément dans le PanelGadget()):
+    (non pris en charge sur Linux GTK)
     @#PB_Panel_ItemWidth : Renvoie la largeur de la zone utilisable d'un onglet.
     @#PB_Panel_ItemHeight: Renvoie la hauteur de la zone utilisable d'un onglet.
     @#PB_Panel_TabHeight : Renvoie la hauteur d'un bouton de changement d'onglet.
@@ -6748,12 +6769,11 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
     @#PB_Web_StatusMessage : Renvoie le message actuel de la barre d'état.
     @#PB_Web_SelectedText  : Renvoie le texte sélectionné à l'intérieur du gadget.
 
-  - @@SetGadgetAttribute: Définit les attributs suivants: (Windows seulement)
-    @#PB_Web_ScrollX            : Fixe la position de la barre de défilement horizontale .
-    @#PB_Web_ScrollY            : Fixe la position de la barre de défilement verticale.
-    @#PB_Web_BlockPopups        : Bloque les fenêtres popup (Valeur=1 pour bloquer et 0 pour débloquer). @#PB_EventType_PopupWindow est renvoyé si cet attribut est validé. 
-    @#PB_Web_BlockPopupMenu     : Bloque le menu popup standard. @#PB_EventType_PopupMenu est renvoyé si cet attribut est validé.
-    @#PB_Web_NavigationCallback : Définit une callback pour contrôler (et désactiver) la navigation.
+  - @@SetGadgetAttribute: Définit les attributs suivants:
+    @#PB_Web_ScrollX            : Fixe la position de la barre de défilement horizontale. (Windows seulement)
+    @#PB_Web_ScrollY            : Fixe la position de la barre de défilement verticale. (Windows seulement)
+    @#PB_Web_BlockPopups        : Bloque les fenêtres popup (Valeur=1 pour bloquer et 0 pour débloquer). @#PB_EventType_PopupWindow est renvoyé si cet attribut est validé. (Windows seulement) 
+    @#PB_Web_BlockPopupMenu     : Bloque le menu popup standard. @#PB_EventType_PopupMenu est renvoyé si cet attribut est validé. (Windows seulement)
 @EndFixedFont
 
   La callback de la navigation doit avoir le format suivant :  (Windows seulement)

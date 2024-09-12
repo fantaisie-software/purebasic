@@ -699,7 +699,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = InitFastCGI(LokalerPort [, BindedIP$])
+@Function Ergebnis = InitFastCGI(LokalerPort [, BoundIP$])
 
 @Description
   Initialisiert die FastCGI-Unterstützung. Einmal aufgerufen, schalten alle CGI-Befehle
@@ -719,7 +719,7 @@
   Der lokale Port, an den die FastCGI-Anwendung gebunden werden soll. Der Web-Server
   muss so konfiguriert sein, dass dieser Port auch verwendet wird.
 
-@OptionalParameter "BindedIP$"
+@OptionalParameter "BoundIP$"
   Die IP-Adresse zum Binden der FastCGI-Anwendung. Derzeit werden nur "localhost" oder
   "127.0.0.1" akzeptiert.
 

@@ -15,7 +15,7 @@
   Sie in die @LibraryLink "Map" "Map" Bibliothek.
   @LineBreak
   @LineBreak
-  Wenn ein neuer Schlüssel für eine Zuweisung verwendet wird, wird automatisch ein neues Element zur Map hinzugefügt.
+  Wenn ein neuer Schlüssel verwendet wird, wird automatisch ein neues Element zur Map hinzugefügt, auch ohne eine Zuweisung.
   Wenn sich bereits ein anderes Element mit dem gleichen Schlüssel in der Map befindet, wird dieses durch das neue ersetzt.
   Sobald auf ein Element zugegriffen wurde oder eines erstellt wurde, wird dieses das aktuelle Element der Map,
   und weiterer Zugriff auf dieses Element kann ohne Angabe des Schlüssels erfolgen. Dies ist nützlich beim Verwenden
@@ -102,4 +102,19 @@
     Debug "Car name: "+MapKey(Cars())
     Debug "Weight: "+Str(Cars()\Weight)
   Next 
+@EndCode
+
+  @Example Erstellen eines Elements ohne Zuweisung
+  
+@Code
+  NewMap IconMap()
+  
+  IconMap("1") = 1
+  IconMap("2") = 2
+  
+  Debug FindMapElement(IconMap(), "3") ; Zeigt 0 an, da das Element nicht existiert
+
+  If IconMap("3") : EndIf ; PureBasic erstellt das Element ohne eine Zuweisung, da ein neuer Schlüssel festgestellt wurde
+  
+  Debug FindMapElement(IconMap(), "3") ; Zeigt die Speicheradresse des Elements an
 @EndCode

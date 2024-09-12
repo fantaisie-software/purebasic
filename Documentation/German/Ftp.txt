@@ -1,5 +1,5 @@
 ;
-;     Ftp library documentation
+;     FTP library documentation
 ;
 ;      (c) Fantaisie Software
 ;
@@ -7,9 +7,9 @@
 @Library Ftp
 
 @Overview
-  Ftp (ausgesprochen "File Transfer Protocol", in deutsch "Datei-Übertragungs-Protokoll") ist 
+  FTP (ausgesprochen "File Transfer Protocol", in deutsch "Datei-Übertragungs-Protokoll") ist 
   eine Möglichkeit, um in einem Client-Server-Modell Dateien zwischen Anwendern auszutauschen.
-  Diese Bibliothek implementiert die Client-Seite von Ftp, und ermöglicht das Verbinden zu 
+  Diese Bibliothek implementiert die Client-Seite von FTP und SFTP, und ermöglicht das Verbinden zu 
   einem entfernten Server und das Manipulieren von Dateien (wie Download, Upload, verfügbare
   Dateien auflisten, Navigieren durch Verzeichnisse und mehr).
 
@@ -526,7 +526,7 @@
 @Function Ergebnis = OpenFTP(#Ftp, ServerName$, User$, Passwort$ [, Passiv [, Port]])
 
 @Description
-  Versucht, eine Verbindung zum angegebenen FTP-Server zu öffnen.
+  Versucht, eine Verbindung zum angegebenen FTP- bzw. SFTP-Server zu öffnen.
 
 @Parameter "#Ftp"
   Die Nummer, mit der die neue Verbindung identifiziert wird.
@@ -534,7 +534,8 @@
   automatisch zu generieren.
 
 @Parameter "ServerName$"
-  Die URL oder Adresse des Servers, zu dem verbunden werden soll.
+  Die URL oder Adresse des Servers, zu dem verbunden werden soll. Um eine Verbindung zu einem
+  SFTP-Server herzustellen, muss vor der Serveradresse das Präfix "sftp://" hinzugefügt werden.
 
 @Parameter "User$"
   Der User-Name (Anwender-Name) zum Authentifizieren auf dem Server.
@@ -548,19 +549,28 @@
   wird, dann wird der passive Modus verwendet.
 
 @OptionalParameter "Port"
-  Der für die Verbindung zu verwendende Port. Der Standard ist Port 21.
+  Der für die Verbindung zu verwendende Port. Der Standard ist Port 21 für FTP und 22 für SFTP.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Verbindung korrekt aufgebaut wurden, oder
   Null bei einem Fehler. Wenn @#PB_Any als #Ftp Parameter verwendet wird,
   dann wird bei Erfolg die für die Verbindung generierte Nummer zurückgegeben.
 
-@Example
+@Example Für FTP
 @Code
   If OpenFTP(0, "ftp.free.fr", "anonymous", "")
     Debug "Erfolgreich verbunden"
   Else
     Debug "Konnte keine Verbindung zu ftp.free.fr aufbauen."
+  EndIf
+@EndCode
+
+@Example Für SFTP
+@Code
+  If OpenFTP(0, "sftp://test.rebex.net", "demo", "password") ; Verwendet einen öffentlichen SFTP-Testserver
+    Debug "Erfolgreich verbunden"
+  Else
+    Debug "Konnte keine Verbindung zu test.rebex.net aufbauen."
   EndIf
 @EndCode
 

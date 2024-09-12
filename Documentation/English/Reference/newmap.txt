@@ -100,14 +100,14 @@
   @Example Item created without assignment
   
 @Code
-NewMap IconMap()
+  NewMap IconMap()
+  
+  IconMap("1") = 1
+  IconMap("2") = 2
+  
+  Debug FindMapElement(IconMap(), "3") ; Displays 0 because the item does not exist
 
-IconMap("1")=1
-IconMap("2")=2
-
-Debug FindMapElement(IconMap(),"3"); Displays 0 because the item does not exist
-
-If IconMap("3"):EndIf; PureBasic creates the item without assignment because a new key is detected
-
-Debug FindMapElement(IconMap(),"3"); Displays the memory address of the element
+  If IconMap("3") : EndIf ; PureBasic creates the item without assignment because a new key is detected
+  
+  Debug FindMapElement(IconMap(), "3") ; Displays the memory address of the element
 @EndCode

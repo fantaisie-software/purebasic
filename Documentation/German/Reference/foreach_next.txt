@@ -21,6 +21,9 @@
   Element fortgesetzt.
   @LineBreak
   @LineBreak
+  Bei Verwendung im Zusammenhang mit einer Map, geben Sie bitte keinen Schlüssel an (siehe Beispiel unten).
+  @LineBreak
+  @LineBreak
   Mit dem @ReferenceLink "Break_Continue" Break Befehl kann die @Keyword "ForEach : Next" Schleife (vorzeitig) verlassen 
   werden, mit dem @ReferenceLink "Break_Continue" Continue Befehl kann das Ende des aktuellen Schleifendurchlaufs übersprungen werden.
 
@@ -54,5 +57,6 @@
 
   ForEach Country()
     Debug Country()
+   ;Debug Country("FR") ; So nicht: bitte keinen Schlüssel angeben, da dies manchmal zu einer Endlosschleife führen kann
   Next
 @EndCode  

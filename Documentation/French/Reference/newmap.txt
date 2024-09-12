@@ -103,14 +103,14 @@
   @Example Élémént de Map créé sans affectation
   
 @Code
-NewMap IconeMap()
+  NewMap IconeMap()
 
-IconeMap("1")=1
-IconeMap("2")=2
+  IconeMap("1")=1
+  IconeMap("2")=2
 
-Debug FindMapElement(IconeMap(),"3"); Affiche 0 car l'élément n'existe pas
+  Debug FindMapElement(IconeMap(),"3"); Affiche 0 car l'élément n'existe pas
 
-If IconeMap("3"):EndIf; PureBasic le crée sans affectation parce qu'une nouvelle clé a été détectée
+  If IconeMap("3"):EndIf; PureBasic le crée sans affectation parce qu'une nouvelle clé a été détectée
 
-Debug FindMapElement(IconeMap(),"3"); Affiche 2472169446624 (ou un autre nombre) 
+  Debug FindMapElement(IconeMap(),"3"); Affiche le pointeur vers ce nouvel élément. 
 @EndCode

@@ -241,19 +241,7 @@
   Crée un nouveau shader en utilisant les programmes de vertex et de fragments spécifiés.
 
 @Parameter "ShaderID"
-  Un nombre entre 0 et 65536 identifie le nouveau shader.@LineBreak 
-  Pour sélectionner l'un des shaders prédéfinis, utilisez l'une des valeurs suivantes comme 'ShaderID' 
-  (les valeurs ProgrammeVertex$ et ProgrammeFragment$ seront ignorées) :
-@FixedFont
-  @#PB_Material_ColorShader
-  @#PB_Material_PerpixelShader
-  @#PB_Material_BumpShader
-  @#PB_Material_SkyShader
-  @#PB_Material_WaterShader
-  @#PB_Material_WaterShaderRTT
-  @#PB_Material_OceanShader
-  @#PB_Material_PointSpriteSphereShader
-@EndFixedFont
+  Un nombre entre 0 et 65536 identifie le nouveau shader.
   
 @Parameter "ProgrammeVertex$"
   Le programme GLSL à utiliser pour les sommets (vertices).
@@ -971,17 +959,13 @@
   Le type de couleur à obtenir. Peut être une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Material_AmbientColor:  La couleur utilisée par défaut, sans autre éclairage.
-  @#PB_Material_DiffuseColor:  La couleur que le matériau reflètera quand il sera éclairé de façon dynamique. 
-                               Par exemple, utiliser une couleur blanche se traduira par un éclairage normal 
-                               (toutes les couleurs sont réfléchies). Si vous utilisez un rouge, alors uniquement 
-                               les couleurs rouges du matériau seront réfléchies, ce qui donnera un matériau 
-                               entièrement rouge (ou noir s'il ne contient aucune couleur rouge).
-  @#PB_Material_SpecularColor: La couleur du matériau qu'il réfléchira quand il sera dynamiquement éclairé par 
-                               une lumière qui a une valeur de couleur spéculaire. Par exemple, utiliser une 
-                               couleur blanche se traduira par un éclairage normal (toutes les couleurs sont 
-                               réfléchies). Si vous utilisez un rouge, alors uniquement les couleurs rouges 
-                               du matériau seront réfléchies, résultant en un matériau entièrement rouge 
-                               (ou noir si le matériau ne contient aucune couleur rouge).                
+  @#PB_Material_DiffuseColor:  La couleur qui est réfléchie de manière diffuse dans toutes les directions. 
+                               Dans le langage courant, c'est la couleur de la matière.
+  @#PB_Material_SpecularColor: La couleur qui est réfléchie de manière spéculaire c'est à dire 
+                               dans une seule direction (réflexion par rapport à la normale de la surface)). 
+                               En général, cette couleur doit être gris-noir si le matériau est mat, 
+                               blanche si le matériau est très brillant.
+                              (voir  @@MaterialShininess).                
   @#PB_Material_SelfIlluminationColor: La couleur du matériau qu'il émettra, même si aucune lumière ne l'atteint.
 @EndFixedFont
 

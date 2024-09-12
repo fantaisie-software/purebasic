@@ -1,7 +1,7 @@
 ;
 ;     Network library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2024 - Fantaisie Software
 ;
 
 @Library Network
@@ -114,7 +114,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateNetworkServer(#Server, Port [, Modus [, BindedIP$]])
+@Function Ergebnis = CreateNetworkServer(#Server, Port [, Modus [, BoundIP$]])
 
 @Description
   Erstellt einen neuen Netzwerk-Server auf dem lokalen Computer unter Verwendung
@@ -142,7 +142,7 @@
   @#PB_Network_IPv6: erstellt einen Server mittels IPv6
 @EndFixedFont
 
-@OptionalParameter "BindedIP$"
+@OptionalParameter "BoundIP$"
   Die lokale IP-Adresse, um den Server zu "binden". Standardmäßig wird der Server auf allen verfügbaren lokalen
   Schnittstellen (englisch "Interfaces") geschaffen, und akzeptiert Verbindungen von diesen. Es kann nützlich
   sein, den Server auf nur eine Schnittstelle (zum Beispiel "127.0.0.1") zu beschränken, um Verbindungsversuche

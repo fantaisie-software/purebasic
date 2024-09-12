@@ -7,16 +7,11 @@
 @Library Ftp
 
 @Overview
-Le FTP (File Transfer Protocol) est un 
-moyen de partage de fichiers basé sur 
-le modèle client-serveur en réseau. 
-Cette bibliothèque implémente la partie 
-client du FTP, qui permet de se connecter 
-à un serveur distant et de manipuler les 
-fichiers sur ce serveur comme le 
-téléchargement, l'envoi de fichiers, 
-renommer, naviguer dans l'arborescence des 
-dossiers, etc.).
+Le FTP (File Transfer Protocol) est un moyen de partage de fichiers basé sur 
+le modèle client-serveur en réseau. Cette bibliothèque implémente la partie 
+client du FTP et du SFTP, qui permet de se connecter à un serveur distant et de manipuler les 
+fichiers sur ce serveur comme le téléchargement, l'envoi de fichiers, 
+renommer, naviguer dans l'arborescence des dossiers, etc.).
 
 @CommandList
 
@@ -633,7 +628,7 @@ dossiers, etc.).
 @Function Resultat = OpenFTP(#FTP, Serveur$, Utilisateur$, MotDePasse$ [, Passif [, Port]])
 
 @Description
-  Ouvre une connexion sur un serveur FTP. 
+  Ouvre une connexion sur un serveur FTP ou SFTP. 
   
 @Parameter "#FTP"
   La connexion FTP à utiliser.
@@ -643,19 +638,17 @@ dossiers, etc.).
   pour générer automatiquement ce numéro.
 
 @Parameter "Serveur$"
-  L'URL ou l'adresse du server FTP.
+  L'URL ou l'adresse du server FTP.@LineBreak
+  Pour se connecter à un serveur SFTP, le préfixe « sftp:// » doit être ajouté avant l'adresse du serveur.
 
 @Parameter "Utilisateur$"
-  Le nom d'utilisateur pour l'authentification 
-  sur le serveur.
+  Le nom d'utilisateur pour l'authentification sur le serveur.
 
 @Parameter "MotDePasse$"
-  Le mot de passe pour l'authentification 
-  sur le serveur.
+  Le mot de passe pour l'authentification sur le serveur.
 
 @OptionalParameter "Passif"
-  Active ou désactive le mode passif pour 
-  la connexion.
+  Active ou désactive le mode passif pour la connexion.
 @FixedFont
   @#True : Mode passif activé (par défaut)
   @#False: Mode passif désactivé
@@ -665,7 +658,7 @@ dossiers, etc.).
   Le port à utiliser pour la connexion. 
 @LineBreak
 @LineBreak 
-  La valeur par défaut est le port 21.
+  La valeur par défaut est le port 21 pour FTP et 22 pour SFTP.
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
@@ -683,12 +676,21 @@ dossiers, etc.).
   'Utilisateur$' sera "anonymous" et le 
   'MotDePasse$' sera vide.
  
-@Example
+@Example FTP
 @Code
-  If OpenFTP(0, "ftp.free.fr", "anonymous", "")
+  If OpenFTP(0, "test.rebex.net", "demo", "password")
     Debug "Connecté avec succès"
   Else
-    Debug "Impossible de se connecter à ftp.free.fr"
+    Debug "Impossible de se connecter à test.rebex.net"
+  EndIf
+@EndCode
+
+@Example SFTP
+@Code
+  If OpenFTP(0, "sftp://test.rebex.net", "demo", "password") ; Serveur de test SFTP public
+    Debug "Connecté avec succès"
+  Else
+    Debug "Impossible de se connecter à test.rebex.net"
   EndIf
 @EndCode
 

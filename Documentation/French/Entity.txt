@@ -549,9 +549,6 @@ Si ce masque correspond au masque spécifié par
   uniform float foo;
   uniform vec3 bar;
 @EndFixedFont
-   Pour plus d’informations, consultez l’exemple suivant :
-
-@ExampleFile All RustyBall.pb
 
 @SeeAlso
   @@EntityVelocity, @@EntityLinearFactor, 
@@ -745,11 +742,10 @@ Si ce masque correspond au masque spécifié par
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateEntityBody(#Entity, Type [, Masse [, Restitution, Friction [, TailleX, TailleY, TailleZ [, AxeX, AxeY, AxeZ]])
+@Function CreateEntityBody(#Entity, Type [, Masse [, Restitution, Friction [, Axe [, TailleX, TailleY, TailleZ ]]]])
 
 @Description
-  Crée ou change le type de corps (body) 
-  associé à une entité. 
+  Crée ou change le type de corps (body) associé à une entité. 
   
 @Parameter "#Entity"
   L'entité à utiliser.
@@ -825,8 +821,19 @@ Si ce masque correspond au masque spécifié par
 @LineBreak 
   Cette valeur peut également être obtenue 
   ou définie via @@GetEntityAttribute et 
-  @@SetEntityAttribute
+  @@SetEntityAttribute 
   
+@OptionalParameter "Axe"
+  Les axes du corps :
+@FixedFont
+  @#PB_Vector_X
+  @#PB_Vector_Y
+  @#PB_Vector_Z
+  @#PB_Vector_NegativeX
+  @#PB_Vector_NegativeY
+  @#PB_Vector_NegativeZ
+@EndFixedFont 
+
 @OptionalParameter "TailleX, TailleY, TailleZ"
   Les dimensions de la boîte englobante autour du corps. Ne concerne que le type de corps suivant:
 @FixedFont
@@ -837,13 +844,6 @@ Si ce masque correspond au masque spécifié par
   @#PB_Entity_CapsuleBody : TailleX, TailleY, TailleZ sont disponibles.
 @EndFixedFont  
 
-@OptionalParameter "AxeX, AxeY, AxeZ"
-  Les axes du corps. Ne concerne que le type de corps suivant:
-@FixedFont
-  @#PB_Entity_PlaneBody
-  @#PB_Entity_CylinderBody
-  @#PB_Entity_CapsuleBody 
-@EndFixedFont 
 
 @NoReturnValue
 
@@ -1290,8 +1290,8 @@ Si ce masque correspond au masque spécifié par
   de la caméra. @LineBreak
   Peut être l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Parent: Renvoie la direction de la caméra par rapport à son parent.
 @EndFixedFont
   
 @ReturnValue
@@ -1318,8 +1318,8 @@ Si ce masque correspond au masque spécifié par
   de la caméra. @LineBreak
   Peut être l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Parent: Renvoie la direction de la caméra par rapport à son parent.
 @EndFixedFont
    
 @ReturnValue
@@ -1346,8 +1346,8 @@ Si ce masque correspond au masque spécifié par
   de la caméra. @LineBreak
   Peut être l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la caméra dans le monde (par défaut).
+  @#PB_Parent: Renvoie la direction de la caméra par rapport à son parent.
 @EndFixedFont
    
 @ReturnValue

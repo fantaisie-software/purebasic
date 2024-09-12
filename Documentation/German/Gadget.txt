@@ -2121,9 +2121,12 @@
 @OptionalParameter "Flags"
   Flags, um das Aussehen des Rahmens zu verändern:
 @FixedFont
-  @#PB_Frame_Single  : Einfach vertiefter Rahmen (nur auf Windows).
-  @#PB_Frame_Double  : Doppelt vertiefter Rahmen (nur auf Windows).
-  @#PB_Frame_Flat    : Flacher Rahmen (nur auf Windows).
+  @#PB_Frame_Container: Aktiviert die Containerunterstützung, damit Gadgets hinzugefügt werden können (dringend
+                       empfohlen, um verschiedene Probleme zu vermeiden). @@CloseGadgetList muss aufgerufen werden,
+                       um wie bei jedem anderen Container-Gadget zur vorherigen Gadget-Liste zurückzukehren.
+  @#PB_Frame_Single   : Einfach vertiefter Rahmen (nur auf Windows).
+  @#PB_Frame_Double   : Doppelt vertiefter Rahmen (nur auf Windows).
+  @#PB_Frame_Flat     : Flacher Rahmen (nur auf Windows).
 @EndFixedFont
 
 @ReturnValue
@@ -2134,6 +2137,19 @@
 @Remarks
   Da dieses Gadget nur zu dekorativen Zwecken dient, kann @@GadgetToolTip nicht
   verwendet werden. Dieses Gadget empfängt auch keine Ereignisse (Events).
+
+@Example Mit Container
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    FrameGadget(0, 10,  10, 300, 200, "Optionen", #PB_Frame_Container)
+      CheckBoxGadget(1, 10, 40, 200, 30, "Enable Optimizer")
+      CheckBoxGadget(2, 10, 75, 200, 30, "Ausgabe validieren")
+    CloseGadgetList()
+
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @Example
 @Code
@@ -2425,6 +2441,7 @@
   @#PB_GadgetType_TrackBar      : @@TrackBarGadget
   @#PB_GadgetType_Tree          : @@TreeGadget
   @#PB_GadgetType_Web           : @@WebGadget
+  @#PB_GadgetType_WebView       : @@WebViewGadget 
   @#PB_GadgetType_Unknown       : Der Typ ist unbekannt. Sehr wahrscheinlich ist es kein PB-Gadget.
 @EndFixedFont
 
@@ -3438,10 +3455,10 @@
 @FixedFont
   @#PB_ListIcon_ColumnWidth: Gibt die Breite der angegebenen 'Spalte' zurück. Der Parameter 'Eintrag' wird ignoriert.
 @EndFixedFont
-  @@SetGadgetItemAttribute: With the following attribute:
+  @@SetGadgetItemAttribute: Mit den folgenden Attributen:
 @FixedFont
   @#PB_ListIcon_ColumnWidth    : Ändert die Breite der angegebenen 'Spalte'. Der Parameter 'Eintrag' wird ignoriert.
-  @#PB_ListIcon_ColumnAlignment: Ändert die Textausrichtung der angegebenen 'Spalte'. Der Parameter 'Eintrag' kann einer der folgenden Werte sein:
+  @#PB_ListIcon_ColumnAlignment: Ändert die Textausrichtung der angegebenen 'Spalte'. Der Parameter 'Wert' kann einer der folgenden Werte sein:
      - @#PB_ListIcon_Left  : Text wird linksbündig ausgerichtet (Standard).
      - @#PB_ListIcon_Right : Text wird rechtsbündig ausgerichtet.
      - @#PB_ListIcon_Center: Text wird zentriert.
@@ -3911,6 +3928,8 @@
   - @@GetGadgetState ermittelt den Index des aktuellen Panels.
 @LineBreak
   - @@GetGadgetAttribute: mit einem der folgenden Attribute: (es muss mindestens ein Eintrag vorhanden sein, damit dies funktioniert)
+    @LineBreak
+    (nicht unterstützt auf Linux GTK)
 @FixedFont
   @#PB_Panel_ItemWidth : Gibt die Breite des inneren Bereichs zurück, worin die Gadgets angezeigt werden.
   @#PB_Panel_ItemHeight: Gibt die Höhe des inneren Bereichs zurück, worin die Gadgets angezeigt werden.
@@ -6008,13 +6027,15 @@
   @#PB_Web_SelectedText : Ermittelt den aktuell selektierten Text innerhalb des Gadgets.
 @EndFixedFont
 
-  - @@SetGadgetAttribute: Setzt die folgenden Attribute: (nur auf Windows)
+  - @@SetGadgetAttribute: Setzt die folgenden Attribute:
 @FixedFont
-  @#PB_Web_ScrollX       : Legt die horizontale Scroll-Position fest.
-  @#PB_Web_ScrollY       : Legt die vertikale Scroll-Position fest.
-  @#PB_Web_BlockPopups   : Blockt Popup-Fenster ab. @#PB_EventType_PopupWindow wird als Ereignis-Nachricht geschickt, wenn diese Einstellung aktiviert ist.
-  @#PB_Web_BlockPopupMenu: Blockt das standardmäßige Popup-Menü ab. @#PB_EventType_PopupMenu wird als Ereignis-Nachricht geschickt, wenn diese Einstellung aktiviert ist.
   @#PB_Web_NavigationCallback: Definiert einen Callback für das Überwachen (und Deaktivieren) der Navigation.
+  @#PB_Web_ScrollX           : Legt die horizontale Scroll-Position fest (nur auf Windows).
+  @#PB_Web_ScrollY           : Legt die vertikale Scroll-Position fest (nur auf Windows).
+  @#PB_Web_BlockPopups       : Blockt Popup-Fenster ab. @#PB_EventType_PopupWindow wird als Ereignis-Nachricht
+                              geschickt, wenn diese Einstellung aktiviert ist (nur auf Windows).
+  @#PB_Web_BlockPopupMenu    : Blockt das standardmäßige Popup-Menü ab. @#PB_EventType_PopupMenu wird als
+                              Ereignis-Nachricht geschickt, wenn diese Einstellung aktiviert ist (nur auf Windows).
 @EndFixedFont
 
   Der Navigations-Callback muss das folgende Format haben: (nur auf Windows)

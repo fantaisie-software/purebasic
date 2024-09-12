@@ -30,7 +30,9 @@
   To enable this feature, enable the "Enable OnError lines support" checkbox in the @ReferenceLink "ide_compiler" "compiler options"
   or specify the /LINENUMBERING (Windows) or --linenumbering (Linux, Mac OSX) command-line switch when compiling
   from the @ReferenceLink "cli_compiler" "command-line".
-
+@LineBreak
+@LineBreak
+  On Linux, in a fatal error handler, UI shouldn't be used, and the program should exits as fast as possible as it is in an unstable state.
 @CommandList
 
 @ExampleFile All OnError.pb
