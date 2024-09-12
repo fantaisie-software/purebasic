@@ -306,6 +306,8 @@ CompilerIf #DEBUG
                       Case #ITEM_FoldEnd         : Kind$ = "FoldEnd"
                       Case #ITEM_MacroEnd        : Kind$ = "MacroEnd"
                       Case #ITEM_ProcedureEnd    : Kind$ = "ProcedureEnd"
+                      Case #ITEM_InlineASM       : Kind$ = "InlineASM"
+                      Case #ITEM_InlineASMEnd    : Kind$ = "InlineASMEnd"
                       Case #ITEM_Declare         : Kind$ = "Declare"
                       Case #ITEM_Define          : Kind$ = "Define"
                       Case #ITEM_Prototype       : Kind$ = "Prototype"

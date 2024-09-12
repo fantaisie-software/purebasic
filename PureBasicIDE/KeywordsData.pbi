@@ -57,25 +57,23 @@ DataSection
   Data$ "Default"        , "", ""
   Data$ "Define"         , "", " "
   Data$ "Dim"            , "", " "
-  CompilerIf Not #SpiderBasic
+  CompilerIf #SpiderBasic
+    Data$ "DisableJS"     , "", ""
+  CompilerElse
     Data$ "DisableASM"     , "", ""
   CompilerEndIf
   Data$ "DisableDebugger", "", ""
   Data$ "DisableExplicit", "", ""
-  CompilerIf #SpiderBasic
-    Data$ "DisableJS"     , "", ""
-  CompilerEndIf
 
   Data$ "Else"              , "", ""
   Data$ "ElseIf"            , "", " "
-  CompilerIf Not #SpiderBasic
+  CompilerIf #SpiderBasic
+    Data$ "EnableJS"        , "", ""
+  CompilerElse
     Data$ "EnableASM"         , "", ""
   CompilerEndIf
   Data$ "EnableDebugger"    , "", ""
   Data$ "EnableExplicit"    , "", ""
-  CompilerIf #SpiderBasic
-    Data$ "EnableJS"        , "", ""
-  CompilerEndIf
   Data$ "End"               , "", ""
   Data$ "EndDataSection"    , "", ""
   Data$ "EndDeclareModule"  , "", ""

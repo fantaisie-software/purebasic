@@ -494,6 +494,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         Next Issues()
       EndIf
       
+      SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_InlineASM, #SC_MARK_EMPTY)
+      
       If EnableLineNumbers
         HideLineNumbers(*ActiveSource, 0)
       Else
@@ -546,6 +548,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     EndIf
   EndProcedure
   
+  
+  Procedure IsInsideASMBlock(Line)
+    Markers = SendEditorMessage(#SCI_MARKERGET, Line, 0)
+    If Markers & (1 << #MARKER_InlineASM)
+      ProcedureReturn #True
+    EndIf
+    
+    ProcedureReturn #False
+  EndProcedure
+  
+  
   ; Need to share the start of the buffer to get the position correctly
   ;
   Global *HighlightBuffer, HighlightOffset, HighlightGadget, NoUserChange
@@ -577,7 +590,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ; Only the good color style is used (faster according to the docs)
     ;
     If EnableColoring
-      ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
+      If IsInsideASMBlock(SendEditorMessage(#SCI_LINEFROMPOSITION, *StringStart - *HighlightBuffer + HighlightOffset, 0))
+        ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *ASMKeywordColor)
+      Else
+        ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
+      EndIf
     EndIf
   EndProcedure
   
@@ -769,10 +786,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If firstline = 0
         InsideMacro     = 0
         InsideProcedure = 0
+        InsideInlineASM = 0
       Else
         InsideMacro     = 0
         InsideProcedure = 0
         ProcedureFound  = 0 ; once we found that we are inside a procedure, there may be no more checks or it gets overwritten
+        InsideInlineASM = 0
+        InlineASMFound  = 0
         
         ; Note: In each line, we search left to right (because of the linkedlist),
         ;   but we look at the lines backwards. So to know if there is a Procedure/Macro
@@ -785,8 +805,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             Select *Item\Type
               Case #ITEM_Macro       : InsideMacro + 1
               Case #ITEM_MacroEnd    : InsideMacro - 1
-                Case #ITEM_Procedure   : If ProcedureFound = 0: InsideProcedure + 1: EndIf
-                Case #ITEM_ProcedureEnd: If ProcedureFound = 0: InsideProcedure - 1: EndIf
+              Case #ITEM_Procedure   : If ProcedureFound = 0: InsideProcedure + 1: EndIf
+              Case #ITEM_ProcedureEnd: If ProcedureFound = 0: InsideProcedure - 1: EndIf
+              Case #ITEM_InlineASM   : If InlineASMFound = 0: InsideInlineASM + 1: EndIf
+              Case #ITEM_InlineASMEnd: If InlineASMFound = 0: InsideInlineASM - 1: EndIf
             EndSelect
             *Item = *Item\Next
           Wend
@@ -795,9 +817,16 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             InsideMacro     = 1
             InsideProcedure = 0 ; inside a macro we ignore this
             Break
-          ElseIf ProcedureFound = 0 And InsideProcedure > 0 ; more 'Procedure' than 'EndProcedure'
-            InsideProcedure = 1
-            ProcedureFound  = 1 ; do not abort here as we must check for a macro as well
+          Else
+            If ProcedureFound = 0 And InsideProcedure > 0 ; more 'Procedure' than 'EndProcedure'
+              InsideProcedure = 1
+              ProcedureFound  = 1 ; do not abort here as we must check for a macro as well
+            EndIf
+            
+            If InlineASMFound = 0 And InsideInlineASM > 0 ; more 'EnableJS' than 'EndEnableJS'
+              InsideInlineASM = 1
+              InlineASMFound  = 1 ; do not abort here as we must check for a macro as well
+            EndIf
           EndIf
         Next i
       EndIf
@@ -810,30 +839,38 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         CurrentLineLevel = FoldLevel
         FoldFlag         = 0
         MarkProcedure    = InsideProcedure
+        MarkInlineASM    = InsideInlineASM
         IssueMarker      = -1
         IssuePriority    = 5
         
         While *Item
           If InsideMacro = 0
-            If *Item\Type = #ITEM_FoldStart
-              FoldFlag = #SC_FOLDLEVELHEADERFLAG
-              FoldLevel + 1
+            Select *Item\Type
+              Case #ITEM_FoldStart
+                FoldFlag = #SC_FOLDLEVELHEADERFLAG
+                FoldLevel + 1
               
-            ElseIf *Item\Type = #ITEM_FoldEnd
-              FoldLevel - 1
-              If FoldLevel < #SC_FOLDLEVELBASE
-                FoldLevel = #SC_FOLDLEVELBASE
-              EndIf
+              Case #ITEM_FoldEnd
+                FoldLevel - 1
+                If FoldLevel < #SC_FOLDLEVELBASE
+                  FoldLevel = #SC_FOLDLEVELBASE
+                EndIf
               
-            ElseIf *Item\Type = #ITEM_Procedure
-              InsideProcedure = 1
-              MarkProcedure   = 1
+              Case #ITEM_Procedure
+                InsideProcedure = 1
+                MarkProcedure   = 1
               
-            ElseIf *Item\Type = #ITEM_ProcedureEnd
-              InsideProcedure = 0
-              ; even when the procedure ends here, still mark the line
+              Case #ITEM_ProcedureEnd
+                InsideProcedure = 0
+                ; even when the procedure ends here, still mark the line
               
-            EndIf
+              Case #ITEM_InlineASM
+                InsideInlineASM = 1
+              
+              Case #ITEM_InlineASMEnd
+                InsideInlineASM = 0 
+                MarkInlineASM   = 0 ; Don't mark the DisableJS line so it gets properly formatted
+            EndSelect
           EndIf
           
           If *Item\Type = #ITEM_Macro
@@ -895,6 +932,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
         ElseIf Markers & (1<<#MARKER_ProcedureBack)
           ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_ProcedureBack)
+          NeedRefresh = 1
+        EndIf
+        
+        ; EnableJS / EnableC / EnableASM marker
+        If MarkInlineASM
+          If Markers & (1 << #MARKER_InlineASM) = 0
+            ScintillaSendMessage(Gadget, #SCI_MARKERADD, line, #MARKER_InlineASM)
+            NeedRefresh = 1
+          EndIf
+        ElseIf Markers & (1 << #MARKER_InlineASM)
+          ScintillaSendMessage(Gadget, #SCI_MARKERDELETE, line, #MARKER_InlineASM)
           NeedRefresh = 1
         EndIf
         
@@ -2002,6 +2050,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Line = FirstLine
     While Line <= LastLine
       
+      ; We don't want auto indent in an inline asm block as it's the not the same keywords
+      If IsInsideASMBlock(Line)
+        Line + 1
+        Continue
+      EndIf
+      
       ; this is always a fresh line (not a continuated one)
       Line$ = GetLine(Line)
       *Cursor.Character = @Line$
@@ -2820,7 +2874,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 ; now call the highlighting engine
                 ;
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
-                HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1)
+                HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1, IsInsideASMBlock(*ActiveSource\CurrentLineOld-1))
                 SetSourceModified(Modified)
                 
                 FreeMemory(*HighlightBuffer)
@@ -2850,14 +2904,18 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             EndIf
           EndIf
           
-          ; highlight matching braces
-          UpdateBraceHighlight(selStart)
-          
-          ; highlight matching keywords
-          If selStart = selEnd
-            UpdateKeywordHighlight(selStart, #True)
-          Else
-            UpdateKeywordHighlight(selStart, #False)  ; remove any old highlight
+          If IsInsideASMBlock(*ActiveSource\CurrentLine-1) = #False
+            
+            ; highlight matching braces
+            UpdateBraceHighlight(selStart)
+            
+            ; highlight matching keywords
+            If selStart = selEnd
+              UpdateKeywordHighlight(selStart, #True)
+            Else
+              UpdateKeywordHighlight(selStart, #False)  ; remove any old highlight
+            EndIf
+            
           EndIf
           
           ; highlight strings matching the selection
@@ -3066,7 +3124,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               EndIf
               
               Modified = GetSourceModified()
-              HighlightingEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HighlightCallback(), 1)
+              HighlightingEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HighlightCallback(), 1, IsInsideASMBlock(lineNumber))
               SetSourceModified(Modified)
               
               ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
