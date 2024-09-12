@@ -229,8 +229,8 @@ Procedure LoadPreferences()
   EnableFolding    = ReadPreferenceLong("EnableFolding",  1)
   
   ; default
-  NbFoldStartWords = 9
-  NbFoldEndWords = 6
+  NbFoldStartWords = 10
+  NbFoldEndWords = 7
   FoldStart$(1) = ";{"
   FoldStart$(2) = "Macro"
   FoldStart$(3) = "Procedure"
@@ -240,12 +240,23 @@ Procedure LoadPreferences()
   FoldStart$(7) = "Module"
   FoldStart$(8) = "DeclareModule"
   FoldStart$(9) = "CompilerIf"
+  CompilerIf #SpiderBasic 
+    FoldStart$(10) = "EnableJS" 
+  CompilerElse 
+    FoldStart$(10) = "EnableASM" 
+  CompilerEndIf
+  
   FoldEnd$(1) = ";}"
   FoldEnd$(2) = "EndMacro"
   FoldEnd$(3) = "EndProcedure"
   FoldEnd$(4) = "EndModule"
   FoldEnd$(5) = "EndDeclareModule"
   FoldEnd$(6) = "CompilerEndIf"
+  CompilerIf #SpiderBasic 
+    FoldEnd$(7) = "DisableJS"
+  CompilerElse 
+    FoldEnd$(7) = "DisableASM"
+  CompilerEndIf
   
   NbFoldStartWords = ReadPreferenceLong("StartWords", NbFoldStartWords)
   NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)
@@ -5447,7 +5458,7 @@ DataSection
     Data$ "SpiderBasic"
     Data.l $000000 ;  ToolsPanelFrontColor
     Data.l $FFFFFF ;  ToolsPanelBackColor
-    Data.l $800000 ; #COLOR_ASMKeyword
+    Data.l $800080 ; #COLOR_ASMKeyword
     Data.l $FFFFFF ; #COLOR_GlobalBackground
     Data.l $C37B23 ; #COLOR_BasicKeyword
     Data.l $009001 ; #COLOR_Comment
