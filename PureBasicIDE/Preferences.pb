@@ -17,11 +17,6 @@ Global PreferenceCurrentPage, IsApplyPreferences
 
 Global NewList PreferenceCompilers.Compiler()
 
-CompilerIf #CompileMacCarbon
-  Global GADGET_ErrorLogSize, GADGET_ToolsPanelSize
-CompilerEndIf
-
-
 
 Procedure LoadDialogPosition(*Position.DialogPosition, x=-1, y=-1, Width=0, Height=0, Prefix$="")
   *Position\x           = ReadPreferenceLong(Prefix$+"X", x)
@@ -2804,19 +2799,6 @@ Procedure OpenPreferencesWindow()
   SetGadgetState(#GADGET_Preferences_UpdateCheckInterval, UpdateCheckInterval)
   SetGadgetState(#GADGET_Preferences_UpdateCheckVersions, UpdateCheckVersions)
   
-  CompilerIf #CompileMacCarbon
-    ; add the splitter replacement option for errorlog & toolspanel size (temporary solution)
-    ; The \Gadget() receives the gadget with the set name tag (they are PB_Any created)
-    ;
-    GADGET_ToolsPanelSize = PreferenceWindowDialog\Gadget("Mac_ToolsPanelSize")
-    GADGET_ErrorLogSize   = PreferenceWindowDialog\Gadget("Mac_ErrorLogSize")
-    
-    SetGadgetAttribute(GADGET_ToolsPanelSize, #PB_ScrollBar_Maximum, WindowWidth(#WINDOW_Main)-30)
-    SetGadgetAttribute(GADGET_ErrorLogSize, #PB_ScrollBar_Maximum, WindowHeight(#WINDOW_Main)-200)
-    SetGadgetState(GADGET_ToolsPanelSize, ToolsPanelWidth)
-    SetGadgetState(GADGET_ErrorLogSize, ErrorLogHeight)
-  CompilerEndIf
-  
   CompilerIf #CompileMac
     SetGadgetState(#GADGET_Preferences_RunOnce, 0)
     DisableGadget(#GADGET_Preferences_RunOnce, 1)
@@ -3299,12 +3281,6 @@ Procedure OpenPreferencesWindow()
   If DebugOutUseFont = 0
     DisableGadget(#GADGET_Preferences_DebugOutFont, 1)
   EndIf
-  
-  ; not supported here
-  CompilerIf #CompileMacCarbon
-    HideGadget(#GADGET_Preferences_DebugOutUseFont, 1)
-    HideGadget(#GADGET_Preferences_DebugOutFont, 1)
-  CompilerEndIf
   
   SetGadgetState(#GADGET_Preferences_RegisterIsHex, RegisterIsHex)
   SetGadgetState(#GADGET_Preferences_StackIsHex, StackIsHex)
@@ -5190,24 +5166,6 @@ Procedure PreferencesWindowEvents(EventID)
           SetGadgetText(#GADGET_Preferences_IndentBefore, "")
           SetGadgetText(#GADGET_Preferences_IndentAfter, "")
         EndIf
-        
-        CompilerIf #CompileMacCarbon
-          
-        Case GADGET_ToolsPanelSize
-          ToolsPanelWidth = GetGadgetState(GADGET_ToolsPanelSize)
-          If ToolsPanelWidth > EditorWindowWidth-20
-            ToolsPanelWidth = EditorWindowWidth-20
-          EndIf
-          ResizeMainWindow()
-          
-        Case GADGET_ErrorLogSize
-          ErrorLogHeight = GetGadgetState(GADGET_ErrorLogSize)
-          If ErrorLogHeight > EditorWindowHeight-60
-            ErrorLogHeight = EditorWindowHeight-60
-          EndIf
-          ResizeMainWindow()
-          
-        CompilerEndIf
         
       Case #GADGET_Preferences_IssueList
         index = GetGadgetState(#GADGET_Preferences_IssueList)

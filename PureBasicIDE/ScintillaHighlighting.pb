@@ -2152,199 +2152,195 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure UpdateBraceHighlight(Cursor, SecondTry=#False)
     
-    CompilerIf #CompileMacCarbon = 0
+    If EnableBraceMatch And (Colors(#COLOR_GoodBrace)\Enabled Or Colors(#COLOR_BadBrace)\Enabled) And *ActiveSource\IsCode
       
-      If EnableBraceMatch And (Colors(#COLOR_GoodBrace)\Enabled Or Colors(#COLOR_BadBrace)\Enabled) And *ActiveSource\IsCode
-        
-        Line      = SendEditorMessage(#SCI_LINEFROMPOSITION, Cursor, 0)
-        LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
-        
-        If Cursor > LineStart ; we want to highlight the brace before, not after the cursor!
-          Cursor-1
-        EndIf
-        
-        ;
-        ; Note: the automatic SCI_BRACEMATCH does not handle '' or ; correctly, also
-        ;       it returns ( [ ) as correct, which it is not, so do our own search
-        ;
-        char = SendEditorMessage(#SCI_GETCHARAT, Cursor, 0)
-        
-        ; check first that we have a brace that is outside of string/comment
-        If (char = '(' Or char = ')' Or char = '[' Or char = ']' Or char = '{' Or char = '}') And CheckStringComment(Cursor) = 0
-          
-          ; include any line continuation in the search
-          Line$ = GetContinuationLine(Line, @StartOffset)
-          LineStart = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, -StartOffset)
-          
-          ClearList(BraceStack())
-          AddElement(BraceStack())
-          BraceStack() = char
-          goodbrace = 0
-          bracepos  = Cursor ; position of the other brace
-          
-          ; search in the needed direction
-          If char = '(' Or char = '[' Or char = '{' ; forward
-            *Cursor.Character = @Line$ + (CountCharacters(*ActiveSource\EditorGadget, LineStart, Cursor)+1) * #CharSize
-            
-            While *Cursor\c
-              
-              If *Cursor\c = '"' ; we found a string
-                Repeat
-                  *Cursor + SizeOf(Character)
-                Until *Cursor\c = 0 Or *Cursor\c = '"'
-                
-              ElseIf *Cursor\c = '~' And PeekC(*Cursor + #CharSize) = '"'
-                *Cursor + (2 * #CharSize)
-                While *Cursor\c And *Cursor\c <> '"'
-                  If *Cursor\c = '\' And PeekC(*Cursor + #CharSize) <> 0
-                    *Cursor + 2*SizeOf(Character)
-                  Else
-                    *Cursor + SizeOf(Character)
-                  EndIf
-                Wend
-                
-              ElseIf *Cursor\c = 39 ; ' string
-                Repeat
-                  *Cursor + SizeOf(Character)
-                Until *Cursor\c = 0 Or *Cursor\c = 39
-                
-              ElseIf *Cursor\c = ';' ; comment
-                                     ; skip the comment but continue in case of a line continuation
-                While *Cursor\c And *Cursor\c <> 10 And *Cursor\c <> 13
-                  *Cursor + #CharSize
-                Wend
-                
-              ElseIf *Cursor\c = '(' Or *Cursor\c = '[' Or *Cursor\c = '{'
-                AddElement(BraceStack())
-                BraceStack() = *Cursor\c
-                
-              ElseIf (*Cursor\c = ')' And BraceStack() = '(') Or (*Cursor\c = ']' And BraceStack() = '[') Or (*Cursor\c = '}' And BraceStack() = '{')
-                DeleteElement(BraceStack())
-                If ListSize(BraceStack()) = 0 ; we found the matching brace
-                  bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
-                  goodbrace = 1
-                  Break
-                EndIf
-                
-              ElseIf *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
-                ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
-                bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
-                goodbrace = -1
-                Break
-                
-              EndIf
-              
-              *Cursor + #CharSize
-            Wend
-            
-          Else ; backward search
-            *Cursor.Character = @Line$ + (CountCharacters(*ActiveSource\EditorGadget, LineStart, Cursor)-1) * #CharSize
-            
-            ; Note: Comments after a line continuation will mess up the backward search
-            ; So first do a forward run to block out comments, strings and char constants
-            *Forward.PTR = @Line$
-            While *Forward < *Cursor
-              If *Forward\c = '"'
-                *Forward\c = ' ': *Forward +  #CharSize
-                While *Forward\c And *Forward\c <> '"'
-                  *Forward\c = ' ': *Forward + #CharSize
-                Wend
-                If *Forward\c
-                  *Forward\c = ' ': *Forward +  #CharSize
-                EndIf
-                
-              ElseIf *Forward\c = '~' And *Forward\c[1] = '"'
-                *Forward\c = ' ': *Forward +  #CharSize
-                *Forward\c = ' ': *Forward +  #CharSize
-                While *Forward\c And *Forward\c <> '"'
-                  If *Forward\c = '\' And *Forward\c[1] <> 0
-                    *Forward\c = ' ': *Forward + #CharSize
-                    *Forward\c = ' ': *Forward + #CharSize
-                  Else
-                    *Forward\c = ' ': *Forward + #CharSize
-                  EndIf
-                Wend
-                If *Forward\c
-                  *Forward\c = ' ': *Forward +  #CharSize
-                EndIf
-                
-              ElseIf *Forward\c = 39
-                *Forward + #CharSize
-                While *Forward\c And *Forward\c <> 39
-                  *Forward\c = ' ': *Forward + #CharSize
-                Wend
-                If *Forward\c
-                  *Forward + #CharSize
-                EndIf
-                
-              ElseIf *Forward\c = ';'
-                While *Forward\c And *Forward\c <> 10 And *Forward\c <> 13
-                  *Forward\c = ' ': *Forward + #CharSize
-                Wend
-                
-              Else
-                *Forward + #CharSize
-              EndIf
-            Wend
-            
-            ; no more need to check string or comment now
-            While *Cursor >= @Line$
-              
-              If *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
-                AddElement(BraceStack())
-                BraceStack() = *Cursor\c
-                
-              ElseIf (*Cursor\c = '(' And BraceStack() = ')') Or (*Cursor\c = '[' And BraceStack() = ']') Or (*Cursor\c = '{' And BraceStack() = '}')
-                DeleteElement(BraceStack())
-                If ListSize(BraceStack()) = 0 ; we found the matching brace
-                  bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
-                  goodbrace = 1
-                  Break
-                EndIf
-                
-              ElseIf *Cursor\c = '(' Or *Cursor\c = '[' Or *Cursor\c = '{'
-                ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
-                bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
-                goodbrace = -1
-                Break
-                
-              EndIf
-              
-              *Cursor - #CharSize
-            Wend
-            
-          EndIf
-          
-          ; Note: the bad brace highlighting is only capable of marking one brace, but if we
-          ; find 2 mismatching braces (ie "[ ... )") we use the "good brace" mark but change the
-          ; color so it indicates the right thing:
-          ;
-          If goodbrace = 1
-            ; highlight 2 braces in good color
-            SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_GoodBrace)\DisplayValue)
-            SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
-          ElseIf goodbrace = -1
-            ; highlight 2 braces in bad color
-            SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_BadBrace)\DisplayValue)
-            SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
-          Else
-            ; highlight one brace as bad (no color change)
-            SendEditorMessage(#SCI_BRACEBADLIGHT, bracepos, 0)
-          EndIf
-          
-        ElseIf SecondTry = #False And char <> 10 And char <> 13
-          ; Try again with the character following the cursor if there was no brace before
-          ; The Cursor+2 is because we subtract 1 again inside the call
-          UpdateBraceHighlight(Cursor+2, #True)
-          
-        Else
-          ; remove all brace highlighting
-          SendEditorMessage(#SCI_BRACEBADLIGHT, -1, 0)
-        EndIf
-        
+      Line      = SendEditorMessage(#SCI_LINEFROMPOSITION, Cursor, 0)
+      LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
+      
+      If Cursor > LineStart ; we want to highlight the brace before, not after the cursor!
+        Cursor-1
       EndIf
       
-    CompilerEndIf
+      ;
+      ; Note: the automatic SCI_BRACEMATCH does not handle '' or ; correctly, also
+      ;       it returns ( [ ) as correct, which it is not, so do our own search
+      ;
+      char = SendEditorMessage(#SCI_GETCHARAT, Cursor, 0)
+      
+      ; check first that we have a brace that is outside of string/comment
+      If (char = '(' Or char = ')' Or char = '[' Or char = ']' Or char = '{' Or char = '}') And CheckStringComment(Cursor) = 0
+        
+        ; include any line continuation in the search
+        Line$ = GetContinuationLine(Line, @StartOffset)
+        LineStart = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, -StartOffset)
+        
+        ClearList(BraceStack())
+        AddElement(BraceStack())
+        BraceStack() = char
+        goodbrace = 0
+        bracepos  = Cursor ; position of the other brace
+        
+        ; search in the needed direction
+        If char = '(' Or char = '[' Or char = '{' ; forward
+          *Cursor.Character = @Line$ + (CountCharacters(*ActiveSource\EditorGadget, LineStart, Cursor)+1) * #CharSize
+          
+          While *Cursor\c
+            
+            If *Cursor\c = '"' ; we found a string
+              Repeat
+                *Cursor + SizeOf(Character)
+              Until *Cursor\c = 0 Or *Cursor\c = '"'
+              
+            ElseIf *Cursor\c = '~' And PeekC(*Cursor + #CharSize) = '"'
+              *Cursor + (2 * #CharSize)
+              While *Cursor\c And *Cursor\c <> '"'
+                If *Cursor\c = '\' And PeekC(*Cursor + #CharSize) <> 0
+                  *Cursor + 2*SizeOf(Character)
+                Else
+                  *Cursor + SizeOf(Character)
+                EndIf
+              Wend
+              
+            ElseIf *Cursor\c = 39 ; ' string
+              Repeat
+                *Cursor + SizeOf(Character)
+              Until *Cursor\c = 0 Or *Cursor\c = 39
+              
+            ElseIf *Cursor\c = ';' ; comment
+                                   ; skip the comment but continue in case of a line continuation
+              While *Cursor\c And *Cursor\c <> 10 And *Cursor\c <> 13
+                *Cursor + #CharSize
+              Wend
+              
+            ElseIf *Cursor\c = '(' Or *Cursor\c = '[' Or *Cursor\c = '{'
+              AddElement(BraceStack())
+              BraceStack() = *Cursor\c
+              
+            ElseIf (*Cursor\c = ')' And BraceStack() = '(') Or (*Cursor\c = ']' And BraceStack() = '[') Or (*Cursor\c = '}' And BraceStack() = '{')
+              DeleteElement(BraceStack())
+              If ListSize(BraceStack()) = 0 ; we found the matching brace
+                bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
+                goodbrace = 1
+                Break
+              EndIf
+              
+            ElseIf *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
+              ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
+              bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
+              goodbrace = -1
+              Break
+              
+            EndIf
+            
+            *Cursor + #CharSize
+          Wend
+          
+        Else ; backward search
+          *Cursor.Character = @Line$ + (CountCharacters(*ActiveSource\EditorGadget, LineStart, Cursor)-1) * #CharSize
+          
+          ; Note: Comments after a line continuation will mess up the backward search
+          ; So first do a forward run to block out comments, strings and char constants
+          *Forward.PTR = @Line$
+          While *Forward < *Cursor
+            If *Forward\c = '"'
+              *Forward\c = ' ': *Forward +  #CharSize
+              While *Forward\c And *Forward\c <> '"'
+                *Forward\c = ' ': *Forward + #CharSize
+              Wend
+              If *Forward\c
+                *Forward\c = ' ': *Forward +  #CharSize
+              EndIf
+              
+            ElseIf *Forward\c = '~' And *Forward\c[1] = '"'
+              *Forward\c = ' ': *Forward +  #CharSize
+              *Forward\c = ' ': *Forward +  #CharSize
+              While *Forward\c And *Forward\c <> '"'
+                If *Forward\c = '\' And *Forward\c[1] <> 0
+                  *Forward\c = ' ': *Forward + #CharSize
+                  *Forward\c = ' ': *Forward + #CharSize
+                Else
+                  *Forward\c = ' ': *Forward + #CharSize
+                EndIf
+              Wend
+              If *Forward\c
+                *Forward\c = ' ': *Forward +  #CharSize
+              EndIf
+              
+            ElseIf *Forward\c = 39
+              *Forward + #CharSize
+              While *Forward\c And *Forward\c <> 39
+                *Forward\c = ' ': *Forward + #CharSize
+              Wend
+              If *Forward\c
+                *Forward + #CharSize
+              EndIf
+              
+            ElseIf *Forward\c = ';'
+              While *Forward\c And *Forward\c <> 10 And *Forward\c <> 13
+                *Forward\c = ' ': *Forward + #CharSize
+              Wend
+              
+            Else
+              *Forward + #CharSize
+            EndIf
+          Wend
+          
+          ; no more need to check string or comment now
+          While *Cursor >= @Line$
+            
+            If *Cursor\c = ')' Or *Cursor\c = ']' Or *Cursor\c = '}'
+              AddElement(BraceStack())
+              BraceStack() = *Cursor\c
+              
+            ElseIf (*Cursor\c = '(' And BraceStack() = ')') Or (*Cursor\c = '[' And BraceStack() = ']') Or (*Cursor\c = '{' And BraceStack() = '}')
+              DeleteElement(BraceStack())
+              If ListSize(BraceStack()) = 0 ; we found the matching brace
+                bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
+                goodbrace = 1
+                Break
+              EndIf
+              
+            ElseIf *Cursor\c = '(' Or *Cursor\c = '[' Or *Cursor\c = '{'
+              ; we found a mismatch here, so highlight both with BRACEGOOD, but change the color to indicate a mismatch
+              bracepos = SendEditorMessage(#SCI_POSITIONRELATIVE, LineStart, (*Cursor - @Line$) / #CharSize)
+              goodbrace = -1
+              Break
+              
+            EndIf
+            
+            *Cursor - #CharSize
+          Wend
+          
+        EndIf
+        
+        ; Note: the bad brace highlighting is only capable of marking one brace, but if we
+        ; find 2 mismatching braces (ie "[ ... )") we use the "good brace" mark but change the
+        ; color so it indicates the right thing:
+        ;
+        If goodbrace = 1
+          ; highlight 2 braces in good color
+          SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_GoodBrace)\DisplayValue)
+          SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
+        ElseIf goodbrace = -1
+          ; highlight 2 braces in bad color
+          SendEditorMessage(#SCI_STYLESETFORE, #STYLE_BRACELIGHT, Colors(#COLOR_BadBrace)\DisplayValue)
+          SendEditorMessage(#SCI_BRACEHIGHLIGHT, Cursor, bracepos)
+        Else
+          ; highlight one brace as bad (no color change)
+          SendEditorMessage(#SCI_BRACEBADLIGHT, bracepos, 0)
+        EndIf
+        
+      ElseIf SecondTry = #False And char <> 10 And char <> 13
+        ; Try again with the character following the cursor if there was no brace before
+        ; The Cursor+2 is because we subtract 1 again inside the call
+        UpdateBraceHighlight(Cursor+2, #True)
+        
+      Else
+        ; remove all brace highlighting
+        SendEditorMessage(#SCI_BRACEBADLIGHT, -1, 0)
+      EndIf
+      
+    EndIf
     
   EndProcedure
   
@@ -3815,17 +3811,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     CompilerEndIf
     
     CompilerIf #CompileMac
-      CompilerIf #CompileMacCocoa
-        *Y\i + 6
-      CompilerElse
-        *Y\i + 12 + 17
-      CompilerEndIf
-      
-      CompilerIf #CompileMacCarbon
-        If ShowMainToolbar ; Only add the toolbar height if the main toolbar is shown in the preferences
-          *Y\i + 23
-        EndIf
-      CompilerEndIf
+      *Y\i + 6
       
       If *X\i + *W\i > WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)
         *X\i = WindowX(#WINDOW_Main)+WindowWidth(#WINDOW_Main)-*W\i - 5

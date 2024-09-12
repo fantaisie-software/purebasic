@@ -921,127 +921,6 @@ CompilerIf #CompileLinuxGtk
   EndProcedure
 CompilerEndIf
 
-
-; OSX specific event handlers
-;
-CompilerIf #CompileMacCarbon
-  
-  #kEventClassMouse = AsciiConst('m','o','u','s')
-  
-  #kEventMouseDown = 1
-  #kEventMouseUp = 2
-  #kEventMouseMoved = 5
-  #kEventMouseDragged = 6
-  #kEventMouseEntered = 8
-  #kEventMouseExited = 9
-  #kEventMouseWheelMoved = 10
-  
-  #kEventParamMouseButton = AsciiConst('m','b','t','n')
-  #typeMouseButton = AsciiConst('m','b','t','n')
-  
-  #kEventMouseButtonPrimary = 1
-  #kEventMouseButtonSecondary = 2
-  #kEventMouseButtonTertiary = 3
-  
-  #kEventParamKeyModifiers = AsciiConst('k','m','o','d')
-  #typeUInt32 = AsciiConst('m','a','g','n')
-  
-  #controlKeyBit = 12
-  #controlKey = 1 << #controlKeyBit
-  
-  #noErr = 0
-  #eventNotHandledErr = -9874
-  
-  #Profiler_MacEventsCount = 4
-  DataSection
-    ; EventTypeSpec structure is two longs: class, kind
-    Profiler_MacEvents:
-    Data.l #kEventClassMouse, #kEventMouseDown
-    Data.l #kEventClassMouse, #kEventMouseUp
-    Data.l #kEventClassMouse, #kEventMouseMoved
-    Data.l #kEventClassMouse, #kEventMouseDragged ; moved with mouse down
-    
-  EndDataSection
-  
-  
-  ProcedureDLL Profiler_MacEvents(*NextHandler, *Event, *Debugger.DebuggerData)
-    Window = *Debugger\Windows[#DEBUGGER_WINDOW_Profiler]
-    x = WindowMouseX(Window)
-    y = WindowMouseY(Window)
-    
-    ; filter mouse moves on the title region
-    If x > 0 And y > 0 And *Debugger\ProfilerFiles And *Debugger\ProfilerData And *Debugger\ProfilerImage
-      GetControlBounds_(GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Image]), @Rect.Rect)
-      x - Rect\left
-      y - Rect\top
-      
-      If x >= 0 And x < (Rect\right-Rect\Left) And y >= 0 And y < (Rect\bottom-Rect\top)
-        kind = GetEventKind_(*Event)
-        
-        button.w = 0
-        modifiers.l = 0
-        If kind = #kEventMouseDown Or kind = #kEventMouseUp
-          GetEventParameter_(*Event, #kEventParamMouseButton, #typeMouseButton, #Null, 2, #Null, @button)
-          GetEventParameter_(*Event, #kEventParamKeyModifiers, #typeUInt32, #Null, 4, #Null, @modifiers)
-          
-          If button = #kEventMouseButtonPrimary And modifiers & #controlKey
-            button = #kEventMouseButtonSecondary  ; Ctrl+Click is a rightclick on one button mouse
-          EndIf
-        EndIf
-        
-        Select kind
-            
-          Case #kEventMouseDown
-            If button = #kEventMouseButtonPrimary
-              Profiler_LButtonDown(*Debugger, x, y, Window)
-            ElseIf button = #kEventMouseButtonSecondary
-              Profiler_RButtonDown(*Debugger, x, y, Window)
-            EndIf
-            
-          Case #kEventMouseUp
-            If button = #kEventMouseButtonPrimary
-              Profiler_LButtonUp(*Debugger)
-            EndIf
-            
-          Case #kEventMouseMoved, #kEventMouseDragged
-            Profiler_MouseMove(*Debugger, x, y, Window)
-            
-        EndSelect
-        
-        ; Ok, here is the weird part:
-        ;   If we propagate the event with CallNextEventHandler_() as the docs say, the "mouse up" event is often
-        ;   not reaching our callback anymore (probably due to the ImageGadget drag start detection), so return
-        ;   #noErr directly For any event inside our imagegadget (its important To catch the mouse-up For proper user interaction)
-        ;
-        ;   BUT: If the window does not have the focus yet, returning #noErr causes it to not get to the foreground
-        ;   and also in this case the mouse-up is properly received, so propagate the event in this spechial case
-        ;
-        ;   Also do the normal propagation for events on the right button for correct context menu handling
-        If GetActiveWindow() = Window Or button = #kEventMouseButtonSecondary
-          ProcedureReturn #noErr
-        EndIf
-      EndIf
-      
-    EndIf
-    
-    ProcedureReturn CallNextEventHandler_(*NextHandler, *Event) ; important for gadget events and window activation!!
-  EndProcedure
-  
-  Procedure Profiler_SetupMacEvents(*Debugger.DebuggerData)
-    Static *EventsUPP = 0
-    
-    If *EventsUPP = 0
-      *EventsUPP = NewEventHandlerUPP_(@Profiler_MacEvents())
-    EndIf
-    
-    ; mouse events only go to the window!
-    InstallEventHandler_(GetWindowEventTarget_(WindowID(*Debugger\Windows[#DEBUGGER_WINDOW_Profiler])), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
-    ;InstallEventHandler_(GetApplicationEventTarget_(), *EventsUPP, #Profiler_MacEventsCount, ?Profiler_MacEvents, *Debugger, 0)
-    
-  EndProcedure
-  
-CompilerEndIf
-
 ; Update bounds for the displayed files and adjust scrollbars as needed
 ;
 Procedure Profiler_UpdateBounds(*Debugger.DebuggerData)
@@ -1553,10 +1432,6 @@ Procedure OpenProfilerWindow(*Debugger.DebuggerData)
         GTKSignalConnect(Container, "motion-notify-event" , @Profiler_GtkMouseMoveHandler(), *Debugger)
         GTKSignalConnect(Container, "button-press-event"  , @Profiler_GtkMouseButtonHandler(), *Debugger)
         GTKSignalConnect(Container, "button-release-event", @Profiler_GtkMouseButtonHandler(), *Debugger)
-      CompilerEndIf
-      
-      CompilerIf #CompileMacCarbon
-        Profiler_SetupMacEvents(*Debugger)
       CompilerEndIf
       
       CompilerIf #DEFAULT_CanWindowStayOnTop

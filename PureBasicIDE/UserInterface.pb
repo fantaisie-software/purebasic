@@ -1952,10 +1952,6 @@ Procedure UpdateSourceContainer()
       ResizeGadget(#GADGET_ProjectInfo, 0, PanelTabHeight, EditWidth, EditHeight-PanelTabHeight)
       ResizeProjectInfo(EditWidth, EditHeight-PanelTabHeight)
     Else
-      CompilerIf #CompileMacCarbon
-        EditWidth-4 ; On OS X scintilla a bit buggy concerning size (due to my bad implementation ;)
-      CompilerEndIf
-      
       If *ActiveSource\IsForm <> 0
         ResizeGadget(#GADGET_Form, 0, PanelTabHeight, EditWidth, EditHeight-PanelTabHeight)
         ResizeFormInfo(EditWidth, EditHeight-PanelTabHeight)
