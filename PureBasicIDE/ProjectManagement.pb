@@ -626,6 +626,20 @@ CompilerIf #CompileLinux
     Debug "Key event: " + *Event\keyval
     If *Event\keyval = #GDK_Return
       PostEvent(#PB_Event_Gadget, #WINDOW_Main, Gadget, #PB_EventType_LeftDoubleClick)
+      
+    ElseIf *Event\keyval = $FE20 ; #GDK_LeftTab
+      If (*Event\state & (1 << 2)) ; Ctrl
+        If (*Event\state & 1) ; Shift
+          If KeyboardShortcuts(#MENU_NextOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(0)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_NextOpenedFile)
+          ElseIf KeyboardShortcuts(#MENU_PreviousOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(1)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_PreviousOpenedFile)
+          EndIf
+        EndIf
+      EndIf
+      
     EndIf
   EndProcedure
 CompilerEndIf
