@@ -588,6 +588,18 @@ DataSection
   Data$ "MultiFile",        "Show issues of all open files/project files"
   Data$ "Export",           "Export issue list"
   
+  ; For the 'Multicolored Procedure List' and the controls for coloring and scrolling.
+  Data$ "FilterClear",	      "Removes the filter"
+  Data$ "HideModuleNames",	   "Hide module names"
+  Data$ "HighlightProcedure", "Automatically determine and highlight the current procedure"
+  Data$ "ScrollProcedure",		"Automatically scroll to current procedure"
+  Data$ "EnableFolding",		"Enable automatic unfolding of the procedure after the click"
+  Data$ "FrontColor",			"Changing the font color of an entry"
+  Data$ "BackColor",				"Changing the background color of an entry"
+  Data$ "RestoreColor",			"Restore color settings of an entry"
+  Data$ "CopyClipboard",		"Copies the procedure names to the clipboard.  Options: Ctrl = All, Shift = Arguments"
+  Data$ "SwitchButtons",		"Switches the functions"
+  
   ; ===================================================
   ;- Group - FileStuff
   Data$ "_GROUP_",            "FileStuff"
@@ -918,6 +930,7 @@ DataSection
   Data$ "ProcedureSort",    "Sort Procedures by name"
   Data$ "ProcedureGroup",   "Group Markers"
   Data$ "ProcedurePrototype", "Display Procedure Arguments"
+  Data$ "ProcedureMulticolor", "Multicolored Procedure List"
   
   Data$ "Indent",           "Indentation"
   Data$ "IndentTitle",      "Code Indentation"
