@@ -645,4 +645,5 @@ CompilerIf Not #SpiderBasic
   AvailablePanelTools()\ToolID$              = "Form"
   AvailablePanelTools()\PanelTitle$          = "FormShort"
   AvailablePanelTools()\ToolName$            = "FormLong"
+  AvailablePanelTools()\PanelTabOrder        = 4
 CompilerEndIf
