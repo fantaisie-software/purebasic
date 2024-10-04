@@ -585,3 +585,5 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ProcedureBrowser"
 AvailablePanelTools()\PanelTitle$          = "ProcedureBrowserShort"
 AvailablePanelTools()\ToolName$            = "ProcedureBrowserLong"
+AvailablePanelTools()\PanelTabOrder        = 1
+

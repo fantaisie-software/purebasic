@@ -2461,6 +2461,12 @@ Structure ToolsPanelEntry
   ;
   PanelTitle$        ; title in the PanelGadget
   ToolName$          ; tool name (used in the Preferences)
+  
+  ; PanelTabOrder must be > 0 for tools available in the Tool Panel (ProcedureBrowser, ProjectPanel, Explorer, Form and WebView)
+  ; This defines the default tab (tool) order in the Tool Panel when a new fresh PureBasic is installed or without PureBasic.prefs
+  ; Once PureBasic.prefs is used, the tabs (tools) order is defined using KeyName: Tool_1,2,..,5
+  ;
+  PanelTabOrder.l
 EndStructure
 
 

@@ -623,9 +623,9 @@ Procedure LoadPreferences()
   ; read the ID's of the enabled tools
   ;
   If ActiveToolsCount = -1 ; value doesn't exist, use the default setup
+    SortStructuredList(AvailablePanelTools(), #PB_Sort_Ascending, OffsetOf(ToolsPanelEntry\PanelTabOrder), TypeOf(ToolsPanelEntry\PanelTabOrder))
     ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
+      If AvailablePanelTools()\PanelTabOrder   ; If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
         AddElement(UsedPanelTools())  ; add the tool to the active list
         UsedPanelTools() = @AvailablePanelTools()
       EndIf

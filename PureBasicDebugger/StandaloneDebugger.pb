@@ -110,7 +110,9 @@ CompilerSelect #PB_Compiler_OS
     EndIf
     
     ; initialize the scintilla dll
-    InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll")
+    CompilerIf #PB_Compiler_Version < 610
+      InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll")
+    CompilerEndIf
     
   CompilerDefault
     PureBasicPath$ = GetEnvironmentVariable("PUREBASIC_HOME")

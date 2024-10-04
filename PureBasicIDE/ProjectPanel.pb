@@ -746,5 +746,6 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "ProjectPanel"
 AvailablePanelTools()\PanelTitle$          = "ProjectPanelShort"
 AvailablePanelTools()\ToolName$            = "ProjectPanelLong"
+AvailablePanelTools()\PanelTabOrder        = 2
 
 
