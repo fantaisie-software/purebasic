@@ -707,6 +707,7 @@ CompilerIf #CompileLinux
         
         ClearList(Help_History())
         
+        SetWindowForeground(#WINDOW_Help)
       EndIf
     Else
       SetWindowForeground(#WINDOW_Help)
