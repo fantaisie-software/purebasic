@@ -1266,7 +1266,7 @@ EndProcedure
 
 ;- ----- ToolsPanel interface -----
 
-Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData, PanelItemID)
+Procedure ColorPicker_CreateFunction(*Entry.ColorPickerData)
   *ColorPicker = *Entry
   
   ButtonGadget(#GADGET_Color_RGB,     0, 0, 0, 0, Language("ToolsPanel","Mode_RGB"),     #PB_Button_Toggle)

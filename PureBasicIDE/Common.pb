@@ -1156,7 +1156,7 @@ Enumeration 0
   
   #MENU_Help_Enter
   
-  CompilerIf #CompileWindows | #CompileMac; to handle autocomplete in scintilla
+  CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt; to handle autocomplete in scintilla
     #MENU_Scintilla_Enter
     #MENU_Scintilla_Tab
     #MENU_Scintilla_ShiftTab
@@ -1550,6 +1550,13 @@ Enumeration 1
   #TIMER_ToolPanelAutoHide
 EndEnumeration
 
+;- Custom PostEvent event types
+;
+Enumeration #PB_EventType_FirstCustomValue
+  #EVENTTYPE_WordUpdate       ; Linux specific
+  #EVENTTYPE_LoadHelpPage     ; Linux specific
+EndEnumeration
+  
 ;- Some predefined color values
 ;
 #COLOR_FilePanelFront  = $000000 ; text color for FilePanel tabs with non-OS color
@@ -2391,7 +2398,7 @@ EndStructure
 ;
 
 Interface ToolsPanelInterface
-  CreateFunction(PanelItemID)    ; called when the panelitem was created (external Tools should call UseGadgetList(PanelItemID) before adding gadgets)
+  CreateFunction()               ; called when the panelitem was created. The current gadgetlist is the panel item or tool window
   DestroyFunction()              ; called when the item is destroyed
   
   ResizeHandler(PanelWidth, PanelHeight)   ; called after the panel is resized

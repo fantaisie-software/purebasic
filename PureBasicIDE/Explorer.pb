@@ -143,7 +143,7 @@ Procedure InsertFavorite(Position, Entry$)
 EndProcedure
 
 
-Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry)
   
   ComboBoxGadget(#GADGET_Explorer_Pattern, 0, 0, 0, 0)
   UpdateExplorerPatterns()

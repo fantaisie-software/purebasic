@@ -66,7 +66,13 @@ else
 		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_gtk2"
 		IDEFLAGS += --subsystem gtk2
 	else
-		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
+		ifeq ($(PB_QT),1)
+			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_qt"
+			IDEFLAGS += --subsystem qt
+			QT_HELPERS = Build/QtHelpers.a
+		else
+			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
+		endif
 	endif
 endif
 
@@ -123,7 +129,8 @@ DEPENDENCIES = \
 	$(CPUMONITORLIB) \
 	$(MACPLIST) \
 	$(THEMES) \
-	$(MAKEBUILDINFO)
+	$(MAKEBUILDINFO) \
+	$(QT_HELPERS)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
@@ -260,6 +267,23 @@ ifeq ($(PB_MACOS),1)
 
 $(MACPLIST) : tools/macplist.pb Build/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
+
+endif
+
+ifeq ($(PB_QT),1)
+
+ifeq ($(PB_PROCESSOR),X64)
+  GPP_FLAGS = -fPIC -DPB_64
+endif
+ifeq ($(PB_PROCESSOR),ARM64)
+  GPP_FLAGS = -fPIC -DPB_64
+endif
+
+$(QT_HELPERS) : qt/QtHelpers.cpp qt/QtHelpers.h Build/dummy
+	moc -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` qt/QtHelpers.h -o Build/QtHelpers.moc.cpp
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -c Build/QtHelpers.moc.cpp -o Build/QtHelpers.moc.o
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -Iqt -c qt/QtHelpers.cpp -o Build/QtHelpers.o
+	ar crs $(QT_HELPERS) Build/QtHelpers.o Build/QtHelpers.moc.o
 
 endif
 

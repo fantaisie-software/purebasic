@@ -666,6 +666,11 @@ Procedure CustomizeTabBarGadget()
     TabBarGadgetInclude\CloseButtonSize = 15
   CompilerEndIf
   
+  CompilerIf #CompileLinuxQt
+    TabBarGadgetInclude\TabBarColor = QT_WindowBackgroundColor(WindowID(#WINDOW_Main))
+    TabBarGadgetInclude\CloseButtonSize = 15
+  CompilerEndIf
+  
   CompilerIf #CompileMac
     With TabBarGadgetInclude
       If OSVersion() >= #PB_OS_MacOSX_10_14
@@ -836,7 +841,7 @@ Procedure CreateGUI()
   
   BindEvent(#PB_Event_SizeWindow, @RealtimeSizeWindowEventHandler(), #PB_All, #PB_All, #PB_All)
   
-  CompilerIf #CompileWindows | #CompileMac ; special shortcuts for tab/enter on scintilla
+  CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt ; special shortcuts for tab/enter on scintilla
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -1799,7 +1804,7 @@ Procedure MainMenuEvent(MenuItemID)
       
       ; Enter handling in Scintilla (and other places) via global shortcut
       ; For linux this is done via ScintillaShortcutHandler()
-      CompilerIf #CompileWindows | #CompileMac
+      CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
         
       Case #MENU_Scintilla_Enter
         If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return    ; special handling when enter is used here
@@ -2072,6 +2077,10 @@ Procedure MainWindowEvents(EventID)
           UpdateSourceContainer()
         EndIf
         
+      Case #GADGET_SourceContainer
+        ; only has a resize event
+        UpdateSourceContainer()
+        
       Case #GADGET_FilesPanel
         Select EventType()
           Case #PB_EventType_RightClick
@@ -2327,7 +2336,7 @@ Procedure ResizeMainWindow()
   ElseIf ToolsPanelAutoHide And ToolsPanelVisible = 0 ; toolspanel existing, but hidden
     EditWidth = EditorWindowWidth - ToolsPanelHiddenWidth
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       ; On linux, we have a nice vertical panel As well here...
       If ToolsPanelSide = 0  ; ToolsPanel on right side
         EditLeft = 0

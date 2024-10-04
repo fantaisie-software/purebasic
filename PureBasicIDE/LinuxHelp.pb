@@ -517,33 +517,53 @@ CompilerIf #CompileLinux
     
   EndProcedure
   
-  
-  ProcedureC HelpMouseEvents(*Window.GtkWidget, *Event.GdkEventButton, user_type)
-    If *Event\button = 1
-      
-      CompilerIf #UseHelpSplitter
+  CompilerIf #CompileLinuxGtk
+    ProcedureC HelpMouseEventsGtk(*Window.GtkWidget, *Event.GdkEventButton, user_type)
+      If *Event\button = 1
+        
         position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor)-GadgetX(#GADGET_Help_Splitter), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor)-GadgetY(#GADGET_Help_Splitter))
-      CompilerElse
-        position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor))
-      CompilerEndIf
-      If position <> -1
-        ForEach Help_Links()
-          
-          If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position
-            ;LoadHelpPage(Help_Links()\Link$, 1) move to HelpWindowEvents
-            PostEvent(#PB_Event_Gadget, #WINDOW_Help, #GADGET_Help_Editor, #PB_EventType_FirstCustomValue)
-            ProcedureReturn 1 ; ignore event
+        If position <> -1
+          ForEach Help_Links()
+     
+            If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position
+              ;LoadHelpPage(Help_Links()\Link$, 1) move to HelpWindowEvents
+              PostEvent(#PB_Event_Gadget, #WINDOW_Help, #GADGET_Help_Editor, #EVENTTYPE_LoadHelpPage)
+              ProcedureReturn 1 ; ignore event
+              
+            EndIf
             
-          EndIf
-          
-        Next Help_Links()
+          Next Help_Links()
+        EndIf
       EndIf
-    EndIf
-    
-    ProcedureReturn 0
-  EndProcedure
+      
+      ProcedureReturn 0
+    EndProcedure
+  CompilerEndIf
   
-  
+  CompilerIf #CompileLinuxQt
+    ProcedureC HelpMouseEventsQt(*Event)
+      If QT_EventType(*Event) = 2 And QT_EventButton(*Event) = 1 ; QEvent::MouseButtonPress on Qt::LeftButton
+
+        position = ScintillaSendMessage(#GADGET_Help_Editor, #SCI_POSITIONFROMPOINTCLOSE, WindowMouseX(#WINDOW_Help)-GadgetX(#GADGET_Help_Editor, #PB_Gadget_WindowCoordinate), WindowMouseY(#WINDOW_Help)-GadgetY(#GADGET_Help_Editor, #PB_Gadget_WindowCoordinate))
+        If position <> -1
+          ForEach Help_Links()
+            
+            If Help_Links()\LinkStart <= position And Help_Links()\LinkEnd >= position
+              ;LoadHelpPage(Help_Links()\Link$, 1) move to HelpWindowEvents
+              PostEvent(#PB_Event_Gadget, #WINDOW_Help, #GADGET_Help_Editor, #EVENTTYPE_LoadHelpPage)
+              ProcedureReturn 1 ; ignore event
+              
+            EndIf
+            
+          Next Help_Links()
+        EndIf
+        
+      EndIf
+      
+      ProcedureReturn 0
+    EndProcedure
+  CompilerEndIf
+
   Procedure ResizePanelContent()
     PanelWidth  = GetGadgetAttribute(#GADGET_Help_Panel, #PB_Panel_ItemWidth)
     PanelHeight = GetGadgetAttribute(#GADGET_Help_Panel, #PB_Panel_ItemHeight)
@@ -569,7 +589,6 @@ CompilerIf #CompileLinux
       ResizeGadget(#GADGET_Help_Editor, #HelpPanelWidth+10, 10+HelpButtonHeight, WindowWidth(#WINDOW_Help)-#HelpPanelWidth-10, WindowHeight(#WINDOW_Help)-15-HelpButtonHeight)
     CompilerEndIf
   EndProcedure
-  
   
   Procedure OpenHelpWindow()
     
@@ -621,8 +640,13 @@ CompilerIf #CompileLinux
         
         ScintillaGadget(#GADGET_Help_Editor, 0, 0, 0, 0, 0)
         
-        ; GTKSignalConnect(GadgetID(#GADGET_Help_Panel), "size-allocate", @PanelSizeChangeSignal(), 0)
-        GTKSignalConnect(GadgetID(#GADGET_Help_Editor), "button-press-event", @HelpMouseEvents(), 0)
+        CompilerIf #CompileLinuxGtk
+          ; GTKSignalConnect(GadgetID(#GADGET_Help_Panel), "size-allocate", @PanelSizeChangeSignal(), 0)
+          GTKSignalConnect(GadgetID(#GADGET_Help_Editor), "button-press-event", @HelpMouseEventsGtk(), 0)
+        CompilerElse
+          ; Note: The mouse events happen on the QAbstractScrollArea::viewport() instead of the main widget!
+          QT_SetEventFilter(QT_GetViewPort(GadgetID(#GADGET_Help_Editor)), @HelpMouseEventsQt())
+        CompilerEndIf
         
         ScintillaSendMessage(#GADGET_Help_Editor, #SCI_SETCARETSTYLE, 0); Hide the blinking caret
         
@@ -885,7 +909,7 @@ CompilerIf #CompileLinux
             
           Case #GADGET_HELP_Editor
             Select EventType()
-              Case #PB_EventType_FirstCustomValue
+              Case #EVENTTYPE_LoadHelpPage
                 LoadHelpPage(Help_Links()\Link$, 1)
             EndSelect
             

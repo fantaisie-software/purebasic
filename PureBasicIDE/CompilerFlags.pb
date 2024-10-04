@@ -134,6 +134,7 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
     #CompileLinuxGtk3 = 0
+    #CompileLinuxQt   = 0
     
     #OS_PureBasic = "Windows"
     
@@ -199,10 +200,17 @@ CompilerSelect #PB_Compiler_OS
       #CompileLinuxGtk  = 1
       #CompileLinuxGtk2 = 1
       #CompileLinuxGtk3 = 0
+      #CompileLinuxQt   = 0
+    CompilerElseIf Subsystem("Qt")
+      #CompileLinuxGtk  = 0
+      #CompileLinuxGtk2 = 0
+      #CompileLinuxGtk3 = 0
+      #CompileLinuxQt   = 1
     CompilerElse
       #CompileLinuxGtk  = 1
       #CompileLinuxGtk2 = 0
       #CompileLinuxGtk3 = 1
+      #CompileLinuxQt   = 0
     CompilerEndIf
     
     #OS_PureBasic = "Linux"
@@ -257,6 +265,7 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
     #CompileLinuxGtk3 = 0
+    #CompileLinuxQt   = 0
     
     #CompileMac       = 1
     #CompileMacCocoa  = 1

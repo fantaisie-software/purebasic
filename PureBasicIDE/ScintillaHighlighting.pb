@@ -2785,7 +2785,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         ;   as we have no way of knowing the modifier keys here in the
         ;   scintilla callback
         ;
-        CompilerIf #CompileLinux = 0
+        CompilerIf #CompileLinuxGtk = 0
           
         Case #SCN_DOUBLECLICK
           If *ActiveSource And EditorGadget = *ActiveSource\EditorGadget And *ActiveSource\IsCode
@@ -3172,7 +3172,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     
     ; Workaround for the Scintilla shortcut *eating* on Linux.
     ; Enter key handling for the other OS is done via #MENU_Scintilla_Enter shortcut
@@ -3382,7 +3382,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; workaround for the linux shortcut problem
     ;
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       GtkSignalConnect(GadgetID(*ActiveSource\EditorGadget), "key-press-event", @ScintillaShortcutHandler(), 0)
       GtkSignalConnect(GadgetID(*ActiveSource\EditorGadget), "button-press-event", @ScintillaDoubleClickHandler(), 0)
     CompilerEndIf

@@ -55,7 +55,7 @@ source BuildEnv.sh <YourPureBasicPath>
 
 In the opened command shell, navigate to the [`PureBasicIDE`][PureBasicIDE] directory and type `make`. To create a debug version, type `make debug`.
 
-The default is to build the IDE with Gtk3. You can use the Gtk2 subsystem by setting the `PB_GTK=2` environment variable before running the `BuildEnv.sh` script.
+The default is to build the IDE with Gtk3. You can use the Gtk2 subsystem by setting the `PB_GTK=2` environment variable before running the `BuildEnv.sh` script. A QT version can be build by setting `PB_QT=1` instead.
 
 ## Building on MacOS
 

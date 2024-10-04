@@ -13,7 +13,7 @@ CompilerIf #CompileLinux = 0
   Global HelpToolHomeUrl$
   
   
-  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
     
     ButtonImageGadget(#GADGET_HelpTool_Back,    0, 0, 0, 0, ImageID(#IMAGE_Help_Back))
     ButtonImageGadget(#GADGET_HelpTool_Forward, 0, 0, 0, 0, ImageID(#IMAGE_Help_Forward))

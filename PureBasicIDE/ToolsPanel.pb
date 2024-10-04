@@ -72,7 +72,7 @@ Procedure ActivateTool(Name$)
             AvailablePanelTools()\IsSeparateWindow = 1
             AvailablePanelTools()\ToolWindowID = Window
             Tool.ToolsPanelInterface = @AvailablePanelTools()
-            Tool\CreateFunction(WindowID(Window))
+            Tool\CreateFunction()
             
             If #DEFAULT_CanWindowStayOnTop
               ;               CompilerIf #CompileWindows
@@ -181,7 +181,7 @@ CompilerEndIf
 
 ; Special linux procedure for the vertical panel
 ;
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   
   ImportC ""
     gtk_label_set_angle_(*Label.GtkWidget, angle.d) As "gtk_label_set_angle" ; Gtk 2.6+
@@ -253,7 +253,12 @@ Procedure ToolsPanel_Create(IsUpdate)
   ;
   CompilerSelect #PB_Compiler_OS
     CompilerCase #PB_OS_Windows: ToolsPanel_CreateFake_Windows()
-    CompilerCase #PB_OS_Linux:   ToolsPanel_CreateFake_Linux(IsUpdate)
+    CompilerCase #PB_OS_Linux
+      CompilerIf #CompileLinuxGtk
+        ToolsPanel_CreateFake_Linux(IsUpdate)
+      CompilerElse
+        ToolsPanel_CreateFake_Default()
+      CompilerEndIf
     CompilerCase #PB_OS_MacOS:   ToolsPanel_CreateFake_Default() ; use same as windows fallback
   CompilerEndSelect
   
@@ -276,7 +281,7 @@ Procedure ToolsPanel_Create(IsUpdate)
         AddGadgetItem(#GADGET_ToolsPanel, -1, Language("ToolsPanel", *ToolData\PanelTitle$))
       EndIf
       PanelTool.ToolsPanelInterface = UsedPanelTools()
-      PanelTool\CreateFunction(GetPanelItemID(#GADGET_ToolsPanel, CountGadgetItems(#GADGET_ToolsPanel)-1))
+      PanelTool\CreateFunction()
     Next UsedPanelTools()
     
     FirstElement(UsedPanelTools())  ; set the current tool.. very important!
@@ -459,7 +464,7 @@ Procedure ToolsPanel_Hide()
     EndIf
   CompilerEndIf
   
-  CompilerIf #CompileLinux
+  CompilerIf #CompileLinuxGtk
     If GadgetType(#GADGET_ToolsPanelFake) = #PB_GadgetType_Panel ; check if we used the vertical panel
       SetGadgetState(#GADGET_ToolsPanelFake, GetGadgetState(#GADGET_ToolsPanel))
     EndIf

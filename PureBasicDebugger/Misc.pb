@@ -360,6 +360,10 @@ Procedure ScrollEditorGadgetToEnd(Gadget)
       gtk_text_buffer_delete_mark_(*Buffer, *Mark)
     CompilerEndIf
     
+    CompilerIf #CompileLinuxQt
+      Qt_ScrollEditorToBottom(GadgetID(Gadget))
+    CompilerEndIf
+    
     CompilerIf #CompileWindows
       SendMessage_(GadgetID(Gadget), #WM_VSCROLL, #SB_BOTTOM, #Null)
     CompilerEndIf

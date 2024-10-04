@@ -10,14 +10,24 @@
 ; full alpha information, so we can just use the gtk function directly.
 ;
 
-CompilerIf #CompileLinuxGtk
+CompilerIf #CompileLinux
+  
+  CompilerIf #CompileLinuxQt
+    ImportC "Build/QtHelpers.a"
+      QT_SetDefaultWindowIcon(*Image)
+    EndImport
+  CompilerEndIf
   
   UsePNGImageDecoder()
-  
-  
+
   If CatchImage(#IMAGE_LinuxWindowIcon, ?Image_LinuxWindowIcon)
     ; This applies the icon to all new windows, so no need to patch the OpenWindow() even
-    gtk_window_set_default_icon_(ImageID(#IMAGE_LinuxWindowIcon))
+    
+    CompilerIf #CompileLinuxGtk
+      gtk_window_set_default_icon_(ImageID(#IMAGE_LinuxWindowIcon))
+    CompilerElse
+      QT_SetDefaultWindowIcon(ImageID(#IMAGE_LinuxWindowIcon))
+    CompilerEndIf
   EndIf
   
   
