@@ -2898,6 +2898,10 @@ CompilerIf #PB_Compiler_Debugger
   ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates weird bug).
   ;
   Global InDebuggerCallback = #False
+  ; Useful to ensures WindowEvent() is NEVER called in the MainWindowCallback WM_DropFiles event when débugging as it crash
+  ; (WindowEvent() can Not be called from a 'binded' event callback) 
+  ; 
+  Global InDragDropCallback = #False
 CompilerEndIf
 
 UseMD5Fingerprint()
