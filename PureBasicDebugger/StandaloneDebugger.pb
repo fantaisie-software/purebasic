@@ -1288,7 +1288,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               WorkAreaHeight = wr\bottom - wr\top
             CompilerElse
               DummyWindow = OpenWindow(#PB_Any,0,0,0,0,"",#PB_Window_Invisible | #PB_Window_Maximize | #PB_Window_MaximizeGadget | #PB_Window_NoActivate)
-              WorkAreaHeight = DesktopScaledX(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
+              WorkAreaHeight = DesktopScaledY(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
               CloseWindow(DummyWindow)
             CompilerEndIf
             
