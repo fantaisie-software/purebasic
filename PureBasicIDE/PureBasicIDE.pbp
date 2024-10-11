@@ -361,15 +361,14 @@
     <target name="Default Target" enabled="1" default="1">
       <inputfile value="PureBasic.pb"/>
       <outputfile value=""/>
-      <commandline value="/NOEXT"/>
       <executable value=""/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1" optimizer="0"/>
       <debugger custom="1" type="ide"/>
       <constants>
         <constant value="#BUILD_DIRECTORY=..\Build\x64\ide\" enable="0"/>
-        <constant value="#FredLocalCompile=1" enable="1"/>
-        <constant value="#SpiderBasic=1" enable="1"/>
+        <constant value="#FredLocalCompile=1" enable="0"/>
+        <constant value="#SpiderBasic=1" enable="0"/>
         <constant value="#SVNVersion=&quot;v6.10&quot;" enable="1"/>
       </constants>
     </target>
@@ -412,7 +411,6 @@
     <target name="Linux - x86" enabled="1" default="0">
       <inputfile value="PureBasic.pb"/>
       <outputfile value="..\Build\x86\purebasic"/>
-      <commandline value="/NOEXT"/>
       <executable value="..\Build\x86\purebasic"/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1" optimizer="0"/>
@@ -430,7 +428,6 @@
     <target name="Linux - x64" enabled="1" default="0">
       <inputfile value="PureBasic.pb"/>
       <outputfile value="..\Build\x64\purebasic"/>
-      <commandline value="/NOEXT"/>
       <executable value="..\Build\x64\purebasic"/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1" optimizer="0"/>
@@ -448,7 +445,6 @@
     <target name="Mac - x86" enabled="1" default="0">
       <inputfile value="PureBasic.pb"/>
       <outputfile value="..\Build\x86\PureBasic.app"/>
-      <commandline value="/NOEXT"/>
       <executable value="..\Build\x86\PureBasic.app"/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1" optimizer="0"/>
@@ -466,7 +462,6 @@
     <target name="Mac - x64" enabled="1" default="0">
       <inputfile value="PureBasic.pb"/>
       <outputfile value="..\Build\x64\PureBasic.app"/>
-      <commandline value="/NOEXT"/>
       <executable value="..\Build\x64\PureBasic.app"/>
       <directory value="data\"/>
       <options thread="1" xpskin="1" dpiaware="1" debug="1" optimizer="0"/>
