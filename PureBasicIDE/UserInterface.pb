@@ -1819,6 +1819,9 @@ Procedure MainMenuEvent(MenuItemID)
         ElseIf IsProject And (GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProjectInfo_Targets))
           PostEvent(#PB_Event_Gadget, #WINDOW_Main, #GADGET_ProjectInfo_Targets, #PB_EventType_LeftDoubleClick)
           
+        ElseIf GetFocusGadgetID(#WINDOW_Main) = GadgetID(#GADGET_ProcedureBrowser_FilterInput)
+          PostEvent(#PB_Event_Gadget, #WINDOW_Main, #GADGET_ProcedureBrowser_FilterInput, #PB_EventType_Change, #PB_Key_Return)
+          
         Else
           CompilerIf #CompileWindows
             SendMessage_(GetFocus_(), #WM_KEYDOWN, #VK_RETURN, 0) ; for the label editing in Templates for example
