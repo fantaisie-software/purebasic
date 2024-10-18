@@ -1273,6 +1273,39 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             Type$ = PeekS(*Pointer, -1, #PB_Ascii): *Pointer + Len(Type$) + 1
             Count = PeekL(*Pointer): *Pointer + 4
             
+            ; Calculate the maximum number of lines to display the tooltip up or down.
+            ;
+            ; Currently, with MaxLine = 25 hardcoded, no possibility to display more lines for large structures if there is enough space.
+            ; If there isn't enough space at the bottom or top, the tolltip isn't displayed at all. 
+            ; Large structure tooltip is often not displayed when the cursor is on a middle line, no problem when the cursor is at the top or bottom.
+            ;
+            ; With the calculation below, the number of lines to be displayed is adjusted (with a 1 line margin to be on the safe side) to the available space, 
+            ; And so make sure the tooltip is always displayed with the maximum number of structure fields displayed.
+            ;
+            ; Windows 10, 11 has thin invisible borders on left, right and bottom. It is used to grip the mouse for resizing. Use SPI_GETWORKAREA instead of OpenWindow
+            CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+              SystemParametersInfo_(#SPI_GETWORKAREA, 0, @wr.RECT, 0)
+              WorkAreaHeight = wr\bottom - wr\top
+            CompilerElse
+              DummyWindow = OpenWindow(#PB_Any,0,0,0,0,"",#PB_Window_Invisible | #PB_Window_Maximize | #PB_Window_MaximizeGadget | #PB_Window_NoActivate)
+              WorkAreaHeight = DesktopScaledY(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
+              CloseWindow(DummyWindow)
+            CompilerEndIf
+            
+            ; Number of lines from top: Remove a line for "Structure: " + Name$ and a second line to ensure that the tooltip is displayed with its borders.
+            MaxLineTop = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_LINEFROMPOSITION, MouseDwellPosition, 0) - ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_GETFIRSTVISIBLELINE, 0, 0) - 2
+            Debug "ToolTip - Line From Top = " + Str(MaxLineTop) + " = " + Str(ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_LINEFROMPOSITION, MouseDwellPosition, 0)) + " - " + Str(ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_GETFIRSTVISIBLELINE, 0, 0)) + " - 2"
+
+            ; Number of lines to bottom : (from mouse position + height of 1 line) to bottom and remove a line for "Structure: " + Name$
+            TextHeight = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_TEXTHEIGHT, 1, 0)
+            MaxLineBottom = Round((WorkAreaHeight -  DesktopMouseY() - TextHeight) / TextHeight, #PB_Round_Down) - 1
+            Debug "ToolTip - MaxLine To Bottom = " + Str(MaxLineBottom) + " = Round((" + Str(WorkAreaHeight) + " - " + Str(DesktopMouseY()) + " - " + Str(TextHeight) + ") / " + Str(TextHeight) + ", #PB_Round_Down) - 1"
+            
+            MaxLine = Max(MaxLineTop, MaxLineBottom)
+            If Count > MaxLine
+              MaxLine - 1
+            EndIf
+            
             For i = 1 To Count
               type        = PeekB(*Pointer): *Pointer + 1
               dynamictype = PeekB(*Pointer): *Pointer + 1
@@ -1324,7 +1357,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
               
               ; do not display too large structures !
-              If i <= 25
+              If i <= MaxLine
                 If Len(Line$) > 100
                   Line$ = Left(Line$, 96) + " ..."
                 EndIf
@@ -1333,7 +1366,7 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               EndIf
             Next i
             
-            If Count > 25
+            If Count > MaxLine
               Message$ + Chr(10) + "..."
             EndIf
             
