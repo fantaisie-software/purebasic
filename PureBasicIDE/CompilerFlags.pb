@@ -336,7 +336,9 @@ CompilerElse
   
   CompilerIf #CompileWindows
     #PreferenceFileName$ = "PureBasic.prefs"
-  CompilerElse
+  CompilerElseIf #CompileLinuxQt
+    #PreferenceFileName$ = "purebasic_qt.prefs"
+  CompilerElse    
     #PreferenceFileName$ = "purebasic.prefs"
   CompilerEndIf
   
