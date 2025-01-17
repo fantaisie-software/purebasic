@@ -64,6 +64,8 @@ EndProcedure
 
 Procedure LoadPreferences()
   
+  InitColorSchemes()
+  
   OpenPreferences(PreferencesFile$)
   
   ;- - Global
@@ -623,9 +625,9 @@ Procedure LoadPreferences()
   ; read the ID's of the enabled tools
   ;
   If ActiveToolsCount = -1 ; value doesn't exist, use the default setup
+    SortStructuredList(AvailablePanelTools(), #PB_Sort_Ascending, OffsetOf(ToolsPanelEntry\PanelTabOrder), TypeOf(ToolsPanelEntry\PanelTabOrder))
     ForEach AvailablePanelTools()
-      Name$ = UCase(AvailablePanelTools()\ToolID$)
-      If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
+      If AvailablePanelTools()\PanelTabOrder   ; If Name$ = "PROCEDUREBROWSER" Or Name$ = "FORM" Or Name$ = "PROJECTPANEL" Or Name$ = "EXPLORER" Or Name$ = "WEBVIEW"
         AddElement(UsedPanelTools())  ; add the tool to the active list
         UsedPanelTools() = @AvailablePanelTools()
       EndIf
@@ -727,9 +729,35 @@ Procedure LoadPreferences()
       GetCompilerVersion(Compilers()\Executable$, @Compilers())
     EndIf
   Next i
+  
+  ; Ensures the C backend compiler is automatically added to the list for the PureBasic version which have one
+  ;
+  CompilerIf (#CompileWindows Or #CompileLinux) And (#CompileX86 Or #CompileX64)
+    CompilerIf #CompileWindows
+      CompilerExecutable$ = PureBasicPath$ + "Compilers\pbcompilerc.exe"
+    CompilerElse ; Linux
+      CompilerExecutable$ = PureBasicPath$ + "compilers/pbcompilerc"
+    CompilerEndIf
+    
+    Found = #False
+    ForEach Compilers()
+      If IsEqualFile(CompilerExecutable$, Compilers()\Executable$)
+        Found = #True
+        Break
+      EndIf
+    Next
+    
+    ; Not found in the additional compiler list, we can add it
+    If Not Found
+      AddElement(Compilers())
+      Compilers()\Executable$ = CompilerExecutable$
+      ; will try to get the info from the exe (and set it to validated)
+      GetCompilerVersion(Compilers()\Executable$, @Compilers())
+    EndIf
+  CompilerEndIf
+  
   SortCompilers()
-  
-  
+    
   ;- - CompilerDefaults
   PreferenceGroup("CompilerDefaults")
   LoadDialogPosition(@OptionWindowPosition)
@@ -743,6 +771,7 @@ Procedure LoadPreferences()
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
   OptionDllProtection        = ReadPreferenceLong("DllProtection", 0)
+  OptionSharedUCRT           = ReadPreferenceLong("SharedUCRT", 0)
   OptionThread               = ReadPreferenceLong("Thread",    0)
   OptionOnError              = ReadPreferenceLong("OnError",   0)
   OptionCPU                  = ReadPreferenceLong("CPU",       0)
@@ -1454,7 +1483,6 @@ Procedure SavePreferences()
       WritePreferenceString(Index$+"_Version", Compilers()\VersionString$)
     Next Compilers()
     
-    
     ;- - CompilerDefaults
     PreferenceComment("")
     PreferenceGroup("CompilerDefaults")
@@ -1469,6 +1497,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
     WritePreferenceLong  ("DllProtection",      OptionDllProtection)
+    WritePreferenceLong  ("SharedUCRT",         OptionSharedUCRT)
     WritePreferenceLong  ("Thread",             OptionThread)
     WritePreferenceLong  ("OnError",            OptionOnError)
     WritePreferenceLong  ("CPU",                OptionCPU)
@@ -1742,6 +1771,7 @@ Procedure IsPreferenceChanged()
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
     If OptionDllProtection   <> GetGadgetState(#GADGET_Preferences_DllProtection): ProcedureReturn 1: EndIf
+    If OptionSharedUCRT      <> GetGadgetState(#GADGET_Preferences_SharedUCRT): ProcedureReturn 1: EndIf
     If OptionThread          <> GetGadgetState(#GADGET_Preferences_Thread): ProcedureReturn 1: EndIf
     If OptionOptimizer       <> GetGadgetState(#GADGET_Preferences_Optimizer): ProcedureReturn 1: EndIf
     If OptionOnError         <> GetGadgetState(#GADGET_Preferences_OnError): ProcedureReturn 1: EndIf
@@ -2152,6 +2182,7 @@ Procedure ApplyPreferences()
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
     OptionDllProtection   = GetGadgetState(#GADGET_Preferences_DllProtection)
+    OptionSharedUCRT      = GetGadgetState(#GADGET_Preferences_SharedUCRT)
     OptionThread          = GetGadgetState(#GADGET_Preferences_Thread)
     OptionOptimizer       = GetGadgetState(#GADGET_Preferences_Optimizer)
     OptionOnError         = GetGadgetState(#GADGET_Preferences_OnError)
@@ -2501,6 +2532,9 @@ Procedure ApplyPreferences()
   SetupFileMonitor()
   
   ApplyPrefsTheme()
+  
+  ; Disable some color gadgets for special color schemes
+  DisableSelectionColorGadgets(FindCurrentColorScheme())
   
   ; Update Scintilla word chars
   ApplyWordChars()
@@ -2940,43 +2974,26 @@ Procedure OpenPreferencesWindow()
       
       UpdatePreferenceSyntaxColor(i, Color)
     EndIf
-    
-    If Colors(i)\PrefsValue = -1
-      DisableGadget(#GADGET_Preferences_FirstColorText+i, 1)
-      DisableGadget(#GADGET_Preferences_FirstSelectColor+i, 1)
-    EndIf
   Next i
   
-  Restore DefaultColorSchemes
-  NbSchemes = 0   ; Number of Default Color Schemes is automatically counted below
-  
   CurrentScheme = -1
-  Read.s Name$
-  While Name$ <> "" ; Empty Name$ indicates end of color schemes
-    AddGadgetItem(#GADGET_Preferences_ColorSchemes, -1, Name$)
-    ; also read the 2 toolspanel colors
-    Read.l color
-    Read.l color
-    IsMatch = #True
-    For c = 0 To #COLOR_Last
-      Read.l color
-      If Colors(c)\Enabled And (c <> #COLOR_Selection) And (c <> #COLOR_SelectionFront)
-        If color <> Colors(c)\UserValue
-          IsMatch = #False
-        EndIf
-      EndIf
-    Next c
-    If IsMatch
-      CurrentScheme = NbSchemes
+  ForEach ColorScheme()
+    AddGadgetItem(#GADGET_Preferences_ColorSchemes, ListIndex(ColorScheme()), ColorScheme()\Name$)
+    SetGadgetItemData(#GADGET_Preferences_ColorSchemes, ListIndex(ColorScheme()), @ColorScheme())
+    If ColorSchemeMatchesCurrentSettings(@ColorScheme())
+      CurrentScheme = ListIndex(ColorScheme())
     EndIf
-    
-    NbSchemes + 1
-    Read.s Name$
-  Wend
+  Next
   
   SetGadgetItemText(#GADGET_Preferences_ColorSchemes, CountGadgetItems(#GADGET_Preferences_ColorSchemes)-1, Language("Preferences", "Accessibility"), 0)
+  ;AddGadgetItem(#GADGET_Preferences_ColorSchemes, -1, "")
   If CurrentScheme >= 0
     SetGadgetState(#GADGET_Preferences_ColorSchemes, CurrentScheme)
+    DisableSelectionColorGadgets(GetGadgetItemData(#GADGET_Preferences_ColorSchemes, CurrentScheme))
+  Else
+    ;SetGadgetState(#GADGET_Preferences_ColorSchemes, CountGadgetItems(#GADGET_Preferences_ColorSchemes)-1)
+    SetGadgetState(#GADGET_Preferences_ColorSchemes, -1)
+    DisableSelectionColorGadgets(#Null)
   EndIf
   
   ;- ------> Custom Keywords
@@ -3220,6 +3237,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
     SetGadgetState(#GADGET_Preferences_DllProtection, OptionDllProtection)
+    SetGadgetState(#GADGET_Preferences_SharedUCRT, OptionSharedUCRT)
     SetGadgetState(#GADGET_Preferences_Thread, OptionThread)
     SetGadgetState(#GADGET_Preferences_Optimizer, OptionOptimizer)
     SetGadgetState(#GADGET_Preferences_OnError, OptionOnError)
@@ -4953,65 +4971,9 @@ Procedure PreferencesWindowEvents(EventID)
         
       Case #GADGET_Preferences_ColorSchemes
         index = GetGadgetState(#GADGET_Preferences_ColorSchemes)
-        
-        Restore DefaultColorSchemes
-        
-        If index >= 0 And index < NbSchemes
-          
-          ; skip all schemes before the index
-          For i = 1 To index
-            Read.s Name$
-            For c = 0 To #COLOR_Last+2 ; skip colors+toolspanel colors
-              Read.l color
-            Next c
-          Next i
-          
-          Read.s Name$ ; skip name
-          
-          ; read the toolspanel colors
-          Read.l PreferenceToolsPanelFrontColor
-          Read.l PreferenceToolsPanelBackColor
-          
-          ; read the highlight colors
-          For i = 0 To #COLOR_Last
-            Read.l Colors(i)\PrefsValue
-          Next i
-          
-          CompilerIf #CompileWindows
-            ; Special thing: On windows we always default back to the system colors in
-            ; the PB standard scheme for screenreader support. The 'Accessibility'
-            ; scheme has a special option to always use these colors, so it is not needed here.
-            ;
-            If index = 0
-              Colors(#COLOR_Selection)\PrefsValue      = GetSysColor_(#COLOR_HIGHLIGHT)
-              Colors(#COLOR_SelectionFront)\PrefsValue = GetSysColor_(#COLOR_HIGHLIGHTTEXT)
-            EndIf
-          CompilerEndIf
-          
-          ; apply the colors to the gadgets
-          For i = 0 To #COLOR_Last
-            If Colors(i)\PrefsValue <> -1
-              Color = Colors(i)\PrefsValue
-              DisableGadget(#GADGET_Preferences_FirstColorText+i, 0)
-              DisableGadget(#GADGET_Preferences_FirstSelectColor+i, 0)
-            Else
-              Color = $C0C0C0
-              DisableGadget(#GADGET_Preferences_FirstColorText+i, 1)
-              DisableGadget(#GADGET_Preferences_FirstSelectColor+i,1)
-            EndIf
-            
-            UpdatePreferenceSyntaxColor(i, Color)
-          Next i
-          
-          If IsImage(#IMAGE_Preferences_ToolsPanelFrontColor)
-            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelFrontColor, #IMAGE_Preferences_ToolsPanelFrontColor, PreferenceToolsPanelFrontColor)
-          EndIf
-          
-          If IsImage(#IMAGE_Preferences_ToolsPanelBackColor)
-            UpdateImageColorGadget(#GADGET_Preferences_ToolsPanelBackColor, #IMAGE_Preferences_ToolsPanelBackColor, PreferenceToolsPanelBackColor)
-          EndIf
+        If index >= 0
+          LoadColorSchemeToPreferencesWindow(GetGadgetItemData(#GADGET_Preferences_ColorSchemes, index))
         EndIf
-        
         
       Case #GADGET_Preferences_GetExportFile
         File$ = SaveFileRequester(Language("Misc","SaveFile"), GetGadgetText(#GADGET_Preferences_ExportFile), Language("Preferences","PrefExportPattern"), 0)
@@ -5502,347 +5464,6 @@ DataSection
   Data.l 0       ; #COLOR_Module
   Data.l $A7FFB0 ; #COLOR_SelectionRepeat
   Data.l $DFFFFF ; #COLOR_PlainBackground
-  
-  
-  Data$ "Visual Studio"
-  Data.l $000000 ;  ToolsPanelFrontColor
-  Data.l $FFFFFF ;  ToolsPanelBackColor
-  Data.l $800000 ; #COLOR_ASMKeyword
-  Data.l $FFFFFF ; #COLOR_GlobalBackground
-  Data.l $FF0000 ; #COLOR_BasicKeyword
-  Data.l $008000 ; #COLOR_Comment
-  Data.l $000000 ; #COLOR_Constant
-  Data.l $000000 ; #COLOR_Label
-  Data.l $000000 ; #COLOR_NormalText
-  Data.l $000000 ; #COLOR_Number
-  Data.l $000000 ; #COLOR_Operator
-  Data.l $000000 ; #COLOR_Pointer
-  Data.l $000000 ; #COLOR_PureKeyword
-  Data.l $000000 ; #COLOR_Separator
-  Data.l $000000 ; #COLOR_String
-  Data.l $000000 ; #COLOR_Structure
-  Data.l $808080 ; #COLOR_LineNumber
-  Data.l $F0F0F0 ; #COLOR_LineNumberBack
-  Data.l $000000 ; #COLOR_Marker
-  Data.l $F0F0F0 ; #COLOR_CurrentLine
-  Data.l $6A240A ; #COLOR_Selection
-  Data.l $FFFFFF ; #COLOR_SelectionFront
-  Data.l $000000 ; #COLOR_Cursor
-  Data.l $00FFFF ; #COLOR_DebuggerLine
-  Data.l $00FFFF ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $FFFF00 ; #COLOR_DebuggerBreakPoint
-  Data.l $FFFF00 ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $F5F5F5 ; #COLOR_DisabledBack
-  Data.l $FF0000 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $FFFFFF ; #COLOR_ProcedureBack
-  Data.l 0       ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $008000 ; #COLOR_Whitespace
-  Data.l $000000 ; #COLOR_Module
-  Data.l $F9D6CA ; #COLOR_SelectionRepeat
-  Data.l $FFFFFF ; #COLOR_PlainBackground
-  
-  
-  Data$ "PHP Extended"
-  Data.l $000000 ;  ToolsPanelFrontColor
-  Data.l $F4F4F4 ;  ToolsPanelBackColor
-  Data.l $724B92 ; #COLOR_ASMKeyword
-  Data.l $FFFFFF ; #COLOR_GlobalBackground
-  Data.l $008000 ; #COLOR_BasicKeyword
-  Data.l $0080FF ; #COLOR_Comment
-  Data.l $724B92 ; #COLOR_Constant
-  Data.l $A00000 ; #COLOR_Label
-  Data.l $A00000 ; #COLOR_NormalText
-  Data.l $FF0000 ; #COLOR_Number
-  Data.l $008080 ; #COLOR_Operator
-  Data.l $000000 ; #COLOR_Pointer
-  Data.l $008000 ; #COLOR_PureKeyword
-  Data.l $000000 ; #COLOR_Separator
-  Data.l $0000FF ; #COLOR_String
-  Data.l $800000 ; #COLOR_Structure
-  Data.l $000000 ; #COLOR_LineNumber
-  Data.l $F0F0F0 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $F5F5F5 ; #COLOR_CurrentLine
-  Data.l $C0C0C0 ; #COLOR_Selection
-  Data.l $000000 ; #COLOR_SelectionFront
-  Data.l $000000 ; #COLOR_Cursor
-  Data.l $FFE8E8 ; #COLOR_DebuggerLine
-  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
-  Data.l $8080FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $00D0FF ; #COLOR_DebuggerBreakPoint
-  Data.l $00D0FF ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $F5F5F5 ; #COLOR_DisabledBack
-  Data.l $008000 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $FFFFFF ; #COLOR_ProcedureBack
-  Data.l 0       ; #COLOR_CustomKeyword
-  Data.l $FFFF00 ; #COLOR_DebuggerWarning
-  Data.l $FFFF00 ; #COLOR_DebuggerWarningSymbol
-  Data.l $0080FF ; #COLOR_Whitespace
-  Data.l $A00000 ; #COLOR_Module
-  Data.l $DCDCDC ; #COLOR_SelectionRepeat
-  Data.l $FFFFFF ; #COLOR_PlainBackground
-  
-  Data$ "Black Style"
-  Data.l $008000 ;  ToolsPanelFrontColor
-  Data.l $000000 ;  ToolsPanelBackColor
-  Data.l $FFFFFF ; #COLOR_ASMKeyword
-  Data.l $000000 ; #COLOR_GlobalBackground
-  Data.l $00CCCC ; #COLOR_BasicKeyword
-  Data.l $808080 ; #COLOR_Comment
-  Data.l $808000 ; #COLOR_Constant
-  Data.l $FFFF80 ; #COLOR_Label
-  Data.l $C08000 ; #COLOR_NormalText
-  Data.l $808080 ; #COLOR_Number
-  Data.l $808080 ; #COLOR_Operator
-  Data.l $E6E600 ; #COLOR_Pointer
-  Data.l $008000 ; #COLOR_PureKeyword
-  Data.l $00CCCC ; #COLOR_Separator
-  Data.l $FFFFFF ; #COLOR_String
-  Data.l $808000 ; #COLOR_Structure
-  Data.l $FF8080 ; #COLOR_LineNumber
-  Data.l $5E0000 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $292929 ; #COLOR_CurrentLine
-  Data.l $C0C0C0 ; #COLOR_Selection
-  Data.l $000000 ; #COLOR_SelectionFront
-  Data.l $FFFFFF ; #COLOR_Cursor
-  Data.l $FFFFFF ; #COLOR_DebuggerLine
-  Data.l $FFFFFF ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $99994D ; #COLOR_DebuggerBreakPoint
-  Data.l $99994D ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $3C0000 ; #COLOR_DisabledBack
-  Data.l $00CCCC ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $000000 ; #COLOR_ProcedureBack
-  Data.l $D0D0D0 ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $808080 ; #COLOR_Whitespace
-  Data.l $C08000 ; #COLOR_Module
-  Data.l $464646 ; #COLOR_SelectionRepeat
-  Data.l $000000 ; #COLOR_PlainBackground
-  
-  ; Based on the Monokai color scheme, copyright by Wimer Hazenberg (https://monokai.nl)
-  Data$ "Monokai"
-  Data.l $C2CFCF ;  ToolsPanelFrontColor
-  Data.l $222827 ;  ToolsPanelBackColor
-  Data.l $EFD966 ; #COLOR_ASMKeyword
-  Data.l $222827 ; #COLOR_GlobalBackground
-  Data.l $7226F9 ; #COLOR_BasicKeyword
-  Data.l $5E7175 ; #COLOR_Comment
-  Data.l $FF81AE ; #COLOR_Constant
-  Data.l $669FE6 ; #COLOR_Label
-  Data.l $F2F8F8 ; #COLOR_NormalText
-  Data.l $FF81AE ; #COLOR_Number
-  Data.l $7226F9 ; #COLOR_Operator
-  Data.l $FF81AE ; #COLOR_Pointer
-  Data.l $2EE2A6 ; #COLOR_PureKeyword
-  Data.l $F0F8F8 ; #COLOR_Separator
-  Data.l $74DBE6 ; #COLOR_String
-  Data.l $2EE2A6 ; #COLOR_Structure
-  Data.l $808080 ; #COLOR_LineNumber
-  Data.l $222827 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $292929 ; #COLOR_CurrentLine
-  Data.l $C0C0C0 ; #COLOR_Selection
-  Data.l $000000 ; #COLOR_SelectionFront
-  Data.l $F0F8F8 ; #COLOR_Cursor
-  Data.l $F2F8F8 ; #COLOR_DebuggerLine
-  Data.l $F2F8F8 ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $99994D ; #COLOR_DebuggerBreakPoint
-  Data.l $99994D ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $1E1E1E ; #COLOR_DisabledBack
-  Data.l $669FE6 ; #COLOR_GoodBrace
-  Data.l $7226F9 ; #COLOR_BadBrace
-  Data.l $222827 ; #COLOR_ProcedureBack
-  Data.l $EFD966 ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $808080 ; #COLOR_Whitespace
-  Data.l $2EE2A6 ; #COLOR_Module
-  Data.l $464646 ; #COLOR_SelectionRepeat
-  Data.l $222827 ; #COLOR_PlainBackground
-  
-  Data$ "Blue Style"
-  Data.l $80FFFF ;  ToolsPanelFrontColor
-  Data.l $804000 ;  ToolsPanelBackColor
-  Data.l $724B92 ; #COLOR_ASMKeyword
-  Data.l $FFEAD9 ; #COLOR_GlobalBackground
-  Data.l $800000 ; #COLOR_BasicKeyword
-  Data.l $006400 ; #COLOR_Comment
-  Data.l $000080 ; #COLOR_Constant
-  Data.l $000000 ; #COLOR_Label
-  Data.l $000000 ; #COLOR_NormalText
-  Data.l $0000FF ; #COLOR_Number
-  Data.l $0000FF ; #COLOR_Operator
-  Data.l $000000 ; #COLOR_Pointer
-  Data.l $FF0000 ; #COLOR_PureKeyword
-  Data.l $000000 ; #COLOR_Separator
-  Data.l $646464 ; #COLOR_String
-  Data.l $000000 ; #COLOR_Structure
-  Data.l $80FFFF ; #COLOR_LineNumber
-  Data.l $804000 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $FFF1E6 ; #COLOR_CurrentLine
-  Data.l $C0C0C0 ; #COLOR_Selection
-  Data.l $000000 ; #COLOR_SelectionFront
-  Data.l $000000 ; #COLOR_Cursor
-  Data.l $FFE8E8 ; #COLOR_DebuggerLine
-  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint
-  Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $FFEAD9 ; #COLOR_DisabledBack
-  Data.l $800000 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $FFEAD9 ; #COLOR_ProcedureBack
-  Data.l 0       ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $006400 ; #COLOR_Whitespace
-  Data.l $000000 ; #COLOR_Module
-  Data.l $FFD8B7 ; #COLOR_SelectionRepeat
-  Data.l $FFEAD9 ; #COLOR_PlainBackground
-  
-  Data$ "White Style"
-  Data.l $000000 ;  ToolsPanelFrontColor
-  Data.l $FFFFFF ;  ToolsPanelBackColor
-  Data.l $0000FF ; #COLOR_ASMKeyword
-  Data.l $FFFFFF ; #COLOR_GlobalBackground
-  Data.l $800000 ; #COLOR_BasicKeyword
-  Data.l $008000 ; #COLOR_Comment
-  Data.l $000080 ; #COLOR_Constant
-  Data.l $808080 ; #COLOR_Label
-  Data.l $C08080 ; #COLOR_NormalText
-  Data.l $800000 ; #COLOR_Number
-  Data.l $800000 ; #COLOR_Operator
-  Data.l $C08080 ; #COLOR_Pointer
-  Data.l $FF0000 ; #COLOR_PureKeyword
-  Data.l $800000 ; #COLOR_Separator
-  Data.l $0080FF ; #COLOR_String
-  Data.l $C08080 ; #COLOR_Structure
-  Data.l $6F6F6F ; #COLOR_LineNumber
-  Data.l $E8E8E8 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $FFFFFF ; #COLOR_CurrentLine
-  Data.l $DED4D6 ; #COLOR_Selection
-  Data.l $000000 ; #COLOR_SelectionFront
-  Data.l $000000 ; #COLOR_Cursor
-  Data.l $FFE8E8 ; #COLOR_DebuggerLine
-  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $AAAA00 ; #COLOR_DebuggerBreakPoint
-  Data.l $AAAA00 ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $FFFFFF ; #COLOR_DisabledBack
-  Data.l $800000 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $FFFFFF ; #COLOR_ProcedureBack
-  Data.l 0       ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $008000 ; #COLOR_Whitespace
-  Data.l $C08080 ; #COLOR_Module
-  Data.l $EDE7E8 ; #COLOR_SelectionRepeat
-  Data.l $FFFFFF ; #COLOR_PlainBackground
-  
-  
-  Data$ "Grey Style"
-  Data.l $6F3F00 ;  ToolsPanelFrontColor
-  Data.l $8F8F8F ;  ToolsPanelBackColor
-  Data.l $FF0000 ; #COLOR_ASMKeyword
-  Data.l $AFAFAF ; #COLOR_GlobalBackground
-  Data.l $000000 ; #COLOR_BasicKeyword
-  Data.l $FFFFFF ; #COLOR_Comment
-  Data.l $7F007F ; #COLOR_Constant
-  Data.l $FF0000 ; #COLOR_Label
-  Data.l $000000 ; #COLOR_NormalText
-  Data.l $0000AF ; #COLOR_Number
-  Data.l $000000 ; #COLOR_Operator
-  Data.l $005FAF ; #COLOR_Pointer
-  Data.l $FF0000 ; #COLOR_PureKeyword
-  Data.l $000000 ; #COLOR_Separator
-  Data.l $007F00 ; #COLOR_String
-  Data.l $005FAF ; #COLOR_Structure
-  Data.l $6F3F00 ; #COLOR_LineNumber
-  Data.l $8F8F8F ; #COLOR_LineNumberBack
-  Data.l $9F9F00 ; #COLOR_Marker
-  Data.l $AFAFAF ; #COLOR_CurrentLine
-  Data.l $AF6F00 ; #COLOR_Selection
-  Data.l $FFFFFF ; #COLOR_SelectionFront
-  Data.l $000000 ; #COLOR_Cursor
-  Data.l $FFDFDF ; #COLOR_DebuggerLine
-  Data.l $FFDFDF ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $9F9F00 ; #COLOR_DebuggerBreakPoint
-  Data.l $9F9F00 ; #COLOR_DebuggerBreakpointSymbol
-  Data.l $AFAFAF ; #COLOR_DisabledBack
-  Data.l $000000 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $AFAFAF ; #COLOR_ProcedureBack
-  Data.l 0       ; #COLOR_CustomKeyword
-  Data.l $0080FF ; #COLOR_DebuggerWarning
-  Data.l $0080FF ; #COLOR_DebuggerWarningSymbol
-  Data.l $FFFFFF ; #COLOR_Whitespace
-  Data.l $000000 ; #COLOR_Module
-  Data.l $FFA915 ; #COLOR_SelectionRepeat
-  Data.l $FFFFFF ; #COLOR_PlainBackground
-  
-  
-  Data$ "Dark Mode"
-  Data.l $FFFFFF ;  ToolsPanel_BackColor
-  Data.l $2A2822 ;  ToolsPanel_FrontColor
-  Data.l $787DFF ; #COLOR_ASMKeyword
-  Data.l $2A2822 ; #COLOR_GlobalBackground
-  Data.l $63C793 ; #COLOR_BasicKeyword
-  Data.l $7B7466 ; #COLOR_Comment
-  Data.l $BD82A0 ; #COLOR_Constant
-  Data.l $8AA399 ; #COLOR_Label
-  Data.l $F3F2F1 ; #COLOR_NormalText
-  Data.l $22CDFF ; #COLOR_Number
-  Data.l $F3F2F1 ; #COLOR_Operator
-  Data.l $8AA399 ; #COLOR_Pointer
-  Data.l $B18C67 ; #COLOR_PureKeyword
-  Data.l $F3F2F1 ; #COLOR_Separator
-  Data.l $0076EC ; #COLOR_String
-  Data.l $8AA399 ; #COLOR_Structure
-  Data.l $494E3F ; #COLOR_LineNumber
-  Data.l $343129 ; #COLOR_LineNumberBack
-  Data.l $AAAA00 ; #COLOR_Marker
-  Data.l $2A2822 ; #COLOR_CurrentLine
-  Data.l $64614F ; #COLOR_Selection
-  Data.l $FFFFFF ; #COLOR_SelectionFront
-  Data.l $FFFFFF ; #COLOR_Cursor
-  Data.l $FFE8E8 ; #COLOR_DebuggerLine
-  Data.l $FFE8E8 ; #COLOR_DebuggerLineSymbol
-  Data.l $0000FF ; #COLOR_DebuggerError
-  Data.l $0000FF ; #COLOR_DebuggerErrorSymbol
-  Data.l $463A96 ; #COLOR_DebuggerBreakPoint
-  Data.l $463A96 ; #COLOR_DebuggerBreakpoinSymbol
-  Data.l $494E3F ; #COLOR_DisabledBack
-  Data.l $666600 ; #COLOR_GoodBrace
-  Data.l $0000FF ; #COLOR_BadBrace
-  Data.l $2A2822 ; #COLOR_ProcedureBack
-  Data.l $63C793 ; #COLOR_CustomKeyword
-  Data.l $0076EC ; #COLOR_DebuggerWarning
-  Data.l $0076EC ; #COLOR_DebuggerWarningSymbol
-  Data.l $AAAA00 ; #COLOR_Whitespace
-  Data.l $C08000 ; #COLOR_Module
-  Data.l $594646 ; #COLOR_SelectionRepeat
-  Data.l $000000 ; #COLOR_PlainBackground
   
   
   Data$ "Accessibility"

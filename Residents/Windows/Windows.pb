@@ -7458,7 +7458,7 @@ Structure XMM_SAVE_AREA32
   MxCsr.l
   MxCsr_Mask.l
   FloatRegisters.M128A[8] ; aligned at 16 byte boundary
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     XmmRegisters.M128A[16]
     Reserved4.b[96]
   CompilerElse
@@ -9942,7 +9942,7 @@ Structure NCB
   *ncb_post
   ncb_lana_num.b
   ncb_cmd_cplt.b
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     ncb_reserve.b[18]
   CompilerElse
     ncb_reserve.b[10]
@@ -10103,13 +10103,13 @@ Structure PERF_OBJECT_TYPE
   DefinitionLength.l
   HeaderLength.l
   ObjectNameTitleIndex.l
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     ObjectNameTitle.l  ; just a DWORD index on 64bits... very weird
   CompilerElse
     *ObjectNameTitle
   CompilerEndIf
   ObjectHelpTitleIndex.l
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     ObjectHelpTitle.l
   CompilerElse
     *ObjectHelpTitle
@@ -10126,13 +10126,13 @@ EndStructure
 Structure PERF_COUNTER_DEFINITION
   ByteLength.l
   CounterNameTitleIndex.l
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     CounterNameTitle.l
   CompilerElse
     *CounterNameTitle
   CompilerEndIf
   CounterHelpTitleIndex.l
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     CounterHelpTitle.l
   CompilerElse
     *CounterHelpTitle
@@ -11614,12 +11614,11 @@ Structure TBBUTTON
   idCommand.l
   fsState.b
   fsStyle.b
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     bReserved.b[6]
   CompilerElse
     bReserved.b[2]
   CompilerEndIf
-  ;PB_Align(0, 4) ; not required anymore because bReserved.b[6] on x64
   dwData.i
   iString.i
 EndStructure
@@ -12910,7 +12909,7 @@ Structure WSADATA
     iMaxUdpDg.u
     PB_Align(2, 0)
     *lpVendorInfo
-  CompilerElse                      ; #PB_Processor_x64
+  CompilerElse                      ; #PB_Compiler_64Bit
     iMaxSockets.u
     iMaxUdpDg.u
     *lpVendorInfo
@@ -12950,7 +12949,7 @@ EndStructure
 Structure SERVENT
   *s_name
   *s_aliases
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     *s_proto
     s_port.w
     PB_Align(2, 6)
@@ -17215,7 +17214,7 @@ Structure PROPSHEETHEADER
   nStartPage.i
   phpage.i
   pnfCallback.i
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     hbmWatermark.i
     hplWatermark.i
     hbmHeader.i
@@ -17226,7 +17225,7 @@ Structure DEV_BROADCAST_HANDLE
   dbcc_size.l
   dbcc_devicetype.l
   dbcc_reserved.l
-  CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+  CompilerIf #PB_Compiler_64Bit
     alignment1.l
   CompilerEndIf
   dbch_handle.i
@@ -18831,7 +18830,7 @@ CompilerIf #PB_Compiler_Processor = #PB_Processor_x86
     
 CompilerEndIf
 
-CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
+CompilerIf #PB_Compiler_64Bit
 
   #DWLP_MSGRESULT = #DWL_MSGRESULT ; 0
   #DWLP_DLGPROC   = #DWL_DLGPROC   ; 4

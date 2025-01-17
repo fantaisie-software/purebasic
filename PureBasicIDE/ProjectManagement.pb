@@ -626,6 +626,20 @@ CompilerIf #CompileLinuxGtk
     Debug "Key event: " + *Event\keyval
     If *Event\keyval = #GDK_Return
       PostEvent(#PB_Event_Gadget, #WINDOW_Main, Gadget, #PB_EventType_LeftDoubleClick)
+      
+    ElseIf *Event\keyval = $FE20 ; #GDK_LeftTab
+      If (*Event\state & (1 << 2)) ; Ctrl
+        If (*Event\state & 1) ; Shift
+          If KeyboardShortcuts(#MENU_NextOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(0)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_NextOpenedFile)
+          ElseIf KeyboardShortcuts(#MENU_PreviousOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(1)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_PreviousOpenedFile)
+          EndIf
+        EndIf
+      EndIf
+      
     EndIf
   EndProcedure
 CompilerEndIf
@@ -1037,6 +1051,7 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableUser    = Xml_Boolean(GetXMLAttribute(*Entry, "user"))
                     ProjectTargets()\DPIAware      = Xml_Boolean(GetXMLAttribute(*Entry, "dpiaware"))
                     ProjectTargets()\DllProtection = Xml_Boolean(GetXMLAttribute(*Entry, "dllprotection"))
+                    ProjectTargets()\SharedUCRT    = Xml_Boolean(GetXMLAttribute(*Entry, "shareducrt"))
                     ProjectTargets()\EnableOnError = Xml_Boolean(GetXMLAttribute(*Entry, "onerror"))
                     ProjectTargets()\Debugger      = Xml_Boolean(GetXMLAttribute(*Entry, "debug"))
                     ProjectTargets()\EnableUnicode = Xml_Boolean(GetXMLAttribute(*Entry, "unicode"))
@@ -1497,6 +1512,9 @@ Procedure SaveProject(ShowErrors)
       EndIf
       If ProjectTargets()\DllProtection
         SetXMLAttribute(*Options, "dllprotection",  "1")
+      EndIf
+      If ProjectTargets()\SharedUCRT
+        SetXMLAttribute(*Options, "shareducrt",  "1")
       EndIf
       If ProjectTargets()\EnableOnError
         SetXMLAttribute(*Options, "onerror", "1")

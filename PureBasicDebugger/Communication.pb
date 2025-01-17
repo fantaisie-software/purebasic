@@ -161,6 +161,15 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
   
   ; Close the Process Object
   If *Debugger\ProcessObject
+    
+    ; There can be zombies process in Linux when the debugger exits: https://www.purebasic.fr/english/viewtopic.php?t=84602
+    ;
+    CompilerIf #CompileLinux
+      If WaitProgram(*Debugger\ProcessObject, 0) = #False ; still running
+        KillProgram(*Debugger\ProcessObject)
+      EndIf
+    CompilerEndIf
+    
     CloseProgram(*Debugger\ProcessObject)
     *Debugger\ProcessObject = 0
   EndIf

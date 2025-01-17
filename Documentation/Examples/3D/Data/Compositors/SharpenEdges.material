@@ -1,0 +1,51 @@
+fragment_program Ogre/Compositor/SharpenEdgesFP_hlsl hlsl
+{
+	source SharpenEdgesFP.cg
+    entry_point sharpenEdges_fp
+}
+
+fragment_program Ogre/Compositor/SharpenEdgesFP_glsl glsl glsles
+{
+	source SharpenEdgesFP.glsl
+}
+
+fragment_program Ogre/Compositor/SharpenEdgesFP unified
+{
+	delegate Ogre/Compositor/SharpenEdgesFP_hlsl
+	delegate Ogre/Compositor/SharpenEdgesFP_glsl
+
+	default_params
+	{
+		param_named_auto vTexelSize inverse_texture_size 0
+	}
+}
+
+material Ogre/Compositor/SharpenEdges
+{
+    technique
+    {
+
+		pass
+		{
+			cull_hardware none
+			depth_func always_pass
+            polygon_mode_overrideable false
+
+			vertex_program_ref Ogre/Compositor/StdQuad_Tex2a_vp
+			{
+			}
+
+			fragment_program_ref Ogre/Compositor/SharpenEdgesFP
+			{
+			}
+
+			texture_unit
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+
+		}
+	}
+}

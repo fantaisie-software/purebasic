@@ -7,7 +7,6 @@
 ;
 ; ------------------------------------------------------------
 ;
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #PlayerSpeed = 0.4
 #CameraSpeed = 1
@@ -73,166 +72,162 @@ Define Tank.s_Entity
 Define Camera.s_Camera
 Global NewList Bullets.Bullet()
 
-If InitEngine3D()
-  
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
-    
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-    Parse3DScripts()
-    
-    WorldShadows(#PB_Shadow_Modulative, 500)
-    
-    ;Texture
-    CreateTexture(0,128, 128)
-    StartDrawing(TextureOutput(0))
-    Box(0, 0, 128, 128, RGB(255, 255, 255))
-    StopDrawing()
-    ; Ribbon texture
-    CreateTexture(1,128, 1)
-    StartDrawing(TextureOutput(1))
-    DrawingMode(#PB_2DDrawing_Gradient)
-    BackColor(0)
-    GradientColor(0.5, RGB(255, 255, 255))
-    FrontColor(0)
-    LinearGradient(0, 0, 128, 0)
-    Box(0, 0, 128, 1)
-    StopDrawing()
-    
-    ;-Material
-    ;Tank
-    CreateMaterial(0, LoadTexture(3, "RustySteel.jpg"))
-    
-    ;Bullet
-    CreateMaterial(1, TextureID(0))
-    SetMaterialColor(1, #PB_Material_AmbientColor, RGB(255, 0, 0))
-    ;Sol
-    GetScriptMaterial(5, "Scene/GroundBlend")
-    ;Pyramide
-    CreateMaterial(6, LoadTexture(6, "Caisse.png"))
-    
-    ;Ribbon
-    GetScriptMaterial(7, "Examples/LightRibbonTrail")
-    
-    ;Ground
-    CreatePlane(0, 100, 100, 10, 10, 10, 10)
-    CreateEntity(0, MeshID(0), MaterialID(5), 0, 0, 0)
-    EntityRenderMode(0, 0) ; Disable shadow casting for this entity as it's our plan
-    CreateEntityBody(0, #PB_Entity_StaticBody)
-    
-    ; Mesh
-    CreateCube(1, 1)
-    CreateSphere(2, 1.5)
-    CreateCylinder(3, 0.5, 8)
-    
-    ;-Corps
-    CreateEntity(1, MeshID(1), MaterialID(0))
-    ScaleEntity(1, 4, 2, 8)
-    MoveEntity(1, 0, 1, 0)
-    
-    ;-Tourelle
-    CreateEntity(2, MeshID(2), MaterialID(0))
-    EntityRenderMode(2, 0)
-    
-    ;-Canon
-    CreateEntity(3, MeshID(3), MaterialID(0))
-    RotateEntity(3, 90, 0, 0)
-    MoveEntity(3, 0, 0.0, -4)
-    
-    ;-Create Pyramide
-    CreatePyramide(8)
-    
-    ;-Light
-    CreateLight(0,RGB(125, 125, 125), 100, 500, 250)
-    AmbientColor(RGB(95, 95, 95))
-    
-    ;-Fog
-    Fog(RGB(128, 128, 128), 1, 0, 10000)
-    
-    ;-Skybox
-    SkyBox("desert07.jpg")
-       
-    ;-Camera
-    CreateCamera(0, 0, 0, 100, 100)
-    CameraFOV(0, 40)
-    With Camera
-      \Camera = 0
-      \Tightness = 0.035
-      ; Camera use 2 nodes
-      \CameraNode = CreateNode(#PB_Any, 0, 700, 300) ; Camera position
-      \TargetNode = CreateNode(#PB_Any)              ; For cameraLookAt
-      AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith
-    
-    CreateCamera(1, 0.1, 67, 33, 33)
-    CameraFOV(1, 25)
-    
-    With Tank
-      \Key\Down  = #PB_Key_Down
-      \Key\Left  = #PB_Key_Left
-      \Key\Right = #PB_Key_Right
-      \Key\Up    = #PB_Key_Up
-      
-      \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \TourelleNode= CreateNode(#PB_Any,  0, 2.0,   0)
-      \CanonNode   = CreateNode(#PB_Any,  0, 0.8,   0)
-      \ShootNode   = CreateNode(#PB_Any,  0, 0.0,  -8)
-      \SightNode   = CreateNode(#PB_Any,  0, 2.0, -12) ; For cameraLookAt
-      \CameraNode  = CreateNode(#PB_Any,  0, 6.0,  15) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,  0, 0.0,  -1) ; Direction normalized
-      
-      \SightNode1  = CreateNode(#PB_Any,  0, 1.0,   0) ; For cameraLookAt
-      \CameraNode1 = CreateNode(#PB_Any,  0, 1.0,   0) ; Camera1 position
-      
-      AttachNodeObject(\MainNode, NodeID(\SightNode))
-      AttachNodeObject(\MainNode, NodeID(\TourelleNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
-      
-      AttachNodeObject(\TourelleNode, NodeID(\CanonNode))
-      AttachNodeObject(\CanonNode   , NodeID(\ShootNode))
-      
-      AttachNodeObject(\CanonNode   , NodeID(\CameraNode1))
-      AttachNodeObject(\ShootNode   , NodeID(\SightNode1))
-      
-      AttachNodeObject(\Mainnode    , EntityID(1))
-      AttachNodeObject(\TourelleNode, EntityID(2))
-      AttachNodeObject(\CanonNode   , EntityID(3))
-      AttachNodeObject(\CameraNode1 , CameraID(1))
-      
-    EndWith
-    
-    ;-Main loop
-    ;
-    Repeat
-      Screen3DEvents()
-      
-      If Engine3DStatus(#PB_Engine3D_CurrentFPS)
-        Tank\elapsedTime = 40/Engine3DStatus(#PB_Engine3D_CurrentFPS)
-      EndIf
-      
-      HandleEntity(@Tank)
-      
-      ShootBullet()
-      
-      CameraTrack(@Camera, @Tank)
-      CameraLookAt(1, NodeX(Tank\SightNode1), NodeY(Tank\SightNode1), NodeZ(Tank\SightNode1))
-      
-      RenderWorld()
-      FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
-  EndIf
-  
-Else
-  MessageRequester("Error", "The 3D Engine can't be initialized",0)
-EndIf
+InitEngine3D()
 
-End
+InitSprite()
+InitKeyboard()
+InitMouse()
+
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "Tank - [Arrows]  [Mouse+clic] [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Parse3DScripts()
+
+WorldShadows(#PB_Shadow_Modulative, 500)
+
+;Texture
+CreateTexture(0,128, 128)
+StartDrawing(TextureOutput(0))
+Box(0, 0, 128, 128, RGB(255, 255, 255))
+StopDrawing()
+; Ribbon texture
+CreateTexture(1,128, 1)
+StartDrawing(TextureOutput(1))
+DrawingMode(#PB_2DDrawing_Gradient)
+BackColor(0)
+GradientColor(0.5, RGB(255, 255, 255))
+FrontColor(0)
+LinearGradient(0, 0, 128, 0)
+Box(0, 0, 128, 1)
+StopDrawing()
+
+;-Material
+;Tank
+CreateMaterial(0, LoadTexture(3, "RustySteel.jpg"))
+
+;Bullet
+CreateMaterial(1, TextureID(0))
+SetMaterialColor(1, #PB_Material_AmbientColor, RGB(255, 0, 0))
+;Sol
+GetScriptMaterial(5, "Scene/GroundBlend")
+;Pyramide
+CreateMaterial(6, LoadTexture(6, "Caisse.png"))
+
+;Ribbon
+GetScriptMaterial(7, "Examples/LightRibbonTrail")
+
+;Ground
+CreatePlane(0, 100, 100, 10, 10, 10, 10)
+CreateEntity(0, MeshID(0), MaterialID(5), 0, 0, 0)
+EntityRenderMode(0, 0) ; Disable shadow casting for this entity as it's our plan
+CreateEntityBody(0, #PB_Entity_StaticBody)
+
+; Mesh
+CreateCube(1, 1)
+CreateSphere(2, 1.5)
+CreateCylinder(3, 0.5, 8)
+
+;-Corps
+CreateEntity(1, MeshID(1), MaterialID(0))
+ScaleEntity(1, 4, 2, 8)
+MoveEntity(1, 0, 1, 0)
+
+;-Tourelle
+CreateEntity(2, MeshID(2), MaterialID(0))
+EntityRenderMode(2, 0)
+
+;-Canon
+CreateEntity(3, MeshID(3), MaterialID(0))
+RotateEntity(3, 90, 0, 0)
+MoveEntity(3, 0, 0.0, -4)
+
+;-Create Pyramide
+CreatePyramide(8)
+
+;-Light
+CreateLight(0,RGB(125, 125, 125), 100, 500, 250)
+AmbientColor(RGB(95, 95, 95))
+
+;-Fog
+Fog(RGB(128, 128, 128), 1, 0, 10000)
+
+;-Skybox
+SkyBox("desert07.jpg")
+
+;-Camera
+CreateCamera(0, 0, 0, 100, 100)
+CameraFOV(0, 40)
+With Camera
+  \Camera = 0
+  \Tightness = 0.035
+  ; Camera use 2 nodes
+  \CameraNode = CreateNode(#PB_Any, 0, 700, 300) ; Camera position
+  \TargetNode = CreateNode(#PB_Any)              ; For cameraLookAt
+  AttachNodeObject(\CameraNode, CameraID(\Camera))
+EndWith
+
+CreateCamera(1, 0.1, 67, 33, 33)
+CameraFOV(1, 25)
+
+With Tank
+  \Key\Down  = #PB_Key_Down
+  \Key\Left  = #PB_Key_Left
+  \Key\Right = #PB_Key_Right
+  \Key\Up    = #PB_Key_Up
+  
+  \MainNode    = CreateNode(#PB_Any) ; Entity position
+  \TourelleNode= CreateNode(#PB_Any,  0, 2.0,   0)
+  \CanonNode   = CreateNode(#PB_Any,  0, 0.8,   0)
+  \ShootNode   = CreateNode(#PB_Any,  0, 0.0,  -8)
+  \SightNode   = CreateNode(#PB_Any,  0, 2.0, -12) ; For cameraLookAt
+  \CameraNode  = CreateNode(#PB_Any,  0, 6.0,  15) ; Camera position
+  \ForwardNode = CreateNode(#PB_Any,  0, 0.0,  -1) ; Direction normalized
+  
+  \SightNode1  = CreateNode(#PB_Any,  0, 1.0,   0) ; For cameraLookAt
+  \CameraNode1 = CreateNode(#PB_Any,  0, 1.0,   0) ; Camera1 position
+  
+  AttachNodeObject(\MainNode, NodeID(\SightNode))
+  AttachNodeObject(\MainNode, NodeID(\TourelleNode))
+  AttachNodeObject(\MainNode, NodeID(\CameraNode))
+  AttachNodeObject(\MainNode, NodeID(\ForwardNode))
+  
+  AttachNodeObject(\TourelleNode, NodeID(\CanonNode))
+  AttachNodeObject(\CanonNode   , NodeID(\ShootNode))
+  
+  AttachNodeObject(\CanonNode   , NodeID(\CameraNode1))
+  AttachNodeObject(\ShootNode   , NodeID(\SightNode1))
+  
+  AttachNodeObject(\Mainnode    , EntityID(1))
+  AttachNodeObject(\TourelleNode, EntityID(2))
+  AttachNodeObject(\CanonNode   , EntityID(3))
+  AttachNodeObject(\CameraNode1 , CameraID(1))
+  
+EndWith
+
+;-Main loop
+;
+Repeat
+  While WindowEvent():Wend      
+  ;If Engine3DStatus(#PB_Engine3D_CurrentFPS)
+    Tank\elapsedTime = 40/60;Engine3DStatus(#PB_Engine3D_CurrentFPS)
+  ;EndIf
+  
+  HandleEntity(@Tank)
+  
+  ShootBullet()
+  
+  CameraTrack(@Camera, @Tank)
+  CameraLookAt(1, NodeX(Tank\SightNode1), NodeY(Tank\SightNode1), NodeZ(Tank\SightNode1))
+  
+  RenderWorld()
+  FlipBuffers()
+Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+
 
 Procedure CreatePyramide(Nb)
   Define Ent, i, j
@@ -372,8 +367,8 @@ Procedure HandleEntity(*Entity.s_Entity)
       EndIf
       
     EndIf
-        
-    MoveNode(\MainNode, Trans\x, Trans\y, Trans\z)
+    
+    MoveNode(\MainNode, Trans\x, Trans\y, Trans\z,#PB_Relative|#PB_World)
     RotateNode(\MainNode, 0, Rot\y, 0, #PB_Relative)
     RotateNode(\TourelleNode, 0, MouseX, 0, #PB_Relative)
     RotateNode(\CanonNode, AngleCanon, 0, 0, #PB_Absolute)
@@ -382,27 +377,33 @@ Procedure HandleEntity(*Entity.s_Entity)
 EndProcedure
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
-   Protected.Vector3 CameraPosition, TargetPosition
-   Protected.f x, y, z
-
-   GetNodePosition(CameraPosition, *Entity\CameraNode)
-   GetNodePosition(TargetPosition, *Entity\SightNode)
-   x = NodeX(*Camera\CameraNode)
-   y = NodeY(*Camera\CameraNode)
-   z = NodeZ(*Camera\CameraNode)
-   x = (CameraPosition\x - x) *  *Camera\Tightness
-   y = (CameraPosition\y - y) *  *Camera\Tightness
-   z = (CameraPosition\z - z) *  *Camera\Tightness
-   MoveNode(*Camera\CameraNode, x, y, z)
-
-   x = NodeX(*Camera\TargetNode)
-   y = NodeY(*Camera\TargetNode)
-   z = NodeZ(*Camera\TargetNode)
-   x = (TargetPosition\x - x) *  *Camera\Tightness
-   y = (TargetPosition\y - y) *  *Camera\Tightness
-   z = (TargetPosition\z - z) *  *Camera\Tightness
-   MoveNode(*Camera\TargetNode, x, y, z)
-
-   CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
-
+  Protected.Vector3 CameraPosition, TargetPosition
+  Protected.f x, y, z
+  
+  GetNodePosition(CameraPosition, *Entity\CameraNode)
+  GetNodePosition(TargetPosition, *Entity\SightNode)
+  x = NodeX(*Camera\CameraNode)
+  y = NodeY(*Camera\CameraNode)
+  z = NodeZ(*Camera\CameraNode)
+  x = (CameraPosition\x - x) *  *Camera\Tightness
+  y = (CameraPosition\y - y) *  *Camera\Tightness
+  z = (CameraPosition\z - z) *  *Camera\Tightness
+  MoveNode(*Camera\CameraNode, x, y, z,#PB_Relative)
+  
+  x = NodeX(*Camera\TargetNode)
+  y = NodeY(*Camera\TargetNode)
+  z = NodeZ(*Camera\TargetNode)
+  x = (TargetPosition\x - x) *  *Camera\Tightness
+  y = (TargetPosition\y - y) *  *Camera\Tightness
+  z = (TargetPosition\z - z) *  *Camera\Tightness
+  MoveNode(*Camera\TargetNode, x, y, z,#PB_Relative)
+  
+  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
+  
 EndProcedure
+; IDE Options = PureBasic 6.12 LTS (Windows - x86)
+; CursorPosition = 81
+; FirstLine = 66
+; Folding = ---
+; EnableXP
+; DPIAware

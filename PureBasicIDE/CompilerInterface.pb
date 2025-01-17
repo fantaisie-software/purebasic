@@ -1580,6 +1580,7 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   CompilerIf #CompileWindows
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
     If *Target\DllProtection      : Command$ + Chr(9) + "DLLPROTECTION" : EndIf
+    If *Target\SharedUCRT         : Command$ + Chr(9) + "SHAREDUCRT" : EndIf
     
     If *Target\EnableAdmin
       Command$ + Chr(9) + "ADMINISTRATOR"

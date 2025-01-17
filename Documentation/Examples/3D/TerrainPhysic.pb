@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Terrain : Physic
@@ -7,8 +7,6 @@
 ;
 ; ------------------------------------------------------------
 ;
-
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 #TerrainMiniX = 0
 #TerrainMiniY = 0
@@ -71,208 +69,193 @@ Declare OnGround(*Entity.s_Entity)
 Define Robot.s_Entity
 Define Camera.s_Camera
 
-; OpenGL needs to have CG enabled to work (Linux and OS X have OpenGL by default)
-;
-CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
-  Flags = #PB_Engine3D_EnableCG
-CompilerEndIf
+InitEngine3D()
+  
+InitSprite()
+InitKeyboard()
+InitMouse()
 
-If InitEngine3D(Flags)
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " Terrain : Physic -  [X]   [Space]   [F5]   [F6]   [F7]  [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/"       , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia" , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main",#PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Terrain",#PB_3DArchive_FileSystem)
+Parse3DScripts()
+
+WorldShadows(#PB_Shadow_Modulative, #PB_Default, RGB(120, 120, 120))
+
+MaterialFilteringMode(#PB_Default, #PB_Material_Anisotropic, 8)
+
+;- Light
+;
+light = CreateLight(#PB_Any ,RGB(185, 185, 185), 4000, 1200, 1000, #PB_Light_Directional)
+SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+LightDirection(light ,0.55, -0.3, -0.75)
+AmbientColor(RGB(5, 5,5))
+
+;- Camera
+;
+CreateCamera(0, 0, 0, 100, 100)
+CameraBackColor(0, RGB(5, 5, 10))
+
+;----------------------------------
+;-terrain definition
+SetupTerrains(LightID(Light), 3000, #PB_Terrain_NormalMapping)
+;-initialize terrain
+CreateTerrain(0, 513, 12000, 600, 3, "TerrainPhysic", "dat")
+;-set all texture will be use when terrrain will be constructed
+AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
+AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
+AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
+
+;-Construct terrains
+For ty = #TerrainMiniY To #TerrainMaxiY
+  For tx = #TerrainMiniX To #TerrainMaxiX
+    Imported = DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)
+  Next
+Next
+BuildTerrain(0)
+
+If Imported = #True
+  InitBlendMaps()
+  UpdateTerrain(0)
   
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/"       , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia" , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-    Parse3DScripts()
-    
-    WorldShadows(#PB_Shadow_Modulative, #PB_Default, RGB(120, 120, 120))
-    
-    MaterialFilteringMode(#PB_Default, #PB_Material_Anisotropic, 8)
-    
-    ;- Light
-    ;
-    light = CreateLight(#PB_Any ,RGB(185, 185, 185), 4000, 1200, 1000, #PB_Light_Directional)
-    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
-    LightDirection(light ,0.55, -0.3, -0.75)
-    AmbientColor(RGB(5, 5,5))
-    
-    ;- Camera
-    ;
-    CreateCamera(0, 0, 0, 100, 100)
-    CameraBackColor(0, RGB(5, 5, 10))
-    
-    ;----------------------------------
-    ;-terrain definition
-    SetupTerrains(LightID(Light), 3000, #PB_Terrain_NormalMapping)
-    ;-initialize terrain
-    CreateTerrain(0, 513, 12000, 600, 3, "TerrainPhysic", "dat")
-    ;-set all texture will be use when terrrain will be constructed
-    AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
-    AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
-    AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
-    
-    ;-Construct terrains
-    For ty = #TerrainMiniY To #TerrainMaxiY
-      For tx = #TerrainMiniX To #TerrainMaxiX
-        Imported = DefineTerrainTile(0, tx, ty, "terrain513.png", ty % 2, tx % 2)
-      Next
-    Next
-    BuildTerrain(0)
-    
-    If Imported = #True
-      InitBlendMaps()
-      UpdateTerrain(0)
-      
-      ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
-      ; SaveTerrain(0, #False)
-    EndIf
-    
-    ; enable shadow terrain
-    TerrainRenderMode(0, 0)
-    
-    ;Add Physic Body
-    CreateTerrainBody(0, 0.1, 1)
-    
-    ;Texture
-    CreateTexture(1, 256, 256)
-    StartDrawing(TextureOutput(1))
-    Box(0, 0, 256, 256, $002255)
-    DrawingMode(#PB_2DDrawing_Outlined)
-    Box(0, 0, 256, 256, $FFFFFF)
-    Box(10, 10, 236, 236, $FFFF)
-    StopDrawing()
-    
-    ;Material
-    CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
-    CreateMaterial(1, TextureID(1))
-    CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
-    CreateMaterial(3, LoadTexture(3, "Wood.jpg"))
-    GetScriptMaterial(4, "Scene/GroundBlend")
-    
-    ;Robot
-    LoadMesh   (0, "robot.mesh")
-    CreateEntity (0, MeshID(0), #PB_Material_None);
-    StartEntityAnimation(0, "Walk")
-    
-    ;Robot Body
-    CreateEntity(1, MeshID(0), #PB_Material_None, 0, 426, 0)
-    HideEntity(1, 1)
-    
-    ;Body
-    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
-    
-    ; Skybox
-    SkyBox("desert07.jpg")
-    
-    ;
-    With Robot
-      \Entity = 0
-      \EntityBody = 1
-      \BodyOffsetY = 43
-      
-      \Key\Down        = #PB_Key_Down
-      \Key\Left        = #PB_Key_Left
-      \Key\Right       = #PB_Key_Right
-      \Key\Up          = #PB_Key_Up
-      \Key\StrafeLeft  = #PB_Key_X
-      \Key\StrafeRight = #PB_Key_C
-      \Key\Jump        = #PB_Key_Space
-      
-      \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
-      \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
-      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
-      
-      AttachNodeObject(\MainNode, NodeID(\SightNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
-      AttachNodeObject(\MainNode, NodeID(\StrafeNode))
-      AttachNodeObject(\MainNode, EntityID(\Entity))
-    EndWith
-    
-    ;-Camera
-    With Camera
-      \Camera = 0
-      \Tightness = 0.035
-      ; Camera use 2 nodes
-      \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
-      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
-      AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith
-    
-    ;==================================
-    ; create material
-    Red = GetScriptMaterial(#PB_Any, "Color/Red")
-    Blue = GetScriptMaterial(#PB_Any, "Color/Blue")
-    Yellow = GetScriptMaterial(#PB_Any, "Color/Yellow")
-    Green = GetScriptMaterial(#PB_Any, "Color/Green")
-    
-    ;==================================
-    ; create Sphere
-    MeshSphere = CreateSphere(#PB_Any, 10.0)
-    For i = 0 To 5
-      Entity=CreateEntity(#PB_Any, MeshID(MeshSphere), MaterialID(Green))
-      MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
-      ; create bodies
-      CreateEntityBody(Entity, #PB_Entity_SphereBody, 5.0)
-    Next
-    
-    ;==================================
-    ; create Cylinder
-    MeshCylinder = CreateCylinder(#PB_Any, 10.0, 60)
-    For i = 0 To 5
-      Entity=CreateEntity(#PB_Any, MeshID(MeshCylinder), MaterialID(Red))
-      MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
-      ; create bodies
-      CreateEntityBody(Entity, #PB_Entity_CylinderBody, 10.0, 0, 1)
-    Next
-    
-    ;==================================
-    ; create Cube
-    MeshCube = CreateCube(#PB_Any, 25.0)
-    For i = 0 To 5
-      Entity=CreateEntity(#PB_Any, MeshID(MeshCube), MaterialID(Yellow))
-      MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
-      ; create bodies
-      CreateEntityBody(Entity, #PB_Entity_BoxBody, 5.0)
-    Next
-    
-    Repeat
-      
-      Screen3DEvents()
-      
-      Robot\elapsedTime = TimeSinceLastFrame
-      
-      HandleEntity(@Robot)
-      
-      CameraTrack(@Camera, @Robot)
-      
-      TimeSinceLastFrame = RenderWorld(60) * 40 / 1000
-      FlipBuffers()
-      
-    Until KeyboardPushed(#PB_Key_Escape)
-    
-    End
-    
-  EndIf
-Else
-  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
-    ;
-    ; Terrain on Linux/OSX and Windows with OpenGL needs CG toolkit from nvidia
-    ; It can be freely downloaded and installed from this site: https://developer.nvidia.com/cg-toolkit-download
-    ;
-    MessageRequester("Error","Can't initialize engine3D (Please ensures than CG Toolkit from nvidia is correcly installed)")
-  CompilerElse
-    MessageRequester("Error","Can't initialize engine3D")
-  CompilerEndIf
+  ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
+  ; SaveTerrain(0, #False)
 EndIf
+
+; enable shadow terrain
+TerrainRenderMode(0, 0)
+
+;Add Physic Body
+CreateTerrainBody(0, 0.1, 1)
+
+;Texture
+CreateTexture(1, 256, 256)
+StartDrawing(TextureOutput(1))
+Box(0, 0, 256, 256, $002255)
+DrawingMode(#PB_2DDrawing_Outlined)
+Box(0, 0, 256, 256, $FFFFFF)
+Box(10, 10, 236, 236, $FFFF)
+StopDrawing()
+
+;Material
+CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
+CreateMaterial(1, TextureID(1))
+CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
+CreateMaterial(3, LoadTexture(3, "Wood.jpg"))
+GetScriptMaterial(4, "Scene/GroundBlend")
+
+;Robot
+LoadMesh   (0, "robot.mesh")
+CreateEntity (0, MeshID(0), #PB_Material_None);
+StartEntityAnimation(0, "Walk")
+
+;Robot Body
+CreateEntity(1, MeshID(0), #PB_Material_None, 0, 426, 0)
+HideEntity(1, 1)
+
+;Body
+CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
+
+; Skybox
+SkyBox("desert07.jpg")
+
+;
+With Robot
+  \Entity = 0
+  \EntityBody = 1
+  \BodyOffsetY = 43
+  
+  \Key\Down        = #PB_Key_Down
+  \Key\Left        = #PB_Key_Left
+  \Key\Right       = #PB_Key_Right
+  \Key\Up          = #PB_Key_Up
+  \Key\StrafeLeft  = #PB_Key_X
+  \Key\StrafeRight = #PB_Key_C
+  \Key\Jump        = #PB_Key_Space
+  
+  \MainNode    = CreateNode(#PB_Any) ; Entity position
+  \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
+  \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
+  \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
+  \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
+  
+  AttachNodeObject(\MainNode, NodeID(\SightNode))
+  AttachNodeObject(\MainNode, NodeID(\CameraNode))
+  AttachNodeObject(\MainNode, NodeID(\ForwardNode))
+  AttachNodeObject(\MainNode, NodeID(\StrafeNode))
+  AttachNodeObject(\MainNode, EntityID(\Entity))
+EndWith
+
+;-Camera
+With Camera
+  \Camera = 0
+  \Tightness = 0.035
+  ; Camera use 2 nodes
+  \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
+  \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
+  AttachNodeObject(\CameraNode, CameraID(\Camera))
+EndWith
+
+;==================================
+; create material
+Red = GetScriptMaterial(#PB_Any, "Color/Red")
+Blue = GetScriptMaterial(#PB_Any, "Color/Blue")
+Yellow = GetScriptMaterial(#PB_Any, "Color/Yellow")
+Green = GetScriptMaterial(#PB_Any, "Color/Green")
+
+;==================================
+; create Sphere
+MeshSphere = CreateSphere(#PB_Any, 10.0)
+For i = 0 To 5
+  Entity=CreateEntity(#PB_Any, MeshID(MeshSphere), MaterialID(Green))
+  MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
+  ; create bodies
+  CreateEntityBody(Entity, #PB_Entity_SphereBody, 5.0)
+Next
+
+;==================================
+; create Cylinder
+MeshCylinder = CreateCylinder(#PB_Any, 10.0, 60)
+For i = 0 To 5
+  Entity=CreateEntity(#PB_Any, MeshID(MeshCylinder), MaterialID(Red))
+  MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
+  ; create bodies
+  CreateEntityBody(Entity, #PB_Entity_CylinderBody, 10.0, 0, 1)
+Next
+
+;==================================
+; create Cube
+MeshCube = CreateCube(#PB_Any, 25.0)
+For i = 0 To 5
+  Entity=CreateEntity(#PB_Any, MeshID(MeshCube), MaterialID(Yellow))
+  MoveEntity(Entity, Random(2000)-1000, 800, Random(4000)-2000, #PB_Absolute)
+  ; create bodies
+  CreateEntityBody(Entity, #PB_Entity_BoxBody, 5.0)
+Next
+
+Repeat
+  
+  While WindowEvent():Wend
+  
+  Robot\elapsedTime = TimeSinceLastFrame
+  
+  HandleEntity(@Robot)
+  
+  CameraTrack(@Camera, @Robot)
+  
+  TimeSinceLastFrame = RenderWorld(60) * 40 / 1000
+  FlipBuffers()
+  
+Until KeyboardPushed(#PB_Key_Escape)
+
+End
 
 Procedure Clamp(*var.float, min.f, max.f)
   If *var\f < min
@@ -395,7 +378,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       
     EndIf
     
-    MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z)
+    MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z, #PB_Relative)
     RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)
     
     MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute)

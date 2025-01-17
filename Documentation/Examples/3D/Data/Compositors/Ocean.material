@@ -1,0 +1,225 @@
+vertex_program HLSL4/OceanVS hlsl
+{
+	source oceanHLSL_Cg.vert
+
+	default_params
+	{
+		param_named_auto worldViewProj_matrix worldviewproj_matrix
+		param_named_auto eyePosition camera_position_object_space
+		param_named scale float3 0.012 0.005 0.03
+		param_named_auto time_0_X time_0_x 100.0
+	}
+}
+
+fragment_program HLSL4/OceanFS hlsl
+{
+	source oceanHLSL_Cg.frag
+}
+
+vertex_program GLSL/OceanVS glsl
+{
+	source oceanGLSL.vert
+
+	default_params
+	{
+        param_named_auto worldViewProj worldviewproj_matrix
+		param_named_auto eyePosition camera_position_object_space
+		param_named scale float3 0.012 0.005 0.03
+		param_named_auto time_0_X time_0_x 100.0
+	}
+}
+
+fragment_program GLSL/OceanFS glsl
+{
+	source oceanGLSL.frag
+
+	default_params
+	{
+		param_named Noise int 0
+		param_named skyBox int 1
+	}
+}
+
+vertex_program Ogre/OceanVS unified
+{
+	delegate HLSL4/OceanVS
+	delegate GLSL/OceanVS
+}
+
+fragment_program Ogre/OceanFS unified
+{
+	delegate HLSL4/OceanFS
+	delegate GLSL/OceanFS
+}
+
+
+material OceanHLSL_GLSL
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref Ogre/OceanVS
+			{
+				param_named waveSpeed float2 0.0 0.168
+				param_named noiseSpeed float 0.155
+			}
+
+			fragment_program_ref Ogre/OceanFS
+			{
+				param_named fadeBias float 0.336
+				param_named fadeExp float 5.546
+				param_named waterColor float4 0.0 0.244 0.395 1.0
+			}
+
+			texture_unit
+			{
+				texture NoiseVolume.dds 3d
+				tex_coord_set 0
+				filtering linear linear none
+			}
+
+			texture_unit
+			{
+				texture morning.jpg cubic
+				tex_address_mode clamp
+				tex_coord_set 1
+			}
+
+		}
+
+	}
+}
+
+vertex_program HLSL4/Ocean2VS hlsl
+{
+	source Ocean2HLSL_Cg.vert
+
+	default_params
+	{
+		param_named_auto WorldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program HLSL4/Ocean2FS hlsl
+{
+	source Ocean2HLSL_Cg.frag
+}
+
+vertex_program GLSL/Ocean2VS glsl glsles
+{
+	source Ocean2GLSL.vert
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program GLSL/Ocean2FS glsl glsles
+{
+	source Ocean2GLSL.frag
+	default_params
+   	{
+   		param_named NormalMap int 0
+   		param_named EnvironmentMap int 1
+   	}
+}
+
+vertex_program Ogre/Ocean2VS unified
+{
+	delegate HLSL4/Ocean2VS
+	delegate GLSL/Ocean2VS
+}
+
+fragment_program Ogre/Ocean2FS unified
+{
+	delegate HLSL4/Ocean2FS
+	delegate GLSL/Ocean2FS
+}
+
+material Ocean2_HLSL_GLSL
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref Ogre/Ocean2VS
+			{
+				param_named_auto eyePosition camera_position_object_space
+				param_named BumpScale float 0.2
+				param_named textureScale float2 25 26
+				param_named bumpSpeed float2 0.015 0.005
+				param_named_auto time time_0_x 100.0
+				param_named waveFreq float 0.028
+				param_named waveAmp float 1.8
+			}
+
+			fragment_program_ref Ogre/Ocean2FS
+			{
+				param_named deepColor float4 0 0.3 0.5 1.0
+				param_named shallowColor float4 0 1 1 1.0
+				param_named reflectionColor float4 0.95 1 1 1.0
+				param_named reflectionAmount float 1.0
+				param_named reflectionBlur float 0.0
+				param_named waterAmount float 0.3
+				param_named fresnelPower float 5.0
+				param_named fresnelBias float 0.328
+				param_named hdrMultiplier float 0.471
+			}
+
+			texture_unit
+			{
+				texture waves2.dds
+				tex_coord_set 0
+				filtering linear linear linear
+			}
+
+			texture_unit
+			{
+				texture morning.jpg cubic
+				tex_address_mode clamp
+				filtering linear linear linear
+				tex_coord_set 1
+			}
+
+		}
+
+	}
+}
+
+material SkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			depth_check off
+
+			texture_unit
+			{
+				texture morning.jpg cubic
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material LightFlare
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend add
+			depth_write off
+
+			texture_unit
+			{
+				texture flare.png
+			}
+		}
+	}
+}

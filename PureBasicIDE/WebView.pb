@@ -309,3 +309,5 @@ AvailablePanelTools()\NeedDestroyFunction  = 1
 AvailablePanelTools()\ToolID$              = "WebView"
 AvailablePanelTools()\PanelTitle$          = "WebViewShort"
 AvailablePanelTools()\ToolName$            = "WebViewLong"
+AvailablePanelTools()\PanelTabOrder        = 5
+

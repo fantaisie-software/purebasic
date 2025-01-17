@@ -8,8 +8,8 @@
 
 @Overview
   In-App purchase is a system supported by GooglePlay and iOS AppStore to buy items directly from inside an
-  application. It is mostly used for games, but can used for any kind of application to unlock special features
-  against a fee. 
+  application. It is mostly used for games, but can be used for any kind of application to unlock special features
+  for a fee. 
 
 @Remarks
   For Android, the GooglePlay public app API key needs to be specified in the create app dialog. 
@@ -27,9 +27,9 @@
 @Function RegisterAppProduct(ProductID$, Callback [, Type])
 
 @Description
-  Register a new product for In-App purchase store. This product has to be existing
+  Registers a new product for In-App purchase store. This product has to be existing
   in the app store. Once all needed products have been registered, @@FetchAppProducts
-  has to be called to contact the store and retreive information about each products
+  has to be called to contact the store and retrieve information about each product
   (like price, description etc.)
   
   
@@ -46,10 +46,10 @@
         ; A product has been successfully purchased. Do the logic and then call FinishAppProductPurchase() to finish the order process
         
       Case #PB_Product_Owned
-        ; A non-consommable product has been already purchased. It will trigger this at program start
+        ; A non-consumable product has been already purchased. It will trigger this at program start
 
       Case #PB_Product_Cancelled
-        ; An order has been initialized, but cancelled by the user. Mostly for statistical purpose
+        ; An order has been initialized, but cancelled by the user. Mostly for statistical purposes
 
       Case #PB_Product_Refunded
         ; An order has been refunded, you should take appropriate action to remove the previously purchased item
@@ -60,10 +60,10 @@
   State can be one of the following value:
 @FixedFont
   @#PB_Product_Approved : Product successfully purchased.
-  @#PB_Product_Owned    : Product already owned (only for non-consummable product).
-  @#PB_Product_Cancelled: Product paiement cancelled (paiement was initialized, but cancelled.
-                       Mainly useful for statistical purpose.
-  @#PB_Product_Refunded : Product paiement has been refunded. Previously purchased item should removed from the user account.
+  @#PB_Product_Owned    : Product already owned (only for non-consumable product).
+  @#PB_Product_Cancelled: Product payment cancelled (payment was initialized, but cancelled).
+                       Mainly useful for statistical purposes.
+  @#PB_Product_Refunded : Product payment has been refunded. Previously purchased item should be removed from the user's account.
 @EndFixedFont
   Note: the same callback can be used for more than one product.
 
@@ -92,7 +92,7 @@
   Fetch information from the store about all previously registered products with @@RegisterAppProduct.
   
 @Parameter "Callback"
-  A callback which will be called when the fetch will be finish. It has to respect the following
+  A callback which will be called when the fetch is finished. It has to respect the following
   declaration:
 @Code
   Procedure OnFetchAppProducts(Success)
@@ -138,13 +138,13 @@
 @Function Result = ExamineAppProducts()
 
 @Description
-  Start to examine the products previously fetch with @@FetchAppProducts.
+  Start to examine the products previously fetched with @@FetchAppProducts.
   To step through all products, use @@NextAppProduct.
     
 @NoParameters
 
 @ReturnValue
-  Nonzero if the examine is successful, zero otherwise.
+  Nonzero if the examination is successful, zero otherwise.
 
 @Example
 @Code
@@ -286,8 +286,8 @@
 
 @Description
   Launch the purchase process of the specified product. A system window will be opened automatically
-  with the product price and description asking for the user paiement. The callback defined with
-  @@RegisterAppProduct will be called if the product state change.
+  with the product price and description asking for the user payment. The callback defined with
+  @@RegisterAppProduct will be called if the product state changes.
 
 
 @Parameter "ProductID$"

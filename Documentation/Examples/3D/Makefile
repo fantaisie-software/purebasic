@@ -11,7 +11,6 @@ EXAMPLES =  Demos\CarPhysic.exe \
             AddMaterialLayer.exe \
             AttachEntityObject.exe \
             AttachEntityObject2.exe \
-            AttachEntityObject3.exe \
             AttachNodeObject.exe \
             Billboard.exe \
             BillboardGrass.exe \
@@ -19,7 +18,6 @@ EXAMPLES =  Demos\CarPhysic.exe \
             Camera.exe \
             CameraFollow.exe \
             CameraProjection.exe \
-            CameraTrack.exe \
             CameraView.exe \
             CheckObjectVisibility.exe \
             CheckObjectVisibility2.exe \
@@ -44,7 +42,6 @@ EXAMPLES =  Demos\CarPhysic.exe \
             EntityCollide.exe \
             ExamineWorldCollisions.exe \
             FetchEntityMaterial.exe \
-            FetchOrientation.exe \
             Gadget3D.exe \
             GetScriptMaterial.exe \
             GetScriptParticle.exe \
@@ -54,21 +51,16 @@ EXAMPLES =  Demos\CarPhysic.exe \
             LightAttenuation.exe \
             LightDirectionXYZ.exe \
             LightLookAt.exe \
-            Material.exe \
             MaterialFog.exe \
             MaterialTransparent.exe \
-            Mesh.exe \
             MeshManual.exe \
             MeshManual2.exe \
-            MeshManualCube.exe \
             MousePick.exe \
             MouseRayCast.exe \
             Node.exe \
             NodeAnimation.exe \
             NodeAnimation2.exe \
             Particle.exe \
-            Particle2.exe \
-            Particle3.exe \
             Pendulum.exe \
             PitchYaw.exe \
             PointJoint.exe \
@@ -77,21 +69,17 @@ EXAMPLES =  Demos\CarPhysic.exe \
             ProjectiveTexturing.exe \
             RayCast.exe \
             RayPick.exe \
-            RayPick_LightDirection.exe \
             Reflection.exe \
             ReloadMaterial.exe \
             ResetMaterial.exe \
             Ribbon.exe \
             RotateLight.exe \
-            SaveRenderTexture.exe \
             ScaleMaterial.exe \
-            Screen3DRequester.exe \
             SetMeshData.exe \
             SetMeshMaterial.exe \
             SetOrientation.exe \
             SetRenderQueue.exe \
             SkyBox.exe \
-            SkyDome.exe \
             SliderJoint.exe \
             Sound3D.exe \
             Spline.exe \
@@ -102,12 +90,10 @@ EXAMPLES =  Demos\CarPhysic.exe \
             TerrainPhysic.exe \
             TerrainShadow.exe \
             Text3D.exe \
-            Texture.exe \
             Vehicle.exe \
             VehicleTerrain.exe \
             VertexAnimation.exe \
             VisibilityMask.exe \
-            Water.exe \
             Window3D.exe \
             WorldDebug.exe \
             WorldShadows.exe \

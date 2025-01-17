@@ -260,10 +260,6 @@ IncludeFile "..\Common.pb"
 
 #PB_Explorer_ColumnWidth = 1
 
-; Editor
-#PB_Editor_ReadOnly = $800      ; ES_READONLY
-#PB_Editor_WordWrap = $10000000 ; WS_VISIBLE
-
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
 

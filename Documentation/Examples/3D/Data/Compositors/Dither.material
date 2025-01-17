@@ -1,0 +1,59 @@
+fragment_program Ogre/Compositor/Dither_Cg_FP hlsl
+{
+	source DitherFP.cg
+	entry_point Dither_ps
+}
+
+fragment_program Ogre/Compositor/Dither_GLSL_FP glsl glsles
+{
+	source DitherFP.glsl
+    default_params
+   	{
+   		param_named RT int 0
+   		param_named noise int 1
+   	}
+}
+
+fragment_program Ogre/Compositor/DitherFP unified
+{
+	delegate Ogre/Compositor/Dither_GLSL_FP
+	delegate Ogre/Compositor/Dither_Cg_FP
+}
+
+material Ogre/Compositor/Dither
+{
+    technique
+    {
+
+		pass
+		{
+			cull_hardware none
+			depth_func always_pass
+            polygon_mode_overrideable false
+
+			vertex_program_ref Ogre/Compositor/StdQuad_Tex2a_vp
+			{
+			}
+
+
+			fragment_program_ref Ogre/Compositor/DitherFP
+			{
+
+			}
+
+			texture_unit RT
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+			
+			texture_unit noise
+			{
+				tex_address_mode wrap
+				tex_coord_set 1
+				filtering none
+			}
+		}
+	}
+}

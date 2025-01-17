@@ -255,7 +255,7 @@ DataSection
   
   ;- E
   Data$ "EditorGadget,1,#PB_Any"
-  Data$ "EditorGadget,6,#PB_Editor_ReadOnly,#PB_Editor_WordWrap"
+  Data$ "EditorGadget,6,#PB_Editor_ReadOnly,#PB_Editor_WordWrap,#PB_Editor_TabNavigation"
   Data$ "EditorGadget3D,1,#PB_Any"
   Data$ "EditorGadget3D,6,#PB_Editor3D_ReadOnly"
   Data$ "EjectAudioCD,1,#True,#False"

@@ -1580,11 +1580,13 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         Case #KEYWORD_EndProcedure
           AddSourceItem(#ITEM_ProcedureEnd, Parser_CurrentLine, -1, -1)
           
-        Case #KEYWORD_EnableASM
-          AddSourceItem(#ITEM_InlineASM, Parser_CurrentLine, -1, -1)
-          
-        Case #KEYWORD_DisableASM
-          AddSourceItem(#ITEM_InlineASMEnd, Parser_CurrentLine, -1, -1)
+        CompilerIf #SpiderBasic ; For now, PB doesn't have EnableC, and EnableASM doesn't need this as it doesn't conflict with PB synatx
+          Case #KEYWORD_EnableASM
+            AddSourceItem(#ITEM_InlineASM, Parser_CurrentLine, -1, -1)
+            
+          Case #KEYWORD_DisableASM
+            AddSourceItem(#ITEM_InlineASMEnd, Parser_CurrentLine, -1, -1)
+        CompilerEndIf
           
         Case #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Prototype, #KEYWORD_PrototypeC
           Parser_SkipType(@*Cursor)

@@ -663,5 +663,6 @@ AvailablePanelTools()\NeedDestroyFunction  = 0
 AvailablePanelTools()\ToolID$              = "Explorer"
 AvailablePanelTools()\PanelTitle$          = "Explorer"
 AvailablePanelTools()\ToolName$            = "Explorer"
+AvailablePanelTools()\PanelTabOrder        = 3
 
 *Explorer = @AvailablePanelTools()

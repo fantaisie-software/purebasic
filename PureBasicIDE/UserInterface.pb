@@ -661,6 +661,11 @@ Procedure CustomizeTabBarGadget()
   CompilerIf #CompileLinuxGtk
     *Style.GtkStyle = gtk_widget_get_style_(WindowID(#WINDOW_Main))
     TabBarGadgetInclude\TabBarColor = RGB(*Style\bg[#GTK_STATE_NORMAL]\red >> 8, *Style\bg[#GTK_STATE_NORMAL]\green >> 8, *Style\bg[#GTK_STATE_NORMAL]\blue >> 8)
+
+    ;Added to get nicer tabbar on darkmode: Erlend 'Preacher' Rovik
+    TabBarGadgetInclude\BorderColor = $FF<<24 | RGB(*Style\dark[#GTK_STATE_NORMAL]\red >> 8, *Style\dark[#GTK_STATE_NORMAL]\green >> 8, *Style\dark[#GTK_STATE_NORMAL]\blue >> 8)
+    TabBarGadgetInclude\FaceColor = $FF<<24 | RGB(*Style\mid[#GTK_STATE_NORMAL]\red >> 8 +30, *Style\mid[#GTK_STATE_NORMAL]\green >> 8+30, *Style\mid[#GTK_STATE_NORMAL]\blue >> 8+30)
+    TabBarGadgetInclude\TextColor = $FF<<24 | RGB(*Style\fg[#GTK_STATE_NORMAL]\red >> 8, *Style\fg[#GTK_STATE_NORMAL]\green >> 8, *Style\fg[#GTK_STATE_NORMAL]\blue >> 8)
     
     ; some adjustments to the generally larger fonts on Linux
     TabBarGadgetInclude\CloseButtonSize = 15
@@ -2727,9 +2732,18 @@ EndProcedure
 ;
 Procedure FlushEvents()
   
-  While DispatchEvent(WindowEvent()) ; returns the eventid
-    EventLoopCallback()
-  Wend
+  CompilerIf #PB_Compiler_Debugger
+    ; When debugging the IDE with a new tab then drag and drop a project, it crashes with: [ERROR] WindowEvent() can Not be called from a 'binded' event callback.
+    If InDragDropCallback = #False
+      While DispatchEvent(WindowEvent()) ; returns the eventid
+        EventLoopCallback()
+      Wend
+    EndIf
+  CompilerElse
+    While DispatchEvent(WindowEvent()) ; returns the eventid
+      EventLoopCallback()
+    Wend
+  CompilerEndIf        
   
 EndProcedure
 

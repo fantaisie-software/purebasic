@@ -1,0 +1,82 @@
+// Specific receiver material for rockwall
+material Ogre/DepthShadowmap/Receiver/RockWall
+{
+	technique
+	{
+		pass
+		{
+			// using integrated shadows
+			rtshader_system
+			{
+				shadow_mapping light_count 2
+			}
+
+			texture_unit
+			{
+				texture rockwall.tga
+			}
+		}
+	}
+}
+
+// Specific receiver material for Athene
+material Ogre/DepthShadowmap/Receiver/Athene
+{
+	technique
+	{
+		pass
+		{
+			// using integrated shadows
+			rtshader_system
+			{
+				shadow_mapping light_count 2
+			}
+
+			texture_unit
+			{
+				texture egyptrockyfull.jpg
+			}
+
+			// Base bump map
+			texture_unit
+			{
+				texture atheneNormalMap.png
+				rtshader_system
+				{
+					normal_map tangent_space
+				}
+			}
+		}
+	}
+}
+
+// Specialisation to use PCF
+material Ogre/DepthShadowmap/Receiver/RockWall/PCF : Ogre/DepthShadowmap/Receiver/RockWall
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				shadow_mapping filter pcf16
+			}
+		}
+	}
+}
+// Specialisation to use PCF
+material Ogre/DepthShadowmap/Receiver/Athene/PCF : Ogre/DepthShadowmap/Receiver/Athene
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				shadow_mapping filter pcf16
+			}
+		}
+	}
+}
+
+

@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - FetchEntityMaterial
@@ -7,9 +7,6 @@
 ;
 ; ------------------------------------------------------------
 ;
-
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
-
 
 #Camera    = 0
 #Entity0   = 0
@@ -24,50 +21,45 @@ IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
 Define.f KeyX, KeyY, MouseX, MouseY
 
-If InitEngine3D()
-  
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
-  
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
-    
-    CreateMaterial(#Material0, LoadTexture(#Texture0, "clouds.jpg"))
-  
-    CreateSphere(#Mesh0, 40, 50, 50)
-    CreateEntity(#Entity0,MeshID(#Mesh0), MaterialID(#Material0), -60, 0, 0)
-    
-    ; Get the MaterialID
-    FetchEntityMaterial(#Entity0, #Material1)
-    
-    ; Create a cube with materialID
-    CreateCube(#Mesh1, 40)
-    CreateEntity(#Entity1, MeshID(#Mesh1), MaterialID(#Material1), 60, 0, 0)
-        
-    ; Camera
-    CreateCamera(#Camera, 0, 0, 100, 100)
-    CameraBackColor(#Camera, RGB(30, 0, 0))
-    MoveCamera(#Camera, 0, 100, 300, #PB_Absolute)
-    CameraLookAt(#Camera, 0, 0, 0)
-    
-    ; Light
-    CreateLight(#Light, RGB(255, 255, 255), 560, 900, 500)
-    AmbientColor(0)
-  
-    Repeat
-      Screen3DEvents()
-      
-      ExamineKeyboard()
-            
-      RenderWorld()
-      FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
-  EndIf
-  
-Else
-  MessageRequester("Error", "The 3D Engine can't be initialized",0)
-EndIf
+InitEngine3D()
+InitSprite()
+InitKeyboard()
+InitMouse()
 
-End
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " FetchEntityMaterial - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+
+CreateMaterial(#Material0, LoadTexture(#Texture0, "clouds.jpg"))
+
+CreateSphere(#Mesh0, 40, 50, 50)
+CreateEntity(#Entity0,MeshID(#Mesh0), MaterialID(#Material0), -60, 0, 0)
+
+; Get the MaterialID
+FetchEntityMaterial(#Entity0, #Material1)
+
+; Create a cube with materialID
+CreateCube(#Mesh1, 40)
+CreateEntity(#Entity1, MeshID(#Mesh1), MaterialID(#Material1), 60, 0, 0)
+
+; Camera
+CreateCamera(#Camera, 0, 0, 100, 100)
+CameraBackColor(#Camera, RGB(30, 0, 0))
+MoveCamera(#Camera, 0, 100, 300, #PB_Absolute)
+CameraLookAt(#Camera, 0, 0, 0)
+
+; Light
+CreateLight(#Light, RGB(255, 255, 255), 560, 900, 500)
+AmbientColor(0)
+
+Repeat
+  While WindowEvent():Wend
+  
+  ExamineKeyboard()
+  
+  RenderWorld()
+  FlipBuffers()
+Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+

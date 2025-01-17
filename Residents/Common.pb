@@ -50,11 +50,22 @@
 #PB_Backend_Asm = 0
 #PB_Backend_C = 1
 
+; Internal compiler constant #PB_Compiler_OS
+;
+#PB_OS_Windows        =  1
+#PB_OS_Linux          =  2
+#PB_OS_AmigaOS        =  3
+#PB_OS_MacOS          =  4
+#PB_OS_Web            =  5
+
 #PB_Structure_AlignC = -1
 
 #PB_Compiler_Executable = 0
 #PB_Compiler_DLL        = 1
 #PB_Compiler_Console    = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Compiler_PureLibrary = 3
+CompilerEndIf
 
 ; Internal type used by some PB functions (Sort) and also by Defined(), TypeOf()
 ;
@@ -89,12 +100,11 @@
 
 ; Used a lot in the 3D engine, so don't prefix them with lib name
 ;
-#PB_Absolute = 0
-#PB_Relative = 1
-
-#PB_Local  = 1 << 1
-#PB_Parent = 1 << 2
-#PB_World  = 1 << 3
+#PB_Relative = 1 << 0
+#PB_Absolute = 1 << 1
+#PB_Local    = 1 << 2
+#PB_Parent   = 1 << 3
+#PB_World    = 1 << 4
 #PB_Engine3D_Raw      = 1 << 5
 #PB_Engine3D_Adjusted = 1 << 6
 
@@ -104,14 +114,6 @@
 #PB_Vector_NegativeX = 3
 #PB_Vector_NegativeY = 4
 #PB_Vector_NegativeZ = 5
-
-; Internal compiler constant #PB_Compiler_OS
-;
-#PB_OS_Windows        =  1
-#PB_OS_Linux          =  2
-#PB_OS_AmigaOS        =  3
-#PB_OS_MacOS          =  4
-#PB_OS_Web            =  5
 
 ; OSVersion() Constants
 ;
@@ -568,6 +570,11 @@ CompilerEndIf
 #PB_Container_Single     = 4
 #PB_Container_Double     = 8
 
+; Editor Flags
+#PB_Editor_ReadOnly      = 1 << 0
+#PB_Editor_WordWrap      = 1 << 1
+#PB_Editor_TabNavigation = 1 << 2
+
 ; HyperLink flags
 ;
 #PB_HyperLink_Underline  = 1
@@ -919,10 +926,15 @@ EndEnumeration
 
 ; Network
 ;
-#PB_Network_TCP = 1; #SOCK_STREAM
-#PB_Network_UDP = 2; #SOCK_DGRAM
-#PB_Network_IPv4 = 0
-#PB_Network_IPv6 = 1 << 28
+#PB_Network_TCP      = 0
+#PB_Network_IPv4     = 0
+#PB_Network_UDP      = 1 << 0
+#PB_Network_IPv6     = 1 << 1
+#PB_Network_TLSv1_0  = 1 << 2
+#PB_Network_TLSv1_1  = 1 << 3
+#PB_Network_TLSv1_2  = 1 << 4
+#PB_Network_TLSv1_3  = 1 << 5
+#PB_Network_TLSv1    = (#PB_Network_TLSv1_2 | #PB_Network_TLSv1_3) ; Only currently supported version
 
 #PB_NetworkEvent_None       = 0
 #PB_NetworkEvent_Connect    = 1
@@ -1483,6 +1495,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Entity_LinearDamping = 27
 #PB_Entity_AngularDamping = 28
 #PB_Entity_DisableContactResponse = 30
+#PB_Entity_InheritScale = 31
 
 #PB_Entity_MinBoundingBoxX  = 1 << 0
 #PB_Entity_MaxBoundingBoxX  = 1 << 1
@@ -1666,11 +1679,11 @@ EndEnumeration
 #PB_Material_DepthBias      = 22
 
 ; #PB_Material_EnvironmentMap values
-#PB_Material_NoMap         = -1
-#PB_Material_PlanarMap     = 0
+#PB_Material_NoMap         = 0
 #PB_Material_CurvedMap     = 1
-#PB_Material_ReflectionMap = 2
-#PB_Material_NormalMap     = 3
+#PB_Material_PlanarMap     = 2
+#PB_Material_ReflectionMap = 3
+#PB_Material_NormalMap     = 4
 
 ; #PB_Material_TAM values
 #PB_Material_WrapTAM   = 0
@@ -1984,9 +1997,7 @@ EndStructure
 #PB_World_DebugEntity = 1 << 0
 #PB_World_DebugBody   = 1 << 1
 
-#PB_World_TerrainPick = -2
 #PB_World_WaterPick   = -3
-
 
 ; for DragDrop lib DragOSFormats()
 

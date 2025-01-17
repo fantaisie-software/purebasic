@@ -111,8 +111,7 @@
 
   Enables or disables the inline javascript. Inside this block, the line are left untouched and put as is
   in the generated code. See the @ReferenceLink "InlinedJS" "inline javascript" section for more information.
-  It's strongly recommanded to always use '!' in front of the JavaScript code to avoid case correction issues when used in the IDE.
-
+  
   @Example
 
 @Code
@@ -121,7 +120,7 @@
   Test = 10
   
   EnableJS
-    !v_test = 20
+    v_test = 20
   DisableJS
   
   Debug Test ; Will be 20

@@ -78,6 +78,7 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_EnableAdmin, 1)
     DisableGadget(#GADGET_Option_EnableUser, 1)
     DisableGadget(#GADGET_Option_DllProtection, 1)
+    DisableGadget(#GADGET_Option_SharedUCRT, 1)
   CompilerEndIf
   
 EndProcedure
@@ -161,6 +162,7 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableAdmin  , *Target\EnableAdmin)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
     SetGadgetState(#GADGET_Option_DllProtection, *Target\DllProtection)
+    SetGadgetState(#GADGET_Option_SharedUCRT   , *Target\SharedUCRT)
     SetGadgetState(#GADGET_Option_EnableOnError, *Target\EnableOnError)
     
     SetGadgetState(#GADGET_Option_SelectDebugger, *Target\CustomDebugger)
@@ -273,6 +275,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
     If *Target\EnableAdmin       <> GetGadgetState(#GADGET_Option_EnableAdmin): Changed = 1: EndIf
     If *Target\EnableUser        <> GetGadgetState(#GADGET_Option_EnableUser): Changed = 1: EndIf
     If *Target\DllProtection     <> GetGadgetState(#GADGET_Option_DllProtection): Changed = 1: EndIf
+    If *Target\SharedUCRT        <> GetGadgetState(#GADGET_Option_SharedUCRT): Changed = 1: EndIf
     If *Target\EnableOnError     <> GetGadgetState(#GADGET_Option_EnableOnError): Changed = 1: EndIf
     If *Target\CPU               <> GetGadgetState(#GADGET_Option_CPU): Changed = 1: EndIf
     If *Target\ExecutableFormat  <> GetGadgetState(#GADGET_Option_ExecutableFormat): Changed = 1: EndIf
@@ -376,6 +379,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     *Target\EnableAdmin      = GetGadgetState(#GADGET_Option_EnableAdmin)
     *Target\EnableUser       = GetGadgetState(#GADGET_Option_EnableUser)
     *Target\DllProtection    = GetGadgetState(#GADGET_Option_DllProtection)
+    *Target\SharedUCRT       = GetGadgetState(#GADGET_Option_SharedUCRT)
     *Target\EnableOnError    = GetGadgetState(#GADGET_Option_EnableOnError)
     *Target\CPU              = GetGadgetState(#GADGET_Option_CPU)
     *Target\TemporaryExePlace= GetGadgetState(#GADGET_Option_TemporaryExe)

@@ -64,6 +64,11 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
       
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
+
+    CompilerElseIf #CompileLinuxGtk
+
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
       
     CompilerElse
       
@@ -340,6 +345,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
   FileList()\DllProtection    = OptionDllProtection
+  FileList()\SharedUCRT       = OptionSharedUCRT
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -878,6 +884,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     NbLines + 1
     ConfigLines$(NbLines) = "DllProtection"
   EndIf
+  If *Target\SharedUCRT And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "SharedUCRT"
+  EndIf
   If *Target\EnableOnError And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "EnableOnError"
@@ -1231,6 +1241,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
   *Source\DllProtection = 0
+  *Source\SharedUCRT    = 0
   
   ClearList(*Source\UnknownIDEOptionsList$())
   
@@ -1323,6 +1334,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "ENABLEUSER":       *Source\EnableUser = 1
       Case "DPIAWARE":         *Source\DPIAware = 1
       Case "DLLPROTECTION":    *Source\DllProtection = 1
+      Case "SHAREDUCRT":       *Source\SharedUCRT = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
       Case "ENABLEONERROR":    *Source\EnableOnError = 1
       Case "DISABLEDEBUGGER":  *Source\Debugger = 0
@@ -1605,6 +1617,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
     *Source\DllProtection = 0
+    *Source\SharedUCRT    = 0
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1

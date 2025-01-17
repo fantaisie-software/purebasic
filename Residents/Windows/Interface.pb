@@ -6,6 +6,7 @@
 
 IncludePath "Interface\"
 
+IncludeFile "Oaidl.pb"
 IncludeFile "tnef.pb"
 IncludeFile "tom.pb"
 IncludeFile "unknwn.pb"
@@ -40,7 +41,6 @@ IncludeFile "mshtmhst.pb"
 IncludeFile "mshtmlc.pb"
 IncludeFile "msxml.pb"
 IncludeFile "netmon.pb"
-IncludeFile "Oaidl.pb"
 IncludeFile "Objidl.pb"
 IncludeFile "ocidl.pb"
 IncludeFile "oleacc.pb"

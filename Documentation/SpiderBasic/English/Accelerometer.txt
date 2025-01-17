@@ -8,7 +8,7 @@
 
 @Overview
 
-  SpiderBasic provides an easy access to accelerometer data, which are mainly used on phone
+  SpiderBasic provides an easy access to accelerometer data, which are mainly used on phones
   and tablets.
 
 @CommandList
@@ -25,13 +25,13 @@
   Starts accelerometer data monitoring.
 
 @Parameter "Frequency"
-  The frequency (in millisecond) to refresh the accelerometer data. The lower the frequency is,
-  the more CPU consuming it is. This is a reference value, depending of the
+  The frequency (in milliseconds) to refresh the accelerometer data. The lower the frequency is,
+  the more CPU it consumes. This is a reference value, depending of the
   device it can lack of precision. @@AccelerometerTime can be used to monitor the delay between 2
   different fetches.
 
 @ReturnValue
-  Nonzero if accelerometer function are availables (ie: the device have an accelerometer), zero otherwise.
+  Nonzero if accelerometer functions are available (i.e. the device has an accelerometer), zero otherwise.
 
 @SeeAlso
   @@StopAccelerometer, @@AccelerometerX, @@AccelerometerY, @@AccelerometerZ, @@AccelerometerTime
@@ -113,14 +113,14 @@
 @Function Result = AccelerometerTime()
 
 @Description
-  Returns the time (in millisecond) when the current acceleration data has been fetched.
+  Returns the time (in milliseconds) when the current acceleration data has been fetched.
   It can be used to ensure the time between two different fetches is not too wide. 
   @@StartAccelerometer has to be called successfully before using this command.
   
 @NoParameters
 
 @ReturnValue
-  Returns the time (in millisecond) when the current acceleration data has been fetched.
+  Returns the time (in milliseconds) when the current acceleration data has been fetched.
 
 @SeeAlso
   @@StartAccelerometer, @@AccelerometerX, @@AccelerometerY, @@AccelerometerZ

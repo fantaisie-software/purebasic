@@ -8,7 +8,7 @@
 
 @Overview
   SpiderBasic provides an easy access to geolocation data. This can use either a real GPS or any
-  other geolocation approximation methods (like internet connection, wifi position etc.).
+  other geolocation approximation methods (like internet connection, Wi-Fi position etc.).
 
 @CommandList
 
@@ -24,20 +24,20 @@
   Starts geolocation data monitoring.
 
 @OptionalParameter "Timeout"
-  The maximum timeout (in millisecond) to have valid geolocation data. If no data can be updated
-  during this period, all geolocation functions will returns the error value. This can be useful
-  where up-to-date geolocation information are mandatory (ex: for a car navigation application).
+  The maximum timeout (in milliseconds) to have valid geolocation data. If no data can be updated
+  during this period, all geolocation functions will return the error value. This can be useful
+  where up-to-date geolocation information is mandatory (e.g. for a car navigation application).
   If not specified, no timeout is set.
 
 @OptionalParameter "HighAccuracy"
-  If sets to @#True, enable the use of real GPS if available, and fallback to WiFi or other less
-  accurate methods if not found. Default value is @#False, which only use WiFi or less accurate methods for
+  If set to @#True, enable the use of real GPS if available, and fallback to Wi-Fi or other less
+  accurate methods if not found. Default value is @#False, which only use Wi-Fi or less accurate methods for
   geolocation.
 
 @NoReturnValue
 
 @Remark
-  When Safari is used to access the app (on OSX or iOS), it requiers the web app to be hosted
+  When Safari is used to access the app (on OSX or iOS), it requires the web app to be hosted
   using HTTPS protocol (geolocation is considered as sensitive information). If not, it won't work.
   
 
@@ -103,13 +103,13 @@
 @Function Result.d = GeolocationAltitude()
 
 @Description
-  Returns the current altitude (in meter). @@StartGeolocation has to be called successfully before
+  Returns the current altitude (in meters). @@StartGeolocation has to be called successfully before
   using this command.
   
 @NoParameters
 
 @ReturnValue
-  Returns the current altitude (in meter), or -1 if an error has occured.
+  Returns the current altitude (in meters), or -1 if an error has occured.
 
 @SeeAlso
   @@StartGeolocation, @@GeolocationLatitude, @@GeolocationLongitude, @@GeolocationSpeed, @@GeolocationHeading, @@GeolocationTime
@@ -158,14 +158,14 @@
 @Function Result = GeolocationTime()
 
 @Description
-  Returns the time (in millisecond) when the current geolocation data has been fetched.
+  Returns the time (in milliseconds) when the current geolocation data has been fetched.
   It can be used to ensure the time between two different fetches is not too wide. 
   @@StartGeolocation has to be called successfully before using this command.
   
 @NoParameters
 
 @ReturnValue
-  Returns the time (in millisecond) when the current geolocation data has been fetched.
+  Returns the time (in milliseconds) when the current geolocation data has been fetched.
 
 @SeeAlso
   @@StartGeolocation, @@GeolocationLatitude, @@GeolocationLongitude, @@GeolocationAltitude, @@GeolocationSpeed, @@GeolocationHeading

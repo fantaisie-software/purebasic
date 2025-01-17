@@ -56,22 +56,31 @@ CompilerIf #CompileLinux
       If PureBasicPath$ = ""
         PureBasicPath$ = GetPathPart(ProgramFilename())
         
+        ; Not an absolute path, combine it with the current directory to have an absolute one
+        If Left(PureBasicPath$, 1) <> "/"
+          PureBasicPath$ = GetCurrentDirectory() + PureBasicPath$
+        EndIf
+        
         ; cut the compilers dir part
         If Right(PureBasicPath$, 10) = "compilers/"
           PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-10)
         ElseIf Right(PureBasicPath$, 9) = "compilers"
           PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-9)
-        EndIf
-        
-        ; check if what we have here is a valid path. (if /proc is not mounted, ProgramFileName() may return a relative path
-        If FileSize(PureBasicPath$) <> -2
-          CompilerIf #SpiderBasic
-            PureBasicPath$ = "/usr/share/spiderbasic/" ; absolute fallback
-          CompilerElse
-            PureBasicPath$ = "/usr/share/purebasic/" ; absolute fallback
-          CompilerEndIf
+        Else
+          PureBasicPath$ = "" ; Not a PureBasic/SpiderBasic root path
         EndIf
       EndIf
+    EndIf
+    
+    ; check if what we have here is a valid path. (if /proc is not mounted, ProgramFileName() may return a relative path
+    If FileSize(PureBasicPath$) <> -2
+      CompilerIf #SpiderBasic
+        MessageRequester("Error", "Can't locate the SpiderBasic install directory."+#LF$+
+                                  "Please export the 'SPIDERBASIC_HOME' env variable before starting the IDE.", #PB_MessageRequester_Error)
+      CompilerElse
+        MessageRequester("Error", "Can't locate the PureBasic install directory."+#LF$+
+                                  "Please export the 'PUREBASIC_HOME' env variable before starting the IDE.", #PB_MessageRequester_Error)
+      CompilerEndIf
     EndIf
     
     Debug "PureBasicPath$ = " + PureBasicPath$

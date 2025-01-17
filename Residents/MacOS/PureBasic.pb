@@ -229,10 +229,6 @@ IncludeFile "../Common.pb"
 #PB_Explorer_ColumnWidth = 1 << 19
 
 
-#PB_Editor_ReadOnly   = 1
-#PB_Editor_WordWrap   = 2
-
-
 #PB_Image_Border = 1 << 0
 #PB_Image_Raised = 1 << 1
 

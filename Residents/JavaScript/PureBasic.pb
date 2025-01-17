@@ -344,8 +344,6 @@ IncludeFile "../Common.pb"
 #PB_Explorer_ColumnWidth = 1
 
 ; Editor
-#PB_Editor_ReadOnly = 1 << 0
-#PB_Editor_WordWrap = 1 << 1
 
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1

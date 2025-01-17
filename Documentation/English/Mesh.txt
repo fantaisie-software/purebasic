@@ -1260,12 +1260,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Mode)
+@Function FinishMesh(StaticMesh)
 
 @Description
   Finish the creation of the current mesh started with @@CreateMesh.
 
-@Parameter "Mode"
+@Parameter "StaticMesh"
   If set to @#True, the mesh will be converted to a static mesh and will be not modifiable anymore.
   If set to @#False, the mesh will still be modifiable with @@UpdateMesh. Static meshes are faster
   to render than dynamic meshes.

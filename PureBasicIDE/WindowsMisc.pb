@@ -288,6 +288,11 @@ CompilerIf #CompileWindows
     Result = #PB_ProcessPureBasicEvents
     
     If Message = #WM_DROPFILES ; drag and drop stuff
+      
+      CompilerIf #PB_Compiler_Debugger
+        InDragDropCallback = #True
+      CompilerEndIf
+      
       *hdrop = wParam
       
       count = DragQueryFile_(*hdrop, $FFFFFFFF, 0, 0)
@@ -307,6 +312,10 @@ CompilerIf #CompileWindows
       Next i
       
       DragFinish_(*hdrop)
+      
+      CompilerIf #PB_Compiler_Debugger
+        InDragDropCallback = #False
+      CompilerEndIf
       
     ElseIf Message = #WM_SYSCOMMAND
       wParam & $FFF0    ; mask out the windows internal 4 bits

@@ -657,6 +657,7 @@ Procedure InitSyntaxHighlighting()
 
   ; PureBasic function Hash Table
   ;
+  ClearMap(BasicFunctionMap())
   For k=1 To NbBasicFunctions
     BasicFunctionMap(UCase(BasicFunctions(k-1)\Name$)) = k
   Next

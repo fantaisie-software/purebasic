@@ -1,0 +1,45 @@
+fragment_program Ogre/Compositor/Posterize_Cg_FP hlsl
+{
+	source PosterizeFP.cg
+	entry_point Posterize_ps
+}
+
+fragment_program Ogre/Compositor/Posterize_GLSL_FP glsl glsles
+{
+	source PosterizeFP.glsl
+}
+
+fragment_program Ogre/Compositor/PosterizeFP unified
+{
+	delegate Ogre/Compositor/Posterize_GLSL_FP
+	delegate Ogre/Compositor/Posterize_Cg_FP
+}
+
+material Ogre/Compositor/Posterize
+{
+    technique
+    {
+		pass
+		{
+			cull_hardware none
+			depth_func always_pass
+            polygon_mode_overrideable false
+
+			vertex_program_ref Ogre/Compositor/StdQuad_Tex2a_vp
+			{
+			}
+
+			fragment_program_ref Ogre/Compositor/PosterizeFP
+			{
+			}
+
+			texture_unit RT
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering trilinear
+			}
+
+		}
+	}
+}

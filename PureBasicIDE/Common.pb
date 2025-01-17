@@ -75,6 +75,11 @@ Enumeration 0
   #COLOR_PlainBackground
   
   #COLOR_Last = #COLOR_PlainBackground
+  
+  ; Special cases beyond "Last"
+  #COLOR_ToolsPanelFrontColor = #COLOR_Last + 1
+  #COLOR_ToolsPanelBackColor
+  #COLOR_Last_IncludingToolsPanel = #COLOR_Last + 2
 EndEnumeration
 
 
@@ -168,6 +173,17 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Form_Parent_Cancel
   
   #GADGET_ProcedureBrowser
+  ; Controls for the 'Multicolored Procedure List'
+  #GADGET_ProcedureBrowser_FilterInput
+  #GADGET_ProcedureBrowser_HideModuleNames
+  #GADGET_ProcedureBrowser_HighlightProcedure
+  #GADGET_ProcedureBrowser_ScrollProcedure
+  #GADGET_ProcedureBrowser_EnableFolding
+  #GADGET_ProcedureBrowser_BackColor
+  #GADGET_ProcedureBrowser_FrontColor
+  #GADGET_ProcedureBrowser_RestoreColor
+  #GADGET_ProcedureBrowser_CopyClipboard
+  #GADGET_ProcedureBrowser_SwitchButtons
   
   #GADGET_ProjectPanel
   
@@ -327,6 +343,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_VistaUser
   #GADGET_Preferences_DPIAware
   #GADGET_Preferences_DllProtection
+  #GADGET_Preferences_SharedUCRT
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
   #GADGET_Preferences_CustomCompiler
@@ -356,6 +373,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ProcedureBrowserSort
   #GADGET_Preferences_ProcedureBrowserGroup
   #GADGET_Preferences_ProcedureProtoType
+  #GADGET_Preferences_ProcedureMulticolor
   ;  #GADGET_Preferences_ColorPickerHistory
   #GADGET_Preferences_Languages
   #GADGET_Preferences_LanguageInfo
@@ -587,6 +605,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
     #GADGET_Option_DllProtection
+    #GADGET_Option_SharedUCRT
     #GADGET_Option_EnableOnError
     #GADGET_Option_ExecutableFormat
     #GADGET_Option_EnableASM
@@ -1162,6 +1181,10 @@ Enumeration 0
     #MENU_Scintilla_ShiftTab
   CompilerEndIf
   
+  CompilerIf #CompileLinux
+    #MENU_ProcedureBrowser_Filter_Enter
+  CompilerEndIf
+  
   #MENU_Template_Use
   #MENU_Template_New
   #MENU_Template_Edit
@@ -1512,6 +1535,17 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Explorer_FilePB
   #IMAGE_Explorer_Directory
   
+  #IMAGE_ProcedureBrowser_BackColor
+  #IMAGE_ProcedureBrowser_CopyClipboard
+  #IMAGE_ProcedureBrowser_EnableFolding
+  #IMAGE_ProcedureBrowser_FilterClear
+  #IMAGE_ProcedureBrowser_FrontColor
+  #IMAGE_ProcedureBrowser_HideModuleNames
+  #IMAGE_ProcedureBrowser_HighlightProcedure
+  #IMAGE_ProcedureBrowser_RestoreColor
+  #IMAGE_ProcedureBrowser_ScrollProcedure
+  #IMAGE_ProcedureBrowser_SwitchButtons
+  
   #IMAGE_CreateApp_StartupColor
   
   #IMAGE_History_Session
@@ -1548,6 +1582,8 @@ Enumeration 1
   #TIMER_DebuggerProcessing
   #TIMER_UpdateCheck
   #TIMER_ToolPanelAutoHide
+  ; Timer for the 'Multicolored Procedure List' for automatic selection of the procedure according to the cursor position in the editor.
+  #TIMER_ProcedureBrowser
 EndEnumeration
 
 ;- Custom PostEvent event types
@@ -2133,6 +2169,7 @@ Structure CompileTarget
   EnableUser.l
   DPIAware.l
   DllProtection.l
+  SharedUCRT.l
   EnableOnError.l
   
   ; For backward compatibility in project files (only read/stored in project files)
@@ -2329,6 +2366,8 @@ Structure ProcedureInfo
   Line.l ; 1 based!
   Type.l ; 0= Procedure, 1=Macro, 2=marker, 3=issue
   Prototype$
+  ; For the 'Multicolored Procedure List' and automatic selection of the procedure or macro according to the cursor position in the editor.
+  LineEnd.l
 EndStructure
 
 
@@ -2468,6 +2507,12 @@ Structure ToolsPanelEntry
   ;
   PanelTitle$        ; title in the PanelGadget
   ToolName$          ; tool name (used in the Preferences)
+  
+  ; PanelTabOrder must be > 0 for tools available in the Tool Panel (ProcedureBrowser, ProjectPanel, Explorer, Form and WebView)
+  ; This defines the default tab (tool) order in the Tool Panel when a new fresh PureBasic is installed or without PureBasic.prefs
+  ; Once PureBasic.prefs is used, the tabs (tools) order is defined using KeyName: Tool_1,2,..,5
+  ;
+  PanelTabOrder.l
 EndStructure
 
 
@@ -2576,6 +2621,7 @@ Global ExtraWordChars$
 Global UseTabIndentForSplittedLines
 Global NbSchemes
 Global ScreenReaderChecked
+Global ProcedureMulticolor
 
 ; Dialog Window data
 ;
@@ -2617,7 +2663,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionSharedUCRT, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
 Global OptionCustomCompiler, OptionCompilerVersion$
@@ -2654,6 +2700,7 @@ Global FakeToolsPanelID ; for the windows vertical toolspanel (only non-XP windo
 Global AlwaysHideLog, ErrorLogVisible
 Global CustomKeywordFile$
 Global ToolsPanelUseFont, ToolsPanelUseColors
+Global PreferenceToolsPanelFrontColor, PreferenceToolsPanelBackColor
 
 ; OS specific highlighting color representation:
 ;
@@ -2899,6 +2946,10 @@ CompilerIf #PB_Compiler_Debugger
   ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates weird bug).
   ;
   Global InDebuggerCallback = #False
+  ; Useful to ensures WindowEvent() is NEVER called in the MainWindowCallback WM_DropFiles event when débugging as it crash
+  ; (WindowEvent() can Not be called from a 'binded' event callback) 
+  ; 
+  Global InDragDropCallback = #False
 CompilerEndIf
 
 UseMD5Fingerprint()

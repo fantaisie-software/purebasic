@@ -249,9 +249,6 @@ CompilerEndIf
 #PB_Spin_Minimum = 1
 #PB_Spin_Maximum = 2
 
-#PB_Editor_ReadOnly = 1
-#PB_Editor_WordWrap = 2
-
 #PB_String_BorderLess = $20 ; supported for gtk2
 #PB_String_LowerCase = $8
 #PB_String_Numeric = $10

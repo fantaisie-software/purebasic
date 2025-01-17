@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Shader Cubic Environment
@@ -9,9 +9,9 @@
 
 InitEngine3D():InitSprite():InitKeyboard():InitMouse()
 
-ExamineDesktops()
-OpenWindow(0, 0,0, DesktopWidth(0)*0.8,DesktopHeight(0)*0.8, "CreateShaderMaterial - [Esc] quit",#PB_Window_ScreenCentered)
-OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "CreateShaderMaterial - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia", #PB_3DArchive_FileSystem)
@@ -21,8 +21,7 @@ Parse3DScripts()
 
 SkyBox("desert07.jpg")
 
-Macro lt(face):LoadTexture(#PB_Any,"desert07_"+face+".jpg"):EndMacro
-tx_Cubic=CreateCubicTexture(#PB_Any,lt("RT"),lt("LF"),lt("UP"),lt("DN"),lt("FR"),lt("BK"))
+tx_Cubic=LoadTexture(#PB_Any,"desert07.jpg")
 tx_rock_diff=LoadTexture(#PB_Any,"dirt_grayrocky_diffusespecular.jpg")
 tx_rock_normal=LoadTexture(#PB_Any,"dirt_grayrocky_normalheight.jpg")
 
@@ -68,3 +67,4 @@ Repeat
 	RenderWorld()
 	FlipBuffers()    
 Until KeyboardReleased(#PB_Key_Escape) Or MouseButton(3)
+

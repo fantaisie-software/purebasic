@@ -276,7 +276,7 @@ Procedure.s StrF_Debug(Value.f)
   EndIf
 EndProcedure
 
-Procedure.s StrD_Debug(Value.d, Digits = 25)
+Procedure.s StrD_Debug(Value.d, Digits = 16)
   String$ = StrD(Value, Digits)
   If FindString(String$, ".", 1) = 0
     ProcedureReturn String$

@@ -1,0 +1,67 @@
+fragment_program DOF_Blur_ps glsl glsles hlsl
+{
+    source DoF_Gaussian3x3.frag
+    default_params
+    {
+        param_named_auto vpSize viewport_size
+    }
+}
+
+fragment_program DOF_Blend_ps glsl glsles hlsl
+{
+    source DoF_Blend.frag
+    target ps_2_a
+    default_params
+    {
+        param_named_auto pixelSizeScene viewport_size
+        param_named scene int 0
+        param_named depth int 1
+        param_named blur int 2
+    }
+}
+
+//Effect: Depth of Field
+material Ogre/Compositor/DOF_Blur
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref Ogre/Compositor/StdQuad_Tex2_vp { }
+            fragment_program_ref DOF_Blur_ps { }
+
+            texture_unit source
+            {
+                tex_address_mode mirror
+            }
+        }
+    }
+}
+
+material Ogre/Compositor/DOF_Blend
+{
+    technique
+    {
+        pass
+        {
+            vertex_program_ref Ogre/Compositor/StdQuad_Tex2_vp { }
+
+            fragment_program_ref DOF_Blend_ps { }
+
+            texture_unit
+            {
+                tex_address_mode clamp
+            }
+
+            texture_unit
+            {
+                tex_address_mode border
+            }
+
+            texture_unit
+            {
+                tex_address_mode mirror
+            }
+        }
+    }
+}

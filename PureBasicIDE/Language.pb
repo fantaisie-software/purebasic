@@ -588,6 +588,17 @@ DataSection
   Data$ "MultiFile",        "Show issues of all open files/project files"
   Data$ "Export",           "Export issue list"
   
+  ; For the 'Multicolored Procedure List' and the controls for coloring and scrolling.
+  Data$ "HideModuleNames",	   "Hide module names"
+  Data$ "HighlightProcedure", "Automatically determine and highlight the current procedure"
+  Data$ "ScrollProcedure",		"Automatically scroll to current procedure"
+  Data$ "EnableFolding",		"Enable automatic unfolding of the procedure after the click"
+  Data$ "FrontColor",			"Changing the font color of an entry"
+  Data$ "BackColor",				"Changing the background color of an entry"
+  Data$ "RestoreColor",			"Restore color settings of an entry"
+  Data$ "CopyClipboard",		"Copies the procedure names to the clipboard.  Options: Ctrl = All, Shift = Arguments"
+  Data$ "SwitchButtons",		"Switches the functions"
+  
   ; ===================================================
   ;- Group - FileStuff
   Data$ "_GROUP_",            "FileStuff"
@@ -814,7 +825,7 @@ DataSection
   Data$ "EnableMarkers",    "Enable Line Markers"
   Data$ "ExtraWordChars",   "Extra characters included in word selection"
   Data$ "SelectFont",       "Select Font"
-  Data$ "DefaultColors",    "Default Color Schemes"
+  Data$ "DefaultColors",    "Color Schemes"
   Data$ "ShowWhiteSpace",   "Show whitespace characters"
   Data$ "ShowIndentGuides", "Show indentation guides"
   Data$ "UseTabIndentForSplittedLines", "Use tab indent for splitted lines"
@@ -918,6 +929,7 @@ DataSection
   Data$ "ProcedureSort",    "Sort Procedures by name"
   Data$ "ProcedureGroup",   "Group Markers"
   Data$ "ProcedurePrototype", "Display Procedure Arguments"
+  Data$ "ProcedureMulticolor", "Multicolored Procedure List"
   
   Data$ "Indent",           "Indentation"
   Data$ "IndentTitle",      "Code Indentation"
@@ -1250,10 +1262,11 @@ DataSection
   Data$ "EnableDebugger",   "Enable Debugger"
   Data$ "EnablePurifier",   "Enable Purifier"
   Data$ "EnableASM",        "Enable inline ASM syntax coloring"
-  Data$ "EnableXP",         "Enable modern theme support (for Windows XP and above)"
+  Data$ "EnableXP",         "Enable modern theme support (Windows XP and above)"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
   Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"
+  Data$ "SharedUCRT",       "Use shared UCRT (Windows 10 and above)"
   Data$ "EnableOnError",    "Enable OnError lines support"
   Data$ "EnableThread",     "Create threadsafe executable"
   Data$ "ExeFormat",        "Executable format"

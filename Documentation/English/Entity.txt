@@ -526,7 +526,7 @@ saving CPU clocks.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateEntityBody(#Entity, Type [, Mass [, Restitution, Friction [, SizeX, SizeY, SizeZ [, AxisX, AxisY, AxisZ]])
+@Function CreateEntityBody(#Entity, Type [, Mass [, Restitution, Friction [, Axis [, SizeX, SizeY, SizeZ]]]])
 
 @Description
   Changes the type of the body associated with the #Entity. 
@@ -577,6 +577,16 @@ saving CPU clocks.
 @OptionalParameter "Friction"
   Friction of the object. This value can also be get or set via @@GetEntityAttribute and @@SetEntityAttribute
 
+@OptionalParameter "Axis"
+  The axis of the body. 
+  
+  It only applies to the following body type:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+
 @OptionalParameter "SizeX, SizeY, SizeZ"
   The bounding box size of the body. It only applies to the following body type:
 @FixedFont
@@ -586,14 +596,6 @@ saving CPU clocks.
   @#PB_Entity_CylinderBody: SizeX and SizeY are available.
   @#PB_Entity_CapsuleBody : SizeX, SizeY and SizeZ are available.
 @EndFixedFont  
-
-@OptionalParameter "AxisX, AxisY, AxisZ"
-  The axis of the body. It only applies to the following body type:
-@FixedFont
-  @#PB_Entity_PlaneBody
-  @#PB_Entity_CylinderBody
-  @#PB_Entity_CapsuleBody 
-@EndFixedFont 
 
 @NoReturnValue
 
@@ -1330,6 +1332,7 @@ saving CPU clocks.
   @#PB_Entity_ScaleX          : Get the current entity scale on 'x' axis.
   @#PB_Entity_ScaleY          : Get the current entity scale on 'y' axis.
   @#PB_Entity_ScaleZ          : Get the current entity scale on 'z' axis.
+  @#PB_Entity_InheritScale    : Get if the entity has inherit scale.
 @EndFixedFont
 
 @ReturnValue
@@ -1365,6 +1368,7 @@ saving CPU clocks.
   @#PB_Entity_AngularSleeping : Change the minimum angular velocity value under which the entity will be sleeping.
   @#PB_Entity_DeactivationTime: Time to wait (in milliseconds) before putting the entity in sleep mode when the above conditions are met.
   @#PB_Entity_DisableContactResponse: Disable or enable the physic contacts for this entity. Value can be @#True or @#False.
+  @#PB_Entity_InheritScale    : Disable or enable if the entity has inherit scale. Value can be @#True or @#False
 @EndFixedFont
 
 @Parameter "Value"

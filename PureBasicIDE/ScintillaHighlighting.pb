@@ -807,8 +807,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               Case #ITEM_MacroEnd    : InsideMacro - 1
               Case #ITEM_Procedure   : If ProcedureFound = 0: InsideProcedure + 1: EndIf
               Case #ITEM_ProcedureEnd: If ProcedureFound = 0: InsideProcedure - 1: EndIf
-              Case #ITEM_InlineASM   : If InlineASMFound = 0: InsideInlineASM + 1: EndIf
-              Case #ITEM_InlineASMEnd: If InlineASMFound = 0: InsideInlineASM - 1: EndIf
+              
+              CompilerIf #SpiderBasic ; For now, PB doesn't have EnableC, and EnableASM doesn't need this as it doesn't conflict with PB synatx
+                Case #ITEM_InlineASM   : If InlineASMFound = 0: InsideInlineASM + 1: EndIf
+                Case #ITEM_InlineASMEnd: If InlineASMFound = 0: InsideInlineASM - 1: EndIf
+              CompilerEndIf
             EndSelect
             *Item = *Item\Next
           Wend
@@ -863,13 +866,15 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               Case #ITEM_ProcedureEnd
                 InsideProcedure = 0
                 ; even when the procedure ends here, still mark the line
-              
-              Case #ITEM_InlineASM
-                InsideInlineASM = 1
-              
-              Case #ITEM_InlineASMEnd
-                InsideInlineASM = 0 
-                MarkInlineASM   = 0 ; Don't mark the DisableJS line so it gets properly formatted
+                
+              CompilerIf #SpiderBasic ; For now, PB doesn't have EnableC, and EnableASM doesn't need this as it doesn't conflict with PB synatx
+                Case #ITEM_InlineASM
+                  InsideInlineASM = 1
+                
+                Case #ITEM_InlineASMEnd
+                  InsideInlineASM = 0 
+                  MarkInlineASM   = 0 ; Don't mark the DisableJS line so it gets properly formatted
+              CompilerEndIf
             EndSelect
           EndIf
           

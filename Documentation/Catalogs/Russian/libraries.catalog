@@ -1,0 +1,314 @@
+[LanguageInfo]
+Application = PB_Libraries
+Language = Russian
+Creator = purebasic.mybb.ru
+Email = 
+
+[Common]
+InitNeeded = %s должен быть успешно вызван перед использованием любой %s команды.
+ScreenNeeded = Функция OpenScreen() или OpenWindowedScreen() должна быть вызвана перед использованием любой %s команды.
+CallOnce = %s может быть вызван только один раз.
+CallNeeded = %s должна быть успешно вызвана перед вызовом %s.
+CallNeededAny = %s должна быть успешно вызвана перед использованием этой команды.
+CallNeededLib = %s должна быть вызвана перед другой %s функцией.
+NoDrawingCall = %s не может быть вызван внутри StartDrawing()/StopDrawing() блока.
+HighNumber = %s номер объекта слишком велик (больше %i).
+NoObject = Указанный %s не инициализирован.
+NullAddress = У процедуры нулевой адрес.
+NullBuffer = Указанный буфер равен 0.
+NullPointer = Указатель невалидный (равен 0).
+NullArgument = Указанный '%s' равен 0.
+InvalidArgument = Указанный '%s' не допустим.
+NullLength = Указан нулевой размер.
+NegativeLength = Указан отрицательный размер.
+NegativeSize = Указан отрицательный размер
+InvalidLength = Указан невалидный размер.
+Negative = Указанный '%s' невалидный.
+NullNegative = Указанный '%s' равен 0 или отрицательный.
+FileNotFound = Указанный файл не существует.
+InvalidPort = 'Порт' имеет недопустимый номер.
+OutOfRange = '%s' находится вне допустимого диапазона.
+NoLabel = Указанный '%s' не является указателем на метку.
+NoProcedure = Указанный '%s' не является указателем на процедуру.
+WrongType = Процедура, указанная в '%s' не имеет требуемых аргументов или имеет другой возвращаемый тип.
+AmbiguousElements = Структура '%s' содержит неоднозначные элементы '%s' и '%s'.
+InvalidValue = %s(): указано недопустимое значение параметра для '%s'.
+
+[2DDrawing]
+PlotOutside = Plot() находится за пределами области рисования.
+PointOutside = Point() находится за пределами области рисования.
+NullOutput = Указанный 'output' нулевой (0 value).
+InvalidOutput = Указан невалидный 'output'.
+NullFontID = Указанный FontID невалидный (0 value).
+NeedStopDrawing = Функция StopDrawing() должна быть вызвана перед вызовом StartDrawing() снова.
+NoStartDrawing = StopDrawing() можно вызвать только после успешного вызова StartDrawing().
+
+[AudioCD]
+NoCurrent = Не выбран текущий AudioCD.
+NoTrack = Указанный номер трека слишком велик: Трек не существует.
+OutOfRange = Указанный AudioCD находится вне допустимых пределов
+
+[Camera]
+InvalidCameraWidth = Не допустимая ширина камеры (допустимый диапазон от 0 до 100).
+InvalidCameraHeight = Не допустимая высота камеры (допустимый диапазон от 0 до 100).
+
+[CGI]
+InvalidIndex = Неправильное значение 'Index'.
+InvalidLocalPort = 'LocalPort' не является допустимым номером порта.
+
+[Cipher]
+SmallOutput = 'OutputLength' должен быть не менее чем на 33% больше, чем 'InputLength'.
+WrongKeySize = Размер ключа для AES должен быть 128, 192 или 256.
+NullKeyBuffer = Невалидный (нулевой) указатель на key-буфер.
+NullInitializationVector = *InitializationVector не может быть нулевым при использовании #PB_Cipher_CBC.
+MinimalBufferSize = Минимальный размер буфера для AES составляет 16 байт.
+PluginMissing = Указанный cipher-плагин отсутствует.
+
+[Console]
+NoConsole = Нет открытой консоли. Функция OpenConsole() должна быть вызвана сначала.
+WrongColor = Параметр цвета консоли должен быть от 0 до 15.
+NoGraphical = Эта команда не поддерживается в графическом режиме.
+
+[Database]
+InvalidLibraryNameSQLite = Недопустимое имя файла библиотеки.
+NoPlugin = Функция UseODBCDatabase() или UseSQLiteDatase() должна быть вызвана, прежде чем использовать команды базы данных
+InvalidIndex = 'StatementIndex' параметр не может быть отрицательным.
+InvalidColumnIndex = 'Column' индекс не может быть отрицательным.
+
+[DragDrop]
+InvalidAction = Недопустимое значение для 'Action'.
+ZeroAction = #PB_Drag_None не может быть указан как 'Action'.
+NoEvent = Нет Drag&Drop событий.
+EmptyList = Нельзя перетаскивать пустой список файлов.
+EmptyString = Нельзя перетаскивать пустую строку.
+NoFileEvent = В этом Drag&Drop нет события #PB_Drop_Files.
+NoImageEvent = В этом Drag&Drop нет события #PB_Drop_Image.
+NoPrivateEvent = В этом Drag&Drop нет события #PB_Drop_Private.
+NoTextEvent = В этом Drag&Drop нет события #PB_Drop_Text.
+
+[Engine3D]
+NotInitialized = Функция InitEngine3D() должна быть вызвана успешно перед использованием 3D команд.
+NoTerrain = Нет текущих созданных 'terrain'.
+CallBeforeSprites = Функция InitEngine3D() должна быть вызвана перед функцией InitSprite().
+
+[Entity]
+NegativeScale = Шкала значений не может быть отрицательной.
+
+[Event]
+WindowAll = При использовании #PB_All для 'Window', в параметрах 'Object' и 'EventType' должен быть также использован #PB_All.
+ObjectAll = При использовании #PB_All для 'Object', в параметре 'EventType' должен быть также использован #PB_All.
+
+[File]
+NegativeSeek = Позиция (Seek) не может быть отрицательной.
+SeekBehindEnd = Позиция (Seek) больше размера файла.
+NegativeBufferSize = Размер буфера не может быть отрицательным.
+
+[Gadget]
+NeedOpenGadgetList = Функция OpenGadgetList() должна быть вызвана перед вызовом AddGadgetItem() снова на этом Gadget.
+NoOpenGadgetList = Функцию CloseGadgetList() можно вызвать только после функции OpenGadgetList(), PanelGadget(), ScrollAreaGadget() или ContainerGadget().
+NoGadgetList = Отсутствует текущий список гаджетов (GadgetList).
+NotDifferent = #Gadget1 и #Gadget2 должны быть разными.
+SplitterChilds = Нельзя создавать SplitterGadget с таким же идентификатором как одного из его дочерних гаджетов.
+ScrollBarRange = ScrollBar должно быть в диапазоне от 0 до 10000.
+MaxGadgetWidth = Максимальная поддерживаемая ширина гаджета - 32767 пикселей
+MaxGadgetHeight = Максимальная поддерживаемая высота гаджета - 32767 пикселей
+NegativeGadgetWidth = Ширина гаджета не может быть меньше нуля
+NegativeGadgetHeight = Высота гаджета не может быть меньше нуля
+
+[Gadget3D]
+NotDifferent = #Gadget3D1 и #Gadget3D2 должны быть разными.
+SplitterChilds = Нельзя создавать SplitterGadget3D с таким же идентификатором как одного из его дочерних гаджетов.
+NeedAWindow = 3D окно должно быть открыто перед добавлением гаджетов на него.
+
+[Image]
+HeightLarge = Image 'Height' (высота) больше 32000 пикселей.
+WidthLarge = Image 'Width' (ширина) больше 32000 пикселей.
+InvalidDepth = Некорректная битность 'Depth' рисунка: допустимо 24 и 32.
+InvalidSaveDepth = Некорректная битность 'Depth' рисунка: допустимо 1, 2, 4, 8, 24 и 32.
+IconNotResizable = Этот #Image является иконкой (.ico) и не может быть изменен.
+HeightSmall = Image 'Height' (высота) должно быть больше 0.
+WidthSmall = Image 'Width' (ширина) должно быть больше 0.
+InvalidImageFrame = Image frame вне допустимых пределов.
+MultiFrameNoResize = Многофреймовые изображения не поддерживаются.
+
+[Joystick]
+ButtonInvalid = Номер кнопки вне допустимого диапазона. Должно быть от 1 до 32.
+
+[Json]
+NullValue = Не допустимое значение JSON. (0)
+ExpectTypeString = JSON ожидает строковой тип.
+ExpectTypeNumber = JSON ожидает числовой тип.
+ExpectTypeBoolean = JSON ожидает логический (boolean) тип.
+ExpectTypeArray = JSON ожидает массив.
+ExpectTypeObject = JSON ожидает объектный (Object) тип.
+InvalidIndex = Индекс массива вне допустимых пределов.
+NoExamine = Не найден текущий элемент в этом объекте.
+
+[Library]
+WrongIndex = Значение индекса для GetFunctionEntry() начинается с 1.
+
+[LinkedList]
+NotInitialized = Связанный список (LinkedList) не инициализирован.
+NegativeIndex = SelectElement(): индекс не может быть отрицательным.
+FirstNull = SwapElement(): первый элемент является нулевым.
+SecondNull = SwapElement(): второй элемент является нулевым.
+NoCurrent = В связанном списке (LinkedList) нет текущего элемента.
+RelativeNull = Укажите корректный (не равный 0) *RelativeElement.
+PushedElement = Нельзя удалять сохраненный (Pushed) текущий элемент.
+PushedElement2 = Нельзя перемещать сохраненный (Pushed) текущий элемент, в другой список.
+NoPushedElement = Не существует текущего сохранённого элемента в списке.
+
+[Map]
+NotInitialized = Map не инициализирован.
+NoCurrent = В Map нет текущего элемента.
+PushedElement = Нельзя удалять сохраненный (Pushed) текущий элемент.
+NoPushedElement = Не существует текущего сохранённого элемента.
+
+[Math]
+MinNegative = Минимальное (Min) значение не может быть отрицательным.
+MaxNegative = Максимальное (Max) значение не может быть отрицательным.
+MinSuperiorMax = Минимальное (Min) значение не быть больше максимального (Max) значения.
+
+[Memory]
+NullAddress = Указанный адрес является нулевым.
+NullAlloc = Нельзя выделить блок памяти размером 0 байт.
+NegativeAlloc = Нельзя выделить блок памяти с отрицательным размером.
+NullSource = Исходный указатель равен 0.
+NullDest = Destination указатель равен 0.
+WrongLength = Указаный размер меньше -1.
+WrongSize = Указанный размер < -1.
+
+[Menu]
+NoCurrent = Нет текущего меню.
+
+[Mesh]
+Add3DArchiveBeforeLoadMesh = Add3DArchive должен быть вызван как минимум, один раз перед LoadMesh().
+
+[Music]
+InvalidVolume = Громкость должна быть в пределах от 0 и до 100.
+
+[Network]
+NegativeTimeOut = OpenNetworkConnection() значение таймаута не может быть отрицательным.
+IPv6FieldOutOfRange = IPAddressField() индекс поля должен быть от 0 и до 7 для IPv6 адреса.
+IPv4FieldOutOfRange = IPAddressField() индекс поля должен быть от 0 и до 3 для IPv4 адреса.
+InvalidLocalPort = 'LocalPort' не является допустимым номером порта.
+
+[Node]
+ObjectNotAttached = Указанный объект не привязан к узлу.
+NegativeScale = Значение масштаба не может быть отрицательным.
+
+[OnError]
+DebuggerPresent = Библиотека OnError не может поймать все ошибки с включенным отладчиком (ошибки перехватывает отладчик).
+LinesDisabled = Опция OnError не включена.
+NoHandler = Эта функция может быть вызвана только внутри обработчика ошибок.
+
+[Packer]
+NoPack = Отсутствует текущий открытый Pack-файл.
+
+[Preference]
+InvalidKeyword = Это ключевое слово не допустимо для функций Read/WritePreference().
+KeywordForbiddenCharacters = Это ключевое слово не допустимо для функций Read/WritePreference(), оно не может содержать '=', 'LF' или 'CR' символы.
+
+[Process]
+InvalidName = Имя переменной среды пустое.
+NoVariable = Нет текущих условий Variable.
+ProgramEnded = Программа больше не работает.
+FileNeeded = Нужно указать имя файла.
+Flags1 = Недопустимые Флаги: нельзя совмещать #PB_Program_Wait с коммуникационными флагами.
+Flags2 = Недопустимые Флаги: #PB_Program_Open должен быть с коммуникационными флагами.
+NotEnded = Программа еще не закрыта. (ExitCode не доступен).
+NullRead = Нельзя прочитать 0 байт из программы.
+NullWrite = Нельзя записать 0 байт в программу.
+
+[RegularExpression]
+WrongType = 'Result$()' массив для ExtractRegularExpression() должен быть строкового типа.
+WrongDimensions = 'Result$()' массив для ExtractRegularExpression() не должен быть многомерным.
+NoCurrentMatch = Отсутствует начало перечисления (возможно отсутствует вызов функции NextRegularExpressionMatch() для этого рег. выражения).
+NoGroups = Нет групп в этом регулярном выражении.
+GroupNotFound = Указанное имя группы не существует.
+
+[Screen]
+NoScreen = Нет открытого экрана (open screen).
+WrongDepth = Глубина цвета экрана должна быть: 4, 8, 16, 24 или 32 бита.
+WrongGamma = Значение 'gamma' должно быть в пределах, от 0 до 255.
+WrongFrameRate = Частота кадров не может быть меньше 1.
+
+[Sort]
+MultiDimensionedArrayNotSupported = Многомерные массивы не поддерживаются SortArray().
+NotSimpleList = Функция SortList() не может быть использована со структурированным списком.
+NotStructuredList = Функция SortStructuredList() не может быть использована с не структурированным списком.
+
+[SpecialEffect]
+InvalidNbChains = NbChains должно быть больше нуля.
+InvalidNbElements = NbElements должно быть больше нуля.
+InvalidLength = Length должно быть больше нуля.
+
+[Sprite]
+EqualID = Sprite1 и Sprite2 имеют одинаковые идентификаторы.
+NoPixelCollision = Спрайт должен быть создан с флагом #PB_Sprite_PixelCollision для поддержки SpritePixelCollision().
+NoStartDrawing = Эта функция не может быть вызвана внутри блока StartDrawing() / StopDrawing().
+
+[StatusBar]
+NoCurrent = Не существует текущей строки состояния (StatusBar).
+TooManyFields = Не допускается более чем 64 полей.
+WidthHigh = Ширина не может быть больше, чем 8192.
+
+[String]
+IncorrectTrimCharacterLength = В аргументе 'Character$', функции Trim() может быть только один символ.
+IncorrectLTrimCharacterLength = В аргументе 'Character$', функции LTrim() может быть только один символ.
+IncorrectRTrimCharacterLength = В аргументе 'Character$', функции RTrim() может быть только один символ.
+NegativeDecimalNumber = Количество знаков после запятой для StrF() или StrD() не может быть меньше нуля.
+InvalidSringFieldIndex = В аргументе 'index' функции StringField() должно быть значение начиная с 1.
+
+[Terrain]
+TerrainBeforeCamera = 'terrain' должен быть создан до создания любой камеры.
+
+[Text3D]
+NegativeScale = Масштаб не может быть отрицательным.
+
+[Texture]
+Add3DArchiveBeforeLoadTexture = Add3DArchive должен быть вызван, по крайней мере однократно, перед вызовом LoadTexture().
+
+[Thread]
+InvalidThread = Указанный поток не существует.
+InvalidMutex = Указанный мьютекс не существует.
+InvalidSemaphore = Указанный семафор не существует.
+
+[Toolbar]
+NeedXPSkins = Поддержка тем Windows должна быть включена для использования #PB_ToolBar_Text.
+
+[VectorDrawing]
+NoSavedState = Состояние рисования не было сохранено, т. е. отсутствует вызов функции SaveVectorState() или ей подобной.
+NoLayer = Невозможно завершить рисование этого слоя. Возможно отсутствует вызов функции BeginVectorLayer() или ей подобной.
+OpenLayer = Есть незаконченный слой. Возможно отсутствует вызов функции EndVectorLayer() или ей подобной.
+SinglePage = Текущий 'output' не поддерживает многостраничность.
+FixedCoordinate = Система координат указана не модифицируемой.
+InvalidDashArray = Массив должен быть одномерным и типа 'Double'.
+
+[Window]
+NeedOneWindow = По крайней мере, одно окно должно быть открыто для использования этой команды.
+InvalidParent = 'ParentID' не является корректным WindowID().
+InvalidEvent = Параметр 'Event' функции AddKeyboardShortcut() должен быть от 0 и до 64000.
+OpenWindowMainThread = Функция OpenWindow() может быть вызвана только из главного потока.
+WindowEventMainThread = Функция WindowEvent() и WaitWindowEvent() может быть вызвана только из главного потока.
+WindowEventInsideCallback = WindowEvent() и WaitWindowEvent() нельзя вызвать из 'binded' event callback.
+
+[Window3D]
+BeforeAnyWindow = Функция SetGUITheme3D() должна вызываться перед любой другой командой Window3d.
+
+[Xml]
+NullNode = Некорректный XML узел. (0)
+InvalidIndex = Индекс должен быть больше нуля.
+NoNameNode = Этот тип XML-узла не имеет имени.
+InvalidNodeName = Недопустимое имя узла.
+InvalidAttributeName = Недопустимое имя атрибута.
+NoAttributeNode = Этот тип XML-узла не может иметь атрибуты.
+NoChildren = Комментарий / CData / DTD-узел не может иметь дочерние элементы.
+PreviousWrongTree = Данные предыдущего узла не находится в том же XML-дереве что и родительский узел.
+PreviousDirectChild = Учитывая предыдущие узлы, текущий узел не является прямым потомком родительского узла.
+CannotCreateRoot = Корневой узел не может быть создан.
+CannotMoveRoot = Корневой узел не может быть скопирован / перемещен.
+CannotDeleteRoot = Корневой узел XML-дерева нельзя удалить.
+CannotMove1 = Узел не может быть перемещен сам в себя. (ParentNode является дочерним (вложенным) узлом)
+CannotMove2 = Перемещаемый узел и PreviousNode равны.
+CannotMove3 = Узел не может быть перемещен в себя. (Node и ParentNode равны)

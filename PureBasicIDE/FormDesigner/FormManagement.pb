@@ -69,6 +69,7 @@ Procedure AddFormInfo(FileName$ = "")
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DllProtection    = OptionDllProtection
+  FileList()\SharedUCRT       = OptionSharedUCRT
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -645,4 +646,5 @@ CompilerIf Not #SpiderBasic
   AvailablePanelTools()\ToolID$              = "Form"
   AvailablePanelTools()\PanelTitle$          = "FormShort"
   AvailablePanelTools()\ToolName$            = "FormLong"
+  AvailablePanelTools()\PanelTabOrder        = 4
 CompilerEndIf
