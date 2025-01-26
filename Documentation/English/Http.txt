@@ -134,7 +134,7 @@
   The HTTP connection to monitor.
 
 @ReturnValue
-  The status of the download. It can be the current number of recieved bytes or one of the following values:
+  The status of the download. It can be the current number of received bytes or one of the following values:
 @FixedFont
   @#PB_Http_Success    : the download has been successfully finished.
   @#PB_Http_Failed     : the download has failed.
@@ -399,9 +399,9 @@
   Filename$ = SaveFileRequester("Where to save index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("https://www.purebasic.com/index.php", Filename$)
-    Debug "File recieved and written to disk. If the remote file was not found, it will contains the webserver error."
+    Debug "File received and written to disk. If the remote file was not found, it will contains the webserver error."
   Else
-    Debug "No file recieved (network error)."
+    Debug "No file received (network error)."
   EndIf
 @EndCode
 

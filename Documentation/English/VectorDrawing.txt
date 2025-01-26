@@ -47,7 +47,7 @@
   select a different unit of measurement for the output when creating it with the @@ImageVectorOutput,
   @@PrinterVectorOutput or similar function. All drawing operations will use the selected unit of 
   measurement and internally convert the values to the actual device coordinates. 
-  This allows to write the drawing code in the prefered unit of measurement independent of the used output.  
+  This allows to write the drawing code in the preferred unit of measurement independent of the used output.  
   The selected unit of measurement for an output can be checked with @@VectorUnit.  
 
 @Section Coordinate transformation
@@ -85,7 +85,7 @@
   @#PB_Coordinate_User
 @Indent
   This is the coordinate system used for all drawing operations. This coordinate system is used
-  whenever a different system is not explicity specified. It can be freely transformed.
+  whenever a different system is not explicitly specified. It can be freely transformed.
   Initially, this coordinate system is equal to the @#PB_Coordinate_Output system and can be
   reset that way with @@ResetCoordinates.
 @EndIndent
@@ -98,7 +98,7 @@
   to the @#PB_Coordinate_User system will affect this system as well.
 @EndIndent
 
-  For most purposes, the @#PB_Coordinate_User is the intresting coordinate system and is therefore
+  For most purposes, the @#PB_Coordinate_User is the interesting coordinate system and is therefore
   the default. The other systems are useful mainly for coordinate conversion or for special purposes
   such as transforming the source image.
 
@@ -347,7 +347,7 @@
 @Function Result = VectorUnit()
 
 @Description
-  Returns the unit in which all corrdinates and sizes are measured on the
+  Returns the unit in which all coordinates and sizes are measured on the
   current vector drawing output. This unit has been specified when the output
   was created.
 
@@ -1612,7 +1612,7 @@
 @NoReturnValue
 
 @Remarks
-  This function is indended for drawing standaline circles or arcs. To draw figures with rounded
+  This function is intended for drawing standaline circles or arcs. To draw figures with rounded
   corners, the @@AddPathArc function can be used which automatically calculates the proper angles
   and center point to draw rounded corners.
 

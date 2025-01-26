@@ -109,7 +109,7 @@
 @Function Result = CountCGICookies()
 
 @Description
-  Returns the number of available cookies. The cookies are small persitent files stored in the web browser to 
+  Returns the number of available cookies. The cookies are small persistent files stored in the web browser to 
   allow to remember a context and ease future navigation when loading the same page later on. Please note than European legislation
   now impose to inform users that cookies are not being used to gather information unnecessarily.
     
@@ -422,7 +422,7 @@
 @NoParameters
 
 @ReturnValue
-  Returns the memory buffer address of the raw CGI input, or zero if an error occured.
+  Returns the memory buffer address of the raw CGI input, or zero if an error occurred.
   
 @Example
 @Code
@@ -732,13 +732,13 @@
 @Function Result = ReadCGI()
 
 @Description
-  Reads the CGI request input. @@InitCGI has to be called succesfully before trying to the read the CGI input.
+  Reads the CGI request input. @@InitCGI has to be called successfully before trying to the read the CGI input.
   
 @NoParameters
   
 @ReturnValue
   Returns non-zero if the CGI request has been successfully read. If the request was to big or another
-  error occured, zero is returned and the CGI program should be ended.
+  error occurred, zero is returned and the CGI program should be ended.
   
 @Example
 @Code
@@ -958,7 +958,7 @@
   
   WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader)
   
-  ; Using cariage return will make the page more readable when using "Show page source" in the browser
+  ; Using carriage return will make the page more readable when using "Show page source" in the browser
   ;
   WriteCGIStringN("<html><title>PureBasic - test</title><body>")
   WriteCGIStringN("Hello from PureBasic CGI<br>")

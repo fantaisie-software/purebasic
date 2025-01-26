@@ -245,7 +245,7 @@ due to its strong resistance to attacks.
   ; Create a hash digest for secure storage
   Hash$ = CreatePasswordHash("secret")
 
-  ; Check passwords agains the hash
+  ; Check passwords against the hash
   Debug VerifyPasswordHash("secret", Hash$)      ; correct
   Debug VerifyPasswordHash("othersecret", Hash$) ; incorrect
 @EndCode
@@ -773,7 +773,7 @@ due to its strong resistance to attacks.
    algorithm is intended for digital signature applications.'
 @LineBreak
 @LineBreak
-  MD5 hashs are often used for password encryption, but it should be
+  MD5 hashes are often used for password encryption, but it should be
   avoided as it has been found to be vulnerable to severals attacks.
   More information about MD5 can be found in the RFC 1321: 
   @InternetLink "http://www.ietf.org/rfc/rfc1321.txt" "http://www.ietf.org/rfc/rfc1321.txt".
