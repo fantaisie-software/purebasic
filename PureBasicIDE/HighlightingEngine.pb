@@ -219,15 +219,25 @@ Enumeration 1
   #KEYWORD_Default
   #KEYWORD_Define
   #KEYWORD_Dim
-  #KEYWORD_DisableASM
+  CompilerIf Not #SpiderBasic
+    #KEYWORD_DisableASM
+  CompilerEndIf
   #KEYWORD_DisableDebugger
   #KEYWORD_DisableExplicit
+  CompilerIf #SpiderBasic ; It's EnableJS in SpiderBasic, so it needs to be put there as it's alpha-sorted !
+    #KEYWORD_DisableASM
+  CompilerEndIf
   #KEYWORD_DisablePureLibrary
   #KEYWORD_Else
   #KEYWORD_ElseIf
-  #KEYWORD_EnableASM
+  CompilerIf Not #SpiderBasic
+    #KEYWORD_EnableASM
+  CompilerEndIf
   #KEYWORD_EnableDebugger
   #KEYWORD_EnableExplicit
+  CompilerIf #SpiderBasic ; It's EnableJS in SpiderBasic, so it needs to be put there as it's alpha-sorted !
+    #KEYWORD_EnableASM
+  CompilerEndIf
   #KEYWORD_End
   #KEYWORD_EndDataSection
   #KEYWORD_EndDeclareModule
