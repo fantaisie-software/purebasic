@@ -34,7 +34,7 @@
 @Function Result = WebViewGadget(#Gadget, x, y, Width, Height [, Flags])
 
 @Description
-  Creates a new web view gadget in the current GadgetList. If needed a proxy can be set with @@WebWiewProxy.
+  Creates a new web view gadget in the current GadgetList. If needed a proxy can be set with @@WebViewProxy.
 
 @Parameter "#Gadget"
   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -165,7 +165,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebWiewProxy
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebViewProxy
 
 @SupportedOS
 
@@ -319,7 +319,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WebWiewProxy(URL$, Port [Username$, Password$])
+@Function WebViewProxy(URL$, Port [Username$, Password$])
 
 @Description
   Setup a proxy for all the future @@WebViewGadget created. This means than all the external link and URL will goes trough
