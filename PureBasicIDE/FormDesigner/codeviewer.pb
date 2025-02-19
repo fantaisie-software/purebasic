@@ -1010,7 +1010,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             line + ", "
           EndIf
           
-          line + "WindowID(" + FormWindows()\parent + ")"
+          If Not FindString(FormWindows()\parent, "(")
+            line + "WindowID(" + FormWindows()\parent + ")"
+          Else
+            line + FormWindows()\parent
+          EndIf
+          
         EndIf
         
         line +  ")"
