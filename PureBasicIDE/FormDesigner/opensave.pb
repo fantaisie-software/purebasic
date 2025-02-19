@@ -1218,31 +1218,64 @@ Procedure FD_Open(file.s,update = 0)
           flags.s = Trim(Mid(line,start,startnext-start))
           winflag = 0
           numflags = CountString(flags,"|")
-          
+          addCustomFlag.b = #False
+
           If numflags = 0
             thisflags.s = Trim(flags)
             
             ForEach Gadgets()
-              ForEach Gadgets()\Flags()
-                If thisflags = Gadgets()\Flags()\name
-                  winflag = Gadgets()\Flags()\ivalue
-                EndIf
-              Next
+              If Gadgets()\type = #Form_Type_Window
+                ForEach Gadgets()\Flags()
+                  If thisflags = Gadgets()\Flags()\name
+                    winflag = Gadgets()\Flags()\ivalue
+                  Else
+                    ;add custom flags to an extra list.
+                    ;custom flags have no effect on the display of the form in the Form Designer
+                    addCustomFlag = #True
+                    ForEach Gadgets()\customFlags()
+                      if Gadgets()\customFlags()\name = thisflags
+                        addCustomFlag = #False
+                        break
+                      Endif
+                    Next
+                    if addCustomFlag
+                      AddElement(Gadgets()\customFlags())
+                      Gadgets()\customFlags()\name = thisflags
+                    Endif
+                  EndIf
+                Next
+              endif
             Next
           Else
             For i = 0 To numflags
               thisflags.s = Trim(StringField(flags,i+1,"|"))
               
               ForEach Gadgets()
-                ForEach Gadgets()\Flags()
-                  If thisflags = Gadgets()\Flags()\name
-                    If winflag = 0
-                      winflag = Gadgets()\Flags()\ivalue
+                If Gadgets()\type = #Form_Type_Window
+                  ForEach Gadgets()\Flags()
+                    If thisflags = Gadgets()\Flags()\name
+                      If winflag = 0
+                        winflag = Gadgets()\Flags()\ivalue
+                      Else
+                        winflag | Gadgets()\Flags()\ivalue
+                      EndIf
                     Else
-                      winflag | Gadgets()\Flags()\ivalue
+                      ;add custom flags to an extra list.
+                      ;custom flags have no effect on the display of the form in the Form Designer
+                      addCustomFlag = #True
+                      ForEach Gadgets()\customFlags()
+                        if Gadgets()\customFlags()\name = thisflags
+                          addCustomFlag = #False
+                          break
+                        Endif
+                      Next
+                      if addCustomFlag
+                        AddElement(Gadgets()\customFlags())
+                        Gadgets()\customFlags()\name = thisflags
+                      Endif
                     EndIf
-                  EndIf
-                Next
+                  Next
+                endif
               Next
             Next
           EndIf

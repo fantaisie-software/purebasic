@@ -966,6 +966,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 flags + Gadgets()\Flags()\name
               EndIf
             Next
+            ForEach Gadgets()\customFlags()
+                If flags <> ""
+                  flags + " | "
+                EndIf
+                flags + Gadgets()\customFlags()\name
+            Next
           EndIf
         Next
         

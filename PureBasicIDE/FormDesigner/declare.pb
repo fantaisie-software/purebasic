@@ -456,6 +456,7 @@ Structure Gadgets
   icon.i
   node.b
   List Flags.Flags()
+  List customFlags.Flags()
   List Events.EventType()
 EndStructure
 

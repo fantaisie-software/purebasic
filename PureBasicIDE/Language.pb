@@ -2268,6 +2268,7 @@ DataSection
   Data$ "Remove",               "Remove"
   Data$ "Parent",               "Parent"
   Data$ "ParentItem",           "Parent Item"
+  Data$ "customFlags",          "Custom Flags"
   
  
   ; ===================================================

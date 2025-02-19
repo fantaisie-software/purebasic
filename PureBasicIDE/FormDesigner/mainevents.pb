@@ -730,6 +730,17 @@ Procedure FD_SelectWindow(window)
           
           i+1
         Next
+        if ListSize(Gadgets()\Flags()) <= 0 : i + 1 : Endif
+        custFlags.s = ""
+        ForEach Gadgets()\customFlags()
+          if custFlags = ""
+            custFlags = Gadgets()\customFlags()\name
+          Else
+            custFlags + "|" + Gadgets()\customFlags()\name
+          Endif  
+        Next
+        PropGridAddItem(propgrid, i, Language("Form", "customFlags"), custFlags)
+        i + 1
       EndIf
     Next
     
@@ -6822,6 +6833,8 @@ Procedure FD_ProcessEventGridWindow(col,row)
     Default
       i = 17
       flag = 0
+      custFlags.s = ""
+      
       ForEach Gadgets()
         If Gadgets()\type = #Form_Type_Window
           ForEach Gadgets()\Flags()
@@ -6835,6 +6848,18 @@ Procedure FD_ProcessEventGridWindow(col,row)
             EndIf
             i+1
           Next
+          custFlags = grid_GetCellString(propgrid, 2, i)
+          numflags = CountString(custFlags,"|")
+          ClearList(Gadgets()\customFlags())
+          For k = 0 To numflags
+            If numflags = 0
+              thisflags.s = Trim(custFlags)
+            Else
+              thisflags.s = Trim(StringField(custFlags,k+1,"|"))
+            EndIf
+            AddElement(Gadgets()\customFlags())
+            Gadgets()\customFlags()\name = thisflags
+          Next k
         EndIf
       Next
       FormWindows()\flags = flag
