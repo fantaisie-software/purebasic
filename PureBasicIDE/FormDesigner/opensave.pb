@@ -1255,9 +1255,12 @@ Procedure FD_Open(file.s,update = 0)
           
           If startnext
             parentwin.s = Trim(Mid(line,start,startnext-start))
-            
-            parentwin = ReplaceString(parentwin, "WindowID(", "")
-            parentwin = ReplaceString(parentwin, ")", "")
+            If FindString(parentwin, "WindowID(")
+              parentwin = ReplaceString(parentwin, "WindowID(", "")
+              parentwin = ReplaceString(parentwin, ")", "")
+            Else
+              parentwin = "=" + parentwin
+            EndIf
             FormWindows()\parent = parentwin
           EndIf
         EndIf
