@@ -888,3 +888,25 @@
   @@UncompressMemory
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsPack(#Pack)
+
+@Description
+  Teste si le numéro de pack donné est un pack valide et correctement initialisé.
+
+@Parameter "#Pack"
+  Le pack à tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle si #Pack est un pack valide, zéro sinon.
+
+@Remarks
+  Cette fonction est infaillible et peut être utilisée avec n'importe quelle valeur.
+  C'est la bonne façon de s'assurer qu'un pack est prêt à être utilisé.
+
+@SeeAlso
+  @@CreatePack, @@OpenPack
+
+@SupportedOS

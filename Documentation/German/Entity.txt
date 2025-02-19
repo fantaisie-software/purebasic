@@ -1,7 +1,7 @@
 ;
 ;     Entity library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Entity
@@ -566,8 +566,8 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateEntityBody(#Entity, Typ [, Masse [, Restitution, Reibung [, GrößeX, GrößeY, GrößeZ [, AchseX, AchseY, AchseZ]])
-
+@Function CreateEntityBody(#Entity, Typ [, Masse [, Restitution, Reibung [, Achse [, GrößeX, GrößeY, GrößeZ]]]])
+ 
 @Description
   Ändert den Typ des Körpers ("body"), welcher mit dem '#Entity' verknüpft ist.
 @LineBreak
@@ -623,6 +623,14 @@
 @OptionalParameter "Reibung"
   Reibung des Objekts. Dieser Wert kann auch mittels @@GetEntityAttribute und @@SetEntityAttribute
   ermittelt bzw. gesetzt werden.
+
+@OptionalParameter "Achse"
+  Die Achse des Körpers. Dies gilt nur für die folgenden Körper-Typen:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
   
 @OptionalParameter "GrößeX, GrößeY, GrößeZ"
   Die Größe vom Begrenzungsrahmen (englisch "bounding box") des Körpers. Dies gilt nur für
@@ -634,14 +642,6 @@
   @#PB_Entity_CylinderBody: GrößeX und GrößeY sind verfügbar.
   @#PB_Entity_CapsuleBody : GrößeX, GrößeY und GrößeZ sind verfügbar.
 @EndFixedFont  
-
-@OptionalParameter "AchseX, AchseY, AchseZ"
-  Die Achsen des Körpers. Dies gilt nur für die folgenden Körper-Typen:
-@FixedFont
-  @#PB_Entity_PlaneBody
-  @#PB_Entity_CylinderBody
-  @#PB_Entity_CapsuleBody 
-@EndFixedFont 
 
 @NoReturnValue
 
@@ -1375,7 +1375,7 @@
   Das zu verwendende Entity.
 
 @Parameter "Attribut"
-  Gibt das zu ermittelnde Attribut an. Die folgenden Attribute sind verfügbar:
+  Gibt den zu ermittelnden Attribut-Wert an. Die folgenden Attribute sind verfügbar:
 @FixedFont
   @#PB_Entity_Friction           : Ermittelt den Reibungs-Wert.
   @#PB_Entity_Restitution        : Ermittelt den Restitutions-Wert.
@@ -1400,6 +1400,7 @@
   @#PB_Entity_ScaleX             : Ermittelt die aktuelle Skalierung des Entity auf der 'x' Achse.
   @#PB_Entity_ScaleY             : Ermittelt die aktuelle Skalierung des Entity auf der 'y' Achse.
   @#PB_Entity_ScaleZ             : Ermittelt die aktuelle Skalierung des Entity auf der 'z' Achse.
+  @#PB_Entity_InheritScale       : Ermittelt, ob das Entity eine geerbte Skalierung ("inherit scale") hat.
 @EndFixedFont
 
 @ReturnValue
@@ -1436,6 +1437,8 @@
   @#PB_Entity_DeactivationTime : Zu wartende Zeit (in Millisekunden), bevor das Entity-Objekt in den Ruhezustand ("Schlaf-Modus")
                                 versetzt wird, wenn die vorgenannten Bedingungen zutreffen.
   @#PB_Entity_DisableContactResponse: Deaktiviert oder aktiviert die physischen Kontakte für dieses Entity. Wert kann @#True oder @#False sein.
+  @#PB_Entity_InheritScale     : Deaktiviert oder aktiviert, ob das Entity eine geerbte Skalierung ("inherit scale") hat.
+                                Der Wert kann @#True oder @#False sein.
 @EndFixedFont
 
 @Parameter "Wert"

@@ -259,6 +259,8 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       CompilerIf #CompileWindows
         AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*Target\EnableXP))
         AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))
+      CompilerElseIf #CompileLinux
+        AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*Target\EnableWayland))
       CompilerEndIf
       AddTools_SetEnvVar(EnvVars(), "Debugger", Str(*Target\Debugger))
       AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)

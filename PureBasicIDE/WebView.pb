@@ -52,7 +52,6 @@ Procedure WebView_Callback(JsonParameters$)
   ExtractJSONStructure(ParameterJSON, @BaseParameter.WebViewBaseParameter, WebViewBaseParameter)
   
   Debug BaseParameter\command
-  Debug "#COMMAND_Warning "+ #COMMAND_Warning
   
   ; Update the debugger structure
   *WebViewDebugger\Command\Command = BaseParameter\command
@@ -145,17 +144,19 @@ Procedure WebView_Callback(JsonParameters$)
       ;
       ExtractJSONStructure(ParameterJSON, @DebugParameter.WebViewDebugParameter, WebViewDebugParameter)
       Debug "****** Debug"
-      Debug DebugParameter
-      
-      ; open the debug window if needed
-      ;
-      If *WebViewDebugger\OutputFirstVisible
-        OpenDebugWindow(*WebViewDebugger, #True)
-      EndIf
+      Debug DebugParameter\text
       
       *WebViewDebugger\IsDebugMessage = #True
       *WebViewDebugger\DebugMessage$ = DebugParameter\text
       UpdateDebugOutputWindow(*WebViewDebugger)
+      
+      ; show the debug window if needed.
+      ; Warning it needs to be the very last command of the 'Debug' block or the callback can recurse of HideWindow() and the message will be displayed out of order: https://forums.spiderbasic.com/viewtopic.php?t=2675
+      ; It looks like activating a window process some event and the WebView callback is called again.
+      ;
+      If *WebViewDebugger\OutputFirstVisible
+        OpenDebugWindow(*WebViewDebugger, #True)
+      EndIf
       
     Case #COMMAND_ControlDebugOutput
       
@@ -182,7 +183,7 @@ EndProcedure
 
 
 
-Procedure WebView_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure WebView_CreateFunction(*Entry.ToolsPanelEntry)
   
   StringGadget(#GADGET_WebView_Url, 4, 4, 0, 25, "", #PB_String_ReadOnly)
   ButtonImageGadget(#GADGET_WebView_OpenBrowser, 0, 4, 25, 25, ImageID(#IMAGE_WebView_OpenBrowser))

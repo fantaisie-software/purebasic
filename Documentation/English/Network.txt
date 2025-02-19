@@ -1,7 +1,7 @@
 ;
 ;     Network library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Network
@@ -9,11 +9,12 @@
 @Overview
 
 PureBasic supports the official protocol to exchange data
-via the internet: @InternetLink "http://en.wikipedia.org/wiki/TCP/IP" "TCP/IP" in both IPv4 and IPv6 form.
+via the internet: @InternetLink "https://en.wikipedia.org/wiki/Internet_protocol_suite" "TCP/IP" in both IPv4 and IPv6 form.
 This means that games and applications can be written using the well-established 
 client/server model. With these functions, its possible to
-create any kind of internet-related application (browsers, web servers,
-ftp clients, etc) or even multiplayer games.
+create any kind of internet-related application (browsers, web servers, ftp clients, etc) or even multiplayer games. @LineBreak
+@LineBreak
+It also fully support TLS encryption through the @InternetLink "https://www.libressl.org/" "LibreSSL" library.
 
 @CommandList
 
@@ -110,10 +111,11 @@ ftp clients, etc) or even multiplayer games.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateNetworkServer(#Server, Port [, Mode [, BoundIP$]])
+@Function Result = CreateNetworkServer(#Server, Port [, Flags [, BoundIP$]])
 
 @Description
-  Create a new network server on the local computer using the specified port. 
+  Create a new network server on the local computer using the specified port. To support TLS encryption, @@UseNetworkTLS needs to be
+  called before this command and a TLS flag needs to be specified.
   
 @Parameter "#Server"
   A number to identify the new server.
@@ -124,18 +126,27 @@ ftp clients, etc) or even multiplayer games.
   Port values can range from 6000 to 7000 (this is a recommended area space, 
   but it can go from 0 to 65000 in reality). 
   
-@OptionalParameter "Mode"
+@OptionalParameter "Flags"
   Can be one of the following values:
 @FixedFont
-  @#PB_Network_TCP: The server will use the @InternetLink "http://en.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP network protocol" (default)
-  @#PB_Network_UDP: The server will use the @InternetLink "http://en.wikipedia.org/wiki/User_Datagram_Protocol" "UDP network protocol"
+  @#PB_Network_TCP: the server will use the @InternetLink "http://en.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP network protocol" (default)
+  @#PB_Network_UDP: the server will use the @InternetLink "http://en.wikipedia.org/wiki/User_Datagram_Protocol" "UDP network protocol"
 @EndFixedFont
   combined with one of the following values (using the '|' operand):
 @FixedFont
   @#PB_Network_IPv4: create a server using IPv4 (default)
   @#PB_Network_IPv6: create a server using IPv6
 @EndFixedFont
-
+  combined with one of the following values (using the '|' operand):
+@FixedFont
+  @#PB_Network_NoTLS  : no encryption will be used for this server (default)
+  @#PB_Network_TLSv1  : all non-deprecated TLS procotols will be supported (currently v1.2 and v1.3)
+  @#PB_Network_TLSv1_0: TLS v1.0 procotol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_1: TLS v1.1 procotol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_2: TLS v1.2 procotol will be supported
+  @#PB_Network_TLSv1_3: TLS v1.3 procotol will be supported
+@EndFixedFont
+ 
 @OptionalParameter "BoundIP$"
   The local IP address to bind the server. By default, the server is created on all available local interfaces, and accept
   connections from them. It can be useful to restrict the server to only one interface (for example "127.0.0.1")
@@ -154,7 +165,7 @@ ftp clients, etc) or even multiplayer games.
   @@NetworkServerEvent can be used to monitor server for events.
 
 @SeeAlso
-  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@UseNetworkTLS
 
 @SupportedOS
 
@@ -507,10 +518,11 @@ ftp clients, etc) or even multiplayer games.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Connection = OpenNetworkConnection(ServerName$, Port [, Mode [, TimeOut [, LocalIP$ [, LocalPort]]]]) 
+@Function Connection = OpenNetworkConnection(ServerName$, Port [, Flags [, TimeOut [, LocalIP$ [, LocalPort]]]]) 
 
 @Description
-  Opens a network connection to the specified server. 
+  Opens a network connection to the specified server. To support TLS encryption, @@UseNetworkTLS needs to be
+  called before this command and a TLS flag needs to be specified.
 
 @Parameter "ServerName$"
   The server to connect to. This can be an 
@@ -519,7 +531,7 @@ ftp clients, etc) or even multiplayer games.
 @Parameter "Port"
   The port on the server to connect to.
 
-@OptionalParameter "Mode"
+@OptionalParameter "Flags"
   This can be one of the following values:
 @FixedFont
   @#PB_Network_TCP: The connection will use the @InternetLink "http://en.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP network protocol" (default)
@@ -532,6 +544,15 @@ ftp clients, etc) or even multiplayer games.
 @FixedFont
   @#PB_Network_IPv4: open the connection using IPv4 (default)
   @#PB_Network_IPv6: open the connection using IPv6
+@EndFixedFont
+  combined with one of the following values (using the '|' operand):
+@FixedFont
+  @#PB_Network_NoTLS  : no encryption will be supported for this connection (default)
+  @#PB_Network_TLSv1  : all non-deprecated TLS procotols will be supported (currently v1.2 and v1.3)
+  @#PB_Network_TLSv1_0: TLS v1.0 procotol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_1: TLS v1.1 procotol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_2: TLS v1.2 procotol will be supported
+  @#PB_Network_TLSv1_3: TLS v1.3 procotol will be supported
 @EndFixedFont
 
 @OptionalParameter "TimeOut"
@@ -551,7 +572,7 @@ ftp clients, etc) or even multiplayer games.
   If there was an error the result is zero.
 
 @SeeAlso
-  @@NetworkClientEvent, @@SendNetworkData, @@ReceiveNetworkData, @@CloseNetworkConnection
+  @@NetworkClientEvent, @@SendNetworkData, @@ReceiveNetworkData, @@CloseNetworkConnection, @@UseNetworkTLS
 
 @SupportedOS
 
@@ -659,4 +680,121 @@ ftp clients, etc) or even multiplayer games.
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function UseNetworkTLS([PrivateKey$, Certificate$ [, CaCertificate$]])
+
+@Description
+  Enable and configure TLS support for network library. This command must be called before using @@CreateNetworkServer or @@OpenNetworkConnection with the TLS flags.
+  
+@OptionalParameter "PrivateKey$"
+  The private key to use for TLS when using @@CreateNetworkServer. When using TLS only with @@OpenNetworkConnection, this parameter is not needed. It should be in following format:
+@Code  
+  "-----BEGIN PRIVATE KEY-----"+#LF$+ "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHODSntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+  "-----END PRIVATE KEY-----"
+@EndCode
+
+@OptionalParameter "Certificate$"
+  The certificat to use for TLS when using @@CreateNetworkServer. When using TLS only with @@OpenNetworkConnection, this parameter is not needed. It should be in following format:
+@Code  
+  "-----BEGIN CERTIFICATE-----"+#LF$+ "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIHNlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZS5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+  "-----END CERTIFICATE-----"
+@EndCode
+
+@OptionalParameter "CaCertificate$"
+  The intermediate authority certificate who issued the 'Certificate$' to use for TLS when using @@CreateNetworkServer. When using TLS only with @@OpenNetworkConnection, this parameter is not needed. It should be in the same format than 'Certificate$'.
+
+@NoReturnValue
+
+@Example TLS Server
+@Code
+  Timeout = 15000 ; 15 secs overall timeout
+
+  PrivateKey$ = "-----BEGIN PRIVATE KEY-----"+#LF$+
+         "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHODSntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+         "-----END PRIVATE KEY-----"
+
+  Cert$ = "-----BEGIN CERTIFICATE-----"+#LF$+
+          "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIHNlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZS5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+          "-----END CERTIFICATE-----"
+
+  UseNetworkTLS(PrivateKey$, Cert$)
+  If CreateNetworkServer(0, 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1, "127.0.0.1")
+    Debug "TLS Server launched on 127.0.0.1:20252 - Waiting for connections..."
+    
+    Repeat
+      Select NetworkServerEvent()
+        Case #PB_NetworkEvent_Data
+          
+          Debug "Data recieved !"
+          ClientID = EventClient()
+          *Buffer = AllocateMemory(1000)
+          If *Buffer
+            Debug ReceiveNetworkData(ClientID, *Buffer, 1000)
+          
+            Debug "String: "+PeekS(*Buffer, -1, #PB_UTF8)
+            SendNetworkString(ClientID, "Well received !!!")
+            
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_None
+          Delay(100) ; Don't steal the whole CPU time while waiting for connection
+          Timeout - 100
+      EndSelect
+          
+    Until Timeout <= 0
+    
+    Debug "Closing server after " + Str(Timeout/1000) + " secs timeout"
+    
+    CloseNetworkServer(0)
+  Else
+    Debug "Can't create the TLS server"
+  EndIf
+
+@EndCode
+
+@Example TLS Client
+@Code
+  Timeout = 150000 ; 15 secs overall timeout
+
+  UseNetworkTLS()
+
+  Connection = OpenNetworkConnection("127.0.0.1", 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1)
+  If Connection
+    
+    ; Send some string to the server to test
+    SendNetworkString(Connection, "GET / HTTP/1.1" + #CRLF$ + "Host: www.purebasic.fr" + #CRLF$ + #CRLF$)
+    
+    Repeat
+      Select NetworkClientEvent(Connection)
+        Case #PB_NetworkEvent_Data
+          *Buffer = AllocateMemory($FFFF)
+          If *Buffer
+            Length = ReceiveNetworkData(Connection, *Buffer, MemorySize(*Buffer))
+            Received$ + PeekS(*Buffer, Length, #PB_UTF8 | #PB_ByteLength)
+            Debug "Recieved string: "+ Received$
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_Disconnect
+          Debug "Disconnected"
+          Break
+          
+        Case #PB_NetworkEvent_None
+          Delay(100)
+          Timeout - 100
+          
+      EndSelect
+    Until Timeout <= 0
+    
+    CloseNetworkConnection(Connection)
+  Else
+    Debug "Can't open the connection on 127.0.0.1:20252"
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CreateNetworkServer, @@OpenNetworkConnection
+
+@SupportedOS
 

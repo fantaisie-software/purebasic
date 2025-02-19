@@ -152,6 +152,27 @@
 <br><hr><br>
 @FormatEndIf
 
+@Syntax
+
+  @Keyword DisablePureLibrary <LibraryName>
+
+@Description
+
+  Disables the specified PureLibrary. All its associated commands won't be available when compiling this program.
+  This is especially useful when creating a @ReferenceLink "PureLibrary" "PureLibrary".
+
+  @Example
+
+@Code
+  DisablePureLibrary Engine3D
+  
+  InitEngine3D() ; Error, command not found
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
 @Section Reserved Constants
 
   The PureBasic compiler has several reserved constants which can be useful to the programmer: 
@@ -177,7 +198,7 @@
     @#PB_Compiler_Console    : Console executable (have an effect only on Windows, other act like a regular executable)
     @#PB_Compiler_DLL        : Shared DLL (dynlib on MacOS X and shared object on Linux)
 
-  @#PB_Compiler_Date     : Current date, at the compile time, in the PureBasic  @LibraryLink "Date" "date" format.
+  @#PB_Compiler_Date     : Current date, at the compile time, in the PureBasic  @LibraryLink "Date" "date" format (local time).
   @#PB_Compiler_File     : Full path and name of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.
   @#PB_Compiler_FilePath : Full path of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.
   @#PB_Compiler_Filename : Filename (without path) of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.

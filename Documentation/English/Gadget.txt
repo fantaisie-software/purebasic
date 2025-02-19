@@ -1620,10 +1620,11 @@
   The position and dimensions of the new gadget.
 
 @OptionalParameter "Flags"
-  Flags to modify the gadget behavior. This can be the following value:
+  Flags to modify the gadget behavior. This can be a combination of the following values:
 @FixedFont
-  @#PB_Editor_ReadOnly: the user cannot edit the text in the gadget.
-  @#PB_Editor_WordWrap: the lines too long to be displayed will be wrapped still displayed completely
+  @#PB_Editor_ReadOnly     : the user cannot edit the text in the gadget.
+  @#PB_Editor_WordWrap     : the lines too long to be displayed will be wrapped still displayed completely
+  @#PB_Editor_TabNavigation: when using TAB in the editor gadget it will cycle to the next gadget instead of inserting a TAB character.
 @EndFixedFont  
 
 @ReturnValue

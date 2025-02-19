@@ -341,6 +341,7 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
+  FileList()\EnableWayland    = OptionWayland
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
@@ -868,6 +869,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     NbLines + 1
     ConfigLines$(NbLines) = "EnableXP"
   EndIf
+  If *Target\EnableWayland And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "EnableWayland"
+  EndIf
   If *Target\EnableAdmin And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "EnableAdmin"
@@ -1187,6 +1192,7 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
         If Line$ = "; EOF" : Found = 1
         ElseIf Line$ =          "; EnableAsm"         : Found = 1 : *Source\EnableASM = 1
         ElseIf Line$ =          "; EnableXP"          : Found = 1 : *Source\EnableXP  = 1
+        ElseIf Line$ =          "; EnableWayland"     : Found = 1 : *Source\EnableWayland = 1
         ElseIf Line$ =          "; EnableOnError"     : Found = 1 : *Source\EnableOnError = 1
         ElseIf Line$ =          "; DisableDebugger"   : Found = 1 : *Source\Debugger  = 0
         ElseIf Left(Line$,13) = "; Executable="       : Found = 1 : *Source\ExecutableName$   = Right(Line$, Len(Line$)-13)
@@ -1242,6 +1248,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   *Source\DPIAware      = 0
   *Source\DllProtection = 0
   *Source\SharedUCRT    = 0
+  *Source\EnableWayland = 0
   
   ClearList(*Source\UnknownIDEOptionsList$())
   
@@ -1330,6 +1337,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
+      Case "ENABLEWAYLAND":    *Source\EnableWayland = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
       Case "DPIAWARE":         *Source\DPIAware = 1
@@ -1613,6 +1621,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableASM     = 0
     *Source\EnableThread  = 0
     *Source\EnableXP      = 1
+    *Source\EnableWayland = 0
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1

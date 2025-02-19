@@ -1,7 +1,7 @@
 ;
 ;     WebView library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library WebView
@@ -34,7 +34,7 @@
 @Function Result = WebViewGadget(#Gadget, x, y, Width, Height [, Flags])
 
 @Description
-  Creates a new web view gadget in the current GadgetList.
+  Creates a new web view gadget in the current GadgetList. If needed a proxy can be set with @@WebWiewProxy.
 
 @Parameter "#Gadget"
   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -165,7 +165,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebWiewProxy
 
 @SupportedOS
 
@@ -318,3 +318,28 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function WebWiewProxy(URL$, Port [Username$, Password$])
+
+@Description
+  Setup a proxy for all the future @@WebViewGadget created. This means than all the external link and URL will goes trough
+  this proxy before reaching the destination. It can be useful in a company environment where security level is high.
+  
+@Parameter "URL$"
+  The proxy server URL.
+
+@Parameter "Port"
+  The proxy server port.
+
+@OptionalParameter "Username$, Password$"
+  If the proxy server requires authentication, a username and password can be set.
+
+@NoReturnValue
+
+@Remarks
+  When used on MacOS, the minimum requirement is MacOS 14 (Sonoma).
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS
+

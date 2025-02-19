@@ -160,6 +160,27 @@
 <br><hr><br>
 @FormatEndIf
 
+@Syntax
+
+  @Keyword DisablePureLibrary <LibraryName>
+
+@Description
+
+  Deaktiviert die angegebene PureLibrary. Alle zugehörigen Befehle sind beim Kompilieren dieses Programms nicht verfügbar.
+  Dies ist insbesondere beim Erstellen einer @ReferenceLink "PureLibrary" "PureLibrary" nützlich.
+
+  @Example
+
+@Code
+  DisablePureLibrary Engine3D
+  
+  InitEngine3D() ; Fehler, Befehl nicht gefunden
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
 @Section Reservierte Konstanten
 
   Der PureBasic Compiler besitzt einige reservierte Konstanten, welche für den Programmierer nützlich sein können: 
@@ -188,7 +209,7 @@
     @#PB_Compiler_Console    : Console-Executable (hat nur auf Windows einen Effekt, auf den anderen OS verhält es sich wie ein reguläres Executable)
     @#PB_Compiler_DLL        : Shared DLL (dynlib auf MacOS X und shared object auf Linux)
 
-  @#PB_Compiler_Date     : Aktuelles Datum zum Zeitpunkt des Kompilierens, im PureBasic @LibraryLink "date" "Datums"-Format.
+  @#PB_Compiler_Date     : Aktuelles Datum zum Zeitpunkt des Kompilierens, im PureBasic @LibraryLink "date" "Datums"-Format (lokale Zeit).
   @#PB_Compiler_File     : Voller Pfad und Name der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
   @#PB_Compiler_FilePath : Voller Pfad der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".
   @#PB_Compiler_Filename : Dateiname (ohne Pfad) der kompilierten Datei, nützlich für @ReferenceLink "ide_debugger" "Debug-Zwecke".

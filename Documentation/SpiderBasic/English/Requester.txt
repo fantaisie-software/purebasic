@@ -176,13 +176,6 @@ all performed through standard windows called 'requesters'.
   It can be a combination of one of the following values:
 @FixedFont
   @#PB_Requester_MultiSelection: Enable the multiselection (see @@NextSelectedFile).
-  @#PB_Requester_GoogleDrive: Uses the Google file requester to select a file. @@UseGoogleDrive has to be
-                             successfully initialized before using this requester. Note: to be able to open
-                             the requester, a domain name needs to be used (ip address won't work), and this domain
-                             needs to be allowed in the google developper console. For testing purpose,
-                             you can modify your /etc/hosts file and put a domain alias for 127.0.0.1, and
-                             then set the 'web server address' compiler option of the SpiderBasic IDE.
-                             
 @EndFixedFont
 
 @NoReturnValue
@@ -212,53 +205,5 @@ all performed through standard windows called 'requesters'.
 
 @SeeAlso
   @@NextSelectedFile
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function UseGoogleDrive(ClientID$, ApiKey$, Callback)
-
-@Description
-  Initializes Google Drive access for a specific application. Only one application can be registered at once.
-
-@Parameter "ClientID$"
-  The google client ID of the application which is used to access the drive.
-  Each application has it's own ID, for example "568545051626-vlffi940ra93pmb3pl3tq1eaueejje7h"
-  for the test application 'SpiderEditor'. To create your own id, you need to go
-  to the google developer console.
-  
-@Parameter "ApiKey$"
-  The API key of the application which is used to access the drive.
-  Each application has it's own API key, for example "AIzaSyAp_978UH3YhI4czaGaFmWWvN14AJgNfVQ"
-  for the test application 'SpiderEditor'. To create your own API key, you need to go
-  to the google developer console.
-
-@Parameter "Callback"
-  The callback which will be called when everything is ready to use Google Drive. If it is not called,
-  then Google Drive is not available. It has to be declared like this:
-
-@Code
-  Procedure Callback()
-    ; Google drive is ready to use.
-  EndProcedure
-@EndCode
-
-@NoReturnValue
-
-@Example
-@Code
-  Procedure GoogleDriveReady()
-    Debug "Google drive is ready"
-  EndProcedure
-  
-  ; Uses the SpiderEditor test application
-  ;
-  UseGoogleDrive("568545051626-vlffi940ra93pmb3pl3tq1eaueejje7h", 
-                 "AIzaSyAp_978UH3YhI4czaGaFmWWvN14AJgNfVQ", @GoogleDriveReady())
-@EndCode
-
-@SeeAlso
-  @@OpenFileRequester
 
 @SupportedOS

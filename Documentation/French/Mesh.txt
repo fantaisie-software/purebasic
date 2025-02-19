@@ -1692,13 +1692,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Mode)
+@Function FinishMesh(MeshStatic)
 
 @Description
   Termine la création du mesh courant 
   démarré avec @@CreateMesh. 
 
-@Parameter "Mode"
+@Parameter "MeshStatic"
 @FixedFont
   - @#True : Le mesh est converti en un mesh statique et ne sera plus modifiable.
   - @#False: Le mesh sera toujours modifiable avec @@UpdateMesh. 
@@ -1793,7 +1793,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, NbLOD, Distance.f, ValeurReduction.f)
+@Function BuildMeshLOD(#Mesh [, NbLOD, Distance.f, ValeurReduction.f])
 
 @Description
  Construit automatiquement un ou plusieurs niveaux de détail (LOD) pour le mesh. 
@@ -1801,16 +1801,17 @@
 @Parameter "Mesh"
   Le mesh à utiliser.
 
-@Parameter "NbLOD"
-  Nombre de LOD nécessaires pour ce mesh.
+@OptionalParameter "NbLOD"
+  Nombre de LOD nécessaires pour ce mesh.@LineBreak
+  Si ce paramètre n'est pas utilisé, les LOD seront calculés automatiquement.
 
-@Parameter "Distance"
+@OptionalParameter "Distance"
   Distance minimale par rapport à la caméra où le premier mesh LOD sera utilisé 
   à la place de #Mesh.@LineBreak
   Pour les meshs LOD suivants, la distance sera calculée à l'aide de la formule suivante:
   'Distance / SqrF (1-ValeurReduction)'.
 
-@Parameter "ValeurReduction.f"
+@OptionalParameter "ValeurReduction.f"
   La réduction à appliquer, entre 0 (pas de réduction) et 1 (réduction de 100%). 
   @LineBreak
   @LineBreak
@@ -1826,7 +1827,6 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   @LineBreak
   @LineBreak 
   Si des meshs LOD plus précis sont requis, vous pouvez utiliser @@AddMeshManualLOD.
-
 
 @SeeAlso
   @@CreateMesh, @@AddMeshManualLOD

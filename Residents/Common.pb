@@ -257,6 +257,7 @@ EndStructure
 #PB_PixelFormat_32Bits_BGR = 1 << 6
 
 #PB_PixelFormat_ReversedY  = 1 << 15
+#PB_PixelFormat_NoAlpha    = 1 << 16
 
 ; CGI
 ;
@@ -930,6 +931,7 @@ EndEnumeration
 #PB_Network_IPv4     = 0
 #PB_Network_UDP      = 1 << 0
 #PB_Network_IPv6     = 1 << 1
+#PB_Network_NoTLS    = 0
 #PB_Network_TLSv1_0  = 1 << 2
 #PB_Network_TLSv1_1  = 1 << 3
 #PB_Network_TLSv1_2  = 1 << 4
@@ -1978,16 +1980,6 @@ EndStructure
 
 ; World
 ;
-#PB_World_WaterMediumQuality = 0
-#PB_World_WaterLowQuality    = 1 << 0
-#PB_World_WaterHighQuality   = 1 << 1
-#PB_World_WaterCaustics      = 1 << 2
-#PB_World_WaterSmooth        = 1 << 3
-#PB_World_WaterFoam          = 1 << 4
-#PB_World_WaterSun           = 1 << 5
-#PB_World_UnderWater         = 1 << 6
-#PB_World_WaterGodRays       = 1 << 7
-
 #PB_AntialiasingMode_None = 0
 #PB_AntialiasingMode_x2 = 1
 #PB_AntialiasingMode_x4 = 2
@@ -1998,6 +1990,30 @@ EndStructure
 #PB_World_DebugBody   = 1 << 1
 
 #PB_World_WaterPick   = -3
+
+; Get/SetWorldAttribute()
+#PB_Shadow_FarDistance                     = 1
+#PB_Shadow_Color                           = 2
+; #PB_Shadow_OptimalAdjustFactor             = 3
+; #PB_Shadow_UseAggressiveFocusRegion        = 4
+; #PB_Shadow_TextureCount                    = 5
+; #PB_Shadow_TextureSize                     = 6
+; #PB_Shadow_TextureCountPerLightPoint       = 7
+; #PB_Shadow_TextureCountPerLightDirectional = 8
+; #PB_Shadow_TextureCountPerSpotLight        = 9
+#PB_SkyDome_Free                           = 10
+#PB_SkyDome_SkyColor                       = 11
+#PB_SkyDome_RiseColor                      = 12
+#PB_SkyDome_NbCloudLayers                  = 13
+#PB_SkyDome_CloudsHeight                   = 14
+#PB_Water_WaterColor                       = 15
+#PB_Water_SkyColor                         = 16
+#PB_Water_WaveHeight                       = 17
+#PB_Water_WaveSmall                        = 18
+#PB_Water_Swell                            = 19
+#PB_Water_Foam                             = 20
+#PB_Water_Free                             = 21
+
 
 ; for DragDrop lib DragOSFormats()
 

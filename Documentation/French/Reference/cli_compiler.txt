@@ -21,7 +21,12 @@
  @LineBreak
  @LineBreak
    Le compilateur backend C ne permet pas d'entrer du code assembleur.
- 
+ @LineBreak
+ @LineBreak
+  Sous Windows, un fichier "PureBasic-CLI.cmd" est disponible directement dans la 
+  racine PureBasic pour ouvrir facilement une invite de ligne de commande afin 
+  d'utiliser les outils de ligne de commande PureBasic.
+
 @Section Paramètres du compilateur (multi-plateforme)
 
   Note: Tous les noms de commutateurs commençant par '/' ne sont valides que sous Windows (Par exemple :  '/DEBUGGER'). 
@@ -260,7 +265,15 @@
   que dans le répertoire System32 du système d'exploitation Windows.
   @LineBreak
   @LineBreak 
-  
+  /UCRT : Utilise le CRT universel dynamique lors de la création de l'exécutable ou de 
+  la DLL. Il est recommandé lors de la création d'un exécutable ou d'une DLL qui n'a 
+  pas besoin de prendre en charge une version Windows antérieure à Windows 10.@LineBreak
+  L'exécutable ou la DLL résultante sera plus petite et bénéficiera de correctifs de 
+  sécurité automatiques du CRT lorsque Microsoft le mettra à jour. Cette option est 
+  toujours activée sur PureBasic pour Windows arm64. 
+  @LineBreak
+  @LineBreak
+
   @Bold "Exemples:"
   @FixedFont
     CLI> pbcompiler "C:\Project\Source\DLLSource.pb" /EXE "C:\Projet\projet.dll" /DLL

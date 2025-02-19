@@ -1,7 +1,7 @@
 ;
 ;     Gadget library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -1709,11 +1709,13 @@
   Die Position und die Abmessungen des neuen Gadgets.
 
 @OptionalParameter "Flags"
-  Flags zum Verändern des Gadget-Verhaltens. Dies kann folgender Wert sein:
+  Flags zum Verändern des Gadget-Verhaltens. Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Editor_ReadOnly: Der Anwender kann den Text im Gadget nicht editieren (readonly = "nur lesen").
-  @#PB_Editor_WordWrap: Die Zeilen, welche zu lang zum Anzeigen sind, werden umgebrochen bis sie
-                       komplett angezeigt werden.
+  @#PB_Editor_ReadOnly     : Der Anwender kann den Text im Gadget nicht editieren (readonly = "nur lesen").
+  @#PB_Editor_WordWrap     : Die Zeilen, welche zu lang zum Anzeigen sind, werden umgebrochen bis sie
+                            komplett angezeigt werden.
+  @#PB_Editor_TabNavigation: Bei Verwendung der TAB-Taste im Editor-Gadget wird zum nächsten Gadget
+                            gewechselt, anstatt ein TAB-Zeichen einzufügen.
 @EndFixedFont
 
 @ReturnValue

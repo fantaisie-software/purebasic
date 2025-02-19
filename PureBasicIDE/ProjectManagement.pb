@@ -1047,6 +1047,7 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableASM     = Xml_Boolean(GetXMLAttribute(*Entry, "asm"))
                     ProjectTargets()\EnableThread  = Xml_Boolean(GetXMLAttribute(*Entry, "thread"))
                     ProjectTargets()\EnableXP      = Xml_Boolean(GetXMLAttribute(*Entry, "xpskin"))
+                    ProjectTargets()\EnableWayland = Xml_Boolean(GetXMLAttribute(*Entry, "wayland"))
                     ProjectTargets()\EnableAdmin   = Xml_Boolean(GetXMLAttribute(*Entry, "admin"))
                     ProjectTargets()\EnableUser    = Xml_Boolean(GetXMLAttribute(*Entry, "user"))
                     ProjectTargets()\DPIAware      = Xml_Boolean(GetXMLAttribute(*Entry, "dpiaware"))
@@ -1500,6 +1501,9 @@ Procedure SaveProject(ShowErrors)
       EndIf
       If ProjectTargets()\EnableXP
         SetXMLAttribute(*Options, "xpskin",  "1")
+      EndIf
+      If ProjectTargets()\EnableWayland
+        SetXMLAttribute(*Options, "wayland",  "1")
       EndIf
       If ProjectTargets()\EnableAdmin
         SetXMLAttribute(*Options, "admin",   "1")

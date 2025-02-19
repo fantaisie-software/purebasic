@@ -767,6 +767,7 @@ Procedure LoadPreferences()
   OptionOptimizer            = ReadPreferenceLong("Optimizer", 0)
   OptionInlineASM            = ReadPreferenceLong("InlineASM", 0)
   OptionXPSkin               = ReadPreferenceLong("XPSkin",    1)
+  OptionWayland              = ReadPreferenceLong("Wayland",   0)
   OptionVistaAdmin           = ReadPreferenceLong("VistaAdmin",0)
   OptionVistaUser            = ReadPreferenceLong("VistaUser", 0)
   OptionDPIAware             = ReadPreferenceLong("DPIAware",  1)
@@ -1493,6 +1494,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("Optimizer",          OptionOptimizer)
     WritePreferenceLong  ("InlineASM",          OptionInlineASM)
     WritePreferenceLong  ("XPSkin",             OptionXPSkin)
+    WritePreferenceLong  ("Wayland",            OptionWayland)
     WritePreferenceLong  ("VistaAdmin",         OptionVistaAdmin)
     WritePreferenceLong  ("VistaUser",          OptionVistaUser)
     WritePreferenceLong  ("DPIAware",           OptionDPIAware)
@@ -1767,6 +1769,7 @@ Procedure IsPreferenceChanged()
     If OptionPurifier        <> GetGadgetState(#GADGET_Preferences_Purifier): ProcedureReturn 1: EndIf
     If OptionInlineASM       <> GetGadgetState(#GADGET_Preferences_InlineASM): ProcedureReturn 1: EndIf
     If OptionXPSkin          <> GetGadgetState(#GADGET_Preferences_XPSkin): ProcedureReturn 1: EndIf
+    If OptionWayland         <> GetGadgetState(#GADGET_Preferences_Wayland): ProcedureReturn 1: EndIf
     If OptionVistaAdmin      <> GetGadgetState(#GADGET_Preferences_VistaAdmin): ProcedureReturn 1: EndIf
     If OptionVistaUser       <> GetGadgetState(#GADGET_Preferences_VistaUser): ProcedureReturn 1: EndIf
     If OptionDPIAware        <> GetGadgetState(#GADGET_Preferences_DPIAware): ProcedureReturn 1: EndIf
@@ -2178,6 +2181,7 @@ Procedure ApplyPreferences()
     OptionPurifier        = GetGadgetState(#GADGET_Preferences_Purifier)
     OptionInlineASM       = GetGadgetState(#GADGET_Preferences_InlineASM)
     OptionXPSkin          = GetGadgetState(#GADGET_Preferences_XPSkin)
+    OptionWayland         = GetGadgetState(#GADGET_Preferences_Wayland)
     OptionVistaAdmin      = GetGadgetState(#GADGET_Preferences_VistaAdmin)
     OptionVistaUser       = GetGadgetState(#GADGET_Preferences_VistaUser)
     OptionDPIAware        = GetGadgetState(#GADGET_Preferences_DPIAware)
@@ -3233,6 +3237,7 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_Purifier, OptionPurifier)
     SetGadgetState(#GADGET_Preferences_InlineASM, OptionInlineASM)
     SetGadgetState(#GADGET_Preferences_XPSkin, OptionXPSkin)
+    SetGadgetState(#GADGET_Preferences_Wayland, OptionWayland)
     SetGadgetState(#GADGET_Preferences_VistaAdmin, OptionVistaAdmin)
     SetGadgetState(#GADGET_Preferences_VistaUser, OptionVistaUser)
     SetGadgetState(#GADGET_Preferences_DPIAware, OptionDPIAware)
@@ -3247,14 +3252,21 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_UseCreateExecutable, OptionUseCreateExe)
   CompilerEndIf
   
-  CompilerIf #CompileWindows = 0
+  CompilerIf #CompileLinux And Not #SpiderBasic
+    DisableGadget(#GADGET_Preferences_DPIAware, 1)
+  CompilerEndIf
+  
+  CompilerIf Not #CompileWindows
     DisableGadget(#GADGET_Preferences_XPSkin, 1)
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
     DisableGadget(#GADGET_Preferences_VistaUser, 1)
-    DisableGadget(#GADGET_Preferences_DPIAware, 1)
     DisableGadget(#GADGET_Preferences_DllProtection, 1)
+    DisableGadget(#GADGET_Preferences_SharedUCRT, 1)
   CompilerEndIf
   
+   CompilerIf Not #CompileLinux
+    DisableGadget(#GADGET_Preferences_Wayland, 1)
+  CompilerEndIf
   
   ;- Debugger
   ;

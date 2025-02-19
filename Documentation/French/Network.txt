@@ -8,21 +8,16 @@
 
 @Overview
 
-  Les réseaux sont utilisés dans le monde 
-  entier pour faciliter la communication 
-  et le transfert d'informations entre 
-  ordinateurs. PureBasic supporte le 
-  protocole d'échange de données officiel 
-  d'Internet appelé 
-  @InternetLink "http://fr.wikipedia.org/wiki/TCP/IP" "TCP/IP"
+  Les réseaux sont utilisés dans le monde entier pour faciliter la communication 
+  et le transfert d'informations entre ordinateurs. PureBasic supporte le 
+  protocole d'échange de données officiel d'Internet appelé 
+  @InternetLink "https://fr.wikipedia.org/wiki/Internet_protocol_suite" "TCP/IP"
   en version IPv4 et IPv6. 
-  Cela vous permet d'écrire des applications 
-  ou des jeux basés sur ce protocole et le 
-  modèle 'client-serveur'. Avec les fonctions 
-  de cette bibliothèque, il vous est possible 
-  de créer toutes sortes d'applications de 
-  type Internet (navigateurs, serveur Web, 
-  client FTP...) ou des jeux multijoueurs.  
+  Cela vous permet d'écrire des applications ou des jeux basés sur ce protocole et le 
+  modèle 'client-serveur'. Avec les fonctions de cette bibliothèque, il vous est possible 
+  de créer toutes sortes d'applications de type Internet (navigateurs, serveur Web, 
+  client FTP...) ou des jeux multijoueurs.@LineBreak 
+  Il prend également entièrement en charge le cryptage TLS via la bibliothèque @InternetLink "https://www.libressl.org/" "LibreSSL".
 
 @CommandList
 
@@ -148,31 +143,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateNetworkServer(#Serveur, Port [, Mode [, IPLocale$]])
+@Function Resultat = CreateNetworkServer(#Serveur, Port [, Option [, IPLocale$]])
 
 @Description
-  Crée un nouveau serveur réseau sur 
-  l'ordinateur local sur le port spécifié.
+  Crée un nouveau serveur réseau sur l'ordinateur local sur le port spécifié.
   
 @Parameter "#Serveur"
-  Le numéro d'identification du nouveau 
-  serveur.
+  Le numéro d'identification du nouveau serveur.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer 
   automatiquement ce numéro.
   
 @Parameter "Port"
   Le port à utiliser par le serveur.
 @LineBreak
 @LineBreak
-  Les valeurs du port peuvent aller de 6000 
-  à 7000 (ce sont les valeurs recommandées,
-  mais elles peuvent aller en réalité de 0 
-  à 65535). 
+  Les valeurs du port peuvent aller de 6000 à 7000 (ce sont les valeurs recommandées,
+  mais elles peuvent aller en réalité de 0 à 65535). 
   
-@OptionalParameter "Mode"
+@OptionalParameter "Option"
   Peut être l'une des valeurs suivantes:
 @FixedFont
   @#PB_Network_TCP: Le serveur utilisera le protocole @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (mode par défaut).
@@ -183,51 +173,51 @@
   @#PB_Network_IPv4: Crée un serveur en utilisant IPv4 (par défaut).
   @#PB_Network_IPv6: Crée un serveur en utilisant IPv6.
 @EndFixedFont
+  combiné avec l'une des valeurs suivantes (en utilisant l'opérande '|') :
+@FixedFont
+@#PB_Network_NoTLS   : Aucun chiffrement ne sera utilisé pour ce serveur (par défaut)
+@#PB_Network_TLSv1   : Tous les protocoles TLS non obsolètes seront pris en charge (actuellement v1.2 et v1.3)
+@#PB_Network_TLSv1_0 : Le protocole TLS v1.0 sera pris en charge (attention, ce protocole est obsolète pour des raisons de sécurité)
+@#PB_Network_TLSv1_1 : Le protocole TLS v1.1 sera pris en charge (attention, ce protocole est obsolète pour des raisons de sécurité)
+@#PB_Network_TLSv1_2 : Le protocole TLS v1.2 sera pris en charge
+@#PB_Network_TLSv1_3 : Le protocole TLS v1.3 sera pris en charge
+@EndFixedFont
 
 @OptionalParameter "IPLocale$"
   L'adresse IP locale à lier au serveur. 
 @Indent
-  Par défaut, le serveur fonctionne sur toutes 
-  les interfaces locales disponibles, et 
-  accepte toutes leurs connexions. Il peut 
-  être utile de restreindre le serveur à une 
-  seule interface (par exemple, "127.0.0.1") 
-  pour éviter les tentatives de connexion à 
-  partir d'autres interfaces. Sous Windows, 
-  la liaison à l'hôte local permet d'éviter 
+  Par défaut, le serveur fonctionne sur toutes les interfaces locales disponibles, et 
+  accepte toutes leurs connexions. Il peut être utile de restreindre le serveur à une 
+  seule interface (par exemple, "127.0.0.1") pour éviter les tentatives de connexion à 
+  partir d'autres interfaces. Sous Windows, la liaison à l'hôte local permet d'éviter 
   de déclencher le pare-feu intégré.
 @EndIndent
 
 @ReturnValue
-  Renvoie une valeur non nulle si le serveur 
-  a été créé avec succès ou zéro si la création 
-  a échoué (par exemple parce que le port 
-  est en cours d'utilisation).@LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  #Serveur alors le nombre généré est 
+  Renvoie une valeur non nulle si le serveur a été créé avec succès ou zéro si la création 
+  a échoué (par exemple parce que le port est en cours d'utilisation).@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre #Serveur alors le nombre généré est 
   renvoyé en cas de succès.
   
 @Remarks
-  Un nombre quelconque de serveurs peuvent 
-  tourner simultanément sur la même machine, 
-  mais jamais avec le même numéro de port 
-  et le même protocole (@#PB_Network_TCP et 
+  Un nombre quelconque de serveurs peuvent tourner simultanément sur la même machine, 
+  mais jamais avec le même numéro de port et le même protocole (@#PB_Network_TCP et 
   @#PB_Network_UDP).
 @LineBreak
 @LineBreak 
-  Il est possible de créer deux serveurs 
-  utilisant le même port, l'un utilisant 
+  Il est possible de créer deux serveurs utilisant le même port, l'un utilisant 
   IPv4 et l'autre en utilisant IPv6. 
 @LineBreak
 @LineBreak
-  @@NetworkServerEvent peut être utilisé 
-  pour surveiller les nouveaux événements 
+  @@NetworkServerEvent peut être utilisé pour surveiller les nouveaux événements 
   serveur.
+@LineBreak
+@LineBreak
+  Pour prendre en charge le cryptage TLS, @@UseNetworkTLS doit être appelé avant cette 
+  commande et une option TLS doit être spécifiée.
 
 @SeeAlso
-  @@OpenNetworkConnection, 
-  @@CloseNetworkServer, 
-  @@NetworkServerEvent, 
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@UseNetworkTLS  
  
 @SupportedOS
 
@@ -681,11 +671,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = OpenNetworkConnection(NomServeur$, Port [, Mode [, TempsMax [, IPLocal$ [, PortLocal]]]]) 
+@Function Resultat = OpenNetworkConnection(NomServeur$, Port [, Option [, TempsMax [, IPLocal$ [, PortLocal]]]]) 
 
 @Description
-  Ouvre une connexion réseau sur le serveur 
-  spécifié. 
+  Ouvre une connexion réseau sur le serveur spécifié. 
 
 @Parameter "NomServeur$"
   Le serveur. @LineBreak
@@ -695,7 +684,7 @@
 @Parameter "Port"
   Le port du serveur.
 
-@OptionalParameter "Mode"
+@OptionalParameter "Option"
   Peut être une des valeurs suivantes:
 @FixedFont
   @#PB_Network_TCP: La connexion utilisera le protocole réseau @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (default)
@@ -709,6 +698,15 @@
 @FixedFont
   @#PB_Network_IPv4: Ouvre la connexion en utilisant IPv4 (par défaut).
   @#PB_Network_IPv6: Ouvre la connexion en utilisant IPv6.
+@EndFixedFont
+  combiné avec l'une des valeurs suivantes (en utilisant l'opérande '|') :
+@FixedFont
+  @#PB_Network_NoTLS : aucun chiffrement ne sera pris en charge pour cette connexion (par défaut)
+  @#PB_Network_TLSv1 : tous les protocoles TLS non obsolètes seront pris en charge (actuellement v1.2 et v1.3)
+  @#PB_Network_TLSv1_0 : le protocole TLS v1.0 sera pris en charge (attention, ce protocole est obsolète pour des raisons de sécurité)
+  @#PB_Network_TLSv1_1 : le protocole TLS v1.1 sera pris en charge (attention, ce protocole est obsolète pour des raisons de sécurité)
+  @#PB_Network_TLSv1_2 : le protocole TLS v1.2 sera pris en charge
+  @#PB_Network_TLSv1_3 : le protocole TLS v1.3 sera pris en charge
 @EndFixedFont
 
 @OptionalParameter "TempsMax"
@@ -736,10 +734,12 @@
   la connexion ouverte si la connexion a 
   été établie correctement, zéro sinon.
 
+@Remarks
+  Pour prendre en charge le chiffrement TLS, @@UseNetworkTLS doit être appelé avant cette commande et un indicateur TLS doit être spécifié.
+
 @SeeAlso
-  @@NetworkClientEvent, @@SendNetworkData, 
-  @@ReceiveNetworkData, 
-  @@CloseNetworkConnection
+  @@NetworkClientEvent, @@SendNetworkData, @@ReceiveNetworkData, 
+  @@CloseNetworkConnection, @@UseNetworkTLS
 
 @SupportedOS
 
@@ -910,3 +910,131 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function UseNetworkTLS([ClePrivee$, Certificat$ [, CaCertificat$]])
+
+@Description
+  Active et configure la prise en charge du cryptage TLS pour la bibliothèque réseau. 
+  Cette commande doit être appelée avant d'utiliser @@CreateNetworkServer ou 
+  @@OpenNetworkConnection avec les indicateurs TLS.
+
+@OptionalParameter "ClePrivee$"
+  La clé privée à utiliser pour TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramètre 
+  n'est pas nécessaire.@LineBreak 
+  Il doit être au format suivant :
+@Code
+"-----BEGIN PRIVATE KEY-----"+#LF$+ "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHOD SntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk 8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8 ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+"-----END PRIVATE KEY-----"
+@EndCode
+
+@OptionalParameter "Certificat$"
+  Le certificat à utiliser pour TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramètre 
+  n'est pas nécessaire.@LineBreak 
+  Il doit être au format suivant :
+@Code
+"-----BEGIN CERTIFICATE-----"+#LF$+ "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIH NlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZ S5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ 1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+"-----END CERTIFICATE-----"
+@EndCode
+
+@OptionalParameter "CaCertificat$"
+  Le certificat d'autorité intermédiaire qui a émis le 'Certificat$' à utiliser pour 
+  TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramètre 
+  n'est pas nécessaire. Il doit être au même format que 'Certificate$'.
+
+@NoReturnValue
+
+@Example Serveur TLS
+@Code
+  Timeout = 15000 ; délai d'expiration global de 15 secondes
+
+  PrivateKey$ = "-----BEGIN PRIVATE KEY-----"+#LF$+
+         "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHODSntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+         "-----END PRIVATE KEY-----"
+
+  Cert$ = "-----BEGIN CERTIFICATE-----"+#LF$+
+          "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIHNlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZS5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+          "-----END CERTIFICATE-----"
+
+  UseNetworkTLS(PrivateKey$, Cert$)
+  If CreateNetworkServer(0, 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1, "127.0.0.1")
+    Debug "Serveur TLS lancé sur 127.0.0.1:20252 - Connexions en attente..."
+    
+    Repeat
+      Select NetworkServerEvent()
+        Case #PB_NetworkEvent_Data
+          
+          Debug "Data reçue !"
+          ClientID = EventClient()
+          *Buffer = AllocateMemory(1000)
+          If *Buffer
+            Debug ReceiveNetworkData(ClientID, *Buffer, 1000)
+          
+            Debug "Texte: "+PeekS(*Buffer, -1, #PB_UTF8)
+            SendNetworkString(ClientID, "Bien reçu !!!")
+            
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_None
+          Delay(100) ; Ne volez pas tout le temps CPU en attendant la connexion
+          Timeout - 100
+      EndSelect
+          
+    Until Timeout <= 0
+    
+    Debug "Fermeture du serveur après " + Str(Timeout/1000) + " secs délai d'expiration"
+    
+    CloseNetworkServer(0)
+  Else
+    Debug "Impossible de créer le serveur TLS"
+  EndIf
+
+@EndCode
+
+@Example TLS Client
+@Code
+  Timeout = 150000 ; 15 secondes de délai d'attente global
+
+  UseNetworkTLS()
+
+  Connection = OpenNetworkConnection("127.0.0.1", 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1)
+  If Connection
+    
+    ; Envoyez une chaîne au serveur pour tester
+    SendNetworkString(Connection, "GET / HTTP/1.1" + #CRLF$ + "Host: www.purebasic.fr" + #CRLF$ + #CRLF$)
+    
+    Repeat
+      Select NetworkClientEvent(Connection)
+        Case #PB_NetworkEvent_Data
+          *Buffer = AllocateMemory($FFFF)
+          If *Buffer
+            Length = ReceiveNetworkData(Connection, *Buffer, MemorySize(*Buffer))
+            Received$ + PeekS(*Buffer, Length, #PB_UTF8 | #PB_ByteLength)
+            Debug "Texte reçu: "+ Received$
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_Disconnect
+          Debug "Déconnecté"
+          Break
+          
+        Case #PB_NetworkEvent_None
+          Delay(100)
+          Timeout - 100
+          
+      EndSelect
+    Until Timeout <= 0
+    
+    CloseNetworkConnection(Connection)
+  Else
+    Debug "Impossible d'ouvrir la connexion sur 127.0.0.1:20252"
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CreateNetworkServer, @@OpenNetworkConnection
+
+@SupportedOS

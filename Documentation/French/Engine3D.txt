@@ -959,8 +959,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
   @#PB_World_WaterPick  : Le clic s'est fait sur l'eau.
 @EndFixedFont
 @LineBreak 
- Pour obtenir les coordonnées 3D de l'objet 
- sélectionné, utiliser @@PickX, @@PickY et 
+ Pour obtenir les coordonnées 3D de l'objet sélectionné, utiliser @@PickX, @@PickY et 
  @@PickZ.
 
 @ExampleFile All MousePick.pb
@@ -1354,8 +1353,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
   @#PB_World_WaterPick  : Le rayon traverse l'eau.
 @EndFixedFont
 
- Pour obtenir plus d'informations sur la 
- position de l'objet sélectionné, 
+ Pour obtenir plus d'informations sur la position de l'objet sélectionné, 
  voir @@PickX, @@PickY and @@PickZ.
     
 @SeeAlso
@@ -1644,78 +1642,71 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = SkyDome(NomTexture$, Courbure.f [, CouleurBrouillard, EpaisseurBrouillard, DebutDistanceBrouillard, FinDistanceBrouillard])
+@Function Resultat = SkyDome(TextureID, CouleurCiel , CouleurAurore, [NbCoucheNuage, Hauteur.f, VitesseX.f, VitesseZ.f])
 
 @Description
-  Crée un ciel artificiel animé en forme 
-  de dôme, situé très loin de la caméra.
+  Crée un ciel artificiel nuageux et animé en forme de dôme.
 
-@Parameter "NomTexture$"
-  La texture à utiliser.
+@Parameter "TextureID"
+  L'identifiant de la texture 'nuage' à utiliser.
 @LineBreak
 @LineBreak
-  La @LibraryLink "texture" "texture" 
-  doit être accessible dans l'un des chemins 
-  déclaré par @@Add3DArchive.
+  @@TextureID peut être utilisé pour obtenir une valeur valide.
   
-@Parameter "Courbure.f"
-  Cette valeur indique de quelle manière 
-  le ciel doit être courbé.@LineBreak
-  (valeur positive ou négative).
+@Parameter "CouleurCiel"
+  La couleur  du ciel au format @@RGBA.
 
-@OptionalParameter "CouleurBrouillard"
-  La couleur du brouillard. 
-  @LineBreak
-  @LineBreak
-  @@RGB peut être utilisé pour obtenir une 
-  valeur valide. @LineBreak
-  Si non spécifié, les paramètres 
-  du brouillard seront ceux provenant de la 
-  fonction @@Fog.
-  
-@OptionalParameter "EpaisseurBrouillard"
-  L'épaisseur du brouillard. 
-  @LineBreak
-  @LineBreak  
-  Si ce paramètre est égal à zéro alors le 
-  brouillard est désactivé.
-  
-@OptionalParameter "DebutDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
-  brouillard commence (par rapport à la caméra). 
+@Parameter "CouleurAurore"
+  La couleur du levé de soleil au format @@RGBA. 
 
-@OptionalParameter "FinDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
-  brouillard est totalement opaque (par 
-  rapport à la caméra).
+@OptionalParameter "NbCoucheNuage"
+  Le nombre de couche de nuage, en commançant par 1. 
+  
+@OptionalParameter "Hauteur.f"
+  La hauteur des nuages en unité monde (World).
+
+@OptionalParameter "VitesseX.f, VitesseZ.f"
+  La vitesse de déplacement des nuages.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  Renvoie une valeur non nulle en cas de succès, zéro sinon. 
 
-@Remarks
-  Les @LibraryLink "texture" "textures"  doivent 
-  être dans un des chemins précédemment déclarés 
-  avec la fonction @@Add3DArchive.
-  @LineBreak
-  @LineBreak 
-  Si les textures ne peuvent être chargées, le skybox est créé avec des textures blanches.
-  
-  
 @Example
 @Code
-  ...
-  ; La texture (image) doit être accessible
+  #EndDistance = 1024*4
+
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  ExamineDesktops() : dx = DesktopWidth(0)*0.9 : dy = DesktopHeight(0)*0.9
+  OpenWindow(0, 0, 0, DesktopUnscaledX(dx), DesktopUnscaledY(dy), "SkyDome - Press ESC to quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
-  ...
-  ; Création du skydome
-   SkyDome("clouds.jpg", 30)
-@EndCode  
-  
-@ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
-  
+  Parse3DScripts()
+
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,5,0) 
+  CameraLookAt(0,2,5,10)
+
+  ; Sky
+  TextureSky = LoadTexture(#PB_Any,"sky.png")
+  SkyDome(TextureID(TextureSky), $cc6600, $0088ff, 3, 400, -0.5, 0)
+
+  ; Sun
+  CreateLight(0, $ff88ff, 20000, 40000, 20000)
+  AmbientColor($010101)
+  Fog($554488,1, 0, #EndDistance)
+
+  Repeat
+    While WindowEvent() : Wend
+    ExamineKeyboard()
+    
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
+
 @SeeAlso
   @@SkyBox
 
@@ -1723,149 +1714,48 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateWater(#Camera, X, Y, Z, Transparence, Options)
+@Function CreateWater(TextureVaguesID, TextureEcumeID, CouleurEau, CouleurCiel, Distance.f, GrosseVague.f, PetiteVague.f, Houle.f, Ecume.f)
 
 @Description
   Crée un plan d'eau.
 
-@Parameter "X, Y, Z"
-  Position du plan d'eau.
-
-@Parameter "Transparence"
-  Transparence du plan d'eau qui peut 
-  varier de 0 (complètement opaque) à 
-  255 (transparent).
+@Parameter "TextureVaguesID"
+  L'identifiant de la texture 'vagues' à utiliser.
+@LineBreak
+@LineBreak
+  @@TextureID peut être utilisé pour obtenir une valeur valide.
   
+@Parameter "TextureEcumeID"
+  L'identifiant de la texture 'écume' à utiliser.
+@LineBreak
+@LineBreak
+  @@TextureID peut être utilisé pour obtenir une valeur valide.
   
-@Parameter "Options"
-Peut être une combinaison des constantes 
-suivantes:
-@FixedFont
-  @#PB_World_WaterMediumQuality: Qualité moyenne (valeur par défaut).
-  @#PB_World_WaterLowQuality   : Basse qualité, ce qui implique moins de polygones (et donc un rendu plus rapide).
-  @#PB_World_WaterHighQuality  : Haute qualité, ce qui implique plus de polygones (et donc un rendu plus lent).
-  @#PB_World_WaterCaustics     : Active les effets caustiques sur l'eau, qui sont des formes créées par la lumière à la surface de l'eau. 
-  @#PB_World_WaterSmooth       : Active la transition douce entre les vagues.
-  @#PB_World_WaterFoam         : Active l'effet d'écume, qui affecte les objets sous-marins lorsqu'ils sont vus de l'extérieur du plan d'eau.
-  @#PB_World_WaterSun          : Active la réflexion du soleil sur l'eau. Utilisez @@Sun pour modifier la position et la couleur du soleil.
-  @#PB_World_UnderWater        : Active un effet sous-marin opaque.
-  @#PB_World_WaterGodRays      : Active un effet rayons de soleil divin lorsqu'on est sous l'eau.  @#PB_World_WaterSun doit être spécifié.
-@EndFixedFont
+@Parameter "CouleurEau"
+  La couleur  de l'eau au format @@RGBA.
+  
+@Parameter "CouleurCiel"
+  La couleur  du ciel au format @@RGBA.
+  
+@Parameter "Distance.f"
+  La distance.
+  
+@Parameter "GrosseVague.f"
+  Dimension des grosses vagues.
+  
+@Parameter "PetiteVague.f"
+  Dimension des vaguelettes.
+  
+@Parameter "Houle.f"
+  Dimension de la houle.
 
-@NoReturnValue
-
-@SeeAlso
-  @@WaterColor
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function FreeWater(#Camera)
-
-@Description
-  Supprime le plan d'eau courant d'une 
-  caméra.
-
-@Parameter "#Camera"
-  La caméra à utiliser.
+@Parameter "Ecume.f"
+  Dimension de l'écume.
   
 @NoReturnValue
 
 @SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterColor(#Camera, Couleur)
-
-@Description
-  Change la couleur de l'eau. 
-
-@Parameter "#Camera"
-  La caméra à utiliser.
-  
-@Parameter "Couleur"
-   La nouvelle couleur de l'eau. 
-@LineBreak
-@LineBreak
-   Une valeur de couleur valide peut
-   être obtenue avec @@RGB.
-  
-@NoReturnValue
-
-@Remarks
-  @@CreateWater doit être appelée avant 
-  d'appeler cette fonction.
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterHeight(#Camera, X, Y)
-
-@Description
-  Renvoie la hauteur d'eau actuelle à la 
-  position spécifiée. 
- 
-@Parameter "#Camera"
-  La caméra à utiliser.
-  
-@Parameter "X, Y"
-  Les coordonnées.
-  
-@ReturnValue
-  La hauteur d'eau absolue, dans les 
-  unités du monde.
-
-@Remarks
-  @@CreateWater doit être appelée avant 
-  d'appeler cette fonction. 
-@LineBreak
-@LineBreak
-  Comme l'eau peut avoir des vagues, la 
-  hauteur varie. @LineBreak
-  Cette fonction peut être utile pour 
-  permettre à un objet de flotter sur 
-  l'eau.
-   
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Sun(X, Y, Z, Couleur)
-
-@Description
-   Change la position et la couleur du 
-   soleil. 
-   
-@Parameter "X, Y, Z"
-  La nouvelle position du soleil.
-  
-@Parameter "Couleur"
-   La nouvelle couleur du soleil. 
-@LineBreak
-@LineBreak
-   @@RGB peut être utilisé pour obtenir 
-   une couleur valide.
-
-@NoReturnValue
-
-@Remarks
-  Attention: Ceci affecte l' 
-  @Link "CreateWater" "eau" créée avec 
-  l'option @#PB_World_WaterSun.
-
-@SeeAlso
-  @@SkyBox, @@SkyDome, @@CreateWater
+  @@SkyDome, @@SkyBox
 
 @SupportedOS
 
@@ -2136,5 +2026,71 @@ suivantes:
 
 @SeeAlso
   @@Pitch, @@Roll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = GetWorldAttribute(Attribut)
+
+@Description
+  Récupère l'attribut spécifié du monde.
+
+@Parameter "Attribut"
+  La valeur de l'attribut à récupérer. Les attributs suivants sont disponibles :
+@FixedFont
+  @#PB_Shadow_FarDistance    : La distance de l'ombre lointaine.
+  @#PB_Shadow_Color          : La couleur de l'ombre actuelle au format @@RGBA.
+  @#PB_SkyDome_SkyColor      : La couleur du ciel au format @@RGBA.
+  @#PB_SkyDome_RiseColor     : La couleur du lever du soleil au format @@RGBA.
+  @#PB_SkyDome_NbCloudLayers : Le nombre de couches de nuages.
+  @#PB_SkyDome_CloudsHeight  : La hauteur des nuages en unité monde.
+  @#PB_Water_WaterColor      : La couleur de l'eau au format @@RGBA.
+  @#PB_Water_SkyColor        : La couleur du ciel telle qu'elle se reflète dans l'eau au forma @@RGBA.
+  @#PB_Water_WaveHeight      : La hauteur des vagues.
+  @#PB_Water_WaveSmall       : L'amplitude de l'onde.
+  @#PB_Water_Swell           : L'intensité de la houle. 
+  @#PB_Water_Foam            : L'intensité de l'écume.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la valeur de l'attribut spécifié.
+
+@SeeAlso
+  @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWorldAttribute(Attribut, Valeur.f)
+
+@Description
+  Définit l'attribut spécifié du monde.
+
+@Parameter "Attribut"
+  La valeur de l'attribut à définir. Les attributs suivants sont disponibles :
+@FixedFont
+  @#PB_Shadow_FarDistance    : Définit la distance de l'ombre
+  @#PB_Shadow_Color          : Modifie la couleur de l'ombre actuelle
+  @#PB_SkyDome_Free          : Libére le dôme céleste précédemment créé par @@SkyDome
+  @#PB_SkyDome_SkyColor      : La couleur du ciel au format @@RGBA
+  @#PB_SkyDome_RiseColor     : La couleur du lever du soleil au format @@RGBA
+  @#PB_SkyDome_NbCloudLayers : Définit le nombre de couches nuageuses (valeur entre X et X)
+  @#PB_SkyDome_CloudsHeight  : Définit la hauteur des nuages en coordonnée monde
+  @#PB_Water_WaterColor      : Définit la couleur de l'eau au format @@RGBA.
+  @#PB_Water_SkyColor        : Définit la couleur du ciel telle qu'elle se reflète dans l'eau au format @@RGBA
+  @#PB_Water_WaveHeight      : Définit la hauteur des vagues (valeur entre 0 et 3).
+  @#PB_Water_WaveSmall       : Définit l'amplitude de l'onde (valeur entre 0 et 3).
+  @#PB_Water_Swell           : Définit l'intensité de la houle (valeur entre 0 et 2).
+  @#PB_Water_Foam            : Définit l'intensité de l'écume (valeur entre 0 et 1).
+  @#PB_Water_Free            : Libére le plan d'eau du monde précédemment créé avec @@CreateWater
+@EndFixedFont
+
+@ReturnValue
+  Modifier la valeur de l'attribut spécifié.
+
+@SeeAlso
+  @@SetWorldAttribute
 
 @SupportedOS

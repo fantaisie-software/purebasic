@@ -374,10 +374,6 @@
 @LineBreak
   - @@GetGadgetState: Get the currently displayed date.
 @LineBreak
-  - @@SetGadgetItemState: Make a specific date appear bold (Windows only).
-@LineBreak
-  - @@GetGadgetItemState: Get the bold state of a specific date (Windows only).
-@LineBreak
   - @@SetGadgetAttribute: With the following attributes:
 @FixedFont
   @#PB_Calendar_Minimum: Set the minimum selectable date
@@ -389,18 +385,7 @@
   @#PB_Calendar_Maximum: Get the maximum selectable date of this gadget.
 @EndFixedFont
 
-
-@LineBreak
-  This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with
-  the following values as 'ColorType':
-@FixedFont
-  @#PB_Gadget_BackColor      : backgroundcolor
-  @#PB_Gadget_FrontColor     : textcolor for displayed days (not supported on Windows Vista+)
-  @#PB_Gadget_TitleBackColor : backgroundcolor of the month title (not supported on Windows Vista+)
-  @#PB_Gadget_TitleFrontColor: textcolor of the month title (not supported on Windows Vista+)
-  @#PB_Gadget_GrayTextColor  : textcolor for days not of the current month (not supported on Windows Vista+)
-@EndFixedFont
-  
+ 
 @Example
 @Code
   If OpenWindow(0, 0, 0, 230, 260, "CalendarGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -482,8 +467,7 @@
 @EndFixedFont
   Note that the events @#PB_EventType_KeyDown, @#PB_EventType_KeyUp and @#PB_EventType_Input
   are only reported when the gadget has the keyboard focus. This means that the @#PB_Canvas_Keyboard flag has to be set on gadget 
-  creation to allow keyboard events. On Windows, the @#PB_EventType_MouseWheel event is also only reported if the gadget has 
-  keyboard focus. On the other OS, this event is reported to the gadget under the cursor, regardless of keyboard focus.
+  creation to allow keyboard events.
 
 @LineBreak
 @LineBreak
@@ -1080,17 +1064,11 @@
   the current date.
 
 @OptionalParameter "Flags"
-  Flags to modify the gadget behavior:
-@LineBreak
-@LineBreak
-  By default, the gadget has a button to display a calendar in which the user can choose a date (see image below). You can change this by specifying
-  @#PB_Date_UpDown in the Flags parameter. This will make the gadget display an up/down button that lets the user change the current selected part of the
-  gadget. This option is only available on Windows.
-@LineBreak
-@LineBreak
-  If you specify @#PB_Date_Checkbox in the Flags parameter, the Gadget will have a checkbox with which the user can set the
-  Gadget to 'no date' (if the checkbox is unchecked). While the checkbox is unchecked, @@GetGadgetState will return 0.
-  To change the state of the checkbox, use @@SetGadgetState with either 0 (=checkbox unchecked) or any valid date (=checkbox checked).
+  Flags to modify the gadget behavior. It can be composed of one of the following constants:
+@FixedFont
+  @#PB_Date_Checkbox : add a checkbox so the user can set the Gadget to 'no date' (if the checkbox is unchecked). While the checkbox is unchecked, @@GetGadgetState will return 0.
+                    To change the state of the checkbox, use @@SetGadgetState with either 0 (=checkbox unchecked) or any valid date (=checkbox checked).
+@EndFixedFont
 
 @ReturnValue
   Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
@@ -2630,10 +2608,7 @@
   The minimum and maximum values that the progress bar can take.
 
 @OptionalParameter "Flags"
-  Flags to modify the gadget behavior. It can be a combination of the following values:
-@FixedFont
-  @#PB_ProgressBar_Smooth: The progress bar is smooth instead of using blocks (Windows only)
-@EndFixedFont
+  Not supported yet.
 
 @ReturnValue
   Returns nonzero on success and zero on failure. If @#PB_Any was used as the #Gadget parameter
@@ -2993,8 +2968,6 @@
   This function is supported by the following gadgets: 
 @LineBreak
 @LineBreak
-  - @@CalendarGadget
-@LineBreak
   - @@ContainerGadget
 @LineBreak
   - @@DateGadget
@@ -3007,8 +2980,6 @@
 @LineBreak
   - @@ListIconGadget
 @LineBreak
-  - @@ProgressBarGadget (Windows only)
-@LineBreak
   - @@ScrollAreaGadget
 @LineBreak
   - @@SpinGadget
@@ -3018,13 +2989,6 @@
   - @@TextGadget
 @LineBreak
   - @@TreeGadget
-
-@OS Windows
-  @LineBreak
-  @LineBreak
-  @Bold "Note:" With activated Windows XP style the color settings will probably be ignored
-  or overwritten by the style.
-@EndOS
 
 @Example
 @Code

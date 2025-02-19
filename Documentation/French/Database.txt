@@ -1398,7 +1398,7 @@ Les valeur du type peuvent être:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseMySQLDatabase([NomBibliotheque$])
+@Function Resultat = UseMySQLDatabase([NomBibliotheque$])
 
 @Description
   Initialise l’environnement de base de données MySQL et MariaDB pour une utilisation ultérieure. 
@@ -1411,7 +1411,8 @@ Les valeur du type peuvent être:
   spécifié, 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) ou 'libmariadb.dylib' 
   (OSX) seront utilisés.
 
-@NoReturnValue
+@ReturnValue
+  Renvoie @#True si l'environnement MySQL est initialisé avec succès, @#False sinon.
 
 @Remarks
   MySQL et MariaDB (un fork open source de MySQL) (fork: Logiciel issu d’une scission 
@@ -1462,15 +1463,23 @@ Les valeur du type peuvent être:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UsePostgreSQLDatabase()
+@Function Resultat = UsePostgreSQLDatabase([NomBibliotheque$])
 
 @Description
   Initialise l'environnement de base de 
   données PostgreSQL pour un usage ultérieur. 
 
-@NoParameters
+@OptionalParameter "NomBibliotheque$"
+  Nom de fichier (et chemin si nécessaire) de la bibliothèque dynamique à utiliser. 
+  Il peut être utile d'utiliser une version différente de la bibliothèque que celle 
+  fournie avec PureBasic. Si ce paramètre n'est pas spécifié, la bibliothèque interne 
+  du client postgresql fournie avec PureBasic sera utilisée (aucune bibliothèque 
+  dynamique externe n'est nécessaire).
 
-@NoReturnValue
+@ReturnValue
+  Renvoie @#True avec le paramètre optionnel "NomBibliotheque$", si la bibliothèque 
+  dynamique a été correctement chargée, @#False dans le cas contraire. Sans le paramètre 
+  optionnel, elle renvoie toujours @#True.
 
 @Remarks  
   PostgreSQL est un serveur de base de données 

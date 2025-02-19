@@ -56,6 +56,22 @@
   !f_myprocedure();
 @EndCode
 
+  - JavaScript static variable name in procedure is 'so_procedurename$v_variablename'.
+
+  Example
+
+@Code  
+  Procedure myProcedure()
+  Static myStatic=0
+
+  ! so_myprocedure$v_mystatic += 12;
+
+  Debug myStatic
+  EndProcedure
+
+  myProcedure()
+@EndCode
+
   - JavaScript module name is the same in lowercase and using the '$' sign to access module items.
 
   Example

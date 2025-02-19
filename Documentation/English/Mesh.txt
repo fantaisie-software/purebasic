@@ -1344,7 +1344,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, NbLOD, Distance.f, ReductionValue.f)
+@Function BuildMeshLOD(#Mesh [, NbLOD, Distance.f, ReductionValue.f])
 
 @Description
   Build automatically one or several level of detail (LOD) for the mesh. The #Mesh will be replaced automatically
@@ -1354,14 +1354,14 @@
 @Parameter "Mesh"
   The mesh to use.
 
-@Parameter "NbLOD"
-  Number of needed LOD for this mesh.
+@OptionalParameter "NbLOD"
+  Number of needed LOD for this mesh. If this parameter isn't used, then the LODs will be automatically calculated.
 
-@Parameter "Distance"
+@OptionalParameter "Distance"
   The minimum distance from the camera where the first LOD mesh will be used instead of #Mesh.
   For the next LOD meshs, the distance will be calculated using this formula: 'Distance / SqrF(1-ReductionValue)'.
 
-@Parameter "ReductionValue"
+@OptionalParameter "ReductionValue"
   The reduction to apply, between 0 (no reduction) and 1 (100% reduction). @LineBreak
 
 @LineBreak

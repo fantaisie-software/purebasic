@@ -13,6 +13,9 @@
     <tr>
     <td align="center" vAlign="center" nowrap><a href="#EnableExplicit"><u>EnableExplicit<br>DisableExplicit</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#EnableASM"><u>EnableASM<br>DisableASM</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#DisablePureLibrary"><u>DisablePureLibrary</u></a></td>
+  </tr>
+    <tr>
     <td align="center" vAlign="center" nowrap><a href="#Constantes"><u>Constantes prédéfinies</u></a></td>
   </tr>
     </table>
@@ -192,6 +195,31 @@
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
+<br><hr><br>
+<a name="DisablePureLibrary"></a>
+@FormatEndIf
+
+@Syntax
+
+@Keyword DisablePureLibrary <NomBibliotheque>
+
+@Description
+
+  Désactive la PureLibrary spécifiée. Toutes ses commandes associées ne seront pas 
+  disponibles lors de la compilation de ce programme.
+  Ceci est particulièrement utile lors de la création d'un 
+  @ReferenceLink "PureLibrary" "PureLibrary".
+
+@Example
+
+@Code
+  DisablePureLibrary Engine3D
+
+  InitEngine3D() ; Erreur, commande non trouvée
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
 <br><hr><br><br>
 <a name="Constantes"></a>
 @FormatEndIf
@@ -224,7 +252,7 @@
     @#PB_Compiler_DLL        : DLL (dynlib sur MacOS X et objet partagé sur Linux)
 
     
-  @#PB_Compiler_Date     : La date actuelle, au moment de la compilation, au format @LibraryLink "Date" "date" PureBasic.
+  @#PB_Compiler_Date     : La date actuelle, au moment de la compilation, au format @LibraryLink "Date" "date" PureBasic (heure locale).
   @#PB_Compiler_File     : Chemin complet et nom du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
   @#PB_Compiler_FilePath : Chemin complet du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
   @#PB_Compiler_Line     : Numéro de la ligne du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".

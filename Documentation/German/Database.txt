@@ -1027,7 +1027,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseMySQLDatabase([BibliothekName$])
+@Function Ergebnis = UseMySQLDatabase([BibliothekName$])
 
 @Description
   Initialisiert die MySQL und MariaDB Datenbank-Programmumgebung zur weiteren Benutzung.
@@ -1038,7 +1038,8 @@
   libmaria.so nicht mit der ausführbaren Datei gepackt werden muss. Wenn dieser Parameter nicht angegeben wird,
   werden 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) oder 'libmariadb.dylib' (OS X) verwendet.
 
-@NoReturnValue
+@ReturnValue
+  Gibt @#True zurück, wenn die MySQL-Umgebung erfolgreich initialisiert wurde, andernfalls wird @#False zurückgegeben.
 
 @Remarks
   MySQL und MariaDB (ein OpenSource-Zweig von MySQL) sind leistungsfähige, servergestützte Datenbankmanager,
@@ -1083,13 +1084,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UsePostgreSQLDatabase()
+@Function Ergebnis = UsePostgreSQLDatabase([LibraryName$])
 
 @Description
   Initialisiert die PostgreSQL Datenbank-Programmumgebung zur weiteren Benutzung.
 
-@NoParameters
-@NoReturnValue
+@OptionalParameter "LibraryName$"
+  Dateiname (und Pfad, falls erforderlich) der zu verwendenden dynamischen Bibliothek. Es kann sinnvoll sein,
+  eine andere Version der Bibliothek zu verwenden als die, die in PureBasic enthalten ist. Wenn dieser Parameter
+  nicht angegeben wird, wird die interne PostgreSQL-Clientbibliothek verwendet, die mit PureBasic geliefert wird
+  (keine externe dynamische Bibliothek erforderlich).
+
+@ReturnValue
+  Bei Verwendung des optionalen Parameters 'LibraryName$' wird @#True zurückgegeben, wenn die dynamische Bibliothek
+  korrekt geladen wurde, andernfalls @#False. Wenn der optionale Parameter 'LibraryName$' nicht angegeben wird,
+  wird immer @#True zurückgegeben.
 
 @Remarks
   PostgreSQL ist ein mächtiger, server-basierter Datenbank-Manager mit Unterstützung für sehr große

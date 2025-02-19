@@ -73,12 +73,16 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_DPIAware, 1)
   CompilerEndIf
   
-  CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic; this stuff is windows only
+  CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic ; this stuff is Windows only
     DisableGadget(#GADGET_Option_EnableXP, 1)
     DisableGadget(#GADGET_Option_EnableAdmin, 1)
     DisableGadget(#GADGET_Option_EnableUser, 1)
     DisableGadget(#GADGET_Option_DllProtection, 1)
     DisableGadget(#GADGET_Option_SharedUCRT, 1)
+  CompilerEndIf
+  
+  CompilerIf Not #CompileLinux And Not #SpiderBasic ; this stuff is Linux only
+    DisableGadget(#GADGET_Option_EnableWayland, 1)
   CompilerEndIf
   
 EndProcedure
@@ -159,6 +163,7 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableASM    , *Target\EnableASM)
     SetGadgetState(#GADGET_Option_EnableThread , *Target\EnableThread)
     SetGadgetState(#GADGET_Option_EnableXP     , *Target\EnableXP)
+    SetGadgetState(#GADGET_Option_EnableWayland, *Target\EnableWayland)
     SetGadgetState(#GADGET_Option_EnableAdmin  , *Target\EnableAdmin)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
     SetGadgetState(#GADGET_Option_DllProtection, *Target\DllProtection)
@@ -272,6 +277,7 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
     If *Target\EnablePurifier    <> GetGadgetState(#GADGET_Option_Purifier): Changed = 1: EndIf
     If *Target\EnableThread      <> GetGadgetState(#GADGET_Option_EnableThread): Changed = 1: EndIf
     If *Target\EnableXP          <> GetGadgetState(#GADGET_Option_EnableXP): Changed = 1: EndIf
+    If *Target\EnableWayland     <> GetGadgetState(#GADGET_Option_EnableWayland): Changed = 1: EndIf
     If *Target\EnableAdmin       <> GetGadgetState(#GADGET_Option_EnableAdmin): Changed = 1: EndIf
     If *Target\EnableUser        <> GetGadgetState(#GADGET_Option_EnableUser): Changed = 1: EndIf
     If *Target\DllProtection     <> GetGadgetState(#GADGET_Option_DllProtection): Changed = 1: EndIf
@@ -376,6 +382,7 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     *Target\EnablePurifier   = GetGadgetState(#GADGET_Option_Purifier)
     *Target\EnableThread     = GetGadgetState(#GADGET_Option_EnableThread)
     *Target\EnableXP         = GetGadgetState(#GADGET_Option_EnableXP)
+    *Target\EnableWayland    = GetGadgetState(#GADGET_Option_EnableWayland)
     *Target\EnableAdmin      = GetGadgetState(#GADGET_Option_EnableAdmin)
     *Target\EnableUser       = GetGadgetState(#GADGET_Option_EnableUser)
     *Target\DllProtection    = GetGadgetState(#GADGET_Option_DllProtection)

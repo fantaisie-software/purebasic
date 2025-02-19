@@ -17,6 +17,10 @@
 @LineBreak
 @LineBreak
   Der C-Backend Compiler erlaubt keine Eingabe von Assembler-Code.
+@LineBreak
+@LineBreak
+  Unter Windows ist eine Datei 'PureBasic-CLI.cmd' direkt im PureBasic-Stammverzeichnis verfügbar, um einfach eine
+  Befehlszeilen-Eingabeaufforderung zu öffnen und die PureBasic-Kommandozeilen-Tools zu verwenden.
 
 @Section Crossplattforme Kommandozeilen-Parameter (Switch)
 
@@ -180,6 +184,12 @@
   @LineBreak
   /DLLPROTECTION: Aktiviert den 'DLL-Preloading'-Schutz für das Executable. Es verhindert, dass System-DLLs
   zunächst im Programmverzeichnis statt im System32-Verzeichnis des Windows-Betriebssystems gesucht werden.
+  @LineBreak
+  @LineBreak
+  /UCRT: Verwendet beim Erstellen der ausführbaren Datei oder DLL die dynamische universelle CRT. Dies wird beim Erstellen
+  einer ausführbaren Datei oder DLL empfohlen, die ältere Windows-Versionen vor Windows 10 nicht unterstützen muss. Die
+  resultierende Executable-Datei oder DLL ist kleiner und erhält automatische Sicherheitsfixes vom CRT, wenn Microsoft sie
+  aktualisiert. Diese Option ist unter PureBasic für Windows arm64 immer aktiviert.
   @LineBreak
   @LineBreak
   @Bold "Beispiel:"

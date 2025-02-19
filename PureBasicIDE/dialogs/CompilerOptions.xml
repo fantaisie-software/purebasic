@@ -106,12 +106,22 @@
               <checkbox id="#GADGET_Option_EnableASM"     lang="Compiler:EnableASM"      colspan="2" />
               <checkbox id="#GADGET_Option_EnableThread"  lang="Compiler:EnableThread"   colspan="2" />
               <checkbox id="#GADGET_Option_EnableOnError" lang="Compiler:EnableOnError"  colspan="2" />
+
+              <compiler if="#CompileLinux">
+                <checkbox id="#GADGET_Option_EnableWayland"      lang="Compiler:EnableWayland"   colspan="2" />
+              </compiler>
+
               <checkbox id="#GADGET_Option_DPIAware"      lang="Compiler:DPIAware"       colspan="2" />
               <checkbox id="#GADGET_Option_EnableXP"      lang="Compiler:EnableXP"       colspan="2" />
               <checkbox id="#GADGET_Option_EnableAdmin"   lang="Compiler:EnableAdmin"    colspan="2" />
               <checkbox id="#GADGET_Option_EnableUser"    lang="Compiler:EnableUser"     colspan="2" />
               <checkbox id="#GADGET_Option_DllProtection" lang="Compiler:DllProtection"  colspan="2" />
               <checkbox id="#GADGET_Option_SharedUCRT"    lang="Compiler:SharedUCRT"     colspan="2" />
+
+              <compiler if="#CompileLinux">
+              <compilerelse/>
+                <checkbox id="#GADGET_Option_EnableWayland"      lang="Compiler:EnableWayland"   colspan="2" />
+              </compiler>
             </compiler>
 
             <empty height="5" colspan="2" />

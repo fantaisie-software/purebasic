@@ -15,7 +15,6 @@ EXAMPLES =  2DDrawing.html \
             Font.html \
             Gadget.html \
             GadgetOverview.html \
-            GoogleDriveEditor.html \
             Http.html \
             Image.html \
             InAppPurchase.html \

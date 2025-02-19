@@ -170,9 +170,6 @@
   Can be one the following value:
 @FixedFont
   @#PB_LocalFile: the file will be exported as a download (default).
-  @#PB_GoogleDriveFile: the file will be exported on google drive. @@UseGoogleDrive should have been successfully called before using this flag. 
-                       If the flag @#PB_GoogleDriveFile has been specified with OpenFile() or CreateFile(),
-                       the file on goole drive will be updated. If the flag wasn't specified, then a new file will be created using the specified filename.
 @EndFixedFont
 
 @NoReturnValue
@@ -578,8 +575,6 @@
   @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
                  to have access to local files. @@SelectedFileID is used to get the
                  local file identifier.
-  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester can be called with the @#PB_Requester_GoogleDrive
-                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will save the file on client side using its filename when @@CloseFile is called. This file
@@ -684,8 +679,6 @@
   @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
                  to have access to local files. @@SelectedFileID is used to get the
                  local file identifier.
-  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester() can be called with the @#PB_Requester_GoogleDrive
-                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will read the file on client side using its filename. The file should have been created before with @@OpenFile or @@CreateFile

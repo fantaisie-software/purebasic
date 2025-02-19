@@ -62,6 +62,9 @@
   généré automatiquement, en cas de succès.
 
 @Remarks
+  Si nécessaire, un proxy peut être défini avec @@WebWiewProxy.
+@LineBreak
+@LineBreak
   Après la création, utilisez @@BindWebViewCallback pour interagir avec le code JavaScript de 
   l'interface utilisateur.@LineBreak 
   De plus, les commandes de gadget courantes telles que @@ResizeGadget ou @@HideGadget peuvent 
@@ -178,7 +181,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebWiewProxy
 
 @SupportedOS
 
@@ -339,3 +342,32 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function WebWiewProxy(URL$, Port [NomUtilisateur$, MotDePasse$])
+
+@Description
+  Configure un proxy pour tous les futurs @@WebViewGadget créés. 
+  
+@Parameter "URL$"
+  L'URL du serveur proxy.
+
+@Parameter "Port"
+  Le port du serveur proxy.
+
+@OptionalParameter "NomUtilisateur$, MotDePasse$"
+  Si le serveur proxy nécessite une authentification, un nom d'utilisateur et un mot 
+  de passe peuvent être définis ici.
+
+@NoReturnValue
+
+@Remarks
+  Tous les liens externes et URL passeront par ce proxy avant d'atteindre la destination. 
+  Cela peut être utile dans un environnement d'entreprise où le niveau de sécurité est 
+  élevé.
+@linebreak
+@linebreak
+  Lorsqu'il est utilisé sur MacOS, la configuration minimale requise est MacOS 14 (Sonoma).
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS

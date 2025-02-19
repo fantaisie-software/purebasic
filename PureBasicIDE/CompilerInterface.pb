@@ -1589,6 +1589,10 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     EndIf
   CompilerEndIf
   
+  CompilerIf #CompileLinux
+    If *Target\EnableWayland : Command$ + Chr(9) + "WAYLAND" : EndIf
+  CompilerEndIf
+  
   CompilerIf Not #SpiderBasic
     ; We honor the console flag even for OSX/Linux as it can be useful combined with #PB_Compiler_ExecutableFormat (https://www.purebasic.fr/english/viewtopic.php?t=65478)
     If *Target\ExecutableFormat=1 : Command$ + Chr(9) + "CONSOLE" : EndIf

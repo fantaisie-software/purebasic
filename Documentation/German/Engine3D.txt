@@ -1,7 +1,7 @@
 ;
 ;     Engine3D library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Engine3D
@@ -73,7 +73,7 @@
 @LineBreak
   Alle 3D-Befehle, welche auf das Laden von Daten angewiesen sind (z.B. @LibraryLink "texture" "Texturen", 
   @LibraryLink "mesh" "Mesh's", @Link "SkyBox" "Sky", @Link "RenderWorld" "World", ...),
-  werden diesen Pfad benutzen.
+  werden diesen Pfad benutzen. Es muss nach @@OpenScreen oder @@OpenWindowedScreen angegeben werden.
 @LineBreak
 @LineBreak
   Sie wundern sich, warum es einen speziellen Weg zur Handhabung der
@@ -189,7 +189,6 @@
   - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
   - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
   - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
   - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
   - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
   - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
@@ -221,7 +220,6 @@
   - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
   - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
   - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
   - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
   - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
   - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
@@ -733,7 +731,6 @@
 @FixedFont
   -1 : Nichts wurde bemerkt
   @#PB_World_WaterPick: der Klick passierte auf dem Wasser.
-  @#PB_World_TerrainPick: der Klick passierte auf einem Terrain.
   0 und größer: der Klick traf das #Entity. Die Entity-Auswahl ("Pick") basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
 @EndFixedFont
 
@@ -1007,7 +1004,6 @@
 @FixedFont
   -1 : Nichts wurde überquert.
   @#PB_World_WaterPick: der Strahl durchquerte das Wasser.
-  @#PB_World_TerrainPick: der Strahl durchquerte ein Terrain.
   0 und darüber: der Strahl durchquerte ein #Entity. Die Erkennung des Entity basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
 @EndFixedFont
   Um weitere Informationen über die ausgewählte Objekt-Position zu erhalten, verwenden Sie @@PickX, 
@@ -1191,36 +1187,69 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = SkyDome(TexturName$, Kurve.f [, FogFarbe, FogIntensität, FogStartDistanz, FogEndDistanz])
+@Function Ergebnis = SkyDome(TextureID, SkyFarbe, RiseFarbe [, AnzCloudLayer, Hoehe.f, SpeedX.f, SpeedZ.f])
 
 @Description
-  Erstellt einen neuen "SkyDome" ("Himmelkuppel"), wobei es sich um einen gekrümmten, sich bewegenden Himmel 
-  handelt, der mittels der angegebenen @LibraryLink "texture" "Textur" dargestellt wird.
-
-@Parameter "TexturName$"
-  Die zu verwendende Textur. @LibraryLink "texture" "Texturen" müssen im zuvor mit dem @@Add3DArchive Befehl 
-  deklarierten Pfad liegen.
-
-@Parameter "Kurve"
-  Der Wert 'Kurve' gibt an, wie sehr der Himmel gekrümmt sein soll (kann sowohl positiv als auch negativ
-  sein). 
-
-@OptionalParameter "FogFarbe"
-  Die Nebel-Farbe. @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten.
-  Wenn diese nicht angegeben wird, werden die Nebel-Einstellungen vom @@Fog Befehl geerbt.
+  Erstellt einen neuen "SkyDome" ("Himmelskuppel"), wobei es sich um einen gekrümmten, sich bewegenden Himmel 
+  handelt, der mittels der angegebenen Wolken-Textur dargestellt wird.
   
-@OptionalParameter "FogIntensität"
-  Die Nebel-Intensität. Wenn diese auf Null gesetzt wird, dann wird der Nebel-Effekt deaktiviert.
+@Parameter "TextureID"
+  Die zu verwendende Wolken-Textur (Cloud). @@TextureID kann verwendet werden, um einen gültigen Wert zu erhalten.
   
-@OptionalParameter "FogStartDistanz"
-  Die Distanz von der Kamera (in Welt-Einheiten), ab der der Nebel starten soll.
+@Parameter "SkyFarbe"
+  Die Himmelsfarbe als @@RGBA.
 
-@OptionalParameter "FogEndDistanz"
-  Die Distanz von der Kamera, ab der der Nebel völlig undurchsichtig wird.
+@Parameter "RiseFarbe"
+  Die Farbe des Sonnenaufgangs ("sun rising") als @@RGBA.
+  
+@OptionalParameter "NbCloudLayers"
+  Die Anzahl der Wolkenschichten ("cloud layer"), beginnend bei 1.
+  
+@OptionalParameter "Hoehe"
+  Die Wolkenhöhe in Welteinheiten.
+
+@OptionalParameter "SpeedX, SpeedZ"
+  Die Geschwindigkeit der Wolkenbewegung.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der "SkyDome" erfolgreich erstellt wurde.
-  Wenn die Textur nicht geladen werden konnte, dann wird der "SkyDome" mit einer leeren Textur erstellt.
+  Gibt einen Wert ungleich Null zurück, wenn der SkyDome erfolgreich erstellt wurde.
+
+@Example
+
+@Code
+  #EndDistance = 1024*4
+
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  ExamineDesktops() : dx = DesktopWidth(0)*0.9 : dy = DesktopHeight(0)*0.9
+  OpenWindow(0, 0, 0, DesktopUnscaledX(dx), DesktopUnscaledY(dy), "SkyDome - Press ESC to quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+  Parse3DScripts()
+
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,5,0) 
+  CameraLookAt(0,2,5,10)
+
+  ; Sky
+  TextureSky = LoadTexture(#PB_Any,"sky.png")
+  SkyDome(TextureID(TextureSky), $cc6600, $0088ff, 3, 400, -0.5, 0)
+
+  ; Sun
+  CreateLight(0, $ff88ff, 20000, 40000, 20000)
+  AmbientColor($010101)
+  Fog($554488,1, 0, #EndDistance)
+
+  Repeat
+    While WindowEvent() : Wend
+    ExamineKeyboard()
+    
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
 
 @SeeAlso
   @@SkyBox
@@ -1229,123 +1258,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateWater(#Camera, x, y, z, Transparenz, Flags)
+@Function CreateWater(WaveTextureID, FoamTextureID, WaterColor, SkyColor, Distance.f, WaveBig.f, WaveLittle.f, Swell.f, Foam.f)
 
 @Description
-  Erstellt eine Wasserfläche an der angegebenen Position.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-
-@Parameter "x, y, z"
-  Die absoluten Koordinaten, an denen die Wasserfläche erstellt werden soll.
+  Erstellt eine weltweite Wasserebene.
   
-@Parameter "Transparenz"
-  Regelt die gesamte Wasser-Transparenz,
-  von 0 (vollständig undurchsichtig) bis 255 (transparent).
-
-@Parameter "Flags"
-  Kann eine Kombination der folgenden Konstanten sein:
-@FixedFont
-  @#PB_World_WaterMediumQuality: mittlere Qualität (Standard).
-  @#PB_World_WaterLowQuality   : niedrigere Qualität, was weniger Polygone bedeutet (aber schnellere Darstellung).
-  @#PB_World_WaterHighQuality  : hohe Qualität, was mehr Polygone bedeutet (aber langsamere Darstellung).
-  @#PB_World_WaterCaustics     : Aktiviert Wasser "Caustic-Effekte", was kleine Muster sind, welche durch das Licht auf der Wasser-Oberfläche entstehen.
-  @#PB_World_WaterSmooth       : Aktiviert gleichmäßigen Wellen-Übergang.
-  @#PB_World_WaterFoam         : Aktiviert Schaum-Effekt, welcher Unterwasser-Objekte betrifft, wenn sich diese oberhalb der Wasseroberfläche zeigen.
-  @#PB_World_WaterSun          : Aktiviert Sonnen-Reflexion auf dem Wasser. Um die Sonnen-Position und -farbe zu kontrollieren, verwenden Sie @@Sun.
-  @#PB_World_UnderWater        : Aktiviert einen Unterwasser-Effekt, um undurchsichtiges Unterwasser zu haben.
-  @#PB_World_WaterGodRays      : Aktiviert die Darstellung von Sonnenstrahlen ("sun god rays"), wenn man sich unter Wasser befindet. @#PB_World_WaterSun muss angegeben werden.
-@EndFixedFont
-
-@NoReturnValue
-
-@SeeAlso
-  @@FreeWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function FreeWater(#Camera)
-
-@Description
-  Gibt die aktuelle Wasserfläche, welche mit der angegebenen Kamera verknüpft ist, frei.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
+;---- TODO: complete parameter description is missing! ----------------------------
   
 @NoReturnValue
 
 @SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterColor(#Camera, Farbe)
-
-@Description
-  Ändert die Wasserfarbe auf der angegebenen Kamera. @@CreateWater muss aufgerufen werden,
-  bevor diese Funktion verwendet wird.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-  
-@Parameter "Farbe"
-  Die neue Farbe des Wassers. Ein gültiger Farbwert kann mit @@RGB ermittelt werden.
-  
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterHeight(#Camera, x, y)
-
-@Description
-  Ermittelt die aktuelle Wasserhöhe an der angegebenen Position. @@CreateWater muss aufgerufen
-  worden sein, bevor diese Funktion verwendet wird.
-  Da Wasser auch Wellen haben kann, ist die Höhe nicht immer über das gesamte Wasser gleich.
-  Diese Funktion kann nützlich sein, um ein Objekt über das Wasser gleiten zu lassen.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-  
-@Parameter "x, y"
-  Die bei der Ermittlung der Höhe zu verwendenden Koordinaten.
-  
-@ReturnValue
-  Die absolute Wasserhöhe, in Welt-Einheiten.
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Sun(x, y, z, Farbe)
-
-@Description
-  Ändert die Position und Farbe der Sonne. Dies wirkt sich auf @Link "CreateWater" "Wasser" aus, was mit @#PB_World_WaterSun
-  Unterstützung erstellt wurde.
-
-@Parameter "x, y, z"
-  Der neue absolute Position der Sonne in der Welt.
-  
-@Parameter "Farbe"
-  Die neue Sonnen-Farbe.
-  @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten.
-
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
+  @@SkyDome, @@SkyBox
 
 @SupportedOS
 
@@ -1565,5 +1488,71 @@
 
 @SeeAlso
   @@Pitch, @@Roll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.f = GetWorldAttribute(Attribut)
+
+@Description
+  Ermittelt das angegebene Attribut der Welt.
+
+@Parameter "Attribut"
+  Der abzurufende Attributwert. Die folgenden Attribute sind verfügbar:
+@FixedFont
+  @#PB_Shadow_FarDistance    : Schattenentfernung ("shadow far distance") ermitteln.
+  @#PB_Shadow_Color          : aktuelle Schattenfarbe ("shadow color") als @@RGBA ermitteln.
+  @#PB_SkyDome_SkyColor      : Farbe des Himmels ("sky color") als @@RGBA ermitteln.
+  @#PB_SkyDome_RiseColor     : Farbe des Sonnenaufgangs ("sun rise color") als @@RGBA ermitteln.
+  @#PB_SkyDome_NbCloudLayers : Anzahl der Wolkenschichten ("cloud layer") ermitteln.
+  @#PB_SkyDome_CloudsHeight  : Höhe der Wolken ("clouds") in Welteinheiten ermitteln.
+  @#PB_Water_WaterColor      : Wasserfarbe ("water color") als @@RGBA ermitteln.
+  @#PB_Water_SkyColor        : Farbe des Himmels ("sky color"), wie er im Wasser reflektiert wird, als @@RGBA ermitteln.
+  @#PB_Water_WaveHeight      : Wellenhöhe ("wave height") ermitteln.
+  @#PB_Water_WaveSmall       : Amplitude der Wellen ("wave riddle amplitude") ermitteln.
+  @#PB_Water_Swell           : Intensität der Wasserdünung ("water swell intensity") ermitteln.
+  @#PB_Water_Foam            : Intensität des Schaums ("foam intensity") ermitteln.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert des angegebenen Attributs zurück.
+
+@SeeAlso
+  @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWorldAttribute(Attribut, Wert.f)
+
+@Description
+  Legt das angegebene Attribut der Welt fest.
+
+@Parameter "Attribute"
+  Der zu setzende Attributwert. Die folgenden Attribute sind verfügbar:
+@FixedFont
+  @#PB_Shadow_FarDistance    : Schattenentfernung ("shadow far distance") festlegen.
+  @#PB_Shadow_Color          : aktuelle Schattenfarbe ("shadow color") ändern.
+  @#PB_SkyDome_Free          : die zuvor mit @@SkyDome erstellte Himmelskuppel freigeben.
+  @#PB_SkyDome_SkyColor      : Farbe des Himmels ("sky color") als @@RGBA festlegen.
+  @#PB_SkyDome_RiseColor     : Farbe des Sonnenaufgangs ("sun rise color") als @@RGBA festlegen.
+  @#PB_SkyDome_NbCloudLayers : Anzahl der Wolkenschichten ("cloud layer") festlegen (Wert zwischen X und X).
+  @#PB_SkyDome_CloudsHeight  : Höhe der Wolken ("clouds") in Weltkoordinaten festlegen.
+  @#PB_Water_WaterColor      : Wasserfarbe ("water color") als @@RGBA festlegen.
+  @#PB_Water_SkyColor        : Farbe des Himmels ("sky color"), wie er im Wasser reflektiert wird, als @@RGBA festlegen.
+  @#PB_Water_WaveHeight      : Wellenhöhe ("wave height") festlegen (Wert zwischen 0 und 3).
+  @#PB_Water_WaveSmall       : Amplitude der Wellen ("wave riddle amplitude") festlegen (Wert zwischen 0 und 3).
+  @#PB_Water_Swell           : Intensität der Wasserdünung ("water swell intensity") festlegen (Wert zwischen 0 und 2).
+  @#PB_Water_Foam            : Intensität des Schaums ("foam intensity") festlegen (Wert zwischen 0 und 1).
+  @#PB_Water_Free            : die zuvor mit @@CreateWater erstellte Weltwasserebene freigeben.
+@EndFixedFont
+
+@ReturnValue
+  Ändert den Wert des angegebenen Attributs.
+
+@SeeAlso
+  @@SetWorldAttribute
 
 @SupportedOS

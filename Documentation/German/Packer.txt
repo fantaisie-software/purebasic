@@ -1,7 +1,7 @@
 ;
 ;     Packer library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Packer
@@ -746,5 +746,27 @@
 
 @SeeAlso
   @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsPack(#Pack)
+
+@Description
+  Prüft, ob die angegebene Paketnummer ein gültiges und korrekt initialisiertes Paket ist.
+
+@Parameter "#Pack"
+  Das zu testende Paket.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #Pack ein gültiges Paket ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem beliebigen Wert verwendet werden.
+  Dies ist der richtige Weg, um sicherzustellen, dass ein Paket einsatzbereit ist.
+
+@SeeAlso
+  @@CreatePack, @@OpenPack
 
 @SupportedOS

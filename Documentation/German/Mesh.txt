@@ -1,7 +1,7 @@
 ;
 ;     Mesh library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Mesh
@@ -1339,12 +1339,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Modus)
+@Function FinishMesh(StatischesMesh)
 
 @Description
   Schließt die mittels @@CreateMesh begonnene Erstellung des aktuellen Mesh-Objekts ab.
 
-@Parameter "Modus"
+@Parameter "StatischesMesh"
   Wenn auf @#True gesetzt, wird das Mesh in ein statisches Mesh konvertiert und ist nicht mehr veränderbar.
   Wenn auf @#False gesetzt, wird das Mesh noch mit @@UpdateMesh veränderbar sein. Statische Meshes sind
   schneller darzustellen (zu "rendern") als dynamische Meshes.
@@ -1427,7 +1427,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, AnzLOD, Distanz.f, ReduktionsWert.f)
+@Function BuildMeshLOD(#Mesh [, AnzLOD, Distanz.f, ReduktionsWert.f])
 
 @Description
   Erstellt automatisch ein oder mehrere Detailebenen ("level of detail", abgekürzt LOD) für das Mesh.
@@ -1438,14 +1438,15 @@
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
 
-@Parameter "AnzLOD"
-  Anzahl benötigter LOD für dieses Mesh.
+@OptionalParameter "AnzLOD"
+  Anzahl benötigter LOD für dieses Mesh. Wenn dieser Parameter nicht verwendet wird, dann werden die
+  LODs automatisch berechnet.
 
-@Parameter "Distanz"
+@OptionalParameter "Distanz"
   Die minimale Entfernung von der Kamera, ab der das erste LOD-Mesh anstelle vom #Mesh verwendet wird.
   Für die nächsten LOD-Meshes wird die Entfernung mittels dieser Formel berechnet: 'Distanz / SqrF(1-ReduktionsWert)'.
 
-@Parameter "ReduktionsWert"
+@OptionalParameter "ReduktionsWert"
   Die anzuwendende Reduktion (Verkleinerung), zwischen 0 (keine Reduktion) und 1 (100% Reduktion).
   @LineBreak
   

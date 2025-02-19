@@ -98,6 +98,10 @@ CompilerIf #CompileWindows
         PureBasicPath$ = #PB_Compiler_Home
       CompilerEndIf
       
+      If FileSize(PureBasicPath$) <> -2
+        MessageRequester("RootPath not found", "RootPath '" + PureBasicPath$ + "' not found !", #PB_MessageRequester_Error)
+        End
+      EndIf
       
       
     CompilerEndIf

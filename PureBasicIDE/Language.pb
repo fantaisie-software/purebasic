@@ -1263,6 +1263,7 @@ DataSection
   Data$ "EnablePurifier",   "Enable Purifier"
   Data$ "EnableASM",        "Enable inline ASM syntax coloring"
   Data$ "EnableXP",         "Enable modern theme support (Windows XP and above)"
+  Data$ "EnableWayland",    "Enable Wayland support"
   Data$ "EnableAdmin",      "Request Administrator mode for Windows Vista and above"
   Data$ "EnableUser",       "Request User mode for Windows Vista and above (no virtualisation)"
   Data$ "DllProtection",    "Enable DLL preloading protection (Windows)"

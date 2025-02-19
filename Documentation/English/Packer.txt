@@ -709,3 +709,26 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   @@UncompressMemory
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsPack(#Pack)
+
+@Description
+  Tests if the given pack number is a valid and correctly initialized pack.
+
+@Parameter "#Pack"
+  The pack to test.
+
+@ReturnValue
+  Returns nonzero if #Pack is a valid pack and zero if not.
+
+@Remarks
+  This function is bulletproof and can be used with any value.
+  This is the correct way to ensure an pack is ready to use.
+
+@SeeAlso
+  @@CreatePack, @@OpenPack
+
+@SupportedOS
+
