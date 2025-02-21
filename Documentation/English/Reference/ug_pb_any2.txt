@@ -104,7 +104,7 @@ Providing we don’t attempt to change any of the stored values using *EventGadget
 we’ve no reason to do so – all should be well.
 @LineBreak
 @LineBreak
-Finally, we despatch the recorded event values in EventWindow, EventGadget, EventType
+Finally, we dispatch the recorded event values in EventWindow, EventGadget, EventType
 straight through to the event procedures and let them worry about getting the jobs done.
 
 @Code
@@ -720,7 +720,7 @@ straight through to the event procedures and let them worry about getting the jo
       Case #PB_Event_Gadget
         ; Check that a valid pointer was obtained.
         If *EventGadgets > 0
-          ; Use *EventGadgets\WindowClass to despatch events to the correct event procedure.
+          ; Use *EventGadgets\WindowClass to dispatch events to the correct event procedure.
           Select *EventGadgets\WindowClass
             Case #WindowClassButton
               EventsButtonWindow(EventWindow, EventGadget, EventType)

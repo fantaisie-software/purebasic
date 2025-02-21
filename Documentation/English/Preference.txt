@@ -10,7 +10,7 @@
 
   Preference file contains user defined program parameters stored on the disk and
   read back when the program start again (like '.INI' files under Windows for example). PureBasic offers the possibility to create
-  hierarchical preference file easily useable on any computer platform. The file format is in unicode 
+  hierarchical preference file easily usable on any computer platform. The file format is in unicode 
    UTF-8 with a BOM one preference per line, using the 'Keyword = Value' syntax. Groups can be created for better
   reading.
 
@@ -87,7 +87,7 @@
 
 @Example
 @Code
-  ; Create a preference file nammed Setup.ini
+  ; Create a preference file named Setup.ini
   CreatePreferences(GetTemporaryDirectory()+"Setup.ini")
   
   ; Create a group named "Window"
@@ -438,7 +438,7 @@
     text$ = text$ + #LF$
   Wend
 
-  ; Display all groups and all keys with datas
+  ; Display all groups and all keys with data
   MessageRequester("test.pref", text$)
 
   ; Close the preference file

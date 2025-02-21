@@ -1152,13 +1152,19 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             ; Windows 10, 11 has thin invisible borders on left, right and bottom. It is used to grip the mouse for resizing. Use SPI_GETWORKAREA instead of OpenWindow
             CompilerIf #PB_Compiler_OS = #PB_OS_Windows
               SystemParametersInfo_(#SPI_GETWORKAREA, 0, @wr.RECT, 0)
+              WorkAreaWidth  = wr\right - wr\left
               WorkAreaHeight = wr\bottom - wr\top
             CompilerElse
               DummyWindow = OpenWindow(#PB_Any,0,0,0,0,"",#PB_Window_Invisible | #PB_Window_Maximize | #PB_Window_MaximizeGadget | #PB_Window_NoActivate)
+              WorkAreaWidth  = DesktopScaledX(WindowWidth(DummyWindow, #PB_Window_FrameCoordinate))
               WorkAreaHeight = DesktopScaledY(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
               CloseWindow(DummyWindow)
             CompilerEndIf
             
+            ; ToolTip width enlarged according to the available space between the mouse position and the right desktop border, rather than 100 hard-coded chars
+            ; To be aligned with the mouse position. For a full ToolTip, adjusted to the desktop width, use: MaxLenLine = WorkAreaWidth  / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A"))
+            MaxLenLine = (WorkAreaWidth - DesktopMouseX()) / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A")) +1   ; +1 for Chr(10), #LF$
+
             ; Number of lines from top: Remove a line for "Structure: " + Name$ and a second line to ensure that the tooltip is displayed with its borders. 
             MaxLineTop = SendEditorMessage(#SCI_LINEFROMPOSITION, MouseDwellPosition, 0) - SendEditorMessage(#SCI_GETFIRSTVISIBLELINE, 0, 0) - 2
             Debug "ToolTip: Max Line From Top = " + Str(MaxLineTop) + " = " + Str(SendEditorMessage(#SCI_LINEFROMPOSITION, MouseDwellPosition, 0)) + " - " + Str(SendEditorMessage(#SCI_GETFIRSTVISIBLELINE, 0, 0)) + " - 2"
@@ -1225,8 +1231,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               
               ; do not display too large structures !
               If i <= MaxLine
-                If Len(Line$) > 100
-                  Line$ = Left(Line$, 96) + " ..."
+                If Len(Line$) > MaxLenLine
+                  Line$ = Left(Line$, MaxLenLine-4) + " ..."
                 EndIf
                 
                 Message$ + Line$
