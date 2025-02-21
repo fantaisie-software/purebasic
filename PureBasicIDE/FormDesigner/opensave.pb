@@ -1291,7 +1291,7 @@ Procedure FD_Open(file.s,update = 0)
             If FindString(parentwin, "WindowID(")
               parentwin = ReplaceString(parentwin, "WindowID(", "")
               parentwin = ReplaceString(parentwin, ")", "")
-            Else
+            Elseif parentwin
               parentwin = "=" + parentwin
             EndIf
             FormWindows()\parent = parentwin
