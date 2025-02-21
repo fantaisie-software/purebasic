@@ -1228,7 +1228,7 @@ Procedure FD_Open(file.s,update = 0)
                 ForEach Gadgets()\Flags()
                   If thisflags = Gadgets()\Flags()\name
                     winflag = Gadgets()\Flags()\ivalue
-                  Else
+                  Elseif thisflags and thisflags <> "0"
                     ;add custom flags to an extra list.
                     ;custom flags have no effect on the display of the form in the Form Designer
                     addCustomFlag = #True
@@ -1259,7 +1259,7 @@ Procedure FD_Open(file.s,update = 0)
                       Else
                         winflag | Gadgets()\Flags()\ivalue
                       EndIf
-                    Else
+                    Elseif thisflags
                       ;add custom flags to an extra list.
                       ;custom flags have no effect on the display of the form in the Form Designer
                       addCustomFlag = #True
