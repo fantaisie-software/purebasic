@@ -8313,6 +8313,11 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
                     parent = FormWindows()\FormGadgets()\itemnumber
                     Break
+                  Case #Form_Type_Frame3D
+                    if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+                      parent = FormWindows()\FormGadgets()\itemnumber
+                      Break
+                    Endif
                 EndSelect
               EndIf
             Until PreviousElement(FormWindows()\FormGadgets()) = 0

@@ -716,6 +716,8 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Frame_Double" : Ga
 Gadgets()\Flags()\ivalue = 1 << 1
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Frame_Flat" : Gadgets()\Flags()\value = #PB_Frame_Flat
 Gadgets()\Flags()\ivalue = 1 << 2
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Frame_Container" : Gadgets()\Flags()\value = #PB_Frame_Container
+Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_HyperLink
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_HyperLink

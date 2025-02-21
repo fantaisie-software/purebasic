@@ -480,6 +480,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             If FormWindows()\FormGadgets()\type = #Form_Type_Container Or FormWindows()\FormGadgets()\type = #Form_Type_Panel Or FormWindows()\FormGadgets()\type = #Form_Type_ScrollArea
               AddElement(ContainerLevel())
               ContainerLevel() = ObjList()\level
+            ElseIf FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
+              if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+                AddElement(ContainerLevel())
+                ContainerLevel() = ObjList()\level
+              Endif
             EndIf
             
             
