@@ -6848,18 +6848,20 @@ Procedure FD_ProcessEventGridWindow(col,row)
             EndIf
             i+1
           Next
-          custFlags = grid_GetCellString(propgrid, 2, i)
+          custFlags = Trim(grid_GetCellString(propgrid, 2, i))
           numflags = CountString(custFlags,"|")
           ClearList(Gadgets()\customFlags())
-          For k = 0 To numflags
-            If numflags = 0
-              thisflags.s = Trim(custFlags)
-            Else
-              thisflags.s = Trim(StringField(custFlags,k+1,"|"))
-            EndIf
-            AddElement(Gadgets()\customFlags())
-            Gadgets()\customFlags()\name = thisflags
-          Next k
+          if custFlags
+            For k = 0 To numflags
+              If numflags = 0
+                thisflags.s = custFlags
+              Else
+                thisflags.s = Trim(StringField(custFlags,k+1,"|"))
+              EndIf
+              AddElement(Gadgets()\customFlags())
+              Gadgets()\customFlags()\name = thisflags
+            Next k
+          endif
         EndIf
       Next
       FormWindows()\flags = flag
