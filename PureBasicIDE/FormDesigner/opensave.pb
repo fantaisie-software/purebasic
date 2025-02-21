@@ -1453,6 +1453,10 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\backcolor = -1
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
+        If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+          LastElement(GadgetList())
+          AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
+        Endif
         Continue
       EndIf ;}
       If procname = "IPAddressGadget" ;{

@@ -6430,6 +6430,17 @@ Procedure FD_InitSelectParent(parent_gadget)
           EndIf
           
           i + 1
+        Case #Form_Type_Frame3D
+          if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+            AddGadgetItem(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\variable)
+            SetGadgetItemData(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\itemnumber)
+            
+            If FormWindows()\FormGadgets()\itemnumber = parent_gadget
+              selected = i
+            EndIf
+            
+            i + 1
+          endif
       EndSelect
     EndIf
   Next
