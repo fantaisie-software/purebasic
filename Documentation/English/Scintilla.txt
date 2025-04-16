@@ -35,7 +35,11 @@
   PureBasic integrates the Scintilla library with the @LibraryLink "Gadget" "gadget library", so standard commands like
   @@ResizeGadget or @@HideGadget can be used to control it. Furthermore it provides the @@ScintillaSendMessage function to communicate
   with the control to use its full potential. All structures and constants needed are already defined in PureBasic.
-  
+
+@LineBreak
+@LineBreak
+  The Scintilla library is linked statically, so there is no extra shared object to include.
+
 @LineBreak
 @LineBreak
 
@@ -45,14 +49,13 @@
 
 @SupportedOS
 
-
 ;--------------------------------------------------------------------------------------------------------
 
 @Function Result = InitScintilla([LibraryName$])
 
 @Description
-@Deprecated
 
+@Deprecated
   This command is deprecated and no more needed.
 
 @SupportedOS
@@ -76,11 +79,9 @@
   as follows, where 'Gadget' is the gadget number of the control and *scinotify points to a structure
   with information on the event:
 @Code
-
   Procedure ScintillaCallBack(Gadget, *scinotify.SCNotification)
     ; You code here
   EndProcedure
-
 @EndCode
 
 @ReturnValue

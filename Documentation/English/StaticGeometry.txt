@@ -70,7 +70,7 @@
   Create an empty static geometry.
 
 @Parameter "#StaticGeometry"
-  A number to identify the new static geometry will be identified. @ReferenceLink "purebasic_objects" "#PB_Any"
+  A number to identify the new static geometry. @ReferenceLink "purebasic_objects" "#PB_Any"
   can be used to auto-generate this number.
 
 @Parameter "Width"
@@ -84,13 +84,13 @@
 
 @Parameter "EnableShadows"
   Enables or disables dynamic shadows casting on the static geometry. Set to @#True to enable it, @#False otherwise.
-  
+
 @ReturnValue
   Returns nonzero if the static geometry has been successfully created and zero if not. If @#PB_Any
   was used for the #StaticGeometry parameter then the generated number is returned on success.
 
 @Remarks
-  If previously another static geometry was loaded with the same #StaticGeometry number, then this
+  If another static geometry was previously loaded with the same #StaticGeometry number, then the
   older static geometry will be automatically freed when creating the new one.
 
 @SeeAlso
@@ -104,7 +104,7 @@
 
 @Description
   Add an entity to the specified #StaticGeometry. The original entity is left untouched by this function and
-  can be freed after the add. The same entity can be added multiple time.
+  can be freed after the add. The same entity can be added multiple times.
 
 @Parameter "#StaticGeometry"
   StaticGeometry to use.
@@ -117,7 +117,7 @@
 
 @OptionalParameter "ScaleX, ScaleY, ScaleZ"
   The scale factor to apply to the added entity.
-  
+
 @OptionalParameter "RotationX, RotationY, RotationZ"
   The rotation to apply to the added entity.
 
@@ -125,13 +125,13 @@
   The rotation to apply to the added entity (only used for @#PB_Orientation_Quaternion and @#PB_Orientation_Direction).
 
 @OptionalParameter "Mode"
-  The rotation mode. It can be one of the following value:
+  The rotation mode. It can be one of the following values:
 @FixedFont
   @#PB_Orientation_PitchYawRoll: 'RotationX' (pitch), 'RotationY' (yaw), 'RotationZ' (roll), applied in this order (default).
   @#PB_Orientation_Quaternion  : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' for quaternion values
   @#PB_Orientation_Direction   : 'RotationX', 'RotationY', 'RotationZ' for direction vector, and 'RotationW' for rotation (roll).
 @EndFixedFont
- 
+
 @NoReturnValue
 
 @Remarks
@@ -142,7 +142,6 @@
   @@CreateStaticGeometry, @@BuildStaticGeometry
 
 @SupportedOS
-
 
 ;--------------------------------------------------------------------------------------------------------
 

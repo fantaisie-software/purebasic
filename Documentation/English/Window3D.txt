@@ -9,14 +9,14 @@
 
 @Overview
 
-  The Window3D library allows to create complex Graphical User Interface (GUI) directly over the screen area,
-  using the 3D engine. This is mainly intended for game or application which needs user inputs while running in
-  fullscreen mode. This library is based on the regular PureBasic @LibraryLink "window" "window library", and offer
-  similar syntax and behavior. The GUI engine used is CEGUI, which offer some nice options like skinning, good
+  The Window3D library allows you to create complex Graphical User Interfaces (GUIs) directly over the screen area,
+  using the 3D engine. This is mainly intended for games or applications which need user input while running in
+  fullscreen mode. This library is based on the regular PureBasic @LibraryLink "window" "window library", and offers
+  similar syntax and behavior. The GUI engine used is CEGUI, which offers some nice options like skinning, good
   speed and a lot of built-in gadgets. More information about CEGUI can be found here: @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
 @LineBreak
 @LineBreak
-  It uses the 3D engine, so @@InitEngine3D has to be called successfully before using these functions.
+  This library uses the 3D engine, so @@InitEngine3D has to be called successfully before using these functions.
 
 @CommandList
 
@@ -30,7 +30,7 @@
 
 @Description
   Close the specified window.
-  
+
 @Parameter "#Window3D"
   The 3D window to close. If @#PB_All is specified, all the remaining 3D windows are closed.
 
@@ -38,7 +38,7 @@
 
 @Remarks
   All remaining opened 3D windows are automatically closed when the program ends.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -59,7 +59,7 @@
 @EndFixedFont  
 
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -87,9 +87,9 @@
 @Description
   After a @@WindowEvent3D function, use this function to determine of which
   type the event is. 
-  
+
 @NoParameters
-  
+
 @ReturnValue  
   The following values are possible, if an event of the type @#PB_Event3D_Gadget (library 
   @LibraryLink "Gadget3D" "Gadget3D") occurs:
@@ -105,7 +105,7 @@
   - @@SpinGadget3D @LineBreak
   - @@StringGadget3D @LineBreak
 @LineBreak
- (See the gadget definition to see which events are supported).
+  (See the gadget definition to see which events are supported).
 
 @SeeAlso
   @@WindowEvent3D
@@ -138,7 +138,7 @@
   The new mouse coordinate to use.
 
 @Parameter "LeftMouseButton"
-  Left mouse button state. It can be one of the following value:
+  Left mouse button state. It can be one of the following values:
 @FixedFont 
   0: left mouse button is released.
   1: left mouse button is pushed.
@@ -148,7 +148,7 @@
   The text to use as input.
 
 @OptionalParameter "SpecialKey"
-  The special key to use as key press. It can be one of the following value:
+  The special key to use as key press. It can be one of the following values:
 @FixedFont
   @#PB_Key_Back
   @#PB_Key_Delete
@@ -168,7 +168,7 @@
   ;
   If ExamineKeyboard() And ExamineMouse()
     Input$ = KeyboardInkey()
-        
+    
     InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left), Input$, 0)
   EndIf
 @EndCode
@@ -192,7 +192,7 @@
   -1 is returned.
 
 @Remarks
-  A window can be activated (set the focus on it) with the @@SetActiveWindow3D function.
+  A window can be activated (have the keyboard focus set to it) with the @@SetActiveWindow3D function.
 
 @SeeAlso
   @@SetActiveWindow3D
@@ -204,7 +204,7 @@
 @Function Result$ = GetWindowTitle3D(#Window3D) 
 
 @Description
-  Returns the text which is currently displayed in the specified 3D window title bar.
+  Returns the text which is currently displayed in the title bar of the specified 3D window.
 
 @Parameter "#Window3D"
   The 3D window to use.
@@ -226,7 +226,7 @@
 
 @Description
   Hides or shows the specified #Window3D.
-  
+
 @Parameter "#Window3D"
   The 3D window to use.
 
@@ -259,7 +259,7 @@
 
 @SeeAlso
   @@OpenWindow3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -276,23 +276,23 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @Parameter "x, y"
-  The initial position of the 3D window in the screen (unless one of the center flags is used).
+  The initial position of the 3D window on the screen (unless one of the center flags is used).
 
 @Parameter "InnerWidth, InnerHeight"
-  The initial size of the client area of 3D window (without borders and window
+  The initial size of the client area of the 3D window (without borders and window
   decorations).
 
 @OptionalParameter "Flags"
   It can be a combination of the following values:
 @FixedFont
   @#PB_Window3D_SizeGadget : Adds the sizeable feature to a window.
-  @#PB_Window3D_Invisible  : Creates the window but don't display it.
+  @#PB_Window3D_Invisible  : Creates the window but doesn't display it.
   @#PB_Window3D_BorderLess : Creates a window without any borders.
 @EndFixedFont
 
 @ReturnValue
   Nonzero if the 3D window has been successfully opened, zero otherwise.
-  
+
 @SeeAlso
   @@CloseWindow3D, @@WindowEvent3D
 
@@ -304,14 +304,14 @@
 
 @Description
   Move and resize the given window to the given position and size. 
-  
+
 @Parameter "#Window3D"
   The 3D window to resize.
-  
+
 @Parameter "x, y"
   The new 3D window position. If 'x' or 'y' is set to @#PB_Ignore, the current value
   of 'x' or 'y' won't be changed.
-  
+
 @Parameter "Width, Height"
   The new 3D window size. If 'Width' or 'Height' is set to @#PB_Ignore, the current value
   of 'Width' or 'Height' won't be changed.
@@ -326,15 +326,15 @@
 
 @Description  
   Activate the specified window, which means the focus has been put on this window.
-  
+
 @Parameter "#Window3D"
   The 3D window to activate.
-  
+
 @NoReturnValue
 
 @SeeAlso
   @@GetActiveWindow3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -354,7 +354,7 @@
 
 @SeeAlso
   @@GetWindowTitle3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -370,7 +370,7 @@
   It doesn't wait for the next event - it always returns immediately.
 @LineBreak
 @LineBreak
-  To get the window number in which the event occurred, use the @@EventWindow3D function. 
+  To get the number of the window on which the event occurred, use the @@EventWindow3D function. 
 
 @NoParameters
 
@@ -395,7 +395,7 @@
 
 @Description
   Returns the height of the given window.
-  
+
 @Parameter "#Window3D"
   The 3D window to use.
 
@@ -428,7 +428,7 @@
 
 @Description
   Return the width of the given window.
-  
+
 @Parameter "#Window3D"
   The 3D window to use.
 
@@ -437,7 +437,7 @@
 
 @SeeAlso
   @@WindowHeight3D
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

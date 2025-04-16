@@ -7,12 +7,11 @@
 @Library Text3D
 
 @Overview
-
 Text3D are meant to ease the need to display text in the 3D world. It can use any font, and be
 moved and scaled according to the object to track.
 @LineBreak
 @LineBreak
-@@InitEngine3D must be called successfully before using the functions.
+@@InitEngine3D must be called successfully before using these functions.
 
 @CommandList
 
@@ -31,14 +30,14 @@ moved and scaled according to the object to track.
 @Parameter "#Text3D"
   The number to identify the new 3D text. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
   auto-generate this number.
-  
+
 @Parameter "Caption$"
   The text caption to display. It can be changed with @@Text3DCaption.
-  
+
 @OptionalParameter "Font$"
   The font name to use. The font must be present in the Add3DArchive() path and must be 
   defined as it is in the 'proper-definitions.fontdef' file.
-    
+
 @OptionalParameter "Height"
   The font height to use.
 
@@ -70,7 +69,7 @@ moved and scaled according to the object to track.
   Once the text is freed, it may not be used anymore.
 @LineBreak
 @LineBreak
-  All remaining text are automatically freed when the program ends.
+  All remaining texts are automatically freed when the program ends.
 
 @SeeAlso
   @@CreateText3D
@@ -156,12 +155,12 @@ moved and scaled according to the object to track.
 
 @Parameter "#Text3D"
   The text to use.
- 
+
 @Parameter "x, y, z"
   The scale vector.
 
 @OptionalParameter "Mode"
-  The scale mode. It can be one of the following value:
+  The scale mode. It can be one of the following values:
 @FixedFont
   @#PB_Relative: relative scale, based on the previous size (default). Using 1.0 for scale value will let this value unchanged.
   @#PB_Absolute: absolute scale, in world unit.
@@ -183,7 +182,7 @@ moved and scaled according to the object to track.
 
 @Parameter "#Text3D"
   The text to use.
- 
+
 @Parameter "Caption$"
   The new text caption to display.
 
@@ -203,7 +202,7 @@ moved and scaled according to the object to track.
 
 @Parameter "#Text3D"
   The text to use.
- 
+
 @Parameter "Color"
   The new text color to display. To get a valid color, use @@RGBA.
 
@@ -223,7 +222,7 @@ moved and scaled according to the object to track.
 
 @Parameter "#Text3D"
   The text to use.
- 
+
 @Parameter "Alignment"
   The new text alignment. It can be a combination of the following values:
 @FixedFont
@@ -256,7 +255,7 @@ moved and scaled according to the object to track.
 
 @SeeAlso
   @@Text3DY, @@Text3DZ, @@MoveText3D
-    
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -274,7 +273,7 @@ moved and scaled according to the object to track.
 
 @SeeAlso
   @@Text3DX, @@Text3DZ, @@MoveText3D
-    
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -292,5 +291,5 @@ moved and scaled according to the object to track.
 
 @SeeAlso
   @@Text3DX, @@Text3DY, @@MoveText3D
-    
+
 @SupportedOS

@@ -7,12 +7,11 @@
 @Library SysTray
 
 @Overview
-
-  SysTray is the right part of the taskbar which contains some icons and
+  The SysTray (also called the the system tray) is the right part of the taskbar which contains some icons and
   the date/hour. PureBasic provides full access to this area and the capability to
-  add any number of images to it. @LineBreak
+  add any number of icons to it. @LineBreak
   @LineBreak
-  On some Linux distributions (like Ubuntu), the systray icons can be hidden by default. For more information
+  On some Linux distributions (like Ubuntu), the SysTray icons can be hidden by default. For more information
   see this @InternetLink "http://ubuntugenius.wordpress.com/2011/06/25/ubuntu-11-04-fix-show-all-iconsindicators-in-unity-panels-notification-area/" "link".
 
 @CommandList
@@ -34,18 +33,18 @@
   used. @@EventType functions is also updated by this function.
 
 @Parameter "#SysTrayIcon"
-  A number to identify the new systray icon.
+  A number to identify the new SysTray icon.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
-  
+
 @Parameter "WindowID"
-  The window on which will handle the systray events. @@WindowID can be used to get this value.
-  
+  The window on which The SysTray events will be handled. @@WindowID can be used to get this value.
+
 @Parameter "ImageID"
-  The image to use for the systray icon. It is advised to use a PNG image in order to have a 
+  The image to use for the SysTray icon. It is advised to use a PNG image in order to have a 
   transparency layer. @@ImageID may be used to get this ID easily.
 
 @ReturnValue
-  Nonzero if the systray icon has been successfully added, zero otherwise.
+  Nonzero if the SysTray icon has been successfully added, zero otherwise.
 
 @Remarks
   All SysTray icons are automatically removed when the program ends.
@@ -90,12 +89,12 @@
 
 @Description
   Changes the specified icon in the SysTray area.
-  
+
 @Parameter "#SysTrayIcon"
-  The systray icon to change.
-  
+  The SysTray icon to change.
+
 @Parameter "ImageID"
-  The new image to use for the systray icon. It is advised to use a PNG image in order to have 
+  The new image to use for the SysTray icon. It is advised to use a PNG image in order to have 
   a transparency layer. @@ImageID may be used to get this ID easily.
 
 @NoReturnValue
@@ -146,7 +145,7 @@
 
 @SeeAlso
   @@AddSysTrayIcon
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -154,20 +153,20 @@
 @Function Result = IsSysTrayIcon(#SysTrayIcon)
 
 @Description
-  Tests if the given systray icon is valid and correctly initialized. 
+  Tests if the given SysTray icon is valid and correctly initialized. 
 
 @Parameter "#SysTrayIcon"
-  The systray icon to test.
+  The SysTray icon to test.
 
 @ReturnValue
-  Nonzero if the systray icon is valid, zero otherwise.
+  Nonzero if the SysTray icon is valid, zero otherwise.
 
 @Remarks
-  This function is bulletproof and may be used with any value. This is the correct way to ensure a systray icon is ready to use.
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a SysTray icon is ready to use.
 
 @SeeAlso
   @@AddSysTrayIcon
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -226,17 +225,17 @@
 @Function SysTrayIconToolTip(#SysTrayIcon, Text$)
 
 @Description
-  Associates the specified Text$ with the SysTray icon. Tool-tip text is that text which is displayed
+  Associates the specified Text$ with the SysTray icon. Tool-tip text is the text which is displayed
   when the mouse cursor hovers over the icon for a period of time (yellow floating box).
 
 @Parameter "#SysTrayIcon"
-  The systray icon to use.
+  The SysTray icon to use.
 
 @Parameter "Text$"
-  The text to use for systray icon tooltip.
+  The text to use for the SysTray icon's tool-tip.
 
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -247,11 +246,11 @@
   Remove the specified SysTray icon.
 
 @Parameter "#SysTrayIcon"
-  Remove the SysTray icon. If @#PB_All is specified, all the remaining SysTray icons are freed.
-  
+  The SysTray icon to remove. If @#PB_All is specified, all the remaining SysTray icons are freed.
+
 @NoReturnValue
 
 @Remarks  
   All remaining SysTray icons are automatically removed when the program ends.
-  
+
 @SupportedOS

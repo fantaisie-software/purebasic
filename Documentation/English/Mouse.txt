@@ -30,16 +30,16 @@
 
 @Description
   Initializes the mouse environment for later use. You should call this function before any other functions in
-  this library. If the result is null, no mouse is available.
+  this library. If the result is zero, no mouse is available.
 
 @NoParameters
 
 @ReturnValue
-  Nonzero if the mouse functions are availables, zero otherwise.
+  Nonzero if the mouse functions are available, zero otherwise.
 
 @OS Windows
-  This function tries to open DirectX (v3.0 with NT4.0 compatibility or v7.0 else); if it fails then DirectX
-  is either not available or is too old be used.
+  This function tries to open DirectX (v3.0 with NT4.0 compatibility or v7.0 otherwise); if it fails then DirectX
+  is either not available or is too old to be used.
 
 @SupportedOS
 
@@ -65,7 +65,7 @@
   @LineBreak
   In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
   event loop to handle all events properly.
-  
+
 @SeeAlso
   @@ExamineMouse, @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY, @@MouseButton
 
@@ -76,7 +76,7 @@
 @Function Result = MouseButton(Button)
 
 @Description
-  Returns zero if the specified button number is not pressed, else the button is pressed.
+  Returns zero if the specified button number is not pressed, otherwise the button is pressed.
   Any number of buttons can be pressed at the same time. @@ExamineMouse must be
   called before this function to update the actual button's state.
 
@@ -108,7 +108,7 @@
 @ReturnValue
   The mouse 'x' movement (in pixels) since the last call of this function.
   It can be either a negative or positive value, depending on whether or not the mouse has been moved to
-  left or right since the last call. @@ExamineMouse should be called before this function
+  the left or the right since the last call. @@ExamineMouse should be called before this function
   to update the actual mouse position.
 
 @SeeAlso
@@ -166,7 +166,7 @@
 
 @ReturnValue
   The number of ticks the mouse wheel has moved since the last function call. The value is positive
-  if the wheel has moved forward and negative is the wheel has moved backwards.
+  if the wheel has moved forward and negative if the wheel has moved backwards.
 
 @SeeAlso
   @@ExamineMouse

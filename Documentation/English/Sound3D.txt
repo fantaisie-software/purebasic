@@ -7,12 +7,11 @@
 @Library Sound3D
 
 @Overview
-
-  The Sound3D library allows to handle sounds in 3D space. For example, it can handle automatic fading depending of the distance. 
+  The Sound3D library allows to handle sounds in 3D space. For example, it can handle automatic fading depending on the distance. 
   It is based on the regular @LibraryLink "Sound" "sound" library syntax and behavior.
 @LineBreak
 @LineBreak
-  It uses the 3D engine, so @@InitEngine3D has to be called successfully before using these functions.
+  This library uses the 3D engine, so @@InitEngine3D has to be called successfully before using these functions.
 
 @CommandList
 
@@ -27,7 +26,7 @@
 @Description
   Stop and remove a 3D sound previously loaded with @@LoadSound3D from memory. Once a sound has been
   freed, it can't be played anymore. 
-  
+
 @Parameter "#Sound3D"
   The 3D sound to free. If @#PB_All is specified, all the remaining 3D sounds are freed.
 
@@ -35,7 +34,7 @@
 
 @Remarks
   All remaining sounds are automatically freed when the program ends.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -53,6 +52,7 @@
 
 @Remarks
   This function is bulletproof and may be used with any value. This is the correct way to ensure a sound is ready to use.  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -60,7 +60,7 @@
 @Function Result = LoadSound3D(#Sound3D, Filename$ [, Flags])
 
 @Description
-  Loads a WAV or an OGG sound file. The sound has to be mono, as stereo sounds doesn't allow space positioning.
+  Loads a mono WAV or OGG sound file. The sound has to be mono, as stereo sounds don't allow spacial positioning.
 
 @Parameter "#Sound3D"
   A number to identify the new sound.
@@ -81,7 +81,7 @@
 @Remarks
   A sound doesn't hold its position. It can be attached to a @LibraryLink "Node" "node" object to have its own position.
   A sound is played relative to the listener location. To change the listener location, use @@SoundListenerLocate.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -99,7 +99,7 @@
 @FixedFont
   @#PB_Sound3D_Loop: play the sound continuously (starts again when end is reached)
 @EndFixedFont
-  
+
 @NoReturnValue
 
 @SeeAlso
@@ -122,7 +122,7 @@
   The new volume for the sound. The valid values are from 0 (no volume) to 100 (full volume).
 
 @NoReturnValue
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -155,7 +155,7 @@
 
 @ReturnValue
   Returns the unique system identifier of the sound.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -163,24 +163,24 @@
 @Function SoundRange3D(#Sound3D, Minimum, Maximum)
 
 @Description
-  Set the range, in world units, for the sound emission. 
+  Set the range, in world units, for the sound emission.
 
 @Parameter "#Sound3D"
   The sound to use.
-  
+
 @Parameter "Minimum"
   The distance from the sound location when the sound volume starts fading. 
-  
+
 @Parameter "Maximum"
   The distance from the sound location when the sound can still be heard. Above this distance, the sound will
   stop playing. Between the minimum and maximum value, the sound will fade according to the current listener position.
   To change the listener location, use @@SoundListenerLocate.
-  
+
 @NoReturnValue
 
 @SeeAlso
   @@SoundListenerLocate
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -192,15 +192,15 @@
 
 @Parameter "#Sound3D"
   The sound to use.
-  
+
 @Parameter "InnerCone, OuterCone"
-  Specifies the cone angle, in degree (values are from 0 to 360). 
-  
+  Specifies the cone angle, in degrees (values are from 0 to 360). 
+
 @Parameter "OuterConeVolume"
   The sound volume outside of the cone (values are from 0 to 100).
 
 @NoReturnValue
- 
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -217,5 +217,5 @@
 
 @SeeAlso
   @@SoundRange3D
-  
+
 @SupportedOS

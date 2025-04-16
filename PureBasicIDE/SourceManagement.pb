@@ -2859,7 +2859,7 @@ Procedure FileMonitorEvent()
           ChangeActiveSourceCode()  ; show the file to the user
           FlushEvents()
           
-          If MessageRequester(#ProductName$, LanguagePattern("FileStuff","DeletedOnDisk", "%filename%", FileList()\FileName$), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+          If MessageRequester(#ProductName$, LanguagePattern("FileStuff","DeletedOnDisk", "%filename%", GetFilePart(FileList()\FileName$)), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
             SaveSourceFile(*ActiveSource\Filename$)
             HistoryEvent(*ActiveSource, #HISTORY_Save)
           Else
@@ -2884,9 +2884,9 @@ Procedure FileMonitorEvent()
           FlushEvents()
           
           If GetSourceModified() ; different message if the file is modified
-            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", FileList()\Filename$)
+            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", GetFilePart(FileList()\Filename$))
           Else
-            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk1", "%filename%", FileList()\Filename$)
+            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk1", "%filename%", GetFilePart(FileList()\Filename$))
           EndIf
           
           FileMonitorWindowDialog = OpenDialog(?Dialog_FileMonitor, WindowID(#WINDOW_Main))

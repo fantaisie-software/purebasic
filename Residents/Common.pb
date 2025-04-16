@@ -134,7 +134,11 @@ CompilerEndIf
 #PB_OS_Windows_8_1            = 100
 #PB_OS_Windows_Server_2012_R2 = 105
 #PB_OS_Windows_10             = 110
+#PB_OS_Windows_Server_2016    = 112
+#PB_OS_Windows_Server_2019    = 114
+#PB_OS_Windows_Server_2022    = 116
 #PB_OS_Windows_11             = 120
+#PB_OS_Windows_Server_2025    = 122
 #PB_OS_Windows_Future         = 200
 
 #PB_OS_Linux_2_2 = 1000
@@ -407,8 +411,11 @@ CompilerEndIf
 #PB_ImagePlugin_BMP      = $504D42
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
-
-  #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
+  
+  ; For SaveImage()
+  #PB_Image_FloydSteinberg =  1 << 8
+  #PB_Image_WhiteAlphaBackground = 1 << 9
+  #PB_Image_BlackAlphaBackground = 1 << 10
 
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754

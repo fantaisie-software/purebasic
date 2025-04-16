@@ -255,9 +255,6 @@ Procedure OpenAsmWindow(*Debugger.DebuggerData)
         SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], EditorFontID)
       EndIf
       
-      CompilerIf #CompileWindows
-        SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack])
-      CompilerEndIf
       SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Asm_Stack], #PB_Editor_ReadOnly, 1)
       
       CloseGadgetList()

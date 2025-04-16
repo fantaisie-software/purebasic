@@ -7,7 +7,6 @@
 @Library AudioCD
 
 @Overview
-
   Audio CDs are an excellent way to play very high quality music during a game or
   an application, without consuming a lot of system resources. This library provides
   all the functions necessary to manage audio CD playback within PureBasic programs.
@@ -68,10 +67,10 @@
   Returns the length of the specified track.
 
 @Parameter "TrackNumber"
-  The number of the requested track.  The first track is indexed to 1.
+  The number of the requested track.  The first track has an index of 1.
 
 @ReturnValue
-  Returns the length in seconds.
+  Returns the length (in seconds) of the specified track.
 
 @SeeAlso
   @@AudioCDTracks, @@UseAudioCD
@@ -88,12 +87,12 @@
 @NoParameters
 
 @ReturnValue
- The return-value may take the following values:
+  The return-value may take the following values:
 @LineBreak
 @LineBreak
   -1: CD drive not ready (it is either empty or opened)
 @LineBreak
-   0: CD drive stopped (but the CD is in the drive and has been detected)
+  0: CD drive stopped (but the CD is in the drive and has been detected)
 @LineBreak
   >0: Audio track which is currently being played.
 
@@ -159,7 +158,7 @@
 @Function Result = InitAudioCD()
 
 @Description
-  Try to initialize all the necessary resources in order to handle audio CD functions. 
+  Try to initialize all the necessary resources in order to handle audio CD playback.
 
 @NoParameters
 
@@ -174,7 +173,7 @@
 @EndOS
 
 @Remarks  
-  This function must be called before any other audio CD function.
+  This function must be called before any other audio CD functions.
 
 @SupportedOS
 
@@ -202,7 +201,7 @@
   Start to play the audio CD from 'StartTrack' until the end of 'EndTrack'.
 
 @Parameter "StartTrack"
-  The first track to play. (The first track on the CD is indexed to 1)
+  The first track to play. (The first track on the CD has an index of 1)
 
 @Parameter "EndTrack"
   The last track to play.

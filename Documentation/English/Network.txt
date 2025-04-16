@@ -14,7 +14,7 @@ This means that games and applications can be written using the well-established
 client/server model. With these functions, its possible to
 create any kind of internet-related application (browsers, web servers, ftp clients, etc) or even multiplayer games. @LineBreak
 @LineBreak
-It also fully support TLS encryption through the @InternetLink "https://www.libressl.org/" "LibreSSL" library.
+It also fully supports TLS encryption through the @InternetLink "https://www.libressl.org/" "LibreSSL" library.
 
 @CommandList
 
@@ -116,16 +116,16 @@ It also fully support TLS encryption through the @InternetLink "https://www.libr
 @Description
   Create a new network server on the local computer using the specified port. To support TLS encryption, @@UseNetworkTLS needs to be
   called before this command and a TLS flag needs to be specified.
-  
+
 @Parameter "#Server"
   A number to identify the new server.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
-  
+
 @Parameter "Port"
   The port to use for the server.
   Port values can range from 6000 to 7000 (this is a recommended area space, 
   but it can go from 0 to 65000 in reality). 
-  
+
 @OptionalParameter "Flags"
   Can be one of the following values:
 @FixedFont
@@ -140,11 +140,11 @@ It also fully support TLS encryption through the @InternetLink "https://www.libr
   combined with one of the following values (using the '|' operand):
 @FixedFont
   @#PB_Network_NoTLS  : no encryption will be used for this server (default)
-  @#PB_Network_TLSv1  : all non-deprecated TLS procotols will be supported (currently v1.2 and v1.3)
-  @#PB_Network_TLSv1_0: TLS v1.0 procotol will be supported (warning, this protocol is deprecated for security reasons)
-  @#PB_Network_TLSv1_1: TLS v1.1 procotol will be supported (warning, this protocol is deprecated for security reasons)
-  @#PB_Network_TLSv1_2: TLS v1.2 procotol will be supported
-  @#PB_Network_TLSv1_3: TLS v1.3 procotol will be supported
+  @#PB_Network_TLSv1  : all non-deprecated TLS protocols will be supported (currently v1.2 and v1.3)
+  @#PB_Network_TLSv1_0: TLS v1.0 protocol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_1: TLS v1.1 protocol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_2: TLS v1.2 protocol will be supported
+  @#PB_Network_TLSv1_3: TLS v1.3 protocol will be supported
 @EndFixedFont
  
 @OptionalParameter "BoundIP$"
@@ -548,11 +548,11 @@ It also fully support TLS encryption through the @InternetLink "https://www.libr
   combined with one of the following values (using the '|' operand):
 @FixedFont
   @#PB_Network_NoTLS  : no encryption will be supported for this connection (default)
-  @#PB_Network_TLSv1  : all non-deprecated TLS procotols will be supported (currently v1.2 and v1.3)
-  @#PB_Network_TLSv1_0: TLS v1.0 procotol will be supported (warning, this protocol is deprecated for security reasons)
-  @#PB_Network_TLSv1_1: TLS v1.1 procotol will be supported (warning, this protocol is deprecated for security reasons)
-  @#PB_Network_TLSv1_2: TLS v1.2 procotol will be supported
-  @#PB_Network_TLSv1_3: TLS v1.3 procotol will be supported
+  @#PB_Network_TLSv1  : all non-deprecated TLS protocols will be supported (currently v1.2 and v1.3)
+  @#PB_Network_TLSv1_0: TLS v1.0 protocol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_1: TLS v1.1 protocol will be supported (warning, this protocol is deprecated for security reasons)
+  @#PB_Network_TLSv1_2: TLS v1.2 protocol will be supported
+  @#PB_Network_TLSv1_3: TLS v1.3 protocol will be supported
 @EndFixedFont
 
 @OptionalParameter "TimeOut"

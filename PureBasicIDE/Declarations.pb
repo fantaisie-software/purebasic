@@ -73,7 +73,6 @@ Declare GetListViewScroll(Gadget)              ; Get listview vertical scroll po
 Declare SetListViewScroll(Gadget, Position)    ; Set listview vertical scroll position
 
 CompilerIf #CompileWindows
-  Declare SetCodePage(Gadget)         ; set the correct codepage for the editorgadget (windows only)
   Declare SetWindowForeground_Real(Window) ; grab focus from other apps
 CompilerEndIf
 CompilerIf #CompileLinuxGtk

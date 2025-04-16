@@ -7,11 +7,10 @@
 @Library Printer
 
 @Overview
-
-  Printers are essential devices to transforms virtual, numeric data to sheet. Many software require a way to
-  print data back to sheet to be really useful. Purebasic allows to print any kind of data from raw texts
+  Printers are essential devices to transforms virtual, numeric data to printed paper. Many types of software require a way to
+  print data back to paper to be really useful. PureBasic allows to print any kind of data from raw text
   to pictures, in any resolution.
-  
+
 @CommandList
 
 @ExampleFile All Printer.pb
@@ -23,11 +22,11 @@
 @Function Result = DefaultPrinter()
 
 @Description
-  Selects the default printer as current printer for print operation. This function has to be
-  called before all other printer functions. Once @@DefaultPrinter has been successfully called, @@StartPrinting is used to actually start to print.
-  
+  Selects the default printer as the current printer for print operation. This function has to be
+  called before all other printer functions. Once @@DefaultPrinter has been successfully called, @@StartPrinting is used to actually start printing.
+
 @NoParameters
-  
+
 @ReturnValue  
   Nonzero if a default printer is available, zero otherwise.
 
@@ -43,25 +42,24 @@
 @Description
   Creates a new empty page. The previous page is sent to the printer and can't be modified anymore. It has to be called inside a 
   @@StartDrawing/@@StopDrawing block.
-  
+
 @NoParameters  
 
 @NoReturnValue
 
 @Example
-
 @Code
   If PrintRequester()
     If StartPrinting("Two sheets")
       If StartDrawing(PrinterOutput())
         DrawingMode(#PB_2DDrawing_Transparent)
         DrawText(10, 10, "First page !", RGB(0, 0, 0))
-      
+        
         ; Tell the printer to start a new page
         NewPrinterPage()
         
         DrawText(10, 10, "Second page !", RGB(0, 0, 0))
-      
+        
         StopDrawing()
       EndIf
       
@@ -69,7 +67,7 @@
     EndIf
   EndIf
 @EndCode
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -90,7 +88,7 @@
   extra complexity because the printers resolution must be taken into account. Vector based
   drawing using @@PrinterVectorOutput should be preferred, as it provides resolution independent
   functions for high-quality printing.
-  
+
 @Example
 @Code
   StartDrawing(PrinterOutput())
@@ -140,15 +138,15 @@
 @Function Result = PrintRequester()
 
 @Description
-  Open a regular print requester, to choose the printer and doing some adjustments. This function must be
+  Open a regular print requester, to choose the printer and do some adjustments. This function must be
   called before all other printer functions. Once @@PrintRequester has been successfully called, 
-  @@StartPrinting is used to actually start to print.
-  
+  @@StartPrinting is used to actually start printing.
+
 @NoParameters
 
 @ReturnValue
   Nonzero if the user successfully selected a printer, zero otherwise.
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -156,10 +154,10 @@
 @Function Result = StartPrinting(JobName$)
 
 @Description
-  Initializes the printer and start the print operation. 
-  
+  Initializes the printer and starts the print operation. 
+
 @Parameter "JobName$"
-  The name which will be shown in the printer spooler and which identify the new print operation.
+  The name to be shown in the printer spooler and which identifys the new print operation.
 
 @ReturnValue
   Nonzero if the print operation has been started successfully, zero otherwise.
@@ -175,14 +173,14 @@
 
 @Description
   Stop all the print operations and send the data to the printer.
-  
+
 @NoParameters
 
 @NoReturnValue
 
 @SeeAlso
   @@StartPrinting
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -219,7 +217,7 @@
   than a document printed at 75 DPI will have a drawing area 4 times smaller than a document printed at
   150 DPI. This value refers to the client area, the one you can write on. It doesn't count the
   hardware printer margins, but doesn't add any 'soft' margins.
-  
+
 @SeeAlso
   @@PrinterPageWidth
 

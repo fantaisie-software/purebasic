@@ -740,9 +740,6 @@ Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
       If EditorFontID
         SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], EditorFontID)
       EndIf
-      CompilerIf #CompileWindows
-        SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor])
-      CompilerEndIf
       SetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Editor], #PB_Editor_ReadOnly, 1)
       
       CompilerIf #DEFAULT_CanWindowStayOnTop

@@ -11,7 +11,7 @@
   different sizes and forms.
 @LineBreak
 @LineBreak
-  Note: With Purebasic using a colored font is as yet not possible.
+  Note: With PureBasic using a colored font is not yet possible.
   This may be achieved by using the @@StartDrawing function and
   then drawing directly on the visual area.
 
@@ -27,7 +27,7 @@
 @Function FreeFont(#Font)
 
 @Description
-  Free the given Font, previously initialized by @@LoadFont.
+  Free the given Font, previously loaded with @@LoadFont.
 
 @Parameter "#Font"
   The font to free. If @#PB_All is specified, all the remaining fonts are freed.
@@ -53,7 +53,7 @@
   The font to use.
 
 @ReturnValue
-  Returns the ID of the font.
+  Returns the unique system ID of the font.
   This result is sometimes also referred to as a 'Handle'. Take a look at the extra chapter @ReferenceLink "handles" "Handles and Numbers" for
   more information.
 
@@ -67,22 +67,21 @@
     Font2 = LoadFont(#PB_Any, "Verdana", 12, #PB_Font_StrikeOut)
     UsedFont = 1
   EndIf
-
+  
   Repeat
     Event = WaitWindowEvent()
-
-  If Event = #PB_Event_Gadget
-    If EventGadget() = 0
-      If UsedFont = 1
-        SetGadgetFont(0, FontID(Font2))
-        UsedFont = 2
-      Else
-        SetGadgetFont(0, FontID(Font1))
-        UsedFont = 1
+    
+    If Event = #PB_Event_Gadget
+      If EventGadget() = 0
+        If UsedFont = 1
+          SetGadgetFont(0, FontID(Font2))
+          UsedFont = 2
+        Else
+          SetGadgetFont(0, FontID(Font1))
+          UsedFont = 1
+        EndIf
       EndIf
     EndIf
-  EndIf
-
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
@@ -148,7 +147,7 @@
   was used for the #Font parameter then the generated number is returned on success.
 
 @Remarks
-  If previously another font was loaded with the same #Font number, then this
+  If another font was previously loaded with the same #Font number, then the
   older font will be automatically freed when loading the new one.
 @LineBreak
 @LineBreak
@@ -157,7 +156,7 @@
   then the font mapper will attempt to find the closest match. This will be
   based upon such criteria as: the font name, the font height, the style and
   so forth. Therefore, the assumption can not be made that a font will not be
-  loaded, due only to an incorrect font name, size, etc...
+  loaded, due only to an incorrect font name, size, etc.
 
 @Example
 @Code
@@ -188,7 +187,7 @@
   The file containing the font. The file must be in TrueType format.
 
 @ReturnValue
-  Returns nonzero if the file was successfully registered.
+  Returns nonzero if the file was successfully registered, zero otherwise.
 
 @Remarks
   The font file is registered for the current program only. This means that the font(s) are not
@@ -198,10 +197,9 @@
 @LineBreak  
   You cannot use a registered font with the VectorDrawing library.
 
-
 @Example
 @Code
-  ; Now let's use a new font, which it was downloaded from internet to the temporary directory...
+  ; Now let's use a new font, which was downloaded from the internet to the temporary directory...
   ; The font name is "ascii" and the font file is "ascii.ttf"
   If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; We have to register it before to use it
     LoadFont(0, "ascii", 12) ; Now we can load the font, the operating system knows it

@@ -517,11 +517,15 @@ Procedure OpenLibraryViewerWindow(*Debugger.DebuggerData)
       *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter1]   = SplitterGadget(#PB_Any, 0, 0, 0, 0, *Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectList], *Debugger\Gadgets[#DEBUGGER_GADGET_Library_Splitter2], #PB_Splitter_FirstFixed)
       
       CompilerIf #CompileWindows
-        SetCodePage(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText])
-        
-        hFont = GetStockObject_(#ANSI_FIXED_FONT)
-        If hFont
-          SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], hFont)
+        Static MonoFont
+      
+        If MonoFont = 0
+          MonoFont = LoadFont(#PB_Any, "Courier New", 10)
+        EndIf
+      
+        If MonoFont
+          ; it looks just much better this way
+          SetGadgetFont(*Debugger\Gadgets[#DEBUGGER_GADGET_Library_ObjectText], FontID(MonoFont))
         EndIf
       CompilerEndIf
       

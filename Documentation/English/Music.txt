@@ -7,7 +7,6 @@
 @Library Music
 
 @Overview
-
 PureBasic can replay standard music modules to have nice music background
 during a game or an application. The music modules are well known from Demo makers,
 as it's an efficient way to create music on a computer. The tools used to
@@ -30,7 +29,6 @@ before using any of the music related functions.
 @ExampleFile All Music.pb
 
 @SupportedOS
-
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -82,7 +80,7 @@ before using any of the music related functions.
 @Function FreeMusic(#Music)
 
 @Description
-  Stop and remove the specified music previously loaded with the @@LoadMusic function from memory. Once a music has been
+  Stop and remove the specified music previously loaded with the @@LoadMusic or @@CatchMusic functions from memory. Once a music has been
   freed, it can't be played anymore.
 
 @Parameter "#Music"
@@ -158,7 +156,7 @@ before using any of the music related functions.
 
 @Description
   Loads the specified music module. @@PlayMusic can be used to start playing the music.
-   @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" supports a lot of music formats, which includes: Protracker (4 channels),
+  @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" supports a lot of music formats, which includes: Protracker (4 channels),
   FastTracker (up to 32 channels, 16-bit quality), Impulse Tracker, etc.
 
 @Parameter "#Music"
@@ -166,7 +164,7 @@ before using any of the music related functions.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @Parameter "Filename$"
-  The music module filename to load.
+  The filename of the music module to load.
 
 @ReturnValue
   Nonzero if the music module has been successfully loaded, zero otherwise.
@@ -198,7 +196,7 @@ before using any of the music related functions.
 @Function PlayMusic(#Music)
 
 @Description
-  Starts to play the specified music previously loaded with the @@LoadMusic function.
+  Starts to play the specified music previously loaded with the @@LoadMusic or @@CatchMusic functions.
 
 @Parameter "#Music"
   The music module to play.
@@ -238,7 +236,7 @@ before using any of the music related functions.
   Stop the #Music (if it was playing).
 
 @Parameter "#Music"
-  The music module to stop. If sets to @#PB_All, then all the musics currently playing are stopped.
+  The music module to stop. If set to @#PB_All, then all the currently playing musics are stopped.
 
 @NoReturnValue
 

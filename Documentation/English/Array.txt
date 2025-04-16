@@ -7,12 +7,11 @@
 @Library Array
 
 @Overview
-
   Arrays are structures to store indexed elements. Unlike 
   a @LibraryLink "List" "list" or a @LibraryLink "Map" "map", the
   elements are allocated in a contiguous manner in memory. Therefore, it's
-  not possible to easily insert or remove an element. On other hand,
-  it provides a very fast direct access to a random element.
+  not possible to easily insert or remove an element. On the other hand,
+  it provides very fast direct access to a random element.
 @LineBreak
 @LineBreak
   To work with Arrays, they have to be declared first. This could be
@@ -28,7 +27,7 @@
   also so-called static arrays, which can not be resized and are only used in structures. These arrays
   are written with square brackets. For example: ArrayStatic[2]. See @ReferenceLink "structures" "here". 
   The functions of this Array library can not be used with this type of array.
-  
+
 @CommandList
 
 @Section Sort & misc.
@@ -56,8 +55,8 @@
 
 @ReturnValue
   Returns the size of the array dimension.
-  If the array is not initialized, it returns -1 (for example after @FastLink "FreeArray()" or if its initialization has failed).
-  
+  If the array isn't yet declared (for example after @FastLink "FreeArray()" or if its allocation has failed), it will return -1.
+
 @Remarks
   As specified with @ReferenceLink "dim" "Dim", the number of elements is equal to the size + 1.
   For example: Dim a(2) contains 3 elements from a(0) to a(2) for a size of 2.
@@ -65,12 +64,12 @@
   @LineBreak
   Does not work with static arrays declared in @ReferenceLink "structures" "Structures". 
   Use @ReferenceLink "compilerfunctions" "SizeOf" instead.
-   
+
 @Example 
 @Code
   Dim MyArray.l(10)
   Debug ArraySize(MyArray()) ; will print '10'
-
+  
   Dim MultiArray.l(10, 20, 30)
   Debug ArraySize(MultiArray(), 2) ; will print '20'
   
@@ -172,7 +171,7 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 @Function Result = CopyArray(SourceArray(), DestinationArray())
 
 @Description
-  Copy every elements of 'SourceArray()' into 'DestinationArray()'. 
+  Copy every element of 'SourceArray()' into 'DestinationArray()'. 
   After a successful copy, the two arrays are identical. The arrays must have the
   same number of dimensions.
 
@@ -207,7 +206,6 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 
 @SeeAlso
   @@CopyList, @@CopyMap
-
 
 @SupportedOS
 

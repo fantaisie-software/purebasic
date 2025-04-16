@@ -480,6 +480,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             If FormWindows()\FormGadgets()\type = #Form_Type_Container Or FormWindows()\FormGadgets()\type = #Form_Type_Panel Or FormWindows()\FormGadgets()\type = #Form_Type_ScrollArea
               AddElement(ContainerLevel())
               ContainerLevel() = ObjList()\level
+            ElseIf FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
+              if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+                AddElement(ContainerLevel())
+                ContainerLevel() = ObjList()\level
+              Endif
             EndIf
             
             
@@ -966,6 +971,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 flags + Gadgets()\Flags()\name
               EndIf
             Next
+            ForEach Gadgets()\customFlags()
+                If flags <> ""
+                  flags + " | "
+                EndIf
+                flags + Gadgets()\customFlags()\name
+            Next
           EndIf
         Next
         
@@ -1010,7 +1021,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             line + ", "
           EndIf
           
-          line + "WindowID(" + FormWindows()\parent + ")"
+          If Asc(FormWindows()\parent) <> '=' 
+            line + "WindowID(" + FormWindows()\parent + ")"
+          Else
+            line + LTrim(FormWindows()\parent, "=") 
+          EndIf
+          
         EndIf
         
         line +  ")"

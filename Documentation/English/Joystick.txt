@@ -7,8 +7,7 @@
 @Library Joystick
 
 @Overview
-
-  PureBasic provides a full access to the joysticks which are connected to the computer.
+  PureBasic provides full access to the joysticks which are connected to the computer.
   This library supports joysticks and complex gamepads with several pads, triggers and many buttons.
 
 @Remarks  
@@ -27,12 +26,12 @@
 @Description
   Initialize the joystick environment for later use. This function must be called before any other functions
   within this library.
-  
+
 @ReturnValue
-   Returns the number of joysticks available for use. 
-   
+  Returns the number of joysticks available for use. 
+
 @Remarks
-  This function can be called on regular basis to detect if new joystick have been connected.
+  This function can be called on a regular basis to detect if new joysticks have been connected.
 
 @SeeAlso
   @@ExamineJoystick
@@ -51,10 +50,10 @@
   The joystick to use. The first joystick index is 0. The number of available joysticks is returned by @@InitJoystick.
 
 @ReturnValue
-  Returns nonzero if the joystick state has been correctly updated, returns zero otherwise.
+  Returns nonzero if the joystick state has been correctly updated, zero otherwise.
 
 @Remarks
-  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers need to be called inside your
+  In @Link "Screen/OpenScreen" "fullscreen mode" the command @@FlipBuffers needs to be called inside your
   event loop to handle all events properly.
 
 @SeeAlso
@@ -68,7 +67,7 @@
 
 @Description
   Returns the joystick X axis state.
-  
+
 @Parameter "#Joystick"
   The joystick to use. The first joystick index is 0. The number of available joysticks is returned by @@InitJoystick.
 
@@ -76,8 +75,7 @@
   The pad to use, if the joystick has multiple pads. The first pad index is 0.
 
 @OptionalParameter "Mode"
-  The mode can be one of the following value:
-
+  The mode can be one of the following values:
 @FixedFont
   @#PB_Absolute: Returned value is either -1 (left), 0 (no movement) or 1 (right) (default)
   @#PB_Relative: Returned value is between the range -1000 (left) and 1000 (right). If the gamepad
@@ -100,7 +98,6 @@
 @Function Result = JoystickAxisY(#Joystick [, Pad [, Mode]])
 
 @Description
-
   Returns the joystick Y axis state. 
 
 @Parameter "#Joystick"
@@ -110,8 +107,7 @@
   The pad to use, if the joystick has multiple pads. The first pad index is 0.
 
 @OptionalParameter "Mode"
-  The mode can be one of the following value:
-
+  The mode can be one of the following values:
 @FixedFont
   @#PB_Absolute: Returned value is either -1 (up), 0 (no movement) or 1 (down) (default)
   @#PB_Relative: Returned value is between the range -1000 (up) and 1000 (down). If the gamepad doesn't
@@ -123,10 +119,10 @@
 
 @Remarks
   @@ExamineJoystick has to be called before this function is used, to update the current joystick state.  
-  
+
 @SeeAlso
   @@ExamineJoystick, @@JoystickAxisX, @@JoystickAxisZ
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -134,9 +130,8 @@
 @Function Result = JoystickAxisZ(#Joystick [, Pad [, Mode]])
 
 @Description
-
-  Returns the joystick Z axis state. This axis is often referred as trigger
-  on new gamepad. 
+  Returns the joystick Z axis state. This axis is often referred to as trigger
+  on new gamepads. 
 
 @Parameter "#Joystick"
   The joystick to use. The first joystick index is 0. The number of available joysticks is returned by @@InitJoystick.
@@ -145,8 +140,7 @@
   The pad to use, if the joystick has multiple pads. The first pad index is 0.
 
 @OptionalParameter "Mode"
-  The mode can be one of the following value:
-
+  The mode can be one of the following values:
 @FixedFont
   @#PB_Absolute: Returned value is either -1, 0 (no movement) or 1 (default)
   @#PB_Relative: Returned value is between the range -1000 and 1000. If the gamepad doesn't
@@ -169,7 +163,7 @@
 @Function Result$ = JoystickName(#Joystick)
 
 @Description
-  Returns the joystick name. It can be useful when having several joystick connected, to identify the right one.
+  Returns the joystick's name. It can be useful when having several joysticks connected, to identify the right one.
 
 @Parameter "#Joystick"
   The joystick to use. The first joystick index is 0. The number of available joysticks is returned by @@InitJoystick.
@@ -194,11 +188,10 @@
 
 @Parameter "Button"
   The joystick button to query. The first button index is 1.
-
 @LineBreak
-  Return zero if the specified button is not pressed, else it returns nonzero.
+  Returns zero if the specified button is not pressed, else it returns nonzero.
   Any number of buttons may be pressed at the same time.
-  
+
 @Remarks
   @@ExamineJoystick has to be called before this function is used, to update the current joystick state.    
 

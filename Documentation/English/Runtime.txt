@@ -7,10 +7,9 @@
 @Library Runtime
 
 @Overview
-
   Runtime objects are accessible even when the program is compiled, using their string references.
   For more information about the runtime concept, see @ReferenceLink "Runtime" "Runtime".
-  
+
 @CommandList
 
 @ExampleFile All Runtime.pb
@@ -34,7 +33,7 @@
   When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
 
 @ReturnValue
-  Returns the integer value of specified object, or zero if not found. As zero is a valid integer
+  Returns the integer value of the specified object, or zero if not found. As zero is a valid integer
   value, @@IsRuntime can be used to determine if the runtime object really exists. If the variable
   is of float or double type, it is automatically converted to integer. If the runtime object is a procedure,
   it returns the procedure address.
@@ -59,7 +58,7 @@
   When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
 
 @ReturnValue
-  Returns the double value of specified object, or zero if not found. As zero is a valid double
+  Returns the double value of the specified object, or zero if not found. As zero is a valid double
   value, @@IsRuntime can be used to determine if the runtime object really exists. If the variable
   is of integer or float type, it is automatically converted to double.
 
@@ -83,7 +82,7 @@
   When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used. 
 
 @ReturnValue
-  Returns the string value of specified object, or an empty string if not found. As an empty string is a valid string
+  Returns the string value of the specified object, or an empty string if not found. As an empty string is a valid string
   value, @@IsRuntime can be used to determine if the runtime object really exists.
 
 @SeeAlso
@@ -107,7 +106,7 @@
   When accessing public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.
 
 @ReturnValue
-  Returns nonzero if the specified object has been declared as @ReferenceLink "Runtime" "runtime" and zero otherwise.
+  Returns nonzero if the specified object has been declared as @ReferenceLink "Runtime" "runtime", zero otherwise.
 
 @SupportedOS
 
@@ -119,7 +118,7 @@
   Changes the double value of the runtime object.
 
 @Parameter "Object$"
-  Name of the object to set the value to. The following objects are supported: @LineBreak
+  Name of the object to set the value of. The following objects are supported: @LineBreak
 - Variable: the object name is 'VariableName' (case insensitive). @LineBreak
   @LineBreak
   When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used. 
@@ -128,7 +127,6 @@
   The new double value to set.
 
 @NoReturnValue
-  
 
 @SeeAlso
   @@GetRuntimeDouble, @@IsRuntime
@@ -143,7 +141,7 @@
   Changes the integer value of the runtime object.
 
 @Parameter "Object$"
-  Name of the object to set the value to. The following objects are supported: @LineBreak
+  Name of the object to set the value of. The following objects are supported: @LineBreak
 - Variable: the object name is 'VariableName' (case insensitive). @LineBreak
   @LineBreak
   When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.  
@@ -152,7 +150,7 @@
   The new integer value to set.
 
 @NoReturnValue
-  
+
 @SeeAlso
   @@GetRuntimeInteger, @@IsRuntime
 
@@ -166,7 +164,7 @@
   Changes the string value of the runtime object.
 
 @Parameter "Object$"
-  Name of the object to set the value to. The following objects are supported: @LineBreak
+  Name of the object to set the value of. The following objects are supported: @LineBreak
 - Variable: the object name is 'VariableName' (case insensitive). @LineBreak
   @LineBreak
   When setting public @ReferenceLink "module" "module" items, the module prefix name is mandatory, even if @Keyword UseModule is used.  
@@ -175,7 +173,7 @@
   The new string value to set.
 
 @NoReturnValue
-  
+
 @SeeAlso
   @@GetRuntimeInteger, @@IsRuntime
 

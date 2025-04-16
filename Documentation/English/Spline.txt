@@ -7,11 +7,10 @@
 @Library Spline
 
 @Overview
-
 A spline contains any number of points which are smoothly interpolated. The time to go 
 from one point to another is always the same, independent from the distance between these points.
-A spline doesn't exist physically in the 3D world, it is an virtual 
-object which can be used for different purpose, like path-finding, smooth node moving
+A spline doesn't exist physically in the 3D world, it is a virtual 
+object which can be used for different purposes, like path-finding, smooth node moving
 (be sure to check @LibraryLink "nodeanimation" "NodeAnimation" library for this as well)
 and more.
 @LineBreak
@@ -32,8 +31,8 @@ and more.
 @Function Result = CreateSpline(#Spline)
 
 @Description
-  Creates a new spline. A spline doesn't exist physically in the 3D world, it is an virtual 
-  object which can be used for different purpose, like path-finding, smooth node moving
+  Creates a new spline. A spline doesn't exist physically in the 3D world, it is a virtual 
+  object which can be used for different purposes, like path-finding, smooth node moving
   (be sure to check @LibraryLink "nodeanimation" "NodeAnimation" library for this as well)
   and more. To calculate the position of an intermediate point, see @@ComputeSpline.
 
@@ -69,7 +68,7 @@ and more.
 
 @SeeAlso
   @@CreateSpline
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -85,12 +84,12 @@ and more.
 
 @Parameter "x, y, z"
   The new point position in the world.
-  
+
 @NoReturnValue
 
 @SeeAlso
   @@CreateSpline, @@ComputeSpline
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -107,7 +106,7 @@ and more.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -125,7 +124,7 @@ and more.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -138,11 +137,11 @@ and more.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @Parameter "PointIndex"
   The point index. The first point index is zero. The point index has to be below than the result of
   @@CountSplinePoints.
-  
+
 @ReturnValue
   Returns the spline point 'x' position.
 
@@ -156,16 +155,15 @@ and more.
 @Function Result = SplinePointY(#Spline, PointIndex)
 
 @Description
-
   Returns the spline point 'y' position.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @Parameter "PointIndex"
   The point index. The first point index is zero. The point index has to be below than the result of
   @@CountSplinePoints.
-  
+
 @ReturnValue
   Returns the spline point 'y' position.
 
@@ -179,16 +177,15 @@ and more.
 @Function Result = SplinePointZ(#Spline, PointIndex)
 
 @Description
-
   Returns the spline point 'z' position.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @Parameter "PointIndex"
   The point index. The first point index is zero. The point index has to be below than the result of
   @@CountSplinePoints.
-  
+
 @ReturnValue
   Returns the spline point 'z' position.
 
@@ -214,12 +211,12 @@ and more.
 
 @Parameter "x, y, z"
   The new point position in the world.
-  
+
 @NoReturnValue
 
 @SeeAlso
   @@CreateSpline, @@ComputeSpline
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -234,13 +231,13 @@ and more.
   The spline to use.
 
 @Parameter "Offset"
-  The offset in the spline. The offset value is ranged from 0.0 (start of the spline) and 1.0 (end of the spline).
+  The offset in the spline. The offset value ranges from 0.0 (start of the spline) to 1.0 (end of the spline).
 
 @NoReturnValue
 
 @SeeAlso
   @@CreateSpline, @@SplineX, @@SplineY and @@SplineZ
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -248,14 +245,13 @@ and more.
 @Function Result = SplineX(#Spline)
 
 @Description
-
-  Returns the spline 'x' position in the world, after a @@ComputeSpline.
+  Returns the spline's 'x' position in the world, after a @@ComputeSpline.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @ReturnValue
-  Returns the spline point 'x' position in the world, after a @@ComputeSpline.
+  Returns the spline point's 'x' position in the world, after a @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineY, @@SplineZ
@@ -267,14 +263,13 @@ and more.
 @Function Result = SplineY(#Spline)
 
 @Description
-
-  Returns the spline 'y' position in the world, after a @@ComputeSpline.
+  Returns the spline's 'y' position in the world, after a @@ComputeSpline.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @ReturnValue
-  Returns the spline point 'y' position in the world, after a @@ComputeSpline.
+  Returns the spline point's 'y' position in the world, after a @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineX, @@SplineZ
@@ -286,14 +281,13 @@ and more.
 @Function Result = SplineZ(#Spline)
 
 @Description
-
-  Returns the spline 'z' position in the world, after a @@ComputeSpline.
+  Returns the spline's 'z' position in the world, after a @@ComputeSpline.
 
 @Parameter "#Spline"
   The spline to use.
-  
+
 @ReturnValue
-  Returns the spline point 'z' position in the world, after a @@ComputeSpline.
+  Returns the spline point's 'z' position in the world, after a @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineX, @@SplineY
