@@ -471,44 +471,42 @@ Procedure CreateAppWindowEvents(EventID)
               
             Case 2 ; Android
               
-              CompilerIf #CompileWindows
-                *CurrentAppTarget\AppFormat = #AppFormatAndroid
+              *CurrentAppTarget\AppFormat = #AppFormatAndroid
+              
+              If *CurrentAppTarget\AndroidAppOutput$ = ""
+                MessageRequester(#ProductName$, Language("App","NoAppOutput"), #FLAG_ERROR)
                 
-                If *CurrentAppTarget\AndroidAppOutput$ = ""
-                  MessageRequester(#ProductName$, Language("App","NoAppOutput"), #FLAG_ERROR)
-                  
-                ElseIf UCase(GetExtensionPart(*CurrentAppTarget\AndroidAppOutput$)) <> "APK"
-                  MessageRequester(#ProductName$, Language("AndroidApp","WrongOutputExtension"), #FLAG_ERROR)
-                  
+              ElseIf UCase(GetExtensionPart(*CurrentAppTarget\AndroidAppOutput$)) <> "APK"
+                MessageRequester(#ProductName$, Language("AndroidApp","WrongOutputExtension"), #FLAG_ERROR)
+
+              ; The JAVA check is a Windows only issue as it works with OpenJDK on Ubuntu
+              ;
+              CompilerIf #CompileWindows                
                 ElseIf OptionJDK$ = ""
                   MessageRequester(#ProductName$, Language("AndroidApp","NoJDK"), #FLAG_ERROR)
-                  
+
                 ElseIf FileSize(OptionJDK$ + "\include") <> -2 ; Check the include dir is here, so it's not a JRE
                   MessageRequester(#ProductName$, Language("AndroidApp","InvalidJDK"), #FLAG_ERROR)
+              CompilerEndIf
+                
+              ElseIf CheckAndroidPackageID(*CurrentAppTarget\AndroidAppPackageID$) = 0
+                MessageRequester(#ProductName$, Language("AndroidApp","InvalidPackageID"), #FLAG_ERROR)
+                SetActiveGadget(#GADGET_AndroidApp_PackageID)
+                
+              Else
+                CloseCreateAppWindow()
+                
+                If LaunchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
+                  ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
                   
-                ElseIf CheckAndroidPackageID(*CurrentAppTarget\AndroidAppPackageID$) = 0
-                  MessageRequester(#ProductName$, Language("AndroidApp","InvalidPackageID"), #FLAG_ERROR)
-                  SetActiveGadget(#GADGET_AndroidApp_PackageID)
+                  Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
                   
-                Else
-                  CloseCreateAppWindow()
-                  
-                  If LaunchAppBuild(*CurrentAppTarget\AndroidAppOutput$)
-                    ;*ActiveSource = *InitialActiveSource ; Restore the active source only if the compilation has succeeded
-                    
-                    Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", *CurrentAppTarget\AndroidAppOutput$), Date())
-                    
-                    ; An AAB is also automatically generated in release mode
-                    If *CurrentAppTarget\AndroidAppEnableDebugger = #False
-                      Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", ReplaceString(*CurrentAppTarget\AndroidAppOutput$, ".apk", ".aab")), Date())
-                    EndIf
+                  ; An AAB is also automatically generated in release mode
+                  If *CurrentAppTarget\AndroidAppEnableDebugger = #False
+                    Debugger_AddLog_BySource(*ActiveSource, LanguagePattern("Compiler", "ExportSuccess", "%target%", ReplaceString(*CurrentAppTarget\AndroidAppOutput$, ".apk", ".aab")), Date())
                   EndIf
                 EndIf
-                
-              CompilerElse
-                MessageRequester(#ProductName$, Language("App","AndroidWindowsOnly"), #FLAG_ERROR)
-                
-              CompilerEndIf
+              EndIf
           EndSelect
           
           
