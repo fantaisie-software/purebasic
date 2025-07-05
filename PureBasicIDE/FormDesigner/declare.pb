@@ -471,6 +471,12 @@ AddElement(FontFlags()) : FontFlags()\name = "#PB_Font_StrikeOut" : FontFlags()\
 FontFlags()\ivalue = 1 << 3
 
 Global NewList Gadgets.Gadgets()
+; Note:
+; Numeric values in Gadgets()\Flags()\iValues must be consistent across all gadgets where 
+; property symbols in Gadgets()\Flags()\name are reused by multiple gadgets.
+; This is in order to prevent an extraneous matching problem in OpenReadGadgetFlags. 
+
+;- Window
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Window
 Gadgets()\icon = #IMAGE_FormIcons_Calendar
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Window_SystemMenu" : Gadgets()\Flags()\value = #PB_Window_SystemMenu
@@ -514,6 +520,13 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_Event_SysTray"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_Event_Timer"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_Event_GadgetDrop"
 
+;- B
+; #PB_Button_Right = 1 << 0
+; #PB_Button_Left = 1 << 1
+; #PB_Button_Default = 1 << 2
+; #PB_Button_MultiLine = 1 << 3
+; #PB_Button_Toggle = 1 << 4
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Button
 Gadgets()\name = "Button"
 Gadgets()\node = 1
@@ -528,18 +541,22 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Button_MultiLine" 
 Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Button_Toggle" : Gadgets()\Flags()\value = #PB_Button_Toggle
 Gadgets()\Flags()\ivalue = 1 << 4
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ButtonImg
 Gadgets()\node = 1
 Gadgets()\name = "ButtonImage"
 Gadgets()\icon = #IMAGE_FormIcons_ButtonImage
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Button_Toggle" : Gadgets()\Flags()\value = #PB_Button_Toggle
 Gadgets()\Flags()\ivalue = 1 << 4
+
+;- C
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Calendar
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_Calendar
 Gadgets()\name = "Calendar"
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Calendar_Borderless" : Gadgets()\Flags()\value = #PB_Calendar_Borderless
 Gadgets()\Flags()\ivalue = 1 << 0
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Canvas
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_Canvas
@@ -570,6 +587,7 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LostFo
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_KeyDown"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_KeyUp"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Input"
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Checkbox
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_CheckBox
@@ -580,6 +598,7 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_CheckBox_Center" :
 Gadgets()\Flags()\ivalue = 1 << 1
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_CheckBox_ThreeState" : Gadgets()\Flags()\value = #PB_CheckBox_ThreeState
 Gadgets()\Flags()\ivalue = 1 << 2
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Combo
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ComboBox
@@ -595,6 +614,7 @@ Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LostFocus"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Focus"
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Container
 Gadgets()\node = 2
 Gadgets()\icon = #IMAGE_FormIcons_Container
@@ -609,10 +629,13 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Container_Single" 
 Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Container_Double" : Gadgets()\Flags()\value = #PB_Container_Double
 Gadgets()\Flags()\ivalue = 1 << 4
+
 ; AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Custom
 ; Gadgets()\node = 2
 ; Gadgets()\icon = #IMAGE_FormIcons_Canvas
 ; Gadgets()\name = "Custom"
+
+;- D
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Date
 Gadgets()\node = 1
 Gadgets()\name = "Date"
@@ -621,6 +644,8 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Date_UpDown" : Gad
 Gadgets()\Flags()\ivalue = 1 << 0
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Date_CheckBox" : Gadgets()\Flags()\value = #PB_Date_CheckBox
 Gadgets()\Flags()\ivalue = 1 << 1
+
+;- E
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Editor
 Gadgets()\node = 1
 Gadgets()\name = "Editor"
@@ -629,48 +654,69 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Editor_ReadOnly" :
 Gadgets()\Flags()\ivalue = 1 << 0
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Editor_WordWrap" : Gadgets()\Flags()\value = #PB_Editor_WordWrap
 Gadgets()\Flags()\ivalue = 1 << 1
+
+; #PB_Explorer_AlwaysShowSelection  = 1 << 1
+; #PB_Explorer_AutoSort             = 1 << 2
+; #PB_Explorer_BorderLess           = 1 << 3
+; #PB_Explorer_DrivesOnly           = 1 << 4
+; #PB_Explorer_Editable             = 1 << 5
+; #PB_Explorer_FullRowSelect        = 1 << 6
+; #PB_Explorer_GridLines            = 1 << 7
+; #PB_Explorer_HeaderDragDrop       = 1 << 8
+; #PB_Explorer_MultiSelect          = 1 << 9
+; #PB_Explorer_NoButtons            = 1 << 10
+; #PB_Explorer_NoDirectoryChange    = 1 << 11
+; #PB_Explorer_NoDriveRequester     = 1 << 12
+; #PB_Explorer_NoFiles              = 1 << 13
+; #PB_Explorer_NoFolders            = 1 << 14
+; #PB_Explorer_NoLines              = 1 << 15
+; #PB_Explorer_NoMyDocuments        = 1 << 16
+; #PB_Explorer_NoParentFolder       = 1 << 17
+; #PB_Explorer_NoSort               = 1 << 18
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ExplorerCombo
 Gadgets()\node = 1
 Gadgets()\name = "Explorer Combo"
 Gadgets()\icon = #IMAGE_FormIcons_ExplorerCombo
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_DrivesOnly" : Gadgets()\Flags()\value = #PB_Explorer_DrivesOnly
-Gadgets()\Flags()\ivalue = 1 << 0
+Gadgets()\Flags()\ivalue = 1 << 4
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_Editable" : Gadgets()\Flags()\value = #PB_Explorer_Editable
-Gadgets()\Flags()\ivalue = 1 << 1
+Gadgets()\Flags()\ivalue = 1 << 5
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoMyDocuments" : Gadgets()\Flags()\value = #PB_Explorer_NoMyDocuments
-Gadgets()\Flags()\ivalue = 1 << 2
+Gadgets()\Flags()\ivalue = 1 << 16
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ExplorerList
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ExplorerList
 Gadgets()\name = "Explorer List"
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoMyDocuments" : Gadgets()\Flags()\value = #PB_Explorer_NoMyDocuments
-Gadgets()\Flags()\ivalue = 1 << 0
+Gadgets()\Flags()\ivalue = 1 << 16
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_BorderLess" : Gadgets()\Flags()\value = #PB_Explorer_BorderLess
-Gadgets()\Flags()\ivalue = 1 << 1
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AlwaysShowSelection" : Gadgets()\Flags()\value = #PB_Explorer_AlwaysShowSelection
-Gadgets()\Flags()\ivalue = 1 << 2
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_MultiSelect" : Gadgets()\Flags()\value = #PB_Explorer_MultiSelect
 Gadgets()\Flags()\ivalue = 1 << 3
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AlwaysShowSelection" : Gadgets()\Flags()\value = #PB_Explorer_AlwaysShowSelection
+Gadgets()\Flags()\ivalue = 1 << 1
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_MultiSelect" : Gadgets()\Flags()\value = #PB_Explorer_MultiSelect
+Gadgets()\Flags()\ivalue = 1 << 9
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_GridLines" : Gadgets()\Flags()\value = #PB_Explorer_GridLines
-Gadgets()\Flags()\ivalue = 1 << 4
+Gadgets()\Flags()\ivalue = 1 << 7
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_HeaderDragDrop" : Gadgets()\Flags()\value = #PB_Explorer_HeaderDragDrop
-Gadgets()\Flags()\ivalue = 1 << 5
+Gadgets()\Flags()\ivalue = 1 << 8
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_FullRowSelect" : Gadgets()\Flags()\value = #PB_Explorer_FullRowSelect
 Gadgets()\Flags()\ivalue = 1 << 6
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoFiles" : Gadgets()\Flags()\value = #PB_Explorer_NoFiles
-Gadgets()\Flags()\ivalue = 1 << 7
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoFolders" : Gadgets()\Flags()\value = #PB_Explorer_NoFolders
-Gadgets()\Flags()\ivalue = 1 << 8
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoParentFolder" : Gadgets()\Flags()\value = #PB_Explorer_NoParentFolder
-Gadgets()\Flags()\ivalue = 1 << 9
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoDirectoryChange" : Gadgets()\Flags()\value = #PB_Explorer_NoDirectoryChange
-Gadgets()\Flags()\ivalue = 1 << 10
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoDriveRequester" : Gadgets()\Flags()\value = #PB_Explorer_NoDriveRequester
-Gadgets()\Flags()\ivalue = 1 << 11
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoSort" : Gadgets()\Flags()\value = #PB_Explorer_NoSort
-Gadgets()\Flags()\ivalue = 1 << 12
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AutoSort" : Gadgets()\Flags()\value = #PB_Explorer_AutoSort
 Gadgets()\Flags()\ivalue = 1 << 13
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoFolders" : Gadgets()\Flags()\value = #PB_Explorer_NoFolders
+Gadgets()\Flags()\ivalue = 1 << 14
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoParentFolder" : Gadgets()\Flags()\value = #PB_Explorer_NoParentFolder
+Gadgets()\Flags()\ivalue = 1 << 17
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoDirectoryChange" : Gadgets()\Flags()\value = #PB_Explorer_NoDirectoryChange
+Gadgets()\Flags()\ivalue = 1 << 11
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoDriveRequester" : Gadgets()\Flags()\value = #PB_Explorer_NoDriveRequester
+Gadgets()\Flags()\ivalue = 1 << 12
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoSort" : Gadgets()\Flags()\value = #PB_Explorer_NoSort
+Gadgets()\Flags()\ivalue = 1 << 18
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AutoSort" : Gadgets()\Flags()\value = #PB_Explorer_AutoSort
+Gadgets()\Flags()\ivalue = 1 << 2
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
@@ -684,21 +730,21 @@ Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ExplorerTree
 Gadgets()\name = "Explorer Tree"
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_BorderLess" : Gadgets()\Flags()\value = #PB_Explorer_BorderLess
-Gadgets()\Flags()\ivalue = 1 << 0
+Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AlwaysShowSelection" : Gadgets()\Flags()\value = #PB_Explorer_AlwaysShowSelection
 Gadgets()\Flags()\ivalue = 1 << 1
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoLines" : Gadgets()\Flags()\value = #PB_Explorer_NoLines
-Gadgets()\Flags()\ivalue = 1 << 2
+Gadgets()\Flags()\ivalue = 1 << 15
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoButtons" : Gadgets()\Flags()\value = #PB_Explorer_NoButtons
-Gadgets()\Flags()\ivalue = 1 << 3
+Gadgets()\Flags()\ivalue = 1 << 10
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoFiles" : Gadgets()\Flags()\value = #PB_Explorer_NoFiles
-Gadgets()\Flags()\ivalue = 1 << 4
+Gadgets()\Flags()\ivalue = 1 << 13
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoDriveRequester" : Gadgets()\Flags()\value = #PB_Explorer_NoDriveRequester
-Gadgets()\Flags()\ivalue = 1 << 5
+Gadgets()\Flags()\ivalue = 1 << 12
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoMyDocuments" : Gadgets()\Flags()\value = #PB_Explorer_NoMyDocuments
-Gadgets()\Flags()\ivalue = 1 << 6
+Gadgets()\Flags()\ivalue = 1 << 16
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AutoSort" : Gadgets()\Flags()\value = #PB_Explorer_AutoSort
-Gadgets()\Flags()\ivalue = 1 << 7
+Gadgets()\Flags()\ivalue = 1 << 2
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
@@ -706,6 +752,7 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightD
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_DragStart"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
 
+;- F
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Frame3D
 Gadgets()\node = 2
 Gadgets()\icon = #IMAGE_FormIcons_Frame3D
@@ -718,12 +765,16 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Frame_Flat" : Gadg
 Gadgets()\Flags()\ivalue = 1 << 2
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Frame_Container" : Gadgets()\Flags()\value = #PB_Frame_Container
 Gadgets()\Flags()\ivalue = 1 << 3
+
+;- H
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_HyperLink
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_HyperLink
 Gadgets()\name = "Hyperlink"
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_HyperLink_Underline" : Gadgets()\Flags()\value = #PB_HyperLink_Underline
 Gadgets()\Flags()\ivalue = 1 << 0
+
+;- I
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Img
 Gadgets()\node = 1
 Gadgets()\name = "Image"
@@ -735,10 +786,13 @@ AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightC
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightDoubleClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_DragStart"
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_IP
 Gadgets()\node = 1
 Gadgets()\name = "IP"
 Gadgets()\icon = #IMAGE_FormIcons_IPAddress
+
+;- L
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ListIcon
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_ListIcon
@@ -785,7 +839,7 @@ Gadgets()\Flags()\ivalue = 1 << 1
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftDoubleClick"
 
-
+;- O
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_OpenGL
 Gadgets()\node = 1
 Gadgets()\icon = #IMAGE_FormIcons_Container
@@ -793,15 +847,17 @@ Gadgets()\name = "OpenGL"
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_OpenGL_Keyboard" : Gadgets()\Flags()\value = #PB_OpenGL_Keyboard
 Gadgets()\Flags()\ivalue = 1 << 0
 
-
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Option
 Gadgets()\node = 1
 Gadgets()\name = "Option"
 Gadgets()\icon = #IMAGE_FormIcons_Option
+
+;- P
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Panel
 Gadgets()\node = 2
 Gadgets()\name = "Panel"
 Gadgets()\icon = #IMAGE_FormIcons_Panel
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ProgressBar
 Gadgets()\node = 1
 Gadgets()\name = "ProgressBar"
@@ -811,13 +867,11 @@ Gadgets()\Flags()\ivalue = 1 << 0
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_ProgressBar_Vertical" : Gadgets()\Flags()\value = #PB_ProgressBar_Vertical
 Gadgets()\Flags()\ivalue = 1 << 1
 
-
+;- S
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Scintilla
 Gadgets()\node = 1
 Gadgets()\name = "Scintilla"
 Gadgets()\icon = #IMAGE_FormIcons_Editor
-
-
 
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_ScrollArea
 Gadgets()\node = 2
@@ -833,12 +887,14 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_ScrollArea_BorderL
 Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_ScrollArea_Center" : Gadgets()\Flags()\value = #PB_ScrollArea_Center
 Gadgets()\Flags()\ivalue = 1 << 4
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Scrollbar
 Gadgets()\node = 1
 Gadgets()\name = "ScrollBar"
 Gadgets()\icon = #IMAGE_FormIcons_ScrollBar
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_ScrollBar_Vertical" : Gadgets()\Flags()\value = #PB_ScrollBar_Vertical
 Gadgets()\Flags()\ivalue = 1 << 0
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Spin
 Gadgets()\node = 1
 Gadgets()\name = "Spin"
@@ -881,6 +937,8 @@ Gadgets()\Flags()\ivalue = 1 << 5
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LostFocus"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Focus"
+
+;- T
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Text
 Gadgets()\node = 1
 Gadgets()\name = "Text"
@@ -891,6 +949,7 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Text_Right" : Gadg
 Gadgets()\Flags()\ivalue = 1 << 1
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Text_Border" : Gadgets()\Flags()\value = #PB_Text_Border
 Gadgets()\Flags()\ivalue = 1 << 2
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Trackbar
 Gadgets()\node = 1
 Gadgets()\name = "TrackBar"
@@ -899,6 +958,7 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_TrackBar_Ticks" : 
 Gadgets()\Flags()\ivalue = 1 << 0
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_TrackBar_Vertical" : Gadgets()\Flags()\value = #PB_TrackBar_Vertical
 Gadgets()\Flags()\ivalue = 1 << 1
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_TreeGadget
 Gadgets()\node = 1
 Gadgets()\name = "Tree"
@@ -914,6 +974,7 @@ Gadgets()\Flags()\ivalue = 1 << 3
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Tree_ThreeState" : Gadgets()\Flags()\value = #PB_Tree_ThreeState
 Gadgets()\Flags()\ivalue = 1 << 4
 
+;- W
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Web
 Gadgets()\node = 1
 Gadgets()\name = "Web"
@@ -928,10 +989,12 @@ Gadgets()\icon = #IMAGE_FormIcons_Web
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_WebView_Debug" : Gadgets()\Flags()\value = #PB_WebView_Debug
 Gadgets()\Flags()\ivalue = 1 << 0
 
+;- Other features
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Toolbar
 Gadgets()\node = 3
 Gadgets()\name = "ToolBar"
 Gadgets()\icon = #IMAGE_FormIcons_ToolBar
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_StatusBar
 Gadgets()\node = 3
 Gadgets()\name = "StatusBar"
@@ -944,11 +1007,13 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_StatusBar_Center" 
 Gadgets()\Flags()\ivalue = 1 << 2
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_StatusBar_Right" : Gadgets()\Flags()\value = #PB_StatusBar_Right
 Gadgets()\Flags()\ivalue = 1 << 3
+
 AddElement(Gadgets()) : Gadgets()\type = #Form_Type_Menu
 Gadgets()\node = 3
 Gadgets()\name = "Menu"
 Gadgets()\icon = #IMAGE_FormIcons_Menu
 
+;}
 
 Procedure FlagValue(flag.s)
   ForEach Gadgets()
@@ -965,11 +1030,6 @@ Procedure FlagValue(flag.s)
     EndIf
   Next
 EndProcedure
-
-
-;}
-
-
 
 Procedure InitVars()
   Select FormSkin
@@ -1058,6 +1118,7 @@ Procedure InitVars()
   LoadFont(#Form_FontMenu,P_FontMenu,P_FontMenuSize)
 EndProcedure
 
+;- Include images
 DataSection ;{
   submenu: : IncludeBinary "img/vd_submenu.png"
   delete: : IncludeBinary "img/vd_delete.png"
