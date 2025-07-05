@@ -2540,190 +2540,187 @@ Procedure DispatchEvent(EventID)
     ;
     If EventID = #PB_Event_Menu And EventMenu() = #MENU_Exit
       QuitIDE = MainWindowEvents(EventID)
-    Else
-    CompilerEndIf
-    
-    ;   If EventID <> 4 And EventID <> -1
-    ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
-    ;   EndIf
-    
-    ; Form events - this is not in the main window event procedure as it handles the grid events as well
-    ; it also handles the specific menu events related to form popups
-    FD_Event(EventID, EventGadget(), EventType())
-    
-    Select EventWindow()
-        
-      Case #WINDOW_Main
-        QuitIDE = MainWindowEvents(EventID)
-        
-      Case #WINDOW_About
-        AboutWindowEvents(EventID)
-        
-      Case #WINDOW_Preferences
-        PreferencesWindowEvents(EventID)
-        
-      Case #WINDOW_FileViewer
-        FileViewerWindowEvents(EventID)
-        
-      Case #WINDOW_Goto
-        GotoWindowEvents(EventID)
-        
-      Case #WINDOW_Find
-        FindWindowEvents(EventID)
-        
-      Case #WINDOW_StructureViewer
-        StructureViewerWindowEvents(EventID)
-        
-      Case #WINDOW_Grep
-        GrepWindowEvents(EventID)
-        
-      Case #WINDOW_GrepOutput
-        GrepOutputWindowEvents(EventID)
-        
-      Case #WINDOW_Option
-        OptionWindowEvents(EventID)
-        
-        CompilerIf #SpiderBasic
-        Case #WINDOW_CreateApp
-          CreateAppWindowEvents(EventID)
-        CompilerEndIf
-        
-      Case #WINDOW_AddTools
-        AddTools_WindowEvents(EventID)
-        
-      Case #WINDOW_EditTools
-        AddTools_EditWindowEvents(EventID)
-        
-      Case #WINDOW_AutoComplete
-        AutoCompleteWindowEvents(EventID)
-        
-      Case #WINDOW_Template
-        TemplateWindowEvents(EventID)
-        
-      Case #WINDOW_MacroError
-        MacroErrorWindowEvents(EventID)
-        
-      Case #WINDOW_Warnings
-        WarningWindowEvents(EventID)
-        
-      Case #WINDOW_Compiler
-        CompilerWindowEvents(EventID)
-        
-      Case #WINDOW_ProjectOptions
-        ProjectOptionsEvents(EventID)
-        
-      Case #WINDOW_Build
-        BuildWindowEvents(EventID)
-        
-      Case #WINDOW_Diff
-        DiffWindowEvents(EventID)
-        
-      Case #WINDOW_DiffDialog
-        DiffDialogWindowEvents(EventID)
-        
-      Case #WINDOW_FileMonitor
-        FileMonitorWindowEvents(EventID)
-        
-      Case #Form_ImgList
-        FormImgListWindowEvents(EventID)
-        
-      Case #Form_Columns
-        FormColumnsWindowEvents(EventID)
-        
-      Case #Form_Items
-        FormItemsWindowEvents(EventID)
-        
-      Case #WINDOW_Form_Parent
-        FD_EventSelectParent(EventID)
-        
-      Case #WINDOW_EditHistory
-        EditHistoryWindowEvent(EventID)
-        
-      Case #WINDOW_Updates
-        UpdateWindowEvents(EventID)
-        
-        CompilerIf #CompileLinux | #CompileMac
-          
-        Case #WINDOW_Help
-          HelpWindowEvents(EventID)
-          
-        CompilerEndIf
-        
-        CompilerIf #DEBUG
-          
-        Case #WINDOW_Debugging
-          DebuggingWindowEvents(EventID)
-          
-        CompilerEndIf
-        
-      Default
-        ; check debugger events
-        ;
-        If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
-          If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
-            
-            ; check ToolsPanel tools in separate windows
-            ;
-            ForEach AvailablePanelTools()
-              If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
-                If EventID = #PB_Event_CloseWindow
-                  
-                  If AvailablePanelTools()\NeedDestroyFunction
-                    Tool.ToolsPanelInterface = @AvailablePanelTools()
-                    Tool\DestroyFunction()
-                  EndIf
-                  
-                  If MemorizeWindow
-                    Window = AvailablePanelTools()\ToolWindowID
-                    If IsWindowMinimized(Window) = 0
-                      AvailablePanelTools()\ToolWindowX      = WindowX(Window)
-                      AvailablePanelTools()\ToolWindowY      = WindowY(Window)
-                      AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
-                      AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
-                    EndIf
-                  EndIf
-                  CloseWindow(AvailablePanelTools()\ToolWindowID)
-                  AvailablePanelTools()\ToolWindowID = -1
-                  AvailablePanelTools()\IsSeparateWindow = 0
-                  
-                ElseIf EventID = #PB_Event_Gadget
-                  If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
-                    AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
-                    SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
-                  Else
-                    Tool.ToolsPanelInterface = @AvailablePanelTools()
-                    Tool\EventHandler(EventGadget())
-                  EndIf
-                  
-                  ; menu events in a separate toolspanel item are treated as main window events,
-                  ; same as when they are integrated in the sidepanel
-                  ; same for drag & drop events
-                ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
-                  MainWindowEvents(EventID)
-                  
-                ElseIf EventID = #PB_Event_SizeWindow
-                  ResizeTools()
-                  
-                ElseIf EventID = #PB_Event_GadgetDrop
-                  ; special case for the Templates D+D
-                  If EventGadget() = #GADGET_Template_Tree
-                    Template_DropEvent()
-                  EndIf
-                  
-                EndIf
-                
-                Break
-              EndIf
-            Next AvailablePanelTools()
-            
-          EndIf
-        EndIf
-        
-    EndSelect
-    
-    CompilerIf #CompileMac
+      ProcedureReturn EventID
     EndIf
   CompilerEndIf
+  
+  ;   If EventID <> 4 And EventID <> -1
+  ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
+  ;   EndIf
+  
+  ; Form events - this is not in the main window event procedure as it handles the grid events as well
+  ; it also handles the specific menu events related to form popups
+  FD_Event(EventID, EventGadget(), EventType())
+  
+  Select EventWindow()
+      
+    Case #WINDOW_Main
+      QuitIDE = MainWindowEvents(EventID)
+      
+    Case #WINDOW_About
+      AboutWindowEvents(EventID)
+      
+    Case #WINDOW_Preferences
+      PreferencesWindowEvents(EventID)
+      
+    Case #WINDOW_FileViewer
+      FileViewerWindowEvents(EventID)
+      
+    Case #WINDOW_Goto
+      GotoWindowEvents(EventID)
+      
+    Case #WINDOW_Find
+      FindWindowEvents(EventID)
+      
+    Case #WINDOW_StructureViewer
+      StructureViewerWindowEvents(EventID)
+      
+    Case #WINDOW_Grep
+      GrepWindowEvents(EventID)
+      
+    Case #WINDOW_GrepOutput
+      GrepOutputWindowEvents(EventID)
+      
+    Case #WINDOW_Option
+      OptionWindowEvents(EventID)
+      
+      CompilerIf #SpiderBasic
+      Case #WINDOW_CreateApp
+        CreateAppWindowEvents(EventID)
+      CompilerEndIf
+      
+    Case #WINDOW_AddTools
+      AddTools_WindowEvents(EventID)
+      
+    Case #WINDOW_EditTools
+      AddTools_EditWindowEvents(EventID)
+      
+    Case #WINDOW_AutoComplete
+      AutoCompleteWindowEvents(EventID)
+      
+    Case #WINDOW_Template
+      TemplateWindowEvents(EventID)
+      
+    Case #WINDOW_MacroError
+      MacroErrorWindowEvents(EventID)
+      
+    Case #WINDOW_Warnings
+      WarningWindowEvents(EventID)
+      
+    Case #WINDOW_Compiler
+      CompilerWindowEvents(EventID)
+      
+    Case #WINDOW_ProjectOptions
+      ProjectOptionsEvents(EventID)
+      
+    Case #WINDOW_Build
+      BuildWindowEvents(EventID)
+      
+    Case #WINDOW_Diff
+      DiffWindowEvents(EventID)
+      
+    Case #WINDOW_DiffDialog
+      DiffDialogWindowEvents(EventID)
+      
+    Case #WINDOW_FileMonitor
+      FileMonitorWindowEvents(EventID)
+      
+    Case #Form_ImgList
+      FormImgListWindowEvents(EventID)
+      
+    Case #Form_Columns
+      FormColumnsWindowEvents(EventID)
+      
+    Case #Form_Items
+      FormItemsWindowEvents(EventID)
+      
+    Case #WINDOW_Form_Parent
+      FD_EventSelectParent(EventID)
+      
+    Case #WINDOW_EditHistory
+      EditHistoryWindowEvent(EventID)
+      
+    Case #WINDOW_Updates
+      UpdateWindowEvents(EventID)
+      
+      CompilerIf #CompileLinux | #CompileMac
+        
+      Case #WINDOW_Help
+        HelpWindowEvents(EventID)
+        
+      CompilerEndIf
+      
+      CompilerIf #DEBUG
+        
+      Case #WINDOW_Debugging
+        DebuggingWindowEvents(EventID)
+        
+      CompilerEndIf
+      
+    Default
+      ; check debugger events
+      ;
+      If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
+        If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
+          
+          ; check ToolsPanel tools in separate windows
+          ;
+          ForEach AvailablePanelTools()
+            If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
+              If EventID = #PB_Event_CloseWindow
+                
+                If AvailablePanelTools()\NeedDestroyFunction
+                  Tool.ToolsPanelInterface = @AvailablePanelTools()
+                  Tool\DestroyFunction()
+                EndIf
+                
+                If MemorizeWindow
+                  Window = AvailablePanelTools()\ToolWindowID
+                  If IsWindowMinimized(Window) = 0
+                    AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+                    AvailablePanelTools()\ToolWindowY      = WindowY(Window)
+                    AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
+                    AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
+                  EndIf
+                EndIf
+                CloseWindow(AvailablePanelTools()\ToolWindowID)
+                AvailablePanelTools()\ToolWindowID = -1
+                AvailablePanelTools()\IsSeparateWindow = 0
+                
+              ElseIf EventID = #PB_Event_Gadget
+                If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
+                  AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
+                  SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
+                Else
+                  Tool.ToolsPanelInterface = @AvailablePanelTools()
+                  Tool\EventHandler(EventGadget())
+                EndIf
+                
+                ; menu events in a separate toolspanel item are treated as main window events,
+                ; same as when they are integrated in the sidepanel
+                ; same for drag & drop events
+              ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
+                MainWindowEvents(EventID)
+                
+              ElseIf EventID = #PB_Event_SizeWindow
+                ResizeTools()
+                
+              ElseIf EventID = #PB_Event_GadgetDrop
+                ; special case for the Templates D+D
+                If EventGadget() = #GADGET_Template_Tree
+                  Template_DropEvent()
+                EndIf
+                
+              EndIf
+              
+              Break
+            EndIf
+          Next AvailablePanelTools()
+          
+        EndIf
+      EndIf
+      
+  EndSelect
   
   ProcedureReturn EventID ; return the eventid still, to be able to check for 0 events (empty queue)
 EndProcedure
