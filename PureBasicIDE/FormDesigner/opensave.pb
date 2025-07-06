@@ -651,6 +651,7 @@ Procedure FD_Open(file.s,update = 0)
     ClearList(FormWindows()\FormMenus())
     ClearList(FormWindows()\FormStatusbars())
     ClearList(FormWindows()\FormToolbars())
+    ClearList(FormWindows()\FormCustomFlags())
     
     count = GetLinesCount(*ActiveSource)
     
@@ -1218,11 +1219,10 @@ Procedure FD_Open(file.s,update = 0)
           flags.s = Trim(Mid(line,start,startnext-start))
           winflag = 0
           numflags = CountString(flags,"|")
-          addCustomFlag.b = #False
+          addCustomFlag = #False
 
           If numflags = 0
             thisflags.s = Trim(flags)
-            
             ForEach Gadgets()
               If Gadgets()\type = #Form_Type_Window
                 flagsDone = #False
@@ -1237,15 +1237,16 @@ Procedure FD_Open(file.s,update = 0)
                   ;add custom flags to an extra list.
                   ;custom flags have no effect on the display of the form in the Form Designer
                   addCustomFlag = #True
-                  ForEach Gadgets()\customFlags()
-                    If Gadgets()\customFlags()\name = thisflags
+                  ForEach FormWindows()\FormCustomFlags()
+                    If FormWindows()\FormCustomFlags() = thisflags
                       addCustomFlag = #False
                       Break
                     EndIf
                   Next
                   If addCustomFlag
-                    AddElement(Gadgets()\customFlags())
-                    Gadgets()\customFlags()\name = thisflags
+                    LastElement(FormWindows()\FormCustomFlags())
+                    AddElement(FormWindows()\FormCustomFlags())
+                    FormWindows()\FormCustomFlags() = thisflags
                   EndIf
                 EndIf
               EndIf
@@ -1271,15 +1272,16 @@ Procedure FD_Open(file.s,update = 0)
                     ;add custom flags to an extra list.
                     ;custom flags have no effect on the display of the form in the Form Designer
                     addCustomFlag = #True
-                    ForEach Gadgets()\customFlags()
-                      If Gadgets()\customFlags()\name = thisflags
+                    ForEach FormWindows()\FormCustomFlags()
+                      If FormWindows()\FormCustomFlags() = thisflags
                         addCustomFlag = #False
                         Break
                       EndIf
                     Next
                     If addCustomFlag
-                      AddElement(Gadgets()\customFlags())
-                      Gadgets()\customFlags()\name = thisflags
+                      LastElement(FormWindows()\FormCustomFlags())
+                      AddElement(FormWindows()\FormCustomFlags())
+                      FormWindows()\FormCustomFlags() = thisflags
                     EndIf
                   EndIf
                 EndIf

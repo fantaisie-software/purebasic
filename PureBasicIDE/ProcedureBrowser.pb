@@ -437,7 +437,7 @@ Procedure ProcedureBrowser_Highlight(ListIndex.i, ListType.i, EditorLine.i)
         EndWith
         Counter + 1
       Next
-      
+      PopListPosition(ProcedureList())
     Else
       Index = ListIndex
       Type = ListType
@@ -467,7 +467,6 @@ Procedure ProcedureBrowser_Highlight(ListIndex.i, ListType.i, EditorLine.i)
       ProcedureBrowser_DisableColorButtons(-1)
     EndIf
     
-    PopListPosition(ProcedureList())
   EndIf
   
 EndProcedure

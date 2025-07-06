@@ -481,10 +481,10 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
               AddElement(ContainerLevel())
               ContainerLevel() = ObjList()\level
             ElseIf FormWindows()\FormGadgets()\type = #Form_Type_Frame3D
-              if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+              If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
                 AddElement(ContainerLevel())
                 ContainerLevel() = ObjList()\level
-              Endif
+              EndIf
             EndIf
             
             
@@ -971,11 +971,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 flags + Gadgets()\Flags()\name
               EndIf
             Next
-            ForEach Gadgets()\customFlags()
+            ForEach FormWindows()\FormCustomFlags()
                 If flags <> ""
                   flags + " | "
                 EndIf
-                flags + Gadgets()\customFlags()\name
+                flags + FormWindows()\FormCustomFlags()
             Next
           EndIf
         Next
