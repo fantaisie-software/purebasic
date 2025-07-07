@@ -730,14 +730,14 @@ Procedure FD_SelectWindow(window)
           
           i+1
         Next
-        if ListSize(Gadgets()\Flags()) <= 0 : i + 1 : Endif
+        If ListSize(Gadgets()\Flags()) <= 0 : i + 1 : EndIf
         custFlags.s = ""
-        ForEach Gadgets()\customFlags()
-          if custFlags = ""
-            custFlags = Gadgets()\customFlags()\name
+        ForEach FormWindows()\FormCustomFlags()
+          If custFlags = ""
+            custFlags = FormWindows()\FormCustomFlags()
           Else
-            custFlags + "|" + Gadgets()\customFlags()\name
-          Endif  
+            custFlags + " | " + FormWindows()\FormCustomFlags()
+          EndIf  
         Next
         PropGridAddItem(propgrid, i, Language("Form", "customFlags"), custFlags)
         i + 1
@@ -6431,7 +6431,7 @@ Procedure FD_InitSelectParent(parent_gadget)
           
           i + 1
         Case #Form_Type_Frame3D
-          if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+          If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
             AddGadgetItem(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\variable)
             SetGadgetItemData(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\itemnumber)
             
@@ -6440,7 +6440,7 @@ Procedure FD_InitSelectParent(parent_gadget)
             EndIf
             
             i + 1
-          endif
+          EndIf
       EndSelect
     EndIf
   Next
@@ -6861,18 +6861,18 @@ Procedure FD_ProcessEventGridWindow(col,row)
           Next
           custFlags = Trim(grid_GetCellString(propgrid, 2, i))
           numflags = CountString(custFlags,"|")
-          ClearList(Gadgets()\customFlags())
-          if custFlags
+          ClearList(FormWindows()\FormCustomFlags())
+          If custFlags
             For k = 0 To numflags
               If numflags = 0
                 thisflags.s = custFlags
               Else
                 thisflags.s = Trim(StringField(custFlags,k+1,"|"))
               EndIf
-              AddElement(Gadgets()\customFlags())
-              Gadgets()\customFlags()\name = thisflags
+              AddElement(FormWindows()\FormCustomFlags())
+              FormWindows()\FormCustomFlags() = thisflags
             Next k
-          endif
+          EndIf
         EndIf
       Next
       FormWindows()\flags = flag
@@ -8325,10 +8325,10 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                     parent = FormWindows()\FormGadgets()\itemnumber
                     Break
                   Case #Form_Type_Frame3D
-                    if FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+                    If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
                       parent = FormWindows()\FormGadgets()\itemnumber
                       Break
-                    Endif
+                    EndIf
                 EndSelect
               EndIf
             Until PreviousElement(FormWindows()\FormGadgets()) = 0

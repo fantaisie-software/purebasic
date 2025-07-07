@@ -757,8 +757,12 @@ Procedure ShutdownIDE()
     ToolsPanelWidth = ToolsPanelWidth_Hidden
   EndIf
   
-  ; Close main window
-  CloseWindow(#WINDOW_Main)
+  ; Close main window, macOS hide window (Fix IDE Crash)
+  CompilerIf #CompileMac
+    HideWindow(#WINDOW_Main, #True)
+  CompilerElse
+    CloseWindow(#WINDOW_Main)
+  CompilerEndIf
   
   ; Fix IDE crash on macOS Big Sur
   CompilerIf #CompileMac

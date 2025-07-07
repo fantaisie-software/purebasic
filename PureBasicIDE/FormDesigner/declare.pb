@@ -215,6 +215,8 @@ Structure FormWindow
   event_file.s
   event_proc.s
   
+  List FormCustomFlags.s()
+  
   List FormImg.FormImg()
   List FormGadgets.FormGadget()
   List FormMenus.FormMenu()
@@ -456,7 +458,6 @@ Structure Gadgets
   icon.i
   node.b
   List Flags.Flags()
-  List customFlags.Flags()
   List Events.EventType()
 EndStructure
 

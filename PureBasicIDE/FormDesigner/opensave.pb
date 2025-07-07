@@ -651,6 +651,7 @@ Procedure FD_Open(file.s,update = 0)
     ClearList(FormWindows()\FormMenus())
     ClearList(FormWindows()\FormStatusbars())
     ClearList(FormWindows()\FormToolbars())
+    ClearList(FormWindows()\FormCustomFlags())
     
     count = GetLinesCount(*ActiveSource)
     
@@ -1218,40 +1219,44 @@ Procedure FD_Open(file.s,update = 0)
           flags.s = Trim(Mid(line,start,startnext-start))
           winflag = 0
           numflags = CountString(flags,"|")
-          addCustomFlag.b = #False
+          addCustomFlag = #False
 
           If numflags = 0
             thisflags.s = Trim(flags)
-            
             ForEach Gadgets()
               If Gadgets()\type = #Form_Type_Window
+                flagsDone = #False
                 ForEach Gadgets()\Flags()
                   If thisflags = Gadgets()\Flags()\name
                     winflag = Gadgets()\Flags()\ivalue
-                  Elseif thisflags and thisflags <> "0"
-                    ;add custom flags to an extra list.
-                    ;custom flags have no effect on the display of the form in the Form Designer
-                    addCustomFlag = #True
-                    ForEach Gadgets()\customFlags()
-                      if Gadgets()\customFlags()\name = thisflags
-                        addCustomFlag = #False
-                        break
-                      Endif
-                    Next
-                    if addCustomFlag
-                      AddElement(Gadgets()\customFlags())
-                      Gadgets()\customFlags()\name = thisflags
-                    Endif
+                    flagsDone = #True
+                    Break
                   EndIf
                 Next
-              endif
+                If Not flagsDone And thisflags And thisflags <> "0"
+                  ;add custom flags to an extra list.
+                  ;custom flags have no effect on the display of the form in the Form Designer
+                  addCustomFlag = #True
+                  ForEach FormWindows()\FormCustomFlags()
+                    If FormWindows()\FormCustomFlags() = thisflags
+                      addCustomFlag = #False
+                      Break
+                    EndIf
+                  Next
+                  If addCustomFlag
+                    LastElement(FormWindows()\FormCustomFlags())
+                    AddElement(FormWindows()\FormCustomFlags())
+                    FormWindows()\FormCustomFlags() = thisflags
+                  EndIf
+                EndIf
+              EndIf
             Next
           Else
             For i = 0 To numflags
               thisflags.s = Trim(StringField(flags,i+1,"|"))
-              
               ForEach Gadgets()
                 If Gadgets()\type = #Form_Type_Window
+                  flagsDone = #False
                   ForEach Gadgets()\Flags()
                     If thisflags = Gadgets()\Flags()\name
                       If winflag = 0
@@ -1259,23 +1264,27 @@ Procedure FD_Open(file.s,update = 0)
                       Else
                         winflag | Gadgets()\Flags()\ivalue
                       EndIf
-                    Elseif thisflags
-                      ;add custom flags to an extra list.
-                      ;custom flags have no effect on the display of the form in the Form Designer
-                      addCustomFlag = #True
-                      ForEach Gadgets()\customFlags()
-                        if Gadgets()\customFlags()\name = thisflags
-                          addCustomFlag = #False
-                          break
-                        Endif
-                      Next
-                      if addCustomFlag
-                        AddElement(Gadgets()\customFlags())
-                        Gadgets()\customFlags()\name = thisflags
-                      Endif
+                      flagsDone = #True
+                      Break
                     EndIf
                   Next
-                endif
+                  If Not flagsDone And thisflags
+                    ;add custom flags to an extra list.
+                    ;custom flags have no effect on the display of the form in the Form Designer
+                    addCustomFlag = #True
+                    ForEach FormWindows()\FormCustomFlags()
+                      If FormWindows()\FormCustomFlags() = thisflags
+                        addCustomFlag = #False
+                        Break
+                      EndIf
+                    Next
+                    If addCustomFlag
+                      LastElement(FormWindows()\FormCustomFlags())
+                      AddElement(FormWindows()\FormCustomFlags())
+                      FormWindows()\FormCustomFlags() = thisflags
+                    EndIf
+                  EndIf
+                EndIf
               Next
             Next
           EndIf
@@ -1291,7 +1300,7 @@ Procedure FD_Open(file.s,update = 0)
             If FindString(parentwin, "WindowID(")
               parentwin = ReplaceString(parentwin, "WindowID(", "")
               parentwin = ReplaceString(parentwin, ")", "")
-            Elseif parentwin
+            ElseIf parentwin
               parentwin = "=" + parentwin
             EndIf
             FormWindows()\parent = parentwin
@@ -1456,7 +1465,7 @@ Procedure FD_Open(file.s,update = 0)
         If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
           LastElement(GadgetList())
           AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
-        Endif
+        EndIf
         Continue
       EndIf ;}
       If procname = "IPAddressGadget" ;{
