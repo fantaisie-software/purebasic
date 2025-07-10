@@ -4,8 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
-
 Global form_gs_windowmousedx.i, form_gs_windowmousedy.i
 Procedure.i FD_NewWindowMouseX(windownr.i)
   Protected wmx.i, dmx.i
@@ -174,7 +172,7 @@ Procedure FD_CheckVariable(string.s)
      FindString(string, "\") Or FindString(string, "|") Or FindString(string, "?") Or FindString(string, "!") Or
      FindString(string, "@") Or FindString(string, "£") Or FindString(string, "$") Or FindString(string, "=")
     
-    MessageRequester(appname, Language("Form","WrongVarName"))
+    MessageRequester(#ProductName$, Language("Form","WrongVarName"))
     ProcedureReturn #False
     
   Else
@@ -3052,7 +3050,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       
       ProcedureReturn #True ; Drawing succeeded
     Else
-      MessageRequester(appname, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
+      MessageRequester(#ProductName$, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
     EndIf
   EndIf
 EndProcedure
@@ -6720,7 +6718,7 @@ Procedure FD_ProcessEventGridGadget(col,row)
         ; if it does not => add the procedure
         ;If FormWindows()\event_file = ""
         ;  grid_SetCellString(propgrid, 2,row,"")
-        ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+        ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
         ;Else
         FormWindows()\FormGadgets()\event_proc = grid_GetCellString(propgrid, 2, i)
         ;EndIf
@@ -6836,7 +6834,7 @@ Procedure FD_ProcessEventGridWindow(col,row)
       ; if it does not => add the procedure
       ;If FormWindows()\event_file = ""
       ;  grid_SetCellString(propgrid, 2,row,"")
-      ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+      ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
       ;Else
       FormWindows()\event_proc = grid_GetCellString(propgrid, 2, row)
       ;EndIf
@@ -6898,7 +6896,7 @@ Procedure FD_ProcessEventGridMenu(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormMenus()\event = grid_GetCellString(propgrid, 2,6)
       
@@ -6940,7 +6938,7 @@ Procedure FD_ProcessEventGridToolbar(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormToolbars()\event = grid_GetCellString(propgrid, 2, 6)
       
@@ -7340,7 +7338,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If items_gadget
         FD_InitItems()
       Else
-        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
+        MessageRequester(#ProductName$, Language("Form", "NoGadgetSelected"))
       EndIf
       
     Case #Menu_Columns
@@ -7356,7 +7354,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If column_gadget
         FD_InitColumns()
       Else
-        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
+        MessageRequester(#ProductName$, Language("Form", "NoGadgetSelected"))
       EndIf
       
       
@@ -7752,7 +7750,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                         FormWindows()\FormGadgets()\image = image
                         grid_SetCellString(propgrid, 1, 18, file)
                         
-                        If MessageRequester(appname,Language("Form", "ResizeGadgetImg"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                        If MessageRequester(#ProductName$,Language("Form", "ResizeGadgetImg"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                           tempimg = LoadImage(#PB_Any,file)
                           If tempimg
                             FormWindows()\FormGadgets()\x2 = FormWindows()\FormGadgets()\x1 + ImageWidth(tempimg)
@@ -7912,7 +7910,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                     EndIf
                     
                   Else
-                    MessageRequester(appname,Language("Form", "SaveRequiredWarning"))
+                    MessageRequester(#ProductName$,Language("Form", "SaveRequiredWarning"))
                   EndIf
                   
               EndSelect
@@ -8020,7 +8018,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   EndIf
                   
                 Case 4 ; delete
-                  If MessageRequester(appname,Language("Form", "DeleteItemConfirm"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                  If MessageRequester(#ProductName$,Language("Form", "DeleteItemConfirm"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                     ; delete gadget in the item gadgetlist
                     ForEach FormWindows()\FormGadgets()
                       If FormWindows()\FormGadgets()\parent = items_gadget_num And FormWindows()\FormGadgets()\parent_item = row
@@ -8110,7 +8108,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   EndIf
                   
                 Case 4 ; delete
-                  If MessageRequester(appname,Language("Form", "DeleteItemConfirm"), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                  If MessageRequester(#ProductName$,Language("Form", "DeleteItemConfirm"), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                     ; delete item
                     ChangeCurrentElement(FormWindows()\FormGadgets(),column_gadget)
                     FormAddUndoAction(1,FormWindows(),FormWindows()\FormGadgets())
@@ -8513,10 +8511,10 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               FD_UpdateObjList()
               FormChanges(1)
             Else
-              MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
+              MessageRequester(#ProductName$, Language("Form", "MoveGadgetWarning"))
             EndIf
           Else
-            MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
+            MessageRequester(#ProductName$, Language("Form", "MoveGadgetWarning"))
           EndIf
           
         EndIf

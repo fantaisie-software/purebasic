@@ -53,7 +53,7 @@ Procedure EventSplitterWin(gadget, event_type)
       EndIf
       
       If Not d_gadget1 Or Not d_gadget2 Or d_gadget1 = d_gadget2
-        MessageRequester(appname, Language("Form","SelectError"))
+        MessageRequester(#ProductName$, Language("Form","SelectError"))
       Else
         PushListPosition(FormWindows()\FormGadgets())
         ChangeCurrentElement(FormWindows()\FormGadgets(),d_gadget1)
@@ -66,7 +66,7 @@ Procedure EventSplitterWin(gadget, event_type)
         If d_parent1 = d_parent2 And d_parentitem1 = d_parentitem2
           CloseSplitterWin()
         Else
-          MessageRequester(appname, Language("Form","GadgetListError"))
+          MessageRequester(#ProductName$, Language("Form","GadgetListError"))
         EndIf
       EndIf
     Case #Form_Splitter_Cancel

@@ -619,7 +619,7 @@ Procedure FD_Open(file.s,update = 0)
     PopListPosition(FormWindows())
     
     If found
-      MessageRequester(appname, Language("Form", "FileAlreadyOpened"))
+      MessageRequester(#ProductName$, Language("Form", "FileAlreadyOpened"))
       ProcedureReturn
     EndIf
     
