@@ -214,35 +214,6 @@ IncludeFile "..\Common.pb"
 #PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
 #PB_Date_Maximum  = 2
 
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_NoMyDocuments       = $00000200
-#PB_Explorer_HiddenFiles         = $00000400
-
-; Flags for ExplorerTreeGadget and ExplorerViewGadget:
-#PB_Explorer_NoFiles             = $00000001
-#PB_Explorer_NoDriveRequester    = $00000010
-#PB_Explorer_AutoSort            = $00000040
-#PB_Explorer_BorderLess          = $00100000
-#PB_Explorer_AlwaysShowSelection = $01000000
-
-; ExplorerList only Flags:
-#PB_Explorer_NoParentFolder      = $00000002
-#PB_Explorer_NoFolders           = $00000004
-#PB_Explorer_NoDirectoryChange   = $00000008
-#PB_Explorer_NoSort              = $00000020
-#PB_Explorer_MultiSelect         = $00200000
-#PB_Explorer_GridLines           = $00400000
-#PB_Explorer_HeaderDragDrop      = $00800000
-#PB_Explorer_FullRowSelect       = $02000000
-
-; ExplorerTree only Flags:
-#PB_Explorer_NoLines             = $04000000
-#PB_Explorer_NoButtons           = $08000000
-
-; ExplorerCombo only Flags:
-#PB_Explorer_DrivesOnly          = $00000080
-#PB_Explorer_Editable            = $00000100
-
 ; Return values for Explorer:
 #PB_Explorer_None                = $0
 #PB_Explorer_File                = $1
@@ -263,15 +234,6 @@ IncludeFile "..\Common.pb"
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
 
-#PB_ListIcon_CheckBoxes     = 1
-#PB_ListIcon_MultiSelect    = 4
-#PB_ListIcon_GridLines      = $10000
-#PB_ListIcon_FullRowSelect  = $40000000
-#PB_ListIcon_HeaderDragDrop = $10000000
-#PB_ListIcon_AlwaysShowSelection = 8
-#PB_ListIcon_ThreeState     = 64 ; LVS_SHAREIMAGELISTS (re-used for this setting)
-
-
 #PB_MDI_BorderLess              = $00000001 ; Flags
 #PB_MDI_AutoSize                = $00000002
 #PB_MDI_NoScrollBars            = $00000004
@@ -285,17 +247,6 @@ IncludeFile "..\Common.pb"
 
 #PB_MDI_Image     = 3 ; Attributes
 #PB_MDI_TileImage = 4
-
-; String flags
-;
-#PB_String_Password  = 32         ; ES_PASSWORD
-#PB_String_ReadOnly  = $800
-#PB_String_Numeric   = $2000
-#PB_String_LowerCase = 16
-#PB_String_UpperCase = 8
-#PB_String_BorderLess = $20000 ; reuse WS_GROUP
-#PB_String_AutoComplete = $10000000 ; reuse WS_VISIBLE
-#PB_String_AutoInsert = $40000000   ; reuse WS_CHILD
 
 #PB_Spin_ReadOnly = 1 ; Flags
 #PB_Spin_Numeric  = 2

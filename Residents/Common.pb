@@ -251,6 +251,7 @@ EndStructure
 #PB_2DDrawing_CustomFilter = 1 << 7
 #PB_2DDrawing_AllChannels  = 1 << 8
 #PB_2DDrawing_NativeText   = 1 << 9
+#PB_2DDrawing_FastText     = 1 << 10
 
 #PB_PixelFormat_8Bits      = 1 << 0
 #PB_PixelFormat_15Bits     = 1 << 1
@@ -389,6 +390,10 @@ CompilerEndIf
 #PB_File_Append      = 1 << 20
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_File_BOM       = 1 << 21
+CompilerEndIf
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
   ; FileSystem library
   ;
@@ -429,9 +434,13 @@ CompilerEndIf
 ; deprecated, just map it to 24bit image depth always
 ; use 24bit for better Windows GDI compatibility
 #PB_Image_DisplayFormat = 24
-#PB_Image_Transparent   = -1 ; CreateImage()
 #PB_Image_OriginalDepth = -2  ; ImageDepth()
 #PB_Image_InternalDepth = -3  ; ImageDepth()
+
+; For CreateImage(), raw RGBA values
+#PB_Image_Transparent = $FFFFFF ; White with 0 alpha (Transparent)
+#PB_Image_TransparentBlack = 0  ; Black with 0 alpha (Transparent)
+
 
 ; JSON
 ;
@@ -528,6 +537,19 @@ EndEnumeration
 #PB_Checkbox_Unchecked = 0
 #PB_Checkbox_Inbetween = -1
 
+; ListIcon flags
+#PB_ListIcon_CheckBoxes     = 1 << 0
+#PB_ListIcon_MultiSelect    = 1 << 1
+#PB_ListIcon_GridLines      = 1 << 2
+#PB_ListIcon_FullRowSelect  = 1 << 3
+#PB_ListIcon_HeaderDragDrop = 1 << 4
+#PB_ListIcon_AlwaysShowSelection = 1 << 5
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ListIcon_ThreeState   = 1 << 6
+  #PB_ListIcon_NoHeaders    = 1 << 7
+CompilerEndIf
+
+
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_DisplayMode  = 2
 CompilerEndIf
@@ -561,7 +583,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_SmallIcon = 1
   #PB_ListIcon_List      = 2
   #PB_ListIcon_Report    = 3
-
+  
   ; keep in sync with the listicon ones
   #PB_Explorer_DisplayMode  = 2
 
@@ -569,6 +591,29 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Explorer_SmallIcon = 1
   #PB_Explorer_List      = 2
   #PB_Explorer_Report    = 3
+  
+  ; Explorer gadgets flags
+  #PB_Explorer_NoMyDocuments       = 1 << 0
+  #PB_Explorer_NoFiles             = 1 << 1  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_NoDriveRequester    = 1 << 2  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_AutoSort            = 1 << 3  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_BorderLess          = 1 << 4  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_AlwaysShowSelection = 1 << 5  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_NoParentFolder      = 1 << 6  ; ExplorerList only
+  #PB_Explorer_NoFolders           = 1 << 7  ; ExplorerList only
+  #PB_Explorer_NoDirectoryChange   = 1 << 8  ; ExplorerList only
+  #PB_Explorer_NoSort              = 1 << 9  ; ExplorerList only
+  #PB_Explorer_MultiSelect         = 1 << 10 ; ExplorerList only
+  #PB_Explorer_GridLines           = 1 << 11 ; ExplorerList only
+  #PB_Explorer_HeaderDragDrop      = 1 << 12 ; ExplorerList only
+  #PB_Explorer_FullRowSelect       = 1 << 13 ; ExplorerList only
+  #PB_Explorer_NoLines             = 1 << 14 ; ExplorerTree only
+  #PB_Explorer_NoButtons           = 1 << 15 ; ExplorerTree only
+  #PB_Explorer_DrivesOnly          = 1 << 16 ; ExplorerCombo only
+  #PB_Explorer_Editable            = 1 << 17 ; ExplorerCombo only
+  #PB_Explorer_HiddenFiles         = 1 << 18
+  #PB_Explorer_NoHeaders           = 1 << 19 ; ListExplorer only
+  
 CompilerEndIf
 
 ; Container Flags
@@ -635,6 +680,15 @@ CompilerEndIf
 #PB_Splitter_SecondMinimumSize = 2
 #PB_Splitter_FirstGadget = 3
 #PB_Splitter_SecondGadget = 4
+
+; String Flags
+#PB_String_Password     = 1 << 0
+#PB_String_ReadOnly     = 1 << 1
+#PB_String_UpperCase    = 1 << 2
+#PB_String_LowerCase    = 1 << 3
+#PB_String_Numeric      = 1 << 4
+#PB_String_BorderLess   = 1 << 5
+#PB_String_PlaceHolder  = 1 << 6
 
 ; TrackBar Flags
 ;
@@ -937,8 +991,9 @@ CompilerEndIf
 
 ; Menu library
 ;
-#PB_Menu_ModernLook  = (1 << 0)
-#PB_Menu_SysTrayLook = (1 << 2)
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Menu_NativeImageSize  = (1 << 3)
+CompilerEndIf
 
 ; Network
 ;

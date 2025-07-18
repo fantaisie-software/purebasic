@@ -145,37 +145,6 @@ IncludeFile "../Common.pb"
 #PB_Date_Maximum  = 2
 #PB_Date_CheckBox = $2 ;DTS_SHOWNONE
 
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_NoMyDocuments       = 1 << 0
-
-; Flags for ExplorerTreeGadget and ExplorerViewGadget:
-#PB_Explorer_NoFiles             = 1 << 1
-#PB_Explorer_NoDriveRequester    = 1 << 2
-#PB_Explorer_AutoSort            = 1 << 3
-#PB_Explorer_BorderLess          = 1 << 4
-#PB_Explorer_AlwaysShowSelection = 1 << 5
-
-; ExplorerList only Flags:
-#PB_Explorer_NoParentFolder      = 1 << 6
-#PB_Explorer_NoFolders           = 1 << 7
-#PB_Explorer_NoDirectoryChange   = 1 << 8
-#PB_Explorer_NoSort              = 1 << 9
-#PB_Explorer_MultiSelect         = 1 << 10
-#PB_Explorer_GridLines           = 1 << 11
-#PB_Explorer_HeaderDragDrop      = 1 << 12
-#PB_Explorer_FullRowSelect       = 1 << 13
-
-; ExplorerTree only Flags:
-#PB_Explorer_NoLines             = 1 << 14
-#PB_Explorer_NoButtons           = 1 << 15
-
-; ExplorerCombo only Flags:
-#PB_Explorer_DrivesOnly          = 1 << 16
-#PB_Explorer_Editable            = 1 << 17
-
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_HiddenFiles         = 1 << 18
-
 ; Return values for Explorer:
 #PB_Explorer_File             = 1
 #PB_Explorer_Directory        = 2
@@ -194,19 +163,6 @@ IncludeFile "../Common.pb"
 
 #PB_Image_Border = 1 << 0
 #PB_Image_Raised = 1 << 1
-
-
-#PB_ListIcon_MultiSelect = 1
-#PB_ListIcon_CheckBoxes = 2
-#PB_ListIcon_GridLines = 4
-#PB_ListIcon_ThreeState = 8
-#PB_ListIcon_HeaderDragDrop = 16
-#PB_ListIcon_AlwaysShowSelection = 0 ; NOT SUPPORTED
-CompilerIf Subsystem("qt")
-  #PB_ListIcon_FullRowSelect = 32
-CompilerElse
-  #PB_ListIcon_FullRowSelect = 0       ; NOT SUPPORTED
-CompilerEndIf
 
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2
@@ -248,13 +204,6 @@ CompilerEndIf
 ;
 #PB_Spin_Minimum = 1
 #PB_Spin_Maximum = 2
-
-#PB_String_BorderLess = $20 ; supported for gtk2
-#PB_String_LowerCase = $8
-#PB_String_Numeric = $10
-#PB_String_Password = $1
-#PB_String_ReadOnly = $2
-#PB_String_UpperCase = $4
 
 #PB_Text_Border = $4
 #PB_Text_Center = $2
