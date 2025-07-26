@@ -121,7 +121,7 @@ Procedure FD_Init()
   CatchImage(#Img_Plus,?plus)
   CreateImage(#Drawing_Img,400,400)
   
-  
+  ; TODO This menu may be unused, follow up. 
   CreatePopupMenu(#Form_Menu0)
   MenuItem(#Menu_Rename,Language("Form", "Rename"))
   MenuItem(#Menu_DeleteFormObj,Language("Form", "Delete"))
@@ -142,7 +142,6 @@ Procedure FD_Init()
   MenuItem(#Menu_AlignTop,Language("Form", "AlignTop"))
   MenuItem(#Menu_AlignWidth,Language("Form", "AlignWidth"))
   MenuItem(#Menu_AlignHeight,Language("Form", "AlignHeight"))
-  
   
   CreatePopupMenu(#Form_Menu16)
   MenuItem(#Menu_DeleteFormObj,Language("Form", "Delete"))
@@ -175,7 +174,6 @@ Procedure FD_Init()
   MenuItem(#Menu_AlignWidth,Language("Form", "AlignWidth"))
   MenuItem(#Menu_AlignHeight,Language("Form", "AlignHeight"))
   
-  
   CreatePopupMenu(#Form_Menu3)
   MenuItem(#Menu_Copy,Language("Form", "Copy"))
   MenuBar()
@@ -193,31 +191,30 @@ Procedure FD_Init()
   MenuItem(#Menu_RemoveEventFile,Language("Form", "Remove"))
   
   CreatePopupMenu(#Form_Menu8)
-  MenuItem(#Menu_ToolbarButton,"Add Button")
-  MenuItem(#Menu_ToolbarToggleButton,"Add Toggle Button")
-  MenuItem(#Menu_ToolbarSeparator,"Add Separator")
+  MenuItem(#Menu_ToolbarButton, Language("Form", "AddButton"))
+  MenuItem(#Menu_ToolbarToggleButton, Language("Form", "AddToggle"))
+  MenuItem(#Menu_ToolbarSeparator, Language("Form", "AddSeparator"))
   
   CreatePopupMenu(#Form_Menu9)
-  MenuItem(#Menu_ToolbarDelete,"Delete Toolbar")
+  MenuItem(#Menu_ToolbarDelete, Language("Form", "DeleteToolbar"))
   
   CreatePopupMenu(#Form_Menu10)
-  MenuItem(#Menu_ToolbarDeleteItem,"Delete Item")
-  
+  MenuItem(#Menu_ToolbarDeleteItem, Language("Form", "DeleteToolbarItem"))
   
   CreatePopupMenu(#Form_Menu11)
-  MenuItem(#Menu_StatusImage,"Add Image")
-  MenuItem(#Menu_StatusLabel,"Add Label")
-  MenuItem(#Menu_StatusProgressBar,"Add ProgressBar")
+  MenuItem(#Menu_StatusImage, Language("Form", "AddImage"))
+  MenuItem(#Menu_StatusLabel, Language("Form", "AddLabel"))
+  MenuItem(#Menu_StatusProgressBar, Language("Form", "AddProgressBar"))
   
   CreatePopupMenu(#Form_Menu12)
-  MenuItem(#Menu_StatusDelete,"Delete StatusBar")
+  MenuItem(#Menu_StatusDelete, Language("Form", "DeleteStatusBar"))
   
   CreatePopupMenu(#Form_Menu13)
-  MenuItem(#Menu_StatusDeleteItem,"Delete Item")
+  MenuItem(#Menu_StatusDeleteItem, Language("Form", "DeleteField"))
   
   CreatePopupMenu(#Form_Menu14)
-  MenuItem(#Menu_Menu_Delete,"Delete Menu")
+  MenuItem(#Menu_Menu_Delete, Language("Form", "DeleteMenu"))
   
   CreatePopupMenu(#Form_Menu15)
-  MenuItem(#Menu_Menu_DeleteItem,"Delete Item")
+  MenuItem(#Menu_Menu_DeleteItem, Language("Form", "DeleteMenuItem"))
 EndProcedure
