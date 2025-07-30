@@ -437,10 +437,13 @@ CompilerEndIf
 #PB_Image_OriginalDepth = -2  ; ImageDepth()
 #PB_Image_InternalDepth = -3  ; ImageDepth()
 
-; For CreateImage(), raw RGBA values
-#PB_Image_Transparent = $FFFFFF ; White with 0 alpha (Transparent)
-#PB_Image_TransparentBlack = 0  ; Black with 0 alpha (Transparent)
-
+CompilerIf #PB_Compiler_OS = #PB_OS_Web
+  #PB_Image_Transparent = -1
+CompilerElse
+  ; For CreateImage(), raw RGBA values
+  #PB_Image_Transparent = $FFFFFF ; White with 0 alpha (Transparent)
+  #PB_Image_TransparentBlack = 0  ; Black with 0 alpha (Transparent)
+CompilerEndIf
 
 ; JSON
 ;
