@@ -1586,8 +1586,14 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
             
           Case #KEYWORD_DisableASM, #KEYWORD_EndHeaderSection
             AddSourceItem(#ITEM_InlineASMEnd, Parser_CurrentLine, -1, -1)
+        CompilerElse
+          Case #KEYWORD_HeaderSection
+            AddSourceItem(#ITEM_InlineASM, Parser_CurrentLine, -1, -1)
+            
+          Case #KEYWORD_EndHeaderSection
+            AddSourceItem(#ITEM_InlineASMEnd, Parser_CurrentLine, -1, -1)
         CompilerEndIf
-          
+        
         Case #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Prototype, #KEYWORD_PrototypeC
           Parser_SkipType(@*Cursor)
           Parser_SkipSpace(*Cursor)
@@ -3833,9 +3839,8 @@ DataSection
   Data.l #KEYWORD_Select,          #KEYWORD_Case
   Data.l #KEYWORD_Select,          #KEYWORD_EndSelect
   Data.l #KEYWORD_Structure,       #KEYWORD_EndStructure
-  CompilerIf #SpiderBasic
-    Data.l #KEYWORD_HeaderSection,  #KEYWORD_EndHeaderSection
-  CompilerElse
+  Data.l #KEYWORD_HeaderSection,   #KEYWORD_EndHeaderSection
+  CompilerIf Not #SpiderBasic
     Data.l #KEYWORD_StructureUnion,  #KEYWORD_EndStructureUnion
   CompilerEndIf
   Data.l #KEYWORD_While,           #KEYWORD_Wend

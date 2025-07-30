@@ -76,7 +76,9 @@ IncludeFile "../Common.pb"
 #PB_Image_Smooth = 0
 #PB_Image_Raw    = 1
 
-#PB_Image_Base64 = 1 ; LoadImage()
+; LoadImage()
+#PB_Image_PNGBase64  = 1 << 0
+#PB_Image_JPEGBase64 = 1 << 1
 
 ; ToolBar icon definitions
 ;
@@ -331,18 +333,6 @@ IncludeFile "../Common.pb"
 
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
-
-; String flags
-;
-#PB_String_Password  = 1 << 0
-#PB_String_ReadOnly  = 1 << 1
-#PB_String_Numeric   = 1 << 2
-#PB_String_LowerCase = 1 << 3
-#PB_String_UpperCase = 1 << 4
-#PB_String_BorderLess = 1 << 5
-#PB_String_AutoComplete = 1 << 6
-#PB_String_AutoInsert = 1 << 7
-#PB_String_PlaceHolder = 1 << 8
 
 #PB_Spin_ReadOnly = 1 ; Flags
 #PB_Spin_Numeric  = 2

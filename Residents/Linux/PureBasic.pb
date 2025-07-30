@@ -145,11 +145,6 @@ IncludeFile "../Common.pb"
 #PB_Date_Maximum  = 2
 #PB_Date_CheckBox = $2 ;DTS_SHOWNONE
 
-; Return values for Explorer:
-#PB_Explorer_File             = 1
-#PB_Explorer_Directory        = 2
-#PB_Explorer_Selected         = 4
-
 ; Explorerlist standart columns:
 #PB_Explorer_Name                = "PB_Explorer_Column_Name"
 #PB_Explorer_Size                = "PB_Explorer_Column_Size"
@@ -158,8 +153,6 @@ IncludeFile "../Common.pb"
 #PB_Explorer_Created             = "PB_Explorer_Column_Created"
 #PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
 #PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
-
-#PB_Explorer_ColumnWidth = 1 << 19
 
 #PB_Image_Border = 1 << 0
 #PB_Image_Raised = 1 << 1

@@ -614,6 +614,15 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Explorer_HiddenFiles         = 1 << 18
   #PB_Explorer_NoHeaders           = 1 << 19 ; ListExplorer only
   
+  ; Return values for Explorer:
+  #PB_Explorer_None             = 0
+  #PB_Explorer_File             = 1 << 0 
+  #PB_Explorer_Directory        = 1 << 1
+  #PB_Explorer_Selected         = 1 << 2
+  
+  ; Get/SetGadgetItemAttribute()
+  #PB_Explorer_ColumnWidth = 1
+  
 CompilerEndIf
 
 ; Container Flags

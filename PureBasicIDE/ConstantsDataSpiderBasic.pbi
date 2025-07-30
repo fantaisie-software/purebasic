@@ -214,7 +214,7 @@ DataSection
   Data$ "LoadFont,1,#PB_Any"
   Data$ "LoadFont,4,#PB_Font_Bold,#PB_Font_Italic,#PB_Font_Underline,#PB_Font_StrikeOut,#PB_Font_HighQuality"
   Data$ "LoadImage,1,#PB_Any"
-  Data$ "LoadImage,3,#PB_LocalFile,#PB_Image_Base64"
+  Data$ "LoadImage,3,#PB_LocalFile,#PB_Image_PNGBase64,#PB_Image_JPEGBase64"
   Data$ "LoadJSON,1,#PB_Any"
   Data$ "LoadJSON,3,#PB_LocalFile"
   Data$ "LoadScript,3,#PB_Script_JavaScript,#PB_Script_CSS"

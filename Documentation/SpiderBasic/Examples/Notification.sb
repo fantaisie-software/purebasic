@@ -31,8 +31,7 @@ CreateNotification(0, "Hello world !", "Are you good today ?", 0)
 NotificationButton(0, 1, "Yes")
 NotificationButton(0, 2, "No")
 
-CreateNotification(0, "", "", #PB
-ScheduleNotification(0, #PB_Notification_InMonth, 10) ; Will be displayed in 10 secs
+ScheduleNotification(0, #PB_Notification_InSecond, 20) ; Will be displayed in 20 secs
 
 BindEvent(#PB_Event_Notification, @NotificationEvents())
   

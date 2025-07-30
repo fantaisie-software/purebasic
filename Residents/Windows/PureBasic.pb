@@ -214,12 +214,6 @@ IncludeFile "..\Common.pb"
 #PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
 #PB_Date_Maximum  = 2
 
-; Return values for Explorer:
-#PB_Explorer_None                = $0
-#PB_Explorer_File                = $1
-#PB_Explorer_Directory           = $2
-#PB_Explorer_Selected            = $4
-
 ; Explorerlist standart columns:
 #PB_Explorer_Name                = "PB_Explorer_Column_Name"
 #PB_Explorer_Size                = "PB_Explorer_Column_Size"
@@ -228,8 +222,6 @@ IncludeFile "..\Common.pb"
 #PB_Explorer_Created             = "PB_Explorer_Column_Created"
 #PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
 #PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
-
-#PB_Explorer_ColumnWidth = 1
 
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
