@@ -1667,6 +1667,7 @@ DataSection
   Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
   
   Data$ "AllreadyUsed",     "The shortcut you specified is already used by" ; DO NOT FIX TYPO: AllreadyUsed
+  Data$ "ReassignPrompt",   "Should the shortcut be reassigned?"
   Data$ "ExternalTool",     "External Tool"
   Data$ "Menu",             "Menu"
   Data$ "TabIntend",        "Indent/Unindent code Selection"

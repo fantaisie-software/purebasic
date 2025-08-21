@@ -4973,7 +4973,18 @@ Procedure PreferencesWindowEvents(EventID)
         index = GetGadgetState(#GADGET_Preferences_ShortcutList)
         If index >= 0
           If IsShortcutUsed(Shortcut, index, 0)
-            MessageRequester(#ProductName$, Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34), #FLAG_Info) ; DO NOT FIX TYPO: AllreadyUsed
+            ; Shortcut is already used... ask if user would like to reassign it now
+            Text$ = Language("Shortcuts","AllreadyUsed")+#NewLine+Chr(34)+GetShortcutOwner(Shortcut)+Chr(34)+#NewLine+#NewLine+Language("Shortcuts","ReassignPrompt")
+            If MessageRequester(#ProductName$, Text$, #FLAG_Question | #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes ; DO NOT FIX TYPO: AllreadyUsed
+              For i = 0 To #MENU_LastShortcutItem
+                If Prefs_KeyboardShortcuts(i) = Shortcut
+                  Prefs_KeyboardShortcuts(i) = 0
+                  SetGadgetItemText(#GADGET_Preferences_ShortcutList, i, "", 1)
+                EndIf
+              Next i
+              Prefs_KeyboardShortcuts(index) = Shortcut ; must be before the SetText for OSX (see ShortcutManagement.pb)
+              SetGadgetItemText(#GADGET_Preferences_ShortcutList, index, GetShortcutText(Shortcut), 1)
+            EndIf
           Else
             Prefs_KeyboardShortcuts(index) = Shortcut ; must be before the SetText for OSX (see ShortcutManagement.pb)
             SetGadgetItemText(#GADGET_Preferences_ShortcutList, index, GetShortcutText(Shortcut), 1)
