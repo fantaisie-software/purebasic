@@ -346,6 +346,15 @@ Procedure.s Language(Group$, Name$)
     
   EndIf
   
+  CompilerIf #PB_Compiler_Debugger
+    If String$ =  "##### String not found! #####"
+      If Group = 0
+        Debug "[LANGUAGE] Group '" + Group$ + "' wasn't found."
+      EndIf
+      Debug "[LANGUAGE] A string with name '" + Name$ + "' wasn't found in group '" + Group$ + "'."
+    EndIf
+  CompilerEndIf
+  
   ProcedureReturn ReplaceString(String$, "%newline%", #NewLine, #PB_String_NoCase)
 EndProcedure
 
