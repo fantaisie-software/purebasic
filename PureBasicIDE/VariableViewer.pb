@@ -4,7 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
 DataSection
   
   ; Those items that can be displayed in the variable viewer
@@ -21,9 +20,7 @@ DataSection
   Data.l #ITEM_Structure
   Data.l #ITEM_Interface
   
-  
 EndDataSection
-
 
 Structure VariableViewerData Extends ToolsPanelEntry
   IsEnabled.l
@@ -34,6 +31,7 @@ Structure VariableViewerData Extends ToolsPanelEntry
   Type.l    ; current displayed #ITEM_ type
   
   Combo.i   ; combobox
+  Filter.i  ; string gadget
   List.i    ; listicon gadget
   
   Prefs_ShowAllFiles.l
@@ -125,8 +123,16 @@ Procedure UpdateVariableViewer()
         ChangeCurrentElement(FileList(), *ActiveSource) ; important!
       EndIf
       
-      ; Sort the list
-      SortList(VariableViewerItems(), #PB_Sort_Ascending|#PB_Sort_NoCase)
+      ; Filter and sort the list
+      Filter$ = GetGadgetText(*VariableViewer\Filter)
+      If Filter$
+        ForEach VariableViewerItems()
+          If FindString(VariableViewerItems(), Filter$, 1, #PB_String_NoCase) = 0
+            DeleteElement(VariableViewerItems())
+          EndIf
+        Next VariableViewerItems()
+      EndIf
+      SortList(VariableViewerItems(), #PB_Sort_Ascending | #PB_Sort_NoCase)
       
       ; Update the gadget and eliminate doubles
       OldCount = CountGadgetItems(*VariableViewer\List)
@@ -161,7 +167,6 @@ Procedure UpdateVariableViewer()
   
 EndProcedure
 
-
 Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData)
   
   *Entry\Combo = ComboBoxGadget(#PB_Any, 0, 0, 0, 0)
@@ -169,6 +174,7 @@ Procedure VariableViewer_CreateFunction(*Entry.VariableViewerData)
     AddGadgetItem(*Entry\Combo, -1, Language("Preferences","Option_"+VariableViewer_OptionName(i)))
   Next i
   
+  *Entry\Filter = StringGadget(#PB_Any, 0, 0, 0, 0, #Empty$)
   *Entry\List = ListViewGadget(#PB_Any, 0, 0, 0, 0)
   
   If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
@@ -189,6 +195,7 @@ EndProcedure
 Procedure VariableViewer_DestroyFunction(*Entry.VariableViewerData)
   
   FreeGadget(*Entry\Combo)
+  FreeGadget(*Entry\Filter)
   FreeGadget(*Entry\List)
   
   *Entry\IsEnabled = 0
@@ -198,17 +205,20 @@ EndProcedure
 Procedure VariableViewer_ResizeHandler(*Entry.VariableViewerData, PanelWidth, PanelHeight)
   
   If *Entry\IsSeparateWindow
-    Height = GetRequiredHeight(*Entry\Combo)
-    ResizeGadget(*Entry\Combo, 5, 5, PanelWidth-10, Height)
-    ResizeGadget(*Entry\List, 5, 10+Height, PanelWidth-10, PanelHeight-15-Height)
+    ComboHeight = GetRequiredHeight(*Entry\Combo)
+    FilterHeight = GetRequiredHeight(*Entry\Combo)
+    ResizeGadget(*Entry\Combo, 5, 5, PanelWidth-10, ComboHeight)
+    ResizeGadget(*Entry\Filter, 5, ComboHeight + 7, PanelWidth - 10, FilterHeight)
+    ResizeGadget(*Entry\List, 5, 10 + ComboHeight + FilterHeight + 3, PanelWidth - 10, PanelHeight - 15 - ComboHeight - FilterHeight)
   Else
-    Height = GetRequiredHeight(*Entry\Combo)
-    ResizeGadget(*Entry\Combo, 0, 0, PanelWidth, Height)
-    ResizeGadget(*Entry\List, 0, Height+1, PanelWidth, PanelHeight-Height-1)
+    ComboHeight = GetRequiredHeight(*Entry\Combo)
+    FilterHeight = GetRequiredHeight(*Entry\Combo)
+    ResizeGadget(*Entry\Combo, 0, 0, PanelWidth, ComboHeight)
+    ResizeGadget(*Entry\Filter, 0, ComboHeight + 1, PanelWidth, FilterHeight)
+    ResizeGadget(*Entry\List, 0, ComboHeight + FilterHeight + 2, PanelWidth, PanelHeight-ComboHeight-FilterHeight-2)
   EndIf
   
 EndProcedure
-
 
 Procedure VariableViewer_EventHandler(*Entry.VariableViewerData, EventGadgetID)
   
@@ -230,10 +240,16 @@ Procedure VariableViewer_EventHandler(*Entry.VariableViewerData, EventGadgetID)
       UpdateVariableViewer()
     EndIf
     
+  ElseIf EventGadgetID = *Entry\Filter
+    If EventType() = #PB_EventType_Change And Len(GetGadgetText(*Entry\Filter)) <> 1
+      SetGadgetState(*Entry\List, -1) ; we change the content, do not preserve the state
+      UpdateVariableViewer()
+      
+    EndIf
+    
   EndIf
   
 EndProcedure
-
 
 Procedure VariableViewer_PreferenceLoad(*Entry.VariableViewerData)
   
@@ -253,7 +269,6 @@ Procedure VariableViewer_PreferenceLoad(*Entry.VariableViewerData)
   
 EndProcedure
 
-
 Procedure VariableViewer_PreferenceSave(*Entry.VariableViewerData)
   
   PreferenceComment("")
@@ -264,15 +279,12 @@ Procedure VariableViewer_PreferenceSave(*Entry.VariableViewerData)
   
 EndProcedure
 
-
-
 Procedure VariableViewer_PreferenceStart(*Entry.VariableViewerData)
   
   *Entry\Prefs_ShowAllFiles = *Entry\ShowAllFiles
   *Entry\Prefs_ShowProject  = *Entry\ShowProject
   
 EndProcedure
-
 
 Procedure VariableViewer_PreferenceApply(*Entry.VariableViewerData)
   
@@ -320,7 +332,6 @@ Procedure VariableViewer_PreferenceCreate(*Entry.VariableViewerData)
   
 EndProcedure
 
-
 Procedure VariableViewer_PreferenceDestroy(*Entry.VariableViewerData)
   
   If GetGadgetState(*Entry\PrefsSourceOnly)
@@ -339,13 +350,11 @@ Procedure VariableViewer_PreferenceDestroy(*Entry.VariableViewerData)
   
 EndProcedure
 
-
 Procedure VariableViewer_PreferenceEvents(*Entry.VariableViewerData, EventGadgetID)
   ;
   ; no events processed
   ;
 EndProcedure
-
 
 Procedure VariableViewer_PreferenceChanged(*Entry.VariableViewerData, IsConfigOpen)
   

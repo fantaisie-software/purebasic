@@ -58,7 +58,7 @@ IncludeFile "..\Common.pb"
 #PB_StatusBar_Center     = 4
 #PB_StatusBar_Right      = 8
 
-; MessageRequester flags
+; Non-common MessageRequester flags
 ;
 #PB_MessageRequester_Ok          = 0
 #PB_MessageRequester_YesNo       = 4
@@ -66,16 +66,6 @@ IncludeFile "..\Common.pb"
 #PB_MessageRequester_Info    = $40
 #PB_MessageRequester_Error   = $10
 #PB_MessageRequester_Warning = $30
-
-; MessageRequester return value
-#PB_MessageRequester_Yes    = 6
-#PB_MessageRequester_No     = 7
-#PB_MessageRequester_Cancel = 2
-
-
-#PB_Requester_MultiSelection = 1
-
-#PB_InputRequester_Password = 1
 
 #PB_FontRequester_Effects = 256 ; #CF_EFFECTS
 

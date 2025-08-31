@@ -1031,6 +1031,37 @@ CompilerEndIf
 #PB_RegularExpression_NoCase     = $00000001 ; #PCRE_CASELESS
 
 
+; Javascript doesn't support them
+;
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    
+    ; Windows pass the constant directly to the API so has different values
+    ;
+    #PB_MessageRequester_Ok          = 0
+    #PB_MessageRequester_YesNo       = 1 << 0
+    #PB_MessageRequester_YesNoCancel = 1 << 1
+    #PB_MessageRequester_Info        = 1 << 2
+    #PB_MessageRequester_Error       = 1 << 3
+    #PB_MessageRequester_Warning     = 1 << 4
+    
+    #PB_FontRequester_Effects = 1
+  CompilerEndIf
+
+  ; MessageRequester return value
+  #PB_MessageRequester_Yes    = 6
+  #PB_MessageRequester_No     = 7
+  #PB_MessageRequester_Cancel = 2
+  
+  #PB_Requester_MultiSelection = 1
+  
+  #PB_InputRequester_Password     = 1 << 0
+  #PB_InputRequester_HandleCancel = 1 << 1
+  
+  #PB_InputRequester_Cancel = Chr(10)+Chr(9)
+CompilerEndIf
+
 ; OnError
 ;
 ; Note: The error code constants are in the OS specific files
@@ -2156,7 +2187,7 @@ EndStructure
 
 ; Path separator constants
 ;
-CompilerIf (#PB_Compiler_OS = #PB_OS_Windows)
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
   #PS  = '\'
   #NPS = '/'
 CompilerElse

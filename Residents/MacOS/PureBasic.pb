@@ -90,26 +90,6 @@ IncludeFile "../Common.pb"
 #PB_ToolBar_Normal = 0
 #PB_ToolBar_Toggle = 1
 
-; Requester
-;
-#PB_MessageRequester_Ok          = 0
-#PB_MessageRequester_YesNo       = 1 << 0
-#PB_MessageRequester_YesNoCancel = 1 << 1
-#PB_MessageRequester_Info        = 1 << 2
-#PB_MessageRequester_Error       = 1 << 3
-#PB_MessageRequester_Warning     = 1 << 4
-
-; MessageRequester return value
-#PB_MessageRequester_Yes    = 6
-#PB_MessageRequester_No     = 7
-#PB_MessageRequester_Cancel = 2
-
-#PB_Requester_MultiSelection = 1
-
-#PB_InputRequester_Password = 1
-
-#PB_FontRequester_Effects = 1
-
 ; RunProgram
 ;
 #PB_Program_Wait     = 1
