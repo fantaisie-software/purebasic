@@ -305,10 +305,8 @@ DataSection
   Data$ "ProcedureCDLL", "EndProcedure" : Data.l  0, 1, 1, 0
   Data$ "ProcedureDLL", "EndProcedure"  : Data.l  0, 1, 1, 0
   Data$ "EndProcedure", "Procedure,ProcedureC,ProcedureDLL,ProcedureCDLL": Data.l -1, 0, 0, 1
-  CompilerIf #SpiderBasic
-    Data$ "HeaderSection", "EndHeaderSection" : Data.l  0, 1, 1, 0
-    Data$ "EndHeaderSection", "HeaderSection" : Data.l -1, 0, 0, 1
-  CompilerEndIf
+  Data$ "HeaderSection", "EndHeaderSection" : Data.l  0, 1, 1, 0
+  Data$ "EndHeaderSection", "HeaderSection" : Data.l -1, 0, 0, 1
   
 EndDataSection
 

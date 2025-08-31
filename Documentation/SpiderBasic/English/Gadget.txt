@@ -464,6 +464,7 @@
   @#PB_EventType_KeyDown         : A key was pressed
   @#PB_EventType_KeyUp           : A key was released
   @#PB_EventType_Input           : Text input was generated    
+  @#PB_EventType_Resize          : The gadget has been resized
 @EndFixedFont
   Note that the events @#PB_EventType_KeyDown, @#PB_EventType_KeyUp and @#PB_EventType_Input
   are only reported when the gadget has the keyboard focus. This means that the @#PB_Canvas_Keyboard flag has to be set on gadget 
@@ -2555,6 +2556,7 @@
   The following events are supported through @@EventType:
 @FixedFont
   @#PB_EventType_Change: the current displayed tab has been changed.
+  @#PB_EventType_Resize: the gadget has been resized.
 @EndFixedFont
 
   Once a Panel is created, its list of panels is empty.
@@ -2824,6 +2826,13 @@
 
   This gadget supports the @@SetGadgetColor and @@GetGadgetColor functions with the
   @#PB_Gadget_BackColor type to change the background color.
+
+@LineBreak
+@LineBreak
+ The following event is supported through @@EventType:
+@FixedFont
+  @#PB_EventType_Resize: The gadget has been resized.
+@EndFixedFont  
 
 @Example
 @Code
@@ -4080,6 +4089,13 @@
   @#PB_Web_PageTitle    : Get the current title for the displayed page.
   @#PB_Web_StatusMessage: Get the current statusbar message.
   @#PB_Web_SelectedText : Get the currently selected text inside the gadget.
+@EndFixedFont
+@LineBreak
+@LineBreak
+
+  The following events are reported by the gadget. The @@EventType function reports the type of the current gadget event:
+@FixedFont
+  @#PB_EventType_PageLoaded      : The page has been fully loaded
 @EndFixedFont
 
 @Example

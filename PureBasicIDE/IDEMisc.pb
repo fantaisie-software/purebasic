@@ -116,13 +116,16 @@ Procedure.s CheckPureBasicKeyWords(CurrentWord$)
     Case "COMPILERIF", "COMPILERELSE", "COMPILERENDIF", "COMPILERSELECT", "COMPILERCASE", "COMPILERDEFAULT", "COMPILERENDSELECT", "COMPILERERROR", "COMPILERWARNING", "ENABLEEXPLICIT", "DISABLEEXPLICIT", "DISABLEPURELIBRARY"
       Topic$ = "Reference/compilerdirectives"
       
-      CompilerIf #SpiderBasic
-      Case "ENABLEJS", "DISABLEJS", "ENDHEADERSECTION", "HEADERSECTION" 
+    CompilerIf #SpiderBasic
+      Case "ENABLEJS", "DISABLEJS"
         Topic$ = "Reference/compilerdirectives"
-      CompilerElse
+    CompilerElse
       Case "ENABLEASM", "DISABLEASM"
         Topic$ = "Reference/compilerdirectives"
-      CompilerEndIf
+    CompilerEndIf
+      
+    Case "ENDHEADERSECTION", "HEADERSECTION"
+      Topic$ = "Reference/headersection_endheadersection"
       
     Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "RESETSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL"
       Topic$ = "Reference/compilerfunctions"

@@ -129,7 +129,7 @@ Global NbASMKeywords.l ; Need to be a 'long' as the 'Data' is declared as long (
 CompilerIf #SpiderBasic
   #NbBasicKeywords = 98
 CompilerElse
-  #NbBasicKeywords = 112
+  #NbBasicKeywords = 114
 CompilerEndIf
 
 #BasicTypeChars = "ABCUWLSFDQI" ; characters that are basic types (uppercase)
@@ -242,9 +242,7 @@ Enumeration 1
   #KEYWORD_EndDataSection
   #KEYWORD_EndDeclareModule
   #KEYWORD_EndEnumeration
-  CompilerIf #SpiderBasic
-    #KEYWORD_EndHeaderSection
-  CompilerEndIf
+  #KEYWORD_EndHeaderSection
   #KEYWORD_EndIf
   #KEYWORD_EndImport
   #KEYWORD_EndInterface
@@ -274,9 +272,7 @@ Enumeration 1
     #KEYWORD_Goto
   CompilerEndIf
   
-  CompilerIf #SpiderBasic
-    #KEYWORD_HeaderSection
-  CompilerEndIf
+  #KEYWORD_HeaderSection
 
   #KEYWORD_If
   #KEYWORD_Import
