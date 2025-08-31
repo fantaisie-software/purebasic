@@ -7,7 +7,7 @@
 ; Localisation File Consistency Checker.
 
 ; Usage:
-; LFCheck /u /r="reference file path" /t="target file path" /l="log file path"
+; LanguageCheck /u /r="reference file path" /t="target file path" /l="log file path"
 ; /u - Check for untranslated text.
 ; /r= - Reference catalog path, omit this to reference the IDE's default language table.
 ; /t= - Target catalog path.
@@ -23,16 +23,15 @@ EnableExplicit
 
 ;- Enumerations
 EnumerationBinary Origin
-  #Reference
-  #Target
+  #ORIGIN_Reference
+  #ORIGIN_Target
 EndEnumeration
-#Both = #Reference | #Target
 
-EnumerationBinary Options
-  #OptReferenceFile
-  #OptReferenceTable
-  #OptTestUntranslated
-  #OptLogFile
+EnumerationBinary Option
+  #OPTION_ReferenceFile
+  #OPTION_ReferenceTable
+  #OPTION_TestUntranslated
+  #OPTION_LogFile
 EndEnumeration
 
 #Key$ = "Key "
@@ -42,37 +41,37 @@ EndEnumeration
 #TargetFile$ = "Target File."
 
 #SQ$ = "'"
-#MsgTitle$ = "PureBasic Localisation File Consistency Checker"
-#MsgRef$ = "The reference file "
-#MsgTarget$ = "The target file "
-#MsgLog = "The log file "
-#MsgNoTarget$ = "No target file specified."
-#MsgChecking = "Checking: "
-#MsgAgainst = "Against: "
-#MsgNotFound$ = " could not be found."
-#MsgNotOpened$ = " could not be opened."
-#MsgNotCreated$ = " could not be created."
-#MsgNothing$ = "No problems detected."
+#MSG_Title$ = "PureBasic Localisation File Consistency Checker"
+#MSG_Ref$ = "The reference file "
+#MSG_Target$ = "The target file "
+#MSG_Log = "The log file "
+#MSG_NoTarget$ = "No target file specified."
+#MSG_Checking = "Checking: "
+#MSG_Against = "Against: "
+#MSG_NotFound$ = " could not be found."
+#MSG_NotOpened$ = " could not be opened."
+#MSG_NotCreated$ = " could not be created."
+#MSG_Nothing$ = "No problems detected."
 
-#ErrEmpty$ = " is empty in the "
-#ErrDup$ = " is duplicated in the "
-#ErrUndef$ = " is not defined in the "
-#ErrMissing$ = " is missing from the "
-#ErrUnTrans$ = " is not translated in the "
+#ERR_Empty$ = " is empty in the "
+#ERR_Dup$ = " is duplicated in the "
+#ERR_Undef$ = " is not defined in the "
+#ERR_Missing$ = " is missing from the "
+#ERR_UnTrans$ = " is not translated in the "
 
 ;- Structures
-Structure ASTRING
+Structure AString
   State.I
   RefCount.I
   TargetCount.I
-  Reference.S
-  Target.S
+  Reference$
+  Target$
 EndStructure
 
 ;- Variables
-Global.S ReferenceDesc = #DefTable$, ReferenceFile, TargetFile, LogFile
-Global.I Options
-Global NewMap Store.ASTRING()
+Global ReferenceDesc$ = #DefTable$, ReferenceFile$, TargetFile$, LogFile$
+Global Options
+Global NewMap Store.AString()
 Global NewMap Group.I()
 Global NewList Bug.S()
 
@@ -112,14 +111,14 @@ Procedure CheckConsistency()
       Continue
     EndIf
     
-    If Group() & #Reference = 0
+    If Group() & #ORIGIN_Reference = 0
       AddElement(Bug())
-      Bug() = #Group$ + #SQ$ + MapKey(Group()) + #SQ$ + #ErrUndef$ + ReferenceDesc
+      Bug() = #Group$ + #SQ$ + MapKey(Group()) + #SQ$ + #ERR_Undef$ + ReferenceDesc$
     EndIf
     
-    If Group() & #Target = 0
+    If Group() & #ORIGIN_Target = 0
       AddElement(Bug())
-      Bug() = #Group$ + #SQ$ + MapKey(Group()) + #SQ$ + #ErrMissing$ + #TargetFile$
+      Bug() = #Group$ + #SQ$ + MapKey(Group()) + #SQ$ + #ERR_Missing$ + #TargetFile$
     EndIf
     
   Next Group()
@@ -132,39 +131,39 @@ Procedure CheckConsistency()
       Continue
     EndIf
     
-    If Store()\State & #Reference = 0
+    If Store()\State & #ORIGIN_Reference = 0
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrUndef$  + ReferenceDesc
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Undef$  + ReferenceDesc$
       
-    ElseIf Store()\Reference = #Empty$
+    ElseIf Store()\Reference$ = #Empty$
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrEmpty$ + ReferenceDesc
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Empty$ + ReferenceDesc$
       
     EndIf
     
-    If Store()\State & #Target = 0
+    If Store()\State & #ORIGIN_Target = 0
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrMissing$ + #TargetFile$
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Missing$ + #TargetFile$
       
-    ElseIf Store()\Target = #Empty$
+    ElseIf Store()\Target$ = #Empty$
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrEmpty$ + #TargetFile$
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Empty$ + #TargetFile$
       
     EndIf
       
     If Store()\RefCount > 1 
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrDup$ + ReferenceDesc
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Dup$ + ReferenceDesc$
     EndIf
     
     If Store()\TargetCount > 1 
      AddElement(Bug())
-     Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrDup$ + #TargetFile$
+     Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_Dup$ + #TargetFile$
     EndIf
     
-    If (Options & #OptTestUntranslated) = #OptTestUntranslated And UCase(Store()\Reference) = UCase(Store()\Target)
+    If (Options & #OPTION_TestUntranslated) = #OPTION_TestUntranslated And UCase(Store()\Reference$) = UCase(Store()\Target$)
       AddElement(Bug())
-      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ErrUnTrans$ + #TargetFile$
+      Bug() = #Key$ + #SQ$ + MapKey(Store()) + #SQ$ + #ERR_UnTrans$ + #TargetFile$
     EndIf
  
   Next Store()
@@ -186,7 +185,7 @@ Procedure LoadDefault()
     
     If Name$ = "_GROUP_"
       Group$ = UCase(String$)
-      Group(Group$) | #Reference
+      Group(Group$) | #ORIGIN_Reference
       
     ElseIf Name$ = "_END_"
       Break
@@ -194,8 +193,8 @@ Procedure LoadDefault()
     Else
       Key$ = Group$ + "\" + UCase(Name$)
       
-      Store(Key$)\State | #Reference
-      Store(Key$)\Reference = String$
+      Store(Key$)\State | #ORIGIN_Reference
+      Store(Key$)\Reference$ = String$
       Store(Key$)\RefCount + 1
       
     EndIf
@@ -207,17 +206,17 @@ EndProcedure
 Procedure ProcessOptions()
   ; Process the command line options, or shows the usage.
   
-  Define.I Index, Count = CountProgramParameters()
+  Define Index, Count = CountProgramParameters()
   Define Key$
   
-  Options | #OptReferenceTable 
+  Options | #OPTION_ReferenceTable 
         
   If Count = 0
     
-    PrintN(#MsgTitle$ + " " + StrF(#PB_Compiler_Version / 100, 2))
+    PrintN(#MSG_Title$ + " " + StrF(#PB_Compiler_Version / 100, 2))
     PrintN(#Empty$)
     PrintN("Usage:")
-    PrintN("LFCheck /u /r=" + #DQUOTE$ + "reference file path" + #DQUOTE$ + 
+    PrintN("LanguageCheck /u /r=" + #DQUOTE$ + "reference file path" + #DQUOTE$ + 
            " /t=" + #DQUOTE$ + "target file path" + #DQUOTE$ + " /l=" + #DQUOTE$ + "log file path" + #DQUOTE$)
     PrintN(#Empty$)
     PrintN("/u - Check for untranslated text.")
@@ -242,20 +241,20 @@ Procedure ProcessOptions()
     Select Key$
         
       Case "/l", "-l"
-        Options | #OptLogFile
-        LogFile = Trim(Mid(ProgramParameter(Index), 4))
+        Options | #OPTION_LogFile
+        LogFile$ = Trim(Mid(ProgramParameter(Index), 4))
         
       Case "/r", "-r"
-        Options | #OptReferenceFile
-        Options ! #OptReferenceTable 
-        ReferenceDesc = "Reference File."
-        ReferenceFile = Trim(Mid(ProgramParameter(Index), 4))
+        Options | #OPTION_ReferenceFile
+        Options ! #OPTION_ReferenceTable 
+        ReferenceDesc$ = "Reference File."
+        ReferenceFile$ = Trim(Mid(ProgramParameter(Index), 4))
         
       Case "/t", "-t"
-        TargetFile = Trim(Mid(ProgramParameter(Index), 4))
+        TargetFile$ = Trim(Mid(ProgramParameter(Index), 4))
         
       Case "/u", "-u"
-        Options | #OptTestUntranslated
+        Options | #OPTION_TestUntranslated
         
     EndSelect
     
@@ -267,7 +266,7 @@ Procedure.I ReadCatalog(Catalog.S, Destination.I)
   ; Read groups from a catalog file into Group() map and strings into the specified destination in the Store() map.
   
   ; Catalog: The fully qualified path to the catalog file to open.
-  ; Destination: Either #Reference or #Target, see Enum Origin.
+  ; Destination: Either #ORIGIN_Reference or #ORIGIN_Target, see Enum Origin.
   
   Define.I File, Result
   Define Group$, Name$, Key$, String$
@@ -297,14 +296,14 @@ Procedure.I ReadCatalog(Catalog.S, Destination.I)
         Key$ = Group$ + "\" + UCase(PreferenceKeyName())
         String$ = PreferenceKeyValue()
         
-        If Destination = #Reference
-          Store(Key$)\State | #Reference
-          Store(Key$)\Reference = String$
+        If Destination = #ORIGIN_Reference
+          Store(Key$)\State | #ORIGIN_Reference
+          Store(Key$)\Reference$ = String$
           Store(Key$)\RefCount + 1
           
         Else
-          Store(Key$)\State | #Target
-          Store(Key$)\Target = String$
+          Store(Key$)\State | #ORIGIN_Target
+          Store(Key$)\Target$ = String$
           Store(Key$)\TargetCount + 1
           
         EndIf
@@ -328,7 +327,7 @@ Procedure Report()
   
   If ListSize(Bug()) = 0
     AddElement(Bug()) 
-    Bug() = #MsgNothing$
+    Bug() = #MSG_Nothing$
   EndIf
   
   ; Sort bug reports.
@@ -339,24 +338,24 @@ Procedure Report()
   InsertElement(Bug())
   Bug() = #Empty$
   InsertElement(Bug())
-  If Options & #OptReferenceFile
-    Bug() = #MsgAgainst + ReferenceFile
+  If Options & #OPTION_ReferenceFile
+    Bug() = #MSG_Against + ReferenceFile$
   Else
-    Bug() = #MsgAgainst + #DefTable$
+    Bug() = #MSG_Against + #DefTable$
   EndIf
   InsertElement(Bug())
-  Bug() = #MsgChecking + TargetFile
+  Bug() = #MSG_Checking + TargetFile$
   InsertElement(Bug())
   Bug() = #Empty$
   InsertElement(Bug())
-  Bug() = #MsgTitle$
+  Bug() = #MSG_Title$
   
-  If Options & #OptLogFile
+  If Options & #OPTION_LogFile
     
-    File = OpenFile(#PB_Any, LogFile)
+    File = OpenFile(#PB_Any, LogFile$)
     
     If File = 0
-      PrintN(#MsgLog + #SQ$ + LogFile + #SQ$ + #MsgNotCreated$)
+      PrintN(#MSG_Log + #SQ$ + LogFile$ + #SQ$ + #MSG_NotCreated$)
     Else
       FileSeek(File, Lof(File))
     EndIf
@@ -384,14 +383,14 @@ EndProcedure
 OpenConsole()    
 ProcessOptions()
 
-If (Options & #OptReferenceFile) = #OptReferenceFile 
+If (Options & #OPTION_ReferenceFile) = #OPTION_ReferenceFile 
   ; Check the file and load it.
-  If FileSize(ReferenceFile) < 1 
-    PrintN(#MsgRef$ + #SQ$ + ReferenceFile + #SQ$ + #MsgNotFound$)
+  If FileSize(ReferenceFile$) < 1 
+    PrintN(#MSG_Ref$ + #SQ$ + ReferenceFile$ + #SQ$ + #MSG_NotFound$)
     End
   
-  ElseIf ReadCatalog(ReferenceFile, #Reference) = #False
-    PrintN(#MsgRef$ + #SQ$ + ReferenceFile + #SQ$ + #MsgNotOpened$)
+  ElseIf ReadCatalog(ReferenceFile$, #ORIGIN_Reference) = #False
+    PrintN(#MSG_Ref$ + #SQ$ + ReferenceFile$ + #SQ$ + #MSG_NotOpened$)
     End
     
   EndIf
@@ -402,18 +401,18 @@ Else
   
 EndIf
   
-If TargetFile = #Empty$ 
-  PrintN(#MsgNoTarget$)
+If TargetFile$ = #Empty$ 
+  PrintN(#MSG_NoTarget$)
   End
 EndIf
 
-If FileSize(TargetFile) < 1
-  PrintN(#MsgTarget$ + #SQ$ + TargetFile + #SQ$ + #MsgNotFound$)
+If FileSize(TargetFile$) < 1
+  PrintN(#MSG_Target$ + #SQ$ + TargetFile$ + #SQ$ + #MSG_NotFound$)
   End
 EndIf
 
-If ReadCatalog(TargetFile, #Target) = #False
-  PrintN(#MsgTarget$ + #SQ$ + TargetFile + #SQ$ + #MsgNotOpened$)
+If ReadCatalog(TargetFile$, #ORIGIN_Target) = #False
+  PrintN(#MSG_Target$ + #SQ$ + TargetFile$ + #SQ$ + #MSG_NotOpened$)
   End
 EndIf
 
