@@ -4,8 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
-
 CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   #SCI_NORM   = 0
@@ -3501,17 +3499,32 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SetBackgroundColor(Gadget) ; updates the 'disabled background color'
   EndProcedure
   
-  
   Procedure InsertCodeString(String$)
+    
     If *ActiveSource\Parser\Encoding = 1 ; utf8
       Format = #PB_UTF8
     Else
       Format = #PB_Ascii
     EndIf
     
+    ; Embed insertion into a single transaction, otherwise the insertion mark will reappear in an Undo action.
+    SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+    
+    CurrentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
     Converted$ = Space(StringByteLength(String$, Format))
     PokeS(@Converted$, String$, -1, Format)
     SendEditorMessage(#SCI_REPLACESEL, 0, @Converted$)
+    
+    ; Remove marker and move caret, if a position is specified.
+    MarkerOffset = FindString(String$, "^")
+    Debug "MarkerOffset = " + Str(MarkerOffset)
+    If MarkerOffset > 0
+      SendEditorMessage(#SCI_GOTOPOS, CurrentPos + MarkerOffset - 1)
+      SendEditorMessage(#SCI_DELETERANGE, CurrentPos + MarkerOffset - 1, 1)
+    EndIf
+    
+    SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
+    
   EndProcedure
   
   Procedure Undo()
