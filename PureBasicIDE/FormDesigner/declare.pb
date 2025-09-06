@@ -355,6 +355,14 @@ Declare FD_DuplicateGadget()
 Declare FD_Open(file.s,update = 0)
 Declare FD_PrepareTestCode(compile = 1)
 
+; Version Warnings Preference Items
+EnumerationBinary 
+  #FDI_Warn_NotRecognized
+  #FDI_Warn_DowngradeAlways
+  #FDI_Warn_UpgradeBreaking
+  #FDI_Warn_UpgradeAlways 
+EndEnumeration
+#FDI_Warn_Default = #FDI_Warn_NotRecognized | #FDI_Warn_DowngradeAlways | #FDI_Warn_UpgradeBreaking
 
 ; Gadget Types
 Enumeration
