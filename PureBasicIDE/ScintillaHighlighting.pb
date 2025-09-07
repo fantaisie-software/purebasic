@@ -3517,7 +3517,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     ; Remove marker and move caret, if a position is specified.
     MarkerOffset = FindString(String$, "^")
-    Debug "MarkerOffset = " + Str(MarkerOffset)
     If MarkerOffset > 0
       SendEditorMessage(#SCI_GOTOPOS, CurrentPos + MarkerOffset - 1)
       SendEditorMessage(#SCI_DELETERANGE, CurrentPos + MarkerOffset - 1, 1)
