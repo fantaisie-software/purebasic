@@ -409,7 +409,7 @@ Procedure Template_Insert()
         
         Template$ = Template_Unescape(Template()\Code$)
         Code$ = ReplaceString(Template$, #NewLine, #NewLine+Prefix$)
-        InsertCodeString(Code$)
+        InsertCodeString(Code$, #True)
         SetActiveGadget(*ActiveSource\EditorGadget)
       EndIf
     EndIf
