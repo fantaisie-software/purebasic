@@ -275,3 +275,26 @@ Procedure.s ResolveRelativePath(BasePath$, FileName$)
   ProcedureReturn UniqueFilename(FileName$)
 EndProcedure
 
+Procedure CreateDirectoryRecursive(Directory$)
+  If Directory$ <> ""
+    Select FileSize(Directory$)
+      Case -2 ; already exists - OK!
+        ProcedureReturn #True
+        
+      Case -1 ; does not exist - create it
+        Parent$ = UniqueFilename(Directory$ + #Separator + ".." + #Separator)
+        If Parent$ <> ""
+          CreateDirectoryRecursive(Parent$)
+        EndIf
+        CreateDirectory(Directory$)
+        If FileSize(Directory$) = -2
+          ProcedureReturn #True
+        EndIf
+        
+      Default ; it's a file!
+        ProcedureReturn #False
+    EndSelect
+  EndIf
+  ProcedureReturn #False
+EndProcedure
+
