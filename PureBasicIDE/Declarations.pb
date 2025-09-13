@@ -366,6 +366,7 @@ Declare.s UniqueFilename(File$)                     ; return a unique representa
 Declare   IsEqualFile(File1$, File2$)               ; returns true if the 2 filenames identify the same file
 Declare.s CreateRelativePath(BasePath$, FileName$)  ; turn the full path FileName$ into a relative one to BasePath$
 Declare.s ResolveRelativePath(BasePath$, FileName$) ; merge a base path and a relative path to a full path
+Declare   CreateDirectoryRecursive(Directory$)      ; create a directory and its parent directories, recursively if necessary
 
 ;- GotoWindow.pb
 ;

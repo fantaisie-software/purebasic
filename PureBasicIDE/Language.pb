@@ -346,6 +346,15 @@ Procedure.s Language(Group$, Name$)
     
   EndIf
   
+  CompilerIf #PB_Compiler_Debugger
+    If String$ =  "##### String not found! #####"
+      If Group = 0
+        Debug "[LANGUAGE] Group '" + Group$ + "' wasn't found."
+      EndIf
+      Debug "[LANGUAGE] A string with name '" + Name$ + "' wasn't found in group '" + Group$ + "'."
+    EndIf
+  CompilerEndIf
+  
   ProcedureReturn ReplaceString(String$, "%newline%", #NewLine, #PB_String_NoCase)
 EndProcedure
 
@@ -1658,6 +1667,7 @@ DataSection
   Data$ "ProceduresUpdate", "Trigger Update of Procedure & Variable Viewer"
   
   Data$ "AllreadyUsed",     "The shortcut you specified is already used by" ; DO NOT FIX TYPO: AllreadyUsed
+  Data$ "ReassignPrompt",   "Should the shortcut be reassigned?"
   Data$ "ExternalTool",     "External Tool"
   Data$ "Menu",             "Menu"
   Data$ "TabIntend",        "Indent/Unindent code Selection"
@@ -2238,6 +2248,18 @@ DataSection
   Data$ "Paste",                "Paste"
   Data$ "Duplicate",            "Duplicate"
   Data$ "AddItem",              "Add Item"
+  Data$ "AddButton",            "Add Button"
+  Data$ "AddToggle",            "Add Toggle Button"
+  Data$ "AddImage",             "Add Image"
+  Data$ "AddLabel",             "Add Label"
+  Data$ "AddSeparator",         "Add Separator"
+  Data$ "AddProgressBar",       "Add ProgressBar"
+  Data$ "DeleteToolbar",        "Delete Toolbar"
+  Data$ "DeleteToolbarItem",    "Delete Toolbar Item"
+  Data$ "DeleteStatusBar",      "Delete StatusBar"
+  Data$ "DeleteField",          "Delete Field"
+  Data$ "DeleteMenu",           "Delete Menu"
+  Data$ "DeleteMenuItem",       "Delete Menu Item"
   Data$ "EditItems",            "Edit Items"
   Data$ "EditColumns",          "Edit Columns"
   Data$ "AllForms",             "All Forms"

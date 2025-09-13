@@ -2500,6 +2500,10 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
     Command$ + Chr(9) + "DLL"
   EndIf
   
+  CompilerIf Not #SpiderBasic
+    CreateDirectoryRecursive(GetPathPart(TargetFileName$))
+  CompilerEndIf
+  
   CompilerWrite(Command$)
   
   ; We need the *ActiveSource for HandleCompilerResponse if the mainfile option is set
