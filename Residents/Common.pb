@@ -537,18 +537,20 @@ EndEnumeration
 #PB_Checkbox_Unchecked = 0
 #PB_Checkbox_Inbetween = -1
 
-; ListIcon flags
-#PB_ListIcon_CheckBoxes     = 1 << 0
-#PB_ListIcon_MultiSelect    = 1 << 1
-#PB_ListIcon_GridLines      = 1 << 2
-#PB_ListIcon_FullRowSelect  = 1 << 3
-#PB_ListIcon_HeaderDragDrop = 1 << 4
-#PB_ListIcon_AlwaysShowSelection = 1 << 5
-CompilerIf #PB_Compiler_OS <> #PB_OS_Web
-  #PB_ListIcon_ThreeState   = 1 << 6
-  #PB_ListIcon_NoHeaders    = 1 << 7
-CompilerEndIf
-
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  ; ListIcon flags
+  #PB_ListIcon_CheckBoxes     = 1 << 0
+  #PB_ListIcon_MultiSelect    = 1 << 1
+  #PB_ListIcon_GridLines      = 1 << 2
+  #PB_ListIcon_FullRowSelect  = 1 << 3
+  #PB_ListIcon_HeaderDragDrop = 1 << 4
+  #PB_ListIcon_AlwaysShowSelection = 1 << 5
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+    #PB_ListIcon_ThreeState   = 1 << 6
+    #PB_ListIcon_NoHeaders    = 1 << 7
+  CompilerEndIf
+CompilerEndIf  
+  
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_DisplayMode  = 2
@@ -690,14 +692,16 @@ CompilerEndIf
 #PB_Splitter_FirstGadget = 3
 #PB_Splitter_SecondGadget = 4
 
-; String Flags
-#PB_String_Password     = 1 << 0
-#PB_String_ReadOnly     = 1 << 1
-#PB_String_UpperCase    = 1 << 2
-#PB_String_LowerCase    = 1 << 3
-#PB_String_Numeric      = 1 << 4
-#PB_String_BorderLess   = 1 << 5
-#PB_String_PlaceHolder  = 1 << 6
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  ; String Flags
+  #PB_String_Password     = 1 << 0
+  #PB_String_ReadOnly     = 1 << 1
+  #PB_String_UpperCase    = 1 << 2
+  #PB_String_LowerCase    = 1 << 3
+  #PB_String_Numeric      = 1 << 4
+  #PB_String_BorderLess   = 1 << 5
+  #PB_String_PlaceHolder  = 1 << 6
+CompilerEndIf
 
 ; TrackBar Flags
 ;
@@ -909,24 +913,46 @@ EndEnumeration
 #PB_List_Before = 3
 #PB_List_After  = 4
 
-; Ftp library
-;
-#PB_FTP_ReadUser     = $400
-#PB_FTP_WriteUser    = $200
-#PB_FTP_ExecuteUser  = $100
-#PB_FTP_ReadGroup    = $40
-#PB_FTP_WriteGroup   = $20
-#PB_FTP_ExecuteGroup = $10
-#PB_FTP_ReadAll      = $4
-#PB_FTP_WriteAll     = $2
-#PB_FTP_ExecuteAll   = $1
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; Ftp library
+  ;
+  #PB_FTP_ReadUser     = $400
+  #PB_FTP_WriteUser    = $200
+  #PB_FTP_ExecuteUser  = $100
+  #PB_FTP_ReadGroup    = $40
+  #PB_FTP_WriteGroup   = $20
+  #PB_FTP_ExecuteGroup = $10
+  #PB_FTP_ReadAll      = $4
+  #PB_FTP_WriteAll     = $2
+  #PB_FTP_ExecuteAll   = $1
+  
+  #PB_FTP_Started  = -1
+  #PB_FTP_Error    = -2
+  #PB_FTP_Finished = -3
+  
+  #PB_FTP_File      = 1
+  #PB_FTP_Directory = 2
+  
+  ; OpenFTP() flags
+  #PB_FTP_Passive  = 1 << 0
+  #PB_FTP_Debug    = 1 << 1
+CompilerEndIf  
 
-#PB_FTP_Started  = -1
-#PB_FTP_Error    = -2
-#PB_FTP_Finished = -3
-
-#PB_FTP_File      = 1
-#PB_FTP_Directory = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; HID library
+  ;
+  #PB_HID_Path             = 1
+  #PB_HID_VendorId         = 2
+  #PB_HID_ProductId        = 3
+  #PB_HID_SerialNumber     = 4
+  #PB_HID_ReleaseNumber    = 5
+  #PB_HID_Manufacturer     = 6
+  #PB_HID_Product          = 7
+  #PB_HID_UsagePage        = 8
+  #PB_HID_Usage            = 9
+  #PB_HID_InterfaceNumber  = 10
+  #PB_HID_BusType          = 11
+CompilerEndIf  
 
 ; HTTP library
 ;
@@ -935,12 +961,12 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_HTTP_Failed      = -3
   #PB_HTTP_Aborted     = -4
   
-  #PB_HTTP_Asynchronous = (1 << 0)
-  #PB_HTTP_NoRedirect   = (1 << 1)
-  #PB_HTTP_NoSSLCheck   = (1 << 2)
-  #PB_HTTP_HeadersOnly  = (1 << 3)
-  #PB_HTTP_WeakSSL      = (1 << 4)
-  #PB_HTTP_Debug        = (1 << 5)
+  #PB_HTTP_Asynchronous = 1 << 0
+  #PB_HTTP_NoRedirect   = 1 << 1
+  #PB_HTTP_NoSSLCheck   = 1 << 2
+  #PB_HTTP_HeadersOnly  = 1 << 3
+  #PB_HTTP_WeakSSL      = 1 << 4
+  #PB_HTTP_Debug        = 1 << 5
 CompilerEndIf  
   
 #PB_HTTP_Get = 0

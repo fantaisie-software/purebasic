@@ -216,6 +216,16 @@ IncludeFile "..\Common.pb"
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
 
+; ListIcon flags
+#PB_ListIcon_CheckBoxes          = $1        ; #LVS_REPORT
+#PB_ListIcon_MultiSelect         = $4        ; #LVS_SINGLESEL 
+#PB_ListIcon_GridLines           = $10000    ; #WS_TABSTOP    
+#PB_ListIcon_FullRowSelect       = $40000000 ; #WS_CHILD      
+#PB_ListIcon_HeaderDragDrop      = $10000000 ; #WS_VISIBLE    
+#PB_ListIcon_AlwaysShowSelection = $8        ; #LVS_SHOWSELALWAYS
+#PB_ListIcon_ThreeState          = $40       ; #LVS_SHAREIMAGELISTS
+#PB_ListIcon_NoHeaders           = $4000     ; #LVS_NOCOLUMNHEADER
+
 #PB_MDI_BorderLess              = $00000001 ; Flags
 #PB_MDI_AutoSize                = $00000002
 #PB_MDI_NoScrollBars            = $00000004
@@ -236,6 +246,14 @@ IncludeFile "..\Common.pb"
 #PB_Spin_Minimum = 1 ; Attributes
 #PB_Spin_Maximum = 2
 
+; String Flags
+#PB_String_Password    = $20       ; ES_PASSWORD
+#PB_String_ReadOnly    = $800      ; ES_READONLY 
+#PB_String_LowerCase   = $10       ; ES_LOWERCASE
+#PB_String_UpperCase   = $8        ; ES_UPPERCASE
+#PB_String_Numeric     = $2000     ; ES_NUMBER
+#PB_String_BorderLess  = $20000    ; WS_GROUP  
+#PB_String_PlaceHolder = $10000000 ; WS_VISIBLE
 
 #PB_Tree_AlwaysShowSelection = 32
 #PB_Tree_NoLines     = 2
