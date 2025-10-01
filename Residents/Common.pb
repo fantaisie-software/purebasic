@@ -1013,6 +1013,8 @@ CompilerEndIf
 #PB_Mail_UseSSL       = 1 << 1
 #PB_Mail_UseSMTPS     = 1 << 2
 #PB_Mail_Debug        = 1 << 3
+#PB_Mail_NoSSLCheck   = 1 << 4
+#PB_Mail_WeakSSL      = 1 << 5
 
 ; Map Library
 ;
@@ -1264,6 +1266,37 @@ CompilerEndIf
 ;
 #PB_Map_ElementCheck = 1
 #PB_Map_NoElementCheck = 0
+
+; ScreenGadget
+;
+Enumeration 
+  #PB_ScreenGadget_Mouse = 1
+  #PB_ScreenGadget_TextureWindow
+  #PB_ScreenGadget_FrameWindow
+  #PB_ScreenGadget_FrameRaised      
+  #PB_ScreenGadget_FrameSunken		
+  #PB_ScreenGadget_FrameFlat    
+  #PB_ScreenGadget_FrameScroll 
+  #PB_ScreenGadget_FrameScrollIn 
+  #PB_ScreenGadget_FrameString
+  #PB_ScreenGadget_FrameProgressBar0
+  #PB_ScreenGadget_FrameProgressBar1
+  #PB_ScreenGadget_FramePanel
+  #PB_ScreenGadget_FrameSplitter
+  #PB_ScreenGadget_CheckBox0
+  #PB_ScreenGadget_CheckBox1
+  #PB_ScreenGadget_Option0
+  #PB_ScreenGadget_Option1
+  #PB_ScreenGadget_ComboBox
+  #PB_ScreenGadget_ScrollLeft
+  #PB_ScreenGadget_ScrollRight
+  #PB_ScreenGadget_ScrollUp
+  #PB_ScreenGadget_ScrollDown
+  #PB_ScreenGadget_FrameTrackBar
+  #PB_ScreenGadget_HorizontalTrackBar
+  #PB_ScreenGadget_TrackBarV
+  #PB_ScreenGadget_Pin
+EndEnumeration
 
 ; SerialPortError() results
 ;
