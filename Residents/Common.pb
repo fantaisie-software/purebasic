@@ -2258,8 +2258,3 @@ CompilerEndIf
 #PS$  = Chr(#PS)
 #NPS$ = Chr(#NPS)
 
-
-; IDE Options = PureBasic 6.30 beta 3 (Windows - x64)
-; CursorPosition = 1092
-; FirstLine = 1050
-; Folding = -------
