@@ -110,6 +110,10 @@ IncludeFile "../Common.pb"
 #PB_Menu_Preferences = -2
 #PB_Menu_About = -3
 #PB_Menu_Quit = -4
+#PB_Menu_Services = -5
+#PB_Menu_Hide = -6
+#PB_Menu_HideOthers = -7
+#PB_Menu_ShowAll = -8
 
 
 ; StatusBar
@@ -534,3 +538,9 @@ IncludeFile "../Common.pb"
 #PB_Shortcut_Scroll = 0 ; Not supported on OS X
 
 #PB_Input_Eof = Chr(10)+"EOF"+Chr(10) ; it is a string, so unicode mode affects it
+
+; IDE Options = PureBasic 6.30 beta 3 (Windows - x64)
+; CursorPosition = 115
+; FirstLine = 106
+; EnableXP
+; EnableUnicode

@@ -934,8 +934,9 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_FTP_Directory = 2
   
   ; OpenFTP() flags
-  #PB_FTP_Passive  = 1 << 0
-  #PB_FTP_Debug    = 1 << 1
+  ; Note: 1 << 0 is reserved for passive mode (backward compatibility)
+  #PB_FTP_Debug   = 1 << 1
+  #PB_FTP_Active  = 1 << 2
 CompilerEndIf  
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
@@ -2257,3 +2258,8 @@ CompilerEndIf
 #PS$  = Chr(#PS)
 #NPS$ = Chr(#NPS)
 
+
+; IDE Options = PureBasic 6.30 beta 3 (Windows - x64)
+; CursorPosition = 1092
+; FirstLine = 1050
+; Folding = -------
