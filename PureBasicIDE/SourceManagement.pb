@@ -1712,7 +1712,7 @@ Procedure FindSourceFile(FileName$)
   
 EndProcedure
 
-Procedure LoadSourceFile(FileName$, Activate = 1)
+Procedure LoadSourceFile(FileName$, Activate = 1, AddToRecentFiles = 1)
   success = 0
   
   ; Check if this is a project file
@@ -1840,7 +1840,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
         *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
       EnableDebugger
       
-      RecentFiles_AddFile(FileName$, #False)
+      If AddToRecentFiles
+        RecentFiles_AddFile(FileName$, #False)
+      EndIf
       AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
