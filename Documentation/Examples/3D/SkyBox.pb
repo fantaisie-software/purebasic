@@ -14,11 +14,6 @@
 
 #CameraSpeed = 1
 
-Enumeration
-  #MainWindow
-  #Editor
-EndEnumeration
-
 Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY
 
 InitEngine3D()
@@ -27,7 +22,7 @@ InitKeyboard()
 InitMouse()
 
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
-OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "SkyBox -  [F2]   [F3]   [F4]  [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " SkyBox -  [F2]/[F3] change SkyBox    [F4]disable SkyBox    [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
@@ -35,7 +30,6 @@ Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSy
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/skybox.zip", #PB_3DArchive_Zip)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ;-Material
@@ -48,14 +42,6 @@ CreateEntity(0, LoadMesh(0, "robot.mesh"), MaterialID(0))
 CreateCamera(0,0,0,100,100)
 MoveCamera(0,0,0,100, #PB_Absolute)
 CameraBackColor(0, RGB(19, 34, 49))
-
-;-GUI
-RatioX = CameraViewWidth(0) / 1920
-RatioY = CameraViewHeight(0) / 1080
-
-OpenWindow3D(#MainWindow, 10, 10, 570 * RatioX, 180 * RatioY, "SkyBox")
-EditorGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 530 * RatioX, 90 * RatioY, #PB_Editor3D_ReadOnly)
-SetGadgetText3D(#Editor, "[F2]/[F3] = Change SkyBox " + Chr(10) + "[F4] = Disable SkyBox")
 
 SkyBox("desert07.jpg")
 

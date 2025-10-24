@@ -82,21 +82,19 @@ MoveCamera(0, -20, 30, -40, #PB_Absolute)
 CameraLookAt(0, EntityX(C) + 25, EntityY(C) + 10,  EntityZ(C))
 
 ; Sky
+;
 SkyTexture = LoadTexture(#PB_Any, "sky.png")
 SkyDome(TextureID(SkyTexture), $cc6600, $0088ff, 3, 400, -0.5, 0)
 
 
-; Ocean
-#EndDistance=1024*4
-WaterTexture = LoadTexture(#PB_Any,"waternormal.png")
-FoamTexture = LoadTexture(#PB_Any,"foam.png")
-CreateWater(TextureID(WaterTexture), TextureID(FoamTexture), $cc888800, $886666, #EndDistance, 1.5,1.5,0.0,0.7)
-
 ;ground
+;
+#EndDistance=1024*4
 TextureGround = LoadTexture(#PB_Any,"Dirt.jpg")
 CreateMaterial(2, TextureID(TextureGround))
 CreatePlane(2, #EndDistance, #EndDistance, 16, 16, #EndDistance/64, #EndDistance/64)
 CreateEntity(2, MeshID(2), MaterialID(2), 0, -30, 0)
+CreateEntityBody(2,#PB_Entity_PlaneBody)
 
 ; Light
 ;

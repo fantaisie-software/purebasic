@@ -21,11 +21,6 @@
 #CylinderCollidesWith = #COL_Ground | #COL_Sphere | #COL_Box
 #GroundCollidesWith   = #COL_Sphere | #COL_Box    | #COL_Cylinder
 
-Enumeration
-  #MainWindow
-  #Editor
-EndEnumeration
-
 Define.f KeyX, KeyY, MouseX, MouseY, RatioX, RatioY
 Define.i Shoot
 
@@ -37,11 +32,11 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " SetEntityCollisionFilter - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ;- Materials
@@ -85,19 +80,11 @@ CreateLight(0, $FFFFFF, 1560, 900, 500)
 AmbientColor($330000)
 
 ;- GUI
-RatioX = CameraViewWidth(0) / 1920
-RatioY = CameraViewHeight(0) / 1080
-OpenWindow3D(#MainWindow, 0, 0, 550 * RatioX, 110 * RatioY, "SetEntityCollisionFilter")
-TextGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 470 * RatioX, 40 * RatioY, "Clic somewhere")
-
-ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
+TextScreenGadget(0, 20, 10, 400, 50, "Clic somewhere")
+SetScreenGadgetFont(0,LoadFont(0,"Arial",24))
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
   
   If ExamineMouse()
     MouseX = -MouseDeltaX() * 0.05
@@ -133,6 +120,7 @@ Repeat
   MoveCamera  (0, KeyX, 0, KeyY)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 

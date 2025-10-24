@@ -8,14 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-
-
 #CameraSpeed = 0.4
-
-Enumeration
-  #MainWindow
-  #Editor
-EndEnumeration
 
 Define.f KeyX, KeyY, MouseX, MouseY, SpeedRotate
 Define MaskSphere = 0 ; RayPick() ignore this entity
@@ -27,11 +20,11 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " RayPick - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 KeyboardMode(#PB_Keyboard_International)
@@ -88,20 +81,13 @@ CreateLight(0, RGB(255, 255, 255), 1560, 900, 500)
 AmbientColor(0)
 
 ;- GUI
-RatioX.f = CameraViewWidth(0) / 1920
-RatioY.f = CameraViewHeight(0) / 1080
-OpenWindow3D(#MainWindow, 10, 10, 380 * RatioX, 120 * RatioY, "RayPick")
-StringGadget3D(#Editor, 20 * RatioX, 20 * RatioY, 300 * RatioX, 50 * RatioY, "", #PB_String3D_ReadOnly)
-
-ShowGUI(155, 0)
+TextScreenGadget(0, 20, 10, 400, 50, "")
+SetScreenGadgetFont(0,LoadFont(0,"Arial",24))
+ScreenMouseVisible(0)
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
+    
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.5
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.5
@@ -119,9 +105,9 @@ Repeat
   
   If Entity>=0
     CreateLine3D(10, NodeX(0), NodeY(0), NodeZ(0), RGB(255, 0, 0), PickX(), PickY(), PickZ(), RGB(255, 0, 0))
-    SetGadgetText3D(#Editor, "Entity = " + Str(Entity))
+    SetScreenGadgetText(0, "Entity = " + Str(Entity))
   Else
-    SetGadgetText3D(#Editor, "I'm looking...")
+    SetScreenGadgetText(0, "I'm looking...")
   EndIf
   
   If entity = 10
@@ -135,6 +121,7 @@ Repeat
   MoveCamera  (0, KeyX, 0, KeyY)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 

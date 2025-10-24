@@ -18,8 +18,8 @@ CreateCamera(0, 0, 0, 100, 100):MoveCamera(0,0,2,8):CameraLookAt(0,0,2,0):Camera
 CreateLight(0,$ffffff, -1000, 1000, 0)
 AmbientColor($444444)
 
-CreateShaderMaterial(0,#PB_Material_ColorShader)
-SetMaterialColor(0,#PB_Material_AmbientColor|#PB_Material_DiffuseColor,$ff):MaterialShininess(0,64,$ffffff)
+CreateMaterial(0,0,$ff)
+MaterialShininess(0,64,$ffffff)
 MaterialCullingMode(0,#PB_Material_NoCulling)
 
 Define ns=4     ; section number (joint)

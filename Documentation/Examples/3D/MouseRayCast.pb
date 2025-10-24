@@ -27,6 +27,7 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " MouseRayCast - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
@@ -105,24 +106,15 @@ AmbientColor(RGB(50, 50, 50))
 
 ;-GUI
 ;
-RatioX = CameraViewWidth(0) / 1920
-RatioY = CameraViewHeight(0) / 1080
-OpenWindow3D(#MainWindow, 0, 0, 420 * RatioX, 110 * RatioY, "MouseRayCast")
-StringGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 360 * RatioX, 40 * RatioY, "", #PB_String3D_ReadOnly)
-
-ShowGUI(128, 1)
+TextScreenGadget(0, 20, 10, 400, 50, "Clic somewhere")
+SetScreenGadgetFont(0,LoadFont(0,"Arial",24))
 
 MouseLocate(CameraViewWidth(0)/2, CameraViewHeight(0)/2)
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
+    
   If ExamineMouse()
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.5
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.5
     Mx = MouseX()
@@ -142,12 +134,12 @@ Repeat
                  PickY() + NormalY()*#N,
                  PickZ() + NormalZ()*#N, RGB(255,255,0))
     
-    SetGadgetText3D(#Editor, "Entity = " + Str(Entity))
+    SetScreenGadgetText(0, "Entity = " + Str(Entity))
   Else
     If IsMesh(11)
       FreeMesh(11)
     EndIf
-    SetGadgetText3D(#Editor, "I'm looking...")
+    SetScreenGadgetText(0, "I'm looking...")
   EndIf
   
   RotateNode(0, 0, 1, 0, #PB_Relative)
@@ -156,6 +148,7 @@ Repeat
   MoveCamera  (0, KeyX, 0, KeyY)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 

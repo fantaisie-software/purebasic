@@ -28,10 +28,11 @@ ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " EntityCollide - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
+InitScreenGadgets()
+
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ;- Materials
@@ -69,26 +70,17 @@ CreateLight(0, $FFFFFF, 1560, 900, 500)
 AmbientColor($330000)
 
 ;- GUI
-RatioX = CameraViewWidth(0) / 1920
-RatioY = CameraViewHeight(0) / 1080
-OpenWindow3D(#MainWindow, 0, 0, 390 * RatioX, 110 * RatioY, "EntityCollide")
-TextGadget3D(#TextGadget, 10 * RatioX, 20 * RatioY, 350 * RatioX, 40 * RatioY, "Clic somewhere")
+OpenScreenWindow(#MainWindow, 8,8, 160 , 60 , "EntityCollide")
+TextScreenGadget(#TextGadget, 10 , 20 , 200 , 30 , "Clic somewhere")
 
-ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
+    
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-    
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
-    
+        
     If MouseButton(#PB_MouseButton_Left)
       If Clic = 0
         If PointPick(0, MouseX(), MouseY())
@@ -124,6 +116,7 @@ Repeat
   CameraLookAt(0, 0, 0, 0)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 

@@ -10,11 +10,6 @@
 
 #CameraSpeed = 0.4
 
-Enumeration
-  #MainWindow
-  #Editor
-EndEnumeration
-
 Define.f KeyX, KeyY, MouseX, MouseY
 
 InitEngine3D()
@@ -25,11 +20,11 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " MousePick - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 WorldDebug(#PB_World_DebugEntity)
@@ -72,29 +67,22 @@ AmbientColor($330000)
 
 ;GUI
 ;
-OpenWindow3D(#MainWindow, 10, 10, 340, 75, "MousePick")
-StringGadget3D(#Editor, 20, 10, 300, 30, "Clic somewhere", #PB_String3D_ReadOnly)
-
-ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
+TextScreenGadget(0, 20, 10, 400, 50, "Clic somewhere")
+SetScreenGadgetFont(0,LoadFont(0,"Arial",24))
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
-  If ExamineMouse()
-    MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
-    MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
     
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
+  If ExamineMouse()
+    MouseX = -MouseDeltaX() * 0.1
+    MouseY = -MouseDeltaY() * 0.1
+    
     
     If MouseButton(#PB_MouseButton_Left)
       Entity = MousePick(0, MouseX(), MouseY())
       If Entity>=0 And Entity<>3
         MoveEntity(3, PickX(), PickY(), PickZ(), #PB_Absolute)
-        SetGadgetText3D(#Editor, "Entity = " + Str(Entity))
+        SetScreenGadgetText(0, "Entity = " + Str(Entity))
       EndIf
     EndIf
   EndIf
@@ -108,6 +96,7 @@ Repeat
   MoveCamera  (0, KeyX, 0, KeyY)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 

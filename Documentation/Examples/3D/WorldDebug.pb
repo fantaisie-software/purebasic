@@ -26,13 +26,12 @@ InitKeyboard()
 InitMouse()
 
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
-OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " WorldDebug -  [F2]   [F3]   [F4]  [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " WorldDebug -  [F2] Debug Entity     [F3] Debug Body    [F4] Debug none   [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ;- Materials
@@ -69,22 +68,9 @@ CameraLookAt(Camera, -1, 0, 0)
 ;- Light
 CreateLight(#PB_Any, RGB(255, 255, 255), 1560, 900, 500)
 
-;- GUI
-RatioX = CameraViewWidth(Camera) / 1920
-RatioY = CameraViewHeight(Camera) / 1080
-OpenWindow3D(#MainWindow, 10, 10, 380 * RatioX, 180 * RatioY, "WorldDebug")
-EditorGadget3D(#Editor, 10 * RatioX, 20 * RatioY, 340 * RatioX, 110 * RatioY, #PB_Editor3D_ReadOnly)
-SetGadgetText3D(#Editor, "F2 : Debug Entity" + Chr(10) + "F3 : Debug Body"  + Chr(10) + "F4 : Debug none")
-
-ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
-
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
+    
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.05

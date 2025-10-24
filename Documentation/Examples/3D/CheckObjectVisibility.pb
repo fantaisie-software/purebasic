@@ -30,11 +30,13 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " CheckObjectVisibility -  [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
+
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
+;Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ; First create materials
@@ -72,24 +74,17 @@ AmbientColor(RGB(30, 30, 30))
 
 ;GUI
 ;
-RatioX = CameraViewWidth(0) / 1920
-RatioY = CameraViewHeight(0) / 1080
-OpenWindow3D(#MainWindow, 0, 0, 490 * RatioX, 190 * RatioY, "Who Is on Screen ?")
-TextGadget3D(#Text1, 10 * RatioX,  20 * RatioY, 430 * RatioX, 40 * RatioY, "")
-TextGadget3D(#Text2, 10 * RatioX,  60 * RatioY, 430 * RatioX, 40 * RatioY, "")
-TextGadget3D(#Text3, 10 * RatioX, 100 * RatioY, 430 * RatioX, 40 * RatioY, "")
+OpenScreenWindow(#MainWindow, 8,8, 250, 160, "Who Is on Screen ?")
+TextScreenGadget(#Text1, 10 ,  20 , 430 , 40 , "")
+TextScreenGadget(#Text2, 10 ,  60 , 430 , 40 , "")
+TextScreenGadget(#Text3, 10 , 100 , 430 , 40 , "")
 
-ShowGUI(128, #False)
+ScreenMouseVisible(0)
 
 Repeat
   While WindowEvent():Wend
-  
-  Repeat
-    Event3D = WindowEvent3D()
-  Until Event3D = 0
-  
+    
   If ExamineMouse()
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.5
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.5
   EndIf
@@ -107,13 +102,14 @@ Repeat
   MoveCamera  (0, KeyX, 0, KeyY)
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 
 Procedure IsOnScreen(Editor, object.s , objectID)
   If CheckObjectVisibility(0, objectID)
-    SetGadgetText3D(Editor, object + " is on screen")
+    SetScreenGadgetText(Editor, object + " is on screen")
   Else
-    SetGadgetText3D(Editor, object + " is not on screen")
+    SetScreenGadgetText(Editor, object + " is not on screen")
   EndIf
 EndProcedure
