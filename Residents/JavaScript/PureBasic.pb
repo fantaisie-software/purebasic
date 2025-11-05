@@ -170,6 +170,7 @@ IncludeFile "../Common.pb"
 #PB_Event_WebSocket        = 22
 #PB_Event_Mobile           = 23
 #PB_Event_Notification     = 24
+#PB_Event_ColorSchemeChanged = 25
 
 ; Loading type
 ;
