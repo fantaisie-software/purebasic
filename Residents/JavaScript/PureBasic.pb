@@ -170,7 +170,7 @@ IncludeFile "../Common.pb"
 #PB_Event_WebSocket        = 22
 #PB_Event_Mobile           = 23
 #PB_Event_Notification     = 24
-#PB_Event_ColorSchemeChanged = 25
+#PB_Event_ThemeChanged     = 25
 
 ; Loading type
 ;
@@ -704,3 +704,6 @@ IncludeFile "../Common.pb"
 #PB_Mobile_TabIcon  = "icon"
 #PB_Mobile_TabActiveIcon = "active-icon"
 #PB_Mobile_TabBadge = "badge"
+
+#PB_Mobile_LightTheme = 1
+#PB_Mobile_DarkTheme = 2

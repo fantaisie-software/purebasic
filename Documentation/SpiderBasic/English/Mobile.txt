@@ -72,10 +72,86 @@
 @EndCode
 
 @SeeAlso
-  @@ListMobile, @@CloseMobileContainer
+  @@ListMobile, @@CloseMobileContainer, @@RemoveMobileItem, @@ClearMobileItems
 
 @SupportedOS
 
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveMobileItem(#Mobile, Position)
+
+@Description
+  Remove the standard item at the specified positon from the specified mobile object. The @#PB_Mobile_Header type of item are ignored.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+
+@Parameter "Position"
+  The zero-based position of the item to remove.
+
+@NoReturnValue
+
+@Remarks
+  The mobile object can be one of the following:
+@LineBreak
+@LineBreak
+  - @@ListMobile
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    AddListMobileItem(0, "Header", #PB_Mobile_Header)
+    AddListMobileItem(0, "Basic item 1")
+    AddListMobileItem(0, "Basic item 2")
+    AddListMobileItem(0, "Basic item 3")
+    AddListMobileItem(0, "Basic item 4")
+    
+    RemoveMobileItem(0, 2) ; Remove 'Mobile item 3'
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ListMobile, @@AddListMobileItem, @@ClearMobileItems
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearMobileItems(#Mobile)
+
+@Description
+  Remove all items from the specified mobile object.
+
+@Parameter "#Mobile"
+  The mobile object to use.
+
+@NoReturnValue
+
+@Remarks
+  The mobile object can be one of the following:
+@LineBreak
+@LineBreak
+  - @@ListMobile
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    AddListMobileItem(0, "Header", #PB_Mobile_Header)
+    AddListMobileItem(0, "Basic item 1")
+    AddListMobileItem(0, "Basic item 2")
+    AddListMobileItem(0, "Basic item 3")
+    AddListMobileItem(0, "Basic item 4")
+    
+    ClearMobileItems() ; Remove all items
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ListMobile, @@AddListMobileItem, @@RemoveMobileItem
+
+@SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -1996,3 +2072,55 @@
 @EndCode
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MobileTheme(Theme)
+
+@Description
+  Changes the theme for the UI rendering. To detect if the device is in dark mode, use @@IsDarkMode.
+
+@Parameter "Theme"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Mobile_LightTheme: Use light theme (default).
+  @#PB_Mobile_DarkTheme : Use dark theme.
+@EndFixedFont  
+
+@NoReturnValue
+
+@Example
+@Code
+  If ContainerMobile(#PB_Any, #PB_Mobile_Page)
+    ListMobile(0)
+    AddListMobileItem(0, "Header", #PB_Mobile_Header)
+    AddListMobileItem(0, "SpiderBasic dynamic theme example")
+    
+    AddListMobileItem(0, "", #PB_Mobile_Container)
+      TextMobile(#PB_Any, "Enable dark mode", #PB_Mobile_Center)
+      SwitchMobile(1, #PB_Mobile_Right)
+    CloseMobileContainer()
+  EndIf
+  
+  Procedure MobileEvents()
+    Select EventMobile()
+      Case 1
+        Debug "Switch changed. State: " + GetMobileState(1)
+        
+        If GetMobileState(1)
+          MobileTheme(#PB_Mobile_DarkTheme)
+        Else
+          MobileTheme(#PB_Mobile_LightTheme)
+        EndIf
+    EndSelect
+  EndProcedure
+
+  BindEvent(#PB_Event_Mobile, @MobileEvents())
+@EndCode
+
+@SeeAlso
+  @@IsDarkMode
+  
+@SupportedOS
+
+
