@@ -203,18 +203,11 @@ Procedure PropGridAddNode(grid, row, title.s)
   grid_SetCellType(grid, 0, row, #Grid_Cell_Custom)
   grid_SetCellState(grid, 0, row, @PropGridFoldImgProc())
   
-  CompilerIf #CompileMac
-    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
-    grid_SetCellBackColor(grid, 1, row, GetCocoaColor("controlBackgroundColor"))
-    grid_SetCellBackColor(grid, 2, row, GetCocoaColor("controlBackgroundColor"))
-  CompilerElse
-    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
-    grid_SetCellBackColor(grid, 1, row, RGB(238, 238, 238))
-    grid_SetCellBackColor(grid, 2, row, RGB(238, 238, 238))
-  CompilerEndIf
-  
+  grid_SetCellBackColor(grid, 0, row, grid_color_bg)
+  grid_SetCellBackColor(grid, 1, row, grid_color_bg)
+  grid_SetCellBackColor(grid, 2, row, grid_color_bg)
   grid_SetCellString(grid, 1, row, title)
-  grid_SetSelectionStyle(grid, 1, row, "", -1, 1, -1, -1, -1, -1, 0, Len(title))
+  grid_SetSelectionStyle(grid, 1, row, "", -1, 1, -1, -1, -1, grid_color_text, 0, Len(title))
   
   grid_SetCellLockState(grid, 0, row, 1)
   grid_SetCellLockState(grid, 1, row, 1)
@@ -223,11 +216,7 @@ Procedure PropGridAddNode(grid, row, title.s)
 EndProcedure
 Procedure PropGridAddItem(grid, row, title.s, value.s = "")
   grid_InsertRow(grid, row)
-  CompilerIf #CompileMac
-    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
-  CompilerElse
-    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
-  CompilerEndIf
+  grid_SetCellBackColor(grid, 0, row, grid_color_bg)
   grid_SetCellString(grid, 1, row, title)
   grid_SetCellString(grid, 2, row, value)
   grid_SetCellLockState(grid,0,row,1)
@@ -365,7 +354,7 @@ Procedure FD_UpdateScrollbars(resizewin = 0)
       EndIf
     Else
       OpenGadgetList(#GADGET_Form)
-      ScrollBarGadget(#GADGET_Form_ScrollV,GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width,0,Grid_Scrollbar_Width,sheight,0,400,GadgetHeight(#GADGET_Form_Canvas),#PB_ScrollBar_Vertical)
+      ScrollBarGadget(#GADGET_Form_ScrollV,GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width,0,Grid_Scrollbar_Width,sheight,0,800,GadgetHeight(#GADGET_Form_Canvas),#PB_ScrollBar_Vertical)
       BindGadgetEvent(#GADGET_Form_ScrollV, @Form_Scrollbars())
       CloseGadgetList()
     EndIf
@@ -3789,7 +3778,7 @@ Procedure FD_Move(x,y)
         
         If y2 = 0
           y2 = FormWindows()\height - bottompaddingsb
-          If FormSkin <> #PB_OS_MacOS
+          If FormSkin = #PB_OS_MacOS
             y2 - toptoolpadding - topmenupadding
           EndIf
         EndIf
@@ -5031,13 +5020,7 @@ Procedure FD_Redraw()
     EndIf
     
     If ListSize(FormWindows()\FormToolbars()) Or FormWindows()\toolbar_visible
-      toptoolpadding = 16
-      
-      If FormSkin = #PB_OS_MacOS
-        toptoolpadding + 8 ; top3, bottom5
-      Else
-        toptoolpadding + 6
-      EndIf
+      toptoolpadding = P_Toolbar
     Else
       toptoolpadding = 0
     EndIf

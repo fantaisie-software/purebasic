@@ -6,16 +6,21 @@
 UseJPEGImageDecoder()
 UsePNGImageDecoder()
 
-Global P_WinHeight, P_Status, P_Menu, P_Font.s, P_FontSize, P_FontSizeL
+Global P_WinHeight, P_Status, P_Menu, P_Toolbar, P_Font.s, P_FontSize, P_FontSizeL
 Global P_FontGadget.s, P_FontGadgetSize, P_FontMenu.s, P_FontMenuSize, P_FontColumn.s, P_FontColumnSize, P_FontGrid.s
 Global P_SplitterWidth, ScrollAreaW, Panel_Height, P_ScrollWidth
 
 Global multiselectStart, multiselectParent, multiselectFirstScan
 
+Global grid_color_bg.l, grid_color_fg.l, grid_color_text.l, grid_color_light.l, grid_color_mid.l, grid_color_dark.l
+
 #Page_Padding = 10
 
 CompilerSelect #PB_Compiler_OS
   CompilerCase #PB_OS_MacOS
+    
+    Declare GetCocoaColor(NSColorName.s)
+    
     P_FontGrid = "Lucida Grande"
     #P_FontGridSize = 13
     #P_FontCode = "Monaco"
@@ -31,8 +36,8 @@ CompilerSelect #PB_Compiler_OS
     #P_FontCode = "Courier New"
     #P_FontCodeSize = 11
   CompilerCase #PB_OS_Linux
-    P_FontGrid = "Lucida Grande"
-    #P_FontGridSize = 11
+    P_FontGrid = "DejaVu Sans"
+    #P_FontGridSize = 10
     #P_FontCode = "Monaco"
     #P_FontCodeSize = 11
 CompilerEndSelect
@@ -1211,6 +1216,7 @@ Procedure InitVars()
       P_WinHeight = 22
       P_Status = 24
       P_Menu = 23
+      P_Toolbar = 36
       P_Font.s = "Lucida Grande"
       P_FontSize = 9
       P_FontSizeL = 10
@@ -1244,6 +1250,7 @@ Procedure InitVars()
       P_WinHeight = 29
       P_Status = 23
       P_Menu = 22
+      P_Toolbar = 24
       P_FontSize = 9
       P_FontSizeL = 10
       P_FontGadgetSize = 9
@@ -1256,17 +1263,18 @@ Procedure InitVars()
       Panel_Height = 22
     Case #PB_OS_Linux
       P_WinHeight = 28
-      P_Status = 23
-      P_Menu = 22
-      P_Font.s = "Lucida Grande"
-      P_FontSize = 10
+      P_Status = 26
+      P_Menu = 28
+      P_Toolbar = 38
+      P_Font.s = "DejaVu Sans"
+      P_FontSize = 9
       P_FontSizeL = 11
-      P_FontGadget.s = "Lucida Grande"
-      P_FontGadgetSize = 11
-      P_FontMenu.s = "Lucida Grande"
-      P_FontMenuSize = 12
-      P_FontColumn.s = "Lucida Grande"
-      P_FontColumnSize = 9
+      P_FontGadget.s = "DejaVu Sans"
+      P_FontGadgetSize = 9
+      P_FontMenu.s = "DejaVu Sans"
+      P_FontMenuSize = 11
+      P_FontColumn.s = "DejaVu Sans"
+      P_FontColumnSize = 11
       P_SplitterWidth = 9
       P_ScrollWidth = 18
 
@@ -1281,8 +1289,34 @@ Procedure InitVars()
     P_FontMenuSize + 3
     P_FontColumnSize + 3
   CompilerEndIf
-
-
+  
+  CompilerIf #CompileMac
+    If DisplayDarkMode
+      grid_color_bg = GetCocoaColor("underPageBackgroundColor")
+      grid_color_text = GetCocoaColor("textColor")
+      grid_color_light = GetCocoaColor("windowBackgroundColor")
+      grid_color_mid = #Gray
+    Else
+      grid_color_bg = RGB(238, 238, 238)
+      grid_color_text = #Black
+      grid_color_light = #Gray; RGB(238, 238, 238)
+      grid_color_mid = #Gray
+    EndIf
+  CompilerElse
+    CompilerIf #CompileLinuxGtk
+      Global *Style.GtkStyle = gtk_widget_get_style_(WindowID(#WINDOW_Main))
+      grid_color_bg = RGB(*Style\bg[#GTK_STATE_NORMAL]\red >> 8, *Style\bg[#GTK_STATE_NORMAL]\green >> 8, *Style\bg[#GTK_STATE_NORMAL]\blue >> 8)
+      grid_color_text = RGB(*Style\text[#GTK_STATE_NORMAL]\red >> 8, *Style\text[#GTK_STATE_NORMAL]\green >> 8, *Style\text[#GTK_STATE_NORMAL]\blue >> 8)
+      grid_color_light = RGB(*Style\light[#GTK_STATE_NORMAL]\red >> 8, *Style\light[#GTK_STATE_NORMAL]\green >> 8, *Style\light[#GTK_STATE_NORMAL]\blue >> 8)
+      grid_color_mid = RGB(*Style\mid[#GTK_STATE_NORMAL]\red >> 8, *Style\mid[#GTK_STATE_NORMAL]\green >> 8, *Style\mid[#GTK_STATE_NORMAL]\blue >> 8)
+    CompilerElse
+      grid_color_bg = RGB(238, 238, 238)
+      grid_color_text = #Black
+      grid_color_light = #Gray; RGB(238, 238, 238)
+      grid_color_mid = #Gray
+    CompilerEndIf
+  CompilerEndIf
+  
   If IsFont(#Form_Font) : FreeFont(#Form_Font) : EndIf
   If IsFont(#Form_FontColumnHeader) : FreeFont(#Form_FontColumnHeader) : EndIf
   If IsFont(#Form_FontMenu) : FreeFont(#Form_FontMenu) : EndIf

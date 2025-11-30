@@ -405,11 +405,13 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             codepaddingheight + " - MenuHeight()"
           EndIf
           If ListSize(FormWindows()\FormToolbars())
-            If codepaddingy <> ""
-              codepaddingy + " + "
+            If FormSkin = #PB_OS_Windows
+              If codepaddingy <> ""
+                codepaddingy + " + "
+              EndIf
+              codepaddingy + "ToolBarHeight("+Str(toolbarcount - 1)+")"
+              codepaddingheight + " - ToolBarHeight("+Str(toolbarcount - 1)+")"
             EndIf
-            codepaddingy + "ToolBarHeight("+Str(toolbarcount - 1)+")"
-            codepaddingheight + " - ToolBarHeight("+Str(toolbarcount - 1)+")"
           EndIf
           If ListSize(FormWindows()\FormStatusbars())
             codepaddingheight + " - StatusBarHeight("+Str(statusbarcount - 1)+")"
@@ -695,11 +697,16 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 
                 linevars + Str(tempvalue - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1))
               Else
+                ;- Change height menu and toolbar calc
                 value = FormWindows()\height - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)
-                
-                If FormSkin <> #PB_OS_MacOS
+                If FormSkin = #PB_OS_Windows
+
                   value - bottompaddingsb - toptoolpadding
-                  
+                  If ListSize(FormWindows()\FormMenus())
+                    value - P_Menu
+                  EndIf
+                ElseIf FormSkin = #PB_OS_Linux
+                  value - bottompaddingsb
                   If ListSize(FormWindows()\FormMenus())
                     value - P_Menu
                   EndIf
