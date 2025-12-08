@@ -23,7 +23,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Description
   Add and compress the file to the specified pack previously created with @@CreatePack.
-  Adding a large file can take a long time.
+  Adding a large file can take a long time. @@PackerCallback can be used to monitor or abort the compression.
 
 @Parameter "#Pack"
   The pack to use.
@@ -82,7 +82,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   For another example see @@UncompressPackFile.
   
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -113,6 +113,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Description
   Add and compress the memory buffer to the specified pack previously created with @@CreatePack.
+  @@PackerCallback can be used to monitor or abort the compression.
 
 @Parameter "#Pack"
   The pack to use.
@@ -131,7 +132,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   If the memory buffer can't be compressed, it will be stored as is in the packfile.
 
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -158,7 +159,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @Description
   Compress the buffer content into the output buffer. The output buffer length needs to be
-  at least as long as the buffer to compress.
+  at least as long as the buffer to compress. @@PackerCallback can be used to monitor or abort the compression.
   
 @Parameter "*Buffer"
   The memory buffer to compress.
@@ -189,7 +190,7 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
   If the buffer data can't be compressed (already compressed data generally don't compress anymore), it will return zero.
 
 @SeeAlso
-  @@UncompressMemory
+  @@UncompressMemory, @@PackerCallback
     
 @SupportedOS
 
@@ -729,6 +730,59 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 
 @SeeAlso
   @@CreatePack, @@OpenPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PackerCallback(@Callback())
+
+@Description
+  Set a callback to monitor or abort the compression for @@CompressMemory, @@AddPackFile and @@AddPackMemory.
+  The callback will be called at regular intervalls during the compression process.
+  
+@Parameter "@Callback()"
+  The address of a callback function to call. It must have the following form:
+@Code
+  Procedure Callback(Current.q, Total.q)
+    ;
+    ; Returns #True as result to continue to compress, or #False to abort.
+    ;
+    ProcedureReturn Result
+  EndProcedure
+@EndCode
+ 
+@NoReturnValue
+
+@Example
+@Code
+  UseZipPacker()
+   
+  ; The callback will be called at regular intervall, to allow to display
+  ; some progress or abort the compression. It must match the following declaration.
+  ;
+  Procedure Callback(Current.q, Total.q)
+    Debug "Progress: " + Current + " bytes / "+ Total + " bytes"
+    
+    ProcedureReturn #True ; Returns #True to continue to compress, or #False to abort
+  EndProcedure
+    
+  ; Install the callback for all the future packer compression  
+  PackerCallback(@Callback())
+  
+  ; Allocate 50 GB of memory to compress it
+  *Buffer = AllocateMemory(50*1024*1024, #PB_Memory_NoClear)
+  
+  ; The output buffer a bit bigger than source, just in case
+  *Output = AllocateMemory(51*1024*1024, #PB_Memory_NoClear)
+
+  CompressedSize = CompressMemory(*Buffer, MemorySize(*Buffer), *Output, MemorySize(*Output))
+
+  Debug "Compressed length: " + CompressedSize + " bytes"
+@EndCode
+
+@SeeAlso
+  @@CompressMemory, @@AddPackFile, @@AddPackMemory
 
 @SupportedOS
 

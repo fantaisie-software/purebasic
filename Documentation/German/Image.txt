@@ -22,6 +22,7 @@
 @CommandList
 
 @ExampleFile All Image.pb
+@ExampleFile All MDI_ImageViewer.pb
 
 @SupportedOS
 
@@ -315,10 +316,13 @@
   angegeben wird.
 
 @OptionalParameter "HintergrundFarbe"
-  Die beim Erstellen des Bildes verwendete Hintergrund-@@RGB-Farbe. Diese Farbe kann auf
-  @#PB_Image_Transparent gesetzt werden, um ein Bild zu erstellen, bei dem der Alpha-Kanal
-  auf völlige Transparenz gesetzt ist. Dies hat nur einen Effekt bei 32-Bit Bildern.
-  Die Standard-Hintergrundfarbe ist schwarz, wenn dieser Parameter nicht angegeben wird.
+  Die beim Erstellen des Bildes verwendete Hintergrundfarbe. @LineBreak
+  Bei 24-Bit-Bildern verwenden Sie @@RGB, um eine gültige Farbe zu erhalten. @LineBreak
+  Bei 32-Bit-Bildern verwenden Sie @@RGBA, um eine gültige Farbe zu erhalten.
+  Für 32-Bit-Bilder können auch spezielle Konstanten verwendet werden: @LineBreak
+  - @#PB_Image_Transparent ist ähnlich zu RGBA(255,255,255,0) mit einem weißen Hintergrund, der für leichtes Antialiasing geeignet ist. @LineBreak
+  - @#PB_Image_TransparentBlack ist ähnlich RGBA(0,0,0,0) mit einem schwarzen Hintergrund, der für starkes Antialiasing geeignet ist. @LineBreak
+  Die Standard-Hintergrundfarbe ist Schwarz, sofern dieser Parameter nicht angegeben wird.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn das Bild erfolgreich erstellt wurde, und Null

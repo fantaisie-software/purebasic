@@ -1,7 +1,7 @@
 ﻿;
 ;     Image library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Image
@@ -20,6 +20,7 @@
 @CommandList
 
 @ExampleFile All Image.pb
+@ExampleFile All MDI_ImageViewer.pb
 
 @SupportedOS
 
@@ -285,9 +286,13 @@
   Valid values can be: 24 and 32. The default is 24-bit if no depth is specified.
 
 @OptionalParameter "BackColor"
-  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the
-  alpha channel set to full transparent. This only has an effect on 32-bit images. The default
-  backcolor is black if not specified.
+  The backcolor used when the image is created. @LineBreak
+  If the image is 24-bit, use  @@RGB to get a valid color. @LineBreak
+  If the image is 32-bit, use @@RGBA to get a valid color. For 32-bit image, special constants can be used as well: @LineBreak
+  - @#PB_Image_Transparent which is similar to RGBA(255,255,255,0), white background which can help for light antialiasing. @LineBreak
+  - @#PB_Image_TransparentBlack which is similar to RGBA(0,0,0,0), black background which can help for dark antialiasing. @LineBreak
+  @LineBreak
+  The default backcolor is black if not specified.
 
 @ReturnValue
   Returns nonzero if the image was created successfully and zero if the image could not be created.

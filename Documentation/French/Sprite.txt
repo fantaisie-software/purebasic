@@ -361,7 +361,7 @@ Delay(3000)
   
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, X, Y)
+@Function DisplaySprite(#Sprite, X.f, Y.f)
 
 @Description
   Affiche un Sprite sur l'écran courant.
@@ -369,10 +369,13 @@ Delay(3000)
 @Parameter "#Sprite"
   Le sprite à afficher.
   
-@Parameter "X, Y"
-  Les coordonnées du sprite, en pixels, 
-  dans l' @LibraryLink "screen" "écran".
-
+@Parameter "X.f, Y.f"
+  Les coordonnées du sprite, en pixels, dans l' @LibraryLink "screen" "écran".
+  @LineBreak
+  @LineBreak 
+  Elles peuvent être spécifiés comme des nombres flottants entre les pixels physiques, le moteur interpolera automatiquement 
+  le sprite pour lisser l'affichage (non pris en charge sur les sous-systèmes DirectX9 et DirectX11).
+  
 @NoReturnValue
 
 @Remarks
@@ -416,7 +419,7 @@ Delay(3000)
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, X, Y [, Intensite [, Couleur]])
+@Function DisplayTransparentSprite(#Sprite, X.f, Y.f [, Intensite [, Couleur]])
 
 @Description
   Affiche un Sprite avec une couleur de 
@@ -425,10 +428,13 @@ Delay(3000)
 @Parameter "#Sprite"
   Le sprite à afficher.
   
-@Parameter "X, Y"
-  Les coordonnées du sprite, en pixels, 
-  dans l' @LibraryLink "screen" "écran".
-
+@Parameter "X.f, Y.f"
+  Les coordonnées du sprite, en pixels, dans l' @LibraryLink "screen" "écran".
+  @LineBreak
+  @LineBreak 
+  Elles peuvent être spécifiés comme des nombres flottants entre les pixels physiques, le moteur interpolera automatiquement 
+  le sprite pour lisser l'affichage (non pris en charge sur les sous-systèmes DirectX9 et DirectX11).
+  
 @OptionalParameter "Intensite"
   Le niveau d'intensité d'affichage du 
   sprite.

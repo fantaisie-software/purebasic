@@ -25,6 +25,7 @@
 @Description
   Komprimiert die angegebene Datei und fügt diese zur aktuellen Paket-Datei, die zuvor mit
   @@CreatePack erstellt wurde, hinzu. Das Hinzufügen einer großen Datei kann eine längere Zeit dauern.
+  @@PackerCallback kann verwendet werden, um die Komprimierung zu überwachen oder abzubrechen.
 
 @Parameter "#Pack"
   Das zu verwendende Paket.
@@ -84,7 +85,7 @@
   Für ein weiteres Beispiel siehe @@UncompressPackFile.
 
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -116,6 +117,7 @@
 @Description
   Komprimiert den angegebenen Speicherpuffer und fügt diesen zur aktuellen Paket-Datei, die zuvor mit
   @@CreatePack geöffnet wurde, hinzu.
+  @@PackerCallback kann verwendet werden, um die Komprimierung zu überwachen oder abzubrechen.
 
 @Parameter "#Pack"
   Das zu verwendende Paket.
@@ -135,7 +137,7 @@
   gespeichert.
 
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -164,6 +166,7 @@
 @Description
   Komprimiert den Puffer-Inhalt in den Ausgabepuffer. Die Länge des Ausgabepuffers muss
   mindestens so lang wie der zu komprimierende Puffer sein.
+  @@PackerCallback kann verwendet werden, um die Komprimierung zu überwachen oder abzubrechen.
   
 @Parameter "*Puffer"
   Der zu komprimierende Speicherpuffer.
@@ -197,8 +200,8 @@
   nicht noch mehr komprimieren), dann wird Null zurückgegeben.
 
 @SeeAlso
-  @@UncompressMemory
-    
+  @@UncompressMemory, @@PackerCallback
+  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -768,5 +771,59 @@
 
 @SeeAlso
   @@CreatePack, @@OpenPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = PackerCallback(@Callback())
+
+@Description
+  Definiert eine Callback-Funktion, um die Komprimierung mittels @@CompressMemory, @@AddPackFile und
+  @@AddPackMemory zu überwachen oder abzubrechen.
+  Die Callback-Funktion wird während des Komprimierungsprozesses in regelmäßigen Abständen aufgerufen.
+  
+@Parameter "@Callback()"
+  Die Adresse einer aufzurufenden Callback-Funktion. Sie muss folgendes Format haben:
+@Code
+  Procedure Callback(Current.q, Total.q)
+    ;
+    ; Gibt als Ergebnis #True zurück, um das Komprimieren fortzusetzen, oder #False zum Abbrechen.
+    ;
+    ProcedureReturn Result
+  EndProcedure
+@EndCode
+ 
+@NoReturnValue
+
+@Example
+@Code
+  UseZipPacker()
+  
+  ; Die Callback-Funktion wird in regelmäßigen Abständen aufgerufen, um den Fortschritt anzuzeigen
+  ; oder die Komprimierung abzubrechen. Sie muss der folgenden Deklaration entsprechen.
+  ;
+  Procedure Callback(Current.q, Total.q)
+    Debug "Progress: " + Current + " bytes / "+ Total + " bytes"
+    
+    ProcedureReturn #True ; Gibt #True zurück, um die Komprimierung fortzusetzen, oder #False, um sie abzubrechen.
+  EndProcedure
+    
+  ; Callback für alle zukünftigen Packerkompressionen installieren.
+  PackerCallback(@Callback())
+  
+  ; 50 GB Speicher allokieren, um ihn zu komprimieren.
+  *Buffer = AllocateMemory(50*1024*1024, #PB_Memory_NoClear)
+  
+  ; Der Ausgabepuffer ist vorsichtshalber etwas größer als der Quellpuffer.
+  *Output = AllocateMemory(51*1024*1024, #PB_Memory_NoClear)
+
+  CompressedSize = CompressMemory(*Buffer, MemorySize(*Buffer), *Output, MemorySize(*Output))
+
+  Debug "Compressed length: " + CompressedSize + " bytes"
+@EndCode
+
+@SeeAlso
+  @@CompressMemory, @@AddPackFile, @@AddPackMemory
 
 @SupportedOS

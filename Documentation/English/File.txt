@@ -364,6 +364,8 @@
   @#PB_File_Append     : the file pointer position will be set at the end of file.
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
+  @#PB_File_BOM        : if the file contains a BOM, it will be handled automatically (no need to use @@ReadStringFormat).
+                        The detected format will be automatically used by the read and write string functions.
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@WriteString, @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):

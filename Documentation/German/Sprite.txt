@@ -39,7 +39,6 @@ Hardware-Beschleunigung ermöglicht.
 @CommandList
 
 @ExampleFile All Sprite.pb
-@ExampleFile Linux Sprite.pb
 @ExampleFile All WindowedScreen.pb
 
 @SupportedOS
@@ -258,7 +257,7 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, x, y)
+@Function DisplaySprite(#Sprite, x.f, y.f)
 
 @Description
   Zeigt das #Sprite an der angegebenen Position auf dem aktuellen Bildschirm an.
@@ -272,9 +271,13 @@ Hardware-Beschleunigung ermöglicht.
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   Die Koordinaten (in Pixel) auf dem @LibraryLink "screen" "Bildschirm", an denen das
   Sprite dargestellt werden soll.
+  @LineBreak
+  Sie können als Gleitkommazahlen angegeben werden, um zwischen physikalischen Pixeln zu liegen.
+  Die Engine interpoliert das Sprite automatisch, um die Anzeige zu glätten (nicht unterstützt
+  auf DirectX9- und DirectX11-Subsystemen).
 
 @NoReturnValue
 
@@ -285,7 +288,7 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, x, y [, Intensität [, Farbe]])
+@Function DisplayTransparentSprite(#Sprite, x.f, y.f [, Intensität [, Farbe]])
 
 @Description
   Zeigt das #Sprite an der angegebenen Position auf dem aktuellen Bildschirm an.
@@ -304,9 +307,13 @@ Hardware-Beschleunigung ermöglicht.
 @Parameter "#Sprite"
   Das darzustellende Sprite.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   Die Koordinaten (in Pixel) auf dem @LibraryLink "screen" "Bildschirm", an denen
   das Sprite dargestellt werden soll.
+  @LineBreak
+  Sie können als Gleitkommazahlen angegeben werden, um zwischen physikalischen Pixeln zu liegen.
+  Die Engine interpoliert das Sprite automatisch, um die Anzeige zu glätten (nicht unterstützt
+  auf DirectX9- und DirectX11-Subsystemen).
   
 @OptionalParameter "Intensität"
   Der zum Darstellen des Sprites verwendete Intensitätslevel. Gültige Werte reichen von 0

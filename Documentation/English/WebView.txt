@@ -69,6 +69,9 @@
   - @@SetGadgetItemText: With @#PB_WebView_HtmlCode as 'Item' html code can be streamed into the gadget. The html is treated 
   as untrusted local content and some permission are not allowed.
 @LineBreak
+@LineBreak    
+  - @@GetGadgetAttribute : With @#PB_WebView_ICoreController as 'attribute' allows you to use the functions of ICoreWebView2 (Windows only).
+@LineBreak
 
 @Example using local HTML and CSS files
 @Code
@@ -163,6 +166,44 @@
 
   Repeat 
     Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@Example In using the ICoreWebView2Controller (Windows only)
+@Code
+  OpenWindow(0, 100, 100, 800, 600, "Hello", #PB_Window_SystemMenu)
+  
+  TrackBarGadget(1, 0 , 0, 800, 30, 10, 400):SetGadgetState(1, 100) 
+  WebViewGadget(0, 0, 30, 800, 600, #PB_WebView_Debug)
+  
+  ; Get the ICoreController interface 
+  ;
+  Controller.ICoreWebView2Controller = GetGadgetAttribute(0, #PB_WebView_ICoreController)
+  
+  ; Get the ICoreWebView2 interface 
+  ;
+  Controller\get_CoreWebView2(@Core.ICoreWebView2)
+  Core\Navigate("https://www.purebasic.com")
+  
+  ; core\
+  DataSection
+    IID_ICoreWebView2Controller2:
+    Data.l $C979903E
+    Data.w $D4CA, $4228
+    Data.b $92, $EB, $47, $EE, $3F, $A9, $6E, $AB
+  EndDataSection
+  
+  If Controller\QueryInterface(?IID_ICoreWebView2Controller2, @Controller2.ICoreWebView2Controller2) = #S_OK
+    Debug "ICoreWebView2Controller2 found: " + Controller2
+  Else
+    Debug "Can't query ICoreWebView2Controller2"
+  EndIf
+  
+  Repeat 
+    Event = WaitWindowEvent()
+    If event = #PB_Event_Gadget And EventGadget() = 1
+      Controller\put_ZoomFactor(GetGadgetState(1)/100)
+    EndIf
   Until Event = #PB_Event_CloseWindow
 @EndCode
 

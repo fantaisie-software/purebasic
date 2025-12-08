@@ -41,6 +41,9 @@
 
 @Remarks
   L'ajout d'un grand fichier peut prendre un temps assez long.
+  @LineBreak
+  @LineBreak
+  @@PackerCallback peut être utilisé pour surveiller ou interrompre la compression.
 
 @Example Utilisation d'une arborescence de fichiers  
 @Code
@@ -86,7 +89,7 @@
 @EndCode
 
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
   
 @SupportedOS
 
@@ -107,7 +110,7 @@
    Renvoie une valeur non nulle si le répertoire vide a été ajouté avec succès à l'archive.
   
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -143,8 +146,11 @@
   pas être compressé, il sera stocké tel 
   quel dans l'archive.
 
+@Remarks
+  @@PackerCallback peut être utilisé pour surveiller ou interrompre la compression.
+  
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
  
 @SupportedOS
 
@@ -223,12 +229,13 @@
   généralement pas l'être davantage).
 
 @Remarks
-  La longueur du tampon de sortie doit être 
-  au moins aussi grande que celle du tampon 
-  de compression.
+  La longueur du tampon de sortie doit être au moins aussi grande que celle du tampon de compression.
+@LineBreak
+@LineBreak 
+  @@PackerCallback peut être utilisé pour surveiller ou interrompre la compression.
   
 @SeeAlso
-  @@UncompressMemory
+  @@UncompressMemory, @@PackerCallback
     
 @SupportedOS
 
@@ -908,5 +915,61 @@
 
 @SeeAlso
   @@CreatePack, @@OpenPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PackerCallback(@Callback())
+
+@Description
+ Définir une fonction de rappel pour surveiller ou interrompre la compression pour @@CompressMemory, @@AddPackFile et @@AddPackMemory.
+
+@Parameter "@Callback()"
+  Adresse de la fonction de rappel. Elle doit avoir la forme suivante :
+@Code
+  Procedure Callback(EnCours.q, Total.q)
+    ;
+    ; Renvoie #True pour continuer la compression, ou #False pour abandonner.
+    ;
+    ProcedureReturn Resultat
+  EndProcedure
+@EndCode
+ 
+@NoReturnValue
+
+@Remarks
+  La fonction de rappel sera appelée à intervalles réguliers pendant le processus de compression.
+
+
+@Example
+@Code
+  UseZipPacker()
+   
+  ; La CallBack sera appelée à intervalles réguliers pour afficher ou interrompre la compression. 
+  ; Elle doit correspondre à la déclaration suivante.
+  ;
+  Procedure Callback(EnCours.q, Total.q)
+    Debug "Progression: " + EnCours + " octets / "+ Total + " octet"
+    
+    ProcedureReturn #True ; Renvoie #True pour continuer la compression, ou #False pour abandonner.
+  EndProcedure
+    
+  ; Installer le rappel pour toutes les futures compressions de packer 
+  PackerCallback(@Callback())
+  
+  ; Allouer 50 Go de mémoire pour la compression
+  *Tampon = AllocateMemory(50*1024*1024, #PB_Memory_NoClear)
+  
+  ; Le tampon de sortie est un peu plus grand que la source, juste au cas où
+  *Sortie = AllocateMemory(51*1024*1024, #PB_Memory_NoClear)
+
+  Taille_compressee = CompressMemory(*Tampon, MemorySize(*Tampon), *Sortie, MemorySize(*Sortie))
+
+  Debug "Longueur compressée: " + Taille_compressee + " octet"
+@EndCode
+
+@SeeAlso
+  @@CompressMemory, @@AddPackFile, @@AddPackMemory
 
 @SupportedOS

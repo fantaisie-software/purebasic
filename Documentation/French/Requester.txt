@@ -167,8 +167,7 @@
 @Function Resultat$ = InputRequester(Titre$, Message$, TexteParDefaut$ [, Option [, ParentID]])
 
 @Description
-  Ouvre une boîte de dialogue permettant 
-  la saisie de texte.
+  Ouvre une boîte de dialogue permettant la saisie de texte.
   
 @Parameter "Titre$"
   Titre de la boîte de dialogue.
@@ -180,9 +179,12 @@
   Texte par défaut du champ de saisie.
 
 @OptionalParameter "Option"
+  Il peut s'agir de l'une des valeurs suivantes :
 @FixedFont
-  @#PB_InputRequester_Password: Définir le champ en type 'mot de passe'. 
-                               Le texte affiché sera caché.
+  @#PB_InputRequester_Password     : Définit le champ en type 'mot de passe'. 
+                                    Le texte affiché sera caché.
+  @#PB_InputRequester_HandleCancel : La valeur spéciale @#PB_InputRequester_Cancel 
+                                    sera renvoyée lorsque l'utilisateur annule la boîte de dialogue.
 @EndFixedFont
 
 @OptionalParameter "ParentID"
