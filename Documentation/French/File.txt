@@ -511,16 +511,13 @@ et à la bibliothèque
 @Function Resultat = OpenFile(#Fichier, NomFichier$ [, Options]) 
 
 @Description
-  Ouvre un fichier en lecture et en écriture 
-  ou le crée s'il n'existe pas.
+  Ouvre un fichier en lecture et en écriture ou le crée s'il n'existe pas.
   
 @Parameter "#Fichier"
   Le fichier à utiliser.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
   
 @Parameter " NomFichier$"
   Le nom du fichier à ouvrir.
@@ -533,10 +530,13 @@ et à la bibliothèque
   @#PB_File_Append     : La position du pointeur de fichier sera fixée à la fin du fichier.
   @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
                         @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
+  @#PB_File_BOM        : Si le fichier contient un BOM, celu-ci sera traité automatiquement (pas besoin d'utiliser @@ReadStringFormat).
+ 
 @EndFixedFont
   combiné avec l'une des valeurs suivantes (les options suivantes affectent le comportement de 
   @@WriteString, @@WriteStringN, @@ReadString, @@ReadCharacter et @@WriteCharacter):
-@FixedFont
+@FixedFont 
+  Si le fichier contient une nomenclature, celle-ci sera traitée automatiquement (pas besoin d'utiliser
   @#PB_Ascii  : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode ASCII
   @#PB_UTF8   : Toute opération de lecture/écriture des chaînes de caractères utilisera le mode UTF-8 (Par défaut).
   @#PB_Unicode: Toute opération de lecture/écriture des chaînes de caractères utilisera le mode Unicode.

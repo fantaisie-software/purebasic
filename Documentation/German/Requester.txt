@@ -1,7 +1,7 @@
 ﻿;
 ;     Requester library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Requester
@@ -152,9 +152,11 @@
   Standard-Text im Eingabefeld.
 
 @OptionalParameter "Flags"
-  Kann der folgende Wert sein:
+  Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_InputRequester_Password: setzt den Feld-Typ auf 'Passwort'. Der angezeigte Text wird versteckt.
+  @#PB_InputRequester_HandleCancel: Falls angegeben, wird der spezielle Wert @#PB_InputRequester_Cancel
+                                   zurückgegeben, wenn der Benutzer den Requester abbricht.
 @EndFixedFont
 
 @OptionalParameter "ParentID"

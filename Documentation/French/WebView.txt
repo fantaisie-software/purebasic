@@ -82,7 +82,11 @@
 @LineBreak 
   - @@SetGadgetItemText : Avec @#PB_WebView_HtmlCode comme 'élément', le code HTML peut être diffusé 
   (streamé) dans le gadget. Toutefois, le code HTML est traité comme un contenu local non fiable et certaines 
-   autorisations ne sont pas autorisées.
+  autorisations ne sont pas autorisées.
+@LineBreak
+@LineBreak    
+  - @@GetGadgetAttribute : Avec @#PB_WebView_ICoreController comme 'attribut' permet d'utiliser les 
+   fonctions du ICoreWebView2 (Windows seulement).
 @LineBreak
 
 
@@ -179,6 +183,44 @@
 
   Repeat 
     Event = WaitWindowEvent()
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@Example En utilisant les fonctions du ICoreWebView2Controller (Windows seulement)
+@Code
+  OpenWindow(0, 100, 100, 800, 600, "Salut", #PB_Window_SystemMenu)
+  
+  TrackBarGadget(1, 0 , 0, 800, 30, 10, 400):SetGadgetState(1, 100) 
+  WebViewGadget(0, 0, 30, 800, 600, #PB_WebView_Debug)
+  
+  ; Obtenir l'interface ICoreController  
+  ;
+  Controller.ICoreWebView2Controller = GetGadgetAttribute(0, #PB_WebView_ICoreController)
+  
+  ; Obtenir l'interface ICoreWebView2
+  ;
+  Controller\get_CoreWebView2(@Core.ICoreWebView2)
+  Core\Navigate("https://www.purebasic.com")
+  
+  ; core\
+  DataSection
+    IID_ICoreWebView2Controller2:
+    Data.l $C979903E
+    Data.w $D4CA, $4228
+    Data.b $92, $EB, $47, $EE, $3F, $A9, $6E, $AB
+  EndDataSection
+  
+  If Controller\QueryInterface(?IID_ICoreWebView2Controller2, @Controller2.ICoreWebView2Controller2) = #S_OK
+    Debug "ICoreWebView2Controller2 trouvé : " + Controller2
+  Else
+    Debug "Impossible d'utiliser ICoreWebView2Controller2"
+  EndIf
+  
+  Repeat 
+    Event = WaitWindowEvent()
+    If event = #PB_Event_Gadget And EventGadget() = 1
+      Controller\put_ZoomFactor(GetGadgetState(1)/100)
+    EndIf
   Until Event = #PB_Event_CloseWindow
 @EndCode
 

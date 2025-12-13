@@ -625,7 +625,7 @@ renommer, naviguer dans l'arborescence des dossiers, etc.).
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = OpenFTP(#FTP, Serveur$, Utilisateur$, MotDePasse$ [, Passif [, Port]])
+@Function Resultat = OpenFTP(#FTP, Serveur$, Utilisateur$, MotDePasse$ [, Options [, Port]])
 
 @Description
   Ouvre une connexion sur un serveur FTP ou SFTP. 
@@ -647,11 +647,11 @@ renommer, naviguer dans l'arborescence des dossiers, etc.).
 @Parameter "MotDePasse$"
   Le mot de passe pour l'authentification sur le serveur.
 
-@OptionalParameter "Passif"
-  Active ou désactive le mode passif pour la connexion.
+@OptionalParameter "Options"
+  Peut être une combinaison des valeurs suivantes :
 @FixedFont
-  @#True : Mode passif activé (par défaut)
-  @#False: Mode passif désactivé
+  @#PB_FTP_Active : Active le mode de connexion actif. Si ce paramètre n'est pas spécifié, la connexion est établie en mode passif.
+  @#PB_FTP_Debug  : Affiche les informations de débogage dans la console.
 @EndFixedFont
 
 @OptionalParameter "Port"

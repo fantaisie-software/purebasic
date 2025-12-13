@@ -1,0 +1,50 @@
+﻿@Title HeaderSection : EndHeaderSection
+
+@Syntax
+
+  @Keyword HeaderSection
+    ! NativerCode
+  @Keyword EndHeaderSection
+
+@Description
+
+  Für fortgeschrittene Programmierer. @Keyword HeaderSection : @Keyword EndHeaderSection ermöglicht das direkte
+  Einfügen von nativem Code in den generierten Code-Output, im Header-Bereich (außerhalb von Funktionen).
+  Welcher native Code eingefügt werden kann, hängt vom verwendeten Compiler-Backend ab:
+  @LineBreak
+  @LineBreak
+  - Bei Verwendung des C-Backends muss C-Code eingefügt werden. @LineBreak
+  - Bei Verwendung des x86-Backends muss x86-Assembler-Code eingefügt werden. @LineBreak
+  - Bei Verwendung des x64-Backends muss x64-Assembler-Code eingefügt werden. @LineBreak
+  @LineBreak
+  Dieser Befehl kann nützlich sein, um automatisch die generierte Codeausgabe zu tunen oder um
+  Rohcode in die finale ausführbare Datei einzufügen.
+  @LineBreak
+  
+@Example 
+
+@Code
+  CompilerIf #PB_Compiler_Backend <> #PB_Backend_C
+    CompilerError "This sample only works with C backend"
+  CompilerEndIf
+
+  HeaderSection
+    void customPrint()
+    {
+      printf("%s, %s!\n", "Hello", "World");
+    }
+  EndHeaderSection
+  
+  ; Weist die benutzerdefinierte Funktion einer PureBasic-Variablen zu, damit wir sie verwenden können
+  ;
+  PrototypeC CustomPrintProto()
+  CustomPrint.CustomPrintProto
+  !v_customprint = customPrint;
+  
+  OpenConsole()
+  
+  ; Native Funktion verwenden!
+  CustomPrint()
+  
+  Input()
+@EndCode

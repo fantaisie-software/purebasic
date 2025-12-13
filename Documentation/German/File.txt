@@ -1,7 +1,7 @@
 ﻿;
 ;     File library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library File
@@ -370,6 +370,9 @@
   @#PB_File_Append     : die Dateizeiger-Position wird auf das Ende der Datei gesetzt.
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : enthält die Datei eine Byte Order Mark (BOM), wird diese automatisch verarbeitet
+                        (die Verwendung von @@ReadStringFormat ist nicht erforderlich).
+                        Das erkannte Format wird automatisch von den Lese- und Schreibfunktionen für Strings verwendet.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString, @@WriteStringN, 
   @@ReadString, @@ReadCharacter und @@WriteCharacter):

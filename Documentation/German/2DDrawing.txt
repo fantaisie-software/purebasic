@@ -1,7 +1,7 @@
 ﻿;
 ;     2DDrawing library documentation - MultiOS version !
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library 2DDrawing
@@ -24,7 +24,9 @@
 
 @ExampleFile All 2DDrawing.pb
 @ExampleFile All 2DDrawingAlpha.pb
-@ExampleFile All DirectScreenDrawing.pb
+@ExampleFile All MDI_ImageViewer.pb
+@ExampleFile Windows DirectScreenDrawing.pb
+@ExampleFile Windows Win32_API.pb
 
 @SupportedOS
 
@@ -661,6 +663,13 @@
   Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText die native
   Textausgabe, um eine Gadget-ähnliche Textwiedergabe zu ermöglichen.
   Alle Spezialeffekte wie XOR, AlphaBlend, CustomFilters usw. sind in diesem Modus nicht verfügbar.
+@EndIndent
+
+  @#PB_2DDrawing_FastText
+@Indent
+  Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText die native
+  Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText eine schnellere
+  Textrendering-Methode, jedoch mit weniger präziser Unicode-Unterstützung (nur Windows).
 @EndIndent
 
   @#PB_2DDrawing_XOr

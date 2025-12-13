@@ -2180,37 +2180,25 @@ EndIf
 @Function Resultat = ExplorerListGadget(#Gadget, X, Y, Largeur, Hauteur, Repertoire$, [, Options])
 
 @Description
-  Créé un gadget qui affiche une liste des 
-  dossiers.@LineBreak
-  Il permet à l'utilisateur de choisir un 
-  fichier ou un dossier situé à n'importe
-  quel endroit des disques.
+  Créé un gadget qui affiche une liste des dossiers.@LineBreak
+  Il permet à l'utilisateur de choisir un fichier ou un dossier situé à n'importe quel endroit des disques.
 
 @Parameter "#Gadget"
-  Le numéro d'identification du nouveau 
-  gadget. 
+  Le numéro d'identification du nouveau gadget. 
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @Parameter "X, Y, Largeur, Hauteur"
-  La position et les dimensions du nouveau 
-  gadget.
+  La position et les dimensions du nouveau gadget.
 
 @Parameter "Repertoire$"
   Le répertoire initial affiché. 
 @Indent
-  'Repertoire$' est l'emplacement de départ 
-  lorsque le gadget est créé. 
-  Il peut être composé de motifs ('patterns'), 
-  tels que: "C:\*.pb;*.pbi". Si aucun 
-  'pattern' n'est spécifié, le répertoire 
-  doit se terminer par un '\'. Si 
-  'Repertoire$' est nul (chaîne vide) alors 
-  la liste des disques disponibles sera 
-  affichée.
+  'Repertoire$' est l'emplacement de départ lorsque le gadget est créé. 
+  Il peut être composé de motifs ('patterns'), tels que: "C:\*.pb;*.pbi". 
+  Si aucun  'pattern' n'est spécifié, le répertoire doit se terminer par un '\'. Si 'Repertoire$' est nul (chaîne vide) alors 
+  la liste des disques disponibles sera affichée.
 @EndIndent
   
 @OptionalParameter "Options"
@@ -2222,6 +2210,7 @@ EndIf
   @#PB_Explorer_GridLines          : Affiche des lignes de séparation.
   @#PB_Explorer_HeaderDragDrop     : L'ordre des colonnes peut être changé avec un glisser/déposer (drag'n'drop).
   @#PB_Explorer_FullRowSelect      : La sélection s'étend à toute la ligne au lieu de la première colonne.
+  @#PB_Explorer_NoHeaders          : Masque les titres des colonnes.
 
   @#PB_Explorer_NoFiles            : Aucun fichier ne sera affiché.
   @#PB_Explorer_NoFolders          : Aucun répertoire ne sera affiché.
@@ -2940,7 +2929,8 @@ EndIf
   - @@SplitterGadget @LineBreak
   - @@StringGadget @LineBreak
   - @@TrackBarGadget @LineBreak
-  - @@WebGadget   
+  - @@WebGadget @LineBreak
+  - @@WebViewGadget  
 
 @SeeAlso
   @@SetGadgetAttribute, 
@@ -3892,6 +3882,7 @@ utiliser l'opérateur '&':
   @#PB_ListIcon_FullRowSelect      : La sélection s'étend à toute la ligne au lieu de la première colonne (Windows seulement).
   @#PB_ListIcon_HeaderDragDrop     : L'ordre des colonnes peut être changé avec un glisser/déposer (drag'n'drop).
   @#PB_ListIcon_AlwaysShowSelection: Affiche la selection même quand le gadget n'est plus actif (Windows seulement).
+  @#PB_ListIcon_NoHeaders          : Masque les titres des colonnes.
 @EndFixedFont
 @Indent
   L'option @#PB_ListIcon_ThreeState peut 
@@ -4309,11 +4300,6 @@ utiliser l'opérateur '&':
     @#PB_MDI_TileImage: Applique une image de fond à la fenêtre MDI. 
                        L'image est répétée le nombre de fois nécessaire
                        pour remplir complètement la surface de la fenêtre.
-
-  - @@SetGadgetAttribute: Avec une des constantes suivantes:
-    @#PB_ScrollArea_InnerWidth : Modifie la largeur (en pixels) de la zone interne du gadget. 
-    @#PB_ScrollArea_InnerHeight: Modifie la hauteur (en pixels) de la zone interne du gadget.  
-
   - @@SetGadgetColor et @@GetGadgetColor avec la constante @#PB_Gadget_BackColor comme 'TypeCouleur' 
     pour changer la couleur de fond de la fenêtre MDI.
 @EndFixedFont
@@ -4723,8 +4709,7 @@ utiliser l'opérateur '&':
 @NoReturnValue  
   
 @Remarks  
-  Cette fonction s'applique aux gadgets 
-  suivants :
+  Cette fonction s'applique aux gadgets suivants :
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget @LineBreak
@@ -4733,9 +4718,40 @@ utiliser l'opérateur '&':
   - @@ListViewGadget @LineBreak
   - @@ListIconGadget @LineBreak
   - @@MDIGadget @LineBreak
-  - @@TreeGadget - La suppression d'un noeud 
-  entraîne la suppression de tous les éléments 
-  enfants du noeud.
+  - @@TreeGadget - La suppression d'un noeud entraîne la suppression de tous les éléments enfants du noeud.
+
+@Example Presser la touche 'Suppr' pour supprimer un élément d'un ListIconGadget. 
+@Code
+  Enumeration 
+    #KeyDelete
+  EndEnumeration
+  
+  If OpenWindow(0, 100, 100, 300, 500, "Appuyez sur 'Suppr'", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 5, 5, 290, 290, "Number", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
+    For i=1 To 100
+      AddGadgetItem(0, -1, Str(i))
+    Next
+    StringGadget(1, 5, 305, 290, 25, "Editez moi !")
+    EditorGadget(2, 5, 335, 290, 100)
+    SetGadgetText(2, "Et moi aussi !")
+    
+    Repeat
+      Event = WaitWindowEvent()
+      If GetActiveGadget() = 0
+        AddKeyboardShortcut(0, #PB_Shortcut_Delete, #KeyDelete)
+      Else
+        RemoveKeyboardShortcut(0, #PB_Shortcut_Delete)
+      EndIf
+      If Event = #PB_Event_Menu And EventMenu() = #KeyDelete
+        i = GetGadgetState(0)
+        If i > -1
+          RemoveGadgetItem(0, i)
+          SetGadgetState(0, i)
+        EndIf
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @SeeAlso
   @@AddGadgetItem, @@ClearGadgetItems, 
@@ -5018,18 +5034,18 @@ utiliser l'opérateur '&':
   utilisées pour agir sur un ScrollAreaGadget:
 @FixedFont
   - @@GetGadgetAttribute: Avec une des constantes suivantes:
-    @#PB_ScrollArea_InnerWidth  : Renvoie la largeur (en pixels) de la zone interne du gadget. 
-    @#PB_ScrollArea_InnerHeight : Renvoie la hauteur (en pixels) de la zone interne du gadget.  
-    @#PB_ScrollArea_X           : Renvoie la position horizontale actuelle de l'ascenseur (en pixels).
-    @#PB_ScrollArea_Y           : Renvoie la position verticale actuelle de l'ascenseur (en pixels).
-    @#PB_ScrollArea_ScrollStep  : Renvoie la valeur du pas de défilement (en pixels).
+    @#PB_ScrollArea_InnerWidth  : Renvoie la largeur de la zone interne du gadget. 
+    @#PB_ScrollArea_InnerHeight : Renvoie la hauteur de la zone interne du gadget.  
+    @#PB_ScrollArea_X           : Renvoie la position horizontale actuelle de l'ascenseur.
+    @#PB_ScrollArea_Y           : Renvoie la position verticale actuelle de l'ascenseur.
+    @#PB_ScrollArea_ScrollStep  : Renvoie la valeur du pas de défilement.
   
   - @@SetGadgetAttribute: Avec une des constantes suivantes:
-    @#PB_ScrollArea_InnerWidth  : Modifie la largeur (en pixels) de la zone interne du gadget. 
-    @#PB_ScrollArea_InnerHeight : Modifie la hauteur (en pixels) de la zone interne du gadget.  
-    @#PB_ScrollArea_X           : Modifie la position horizontale actuelle de l'ascenseur (en pixels).
-    @#PB_ScrollArea_Y           : Modifie la position verticale actuelle de l'ascenseur (en pixels).
-    @#PB_ScrollArea_ScrollStep  : Modifie la valeur du pas de défilement (en pixels).
+    @#PB_ScrollArea_InnerWidth  : Modifie la largeur de la zone interne du gadget. 
+    @#PB_ScrollArea_InnerHeight : Modifie la hauteur de la zone interne du gadget.  
+    @#PB_ScrollArea_X           : Modifie la position horizontale actuelle de l'ascenseur.
+    @#PB_ScrollArea_Y           : Modifie la position verticale actuelle de l'ascenseur.
+    @#PB_ScrollArea_ScrollStep  : Modifie la valeur du pas de défilement.
 
   - @@SetGadgetColor et @@GetGadgetColor avec la constante @#PB_Gadget_BackColor comme 'TypeCouleur' 
     pour changer la couleur de fond du gadget.
@@ -5088,8 +5104,7 @@ utiliser l'opérateur '&':
 @Image scrollareagadget.png
 
 @SeeAlso
-  @@GetGadgetAttribute, @@SetGadgetAttribute, 
-  @@ScrollBarGadget
+  @@GetGadgetAttribute, @@SetGadgetAttribute, @@ScrollBarGadget
 
 @SupportedOS
 
@@ -6229,12 +6244,13 @@ utiliser l'opérateur '&':
 @OptionalParameter "Options"
   Peut être une combinaison de:
 @FixedFont
-  @#PB_String_Numeric   : Seuls des nombres entiers positifs peuvent être saisis.
-  @#PB_String_Password  : Mode 'mot de passe', n'affiche que des '*'.
-  @#PB_String_ReadOnly  : Mode 'lecture seulement'.
-  @#PB_String_LowerCase : Tous les caractères saisis sont transformés en minuscules.
-  @#PB_String_UpperCase : Tous les caractères saisis sont transformés en majuscules.
-  @#PB_String_BorderLess: Aucune bordure n'est affichée autour du gadget.
+  @#PB_String_Numeric     : Seuls des nombres entiers positifs peuvent être saisis.
+  @#PB_String_Password    : Mode 'mot de passe', n'affiche que des '*'.
+  @#PB_String_ReadOnly    : Mode 'lecture seulement'.
+  @#PB_String_LowerCase   : Tous les caractères saisis sont transformés en minuscules.
+  @#PB_String_UpperCase   : Tous les caractères saisis sont transformés en majuscules.
+  @#PB_String_BorderLess  : Aucune bordure n'est affichée autour du gadget.
+  @#PB_String_PlaceHolder : Le paramètre 'Texte$' sera utilisé comme espace réservé (un texte informatif affiché lorsque le gadget est vide).
 @EndFixedFont
 
 @ReturnValue

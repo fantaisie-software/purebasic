@@ -122,7 +122,6 @@
 
 @FormatEndIf
 
-
 @CommandList
 
 @ExampleFile All Gadget.pb
@@ -141,6 +140,7 @@
 @ExampleFile All SysTray.pb
 @ExampleFile All ToolBar.pb
 @ExampleFile All WebBrowser.pb
+@ExampleFile All WebView.pb
 
 @SupportedOS
 
@@ -1899,6 +1899,7 @@
   @#PB_Explorer_HeaderDragDrop      : In der Report-Ansicht können die Spaltentitel per Drag'n'Drop verändert werden.
   @#PB_Explorer_FullRowSelect       : Die Auswahl erstreckt sich jetzt über die gesamte Zeile und nicht nur über die 
                                      erste Spalte.
+  @#PB_Explorer_NoHeaders           : Blendet die Spaltenüberschriften aus.
 
   @#PB_Explorer_NoFiles             : Es werden keine Dateien angezeigt.
   @#PB_Explorer_NoFolders           : Es werden keine Ordner angezeigt.
@@ -2544,7 +2545,8 @@
   - @@SplitterGadget @LineBreak
   - @@StringGadget @LineBreak
   - @@TrackBarGadget @LineBreak
-  - @@WebGadget
+  - @@WebGadget @LineBreak
+  - @@WebViewGadget
 
 @SeeAlso
   @@SetGadgetAttribute, @@GetGadgetItemAttribute, @@SetGadgetItemAttribute
@@ -3380,6 +3382,7 @@
   @#PB_ListIcon_FullRowSelect       : Die Auswahl erfolgt über die gesamte Zeile anstelle nur der ersten Spalte (nur auf Windows und QT).
   @#PB_ListIcon_HeaderDragDrop      : Die Reihenfolge der Spalten kann per Drag'n'Drop verändert werden.
   @#PB_ListIcon_AlwaysShowSelection : Die Auswahl ist noch sichtbar, auch wenn das Gadget nicht aktiv ist (nur auf Windows).
+  @#PB_Explorer_NoHeaders           : Blendet die Spaltenüberschriften aus.
 @EndFixedFont
 
   Das @#PB_ListIcon_ThreeState Flag kann in Verbindung mit dem 
@@ -4147,6 +4150,39 @@
 @LineBreak
   - @@TreeGadget - wenn der zu entfernende Eintrag ein Knoten ist, werden alle Untereinträge (Childs) ebenso entfernt.
 
+@Example Entfernt den ausgewählten Eintrag in einem ListIconGadget durch Drücken von 'Entf' (Delete)
+@Code
+  Enumeration 
+    #KeyDelete
+  EndEnumeration
+  
+  If OpenWindow(0, 100, 100, 300, 500, "ListIcon Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 5, 5, 290, 290, "Number", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
+    For i=1 To 100
+      AddGadgetItem(0, -1, Str(i))
+    Next
+    StringGadget(1, 5, 305, 290, 25, "Edit me!")
+    EditorGadget(2, 5, 335, 290, 100)
+    SetGadgetText(2, "And me too!")
+    
+    Repeat
+      Event = WaitWindowEvent()
+      If GetActiveGadget() = 0
+        AddKeyboardShortcut(0, #PB_Shortcut_Delete, #KeyDelete)
+      Else
+        RemoveKeyboardShortcut(0, #PB_Shortcut_Delete)
+      EndIf
+      If Event = #PB_Event_Menu And EventMenu() = #KeyDelete
+        i = GetGadgetState(0)
+        If i > -1
+          RemoveGadgetItem(0, i)
+          SetGadgetState(0, i)
+        EndIf
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
 @SeeAlso
   @@AddGadgetItem, @@ClearGadgetItems, @@CountGadgetItems
 
@@ -4383,19 +4419,19 @@
 @LineBreak
   @@GetGadgetAttribute: mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollArea_InnerWidth  : gibt die Breite (in Pixel) des enthaltenen scrollbaren Bereichs zurück.
-  @#PB_ScrollArea_InnerHeight : gibt die Höhe (in Pixel) des enthaltenen scrollbaren Bereichs zurück.
-  @#PB_ScrollArea_X           : gibt die aktuelle horizontale Scroll-Position (in Pixel) zurück.
-  @#PB_ScrollArea_Y           : gibt die aktuelle vertikale Scroll-Position (in Pixel) zurück.
-  @#PB_ScrollArea_ScrollStep  : gibt den aktuellen Scrollschritt-Wert (in Pixel) zurück.
+  @#PB_ScrollArea_InnerWidth  : gibt die Breite des enthaltenen scrollbaren Bereichs zurück.
+  @#PB_ScrollArea_InnerHeight : gibt die Höhe des enthaltenen scrollbaren Bereichs zurück.
+  @#PB_ScrollArea_X           : gibt die aktuelle horizontale Scroll-Position zurück.
+  @#PB_ScrollArea_Y           : gibt die aktuelle vertikale Scroll-Position zurück.
+  @#PB_ScrollArea_ScrollStep  : gibt den aktuellen Scrollschritt-Wert zurück.
 @EndFixedFont
   @@SetGadgetAttribute: mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollArea_InnerWidth  : ändert die Breite (in Pixel) des enthaltenen scrollbaren Bereichs.
-  @#PB_ScrollArea_InnerHeight : ändert die Höhe (in Pixel) des enthaltenen scrollbaren Bereichs.
-  @#PB_ScrollArea_X           : ändert die aktuelle horizontale Scroll-Position (in Pixel).
-  @#PB_ScrollArea_Y           : ändert die aktuelle vertikale Scroll-Position (in Pixel).
-  @#PB_ScrollArea_ScrollStep  : ändert den aktuellen Scrollschritt-Wert (in Pixel).
+  @#PB_ScrollArea_InnerWidth  : ändert die Breite des enthaltenen scrollbaren Bereichs.
+  @#PB_ScrollArea_InnerHeight : ändert die Höhe des enthaltenen scrollbaren Bereichs.
+  @#PB_ScrollArea_X           : ändert die aktuelle horizontale Scroll-Position.
+  @#PB_ScrollArea_Y           : ändert die aktuelle vertikale Scroll-Position.
+  @#PB_ScrollArea_ScrollStep  : ändert den aktuellen Scrollschritt-Wert.
 @EndFixedFont
 @LineBreak
 @LineBreak
@@ -5533,6 +5569,8 @@
   @#PB_String_LowerCase  : Alle Zeichen werden automatisch in Kleinbuchstaben umgewandelt.
   @#PB_String_UpperCase  : Alle Zeichen werden automatisch in Großbuchstaben umgewandelt.
   @#PB_String_BorderLess : Es werden keine Ränder rings um das Gadget gezeichnet.
+  @#PB_String_PlaceHolder: Der 'Inhalt$' Parameter wird als Platzhalter verwendet (ein informativer
+                          Text, der angezeigt wird, wenn das Gadget leer ist).
 @EndFixedFont
 
 @ReturnValue
@@ -5576,7 +5614,7 @@
 @Example
 @Code
   ; Zeigt mögliche Flags des StringGadgets in Aktion...
-  If OpenWindow(0, 0, 0, 322, 205, "StringGadget Flags", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 322, 235, "StringGadget Flags", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     StringGadget(0, 8,  10, 306, 20, "Normal StringGadget...")
     StringGadget(1, 8,  35, 306, 20, "1234567", #PB_String_Numeric)
     StringGadget(2, 8,  60, 306, 20, "Readonly StringGadget", #PB_String_ReadOnly)
@@ -5584,6 +5622,7 @@
     StringGadget(4, 8, 110, 306, 20, "uppercase...", #PB_String_UpperCase)
     StringGadget(5, 8, 140, 306, 20, "Borderless StringGadget", #PB_String_BorderLess)
     StringGadget(6, 8, 170, 306, 20, "Password", #PB_String_Password)
+	StringGadget(7, 8, 210, 306, 20, "Informationstext", #PB_String_PlaceHolder)
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode

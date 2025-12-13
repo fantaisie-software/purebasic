@@ -501,7 +501,7 @@ and more).
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = OpenFTP(#Ftp, ServerName$, User$, Password$ [, Passive [, Port]])
+@Function Result = OpenFTP(#Ftp, ServerName$, User$, Password$ [, Flags [, Port]])
 
 @Description
   Tries to open a connection on the specified FTP or SFTP server. 
@@ -520,9 +520,12 @@ and more).
 @Parameter "Password$"
   The password to authenticate on the server.
 
-@OptionalParameter "Passive"
-  Enables or disables passive mode for the connection (valid values are @#True or @#False).
-  If this parameter is not specified, passive mode will be used.
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_FTP_Active: Enable active connection mode for the connection. If not specified, the connection is etablished using passive mode.
+  @#PB_FTP_Debug : to print in the console debug information. 
+@EndFixedFont
 
 @OptionalParameter "Port"
   The port to use for the connection. The default is port 21 for FTP and 22 for SFTP.

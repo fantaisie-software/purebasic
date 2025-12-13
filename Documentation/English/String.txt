@@ -1157,8 +1157,88 @@
   ShowMemoryViewer(*Ascii, 4)
 @EndCode
 
+@Example
+@Code
+  Macro TUnicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
+
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
+
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
+@EndCode
+
 @SeeAlso
-  @@UTF8, @@FreeMemory, @@MemorySize
+  @@UTF8, @@Unicode, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = Unicode(String$)
+
+@Description
+  Creates an Unicode representation of the string.  When the buffer is no longer needed, the buffer needs 
+  to be freed with FreeMemory().
+
+@Parameter "String$"
+  The string to use. As PureBasic uses unicode as internal string format, there is no conversion occuring.
+
+@ReturnValue
+  The Unicode representation of the string.
+
+@Remarks
+  This function is mainly useful when interacting with third-party libraries which requires a dynamic Unicode string as input.
+@LineBreak
+@LineBreak
+  The buffer includes a null-terminated character.
+
+@Example
+@Code
+  *Unicode = Unicode("Hélé")
+  ShowMemoryViewer(*Unicode, 8)
+@EndCode
+
+@Example
+@Code
+  Macro TUnicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
+
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
+
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
+@EndCode
+
+@SeeAlso
+  @@UTF8, @@Ascii, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 
@@ -1194,22 +1274,30 @@
 
 @Example
 @Code
-  Macro Unicode(Mem, Type = #PB_Ascii)
+  Macro TUnicode(Mem, Type = #PB_Ascii)
     PeekS(Mem, -1, Type)
   EndMacro
 
   *Mem1 = Ascii("Test - éàîöÊÜ")
   *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
 
-  Text.s = Unicode(*Mem1)
-  Debug Text
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
 
-  Text2.s = Unicode(*Mem2, #PB_UTF8)
-  Debug Text2
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
 @EndCode
 
 @SeeAlso
-  @@Ascii, @@FreeMemory, @@MemorySize
+  @@Ascii, @@Unicode, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 

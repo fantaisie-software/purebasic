@@ -384,38 +384,30 @@
   Le numéro d'identification de l'image. 
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @Parameter "Largeur, Hauteur"
   Les dimensions de la nouvelle image.
 @LineBreak
 @LineBreak   
-  À la fois la largeur et la hauteur doivent 
-  être supérieures à zéro.
+  À la fois la largeur et la hauteur doivent être supérieures à zéro.
   
 @OptionalParameter "Profondeur"
   La profondeur de couleur de la nouvelle image.
 @LineBreak
 @LineBreak
   Les valeurs valides sont: 24 et 32. @LineBreak
-  La valeur par défaut est 24 bits, si la 
-  profondeur n'est pas spécifiée.
+  La valeur par défaut est 24 bits, si la profondeur n'est pas spécifiée.
   
 @OptionalParameter "CouleurDeFond"
-  La couleur de fond @@RGB utilisée. 
+  Couleur d'arrière-plan utilisée lors de la création de l'image. @LineBreak
+  Si l'image est en 24 bits, utilisez @@RGB pour obtenir une couleur valide. @LineBreak
+  Si l'image est en 32 bits, utilisez @@RGBA pour obtenir une couleur valide. 
+  Pour les images 32 bits, des constantes spéciales peuvent également être utilisées : @LineBreak
+    - @#PB_Image_Transparent, similaire à RGBA(255,255,255,0), un fond blanc peut être utilisé pour un anticrénelage clair. @LineBreak
+    - @#PB_Image_TransparentBlack, similaire à RGBA(0,0,0,0), un fond noir peut être utilisé pour un anticrénelage foncé. @LineBreak
 @LineBreak
-@LineBreak
-  Cette couleur peut être réglée sur 
-  @#PB_Image_Transparent pour créer une image 
-  avec le canal alpha fixé pour 
-  une transparence totale. @LineBreak
-  Cela n'a d'effet que sur les images 32 bits. 
-@LineBreak
-@LineBreak
-  Si non spécifié alors la couleur par défaut 
-  est le noir.
+  La couleur d'arrière-plan par défaut est le noir si elle n'est pas spécifiée.
   
 @ReturnValue
   Renvoie une valeur non nulle si l'image a été 

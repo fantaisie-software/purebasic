@@ -1,7 +1,7 @@
 ﻿;
 ;     Sprite library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -32,7 +32,6 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @CommandList
 
 @ExampleFile All Sprite.pb
-@ExampleFile Linux Sprite.pb
 @ExampleFile All WindowedScreen.pb
 
 @SupportedOS
@@ -211,7 +210,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
         EndIf
       Until Event = 0
       
-      ClearScreen(RGB(0, 0, 0)) ; A black background
+      ClearScreen(RGB(128, 128, 128)) ; Grey background
       
       DisplayTransparentSprite(0, 300, 200)
       
@@ -230,7 +229,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, x, y)
+@Function DisplaySprite(#Sprite, x.f, y.f)
 
 @Description
   Displays the #Sprite at the specified position on the current screen.
@@ -240,8 +239,10 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "#Sprite"
   The sprite to display.
   
-@Parameter "x, y"
-  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be display.
+@Parameter "x.f, y.f"
+  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be displayed.
+  They can be specified as float numbers to be between physical pixels, the engine
+  will automatically interpolate the sprite to smooth the display (not supported on DirectX9 and DirectX11 subsystems).
 
 @NoReturnValue
 
@@ -252,7 +253,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, x, y [, Intensity [, Color]])
+@Function DisplayTransparentSprite(#Sprite, x.f, y.f [, Intensity [, Color]])
 
 @Description
   Display the #Sprite at the specified position on the current screen. The default
@@ -264,8 +265,10 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "#Sprite"
   The sprite to display.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be displayed.
+  They can be specified as float numbers to be between physical pixels, the engine
+  will automatically interpolate the sprite to smooth the display (not supported on DirectX9 and DirectX11 subsystems).
 
 @OptionalParameter "Intensity"
   The intensity level used to display the sprite. Valid value are from 0 (fully transparent) 

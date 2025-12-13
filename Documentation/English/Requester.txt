@@ -1,7 +1,7 @@
 ﻿;
 ;     Requester library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Requester
@@ -140,9 +140,10 @@ called 'requesters'.
   Default text in the input field.
 
 @OptionalParameter "Flags"
-  Can be the following value:
+  It can be one of the following value:
 @FixedFont
   @#PB_InputRequester_Password: set the field type as 'password'. The displayed text will be hidden.
+  @#PB_InputRequester_HandleCancel: If specified, the special value @#PB_InputRequester_Cancel will be returned when the user cancels the requester.
 @EndFixedFont
 
 @OptionalParameter "ParentID"

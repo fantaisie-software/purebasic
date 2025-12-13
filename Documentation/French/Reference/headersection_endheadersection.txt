@@ -1,0 +1,48 @@
+﻿@Title HeaderSection : EndHeaderSection
+
+@Syntax
+
+  @Keyword HeaderSection
+    ! Code natif en assembleur ou en langage C
+  @Keyword EndHeaderSection
+
+@Description
+
+  Pour les programmeurs avancés. @Keyword HeaderSection:@Keyword EndHeaderSection permet d'insérer du code natif directement 
+  à condition qu'il soit dans la section d'en-tête, et en dehors de toute fonction. 
+  L'insertion de code natif dépend du compilateur utilisé : @LineBreak
+  @LineBreak
+  - Si le compilateur utilise le backend C, seul du code C peut être inséré. @LineBreak
+  - Si le backend x86 est utilisé, seul du code ASM x86 peut être inséré. @LineBreak
+  - Si le backend x64 est utilisé, seul du code ASM x64 peut être inséré. @LineBreak
+@LineBreak
+  Cette commande peut être utile pour ajuster automatiquement le code généré ou pour insérer du code brut dans l'exécutable final. @LineBreak
+
+@Example 
+
+@Code
+  CompilerIf #PB_Compiler_Backend <> #PB_Backend_C
+    CompilerError "Désolé, cet exemple ne fonctionne qu'avec le backend C."
+  CompilerEndIf
+
+  HeaderSection
+    void customPrint()
+    {
+      printf("%s, %s!\n", "Salut", "le Monde");
+    }
+  EndHeaderSection
+  
+  ; Affecter la fonction personnalisée à une variable PureBasic afin que nous puissions l'utiliser
+  ;
+  PrototypeC CustomPrintProto()
+  CustomPrint.CustomPrintProto
+  !v_customprint = customPrint;
+  
+  OpenConsole()
+  
+  ; Utilisez la fonction native !
+  CustomPrint()
+  
+  Input()
+@EndCode
+

@@ -126,7 +126,10 @@
   The window for the new menu. It can be obtained using the @@WindowID function.
 
 @OptionalParameter "Flags"
-  None.
+  It can be one of the following value:
+@FixedFont
+  @#PB_Menu_NativeImageSize: Uses the native size of images when rendering menu items (Windows only).
+@EndFixedFont
 
 @ReturnValue
   Nonzero if the menu was successfully created, zero otherwise. If @#PB_Any was used
@@ -259,7 +262,10 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
 
 @OptionalParameter "Flags"
-  None.
+  It can be one of the following value:
+@FixedFont
+  @#PB_Menu_NativeImageSize: Uses the native size of images when rendering menu items (Windows only).
+@EndFixedFont
 
 @ReturnValue
   Returns nonzero if the menu was created successfully and zero if not. If @#PB_Any was used

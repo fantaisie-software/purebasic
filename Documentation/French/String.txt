@@ -1529,29 +1529,97 @@ caractères.
 @Example
 @Code
   *Ascii = Ascii("Hélé")
-  ShowMemoryViewer(*Ascii, MemorySize(*Ascii)) ; Affiche l'adresse du tampon suivi de 48 E9 6C E9 00
-    
+  ShowMemoryViewer(*Ascii, MemorySize(*Ascii)) ; Affiche l'adresse du tampon suivi de 48 E9 6C E9 00 
   Debug PeekS(*Ascii, -1, #PB_Ascii) ; Affiche "Hélé"
 @EndCode
 
 @Example
 @Code
-  Macro Unicode(Mem, Type = #PB_Ascii)
+  Macro TUnicode(Mem, Type = #PB_Ascii)
     PeekS(Mem, -1, Type)
   EndMacro
 
   *Mem1 = Ascii("Test - éàîöÊÜ")
   *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
 
-  Texte.s = Unicode(*Mem1)
-  Debug Texte ; Affiche "Test - éàîöÊÜ"
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
 
-  Texte.s = Unicode(*Mem2, #PB_UTF8)
-  Debug Texte ; Affiche "Test - éàîöÊÜ"
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
 @EndCode
 
 @SeeAlso
-  @@UTF8, @@FreeMemory, @@MemorySize
+  @@UTF8, @@Unicode, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Resultat = Unicode(Chaine$)
+
+@Description
+ Crée un tampon en mémoire contenant la version au format Unicode d'une chaîne de caractères.
+
+@Parameter "Chaine$"
+ La chaîne à  convertir au format Unicode. 
+
+@ReturnValue
+  La représentation Unicode de la chaîne.
+
+@Remarks
+  Cette fonction est principalement utile lors de l'interaction avec des bibliothèques tierces nécessitant 
+  une chaîne Unicode dynamique en entrée.
+@LineBreak
+@LineBreak
+ PureBasic utilisant Unicode comme format de chaîne interne, aucune conversion n'est effectuée sur une chaîne PureBasic.
+@LineBreak
+@LineBreak
+  Le tampon contient un caractère terminé par un caractère nul.
+@LineBreak
+@LineBreak
+  Lorsque le tampon n'est plus nécessaire, il doit être libéré avec @@FreeMemory.
+
+@Example
+@Code
+  *Unicode = Unicode("Hélé")
+  ShowMemoryViewer(*Unicode, 8)
+@EndCode
+
+@Example
+@Code
+  Macro TUnicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
+
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
+
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
+@EndCode
+
+@SeeAlso
+  @@UTF8, @@Ascii, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 
@@ -1595,22 +1663,30 @@ caractères.
 
 @Example
 @Code
-  Macro Unicode(Mem, Type = #PB_Ascii)
+  Macro TUnicode(Mem, Type = #PB_Ascii)
     PeekS(Mem, -1, Type)
   EndMacro
 
   *Mem1 = Ascii("Test - éàîöÊÜ")
   *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
 
-  Texte.s = Unicode(*Mem1)
-  Debug Texte ; Affiche "Test - éàîöÊÜ"
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
 
-  Texte.s = Unicode(*Mem2, #PB_UTF8)
-  Debug Texte ; Affiche "Test - éàîöÊÜ"
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
 @EndCode
 
 @SeeAlso
-  @@Ascii, @@FreeMemory, @@MemorySize
+  @@Ascii, @@Unicode, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 
