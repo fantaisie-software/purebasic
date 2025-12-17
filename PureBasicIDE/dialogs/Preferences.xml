@@ -886,36 +886,58 @@
           </frame>
         </container>
 
-          <!-- Form -->
-          <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+20">
-              <frame lang="Preferences:Form" margin="5">
-                  <vbox spacing="20">
-                      <vbox>
-                          <checkbox id="#GADGET_Preferences_FormVariable"              lang="Preferences:FormVariable" />
-                          <checkbox id="#GADGET_Preferences_FormVariableCaption"       lang="Preferences:FormVariableCaption" />
-                          <checkbox id="#GADGET_Preferences_FormGrid"       lang="Preferences:FormGrid" />
-                          <checkbox id="#GADGET_Preferences_FormEventProcedure"     lang="Preferences:FormEventProcedure" />
-                      </vbox>
-                      
-                      <gridbox colspacing="10" colexpand="item:2">
-                          <text lang="Preferences:FormGridSize" text=": " />
-                          <singlebox expand="no" margin="0">
-                              <string id="#GADGET_Preferences_FormGridSize" flags="#PB_String_Numeric" width="80" />
-                          </singlebox>
+        <!-- Form -->
+        <container margin="0" expand="horizontal" invisible="yes" id="#GADGET_Preferences_FirstContainer+20">
+          <vbox>
+            <frame lang="Preferences:Form" margin="5">
+              <vbox spacing="20">
+                <vbox>
+                  <checkbox id="#GADGET_Preferences_FormVariable"              lang="Preferences:FormVariable" />
+                  <checkbox id="#GADGET_Preferences_FormVariableCaption"       lang="Preferences:FormVariableCaption" />
+                  <checkbox id="#GADGET_Preferences_FormGrid"       lang="Preferences:FormGrid" />
+                  <checkbox id="#GADGET_Preferences_FormEventProcedure"     lang="Preferences:FormEventProcedure" />
+                </vbox>
+                
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text lang="Preferences:FormGridSize" text=": " />
+                  <singlebox expand="no" margin="0">
+                    <string id="#GADGET_Preferences_FormGridSize" flags="#PB_String_Numeric" width="80" />
+                  </singlebox>
 
-                          <text lang="Preferences:FormSkin" text=": " />
-                          <combobox id="#GADGET_Preferences_FormSkin">
-                              <item text="OS X" />
-                              <item text="Windows 7" />
-                              <item text="Windows 8" />
-                              <item text="Linux Ubuntu" />
-                          </combobox>
-
-                      </gridbox>
-
-                  </vbox>
-              </frame>
-          </container>
+                  <text lang="Preferences:FormSkin" text=": " />
+                  <combobox id="#GADGET_Preferences_FormSkin">
+                    <item text="OS X" />
+                    <item text="Windows 7" />
+                    <item text="Windows 8" />
+                    <item text="Linux Ubuntu" />
+                  </combobox>
+                </gridbox>
+              </vbox>
+            </frame>
+            <frame lang="Preferences:FormWarnings" margin="5">
+              <vbox spacing="20">
+                <gridbox colspacing="10" colexpand="item:2">
+                  <text lang="Preferences:WarnNotRecognized" text=": " />
+                  <combobox id="#GADGET_Preferences_FormNotRecognized">
+                    <item lang="Form:Option_Never" />
+                    <item lang="Form:Option_Always" />
+                  </combobox>
+                  <text lang="Preferences:WarnUpgrade" text=": " />
+                  <combobox id="#GADGET_Preferences_FormUpgrade">
+                      <item lang="Form:Option_Never" />
+                      <item lang="Form:Option_Backward" />
+                      <item lang="Form:Option_Always" />
+                  </combobox>
+                  <text lang="Preferences:WarnDowngrade" text=": " />
+                  <combobox id="#GADGET_Preferences_FormDowngrade">
+                      <item lang="Form:Option_Never" />
+                      <item lang="Form:Option_Always" />
+                  </combobox>
+                </gridbox>
+              </vbox>
+            </frame>
+          </vbox>
+        </container>
 
         <!-- Toolspanel -->
         <container margin="0" invisible="yes" id="#GADGET_Preferences_FirstContainer+21">

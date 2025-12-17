@@ -471,6 +471,12 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_FormEventProcedure
   #GADGET_Preferences_FormGridSize
   #GADGET_Preferences_FormSkin
+  #GADGET_Preferences_FormNotRecognizedCaption
+  #GADGET_Preferences_FormNotRecognized
+  #GADGET_Preferences_FormDowngradeCaption
+  #GADGET_Preferences_FormDowngrade
+  #GADGET_Preferences_FormUpgradeCaption
+  #GADGET_Preferences_FormUpgrade
   #GADGET_Preferences_EnableHistory
   #GADGET_Preferences_HistoryTimer  ; first to auto disable
   #GADGET_Preferences_HistoryMaxFileSize
@@ -2618,7 +2624,7 @@ Global SaveProjectSettings
 Global EnableMenuIcons, AutoClearLog, DisplayFullPath, DisplayDarkMode, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
-Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion
+Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion, FormVersionWarnings
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
 Global ExtraWordChars$

@@ -1735,11 +1735,17 @@ Procedure LoadSourceFile(FileName$, Activate = 1, AddToRecentFiles = 1)
   ; Check if this is a form (file extension only for now)
   ; NOTE: it needs to be after the already opened check !
   If LCase(GetExtensionPart(FileName$)) = "pbf"
+    
+    If FD_VersionCheck(FileName$) = #PB_MessageRequester_No
+      ProcedureReturn 0
+    EndIf
+
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
     AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
+    
   EndIf
   
   ; reset the current source

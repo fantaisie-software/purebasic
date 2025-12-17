@@ -4,8 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
-
 Global SelectedLanguage, PreferenceFontName$, PreferenceFontSize, PreferenceFontStyle
 Global PreferenceToolsPanelFrontColor, PreferenceToolsPanelBackColor, PreferenceToolsPanelFont$
 Global PreferenceToolsPanelFontSize, PreferenceToolsPanelFontStyle
@@ -410,6 +408,8 @@ Procedure LoadPreferences()
       FormSkinVersion = ReadPreferenceLong("FormSkinVersion", 7)
   EndSelect
   
+  FormVersionWarnings = ReadPreferenceLong("VersionWarnings",  #FDI_Warn_Default)
+    
   ;- - EditHistory
   PreferenceGroup("EditHistory")
   EnableHistory      = ReadPreferenceLong("Enable", 1)
@@ -1092,12 +1092,10 @@ Procedure LoadPreferences()
   PurifierWindowY            = ReadPreferenceLong("PurifierWindowY", 50)
   
   ClosePreferences()
+  
 EndProcedure
 
-
-
 Procedure SavePreferences()
-  
   
   If CreatePreferences(PreferencesFile$)
     PreferenceComment(" PureBasic IDE Preference File")
@@ -1245,6 +1243,7 @@ Procedure SavePreferences()
     WritePreferenceLong("EventProcedure",   FormEventProcedure)
     WritePreferenceLong("FormSkin",         FormSkin)
     WritePreferenceLong("FormSkinVersion",  FormSkinVersion)
+    WritePreferenceLong("VersionWarnings",  FormVersionWarnings)
     
     ;- - EditHistory
     PreferenceGroup("EditHistory")
@@ -1937,6 +1936,18 @@ Procedure IsPreferenceChanged()
   If FormSkin <> TempFormSkin: ProcedureReturn 1: EndIf
   If FormSkinVersion <> TempFormSkinVersion: ProcedureReturn 1: EndIf
   
+  TempFormNotRecognized = FormVersionWarnings & #FDI_Warn_NotRecognized
+  If GetGadgetState(#GADGET_Preferences_FormNotRecognized) <> TempFormNotRecognized : ProcedureReturn 1: EndIf
+  TempFormDowngrade = FormVersionWarnings & #FDI_Warn_DowngradeAlways
+  ; If GetGadgetState(#)
+  
+  If (FormVersionWarnings & #FDI_Warn_UpgradeBreaking) = #FDI_Warn_UpgradeBreaking And GetGadgetState(#GADGET_Preferences_FormUpgrade) <> 1
+    ProcedureReturn 1
+  EndIf
+  If (FormVersionWarnings & #FDI_Warn_UpgradeAlways) = #FDI_Warn_UpgradeAlways And GetGadgetState(#GADGET_Preferences_FormUpgrade) <> 2
+    ProcedureReturn 1
+  EndIf
+  
   If GetGadgetState(#GADGET_Preferences_HistoryPurgeNever)
     TempPurgeMode = 0
   ElseIf GetGadgetState(#GADGET_Preferences_HistoryPurgeByCount)
@@ -2311,6 +2322,36 @@ Procedure ApplyPreferences()
       
     Case 3 ; Linux
       FormSkin = #PB_OS_Linux
+  EndSelect
+  
+  CallDebugger
+  Debug GetGadgetState(#GADGET_Preferences_FormNotRecognized)
+  Select GetGadgetState(#GADGET_Preferences_FormNotRecognized)
+    Case 0
+      FormVersionWarnings & ~#FDI_Warn_NotRecognized
+    Case 1
+      FormVersionWarnings | #FDI_Warn_NotRecognized
+  EndSelect
+  
+  Debug GetGadgetState(#GADGET_Preferences_FormDowngrade)
+  Select GetGadgetState(#GADGET_Preferences_FormDowngrade)
+    Case 0
+      FormVersionWarnings & ~#FDI_Warn_DowngradeAlways 
+    Case 1
+      FormVersionWarnings | #FDI_Warn_DowngradeAlways
+  EndSelect
+  
+  Debug GetGadgetState(#GADGET_Preferences_FormUpgrade)
+  Select GetGadgetState(#GADGET_Preferences_FormUpgrade)
+    Case 0
+      FormVersionWarnings & ~#FDI_Warn_UpgradeBreaking 
+      FormVersionWarnings & ~#FDI_Warn_UpgradeAlways
+    Case 1
+      FormVersionWarnings | #FDI_Warn_UpgradeBreaking
+      FormVersionWarnings & ~#FDI_Warn_UpgradeAlways
+    Case 2
+      FormVersionWarnings & ~#FDI_Warn_UpgradeBreaking
+      FormVersionWarnings | #FDI_Warn_UpgradeAlways
   EndSelect
   
   ; Reload specific form skin variables and fonts
@@ -3521,6 +3562,26 @@ Procedure OpenPreferencesWindow()
           SetGadgetState(#GADGET_Preferences_FormSkin,2)
       EndSelect
   EndSelect
+  
+  If (FormVersionWarnings & #FDI_Warn_NotRecognized) = #FDI_Warn_NotRecognized
+    SetGadgetState(#GADGET_Preferences_FormNotRecognized, 1)
+  Else
+    SetGadgetState(#GADGET_Preferences_FormNotRecognized, 0)
+  EndIf
+  
+  If (FormVersionWarnings & #FDI_Warn_DowngradeAlways) = #FDI_Warn_DowngradeAlways
+    SetGadgetState(#GADGET_Preferences_FormDowngrade, 1)
+  Else
+    SetGadgetState(#GADGET_Preferences_FormDowngrade, 0)
+  EndIf
+  
+  If (FormVersionWarnings & (#FDI_Warn_UpgradeBreaking | #FDI_Warn_UpgradeAlways)) = 0
+    SetGadgetState(#GADGET_Preferences_FormUpgrade, 0)
+  ElseIf (FormVersionWarnings & #FDI_Warn_UpgradeBreaking) = #FDI_Warn_UpgradeBreaking
+    SetGadgetState(#GADGET_Preferences_FormUpgrade, 1)
+  ElseIf (FormVersionWarnings & #FDI_Warn_UpgradeAlways) = #FDI_Warn_UpgradeAlways
+    SetGadgetState(#GADGET_Preferences_FormUpgrade, 2)
+  EndIf
   
   PreferenceCurrentPage = 0
   For i = 0 To CountGadgetItems(#GADGET_Preferences_Tree) - 1

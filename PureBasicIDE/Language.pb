@@ -1091,26 +1091,33 @@ DataSection
   Data$ "CustomFont",       "Use a custom font"
   Data$ "CustomColors",     "Use custom colors"
   
-  Data$ "Form",             "Form"
-  Data$ "FormVariable",     "New gadgets use #PB_Any by default"
-  Data$ "FormVariableCaption","New gadgets use a variable as caption"
-  Data$ "FormGrid",         "Grid Visible"
-  Data$ "FormEventProcedure","Generate event procedure"
-  Data$ "FormGridSize",     "Grid Size"
-  Data$ "FormSkin",         "OS Skin"
+  Data$ "Form",                "Form"
+  Data$ "FormVariable",        "New gadgets use #PB_Any by default"
+  Data$ "FormVariableCaption", "New gadgets use a variable as caption"
+  Data$ "FormGrid",            "Grid Visible"
+  Data$ "FormEventProcedure",  "Generate event procedure"
+  Data$ "FormGridSize",        "Grid Size"
+  Data$ "FormSkin",            "OS Skin"
+  Data$ "FormWarnings",        "Warnings"
+  Data$ "WarnNotRecognized",   "For an unrecognised file"
+  Data$ "WarnDowngrade",       "For a version downgrade"
+  Data$ "WarnUpgrade",         "For a version upgrade"
+  Data$ "Option_Always",       "Always warn"
+  Data$ "Option_Backward",     "Warn if backward compatibility is affected"
+  Data$ "Option_Never",        "Never warn"
   
-  Data$ "Issues",           "Issues"
-  Data$ "IssueNameShort",   "Name"
-  Data$ "IssueExprShort",   "Expression"
-  Data$ "IssueName",        "Issue name"
-  Data$ "IssueExpr",        "Regular expression"
-  Data$ "IssueCodeNoColor", "No code color"
-  Data$ "IssueCodeBack",    "Change issue background"
-  Data$ "IssueCodeLine",    "Change line background"
-  Data$ "IssueCodeLineLimit","Only up to %limit% issues that change the line background can be defined."
-  Data$ "IssueInTool",      "Show in issue tool"
-  Data$ "IssueInBrowser",   "Show in procedure browser"
-  Data$ "InvalidExpr",      "Invalid regular expression"
+  Data$ "Issues",             "Issues"
+  Data$ "IssueNameShort",     "Name"
+  Data$ "IssueExprShort",     "Expression"
+  Data$ "IssueName",          "Issue name"
+  Data$ "IssueExpr",          "Regular expression"
+  Data$ "IssueCodeNoColor",   "No code color"
+  Data$ "IssueCodeBack",      "Change issue background"
+  Data$ "IssueCodeLine",      "Change line background"
+  Data$ "IssueCodeLineLimit", "Only up to %limit% issues that change the line background can be defined."
+  Data$ "IssueInTool",        "Show in issue tool"
+  Data$ "IssueInBrowser",     "Show in procedure browser"
+  Data$ "InvalidExpr",        "Invalid regular expression"
   
   CompilerIf #SpiderBasic
     Data$ "WebBrowser",  "Web browser"
@@ -2087,7 +2094,8 @@ DataSection
   Data$ "AskScreenReader",  "A Screen Reader software was detected. Do you wish to enable accessibility features?%newline%%newline%(You can change this option later under File - Preferences - General)"
   
   Data$ "ImageManagerTitle","Image Manager"
-  
+  Data$ "MessageContinue",   "Do you want to continue?"
+
   
   ; ===================================================
   ;- Group - Form
@@ -2105,7 +2113,15 @@ DataSection
   Data$ "Separator",          "Separator"
   Data$ "Shortcut",           "Shortcut"
   Data$ "OutOfMemoryError",   "Can't render gadget of %size% pixels (out of memory)."
-  Data$ "N/A",                 "N/A"
+  Data$ "N/A",                "N/A"
+  
+  Data$ "MessageNewer",       "This file was created with a newer version of the designer (%s%).%newline%Any unsupported features may be lost."
+  Data$ "MessageOlder",       "This file was created with an older version of the designer (%s%) and will be upgraded to the current version."
+  Data$ "MessageBackward",    "This file was created with an older version of the designer (%s%).%newline%Backward compatibility may be affected if upgraded."
+  Data$ "MessageNotDesign",   "This file does not appear to contain a form design.%newline%The content may not be imported properly."
+  Data$ "Option_Always",      "Always"
+  Data$ "Option_Backward",    "If backward compatibility is affected"
+  Data$ "Option_Never",       "Never"
   
   ;Data$ "_GROUP_",            "StatusWindow"
   ; ===================================================
@@ -2292,7 +2308,7 @@ DataSection
   Data$ "Remove",               "Remove"
   Data$ "Parent",               "Parent"
   Data$ "ParentItem",           "Parent Item"
-  Data$ "customFlags",          "Custom Flags"
+  Data$ "CustomFlags",          "Custom Flags"
   
  
   ; ===================================================
