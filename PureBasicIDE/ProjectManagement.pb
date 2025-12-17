@@ -1263,7 +1263,7 @@ Procedure LoadProject(Filename$)
             
             If ProjectOpenMode = #Project_Open_LoadAll Or (ProjectOpenMode = #Project_Open_LoadLast And ProjectFiles()\LastOpen) Or (ProjectOpenMode = #Project_Open_LoadDefault And ProjectFiles()\AutoLoad)
               PushListPosition(ProjectFiles())
-              LoadSourceFile(ProjectFiles()\FileName$) ; can change the ProjectFiles() index
+              LoadSourceFile(ProjectFiles()\FileName$, 1, 0) ; can change the ProjectFiles() index
               
               ; Flush events. So when many sources are opened at once, the User can see a bit the
               ; progress, instead of just an unresponsive window for quite a while.

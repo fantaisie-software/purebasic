@@ -709,7 +709,7 @@ Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
         If Index <> -1
           *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
           If ProjectPanel_IsFile(*File)
-            LoadSourceFile(*File\FileName$) ; will just switch if open
+            LoadSourceFile(*File\FileName$, 1, 0) ; will just switch if open
           EndIf
         EndIf
         
