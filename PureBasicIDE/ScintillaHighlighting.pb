@@ -4,8 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
-
 CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   #SCI_NORM   = 0
@@ -3501,17 +3499,48 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SetBackgroundColor(Gadget) ; updates the 'disabled background color'
   EndProcedure
   
-  
-  Procedure InsertCodeString(String$)
+  Procedure InsertCodeString(String$, MoveCursor = #False)
+    ; String$: The string to insert.
+    ; MoveCursor: If #True, the cursor will be relocated to the location of the caret symbol after insertion and the symbol deleted.
+    ;             Otherwise, caret symbols will be inserted literally.
+    
+    Define Find.Sci_TextToFind
+    
     If *ActiveSource\Parser\Encoding = 1 ; utf8
       Format = #PB_UTF8
     Else
       Format = #PB_Ascii
     EndIf
+      
+    ; Embed insertion into a single transaction, otherwise the caret symbol will reappear in an Undo action.
+    SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
     
+    BeforePos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
     Converted$ = Space(StringByteLength(String$, Format))
     PokeS(@Converted$, String$, -1, Format)
     SendEditorMessage(#SCI_REPLACESEL, 0, @Converted$)
+    
+    ; Remove caret symbol and move cursor, if a position is specified.
+    If MoveCursor And FindString(String$, "^")
+      If *ActiveSource\Parser\Encoding = 1 ; utf8
+        Find\lpstrText = UTF8("^")
+      Else
+        Find\lpstrText = Ascii("^")
+      EndIf
+      
+      AfterPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
+      Find\chrg\cpMin = BeforePos
+      Find\chrg\cpMax = AfterPos
+      FindPos = SendEditorMessage(#SCI_FINDTEXT, #SCFIND_NONE, @Find)
+      SendEditorMessage(#SCI_DELETERANGE, FindPos, 1)
+      SendEditorMessage(#SCI_GOTOPOS, FindPos)
+      
+      FreeMemory(Find\lpstrText)
+    
+    EndIf
+    
+    SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
+    
   EndProcedure
   
   Procedure Undo()
