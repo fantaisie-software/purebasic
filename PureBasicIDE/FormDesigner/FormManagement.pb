@@ -270,18 +270,13 @@ Procedure FormPanel_CreateFunction(*Entry.ToolsPanelEntry)
   grid_SetGadgetAttribute(propgrid, #Grid_Caption_Col, 1)
   grid_SetGadgetAttribute(propgrid, #Grid_Disable_Delete, 1)
   
-  CompilerIf #CompileMac
-    grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, GetCocoaColor("systemGrayColor"))
-  CompilerElse
-    grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, RGB(238, 238, 238))
-  CompilerEndIf
-  
   propgrid_combo = grid_CreateComboBox(propgrid)
   propgrid_proccombo = grid_CreateComboBox(propgrid)
   
   grid_SetColumnWidth(propgrid, 0, 20)
   grid_SetColumnWidth(propgrid, 1)
   grid_SetColumnWidth(propgrid, 2, grid_GadgetWidth(propgrid) - grid_GetColumnWidth(propgrid, 0) - grid_GetColumnWidth(propgrid, 1))
+  
   CloseGadgetList() ; Close the container
   
   SplitterGadget(#Form_SplitterInt, 0, 0, 100, 200, #Form_Prop, #Form_GridContainer, #PB_Splitter_FirstFixed)

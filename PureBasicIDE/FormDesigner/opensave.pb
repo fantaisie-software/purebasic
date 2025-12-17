@@ -350,6 +350,9 @@ Procedure OpenReadGadgetParams(line.s)
   ; remove toolbarheight/menuheight
   tempvalue = ReplaceString(tempvalue,"MenuHeight()","")
   tempvalue = ReplaceString(tempvalue,"+","")
+  ;- Change
+  tempvalue = ReplaceString(tempvalue,"FormWindowTop","")
+  tempvalue = ReplaceString(tempvalue,"+","")
   toolpos = FindString(tempvalue,"ToolBarHeight(")
   If toolpos
     toolend = FindString(tempvalue,")",toolpos) + 1
@@ -413,6 +416,9 @@ Procedure OpenReadGadgetParams(line.s)
   ;{ y2
   tempvalue.s = Trim(Mid(line,start,startnext-start))
   toolpos = FindString(tempvalue,"ToolBarHeight(")
+  ;- Change
+  tempvalue = ReplaceString(tempvalue,"FormWindowTop","")
+  tempvalue = ReplaceString(tempvalue,"+","")
   If toolpos
     toolend = FindString(tempvalue,")",toolpos) + 1
     tempvalue = Left(tempvalue,toolpos - 1) + Right(tempvalue,Len(tempvalue) - toolend)

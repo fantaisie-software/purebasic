@@ -6,6 +6,9 @@
 
 
 Procedure FD_InitBasicPropGridRows(gadget = 0)
+  
+  grid_SetGadgetColor(propgrid, #Grid_Color_LineLight, grid_color_light)
+  
   PropGridAddNode(propgrid, i, "Properties")
   i + 1
   

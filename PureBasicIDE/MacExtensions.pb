@@ -277,6 +277,13 @@ CompilerIf #CompileMacCocoa
             EndIf
           Next
         EndWith
+        If DisplayDarkMode
+          ; Update FormDesigner GridGadget
+          grid_color_bg = GetCocoaColor("underPageBackgroundColor")
+          grid_color_text = GetCocoaColor("textColor")
+          grid_color_light = GetCocoaColor("windowBackgroundColor")
+          grid_color_mid = #Gray
+        EndIf
       EndIf
       
     EndProcedure
@@ -311,7 +318,13 @@ CompilerIf #CompileMacCocoa
                 EndIf
               Next
             EndWith
+            ; Update FormDesigner GridGadget
+            grid_color_bg = GetCocoaColor("underPageBackgroundColor")
+            grid_color_text = GetCocoaColor("textColor")
+            grid_color_light = GetCocoaColor("windowBackgroundColor")
+            grid_color_mid = #Gray
           EndIf
+          
       EndSelect
     EndProcedure
 
