@@ -61,12 +61,6 @@ Procedure FD_Save(Filename$)
       WriteStringFormat(handle, #PB_UTF8); Write the BOM: https://www.purebasic.fr/english/viewtopic.php?f=4&t=63080
     EndIf
     
-    MajorVersion = #PB_Compiler_Version/100
-    MinorVersion = #PB_Compiler_Version - MajorVersion*100
-    WriteStringN(handle,"; Form Designer for PureBasic - " + MajorVersion + "." +RSet(Str(MinorVersion), 2, "0"))
-    WriteStringN(handle,"; Warning: this file uses a strict syntax, if you edit it, make sure to respect the Form Designer limitation or it won't be opened again.")
-    WriteStringN(handle, "")
-    
     code.s = FD_SelectCode(1)
     
     num = CountString(code,#Endline)
