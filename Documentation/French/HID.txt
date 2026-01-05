@@ -306,16 +306,18 @@ Périphérique HID à configurer.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = GetHIDReportDescriptor(#HID)
+@Function *Memoire = GetHIDReportDescriptor(#HID)
 
 @Description
-  Récupère le descripteur de rapport HID du périphérique.
+  Récupère le descripteur de rapport HID du périphérique dans un tampon en mémoire.
 
 @Parameter "#HID"
   Le périphérique HID
 
 @ReturnValue
-  Renvoie le descripteur de rapport sous forme d'une chaîne d'octets.
+  Renvoie le descripteur de rapport sous forme de tampon mémoire.@LineBreak 
+  Pour obtenir la taille du descripteur, utilisez @@MemorySize.@LineBreak 
+  Une fois le descripteur inutile, vous pouvez le libérer avec @@FreeMemory.
 
 @Remarks
   Le descripteur de rapport décrit le format des données et les fonctionnalités du périphérique HID.

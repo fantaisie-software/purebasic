@@ -300,16 +300,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = GetHIDReportDescriptor(#HID)
+@Function *Buffer = GetHIDReportDescriptor(#HID)
 
 @Description
-  Get the HID report descriptor from the device.
+  Get the HID report descriptor from the device as memory buffer.
 
 @Parameter "#HID"
   The HID device to query.
 
 @ReturnValue
-  Returns the report descriptor as a string of bytes.
+  Returns the report descriptor as a memory buffer. To get the size of the descriptor, use @@MemorySize. Once the descriptor is no more needed, it can be freed with @@FreeMemory.
 
 @Remarks
   The report descriptor describes the data format and capabilities of the HID device.

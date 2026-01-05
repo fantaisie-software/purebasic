@@ -81,6 +81,7 @@
   @#PB_File_SharedWrite: die geöffnete Datei kann von einem anderen Prozess geschrieben werden (nur auf Windows).
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : die Datei wird mit einer BOM ("Byte Order Mark"-Bytefolge) erstellt.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString(), @@WriteStringN, 
   @@ReadString, @@ReadCharacter und @@WriteCharacter):
@@ -560,6 +561,9 @@
                         geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : enthält die Datei eine Byte Order Mark (BOM), wird diese automatisch verarbeitet
+                      (die Verwendung von @@ReadStringFormat ist nicht erforderlich). Das erkannte Format
+                      wird von den Read- und Write-Funktionen für Strings automatisch verwendet.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von
   @@ReadString und @@ReadCharacter):

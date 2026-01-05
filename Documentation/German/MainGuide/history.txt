@@ -1,5 +1,30 @@
 ﻿@Title PureBasic Geschichte
 
+@Section xxth Dezember 2025 : Version 6.30
+
+- @Green "Hinzugefügt": Brandneue ScreenGadget Bibliothek, um einfach UI (Benutzeroberflächen) auf einem Game-Screen (Bildschirm, für 2D und 3D) zu erstellen ! @LineBreak
+- @Green "Hinzugefügt": Brandneue HID Bibliothek ! @LineBreak
+- @Green "Hinzugefügt": #PB_FTP_Debug Flag bei OpenFTP() um mehr Informationen über die Verbindung zu erhalten. @LineBreak
+- @Green "Hinzugefügt": #PB_ListIcon_NoHeaders Flag beim ListIconGadget() @LineBreak
+- @Green "Hinzugefügt": #PB_Explorer_NoHeaders Flag beim ExplorerListGadget() @LineBreak
+- @Green "Hinzugefügt": Unicode() um einen dynamischen Unicode-String wie Ascii() und UTF8() zu erstellen. @LineBreak
+- @Green "Hinzugefügt": HeaderSection/EndHeaderSection, um C- oder Assembler-Code außerhalb der main()-Funktion zu platzieren @LineBreak
+- @Green "Hinzugefügt": #PB_InputRequester_HandleCancel um einen speziellen Rückgabewert für InputRequester() zu haben, falls der Benutzer diesen abgebrochen hat. @LineBreak
+- @Green "Hinzugefügt": Unterstützung für Gzip Codierung bei HttpRequest(), HttpRequestMemory(), ReceiveHTTPFile() und ReceiveHTTPMemory() @LineBreak
+- @Green "Hinzugefügt": #PB_Menu_NativeImageSize bei CreateImageMenu() und CreatePopupImageMenu(), um größere Symbole in Menüs zu ermöglichen (Windows). @LineBreak
+- @Green "Hinzugefügt": #PB_2DDrawing_FastText bei DrawingMode() für eine schnellere Textdarstellung (Windows) @LineBreak
+- @Green "Hinzugefügt": #PB_Mail_NoSSLCheck und #PB_Mail_WeakSSL Flags bei SendMail() um Tests zu vereinfachen. @LineBreak
+- @Green "Hinzugefügt": Automatische BOM-Verarbeitung bei CreateFile() sowie ReadFile()/OpenFile() mit dem #PB_File_BOM Flag @LineBreak
+- @Green "Hinzugefügt": x,y-Datentyp für DisplaySprite/DisplayTransparentSprite() wurde von Integer auf Float geändert (wird auf DX9- oder DX11-Subsystemen nicht unterstützt). @LineBreak
+- @Green "Hinzugefügt": Platzhalter-Unterstützung für das StringGadget() mit dem #PB_String_PlaceHolder Flag @LineBreak
+- @Green "Hinzugefügt": PackerCallback() um die Kompression zu überwachen und gegebenenfalls abzubrechen. @LineBreak
+- @Green "Hinzugefügt": 'onresize'-Ereignis bei der Dialog-Bibliothek für Gadgets, welche #PB_EventType_Resize unterstützen @LineBreak
+@LineBreak
+- @Blue "Aktualisiert": 2DDrawing-Bibliothek für Funktionen aufgeteilt, die keine Abhängigkeiten benötigen (https://www.purebasic.fr/english/viewtopic.php?t=87034) @LineBreak
+@LineBreak
+- @Orange "Geändert": Die Hintergrundfarbe von CreateImage() verwendet nun den vollen RGBA()-Farbraum für 32-Bit-Bilder. Mit #PB_Image_Transparent und #PB_Image_TransparentBlack lässt sich ein transparenter Hintergrund mit weißer bzw. schwarzer Kantenglättung festlegen. @LineBreak
+
+
 @Section 9. Juni 2025 : Version 6.21
 
 - @Green "Hinzugefügt": #PB_Sprite_Transparent Unterstützung bei CreateSprite() @LineBreak

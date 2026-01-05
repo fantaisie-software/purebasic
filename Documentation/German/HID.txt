@@ -312,16 +312,18 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = GetHIDReportDescriptor(#HID)
+@Function *Puffer = GetHIDReportDescriptor(#HID)
 
 @Description
-  Ruft den HID-Berichtsdeskriptor vom Gerät ab.
+  Ruft den HID-Berichtsdeskriptor vom Gerät als Speicherpuffer ab.
 
 @Parameter "#HID"
   Das abzufragende HID-Gerät.
 
 @ReturnValue
-  Gibt den Berichtsdeskriptor als einen Byte-String zurück.
+  Gibt den Berichtsdeskriptor als Speicherpuffer zurück. Die Größe des Deskriptors kann mit
+  @@MemorySize ermittelt werden. Sobald der Deskriptor nicht mehr benötigt wird, kann er
+  mit @@FreeMemory freigegeben werden.
 
 @Remarks
   Der Berichtsdeskriptor beschreibt das Datenformat und die Fähigkeiten des HID-Geräts.

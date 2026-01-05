@@ -225,8 +225,8 @@ Hardware-Beschleunigung ermöglicht.
     CreateSprite(0, 64, 64, #PB_Sprite_AlphaBlending | #PB_Sprite_Transparent)
     If StartDrawing(SpriteOutput(0))
       DrawingMode(#PB_2DDrawing_AllChannels)
-      Circle(16, 16, 8, RGBA(255, 0, 0, 255)) ; Opaque red circle
-      Circle(32, 32, 8, RGBA(0, 255, 0, 128)) ; Semi transparent green circle
+      Circle(16, 16, 8, RGBA(255, 0, 0, 255)) ; undurchsichtiger roter Kreis
+      Circle(32, 32, 8, RGBA(0, 255, 0, 128)) ; halbtransparenter grüner Kreis
       StopDrawing()
     EndIf
       
@@ -238,7 +238,7 @@ Hardware-Beschleunigung ermöglicht.
         EndIf
       Until Event = 0
       
-      ClearScreen(RGB(0, 0, 0)) ; Ein schwarzer Hintergrund
+      ClearScreen(RGB(128, 128, 128)) ; grauer Hintergrund
       
       DisplayTransparentSprite(0, 300, 200)
       

@@ -82,6 +82,8 @@
   @#PB_File_SharedWrite: the opened file can be written by another process (Windows only).
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
                         @@FileBuffersSize can not be used on this file.
+  @#PB_File_BOM        : the file will be created with a BOM.
+  
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN,
   @@ReadString, @@ReadCharacter and @@WriteCharacter behaviour):
@@ -548,6 +550,8 @@
                         this flag is needed to access it (Windows only).
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file.
                         @@FileBuffersSize can not be used on this file.
+  @#PB_File_BOM        : if the file contains a BOM, it will be handled automatically (no need to use @@ReadStringFormat).
+                        The detected format will be automatically used by the read and write string functions.
 @EndFixedFont
   combined with one of the following values (the following flags affect the behaviour of @@ReadString
   and @@ReadCharacter):

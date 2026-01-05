@@ -5,18 +5,15 @@
 ;
 
 
-
-
 @Library ScreenGadget
 
 @Overview
-
   The ScreenGadget library allows you to create
   complex graphical user interfaces (GUIs)
   directly on the screen.
 @LineBreak 
   The syntax of this library is similar
-  at the library
+  to the library
   @LibraryLink "gadget" "Gadget".
 @LineBreak
 @LineBreak
@@ -30,7 +27,6 @@
 
 @SupportedOS
 
-
 ;------------------------------------------------------------------------------------
 
 @Function InitScreenGadgets()
@@ -42,7 +38,6 @@
   
 @Remarks  
   Must be placed after @@OpenScreen / @@OpenWindowedScreen.
-
 
 @SupportedOS
 
@@ -59,12 +54,11 @@
   This function must be placed in the rendering loop.
   The background needs to be "refreshed", for example with @ClearScreen or @RenderWorld (3D).
 
-
 @SupportedOS
 
 ;------------------------------------------------------------------------------------
 
-@Function ScreenWindowAnimation(#ScreenWindow, Direction, Duration [, Fading [, Zoom, [,x [,y [, Rotation]]]])
+@Function ScreenWindowAnimation(#ScreenWindow, Meaning, Duration [, Fading [, Zoom, [,x [,y [, Rotation]]]])
 
 @Description
   Makes the window appear/disappear with an animation.
@@ -72,7 +66,7 @@
 @Parameter "#ScreenWindow"
   The window to be animated.
 @Parameter "Meaning"
-  1: apparission
+  1: appearance
   2: disappearance
   3: Appearance and disappearance
 @Parameter "Duration"
@@ -83,7 +77,7 @@
   0 or 1.
 @OptionalParameter "x"
   -1: the window appears/disappears from the left, 1: from the left, 0: no horizontal movement.
-@OptionalParameter "and"
+@OptionalParameter "y"
   -1: the window appears/disappears from the top, 1: from the bottom, 0: no vertical movement.
 @OptionalParameter "Rotation"
   In degrees.
@@ -98,10 +92,9 @@
 
 @Description
   Defines an image for a type of skin (border, icon, mouse pointer...).
- 
-  
+
 @Parameter "SkinPart"
-It could be one of the following values:
+  It could be one of the following values:
   @FixedFont
   #PB_ScreenGadget_Mouse
   #PB_ScreenGadget_TextureWindow
@@ -151,8 +144,8 @@ It could be one of the following values:
   @#PB_Any can be used to automatically generate this number.
 @Parameter "x, y, Width, Height"
   The position and dimensions of the new gadget.
-@Parameter "My, Max"
-  Must be defined with integer values.
+@Parameter "Min, Max"
+  The minimum and maximum values used by the gadget. Must be defined with integer values.
 @OptionalParameter "Flags"
   #PB_TrackBar_Vertical: The gadget is vertical.
  
@@ -168,15 +161,14 @@ It could be one of the following values:
 
 @Description
   Creates a button with an image in the current GadgetList.
- 
-  
+
 @Parameter "#ScreenGadget"
   The identification number of the new gadget.
   @#PB_Any can be used to automatically generate this number.
 @Parameter "x, y, Width, Height"
   The position and dimensions of the new gadget.
 @Parameter "ImageID"
-  The gadget image identification number.
+  The gadget image identification number. Use @@ImageID to get this ID from an image.
 @OptionalParameter "Flags"
   Not supported.
  
@@ -201,7 +193,7 @@ It could be one of the following values:
 @Parameter "x, y, Width, Height"
   The position and dimensions of the new gadget.
 @Parameter "#ScreenGadget1, #ScreenGadget2"
-  The gadgets, wires.
+  The gadgets, which should be placed inside the splitter area.
 @Parameter "Flags"
   #PB_Splitter_Vertical: The area will be separated vertically.
  
@@ -222,7 +214,7 @@ It could be one of the following values:
   The gadget to use.
   If the value of #ScreenGadget is @#PB_Default, then the default font used by new gadgets is changed by the new value.
 @Parameter "FontID"
-  The police identification number to use.
+  The font identification number to use. @@FontID can be used to get a valid FontID.
  
 @NoReturnValue
 
@@ -246,18 +238,18 @@ It could be one of the following values:
 
 ;------------------------------------------------------------------------------------
 
-@Function Result = ScreenVirtualSize(VirtualWidth,VirtualHeight)
+@Function Result = ScreenVirtualSize(VirtualWidth, VirtualHeight)
 
 @Description
   Defines the virtual screen dimensions to automatically adjust the position of gadgets to the resolution.
   @LineBreak
   This command is useful when the screen resolution is not known in advance.
-	
+
 @Parameter "VirtualWidth, VirtuelHeight"
-  the virtual dimensions of the screen.
+  The virtual dimensions of the screen.
  
 @ReturnValue
-  Of type float, corresponding to the minimum (Actual width / virtual width, Actual height / virtual height)
+  Of type float, corresponding to the minimum (actual width / virtual width, actual height / virtual height).
   This value can then be used to adjust the font size.
   
 @Remarks  
@@ -265,10 +257,10 @@ It could be one of the following values:
 
 @Example
 @Code
-...
-fontratio.f=ScreenVirtualSize(1000,500)
-SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
-...
+  ...
+  fontratio.f = ScreenVirtualSize(1000, 500)
+  SetScreenGadgetFont(#PB_Default, LoadFont(0, "Arial", 24*fontratio))
+  ...
 @EndCode
 
 @SupportedOS
@@ -614,7 +606,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   The gadget to use.
 
 @ReturnValue
-  Returns the unique system identifier of the gadget.
+  The unique system identifier of the gadget.
 
 @SupportedOS
 
@@ -701,8 +693,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   The gadget to use.
 
 @ReturnValue  
-  The height, in pixels, of the specified gadget starting from
-  the inside of the top edge of the gadget list that the gadget is in.
+  The height, in pixels, of the specified gadget.
 
 @SeeAlso
   @@ScreenGadgetWidth
@@ -753,8 +744,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   The gadget to use.
 
 @ReturnValue  
-  The width, in pixels, of the specified gadget starting from
-  the inside of the top edge of the gadget list that the gadget is in.
+  The width, in pixels, of the specified gadget.
 
 @SeeAlso
   @@ScreenGadgetHeight
@@ -975,12 +965,12 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   This function is supported by the following gadgets: @LineBreak
 @LineBreak
   - @@ButtonScreenGadget: return the text of the ButtonGadget. @LineBreak
-  - @@ComboBoxScreenGadget - return the content of the current item. @LineBreak
-  - @@EditorScreenGadget - return the text content of the editor gadget. Please note, that several
+  - @@ComboBoxScreenGadget: return the content of the current item. @LineBreak
+  - @@EditorScreenGadget: return the text content of the editor gadget. Please note, that several
     lines of text are normally separated with "Chr(13)+Chr(10)". @LineBreak
-  - @@ListViewScreenGadget - return the content of the current item. @LineBreak
-  - @@StringScreenGadget - return contents of the StringGadget. @LineBreak
-  - @@TextScreenGadget - return contents of the TextGadget.
+  - @@ListViewScreenGadget: return the content of the current item. @LineBreak
+  - @@StringScreenGadget: return the content of the StringGadget. @LineBreak
+  - @@TextScreenGadget: return the content of the TextGadget.
 
 @SeeAlso
   @@SetScreenGadgetText
@@ -1024,7 +1014,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
 
 @Parameter "TextureID"
   The texture to display in the gadget. @@TextureID can be used to get a valid value.
-  If this value is sets to zero, then the texture is removed from the gadget.
+  If this value is sets to zero, then no texture is displayed.
 
 @OptionalParameter "Flags"
   It can be one of the following constants:
@@ -1359,10 +1349,6 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
   then the return-value is the auto-generated gadget number on success.
   
-@Remarks
-  The following functions can be used to act on a ScrollAreaGadget: @LineBreak
-@LineBreak
-
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1552,7 +1538,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   - @@CheckBoxScreenGadget: 1 to check it, 0 otherwise. @LineBreak
   - @@ComboBoxScreenGadget: change the currently selected item. @LineBreak
   - @@ImageScreenGadget: change the current image of the gadget. @LineBreak
-  - @@ListViewScreenGadget: change the currently selected item. . If -1 is specified, it will remove the selection. @LineBreak
+  - @@ListViewScreenGadget: change the currently selected item. If -1 is specified, it will remove the selection. @LineBreak
   - @@OptionScreenGadget: 1 to activate it, 0 otherwise. @LineBreak
   - @@PanelScreenGadget: change the current panel. @LineBreak
   - @@ProgressBarScreenGadget: change progress bar value. @LineBreak
@@ -1706,6 +1692,7 @@ SetScreenGadgetFont(#PB_Default,LoadFont(0,"Arial",24*fontratio))
   This Gadget doesn't receive any user events, and @@ScreenGadgetToolTip can't be used with it.
 
 @SupportedOS
+
 ;--------------------------------------------------------------------------------------------------------
 
 @Function CloseScreenWindow(#ScreenWindow)

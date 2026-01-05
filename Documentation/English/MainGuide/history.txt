@@ -1,5 +1,31 @@
 ﻿@Title History
 
+
+@Section xxth December 2025 : Version 6.30
+
+- @Green "Added": Brand new ScreenGadget library to create easily UI on a game screen (for 2D and 3D) ! @LineBreak
+- @Green "Added": Brand new HID library ! @LineBreak
+- @Green "Added": #PB_FTP_Debug flag for OpenFTP() to allow to get more info about the connection. @LineBreak
+- @Green "Added": #PB_ListIcon_NoHeaders flag to ListIconGadget() @LineBreak
+- @Green "Added": #PB_Explorer_NoHeaders flag to ExplorerListGadget() @LineBreak
+- @Green "Added": Unicode() to create a dynamic unicode string like Ascii() and UTF8() @LineBreak
+- @Green "Added": HeaderSection/EndHeaderSection to put C or ASM code outside the main() function @LineBreak
+- @Green "Added": #PB_InputRequester_HandleCancel to have a special return for InputRequester() if the user cancelled it @LineBreak
+- @Green "Added": Gzip encoding support for HttpRequest(), HttpRequestMemory(), ReceiveHTTPFile() and ReceiveHTTPMemory() @LineBreak
+- @Green "Added": #PB_Menu_NativeImageSize tot CreateImageMenu() and CreatePopupImageMenu() to allow larger icons in menus (Windows) @LineBreak
+- @Green "Added": #PB_2DDrawing_FastText for DrawingMode() to have a faster text rendering (Windows). @LineBreak
+- @Green "Added": #PB_Mail_NoSSLCheck and #PB_Mail_WeakSSL flags for SendMail() to ease tests. @LineBreak
+- @Green "Added": Automatic BOM handling to CreateFile() and ReadFile()/OpenFile() with #PB_File_BOM flag @LineBreak
+- @Green "Added": Changed x,y type for DisplaySprite/DisplayTransparentSprite() from integer to float (Not supported on DX9 or DX11 subsystem) @LineBreak
+- @Green "Added": Placeholder support for StringGadget() with #PB_String_PlaceHolder flag @LineBreak
+- @Green "Added": PackerCallback() to monitor and abort compression. @LineBreak
+- @Green "Added": 'onresize' event for Dialog library for gadgets which supports #PB_EventType_Resize @LineBreak
+@LineBreak
+- @Blue "Updated": Splitted the 2DDrawing lib for functions which doesn't needed dependencies (https://www.purebasic.fr/english/viewtopic.php?t=87034) @LineBreak
+@LineBreak
+- @Orange "Changed": CreateImage() background color now takes full RGBA() color for 32-bit picture. #PB_Image_Transparent and #PB_Image_TransparentBlack can be used to set a transparent background with white or black antialising. @LineBreak
+
+
 @Section 9th June 2025 : Version 6.21
 
 - @Green "Added": #PB_Sprite_Transparent support to CreateSprite() @LineBreak
