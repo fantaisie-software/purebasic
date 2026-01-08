@@ -131,7 +131,6 @@ DataSection
   Data$ "EditorGadget,1,#PB_Any"
   Data$ "EditorGadget,6,#PB_Editor_ReadOnly,#PB_Editor_WordWrap"
   Data$ "EncodeImage,2,#PB_ImagePlugin_JPEG,#PB_ImagePlugin_PNG"
-  Data$ "ExportFile,3,#PB_LocalFile,#PB_GoogleDriveFile"
   Data$ "ExportJSON,4,#PB_JSON_PrettyPrint"
   
   ;- F
@@ -313,7 +312,7 @@ DataSection
   Data$ "StringFingerprint,2,#PB_Cipher_CRC32,#PB_Cipher_MD5,#PB_Cipher_SHA1,#PB_Cipher_SHA2,#PB_Cipher_SHA3"
   Data$ "StringFingerprint,4,#PB_UTF8,#PB_Ascii,#PB_Unicode"
   Data$ "StringGadget,1,#PB_Any"
-  Data$ "StringGadget,7,#PB_String_Numeric,#PB_String_Password,#PB_String_ReadOnly,#PB_String_LowerCase,#PB_String_UpperCase,#PB_String_BorderLess"
+  Data$ "StringGadget,7,#PB_String_Numeric,#PB_String_Password,#PB_String_ReadOnly,#PB_String_LowerCase,#PB_String_UpperCase,#PB_String_BorderLess,#PB_String_PlaceHolder"
   Data$ "StrokePath,2,#PB_Path_Default,#PB_Path_Preserve,#PB_Path_RoundEnd,#PB_Path_SquareEnd,#PB_Path_RoundCorner,#PB_Path_DiagonalCorner"
   Data$ "StrU,2,#PB_Quad,#PB_Byte,#PB_Ascii,#PB_Word,#PB_Unicode,#PB_Long"
   Data$ "SwitchMobile,1,#PB_Any"

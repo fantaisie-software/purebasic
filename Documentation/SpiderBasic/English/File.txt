@@ -145,11 +145,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ExportFile(#File, MimeType$ [, Flags])
+@Function ExportFile(#File, MimeType$ [, Filename$])
 
 @Description
-  Exports the specified file to the user through a download. The file filename will be used
-  as download name.
+  Exports the specified file to the user through a download.
 
 @Parameter "#File"
   The file to export.
@@ -166,23 +165,30 @@
 @EndFixedFont
   Full list can be found here: @InternetLink "http://www.freeformatter.com/mime-types-list.html" "http://www.freeformatter.com/mime-types-list.html".
 
-@OptionalParameter "Flags"
-  Can be one the following value:
-@FixedFont
-  @#PB_LocalFile: the file will be exported as a download (default).
-@EndFixedFont
+@OptionalParameter "Filename$"
+  The filename to use for the download. If not specified the filename for the #File will be used.
 
 @NoReturnValue
 
 @Example
 @Code
-  If CreateFile(0, "SomeText.txt")
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+    
+  EndProcedure
+
+  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
     ExportFile(0, "text/plain")
-    
-    CloseFile(0)
+    CloseFile(0)                      
   EndIf
 @EndCode
 
@@ -207,14 +213,25 @@
 
 @Example
 @Code
-  If CreateFile(0, "SomeText.txt")
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+    
+  EndProcedure
+
+  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
-    *Buffer = ExportFileMemory(0)
+   *Buffer = ExportFileMemory(0)
     Debug PeekS(*Buffer, 0, 3) ; Will display 'Fir'
-    
-    CloseFile(0)
+
+    CloseFile(0)                      
   EndIf
 @EndCode
 
