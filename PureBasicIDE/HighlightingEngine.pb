@@ -1267,10 +1267,10 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       
       ; When loading a file, the whole buffer is scanned at once, so detect the EnableJS/DisableJS live, to modify the formatting flag
       Select LCase(BasicKeyword$)
-        Case BasicKeywords(#KEYWORD_EnableASM)
+        Case BasicKeywords(#KEYWORD_EnableASM), BasicKeywords(#KEYWORD_HeaderSection)
           DisableFormatting = #True
           
-        Case BasicKeywords(#KEYWORD_DisableASM)
+        Case BasicKeywords(#KEYWORD_DisableASM), BasicKeywords(#KEYWORD_EndHeaderSection)
           DisableFormatting = #False
       EndSelect
 
