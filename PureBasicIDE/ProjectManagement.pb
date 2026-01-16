@@ -15,6 +15,10 @@
 #Project_Open_LoadMain    = 3
 #Project_Open_LoadNone    = 4
 
+; Filter text for the ProjectFiles() list.
+Global ProjectInfoFilterText$
+Global ProjectInfoFilter
+
 ; Some helpers for the XML reading/writing
 ;
 Procedure NewSection(*Main, Name$)
@@ -142,6 +146,14 @@ Procedure AddProjectBuildMenuEntries()
         MenuItem(#MENU_BuildTarget_Start+Index, ProjectTargets()\Name$)
       EndIf
     Next ProjectTargets()
+  EndIf
+EndProcedure
+
+Procedure ProjectInfo_InBasePath(Base$, Filename$)
+  If Len(Base$) < Len(Filename$) And CompareMemoryString(@Base$, @Filename$, #PATH_CaseInsensitive, Len(Base$)) = #PB_String_Equal
+    ProcedureReturn #True
+  Else
+    ProcedureReturn #False
   EndIf
 EndProcedure
 
@@ -433,18 +445,22 @@ Procedure ResizeProjectInfo(Width, Height)
   CompilerEndIf
   
   ; size for other parts
-  PartHeight = (Height-60-InfoHeight) / 2
+  PartHeight = Height-40-InfoHeight - Button1Height
+  PartFilesHeight = PartHeight * 3 / 5
+  PartProjectHeight = PartHeight - PartFilesHeight
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 20-BorderOffset, Width-40, InfoHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 10-BorderOffset, Width-40, InfoHeight)
+  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 15+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
   ResizeGadget(#GADGET_ProjectInfo_OpenOptions, Width-30-ButtonWidth-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, ButtonWidth, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_OpenCompilerOptions, Width-30-ButtonWidth-BorderOffset, 30+ProjectInfoFrameHeight+Button1Height-BorderOffset, ButtonWidth, Button1Height)
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+30-BorderOffset, Width-40, PartHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Files, 30-BorderOffset, InfoHeight+35+ProjectInfoFrameHeight-BorderOffset, Width-60, PartHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+20-BorderOffset, Width-40, PartFilesHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FilterInput, 30-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
+  ResizeGadget(#GADGET_ProjectInfo_SortFiles, 240-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
+  ResizeGadget(#GADGET_ProjectInfo_Files, 30-BorderOffset, InfoHeight+30+ProjectInfoFrameHeight+Button1Height-BorderOffset, Width-60, PartFilesHeight-15-ProjectInfoFrameHeight)
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameTargets, 20-BorderOffset, InfoHeight+PartHeight+40-BorderOffset, Width-40, PartHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Targets, 30-BorderOffset, InfoHeight+PartHeight+45+ProjectInfoFrameHeight-BorderOffset, Width-60, PartHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameTargets, 20-BorderOffset, InfoHeight+PartFilesHeight+30+Button1Height-BorderOffset, Width-40, PartProjectHeight)
+  ResizeGadget(#GADGET_ProjectInfo_Targets, 30-BorderOffset, InfoHeight+PartFilesHeight+35+Button1Height+ProjectInfoFrameHeight-BorderOffset, Width-60, PartProjectHeight-15-ProjectInfoFrameHeight)
   
   CompilerIf #CompileWindows
     ; Will size the middle columns small, and the last as big as possible
@@ -474,7 +490,7 @@ EndProcedure
 ; Apply project data changes
 Procedure UpdateProjectInfo()
   If *ProjectInfo
-    
+    Base$ = GetPathPart(ProjectFile$)
     ; Project Info
     ;
     Text$ = Language("Project","ProjectName")+": " + ProjectName$ + #NewLine
@@ -497,22 +513,53 @@ Procedure UpdateProjectInfo()
     ; File List
     ;
     ClearGadgetItems(#GADGET_ProjectInfo_Files)
-    ForEach ProjectFiles()
-      Text$ = CreateRelativePath(GetPathPart(ProjectFile$), ProjectFiles()\Filename$) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoLoad) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowWarning) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoScan) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowPanel) + Chr(10)
+    
+    ; copied ProjectFiles() to ProjectInfoFiles() and sorted it on PanelState$ (overwritten) to preserve the default sorting of projectfiles()
+    CopyList(ProjectFiles(), ProjectInfoFiles())
+    
+    ForEach ProjectInfoFiles()
+      ProjectInfoFiles()\PanelState$ = Str(ProjectInfoFiles()\AutoLoad!1)    ; Descending
+      If ProjectInfo_InBasePath(Base$, ProjectInfoFiles()\FileName$) = #False
+        ProjectInfoFiles()\PanelState$ + "2" + ProjectInfoFiles()\FileName$  ;ExternalBase
+      Else
+        RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
+        If Right(GetPathPart(RelativePathFilename$), 1) = #Separator
+          ProjectInfoFiles()\PanelState$ + "1"                               ;Directory
+        Else
+          ProjectInfoFiles()\PanelState$ + "0"                               ;ProjectFile
+        EndIf
+        ProjectInfoFiles()\PanelState$ + RelativePathFilename$
+      EndIf
+    Next ProjectInfoFiles()
+    
+    If GetGadgetState(#GADGET_ProjectInfo_SortFiles) = #PB_Checkbox_Checked
+      SortStructuredList(ProjectInfoFiles(), #PB_Sort_Ascending,  OffsetOf(ProjectFile\PanelState$), #PB_String)
+    EndIf
+    
+    ForEach ProjectInfoFiles()
+      ; Filter the project list
+      RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
+      If ProjectInfoFilter
+        If Not FindString(RelativePathFilename$, ProjectInfoFilterText$, 1, #PB_String_NoCase)
+          Continue
+        EndIf
+      EndIf
       
-      Size = FileSize(ProjectFiles()\Filename$)
+      Text$ = RelativePathFilename$ + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\AutoLoad) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\ShowWarning) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\AutoScan) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\ShowPanel) + Chr(10)
+      
+      Size = FileSize(ProjectInfoFiles()\Filename$)
       If Size < 0 ; file missing
         Text$ + Chr(10) + Chr(10)
       Else
         Text$ + StrByteSize(Size) + Chr(10)
-        Text$ + FormatDate(Language("Project","FileDateFormat"), GetFileDate(ProjectFiles()\Filename$, #PB_Date_Modified))
+        Text$ + FormatDate(Language("Project","FileDateFormat"), GetFileDate(ProjectInfoFiles()\Filename$, #PB_Date_Modified))
       EndIf
       
-      If ProjectFiles()\AutoScan
+      If ProjectInfoFiles()\AutoScan
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_FileScanned)
       Else
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_File)
@@ -520,8 +567,8 @@ Procedure UpdateProjectInfo()
       AddGadgetItem(#GADGET_ProjectInfo_Files, -1, Text$, ImageID)
       
       ; Associate the ProjectFile structure (for the Popup menu)
-      SetGadgetItemData(#GADGET_ProjectInfo_Files, CountGadgetItems(#GADGET_ProjectInfo_Files)-1, @ProjectFiles())
-    Next ProjectFiles()
+      SetGadgetItemData(#GADGET_ProjectInfo_Files, CountGadgetItems(#GADGET_ProjectInfo_Files)-1, @ProjectInfoFiles())
+    Next ProjectInfoFiles()
     
     ; Target list
     ;
@@ -576,6 +623,19 @@ Procedure UpdateProjectInfo()
   
 EndProcedure
 
+Procedure ProjectInfo_Filter(Text$)
+  
+  If Asc(Text$)
+    ProjectInfoFilter = #True
+  Else
+    ProjectInfoFilter = #False
+  EndIf
+  
+  ProjectInfoFilterText$ = Text$
+  UpdateProjectInfo()
+  
+EndProcedure
+
 ; Apply preferences changes
 Procedure UpdateProjectInfoPreferences()
   If *ProjectInfo
@@ -588,6 +648,7 @@ Procedure UpdateProjectInfoPreferences()
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
     SetGadgetText(#GADGET_ProjectInfo_FrameFiles, Language("Project","FileTab"))
+    SetGadgetText(#GADGET_ProjectInfo_SortFiles, Language("Project","FileListSort"))
     SetGadgetText(#GADGET_ProjectInfo_FrameTargets, Language("Project","ProjectTargets"))
     
     SetGadgetText(#GADGET_ProjectInfo_OpenOptions, Language("Project","ProjectOptions"))
@@ -668,6 +729,10 @@ Procedure AddProjectInfo()
       ButtonGadget(#GADGET_ProjectInfo_OpenCompilerOptions, 0, 0, 0, 0, Language("Project","CompilerOptions"))
       
       FrameGadget(#GADGET_ProjectInfo_FrameFiles, 0, 0, 0, 0, Language("Project","FileTab"))
+      StringGadget(#GADGET_ProjectInfo_FilterInput, 0, 0, 0, 0, "")
+      
+      CheckBoxGadget(#GADGET_ProjectInfo_SortFiles, 0, 0, 0, 0, Language("Project","FileListSort"))
+      SetGadgetState(#GADGET_ProjectInfo_SortFiles, ProjectFilesSort)
       ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 300, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 1, Language("Project","FileLoadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 2, Language("Project","FileWarnShort"), 60)
@@ -967,6 +1032,7 @@ Procedure LoadProject(Filename$)
       ; Project file list
       ; (load this even in commandline build mode, so the project is correctly saved back!)
       ;
+      
       *Files = GetSection(*Main, "files")
       If *Files
         *File = ChildXMLNode(*Files)

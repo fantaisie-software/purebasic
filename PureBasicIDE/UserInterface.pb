@@ -2224,19 +2224,30 @@ Procedure MainWindowEvents(EventID)
           
           DisplayPopupMenu(#POPUPMENU_ErrorLog, WindowID(#WINDOW_Main))
         EndIf
+              
+      Case #GADGET_ProjectInfo_FilterInput
+        If EventType() = #PB_EventType_Change
+          ProjectInfo_Filter(GetGadgetText(#GADGET_ProjectInfo_FilterInput))
+        EndIf
+        
+      Case #GADGET_ProjectInfo_SortFiles
+        ProjectFilesSort = GetGadgetState(#GADGET_ProjectInfo_SortFiles)
+        UpdateProjectInfo()
         
       Case #GADGET_ProjectInfo_Files
         index = GetGadgetState(#GADGET_ProjectInfo_Files)
         Select EventType()
             
           Case #PB_EventType_DragStart
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              DragFiles(ProjectFiles()\Filename$)
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              DragFiles(*ProjectFiles\Filename$)
             EndIf
             
           Case #PB_EventType_LeftDoubleClick
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              LoadSourceFile(ProjectFiles()\Filename$) ; will just switch if open
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              LoadSourceFile(*ProjectFiles\Filename$) ; will just switch if open
             EndIf
             
           Case #PB_EventType_RightClick

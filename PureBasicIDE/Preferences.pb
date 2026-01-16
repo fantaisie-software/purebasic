@@ -388,6 +388,7 @@ Procedure LoadPreferences()
   ;- - Projects
   PreferenceGroup("Projects")
   DefaultProjectFile$ = ReadPreferenceString("DefaultProject", "")
+  ProjectFilesSort = ReadPreferenceLong("ProjectFilesSort", 1)
   
   LoadDialogPosition(@ProjectOptionsPosition, -1, -1, 0, 0, "ProjectOptions") ; will get a minimum size anyway, so no default w/h
   
@@ -1193,6 +1194,7 @@ Procedure SavePreferences()
     PreferenceGroup("Projects")
     PreferenceComment("")
     WritePreferenceString("DefaultProject", DefaultProjectFile$)
+    WritePreferenceLong("ProjectFilesSort",ProjectFilesSort)
     
     SaveDialogPosition(@ProjectOptionsPosition, 1, "ProjectOptions")
     

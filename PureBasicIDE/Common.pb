@@ -145,6 +145,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_ProjectInfo_FrameFiles
   #GADGET_ProjectInfo_FrameTargets
   #GADGET_ProjectInfo_Info
+  #GADGET_ProjectInfo_FilterInput
+  #GADGET_ProjectInfo_SortFiles
   #GADGET_ProjectInfo_Files
   #GADGET_ProjectInfo_Targets
   #GADGET_ProjectInfo_OpenOptions
@@ -186,6 +188,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_ProcedureBrowser_SwitchButtons
   
   #GADGET_ProjectPanel
+  #GADGET_ProjectPanel_FilterInput
+  #GADGET_ProjectPanel_DummyButton
   
   #GADGET_Explorer
   #GADGET_Explorer_Pattern
@@ -2801,7 +2805,7 @@ Global IsProjectBusy = 0
 Global ProjectFile$, ProjectName$, ProjectComments$, DefaultProjectFile$, LastOpenProjectFile$
 Global ProjectExplorerPattern, ProjectExplorerPath$
 Global ProjectCloseFiles.l
-Global ProjectOpenMode.l, ProjectShowLog.l, AutoCloseBuildWindow.l
+Global ProjectOpenMode.l, ProjectShowLog.l, AutoCloseBuildWindow.l, ProjectFilesSort.l
 Global ProjectLastOpenDate, ProjectLastOpenHost$, ProjectLastOpenUser$, ProjectLastOpenEditor$
 Global *DefaultTarget.CompileTarget
 Global *ProjectInfo.SourceFile ; the fake sourcefile in the File tab
@@ -2810,6 +2814,7 @@ Global UseProjectBuildWindow
 Global CommandlineBuild, QuietBuild, CommandlineBuildSuccess
 
 Global NewList ProjectFiles.ProjectFile()
+Global NewList ProjectInfoFiles.ProjectFile()
 Global NewList ProjectConfig.ProjectFileConfig()    ; project files during configuration
 Global NewList ProjectTargets.CompileTarget()
 Global NewList ProjectOptionTargets.CompileTarget() ; target list during options
