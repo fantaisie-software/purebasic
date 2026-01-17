@@ -449,6 +449,9 @@ Procedure ResizeProjectInfo(Width, Height)
   PartFilesHeight = PartHeight * 3 / 5
   PartProjectHeight = PartHeight - PartFilesHeight
   
+  CompilerIf #CompileWindows
+    SendMessage_(GadgetID(#GADGET_ProjectInfo), #WM_SETREDRAW, #False, 0)
+  CompilerEndIf
   ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 10-BorderOffset, Width-40, InfoHeight)
   ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 15+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
   ResizeGadget(#GADGET_ProjectInfo_OpenOptions, Width-30-ButtonWidth-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, ButtonWidth, Button1Height)
@@ -475,6 +478,8 @@ Procedure ResizeProjectInfo(Width, Height)
         SendMessage_(GadgetID(#GADGET_ProjectInfo_Targets), #LVM_SETCOLUMNWIDTH, i, #LVSCW_AUTOSIZE_USEHEADER)
       EndIf
     Next i
+    SendMessage_(GadgetID(#GADGET_ProjectInfo), #WM_SETREDRAW, #True, 0)
+    RedrawWindow_(GadgetID(#GADGET_ProjectInfo), #Null, #Null, #RDW_INVALIDATE | #RDW_ERASE | #RDW_ALLCHILDREN | #RDW_UPDATENOW)
   CompilerEndIf
   
 EndProcedure
