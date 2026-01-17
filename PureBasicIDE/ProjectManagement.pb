@@ -524,11 +524,12 @@ Procedure UpdateProjectInfo()
     CopyList(ProjectFiles(), ProjectInfoFiles())
     
     ForEach ProjectInfoFiles()
-      ProjectInfoFiles()\SortIndex = ListIndex(ProjectInfoFiles()) 
+      ProjectInfoFiles()\SortIndex = ListIndex(ProjectInfoFiles())          ; ProjectFile() index
+      RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
       If ProjectInfo_InBasePath(Base$, ProjectInfoFiles()\FileName$) = #False
-        ProjectInfoFiles()\PanelState$ = "2" + ProjectInfoFiles()\FileName$  ;ExternalBase
+        ProjectInfoFiles()\PanelState$ = "2" + RelativePathFilename$         ;ExternalBase
       Else
-        RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
+        
         If Right(GetPathPart(RelativePathFilename$), 1) = #Separator
           ProjectInfoFiles()\PanelState$ = "1" + RelativePathFilename$       ;Directory
         Else
