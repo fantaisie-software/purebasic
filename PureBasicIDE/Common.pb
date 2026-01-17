@@ -2814,7 +2814,6 @@ Global UseProjectBuildWindow
 Global CommandlineBuild, QuietBuild, CommandlineBuildSuccess
 
 Global NewList ProjectFiles.ProjectFile()
-Global NewList ProjectInfoFiles.ProjectFile()
 Global NewList ProjectConfig.ProjectFileConfig()    ; project files during configuration
 Global NewList ProjectTargets.CompileTarget()
 Global NewList ProjectOptionTargets.CompileTarget() ; target list during options

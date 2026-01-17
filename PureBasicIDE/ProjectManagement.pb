@@ -520,20 +520,20 @@ Procedure UpdateProjectInfo()
     ClearGadgetItems(#GADGET_ProjectInfo_Files)
     
     ; copied ProjectFiles() to ProjectInfoFiles() and sorted it on PanelState$ (overwritten) to preserve the default sorting of projectfiles()
+    NewList ProjectInfoFiles.ProjectFile()
     CopyList(ProjectFiles(), ProjectInfoFiles())
     
     ForEach ProjectInfoFiles()
-      ProjectInfoFiles()\PanelState$ = Str(ProjectInfoFiles()\AutoLoad!1)    ; Descending
+      ProjectInfoFiles()\SortIndex = ListIndex(ProjectInfoFiles()) 
       If ProjectInfo_InBasePath(Base$, ProjectInfoFiles()\FileName$) = #False
-        ProjectInfoFiles()\PanelState$ + "2" + ProjectInfoFiles()\FileName$  ;ExternalBase
+        ProjectInfoFiles()\PanelState$ = "2" + ProjectInfoFiles()\FileName$  ;ExternalBase
       Else
         RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
         If Right(GetPathPart(RelativePathFilename$), 1) = #Separator
-          ProjectInfoFiles()\PanelState$ + "1"                               ;Directory
+          ProjectInfoFiles()\PanelState$ = "1" + RelativePathFilename$       ;Directory
         Else
-          ProjectInfoFiles()\PanelState$ + "0"                               ;ProjectFile
+          ProjectInfoFiles()\PanelState$ = "0" + RelativePathFilename$       ;ProjectFile
         EndIf
-        ProjectInfoFiles()\PanelState$ + RelativePathFilename$
       EndIf
     Next ProjectInfoFiles()
     
@@ -572,8 +572,10 @@ Procedure UpdateProjectInfo()
       AddGadgetItem(#GADGET_ProjectInfo_Files, -1, Text$, ImageID)
       
       ; Associate the ProjectFile structure (for the Popup menu)
-      SetGadgetItemData(#GADGET_ProjectInfo_Files, CountGadgetItems(#GADGET_ProjectInfo_Files)-1, @ProjectInfoFiles())
+      SelectElement(ProjectFiles(), ProjectInfoFiles()\SortIndex)
+      SetGadgetItemData(#GADGET_ProjectInfo_Files, CountGadgetItems(#GADGET_ProjectInfo_Files)-1, @ProjectFiles())
     Next ProjectInfoFiles()
+    FreeList(ProjectInfoFiles())
     
     ; Target list
     ;
