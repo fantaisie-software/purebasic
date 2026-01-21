@@ -95,6 +95,7 @@ CompilerSelect #PB_Compiler_OS
     
     PureBasicPath$ = Space(#MAX_PATH)
     GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
+    PureBasicPath$ = PeekS(@PureBasicPath$)
     PureBasicPath$ = GetPathPart(PureBasicPath$)
     
     ; we are in the compilers directory, so cut the \Compilers\
