@@ -481,7 +481,7 @@ Procedure ResizeProjectInfo(Width, Height)
     Next i
     
     SendMessage_(GadgetID(#GADGET_ProjectInfo), #WM_SETREDRAW, #True, 0)
-    InvalidateRect_(GadgetID(#GADGET_ProjectInfo), 0, #False)
+    RedrawWindow_(GadgetID(#GADGET_ProjectInfo), #Null, #Null, #RDW_INVALIDATE | #RDW_ERASE | #RDW_ALLCHILDREN | #RDW_UPDATENOW)
   CompilerEndIf
   
 EndProcedure
