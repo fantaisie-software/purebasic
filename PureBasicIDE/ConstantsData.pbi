@@ -575,7 +575,7 @@ DataSection
   Data$ "RemoveMailRecipient,3,#PB_Mail_To,#PB_Mail_Cc,#PB_Mail_Bcc"
   Data$ "RemoveString,3,#PB_String_CaseSensitive,#PB_String_NoCase"
   Data$ "RemoveSysTrayIcon,1,#PB_All"
-  Data$ "ReplaceString,4,#PB_String_CaseSensitive,#PB_String_NoCase,#PB_String_InPlace"
+  Data$ "ReplaceString,4,#PB_String_CaseSensitive,#PB_String_NoCase"
   Data$ "ResetCoordinates,1,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ResetMaterial,1,#PB_Entity,#PB_ParticleEmitter,#PB_BillboardGroup"
   Data$ "ResizeImage,4,#PB_Image_Smooth,#PB_Image_Raw"

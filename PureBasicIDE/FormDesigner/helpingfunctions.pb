@@ -56,8 +56,8 @@ Procedure.s RelativePath (baseDir$, absPath$)
     EndIf
   CompilerEndIf
   
-  ReplaceString(baseDir$, Chr(#BadSlash), Chr(#Slash), #PB_String_InPlace)
-  ReplaceString(absPath$, Chr(#BadSlash), Chr(#Slash), #PB_String_InPlace)
+  baseDir$ = ReplaceString(baseDir$, Chr(#BadSlash), Chr(#Slash))
+  absPath$ = ReplaceString(absPath$, Chr(#BadSlash), Chr(#Slash))
   equal = EqualPathLen(baseDir$, absPath$)
   
   s = CountString(Mid(baseDir$, equal+1), Chr(#Slash))

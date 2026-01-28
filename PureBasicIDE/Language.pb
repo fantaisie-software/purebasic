@@ -123,7 +123,7 @@ Procedure.s ReadLanguageEntry(Key$, DefaultValue$)
         Result$ = Space(Length)
         
         MultiByteToWideChar_(CodePage, 0, *AsciiBuffer, -1, @Result$, Length)
-        Result$ = PeekS(Result$)
+        Result$ = PeekS(@Result$)
         
         FreeMemory(*AsciiBuffer)
       EndIf
