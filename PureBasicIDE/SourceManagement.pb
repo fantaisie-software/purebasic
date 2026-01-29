@@ -2465,11 +2465,18 @@ Procedure RemoveSource(*Source.SourceFile = 0)
     EndIf
     *ActiveSource = 0
   Else
-    PushListPosition(FileList())
+    If @FileList() <> *Source
+      PushListPosition(FileList())
+      PopList = 1
+    EndIf
     ChangeCurrentElement(FileList(), *Source)
     Index = ListIndex(FileList())
-    DeleteElement(FileList())
-    PopListPosition(FileList())
+    If Not DeleteElement(FileList())
+      FirstElement(FileList())
+    EndIf
+    If PopList
+      PopListPosition(FileList())
+     EndIf
   EndIf
   
   RemoveTabBarGadgetItem(#GADGET_FilesPanel, Index)
