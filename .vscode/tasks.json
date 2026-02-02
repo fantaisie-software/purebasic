@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run MakeWindows.cmd",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ..\\config.json | ConvertFrom-Json; cmd /c MakeWindows.cmd $config.PureBasicPath"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\PureBasicIDE"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
