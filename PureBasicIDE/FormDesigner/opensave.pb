@@ -24,6 +24,7 @@ Procedure FD_NewWindow(x=0,y=0,width=600,height=400,file.s = "")
   FormWindows()\width = width
   FormWindows()\height = height
   FormWindows()\variable = "Window_"+Str(c_window)
+  FormWindows()\explicitId = 0
   FormWindows()\pbany = FormVariable
   FormWindows()\captionvariable = FormVariableCaption
   FormWindows()\color = -1
@@ -160,14 +161,26 @@ Procedure OpenReadGadgetParams(line.s)
   
   pbany = FindString(line, "=")
   start = FindString(line, "(") + 1
-  If pbany
+  
+  ; only treat as "var = Proc(...)" if '=' is before '('
+  If pbany And pbany < start
     FormWindows()\FormGadgets()\variable = Trim(Left(line,pbany - 1))
     FormWindows()\FormGadgets()\pbany = 1
     start = OpenReadNextParam(line,start) + 1
   Else
     startnext = OpenReadNextParam(line,start)
-    FormWindows()\FormGadgets()\variable = Trim(Mid(line,start,startnext-start))
-    FormWindows()\FormGadgets()\variable = Right(FormWindows()\FormGadgets()\variable,Len(FormWindows()\FormGadgets()\variable) -1)
+    
+    tmp.s = Trim(Mid(line, start, startnext - start)) ; e.g. "#ID13310" or "#ID13310=13310"
+    tmp = Right(tmp, Len(tmp) - 1)                    ; remove '#'
+
+    eq = FindString(tmp, "=")
+    If eq
+      FormWindows()\FormGadgets()\variable   = Trim(Left(tmp, eq - 1))
+      FormWindows()\FormGadgets()\explicitId = Val(Trim(Mid(tmp, eq + 1)))
+    Else
+      FormWindows()\FormGadgets()\variable = tmp
+    EndIf
+
     start = startnext + 1
   EndIf
   
@@ -748,14 +761,54 @@ Procedure FD_Open(file.s,update = 0)
         Continue
       EndIf
       
+      NewMap enumGadgetIds.i()
+      NewMap enumWindowIds.i()
+      enumMode.i = 0 ; 0=none, 1=FormGadget, 2=FormWindow
+      
       If Left(line,11) = "Enumeration" Or Left(line,17) = "EnumerationBinary"
         loop_enumeration = 1
+        enumMode = 0
+      
+        ; detect "Enumeration FormGadget"
+        If FindString(line, "FormGadget")
+          enumMode = 1
+        EndIf
+        
+        ; detect "Enumeration FormWindow"
+        If FindString(line, "FormWindow")
+          enumMode = 2
+        EndIf
+      
+        Continue
       EndIf
+      
       If Left(line,14) = "EndEnumeration"
         loop_enumeration = 0
+        enumMode = 0
+        Continue
       EndIf
       
       If loop_enumeration
+        ; Parse only gadget and window enum lines, ignore others
+        If enumMode > 0
+          If Left(line, 1) = "#"
+            tmp.s = Trim(Mid(line, 2)) ; remove leading '#'
+      
+            eq = FindString(tmp, "=")
+            If eq
+              name.s = Trim(Left(tmp, eq - 1))
+              enumVal.i = Val(Trim(Mid(tmp, eq + 1)))
+              If name <> "" And enumVal <> 0
+                If enumMode = 1 
+                  enumGadgetIds(name) = enumVal 
+                ElseIf enumMode = 2
+                  enumWindowIds(name) = enumVal
+                EndIf
+              EndIf
+            EndIf
+          EndIf         
+        EndIf
+      
         Continue
       EndIf
       
@@ -2563,6 +2616,24 @@ Procedure FD_Open(file.s,update = 0)
       EndIf
     Next
     
+    ForEach FormWindows()\FormGadgets()
+      If FormWindows()\FormGadgets()\pbany = 0
+        If FormWindows()\FormGadgets()\explicitId = 0
+          If FindMapElement(enumGadgetIds(), FormWindows()\FormGadgets()\variable)
+            FormWindows()\FormGadgets()\explicitId = enumGadgetIds()
+          EndIf
+        EndIf
+      EndIf
+    Next
+    
+    If FormWindows()\pbany = 0
+        If FormWindows()\explicitId = 0
+          If FindMapElement(enumWindowIds(), FormWindows()\variable)
+            FormWindows()\explicitId = enumWindowIds()
+          EndIf
+        EndIf
+    EndIf
+
     FD_UpdateObjList()
     FD_UpdateScrollbars()
     FD_SelectWindow(currentwindow)
