@@ -172,7 +172,7 @@ Procedure OpenReadGadgetParams(line.s)
     
     tmp.s = Trim(Mid(line, start, startnext - start)) ; e.g. "#ID13310" or "#ID13310=13310"
     tmp = Right(tmp, Len(tmp) - 1)                    ; remove '#'
-
+    
     eq = FindString(tmp, "=")
     If eq
       FormWindows()\FormGadgets()\variable   = Trim(Left(tmp, eq - 1))
@@ -707,6 +707,10 @@ Procedure FD_Open(file.s,update = 0)
     custgadgetnb = -1
     event_file.s = ""
     
+    NewMap enumGadgetIds.i()
+    NewMap enumWindowIds.i()
+    enumMode.i = 0 ; 0=none, 1=FormGadget, 2=FormWindow
+
     Repeat
       If update
         line.s = Trim(StringField(content, line_num, #LF$))
@@ -760,11 +764,7 @@ Procedure FD_Open(file.s,update = 0)
         EndIf
         Continue
       EndIf
-      
-      NewMap enumGadgetIds.i()
-      NewMap enumWindowIds.i()
-      enumMode.i = 0 ; 0=none, 1=FormGadget, 2=FormWindow
-      
+            
       If Left(line,11) = "Enumeration" Or Left(line,17) = "EnumerationBinary"
         loop_enumeration = 1
         enumMode = 0
@@ -793,7 +793,6 @@ Procedure FD_Open(file.s,update = 0)
         If enumMode > 0
           If Left(line, 1) = "#"
             tmp.s = Trim(Mid(line, 2)) ; remove leading '#'
-      
             eq = FindString(tmp, "=")
             If eq
               name.s = Trim(Left(tmp, eq - 1))
