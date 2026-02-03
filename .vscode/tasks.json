@@ -1,0 +1,99 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build: MakeWindows.cmd",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ..\\config.json | ConvertFrom-Json; cmd /c MakeWindows.cmd $config.PureBasicPath"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\PureBasicIDE"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+
+        {
+            "label": "Docs: Build HTML (de)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ${workspaceFolder}\\config.json | ConvertFrom-Json; env:PUREBASIC_HOME = $config.PureBasicPath; cmd /c HTML-BUILD.bat de"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\Documentation"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs: Build HTML (all)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ${workspaceFolder}\\config.json | ConvertFrom-Json; $env:PUREBASIC_HOME = $config.PureBasicPath; cmd /c HTML-BUILD.bat all"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\Documentation"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs: Build CHM (de)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ${workspaceFolder}\\config.json | ConvertFrom-Json; $env:PUREBASIC_HOME = $config.PureBasicPath; if ($config.HhcPath) { $env:HHC = $config.HhcPath }; cmd /c CHM-BUILD.bat de"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\Documentation"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs: Build CHM (all)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy", "Bypass",
+                "-NoProfile",
+                "-Command",
+                "$config = Get-Content ${workspaceFolder}\\config.json | ConvertFrom-Json; $env:PUREBASIC_HOME = $config.PureBasicPath; if ($config.HhcPath) { $env:HHC = $config.HhcPath }; cmd /c CHM-BUILD.bat all"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\Documentation"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Docs: Build HTML+CHM (de)",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "Docs: Build HTML (de)",
+                "Docs: Build CHM (de)"
+            ],
+            "problemMatcher": []
+        }
+
+    ]
+}
