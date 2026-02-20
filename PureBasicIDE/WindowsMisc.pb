@@ -46,6 +46,7 @@ CompilerIf #CompileWindows
       CurrentValue$ = Space(#MAX_PATH*2) ; Ensure it will be big enough for a path + some infos
       CurrentValueSize = Len(CurrentValue$)*#CharSize
       If RegQueryValueEx_(NewKey, "", 0, @Type, @CurrentValue$, @CurrentValueSize) = #ERROR_SUCCESS
+        CurrentValue$ = PeekS(@CurrentValue$)
         If Value$ = CurrentValue$
           NeedUpdate = 0
         EndIf
@@ -113,6 +114,7 @@ CompilerIf #CompileWindows
     If PureBasicPath$ = "" ; Only change if not set by commandline
       PureBasicPath$ = Space(#MAX_PATH)
       GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
+      PureBasicPath$ = PeekS(@PureBasicPath$)
       PureBasicPath$ = GetPathPart(PureBasicPath$)
     EndIf
     
@@ -144,6 +146,7 @@ CompilerIf #CompileWindows
       If SHGetSpecialFolderLocation_(0,  #CSIDL_COMMON_APPDATA, @*pidlMyDocuments) = #S_OK
         SourcePath$ = Space(#MAX_PATH)
         If SHGetPathFromIDList_(*pidlMyDocuments, @SourcePath$)
+          SourcePath$ = PeekS(@SourcePath$)
           SourcePath$ + "\" + #ProductName$ + "\Examples\" ; We be something like: C:\ProgramData\SpiderBasic\Examples
         Else                                               ; Failed
           SourcePath$ = PureBasicPath$

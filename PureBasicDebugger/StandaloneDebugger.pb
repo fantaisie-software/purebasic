@@ -93,26 +93,13 @@ CompilerSelect #PB_Compiler_OS
     ; There is no CloseHandle_(), so the mutex stays open until the program ends
     CreateMutex_(#Null, #False, "PureBasic_Running")
     
-    PureBasicPath$ = Space(#MAX_PATH)
-    GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
-    PureBasicPath$ = GetPathPart(PureBasicPath$)
+    PureBasicPath$ = GetPathPart(ProgramFilename())
     
     ; we are in the compilers directory, so cut the \Compilers\
     ;
     If UCase(Right(PureBasicPath$, 10)) = "COMPILERS\"
       PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-10)
     EndIf
-    
-    CurrentDirectory$ = Space(2000)
-    GetCurrentDirectory_(2000, @CurrentDirectory$)
-    If Trim(CurrentDirectory$) = ""
-      CurrentDirectory$ = ""
-    EndIf
-    
-    ; initialize the scintilla dll
-    CompilerIf #PB_Compiler_Version < 610
-      InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll")
-    CompilerEndIf
     
   CompilerDefault
     PureBasicPath$ = GetEnvironmentVariable("PUREBASIC_HOME")
@@ -132,12 +119,12 @@ CompilerSelect #PB_Compiler_OS
         PureBasicPath$ = "/usr/share/purebasic/" ; absolute fallback
       EndIf
     EndIf
-    ; Get the current directory
-    ;
-    CurrentDirectory$ = GetCurrentDirectory()
     
 CompilerEndSelect
-
+    
+; Get the current directory
+;
+CurrentDirectory$ = GetCurrentDirectory()
 
 ; Add the Compiler directory to the (library-)path, so the 3D engine and other
 ; libraries can be loaded by the exe

@@ -1355,7 +1355,6 @@ EndEnumeration
 #PB_String_NoCase  = 1
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
-  #PB_String_InPlace = 2
   #PB_String_NoCaseAscii = 3
 CompilerEndIf
 
