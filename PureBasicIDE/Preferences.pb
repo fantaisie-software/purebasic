@@ -4571,7 +4571,7 @@ Procedure PreferencesWindowEvents(EventID)
         Next i
         
       Case #GADGET_Preferences_SelectFont
-        If FontRequester(PreferenceFontName$, PreferenceFontSize, PreferenceFontStyle) And SelectedFontName() <> ""
+        If FontRequester(PreferenceFontName$, PreferenceFontSize, 0, 0, PreferenceFontStyle) And SelectedFontName() <> ""
           
           If LoadFont(#FONT_Preferences_CurrentFont, SelectedFontName(), SelectedFontSize(), SelectedFontStyle())
             SetGadgetFont(#GADGET_Preferences_CurrentFont, FontID(#FONT_Preferences_CurrentFont))
@@ -4856,7 +4856,7 @@ Procedure PreferencesWindowEvents(EventID)
         EndIf
         
       Case #GADGET_Preferences_SelectToolsPanelFont
-        If FontRequester(PreferenceToolsPanelFont$, PreferenceToolsPanelFontSize, PreferenceToolsPanelFontStyle) <> 0 And SelectedFontName() <> ""
+        If FontRequester(PreferenceToolsPanelFont$, PreferenceToolsPanelFontSize, 0, 0, PreferenceToolsPanelFontStyle) <> 0 And SelectedFontName() <> ""
           PreferenceToolsPanelFont$ = SelectedFontName()
           PreferenceToolsPanelFontSize = SelectedFontSize()
           PreferenceToolsPanelFontStyle = SelectedFontStyle()
@@ -5068,7 +5068,7 @@ Procedure PreferencesWindowEvents(EventID)
         DisableGadget(#GADGET_Preferences_DebugOutFont, 1-state)
         
       Case #GADGET_Preferences_DebugOutFont
-        If FontRequester(PreferenceDebugOutFont$, PreferenceDebugOutFontSize, PreferenceDebugOutFontStyle) <> 0 And SelectedFontName() <> ""
+        If FontRequester(PreferenceDebugOutFont$, PreferenceDebugOutFontSize, 0, 0, PreferenceDebugOutFontStyle) <> 0 And SelectedFontName() <> ""
           PreferenceDebugOutFont$ = SelectedFontName()
           PreferenceDebugOutFontSize = SelectedFontSize()
           PreferenceDebugOutFontStyle = SelectedFontStyle()
