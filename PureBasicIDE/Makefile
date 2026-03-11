@@ -166,6 +166,9 @@ debug : VERSION_DEBUG $(DEPENDENCIES)
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1
 	$(MACPLISTCOMMAND)
 
+debug_c:
+	make debug C_BACKEND=1
+
 #
 # debug version + Purifier
 #

@@ -113,7 +113,7 @@ Procedure.s UniqueFilename(FileName$)
     EndIf
   Wend
   
-  ProcedureReturn Filename$
+  ProcedureReturn PeekS(@Filename$) ; As we change the string directly, we need to update its length
 EndProcedure
 
 ; Returns true if the two (full) filenames are representing
