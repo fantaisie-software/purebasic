@@ -1957,6 +1957,8 @@ Procedure TabBarGadget_Examine(*TabBarGadget.TabBarGadget)
         UnlockMutex(TabBarGadgetInclude\Timer\Mutex)
       Case #PB_EventType_MouseLeave
         \HoverItem       = #Null
+        \MoveItem        = #Null
+        \ReadyToMoveItem = #Null
       Case #PB_EventType_LeftDoubleClick
         If TabBarGadgetInclude\EnableDoubleClickForNewTab And \HoverArrow = #Null And \HoverItem = #Null
           PostEvent(#PB_Event_Gadget, \Window, \Number, #TabBarGadget_EventType_NewItem, \EventTab)
