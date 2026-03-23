@@ -1,0 +1,60 @@
+﻿@Title Migration from PureBasic 6.30 to 6.40
+
+As the whole string manager has been reworked for 6.40, some edge case using string will stop working. For information, PureBasic
+string now uses a prefix with cached length, so it doesn't stop to the first null character encountered anymore.
+
+@Section String library
+
+@LineBreak
+@#PB_String_InPlace flag has been removed for @@ReplaceString.
+@Code
+  ; Old
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; New
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+This will be a bit slower than before, and if you need a very fast 'inplace' character replacement, you can use this replacement. Warning, patching the
+string buffer directly needs to be done with care to avoid buffer overflow.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Hello World !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section Win32 API call
+
+An usual case when calling Win32 API returning a string buffer was using Space() for this buffer. Now, as the string length is cached in the new string manager,
+the returned string needs to be catched with PeekS(). It would be also better to avoid using Space() at all, as it's a kind of hack. The best is to search for Space()
+in all your code and see if it's used for API call.
+
+@Code
+  ; Old
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  
+  ; New
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$) ; Ensures the string length is properly updated
+@EndCode
