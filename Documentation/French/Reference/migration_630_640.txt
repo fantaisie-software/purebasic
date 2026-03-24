@@ -1,0 +1,65 @@
+﻿@Title Migration de PureBasic 6.30 vers 6.40
+
+  Le gestionnaire de chaînes ayant été entièrement repensé pour la version 6.40, certains cas particuliers d'utilisation 
+  des chaînes de caractères peuvent ne plus fonctionner. À titre d'information, les chaînes PureBasic utilisent désormais 
+  un préfixe dont la longueur est mise en cache, elles ne s'arrêtent donc plus au premier caractère nul rencontré.
+
+@Section Bibliothèque String
+
+@LineBreak
+L'option @#PB_String_InPlace retiré pour @@ReplaceString.
+@Code
+  ; Ancien
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; Nouveau
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+  Cette méthode sera légèrement plus lente qu'auparavant. Si vous avez besoin d'un remplacement de caractères « à la place de » 
+  très rapide, vous pouvez utiliser la solution ci-dessous. @LineBreak
+  Attention : la modification directe du tampon de chaînes doit être effectuée avec précaution afin d'éviter tout dépassement 
+  de capacité.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Bonjour le Monde !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section  API Win32
+
+  Auparavant, lors de l'appel à une API Win32 renvoyant une chaîne de caractères, on utilisait généralement la fonction Space()
+  pour cette chaîne. Désormais, la longueur de la chaîne étant mise en cache dans le nouveau gestionnaire de chaînes, il est 
+  nécessaire d'intercepter la chaîne renvoyée avec PeekS(). Il est également préférable d'éviter complètement l'utilisation de 
+  Space(), car il s'agit d'une solution de contournement. L'idéal est de rechercher Space() dans tout votre code et de vérifier 
+  si elle est utilisée lors d'appels de l'API.
+
+@Code
+  ; Ancien
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  
+  ; Nouveau
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$) ; Garantit que la longueur de la chaîne est correctement mise à jour
+@EndCode
