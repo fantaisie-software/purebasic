@@ -119,7 +119,7 @@ Import "shlwapi.lib"
   AnsiWide(StrCSpn, (arg1, arg2), 8)
   AnsiWide(StrCSpnI, (arg1, arg2), 8)
   AnsiWide(StrDup, (arg1), 4)
-  AnsiWide(StrFormatByteSize, (arg1, arg2, arg3), 12)
+  AnsiWide(StrFormatByteSize, (arg1.q, arg2, arg3), 16)
   AnsiWide(StrFormatByteSize64, (arg1, arg2, arg3, arg4), 16)
   AnsiWide(StrFormatKBSize, (arg1.q, arg2, arg3), 16)
   AnsiWide(StrFromTimeInterval, (arg1, arg2, arg3, arg4), 16)
