@@ -10,3 +10,4 @@ all:
 	pbcompiler ../expat.pb /IGNORERESIDENT Expat.res /RESIDENT "$(PUREBASIC_HOME)\Residents\Expat.res" /QUIET
 	pbcompiler ../Scintilla.pb /IGNORERESIDENT Scintilla.res /RESIDENT "$(PUREBASIC_HOME)\Residents\Scintilla.res" /QUIET
 	pbcompiler ../OpenGL.pb /IGNORERESIDENT OpenGL.res /RESIDENT "$(PUREBASIC_HOME)\Residents\OpenGL.res" /QUIET
+	pbcompiler ../Network.pb /IGNORERESIDENT Network.res /RESIDENT "$(PUREBASIC_HOME)\Residents\Network.res" /QUIET

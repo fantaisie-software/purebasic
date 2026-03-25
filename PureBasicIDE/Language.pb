@@ -123,6 +123,8 @@ Procedure.s ReadLanguageEntry(Key$, DefaultValue$)
         Result$ = Space(Length)
         
         MultiByteToWideChar_(CodePage, 0, *AsciiBuffer, -1, @Result$, Length)
+        Result$ = PeekS(@Result$)
+        
         FreeMemory(*AsciiBuffer)
       EndIf
       
@@ -698,6 +700,7 @@ DataSection
   Data$ "FileWarn",         "Display a warning if file changed"
   
   Data$ "Filename",         "Filename"
+  Data$ "FileListSort",     "Sort on Filename"
   Data$ "FileScanShort",    "Scan"
   Data$ "FileLoadShort",    "Load"
   Data$ "FilePanelShort",   "Panel"

@@ -275,6 +275,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "konqueror"
         AddElement(Managers()): Managers() = "krusader"
         AddElement(Managers()): Managers() = "thunar"
+        AddElement(Managers()): Managers() = "io.elementary.files"
         
       Else
         ; fallback
@@ -286,6 +287,7 @@ CompilerIf #CompileLinux
         AddElement(Managers()): Managers() = "gnome-commander"
         AddElement(Managers()): Managers() = "nemo"
         AddElement(Managers()): Managers() = "pcmanfm"
+        AddElement(Managers()): Managers() = "io.elementary.files"
         
       EndIf
       
@@ -332,6 +334,10 @@ CompilerIf #CompileLinux
                 
               Case "pcmanfm"
                 FileManagerName$ = "PcManFM"
+                FileManagerParameters$ = ""
+                
+              Case "io.elementary.files"
+                FileManagerName$ = "elementary OS Files"
                 FileManagerParameters$ = ""
               
             EndSelect

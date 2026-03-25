@@ -109,6 +109,7 @@ Structure FormGadget
   tooltip.s
   tooltipvariable.b
   variable.s
+  explicitId.i
   image.q
   imageid.s ; for parsing when loading
 
@@ -206,6 +207,7 @@ Structure FormWindow
   width.i
   height.i
   variable.s
+  explicitId.i
   caption.s
   captionvariable.b
   flags.i

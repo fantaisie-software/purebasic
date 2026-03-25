@@ -39,7 +39,9 @@ Procedure.s PureBasicConfigPath()
     
     If SHGetSpecialFolderLocation_(0, #CSIDL_APPDATA, @pidl) = #S_OK
       ConfigPath$ = Space(#MAX_PATH)
-      If SHGetPathFromIDList_(pidl, @ConfigPath$) = 0
+      If SHGetPathFromIDList_(pidl, @ConfigPath$)
+        ConfigPath$ = PeekS(@ConfigPath$)
+      Else
         ConfigPath$ = GetHomeDirectory()
       EndIf
     EndIf

@@ -127,7 +127,7 @@ Procedure.s CheckPureBasicKeyWords(CurrentWord$)
     Case "ENDHEADERSECTION", "HEADERSECTION"
       Topic$ = "Reference/headersection_endheadersection"
       
-    Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "RESETSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL"
+    Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "RESETSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL", "COMPARESTRUCTURE"
       Topic$ = "Reference/compilerfunctions"
       
   EndSelect

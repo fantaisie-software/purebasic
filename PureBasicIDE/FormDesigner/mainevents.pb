@@ -397,7 +397,15 @@ Procedure FD_SelectGadget(gadget)
     EndSelect
     
     grid_SetCellState(propgrid,2,1,FormWindows()\FormGadgets()\pbany)
-    grid_SetCellString(propgrid,2,2,FormWindows()\FormGadgets()\variable)
+    If FormWindows()\FormGadgets()\pbany
+      grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable)
+    Else
+      If FormWindows()\FormGadgets()\explicitId
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+      Else
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable)
+      EndIf
+    EndIf
     grid_SetCellState(propgrid,2,3,FormWindows()\FormGadgets()\captionvariable)
     
     Select FormWindows()\FormGadgets()\type
@@ -656,7 +664,15 @@ Procedure FD_SelectWindow(window)
     
     ChangeCurrentElement(FormWindows(),window)
     grid_SetCellState(propgrid, 2, 1, FormWindows()\pbany)
-    grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+    If FormWindows()\pbany
+      grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+    Else
+      If FormWindows()\explicitId
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+      Else
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+      EndIf
+    EndIf
     grid_SetCellState(propgrid, 2, 3, FormWindows()\captionvariable)
     grid_SetCellString(propgrid, 2, 4, FormWindows()\caption)
     
@@ -4693,6 +4709,7 @@ Procedure FD_LeftUp(x,y)
       FormWindows()\FormGadgets()\frontcolor = -1
       FormWindows()\FormGadgets()\backcolor = -1
       FormWindows()\FormGadgets()\variable = var
+      FormWindows()\FormGadgets()\explicitId = 0
       FormWindows()\FormGadgets()\pbany = FormVariable
       FormWindows()\FormGadgets()\captionvariable = FormVariableCaption
       FormWindows()\FormGadgets()\tooltipvariable = FormVariableCaption
@@ -6541,10 +6558,70 @@ Procedure FD_ProcessEventGridGadget(col,row)
       FormWindows()\FormGadgets()\pbany = grid_GetCellState(propgrid, 2, row)
       
     Case 2 ; Variable
-      If grid_GetCellString(propgrid, 2, row) = ""
-        grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+      Protected input.s, name.s, rhs.s
+      Protected eqPos.i, id.i
+    
+      input = Trim(grid_GetCellString(propgrid, 2, row))
+    
+      If input = ""
+        ; revert to current model value
+        If FormWindows()\FormGadgets()\pbany
+          grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+        Else
+          If FormWindows()\FormGadgets()\explicitId
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+          Else
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          EndIf
+        EndIf
+    
       Else
-        FormWindows()\FormGadgets()\variable = grid_GetCellString(propgrid, 2, row)
+        ; parse "NAME" or "NAME=123"
+        eqPos = FindString(input, "=")
+    
+        If eqPos
+          name = Trim(Left(input, eqPos - 1))
+          rhs  = Trim(Mid(input, eqPos + 1))
+          id   = Val(rhs)
+        Else
+          name = input
+          id   = 0
+        EndIf
+    
+        ; validate NAME using existing validator 
+        If FD_CheckVariable(name)
+          FormWindows()\FormGadgets()\variable = name
+    
+          If FormWindows()\FormGadgets()\pbany
+            ; PB_Any gadgets must not use explicit IDs
+            FormWindows()\FormGadgets()\explicitId = 0
+          Else
+            FormWindows()\FormGadgets()\explicitId = id
+          EndIf
+    
+          ; normalize display text
+          If FormWindows()\FormGadgets()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          Else
+            If FormWindows()\FormGadgets()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+            EndIf
+          EndIf
+    
+        Else
+          ; invalid -> revert
+          If FormWindows()\FormGadgets()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          Else
+            If FormWindows()\FormGadgets()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+            EndIf
+          EndIf
+        EndIf
       EndIf
       
       FD_UpdateObjList()
@@ -6741,10 +6818,70 @@ Procedure FD_ProcessEventGridWindow(col,row)
       FormWindows()\pbany = grid_GetCellState(propgrid, 2,row)
       
     Case 2 ; Variable
-      If grid_GetCellString(propgrid, 2, row) = ""
-        grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+      Protected input.s, name.s, rhs.s
+      Protected eqPos.i, id.i
+    
+      input = Trim(grid_GetCellString(propgrid, 2, row))
+    
+      If input = ""
+        ; revert to current model value
+        If FormWindows()\pbany
+          grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+        Else
+          If FormWindows()\explicitId
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+          Else
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          EndIf
+        EndIf
+    
       Else
-        FormWindows()\variable = grid_GetCellString(propgrid, 2, row)
+        ; parse "NAME" or "NAME=123"
+        eqPos = FindString(input, "=")
+    
+        If eqPos
+          name = Trim(Left(input, eqPos - 1))
+          rhs  = Trim(Mid(input, eqPos + 1))
+          id   = Val(rhs)
+        Else
+          name = input
+          id   = 0
+        EndIf
+    
+        ; validate NAME using existing validator 
+        If FD_CheckVariable(name)
+          FormWindows()\variable = name
+    
+          If FormWindows()\pbany
+            ; PB_Any gadgets must not use explicit IDs
+            FormWindows()\explicitId = 0
+          Else
+            FormWindows()\explicitId = id
+          EndIf
+    
+          ; normalize display text
+          If FormWindows()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          Else
+            If FormWindows()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+            EndIf
+          EndIf
+    
+        Else
+          ; invalid -> revert
+          If FormWindows()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          Else
+            If FormWindows()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+            EndIf
+          EndIf
+        EndIf
       EndIf
       
       FD_UpdateObjList()
@@ -8406,6 +8543,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           FormWindows()\FormGadgets()\frontcolor = -1
           FormWindows()\FormGadgets()\backcolor = -1
           FormWindows()\FormGadgets()\variable = var
+          FormWindows()\FormGadgets()\explicitId = 0
           FormWindows()\FormGadgets()\pbany = FormVariable
           FormWindows()\FormGadgets()\captionvariable = FormVariableCaption
           FormWindows()\FormGadgets()\tooltipvariable = FormVariableCaption

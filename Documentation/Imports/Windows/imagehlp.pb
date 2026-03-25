@@ -32,7 +32,7 @@ Import "imagehlp.lib"
        Api(ReBaseImage, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10, arg11), 44)
        Api(RemovePrivateCvSymbolic, (arg1, arg2, arg3), 12)
        Api(RemoveRelocations, (arg1), 4)
-       Api(SearchTreeForFile, (arg1, arg2, arg3), 12)
+  AnsiWide(SearchTreeForFile, (arg1, arg2, arg3), 12)
        Api(SetImageConfigInformation, (arg1, arg2), 8)
        Api(SplitSymbols, (arg1, arg2, arg3, arg4), 16)
        Api(StackWalk, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9), 36)

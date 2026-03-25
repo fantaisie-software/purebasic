@@ -250,7 +250,7 @@ DataSection
   Data$ "DragOSFormats,3,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
   Data$ "DragPrivate,2,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
   Data$ "DragText,2,#PB_Drag_Copy,#PB_Drag_Move,#PB_Drag_Link"
-  Data$ "DrawingMode,1,#PB_2DDrawing_Default,#PB_2DDrawing_Transparent,#PB_2DDrawing_XOr,#PB_2DDrawing_Outlined,#PB_2DDrawing_AlphaBlend,#PB_2DDrawing_AlphaClip,#PB_2DDrawing_AlphaChannel,#PB_2DDrawing_AllChannels,#PB_2DDrawing_Gradient,#PB_2DDrawing_CustomFilter,#PB_2DDrawing_NativeText"
+  Data$ "DrawingMode,1,#PB_2DDrawing_Default,#PB_2DDrawing_Transparent,#PB_2DDrawing_XOr,#PB_2DDrawing_Outlined,#PB_2DDrawing_AlphaBlend,#PB_2DDrawing_AlphaClip,#PB_2DDrawing_AlphaChannel,#PB_2DDrawing_AllChannels,#PB_2DDrawing_Gradient,#PB_2DDrawing_CustomFilter,#PB_2DDrawing_NativeText,#PB_2DDrawing_FastText"
   Data$ "DrawVectorParagraph,4,#PB_VectorParagraph_Left,#PB_VectorParagraph_Right,#PB_VectorParagraph_Center,#PB_VectorParagraph_Block"
   
   ;- E
@@ -418,7 +418,7 @@ DataSection
   Data$ "ImageVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "InitEngine3D,1,#PB_Engine3D_NoLog,#PB_Engine3D_DebugLog,#PB_Engine3D_DebugOutput,#PB_Engine3D_EnableCG"
   Data$ "InputEvent3D,5,#PB_Key_Back,#PB_Key_Delete,#PB_Key_Return,#PB_Key_Up,#PB_Key_Down,#PB_Key_Left,#PB_Key_Right"
-  Data$ "InputRequester,4,#PB_InputRequester_Password"
+  Data$ "InputRequester,4,#PB_InputRequester_Password,#PB_InputRequester_HandleCancel"
   Data$ "IPAddressField,3,#PB_Network_IPv4,#PB_Network_IPv6"
   Data$ "IPAddressGadget,1,#PB_Any"
   Data$ "IPString,2,#PB_Network_IPv4,#PB_Network_IPv6"
@@ -575,7 +575,7 @@ DataSection
   Data$ "RemoveMailRecipient,3,#PB_Mail_To,#PB_Mail_Cc,#PB_Mail_Bcc"
   Data$ "RemoveString,3,#PB_String_CaseSensitive,#PB_String_NoCase"
   Data$ "RemoveSysTrayIcon,1,#PB_All"
-  Data$ "ReplaceString,4,#PB_String_CaseSensitive,#PB_String_NoCase,#PB_String_InPlace"
+  Data$ "ReplaceString,4,#PB_String_CaseSensitive,#PB_String_NoCase"
   Data$ "ResetCoordinates,1,#PB_Coordinate_User,#PB_Coordinate_Source"
   Data$ "ResetMaterial,1,#PB_Entity,#PB_ParticleEmitter,#PB_BillboardGroup"
   Data$ "ResizeImage,4,#PB_Image_Smooth,#PB_Image_Raw"

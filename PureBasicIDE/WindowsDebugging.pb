@@ -14,10 +14,8 @@ CompilerIf #CompileWindows
     CompilerElse
       ; It's used in debugging.pb as well, so declare them in the global scope
       CompilerIf #CompileX86
-        !extrn _PB_StringHeap
         !extrn _PB_Memory_Heap
       CompilerElse
-        !extrn PB_StringHeap
         !extrn PB_Memory_Heap
       CompilerEndIf
     CompilerEndIf
@@ -33,7 +31,7 @@ CompilerIf #CompileWindows
     ; Declare a macro which can helps a lot to localize weird bugs
     ;
     Procedure _TestHeaps(File$, Line)
-      Protected StringHeap, MemoryBase, MemoryHeap
+      Protected MemoryBase, MemoryHeap
       
       CompilerIf #PB_Compiler_Backend = #PB_Backend_C
         ; Do Nothing as we can't easily access externals vars for now (should be added in a future PB version)
@@ -41,25 +39,17 @@ CompilerIf #CompileWindows
       CompilerElse
         
         CompilerIf #CompileX86
-          !mov eax, dword [_PB_StringHeap]
-          !mov [p.v_StringHeap], eax
           !mov eax, dword [_PB_MemoryBase]
           !mov [p.v_MemoryBase], eax
           !mov eax, dword [_PB_Memory_Heap]
           !mov [p.v_MemoryHeap], eax
         CompilerElse
-          !mov rax, qword [PB_StringHeap]
-          !mov [p.v_StringHeap], rax
           !mov rax, qword [_PB_MemoryBase]
           !mov [p.v_MemoryBase], rax
           !mov rax, qword [PB_Memory_Heap]
           !mov [p.v_MemoryHeap], rax
         CompilerEndIf
       
-        If HeapValidate_(StringHeap, 0, 0) = 0
-          MessageRequester("StringHeap corrupted !", File$+" : "+Str(Line))
-        EndIf
-        
         If HeapValidate_(MemoryBase, 0, 0) = 0
           MessageRequester("MemoryBase heap corrupted !", File$+" : "+Str(Line))
         EndIf

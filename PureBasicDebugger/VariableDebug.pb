@@ -930,14 +930,18 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       
       ; Set default sorting values (name column, ascending)
       ;
-      *Debugger\ArraySortColumn         = 0
+      *Debugger\ArraySortColumn         = 1
       *Debugger\ArraySortDirection      = 1
       *Debugger\LocalArraySortColumn    = 1
       *Debugger\LocalArraySortDirection = 1
-      *Debugger\ListSortColumn          = 0
+      *Debugger\ListSortColumn          = 1
       *Debugger\ListSortDirection       = 1
       *Debugger\LocalListSortColumn     = 1
       *Debugger\LocalListSortDirection  = 1
+      *Debugger\MapSortColumn           = 1
+      *Debugger\MapSortDirection        = 1
+      *Debugger\LocalMapSortColumn      = 1
+      *Debugger\LocalMapSortDirection   = 1
       
       CompilerIf #CompileWindows
         ; watch column clicks

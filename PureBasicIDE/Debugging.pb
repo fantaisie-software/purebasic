@@ -491,19 +491,15 @@ CompilerIf #DEBUG
             
           Case #DEBUG_MemoryStats ; memory stats
             CompilerIf #CompileWindows And  #PB_Compiler_Backend <> #PB_Backend_C
-              Protected StringHeap, MemoryBase, MemoryHeap
+              Protected MemoryBase, MemoryHeap
               
               ; The needed !extrn are in WindowsDebugging.pb already.
               CompilerIf #CompileX86
-                !mov eax, dword [_PB_StringHeap]
-                !mov [p.v_StringHeap], eax
                 !mov eax, dword [_PB_MemoryBase]
                 !mov [p.v_MemoryBase], eax
                 !mov eax, dword [_PB_Memory_Heap]
                 !mov [p.v_MemoryHeap], eax
               CompilerElse
-                !mov rax, qword [PB_StringHeap]
-                !mov [p.v_StringHeap], rax
                 !mov rax, qword [_PB_MemoryBase]
                 !mov [p.v_MemoryBase], rax
                 !mov rax, qword [PB_Memory_Heap]
@@ -512,8 +508,6 @@ CompilerIf #DEBUG
               
               Content$ = "Process Heap:"+#NewLine+"------------------------------"+#NewLine
               Content$ + HeapStats(GetProcessHeap_())+#NewLine+#NewLine
-              Content$ + "String Heap:"+#NewLine+"------------------------------"+#NewLine
-              Content$ + HeapStats(StringHeap)+#NewLine+#NewLine
               Content$ + "MemoryBase Heap:"+#NewLine+"------------------------------"+#NewLine
               Content$ + HeapStats(MemoryBase)+#NewLine+#NewLine
               Content$ + "AllocateMemory Heap:"+#NewLine+"------------------------------"+#NewLine

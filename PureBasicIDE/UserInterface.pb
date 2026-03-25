@@ -1974,6 +1974,7 @@ EndProcedure
 
 
 Procedure MainWindowEvents(EventID)
+  Static LogSplitterState, ToolsSplitterState
   Quit = 0
   
   If EventID = #PB_Event_ActivateWindow
@@ -2068,23 +2069,42 @@ Procedure MainWindowEvents(EventID)
     EventGadgetID = EventGadget()
     Select EventGadgetID
         
-      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item
-        If ToolsPanelVisible And CurrentTool
-          CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item only if there is a real change in the splitter position
+        ToolsSplitterCurrentState   = GetGadgetState(#GADGET_ToolsSplitter)
+        If ToolsSplitterCurrentState <> ToolsSplitterState
+          ToolsSplitterState = ToolsSplitterCurrentState
+          
+          If ToolsPanelVisible And CurrentTool
+            CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+          EndIf
+          
+          If ErrorLogVisible = 0
+            UpdateSourceContainer()
+          EndIf
         EndIf
-        
-        If ErrorLogVisible = 0
+      
+      Case #GADGET_LogSplitter ; Resize current LogPanel Item only if there is a real change in the splitter position
+        LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
+        If LogSplitterCurrentState <> LogSplitterState
+          LogSplitterState = LogSplitterCurrentState
+          
+          If ErrorLogVisible
+            UpdateSourceContainer()
+          EndIf
+        EndIf
+      
+      Case #GADGET_SourceContainer  ; Resize Item only if there is a real change in the splitters positions
+        LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
+        ToolsSplitterCurrentState = GetGadgetState(#GADGET_ToolsSplitter)
+        If LogSplitterCurrentState <> LogSplitterState
+           LogSplitterState = LogSplitterCurrentState
+          
+          UpdateSourceContainer()
+        ElseIf  ToolsSplitterCurrentState <> ToolsSplitterState
+          ToolsSplitterState = ToolsSplitterCurrentState
+          
           UpdateSourceContainer()
         EndIf
-        
-      Case #GADGET_LogSplitter
-        If ErrorLogVisible
-          UpdateSourceContainer()
-        EndIf
-        
-      Case #GADGET_SourceContainer
-        ; only has a resize event
-        UpdateSourceContainer()
         
       Case #GADGET_FilesPanel
         Select EventType()
@@ -2224,19 +2244,30 @@ Procedure MainWindowEvents(EventID)
           
           DisplayPopupMenu(#POPUPMENU_ErrorLog, WindowID(#WINDOW_Main))
         EndIf
+              
+      Case #GADGET_ProjectInfo_FilterInput
+        If EventType() = #PB_EventType_Change
+          ProjectInfo_Filter(GetGadgetText(#GADGET_ProjectInfo_FilterInput))
+        EndIf
+        
+      Case #GADGET_ProjectInfo_SortFiles
+        ProjectFilesSort = GetGadgetState(#GADGET_ProjectInfo_SortFiles)
+        UpdateProjectInfo()
         
       Case #GADGET_ProjectInfo_Files
         index = GetGadgetState(#GADGET_ProjectInfo_Files)
         Select EventType()
             
           Case #PB_EventType_DragStart
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              DragFiles(ProjectFiles()\Filename$)
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              DragFiles(*ProjectFiles\Filename$)
             EndIf
             
           Case #PB_EventType_LeftDoubleClick
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              LoadSourceFile(ProjectFiles()\Filename$) ; will just switch if open
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              LoadSourceFile(*ProjectFiles\Filename$) ; will just switch if open
             EndIf
             
           Case #PB_EventType_RightClick

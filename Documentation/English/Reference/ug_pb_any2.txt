@@ -14,6 +14,7 @@ multiple instances of several different types of window, in this case three:
   window but also contains a @Link "gadget/calendargadget" "calendar gadget" too, the
   window layout is altered to accommodate this additional control. When the 'Add' button
   is clicked, it is the currently selected date that is added to the list view.
+  @LineBreak
 - The Track window – contains two @Link "gadget/trackbargadget" "track bars", with a
   value between 0 and 100, and a @Link "gadget/stringgadget" "string gadget". When the
   track bars are moved the string gadget is updated with the value of the second track
@@ -368,7 +369,7 @@ straight through to the event procedures and let them worry about getting the jo
     ; Check that the OpenWindow command worked.
     If ThisWindow
       ; Set minimum window dimensions.
-      WindowBounds(ThisWindow, 310, 245, #PB_Ignore, #PB_Ignore)
+      WindowBounds(ThisWindow, 360, 245, #PB_Ignore, #PB_Ignore)
       
       ; Convert the window reference to a string to use as the map key value.
       ThisKey = StrU(ThisWindow)
@@ -398,9 +399,9 @@ straight through to the event procedures and let them worry about getting the jo
       EndIf
       
       ; Create the window gadgets.
-      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 182, 162)
-      *ThisData\AddButton = ButtonGadget(#PB_Any, 210, 10, 90, 30, "Add")
-      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 210, 45, 90, 30, "Remove")
+      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 240, 170)
+      *ThisData\AddButton = ButtonGadget(#PB_Any, 260, 10, 90, 30, "Add")
+      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 260, 45, 90, 30, "Remove")
       *ThisData\ListView = ListViewGadget(#PB_Any, 10, 187, 290, 200)
     Else
       ; Memory allocation failed.
@@ -597,7 +598,7 @@ straight through to the event procedures and let them worry about getting the jo
     ; Remove Window from the ActiveWindows map, release the allocated memory,
     ; close the window and set the quit flag, if appropriate.
     Shared EventQuit, ActiveWindows()
-    Protected *ThisData.DATEWINDOW
+    Protected *ThisData.TRACKWINDOW
     Protected.s ThisKey
     
     ; Convert the integer Window to a string.
