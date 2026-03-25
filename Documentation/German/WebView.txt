@@ -1,7 +1,7 @@
 ﻿;
 ;     WebView library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library WebView
@@ -14,8 +14,8 @@
   verwendet native Callbacks für die Interaktion zwischen dem Webinhalt (der JavaScript ist) und dem PureBasic-Code.
 @LineBreak
 @LineBreak
-  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten (WebView2 unter Windows, WebKit-GTK unter
-  Linux/Raspberry und WebKit unter macOS). Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
+  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten: WebView2 unter Windows, WebKit-GTK unter
+  Linux/Raspberry (keine QT-Unterstützung) und WebKit unter macOS. Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
   Wenn jedoch Unterstützung für ältere Windows-Versionen benötigt wird, muss möglicherweise die weiterverteilbare Datei
   (Redistributable) WebView2 installiert werden:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
@@ -82,6 +82,9 @@
   - @@GetGadgetAttribute : Mit @#PB_WebView_ICoreController als 'Attribut' ermöglicht Ihnen die
   Nutzung der Funktionen vom ICoreWebView2 (nur auf Windows).
 @LineBreak
+@LineBreak
+@LineBreak
+  Hinweis: das WebViewGadget() wird nicht auf dem QT-Subsystem unterstützt.
 
 @Example mit lokalen HTML- und CSS-Dateien
 @Code

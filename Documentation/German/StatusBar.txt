@@ -1,7 +1,7 @@
 ﻿;
 ;     StatusBar library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library StatusBar
@@ -23,7 +23,7 @@
 
 @Description
   Fügt ein Feld zur aktuellen Statusleiste hinzu, die zuvor mittels @@CreateStatusBar
-  erstellt wurde. Jedes neue Feld wird nach dem alten Feld erstellt.
+  erstellt wurde. Jedes neue Feld wird nach dem vorherigen Feld erstellt.
 
 @Parameter "Breite"
   Die Breite des neuen Felds in Pixel. Wenn diese auf @#PB_Ignore gesetzt
@@ -129,7 +129,7 @@
   Statusleiste ist.
 
 @Parameter "#Statusleiste"
-  Die zu verwendende Statusleiste.
+  Die zu testende Statusleiste.
 
 @ReturnValue
   Ein Wert ungleich Null, wenn die Statusleiste gültig ist, andernfalls Null.
@@ -148,13 +148,13 @@
 @Function StatusBarImage(#Statusleiste, Feld, ImageID [, Aussehen])
 
 @Description
-  Definiert das angegebene Feld zur Anzeige eines Bildes.
+  Definiert das angegebene Statusleisten-Feld zur Anzeige eines Bildes.
 
 @Parameter "#Statusleiste"
   Die zu verwendende Statusleiste.
   
 @Parameter "Feld"
-  Der Feld-Index, wo das Bild definiert werden soll. Der erste Feld-Index beginnt bei Null.
+  Der Index des Feldes, auf dem das Bild angezeigt werden soll. Der erste Feld-Index beginnt bei Null.
   
 @Parameter "ImageID"
   Das für das angegebene Statusleisten-Feld festzulegende Bild. Dieses kann einfach
@@ -223,7 +223,7 @@
   Die zu verwendende Statusleiste.
   
 @Parameter "Feld"
-  Der Feld-Index, wo der Text definiert werden soll. Der erste Feld-Index beginnt bei Null.
+  Der Index des Feldes, auf dem der Text angezeigt werden soll. Der erste Feld-Index beginnt bei Null.
 
 @Parameter "Text$"
   Der Text, welcher für das angegebene Statusleisten-Feld gesetzt werden soll.
