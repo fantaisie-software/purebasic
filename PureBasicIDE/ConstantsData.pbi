@@ -418,7 +418,7 @@ DataSection
   Data$ "ImageVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "InitEngine3D,1,#PB_Engine3D_NoLog,#PB_Engine3D_DebugLog,#PB_Engine3D_DebugOutput,#PB_Engine3D_EnableCG"
   Data$ "InputEvent3D,5,#PB_Key_Back,#PB_Key_Delete,#PB_Key_Return,#PB_Key_Up,#PB_Key_Down,#PB_Key_Left,#PB_Key_Right"
-  Data$ "InputRequester,4,#PB_InputRequester_Password"
+  Data$ "InputRequester,4,#PB_InputRequester_Password,#PB_InputRequester_HandleCancel"
   Data$ "IPAddressField,3,#PB_Network_IPv4,#PB_Network_IPv6"
   Data$ "IPAddressGadget,1,#PB_Any"
   Data$ "IPString,2,#PB_Network_IPv4,#PB_Network_IPv6"
