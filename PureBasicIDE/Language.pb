@@ -700,6 +700,7 @@ DataSection
   Data$ "FileWarn",         "Display a warning if file changed"
   
   Data$ "Filename",         "Filename"
+  Data$ "FileListSort",     "Sort on Filename"
   Data$ "FileScanShort",    "Scan"
   Data$ "FileLoadShort",    "Load"
   Data$ "FilePanelShort",   "Panel"

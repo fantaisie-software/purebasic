@@ -18,6 +18,9 @@
 
 Global ProjectPanelVisible
 Global ProjectPanelMenuGadget
+; Filter text for the ProjectFiles() list.
+Global ProjectPanelFilterText$
+Global ProjectPanelFilter
 
 ; Delete a file entry and all its parents if empty (recursive)
 ;
@@ -429,6 +432,19 @@ Procedure UpdateProjectPanel()
         EndIf
       Next i
       
+      ; Filter the project list.
+      If ProjectPanelFilter
+        For i = CountGadgetItems(#GADGET_ProjectPanel)-1 To 0 Step -1
+          Select GetGadgetItemData(#GADGET_ProjectPanel, i) 
+            Case #ProjectPanel_Directory, #ProjectPanel_InternalBase, #ProjectPanel_ExternalBase
+            Default ; its a ProjectFile. Remove the Gadget Item if the input filter was not found in the project file name.
+              If Not FindString(GetGadgetItemText(#GADGET_ProjectPanel, i), ProjectPanelFilterText$, 1, #PB_String_NoCase)
+                RemoveGadgetItem(#GADGET_ProjectPanel, i)
+              EndIf
+          EndSelect
+        Next i
+      EndIf
+      
     Else
       ; project was closed
       ClearGadgetItems(#GADGET_ProjectPanel)
@@ -438,11 +454,27 @@ Procedure UpdateProjectPanel()
   
 EndProcedure
 
+Procedure ProjectPanel_Filter(Text$)
+  
+  If Asc(Text$)
+    ProjectPanelFilter = #True
+  Else
+    ProjectPanelFilter = #False
+  EndIf
+  
+  ProjectPanelFilterText$ = Text$
+  UpdateProjectPanel()
+  
+EndProcedure
 
 Procedure ProjectPanel_CreateFunction(*Entry.ToolsPanelEntry)
   
   ; Note: The ProjectPanel menu is created in CreateIDEPopupMenu() as the ProjectInfo uses it too
   ;
+  ; The Button #GADGET_ProjectPanel_DummyButton is here to obtain its height, which isapplied to the String filter, to have a height similar to the ProcedureBrowser filter one
+  ButtonGadget(#GADGET_ProjectPanel_DummyButton, -10, -10, 0, 0, "Abc")
+  HideGadget(#GADGET_ProjectPanel_DummyButton, #True)
+  StringGadget(#GADGET_ProjectPanel_FilterInput, 0, 0, 0, 0, "")
   TreeGadget(#GADGET_ProjectPanel, 0, 0, 0, 0)
   ProjectPanelVisible = #True
   
@@ -457,7 +489,8 @@ EndProcedure
 Procedure ProjectPanel_DestroyFunction(*Entry.ToolsPanelEntry)
   
   StoreProjectPanelStates() ; store expanded states
-  
+  FreeGadget(#GADGET_ProjectPanel_DummyButton)
+  FreeGadget(#GADGET_ProjectPanel_FilterInput)
   FreeGadget(#GADGET_ProjectPanel)
   ProjectPanelVisible = #False
   
@@ -465,10 +498,13 @@ EndProcedure
 
 Procedure ProjectPanel_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
   
+  GetRequiredSize(#GADGET_ProjectPanel_DummyButton, @Width.l, @Height.l)
+  
+  ResizeGadget(#GADGET_ProjectPanel_FilterInput, 5, 5, PanelWidth-10, Height)
   If *Entry\IsSeparateWindow
-    ResizeGadget(#GADGET_ProjectPanel, 5, 5, PanelWidth-10, PanelHeight-10)
+    ResizeGadget(#GADGET_ProjectPanel, 5, 10+Height, PanelWidth-10, PanelHeight-15-Height)
   Else
-    ResizeGadget(#GADGET_ProjectPanel, 0, 0, PanelWidth, PanelHeight)
+    ResizeGadget(#GADGET_ProjectPanel, 0, 10+Height, PanelWidth, PanelHeight-15-Height)
   EndIf
   
 EndProcedure
@@ -673,52 +709,58 @@ EndProcedure
 
 Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
   
-  If EventGadgetID = #GADGET_ProjectPanel
-    Index = GetGadgetState(#GADGET_ProjectPanel)
-    
-    Select EventType()
-        
-      Case #PB_EventType_DragStart
-        If Index <> -1
-          *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
-          If ProjectPanel_IsFile(*File)
-            ; its a single file
-            DragFiles(*File\FileName$)
-            
-          ElseIf *File = #ProjectPanel_Directory
-            ; its a directory
-            Files$   = ""
-            Sublevel = GetGadgetItemAttribute(#GADGET_ProjectPanel, Index, #PB_Tree_SubLevel)
-            Count    = CountGadgetItems(#GADGET_ProjectPanel)
-            Index    + 1
-            While Index < Count And GetGadgetItemAttribute(#GADGET_ProjectPanel, Index, #PB_Tree_SubLevel) > Sublevel
-              *File = GetGadgetItemData(#GADGET_ProjectPanel, Index)
-              If ProjectPanel_IsFile(*File)
-                Files$ + *File\FileName$ + Chr(10)
+  Select EventGadgetID
+    Case #GADGET_ProjectPanel_FilterInput
+      If EventType() = #PB_EventType_Change
+        ProjectPanel_Filter(GetGadgetText(#GADGET_ProjectPanel_FilterInput))
+      EndIf
+      
+    Case #GADGET_ProjectPanel
+      Index = GetGadgetState(#GADGET_ProjectPanel)
+      
+      Select EventType()
+          
+        Case #PB_EventType_DragStart
+          If Index <> -1
+            *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
+            If ProjectPanel_IsFile(*File)
+              ; its a single file
+              DragFiles(*File\FileName$)
+              
+            ElseIf *File = #ProjectPanel_Directory
+              ; its a directory
+              Files$   = ""
+              Sublevel = GetGadgetItemAttribute(#GADGET_ProjectPanel, Index, #PB_Tree_SubLevel)
+              Count    = CountGadgetItems(#GADGET_ProjectPanel)
+              Index    + 1
+              While Index < Count And GetGadgetItemAttribute(#GADGET_ProjectPanel, Index, #PB_Tree_SubLevel) > Sublevel
+                *File = GetGadgetItemData(#GADGET_ProjectPanel, Index)
+                If ProjectPanel_IsFile(*File)
+                  Files$ + *File\FileName$ + Chr(10)
+                EndIf
+                Index + 1
+              Wend
+              If Files$ <> ""
+                DragFiles(Left(Files$, Len(Files$)-1)) ; cut the last Chr(10)
               EndIf
-              Index + 1
-            Wend
-            If Files$ <> ""
-              DragFiles(Left(Files$, Len(Files$)-1)) ; cut the last Chr(10)
+              
             EndIf
-            
           EndIf
-        EndIf
-        
-      Case #PB_EventType_LeftDoubleClick
-        If Index <> -1
-          *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
-          If ProjectPanel_IsFile(*File)
-            LoadSourceFile(*File\FileName$, 1, 0) ; will just switch if open
+          
+        Case #PB_EventType_LeftDoubleClick
+          If Index <> -1
+            *File.ProjectFile = GetGadgetItemData(#GADGET_ProjectPanel, Index)
+            If ProjectPanel_IsFile(*File)
+              LoadSourceFile(*File\FileName$, 1, 0) ; will just switch if open
+            EndIf
           EndIf
-        EndIf
-        
-      Case #PB_EventType_RightClick
-        DisplayProjectPanelMenu(*Entry, #GADGET_ProjectPanel)
-        
-    EndSelect
-    
-  EndIf
+          
+        Case #PB_EventType_RightClick
+          DisplayProjectPanelMenu(*Entry, #GADGET_ProjectPanel)
+          
+      EndSelect
+      
+  EndSelect  
   
 EndProcedure
 
@@ -747,5 +789,4 @@ AvailablePanelTools()\ToolID$              = "ProjectPanel"
 AvailablePanelTools()\PanelTitle$          = "ProjectPanelShort"
 AvailablePanelTools()\ToolName$            = "ProjectPanelLong"
 AvailablePanelTools()\PanelTabOrder        = 2
-
 
