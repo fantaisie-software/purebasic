@@ -1,0 +1,64 @@
+﻿@Title Migration von PureBasic 6.30 nach 6.40
+
+Da der gesamte String-Manager für Version 6.40 überarbeitet wurde, funktionieren einige Sonderfälle mit Strings nicht mehr.
+Zur Information: PureBasic-Strings verwenden nun ein Präfix mit zwischengespeicherter Länge, sodass die Verarbeitung nicht
+mehr beim ersten Nullzeichen abbricht.
+
+@Section String Bibliothek
+
+@LineBreak
+Das Flag @#PB_String_InPlace wurde bei @@ReplaceString entfernt.
+@Code
+  ; Alt
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; Neu
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+Dies ist etwas langsamer als zuvor. Falls Sie eine sehr schnelle Zeichenersetzung direkt im String ("inplace") benötigen,
+können Sie die folgende Methode verwenden. Achtung: Das direkte Bearbeiten des String-Puffers muss mit Bedacht erfolgen,
+um einen Pufferüberlauf zu vermeiden.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Hello World !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section Win32 API Aufruf
+
+Ein üblicher Anwendungsfall beim Aufruf von Win32-API, die einen String-Puffer zurückgibt, war die Verwendung von Space()
+für diesen Puffer. Da die Stringlänge nun im neuen String-Manager zwischengespeichert wird, muss der zurückgegebene String
+mittels PeekS() "abgefangen" werden. Es empfiehlt sich, die Verwendung von Space() ganz zu vermeiden, da es sich hier um
+eine Art "Hack" handelt. Am besten suchen Sie in Ihrem gesamten Code nach Space() und prüfen, ob es für API-Aufrufe
+verwendet wird.
+
+@Code
+  ; Alt
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  
+  ; Neu
+  CurrentDirectory$ = Space(2000)
+  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$) ; Stellt sicher, dass die Zeichenkettenlänge korrekt aktualisiert wird.
+@EndCode
