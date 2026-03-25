@@ -2069,11 +2069,10 @@ Procedure MainWindowEvents(EventID)
     EventGadgetID = EventGadget()
     Select EventGadgetID
         
-      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item only if there is a real change in the splitter position (uncomment debug to check)
+      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item only if there is a real change in the splitter position
         ToolsSplitterCurrentState   = GetGadgetState(#GADGET_ToolsSplitter)
         If ToolsSplitterCurrentState <> ToolsSplitterState
-          ;Debug "ToolsSplitter State: " +#TAB$+ ToolsSplitterCurrentState +#TAB$+ " New: " + ToolsSplitterState
-          ToolsSplitterState   = ToolsSplitterCurrentState
+          ToolsSplitterState = ToolsSplitterCurrentState
           
           If ToolsPanelVisible And CurrentTool
             CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
@@ -2082,39 +2081,29 @@ Procedure MainWindowEvents(EventID)
           If ErrorLogVisible = 0
             UpdateSourceContainer()
           EndIf
-        ;Else
-          ;Debug "ToolsSplitter State: " +#TAB$+ ToolsSplitterState +#TAB$+ " (No Change)"
         EndIf
       
-      Case #GADGET_LogSplitter ; Resize current LogPanel Item only if there is a real change in the splitter position (uncomment debug to check)
+      Case #GADGET_LogSplitter ; Resize current LogPanel Item only if there is a real change in the splitter position
         LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
         If LogSplitterCurrentState <> LogSplitterState
-          ;Debug "LogSplitter State:   " +#TAB$+ LogSplitterCurrentState   +#TAB$+ " New: " + LogSplitterState
-          LogSplitterState   = LogSplitterCurrentState
+          LogSplitterState = LogSplitterCurrentState
           
           If ErrorLogVisible
             UpdateSourceContainer()
           EndIf
-        ;Else
-          ;Debug "LogSplitter State:   " +#TAB$+ LogSplitterState   +#TAB$+ " (No Change)"
         EndIf
       
-      Case #GADGET_SourceContainer  ; Resize Item only if there is a real change in the splitters positions (uncomment debug to check)
+      Case #GADGET_SourceContainer  ; Resize Item only if there is a real change in the splitters positions
         LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
         ToolsSplitterCurrentState = GetGadgetState(#GADGET_ToolsSplitter)
         If LogSplitterCurrentState <> LogSplitterState
-          ;Debug "LogSplitter State:   " +#TAB$+ LogSplitterCurrentState   +#TAB$+ " New: " + LogSplitterState
-          LogSplitterState   = LogSplitterCurrentState
+           LogSplitterState = LogSplitterCurrentState
           
           UpdateSourceContainer()
         ElseIf  ToolsSplitterCurrentState <> ToolsSplitterState
-          ;Debug "ToolsSplitter State: " +#TAB$+ ToolsSplitterCurrentState +#TAB$+ " New: " + ToolsSplitterState
           ToolsSplitterState = ToolsSplitterCurrentState
           
           UpdateSourceContainer()
-        ;Else
-          ;Debug "ToolsSplitter State: " +#TAB$+ ToolsSplitterState +#TAB$+ " (No Change)"
-          ;Debug "LogSplitter State:   " +#TAB$+ LogSplitterState   +#TAB$+ " (No Change)"
         EndIf
         
       Case #GADGET_FilesPanel
