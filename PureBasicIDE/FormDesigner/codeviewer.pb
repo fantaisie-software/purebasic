@@ -41,7 +41,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     
     windowvar + FormWindows()\variable
   Else
-    windowenum + "  #" + FormWindows()\variable + #Endline
+    If FormWindows()\explicitId
+      windowenum + "  #" + FormWindows()\variable + "=" + Str(FormWindows()\explicitId) + #Endline
+    Else
+      windowenum + "  #" + FormWindows()\variable + #Endline
+    EndIf
   EndIf
   
   ForEach FormWindows()\FormMenus()
@@ -65,7 +69,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       
       gadgetvar + FormWindows()\FormGadgets()\variable
     Else
-      gadgetenum + "  #" + FormWindows()\FormGadgets()\variable + #Endline
+      If FormWindows()\FormGadgets()\explicitId
+        gadgetenum + "  #" + FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId) + #Endline
+      Else
+        gadgetenum + "  #" + FormWindows()\FormGadgets()\variable + #Endline
+      EndIf
     EndIf
     
     If FormWindows()\FormGadgets()\cust_init <> ""
