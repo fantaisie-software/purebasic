@@ -13,7 +13,7 @@
   web content (which is JavaScript) and the PureBasic code.
 @LineBreak
 @LineBreak
-  The WebView gadget is leveraging the built-in OS web components (WebView2 on Windows, WebKit-GTK on Linux/Raspberry and WebKit on macOS). On Windows 10 and above,
+  The WebView gadget is leveraging the built-in OS web components: WebView2 on Windows, WebKit-GTK on Linux/Raspberry (no QT support) and WebKit on macOS. On Windows 10 and above,
   no additional component is required but if older Windows support is needed, the WebView2 redistributable might need to be installed:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
 @LineBreak
@@ -72,6 +72,9 @@
 @LineBreak    
   - @@GetGadgetAttribute : With @#PB_WebView_ICoreController as 'attribute' allows you to use the functions of ICoreWebView2 (Windows only).
 @LineBreak
+@LineBreak
+@LineBreak
+  Note: the WebViewGadget() is not supported on QT subsystem.
 
 @Example using local HTML and CSS files
 @Code

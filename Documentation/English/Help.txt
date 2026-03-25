@@ -1,7 +1,7 @@
 ﻿;
 ;     Help library documentation - MultiOS version !
 ;
-;      (c) 2011 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Help
@@ -12,19 +12,23 @@
   the opportunity to discover the software's features quickly and easily. The PureBasic help
   functions allow the programmer the ability to display standard help files with both global and
   contextual support.
-
 @LineBreak
 @LineBreak
-
   On Microsoft Windows, there are two different help-file formats which are supported:
   The ".hlp" format (which is the old) and the ".chm" format (which is the new). The ".chm"
   format is based on HTML, which stands for Hyper Text Markup Language.
-
+@LineBreak
+@LineBreak
+    On Linux, the 'yelp' tool is used, see @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp on Wikipedia".
+@LineBreak
+@LineBreak
+    On macOS, the native help viewer tool is used, see @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".
+    
 @CommandList
 
 @ExampleFile All Help.pb
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -39,7 +43,7 @@
 @SeeAlso
   @@OpenHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -49,13 +53,18 @@
   Open and display a help window. 
 
 @Parameter "Filename$"
-  The name of either the .chm or .hlp file to be opened. 
+  On Windows, the name of either the .chm or .hlp file to be opened. @LineBreak
+  On Linux, the name of an help file which can be opened with the 'yelp' tool, see @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp on Wikipedia". @LineBreak
+  On MacOS, the name of an help file which can be opened with the native macOS help veiwer tool, see @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".
 
 @Parameter "Topic$"
   The internal name of the page to display, if the Topic$ parameter is not an empty string, 
   the OpenHelp function will display the specified page. 
 
 @NoReturnValue
+
+@Remarks
+  Note: this command is not supported by the QT subsystem.
 
 @Example
 @Code
@@ -66,4 +75,4 @@
 @SeeAlso
   @@CloseHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All
