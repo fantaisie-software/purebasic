@@ -16,6 +16,7 @@ unterstützt, in diesem Fall drei:
   wie beim Schalter-Fenster, besitzt jedoch auch ein @Link "gadget/calendargadget" "CalendarGadget",
   das Fenster-Layout wird wegen dieses zusätzlichen Gadgets angepasst. Wenn der Schalter
   'Add' angeklickt wird, dann wird das aktuell ausgewählte Datum zum ListView hinzugefügt.
+  @LineBreak
 - Das Schieberegler (Track) Fenster - beinhaltet zwei @Link "gadget/trackbargadget" "TrackBars",
   mit einem Wert zwischen 0 und 100, und ein @Link "gadget/stringgadget" "StringGadget".
   Wenn die Schieberegler bewegt werden, dann wird das StringGadget aktualisiert - mit dem
@@ -379,7 +380,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die 
     ; Überprüfen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
     If ThisWindow
       ; Minimale Fenstergröße festlegen.
-      WindowBounds(ThisWindow, 310, 245, #PB_Ignore, #PB_Ignore)
+      WindowBounds(ThisWindow, 360, 245, #PB_Ignore, #PB_Ignore)
       
       ; Umwandeln der Fenster-Referenz in einen String, um diesen als Schlüssel für die Map zu verwenden.
       ThisKey = StrU(ThisWindow)
@@ -409,9 +410,9 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die 
       EndIf
       
       ; Erstellen der Fenster-Gadgets.
-      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 182, 162)
-      *ThisData\AddButton = ButtonGadget(#PB_Any, 210, 10, 90, 30, "Add")
-      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 210, 45, 90, 30, "Remove")
+      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 240, 170)
+      *ThisData\AddButton = ButtonGadget(#PB_Any, 260, 10, 90, 30, "Add")
+      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 260, 45, 90, 30, "Remove")
       *ThisData\ListView = ListViewGadget(#PB_Any, 10, 187, 290, 200)
     Else
       ; Speicherreservierung fehlgeschlagen.
@@ -609,7 +610,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die 
     ; Entfernt das Fenster aus der ActiveWindows Map, gibt den reservierten Speicher frei,
     ; schließt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nötig.
     Shared EventQuit, ActiveWindows()
-    Protected *ThisData.DATEWINDOW
+    Protected *ThisData.TRACKWINDOW
     Protected.s ThisKey
     
     ; Umwandeln des Fenster-Werts in einen String.
