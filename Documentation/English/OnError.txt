@@ -11,7 +11,7 @@
   @ReferenceLink "ide_debugger" "PureBasic debugger" but without the drawbacks of a bigger filesize and lower execution speed when
   using the debugger. This way the final version of a program which is shipped to the end user
   can still intercept program errors and provide some information about the error to the user
-  so he can report it back to the developer.
+  so they can report it back to the developer.
 @LineBreak
 @LineBreak
   The @ReferenceLink "ide_debugger" "PureBasic debugger" is still the better tool for finding bugs during the development phase,
@@ -47,7 +47,7 @@
   Changes the action taken if an error occurs to directly exit the program, even if the default action
   on the system is not to exit the program on this kind of error. The system may display an error dialog
   or print an error-message on the console on exit.
-  
+
 @NoParameters
 
 @NoReturnValue
@@ -62,7 +62,7 @@
 
   OnErrorExit()
   Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
-  
+
   MessageRequester("OnError test", "This should never be displayed")
 @EndCode
 
@@ -97,7 +97,7 @@
 
   OnErrorCall(@ErrorHandler())
   Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
-  
+
   MessageRequester("OnError test", "This should never be displayed")
 @EndCode
 
@@ -114,7 +114,7 @@
 
 @Parameter "?LabelAddress"
   The address of a label in the program to jump to.
-  
+
 @NoReturnValue
 
 @Remarks
@@ -130,10 +130,10 @@
 
   OnErrorGoto(?ErrorHandler)
   Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
-  
+
   MessageRequester("OnError test", "This should never be displayed")
   End
-  
+
   ErrorHandler:
   MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
   End
@@ -156,7 +156,7 @@
 
 @Remarks
   When using the OnError library inside a @ReferenceLink "dll" "DLL" the best practice is to set the error handler
-  at the beginning of every public DLL function and resetting it back to the default with this command
+  at the beginning of every public DLL function and reset it back to the default with this command
   before returning to the caller to make sure there is no interference between the OnError library and
   any exception handling done by the calling program.
 
@@ -171,7 +171,7 @@
   OnErrorCall(@ErrorHandler())
   OnErrorDefault()         ; Comment this to get the handler call instead of the system error handling
   Pokes(10, "Hello World") ; Cause a #PB_OnError_InvalidMemory error
-  
+
   MessageRequester("OnError test", "This should never be displayed")
 @EndCode
 
