@@ -14,8 +14,8 @@
   callbacks natives pour l'interaction entre le contenu Web (qui est en JavaScript) et le code PureBasic.
 @LineBreak
 @LineBreak
-  Le gadget WebView exploite les composants Web intégrés du système d'exploitation (WebView2 sous 
-  Windows, WebKit-GTK sous Linux/Raspberry et WebKit sous macOS). Sous Windows 10 et versions ultérieures, 
+  Le gadget WebView exploite les composants Web intégrés du système d'exploitation :WebView2 sous 
+  Windows, WebKit-GTK sous Linux/Raspberry (excepté QT) et WebKit sous macOS). Sous Windows 10 et versions ultérieures, 
   aucun composant supplémentaire n'est requis, mais si une ancienne prise en charge de Windows est 
   nécessaire, le redistribuable WebView2 devra peut-être être installé :
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "guide de distribution".
@@ -88,7 +88,8 @@
   - @@GetGadgetAttribute : Avec @#PB_WebView_ICoreController comme 'attribut' permet d'utiliser les 
    fonctions du ICoreWebView2 (Windows seulement).
 @LineBreak
-
+@LineBreak
+  Le WebViewGadget() n'est pas pris en charge par le sous-système QT.
 
 @Example Utiliser des fichiers HTML et CSS locaux
 @Code
