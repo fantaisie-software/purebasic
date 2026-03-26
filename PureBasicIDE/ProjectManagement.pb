@@ -454,7 +454,7 @@ Procedure ResizeProjectInfo(Width, Height)
   ResizeGadget(#GADGET_ProjectInfo_OpenOptions, Width-30-ButtonWidth-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, ButtonWidth, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_OpenCompilerOptions, Width-30-ButtonWidth-BorderOffset, 30+ProjectInfoFrameHeight+Button1Height-BorderOffset, ButtonWidth, Button1Height)
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+20-BorderOffset, Width-40, PartFilesHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+20-BorderOffset, Width-40, PartFilesHeight+Button1Height+5)
   ResizeGadget(#GADGET_ProjectInfo_FilterInput, 30-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_SortFiles, 240-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_Files, 30-BorderOffset, InfoHeight+30+ProjectInfoFrameHeight+Button1Height-BorderOffset, Width-60, PartFilesHeight-15-ProjectInfoFrameHeight)
