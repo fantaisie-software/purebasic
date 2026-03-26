@@ -572,7 +572,8 @@
         Case #PB_HTTP_Aborted
           Debug "Download aborted"
           FinishHTTP(HTTPRequest) ; Always call FinishHTTP() when request is aborted
-          
+          Break
+		  
         Default
           Debug "Current download: " + Progress ; The current download progress, in bytes
           Delay(100)
