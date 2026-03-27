@@ -46,7 +46,45 @@
 
   This panel list all available gadgets. Select one, and draw directly on the form the size needed. When
   a gadget is selected on the form, its properties are display on this panel and can be modified here.
-  
+
+@Section Advanced code generation options
+
+@Bold "Explicit IDs via Variable (Name=Number)"
+@LineBreak
+  To force stable numeric IDs for a window or gadget, enter:
+  Name=Number (for example: ID13310=13310 or Dlg=133) in the "Variable" property.
+  The Form Designer will generate an explicit assignment in the enumeration:
+@LineBreak
+@Code
+  Enumeration FormGadget
+    #ID13310 = 13310
+  EndEnumeration
+@EndCode
+@LineBreak
+  Note: If no '=' is used, behavior is unchanged (backward compatible).
+@LineBreak
+@LineBreak
+
+@Bold "Custom parent window (=expression)"
+@LineBreak
+  The window "Parent" value can be a raw expression by prefixing it with '='.
+  In this case :contentReference[oaicite:20]{index=20}ll pass the expression directly (no WindowID(...) wrapper).
+@LineBreak
+@LineBreak
+
+@Bold "Custom Flags"
+@LineBreak
+  The window property "Cust:contentReference[oaicite:21]{index=21}tional flags separated by '|'.
+  These flags are appended to the generated OpenWindow() flags.
+  Custom flags do not affect the visual rendering inside the Form Designer.
+@LineBreak
+@LineBreak
+
+@Bold "FrameGadget as container (#PB_Frame_Container)"
+@LineBreak
+  FrameGadget supports the flag #PB_Frame_Container. If set, the FrameGadget is treated as a container
+  and can be used as a parent for other gadgets.
+
 @Section Using the form designer in real world projects
 
   The form designer has been created to allow modular forms and easy maintenance. Each form has to be
@@ -162,7 +200,45 @@
   Sie direkt auf dem Formular die benötigte Größe. Wenn ein Gadget auf dem Formular ausgewählt
   wird, dann werden seine Eigenschaften auf dieser Leiste angezeigt und können auch hier
   verändert werden.
-  
+
+@Section Erweiterte Optionen der Codegenerierung
+
+@Bold "Explizite IDs über Variable (Name=Nummer)"
+@LineBreak
+  Um feste numerische IDs für Fenster oder Gadgets zu erzwingen, kann im Property "Variable"
+  die Syntax Name=Nummer verwendet werden (z.B. ID13310=13310 oder Dlg=133).
+  Der Form-Designer generiert dann eine explizite Zuweisung in der Enumeration:
+@LineBreak
+@Code
+  Enumeration FormGadget
+    #ID13310 = 13310
+  EndEnumeration
+@EndCode
+@LineBreak
+  Hinweis: Ohne '=' bleibt das Verhalten unverändert (abwärtskompatibel).
+@LineBreak
+@LineBreak
+
+@Bold "Benutzerdefinierter Parent (=Ausdruck)"
+@LineBreak
+  Der Fenster-Parent kann als „roher“ Ausdruck angegeben werden, indem er mit '=' beginnt.
+  In diesem Fall wird der Ausdruck im generierten Code direkt übergeben (ohne WindowID(...)-Wrapper).
+@LineBreak
+@LineBreak
+
+@Bold "Custom Flags"
+@LineBreak
+  Das Fenster-Property "Custom Flags" erlaubt zusätzliche Flags, getrennt durch '|'.
+  Diese Flags werden an die generierten OpenWindow()-Flags angehängt.
+  Custom Flags beeinflussen nicht die Darstellung im Form-Designer.
+@LineBreak
+@LineBreak
+
+@Bold "FrameGadget als Container (#PB_Frame_Container)"
+@LineBreak
+  FrameGadget unterstützt das Flag #PB_Frame_Container. Wenn es gesetzt ist, wird das FrameGadget
+  als Container behandelt und kann als Parent für andere Gadgets verwendet werden.
+
 @Section Verwendung des Form-Designers in echten Projekten
 
   Der Form-Designer wurde erschaffen, um modulare Formulare und deren einfache Wartung zu ermöglichen.
