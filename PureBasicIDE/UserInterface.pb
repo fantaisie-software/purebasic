@@ -2246,9 +2246,22 @@ Procedure MainWindowEvents(EventID)
         EndIf
               
       Case #GADGET_ProjectInfo_FilterInput
-        If EventType() = #PB_EventType_Change
-          ProjectInfo_Filter(GetGadgetText(#GADGET_ProjectInfo_FilterInput))
-        EndIf
+        Select EventType()
+          Case #PB_EventType_Focus
+            RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
+            RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
+            RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_V)
+            RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_A)
+          Case #PB_EventType_Change
+            ProjectInfo_Filter(GetGadgetText(#GADGET_ProjectInfo_FilterInput))
+          Case #PB_EventType_LostFocus
+            For item = 0 To #MENU_LastShortcutItem
+              Select KeyboardShortcuts(item)
+                Case #PB_Shortcut_Control | #PB_Shortcut_C, #PB_Shortcut_Control | #PB_Shortcut_X, #PB_Shortcut_Control | #PB_Shortcut_V, #PB_Shortcut_Control | #PB_Shortcut_A
+                  AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+              EndSelect
+            Next
+        EndSelect
         
       Case #GADGET_ProjectInfo_SortFiles
         ProjectFilesSort = GetGadgetState(#GADGET_ProjectInfo_SortFiles)
