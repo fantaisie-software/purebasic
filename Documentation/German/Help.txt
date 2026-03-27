@@ -1,7 +1,7 @@
 ﻿;
 ;     Help library documentation - MultiOS version !
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Help
@@ -17,12 +17,18 @@
   Auf Microsoft Windows gibt es zwei verschiedene Formate von Hilfe-Dateien, welche unterstützt
   werden: Das ".hlp" Format (was das alte Format ist) und das ".chm" Format (was das neue Format
   ist). Das ".chm" Format basiert auf HTML, was für "Hyper Text Markup Language" steht.
+@LineBreak
+@LineBreak
+  Auf Linux wird das 'yelp' Tool verwendet, siehe @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp auf Wikipedia".
+@LineBreak
+@LineBreak
+  Auf macOS wird das systemeigene Hilfeanzeige-Tool verwendet, siehe @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".    
 
 @CommandList
 
 @ExampleFile All Help.pb
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -37,7 +43,7 @@
 @SeeAlso
   @@OpenHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -47,7 +53,9 @@
   Öffnet ein Hilfe-Fenster und zeigt dieses an.
 
 @Parameter "Dateiname$"
-  Der Name der zu öffnenden .chm oder .hlp Datei.
+  Auf Windows der Name der zu öffnenden .chm oder .hlp Datei. @LineBreak
+  Auf Linux der Name einer Hilfe-Datei, welche mit dem 'yelp' Tool geöffnet werden kann, siehe @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp auf Wikipedia". @LineBreak
+  Auf MacOS der Name einer Hilfe-Datei, welche mit dem systemeigenen macOS Hilfeanzeige-Tool geöffnet werden kann, siehe @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".
 
 @Parameter "Thema$"
   Der interne Name der darzustellenden Seite.
@@ -55,6 +63,9 @@
   direkt die angegebene Seite dar (sehr nützlich für Online/kontext-sensitive Hilfe).
 
 @NoReturnValue
+
+@Remarks
+  Hinweis: Dieser Befehl wird nicht vom QT-Subsystem unterstützt.
 
 @Example
 @Code
@@ -65,4 +76,4 @@
 @SeeAlso
   @@CloseHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All
