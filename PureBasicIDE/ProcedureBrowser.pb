@@ -1209,22 +1209,9 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       Select EventGadgetID
           
         Case #GADGET_ProcedureBrowser_FilterInput
-          Select EventType()
-            Case #PB_EventType_Focus
-              RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
-              RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
-              RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_V)
-              RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_A)
-            Case #PB_EventType_Change
-              ProcedureBrowser_Filter(GetGadgetText(#GADGET_ProcedureBrowser_FilterInput))
-            Case #PB_EventType_LostFocus
-              For item = 0 To #MENU_LastShortcutItem
-                Select KeyboardShortcuts(item)
-                  Case #PB_Shortcut_Control | #PB_Shortcut_C, #PB_Shortcut_Control | #PB_Shortcut_X, #PB_Shortcut_Control | #PB_Shortcut_V, #PB_Shortcut_Control | #PB_Shortcut_A
-                    AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
-                EndSelect
-              Next
-          EndSelect
+          If EventType() = #PB_EventType_Change
+            ProcedureBrowser_Filter(GetGadgetText(#GADGET_ProcedureBrowser_FilterInput))
+          EndIf
         
         Case #GADGET_ProcedureBrowser_HideModuleNames
           ProcedureBrowserHideModuleName = GetGadgetState(EventGadgetID)

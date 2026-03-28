@@ -13,6 +13,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   #SCI_CSHIFT = (#SCI_CTRL | #SCI_SHIFT)
   #SCI_ASHIFT = (#SCI_ALT | #SCI_SHIFT)
   
+  #SCN_SETFOCUS  = 2028
+  #SCN_KILLFOCUS = 2029
+  
   ; remaining from a time when the Scintilla.res was incomplete
   Structure SCI_CharacterRange Extends SCCharacterRange
   EndStructure
@@ -2767,6 +2770,22 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     Select *scinotify\nmhdr\code
         
+      Case #SCN_SETFOCUS
+        ; Restore the 4 keyboard shortcuts previously removed on #SCN_KILLFOCUS event. It is used in this ScintillaGadget
+        For item = 0 To #MENU_LastShortcutItem
+          Select KeyboardShortcuts(item)
+            Case #PB_Shortcut_Control | #PB_Shortcut_C, #PB_Shortcut_Control | #PB_Shortcut_X, #PB_Shortcut_Control | #PB_Shortcut_V, #PB_Shortcut_Control | #PB_Shortcut_A
+              AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+          EndSelect
+        Next
+        
+      Case #SCN_KILLFOCUS
+        ; Remove the 4 main keyboard shortcuts to restore the standard behavior for StringGadget text
+        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
+        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
+        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_V)
+        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_A)
+      
       Case #SCN_MODIFYATTEMPTRO
         ChangeStatus(Language("Debugger","EditError"), -1)
         CompilerIf #CompileWindows
