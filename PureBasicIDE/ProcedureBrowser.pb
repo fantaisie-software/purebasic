@@ -1209,7 +1209,7 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
       Select EventGadgetID
           
         Case #GADGET_ProcedureBrowser_FilterInput
-          If EventType() = #PB_EventType_Change
+          If EventGadgetType = #PB_EventType_Change
             ProcedureBrowser_Filter(GetGadgetText(#GADGET_ProcedureBrowser_FilterInput))
           EndIf
         
