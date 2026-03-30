@@ -1,7 +1,7 @@
 ;
 ;     StringBuilder library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library StringBuilder
@@ -21,7 +21,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateStringBuilder(#StringBuilder [, IncrementSize])
+@Function Result = CreateStringBuilder(#StringBuilder [, IncrementLength])
 
 @Description
   Create a new string builder object.
@@ -30,17 +30,17 @@
   The number to identify the new string builder. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
   auto-generate this number.
 
-@OptionalParameter "IncrementSize"
-  The size (in bytes) by which the internal buffer will grow when more space is needed. If not specified,
-  a default increment size will be used.
+@OptionalParameter "IncrementLength"
+  The length (in characters) by which the internal buffer will grow when more space is needed. If not specified,
+  a default increment length of 8192 characters will be used.
 
 @ReturnValue
   Returns nonzero if the string builder was created successfully and zero if there was an error.
   If @#PB_Any was used as the #StringBuilder parameter then the new generated number is returned on success.
 
 @Remarks
-  A new string builder starts with an empty string. Use @@AppendStringBuilderString to add content to it.
-  When finished building the string, use @@FinishStringBuilder to retrieve the final result.
+  A new string builder starts with an empty string. Use @@AppendStringBuilderString or @@AppendStringBuilderStringN to add content to it.
+  When finished building the string, use @@GetStringBuilderString to retrieve the final result.
 
 @Example
 @Code
@@ -49,12 +49,12 @@
   AppendStringBuilderString(0, "Hello ")
   AppendStringBuilderString(0, "World!")
     
-  Result$ = FinishStringBuilder(0)
+  Result$ = GetStringBuilderString(0)
   Debug Result$
 @EndCode
 
 @SeeAlso
-  @@AppendStringBuilderString, @@FinishStringBuilder, @@ResetStringBuilder, @@FreeStringBuilder
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
 
 @SupportedOS
 
@@ -87,34 +87,71 @@
     AppendStringBuilderString(0, #CRLF$)
   Next
     
-  Result$ = FinishStringBuilder(0)
+  Result$ = GetStringBuilderString(0)
   Debug Result$
 @EndCode
 
 @SeeAlso
-  @@CreateStringBuilder, @@FinishStringBuilder, @@ResetStringBuilder
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = FinishStringBuilder(#StringBuilder)
+@Function Result = AppendStringBuilderStringN(#StringBuilder, String$)
 
 @Description
-  Finish the string building and return the complete built string.
+  Append a string and a newline character to the end of the current string builder content.
 
 @Parameter "#StringBuilder"
-  The string builder to finalize.
+  The string builder to use.
+
+@Parameter "String$"
+  The string to append.
 
 @ReturnValue
-  Returns the built string. If the string builder is empty or invalid, an empty string is returned.
+  Returns nonzero if the string was successfully appended and zero if there was an error.
 
 @Remarks
-  This function returns the complete string that has been built through multiple calls to @@AppendStringBuilderString.
-  After calling this function, the string builder is automatically reset to an empty state and ready for new content.
+  This function efficiently appends the string and the newline character to the internal buffer, growing the buffer as needed.
+  Multiple calls to this function can be chained together to build complex strings efficiently.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Line " + Str(i))
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@ResetStringBuilder
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetStringBuilderString(#StringBuilder)
+
+@Description
+  Get the current built string.
+
+@Parameter "#StringBuilder"
+  The string builder to use.
+
+@ReturnValue
+  Returns the current built string. If the string builder is empty or invalid, an empty string is returned.
+
+@Remarks
+  This function returns the complete string that has been built through multiple calls to @@AppendStringBuilderString or @@AppendStringBuilderStringN.
+  After calling this function, it's still possible to continue to append strings to the string builder.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
 
 @SupportedOS
 
@@ -136,7 +173,7 @@
   This is useful when you want to reuse a string builder for building a new string.
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@FinishStringBuilder
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderString, @@GetStringBuilderString
 
 @SupportedOS
 
