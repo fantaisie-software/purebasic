@@ -426,7 +426,7 @@
   ; The colors are grouped with () and the color value is extracted in case of a match
   ;  
   If CreateRegularExpression(0, "color=(red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "The color is " + RegularExpressionGroup(0, 1)
       Wend
@@ -546,7 +546,7 @@
   ; This color name is then extracted
   ;  
   If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "The color is " + RegularExpressionNamedGroup(0, "col")
       Wend

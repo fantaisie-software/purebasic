@@ -532,7 +532,7 @@
   ; dans le cas d'une correspondance.
   ;  
   If CreateRegularExpression(0, "color=(red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "La couleur est " + RegularExpressionGroup(0, 1)
       Wend
@@ -684,7 +684,7 @@
   ; couleur est extraite  dans le cas d'une correspondance.
   ;
   If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "La couleur est " + RegularExpressionNamedGroup(0, "col")
       Wend
