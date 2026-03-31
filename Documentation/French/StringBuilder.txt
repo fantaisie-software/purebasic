@@ -23,7 +23,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateStringBuilder(#ConstrChaine [, TailleIncrement])
+@Function Resultat = CreateStringBuilder(#ConstrChaine [, Increment])
 
 @Description
   Crée un nouvel objet constructeur de chaînes.
@@ -34,9 +34,9 @@
   @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro. 
 
-@OptionalParameter "TailleIncrement"
-  Taille, en octets, de l'incrémentation de la mémoire tampon interne en cas de besoin d'espace supplémentaire.@LineBreak 
-  Si cette valeur n'est pas spécifiée, une valeur d'incrément par défaut sera utilisée.
+@OptionalParameter "Increment"
+  Longueur, en caractères, de l'incrémentation de la mémoire tampon interne en cas de besoin d'espace supplémentaire.@LineBreak 
+  Si cette valeur n'est pas spécifiée, une valeur d'incrément par défaut de 8192 caractères sera utilisée.
 
 @ReturnValue
   Renvoie une valeur non nulle si la création de la chaîne a réussi, zéro sinon.@LineBreak 
@@ -44,7 +44,8 @@
 
 @Remarks
   Un nouveau générateur de chaînes de caractères démarre avec une chaîne vide. Utilisez @@AppendStringBuilderString 
-  pour y ajouter du contenu. Une fois la chaîne construite, utilisez @@FinishStringBuilder pour récupérer le résultat final.
+  ou @@AppendStringBuilderStringN pour y ajouter du contenu. Une fois la chaîne construite, utilisez @@GetStringBuilderString
+  pour récupérer le résultat final.
 
 @Example
 @Code
@@ -54,12 +55,12 @@
   AppendStringBuilderString(0, " le ")
   AppendStringBuilderString(0, "Monde !")
     
-  Resultat$ = FinishStringBuilder(0)
+  Resultat$ = GetStringBuilderString(0)
   Debug Resultat$
 @EndCode
 
 @SeeAlso
-  @@AppendStringBuilderString, @@FinishStringBuilder, @@ResetStringBuilder, @@FreeStringBuilder
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
 
 @SupportedOS
 
@@ -80,7 +81,7 @@
   Renvoie une valeur non nulle si la chaîne a été ajoutée avec succès, zéro sinon.
 
 @Remarks
- Cette fonction ajoute efficacement la chaîne de caractères au tampon interne, en agrandissant ce dernier au besoin.@LineBreak
+  Cette fonction ajoute efficacement la chaîne de caractères au tampon interne, en agrandissant ce dernier au besoin.@LineBreak
   Il est possible d'enchaîner plusieurs appels à cette fonction pour construire efficacement des chaînes complexes.
 
 @Example
@@ -92,34 +93,73 @@
     AppendStringBuilderString(0, #CRLF$)
   Next
     
-  Resultat$ = FinishStringBuilder(0)
+  Resultat$ = GetStringBuilderString(0)
   Debug Resultat$
 @EndCode
 
 @SeeAlso
-  @@CreateStringBuilder, @@FinishStringBuilder, @@ResetStringBuilder
+   @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat$ = FinishStringBuilder(#ConstrChaine)
+@Function Resultat = AppendStringBuilderStringN(#ConstrChaine, Chaine$)
 
 @Description
-  Termine la construction de la chaîne et renvoie la chaîne complète.
+  Ajoute une chaîne de caractères avec un caractère retour de ligne à la fin du contenu actuel du générateur de chaînes.
+
+@Parameter "#StringBuilder"
+  Le générateur de chaînes à utiliser.
+
+@Parameter "String$"
+  La chaîne à ajouter.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la chaîne a été ajoutée avec succès, zéro sinon.
+
+@Remarks
+  Cette fonction ajoute efficacement la chaîne de caractères avec retour de ligne au tampon interne, en agrandissant 
+  ce dernier au besoin.@LineBreak
+  Il est possible d'enchaîner plusieurs appels à cette fonction pour construire efficacement des chaînes complexes.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Ligne " + Str(i))
+  Next
+    
+  Resultat$ = GetStringBuilderString(0)
+  Debug Resultat$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetStringBuilderString(#ConstrChaine)
+
+@Description
+  Renvoie la chaîne de caractères construite.
 
 @Parameter "#ConstrChaine"
-  Le constructeur de chaînes à finaliser.
+  Le constructeur de chaînes à utiliser.
 
 @ReturnValue
   Renvoie la chaîne construite. Si le générateur de chaîne est vide ou invalide, une chaîne vide est renvoyée.
 
 @Remarks
-  Cette fonction renvoie la chaîne complète construite par plusieurs appels à @@AppendStringBuilderString.@LineBreak
+  Cette fonction renvoie la chaîne complète construite par plusieurs appels à @@AppendStringBuilderString ou 
+  @@AppendStringBuilderStringN.@LineBreak
   Après l'appel de cette fonction, le générateur de chaînes est automatiquement réinitialisé et prêt à recevoir du nouveau contenu.
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@ResetStringBuilder
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
 
 @SupportedOS
 
@@ -141,7 +181,7 @@
   Cela s'avère utile lorsque vous souhaitez réutiliser un constructeur de chaînes pour créer une nouvelle chaîne.
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@FinishStringBuilder
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderString, @@GetStringBuilderString
 
 @SupportedOS
 
