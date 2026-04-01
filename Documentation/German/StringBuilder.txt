@@ -23,7 +23,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateStringBuilder(#StringBuilder [, InkrementGröße])
+@Function Ergebnis = CreateStringBuilder(#StringBuilder [, InkrementLänge])
 
 @Description
   Erstellt ein neues StringBuilder-Objekt.
@@ -32,9 +32,9 @@
   Die Nummer zur Identifizierung des neuen String-Builders. @ReferenceLink "purebasic_objects" "#PB_Any" kann
   verwendet werden, um diese Nummer automatisch zu generieren.
 
-@OptionalParameter "InkrementGröße"
-  Die Größe (in Bytes), um die der interne Puffer bei Bedarf an mehr Speicherplatz erweitert wird.
-  Falls nicht angegeben, wird eine Standardinkrementgröße verwendet.
+@OptionalParameter "InkrementLänge"
+  Die Länge (in Zeichen), um die der interne Puffer bei Bedarf an mehr Speicherplatz erweitert wird.
+  Falls nicht angegeben, wird eine Standardinkrementlänge von 8192 Zeichen verwendet.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn der String-Builder erfolgreich erstellt wurde, und Null, wenn
@@ -42,8 +42,8 @@
   Erfolgsfall die neu generierte Nummer zurückgegeben.
 
 @Remarks
-  Ein neuer String-Builder beginnt mit einem leeren String. Verwenden Sie @@AppendStringBuilderString, um
-  Inhalt hinzuzufügen. Wenn das Erstellen des Strings abgeschlossen ist, verwenden Sie @@FinishStringBuilder,
+  Ein neuer String-Builder beginnt mit einem leeren String. Verwenden Sie @@AppendStringBuilderString oder @@AppendStringBuilderStringN, um
+  Inhalt hinzuzufügen. Wenn das Erstellen des Strings abgeschlossen ist, verwenden Sie @@GetStringBuilderString,
   um das Endergebnis abzurufen.
 
 @Example
@@ -53,12 +53,12 @@
   AppendStringBuilderString(0, "Hello ")
   AppendStringBuilderString(0, "World!")
     
-  Result$ = FinishStringBuilder(0)
+  Result$ = GetStringBuilderString(0)
   Debug Result$
 @EndCode
 
 @SeeAlso
-  @@AppendStringBuilderString, @@FinishStringBuilder, @@ResetStringBuilder, @@FreeStringBuilder
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
 
 @SupportedOS
 
@@ -92,36 +92,75 @@
     AppendStringBuilderString(0, #CRLF$)
   Next
     
-  Result$ = FinishStringBuilder(0)
+  Result$ = GetStringBuilderString(0)
   Debug Result$
 @EndCode
 
 @SeeAlso
-  @@CreateStringBuilder, @@FinishStringBuilder, @@ResetStringBuilder
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis$ = FinishStringBuilder(#StringBuilder)
+@Function Ergebnis = AppendStringBuilderStringN(#StringBuilder, String$)
 
 @Description
-  Schließt die Erstellung der Zeichenkette (String) ab und gibt die fertig erstellte Zeichenkette zurück.
+  Fügt eine Zeichenkette (String) und ein Zeilenumbruchzeichen am Ende des aktuellen StringBuilder-Inhalts hinzu.
 
 @Parameter "#StringBuilder"
-  Der abzuschließende String-Builder.
+  Der zu verwendende String-Builder.
+
+@Parameter "String$"
+  Die anzuhängende Zeichenkette.
 
 @ReturnValue
-  Gibt die erstellte Zeichenkette zurück. Wenn der String-Builder leer oder ungültig ist, wird eine leere
-  Zeichenkette zurückgegeben.
+  Gibt einen Wert ungleich Null zurück, wenn die Zeichenkette erfolgreich angehängt wurde, und Null,
+  wenn ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion fügt die Zeichenkette und das Zeilenumbruchzeichen effizient an den internen Puffer an und vergrößert diesen bei Bedarf.
+  Mehrere Aufrufe dieser Funktion können verkettet werden, um komplexe Zeichenketten effizient zu erstellen.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Line " + Str(i))
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+
+@Function Result$ = GetStringBuilderString(#StringBuilder)
+
+@Description
+  Ruft die aktuell erstellte Zeichenkette (String) ab.
+
+@Parameter "#StringBuilder"
+  Der zu verwendende String-Builder.
+
+@ReturnValue
+  Gibt die aktuell erstellte Zeichenkette zurück. Wenn der String-Builder leer oder ungültig ist,
+  wird eine leere Zeichenkette zurückgegeben.
 
 @Remarks
   Diese Funktion gibt die vollständige Zeichenkette zurück, die durch mehrere Aufrufe von @@AppendStringBuilderString
-  erstellt wurde. Nach dem Aufruf dieser Funktion wird der String-Builder automatisch in einen leeren Zustand
-  zurückgesetzt und ist bereit für neue Inhalte.
+  oder @@AppendStringBuilderStringN erstellt wurde. Nach dem Aufruf dieser Funktion können weiterhin Zeichenketten
+  an den String-Builder angehängt werden.
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@ResetStringBuilder
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
 
 @SupportedOS
 
@@ -145,7 +184,7 @@
   wiederverwenden möchten.
 
 @SeeAlso
-  @@CreateStringBuilder, @@AppendStringBuilderString, @@FinishStringBuilder
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString
 
 @SupportedOS
 

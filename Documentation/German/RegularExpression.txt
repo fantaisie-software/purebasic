@@ -467,7 +467,7 @@
   ; wird im Falle einer Übereinstimmung extrahiert.
   ;  
   If CreateRegularExpression(0, "color=(red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "The color is " + RegularExpressionGroup(0, 1)
       Wend
@@ -598,7 +598,7 @@
   ; "col" zugewiesen bekommen hat. Dieser Farbname wird dann extrahiert.
   ;  
   If CreateRegularExpression(0, "color=(?<col>red|green|blue)")
-    If ExamineRegularExpression(0, "stype=bold, color=blue, margin=50")
+    If ExamineRegularExpression(0, "style=bold, color=blue, margin=50")
       While NextRegularExpressionMatch(0)
         Debug "The color is " + RegularExpressionNamedGroup(0, "col")
       Wend

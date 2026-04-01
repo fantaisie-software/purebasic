@@ -1,36 +1,36 @@
 ﻿@Title Erstellen einer PureLibrary
 
-@Section EinfÃ¼hrung
+@Section Einführung
 
-  PureBasic ermÃ¶glicht die einfache Erstellung benutzerdefinierter Bibliotheken, um den Kernbefehlssatz von PureBasic
+  PureBasic ermöglicht die einfache Erstellung benutzerdefinierter Bibliotheken, um den Kernbefehlssatz von PureBasic
   um weitere Befehle zu erweitern.
   Die generierte Bibliothek befindet sich im Ordner PureBasic/PureLibraries/UserLibraries/. Stellen Sie daher sicher,
-  dass Sie Ã¼ber die entsprechenden Zugriffsrechte verfÃ¼gen, wenn Sie versuchen, eine zu generieren.
+  dass Sie über die entsprechenden Zugriffsrechte verfügen, wenn Sie versuchen, eine zu generieren.
   @LineBreak
   @LineBreak
-  Derzeit ist die Erstellung einer PureLibrary nur Ã¼ber die Befehlszeile mÃ¶glich, indem der C-Backend-Compiler mit der
-  Option '--purelibrary' verwendet wird. Es ist auch mÃ¶glich, das groÃŸartige Tool zur Bibliothekserstellung innerhalb
+  Derzeit ist die Erstellung einer PureLibrary nur über die Befehlszeile möglich, indem der C-Backend-Compiler mit der
+  Option '--purelibrary' verwendet wird. Es ist auch möglich, das großartige Tool zur Bibliothekserstellung innerhalb
   der IDE von 'Pf Shadoko' zu verwenden, das @InternetLink "https://www.purebasic.fr/english/viewtopic.php?t=85882" "hier"
   zu finden ist und auch einige weitere Funktionen bietet.
   @LineBreak
   @LineBreak
-  Da eine PureLibrary dem Standard-Befehlssatz neue Befehle hinzufÃ¼gt, muss der neue Befehlsname sich von den internen
+  Da eine PureLibrary dem Standard-Befehlssatz neue Befehle hinzufügt, muss der neue Befehlsname sich von den internen
   Befehlen unterscheiden. Eine PureLibrary sollte immer mit dem PureBasic-Compiler kompiliert werden, mit dem sie
-  verwendet wird. Wenn eine PureLibrary nicht mit dem zugehÃ¶rigen Quellcode geliefert wird, wird sie in einer zukÃ¼nftigen
+  verwendet wird. Wenn eine PureLibrary nicht mit dem zugehörigen Quellcode geliefert wird, wird sie in einer zukünftigen
   Version von PureBasic sehr wahrscheinlich nicht mehr funktionieren und sollte daher vermieden werden.
   @LineBreak
   @LineBreak
-  Eine PureLibrary kann auch mit C/C++ oder ASM erstellt werden. Schauen Sie hierfÃ¼r bitte im Ordner PureLibrary/SDK/ nach.
+  Eine PureLibrary kann auch mit C/C++ oder ASM erstellt werden. Schauen Sie hierfür bitte im Ordner PureLibrary/SDK/ nach.
   @LineBreak
 
 @Section Exportieren von Funktionen
   
-  AuÃŸerhalb von Prozeduren sollte kein Code geschrieben werden, mit Ausnahme der Objektdeklaration.
+  Außerhalb von Prozeduren sollte kein Code geschrieben werden, mit Ausnahme der Objektdeklaration.
   @LineBreak
   @LineBreak
   Um beim Erstellen einer PureLibrary eine Funktion zu exportieren, muss diese als @Keyword ProcedureDLL deklariert werden.
-  Wenn optionale Parameter benÃ¶tigt werden, kann eine andere Funktion mit demselben Namen, aber einer erhÃ¶hten Nummer verwendet werden.
-  AuÃŸerdem kann ein 'QuickHelp'-Kommentar hinzugefÃ¼gt werden, um die Schnellhilfe bei Verwendung des Befehls in der IDE anzuzeigen.
+  Wenn optionale Parameter benötigt werden, kann eine andere Funktion mit demselben Namen, aber einer erhöhten Nummer verwendet werden.
+  Außerdem kann ein 'QuickHelp'-Kommentar hinzugefügt werden, um die Schnellhilfe bei Verwendung des Befehls in der IDE anzuzeigen.
   @LineBreak
 @LineBreak
 @Bold "Beispiel:" @LineBreak
@@ -86,5 +86,5 @@
 
 @Section Entfernen einer PureLibrary
 
-  Zum Entfernen einer benutzerdefinierten PureLibrary lÃ¶schen Sie einfach die entsprechende Datei im Ordner
+  Zum Entfernen einer benutzerdefinierten PureLibrary löschen Sie einfach die entsprechende Datei im Ordner
   PureBasic/PureLibraries/UserLibraries/.
