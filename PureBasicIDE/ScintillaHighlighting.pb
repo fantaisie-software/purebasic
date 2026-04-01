@@ -13,9 +13,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   #SCI_CSHIFT = (#SCI_CTRL | #SCI_SHIFT)
   #SCI_ASHIFT = (#SCI_ALT | #SCI_SHIFT)
   
-  #SCN_SETFOCUS  = 2028
-  #SCN_KILLFOCUS = 2029
-  
   ; remaining from a time when the Scintilla.res was incomplete
   Structure SCI_CharacterRange Extends SCCharacterRange
   EndStructure
@@ -2747,30 +2744,20 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   ; This is used by the Template/ MacroError windows
-  ; CompilerIf #CompileWindows | #CompileMac
   ProcedureDLL EmptyScintillaCallback(EditorGadget, *scinotify.SCNotification)
-    ; CompilerElse
-    ;   ProcedureCDLL EmptyScintillaCallback(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
-    ; CompilerEndIf
     ;
     ; Empty scintillacallback. Needed because the scintilla lib on windows can not do
     ; without one!
     ;
   EndProcedure
   
-  ; CompilerIf #CompileWindows | #CompileMac  ; this function must be stdcall on windows and cdecl on linux
   ProcedureDLL ScintillaCallBack(EditorGadget, *scinotify.SCNotification)
-    ; CompilerElse
-    ;   ProcedureCDLL ScintillaCallBack(EditorWindow.l, EditorGadget.l, *scinotify.SCNotification, lParam.l)
-    ; CompilerEndIf
-    
-    
     ; some functions here use ScintillaSendMessage instead of SendEditorMessage, because also not the
     ; active source may receive some events!
     
     Select *scinotify\nmhdr\code
         
-      Case #SCN_SETFOCUS
+      Case #SCN_FOCUSIN
         ; Restore the 4 keyboard shortcuts previously removed on #SCN_KILLFOCUS event. It is used in this ScintillaGadget
         For item = 0 To #MENU_LastShortcutItem
           Select KeyboardShortcuts(item)
@@ -2779,7 +2766,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndSelect
         Next
         
-      Case #SCN_KILLFOCUS
+      Case #SCN_FOCUSOUT
         ; Remove the 4 main keyboard shortcuts to restore the standard behavior for StringGadget text
         RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
         RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
@@ -2797,8 +2784,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
       Case #SCN_SAVEPOINTREACHED
         UpdateSourceStatus(-1)
-        
-        
+                
         ; Note: This check is done in a separate event callback for linux,
         ;   as we have no way of knowing the modifier keys here in the
         ;   scintilla callback
