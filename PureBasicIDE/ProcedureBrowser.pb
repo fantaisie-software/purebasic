@@ -1212,7 +1212,7 @@ Procedure ProcedureBrowser_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
           If EventGadgetType = #PB_EventType_Change
             ProcedureBrowser_Filter(GetGadgetText(#GADGET_ProcedureBrowser_FilterInput))
           EndIf
-
+        
         Case #GADGET_ProcedureBrowser_HideModuleNames
           ProcedureBrowserHideModuleName = GetGadgetState(EventGadgetID)
           UpdateProcedureList()
