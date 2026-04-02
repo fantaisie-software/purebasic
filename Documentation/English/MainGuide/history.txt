@@ -2,32 +2,32 @@
 
 @Section xth April 2026 : Version 6.40
 
-- @Green "Added": Fully reworked in the internal string manage for much faster operation ! @LineBreak
+- @Green "Added": Fully reworked the internal string manager for much faster operations ! @LineBreak
 - @Green "Added": Brand new StringBuilder library for lightning fast string concatenation ! @LineBreak
 @LineBreak
-- @Blue "Fixed": A few compiler and libraries bugs @LineBreak
+- @Blue "Fixed": A few compiler and library bugs @LineBreak
 
 @Section 12th January 2026 : Version 6.30
 
 - @Green "Added": Brand new ScreenGadget library to create easily UI on a game screen (for 2D and 3D) ! @LineBreak
 - @Green "Added": Brand new HID library ! @LineBreak
-- @Green "Added": #PB_FTP_Debug flag for OpenFTP() to allow to get more info about the connection. @LineBreak
+- @Green "Added": #PB_FTP_Debug flag for OpenFTP() to allow getting more info about the connection. @LineBreak
 - @Green "Added": #PB_ListIcon_NoHeaders flag to ListIconGadget() @LineBreak
 - @Green "Added": #PB_Explorer_NoHeaders flag to ExplorerListGadget() @LineBreak
 - @Green "Added": Unicode() to create a dynamic unicode string like Ascii() and UTF8() @LineBreak
 - @Green "Added": HeaderSection/EndHeaderSection to put C or ASM code outside the main() function @LineBreak
-- @Green "Added": #PB_InputRequester_HandleCancel to have a special return for InputRequester() if the user cancelled it @LineBreak
+- @Green "Added": #PB_InputRequester_HandleCancel to have a special return value for InputRequester() if the user canceled it @LineBreak
 - @Green "Added": Gzip encoding support for HttpRequest(), HttpRequestMemory(), ReceiveHTTPFile() and ReceiveHTTPMemory() @LineBreak
-- @Green "Added": #PB_Menu_NativeImageSize tot CreateImageMenu() and CreatePopupImageMenu() to allow larger icons in menus (Windows) @LineBreak
+- @Green "Added": #PB_Menu_NativeImageSize to CreateImageMenu() and CreatePopupImageMenu() to allow larger icons in menus (Windows) @LineBreak
 - @Green "Added": #PB_2DDrawing_FastText for DrawingMode() to have a faster text rendering (Windows). @LineBreak
 - @Green "Added": #PB_Mail_NoSSLCheck and #PB_Mail_WeakSSL flags for SendMail() to ease tests. @LineBreak
 - @Green "Added": Automatic BOM handling to CreateFile() and ReadFile()/OpenFile() with #PB_File_BOM flag @LineBreak
 - @Green "Added": Changed x,y type for DisplaySprite/DisplayTransparentSprite() from integer to float (Not supported on DX9 or DX11 subsystem) @LineBreak
 - @Green "Added": Placeholder support for StringGadget() with #PB_String_PlaceHolder flag @LineBreak
 - @Green "Added": PackerCallback() to monitor and abort compression. @LineBreak
-- @Green "Added": 'onresize' event for Dialog library for gadgets which supports #PB_EventType_Resize @LineBreak
+- @Green "Added": 'onresize' event for Dialog library for gadgets which support #PB_EventType_Resize @LineBreak
 @LineBreak
-- @Blue "Updated": Splitted the 2DDrawing lib for functions which doesn't needed dependencies (https://www.purebasic.fr/english/viewtopic.php?t=87034) @LineBreak
+- @Blue "Updated": Split the 2DDrawing lib for functions that don't need dependencies (https://www.purebasic.fr/english/viewtopic.php?t=87034) @LineBreak
 @LineBreak
 - @Orange "Changed": CreateImage() background color now takes full RGBA() color for 32-bit picture. #PB_Image_Transparent and #PB_Image_TransparentBlack can be used to set a transparent background with white or black antialising. @LineBreak
 
@@ -37,16 +37,16 @@
 - @Green "Added": #PB_Sprite_Transparent support to CreateSprite() @LineBreak
 - @Green "Added": #PB_Image_BlackAlphaBackground and #PB_Image_WhiteAlphaBackground for SaveImage() @LineBreak
 - @Green "Added": LoadImage() now supports 32-bit BMP files when alpha channel is found @LineBreak
-- @Green "Added": OSVersion() now support  Windows Server 2016, Windows Server 2019, Windows Server 2022 and Windows Server 2025 @LineBreak
+- @Green "Added": OSVersion() now supports Windows Server 2016, Windows Server 2019, Windows Server 2022 and Windows Server 2025 @LineBreak
 @LineBreak
 - @Red "Removed": #PB_Menu_ModernLook and #PB_Menu_SysTrayLook support on Windows. @LineBreak
 @LineBreak
-- @Blue "Fixed": A few compiler and libraries bugs @LineBreak @LineBreak
+- @Blue "Fixed": A few compiler and library bugs @LineBreak @LineBreak
 - @Blue "Fixed": Two IDE issues, thanks to kenmo ! @LineBreak
 
 @Section 12th February 2025 : Version 6.20
 
-- @Green "Updated": OGRE to lastest 14.3 version (big thanks for the help Pf Shadoko) ! @LineBreak
+- @Green "Updated": OGRE to latest 14.3 version (big thanks for the help Pf Shadoko) ! @LineBreak
 - @Green "Added": Windows 11 native arm64 support ! @LineBreak
 - @Green "Added": TLS support for Network library (Thanks Idle for the tips) ! @LineBreak
 - @Green "Added": PureLibrary creation in PureBasic ! @LineBreak
@@ -57,7 +57,7 @@
 - @Green "Added": Windows 10+ mode to link directly to UCRT.dll to have smaller executables and up-to-date CRT @LineBreak
 - @Green "Added": IsPack() @LineBreak
 - @Green "Added": Get/SetWorldAttribute() to control shadows, water and sky @LineBreak
-- @Green "Added": PureBasic-CLI.cmd to easily open a commandline environment (Windows) @LineBreak
+- @Green "Added": PureBasic-CLI.cmd to easily open a command-line environment (Windows) @LineBreak
 @LineBreak
 - @Green "Optimized": BuildMeshLOD() now uses a much better algorithm for automatic LOD creation @LineBreak
 @LineBreak
@@ -68,29 +68,29 @@
 - @Red "Removed": Sun() has been removed, replaced with CreateLight() @LineBreak
 - @Red "Removed": WaterHeight(), SwitchCamera(), LoadWorld() @LineBreak
 @LineBreak
-- @Blue "Fixed": A few compiler and libraries bugs @LineBreak
+- @Blue "Fixed": A few compiler and library bugs @LineBreak
 
 @Section 13th September 2024 : Version 6.12 LTS
 
 - @Green "Added": SFTP support to the FTP lib ! @LineBreak
-- @Green "Added": #PB_OS_MacOSX_13, #PB_OS_MacOSX_14 and #PB_OS_MacOSX_15 for OSVersion() @LineBreak
-- @Green "Added": #PB_Frame_Container support for FrameGadget() @LineBreak
+- @Green "Added": #PB_OS_MacOSX_13, #PB_OS_MacOSX_14 and #PB_OS_MacOSX_15 to OSVersion() @LineBreak
+- @Green "Added": #PB_Frame_Container support to FrameGadget() @LineBreak
 - @Green "Added": '--console' commandline switch to linux and osx compiler (for consistency) @LineBreak
-- @Green "Added": NavigationCallback support for GTK WebGadget() (all OS now support it) @LineBreak
+- @Green "Added": NavigationCallback support to GTK WebGadget() (all OS now support it) @LineBreak
 - @Green "Added": New linker for DLL creation to have smaller binary size (Windows) @LineBreak
 - @Green "Added": 32-bit float WAV support for LoadSound() and CatchSound() @LineBreak
 - @Green "Added": New Linux package for Ubuntu 24.04 @LineBreak
 @LineBreak
-- @Blue "Fixed": Some libraries bugs mainly on Linux @LineBreak
+- @Blue "Fixed": Some library bugs (mainly on Linux) @LineBreak
 
 @Section 5th June 2024 : Version 6.11 LTS
 
 - @Green "Added": 24-bit and 32-bit WAV support @LineBreak
-- @Green "Added": runtime debugger support for whole Packer library @LineBreak
+- @Green "Added": runtime debugger support for the Packer library @LineBreak
 @LineBreak
 - @Green "Updated": replaced polink with lld-link on Windows to generate smaller executables
 @LineBreak
-- @Blue "Fixed": A few libraries bugs @LineBreak
+- @Blue "Fixed": A few library bugs @LineBreak
 
 @Section 27th March 2024 : Version 6.10 LTS
 
