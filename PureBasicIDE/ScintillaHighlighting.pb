@@ -2761,18 +2761,30 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         ; Restore the 4 keyboard shortcuts previously removed on #SCN_KILLFOCUS event. It is used in this ScintillaGadget
         For item = 0 To #MENU_LastShortcutItem
           Select KeyboardShortcuts(item)
-            Case #PB_Shortcut_Control | #PB_Shortcut_C, #PB_Shortcut_Control | #PB_Shortcut_X, #PB_Shortcut_Control | #PB_Shortcut_V, #PB_Shortcut_Control | #PB_Shortcut_A
-              AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+            CompilerIf #CompileLinux | #CompileWindows
+              Case #PB_Shortcut_Control | #PB_Shortcut_C, #PB_Shortcut_Control | #PB_Shortcut_X, #PB_Shortcut_Control | #PB_Shortcut_V, #PB_Shortcut_Control | #PB_Shortcut_A
+                AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+            CompilerElse ; MacOS
+              Case #PB_Shortcut_Command | #PB_Shortcut_C, #PB_Shortcut_Command | #PB_Shortcut_X, #PB_Shortcut_Command | #PB_Shortcut_V, #PB_Shortcut_Command | #PB_Shortcut_A
+                AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+            CompilerEndIf
           EndSelect
         Next
         
       Case #SCN_FOCUSOUT
         ; Remove the 4 main keyboard shortcuts to restore the standard behavior for StringGadget text
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_V)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_A)
-      
+        CompilerIf #CompileLinux | #CompileWindows
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_C)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_X)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_V)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Control | #PB_Shortcut_A)
+        CompilerElse ; MacOS
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_C)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_X)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_V)
+          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_A)
+        CompilerEndIf
+        
       Case #SCN_MODIFYATTEMPTRO
         ChangeStatus(Language("Debugger","EditError"), -1)
         CompilerIf #CompileWindows
@@ -2784,7 +2796,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
       Case #SCN_SAVEPOINTREACHED
         UpdateSourceStatus(-1)
-                
+        
         ; Note: This check is done in a separate event callback for linux,
         ;   as we have no way of knowing the modifier keys here in the
         ;   scintilla callback
