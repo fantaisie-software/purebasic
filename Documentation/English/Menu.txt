@@ -1,7 +1,7 @@
 ﻿;
 ;     Menu library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Menu
@@ -500,6 +500,44 @@
 @ReturnValue
   Returns the menu item text.
 
+@Example
+@Code
+  Enumeration ; Menu items
+    #New
+    #Open
+    #Last
+  EndEnumeration
+  
+  ; Set multiple menu items and get their text later...
+  If OpenWindow(0, 200, 200, 300, 100, "GetMenuItemText Example")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("File")
+      MenuItem(#New, "New")
+      MenuItem(#Open, "Open")
+      For i = #Last To 10
+        MenuItem(i, "Item" + Str(i))
+      Next
+    EndIf
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Menu
+          em = EventMenu()
+          Select em
+            Case #New
+              Debug "pressed: " + GetMenuItemText(0, #New)
+            Case #Open
+              Debug "pressed: " + GetMenuItemText(0, #Open)
+            Case #Last To 10
+              Debug "pressed: " + GetMenuItemText(0, em)
+          EndSelect
+        Case #PB_Event_CloseWindow
+          Break
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@SetMenuItemText, @@MenuItem
 
@@ -541,6 +579,38 @@
   a value of 0 shows it.
 
 @NoReturnValue
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 300, 100, "HideMenu Example")
+    ButtonGadget(0, 70, 10, 150, 30, "Hide/Show menu")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("Project")
+      MenuItem(1, "New")
+      MenuItem(2, "Open")
+    EndIf
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case 0
+              ; Set the toggle status (on/off) of the menu:
+              Toggle = Bool(Not Toggle)
+              HideMenu(0, Toggle)
+              ; Adjusts the y-position of the button according to the presence of the menu:
+              If Toggle
+                ResizeGadget(0, #PB_Ignore, 10 + MenuHeight(), #PB_Ignore, #PB_Ignore)
+              Else
+                ResizeGadget(0, #PB_Ignore, 10, #PB_Ignore, #PB_Ignore)
+              EndIf
+          EndSelect
+        Case #PB_Event_CloseWindow
+          Break
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@CreateMenu, @@CreateImageMenu
@@ -614,6 +684,9 @@
 @Bold "Linux & macOS": This command will always returns 0, as the menu bar isn't part of the window (it is always located
 on the main bar at the very top of the screen). Therefore, MenuHeight() can be used seamlessly on every OS to adjust the
 window size depending on the actual menu height.
+
+@Example
+  An example for the use of MenuHeight() can be found at @@HideMenu.
 
 @SupportedOS
 
