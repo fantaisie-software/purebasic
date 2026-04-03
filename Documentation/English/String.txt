@@ -1,7 +1,7 @@
 ﻿;
 ;     String library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library String
@@ -202,6 +202,7 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hello"+Chr(34)+".") ; Will display "Test=\"Hello\"."
   Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Will display "&lt;item&gt;Hello&lt;/item&gt;"
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; Will display "Str1\r\nStr2\t3"
 @EndCode
 
 @SeeAlso
@@ -1033,6 +1034,13 @@
 @Code
   Debug UnescapeString(~"Test=\"Hello\".") ; Will display "Test="Hello"."
   Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Will display "<item>Hello</item>"
+  
+  ; An example using the linebreak character:
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; There are no escaped characters here, so you will see no difference:
+  Debug ~"Test=\"Hello\"."
+  Debug UnescapeString(~"Test=\"Hello\".")
 @EndCode
 
 @SeeAlso
@@ -1310,7 +1318,7 @@
   Format a number into money-like format.
 
 @Parameter "Number"
-  The number to format
+  The number to format.
 
 @OptionalParameter "NbDecimals"
   Number of decimals to display.
@@ -1324,12 +1332,18 @@
 @ReturnValue
   The formatted number.
 
+@Remarks
+  This command can also be used to output a rounded decimal number.
+
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Will display: 125,400.25
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; will display 1125.84 (round the number to the specified fractional digits)
+  Debug FormatNumber(125.23, 1) ; will display: 125.2 (round the number to one fractional digit)
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS

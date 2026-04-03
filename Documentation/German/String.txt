@@ -208,6 +208,7 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hallo"+Chr(34)+".") ; wird "Test=\"Hallo\"." anzeigen
   Debug EscapeString("<item>Hallo</item>", #PB_String_EscapeXML) ; wird "&lt;item&gt;Hallo&lt;/item&gt;" anzeigen
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; wird "Str1\r\nStr2\t3" anzeigen
 @EndCode
 
 @SeeAlso 
@@ -1075,6 +1076,13 @@
 @Code
   Debug UnescapeString(~"Test=\"Hallo\".") ; wird "Test="Hallo"." anzeigen
   Debug UnescapeString("&lt;item&gt;Hallo&lt;/item&gt;", #PB_String_EscapeXML) ; wird "<item>Hallo</item>" anzeigen
+  
+  ; Ein Beispiel mit Zeilenumbruch-Zeichen:
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; Hier gibt es keine Escape-Zeichen, daher ist in der Ausgabe kein Unterschied zu sehen:
+  Debug ~"Test=\"Hello\"."
+  Debug UnescapeString(~"Test=\"Hello\".")
 @EndCode
 
 @SeeAlso 
@@ -1376,13 +1384,19 @@
 @ReturnValue
   Die formatierte Zahl.
 
+@Remarks
+  Dieser Befehl kann auch verwendet werden, um eine gerundete Dezimalzahl auszugeben.
+
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Wird anzeigen: 125,400.25 (englischer Standard)
   Debug FormatNumber(1125400.25, 2, ",", ".")  ; Wird anzeigen: 1.125.400,25  (deutsches Format)
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; gibt 1125.84 aus (rundet die Zahl auf die angegebene Anzahl Nachkommastellen)
+  Debug FormatNumber(125.23, 1) ; gibt 125.2 aus (rundet die Zahl auf eine Nachkommastelle)
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS
