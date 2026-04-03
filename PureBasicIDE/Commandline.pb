@@ -415,21 +415,22 @@ Procedure ParseCommandline()
           DontCreateExtensions = 1
           
         Case "/LOCAL"
+          ; Keep PreferencesFile$, TemplatesFile$,... if already defined using -p “PreferenceFile”, -t “TemplatesFile”,... before /PORTABLE switch
           Directory$ = GetPathPart(ProgramFilename())
-          PreferencesFile$ = Directory$ + #PreferenceFileName$
-          TemplatesFile$   = Directory$ + "Templates.prefs"
-          AddToolsFile$    = Directory$ + "Tools.prefs"
-          HistoryDatabaseFile$ = Directory$ + "History.db"
+          If PreferencesFile$     = "" : PreferencesFile$ = Directory$ + #PreferenceFileName$ : EndIf
+          If TemplatesFile$       = "" : TemplatesFile$   = Directory$ + "Templates.prefs"    : EndIf
+          If AddToolsFile$        = "" : AddToolsFile$    = Directory$ + "Tools.prefs"        : EndIf
+          If HistoryDatabaseFile$ = "" : HistoryDatabaseFile$ = Directory$ + "History.db"     : EndIf
           UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"
           
         Case "/PORTABLE"
           DontCreateExtensions = 1  ; implies /NOEXT as well
-          
+          ; Keep PreferencesFile$, TemplatesFile$,... if already defined using -p “PreferenceFile”, -t “TemplatesFile”,... before /PORTABLE switch
           Directory$ = GetPathPart(ProgramFilename())
-          PreferencesFile$ = Directory$ + #PreferenceFileName$
-          TemplatesFile$   = Directory$ + "Templates.prefs"
-          AddToolsFile$    = Directory$ + "Tools.prefs"
-          HistoryDatabaseFile$ = Directory$ + "History.db"
+          If PreferencesFile$     = "" : PreferencesFile$ = Directory$ + #PreferenceFileName$ : EndIf
+          If TemplatesFile$       = "" : TemplatesFile$   = Directory$ + "Templates.prefs"    : EndIf
+          If AddToolsFile$        = "" : AddToolsFile$    = Directory$ + "Tools.prefs"        : EndIf
+          If HistoryDatabaseFile$ = "" : HistoryDatabaseFile$ = Directory$ + "History.db"     : EndIf
           UpdateCheckFile$ = Directory$+ "UpdateCheck.xml"
           
         CompilerEndIf
