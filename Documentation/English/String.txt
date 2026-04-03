@@ -229,7 +229,7 @@
 @OptionalParameter "Mode"
   It can be one of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive: case sensitive search (a=a) (default).
+  @#PB_String_CaseSensitive: case sensitive search (A≠a) (default).
   @#PB_String_NoCase       : case insensitive search (A=a).
 @EndFixedFont
 
@@ -527,7 +527,7 @@
 @OptionalParameter "Mode"
   It can be one of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive: case sensitive remove (a=a) (default)
+  @#PB_String_CaseSensitive: case sensitive remove (A≠a) (default)
   @#PB_String_NoCase       : case insensitive remove (A=a)
 @EndFixedFont
 
@@ -544,8 +544,9 @@
 
 @Example
 @Code
-  Debug RemoveString("This is Art", "is") ; Will display "Th  Art"
-  Debug RemoveString("This is Art", "is", #PB_String_CaseSensitive, 1, 1) ; Will display "Th is Art"
+  Debug RemoveString("This Is Art", "is") ; will display "Th Is Art"
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase) ; will display "Th  Art"
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase, 1, 1) ; will display "Th Is Art"
 @EndCode
 
 @SeeAlso
@@ -573,7 +574,7 @@
 @OptionalParameter "Mode"
   It can be a combination of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive : Case sensitive search (a=a) (default)
+  @#PB_String_CaseSensitive : Case sensitive search (A≠a) (default)
   @#PB_String_NoCase : Case insensitive search (A=a)
   @#PB_String_InPlace: In-place replacing. This means that the string is replaced directly in the memory.
                       The 'StringToFind$' and 'ReplacementString$' parameter must have the same length. This is

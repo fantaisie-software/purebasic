@@ -1,7 +1,7 @@
 ﻿;
 ;     Drag & Drop library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library DragDrop
@@ -282,6 +282,57 @@
 @LineBreak
   If the operation was not aborted, the @Link "window/waitwindowevent" "event loop" will receive a @#PB_Event_WindowDrop or
   @#PB_Event_GadgetDrop event of type @#PB_Drop_Private. 
+
+@Example
+@Code
+  Enumeration ; Gadgets
+    #List1
+    #List2
+  EndEnumeration
+  
+  If OpenWindow(0, 0, 0, 415, 410, "Drag from List1 to List2", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(#List1, 5, 5, 200, 400, "List1" , 140)
+    ListIconGadget(#List2, 210, 5, 200, 400, "List2" , 140)
+    
+    For i = 0 To 9
+      AddGadgetItem(#List1, -1, "Item " + Str(i))
+      AddGadgetItem(#List2, -1, "Item " + Str(i + 10))
+    Next
+    
+    ; Allows dragging an element from #List1 to #List2
+    EnableGadgetDrop(#List2, #PB_Drop_Private, #PB_Drag_Copy, 1)
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_GadgetDrop ; the drag event
+          Select EventGadget()
+            Case #List2
+              Select EventDropType()
+                Case #PB_Drop_Private
+                  tmp = GetGadgetState(#List2)
+                  AddGadgetItem(#List2, tmp, tmp$)
+                  tmp = GetGadgetState(#List1)
+                  RemoveGadgetItem(#List1, tmp)
+              EndSelect
+          EndSelect
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case #List1
+              Select EventType()
+                Case #PB_EventType_DragStart
+                  tmp = GetGadgetState(#List1)
+                  If tmp <> -1
+                    tmp$ = GetGadgetItemText(#List1, tmp)
+                    DragPrivate(1) ; set drag type = 1 until successful drop action (into #List2)
+                  EndIf
+              EndSelect
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@DragText, @@DragImage, @@DragFiles, @@DragOSFormats,

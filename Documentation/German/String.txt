@@ -235,7 +235,7 @@
 @OptionalParameter "Modus"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive: Suche unter Beachtung der Groß-/Kleinschreibung ("case sensitive", (a=a)) (Standard).
+  @#PB_String_CaseSensitive: Suche unter Beachtung der Groß-/Kleinschreibung ("case sensitive", (A≠a)) (Standard).
   @#PB_String_NoCase       : Suche ohne Beachtung der Groß-/Kleinschreibung (A=a).
 @EndFixedFont
 
@@ -543,7 +543,7 @@
 @OptionalParameter "Modus"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Suchen/Entfernen berücksichtigt Groß-/Kleinschreibung (a=a). (Standard)
+  @#PB_String_CaseSensitive : Suchen/Entfernen berücksichtigt Groß-/Kleinschreibung (A≠a). (Standard)
   @#PB_String_NoCase        : Suchen/Entfernen unabhängig von Groß-/Kleinschreibung (A=a).
 @EndFixedFont
 
@@ -560,8 +560,9 @@
 
 @Example
 @Code
-  Debug RemoveString("This is Art", "is") ; wird "Th  Art" anzeigen
-  Debug RemoveString("This is Art", "is", #PB_String_CaseSensitive, 1, 1) ; wird "Th is Art" anzeigen
+  Debug RemoveString("This Is Art", "is") ; wird "Th Is Art" anzeigen
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase) ; wird "Th  Art" anzeigen
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase, 1, 1) ; wird "Th Is Art" anzeigen
 @EndCode
 
 @SeeAlso
@@ -589,7 +590,7 @@
 @OptionalParameter "Modus"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Suchen/Ersetzen berücksichtigt Groß-/Kleinschreibung (a=a). (Standard)
+  @#PB_String_CaseSensitive : Suchen/Ersetzen berücksichtigt Groß-/Kleinschreibung (A≠a). (Standard)
   @#PB_String_NoCase        : Suchen/Ersetzen unabhängig von Groß-/Kleinschreibung (A=a).
   @#PB_String_InPlace       : "In place" (an Ort und Stelle) ersetzen. Dies bedeutet, dass der String direkt
                              im Speicher ersetzt wird. Der 'SuchString$' und der 'ErsatzString$' müssen die
