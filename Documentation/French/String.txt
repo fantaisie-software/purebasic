@@ -673,8 +673,9 @@
  
 @Example
 @Code
-  Debug RemoveString("deviser de l'Art", "de")          ; Affichera "viser  l'Art"
-  Debug RemoveString("deviser de l'Art", "de", 0, 1, 1) ; Affichera "viser de l'Art"
+  Debug RemoveString("Deviser de l'Art", "de")          ; Affichera "Deviser  l'Art"
+  Debug RemoveString("Deviser de l'Art", "de", #PB_String_NoCase) ; Affichera "viser  l'Art"
+  Debug RemoveString("Deviser de l'Art", "de", #PB_String_NoCase, 1, 1) ; Affichera "viser de l'Art"
 @EndCode
  
 @SeeAlso

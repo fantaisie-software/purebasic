@@ -208,6 +208,58 @@
   EndIf
 @EndCode
 
+@Example
+@Code
+  Enumeration ; Gadgets
+    #Liste1
+    #Liste2
+  EndEnumeration
+  
+  If OpenWindow(0, 0, 0, 415, 410, "Drag depuis Liste 1 vers Liste 2", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(#Liste1, 5, 5, 200, 400, "Liste 1" , 140)
+    ListIconGadget(#Liste2, 210, 5, 200, 400, "Liste 2" , 140)
+    
+    For i = 0 To 9
+      AddGadgetItem(#Liste1, -1, "Item " + Str(i))
+      AddGadgetItem(#Liste2, -1, "Item " + Str(i + 10))
+    Next
+    
+    ; Permet de faire glisser un élément depuis #Liste1 vers #Liste2
+    EnableGadgetDrop(#Liste2, #PB_Drop_Private, #PB_Drag_Copy, 1)
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_GadgetDrop ; L'événement drag
+          Select EventGadget()
+            Case #Liste2
+              Select EventDropType()
+                Case #PB_Drop_Private
+                  tmp = GetGadgetState(#Liste2)
+                  AddGadgetItem(#Liste2, tmp, tmp$)
+                  tmp = GetGadgetState(#Liste1)
+                  RemoveGadgetItem(#Liste1, tmp)
+              EndSelect
+          EndSelect
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case #Liste1
+              Select EventType()
+                Case #PB_EventType_DragStart
+                  tmp = GetGadgetState(#Liste1)
+                  If tmp <> -1
+                    tmp$ = GetGadgetItemText(#Liste1, tmp)
+                    DragPrivate(1) ; Définir le type de glisser-déposer sur 1 jusqu'à ce que l'action de dépôt réussisse (dans #Liste2).
+                  EndIf
+              EndSelect
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
+
 @SeeAlso
   @@DragFiles, @@DragText, @@DragPrivate, @@DragOSFormats,
   @@SetDragCallback
