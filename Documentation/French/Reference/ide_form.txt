@@ -28,13 +28,13 @@
 @LineBreak
 @LineBreak
 
-@Bold "Duplicer l'objet"
+@Bold "Dupliquer l'objet"
 @LineBreak
   Duplique l'objet sélectionné.
 @LineBreak
 @LineBreak
 
-@Bold "Manager d'image"
+@Bold "Gestionnaire d'image"
 @LineBreak
   @Image ide_form_imagemanager.png
 @LineBreak
@@ -49,7 +49,45 @@
   Ce panneau liste tous les gadgets disponibles. Sélectionnez-en un, et de dessinez-le 
   directement sur le formulaire. Lorsqu'un gadget est sélectionné sur le formulaire, 
   ses propriétés sont afficher sur le panneau et peuvent être modifiées.
-  
+
+@Section Options avancées de génération de code
+
+@Bold "Identifiant (ID) explicites via une variable (Nom=Nombre)"
+@LineBreak
+  Pour imposer des ID numériques stables pour une fenêtre ou un gadget, saisissez :
+  Nom=Nombre (par exemple : ID13310=13310 ou Dlg=133) dans la propriété "Variable".
+  Le concepteur de formulaires générera une affectation explicite dans l’énumération :
+@LineBreak
+@Code
+  Enumeration FormGadget
+    #ID13310 = 13310
+  EndEnumeration
+@EndCode 
+@LineBreak
+  Remarque : Si le signe '=' n’est pas utilisé, le comportement reste inchangé (rétrocompatibilité).
+@LineBreak
+@LineBreak
+
+@Bold "Fenêtre parente personnalisée (=expression)"
+@LineBreak
+  La valeur "Parent" de la fenêtre peut être une expression brute en la faisant précéder du signe '='.
+  Dans ce cas, cela transmettra directement l'expression (sans passer par @@WindowID).
+@LineBreak
+@LineBreak
+
+@Bold "Indicateurs personnalisés"
+@LineBreak
+  Cette propriété contient des indicateurs personnalisés supplémentaires séparés par un '|'.
+  Ces indicateurs (flags) sont ajoutés aux indicateurs générés par @@OpenWindow.
+  Les indicateurs personnalisés n'affectent pas le rendu visuel dans le concepteur de formulaires.
+@LineBreak
+@LineBreak
+
+@Bold "FrameGadget comme conteneur (#PB_Frame_Container)"
+@LineBreak
+  Le FrameGadget prend en charge l'indicateur @#PB_Frame_Container. Si cet indicateur est défini, le FrameGadget est traité comme un conteneur
+  et peut servir de parent à d'autres gadgets.  
+
 @Section Utilisation du concepteur de formulaire dans un projet
 
   Le concepteur du formulaire a été créé pour permettre la création et la maintenance aisée de 
