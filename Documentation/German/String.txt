@@ -593,13 +593,6 @@
 @FixedFont
   @#PB_String_CaseSensitive : Suchen/Ersetzen berücksichtigt Groß-/Kleinschreibung (A≠a). (Standard)
   @#PB_String_NoCase        : Suchen/Ersetzen unabhängig von Groß-/Kleinschreibung (A=a).
-  @#PB_String_InPlace       : "In place" (an Ort und Stelle) ersetzen. Dies bedeutet, dass der String direkt
-                             im Speicher ersetzt wird. Der 'SuchString$' und der 'ErsatzString$' müssen die
-                             gleiche Länge haben! Dies ist eine gefährliche Option, nur für fortgeschrittene
-                             Anwender. Der Vorteil ist die sehr hohe Geschwindigkeit beim Ersetzen. Wenn diese
-                             Option verwendet wird, muss das Ergebnis von ReplaceString() ignoriert werden. Nur
-                             der als Parameter übergebene 'String$' wird verändert und stellt das Ergebnis dar.
-                             @ReferenceLink "variables" "Fixed (feste) Strings" werden in diesem Modus nicht unterstützt.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -611,8 +604,11 @@
   Wird dieser weggelassen, werden alle Strings ersetzt.
 
 @ReturnValue
-  Ein neuer String mit den ersetzten Strings (siehe den @#PB_String_InPlace Modus für ein
-  abweichendes Verhalten).
+  Ein neuer String mit den ersetzten Strings.
+
+@Remarks
+  Bis PB6.30 gab es einen @#PB_String_InPlace 'Modus' für das Ersetzen "an Ort und Stelle", welcher nicht mehr unterstützt
+  wird. Für weitere Informationen siehe das Kapitel @ReferenceLink "migration_630_640" "Migration von PureBasic 6.30 nach 6.40".
 
 @Example
 @Code
@@ -621,10 +617,6 @@
   test$ = "Hello again, hello again"
   Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; wird "Hello again, oh no... again" anzeigen
   Debug Result$
-  
-  test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; alle B werden in Z geändert (direkt im Speicher, es gibt hier keinen gültigen Rückgabewert)
-  Debug test$   ; Ausgabe des geänderten Strings, wird "Zundy, Zarbie, Zuddy" ausgeben
 @EndCode
 
 @SeeAlso
