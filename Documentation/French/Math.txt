@@ -1048,13 +1048,14 @@
 
 @ReturnValue  
   Le nombre arrondi.@LineBreak
-  C'est un nombre à virgule flottante 
-  (@ReferenceLink "variables" "float ou double") 
+  C'est un nombre à virgule flottante (@ReferenceLink "variables" "float ou double") 
 
 @Remarks
-  Pour transformer un nombre à virgule flottante 
-  en un entier sans arrondi, utiliser @@Int ou 
-  @@IntQ.
+  Pour transformer un nombre à virgule flottante en un entier sans arrondi, utiliser @@Int ou @@IntQ.
+  @LineBreak
+  @LineBreak
+  Pour afficher un nombre décimal arrondi, vous pouvez utiliser @@FormatNumber.@LineBreak
+  Ex : Debug FormatNumber(1/3); Affiche 0.33 (Attention, c'est une chaîne de caractères.)
   
 @Example
 @Code
@@ -1071,7 +1072,7 @@
 @EndCode
 
 @SeeAlso
-  @@Int, @@IntQ
+  @@Int, @@IntQ, @@FormatNumber
   
 @SupportedOS
 

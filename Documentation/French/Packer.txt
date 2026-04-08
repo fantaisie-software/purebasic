@@ -69,6 +69,7 @@
       If ExaminePack(0)
          Debug "Fichier compressé créé avec succès : " + PackFile$
         While NextPackEntry(0)
+          Debug " - date: " + FormatDate("%dd/%mm/%yyyy %hh:%ii:%ss", PackEntryDate(0))
           Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
             Debug "Erreur : échec de décompression du fichier compressé : " + PackEntryName(0)
