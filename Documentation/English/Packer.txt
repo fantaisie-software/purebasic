@@ -1,7 +1,7 @@
 ﻿;
 ;     Packer library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Packer
@@ -61,7 +61,8 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
       If ExaminePack(0)
         Debug "Extracting archive into: " + Path$
         While NextPackEntry(0)
-          Debug " - name: " + PackEntryName(0) + ", size: " + PackEntrySize(0)
+         Debug " - date: " + FormatDate("%mm/%dd/%yyyy %hh:%ii:%ss", PackEntryDate(0))
+         Debug " - name: " + PackEntryName(0) + ", size: " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
             Debug "Error: unsuccessful unpacking of file: " + PackEntryName(0)
           EndIf
@@ -262,17 +263,20 @@ data and manage archives. Several packer formats are supported from Zip to Lzma.
 @Parameter "#Pack"
   The pack to use.
   
-@Parameter "DateType"
+@OptionalParameter "DateType"
   The type of the date to return. It can be one of the following values:
 @FixedFont
   @#PB_Date_Created : returns the file creation date.
   @#PB_Date_Accessed: returns the last file access date.
-  @#PB_Date_Modified: returns the last file modification date.
+  @#PB_Date_Modified: returns the last file modification date (Standard).
 @EndFixedFont
 
 @ReturnValue
   Returns the file date or -1 if no date is available.
 
+@Example
+  For an example see the @@AddPackFile command.
+  
 @SeeAlso
   @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryType
     

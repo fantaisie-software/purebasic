@@ -208,6 +208,7 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hallo"+Chr(34)+".") ; wird "Test=\"Hallo\"." anzeigen
   Debug EscapeString("<item>Hallo</item>", #PB_String_EscapeXML) ; wird "&lt;item&gt;Hallo&lt;/item&gt;" anzeigen
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; wird "Str1\r\nStr2\t3" anzeigen
 @EndCode
 
 @SeeAlso 
@@ -592,13 +593,6 @@
 @FixedFont
   @#PB_String_CaseSensitive : Suchen/Ersetzen berücksichtigt Groß-/Kleinschreibung (A≠a). (Standard)
   @#PB_String_NoCase        : Suchen/Ersetzen unabhängig von Groß-/Kleinschreibung (A=a).
-  @#PB_String_InPlace       : "In place" (an Ort und Stelle) ersetzen. Dies bedeutet, dass der String direkt
-                             im Speicher ersetzt wird. Der 'SuchString$' und der 'ErsatzString$' müssen die
-                             gleiche Länge haben! Dies ist eine gefährliche Option, nur für fortgeschrittene
-                             Anwender. Der Vorteil ist die sehr hohe Geschwindigkeit beim Ersetzen. Wenn diese
-                             Option verwendet wird, muss das Ergebnis von ReplaceString() ignoriert werden. Nur
-                             der als Parameter übergebene 'String$' wird verändert und stellt das Ergebnis dar.
-                             @ReferenceLink "variables" "Fixed (feste) Strings" werden in diesem Modus nicht unterstützt.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -610,8 +604,11 @@
   Wird dieser weggelassen, werden alle Strings ersetzt.
 
 @ReturnValue
-  Ein neuer String mit den ersetzten Strings (siehe den @#PB_String_InPlace Modus für ein
-  abweichendes Verhalten).
+  Ein neuer String mit den ersetzten Strings.
+
+@Remarks
+  Bis PB6.30 gab es einen @#PB_String_InPlace 'Modus' für das Ersetzen "an Ort und Stelle", welcher nicht mehr unterstützt
+  wird. Für weitere Informationen siehe das Kapitel @ReferenceLink "migration_630_640" "Migration von PureBasic 6.30 nach 6.40".
 
 @Example
 @Code
@@ -620,10 +617,6 @@
   test$ = "Hello again, hello again"
   Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; wird "Hello again, oh no... again" anzeigen
   Debug Result$
-  
-  test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; alle B werden in Z geändert (direkt im Speicher, es gibt hier keinen gültigen Rückgabewert)
-  Debug test$   ; Ausgabe des geänderten Strings, wird "Zundy, Zarbie, Zuddy" ausgeben
 @EndCode
 
 @SeeAlso
@@ -1075,6 +1068,13 @@
 @Code
   Debug UnescapeString(~"Test=\"Hallo\".") ; wird "Test="Hallo"." anzeigen
   Debug UnescapeString("&lt;item&gt;Hallo&lt;/item&gt;", #PB_String_EscapeXML) ; wird "<item>Hallo</item>" anzeigen
+  
+  ; Ein Beispiel mit Zeilenumbruch-Zeichen:
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; Hier gibt es keine Escape-Zeichen, daher ist in der Ausgabe kein Unterschied zu sehen:
+  Debug ~"Test=\"Hello\"."
+  Debug UnescapeString(~"Test=\"Hello\".")
 @EndCode
 
 @SeeAlso 
@@ -1376,13 +1376,19 @@
 @ReturnValue
   Die formatierte Zahl.
 
+@Remarks
+  Dieser Befehl kann auch verwendet werden, um eine gerundete Dezimalzahl auszugeben.
+
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Wird anzeigen: 125,400.25 (englischer Standard)
   Debug FormatNumber(1125400.25, 2, ",", ".")  ; Wird anzeigen: 1.125.400,25  (deutsches Format)
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; gibt 1125.84 aus (rundet die Zahl auf die angegebene Anzahl Nachkommastellen)
+  Debug FormatNumber(125.23, 1) ; gibt 125.2 aus (rundet die Zahl auf eine Nachkommastelle)
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS

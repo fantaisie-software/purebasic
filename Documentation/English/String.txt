@@ -1,7 +1,7 @@
 ﻿;
 ;     String library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library String
@@ -202,6 +202,7 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hello"+Chr(34)+".") ; Will display "Test=\"Hello\"."
   Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Will display "&lt;item&gt;Hello&lt;/item&gt;"
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; Will display "Str1\r\nStr2\t3"
 @EndCode
 
 @SeeAlso
@@ -576,12 +577,6 @@
 @FixedFont
   @#PB_String_CaseSensitive : Case sensitive search (A≠a) (default)
   @#PB_String_NoCase : Case insensitive search (A=a)
-  @#PB_String_InPlace: In-place replacing. This means that the string is replaced directly in the memory.
-                      The 'StringToFind$' and 'ReplacementString$' parameter must have the same length. This is
-                      a dangerous option, for advanced users only. The advantage is the very high speed of the
-                      replacement. When using this option, the result of ReplaceString() has to be ignored.
-                      Only the string passed in parameter 'String$' is changed and it's the result.
-                      @ReferenceLink "variables" "Fixed strings" are not supported using this mode.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -593,8 +588,12 @@
   are replaced.
 
 @ReturnValue
-  A new string with the replaced strings (see the @#PB_String_InPlace mode for a different behavior).
+  A new string with the replaced strings.
 
+@Remarks
+  Up to PB6.30 there was a @#PB_String_InPlace 'Mode' for in-place replacing, which isn't supported anymore.
+  For more informations see the @ReferenceLink "migration_630_640" "Migration from PureBasic 6.30 to 6.40" guide.
+  
 @Example
 @Code
   Debug ReplaceString("This is Art", " is", " was") ; Will display "This was Art"
@@ -602,10 +601,6 @@
   test$ = "Hello again, hello again"
   Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; Will display "Hello again, oh no... again"
   Debug Result$
-
-  test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
-  Debug test$   ; Output of the changed string and will display "Zundy, Zarbie, Zuddy"
 @EndCode
 
 @SeeAlso
@@ -1033,6 +1028,13 @@
 @Code
   Debug UnescapeString(~"Test=\"Hello\".") ; Will display "Test="Hello"."
   Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Will display "<item>Hello</item>"
+  
+  ; An example using the linebreak character:
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; There are no escaped characters here, so you will see no difference:
+  Debug ~"Test=\"Hello\"."
+  Debug UnescapeString(~"Test=\"Hello\".")
 @EndCode
 
 @SeeAlso
@@ -1310,7 +1312,7 @@
   Format a number into money-like format.
 
 @Parameter "Number"
-  The number to format
+  The number to format.
 
 @OptionalParameter "NbDecimals"
   Number of decimals to display.
@@ -1324,12 +1326,18 @@
 @ReturnValue
   The formatted number.
 
+@Remarks
+  This command can also be used to output a rounded decimal number.
+
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Will display: 125,400.25
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; will display 1125.84 (round the number to the specified fractional digits)
+  Debug FormatNumber(125.23, 1) ; will display: 125.2 (round the number to one fractional digit)
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS

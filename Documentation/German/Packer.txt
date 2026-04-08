@@ -1,7 +1,7 @@
 ﻿;
 ;     Packer library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Packer
@@ -64,6 +64,7 @@
       If ExaminePack(0)
         Debug "Entpacken des Archivs nach: " + Path$
         While NextPackEntry(0)
+          Debug " - Datum: " + FormatDate("%mm/%dd/%yyyy %hh:%ii:%ss", PackEntryDate(0))
           Debug " - Name: " + PackEntryName(0) + ", Größe: " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
             Debug "Fehler beim Entpacken der Datei: " + PackEntryName(0)
@@ -274,17 +275,20 @@
 @Parameter "#Pack"
   Das zu verwendende Paket.
   
-@Parameter "DatumsTyp"
+@OptionalParameter "DatumsTyp"
   Der Typ des zurückzugebenden Datums. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Date_Created : gibt das Erstellungsdatum der Datei zurück.
   @#PB_Date_Accessed: gibt das Datum des letzten Dateizugriffs zurück.
-  @#PB_Date_Modified: gibt das Datum der letzten Dateiänderung zurück.
+  @#PB_Date_Modified: gibt das Datum der letzten Dateiänderung zurück (Standard).
 @EndFixedFont
 
 @ReturnValue
   Gibt das Dateidatum oder -1 zurück, wenn kein Datum verfügbar ist.
 
+@Example
+  Für ein Beispiel siehe beim @@AddPackFile Befehl.
+  
 @SeeAlso
   @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntrySize, @@PackEntryName, @@PackEntryType
     
