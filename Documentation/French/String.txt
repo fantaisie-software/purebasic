@@ -250,6 +250,8 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hello"+Chr(34)+".") ; Affiche "Test=\"Hello\"."
   Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Affiche "&lt;item&gt;Hello&lt;/item&gt;"
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; Affiche "Str1\r\nStr2\t3"
+
 @EndCode
 
 @SeeAlso 
@@ -695,8 +697,7 @@
 @Function Resultat$ = ReplaceString(Chaine$, ChaineCherchee$, ChaineRemplacee$ [, Mode [, PositionDepart [, NbOccurences]]])  
 
 @Description
-  Remplace une sous-chaîne par une 
-  autre. 
+  Remplace une sous-chaîne par une autre. 
 
 @Parameter "Chaine$"
   La chaîne de caractères à utiliser.
@@ -708,35 +709,27 @@
   La chaîne de caractères de remplacement.
   
 @OptionalParameter "Mode"
-  Peut être une combinaison des valeurs 
-  suivantes:
+  Peut être une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_String_CaseSensitive : La suppression est sensible à la casse (A<>a). Par défaut.
   @#PB_String_NoCase : Recherche les occurrences sans tenir compte de la casse (A=a). 
-  @#PB_String_InPlace: Remplacement direct dans la Chaîne de caractères initiale 'Chaîne$'. Dans ce cas,
-                      'ChaineRemplacee$' doit absolument avoir la même taille que 'ChaineCherchee$'.
-                      C'est une fonctionnalité pour programmeurs expérimentés qui ont besoin d'une fonction
-                      extrêmement rapide pour ce cas particulier. Quand cette option est utilisée, le résultat 
-                      renvoyé par ReplaceString() doit être ignoré (car c'est la chaîne de caractères passée en 
-                      paramètre qui est modifiée).
 @EndFixedFont
   
 @OptionalParameter "PositionDepart"
-  Permet de spécifier à partir de quel 
-  caractère le remplacement doit être 
-  effectué. 
+  Permet de spécifier à partir de quel caractère le remplacement doit être effectué. 
 @LineBreak
 @LineBreak
   Sa valeur minimale est 1.
 
 @OptionalParameter "NbOccurences"
-  Le remplacement s'arrêtera une fois 
-  'NbOccurences' atteint.
+  Le remplacement s'arrêtera une fois 'NbOccurences' atteint.
   
 @ReturnValue
-  Renvoie un chaîne dont toutes les  
-  occurrences 'ChaineCherchee$' ont 
-  été substituées par 'ChaineRemplacee$'.
+  Renvoie un chaîne dont toutes les occurrences 'ChaineCherchee$' ont été substituées par 'ChaineRemplacee$'.
+
+@Remarks
+  Jusqu'à la version 6.30 de PureBasic, il existait un mode @#PB_String_InPlace pour le remplacement sur place, qui n'est plus pris en charge.
+  Pour plus d'informations, consultez le guide @ReferenceLink "migration_630_640" "Migration de PureBasic 6.30 vers 6.40".
  
 @Example
 @Code
@@ -745,10 +738,6 @@
   test$ = "Salut les gens, Salut les gens"
   Resultat$ = ReplaceString(test$, "SALUT", "ho non...", #PB_String_NoCase, 10) ; Affichera "Salut les gens, ho non... les gens"
   Debug Resultat$
-  
-  test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; Tous les B seront remplacés par des Z  (Dans ce mode la chaîne de caractères passée en paramètre est modifiée)
-  Debug test$   ; Affichera "Zundy, Zarbie, Zuddy".
 @EndCode
   
 @SeeAlso
@@ -1324,8 +1313,7 @@ caractères.
 @Function Resultat$ = UnescapeString(Chaine$ [, Mode])
 
 @Description
-  Transforme une chaîne  avec des séquences 
-  d'échappement en chaîne standard. 
+  Transforme une chaîne  avec des séquences d'échappement en chaîne standard. 
  
 @Parameter "Chaine$"
   La chaîne à transformer.
@@ -1341,21 +1329,26 @@ caractères.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la version non échappée 
-  de la chaîne.
+  Renvoie la version non échappée de la chaîne.
 
 @Remarks
-  La fonction @@EscapeString peut être 
-  utilisée pour faire l'opération inverse.
+  La fonction @@EscapeString peut être utilisée pour faire l'opération inverse.
   @LineBreak
   @LineBreak
-  Attention: Sous Windows, \t ne fonctionne pas avec les fonctions graphiques 
-  des bibliothèques 2DDrawing et VectorDrawing.
+  Attention: Sous Windows, \t ne fonctionne pas avec les fonctions graphiques des bibliothèques 2DDrawing et VectorDrawing.
  
 @Example
 @Code
   Debug UnescapeString(~"Test=\"Hello\".") ; Affichera "Test="Hello"."
   Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Affichera "<item>Hello</item>"
+  
+   
+  ; Exemple utilisant le caractère de saut de ligne :
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; Il n'y a pas de caractères échappés ici, vous ne verrez donc aucune différence :
+  Debug ~"Test = \"Hello\"."
+  Debug UnescapeString(~"Test = \"Hello\".")
 @EndCode
 
 @SeeAlso 
@@ -1720,14 +1713,23 @@ caractères.
 
 @ReturnValue
   Le nombre formaté au format chaîne de caractères.
-
+  
+@Remarks
+  Cette commande peut également être utilisée pour afficher un nombre décimal arrondi.
+  
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Affiche 125,400.25
   Debug FormatNumber(1125400.25, 2, ",", " ") ; Affiche 1 125 400,25  Formatage Fr
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; Affiche 1125.84 (arrondi le nombre à la décimale voulue.)
+  Debug FormatNumber(125.24, 1) ; Affiche 125.2 (arrondi le nombre à une décimale)
+  Debug FormatNumber(125.25, 1) ; Affiche 125.2
+  Debug FormatNumber(125.26, 1) ; Affiche 125.3
+@
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS
