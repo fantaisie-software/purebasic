@@ -2757,24 +2757,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     Select *scinotify\nmhdr\code
         
-      Case #SCN_FOCUSIN
-        ; Restore the 4 keyboard shortcuts previously removed on #SCN_KILLFOCUS event. They are used in this ScintillaGadget
-        ; #PB_Shortcut_Command will act like #PB_Shortcut_Control on non-macOS 
-        For item = 0 To #MENU_LastShortcutItem
-          Select KeyboardShortcuts(item)
-            Case #PB_Shortcut_Command | #PB_Shortcut_C, #PB_Shortcut_Command | #PB_Shortcut_X, #PB_Shortcut_Command | #PB_Shortcut_V, #PB_Shortcut_Command | #PB_Shortcut_A
-              AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
-          EndSelect
-        Next
-        
-      Case #SCN_FOCUSOUT
-        ; Remove the 4 main keyboard shortcuts to restore the standard behavior for StringGadget text
-        ; #PB_Shortcut_Command will act like #PB_Shortcut_Control on non-macOS 
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_C)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_X)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_V)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_A)
-        
       Case #SCN_MODIFYATTEMPTRO
         ChangeStatus(Language("Debugger","EditError"), -1)
         CompilerIf #CompileWindows
