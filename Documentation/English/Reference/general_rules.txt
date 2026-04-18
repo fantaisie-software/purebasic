@@ -9,6 +9,7 @@ PureBasic has established rules which never change. These are:
 <blockquote>
   Comments are marked by the semicolon character <b><font color="#006666">';'</font></b>.
   All text entered after the semicolon, and up to the end of the line, is ignored by the compiler.
+  Comments should not be inserted into multi-line code.
 </blockquote>
 @FormatEndIf
 
@@ -16,6 +17,13 @@ PureBasic has established rules which never change. These are:
   
 @Code
   If a = 10 ; This is a comment to indicate something.
+  
+  StringList$() = "First String " +       ; Comment here
+                  "with a second Line "   ; Comment here, too
+				  
+  StringList$() = "Third String " +       ; Comment here ok
+  ;Comment not ok because the compiler will raise an error
+                  "with a second Line "   ; Comment here, ok too
 @EndCode
 
 @FormatIf HTML
@@ -194,6 +202,8 @@ PureBasic has established rules which never change. These are:
 
   Long expressions can be split across several lines.
   A split line has to end with one of the following operators: plus (+), comma (,), or (|), And, Or, Xor.
+@LineBreak
+  Comments should not be inserted into multi-line code.
 
   @Example
 
@@ -205,6 +215,13 @@ PureBasic has established rules which never change. These are:
   MessageRequester("Hello this is a very long title",
                    "And a very long message, so we can use the multiline" + #LF$ + Text$,
                    #PB_MessageRequester_Ok)
+				   
+  StringList$() = "First String " +       ; Comment here
+                  "with a second Line "   ; Comment here, too
+				  
+  StringList$() = "Third String " +       ; Comment here ok
+  ;Comment not ok because the compiler will raise an error
+                  "with a second Line "   ; Comment here, ok too
 @EndCode  
 
 @FormatIf HTML

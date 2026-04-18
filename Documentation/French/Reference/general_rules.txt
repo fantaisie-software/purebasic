@@ -28,7 +28,7 @@
   <p>&nbsp;</p>
 @FormatEndIf
 
-  PureBasic a défini des règles qui ne changent jamais,à savoir:  
+  PureBasic a défini des règles qui ne changent jamais, à savoir:  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -42,7 +42,10 @@
   Les commentaires sont signalés par <b><font color="#006666">';'</font></b> . 
   Tout le texte situé après le caractère <b><font color="#006666">';'</font></b> 
   est ignoré par le compilateur jusqu'à la fin de la ligne.
-  </blockquote>
+</blockquote>
+<blockquote>
+  Les commentaires ne doivent pas s'intercaler dans un code multiligne.
+</blockquote>  
 @FormatEndIf
 
 @Indent
@@ -50,8 +53,16 @@
     
 @Code
   If a = 10 ; Ceci est un commentaire pour indiquer quelque chose.
+  
+  ;Code multiligne
+  Liste$() = "Première ligne " +         ; Commentaire ok
+             "avec une seconde ligne "   ; Commentaire ok ici aussi
+				  
+  Liste$() = "Troisième ligne " +       ; Commentaire ok
+  ;Ce commentaire n'est pas approprié ici car le compilateur générera une erreur.
+             "avec une quatrième ligne "   ; Commentaire ok ici aussi
 @EndCode 
-@Endindent 
+@Endindent  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -293,6 +304,8 @@
   avec l'un des opérateurs suivants: 
   plus (+), virgule (,), ou (|), And, 
   Or, Xor.
+  @LineBreak
+  Remarque: Les commentaires ne doivent pas s'intercaler dans un code multiligne. 
 @Indent
  
 @Example
@@ -304,6 +317,13 @@
   MessageRequester("Bonjour c'est un titre très long.",
                    "Et un très long message, afin que nous puissions utiliser le multiligne" + #LF$ + Texte$,
                    #PB_MessageRequester_Ok)
+  
+  Liste$() = "Première ligne " +         ; Commentaire ok
+             "avec une seconde ligne "   ; Commentaire ok ici aussi
+				  
+  Liste$() = "Troisième ligne " +       ; Commentaire ok
+  ;Ce commentaire n'est pas approprié ici car le compilateur générera une erreur.
+             "avec une quatrième ligne "   ; Commentaire ok ici aussi
 @EndCode 
 @Endindent 
 
