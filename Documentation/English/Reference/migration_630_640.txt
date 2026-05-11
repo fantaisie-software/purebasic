@@ -44,17 +44,44 @@ string buffer directly needs to be done with care to avoid buffer overflow.
 @LineBreak
 @Section Win32 API call
 
-An usual case when calling Win32 API returning a string buffer was using Space() for this buffer. Now, as the string length is cached in the new string manager,
-the returned string needs to be catched with PeekS(). It would be also better to avoid using Space() at all, as it's a kind of hack. The best is to search for Space()
-in all your code and see if it's used for API call.
+When calling Win32 API that returned strings, it was common practice to use the @@Space function to pre-allocate a memory buffer, as a hack.
+This allowed the API to write directly into this string's memory. But it does not update the internal length cache of the new string manager.
+@LineBreak
+To ensure your string length is accurate after an API call, use one of the following methods: @LineBreak
+- Fixed String: Use a fixed-length string (e.g., Define MyString.s{260}), which does not rely on the new string manager with its cached length. @LineBreak
+- Manual Update: If using a standard string, manually refresh its length by using PeekS() after the API call (e.g., MyString = PeekS(@MyString) @LineBreak
+@LineBreak
+For migration, the best is to search for @@Space in all your code and see if it's used for API call, to apply one of the methods.
 
 @Code
   ; Old
-  CurrentDirectory$ = Space(2000)
-  GetCurrentDirectory_(2000, @CurrentDirectory$)
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; always returns 260, not the actual length of the path
   
-  ; New
-  CurrentDirectory$ = Space(2000)
-  GetCurrentDirectory_(2000, @CurrentDirectory$)
-  CurrentDirectory$ = PeekS(@CurrentDirectory$) ; Ensures the string length is properly updated
+  ; New with a fixed string
+  CurrentDirectory${260}
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; will output the real length of the path
+
+  ; New with a standard string
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$)    ; Ensures the string length is properly updated
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; will output the real length of the path
+@EndCode
+
+Beside the two ways mentioned above you can also use @@AllocateMemory for your memory buffers instead of "misusing" a string.
+The following example shows a future proof (and past proof) way to interact with the API using a memory buffer:
+@Code
+  *Buffer = AllocateMemory(#MAX_PATH * SizeOf(Character))
+  If *Buffer
+    Length = GetModuleFileName_(GetModuleHandle_(#Null$), *Buffer, #MAX_PATH-1)  
+    PureBasicPath$ = PeekS(*Buffer, Length)
+    Debug PureBasicPath$
+    FreeMemory(*Buffer)
+  EndIf
 @EndCode
