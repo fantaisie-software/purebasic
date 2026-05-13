@@ -67,8 +67,8 @@
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Erstellt ein Popup-Menü, das im SysTray im SysTray-Look angezeigt wird
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; Erstellt ein Popup-Menü, das im SysTray angezeigt wird
+  CreatePopupImageMenu(0)
     MenuItem(0, "About PureBasic...")
     MenuBar()
     MenuItem(1, "Exit")
@@ -124,7 +124,7 @@
   AddSysTrayIcon(0, WindowID(0), ImageID(0))
   
   ; Erstellt ein Pop-up Menü, welches später mit dem SysTray Icon verwendet wird:
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  CreatePopupImageMenu(0)
     MenuItem(0, "Exit")
     
   ; Verknüpft das Menü mit dem SysTray
@@ -186,8 +186,7 @@
 @Function SysTrayIconMenu(#SysTrayIcon, MenuID)
 
 @Description
-  Ordnet das angegebene Popup-Menü dem SysTray-Icon zu. Das Menü sollte mit @@CreatePopupImageMenu
-  unter Verwendung des Flags @#PB_Menu_SysTrayLook erstellt werden. Dies ist die beste Möglichkeit,
+  Ordnet das angegebene Popup-Menü dem SysTray-Icon zu. Dies ist die beste Möglichkeit,
   ein Popup-Menü mit einem SysTray-Icon zu verknüpfen, da das Popup-Menü auf allen Betriebssystemen
   an der richtigen Position angezeigt wird, wenn der Benutzer auf das Icon klickt.
 
@@ -208,8 +207,8 @@
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Erstellt ein Pop-up Menü, welches im SysTray mit SysTray-Look angezeigt werden soll
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; Erstellt ein Pop-up Menü, welches im SysTray angezeigt werden soll
+  CreatePopupMenu(0)
     MenuItem(0, "About PureBasic...")
     MenuBar()
     MenuItem(1, "Exit")

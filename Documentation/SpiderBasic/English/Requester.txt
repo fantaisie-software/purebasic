@@ -195,11 +195,48 @@ all performed through standard windows called 'requesters'.
     OpenFileRequester("", @RequesterSuccess(), #PB_Requester_MultiSelection)
   EndProcedure
     
-  If OpenWindow(0, 100, 100, 200, 55, "File")
-    ButtonGadget(0, 10, 10, 170, 25, "Open local file...")
-    BindGadgetEvent(0, @ButtonEvent())
-  EndIf
+  OpenWindow(0, 100, 100, 200, 55, "File")
+  ButtonGadget(0, 10, 10, 170, 25, "Open local file...")
+  BindGadgetEvent(0, @ButtonEvent())
 @EndCode
+
+@Example Selecting an image and display it
+@Code
+  Procedure Loaded(Type, Filename$, ObjectId)
+
+    ; Display the image in a new window
+    OpenWindow(#PB_Any, 10, 10, 300, 300, "Image", #PB_Window_SizeGadget)
+      ImageGadget(#PB_Any, 0, 0, ImageWidth(ObjectId), ImageHeight(ObjectId), ImageID(ObjectId))
+    
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+    
+  Procedure RequesterSuccess()
+      ; If we selected an image, try to open it
+    ;
+    If NextSelectedFile()
+      Debug "Filename: " + SelectedFileID()
+        
+      ; Register the loading event before calling any resource load command
+      BindEvent(#PB_Event_Loading, @Loaded())
+      BindEvent(#PB_Event_LoadingError, @LoadingError())
+  
+      LoadImage(0, SelectedFileID(), #PB_LocalFile)
+    EndIf
+  EndProcedure
+  
+  Procedure ButtonEvent()
+    OpenFileRequester("", @RequesterSuccess())
+  EndProcedure
+  
+  OpenWindow(0, 100, 100, 200, 55, "File")
+  ButtonGadget(0, 10, 10, 170, 25, "Open local file...")
+  BindGadgetEvent(0, @ButtonEvent()) 
+@EndCode
+
 @LineBreak
 @Image openfilerequester.png
 

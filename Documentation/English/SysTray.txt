@@ -58,8 +58,8 @@
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Create a pop-up menu to be displayed by the systray with a systray look
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; Create a pop-up menu to be displayed by the systray
+  CreatePopupMenu(0)
     MenuItem(0, "About PureBasic...")
     MenuBar()
     MenuItem(1, "Exit")
@@ -71,6 +71,9 @@
     Select WaitWindowEvent()
       Case #PB_Event_Menu
         Select EventMenu()
+          Case 0 ; About
+            MessageRequester("About", "Systray example !")
+            End
           Case 1 ; Exit 
             RemoveSysTrayIcon(0)
             End
@@ -115,7 +118,7 @@
   AddSysTrayIcon(0, WindowID(0), ImageID(0))
   
   ; Create a pop-up menu to be used with the Systray icon later:
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  CreatePopupMenu(0)
     MenuItem(0, "Exit")
     
   SysTrayIconMenu(0, MenuID(0))
@@ -175,8 +178,7 @@
 @Function SysTrayIconMenu(#SysTrayIcon, MenuID)
 
 @Description
-  Associates the specified popup menu with the SysTray icon. The menu should be created with @@CreatePopupImageMenu using
-  the @#PB_Menu_SysTrayLook flag. It's the best way to associate a popup menu with a SysTray icon as it will display the
+  Associates the specified popup menu with the SysTray icon. It's the best way to associate a popup menu with a SysTray icon as it will display the
   popup menu at the correct position on all OS when the user click on the icon.
 
 @Parameter "#SysTrayIcon"
@@ -195,8 +197,8 @@
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Create a pop-up menu to be displayed by the systray with a systray look
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; Create a pop-up menu to be displayed by the systray
+  CreatePopupMenu(0)
     MenuItem(0, "About PureBasic...")
     MenuBar()
     MenuItem(1, "Exit")
@@ -217,7 +219,7 @@
 @EndCode
 
 @SeeAlso
-  @@CreatePopupImageMenu
+  @@CreatePopupMenu
   
 @SupportedOS
 
