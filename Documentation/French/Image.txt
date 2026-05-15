@@ -623,8 +623,7 @@
 @Function Resultat = GrabImage(#Image1, #Image2, X, Y, Largeur, Hauteur)
 
 @Description
-  Crée une nouvelle image avec la zone 
-  sélectionnée de l'#Image1. 
+  Crée une nouvelle image avec la zone sélectionnée de l'#Image1. 
 
 @Parameter "#Image1"
   L'image source.
@@ -633,22 +632,19 @@
   Le numéro de la nouvelle image. 
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 @LineBreak
 @LineBreak
-  Note: Si l'#Image2 existait déjà, l'ancienne 
-  image est automatiquement supprimée.
+  Note : Un numéro d’image existant créé avec @#PB_Any ne peut pas être réutilisé comme image cible.@LineBreak 
+  Il est nécessaire de libérer l’image existante (si elle n’est plus requise) et de générer un nouveau numéro 
+  en passant @#PB_Any ici.
 
 @Parameter "X, Y, Largeur, Hauteur"
   La position et la taille de la zone à copier.
   
 @ReturnValue
-  Renvoie une valeur non nulle si l'image a été 
-  créée avec succès et zéro sinon. @LineBreak
-  Si @#PB_Any a été spécifié comme paramètre 
-  #Image2 alors le numéro généré automatiquement 
+  Renvoie une valeur non nulle si l'image a été créée avec succès et zéro sinon. @LineBreak
+  Si @#PB_Any a été spécifié comme paramètre #Image2 alors le numéro généré automatiquement 
   est renvoyé dans 'Resultat' en cas de succès.
 
 @Remarks

@@ -47,19 +47,51 @@ L'option @#PB_String_InPlace retiré pour @@ReplaceString.
 @LineBreak
 @Section  API Win32
 
-  Auparavant, lors de l'appel à une API Win32 renvoyant une chaîne de caractères, on utilisait généralement la fonction Space()
-  pour cette chaîne. Désormais, la longueur de la chaîne étant mise en cache dans le nouveau gestionnaire de chaînes, il est 
-  nécessaire d'intercepter la chaîne renvoyée avec PeekS(). Il est également préférable d'éviter complètement l'utilisation de 
-  Space(), car il s'agit d'une solution de contournement. L'idéal est de rechercher Space() dans tout votre code et de vérifier 
-  si elle est utilisée lors d'appels de l'API.
+  Lors de l'appel à l'API Win32 renvoyant des chaînes de caractères, il était courant d'utiliser la fonction @@Space 
+  pour pré-allouer une mémoire tampon, et c'était une solution de contournement.@LineBreak
+  Cela permettait à l'API d'écrire directement dans la mémoire attribuée à cette chaîne. Cependant, le cache du nouveau 
+  gestionnaire de chaînes qui contient la longueur de la chaîne, n'était pas mis à jour.@LineBreak
+  Pour garantir l'exactitude de la longueur de la chaîne après un appel d'API, utilisez l'une des méthodes suivantes :@LineBreak
+@LineBreak  
+  - Chaîne fixe : Utilisez une chaîne de longueur fixe (par exemple, Define MyString.s{260}), qui ne dépend pas du nouveau gestionnaire de chaînes et donc de sa longueur mise en cache.@LineBreak
+@LineBreak
+  - Mise à jour manuelle : Si vous utilisez une chaîne standard, actualisez manuellement sa longueur à l'aide de @@PeekS après l'appel d'API (par exemple, MyString = PeekS(@MyString)).@LineBreak
+@LineBreak
+  Pour la migration, il est recommandé de rechercher @@Space dans tout votre code et de vérifier si cette fonction est utilisée 
+  pour les appels d'API, afin d'appliquer l'une de ces deux méthodes.
 
 @Code
-  ; Ancien
-  CurrentDirectory$ = Space(2000)
-  GetCurrentDirectory_(2000, @CurrentDirectory$)
+ ; Ancien
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra 260, qui n'est pas la bonne longueur
   
-  ; Nouveau
-  CurrentDirectory$ = Space(2000)
-  GetCurrentDirectory_(2000, @CurrentDirectory$)
-  CurrentDirectory$ = PeekS(@CurrentDirectory$) ; Garantit que la longueur de la chaîne est correctement mise à jour
+  ; Nouveau avec une chaîne de longueur fixe
+  CurrentDirectory${260}
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra la bonne longueur
+
+  ; Nouveau avec une chaîne standard
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$)    ; Garantit que la longueur de la chaîne est correctement mise à jour
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra la bonne longueur
 @EndCode
+
+  Outre les deux méthodes mentionnées ci-dessus, vous pouvez également utiliser @@AllocateMemory pour vos tampons mémoire
+  afin de ne pas troquer une chaîne de caractères.@LineBreak
+@LineBreak
+  L'exemple suivant illustre une méthode éprouvée et fiable pour interagir avec l'API à l'aide d'un tampon mémoire :
+@Code
+  *Buffer = AllocateMemory(#MAX_PATH * SizeOf(Character))
+  If *Buffer
+    Length = GetModuleFileName_(GetModuleHandle_(#Null$), *Buffer, #MAX_PATH-1)  
+    PureBasicPath$ = PeekS(*Buffer, Length)
+    Debug PureBasicPath$
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode
+
