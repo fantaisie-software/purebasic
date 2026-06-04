@@ -184,9 +184,15 @@
 @Example
 
 @Code
-  CompilerIf Subsystem("OpenGL")
-    Debug "Compiling with the OpenGL subsystem"
-  CompilerEndIf
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  If Subsystem("DirectX9")
+    Debug "Compilation with the DirectX9 subsystem"
+  ElseIf  Subsystem("DirectX11") 
+    Debug "Compilation with the DirectX11 subsystem" 
+  Else
+    Debug "Compilation with the OpenGL subsystem" 
+  EndIf
+CompilerEndIf
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
