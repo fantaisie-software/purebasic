@@ -377,6 +377,9 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
+  @#PB_HTTP_NoSSLCheck  : don't check if the SSL certificate is valid (can be useful for testing purpose).
+  @#PB_HTTP_WeakSSL     : to support older servers.
+  @#PB_HTTP_Debug       : to print in the console debug information. 
 @EndFixedFont
 
 @OptionalParameter "UserAgent$"
@@ -425,6 +428,9 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: starts the download asynchronously. To get the memory buffer address use @@FinishHTTP.
   @#PB_HTTP_NoRedirect  : don't follow automatic redirections.
+  @#PB_HTTP_NoSSLCheck  : don't check if the SSL certificate is valid (can be useful for testing purpose).
+  @#PB_HTTP_WeakSSL     : to support older servers.
+  @#PB_HTTP_Debug       : to print in the console debug information. 
 @EndFixedFont
 
 @OptionalParameter "UserAgent$"
