@@ -129,32 +129,8 @@ Procedure RenderFrame()
   
   ; Animate the noise for sprite
   SpriteShaderAttribute(#SpriteGeebee, #PB_NoiseShader_Seed, Random(1000))
-
   
   FlipBuffers() ; continue the rendering
-EndProcedure
-
-;- Loading and starting app
-;
-Procedure Loading(Type, Filename$)
-  Static NbLoadedElements
-  
-  NbLoadedElements+1
-  If NbLoadedElements = 2 ; Finished the loading of all images and sounds, we can start the applications
-        
-    ; Add a few sprites with random position and speed
-    ;
-    For k = 0 To #NbSprites-1
-      AddElement(Sprites())
-      Sprites()\Sprite = #SpriteGeebee
-      Sprites()\X = Random(ScreenWidth()-SpriteWidth(#SpriteGeebee)-1)
-      Sprites()\Y = Random(ScreenHeight()-SpriteHeight(#SpriteGeebee)-1)
-      Sprites()\SpeedX = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
-      Sprites()\SpeedY = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
-    Next
-    
-    FlipBuffers() ; start the rendering
-  EndIf
 EndProcedure
 
 
@@ -170,8 +146,6 @@ Procedure OnSizeDesktop()
   ScreenWidth = DesktopWidth(0)
   ScreenHeight = DesktopHeight(0)
   ResizeScreen(ScreenWidth, ScreenHeight)
-  
-      
 EndProcedure
 
 #PB_Event_SizeDesktop = 21
@@ -179,16 +153,6 @@ BindEvent(#PB_Event_SizeDesktop, @OnSizeDesktop())
 
 OpenScreen(10, 10, 32, "400 sprites")
 OnSizeDesktop()
-
-
-; Register the loading event before calling any resource load command
-BindEvent(#PB_Event_Loading, @Loading())
-BindEvent(#PB_Event_LoadingError, @LoadingError())
-BindEvent(#PB_Event_RenderFrame, @RenderFrame())
-
-
-LoadSprite(#SpriteBackground, "Data/Mountain.jpg")
-LoadSprite(#SpriteGeebee, "Data/Geebee.png")
 
 
 Procedure UpdateAdjustmentGadgets()
@@ -211,7 +175,7 @@ EndProcedure
 ;
 ; Define our dialog window here, using regular XML
 ;
-XML$ = "<window id='#PB_Any' name='dialog1' text='Shader controls' minwidth='250' minheight='auto' maxheight='auto' flags='#PB_Window_System | #PB_Window_NoMove'>" +
+XML$ = "<window id='#PB_Any' name='dialog1' text='Shader controls' minwidth='250' minheight='auto' maxheight='auto' flags='#PB_Window_SystemMenu | #PB_Window_NoMove'>" +
        "    <vbox>" +
        "      <checkbox id='#GadgetEnableReflection' text='Enable screen reflection'/>" +
        "      <checkbox id='#GadgetEnableBulgePinch' text='Enable screen bulge pinch'/>" +
@@ -372,3 +336,31 @@ EndProcedure
 
 BindEvent(#PB_Event_Gadget, @GadgetEvents())
 
+LoadSprite(#SpriteBackground, "Data/Mountain.jpg")
+LoadSprite(#SpriteGeebee, "Data/Geebee.png")
+
+; Add a few sprites with random position and speed
+;
+For k = 0 To #NbSprites-1
+  AddElement(Sprites())
+  Sprites()\Sprite = #SpriteGeebee
+  Sprites()\X = Random(ScreenWidth()-SpriteWidth(#SpriteGeebee)-1)
+  Sprites()\Y = Random(ScreenHeight()-SpriteHeight(#SpriteGeebee)-1)
+  Sprites()\SpeedX = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
+  Sprites()\SpeedY = Random(#MaxSpeed, 1) ; Ensures we don't have a zero speed
+Next
+
+; Register the render frame callback
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+FlipBuffers() ; start the rendering
+
+; IDE Options = SpiderBasic 4.00 beta 1 (Windows - x86)
+; CursorPosition = 141
+; FirstLine = 117
+; Folding = --
+; iOSAppOrientation = 0
+; AndroidAppCode = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; DPIAware
+; CompileSourceDirectory

@@ -51,7 +51,8 @@ Procedure FillTree(CurrentNode, CurrentSublevel)
   
 EndProcedure
 
-Procedure Start()
+If LoadXML(#XML, "Data/Sample.xml")
+; If LoadXML(#XML, "Data/Library.xml")
 
   ; Note: 
   ;   The LoadXML() succeed if the file could be read. This does not mean that
@@ -86,31 +87,21 @@ Procedure Start()
     For i = 0 To CountGadgetItems(#TreeGadget) - 1
       SetGadgetItemState(#TreeGadget, i, #PB_Tree_Expanded)
     Next i
-
+  
   EndIf
-  
-  ;ExportXML(#XML, "result2.xml")
-    
-EndProcedure
+Else
+  Debug "Can't load the XML"
+EndIf  
 
 
-Procedure Loading(Type, Filename$)
-  Static NbLoadedElements
-  
-  Debug Filename$ + " loaded"
-  
-  Start()
-EndProcedure
 
-
-Procedure LoadingError(Type, Filename$)
-  Debug Filename$ + ": loading error"
-EndProcedure
-
-
-; Register the loading event before calling any resource load command
-BindEvent(#PB_Event_Loading, @Loading())
-BindEvent(#PB_Event_LoadingError, @LoadingError())
-
-LoadXML(#XML, "Data/Sample.xml")
-;LoadXML(#XML, "Data/Library.xml")
+; IDE Options = SpiderBasic 4.00 beta 1 (Windows - x86)
+; CursorPosition = 69
+; FirstLine = 54
+; Folding = -
+; iOSAppOrientation = 0
+; AndroidAppCode = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; CompileSourceDirectory
+; EnableUnicode

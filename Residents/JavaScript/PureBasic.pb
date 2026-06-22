@@ -20,8 +20,9 @@ IncludeFile "../Common.pb"
 ; Global flags (multi functions)
 ;
 #PB_LocalFile       = 1 << 16
-#PB_GoogleDriveFile = 1 << 17
+#PB_Async           = 1 << 17
 #PB_LocalStorage    = 1 << 18
+; #PB_OpenFile        = 1 << 19 (Not Public)
 
 #PB_Status_Loaded = 0
 #PB_Status_Progress = 1
@@ -80,6 +81,9 @@ IncludeFile "../Common.pb"
 #PB_Image_PNGBase64  = 1 << 0
 #PB_Image_JPEGBase64 = 1 << 1
 
+; CaptureImage()
+#PB_Image_FrontCamera = 1 << 0
+
 ; ToolBar icon definitions
 ;
 
@@ -125,6 +129,11 @@ IncludeFile "../Common.pb"
 #PB_InputRequester_Password = 1
 
 #PB_FontRequester_Effects = 256 ; #CF_EFFECTS
+
+; FileSystem
+;
+#PB_FileSystem_Persistent = 0
+#PB_FileSystem_Temporary  = 1
 
 ; RunProgram
 ;

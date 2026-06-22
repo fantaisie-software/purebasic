@@ -23,6 +23,51 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = CaptureImage(#Image [, Quality [, Flags [, Width, Height]]])
+
+@Description
+  Capture an image from the device camera. This function is only available for Android or iOS apps.
+
+@Parameter "#Image"
+  A number to identify the new image. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be specified to
+  auto-generate this number.
+
+@OptionalParameter "Quality"
+  A number between 0 (worste) and 100 (best) to control image quality. Default value is 50.
+
+@OptionalParameter "Flags"
+  A combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Image_FrontCamera: Uses the front camera, instead of the back.
+@EndFixedFont
+  
+@OptionalParameter "Width, Height"
+  The final image size, in pixels. If not specified, the full size is returned, which can be big
+  depending of the camera definition.
+
+@ReturnValue
+  Returns nonzero if the image was successfully captured or zero if not.
+  If @#PB_Any was specified as the #Image parameter then the auto-generated number is returned on success.
+
+@Example
+@Code
+  If CaptureImage(0, 50, 0, 200, 400)
+    
+    OpenWindow(#PB_Any, x, y, 300, 300, "Capture Image", #PB_Window_TitleBar | #PB_Window_SizeGadget)
+    ImageGadget(#PB_Any, 0, 0, ImageWidth(0), ImageHeight(0), ImageID(0))
+      
+  Else
+    Debug "Can't capture the image"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GrabImage, @@FreeImage
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result = CopyImage(#Image1, #Image2)
 
 @Description
@@ -67,9 +112,12 @@
   Valid values can be: 24 and 32. The default is 24-bit if no depth is specified.
 
 @OptionalParameter "BackColor"
-  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the 
-  alpha channel set to full transparent. This only has an effect on 32-bit images. The default
-  backcolor is black if not specified.
+  The backcolor used when the image is created. @LineBreak
+  If the image is 24-bit, use @@RGB to get a valid color. @LineBreak
+  If the image is 32-bit, use @@RGBA to get a valid color. For 32-bit image, a special constant can be used as well: @LineBreak
+  @#PB_Image_Transparent which is similar to RGBA(255,255,255,0). @LineBreak
+  @LineBreak
+  The default backcolor is black if not specified.
 
 @ReturnValue
   Returns nonzero if the image was created successfully and zero if the image could not be created.
@@ -390,9 +438,8 @@
 @OptionalParameter "Flags"
   It can be one of the following value:
 @FixedFont
-  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
-                 to have access to local files. @@SelectedFileID() is used to get the
-                 local file identifier.
+  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester needs to be called before
+                 to have access to local files.
   @#PB_Image_JPEGBase64: the filename is a Base64 encoded JPEG image string.
   @#PB_Image_PNGBase64 : the filename is a Base64 encoded PNG image string.
 @EndFixedFont

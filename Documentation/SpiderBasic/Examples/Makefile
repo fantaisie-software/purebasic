@@ -30,6 +30,7 @@ EXAMPLES =  2DDrawing.html \
             Mouse.html \
             MultiWindows.html \
             OpenFileRequester.html \
+            Preference.html \
             PopupMenu.html \
             RegularExpression.html \
             Requester.html \
