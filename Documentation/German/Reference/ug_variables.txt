@@ -85,19 +85,19 @@ verwenden können. Sonst wird ein Compiler-Fehler daraus resultieren.
 Innerhalb einer Prozedur:
 @Code
   Procedure TestVariables()
-    
-    ; N und P werden lokal sein.
-    Define.l N
-    Protected.l P
-    
-    ; Q wird eine statische lokale Variable sein.
-    Static.l Q
-    
-    ; Die Variable F und die String-Liste K aus dem Geltungsbereich des Hauptcodes werden in dieser Prozedur verfügbar sein.
-    Shared F, K()
-    
-    ; Die globale Variable J des Hauptgeltungsbereich wird hier ebenfalls verfügbar sein.
-    
+   
+   ; N und P werden lokal sein.
+   Define.l N
+   Protected.l P
+   
+   ; Q wird eine statische lokale Variable sein.
+   Static.l Q
+   
+   ; Die Variable F und die String-Liste K aus dem Geltungsbereich des Hauptcodes werden in dieser Prozedur verfügbar sein.
+   Shared F, K()
+   
+   ; Die globale Variable J des Hauptgeltungsbereich wird hier ebenfalls verfügbar sein.
+   
   EndProcedure
 @EndCode
 

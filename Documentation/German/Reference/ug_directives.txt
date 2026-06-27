@@ -33,40 +33,40 @@ Fügen Sie diese neue Prozedur zum Abschnitt der Implementierung hinzu.
     
     CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     
-          ; Dies sind die Attribute für das Windows-System.
-          ; Ein "logisches Und" der Attribute mit jeder Konstante filtert dieses Bit
-          ; aus und kann dann zum Vergleich herangezogen werden.
+      ; Dies sind die Attribute für das Windows-System.
+      ; Ein "logisches Und" der Attribute mit jeder Konstante filtert dieses Bit
+      ; aus und kann dann zum Vergleich herangezogen werden.
       
-          If Attributes & #PB_FileSystem_Archive
-              Result + "A"
-          Else
-              Result + " "
-          EndIf
-          
-          If Attributes & #PB_FileSystem_Compressed
-              Result + "C"
-          Else
-              Result + " "
-          EndIf
-          
-          If Attributes & #PB_FileSystem_Hidden
-              Result + "H"
-          Else
-              Result + " "
-          EndIf
-          
-          If Attributes & #PB_FileSystem_ReadOnly
-              Result + "R"
-          Else
-              Result + " "
-          EndIf
-          
-          If Attributes & #PB_FileSystem_System
-              Result + "S"
-          Else
-              Result + " "
-          EndIf
-          
+      If Attributes & #PB_FileSystem_Archive
+        Result + "A"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_Compressed
+        Result + "C"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_Hidden
+        Result + "H"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_ReadOnly
+        Result + "R"
+      Else
+        Result + " "
+      EndIf
+      
+      If Attributes & #PB_FileSystem_System
+        Result + "S"
+      Else
+        Result + " "
+      EndIf
+      
     CompilerElse
       
       ; Dies sind die Attribute für die Mac- und Linux-Systeme.
@@ -74,7 +74,7 @@ Fügen Sie diese neue Prozedur zum Abschnitt der Implementierung hinzu.
       If Attributes & #PB_FileSystem_Link
         Result + "L "
       Else
-        Result + "  "
+        Result + " "
       EndIf
       
       ; Anwender-Attribute.
@@ -93,7 +93,7 @@ Fügen Sie diese neue Prozedur zum Abschnitt der Implementierung hinzu.
       If Attributes & #PB_FileSystem_ExecUser
         Result + "X "
       Else
-        Result + "  "
+        Result + " "
       EndIf
       
       ; Group attributes.
@@ -112,7 +112,7 @@ Fügen Sie diese neue Prozedur zum Abschnitt der Implementierung hinzu.
       If Attributes & #PB_FileSystem_ExecGroup
         Result + "X "
       Else
-        Result + "  "
+        Result + " "
       EndIf
       
       ; All attributes.
