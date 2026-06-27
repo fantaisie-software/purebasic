@@ -399,6 +399,9 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: startet den Download asynchron.
   @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
+  @#PB_HTTP_NoSSLCheck  : überprüft nicht, ob das SSL-Zertifikat gültig ist (kann nützlich für Testzwecke sein).
+  @#PB_HTTP_WeakSSL     : um ältere Server zu unterstützen.
+  @#PB_HTTP_Debug       : um Debug-Informationen in der Konsole auszugeben.
 @EndFixedFont
 
 @OptionalParameter "UserAgent$"
@@ -447,9 +450,12 @@
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_HTTP_Asynchronous: startet den Download asynchron. Um die Adresse des Speicherpuffers
-                         zu erhalten, verwenden Sie @@FinishHTTP.
+  @#PB_HTTP_Asynchronous: startet den Download asynchron. Um die Adresse des Speicherpuffers zu erhalten,
+                         verwenden Sie @@FinishHTTP.
   @#PB_HTTP_NoRedirect  : folgt keinen automatischen Weiterleitungen.
+  @#PB_HTTP_NoSSLCheck  : überprüft nicht, ob das SSL-Zertifikat gültig ist (kann nützlich für Testzwecke sein).
+  @#PB_HTTP_WeakSSL     : um ältere Server zu unterstützen.
+  @#PB_HTTP_Debug       : um Debug-Informationen in der Konsole auszugeben.
 @EndFixedFont
 
 @OptionalParameter "UserAgent$"
