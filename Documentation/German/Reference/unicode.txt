@@ -1,20 +1,20 @@
-@Title Unicode
+ï»¿@Title Unicode
 
-@Section Einführung
+@Section EinfÃ¼hrung
 
-  Unicode ist ein Ausdruck, der für erweiterte Zeichensätze verwendet wird, welche das Anzeigen von Text in 
-  vielen Sprachen (einschließlich derer mit vielen verschiedenen Zeichen wie japanisch, koreanisch usw.)
-  ermöglichen. Damit wird das ASCII Problem behoben, dass viele verschiedene (Zeichensatz-) Tabellen 
-  für jede Sprache bestehen, indem eine einheitliche Tabelle genutzt wird, in der jedes Zeichen seinen
+  Unicode ist ein Ausdruck, der fÃ¼r erweiterte ZeichensÃ¤tze verwendet wird, welche das Anzeigen von Text in 
+  vielen Sprachen (einschlieÃŸlich derer mit vielen verschiedenen Zeichen wie japanisch, koreanisch usw.)
+  ermÃ¶glichen. Damit wird das ASCII Problem behoben, dass viele verschiedene (Zeichensatz-) Tabellen 
+  fÃ¼r jede Sprache bestehen, indem eine einheitliche Tabelle genutzt wird, in der jedes Zeichen seinen
   eigenen Platz hat.
   @LineBreak
   @LineBreak
-  Vereinfachend kann Unicode als eine große ASCII-Tabelle angesehen werden, welche keine 256 sondern
+  Vereinfachend kann Unicode als eine groÃŸe ASCII-Tabelle angesehen werden, welche keine 256 sondern
   bis zu 65536 Zeichen beinhaltet. Jedes Zeichen in Unicode braucht auf diese Art 2 Bytes in Speicher 
   (dies ist wichtig zu wissen, zum Beispiel beim Verwenden von @ReferenceLink "memory" "Zeigern"). 
   @LineBreak
   @LineBreak
-  Hier einige Links, um ein besseres Verständnis über Unicode zu erhalten (sollten unbedingt gelesen werden):
+  Hier einige Links, um ein besseres VerstÃ¤ndnis Ã¼ber Unicode zu erhalten (sollten unbedingt gelesen werden):
   @LineBreak
   @LineBreak
   @InternetLink "http://en.wikipedia.org/wiki/Unicode" "Allgemeine Unicode Informationen" @LineBreak
@@ -23,34 +23,34 @@
 
 @Section Unicode und Windows
   
-  PureBasic verwendet intern die UCS2 Verschlüsselung, die auch das von der Windows Unicode API 
-  verwendete Format darstellt, wodurch während der Laufzeit beim Aufruf von OS-Funktionen keine Umwandlungen 
+  PureBasic verwendet intern die UCS2 VerschlÃ¼sselung, die auch das von der Windows Unicode API 
+  verwendete Format darstellt, wodurch wÃ¤hrend der Laufzeit beim Aufruf von OS-Funktionen keine Umwandlungen 
   erforderlich sind. Bei der Nutzung einer API-Funktion verwendet PureBasic automatisch die 
-  Unicode-Funktion, wenn eine solche verfügbar ist (zum Beispiel wird MessageBox_() auf MessageBoxW() 
-  umgeschalten). Alle API-Strukturen und Konstanten, die von PureBasic unterstützt werden, verwenden
+  Unicode-Funktion, wenn eine solche verfÃ¼gbar ist (zum Beispiel wird MessageBox_() auf MessageBoxW() 
+  umgeschalten). Alle API-Strukturen und Konstanten, die von PureBasic unterstÃ¼tzt werden, verwenden
   die Unicode-Version.
 
 
 @Section UTF-8
 
-  UTF-8 ist eine weitere Unicode Verschlüsselung, die Byte basierend ist. Im Gegensatz zu UCS2, das immer 
-  2 Bytes pro Zeichen nutzt, verwendet UTF-8 eine variable Längenverschlüsselung für jedes Zeichen (bis zu 
-  4 Bytes können ein Zeichen darstellen). Der größte Vorteil von UTF-8 ist die Tatsache, dass es keine
-  Null-Zeichen in seiner Kodierung enthält, so dass sie wie eine reguläre Textdatei editiert werden kann. 
+  UTF-8 ist eine weitere Unicode VerschlÃ¼sselung, die Byte basierend ist. Im Gegensatz zu UCS2, das immer 
+  2 Bytes pro Zeichen nutzt, verwendet UTF-8 eine variable LÃ¤ngenverschlÃ¼sselung fÃ¼r jedes Zeichen (bis zu 
+  4 Bytes kÃ¶nnen ein Zeichen darstellen). Der grÃ¶ÃŸte Vorteil von UTF-8 ist die Tatsache, dass es keine
+  Null-Zeichen in seiner Kodierung enthÃ¤lt, so dass sie wie eine regulÃ¤re Textdatei editiert werden kann. 
   Auch die ASCII-Zeichen von 1 bis 127 bleiben immer erhalten, womit der Text stets lesbar bleibt, da nur
-  spezielle Zeichen kodiert werden. Ein Nachteil ist seine variable Länge, wodurch alle String-Operationen
-  langsamer ausgeführt werden, aufgrund der notwendigen Vorverarbeitung ("Pre-Processing") zum ausfindig 
+  spezielle Zeichen kodiert werden. Ein Nachteil ist seine variable LÃ¤nge, wodurch alle String-Operationen
+  langsamer ausgefÃ¼hrt werden, aufgrund der notwendigen Vorverarbeitung ("Pre-Processing") zum ausfindig 
   machen eines Zeichens im Text.
   @LineBreak
   @LineBreak
-  PureBasic nutzt UTF-8 standardmäßig beim Schreiben von Strings in Dateien 
+  PureBasic nutzt UTF-8 standardmÃ¤ÃŸig beim Schreiben von Strings in Dateien 
   (@LibraryLink "File" "File" und @LibraryLink "Preference" "Preference" Bibliothek), wodurch alle Texte
-  vollständig cross-plattform kompatibel sind.
+  vollstÃ¤ndig cross-plattform kompatibel sind.
   @LineBreak
   @LineBreak
-  Der PureBasic Compiler unterstützt sowohl ASCII als auch UTF-8 Dateien (die UTF-8 Dateien müssen den richtigen 
-  BOM Header besitzen, um korrekt behandelt zu werden). Beide können ohne Probleme in einem einzelnen Programm
+  Der PureBasic Compiler unterstÃ¼tzt sowohl ASCII als auch UTF-8 Dateien (die UTF-8 Dateien mÃ¼ssen den richtigen 
+  BOM Header besitzen, um korrekt behandelt zu werden). Beide kÃ¶nnen ohne Probleme in einem einzelnen Programm
   gemischt werden: eine ASCII-Datei kann eine UTF-8 Datei einbinden und umgekehrt, solange alle String-Literale
   (z.B. "x") und Character-Literale (z.B. 'x') in der ASCII-Datei nur Character mit einem Code <= 127 beinhalten.
   Beim Entwickeln ist es empfehlenswert, die IDE im UTF-8 Modus einzusetzen, sodass alle Quellcode-Dateien
-  bereit für Unicode sind.
+  bereit fÃ¼r Unicode sind.

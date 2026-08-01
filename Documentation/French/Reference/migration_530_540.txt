@@ -1,9 +1,9 @@
-@Title Migration de PureBasic 5.30 vers 5.40
+ï»¿@Title Migration de PureBasic 5.30 vers 5.40
 
-@Section Bibliothèque Cipher
+@Section BibliothÃ¨que Cipher
 
 @LineBreak
-ExamineMD5Fingerprint(): code changé
+ExamineMD5Fingerprint(): code changÃ©
 @Code
   ; Ancien
   ExamineMD5Fingerprint(#FingerPrint)
@@ -14,7 +14,7 @@ ExamineMD5Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-ExamineSHA1Fingerprint(): code changé
+ExamineSHA1Fingerprint(): code changÃ©
 @Code
   ; Ancien
   ExamineSHA1Fingerprint(#FingerPrint)
@@ -25,7 +25,7 @@ ExamineSHA1Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-MD5FileFingerprint(): code changé
+MD5FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = MD5FileFingerprint(Fichier$)
@@ -36,7 +36,7 @@ MD5FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-MD5Fingerprint(): code changé
+MD5Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = MD5Fingerprint(*Memoire, Taille)
@@ -47,7 +47,7 @@ MD5Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-SHA1FileFingerprint(): code changé
+SHA1FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = SHA1FileFingerprint(Fichier$)
@@ -58,7 +58,7 @@ SHA1FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-SHA1Fingerprint(): code changé
+SHA1Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = SHA1Fingerprint(*Memoire, Taille)
@@ -69,7 +69,7 @@ SHA1Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-CRC32FileFingerprint(): code changé
+CRC32FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat = CRC32FileFingerprint(Fichier$)
@@ -80,7 +80,7 @@ CRC32FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-CRC32Fingerprint(): code changé
+CRC32Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat = CRC32Fingerprint(*Memoire, Taille)
@@ -91,7 +91,7 @@ CRC32Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-NextFingerprint(): renommé
+NextFingerprint(): renommÃ©
 @Code
   ; Ancien
   NextFingerprint(#FingerPrint, *Memoire, Taille)
@@ -103,11 +103,11 @@ NextFingerprint(): renommé
 
 
 @LineBreak
-@Section Bibliothèque Mail 
+@Section BibliothÃ¨que Mail 
 
 @LineBreak
-SendMail(): code changé si le paramètre 
-'Asynchronous' a été utilisé
+SendMail(): code changÃ© si le paramÃ¨tre 
+'Asynchronous' a Ã©tÃ© utilisÃ©
 @Code
   ; Ancien
   SendMail(#Mail, Smtp$, Port, 1)
@@ -119,22 +119,22 @@ SendMail(): code changé si le paramètre
 
 
 @LineBreak
-@Section Bibliothèque Packer 
+@Section BibliothÃ¨que Packer 
 
 @LineBreak
-RemovePackFile(): supprimé @LineBreak
+RemovePackFile(): supprimÃ© @LineBreak
 PackerEntrySize(): @#PB_Packer_CompressedSize 
-supprimé pour les archives ZIP et 7z @LineBreak
+supprimÃ© pour les archives ZIP et 7z @LineBreak
 
 
 
 @LineBreak
-@Section Bibliothèque Screen
+@Section BibliothÃ¨que Screen
 
 @LineBreak
-AvailableScreenMemory() Supprimée car la nouvelle API 
+AvailableScreenMemory() SupprimÃ©e car la nouvelle API 
 ne le prend plus en charge. Elle renvoyait toujour 
-un zéro de toute façon.
+un zÃ©ro de toute faÃ§on.
 
 
 
@@ -142,8 +142,8 @@ un zéro de toute façon.
 @Section Engine3D library
 
 @LineBreak
-WorldCollisionAppliedImpulse() renvoie maintenant un float qui est l'impulsion appliquée. @LineBreak
-GetX/Y/Z() ne sont plus supportées.
+WorldCollisionAppliedImpulse() renvoie maintenant un float qui est l'impulsion appliquÃ©e. @LineBreak
+GetX/Y/Z() ne sont plus supportÃ©es.
 
 @LineBreak
 @LineBreak

@@ -1,4 +1,4 @@
-@Title Global
+ï»¿@Title Global
 
 @Syntax
 
@@ -6,15 +6,15 @@
 
 @Description
 
-  Une variable déclarée @Keyword Global n'importe où dans le code est visible et utilisable 
-  n'importe où dans le code à l'exception du cas suivant: Les  @ReferenceLink "module" "modules" 
-  n'ont pas accès aux variables déclarées globales en dehors de ce module.  @LineBreak
+  Une variable dÃ©clarÃ©e @Keyword Global n'importe oÃ¹ dans le code est visible et utilisable 
+  n'importe oÃ¹ dans le code Ã  l'exception du cas suivant: Les  @ReferenceLink "module" "modules" 
+  n'ont pas accÃ¨s aux variables dÃ©clarÃ©es globales en dehors de ce module.  @LineBreak
 
-  @Keyword Global peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", 
+  @Keyword Global peut aussi Ãªtre utilisÃ© avec les @ReferenceLink "dim" "tableaux", 
   les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". @LineBreak
   @LineBreak
   Les instructions @ReferenceLink "Protected" Protected et @ReferenceLink "Static" Static 
-  permettent de déclarer une variable locale dans une procédure qui a le même nom qu'une 
+  permettent de dÃ©clarer une variable locale dans une procÃ©dure qui a le mÃªme nom qu'une 
   variable globale, sans risque de conflit.
 
 
@@ -57,14 +57,14 @@
     #FerrariName$ = "458 Italia"
     Debug #FerrariName$ ; Affiche "458 Italia"
   
-    ; Debug Var_GlobaleHorsModule ; Affiche une erreur car le compilateur veut créer une var globale qui exste déjà
+    ; Debug Var_GlobaleHorsModule ; Affiche une erreur car le compilateur veut crÃ©er une var globale qui exste dÃ©jÃ 
     Debug Var_GlobaleModule       ; Affiche 308
   
     Declare CreateFerrari() 
   EndDeclareModule
 
 
-  ; Tous les éléments de cette section seront privés. Tous les noms peuvent être utilisés sans conflit
+  ; Tous les Ã©lÃ©ments de cette section seront privÃ©s. Tous les noms peuvent Ãªtre utilisÃ©s sans conflit
   ; --------------------------------------------------------------------------------------------------
   Module Ferrari
     Debug Var_GlobaleHorsModule  ; Affiche 0  <== Regarder !
@@ -79,7 +79,7 @@
       Debug "InitFerrari()"  
     EndProcedure  
   
-    Procedure CreateFerrari()    ; Procédure publique (car déclarée dans la section 'DeclareModule')
+    Procedure CreateFerrari()    ; ProcÃ©dure publique (car dÃ©clarÃ©e dans la section 'DeclareModule')
       Init()
       Debug "CreateFerrari()"
       Debug Var_GlobaleHorsModule ; Affiche 0
@@ -91,10 +91,10 @@
 
   ; Code principal
   ; -------------------------------------------------------------------------------------------------- 
-  Procedure Init()               ; Procédure d'initialisation principale, n'entre pas en conflit avec la procédure 
+  Procedure Init()               ; ProcÃ©dure d'initialisation principale, n'entre pas en conflit avec la procÃ©dure 
                                  ; Init() du Module Ferrari
   
-    Debug "Procédure init() du code principal."
+    Debug "ProcÃ©dure init() du code principal."
     Debug Var_GlobaleHorsModule ; Affiche 12
     Debug Var_GlobaleModule     ; Affiche 0
   EndProcedure
@@ -104,10 +104,10 @@
   Ferrari::CreateFerrari()
   Debug Ferrari::#FerrariName$ ; Affiche 458 Italia
   Debug Var_GlobaleHorsModule  ; Affiche 12
-  ; Debug Var_GlobaleModule    ; Affiche une erreur car le compilateur veut créer une var globale qui exste déjà
+  ; Debug Var_GlobaleModule    ; Affiche une erreur car le compilateur veut crÃ©er une var globale qui exste dÃ©jÃ 
 
 
-  UseModule Ferrari           ; Maintenant, importer tous les éléments publics directement dans le programme principal
+  UseModule Ferrari           ; Maintenant, importer tous les Ã©lÃ©ments publics directement dans le programme principal
 
   CreateFerrari()
   Debug #FerrariName$         ; Affiche 458 Italia

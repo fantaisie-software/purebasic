@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Map library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,32 +8,32 @@
 
 @Overview
 
-  Les maps (aussi connues sous la dénomination 
+  Les maps (aussi connues sous la dÃ©nomination 
   'table de hachage' ou 'dictionnaire') sont 
-  des structures utilisées pour stocker des 
-  données qui sont allouées dynamiquement. 
+  des structures utilisÃ©es pour stocker des 
+  donnÃ©es qui sont allouÃ©es dynamiquement. 
   @LineBreak
-  C'est une collection d'éléments qui sont 
-  complètement indépendants les uns des autres.
+  C'est une collection d'Ã©lÃ©ments qui sont 
+  complÃ¨tement indÃ©pendants les uns des autres.
   @LineBreak 
-  Il est possible d'ajouter autant d'éléments 
-  que désiré (limité uniquement par la quantité 
-  de mémoire disponible) et on consulte les 
-  éléments à l'aide d'une clé. @LineBreak
-  Ce type de gestion de données est très utile 
-  quand un accès rapide à un élément quelconque 
-  est requis. L'ordre d'insertion des éléments 
-  n'est pas conservé (contrairement à une 
+  Il est possible d'ajouter autant d'Ã©lÃ©ments 
+  que dÃ©sirÃ© (limitÃ© uniquement par la quantitÃ© 
+  de mÃ©moire disponible) et on consulte les 
+  Ã©lÃ©ments Ã  l'aide d'une clÃ©. @LineBreak
+  Ce type de gestion de donnÃ©es est trÃ¨s utile 
+  quand un accÃ¨s rapide Ã  un Ã©lÃ©ment quelconque 
+  est requis. L'ordre d'insertion des Ã©lÃ©ments 
+  n'est pas conservÃ© (contrairement Ã  une 
   @LibraryLink "List" "liste"), une map ne 
-  peut donc pas être triée.
+  peut donc pas Ãªtre triÃ©e.
 @LineBreak
 @LineBreak
   Avant de travailler avec les maps, il faut 
-  préalablement les déclarer. Cela se fait 
+  prÃ©alablement les dÃ©clarer. Cela se fait 
   avec le mot-clef 
   @ReferenceLink "newmap" "NewMap". 
   Les @ReferenceLink "structures" "structures" 
-  sont également fréquemment utilisées dans 
+  sont Ã©galement frÃ©quemment utilisÃ©es dans 
   les maps.
 @LineBreak
 @LineBreak
@@ -44,14 +44,14 @@
   @ReferenceLink "while_wend" "While : Wend".
 @LineBreak
 @LineBreak
-  Les autres possibilités pour stocker des 
-  données sont les 
+  Les autres possibilitÃ©s pour stocker des 
+  donnÃ©es sont les 
   @LibraryLink "array" "Tableaux" et les 
   @LibraryLink "list" "Listes".
 @LineBreak
 @LineBreak
-  Lors de l'utilisation de @LibraryLink "thread" "threads", une map donnée ne peut pas être consultée et modifiée en même temps 
-  dans différents threads. Les mutexes peuvent être utilisés pour garantir que la map ne soit utilisée que par un seul thread.
+  Lors de l'utilisation de @LibraryLink "thread" "threads", une map donnÃ©e ne peut pas Ãªtre consultÃ©e et modifiÃ©e en mÃªme temps 
+  dans diffÃ©rents threads. Les mutexes peuvent Ãªtre utilisÃ©s pour garantir que la map ne soit utilisÃ©e que par un seul thread.
 @CommandList
 
 @ExampleFile All Map.pb
@@ -63,44 +63,44 @@
 @Function Resultat = AddMapElement(Map(), Cle$ [, Options])
 
 @Description
-  Ajoute un nouvel élément vide. 
+  Ajoute un nouvel Ã©lÃ©ment vide. 
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @Parameter "Cle$"
-  La clé du nouvel élément.
+  La clÃ© du nouvel Ã©lÃ©ment.
 
 @OptionalParameter "Options"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_Map_ElementCheck  : Vérifie si un élément existe déjà avec la même clé et le remplace (défaut).
-  @#PB_Map_NoElementCheck: Pas de vérification, donc si un élément existe déjà avec la même clé, il sera perdu et inaccessible. 
-                          Sa mémoire ne sera libérée que si @@ClearMap est utilisé. Ce mode est plus rapide mais plus dangereux. 
-                          A utiliser avec précaution.
+  @#PB_Map_ElementCheck  : VÃ©rifie si un Ã©lÃ©ment existe dÃ©jÃ  avec la mÃªme clÃ© et le remplace (dÃ©faut).
+  @#PB_Map_NoElementCheck: Pas de vÃ©rification, donc si un Ã©lÃ©ment existe dÃ©jÃ  avec la mÃªme clÃ©, il sera perdu et inaccessible. 
+                          Sa mÃ©moire ne sera libÃ©rÃ©e que si @@ClearMap est utilisÃ©. Ce mode est plus rapide mais plus dangereux. 
+                          A utiliser avec prÃ©caution.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@linebreak
-  La valeur renvoyée est un 
+  succÃ¨s, zÃ©ro sinon.@linebreak
+  La valeur renvoyÃ©e est un 
   @ReferenceLink "memory" "pointeur" 
-  vers le nouvel élément.
+  vers le nouvel Ã©lÃ©ment.
 
 @Remarks  
-  Ce nouvel élément devient l'élément courant.
+  Ce nouvel Ã©lÃ©ment devient l'Ã©lÃ©ment courant.
 @LineBreak
 @LineBreak
   Cette fonction n'est pas obligatoire pour 
-  gérer les maps, car les éléments sont 
-  ajoutés automatiquement quand une valeur
-  est affectée à une nouvelle clé.
+  gÃ©rer les maps, car les Ã©lÃ©ments sont 
+  ajoutÃ©s automatiquement quand une valeur
+  est affectÃ©e Ã  une nouvelle clÃ©.
 
 @Example
 @Code
   NewMap Pays.s()
   
-  ; Manière normale d'ajouter un élément
+  ; ManiÃ¨re normale d'ajouter un Ã©lÃ©ment
   Pays("US") = "United State"
   
   ; Et maintenant en utilisant 'AddMapElement()'
@@ -122,27 +122,27 @@
 @Function ClearMap(Map()) 
 
 @Description
-  Efface tous les éléments et libère la 
-  mémoire associée. 
+  Efface tous les Ã©lÃ©ments et libÃ¨re la 
+  mÃ©moire associÃ©e. 
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks  
-  Après cette opération, la map est toujours 
+  AprÃ¨s cette opÃ©ration, la map est toujours 
   utilisable, mais elle 
-  ne contient plus d'éléments.
+  ne contient plus d'Ã©lÃ©ments.
 @linebreak
 @linebreak
-  PureBasic libèrera seulement la mémoire 
-  occupée par les éléments. 
-  Si la map a été utilisée pour stocker des 
+  PureBasic libÃ¨rera seulement la mÃ©moire 
+  occupÃ©e par les Ã©lÃ©ments. 
+  Si la map a Ã©tÃ© utilisÃ©e pour stocker des 
   objets dynamiques, il n'est pas possible 
-  de le détecter (en PureBasic ou dans
+  de le dÃ©tecter (en PureBasic ou dans
   un autre langage). Dans ce cas, il convient 
-  de libérer tous ces objets avant la 
+  de libÃ©rer tous ces objets avant la 
   destruction de la liste.
   
 @Example
@@ -152,12 +152,12 @@
   Pays("FR") = "France"
   Pays("US") = "United States"
 
-  ; La preuve que des éléments ont été ajoutés à la map
-  MessageRequester("Information", "Il y a "+Str(MapSize(Pays()))+" éléments dans la map")
+  ; La preuve que des Ã©lÃ©ments ont Ã©tÃ© ajoutÃ©s Ã  la map
+  MessageRequester("Information", "Il y a "+Str(MapSize(Pays()))+" Ã©lÃ©ments dans la map")
  
-  ; Efface les éléments de la map
+  ; Efface les Ã©lÃ©ments de la map
   ClearMap(Pays())
-  MessageRequester("Information", "Il y a "+Str(MapSize(Pays()))+" éléments dans la map")
+  MessageRequester("Information", "Il y a "+Str(MapSize(Pays()))+" Ã©lÃ©ments dans la map")
 @EndCode
 
 @SeeAlso
@@ -170,35 +170,35 @@
 @Function Resultat = CompareMap(Map1(), Map2() [, Options])
 
 @Description
-  Compare chaque élément des deux cartes pour vérifier leur égalité. 
+  Compare chaque Ã©lÃ©ment des deux cartes pour vÃ©rifier leur Ã©galitÃ©. 
 
 @parameter "Map1(), Map2()"
-  Les maps à comparer.
+  Les maps Ã  comparer.
 
 @OptionalParameter "Options"
-   Peut être une combinaison des valeurs suivantes :
+   Peut Ãªtre une combinaison des valeurs suivantesÂ :
 @FixedFont
-   @#PB_String_CaseSensitive  : La comparaison de chaînes est sensible à la casse (a=a). (par défaut)
-   @#PB_String_NoCase         : La comparaison de chaînes n'est pas sensible à la casse (A=a).
-   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, compare récursivement la cible du pointeur.
-                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+   @#PB_String_CaseSensitive  : La comparaison de chaÃ®nes est sensible Ã  la casse (a=a). (par dÃ©faut)
+   @#PB_String_NoCase         : La comparaison de chaÃ®nes n'est pas sensible Ã  la casse (A=a).
+   @#PB_Memory_FollowPointersÂ : Si un Ã©lÃ©ment de structure est un pointeur qui n'est pas 0, compare rÃ©cursivement la cible du pointeur.
+                               La valeur par dÃ©faut consiste Ã  comparer uniquement la valeur (existante) du pointeur elle-mÃªme.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si les deux maps sont identiques, zéro sinon.
+  Renvoie une valeur non nulle si les deux maps sont identiques, zÃ©ro sinon.
 
 @Remarks
-  Compare de manière récursive également le contenu de cartes structurées avec des éléments 
-  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@linebreak
-  Les deux maps sont considérées comme égales si elles ont le même type et la même taille et si 
-  chaque paire d’éléments est identique.
+  Compare de maniÃ¨re rÃ©cursive Ã©galement le contenu de cartes structurÃ©es avec des Ã©lÃ©ments 
+  dynamiques (tels que des tableaux intÃ©grÃ©s, des listes ou des maps).@linebreak
+  Les deux maps sont considÃ©rÃ©es comme Ã©gales si elles ont le mÃªme type et la mÃªme taille et si 
+  chaque paire dâ€™Ã©lÃ©ments est identique.
 @LineBreak
 @LineBreak
-   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
-   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
-   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
-   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
-   se renvoie à elle-même).
+   L'option @#PB_Memory_FollowPointers est destinÃ©e aux utilisateurs avancÃ©s et nÃ©cessite une attention 
+   particuliÃ¨re pour Ã©viter les plantages. Si cette option est utilisÃ©e, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mÃ©moire valide et initialisÃ©e ou avoir la valeur 0. Il n'est 
+   pas non plus autorisÃ© d'avoir des boucles dans les Ã©lÃ©ments pointÃ©s (une chaÃ®ne de pointeurs qui 
+   se renvoie Ã  elle-mÃªme).
    
 @Example
 @Code
@@ -207,11 +207,11 @@
   A("fr") = 33
   A("uk") = 44
 
-  NewMap B() ; un élément est manquant
+  NewMap B() ; un Ã©lÃ©ment est manquant
   B("de") = 49
   B("uk") = 44 
 
-  Debug CompareMap(A(), B()) ; Pas égal
+  Debug CompareMap(A(), B()) ; Pas Ã©gal
 @EndCode
 
 @SeeAlso
@@ -227,22 +227,22 @@
   Copie une Map.
 
 @Parameter "MapSource()"  
-  La map à copier.
+  La map Ã  copier.
 
 @Parameter "MapDestination()"  
-  La map copiée.
+  La map copiÃ©e.
 @linebreak
 @linebreak
-  Tous les éléments présents dans la 
-  'MapDestination()' seront effacés. Après 
-  une copie réussie, les deux maps seront 
+  Tous les Ã©lÃ©ments prÃ©sents dans la 
+  'MapDestination()' seront effacÃ©s. AprÃ¨s 
+  une copie rÃ©ussie, les deux maps seront 
   identiques.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès ou zéro sinon.
-  Si les deux maps ne sont pas du même 
-  type (natif ou structuré) 
+  succÃ¨s ou zÃ©ro sinon.
+  Si les deux maps ne sont pas du mÃªme 
+  type (natif ou structurÃ©) 
   la copie ne se fera pas.
 
 @Example  
@@ -269,18 +269,18 @@
 @Function FreeMap(Map())
 
 @Description
-  Détruit une Map et libère toutes les 
-  ressources associées. 
+  DÃ©truit une Map et libÃ¨re toutes les 
+  ressources associÃ©es. 
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  Pour accéder à cette map à nouveau, 
+  Pour accÃ©der Ã  cette map Ã  nouveau, 
   @ReferenceLink "newmap" "NewMap" 
-  doit être appelé.
+  doit Ãªtre appelÃ©.
 
 @SeeAlso
   @@ClearMap
@@ -292,19 +292,19 @@
 @Function Resultat = MapSize(Map()) 
 
 @Description
-  Renvoie le nombre d'éléments d'une Map.
+  Renvoie le nombre d'Ã©lÃ©ments d'une Map.
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @ReturnValue
-  Renvoie le nombre d'éléments contenus dans la Map() spécifiée.
+  Renvoie le nombre d'Ã©lÃ©ments contenus dans la Map() spÃ©cifiÃ©e.
 
 @Remarks
-  Cette fonction ne modifie pas l'élément courant. @linebreak
-  Elle est très rapide (elle utilise une valeur précalculée) et peut être utilisée 
+  Cette fonction ne modifie pas l'Ã©lÃ©ment courant. @linebreak
+  Elle est trÃ¨s rapide (elle utilise une valeur prÃ©calculÃ©e) et peut Ãªtre utilisÃ©e 
   sereinement pour savoir si une map est vide ou non.@linebreak
-  Si la carte n'est pas initialisée, elle renvoie -1 (par exemple après @@FreeMap).
+  Si la carte n'est pas initialisÃ©e, elle renvoie -1 (par exemple aprÃ¨s @@FreeMap).
     
 @Example  
 @Code
@@ -324,35 +324,35 @@
 @Function Resultat = DeleteMapElement(Map() [, Cle$])  
 
 @Description
-  Efface un élément. 
+  Efface un Ã©lÃ©ment. 
    
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @Parameter "Cle$"
-  La clé de l'élément.@Linebreak
-  Si ce paramètre n'est pas spécifié alors 
-  c'est l'élément courant qui sera supprimé.
+  La clÃ© de l'Ã©lÃ©ment.@Linebreak
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ© alors 
+  c'est l'Ã©lÃ©ment courant qui sera supprimÃ©.
 
 @ReturnValue
-  La valeur renvoyée est un 
+  La valeur renvoyÃ©e est un 
   @ReferenceLink "memory" "pointeur" 
-  vers le nouvel élément. @LineBreak
-  Si la liste ne comporte aucun élément 
-  courant après la suppression, le 
-  résultat est zéro.
+  vers le nouvel Ã©lÃ©ment. @LineBreak
+  Si la liste ne comporte aucun Ã©lÃ©ment 
+  courant aprÃ¨s la suppression, le 
+  rÃ©sultat est zÃ©ro.
 
 @Remarks
-  Après cet appel, le nouvel élément courant est l'élément précédent 
-  (celui qui précéde l'élément supprimé), qui est un élément arbitraire, 
-  car une map n'est pas triée. Si cet élément n'existe pas (en d'autres termes, 
-  vous avez supprimé le premier élément de la map) alors il n'y a plus d'élément 
-  en cours, comme après un @@ResetMap. S'il n'y avait qu'un seul élément dans la 
-  carte lorsque vous l'avez supprimé, il ne vous reste plus aucun élément en cours !
+  AprÃ¨s cet appel, le nouvel Ã©lÃ©ment courant est l'Ã©lÃ©ment prÃ©cÃ©dent 
+  (celui qui prÃ©cÃ©de l'Ã©lÃ©ment supprimÃ©), qui est un Ã©lÃ©ment arbitraire, 
+  car une map n'est pas triÃ©e. Si cet Ã©lÃ©ment n'existe pas (en d'autres termes, 
+  vous avez supprimÃ© le premier Ã©lÃ©ment de la map) alors il n'y a plus d'Ã©lÃ©ment 
+  en cours, comme aprÃ¨s un @@ResetMap. S'il n'y avait qu'un seul Ã©lÃ©ment dans la 
+  carte lorsque vous l'avez supprimÃ©, il ne vous reste plus aucun Ã©lÃ©ment en cours !
   @linebreak
   @linebreak
-  Si le paramètre optionnel "Cle$" est spécifié, il n'y aura pas d'élément courant 
-  après cet appel. N'utilisez donc pas ce paramètre si la commande est utilisée dans une 
+  Si le paramÃ¨tre optionnel "Cle$" est spÃ©cifiÃ©, il n'y aura pas d'Ã©lÃ©ment courant 
+  aprÃ¨s cet appel. N'utilisez donc pas ce paramÃ¨tre si la commande est utilisÃ©e dans une 
   boucle @ReferenceLink "foreach_next" "ForEach : Next" !
 
 @Example
@@ -381,19 +381,19 @@
 @Function Resultat = FindMapElement(Map(), Cle$)
   
 @Description
-  Change l'élément courant.
+  Change l'Ã©lÃ©ment courant.
 
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @Parameter "Cle$"
-  La clé de l'élément.
+  La clÃ© de l'Ã©lÃ©ment.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès ou zéro sinon.@linebreak
-  La valeur renvoyée est un @ReferenceLink "memory" "pointeur" 
-  vers l'élément courant.
+  succÃ¨s ou zÃ©ro sinon.@linebreak
+  La valeur renvoyÃ©e est un @ReferenceLink "memory" "pointeur" 
+  vers l'Ã©lÃ©ment courant.
   
 @Example  
 @Code
@@ -426,16 +426,16 @@
 @Function Resultat$ = MapKey(Map())
   
 @Description
-  Renvoie la clé de l'élément courant. 
+  Renvoie la clÃ© de l'Ã©lÃ©ment courant. 
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @ReturnValue
-  Renvoie la clé de l'élément courant.
+  Renvoie la clÃ© de l'Ã©lÃ©ment courant.
   @linebreak
-  S'il n'y a pas d'élément courant, une 
-  chaîne de caractères vide est renvoyée.
+  S'il n'y a pas d'Ã©lÃ©ment courant, une 
+  chaÃ®ne de caractÃ¨res vide est renvoyÃ©e.
   
 @Example  
 @Code
@@ -460,23 +460,23 @@
 @Function Resultat = NextMapElement(Map())  
 
 @Description
-  Passe de l'élément courant à l'élément 
+  Passe de l'Ã©lÃ©ment courant Ã  l'Ã©lÃ©ment 
   suivant.
 
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@linebreak
-  La valeur renvoyée est un 
+  succÃ¨s, zÃ©ro sinon.@linebreak
+  La valeur renvoyÃ©e est un 
   @ReferenceLink "memory" "pointeur" 
-  vers le nouvel élément.
+  vers le nouvel Ã©lÃ©ment.
 
 @Remarks
-  Si vous avez précédemment fait appel à 
-  @@ResetMap alors l'élément courant 
-  est le premier élément.  
+  Si vous avez prÃ©cÃ©demment fait appel Ã  
+  @@ResetMap alors l'Ã©lÃ©ment courant 
+  est le premier Ã©lÃ©ment.  
 
 @Example
 @Code
@@ -502,18 +502,18 @@
 @Function ResetMap(Map()) 
 
 @Description
-  Change l'élément courant et le place avant le 
-  premier élément de la map. 
-  Donc il n'y a plus d'élément courant valide.
+  Change l'Ã©lÃ©ment courant et le place avant le 
+  premier Ã©lÃ©ment de la map. 
+  Donc il n'y a plus d'Ã©lÃ©ment courant valide.
   
 @Parameter "Map()"  
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  C'est particulièrement utile pour parcourir 
-  tous les éléments avec @@NextMapElement.
+  C'est particuliÃ¨rement utile pour parcourir 
+  tous les Ã©lÃ©ments avec @@NextMapElement.
 
 @Example  
 @linebreak
@@ -541,41 +541,41 @@
 @Function PushMapPosition(Map())
 
 @Description
-  Mémorise l'élément courant (s'il existe). 
+  MÃ©morise l'Ã©lÃ©ment courant (s'il existe). 
 @LineBreak
-  Il pourra être restauré à l'aide de 
+  Il pourra Ãªtre restaurÃ© Ã  l'aide de 
   @@PopMapPosition. 
 
 @Parameter "Map()"
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  La position est sauvegardée dans une 
-  structure de pile, donc plusieurs appels à 
+  La position est sauvegardÃ©e dans une 
+  structure de pile, donc plusieurs appels Ã  
   cette fonction sont possibles.
 @LineBreak
 @LineBreak
-   Cette fonction peut être utilisée pour 
-   sauvegarder l'élément courant, donc une 
-   itération peut être utilisée sur la map 
+   Cette fonction peut Ãªtre utilisÃ©e pour 
+   sauvegarder l'Ã©lÃ©ment courant, donc une 
+   itÃ©ration peut Ãªtre utilisÃ©e sur la map 
    en utilisant @@NextMapElement ou 
    @ReferenceLink "foreach_next" "foreach" et 
-   l'élément courant peut être restauré après 
-   l'itération en utilisant @@PopMapPosition. 
-   Plusieurs appels peuvent être faits à cette 
+   l'Ã©lÃ©ment courant peut Ãªtre restaurÃ© aprÃ¨s 
+   l'itÃ©ration en utilisant @@PopMapPosition. 
+   Plusieurs appels peuvent Ãªtre faits Ã  cette 
    fonction, aussi longtemps que chacun est 
-   équilibré avec un appel @@PopMapPosition 
+   Ã©quilibrÃ© avec un appel @@PopMapPosition 
    correspondant.
 @LineBreak
 @LineBreak
   Note: Il n'est pas permis de supprimer un 
-  élément qui a été mémorisé, en utilisant 
+  Ã©lÃ©ment qui a Ã©tÃ© mÃ©morisÃ©, en utilisant 
   @@DeleteMapElement ou @@ClearMap. 
-  Cela peut entraîner un plantage lors de 
+  Cela peut entraÃ®ner un plantage lors de 
   l'appel de @@PopMapPosition parce que la 
-  mémoire n'est plus valide.
+  mÃ©moire n'est plus valide.
 
 @Example
 @Code
@@ -587,7 +587,7 @@
   Nombres("E") = 2
   Nombres("F") = 5
   
-  ; Une simple élimination de doublon
+  ; Une simple Ã©limination de doublon
   ;
   ForEach Nombres()
     Value = Nombres()
@@ -617,20 +617,20 @@
 @Function PopMapPosition(Map())
 
 @Description
-  Restaure l'élément courant précédemment mis 
-  en mémoire avec @@PushMapPosition.
+  Restaure l'Ã©lÃ©ment courant prÃ©cÃ©demment mis 
+  en mÃ©moire avec @@PushMapPosition.
 
 @Parameter "Map()"
-  La map à utiliser.
+  La map Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  L'état de la map sera le même que celui de 
-  l'appel correspondant à @@PushMapPosition. 
-  S'il n'y avait pas d'élément courant après 
+  L'Ã©tat de la map sera le mÃªme que celui de 
+  l'appel correspondant Ã  @@PushMapPosition. 
+  S'il n'y avait pas d'Ã©lÃ©ment courant aprÃ¨s 
   un @@PushMapPosition alors il n'y a pas 
-  d'élément courant après cet appel aussi.
+  d'Ã©lÃ©ment courant aprÃ¨s cet appel aussi.
 
 @Example
 @Code
@@ -642,7 +642,7 @@
   Nombres("E") = 2
   Nombres("F") = 5
   
-  ; Une simple élimination de doublon
+  ; Une simple Ã©limination de doublon
   ;
   ForEach Nombres()
     Value = Nombres()

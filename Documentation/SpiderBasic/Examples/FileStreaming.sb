@@ -17,47 +17,34 @@ EndEnumeration
 
 Global *Buffer = AllocateMemory(#ChunkSize) ; Allocate a global memory buffer to avoid realloc
 
-Procedure ReadCallback(Status, Filename$, File, Size)
-  If Status = #PB_Status_Loaded
-    ; Read all data into the memory buffer
-    ReadData(0, *Buffer, 0, Size)
-    
-    ; Continue the fingerprint calculation
-    AddFingerprintBuffer(0, *Buffer, 0, Size)
-    
-    ; Update the progressbar
-    SetGadgetState(#ProgressGadget, (Loc(0) * 100) / Lof(0));
-    
-    If Not Eof(0)
-      FetchData(0, #ChunkSize) ; Continue the reading if the end of file hasn't be reach yet
-    Else
-      Debug "MD5 Result:" + FinishFingerprint(0) ; Display the MD5 result
-    EndIf
-    
-  ElseIf Status = #PB_Status_Error
-    Debug "Error when loading the file: " + Filename$
-  EndIf
-EndProcedure
-
-Procedure OpenFileRequesterCallback()
-  
-  ; Start the read the file, in stream mode
-  ;
-  If NextSelectedFile()
-    If ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
+Procedure ChooseFileEvent()
+  Filename$ = OpenFileRequester("text/plain")
+  If Filename$
+    Debug Filename$
+    If ReadFile(0, Filename$, 0, #PB_LocalFile | #PB_File_Streaming)
       
       ; Initialize fingerprint calc
       StartFingerprint(0, #PB_Cipher_MD5)
       
       ; Read the first chunk from the file
-      FetchData(0, #ChunkSize) 
+      While FetchData(0, #ChunkSize) 
+      
+        ; Read all data into the memory buffer
+        ReadData(0, *Buffer, 0, Size)
+      
+        ; Continue the fingerprint calculation
+        AddFingerprintBuffer(0, *Buffer, 0, Size)
+      
+        ; Update the progressbar
+        SetGadgetState(#ProgressGadget, (Loc(0) * 100) / Lof(0));
+      Wend
+      
+      Debug "MD5 Result:" + FinishFingerprint(0) ; Display the MD5 result
+      
     EndIf 
-  EndIf
+  EndIf 
 EndProcedure
 
-Procedure ChooseFileEvent()
-  OpenFileRequester("*.txt", @OpenFileRequesterCallback())
-EndProcedure
 
 If OpenWindow(0, 0, 0, 300, 80, "MD5 calculator", #PB_Window_ScreenCentered)
   ButtonGadget(#SelectFileGadget, 10, 10, 280, 25, "Please choose a (big) file for MD5 sum...")
@@ -67,3 +54,13 @@ If OpenWindow(0, 0, 0, 300, 80, "MD5 calculator", #PB_Window_ScreenCentered)
   BindGadgetEvent(0, @ChooseFileEvent())
 EndIf
 
+
+; IDE Options = SpiderBasic 3.30 beta 1 (Windows - x86)
+; CursorPosition = 23
+; Folding = -
+; iOSAppOrientation = 0
+; AndroidAppCode = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; CompileSourceDirectory
+; EnableUnicode

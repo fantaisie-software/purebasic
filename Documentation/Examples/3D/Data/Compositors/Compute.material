@@ -1,0 +1,64 @@
+//////////
+// GLSL //
+//////////
+compute_program Compute/CS_GLSL glsl
+{
+        source ComputeCS.glsl
+        syntax glsl430
+        has_sampler_binding true
+
+        //TODO how to handle glMemoryBarrier?
+        // do other programs need to support this?
+        // should be able to handle multiple barriers via bit ops
+        // pre_memory_barrier texture
+        // post_memory_barrier texture
+}
+
+compute_program Compute/CS_HLSL hlsl
+{
+        source ComputeCS.hlsl
+        target cs_5_0
+}
+
+compute_program Compute/CS unified
+{
+        delegate Compute/CS_GLSL
+        delegate Compute/CS_HLSL
+}
+material Compute/Compositor
+{
+    technique
+    {
+        pass
+        {
+            compute_program_ref Compute/CS 
+            {
+                param_named_auto roll time
+            }
+
+            texture_unit
+            {
+                // resolution must be 256x256. Contents will be overwritten
+                texture 10points.png 0 PF_BYTE_RGBA
+                unordered_access_mip 0
+            }
+        }
+    }
+}
+
+material Compute/Show
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            texture_unit
+            {
+                texture 10points.png 0 PF_BYTE_RGBA
+                filtering none
+                tex_address_mode clamp
+            }
+        }
+    }
+}

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Sort library documentation
 ;
 ;      (c) 2024 - Fantaisie Software
@@ -7,20 +7,20 @@
 @Library Sort
 
 @Overview
-  Manchmal müssen Elemente sortiert sein, um überhaupt oder einfacher verwendbar zu
+  Manchmal mÃ¼ssen Elemente sortiert sein, um Ã¼berhaupt oder einfacher verwendbar zu
   sein. PureBasic bietet hoch optimierte Funktionen zum Sortieren von
-  @ReferenceLink "dim" "Arrays" und @LibraryLink "list" "verknüpften Listen" -
+  @ReferenceLink "dim" "Arrays" und @LibraryLink "list" "verknÃ¼pften Listen" -
   entweder in aufsteigender oder in absteigender Reihenfolge.
   @LineBreak
-  Weiterhin gibt es Funktionen, um die Elemente eines Arrays oder einer verknüpften
-  Liste in einer zufälligen Reihenfolge neu anzuordnen.
+  Weiterhin gibt es Funktionen, um die Elemente eines Arrays oder einer verknÃ¼pften
+  Liste in einer zufÃ¤lligen Reihenfolge neu anzuordnen.
   @LineBreak
   @@SortStructuredList und @@SortList verwenden 'Mergesort', was eine "stabile Sortierung" (englisch "stable sort")
   darstellt - wenn Sie also z.B. erst die gesamte Liste nach Titeln und dann nochmal nach Album sortieren,
   werden Sie eine Liste erhalten, die nach Alben und jedes Album nach Titel sortiert ist.
   @LineBreak
   Beachten Sie bitte, dass dies nicht bei Arrays funktioniert, da @@SortArray 'Quicksort' verwendet,
-  was "nicht stabil" (englisch "unstable") ist. D.h. die Sortierung nach dem zweiten Schlüssel geht
+  was "nicht stabil" (englisch "unstable") ist. D.h. die Sortierung nach dem zweiten SchlÃ¼ssel geht
   verloren.
   @LineBreak
   @LineBreak
@@ -42,28 +42,28 @@
   @LineBreak
   Das Array kann eine @ReferenceLink "structures" "Struktur" oder einen der
   @ReferenceLink "variables" "Basistypen" haben: Byte, Word, Long, Integer, String oder Float.
-  Mehrdimensionale Arrays werden nicht unterstützt.
+  Mehrdimensionale Arrays werden nicht unterstÃ¼tzt.
 
 @Parameter "ArrayName()"
   Das zu sortierende Array.
   
 @Parameter "@CompareProcedure()"
-  Die Adresse einer Prozedur zum Vergleichen der Array-Elemente. Die Prozedur muss über zwei
-  Parameter verfügen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
-  und sie muss einen der folgenden Werte zurückgeben:
+  Die Adresse einer Prozedur zum Vergleichen der Array-Elemente. Die Prozedur muss Ã¼ber zwei
+  Parameter verfÃ¼gen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
+  und sie muss einen der folgenden Werte zurÃ¼ckgeben:
 @FixedFont
-  @#PB_Sort_Greater: Das erste Element ist größer als das zweite.
+  @#PB_Sort_Greater: Das erste Element ist grÃ¶ÃŸer als das zweite.
   @#PB_Sort_Equal  : Beide Elemente sind gleich.
   @#PB_Sort_Lesser : Das erste Element ist kleiner als das zweite.
 @EndFixedFont
-  Die Vergleichsprozedur wird während des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
-  möglichst wenig Arbeit erledigen und schnell ausgeführt werden können.
+  Die Vergleichsprozedur wird wÃ¤hrend des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
+  mÃ¶glichst wenig Arbeit erledigen und schnell ausgefÃ¼hrt werden kÃ¶nnen.
 
 @OptionalParameter "Optionen"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending : Sortiert das Array in aufsteigender Richtung (kleine Zahlen zuerst). Dies ist der Standard.
-  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (große Zahlen zuerst).
+  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (groÃŸe Zahlen zuerst).
 @EndFixedFont
 
 @OptionalParameter "Start, Ende"
@@ -108,7 +108,7 @@
 
 @Example Array mit Basistyp sortieren
 @Code
-  ; Float-Elemente nach absolutem Wert (ohne Berücksichtigung des Vorzeichens) sortieren
+  ; Float-Elemente nach absolutem Wert (ohne BerÃ¼cksichtigung des Vorzeichens) sortieren
   Procedure AbsCompare(*a.Float, *b.Float)
     If Abs(*a\f) < Abs(*b\f)
       ProcedureReturn #PB_Sort_Lesser
@@ -153,29 +153,29 @@
   Die zu sortierende Liste.
 
 @Parameter "@CompareProcedure()"
-  Die Adresse einer Prozedur zum Vergleichen der Listen-Elemente. Die Prozedur muss über zwei
-  Parameter verfügen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
-  und sie muss einen der folgenden Werte zurückgeben:
+  Die Adresse einer Prozedur zum Vergleichen der Listen-Elemente. Die Prozedur muss Ã¼ber zwei
+  Parameter verfÃ¼gen, die die Speicheradressen der beiden zu vergleichenden Elemente empfangen,
+  und sie muss einen der folgenden Werte zurÃ¼ckgeben:
 @FixedFont
-  @#PB_Sort_Greater: Das erste Element ist größer als das zweite.
+  @#PB_Sort_Greater: Das erste Element ist grÃ¶ÃŸer als das zweite.
   @#PB_Sort_Equal  : Beide Elemente sind gleich.
   @#PB_Sort_Lesser : Das erste Element ist kleiner als das zweite.
 @EndFixedFont
-  Die Vergleichsprozedur wird während des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
-  möglichst wenig Arbeit erledigen und schnell ausgeführt werden können.
+  Die Vergleichsprozedur wird wÃ¤hrend des Sortiervorgangs sehr oft aufgerufen, daher sollte sie
+  mÃ¶glichst wenig Arbeit erledigen und schnell ausgefÃ¼hrt werden kÃ¶nnen.
 
 @OptionalParameter "Optionen"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending : Sortiert die Liste in aufsteigender Richtung (kleine Zahlen zuerst). Dies ist der Standard.
-  @#PB_Sort_Descending: Sortiert die Liste in absteigender Richtung (große Zahlen zuerst).
+  @#PB_Sort_Descending: Sortiert die Liste in absteigender Richtung (groÃŸe Zahlen zuerst).
 @EndFixedFont
 
 @OptionalParameter "Start, Ende"
   Der Index des ersten und letzten Elements in der Liste, die sortiert werden sollen.
   Wenn diese Parameter nicht angegeben werden, wird die gesamte Liste sortiert.
   @LineBreak
-  Das erste Listenelement steht an Position 0, das nächste an Position 1 und so weiter.
+  Das erste Listenelement steht an Position 0, das nÃ¤chste an Position 1 und so weiter.
 
 @NoReturnValue
 
@@ -215,7 +215,7 @@
 
 @Example Liste mit Basistyp sortieren
 @Code
-  ; Float-Elemente nach absolutem Wert (ohne Berücksichtigung des Vorzeichens) sortieren
+  ; Float-Elemente nach absolutem Wert (ohne BerÃ¼cksichtigung des Vorzeichens) sortieren
   Procedure AbsCompare(*a.Float, *b.Float)
     If Abs(*a\f) < Abs(*b\f)
       ProcedureReturn #PB_Sort_Lesser
@@ -250,11 +250,11 @@
 @Function SortArray(ArrayName(), Optionen [, Start, Ende])
 
 @Description
-  Sortiert das angegebene @ReferenceLink "dim" "Array" entsprechend den übergegebenen Optionen.
+  Sortiert das angegebene @ReferenceLink "dim" "Array" entsprechend den Ã¼bergegebenen Optionen.
   Das Array kann aus den folgenden @ReferenceLink "variables" "Standard-Typen" bestehen: Byte, Word, Long, Integer, String oder
-  Float (Fließkomma).
+  Float (FlieÃŸkomma).
 @Linebreak
-  Für strukturierte Arrays muss @@SortStructuredArray verwendet werden. Mehrdimensionale Arrays werden nicht unterstützt.
+  FÃ¼r strukturierte Arrays muss @@SortStructuredArray verwendet werden. Mehrdimensionale Arrays werden nicht unterstÃ¼tzt.
 
 @Parameter "ArrayName()"
   Das zu sortierende Array.
@@ -263,8 +263,8 @@
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending : Sortiert das Array in aufsteigender Richtung (kleine Zahlen zuerst)
-  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (große Zahlen zuerst)
-  @#PB_Sort_NoCase    : Sortiert das String-Array ohne Berücksichtigung der Groß-/Kleinschreibung (a=A, b=B etc..) 
+  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (groÃŸe Zahlen zuerst)
+  @#PB_Sort_NoCase    : Sortiert das String-Array ohne BerÃ¼cksichtigung der GroÃŸ-/Kleinschreibung (a=A, b=B etc..) 
 @EndFixedFont
 
 @OptionalParameter "Start, Ende"
@@ -274,14 +274,14 @@
 @NoReturnValue
 
 @Remarks
-  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstützt.
+  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstÃ¼tzt.
   @LineBreak
-  Ist ein Array nicht vollständig gefüllt, dann werden 'Null'-Elemente an den Anfang
+  Ist ein Array nicht vollstÃ¤ndig gefÃ¼llt, dann werden 'Null'-Elemente an den Anfang
   des Arrays (bei aufsteigender Sortier-Richtung) bzw. an das Ende des Arrays (bei absteigender
   Sortier-Richtung) sortiert.
   @LineBreak
   @Link "Math/IsNaN" "Nicht-Zahlenwerte (NaN)" werden beim Sortieren nicht akzeptiert, da dies
-  zufällige Ergebnisse produziert.
+  zufÃ¤llige Ergebnisse produziert.
 
 @SeeAlso
   @@SortStructuredArray, @@CustomSortArray, @@RandomizeArray
@@ -295,9 +295,9 @@
 @Description
   Sortiert die angegebene @LibraryLink "list" "Liste" entsprechend den angegebenen Optionen.
   Die Liste kann aus den folgenden @ReferenceLink "variables" "Standard-Typen" bestehen: Byte, Word, Long, Integer, String oder
-  Float (Fließkomma).
+  Float (FlieÃŸkomma).
 @Linebreak
-  Für strukturierte Listen muss @@SortStructuredList verwendet werden.
+  FÃ¼r strukturierte Listen muss @@SortStructuredList verwendet werden.
 
 @Parameter "ListenName()"
   Die zu sortierende Liste.
@@ -306,20 +306,20 @@
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending  : Sortiert die Liste in aufsteigender Richtung (kleine Zahlen zuerst)
-  @#PB_Sort_Descending : Sortiert die Liste in absteigender Richtung (große Zahlen zuerst)
-  @#PB_Sort_NoCase     : Sortiert eine Liste mit Strings ohne Berücksichtigung der Groß-/Kleinschreibung (a=A, b=B etc..)
+  @#PB_Sort_Descending : Sortiert die Liste in absteigender Richtung (groÃŸe Zahlen zuerst)
+  @#PB_Sort_NoCase     : Sortiert eine Liste mit Strings ohne BerÃ¼cksichtigung der GroÃŸ-/Kleinschreibung (a=A, b=B etc..)
 @EndFixedFont
 
 @OptionalParameter "Start, Ende"
   Der Index des ersten und letzten Elements in der Liste, welche sortiert werden sollen.
   Wenn diese Parameter nicht angegeben werden, dann wird die ganze Liste sortiert.
   @LineBreak
-  Das erste Listenelement befindet sich an Position 0, das nächste an 1, usw.
+  Das erste Listenelement befindet sich an Position 0, das nÃ¤chste an 1, usw.
 
 @NoReturnValue
 
 @Remarks
-  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstützt.
+  @ReferenceLink "variables" "Fixed (feste) Strings" werden von der Sortierroutine nicht unterstÃ¼tzt.
 
 @SeeAlso
   @@SortStructuredList, @@CustomSortList, @@RandomizeList
@@ -331,8 +331,8 @@
 @Function SortStructuredArray(ArrayName(), Optionen, OffsetOf(Struktur\Feld), TypeOf(Struktur\Field) [, Start, Ende])
 
 @Description
-  Sortiert das angegebene strukturierte @ReferenceLink "dim" "Array" entsprechend den übergegebenen Optionen.
-  Das Array muss eine zugehörige @ReferenceLink "Structures" "Struktur" besitzen.
+  Sortiert das angegebene strukturierte @ReferenceLink "dim" "Array" entsprechend den Ã¼bergegebenen Optionen.
+  Das Array muss eine zugehÃ¶rige @ReferenceLink "Structures" "Struktur" besitzen.
 
 @Parameter "ArrayName()"
   Das zu sortierende Array.
@@ -341,8 +341,8 @@
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending : Sortiert das Array in aufsteigender Richtung (kleine Zahlen zuerst)
-  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (große Zahlen zuerst)
-  @#PB_Sort_NoCase    : Sortiert das String-Array ohne Berücksichtigung der Groß-/Kleinschreibung (a=A, b=B etc..)
+  @#PB_Sort_Descending: Sortiert das Array in absteigender Richtung (groÃŸe Zahlen zuerst)
+  @#PB_Sort_NoCase    : Sortiert das String-Array ohne BerÃ¼cksichtigung der GroÃŸ-/Kleinschreibung (a=A, b=B etc..)
 @EndFixedFont
 
 @Parameter "OffsetOf(Struktur\Feld)"
@@ -351,14 +351,14 @@
   zu ermitteln, nach dem sortiert werden soll.
   
 @Parameter "TypeOf(Struktur\Feld)"
-  Der Feld-Typ des Feldes in der Struktur. Dieser muss mit dem tatsächlichen Struktur-Feld-Typ übereinstimmen.
+  Der Feld-Typ des Feldes in der Struktur. Dieser muss mit dem tatsÃ¤chlichen Struktur-Feld-Typ Ã¼bereinstimmen.
   @ReferenceLink "compilerfunctions" "TypeOf()" kann verwendet werden, um automatisch den Feld-Typ zu ermitteln.
-  Verfügbare Typen sind:
+  VerfÃ¼gbare Typen sind:
 @FixedFont
   @#PB_Byte     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Byte (.b)
   @#PB_Word     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Word (.w)
   @#PB_Long     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Long (.l)
-  @#PB_String   : Das Strukturfeld, nach dem sortiert werden soll, ist ein String (.s oder $), @ReferenceLink "variables" "Fixed Strings" werden nicht unterstützt.
+  @#PB_String   : Das Strukturfeld, nach dem sortiert werden soll, ist ein String (.s oder $), @ReferenceLink "variables" "Fixed Strings" werden nicht unterstÃ¼tzt.
   @#PB_Float    : Das Strukturfeld, nach dem sortiert werden soll, ist ein Float (.f)
   @#PB_Double   : Das Strukturfeld, nach dem sortiert werden soll, ist ein Double (.d)
   @#PB_Quad     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Quad (.q)
@@ -373,14 +373,14 @@
   Wenn diese Parameter nicht angegeben werden, dann wird das ganze Arrays sortiert.
 
 @Remarks
-  @ReferenceLink "variables" "Fixed strings" (Strings mit fester Größe) werden nicht von der Sortierfunktion unterstützt.
+  @ReferenceLink "variables" "Fixed strings" (Strings mit fester GrÃ¶ÃŸe) werden nicht von der Sortierfunktion unterstÃ¼tzt.
   @LineBreak
-  Ist ein Array nicht vollständig gefüllt, dann werden 'Null'-Elemente an den Anfang
+  Ist ein Array nicht vollstÃ¤ndig gefÃ¼llt, dann werden 'Null'-Elemente an den Anfang
   des Arrays (bei aufsteigender Sortier-Richtung) bzw. an das Ende des Arrays (bei absteigender
   Sortier-Richtung) sortiert.
   @LineBreak
   @Link "Math/IsNaN" "Nicht-Zahlenwerte (NaN)" werden beim Sortieren nicht akzeptiert, da dies
-  zufällige Ergebnisse produziert.
+  zufÃ¤llige Ergebnisse produziert.
 
 @Example
 @Code
@@ -427,8 +427,8 @@
 @Function SortStructuredList(ListenName(), Optionen, OffsetOf(Struktur\Feld), TypeOf(Struktur\Feld) [, Start, Ende])
 
 @Description
-  Sortiert die angegebene @LibraryLink "list" "Liste" entsprechend den übergebenen
-  Optionen. Die Liste muss eine zugehörige @ReferenceLink "Structures" "Struktur" besitzen.
+  Sortiert die angegebene @LibraryLink "list" "Liste" entsprechend den Ã¼bergebenen
+  Optionen. Die Liste muss eine zugehÃ¶rige @ReferenceLink "Structures" "Struktur" besitzen.
 
 @Parameter "ListenName()"
   Die zu sortierende Liste.
@@ -437,8 +437,8 @@
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Sort_Ascending  : Sortiert die Liste in aufsteigender Richtung (kleine Zahlen zuerst)
-  @#PB_Sort_Descending : Sortiert die Liste in absteigender Richtung (große Zahlen zuerst)
-  @#PB_Sort_NoCase     : Sortiert eine Liste mit Strings ohne Berücksichtigung der Groß-/Kleinschreibung (a=A, b=B etc..)
+  @#PB_Sort_Descending : Sortiert die Liste in absteigender Richtung (groÃŸe Zahlen zuerst)
+  @#PB_Sort_NoCase     : Sortiert eine Liste mit Strings ohne BerÃ¼cksichtigung der GroÃŸ-/Kleinschreibung (a=A, b=B etc..)
 @EndFixedFont
 
 @Parameter "OffsetOf(Struktur\Feld)"
@@ -447,14 +447,14 @@
   zu ermitteln, nach dem sortiert werden soll.
   
 @Parameter "TypeOf(Struktur\Feld)"
-  Der Feld-Typ des Feldes in der Struktur. Dieser muss mit dem tatsächlichen Struktur-Feld-Typ übereinstimmen.
+  Der Feld-Typ des Feldes in der Struktur. Dieser muss mit dem tatsÃ¤chlichen Struktur-Feld-Typ Ã¼bereinstimmen.
   @ReferenceLink "compilerfunctions" "TypeOf()" kann verwendet werden, um automatisch den Feld-Typ zu ermitteln.
-  Verfügbare Typen sind:
+  VerfÃ¼gbare Typen sind:
 @FixedFont
   @#PB_Byte     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Byte (.b)
   @#PB_Word     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Word (.w)
   @#PB_Long     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Long (.l)
-  @#PB_String   : Das Strukturfeld, nach dem sortiert werden soll, ist ein String (.s oder $), @ReferenceLink "variables" "Fixed Strings" werden nicht unterstützt.
+  @#PB_String   : Das Strukturfeld, nach dem sortiert werden soll, ist ein String (.s oder $), @ReferenceLink "variables" "Fixed Strings" werden nicht unterstÃ¼tzt.
   @#PB_Float    : Das Strukturfeld, nach dem sortiert werden soll, ist ein Float (.f)
   @#PB_Double   : Das Strukturfeld, nach dem sortiert werden soll, ist ein Double (.d)
   @#PB_Quad     : Das Strukturfeld, nach dem sortiert werden soll, ist ein Quad (.q)
@@ -468,10 +468,10 @@
   Der Index des ersten und letzten Elements in der Liste, welche sortiert werden sollen.
   Wenn diese Parameter nicht angegeben werden, dann wird die ganze Liste sortiert.
   @LineBreak
-  Das erste Listenelement befindet sich an Position 0, das nächste an 1, usw.
+  Das erste Listenelement befindet sich an Position 0, das nÃ¤chste an 1, usw.
   
 @Remarks
-  @ReferenceLink "variables" "Fixed strings" (Strings mit fester Größe) werden nicht von der Sortierfunktion unterstützt.
+  @ReferenceLink "variables" "Fixed strings" (Strings mit fester GrÃ¶ÃŸe) werden nicht von der Sortierfunktion unterstÃ¼tzt.
 
 @Example
 @Code
@@ -521,7 +521,7 @@
 @Function RandomizeArray(ArrayName() [, Start, Ende])
 
 @Description
-  Ordnet die Elemente des angegebenen Arrays in einer zufälligen Reihenfolge.
+  Ordnet die Elemente des angegebenen Arrays in einer zufÃ¤lligen Reihenfolge.
 
 @Parameter "ArrayName()"
   Das Array, welches nach dem Zufallsprinzip neu angeordnet werden soll.
@@ -535,7 +535,7 @@
 
 @Remarks
   Diese Funktion verwendet den Pseudo-Zufallszahlen-Generator der @@Random Funktion,
-  um die neue Anordnung der Array-Elemente zu bestimmen. Sie ist daher abhängig
+  um die neue Anordnung der Array-Elemente zu bestimmen. Sie ist daher abhÃ¤ngig
   vom aktuellen @@RandomSeed.
 
 @SeeAlso
@@ -548,7 +548,7 @@
 @Function RandomizeList(Liste() [, Start, Ende])
 
 @Description
-  Ordnet die Elemente der angegebenen Liste in einer zufälligen Reihenfolge.
+  Ordnet die Elemente der angegebenen Liste in einer zufÃ¤lligen Reihenfolge.
 
 @Parameter "Liste()"
   Die Liste, welche nach dem Zufallsprinzip neu angeordnet werden soll.
@@ -559,13 +559,13 @@
   Wenn diese nicht angegeben werden, dann wird die gesamte Liste nach dem
   Zufallsprinzip neu angeordnet.
   @LineBreak
-  Das erste Listenelement befindet sich an Position 0, das nächste an 1, usw.
+  Das erste Listenelement befindet sich an Position 0, das nÃ¤chste an 1, usw.
 
 @NoReturnValue
 
 @Remarks
   Diese Funktion verwendet den Pseudo-Zufallszahlen-Generator der @@Random Funktion,
-  um die neue Anordnung der Listen-Elemente zu bestimmen. Sie ist daher abhängig
+  um die neue Anordnung der Listen-Elemente zu bestimmen. Sie ist daher abhÃ¤ngig
   vom aktuellen @@RandomSeed.
 
 @SeeAlso

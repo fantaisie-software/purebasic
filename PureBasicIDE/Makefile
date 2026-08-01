@@ -21,11 +21,12 @@ ifeq ($(PB_WINDOWS),1)
   	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompiler
   endif
 	IDE = $(HOME)/$(IDENAME).exe
-	IDEFLAGS = /QUIET /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE /OPTIMIZER
+	IDEFLAGS = /QUIET /THREAD /UNICODE /XP /USER /ICON $(ICOFILE) /DPIAWARE
 	MAKEEXE = /EXE
 	MAKEBUILDINFO = Build/makebuildinfo.exe
 	TOOLFLAGS = /LINENUMBERING /CONSOLE
 	DEBUGFLAGS = /LINENUMBERING /DEBUGGER /CONSOLE
+	OPTIMIZERFLAGS = /OPTIMIZER
 	VERSIONFLAG = /RESOURCE Build/VersionInfo.rc
 	CONSTANT = /CONSTANT
 	PURIFIER = /PURIFIER
@@ -39,6 +40,7 @@ ifeq ($(PB_WINDOWS),1)
 	ECHOQUOTE =
 	ICON = ico
 	THEMEFOLDER = $(HOME)/Themes
+	COLORSCHEMEFOLDER = $(HOME)/ColorSchemes
 
 else
   ifeq ($(C_BACKEND),1)
@@ -49,7 +51,7 @@ else
 	
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
-	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --optimizer --dpiaware
+	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --dpiaware
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
@@ -58,14 +60,20 @@ ifeq ($(PB_MACOS),1)
 	endif
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
-	IDEFLAGS = --thread --unicode --optimizer
+	IDEFLAGS = --thread --unicode
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
 		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_gtk2"
 		IDEFLAGS += --subsystem gtk2
 	else
-		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
+		ifeq ($(PB_QT),1)
+			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_qt"
+			IDEFLAGS += --subsystem qt
+			QT_HELPERS = Build/QtHelpers.a
+		else
+			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
+		endif
 	endif
 endif
 
@@ -75,6 +83,7 @@ endif
 	MAKEBUILDINFO = Build/makebuildinfo
 	TOOLFLAGS =
 	DEBUGFLAGS = -d
+	OPTIMIZERFLAGS = --optimizer
 	DEBUGSYMBOLS = -ds
 	VERSIONFLAG =
 	CPUMONITORLIB =
@@ -84,8 +93,11 @@ endif
 	ECHOQUOTE = "
 	ICON = png
 	THEMEFOLDER = $(HOME)/themes
+	COLORSCHEMEFOLDER = $(HOME)/colorschemes
 
 endif
+
+COLORSCHEME = $(HOME)/ColorSchemes
 
 PACKLEVEL = -q -l4
 
@@ -114,6 +126,7 @@ Build/Updates.pb
 
 DEPENDENCIES = \
 	$(COLORTABLE) \
+	$(COLORSCHEME) \
 	*.pb \
 	../PureBasicDebugger/*.pb \
 	$(DIALOGS) \
@@ -121,7 +134,8 @@ DEPENDENCIES = \
 	$(CPUMONITORLIB) \
 	$(MACPLIST) \
 	$(THEMES) \
-	$(MAKEBUILDINFO)
+	$(MAKEBUILDINFO) \
+	$(QT_HELPERS)
 
 
 ifeq ($(PB_JAVASCRIPT),1)
@@ -133,7 +147,7 @@ endif
 #
 ide : VERSION $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG)
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(OPTIMIZERFLAGS) $(VERSIONFLAG)
 	$(MACPLISTCOMMAND)
 
 #
@@ -141,7 +155,7 @@ ide : VERSION $(DEPENDENCIES)
 #
 demo : VERSION_DEMO $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(OPTIMIZERFLAGS) $(VERSIONFLAG) $(CONSTANT) DEMO=1
 	$(MACPLISTCOMMAND)
 
 #
@@ -151,6 +165,9 @@ debug : VERSION_DEBUG $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
 	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG) $(CONSTANT) DEBUG=1
 	$(MACPLISTCOMMAND)
+
+debug_c:
+	make debug C_BACKEND=1
 
 #
 # debug version + Purifier
@@ -165,7 +182,7 @@ purifier : VERSION_DEBUG $(DEPENDENCIES)
 #
 symbols : VERSION $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG)
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(OPTIMIZERFLAGS) $(DEBUGSYMBOLS) $(VERSIONFLAG)
 	$(MACPLISTCOMMAND)
 
 #
@@ -173,7 +190,7 @@ symbols : VERSION $(DEPENDENCIES)
 #
 onerror : VERSION $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
-	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(VERSIONFLAG) $(ONERROR)
+	$(PBCOMPILER) PureBasic.pb $(MAKEEXE) $(IDE) $(IDEFLAGS) $(OPTIMIZERFLAGS) $(VERSIONFLAG) $(ONERROR)
 	$(MACPLISTCOMMAND)
 
 #
@@ -208,6 +225,10 @@ $(THEMEFOLDER)/SilkTheme.zip: data/SilkTheme/*
 
 $(COLORTABLE): data/ColorTable.xml
 	cp -f data/ColorTable.xml "$(COLORTABLE)"
+
+$(COLORSCHEME): data/DefaultColorSchemes/*
+	"mkdir" -p "$(COLORSCHEMEFOLDER)"
+	cp data/DefaultColorSchemes/* "$(COLORSCHEMEFOLDER)"
 
 # this also works on windows
 #
@@ -258,6 +279,28 @@ ifeq ($(PB_MACOS),1)
 
 $(MACPLIST) : tools/macplist.pb Build/dummy
 	$(PBCOMPILER) tools/macplist.pb -e $(MACPLIST)
+
+endif
+
+ifeq ($(PB_QT),1)
+
+ifeq ($(PB_PROCESSOR),X64)
+  GPP_FLAGS = -fPIC -DPB_64
+endif
+
+ifeq ($(PB_PROCESSOR),X86)
+  GPP_FLAGS = -fPIC
+endif
+
+ifeq ($(PB_PROCESSOR),ARM64)
+  GPP_FLAGS = -fPIC -DPB_64
+endif
+
+$(QT_HELPERS) : qt/QtHelpers.cpp qt/QtHelpers.h Build/dummy
+	moc -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` qt/QtHelpers.h -o Build/QtHelpers.moc.cpp
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -c Build/QtHelpers.moc.cpp -o Build/QtHelpers.moc.o
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -Iqt -c qt/QtHelpers.cpp -o Build/QtHelpers.o
+	ar crs $(QT_HELPERS) Build/QtHelpers.o Build/QtHelpers.moc.o
 
 endif
 

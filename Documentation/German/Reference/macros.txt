@@ -1,4 +1,4 @@
-@Title Macros
+ï»¿@Title Macros
 
 @Syntax
 
@@ -8,10 +8,10 @@
 
 @Description
 
-  Makros (englisch "Macros") sind ein sehr mächtiges Feature, hauptsächlich nützlich für fortgeschrittene 
-  Programmierer. Ein Makro ist ein Platzhalter für etwas Code (ein Schlüsselwort, eine Zeile oder 
+  Makros (englisch "Macros") sind ein sehr mÃ¤chtiges Feature, hauptsÃ¤chlich nÃ¼tzlich fÃ¼r fortgeschrittene 
+  Programmierer. Ein Makro ist ein Platzhalter fÃ¼r etwas Code (ein SchlÃ¼sselwort, eine Zeile oder 
   auch viele Zeilen), welcher (beim Kompilieren) direkt an der Stelle, wo das Makro aufgerufen wird,
-  in den Programmcode eingefügt wird. 
+  in den Programmcode eingefÃ¼gt wird. 
 @LineBreak
 @LineBreak
   In dieser Beziehung unterscheidet es sich von @ReferenceLink "procedures" "Prozeduren", da
@@ -19,22 +19,22 @@
 @LineBreak
 @LineBreak
   Die @Keyword "Macro" : @Keyword "EndMacro" Deklaration muss vor dem ersten Aufruf des Makros erfolgen.
-  Da Makros zur Kompilier-Zeit komplett durch ihren zugehörigen Code ersetzt werden, sind sie nicht
+  Da Makros zur Kompilier-Zeit komplett durch ihren zugehÃ¶rigen Code ersetzt werden, sind sie nicht
   lokal zu einer Prozedur, etc.
 @LineBreak
 @LineBreak
-  Ein Makro kann weder einen Rückgabewert noch typenbasierte Parameter haben. Wenn ein Makro
-  einige Parameter hat, werden diese im Makro exakt durch den wörtlichen Ausdruck ersetzt, der 
-  beim Aufruf des Makros an dieses übergeben wurde. Zu diesem Zeitpunkt wird keine Auswertung
+  Ein Makro kann weder einen RÃ¼ckgabewert noch typenbasierte Parameter haben. Wenn ein Makro
+  einige Parameter hat, werden diese im Makro exakt durch den wÃ¶rtlichen Ausdruck ersetzt, der 
+  beim Aufruf des Makros an dieses Ã¼bergeben wurde. Zu diesem Zeitpunkt wird keine Auswertung
   vorgenommen, was sehr wichtig zum Verstehen ist: Die Auswertung einer Code-Zeile wird begonnen,
   sobald alle auf dieser Zeile gefundenen Makros erweitert (d.h. durch ihren Inhalt ersetzt) wurden.
 @LineBreak
 @LineBreak
   Makros werden in zwei Kategorien eingeteilt: Einfache (ohne Parameter) und 
-  komplexe (mit Parameter, benötigen Klammern beim Aufruf). Bei der Verwendung ohne Parameter
-  ist es möglich, jedes Wort mit einem anderen Wort (oder jeden Ausdrucks) zu ersetzen.
-  Makros können nicht rekursiv verwendet werden.
-  Makro-Deklarationen können nicht verschachtelt werden (es ist nicht möglich, ein Makro innerhalb
+  komplexe (mit Parameter, benÃ¶tigen Klammern beim Aufruf). Bei der Verwendung ohne Parameter
+  ist es mÃ¶glich, jedes Wort mit einem anderen Wort (oder jeden Ausdrucks) zu ersetzen.
+  Makros kÃ¶nnen nicht rekursiv verwendet werden.
+  Makro-Deklarationen kÃ¶nnen nicht verschachtelt werden (es ist nicht mÃ¶glich, ein Makro innerhalb
   eines anderen zu definieren).
   
 @Example Einfaches Makro
@@ -51,12 +51,13 @@
   
 @EndCode
 
-  Mit der Verwendung von Parametern ist es möglich, sehr flexible Makros zu erschaffen. 
-  Das spezielle Verknüpfungszeichen '#' kann benutzt werden, um neue Labels oder Keywords
-  (Schlüsselwörter) durch Mischen von Makro-Code und Parameter-Ausdrücken zu erschaffen
-  (Leerzeichen zwischen jedem Wort werden durch das Verknüpfungszeichen nicht akzeptiert).
-  Es ist auch möglich, Standardwerte für Parameter zu definieren, sodass sie beim Aufruf
-  des Makros weggelassen werden können.
+  Mit der Verwendung von Parametern ist es mÃ¶glich, sehr flexible Makros zu erschaffen. 
+  Das spezielle VerknÃ¼pfungszeichen '#' kann benutzt werden, um neue Labels oder Keywords
+  (SchlÃ¼sselwÃ¶rter) durch Mischen von Makro-Code und Parameter-AusdrÃ¼cken zu erschaffen
+  (Leerzeichen zwischen jedem Wort werden durch das VerknÃ¼pfungszeichen nicht akzeptiert).
+  Es ist jedoch nicht mÃ¶glich, eine Verkettung in einem Makronamen zu verwenden (um ein anderes Makro aufzurufen).
+  Es ist auch mÃ¶glich, Standardwerte fÃ¼r Parameter zu definieren, sodass sie beim Aufruf
+  des Makros weggelassen werden kÃ¶nnen.
   
 @Example Makro mit Parameter
 
@@ -81,7 +82,7 @@
                    ; 'MessageRequester("Hello", UCase("Ha, no body specified"), 0)'
 @EndCode
 
-@Example Makro mit Parameter-Verknüpfung
+@Example Makro mit Parameter-VerknÃ¼pfung
 
 @Code
   Macro XCase(Type, Text)
@@ -101,7 +102,7 @@
   EndMacro
 
   Macro Assert(Expression)
-    CompilerIf #PB_Compiler_Debugger  ; 'Assert' (Erklärung) nur im Debug-Modus aktivieren
+    CompilerIf #PB_Compiler_Debugger  ; 'Assert' (ErklÃ¤rung) nur im Debug-Modus aktivieren
       If Expression
         Debug "Assert (Line " + #PB_Compiler_Line + "): " + DoubleQuote#Expression#DoubleQuote
       EndIf
@@ -109,7 +110,7 @@
   EndMacro
 
   Assert(10 <> 10) ; Wird nichts anzeigen
-  Assert(10 <> 15) ; Sollte die Erklärung anzeigen
+  Assert(10 <> 15) ; Sollte die ErklÃ¤rung anzeigen
   
 @EndCode
 
@@ -127,11 +128,11 @@
 
 @Description
 
-  @Keyword UndefineMacro ermöglicht das Löschen (englisch "Undefine") eines zuvor definierten Makros, und 
-  das neue Definieren in einer anderen Art und Weise. Sobald ein Makro gelöscht ("undefined") wurde, steht
-  es nicht mehr für die weitere Verwendung zur Verfügung.
+  @Keyword UndefineMacro ermÃ¶glicht das LÃ¶schen (englisch "Undefine") eines zuvor definierten Makros, und 
+  das neue Definieren in einer anderen Art und Weise. Sobald ein Makro gelÃ¶scht ("undefined") wurde, steht
+  es nicht mehr fÃ¼r die weitere Verwendung zur VerfÃ¼gung.
     
-@Example Löschen eines Makros
+@Example LÃ¶schen eines Makros
 
 @Code
   Macro Test
@@ -140,9 +141,9 @@
   
   Test ; Aufrufen des Makros
   
-  UndefineMacro Test ; Löschen des Makros, es existiert jetzt nicht mehr
+  UndefineMacro Test ; LÃ¶schen des Makros, es existiert jetzt nicht mehr
   
-  Macro Test ; Jetzt können wir das Makro erneut definieren
+  Macro Test ; Jetzt kÃ¶nnen wir das Makro erneut definieren
     Debug "2"
   EndMacro
   
@@ -165,7 +166,7 @@
 @Description
 
   Mittels @Keyword MacroExpandedCount kann die Anzahl der "Erweiterungen" (englisch "expanded count", d.h. die Anzahl
-  wie oft ein Makro erweitert/aufgerufen wurde) ermittelt werden. Dies kann nützlich sein, um bei jeder
+  wie oft ein Makro erweitert/aufgerufen wurde) ermittelt werden. Dies kann nÃ¼tzlich sein, um bei jeder
   Erweiterung/jedem Aufruf einen eindeutigen Bezeichner im gleichen Makro zu generieren (wie Sprungmarken,
   Prozedur-Namen, etc.).
     

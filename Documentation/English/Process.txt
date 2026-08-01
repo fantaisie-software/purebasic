@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Process library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Process
@@ -314,6 +314,9 @@
   that loaded it.
 @EndOS
 
+@SeeAlso
+  @@GetPathPart, @@GetFilePart
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -371,7 +374,7 @@
 @LineBreak
   @Bold "Note:" Relying on the return of an empty string to detect the last parameter is not a good practice,
   since the function also returns an empty string if an empty string was passed in "" on the command-line.
-  The prefered method which should be used to get all parameters, is to get the count with @@CountProgramParameters
+  The preferred method which should be used to get all parameters, is to get the count with @@CountProgramParameters
   and then to call ProgramParameter() as often as needed.
 @LineBreak
 @LineBreak
@@ -399,6 +402,9 @@
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
+
+@SeeAlso
+  @@CreatePreferences
 
 @SupportedOS
 

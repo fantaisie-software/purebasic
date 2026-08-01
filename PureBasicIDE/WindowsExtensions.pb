@@ -111,15 +111,6 @@ CompilerIf #CompileWindows
     ProcedureReturn GetGadgetAttribute(Gadget, #PB_Panel_ItemHeight)
   EndProcedure
   
-  Procedure GetPanelItemID(Gadget, Item)
-    tc.TC_ITEM\mask = #TCIF_PARAM
-    If SendMessage_(GadgetID(Gadget), #TCM_GETITEM, Item, @tc)
-      ProcedureReturn tc\lParam
-    Else
-      ProcedureReturn 0
-    EndIf
-  EndProcedure
-  
   
   Procedure SelectComboBoxText(Gadget)
     
@@ -203,22 +194,6 @@ CompilerIf #CompileWindows
     
     ProcedureReturn Result
   EndProcedure
-  
-  
-  ; windows only
-  Procedure SetCodePage(Gadget)
-    ; Try to find out if the locale uses an ANSI codepage by default
-    linfo.s = Space(6)
-    linfo_len = GetLocaleInfo_(GetSystemDefaultLCID_(), #LOCALE_IDEFAULTANSICODEPAGE, @linfo, 6)
-    If linfo_len>0
-      ; If default system ansi code page is not zero, use the ANSI code page
-      ;
-      If Val(Mid(linfo, 1, linfo_len))<>0
-        SendMessage_(GadgetID(Gadget), #EM_SETTEXTMODE, #TM_SINGLECODEPAGE, 0)
-      EndIf
-    EndIf
-  EndProcedure
-  
   
   #HDF_BITMAP_ON_RIGHT = $1000
   #HDI_IMAGE           = $0020

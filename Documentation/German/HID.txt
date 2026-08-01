@@ -1,0 +1,469 @@
+﻿;
+;     HID library documentation
+;
+;      (c) 2025 - Fantaisie Software
+;
+
+@Library HID
+
+@Overview
+  Die HID (Human Interface Device) Bibliothek ermöglicht den Zugriff auf HID-Geräte (englisch "HID devices) wie
+  Tastaturen, Mäuse, Gamecontroller und andere Eingabegeräte. Mit dieser Bibliothek lassen sich verfügbare HID-Geräte
+  auflisten, für die Kommunikation öffnen und Daten mithilfe von Standard-HID-Berichten (Reports) lesen und schreiben.
+
+@LineBreak
+@LineBreak
+  HID-Geräte werden anhand ihrer Hersteller-ID (Vendor-ID, VID) und Produkt-ID (PID) identifiziert. Die
+  Bibliothek unterstützt sowohl den generischen HID-Zugriff als auch die gerätespezifische Kommunikation
+  über Funktions-, Eingabe- und Ausgabeberichte (Reports).
+
+@LineBreak
+@LineBreak
+  Für fortgeschrittene HID-Operationen bietet die Bibliothek Zugriff auf Berichtsbeschreibungen und
+  indizierte Zeichenketten (englisch "indexed strings") zur Geräteidentifizierung.
+
+@CommandList
+
+@ExampleFile All HID.pb
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseHID(#HID)
+
+@Description
+  Schließt das angegebene HID-Gerät.
+
+@Parameter "#HID"
+  Das zu schließende HID-Gerät.
+
+@NoReturnValue
+
+@Remarks
+  Sobald das HID-Gerät geschlossen ist, kann es nicht mehr verwendet werden. Alle mit dem Gerät verbundenen
+  Ressourcen werden freigegeben.
+
+@SeeAlso
+  @@OpenHID, @@OpenHIDPath
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ExamineHIDs([HerstellerID [, ProduktID]])
+
+@Description
+  Startet die Aufzählung der verfügbaren HID-Geräte.
+
+@OptionalParameter "HerstellerID"
+  Geräte nach einer spezifischen Hersteller-ID (Vendor-ID) filtern.
+
+@OptionalParameter "ProduktID"
+  Geräte nach einer spezifischen Produkt-ID filtern.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Aufzählung erfolgreich gestartet wurde, und Null,
+  wenn ein Fehler aufgetreten ist.
+
+@Remarks
+  Verwenden Sie diese Funktion, um mit der Auflistung der HID-Geräte zu beginnen. Nach dem Aufruf
+  von ExamineHIDs() verwenden Sie @@NextHID, um die verfügbaren Geräte zu durchlaufen.
+
+@Example
+@Code
+  If ExamineHIDs()
+    While NextHID()
+      Debug "Found HID device: " + HIDInfo(#PB_HID_Product)
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@NextHID, @@HIDInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = NextHID()
+
+@Description
+  Ermittelt das nächste HID-Gerät in der mit ExamineHIDs() gestarteten Aufzählung.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn ein weiteres HID-Gerät gefunden wurde, und Null,
+  wenn keine weiteren Geräte vorhanden sind.
+
+@Remarks
+  Diese Funktion muss nach ExamineHIDs() aufgerufen werden, um die verfügbaren HID-Geräte zu durchlaufen.
+
+@SeeAlso
+  @@ExamineHIDs, @@HIDInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = HIDInfo(Typ [, #HID])
+
+@Description
+  Mehr Informationen über das HID-Gerät erhalten.
+
+@Parameter "Typ"
+  Der Typ der abzurufenden Informationen. Mögliche Werte sind:
+@FixedFont
+  @#PB_HID_Path           : der plattformspezifische Gerätepfad.
+  @#PB_HID_VendorId       : die Geräte-Hersteller-ID.
+  @#PB_HID_ProductId      : die Geräte-Produkt-ID.
+  @#PB_HID_SerialNumber   : die Seriennummer.
+  @#PB_HID_ReleaseNumber  : die Geräte-Release-Nummer im binärkodierten Dezimalformat, auch bekannt als Geräte-Versionsnummer.
+  @#PB_HID_Manufacturer   : der Hersteller.
+  @#PB_HID_Product        : das Produkt.
+  @#PB_HID_UsagePage      : die Nutzungsseite ("usage page") für dieses Gerät.
+  @#PB_HID_Usage          : die Nutzung für dieses Gerät.
+  @#PB_HID_InterfaceNumber: die USB-Schnittstelle, die dieses logische Gerät repräsentiert (nur gültig für USB-Geräte).
+  @#PB_HID_BusType        : der zugrunde liegende Bustyp. Kann einer der folgenden Werte sein:
+                            0: Unbekannt
+                            1: USB
+                            2: Bluetooth
+                            3: I2C
+                            4: SPI
+@EndFixedFont
+  
+@OptionalParameter "#HID"
+  Das abzufragende HID-Gerät. Falls nicht angegeben, wird das aktuelle Gerät aus der mit @@ExamineHIDs
+  gestarteten Aufzählung verwendet.
+
+@ReturnValue
+  Gibt einen String zurück, der die angeforderten HID-Informationen enthält.
+
+@Code
+  If ExamineHIDs()
+    While NextHID()
+      Debug "Found HID device: " + HIDInfo(#PB_HID_Product)
+      Debug "Found HID device: " + HIDInfo(#PB_HID_Manufacturer)
+      Debug "Found HID device: " + HIDInfo(#PB_HID_Path)
+      Debug "---------------------------------------------------"
+    Wend
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ExamineHIDs, @@NextHID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = OpenHID(#HID, HerstellerID, ProduktID [, SerienNummer])
+
+@Description
+  Öffnet das angegebene HID-Gerät für Lese- oder Schreiboperationen.
+
+@Parameter "#HID"
+  Die Nummer zur Identifizierung des HID-Geräts.
+
+@Parameter "HerstellerID"
+  Die Hersteller-ID (VID) des zu öffnenden Geräts.
+
+@Parameter "ProductId"
+  Die Produkt-ID (PID) des zu öffnenden Geräts.
+
+@OptionalParameter "SerienNummer"
+  Die Seriennummer des spezifischen Geräts, das geöffnet werden soll (falls mehrere Geräte mit
+  derselben VID/PID vorhanden sind).
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Gerät erfolgreich geöffnet wurde, und Null, wenn
+  ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion öffnet ein HID-Gerät anhand seiner Hersteller-ID und Produkt-ID. Falls mehrere Geräte
+  mit derselben Hersteller-ID/Produkt-ID vorhanden sind, geben Sie die Seriennummer an, um ein
+  bestimmtes Gerät zu öffnen.
+
+@SeeAlso
+  @@OpenHIDPath, @@CloseHID
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = OpenHIDPath(#HID, Pfad$)
+
+@Description
+  Öffnet das angegebene HID-Gerät für Lese- oder Schreiboperationen über einen Gerätepfad.
+
+@Parameter "#HID"
+  Die Nummer zur Identifizierung des HID-Geräts.
+
+@Parameter "Pfad$"
+  Der zu öffnende plattformspezifische Gerätepfad.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn das Gerät erfolgreich geöffnet wurde, und Null, wenn
+  ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion öffnet ein HID-Gerät über seinen spezifischen Gerätepfad, der durch Geräteaufzählung
+  mittels @@ExamineHIDs ermittelt werden kann.
+
+@SeeAlso
+  @@OpenHID, @@CloseHID, @@ExamineHIDs
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ReadHIDData(#HID, *Puffer, Groesse [, Timeout])
+
+@Description
+  Liest Daten vom angegebenen HID-Gerät.
+
+@Parameter "#HID"
+  Das HID-Gerät, von dem gelesen werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer zum Speichern der gelesenen Daten.
+
+@Parameter "Groesse"
+  Die Anzahl der zu lesenden Bytes.
+
+@OptionalParameter "Timeout"
+  Das Timeout in Millisekunden für den Lesevorgang.
+
+@ReturnValue
+  Gibt die Anzahl der tatsächlich gelesenen Bytes zurück, oder null, falls ein Fehler oder ein 
+  Timeout aufgetreten ist.
+
+@SeeAlso
+  @@WriteHIDData, @@ReceiveHIDInputReport
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WriteHIDData(#HID, *Puffer, Groesse)
+
+@Description
+  Schreibt Daten an das angegebene HID-Gerät.
+
+@Parameter "#HID"
+  Das HID-Gerät, auf das geschrieben werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer, der die zu schreibenden Daten enthält.
+
+@Parameter "Groesse"
+  Die Anzahl der zu schreibenden Bytes.
+
+@ReturnValue
+  Gibt die Anzahl der tatsächlich geschriebenen Bytes zurück, oder null, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@ReadHIDData, @@SendHIDOutputReport
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = DisableHIDBlockingMode(#HID, Status)
+
+@Description
+  Aktiviert oder deaktiviert den Blockierungsmodus ("blocking mode") für das angegebene HID-Gerät.
+  Wenn der Blockierungsmodus deaktiviert ist, werden Lesevorgänge sofort zurückgegeben, auch wenn
+  keine Daten verfügbar sind.
+
+@Parameter "#HID"
+  Das zu konfigurierende HID-Gerät.
+
+@Parameter "Status"
+  Der Blockierungsmodus-Status (ungleich Null zum Deaktivieren der Blockierung, Null zum Aktivieren).
+
+@NoReturnValue
+
+@SeeAlso
+  @@ReadHIDData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = GetHIDIndexedString(#HID, Index)
+
+@Description
+  Den angegebenen indizierten Stringwert ("indexed string") vom HID-Gerät abrufen.
+  HID-Geräte können mehrere Strings an verschiedenen Indizes speichern, z.B. Produktname, Hersteller usw.
+
+@Parameter "#HID"
+  Das abzufragende HID-Gerät.
+
+@Parameter "Index"
+  Der Index des abzurufenden Strings.
+
+@ReturnValue
+  Gibt den Stringwert zurück oder einen leeren String, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@HIDInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Puffer = GetHIDReportDescriptor(#HID)
+
+@Description
+  Ruft den HID-Berichtsdeskriptor vom Gerät als Speicherpuffer ab.
+
+@Parameter "#HID"
+  Das abzufragende HID-Gerät.
+
+@ReturnValue
+  Gibt den Berichtsdeskriptor als Speicherpuffer zurück. Die Größe des Deskriptors kann mit
+  @@MemorySize ermittelt werden. Sobald der Deskriptor nicht mehr benötigt wird, kann er
+  mit @@FreeMemory freigegeben werden.
+
+@Remarks
+  Der Berichtsdeskriptor beschreibt das Datenformat und die Fähigkeiten des HID-Geräts.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ReceiveHIDInputReport(#HID, *Puffer, Groesse)
+
+@Description
+  Empfängt einen Eingabebericht ("input report") vom HID-Gerät.
+  Eingabeberichte dienen der Kommunikation zwischen Gerät und Host und enthalten die Berichts-ID.
+
+@Parameter "#HID"
+  Das HID-Gerät, von dem empfangen werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer zum Speichern des empfangenen Berichts.
+
+@Parameter "Groesse"
+  Die Größe des Puffers.
+
+@ReturnValue
+  Gibt die Anzahl der empfangenen Bytes zurück, oder null, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@SendHIDOutputReport, @@ReadHIDData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SendHIDOutputReport(#HID, *Puffer, Groesse)
+
+@Description
+  Sendet einen Ausgabebericht ("output report") an das HID-Gerät.
+  Ausgabeberichte dienen der Kommunikation zwischen Host und Gerät und enthalten die Berichts-ID.
+
+@Parameter "#HID"
+  Das HID-Gerät, an das gesendet werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer, der den zu sendenden Bericht enthält.
+
+@Parameter "Size"
+  Die Größe des Berichts.
+
+@ReturnValue
+  Gibt die Anzahl der gesendeten Bytes zurück, oder null, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@ReceiveHIDInputReport, @@WriteHIDData
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ReceiveHIDFeatureReport(#HID, *Puffer, Groesse)
+
+@Description
+  Empfängt einen Funktionsbericht ("feature report") vom HID-Gerät.
+  Funktionsberichte werden für bidirektionale Konfigurations- und Statusinformationen verwendet.
+
+@Parameter "#HID"
+  Das HID-Gerät, von dem empfangen werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer zum Speichern des empfangenen Berichts.
+
+@Parameter "Groesse"
+  Die Größe des Puffers.
+
+@ReturnValue
+  Gibt die Anzahl der empfangenen Bytes zurück, oder null, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@SendHIDFeatureReport
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SendHIDFeatureReport(#HID, *Puffer, Groesse)
+
+@Description
+  Sendet einen Funktionsbericht ("feature report) an das HID-Gerät.
+  Funktionsberichte werden für bidirektionale Konfigurations- und Statusinformationen verwendet.
+
+@Parameter "#HID"
+  Das HID-Gerät, an das gesendet werden soll.
+
+@Parameter "*Puffer"
+  Der Puffer, der den zu sendenden Bericht enthält.
+
+@Parameter "Groesse"
+  Die Größe des Berichts.
+
+@ReturnValue
+  Gibt die Anzahl der gesendeten Bytes zurück, oder null, falls ein Fehler aufgetreten ist.
+
+@SeeAlso
+  @@ReceiveHIDFeatureReport
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = HIDError()
+
+@Description
+  Liest die letzten Fehlerinformationen.
+
+@ReturnValue
+  Gibt einen String zurück, der den zuletzt aufgetretenen HID-Fehler beschreibt.
+
+@Remarks
+  Diese Funktion kann nach dem Fehlschlagen einer HID-Operation aufgerufen werden, um weitere
+  Informationen über den Fehler zu erhalten.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsHID(#HID)
+
+@Description
+  Prüft, ob es sich bei dem angegebenen '#HID' um ein initialisiertes HID-Objekt handelt.
+
+@Parameter "#HID"
+  Das zu überprüfende HID-Gerät.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #HID ein gültiges HID-Gerät ist, und andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem beliebigen Wert verwendet werden, um
+  sicherzustellen, dass ein HID-Gerät betriebsbereit ist.
+
+@SeeAlso
+  @@OpenHID, @@OpenHIDPath
+
+@SupportedOS

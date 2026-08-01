@@ -1,7 +1,7 @@
-;
+﻿;
 ;     String library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library String
@@ -202,6 +202,7 @@
 @Code
   Debug EscapeString("Test="+Chr(34)+"Hello"+Chr(34)+".") ; Will display "Test=\"Hello\"."
   Debug EscapeString("<item>Hello</item>", #PB_String_EscapeXML) ; Will display "&lt;item&gt;Hello&lt;/item&gt;"
+  Debug EscapeString("Str1"+ #CRLF$ +"Str2"+ #TAB$ +"3") ; Will display "Str1\r\nStr2\t3"
 @EndCode
 
 @SeeAlso
@@ -229,7 +230,7 @@
 @OptionalParameter "Mode"
   It can be one of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive: case sensitive search (a=a) (default).
+  @#PB_String_CaseSensitive: case sensitive search (A≠a) (default).
   @#PB_String_NoCase       : case insensitive search (A=a).
 @EndFixedFont
 
@@ -412,6 +413,9 @@
   Debug Len("This is Art") ; will display 11
 @EndCode
 
+@SeeAlso
+  @@StringByteLength
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -524,7 +528,7 @@
 @OptionalParameter "Mode"
   It can be one of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive: case sensitive remove (a=a) (default)
+  @#PB_String_CaseSensitive: case sensitive remove (A≠a) (default)
   @#PB_String_NoCase       : case insensitive remove (A=a)
 @EndFixedFont
 
@@ -541,8 +545,9 @@
 
 @Example
 @Code
-  Debug RemoveString("This is Art", "is") ; Will display "Th  Art"
-  Debug RemoveString("This is Art", "is", #PB_String_CaseSensitive, 1, 1) ; Will display "Th is Art"
+  Debug RemoveString("This Is Art", "is") ; will display "Th Is Art"
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase) ; will display "Th  Art"
+  Debug RemoveString("This Is Art", "is", #PB_String_NoCase, 1, 1) ; will display "Th Is Art"
 @EndCode
 
 @SeeAlso
@@ -570,14 +575,8 @@
 @OptionalParameter "Mode"
   It can be a combination of the following values:
 @FixedFont
-  @#PB_String_CaseSensitive : Case sensitive search (a=a) (default)
+  @#PB_String_CaseSensitive : Case sensitive search (A≠a) (default)
   @#PB_String_NoCase : Case insensitive search (A=a)
-  @#PB_String_InPlace: In-place replacing. This means that the string is replaced directly in the memory.
-                      The 'StringToFind$' and 'ReplacementString$' parameter must have the same length. This is
-                      a dangerous option, for advanced users only. The advantage is the very high speed of the
-                      replacement. When using this option, the result of ReplaceString() has to be ignored.
-                      Only the string passed in parameter 'String$' is changed and it's the result.
-                      @ReferenceLink "variables" "Fixed strings" are not supported using this mode.
 @EndFixedFont
 
 @OptionalParameter "StartPosition"
@@ -589,8 +588,12 @@
   are replaced.
 
 @ReturnValue
-  A new string with the replaced strings (see the @#PB_String_InPlace mode for a different behavior).
+  A new string with the replaced strings.
 
+@Remarks
+  Up to PB6.30 there was a @#PB_String_InPlace 'Mode' for in-place replacing, which isn't supported anymore.
+  For more informations see the @ReferenceLink "migration_630_640" "Migration from PureBasic 6.30 to 6.40" guide.
+  
 @Example
 @Code
   Debug ReplaceString("This is Art", " is", " was") ; Will display "This was Art"
@@ -598,10 +601,6 @@
   test$ = "Hello again, hello again"
   Result$ = ReplaceString(test$, "HELLO", "oh no...", #PB_String_NoCase, 10) ; Will display "Hello again, oh no... again"
   Debug Result$
-
-  test$ = "Bundy, Barbie, Buddy"
-  ReplaceString(test$, "B", "Z", #PB_String_InPlace, 1)  ; all B gets changed to Z  (directly in memory, no valid return-value here)
-  Debug test$   ; Output of the changed string and will display "Zundy, Zarbie, Zuddy"
 @EndCode
 
 @SeeAlso
@@ -717,9 +716,8 @@
 @FixedFont
   @#PB_Ascii  : Ascii format
   @#PB_UTF8   : UTF8 format
-  @#PB_Unicode: Unicode format
+  @#PB_Unicode: Unicode format (default)
 @EndFixedFont
-  If omitted, the mode of the executable (@ReferenceLink "unicode" "unicode" or ascii) is used.
 
 @ReturnValue
   The number of bytes required to store the string in memory in a given format.
@@ -732,6 +730,9 @@
 @Code
   Debug StringByteLength("ä", #PB_UTF8) ; will display 2
 @EndCode
+
+@SeeAlso
+  @@Len
 
 @SupportedOS
 
@@ -754,7 +755,7 @@
 @Example
 @Code
   For k = 1 To 6
-    Debug StringField("Hello I am a splitted string", k, " ")
+    Debug StringField("Hello I am a split string", k, " ")
   Next
 @EndCode
 
@@ -1027,6 +1028,13 @@
 @Code
   Debug UnescapeString(~"Test=\"Hello\".") ; Will display "Test="Hello"."
   Debug UnescapeString("&lt;item&gt;Hello&lt;/item&gt;", #PB_String_EscapeXML) ; Will display "<item>Hello</item>"
+  
+  ; An example using the linebreak character:
+  Debug UnescapeString("Str1\nStr2")
+  
+  ; There are no escaped characters here, so you will see no difference:
+  Debug ~"Test=\"Hello\"."
+  Debug UnescapeString(~"Test=\"Hello\".")
 @EndCode
 
 @SeeAlso
@@ -1129,8 +1137,8 @@
 @Function *Buffer = Ascii(String$)
 
 @Description
-  Creates an Ascii representation of the string. When no more needed, the buffer needs to be freed
-  with @@FreeMemory.
+  Creates an Ascii representation of the string.  When the buffer is no longer needed, the buffer needs 
+  to be freed with FreeMemory().
 
 @Parameter "String$"
   The string to convert.
@@ -1139,7 +1147,7 @@
   The Ascii representation of the string.
 
 @Remarks
-  This function is mainly useful when interacting with third-party libraries which requiers Ascii as input.
+  This function is mainly useful when interacting with third-party libraries which requires Ascii as input.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-ascii' can also be used to automated the converting process when importing external
   functions.
 @LineBreak
@@ -1152,8 +1160,88 @@
   ShowMemoryViewer(*Ascii, 4)
 @EndCode
 
+@Example
+@Code
+  Macro TUnicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
+
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
+
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
+@EndCode
+
 @SeeAlso
-  @@UTF8
+  @@UTF8, @@Unicode, @@FreeMemory, @@MemorySize
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = Unicode(String$)
+
+@Description
+  Creates an Unicode representation of the string.  When the buffer is no longer needed, the buffer needs 
+  to be freed with FreeMemory().
+
+@Parameter "String$"
+  The string to use. As PureBasic uses unicode as internal string format, there is no conversion occuring.
+
+@ReturnValue
+  The Unicode representation of the string.
+
+@Remarks
+  This function is mainly useful when interacting with third-party libraries which requires a dynamic Unicode string as input.
+@LineBreak
+@LineBreak
+  The buffer includes a null-terminated character.
+
+@Example
+@Code
+  *Unicode = Unicode("Hélé")
+  ShowMemoryViewer(*Unicode, 8)
+@EndCode
+
+@Example
+@Code
+  Macro TUnicode(Mem, Type = #PB_Ascii)
+    PeekS(Mem, -1, Type)
+  EndMacro
+
+  *Mem1 = Ascii("Test - éàîöÊÜ")
+  *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
+
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
+
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
+@EndCode
+
+@SeeAlso
+  @@UTF8, @@Ascii, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 
@@ -1162,8 +1250,8 @@
 @Function *Buffer = UTF8(String$)
 
 @Description
-  Creates a buffer with an UTF8 representation of the string. When no more needed, the buffer needs to be freed
-  with @@FreeMemory.
+  Creates a buffer with an UTF8 representation of the string.  When the buffer is no longer needed, 
+  the buffer needs to be freed with FreeMemory().
 
 @Parameter "String$"
   The string to convert.
@@ -1172,7 +1260,7 @@
   The UTF8 representation of the string.
 
 @Remarks
-  This function is mainly useful when interacting with third-party libraries which requiers UTF8 as input.
+  This function is mainly useful when interacting with third-party libraries which requires UTF8 as input.
   @ReferenceLink "pseudotypes" "Pseudotype" 'p-utf8' can also be used to automated the converting process when importing external
   functions.
 @LineBreak
@@ -1189,22 +1277,30 @@
 
 @Example
 @Code
-  Macro Unicode(Mem, Type = #PB_Ascii)
+  Macro TUnicode(Mem, Type = #PB_Ascii)
     PeekS(Mem, -1, Type)
   EndMacro
 
   *Mem1 = Ascii("Test - éàîöÊÜ")
   *Mem2 = UTF8("Test - éàîöÊÜ")
+  *Mem3 = Unicode("Test - éàîöÊÜ")
+  
+  Debug TUnicode(*Mem1)
+  ;ShowMemoryViewer(*Mem1, StringByteLength("Test - éàîöÊÜ", #PB_Ascii))   ;54 65 73 74 20 2D 20 E9 E0 EE F6 CA DC           Test - éàîöÊÜ
 
-  Text.s = Unicode(*Mem1)
-  Debug Text
+  Debug TUnicode(*Mem2, #PB_UTF8)
+  ;ShowMemoryViewer(*Mem2, StringByteLength("Test - éàîöÊÜ", #PB_UTF8))    ;54 65 73 74 20 2D 20 C3 A9 C3 A0 C3 AE C3 B6 C3 8A C3 9C  Test - Ã©Ã Ã®Ã¶Ã
 
-  Text2.s = Unicode(*Mem2, #PB_UTF8)
-  Debug Text2
+   
+  Debug TUnicode(*Mem3, #PB_Unicode)
+  ;ShowMemoryViewer(*Mem3, StringByteLength("Test - éàîöÊÜ", #PB_Unicode)) ;54 00 65 00 73 00 74 00 20 00 2D 00 20 00 E9 00  T.e.s.t. .-. .é.
+                                                                           ; E0 00 EE 00 F6 00 CA 00 DC 00                    à.î.ö.Ê.Ü.
+  
+  FreeMemory(*Mem1):FreeMemory(*Mem2):FreeMemory(*Mem3)
 @EndCode
 
 @SeeAlso
-  @@Ascii
+  @@Ascii, @@Unicode, @@FreeMemory, @@MemorySize
 
 @SupportedOS
 
@@ -1216,7 +1312,7 @@
   Format a number into money-like format.
 
 @Parameter "Number"
-  The number to format
+  The number to format.
 
 @OptionalParameter "NbDecimals"
   Number of decimals to display.
@@ -1228,14 +1324,20 @@
   The string to use to separate thousands. It can be a multiple character string. Default value is ",".
 
 @ReturnValue
-  The formated number.
+  The formatted number.
+
+@Remarks
+  This command can also be used to output a rounded decimal number.
 
 @Example
 @Code
   Debug FormatNumber(125400.25) ; Will display: 125,400.25
+  
+  Debug FormatNumber(1125.8375, 2, ".", "") ; will display 1125.84 (round the number to the specified fractional digits)
+  Debug FormatNumber(125.23, 1) ; will display: 125.2 (round the number to one fractional digit)
 @EndCode
 
 @SeeAlso
-  @@Str, @@StrU, @@StrF, @@StrD
+  @@Str, @@StrU, @@StrF, @@StrD, @@Round
 
 @SupportedOS

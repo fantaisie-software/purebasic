@@ -1,23 +1,25 @@
-;
+ï»¿;
 ;     Texture library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Texture
 
 @Overview
-  Texturen ("Überzüge für 3D-Modelle") sind nützlich, um realistisch aussehende Objekte (@LibraryLink "mesh" "Meshes") zu erhalten. Es ist
-  möglich, eine Textur "on the fly" (während der Programmlaufzeit, mit Hilfe der regulären
+  Texturen ("ÃœberzÃ¼ge fÃ¼r 3D-Modelle") sind nÃ¼tzlich, um realistisch aussehende Objekte (@LibraryLink "mesh" "Meshes") zu erhalten. Es ist
+  mÃ¶glich, eine Textur "on the fly" (wÃ¤hrend der Programmlaufzeit, mit Hilfe der regulÃ¤ren
   @LibraryLink "2ddrawing" "2DDrawing-Befehle") zu erstellen oder sie von Disk zu laden.
 @LineBreak
 @LineBreak
   @@InitEngine3D muss erfolgreich aufgerufen worden sein, bevor die Texture-Befehle benutzet
-  werden können.
+  werden kÃ¶nnen.
 
 @CommandList
 
-@ExampleFile All Texture.pb
+@ExampleFile All CreateTexture.pb
+@ExampleFile All CreateRenderTexture.pb
+@ExampleFile All TextureAddressingMode.pb
 
 @SupportedOS
 
@@ -39,13 +41,13 @@
 @ReturnValue
   Ein Wert ungleich Null, wenn die Textur erfolgreich dupliziert wurde, andernfalls Null.
   Wenn @#PB_Any als #NeueTextur Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateTexture(#Textur, Breite, Höhe [, TexturName$])
+@Function Ergebnis = CreateTexture(#Textur, Breite, HÃ¶he [, TexturName$])
 
 @Description
   Erstellt eine neue leere Textur mit den angegebenen Dimensionen.
@@ -55,25 +57,25 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "Breite, Höhe"
-  Die Größe der neuen Textur, in Pixel.
+@Parameter "Breite, HÃ¶he"
+  Die GrÃ¶ÃŸe der neuen Textur, in Pixel.
   @LineBreak
   @LineBreak
-  Sowohl die Breite als auch die Höhe der Textur sollten jeweils Vielfache von 2 sein.
-  Und wenn möglich, sollte die Textur quadratisch sein, da dies auf der meisten Hardware
+  Sowohl die Breite als auch die HÃ¶he der Textur sollten jeweils Vielfache von 2 sein.
+  Und wenn mÃ¶glich, sollte die Textur quadratisch sein, da dies auf der meisten Hardware
   am besten aussieht.
   @LineBreak
-  Beispiele: 64x64, 128x128, 256x256, aber auch 128x64, 16x32... Ältere Grafikkarten können
-  Einschränkungen haben, daher sollte die Textur-Größe möglichst auf 256x256 Pixel begrenzt werden.
+  Beispiele: 64x64, 128x128, 256x256, aber auch 128x64, 16x32... Ã„ltere Grafikkarten kÃ¶nnen
+  EinschrÃ¤nkungen haben, daher sollte die Textur-GrÃ¶ÃŸe mÃ¶glichst auf 256x256 Pixel begrenzt werden.
 
 @OptionalParameter "TexturName$"
-  Der Name der neuen Textur im OGRE-System. Dies ermöglicht es, diesen Namen im Skript zu verwenden,
+  Der Name der neuen Textur im OGRE-System. Dies ermÃ¶glicht es, diesen Namen im Skript zu verwenden,
   um dieser Textur einen Shader zuzuordnen.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn die Textur erfolgreich erstellt wurde, andernfalls Null.
   Wenn @#PB_Any als #Textur Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -88,9 +90,9 @@
 
 @Description
   Erzeugt eine neue kubische Textur unter Verwendung der angegebenen Texturen. Kubische Texturen
-  sind nützlich, um weltähnliche Reflexionen zu erzeugen.
+  sind nÃ¼tzlich, um weltÃ¤hnliche Reflexionen zu erzeugen.
   @#PB_Material_EnvironmentMap sollte bei @@SetMaterialAttribute angegeben werden, um kubische
-  Reflektion zu ermöglichen.
+  Reflektion zu ermÃ¶glichen.
   
 @Parameter "#Textur"
   Eine Nummer zum Identifizieren der neuen Textur.
@@ -98,27 +100,27 @@
   automatisch zu generieren.
 
 @Parameter "#Textur1"
-  Die Textur, die für die erste Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die erste FlÃ¤che der kubischen Textur verwendet werden soll.
 
 @Parameter "#Textur2"
-  Die Textur, die für die zweite Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die zweite FlÃ¤che der kubischen Textur verwendet werden soll.
 
 @Parameter "#Textur3"
-  Die Textur, die für die dritte Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die dritte FlÃ¤che der kubischen Textur verwendet werden soll.
 
 @Parameter "#Textur4"
-  Die Textur, die für die vierte Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die vierte FlÃ¤che der kubischen Textur verwendet werden soll.
 
 @Parameter "#Textur5"
-  Die Textur, die für die fünfte Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die fÃ¼nfte FlÃ¤che der kubischen Textur verwendet werden soll.
 
 @Parameter "#Textur6"
-  Die Textur, die für die sechste Fläche der kubischen Textur verwendet werden soll.
+  Die Textur, die fÃ¼r die sechste FlÃ¤che der kubischen Textur verwendet werden soll.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn die kubische Textur erfolgreich erstellt wurde, andernfalls Null.
   Wenn @#PB_Any als #Textur Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -170,12 +172,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateRenderTexture(#Textur, CameraID, Breite, Höhe [, Flags [, RenderTexturName$]])
+@Function Ergebnis = CreateRenderTexture(#Textur, CameraID, Breite, HÃ¶he [, Flags [, RenderTexturName$]])
 
 @Description
-  Erstellt eine neue "Render-Textur". Die mit der Textur verknüpfte Kamera wird ihre Anzeige
+  Erstellt eine neue "Render-Textur". Die mit der Textur verknÃ¼pfte Kamera wird ihre Anzeige
   direkt auf die Textur ausgeben ("rendern"), ohne sie auf dem Bildschirm darzustellen.
-  Dies kann sehr nützlich für Objekte sein, die nur einen Teil einer Szene (wie einen
+  Dies kann sehr nÃ¼tzlich fÃ¼r Objekte sein, die nur einen Teil einer Szene (wie einen
   TV-Bildschirm, einen Spiegel, etc.) darstellen.
 
 @Parameter "#Textur"
@@ -183,14 +185,14 @@
   kann verwendet werden, um diese Zahl automatisch zu generieren.
 
 @Parameter "CameraID"
-  Die ID der mit der Textur zu verknüpfenden Kamera. Diese ID kann mit Hilfe von
+  Die ID der mit der Textur zu verknÃ¼pfenden Kamera. Diese ID kann mit Hilfe von
   @@CameraID ermittelt werden.
 
 @Parameter "Breite"
   Die Breite der neuen Textur (in Pixel).
 
-@Parameter "Höhe"
-  Die Höhe der neuen Textur (in Pixel).
+@Parameter "HÃ¶he"
+  Die HÃ¶he der neuen Textur (in Pixel).
 
 @OptionalParameter "Flags"
   Flags kann einer der folgenden Werte sein:
@@ -199,19 +201,21 @@
   @#PB_Texture_ManualUpdate:    die Textur wird nicht automatisch aktualisiert, @@UpdateRenderTexture muss
                                manuell aufgerufen werden.
   @#PB_Texture_CameraViewPort:  das Kamera-Ansichtsfenster (englisch "Viewport") wird nicht entfernt - 
-                               nützlich, um immer noch ein "Capture" (Bild) von der Kamera zu machen.
+                               nÃ¼tzlich, um immer noch ein "Capture" (Bild) von der Kamera zu machen.
 @EndFixedFont
 
 @OptionalParameter "RenderTexturName$"
-  Der Name der neuen Textur im OGRE-System. Dies ermöglicht die Verwendung dieses Namens
+  Der Name der neuen Textur im OGRE-System. Dies ermÃ¶glicht die Verwendung dieses Namens
   in einem Skript, um dieser Textur einen Shader zuzuweisen.
 
 @ReturnValue
-  Gibt null zurück, wenn die Textur nicht erstellt werden kann. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
-  als '#Texture' Parameter verwendet wurde, dann wird die neue Textur-Nummer zurückgegeben.
+  Gibt null zurÃ¼ck, wenn die Textur nicht erstellt werden kann. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als '#Texture' Parameter verwendet wurde, dann wird die neue Textur-Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  @@TextureOutput wird nicht bei gerenderten Texturen unterstützt.
+  @@TextureOutput wird fÃ¼r gerenderte Texturen nicht unterstÃ¼tzt. @LineBreak
+  Die automatische Aktualisierung erfolgt nur, wenn @@RenderWorld aufgerufen wird.
+  Wenn eine andere Textur denselben Namen hat, schlÃ¤gt die Texturerstellung fehl.
 
 @SeeAlso
   @@UpdateRenderTexture
@@ -225,7 +229,7 @@
 @Description
   Aktualisiert den Textur-Inhalt mit der aktuellen Kamera-Ansicht. Wenn die Render-Textur
   mit dem @#PB_Texture_AutomaticUpdate Flag erstellt wurde, dann wird diese Funktion
-  nicht benötigt.
+  nicht benÃ¶tigt.
 
 @Parameter "#Textur"
   Die zu aktualisierende Textur.
@@ -242,9 +246,9 @@
 @Function Ergebnis = SaveRenderTexture(#Textur, Dateiname$)
 
 @Description
-  Speichert den Inhalt der Render-Textur. Dies kann nützlich sein, um Bildschirmfotos
+  Speichert den Inhalt der Render-Textur. Dies kann nÃ¼tzlich sein, um Bildschirmfotos
   (Screenshots) von einer bestimmten Szene zu machen. Das Speicherformat kann
-  "BMP", "PNG", "JPG", "TGA", etc. sein.
+  nur PNG sein.
 
 @Parameter "#Textur"
   Die zu verwendende Textur.
@@ -255,7 +259,7 @@
 
 @ReturnValue
   Wenn die Textur nicht gespeichert werden kann (Zugriffsfehler, Festplatte voll, etc.),
-  dann wird der zurückgegebene Wert null sein.
+  dann wird der zurÃ¼ckgegebene Wert null sein.
 
 @SeeAlso
   @@CreateRenderTexture
@@ -264,10 +268,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCubeMapTexture(#Textur, Breite, Höhe, TexturName$ [, HintergrundFarbe])
+@Function Ergebnis = CreateCubeMapTexture(#Textur, Breite, HÃ¶he, TexturName$ [, HintergrundFarbe])
 
 @Description
-  Erstellt eine neue "Cube Map"-Textur. Eine "Cube Map" Textur (sechsseitiger Würfel)
+  Erstellt eine neue "Cube Map"-Textur. Eine "Cube Map" Textur (sechsseitiger WÃ¼rfel)
   verwendet die Umgebung, um sich selbst als Reflexion darauf zu rendern. Diese Textur
   muss in einem OGRE-Skript existieren.
 
@@ -278,14 +282,14 @@
 @Parameter "Breite"
   Die Breite der neuen Textur (in Pixel).
 
-@Parameter "Höhe"
-  Die Höhe der neuen Textur (in Pixel).
+@Parameter "HÃ¶he"
+  Die HÃ¶he der neuen Textur (in Pixel).
 
 @Parameter "TexturName$"
   Der Name der Textur in den OGRE-Skripten. Diese Textur muss im Skript mit dem richtigen
   Wert definiert sein, um funktionierendes Cube-Mapping zu haben. Wenn 'TexturName$' auf
   'CubeMapTexture' gesetzt wird, sollte ein Material-Skript die folgende Definition
-  enthalten (welche an Ihre Bedürfnisse angepasst werden kann):
+  enthalten (welche an Ihre BedÃ¼rfnisse angepasst werden kann):
 @FixedFont
   material CubeMapMaterial
   {
@@ -306,11 +310,11 @@
 
 @OptionalParameter "HintergrundFarbe"
   Die Hintergrundfarbe der "Cube Mapping"-Szene, wenn keine @@SkyBox verwendet wird.
-  Um eine gültige Farbe zu erhalten, verwenden Sie @@RGB.
+  Um eine gÃ¼ltige Farbe zu erhalten, verwenden Sie @@RGB.
 
 @ReturnValue
-  Gibt null zurück, wenn die Textur nicht erstellt werden kann. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
-  als '#Texture' Parameter verwendet wurde, dann wird die neue Textur-Nummer zurückgegeben.
+  Gibt null zurÃ¼ck, wenn die Textur nicht erstellt werden kann. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als '#Texture' Parameter verwendet wurde, dann wird die neue Textur-Nummer zurÃ¼ckgegeben.
 
 @SeeAlso
   @@EntityCubeMapTexture
@@ -322,7 +326,7 @@
 @Function Ergebnis = EntityCubeMapTexture(#Textur, #Entity)
 
 @Description
-  Übernimmt die "Cube Map"-Textur auf das @LibraryLink "entity" "Entity".
+  Ãœbernimmt die "Cube Map"-Textur auf das @LibraryLink "entity" "Entity".
   Das Entity spiegelt die Welt um es herum.
 
 @Parameter "#Textur"
@@ -330,7 +334,7 @@
   erstellt worden sein.
 
 @Parameter "#Entity"
-  Das Entity, für welches die Textur gelten soll. Eine Textur kann auf viele
+  Das Entity, fÃ¼r welches die Textur gelten soll. Eine Textur kann auf viele
   Entities angewandt werden.
 
 @NoReturnValue
@@ -345,7 +349,7 @@
 @Function FreeTexture(#Textur)
 
 @Description
-  Gibt die angegebene '#Texture' frei. Der gesamte dazugehörige Speicher wird freigegeben und das
+  Gibt die angegebene '#Texture' frei. Der gesamte dazugehÃ¶rige Speicher wird freigegeben und das
   Objekt kann nicht mehr benutzt werden.
 
 @Parameter "#Textur"
@@ -363,13 +367,13 @@
 @Function Ergebnis = IsTexture(#Textur)
 
 @Description
-  Überprüft, ob die angegebene Textur gültig und eine korrekt initialisierte Textur ist.
+  ÃœberprÃ¼ft, ob die angegebene Textur gÃ¼ltig und eine korrekt initialisierte Textur ist.
 
 @Parameter "#Textur"
-  Die zu überprüfende Textur.
+  Die zu Ã¼berprÃ¼fende Textur.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn die Textur gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn die Textur gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden.
@@ -395,7 +399,7 @@
 @ReturnValue
   Ein Wert ungleich Null, wenn die Textur erfolgreich erstellt wurde, andernfalls Null.
   Wenn @#PB_Any als #Textur Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @SupportedOS
 
@@ -404,14 +408,14 @@
 @Function Ergebnis = LoadTexture(#Textur, Dateiname$)
 
 @Description
-  Lädt eine neue Textur von Disk. 
+  LÃ¤dt eine neue Textur von Disk. 
   Vor dem Laden einer Textur muss ein Archiv mittels @@Add3DArchive definiert werden.
 @LineBreak
 @LineBreak
   Das Textur-Format kann als PNG, TGA oder JPG vorliegen.
-  Es ist äußerst empfehlenswert, die Textur als Quadrat mit Breite/Höhe als Vielfaches von 2 zu
-  erstellen: 64x64, 128x128, 256x256 ... Ältere Grafikkarten können Einschränkungen haben, begrenzen
-  Sie daher die Textur-Größe möglichst auf 256x256 Pixel.
+  Es ist Ã¤uÃŸerst empfehlenswert, die Textur als Quadrat mit Breite/HÃ¶he als Vielfaches von 2 zu
+  erstellen: 64x64, 128x128, 256x256 ... Ã„ltere Grafikkarten kÃ¶nnen EinschrÃ¤nkungen haben, begrenzen
+  Sie daher die Textur-GrÃ¶ÃŸe mÃ¶glichst auf 256x256 Pixel.
   
 @Parameter "#Textur"
   Eine Nummer zum Identifizieren der neuen Textur. @ReferenceLink "purebasic_objects" "#PB_Any"
@@ -423,7 +427,7 @@
 @ReturnValue
   Ein Wert ungleich Null, wenn die Textur erfolgreich geladen wurde, andernfalls Null.
   Wenn @#PB_Any als #Textur Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeTexture
@@ -447,16 +451,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe = TextureHeight(#Textur)
+@Function HÃ¶he = TextureHeight(#Textur)
 
 @Description
-  Ermittelt die Höhe der angegebenen Textur.
+  Ermittelt die HÃ¶he der angegebenen Textur.
 
 @Parameter "#Textur"
   Die zu verwendende Textur.
 
 @ReturnValue
-  Die Höhe der Textur, in Pixel.
+  Die HÃ¶he der Textur, in Pixel.
 
 @SeeAlso
   @@TextureWidth
@@ -469,16 +473,16 @@
 
 @Description
   Ermittelt den Ausgabe-Identifier ('OutputID') des Bildes, um darauf
-  @LibraryLink "2ddrawing" "2D-Zeichenoperationen" auszuführen.
-  Mit Hilfe von @@CreateRenderTexture erstellte Texturen werden nicht unterstützt.
+  @LibraryLink "2ddrawing" "2D-Zeichenoperationen" auszufÃ¼hren.
+  Mit Hilfe von @@CreateRenderTexture erstellte Texturen werden nicht unterstÃ¼tzt.
 
 @Parameter "#Textur"
   Die Textur, auf der gezeichnet werden soll.
 
 @ReturnValue
-  Gibt die AusgabeID zurück - oder Null, wenn Zeichnen nicht möglich ist. Dieser Wert
-  sollte direkt an die @@StartDrawing Funktion übergeben werden, um die Zeichenoperation
-  zu starten. Der Rückgabewert ist nur für eine Zeichenoperation gültig und kann nicht
+  Gibt die AusgabeID zurÃ¼ck - oder Null, wenn Zeichnen nicht mÃ¶glich ist. Dieser Wert
+  sollte direkt an die @@StartDrawing Funktion Ã¼bergeben werden, um die Zeichenoperation
+  zu starten. Der RÃ¼ckgabewert ist nur fÃ¼r eine Zeichenoperation gÃ¼ltig und kann nicht
   wiederverwendet werden.
 
 @Example

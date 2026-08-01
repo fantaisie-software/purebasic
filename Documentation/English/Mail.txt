@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Mail library documentation
 ;
 ;      (c) Fantaisie Software
@@ -121,7 +121,7 @@
   text/html                 | HTML   htm,html
   text/plain                | raw text txt,g,h,c,cc,hh,m,f90
   text/richtext             | rich text   rtx
-  text/tab-separated-value  | value splitted text  tsv
+  text/tab-separated-value  | value split text  tsv
   text/x-setext             | text Struct   etx
   video/mpeg                | Video MPEG   mpeg,mpg,mpe
   video/quicktime           | Video QuickTime  qt,mov
@@ -501,6 +501,8 @@
   @#PB_Mail_UseSSL      : uses TLS/SSL to send the mail (the server needs to support this protocol).
   @#PB_Mail_UseSMTPS    : uses SMTPS to send the mail (the server needs to support this protocol).
   @#PB_Mail_Debug       : to print in the console debug information.
+  @#PB_Mail_NoSSLCheck  : don't check if the SSL certificate is valid (can be useful for testing purpose).
+  @#PB_Mail_WeakSSL     : to support older servers (not recommended due to weak/broken transport security).
 @EndFixedFont
 
 @OptionalParameter "User$, Password$"

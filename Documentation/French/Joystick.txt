@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Joystick library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,15 +8,15 @@
 
 @Overview
 
-  PureBasic permet la gestion complète des 
-  joysticks connectés à  l'ordinateur.
+  PureBasic permet la gestion complÃ¨te des 
+  joysticks connectÃ©s Ã   l'ordinateur.
   @LineBreak
   Tous les joysticks et les pads sont 
-  acceptés, même les manettes 
+  acceptÃ©s, mÃªme les manettes 
   multi-boutons, triggers, etc.
   
 @Remarks  
-  Sur Windows l'interface est assurée par 
+  Sur Windows l'interface est assurÃ©e par 
   la technologie DirectX et sur Linux avec 
   SDL.
 
@@ -43,7 +43,7 @@
 @Remarks
   Vous devez appeler cette fonction avant 
   toute autre fonction de cette 
-  bibliothèque.
+  bibliothÃ¨que.
 
 @SeeAlso
   @@ExamineJoystick
@@ -55,26 +55,26 @@
 @Function Resultat = ExamineJoystick(#Joystick) 
 
 @Description
-  Met à jour l'état d'un joystick.
+  Met Ã  jour l'Ã©tat d'un joystick.
 
 @Parameter "#Joystick"
-  Le numéro du joystick à utiliser.
+  Le numÃ©ro du joystick Ã  utiliser.
 @LineBreak
 @LineBreak
-  Le premier numéro de joystick commence 
-  à 0.  
+  Le premier numÃ©ro de joystick commence 
+  Ã  0.  
   
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  joystick est prêt.
+  joystick est prÃªt.
   
 @Remarks
-  Met à jour l'état actuel d'un joystick qui pourra être interrogé dans un second temps avec les commandes @@JoystickAxisX, 
+  Met Ã  jour l'Ã©tat actuel d'un joystick qui pourra Ãªtre interrogÃ© dans un second temps avec les commandes @@JoystickAxisX, 
   @@JoystickAxisY, @@JoystickAxisZ et @@JoystickButton.
 @LineBreak
 @LineBreak
-  En @Link "Screen/OpenScreen" "mode plein écran", la commande @@FlipBuffers doit être appelée dans la boucle d'événements pour gérer 
-  correctement tous les événements.
+  En @Link "Screen/OpenScreen" "mode plein Ã©cran", la commande @@FlipBuffers doit Ãªtre appelÃ©e dans la boucle d'Ã©vÃ©nements pour gÃ©rer 
+  correctement tous les Ã©vÃ©nements.
 
 @SeeAlso
   @@JoystickButton, @@JoystickAxisX, 
@@ -87,39 +87,39 @@
 @Function Resultat = JoystickAxisX(#Joystick [, Pad [, Mode]])) 
 
 @Description
-  Renvoie l'état de l'axe X d'un joystick. 
+  Renvoie l'Ã©tat de l'axe X d'un joystick. 
   
 @Parameter "#Joystick"
-  Le numéro du joystick à utiliser.
+  Le numÃ©ro du joystick Ã  utiliser.
 @LineBreak
 @LineBreak
-  Le premier joystick commence à 0. 
+  Le premier joystick commence Ã  0. 
   
 @OptionalParameter "Pad"
-  Le pad à utiliser si la manette dispose 
+  Le pad Ã  utiliser si la manette dispose 
   de plusieurs pads.
 @LineBreak
 @LineBreak
   Le premier pad a pour indice 0.
 
 @OptionalParameter "Mode"
-  Peut être l'une des valeurs suivante:
+  Peut Ãªtre l'une des valeurs suivante:
 @FixedFont
   @#PB_Absolute: -1 : Mouvement vers la gauche
                  0 : Aucun mouvement 
-                 1 : Mouvement vers la droite (par défaut)
+                 1 : Mouvement vers la droite (par dÃ©faut)
   @#PB_Relative: Renvoie une valeur entre -1000 (gauche) et 1000 (droit). 
-                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+                Si la manette de jeu ne supporte pas le mouvement relatif, le rÃ©sultat sera -1000, 0 ou 1000.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la valeur de l'axe X qui dépend 
-  du mode utilisé.
+  Renvoie la valeur de l'axe X qui dÃ©pend 
+  du mode utilisÃ©.
 
 @Remarks
-  La fonction @@ExamineJoystick doit être 
-  appelée avant cette fonction pour mettre 
-  à jour l'état du joystick.
+  La fonction @@ExamineJoystick doit Ãªtre 
+  appelÃ©e avant cette fonction pour mettre 
+  Ã  jour l'Ã©tat du joystick.
 
 @SeeAlso
   @@ExamineJoystick, @@InitJoystick, 
@@ -132,39 +132,39 @@
 @Function Resultat = JoystickAxisY(#Joystick [, Pad [, Mode]])) 
 
 @Description
-  Renvoie l'état de l'axe Y d'un joystick. 
+  Renvoie l'Ã©tat de l'axe Y d'un joystick. 
   
 @Parameter "#Joystick"
-  Le numéro du joystick à utiliser.
+  Le numÃ©ro du joystick Ã  utiliser.
 @LineBreak
 @LineBreak
-  Le premier joystick commence à 0. 
+  Le premier joystick commence Ã  0. 
   
 @OptionalParameter "Pad"
-  Le pad à utiliser si la manette dispose 
+  Le pad Ã  utiliser si la manette dispose 
   de plusieurs pads.
 @LineBreak
 @LineBreak
   Le premier pad a pour indice 0.
 
 @OptionalParameter "Mode"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont  
   @#PB_Absolute: -1 : Mouvement vers le haut
                  0 : Aucun mouvement 
-                 1 : Mouvement vers le bas (par défaut)
+                 1 : Mouvement vers le bas (par dÃ©faut)
   @#PB_Relative: Renvoie une valeur entre -1000 (haut) et 1000 (bas). 
-                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+                Si la manette de jeu ne supporte pas le mouvement relatif, le rÃ©sultat sera -1000, 0 ou 1000.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la valeur de l'axe Y qui dépend 
-  du mode utilisé.
+  Renvoie la valeur de l'axe Y qui dÃ©pend 
+  du mode utilisÃ©.
 
 @Remarks
-  La fonction @@ExamineJoystick doit être 
-  appelée avant cette fonction pour mettre 
-  à jour l'état du joystick.
+  La fonction @@ExamineJoystick doit Ãªtre 
+  appelÃ©e avant cette fonction pour mettre 
+  Ã  jour l'Ã©tat du joystick.
 
 @SeeAlso
   @@ExamineJoystick, @@InitJoystick, 
@@ -177,39 +177,39 @@
 @Function Resultat = JoystickAxisZ(#Joystick [, Pad [, Mode]])) 
 
 @Description
-  Renvoie l'état de l'axe Z d'un joystick. 
+  Renvoie l'Ã©tat de l'axe Z d'un joystick. 
   
 @Parameter "#Joystick"
-  Le numéro du joystick à utiliser.
+  Le numÃ©ro du joystick Ã  utiliser.
 @LineBreak
 @LineBreak
-  Le premier joystick commence à 0. 
+  Le premier joystick commence Ã  0. 
   
 @OptionalParameter "Pad"
-  Le pad à utiliser si la manette dispose 
+  Le pad Ã  utiliser si la manette dispose 
   de plusieurs pads.
 @LineBreak
 @LineBreak
   Le premier pad a pour indice 0.
 
 @OptionalParameter "Mode"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: -1 : Mouvement vers l'arrière
+  @#PB_Absolute: -1 : Mouvement vers l'arriÃ¨re
                  0 : Aucun mouvement 
-                 1 : Mouvement vers l'avant (par défaut)
+                 1 : Mouvement vers l'avant (par dÃ©faut)
   @#PB_Relative: Renvoie une valeur entre -1000 et 1000. 
-                Si la manette de jeu ne supporte pas le mouvement relatif, le résultat sera -1000, 0 ou 1000.
+                Si la manette de jeu ne supporte pas le mouvement relatif, le rÃ©sultat sera -1000, 0 ou 1000.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la valeur de l'axe Z qui dépend 
-  du mode utilisé.
+  Renvoie la valeur de l'axe Z qui dÃ©pend 
+  du mode utilisÃ©.
 
 @Remarks
-  La fonction @@ExamineJoystick doit être 
-  appelée avant cette fonction pour mettre 
-  à jour l'état du joystick.
+  La fonction @@ExamineJoystick doit Ãªtre 
+  appelÃ©e avant cette fonction pour mettre 
+  Ã  jour l'Ã©tat du joystick.
 
 @SeeAlso
   @@ExamineJoystick, @@InitJoystick, 
@@ -225,17 +225,17 @@
   Renvoie le nom d'un joystick.
   
 @Parameter "#Joystick"
-    Le numéro du joystick à utiliser.
+    Le numÃ©ro du joystick Ã  utiliser.
 @LineBreak
 @LineBreak
-  Le premier joystick commence à 0. 
+  Le premier joystick commence Ã  0. 
   
 @ReturnValue
   Renvoie le nom de la manette.
   
 @Remarks
-  Cette fonction peut être utile si 
-  plusieurs manettes sont connectées, 
+  Cette fonction peut Ãªtre utile si 
+  plusieurs manettes sont connectÃ©es, 
   afin d'identifier la bonne.
 
 @SeeAlso
@@ -248,32 +248,32 @@
 @Function Resultat = JoystickButton(#Joystick, Bouton) 
 
 @Description
-  Renvoie l'état d'un bouton d'un joystick. 
+  Renvoie l'Ã©tat d'un bouton d'un joystick. 
 
 @Parameter "#Joystick"
-  Le numéro du joystick.
+  Le numÃ©ro du joystick.
 @LineBreak
 @LineBreak
-  Le premier joystick commence à 0. 
+  Le premier joystick commence Ã  0. 
 
 @Parameter "Bouton"  
-  Le bouton à tester.
+  Le bouton Ã  tester.
 @LineBreak
 @LineBreak
   L'index du premier bouton est 1.  
   
 @ReturnValue
   Renvoie  une valeur non nulle si le 
-  bouton est pressé, zéro sinon.
+  bouton est pressÃ©, zÃ©ro sinon.
   
 @Remarks
-  La fonction @@ExamineJoystick doit être 
-  appelée avant cette fonction pour mettre 
-  à jour l'état des boutons.
+  La fonction @@ExamineJoystick doit Ãªtre 
+  appelÃ©e avant cette fonction pour mettre 
+  Ã  jour l'Ã©tat des boutons.
 @LineBreak
 @LineBreak
   Un nombre quelconque de boutons peuvent 
-  être pressés simultanément.
+  Ãªtre pressÃ©s simultanÃ©ment.
 
 @SeeAlso
   @@ExamineJoystick, @@InitJoystick

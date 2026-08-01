@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Vehicle library documentation
 ;
 ;      (c) 2023 - Fantaisie Software
@@ -7,9 +7,9 @@
 @Library Vehicle
 
 @Overview
-  Fahrzeuge (englisch "vehicles") bestehen in der Regel aus einem Körper und einem oder mehreren Rädern
-  (PKW, LKW, Fahrrad, etc.). Das neu erstellte Fahrzeug ist ein reguläres @LibraryLink "entity" "Entity",
-  so dass alle Entity-Funktionen verwendet werden können, um ein Fahrzeug zu manipulieren.
+  Fahrzeuge (englisch "vehicles") bestehen in der Regel aus einem KÃ¶rper und einem oder mehreren RÃ¤dern
+  (PKW, LKW, Fahrrad, etc.). Das neu erstellte Fahrzeug ist ein regulÃ¤res @LibraryLink "entity" "Entity",
+  so dass alle Entity-Funktionen verwendet werden kÃ¶nnen, um ein Fahrzeug zu manipulieren.
   @LineBreak
   @LineBreak
   @@InitEngine3D sollte erfolgreich aufgerufen werden, bevor die Vehicle-Funktionen verwendet werden.
@@ -22,36 +22,36 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function AddVehicleWheel(#Entity, #RadEntity, VerbindungX.f, VerbindungY.f, VerbindungZ.f, AchseX.f, AchseY.f, AchseZ.f, MaxAufhängungslänge.f, RadRadius.f, Antriebsrad, RollEinfluss.f)
+@Function AddVehicleWheel(#Entity, #RadEntity, VerbindungX.f, VerbindungY.f, VerbindungZ.f, AchseX.f, AchseY.f, AchseZ.f, MaxAufhÃ¤ngungslÃ¤nge.f, RadRadius.f, Antriebsrad, RollEinfluss.f)
 
 @Description
-  Fügt ein neues Rad (englisch "wheel") zu einem vorher mittels @@CreateVehicle erstellten Fahrzeug hinzu.
+  FÃ¼gt ein neues Rad (englisch "wheel") zu einem vorher mittels @@CreateVehicle erstellten Fahrzeug hinzu.
 
 @Parameter "#Entity"
   Das zu verwendende Fahrzeug-Entity.
 
 @Parameter "#RadEntity"
-  Das für das Rad zu verwendende Entity.
+  Das fÃ¼r das Rad zu verwendende Entity.
 
 @Parameter "VerbindungX, VerbindungY, VerbindungZ"
-  Der Ausgangspunkt des Strahls ("ray"), wo die Aufhängung mit dem Chassis verbunden ist.
+  Der Ausgangspunkt des Strahls ("ray"), wo die AufhÃ¤ngung mit dem Chassis verbunden ist.
   
 @Parameter "AchseX, AchseY, AchseZ"
   Die Achse, um die sich das Rad dreht.
   
-@Parameter "MaxAufhängungslänge"
-  Die maximale Länge der Aufhängung (in Meter).
+@Parameter "MaxAufhÃ¤ngungslÃ¤nge"
+  Die maximale LÃ¤nge der AufhÃ¤ngung (in Meter).
 
 @Parameter "RadRadius"
   Raidus of the wheel.
   
 @Parameter "Antriebsrad"
   Wenn auf @#True gesetzt, wird dieses Rad ein Antriebsrad sein: @@ApplyVehicleForce und @@ApplyVehicleSteering
-  können darauf verwendet werden. Wenn auf @#False gesetzt, kann keine Kraft auf das Rad gebracht werden.
+  kÃ¶nnen darauf verwendet werden. Wenn auf @#False gesetzt, kann keine Kraft auf das Rad gebracht werden.
 
 @Parameter "RollEinfluss"
-  Reduziert das von den Rädern angewandte Rollmoment (englisch "rolling torque"), welches zum Rollen des
-  Fahrzeugs führt. (0.0: kein Rollen, 1.0: physikalisches Verhalten). Wenn die Reibung zu hoch ist, könnte
+  Reduziert das von den RÃ¤dern angewandte Rollmoment (englisch "rolling torque"), welches zum Rollen des
+  Fahrzeugs fÃ¼hrt. (0.0: kein Rollen, 1.0: physikalisches Verhalten). Wenn die Reibung zu hoch ist, kÃ¶nnte
   es erforderlich sein, diesen Wert zu reduzieren, um das Weiterrollen des Fahrzeugs zu stoppen.
 
 @NoReturnValue
@@ -141,8 +141,8 @@
   verwendet werden, um diese Nummer automatisch zu generieren.
 
 @ReturnValue
-  Gibt Null zurück, wenn das Fahrzeug-Entity nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
-  als '#Entity' Parameter verwendet wird, dann wird die Nummer des neuen Fahrzeug-Entity zurückgegeben.
+  Gibt Null zurÃ¼ck, wenn das Fahrzeug-Entity nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als '#Entity' Parameter verwendet wird, dann wird die Nummer des neuen Fahrzeug-Entity zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeEntity
@@ -151,16 +151,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateVehicleBody(#Entity, Masse.f, Restitution.f, Reibung.f [, AufhängungsSteifigkeit.f, Einfederung.f, FederungsDämpfung.f, MaxEinfederung.f, Reibung.f)
+@Function CreateVehicleBody(#Entity, Masse.f, Restitution.f, Reibung.f [, AufhÃ¤ngungsSteifigkeit.f, Einfederung.f, FederungsDÃ¤mpfung.f, MaxEinfederung.f, Reibung.f)
 
 @Description
-  Erstellt einen mit dem Fahrzeug #Entity verknüpften physischen Körper (englisch "body").
+  Erstellt einen mit dem Fahrzeug #Entity verknÃ¼pften physischen KÃ¶rper (englisch "body").
 @LineBreak
 @LineBreak
-  Um seine Kollisionen von der Physik-Engine verwaltet zu bekommen, muss ein Entity einen Körper
-  haben. Tatsächlich ist nur der Körper der Physik-Engine bekannt, welche alle Berechnungen zum
-  Entity erledigt, die Masse oder Reibung überprüft, und bei einer Kollision das tatsächliche
-  Entity zurückbewegt.
+  Um seine Kollisionen von der Physik-Engine verwaltet zu bekommen, muss ein Entity einen KÃ¶rper
+  haben. TatsÃ¤chlich ist nur der KÃ¶rper der Physik-Engine bekannt, welche alle Berechnungen zum
+  Entity erledigt, die Masse oder Reibung Ã¼berprÃ¼ft, und bei einer Kollision das tatsÃ¤chliche
+  Entity zurÃ¼ckbewegt.
 @LineBreak
 @LineBreak
   Um einen Effekt zu haben, muss die Physik-Engine mittels @@EnableWorldPhysics aktiviert werden.
@@ -169,7 +169,7 @@
   Das zu verwendende Fahrzeug-Entity.
 
 @Parameter "Masse"
-  Masse des Fahrzeugs. Verwenden Sie keine zu großen Werte, oder es könnte Physic-Unstimmigkeiten
+  Masse des Fahrzeugs. Verwenden Sie keine zu groÃŸen Werte, oder es kÃ¶nnte Physic-Unstimmigkeiten
   geben (1 ist der bevorzugte Wert).
  
 @Parameter "Restitution"
@@ -180,32 +180,32 @@
   Reibung des Fahrzeugs. Dieser Wert kann auch ermittelt bzw. gesetzt werden mittels
   @@GetEntityAttribute bzw. @@SetEntityAttribute.
 
-@OptionalParameter "AufhängungsSteifigkeit" (englisch "suspension stiffness")
-  Der Steifigkeitswert für die Aufhängung (10: Offroad Buggy, 50: Sportauto , 200: F1 Auto).
+@OptionalParameter "AufhÃ¤ngungsSteifigkeit" (englisch "suspension stiffness")
+  Der Steifigkeitswert fÃ¼r die AufhÃ¤ngung (10: Offroad Buggy, 50: Sportauto , 200: F1 Auto).
 
 @OptionalParameter "Einfederung" (englisch "suspension compression")
-   Der zu verwendende Dämpfungskoeffizient, wenn die Aufhängung zusammengedrückt wird.
-   Setzen Sie den Wert auf * 2 * Quadratwurzel (AufhängungsSteifigkeit), sodass er proportional
-   zur kritischen Dämpfung ist.
+   Der zu verwendende DÃ¤mpfungskoeffizient, wenn die AufhÃ¤ngung zusammengedrÃ¼ckt wird.
+   Setzen Sie den Wert auf * 2 * Quadratwurzel (AufhÃ¤ngungsSteifigkeit), sodass er proportional
+   zur kritischen DÃ¤mpfung ist.
    Wert-Beispiele:
 @FixedFont
-  Wert = 0: ungedämpft & federnd
-  Wert = 1: kritische Dämpfung
+  Wert = 0: ungedÃ¤mpft & federnd
+  Wert = 1: kritische DÃ¤mpfung
 @EndFixedFont
   Empfohlene Werte liegen zwischen 0.1 und 0.3.
 
-@OptionalParameter "FederungsDämpfung" (englisch "suspension damping")
-  Die Dämpfung, wenn die Aufhängung expandiert. Sehen Sie sich die Einfederung an, um zu wissen,
-  wie Sie diesen Wert setzen. Die Federungsdämpfung sollte etwas größer als die Einfederung sein.
+@OptionalParameter "FederungsDÃ¤mpfung" (englisch "suspension damping")
+  Die DÃ¤mpfung, wenn die AufhÃ¤ngung expandiert. Sehen Sie sich die Einfederung an, um zu wissen,
+  wie Sie diesen Wert setzen. Die FederungsdÃ¤mpfung sollte etwas grÃ¶ÃŸer als die Einfederung sein.
   Empfohlene Werte liegen zwischen 0.2 und 0.5.
   
 @OptionalParameter "MaxEinfederung" (englisch "maximum suspension compression")
-  Die Länge, um die die Federung zusammengedrückt werden kann (in Zentimeter).
+  Die LÃ¤nge, um die die Federung zusammengedrÃ¼ckt werden kann (in Zentimeter).
 
 @OptionalParameter "Reibung" (englisch "friction")
-  Die Reibung zwischen dem Reifen und dem Boden. Sollte etwa 0.8 für realistische Autos sein,
-  kann aber für eine bessere Handhabung erhöht werden.
-  Ein großer Wert (10000.0) kann verwendet werden, um ein Handling wie bei Kartfahrern zu erhalten.
+  Die Reibung zwischen dem Reifen und dem Boden. Sollte etwa 0.8 fÃ¼r realistische Autos sein,
+  kann aber fÃ¼r eine bessere Handhabung erhÃ¶ht werden.
+  Ein groÃŸer Wert (10000.0) kann verwendet werden, um ein Handling wie bei Kartfahrern zu erhalten.
 
 @NoReturnValue
 
@@ -225,17 +225,17 @@
   Das zu verwendende Fahrzeug-Entity.
 
 @Parameter "Attribut"
-  Das zu ermittelnde Attribut. Die folgenden Attribute sind verfügbar:
+  Das zu ermittelnde Attribut. Die folgenden Attribute sind verfÃ¼gbar:
 @FixedFont
-  @#PB_Vehicle_Friction: ermittelt den Rad-Reibungswert (siehe @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_MaxSuspensionForce: ermittelt den maximalen Radlast-Federungswert (siehe @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_SuspensionStiffness: ermittelt den Steifigkeitswert für die Aufhängung (siehe @@CreateVehicleBody für weitere Informationen).  
-  @#PB_Vehicle_MaxSuspensionCompression: ermittelt den maximalen Rad-Einfederungswert (see @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_MaxSuspensionLength: ermittelt die maximale Länge der Einfederung (Meter).
-  @#PB_Vehicle_WheelDampingCompression: ermittelt den Rad-Federungsdämpfungswert.
-  @#PB_Vehicle_WheelDampingRelaxation: ermittelt den Raddämpfung-Relaxationswert.
-  @#PB_Vehicle_RollInfluence: ermittelt den Rad-Rolleinflusswert (siehe @@AddVehicleWheel für weitere Informationen).
-  @#PB_Vehicle_IsInContact: gibt @#True zurück, wenn das Vehicle in Kontakt mit einem anderen Objekt ist, andernfalls @#False.
+  @#PB_Vehicle_Friction: ermittelt den Rad-Reibungswert (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_MaxSuspensionForce: ermittelt den maximalen Radlast-Federungswert (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_SuspensionStiffness: ermittelt den Steifigkeitswert fÃ¼r die AufhÃ¤ngung (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).  
+  @#PB_Vehicle_MaxSuspensionCompression: ermittelt den maximalen Rad-Einfederungswert (see @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_MaxSuspensionLength: ermittelt die maximale LÃ¤nge der Einfederung (Meter).
+  @#PB_Vehicle_WheelDampingCompression: ermittelt den Rad-FederungsdÃ¤mpfungswert.
+  @#PB_Vehicle_WheelDampingRelaxation: ermittelt den RaddÃ¤mpfung-Relaxationswert.
+  @#PB_Vehicle_RollInfluence: ermittelt den Rad-Rolleinflusswert (siehe @@AddVehicleWheel fÃ¼r weitere Informationen).
+  @#PB_Vehicle_IsInContact: gibt @#True zurÃ¼ck, wenn das Vehicle in Kontakt mit einem anderen Objekt ist, andernfalls @#False.
   @#PB_Vehicle_CurrentSpeed: ermittelt die aktuelle Vehicle-Geschwindigkeit in Km/Stunde.
   @#PB_Vehicle_ContactPointX: ermittelt die X-Kontaktpunkt-Koordinate.
   @#PB_Vehicle_ContactPointY: ermittelt die Y-Kontaktpunkt-Koordinate.
@@ -243,17 +243,17 @@
   @#PB_Vehicle_ContactPointNormalX: ermittelt den X-Normalwert des Kontaktpunkts.
   @#PB_Vehicle_ContactPointNormalY: ermittelt den Y-Normalwert des Kontaktpunkts.
   @#PB_Vehicle_ContactPointNormalZ: ermittelt den Z-Normalwert des Kontaktpunkts.
-  @#PB_Vehicle_ForwardVectorX: ermittelt den X-Vorwärtsvektorwert des Kontaktpunkts.
-  @#PB_Vehicle_ForwardVectorY: ermittelt den Y-Vorwärtsvektorwert des Kontaktpunkts.
-  @#PB_Vehicle_ForwardVectorZ: ermittelt den Z-Vorwärtsvektorwert des Kontaktpunkts.
+  @#PB_Vehicle_ForwardVectorX: ermittelt den X-VorwÃ¤rtsvektorwert des Kontaktpunkts.
+  @#PB_Vehicle_ForwardVectorY: ermittelt den Y-VorwÃ¤rtsvektorwert des Kontaktpunkts.
+  @#PB_Vehicle_ForwardVectorZ: ermittelt den Z-VorwÃ¤rtsvektorwert des Kontaktpunkts.
 @EndFixedFont
 
 @Parameter "Rad"
   Der Rad-Index, beginnend bei 0.
 
 @ReturnValue
-  Gibt den Wert des angegebenen Attributs zurück, oder Null wenn das Fahrzeug das
-  Attribut nicht unterstützt.
+  Gibt den Wert des angegebenen Attributs zurÃ¼ck, oder Null wenn das Fahrzeug das
+  Attribut nicht unterstÃ¼tzt.
 
 @SeeAlso
   @@SetVehicleAttribute
@@ -265,22 +265,22 @@
 @Function SetVehicleAttribute(#Entity, Attribut, Wert.f [, Rad])
 
 @Description
-  Setzt den angegebenen Attribut-Wert für das angegebene Fahrzeug-Entity.
+  Setzt den angegebenen Attribut-Wert fÃ¼r das angegebene Fahrzeug-Entity.
 
 @Parameter "#Entity"
   Das zu verwendende Fahrzeug-Entity.
 
 @Parameter "Attribut"
-  Das zu setzende Attribut. Die folgenden Attribute sind verfügbar:
+  Das zu setzende Attribut. Die folgenden Attribute sind verfÃ¼gbar:
 @FixedFont
-  @#PB_Vehicle_Friction: setzt den Rad-Reibungswert (siehe @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_MaxSuspensionForce: setzt den maximalen Radlast-Federungswert (siehe @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_SuspensionStiffness: setzt den Steifigkeitswert für die Aufhängung (siehe @@CreateVehicleBody für weitere Informationen).  
-  @#PB_Vehicle_MaxSuspensionCompression: setzt den maximalen Rad-Einfederungswert (see @@CreateVehicleBody für weitere Informationen).
-  @#PB_Vehicle_MaxSuspensionLength: setzt die maximale Länge der Einfederung (Meter).
-  @#PB_Vehicle_WheelDampingCompression: setzt den Rad-Federungsdämpfungswert.
-  @#PB_Vehicle_WheelDampingRelaxation: setzt den Raddämpfung-Relaxationswert.
-  @#PB_Vehicle_RollInfluence: setzt den Rad-Rolleinflusswert (siehe @@AddVehicleWheel für weitere Informationen).
+  @#PB_Vehicle_Friction: setzt den Rad-Reibungswert (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_MaxSuspensionForce: setzt den maximalen Radlast-Federungswert (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_SuspensionStiffness: setzt den Steifigkeitswert fÃ¼r die AufhÃ¤ngung (siehe @@CreateVehicleBody fÃ¼r weitere Informationen).  
+  @#PB_Vehicle_MaxSuspensionCompression: setzt den maximalen Rad-Einfederungswert (see @@CreateVehicleBody fÃ¼r weitere Informationen).
+  @#PB_Vehicle_MaxSuspensionLength: setzt die maximale LÃ¤nge der Einfederung (Meter).
+  @#PB_Vehicle_WheelDampingCompression: setzt den Rad-FederungsdÃ¤mpfungswert.
+  @#PB_Vehicle_WheelDampingRelaxation: setzt den RaddÃ¤mpfung-Relaxationswert.
+  @#PB_Vehicle_RollInfluence: setzt den Rad-Rolleinflusswert (siehe @@AddVehicleWheel fÃ¼r weitere Informationen).
 @EndFixedFont
 
 @Parameter "Wert"
@@ -288,7 +288,7 @@
   
 @OptionalParameter "Rad"
   Der Rad-Index, beginnend bei 0. Wird dieser nicht angegeben, oder auf @#PB_All gesetzt, wird der neue
-  Attribut-Wert auf alle Räder angewandt.
+  Attribut-Wert auf alle RÃ¤der angewandt.
 
 @NoReturnValue
 

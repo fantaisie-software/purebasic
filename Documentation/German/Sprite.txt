@@ -1,7 +1,7 @@
-;
+ï»¿;
 ;     Sprite library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -9,37 +9,36 @@
 @Overview
   'Sprites' sind Computerspielern bestens bekannt. Diese sind kleine Bilder,
   manchmal auch 'Brushes' (Pinsel) genannt, welche an jeder Position des
-  Bildschirms angezeigt werden können. Die Sprites können mittels einem
-  transparenten Layer (Schicht) über Grafiken bewegt werden. Noch besser:
-  PureBasic erlaubt das Ausführen von Echtzeit-Effekten wie Schatten,
-  Alpha-Blending, Einfärben, Zoomen, Rotieren, ... - und all dies im Fenster- oder
+  Bildschirms angezeigt werden kÃ¶nnen. Die Sprites kÃ¶nnen mittels einem
+  transparenten Layer (Schicht) Ã¼ber Grafiken bewegt werden. Noch besser:
+  PureBasic erlaubt das AusfÃ¼hren von Echtzeit-Effekten wie Schatten,
+  Alpha-Blending, EinfÃ¤rben, Zoomen, Rotieren, ... - und all dies im Fenster- oder
   'Fullscreen' (Bildschirm) Modus.
 @LineBreak
 @LineBreak
   Nach der Initialisierung der Screen- und Sprite-Umgebung mittels @@InitSprite
-  können Sie mit dem Öffnen eines Bildschirms als @Link "Screen/OpenScreen" "Vollbild"
+  kÃ¶nnen Sie mit dem Ã–ffnen eines Bildschirms als @Link "Screen/OpenScreen" "Vollbild"
   oder @Link "Screen/OpenWindowedScreen" "im Fenster" beginnen.
 @LineBreak
 @LineBreak
 @LineBreak
-@Bold "Windows": DirectX 9 wird für das Sprite-Handling benutzt, was Ihren Programmen die 
-  Verwendung von Hardwarebeschleunigung (sofern verfügbar) ermöglicht.
-  Zwei weitere @ReferenceLink "ide_compiler" "Subsysteme" sind ebenfalls verfügbar, je
-  nach Ihren Bedürfnissen: "OpenGL" und "DirectX11", welche OpenGL bzw. DirectX11 für
+@Bold "Windows": DirectX 9 wird fÃ¼r das Sprite-Handling benutzt, was Ihren Programmen die 
+  Verwendung von Hardwarebeschleunigung (sofern verfÃ¼gbar) ermÃ¶glicht.
+  Zwei weitere @ReferenceLink "ide_compiler" "Subsysteme" sind ebenfalls verfÃ¼gbar, je
+  nach Ihren BedÃ¼rfnissen: "OpenGL" und "DirectX11", welche OpenGL bzw. DirectX11 fÃ¼r
   die Screen-Erstellung verwenden.
 @LineBreak
 @LineBreak
-@Bold "Linux": OpenGL wird für die Screen-Erstellung verwendet, was die Verwendung von
-Hardware-Beschleunigung ermöglicht.
+@Bold "Linux": OpenGL wird fÃ¼r die Screen-Erstellung verwendet, was die Verwendung von
+Hardware-Beschleunigung ermÃ¶glicht.
 @LineBreak
 @LineBreak
-@Bold "MacOS X": OpenGL wird für die Screen-Erstellung verwendet, was die Verwendung von
-Hardware-Beschleunigung ermöglicht.
+@Bold "MacOS X": OpenGL wird fÃ¼r die Screen-Erstellung verwendet, was die Verwendung von
+Hardware-Beschleunigung ermÃ¶glicht.
 
 @CommandList
 
 @ExampleFile All Sprite.pb
-@ExampleFile Linux Sprite.pb
 @ExampleFile All WindowedScreen.pb
 
 @SupportedOS
@@ -49,28 +48,28 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = CatchSprite(#Sprite, *SpeicherAdresse [, Modus])
 
 @Description
-  Lädt das angegebene Sprite aus dem angegebenen Speicherbereich 'SpeicherAdresse'.
+  LÃ¤dt das angegebene Sprite aus dem angegebenen Speicherbereich 'SpeicherAdresse'.
 @LineBreak
 @LineBreak
   Vor dem Laden eines Sprites sollte ein Bildschirm mit @@OpenScreen oder
-  @@OpenWindowedScreen geöffnet werden.
+  @@OpenWindowedScreen geÃ¶ffnet werden.
 @LineBreak
 @LineBreak
-  Sprites können im BMP-Format oder in jedem anderen von der
-  @LibraryLink "imageplugin" "ImagePlugin Bibliothek" unterstützten Format
+  Sprites kÃ¶nnen im BMP-Format oder in jedem anderen von der
+  @LibraryLink "imageplugin" "ImagePlugin Bibliothek" unterstÃ¼tzten Format
   vorliegen.
   Ein geladenes Sprite kann mittels dem @@FreeSprite Befehl freigegeben werden.
 @LineBreak
 @LineBreak
-  Der @@CatchSprite Befehl ist nützlich im Zusammenhang mit dem
-  '@ReferenceLink "includes" "IncludeBinary"' PureBasic Schlüsselwort.
-  Damit können Bilder mit in das Executable gepackt werden. Verwenden Sie diese Option
+  Der @@CatchSprite Befehl ist nÃ¼tzlich im Zusammenhang mit dem
+  '@ReferenceLink "includes" "IncludeBinary"' PureBasic SchlÃ¼sselwort.
+  Damit kÃ¶nnen Bilder mit in das Executable gepackt werden. Verwenden Sie diese Option
   trotzdem mit Bedacht, da mehr Speicher als beim Speichern des Sprites in einer externen Datei
-  benötigt wird (das Sprite befindet sich sowohl im Speicher des Executable und wird auch
+  benÃ¶tigt wird (das Sprite befindet sich sowohl im Speicher des Executable und wird auch
   in den physikalischen Speicher geladen).
 @LineBreak
 @LineBreak
-  Die folgenden Befehle können zum automatischen Aktivieren weiterer Bildformate verwendet werden:
+  Die folgenden Befehle kÃ¶nnen zum automatischen Aktivieren weiterer Bildformate verwendet werden:
 @LineBreak
   @@UseJPEGImageDecoder
 @LineBreak
@@ -90,18 +89,18 @@ Hardware-Beschleunigung ermöglicht.
   Die Speicheradresse, welche das zum Erstellen des Sprites benutzte Bild beinhaltet.
 
 @OptionalParameter "Modus"
-  Dies kann eine Kombination der folgenden Werte (verknüpft mit dem '|' Operator) sein:
+  Dies kann eine Kombination der folgenden Werte (verknÃ¼pft mit dem '|' Operator) sein:
 @FixedFont
-  @#PB_Sprite_PixelCollision: Fügt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
-  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal Unterstützung erstellt, benötigt
-                             für @@DisplayTransparentSprite. Das Bildformat muss dies unterstützen
+  @#PB_Sprite_PixelCollision: FÃ¼gt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
+  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal UnterstÃ¼tzung erstellt, benÃ¶tigt
+                             fÃ¼r @@DisplayTransparentSprite. Das Bildformat muss dies unterstÃ¼tzen
                              (derzeit nur PNG und TIFF). 
 @EndFixedFont
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite erstellt wurde, andernfalls Null. Wenn @#PB_Any
   als #Sprite Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -113,8 +112,8 @@ Hardware-Beschleunigung ermöglicht.
 @EndCode
 
 @Remarks
-  Das "?" ist ein Zeiger auf eine Sprungmarke. Weitere Informationen über Zeiger und
-  Speicherzugriff finden Sie im zugehörigen Kapitel @ReferenceLink "memory" "hier".
+  Das "?" ist ein Zeiger auf eine Sprungmarke. Weitere Informationen Ã¼ber Zeiger und
+  Speicherzugriff finden Sie im zugehÃ¶rigen Kapitel @ReferenceLink "memory" "hier".
 
 @SeeAlso
   @@CreateSprite, @@LoadSprite
@@ -123,30 +122,30 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClipSprite(#Sprite, x, y, Breite, Höhe)
+@Function ClipSprite(#Sprite, x, y, Breite, HÃ¶he)
 
 @Description
-  Fügt einen Clip-Bereich zum angegeben Sprite hinzu. Zum Beispiel, wenn ein Sprite
-  100 x 100 (Breite x Höhe) groß ist und eine Clipping-Zone mit (x=10, y=10, Breite=20, Höhe=20)
+  FÃ¼gt einen Clip-Bereich zum angegeben Sprite hinzu. Zum Beispiel, wenn ein Sprite
+  100 x 100 (Breite x HÃ¶he) groÃŸ ist und eine Clipping-Zone mit (x=10, y=10, Breite=20, HÃ¶he=20)
   angegeben wird, dann wird beim Anzeigen des Sprites nur der rechteckige Bereich
-  beginnend bei x=10, y=10 mit einer Breite von 20 und einer Höhe von 20 angezeigt.
+  beginnend bei x=10, y=10 mit einer Breite von 20 und einer HÃ¶he von 20 angezeigt.
 
 @Parameter "#Sprite"
   Das auszuschneidende Sprite.
   
 @Parameter "x, y"
-  Die Start-Position (in Pixel) für das "Clipping". @#PB_Default kann als Wert verwendet
+  Die Start-Position (in Pixel) fÃ¼r das "Clipping". @#PB_Default kann als Wert verwendet
   werden, um das Clipping zu entfernen.
 
-@Parameter "Breite, Höhe"
-  Die Clipping-Größe (in Pixel). @#PB_Default kann als Wert verwendet
+@Parameter "Breite, HÃ¶he"
+  Die Clipping-GrÃ¶ÃŸe (in Pixel). @#PB_Default kann als Wert verwendet
   werden, um das Clipping zu entfernen.
 
 @NoReturnValue
 
 @Remarks
-  Auf einigen älteren Grafikkarten funktioniert das Ausschneiden mit ClipSprite()
-  nicht fehlerfrei, wenn das Sprite größer als der verwendete Bildschirm ist.
+  Auf einigen Ã¤lteren Grafikkarten funktioniert das Ausschneiden mit ClipSprite()
+  nicht fehlerfrei, wenn das Sprite grÃ¶ÃŸer als der verwendete Bildschirm ist.
 
 @SeeAlso
   @@DisplaySprite, @@DisplayTransparentSprite
@@ -169,23 +168,23 @@ Hardware-Beschleunigung ermöglicht.
   existiert, wird es erstellt.
   
 @OptionalParameter "Modus"
-  Dies kann eine Kombination der folgenden Werte (verknüpft mit dem '|' Operator) sein:
+  Dies kann eine Kombination der folgenden Werte (verknÃ¼pft mit dem '|' Operator) sein:
 @FixedFont
-  @#PB_Sprite_PixelCollision: Fügt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
-  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal Unterstützung erstellt, benötigt
-                             für @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: FÃ¼gt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
+  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal UnterstÃ¼tzung erstellt, benÃ¶tigt
+                             fÃ¼r @@DisplayTransparentSprite.
 @EndFixedFont
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite kopiert wurde, andernfalls Null. Wenn @#PB_Any
   als #Sprite2 Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateSprite(#Sprite, Breite, Höhe [, Modus])
+@Function Ergebnis = CreateSprite(#Sprite, Breite, HÃ¶he [, Flags])
 
 @Description
   Erstellt ein leeres Sprite mit den angegebenen Dimensionen. @@SpriteOutput kann
@@ -195,49 +194,90 @@ Hardware-Beschleunigung ermöglicht.
   Eine Nummer zum Identifizieren des neuen Sprites. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Zahl automatisch zu generieren.
   
-@Parameter "Breite, Höhe"
-  Die Größe des neuen Sprites (in Pixel).
+@Parameter "Breite, HÃ¶he"
+  Die GrÃ¶ÃŸe des neuen Sprites (in Pixel).
 
-@OptionalParameter "Modus"
-  Dies kann eine Kombination der folgenden Werte (verknüpft mit dem '|' Operator) sein:
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte (verknÃ¼pft mit dem '|' Operator) sein:
 @FixedFont
-  @#PB_Sprite_PixelCollision: Fügt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
-  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal Unterstützung erstellt, benötigt
-                             für @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: FÃ¼gt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
+  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal UnterstÃ¼tzung erstellt, benÃ¶tigt
+                             fÃ¼r @@DisplayTransparentSprite.
+  @#PB_Sprite_Transparent   : Das Sprite wird vollstÃ¤ndig transparent erstellt (Alphakanalwert auf 0 gesetzt). Falls verwendet,
+                             sollte @@DrawingMode bei Verwendung von @@SpriteOutput auf @#PB_DrawingMode_AllChannels gesetzt werden.
 @EndFixedFont
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite erstellt wurde, andernfalls Null. Wenn @#PB_Any
   als #Sprite Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @Remarks
-  CreateSprite() muß im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde. 
+  CreateSprite() muss im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde. 
+
+@Example CreateSprite mit Transparenz-Flag
+@Code
+  InitSprite()
+   
+  OpenWindow(0, 0, 0, 640, 480, "Ein Screen in einem Fenster...", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+  If OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, #True, 0, 0)
+    
+    CreateSprite(0, 64, 64, #PB_Sprite_AlphaBlending | #PB_Sprite_Transparent)
+    If StartDrawing(SpriteOutput(0))
+      DrawingMode(#PB_2DDrawing_AllChannels)
+      Circle(16, 16, 8, RGBA(255, 0, 0, 255)) ; undurchsichtiger roter Kreis
+      Circle(32, 32, 8, RGBA(0, 255, 0, 128)) ; halbtransparenter grÃ¼ner Kreis
+      StopDrawing()
+    EndIf
+      
+    Repeat
+      Repeat ; Es ist sehr wichtig, bei jedem Frame alle in der Warteschlange verbliebenen Ereignisse zu verarbeiten
+        Event = WindowEvent()
+        If Event = #PB_Event_CloseWindow
+          End
+        EndIf
+      Until Event = 0
+      
+      ClearScreen(RGB(128, 128, 128)) ; grauer Hintergrund
+      
+      DisplayTransparentSprite(0, 300, 200)
+      
+      FlipBuffers()
+    ForEver
+        
+  Else
+    Debug "Fensterbildschirm kann nicht geÃ¶ffnet werden!"
+  EndIf
+@EndCode
 
 @SeeAlso
-  @@SpriteOutput
+  @@GrabSprite, @@SpriteOutput
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, x, y)
+@Function DisplaySprite(#Sprite, x.f, y.f)
 
 @Description
   Zeigt das #Sprite an der angegebenen Position auf dem aktuellen Bildschirm an.
-  Da es keine transparente Farbe oder Überblendungen ("Blending") gibt, ist diese Funktion
+  Da es keine transparente Farbe oder Ãœberblendungen ("Blending") gibt, ist diese Funktion
   schneller als @@DisplayTransparentSprite.
 @LineBreak
 @LineBreak
   Dieser Befehl ist ge'clipped' (wird automatisch auf den Bildschirm zugeschnitten),
-  daher ist es völlig in Ordnung, das Sprite außerhalb des Bildschirms anzuzeigen.
+  daher ist es vÃ¶llig in Ordnung, das Sprite auÃŸerhalb des Bildschirms anzuzeigen.
   
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   Die Koordinaten (in Pixel) auf dem @LibraryLink "screen" "Bildschirm", an denen das
   Sprite dargestellt werden soll.
+  @LineBreak
+  Sie kÃ¶nnen als Gleitkommazahlen angegeben werden, um zwischen physikalischen Pixeln zu liegen.
+  Die Engine interpoliert das Sprite automatisch, um die Anzeige zu glÃ¤tten (nicht unterstÃ¼tzt
+  auf DirectX9- und DirectX11-Subsystemen).
 
 @NoReturnValue
 
@@ -248,7 +288,7 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, x, y [, Intensität [, Farbe]])
+@Function DisplayTransparentSprite(#Sprite, x.f, y.f [, IntensitÃ¤t [, Farbe]])
 
 @Description
   Zeigt das #Sprite an der angegebenen Position auf dem aktuellen Bildschirm an.
@@ -256,28 +296,32 @@ Hardware-Beschleunigung ermöglicht.
   um diesen Befehl zu verwenden.
 @LineBreak
 @LineBreak
-  Standardmäßig wird die Farbe 0 (schwarz) als transparente Farbe
-  betrachtet (diese Farbe wird nicht angezeigt). Es ist möglich, die transparente
-  Farbe mittels @@TransparentSpriteColor zu verändern.
+  StandardmÃ¤ÃŸig wird die Farbe 0 (schwarz) als transparente Farbe
+  betrachtet (diese Farbe wird nicht angezeigt). Es ist mÃ¶glich, die transparente
+  Farbe mittels @@TransparentSpriteColor zu verÃ¤ndern.
 @LineBreak
 @LineBreak
   Dieser Befehl ist ge'clipped' (wird automatisch auf den Bildschirm zugeschnitten),
-  daher ist es völlig in Ordnung, das Sprite außerhalb des Bildschirms anzuzeigen.
+  daher ist es vÃ¶llig in Ordnung, das Sprite auÃŸerhalb des Bildschirms anzuzeigen.
 
 @Parameter "#Sprite"
   Das darzustellende Sprite.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   Die Koordinaten (in Pixel) auf dem @LibraryLink "screen" "Bildschirm", an denen
   das Sprite dargestellt werden soll.
+  @LineBreak
+  Sie kÃ¶nnen als Gleitkommazahlen angegeben werden, um zwischen physikalischen Pixeln zu liegen.
+  Die Engine interpoliert das Sprite automatisch, um die Anzeige zu glÃ¤tten (nicht unterstÃ¼tzt
+  auf DirectX9- und DirectX11-Subsystemen).
   
-@OptionalParameter "Intensität"
-  Der zum Darstellen des Sprites verwendete Intensitätslevel. Gültige Werte reichen von 0
-  (vollständig transparent) bis 255 (völlig undurchsichtig). Der Standardwert ist 255.
+@OptionalParameter "IntensitÃ¤t"
+  Der zum Darstellen des Sprites verwendete IntensitÃ¤tslevel. GÃ¼ltige Werte reichen von 0
+  (vollstÃ¤ndig transparent) bis 255 (vÃ¶llig undurchsichtig). Der Standardwert ist 255.
   
 @OptionalParameter "Farbe"
-  Die eine Farbe, welche für das einfarbige Darstellen des Sprites verwendet wird.
-  Das Sprite wird in nur einer Farbe gerendet. Um eine gültige Farbe zu erhalten,
+  Die eine Farbe, welche fÃ¼r das einfarbige Darstellen des Sprites verwendet wird.
+  Das Sprite wird in nur einer Farbe gerendet. Um eine gÃ¼ltige Farbe zu erhalten,
   verwenden Sie @@RGB.
 
 @NoReturnValue
@@ -307,12 +351,12 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GrabSprite(#Sprite, x, y, Breite, Höhe [, Modus])
+@Function Ergebnis = GrabSprite(#Sprite, x, y, Breite, HÃ¶he [, Flags])
 
 @Description
-  Fotografiert ("grab") den Bildschirminhalt im Bereich von (x, y, Breite, Höhe) und 
-  erstellt daraus ein neues #Sprite. In der Kombination von Grabsprite und 
-  @@SaveSprite ist es somit z.B. möglich, einen Screenshot
+  Fotografiert ("grab") den Bildschirminhalt im Bereich von (x, y, Breite, HÃ¶he) und 
+  erstellt daraus ein neues Sprite. In der Kombination von Grabsprite und 
+  @@SaveSprite ist es somit z.B. mÃ¶glich, einen Screenshot
   eines Spiels zu erstellen.
 
 @Parameter "#Sprite"
@@ -322,26 +366,26 @@ Hardware-Beschleunigung ermöglicht.
 @Parameter "x, y"
   Die Position auf dem Bildschirm, an der das Fotografieren beginnt (in Pixel).
   
-@Parameter "Breite, Höhe"
-  Die Größe der Fotografie (in Pixel).
+@Parameter "Breite, HÃ¶he"
+  Die GrÃ¶ÃŸe der Fotografie (in Pixel).
 
-@OptionalParameter "Modus"
-  Dies kann eine Kombination der folgenden Werte (verknüpft mit dem '|' Operator) sein:
+@OptionalParameter "Flags"
+  Dies kann eine Kombination der folgenden Werte (verknÃ¼pft mit dem '|' Operator) sein:
 @FixedFont
-  @#PB_Sprite_PixelCollision: Fügt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
-  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal Unterstützung erstellt, benötigt
-                             für @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: FÃ¼gt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
+  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal UnterstÃ¼tzung erstellt, benÃ¶tigt
+                             fÃ¼r @@DisplayTransparentSprite. Die mit @@TransparentSpriteColor eingestellte transparente Standardfarbe
+                             wird automatisch angewendet.
 @EndFixedFont
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite fotografiert wurde, andernfalls Null. Wenn @#PB_Any
   als #Sprite Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @Remarks
-  GrabSprite() sollte immer außerhalb eines @@StartDrawing : 
-  @@StopDrawing Blocks aufgerufen werden.
-
+  GrabSprite() sollte immer auÃŸerhalb eines @@StartDrawing : @@StopDrawing Blocks aufgerufen werden. @Linebreak
+  Die transparente Sprite-Farbe wird automatisch angewendet, wenn das AlphaBlending-Flag verwendet wird.
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -349,30 +393,30 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = InitSprite() 
 
 @Description
-  Initialisiert die Sprite-Umgebung zur späteren Benutzung. Sie müssen
-  diese Funktion am Anfang Ihres Quellcodes einfügen, wenn Sie die Sprite-Funktionen
-  benutzen möchten. 
+  Initialisiert die Sprite-Umgebung zur spÃ¤teren Benutzung. Sie mÃ¼ssen
+  diese Funktion am Anfang Ihres Quellcodes einfÃ¼gen, wenn Sie die Sprite-Funktionen
+  benutzen mÃ¶chten. 
   
 @NoParameters
 
 @ReturnValue
   Ein Wert ungleich Null, wenn die Initialisierung der Sprite-Umgebung erfolgreich war,
   andernfalls Null. Sie sollten dieses Ergebnis immer testen, um die korrekte
-  Initialisierung der Sprite-Umgebung zu überprüfen. War diese nicht erfolgreich,
-  müssen Sie das Programm beenden oder alle Aufrufe von Sprite-relevanten Befehlen
+  Initialisierung der Sprite-Umgebung zu Ã¼berprÃ¼fen. War diese nicht erfolgreich,
+  mÃ¼ssen Sie das Programm beenden oder alle Aufrufe von Sprite-relevanten Befehlen
   deaktivieren.
 
 @OS Windows
 @LineBreak
 @LineBreak
-  Dieser Befehl versucht, DirectX 9 zu initialisieren. Wenn er also fehlschlägt,
-  liegt dies möglicherweise an einem fehlenden oder zu alten DirectX. 
+  Dieser Befehl versucht, DirectX 9 zu initialisieren. Wenn er also fehlschlÃ¤gt,
+  liegt dies mÃ¶glicherweise an einem fehlenden oder zu alten DirectX. 
 
 @OS Linux
 @LineBreak
 @LineBreak
-  Dieser Befehl versucht, OpenGL zu initialisieren. Wenn er also fehlschlägt, 
-  liegt dies möglicherweise daran, dass die OpenGL Library nicht gefunden wurde.
+  Dieser Befehl versucht, OpenGL zu initialisieren. Wenn er also fehlschlÃ¤gt, 
+  liegt dies mÃ¶glicherweise daran, dass die OpenGL Library nicht gefunden wurde.
   
 @SupportedOS
 
@@ -381,17 +425,17 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = IsSprite(#Sprite)
 
 @Description
-  Überprüft, ob die angegebene #Sprite Nummer gültig und ein korrekt initialisiertes Sprite ist.
+  ÃœberprÃ¼ft, ob die angegebene #Sprite Nummer gÃ¼ltig und ein korrekt initialisiertes Sprite ist.
   
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn #Sprite ein gültiges Sprite ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn #Sprite ein gÃ¼ltiges Sprite ist, andernfalls Null.
   
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
+  ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert, andernfalls wird Null zurÃ¼ckgegeben.
   Dies ist der richtige Weg, um sicher zu stellen, dass ein Sprite bereit zur Verwendung ist.
  
 @SeeAlso
@@ -404,17 +448,17 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = LoadSprite(#Sprite, Dateiname$ [, Modus])
 
 @Description
-  Lädt das angegebene Sprite in den Speicher zur sofortigen Verwendung.
-  Ein Bildschirm sollte mittels @@OpenScreen oder @@OpenWindowedScreen geöffnet worden
+  LÃ¤dt das angegebene Sprite in den Speicher zur sofortigen Verwendung.
+  Ein Bildschirm sollte mittels @@OpenScreen oder @@OpenWindowedScreen geÃ¶ffnet worden
   sein, bevor ein Sprite geladen wird.
 @LineBreak
 @LineBreak  
-  Sprites können im BMP-Format oder in jedem anderen von der
-  @LibraryLink "imageplugin" "ImagePlugin Bibliothek" unterstützten Format
+  Sprites kÃ¶nnen im BMP-Format oder in jedem anderen von der
+  @LibraryLink "imageplugin" "ImagePlugin Bibliothek" unterstÃ¼tzten Format
   vorliegen.
 @LineBreak
 @LineBreak
-  Die folgenden Befehle können zum automatischen Aktivieren weiterer Bildformate verwendet werden:
+  Die folgenden Befehle kÃ¶nnen zum automatischen Aktivieren weiterer Bildformate verwendet werden:
 @LineBreak
   @@UseGIFImageDecoder
 @LineBreak
@@ -436,23 +480,23 @@ Hardware-Beschleunigung ermöglicht.
   Name der zum Erstellen des Sprites verwendeten Bilddatei.
 
 @OptionalParameter "Modus"
-  Dies kann eine Kombination der folgenden Werte (verknüpft mit dem '|' Operator) sein:
+  Dies kann eine Kombination der folgenden Werte (verknÃ¼pft mit dem '|' Operator) sein:
 @FixedFont
-  @#PB_Sprite_PixelCollision: Fügt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
-  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal Unterstützung erstellt, benötigt
-                             für @@DisplayTransparentSprite. Das Bildformat muss dies unterstützen (derzeit
+  @#PB_Sprite_PixelCollision: FÃ¼gt spezielle Informationen zum Handling der Pixel-Kollision mittels @@SpritePixelCollision hinzu.
+  @#PB_Sprite_AlphaBlending : Das Sprite wird mit per Pixel Alpha-Kanal UnterstÃ¼tzung erstellt, benÃ¶tigt
+                             fÃ¼r @@DisplayTransparentSprite. Das Bildformat muss dies unterstÃ¼tzen (derzeit
                              nur PNG und TIFF).
 @EndFixedFont
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite geladen wurde, andernfalls Null. Wenn @#PB_Any
   als #Sprite Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @Remarks
-  Sprites sollten nicht größer als der verwendete Bildschirmmodus sein. Das Verwenden
-  größerer Sprites kann auf mancher Hardware funktionieren, auf anderer nicht. Besser ist das
-  Aufsplitten des großen Sprites in mehrere kleine.
+  Sprites sollten nicht grÃ¶ÃŸer als der verwendete Bildschirmmodus sein. Das Verwenden
+  grÃ¶ÃŸerer Sprites kann auf mancher Hardware funktionieren, auf anderer nicht. Besser ist das
+  Aufsplitten des groÃŸen Sprites in mehrere kleine.
 
 @SupportedOS
 
@@ -461,15 +505,15 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SaveSprite(#Sprite, Dateiname$ [, ImagePlugin [, Flags]])
 
 @Description
-  Speichert das angegebene Sprite auf Disk. Standardmäßig wird es im 24Bit
-  BMP-Format gespeichert. Sehr nützlich für "Screenshots" (Schnappschüsse vom
+  Speichert das angegebene Sprite auf Disk. StandardmÃ¤ÃŸig wird es im 24Bit
+  BMP-Format gespeichert. Sehr nÃ¼tzlich fÃ¼r "Screenshots" (SchnappschÃ¼sse vom
   Bildschirminhalt) in Zusammenspiel mit dem @@GrabSprite Befehl.
 
 @Parameter "#Sprite"
   Das zu speichernde Sprite.
   
 @Parameter "Dateiname$"
-  Der für das zu speichernde Sprite zu verwendende Dateiname.
+  Der fÃ¼r das zu speichernde Sprite zu verwendende Dateiname.
 
 @OptionalParameter "ImagePlugin"
   Dies kann eine der folgenden Konstanten sein:
@@ -481,10 +525,10 @@ Hardware-Beschleunigung ermöglicht.
 @EndFixedFont
 
 @OptionalParameter "Flags"
-  Zusätzliche Kontrolle über das Speichern mit dem angegebenen Plugin. Derzeit wird nur
-  die Einstellung der Bildqualität unterstützt: ein Wert von 0 (schlechte Qualität) bis
-  10 (maximale Qualität). Nur die JPEG und JPEG 2000 Plugins unterstützen dies derzeit (standardmäßig ist
-  die Qualität auf '7' festgelegt, wenn keine Flags angegeben werden).
+  ZusÃ¤tzliche Kontrolle Ã¼ber das Speichern mit dem angegebenen Plugin. Derzeit wird nur
+  die Einstellung der BildqualitÃ¤t unterstÃ¼tzt: ein Wert von 0 (schlechte QualitÃ¤t) bis
+  10 (maximale QualitÃ¤t). Nur die JPEG und JPEG 2000 Plugins unterstÃ¼tzen dies derzeit (standardmÃ¤ÃŸig ist
+  die QualitÃ¤t auf '7' festgelegt, wenn keine Flags angegeben werden).
 
 @ReturnValue
   Ein Wert ungleich Null, wenn das Sprite erfolgreich gespeichert wurde, andernfalls Null.
@@ -499,31 +543,31 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SpriteCollision(#Sprite1, x1, y1, #Sprite2, x2, y2)
 
 @Description
-  Testet, ob sich die zwei Sprites überlappen. 
+  Testet, ob sich die zwei Sprites Ã¼berlappen. 
   
 @Parameter "#Sprite1"
-  Das erste zu überprüfende Sprite.
+  Das erste zu Ã¼berprÃ¼fende Sprite.
 
 @Parameter "x1, y1"
   Koordinaten des ersten Sprites, in Pixel.
 
 @Parameter "#Sprite2"
-  Das zweite zu überprüfende Sprite.
+  Das zweite zu Ã¼berprÃ¼fende Sprite.
 
 @Parameter "x2, y2"
   Koordinaten des zweiten Sprites, in Pixel.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn sich die zwei Sprites überlappen, andernfalls Null.
+  Ein Wert ungleich Null, wenn sich die zwei Sprites Ã¼berlappen, andernfalls Null.
 
 @Remarks
   Diese Routine vergleicht die rechteckigen Bereiche rund um das Sprite, ergibt also eine
-  sehr schnelle aber nicht sehr genaue Funktionsweise (abhängig von der Form Ihres
-  Sprites). Sehr nützlich für schnelle Arcade-Spiele. 
-  Vergrößerte/gezoomte Sprites werden ebenfalls unterstützt.
+  sehr schnelle aber nicht sehr genaue Funktionsweise (abhÃ¤ngig von der Form Ihres
+  Sprites). Sehr nÃ¼tzlich fÃ¼r schnelle Arcade-Spiele. 
+  VergrÃ¶ÃŸerte/gezoomte Sprites werden ebenfalls unterstÃ¼tzt.
 @LineBreak
 @LineBreak
-  Für eine genauere Kollisionsprüfung verwenden Sie @@SpritePixelCollision.
+  FÃ¼r eine genauere KollisionsprÃ¼fung verwenden Sie @@SpritePixelCollision.
   
 @SeeAlso
   @@SpritePixelCollision
@@ -535,7 +579,7 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SpriteDepth(#Sprite)
 
 @Description
-  Gibt die Farbtiefe des angegebenen Sprites zurück. 
+  Gibt die Farbtiefe des angegebenen Sprites zurÃ¼ck. 
   
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
@@ -553,13 +597,13 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SpriteHeight(#Sprite) 
 
 @Description
-  Gibt die Höhe (in Pixel) des angegebenen Sprites zurück. 
+  Gibt die HÃ¶he (in Pixel) des angegebenen Sprites zurÃ¼ck. 
 
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
 
 @ReturnValue
-  Die Höhe (in Pixel) des angegebenen Sprites.
+  Die HÃ¶he (in Pixel) des angegebenen Sprites.
   
 @SeeAlso
   @@SpriteWidth, @@SpriteDepth
@@ -571,7 +615,7 @@ Hardware-Beschleunigung ermöglicht.
 @Function SpriteID = SpriteID(#Sprite)
 
 @Description
-  Gibt den eindeutigen Systembezeichner ("Identifier", kurz "ID") des angegebenen Sprites zurück.
+  Gibt den eindeutigen Systembezeichner ("Identifier", kurz "ID") des angegebenen Sprites zurÃ¼ck.
 
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
@@ -579,7 +623,7 @@ Hardware-Beschleunigung ermöglicht.
 @ReturnValue
   Die ID des Sprites.
   Dieses Ergebnis ist manchmal auch als 'Handle' bekannt. Schauen Sie in das Extra-Kapitel
-  @ReferenceLink "handles" "Handles und Nummern" für weitere Informationen.
+  @ReferenceLink "handles" "Handles und Nummern" fÃ¼r weitere Informationen.
 
 @SeeAlso
   @@CreateSprite, @@LoadSprite, @@CatchSprite
@@ -591,33 +635,33 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SpritePixelCollision(#Sprite1, x1, y1, #Sprite2, x2, y2)
 
 @Description
-  Überprüft, ob sich zwei Sprites überlappen. @#PB_Sprite_PixelCollision
+  ÃœberprÃ¼ft, ob sich zwei Sprites Ã¼berlappen. @#PB_Sprite_PixelCollision
   muss bei der Sprite-Erstellung angegeben werden, damit dieser Befehl funktioniert.
 
 @Parameter "#Sprite1"
-  Das erste zu überprüfende Sprite.
+  Das erste zu Ã¼berprÃ¼fende Sprite.
 
 @Parameter "x1, y1"
   Koordinaten des ersten Sprites, in Pixel.
 
 @Parameter "#Sprite2"
-  Das zweite zu überprüfende Sprite.
+  Das zweite zu Ã¼berprÃ¼fende Sprite.
 
 @Parameter "x2, y2"
   Koordinaten des zweiten Sprites, in Pixel.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn sich die zwei Sprites überlappen, andernfalls Null.
+  Ein Wert ungleich Null, wenn sich die zwei Sprites Ã¼berlappen, andernfalls Null.
 
 @Remarks
-  Diese Routine führt eine exakte Kollisionsüberprüfung anhand transparenter Pixel durch,
-  was ein langsameres aber sehr genaues Ergebnis ergibt. Um die Überprüfung zu optimieren,
-  entfernen Sie so viele transparente Pixel wie möglich, damit die Sprite-Größe auch vollständig
-  durch das Sprite ausgenutzt wird (d.h. verwenden Sie keine breiten transparenten Ränder rings
-  um das Abbild des eigentliches Sprites). Vergrößerte/gezoomte Sprites werden ebenfalls unterstützt.
+  Diese Routine fÃ¼hrt eine exakte KollisionsÃ¼berprÃ¼fung anhand transparenter Pixel durch,
+  was ein langsameres aber sehr genaues Ergebnis ergibt. Um die ÃœberprÃ¼fung zu optimieren,
+  entfernen Sie so viele transparente Pixel wie mÃ¶glich, damit die Sprite-GrÃ¶ÃŸe auch vollstÃ¤ndig
+  durch das Sprite ausgenutzt wird (d.h. verwenden Sie keine breiten transparenten RÃ¤nder rings
+  um das Abbild des eigentliches Sprites). VergrÃ¶ÃŸerte/gezoomte Sprites werden ebenfalls unterstÃ¼tzt.
 @LineBreak
 @LineBreak
-  Für eine schnellere Kollisionsprüfung, die nur auf rechteckigen Rahmen beruht, verwenden
+  FÃ¼r eine schnellere KollisionsprÃ¼fung, die nur auf rechteckigen Rahmen beruht, verwenden
   Sie @@SpriteCollision.
 @LineBreak
 @LineBreak
@@ -633,7 +677,7 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = SpriteWidth(#Sprite)
 
 @Description
-  Gibt die Breite (in Pixel) des angegebenen Sprites zurück. 
+  Gibt die Breite (in Pixel) des angegebenen Sprites zurÃ¼ck. 
 
 @Parameter "#Sprite"
   Das zu verwendende Sprite.
@@ -652,19 +696,19 @@ Hardware-Beschleunigung ermöglicht.
 
 @Description
   Ermittelt die OutputID des angegebenen Sprites, um darauf
-  @LibraryLink "2ddrawing" "2D-Zeichenoperationen" durchzuführen.
+  @LibraryLink "2ddrawing" "2D-Zeichenoperationen" durchzufÃ¼hren.
 
 @Parameter "#Sprite"
   Das Sprite, auf dem gezeichnet werden soll.
 
 @ReturnValue
-  Die OutputID - oder Null, wenn Zeichnen nicht möglich ist. Dieser Wert sollte direkt
-  an die @@StartDrawing Funktion übergeben werden, um die Zeichenoperation zu starten.
-  Der Rückgabewert ist nur für eine Zeichenoperation gültig und kann nicht wiederverwendet
+  Die OutputID - oder Null, wenn Zeichnen nicht mÃ¶glich ist. Dieser Wert sollte direkt
+  an die @@StartDrawing Funktion Ã¼bergeben werden, um die Zeichenoperation zu starten.
+  Der RÃ¼ckgabewert ist nur fÃ¼r eine Zeichenoperation gÃ¼ltig und kann nicht wiederverwendet
   werden.
 
 @Remarks
-  SpriteOutput() muß im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde. 
+  SpriteOutput() muss im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde. 
 
 @Example
 @Code
@@ -680,19 +724,21 @@ Hardware-Beschleunigung ermöglicht.
 @Function TransparentSpriteColor(#Sprite, Farbe)
 
 @Description
-  Ändert die transparente Farbe des Sprites (wenn es mittels @@DisplayTransparentSprite
-  angezeigt wird).
-  
+  Verwendet die angegebene Farbe als transparente Sprite-Farbe (bei Anzeige mit @@DisplayTransparentSprite).
+  Es kann nur eine Farbe als transparente Farbe festgelegt werden. Die vorherigen Alphakanalwerte gehen verloren.
+  Wenn das Sprite bereits Alpha-Informationen enthÃ¤lt, wird dieser Befehl wahrscheinlich nicht benÃ¶tigt.
+  Um diesen Befehl verwenden zu kÃ¶nnen, muss das Sprite mit dem Flag @#PB_Sprite_AlphaBlending erstellt werden.
+
 @Parameter "#Sprite"
   Das zu verwendende Sprite. Wenn @#PB_Default verwendet wird, dann wird die Standardfarbe
-  (schwarz - RGB(0,0,0)) auf die neu angegebene Farbe geändert und alle zukünftig geladenen
+  (schwarz - RGB(0,0,0)) auf die neu angegebene Farbe geÃ¤ndert und alle zukÃ¼nftig geladenen
   oder erstellten Sprites (mittels @@LoadSprite bzw. @@CreateSprite) benutzen diese Farbe
   als transparente Farbe.
 
 @Parameter "Farbe"
   Die neue Farbe, welche als transparente Farbe behandelt werden soll.
-  @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten. 
-  Eine Tabelle gebräuchlicher Farbwerte ist @ReferenceLink "colortable" "hier" verfügbar.
+  @@RGB kann verwendet werden, um einen gÃ¼ltigen Farbwert zu erhalten. 
+  Eine Tabelle gebrÃ¤uchlicher Farbwerte ist @ReferenceLink "colortable" "hier" verfÃ¼gbar.
 
 @NoReturnValue
 
@@ -712,7 +758,7 @@ Hardware-Beschleunigung ermöglicht.
   Das zu drehende Sprite.
   
 @Parameter "Winkel.f"
-  Der Winkel-Wert, in Grad (von 0 bis 360). Die Drehung wird im Uhrzeigersinn durchgeführt.
+  Der Winkel-Wert, in Grad (von 0 bis 360). Die Drehung wird im Uhrzeigersinn durchgefÃ¼hrt.
 
 @Parameter "Modus"
   Dies kann einer der folgenden Werte sein:
@@ -730,16 +776,16 @@ Hardware-Beschleunigung ermöglicht.
 @Function SpriteBlendingMode(Ausgangsmodus, Zielmodus)
 
 @Description
-  Verändert die Art, wie das Sprite (beim Benutzen von @@DisplayTransparentSprite)
+  VerÃ¤ndert die Art, wie das Sprite (beim Benutzen von @@DisplayTransparentSprite)
   grafisch mit dem Hintergrund verbunden ("blended") wird.
 @LineBreak
 @LineBreak
-  Dieser Befehl ist nur für fortgeschrittene Programmierer. 
-  Das Ergebnis kann sich abhängig vom zugrundeliegenden Subsystem unterscheiden: zum
+  Dieser Befehl ist nur fÃ¼r fortgeschrittene Programmierer. 
+  Das Ergebnis kann sich abhÃ¤ngig vom zugrundeliegenden Subsystem unterscheiden: zum
   Beispiel verhalten sich OpenGL und DirectX nicht gleich.
   
 @Parameter "Ausgangsmodus, Zielmodus"
-  Beide Modi (Ausgangs- und Zielmodus) können einen der folgenden Wert annehmen.
+  Beide Modi (Ausgangs- und Zielmodus) kÃ¶nnen einen der folgenden Wert annehmen.
 @FixedFont
   @#PB_Sprite_BlendZero
   @#PB_Sprite_BlendOne
@@ -760,15 +806,15 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SpriteQuality(Qualität)
+@Function SpriteQuality(QualitÃ¤t)
 
 @Description
-  Ändert die Art der Sprite-Darstellung ("Rendering"). 
+  Ã„ndert die Art der Sprite-Darstellung ("Rendering"). 
 
-@Parameter "Qualität"
-  Die Darstellungsqualität des Sprites. Dies kann einer der folgenden Werte sein:
+@Parameter "QualitÃ¤t"
+  Die DarstellungsqualitÃ¤t des Sprites. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Sprite_NoFiltering       : Keine Filterung - schnell, aber "hässlich" beim Zoomen/Rotieren. (Standard)
+  @#PB_Sprite_NoFiltering       : Keine Filterung - schnell, aber "hÃ¤sslich" beim Zoomen/Rotieren. (Standard)
   @#PB_Sprite_BilinearFiltering : Bilineare Filterung - langsamer, aber "sauber" beim Zoomen/Rotieren.
 @EndFixedFont
 
@@ -782,11 +828,11 @@ Hardware-Beschleunigung ermöglicht.
 
 @Description
   Verformt ("transform") das Sprite auf die neu angegebenen Koordinaten. Dies erfolgt
-  typischerweise beim Durchführen von Echtzeit-Verformungen. Warnung: Da ein Sprite
+  typischerweise beim DurchfÃ¼hren von Echtzeit-Verformungen. Warnung: Da ein Sprite
   eine Kombination von 2 Dreiecken darstellt), kann die Verformung seltsam aussehen.
 @LineBreak
 @LineBreak
-  Wenn einer der optionalen 'z'-Parameter verwendet wird, müssen alle angegeben werden.
+  Wenn einer der optionalen 'z'-Parameter verwendet wird, mÃ¼ssen alle angegeben werden.
 
 @Parameter "#Sprite"
   Das zu verformende Sprite.
@@ -825,19 +871,19 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ZoomSprite(#Sprite, Breite, Höhe)
+@Function ZoomSprite(#Sprite, Breite, HÃ¶he)
 
 @Description
-  Zoomt (vergrößert/verkleinert) das angegebene #Sprite auf die angegebenen Dimensionen.
+  Zoomt (vergrÃ¶ÃŸert/verkleinert) das angegebene #Sprite auf die angegebenen Dimensionen.
 
 @Parameter "#Sprite"
   Das zu zoomende Sprite.
 
 @Parameter "Breite"
-  Neue Sprite-Breite, in Pixel. Wenn @#PB_Default angegeben wird, dann wird die anfängliche Sprite-Breite wiederhergestellt.
+  Neue Sprite-Breite, in Pixel. Wenn @#PB_Default angegeben wird, dann wird die anfÃ¤ngliche Sprite-Breite wiederhergestellt.
 
-@Parameter "Höhe"
-  Neue Sprite-Höhe, in Pixel. Wenn @#PB_Default angegeben wird, dann wird die anfängliche Sprite-Höhe wiederhergestellt.
+@Parameter "HÃ¶he"
+  Neue Sprite-HÃ¶he, in Pixel. Wenn @#PB_Default angegeben wird, dann wird die anfÃ¤ngliche Sprite-HÃ¶he wiederhergestellt.
 
 @NoReturnValue
 

@@ -50,11 +50,22 @@
 #PB_Backend_Asm = 0
 #PB_Backend_C = 1
 
+; Internal compiler constant #PB_Compiler_OS
+;
+#PB_OS_Windows        =  1
+#PB_OS_Linux          =  2
+#PB_OS_AmigaOS        =  3
+#PB_OS_MacOS          =  4
+#PB_OS_Web            =  5
+
 #PB_Structure_AlignC = -1
 
 #PB_Compiler_Executable = 0
 #PB_Compiler_DLL        = 1
 #PB_Compiler_Console    = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Compiler_PureLibrary = 3
+CompilerEndIf
 
 ; Internal type used by some PB functions (Sort) and also by Defined(), TypeOf()
 ;
@@ -89,12 +100,11 @@
 
 ; Used a lot in the 3D engine, so don't prefix them with lib name
 ;
-#PB_Absolute = 0
-#PB_Relative = 1
-
-#PB_Local  = 1 << 1
-#PB_Parent = 1 << 2
-#PB_World  = 1 << 3
+#PB_Relative = 1 << 0
+#PB_Absolute = 1 << 1
+#PB_Local    = 1 << 2
+#PB_Parent   = 1 << 3
+#PB_World    = 1 << 4
 #PB_Engine3D_Raw      = 1 << 5
 #PB_Engine3D_Adjusted = 1 << 6
 
@@ -104,14 +114,6 @@
 #PB_Vector_NegativeX = 3
 #PB_Vector_NegativeY = 4
 #PB_Vector_NegativeZ = 5
-
-; Internal compiler constant #PB_Compiler_OS
-;
-#PB_OS_Windows        =  1
-#PB_OS_Linux          =  2
-#PB_OS_AmigaOS        =  3
-#PB_OS_MacOS          =  4
-#PB_OS_Web            =  5
 
 ; OSVersion() Constants
 ;
@@ -132,7 +134,11 @@
 #PB_OS_Windows_8_1            = 100
 #PB_OS_Windows_Server_2012_R2 = 105
 #PB_OS_Windows_10             = 110
+#PB_OS_Windows_Server_2016    = 112
+#PB_OS_Windows_Server_2019    = 114
+#PB_OS_Windows_Server_2022    = 116
 #PB_OS_Windows_11             = 120
+#PB_OS_Windows_Server_2025    = 122
 #PB_OS_Windows_Future         = 200
 
 #PB_OS_Linux_2_2 = 1000
@@ -158,6 +164,9 @@
 #PB_OS_MacOSX_10_15  = 10150
 #PB_OS_MacOSX_11     = 11000
 #PB_OS_MacOSX_12     = 12000
+#PB_OS_MacOSX_13     = 13000
+#PB_OS_MacOSX_14     = 14000
+#PB_OS_MacOSX_15     = 15000
 #PB_OS_MacOSX_Future = 99999
 
 #PB_Default = -1  ; Common default value, used by SetGadgetFont(), TransparentSpriteColor, etc..
@@ -242,6 +251,7 @@ EndStructure
 #PB_2DDrawing_CustomFilter = 1 << 7
 #PB_2DDrawing_AllChannels  = 1 << 8
 #PB_2DDrawing_NativeText   = 1 << 9
+#PB_2DDrawing_FastText     = 1 << 10
 
 #PB_PixelFormat_8Bits      = 1 << 0
 #PB_PixelFormat_15Bits     = 1 << 1
@@ -252,6 +262,7 @@ EndStructure
 #PB_PixelFormat_32Bits_BGR = 1 << 6
 
 #PB_PixelFormat_ReversedY  = 1 << 15
+#PB_PixelFormat_NoAlpha    = 1 << 16
 
 ; CGI
 ;
@@ -356,6 +367,7 @@ EndStructure
 #PB_Event_FirstCustomValue     = 1 << 16
 #PB_EventType_FirstCustomValue = 1 << 18
 
+; For Web, these are declared in the JavaScript specific file
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_EventType_LeftClick         = 0
   #PB_EventType_RightClick        = 1
@@ -376,6 +388,10 @@ CompilerEndIf
 #PB_File_SharedWrite = 1 << 18
 #PB_File_NoBuffering = 1 << 19
 #PB_File_Append      = 1 << 20
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_File_BOM       = 1 << 21
+CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 
@@ -401,8 +417,11 @@ CompilerEndIf
 #PB_ImagePlugin_BMP      = $504D42
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
-
-  #PB_Image_FloydSteinberg =  1 << 8 ; SaveImage()
+  
+  ; For SaveImage()
+  #PB_Image_FloydSteinberg =  1 << 8
+  #PB_Image_WhiteAlphaBackground = 1 << 9
+  #PB_Image_BlackAlphaBackground = 1 << 10
 
   #PB_ImagePlugin_JPEG2000 = $4B32504A
   #PB_ImagePlugin_TGA      = $414754
@@ -415,9 +434,13 @@ CompilerEndIf
 ; deprecated, just map it to 24bit image depth always
 ; use 24bit for better Windows GDI compatibility
 #PB_Image_DisplayFormat = 24
-#PB_Image_Transparent   = -1 ; CreateImage()
 #PB_Image_OriginalDepth = -2  ; ImageDepth()
 #PB_Image_InternalDepth = -3  ; ImageDepth()
+
+; For CreateImage(), raw RGBA values
+#PB_Image_Transparent = $FFFFFF ; White with 0 alpha (Transparent)
+#PB_Image_TransparentBlack = 0  ; Black with 0 alpha (Transparent)
+
 
 ; JSON
 ;
@@ -491,6 +514,15 @@ Enumeration  ; gadget types
   #PB_GadgetType_WebView
 EndEnumeration
 
+; Coloring options
+;
+#PB_Gadget_FrontColor      = 1
+#PB_Gadget_BackColor       = 2
+#PB_Gadget_LineColor       = 3
+#PB_Gadget_TitleFrontColor = 4
+#PB_Gadget_TitleBackColor  = 5
+#PB_Gadget_GrayTextColor   = 6
+
 ; for SetGadgetState
 #PB_ProgressBar_Unknown = -1
 
@@ -504,6 +536,21 @@ EndEnumeration
 #PB_Checkbox_Checked   = 1
 #PB_Checkbox_Unchecked = 0
 #PB_Checkbox_Inbetween = -1
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  ; ListIcon flags
+  #PB_ListIcon_CheckBoxes     = 1 << 0
+  #PB_ListIcon_MultiSelect    = 1 << 1
+  #PB_ListIcon_GridLines      = 1 << 2
+  #PB_ListIcon_FullRowSelect  = 1 << 3
+  #PB_ListIcon_HeaderDragDrop = 1 << 4
+  #PB_ListIcon_AlwaysShowSelection = 1 << 5
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+    #PB_ListIcon_ThreeState   = 1 << 6
+    #PB_ListIcon_NoHeaders    = 1 << 7
+  CompilerEndIf
+CompilerEndIf  
+  
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_DisplayMode  = 2
@@ -538,7 +585,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ListIcon_SmallIcon = 1
   #PB_ListIcon_List      = 2
   #PB_ListIcon_Report    = 3
-
+  
   ; keep in sync with the listicon ones
   #PB_Explorer_DisplayMode  = 2
 
@@ -546,6 +593,134 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Explorer_SmallIcon = 1
   #PB_Explorer_List      = 2
   #PB_Explorer_Report    = 3
+  
+  ; Explorer gadgets flags
+  #PB_Explorer_NoMyDocuments       = 1 << 0
+  #PB_Explorer_NoFiles             = 1 << 1  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_NoDriveRequester    = 1 << 2  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_AutoSort            = 1 << 3  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_BorderLess          = 1 << 4  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_AlwaysShowSelection = 1 << 5  ; ExplorerTree and ExplorerList only
+  #PB_Explorer_NoParentFolder      = 1 << 6  ; ExplorerList only
+  #PB_Explorer_NoFolders           = 1 << 7  ; ExplorerList only
+  #PB_Explorer_NoDirectoryChange   = 1 << 8  ; ExplorerList only
+  #PB_Explorer_NoSort              = 1 << 9  ; ExplorerList only
+  #PB_Explorer_MultiSelect         = 1 << 10 ; ExplorerList only
+  #PB_Explorer_GridLines           = 1 << 11 ; ExplorerList only
+  #PB_Explorer_HeaderDragDrop      = 1 << 12 ; ExplorerList only
+  #PB_Explorer_FullRowSelect       = 1 << 13 ; ExplorerList only
+  #PB_Explorer_NoLines             = 1 << 14 ; ExplorerTree only
+  #PB_Explorer_NoButtons           = 1 << 15 ; ExplorerTree only
+  #PB_Explorer_DrivesOnly          = 1 << 16 ; ExplorerCombo only
+  #PB_Explorer_Editable            = 1 << 17 ; ExplorerCombo only
+  #PB_Explorer_HiddenFiles         = 1 << 18
+  #PB_Explorer_NoHeaders           = 1 << 19 ; ListExplorer only
+  
+  ; Return values for Explorer:
+  #PB_Explorer_None             = 0
+  #PB_Explorer_File             = 1 << 0 
+  #PB_Explorer_Directory        = 1 << 1
+  #PB_Explorer_Selected         = 1 << 2
+  
+  ; Get/SetGadgetItemAttribute()
+  #PB_Explorer_ColumnWidth = 1
+  
+CompilerEndIf
+
+; Container Flags
+;
+#PB_Container_BorderLess = 0
+#PB_Container_Flat       = 1
+#PB_Container_Raised     = 2
+#PB_Container_Single     = 4
+#PB_Container_Double     = 8
+
+; Editor Flags
+#PB_Editor_ReadOnly      = 1 << 0
+#PB_Editor_WordWrap      = 1 << 1
+#PB_Editor_TabNavigation = 1 << 2
+
+; HyperLink flags
+;
+#PB_HyperLink_Underline  = 1
+
+; Panel Attributes
+;
+#PB_Panel_ItemWidth  = 1
+#PB_Panel_ItemHeight = 2
+#PB_Panel_TabHeight  = 3
+
+; ScrollArea Flags
+;
+#PB_ScrollArea_Flat = 1
+#PB_ScrollArea_Raised = 2
+#PB_ScrollArea_Single = 4
+#PB_ScrollArea_BorderLess = 8
+#PB_ScrollArea_Center = 16
+
+; ScrollArea Attributes
+;
+#PB_ScrollArea_InnerWidth  = 1
+#PB_ScrollArea_InnerHeight = 2
+#PB_ScrollArea_X = 3
+#PB_ScrollArea_Y = 4
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ScrollArea_ScrollStep = 5
+CompilerEndIf
+
+; ScrollBar Flags
+;
+#PB_ScrollBar_Vertical = 1
+
+; ScrollBar Attributes
+;
+#PB_ScrollBar_Minimum    = 1
+#PB_ScrollBar_Maximum    = 2
+#PB_ScrollBar_PageLength = 3
+
+; Splitter Flags
+;
+#PB_Splitter_Vertical = 1
+#PB_Splitter_Separator = 2
+#PB_Splitter_FirstFixed = 4
+#PB_Splitter_SecondFixed = 8
+
+; Splitter Attributes
+;
+#PB_Splitter_FirstMinimumSize = 1
+#PB_Splitter_SecondMinimumSize = 2
+#PB_Splitter_FirstGadget = 3
+#PB_Splitter_SecondGadget = 4
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+  ; String Flags
+  #PB_String_Password     = 1 << 0
+  #PB_String_ReadOnly     = 1 << 1
+  #PB_String_UpperCase    = 1 << 2
+  #PB_String_LowerCase    = 1 << 3
+  #PB_String_Numeric      = 1 << 4
+  #PB_String_BorderLess   = 1 << 5
+  #PB_String_PlaceHolder  = 1 << 6
+CompilerEndIf
+
+; TrackBar Flags
+;
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_TrackBar_Ticks    = 1
+CompilerEndIf
+#PB_TrackBar_Vertical = 2
+
+; TrackBar Attributes
+;
+#PB_TrackBar_Minimum = 1
+#PB_TrackBar_Maximum = 2
+
+
+#PB_Frame_Double   = 1
+#PB_Frame_Single   = 2
+#PB_Frame_Flat     = 3
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Frame_Container = 1 << 3
 CompilerEndIf
 
 ; String attributes
@@ -607,16 +782,17 @@ CompilerEndIf
 #PB_EventType_KeyUp               = $10000 + 12
 #PB_EventType_Input               = $10000 + 13
 
-; WebGadget
-;
-#PB_EventType_TitleChange      = $10050 + 1
-#PB_EventType_StatusChange     = $10050 + 2
-#PB_EventType_PopupWindow      = $10050 + 3
-#PB_EventType_DownloadStart    = $10050 + 4
-#PB_EventType_DownloadProgress = $10050 + 5
-#PB_EventType_DownloadEnd      = $10050 + 6
-#PB_EventType_PopupMenu        = $10050 + 7
-
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; WebGadget
+  ;
+  #PB_EventType_TitleChange      = $10050 + 1
+  #PB_EventType_StatusChange     = $10050 + 2
+  #PB_EventType_PopupWindow      = $10050 + 3
+  #PB_EventType_DownloadStart    = $10050 + 4
+  #PB_EventType_DownloadProgress = $10050 + 5
+  #PB_EventType_DownloadEnd      = $10050 + 6
+  #PB_EventType_PopupMenu        = $10050 + 7
+CompilerEndIf
 
 ; Flags for CanvasGadget
 ;
@@ -737,38 +913,63 @@ EndEnumeration
 #PB_List_Before = 3
 #PB_List_After  = 4
 
-; Ftp library
-;
-#PB_FTP_ReadUser     = $400
-#PB_FTP_WriteUser    = $200
-#PB_FTP_ExecuteUser  = $100
-#PB_FTP_ReadGroup    = $40
-#PB_FTP_WriteGroup   = $20
-#PB_FTP_ExecuteGroup = $10
-#PB_FTP_ReadAll      = $4
-#PB_FTP_WriteAll     = $2
-#PB_FTP_ExecuteAll   = $1
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; Ftp library
+  ;
+  #PB_FTP_ReadUser     = $400
+  #PB_FTP_WriteUser    = $200
+  #PB_FTP_ExecuteUser  = $100
+  #PB_FTP_ReadGroup    = $40
+  #PB_FTP_WriteGroup   = $20
+  #PB_FTP_ExecuteGroup = $10
+  #PB_FTP_ReadAll      = $4
+  #PB_FTP_WriteAll     = $2
+  #PB_FTP_ExecuteAll   = $1
+  
+  #PB_FTP_Started  = -1
+  #PB_FTP_Error    = -2
+  #PB_FTP_Finished = -3
+  
+  #PB_FTP_File      = 1
+  #PB_FTP_Directory = 2
+  
+  ; OpenFTP() flags
+  ; Note: 1 << 0 is reserved for passive mode (backward compatibility)
+  #PB_FTP_Debug   = 1 << 1
+  #PB_FTP_Active  = 1 << 2
+CompilerEndIf  
 
-#PB_FTP_Started  = -1
-#PB_FTP_Error    = -2
-#PB_FTP_Finished = -3
-
-#PB_FTP_File      = 1
-#PB_FTP_Directory = 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; HID library
+  ;
+  #PB_HID_Path             = 1
+  #PB_HID_VendorId         = 2
+  #PB_HID_ProductId        = 3
+  #PB_HID_SerialNumber     = 4
+  #PB_HID_ReleaseNumber    = 5
+  #PB_HID_Manufacturer     = 6
+  #PB_HID_Product          = 7
+  #PB_HID_UsagePage        = 8
+  #PB_HID_Usage            = 9
+  #PB_HID_InterfaceNumber  = 10
+  #PB_HID_BusType          = 11
+CompilerEndIf  
 
 ; HTTP library
 ;
-#PB_HTTP_Success     = -2
-#PB_HTTP_Failed      = -3
-#PB_HTTP_Aborted     = -4
-
-#PB_HTTP_Asynchronous = (1 << 0)
-#PB_HTTP_NoRedirect   = (1 << 1)
-#PB_HTTP_NoSSLCheck   = (1 << 2)
-#PB_HTTP_HeadersOnly  = (1 << 3)
-#PB_HTTP_WeakSSL      = (1 << 4)
-#PB_HTTP_Debug        = (1 << 5)
-
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_HTTP_Success     = -2
+  #PB_HTTP_Failed      = -3
+  #PB_HTTP_Aborted     = -4
+  
+  #PB_HTTP_Asynchronous = 1 << 0
+  #PB_HTTP_NoRedirect   = 1 << 1
+  #PB_HTTP_NoSSLCheck   = 1 << 2
+  #PB_HTTP_HeadersOnly  = 1 << 3
+  #PB_HTTP_WeakSSL      = 1 << 4
+  #PB_HTTP_Debug        = 1 << 5
+CompilerEndIf  
+  
 #PB_HTTP_Get = 0
 #PB_HTTP_Post = 1
 #PB_HTTP_Put = 2
@@ -776,8 +977,12 @@ EndEnumeration
 #PB_HTTP_Delete = 4
 
 #PB_HTTP_StatusCode = 0
-#PB_HTTP_Response = 1
-#PB_HTTP_ErrorMessage = 2
+CompilerIf #PB_Compiler_OS = #PB_OS_Web
+  #PB_HTTP_StatusText = 1
+CompilerElse
+  #PB_HTTP_Response = 1
+  #PB_HTTP_ErrorMessage = 2
+CompilerEndIf
 #PB_HTTP_Headers = 3
 
 #PB_URL_Protocol   = "/PC/"
@@ -809,6 +1014,8 @@ EndEnumeration
 #PB_Mail_UseSSL       = 1 << 1
 #PB_Mail_UseSMTPS     = 1 << 2
 #PB_Mail_Debug        = 1 << 3
+#PB_Mail_NoSSLCheck   = 1 << 4
+#PB_Mail_WeakSSL      = 1 << 5
 
 ; Map Library
 ;
@@ -822,15 +1029,22 @@ EndEnumeration
 
 ; Menu library
 ;
-#PB_Menu_ModernLook  = (1 << 0)
-#PB_Menu_SysTrayLook = (1 << 2)
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Menu_NativeImageSize  = (1 << 3)
+CompilerEndIf
 
 ; Network
 ;
-#PB_Network_TCP = 1; #SOCK_STREAM
-#PB_Network_UDP = 2; #SOCK_DGRAM
-#PB_Network_IPv4 = 0
-#PB_Network_IPv6 = 1 << 28
+#PB_Network_TCP      = 0
+#PB_Network_IPv4     = 0
+#PB_Network_UDP      = 1 << 0
+#PB_Network_IPv6     = 1 << 1
+#PB_Network_NoTLS    = 0
+#PB_Network_TLSv1_0  = 1 << 2
+#PB_Network_TLSv1_1  = 1 << 3
+#PB_Network_TLSv1_2  = 1 << 4
+#PB_Network_TLSv1_3  = 1 << 5
+#PB_Network_TLSv1    = (#PB_Network_TLSv1_2 | #PB_Network_TLSv1_3) ; Only currently supported version
 
 #PB_NetworkEvent_None       = 0
 #PB_NetworkEvent_Connect    = 1
@@ -845,6 +1059,37 @@ EndEnumeration
 #PB_RegularExpression_AnyNewLine = $00500000 ; #PCRE_NEWLINE_ANYCRLF
 #PB_RegularExpression_NoCase     = $00000001 ; #PCRE_CASELESS
 
+
+; Javascript doesn't support them
+;
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  
+  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows
+    
+    ; Windows pass the constant directly to the API so has different values
+    ;
+    #PB_MessageRequester_Ok          = 0
+    #PB_MessageRequester_YesNo       = 1 << 0
+    #PB_MessageRequester_YesNoCancel = 1 << 1
+    #PB_MessageRequester_Info        = 1 << 2
+    #PB_MessageRequester_Error       = 1 << 3
+    #PB_MessageRequester_Warning     = 1 << 4
+    
+    #PB_FontRequester_Effects = 1
+  CompilerEndIf
+
+  ; MessageRequester return value
+  #PB_MessageRequester_Yes    = 6
+  #PB_MessageRequester_No     = 7
+  #PB_MessageRequester_Cancel = 2
+  
+  #PB_Requester_MultiSelection = 1
+  
+  #PB_InputRequester_Password     = 1 << 0
+  #PB_InputRequester_HandleCancel = 1 << 1
+  
+  #PB_InputRequester_Cancel = Chr(10)+Chr(9)
+CompilerEndIf
 
 ; OnError
 ;
@@ -958,8 +1203,9 @@ CompilerEndIf
 
 ; Sprite library
 ;
-#PB_Sprite_PixelCollision = 4
-#PB_Sprite_AlphaBlending  = 8
+#PB_Sprite_PixelCollision = 1 << 2
+#PB_Sprite_AlphaBlending  = 1 << 3
+#PB_Sprite_Transparent    = 1 << 4
 
 #PB_Sprite_NoFiltering       = 0
 #PB_Sprite_BilinearFiltering = 1
@@ -1022,6 +1268,37 @@ CompilerEndIf
 #PB_Map_ElementCheck = 1
 #PB_Map_NoElementCheck = 0
 
+; ScreenGadget
+;
+Enumeration 
+  #PB_ScreenGadget_Mouse = 1
+  #PB_ScreenGadget_TextureWindow
+  #PB_ScreenGadget_FrameWindow
+  #PB_ScreenGadget_FrameRaised      
+  #PB_ScreenGadget_FrameSunken		
+  #PB_ScreenGadget_FrameFlat    
+  #PB_ScreenGadget_FrameScroll 
+  #PB_ScreenGadget_FrameScrollIn 
+  #PB_ScreenGadget_FrameString
+  #PB_ScreenGadget_FrameProgressBar0
+  #PB_ScreenGadget_FrameProgressBar1
+  #PB_ScreenGadget_FramePanel
+  #PB_ScreenGadget_FrameSplitter
+  #PB_ScreenGadget_CheckBox0
+  #PB_ScreenGadget_CheckBox1
+  #PB_ScreenGadget_Option0
+  #PB_ScreenGadget_Option1
+  #PB_ScreenGadget_ComboBox
+  #PB_ScreenGadget_ScrollLeft
+  #PB_ScreenGadget_ScrollRight
+  #PB_ScreenGadget_ScrollUp
+  #PB_ScreenGadget_ScrollDown
+  #PB_ScreenGadget_FrameTrackBar
+  #PB_ScreenGadget_HorizontalTrackBar
+  #PB_ScreenGadget_TrackBarV
+  #PB_ScreenGadget_Pin
+EndEnumeration
+
 ; SerialPortError() results
 ;
 #PB_SerialPort_RxOver       = (1 << 0)
@@ -1078,7 +1355,6 @@ CompilerEndIf
 #PB_String_NoCase  = 1
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
-  #PB_String_InPlace = 2
   #PB_String_NoCaseAscii = 3
 CompilerEndIf
 
@@ -1391,6 +1667,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
 #PB_Entity_LinearDamping = 27
 #PB_Entity_AngularDamping = 28
 #PB_Entity_DisableContactResponse = 30
+#PB_Entity_InheritScale = 31
 
 #PB_Entity_MinBoundingBoxX  = 1 << 0
 #PB_Entity_MaxBoundingBoxX  = 1 << 1
@@ -1574,11 +1851,11 @@ EndEnumeration
 #PB_Material_DepthBias      = 22
 
 ; #PB_Material_EnvironmentMap values
-#PB_Material_NoMap         = -1
-#PB_Material_PlanarMap     = 0
+#PB_Material_NoMap         = 0
 #PB_Material_CurvedMap     = 1
-#PB_Material_ReflectionMap = 2
-#PB_Material_NormalMap     = 3
+#PB_Material_PlanarMap     = 2
+#PB_Material_ReflectionMap = 3
+#PB_Material_NormalMap     = 4
 
 ; #PB_Material_TAM values
 #PB_Material_WrapTAM   = 0
@@ -1873,16 +2150,6 @@ EndStructure
 
 ; World
 ;
-#PB_World_WaterMediumQuality = 0
-#PB_World_WaterLowQuality    = 1 << 0
-#PB_World_WaterHighQuality   = 1 << 1
-#PB_World_WaterCaustics      = 1 << 2
-#PB_World_WaterSmooth        = 1 << 3
-#PB_World_WaterFoam          = 1 << 4
-#PB_World_WaterSun           = 1 << 5
-#PB_World_UnderWater         = 1 << 6
-#PB_World_WaterGodRays       = 1 << 7
-
 #PB_AntialiasingMode_None = 0
 #PB_AntialiasingMode_x2 = 1
 #PB_AntialiasingMode_x4 = 2
@@ -1892,8 +2159,30 @@ EndStructure
 #PB_World_DebugEntity = 1 << 0
 #PB_World_DebugBody   = 1 << 1
 
-#PB_World_TerrainPick = -2
 #PB_World_WaterPick   = -3
+
+; Get/SetWorldAttribute()
+#PB_Shadow_FarDistance                     = 1
+#PB_Shadow_Color                           = 2
+; #PB_Shadow_OptimalAdjustFactor             = 3
+; #PB_Shadow_UseAggressiveFocusRegion        = 4
+; #PB_Shadow_TextureCount                    = 5
+; #PB_Shadow_TextureSize                     = 6
+; #PB_Shadow_TextureCountPerLightPoint       = 7
+; #PB_Shadow_TextureCountPerLightDirectional = 8
+; #PB_Shadow_TextureCountPerSpotLight        = 9
+#PB_SkyDome_Free                           = 10
+#PB_SkyDome_SkyColor                       = 11
+#PB_SkyDome_RiseColor                      = 12
+#PB_SkyDome_NbCloudLayers                  = 13
+#PB_SkyDome_CloudsHeight                   = 14
+#PB_Water_WaterColor                       = 15
+#PB_Water_SkyColor                         = 16
+#PB_Water_WaveHeight                       = 17
+#PB_Water_WaveSmall                        = 18
+#PB_Water_Swell                            = 19
+#PB_Water_Foam                             = 20
+#PB_Water_Free                             = 21
 
 
 ; for DragDrop lib DragOSFormats()
@@ -1957,7 +2246,7 @@ EndStructure
 
 ; Path separator constants
 ;
-CompilerIf (#PB_Compiler_OS = #PB_OS_Windows)
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
   #PS  = '\'
   #NPS = '/'
 CompilerElse

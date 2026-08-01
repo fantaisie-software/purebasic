@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - GetScriptParticle
@@ -11,94 +11,72 @@
 #CameraSpeed = 10
 #MAX = 20
 
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
-
 Define.f KeyX, KeyY, MouseX, MouseY
 
-If InitEngine3D()
-  
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
+InitEngine3D()
+InitSprite()
+InitKeyboard()
+InitMouse()
 
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"            , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"              , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"             , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"           , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/material_scripts", #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/textures"        , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/particle_scripts", #PB_3DArchive_FileSystem)
-    Parse3DScripts()
-    
-    KeyboardMode(#PB_Keyboard_International)
-    
-    ; Particles
-    ;
-    Restore Particles
-    For i = 0 To #MAX
-      Read.s Particle$
-      GetScriptParticleEmitter(i, Particle$)
-      HideParticleEmitter(i, 1)
-    Next
-    
-    ; Camera
-    ;
-    CreateCamera(0, 0, 0, 100, 100)
-    MoveCamera(0, 0, 0, 100, #PB_Absolute)
-    
-    Repeat
-      Screen3DEvents()
-      
-      If ExamineMouse()
-        MouseX = -MouseDeltaX() * #CameraSpeed * 0.005
-        MouseY = -MouseDeltaY() * #CameraSpeed * 0.005
-      EndIf
-      
-      If ExamineKeyboard()
-        
-        If KeyboardPushed(#PB_Key_Left)
-          KeyX = -#CameraSpeed
-        ElseIf KeyboardPushed(#PB_Key_Right)
-          KeyX = #CameraSpeed
-        Else
-          KeyX = 0
-        EndIf
-        
-        If KeyboardPushed(#PB_Key_Up)
-          KeyY = -#CameraSpeed
-        ElseIf KeyboardPushed(#PB_Key_Down)
-          KeyY = #CameraSpeed
-        Else
-          KeyY = 0
-        EndIf
-        
-      EndIf
-      
-      If ElapsedMilliseconds() - Time > 2500
-        Time = ElapsedMilliseconds()
-        HideParticleEmitter(Particle, 1)
-        Particle + 1
-        If Particle > #MAX
-          Particle = 0
-        EndIf
-        HideParticleEmitter(Particle, 0)
-      EndIf
-      
-      RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
-      MoveCamera  (0, KeyX, 0, KeyY)
-      
-      RenderWorld()
-      FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " GetScriptParticle - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"            , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"              , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"             , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Particles"           , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/material_scripts", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/textures"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/OPE/particle_scripts", #PB_3DArchive_FileSystem)
+Parse3DScripts()
+
+KeyboardMode(#PB_Keyboard_International)
+
+; Particles
+;
+Restore Particles
+For i = 0 To #MAX
+  Read.s Particle$
+  GetScriptParticleEmitter(i, Particle$)
+  HideParticleEmitter(i, 1)
+Next
+
+; Camera
+;
+CreateCamera(0, 0, 0, 100, 100)
+MoveCamera(0, 0, 0, 100, #PB_Absolute)
+
+Repeat
+  While WindowEvent():Wend
+  
+  If ExamineMouse()
+    MouseX = -MouseDeltaX() * #CameraSpeed * 0.005
+    MouseY = -MouseDeltaY() * #CameraSpeed * 0.005
   EndIf
   
-Else
-  MessageRequester("Error", "The 3D Engine can't be initialized", 0)
-EndIf
+  If ExamineKeyboard()
+    KeyX = (KeyboardPushed(#PB_Key_Right)-KeyboardPushed(#PB_Key_Left))*#CameraSpeed
+    Keyy = (KeyboardPushed(#PB_Key_Down)-KeyboardPushed(#PB_Key_Up))*#CameraSpeed    
+  EndIf
+  
+  If ElapsedMilliseconds() - Time > 2500
+    Time = ElapsedMilliseconds()
+    HideParticleEmitter(Particle, 1)
+    Particle + 1
+    If Particle > #MAX
+      Particle = 0
+    EndIf
+    HideParticleEmitter(Particle, 0)
+  EndIf
+  
+  RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
+  MoveCamera  (0, KeyX, 0, KeyY)
+  
+  RenderWorld()
+  FlipBuffers()
+Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 
-End
 
 DataSection
   Particles:

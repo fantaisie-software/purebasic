@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Database library documentation
 ;
 ;       (c) Fantaisie Software
@@ -28,7 +28,7 @@
 @LineBreak
 @LineBreak
   Note: Under Windows, prior to using an ODBC database, it is necessary to establish an ODBC "User Data Source"
-  which makes your database available via ODBC and useable with this Database library. For more information,
+  which makes your database available via ODBC and usable with this Database library. For more information,
   refer to Windows's ODBC help document. 
 
 @OS Linux
@@ -976,7 +976,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseMySQLDatabase([LibraryName$])
+@Function Result = UseMySQLDatabase([LibraryName$])
 
 @Description
   Initialize the MySQL and MariaDB database environment for future use. 
@@ -986,12 +986,13 @@ Filename (and path if needed) of the dynamic library to use. As most Linux distr
 it can be set to the correct name, so the libmaria.so doesn't have to be package with the executable. If this parameter is not specified,
 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) or 'libmariadb.dylib' (OSX) will be used.
 
-@NoReturnValue
+@ReturnValue
+  Returns @#True if the MySQL environment is successfully initialized, otherwise returns @#False.
 
 @Remarks
   MySQL and MariaDB (an opensource fork of MySQL) are powerful, server based database
   managers which support very large database and high concurrency. PureBasic uses opensource
-  MariaDB library to connect MySQL and MariaDB databases seemlessly, which can be used in commercial
+  MariaDB library to connect MySQL and MariaDB databases seamlessly, which can be used in commercial
   application without additional licenses. When shipping your PureBasic program, you will need to add 
   'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) or 'libmariadb.dylib' (OSX) found in the
   'PureBasic/Compilers' directory to your package.
@@ -1030,13 +1031,18 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UsePostgreSQLDatabase()
+@Function Result = UsePostgreSQLDatabase([LibraryName$])
 
 @Description
   Initialize the PostgreSQL database environment for future use. 
 
-@NoParameters
-@NoReturnValue
+@OptionalParameter "LibraryName$"
+  Filename (and path if needed) of the dynamic library to use. It could be useful to use a different version of the library that the one included with PureBasic. If this parameter is not specified, the 
+  internal postgresql client library shipped with PureBasic will be used (no external dynamic library needed).
+
+@ReturnValue
+  When using the optional 'LibraryName$' parameter, it will return @#True if the dynamic library has been correctly loaded or @#False otherwise. If the optional 'LibraryName$' parameter
+  is not specified, it will always returns @#True.
 
 @Remarks
   PostgreSQL is a powerful, server based database
@@ -1047,7 +1053,7 @@ it can be set to the correct name, so the libmaria.so doesn't have to be package
 @LineBreak
 @LineBreak
   A PostgreSQL database has to be connected using @@OpenDatabase before using any other database functions.
-  PostgresSQL specific parameters can be passed in the 'DatabaseName$' parameter of @@OpenDatabase:
+  PostgreSQL specific parameters can be passed in the 'DatabaseName$' parameter of @@OpenDatabase:
 @FixedFont
   - host: Name of host to connect to.
   - hostaddr: Numeric IP address of host to connect to.

@@ -1,4 +1,4 @@
-@Title Protected
+ï»¿@Title Protected
 
 @Syntax
 
@@ -6,19 +6,19 @@
 
 @Description
 
-  @Keyword Protected ("geschützt") ermöglicht den Zugriff auf eine @ReferenceLink "variables" "Variable" nur innerhalb einer 
+  @Keyword Protected ("geschÃ¼tzt") ermÃ¶glicht den Zugriff auf eine @ReferenceLink "variables" "Variable" nur innerhalb einer 
   @ReferenceLink "Procedures" "Prozedur", auch wenn die gleiche Variable im Hauptprogramm bereits als @ReferenceLink "Global" Global deklariert wurde. 
   @Keyword Protected in seiner Funktion ist aus anderen BASIC-Dialekten oftmals als 'Local' bekannt. 
   Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden.
   @LineBreak
   @LineBreak
-  Wenn nach @Keyword Protected ein Typ angegeben wird, dann wird der Standard-Typ für diese Deklaration geändert.
-  @Keyword Protected kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "verknüpften Listen" und @ReferenceLink "newmap" "Maps" verwendet werden. 
+  Wenn nach @Keyword Protected ein Typ angegeben wird, dann wird der Standard-Typ fÃ¼r diese Deklaration geÃ¤ndert.
+  @Keyword Protected kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "verknÃ¼pften Listen" und @ReferenceLink "newmap" "Maps" verwendet werden. 
   @LineBreak
   @LineBreak
-  Der Wert der lokalen Variablen wird bei jedem Prozedur-Aufruf neu initialisiert (zurückgesetzt). Um 
-  dies zu vermeiden, können Sie alternativ das Schlüsselwort @ReferenceLink "Static" Static verwenden, um globale von lokalen 
-  Variablen zu trennen, während diese ihren Wert behalten.
+  Der Wert der lokalen Variablen wird bei jedem Prozedur-Aufruf neu initialisiert (zurÃ¼ckgesetzt). Um 
+  dies zu vermeiden, kÃ¶nnen Sie alternativ das SchlÃ¼sselwort @ReferenceLink "Static" Static verwenden, um globale von lokalen 
+  Variablen zu trennen, wÃ¤hrend diese ihren Wert behalten.
 
   @Example Mit Variable
 
@@ -32,7 +32,7 @@
   EndProcedure 
   
   Change()
-  Debug a ; Wird 10 ausgeben, da die Variable geschützt ("protected") wurde.
+  Debug a ; Wird 10 ausgeben, da die Variable geschÃ¼tzt ("protected") wurde.
 @EndCode
 
   @LineBreak
@@ -43,10 +43,10 @@
   Array(0) = 10
   
   Procedure Change()
-    Protected Dim Array(2) ; Dieses Array ist geschützt, es wird nur lokal verfügbar sein.
+    Protected Dim Array(2) ; Dieses Array ist geschÃ¼tzt, es wird nur lokal verfÃ¼gbar sein.
     Array(0) = 20 
   EndProcedure 
   
   Change()
-  Debug Array(0) ; Wird 10 ausgeben, da das Array geschützt wurde.
+  Debug Array(0) ; Wird 10 ausgeben, da das Array geschÃ¼tzt wurde.
 @EndCode

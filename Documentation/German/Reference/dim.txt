@@ -1,4 +1,4 @@
-@Title Dim
+ï»¿@Title Dim
 
 @Syntax
 
@@ -6,10 +6,10 @@
 
 @Description
 
-  @Keyword Dim wird benutzt, um neue Arrays anzulegen (der anfängliche Wert jedes Elements wird null sein). Ein Array in PureBasic kann
-  von beliebigem Typ sein, einschließlich @ReferenceLink "Structures" "strukturierter" und benutzerdefinierter Typen. Wenn
-  ein Array einmal dimensioniert wurde, kann es mit @Keyword ReDim erneut dimensioniert (d.h. in der Größe)
-  verändert werden. Arrays werden dynamisch angelegt - dies bedeutet, dass eine
+  @Keyword Dim wird benutzt, um neue Arrays anzulegen (der anfÃ¤ngliche Wert jedes Elements wird null sein). Ein Array in PureBasic kann
+  von beliebigem Typ sein, einschlieÃŸlich @ReferenceLink "Structures" "strukturierter" und benutzerdefinierter Typen. Wenn
+  ein Array einmal dimensioniert wurde, kann es mit @Keyword ReDim erneut dimensioniert (d.h. in der GrÃ¶ÃŸe)
+  verÃ¤ndert werden. Arrays werden dynamisch angelegt - dies bedeutet, dass eine
   @ReferenceLink "variables" "Variable" oder ein @ReferenceLink "general_rules" "Ausdruck" benutzt werden kann, 
   um sie erneut zu dimensionieren.
   Um alle Befehle zu sehen, die zum Verwalten von Arrays verwendet werden, schauen Sie in die @LibraryLink "Array" "Array" Bibliothek.
@@ -24,25 +24,25 @@
   @LineBreak
   @LineBreak
   Die neuen Arrays sind immer lokal. Dies bedeutet, dass die @ReferenceLink "Global" "Global" oder
-  @ReferenceLink "Shared" "Shared" Befehle benutzt werden müssen, wenn ein im Haupt-Quellcode deklariertes
-  Array in Prozeduren verwendet werden soll. Es ist auch möglich, mit dem @Keyword "Array"-Schlüsselwort ein Array als Parameter an eine
-  @ReferenceLink "Procedures" "Prozedur" zu übergeben - es wird dabei "by reference" (was bedeutet, 
+  @ReferenceLink "Shared" "Shared" Befehle benutzt werden mÃ¼ssen, wenn ein im Haupt-Quellcode deklariertes
+  Array in Prozeduren verwendet werden soll. Es ist auch mÃ¶glich, mit dem @Keyword "Array"-SchlÃ¼sselwort ein Array als Parameter an eine
+  @ReferenceLink "Procedures" "Prozedur" zu Ã¼bergeben - es wird dabei "by reference" (was bedeutet, 
   dass das Array nicht kopiert wird, sondern stattdessen die Funktionen in der Prozedur das originale
-  Array manipulieren) übergeben.
+  Array manipulieren) Ã¼bergeben.
   @LineBreak
   @LineBreak
-  Um den Inhalt eines Arrays zu löschen und seinen verwendeten Speicher während des Programmablaufs
+  Um den Inhalt eines Arrays zu lÃ¶schen und seinen verwendeten Speicher wÃ¤hrend des Programmablaufs
   freizugeben, rufen Sie @@FreeArray auf.
   @LineBreak
   @LineBreak
-  Wenn @Keyword Dim auf ein existierendes Array angewandt wird, setzt es seine Inhalte auf null zurück.
+  Wenn @Keyword Dim auf ein existierendes Array angewandt wird, setzt es seine Inhalte auf null zurÃ¼ck.
   @LineBreak
   @LineBreak
-  Für schnelles Vertauschen von Array-Inhalten steht das @ReferenceLink "others" "Swap" Schlüsselwort
-  zur Verfügung.
+  FÃ¼r schnelles Vertauschen von Array-Inhalten steht das @ReferenceLink "others" "Swap" SchlÃ¼sselwort
+  zur VerfÃ¼gung.
   @LineBreak
   @LineBreak
-  Hinweis: Eine Überprüfung auf Überschreitung der Array-Grenzen findet nur statt, wenn der Laufzeit - @ReferenceLink "Debugger" "Debugger" aktiviert ist.
+  Hinweis: Eine ÃœberprÃ¼fung auf Ãœberschreitung der Array-Grenzen findet nur statt, wenn der Laufzeit - @ReferenceLink "Debugger" "Debugger" aktiviert ist.
 
 @Example
 @Code
@@ -67,7 +67,7 @@
   EndProcedure
   
   Dim Numbers(10)
-  fill(Numbers(), 10)  ; das Array Numbers() wird hier als Parameter übergeben
+  fill(Numbers(), 10)  ; das Array Numbers() wird hier als Parameter Ã¼bergeben
   
   Debug Numbers(5)
   Debug Numbers(10)
@@ -87,12 +87,12 @@
 
 @Description
 
-  @Keyword ReDim wird verwendet, um ein bereits deklariertes Array neu zu dimensionieren (d.h. in der Größe zu verändern,
-  englisch 'resize'), während sein Inhalt erhalten bleibt. Die neue Größe kann kleiner oder größer sein, allerdings kann
-  die Anzahl an Dimensionen nicht verändert werden.
+  @Keyword ReDim wird verwendet, um ein bereits deklariertes Array neu zu dimensionieren (d.h. in der GrÃ¶ÃŸe zu verÃ¤ndern,
+  englisch 'resize'), wÃ¤hrend sein Inhalt erhalten bleibt. Die neue GrÃ¶ÃŸe kann kleiner oder grÃ¶ÃŸer sein, allerdings kann
+  die Anzahl an Dimensionen nicht verÃ¤ndert werden.
   @LineBreak
   @LineBreak
-  Wenn @Keyword ReDim mit einem mehrdimensionalen Array verwendet wird, kann nur die letzte Dimension geändert werden.
+  Wenn @Keyword ReDim mit einem mehrdimensionalen Array verwendet wird, kann nur die letzte Dimension geÃ¤ndert werden.
 
 @Example 
 @Code
@@ -100,7 +100,7 @@
   MyArray(0) = 1
   MyArray(1) = 2
   
-  ReDim MyArray(4) ; Jetzt möchten wir 5 Elemente
+  ReDim MyArray(4) ; Jetzt mÃ¶chten wir 5 Elemente
   MyArray(2) = 3
   
   For k = 0 To 2
@@ -114,7 +114,7 @@
   
   ; ReDim MyTab(4,1,1) ; Nein!
   ; ReDim MyTab(1,4,1) ; Nein!
-  ReDim MyTab(1,1,4) ; Ja! Nur seine letzte Dimension kann verändert werden.
+  ReDim MyTab(1,1,4) ; Ja! Nur seine letzte Dimension kann verÃ¤ndert werden.
   MyTab(1,1,4) = 3
 @EndCode
 

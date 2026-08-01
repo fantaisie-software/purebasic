@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Vehicle library documentation
 ;
 ;    Fantaisie Software
@@ -8,14 +8,14 @@
 
 @Overview
 
-  Les véhicules (vehicle) sont habituellement composés d'un seul corps et d'une ou 
-  de plusieurs roues (voitures, camions, vélos, etc.). Le nouveau véhicule créé est une simple 
-  @LibraryLink "entity" "entité", de sorte que toutes les fonctions concernant les 
-  entités peuvent être utilisées pour le manipuler.
+  Les vÃ©hicules (vehicle) sont habituellement composÃ©s d'un seul corps et d'une ou 
+  de plusieurs roues (voitures, camions, vÃ©los, etc.). Le nouveau vÃ©hicule crÃ©Ã© est une simple 
+  @LibraryLink "entity" "entitÃ©", de sorte que toutes les fonctions concernant les 
+  entitÃ©s peuvent Ãªtre utilisÃ©es pour le manipuler.
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès avant d'utiliser les fonctions de cette 
-  bibliothèque.
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s avant d'utiliser les fonctions de cette 
+  bibliothÃ¨que.
 
 @CommandList
 
@@ -28,39 +28,39 @@
 @Function AddVehicleWheel(#Entity, #EntityRoue, TeteSuspensionX.f, TeteSuspensionY.f, TeteSuspensionZ.f, MoyeuRoueX.f, MoyeuRoueY.f, MoyeuRoueZ.f, DebattementMaxSuspension.f, RayonRoue.f, TractionRoue, RoulisRoue.f)
 
 @Description
-  Ajoute une nouvelle roue à un véhicule précédemment créé avec @@CreateVehicle.
+  Ajoute une nouvelle roue Ã  un vÃ©hicule prÃ©cÃ©demment crÃ©Ã© avec @@CreateVehicle.
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "#EntityRoue"
-  L'entité à utiliser pour la roue.
+  L'entitÃ© Ã  utiliser pour la roue.
 
 @Parameter "TeteSuspensionX.f, TeteSuspensionY.f, TeteSuspensionZ.f"
-  Coordonnées du point d'attache de la suspension sur le chassis.
+  CoordonnÃ©es du point d'attache de la suspension sur le chassis.
   
 @Parameter "MoyeuRoueX.f, MoyeuRoueY.f, MoyeuRoueZ.f"
-  Coordonnée de l'axe de roue (moyeu).
+  CoordonnÃ©e de l'axe de roue (moyeu).
   
 @Parameter "DebattementMaxSuspension.f"
-  Le débattement maximum de la suspension, en mètres.
+  Le dÃ©battement maximum de la suspension, en mÃ¨tres.
 
 @Parameter "RayonRoue.f"
   Le rayon de la roue.
   
 @Parameter "TractionRoue"
 @FixedFont
-  @#True : La roue est motrice, @@ApplyVehicleForce et @@ApplyVehicleSteering s'appliquent à cette roue.
+  @#True : La roue est motrice, @@ApplyVehicleForce et @@ApplyVehicleSteering s'appliquent Ã  cette roue.
   @#False: La roue est libre, non motrice.
 @EndFixedFont
 
 @Parameter "RoulisRoue"
-  Réduit le roulis de la roue (0.0: pas de roulis, 1.0: comportement physique).
+  RÃ©duit le roulis de la roue (0.0: pas de roulis, 1.0: comportement physique).
   @LineBreak 
   @LineBreak
-  Si le frottement est trop élevé, il pourrait être nécessaire de réduire cette valeur 
-  pour arrêter le balancement du véhicule (Equivalent au réglage de la barre de torsion 
-  dans le monde réel).
+  Si le frottement est trop Ã©levÃ©, il pourrait Ãªtre nÃ©cessaire de rÃ©duire cette valeur 
+  pour arrÃªter le balancement du vÃ©hicule (Equivalent au rÃ©glage de la barre de torsion 
+  dans le monde rÃ©el).
 
 @NoReturnValue
 
@@ -73,22 +73,22 @@
 @Function ApplyVehicleForce(#Entity, Roue, Force.f)
 
 @Description
-  Applique une force de traction sur une roue du véhicule. 
+  Applique une force de traction sur une roue du vÃ©hicule. 
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "Roue"
-  L'indice de la roue, à partir de 0.
+  L'indice de la roue, Ã  partir de 0.
 
 @Parameter "Force"
-  La force de traction à appliquer sur la roue.
+  La force de traction Ã  appliquer sur la roue.
 
 @NoReturnValue
   
 @Remarks  
-  La nouvelle valeur de la force de traction remplace la force précédemment 
-  appliquée à la roue du véhicule.
+  La nouvelle valeur de la force de traction remplace la force prÃ©cÃ©demment 
+  appliquÃ©e Ã  la roue du vÃ©hicule.
   
 @SeeAlso @@ApplyVehicleSteering, @@ApplyVehicleBrake, @@AddVehicleWheel
 
@@ -99,22 +99,22 @@
 @Function ApplyVehicleBrake(#Entity, Roue, Frein.f)
 
 @Description
-  Applique une force de freinage sur une roue du véhicule. 
+  Applique une force de freinage sur une roue du vÃ©hicule. 
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "Roue"
-  L'indice de la roue, à partir de 0.
+  L'indice de la roue, Ã  partir de 0.
 
 @Parameter "Frein"
-  La force de freinage à appliquer sur la roue.
+  La force de freinage Ã  appliquer sur la roue.
 
 @NoReturnValue
   
 @Remarks  
-  La nouvelle valeur de la force de freinage remplace la force précédemment 
-  appliquée à la roue du véhicule.
+  La nouvelle valeur de la force de freinage remplace la force prÃ©cÃ©demment 
+  appliquÃ©e Ã  la roue du vÃ©hicule.
 
 @SeeAlso @@ApplyVehicleSteering, @@ApplyVehicleForce, @@AddVehicleWheel
 
@@ -125,22 +125,22 @@
 @Function ApplyVehicleSteering(#Entity, Roue, Braquage.f)
 
 @Description
-  Applique une force directive sur une roue du véhicule. 
+  Applique une force directive sur une roue du vÃ©hicule. 
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "Roue"
-  L'indice de la roue, à partir de 0.
+  L'indice de la roue, Ã  partir de 0.
 
 @Parameter "Braquage"
-  La force directive à appliquer sur la roue.
+  La force directive Ã  appliquer sur la roue.
 
 @NoReturnValue
   
 @Remarks  
-  La nouvelle valeur de la force directive remplace la force précédemment 
-  appliquée à la roue du véhicule.
+  La nouvelle valeur de la force directive remplace la force prÃ©cÃ©demment 
+  appliquÃ©e Ã  la roue du vÃ©hicule.
 
 @SeeAlso @@ApplyVehicleBrake, @@ApplyVehicleForce, @@AddVehicleWheel
 
@@ -151,22 +151,22 @@
 @Function Resultat = CreateVehicle(#Entity)
 
 @Description
-  Crée une nouvelle entité véhicule.
+  CrÃ©e une nouvelle entitÃ© vÃ©hicule.
   
 @Parameter "#Entity" 
-  Le numéro d'identification la nouvelle entité. 
+  Le numÃ©ro d'identification la nouvelle entitÃ©. 
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" peut être 
-  utilisé pour générer automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre 
+  utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @ReturnValue
-  Renvoie zéro si l'entité véhicule ne peut pas être créée. 
+  Renvoie zÃ©ro si l'entitÃ© vÃ©hicule ne peut pas Ãªtre crÃ©Ã©e. 
 @LineBreak
 @LineBreak 
   Si @ReferenceLink "purebasic_objects" "#PB_Any"   
-  est utilisé comme paramètre '#Entity', le nouveau numéro d'entité
-  de véhicule est renvoyé.
+  est utilisÃ© comme paramÃ¨tre '#Entity', le nouveau numÃ©ro d'entitÃ©
+  de vÃ©hicule est renvoyÃ©.
 
 @SeeAlso
   @@FreeEntity
@@ -175,39 +175,39 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateVehicleBody(#Entity, Masse.f, Restitution.f, Friction.f [, SuspensionRigidité.f, SuspensionCompression.f, SuspensionAmortissement.f, SuspensionCompressionMax.f, AdherencePneu.f)
+@Function CreateVehicleBody(#Entity, Masse.f, Restitution.f, Friction.f [, SuspensionRigiditÃ©.f, SuspensionCompression.f, SuspensionAmortissement.f, SuspensionCompressionMax.f, AdherencePneu.f)
 
 @Description
-  Crée un corps physique associé à une entité véhicule.
+  CrÃ©e un corps physique associÃ© Ã  une entitÃ© vÃ©hicule.
   
 @Parameter "Masse"
-  Masse du véhicule.
+  Masse du vÃ©hicule.
   @LineBreak
   @LineBreak
-  Ne pas utiliser une trop grande valeur car il pourrait se produire des incohérences 
-  physiques (1 est la valeur préférée). 
+  Ne pas utiliser une trop grande valeur car il pourrait se produire des incohÃ©rences 
+  physiques (1 est la valeur prÃ©fÃ©rÃ©e). 
  
 @Parameter "Restitution"
-  Restitution du véhicule.
+  Restitution du vÃ©hicule.
   @LineBreak
   @LineBreak
-  Cette valeur peut également être obtenue ou configurer via @@GetEntityAttribute et @@SetEntityAttribute
+  Cette valeur peut Ã©galement Ãªtre obtenue ou configurer via @@GetEntityAttribute et @@SetEntityAttribute
 
 @Parameter "Friction"
-  Friction du véhicule. 
+  Friction du vÃ©hicule. 
   @LineBreak
   @LineBreak
-  Cette valeur peut également être obtenue ou configurer via @@GetEntityAttribute et @@SetEntityAttribute
+  Cette valeur peut Ã©galement Ãªtre obtenue ou configurer via @@GetEntityAttribute et @@SetEntityAttribute
 
-@OptionalParameter "SuspensionRigidité"
-  La rigidité de la suspension (10: Buggy tout terrain, 50: Voiture de sports, 200: Voiture F1)
+@OptionalParameter "SuspensionRigiditÃ©"
+  La rigiditÃ© de la suspension (10: Buggy tout terrain, 50: Voiture de sports, 200: Voiture F1)
 
 @OptionalParameter "SuspensionCompression"
-  Le coefficient d'amortissement à utiliser lorsque la suspension est comprimée. 
+  Le coefficient d'amortissement Ã  utiliser lorsque la suspension est comprimÃ©e. 
   @LineBreak
   @LineBreak  
-  Mettre à valeur * 2 * RacineCarrée(SuspensionRigidité), elle est donc proportionnelle 
-  à l'amortissement critique. 
+  Mettre Ã  valeur * 2 * RacineCarrÃ©e(SuspensionRigiditÃ©), elle est donc proportionnelle 
+  Ã  l'amortissement critique. 
   @LineBreak
   @LineBreak
   Exemples de valeur:
@@ -215,40 +215,40 @@
   valeur = 0: non amortie et bondissant
   valeur = 1: amortissement critique
 @EndFixedFont
-  Les valeurs recommandées vont de 0.1 à 0.3.
+  Les valeurs recommandÃ©es vont de 0.1 Ã  0.3.
 
 @OptionalParameter "SuspensionAmortissement"
-  L'amortissement lorsque la suspension est totallement étirée.
+  L'amortissement lorsque la suspension est totallement Ã©tirÃ©e.
   @LineBreak
   @LineBreak
-  Voir SuspensionCompression pour définir cette valeur.  @LineBreak 
-  La valeur de SuspensionAmortissement doit être légèrement plus grande que 
+  Voir SuspensionCompression pour dÃ©finir cette valeur.  @LineBreak 
+  La valeur de SuspensionAmortissement doit Ãªtre lÃ©gÃ¨rement plus grande que 
   SuspensionCompression. 
     @LineBreak
   @LineBreak
-  Les valeurs recommandées vont de 0.2 à 0.5. 
+  Les valeurs recommandÃ©es vont de 0.2 Ã  0.5. 
   
 @OptionalParameter "SuspensionCompressionMax"
-  La longueur à laquelle la suspension peut être comprimée (en centimètres).
+  La longueur Ã  laquelle la suspension peut Ãªtre comprimÃ©e (en centimÃ¨tres).
 
 @OptionalParameter "AdherencePneu"
   Le frottement entre le pneumatique et le sol. 
   @LineBreak
   @LineBreak 
-  Devrait être d'environ 0,8 pour les voitures réalistes mais peut augmenter 
+  Devrait Ãªtre d'environ 0,8 pour les voitures rÃ©alistes mais peut augmenter 
   pour une meilleure manipulation.@LineBreak 
-  Une grande valeur (10000.0) peut être utilisé pour les karts.
+  Une grande valeur (10000.0) peut Ãªtre utilisÃ© pour les karts.
 
 @NoReturnValue
 
 @Remarks
-  Pour que les collisions  soient gérées par le moteur physique, 
-  l'entité doit avoir un corps (body).@LineBreak
+  Pour que les collisions  soient gÃ©rÃ©es par le moteur physique, 
+  l'entitÃ© doit avoir un corps (body).@LineBreak
   En fait, seul le corps est connu par le moteur physique qui fera tout le calcul 
-  sur l'entité, vérifier la masse, la friction et s'il entre en collision.
+  sur l'entitÃ©, vÃ©rifier la masse, la friction et s'il entre en collision.
 @LineBreak
 @LineBreak
-  Pour avoir un effet, le moteur physique doit être activé avec @@EnableWorldPhysics.
+  Pour avoir un effet, le moteur physique doit Ãªtre activÃ© avec @@EnableWorldPhysics.
   
 
 @SeeAlso
@@ -261,27 +261,27 @@
 @Function Resultat.f = GetVehicleAttribute(#Entity, Attribut, Roue)
 
 @Description
-  Obtenir l'attribut spécifié d'une entité véhicule.
+  Obtenir l'attribut spÃ©cifiÃ© d'une entitÃ© vÃ©hicule.
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "Attribut"
-  L'attribut à obtenir. Les attributs suivants sont disponibles:
+  L'attribut Ã  obtenir. Les attributs suivants sont disponibles:
 @FixedFont
   @#PB_Vehicle_Friction                : La valeur de frottement de la roue (voir @@CreateVehicleBody pour plus d'info).
   @#PB_Vehicle_MaxSuspensionForce      : La valeur de la force maximale de la suspension de roue (voir @@CreateVehicleBody pour plus d'info).
-  @#PB_Vehicle_SuspensionStiffness     : La valeur de rigidité de la suspension (voir @@CreateVehicleBody pour plus d'info).
+  @#PB_Vehicle_SuspensionStiffness     : La valeur de rigiditÃ© de la suspension (voir @@CreateVehicleBody pour plus d'info).
   @#PB_Vehicle_MaxSuspensionCompression: La valeur de compression maximale de la suspension de roue (voir @@CreateVehicleBody pour plus d'info).
-  @#PB_Vehicle_MaxSuspensionLength     : La longueur maximale de la suspension (mètres).
+  @#PB_Vehicle_MaxSuspensionLength     : La longueur maximale de la suspension (mÃ¨tres).
   @#PB_Vehicle_WheelDampingCompression : La valeur de compression d'amortissement de la roue.
-  @#PB_Vehicle_WheelDampingRelaxation  : La valeur de détente d'amortissement de la roue.
+  @#PB_Vehicle_WheelDampingRelaxation  : La valeur de dÃ©tente d'amortissement de la roue.
   @#PB_Vehicle_RollInfluence           : La valeur de l'influence du roulis de la roue (voir @@AddVehicleWheel pour plus d'info).
-  @#PB_Vehicle_IsInContact             : Renvoie @#True si le véhicule est en contact avec un autre objet, @#False sinon.
-  @#PB_Vehicle_CurrentSpeed            : La vitesse actuelle du véhicule en km/heure.
-  @#PB_Vehicle_ContactPointX           : La coordonnée X du point de contact.
-  @#PB_Vehicle_ContactPointY           : La coordonnée Y du point de contact.
-  @#PB_Vehicle_ContactPointZ           : La coordonnée Z du point de contact.
+  @#PB_Vehicle_IsInContact             : Renvoie @#True si le vÃ©hicule est en contact avec un autre objet, @#False sinon.
+  @#PB_Vehicle_CurrentSpeed            : La vitesse actuelle du vÃ©hicule en km/heure.
+  @#PB_Vehicle_ContactPointX           : La coordonnÃ©e X du point de contact.
+  @#PB_Vehicle_ContactPointY           : La coordonnÃ©e Y du point de contact.
+  @#PB_Vehicle_ContactPointZ           : La coordonnÃ©e Z du point de contact.
   @#PB_Vehicle_ContactPointNormalX     : La valeur normale X du point de contact.
   @#PB_Vehicle_ContactPointNormalY     : La valeur normale Y du point de contact.
   @#PB_Vehicle_ContactPointNormalZ     : La valeur normale Z du point de contact.
@@ -292,14 +292,14 @@
 @EndFixedFont
 
 @Parameter "Roue"
-  L'indice de la roue, à partir de 0.
+  L'indice de la roue, Ã  partir de 0.
   @LineBreak
   @LineBreak  
-  Si non spécifié, ou mis à @#PB_All, la nouvelle valeur de l'attribut est appliquée 
-  à toutes les roues.
+  Si non spÃ©cifiÃ©, ou mis Ã  @#PB_All, la nouvelle valeur de l'attribut est appliquÃ©e 
+  Ã  toutes les roues.
 
 @ReturnValue
-  Renvoie la valeur de l'attribut spécifié ou 0 si le véhicule ne supporte pas l'attribut.
+  Renvoie la valeur de l'attribut spÃ©cifiÃ© ou 0 si le vÃ©hicule ne supporte pas l'attribut.
 
 @SeeAlso
   @@SetVehicleAttribute
@@ -311,21 +311,21 @@
 @Function SetVehicleAttribute(#Entity, Attribut, Valeur.f [, Roue])
 
 @Description
-  Définir la valeur de l'attribut spécifié d'une entité véhicule.
+  DÃ©finir la valeur de l'attribut spÃ©cifiÃ© d'une entitÃ© vÃ©hicule.
 
 @Parameter "#Entity"
-  L'entité véhicule à utiliser.
+  L'entitÃ© vÃ©hicule Ã  utiliser.
 
 @Parameter "Attribut"
-  L'attribut à définir. Les attributs suivants sont disponibles:
+  L'attribut Ã  dÃ©finir. Les attributs suivants sont disponibles:
 @FixedFont
   @#PB_Vehicle_Friction                : La valeur de frottement de la roue (voir @@CreateVehicleBody pour plus d'info).
   @#PB_Vehicle_MaxSuspensionForce      : La valeur de la force maximale de la suspension de roue (voir @@CreateVehicleBody pour plus d'info).
-  @#PB_Vehicle_SuspensionStiffness     : La valeur de rigidité de la suspension (voir @@CreateVehicleBody pour plus d'info).
+  @#PB_Vehicle_SuspensionStiffness     : La valeur de rigiditÃ© de la suspension (voir @@CreateVehicleBody pour plus d'info).
   @#PB_Vehicle_MaxSuspensionCompression: La valeur de compression maximale de la suspension de roue (voir @@CreateVehicleBody pour plus d'info).
-  @#PB_Vehicle_MaxSuspensionLength     : La longueur maximale de la suspension (mètres).
+  @#PB_Vehicle_MaxSuspensionLength     : La longueur maximale de la suspension (mÃ¨tres).
   @#PB_Vehicle_WheelDampingCompression : La valeur de compression d'amortissement de la roue.
-  @#PB_Vehicle_WheelDampingRelaxation  : La valeur de détente d'amortissement de la roue .
+  @#PB_Vehicle_WheelDampingRelaxation  : La valeur de dÃ©tente d'amortissement de la roue .
   @#PB_Vehicle_RollInfluence           : La valeur de l'influence du roulis de la roue (voir @@AddVehicleWheel pour plus d'info).
 @EndFixedFont
 
@@ -333,11 +333,11 @@
   Valeur de l'attribut.
   
 @OptionalParameter "Roue"
-  L'indice de la roue, à partir de 0.
+  L'indice de la roue, Ã  partir de 0.
   @LineBreak
   @LineBreak  
-  Si non spécifié, ou mis à @#PB_All, la nouvelle valeur de l'attribut est appliquée 
-  à toutes les roues.
+  Si non spÃ©cifiÃ©, ou mis Ã  @#PB_All, la nouvelle valeur de l'attribut est appliquÃ©e 
+  Ã  toutes les roues.
 
 @NoReturnValue
 

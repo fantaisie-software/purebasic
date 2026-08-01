@@ -1,7 +1,7 @@
-;
+﻿;
 ;     WebView library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library WebView
@@ -14,8 +14,8 @@
   verwendet native Callbacks für die Interaktion zwischen dem Webinhalt (der JavaScript ist) und dem PureBasic-Code.
 @LineBreak
 @LineBreak
-  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten (WebView2 unter Windows, WebKit-GTK unter
-  Linux/Raspberry und WebKit unter macOS). Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
+  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten: WebView2 unter Windows, WebKit-GTK unter
+  Linux/Raspberry (keine QT-Unterstützung) und WebKit unter macOS. Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
   Wenn jedoch Unterstützung für ältere Windows-Versionen benötigt wird, muss möglicherweise die weiterverteilbare Datei
   (Redistributable) WebView2 installiert werden:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
@@ -38,6 +38,7 @@
 
 @Description
   Erstellt ein neues Webview-Gadget in der aktuellen Gadget-Liste.
+  Bei Bedarf kann mit @@WebViewProxy ein Proxy eingerichtet werden.
 
 @Parameter "#Gadget"
   Eine Nummer zur Identifizierung des neuen Gadgets. @ReferenceLink "purebasic_objects" "#PB_Any"
@@ -74,8 +75,16 @@
 @LineBreak
 @LineBreak
   - @@SetGadgetItemText: Mit @#PB_WebView_HtmlCode als 'Eintrag' kann HTML-Code in das Gadget
-  gestreamt werden.
+  gestreamt werden. Das HTML wird als nicht vertrauenswürdiger lokaler Inhalt behandelt und
+  einige Berechtigungen sind nicht zulässig.
 @LineBreak
+@LineBreak    
+  - @@GetGadgetAttribute : Mit @#PB_WebView_ICoreController als 'Attribut' ermöglicht Ihnen die
+  Nutzung der Funktionen vom ICoreWebView2 (nur auf Windows).
+@LineBreak
+@LineBreak
+@LineBreak
+  Hinweis: das WebViewGadget() wird nicht auf dem QT-Subsystem unterstützt.
 
 @Example mit lokalen HTML- und CSS-Dateien
 @Code
@@ -173,7 +182,45 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+@Example mit Nutzung des ICoreWebView2Controller (nur auf Windows)
+@Code
+  OpenWindow(0, 100, 100, 800, 600, "Hello", #PB_Window_SystemMenu)
+  
+  TrackBarGadget(1, 0 , 0, 800, 30, 10, 400):SetGadgetState(1, 100) 
+  WebViewGadget(0, 0, 30, 800, 600, #PB_WebView_Debug)
+  
+  ; ICoreController Interface ermitteln
+  ;
+  Controller.ICoreWebView2Controller = GetGadgetAttribute(0, #PB_WebView_ICoreController)
+  
+  ; ICoreWebView2 Interface ermitteln
+  ;
+  Controller\get_CoreWebView2(@Core.ICoreWebView2)
+  Core\Navigate("https://www.purebasic.com")
+  
+  ; core\
+  DataSection
+    IID_ICoreWebView2Controller2:
+    Data.l $C979903E
+    Data.w $D4CA, $4228
+    Data.b $92, $EB, $47, $EE, $3F, $A9, $6E, $AB
+  EndDataSection
+  
+  If Controller\QueryInterface(?IID_ICoreWebView2Controller2, @Controller2.ICoreWebView2Controller2) = #S_OK
+    Debug "ICoreWebView2Controller2 found: " + Controller2
+  Else
+    Debug "Can't query ICoreWebView2Controller2"
+  EndIf
+  
+  Repeat 
+    Event = WaitWindowEvent()
+    If event = #PB_Event_Gadget And EventGadget() = 1
+      Controller\put_ZoomFactor(GetGadgetState(1)/100)
+    EndIf
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebViewProxy
 
 @SupportedOS
 
@@ -212,6 +259,10 @@
 
 @NoReturnValue
 
+@Remarks
+   Wenn Ihre JavaScript-Callback-Funktion ein @@UTF8 generiertes Ergebnis anstelle von 0 zurückgibt, wird PureBasic
+   den zur Rückgabe verwendeten Speicher automatisch freigeben, wenn er nicht mehr benötigt wird.
+   
 @Example mit einer 2-Parameter-Javascript-Funktion
 @Code
   ; Eine einfache Schaltfläche, deren Beschriftung sich je nach Ergebnis des PureBasic-Rückrufs ändert
@@ -256,7 +307,8 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewGadget, @@UnbindWebViewCallback
+@SeeAlso
+  @@WebViewGadget, @@UnbindWebViewCallback
 
 @SupportedOS
 
@@ -330,3 +382,28 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function WebViewProxy(URL$, Port [Benutzername$, Passwort$])
+
+@Description
+  Richtet einen Proxy für alle künftig erstellten @@WebViewGadget ein. Das bedeutet, dass alle externen
+  Links und URLs diesen Proxy durchlaufen, bevor sie das Ziel erreichen. Dies kann in einer Unternehmensumgebung
+  mit hohem Sicherheitsniveau nützlich sein.
+  
+@Parameter "URL$"
+  Die URL des Proxy-Servers.
+
+@Parameter "Port"
+  Der Port des Proxy-Servers.
+
+@OptionalParameter "Benutzername$, Passwort$"
+  Wenn der Proxy-Server eine Authentifizierung erfordert, können ein Benutzername und ein Passwort festgelegt werden.
+
+@NoReturnValue
+
+@Remarks
+  Bei der Nutzung unter MacOS ist mindestens MacOS 14 (Sonoma) erforderlich.
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS

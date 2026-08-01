@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Drag & Drop library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library DragDrop
@@ -282,6 +282,57 @@
 @LineBreak
   If the operation was not aborted, the @Link "window/waitwindowevent" "event loop" will receive a @#PB_Event_WindowDrop or
   @#PB_Event_GadgetDrop event of type @#PB_Drop_Private. 
+
+@Example
+@Code
+  Enumeration ; Gadgets
+    #List1
+    #List2
+  EndEnumeration
+  
+  If OpenWindow(0, 0, 0, 415, 410, "Drag from List1 to List2", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(#List1, 5, 5, 200, 400, "List1" , 140)
+    ListIconGadget(#List2, 210, 5, 200, 400, "List2" , 140)
+    
+    For i = 0 To 9
+      AddGadgetItem(#List1, -1, "Item " + Str(i))
+      AddGadgetItem(#List2, -1, "Item " + Str(i + 10))
+    Next
+    
+    ; Allows dragging an element from #List1 to #List2
+    EnableGadgetDrop(#List2, #PB_Drop_Private, #PB_Drag_Copy, 1)
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_GadgetDrop ; the drag event
+          Select EventGadget()
+            Case #List2
+              Select EventDropType()
+                Case #PB_Drop_Private
+                  tmp = GetGadgetState(#List2)
+                  AddGadgetItem(#List2, tmp, tmp$)
+                  tmp = GetGadgetState(#List1)
+                  RemoveGadgetItem(#List1, tmp)
+              EndSelect
+          EndSelect
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case #List1
+              Select EventType()
+                Case #PB_EventType_DragStart
+                  tmp = GetGadgetState(#List1)
+                  If tmp <> -1
+                    tmp$ = GetGadgetItemText(#List1, tmp)
+                    DragPrivate(1) ; set drag type = 1 until successful drop action (into #List2)
+                  EndIf
+              EndSelect
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
 
 @SeeAlso
   @@DragText, @@DragImage, @@DragFiles, @@DragOSFormats,
@@ -777,7 +828,7 @@
 
 @Parameter "@DragCallback()"
   The address of a function to call during a drag operation.
-  The form and purpose of the callback is dependant on the OS.
+  The form and purpose of the callback is dependent on the OS.
   It must take the following form:
 @LineBreak
 @LineBreak
@@ -785,7 +836,7 @@
 @Bold "Windows:"
 @Indent
 @Code
-  Procedure DragCallback(Action)
+  Procedure DragCallback(Action.l)
   
     ProcedureReturn #True
   EndProcedure
@@ -807,7 +858,7 @@
 @Bold "Linux:"
 @Indent
 @Code
-  Procedure DragCallback(*Context.GdkDragContext, isStart)
+  Procedure DragCallback(*Context.GdkDragContext, isStart.l)
   
   EndProcedure
 @EndCode
@@ -856,7 +907,7 @@
   The form of the callback is described below: 
 
 @Code
-  Procedure DropCallback(TargetHandle, State.l, Format.l, Action.l, x.l, y.l)
+  Procedure DropCallback(TargetHandle, State, Format, Action, x, y)
   
     ProcedureReturn #True
   EndProcedure
@@ -896,7 +947,7 @@
 
   By returning @#True, the callback allows the action to take place at this point.
   By returning @#False, the callback denies the action (the cursor will be
-  changed to a "forbidden" cursor by the drag source).
+  changed to a "forbidden" cursor by the drag source, except on Linux GTK).
   Especially if 'State' is @#PB_Drag_Finish, returning @#False will cause
   the whole Drag & Drop operation to fail.
 

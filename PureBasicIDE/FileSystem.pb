@@ -113,7 +113,7 @@ Procedure.s UniqueFilename(FileName$)
     EndIf
   Wend
   
-  ProcedureReturn Filename$
+  ProcedureReturn PeekS(@Filename$) ; As we change the string directly, we need to update its length
 EndProcedure
 
 ; Returns true if the two (full) filenames are representing
@@ -273,5 +273,28 @@ Procedure.s ResolveRelativePath(BasePath$, FileName$)
   ; the debugger reports full filenames containing "../" for example.
   ;
   ProcedureReturn UniqueFilename(FileName$)
+EndProcedure
+
+Procedure CreateDirectoryRecursive(Directory$)
+  If Directory$ <> ""
+    Select FileSize(Directory$)
+      Case -2 ; already exists - OK!
+        ProcedureReturn #True
+        
+      Case -1 ; does not exist - create it
+        Parent$ = UniqueFilename(Directory$ + #Separator + ".." + #Separator)
+        If Parent$ <> ""
+          CreateDirectoryRecursive(Parent$)
+        EndIf
+        CreateDirectory(Directory$)
+        If FileSize(Directory$) = -2
+          ProcedureReturn #True
+        EndIf
+        
+      Default ; it's a file!
+        ProcedureReturn #False
+    EndSelect
+  EndIf
+  ProcedureReturn #False
 EndProcedure
 

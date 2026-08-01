@@ -1,57 +1,57 @@
-@Title Einsteiger-Kapitel - Dynamische Nummerierung von Fenstern und Gadgets mittels #PB_Any
+ï»¿@Title Einsteiger-Kapitel - Dynamische Nummerierung von Fenstern und Gadgets mittels #PB_Any
 
 Wenn Sie in die Hilfe-Artikel des @Link "window/openwindow" "OpenWindow" Befehls oder
 eines der Befehle zur @LibraryLink "gadget" "Gadget"-Erstellung (zum Beispiel @@ButtonGadget)
 geschaut haben, oder mit dem Form-Designer experimentiert haben, werden Sie Verweise auf
 eine spezielle Konstante genannt @ReferenceLink "purebasic_objects" "#PB_Any" bemerkt haben.
-In diesem Artikel schauen wir uns diese etwas näher an, um herauszufinden, warum diese
+In diesem Artikel schauen wir uns diese etwas nÃ¤her an, um herauszufinden, warum diese
 so bedeutsam ist.
 @LineBreak
 @LineBreak
 Bisher haben alle unserer Beispiele ein Gruppen von Konstanten verwendet, eine
-@ReferenceLink "enumerations" "Enumeration" (Aufzählung), um ein einzelnes
+@ReferenceLink "enumerations" "Enumeration" (AufzÃ¤hlung), um ein einzelnes
 @LibraryLink "window" "Fenster" und jedes @LibraryLink "gadget" "Gadget" auf diesem
 Fenster zu identifizieren. Dies ist gut in einfachen Programmen, welche wir bisher
-präsentiert haben, aber führt zu einem Problem in komplexeren Programmen - nur eines
+prÃ¤sentiert haben, aber fÃ¼hrt zu einem Problem in komplexeren Programmen - nur eines
 dieser Fenster kann zur gleichen Zeit existieren.
 @LineBreak
 @LineBreak
 Was passiert also, wenn ein Programm mehr als ein Exemplar eines Fenster bieten muss?
-Vielleicht möchten Sie mehrere Dateien gleichzeitig geöffnet haben oder möglicherweise
-möchten Sie mehrere verschiedene Ansichten der gleichen Datei anbieten.
+Vielleicht mÃ¶chten Sie mehrere Dateien gleichzeitig geÃ¶ffnet haben oder mÃ¶glicherweise
+mÃ¶chten Sie mehrere verschiedene Ansichten der gleichen Datei anbieten.
 @LineBreak
 @LineBreak
 Dies ist der Punkt, wo die spezielle @#PB_Any Konstante zum Einsatz kommt. Wenn diese
-Konstante als Argument bei den Funktionen zum Einsatz kommt, welche dies unterstützen,
+Konstante als Argument bei den Funktionen zum Einsatz kommt, welche dies unterstÃ¼tzen,
 dann wird automatisch eine eindeutige Referenznummer generiert und als Ergebnis der
-Funktion zurückgegeben.
+Funktion zurÃ¼ckgegeben.
 @LineBreak
 @LineBreak
-Vorausgesetzt, wir achten auf all diese Referenzen, können wir dies zu unserem Vorteil
+Vorausgesetzt, wir achten auf all diese Referenzen, kÃ¶nnen wir dies zu unserem Vorteil
 nutzen. Dessen Organisation ist ein wenig komplizierter als die Beispiele, die wir bisher
-gesehen haben - aber die erhöhte Flexibilität, die es uns bieten kann, ist diese Mühe
+gesehen haben - aber die erhÃ¶hte FlexibilitÃ¤t, die es uns bieten kann, ist diese MÃ¼he
 absolut wert.
 @LineBreak
 @LineBreak
-Dieses Beispiel-Programm bietet ein Fenster, auf dem ein regelmäßiges Vieleck (Polygon)
+Dieses Beispiel-Programm bietet ein Fenster, auf dem ein regelmÃ¤ÃŸiges Vieleck (Polygon)
 in blau auf einem umlaufenden grauen Kreis gezeichnet wird. Eine Combobox ist dazu da,
-uns eine Auswahl der zu zeichnenden Polygone zu ermöglichen. Ein Menü wird angeboten,
-um das Erstellen neuer Fenster oder das Schließen des aktuellen Fensters zu ermöglichen.
+uns eine Auswahl der zu zeichnenden Polygone zu ermÃ¶glichen. Ein MenÃ¼ wird angeboten,
+um das Erstellen neuer Fenster oder das SchlieÃŸen des aktuellen Fensters zu ermÃ¶glichen.
 @LineBreak
 @LineBreak
 Es gibt mehrere Dinge, die zu diesem Programm angemerkt werden sollen:
 @Indent
-  Im Enumerations Abschnitt beachten Sie, dass es nur Aufzählungen für die 
-  @LibraryLink "menu" "Menü-Einträge" gibt. Diese werden auf allen Fenstern gemeinsam
-  genutzt - obwohl jedes Fenster seine eigene Menüleiste hat.
+  Im Enumerations Abschnitt beachten Sie, dass es nur AufzÃ¤hlungen fÃ¼r die 
+  @LibraryLink "menu" "MenÃ¼-EintrÃ¤ge" gibt. Diese werden auf allen Fenstern gemeinsam
+  genutzt - obwohl jedes Fenster seine eigene MenÃ¼leiste hat.
   @LineBreak
   @LineBreak
   Im @ReferenceLink "structures" "Structures" Abschnitt beachten Sie, dass die POLYGONWINDOW
   Struktur vier Integer-Werte beinhaltet und somit einen Platz bietet, die Verweise auf
-  die Menüleiste, einen Text, eine Auswahlbox und einen Zeichenbereich zu speichern.
+  die MenÃ¼leiste, einen Text, eine Auswahlbox und einen Zeichenbereich zu speichern.
   @LineBreak
   @LineBreak
-  Im Variablen-Abschnitt beachten Sie, dass in Ergänzung zu den üblichen Variablen
+  Im Variablen-Abschnitt beachten Sie, dass in ErgÃ¤nzung zu den Ã¼blichen Variablen
   zum Empfangen von Ereignis-Details eine @ReferenceLink "newmap" "Map" namens ActiveWindows
   mittels der zuvor definierten POLYGONWINDOW Struktur erstellt wird.
   @LineBreak
@@ -59,43 +59,43 @@ Es gibt mehrere Dinge, die zu diesem Programm angemerkt werden sollen:
   Schauen Sie auf die CreatePolygonWindow @ReferenceLink "procedures" "Prozedur". @LineBreak
   Wenn wir das Fenster erstellen, speichern wir das Ergebnis der @OpenWindow Funktion
   in einer Variable genannt ThisWindow. Dann konvertieren wir diese in einen String-Wert
-  und verwenden diesen als Schlüssel für einen neuen Map-Eintrag.
+  und verwenden diesen als SchlÃ¼ssel fÃ¼r einen neuen Map-Eintrag.
   @LineBreak
   @LineBreak
-  Wenn wir dann das @Link "menu/createmenu" "Menü" und die @Link "gadget/textgadget" "Text-",
+  Wenn wir dann das @Link "menu/createmenu" "MenÃ¼" und die @Link "gadget/textgadget" "Text-",
   @Link "gadget/comboboxgadget" "Combobox-" und @Link "gadget/imagegadget" "Image-Gadgets"
-  auf dem neuen Fenster erstellen, werden die von diesen Funktionen zurückgegebenen
+  auf dem neuen Fenster erstellen, werden die von diesen Funktionen zurÃ¼ckgegebenen
   Referenzen ebenfalls in der Map gespeichert.
   @LineBreak
   @LineBreak
   Werfen Sie dann einen Blick auf die ResizePolygonWindow Prozedur. @LineBreak
   Beachten Sie, wie der Wert von EventWindow von der Ereignis-Schleife in diese
-  Prozedur übergeben wird. Dieser Wert wird dann verwendet, um Referenzen auf die
+  Prozedur Ã¼bergeben wird. Dieser Wert wird dann verwendet, um Referenzen auf die
   untergeordneten Steuerelemente aus der Map zu erhalten, und diese Referenzen
-  werden dann verwendet, um die Gadgets in der @Link "gadget/resizegadget" "Größe zu verändern".
+  werden dann verwendet, um die Gadgets in der @Link "gadget/resizegadget" "GrÃ¶ÃŸe zu verÃ¤ndern".
   @LineBreak
   @LineBreak
   Schauen Sie auf die DestroyPolygonWindow Prozedur. @LineBreak
   Hier werden die Referenzen auf die untergeordneten Steuerelemente aus der Map entfernt,
-  wenn ein Fenster geschlossen wird. Wenn die Größe der Map Null erreicht - gibt es
+  wenn ein Fenster geschlossen wird. Wenn die GrÃ¶ÃŸe der Map Null erreicht - gibt es
   keine weiteren offenen Fenster und DestroyPolygonWindow setzt ein Ereignis-Flag,
   was dem Programm mitteilt, dass es beendet werden kann.
   @LineBreak
   @LineBreak
   Starten Sie nun das Programm. @LineBreak
-  - Verwenden Sie den 'New Window' Menüeintrag, um zwei oder drei neue Polygon-Fenster zu öffnen. @LineBreak
+  - Verwenden Sie den 'New Window' MenÃ¼eintrag, um zwei oder drei neue Polygon-Fenster zu Ã¶ffnen. @LineBreak
   - Verwenden Sie die Combobox in jedem Fenster, um ein unterschiedliches Aussehen
-    auszuwählen – beachten Sie, dass jedes Fenster unabhängig von allen anderen arbeitet. @LineBreak
-  - Verändern Sie einige der Fenster in der Größe – beachten Sie, dass sie alle unabhängig
-    von einander in der Größe verändert werden können und sich auch das Polygon mit dem
-    Fenster in der Größe anpasst. @LineBreak
+    auszuwÃ¤hlen â€“ beachten Sie, dass jedes Fenster unabhÃ¤ngig von allen anderen arbeitet. @LineBreak
+  - VerÃ¤ndern Sie einige der Fenster in der GrÃ¶ÃŸe â€“ beachten Sie, dass sie alle unabhÃ¤ngig
+    von einander in der GrÃ¶ÃŸe verÃ¤ndert werden kÃ¶nnen und sich auch das Polygon mit dem
+    Fenster in der GrÃ¶ÃŸe anpasst. @LineBreak
 @EndIndent
 
 Zum Schluss bleibt anzumerken, dass eine @ReferenceLink "newmap" "Map" nicht den einzigen Weg
-darstellt, diesen Effekt zu erreichen. Eine @ReferenceLink "newlist" "verknüpfte Liste" oder ein
-@ReferenceLink "dim" "Array" kann für diesen Job ebenfalls verwendet werden, wenn Sie möchten -
-auch wenn der Code für das Implementieren dieser Alternativen wegen der Unterschiede wie diese
-arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
+darstellt, diesen Effekt zu erreichen. Eine @ReferenceLink "newlist" "verknÃ¼pfte Liste" oder ein
+@ReferenceLink "dim" "Array" kann fÃ¼r diesen Job ebenfalls verwendet werden, wenn Sie mÃ¶chten -
+auch wenn der Code fÃ¼r das Implementieren dieser Alternativen wegen der Unterschiede wie diese
+arbeiten etwas anders gegenÃ¼ber dem hier prÃ¤sentierten aussehen muss.
 @LineBreak
 @Code
   ; Compiler Direktiven
@@ -109,7 +109,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
   CompilerEndIf
   
   ;- Enumerations
-  ; Die Menü-Befehle werden bei allen Fenstern die gleichen sein.
+  ; Die MenÃ¼-Befehle werden bei allen Fenstern die gleichen sein.
   Enumeration
     #MenuNew
     #MenuClose
@@ -126,7 +126,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
   
   ;- Variablen
   
-  ; Diese Map verwendet die zuvor definierte Struktur, um die Referenzen auf alle geöffneten Fenster festzuhalten.
+  ; Diese Map verwendet die zuvor definierte Struktur, um die Referenzen auf alle geÃ¶ffneten Fenster festzuhalten.
   NewMap ActiveWindows.POLYGONWINDOW()
   
   ; Ereignis-Variablen.
@@ -135,7 +135,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
   
   ; Implementierung.
   Procedure.i CreatePolygonWindow()
-    ; Erstellt ein neues Fenster und Gadgets, fügt dieses und seine untergeordneten Gadgets zur Tracking-Map hinzu.
+    ; Erstellt ein neues Fenster und Gadgets, fÃ¼gt dieses und seine untergeordneten Gadgets zur Tracking-Map hinzu.
     Shared ActiveWindows()
     Protected.i ThisWindow
     Protected.s ThisKey
@@ -145,13 +145,13 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
     WindowBounds(ThisWindow, 250, 250, #PB_Ignore, #PB_Ignore)
     
     If ThisWindow
-      ; Maps erhalten einen String-Wert als Schlüssel, weshalb wir die Integer-Zahl 'ThisWindow' in einen String umwandeln.
+      ; Maps erhalten einen String-Wert als SchlÃ¼ssel, weshalb wir die Integer-Zahl 'ThisWindow' in einen String umwandeln.
       ThisKey = StrU(ThisWindow)
       
-      ; Ein Map-Element hinzufügen, um alle neuen Gadget-Referenzen festzuhalten.
+      ; Ein Map-Element hinzufÃ¼gen, um alle neuen Gadget-Referenzen festzuhalten.
       AddMapElement(ActiveWindows(), ThisKey)
       
-      ; Erstelle die Menüleiste.
+      ; Erstelle die MenÃ¼leiste.
       ActiveWindows(ThisKey)\Menu = CreateMenu(#PB_Any, WindowID(ThisWindow))
       MenuTitle("Window")
       MenuItem(#MenuNew, "New Window")
@@ -159,7 +159,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
       
       ; Erstelle die untergeordneten Gadgets und speichere ihre Referenzen in der Map.
       With ActiveWindows()
-        ; Ein Beschriftungstext für die Auswahlbox.
+        ; Ein Beschriftungstext fÃ¼r die Auswahlbox.
         \LabelSides = TextGadget(#PB_Any, 5, 5, 150, 20, "Number of Sides:")
         
         ; Die Auswahlbox.
@@ -173,7 +173,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
         AddGadgetItem(\ComboSides, 6, "Nonagon")
         AddGadgetItem(\ComboSides, 7, "Decagon")
         
-        ; Dreieck auswählen.
+        ; Dreieck auswÃ¤hlen.
         SetGadgetState(\ComboSides, 0)
         
         ; Das sichtbare Image-Gadget auf dem Fenster.
@@ -181,33 +181,33 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
       EndWith
     EndIf
     
-    ; Gibt die Referenz auf das neue Fenster zurück.
+    ; Gibt die Referenz auf das neue Fenster zurÃ¼ck.
     ProcedureReturn ThisWindow
   EndProcedure
   
   Procedure DestroyPolygonWindow(Window.i)
-    ; Entfernt das Fenster 'Window' aus der 'ActiveWindows' Map, schließt das Fenster und setzt das Quit Flag, wenn nötig.
+    ; Entfernt das Fenster 'Window' aus der 'ActiveWindows' Map, schlieÃŸt das Fenster und setzt das Quit Flag, wenn nÃ¶tig.
     Shared EventQuit, ActiveWindows()
     Protected.s ThisKey
     
     ; Konvertiert den Integer-Wert 'Window' in einen String.
     ThisKey = StrU(Window)
     
-    ; Löscht den Map-Eintrag.
+    ; LÃ¶scht den Map-Eintrag.
     DeleteMapElement(ActiveWindows(), ThisKey)
     
-    ; Schließt das Fenster.
+    ; SchlieÃŸt das Fenster.
     CloseWindow(Window)
     
-    ; Überprüft, ob es noch offene Fenster gibt.
+    ; ÃœberprÃ¼ft, ob es noch offene Fenster gibt.
     If MapSize(ActiveWindows()) = 0
       EventQuit = #True
     EndIf
   EndProcedure
   
   Procedure.i ResizePolygonWindow(Window.i)
-    ; Verändert die untergeordneten Gadgets auf dem Fenster in ihrer Größe.
-    ; In der Praxis muss bei diesem Beispiel nur das ImageGadget in der Größe verändert werden.
+    ; VerÃ¤ndert die untergeordneten Gadgets auf dem Fenster in ihrer GrÃ¶ÃŸe.
+    ; In der Praxis muss bei diesem Beispiel nur das ImageGadget in der GrÃ¶ÃŸe verÃ¤ndert werden.
     Shared ActiveWindows()
     Protected.i ThisImage
     Protected.i X, Y, W, H
@@ -217,20 +217,20 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
     ThisKey = StrU(Window)
     ThisImage = ActiveWindows(ThisKey)\ImagePlot
     
-    ; Verändert die Gadgets in der Größe.
+    ; VerÃ¤ndert die Gadgets in der GrÃ¶ÃŸe.
     W = WindowWidth(Window) - 15
     H = WindowHeight(Window) - 70
     ResizeGadget(ThisImage, #PB_Ignore, #PB_Ignore, W, H)
   EndProcedure
   
   Procedure PlotPolygon(Window.i)
-    ; Zeichnet das Polygon-Bild und überträgt es auf das Image-Gadget.
+    ; Zeichnet das Polygon-Bild und Ã¼bertrÃ¤gt es auf das Image-Gadget.
     Shared ActiveWindows()
     Protected.f Radius, OriginX, OriginY, StartX, StartY, EndX, EndY
     Protected.i Sides, Vertex, Width, Height, ThisCombo, ThisImage, ThisPlot
     Protected.s ThisKey
     
-    ; Überprüft, ob das Ereignis für das richtige Fenster ist.
+    ; ÃœberprÃ¼ft, ob das Ereignis fÃ¼r das richtige Fenster ist.
     If Not IsWindow(Window) : ProcedureReturn : EndIf
     
     ; Ermittelt Referenzen auf die betroffenen Gadgets aus der Map.
@@ -254,7 +254,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
     ThisPlot = CreateImage(#PB_Any, Width, Height)
     StartDrawing(ImageOutput(ThisPlot))
     
-    ; Zeichnet einen weißen Hintergrund.
+    ; Zeichnet einen weiÃŸen Hintergrund.
     Box(0, 0, Width, Height, #White)
     
     ; Zeichnet einen grauen umlaufenden Kreis.
@@ -276,15 +276,15 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
       
     Next Vertex
     
-    ; Füllt das Polygon in blau.
+    ; FÃ¼llt das Polygon in blau.
     FillArea(OriginX, OriginY, #Blue, #Blue)
     
     StopDrawing()
     
-    ; Übertragt den Bild-Inhalt in das sichtbare Gadget.
+    ; Ãœbertragt den Bild-Inhalt in das sichtbare Gadget.
     SetGadgetState(ThisImage, ImageID(ThisPlot))
     
-    ; Löscht das temporäre Bild.
+    ; LÃ¶scht das temporÃ¤re Bild.
     FreeImage(ThisPlot)
   EndProcedure
   
@@ -311,7 +311,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
           ; Tue nichts.
           
         ElseIf EventGadget = ActiveWindows(EventWindowKey)\ComboSides
-          ; Wenn sich die Auswahlbox verändert hat, das Bild neu zeichnen.
+          ; Wenn sich die Auswahlbox verÃ¤ndert hat, das Bild neu zeichnen.
           PlotPolygon(EventWindow)
           
           ; Aktualisiert den Fenstertitel, um das neue Aussehen wiederzuspiegeln.
@@ -323,7 +323,7 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
         EndIf
         
       Case #PB_Event_Menu
-        ; Ein Menü-Ereignis ist aufgetreten.
+        ; Ein MenÃ¼-Ereignis ist aufgetreten.
         If EventMenu = #MenuNew
           EventWindow = CreatePolygonWindow()
           ResizePolygonWindow(EventWindow)
@@ -335,11 +335,11 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
         EndIf
         
       Case #PB_Event_Repaint
-        ; Ein Fenster-Inhalt wurde für ungültig erklärt.
+        ; Ein Fenster-Inhalt wurde fÃ¼r ungÃ¼ltig erklÃ¤rt.
         PlotPolygon(EventWindow)
         
       Case #PB_Event_SizeWindow
-        ; Ein Fenster wurde in der Größe verändert.
+        ; Ein Fenster wurde in der GrÃ¶ÃŸe verÃ¤ndert.
         ResizePolygonWindow(EventWindow)
         PlotPolygon(EventWindow)
         
@@ -353,4 +353,4 @@ arbeiten etwas anders gegenüber dem hier präsentierten aussehen muss.
 @EndCode
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_memory" "< Vorheriges: Speicher-Zugriff" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_pb_any2" "Nächstes: Verwalten mehrerer Fenster >"
+@ReferenceLink "ug_memory" "< Vorheriges: Speicher-Zugriff" | @ReferenceLink "ug_overview" "Ãœberblick" | @ReferenceLink "ug_pb_any2" "NÃ¤chstes: Verwalten mehrerer Fenster >"

@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Shader Point Sprite Sphere
@@ -13,9 +13,9 @@ EndProcedure
 
 InitEngine3D():InitSprite():InitKeyboard():InitMouse()
 
-ExamineDesktops()
-OpenWindow(0, 0,0, DesktopWidth(0)*0.8,DesktopHeight(0)*0.8, "CreateShaderMaterial - [Esc] quit",#PB_Window_ScreenCentered)
-OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "CreateShaderMaterial - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
 CreateCamera(0, 0, 0, 100, 100):MoveCamera(0,0,2,-100):CameraLookAt(0,0,0,0)
 CreateLight(0,$ffffff, 0,0, 0)

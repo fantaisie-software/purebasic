@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Mesh library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,25 +8,25 @@
 
 @Overview
 
-  Les Meshs (maillages en 3D) sont des objets 3D composés de triangles reliés entre eux pour 
+  Les Meshs (maillages en 3D) sont des objets 3D composÃ©s de triangles reliÃ©s entre eux pour 
   donner une forme finale, toujours en 3D. Un mesh peut avoir un "squelette" 
-  @LibraryLink "Skeleton" facultatif, avec des os pour permettre une animation en temps réel. 
-  Le squelette peut être soit directement trouvé dans le fichier mesh, soit créé dynamiquement.
-  Un mesh ne peut pas être déplacé ou affiché directement, mais nécessite d'être manipulé via une 
-  "entité" @LibraryLink "Entity".
+  @LibraryLink "Skeleton" facultatif, avec des os pour permettre une animation en temps rÃ©el. 
+  Le squelette peut Ãªtre soit directement trouvÃ© dans le fichier mesh, soit crÃ©Ã© dynamiquement.
+  Un mesh ne peut pas Ãªtre dÃ©placÃ© ou affichÃ© directement, mais nÃ©cessite d'Ãªtre manipulÃ© via une 
+  "entitÃ©" @LibraryLink "Entity".
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès avant de pouvoir utiliser les commandes 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s avant de pouvoir utiliser les commandes 
   relatives aux Meshs.
 
 @CommandList
 
-@ExampleFile All Mesh.pb
 @ExampleFile All CreateLine3D.pb
 @ExampleFile All MeshManual.pb
 @ExampleFile All MeshManual2.pb
-@ExampleFile All MeshManualCube.pb
 @ExampleFile All SetMeshMaterial.pb
+@ExampleFile All BuildMeshLOD.pb
+@ExampleFile All CreateDataMesh.pb
 
 @SupportedOS
 
@@ -36,54 +36,54 @@
 @Function Resultat = CreateMesh(#Mesh [, Type [, Mode])
 
 @Description
-  Créé un nouveau mesh complètement vide. 
+  CrÃ©Ã© un nouveau mesh complÃ¨tement vide. 
    
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau mesh. 
+  Le numÃ©ro d'identification du nouveau mesh. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @OptionalParameter "Type"
-  Le type du nouveau mesh. Peut être une des 
+  Le type du nouveau mesh. Peut Ãªtre une des 
   valeurs suivantes:
 @FixedFont
-  @#PB_Mesh_TriangleList : Le mesh est composé d'une liste de triangles (par défaut).
-  @#PB_Mesh_TriangleStrip: Le mesh est composé d'une liste de triangles connectés (Les sommets sont partagés).
-  @#PB_Mesh_TriangleFan  : Le mesh est composé d'une liste de triangles qui partagent le même sommet central .
-  @#PB_Mesh_PointList    : Le mesh est composé d'une liste de points.
-  @#PB_Mesh_LineList     : Le mesh est composé d'une liste de lignes.
-  @#PB_Mesh_LineStrip    : Le mesh est composé d'une liste de lignes connectées (Les sommets sont partagés).
+  @#PB_Mesh_TriangleList : Le mesh est composÃ© d'une liste de triangles (par dÃ©faut).
+  @#PB_Mesh_TriangleStrip: Le mesh est composÃ© d'une liste de triangles connectÃ©s (Les sommets sont partagÃ©s).
+  @#PB_Mesh_TriangleFan  : Le mesh est composÃ© d'une liste de triangles qui partagent le mÃªme sommet central .
+  @#PB_Mesh_PointList    : Le mesh est composÃ© d'une liste de points.
+  @#PB_Mesh_LineList     : Le mesh est composÃ© d'une liste de lignes.
+  @#PB_Mesh_LineStrip    : Le mesh est composÃ© d'une liste de lignes connectÃ©es (Les sommets sont partagÃ©s).
 @EndFixedFont
 
 @OptionalParameter "Mode"
-  Le mode du nouveau mesh. Peut être une des 
+  Le mode du nouveau mesh. Peut Ãªtre une des 
   valeurs suivantes:
 @FixedFont
-  @#PB_Mesh_Static : Une fois créé, le mesh ne peut plus être modifié avec les fonctions de mise à jour de mesh (par défaut).
-  @#PB_Mesh_Dynamic: Une fois créé, le mesh peut être modifié avec les fonctions de mise à jour de mesh.
+  @#PB_Mesh_Static : Une fois crÃ©Ã©, le mesh ne peut plus Ãªtre modifiÃ© avec les fonctions de mise Ã  jour de mesh (par dÃ©faut).
+  @#PB_Mesh_Dynamic: Une fois crÃ©Ã©, le mesh peut Ãªtre modifiÃ© avec les fonctions de mise Ã  jour de mesh.
 @EndFixedFont   
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.  
+  succÃ¨s, zÃ©ro sinon.  
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé pour le paramètre 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre 
   #Mesh, alors la valeur de retour est le 
-  numéro d'identification, généré 
+  numÃ©ro d'identification, gÃ©nÃ©rÃ© 
   automatiquement.
   
 @Remarks 
-  Après création, les commandes comme 
+  AprÃ¨s crÃ©ation, les commandes comme 
   @@MeshVertexPosition ou @@MeshFace 
-  peuvent être utilisés pour le construire.
+  peuvent Ãªtre utilisÃ©s pour le construire.
 @LineBreak
 @LineBreak  
-  Si le mesh était déjà créé, il est 
-  automatiquement supprimé et remplacé par le 
+  Si le mesh Ã©tait dÃ©jÃ  crÃ©Ã©, il est 
+  automatiquement supprimÃ© et remplacÃ© par le 
   nouveau.
 
 @SupportedOS
@@ -93,19 +93,19 @@
 @Function Resultat = CreateDataMesh(#Mesh, Array.MeshVertex() [, Mode])
 
 @Description
-  Crée un nouveau #Mesh à partir d'un tableau à 2 dimensions du type MeshVertex.
+  CrÃ©e un nouveau #Mesh Ã  partir d'un tableau Ã  2 dimensions du type MeshVertex.
   
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau mesh. 
+  Le numÃ©ro d'identification du nouveau mesh. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @Parameter "Array.MeshVertex()"
-  Le tableau à 2 dimensions de type MeshVertex.@LineBreak
-  La structure MeshVertex est définie comme suit:
+  Le tableau Ã  2 dimensions de type MeshVertex.@LineBreak
+  La structure MeshVertex est dÃ©finie comme suit:
 @Code
   Structure MeshVertex
     x.f
@@ -124,20 +124,20 @@
 @EndCode
 
 @OptionalParameter "Mode"
-  La façon de lier les sommets. Il peut s'agir de l'une des valeurs suivantes :
+  La faÃ§on de lier les sommets. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Mesh_DiagonalRegular1      : Les diagonales sont alignées de le même sens
-  @#PB_Mesh_DiagonalRegular2      : Les diagonales sont alignées dans l'autre sens
-  @#PB_Mesh_DiagonalAlternate     : Les diagonales sont une fois dans un sens et une fois dans l'autre sens (alterné)
-  @#PB_Mesh_DiagonalShortestLength: Les diagonales sont liées entre les deux sommets les plus proches
-  @#PB_Mesh_DiagonalClosestNormal : Les diagonales sont liées entre les deux normales les plus proches (produit scalaire). Meilleur mode mais nécessite des normales.
+  @#PB_Mesh_DiagonalRegular1      : Les diagonales sont alignÃ©es de le mÃªme sens
+  @#PB_Mesh_DiagonalRegular2      : Les diagonales sont alignÃ©es dans l'autre sens
+  @#PB_Mesh_DiagonalAlternate     : Les diagonales sont une fois dans un sens et une fois dans l'autre sens (alternÃ©)
+  @#PB_Mesh_DiagonalShortestLength: Les diagonales sont liÃ©es entre les deux sommets les plus proches
+  @#PB_Mesh_DiagonalClosestNormal : Les diagonales sont liÃ©es entre les deux normales les plus proches (produit scalaire). Meilleur mode mais nÃ©cessite des normales.
 @EndFixedFont
 
 @Remarks
-  Si #Mesh a déjà été créé, il est libéré et remplacé par le nouveau.
+  Si #Mesh a dÃ©jÃ  Ã©tÃ© crÃ©Ã©, il est libÃ©rÃ© et remplacÃ© par le nouveau.
  @LineBreak
  @LineBreak
-  Cette commande permet de créer un Mesh plus rapidement que d'utiliser @@CreateMesh 
+  Cette commande permet de crÃ©er un Mesh plus rapidement que d'utiliser @@CreateMesh 
   avec un tableau ad-hoc.
   
 @SupportedOS
@@ -150,27 +150,27 @@
   Copie un mesh.
   
 @Parameter "#Mesh"   
-  Le numéro d'identification du mesh à copier.
+  Le numÃ©ro d'identification du mesh Ã  copier.
   
 @Parameter "#NouveauMesh"   
-  Le numéro d'identification du nouveau mesh. 
+  Le numÃ©ro d'identification du nouveau mesh. 
   Si @ReferenceLink "purebasic_objects" "#PB_Any" 
-  est utilisé à la place de '#NouveauMesh' 
-  alors le numéro du nouveau mesh sera renvoyé 
+  est utilisÃ© Ã  la place de '#NouveauMesh' 
+  alors le numÃ©ro du nouveau mesh sera renvoyÃ© 
   dans 'Resultat'.
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Si le #NouveauMesh était déjà créé, il est 
-  automatiquement supprimé et remplacé par le 
+  Si le #NouveauMesh Ã©tait dÃ©jÃ  crÃ©Ã©, il est 
+  automatiquement supprimÃ© et remplacÃ© par le 
   nouveau.
 @LineBreak
 @LineBreak
-  Les meshes dynamiques créés avec l'option 
-  @#PB_Mesh_Dynamic, ne sont pas autorisés.
+  Les meshes dynamiques crÃ©Ã©s avec l'option 
+  @#PB_Mesh_Dynamic, ne sont pas autorisÃ©s.
 
 @SeeAlso
   @@CreateMesh
@@ -185,19 +185,19 @@
   Supprime un mesh.
   
 @Parameter "Mesh"
-  Le mesh à utiliser, précédemment créé à 
+  Le mesh Ã  utiliser, prÃ©cÃ©demment crÃ©Ã© Ã  
   l'aide de la commande @@CreateMesh ou 
   @@LoadMesh.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, tous les meshes 
-  restants sont libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les meshes 
+  restants sont libÃ©rÃ©s.
 
 @NoReturnValue
   
 @Remarks
   Tous les meshes restants sont automatiquement 
-  supprimés quand le programme se termine. 
+  supprimÃ©s quand le programme se termine. 
   
 @SupportedOS
 
@@ -206,21 +206,21 @@
 @Function Resultat = IsMesh(#Mesh)
 
 @Description
-  Teste si un mesh est correctement initialisé.
+  Teste si un mesh est correctement initialisÃ©.
   
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
 
 @SeeAlso
   @@CreateMesh
@@ -232,49 +232,49 @@
 @Function Resultat = LoadMesh(#Mesh, NomFichier$)
 
 @Description
-  Charge un mesh à partir d'unu fichier au 
+  Charge un mesh Ã  partir d'unu fichier au 
   format '.mesh'.
   
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau mesh.
+  Le numÃ©ro d'identification du nouveau mesh.
 @LineBreak
 @LineBreak   
   Si @ReferenceLink "purebasic_objects" "#PB_Any" 
-  est utilisé alors le numéro du nouveau mesh 
-  sera renvoyé dans 'Resultat'.
+  est utilisÃ© alors le numÃ©ro du nouveau mesh 
+  sera renvoyÃ© dans 'Resultat'.
 
 @Parameter "NomFichier$"
   Nom du fichier contenant le mesh. 
   @LineBreak
   @LineBreak
-  Avant de charger un mesh, une archive doit être 
-  spécifiée avec @@Add3DArchive.
+  Avant de charger un mesh, une archive doit Ãªtre 
+  spÃ©cifiÃ©e avec @@Add3DArchive.
   
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. @LineBreak 
-  Si @#PB_Any a été utilisé pour le paramètre 
+  succÃ¨s, zÃ©ro sinon. @LineBreak 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre 
   #Mesh, alors la valeur de retour est le 
-  numéro d'identification généré 
+  numÃ©ro d'identification gÃ©nÃ©rÃ© 
   automatiquement.
   
 @Remarks 
-  Le mesh doit nécessairement être au format 
+  Le mesh doit nÃ©cessairement Ãªtre au format 
   OGRE '.mesh'. 
   @LineBreak 
   @LineBreak 
   Un outil en ligne de commande 
-  est disponible à cette adresse 
+  est disponible Ã  cette adresse 
   @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" 
   pour convertir de nombreux formats 3D dans 
-  le format OGRE, y compris les matériaux et 
-  les animations. Il peut être téléchargé ici: 
+  le format OGRE, y compris les matÃ©riaux et 
+  les animations. Il peut Ãªtre tÃ©lÃ©chargÃ© ici: 
   @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" 
-  (Windows uniquement). Certains problèmes ont 
-  été signalés avec l'ombre de meshes 
+  (Windows uniquement). Certains problÃ¨mes ont 
+  Ã©tÃ© signalÃ©s avec l'ombre de meshes 
   convertis, si cela arrive, utiliser 
   OgreMeshUpdater.exe sur le mesh nouvellement 
-  converti et ça devrait le réparer.
+  converti et Ã§a devrait le rÃ©parer.
   @LineBreak 
   @LineBreak   
   Il est possible d'utiliser des "exporters" pour: 
@@ -295,19 +295,19 @@
   Renvoie l'identifiant d'un mesh. 
   
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau mesh.
+  Le numÃ©ro d'identification du nouveau mesh.
 @LineBreak
 @LineBreak  
    @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @ReturnValue 
-  Renvoie le numéro d'identification unique 
+  Renvoie le numÃ©ro d'identification unique 
   du #Mesh.
 
 @Remarks 
-  Cet identifiant est notamment nécessaire 
+  Cet identifiant est notamment nÃ©cessaire 
   pour la commande @@CreateEntity.
 
 @SeeAlso
@@ -320,28 +320,28 @@
 @Function Resultat = GetMeshData(#Mesh, SousMesh, TableauData(), Options, PremierIndex, DernierIndex)
 
 @Description
-  Obtenir les données internes du mesh, 
+  Obtenir les donnÃ©es internes du mesh, 
   comme les sommets, les faces, etc.
   @LineBreak
-  (Les meshes dynamiques, créés avec l'option @#PB_Mesh_Dynamic, ne sont pas supportés).
+  (Les meshes dynamiques, crÃ©Ã©s avec l'option @#PB_Mesh_Dynamic, ne sont pas supportÃ©s).
 
 @Parameter "#Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @Parameter "SousMesh"
-  Le SousMesh à utiliser. 
-  L'indice du premier SousMesh commence à 0 
+  Le SousMesh Ã  utiliser. 
+  L'indice du premier SousMesh commence Ã  0 
   (mesh principal).
 
 @Parameter "TableauData()"
-  Le tableau pour recevoir les données. 
-  Il doit être un tableau de type 
+  Le tableau pour recevoir les donnÃ©es. 
+  Il doit Ãªtre un tableau de type 
   "MeshVertex" ou "MeshFace" en 
-  fonction des paramètres 'Options'.
+  fonction des paramÃ¨tres 'Options'.
 
 @Parameter "Options"
-  Indique le type de données qui doivent être 
-  récupérées. Peut être l'une des valeurs suivantes: 
+  Indique le type de donnÃ©es qui doivent Ãªtre 
+  rÃ©cupÃ©rÃ©es. Peut Ãªtre l'une des valeurs suivantes: 
 
 @FixedFont
   @#PB_Mesh_Vertex: TableauData() est un tableau de type "MeshVertex".
@@ -349,14 +349,14 @@
 @EndFixedFont
   En combinaison avec:
 @FixedFont
-  @#PB_Mesh_UVCoordinate : Obtenir les informations de coordonnées UV (seulement pour l'option @#PB_Mesh_Vertex)
+  @#PB_Mesh_UVCoordinate : Obtenir les informations de coordonnÃ©es UV (seulement pour l'option @#PB_Mesh_Vertex)
   @#PB_Mesh_Normal       : Obtenir les informations de la 'normale' (seulement pour l'option @#PB_Mesh_Vertex)
   @#PB_Mesh_Color        : Obtenir les informations de couleurs (seulement pour l'option @#PB_Mesh_Vertex)
   @#PB_Mesh_Tangent      : Obtenir les informations de tangente (seulement pour l'option @#PB_Mesh_Vertex)
 @EndFixedFont
 
   Les structures "MeshVertex" et 
-  "MeshFace" sont définis comme suit:
+  "MeshFace" sont dÃ©finis comme suit:
 @FixedFont
   @Keyword Structure MeshVertex
     x.f
@@ -380,13 +380,13 @@
 
 @Parameter " PremierIndex, DernierIndex"
   Premier et dernier index pour obtenir les 
-  données.
+  donnÃ©es.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
-  En cas de succès, TableauData() a été 
-  redimensionnée et contient les informations 
+  succÃ¨s, zÃ©ro sinon.
+  En cas de succÃ¨s, TableauData() a Ã©tÃ© 
+  redimensionnÃ©e et contient les informations 
   du mesh.
 
 @SeeAlso @@SetMeshData
@@ -398,28 +398,28 @@
 @Function Resultat = SetMeshData(#Mesh, SousMesh, TableauData(), Options, PremierIndex, DernierIndex)
 
 @Description
-  Changer les données internes du mesh, 
+  Changer les donnÃ©es internes du mesh, 
   comme les sommets, les faces, etc.
   @LineBreak
-  (Les meshes dynamiques, créés avec l'option @#PB_Mesh_Dynamic, ne sont pas supportés).
+  (Les meshes dynamiques, crÃ©Ã©s avec l'option @#PB_Mesh_Dynamic, ne sont pas supportÃ©s).
 
 @Parameter "#Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @Parameter "SousMesh"
-  Le SousMesh à utiliser.@LineBreak 
-  L'indice du premier SousMesh commence à 0 
+  Le SousMesh Ã  utiliser.@LineBreak 
+  L'indice du premier SousMesh commence Ã  0 
   (mesh principal).
 
 @Parameter "TableauData()"
-  Le tableau qui contient les données. @LineBreak 
-  Ce doit être un tableau de type 
+  Le tableau qui contient les donnÃ©es. @LineBreak 
+  Ce doit Ãªtre un tableau de type 
   "MeshVertex" ou "MeshFace" en 
-  fonction des paramètres 'Options'.
+  fonction des paramÃ¨tres 'Options'.
 
 @Parameter "Options"
-  Indique le type de données qui doivent 
-  être envoyées. Peut être l'une des valeurs 
+  Indique le type de donnÃ©es qui doivent 
+  Ãªtre envoyÃ©es. Peut Ãªtre l'une des valeurs 
   suivantes: 
 
 @FixedFont
@@ -428,13 +428,13 @@
 @EndFixedFont
   En combinaison avec:
 @FixedFont
-  @#PB_Mesh_UVCoordinate : Les informations de coordonnées UV (seulement pour l'option @#PB_Mesh_Vertex)
+  @#PB_Mesh_UVCoordinate : Les informations de coordonnÃ©es UV (seulement pour l'option @#PB_Mesh_Vertex)
   @#PB_Mesh_Normal       : Les informations de la 'normale' (seulement pour l'option @#PB_Mesh_Vertex)
   @#PB_Mesh_Color        : Les informations de couleurs (seulement pour l'option @#PB_Mesh_Vertex)
 @EndFixedFont
 
   Les structures "MeshVertex" et 
-  "MeshFace" sont définis comme suit:
+  "MeshFace" sont dÃ©finis comme suit:
 @FixedFont
   @Keyword Structure MeshVertex
     x.f
@@ -457,11 +457,11 @@
 @EndFixedFont
 
 @Parameter " PremierIndex, DernierIndex"
-  Premier et dernier index des données.
+  Premier et dernier index des donnÃ©es.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
   
 @SeeAlso 
   @@GetMeshData
@@ -473,17 +473,17 @@
 @Function BuildMeshShadowVolume(#Mesh)
 
 @Description
-  Crée le volume d'ombre d'un mesh. 
+  CrÃ©e le volume d'ombre d'un mesh. 
 
 @Parameter "#Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks 
-  Nécessaire si le mesh doit jeter des 
-  ombres. Cela doit être fait une fois la 
-  création du mesh complètement terminée, 
+  NÃ©cessaire si le mesh doit jeter des 
+  ombres. Cela doit Ãªtre fait une fois la 
+  crÃ©ation du mesh complÃ¨tement terminÃ©e, 
   ou l'ombre ne correspondra pas au mesh.
 
 @SeeAlso
@@ -496,58 +496,58 @@
 @Function Resultat = CreateLine3D(#Mesh, X, Y, Z, Couleur, X2, Y2, Z2, Couleur2)
 
 @Description
-  Crée un mesh ligne 3D. 
+  CrÃ©e un mesh ligne 3D. 
 
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @Parameter "X, Y, Z"
-  Les coordonnées du premier point de la 
-  ligne, en unité Monde.
+  Les coordonnÃ©es du premier point de la 
+  ligne, en unitÃ© Monde.
 
 @Parameter "Couleur"
   La couleur du premier point. 
 @LineBreak
 @LineBreak
-  La fonction @@RGB peut être utilisée 
+  La fonction @@RGB peut Ãªtre utilisÃ©e 
   pour obtenir une valeur valide.
 
 @Parameter "X2, Y2, Z2"
-   Les coordonnées du second point de la 
-   ligne, en unité Monde.
+   Les coordonnÃ©es du second point de la 
+   ligne, en unitÃ© Monde.
 
 @Parameter "Couleur2"
   La couleur du second point. 
 @LineBreak
 @LineBreak  
-  Si elle est différente de la couleur du 
+  Si elle est diffÃ©rente de la couleur du 
   premier point alors un gradient sera 
-  créé entre les deux points. 
+  crÃ©Ã© entre les deux points. 
 @LineBreak
 @LineBreak
-  La fonction @@RGB peut être utilisée 
+  La fonction @@RGB peut Ãªtre utilisÃ©e 
   pour obtenir une valeur valide.
    
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak  
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak  
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
 
 @Remarks 
   La ligne est un objet fil de fer qui 
-  peut être utilisé pour faciliter le 
-  débogage. 
+  peut Ãªtre utilisÃ© pour faciliter le 
+  dÃ©bogage. 
   Pour changer la position de la ligne, il 
-  suffit de la créer à nouveau.
+  suffit de la crÃ©er Ã  nouveau.
 
 @Example
 @Code
@@ -557,7 +557,7 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de Ligne 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -565,7 +565,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Créer la ligne et l'attache à la scène
+  ; CrÃ©er la ligne et l'attache Ã  la scÃ¨ne
   CreateLine3D(0, 0, 0, 0, RGB(255, 0, 0), 1, 1, 1, RGB(0, 0, 255))
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -587,27 +587,27 @@
 @Function Resultat = CreateCube(#Mesh, Taille)
 
 @Description
-  Crée un  mesh cube.
+  CrÃ©e un  mesh cube.
 
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Taille"
-  Taille du cube dans l'unité du monde.
+  Taille du cube dans l'unitÃ© du monde.
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak  
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak  
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
 
 @Example
 @Code
@@ -617,7 +617,7 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de Cube 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -625,7 +625,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Créer le cube et l'attache à la scène
+  ; CrÃ©er le cube et l'attache Ã  la scÃ¨ne
   CreateCube(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -647,56 +647,56 @@
 @Function Resultat = CreateSphere(#Mesh, Rayon.f [NbSegments, NbAnneaux])
 
 @Description
-  Crée un mesh sphère.
+  CrÃ©e un mesh sphÃ¨re.
 
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Rayon.f"
-  Rayon de la sphère dans l'unité du monde.
+  Rayon de la sphÃ¨re dans l'unitÃ© du monde.
 
 @OptionalParameter "NbSegments"
-  Nombre de segments de la sphère (16 par défaut).
+  Nombre de segments de la sphÃ¨re (16 par dÃ©faut).
   @LineBreak  
   Les segments sont les lignes verticales 
-  de la sphère. Plus le nombre de segments 
-  est grand et plus la sphère sera réaliste 
-  mais la vitesse de rendu en sera affectée 
+  de la sphÃ¨re. Plus le nombre de segments 
+  est grand et plus la sphÃ¨re sera rÃ©aliste 
+  mais la vitesse de rendu en sera affectÃ©e 
   s'ils sont en trop grand nombre.
 
 
 @OptionalParameter "NbAnneaux"
-  Nombre d'anneaux de la sphère (16 par défaut).
+  Nombre d'anneaux de la sphÃ¨re (16 par dÃ©faut).
   @LineBreak  
   Les anneaux sont des lignes horizontales 
-  de la sphère. Plus le nombre d'anneaux 
-  est grand et plus la sphère sera réaliste 
-  mais la vitesse de rendu en sera affectée 
+  de la sphÃ¨re. Plus le nombre d'anneaux 
+  est grand et plus la sphÃ¨re sera rÃ©aliste 
+  mais la vitesse de rendu en sera affectÃ©e 
   s'ils sont en trop grand nombre.
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
 
 @Example
 @Code
   InitEngine3D() 
   InitSprite() 
   
-  OpenWindow(0, 0, 0, 640, 480, "Exemple de Sphère 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 0, 0, 640, 480, "Exemple de SphÃ¨re 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -704,7 +704,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Créer la sphère et l'attache à la scène
+  ; CrÃ©er la sphÃ¨re et l'attache Ã  la scÃ¨ne
   CreateSphere(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -726,39 +726,39 @@
 @Function Resultat = CreateTube(#Mesh, RayonExterne.f, RayonInterne.f, Hauteur.f [, NbSegmentsBase, NbSegmentsHauteur)
 
 @Description
-  Crée un mesh tube.
+  CrÃ©e un mesh tube.
 
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "RayonExterne.f"
-  Rayon externe du tube dans l'unité du monde.
+  Rayon externe du tube dans l'unitÃ© du monde.
 
 @Parameter "RayonInterne.f"
-  Rayon interne du tube dans l'unité du monde.
+  Rayon interne du tube dans l'unitÃ© du monde.
 
 @Parameter "Hauteur.f"
-  Hauteur du tube dans l'unité du monde.
+  Hauteur du tube dans l'unitÃ© du monde.
 
 @OptionalParameter "NbBaseSegments"
-  Nombre de segments de la base du tube (16 par défaut).
+  Nombre de segments de la base du tube (16 par dÃ©faut).
 
 @OptionalParameter "NbHeightSegments"
-  Nombre de segments dans la hauteur du tube (1 par défaut).
+  Nombre de segments dans la hauteur du tube (1 par dÃ©faut).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
   
 @Example
 @Code
@@ -768,15 +768,15 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de Tube 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
-  ; Caméra
+  ; CamÃ©ra
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Création du tube et application dans la scène
+  ; CrÃ©ation du tube et application dans la scÃ¨ne
   CreateTube(0, 0.5, 0.4, 2)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -796,39 +796,39 @@
 @Function Resultat = CreateTorus(#Mesh, Rayon.f, RayonSection.f, Hauteur.f [, NbSegmentsSection, NbSegmentsCercle)
 
 @Description
-  Crée un mesh tore.
+  CrÃ©e un mesh tore.
 
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Rayon.f"
-  Rayon du tore dans l'unité du monde.
+  Rayon du tore dans l'unitÃ© du monde.
 
 @Parameter "RayonSection.f"
-  Rayon de la section du tore dans l'unité du monde.
+  Rayon de la section du tore dans l'unitÃ© du monde.
 
 @Parameter "Hauteur.f"
-  Hauteur du tore dans l'unité du monde.
+  Hauteur du tore dans l'unitÃ© du monde.
 
 @OptionalParameter "NbSegmentsSection"
-  Nombre de segments utilisés pour la section du tore (16 par défaut).
+  Nombre de segments utilisÃ©s pour la section du tore (16 par dÃ©faut).
 
 @OptionalParameter "NbSegmentsCercle"
-  Nombre de segments utilisés pour la cercle du tore (16 par défaut).
+  Nombre de segments utilisÃ©s pour la cercle du tore (16 par dÃ©faut).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
   
 @Example
 @Code
@@ -838,15 +838,15 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de tore 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
-  ; Caméra
+  ; CamÃ©ra
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Création du tore et application à la scène
+  ; CrÃ©ation du tore et application Ã  la scÃ¨ne
   CreateTorus(0, 1, 0.3)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -866,39 +866,39 @@
 @Function Resultat = CreateCapsule(#Mesh, Rayon.f, Hauteur.f [, NbAnneaux, NbSegments, NbSegmentsHauteur)
 
 @Description
-  Crée un mesh capsule.
+  CrÃ©e un mesh capsule.
 
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Rayon.f"
-  Rayon de la capsule dans l'unité du monde.
+  Rayon de la capsule dans l'unitÃ© du monde.
 
 @Parameter "Hauteur.f"
-  Hauteur de la capsule dans l'unité du monde.
+  Hauteur de la capsule dans l'unitÃ© du monde.
 
 @OptionalParameter "NbAnneaux"
-  Nombre d'anneaux utilisés pour créer la capsule (8 par défaut).
+  Nombre d'anneaux utilisÃ©s pour crÃ©er la capsule (8 par dÃ©faut).
 
 @OptionalParameter "NbSegments"
-  Nombre de segments utilisés pour créer la capsule (16 par défaut).
+  Nombre de segments utilisÃ©s pour crÃ©er la capsule (16 par dÃ©faut).
 
 @OptionalParameter "NbSegmentsHauteur"
-  Nombre de segments dans la hauteur utilisés pour créer la capsule (1 par défaut).
+  Nombre de segments dans la hauteur utilisÃ©s pour crÃ©er la capsule (1 par dÃ©faut).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
   
 @Example
 @Code
@@ -908,15 +908,15 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de Capsule 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
-  ; Caméra
+  ; CamÃ©ra
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Création de la capsule et application à la scène
+  ; CrÃ©ation de la capsule et application Ã  la scÃ¨ne
   CreateCapsule(0, 1, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -936,48 +936,48 @@
 @Function Resultat = CreateIcoSphere(#Mesh, Rayon.f [, Iterations)
 
 @Description
-  Crée un mesh sphère icosaédrique
+  CrÃ©e un mesh sphÃ¨re icosaÃ©drique
   
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Rayon.f"
-  Rayon de la sphère icosaédrique dans l'unité du monde.
+  Rayon de la sphÃ¨re icosaÃ©drique dans l'unitÃ© du monde.
 
 @OptionalParameter "Iterations"
-  Nombre d'itérations utilisés pour créer la sphère icosaédrique (2 par défaut).
+  Nombre d'itÃ©rations utilisÃ©s pour crÃ©er la sphÃ¨re icosaÃ©drique (2 par dÃ©faut).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
   
 @Example
 @Code
   InitEngine3D() 
   InitSprite() 
   
-  OpenWindow(0, 0, 0, 640, 480, "Exemple de sphère icosaédrique", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 0, 0, 640, 480, "Exemple de sphÃ¨re icosaÃ©drique", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
-  ; Caméra
+  ; CamÃ©ra
   CreateCamera(0, 0, 0, 100, 100)
   MoveCamera(0, 2, 0, 5, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Création de la sphère icosaédrique et application à la scène
+  ; CrÃ©ation de la sphÃ¨re icosaÃ©drique et application Ã  la scÃ¨ne
   CreateIcoSphere(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -997,46 +997,46 @@
 @Function Resultat = CreateCone(#Mesh, Rayon.f, Hauteur.f [, NbSegmentsBase, NbSegmentsHauteur])
 
 @Description
-  Crée un mesh cône.
+  CrÃ©e un mesh cÃ´ne.
 
 @Parameter "#Mesh"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Rayon.f"
-  Rayon du cône dans l'unité du monde.
+  Rayon du cÃ´ne dans l'unitÃ© du monde.
 
 @Parameter "Hauteur.f"
-  Hauteur du cône dans l'unité du monde.
+  Hauteur du cÃ´ne dans l'unitÃ© du monde.
 
 @OptionalParameter "NbSegmentsBase"
-  Nombre de segments utilisé pour la base du cône (16 par défaut).
+  Nombre de segments utilisÃ© pour la base du cÃ´ne (16 par dÃ©faut).
 
 @OptionalParameter "NbSegmentsHauteur"
-  Nombre de segments utilisé pour la hauteur du cône (1 par défaut).
+  Nombre de segments utilisÃ© pour la hauteur du cÃ´ne (1 par dÃ©faut).
 
 @ReturnValue
    Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
   
 @Example
 @Code
   InitEngine3D() 
   InitSprite() 
   
-  OpenWindow(0, 0, 0, 640, 480, "Exemple Cône ", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 0, 0, 640, 480, "Exemple CÃ´ne ", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -1044,7 +1044,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Création du cône et inclusion dans la scène
+  ; CrÃ©ation du cÃ´ne et inclusion dans la scÃ¨ne
   CreateCone(0, 0.5, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -1065,42 +1065,42 @@
 @Function Resultat = CreateCylinder(#Mesh, Rayon.f, Hauteur.f [, NbSegmentsBase, NbSegmentsHauteur, Fermeture])
 
 @Description
-  Crée un mesh cylindre.
+  CrÃ©e un mesh cylindre.
 
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
    
 @Parameter "Rayon.f"
-  Rayon du cylindre dans l'unité du monde.
+  Rayon du cylindre dans l'unitÃ© du monde.
 
 @Parameter "Hauteur.f"
-  Hauteur du cylindre dans l'unité du monde.
+  Hauteur du cylindre dans l'unitÃ© du monde.
 
 @OptionalParameter "NbSegmentsBase"
-  Nombre de segments utilisé pour la base du cylindre (16 par défaut).
+  Nombre de segments utilisÃ© pour la base du cylindre (16 par dÃ©faut).
 
 @OptionalParameter "NbSegmentsHauteur"
-  Nombre de segments utilisé pour la hauteur du cylindre (1 par défaut).
+  Nombre de segments utilisÃ© pour la hauteur du cylindre (1 par dÃ©faut).
 
 @OptionalParameter "Fermeture"
 @FixedFont
-  @#True  : Cylindre fermé en haut et en bas (par défaut)
+  @#True  : Cylindre fermÃ© en haut et en bas (par dÃ©faut)
   @#False : Cylindre ouvert en haut et en bas (tuyau) 
 @EndFixedFont
   
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. @LineBreak  
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon. @LineBreak  
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
 
 @Example
 @Code
@@ -1110,7 +1110,7 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de Cylindre 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -1118,7 +1118,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Créer le cylindre et l'attache à la scène
+  ; CrÃ©er le cylindre et l'attache Ã  la scÃ¨ne
   CreateCylinder(0, 0.5, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -1141,59 +1141,62 @@
 @Function Resultat = CreatePlane(#Mesh, TailleParcelleX, TailleParcelleZ, NbParcelleX, NbParcelleZ, NbRepetitionTextureX, NbRepetitionTextureZ)
 
 @Description
-  Crée un mesh plan.
+  CrÃ©e un mesh plan.
 
 @Parameter "#Mesh"   
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   mesh. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "TailleParcelleX"
   Taille en 'X' d'une Parcelle du plan, dans 
-  l'unité monde. La parcelle est le 
+  l'unitÃ© monde. La parcelle est le 
   composant de base d'un plan. Un plan 
-  peut être composé de nombreuses parcelles 
+  peut Ãªtre composÃ© de nombreuses parcelles 
   pour le rendre plus grand et permettre 
-  une déformation.
+  une dÃ©formation.
 
 @Parameter "TailleParcelleZ"
   Taille en 'Z' d'une parcelle du plan, dans 
-  l'unité monde. La parcelle est le 
+  l'unitÃ© monde. La parcelle est le 
   composant de base d'un plan. Un plan 
-  peut être composé de nombreuses parcelles 
+  peut Ãªtre composÃ© de nombreuses parcelles 
   pour le rendre plus grand et permettre 
-  une déformation.
+  une dÃ©formation.
 
 @Parameter "NbParcelleX"
-  Nombre de parcelles utilisées dans l'axe X du plan.
+  Nombre de parcelles utilisÃ©es dans l'axe X du plan.
 
 @Parameter "NbParcelleZ"
-  Nombre de parcelles utilisées dans l'axe 
+  Nombre de parcelles utilisÃ©es dans l'axe 
   Z du plan.
 
 @Parameter "NbRepetitionTextureX"
   Nombre de fois que la texture sera 
-  répétée sur l'axe X. Pour appliquer la 
-  texture entière sur tout l'axe X, il 
+  rÃ©pÃ©tÃ©e sur l'axe X. Pour appliquer la 
+  texture entiÃ¨re sur tout l'axe X, il 
   suffit d'utiliser 1.
 
 @Parameter "NbRepetitionTextureZ"
   Nombre de fois que la texture sera 
-  répétée sur l'axe Z. Pour appliquer la 
-  texture entière sur tout l'axe Z, il 
+  rÃ©pÃ©tÃ©e sur l'axe Z. Pour appliquer la 
+  texture entiÃ¨re sur tout l'axe Z, il 
   suffit d'utiliser 1.
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.@LineBreak   
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #Mesh alors la valeur de 
-  retour est le numéro d'identification, 
-  généré automatiquement.
+  succÃ¨s, zÃ©ro sinon.@LineBreak   
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #Mesh alors la valeur de 
+  retour est le numÃ©ro d'identification, 
+  gÃ©nÃ©rÃ© automatiquement.
+
+@Remarks
+  Le nombre de vertice totale est limitÃ© par le produit "NbParcelleX" x "NbParcelleZ" qui ne doit pas dÃ©passer 65100.
 
 @Example
 @Code
@@ -1203,7 +1206,7 @@
   OpenWindow(0, 0, 0, 640, 480, "Exemple de plan en 3D", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, 0, 0, 0)
   
-  ; Lumière
+  ; LumiÃ¨re
   CreateLight(#PB_Any, RGB(25, 25, 180), -5, 10, 5, #PB_Light_Point)
   
   ; Camera
@@ -1211,7 +1214,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Créer le plan et l'attache à la scène
+  ; CrÃ©er le plan et l'attache Ã  la scÃ¨ne
   CreatePlane(0, 2, 2, 1, 1, 0, 0)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -1230,22 +1233,63 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function MeshDirectAdd(#Mesh, TableauVertex(),TableauFace(), Type, MateriauID)
+
+@Description
+  Ajoute un nouveau sous-maillage (submesh) au #Mesh spÃ©cifiÃ©.
+
+@Parameter "MeshTableauVertex()"
+  Le tableau contenant les donnÃ©es des sommets du sous-maillage.@LineBreak 
+  Il doit Ãªtre de type "MeshVertex".
+
+@Parameter "MeshTableauFace()"
+  Le tableau contenant les donnÃ©es des faces du sous-maillage.@LineBreak
+  Il doit Ãªtre de type "MeshFace". 
+
+@Parameter "Type"
+  Le type du nouveau sous-maillage. Il peut s'agir de l'une des valeurs suivantesÂ :
+@FixedFont
+  @#PB_Mesh_TriangleList : Le sous-maillage sera composÃ© d'une liste de triangles (par dÃ©faut).
+  @#PB_Mesh_TriangleStrip: Le sous-maillage sera composÃ© d'une liste de triangles connectÃ©s (les sommets sont partagÃ©s).
+  @#PB_Mesh_TriangleFan  : Le sous-maillage sera composÃ© d'une liste de triangles partageant le mÃªme point de sommet central.
+  @#PB_Mesh_PointList    : Le sous-maillage sera composÃ© d'une liste de points.
+  @#PB_Mesh_LineList     : Le sous-maillage sera composÃ© d'une liste de lignes.
+  @#PB_Mesh_LineStrip    : Le sous-maillage sera composÃ© d'une liste de lignes connectÃ©es (les sommets sont partagÃ©s).
+@EndFixedFont
+
+@Parameter "MateriauID"
+  MatÃ©riau par dÃ©faut Ã  utiliser pour le sous-maillage.@LineBreak 
+  Pour obtenir un "MaterialID" valide, utilisez @@MaterialID.
+
+@NoReturnValue
+
+@Remarks
+  Un maillage peut comporter autant de sous-maillages que vous le souhaitez.@LineBreak 
+  La position d'un sous-maillage est relative Ã  celle du maillage. 
+
+@SeeAlso
+  @@FreeMesh, @@CreateMesh, @@LoadMesh
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function AddSubMesh([Type])
 
 @Description
   Ajoute un nouveau sous-mesh dans le mesh 
-  courant créé avec @@CreateMesh. 
+  courant crÃ©Ã© avec @@CreateMesh. 
 
 @OptionalParameter "Type"
-  Le type du nouveau sous-mesh. Peut être 
+  Le type du nouveau sous-mesh. Peut Ãªtre 
   une des valeurs suivantes:
 @FixedFont
-  @#PB_Mesh_TriangleList : Le sous-mesh sera composé d'une liste de triangles (par défaut).
-  @#PB_Mesh_TriangleStrip: Le sous-mesh sera composé d'une liste de triangles connectés (Les sommets sont partagés).
-  @#PB_Mesh_TriangleFan  : Le sous-mesh sera composé d'une liste de triangles qui partagent le même sommet central .
-  @#PB_Mesh_PointList    : Le sous-mesh sera composé d'une liste de points.
-  @#PB_Mesh_LineList     : Le sous-mesh sera composé d'une liste de lignes.
-  @#PB_Mesh_LineStrip    : Le sous-mesh sera composé d'une liste de lignes connectées (Les sommets sont partagés).
+  @#PB_Mesh_TriangleList : Le sous-mesh sera composÃ© d'une liste de triangles (par dÃ©faut).
+  @#PB_Mesh_TriangleStrip: Le sous-mesh sera composÃ© d'une liste de triangles connectÃ©s (Les sommets sont partagÃ©s).
+  @#PB_Mesh_TriangleFan  : Le sous-mesh sera composÃ© d'une liste de triangles qui partagent le mÃªme sommet central .
+  @#PB_Mesh_PointList    : Le sous-mesh sera composÃ© d'une liste de points.
+  @#PB_Mesh_LineList     : Le sous-mesh sera composÃ© d'une liste de lignes.
+  @#PB_Mesh_LineStrip    : Le sous-mesh sera composÃ© d'une liste de lignes connectÃ©es (Les sommets sont partagÃ©s).
 @EndFixedFont
   
 @NoReturnValue
@@ -1254,8 +1298,8 @@
   Un mesh peut avoir n'importe quel nombre 
   de sous-meshes. @LineBreak
   La position d'un sous-mesh est relative 
-  à la position du mesh. @LineBreak
-  Une fois qu'un sous-mesh est créé, 
+  Ã  la position du mesh. @LineBreak
+  Une fois qu'un sous-mesh est crÃ©Ã©, 
   utiliser les commandes suivantes pour le 
   construire: @@MeshVertexPosition, 
   @@MeshFace et @@MeshIndex.
@@ -1274,17 +1318,17 @@
   Retourne le nombre des index dans le mesh. 
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @OptionalParameter "SousMesh"
-  S'il est spécifié, il renverra le nombre 
+  S'il est spÃ©cifiÃ©, il renverra le nombre 
   d'index dans le SousMesh.@LineBreak
   L'indice du premier SousMesh est 0 
   (mesh principal).
 
 @ReturnValue
   Renvoie le nombre des index dans le 
-  mesh, ou zéro si le mesh ou le SousMesh 
+  mesh, ou zÃ©ro si le mesh ou le SousMesh 
   n'existe pas.
 
 @SeeAlso
@@ -1301,17 +1345,17 @@
   Renvoie le nombre de sommets du mesh.
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @OptionalParameter "SousMesh"
-  S'il est spécifié, renvoie le nombre de 
-  sommets du sous-mesh spécifié.@LineBreak 
+  S'il est spÃ©cifiÃ©, renvoie le nombre de 
+  sommets du sous-mesh spÃ©cifiÃ©.@LineBreak 
   L'indice du premier submesh est 0 (mesh 
   principal).
 
 @ReturnValue
   Renvoie le nombre de sommets du mesh ou 
-  zéro si le mesh, ou le sous-mesh, 
+  zÃ©ro si le mesh, ou le sous-mesh, 
   n'existe pas.
 
 @SeeAlso
@@ -1325,19 +1369,19 @@
 @Function UpdateMeshBoundingBox(#Mesh)
 
 @Description
-  Met à jour la boîte englobante d'un mesh. 
+  Met Ã  jour la boÃ®te englobante d'un mesh. 
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  Si un mesh a été modifié manuellement, sa 
-  boîte englobante doit être recalculée, en 
-  particulier si le mesh est utilisé pour 
-  les collisions. Le cadre de sélection 
-  est la plus petite boîte possible capable 
+  Si un mesh a Ã©tÃ© modifiÃ© manuellement, sa 
+  boÃ®te englobante doit Ãªtre recalculÃ©e, en 
+  particulier si le mesh est utilisÃ© pour 
+  les collisions. Le cadre de sÃ©lection 
+  est la plus petite boÃ®te possible capable 
   de contenir tout le mesh.
 
 @SeeAlso
@@ -1350,27 +1394,27 @@
 @Function UpdateMesh(#Mesh, SousMesh)
 
 @Description
-  Démarre la mise à jour du mesh
+  DÃ©marre la mise Ã  jour du mesh
  
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @Parameter "SousMesh"
-  L'indice du sous-mesh à modifier. @LineBreak
+  L'indice du sous-mesh Ã  modifier. @LineBreak
   Le premier indice est 0 (mesh principal).
 
 @NoReturnValue
 
 @Remarks
-  Mise à jour du mesh pour modifier en 
-  temps réel ses sommets et d'autres 
+  Mise Ã  jour du mesh pour modifier en 
+  temps rÃ©el ses sommets et d'autres 
   valeurs. @LineBreak
-  Le mesh doit être créé avec l'option 
+  Le mesh doit Ãªtre crÃ©Ã© avec l'option 
   @#PB_Mesh_Dynamic. @LineBreak
-  Une fois les modifications terminées, 
-  @@FinishMesh doit être appelé. @LineBreak
+  Une fois les modifications terminÃ©es, 
+  @@FinishMesh doit Ãªtre appelÃ©. @LineBreak
   Le mesh peut utiliser les commandes 
-  suivantes pour modifier ses propriétés: 
+  suivantes pour modifier ses propriÃ©tÃ©s: 
   @@MeshIndex, @@MeshFace, 
   @@MeshVertexPosition, @@MeshVertexNormal, 
   @@MeshVertexTangent, @@MeshVertexColor 
@@ -1390,9 +1434,9 @@
 @Function MeshIndex(Index)
 
 @Description
-  Ajoute ou met à jour un seul sommet du 
-  mesh en cours de création avec 
-  @@CreateMesh ou mis à jour avec 
+  Ajoute ou met Ã  jour un seul sommet du 
+  mesh en cours de crÃ©ation avec 
+  @@CreateMesh ou mis Ã  jour avec 
   @@UpdateMesh.
  
 @Parameter "Index"
@@ -1406,7 +1450,7 @@
   Lorsque vous utilisez le mode de 
   @#PB_Mesh_LineList ou @#PB_Mesh_LineStrip, 
   il y a seulement deux sommets par lignes, 
-  donc @@MeshIndex doit être utilisé dans 
+  donc @@MeshIndex doit Ãªtre utilisÃ© dans 
   ce cas.
  
 
@@ -1424,10 +1468,10 @@
 
 @Description
   Renvoie le rayon de la plus petite 
-  sphère capable de contenir le mesh.
+  sphÃ¨re capable de contenir le mesh.
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
   
 @ReturnValue
   Renvoie le rayon du mesh.
@@ -1442,32 +1486,32 @@
 @Function MeshVertex(X, Y, Z, U.f, V.f, Couleur [, NormalX, NormalY, NormalZ])
 
 @Description
-  Ajouter un sommet au mesh en cours créé précédemment avec @@CreateMesh.
+  Ajouter un sommet au mesh en cours crÃ©Ã© prÃ©cÃ©demment avec @@CreateMesh.
 
 @Parameter "X, Y, Z"
   La position du nouveau sommet.
   
 @Parameter "U.f"
-  La coordonnée U.
+  La coordonnÃ©e U.
   @LineBreak
   @LineBreak
-  Cette valeur est la coordonnée horizontale 'X' dans la texture où le sommet doit être mappé.
+  Cette valeur est la coordonnÃ©e horizontale 'X' dans la texture oÃ¹ le sommet doit Ãªtre mappÃ©.
   @LineBreak
-  Cette valeur est généralement comprise entre 0 et 1, 0 étant l'origine et 1 l'extrémité 
+  Cette valeur est gÃ©nÃ©ralement comprise entre 0 et 1, 0 Ã©tant l'origine et 1 l'extrÃ©mitÃ© 
   (voir @@MeshVertexTextureCoordinate pour plus d'informations).
   
 @Parameter "V.f"
-   La coordonnée V.
+   La coordonnÃ©e V.
   @LineBreak
   @LineBreak
-  Cette valeur est la coordonnée horizontale 'Y' dans la texture où le sommet doit être mappé.
+  Cette valeur est la coordonnÃ©e horizontale 'Y' dans la texture oÃ¹ le sommet doit Ãªtre mappÃ©.
   @LineBreak
-  Cette valeur est généralement comprise entre 0 et 1, 0 étant l'origine et 1 l'extrémité 
+  Cette valeur est gÃ©nÃ©ralement comprise entre 0 et 1, 0 Ã©tant l'origine et 1 l'extrÃ©mitÃ© 
   (voir @@MeshVertexTextureCoordinate pour plus d'informations).
   
 @Parameter "Couleur"
   Couleur du vertex.@LineBreak
-  Cette couleur peut être au format @Link "2DDrawing/RGB" "RGB" ou 
+  Cette couleur peut Ãªtre au format @Link "2DDrawing/RGB" "RGB" ou 
   @Link "2DDrawing/RGBA" "RGBA" (voir @@MeshVertexColor pour plus d'informations).
 
 @Parameter "NormalX, NormalY, NormalZ"
@@ -1476,11 +1520,11 @@
 @NoReturnValue
 
 @Remarks
-  Des attributs spécifiques au sommet nouvellement créé peuvent être ajoutés avec 
+  Des attributs spÃ©cifiques au sommet nouvellement crÃ©Ã© peuvent Ãªtre ajoutÃ©s avec 
   @@MeshVertexTangent.
   @LineBreak
   @LineBreak  
-  Pour créer une nouvelle face, utilisez @@MeshFace.
+  Pour crÃ©er une nouvelle face, utilisez @@MeshFace.
 
 @SeeAlso
   @@CreateMesh, @@MeshFace, @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor, @@MeshVertexTextureCoordinate
@@ -1493,7 +1537,7 @@
 
 @Description
   Ajoute un nouveau sommet au mesh 
-  en cours, précédemment créé avec 
+  en cours, prÃ©cÃ©demment crÃ©Ã© avec 
   @@CreateMesh. 
 
 @Parameter "X, Y, Z"
@@ -1502,15 +1546,15 @@
 @NoReturnValue
 
 @Remarks
-  Pour ajouter des attributs spécifiques 
-  au sommet nouvellement créé, utiliser 
+  Pour ajouter des attributs spÃ©cifiques 
+  au sommet nouvellement crÃ©Ã©, utiliser 
   les commandes suivantes: 
   @@MeshVertexNormal, 
   @@MeshVertexTangent, 
   @@MeshVertexColor et 
   @@MeshVertexTextureCoordinate.   @LineBreak  
-  Si plusieurs attributs doivent être spécifiés, vous pouvez utiliser @@MeshVertex.@LineBreak  
-  Pour créer une nouvelle face, utiliser @@MeshFace.
+  Si plusieurs attributs doivent Ãªtre spÃ©cifiÃ©s, vous pouvez utiliser @@MeshVertex.@LineBreak  
+  Pour crÃ©er une nouvelle face, utiliser @@MeshFace.
 
 @SeeAlso
   @@CreateMesh, @@MeshFace, 
@@ -1524,9 +1568,9 @@
 @Function MeshVertexNormal(X, Y, Z)
 
 @Description
-  Définit l'information concernant la 
-  'normale' du sommet en cours, précédemment 
-  ajouté avec @@MeshVertexPosition ou @@MeshVertex. 
+  DÃ©finit l'information concernant la 
+  'normale' du sommet en cours, prÃ©cÃ©demment 
+  ajoutÃ© avec @@MeshVertexPosition ou @@MeshVertex. 
 
 @Parameter "X, Y, Z"
   La valeur du vecteur normale.
@@ -1535,10 +1579,10 @@
 
 @Remarks
   Le vecteur 'normal' (perpendiculaire au 
-  plan) est utilisé pour calculer 
-  l'éclairage sur un objet. 
+  plan) est utilisÃ© pour calculer 
+  l'Ã©clairage sur un objet. 
   Pour calculer automatiquement le vecteur 
-  'normal' une fois que le mesh est créé, 
+  'normal' une fois que le mesh est crÃ©Ã©, 
   utiliser @@NormalizeMesh.
 
 @SeeAlso
@@ -1554,7 +1598,7 @@
 @Function MeshVertexTangent(X, Y, Z)
 
 @Description
-  Définit la tangente au sommet en cours, précédemment ajouté avec 
+  DÃ©finit la tangente au sommet en cours, prÃ©cÃ©demment ajoutÃ© avec 
   @@MeshVertexPosition. 
 
 @Parameter "X, Y, Z"
@@ -1564,10 +1608,10 @@
 
 @Remarks
   Le vecteur tangent est principalement 
-  utilisé dans les scripts de shader. 
+  utilisÃ© dans les scripts de shader. 
   Pour calculer automatiquement le 
   vecteur tangent une fois que le mesh 
-  est créé, utilisez @@BuildMeshTangents.
+  est crÃ©Ã©, utilisez @@BuildMeshTangents.
 
 
 @SeeAlso
@@ -1583,25 +1627,25 @@
 @Function MeshVertexColor(Couleur)
 
 @Description
-  Définit des informations de couleur 
-  pour du sommet en cours, précédemment 
-  ajouté avec @@MeshVertexPosition ou @@MeshVertex.
+  DÃ©finit des informations de couleur 
+  pour du sommet en cours, prÃ©cÃ©demment 
+  ajoutÃ© avec @@MeshVertexPosition ou @@MeshVertex.
 
 @Parameter "Couleur"
   Couleur du sommet. @LineBreak
-  Cette couleur peut être au format 
+  Cette couleur peut Ãªtre au format 
   @Link "2DDrawing/RGBA" "RGB" ou 
   @Link "2DDrawing/RGBA" "RGBA".
 
 @NoReturnValue
 
 @Remarks
-  Pour avoir un effet, le matériau associé au mesh doit être défini avec
+  Pour avoir un effet, le matÃ©riau associÃ© au mesh doit Ãªtre dÃ©fini avec
   SetMaterialColor (@#Material, @#PB_Material_AmbientColor, -1) et 
-  @@AmbientColor() défini sur une valeur positive.
+  @@AmbientColor() dÃ©fini sur une valeur positive.
   @LineBreak
   @LineBreak
-  Le vertex doit avoir été créé avant d'utiliser cette fonction.
+  Le vertex doit avoir Ã©tÃ© crÃ©Ã© avant d'utiliser cette fonction.
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, 
@@ -1615,35 +1659,35 @@
 @Function MeshVertexTextureCoordinate(U.f, [V.f [, W.f]])
 
 @Description
-  Définit l'information UVW pour le sommet en cours, précédemment ajouté avec 
+  DÃ©finit l'information UVW pour le sommet en cours, prÃ©cÃ©demment ajoutÃ© avec 
   @@MeshVertexPosition ou @@MeshVertex. 
 
 @Parameter "U.f"
   La valeur U. @LineBreak
   Cette valeur est la position X dans la 
-  texture où le sommet devrait être. 
-  Cette valeur est généralement comprise 
-  entre 0 et 1, où 0 est l'origine en X et 1 
+  texture oÃ¹ le sommet devrait Ãªtre. 
+  Cette valeur est gÃ©nÃ©ralement comprise 
+  entre 0 et 1, oÃ¹ 0 est l'origine en X et 1 
   est la fin en X de la texture.
 
 @OptionalParameter "V.f"
   La valeur V. @LineBreak
   Cette valeur est la position Y dans la 
-  texture où le sommet devrait être. 
-  Cette valeur est généralement comprise 
-  entre 0 et 1, où 0 est l'origine en Y et 1 
+  texture oÃ¹ le sommet devrait Ãªtre. 
+  Cette valeur est gÃ©nÃ©ralement comprise 
+  entre 0 et 1, oÃ¹ 0 est l'origine en Y et 1 
   est la fin en Y  de la texture.
 
 @OptionalParameter "W.f"
   La valeur W (pour les textures cubiques). @LineBreak
-  Cette valeur est la position Z dans la texture où le sommet devrait être mappé. 
-  Cette valeur est généralement comprise entre 0 et 1, où 0 est l'origine en Z de la texture 
+  Cette valeur est la position Z dans la texture oÃ¹ le sommet devrait Ãªtre mappÃ©. 
+  Cette valeur est gÃ©nÃ©ralement comprise entre 0 et 1, oÃ¹ 0 est l'origine en Z de la texture 
   et 1 est la fin en Z de la texture.
   
 @NoReturnValue
 
 @Remarks
-  Les coordonnées UVW sont utilisées pour appliquer la texture sur le mesh.
+  Les coordonnÃ©es UVW sont utilisÃ©es pour appliquer la texture sur le mesh.
 
 
 @SeeAlso
@@ -1658,32 +1702,32 @@
 @Function MeshFace(Sommet1, Sommet2, Sommet3 [, Sommet4]))
 
 @Description
-  Ajoute ou met à jour une nouvelle face 
-  du mesh courant précédemment créé avec 
+  Ajoute ou met Ã  jour une nouvelle face 
+  du mesh courant prÃ©cÃ©demment crÃ©Ã© avec 
   @@CreateMesh. 
 
 @Parameter "Sommet1"
-  Le premier indice de sommet utilisé 
-  pour créer la face.
+  Le premier indice de sommet utilisÃ© 
+  pour crÃ©er la face.
 
 @Parameter "Sommet2"
-  Le deuxième indice de sommet utilisé 
-  pour créer la face.
+  Le deuxiÃ¨me indice de sommet utilisÃ© 
+  pour crÃ©er la face.
 
 @Parameter "Sommet3"
-  Le troisième indice de sommet utilisé 
-  pour créer la face.
+  Le troisiÃ¨me indice de sommet utilisÃ© 
+  pour crÃ©er la face.
 
 @OptionalParameter "Sommet4"
-  Le quatrième indice de sommet utilisé pour créer la face, ce qui se traduira par un carré (quad).
+  Le quatriÃ¨me indice de sommet utilisÃ© pour crÃ©er la face, ce qui se traduira par un carrÃ© (quad).
 
 @NoReturnValue
 
 @Remarks
-  Les sommets spécifiés doivent exister. @LineBreak
-  Le premier indice de sommet débute à 0.@LineBreak 
-  La face créée est un triangle ou un carré. @LineBreak
-  @@MeshIndex peut être utilisé si le nombre de sommets est supérieur à quatre.
+  Les sommets spÃ©cifiÃ©s doivent exister. @LineBreak
+  Le premier indice de sommet dÃ©bute Ã  0.@LineBreak 
+  La face crÃ©Ã©e est un triangle ou un carrÃ©. @LineBreak
+  @@MeshIndex peut Ãªtre utilisÃ© si le nombre de sommets est supÃ©rieur Ã  quatre.
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexPosition, @@MeshVertex
@@ -1692,13 +1736,13 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Mode)
+@Function FinishMesh(MeshStatic)
 
 @Description
-  Termine la création du mesh courant 
-  démarré avec @@CreateMesh. 
+  Termine la crÃ©ation du mesh courant 
+  dÃ©marrÃ© avec @@CreateMesh. 
 
-@Parameter "Mode"
+@Parameter "MeshStatic"
 @FixedFont
   - @#True : Le mesh est converti en un mesh statique et ne sera plus modifiable.
   - @#False: Le mesh sera toujours modifiable avec @@UpdateMesh. 
@@ -1720,10 +1764,10 @@
   Normalise le mesh ou le sous-mesh. 
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @OptionalParameter "SousMesh"
-  S'il est spécifié, il normalise le 
+  S'il est spÃ©cifiÃ©, il normalise le 
   sous-mesh. @LineBreak
   Le premier indice de sous-mesh est 0 
   (mesh principal).
@@ -1733,9 +1777,9 @@
 @Remarks
   Il calcule automatiquement le vecteur 
   'normal' pour tous les sommets 
-  du mesh ou du sous-mesh spécifié.
+  du mesh ou du sous-mesh spÃ©cifiÃ©.
   @LineBreak
-  Les meshes dynamiques, créés avec l'option @#PB_Mesh_Dynamic, ne sont pas supportés.
+  Les meshes dynamiques, crÃ©Ã©s avec l'option @#PB_Mesh_Dynamic, ne sont pas supportÃ©s.
 
 @SeeAlso
   @@CreateMesh, @@MeshVertexNormal
@@ -1748,12 +1792,12 @@
 
 @Description
   Calcule automatiquement les vecteurs 
-  tangents à tous les sommets du mesh spécifié.
+  tangents Ã  tous les sommets du mesh spÃ©cifiÃ©.
   @LineBreak
-  (Les meshes dynamiques, créés avec l'option @#PB_Mesh_Dynamic, ne sont pas supportés.)
+  (Les meshes dynamiques, crÃ©Ã©s avec l'option @#PB_Mesh_Dynamic, ne sont pas supportÃ©s.)
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @NoReturnValue
 
@@ -1767,24 +1811,24 @@
 @Function AddMeshManualLOD(#Mesh, #MeshLOD, Distance.f)
 
 @Description
-  Ajoute un nouveau niveau de détail (LOD) au mesh. 
+  Ajoute un nouveau niveau de dÃ©tail (LOD) au mesh. 
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @Parameter "MeshLOD"
-  Le mesh à utiliser lorsque la distance de la caméra est atteinte.
+  Le mesh Ã  utiliser lorsque la distance de la camÃ©ra est atteinte.
 
 @Parameter "Distance.f"
-  La distance minimale de la caméra où le #MeshLOD doit être utilisé à la place de #Mesh.
+  La distance minimale de la camÃ©ra oÃ¹ le #MeshLOD doit Ãªtre utilisÃ© Ã  la place de #Mesh.
 
 @NoReturnValue
 
 @Remarks
-  Le #Mesh sera automatiquement remplacé par #MeshLOD (qui est souvent une version 
-  simplifiée de #Mesh, avec moins de détails) lorsqu'il est affiché au-dessus de la 
-  distance spécifiée de la caméra. Plusieurs mesh LOD peuvent être utilisées pour le 
-  même #Mesh en fonction de la distance.
+  Le #Mesh sera automatiquement remplacÃ© par #MeshLOD (qui est souvent une version 
+  simplifiÃ©e de #Mesh, avec moins de dÃ©tails) lorsqu'il est affichÃ© au-dessus de la 
+  distance spÃ©cifiÃ©e de la camÃ©ra. Plusieurs mesh LOD peuvent Ãªtre utilisÃ©es pour le 
+  mÃªme #Mesh en fonction de la distance.
 
 @SeeAlso
   @@CreateMesh, @@BuildMeshLOD
@@ -1793,40 +1837,40 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, NbLOD, Distance.f, ValeurReduction.f)
+@Function BuildMeshLOD(#Mesh [, NbLOD, Distance.f, ValeurReduction.f])
 
 @Description
- Construit automatiquement un ou plusieurs niveaux de détail (LOD) pour le mesh. 
+ Construit automatiquement un ou plusieurs niveaux de dÃ©tail (LOD) pour le mesh. 
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
-@Parameter "NbLOD"
-  Nombre de LOD nécessaires pour ce mesh.
+@OptionalParameter "NbLOD"
+  Nombre de LOD nÃ©cessaires pour ce mesh.@LineBreak
+  Si ce paramÃ¨tre n'est pas utilisÃ©, les LOD seront calculÃ©s automatiquement.
 
-@Parameter "Distance"
-  Distance minimale par rapport à la caméra où le premier mesh LOD sera utilisé 
-  à la place de #Mesh.@LineBreak
-  Pour les meshs LOD suivants, la distance sera calculée à l'aide de la formule suivante:
+@OptionalParameter "Distance"
+  Distance minimale par rapport Ã  la camÃ©ra oÃ¹ le premier mesh LOD sera utilisÃ© 
+  Ã  la place de #Mesh.@LineBreak
+  Pour les meshs LOD suivants, la distance sera calculÃ©e Ã  l'aide de la formule suivante:
   'Distance / SqrF (1-ValeurReduction)'.
 
-@Parameter "ValeurReduction.f"
-  La réduction à appliquer, entre 0 (pas de réduction) et 1 (réduction de 100%). 
+@OptionalParameter "ValeurReduction.f"
+  La rÃ©duction Ã  appliquer, entre 0 (pas de rÃ©duction) et 1 (rÃ©duction de 100%). 
   @LineBreak
   @LineBreak
 Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
-- La première réduction du mesh d'origine commence à partir de 100 unités de la caméra, nombre de sommets divisé par 2 (réduction de 75%).@LineBreak
-- La deuxième réduction du mesh d’origine commence à partir de 200 unités de la caméra, nombre de sommets divisé par 16.@LineBreak
-- La troisième réduction du mesh d’origine commence à partir de 400 unités de la caméra, nombre de sommets divisé par 64.
+- La premiÃ¨re rÃ©duction du mesh d'origine commence Ã  partir de 100 unitÃ©s de la camÃ©ra, nombre de sommets divisÃ© par 2 (rÃ©duction de 75%).@LineBreak
+- La deuxiÃ¨me rÃ©duction du mesh dâ€™origine commence Ã  partir de 200 unitÃ©s de la camÃ©ra, nombre de sommets divisÃ© par 16.@LineBreak
+- La troisiÃ¨me rÃ©duction du mesh dâ€™origine commence Ã  partir de 400 unitÃ©s de la camÃ©ra, nombre de sommets divisÃ© par 64.
 @NoReturnValue
 
 @Remarks
-  Le #Mesh sera automatiquement remplacé par un maillage moins complexe lorsqu'il sera 
-  affiché au-dessus de la distance spécifiée par rapport à la caméra. 
+  Le #Mesh sera automatiquement remplacÃ© par un maillage moins complexe lorsqu'il sera 
+  affichÃ© au-dessus de la distance spÃ©cifiÃ©e par rapport Ã  la camÃ©ra. 
   @LineBreak
   @LineBreak 
-  Si des meshs LOD plus précis sont requis, vous pouvez utiliser @@AddMeshManualLOD.
-
+  Si des meshs LOD plus prÃ©cis sont requis, vous pouvez utiliser @@AddMeshManualLOD.
 
 @SeeAlso
   @@CreateMesh, @@AddMeshManualLOD
@@ -1841,20 +1885,20 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   Enregistre le mesh. 
 
 @Parameter "Mesh"
-  Le mesh à sauvegarder.
+  Le mesh Ã  sauvegarder.
 
 @Parameter "Fichier$"
-  Spécifie le nom de fichier et le chemin 
-  d'accès au nouveau fichier de mesh. 
+  SpÃ©cifie le nom de fichier et le chemin 
+  d'accÃ¨s au nouveau fichier de mesh. 
   Si le nom de fichier ne comporte 
-  pas de chemin d'accès complet, il est 
-  interprété par rapport au dossier 
+  pas de chemin d'accÃ¨s complet, il est 
+  interprÃ©tÃ© par rapport au dossier 
   @Link "FileSystem/GetCurrentDirectory" "courant".
 
 @NoReturnValue
 
 @Remarks
-  Le mesh sauvegardé peut être rechargé 
+  Le mesh sauvegardÃ© peut Ãªtre rechargÃ© 
   avec la commande @@LoadMesh.
 
 
@@ -1868,20 +1912,20 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 @Function SetMeshMaterial(#Mesh, MateriauID [, SousMesh])
 
 @Description
-  Définit le matériau par défaut du mesh.
+  DÃ©finit le matÃ©riau par dÃ©faut du mesh.
 
 @Parameter "Mesh"
-  Le mesh à utiliser.
+  Le mesh Ã  utiliser.
 
 @Parameter "MateriauID"
-  Spécifie le matériau à utiliser par 
-  défaut pour le mesh. Pour obtenir un 
+  SpÃ©cifie le matÃ©riau Ã  utiliser par 
+  dÃ©faut pour le mesh. Pour obtenir un 
   'MateriauID' valide, utiliser 
   @Link "Material/MaterialID" "MaterialID()".
 
 @OptionalParameter "SousMesh"
-  S'il est spécifié, le matériau ne sera 
-  appliqué que sur le sous-mesh. Le premier 
+  S'il est spÃ©cifiÃ©, le matÃ©riau ne sera 
+  appliquÃ© que sur le sous-mesh. Le premier 
   indice de sous-mesh est 0 (mesh principal).
 
 @NoReturnValue
@@ -1912,72 +1956,72 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @Description
   Transforme le mesh en fonction des 
-  paramètres indiqués.
+  paramÃ¨tres indiquÃ©s.
 
 @Parameter "Mesh"
-  Le mesh à transformer.
+  Le mesh Ã  transformer.
 
 @Parameter "X"
   Nouvelle position 'X' du mesh, par 
-  rapport à son noeud. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
+  rapport Ã  son noeud. @LineBreak
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
   il indique la nouvelle position 'X' du 
-  sous-mesh par rapport à son parent.
+  sous-mesh par rapport Ã  son parent.
   
 @Parameter "Y"
   Nouvelle position 'Y' du mesh, par 
-  rapport à son noeud. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
+  rapport Ã  son noeud. @LineBreak
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
   il indique la nouvelle position 'Y' du 
-  sous-mesh par rapport à son parent.
+  sous-mesh par rapport Ã  son parent.
 
 @Parameter "Z"
   Nouvelle position 'Z' du mesh, par 
-  rapport à son noeud. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
+  rapport Ã  son noeud. @LineBreak
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
   il indique la nouvelle position 'Z' du 
-  sous-mesh par rapport à son parent.
+  sous-mesh par rapport Ã  son parent.
 
 @Parameter "EchelleX"
-  Applique un facteur d'échelle sur l'axe 
+  Applique un facteur d'Ã©chelle sur l'axe 
   X du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  le facteur d'échelle est appliqué au 
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  le facteur d'Ã©chelle est appliquÃ© au 
   sous-mesh.
 
 @Parameter "EchelleY"
-  Applique un facteur d'échelle sur l'axe 
+  Applique un facteur d'Ã©chelle sur l'axe 
   Y du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  le facteur d'échelle est appliqué au sous-mesh.
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  le facteur d'Ã©chelle est appliquÃ© au sous-mesh.
 
 @Parameter "EchelleZ"
-  Applique un facteur d'échelle sur l'axe 
+  Applique un facteur d'Ã©chelle sur l'axe 
   Z du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  le facteur d'échelle est appliqué au sous-mesh.
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  le facteur d'Ã©chelle est appliquÃ© au sous-mesh.
 
 @Parameter "RotationX"
-  Applique une rotation, en degrés, sur 
+  Applique une rotation, en degrÃ©s, sur 
   l'axe X du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  la rotation est appliquée au sous-mesh.
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  la rotation est appliquÃ©e au sous-mesh.
 
 @Parameter "RotationY"
-  Applique une rotation, en degrés, sur 
+  Applique une rotation, en degrÃ©s, sur 
   l'axe Y du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  la rotation est appliquée au sous-mesh.
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  la rotation est appliquÃ©e au sous-mesh.
 
 @Parameter "RotationZ"
-  Applique une rotation, en degrés, sur 
+  Applique une rotation, en degrÃ©s, sur 
   l'axe Z du mesh. @LineBreak
-  Si le paramètre 'SousMesh' est spécifié, 
-  la rotation est appliquée au sous-mesh.
+  Si le paramÃ¨tre 'SousMesh' est spÃ©cifiÃ©, 
+  la rotation est appliquÃ©e au sous-mesh.
 
 @OptionalParameter "SousMesh"
-  S'il est spécifié, la transformation ne 
-  sera appliquée que sur le sous-mesh. 
+  S'il est spÃ©cifiÃ©, la transformation ne 
+  sera appliquÃ©e que sur le sous-mesh. 
   Le premier indice de sous-mesh est 0 
   (mesh principal).
 
@@ -1985,9 +2029,9 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   Renvoie le nombre de sous-mesh du mesh.
   
 @Remarks 
-  Les meshes dynamiques créés avec 
+  Les meshes dynamiques crÃ©Ã©s avec 
   l'option @#PB_Mesh_Dynamic, ne sont 
-  pas autorisés.
+  pas autorisÃ©s.
   
 @SeeAlso
   @@CreateMesh, @@LoadMesh

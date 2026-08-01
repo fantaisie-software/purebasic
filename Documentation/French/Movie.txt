@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Movie library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,32 +8,32 @@
 
 @Overview
 
-  PureBasic propose des commandes simples mais très efficaces pour intégrer la diffusion d'une vidéo 
+  PureBasic propose des commandes simples mais trÃ¨s efficaces pour intÃ©grer la diffusion d'une vidÃ©o 
   dans une application ou un jeu.
 @LineBreak
 @LineBreak
-  @Bold "Windows": Dans la mesure où la technologie DirectX est utilisée, tous les types de vidéos 
-  ou même de médias peuvent être diffusés à partir de cette bibliothèque: AVI, MPG, DivX, etc.
+  @Bold "Windows": Dans la mesure oÃ¹ la technologie DirectX est utilisÃ©e, tous les types de vidÃ©os 
+  ou mÃªme de mÃ©dias peuvent Ãªtre diffusÃ©s Ã  partir de cette bibliothÃ¨que: AVI, MPG, DivX, etc.
 @LineBreak
 @LineBreak
-  @Bold "Linux et Raspberry" : Il utilisent libvlc, donc le package 'libvlc-dev' doit être installé pour 
-  pouvoir utiliser cette bibliothèque. Tous les formats pris en charge par VLC seront disponibles. 
+  @Bold "Linux et Raspberry" : Il utilisent libvlc, donc le package 'libvlc-dev' doit Ãªtre installÃ© pour 
+  pouvoir utiliser cette bibliothÃ¨que. Tous les formats pris en charge par VLC seront disponibles. 
 @LineBreak
 @LineBreak
-  @Bold "MacOS X":  La technologie QuickTime est utilisée et tous les types de médias (selon les 
-  plugins installés) peuvent être diffusés avec cette bibliothèque : AVI, MPG, DivX etc. 
+  @Bold "MacOS X":  La technologie QuickTime est utilisÃ©e et tous les types de mÃ©dias (selon les 
+  plugins installÃ©s) peuvent Ãªtre diffusÃ©s avec cette bibliothÃ¨que : AVI, MPG, DivX etc. 
 @LineBreak
 @LineBreak
-  @Bold Note: Sur certains OS, les fichiers musicaux peuvent également être joués avec cette
-  bibliothèque, mais ce n'est pas officiellement supporté et cela peut provoquer des dysfonctionnements. 
+  @Bold Note: Sur certains OS, les fichiers musicaux peuvent Ã©galement Ãªtre jouÃ©s avec cette
+  bibliothÃ¨que, mais ce n'est pas officiellement supportÃ© et cela peut provoquer des dysfonctionnements. 
   @LineBreak
-  Il vaut mieux utiliser la bibliothèque @LibraryLink "sound" "Sound" pour cela.
+  Il vaut mieux utiliser la bibliothÃ¨que @LibraryLink "sound" "Sound" pour cela.
 
 @OS Windows
 @LineBreak
 @LineBreak
-  Sous Windows, une version récente de 
-  DirectX 9  doit être installée (voir ici: 
+  Sous Windows, une version rÃ©cente de 
+  DirectX 9  doit Ãªtre installÃ©e (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 @EndOS
 
@@ -48,21 +48,21 @@
 @Function FreeMovie(#Video)
 
 @Description
-  Libère une vidéo et toutes les ressources 
-  associées.
+  LibÃ¨re une vidÃ©o et toutes les ressources 
+  associÃ©es.
 
 @Parameter "#Video"
-  La vidéo à libérer. 
+  La vidÃ©o Ã  libÃ©rer. 
 @LineBreak  
 @LineBreak   
-  Si @#PB_All est spécifié, toutes les 
-  vidéos restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  vidÃ©os restantes sont libÃ©rÃ©es.
 
 @NoReturnValue
 
 @Remarks
-  Toutes les vidéos restantes sont 
-  automatiquement libérées quand le 
+  Toutes les vidÃ©os restantes sont 
+  automatiquement libÃ©rÃ©es quand le 
   programme se termine. 
  
 @SeeAlso
@@ -75,29 +75,29 @@
 @Function Resultat = InitMovie()
 
 @Description
-  Initialise l'environnement Vidéo pour 
+  Initialise l'environnement VidÃ©o pour 
   un usage futur. 
  
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks  
-  Cette fonction doit être exécutée avant 
-  tout autre commande de cette bibliothèque.
+  Cette fonction doit Ãªtre exÃ©cutÃ©e avant 
+  tout autre commande de cette bibliothÃ¨que.
 @LineBreak
 @LineBreak
 @OS Windows
   Cette commande tente d'ouvrir DirectX 
-  (v3.0 pour la compatibilité NT4.0 ou 
+  (v3.0 pour la compatibilitÃ© NT4.0 ou 
   v7.0 ou plus sinon).
-  Si la fonction échoue (Resultat = 0), cela peut 
+  Si la fonction Ã©choue (Resultat = 0), cela peut 
   donc provenir de l'absence de DirectX sur votre 
   ordinateur ou d'une version de DirectX trop 
-  ancienne. Sous Windows, une version récente 
-  de DirectX 9 doit être installé (voir ici: 
+  ancienne. Sous Windows, une version rÃ©cente 
+  de DirectX 9 doit Ãªtre installÃ© (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 @EndOS
 
@@ -111,18 +111,18 @@
 @Function Resultat = IsMovie(#Video)
 
 @Description
-  Teste si une vidéo est correctement initialisée. 
+  Teste si une vidÃ©o est correctement initialisÃ©e. 
  
 @Parameter "#Video"
-  La vidéo à utiliser.
+  La vidÃ©o Ã  utiliser.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks
-  Cette fonction a été créée pour pouvoir passer 
-  n'importe quelle valeur en paramètre sans 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir passer 
+  n'importe quelle valeur en paramÃ¨tre sans 
   qu'il ne puisse y avoir de plantage. 
   
 @SeeAlso
@@ -135,22 +135,22 @@
 @Function Resultat = LoadMovie(#Video, Fichier$)
 
 @Description
-  Charge une vidéo depuis un fichier.
+  Charge une vidÃ©o depuis un fichier.
 
 @Parameter "#Video"
-  Le numéro d'identification de la vidéo.
+  Le numÃ©ro d'identification de la vidÃ©o.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "PB_Any #" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro. 
   
 @Parameter "Fichier$"
-  Le nom et le chemin du fichier vidéo.
+  Le nom et le chemin du fichier vidÃ©o.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @SeeAlso
   @@PlayMovie, @@MovieInfo, @@MovieLength, 
@@ -164,18 +164,18 @@
 @Function MovieAudio(#Video, Volume, Balance)
 
 @Description
-  Contrôle le flux audio d'un vidéo, en temps 
-  réel. 
+  ContrÃ´le le flux audio d'un vidÃ©o, en temps 
+  rÃ©el. 
 
 @Parameter "#Video"
-  La vidéo à utiliser.
+  La vidÃ©o Ã  utiliser.
 
 @Parameter "Volume"
   Le volume sonore entre 0 (muet) et 100 
-  (volume à fond).
+  (volume Ã  fond).
 
 @Parameter "Balance"
-  La balance stéréo entre -100 et 100.
+  La balance stÃ©rÃ©o entre -100 et 100.
 @FixedFont 
   -100 : Tout le son sur le canal gauche et rien sur le canal droit
      0 : Mode normal
@@ -194,18 +194,18 @@
 @Function Resultat = MovieHeight(#Video)
 
 @Description 
-  Renvoie la hauteur de la vidéo. 
+  Renvoie la hauteur de la vidÃ©o. 
   
 @Parameter "#Video"
-  La vidéo à utiliser.  
+  La vidÃ©o Ã  utiliser.  
 
 @ReturnValue
-  Renvoie la hauteur de la vidéo, en pixels.
+  Renvoie la hauteur de la vidÃ©o, en pixels.
 @LineBreak
 @LineBreak
-  Renvoie -1 si le flux vidéo est absent ou 
+  Renvoie -1 si le flux vidÃ©o est absent ou 
   incompatible, cependant le flux audio peut 
-  être joué.
+  Ãªtre jouÃ©.
 
 @SeeAlso
   @@MovieWidth, @@MovieLength, @@MovieInfo
@@ -218,20 +218,20 @@
 
 @Description
   Renvoie des informations additionnelles 
-  concernant une vidéo.
+  concernant une vidÃ©o.
  
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
   
 @Parameter "Options"  
-  Valeur supportée actuellement:
+  Valeur supportÃ©e actuellement:
 @FixedFont
   0: Renvoie le nombre de trames par seconde (*1000).
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la valeur spécifiée en fonction 
-  du paramètre 'Options'.
+  Renvoie la valeur spÃ©cifiÃ©e en fonction 
+  du paramÃ¨tre 'Options'.
   
 @SeeAlso
   @@MovieLength, @@MovieWidth, @@MovieHeight
@@ -243,13 +243,13 @@
 @Function Resultat = MovieLength(#Video)
 
 @Description  
-  Renvoie la longueur (en trames) d'une vidéo.
+  Renvoie la longueur (en trames) d'une vidÃ©o.
  
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
  
 @ReturnValue
-  Renvoie la longueur de la vidéo en nombre de 
+  Renvoie la longueur de la vidÃ©o en nombre de 
   trames.
 
 @SeeAlso
@@ -263,14 +263,14 @@
 @Function Resultat = MovieSeek(#Video, Trame.q)
 
 @Description
-  Déplace la position courante d'une vidéo à 
-  une trame spécifiée.
+  DÃ©place la position courante d'une vidÃ©o Ã  
+  une trame spÃ©cifiÃ©e.
  
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
 
 @Parameter "Trame.q"
-  La trame (frame) à atteindre.
+  La trame (frame) Ã  atteindre.
   
 @NoReturnValue
 
@@ -284,19 +284,19 @@
 @Function Resultat.q = MovieStatus(#Video)
 
 @Description
-  Obtient le statut d'une vidéo.
+  Obtient le statut d'une vidÃ©o.
 @LineBreak
  
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
 
 @ReturnValue 
   Renvoie l'une des valeurs suivantes :
 @FixedFont
-   -1: La vidéo est en pause.
-    0: La vidéo est stoppée
-  > 0: La vidéo est en cours d'exécution. 
-       La valeur renvoyée est le numéro de la trame en cours d'affichage.
+   -1: La vidÃ©o est en pause.
+    0: La vidÃ©o est stoppÃ©e
+  > 0: La vidÃ©o est en cours d'exÃ©cution. 
+       La valeur renvoyÃ©e est le numÃ©ro de la trame en cours d'affichage.
 @EndFixedFont
 
 @SeeAlso
@@ -309,18 +309,18 @@
 @Function Resultat = MovieWidth(#Video)
 
 @Description
-  Renvoie la largeur d'une vidéo.
+  Renvoie la largeur d'une vidÃ©o.
 
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
 
 @ReturnValue
-  Renvoie la largeur d'une vidéo, en pixels.
+  Renvoie la largeur d'une vidÃ©o, en pixels.
 @LineBreak
 @LineBreak
-  Renvoie -1 si le flux vidéo est absent ou 
+  Renvoie -1 si le flux vidÃ©o est absent ou 
   incompatible, cependant le flux audio peut 
-  être joué.
+  Ãªtre jouÃ©.
 
 @SeeAlso
   @@MovieWidth, @@MovieLength, @@MovieInfo
@@ -332,15 +332,15 @@
 @Function PauseMovie(#Video)
 
 @Description  
-  Met en pause une vidéo. 
+  Met en pause une vidÃ©o. 
   
 @Parameter "#Video"
-  La vidéo à utiliser.  
+  La vidÃ©o Ã  utiliser.  
   
 @NoReturnValue
 
 @Remarks
-  L'exécution peut être reprise en utilisant 
+  L'exÃ©cution peut Ãªtre reprise en utilisant 
   la commande @@ResumeMovie.
  
 @SeeAlso
@@ -353,35 +353,35 @@
 @Function Resultat = PlayMovie(#Video, Fenetre)
 
 @Description
-  Joue une vidéo dans une fenêtre spécifiée.
+  Joue une vidÃ©o dans une fenÃªtre spÃ©cifiÃ©e.
 
 @Parameter "#Video"
-  La vidéo à lire.
+  La vidÃ©o Ã  lire.
   
 @Parameter "Fenetre"
-  La fenêtre dans laquelle sera lue la vidéo.
+  La fenÃªtre dans laquelle sera lue la vidÃ©o.
   @LineBreak
-  Cette valeur peut être facilement obtenue en 
+  Cette valeur peut Ãªtre facilement obtenue en 
   utilisant la fonction @@WindowID.
 @LineBreak
 @LineBreak
-  Il est aussi possible de jouer une vidéo en 
-  plein écran, il suffit d'utiliser le résultat 
+  Il est aussi possible de jouer une vidÃ©o en 
+  plein Ã©cran, il suffit d'utiliser le rÃ©sultat 
   de la commande @@ScreenID dans 'Fenetre'.
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Veillez à charger la vidéo au préalable 
+  Veillez Ã  charger la vidÃ©o au prÃ©alable 
   avec @@LoadMovie.
 @LineBreak
 @LineBreak  
-  La commande @@ResizeMovie peut être utilisée 
-  pour dimensionner et déplacer la vidéo dans 
-  cette fenêtre (pour ne pas utiliser la fenêtre 
-  entière par exemple). 
+  La commande @@ResizeMovie peut Ãªtre utilisÃ©e 
+  pour dimensionner et dÃ©placer la vidÃ©o dans 
+  cette fenÃªtre (pour ne pas utiliser la fenÃªtre 
+  entiÃ¨re par exemple). 
   
 @SeeAlso
   @@LoadMovie, @@StopMovie, @@MovieWidth, 
@@ -394,15 +394,15 @@
 @Function ResizeMovie(#Video, X, Y, Largeur, Hauteur)
 
 @Description  
-  Déplace et redimensionne la zone d'affichage 
-  d'une vidéo.
+  DÃ©place et redimensionne la zone d'affichage 
+  d'une vidÃ©o.
 
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
 
 @Parameter "X, Y, Largeur, Hauteur"
-  Les nouvelles coordonnées et dimensions 
-  de la vidéo, en pixels.
+  Les nouvelles coordonnÃ©es et dimensions 
+  de la vidÃ©o, en pixels.
 
 @NoReturnValue
 
@@ -416,11 +416,11 @@
 @Function ResumeMovie(#Video)
 
 @Description
-  Reprend l'exécution d'une vidéo après un 
-  appel à la commande @@PauseMovie. 
+  Reprend l'exÃ©cution d'une vidÃ©o aprÃ¨s un 
+  appel Ã  la commande @@PauseMovie. 
   
 @Parameter "#Video"
-  La vidéo à utiliser. 
+  La vidÃ©o Ã  utiliser. 
   
 @NoReturnValue
 
@@ -434,10 +434,10 @@
 @Function StopMovie(#Video)
 
 @Description
-  Arrête une vidéo. 
+  ArrÃªte une vidÃ©o. 
   
 @Parameter "#Video"
-  La vidéo à utiliser.   
+  La vidÃ©o Ã  utiliser.   
   
 @NoReturnValue
 

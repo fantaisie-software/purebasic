@@ -1,46 +1,46 @@
-@Title Sous-systèmes
+ï»¿@Title Sous-systÃ¨mes
 
 @Section Introduction
-  Les commandes  intégrées de PureBasic s'appuient sur les bibliothèques disponibles 
-  de chaque système d'exploitation. Parfois, il est possible d'atteindre un même résultat 
-  de différentes façons. Pour ce faire, PureBasic offre la possibilité de changer de 
-  bibliothèque, sans changer une ligne de code source. Par exemple, sous Windows, DirectX  
-  peut être utiisé en utilisant le sous-système 'DirectX' de PureBasic, qui lui, utilisera 
+  Les commandes  intÃ©grÃ©es de PureBasic s'appuient sur les bibliothÃ¨ques disponibles 
+  de chaque systÃ¨me d'exploitation. Parfois, il est possible d'atteindre un mÃªme rÃ©sultat 
+  de diffÃ©rentes faÃ§ons. Pour ce faire, PureBasic offre la possibilitÃ© de changer de 
+  bibliothÃ¨que, sans changer une ligne de code source. Par exemple, sous Windows, DirectX  
+  peut Ãªtre utiisÃ© en utilisant le sous-systÃ¨me 'DirectX' de PureBasic, qui lui, utilisera 
   les fonctions DirectX pour rendre les sprites par exemple, en lieu et place de OpenGL 
-  (sous-système par défaut).
+  (sous-systÃ¨me par dÃ©faut).
   @LineBreak
   @LineBreak
-  Pour activer un sous-système, son nom doit être défini dans l'IDE avec le menu 
-  @ReferenceLink "ide_compiler" "Options du compilateur", ou par l'intermédiaire du 
+  Pour activer un sous-systÃ¨me, son nom doit Ãªtre dÃ©fini dans l'IDE avec le menu 
+  @ReferenceLink "ide_compiler" "Options du compilateur", ou par l'intermÃ©diaire du 
   commutateur /SUBSYSTEM en /@ReferenceLink "cli_compiler" "ligne de commande".
-  Le nom du sous-système n'est pas sensible à la casse.  
-  Il s'agit d'une option de compilation, ce qui signifie qu'un exécutable ne peut pas 
-  incorporer plus d'un sous-système à la fois pour une bibliothèque donnée. Si le support 
-  de multiple sous-systèmes est nécessaire (par exemple l'envoi d'une version OpenGL et 
-  DirectX d'un jeu), deux exécutables doivent être créés.
+  Le nom du sous-systÃ¨me n'est pas sensible Ã  la casse.  
+  Il s'agit d'une option de compilation, ce qui signifie qu'un exÃ©cutable ne peut pas 
+  incorporer plus d'un sous-systÃ¨me Ã  la fois pour une bibliothÃ¨que donnÃ©e. Si le support 
+  de multiple sous-systÃ¨mes est nÃ©cessaire (par exemple l'envoi d'une version OpenGL et 
+  DirectX d'un jeu), deux exÃ©cutables doivent Ãªtre crÃ©Ã©s.
   @LineBreak
   @LineBreak
-  Les sous-systèmes disponibles sont situés dans le dossier 'subsystems' de PureBasic. 
-  Lorsqu'un sous-système est spécifié, tous les résidents ou les bibliothèques trouvées 
-  dans ce dossier auront préséance sur les bibliothèques par défaut et les résidents.
-  N'importe quel nombre de sous-systèmes différents peuvent être spécifiés (pour autant 
-  que cela n'affecte pas les mêmes bibliothèques).
+  Les sous-systÃ¨mes disponibles sont situÃ©s dans le dossier 'subsystems' de PureBasic. 
+  Lorsqu'un sous-systÃ¨me est spÃ©cifiÃ©, tous les rÃ©sidents ou les bibliothÃ¨ques trouvÃ©es 
+  dans ce dossier auront prÃ©sÃ©ance sur les bibliothÃ¨ques par dÃ©faut et les rÃ©sidents.
+  N'importe quel nombre de sous-systÃ¨mes diffÃ©rents peuvent Ãªtre spÃ©cifiÃ©s (pour autant 
+  que cela n'affecte pas les mÃªmes bibliothÃ¨ques).
   @LineBreak
   @LineBreak
   La @ReferenceLink "compilerfunctions" "fonction du compilateur" @Keyword Subsystem peut 
-  être utilisée pour détecter si un sous-système spécifique est utilisé pour la compilation.
+  Ãªtre utilisÃ©e pour dÃ©tecter si un sous-systÃ¨me spÃ©cifique est utilisÃ© pour la compilation.
   
-@Section Sous-systèmes disponibles
-  Voici une liste des sous-systèmes disponibles, et les bibliothèques concernées: 
+@Section Sous-systÃ¨mes disponibles
+  Voici une liste des sous-systÃ¨mes disponibles, et les bibliothÃ¨ques concernÃ©es: 
   @LineBreak
   @LineBreak
   @Bold "Windows"
 @FixedFont
-  DirectX9: Utiliser DirectX9 au lieu d'OpenGL. Bibliothèques concernées: 
+  DirectX9: Utiliser DirectX9 au lieu d'OpenGL. BibliothÃ¨ques concernÃ©es: 
           - Sprite
           - Screen
           - Note: Le moteur 3D n'est plus disponible car il utilise OpenGL
-  DirectX11: Utiliser DirectX 11  au lieu d'OpenGL. Bibliothèques concernées: 
+  DirectX11: Utiliser DirectX 11  au lieu d'OpenGL. BibliothÃ¨ques concernÃ©es: 
           - Sprite
           - Screen
           - Note: Le moteur 3D n'est plus disponible car il utilise OpenGL
@@ -49,7 +49,7 @@
 @LineBreak
   @Bold "Linux"
 @FixedFont
-  Gtk2 : Utilise GTK2 au lieu de GTK3 pour la boîte à outils GUI. Bibliothèques concernées :
+  Gtk2Â : Utilise GTK2 au lieu de GTK3 pour la boÃ®te Ã  outils GUI. BibliothÃ¨ques concernÃ©esÂ :
 
           - 2D Drawing
           - AudioCD
@@ -69,7 +69,7 @@
           - Toolbar
           - Window
                               
-  Qt : Utilise QT au lieu de GTK3 pour la boîte à outils GUI. Bibliothèques concernées :  
+  QtÂ : Utilise QT au lieu de GTK3 pour la boÃ®te Ã  outils GUI. BibliothÃ¨ques concernÃ©esÂ :  
           - 2D Drawing
           - AudioCD
           - Clipboard

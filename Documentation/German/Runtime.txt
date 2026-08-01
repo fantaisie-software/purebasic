@@ -1,16 +1,16 @@
-;
+Ôªø;
 ;     Runtime library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Runtime
 
 @Overview
-
   Auf Runtime-Objekte (in Deutsch auch "Laufzeit-Objekte") kann durch Verwendung ihrer String-Referenzen
-  auch dann zugegriffen werden, wenn das Programm kompiliert wurde, 
-  F¸r weitere Informationen ¸ber das "Runtime"-Konzept siehe @ReferenceLink "Runtime" "Runtime".
+  auch dann zugegriffen werden, wenn das Programm kompiliert wurde.
+  @LineBreak
+  F√ºr weitere Informationen √ºber das "Runtime"-Konzept siehe @ReferenceLink "Runtime" "Runtime".
   
 @CommandList
 
@@ -23,22 +23,25 @@
 @Function Ergebnis = GetRuntimeInteger(Objekt$)
 
 @Description
-  Gibt den Integer-Wert des Runtime-Objekts zur¸ck. Ist das Runtime-Objekt eine Prozedur,
-  wird die Prozedur-Adresse zur¸ckgegeben.
+  Gibt den Integer-Wert des Runtime-Objekts zur√ºck. Ist das Runtime-Objekt eine Prozedur,
+  wird die Prozedur-Adresse zur√ºckgegeben.
 
 @Parameter "Objekt$"
   Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte werden
-  unterst¸zt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Groﬂ- und Kleinschreibung). 
+  unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+  @LineBreak
+  Beim Zugriff auf √∂ffentliche @ReferenceLink "module" "Module"-Elemente ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @ReturnValue
-  Gibt den Integer-Wert des angegebenen Objekts zur¸ck - oder Null, wenn es nicht gefunden wurde.
-  Da Null ein g¸ltiger Integer-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
-  ob das Runtime-Objekt wirklich existiert. Ist die Variable vom Typ Float oder Double, wird
-  sie automatisch in Integer umgewandelt. Ist das Runtime-Objekt eine Prozedur,
-  wird die Prozedur-Adresse zur¸ckgegeben.
+  Gibt den Integer-Wert des angegebenen Objekts zur√ºck oder Null, falls es nicht gefunden wurde.
+  Da Null ein g√ºltiger Integer-Wert ist, kann @@IsRuntime verwendet werden, um festzustellen, ob
+  das Runtime-Objekt tats√§chlich existiert. Ist die Variable vom Typ Float oder Double, wird sie
+  automatisch in Integer umgewandelt. Handelt es sich bei dem Runtime-Objekt um eine Prozedur,
+  wird die Prozeduradresse zur√ºckgegeben.
 
 @SeeAlso
   @@SetRuntimeInteger, @@IsRuntime
@@ -47,22 +50,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GetRuntimeDouble(Object$)
+@Function Ergebnis = GetRuntimeDouble(Objekt$)
 
 @Description
-  Gibt den Double-Wert des Runtime-Objekts zur¸ck.
+  Gibt den Double-Wert des Runtime-Objekts zur√ºck.
 
-@Parameter "Object$"
+@Parameter "Objekt$"
   Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte werden
-  unterst¸zt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). 
+  unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+  @LineBreak
+  Beim Zugriff auf √∂ffentliche @ReferenceLink "module" "Module"-Elemente ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @ReturnValue
-  Gibt den Double-Wert des angegebenen Objekts zur¸ck - oder Null, wenn es nicht gefunden wurde.
-  Da Null ein g¸ltiger Double-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
-  ob das Runtime-Objekt wirklich existiert. Ist die Variable vom Typ Integer oder Float, wird
-  sie automatisch in Double umgewandelt.
+  Gibt den Double-Wert des angegebenen Objekts zur√ºck oder Null, falls es nicht gefunden wurde.
+  Da Null ein g√ºltiger Double-Wert ist, kann @@IsRuntime verwendet werden, um festzustellen, ob
+  das Runtime-Objekt tats√§chlich existiert. Ist die Variable vom Typ Integer oder Float, wird sie
+  automatisch in Double umgewandelt.
 
 @SeeAlso
   @@SetRuntimeDouble, @@IsRuntime
@@ -74,18 +80,21 @@
 @Function Ergebnis$ = GetRuntimeString(Objekt$)
 
 @Description
-  Gibt den String-Wert des Runtime-Objekts zur¸ck.
+  Gibt den String-Wert des Runtime-Objekts zur√ºck.
 
 @Parameter "Objekt$"
   Name des Objekts, von dem der Wert ermittelt werden soll. Die folgenden Objekte
-  werden unterst¸tzt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
+  werden unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+  @LineBreak
+  Beim Zugriff auf √∂ffentliche @ReferenceLink "module" "Module"-Elemente ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @ReturnValue
-  Gibt den String-Wert des angegebenen Objekts zur¸ck - oder einen leeren String, wenn es nicht gefunden wurde.
-  Da ein leerer String ein g¸ltiger String-Wert ist, kann @@IsRuntime verwendet werden, um zu ermitteln, 
-  ob das Runtime-Objekt wirklich existiert.
+  Gibt den String-Wert des angegebenen Objekts zur√ºck oder einen leeren String, falls es nicht gefunden wurde.
+  Da ein leerer String ein g√ºltiger String-Wert ist, kann @@IsRuntime verwendet werden, um festzustellen, ob
+  das Runtime-Objekt tats√§chlich existiert.
 
 @SeeAlso
   @@SetRuntimeString, @@IsRuntime
@@ -97,20 +106,20 @@
 @Function Ergebnis = IsRuntime(Objekt$)
 
 @Description
-  ‹berpr¸ft ob das Objekt als "Runtime"-Objekt deklariert wurde.
+  √úberpr√ºft, ob das angegebene Objekt als @ReferenceLink "Runtime" "Runtime" deklariert ist.
 
 @Parameter "Objekt$"
-  Name des zu ¸berpr¸fenden Objekts. Die folgenden Objekte werden unterst¸tzt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Groﬂ- und Kleinschreibung). @LineBreak
-- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Groﬂ- und Kleinschreibung). 
+  Name des zu √ºberpr√ºfenden Objekts. Die folgenden Objekte werden unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Konstante: der Objektname ist '#KonstantenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+- Prozedur: der Objektname ist 'ProzedurName()' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
   @LineBreak
-  Beim Zugriff auf ˆffentliche @ReferenceLink "module" "Modul"-Elemente ist das Modul-Pr‰fix obligatorisch,
-  auch wenn @Keyword UseModule verwendet wird.
+  Beim Zugriff auf √∂ffentliche @ReferenceLink "module" "Module"-Elemente ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zur¸ck, wenn das Objekt als @ReferenceLink "Runtime" "Runtime" deklariert
-  wurde, und andernfalls Null.
+  Gibt einen Wert ungleich Null zur√ºck, wenn das Objekt als @ReferenceLink "Runtime" "Runtime" deklariert
+  wurde, andernfalls Null.
 
 @SupportedOS
 
@@ -119,12 +128,15 @@
 @Function SetRuntimeDouble(Objekt$, Wert)
 
 @Description
-  ƒndert den Double-Wert des Runtime-Objekts.
+  √Ñndert den Double-Wert des Runtime-Objekts.
 
 @Parameter "Objekt$"
-  Name des Objekts, bei welchem der Wert ge‰ndert werden soll. Die folgenden Objekte
-  werden unterst¸tzt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung).
+  Name des Objekts, bei welchem der Wert ge√§ndert werden soll. Die folgenden Objekte
+  werden unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+  @LineBreak
+  Beim √Ñndern von √∂ffentlichen @ReferenceLink "module" "Module"-Elementen ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @Parameter "Wert"
   Der neu zu setzende Double-Wert.
@@ -141,12 +153,15 @@
 @Function SetRuntimeInteger(Objekt$, Wert)
 
 @Description
-  ƒndert den Integer-Wert des Runtime-Objekts.
+  √Ñndert den Integer-Wert des Runtime-Objekts.
 
 @Parameter "Objekt$"
-  Name des Objekts, bei welchem der Wert ge‰ndert werden soll. Die folgenden Objekte
-  werden unterst¸tzt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung).
+  Name des Objekts, bei welchem der Wert ge√§ndert werden soll. Die folgenden Objekte
+  werden unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung). @LineBreak
+  @LineBreak
+  Beim √Ñndern von √∂ffentlichen @ReferenceLink "module" "Module"-Elementen ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @Parameter "Wert"
   Der neu zu setzende Integer-Wert.
@@ -163,12 +178,15 @@
 @Function SetRuntimeString(Objekt$, Wert$)
 
 @Description
-  ƒndert den String-Wert des Runtime-Objekts.
+  √Ñndert den String-Wert des Runtime-Objekts.
 
 @Parameter "Objekt$"
-  Name des Objekts, bei welchem der Wert ge‰ndert werden soll. Die folgenden Objekte
-  werden unterst¸tzt: @LineBreak
-- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Groﬂ- und Kleinschreibung).
+  Name des Objekts, bei welchem der Wert ge√§ndert werden soll. Die folgenden Objekte
+  werden unterst√ºtzt: @LineBreak
+- Variable: der Objektname ist 'VariablenName' (ohne Beachtung von Gro√ü- und Kleinschreibung).
+  @LineBreak
+  Beim √Ñndern von √∂ffentlichen @ReferenceLink "module" "Module"-Elementen ist der Modulpr√§fixname
+  obligatorisch, auch wenn @Keyword UseModule verwendet wird.
 
 @Parameter "Wert$"
   Der neu zu setzende String-Wert.
@@ -176,6 +194,6 @@
 @NoReturnValue
   
 @SeeAlso
-  @@GetRuntimeInteger, @@IsRuntime
+  @@GetRuntimeString, @@IsRuntime
 
 @SupportedOS

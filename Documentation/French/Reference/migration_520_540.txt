@@ -1,8 +1,8 @@
-@Title Migration de PureBasic 5.20 LTS vers 5.40 LTS
+ï»¿@Title Migration de PureBasic 5.20 LTS vers 5.40 LTS
 
-@Section Bibliothèque Billboard
+@Section BibliothÃ¨que Billboard
 
-AddBillboard(): code changé
+AddBillboard(): code changÃ©
 @Code
   ; Ancien
   AddBillboard(Billboard, BillboardGroup, x, y, z)
@@ -14,9 +14,9 @@ AddBillboard(): code changé
 
 
 @LineBreak
-@Section Bibliothèque Cipher
+@Section BibliothÃ¨que Cipher
 
-ExamineMD5Fingerprint(): code changé
+ExamineMD5Fingerprint(): code changÃ©
 @Code
   ; Ancien
   ExamineMD5Fingerprint(#FingerPrint)
@@ -27,7 +27,7 @@ ExamineMD5Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-ExamineSHA1Fingerprint(): code changé
+ExamineSHA1Fingerprint(): code changÃ©
 @Code
   ; Ancien
   ExamineSHA1Fingerprint(#FingerPrint)
@@ -38,7 +38,7 @@ ExamineSHA1Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-MD5FileFingerprint(): code changé
+MD5FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = MD5FileFingerprint(Fichier$)
@@ -49,7 +49,7 @@ MD5FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-MD5Fingerprint(): code changé
+MD5Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = MD5Fingerprint(*Memoire, Taille)
@@ -60,7 +60,7 @@ MD5Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-SHA1FileFingerprint(): code changé
+SHA1FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = SHA1FileFingerprint(Fichier$)
@@ -71,7 +71,7 @@ SHA1FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-SHA1Fingerprint(): code changé
+SHA1Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat$ = SHA1Fingerprint(*Memoire, Taille)
@@ -82,7 +82,7 @@ SHA1Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-CRC32FileFingerprint(): code changé
+CRC32FileFingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat = CRC32FileFingerprint(Fichier$)
@@ -93,7 +93,7 @@ CRC32FileFingerprint(): code changé
 @EndCode
 
 @LineBreak
-CRC32Fingerprint(): code changé
+CRC32Fingerprint(): code changÃ©
 @Code
   ; Ancien
   Resultat = CRC32Fingerprint(*Memoire, Taille)
@@ -104,7 +104,7 @@ CRC32Fingerprint(): code changé
 @EndCode
 
 @LineBreak
-NextFingerprint(): renommé
+NextFingerprint(): renommÃ©
 @Code
   ; Ancien
   NextFingerprint(#FingerPrint, *Memoire, Taille)
@@ -116,11 +116,11 @@ NextFingerprint(): renommé
 
 
 @LineBreak
-@Section Bibliothèque Mail
+@Section BibliothÃ¨que Mail
 
 @LineBreak
-SendMail(): code changé si le paramètre 
-'Asynchronous' est utilisé
+SendMail(): code changÃ© si le paramÃ¨tre 
+'Asynchronous' est utilisÃ©
 @Code
   ; Ancien
   SendMail(#Mail, Smtp$, Port, 1)
@@ -130,20 +130,20 @@ SendMail(): code changé si le paramètre
 @EndCode
 
 @LineBreak
-@Section Bibliothèque Packer
+@Section BibliothÃ¨que Packer
 
 @LineBreak
-RemovePackFile(): supprimé @LineBreak
+RemovePackFile(): supprimÃ© @LineBreak
 PackerEntrySize(): @#PB_Packer_CompressedSize 
-supprimé pour les archives ZIP et 7z @LineBreak
+supprimÃ© pour les archives ZIP et 7z @LineBreak
 
 
 
 @LineBreak
-@Section Bibliothèque XML
+@Section BibliothÃ¨que XML
 
 @LineBreak
-CreateXMLNode(): code changé
+CreateXMLNode(): code changÃ©
 @Code
   ; Ancien
   Resultat = CreateXMLNode(NoeudParent...)
@@ -156,23 +156,23 @@ CreateXMLNode(): code changé
 
 
 @LineBreak
-@Section Bibliothèque Screen
+@Section BibliothÃ¨que Screen
 
 @LineBreak
-AvailableScreenMemory() Supprimée car la nouvelle API 
+AvailableScreenMemory() SupprimÃ©e car la nouvelle API 
 ne le prend plus en charge. Elle renvoyait toujour 
-un zéro de toute façon.
+un zÃ©ro de toute faÃ§on.
 
 
 
 @LineBreak
-@Section Bibliothèque Window
+@Section BibliothÃ¨que Window
 
 @LineBreak
 @#PB_Event_SizeWindow et 
 @#PB_Event_MoveWindow ne sont plus en 
-temps réel, utiliser @@BindEvent() pour 
-avoir l'action en temps réel.
+temps rÃ©el, utiliser @@BindEvent() pour 
+avoir l'action en temps rÃ©el.
 
 
 
@@ -180,8 +180,8 @@ avoir l'action en temps réel.
 @Section Engine3D library
 
 @LineBreak
-WorldCollisionAppliedImpulse() renvoie maintenant un float qui est l'impulsion appliquée. @LineBreak
-GetX/Y/Z() ne sont plus supportées.
+WorldCollisionAppliedImpulse() renvoie maintenant un float qui est l'impulsion appliquÃ©e. @LineBreak
+GetX/Y/Z() ne sont plus supportÃ©es.
 
 
 
@@ -189,17 +189,17 @@ GetX/Y/Z() ne sont plus supportées.
 @Section Divers
 
 @LineBreak
-- Les étiquettes(labels) en DataSection 
-dans les procédures sont maintenant 
-des étiquettes (labels) locales. @LineBreak
+- Les Ã©tiquettes(labels) en DataSection 
+dans les procÃ©dures sont maintenant 
+des Ã©tiquettes (labels) locales. @LineBreak
 
-- Les préfixes des étiquettes(labels) 
-locales en ASM ont été changées de "l_" 
-en "ll_", afin d'éviter tout problème 
-avec les étiquettes principales. @LineBreak
+- Les prÃ©fixes des Ã©tiquettes(labels) 
+locales en ASM ont Ã©tÃ© changÃ©es de "l_" 
+en "ll_", afin d'Ã©viter tout problÃ¨me 
+avec les Ã©tiquettes principales. @LineBreak
 
-- La constante @#PB_LinkedList a été renommée 
-en @#PB_List pour une meilleure cohérence.
+- La constante @#PB_LinkedList a Ã©tÃ© renommÃ©e 
+en @#PB_List pour une meilleure cohÃ©rence.
 
 @LineBreak
 @LineBreak

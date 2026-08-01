@@ -1,10 +1,10 @@
-@Title Break : Continue
+ï»¿@Title Break : Continue
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Break"><u>Break</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#Continue"><u>Continue</u></a></td>
@@ -22,7 +22,7 @@
   @Keyword Break [Niveau]
 
 @Description
-  @Keyword Break permet de quitter à n'importe 
+  @Keyword Break permet de quitter Ã  n'importe 
   quel moment une ou plusieurs des boucles 
   suivantes: 
   @ReferenceLink "Repeat_Until" Repeat, 
@@ -31,9 +31,9 @@
   et @ReferenceLink "While_Wend" While.
 
 @OptionalParameter "Niveau"  
-  Indique le nombre de boucles qui doivent être 
-  abrégées. @Linebreak
-  Sans paramètre, @Keyword Break quitte 
+  Indique le nombre de boucles qui doivent Ãªtre 
+  abrÃ©gÃ©es. @Linebreak
+  Sans paramÃ¨tre, @Keyword Break quitte 
   la boucle en cours.
 
 @NoReturnValue
@@ -42,20 +42,20 @@
 @Code        
   For k=0 To 10
     If k=5
-      Break  ; Quitte immédiatement la boucle For/Next
+      Break  ; Quitte immÃ©diatement la boucle For/Next
     EndIf
     Debug k
   Next
 @EndCode   
 
-  @Example Boucles imbriquées
+  @Example Boucles imbriquÃ©es
   
 @Code   
   For k=0 To 10
     Counter = 0
     Repeat
       If k=5
-        Break 2 ; Quitte immédiatement les boucles Repeat/Until et For/Next
+        Break 2 ; Quitte immÃ©diatement les boucles Repeat/Until et For/Next
       EndIf
       Counter+1
     Until Counter > 1
@@ -75,7 +75,7 @@
 
 @Description
   @Keyword Continue permet de passer directement 
-  à la prochaine itération dans l'une des boucles 
+  Ã  la prochaine itÃ©ration dans l'une des boucles 
   suivantes: 
   @ReferenceLink "Repeat_Until" Repeat, 
   @ReferenceLink "For_Next" For, 
@@ -90,7 +90,7 @@
 @Code       
   For k=0 To 10
     If k=5
-      Continue  ; N'affichera pas 'Debug 5' car la fin de cette itération sera ignorée
+      Continue  ; N'affichera pas 'Debug 5' car la fin de cette itÃ©ration sera ignorÃ©e
     EndIf
     Debug k
   Next

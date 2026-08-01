@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     String library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -32,7 +32,7 @@
 @Example
 @Code
   Debug Asc("!") ; will print '33'
-  Debug Asc("•") ; will print '8226'
+  Debug Asc("â€¢") ; will print '8226'
 @EndCode
 
 @Remarks
@@ -41,7 +41,7 @@
 @Example
 @Code
   Debug '!' ; will print '33'
-  Debug '•' ; will print '8226'
+  Debug 'â€¢' ; will print '8226'
 @EndCode
 
 @SeeAlso
@@ -107,7 +107,7 @@
 @Example
 @Code
   Debug Chr(33)   ; Will display "!"
-  Debug Chr(8226) ; Will display "•"
+  Debug Chr(8226) ; Will display "â€¢"
 @EndCode
 
 @SeeAlso
@@ -270,7 +270,7 @@
   The string converted into lowercase.
 
 @Remarks
-  This function also supports accent letters, so if a upper 'É' is found, it will be transformed into 'é'.
+  This function also supports accent letters, so if a upper 'Ã‰' is found, it will be transformed into 'Ã©'.
 
 @Example
 @Code
@@ -857,7 +857,7 @@
   The string converted into uppercase.
 
 @Remarks
-  This function also supports accent letters, so if a lower 'é' is found, it will be transformed into 'É'.
+  This function also supports accent letters, so if a lower 'Ã©' is found, it will be transformed into 'Ã‰'.
 
 @Example
 @Code
@@ -982,5 +982,31 @@
 
 @SeeAlso
   @@Str, @@StrU, @@StrF, @@StrD
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StringByteLength(String$)
+
+@Description
+  Returns the number of bytes required to store the string in memory as UTF-8.
+
+@Parameter "String$"
+  The string to use.
+
+@ReturnValue
+  The number of bytes required to store the string in memory as UTF-8.
+
+@Remarks
+  The number of bytes returned does not include the terminating Null-Character of the string.
+
+@Example
+@Code
+  Debug StringByteLength("Ã¤", #PB_UTF8) ; will display 2
+@EndCode
+
+@SeeAlso
+  @@Len
 
 @SupportedOS

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Sound3D library documentation
 ;
 ;      (c) Fantaisie Software
@@ -7,14 +7,13 @@
 @Library Sound3D
 
 @Overview
-
-  Die Sound3D Bibliothek ermöglicht den Umgang mit Sounds im 3D-Raum. Zum Beispiel kann sie mit
-  automatischem "Fading" (lauter und leiser werdend) abhängig von der Distanz umgehen.
-  Sie basiert auf dem Syntax und Verhalten der regulären @LibraryLink "Sound" "Sound" Bibliothek.
+  Die Sound3D Bibliothek ermÃ¶glicht den Umgang mit Sounds im 3D-Raum. Zum Beispiel kann sie mit
+  automatischem "Fading" (lauter und leiser werdend) abhÃ¤ngig von der Distanz umgehen.
+  Sie basiert auf dem Syntax und Verhalten der regulÃ¤ren @LibraryLink "Sound" "Sound" Bibliothek.
 @LineBreak
 @LineBreak
-  Sie verwendet die 3D engine, daher muss @@InitEngine3D erfolgreich
-  aufgerufen worden sein, bevor diese Funktionen verwendet werden können.
+  Diese Bibliothek verwendet die 3D-Engine, daher muss @@InitEngine3D erfolgreich aufgerufen
+  worden sein, bevor diese Funktionen verwendet werden kÃ¶nnen.
 
 @CommandList
 
@@ -27,7 +26,7 @@
 @Function FreeSound3D(#Sound3D)
 
 @Description
-  Hält den zuvor mit @@LoadSound3D geladenen Sound an und entfernt ihn aus dem Speicher.
+  HÃ¤lt den zuvor mit @@LoadSound3D geladenen Sound an und entfernt ihn aus dem Speicher.
   Sobald ein Sound freigegeben wurde, kann er nicht mehr abgespielt werden.
 
 @Parameter "#Sound3D"
@@ -45,13 +44,13 @@
 @Function Ergebnis = IsSound3D(#Sound3D)
 
 @Description
-  Überprüft, ob der angegebene Sound gültig und korrekt initialisiert ist.
+  ÃœberprÃ¼ft, ob der angegebene Sound gÃ¼ltig und korrekt initialisiert ist.
 
 @Parameter "#Sound3D"
-  Der zu prüfende Sound.
+  Der zu prÃ¼fende Sound.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Sound gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn der Sound gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.
@@ -64,7 +63,7 @@
 @Function Ergebnis = LoadSound3D(#Sound3D, Dateiname$ [, Flags])
 
 @Description
-  Lädt eine WAV- oder OGG-Sounddatei. Der Sound muss Mono sein, da Stereo-Sounds
+  LÃ¤dt eine Mono WAV- oder OGG-Sounddatei. Der Sound muss Mono sein, da Stereo-Sounds
   keine Positionierung im Raum erlauben. 
 
 @Parameter "#Sound3D"
@@ -88,8 +87,8 @@
 
 @Remarks
   Ein Sound beinhaltet nicht seine Position. Er kann zu einem @LibraryLink "Node" "Node"-Objekt 
-  hinzugefügt werden, um seine eigene Position zu haben.
-  Ein Sound wird relativ zum Ort des Hörers abgespielt. Um die Position des Hörers zu verändern,
+  hinzugefÃ¼gt werden, um seine eigene Position zu haben.
+  Ein Sound wird relativ zum Ort des HÃ¶rers abgespielt. Um die Position des HÃ¶rers zu verÃ¤ndern,
   kann @@SoundListenerLocate verwendet werden.
 
 @SeeAlso
@@ -122,19 +121,19 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundVolume3D(#Sound3D, Lautstärke)
+@Function SoundVolume3D(#Sound3D, LautstÃ¤rke)
 
 @Description
-  Legt in Echtzeit den neuen Lautstärke-Wert für den Sound fest.
-  Der Lautstärke-Wert wird für den #Sound3D gespeichert - deshalb ist es nicht nötig,
+  Legt in Echtzeit den neuen LautstÃ¤rke-Wert fÃ¼r den Sound fest.
+  Der LautstÃ¤rke-Wert wird fÃ¼r den #Sound3D gespeichert - deshalb ist es nicht nÃ¶tig,
   diesen Befehl jedes Mal aufzurufen.
   
 @Parameter "#Sound3D"
   Der zu verwendende Sound.
 
-@Parameter "Lautstärke"
-  Die neue Lautstärke für den Sound. Die gültigen Werte reichen von 0 (keine Lautstärke)
-  bis 100 (volle Lautstärke).
+@Parameter "LautstÃ¤rke"
+  Die neue LautstÃ¤rke fÃ¼r den Sound. Die gÃ¼ltigen Werte reichen von 0 (keine LautstÃ¤rke)
+  bis 100 (volle LautstÃ¤rke).
 
 @NoReturnValue
   
@@ -163,7 +162,7 @@
 @Function SoundID3D = SoundID3D(#Sound3D)
 
 @Description
-  Gibt den einmaligen Systembezeichner ("Identifier" bzw. ID) des Sounds zurück.
+  Gibt den einmaligen Systembezeichner ("Identifier" bzw. ID) des Sounds zurÃ¼ck.
 
 @Parameter "#Sound3D"
   Der zu verwendende Sound.
@@ -178,21 +177,21 @@
 @Function SoundRange3D(#Sound3D, Minimum, Maximum)
 
 @Description
-  Legt die Reichweite, in Welt-Einheiten, für die Sound-Ausstrahlung fest.
+  Legt die Reichweite, in Welt-Einheiten, fÃ¼r die Sound-Ausstrahlung fest.
   
 @Parameter "#Sound3D"
   Der zu verwendende Sound.
   
 @Parameter "Minimum"
-  Die Entfernung von der Sound-Position, ab der die Sound-Lautstärke abzuklingen beginnt.
+  Die Entfernung von der Sound-Position, ab der die Sound-LautstÃ¤rke abzuklingen beginnt.
   
 @Parameter "Maximum"
-  Die Entfernung von der Sound-Position, bis wann der Sound immer noch gehört werden kann.
-  Über diese Distanz hinaus, hört das Abspielen des Sounds auf.
+  Die Entfernung von der Sound-Position, bis wann der Sound immer noch gehÃ¶rt werden kann.
+  Ãœber diese Distanz hinaus, hÃ¶rt das Abspielen des Sounds auf.
 @LineBreak
 @LineBreak
-  Zwischen dem Minimum- und Maximum-Wert wird der Sound abhängig von der aktuellen Position
-  des Hörers an- bzw. abschwellen. Um die Position des Hörers zu verändern, kann
+  Zwischen dem Minimum- und Maximum-Wert wird der Sound abhÃ¤ngig von der aktuellen Position
+  des HÃ¶rers an- bzw. abschwellen. Um die Position des HÃ¶rers zu verÃ¤ndern, kann
   @@SoundListenerLocate verwendet werden.
   
 @NoReturnValue
@@ -204,7 +203,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SoundCone3D(#Sound3D, InnenKegel.f, AußenKegel.f, AußenKegelLautstärke)
+@Function SoundCone3D(#Sound3D, InnenKegel.f, AuÃŸenKegel.f, AuÃŸenKegelLautstÃ¤rke)
 
 @Description
   Legt den Winkel des Kegels (englisch "cone") fest, um einen ausgerichteten (englisch
@@ -213,11 +212,11 @@
 @Parameter "#Sound3D"
   Der zu verwendende Sound.
 
-@Parameter "InnenKegel, AußenKegel"
+@Parameter "InnenKegel, AuÃŸenKegel"
   Bestimmen den Winkel des Kegels, in Grad (Werte reichen von 0 bis 360).
   
-@Parameter "AußenKegelLautstärke"
-  Die Sound-Lautstärke außerhalb des Kegels (Werte von 0 bis 100).
+@Parameter "AuÃŸenKegelLautstÃ¤rke"
+  Die Sound-LautstÃ¤rke auÃŸerhalb des Kegels (Werte von 0 bis 100).
 
 @NoReturnValue
   
@@ -228,10 +227,10 @@
 @Function SoundListenerLocate(x, y, z)
 
 @Description
-  Ändert die absolute Position des Sound-Hörers ("das Ohr") innerhalb der Welt.
+  Ã„ndert die absolute Position des Sound-HÃ¶rers ("das Ohr") innerhalb der Welt.
 
 @Parameter "x, y, z"
-  Die neue absolute Position des Sound-Hörers, in Welt-Einheiten.
+  Die neue absolute Position des Sound-HÃ¶rers, in Welt-Einheiten.
 
 @NoReturnValue
 

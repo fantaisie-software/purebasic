@@ -1,38 +1,38 @@
-@Title Travailler avec différentes bases numériques
+ï»¿@Title Travailler avec diffÃ©rentes bases numÃ©riques
 
-  (Note: Ces exemples utilisent le symbole ^ pour signifier 'élevé à la puissance de' - ceci est seulement une convention dans ce document, 
-  PureBasic n'a pas actuellement d'opérateur d'élévation à la puissance ! Utilisez plutôt la commande PureBasic Pow() de la bibliothèque "Math".)
+  (Note: Ces exemples utilisent le symbole ^ pour signifier 'Ã©levÃ© Ã  la puissance de' - ceci est seulement une convention dans ce document, 
+  PureBasic n'a pas actuellement d'opÃ©rateur d'Ã©lÃ©vation Ã  la puissance ! Utilisez plutÃ´t la commande PureBasic Pow() de la bibliothÃ¨que "Math".)
 
 @Section Introduction
 
-  Une base numérique est une manière de représenter les nombres, en utilisant une certaine quantité de symboles possibles par chiffre.
-  La plus courante que vous devez connaître est la base 10 (c-a-d décimale), car il y a 10 chiffres utilisés (0 à 9), 
+  Une base numÃ©rique est une maniÃ¨re de reprÃ©senter les nombres, en utilisant une certaine quantitÃ© de symboles possibles par chiffre.
+  La plus courante que vous devez connaÃ®tre est la base 10 (c-a-d dÃ©cimale), car il y a 10 chiffres utilisÃ©s (0 Ã  9), 
   et c'est celle que la plupart des humains peuvent manipuler le plus facilement. @LineBreak
   @LineBreak
-  Le but de cette page est d'expliquer différentes bases numériques et comment vous pouvez travailler avec elles.
-  En effet les ordinateurs travaillent en binaire (base 2) et il y a certains cas où il est avantageux de le comprendre
-  (par exemple, lors de l'utilisation d'opérateurs logiques, masques de bits, etc).
+  Le but de cette page est d'expliquer diffÃ©rentes bases numÃ©riques et comment vous pouvez travailler avec elles.
+  En effet les ordinateurs travaillent en binaire (base 2) et il y a certains cas oÃ¹ il est avantageux de le comprendre
+  (par exemple, lors de l'utilisation d'opÃ©rateurs logiques, masques de bits, etc).
 
-@Section Vue d'ensemble des bases numériques
+@Section Vue d'ensemble des bases numÃ©riques
 
-@Section Le système Décimal
+@Section Le systÃ¨me DÃ©cimal
 
-  Pensez à un nombre décimal, et réfléchissez à sa représentation en colonnes.
-  Prenons par exemple le nombre 1234. Séparé en colonnes, nous avons :
+  Pensez Ã  un nombre dÃ©cimal, et rÃ©flÃ©chissez Ã  sa reprÃ©sentation en colonnes.
+  Prenons par exemple le nombre 1234. SÃ©parÃ© en colonnes, nous avons :
 
 @FixedFont
   1   2   3   4
 @EndFixedFont
 
-  Réfléchissez à ce que sont les en-têtes de chaque colonne.
-  Nous savons qu'il y a les unités, les dizaines, les centaines et les milliers, présentés ainsi :
+  RÃ©flÃ©chissez Ã  ce que sont les en-tÃªtes de chaque colonne.
+  Nous savons qu'il y a les unitÃ©s, les dizaines, les centaines et les milliers, prÃ©sentÃ©s ainsi :
 
 @FixedFont
   1000  100   10    1
      1    2    3    4
 @EndFixedFont
 
-  Nous pouvons voir que le nombre 1234 est constitué de
+  Nous pouvons voir que le nombre 1234 est constituÃ© de
 
 @FixedFont
     1*1000=1000
@@ -42,89 +42,89 @@
   Total   =1234
 @EndFixedFont
 
-  Si nous regardons également les en-têtes de colonne, vous verrez qu'à chaque fois que vous bougez d'une colonne vers la gauche 
-  nous multiplions par 10, qui justement s'avère être la base numérique.
+  Si nous regardons Ã©galement les en-tÃªtes de colonne, vous verrez qu'Ã  chaque fois que vous bougez d'une colonne vers la gauche 
+  nous multiplions par 10, qui justement s'avÃ¨re Ãªtre la base numÃ©rique.
   Chaque fois que vous bougez d'une colonne vers la droite, vous divisez par 10.
-  Les en-têtes de colonnes peuvent être appelées les poids, puisque pour obtenir tout le nombre nous devons multiplier 
+  Les en-tÃªtes de colonnes peuvent Ãªtre appelÃ©es les poids, puisque pour obtenir tout le nombre nous devons multiplier 
   les chiffres de chaque colonne par le poids. Nous pouvons exprimer les poids en utilisant des index. 
-  Par exemple 10^2 signifie '10 élevé à la puissance de 2' ou 1*10*10 (=100). 
-  De même, 10^4 signifie 1*10*10*10*10 (=10000). Remarquez dans ces exemples, que peu importe la valeur de l'index, 
-  il correspond au nombre de fois que nous multiplions le nombre qui doit être élevé. 10^0 signifie 1 
+  Par exemple 10^2 signifie '10 Ã©levÃ© Ã  la puissance de 2' ou 1*10*10 (=100). 
+  De mÃªme, 10^4 signifie 1*10*10*10*10 (=10000). Remarquez dans ces exemples, que peu importe la valeur de l'index, 
+  il correspond au nombre de fois que nous multiplions le nombre qui doit Ãªtre Ã©levÃ©. 10^0 signifie 1 
   (puisque nous multiplions par 10 aucune fois). 
-  Utiliser des nombres négatifs montre que nous devons diviser, par exemple 10^-2 signifie 1/10/10 (=0.01). 
-  Les valeurs de l'index prennent plus de sens quand nous attribuons un numéro à chaque colonne - 
+  Utiliser des nombres nÃ©gatifs montre que nous devons diviser, par exemple 10^-2 signifie 1/10/10 (=0.01). 
+  Les valeurs de l'index prennent plus de sens quand nous attribuons un numÃ©ro Ã  chaque colonne - 
   vous verrez souvent des choses comme 'bit 0' qui signifie en fait 'chiffre binaire en colonne 0'.
 
 @FixedFont
-  Dans cet exemple, ^ signifie élevé à la puissance de, donc 10^2 signifie 10 élevé à la puissance de 2.
-  Numéro de colonne          3     2     1     0
+  Dans cet exemple, ^ signifie Ã©levÃ© Ã  la puissance de, donc 10^2 signifie 10 Ã©levÃ© Ã  la puissance de 2.
+  NumÃ©ro de colonne          3     2     1     0
   Poids (index)           10^3  10^2  10^1  10^0
-  Poids (valeur réelle)   1000   100    10     1
+  Poids (valeur rÃ©elle)   1000   100    10     1
   Nombre exemple (1234)      1     2     3     4
 @EndFixedFont
 
-  Précédemment nous avons vu comment convertir le nombre 1234 dans son équivalent décimal. 
-  Conversion peu justifiée, car il était déjà en décimal mais nous pouvons en tirer la méthode générale - 
-  voici donc comment convertir n'importe quel nombre en sa valeur décimale :
+  PrÃ©cÃ©demment nous avons vu comment convertir le nombre 1234 dans son Ã©quivalent dÃ©cimal. 
+  Conversion peu justifiÃ©e, car il Ã©tait dÃ©jÃ  en dÃ©cimal mais nous pouvons en tirer la mÃ©thode gÃ©nÃ©rale - 
+  voici donc comment convertir n'importe quel nombre en sa valeur dÃ©cimale :
 
 @FixedFont
-  B = Valeur de la base numérique
+  B = Valeur de la base numÃ©rique
   
-  1) Séparer le nombre, peu importe la base, en colonnes. Par
-     exemple, si nous avions la valeur 'abcde' dans notre base numérique fictive 'B',
+  1) SÃ©parer le nombre, peu importe la base, en colonnes. Par
+     exemple, si nous avions la valeur 'abcde' dans notre base numÃ©rique fictive 'B',
      les colonnes seraient : a   b   c   d   e
   
-  2) Multiplier chaque symbole par le poids de chaque colonne (le poids étant
-     calculé par 'B' élevé à la puissance du numéro de la colonne):
+  2) Multiplier chaque symbole par le poids de chaque colonne (le poids Ã©tant
+     calculÃ© par 'B' Ã©levÃ© Ã  la puissance du numÃ©ro de la colonne):
        a * B^4 = a * B * B * B * B
        b * B^3 = b * B * B * B
        c * B^2 = c * B * B
        d * B^1 = d * B
        e * B^0 = e
   
-  3) Calculer la somme de toutes ces valeurs. En écrivant toutes ces valeurs dans leur
-     équivalent décimal pendant les calculs, il devient beaucoup plus facile de voir le 
-     résultat and de faire le calcul (si nous convertissons en décimal).
+  3) Calculer la somme de toutes ces valeurs. En Ã©crivant toutes ces valeurs dans leur
+     Ã©quivalent dÃ©cimal pendant les calculs, il devient beaucoup plus facile de voir le 
+     rÃ©sultat and de faire le calcul (si nous convertissons en dÃ©cimal).
 @EndFixedFont
 
-  Convertir dans la direction opposée (de décimal vers la base numérique 'B') 
+  Convertir dans la direction opposÃ©e (de dÃ©cimal vers la base numÃ©rique 'B') 
   s'effectue en utilisant la division au lieu de la multiplication :
 
 @FixedFont
-  1) Commencer par le nombre décimal que vous voulez convertir (e.g. 1234).
+  1) Commencer par le nombre dÃ©cimal que vous voulez convertir (e.g. 1234).
   
-  2) Diviser par la base numérique ciblée ('B') et prendre note du quotient et du
+  2) Diviser par la base numÃ©rique ciblÃ©e ('B') et prendre note du quotient et du
      reste.
   
-  3) Diviser le quotient de (2) par la base numérique ciblée ('B') et prendre note du
+  3) Diviser le quotient de (2) par la base numÃ©rique ciblÃ©e ('B') et prendre note du
      quotient et du reste.
   
-  4) Continuer à diviser comme ça jusqu'à ce que vous obteniez un quotient de 0.
+  4) Continuer Ã  diviser comme Ã§a jusqu'Ã  ce que vous obteniez un quotient de 0.
   
-  5) Votre nombre dans la base numérique ciblée est constitué des restes écrits dans l'ordre
-     du dernier calculé au premier calculé. Par exemple, votre nombre serait constitué
-     des restes des étapes dans cet ordre 432.
+  5) Votre nombre dans la base numÃ©rique ciblÃ©e est constituÃ© des restes Ã©crits dans l'ordre
+     du dernier calculÃ© au premier calculÃ©. Par exemple, votre nombre serait constituÃ©
+     des restes des Ã©tapes dans cet ordre 432.
 @EndFixedFont
 
-  Des exemples plus particuliers seront donnés dans les paragraphes concernant les bases numériques particulières.
+  Des exemples plus particuliers seront donnÃ©s dans les paragraphes concernant les bases numÃ©riques particuliÃ¨res.
 
-@Section Système binaire
+@Section SystÃ¨me binaire
 
-  Tout dans un ordinateur est stocké en binaire (base 2, avec les symboles définis '0' ou '1') mais le travail 
-  avec des nombres binaires suit les mêmes règles qu'en décimal. 
-  Chaque symbole dans un nombre binaire est appelé bit, abréviation de BInary digiT (chiffre binaire). 
-  Généralement, vous travaillerez avec des bytes (octets, 8-bit), words (mots, 16-bit) ou 
-  longwords (mots longs, 32-bit) car ce sont les tailles par défaut des types intégrés à PureBasic. 
+  Tout dans un ordinateur est stockÃ© en binaire (base 2, avec les symboles dÃ©finis '0' ou '1') mais le travail 
+  avec des nombres binaires suit les mÃªmes rÃ¨gles qu'en dÃ©cimal. 
+  Chaque symbole dans un nombre binaire est appelÃ© bit, abrÃ©viation de BInary digiT (chiffre binaire). 
+  GÃ©nÃ©ralement, vous travaillerez avec des bytes (octets, 8-bit), words (mots, 16-bit) ou 
+  longwords (mots longs, 32-bit) car ce sont les tailles par dÃ©faut des types intÃ©grÃ©s Ã  PureBasic. 
   Les poids pour un byte (octet) sont les suivants :
 
 @FixedFont
-  (^ signifie 'élevé à la puissance de', la base numérique est 2 pour le binaire)
-  Bit/numéro de colonne      7     6     5     4     3     2     1     0
+  (^ signifie 'Ã©levÃ© Ã  la puissance de', la base numÃ©rique est 2 pour le binaire)
+  Bit/numÃ©ro de colonne      7     6     5     4     3     2     1     0
   Poids (index)            2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
-  Poids (valeur réelle)    128    64    32    16     8     4     2     1
+  Poids (valeur rÃ©elle)    128    64    32    16     8     4     2     1
 @EndFixedFont
 
-  Donc, par exemple, si nous avions le nombre 00110011 (Base 2), nous pourrions établir sa valeur comme ceci :
+  Donc, par exemple, si nous avions le nombre 00110011 (Base 2), nous pourrions Ã©tablir sa valeur comme ceci :
 
 @FixedFont
     0 * 128
@@ -138,7 +138,7 @@
   =      51
 @EndFixedFont
 
-  Un exemple de conversion inversée serait d'écrire la valeur 69 en binaire. Nous ferions comme ceci :
+  Un exemple de conversion inversÃ©e serait d'Ã©crire la valeur 69 en binaire. Nous ferions comme ceci :
 
 @FixedFont
   69 / 2 = 34 r 1     ^
@@ -148,60 +148,60 @@
    4 / 2 =  2 r 0     |
    2 / 2 =  1 r 0     |
    1 / 2 =  0 r 1     |
-  (Arrêt ici car le quotient de la dernière division était 0)
+  (ArrÃªt ici car le quotient de la derniÃ¨re division Ã©tait 0)
 
  Lire les restes de bas en haut pour obtenir la valeur en binaire = 1000101
 @EndFixedFont  
 
-  Une autre chose à considérer lorsque l'on travaille avec des nombres binaires est la représentation des nombres négatifs. 
-  Comme nous le faisons quotidiennement, nous pourrions simplement mettre un symbole négatif devant le nombre décimal. 
-  Nous ne pouvons pas faire cela en binaire, mais il y a un moyen (après tout, 
-  PureBasic travaille principalement avec des nombres signés, et doit donc être capable de gérer les nombres négatifs). 
-  Cette méthode est appelée 'complément à deux' et indépendamment de toutes les bonnes fonctionnalités que cette méthode 
-  possède (et qui ne seront pas expliquées ici, pour épargner une certaine confusion) la manière la plus simple de la comprendre, 
-  est de se dire que le poids du bit le plus significatif (Most Significant bit / le MSb est le numéro du bit 
-  avec la plus grande valeur. Dans le cas d'un octet (byte), ce serait le bit 7) est réellement une valeur négative. 
-  Donc pour un système de complément à deux, les poids des bits sont modifés en :
+  Une autre chose Ã  considÃ©rer lorsque l'on travaille avec des nombres binaires est la reprÃ©sentation des nombres nÃ©gatifs. 
+  Comme nous le faisons quotidiennement, nous pourrions simplement mettre un symbole nÃ©gatif devant le nombre dÃ©cimal. 
+  Nous ne pouvons pas faire cela en binaire, mais il y a un moyen (aprÃ¨s tout, 
+  PureBasic travaille principalement avec des nombres signÃ©s, et doit donc Ãªtre capable de gÃ©rer les nombres nÃ©gatifs). 
+  Cette mÃ©thode est appelÃ©e 'complÃ©ment Ã  deux' et indÃ©pendamment de toutes les bonnes fonctionnalitÃ©s que cette mÃ©thode 
+  possÃ¨de (et qui ne seront pas expliquÃ©es ici, pour Ã©pargner une certaine confusion) la maniÃ¨re la plus simple de la comprendre, 
+  est de se dire que le poids du bit le plus significatif (Most Significant bit / le MSb est le numÃ©ro du bit 
+  avec la plus grande valeur. Dans le cas d'un octet (byte), ce serait le bit 7) est rÃ©ellement une valeur nÃ©gative. 
+  Donc pour un systÃ¨me de complÃ©ment Ã  deux, les poids des bits sont modifÃ©s en :
 
 @FixedFont  
-  (^ signifie 'élevé à la puissance de', la base numérique est 2 pour le binaire)
-  Bit/numéro de colonne     7     6     5     4     3     2     1     0
+  (^ signifie 'Ã©levÃ© Ã  la puissance de', la base numÃ©rique est 2 pour le binaire)
+  Bit/numÃ©ro de colonne     7     6     5     4     3     2     1     0
   Poids (index)          -2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
-  Poids (valeur réelle)  -128    64    32    16     8     4     2     1
+  Poids (valeur rÃ©elle)  -128    64    32    16     8     4     2     1
 @EndFixedFont  
 
-  et vous pourrez faire la conversion de binaire vers décimal exactement de la même manière que ci-dessus, 
+  et vous pourrez faire la conversion de binaire vers dÃ©cimal exactement de la mÃªme maniÃ¨re que ci-dessus, 
   mais en utilisant le nouveau jeu de poids. Par exemple, le nombre 10000000 (Base 2) est -128, et 10101010 (Base 2) est -86.  @LineBreak
   @LineBreak
-  Pour convertir un nombre binaire positif en négatif et vice versa, vous inversez tous les bits et ensuite ajoutez 1. 
-  Par exemple, 00100010 passerait en négatif en inversant -> 11011101 et additionant 1 -> 11011110.  @LineBreak
+  Pour convertir un nombre binaire positif en nÃ©gatif et vice versa, vous inversez tous les bits et ensuite ajoutez 1. 
+  Par exemple, 00100010 passerait en nÃ©gatif en inversant -> 11011101 et additionant 1 -> 11011110.  @LineBreak
   @LineBreak
-  Ceci facilite la conversion de décimal à binaire, car vous pouvez convertir les nombres décimaux négatifs 
-  comme leurs équivalents positifs (en utilisant la méthode ci-dessus) et ensuite rendre le nombre binaire négatif à la fin. @LineBreak
+  Ceci facilite la conversion de dÃ©cimal Ã  binaire, car vous pouvez convertir les nombres dÃ©cimaux nÃ©gatifs 
+  comme leurs Ã©quivalents positifs (en utilisant la mÃ©thode ci-dessus) et ensuite rendre le nombre binaire nÃ©gatif Ã  la fin. @LineBreak
   @LineBreak
-  Les nombre binaires dans PureBasic sont précédés du symbol 'pourcentage', et évidement tous les bits du nombre doivent être un '0' ou un '1'. 
+  Les nombre binaires dans PureBasic sont prÃ©cÃ©dÃ©s du symbol 'pourcentage', et Ã©videment tous les bits du nombre doivent Ãªtre un '0' ou un '1'. 
   Par exemple, vous pouvez utiliser la valeur %110011 dans PureBasic pour signifier 51. 
-  Notez que vous n'avez pas besoin de mettre les '0' de tête (ce nombre serait vraiment %00110011) 
-  mais cela peut faciliter la lisibilité de votre source si vous écrivez l'ensemble des bits.
+  Notez que vous n'avez pas besoin de mettre les '0' de tÃªte (ce nombre serait vraiment %00110011) 
+  mais cela peut faciliter la lisibilitÃ© de votre source si vous Ã©crivez l'ensemble des bits.
 
-@Section Le système Hexadécimal
+@Section Le systÃ¨me HexadÃ©cimal
   
-  L'hexadecimal (pour base 16, symboles '0'-'9' suivis de 'A'-'F') est une base numérique qui est plus généralement 
-  employée en informatique, car il s'agit probablement de la base numérique non décimale la plus facile à comprendre pour les humains, 
-  et vous n'avez pas à écrire de longues chaines de symboles pour vos nombres (comme c'est le cas avec le binaire).  @LineBreak
+  L'hexadecimal (pour base 16, symboles '0'-'9' suivis de 'A'-'F') est une base numÃ©rique qui est plus gÃ©nÃ©ralement 
+  employÃ©e en informatique, car il s'agit probablement de la base numÃ©rique non dÃ©cimale la plus facile Ã  comprendre pour les humains, 
+  et vous n'avez pas Ã  Ã©crire de longues chaines de symboles pour vos nombres (comme c'est le cas avec le binaire).  @LineBreak
   @LineBreak
-  Les mathématiques hexadécimales suivent les mêmes règles qu'en décimal, bien que vous ayez maintenant 16 symboles 
-  par colonne jusqu'à ce que vous ayez besoin d'une retenue. La conversion entre l'hexadécimal et le décimal suit 
-  les mêmes principes qu'entre le binaire et le décimal, sauf que les poids sont des multiples de 16 et les 
+  Les mathÃ©matiques hexadÃ©cimales suivent les mÃªmes rÃ¨gles qu'en dÃ©cimal, bien que vous ayez maintenant 16 symboles 
+  par colonne jusqu'Ã  ce que vous ayez besoin d'une retenue. La conversion entre l'hexadÃ©cimal et le dÃ©cimal suit 
+  les mÃªmes principes qu'entre le binaire et le dÃ©cimal, sauf que les poids sont des multiples de 16 et les 
   divisions sont faites par 16 au lieu de 2 : 
 
 @FixedFont  
-  Numéro de colonne          3      2      1      0
+  NumÃ©ro de colonne          3      2      1      0
   Poids (index)           16^3   16^2   16^1   16^0
-  Poids (valeur réelle)   4096    256     16      1
+  Poids (valeur rÃ©elle)   4096    256     16      1
 @EndFixedFont  
 
-  Convertir la valeur hexadécimale BEEF (Base 16) en décimal serait fait comme ceci :
+  Convertir la valeur hexadÃ©cimale BEEF (Base 16) en dÃ©cimal serait fait comme ceci :
 
 @FixedFont  
     B * 4096 = 11 * 4096
@@ -211,51 +211,51 @@
   =                48879
 @EndFixedFont  
 
-  Et convertir la valeur 666 en hexadécimal serait fait comme ceci :
+  Et convertir la valeur 666 en hexadÃ©cimal serait fait comme ceci :
 
 @FixedFont  
   666 / 16 = 41 r 10    ^
    41 / 16 =  2 r  9   /|\    Lire les chiffres dans cette direction, se souvenir de convertir
-    2 / 16 =  0 r  2    |     en chiffres hexadecimaux où nécessaire
-  (Arrêt ici car le quotient de la dernière division était 0)
-  La valeur hexadécimale de 666 est 29A
+    2 / 16 =  0 r  2    |     en chiffres hexadecimaux oÃ¹ nÃ©cessaire
+  (ArrÃªt ici car le quotient de la derniÃ¨re division Ã©tait 0)
+  La valeur hexadÃ©cimale de 666 est 29A
 @EndFixedFont  
 
-  La chose vraiment intéressante avec l'hexadécimal c'est qu'il permet également de convertir vers le binaire très facilement. 
-  Chaque chiffre hexadécimal représente 4 bits, pour convertir entre hexadécimal et binaire, 
-  vous devez juste convertir chaque chiffre hexadécimal en 4 bits ou chaque groupe de 4 bits vers un 
-  chiffre hexadécimal (en se rappelant que 4 est un diviseur de toutes les tailles communes de nombres binaires dans un CPU). Par exemple :
+  La chose vraiment intÃ©ressante avec l'hexadÃ©cimal c'est qu'il permet Ã©galement de convertir vers le binaire trÃ¨s facilement. 
+  Chaque chiffre hexadÃ©cimal reprÃ©sente 4 bits, pour convertir entre hexadÃ©cimal et binaire, 
+  vous devez juste convertir chaque chiffre hexadÃ©cimal en 4 bits ou chaque groupe de 4 bits vers un 
+  chiffre hexadÃ©cimal (en se rappelant que 4 est un diviseur de toutes les tailles communes de nombres binaires dans un CPU). Par exemple :
 
 @FixedFont  
-  Nombre hexadécimal     5        9        D        F           4E
+  Nombre hexadÃ©cimal     5        9        D        F           4E
   Valeur binaire      0101     1001     1101     1111       01001110
 @EndFixedFont  
 
-  Lorsque vous utilisez des valeurs hexadécimales dans PureBasic, vous mettez un symbole 'dollar' devant le nombre, par exemple $BEEF.  @LineBreak  
+  Lorsque vous utilisez des valeurs hexadÃ©cimales dans PureBasic, vous mettez un symbole 'dollar' devant le nombre, par exemple $BEEF.  @LineBreak  
   
-@Section Les conversions Hexadécimal <-> Binaire
+@Section Les conversions HexadÃ©cimal <-> Binaire
 
-  Il est aisé de convertir un nombre hexadécimal en un nombre binaire et inversement, en 
-  utilisant les 'nibles'. Un nible est un groupe de 4 bits, appelé demi octet ou quartet.
-  Un quartet contenant 4 bits, il peut donc prendre seize (2^4) valeurs différentes et 
-  correspond donc à un chiffre en hexadécimal. Deux chiffres hexadécimaux formant un octet, 
-  ce dernier est souvent représenté par deux nibbles.
+  Il est aisÃ© de convertir un nombre hexadÃ©cimal en un nombre binaire et inversement, en 
+  utilisant les 'nibles'. Un nible est un groupe de 4 bits, appelÃ© demi octet ou quartet.
+  Un quartet contenant 4 bits, il peut donc prendre seize (2^4) valeurs diffÃ©rentes et 
+  correspond donc Ã  un chiffre en hexadÃ©cimal. Deux chiffres hexadÃ©cimaux formant un octet, 
+  ce dernier est souvent reprÃ©sentÃ© par deux nibbles.
 @LineBreak
 @LineBreak
   Par exemple:
   
 @FixedFont  
-  Numéro de colonne          3      2      1      0
+  NumÃ©ro de colonne          3      2      1      0
   Poids (index)            2^3    2^2    2^1    2^0
-  Poids (valeur réelle)      8      4      2      1
+  Poids (valeur rÃ©elle)      8      4      2      1
                             ------------------------
                    $7        0      1      1      1  : 0*8 + 1*4 + 1*2 + 1*1 = 7
                    $C        1      1      0      0  : 1*8 + 1*4 = 12 = $C 
 @EndFixedFont  
   
-  Comment s'écrit $F2 en binaire ?
+  Comment s'Ã©crit $F2 en binaire ?
 @FixedFont  
-  Poids (valeur réelle)      8  4  2  1 |  8  4  2  1
+  Poids (valeur rÃ©elle)      8  4  2  1 |  8  4  2  1
                             ------------|-------------
                    $F2       1  1  1  1    0  0  1  0 : 1*8 + 1*4 + 1*2 + 1*1 = 15 = $F
                                                      et 0*8 + 0*4 + 1*2 + 0*1 =  2 = $2

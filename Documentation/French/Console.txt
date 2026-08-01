@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Console library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,30 +8,30 @@
 
 @Overview
 
-  La bibliothèque Console permet de créer 
+  La bibliothÃ¨que Console permet de crÃ©er 
   une application en mode console. On 
-  utilise ce mode pour créer des programmes
-  de petite taille ne nécessitant pas 
-  d'interface utilisateur avancé, ou 
+  utilise ce mode pour crÃ©er des programmes
+  de petite taille ne nÃ©cessitant pas 
+  d'interface utilisateur avancÃ©, ou 
   pour une utilisation dans des scripts 
   (ligne de commande). Ces instructions 
-  sont également utiles pour le programmeur 
-  lors du déboggage d'application en
+  sont Ã©galement utiles pour le programmeur 
+  lors du dÃ©boggage d'application en
   permettant d'afficher des informations 
   sur la console sans interrompre le cours 
   du programme.
 @LineBreak
 @LineBreak
-  Si votre programme est destiné à être 
+  Si votre programme est destinÃ© Ã  Ãªtre 
   une application console pure (pas une 
-  application fenêtrée qui ouvre une console), 
+  application fenÃªtrÃ©e qui ouvre une console), 
   alors vous devez vous rappeler de 
-  régler le format de fichier exécutable 
+  rÃ©gler le format de fichier exÃ©cutable 
   sur "console" lorsque vous compilez 
   votre programme.
   Voir le menu Compilateur \ Options du 
   compilateur \ Options de compilation \ Format 
-  de l'exécutable.
+  de l'exÃ©cutable.
 @LineBreak
 @LineBreak
   Vous devriez commencer avec la fonction 
@@ -42,8 +42,8 @@
 @LineBreak
 @LineBreak
   Attention, ces programmes ne sont pas 
-  des programmes MS-DOS en mode réel ! Il 
-  faut donc les ouvrir à partir de 
+  des programmes MS-DOS en mode rÃ©el ! Il 
+  faut donc les ouvrir Ã  partir de 
   Windows 95 ou plus. 
 
 @CommandList
@@ -64,9 +64,9 @@
 @NoReturnValue
 
 @Remarks
-  Le fond d'écran est déterminé par 
+  Le fond d'Ã©cran est dÃ©terminÃ© par 
   @@ConsoleColor.@LineBreak
-  La console doit être en 
+  La console doit Ãªtre en 
   @Link "EnableGraphicalConsole" "mode graphique".
   
 @Example
@@ -99,12 +99,12 @@
 @NoReturnValue
 
 @Remarks
-  Une fois que la console est fermée 
+  Une fois que la console est fermÃ©e 
   il n'est plus possible d'utiliser 
-  les fonctions de cette bibliothèque.
+  les fonctions de cette bibliothÃ¨que.
   @LineBreak 
   La console se ferme automatiquement 
-  à la fin de l'exécution du programme.
+  Ã  la fin de l'exÃ©cution du programme.
   @LineBreak 
   Cette fonction n'a pas d'effet sous Linux et MacOS.
   
@@ -130,23 +130,23 @@
 @Function ConsoleError(Message$)
 
 @Description
-  Envoie une chaîne de caractères 
+  Envoie une chaÃ®ne de caractÃ¨res 
   vers la sortie 'Erreur' (stderr) 
   du programme. 
 
 @Parameter "Message$"
-  Chaîne de caractères avec un 
-  retour à la ligne. 
+  ChaÃ®ne de caractÃ¨res avec un 
+  retour Ã  la ligne. 
   
 @NoReturnValue
 
 @Remarks
-  La chaîne de caractères contient 
-  un saut de ligne (LF) à la fin.@LineBreak
-  Cette sortie peut être lue par 
+  La chaÃ®ne de caractÃ¨res contient 
+  un saut de ligne (LF) Ã  la fin.@LineBreak
+  Cette sortie peut Ãªtre lue par 
   exemple avec la commande 
   @@ReadProgramError 
-  de la bibliothèque 
+  de la bibliothÃ¨que 
   @LibraryLink "process" "Process".
  
 @SeeAlso
@@ -166,14 +166,14 @@
 @LineBreak
   Sous Windows, le titre de la 
   console est aussi le texte 
-  affiché dans la barre des 
-  tâches et dans le gestionnaire 
-  des tâches représentant votre 
+  affichÃ© dans la barre des 
+  tÃ¢ches et dans le gestionnaire 
+  des tÃ¢ches reprÃ©sentant votre 
   application console.
 @EndOS
 
 @Parameter "Titre$"
-  Le nouveau titre de fenêtre.
+  Le nouveau titre de fenÃªtre.
 
 @NoReturnValue
 
@@ -196,21 +196,21 @@
 @Function ConsoleColor(CouleurTexte, CouleurFond)
 
 @Description
-  Change les couleurs utilisées 
-  par l'écran texte.  
+  Change les couleurs utilisÃ©es 
+  par l'Ã©cran texte.  
 
 @Parameter "CouleurTexte"
   Couleur du texte:
 @FixedFont
-   0 - Noir (fond par défaut)
-   1 - Bleu foncé
-   2 - Vert foncé
+   0 - Noir (fond par dÃ©faut)
+   1 - Bleu foncÃ©
+   2 - Vert foncÃ©
    3 - Bleu-vert 
-   4 - Rouge foncé
-   5 - Magenta foncé
+   4 - Rouge foncÃ©
+   5 - Magenta foncÃ©
    6 - Brun
    7 - Gris clair (couleur texte par defaut)
-   8 - Gris foncé
+   8 - Gris foncÃ©
    9 - Bleu 
   10 - Vert 
   11 - Cyan 
@@ -223,15 +223,15 @@
 @Parameter "CouleurFond"
   Couleur de fond:
 @FixedFont
-   0 - Noir (fond par défaut)
-   1 - Bleu foncé
-   2 - Vert foncé
+   0 - Noir (fond par dÃ©faut)
+   1 - Bleu foncÃ©
+   2 - Vert foncÃ©
    3 - Bleu-vert 
-   4 - Rouge foncé
-   5 - Magenta foncé
+   4 - Rouge foncÃ©
+   5 - Magenta foncÃ©
    6 - Brun
    7 - Gris clair (couleur texte par defaut)
-   8 - Gris foncé
+   8 - Gris foncÃ©
    9 - Bleu 
   10 - Vert 
   11 - Cyan 
@@ -244,8 +244,8 @@
 @NoReturnValue
 
 @Remarks
-  Tous les caractères affichés 
-  après l'appel de cette fonction 
+  Tous les caractÃ¨res affichÃ©s 
+  aprÃ¨s l'appel de cette fonction 
   utiliseront ces nouvelles couleurs.
    
 @Example
@@ -278,8 +278,8 @@
 @Function EnableGraphicalConsole(Mode)
 
 @Description
-  Change la manière d'afficher 
-  les caractères dans la console: 
+  Change la maniÃ¨re d'afficher 
+  les caractÃ¨res dans la console: 
   Texte/Graphique. 
 
 @Parameter "Mode"
@@ -291,25 +291,25 @@
 @NoReturnValue
 
 @Remarks
-  Le mode par défaut de la console 
+  Le mode par dÃ©faut de la console 
   est le mode texte, ce qui implique 
-  que le texte ne peut pas être 
-  positionné arbitrairement dans 
+  que le texte ne peut pas Ãªtre 
+  positionnÃ© arbitrairement dans 
   la console. Cependant, les redirections 
   (pipes) fonctionnent correctement, 
-  ce qui peut être utile si le programme 
-  est destiné à être utilisé dans des 
+  ce qui peut Ãªtre utile si le programme 
+  est destinÃ© Ã  Ãªtre utilisÃ© dans des 
   scripts.
 @LineBreak
 @LineBreak
-  Quand le mode graphique est activé, 
+  Quand le mode graphique est activÃ©, 
   les commandes comme @@ClearConsole ou
   @@ConsoleLocate sont disponibles, et 
-  le texte peut être positionné
-  n'importe où dans la console, ce qui 
+  le texte peut Ãªtre positionnÃ©
+  n'importe oÃ¹ dans la console, ce qui 
   permet de faire des jeux ou des 
   applications console (qui peuvent
-  par exemple être accédées à distance 
+  par exemple Ãªtre accÃ©dÃ©es Ã  distance 
   via telnet ou ssh). @LineBreak
   Attention: La redirection (pipes) 
   ne fonctionne pas si la console 
@@ -336,32 +336,32 @@
 @Function Resultat$ = Inkey()
 
 @Description
-  Renvoie un caractère si une 
-  touche du clavier est appuyée. 
+  Renvoie un caractÃ¨re si une 
+  touche du clavier est appuyÃ©e. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie une chaîne contenant le 
-  caractère correspondant à la touche 
-  enfoncée ou une chaîne vide si la 
-  touche ne correspond à aucun 
-  caractère (touche de fonction). 
+  Renvoie une chaÃ®ne contenant le 
+  caractÃ¨re correspondant Ã  la touche 
+  enfoncÃ©e ou une chaÃ®ne vide si la 
+  touche ne correspond Ã  aucun 
+  caractÃ¨re (touche de fonction). 
   
 @Remarks
   - Cette commande ne bloque pas 
-  l'exécution du programme. 
+  l'exÃ©cution du programme. 
 @LineBreak
 @LineBreak  
-  - Si des touches spéciales (non-ascii) 
-  doivent être gérées, @@RawKey peut 
-  être appelé après Inkey().
+  - Si des touches spÃ©ciales (non-ascii) 
+  doivent Ãªtre gÃ©rÃ©es, @@RawKey peut 
+  Ãªtre appelÃ© aprÃ¨s Inkey().
 @LineBreak
 @LineBreak   
   - Les codes ASCII et les valeurs 
-  numériques présentées ici peuvent 
+  numÃ©riques prÃ©sentÃ©es ici peuvent 
   changer en fonction de la page de 
-  code clavier chargée pendant le boot.
+  code clavier chargÃ©e pendant le boot.
 @LineBreak
 @LineBreak
  - Un tableau contenant les valeurs 
@@ -383,10 +383,10 @@
         PrintN("Vous avez appuye sur une touche qui n'est pas alpha-numerique.")
         PrintN("Son identifiant numerique est : "+Str(RawKey()))
       Else
-        Delay(20) ; Evite de monopoliser tout le temps processeur. Utile pour un OS multi-tâches.
+        Delay(20) ; Evite de monopoliser tout le temps processeur. Utile pour un OS multi-tÃ¢ches.
       EndIf
     
-    Until KeyPressed$ = Chr(27) ; Attends jusqu'à ce que la touche [Echap] soit appuyée
+    Until KeyPressed$ = Chr(27) ; Attends jusqu'Ã  ce que la touche [Echap] soit appuyÃ©e
   EndIf
 @EndCode
  
@@ -400,47 +400,47 @@
 @Function Resultat$ = Input()
 
 @Description
-  Saisie une ligne complète de 
-  caractères. 
+  Saisie une ligne complÃ¨te de 
+  caractÃ¨res. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la chaîne saisie par 
+  Renvoie la chaÃ®ne saisie par 
   l'utilisateur avant d'appuyer 
-  sur la touche 'Entrée'.
+  sur la touche 'EntrÃ©e'.
 
 @Remarks
   Cette commande bloque le programme 
-  et attend jusqu'à ce que l'utilisateur 
-  appuie sur la touche entrée. Si la 
+  et attend jusqu'Ã  ce que l'utilisateur 
+  appuie sur la touche entrÃ©e. Si la 
   console est en 
   @Link "EnableGraphicalConsole" "mode graphique"
-  la ligne saisie ne peut pas dépasser 
+  la ligne saisie ne peut pas dÃ©passer 
   la largeur de la console.
 @LineBreak
 @LineBreak
   Si la console n'est pas en 
   @Link "EnableGraphicalConsole" "mode graphique", 
   une valeur 
-  de retour spéciale @#PB_Input_Eof 
-  (égale à Chr(4)) sera reçue si 
+  de retour spÃ©ciale @#PB_Input_Eof 
+  (Ã©gale Ã  Chr(4)) sera reÃ§ue si 
   l'utilisateur tape Ctrl+D dans 
   la console, ou si la redirection 
-  d'un fichier vers la console est terminée.
+  d'un fichier vers la console est terminÃ©e.
 @OS Windows
 @LineBreak
 @LineBreak
-  Pour des raisons de compatibilité avec 
+  Pour des raisons de compatibilitÃ© avec 
   les autres applications console sous Windows, 
-  @#PB_Input_Eof est aussi reçu quand 
+  @#PB_Input_Eof est aussi reÃ§u quand 
   l'utilisateur tape Ctrl+Z dans la 
   console.
 @EndOS
 @LineBreak
 @LineBreak
-  Si une entrée binaire est nécessaire, 
-  @@ReadConsoleData peut être utilisé 
+  Si une entrÃ©e binaire est nÃ©cessaire, 
+  @@ReadConsoleData peut Ãªtre utilisÃ© 
   en mode non graphique.
 
 @Example
@@ -450,7 +450,7 @@ If OpenConsole()
     name$=Input()
 
     ; L'appui sur la touche [Entree] n'est pas pris en compte par la console
-    ; donc nous devons utiliser PrintN("") pour aller à la ligne
+    ; donc nous devons utiliser PrintN("") pour aller Ã  la ligne
     PrintN("")
     
     PrintN("Bonjour, "+name$+", enchante.")
@@ -471,18 +471,18 @@ End
 @Function ConsoleLocate(X, Y)
 
 @Description
-  Déplace le curseur.
+  DÃ©place le curseur.
 
 @Parameter "X, Y"
-  Les nouvelles coordonnées du 
-  curseur (commence à 0).
+  Les nouvelles coordonnÃ©es du 
+  curseur (commence Ã  0).
 
 @NoReturnValue
 
 @Remarks
-  Les coordonnées sont en caractères et non 
+  Les coordonnÃ©es sont en caractÃ¨res et non 
   en pixels.@LineBreak
-  La console doit être en 
+  La console doit Ãªtre en 
   @Link "EnableGraphicalConsole" "mode graphique".
 
 @Example
@@ -517,31 +517,31 @@ End
   La nouvelle hauteur du curseur. 
 @LineBreak 
 @LineBreak
-  Cette valeur peut aller de 0 à 10.
+  Cette valeur peut aller de 0 Ã  10.
 @FixedFont
   Par exemple:
   0 : Curseur invisible
-  1 : Curseur souligné par défaut
-  5 : Curseur demi-pavé
-  10: Curseur pavé
+  1 : Curseur soulignÃ© par dÃ©faut
+  5 : Curseur demi-pavÃ©
+  10: Curseur pavÃ©
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
 @OS Windows
-  Par défaut, le curseur est représenté 
+  Par dÃ©faut, le curseur est reprÃ©sentÃ© 
   par un soulignement clignotant 
-  dans les consoles sous le système 
+  dans les consoles sous le systÃ¨me 
   d'exploitation Windows. Notez que 
-  vous devrez peut-être mettre la 
-  fenêtre de la console en mode plein 
-  écran pour voir l'effet de 
+  vous devrez peut-Ãªtre mettre la 
+  fenÃªtre de la console en mode plein 
+  Ã©cran pour voir l'effet de 
   cette fonction.
 @LineBreak
 @LineBreak
 @EndOS
-  La console doit être en 
+  La console doit Ãªtre en 
   @Link "EnableGraphicalConsole" "mode graphique".
   Voir  @@EnableGraphicalConsole.
   
@@ -573,10 +573,10 @@ End
 
 @Description
   Affiche un texte sur la console 
-  sans retour de ligne à la fin. 
+  sans retour de ligne Ã  la fin. 
 
 @Parameter "Texte$"
-  Le texte à afficher.
+  Le texte Ã  afficher.
 
 @NoReturnValue
 
@@ -584,38 +584,38 @@ End
   Si la console est en 
   @Link "EnableGraphicalConsole" "mode graphique", 
   la longueur de Texte$ ne peut
-  pas dépasser la largeur de la console, 
-  sinon le texte sera tronqué.
+  pas dÃ©passer la largeur de la console, 
+  sinon le texte sera tronquÃ©.
 @LineBreak   
 @LineBreak  
   Pour modifier la position du curseur, 
   utilisez la commande @@ConsoleLocate.
 @LineBreak   
 @LineBreak  
-  Pour changer la couleur du texte affiché, 
+  Pour changer la couleur du texte affichÃ©, 
   utilisez la commande @@ConsoleColor.
 @LineBreak
 @LineBreak
-  Une fois le 'Texte$' affiché, le curseur 
-  est automatiquement déplacé après le dernier
-  caractère. Si le texte dépasse la largeur 
+  Une fois le 'Texte$' affichÃ©, le curseur 
+  est automatiquement dÃ©placÃ© aprÃ¨s le dernier
+  caractÃ¨re. Si le texte dÃ©passe la largeur 
   de la console, il est automatiquement
-  coupé et affiché sur la ligne suivante. 
+  coupÃ© et affichÃ© sur la ligne suivante. 
   Si la console est remplie, le texte est 
-  automatiquement déplacé vers le haut.
+  automatiquement dÃ©placÃ© vers le haut.
 @LineBreak
 @LineBreak
-  Pour afficher des données binaires en 
+  Pour afficher des donnÃ©es binaires en 
   mode non-graphique (par exemple lors 
   d'une redirection), la commande 
-  @@WriteConsoleData peut être utilisée.
+  @@WriteConsoleData peut Ãªtre utilisÃ©e.
 
 @Example
 @Code
   If OpenConsole()
-    Print("C'est une longue chaîne de caracteres. ")
-    Print("Celle-ci se place immediatement apres la première... ")
-    Print("C'est parce que le curseur se place en fin de chaîne, sans retour a la ligne. ")
+    Print("C'est une longue chaÃ®ne de caracteres. ")
+    Print("Celle-ci se place immediatement apres la premiÃ¨re... ")
+    Print("C'est parce que le curseur se place en fin de chaÃ®ne, sans retour a la ligne. ")
 
     PrintN("Appuyez sur [Entree] pour quitter")
     Input()
@@ -633,10 +633,10 @@ End
 
 @Description
   Affiche un texte sur la console 
-  avec un retour de ligne à la fin.  
+  avec un retour de ligne Ã  la fin.  
 
 @Parameter "Texte$"
-  Le texte à afficher.
+  Le texte Ã  afficher.
 
 @NoReturnValue
 
@@ -644,31 +644,31 @@ End
   Si la console est en 
   @Link "EnableGraphicalConsole" "mode graphique", 
   la longueur de Texte$ ne peut
-  pas dépasser la largeur de la console, 
-  sinon le texte sera tronqué.
+  pas dÃ©passer la largeur de la console, 
+  sinon le texte sera tronquÃ©.
 @LineBreak
 @LineBreak  
   Pour modifier la position du curseur, 
   utilisez la commande @@ConsoleLocate.
 @LineBreak
 @LineBreak
-  Pour changer la couleur du texte affiché, 
+  Pour changer la couleur du texte affichÃ©, 
   utilisez la commande @@ConsoleColor.
 @LineBreak
 @LineBreak
-  Une fois le 'Texte$' affiché, le curseur 
-  est automatiquement déplacé après le dernier
-  caractère. Si le texte dépasse la largeur 
+  Une fois le 'Texte$' affichÃ©, le curseur 
+  est automatiquement dÃ©placÃ© aprÃ¨s le dernier
+  caractÃ¨re. Si le texte dÃ©passe la largeur 
   de la console, il est automatiquement
-  coupé et affiché sur la ligne suivante. 
+  coupÃ© et affichÃ© sur la ligne suivante. 
   Si la console est remplie, le texte est 
-  automatiquement déplacé vers le haut.
+  automatiquement dÃ©placÃ© vers le haut.
 @LineBreak
 @LineBreak
-  Pour afficher des données binaires en 
+  Pour afficher des donnÃ©es binaires en 
   mode non-graphique (par exemple lors 
   d'une redirection), la commande 
-  @@WriteConsoleData peut être utilisée.
+  @@WriteConsoleData peut Ãªtre utilisÃ©e.
 
 @Example
 @Code
@@ -693,41 +693,41 @@ End
 @Function Resultat = OpenConsole([Titre$] [, Mode]]))
 
 @Description
-  Ouvre une fenêtre console. @LineBreak
-  Cette fonction doit être appelée avant 
-  toute autre opération sur la console.
+  Ouvre une fenÃªtre console. @LineBreak
+  Cette fonction doit Ãªtre appelÃ©e avant 
+  toute autre opÃ©ration sur la console.
 
 @OptionalParameter "Titre$"
-  Le titre de la nouvelle fenêtre console. 
+  Le titre de la nouvelle fenÃªtre console. 
   @LineBreak
-  Sous Windows, la présence d'un titre 
-  permet la sauvegarde des paramètres 
+  Sous Windows, la prÃ©sence d'un titre 
+  permet la sauvegarde des paramÃ¨tres 
   de la console, comme la police, 
   la couleur, etc. Il n'a aucun effet 
   sur les autres OS.
   
 @OptionalParameter "Mode"
-  Le mode à utiliser pour la sortie de la console. Il peut avoir l'une des valeurs suivantes:
+  Le mode Ã  utiliser pour la sortie de la console. Il peut avoir l'une des valeurs suivantes:
 @FixedFont
-  @#PB_UTF8   : Le texte est au format UTF-8 (Par défaut).
+  @#PB_UTF8   : Le texte est au format UTF-8 (Par dÃ©faut).
   @#PB_Ascii  : Le texte est au format ASCII.
   @#PB_Unicode: Le texte est au format UTF-16. 
-                Peut être utile sous Windows lorsque vous utilisez la redirection de la sortie 
-                et que le programme cible attend une entrée UTF-16. N'a aucun effet sur Linux 
+                Peut Ãªtre utile sous Windows lorsque vous utilisez la redirection de la sortie 
+                et que le programme cible attend une entrÃ©e UTF-16. N'a aucun effet sur Linux 
                 ou OS X (qui utiliseront UTF-8).
 @EndFixedFont
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon et la console ne peut
-  pas être utilisée.
+  succÃ¨s, zÃ©ro sinon et la console ne peut
+  pas Ãªtre utilisÃ©e.
 
 @Remarks
-  Une seule console peut être ouverte 
-  au même moment sous PureBasic.  
+  Une seule console peut Ãªtre ouverte 
+  au mÃªme moment sous PureBasic.  
 @LineBreak
 @LineBreak  
-  La console peut être fermée en 
+  La console peut Ãªtre fermÃ©e en 
   utilisant la commande @@CloseConsole.
 @LineBreak
 @LineBreak
@@ -737,24 +737,24 @@ End
 @LineBreak
 @LineBreak
   Sous Microsoft Windows, deux formats 
-  d'exécution sont disponibles: Win32 
-  et Console. Si vous souhaitez créer
+  d'exÃ©cution sont disponibles: Win32 
+  et Console. Si vous souhaitez crÃ©er
   une application standard sur console, 
   telle que 'dir', 'del', etc vous devez 
-  compiler l'exécutable en utilisant
+  compiler l'exÃ©cutable en utilisant
   le format Console du 
   (@ReferenceLink "ide_compiler" "menu Compilateur": 
   Compilateur\Options du compilateur\
   Options de compilation\Format de 
-  l'exécutable de l'éditeur de PureBasic). 
+  l'exÃ©cutable de l'Ã©diteur de PureBasic). 
   Sous Linux ou OS X, cette commande 
   n'a pas d'effet, car il n'y a pas de 
-  format spécial 'console' pour les 
-  exécutables. Cependant, l'option de 
+  format spÃ©cial 'console' pour les 
+  exÃ©cutables. Cependant, l'option de 
   compilation pour 'Console' lancera une 
-  fenêtre de terminal automatiquement 
-  lorsque vous exécutez votre programme 
-  à partir de l'IDE.
+  fenÃªtre de terminal automatiquement 
+  lorsque vous exÃ©cutez votre programme 
+  Ã  partir de l'IDE.
 
 @Example
 @Code
@@ -773,55 +773,55 @@ End
 @Function Resultat = ReadConsoleData(*Memoire, Taille)
 
 @Description
-  Lit l'entrée de la console de 
-  manière binaire. 
+  Lit l'entrÃ©e de la console de 
+  maniÃ¨re binaire. 
   
 @Parameter "*Memoire"
-  La mémoire tampon dans laquelle 
-  les données seront stockées.@LineBreak
-  Mémoire auparavant allouée avec 
+  La mÃ©moire tampon dans laquelle 
+  les donnÃ©es seront stockÃ©es.@LineBreak
+  MÃ©moire auparavant allouÃ©e avec 
   @Link "Memory/AllocateMemory" "AllocateMemory".
 
 @Parameter "Size"
-  La quantité maximale de données 
-  à lire (en octets).
+  La quantitÃ© maximale de donnÃ©es 
+  Ã  lire (en octets).
 
 @ReturnValue 
   Renvoie le nombre d'octets lu 
-  à partir de l'entrée. 
+  Ã  partir de l'entrÃ©e. 
 @LineBreak
 @LineBreak  
-  Si la valeur zéro est renvoyée 
-  alors il n'y a plus de données 
-  à lire (un indicateur de fin de 
-  fichier a été reçu).
+  Si la valeur zÃ©ro est renvoyÃ©e 
+  alors il n'y a plus de donnÃ©es 
+  Ã  lire (un indicateur de fin de 
+  fichier a Ã©tÃ© reÃ§u).
 
 @Remarks  
   Cette commande fonctionne uniquement 
   si le console n'est pas en 
   @Link "EnableGraphicalConsole" "mode graphique". 
-  Elle est utile pour lire des données 
-  qui ne sont pas basées sur des 
-  lignes de texte (à l'inverse de 
-  la commande @@Input) ou des données
-  qui on été redirigées vers le 
-  programme à travers un 'pipe'.
+  Elle est utile pour lire des donnÃ©es 
+  qui ne sont pas basÃ©es sur des 
+  lignes de texte (Ã  l'inverse de 
+  la commande @@Input) ou des donnÃ©es
+  qui on Ã©tÃ© redirigÃ©es vers le 
+  programme Ã  travers un 'pipe'.
 @LineBreak
 @LineBreak
   Cette commande est bloquante, ce 
-  qui signifie que si aucune donnée 
-  n'est disponible en entrée,
-  alors le programme attendra l'arrivée 
-  d'une donnée indéfiniment sauf si une 
+  qui signifie que si aucune donnÃ©e 
+  n'est disponible en entrÃ©e,
+  alors le programme attendra l'arrivÃ©e 
+  d'une donnÃ©e indÃ©finiment sauf si une 
   erreur survient ou un EOF (End Of File). 
 
 @Example
 @Code
-  ; Ce programme lit une image passée en paramètre depuis une console et l'affiche dans une fenêtre.
-  ; Il faut le compiler et créer un exécutable, ensuite le lancer de cette façon "MonExecutable < image.bmp"
+  ; Ce programme lit une image passÃ©e en paramÃ¨tre depuis une console et l'affiche dans une fenÃªtre.
+  ; Il faut le compiler et crÃ©er un exÃ©cutable, ensuite le lancer de cette faÃ§on "MonExecutable < image.bmp"
   ;
-  ; (Dans les options du compilateur sélectionnez "Console" pour le "format de l'exécutable" !)
-  ; (Fonctionne seulement avec des BMP ou des icônes à moins d'utiliser un décodeur d'images (voir ImagePlugin))
+  ; (Dans les options du compilateur sÃ©lectionnez "Console" pour le "format de l'exÃ©cutable" !)
+  ; (Fonctionne seulement avec des BMP ou des icÃ´nes Ã  moins d'utiliser un dÃ©codeur d'images (voir ImagePlugin))
   ;
   OpenConsole()
   TotalSize = 0
@@ -829,14 +829,14 @@ End
   *Buffer = AllocateMemory(BufferFree)
   
   Repeat
-    ReadSize = ReadConsoleData(*Buffer+TotalSize, BufferFree) ; Lit un bloc de données
+    ReadSize = ReadConsoleData(*Buffer+TotalSize, BufferFree) ; Lit un bloc de donnÃ©es
     TotalSize + ReadSize
     BufferFree - ReadSize
     If BufferFree < 100  ; Redimensionne le buffer s'il n'est pas assez grand
       BufferFree = 10000
       *Buffer = ReAllocateMemory(*Buffer, TotalSize+10000)
     EndIf
-  Until ReadSize = 0 ; Une fois que 0 est retourné, il n'y a plus rien à lire
+  Until ReadSize = 0 ; Une fois que 0 est retournÃ©, il n'y a plus rien Ã  lire
   
   If TotalSize > 0 ; affiche l'image si tout se passe bien 
     If CatchImage(0, *Buffer, TotalSize)
@@ -862,30 +862,30 @@ End
 @Function Resultat = RawKey()
 
 @Description
-  Renvoie l'identifiant numérique 
-  ('key code') de la touche capturée 
+  Renvoie l'identifiant numÃ©rique 
+  ('key code') de la touche capturÃ©e 
   lors du dernier appel de la commande 
   @@Inkey.
-  Cela permet de gérer les touches 
-  qui n'ont pas de caractères ASCII 
-  associés (par exemple F1, F2, les 
-  flèches etc.).
+  Cela permet de gÃ©rer les touches 
+  qui n'ont pas de caractÃ¨res ASCII 
+  associÃ©s (par exemple F1, F2, les 
+  flÃ¨ches etc.).
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le code de la dernière 
-  touche pressée.
+  Renvoie le code de la derniÃ¨re 
+  touche pressÃ©e.
 
 @Remarks
-  Les touches alpha-numériques ne 
-  sont pas les seules à avoir une 
+  Les touches alpha-numÃ©riques ne 
+  sont pas les seules Ã  avoir une 
   correspondance dans la table ASCII,
   par exemple la touche 'Echap' a 
   la valeur ASCII 27, la touche 
-  'Entrée' la valeur ASCII 13 , 
+  'EntrÃ©e' la valeur ASCII 13 , 
   la touche 'Tab' a la valeur ASCII 9 
-  et la touche 'Retour Arrière' 
+  et la touche 'Retour ArriÃ¨re' 
   a la valeur ASCII 8 , etc.
 @LineBreak
 @LineBreak
@@ -911,10 +911,10 @@ End
         PrintN("Son identifiant numerique est : "+Str(RawKey()))
         
       Else
-        Delay(20) ; Evite de monopoliser tout le temps processeur. Utile pour un OS multi-tâches.
+        Delay(20) ; Evite de monopoliser tout le temps processeur. Utile pour un OS multi-tÃ¢ches.
       EndIf
     
-    Until KeyPressed$ = Chr(27) ; Attends jusqu'à ce que la touche [Echap] soit appuyée
+    Until KeyPressed$ = Chr(27) ; Attends jusqu'Ã  ce que la touche [Echap] soit appuyÃ©e
  EndIf
 @EndCode
 
@@ -927,20 +927,20 @@ End
 
 @Description
   Ecrit le contenu binaire d'une 
-  zone en mémoire buffer dans la 
+  zone en mÃ©moire buffer dans la 
   sortie standard de la console. 
 
 @Parameter "*Memoire"  
-  La mémoire tampon dans laquelle 
-  les données doivent être lues.
+  La mÃ©moire tampon dans laquelle 
+  les donnÃ©es doivent Ãªtre lues.
 
 @Parameter "Taille"
-  La quantité maximale de données 
-  (en octets) à écrire.
+  La quantitÃ© maximale de donnÃ©es 
+  (en octets) Ã  Ã©crire.
 
 @ReturnValue 
   Renvoie le nombre d'octets 
-  réellement écrit dans la sortie 
+  rÃ©ellement Ã©crit dans la sortie 
   standard de la console.
 
 @Remarks
@@ -949,10 +949,10 @@ End
   @Link "EnableGraphicalConsole" "mode graphique". 
 @LineBreak
 @LineBreak
-  Elle est utile pour écrire autre 
+  Elle est utile pour Ã©crire autre 
   chose que du texte dans la console, 
-  ce qui peut être intéressant lorsqu'elle 
-  est ensuite redirigée vers un 
+  ce qui peut Ãªtre intÃ©ressant lorsqu'elle 
+  est ensuite redirigÃ©e vers un 
   fichier ou un autre programme. 
   
 @SeeAlso

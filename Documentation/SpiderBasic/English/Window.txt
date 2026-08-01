@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Window library documentation
 ;
 ;      (c) Fantaisie Software
@@ -334,7 +334,7 @@
 @Function GadgetNumber = EventGadget()
 
 @Description
-  After an event of type @#PB_Event_Gadget, use this function to determine which gadget has been triggered.
+  After an event of type @#PB_Event_Gadget, use this function to determine which @LibraryLink "gadget" "gadget" has been triggered.
   
 @NoParameters
 
@@ -366,6 +366,23 @@
 
 @SeeAlso
   @@EventGadget, @@EventWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetNumber = EventMobile()
+
+@Description
+  After an event of type @#PB_Event_Mobile, use this function to determine which @LibraryLink "mobile" "mobile" object has been triggered.
+  
+@NoParameters
+
+@ReturnValue
+  Returns the #Mobile number associated to the event.
+
+@SeeAlso
+  @@EventTimer, @@EventType
 
 @SupportedOS
 
@@ -416,15 +433,15 @@
   type the event is. The following gadgets support EventType():
 @LineBreak
 @LineBreak
-  - @@CanvasGadget - The CanvasGadget has a special set of event types. @LineBreak
-  - @@ComboBoxGadget @LineBreak
-  - @@EditorGadget @LineBreak
-  - @@ImageGadget @LineBreak
-  - @@ListViewGadget @LineBreak
-  - @@ListIconGadget @LineBreak
-  - @@SpinGadget @LineBreak
-  - @@StringGadget @LineBreak
-  - @@WebGadget - The WebGadget has a special set of event types. @LineBreak
+  @@CanvasGadget - The CanvasGadget has a special set of event types. @LineBreak
+  @@ComboBoxGadget @LineBreak
+  @@EditorGadget @LineBreak
+  @@ImageGadget @LineBreak
+  @@ListViewGadget @LineBreak
+  @@ListIconGadget @LineBreak
+  @@SpinGadget @LineBreak
+  @@StringGadget @LineBreak
+  @@WebGadget - The WebGadget has a special set of event types. @LineBreak
 @LineBreak
  (See the gadget definition to see which events are supported.)  
 
@@ -921,6 +938,7 @@
   @#PB_Event_RenderFrame     : a new frame is ready to be rendered. @@FlipBuffers has to be called to trigger this event.
   @#PB_Event_SizeDesktop     : the deskop has been resized. For example, it can be the browser window which has been resized, 
                               or the device orientation which has been changed.
+  @#PB_Event_ThemeChanged    : The device theme has been changed. @@IsDarkMode can be used to get the new used theme.
 @EndFixedFont
 
 @Parameter "@Callback()"

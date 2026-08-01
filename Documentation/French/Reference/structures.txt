@@ -1,10 +1,10 @@
-@Title Structures
+ï»¿@Title Structures
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Structure"><u>Structure</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#StructureUnion"><u>StructureUnion</u></a></td>
@@ -19,75 +19,75 @@
 @FormatEndIf
 @Syntax
 
-  @Keyword Structure <nom> [@Keyword Extends <name>] [Align <expression numérique constante>]
+  @Keyword Structure <nom> [@Keyword Extends <name>] [Align <expression numÃ©rique constante>]
     ...
   @Keyword EndStructure 
 
 @Description
 
-  @Keyword Structure est utile pour définir un type utilisateur et accéder à des zones mémoires 
-  du système d'exploitation par exemple. Les structures peuvent être utilisées pour rendre l'accès 
-  à des grands fichiers plus facilement. Cela peut être plus efficace dans la mesure où vous pouvez 
-  regrouper dans un même objet des informations communes. On accède aux structures avec le caractère @Keyword \ .
-  Les structures peuvent s'imbriquer. Les tableaux statiques sont acceptés dans une structure.
+  @Keyword Structure est utile pour dÃ©finir un type utilisateur et accÃ©der Ã  des zones mÃ©moires 
+  du systÃ¨me d'exploitation par exemple. Les structures peuvent Ãªtre utilisÃ©es pour rendre l'accÃ¨s 
+  Ã  des grands fichiers plus facilement. Cela peut Ãªtre plus efficace dans la mesure oÃ¹ vous pouvez 
+  regrouper dans un mÃªme objet des informations communes. On accÃ¨de aux structures avec le caractÃ¨re @Keyword \ .
+  Les structures peuvent s'imbriquer. Les tableaux statiques sont acceptÃ©s dans une structure.
   @LineBreak
   @LineBreak
   Les champs de structure doivent avoir un type explicite parmi tous les @ReferenceLink "variables" "Types basiques" 
-  gérés par PureBasic, à savoir Byte (.b), Ascii (.a), Caractère (.c) , Word (.w) , Unicode (.u), 
+  gÃ©rÃ©s par PureBasic, Ã  savoir Byte (.b), Ascii (.a), CaractÃ¨re (.c) , Word (.w) , Unicode (.u), 
    Long (.l), Integer (.i), Float (.f ), Quad (.q), Double (.d)), String (.s) et String Fixe (.s{Longueur}).
   @LineBreak
-  Les objets dynamiques tel que les tableaux, listes et maps sont aussi supportés dans les structures et sont
-  automatiquement initialisés quand l'objet utilisant la structure est déclaré. Pour définir un tel champ,
-  utiliser les mot-clés suivant: @Keyword "Array", @Keyword "List" et @Keyword "Map".
+  Les objets dynamiques tel que les tableaux, listes et maps sont aussi supportÃ©s dans les structures et sont
+  automatiquement initialisÃ©s quand l'objet utilisant la structure est dÃ©clarÃ©. Pour dÃ©finir un tel champ,
+  utiliser les mot-clÃ©s suivant: @Keyword "Array", @Keyword "List" et @Keyword "Map".
   @LineBreak
   @LineBreak
-  Généralement, les structures sont utilisées en association avec une variable, un 
+  GÃ©nÃ©ralement, les structures sont utilisÃ©es en association avec une variable, un 
   @LibraryLink "array" "tableau", une @LibraryLink "list" "liste", ou une 
-  @LibraryLink "map" "map". Toutefois, les utilisateurs avancés pourront allouer une 
-  structure en mémoire avec @@AllocateStructure et la libérer avec @@FreeStructure. 
-  Il est aussi possible d'initialiser une structure en mémoire avec 
+  @LibraryLink "map" "map". Toutefois, les utilisateurs avancÃ©s pourront allouer une 
+  structure en mÃ©moire avec @@AllocateStructure et la libÃ©rer avec @@FreeStructure. 
+  Il est aussi possible d'initialiser une structure en mÃ©moire avec 
   @ReferenceLink "compilerfunctions" "InitializeStructure()", de la copier avec 
   @ReferenceLink "compilerfunctions" "CopyStructure()", de la vider avec 
   @ReferenceLink "compilerfunctions" "ClearStructure()" et de la reinitialiser avec 
   @ReferenceLink "compilerfunctions" "ResetStructure()"
   @LineBreak
   @LineBreak
-  Il est possible de copier une structure complète en utilisant l'opérateur égal 
-  ("=") entre deux éléments de même type.
+  Il est possible de copier une structure complÃ¨te en utilisant l'opÃ©rateur Ã©gal 
+  ("=") entre deux Ã©lÃ©ments de mÃªme type.
   @LineBreak
   @LineBreak 
-  Le paramètre optionnel @Keyword Extends permet d'étendre une structure existante avec de nouveaux champs. 
-  Tous les champs se trouvant dans la structure étendue se retrouveront en tête de la nouvelle structure. 
-  C'est très utile pour faire un héritage simple de structures.
+  Le paramÃ¨tre optionnel @Keyword Extends permet d'Ã©tendre une structure existante avec de nouveaux champs. 
+  Tous les champs se trouvant dans la structure Ã©tendue se retrouveront en tÃªte de la nouvelle structure. 
+  C'est trÃ¨s utile pour faire un hÃ©ritage simple de structures.
   @LineBreak
   @LineBreak
-  Pour les utilisateurs avancés seulement. Le  paramètre @Keyword Align permet d'ajuster l'alignement entre chaque champ de la structure. L'alignement par défaut 
-  est de 1, ce qui signifie pas d'alignement. Par exemple, si l'alignement est fixé à 4, chaque champs sera aligné sur 4 octets. 
-  Cela peut aider à améliorer les performances lors de l'accès aux champs de la structure, mais cela peut utiliser plus de mémoire, car un certain espace 
-  entre chaque champs sera perdu. La valeur spéciale @#PB_Structure_AlignC peut être utilisée pour aligner la structure 
-  telle qu'elle se ferait en langage C, utile lors de l'importation structures C utilisées avec des fonctions API.
+  Pour les utilisateurs avancÃ©s seulement. Le  paramÃ¨tre @Keyword Align permet d'ajuster l'alignement entre chaque champ de la structure. L'alignement par dÃ©faut 
+  est de 1, ce qui signifie pas d'alignement. Par exemple, si l'alignement est fixÃ© Ã  4, chaque champs sera alignÃ© sur 4 octets. 
+  Cela peut aider Ã  amÃ©liorer les performances lors de l'accÃ¨s aux champs de la structure, mais cela peut utiliser plus de mÃ©moire, car un certain espace 
+  entre chaque champs sera perdu. La valeur spÃ©ciale @#PB_Structure_AlignC peut Ãªtre utilisÃ©e pour aligner la structure 
+  telle qu'elle se ferait en langage C, utile lors de l'importation structures C utilisÃ©es avec des fonctions API.
   @LineBreak
   @FixedFont
-  - @ReferenceLink "compilerfunctions" "SizeOf" permet de connaître la taille en octets d'une structure 
-  - @ReferenceLink "compilerfunctions" "OffsetOf" peut être utilisé pour rechercher l'index du champ indiqué. 
+  - @ReferenceLink "compilerfunctions" "SizeOf" permet de connaÃ®tre la taille en octets d'une structure. 
+  - @ReferenceLink "compilerfunctions" "OffsetOf" donne la position (offset) en mÃ©moire d'un champ d'une structure. 
   @EndFixedFont  
   @LineBreak
   @Bold Note : 
-  Un @Bold "Tableau statique" dans une structure ne se comporte pas de la même façon qu'un tableau défini avec la commande  @ReferenceLink "Dim" "Dim".
-  Ceci pour être conforme au format de structures en C/C++ (pour permettre un portage direct des structures de l'API).
-  Ce qui signifie que a@Bold "["2@Bold "]" assignera un tableau de 0 à 1 (deux éléments) alors que Dim a@Bold "("2@Bold ")" assignera un tableau de 0 à 2 (trois éléments).
-  Et Les fonctions de la bibliothèque @LibraryLink "Array" "Array" ne peuvent pas être utilisées avec ce type de tableaux.  
+  Un @Bold "Tableau statique" dans une structure ne se comporte pas de la mÃªme faÃ§on qu'un tableau dÃ©fini avec la commande  @ReferenceLink "Dim" "Dim".
+  Ceci pour Ãªtre conforme au format de structures en C/C++ (pour permettre un portage direct des structures de l'API).
+  Ce qui signifie que a@Bold "["2@Bold "]" assignera un tableau de 0 Ã  1 (deux Ã©lÃ©ments) alors que Dim a@Bold "("2@Bold ")" assignera un tableau de 0 Ã  2 (trois Ã©lÃ©ments).
+  Et Les fonctions de la bibliothÃ¨que @LibraryLink "Array" "Array" ne peuvent pas Ãªtre utilisÃ©es avec ce type de tableaux.  
   @LineBreak
   @LineBreak
-  Lorsque vous utilisez des pointeurs dans les structures, L'étoile '*' doit être 
+  Lorsque vous utilisez des pointeurs dans les structures, L'Ã©toile '*' doit Ãªtre 
   omise lors de l'utilisation du champ, une fois de plus pour faciliter 
-  le portage de code API. Cela peut être considéré comme une bizarrerie (et pour être honnête, ça l'est) 
-  mais c'est comme ça depuis le début de PureBasic et beaucoup, beaucoup de sources sont écrites de cette façon et
-  cela restera inchangé.
+  le portage de code API. Cela peut Ãªtre considÃ©rÃ© comme une bizarrerie (et pour Ãªtre honnÃªte, Ã§a l'est) 
+  mais c'est comme Ã§a depuis le dÃ©but de PureBasic et beaucoup, beaucoup de sources sont Ã©crites de cette faÃ§on et
+  cela restera inchangÃ©.
   @LineBreak
   @LineBreak
-  Quand beaucoup de champs doivent être remplis en une fois, il est conseillé d'utiliser @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" 
-  pour réduire la quantité de code à saisir et améliorer sa lisibilité.
+  Quand beaucoup de champs doivent Ãªtre remplis en une fois, il est conseillÃ© d'utiliser @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" 
+  pour rÃ©duire la quantitÃ© de code Ã  saisir et amÃ©liorer sa lisibilitÃ©.
   
 
 @Example
@@ -108,17 +108,17 @@
   MesAmis(0)\Age = 32
 @EndCode
 
-@Example Structure plus complexe (Tableau statique imbriqué)
+@Example Structure plus complexe (Tableau statique imbriquÃ©)
 @Code
    Structure Fenetre
-    *FenetreSuivante.Fenetre  ; Pointe vers un autre objet fenêtre
+    *FenetreSuivante.Fenetre  ; Pointe vers un autre objet fenÃªtre
     x.w 
     y.w
     Nom.s[10]  ; 10 noms possibles
   EndStructure
 @EndCode
   
-@Example Structure étendue
+@Example Structure Ã©tendue
 @Code
   Structure MonPoint
     x.l 
@@ -164,7 +164,7 @@
   Jean\Nom$ = "Jean"
   Jean\Age   = 23
   
-  ; Ajoutons des amis à Jean
+  ; Ajoutons des amis Ã  Jean
   ;
   AddElement(Jean\Amis$())
   Jean\Amis$() = "Jim"
@@ -177,12 +177,12 @@
   Next
 @EndCode
 
-@Example Tableau statique, dynamique et Structure en argument de procédure
+@Example Tableau statique, dynamique et Structure en argument de procÃ©dure
 @Code
   Structure Truc
     a.l
     b.l[2]          ; Tableau statique (Standard C) avec 2 valeurs b[0] et b[1], non redimensionnable
-    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) à c(3,3), redimensionnable avec ReDim()
+    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) Ã  c(3,3), redimensionnable avec ReDim()
   EndStructure
 
   MaVar.Truc
@@ -201,7 +201,7 @@
   Debug MaVar\c(3,3)
   
   ;Debug MaVar\c(0,10) ; Erreur index hors limite
-  ReDim MaVar\c(3,10)  ; Attention, seule la dernière dimension peut être redimensionnée !
+  ReDim MaVar\c(3,10)  ; Attention, seule la derniÃ¨re dimension peut Ãªtre redimensionnÃ©e !
   Debug  MaVar\c(0,10)
 @EndCode
 
@@ -226,7 +226,7 @@
 @EndCode
 
 
-@Example Alignement Mémoire
+@Example Alignement MÃ©moire
 @Code
   Structure Type Align 4
     Byte.b
@@ -245,7 +245,7 @@
 @Example Pointers
 @Code
   Structure Personne
-    *Next.Personne ; Ici, le '*' est obligatoire pour déclarer un pointeur
+    *Next.Personne ; Ici, le '*' est obligatoire pour dÃ©clarer un pointeur
     Nom$
     Age.b
   EndStructure
@@ -281,13 +281,13 @@
 
 @Description
 
-  @Keyword StructureUnion est prévu pour les programmeurs avancés qui souhaitent économiser de la mémoire en 
-  partageant certains champs à l'intérieur d'une même structure. Il s'agit d'un équivalent du mot clef 'union' en C/C++.
+  @Keyword StructureUnion est prÃ©vu pour les programmeurs avancÃ©s qui souhaitent Ã©conomiser de la mÃ©moire en 
+  partageant certains champs Ã  l'intÃ©rieur d'une mÃªme structure. Il s'agit d'un Ã©quivalent du mot clef 'union' en C/C++.
   @LineBreak
   @LineBreak
-  Note: Chaque champ dans la déclaration @Keyword "StructureUnion" peut être d'un @ReferenceLink "variables" "type" différent.
+  Note: Chaque champ dans la dÃ©claration @Keyword "StructureUnion" peut Ãªtre d'un @ReferenceLink "variables" "type" diffÃ©rent.
   @LineBreak
-  Note: Chaque champ dans la déclaration @Keyword "StructureUnion" est placé à la même adresse mémoire.
+  Note: Chaque champ dans la dÃ©claration @Keyword "StructureUnion" est placÃ© Ã  la mÃªme adresse mÃ©moire.
   
 @Example 
 
@@ -295,7 +295,7 @@
   Structure Type
     Nom$
     StructureUnion
-      Long.l      ; Chaque champ (Long, Float et Byte) est placé à la même adresse mémoire.
+      Long.l      ; Chaque champ (Long, Float et Byte) est placÃ© Ã  la mÃªme adresse mÃ©moire.
       Float.f     ; 
       String.b    ; 
     EndStructureUnion    

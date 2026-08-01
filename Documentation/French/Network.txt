@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Network library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,21 +8,16 @@
 
 @Overview
 
-  Les réseaux sont utilisés dans le monde 
-  entier pour faciliter la communication 
-  et le transfert d'informations entre 
-  ordinateurs. PureBasic supporte le 
-  protocole d'échange de données officiel 
-  d'Internet appelé 
-  @InternetLink "http://fr.wikipedia.org/wiki/TCP/IP" "TCP/IP"
+  Les rÃ©seaux sont utilisÃ©s dans le monde entier pour faciliter la communication 
+  et le transfert d'informations entre ordinateurs. PureBasic supporte le 
+  protocole d'Ã©change de donnÃ©es officiel d'Internet appelÃ© 
+  @InternetLink "https://fr.wikipedia.org/wiki/Internet_protocol_suite" "TCP/IP"
   en version IPv4 et IPv6. 
-  Cela vous permet d'écrire des applications 
-  ou des jeux basés sur ce protocole et le 
-  modèle 'client-serveur'. Avec les fonctions 
-  de cette bibliothèque, il vous est possible 
-  de créer toutes sortes d'applications de 
-  type Internet (navigateurs, serveur Web, 
-  client FTP...) ou des jeux multijoueurs.  
+  Cela vous permet d'Ã©crire des applications ou des jeux basÃ©s sur ce protocole et le 
+  modÃ¨le 'client-serveur'. Avec les fonctions de cette bibliothÃ¨que, il vous est possible 
+  de crÃ©er toutes sortes d'applications de type Internet (navigateurs, serveur Web, 
+  client FTP...) ou des jeux multijoueurs.@LineBreak 
+  Il prend Ã©galement entiÃ¨rement en charge le cryptage TLS via la bibliothÃ¨que @InternetLink "https://www.libressl.org/" "LibreSSL".
 
 @CommandList
 
@@ -39,31 +34,31 @@
   Ferme une connexion. 
   
 @Parameter "Connexion"
-  La connexion à fermer. 
+  La connexion Ã  fermer. 
 @LineBreak  
 @LineBreak  
-  Ceci est le résultat soit d'un appel à
-  @@OpenNetworkConnection ou à @@EventClient.
+  Ceci est le rÃ©sultat soit d'un appel Ã 
+  @@OpenNetworkConnection ou Ã  @@EventClient.
   
 @NoReturnValue
   
 @Remarks  
-  Si cette commande est utilisée en mode 
-  client, le serveur recevra un événement 
+  Si cette commande est utilisÃ©e en mode 
+  client, le serveur recevra un Ã©vÃ©nement 
   @#PB_NetworkEvent_Disconnect" (utilisateur 
-  déconnecté). @LineBreak
-  Si cette commande est utilisée en mode 
-  serveur, la connexion sera fermée sans 
+  dÃ©connectÃ©). @LineBreak
+  Si cette commande est utilisÃ©e en mode 
+  serveur, la connexion sera fermÃ©e sans 
   aucune notification pour le client. 
-  Quand un serveur reçoit un événement 
+  Quand un serveur reÃ§oit un Ã©vÃ©nement 
   @#PB_NetworkEvent_Disconnect, la connexion 
-  client associée est automatiquement fermée.
-  CloseNetworkConnection() ne doit pas être 
-  appelé dans ce cas. 
+  client associÃ©e est automatiquement fermÃ©e.
+  CloseNetworkConnection() ne doit pas Ãªtre 
+  appelÃ© dans ce cas. 
 @LineBreak  
 @LineBreak
   Toutes les connexions restant ouvertes 
-  sont automatiquement fermées quand le 
+  sont automatiquement fermÃ©es quand le 
   programme se termine. 
 
 @SeeAlso
@@ -77,21 +72,21 @@
 @Function Resultat = ConnectionID(Connexion)
 
 @Description
-  Renvoie l'identifiant système unique 
+  Renvoie l'identifiant systÃ¨me unique 
   d'une connexion.
   
 @Parameter "Connexion"
-  La connexion à tester. 
+  La connexion Ã  tester. 
 @LineBreak  
 @LineBreak  
-  Ceci est le résultat soit d'un appel à
-  @@OpenNetworkConnection ou à @@EventClient.
+  Ceci est le rÃ©sultat soit d'un appel Ã 
+  @@OpenNetworkConnection ou Ã  @@EventClient.
   
 @ReturnValue
-  Renvoie l'identifiant système. @LineBreak 
-  Ce résultat est parfois aussi appelé 
+  Renvoie l'identifiant systÃ¨me. @LineBreak 
+  Ce rÃ©sultat est parfois aussi appelÃ© 
   'Handle'. Regardez le chapitre 
-  @ReferenceLink "handles" "Numéros et Identifiants (Handles)" 
+  @ReferenceLink "handles" "NumÃ©ros et Identifiants (Handles)" 
   pour plus d'informations.
   
 @SeeAlso
@@ -104,17 +99,17 @@
 @Function Resultat = ServerID(#Serveur)
 
 @Description
-  Renvoie l'identifiant système unique 
+  Renvoie l'identifiant systÃ¨me unique 
   d'un serveur.
  
 @Parameter "#Serveur"
-  Le serveur à tester.
+  Le serveur Ã  tester.
   
 @ReturnValue
-  Renvoie l'identifiant système.
-  Ce résultat est parfois aussi appelé 
+  Renvoie l'identifiant systÃ¨me.
+  Ce rÃ©sultat est parfois aussi appelÃ© 
   'Handle'. Regardez le chapitre 
-  @ReferenceLink "handles" "Numéros et Identifiants 
+  @ReferenceLink "handles" "NumÃ©ros et Identifiants 
   (Handles)" pour plus d'informations.
 
 @SeeAlso
@@ -130,14 +125,14 @@
   Ferme un serveur. 
   
 @Parameter "#Server"
-  Le serveur à fermer.
+  Le serveur Ã  fermer.
   
 @NoReturnValue
 
 @Remarks
-  Tous les clients connectés à ce serveur 
-  sont automatiquement déconnectés. Le port 
-  est libéré et peut être réutilisé par une 
+  Tous les clients connectÃ©s Ã  ce serveur 
+  sont automatiquement dÃ©connectÃ©s. Le port 
+  est libÃ©rÃ© et peut Ãªtre rÃ©utilisÃ© par une 
   autre application ou par un autre serveur.
 
 @SeeAlso
@@ -148,86 +143,81 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateNetworkServer(#Serveur, Port [, Mode [, IPLocale$]])
+@Function Resultat = CreateNetworkServer(#Serveur, Port [, Option [, IPLocale$]])
 
 @Description
-  Crée un nouveau serveur réseau sur 
-  l'ordinateur local sur le port spécifié.
+  CrÃ©e un nouveau serveur rÃ©seau sur l'ordinateur local sur le port spÃ©cifiÃ©.
   
 @Parameter "#Serveur"
-  Le numéro d'identification du nouveau 
-  serveur.
+  Le numÃ©ro d'identification du nouveau serveur.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
   
 @Parameter "Port"
-  Le port à utiliser par le serveur.
+  Le port Ã  utiliser par le serveur.
 @LineBreak
 @LineBreak
-  Les valeurs du port peuvent aller de 6000 
-  à 7000 (ce sont les valeurs recommandées,
-  mais elles peuvent aller en réalité de 0 
-  à 65535). 
+  Les valeurs du port peuvent aller de 6000 Ã  7000 (ce sont les valeurs recommandÃ©es,
+  mais elles peuvent aller en rÃ©alitÃ© de 0 Ã  65535). 
   
-@OptionalParameter "Mode"
-  Peut être l'une des valeurs suivantes:
+@OptionalParameter "Option"
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Network_TCP: Le serveur utilisera le protocole @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (mode par défaut).
+  @#PB_Network_TCP: Le serveur utilisera le protocole @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (mode par dÃ©faut).
   @#PB_Network_UDP: Le serveur utilisera le protocole @InternetLink "http://fr.wikipedia.org/wiki/User_Datagram_Protocol" "UDP".
 @EndFixedFont
-  Combiné à l'une des valeurs suivantes (en utilisant le symbole |):
+  CombinÃ© Ã  l'une des valeurs suivantes (en utilisant le symbole |):
 @FixedFont
-  @#PB_Network_IPv4: Crée un serveur en utilisant IPv4 (par défaut).
-  @#PB_Network_IPv6: Crée un serveur en utilisant IPv6.
+  @#PB_Network_IPv4: CrÃ©e un serveur en utilisant IPv4 (par dÃ©faut).
+  @#PB_Network_IPv6: CrÃ©e un serveur en utilisant IPv6.
+@EndFixedFont
+  combinÃ© avec l'une des valeurs suivantes (en utilisant l'opÃ©rande '|')Â :
+@FixedFont
+@#PB_Network_NoTLSÂ   : Aucun chiffrement ne sera utilisÃ© pour ce serveur (par dÃ©faut)
+@#PB_Network_TLSv1Â   : Tous les protocoles TLS non obsolÃ¨tes seront pris en charge (actuellement v1.2 et v1.3)
+@#PB_Network_TLSv1_0Â : Le protocole TLS v1.0 sera pris en charge (attention, ce protocole est obsolÃ¨te pour des raisons de sÃ©curitÃ©)
+@#PB_Network_TLSv1_1Â : Le protocole TLS v1.1 sera pris en charge (attention, ce protocole est obsolÃ¨te pour des raisons de sÃ©curitÃ©)
+@#PB_Network_TLSv1_2Â : Le protocole TLS v1.2 sera pris en charge
+@#PB_Network_TLSv1_3Â : Le protocole TLS v1.3 sera pris en charge
 @EndFixedFont
 
 @OptionalParameter "IPLocale$"
-  L'adresse IP locale à lier au serveur. 
+  L'adresse IP locale Ã  lier au serveur. 
 @Indent
-  Par défaut, le serveur fonctionne sur toutes 
-  les interfaces locales disponibles, et 
-  accepte toutes leurs connexions. Il peut 
-  être utile de restreindre le serveur à une 
-  seule interface (par exemple, "127.0.0.1") 
-  pour éviter les tentatives de connexion à 
-  partir d'autres interfaces. Sous Windows, 
-  la liaison à l'hôte local permet d'éviter 
-  de déclencher le pare-feu intégré.
+  Par dÃ©faut, le serveur fonctionne sur toutes les interfaces locales disponibles, et 
+  accepte toutes leurs connexions. Il peut Ãªtre utile de restreindre le serveur Ã  une 
+  seule interface (par exemple, "127.0.0.1") pour Ã©viter les tentatives de connexion Ã  
+  partir d'autres interfaces. Sous Windows, la liaison Ã  l'hÃ´te local permet d'Ã©viter 
+  de dÃ©clencher le pare-feu intÃ©grÃ©.
 @EndIndent
 
 @ReturnValue
-  Renvoie une valeur non nulle si le serveur 
-  a été créé avec succès ou zéro si la création 
-  a échoué (par exemple parce que le port 
-  est en cours d'utilisation).@LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  #Serveur alors le nombre généré est 
-  renvoyé en cas de succès.
+  Renvoie une valeur non nulle si le serveur a Ã©tÃ© crÃ©Ã© avec succÃ¨s ou zÃ©ro si la crÃ©ation 
+  a Ã©chouÃ© (par exemple parce que le port est en cours d'utilisation).@LineBreak
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre #Serveur alors le nombre gÃ©nÃ©rÃ© est 
+  renvoyÃ© en cas de succÃ¨s.
   
 @Remarks
-  Un nombre quelconque de serveurs peuvent 
-  tourner simultanément sur la même machine, 
-  mais jamais avec le même numéro de port 
-  et le même protocole (@#PB_Network_TCP et 
+  Un nombre quelconque de serveurs peuvent tourner simultanÃ©ment sur la mÃªme machine, 
+  mais jamais avec le mÃªme numÃ©ro de port et le mÃªme protocole (@#PB_Network_TCP et 
   @#PB_Network_UDP).
 @LineBreak
 @LineBreak 
-  Il est possible de créer deux serveurs 
-  utilisant le même port, l'un utilisant 
+  Il est possible de crÃ©er deux serveurs utilisant le mÃªme port, l'un utilisant 
   IPv4 et l'autre en utilisant IPv6. 
 @LineBreak
 @LineBreak
-  @@NetworkServerEvent peut être utilisé 
-  pour surveiller les nouveaux événements 
+  @@NetworkServerEvent peut Ãªtre utilisÃ© pour surveiller les nouveaux Ã©vÃ©nements 
   serveur.
+@LineBreak
+@LineBreak
+  Pour prendre en charge le cryptage TLS, @@UseNetworkTLS doit Ãªtre appelÃ© avant cette 
+  commande et une option TLS doit Ãªtre spÃ©cifiÃ©e.
 
 @SeeAlso
-  @@OpenNetworkConnection, 
-  @@CloseNetworkServer, 
-  @@NetworkServerEvent, 
+  @@OpenNetworkConnection, @@CloseNetworkServer, @@NetworkServerEvent, @@UseNetworkTLS  
  
 @SupportedOS
 
@@ -237,22 +227,22 @@
 
 @Description
 
-  Démarre l'examen des adresses IP valables 
+  DÃ©marre l'examen des adresses IP valables 
   sur l'ordinateur local. @@NextIPAddress 
-  sera utilisé pour retrouver chaque adresse.
+  sera utilisÃ© pour retrouver chaque adresse.
  
 @OptionalParameter "Format"
-  Le format de l'adresse IP à examiner.@LineBreak 
-  Peut être une des valeurs suivantes:
+  Le format de l'adresse IP Ã  examiner.@LineBreak 
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_Network_IPv4: Examine les adresses IPv4 (par défaut).
+  @#PB_Network_IPv4: Examine les adresses IPv4 (par dÃ©faut).
   @#PB_Network_IPv6: Examine les adresses IPv6. 
-                    Les adresses renvoyées doivent être libérées avec @@FreeIP après utilisation.
+                    Les adresses renvoyÃ©es doivent Ãªtre libÃ©rÃ©es avec @@FreeIP aprÃ¨s utilisation.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si l'examen 
-  a réussi, zéro sinon.
+  a rÃ©ussi, zÃ©ro sinon.
   
 @Example IPv4
 @Code
@@ -289,19 +279,19 @@
 @Function FreeIP(AdresseIP) 
 
 @Description
-  Libère une adresse IPv6. 
+  LibÃ¨re une adresse IPv6. 
   
 @Parameter "AdresseIP":
-  L'adresse IPv6 à libérer.
+  L'adresse IPv6 Ã  libÃ©rer.
 
 @NoReturnValue
 
 @Remarks
   Cette fonction fonctionne uniquement avec 
-  des adresses IPv6 renvoyées par 
+  des adresses IPv6 renvoyÃ©es par 
   @@MakeIPAddress, @@NextIPAddress et 
-  @@GetClientIP. Elle ne doit pas être 
-  utilisée avec des adresses IPv4.
+  @@GetClientIP. Elle ne doit pas Ãªtre 
+  utilisÃ©e avec des adresses IPv4.
   
 @SeeAlso
   @@NextIPAddress, @@MakeIPAddress, 
@@ -319,7 +309,7 @@
 @NoParameters
 
 @ReturnValue
-  Renvoie le nom d'hôte.
+  Renvoie le nom d'hÃ´te.
 
 @SupportedOS
 
@@ -328,27 +318,27 @@
 @Function Resultat$ = IPString(AdresseIP [, Format]) 
 
 @Description
-  Renvoie la représentation chaîne d'une 
+  Renvoie la reprÃ©sentation chaÃ®ne d'une 
   adresse IP.
 
 @Parameter "AdresseIP"
   L'adresse IP.
 @LineBreak
 @LineBreak
-  Pour IPv6, cette adresse doit être le 
-  résultat de @@MakeIPAddress, 
+  Pour IPv6, cette adresse doit Ãªtre le 
+  rÃ©sultat de @@MakeIPAddress, 
   @@NextIPAddress ou @@GetClientIP.
 
 @OptionalParameter "Format"
-  Le format de l'adresse IP à convertir.@LineBreak 
-  Peut être une des valeurs suivantes:
+  Le format de l'adresse IP Ã  convertir.@LineBreak 
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_Network_IPv4: Convertit une adresse IPv4 (par défaut).
+  @#PB_Network_IPv4: Convertit une adresse IPv4 (par dÃ©faut).
   @#PB_Network_IPv6: Convertit une adresse IPv6.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie l'adresse IP en tant que chaîne.
+  Renvoie l'adresse IP en tant que chaÃ®ne.
   @LineBreak
   Sous la forme "127.0.0.1" pour IPv4 ou 
   "::1" pour IPv6.
@@ -364,41 +354,41 @@
 
 @Description
   Renvoie la valeur du champ de l'adresse 
-  IP spécifiée. 
+  IP spÃ©cifiÃ©e. 
   
 @Parameter "AdresseIP"
   L'adresse IP. 
 @LineBreak  
 @LineBreak   
-  Pour IPv6, cette adresse doit être créée 
+  Pour IPv6, cette adresse doit Ãªtre crÃ©Ã©e 
   avec @@MakeIPAddress.
 
 @Parameter "Champ"
-  Le champ à renvoyer. 
+  Le champ Ã  renvoyer. 
 @LineBreak  
 @LineBreak  
-  Cette valeur peut être une valeur comprise 
+  Cette valeur peut Ãªtre une valeur comprise 
   entre 0 et 3. 
   @LineBreak  
-  (0 étant la valeur la plus à gauche, 3 
-  étant la plus à droite) pour IPv4 et de 0 
-  à 7 pour IPv6.
+  (0 Ã©tant la valeur la plus Ã  gauche, 3 
+  Ã©tant la plus Ã  droite) pour IPv4 et de 0 
+  Ã  7 pour IPv6.
 
 @OptionalParameter "Format"
   Le format de l'adresse IP.@LineBreak 
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_Network_IPv4: Une adresse IPv4 (par défaut).
+  @#PB_Network_IPv4: Une adresse IPv4 (par dÃ©faut).
   @#PB_Network_IPv6: Une adresse IPv6.
 @EndFixedFont
  
 @ReturnValue
-  Renvoie la valeur du champ spécifié, dans 
-  la plage de 0 à 255.
+  Renvoie la valeur du champ spÃ©cifiÃ©, dans 
+  la plage de 0 Ã  255.
   
 @Remarks
   Cette commande est utile quand elle est 
-  utilisée en conjonction avec:
+  utilisÃ©e en conjonction avec:
 @LineBreak  
 @LineBreak
   - @@IPAddressGadget @LineBreak
@@ -415,11 +405,11 @@
 @Function Resultat = MakeIPAddress(Champ0, Champ1, Champ2, Champ3 [, Champ4, Champ5, Champ6, Champ7]) 
 
 @Description
-  Renvoie la valeur numérique équivalente 
-  à une adresse IP.
+  Renvoie la valeur numÃ©rique Ã©quivalente 
+  Ã  une adresse IP.
   
 @Parameter "Champ0, Champ1, Champ2, Champ3"
-  Les différents champs de l'adresse. 
+  Les diffÃ©rents champs de l'adresse. 
   @LineBreak
   Chaque champ a une valeur comprise entre 
   0 et 255.
@@ -430,11 +420,11 @@
   Chaque champ a une valeur comprise entre 
   0 et 255.
   @LineBreak
-  Lorsque ces champs sont spécifiés, une 
-  adresse IPv6 est créée. Lorsque l'adresse 
-  n'est plus nécessaire, elle doit être 
-  libérée manuellement avec @@FreeIP. 
-  Une adresse IPv4 ne doit pas être libérée 
+  Lorsque ces champs sont spÃ©cifiÃ©s, une 
+  adresse IPv6 est crÃ©Ã©e. Lorsque l'adresse 
+  n'est plus nÃ©cessaire, elle doit Ãªtre 
+  libÃ©rÃ©e manuellement avec @@FreeIP. 
+  Une adresse IPv4 ne doit pas Ãªtre libÃ©rÃ©e 
   avec @@FreeIP.
 
 @ReturnValue
@@ -442,7 +432,7 @@
   
 @Remarks
    Cette commande est utile quand elle est 
-   utilisée en conjonction avec:
+   utilisÃ©e en conjonction avec:
 @LineBreak  
 @LineBreak
   - @@IPAddressGadget
@@ -457,17 +447,17 @@
 @Function Resultat = EventServer() 
 
 @Description
-  Cette fonction n'est nécessaire que côté 
+  Cette fonction n'est nÃ©cessaire que cÃ´tÃ© 
   serveur et permet de savoir sur quel 
-  serveur les données ont été reçues et 
-  ainsi de pouvoir gérer plusieurs serveurs 
-  simultanément dans le même programme.
+  serveur les donnÃ©es ont Ã©tÃ© reÃ§ues et 
+  ainsi de pouvoir gÃ©rer plusieurs serveurs 
+  simultanÃ©ment dans le mÃªme programme.
   
 @NoParameters
 
 @ReturnValue
-  Renvoie le numéro du serveur qui a 
-  provoqué l'événement.
+  Renvoie le numÃ©ro du serveur qui a 
+  provoquÃ© l'Ã©vÃ©nement.
 
 @SeeAlso
   @@NetworkServerEvent, @@EventClient
@@ -479,21 +469,21 @@
 @Function Resultat = EventClient() 
 
 @Description
-  Cette fonction n'est nécessaire que côté 
+  Cette fonction n'est nÃ©cessaire que cÃ´tÃ© 
   serveur et permet de savoir quel est 
-  la connexion du client qui a envoyé les données.
+  la connexion du client qui a envoyÃ© les donnÃ©es.
    
 @NoParameters
 
 @ReturnValue
   Renvoie la connexion du client qui a 
-  provoqué l'événement.
+  provoquÃ© l'Ã©vÃ©nement.
    
 @Remarks
   Les commandes @@GetClientIP et 
-  @@GetClientPort peuvent servir à 
-  collecter plus d'informations à propos 
-  du client qui a émis les données.
+  @@GetClientPort peuvent servir Ã  
+  collecter plus d'informations Ã  propos 
+  du client qui a Ã©mis les donnÃ©es.
 
 @SeeAlso
   @@NetworkServerEvent, @@GetClientIP, 
@@ -516,22 +506,22 @@
   Renvoie l'adresse IP du client.
 
 @Remarks
-  Cette commande doit être appelée après 
+  Cette commande doit Ãªtre appelÃ©e aprÃ¨s 
   @@EventClient. 
 @LineBreak
 @LineBreak  
   La commande @@GetClientPort est aussi 
-  disponible pour connaître le port du 
+  disponible pour connaÃ®tre le port du 
   client.
 @LineBreak
 @LineBreak
-  @@IPString peut être utilisé pour 
-  convertir l'adresse IP dans une chaîne.
+  @@IPString peut Ãªtre utilisÃ© pour 
+  convertir l'adresse IP dans une chaÃ®ne.
 @LineBreak
 @LineBreak
   Si la connexion est une connexion IPv6, 
-  l'adresse renvoyée doit être libérée 
-  avec @@FreeIP après utilisation.
+  l'adresse renvoyÃ©e doit Ãªtre libÃ©rÃ©e 
+  avec @@FreeIP aprÃ¨s utilisation.
   
 @SeeAlso
   @@GetClientPort, @@IPString, 
@@ -553,7 +543,7 @@
   Renvoie le port du client.
 
 @Remarks
-  Cette commande doit être appelée après 
+  Cette commande doit Ãªtre appelÃ©e aprÃ¨s 
   @@EventClient. 
 
 @SeeAlso
@@ -566,19 +556,19 @@
 @Function Resultat = NetworkClientEvent(Connexion) 
 
 @Description
-  Vérifie si un événement s'est produit 
-  sur une connexion réseau créée par 
+  VÃ©rifie si un Ã©vÃ©nement s'est produit 
+  sur une connexion rÃ©seau crÃ©Ã©e par 
   @@OpenNetworkConnection.
 
 @Parameter "Connexion"
-  La connexion à tester.
+  La connexion Ã  tester.
 
 @ReturnValue
   Renvoie une des valeurs suivantes:
 @FixedFont
-  @#PB_NetworkEvent_None      : Il ne s'est rien passé.
-  @#PB_NetworkEvent_Data      : Des données ont été reçues (à lire avec @@ReceiveNetworkData) 
-  @#PB_NetworkEvent_Disconnect: Le client a été déconnecté (la connexion est fermée).
+  @#PB_NetworkEvent_None      : Il ne s'est rien passÃ©.
+  @#PB_NetworkEvent_Data      : Des donnÃ©es ont Ã©tÃ© reÃ§ues (Ã  lire avec @@ReceiveNetworkData) 
+  @#PB_NetworkEvent_Disconnect: Le client a Ã©tÃ© dÃ©connectÃ© (la connexion est fermÃ©e).
 @EndFixedFont
 
 @SeeAlso
@@ -591,36 +581,36 @@
 @Function Resultat = NetworkServerEvent([#Serveur]) 
 
 @Description
-  Vérifie si un événement s'est produit sur 
-  l'un des serveurs du réseau.
+  VÃ©rifie si un Ã©vÃ©nement s'est produit sur 
+  l'un des serveurs du rÃ©seau.
 
 @OptionalParameter "#Serveur"
-  Le serveur à surveiller. 
+  Le serveur Ã  surveiller. 
 @LineBreak
 @LineBreak
-  Quand cette option est utilisée, seuls 
-  les évènements provenant de ce serveur 
-  sont utilisés, tous les autres 
-  évènements sont laissés de côté.
+  Quand cette option est utilisÃ©e, seuls 
+  les Ã©vÃ¨nements provenant de ce serveur 
+  sont utilisÃ©s, tous les autres 
+  Ã©vÃ¨nements sont laissÃ©s de cÃ´tÃ©.
 
 @NoParameters
 
 @ReturnValue
   Renvoie une des valeurs suivantes:
 @FixedFont
-  @#PB_NetworkEvent_None      : Il ne s'est rien passé.
-  @#PB_NetworkEvent_Connect   : Un nouveau client s'est connecté au serveur (non disponible avec les connexions @#PB_Network_UDP).
-  @#PB_NetworkEvent_Data      : Des données ont été reçues (à lire avec @@ReceiveNetworkData).
-  @#PB_NetworkEvent_Disconnect: Un client s'est déconnecté du serveur. Sa connexion associée est automatiquement fermée,
-                               @@CloseNetworkConnection ne doit pas être appelée pour ce client.
+  @#PB_NetworkEvent_None      : Il ne s'est rien passÃ©.
+  @#PB_NetworkEvent_Connect   : Un nouveau client s'est connectÃ© au serveur (non disponible avec les connexions @#PB_Network_UDP).
+  @#PB_NetworkEvent_Data      : Des donnÃ©es ont Ã©tÃ© reÃ§ues (Ã  lire avec @@ReceiveNetworkData).
+  @#PB_NetworkEvent_Disconnect: Un client s'est dÃ©connectÃ© du serveur. Sa connexion associÃ©e est automatiquement fermÃ©e,
+                               @@CloseNetworkConnection ne doit pas Ãªtre appelÃ©e pour ce client.
                                (Non disponible avec les connexions @#PB_Network_UDP)
 @EndFixedFont  
 
 @Remarks
-  Le serveur qui a reçu l'événement peut 
-  être déterminé avec @@EventServer. Le 
-  client qui a provoqué l'événement 
-  peut être déterminé avec @@EventClient.
+  Le serveur qui a reÃ§u l'Ã©vÃ©nement peut 
+  Ãªtre dÃ©terminÃ© avec @@EventServer. Le 
+  client qui a provoquÃ© l'Ã©vÃ©nement 
+  peut Ãªtre dÃ©terminÃ© avec @@EventClient.
 
 @SeeAlso
   @@ReceiveNetworkData, @@EventServer, 
@@ -641,13 +631,13 @@
 
 @ReturnValue  
   Renvoie l'adresse IP suivante sous forme 
-  numérique. 
-  Si le résultat est zéro, alors il n'y a 
-  pas d'autres adresses IP à examiner.
-  Si @@ExamineIPAddresses est appelé avec 
+  numÃ©rique. 
+  Si le rÃ©sultat est zÃ©ro, alors il n'y a 
+  pas d'autres adresses IP Ã  examiner.
+  Si @@ExamineIPAddresses est appelÃ© avec 
   le format @#PB_Network_IPv6, les adresses 
-  IP renvoyées doivent être libérées avec 
-  @@FreeIP après utilisation.
+  IP renvoyÃ©es doivent Ãªtre libÃ©rÃ©es avec 
+  @@FreeIP aprÃ¨s utilisation.
 
 @Example IPv4
 @Code
@@ -681,65 +671,75 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = OpenNetworkConnection(NomServeur$, Port [, Mode [, TempsMax [, IPLocal$ [, PortLocal]]]]) 
+@Function Resultat = OpenNetworkConnection(NomServeur$, Port [, Option [, TempsMax [, IPLocal$ [, PortLocal]]]]) 
 
 @Description
-  Ouvre une connexion réseau sur le serveur 
-  spécifié. 
+  Ouvre une connexion rÃ©seau sur le serveur spÃ©cifiÃ©. 
 
 @Parameter "NomServeur$"
   Le serveur. @LineBreak
-  Cela peut être une adresse IP ou un nom 
+  Cela peut Ãªtre une adresse IP ou un nom 
   complet (ex: "127.0.0.1" ou "ftp.home.net").
   
 @Parameter "Port"
   Le port du serveur.
 
-@OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+@OptionalParameter "Option"
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Network_TCP: La connexion utilisera le protocole réseau @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (default)
-  @#PB_Network_UDP: La connexion utilisera le protocole réseau @InternetLink "http://fr.wikipedia.org/wiki/User_Datagram_Protocol" "UDP". 
-                   La connexion ne sera pas explicitement créée, car UDP est un protocole sans connexion, mais il faudra ajouter 
-                   une entrée dans la pile de gestion PureBasic pour lui permettre d'envoyer des données via UDP en utilisant 
-                   les fonctions régulières @@SendNetworkData (et connexes) .
+  @#PB_Network_TCP: La connexion utilisera le protocole rÃ©seau @InternetLink "http://fr.wikipedia.org/wiki/Transmission_Control_Protocol" "TCP" (default)
+  @#PB_Network_UDP: La connexion utilisera le protocole rÃ©seau @InternetLink "http://fr.wikipedia.org/wiki/User_Datagram_Protocol" "UDP". 
+                   La connexion ne sera pas explicitement crÃ©Ã©e, car UDP est un protocole sans connexion, mais il faudra ajouter 
+                   une entrÃ©e dans la pile de gestion PureBasic pour lui permettre d'envoyer des donnÃ©es via UDP en utilisant 
+                   les fonctions rÃ©guliÃ¨res @@SendNetworkData (et connexes) .
 @EndFixedFont
-  Combinée à l'une des valeurs suivantes 
+  CombinÃ©e Ã  l'une des valeurs suivantes 
   (en utilisant le symbole | ):
 @FixedFont
-  @#PB_Network_IPv4: Ouvre la connexion en utilisant IPv4 (par défaut).
+  @#PB_Network_IPv4: Ouvre la connexion en utilisant IPv4 (par dÃ©faut).
   @#PB_Network_IPv6: Ouvre la connexion en utilisant IPv6.
+@EndFixedFont
+  combinÃ© avec l'une des valeurs suivantes (en utilisant l'opÃ©rande '|')Â :
+@FixedFont
+  @#PB_Network_NoTLSÂ : aucun chiffrement ne sera pris en charge pour cette connexion (par dÃ©faut)
+  @#PB_Network_TLSv1Â : tous les protocoles TLS non obsolÃ¨tes seront pris en charge (actuellement v1.2 et v1.3)
+  @#PB_Network_TLSv1_0Â : le protocole TLS v1.0 sera pris en charge (attention, ce protocole est obsolÃ¨te pour des raisons de sÃ©curitÃ©)
+  @#PB_Network_TLSv1_1Â : le protocole TLS v1.1 sera pris en charge (attention, ce protocole est obsolÃ¨te pour des raisons de sÃ©curitÃ©)
+  @#PB_Network_TLSv1_2Â : le protocole TLS v1.2 sera pris en charge
+  @#PB_Network_TLSv1_3Â : le protocole TLS v1.3 sera pris en charge
 @EndFixedFont
 
 @OptionalParameter "TempsMax"
   Le temps maximal (en millisecondes) avant 
   d'abandonner la tentative de connexion. 
-  Il ne devrait pas être réglé sur une 
-  valeur trop faible (inférieur à 5000 
+  Il ne devrait pas Ãªtre rÃ©glÃ© sur une 
+  valeur trop faible (infÃ©rieur Ã  5000 
   millisecondes), car l'initialisation 
-  d'une connexion sur le réseau peut prendre 
+  d'une connexion sur le rÃ©seau peut prendre 
   un certain temps.
 
 @OptionalParameter "IPLocal$"
-  L'adresse IP locale liée à la connexion.
+  L'adresse IP locale liÃ©e Ã  la connexion.
 
 @OptionalParameter "PortLocal"
-  Le port local lié à la connexion.
+  Le port local liÃ© Ã  la connexion.
   @LineBreak 
-  Par défaut, un port local aléatoire est 
+  Par dÃ©faut, un port local alÃ©atoire est 
   automatiquement choisi pour la nouvelle 
-  connexion, mais il peut être remplacé par 
-  ce paramètre.
+  connexion, mais il peut Ãªtre remplacÃ© par 
+  ce paramÃ¨tre.
 
 @ReturnValue
   Renvoie un identifiant de connexion pour 
   la connexion ouverte si la connexion a 
-  été établie correctement, zéro sinon.
+  Ã©tÃ© Ã©tablie correctement, zÃ©ro sinon.
+
+@Remarks
+  Pour prendre en charge le chiffrement TLS, @@UseNetworkTLS doit Ãªtre appelÃ© avant cette commande et un indicateur TLS doit Ãªtre spÃ©cifiÃ©.
 
 @SeeAlso
-  @@NetworkClientEvent, @@SendNetworkData, 
-  @@ReceiveNetworkData, 
-  @@CloseNetworkConnection
+  @@NetworkClientEvent, @@SendNetworkData, @@ReceiveNetworkData, 
+  @@CloseNetworkConnection, @@UseNetworkTLS
 
 @SupportedOS
 
@@ -748,43 +748,43 @@
 @Function Resultat = ReceiveNetworkData(Connexion, *MemoireTampon, LongueurMemoireTampon)  
 
 @Description
-  Reçoit une donnée brute du client spécifié. 
-  Cette fonction peut être utilisée par
+  ReÃ§oit une donnÃ©e brute du client spÃ©cifiÃ©. 
+  Cette fonction peut Ãªtre utilisÃ©e par
   une application Serveur ou Client.
  
 @Parameter "Connexion"
   La connexion.
 @LineBreak
 @LineBreak
-   Du côté serveur, 'Connexion' est le 
-   client qui a envoyé les données 
-   (peut être facilement obtenue avec 
+   Du cÃ´tÃ© serveur, 'Connexion' est le 
+   client qui a envoyÃ© les donnÃ©es 
+   (peut Ãªtre facilement obtenue avec 
    @@EventClient).@LineBreak
-   Du côté client, 'Connexion' est renvoyé 
+   Du cÃ´tÃ© client, 'Connexion' est renvoyÃ© 
    par @@OpenNetworkConnection. 
 
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon qui 
-  réceptionne les données.
+  L'adresse de la mÃ©moire tampon qui 
+  rÃ©ceptionne les donnÃ©es.
 
 @Parameter "LongueurMemoireTampon"
-  La taille de la mémoire tampon qui 
-  réceptionne les données.
+  La taille de la mÃ©moire tampon qui 
+  rÃ©ceptionne les donnÃ©es.
 
 @ReturnValue
-  Renvoie le nombre d'octets reçus.
+  Renvoie le nombre d'octets reÃ§us.
   @LineBreak
-  Si 'Resultat' est égal à 
+  Si 'Resultat' est Ã©gal Ã  
   'LongueurMemoireTampon', alors il reste 
-  des données en attente à lire. @LineBreak
+  des donnÃ©es en attente Ã  lire. @LineBreak
   Si une erreur s'est produite pendant la 
-  connexion (lien mort, connexion fermée 
+  connexion (lien mort, connexion fermÃ©e 
   par le serveur, etc), 'Resultat' sera 
-  égal à -1.  
+  Ã©gal Ã  -1.  
 
 @Remarks
-  Elle doit être appelée uniquement après 
-  avoir reçu un événement 
+  Elle doit Ãªtre appelÃ©e uniquement aprÃ¨s 
+  avoir reÃ§u un Ã©vÃ©nement 
   @#PB_NetworkEvent_Data.@LineBreak
   Avec les connexions UDP, le maximum pour 
   'LongueurMemoireTampon' est 2048. 
@@ -804,37 +804,37 @@
 @Function Resultat = SendNetworkData(Connexion, *MemoireTampon, LongueurMemoireTampon)
 
 @Description
-  Envoie des données brutes au client 
-  spécifié. Cette fonction peut être 
-  utilisée par une application Serveur 
+  Envoie des donnÃ©es brutes au client 
+  spÃ©cifiÃ©. Cette fonction peut Ãªtre 
+  utilisÃ©e par une application Serveur 
   ou Client.
 
 @Parameter "Connexion"
   La connexion.
 @LineBreak
 @LineBreak
-   Du côté serveur, 'Connexion' est le 
-   client qui a reçu les données.@LineBreak
-   Du côté client, 'Connexion' est renvoyé 
+   Du cÃ´tÃ© serveur, 'Connexion' est le 
+   client qui a reÃ§u les donnÃ©es.@LineBreak
+   Du cÃ´tÃ© client, 'Connexion' est renvoyÃ© 
    par @@OpenNetworkConnection. 
 
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon d'envoi 
-  des données.
+  L'adresse de la mÃ©moire tampon d'envoi 
+  des donnÃ©es.
 
 @Parameter "LongueurMemoireTampon"
-  La taille de la mémoire tampon d'envoi 
-  des données.
+  La taille de la mÃ©moire tampon d'envoi 
+  des donnÃ©es.
 
 @ReturnValue
-  Renvoie le nombre d'octets qui ont été 
-  effectivement envoyés. @LineBreak
-  S'il n'est pas égal à 
-  'LongueurMemoireTampon', la mémoire 
-  tampon de réception de l'utilisateur 
+  Renvoie le nombre d'octets qui ont Ã©tÃ© 
+  effectivement envoyÃ©s. @LineBreak
+  S'il n'est pas Ã©gal Ã  
+  'LongueurMemoireTampon', la mÃ©moire 
+  tampon de rÃ©ception de l'utilisateur 
   est probablement pleine. @LineBreak
-  Si rien n'a pu être envoyé alors 
-  'Resultat' sera égal à -1.
+  Si rien n'a pu Ãªtre envoyÃ© alors 
+  'Resultat' sera Ã©gal Ã  -1.
 
 @Remarks
   Avec les connexions UDP, le maximum pour 
@@ -853,52 +853,52 @@
 @Function Resultat = SendNetworkString(Connexion, Texte$ [, Format])
 
 @Description
-  Envoie une chaîne de caractères au 
-  client spécifié. Cette fonction peut 
-  être utilisée par une application 
+  Envoie une chaÃ®ne de caractÃ¨res au 
+  client spÃ©cifiÃ©. Cette fonction peut 
+  Ãªtre utilisÃ©e par une application 
   Serveur ou Client.
   
 @Parameter "Connexion"
   La connexion.
 @LineBreak
 @LineBreak
-   Du côté serveur, 'Connexion' est le 
-   client qui a reçu les données.@LineBreak
-   Du côté client, 'Connexion' est 
-   renvoyé par @@OpenNetworkConnection. 
+   Du cÃ´tÃ© serveur, 'Connexion' est le 
+   client qui a reÃ§u les donnÃ©es.@LineBreak
+   Du cÃ´tÃ© client, 'Connexion' est 
+   renvoyÃ© par @@OpenNetworkConnection. 
   
 @Parameter "Texte$"
-  La chaîne de caractères à envoyer.
+  La chaÃ®ne de caractÃ¨res Ã  envoyer.
 
 @OptionalParameter "Format"
-  Le format de chaîne à utiliser lors de 
+  Le format de chaÃ®ne Ã  utiliser lors de 
   l'envoi. @LineBreak
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Ascii  : Envoie les chaînes au format ASCII
-  @#PB_UTF8   : Envoie les chaînes au format UTF8 (Par défaut)
-  @#PB_Unicode: Envoie les chaînes au format unicode
+  @#PB_Ascii  : Envoie les chaÃ®nes au format ASCII
+  @#PB_UTF8   : Envoie les chaÃ®nes au format UTF8 (Par dÃ©faut)
+  @#PB_Unicode: Envoie les chaÃ®nes au format unicode
 @EndFixedFont
 
 @ReturnValue
-  Renvoie le nombre d'octets qui a été 
-  envoyé.
+  Renvoie le nombre d'octets qui a Ã©tÃ© 
+  envoyÃ©.
   
 @Remarks
   SendNetworkString() fournit une solution 
-  rapide pour envoyer rapidement des chaînes 
-  de caractères. @LineBreak
-  La chaîne sera envoyée en tant que donnée 
-  brute (sans le caractère NULL de 
-  terminaison), aussi peut-elle être reçue 
-  en utilisant @@ReceiveNetworkData, après 
+  rapide pour envoyer rapidement des chaÃ®nes 
+  de caractÃ¨res. @LineBreak
+  La chaÃ®ne sera envoyÃ©e en tant que donnÃ©e 
+  brute (sans le caractÃ¨re NULL de 
+  terminaison), aussi peut-elle Ãªtre reÃ§ue 
+  en utilisant @@ReceiveNetworkData, aprÃ¨s 
   que @@NetworkServerEvent / 
-  @@NetworkClientEvent ait renvoyé 
+  @@NetworkClientEvent ait renvoyÃ© 
   @#PB_NetworkEvent_Data). @LineBreak
   En mode @ReferenceLink "unicode" "unicode" 
-  la chaîne est envoyée en UTF-8, qui est 
-  indépendant du processeur (contrairement 
-  à UTF-16).
+  la chaÃ®ne est envoyÃ©e en UTF-8, qui est 
+  indÃ©pendant du processeur (contrairement 
+  Ã  UTF-16).
 @LineBreak
 @LineBreak 
   Il n'existe pas de fonction 
@@ -910,3 +910,131 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function UseNetworkTLS([ClePrivee$, Certificat$ [, CaCertificat$]])
+
+@Description
+  Active et configure la prise en charge du cryptage TLS pour la bibliothÃ¨que rÃ©seau. 
+  Cette commande doit Ãªtre appelÃ©e avant d'utiliser @@CreateNetworkServer ou 
+  @@OpenNetworkConnection avec les indicateurs TLS.
+
+@OptionalParameter "ClePrivee$"
+  La clÃ© privÃ©e Ã  utiliser pour TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramÃ¨tre 
+  n'est pas nÃ©cessaire.@LineBreak 
+  Il doit Ãªtre au format suivantÂ :
+@Code
+"-----BEGIN PRIVATE KEY-----"+#LF$+ "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHOD SntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk 8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8 ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+"-----END PRIVATE KEY-----"
+@EndCode
+
+@OptionalParameter "Certificat$"
+  Le certificat Ã  utiliser pour TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramÃ¨tre 
+  n'est pas nÃ©cessaire.@LineBreak 
+  Il doit Ãªtre au format suivantÂ :
+@Code
+"-----BEGIN CERTIFICATE-----"+#LF$+ "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIH NlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZ S5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ 1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+"-----END CERTIFICATE-----"
+@EndCode
+
+@OptionalParameter "CaCertificat$"
+  Le certificat d'autoritÃ© intermÃ©diaire qui a Ã©mis le 'Certificat$' Ã  utiliser pour 
+  TLS lors de l'utilisation de @@CreateNetworkServer.@LineBreak 
+  Lorsque vous utilisez TLS uniquement avec @@OpenNetworkConnection, ce paramÃ¨tre 
+  n'est pas nÃ©cessaire. Il doit Ãªtre au mÃªme format que 'Certificate$'.
+
+@NoReturnValue
+
+@Example Serveur TLS
+@Code
+  Timeout = 15000 ; dÃ©lai d'expiration global de 15 secondes
+
+  PrivateKey$ = "-----BEGIN PRIVATE KEY-----"+#LF$+
+         "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAPEbSQq/uwESZduPtDd83qXXkSPf6lUNa17xhM2fOZQxGr0Fdmvw6IsC+QGX25EE1TG6TFQkHlM2rW8y6a3WEC/WzCNWaTCPYD/rguiAFG+4eQmwHjiJFVec0InjjSG9SX8xwS/gQeWdQniKROO4DmMJO8N7mdUhdHODSntXdr9zAgMBAAECgYAE+VMgbaQl+YMwbF6DZogRU8kivFPRPV2hr8nVlBtT+09Z5uryfx3NAFqytbdJ3penVviMI9KcVNxvFtXLSEc9KyjzgysorAfUpwFuECCLDbOXX0HlV6rgkqJdhyV6FybcDLvgcvulHQ64QdYRhW+jPx7vXk3h0/JRFqKQJsY7QQJBAPrDLJRPbAw+Mlq1fHBWk8Z1Qn1ivPAmz+2nPAgDya/xdAlb9GbFAMzCS3upIBpxW70uLI04OuTVhwYL194I5C0CQQD2JHtHp25SkIDpBgZGicEC7yAIE/wPC0P9X85UJqXx5dPx4HbEc8lqSKMbCzkbHyvjHonSHu00QxU1W6ZALFYfAkBcPWzphSl+e2Z0XWvPutkS2FFD5A0R3YUAq1J2tEX9NTj0tGF7aB36M8ImU7jeYTJYrWJv8+4d/Ll1LOgT4XtlAkAxofOV5EYTsf28fzF+wcJAtDUyS81Uv0HLcqkpQM3PdDeDm253eJ2Rp+nzxxSRynxQBNVnoELWefxp0Pw6DnajAkBF5h7fQIbwAEPrhDzhjMXU7g9k9KzkkJN/bluLbleqkkAz1kfkGtWXJdGITZuY4K/X2yp1diWQ0utZjmOmhWsl"+#LF$+
+         "-----END PRIVATE KEY-----"
+
+  Cert$ = "-----BEGIN CERTIFICATE-----"+#LF$+
+          "MIICnTCCAgYCCQD0AWy2vzfcpzANBgkqhkiG9w0BAQUFADCBkjELMAkGA1UEBhMCVVMxDjAMBgNVBAgTBVN0YXRlMQ0wCwYDVQQHEwRDaXR5MRUwEwYDVQQKEwxPcmdhbml6YXRpb24xHDAaBgNVBAsTE09yZ2FuaXphdGlvbmFsIFVuaXQxLzAtBgNVBAMTJkNvbW1vbiBOYW1lIChlLmcuLCB5b3VyIHNlcnZlciBkb21haW4pMB4XDTI0MTEwNjE2NTI1N1oXDTI0MTIwNjE2NTI1N1owgZIxCzAJBgNVBAYTAlVTMQ4wDAYDVQQIEwVTdGF0ZTENMAsGA1UEBxMEQ2l0eTEVMBMGA1UEChMMT3JnYW5pemF0aW9uMRwwGgYDVQQLExNPcmdhbml6YXRpb25hbCBVbml0MS8wLQYDVQQDEyZDb21tb24gTmFtZSAoZS5nLiwgeW91ciBzZXJ2ZXIgZG9tYWluKTCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEA8RtJCr+7ARJl24+0N3zepdeRI9/qVQ1rXvGEzZ85lDEavQV2a/DoiwL5AZfbkQTVMbpMVCQeUzatbzLprdYQL9bMI1ZpMI9gP+uC6IAUb7h5CbAeOIkVV5zQieONIb1JfzHBL+BB5Z1CeIpE47gOYwk7w3uZ1SF0c4NKe1d2v3MCAwEAATANBgkqhkiG9w0BAQUFAAOBgQCprm5a5bg1LqCDdtwDTnRDmVcca6HoUlvbjZLmWdLjltG1McNAATppTy/bF7vT3jXLobA1Vzs2g14POjYQhPnIbRPEnNzvAe+Se3y0YeFOwYarEyFBHKHODGIPaCnXGH8gB9fgcp2SYtLaPKvXdNL44VeYGbD4+fvUcu/zkXqTSg=="+#LF$+
+          "-----END CERTIFICATE-----"
+
+  UseNetworkTLS(PrivateKey$, Cert$)
+  If CreateNetworkServer(0, 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1, "127.0.0.1")
+    Debug "Serveur TLS lancÃ© sur 127.0.0.1:20252 - Connexions en attente..."
+    
+    Repeat
+      Select NetworkServerEvent()
+        Case #PB_NetworkEvent_Data
+          
+          Debug "Data reÃ§ue !"
+          ClientID = EventClient()
+          *Buffer = AllocateMemory(1000)
+          If *Buffer
+            Debug ReceiveNetworkData(ClientID, *Buffer, 1000)
+          
+            Debug "Texte: "+PeekS(*Buffer, -1, #PB_UTF8)
+            SendNetworkString(ClientID, "Bien reÃ§u !!!")
+            
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_None
+          Delay(100) ; Ne volez pas tout le temps CPU en attendant la connexion
+          Timeout - 100
+      EndSelect
+          
+    Until Timeout <= 0
+    
+    Debug "Fermeture du serveur aprÃ¨s " + Str(Timeout/1000) + " secs dÃ©lai d'expiration"
+    
+    CloseNetworkServer(0)
+  Else
+    Debug "Impossible de crÃ©er le serveur TLS"
+  EndIf
+
+@EndCode
+
+@Example TLS Client
+@Code
+  Timeout = 150000 ; 15 secondes de dÃ©lai d'attente global
+
+  UseNetworkTLS()
+
+  Connection = OpenNetworkConnection("127.0.0.1", 20252, #PB_Network_TCP | #PB_Network_IPv4 | #PB_Network_TLSv1)
+  If Connection
+    
+    ; Envoyez une chaÃ®ne au serveur pour tester
+    SendNetworkString(Connection, "GET / HTTP/1.1" + #CRLF$ + "Host: www.purebasic.fr" + #CRLF$ + #CRLF$)
+    
+    Repeat
+      Select NetworkClientEvent(Connection)
+        Case #PB_NetworkEvent_Data
+          *Buffer = AllocateMemory($FFFF)
+          If *Buffer
+            Length = ReceiveNetworkData(Connection, *Buffer, MemorySize(*Buffer))
+            Received$ + PeekS(*Buffer, Length, #PB_UTF8 | #PB_ByteLength)
+            Debug "Texte reÃ§u: "+ Received$
+            FreeMemory(*Buffer)
+          EndIf
+          
+        Case #PB_NetworkEvent_Disconnect
+          Debug "DÃ©connectÃ©"
+          Break
+          
+        Case #PB_NetworkEvent_None
+          Delay(100)
+          Timeout - 100
+          
+      EndSelect
+    Until Timeout <= 0
+    
+    CloseNetworkConnection(Connection)
+  Else
+    Debug "Impossible d'ouvrir la connexion sur 127.0.0.1:20252"
+  EndIf
+@EndCode 
+
+@SeeAlso
+  @@CreateNetworkServer, @@OpenNetworkConnection
+
+@SupportedOS

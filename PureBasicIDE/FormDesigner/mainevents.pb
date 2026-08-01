@@ -4,8 +4,6 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
-
-
 Global form_gs_windowmousedx.i, form_gs_windowmousedy.i
 Procedure.i FD_NewWindowMouseX(windownr.i)
   Protected wmx.i, dmx.i
@@ -174,7 +172,7 @@ Procedure FD_CheckVariable(string.s)
      FindString(string, "\") Or FindString(string, "|") Or FindString(string, "?") Or FindString(string, "!") Or
      FindString(string, "@") Or FindString(string, "£") Or FindString(string, "$") Or FindString(string, "=")
     
-    MessageRequester(appname, Language("Form","WrongVarName"))
+    MessageRequester(#ProductName$, Language("Form","WrongVarName"))
     ProcedureReturn #False
     
   Else
@@ -205,18 +203,11 @@ Procedure PropGridAddNode(grid, row, title.s)
   grid_SetCellType(grid, 0, row, #Grid_Cell_Custom)
   grid_SetCellState(grid, 0, row, @PropGridFoldImgProc())
   
-  CompilerIf #CompileMac
-    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
-    grid_SetCellBackColor(grid, 1, row, GetCocoaColor("controlBackgroundColor"))
-    grid_SetCellBackColor(grid, 2, row, GetCocoaColor("controlBackgroundColor"))
-  CompilerElse
-    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
-    grid_SetCellBackColor(grid, 1, row, RGB(238, 238, 238))
-    grid_SetCellBackColor(grid, 2, row, RGB(238, 238, 238))
-  CompilerEndIf
-  
+  grid_SetCellBackColor(grid, 0, row, grid_color_bg)
+  grid_SetCellBackColor(grid, 1, row, grid_color_bg)
+  grid_SetCellBackColor(grid, 2, row, grid_color_bg)
   grid_SetCellString(grid, 1, row, title)
-  grid_SetSelectionStyle(grid, 1, row, "", -1, 1, -1, -1, -1, -1, 0, Len(title))
+  grid_SetSelectionStyle(grid, 1, row, "", -1, 1, -1, -1, -1, grid_color_text, 0, Len(title))
   
   grid_SetCellLockState(grid, 0, row, 1)
   grid_SetCellLockState(grid, 1, row, 1)
@@ -225,11 +216,7 @@ Procedure PropGridAddNode(grid, row, title.s)
 EndProcedure
 Procedure PropGridAddItem(grid, row, title.s, value.s = "")
   grid_InsertRow(grid, row)
-  CompilerIf #CompileMac
-    grid_SetCellBackColor(grid, 0, row, GetCocoaColor("controlBackgroundColor"))
-  CompilerElse
-    grid_SetCellBackColor(grid, 0, row, RGB(238, 238, 238))
-  CompilerEndIf
+  grid_SetCellBackColor(grid, 0, row, grid_color_bg)
   grid_SetCellString(grid, 1, row, title)
   grid_SetCellString(grid, 2, row, value)
   grid_SetCellLockState(grid,0,row,1)
@@ -367,7 +354,7 @@ Procedure FD_UpdateScrollbars(resizewin = 0)
       EndIf
     Else
       OpenGadgetList(#GADGET_Form)
-      ScrollBarGadget(#GADGET_Form_ScrollV,GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width,0,Grid_Scrollbar_Width,sheight,0,400,GadgetHeight(#GADGET_Form_Canvas),#PB_ScrollBar_Vertical)
+      ScrollBarGadget(#GADGET_Form_ScrollV,GadgetWidth(#GADGET_Form)-Grid_Scrollbar_Width,0,Grid_Scrollbar_Width,sheight,0,800,GadgetHeight(#GADGET_Form_Canvas),#PB_ScrollBar_Vertical)
       BindGadgetEvent(#GADGET_Form_ScrollV, @Form_Scrollbars())
       CloseGadgetList()
     EndIf
@@ -410,7 +397,15 @@ Procedure FD_SelectGadget(gadget)
     EndSelect
     
     grid_SetCellState(propgrid,2,1,FormWindows()\FormGadgets()\pbany)
-    grid_SetCellString(propgrid,2,2,FormWindows()\FormGadgets()\variable)
+    If FormWindows()\FormGadgets()\pbany
+      grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable)
+    Else
+      If FormWindows()\FormGadgets()\explicitId
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+      Else
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\FormGadgets()\variable)
+      EndIf
+    EndIf
     grid_SetCellState(propgrid,2,3,FormWindows()\FormGadgets()\captionvariable)
     
     Select FormWindows()\FormGadgets()\type
@@ -669,7 +664,15 @@ Procedure FD_SelectWindow(window)
     
     ChangeCurrentElement(FormWindows(),window)
     grid_SetCellState(propgrid, 2, 1, FormWindows()\pbany)
-    grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+    If FormWindows()\pbany
+      grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+    Else
+      If FormWindows()\explicitId
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+      Else
+        grid_SetCellString(propgrid, 2, 2, FormWindows()\variable)
+      EndIf
+    EndIf
     grid_SetCellState(propgrid, 2, 3, FormWindows()\captionvariable)
     grid_SetCellString(propgrid, 2, 4, FormWindows()\caption)
     
@@ -730,6 +733,17 @@ Procedure FD_SelectWindow(window)
           
           i+1
         Next
+        If ListSize(Gadgets()\Flags()) <= 0 : i + 1 : EndIf
+        custFlags.s = ""
+        ForEach FormWindows()\FormCustomFlags()
+          If custFlags = ""
+            custFlags = FormWindows()\FormCustomFlags()
+          Else
+            custFlags + " | " + FormWindows()\FormCustomFlags()
+          EndIf  
+        Next
+        PropGridAddItem(propgrid, i, Language("Form", "customFlags"), custFlags)
+        i + 1
       EndIf
     Next
     
@@ -3041,7 +3055,7 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       
       ProcedureReturn #True ; Drawing succeeded
     Else
-      MessageRequester(appname, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
+      MessageRequester(#ProductName$, LanguagePattern("Form","OutOfMemoryError", "%size%", Str(x2-x1) +"x"+ Str(y2-y1)), #PB_MessageRequester_Ok | #FLAG_Error) ; Can't create the backend image, so we are probably out of memory (we don't want the IDE to crash !)
     EndIf
   EndIf
 EndProcedure
@@ -3780,7 +3794,7 @@ Procedure FD_Move(x,y)
         
         If y2 = 0
           y2 = FormWindows()\height - bottompaddingsb
-          If FormSkin <> #PB_OS_MacOS
+          If FormSkin = #PB_OS_MacOS
             y2 - toptoolpadding - topmenupadding
           EndIf
         EndIf
@@ -4695,6 +4709,7 @@ Procedure FD_LeftUp(x,y)
       FormWindows()\FormGadgets()\frontcolor = -1
       FormWindows()\FormGadgets()\backcolor = -1
       FormWindows()\FormGadgets()\variable = var
+      FormWindows()\FormGadgets()\explicitId = 0
       FormWindows()\FormGadgets()\pbany = FormVariable
       FormWindows()\FormGadgets()\captionvariable = FormVariableCaption
       FormWindows()\FormGadgets()\tooltipvariable = FormVariableCaption
@@ -5022,13 +5037,7 @@ Procedure FD_Redraw()
     EndIf
     
     If ListSize(FormWindows()\FormToolbars()) Or FormWindows()\toolbar_visible
-      toptoolpadding = 16
-      
-      If FormSkin = #PB_OS_MacOS
-        toptoolpadding + 8 ; top3, bottom5
-      Else
-        toptoolpadding + 6
-      EndIf
+      toptoolpadding = P_Toolbar
     Else
       toptoolpadding = 0
     EndIf
@@ -6419,6 +6428,17 @@ Procedure FD_InitSelectParent(parent_gadget)
           EndIf
           
           i + 1
+        Case #Form_Type_Frame3D
+          If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+            AddGadgetItem(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\variable)
+            SetGadgetItemData(#GADGET_Form_Parent_Select,i,FormWindows()\FormGadgets()\itemnumber)
+            
+            If FormWindows()\FormGadgets()\itemnumber = parent_gadget
+              selected = i
+            EndIf
+            
+            i + 1
+          EndIf
       EndSelect
     EndIf
   Next
@@ -6538,10 +6558,70 @@ Procedure FD_ProcessEventGridGadget(col,row)
       FormWindows()\FormGadgets()\pbany = grid_GetCellState(propgrid, 2, row)
       
     Case 2 ; Variable
-      If grid_GetCellString(propgrid, 2, row) = ""
-        grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+      Protected input.s, name.s, rhs.s
+      Protected eqPos.i, id.i
+    
+      input = Trim(grid_GetCellString(propgrid, 2, row))
+    
+      If input = ""
+        ; revert to current model value
+        If FormWindows()\FormGadgets()\pbany
+          grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+        Else
+          If FormWindows()\FormGadgets()\explicitId
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+          Else
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          EndIf
+        EndIf
+    
       Else
-        FormWindows()\FormGadgets()\variable = grid_GetCellString(propgrid, 2, row)
+        ; parse "NAME" or "NAME=123"
+        eqPos = FindString(input, "=")
+    
+        If eqPos
+          name = Trim(Left(input, eqPos - 1))
+          rhs  = Trim(Mid(input, eqPos + 1))
+          id   = Val(rhs)
+        Else
+          name = input
+          id   = 0
+        EndIf
+    
+        ; validate NAME using existing validator 
+        If FD_CheckVariable(name)
+          FormWindows()\FormGadgets()\variable = name
+    
+          If FormWindows()\FormGadgets()\pbany
+            ; PB_Any gadgets must not use explicit IDs
+            FormWindows()\FormGadgets()\explicitId = 0
+          Else
+            FormWindows()\FormGadgets()\explicitId = id
+          EndIf
+    
+          ; normalize display text
+          If FormWindows()\FormGadgets()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          Else
+            If FormWindows()\FormGadgets()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+            EndIf
+          EndIf
+    
+        Else
+          ; invalid -> revert
+          If FormWindows()\FormGadgets()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+          Else
+            If FormWindows()\FormGadgets()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable + "=" + Str(FormWindows()\FormGadgets()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\FormGadgets()\variable)
+            EndIf
+          EndIf
+        EndIf
       EndIf
       
       FD_UpdateObjList()
@@ -6698,7 +6778,7 @@ Procedure FD_ProcessEventGridGadget(col,row)
         ; if it does not => add the procedure
         ;If FormWindows()\event_file = ""
         ;  grid_SetCellString(propgrid, 2,row,"")
-        ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+        ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
         ;Else
         FormWindows()\FormGadgets()\event_proc = grid_GetCellString(propgrid, 2, i)
         ;EndIf
@@ -6738,10 +6818,70 @@ Procedure FD_ProcessEventGridWindow(col,row)
       FormWindows()\pbany = grid_GetCellState(propgrid, 2,row)
       
     Case 2 ; Variable
-      If grid_GetCellString(propgrid, 2, row) = ""
-        grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+      Protected input.s, name.s, rhs.s
+      Protected eqPos.i, id.i
+    
+      input = Trim(grid_GetCellString(propgrid, 2, row))
+    
+      If input = ""
+        ; revert to current model value
+        If FormWindows()\pbany
+          grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+        Else
+          If FormWindows()\explicitId
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+          Else
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          EndIf
+        EndIf
+    
       Else
-        FormWindows()\variable = grid_GetCellString(propgrid, 2, row)
+        ; parse "NAME" or "NAME=123"
+        eqPos = FindString(input, "=")
+    
+        If eqPos
+          name = Trim(Left(input, eqPos - 1))
+          rhs  = Trim(Mid(input, eqPos + 1))
+          id   = Val(rhs)
+        Else
+          name = input
+          id   = 0
+        EndIf
+    
+        ; validate NAME using existing validator 
+        If FD_CheckVariable(name)
+          FormWindows()\variable = name
+    
+          If FormWindows()\pbany
+            ; PB_Any gadgets must not use explicit IDs
+            FormWindows()\explicitId = 0
+          Else
+            FormWindows()\explicitId = id
+          EndIf
+    
+          ; normalize display text
+          If FormWindows()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          Else
+            If FormWindows()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+            EndIf
+          EndIf
+    
+        Else
+          ; invalid -> revert
+          If FormWindows()\pbany
+            grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+          Else
+            If FormWindows()\explicitId
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable + "=" + Str(FormWindows()\explicitId))
+            Else
+              grid_SetCellString(propgrid, 2, row, FormWindows()\variable)
+            EndIf
+          EndIf
+        EndIf
       EndIf
       
       FD_UpdateObjList()
@@ -6814,7 +6954,7 @@ Procedure FD_ProcessEventGridWindow(col,row)
       ; if it does not => add the procedure
       ;If FormWindows()\event_file = ""
       ;  grid_SetCellString(propgrid, 2,row,"")
-      ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+      ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
       ;Else
       FormWindows()\event_proc = grid_GetCellString(propgrid, 2, row)
       ;EndIf
@@ -6822,6 +6962,8 @@ Procedure FD_ProcessEventGridWindow(col,row)
     Default
       i = 17
       flag = 0
+      custFlags.s = ""
+      
       ForEach Gadgets()
         If Gadgets()\type = #Form_Type_Window
           ForEach Gadgets()\Flags()
@@ -6835,6 +6977,20 @@ Procedure FD_ProcessEventGridWindow(col,row)
             EndIf
             i+1
           Next
+          custFlags = Trim(grid_GetCellString(propgrid, 2, i))
+          numflags = CountString(custFlags,"|")
+          ClearList(FormWindows()\FormCustomFlags())
+          If custFlags
+            For k = 0 To numflags
+              If numflags = 0
+                thisflags.s = custFlags
+              Else
+                thisflags.s = Trim(StringField(custFlags,k+1,"|"))
+              EndIf
+              AddElement(FormWindows()\FormCustomFlags())
+              FormWindows()\FormCustomFlags() = thisflags
+            Next k
+          EndIf
         EndIf
       Next
       FormWindows()\flags = flag
@@ -6860,7 +7016,7 @@ Procedure FD_ProcessEventGridMenu(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormMenus()\event = grid_GetCellString(propgrid, 2,6)
       
@@ -6902,7 +7058,7 @@ Procedure FD_ProcessEventGridToolbar(col,row)
            ; if it does not => add the procedure
            ;If FormWindows()\event_file = ""
            ;  grid_SetCellString(propgrid, 2,row,"")
-           ;  MessageRequester(appname, Language("Form","SelectEventFileFirst"))
+           ;  MessageRequester(#ProductName$, Language("Form","SelectEventFileFirst"))
            ;Else
       FormWindows()\FormToolbars()\event = grid_GetCellString(propgrid, 2, 6)
       
@@ -7035,7 +7191,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
           
           FormWindows()\current_view = 1
           
-          CompilerIf #CompileWindows | #CompileMac
+          CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -7302,7 +7458,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If items_gadget
         FD_InitItems()
       Else
-        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
+        MessageRequester(#ProductName$, Language("Form", "NoGadgetSelected"))
       EndIf
       
     Case #Menu_Columns
@@ -7318,7 +7474,7 @@ Procedure FD_ProcessMenuEvent(menu_event)
       If column_gadget
         FD_InitColumns()
       Else
-        MessageRequester(appname, Language("Form", "NoGadgetSelected"))
+        MessageRequester(#ProductName$, Language("Form", "NoGadgetSelected"))
       EndIf
       
       
@@ -7714,7 +7870,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                         FormWindows()\FormGadgets()\image = image
                         grid_SetCellString(propgrid, 1, 18, file)
                         
-                        If MessageRequester(appname,Language("Form", "ResizeGadgetImg"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                        If MessageRequester(#ProductName$,Language("Form", "ResizeGadgetImg"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                           tempimg = LoadImage(#PB_Any,file)
                           If tempimg
                             FormWindows()\FormGadgets()\x2 = FormWindows()\FormGadgets()\x1 + ImageWidth(tempimg)
@@ -7874,7 +8030,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                     EndIf
                     
                   Else
-                    MessageRequester(appname,Language("Form", "SaveRequiredWarning"))
+                    MessageRequester(#ProductName$,Language("Form", "SaveRequiredWarning"))
                   EndIf
                   
               EndSelect
@@ -7982,7 +8138,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   EndIf
                   
                 Case 4 ; delete
-                  If MessageRequester(appname,Language("Form", "DeleteItemConfirm"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                  If MessageRequester(#ProductName$,Language("Form", "DeleteItemConfirm"),#PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                     ; delete gadget in the item gadgetlist
                     ForEach FormWindows()\FormGadgets()
                       If FormWindows()\FormGadgets()\parent = items_gadget_num And FormWindows()\FormGadgets()\parent_item = row
@@ -8072,7 +8228,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   EndIf
                   
                 Case 4 ; delete
-                  If MessageRequester(appname,Language("Form", "DeleteItemConfirm"), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+                  If MessageRequester(#ProductName$,Language("Form", "DeleteItemConfirm"), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
                     ; delete item
                     ChangeCurrentElement(FormWindows()\FormGadgets(),column_gadget)
                     FormAddUndoAction(1,FormWindows(),FormWindows()\FormGadgets())
@@ -8286,6 +8442,11 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                   Case #Form_Type_Container, #Form_Type_Panel, #Form_Type_ScrollArea
                     parent = FormWindows()\FormGadgets()\itemnumber
                     Break
+                  Case #Form_Type_Frame3D
+                    If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+                      parent = FormWindows()\FormGadgets()\itemnumber
+                      Break
+                    EndIf
                 EndSelect
               EndIf
             Until PreviousElement(FormWindows()\FormGadgets()) = 0
@@ -8382,6 +8543,7 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
           FormWindows()\FormGadgets()\frontcolor = -1
           FormWindows()\FormGadgets()\backcolor = -1
           FormWindows()\FormGadgets()\variable = var
+          FormWindows()\FormGadgets()\explicitId = 0
           FormWindows()\FormGadgets()\pbany = FormVariable
           FormWindows()\FormGadgets()\captionvariable = FormVariableCaption
           FormWindows()\FormGadgets()\tooltipvariable = FormVariableCaption
@@ -8470,10 +8632,10 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
               FD_UpdateObjList()
               FormChanges(1)
             Else
-              MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
+              MessageRequester(#ProductName$, Language("Form", "MoveGadgetWarning"))
             EndIf
           Else
-            MessageRequester(appname,Language("Form", "MoveGadgetWarning"))
+            MessageRequester(#ProductName$, Language("Form", "MoveGadgetWarning"))
           EndIf
           
         EndIf

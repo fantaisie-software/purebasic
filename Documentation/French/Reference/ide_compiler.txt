@@ -1,140 +1,140 @@
-@Title Compilation d'un programme
+ï»¿@Title Compilation d'un programme
 
-  La compilation d'un programme est facile, il suffit de sélectionner 'Compiler/Executer' (raccourcis
-  F5 par défaut) et le code sera compilé et exécuté.
+  La compilation d'un programme est facile, il suffit de sÃ©lectionner 'Compiler/Executer' (raccourcis
+  F5 par dÃ©faut) et le code sera compilÃ© et exÃ©cutÃ©.
 @LineBreak
-  Les "Options de compilation" permettent de paramétrer le processus de compilation. Les choix
-  effectués sont associés au fichier ou au projet courant et sont persistants, même quand ils sont fermés.
-  Par défaut ces paramètres sont écrits à la fin du fichier, sous forme de commentaires (invisibles
-  quand le fichier est chargé par l'IDE). Il est possible de changer cet emplacement si, par exemple,
-  un outil de gestion de versions tel que CVS est utilisé (pour éviter les conflits entre les utilisateurs
-  qui auront chacun leurs propres paramètres en fin de fichier).
+  Les "Options de compilation" permettent de paramÃ©trer le processus de compilation. Les choix
+  effectuÃ©s sont associÃ©s au fichier ou au projet courant et sont persistants, mÃªme quand ils sont fermÃ©s.
+  Par dÃ©faut ces paramÃ¨tres sont Ã©crits Ã  la fin du fichier, sous forme de commentaires (invisibles
+  quand le fichier est chargÃ© par l'IDE). Il est possible de changer cet emplacement si, par exemple,
+  un outil de gestion de versions tel que CVS est utilisÃ© (pour Ã©viter les conflits entre les utilisateurs
+  qui auront chacun leurs propres paramÃ¨tres en fin de fichier).
 @LineBreak
 @LineBreak
-  Si une erreur est rencontrée lors de la compilation, un message sera affiché en indiquant la ligne
-  incriminée. Ce message sera aussi ajouté dans le rapport d'activité.
+  Si une erreur est rencontrÃ©e lors de la compilation, un message sera affichÃ© en indiquant la ligne
+  incriminÃ©e. Ce message sera aussi ajoutÃ© dans le rapport d'activitÃ©.
 
 @Section Le menu "Compilateur"
 
 @Image ide_menu_compile.png
 
-@Bold "Compiler/Exécuter"
+@Bold "Compiler/ExÃ©cuter"
 @LineBreak
-  Lance la compilation du code source en cours d'édition en tenant compte de ses options
-  de compilation. Le programme est créé dans un répertoire temporaire, mais il sera exécuté comme
-  si il avait été lancé à partir du répertoire du code source (donc charger un fichier de ce répertoire
+  Lance la compilation du code source en cours d'Ã©dition en tenant compte de ses options
+  de compilation. Le programme est crÃ©Ã© dans un rÃ©pertoire temporaire, mais il sera exÃ©cutÃ© comme
+  si il avait Ã©tÃ© lancÃ© Ã  partir du rÃ©pertoire du code source (donc charger un fichier de ce rÃ©pertoire
   fonctionnera). 
 @LineBreak
-  Le code source n'a pas besoin d'être enregistré pour être compilé (mais les fichiers qu'il inclut
-  doivent être enregistrés).
+  Le code source n'a pas besoin d'Ãªtre enregistrÃ© pour Ãªtre compilÃ© (mais les fichiers qu'il inclut
+  doivent Ãªtre enregistrÃ©s).
 @LineBreak
 @LineBreak
-  La commande "Compiler/Exécuter" utilise le paramétrage du débogueur (actif ou inactif), qu'il soit
-  défini à partir du menu ou des options de compilations (les deux reviennent au même).
+  La commande "Compiler/ExÃ©cuter" utilise le paramÃ©trage du dÃ©bogueur (actif ou inactif), qu'il soit
+  dÃ©fini Ã  partir du menu ou des options de compilations (les deux reviennent au mÃªme).
 
 @LineBreak
 @LineBreak
 
-@Bold "Exécuter"
+@Bold "ExÃ©cuter"
 @LineBreak
-  Exécute le dernier programme compilé une nouvelle fois. Tout changement concernant le débogueur (actif ou inactif)
+  ExÃ©cute le dernier programme compilÃ© une nouvelle fois. Tout changement concernant le dÃ©bogueur (actif ou inactif)
   ne sera pas pris en compte par cette commande.
 
 @LineBreak
 @LineBreak
 
-@Bold "Vérification de la syntaxe"
+@Bold "VÃ©rification de la syntaxe"
 @LineBreak
-  Vérifie la syntaxe du code.
+  VÃ©rifie la syntaxe du code.
 
 @LineBreak
 @LineBreak
 
-@Bold "Compiler avec le Débogueur"
+@Bold "Compiler avec le DÃ©bogueur"
 @LineBreak
-  Lance la compilation de la même manière que la commande "Compiler/Exécuter", en forçant l'utilisation
-  du débogueur. Cela permet de tester rapidement une compilation avec le débogueur lorsqu'il est 
-  normalement désactivé.
+  Lance la compilation de la mÃªme maniÃ¨re que la commande "Compiler/ExÃ©cuter", en forÃ§ant l'utilisation
+  du dÃ©bogueur. Cela permet de tester rapidement une compilation avec le dÃ©bogueur lorsqu'il est 
+  normalement dÃ©sactivÃ©.
 
 @LineBreak
 @LineBreak
 
-@Bold "Compiler sans le Débogueur"
+@Bold "Compiler sans le DÃ©bogueur"
 @LineBreak
-  Lance la compilation de la même manière que la commande "Compiler avec le débogueur", en désactivant
-  le débogueur.
+  Lance la compilation de la mÃªme maniÃ¨re que la commande "Compiler avec le dÃ©bogueur", en dÃ©sactivant
+  le dÃ©bogueur.
 
 @LineBreak
 @LineBreak
 
-@Bold "Redémarrer le compilateur" (Windows uniquement)
+@Bold "RedÃ©marrer le compilateur" (Windows uniquement)
 @LineBreak
-  Relance le compilateur et réinitialise toutes les bibliothèques et résidents chargées (sous Windows,
-  le compilateur se lance lors du démarrage de l'IDE et se met en attente pour une plus grande rapidité).
-  Cela a pour effet de mettre à jour la liste des fonctions, structures, interfaces et constantes
-  reconnues par l'IDE. Cette commande permet de charger une nouvelle bibliothèque utilisateur nouvellement
-  installée sans redémarrer l'IDE. De plus, pour les développeurs de bibliothèques, cela facilite le test
-  en évitant de relancer l'IDE.
+  Relance le compilateur et rÃ©initialise toutes les bibliothÃ¨ques et rÃ©sidents chargÃ©es (sous Windows,
+  le compilateur se lance lors du dÃ©marrage de l'IDE et se met en attente pour une plus grande rapiditÃ©).
+  Cela a pour effet de mettre Ã  jour la liste des fonctions, structures, interfaces et constantes
+  reconnues par l'IDE. Cette commande permet de charger une nouvelle bibliothÃ¨que utilisateur nouvellement
+  installÃ©e sans redÃ©marrer l'IDE. De plus, pour les dÃ©veloppeurs de bibliothÃ¨ques, cela facilite le test
+  en Ã©vitant de relancer l'IDE.
 
 @LineBreak
 @LineBreak
 
 @Bold "Options du Compilateur..."
 @LineBreak
-  Ouvre la fenêtre d'options, qui permet d'ajuster les paramètres concernant la compilation
-  du code source en cours d'édition.
+  Ouvre la fenÃªtre d'options, qui permet d'ajuster les paramÃ¨tres concernant la compilation
+  du code source en cours d'Ã©dition.
 
 @LineBreak
 @LineBreak
 
-@Bold "Créer un éxecutable..."
+@Bold "CrÃ©er un Ã©xecutable..."
 @LineBreak
-  Ouvre une boîte de dialogue de sauvegarde, demandant le nom de l'exécutable à créer. 
-  Si le format exécutable est réglé sur DLL, il créera une DLL sous Windows, 
-  un objet partagé sous Linux et une dylib sous OS X. Lorsque vous créez un fichier 
-  exécutable sous OS X, en ajoutant '. App 'au nom de l'exécutable créera un fichier 
-  exécutable fourni avec la structure de répertoires nécessaires, y compris l'icône. 
-  Si aucun '. App' n'est défini, il va créer un exécutable standard de type console.
+  Ouvre une boÃ®te de dialogue de sauvegarde, demandant le nom de l'exÃ©cutable Ã  crÃ©er. 
+  Si le format exÃ©cutable est rÃ©glÃ© sur DLL, il crÃ©era une DLL sous Windows, 
+  un objet partagÃ© sous Linux et une dylib sous OS X. Lorsque vous crÃ©ez un fichier 
+  exÃ©cutable sous OS X, en ajoutant '. App 'au nom de l'exÃ©cutable crÃ©era un fichier 
+  exÃ©cutable fourni avec la structure de rÃ©pertoires nÃ©cessaires, y compris l'icÃ´ne. 
+  Si aucun '. App' n'est dÃ©fini, il va crÃ©er un exÃ©cutable standard de type console.
 
 @LineBreak
 @LineBreak
   
-@Bold "Cible par défaut"
+@Bold "Cible par dÃ©faut"
 @LineBreak
-  Quand un projet est ouvert, ce sous-menu permet de changer rapidement de cible par défaut.
-  La cible par défaut est celle qui sera lancée automatiquement par le menu "Compiler/Exécuter.
+  Quand un projet est ouvert, ce sous-menu permet de changer rapidement de cible par dÃ©faut.
+  La cible par dÃ©faut est celle qui sera lancÃ©e automatiquement par le menu "Compiler/ExÃ©cuter.
 
 @LineBreak
 @LineBreak
 
-@Bold "Créer une cible"
+@Bold "CrÃ©er une cible"
 @LineBreak
   Quand un projet est ouvert, ce sous-menu montre toutes les cibles disponibles et permet d'en compiler directement une d'entre elles.
 
 @LineBreak
 @LineBreak
 
-@Bold "Créer toutes les cibles"
+@Bold "CrÃ©er toutes les cibles"
 @LineBreak
-  Quand un projet est ouvert, ce menu compile toutes les cibles qui ont l'option idoine activée dans les options
-  de compilation. Une fenêtre s'ouvre permettant de suivre l'état d'avancement des compilations.
+  Quand un projet est ouvert, ce menu compile toutes les cibles qui ont l'option idoine activÃ©e dans les options
+  de compilation. Une fenÃªtre s'ouvre permettant de suivre l'Ã©tat d'avancement des compilations.
   
 
-@Section La fenêtre d'options de compilation pour les fichiers hors projets
+@Section La fenÃªtre d'options de compilation pour les fichiers hors projets
 
 @Image ide_compiler_options.png
 
 @Bold "Fichier principal"
 @LineBreak
-  En activant cette option, il est possible de définir un fichier principal pour
-  la compilation du fichier actuel. Ce sera ce fichier qui sera alors utilisé lors
-  de la compilation et non le fichier en cours d'édition.
+  En activant cette option, il est possible de dÃ©finir un fichier principal pour
+  la compilation du fichier actuel. Ce sera ce fichier qui sera alors utilisÃ© lors
+  de la compilation et non le fichier en cours d'Ã©dition.
 @LineBreak
 @LineBreak
-  Note: quand cette option est utilisée, le fichier en cours d'édition doit être enregistré
+  Note: quand cette option est utilisÃ©e, le fichier en cours d'Ã©dition doit Ãªtre enregistrÃ©
   avant de lancer la compilation, sinon les modifications ne seront pas prises en compte (car
-  les fichiers inclus sont chargés à partir du disque). La plupart des options de compilation
-  seront héritées du fichier principal, seuls les paramètres concernant le débogueur et la ligne de commande
+  les fichiers inclus sont chargÃ©s Ã  partir du disque). La plupart des options de compilation
+  seront hÃ©ritÃ©es du fichier principal, seuls les paramÃ¨tres concernant le dÃ©bogueur et la ligne de commande
   seront propres au fichier actuel.
 
 @LineBreak
@@ -142,63 +142,65 @@
 
 @Bold "Utiliser Compilateur"
 @LineBreak
-  Cette option permet de sélectionner un 
-  compilateur différent de la version 
+  Cette option permet de sÃ©lectionner un 
+  compilateur diffÃ©rent de la version 
   actuelle de PureBasic.
   Cela facilite la compilation d'un programme 
-  sous différentes achitectures (x86 ou x64) sans
-  avoir à redémarrer une nouvelle instance de 
+  sous diffÃ©rentes achitectures (x86 ou x64) sans
+  avoir Ã  redÃ©marrer une nouvelle instance de 
   l'IDE. Les compilateurs additionnels sont 
-  paramétrables dans les 
-  @ReferenceLink "ide_preferences" "préférences". 
+  paramÃ©trables dans les 
+  @ReferenceLink "ide_preferences" "prÃ©fÃ©rences". 
 @LineBreak
 @LineBreak
   Si la version du compilateur est identique 
-  à celle de l'IDE mais que le processeur géré 
-  est différent, le débogueur intégré peut 
-  quand même être utilisé pour déboguer cet 
-  exécutable.
-  Par exemple, une exécutable compilé avec la 
-  version x86 du compilateur peut être débogué 
+  Ã  celle de l'IDE mais que le processeur gÃ©rÃ© 
+  est diffÃ©rent, le dÃ©bogueur intÃ©grÃ© peut 
+  quand mÃªme Ãªtre utilisÃ© pour dÃ©boguer cet 
+  exÃ©cutable.
+  Par exemple, une exÃ©cutable compilÃ© avec la 
+  version x86 du compilateur peut Ãªtre dÃ©boguÃ© 
   avec l'IDE x64 et vice versa.
   Si la version du compilateur et de l'IDE ne 
-  correspondent pas, alors le débogueur indépendant 
-  sera utilisé pour éviter des problèmes potentiels.
+  correspondent pas, alors le dÃ©bogueur indÃ©pendant 
+  sera utilisÃ© pour Ã©viter des problÃ¨mes potentiels.
 
 @LineBreak
 @LineBreak
 
-@Bold "Utiliser une icône" (Uniquement pour Windows et MacOS X)
+@Bold "Utiliser une icÃ´ne" (Uniquement pour Windows et MacOS X)
 @LineBreak
-  Il est possible de spécifier une icône qui sera associée à l'exécutable et affichée
-  dans l'Explorateur Windows (ainsi que dans le coin supérieur gauche des fenêtres du
-  programme et dans la barre des tâches).
+  Il est possible de spÃ©cifier une icÃ´ne qui sera associÃ©e Ã  l'exÃ©cutable et affichÃ©e
+  dans l'Explorateur Windows (ainsi que dans le coin supÃ©rieur gauche des fenÃªtres du
+  programme et dans la barre des tÃ¢ches).
 @LineBreak
 @LineBreak
-Windows: L'icône doit être au format ICO (icônes Windows).
+Windows: L'icÃ´ne doit Ãªtre au format ICO (icÃ´nes Windows).
 @LineBreak
 @LineBreak
   
-MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour créer un tel fichier, il faut
-  4 fichiers PNG de dimensions 128x128, 48x48, 32x32 et 16x16 de l'image qui sera utilisée pour l'icône.
-  Ensuite l'outil "Icon Composer" fourni avec les outils de développement Apple servira à créer le
+MacOS X: Le fichier icÃ´ne doit Ãªtre au format ICNS (icÃ´nes Macintosh). Pour crÃ©er un tel fichier, il faut
+  4 fichiers PNG de dimensions 128x128, 48x48, 32x32 et 16x16 de l'image qui sera utilisÃ©e pour l'icÃ´ne.
+  Ensuite l'outil "Icon Composer" fourni avec les outils de dÃ©veloppement Apple servira Ã  crÃ©er le
   fichier final (il devrait se trouver dans le dossier: /Developer/Applications/Utilities/). Il sera 
-  peut-être nécessaire de redémarrer l'explorateur (Finder) pour l'afficher.
+  peut-Ãªtre nÃ©cessaire de redÃ©marrer l'explorateur (Finder) pour l'afficher.
 @EndOS
 
 @LineBreak
 @LineBreak
 
-@Bold "Activer l'optimiseur de code"
+@Bold "Optimisation du code"
 @LineBreak
-  Active l'optimisation du code C.
+  Active l'optimisation du code C. Il dÃ©finit simplement le drapeau d'optimisation du 
+  compilateur gcc sur -O2 lorsqu'il est activÃ©, sur -O0 sinon.
+  @InternetLink "https://gcc.gnu.org/onlinedocs/gcc/Optimize-Options.html" "Voir ici."
 
 @LineBreak
 @LineBreak
 
-@Bold "Activer la colorisation des mots clés assembleur"
+@Bold "Activer la colorisation des mots clÃ©s assembleur"
 @LineBreak
-  Active la colorisation des mots clés de l'assembleur. 
+  Active la colorisation des mots clÃ©s de l'assembleur. 
   Voir la section @ReferenceLink "inlinedasm" "Assembleur en ligne x86" pour plus d'informations.
 
 @LineBreak
@@ -206,142 +208,157 @@ MacOS X: Le fichier icône doit être au format ICNS (icônes Macintosh). Pour crée
 
 @Bold "Activer la gestion des Thread"
 @LineBreak
-  Informe le compilateur qu'il doit utiliser les routines multi-threadées lors de la création de
-  l'exécutable (voir la @LibraryLink "Thread" "bibliothèque Thread" pour plus d'information).
+  Informe le compilateur qu'il doit utiliser les routines multi-threadÃ©es lors de la crÃ©ation de
+  l'exÃ©cutable (voir la @LibraryLink "Thread" "bibliothÃ¨que Thread" pour plus d'information).
 @LineBreak
 @LineBreak
-  Ce mode permet aussi au débogueur d'afficher correctement les informations si des threads sont utilisés.
-  Sans cette option, le débogueur peut afficher un numéro de ligne erroné si une erreur intervient à l'intérieur d'un thread.
+  Ce mode permet aussi au dÃ©bogueur d'afficher correctement les informations si des threads sont utilisÃ©s.
+  Sans cette option, le dÃ©bogueur peut afficher un numÃ©ro de ligne erronÃ© si une erreur intervient Ã  l'intÃ©rieur d'un thread.
 
 @LineBreak
 @LineBreak
 
-@Bold "Activer le numéro de ligne pour OnError" (Uniquement pour Windows)
+@Bold "Activer le numÃ©ro de ligne pour OnError"
 @LineBreak
-  Ajoute des informations dans l'exécutable pour pouvoir identifier la ligne qui a provoqué
-  une erreur (à utiliser en combinaison avec les commandes de la bibliothèque OnError).
-  Cette option influe légèrement sur les performances du programme.
+  Ajoute des informations dans l'exÃ©cutable pour pouvoir identifier la ligne qui a provoquÃ©
+  une erreur (Ã  utiliser en combinaison avec les commandes de la bibliothÃ¨que OnError).
+  Cette option influe lÃ©gÃ¨rement sur les performances du programme.
 
 @LineBreak
 @LineBreak
-@Bold "Activer le support des thèmes" (Uniquement pour Windows)
+@Bold "Activer le facteur d'Ã©chelle d'affichage DPI (Windows)"
 @LineBreak
-  Ajoute un fichier permettant la gestion des thèmes Windows (fenêtres et gadgets skinées), lorsque le programme est 
-  exécuté sur Windows Vista, Windows 7, Windows 8 (fortement recommandé), Windows 10 ou Windows 11.
+  Cette option active la dÃ©tection DPI lors de la crÃ©ation d'un exÃ©cutable. 
+  Cela signifie que l'interface graphique crÃ©Ã©e dans PureBasic sera automatiquement 
+  redimensionnÃ©e si le DPI de l'Ã©cran est supÃ©rieur Ã  100%. Ce processus se fait gÃ©nÃ©ralement 
+  sans problÃ¨mes, mais certains cas doivent Ãªtre rÃ©solus de faÃ§on spÃ©cifique, tels que les 
+  gadgets qui manipulent des pixels (ImageGadget, CanvasGadget, etc.).
+
+@LineBreak
+@LineBreak
+
+@Bold "Activer le support des thÃ¨mes visuels" (XP et suivants)
+@LineBreak
+  Ajoute un fichier permettant la gestion des thÃ¨mes Windows (fenÃªtres et gadgets skinÃ©es), lorsque le programme est 
+  exÃ©cutÃ© sur Windows Vista, Windows 7, Windows 8 (fortement recommandÃ©), Windows 10 ou Windows 11.
 
 @LineBreak
 @LineBreak
 
 @Bold "Utiliser les droits administrateurs (Windows Vista et suivants)" (Windows seulement)
 @LineBreak
-  L'exécutable créé sera toujours lancé avec les droits d'administration (i.e vous devez être logué en tant qu'administrateur système)
-  sous Windows Vista et suivants. (il ne s'exécutera pas si le mot de passe de l'administrateur n'est pas donné). 
-  Cette option sera définie pour des programmes qui ont besoin d'un accès à des dossiers ou à des zones de registres à accès restreint 
-  afin d'obtenir un accès complet.
+  L'exÃ©cutable crÃ©Ã© sera toujours lancÃ© avec les droits d'administration (i.e vous devez Ãªtre loguÃ© en tant qu'administrateur systÃ¨me)
+  sous Windows Vista et suivants. (il ne s'exÃ©cutera pas si le mot de passe de l'administrateur n'est pas donnÃ©). 
+  Cette option sera dÃ©finie pour des programmes qui ont besoin d'un accÃ¨s Ã  des dossiers ou Ã  des zones de registres Ã  accÃ¨s restreint 
+  afin d'obtenir un accÃ¨s complet.
 @LineBreak
-  Si cette option est activée, le @ReferenceLink "ide_debugger" "débogueur indépendant" sera automatiquement sélectionné pendant 
-  la phase de débogage, ainsi le programme pourra être testé sous le mode administrateur.
+  Si cette option est activÃ©e, le @ReferenceLink "ide_debugger" "dÃ©bogueur indÃ©pendant" sera automatiquement sÃ©lectionnÃ© pendant 
+  la phase de dÃ©bogage, ainsi le programme pourra Ãªtre testÃ© sous le mode administrateur.
 @LineBreak
 @LineBreak
-  Note : cette option n'a aucun effet quand le programme est lancé sous d'autres versions de windows.
+  Note : cette option n'a aucun effet quand le programme est lancÃ© sous d'autres versions de windows.
 @LineBreak
 @LineBreak
 
 @Bold "Utiliser aucun droits particuliers (Windows Vista et suivants)" (Windows seulement)
 @LineBreak
-   Cette option désactive la «virtualisation» de cet exécutable sur Windows Vista et suivants. La Virtualisation
-   provoque la redirection des fichiers et les accès au Registre vers un dossier utilisateur si l'utilisateur n'a pas
-   les droits nécessaires à l'opération. (ce qui permet de conserver la compatibilité avec d'anciens programmes)
+   Cette option dÃ©sactive la Â«virtualisationÂ» de cet exÃ©cutable sur Windows Vista et suivants. La Virtualisation
+   provoque la redirection des fichiers et les accÃ¨s au Registre vers un dossier utilisateur si l'utilisateur n'a pas
+   les droits nÃ©cessaires Ã  l'opÃ©ration. (ce qui permet de conserver la compatibilitÃ© avec d'anciens programmes)
 
 @LineBreak
-  Notez que cette redirection se fait sans en aviser l'utilisateur ce qui peut conduire à une certaine confusion si 
-  il essaye de trouver les fichiers sauvegardés sur le système de fichiers. Pour cette raison, il est recommandé de 
-  désactiver cette fonctionnalité si le logiciel est conforme avec les règles d'accès aux fichiers ou du registre de Vista.
+  Notez que cette redirection se fait sans en aviser l'utilisateur ce qui peut conduire Ã  une certaine confusion si 
+  il essaye de trouver les fichiers sauvegardÃ©s sur le systÃ¨me de fichiers. Pour cette raison, il est recommandÃ© de 
+  dÃ©sactiver cette fonctionnalitÃ© si le logiciel est conforme avec les rÃ¨gles d'accÃ¨s aux fichiers ou du registre de Vista.
 @LineBreak
 @LineBreak
-  Note: cette option n'a aucun effet quand le programme est lancé sous d'autres versions de windows.
-  Elle ne peut pas être combinée avec l'option "Mode Administrateur" ci-dessus.
+  Note: cette option n'a aucun effet quand le programme est lancÃ© sous d'autres versions de windows.
+  Elle ne peut pas Ãªtre combinÃ©e avec l'option "Mode Administrateur" ci-dessus.
   
 @LineBreak
 @LineBreak
 
-@Bold "Activer le facteur d'échelle d'affichage DPI (Windows)"
-@LineBreak
-  Cette option active la détection DPI lors de la création d'un exécutable. 
-  Cela signifie que l'interface graphique créée dans PureBasic sera automatiquement 
-  redimensionnée si le DPI de l'écran est supérieur à 100%. Ce processus se fait généralement 
-  sans problèmes, mais certains cas doivent être résolus de façon spécifique, tels que les 
-  gadgets qui manipulent des pixels (ImageGadget, CanvasGadget, etc.).
 
+@Bold "Activer la protection contre le prÃ©chargement des DLL" (Windows uniquement)
 @LineBreak
-@LineBreak
-@Bold "Activer la protection DLL" (Windows uniquement)
-@LineBreak
-   Active la protection contre le préchargement de DLL de l'exécutable. Cela empêche que les DLLs 
-   système soient d'abord recherchées dans le répertoire du programme plutôt que dans le répertoire 
-   System32 du système d'exploitation Windows.
+   Active la protection contre le prÃ©chargement de DLL de l'exÃ©cutable. Cela empÃªche que les DLLs 
+   systÃ¨me soient d'abord recherchÃ©es dans le rÃ©pertoire du programme plutÃ´t que dans le rÃ©pertoire 
+   System32 du systÃ¨me d'exploitation Windows.
 @LineBreak
 @LineBreak
 
-@Bold "bibliothèque Sous-système" 
+@Bold "Utiliser l'UCRT partagÃ© (Windows 10 et supÃ©rieur)
 @LineBreak
-  Il est possible d'utiliser différents sous-systèmes lors de la compilation. 
-  Plus d'un sous-système peut être spécifié, séparés par une virgule. 
-  Pour plus d'informations, consultez @ReferenceLink "subsystems" "sous-systèmes".
+  Utilise la bibliothÃ¨que Microsoft Runtime C Universelle (UCRT)
 @LineBreak
 @LineBreak
 
-@Bold "Format de l'exécutable"
+Bold "Activer le support Wayland" (Linux uniquement)
+@LineBreak
+  Utilise Wayland comme moteur graphique au lieu de X11. @LineBreak
+
+@LineBreak
+@LineBreak
+
+@Bold "bibliothÃ¨que Sous-systÃ¨me" 
+@LineBreak
+  Il est possible d'utiliser diffÃ©rents sous-systÃ¨mes lors de la compilation. 
+  Plus d'un sous-systÃ¨me peut Ãªtre spÃ©cifiÃ©, sÃ©parÃ©s par une virgule. 
+  Pour plus d'informations, consultez @ReferenceLink "subsystems" "sous-systÃ¨mes".
+@LineBreak
+@LineBreak
+
+@Bold "Format de l'exÃ©cutable"
 @LineBreak
 
 ; == WINDOWS SPECIFIC ==
 
 @Os Windows
-  Permet de déterminer le type de l'exécutable qui sera généré:
+  Permet de dÃ©terminer le type de l'exÃ©cutable qui sera gÃ©nÃ©rÃ©:
 @LineBreak
-@underline Windows : format par défaut sous Windows, convient pour tout type d'applications.
+@underline Windows : format par dÃ©faut sous Windows, convient pour tout type d'applications.
 @LineBreak
-@underline Console : un exécutable avec une console par défaut. Il est toujours possible de créer des
-  fenêtres, boutons etc. avec ce type d'exécutable, mais une console sera toujours ouverte quand le programme est exécuté.
-  Si le programme est exécuté à partir d'une ligne de commande, il utilisera ce terminal
-  pour les sorties textes, là où un programme du type "Windows" nécessite la création d'une
-  nouvelle console (à l'aide d'OpenConsole()). Si un programme peut avoir son entrée ou sa sortie
-  redirigée (au travers de 'pipes'), cette option doit être utilisée.
+@underline Console : un exÃ©cutable avec une console par dÃ©faut. Il est toujours possible de crÃ©er des
+  fenÃªtres, boutons etc. avec ce type d'exÃ©cutable, mais une console sera toujours ouverte quand le programme est exÃ©cutÃ©.
+  Si le programme est exÃ©cutÃ© Ã  partir d'une ligne de commande, il utilisera ce terminal
+  pour les sorties textes, lÃ  oÃ¹ un programme du type "Windows" nÃ©cessite la crÃ©ation d'une
+  nouvelle console (Ã  l'aide d'OpenConsole()). Si un programme peut avoir son entrÃ©e ou sa sortie
+  redirigÃ©e (au travers de 'pipes'), cette option doit Ãªtre utilisÃ©e.
 @LineBreak
-@underline "DLL Partagé" : crée une DLL Windows. Voir "Créer une DLL" pour plus d'informations.
+@underline "DLL PartagÃ©" : crÃ©e une DLL Windows. Voir "CrÃ©er une DLL" pour plus d'informations.
 @LineBreak
-  Note: Quand un code source de type DLL est lancé avec "Compiler/Exécuter", il sera traité comme un
+  Note: Quand un code source de type DLL est lancÃ© avec "Compiler/ExÃ©cuter", il sera traitÃ© comme un
   programme classique, pour permettre de tester facilement les fonctions de la DLL. La DLL sera
-  réellement créée en appellant la commande "Créer un exécutable".
+  rÃ©ellement crÃ©Ã©e en appellant la commande "CrÃ©er un exÃ©cutable".
 
 ; == LINUX SPECIFIC ==
 
 @Os Linux
-  Permet de déterminer le type de l'exécutable qui sera généré:
+  Permet de dÃ©terminer le type de l'exÃ©cutable qui sera gÃ©nÃ©rÃ©:
 @LineBreak
-@underline "Linux" : format par défaut sous Linux, convient pour tout type d'applications.
+@underline "Linux" : format par dÃ©faut sous Linux, convient pour tout type d'applications.
 @LineBreak
-@underline "Console" : Si le programme créé interagit avec la console, alors il est préférable 
+@underline "Console" : Si le programme crÃ©Ã© interagit avec la console, alors il est prÃ©fÃ©rable 
 de mettre cette option sur "Console", il sera ainsi possible de tester plus facilement les 
-entrées/sorties du programme. Note: sur Linux, OpenConsole() n'ouvre jamais une console séparée, mais utilise la console disponible
+entrÃ©es/sorties du programme. Note: sur Linux, OpenConsole() n'ouvre jamais une console sÃ©parÃ©e, mais utilise la console disponible
 (si une console existe).
 LineBreak
-@underline "Shared .so" : crée une bibliothèque partagée. Voir @ReferenceLink "dll" "Créer une DLL" pour plus d'informations.
+@underline "Shared .so" : crÃ©e une bibliothÃ¨que partagÃ©e. Voir @ReferenceLink "dll" "CrÃ©er une DLL" pour plus d'informations.
 @LineBreak
-  Note: Quand un code source de type DLL est lancé avec "Compiler/Exécuter", il sera traité comme un
+  Note: Quand un code source de type DLL est lancÃ© avec "Compiler/ExÃ©cuter", il sera traitÃ© comme un
   programme classique, pour permettre de tester facilement les fonctions de la DLL. La DLL sera
-  réellement créée en appellant la commande "Créer un exécutable".
+  rÃ©ellement crÃ©Ã©e en appellant la commande "CrÃ©er un exÃ©cutable".
   
 
 ; == MAC SPECIFIC ==
 
 @OS MacOS
-  Informe l'IDE que le programme doit être exécuté dans un terminal (comme xterm) ou non.
-  Cette option n'affecte pas l'exécutable en tant que tel. Si le programme créé interagit
-  avec la console, alors il est préférable de mettre cette option sur "Console", il sera ainsi
-  possible de tester plus facilement les entrées/sorties du programme.
+  Informe l'IDE que le programme doit Ãªtre exÃ©cutÃ© dans un terminal (comme xterm) ou non.
+  Cette option n'affecte pas l'exÃ©cutable en tant que tel. Si le programme crÃ©Ã© interagit
+  avec la console, alors il est prÃ©fÃ©rable de mettre cette option sur "Console", il sera ainsi
+  possible de tester plus facilement les entrÃ©es/sorties du programme.
 @LineBreak
-  Note: sur MacOS X, OpenConsole() n'ouvre jamais une console séparée, mais utilise la console disponible
+  Note: sur MacOS X, OpenConsole() n'ouvre jamais une console sÃ©parÃ©e, mais utilise la console disponible
   (si une console existe).
 
 ; == END OS SPECIFIC ==
@@ -351,23 +368,23 @@ LineBreak
 @LineBreak
 @LineBreak
 
-@Bold "Optimisations CPU" (à coté de "Format de l'exécutable")
+@Bold "Optimisations CPU" (Ã  cotÃ© de "Format de l'exÃ©cutable")
 @LineBreak
-  Cette option permet d'inclure des fonctions spécialement optimisées pour un
+  Cette option permet d'inclure des fonctions spÃ©cialement optimisÃ©es pour un
   type de processeur, lorsqu'elles sont disponibles.
 @LineBreak
-@underline "Tout CPU" : Les fonctions génériques qui fonctionnent sur tous les processeurs seront utilisées.
+@underline "Tout CPU" : Les fonctions gÃ©nÃ©riques qui fonctionnent sur tous les processeurs seront utilisÃ©es.
 @LineBreak
-@underline "CPU Dynamique" : Les fonctions génériques ainsi que les fonctions spécifiques à tous les CPU supportés seront
-  intégrées à l'exécutable. Le choix des fonctions à utiliser se fera au démarrage de l'exécutable, en détectant
-  dynamiquement le processeur sur lequel il est lancé. Cela crée des exécutables plus gros, mais qui seront
+@underline "CPU Dynamique" : Les fonctions gÃ©nÃ©riques ainsi que les fonctions spÃ©cifiques Ã  tous les CPU supportÃ©s seront
+  intÃ©grÃ©es Ã  l'exÃ©cutable. Le choix des fonctions Ã  utiliser se fera au dÃ©marrage de l'exÃ©cutable, en dÃ©tectant
+  dynamiquement le processeur sur lequel il est lancÃ©. Cela crÃ©e des exÃ©cutables plus gros, mais qui seront
   aussi rapides que possible.
 @LineBreak
-@underline "Les autres options" : Les fonctions spécifiques à un CPU seront utilisées (ainsi que les fonctions génériques pour
-  celle qui n'ont pas de version spécifique). L'exécutable ne fonctionnera que sur le processeur choisi.
+@underline "Les autres options" : Les fonctions spÃ©cifiques Ã  un CPU seront utilisÃ©es (ainsi que les fonctions gÃ©nÃ©riques pour
+  celle qui n'ont pas de version spÃ©cifique). L'exÃ©cutable ne fonctionnera que sur le processeur choisi.
 @LineBreak
 @LineBreak
-  Note: Pour le moment, aucune fonction de PureBasic n'intègre de version spécifique, mais quelques bibliothèques
+  Note: Pour le moment, aucune fonction de PureBasic n'intÃ¨gre de version spÃ©cifique, mais quelques bibliothÃ¨ques
   utilisateurs en proposent.
 
 @LineBreak
@@ -375,36 +392,36 @@ LineBreak
 
 @Bold "Fichier d'options du Linker"
 @LineBreak
-  Un fichier texte peut être spécifié ici avec de nouvelles options de ligne de commande à transmettre à l'éditeur de liens 
-  lors de la création de l'exécutable. Le fichier doit contenir une option par ligne.
+  Un fichier texte peut Ãªtre spÃ©cifiÃ© ici avec de nouvelles options de ligne de commande Ã  transmettre Ã  l'Ã©diteur de liens 
+  lors de la crÃ©ation de l'exÃ©cutable. Le fichier doit contenir une option par ligne.
   
-@Section Compiler/Exécuter
+@Section Compiler/ExÃ©cuter
 
-  Cette section contient des options qui affectent la façon dont l'exécutable est exécuté à partir de l'IDE pendant les tests. 
-  Sauf pour l'option 'outils', ils n'ont aucun effet quand le menu "Créer un exécutable" est utilisé.
+  Cette section contient des options qui affectent la faÃ§on dont l'exÃ©cutable est exÃ©cutÃ© Ã  partir de l'IDE pendant les tests. 
+  Sauf pour l'option 'outils', ils n'ont aucun effet quand le menu "CrÃ©er un exÃ©cutable" est utilisÃ©.
 
 @Image ide_compiler_compile.png
 
-@Bold "Activer le Débogueur"
+@Bold "Activer le DÃ©bogueur"
 @LineBreak
-  Définit l'état du débogueur (on/off) pour le code source en cours, ou si l'option du fichier principal est utilisé, 
-  pour ce fichier aussi. On peut utiliser directement le menu du débogueur
+  DÃ©finit l'Ã©tat du dÃ©bogueur (on/off) pour le code source en cours, ou si l'option du fichier principal est utilisÃ©, 
+  pour ce fichier aussi. On peut utiliser directement le menu du dÃ©bogueur
 
 @LineBreak
 @LineBreak
 
 @Bold "Activer le Purifier"
 @LineBreak
-  Active le purificateur du débogueur. Le purificateur peut détecter certains types d'erreurs de programmation comme 
-  écrire au delà des capacités d'un tampon en mémoire. Voir @ReferenceLink "ide_debugtools" "outils de débogage interne" pour plus de détails.
+  Active le purificateur du dÃ©bogueur. Le purificateur peut dÃ©tecter certains types d'erreurs de programmation comme 
+  Ã©crire au delÃ  des capacitÃ©s d'un tampon en mÃ©moire. Voir @ReferenceLink "ide_debugtools" "outils de dÃ©bogage interne" pour plus de dÃ©tails.
 
 @LineBreak
 @LineBreak
 
-@Bold "Débogueur à utiliser"
+@Bold "DÃ©bogueur Ã  utiliser"
 @LineBreak
- Permet de choisir un @ReferenceLink "ide_debugger" "type de débogueur" différent pour le fichier en cours uniquement. 
-  Si cette option est désactivée, le débogueur par défaut est utilisé, c'est celui spécifié dans les @ReferenceLink "ide_preferences" "préférences".
+ Permet de choisir un @ReferenceLink "ide_debugger" "type de dÃ©bogueur" diffÃ©rent pour le fichier en cours uniquement. 
+  Si cette option est dÃ©sactivÃ©e, le dÃ©bogueur par dÃ©faut est utilisÃ©, c'est celui spÃ©cifiÃ© dans les @ReferenceLink "ide_preferences" "prÃ©fÃ©rences".
 
 @LineBreak
 @LineBreak
@@ -416,100 +433,100 @@ LineBreak
 @LineBreak
 @LineBreak
 
-@Bold "Paramètre de l'éxecutable"
+@Bold "ParamÃ¨tre de l'Ã©xecutable"
 @LineBreak
-  La chaîne donnée ici sera passée en tant que ligne de commande pour le programme lorsqu'il est exécuté à partir de l'IDE.@LineBreak
-  Le contenu de cette chaîne peut être obtenu avec @@ProgramParameter.
+  La chaÃ®ne donnÃ©e ici sera passÃ©e en tant que ligne de commande pour le programme lorsqu'il est exÃ©cutÃ© Ã  partir de l'IDE.@LineBreak
+  Le contenu de cette chaÃ®ne peut Ãªtre obtenu avec @@ProgramParameter.
 
 @LineBreak
 @LineBreak
 
-@Bold "Répertoire courant"
+@Bold "RÃ©pertoire courant"
 @LineBreak
-  Le répertoire spécifié ici sera défini comme le répertoire courant pour le programme lorsqu'il est exécuté à partir de l'IDE. 
+  Le rÃ©pertoire spÃ©cifiÃ© ici sera dÃ©fini comme le rÃ©pertoire courant pour le programme lorsqu'il est exÃ©cutÃ© Ã  partir de l'IDE. 
 
 @LineBreak
 @LineBreak
 
-@Bold "Créer l'exécutable temporaire dans le répertoire source"
+@Bold "CrÃ©er l'exÃ©cutable temporaire dans le rÃ©pertoire source"
 @LineBreak
-  Avec cette option activée, le fichier exécutable temporaire sera placé à l'intérieur du répertoire source. 
-  Cela peut être utile si le programme dépend de fichiers à l'intérieur du répertoire source. 
-  Avec cette option désactivée, l'exécutable est créé dans le répertoire temporaire de système.
+  Avec cette option activÃ©e, le fichier exÃ©cutable temporaire sera placÃ© Ã  l'intÃ©rieur du rÃ©pertoire source. 
+  Cela peut Ãªtre utile si le programme dÃ©pend de fichiers Ã  l'intÃ©rieur du rÃ©pertoire source. 
+  Avec cette option dÃ©sactivÃ©e, l'exÃ©cutable est crÃ©Ã© dans le rÃ©pertoire temporaire de systÃ¨me.
 
 @LineBreak
 @LineBreak
 
-@Bold "Outils à exécuter"
+@Bold "Outils Ã  exÃ©cuter"
 @LineBreak
-  Des @ReferenceLink "ide_externaltools" "outils externes" peuvent être activés. 
-  La colonne "Paramètres globaux" indique si l'outil est activé ou désactivé 
+  Des @ReferenceLink "ide_externaltools" "outils externes" peuvent Ãªtre activÃ©s. 
+  La colonne "ParamÃ¨tres globaux" indique si l'outil est activÃ© ou dÃ©sactivÃ© 
   dans @ReferenceLink "ide_externaltools" "la configuration des outils". 
-  Un outil ne sera exécuté pour la source que s'il est à la fois activé globalement 
+  Un outil ne sera exÃ©cutÃ© pour la source que s'il est Ã  la fois activÃ© globalement 
   et pour la source en cours.
   
   
 @LineBreak
 @LineBreak
-  Remarque: Pour qu'un outil puisse être énuméré ici, il doit avoir l'option "Activer l'outil sur une base per-source" 
-  dans la @ReferenceLink "ide_externaltools" "configuration des outils" et être exécuté par un déclencheur 
-  qui est associé à un fichier source. (c.-à-pas par le menu de démarrage ou de l'éditeur par exemple)
+  Remarque: Pour qu'un outil puisse Ãªtre Ã©numÃ©rÃ© ici, il doit avoir l'option "Activer l'outil sur une base per-source" 
+  dans la @ReferenceLink "ide_externaltools" "configuration des outils" et Ãªtre exÃ©cutÃ© par un dÃ©clencheur 
+  qui est associÃ© Ã  un fichier source. (c.-Ã -pas par le menu de dÃ©marrage ou de l'Ã©diteur par exemple)
    
 
 @Section Constantes
   
-  Dans cette section, un ensemble de constantes spéciales pour l'éditeur aussi bien que des constantes personnalisées 
-  peuvent être définies pour ce qui sera prédéfini au moment de la compilation du code source.
+  Dans cette section, un ensemble de constantes spÃ©ciales pour l'Ã©diteur aussi bien que des constantes personnalisÃ©es 
+  peuvent Ãªtre dÃ©finies pour ce qui sera prÃ©dÃ©fini au moment de la compilation du code source.
 
 @Image ide_compiler_constants.png
 
 @Bold "#PB_Editor_CompileCount"
 @LineBreak
-  Si cette constante est activée, elle contiendra le nombre de fois que le code a été compilé en choisissant aussi bien "Compiler/Exécuter" 
-  que "Créer un exécutable" dans le menu. Le compteur peut être édité manuellement dans le champ de saisie.
+  Si cette constante est activÃ©e, elle contiendra le nombre de fois que le code a Ã©tÃ© compilÃ© en choisissant aussi bien "Compiler/ExÃ©cuter" 
+  que "CrÃ©er un exÃ©cutable" dans le menu. Le compteur peut Ãªtre Ã©ditÃ© manuellement dans le champ de saisie.
 
 @LineBreak
 @LineBreak
 
 @Bold "#PB_Editor_BuildCount"
 @LineBreak
-  Si cette constante est activée, elle contiendra le nombre de fois que le code a été compilé en choisissant "Créer un exécutable" dans le menu.
-  Le compteur peut être édité manuellement dans le champ de saisie.
+  Si cette constante est activÃ©e, elle contiendra le nombre de fois que le code a Ã©tÃ© compilÃ© en choisissant "CrÃ©er un exÃ©cutable" dans le menu.
+  Le compteur peut Ãªtre Ã©ditÃ© manuellement dans le champ de saisie.
 
 @LineBreak
 @LineBreak
 
 @Bold "#PB_Editor_CreateExecutable"
 @LineBreak
-  Si cette constante est activée, elle aura la valeur 1 si le code est compilé en choisissant "Créer un exécutable" dans le menu ou
-  0 si "Compiler/Exécuter" est utilisé.
+  Si cette constante est activÃ©e, elle aura la valeur 1 si le code est compilÃ© en choisissant "CrÃ©er un exÃ©cutable" dans le menu ou
+  0 si "Compiler/ExÃ©cuter" est utilisÃ©.
 
 @LineBreak
 @LineBreak
 
 @Bold "Constantes utilisateurs"
 @LineBreak
-  Les constantes personnalisées peuvent être définies et facilement activé / désactivé avec 
-  les cases à cocher. Les constantes devraient être ajoutées à mesure qu'elles apparaissent 
-  dans le code source. Cela fournit un moyen pour activer / désactiver certaines fonctionnalités 
-  dans un programme et on peut activer / désactiver ces fonctionnalités avec 
+  Les constantes personnalisÃ©es peuvent Ãªtre dÃ©finies et facilement activÃ© / dÃ©sactivÃ© avec 
+  les cases Ã  cocher. Les constantes devraient Ãªtre ajoutÃ©es Ã  mesure qu'elles apparaissent 
+  dans le code source. Cela fournit un moyen pour activer / dÃ©sactiver certaines fonctionnalitÃ©s 
+  dans un programme et on peut activer / dÃ©sactiver ces fonctionnalitÃ©s avec 
   @ReferenceLink "compilerdirectives" "CompilerIf/CompilerEndIf".
 @LineBreak
 @LineBreak
-  Dans la définition de ces constantes, les variables d'environnement peuvent être utilisées 
-  dans un style "bash" avec un "$" devant. La variable d'environnement sera remplacée par la 
-  définition avant de compiler le source.
+  Dans la dÃ©finition de ces constantes, les variables d'environnement peuvent Ãªtre utilisÃ©es 
+  dans un style "bash" avec un "$" devant. La variable d'environnement sera remplacÃ©e par la 
+  dÃ©finition avant de compiler le source.
 @LineBreak
 @LineBreak
   Exemple: #Creator=$USERNAME
 @LineBreak
-  Ici,le $USERNAME sera remplacé par le nom de l'utilisateur connecté sur les systèmes 
-  Windows. Si une variable d'environnement n'existe pas, elle sera remplacée par une chaîne vide.
+  Ici,le $USERNAME sera remplacÃ© par le nom de l'utilisateur connectÃ© sur les systÃ¨mes 
+  Windows. Si une variable d'environnement n'existe pas, elle sera remplacÃ©e par une chaÃ®ne vide.
   
 @LineBreak
 @LineBreak
-  Note: Pour tester dans le code source si une constante est définie ou non, la fonction @FunctionColor Defined() 
-  dans @ReferenceLink "compilerfunctions" "fonction du compilateur" peut être utilisée.
+  Note: Pour tester dans le code source si une constante est dÃ©finie ou non, la fonction @FunctionColor Defined() 
+  dans @ReferenceLink "compilerfunctions" "fonction du compilateur" peut Ãªtre utilisÃ©e.
 
 ; == WINDOWS ONLY ==
 
@@ -519,49 +536,49 @@ LineBreak
 
 @Image ide_compiler_version.png
 
-  Pour Windows seulement: Si cette fonction est activée, une 'ressource' sera ajoutée à 
-  l'exécutable final contenant les informations de version du programme.
-  Il est possible de les consulter en utilisant l'explorateur Windows et de sélectionner
-  'Propriétés' dans le menu contextuel. D'autres outils peuvent utiliser ces informations, comme
+  Pour Windows seulement: Si cette fonction est activÃ©e, une 'ressource' sera ajoutÃ©e Ã  
+  l'exÃ©cutable final contenant les informations de version du programme.
+  Il est possible de les consulter en utilisant l'explorateur Windows et de sÃ©lectionner
+  'PropriÃ©tÃ©s' dans le menu contextuel. D'autres outils peuvent utiliser ces informations, comme
   par exemple les installateurs de programmes. 
 @LineBreak
 @LineBreak
-  Les champs marqués avec une '*' sont indispensables, sinon les informations ne seront pas
-  affichées correctement sur toutes les versions de Windows.
+  Les champs marquÃ©s avec une '*' sont indispensables, sinon les informations ne seront pas
+  affichÃ©es correctement sur toutes les versions de Windows.
 @LineBreak
-  Les deux premiers champs doivent contenir 4 nombres séparés par des virgules. Tous les autres
-  champs peuvent contenir n'importe quel texte. Dans les 3 boîtes vides, il est possible de définir
-  ses propres champs à inclure dans les informations de version.
-@LineBreak
-@LineBreak
-  Dans tous les champs texte, il est possible d'intégrer des tags spéciaux qui seront remplacés
-  par leur valeur associée lors de la compilation:
-@LineBreak
-  %OS : remplacé par la version de Windows utilisée pour compiler le programme.
-@LineBreak
-  %SOURCE : remplacé par le nom du fichier source (sans son chemin).
-@LineBreak
-  %EXECUTABLE : remplacé par le nom de l'exécutable créé (fonctionne uniquement quand "Créer un exécutable" est utilisé).
-@LineBreak
-  %COMPILECOUNT : remplacé par la valeur de la constante @#PB_Editor_CompileCount.
-@LineBreak
-  %BUILDCOUNT : remplacé par la valeur de la constante @#PB_Editor_BuildCount.
+  Les deux premiers champs doivent contenir 4 nombres sÃ©parÃ©s par des virgules. Tous les autres
+  champs peuvent contenir n'importe quel texte. Dans les 3 boÃ®tes vides, il est possible de dÃ©finir
+  ses propres champs Ã  inclure dans les informations de version.
 @LineBreak
 @LineBreak
-  De plus, il possible d'utiliser n'importe quels tags supportés par la commande FormatDate(). Ils seront
-  alors remplacés par leur valeur par rapport à la date de la compilation (ex: %yy correspondra à l'année de
+  Dans tous les champs texte, il est possible d'intÃ©grer des tags spÃ©ciaux qui seront remplacÃ©s
+  par leur valeur associÃ©e lors de la compilation:
+@LineBreak
+  %OS : remplacÃ© par la version de Windows utilisÃ©e pour compiler le programme.
+@LineBreak
+  %SOURCE : remplacÃ© par le nom du fichier source (sans son chemin).
+@LineBreak
+  %EXECUTABLE : remplacÃ© par le nom de l'exÃ©cutable crÃ©Ã© (fonctionne uniquement quand "CrÃ©er un exÃ©cutable" est utilisÃ©).
+@LineBreak
+  %COMPILECOUNT : remplacÃ© par la valeur de la constante @#PB_Editor_CompileCount.
+@LineBreak
+  %BUILDCOUNT : remplacÃ© par la valeur de la constante @#PB_Editor_BuildCount.
+@LineBreak
+@LineBreak
+  De plus, il possible d'utiliser n'importe quels tags supportÃ©s par la commande FormatDate(). Ils seront
+  alors remplacÃ©s par leur valeur par rapport Ã  la date de la compilation (ex: %yy correspondra Ã  l'annÃ©e de
   la compilation).
 
 @LineBreak
 @LineBreak
-  Définition des 3 champs du bas:
+  DÃ©finition des 3 champs du bas:
 @LineBreak
 @LineBreak
 
 @Bold "OS du fichier "
 @LineBreak
-  Spécifie l'OS pour lequel ce programme est compilé (utiliser VOS_DOS ou VOS_WINDOWS16 n'a pas
-  vraiment de sens pour un programme PureBasic, ils sont présents uniquement pour avoir une
+  SpÃ©cifie l'OS pour lequel ce programme est compilÃ© (utiliser VOS_DOS ou VOS_WINDOWS16 n'a pas
+  vraiment de sens pour un programme PureBasic, ils sont prÃ©sents uniquement pour avoir une
   liste exhaustive).
 
 @LineBreak
@@ -569,18 +586,18 @@ LineBreak
 
 @Bold "Type du fichier" 
 @LineBreak
-  Définit le type de l'exécutable (ici seuls VFT_UNKNOWN, VFT_APP et VFT_DLL ont un sens pour les programmes PureBasic).
+  DÃ©finit le type de l'exÃ©cutable (ici seuls VFT_UNKNOWN, VFT_APP et VFT_DLL ont un sens pour les programmes PureBasic).
 
 @LineBreak
 @LineBreak
 
 @Bold "Langue"
 @LineBreak
-  Spécifie la langue dans laquelle sont décrites ces informations de version.
+  SpÃ©cifie la langue dans laquelle sont dÃ©crites ces informations de version.
 @LineBreak
 @LineBreak
  Les valeurs des champs sont accessibles lors de la compilation du programme de 
- l'IDE en utilisant les constantes suivantes (même ordre):
+ l'IDE en utilisant les constantes suivantes (mÃªme ordre):
 @FixedFont
   @#PB_Editor_FileVersionNumeric
   @#PB_Editor_ProductVersionNumeric
@@ -605,56 +622,56 @@ LineBreak
 @Image ide_compiler_ressources.png
 
   Pour Windows seulement: Permet d'inclure autant de scripts de ressources (fichiers *.rc)
-  que nécessaire. Ils seront alors compilés et ajoutés à l'exécutable, et accessibles dans le programme
-  via les commandes API (étant donné que les ressources sont spécifiques à Windows, PureBasic ne
-  les supporte pas de manière implicite, pour plus de renseignements consultez la MSDN).
-  Pour créer facilement ces scripts, il est conseillé d'utiliser un éditeur de ressources tel que 
-  celui présent dans 'PellesC'.
+  que nÃ©cessaire. Ils seront alors compilÃ©s et ajoutÃ©s Ã  l'exÃ©cutable, et accessibles dans le programme
+  via les commandes API (Ã©tant donnÃ© que les ressources sont spÃ©cifiques Ã  Windows, PureBasic ne
+  les supporte pas de maniÃ¨re implicite, pour plus de renseignements consultez la MSDN).
+  Pour crÃ©er facilement ces scripts, il est conseillÃ© d'utiliser un Ã©diteur de ressources tel que 
+  celui prÃ©sent dans 'PellesC'.
 
 @LineBreak
 @LineBreak
 
-  Remarque : Étant donné que les ressources sont spécifiques à la plate-forme Windows uniquement, PB n'inclut pas de
-  bibliothèques pour les gérer et ils ne sont pas documentés davantage ici. Voir la documentation sur le
+  RemarqueÂ : Ã‰tant donnÃ© que les ressources sont spÃ©cifiques Ã  la plate-forme Windows uniquement, PB n'inclut pas de
+  bibliothÃ¨ques pour les gÃ©rer et ils ne sont pas documentÃ©s davantage ici. Voir la documentation sur le
   @InternetLink "https://learn.microsoft.com/en-us/windows/win32/apiindex/windows-api-list" "API Windows" et ressources pour plus d'informations.
 ; == END WINDOWS ONLY ==
 
 @EndOS
 
 
-@Section La fenêtre d'options de compilation pour projets
+@Section La fenÃªtre d'options de compilation pour projets
 
 @Image ide_compiler_targets.png
 
-  La fenêtre "options de compilation pour projets" permet de définir plusieurs cibles de compilation. 
-  Chaque cible est un ensemble de paramètres de compilation avec un fichier source principal et un
-  exécutable. La partie gauche de la fenêtre affiche la liste de toutes les cibles disponibles. La
-  barre d'outils juste au dessus permet de créer, effacer, copier, éditer ou déplacer une cible.
+  La fenÃªtre "options de compilation pour projets" permet de dÃ©finir plusieurs cibles de compilation. 
+  Chaque cible est un ensemble de paramÃ¨tres de compilation avec un fichier source principal et un
+  exÃ©cutable. La partie gauche de la fenÃªtre affiche la liste de toutes les cibles disponibles. La
+  barre d'outils juste au dessus permet de crÃ©er, effacer, copier, Ã©diter ou dÃ©placer une cible.
 @LineBreak
 @LineBreak
-  La cible par défaut sera celle qui sera exécutée quand le menu "Compilateur/Exécuter" est sélectionné.
-  Elle peut être rapidement changée par la case à cocher "Définir comme cible par défaut" ou à partir
+  La cible par dÃ©faut sera celle qui sera exÃ©cutÃ©e quand le menu "Compilateur/ExÃ©cuter" est sÃ©lectionnÃ©.
+  Elle peut Ãªtre rapidement changÃ©e par la case Ã  cocher "DÃ©finir comme cible par dÃ©faut" ou Ã  partir
   du menu "Compilateur".
-  L'option "Autoriser dans 'Compiler toutes les cibles'" indique si cette cible doit être compilée quand
-  le menu "Compiler toutes les cibles" est utilisé.
+  L'option "Autoriser dans 'Compiler toutes les cibles'" indique si cette cible doit Ãªtre compilÃ©e quand
+  le menu "Compiler toutes les cibles" est utilisÃ©.
 @LineBreak
 @LineBreak
-  La partie droite de la fenêtre est quasiment la même qu'en mode hors projet, et reflète les paramètres
-  de compilation de la cible actuellement selectionnée. Les seules différences sont les champs
-  "Fichier source d'entrée" et "Exécutable de destination" qui doivent être renseignés pour chaque
+  La partie droite de la fenÃªtre est quasiment la mÃªme qu'en mode hors projet, et reflÃ¨te les paramÃ¨tres
+  de compilation de la cible actuellement selectionnÃ©e. Les seules diffÃ©rences sont les champs
+  "Fichier source d'entrÃ©e" et "ExÃ©cutable de destination" qui doivent Ãªtre renseignÃ©s pour chaque
   cible, car sans ces informations, il n'est pas possible de compiler la cible automatiquement.
 @LineBreak
 @LineBreak
-  En mode projet, les informations relatives à chaque cible sont enregistrées dans le fichier projet,
-  et pas dans les fichiers sources. Les informations qui sont propres à chaque fichier (comme l'état
-  du pliage) sont toujours enregistrées pour chaque fichier à l'endroit indiqué dans les @ReferenceLink "ide_preferences" "Preferences".
+  En mode projet, les informations relatives Ã  chaque cible sont enregistrÃ©es dans le fichier projet,
+  et pas dans les fichiers sources. Les informations qui sont propres Ã  chaque fichier (comme l'Ã©tat
+  du pliage) sont toujours enregistrÃ©es pour chaque fichier Ã  l'endroit indiquÃ© dans les @ReferenceLink "ide_preferences" "Preferences".
 
 
-@Section La fenêtre de compilation des cibles
+@Section La fenÃªtre de compilation des cibles
 
 @Image ide_compiler_build.png
 
-  Quand le menu "Créer toutes les cibles" est sélectionné pour le projet en cours, toutes les cibles qui ont l'option
-  idoine activée seront compilées dans l'ordre où elles apparaissent dans la liste des cibles. La fenêtre de progression
+  Quand le menu "CrÃ©er toutes les cibles" est sÃ©lectionnÃ© pour le projet en cours, toutes les cibles qui ont l'option
+  idoine activÃ©e seront compilÃ©es dans l'ordre oÃ¹ elles apparaissent dans la liste des cibles. La fenÃªtre de progression
   montre la cible et l'ensemble des cibles ainsi que leurs statuts. Quand le processus de compilation est fini, le log
-  peut être copié dans le presse-papier ou enregistré sur le disque.
+  peut Ãªtre copiÃ© dans le presse-papier ou enregistrÃ© sur le disque.

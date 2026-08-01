@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Material library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,37 +8,37 @@
 
 @Overview
 
-  Les matières ou matériaux sont composés 
+  Les matiÃ¨res ou matÃ©riaux sont composÃ©s 
   d'une ou plusieurs textures et parfois de 
   couleurs. 
 @LineBreak
 @LineBreak
-  Elles sont utilisées par les objets 3D tels 
-  que les 'Entités', les 'Billboards' et les 
+  Elles sont utilisÃ©es par les objets 3D tels 
+  que les 'EntitÃ©s', les 'Billboards' et les 
   'Particules'. 
 @LineBreak
 @LineBreak
-   Chaque matière regroupe un grand nombre de 
-  propriétés tel que l'éclairage, la couleur 
-  spéculaire et de réfraction, etc, ce qui 
-  permet à une matière de ressembler à un 
-  revêtement complexe comme le verre, l'eau, 
+   Chaque matiÃ¨re regroupe un grand nombre de 
+  propriÃ©tÃ©s tel que l'Ã©clairage, la couleur 
+  spÃ©culaire et de rÃ©fraction, etc, ce qui 
+  permet Ã  une matiÃ¨re de ressembler Ã  un 
+  revÃªtement complexe comme le verre, l'eau, 
   le bois... 
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être correctement 
-  initialisé avant de pouvoir utiliser ces 
+  @@InitEngine3D doit Ãªtre correctement 
+  initialisÃ© avant de pouvoir utiliser ces 
   commandes.
 @LineBreak
 @LineBreak
-  Les mots 'matière' et 'matériau' sont 
-  considérés ici comme synonymes afin d'alléger 
+  Les mots 'matiÃ¨re' et 'matÃ©riau' sont 
+  considÃ©rÃ©s ici comme synonymes afin d'allÃ©ger 
   la lecture.
 
 @CommandList
 
-@ExampleFile All Material.pb
 @ExampleFile All AddMaterialLayer.pb
+@ExampleFile All Material2.pb
 @ExampleFile All CopyMaterial.pb
 @ExampleFile All GetScriptMaterial.pb
 @ExampleFile All MaterialFog.pb
@@ -54,37 +54,37 @@
 @Function AddMaterialLayer(#Matiere, TextureID [, Mode [, IndexCoordonneeTexture]])
 
 @Description
-  Ajoute une nouvelle couche à une matière 
-  et lui affecte la texture spécifiée. 
+  Ajoute une nouvelle couche Ã  une matiÃ¨re 
+  et lui affecte la texture spÃ©cifiÃ©e. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "TextureID"
-  La texture à utiliser.
+  La texture Ã  utiliser.
 @LineBreak
 @LineBreak
-  Un numéro 'TextureID' valide est obtenu 
-  facilement à l'aide de la commande 
+  Un numÃ©ro 'TextureID' valide est obtenu 
+  facilement Ã  l'aide de la commande 
   @@TextureID.
     
 @OptionalParameter "Mode"
 @FixedFont
-  @#PB_Material_Add               : Combine la nouvelle couche en ajoutant (Add) la valeur des pixels (donc le noir est complètement transparent)
-  @#PB_Material_AddSigned         : Effectue une opération 'Add' signée sur les pixels du calque précédent (la couleur noire est comme transparente)
-  @#PB_Material_Substract         : Effectue une opération 'Substract' signée sur les pixels du calque précédent (la couleur noire est comme transparente)
-  @#PB_Material_Replace           : Combine la nouvelle couche en remplaçant (Replace) les pixels
-  @#PB_Material_AlphaBlend        : Utilise le canal alpha de la texture (la texture doit être en TGA ou PNG) et la combine avec la couche précédente
-  @#PB_Material_Modulate          : Combine la nouvelle couche sur la précédente en modulant la valeur des pixels (Modulate)
-  @#PB_Material_ModulateX2        : Effectue une opération "Multiplier" sur les pixels du calque précédent et éclaircit ensuite (x2)
-  @#PB_Material_ModulateX4        : Effectue une opération "Multiplier" sur les pixels du calque précédent et éclaircit ensuite (x4)
-  @#PB_Material_BlendDiffuseAlpha : Utilise le calque du canal Alpha de la texture et le mélange avec le calque précédent avec diffusion
-  @#PB_Material_BlendCurrentAlpha : Utilise le calque du canal Alpha de l'étape en cours et le mélange avec le calque précédent
+  @#PB_Material_Add               : Combine la nouvelle couche en ajoutant (Add) la valeur des pixels (donc le noir est complÃ¨tement transparent)
+  @#PB_Material_AddSigned         : Effectue une opÃ©ration 'Add' signÃ©e sur les pixels du calque prÃ©cÃ©dent (la couleur noire est comme transparente)
+  @#PB_Material_Substract         : Effectue une opÃ©ration 'Substract' signÃ©e sur les pixels du calque prÃ©cÃ©dent (la couleur noire est comme transparente)
+  @#PB_Material_Replace           : Combine la nouvelle couche en remplaÃ§ant (Replace) les pixels
+  @#PB_Material_AlphaBlend        : Utilise le canal alpha de la texture (la texture doit Ãªtre en TGA ou PNG) et la combine avec la couche prÃ©cÃ©dente
+  @#PB_Material_Modulate          : Combine la nouvelle couche sur la prÃ©cÃ©dente en modulant la valeur des pixels (Modulate)
+  @#PB_Material_ModulateX2        : Effectue une opÃ©ration "Multiplier" sur les pixels du calque prÃ©cÃ©dent et Ã©claircit ensuite (x2)
+  @#PB_Material_ModulateX4        : Effectue une opÃ©ration "Multiplier" sur les pixels du calque prÃ©cÃ©dent et Ã©claircit ensuite (x4)
+  @#PB_Material_BlendDiffuseAlpha : Utilise le calque du canal Alpha de la texture et le mÃ©lange avec le calque prÃ©cÃ©dent avec diffusion
+  @#PB_Material_BlendCurrentAlpha : Utilise le calque du canal Alpha de l'Ã©tape en cours et le mÃ©lange avec le calque prÃ©cÃ©dent
 @EndFixedFont
 
 @OptionalParameter "IndexCoordonneeTexture"
-  Index à utiliser pour les coordonnées de 
-  la texture (par défaut l'index = 0).
+  Index Ã  utiliser pour les coordonnÃ©es de 
+  la texture (par dÃ©faut l'index = 0).
 
 @NoReturnValue
 
@@ -99,28 +99,28 @@
 @Function Resultat = CopyMaterial(#Matiere, #NouvelleMatiere)
 
 @Description
-  Crée une nouvelle matière qui est la 
-  copie exacte d'une matière spécifiée. 
+  CrÃ©e une nouvelle matiÃ¨re qui est la 
+  copie exacte d'une matiÃ¨re spÃ©cifiÃ©e. 
 
 @Parameter "#Matiere"
-  La matière à copier.
+  La matiÃ¨re Ã  copier.
 
 @Parameter "#NouvelleMatiere"
-  La copie, c'est une nouvelle matière.
+  La copie, c'est une nouvelle matiÃ¨re.
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-  Si la #NouvelleMatière était déjà créée, 
-  elle est automatiquement libérée et 
-  remplacée par la nouvelle.
+  Si la #NouvelleMatiÃ¨re Ã©tait dÃ©jÃ  crÃ©Ã©e, 
+  elle est automatiquement libÃ©rÃ©e et 
+  remplacÃ©e par la nouvelle.
 
 @SeeAlso
   @@CreateMaterial, @@FreeMaterial
@@ -132,14 +132,14 @@
 @Function Resultat = CountMaterialLayers(#Matiere)
 
 @Description
-  Renvoie le nombre de couches d'une matière.
+  Renvoie le nombre de couches d'une matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @ReturnValue 
   Renvoie le nombre de couches que contient 
-  la matière.
+  la matiÃ¨re.
   
 @SeeAlso
   @@AddMaterialLayer, @@RemoveMaterialLayer
@@ -151,35 +151,35 @@
 @Function Resultat = CreateMaterial(#Matiere, TextureID [, Couleur])
 
 @Description
-  Crée une nouvelle matière basée sur la 
-  texture spécifiée. 
+  CrÃ©e une nouvelle matiÃ¨re basÃ©e sur la 
+  texture spÃ©cifiÃ©e. 
   
 @Parameter "#Matiere"
-  La nouvelle matière.
+  La nouvelle matiÃ¨re.
 
 @Parameter "TextureID"
-  La texture à utiliser.
+  La texture Ã  utiliser.
 @LineBreak
 @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 @LineBreak
 @LineBreak   
-  Un 'TextureID' valide ou @#Null si la texture n'est pas nécessaire, est obtenu 
-  facilement à l'aide de la commande @@TextureID.
+  Un 'TextureID' valide ou @#Null si la texture n'est pas nÃ©cessaire, est obtenu 
+  facilement Ã  l'aide de la commande @@TextureID.
 
 @OptionalParameter "Couleur"
-  La couleur à utiliser pour la couleur d'ambiance et diffuse.@LineBreak 
-  Une couleur RVB valide peut être créée avec @@RGB.
+  La couleur Ã  utiliser pour la couleur d'ambiance et diffuse.@LineBreak 
+  Une couleur RVB valide peut Ãªtre crÃ©Ã©e avec @@RGB.
   
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-  Si la nouvelle matière était déjà créée, 
-  elle est automatiquement libérée et remplacée 
+  Si la nouvelle matiÃ¨re Ã©tait dÃ©jÃ  crÃ©Ã©e, 
+  elle est automatiquement libÃ©rÃ©e et remplacÃ©e 
   par la nouvelle.
   
 @SeeAlso
@@ -192,28 +192,28 @@
 @Function Resultat = CreateAnimatedMaterial(#Matiere, Texture(), Duree.f)
 
 @Description
-  Crée une nouvelle matière animée à l'aide des textures spécifiées.
+  CrÃ©e une nouvelle matiÃ¨re animÃ©e Ã  l'aide des textures spÃ©cifiÃ©es.
 
 @Parameter "#Matiere"
-  La nouvelle matière.
+  La nouvelle matiÃ¨re.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @Parameter "Texture()"
-  Un tableau de TextureID contenant les textures à utiliser pour l'animation.@LineBreak  
-  @@TextureID peut être utilisé pour obtenir un identifiant de texture valide.
+  Un tableau de TextureID contenant les textures Ã  utiliser pour l'animation.@LineBreak  
+  @@TextureID peut Ãªtre utilisÃ© pour obtenir un identifiant de texture valide.
   
 @Parameter "Duree"
-  La durée de l'animation en secondes. @LineBreak  
+  La durÃ©e de l'animation en secondes. @LineBreak  
   Il peut s'agir d'un nombre fractionnaire, par exemple : 1,5 soit une seconde et demie.
-  Une fois l'animation terminée, elle recommencera automatiquement.
+  Une fois l'animation terminÃ©e, elle recommencera automatiquement.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-  Si @#PB_Any a été utilisé pour le paramètre #Matiere, le nombre généré est renvoyé en cas de succès. 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre #Matiere, le nombre gÃ©nÃ©rÃ© est renvoyÃ© en cas de succÃ¨s. 
   
 @Example
 @Code
@@ -226,7 +226,7 @@
   Textures(1) = TextureID(1)
   Textures(2) = TextureID(2)
 
-  ; Crée une matière animée avec 3 textures, qui jouera pendant 500 ms
+  ; CrÃ©e une matiÃ¨re animÃ©e avec 3 textures, qui jouera pendant 500 ms
   ;
   CreateAnimatedMaterial(0, Textures(), 0.5)
 @EndCode
@@ -238,45 +238,33 @@
 @Function Resultat = CreateShader(ShaderID, ProgrammeVertex$, ProgrammeFragment$)
 
 @Description
-  Crée un nouveau shader en utilisant les programmes de vertex et de fragments spécifiés.
+  CrÃ©e un nouveau shader en utilisant les programmes de vertex et de fragments spÃ©cifiÃ©s.
 
 @Parameter "ShaderID"
-  Un nombre entre 0 et 65536 identifie le nouveau shader.@LineBreak 
-  Pour sélectionner l'un des shaders prédéfinis, utilisez l'une des valeurs suivantes comme 'ShaderID' 
-  (les valeurs ProgrammeVertex$ et ProgrammeFragment$ seront ignorées) :
-@FixedFont
-  @#PB_Material_ColorShader
-  @#PB_Material_PerpixelShader
-  @#PB_Material_BumpShader
-  @#PB_Material_SkyShader
-  @#PB_Material_WaterShader
-  @#PB_Material_WaterShaderRTT
-  @#PB_Material_OceanShader
-  @#PB_Material_PointSpriteSphereShader
-@EndFixedFont
+  Un nombre entre 0 et 65536 identifie le nouveau shader.
   
 @Parameter "ProgrammeVertex$"
-  Le programme GLSL à utiliser pour les sommets (vertices).
+  Le programme GLSL Ã  utiliser pour les sommets (vertices).
 
 @Parameter "ProgrammeFragment$"
- Le programme GLSL à utiliser pour les fragments.
+ Le programme GLSL Ã  utiliser pour les fragments.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le shader a été créé avec succès, zéro sinon.
+  Renvoie une valeur non nulle si le shader a Ã©tÃ© crÃ©Ã© avec succÃ¨s, zÃ©ro sinon.
   
   @Remarks
-   Les shaders ont généralement besoin de recevoir des paramètres pour fonctionner et deux fonctions permettent de passer ces paramètres :
-   @@MaterialShaderAutoParameter (paramètre automatique) et @@MaterialShaderParameter (paramètre shader).@LineBreak
-   PureBasic permet également de définir ces paramètres directement dans les programmes de shaders en ajoutant à la fin de la ligne de 
-   déclaration 'uniform' : "//" suivi soit de :@LineBreak
-   - le numéro du paramètre auto précédé d'un "+" (cf. les constantes 'ParameterType' de la fonction @@MaterialShaderAutoParameter).@LineBreak
-   - une ou plusieurs valeurs (séparées par un espace) correspondant au paramètre du shader (@@MaterialShaderParameter).@LineBreak
+   Les shaders ont gÃ©nÃ©ralement besoin de recevoir des paramÃ¨tres pour fonctionner et deux fonctions permettent de passer ces paramÃ¨tres :
+   @@MaterialShaderAutoParameter (paramÃ¨tre automatique) et @@MaterialShaderParameter (paramÃ¨tre shader).@LineBreak
+   PureBasic permet Ã©galement de dÃ©finir ces paramÃ¨tres directement dans les programmes de shaders en ajoutant Ã  la fin de la ligne de 
+   dÃ©claration 'uniform' : "//" suivi soit de :@LineBreak
+   - le numÃ©ro du paramÃ¨tre auto prÃ©cÃ©dÃ© d'un "+" (cf. les constantes 'ParameterType' de la fonction @@MaterialShaderAutoParameter).@LineBreak
+   - une ou plusieurs valeurs (sÃ©parÃ©es par un espace) correspondant au paramÃ¨tre du shader (@@MaterialShaderParameter).@LineBreak
 @LineBreak
-   Exemple :@LineBreak
-   uniform vec4 camera_pos;//+76 <- paramètre automatique @#PB_Shader_CameraPosition@LineBreak
-   uniform vec4 fog_params ;//+31 <- paramètre automatique @#PB_Shader_FogParams@LineBreak
-   uniform vec3 speed;//0.5 1 0 <- paramètre de shader 'speed'@LineBreak
-   uniform sampler2D diffuseMap;//1 <- shader paramètre texture number@LineBreak
+   ExempleÂ :@LineBreak
+   uniform vec4 camera_pos;//+76 <- paramÃ¨tre automatique @#PB_Shader_CameraPosition@LineBreak
+   uniform vec4 fog_paramsÂ ;//+31 <- paramÃ¨tre automatique @#PB_Shader_FogParams@LineBreak
+   uniform vec3 speed;//0.5 1 0 <- paramÃ¨tre de shader 'speed'@LineBreak
+   uniform sampler2D diffuseMap;//1 <- shader paramÃ¨tre texture number@LineBreak
 
 @SeeAlso
   @@CreateShaderMaterial, @@MaterialShaderAutoParameter, @@MaterialShaderParameter
@@ -288,20 +276,20 @@
 @Function Resultat = CreateShaderMaterial(#Matiere, ShaderID)
 
 @Description
-  Crée une nouvelle matière basée sur le shader.
+  CrÃ©e une nouvelle matiÃ¨re basÃ©e sur le shader.
 
 @Parameter "#Matiere"
-  La nouvelle matière.
+  La nouvelle matiÃ¨re.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro.
   
 @Parameter "ShaderID"
   L'identifiant du shader. @LineBreak
-  @@CreateShader peut être utilisée pour créer un nouveau shader.@linebreak
+  @@CreateShader peut Ãªtre utilisÃ©e pour crÃ©er un nouveau shader.@linebreak
   ShaderID doit contenir soit@linebreak 
-  - l'ID d'un shader préalablement créé avec @@CreateShader@linebreak
-  - l'ID d'un shader prédéfini :@linebreak 
+  - l'ID d'un shader prÃ©alablement crÃ©Ã© avec @@CreateShader@linebreak
+  - l'ID d'un shader prÃ©dÃ©fini :@linebreak 
 @FixedFont
   @#PB_Material_ColorShader
   @#PB_Material_PerpixelShader
@@ -316,7 +304,7 @@
 @EndFixedFont
 
 
-  Description des shaders prédéfinis:
+  Description des shaders prÃ©dÃ©finis:
 @FixedFont
   ___________________________________________________________________________________________
   @#PB_Material_ColorShader
@@ -337,7 +325,7 @@
   ___________________________________________________________________________________________
   @#PB_Material_PerpixelShader
   
-  Effet : Matière en 'perpixel'
+  Effet : MatiÃ¨re en 'perpixel'
   
   texture :
   - 0: Couleur sampler2D
@@ -347,7 +335,7 @@
  Prise en compte de :
   - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
   - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
-  - Atténuation de la lumière
+  - AttÃ©nuation de la lumiÃ¨re
   - Couleur Ambiante
   - Brouillard
   - ScaleMaterial / ScrollMaterial / RotateMaterial
@@ -355,7 +343,7 @@
   ___________________________________________________________________________________________
   @#PB_Material_BumpShader
   
-  Effet : Matière avec relief
+  Effet : MatiÃ¨re avec relief
   
   textures :
   - 0: Couleur sampler2D
@@ -363,18 +351,18 @@
   
   MaterialShaderParameter :
   @#PB_Shader_Fragment
-  - float bumpy - valeur par défaut: 1 (amplitude du relief)
+  - float bumpy - valeur par dÃ©faut: 1 (amplitude du relief)
   
  Prise en compte de :
   - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
   - MaterialShininess(@#Matiere, Brillance , CouleurSpeculaire)
-  - Atténuation de la lumière
+  - AttÃ©nuation de la lumiÃ¨re
   - Couleur Ambiante
   - Brouillard
   - ScaleMaterial / ScrollMaterial / RotateMaterial
   
   Remarque:
-  - Les tangentes doivent être définies (utiliser 'BuildMeshTangent')
+  - Les tangentes doivent Ãªtre dÃ©finies (utiliser 'BuildMeshTangent')
   ___________________________________________________________________________________________
   @#PB_Material_SkyShader
   
@@ -385,14 +373,14 @@
   
   MaterialShaderParameter :
   @#PB_Shader_Fragment
-  - vec3 speed   - Valeur par défaut : 10 0 0 (vitesse des nuages (X Z))
-  - float height - Valeur par défaut : 200 (hauteur de la 1ère couche nuageuse)
-  - int layer    - Valeur par défaut : 2 (nombre de couches nuageuses supplémentaires)
-  - float scale  - Valeur par défaut : 4000 (échelle de texture)
+  - vec3 speed   - Valeur par dÃ©faut : 10 0 0 (vitesse des nuages (X Z))
+  - float height - Valeur par dÃ©faut : 200 (hauteur de la 1Ã¨re couche nuageuse)
+  - int layer    - Valeur par dÃ©faut : 2 (nombre de couches nuageuses supplÃ©mentaires)
+  - float scale  - Valeur par dÃ©faut : 4000 (Ã©chelle de texture)
   
  Prise en compte de :
-  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor, Couleur) : Couleur du ciel ensoleillé au zénith
-  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur du ciel ensoleillé à l'horizon
+  - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor, Couleur) : Couleur du ciel ensoleillÃ© au zÃ©nith
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur du ciel ensoleillÃ© Ã  l'horizon
   - Brouillard
   
   ___________________________________________________________________________________________
@@ -405,18 +393,18 @@
   
   MaterialShaderParameter :
   @#PB_Shader_Fragment
-  - float scale - Valeur par défaut : 0.1 (échelle de texture)
-  - float height - Valeur par défaut : 1 (hauteur des vagues)
+  - float scale - Valeur par dÃ©faut : 0.1 (Ã©chelle de texture)
+  - float height - Valeur par dÃ©faut : 1 (hauteur des vagues)
   
  Prise en compte de :
-  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur)  : Couleur de l'eau (Alpha : opacité)
-  - SetMaterialColor(@#Matiere, @#PB_Material_SpecularColor, color) : Couleur de réflexion du ciel
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur)  : Couleur de l'eau (AlphaÂ : opacitÃ©)
+  - SetMaterialColor(@#Matiere, @#PB_Material_SpecularColor, color) : Couleur de rÃ©flexion du ciel
   - Brouillard
   
   ___________________________________________________________________________________________
   @#PB_Material_WaterShaderRTT
   
-  Effet : Permet d'afficher une surface d'eau avec réflexion (via RTT)
+  Effet : Permet d'afficher une surface d'eau avec rÃ©flexion (via RTT)
   
   textures :
   - 0 : Sampler2D normal
@@ -425,7 +413,7 @@
   MaterialShaderParameter : Aucun
   
  Prise en compte de :
-  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur de l'eau (Alpha : opacité)
+  - SetMaterialColor(@#Matiere, @#PB_Material_DiffuseColor, Couleur) : Couleur de l'eau (AlphaÂ : opacitÃ©)
   - Brouillard
   - ScaleMaterial / ScrollMaterial / RotateMaterial
   
@@ -435,15 +423,15 @@
   Effet : Permet d'afficher une surface d'eau avec des vagues
   textures :
   - 0: Sampler2D normal
-  - 1: Couleur sampler2D (écume)
+  - 1: Couleur sampler2D (Ã©cume)
   
   MaterialShaderParameter :
   @#PB_Shader_Vertex
-  - float wavebig - Valeur par défaut : 0.5 (amplitude des vagues)
-  - float swell - Valeur par défaut : 0.5 (amplitude de la houle)
+  - float wavebig - Valeur par dÃ©faut : 0.5 (amplitude des vagues)
+  - float swell - Valeur par dÃ©faut : 0.5 (amplitude de la houle)
   @#PB_Shader_Fragment
-  - float wavelittle - Valeur par défaut : 0.5 (amplitude des "petites" vagues)
-  - float foam - Valeur par défaut : 0.5 (écume)
+  - float wavelittle - Valeur par dÃ©faut : 0.5 (amplitude des "petites" vagues)
+  - float foam - Valeur par dÃ©faut : 0.5 (Ã©cume)
   
  Prise en compte de :
   - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor, Couleur) : Couleur de l'eau
@@ -456,7 +444,7 @@
   ___________________________________________________________________________________________
   @#PB_Material_PointSpriteSphereShader
   
-  Effet : Affiche les sphères aux sommets du maillage (mesh)
+  Effet : Affiche les sphÃ¨res aux sommets du maillage (mesh)
   
   texture(s) : Aucune
   
@@ -469,16 +457,16 @@
   - Brouillard
   
   Remarques :
-  - La matière doit être de type PointSprite : SetMaterialAttribute(0,@#PB_Material_PointSprite,1)
-  - Le maillage (mesh) doit être de type PointList : CreateMesh(@#Mesh,@#PB_Mesh_PointList)
-  - Le rayon de la sphère est défini par la coordonnée U de la texture
-  - La couleur de la sphère est définie par la couleur du sommet (vertex)
+  - La matiÃ¨re doit Ãªtre de type PointSprite : SetMaterialAttribute(0,@#PB_Material_PointSprite,1)
+  - Le maillage (mesh) doit Ãªtre de type PointList : CreateMesh(@#Mesh,@#PB_Mesh_PointList)
+  - Le rayon de la sphÃ¨re est dÃ©fini par la coordonnÃ©e U de la texture
+  - La couleur de la sphÃ¨re est dÃ©finie par la couleur du sommet (vertex)
   Exemple: MeshVertex(posX, posY, posZ, 10, 0,RGB(255,0,0))
   
   _______________________________________________________________________________________
   @#PB_MaterialShader_CubicEnv
   
-  Effet : Réflexion via une texture cubique
+  Effet : RÃ©flexion via une texture cubique
   
   textures :
   - 0: SamplerCube cubemap
@@ -486,7 +474,7 @@
   
   MaterialShaderParameter :
   @#PB_Shader_Fragment
-  - float glossy - Valeur par défaut  : 0.5 (intensité du reflet)
+  - float glossy - Valeur par dÃ©faut  : 0.5 (intensitÃ© du reflet)
   
  Prise en compte de :
   - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
@@ -495,12 +483,12 @@
   - ScaleMaterial / ScrollMaterial / RotateMaterial
   
   Remarque :
-  - Les textures cubiques doivent être "clampées": SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  - Les textures cubiques doivent Ãªtre "clampÃ©es": SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
   
   ___________________________________________________________________________________________
   @#PB_MaterialShader_CubicEnvBump
   
-  Effet : Réflexion avec texture cubique en relief
+  Effet : RÃ©flexion avec texture cubique en relief
   
   textures :
   - 0: samplerCube cubemap
@@ -509,8 +497,8 @@
   
   MaterialShaderParameter :
   @#PB_Shader_Fragment
-  - float glossy - Valeur par défaut  : 0.5 (intensité du reflet)
-  - float bumpy  - Valeur par défaut  : 1 (amplitude du reflet)
+  - float glossy - Valeur par dÃ©faut  : 0.5 (intensitÃ© du reflet)
+  - float bumpy  - Valeur par dÃ©faut  : 1 (amplitude du reflet)
   
  Prise en compte de :
   - SetMaterialColor(@#Matiere, @#PB_Material_AmbientColor|@#PB_Material_DiffuseColor, Couleur)
@@ -520,16 +508,16 @@
   - ScaleMaterial / ScrollMaterial / RotateMaterial
   
   Remarques :
-  - Les textures cubiques doivent être "clampées" : SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
-  - Les tangentes doivent être définies (utiliser 'BuildMeshTangent')
+  - Les textures cubiques doivent Ãªtre "clampÃ©es" : SetMaterialAttribute(@#texture, @#PB_Material_TAM, @#PB_Material_ClampTAM)
+  - Les tangentes doivent Ãªtre dÃ©finies (utiliser 'BuildMeshTangent')
 
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si la matière basée sur le shader a été créé avec succès, zéro sinon. 
+  Renvoie une valeur non nulle si la matiÃ¨re basÃ©e sur le shader a Ã©tÃ© crÃ©Ã© avec succÃ¨s, zÃ©ro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé pour le paramètre #Matiere, le nombre généré est renvoyé en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre #Matiere, le nombre gÃ©nÃ©rÃ© est renvoyÃ© en cas de succÃ¨s.
   
 @SupportedOS
 
@@ -538,10 +526,10 @@
 @Function MaterialShaderAutoParameter(#Matiere, TypeProgramme, NomParametre$, TypeParametre, Extra.f)
 
 @Description
-  Définit une valeur de paramètre pour la matière basée sur le shader créé précédemment avec @@CreateShaderMaterial.
+  DÃ©finit une valeur de paramÃ¨tre pour la matiÃ¨re basÃ©e sur le shader crÃ©Ã© prÃ©cÃ©demment avec @@CreateShaderMaterial.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "TypeProgramme"
   Type de programme. Il peut s'agir de l'une des valeurs suivantes :
@@ -551,10 +539,10 @@
 @EndFixedFont
 
 @Parameter "NomParametre$"
-  Nom du paramètre à utiliser avec le programme GLSL.
+  Nom du paramÃ¨tre Ã  utiliser avec le programme GLSL.
 
 @Parameter "TypeParametre"
-   Type de paramètre. Il peut s'agir de l'une des valeurs suivantes :
+   Type de paramÃ¨tre. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
   @#PB_Shader_AmbientLightColour
   @#PB_Shader_AnimationParametric
@@ -687,13 +675,13 @@
 @EndFixedFont
 
 @Parameter "Extra.f"
-   Valeur supplémentaire transmise au paramètre de programme.
+   Valeur supplÃ©mentaire transmise au paramÃ¨tre de programme.
    
 @NoReturnValue
 
 @Remarks
-  Les paramètres automatiques correspondent aux paramètres du moteur 3D (positions de la caméra, lumières, couleur du matériau, 
-  brouillard...) cette fonction permet de faire le lien entre la variable 'uniform' du shader et ces paramètres.@LineBreak
+  Les paramÃ¨tres automatiques correspondent aux paramÃ¨tres du moteur 3D (positions de la camÃ©ra, lumiÃ¨res, couleur du matÃ©riau, 
+  brouillard...) cette fonction permet de faire le lien entre la variable 'uniform' du shader et ces paramÃ¨tres.@LineBreak
 
 @Example
 @Code
@@ -710,10 +698,10 @@
 @Function MaterialShaderParameter(#Matiere,  TypeProgramme, NomParametre$, TypeParametre, v1.f, v2.f, v3.f, v4.f)
 
 @Description
-  Définit une valeur de paramètre du shader.
+  DÃ©finit une valeur de paramÃ¨tre du shader.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "TypeProgramme"
   Type de programme. Il peut s'agir de l'une des valeurs suivantes :
@@ -723,28 +711,28 @@
 @EndFixedFont
 
 @Parameter "NomParametre$"
-  Nom du paramètre à utiliser avec le programme GLSL.
+  Nom du paramÃ¨tre Ã  utiliser avec le programme GLSL.
 
 @Parameter "TypeParametre"
-   Type de paramètre. Il peut s'agir de l'une des valeurs suivantes :
+   Type de paramÃ¨tre. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Shader_Integer: Le paramètre utilise un type entier (les paramètres v2, v3 et v4 sont ignorés)
-  @#PB_Shader_Float  : Le paramètre utilise un type float (les paramètres v2, v3 et v4 sont ignorés)
-  @#PB_Shader_Vector3: Le paramètre utilise un type Vector3 (le paramètre v4 est ignoré)
-  @#PB_Shader_Vector4: Le paramètre utilise un type Vector4
+  @#PB_Shader_Integer: Le paramÃ¨tre utilise un type entier (les paramÃ¨tres v2, v3 et v4 sont ignorÃ©s)
+  @#PB_Shader_Float  : Le paramÃ¨tre utilise un type float (les paramÃ¨tres v2, v3 et v4 sont ignorÃ©s)
+  @#PB_Shader_Vector3: Le paramÃ¨tre utilise un type Vector3 (le paramÃ¨tre v4 est ignorÃ©)
+  @#PB_Shader_Vector4: Le paramÃ¨tre utilise un type Vector4
 @EndFixedFont
 
 @Parameter "v1"
-  Valeur du premier paramètre. Obligatoire pour tous les types de paramètres.
+  Valeur du premier paramÃ¨tre. Obligatoire pour tous les types de paramÃ¨tres.
 
 @Parameter "v2"
-  Valeur du deuxième paramètre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
+  Valeur du deuxiÃ¨me paramÃ¨tre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
 
 @Parameter "v3"
-  Valeur du troisième paramètre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
+  Valeur du troisiÃ¨me paramÃ¨tre. Obligatoire pour les types @#PB_Shader_Vector3 et @#PB_Shader_Vector4.
 
 @Parameter "v4"
-  Valeur du quatrième paramètre.  Obligatoire pour le type @#PB_Shader_Vector4.
+  Valeur du quatriÃ¨me paramÃ¨tre.  Obligatoire pour le type @#PB_Shader_Vector4.
 
 @NoReturnValue
 
@@ -762,25 +750,25 @@
 @Function MaterialShaderTexture(#Matiere, TextureID1, TextureID2, TextureID3, TextureID4)
 
 @Description
-  Définit les textures à utiliser pour la matière basée sur le shader créé précédemment avec @@CreateShaderMaterial.
+  DÃ©finit les textures Ã  utiliser pour la matiÃ¨re basÃ©e sur le shader crÃ©Ã© prÃ©cÃ©demment avec @@CreateShaderMaterial.
 
 @Parameter "#Matiere"
-  La matière basée sur le shader à utiliser.
+  La matiÃ¨re basÃ©e sur le shader Ã  utiliser.
 
 @Parameter "TextureID1"
-  La première texture à utiliser.@LineBreak 
+  La premiÃ¨re texture Ã  utiliser.@LineBreak 
   Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
 
 @Parameter "TextureID2"
-  La seconde texture à utiliser.@LineBreak 
+  La seconde texture Ã  utiliser.@LineBreak 
   Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
 
 @Parameter "TextureID3"
-  La troisième texture à utiliser.@LineBreak 
+  La troisiÃ¨me texture Ã  utiliser.@LineBreak 
   Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
 
 @Parameter "TextureID4"
-  La quatrième texture à utiliser.@LineBreak 
+  La quatriÃ¨me texture Ã  utiliser.@LineBreak 
   Utiliser @@TextureID pour obtenir un TextureID valide, ou #Null si vous n'en avez pas besoin.
 
 @NoReturnValue
@@ -792,31 +780,31 @@
 @Function DisableMaterialLighting(#Matiere, Etat)
 
 @Description
-  Active ou désactive l'éclairage dynamique 
-  d'une matière. 
+  Active ou dÃ©sactive l'Ã©clairage dynamique 
+  d'une matiÃ¨re. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Etat"
 @FixedFont
-  @#True : L'éclairage dynamique est désactivé
-  @#False: L'éclairage dynamique est activé
+  @#True : L'Ã©clairage dynamique est dÃ©sactivÃ©
+  @#False: L'Ã©clairage dynamique est activÃ©
 @EndFixedFont
 
 @NoReturnValue  
 
 @Remarks 
-  L'objet qui utilisera cette matière ne sera 
-  pas affecté par les lumières dynamiques 
-  créées par @@CreateLight.
+  L'objet qui utilisera cette matiÃ¨re ne sera 
+  pas affectÃ© par les lumiÃ¨res dynamiques 
+  crÃ©Ã©es par @@CreateLight.
 @LineBreak
 @LineBreak 
-  L'éclairage d'une matière est activée par 
-  défaut quand une matière est créée. 
+  L'Ã©clairage d'une matiÃ¨re est activÃ©e par 
+  dÃ©faut quand une matiÃ¨re est crÃ©Ã©e. 
 @LineBreak
 @LineBreak 
-  Pour obtenir l'état courant du matériau, 
+  Pour obtenir l'Ã©tat courant du matÃ©riau, 
   voir @@GetMaterialAttribute
 
 @SupportedOS
@@ -826,27 +814,27 @@
 @Function FreeMaterial(#Matiere)
 
 @Description
-  Libère et détruit une matière. 
+  LibÃ¨re et dÃ©truit une matiÃ¨re. 
 
 @Parameter "#Matiere"
-  La matière à détruire.
+  La matiÃ¨re Ã  dÃ©truire.
     
 @NoReturnValue  
 
 @Remarks 
-  Les propriétés ainsi que la mémoire occupée 
-  par la matière sont libérées, donc cette 
-  matière ne peut plus être utilisée par un 
+  Les propriÃ©tÃ©s ainsi que la mÃ©moire occupÃ©e 
+  par la matiÃ¨re sont libÃ©rÃ©es, donc cette 
+  matiÃ¨re ne peut plus Ãªtre utilisÃ©e par un 
   objet. 
 @LineBreak
 @LineBreak
-  Attention: Tous les objets (entités,
-  billboards, etc) qui utilisent cette matière devront être modifiés 
-  avant la destruction de la matière). 
+  Attention: Tous les objets (entitÃ©s,
+  billboards, etc) qui utilisent cette matiÃ¨re devront Ãªtre modifiÃ©s 
+  avant la destruction de la matiÃ¨re). 
 @LineBreak
 @LineBreak
-  Toutes les matières sont automatiquement 
-  libérées quand le programme se termine.
+  Toutes les matiÃ¨res sont automatiquement 
+  libÃ©rÃ©es quand le programme se termine.
   
 @SeeAlso
   @@CreateMaterial
@@ -858,24 +846,24 @@
 @Function Resultat = IsMaterial(#Matiere)
 
 @Description
-  Teste si une matière est correctement 
-  initialisée. 
+  Teste si une matiÃ¨re est correctement 
+  initialisÃ©e. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks 
-  Cette fonction a été créée pour pouvoir passer 
-  n'importe quelle valeur en paramètre sans 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir passer 
+  n'importe quelle valeur en paramÃ¨tre sans 
   qu'il ne puisse y avoir de plantage. 
 @LineBreak
 @LineBreak
-  C'est la fonction idéale pour vérifier qu'un 
-  objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier qu'un 
+  objet est correctement initialisÃ©.
   
 @SeeAlso
   @@CreateMaterial, @@MaterialID
@@ -887,34 +875,34 @@
 @Function Resultat = GetMaterialAttribute(#Matiere, Attribut)
 
 @Description
-  Renvoie l'attribut de la matière.
+  Renvoie l'attribut de la matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Attribut"
-  L'attribut à obtenir. Peut être une des 
+  L'attribut Ã  obtenir. Peut Ãªtre une des 
   valeurs suivantes:
 @FixedFont
-  @#PB_Material_Shininess     : La brillance tel que définie avec @@MaterialShininess.
-  @#PB_Material_TextureRotate : La rotation, en degré.
+  @#PB_Material_Shininess     : La brillance tel que dÃ©finie avec @@MaterialShininess.
+  @#PB_Material_TextureRotate : La rotation, en degrÃ©.
   @#PB_Material_TextureUScale : La valeur uscale, voir @@ScaleMaterial.
   @#PB_Material_TextureVScale : La valeur vscale, voir @@ScaleMaterial.
   @#PB_Material_TextureUScroll: La valeur uscroll, voir @@ScrollMaterial.
   @#PB_Material_TextureVScroll: La valeur vscroll, voir @@ScrollMaterial.
-  @#PB_Material_DepthCheck    : L'état de contrôle de profondeur (activée ou désactivée).
-  @#PB_Material_DepthWrite    : L'état d'écriture de profondeur (activée ou désactivée).
-  @#PB_Material_Lighting      : L'éclairage, voir @@DisableMaterialLighting.
+  @#PB_Material_DepthCheck    : L'Ã©tat de contrÃ´le de profondeur (activÃ©e ou dÃ©sactivÃ©e).
+  @#PB_Material_DepthWrite    : L'Ã©tat d'Ã©criture de profondeur (activÃ©e ou dÃ©sactivÃ©e).
+  @#PB_Material_Lighting      : L'Ã©clairage, voir @@DisableMaterialLighting.
   @#PB_Material_ShadingMode   : La teinte, voir @@MaterialShadingMode.
-  @#PB_Material_CullingMode   : Le mode d'élimination de la matière, voir @@MaterialCullingMode.
+  @#PB_Material_CullingMode   : Le mode d'Ã©limination de la matiÃ¨re, voir @@MaterialCullingMode.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la valeur de l'attribut spécifié. 
+  Renvoie la valeur de l'attribut spÃ©cifiÃ©. 
 @LineBreak
 @LineBreak
   Les valeurs des canaux de couleur peuvent 
-  facilement être récupérées avec @@Red, @@Green et @@Blue.
+  facilement Ãªtre rÃ©cupÃ©rÃ©es avec @@Red, @@Green et @@Blue.
    
 @SupportedOS
 
@@ -923,28 +911,28 @@
 @Function Resultat = GetMaterialColor(#Matiere, Type)
 
 @Description
-  Renvoie la couleur d'une matière. 
+  Renvoie la couleur d'une matiÃ¨re. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Type"
-  Le type de couleur à obtenir. Peut être une 
+  Le type de couleur Ã  obtenir. Peut Ãªtre une 
   des valeurs suivantes:
 @FixedFont
-  @#PB_Material_AmbientColor:  La couleur utilisée par défaut, sans autre éclairage.
-  @#PB_Material_DiffuseColor:  La couleur que le matériau reflètera quand il sera éclairé de façon dynamique. 
-                               Par exemple, utiliser une couleur blanche se traduira par un éclairage normal 
-                               (toutes les couleurs sont réfléchies). Si vous utilisez un rouge, alors uniquement 
-                               les couleurs rouges du matériau seront réfléchies, ce qui donnera un matériau 
-                               entièrement rouge (ou noir s'il ne contient aucune couleur rouge).
-  @#PB_Material_SpecularColor: La couleur du matériau qu'il réfléchira quand il sera dynamiquement éclairé par 
-                               une lumière qui a une valeur de couleur spéculaire. Par exemple, utiliser une 
-                               couleur blanche se traduira par un éclairage normal (toutes les couleurs sont 
-                               réfléchies). Si vous utilisez un rouge, alors uniquement les couleurs rouges 
-                               du matériau seront réfléchies, résultant en un matériau entièrement rouge 
-                               (ou noir si le matériau ne contient aucune couleur rouge).                
-  @#PB_Material_SelfIlluminationColor: La couleur du matériau qu'il émettra, même si aucune lumière ne l'atteint.
+  @#PB_Material_AmbientColor:  La couleur utilisÃ©e par dÃ©faut, sans autre Ã©clairage.
+  @#PB_Material_DiffuseColor:  La couleur que le matÃ©riau reflÃ¨tera quand il sera Ã©clairÃ© de faÃ§on dynamique. 
+                               Par exemple, utiliser une couleur blanche se traduira par un Ã©clairage normal 
+                               (toutes les couleurs sont rÃ©flÃ©chies). Si vous utilisez un rouge, alors uniquement 
+                               les couleurs rouges du matÃ©riau seront rÃ©flÃ©chies, ce qui donnera un matÃ©riau 
+                               entiÃ¨rement rouge (ou noir s'il ne contient aucune couleur rouge).
+  @#PB_Material_SpecularColor: La couleur du matÃ©riau qu'il rÃ©flÃ©chira quand il sera dynamiquement Ã©clairÃ© par 
+                               une lumiÃ¨re qui a une valeur de couleur spÃ©culaire. Par exemple, utiliser une 
+                               couleur blanche se traduira par un Ã©clairage normal (toutes les couleurs sont 
+                               rÃ©flÃ©chies). Si vous utilisez un rouge, alors uniquement les couleurs rouges 
+                               du matÃ©riau seront rÃ©flÃ©chies, rÃ©sultant en un matÃ©riau entiÃ¨rement rouge 
+                               (ou noir si le matÃ©riau ne contient aucune couleur rouge).                
+  @#PB_Material_SelfIlluminationColor: La couleur du matÃ©riau qu'il Ã©mettra, mÃªme si aucune lumiÃ¨re ne l'atteint.
 @EndFixedFont
 
 @ReturnValue
@@ -952,7 +940,7 @@
 @LineBreak
 @LineBreak
   Les valeurs des canaux de couleur peuvent 
-  facilement être récupérées avec @@Red, 
+  facilement Ãªtre rÃ©cupÃ©rÃ©es avec @@Red, 
   @@Green et @@Blue.
 
 @SupportedOS
@@ -962,33 +950,29 @@
 @Function SetMaterialColor(#Matiere, Type, Couleur)
 
 @Description
-  Modifie la couleur de la matière.
+  Modifie la couleur de la matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Type"
-  Le type de couleur à obtenir. Peut être une combinaison des valeurs suivantes:
+  Le type de couleur Ã  obtenir. Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_Material_AmbientColor:  La couleur utilisée par défaut, sans autre éclairage.
-  @#PB_Material_DiffuseColor:  La couleur que le matériau reflètera quand il sera éclairé de façon dynamique. 
-                               Par exemple, utiliser une couleur blanche se traduira par un éclairage normal 
-                               (toutes les couleurs sont réfléchies). Si vous utilisez un rouge, alors uniquement 
-                               les couleurs rouges du matériau seront réfléchies, ce qui donnera un matériau 
-                               entièrement rouge (ou noir s'il ne contient aucune couleur rouge).
-  @#PB_Material_SpecularColor: La couleur du matériau qu'il réfléchira quand il sera dynamiquement éclairé par 
-                               une lumière qui a une valeur de couleur spéculaire. Par exemple, utiliser une 
-                               couleur blanche se traduira par un éclairage normal (toutes les couleurs sont 
-                               réfléchies). Si vous utilisez un rouge, alors uniquement les couleurs rouges 
-                               du matériau seront réfléchies, résultant en un matériau entièrement rouge 
-                               (ou noir si le matériau ne contient aucune couleur rouge).                
-  @#PB_Material_SelfIlluminationColor: La couleur du matériau qu'il émettra, même si aucune lumière ne l'atteint.
+  @#PB_Material_AmbientColor:  La couleur utilisÃ©e par dÃ©faut, sans autre Ã©clairage.
+  @#PB_Material_DiffuseColor:  La couleur qui est rÃ©flÃ©chie de maniÃ¨re diffuse dans toutes les directions. 
+                               Dans le langage courant, c'est la couleur de la matiÃ¨re.
+  @#PB_Material_SpecularColor: La couleur qui est rÃ©flÃ©chie de maniÃ¨re spÃ©culaire c'est Ã  dire 
+                               dans une seule direction (rÃ©flexion par rapport Ã  la normale de la surface)). 
+                               En gÃ©nÃ©ral, cette couleur doit Ãªtre gris-noir si le matÃ©riau est mat, 
+                               blanche si le matÃ©riau est trÃ¨s brillant.
+                              (voir  @@MaterialShininess).                
+  @#PB_Material_SelfIlluminationColor: La couleur du matÃ©riau qu'il Ã©mettra, mÃªme si aucune lumiÃ¨re ne l'atteint.
 @EndFixedFont
 
 @Parameter "Couleur"
   Valeur de la couleur RGB. 
   
-  Une valeur RGB valide peut être créé avec 
+  Une valeur RGB valide peut Ãªtre crÃ©Ã© avec 
   @@RGB.
 
 @NoReturnValue
@@ -1001,20 +985,20 @@
 @Function MaterialBlendingMode(#Matiere, Mode)
 
 @Description
-  Change la manière dont une matière sera 
-  mixée avec le monde 3D et donc la manière 
-  dont l'objet qui utilise cette matière 
+  Change la maniÃ¨re dont une matiÃ¨re sera 
+  mixÃ©e avec le monde 3D et donc la maniÃ¨re 
+  dont l'objet qui utilise cette matiÃ¨re 
   sera rendue. 
   
 @Parameter "#Matiere"
-  La matière à utiliser. 
+  La matiÃ¨re Ã  utiliser. 
   
 @Parameter "Mode"  
 @FixedFont
-  @#PB_Material_Add       : Utilise le mode addition des pixels (Add) pour mixer l'objet avec la scène 
-                           (donc la couleur noire (0,0,0) est considérée comme transparente).
-  @#PB_Material_AlphaBlend: Utilise le canal alpha de la texture (TGA ou PNG) pour le mixage avec la scène.
-  @#PB_Material_Color     : Utilise la couleur transparente de la texture pour le mixage avec la scène.
+  @#PB_Material_Add       : Utilise le mode addition des pixels (Add) pour mixer l'objet avec la scÃ¨ne 
+                           (donc la couleur noire (0,0,0) est considÃ©rÃ©e comme transparente).
+  @#PB_Material_AlphaBlend: Utilise le canal alpha de la texture (TGA ou PNG) pour le mixage avec la scÃ¨ne.
+  @#PB_Material_Color     : Utilise la couleur transparente de la texture pour le mixage avec la scÃ¨ne.
 @EndFixedFont
 
 @NoReturnValue   
@@ -1030,22 +1014,22 @@
 @Function MaterialFilteringMode(#Matiere, Mode [, ValeurAnisotropicMax])
 
 @Description
-  Change le mode filtrage d'une matière. 
+  Change le mode filtrage d'une matiÃ¨re. 
   
 @Parameter "#Matiere"
-  La matière à utiliser.  
+  La matiÃ¨re Ã  utiliser.  
 @LineBreak
 @LineBreak
-  Si #Matière est réglé sur @#PB_Default alors 
-  le mode de filtrage utilisé pour la future
-  matière est modifié. 
+  Si #MatiÃ¨re est rÃ©glÃ© sur @#PB_Default alors 
+  le mode de filtrage utilisÃ© pour la future
+  matiÃ¨re est modifiÃ©. 
   
 @Parameter "Mode"
 @FixedFont
-  @#PB_Material_None        : Aucun filtrage n'est effectué, ce qui donne un résultat très pixelisé quand la matière est zoomée.
-  @#PB_Material_Bilinear    : Effectue un filtre bi-linéaire quand la texture zoome, ce qui donne une texture plus agréable, mais un peu floue.
-  @#PB_Material_Trilinear   : Effectue un filtre tri-linéaire quand la texture zoome, ce qui donne le meilleur rendu possible.
-  @#PB_Material_Anisotropic : Règle la valeur maximale anisotropique. 'ValeurAnisotropicMax' est généralement comprise entre 1 et 8.
+  @#PB_Material_None        : Aucun filtrage n'est effectuÃ©, ce qui donne un rÃ©sultat trÃ¨s pixelisÃ© quand la matiÃ¨re est zoomÃ©e.
+  @#PB_Material_Bilinear    : Effectue un filtre bi-linÃ©aire quand la texture zoome, ce qui donne une texture plus agrÃ©able, mais un peu floue.
+  @#PB_Material_Trilinear   : Effectue un filtre tri-linÃ©aire quand la texture zoome, ce qui donne le meilleur rendu possible.
+  @#PB_Material_Anisotropic : RÃ¨gle la valeur maximale anisotropique. 'ValeurAnisotropicMax' est gÃ©nÃ©ralement comprise entre 1 et 8.
 @EndFixedFont
   
 @OptionalParameter "ValeurAnisotropicMax"
@@ -1053,19 +1037,19 @@
   avec l'option @#PB_Material_Anisotropic.
 @LineBreak
 @LineBreak
-  Valeur généralement comprise entre 1 et 8.
+  Valeur gÃ©nÃ©ralement comprise entre 1 et 8.
  
 @NoReturnValue   
 
 @Remarks
-  Quand une matière est créée, le filtre 
-  bi-lineaire est activé par défaut. 
+  Quand une matiÃ¨re est crÃ©Ã©e, le filtre 
+  bi-lineaire est activÃ© par dÃ©faut. 
 @LineBreak
 @LineBreak  
   Utiliser un filtrage n'a plus un grand impact 
-  sur les performances  vidéos car toutes les 
+  sur les performances  vidÃ©os car toutes les 
   cartes graphiques modernes le font au niveau 
-  matériel.
+  matÃ©riel.
 
 @SeeAlso
   @@MaterialBlendingMode, @@MaterialShadingMode
@@ -1078,16 +1062,16 @@
 
 @Description
   Renvoie l'identifiant (MaterialID) d'une 
-  matière. 
+  matiÃ¨re. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @ReturnValue  
-   Renvoie le numéro MaterialID de la matière. 
+   Renvoie le numÃ©ro MaterialID de la matiÃ¨re. 
 @LineBreak
 @LineBreak
-   C'est l'identifiant unique de la matière 
+   C'est l'identifiant unique de la matiÃ¨re 
    requise par la commande @@SetEntityMaterial.
   
 @SeeAlso
@@ -1100,29 +1084,29 @@
 @Function MaterialShadingMode(#Matiere, Mode)
 
 @Description
-  Change le mode d'ombrage d'une matière. 
+  Change le mode d'ombrage d'une matiÃ¨re. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
  
 @Parameter "Mode" 
-  Peut être l'une des valeurs suivantes: 
+  Peut Ãªtre l'une des valeurs suivantes: 
 @FixedFont
-  @#PB_Material_Flat     : La matière sera rendue en mode solide, l'ombrage est effectué face par face.
-  @#PB_Material_Gouraud  : Effectue un ombrage progressif en utilisant l'algorithme de Gouraud (Par défaut).
+  @#PB_Material_Flat     : La matiÃ¨re sera rendue en mode solide, l'ombrage est effectuÃ© face par face.
+  @#PB_Material_Gouraud  : Effectue un ombrage progressif en utilisant l'algorithme de Gouraud (Par dÃ©faut).
   @#PB_Material_Phong    : Effectue un ombrage progressif en utilisant l'algorithme de Phong.
 @EndFixedFont  
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Material_Solid    : La matière sera rendue en mode solide et texturé (par défaut).
-  @#PB_Material_Wireframe: La matière sera rendue en mode fils de fer.
-  @#PB_Material_Point    : La matière sera rendue en utilisant des points d'arêtes seulement.
+  @#PB_Material_Solid    : La matiÃ¨re sera rendue en mode solide et texturÃ© (par dÃ©faut).
+  @#PB_Material_Wireframe: La matiÃ¨re sera rendue en mode fils de fer.
+  @#PB_Material_Point    : La matiÃ¨re sera rendue en utilisant des points d'arÃªtes seulement.
 @EndFixedFont
  
 @NoReturnValue 
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, 
+  Pour obtenir l'Ã©tat courant de ce mode, 
   voir @@GetMaterialAttribute.
   
 @SeeAlso
@@ -1136,22 +1120,22 @@
 @Function MaterialCullingMode(#Matiere, Mode)
 
 @Description
-  Modifie le mode élimination de la matière.
+  Modifie le mode Ã©limination de la matiÃ¨re.
 @LineBreak
 @LineBreak
-  Le 'culling' est le fait d'éliminer 
-  prématurément des parties de la scène 
-  qui ne seront pas visibles à l'écran, soit 
-  parce qu'elles sont cachées, soit parce 
+  Le 'culling' est le fait d'Ã©liminer 
+  prÃ©maturÃ©ment des parties de la scÃ¨ne 
+  qui ne seront pas visibles Ã  l'Ã©cran, soit 
+  parce qu'elles sont cachÃ©es, soit parce 
   qu'elles ne sont pas dans le champ de vision.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Mode"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Material_NoCulling        : Pas d'élimination.
+  @#PB_Material_NoCulling        : Pas d'Ã©limination.
   @#PB_Material_ClockWiseCull    : Elimination dans le sens horaire.
   @#PB_Material_AntiClockWiseCull: Elimination dans le sens anti-horaire.
 @EndFixedFont
@@ -1159,7 +1143,7 @@
 @NoReturnValue
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, voir 
+  Pour obtenir l'Ã©tat courant de ce mode, voir 
   @@GetMaterialAttribute.
 
 @SupportedOS
@@ -1169,22 +1153,22 @@
 @Function MaterialShininess(#Matiere, Brillance [, CouleurSpeculaire])
 
 @Description
-  Modifie la brillance d'une matière.
+  Modifie la brillance d'une matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
  
 @Parameter "Brillance"
   Nouvelle brillance.
   
 @OptionalParameter "CouleurSpeculaire"
-  La couleur spéculaire à utiliser.@LineBreak 
-  Une couleur RVB valide peut être créée avec @@RGB.
+  La couleur spÃ©culaire Ã  utiliser.@LineBreak 
+  Une couleur RVB valide peut Ãªtre crÃ©Ã©e avec @@RGB.
 
 @NoReturnValue 
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, 
+  Pour obtenir l'Ã©tat courant de ce mode, 
   voir @@GetMaterialAttribute.
  
 @SeeAlso
@@ -1197,34 +1181,34 @@
 @Function MaterialTextureAliases(#Matiere, TextureID1, TextureID2, TextureID3, TextureID4)
 
 @Description
-  Définit les textures à utiliser dans un script de matériau. 
+  DÃ©finit les textures Ã  utiliser dans un script de matÃ©riau. 
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "TextureID1"
-  Le @@TextureID à utiliser pour le premier alias de texture (identifié comme 
-  'texture_alias texture1' dans le script de matériau), ou zéro si aucune texture 
-  n'est nécessaire.
+  Le @@TextureID Ã  utiliser pour le premier alias de texture (identifiÃ© comme 
+  'texture_alias texture1' dans le script de matÃ©riau), ou zÃ©ro si aucune texture 
+  n'est nÃ©cessaire.
 
 @Parameter "TextureID2"
-  Le @@TextureID à utiliser pour le second alias de texture (identifié comme 
-  'texture_alias texture2' dans le script de matériau), ou zéro si aucune texture 
-  n'est nécessaire.
+  Le @@TextureID Ã  utiliser pour le second alias de texture (identifiÃ© comme 
+  'texture_alias texture2' dans le script de matÃ©riau), ou zÃ©ro si aucune texture 
+  n'est nÃ©cessaire.
 
 @Parameter "TextureID3"
-  Le @@TextureID à utiliser pour le troisième alias de texture (identifié comme 
-  'texture_alias texture3' dans le script de matériau), ou zéro si aucune texture 
-  n'est nécessaire.
+  Le @@TextureID Ã  utiliser pour le troisiÃ¨me alias de texture (identifiÃ© comme 
+  'texture_alias texture3' dans le script de matÃ©riau), ou zÃ©ro si aucune texture 
+  n'est nÃ©cessaire.
 
 @Parameter "TextureID4"
-  Le @@TextureID à utiliser pour le quatrième alias de texture (identifié comme 
-  'texture_alias texture4' dans le script de matériau), ou zéro si aucune texture 
-  n'est nécessaire.
+  Le @@TextureID Ã  utiliser pour le quatriÃ¨me alias de texture (identifiÃ© comme 
+  'texture_alias texture4' dans le script de matÃ©riau), ou zÃ©ro si aucune texture 
+  n'est nÃ©cessaire.
   
 @Remarks  
-  Cela permet d'utiliser le même script de matériau avec des textures dynamiques. 
-  Dans le script de matériau, vous devez remplacer "texture mytexture.jpg" par 
+  Cela permet d'utiliser le mÃªme script de matÃ©riau avec des textures dynamiques. 
+  Dans le script de matÃ©riau, vous devez remplacer "texture mytexture.jpg" par 
   "texture_alias texture1" (ou "texture_alias texture2", "texture_alias texture3", 
   "texture_alias texture4").
   
@@ -1240,19 +1224,19 @@
 @Function Resultat = GetScriptMaterial(#Matiere, Nom$)
 
 @Description
-  Renvoie un numéro de matière défini dans un 
+  Renvoie un numÃ©ro de matiÃ¨re dÃ©fini dans un 
   fichier de script OGRE.
   
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Nom$"
   Nom du fichier script OGRE.
 
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro si la matière n'a pas été 
-  trouvée ou n'a pas pu être chargée.
+  succÃ¨s, zÃ©ro si la matiÃ¨re n'a pas Ã©tÃ© 
+  trouvÃ©e ou n'a pas pu Ãªtre chargÃ©e.
   
 @SeeAlso
   @@ReloadMaterial, @@ResetMaterial
@@ -1264,28 +1248,28 @@
 @Function MaterialFog(#Matiere, Couleur, Intensite, DistanceDebut, DistanceFin)
 
 @Description
-  Crée un effet de brouillard sur la #Matière.    
+  CrÃ©e un effet de brouillard sur la #MatiÃ¨re.    
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Couleur"
   La couleur du brouillard.
 @LineBreak
 @LineBreak
-  @@RGB peut être utilisé pour obtenir une 
+  @@RGB peut Ãªtre utilisÃ© pour obtenir une 
   'Couleur' valide.
 
 @Parameter "Intensite"
-  Avec une valeur égale à zéro, l'effet de 
-  brouillard est retiré.
+  Avec une valeur Ã©gale Ã  zÃ©ro, l'effet de 
+  brouillard est retirÃ©.
 
 @Parameter "DistanceDebut"
-  Distance (en unités du monde) d'où le 
+  Distance (en unitÃ©s du monde) d'oÃ¹ le 
   brouillard doit commencer.
 
 @Parameter "DistanceFin"
-  Distance (en unités du monde) d'où le 
+  Distance (en unitÃ©s du monde) d'oÃ¹ le 
   brouillard est totalement opaque.
 
 @NoReturnValue
@@ -1300,29 +1284,29 @@
 @Function ReloadMaterial(NomMatiere$, NomFichierScript$, ParseScript)
 
 @Description
-  Recharge une matière à partir d'un script 
+  Recharge une matiÃ¨re Ã  partir d'un script 
   OGRE.  
 
 @Parameter "NomMatiere$"
-  Le nom de la matière à utiliser.
+  Le nom de la matiÃ¨re Ã  utiliser.
 
 @Parameter "NomFichierScript$"
-  Le nom du fichier script à utiliser.
+  Le nom du fichier script Ã  utiliser.
   
 @Parameter "ParseScript"
 @FixedFont
-  @#True : Le 'NomFichierScript$' est analysé à nouveau pour obtenir des informations de mises à jour sur la matière. 
+  @#True : Le 'NomFichierScript$' est analysÃ© Ã  nouveau pour obtenir des informations de mises Ã  jour sur la matiÃ¨re. 
 @EndFixedFont
   
 @NoReturnValue
 
 @Remarks
   Ceci est utile lors de l'utilisation de 
-  matériaux (matières) personnalisé(e)s stocké(e)s 
+  matÃ©riaux (matiÃ¨res) personnalisÃ©(e)s stockÃ©(e)s 
   dans des fichiers de script.
 @LineBreak
 @LineBreak
-  Un matériau peut être obtenu à partir des 
+  Un matÃ©riau peut Ãªtre obtenu Ã  partir des 
   scripts OGRE par @@GetScriptMaterial.
 
 @SeeAlso
@@ -1335,13 +1319,13 @@
 @Function ResetMaterial(TypeObjet)
 
 @Description
-  Réinitialise tous les matériaux pour les types d'objets spécifiés. 
+  RÃ©initialise tous les matÃ©riaux pour les types d'objets spÃ©cifiÃ©s. 
   
 @Parameter "TypeObjet"
 @FixedFont
-  @#PB_Entity         : Réinitialisation des matériaux pour toutes les entités.
-  @#PB_ParticleEmitter: Réinitialisation des matériaux pour tous les émetteurs de particules.
-  @#PB_BillboardGroup : Réinitialisation des matériaux pour tous les Billboards.
+  @#PB_Entity         : RÃ©initialisation des matÃ©riaux pour toutes les entitÃ©s.
+  @#PB_ParticleEmitter: RÃ©initialisation des matÃ©riaux pour tous les Ã©metteurs de particules.
+  @#PB_BillboardGroup : RÃ©initialisation des matÃ©riaux pour tous les Billboards.
 @EndFixedFont
 
 @NoReturnValue
@@ -1355,53 +1339,53 @@
 @Function SetMaterialAttribute(#Matiere, Attribut, Valeur [, Couche])
 
 @Description
-  Définit la valeur de l'attribut spécifié au 
-  matériau.
+  DÃ©finit la valeur de l'attribut spÃ©cifiÃ© au 
+  matÃ©riau.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Attribut"
-  L'attribut à définir. Il peut prendre l'une des valeurs suivantes:
+  L'attribut Ã  dÃ©finir. Il peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Material_DepthCheck    : Active ou désactive le contrôle de la profondeur de la matière. 
-                               La valeur peut être @#True (contrôle de profondeur activé) ou 
-                               @#False (contrôle de profondeur désactivé).
-  @#PB_Material_DepthWrite    : Active ou désactive l'écriture de profondeur pour le matériau. 
-                               La valeur peut être @#True (profondeur écriture activée) ou 
-                               @#False (profondeur écriture désactivée).
+  @#PB_Material_DepthCheck    : Active ou dÃ©sactive le contrÃ´le de la profondeur de la matiÃ¨re. 
+                               La valeur peut Ãªtre @#True (contrÃ´le de profondeur activÃ©) ou 
+                               @#False (contrÃ´le de profondeur dÃ©sactivÃ©).
+  @#PB_Material_DepthWrite    : Active ou dÃ©sactive l'Ã©criture de profondeur pour le matÃ©riau. 
+                               La valeur peut Ãªtre @#True (profondeur Ã©criture activÃ©e) ou 
+                               @#False (profondeur Ã©criture dÃ©sactivÃ©e).
   @#PB_Material_AlphaReject   : Active le rejet alpha sur la texture (utile pour les textures 
-                               semi-transparentes comme les arbres, les fenêtres, etc.).
+                               semi-transparentes comme les arbres, les fenÃªtres, etc.).
   @#PB_Material_TAM           : Change le 'Mode d'adressage de texture' (TAM). 
                                Il peut s'agir de l'une des valeurs suivantes
                                @#PB_Material_WrapTAM  : Mode enveloppement
                                @#PB_Material_MirrorTAM: Mode miroir
                                @#PB_Material_ClampTAM : Mode serrage
-                               @#PB_Material_BorderTAM: Mode frontière
+                               @#PB_Material_BorderTAM: Mode frontiÃ¨re
   @#PB_Material_EnvironmentMap: Active la Map (carte) de l'environnement. 
                               Il peut s'agir de l'une des valeurs suivantes
-                               @#PB_Material_NoMap        : Désactive l'environnement 
+                               @#PB_Material_NoMap        : DÃ©sactive l'environnement 
                                @#PB_Material_PlanarMap    : Map de l'environnement planaire
                                @#PB_Material_CurvedMap    : Map de l'environnement courbe
-                               @#PB_Material_ReflectionMap: Map de l'environnement de réflexion
+                               @#PB_Material_ReflectionMap: Map de l'environnement de rÃ©flexion
                                @#PB_Material_NormalMap    : Map de l'environnement normal
-   @#PB_Material_ProjectiveTexturing: Active la texturation projective pour ce matériau. La valeur est un numéro de #Camera à utiliser.          
-   @#PB_Material_PointSprite  : Active ou désactive le point sprite pour le matériau.
-                              Si supérieur à zéro, la valeur est la taille en points/1000. Si zéro, la taille en points est désactivée
-   @#PB_Material_DepthBias    :Active ou désactive le bias de profondeur pour le matériau.
-                              Si supérieur à zéro, la valeur est le bias de profondeur/1000. Si zéro, le bias de profondeur est désactivé
+   @#PB_Material_ProjectiveTexturing: Active la texturation projective pour ce matÃ©riau. La valeur est un numÃ©ro de #Camera Ã  utiliser.          
+   @#PB_Material_PointSprite  : Active ou dÃ©sactive le point sprite pour le matÃ©riau.
+                              Si supÃ©rieur Ã  zÃ©ro, la valeur est la taille en points/1000. Si zÃ©ro, la taille en points est dÃ©sactivÃ©e
+   @#PB_Material_DepthBias    :Active ou dÃ©sactive le bias de profondeur pour le matÃ©riau.
+                              Si supÃ©rieur Ã  zÃ©ro, la valeur est le bias de profondeur/1000. Si zÃ©ro, le bias de profondeur est dÃ©sactivÃ©
 
 @EndFixedFont
 
  @Parameter "Valeur"
-  Valeur de l'attribut à définir.
+  Valeur de l'attribut Ã  dÃ©finir.
 
 @OptionalParameter "Couche"
-  La couche à utiliser.
+  La couche Ã  utiliser.
 @LineBreak
 @LineBreak
-  La première couche commence à l'index zéro (si ce paramètre est omis, la couche zéro 
-  est utilisée).
+  La premiÃ¨re couche commence Ã  l'index zÃ©ro (si ce paramÃ¨tre est omis, la couche zÃ©ro 
+  est utilisÃ©e).
 
 @NoReturnValue 
 
@@ -1415,30 +1399,30 @@
 @Function ScrollMaterial(#Matiere, X, Y, Mode [, Couche])
 
 @Description
-  Déplace une couche d'une matière.
+  DÃ©place une couche d'une matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "X, Y"
-  Les valeurs du déplacement.
+  Les valeurs du dÃ©placement.
   
 @Parameter "Mode"
 @FixedFont
-  @#PB_Material_Fixed   : La matière est déplacée de manière absolue, sans tenir compte des déplacements précédents.
-  @#PB_Material_Animated: A chaque rendu, la couche est déplacée des valeurs x,y automatiquement (relatif au déplacement précédent).
+  @#PB_Material_Fixed   : La matiÃ¨re est dÃ©placÃ©e de maniÃ¨re absolue, sans tenir compte des dÃ©placements prÃ©cÃ©dents.
+  @#PB_Material_Animated: A chaque rendu, la couche est dÃ©placÃ©e des valeurs x,y automatiquement (relatif au dÃ©placement prÃ©cÃ©dent).
 @EndFixedFont
   
 @OptionalParameter "Couche" 
-  La couche à déplacer.
+  La couche Ã  dÃ©placer.
 @LineBreak
 @LineBreak
-  La première couche commence à l'index zéro. (Si ce paramètre est omis, la couche zéro est déplacée).
+  La premiÃ¨re couche commence Ã  l'index zÃ©ro. (Si ce paramÃ¨tre est omis, la couche zÃ©ro est dÃ©placÃ©e).
   
 @NoReturnValue
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, 
+  Pour obtenir l'Ã©tat courant de ce mode, 
   voir @@GetMaterialAttribute.
   
 @SeeAlso
@@ -1451,11 +1435,11 @@
 @Function RemoveMaterialLayer(#Matiere)
 
 @Description
-  Supprime la dernière couche ajoutée sur une 
-  matière.
+  Supprime la derniÃ¨re couche ajoutÃ©e sur une 
+  matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
   
 @NoReturnValue
   
@@ -1469,34 +1453,34 @@
 @Function ScaleMaterial(#Matiere, X, Y [, Couche])
 
 @Description
-  Mise à l'échelle (agrandissement ou 
-  rapetissement) d'une matière. 
+  Mise Ã  l'Ã©chelle (agrandissement ou 
+  rapetissement) d'une matiÃ¨re. 
   
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
   
 @Parameter "X, Y"
-  Facteurs d'échelle (la taille est multipliée 
+  Facteurs d'Ã©chelle (la taille est multipliÃ©e 
   par ces valeurs): 
   @LineBreak
   @LineBreak
   Une valeur de 1.0 signifie que la taille 
-  n'est pas modifiée @LineBreak
+  n'est pas modifiÃ©e @LineBreak
   Une valeur comprise entre 0.0 et 1.0 de 
-  signifie que le matériau est réduit 
-  (par exemple: une échelle de 0.5 fera la 
-  moitié de la taille).
+  signifie que le matÃ©riau est rÃ©duit 
+  (par exemple: une Ã©chelle de 0.5 fera la 
+  moitiÃ© de la taille).
   
 @OptionalParameter "Couche"
-  La couche à utiliser.
+  La couche Ã  utiliser.
 @LineBreak
 @LineBreak
-  La première couche commence à l'index zéro. (Si ce paramètre est omis, la couche zéro est utilisée).
+  La premiÃ¨re couche commence Ã  l'index zÃ©ro. (Si ce paramÃ¨tre est omis, la couche zÃ©ro est utilisÃ©e).
 
 @NoReturnValue
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, 
+  Pour obtenir l'Ã©tat courant de ce mode, 
   voir @@GetMaterialAttribute.
   
 @SeeAlso
@@ -1509,31 +1493,31 @@
 @Function RotateMaterial(#Matiere, Angle, Mode [, Couche])
 
 @Description
-  Rotation d'une matière.
+  Rotation d'une matiÃ¨re.
 
 @Parameter "#Matiere"
-  La matière à utiliser.
+  La matiÃ¨re Ã  utiliser.
 
 @Parameter "Angle"
   Angle de rotation.
 
 @Parameter "Mode"
 @FixedFont
-  @#PB_Material_Fixed   : La matière est inclinée de manière absolue, sans tenir compte de l'inclinaison précédente.
-  @#PB_Material_Animated: A chaque rendu, la couche est automatiquement inclinée des valeurs x,y 
-                         (relatif à l'inclinaison précédente).
+  @#PB_Material_Fixed   : La matiÃ¨re est inclinÃ©e de maniÃ¨re absolue, sans tenir compte de l'inclinaison prÃ©cÃ©dente.
+  @#PB_Material_Animated: A chaque rendu, la couche est automatiquement inclinÃ©e des valeurs x,y 
+                         (relatif Ã  l'inclinaison prÃ©cÃ©dente).
 @EndFixedFont
 
 @Parameter "Couche"
-  La couche à déplacer.
+  La couche Ã  dÃ©placer.
 @LineBreak
 @LineBreak
-  La première couche commence à l'index zéro. (Si ce paramètre est omis, la couche zéro est utilisée).
+  La premiÃ¨re couche commence Ã  l'index zÃ©ro. (Si ce paramÃ¨tre est omis, la couche zÃ©ro est utilisÃ©e).
    
 @NoReturnValue
 
 @Remarks
-  Pour obtenir l'état courant de ce mode, 
+  Pour obtenir l'Ã©tat courant de ce mode, 
   voir @@GetMaterialAttribute.
   
 @SeeAlso
@@ -1546,33 +1530,33 @@
 @Function MaterialAnimation(#Matiere, Texture$, NbImageAnimee, Temps.f)
 
 @Description
-  Ajoute une texture animée à la matière.
+  Ajoute une texture animÃ©e Ã  la matiÃ¨re.
 
 @Parameter "#Matiere"
-   La matière à utiliser.
+   La matiÃ¨re Ã  utiliser.
 
 @Parameter "Texture$"
-  Le nom du fichier texture à utiliser.
+  Le nom du fichier texture Ã  utiliser.
   
 @Parameter "NbImageAnimee"
-  Le nombre d'images animées (frames) de la texture animée.
+  Le nombre d'images animÃ©es (frames) de la texture animÃ©e.
 
 @OptionalParameter "Temps.f"
   Temps (en secondes) pour lire toute l'animation. @LineBreak
-  Une fois entièrement joué, elle recommencera en boucle depuis le début.
+  Une fois entiÃ¨rement jouÃ©, elle recommencera en boucle depuis le dÃ©but.
   
 @NoReturnValue
 
 @Remarks
-  Une texture animée est composée de n'importe quel nombre de textures, toutes de 
-  la même taille, avec le numéro d'image ajouté avant l'extension dans leur nom de 
+  Une texture animÃ©e est composÃ©e de n'importe quel nombre de textures, toutes de 
+  la mÃªme taille, avec le numÃ©ro d'image ajoutÃ© avant l'extension dans leur nom de 
   fichier.@LineBreak
-  Par exemple, si "test.jpg" est spécifié comme "Texture$" et "NbImageAnimee" est 
-  réglé sur 3, les textures "test_0.jpg", "test_1.jpg" et "test_2.jpg" seront chargées 
-  et utilisées sur la matière.
+  Par exemple, si "test.jpg" est spÃ©cifiÃ© comme "Texture$" et "NbImageAnimee" est 
+  rÃ©glÃ© sur 3, les textures "test_0.jpg", "test_1.jpg" et "test_2.jpg" seront chargÃ©es 
+  et utilisÃ©es sur la matiÃ¨re.
 @LineBreak
 @LineBreak
-  D'habitude, toutes les images sont contenues dans un fichier zip portant le même 
+  D'habitude, toutes les images sont contenues dans un fichier zip portant le mÃªme 
   nom que texture (ex Texture.zip) et accessible par @@Add3DArchive et @@Parse3DScripts.
 
 @SupportedOS

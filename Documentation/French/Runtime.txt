@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Runtime library documentation
 ;
 ; Fantaisie Software
@@ -9,13 +9,13 @@
 @Overview
 
   Les objets dits "Runtime" (en cours 
-  d'exécution du programme) sont les 
+  d'exÃ©cution du programme) sont les 
   objets d'un programme qui restent 
-  accessibles même lorsque le programme 
-  est compilé. L'accès à ces objets se 
-  fait par l'intermédiaire de leur 
-  référence qui est une chaîne de caractères 
-  créée à cet effet pendant la compilation. 
+  accessibles mÃªme lorsque le programme 
+  est compilÃ©. L'accÃ¨s Ã  ces objets se 
+  fait par l'intermÃ©diaire de leur 
+  rÃ©fÃ©rence qui est une chaÃ®ne de caractÃ¨res 
+  crÃ©Ã©e Ã  cet effet pendant la compilation. 
   @LineBreak
   Pour plus d'informations sur le concept 
   "Runtime", voir 
@@ -40,29 +40,29 @@
   Nom de l'objet. 
 @LineBreak   
 @LineBreak 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
-  - Constante: Le nom d'une '#Constante' (insensible à la casse).
-  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible Ã  la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible Ã  la casse).
 @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @ReturnValue
-  Renvoie la valeur 'entière' de l'objet, zéro si 
+  Renvoie la valeur 'entiÃ¨re' de l'objet, zÃ©ro si 
   l'objet est introuvable. @LineBreak
-  Comme zéro est une valeur entière valide, 
-  @@IsRuntime peut être utilisé pour déterminer 
+  Comme zÃ©ro est une valeur entiÃ¨re valide, 
+  @@IsRuntime peut Ãªtre utilisÃ© pour dÃ©terminer 
   si l'objet runtime existe vraiment. Si la 
   variable est de type 'float' ou 'double', elle 
   est automatiquement convertie en entier 'integer'.
 @LineBreak
 @LineBreak 
-  Si l'objet runtime est une procédure, la 
-  fonction renvoie l'adresse de la procédure.
+  Si l'objet runtime est une procÃ©dure, la 
+  fonction renvoie l'adresse de la procÃ©dure.
 
 @SeeAlso
   @@SetRuntimeInteger, @@IsRuntime
@@ -81,22 +81,22 @@
   Nom de l'objet. 
 @LineBreak   
 @LineBreak 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
-  - Constante: Le nom d'une '#Constante' (insensible à la casse).
-  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible Ã  la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible Ã  la casse).
 @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @ReturnValue
   Renvoie la valeur au format 'double' de l'objet 
-  ou zéro si l'objet est introuvable. @LineBreak
-  Comme zéro est une valeur entière valide, 
-  @@IsRuntime peut être utilisé pour déterminer 
+  ou zÃ©ro si l'objet est introuvable. @LineBreak
+  Comme zÃ©ro est une valeur entiÃ¨re valide, 
+  @@IsRuntime peut Ãªtre utilisÃ© pour dÃ©terminer 
   si l'objet runtime existe vraiment. Si la 
   variable est de type 'float' ou 'integer', elle 
   est automatiquement convertie en entier 
@@ -112,31 +112,31 @@
 @Function Resultat$ = GetRuntimeString(Objet$)
 
 @Description
-  Renvoie la valeur au format 'chaîne de caractères' 
+  Renvoie la valeur au format 'chaÃ®ne de caractÃ¨res' 
   ('string') de l'objet runtime.
 
 @Parameter "Objet$"
   Nom de l'objet. 
 @LineBreak   
 @LineBreak 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
-  - Constante: Le nom d'une '#Constante' (insensible à la casse).
-  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible Ã  la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible Ã  la casse).
 @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @ReturnValue
-  Renvoie la valeur au format 'chaîne de caractères' 
-  de l'objet ou une chaîne vide si 
+  Renvoie la valeur au format 'chaÃ®ne de caractÃ¨res' 
+  de l'objet ou une chaÃ®ne vide si 
   l'objet est introuvable. @LineBreak
-  Comme une chaîne vide est une valeur de chaîne 
-  valide, @@IsRuntime peut être utilisé 
-  pour déterminer si l'objet runtime existe 
+  Comme une chaÃ®ne vide est une valeur de chaÃ®ne 
+  valide, @@IsRuntime peut Ãªtre utilisÃ© 
+  pour dÃ©terminer si l'objet runtime existe 
   vraiment. 
 
 @SeeAlso
@@ -149,28 +149,28 @@
 @Function Resultat = IsRuntime(Objet$)
 
 @Description
-  Vérifie si l'objet spécifié est bien un objet 
+  VÃ©rifie si l'objet spÃ©cifiÃ© est bien un objet 
   @ReferenceLink "Runtime" "runtime".
 
 @Parameter "Objet$"
   Nom de l'objet.
 @LineBreak   
 @LineBreak 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse). 
-  - Constante: Le nom d'une '#Constante' (insensible à la casse).
-  - Procedure: Le nom d'une 'Procedure()' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse). 
+  - Constante: Le nom d'une '#Constante' (insensible Ã  la casse).
+  - Procedure: Le nom d'une 'Procedure()' (insensible Ã  la casse).
 @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'objet spécifié 
+  Renvoie une valeur non nulle si l'objet spÃ©cifiÃ© 
   est un objet @ReferenceLink "Runtime" "runtime", 
-  zéro sinon.
+  zÃ©ro sinon.
 
 @SupportedOS
 
@@ -184,14 +184,14 @@
 
 @Parameter "Objet$"
   Nom de l'objet. 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse).
  @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @Parameter "Valeur"
   La nouvelle valeur au format 'double'.
@@ -213,14 +213,14 @@
 
 @Parameter "Objet$"
   Nom de l'objet. 
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse).
  @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @Parameter "Valeur"
   La nouvelle valeur au format 'integer'.
@@ -237,27 +237,27 @@
 @Function SetRuntimeString(Objet$, Valeur$)
 
 @Description
-  Modifie la valeur au format 'chaîne de caractères' 
+  Modifie la valeur au format 'chaÃ®ne de caractÃ¨res' 
   ('string') de l'objet runtime.
 
 @Parameter "Objet$"
   Nom de l'objet.
-  Les objets suivants sont supportés: @LineBreak  
+  Les objets suivants sont supportÃ©s: @LineBreak  
 @FixedFont 
-  - Variable : Le nom d'une 'Variable' (insensible à la casse).
+  - Variable : Le nom d'une 'Variable' (insensible Ã  la casse).
  @EndFixedFont
-  Lors d'un accès aux éléments publics d'un 
+  Lors d'un accÃ¨s aux Ã©lÃ©ments publics d'un 
   @ReferenceLink "module" "module", 
-  le nom du préfixe du module est obligatoire, 
-  même si @Keyword UseModule est utilisé.
+  le nom du prÃ©fixe du module est obligatoire, 
+  mÃªme si @Keyword UseModule est utilisÃ©.
 
 @Parameter "Valeur$"
-  La nouvelle valeur au format 'chaîne de 
-  caractères'. 
+  La nouvelle valeur au format 'chaÃ®ne de 
+  caractÃ¨res'. 
 
 @NoReturnValue
   
 @SeeAlso
-  @@GetRuntimeInteger, @@IsRuntime
+  @@GetRuntimeString, @@IsRuntime
 
 @SupportedOS

@@ -1,4 +1,4 @@
-@Title Using the command line compiler
+﻿@Title Using the command line compiler
 
 @Section Introduction
 
@@ -16,6 +16,10 @@
 @LineBreak
 @LineBreak
   The backend C compiler does not allow entering assembly code.
+@LineBreak
+@LineBreak
+  On Windows a 'PureBasic-CLI.cmd' file is available in the PureBasic root directly to easily open a commandline prompt to use the PureBasic
+  commandline tools.
   
 @Section Cross-platform command switches
 
@@ -27,6 +31,8 @@
   @LineBreak
   -d, --debugger, /DEBUGGER: enables the debugger support. @LineBreak
   @LineBreak
+  -cl, --console, /CONSOLE: output file in @LibraryLink "console" "Console" format. Default format on Windows is Win32. @LineBreak
+  @LineBreak
   -pf, --purifier, /PURIFIER: enables the purifier. The debugger needs to be activated to have any effect. @LineBreak
   @LineBreak
   -o, --output, /OUTPUT "filename": creates a standalone executable or DLL specified by the filename at the desired path location. 
@@ -36,8 +42,7 @@
   -r, --resident, /RESIDENT "filename": creates a resident file specified by the filename. @LineBreak
   @LineBreak
   -i, --import, /IMPORT "filename": creates an import file to the given filename. Only one Import/EndImport block is allowed
-  in the file. The imported functions will be loaded automatically for every PureBasic projects.
-@LineBreak
+  in the file. The imported functions will be loaded automatically for every PureBasic projects. @LineBreak
   @LineBreak
   -l or --linenumbering, /LINENUMBERING: adds lines and files information to the executable, which can slow it considerably. 
   This allows the @LibraryLink "OnError" "OnError library" to report the file and line-number of an error. @LineBreak
@@ -115,8 +120,6 @@
 
   /ICON "IconName.ico" : add the specified icon to the executable. @LineBreak
   @LineBreak
-  /CONSOLE: output file in @LibraryLink "console" "Console" format. Default format is Win32. @LineBreak
-  @LineBreak
   /DLL: output file is a @ReferenceLink "dll" "DLL". @LineBreak
   @LineBreak
   /XP: Add the Windows theme support to the executable. @LineBreak
@@ -158,6 +161,9 @@
   /DLLPROTECTION: Enable DLL preloading protection to the executable. It prevents that system DLLs are first searched for in the program directory
   instead of in the System32 directory of the Windows operating system. @LineBreak
   @LineBreak
+  /UCRT: Use the dynamic universal CRT when creating the executable or DLL. It is recommended when creating an executable or a DLL which doesn't need to support older Windows version below Windows 10. The
+  resulting executable or DLL will be smaller and will get automatic security fixes from the CRT when Microsoft updates it. This option is always enabled on PureBasic for Windows arm64. @LineBreak
+  @LineBreak
   
   @Bold "Examples:"
   
@@ -172,6 +178,8 @@
 @Section Linux specific command switches
 
   -so or --sharedobject "filename": Create a dynamic library (shared object). @LineBreak
+  @LineBreak
+  -wl or --wayland: Uses Wayland as graphic backend instead of X11. @LineBreak
   @LineBreak
   -mmx, -3dnow, -sse or -sse2: Creates a processor specific executable. This means if a 
   processor specific routine is available it will be used for this executable. 

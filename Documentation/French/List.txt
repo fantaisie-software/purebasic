@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; List library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,34 +8,34 @@
 
 @Overview
 
-  Les listes (aussi appelée listes chaînées) 
-  regroupent des objets qui sont alloués 
+  Les listes (aussi appelÃ©e listes chaÃ®nÃ©es) 
+  regroupent des objets qui sont allouÃ©s 
   dynamiquement en fonction de vos besoins. 
-  Elles se présentent sous la forme de listes 
-  d'éléments totalement indépendants les uns 
+  Elles se prÃ©sentent sous la forme de listes 
+  d'Ã©lÃ©ments totalement indÃ©pendants les uns 
   des autres. Vous pouvez y ajouter un nombre 
-  infini d'éléments, insérer des éléments à 
+  infini d'Ã©lÃ©ments, insÃ©rer des Ã©lÃ©ments Ã  
   une position choisie, en effacer, etc... 
-  Cette méthode de stockage d'informations 
-  est très pratique et très souple. C'est la 
-  meilleure solution pour gérer des données 
-  dont vous ne connaissez pas le nombre à 
+  Cette mÃ©thode de stockage d'informations 
+  est trÃ¨s pratique et trÃ¨s souple. C'est la 
+  meilleure solution pour gÃ©rer des donnÃ©es 
+  dont vous ne connaissez pas le nombre Ã  
   l'avance.
 @LineBreak
 @LineBreak
   Avant de travailler avec les listes, vous 
-  devez les déclarer. Cela se fait avec le 
+  devez les dÃ©clarer. Cela se fait avec le 
   mot-clef @ReferenceLink "newlist" "NewList".
   Les @ReferenceLink "structures" "structures" 
-  sont également fréquemment utilisées dans 
+  sont Ã©galement frÃ©quemment utilisÃ©es dans 
   les listes.
 @LineBreak
 @LineBreak
-  Les listes peuvent être triées à l'aide des 
+  Les listes peuvent Ãªtre triÃ©es Ã  l'aide des 
   fonctions @@SortList ou @@SortStructuredList 
-  de la bibliothèque @LibraryLink "sort" "Sort" 
-  et peuvent être aussi mélangées de façon 
-  aléatoire en utilisant @@RandomizeList.
+  de la bibliothÃ¨que @LibraryLink "sort" "Sort" 
+  et peuvent Ãªtre aussi mÃ©langÃ©es de faÃ§on 
+  alÃ©atoire en utilisant @@RandomizeList.
 @LineBreak
 @LineBreak
   Pour analyser le contenu  d'une liste, il 
@@ -47,17 +47,17 @@
   ou @ReferenceLink "while_wend" "While : Wend".
 @LineBreak
 @LineBreak
-  Le premier élément a la position 0, le deuxième la position 1, etc.. 
+  Le premier Ã©lÃ©ment a la position 0, le deuxiÃ¨me la position 1, etc.. 
 @LineBreak
 @LineBreak
-  Les autres possibilités pour stocker des 
-  données multiples sont les 
+  Les autres possibilitÃ©s pour stocker des 
+  donnÃ©es multiples sont les 
   @LibraryLink "array" "Tableaux" et
   les @LibraryLink "map" "Maps".
 @LineBreak
 @LineBreak
-  Lors de l'utilisation de @LibraryLink "thread" "threads", une liste donnée ne peut pas être consultée et modifiée en même temps 
-  dans différents threads. Les mutexes peuvent être utilisés pour garantir que la liste ne soit utilisée que par un seul thread.
+  Lors de l'utilisation de @LibraryLink "thread" "threads", une liste donnÃ©e ne peut pas Ãªtre consultÃ©e et modifiÃ©e en mÃªme temps 
+  dans diffÃ©rents threads. Les mutexes peuvent Ãªtre utilisÃ©s pour garantir que la liste ne soit utilisÃ©e que par un seul thread.
 
 @CommandList
 
@@ -76,33 +76,33 @@
 @Function *Resultat = AddElement(Liste())
 
 @Description
-  Ajoute un nouvel élément après l'élément 
+  Ajoute un nouvel Ã©lÃ©ment aprÃ¨s l'Ã©lÃ©ment 
   courant.
 
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle qui est l'adresse du nouvel élément si le nouvel 
-  élément a été ajouté, zéro sinon. 
+  Renvoie une valeur non nulle qui est l'adresse du nouvel Ã©lÃ©ment si le nouvel 
+  Ã©lÃ©ment a Ã©tÃ© ajoutÃ©, zÃ©ro sinon. 
 @linebreak
 @linebreak
-  La valeur renvoyée est un 
-  @ReferenceLink "memory" "pointeur" sur le nouvel élément.
+  La valeur renvoyÃ©e est un 
+  @ReferenceLink "memory" "pointeur" sur le nouvel Ã©lÃ©ment.
 
 @Remarks
-  Devient le premier élément si la liste 
-  était vide et il devient l'élément courant 
+  Devient le premier Ã©lÃ©ment si la liste 
+  Ã©tait vide et il devient l'Ã©lÃ©ment courant 
   de la liste. 
   
 @Example
 @Code
-  ; La manière la plus simple d'utiliser AddElement
+  ; La maniÃ¨re la plus simple d'utiliser AddElement
   NewList simple.w()
-  AddElement(simple())    ; Crée le premier nouvel élément de la liste
+  AddElement(simple())    ; CrÃ©e le premier nouvel Ã©lÃ©ment de la liste
   simple() = 23
 
-  AddElement(simple())    ; La position courante est le premier élément, alors nous en ajoutons un à la deuxième position
+  AddElement(simple())    ; La position courante est le premier Ã©lÃ©ment, alors nous en ajoutons un Ã  la deuxiÃ¨me position
   simple() = 45
 
 
@@ -111,7 +111,7 @@
   If AddElement(experimentes()) <> 0
     experimentes() = 12345
   Else
-    MessageRequester("Erreur !", "Impossible d'allouer de la mémoire pour le nouvel élément", #PB_MessageRequester_OK)
+    MessageRequester("Erreur !", "Impossible d'allouer de la mÃ©moire pour le nouvel Ã©lÃ©ment", #PB_MessageRequester_OK)
   EndIf
 
 
@@ -121,14 +121,14 @@
     Talent.b
   EndStructure
 
-  NewList LesProgrammeurs.Programmeur()  ; La liste qui stocke les éléments
+  NewList LesProgrammeurs.Programmeur()  ; La liste qui stocke les Ã©lÃ©ments
 
   *Element.Programmeur = AddElement(LesProgrammeurs())
   If *Element<>0
     *Element\Nom = "David"
-    *Element\Talent = 3   ; Celui-là, c'est un féru de PureBasic ! ;)
+    *Element\Talent = 3   ; Celui-lÃ , c'est un fÃ©ru de PureBasic ! ;)
   Else
-    MessageRequester("Erreur !", "Impossible d'allouer de la mémoire pour le nouvel élément", #PB_MessageRequester_OK)
+    MessageRequester("Erreur !", "Impossible d'allouer de la mÃ©moire pour le nouvel Ã©lÃ©ment", #PB_MessageRequester_OK)
   EndIf
 @EndCode
 
@@ -143,45 +143,45 @@
 @Function ChangeCurrentElement(Liste(), *NouvelElement)
 
 @Description
-  Change l'élément courant de la liste. 
+  Change l'Ã©lÃ©ment courant de la liste. 
 
 @Parameter "Liste()" 
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @Parameter "*NouvelElement" 
-  Le nouvel élément à placer à la position 
+  Le nouvel Ã©lÃ©ment Ã  placer Ã  la position 
   courante de la liste.
 @linebreak
 @linebreak
   C'est un 
   @ReferenceLink "memory" "pointeur" vers 
-  un autre élément qui existe déjà dans la 
+  un autre Ã©lÃ©ment qui existe dÃ©jÃ  dans la 
   liste.
 @linebreak
 @linebreak
-  Cette adresse doit être récupérée avec 
-  l'opérateur @ et le nom de la liste et 
+  Cette adresse doit Ãªtre rÃ©cupÃ©rÃ©e avec 
+  l'opÃ©rateur @ et le nom de la liste et 
   pas autrement.
   
 @NoReturnValue
 
 @Remarks
-  Cette fonction est très utile pour 
-  mémoriser un élément et le réutiliser 
-  après avoir exécuté d'autres traitements
+  Cette fonction est trÃ¨s utile pour 
+  mÃ©moriser un Ã©lÃ©ment et le rÃ©utiliser 
+  aprÃ¨s avoir exÃ©cutÃ© d'autres traitements
 
 @Example Simple
 @Code
-  *Ancien_Element = @MaListe()   ; On mémorise l'adresse de l'élément courant 
+  *Ancien_Element = @MaListe()   ; On mÃ©morise l'adresse de l'Ã©lÃ©ment courant 
   
-  ResetList(MaListe())           ; Effectue une recherche de tous les éléments nommés
+  ResetList(MaListe())           ; Effectue une recherche de tous les Ã©lÃ©ments nommÃ©s
   While NextElement(MaListe())   ; "Jean" et les change en "J" 
     If MaListe()\nom = "Jean"
       MaListe()\nom = "J"     
     EndIf 
   Wend     
   
-  ChangeCurrentElement(MaListe(), *Ancien_Element) ; Restitue l'ancien élément courant (mémorisé avant la recherche)
+  ChangeCurrentElement(MaListe(), *Ancien_Element) ; Restitue l'ancien Ã©lÃ©ment courant (mÃ©morisÃ© avant la recherche)
 @EndCode
 
 @Example Complet
@@ -198,13 +198,13 @@
   AddElement(maList())
   maList() = 300
   
-  Debug maList()                             ; Affiche 300 (dernier élément)
+  Debug maList()                             ; Affiche 300 (dernier Ã©lÃ©ment)
   ChangeCurrentElement(maList(), *element)   ; Restaure la position de la liste
   Debug maList()                             ; Affiche 200
   
   ForEach maList()
     If @maList() = *element
-      Debug "élément: " + maList()           ; Affiche "élément: 200"
+      Debug "Ã©lÃ©ment: " + maList()           ; Affiche "Ã©lÃ©ment: 200"
     EndIf
   Next
 @EndCode
@@ -219,44 +219,44 @@
 @Function ClearList(Liste()) 
 
 @Description
-  Efface tous les éléments d'une liste et 
-  libère la mémoire utilisée. 
+  Efface tous les Ã©lÃ©ments d'une liste et 
+  libÃ¨re la mÃ©moire utilisÃ©e. 
 
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  Après l'appel à cette fonction, la liste 
+  AprÃ¨s l'appel Ã  cette fonction, la liste 
   reste utilisable, mais elle ne contient 
-  plus d'éléments. PureBasic libèrera 
-  seulement la mémoire occupée par les 
-  éléments.
+  plus d'Ã©lÃ©ments. PureBasic libÃ¨rera 
+  seulement la mÃ©moire occupÃ©e par les 
+  Ã©lÃ©ments.
 @linebreak 
-  Si la liste a été utilisée pour stocker 
+  Si la liste a Ã©tÃ© utilisÃ©e pour stocker 
   des objets dynamiques, il n'est pas 
-  possible de le détecter (en PureBasic 
+  possible de le dÃ©tecter (en PureBasic 
   ou dans un autre langage). Dans ce cas, 
-  il convient de libérer tous ces objets 
+  il convient de libÃ©rer tous ces objets 
   avant la  destruction de la liste.
   
 @Example
 @Code
   NewList nombres.w()
 
-  ; Une petite boucle pour ajouter plusieurs éléments à la liste
+  ; Une petite boucle pour ajouter plusieurs Ã©lÃ©ments Ã  la liste
   For i=1 To 100
     AddElement(nombres())
     nombres() = i
   Next
 
-  ; Preuve que les éléments ont été ajoutés à la liste
-  MessageRequester("Information", "Il y a "+Str(ListSize(nombres()))+" éléments dans la liste", #PB_MessageRequester_OK)
+  ; Preuve que les Ã©lÃ©ments ont Ã©tÃ© ajoutÃ©s Ã  la liste
+  MessageRequester("Information", "Il y a "+Str(ListSize(nombres()))+" Ã©lÃ©ments dans la liste", #PB_MessageRequester_OK)
  
   ; Effacer la liste et montrer que la liste est vraiment vide
   ClearList(nombres())
-  MessageRequester("Information", "Il y a "+Str(ListSize(nombres()))+" élements dans la liste", #PB_MessageRequester_OK)
+  MessageRequester("Information", "Il y a "+Str(ListSize(nombres()))+" Ã©lements dans la liste", #PB_MessageRequester_OK)
 @EndCode
 
 @SeeAlso
@@ -269,35 +269,35 @@
 @Function Resultat = CompareList(Liste1(), Liste2() [, Options])
 
 @Description
-  Compare chaque élément des deux listes pour vérifier leur égalité. 
+  Compare chaque Ã©lÃ©ment des deux listes pour vÃ©rifier leur Ã©galitÃ©. 
 
 @parameter "Liste1(), Liste2()"
-  Les listes à comparer.
+  Les listes Ã  comparer.
   
 @OptionalParameter "Options"
-   Peut être une combinaison des valeurs suivantes :
+   Peut Ãªtre une combinaison des valeurs suivantesÂ :
 @FixedFont
-   @#PB_String_CaseSensitive  : La comparaison des chaînes est sensible à la casse (a=a). (par défaut)
-   @#PB_String_NoCase         : La comparaison des chaînes n'est pas sensible à la casse (A=a).
-   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, compare récursivement la cible du pointeur.
-                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+   @#PB_String_CaseSensitive  : La comparaison des chaÃ®nes est sensible Ã  la casse (a=a). (par dÃ©faut)
+   @#PB_String_NoCase         : La comparaison des chaÃ®nes n'est pas sensible Ã  la casse (A=a).
+   @#PB_Memory_FollowPointersÂ : Si un Ã©lÃ©ment de structure est un pointeur qui n'est pas 0, compare rÃ©cursivement la cible du pointeur.
+                               La valeur par dÃ©faut consiste Ã  comparer uniquement la valeur (existante) du pointeur elle-mÃªme.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si les deux listes sont identiques, zéro sinon.
+  Renvoie une valeur non nulle si les deux listes sont identiques, zÃ©ro sinon.
 
 @Remarks
-  Compare de manière récursive également le contenu de listes structurées avec des éléments 
-  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@linebreak
-  Les deux listes sont considérées comme égales si elles ont le même type et la même taille 
-  et si chaque paire d’éléments est identique.
+  Compare de maniÃ¨re rÃ©cursive Ã©galement le contenu de listes structurÃ©es avec des Ã©lÃ©ments 
+  dynamiques (tels que des tableaux intÃ©grÃ©s, des listes ou des maps).@linebreak
+  Les deux listes sont considÃ©rÃ©es comme Ã©gales si elles ont le mÃªme type et la mÃªme taille 
+  et si chaque paire dâ€™Ã©lÃ©ments est identique.
 @LineBreak
 @LineBreak
-   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
-   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
-   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
-   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
-   se renvoie à elle-même).
+   L'option @#PB_Memory_FollowPointers est destinÃ©e aux utilisateurs avancÃ©s et nÃ©cessite une attention 
+   particuliÃ¨re pour Ã©viter les plantages. Si cette option est utilisÃ©e, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mÃ©moire valide et initialisÃ©e ou avoir la valeur 0. Il n'est 
+   pas non plus autorisÃ© d'avoir des boucles dans les Ã©lÃ©ments pointÃ©s (une chaÃ®ne de pointeurs qui 
+   se renvoie Ã  elle-mÃªme).
    
 @Example
 @Code
@@ -307,12 +307,12 @@
   AddElement(A$()) : A$() = "Didier"
   
   NewList B$()
-  AddElement(B$()) : B$() = "JEAN"  ; Casse différente
+  AddElement(B$()) : B$() = "JEAN"  ; Casse diffÃ©rente
   AddElement(B$()) : B$() = "Charles"
   AddElement(B$()) : B$() = "Didier"
   
-  Debug CompareList(A$(), B$())                     ; Pas égal
-  Debug CompareList(A$(), B$(), #PB_String_NoCase)  ; Égal
+  Debug CompareList(A$(), B$())                     ; Pas Ã©gal
+  Debug CompareList(A$(), B$(), #PB_String_NoCase)  ; Ã‰gal
 @EndCode
 
 @SeeAlso
@@ -325,26 +325,26 @@
 @Function Resultat = CopyList(ListeSource(), ListeDestination())
 
 @Description
-  Copie tous les éléments d'une liste 
+  Copie tous les Ã©lÃ©ments d'une liste 
   dans une autre.
 
 @Parameter "ListeSource()"
-  La liste à copier.
+  La liste Ã  copier.
 
 @Parameter "ListeDestination()"
   La copie de la liste. 
 @linebreak
 @linebreak
-  Tous les éléments présents avant la copie 
-  seront effacés.
+  Tous les Ã©lÃ©ments prÃ©sents avant la copie 
+  seront effacÃ©s.
   @linebreak
-  Si les deux listes ne sont pas du même 
-  type (natif ou structuré) la copie ne
+  Si les deux listes ne sont pas du mÃªme 
+  type (natif ou structurÃ©) la copie ne
   se fera pas.
 
 @ReturnValue
   Renvoie une valeur non nulle si la copie 
-  a réussi, zéro sinon.
+  a rÃ©ussi, zÃ©ro sinon.
 
 @Example
 @Code
@@ -374,18 +374,18 @@
 @Function FreeList(Liste())
 
 @Description
-  Détruit la liste et libère toutes les 
-  ressources associées. 
+  DÃ©truit la liste et libÃ¨re toutes les 
+  ressources associÃ©es. 
 
 @Parameter "Liste()"
-  La liste à détruire et ne peut être 
-  réutilisée, contrairement à @@ClearList. 
+  La liste Ã  dÃ©truire et ne peut Ãªtre 
+  rÃ©utilisÃ©e, contrairement Ã  @@ClearList. 
 
 @NoReturnValue
 
 @Remarks
-  Pour accéder à cette liste à nouveau, 
-  il faut la recréer avec 
+  Pour accÃ©der Ã  cette liste Ã  nouveau, 
+  il faut la recrÃ©er avec 
   @ReferenceLink "newlist" "NewList".
 
 @SeeAlso
@@ -398,33 +398,33 @@
 @Function Resultat = ListSize(Liste()) 
 
 @Description
-  Renvoie le nombre d'éléments contenus dans la liste. 
+  Renvoie le nombre d'Ã©lÃ©ments contenus dans la liste. 
 
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Le nombre total d'éléments dans la liste.@linebreak
-  Si la liste n'est pas initialisée, renvoie -1 (par exemple après @@FreeList).
+  Le nombre total d'Ã©lÃ©ments dans la liste.@linebreak
+  Si la liste n'est pas initialisÃ©e, renvoie -1 (par exemple aprÃ¨s @@FreeList).
 
 @Remarks
-  Cette fonction ne modifie pas l'élément courant. @LineBreak
-  Elle est très rapide (pas d'itération) et peut être utilisée sereinement pour savoir 
+  Cette fonction ne modifie pas l'Ã©lÃ©ment courant. @LineBreak
+  Elle est trÃ¨s rapide (pas d'itÃ©ration) et peut Ãªtre utilisÃ©e sereinement pour savoir 
   si une liste est vide ou non.
   
 @Example
 @Code
   NewList Compter.w()
 
-  ; Petite boucle pour ajouter quelques éléments à la liste.
+  ; Petite boucle pour ajouter quelques Ã©lÃ©ments Ã  la liste.
   For i=0 To 10
     AddElement(Compter())
     Compter() = i * 23
   Next
 
-  ; Affiche le nombre d'éléments qu'il y a dans la liste. J'espère que vous avez pensé
-  ; à la même valeur que celle affichée par l'ordinateur ;)
-  MessageRequester("Information", "Il y a "+Str(ListSize(Compter()))+" éléments dans la liste", #PB_MessageRequester_OK)
+  ; Affiche le nombre d'Ã©lÃ©ments qu'il y a dans la liste. J'espÃ¨re que vous avez pensÃ©
+  ; Ã  la mÃªme valeur que celle affichÃ©e par l'ordinateur ;)
+  MessageRequester("Information", "Il y a "+Str(ListSize(Compter()))+" Ã©lÃ©ments dans la liste", #PB_MessageRequester_OK)
 @EndCode
 
 @SeeAlso
@@ -439,7 +439,7 @@
 @Description
 @Deprecated
   
-  Cette fonction a été remplacée par 
+  Cette fonction a Ã©tÃ© remplacÃ©e par 
   @@ListSize. 
 
 @SupportedOS
@@ -449,36 +449,36 @@
 @Function *Resultat = DeleteElement(Liste() [, Options])  
 
 @Description
-  Supprime l'élément courant de la liste. 
+  Supprime l'Ã©lÃ©ment courant de la liste. 
 
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @OptionalParameter "Options"
-  Si ce paramètre est égal à 1 et que le premier élément est supprimé 
-  alors le nouvel élément courant sera le second élément. 
+  Si ce paramÃ¨tre est Ã©gal Ã  1 et que le premier Ã©lÃ©ment est supprimÃ© 
+  alors le nouvel Ã©lÃ©ment courant sera le second Ã©lÃ©ment. 
   @LineBreak
-  Cette option veille à ce qu'il y ait toujours un élément en cours de validité 
-  après une suppression aussi longtemps qu'il y a encore des éléments de la liste.
+  Cette option veille Ã  ce qu'il y ait toujours un Ã©lÃ©ment en cours de validitÃ© 
+  aprÃ¨s une suppression aussi longtemps qu'il y a encore des Ã©lÃ©ments de la liste.
   
 @ReturnValue
-  Renvoie une valeur non nulle qui est l'adresse du nouvel élément courant.
+  Renvoie une valeur non nulle qui est l'adresse du nouvel Ã©lÃ©ment courant.
   @LineBreak
-  Si la liste ne comporte aucun élément courant après la suppression, le résultat est 0.
+  Si la liste ne comporte aucun Ã©lÃ©ment courant aprÃ¨s la suppression, le rÃ©sultat est 0.
 @linebreak
 @linebreak
-  La valeur renvoyée est un 
-  @ReferenceLink "memory" "pointeur" sur le nouvel élément.
+  La valeur renvoyÃ©e est un 
+  @ReferenceLink "memory" "pointeur" sur le nouvel Ã©lÃ©ment.
 
 @Remarks
-  Fonctionnement: Après l'appel de cette fonction, le nouvel
-  élément courant est celui qui précédait 
-  l'élément supprimé. Si l'élément supprimé 
-  était le premier, alors il n'y a plus 
-  d'élément courant (la position dans la 
-  liste est avant le premier élément, comme 
-  après un @@ResetList) sauf si Option=1 car dans
-  ce cas le nouvel élément serait celui qui était en seconde 
+  Fonctionnement: AprÃ¨s l'appel de cette fonction, le nouvel
+  Ã©lÃ©ment courant est celui qui prÃ©cÃ©dait 
+  l'Ã©lÃ©ment supprimÃ©. Si l'Ã©lÃ©ment supprimÃ© 
+  Ã©tait le premier, alors il n'y a plus 
+  d'Ã©lÃ©ment courant (la position dans la 
+  liste est avant le premier Ã©lÃ©ment, comme 
+  aprÃ¨s un @@ResetList) sauf si Option=1 car dans
+  ce cas le nouvel Ã©lÃ©ment serait celui qui Ã©tait en seconde 
   position.
 
 @Example
@@ -490,14 +490,14 @@
   AddElement(personnes()) : personnes() = "Harry"
   AddElement(personnes()) : personnes() = "Bob"
 
-  FirstElement(personnes())     ; se déplace sur "Tom"
-  DeleteElement(personnes(),1)  ; et le supprime. L'élément courant devient (paramètre 1 utilisé) celui qui suivait
-  MessageRequester("Information", "La première personne de la liste est "+personnes(), #PB_MessageRequester_OK)
+  FirstElement(personnes())     ; se dÃ©place sur "Tom"
+  DeleteElement(personnes(),1)  ; et le supprime. L'Ã©lÃ©ment courant devient (paramÃ¨tre 1 utilisÃ©) celui qui suivait
+  MessageRequester("Information", "La premiÃ¨re personne de la liste est "+personnes(), #PB_MessageRequester_OK)
 
-  LastElement(personnes())      ; se déplace vers "Bob"
-  PreviousElement(personnes())  ; se déplace vers "Harry"
-  DeleteElement(personnes())    ; et le supprime.Il y a un élément avant Harry, alors il devient l'élément courant
-  MessageRequester("Information", "La personne actuellement pointée dans la liste est "+personnes(), #PB_MessageRequester_OK)
+  LastElement(personnes())      ; se dÃ©place vers "Bob"
+  PreviousElement(personnes())  ; se dÃ©place vers "Harry"
+  DeleteElement(personnes())    ; et le supprime.Il y a un Ã©lÃ©ment avant Harry, alors il devient l'Ã©lÃ©ment courant
+  MessageRequester("Information", "La personne actuellement pointÃ©e dans la liste est "+personnes(), #PB_MessageRequester_OK)
 @EndCode
 
 @SeeAlso
@@ -511,18 +511,18 @@
 @Function *Resultat = FirstElement(Liste())
 
 @Description
-  Le premier élément de la liste devient 
-  l'élément courant. 
+  Le premier Ã©lÃ©ment de la liste devient 
+  l'Ã©lÃ©ment courant. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle qui est l'adresse du premierr élément, zéro si le premier élément n'existe pas. 
+  Renvoie une valeur non nulle qui est l'adresse du premierr Ã©lÃ©ment, zÃ©ro si le premier Ã©lÃ©ment n'existe pas. 
 @linebreak
 @linebreak
-  La valeur renvoyée est un 
-  @ReferenceLink "memory" "pointeur" sur le premier élément s'il existe.
+  La valeur renvoyÃ©e est un 
+  @ReferenceLink "memory" "pointeur" sur le premier Ã©lÃ©ment s'il existe.
   
 @Example
 @Code
@@ -535,14 +535,14 @@
   nombres() = 8
 
   FirstElement(nombres())
-  MessageRequester("Information", "La valeur du premier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+  MessageRequester("Information", "La valeur du premier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
 
 
   ; Un exemple qui utilise la valeur de retour
   NewList nombres.w()
 
   If FirstElement(nombres()) <> 0
-    MessageRequester("Information", "La valeur du premier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du premier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
@@ -553,13 +553,13 @@
   nombres() = 8
 
   If FirstElement(nombres()) <> 0
-    MessageRequester("Information", "La valeur du premier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du premier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
 
 
-  ; Un exemple réservé aux programmeurs expérimentés
+  ; Un exemple rÃ©servÃ© aux programmeurs expÃ©rimentÃ©s
   NewList nombres.w()
 
   AddElement(nombres())
@@ -569,7 +569,7 @@
 
   *Element.Word = FirstElement(nombres())
   If *Element
-    MessageRequester("Information", "La valeur du premier élément est "+Str(*Element\w), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du premier Ã©lÃ©ment est "+Str(*Element\w), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
@@ -587,31 +587,31 @@
 @Function *Resultat = InsertElement(Liste()) 
 
 @Description
- Insère un nouvel élément avant l'élément 
- courant, ou au début de la liste si la 
- liste est vide. Ce nouvel élément devient
- l'élément courant de la liste.
+ InsÃ¨re un nouvel Ã©lÃ©ment avant l'Ã©lÃ©ment 
+ courant, ou au dÃ©but de la liste si la 
+ liste est vide. Ce nouvel Ã©lÃ©ment devient
+ l'Ã©lÃ©ment courant de la liste.
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle qui est l'adresse du nouvel élément si le nouvel 
-  élément a été créé, zéro sinon.
+  Renvoie une valeur non nulle qui est l'adresse du nouvel Ã©lÃ©ment si le nouvel 
+  Ã©lÃ©ment a Ã©tÃ© crÃ©Ã©, zÃ©ro sinon.
   @linebreak
-  La valeur renvoyée par cette commande est 
+  La valeur renvoyÃ©e par cette commande est 
   un @ReferenceLink "memory" "pointeur" 
-  vers les données du nouvel élément. 
+  vers les donnÃ©es du nouvel Ã©lÃ©ment. 
  
 @Example
 @Code
-  ; La manière la plus simple d'utiliser InsertElement
+  ; La maniÃ¨re la plus simple d'utiliser InsertElement
   NewList simple.w()
-  InsertElement(simple())    ; Crée le premier élément de la liste
+  InsertElement(simple())    ; CrÃ©e le premier Ã©lÃ©ment de la liste
   simple() = 23
 
-  InsertElement(simple())    ; La position courante est le premier élément, nous ajoutons cet élément au début de la liste
-  simple() = 45              ; L'ancien premier élément est maintenant le second élément de la liste
+  InsertElement(simple())    ; La position courante est le premier Ã©lÃ©ment, nous ajoutons cet Ã©lÃ©ment au dÃ©but de la liste
+  simple() = 45              ; L'ancien premier Ã©lÃ©ment est maintenant le second Ã©lÃ©ment de la liste
 
 
   ; Ceci montre comment utiliser la valeur de retour de InsertElement
@@ -619,24 +619,24 @@
   If InsertElement(experimentes()) <> 0
     experimentes() = 12345
   Else
-    MessageRequester("Erreur !", "Impossible d'allouer de la mémoire pour le nouvel élément", #PB_MessageRequester_OK)
+    MessageRequester("Erreur !", "Impossible d'allouer de la mÃ©moire pour le nouvel Ã©lÃ©ment", #PB_MessageRequester_OK)
   EndIf
 
 
-  ; Une petite structure pour démontrer la description "programmeurs expérimentés" (ci-dessus)
+  ; Une petite structure pour dÃ©montrer la description "programmeurs expÃ©rimentÃ©s" (ci-dessus)
   Structure Programmeur
     Nom.s
     Talent.b
   EndStructure
 
-  NewList LesProgrammeurs.Programmeur()  ; La liste pour stocker les éléments
+  NewList LesProgrammeurs.Programmeur()  ; La liste pour stocker les Ã©lÃ©ments
 
   *Element.Programmeur = InsertElement(LesProgrammeurs())
   If *Element<>0
     *Element\Nom = "Dave"
-    *Element\Talent = 3   ; Celui-là, c'est un féru de PureBasic ! ;)
+    *Element\Talent = 3   ; Celui-lÃ , c'est un fÃ©ru de PureBasic ! ;)
   Else
-    MessageRequester("Erreur !", "Impossible d'allouer de la mémoire pour le nouvel élément", #PB_MessageRequester_OK)
+    MessageRequester("Erreur !", "Impossible d'allouer de la mÃ©moire pour le nouvel Ã©lÃ©ment", #PB_MessageRequester_OK)
   EndIf
 @EndCode
 
@@ -650,19 +650,19 @@
 @Function *Resultat = LastElement(Liste())
 
 @Description
-  Le dernier élément de la liste devient 
-  l'élément courant.
+  Le dernier Ã©lÃ©ment de la liste devient 
+  l'Ã©lÃ©ment courant.
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie l'adresse du dernier élément de 
-  la liste ou zéro s'il n'y a pas d'éléments.
+  Renvoie l'adresse du dernier Ã©lÃ©ment de 
+  la liste ou zÃ©ro s'il n'y a pas d'Ã©lÃ©ments.
 @linebreak
-  La valeur renvoyée par cette commande est 
+  La valeur renvoyÃ©e par cette commande est 
   un @ReferenceLink "memory" "pointeur" 
-  vers les données du dernier élément s'il existe.
+  vers les donnÃ©es du dernier Ã©lÃ©ment s'il existe.
   
 @Example  
 @Code
@@ -675,14 +675,14 @@
   nombres() = 8
 
   LastElement(nombres())
-  MessageRequester("Information", "La valeur du dernier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+  MessageRequester("Information", "La valeur du dernier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
 
 
   ; Un exemple qui utilise la valeur de retour
   NewList nombres.w()
 
   If LastElement(nombres()) <> 0
-    MessageRequester("Information", "La valeur du dernier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du dernier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
@@ -693,13 +693,13 @@
   nombres() = 8
 
   If LastElement(nombres()) <> 0
-    MessageRequester("Information", "La valeur du dernier élément est "+Str(nombres()), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du dernier Ã©lÃ©ment est "+Str(nombres()), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
 
 
-  ; Un exemple réservé aux programmeurs expérimentés
+  ; Un exemple rÃ©servÃ© aux programmeurs expÃ©rimentÃ©s
   NewList nombres.w()
 
   AddElement(nombres())
@@ -709,7 +709,7 @@
 
   *Element.Word = LastElement(nombres())
   If *Element
-    MessageRequester("Information", "La valeur du dernier élément est "+Str(*Element\w), #PB_MessageRequester_OK)
+    MessageRequester("Information", "La valeur du dernier Ã©lÃ©ment est "+Str(*Element\w), #PB_MessageRequester_OK)
   Else
     MessageRequester("Information", "La liste est vide", #PB_MessageRequester_OK)
   EndIf
@@ -727,28 +727,28 @@
 @Function Resultat = ListIndex(Liste()) 
 
 @Description
-  Renvoie la position de l'élément courant 
+  Renvoie la position de l'Ã©lÃ©ment courant 
   de la liste. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  La position de l'élément courant dans la 
+  La position de l'Ã©lÃ©ment courant dans la 
   liste. 
 @LineBreak
 @LineBreak
-  Le premier élément a la position 0, le 
-  deuxième la position 1, etc.. 
+  Le premier Ã©lÃ©ment a la position 0, le 
+  deuxiÃ¨me la position 1, etc.. 
 @LineBreak
 @LineBreak
   Une valeur de -1 indique qu'il n'y a pas 
-  d'élément courant (soit la liste est vide, 
-  soit @@ResetList a été utilisé).
+  d'Ã©lÃ©ment courant (soit la liste est vide, 
+  soit @@ResetList a Ã©tÃ© utilisÃ©).
   
 @Remarks
-  Cette commande est très rapide car elle 
-  utilise une valeur précalculée.
+  Cette commande est trÃ¨s rapide car elle 
+  utilise une valeur prÃ©calculÃ©e.
 
 @Example
 @Code
@@ -760,16 +760,16 @@
   AddElement(fruit()) : fruit() = "poires"
 
   FirstElement(fruit())
-  MessageRequester("Fruit : "+fruit(), "Maintenant à la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+  MessageRequester("Fruit : "+fruit(), "Maintenant Ã  la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
 
   NextElement(fruit())
-  MessageRequester("Fruit : "+fruit(), "Maintenant à la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+  MessageRequester("Fruit : "+fruit(), "Maintenant Ã  la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
 
   NextElement(fruit())
-  MessageRequester("Fruit : "+fruit(), "Maintenant à la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+  MessageRequester("Fruit : "+fruit(), "Maintenant Ã  la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
 
   NextElement(fruit())
-  MessageRequester("Fruit : "+fruit(), "Maintenant à la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
+  MessageRequester("Fruit : "+fruit(), "Maintenant Ã  la position "+Str(ListIndex(fruit())),  #PB_MessageRequester_OK)
 @EndCode
 
 @SeeAlso
@@ -782,23 +782,23 @@
 @Function *Resultat = NextElement(Liste())  
 
 @Description
-  L'élément suivant devient l'élément 
+  L'Ã©lÃ©ment suivant devient l'Ã©lÃ©ment 
   courant. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie l'adresse de l'élément suivant 
-  en cas de succès ou zéro s'il n'y a pas 
-  d'élément suivant.
+  Renvoie l'adresse de l'Ã©lÃ©ment suivant 
+  en cas de succÃ¨s ou zÃ©ro s'il n'y a pas 
+  d'Ã©lÃ©ment suivant.
  @linebreak
-  La valeur renvoyée par cette commande est 
+  La valeur renvoyÃ©e par cette commande est 
   un @ReferenceLink "memory" "pointeur" 
-  vers les données de l'élément suivant s'il existe. 
+  vers les donnÃ©es de l'Ã©lÃ©ment suivant s'il existe. 
   
 @Remarks
-  Passe au premier élément si @@ResetList a été utilisé.
+  Passe au premier Ã©lÃ©ment si @@ResetList a Ã©tÃ© utilisÃ©.
 
 @Example
 @Code
@@ -811,7 +811,7 @@
 
   ResetList(scores())
   While NextElement(scores())
-    ; Ceci est correct car le premier appel à NextElement() va déplacer l'élément courant vers le premier élément de la liste
+    ; Ceci est correct car le premier appel Ã  NextElement() va dÃ©placer l'Ã©lÃ©ment courant vers le premier Ã©lÃ©ment de la liste
     MessageRequester("Score", Str(scores()), #PB_MessageRequester_OK)
   Wend
 @EndCode
@@ -828,20 +828,20 @@
 @Function *Resultat = PreviousElement(Liste()) 
 
 @Description
-  L'élément précédent devient l'élément 
+  L'Ã©lÃ©ment prÃ©cÃ©dent devient l'Ã©lÃ©ment 
   courant. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @ReturnValue
-  Renvoie l'adresse de l'élément précédent 
-  en cas de succès ou zéro s'il n'y a pas 
-  d'élément précédent.
+  Renvoie l'adresse de l'Ã©lÃ©ment prÃ©cÃ©dent 
+  en cas de succÃ¨s ou zÃ©ro s'il n'y a pas 
+  d'Ã©lÃ©ment prÃ©cÃ©dent.
   @linebreak
-  La valeur renvoyée par cette commande est 
+  La valeur renvoyÃ©e par cette commande est 
   un @ReferenceLink "memory" "pointeur" 
-  vers les données de l'élément précédent s'il existe.
+  vers les donnÃ©es de l'Ã©lÃ©ment prÃ©cÃ©dent s'il existe.
 
 @Example
 @Code
@@ -869,18 +869,18 @@
 @Function ResetList(Liste()) 
 
 @Description
-  Change l'index de l'élément courant et le 
-  place avant le premier élément de la liste.
-  Donc il n'y a plus d'éléments valides. 
+  Change l'index de l'Ã©lÃ©ment courant et le 
+  place avant le premier Ã©lÃ©ment de la liste.
+  Donc il n'y a plus d'Ã©lÃ©ments valides. 
  
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @NoReturnValue
   
 @Remarks
-  C'est particulièrement utile pour parcourir 
-  tous les éléments avec @@NextElement.
+  C'est particuliÃ¨rement utile pour parcourir 
+  tous les Ã©lÃ©ments avec @@NextElement.
 
 @Example
 @Code
@@ -894,7 +894,7 @@
   
   ResetList(Amis())
   While NextElement(Amis())
-    Debug Amis() ; Affiche tous les éléments de la liste
+    Debug Amis() ; Affiche tous les Ã©lÃ©ments de la liste
   Wend
 @EndCode
 
@@ -908,37 +908,37 @@
 @Function *Resultat = SelectElement(Liste(), Position)
   
 @Description
-  Change l'élément courant par celui trouvé à 
-  la position spécifiée.
+  Change l'Ã©lÃ©ment courant par celui trouvÃ© Ã  
+  la position spÃ©cifiÃ©e.
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @Parameter "Position"
-  La position du nouvel élément courant.
+  La position du nouvel Ã©lÃ©ment courant.
 @linebreak
 @linebreak
-  Le premier élément de la liste
-  est à la position 0, le suivant à la 
+  Le premier Ã©lÃ©ment de la liste
+  est Ã  la position 0, le suivant Ã  la 
   position 1 et ainsi de suite.
-  Assurez-vous de ne pas spécifier une 
-  position située en dehors de la liste 
-  (valeur négative ou supérieure à 
+  Assurez-vous de ne pas spÃ©cifier une 
+  position situÃ©e en dehors de la liste 
+  (valeur nÃ©gative ou supÃ©rieure Ã  
   @@ListSize -1) !
 
 @ReturnValue
   Renvoie un 
   @ReferenceLink "memory" "pointeur" vers 
-  les données de l'élément sélectionné
-  ou zéro si la position est hors limite.
+  les donnÃ©es de l'Ã©lÃ©ment sÃ©lectionnÃ©
+  ou zÃ©ro si la position est hors limite.
 
 @Remarks
-  Ceci est très utile si vous souhaitez 
-  sauter à une position précise de la liste.
+  Ceci est trÃ¨s utile si vous souhaitez 
+  sauter Ã  une position prÃ©cise de la liste.
   Comme les listes n'utilisent pas d'index, 
-  un saut d'élément en élément est effectué 
-  jusqu'à la position cible recherchée. Si 
-  une commande plus rapide est nécessaire, 
+  un saut d'Ã©lÃ©ment en Ã©lÃ©ment est effectuÃ© 
+  jusqu'Ã  la position cible recherchÃ©e. Si 
+  une commande plus rapide est nÃ©cessaire, 
   utilisez la commande @@ChangeCurrentElement.
 
 @Example
@@ -973,35 +973,35 @@
 @Function SwapElements(Liste(), *PremierElement, *DeuxiemeElement)
 
 @Description
-  Permute la place de 2 éléments de la liste.
+  Permute la place de 2 Ã©lÃ©ments de la liste.
     
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @Parameter "*PremierElement"
   @ReferenceLink "memory" "Adresse" du 
-  premier élément à échanger. 
+  premier Ã©lÃ©ment Ã  Ã©changer. 
 @linebreak
 @linebreak
-  Vous pouvez récupérer cette adresse en 
-  utilisant l'opérateur @ sur le nom de la 
+  Vous pouvez rÃ©cupÃ©rer cette adresse en 
+  utilisant l'opÃ©rateur @ sur le nom de la 
   liste.
 
 @Parameter "*DeuxiemeElement"
   @ReferenceLink "memory" "Adresse" du 
-  second élément à échanger. 
+  second Ã©lÃ©ment Ã  Ã©changer. 
 @linebreak
 @linebreak
-  Vous pouvez récupérer cette adresse en 
-  utilisant l'opérateur @ sur le nom de la 
+  Vous pouvez rÃ©cupÃ©rer cette adresse en 
+  utilisant l'opÃ©rateur @ sur le nom de la 
   liste.
 
 @NoReturnValue
 
 @Remarks
-  Cette fonction procure une façon rapide 
-  pour réorganiser ou trier une liste 
-  car les éléments ne sont pas déplacés. 
+  Cette fonction procure une faÃ§on rapide 
+  pour rÃ©organiser ou trier une liste 
+  car les Ã©lÃ©ments ne sont pas dÃ©placÃ©s. 
 
 @Example
 @Code
@@ -1012,13 +1012,13 @@
     Nombres() = k
   Next
     
-  SelectElement(Nombres(), 3) ; Sélectionne le 4ème élément
+  SelectElement(Nombres(), 3) ; SÃ©lectionne le 4Ã¨me Ã©lÃ©ment
   *PremierElement = @Nombres()
   
-  SelectElement(Nombres(), 9) ; Sélectionne le 10ème élément
+  SelectElement(Nombres(), 9) ; SÃ©lectionne le 10Ã¨me Ã©lÃ©ment
   *DeuxiemeElement = @Nombres()
   
-  ; Echange le 4ème et le 10ème
+  ; Echange le 4Ã¨me et le 10Ã¨me
   ;
   SwapElements(Nombres(), *PremierElement, *DeuxiemeElement)
     
@@ -1039,40 +1039,40 @@
 @Function MoveElement(Liste(), Location [, *ElementRelatif])
 
 @Description
-  Déplace l'élément courant vers une autre 
+  DÃ©place l'Ã©lÃ©ment courant vers une autre 
   position dans la liste. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @Parameter "Location"
-  L'emplacement de l'élément courant. 
-  Peut être une des valeurs suivantes:
+  L'emplacement de l'Ã©lÃ©ment courant. 
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_List_First : Déplacer l'élément vers le début de la liste
-  @#PB_List_Last  : Déplacer l'élément vers la fin de la liste
-  @#PB_List_Before: Déplacer l'élément avant le *ElementRelatif
-  @#PB_List_After : Déplacer l'élément après le *ElementRelatif
+  @#PB_List_First : DÃ©placer l'Ã©lÃ©ment vers le dÃ©but de la liste
+  @#PB_List_Last  : DÃ©placer l'Ã©lÃ©ment vers la fin de la liste
+  @#PB_List_Before: DÃ©placer l'Ã©lÃ©ment avant le *ElementRelatif
+  @#PB_List_After : DÃ©placer l'Ã©lÃ©ment aprÃ¨s le *ElementRelatif
 @EndFixedFont
 
 @OptionalParameter "*ElementRelatif"
 @Indent
-  Indique l'adresse d'un autre élément auprès 
-  duquel l'élément actuel doit être déplacé. 
-  Ce paramètre est requis lorsque le paramètre 
+  Indique l'adresse d'un autre Ã©lÃ©ment auprÃ¨s 
+  duquel l'Ã©lÃ©ment actuel doit Ãªtre dÃ©placÃ©. 
+  Ce paramÃ¨tre est requis lorsque le paramÃ¨tre 
   "Localisation" est @#PB_List_Before ou 
   @#PB_List_After. 
   Vous pouvez obtenir cette adresse en 
-  utilisant l'opérateur @ avec le nom de la 
+  utilisant l'opÃ©rateur @ avec le nom de la 
   liste.
 @EndIndent
  
 @NoReturnValue
 
 @Remarks
-  L'élément déplacé reste l'élément courant 
-  de la liste. Cette opération est rapide 
-  car la donnée elle-même n'est pas déplacée.
+  L'Ã©lÃ©ment dÃ©placÃ© reste l'Ã©lÃ©ment courant 
+  de la liste. Cette opÃ©ration est rapide 
+  car la donnÃ©e elle-mÃªme n'est pas dÃ©placÃ©e.
 
 @Example
 @Code
@@ -1084,13 +1084,13 @@
   Next
   
   SelectElement(Nombres(), 5) 
-  *Relatif = @Nombres()                             ; l'adresse de l'élément 5
+  *Relatif = @Nombres()                             ; l'adresse de l'Ã©lÃ©ment 5
   
   SelectElement(Nombres(), 0)
-  MoveElement(Nombres(), #PB_List_After, *Relatif)  ; déplacement après l'élément 5
+  MoveElement(Nombres(), #PB_List_After, *Relatif)  ; dÃ©placement aprÃ¨s l'Ã©lÃ©ment 5
     
   SelectElement(Nombres(), 10)
-  MoveElement(Nombres(), #PB_List_First)            ; déplacement au début
+  MoveElement(Nombres(), #PB_List_First)            ; dÃ©placement au dÃ©but
     
   ; Resultat
   ;
@@ -1109,39 +1109,36 @@
 @Function PushListPosition(Liste())
 
 @Description
-  Mémorise l'élément courant (s'il existe) 
-  afin qu'il puisse être restauré plus tard 
-  en utilisant @@PopListPosition. 
+  MÃ©morise l'Ã©lÃ©ment courant (s'il existe) afin qu'il puisse Ãªtre restaurÃ© plus tard en utilisant @@PopListPosition. 
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  La position est mémorisée sur une structure 
-  de pile, donc plusieurs appels à cette 
-  fonction sont possibles.
+  La position est mÃ©morisÃ©e sur une pile, donc plusieurs appels Ã  cette fonction sont possibles.@LineBreak 
+  C'est unee pile de type lifo (last in, first out), c'est une zone rÃ©servÃ©e en mÃ©moire, ce n'est pas une liste.
 @LineBreak
 @LineBreak  
-  Cette fonction peut être utilisée pour 
-  sauvegarder l'élément courant, donc une 
-  itération peut être faite sur la liste 
+  Cette fonction peut Ãªtre utilisÃ©e pour 
+  sauvegarder l'Ã©lÃ©ment courant, donc une 
+  itÃ©ration peut Ãªtre faite sur la liste 
   en utilisant @@NextElement ou 
   @ReferenceLink "foreach_next" "foreach" et 
-  l'élément courant peut être restauré après 
-  l'itération en utilisant @@PopListPosition. 
-  Plusieurs appels à cette fonction peuvent 
-  être faits, aussi longtemps que chacun est 
-  équilibré avec un appel @@PopListPosition 
+  l'Ã©lÃ©ment courant peut Ãªtre restaurÃ© aprÃ¨s 
+  l'itÃ©ration en utilisant @@PopListPosition. 
+  Plusieurs appels Ã  cette fonction peuvent 
+  Ãªtre faits, aussi longtemps que chacun est 
+  Ã©quilibrÃ© avec un appel @@PopListPosition 
   correspondant.
 @LineBreak
 @LineBreak
   Note: Il n'est pas permis de supprimer un 
-  élément qui a été mémorisé, en utilisant 
+  Ã©lÃ©ment qui a Ã©tÃ© mÃ©morisÃ©, en utilisant 
   @@DeleteElement  ou @@ClearList. Cela peut 
-  entraîner un plantage lors de l'appel de 
-  @@PopListPosition parce que la mémoire 
+  entraÃ®ner un plantage lors de l'appel de 
+  @@PopListPosition parce que la mÃ©moire 
   n'est plus valide. 
 
 @Example
@@ -1154,7 +1151,7 @@
   AddElement(Nombres()): Nombres() = 5
   AddElement(Nombres()): Nombres() = 2
   
-  ; Une simple élimination de doublon
+  ; Une simple Ã©limination de doublon
   ;
   ForEach Nombres()
     Valeur = Nombres()
@@ -1185,21 +1182,21 @@
 @Function PopListPosition(Liste())
 
 @Description
-  Restaure l'élément courant précédemment 
-  mise en mémoire avec @@PushListPosition.
+  Restaure l'Ã©lÃ©ment courant prÃ©cÃ©demment 
+  mise en mÃ©moire avec @@PushListPosition.
   
 @Parameter "Liste()"
-  La liste à utiliser.
+  La liste Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  L'état de la liste sera le même que celui 
-  de l'appel correspondant à 
+  L'Ã©tat de la liste sera le mÃªme que celui 
+  de l'appel correspondant Ã  
   @@PushListPosition. S'il n'y avait pas 
-  d'élément courant après un 
+  d'Ã©lÃ©ment courant aprÃ¨s un 
   @@PushListPosition alors il n'y a pas 
-  d'élément courant après cet appel aussi.
+  d'Ã©lÃ©ment courant aprÃ¨s cet appel aussi.
 
 @Example
 @Code
@@ -1211,7 +1208,7 @@
   AddElement(Nombres()): Nombres() = 5
   AddElement(Nombres()): Nombres() = 2
   
-  ; Une simple élimination de doublon
+  ; Une simple Ã©limination de doublon
   ;
   ForEach Nombres()
     Valeur = Nombres()
@@ -1242,37 +1239,37 @@
 @Function MergeLists(ListeSource(), ListeDestination() [, Location])
 
 @Description
-  Déplace tous les éléments de la liste 
+  DÃ©place tous les Ã©lÃ©ments de la liste 
   ListeSource() vers la liste 
   ListeDestination(). 
 
 @Parameter "ListeSource()"
-  La liste à partir de laquelle les éléments 
-  seront pris. Cette liste sera vide après 
-  l'opération.
+  La liste Ã  partir de laquelle les Ã©lÃ©ments 
+  seront pris. Cette liste sera vide aprÃ¨s 
+  l'opÃ©ration.
 
 @Parameter "ListeDestination()"
-  La liste vers laquelle les éléments seront 
-  déplacés. Cette liste contiendra les 
-  éléments des deux listes.
+  La liste vers laquelle les Ã©lÃ©ments seront 
+  dÃ©placÃ©s. Cette liste contiendra les 
+  Ã©lÃ©ments des deux listes.
 
 @OptionalParameter "Location"
-  Indique l'emplacement où les éléments 
-  seront insérés  dans la liste 
+  Indique l'emplacement oÃ¹ les Ã©lÃ©ments 
+  seront insÃ©rÃ©s  dans la liste 
   ListeDestination(). 
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_List_First : Insère les éléments au début de ListeDestination()
-  @#PB_List_Last  : Ajoute des éléments à la fin de ListeDestination()
-  @#PB_List_Before: Insère les éléments avant l'élément courant de ListeDestination()
-  @#PB_List_After : Insère les éléments après l'élément courant de ListeDestination()
+  @#PB_List_First : InsÃ¨re les Ã©lÃ©ments au dÃ©but de ListeDestination()
+  @#PB_List_Last  : Ajoute des Ã©lÃ©ments Ã  la fin de ListeDestination()
+  @#PB_List_Before: InsÃ¨re les Ã©lÃ©ments avant l'Ã©lÃ©ment courant de ListeDestination()
+  @#PB_List_After : InsÃ¨re les Ã©lÃ©ments aprÃ¨s l'Ã©lÃ©ment courant de ListeDestination()
 @EndFixedFont
 
 @NoReturnValue
   
 @Remarks
-  Cette opération est rapide car les données 
-  elles-même ne sont pas déplacées.
+  Cette opÃ©ration est rapide car les donnÃ©es 
+  elles-mÃªme ne sont pas dÃ©placÃ©es.
 
 @Example
 @Code
@@ -1288,7 +1285,7 @@
   AddElement(B()): B() = "b2"
   AddElement(B()): B() = "b3"
     
-  ; Insère les éléments de A() avant l'élément "b1" de B()
+  ; InsÃ¨re les Ã©lÃ©ments de A() avant l'Ã©lÃ©ment "b1" de B()
   SelectElement(B(), 1)
   MergeLists(A(), B(), #PB_List_Before)
   
@@ -1307,44 +1304,44 @@
 @Function SplitList(ListeSource(), ListeDestination() [, GarderElementCourant])
 
 @Description
-  Découpe une liste en deux.
+  DÃ©coupe une liste en deux.
 
 @Parameter "ListeSource()"
-  La liste à partir de laquelle les éléments 
-  seront déplacés. L'élément courant de la 
-  liste précise le point de division de la 
-  liste. S'il n'y a pas d'élément courant, 
-  alors tous les éléments restent dans 
+  La liste Ã  partir de laquelle les Ã©lÃ©ments 
+  seront dÃ©placÃ©s. L'Ã©lÃ©ment courant de la 
+  liste prÃ©cise le point de division de la 
+  liste. S'il n'y a pas d'Ã©lÃ©ment courant, 
+  alors tous les Ã©lÃ©ments restent dans 
   ListeSource().
 
 @Parameter "ListeDestination()"
-  La liste vers laquelle les éléments seront 
-  déplacés. Tous les éléments existants dans 
-  cette liste sont supprimés avant l'ajout 
-  des nouveaux éléments.
+  La liste vers laquelle les Ã©lÃ©ments seront 
+  dÃ©placÃ©s. Tous les Ã©lÃ©ments existants dans 
+  cette liste sont supprimÃ©s avant l'ajout 
+  des nouveaux Ã©lÃ©ments.
 
 @OptionalParameter "GarderElementCourant"
-  Indique si l'élément courant de 
+  Indique si l'Ã©lÃ©ment courant de 
   ListeSource() reste dans ListeSource() ou 
-  s'il est déplacé vers ListeDestination().
+  s'il est dÃ©placÃ© vers ListeDestination().
 @FixedFont  
-  @#True  : L'élément courant reste dans ListeSource(). 
-  @#False : L'élément courant est déplacé vers ListeDestination() (par défaut).
+  @#True  : L'Ã©lÃ©ment courant reste dans ListeSource(). 
+  @#False : L'Ã©lÃ©ment courant est dÃ©placÃ© vers ListeDestination() (par dÃ©faut).
 @EndFixedFont
 
 @NoReturnValue
   
 @Remarks
-  Cette opération est rapide car les données 
-  elles-même ne sont pas déplacées.
+  Cette opÃ©ration est rapide car les donnÃ©es 
+  elles-mÃªme ne sont pas dÃ©placÃ©es.
 
 @Remarks
-  Si 'GarderElementCourant' est fixé à @#True 
-  alors le nouvel élément courant dans 
-  ListeSource() sera l'élément précédent de 
-  la liste. S'il n'y a pas d'élément précédent 
-  alors la liste n'aura plus d'élément courant. 
-  La ListeDestination() n'aura aucun élément 
+  Si 'GarderElementCourant' est fixÃ© Ã  @#True 
+  alors le nouvel Ã©lÃ©ment courant dans 
+  ListeSource() sera l'Ã©lÃ©ment prÃ©cÃ©dent de 
+  la liste. S'il n'y a pas d'Ã©lÃ©ment prÃ©cÃ©dent 
+  alors la liste n'aura plus d'Ã©lÃ©ment courant. 
+  La ListeDestination() n'aura aucun Ã©lÃ©ment 
   courant.
    
 @Example
@@ -1357,7 +1354,7 @@
     A() = i
   Next i
   
-  ; Coupe en deux la liste A() à l'élément 5 et déplace les éléments restants dans la liste B()
+  ; Coupe en deux la liste A() Ã  l'Ã©lÃ©ment 5 et dÃ©place les Ã©lÃ©ments restants dans la liste B()
   SelectElement(A(), 5)
   SplitList(A(), B())
   

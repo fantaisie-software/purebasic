@@ -48,11 +48,16 @@ Procedure CreateAutoCompleteWindow()
   ; Create the autocomplete window (hidden), so it is later only hidden/shown
   ;
   
-  ; Note: I tried to remove the taskbar icon for linux, but the GTK_WINDOW_POPUP hack
-  ;       (which does that well) has other trouble. (for example the window focus is not
-  ;       properly managed) So we do not use this.
+  Flags = #PB_Window_Invisible | #PB_Window_BorderLess
   
-  If OpenWindow(#WINDOW_AutoComplete, 0, 0, 0, 0, "", #PB_Window_Invisible | #PB_Window_BorderLess, WindowID(#WINDOW_Main))
+  CompilerIf #CompileLinuxQt
+    ; TODO-QT
+    ; Note: This removes the taskbar button for the window in Qt, but it breaks the key forwarding in AutoComplete_QtEventFilter()
+    ;       in some way for keyboard shortcuts so this is disabled for the moment
+    ; Flags | #PB_Window_Tool ; removes the taskbar button
+  CompilerEndIf
+  
+  If OpenWindow(#WINDOW_AutoComplete, 0, 0, 0, 0, "", Flags, WindowID(#WINDOW_Main))
     ListViewGadget(#GADGET_AutoComplete_List, 0, 0, 0, 0)
     
     CompilerIf #CompileLinuxGtk
@@ -1191,7 +1196,7 @@ Procedure AutoCompleteWindowEvents(EventID)
           
         Case #GADGET_AutoComplete_List
           CompilerIf #CompileLinux
-            If EventType() = #PB_EventType_FirstCustomValue
+            If EventType() = #EVENTTYPE_WordUpdate
               AutoComplete_WordUpdate(EventData())
             EndIf
           CompilerEndIf
@@ -1423,7 +1428,7 @@ EndProcedure
 CompilerIf #CompileLinux
   ; Move WordUpdate from Scintilla Callback to Event-Loop
   Macro AutoComplete_WordUpdate(IsInitial=#False)
-    PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #PB_EventType_FirstCustomValue, IsInitial)
+    PostEvent(#PB_Event_Gadget, #WINDOW_AutoComplete, #GADGET_AutoComplete_List, #EVENTTYPE_WordUpdate, IsInitial)
   EndMacro
 CompilerEndIf
 

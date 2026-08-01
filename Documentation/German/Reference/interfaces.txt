@@ -1,4 +1,4 @@
-@Title Interfaces
+ï»¿@Title Interfaces
 
 @Syntax
 
@@ -11,39 +11,39 @@
 
   @Keyword Interfaces werden benutzt, um auf objektorientierte Module wie COM (Component Object Model) oder DirectX 
   Dynamic Libraries (DLL) zuzugreifen. Diese Art von Bibliotheken (Libraries) werden unter Windows mehr 
-  und mehr üblich und durch die Verwendung von Interfaces wird der einfache Zugriff auf diese Module (ohne
+  und mehr Ã¼blich und durch die Verwendung von Interfaces wird der einfache Zugriff auf diese Module (ohne
   Performanz-Verlust) realisiert.
   @LineBreak
-  Sie legen auch die Basis für objektorientiertes Programmieren innerhalb von PureBasic, erfordern zu dessen
+  Sie legen auch die Basis fÃ¼r objektorientiertes Programmieren innerhalb von PureBasic, erfordern zu dessen
   Realisierung jedoch einige fortgeschrittene Kenntnisse. Die meisten der Standard Windows Interfaces 
-  sind bereits in einer Resident-Datei implementiert, was die direkte Nutzung dieser Objekte ermöglicht. @LineBreak
+  sind bereits in einer Resident-Datei implementiert, was die direkte Nutzung dieser Objekte ermÃ¶glicht. @LineBreak
   @LineBreak
   Der optionale @Keyword Extends Parameter kann verwendet werden, um ein Interface mit neuen Funktionen eines weiteren Interfaces 
-  zu erweitern (diese Funktionen werden in objektorientierten (OO) Sprachen wie C++ oder Java üblicherweise 
+  zu erweitern (diese Funktionen werden in objektorientierten (OO) Sprachen wie C++ oder Java Ã¼blicherweise 
   'Methoden' genannt). Alle im erweiterten (extended) Interface enthaltenen Funktionen werden im neuen 
-  Interface verfügbar und werden vor die neuen Funktionen platziert. Dies ist nützlich, um grundlegende 
-  Vererbung von Objekten durchzuführen. @LineBreak
+  Interface verfÃ¼gbar und werden vor die neuen Funktionen platziert. Dies ist nÃ¼tzlich, um grundlegende 
+  Vererbung von Objekten durchzufÃ¼hren. @LineBreak
   @LineBreak
-  @ReferenceLink "dim" "Arrays" können mit Hilfe des @Keyword Array Schlüsselworts als Parameter übergeben werden,
-  @ReferenceLink "newlist" "Linked Lists" mittels des @Keyword List Schlüsselworts und @ReferenceLink "newmap" "Maps"
-  mittels des @Keyword Map Schlüsselworts.
-  @LineBreak
-  @LineBreak
-  Ein Rückgabewert-Typ kann in der Interface-Deklaration definiert werden, indem hinter der Methode der entsprechende
-  Typ ergänzt wird.
+  @ReferenceLink "dim" "Arrays" kÃ¶nnen mit Hilfe des @Keyword Array SchlÃ¼sselworts als Parameter Ã¼bergeben werden,
+  @ReferenceLink "newlist" "Linked Lists" mittels des @Keyword List SchlÃ¼sselworts und @ReferenceLink "newmap" "Maps"
+  mittels des @Keyword Map SchlÃ¼sselworts.
   @LineBreak
   @LineBreak
-  @ReferenceLink "compilerfunctions" "SizeOf" kann mit Interfaces benutzt werden, um die Größe des Interface zu ermitteln. 
+  Ein RÃ¼ckgabewert-Typ kann in der Interface-Deklaration definiert werden, indem hinter der Methode der entsprechende
+  Typ ergÃ¤nzt wird.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "compilerfunctions" "SizeOf" kann mit Interfaces benutzt werden, um die GrÃ¶ÃŸe des Interface zu ermitteln. 
   @ReferenceLink "compilerfunctions" "OffsetOf" kann verwendet werden, um den Index der angegebenen Funktion zu ermitteln. 
   @LineBreak
   @LineBreak
-  Die @ReferenceLink "pseudotypes" "Pseudotypes" können für die Parameter der Funktion verwendet werden, jedoch
-  nicht für den Rückgabewert.
+  Die @ReferenceLink "pseudotypes" "Pseudotypes" kÃ¶nnen fÃ¼r die Parameter der Funktion verwendet werden, jedoch
+  nicht fÃ¼r den RÃ¼ckgabewert.
   @LineBreak
   @LineBreak
-  Hinweis: Das Konzept von Objekten und die innerhalb von PureBasic für ihre Verwendung vorgesehenen Möglichkeiten
-  wurde hauptsächlich für erfahrene Programmierer entwickelt. Allerdings ist das Verständnis dieser Konzepte 
-  und Fähigkeiten in keiner Weise eine Voraussetzung für die Schaffung professioneller Software oder Spiele.
+  Hinweis: Das Konzept von Objekten und die innerhalb von PureBasic fÃ¼r ihre Verwendung vorgesehenen MÃ¶glichkeiten
+  wurde hauptsÃ¤chlich fÃ¼r erfahrene Programmierer entwickelt. Allerdings ist das VerstÃ¤ndnis dieser Konzepte 
+  und FÃ¤higkeiten in keiner Weise eine Voraussetzung fÃ¼r die Schaffung professioneller Software oder Spiele.
 
 @ExampleFile All Interface.pb
 @ExampleFile All Interface_IUnknown.pb
@@ -52,7 +52,7 @@
 
 @Code
   ; Um auf ein externes Objekt (in einer DLL zum Beispiel) zugreifen zu
-  ; können, muss zuerst das Objekt-Interface deklariert werden:
+  ; kÃ¶nnen, muss zuerst das Objekt-Interface deklariert werden:
   ;
   Interface MyObject
     Move(x,y)
@@ -70,8 +70,8 @@
   ;
   Object2.MyObject = MyCreateObject()
   
-  ; Dann können die gerade definierten Funktionen verwendet werden,
-  ; um auf das gewünschte Objekt zuzugreifen.
+  ; Dann kÃ¶nnen die gerade definierten Funktionen verwendet werden,
+  ; um auf das gewÃ¼nschte Objekt zuzugreifen.
   ;
   Object1\Move(10, 20)
   Object1\Destroy()
@@ -84,7 +84,7 @@
   @Example Beispiel mit 'Extends'
 
 @Code
-  ; Definieren eines einfachen Würfel Interface Objekts.
+  ; Definieren eines einfachen WÃ¼rfel Interface Objekts.
   ;
   Interface Cube
     GetPosition()
@@ -103,7 +103,7 @@
     SetTexture(TextureID)
   EndInterface
   
-  ; Die Interfaces für 3 verschiedene Objekte wurden jetzt definiert, diese Objekte beinhalten:
+  ; Die Interfaces fÃ¼r 3 verschiedene Objekte wurden jetzt definiert, diese Objekte beinhalten:
   ;
   ; - 'Cube', welches die Get/SetPosition() und Get/SetWidth() Funktionen besitzt.
   ; - 'ColoredCube', welches die Get/SetPosition(), Get/SetWidth() und Get/SetColor() Funktionen besitzt.

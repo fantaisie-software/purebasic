@@ -15,6 +15,10 @@
 #Project_Open_LoadMain    = 3
 #Project_Open_LoadNone    = 4
 
+; Filter text for the ProjectFiles() list.
+Global ProjectInfoFilterText$
+Global ProjectInfoFilter
+
 ; Some helpers for the XML reading/writing
 ;
 Procedure NewSection(*Main, Name$)
@@ -142,6 +146,14 @@ Procedure AddProjectBuildMenuEntries()
         MenuItem(#MENU_BuildTarget_Start+Index, ProjectTargets()\Name$)
       EndIf
     Next ProjectTargets()
+  EndIf
+EndProcedure
+
+Procedure ProjectInfo_InBasePath(Base$, Filename$)
+  If Len(Base$) < Len(Filename$) And CompareMemoryString(@Base$, @Filename$, #PATH_CaseInsensitive, Len(Base$)) = #PB_String_Equal
+    ProcedureReturn #True
+  Else
+    ProcedureReturn #False
   EndIf
 EndProcedure
 
@@ -433,18 +445,22 @@ Procedure ResizeProjectInfo(Width, Height)
   CompilerEndIf
   
   ; size for other parts
-  PartHeight = (Height-60-InfoHeight) / 2
+  PartHeight = Height-40-InfoHeight - Button1Height
+  PartFilesHeight = PartHeight * 3 / 5
+  PartProjectHeight = PartHeight - PartFilesHeight
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 20-BorderOffset, Width-40, InfoHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameProject, 20-BorderOffset, 10-BorderOffset, Width-40, InfoHeight)
+  ResizeGadget(#GADGET_ProjectInfo_Info, 30-BorderOffset, 15+ProjectInfoFrameHeight-BorderOffset, Width-65-ButtonWidth, InfoHeight-15-ProjectInfoFrameHeight)
   ResizeGadget(#GADGET_ProjectInfo_OpenOptions, Width-30-ButtonWidth-BorderOffset, 25+ProjectInfoFrameHeight-BorderOffset, ButtonWidth, Button1Height)
   ResizeGadget(#GADGET_ProjectInfo_OpenCompilerOptions, Width-30-ButtonWidth-BorderOffset, 30+ProjectInfoFrameHeight+Button1Height-BorderOffset, ButtonWidth, Button1Height)
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+30-BorderOffset, Width-40, PartHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Files, 30-BorderOffset, InfoHeight+35+ProjectInfoFrameHeight-BorderOffset, Width-60, PartHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameFiles, 20-BorderOffset, InfoHeight+20-BorderOffset, Width-40, PartFilesHeight+Button1Height+5)
+  ResizeGadget(#GADGET_ProjectInfo_FilterInput, 30-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
+  ResizeGadget(#GADGET_ProjectInfo_SortFiles, 240-BorderOffset, InfoHeight+25+ProjectInfoFrameHeight-BorderOffset, 200, Button1Height)
+  ResizeGadget(#GADGET_ProjectInfo_Files, 30-BorderOffset, InfoHeight+30+ProjectInfoFrameHeight+Button1Height-BorderOffset, Width-60, PartFilesHeight-15-ProjectInfoFrameHeight)
   
-  ResizeGadget(#GADGET_ProjectInfo_FrameTargets, 20-BorderOffset, InfoHeight+PartHeight+40-BorderOffset, Width-40, PartHeight)
-  ResizeGadget(#GADGET_ProjectInfo_Targets, 30-BorderOffset, InfoHeight+PartHeight+45+ProjectInfoFrameHeight-BorderOffset, Width-60, PartHeight-15-ProjectInfoFrameHeight)
+  ResizeGadget(#GADGET_ProjectInfo_FrameTargets, 20-BorderOffset, InfoHeight+PartFilesHeight+30+Button1Height-BorderOffset, Width-40, PartProjectHeight)
+  ResizeGadget(#GADGET_ProjectInfo_Targets, 30-BorderOffset, InfoHeight+PartFilesHeight+35+Button1Height+ProjectInfoFrameHeight-BorderOffset, Width-60, PartProjectHeight-15-ProjectInfoFrameHeight)
   
   CompilerIf #CompileWindows
     ; Will size the middle columns small, and the last as big as possible
@@ -459,6 +475,7 @@ Procedure ResizeProjectInfo(Width, Height)
         SendMessage_(GadgetID(#GADGET_ProjectInfo_Targets), #LVM_SETCOLUMNWIDTH, i, #LVSCW_AUTOSIZE_USEHEADER)
       EndIf
     Next i
+    
   CompilerEndIf
   
 EndProcedure
@@ -474,7 +491,7 @@ EndProcedure
 ; Apply project data changes
 Procedure UpdateProjectInfo()
   If *ProjectInfo
-    
+    Base$ = GetPathPart(ProjectFile$)
     ; Project Info
     ;
     Text$ = Language("Project","ProjectName")+": " + ProjectName$ + #NewLine
@@ -497,22 +514,54 @@ Procedure UpdateProjectInfo()
     ; File List
     ;
     ClearGadgetItems(#GADGET_ProjectInfo_Files)
-    ForEach ProjectFiles()
-      Text$ = CreateRelativePath(GetPathPart(ProjectFile$), ProjectFiles()\Filename$) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoLoad) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowWarning) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\AutoScan) + Chr(10)
-      Text$ + ProjectInfo_Boolean(ProjectFiles()\ShowPanel) + Chr(10)
+    
+    ; copied ProjectFiles() to ProjectInfoFiles() and sorted it on PanelState$ (overwritten) to preserve the default sorting of projectfiles()
+    NewList ProjectInfoFiles.ProjectFile()
+    CopyList(ProjectFiles(), ProjectInfoFiles())
+    
+    ForEach ProjectInfoFiles()
+      ProjectInfoFiles()\SortIndex = ListIndex(ProjectInfoFiles())          ; ProjectFile() index
+      RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
+      If ProjectInfo_InBasePath(Base$, ProjectInfoFiles()\FileName$) = #False
+        ProjectInfoFiles()\PanelState$ = "2" + RelativePathFilename$         ;ExternalBase
+      Else
+        
+        If Right(GetPathPart(RelativePathFilename$), 1) = #Separator
+          ProjectInfoFiles()\PanelState$ = "1" + RelativePathFilename$       ;Directory
+        Else
+          ProjectInfoFiles()\PanelState$ = "0" + RelativePathFilename$       ;ProjectFile
+        EndIf
+      EndIf
+    Next ProjectInfoFiles()
+    
+    If GetGadgetState(#GADGET_ProjectInfo_SortFiles) = #PB_Checkbox_Checked
+      SortStructuredList(ProjectInfoFiles(), #PB_Sort_Ascending,  OffsetOf(ProjectFile\PanelState$), #PB_String)
+    EndIf
+    
+    ForEach ProjectInfoFiles()
+      ; Filter the project list
+      RelativePathFilename$  = CreateRelativePath(GetPathPart(ProjectFile$), ProjectInfoFiles()\Filename$)
+      If ProjectInfoFilter
+        If Not FindString(RelativePathFilename$, ProjectInfoFilterText$, 1, #PB_String_NoCase)
+          Continue
+        EndIf
+      EndIf
       
-      Size = FileSize(ProjectFiles()\Filename$)
+      Text$ = RelativePathFilename$ + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\AutoLoad) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\ShowWarning) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\AutoScan) + Chr(10)
+      Text$ + ProjectInfo_Boolean(ProjectInfoFiles()\ShowPanel) + Chr(10)
+      
+      Size = FileSize(ProjectInfoFiles()\Filename$)
       If Size < 0 ; file missing
         Text$ + Chr(10) + Chr(10)
       Else
         Text$ + StrByteSize(Size) + Chr(10)
-        Text$ + FormatDate(Language("Project","FileDateFormat"), GetFileDate(ProjectFiles()\Filename$, #PB_Date_Modified))
+        Text$ + FormatDate(Language("Project","FileDateFormat"), GetFileDate(ProjectInfoFiles()\Filename$, #PB_Date_Modified))
       EndIf
       
-      If ProjectFiles()\AutoScan
+      If ProjectInfoFiles()\AutoScan
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_FileScanned)
       Else
         ImageID = OptionalImageID(#IMAGE_ProjectPanel_File)
@@ -520,8 +569,10 @@ Procedure UpdateProjectInfo()
       AddGadgetItem(#GADGET_ProjectInfo_Files, -1, Text$, ImageID)
       
       ; Associate the ProjectFile structure (for the Popup menu)
+      SelectElement(ProjectFiles(), ProjectInfoFiles()\SortIndex)
       SetGadgetItemData(#GADGET_ProjectInfo_Files, CountGadgetItems(#GADGET_ProjectInfo_Files)-1, @ProjectFiles())
-    Next ProjectFiles()
+    Next ProjectInfoFiles()
+    FreeList(ProjectInfoFiles())
     
     ; Target list
     ;
@@ -576,6 +627,19 @@ Procedure UpdateProjectInfo()
   
 EndProcedure
 
+Procedure ProjectInfo_Filter(Text$)
+  
+  If Asc(Text$)
+    ProjectInfoFilter = #True
+  Else
+    ProjectInfoFilter = #False
+  EndIf
+  
+  ProjectInfoFilterText$ = Text$
+  UpdateProjectInfo()
+  
+EndProcedure
+
 ; Apply preferences changes
 Procedure UpdateProjectInfoPreferences()
   If *ProjectInfo
@@ -588,6 +652,7 @@ Procedure UpdateProjectInfoPreferences()
     
     SetGadgetText(#GADGET_ProjectInfo_FrameProject, Language("Project","ProjectInfo"))
     SetGadgetText(#GADGET_ProjectInfo_FrameFiles, Language("Project","FileTab"))
+    SetGadgetText(#GADGET_ProjectInfo_SortFiles, Language("Project","FileListSort"))
     SetGadgetText(#GADGET_ProjectInfo_FrameTargets, Language("Project","ProjectTargets"))
     
     SetGadgetText(#GADGET_ProjectInfo_OpenOptions, Language("Project","ProjectOptions"))
@@ -621,11 +686,25 @@ EndProcedure
 
 ; Enter key handling for project file & target list
 ; For Windows this is done when handling the #MENU_Scintilla_Enter shortcut in UserInterface.pb
-CompilerIf #CompileLinux
+CompilerIf #CompileLinuxGtk
   ProcedureC ProjectInfo_EnterKeyHandler(*Widget, *Event.GdkEventKey, Gadget)
     Debug "Key event: " + *Event\keyval
     If *Event\keyval = #GDK_Return
       PostEvent(#PB_Event_Gadget, #WINDOW_Main, Gadget, #PB_EventType_LeftDoubleClick)
+      
+    ElseIf *Event\keyval = $FE20 ; #GDK_LeftTab
+      If (*Event\state & (1 << 2)) ; Ctrl
+        If (*Event\state & 1) ; Shift
+          If KeyboardShortcuts(#MENU_NextOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(0)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_NextOpenedFile)
+          ElseIf KeyboardShortcuts(#MENU_PreviousOpenedFile) = #PB_Shortcut_Control|#PB_Shortcut_Shift|#PB_Shortcut_Tab
+            ;ChangeCurrentFile(1)
+            PostEvent(#PB_Event_Menu, #WINDOW_Main, #MENU_PreviousOpenedFile)
+          EndIf
+        EndIf
+      EndIf
+      
     EndIf
   EndProcedure
 CompilerEndIf
@@ -654,6 +733,10 @@ Procedure AddProjectInfo()
       ButtonGadget(#GADGET_ProjectInfo_OpenCompilerOptions, 0, 0, 0, 0, Language("Project","CompilerOptions"))
       
       FrameGadget(#GADGET_ProjectInfo_FrameFiles, 0, 0, 0, 0, Language("Project","FileTab"))
+      StringGadget(#GADGET_ProjectInfo_FilterInput, 0, 0, 0, 0, "")
+      
+      CheckBoxGadget(#GADGET_ProjectInfo_SortFiles, 0, 0, 0, 0, Language("Project","FileListSort"))
+      SetGadgetState(#GADGET_ProjectInfo_SortFiles, ProjectFilesSort)
       ListIconGadget(#GADGET_ProjectInfo_Files, 0, 0, 300, 0, Language("Project","Filename"), 300, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_MultiSelect)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 1, Language("Project","FileLoadShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Files, 2, Language("Project","FileWarnShort"), 60)
@@ -682,7 +765,7 @@ Procedure AddProjectInfo()
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 7, Language("Project","FormatShort"), 60)
       AddGadgetColumn(#GADGET_ProjectInfo_Targets, 8, Language("Project","InputFile"), 200)
       
-      CompilerIf #CompileLinux
+      CompilerIf #CompileLinuxGtk
         GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Files), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Files)
         GTKSignalConnect(GadgetID(#GADGET_ProjectInfo_Targets), "key-press-event", @ProjectInfo_EnterKeyHandler(), #GADGET_ProjectInfo_Targets)
       CompilerEndIf
@@ -953,6 +1036,7 @@ Procedure LoadProject(Filename$)
       ; Project file list
       ; (load this even in commandline build mode, so the project is correctly saved back!)
       ;
+      
       *Files = GetSection(*Main, "files")
       If *Files
         *File = ChildXMLNode(*Files)
@@ -1033,10 +1117,12 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableASM     = Xml_Boolean(GetXMLAttribute(*Entry, "asm"))
                     ProjectTargets()\EnableThread  = Xml_Boolean(GetXMLAttribute(*Entry, "thread"))
                     ProjectTargets()\EnableXP      = Xml_Boolean(GetXMLAttribute(*Entry, "xpskin"))
+                    ProjectTargets()\EnableWayland = Xml_Boolean(GetXMLAttribute(*Entry, "wayland"))
                     ProjectTargets()\EnableAdmin   = Xml_Boolean(GetXMLAttribute(*Entry, "admin"))
                     ProjectTargets()\EnableUser    = Xml_Boolean(GetXMLAttribute(*Entry, "user"))
                     ProjectTargets()\DPIAware      = Xml_Boolean(GetXMLAttribute(*Entry, "dpiaware"))
                     ProjectTargets()\DllProtection = Xml_Boolean(GetXMLAttribute(*Entry, "dllprotection"))
+                    ProjectTargets()\SharedUCRT    = Xml_Boolean(GetXMLAttribute(*Entry, "shareducrt"))
                     ProjectTargets()\EnableOnError = Xml_Boolean(GetXMLAttribute(*Entry, "onerror"))
                     ProjectTargets()\Debugger      = Xml_Boolean(GetXMLAttribute(*Entry, "debug"))
                     ProjectTargets()\EnableUnicode = Xml_Boolean(GetXMLAttribute(*Entry, "unicode"))
@@ -1247,7 +1333,7 @@ Procedure LoadProject(Filename$)
             
             If ProjectOpenMode = #Project_Open_LoadAll Or (ProjectOpenMode = #Project_Open_LoadLast And ProjectFiles()\LastOpen) Or (ProjectOpenMode = #Project_Open_LoadDefault And ProjectFiles()\AutoLoad)
               PushListPosition(ProjectFiles())
-              LoadSourceFile(ProjectFiles()\FileName$) ; can change the ProjectFiles() index
+              LoadSourceFile(ProjectFiles()\FileName$, 1, 0) ; can change the ProjectFiles() index
               
               ; Flush events. So when many sources are opened at once, the User can see a bit the
               ; progress, instead of just an unresponsive window for quite a while.
@@ -1486,6 +1572,9 @@ Procedure SaveProject(ShowErrors)
       If ProjectTargets()\EnableXP
         SetXMLAttribute(*Options, "xpskin",  "1")
       EndIf
+      If ProjectTargets()\EnableWayland
+        SetXMLAttribute(*Options, "wayland",  "1")
+      EndIf
       If ProjectTargets()\EnableAdmin
         SetXMLAttribute(*Options, "admin",   "1")
       EndIf
@@ -1497,6 +1586,9 @@ Procedure SaveProject(ShowErrors)
       EndIf
       If ProjectTargets()\DllProtection
         SetXMLAttribute(*Options, "dllprotection",  "1")
+      EndIf
+      If ProjectTargets()\SharedUCRT
+        SetXMLAttribute(*Options, "shareducrt",  "1")
       EndIf
       If ProjectTargets()\EnableOnError
         SetXMLAttribute(*Options, "onerror", "1")
@@ -2646,7 +2738,10 @@ Procedure OpenProjectOptions(NewProject)
       ClearList(ProjectConfig()) ; no files in the list yet
       ProjectOptionsDialog\GuiUpdate() ; to resize from the new strings
       
-      DisableWindow(#WINDOW_Main, 1)
+      CompilerIf #CompileLinuxQt = 0
+        ; On QT disabling the main window disables its child too so this will lock the IDE
+        DisableWindow(#WINDOW_Main, 1)
+      CompilerEndIf
       SetActiveGadget(#GADGET_Project_File)
 
     Else

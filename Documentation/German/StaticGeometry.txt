@@ -1,7 +1,7 @@
-;
+ï»¿;
 ;     StaticGeometry library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library StaticGeometry
@@ -49,19 +49,19 @@
 @Function Ergebnis = IsStaticGeometry(#StaticGeometry)
 
 @Description
-  Überprüft, ob die angegebene #StaticGeometry eine gültige und korrekt initialisierte
+  ÃœberprÃ¼ft, ob die angegebene #StaticGeometry eine gÃ¼ltige und korrekt initialisierte
   statische Geometrie-Form ist.
 
 @Parameter "#StaticGeometry"
   Die zu verwendende statische Geometrie-Form.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #StaticGeometry eine gültige statische
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #StaticGeometry eine gÃ¼ltige statische
   Geometrie-Form ist, und andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
+  ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert, andernfalls wird Null zurÃ¼ckgegeben.
   Dies ist ein guter Weg, um sicher zu stellen, dass eine statische Geometrie-Form bereit zur
   Verwendung ist.
 
@@ -72,7 +72,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateStaticGeometry(#StaticGeometry, Breite, Höhe, Länge, SchattenAktivieren)
+@Function Ergebnis = CreateStaticGeometry(#StaticGeometry, Breite, HÃ¶he, LÃ¤nge, SchattenAktivieren)
 
 @Description
   Erstellt eine leere statische Geometrie-Form.
@@ -85,25 +85,25 @@
 @Parameter "Breite"
   Breite (in Welt-Einheiten, englisch "world units") der statischen Geometrie-Form.
 
-@Parameter "Höhe"
-  Höhe (in Welt-Einheiten) der statischen Geometrie-Form.
+@Parameter "HÃ¶he"
+  HÃ¶he (in Welt-Einheiten) der statischen Geometrie-Form.
 
-@Parameter "Länge"
-  Länge (in Welt-Einheiten) der statischen Geometrie-Form.
+@Parameter "LÃ¤nge"
+  LÃ¤nge (in Welt-Einheiten) der statischen Geometrie-Form.
 
 @Parameter "SchattenAktivieren"
   Aktiviert oder deaktiviert das dynamische Werfen von Schatten der statischen Geometrie-Form.
   Auf @#True gesetzt zum Aktivieren, andernfalls auf @#False.
   
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die statische Geometrie-Form erfolgreich
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die statische Geometrie-Form erfolgreich
   erstellt wurde, und Null wenn nicht. Sofern @#PB_Any als
   #StaticGeometry Parameter verwendet wurde, dann wird bei Erfolg die generierte
-  Nummer zurückgegeben.
+  Nummer zurÃ¼ckgegeben.
 
 @Remarks
   Wenn zuvor eine andere statische Geometrie-Form mit der gleichen #StaticGeometry Nummer
-  geladen wurde, dann wird diese ältere statische Geometrie-Form beim Erstellen der neuen
+  geladen wurde, dann wird die Ã¤ltere statische Geometrie-Form beim Erstellen der neuen
   automatisch freigegeben.
 
 @SeeAlso
@@ -116,9 +116,9 @@
 @Function AddStaticGeometryEntity(#StaticGeometry, EntityID, x, y, z [, ScaleX, ScaleY, ScaleZ [, RotationX, RotationY, RotationZ [, RotationW, Modus]]])
 
 @Description
-  Fügt ein Entity (Objekt) zur angegebenen #StaticGeometry hinzu.
-  Das originale Entity wird durch diese Funktion unverändert gelassen und kann nach
-  diesem Hinzufügen freigegeben werden. Das gleiche Entity kann mehrmals hinzugefügt
+  FÃ¼gt ein Entity (Objekt) zur angegebenen #StaticGeometry hinzu.
+  Das originale Entity wird durch diese Funktion unverÃ¤ndert gelassen und kann nach
+  diesem HinzufÃ¼gen freigegeben werden. Das gleiche Entity kann mehrmals hinzugefÃ¼gt
   werden.
 
 @Parameter "#StaticGeometry"
@@ -126,33 +126,33 @@
 
 @Parameter "EntityID"
   Die @Link "Entity/EntityID" "EntityID" des Entity (Objekts), welches zur statischen
-  Geometrie-Form hinzugefügt werden soll.
+  Geometrie-Form hinzugefÃ¼gt werden soll.
 
 @Parameter "x, y, z"
   Die Position des Entity innerhalb der statischen Geometrie-Form.
 
 @OptionalParameter "ScaleX, ScaleY, ScaleZ""
-  Der Skalierungsfaktor, welcher für das hinzugefügte Entity gelten soll.
+  Der Skalierungsfaktor, welcher fÃ¼r das hinzugefÃ¼gte Entity gelten soll.
   
 @OptionalParameter "RotationX, RotationY, RotationZ"
-  Die Rotation, welche auf das hinzugefügte Entity angewandt werden soll.
+  Die Rotation, welche auf das hinzugefÃ¼gte Entity angewandt werden soll.
 
 @OptionalParameter "RotationW"
-  Die Rotation, welche auf das hinzugefügte Entity angewandt werden soll (nur für @#PB_Orientation_Quaternion und @#PB_Orientation_Direction verwendet).
+  Die Rotation, welche auf das hinzugefÃ¼gte Entity angewandt werden soll (nur fÃ¼r @#PB_Orientation_Quaternion und @#PB_Orientation_Direction verwendet).
 
 @OptionalParameter "Modus"
   Der Rotations-Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Orientation_PitchYawRoll: 'RotationX' ("pitch" oder auch "Nick"), 'RotationY' ("yaw" oder auch "Gier"), 'RotationZ' ("roll" oder auch "Roll"),
                                 zugewiesen in dieser Reihenfolge (Standard).
-  @#PB_Orientation_Quaternion  : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' für Quaternion-Werte
-  @#PB_Orientation_Direction   : 'RotationX', 'RotationY', 'RotationZ' für den Richtungsvektor und 'RotationW' für die Rotation (Roll).
+  @#PB_Orientation_Quaternion  : 'RotationX', 'RotationY', 'RotationZ', 'RotationW' fÃ¼r Quaternion-Werte
+  @#PB_Orientation_Direction   : 'RotationX', 'RotationY', 'RotationZ' fÃ¼r den Richtungsvektor und 'RotationW' fÃ¼r die Rotation (Roll).
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Sobald alle Entities (Objekte) hinzugefügt wurden, muss der Befehl @@BuildStaticGeometry
+  Sobald alle Entities (Objekte) hinzugefÃ¼gt wurden, muss der Befehl @@BuildStaticGeometry
   aufgerufen werden, um die statische Geometrie-Form zu generieren.
 
 @SeeAlso
@@ -165,8 +165,8 @@
 @Function BuildStaticGeometry(#StaticGeometry)
 
 @Description
-  Erstellt die endgültige statische Geometrie-Form. Einmal erstellt, kann eine statische
-  Geometrie-Form nicht mehr geändert werden.  
+  Erstellt die endgÃ¼ltige statische Geometrie-Form. Einmal erstellt, kann eine statische
+  Geometrie-Form nicht mehr geÃ¤ndert werden.  
 
 @Parameter "#StaticGeometry"
   Die zu verwendende statische Geometrie-Form.

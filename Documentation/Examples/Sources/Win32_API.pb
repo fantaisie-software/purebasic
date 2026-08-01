@@ -31,7 +31,7 @@ If OpenWindow(0, 100, 100, 195, 260, "PureBasic Window")
 
     ;
     ; Here we use directly the Windows API to draw an ellipse.
-    ; All the Windows® functions are supported !
+    ; All the Windows functions are supported !
     ;
   
     *DC = GetDC_(WindowID(0))          ; Get the output pointer

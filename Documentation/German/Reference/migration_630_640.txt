@@ -1,0 +1,94 @@
+﻿@Title Migration von PureBasic 6.30 nach 6.40
+
+Da der gesamte String-Manager für Version 6.40 überarbeitet wurde, funktionieren einige Sonderfälle mit Strings nicht mehr.
+Zur Information: PureBasic-Strings verwenden nun ein Präfix mit zwischengespeicherter Länge, sodass die Verarbeitung nicht
+mehr beim ersten Nullzeichen abbricht.
+
+@Section String Bibliothek
+
+@LineBreak
+Das Flag @#PB_String_InPlace wurde bei @@ReplaceString entfernt.
+@Code
+  ; Alt
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; Neu
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+Dies ist etwas langsamer als zuvor. Falls Sie eine sehr schnelle Zeichenersetzung direkt im String ("inplace") benötigen,
+können Sie die folgende Methode verwenden. Achtung: Das direkte Bearbeiten des String-Puffers muss mit Bedacht erfolgen,
+um einen Pufferüberlauf zu vermeiden.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Hello World !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section Win32 API Aufruf
+
+Ein üblicher Anwendungsfall beim Aufruf von Win32-API-Befehlen, die einen String zurückgeben, war die Verwendung von @@Space,
+um einen Speicherpuffer vorab zu reservieren... ein "Hack". Dadurch konnte die API direkt in den Speicher dieses
+Strings schreiben. Dabei wird jedoch nicht der interne Längen-Cache des neuen String-Managers aktualisiert.
+@LineBreak
+Um sicherzustellen, dass die Länge des Strings nach einem API-Aufruf korrekt ist, muss eine der folgenden Methoden verwendet werden: @LineBreak
+- Fixed String: eine Zeichenkette fester Länge (z.B. Define MyString.s{260}), die nicht auf den neuen String-Manager
+  mit seiner zwischengespeicherten Länge angewiesen ist @LineBreak
+- Manuelle Aktualisierung: bei Verwendung eines Standard-Strings muss nach dem API-Aufruf die Länge manuell mit
+  @@PeekS aktualisiert werden (z.B. MyString = PeekS(@MyString) @LineBreak
+@LineBreak
+Für die Migration suchen Sie am besten in Ihrem gesamten Code nach @@Space und prüfen, ob es für API-Aufrufe verwendet wird,
+um dann eine der beiden Methoden anzuwenden.
+
+@Code
+  ; Alt
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; gibt immer 260 aus, nicht die tatsächliche Länge des Pfads
+  
+  ; Neu - mit einem fixed String
+  CurrentDirectory${260}
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; gibt die tatsächliche Länge des Pfads aus
+
+  ; New - mit einem Standard-String
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$)    ; stellt sicher, dass die String-Länge korrekt aktualisiert wird
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; gibt die tatsächliche Länge des Pfads aus
+@EndCode
+
+Neben den beiden oben genannten Methoden können Sie auch @@AllocateMemory für Ihre Speicherpuffer verwenden, anstatt einen String zu "missbrauchen".
+Das folgende Beispiel zeigt eine zukunftssichere (und bewährte) Möglichkeit, mit der API mithilfe eines Speicherpuffers zu interagieren:
+
+@Code
+  *Buffer = AllocateMemory(#MAX_PATH * SizeOf(Character))
+  If *Buffer
+    Length = GetModuleFileName_(GetModuleHandle_(#Null$), *Buffer, #MAX_PATH-1)  
+    PureBasicPath$ = PeekS(*Buffer, Length)
+    Debug PureBasicPath$
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode

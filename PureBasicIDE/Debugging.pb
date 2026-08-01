@@ -306,6 +306,8 @@ CompilerIf #DEBUG
                       Case #ITEM_FoldEnd         : Kind$ = "FoldEnd"
                       Case #ITEM_MacroEnd        : Kind$ = "MacroEnd"
                       Case #ITEM_ProcedureEnd    : Kind$ = "ProcedureEnd"
+                      Case #ITEM_InlineASM       : Kind$ = "InlineASM"
+                      Case #ITEM_InlineASMEnd    : Kind$ = "InlineASMEnd"
                       Case #ITEM_Declare         : Kind$ = "Declare"
                       Case #ITEM_Define          : Kind$ = "Define"
                       Case #ITEM_Prototype       : Kind$ = "Prototype"
@@ -488,20 +490,16 @@ CompilerIf #DEBUG
             EndIf
             
           Case #DEBUG_MemoryStats ; memory stats
-            CompilerIf #CompileWindows
-              Protected StringHeap, MemoryBase, MemoryHeap
+            CompilerIf #CompileWindows And  #PB_Compiler_Backend <> #PB_Backend_C
+              Protected MemoryBase, MemoryHeap
               
               ; The needed !extrn are in WindowsDebugging.pb already.
               CompilerIf #CompileX86
-                !mov eax, dword [_PB_StringHeap]
-                !mov [p.v_StringHeap], eax
                 !mov eax, dword [_PB_MemoryBase]
                 !mov [p.v_MemoryBase], eax
                 !mov eax, dword [_PB_Memory_Heap]
                 !mov [p.v_MemoryHeap], eax
               CompilerElse
-                !mov rax, qword [PB_StringHeap]
-                !mov [p.v_StringHeap], rax
                 !mov rax, qword [_PB_MemoryBase]
                 !mov [p.v_MemoryBase], rax
                 !mov rax, qword [PB_Memory_Heap]
@@ -510,8 +508,6 @@ CompilerIf #DEBUG
               
               Content$ = "Process Heap:"+#NewLine+"------------------------------"+#NewLine
               Content$ + HeapStats(GetProcessHeap_())+#NewLine+#NewLine
-              Content$ + "String Heap:"+#NewLine+"------------------------------"+#NewLine
-              Content$ + HeapStats(StringHeap)+#NewLine+#NewLine
               Content$ + "MemoryBase Heap:"+#NewLine+"------------------------------"+#NewLine
               Content$ + HeapStats(MemoryBase)+#NewLine+#NewLine
               Content$ + "AllocateMemory Heap:"+#NewLine+"------------------------------"+#NewLine
@@ -532,7 +528,7 @@ CompilerIf #DEBUG
               
               
             CompilerElse
-              Content$ = "-- Windows only --"
+              Content$ = "-- Windows ASM only --"
             CompilerEndIf
             
         EndSelect

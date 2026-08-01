@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Dialog library documentation
 ;
 ;      (c) 2024 - Fantaisie Software
@@ -12,7 +12,9 @@
   on different operating systems or working with different @LibraryLink "font" "font" size. @LineBreak
   @LineBreak
   The XML definition can be file based, or created on the fly in memory using the @LibraryLink "xml" "XML" library.
- 
+  @LineBreak
+  To find a list of all supported keywords and attributes of this library, see @Link "OpenXMLDialog" "here".
+  
 @CommandList
 
 @ExampleFile All Dialog.pb
@@ -376,6 +378,7 @@
     onchange     = EventProcedure() - #PB_EventType_Change binding (only for gadget which support this event type)
     onfocus      = EventProcedure() - #PB_EventType_Focus binding (only for gadget which support this event type)
     onlostfocus  = EventProcedure() - #PB_EventType_LostFocus binding (only for gadget which support this event type)
+    onresize     = EventProcedure() - #PB_EventType_Resize binding (only for gadget which support this event type)
     ondragstart  = EventProcedure() - #PB_EventType_DragStart binding (only for gadget which support this event type)
     onrightclick = EventProcedure() - #PB_EventType_RightClick binding (only for gadget which support this event type)
     onleftclick  = EventProcedure() - #PB_EventType_LeftClick binding (only for gadget which support this event type)

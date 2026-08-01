@@ -1,10 +1,10 @@
-@Title Procedures
+ï»¿@Title Procedures
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Procedure"><u>Procedure</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#Declare"><u>Declare</u></a></td>
@@ -30,29 +30,29 @@
 
 @Description
 
-  Une procédure est une partie du code indépendante du 
-  programme principal. Elle peut avoir des paramètres et 
+  Une procÃ©dure est une partie du code indÃ©pendante du 
+  programme principal. Elle peut avoir des paramÃ¨tres et 
   ses propres @ReferenceLink "variables" "variables". En 
-  PureBasic, les procédures sont récursives et peuvent 
-  donc s'appeler elles-mêmes. Lors de chaque appel à la 
-  procédure, les variables locales sont automatiquement 
-  initialisées avec la valeur nulle. 
+  PureBasic, les procÃ©dures sont rÃ©cursives et peuvent 
+  donc s'appeler elles-mÃªmes. Lors de chaque appel Ã  la 
+  procÃ©dure, les variables locales sont automatiquement 
+  initialisÃ©es avec la valeur nulle. 
   @LineBreak
   @LineBreak   
-  Pour accéder aux variables du programme principal, ils 
-  faut les partager au préalable en utilisant les mots 
+  Pour accÃ©der aux variables du programme principal, ils 
+  faut les partager au prÃ©alable en utilisant les mots 
   clefs @ReferenceLink "Shared" Shared 
   ou @ReferenceLink "Global" Global (voir aussi: 
   @ReferenceLink "Protected" "Protected" et 
   @ReferenceLink "Static" "Static"). 
   @LineBreak
   @LineBreak  
-  Il est possible d'utiliser des paramètres ayant une valeur 
-  par défaut à condition que cette expression soit 
-  constante et placée en fin de liste des paramètres.
-  Les paramètres ayant une valeur par défaut pourront être 
-  omis lors de l'appel de la procédure, la valeur
-  par défaut de chaque paramètre manquant sera utilisée.
+  Il est possible d'utiliser des paramÃ¨tres ayant une valeur 
+  par dÃ©faut Ã  condition que cette expression soit 
+  constante et placÃ©e en fin de liste des paramÃ¨tres.
+  Les paramÃ¨tres ayant une valeur par dÃ©faut pourront Ãªtre 
+  omis lors de l'appel de la procÃ©dure, la valeur
+  par dÃ©faut de chaque paramÃ¨tre manquant sera utilisÃ©e.
   @LineBreak
   Par exemple: @Keyword Procedure Calcul(num1, num2=0)
   @LineBreak
@@ -61,58 +61,58 @@
   Calcul (2)
   @LineBreak
   @LineBreak  
-  Une procédure peut également recevoir en paramètre des 
+  Une procÃ©dure peut Ã©galement recevoir en paramÃ¨tre des 
   @ReferenceLink "newlist" "listes", des 
   @ReferenceLink "newmap" "maps" et des 
   @ReferenceLink "dim" "tableaux" 
-  à l'aide des mot-clefs @Keyword List, @Keyword Map et 
+  Ã  l'aide des mot-clefs @Keyword List, @Keyword Map et 
   @Keyword Array @LineBreak
   Important: Pour les tableaux vous devrez indiquer 
   le nombre de dimensions. @LineBreak
   Par exemple: Procedure Calcul(Array num(3))
   @LineBreak
-  Ici num() est un tableau à 3 dimensions !
+  Ici num() est un tableau Ã  3 dimensions !
   @LineBreak
   @LineBreak  
-  Une procédure peut renvoyer une valeur de retour. 
-  Pour cela, il faut deux choses. Premièrement, 
-  il faut définir le type de donnée de retour  
-  après @Keyword Procedure qui peut être 'Integer', 'Long', 
+  Une procÃ©dure peut renvoyer une valeur de retour. 
+  Pour cela, il faut deux choses. PremiÃ¨rement, 
+  il faut dÃ©finir le type de donnÃ©e de retour  
+  aprÃ¨s @Keyword Procedure qui peut Ãªtre 'Integer', 'Long', 
   'Float', 'String' ou autre puis utiliser le mot clef 
-  @Keyword ProcedureReturn pour déclencher le retour.
+  @Keyword ProcedureReturn pour dÃ©clencher le retour.
   @LineBreak
-  Attention @Keyword ProcedureReturn sort immédiatement 
-  d'une procédure, même si l'appel est placé à l'intérieur 
+  Attention @Keyword ProcedureReturn sort immÃ©diatement 
+  d'une procÃ©dure, mÃªme si l'appel est placÃ© Ã  l'intÃ©rieur 
   d'une boucle.  @LineBreak
-  Toutefois @Keyword ProcedureReturn ne peut pas être 
-  utilisé pour renvoyer un @ReferenceLink "dim" "tableau", 
+  Toutefois @Keyword ProcedureReturn ne peut pas Ãªtre 
+  utilisÃ© pour renvoyer un @ReferenceLink "dim" "tableau", 
   une @ReferenceLink "newlist" "liste" ou une 
   @ReferenceLink "newmap" "map". Pour cela, passer le 
-  tableau, la liste ou la map en tant que paramètre 
-  dans la procédure.
+  tableau, la liste ou la map en tant que paramÃ¨tre 
+  dans la procÃ©dure.
   @LineBreak
   @LineBreak  
-  Si aucune valeur n'est spécifiée pour @Keyword ProcedureReturn, la valeur renvoyée sera 
-  zéro si le compilateur utilise le back-end C ou le contenu du registre 'eax' en 32 bits 
-  ou 'rax' en 64 bits si le compilateur utilise le back-end ASM. 
-indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne" 
+  Si aucune valeur n'est spÃ©cifiÃ©e pour @Keyword ProcedureReturn, la valeur renvoyÃ©e sera 
+  zÃ©ro si le compilateur utilise le back-end C et pour tous les processeurs gÃ©rÃ©s par PureBasic,
+  ou le contenu du registre 'eax' en 32 bits (processeurs X86) ou 'rax' en 64 bits (processeurs X64) 
+  si le compilateur utilise le back-end ASM, (voir @ReferenceLink "inlinedasm" "assembleur en ligne" 
   pour plus d'information).
   @LineBreak
   @LineBreak
-  Les procédures peuvent également être appelées de 
-  manière asynchrone en utilisant les 
+  Les procÃ©dures peuvent Ã©galement Ãªtre appelÃ©es de 
+  maniÃ¨re asynchrone en utilisant les 
   @LibraryLink "thread" "threads".
   @LineBreak
   @LineBreak  
-  Les procédures peuvent également contenir une 
+  Les procÃ©dures peuvent Ã©galement contenir une 
   @ReferenceLink "data" "DataSection" locale. 
   @LineBreak
   @LineBreak
   @Bold "Note:" 
-  Pour déclarer une procedure partagée dans une DLL, voir 
+  Pour dÃ©clarer une procedure partagÃ©e dans une DLL, voir 
   @ReferenceLink "DLL" "ProcedureDLL" ou 
   @ReferenceLink "DLL" "ProcedureCDLL".@LineBreak
-  Pour renvoyer une chaîne de caractères depuis 
+  Pour renvoyer une chaÃ®ne de caractÃ¨res depuis 
   une DLL, voir @ReferenceLink "DLL" "DLLs". 
 
 @FormatIf HTML
@@ -121,13 +121,12 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 
   @LineBreak
   @LineBreak
-  @Bold "Note:" Pour les programmeurs chevronnés, 
-  @Keyword ProcedureC est disponible pour déclarer la 
-  procédure en utilisant la convention d'appel 'cdecl' 
-  au lieu de 'stdcall'.
+  @Bold "Note:" Pour les programmeurs chevronnÃ©s, 
+  @Keyword ProcedureC est disponible pour dÃ©clarer la 
+  procÃ©dure en utilisant la convention d'appel @InternetLink "https://fr.wikipedia.org/wiki/Convention_d%27appel" "cdecl" au lieu de @InternetLink "https://fr.wikipedia.org/wiki/Convention_d%27appel" "stdcall".
 
 
-@Example procédure qui renvoie une valeur numérique
+@Example procÃ©dure qui renvoie une valeur numÃ©rique
 @Code
   Procedure Maximum(nb1, nb2)
     If nb1>nb2
@@ -145,7 +144,7 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 @EndCode
 
 
-@Example Procedure qui renvoie une chaîne de caractères
+@Example Procedure qui renvoie une chaÃ®ne de caractÃ¨res
 @Code
   Procedure.s Attacher(Texte1$, Texte2$)
     ProcedureReturn Texte1$ + " " + Texte2$
@@ -156,7 +155,7 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 @EndCode
 
 
-@Example Procédure avec un paramètre par défaut
+@Example ProcÃ©dure avec un paramÃ¨tre par dÃ©faut
 @Code
   Procedure a(a, b, c=2)
     Debug c
@@ -167,7 +166,7 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 @EndCode
 
 
-@Example Listes en paramètre
+@Example Listes en paramÃ¨tre
 @Code
   NewList Test.Point()
 
@@ -191,7 +190,7 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 @EndCode
 
 
-@Example Tableau en paramètre
+@Example Tableau en paramÃ¨tre
 @Code
   Dim Tableau.Point(10, 15)
 
@@ -210,12 +209,12 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
   MessageRequester("Tableau", Str(Tableau(1, 2)\x))
 @EndCode
 
-@Example Structure en paramètre
+@Example Structure en paramÃ¨tre
 @Code
   Structure Truc
     a.l
     b.l[2]          ; Tableau statique (Standard C) avec 2 valeurs b[0] et b[1], non redimensionnable
-    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) à c(3,3), redimensionnable avec ReDim()
+    Array c.l(3,3)  ; Tableau dynamique avec 16 valeurs de c(0,0) Ã  c(3,3), redimensionnable avec ReDim()
   EndStructure
 
   MaVar.Truc
@@ -287,18 +286,18 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
   @Keyword Declare[.<type>] nom(<variable1[.<type>]> [, <variable2[.<type>] [= ValeurParDefaut]>, ...])
 
 @Description
-  Dans certains cas, une procédure peut appeler une 
-  autre procédure qui n'a pas été déclarée avant sa 
-  propre définition. Ce cas peut se produire et 
+  Dans certains cas, une procÃ©dure peut appeler une 
+  autre procÃ©dure qui n'a pas Ã©tÃ© dÃ©clarÃ©e avant sa 
+  propre dÃ©finition. Ce cas peut se produire et 
   provoquer une erreur de compilation. @Keyword Declare 
-  permet de traiter ce cas particulier en déclarant 
-  seulement l'en-tête de la procédure. Il est essentiel 
+  permet de traiter ce cas particulier en dÃ©clarant 
+  seulement l'en-tÃªte de la procÃ©dure. Il est essentiel 
   que les attributs de la fonction @Keyword Declare et 
-  la déclaration réelle de la procédure soient 
+  la dÃ©claration rÃ©elle de la procÃ©dure soient 
   identiques (type et ValeurParDefaut compris).
   @LineBreak
   @LineBreak
-  @Bold "Note:" Pour déclarer une procedure partagée dans 
+  @Bold "Note:" Pour dÃ©clarer une procedure partagÃ©e dans 
   une DLL voir @ReferenceLink "DLL" "DeclareDLL" ou
   @ReferenceLink "DLL" "DeclareCDLL".
   
@@ -309,9 +308,9 @@ indéterminée (voir @ReferenceLink "inlinedasm" "assembleur en ligne"
 
 @LineBreak
 @LineBreak  
-  @Bold "Note:" Pour les programmeurs chevronnés, 
-  @Keyword DeclareC est disponible pour déclarer la 
-  procédure en utilisant la convention d'appel 'cdecl' 
+  @Bold "Note:" Pour les programmeurs chevronnÃ©s, 
+  @Keyword DeclareC est disponible pour dÃ©clarer la 
+  procÃ©dure en utilisant la convention d'appel 'cdecl' 
   au lieu de 'stdcall'.
   
   

@@ -131,10 +131,10 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinux     = 0
     #CompileMac       = 0
     #CompileMacCocoa  = 0
-    #CompileMacCarbon = 0
     #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
     #CompileLinuxGtk3 = 0
+    #CompileLinuxQt   = 0
     
     #OS_PureBasic = "Windows"
     
@@ -160,6 +160,7 @@ CompilerSelect #PB_Compiler_OS
     #DEFAULT_CatalogPath        = "Catalogs\"
     #DEFAILT_LibraryViewerPlugin= "Debugger\"
     #DEFAULT_ThemePath          = "Themes\"
+    #DEFAULT_ColorSchemePath    = "ColorSchemes\"
     
     #DEFAULT_HelpPath           = "Help\"
     
@@ -195,16 +196,22 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinux     = 1
     #CompileMac       = 0
     #CompileMacCocoa  = 0
-    #CompileMacCarbon = 0
     
     CompilerIf Subsystem("Gtk2")
       #CompileLinuxGtk  = 1
       #CompileLinuxGtk2 = 1
       #CompileLinuxGtk3 = 0
+      #CompileLinuxQt   = 0
+    CompilerElseIf Subsystem("Qt")
+      #CompileLinuxGtk  = 0
+      #CompileLinuxGtk2 = 0
+      #CompileLinuxGtk3 = 0
+      #CompileLinuxQt   = 1
     CompilerElse
       #CompileLinuxGtk  = 1
       #CompileLinuxGtk2 = 0
       #CompileLinuxGtk3 = 1
+      #CompileLinuxQt   = 0
     CompilerEndIf
     
     #OS_PureBasic = "Linux"
@@ -228,6 +235,7 @@ CompilerSelect #PB_Compiler_OS
     #DEFAULT_HelpPath           = "help/"
     #DEFAILT_LibraryViewerPlugin= "debugger/"
     #DEFAULT_ThemePath          = "themes/"
+    #DEFAULT_ColorSchemePath    = "colorschemes/"
     
     DefaultEditorFontName$      = "Monospace" ; "Misc Fixed" doesn't seems to exists anymore on modern distro
     #DEFAULT_SplitterWidth      = 6
@@ -259,16 +267,10 @@ CompilerSelect #PB_Compiler_OS
     #CompileLinuxGtk  = 0
     #CompileLinuxGtk2 = 0
     #CompileLinuxGtk3 = 0
+    #CompileLinuxQt   = 0
     
     #CompileMac       = 1
-    
-    CompilerIf Subsystem("carbon")
-      #CompileMacCocoa  = 0
-      #CompileMacCarbon = 1
-    CompilerElse
-      #CompileMacCocoa  = 1
-      #CompileMacCarbon = 0
-    CompilerEndIf
+    #CompileMacCocoa  = 1
     
     #OS_PureBasic = "MacOSX"
     
@@ -294,6 +296,7 @@ CompilerSelect #PB_Compiler_OS
     #DEFAULT_HelpPath           = "help/"
     #DEFAILT_LibraryViewerPlugin= "debugger/"
     #DEFAULT_ThemePath          = "themes/"
+    #DEFAULT_ColorSchemePath    = "colorschemes/"
     
     DefaultEditorFontName$      = "Monaco"
     #DEFAULT_EditorFontSize     = 14
@@ -333,7 +336,9 @@ CompilerElse
   
   CompilerIf #CompileWindows
     #PreferenceFileName$ = "PureBasic.prefs"
-  CompilerElse
+  CompilerElseIf #CompileLinuxQt
+    #PreferenceFileName$ = "purebasic_qt.prefs"
+  CompilerElse    
     #PreferenceFileName$ = "purebasic.prefs"
   CompilerEndIf
   

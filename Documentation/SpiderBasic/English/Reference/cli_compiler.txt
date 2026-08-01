@@ -1,4 +1,4 @@
-@Title Using the command line compiler
+﻿@Title Using the command line compiler
 
 @OS Windows
 
@@ -62,9 +62,9 @@
   - "portrait": the app will always launch in portait mode. @LineBreak
   - "landscape": the app will always launch in landscape mode. @LineBreak
   @LineBreak
-  /ANDROID: create an Android app (Windows only). @LineBreak 
+  /ANDROID (-a, --android): create an Android app. @LineBreak 
   @LineBreak  
-  /JDK "jdk path": set the path to full JDK 1.8+ used to build Android app (Windows only). @LineBreak
+  /JDK (-j, --jdk) "jdk path": set the path to full JDK 17 used to build Android app. @LineBreak
   @LineBreak  
   /RESIDENT (-r, --resident) "filename": create a resident file specified by the filename. @LineBreak
   @LineBreak
@@ -174,6 +174,10 @@
   - "any": the app can be in landscape or portrait mode, depending of the device orientation (default).  @LineBreak
   - "portrait": the app will always launch in portait mode. @LineBreak
   - "landscape": the app will always launch in landscape mode. @LineBreak
+  @LineBreak
+  -a, --android: create an Android app. @LineBreak 
+  @LineBreak  
+  -j, --jdk "jdk path": set the path to full JDK 17 used to build Android app. @LineBreak
   @LineBreak
   -i, --ios: create an iOS app (MacOS only). @LineBreak 
   @LineBreak

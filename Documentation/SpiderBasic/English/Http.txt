@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Http library documentation
 ;
 ;      (c) Fantaisie Software
@@ -21,10 +21,51 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result$ = HTTPInfo(Type)
+
+@Description
+  Returns information about the current HTTP request created with @@HTTPRequest.
+
+@Parameter "Type"
+  The specific info to get. It can be one of the following values:
+@FixedFont
+  @#PB_Http_StatusCode: the server status code (200: OK, 404: page not found etc.).
+  @#PB_Http_Headers   : the request headers.
+  @#PB_Http_StatusText: the HTTP request status message (to have more information about an error for example).
+@EndFixedFont
+
+@ReturnValue
+  A string depending of the 'Type' parameter.
+
+@Example
+@Code
+  Procedure HttpGetEvent(Success, Result$, UserData)
+    Debug "----------------------------"
+    Debug "IsSuccess: " + Success
+    Debug "Headers: " + HTTPInfo(#PB_HTTP_Headers)
+    Debug "StatusCode: " + HTTPInfo(#PB_HTTP_StatusCode)
+    Debug "StatusText: " + HTTPInfo(#PB_HTTP_StatusText)
+  EndProcedure
+  
+  ; Get the content of this file
+  HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", @HttpGetEvent())
+  
+  ; Now try with a non existing file
+  HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename+"-notfound", "", @HttpGetEvent())
+@EndCode
+
+@SeeAlso
+  @@HTTPRequest
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function HTTPRequest(Type, URL$, Parameters, Callback [, UserData [, Headers()]])
 
 @Description
-  Download a file to disk from the given URL$. 
+  Download a file to disk from the given URL$. @@HTTPInfo can be used to get more information about the request
+  result. @@HTTPTimeout can be used to change the default timeout value (30 seconds)
 
 @Parameter "Type"
   The type of the request. Can be one of the following value:
@@ -71,6 +112,7 @@
 @Example
 @Code
   Procedure HttpGetEvent(Success, Result$, UserData)
+    ; HTTPInfo() can also be used to get more info about the request result
     If Success
       Debug Result$
     Else
@@ -86,6 +128,7 @@
 @Example With custom headers
 @Code
   Procedure HttpGetEvent(Success, Result$, UserData)
+    ; HTTPInfo() can also be used to get more info about the request result
     If Success
       Debug Result$
     Else
@@ -101,7 +144,24 @@
 @EndCode
 
 @SeeAlso
-  @@URLEncoder
+  @@URLEncoder, @@HTTPInfo
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HTTPTimeout(Timeout)
+
+@Description
+  Change the default timeout to use for @@HTTPRequest. The default timeout is 30 seconds.
+
+@Parameter "Timeout"
+  The timeout, in milliseconds, to abort the HTTP request if the remote host hasn't finished to respond.
+
+@NoReturnValue
+
+@SeeAlso
+  @@HTTPRequest
 
 @SupportedOS
 

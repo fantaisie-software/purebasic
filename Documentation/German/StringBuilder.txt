@@ -1,0 +1,237 @@
+;
+;     StringBuilder library documentation
+;
+;      (c) 2026 - Fantaisie Software
+;
+
+@Library StringBuilder
+
+@Overview
+  Die StringBuilder-Bibliothek ermöglicht effizientes Verketten und Bearbeiten von Zeichenketten (in Englisch
+  "string concatenation and manipulation"). Beim Verketten vieler Strings (Zeichenketten) ist die Verwendung
+  eines StringBuilders wesentlich effizienter als die wiederholte Anwendung der String-Operatoren.
+  Diese Bibliothek verwaltet interne Puffer, um Speicherzuweisungen und -kopien zu minimieren.
+@LineBreak
+@LineBreak
+  Es können beliebig viele String-Builder gleichzeitig verarbeitet werden. Jeder String-Builder verwaltet einen
+  internen Puffer, der bei Bedarf wächst; und der endgültige String kann extrahiert werden, wenn alle
+  Anfügevorgänge abgeschlossen sind.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = CreateStringBuilder(#StringBuilder [, InkrementLänge])
+
+@Description
+  Erstellt ein neues StringBuilder-Objekt.
+
+@Parameter "#StringBuilder"
+  Die Nummer zur Identifizierung des neuen String-Builders. @ReferenceLink "purebasic_objects" "#PB_Any" kann
+  verwendet werden, um diese Nummer automatisch zu generieren.
+
+@OptionalParameter "InkrementLänge"
+  Die Länge (in Zeichen), um die der interne Puffer bei Bedarf an mehr Speicherplatz erweitert wird.
+  Falls nicht angegeben, wird eine Standardinkrementlänge von 8192 Zeichen verwendet.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der String-Builder erfolgreich erstellt wurde, und Null, wenn
+  ein Fehler aufgetreten ist. Wenn @#PB_Any als Parameter für #StringBuilder verwendet wurde, wird im
+  Erfolgsfall die neu generierte Nummer zurückgegeben.
+
+@Remarks
+  Ein neuer String-Builder beginnt mit einem leeren String. Verwenden Sie @@AppendStringBuilderString oder @@AppendStringBuilderStringN, um
+  Inhalt hinzuzufügen. Wenn das Erstellen des Strings abgeschlossen ist, verwenden Sie @@GetStringBuilderString,
+  um das Endergebnis abzurufen.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+
+  AppendStringBuilderString(0, "Hello ")
+  AppendStringBuilderString(0, "World!")
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AppendStringBuilderString(#StringBuilder, String$)
+
+@Description
+  Fügt eine Zeichenkette (String) an das Ende des aktuellen StringBuilder-Inhalts an.
+
+@Parameter "#StringBuilder"
+  Der zu verwendende String-Builder.
+
+@Parameter "String$"
+  Die anzuhängende Zeichenkette.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Zeichenkette erfolgreich angehängt wurde, und Null,
+  wenn ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion fügt die Zeichenkette effizient an den internen Puffer an und vergrößert diesen bei Bedarf.
+  Mehrere Aufrufe dieser Funktion können verkettet werden, um komplexe Zeichenketten effizient zu erstellen.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderString(0, "Line " + Str(i))
+    AppendStringBuilderString(0, #CRLF$)
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = AppendStringBuilderStringN(#StringBuilder, String$)
+
+@Description
+  Fügt eine Zeichenkette (String) und ein Zeilenumbruchzeichen am Ende des aktuellen StringBuilder-Inhalts hinzu.
+
+@Parameter "#StringBuilder"
+  Der zu verwendende String-Builder.
+
+@Parameter "String$"
+  Die anzuhängende Zeichenkette.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn die Zeichenkette erfolgreich angehängt wurde, und Null,
+  wenn ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion fügt die Zeichenkette und das Zeilenumbruchzeichen effizient an den internen Puffer an und vergrößert diesen bei Bedarf.
+  Mehrere Aufrufe dieser Funktion können verkettet werden, um komplexe Zeichenketten effizient zu erstellen.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Line " + Str(i))
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+
+@Function Result$ = GetStringBuilderString(#StringBuilder)
+
+@Description
+  Ruft die aktuell erstellte Zeichenkette (String) ab.
+
+@Parameter "#StringBuilder"
+  Der zu verwendende String-Builder.
+
+@ReturnValue
+  Gibt die aktuell erstellte Zeichenkette zurück. Wenn der String-Builder leer oder ungültig ist,
+  wird eine leere Zeichenkette zurückgegeben.
+
+@Remarks
+  Diese Funktion gibt die vollständige Zeichenkette zurück, die durch mehrere Aufrufe von @@AppendStringBuilderString
+  oder @@AppendStringBuilderStringN erstellt wurde. Nach dem Aufruf dieser Funktion können weiterhin Zeichenketten
+  an den String-Builder angehängt werden.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = ResetStringBuilder(#StringBuilder)
+
+@Description
+  Setzt den String-Builder auf einen leeren String zurück und löscht damit alle zuvor angehängten Inhalte.
+
+@Parameter "#StringBuilder"
+  Der zurückzusetzende String-Builder.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn der String-Builder erfolgreich zurückgesetzt wurde, und Null,
+  wenn ein Fehler aufgetreten ist.
+
+@Remarks
+  Diese Funktion leert den internen Puffer und versetzt den String-Builder in seinen ursprünglichen leeren
+  Zustand zurück. Dies ist nützlich, wenn Sie einen String-Builder zum Erstellen eines neuen Strings
+  wiederverwenden möchten.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = IsStringBuilder(#StringBuilder)
+
+@Description
+  Prüft, ob die angegebene #StringBuilder-Nummer ein gültiges und korrekt initialisiertes StringBuilder-Objekt ist.
+
+@Parameter "#StringBuilder"
+  Der zu überprüfende String-Builder.
+
+@ReturnValue
+  Gibt einen Wert ungleich Null zurück, wenn #StringBuilder ein gültiger String-Builder ist, und andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem beliebigen Wert verwendet werden. Dies ist die korrekte
+  Methode, um sicherzustellen, dass ein String-Builder einsatzbereit ist.
+
+@SeeAlso
+  @@CreateStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStringBuilder(#StringBuilder)
+
+@Description
+  Gibt den angegebenen String-Builder und den zugehörigen Speicher frei.
+
+@Parameter "#StringBuilder"
+  Der freizugebende String-Builder. Wenn @#PB_All angegeben wird, werden alle verbleibenden String-Builder
+  freigegeben.
+
+@NoReturnValue
+
+@Remarks
+  Sobald der String-Builder freigegeben ist, kann er nicht mehr verwendet werden.
+@LineBreak
+@LineBreak
+  Alle verbliebenen offenen String-Builder werden beim Beenden des Programms automatisch freigegeben.
+
+@SeeAlso
+  @@CreateStringBuilder, @@IsStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

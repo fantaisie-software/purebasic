@@ -249,7 +249,7 @@ Procedure WatchList_DebuggerEvent(*Debugger.DebuggerData)
       SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_Procedure], 0)
       
     Case #COMMAND_WatchlistError
-      MessageRequester("PureBasic Debugger", Language("Debugger","VariableError")+#NewLine+PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_Ascii), #FLAG_Warning)
+      MessageRequester("PureBasic Debugger", Language("Debugger","VariableError")+#NewLine+PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8), #FLAG_Warning)
       
     Case #COMMAND_Watchlist
       VariableGadget_Lock(*Debugger\Gadgets[#DEBUGGER_GADGET_WatchList_List])

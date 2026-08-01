@@ -351,7 +351,7 @@ Procedure ExportIssueList()
 EndProcedure
 
 
-Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry, PanelItemID)
+Procedure Issues_CreateFunction(*Entry.ToolsPanelEntry)
   
   ComboBoxGadget(#GADGET_Issues_Filter, 0, 0, 0, 0, #PB_ComboBox_Image)
   AddGadgetItem(#GADGET_Issues_Filter, -1, Language("ToolsPanel", "AllIssues"), OptionalImageID(#IMAGE_AllIssues))

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; SysTray library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,21 +8,14 @@
 
 @Overview
 
-  SysTray est une zone de notification située 
-  à droite de la barre des tâches qui contient 
-  des icônes (programmes résidents, antivirus...) 
-  et l'horloge. PureBasic gère l'accès à cette
-  zone et vous permet d'ajouter un nombre 
-  quelconque d'icônes.
+  SysTray (Ã©galement appelÃ© la barre d'Ã©tat systÃ¨me) est une zone de notification situÃ©e Ã  droite de la barre des tÃ¢ches qui contient 
+  des icÃ´nes (programmes rÃ©sidents, antivirus...) et l'horloge. PureBasic gÃ¨re l'accÃ¨s Ã  cette zone et vous permet d'ajouter un nombre 
+  quelconque d'icÃ´nes.
   @LineBreak
   @LineBreak
-  Sur certaines distributions Linux (comme 
-  Ubuntu), les icônes de la zone de 
-  notification peuvent être masquées par 
-  défaut. 
+  Sur certaines distributions Linux (comme  Ubuntu), les icÃ´nes de la zone de notification peuvent Ãªtre masquÃ©es par dÃ©faut. 
   Pour plus d'informations, consulter ce 
   @InternetLink "http://ubuntugenius.wordpress.com/2011/06/25/ubuntu-11-04-fix-show-all-iconsindicators-in-unity-panels-notification-area/" "lien".
-
 
 @CommandList
 
@@ -35,68 +28,66 @@
 @Function Resultat = AddSysTrayIcon(#SysTrayIcone, FenetreID, ImageID)
 
 @Description
-  Ajoute une icône dans la zone de 
+  Ajoute une icÃ´ne dans la zone de 
   notification. 
   
 @Parameter "#SysTrayIcone"
-  Le numéro de la nouvelle icône.
+  Le numÃ©ro de la nouvelle icÃ´ne.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "PB_Any #" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "FenetreID"
-  L'identifiant système de la fenêtre.
+  L'identifiant systÃ¨me de la fenÃªtre.
 @LineBreak
 @LineBreak    
-  Peut être obtenu avec la fonction 
+  Peut Ãªtre obtenu avec la fonction 
   @@WindowID. 
   
 @Parameter "ImageID"  
-  Numéro de l'image préalablement chargée 
+  NumÃ©ro de l'image prÃ©alablement chargÃ©e 
   par la fonction @@LoadImage. 
 @LineBreak
 @LineBreak  
   Le format PNG a l'avantage d'utiliser la transparence.
 @LineBreak
 @LineBreak  
-  Un ImageID valide peut être obtenu 
+  Un ImageID valide peut Ãªtre obtenu 
   simplement avec la fonction @@ImageID.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks
-  Quand un évènement intervient sur une icône 
-  de la zone SysTray, l'évènement 
-  @#PB_Event_SysTray est renvoyé. 
-  @@EventGadget peut alors être utilisé pour 
-  connaître l'icône cliquée.@LineBreak
-  La fonction @@EventType est également mise 
-  à jour par cette fonction.
+  Quand un Ã©vÃ¨nement intervient sur une icÃ´ne de la zone SysTray, l'Ã©vÃ¨nement @#PB_Event_SysTray est renvoyÃ©. 
+  @@EventGadget peut alors Ãªtre utilisÃ© pour connaÃ®tre l'icÃ´ne cliquÃ©e.@LineBreak
+  La fonction @@EventType est Ã©galement mise Ã  jour par cette fonction.@LineBreak
+  Avec le sous-systÃ¨me QT, l'Ã©vÃ¨nement clic-gauche renvoie un evÃ¨nement doubleclic-gauche et l'Ã©vÃ¨nement clic-du-milieu renvoie un clic-gauche. 
 @LineBreak
 @LineBreak
-  Toutes vos icônes SysTray sont 
-  automatiquement supprimées à la 
-  fermeture du programme.
+  Toutes vos icÃ´nes SysTray sont automatiquement supprimÃ©es Ã  la fermeture du programme.
+  @LineBreak
+  @LineBreak
+  Pour un fonctionnement nominal, un Ã©vÃ¨nement systray doit toujours Ãªtre associÃ© Ã  un @LibraryLink "menu" "menu".
 
 @Example
 @Code
-  ; Fenêtre invisible pour avoir juste le systray
+  ; FenÃªtre invisible pour avoir juste le systray
   OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
 
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Crée un menu contextuel à afficher par la barre d'état système avec un aspect de barre d'état système
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
-    MenuItem(0, "À Propos de PureBasic...")
+  ; CrÃ©e un menu contextuel Ã  afficher par la barre d'Ã©tat systÃ¨me avec un aspect de barre d'Ã©tat systÃ¨me
+  CreatePopupMenu(0)
+    MenuItem(0, "Ã€ Propos de PureBasic...")
     MenuBar()
     MenuItem(1, "Quitter")
 
-  ; Associer le menu à la zone de notification
+  ; Associer le menu Ã  la zone de notification
   SysTrayIconMenu(0, MenuID(0))
 
   Repeat
@@ -121,50 +112,50 @@
 @Function ChangeSysTrayIcon(#SysTrayIcone, ImageID)
 
 @Description
-  Change une icône de la zone de notification.
+  Change une icÃ´ne de la zone de notification.
   
 @Parameter "#SysTrayIcone"
-  Le numéro de l'icône à changer.
+  Le numÃ©ro de l'icÃ´ne Ã  changer.
 
 @Parameter "ImageID"  
-  Numéro de la nouvelle image préalablement chargée par la fonction @@LoadImage. 
+  NumÃ©ro de la nouvelle image prÃ©alablement chargÃ©e par la fonction @@LoadImage. 
 @LineBreak
 @LineBreak  
   Le format PNG a l'avantage d'utiliser la transparence.
 @LineBreak
 @LineBreak  
-  Un ImageID valide peut être obtenu simplement avec la fonction @@ImageID.
+  Un ImageID valide peut Ãªtre obtenu simplement avec la fonction @@ImageID.
 
 @NoReturnValue
 
 @Example
 @Code
 
-; Fenêtre invisible pour avoir juste avoir le systray
+; FenÃªtre invisible pour avoir juste avoir le systray
   OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
   
-  ; Crée une image avec un carré jaune à utiliser pour l'icône Systray :
+  ; CrÃ©e une image avec un carrÃ© jaune Ã  utiliser pour l'icÃ´ne SystrayÂ :
   If CreateImage(0, 16, 16) And StartDrawing(ImageOutput(0))
     Box(0, 0, 16 , 16, $00DDDD)
     StopDrawing()
   EndIf
   
-  ; Associer une icône au systray
+  ; Associer une icÃ´ne au systray
   AddSysTrayIcon(0, WindowID(0), ImageID(0))
   
-  ; Crée un menu contextuel à utiliser ultérieurement avec l'icône Systray:
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; CrÃ©e un menu contextuel Ã  utiliser ultÃ©rieurement avec l'icÃ´ne Systray:
+  CreatePopupMenu(0)
     MenuItem(0, "Quitter")
     
   SysTrayIconMenu(0, MenuID(0))
   
-  ;Ajoute un minuteur de fenêtre, ce qui devrait entraîner un changement de l'icône Systray toutes les 1 000 ms.
+  ;Ajoute un minuteur de fenÃªtre, ce qui devrait entraÃ®ner un changement de l'icÃ´ne Systray toutes les 1 000 ms.
   AddWindowTimer(0, 0, 1000) 
   
   Repeat
     Select WaitWindowEvent()
       Case #PB_Event_Timer
-        ; Met à jour l'image de l'icône Systray avec un cercle rouge de taille aléatoire sur fond jaune
+        ; Met Ã  jour l'image de l'icÃ´ne Systray avec un cercle rouge de taille alÃ©atoire sur fond jaune
         If StartDrawing(ImageOutput(0))
           Box(0, 0, 16 , 16, $00DDDD)
           Radius = Random(6, 2)
@@ -175,7 +166,7 @@
         
       Case #PB_Event_Menu
         Select EventMenu()
-          Case 0 ;Quitter après avoir cliqué sur l'élément de menu 'Quitter' associé à l'icône Systray
+          Case 0 ;Quitter aprÃ¨s avoir cliquÃ© sur l'Ã©lÃ©ment de menu 'Quitter' associÃ© Ã  l'icÃ´ne Systray
             RemoveSysTrayIcon(0)
             End
         EndSelect
@@ -195,24 +186,24 @@
 @Function Resultat = IsSysTrayIcon(#SysTrayIcone)
 
 @Description
-  Teste si une icône de la zone de 
-  notification est correctement initialisée. 
+  Teste si une icÃ´ne de la zone de 
+  notification est correctement initialisÃ©e. 
   
 @Parameter "#SysTrayIcone"
-  Le numéro de l'icône.
+  Le numÃ©ro de l'icÃ´ne.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks 
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
 @LineBreak
 @LineBreak
-   C'est la fonction idéale pour vérifier 
-   qu'un objet est correctement initialisé.
+   C'est la fonction idÃ©ale pour vÃ©rifier 
+   qu'un objet est correctement initialisÃ©.
   
 @SeeAlso
   @@AddSysTrayIcon
@@ -224,40 +215,39 @@
 @Function SysTrayIconMenu(#SysTrayIcone, MenuID)
 
 @Description
-  Associe un menu contextuel à l'icône SysTray. 
+  Associe un menu contextuel Ã  l'icÃ´ne SysTray. 
 
 @Parameter "#SysTrayIcone"
-  L'icône systray à utiliser.
+  L'icÃ´ne systray Ã  utiliser.
 
 @Parameter "MenuID"
-  Le menu contextuel à associer au SysTray. 
+  Le menu contextuel Ã  associer au SysTray. 
 @LineBreak
 @LineBreak
-  @@MenuID peut être utilisé pour obtenir cette valeur.
+  @@MenuID peut Ãªtre utilisÃ© pour obtenir cette valeur.
 
 @NoReturnValue
 
 @Remarks
-  Le menu doit être créé avec @@CreatePopupImageMenu en utilisant l'option @#PB_Menu_SysTrayLook. 
-  C'est le meilleur moyen d'associer un menu contextuel à une icône SysTray car il affichera le menu 
-  contextuel à la bonne position sur tous les systèmes d'exploitation lorsque l'utilisateur clique 
-  sur l'icône.
+  C'est le meilleur moyen d'associer un menu contextuel Ã  une icÃ´ne SysTray car il affichera le menu 
+  contextuel Ã  la bonne position sur tous les systÃ¨mes d'exploitation lorsque l'utilisateur clique 
+  sur l'icÃ´ne.
 
 @Example
 @Code
-  ; Fenêtre invisible pour avoir juste le systray
+  ; FenÃªtre invisible pour avoir juste le systray
   OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
 
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Crée un menu contextuel à afficher par la barre d'état système (utilisez #PB_Menu_SysTrayLook)
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
-    MenuItem(0, "À Propos de PureBasic...")
+  ; CrÃ©e un menu contextuel Ã  afficher par la barre d'Ã©tat systÃ¨me
+  CreatePopupMenu(0)
+    MenuItem(0, "Ã€ Propos de PureBasic...")
     MenuBar()
     MenuItem(1, "Quitter")
 
-  ; Associe le menu à la zone de notification
+  ; Associe le menu Ã  la zone de notification
   SysTrayIconMenu(0, MenuID(0))
 
   Repeat
@@ -283,16 +273,16 @@
 
 @Description
   Associe un texte flottant (bulle d'aide) 
-  à une icône de la zone de notification. 
+  Ã  une icÃ´ne de la zone de notification. 
   
 @Parameter "#SysTrayIcone"
-    Le numéro de l'icône à utiliser.
+    Le numÃ©ro de l'icÃ´ne Ã  utiliser.
 
 @Parameter "Texte$" 
-  'Tooltip' ou texte flottant qui apparaît 
+  'Tooltip' ou texte flottant qui apparaÃ®t 
   au bout d'un certain temps lorsque le 
   curseur de la souris est immobile au 
-  dessus de l'icône.
+  dessus de l'icÃ´ne.
   
 @NoReturnValue
 
@@ -304,12 +294,12 @@
   
   Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
   
-  ; Ajout d'une icône dans la zone de notification
+  ; Ajout d'une icÃ´ne dans la zone de notification
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
 
   ; Ajout d'un texte flottant 
   SysTrayIconToolTip(EventGadget(), "Hello le Monde")
-  MessageRequester("Info", "Survolez l'icône pour voir le texte apparaître.")
+  MessageRequester("Info", "Survolez l'icÃ´ne pour voir le texte apparaÃ®tre.")
     
   Repeat
     Event = WaitWindowEvent()
@@ -328,21 +318,21 @@ EndIf
 @Function RemoveSysTrayIcon(#SysTrayIcone)
 
 @Description
-  Supprime une icône de la zone de 
+  Supprime une icÃ´ne de la zone de 
   notification.
  
 @Parameter "#SysTrayIcone"
-  Le numéro de l'icône à supprimer.
+  Le numÃ©ro de l'icÃ´ne Ã  supprimer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  icônes SysTray restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  icÃ´nes SysTray restantes sont libÃ©rÃ©es.
 
 @NoReturnValue
   
 @Remarks  
-  Toutes les icônes restantes sont 
-  automatiquement supprimées à la 
+  Toutes les icÃ´nes restantes sont 
+  automatiquement supprimÃ©es Ã  la 
   fermeture du programme.
  
 @Example 
@@ -353,13 +343,13 @@ EndIf
   
   Icone$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
   
-  ; Ajout d'une icône dans la zone de notification
+  ; Ajout d'une icÃ´ne dans la zone de notification
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, Icone$))
 
-  MessageRequester("Info", "Suppression de l'icône.")
-  ; Suppression de l'icône 
+  MessageRequester("Info", "Suppression de l'icÃ´ne.")
+  ; Suppression de l'icÃ´ne 
   RemoveSysTrayIcon (0)
-  MessageRequester("Info", "Icône supprimée.")
+  MessageRequester("Info", "IcÃ´ne supprimÃ©e.")
     
   Repeat
     Event = WaitWindowEvent()

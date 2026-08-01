@@ -1,17 +1,16 @@
-;
+ï»¿;
 ;     AudioCD library documentation
 ;
-;      (c) 2012 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library AudioCD
 
 @Overview
-
-  Audio-CDs sind eine hervorragende Möglichkeit zum Abspielen von qualitativ hochwertiger Musik
-  während eines Spiels oder einer Anwendung - ohne dabei eine Menge an System-Ressourcen zu
-  verbrauchen. Diese Bibliothek bietet alle notwendigen Funktionen, die für das Abspielen von
-  Audio-CDs in PureBasic-Programmen benötigt werden.
+  Audio-CDs sind eine hervorragende MÃ¶glichkeit zum Abspielen von qualitativ hochwertiger Musik
+  wÃ¤hrend eines Spiels oder einer Anwendung - ohne dabei eine Menge an System-Ressourcen zu
+  verbrauchen. Diese Bibliothek bietet alle notwendigen Funktionen, die fÃ¼r das Abspielen von
+  Audio-CDs in PureBasic-Programmen benÃ¶tigt werden.
 
 @OS Linux
   Auf Linux verwendet diese Library die SDL-Bibliothek.
@@ -27,12 +26,12 @@
 @Function Ergebnis = AudioCDLength()
 
 @Description
-  Gibt die komplette Länge einer ganzen Audio-CD zurück.
+  Gibt die komplette LÃ¤nge einer ganzen Audio-CD zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Länge in Sekunden zurück.
+  Gibt die LÃ¤nge in Sekunden zurÃ¼ck.
 
 @SeeAlso
   @@AudioCDTrackLength, @@UseAudioCD
@@ -44,15 +43,15 @@
 @Function Ergebnis = AudioCDName()
 
 @Description
-  Gibt den systemabhängigen Namen zurück, der dem aktuellen Audio-CD Laufwerk zugewiesen wurde.
+  Gibt den systemabhÃ¤ngigen Namen zurÃ¼ck, der dem aktuellen Audio-CD Laufwerk zugewiesen wurde.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen String mit dem Namen zurück.
+  Gibt einen String mit dem Namen zurÃ¼ck.
 
 @OS Windows
-  Zum Beispiel wird auf dem Windows-System 'D:\' zurückgegeben, wenn die Audio-CD
+  Zum Beispiel wird auf dem Windows-System 'D:\' zurÃ¼ckgegeben, wenn die Audio-CD
   dem System als Laufwerks-Buchstabe 'D' zugewiesen ist.
 @EndOS
 
@@ -66,13 +65,13 @@
 @Function Ergebnis = AudioCDTrackLength(TrackNummer)
 
 @Description
-  Gibt die Länge des angegebenen CD-Tracks zurück.
+  Gibt die LÃ¤nge des angegebenen CD-Tracks zurÃ¼ck.
 
 @Parameter "TrackNumber"
-  Die Nummer des gewünschten Tracks. Der erste Track wird mit 1 nummeriert.
+  Die Nummer des gewÃ¼nschten Tracks. Der erste Track hat einen Index von 1.
 
 @ReturnValue
-  Gibt die Länge in Sekunden zurück.
+  Gibt die LÃ¤nge (in Sekunden) des angegebenen Tracks zurÃ¼ck.
 
 @SeeAlso
   @@AudioCDTracks, @@UseAudioCD
@@ -84,15 +83,15 @@
 @Function Ergebnis = AudioCDStatus()
 
 @Description
-  Gibt den aktuellen Status des derzeit benutzten Audio-CD Laufwerks zurück.
+  Gibt den aktuellen Status des derzeit benutzten Audio-CD Laufwerks zurÃ¼ck.
   
 @NoParameters
 
 @ReturnValue
-  Der Rückgabewert kann folgende Werte annehmen:
+  Der RÃ¼ckgabewert kann folgende Werte annehmen:
 @LineBreak
 @LineBreak
-  -1: CD-Laufwerk nicht bereit (es ist entweder leer oder geöffnet)
+  -1: CD-Laufwerk nicht bereit (es ist entweder leer oder geÃ¶ffnet)
 @LineBreak
    0: CD-Laufwerk angehalten (aber die CD befindet sich im Laufwerk und wurde erkannt)
 @LineBreak
@@ -108,12 +107,12 @@
 @Function Ergebnis = AudioCDTracks()
 
 @Description
-  Gibt die Gesamtzahl der Tracks auf der CD zurück, die zum Abspielen verfügbar sind.
+  Gibt die Gesamtzahl der Tracks auf der CD zurÃ¼ck, die zum Abspielen verfÃ¼gbar sind.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Anzahl an Tracks zurück.
+  Gibt die Anzahl an Tracks zurÃ¼ck.
 
 @SeeAlso
   @@UseAudioCD
@@ -125,13 +124,13 @@
 @Function Ergebnis = AudioCDTrackSeconds()
 
 @Description
-  Gibt die Anzahl vergangener Sekunden zurück, seitdem das Abspielen des aktuellen Tracks
+  Gibt die Anzahl vergangener Sekunden zurÃ¼ck, seitdem das Abspielen des aktuellen Tracks
   begonnen hat.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Anzahl an Sekunden seit Beginn des Tracks zurück.
+  Gibt die Anzahl an Sekunden seit Beginn des Tracks zurÃ¼ck.
 
 @SeeAlso
   @@AudioCDTrackLength, @@AudioCDTracks, @@UseAudioCD
@@ -143,11 +142,11 @@
 @Function EjectAudioCD(Status)
 
 @Description
-  Öffnet (wirft aus) oder schließt das aktuelle CD-Laufwerk.  
+  Ã–ffnet (wirft aus) oder schlieÃŸt das aktuelle CD-Laufwerk.  
 
 @Parameter "Status"
-  Die auszuführende Aktion.
-  Ist der Status = 1, ist das CD-Laufwerk geöffnet,
+  Die auszufÃ¼hrende Aktion.
+  Ist der Status = 1, ist das CD-Laufwerk geÃ¶ffnet,
   andernfalls ist es geschlossen.
 
 @NoReturnValue
@@ -162,19 +161,19 @@
 @Function Ergebnis = InitAudioCD()
 
 @Description
-  Versucht die für die Benutzung der Audio-CD Funktionen benötigten Ressourcen zu initialisieren.
+  Versucht, alle erforderlichen Ressourcen zu initialisieren, um die Wiedergabe von Audio-CDs zu ermÃ¶glichen.
 
 @NoParameters
 
 @ReturnValue
   Ist Ergebnis gleich 0, ist die Initialisierung fehlgeschlagen oder es sind keine CD-Laufwerke 
-  verfügbar. Andernfalls beinhaltet Ergebnis die Anzahl im System verfügbarer CD-Laufwerke.
+  verfÃ¼gbar. Andernfalls beinhaltet Ergebnis die Anzahl im System verfÃ¼gbarer CD-Laufwerke.
 
 @OS Linux
   @LineBreak
   @LineBreak
-  Unter Linux versucht diese Funktion, die SDL-Bibliothek zu öffnen. Wenn diese Funktion fehlschlägt,
-  ist diese Bibliothek nicht verfügbar.
+  Unter Linux versucht diese Funktion, die SDL-Bibliothek zu Ã¶ffnen. Wenn diese Funktion fehlschlÃ¤gt,
+  ist diese Bibliothek nicht verfÃ¼gbar.
 @EndOS
 
 @Remarks  
@@ -187,7 +186,7 @@
 @Function PauseAudioCD()
 
 @Description
-  Hält ("pausiert") das Abspielen der Audio-CD an. Das Abspielen kann mit der @@ResumeAudioCD-Funktion
+  HÃ¤lt ("pausiert") das Abspielen der Audio-CD an. Das Abspielen kann mit der @@ResumeAudioCD-Funktion
   fortgesetzt werden.
 
 @NoParameters
@@ -208,7 +207,7 @@
   des Tracks 'EndTrack'.
 
 @Parameter "StartTrack"
-  Der erste abzuspielende Track. (Der erste Track auf der CD ist mit 1 nummeriert.)
+  Der erste abzuspielende Track. (Der erste Track auf der CD hat einen Index von 1)
 
 @Parameter "EndTrack"
   Der letzte abzuspielende Track.
@@ -242,7 +241,7 @@
 @Function StopAudioCD()
 
 @Description
-  Stoppt das Abspielen der laufenden Audio-CD (endgültig).
+  Stoppt das Abspielen der laufenden Audio-CD (endgÃ¼ltig).
 
 @NoParameters
 
@@ -258,13 +257,13 @@
 @Function UseAudioCD(AudioCDLaufwerk)
 
 @Description
-  Wählt das Laufwerk aus, auf das sich die folgenden AudioCD-Befehle beziehen.
-  Es ist möglich, mehrere CDs gleichzeitig abzuspielen.
+  WÃ¤hlt das Laufwerk aus, auf das sich die folgenden AudioCD-Befehle beziehen.
+  Es ist mÃ¶glich, mehrere CDs gleichzeitig abzuspielen.
 
 @Parameter "AudioCDLaufwerk"
   Das zu verwendende Laufwerk. Das erste Laufwerk hat die Nummer 0. 
-  Die Anzahl der im System verfügbaren Laufwerke wird von der @@InitAudioCD-Funktion
-  zurückgegeben.
+  Die Anzahl der im System verfÃ¼gbaren Laufwerke wird von der @@InitAudioCD-Funktion
+  zurÃ¼ckgegeben.
   
 @NoReturnValue
 

@@ -1,0 +1,106 @@
+﻿@Title Créer une PureLibrary
+
+@Section Introduction
+
+  PureBasic permet de créer facilement des bibliothèques personnalisées pour étendre 
+  le jeu de commandes de base de PureBasic avec plus de commandes personnelles.
+  La bibliothèque générée sera située dans le dossier 
+  PureBasic/PureLibraries/UserLibraries/, assurez-vous donc d'avoir les droits d'accès 
+  appropriés lorsque vous essayez d'en générer une.
+@LineBreak
+@LineBreak
+  Pour l'instant, la création de purelibrary n'est disponible qu'en ligne de commande, 
+  en utilisant le compilateur backend C avec l'option '--purelibrary'. Il est également 
+  possible d'utiliser le formidable outil de création de bibliothèque de l'IDE par 
+  'Pf Shadoko' trouvé sur 
+  @InternetLink "https://www.purebasic.fr/english/viewtopic.php?t=85882" "ici" qui 
+  propose également quelques fonctionnalités supplémentaires.
+@LineBreak
+@LineBreak
+  Comme une PureLibary ajoute une nouvelle commande au jeu de commandes standard, le 
+  nouveau nom de commande doit être différent des commandes internes. Une PureLibrary 
+  doit toujours être compilée avec le compilateur PureBasic sur lequel elle sera 
+  utilisée. Si une PureLibrary n'est pas fournie avec son code source associé, 
+  elle risque fort de se casser dans une future version de PureBasic. 
+@LineBreak
+@LineBreak
+  Une PureLibrary peut également être créée à l'aide de C/C++ ou d'ASM, veuillez 
+  consulter le dossier PureLibrary/SDK/. 
+@LineBreak
+  
+@Section Fonctions d'exportation  
+  
+  Aucun code ne doit être écrit en dehors des procédures, à l'exception de la 
+  déclaration d'objet.
+@LineBreak
+@LineBreak
+  Pour exporter une fonction lors de la création d'une PureLibrary, elle doit être 
+  déclarée comme @Keyword ProcedureDLL. Si des paramètres facultatifs sont nécessaires, 
+  une autre fonction portant le même nom mais avec un numéro incrémenté peut être 
+  utilisée.
+  Un commentaire "Aide Rapide (QuickHelp)" peut également être ajouté pour que l'aide 
+  rapide soit affichée dans l'IDE lors de l'utilisation de la commande. 
+@LineBreak
+@LineBreak
+
+@Bold "Exemple:" @LineBreak
+
+@Code
+  ;  QuickHelp  MyMax(Min [, Max [, Options, Mode]]) - Une fonction min/max standard
+  ProcedureDLL MyMax3(a, b, c, d)
+    ; Votre code ici
+    ProcedureReturn a
+  EndProcedure
+
+  ProcedureDLL MyMax2(a, b)
+    ProcedureReturn MyMax3(a, b, 0, 0)
+  EndProcedure
+
+  ProcedureDLL MyMax(a)
+    ProcedureReturn MyMax2(a, 0)
+  EndProcedure
+  
+@EndCode
+
+@Section Fonctions automatiques
+
+  Il existe deux fonctions spéciales pour l'initialisation automatique et la libération 
+  de la bibliothèque : InitPureLibrary() et FreePureLibrary(). Contrairement aux autres 
+  fonctions de la bibliothèque, celles-ci ne sont pas déclarées avec 
+  @Keyword ProcedureDLL mais avec @Keyword Procedure. Ces deux fonctions sont 
+  automatiquement appelées au lancement du programme et lorsque le programme est terminé. 
+@LineBreak
+@LineBreak
+
+@Bold "Exemple :" @LineBreak
+
+@Code
+  Procedure InitPureLibrary()
+  ; Votre routine d'initialisation ici
+  EndProcedure
+
+  Procedure FreePureLibrary()
+  ; Votre routine de libération des ressources ici
+  EndProcedure
+@EndCode
+
+@Section Désactivation d'une PureLibrary
+
+  Lors du codage de la PureLibrary, il peut être utile d'ignorer la bibliothèque 
+  actuelle avec @Keyword DisablePureLibrary afin que le nom de la fonction puisse 
+  être réutilisé. 
+@LineBreak
+@LineBreak
+@Bold "Exemple :" @LineBreak
+
+@Code
+  DisablePureLibrary MaLibSuperCool
+
+  ; Toutes les fonctions trouvées dans "MaLibSuperCool" seront ignorées, afin que 
+  ; leur nom puisse être réutilisé avec ProcedureDLL
+@EndCode
+
+@Section Suppression d'une PureLibrary
+
+  Pour supprimer une PureLibrary personnalisée, supprimez simplement le fichier 
+  correspondant dans le dossier PureBasic/PureLibraries/UserLibraries/.

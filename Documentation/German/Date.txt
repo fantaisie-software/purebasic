@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Date library documentation
 ;
 ;      (c) 2024 - Fantaisie Software
@@ -7,14 +7,14 @@
 @Library Date
 
 @Overview
-  Die 'Date' (Datums) Bibliothek ermöglicht den Umgang mit Datums- und Zeitangaben vom Jahr 1601 bis 9999 mithilfe
+  Die 'Date' (Datums) Bibliothek ermÃ¶glicht den Umgang mit Datums- und Zeitangaben vom Jahr 1601 bis 9999 mithilfe
   der Unix-Methode (d.h. der Anzahl der seit dem 1. Januar 1970 vergangenen Sekunden). Daten vor dem Jahr 1970
   werden als negative Werte dargestellt.
 @LineBreak
 @LineBreak
-  Hinweis: Um den gesamten verfügbaren Datumsbereich nutzen zu können, müssen die von dieser Bibliothek zurückgegebenen
+  Hinweis: Um den gesamten verfÃ¼gbaren Datumsbereich nutzen zu kÃ¶nnen, mÃ¼ssen die von dieser Bibliothek zurÃ¼ckgegebenen
   Werte in Variablen vom Typ Quad (.q) gespeichert werden.
-  Die Verwendung eines 32-Bit-Datentyps (Long oder Integer auf 32-Bit-Systemen) führt ab dem Jahr 2038 zu ungültigen Werten.
+  Die Verwendung eines 32-Bit-Datentyps (Long oder Integer auf 32-Bit-Systemen) fÃ¼hrt ab dem Jahr 2038 zu ungÃ¼ltigen Werten.
 
 @CommandList
 
@@ -27,7 +27,7 @@
 @Function Datum.q = AddDate(Datum.q, Typ, Wert)
 
 @Description
-  Fügt einen Wert zu einem Datum hinzu.
+  FÃ¼gt einen Wert zu einem Datum hinzu.
 
 @Parameter "Datum.q"
   Der Datums-Wert, zu welchem der Wert hinzu addiert werden soll.
@@ -35,31 +35,31 @@
 @Parameter "Typ"
   Der Typ des Wertes. Dies kann eine der folgenden Konstanten sein:
 @FixedFont
-  @#PB_Date_Year   : fügt 'Wert' Jahre zum Datum hinzu
-  @#PB_Date_Month  : fügt 'Wert' Monate zum Datum hinzu 
-  @#PB_Date_Week   : fügt 'Wert' Wochen zum Datum hinzu
-  @#PB_Date_Day    : fügt 'Wert' Tage zum Datum hinzu
-  @#PB_Date_Hour   : fügt 'Wert' Stunden zum Datum hinzu
-  @#PB_Date_Minute : fügt 'Wert' Minuten zum Datum hinzu
-  @#PB_Date_Second : fügt 'Wert' Sekunden zum Datum hinzu
+  @#PB_Date_Year   : fÃ¼gt 'Wert' Jahre zum Datum hinzu
+  @#PB_Date_Month  : fÃ¼gt 'Wert' Monate zum Datum hinzu 
+  @#PB_Date_Week   : fÃ¼gt 'Wert' Wochen zum Datum hinzu
+  @#PB_Date_Day    : fÃ¼gt 'Wert' Tage zum Datum hinzu
+  @#PB_Date_Hour   : fÃ¼gt 'Wert' Stunden zum Datum hinzu
+  @#PB_Date_Minute : fÃ¼gt 'Wert' Minuten zum Datum hinzu
+  @#PB_Date_Second : fÃ¼gt 'Wert' Sekunden zum Datum hinzu
 @EndFixedFont
 
   Hinweis: Wenn @#PB_Date_Month verwendet wird, dann wird automatisch der Fakt beachtet,
-  dass die Anzahl an Tagen pro Monat variiert. Zum Beispiel: wenn ein Monat zum '31. März 2008' addiert
+  dass die Anzahl an Tagen pro Monat variiert. Zum Beispiel: wenn ein Monat zum '31. MÃ¤rz 2008' addiert
   wird, dann wird das Ergebnis '30. April 2008' sein, da der April keine 31 Tage hat.
 
 @Parameter "Wert"
   Der Wert, welcher zum Datum addiert werden soll.
 
 @ReturnValue
-  Gibt das neue Datum zurück, andernfalls -1.
+  Gibt das neue Datum zurÃ¼ck, andernfalls -1.
 
 @Example
 @Code
 
-  Debug FormatDate("%yyyy/%mm/%dd", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurück
+  Debug FormatDate("%yyyy/%mm/%dd", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurÃ¼ck
 
-  Debug FormatDate("%mm/%dd/%yyyy", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurück
+  Debug FormatDate("%mm/%dd/%yyyy", AddDate(Date(), #PB_Date_Year, 2)) ; gibt das aktuelle Datum + 2 Jahre zurÃ¼ck
 
 @EndCode
 
@@ -86,7 +86,7 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt das konvertierte Datum zurück, oder -1, wenn die Konvertierung fehlgeschlagen ist.
+  Gibt das konvertierte Datum zurÃ¼ck, oder -1, wenn die Konvertierung fehlgeschlagen ist.
 
 @Example
 @Code
@@ -105,20 +105,20 @@
 
 @Description
   Gibt den aus den angegebenen Parametern erstellten Datumswert oder die lokale Systemzeit
-  zurück, wenn keine Parameter angegeben wurden.
+  zurÃ¼ck, wenn keine Parameter angegeben wurden.
 
 @OptionalParameter "Jahr, Monat, Tag, Stunde, Minute, Sekunde"
   Die zur Erstellung des Datums verwendeten Komponenten. Werden diese Parameter nicht angegeben,
-  wird die lokale Systemzeit zurückgegeben.
-  Der zulässige Bereich für den Jahreswert liegt zwischen 1601 und 9999.
+  wird die lokale Systemzeit zurÃ¼ckgegeben.
+  Der zulÃ¤ssige Bereich fÃ¼r den Jahreswert liegt zwischen 1601 und 9999.
 
 @ReturnValue
-  Gibt den angegebenen Datumswert zurück.
-  Wenn die angegebenen Parameter ungültig sind (oder außerhalb des unterstützten Datumsbereichs liegen),
-  dann wird -1 zurückgegeben.
+  Gibt den angegebenen Datumswert zurÃ¼ck.
+  Wenn die angegebenen Parameter ungÃ¼ltig sind (oder auÃŸerhalb des unterstÃ¼tzten Datumsbereichs liegen),
+  dann wird -1 zurÃ¼ckgegeben.
 
 @Remarks
-  @@FormatDate kann benutzt werden, um den Datumswert in ein für
+  @@FormatDate kann benutzt werden, um den Datumswert in ein fÃ¼r
   den Anwender lesbares Format umzuwandeln.
 
 @Example
@@ -138,10 +138,10 @@
 @Function Datum.q = DateUTC()
 
 @Description
-  Gibt das Systemdatum als UTC-Zeit ("koordinierte Weltzeit") zurück.
+  Gibt das Systemdatum als UTC-Zeit ("koordinierte Weltzeit") zurÃ¼ck.
 
 @ReturnValue
-  Gibt das Systemdatum als UTC-Zeit zurück.
+  Gibt das Systemdatum als UTC-Zeit zurÃ¼ck.
 
 @Example
 @Code
@@ -158,13 +158,13 @@
 @Function Ergebnis = Day(Datum.q)
 
 @Description
-  Gibt den Tages-Wert des angegebenen Datums zurück.
+  Gibt den Tages-Wert des angegebenen Datums zurÃ¼ck.
 
 @Parameter "Datum.q"
   Der Datumswert, von dem der Tag ausgegeben werden soll.
   
 @ReturnValue
-  Gibt die Tages-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 31.
+  Gibt die Tages-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 31.
 
 @Example
 @Code
@@ -182,13 +182,13 @@
 @Function Ergebnis = DayOfWeek(Datum.q)
 
 @Description
-  Gibt den Wochentag des angegebenen Datums zurück.
+  Gibt den Wochentag des angegebenen Datums zurÃ¼ck.
 
 @Parameter "Datum.q"
   Der Datumswert, von dem der Wochentag ausgegeben werden soll.
 
 @ReturnValue
-  Gibt eine Zahl zwischen 0 und 6 zurück, welche den Tag der Woche repräsentieren, andernfalls -1:
+  Gibt eine Zahl zwischen 0 und 6 zurÃ¼ck, welche den Tag der Woche reprÃ¤sentieren, andernfalls -1:
 @FixedFont
   0 : Sonntag
   1 : Montag
@@ -201,7 +201,7 @@
 
 @Example
 @Code
-  Debug DayOfWeek(Date(2006, 10, 30, 0, 0, 0))  ; Gibt '1' für Montag aus.
+  Debug DayOfWeek(Date(2006, 10, 30, 0, 0, 0))  ; Gibt '1' fÃ¼r Montag aus.
 @EndCode
 
 @SeeAlso
@@ -215,13 +215,13 @@
 @Function Ergebnis = DayOfYear(Datum.q)
 
 @Description
-  Gibt die Anzahl der bis zum angegebenen Datum seit Jahresanfang vergangenen Tage zurück.
+  Gibt die Anzahl der bis zum angegebenen Datum seit Jahresanfang vergangenen Tage zurÃ¼ck.
 
 @Parameter "Datum.q"
   Der Datumswert, von dem die Anzahl der Tage ausgegeben werden soll, andernfalls -1.
 
 @ReturnValue
-  Gibt die Anzahl an Tagen seit Jahresbeginn zurück.
+  Gibt die Anzahl an Tagen seit Jahresbeginn zurÃ¼ck.
   Das Ergebnis liegt immer zwischen 1 und 366.
 
 @Example
@@ -240,13 +240,13 @@
 @Function Ergebnis = Month(Datum.q)
 
 @Description
-  Gibt den Monats-Wert des angegebenen Datums zurück. 
+  Gibt den Monats-Wert des angegebenen Datums zurÃ¼ck. 
 
 @Parameter "Datum.q"
   Der Datumswert, von dem der Monat ausgegeben werden soll.
   
 @ReturnValue
-  Gibt die Monats-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 12.
+  Gibt die Monats-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 1 und 12.
 
 @Example
 @Code
@@ -264,13 +264,13 @@
 @Function Ergebnis = Year(Datum.q)
 
 @Description
-  Gibt den Jahres-Wert des angegebenen Datums zurück. 
+  Gibt den Jahres-Wert des angegebenen Datums zurÃ¼ck. 
 
 @Parameter "Datum.q"
   Der Datumswert, von dem das Jahr ausgegeben werden soll.
   
 @ReturnValue
-  Gibt die Jahres-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 1970 und 2034.
+  Gibt die Jahres-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 1970 und 2034.
 
 @Example
 @Code
@@ -288,13 +288,13 @@
 @Function Ergebnis = Hour(Datum.q)
 
 @Description
-  Gibt den Stunden-Wert des angegebenen Datums zurück. 
+  Gibt den Stunden-Wert des angegebenen Datums zurÃ¼ck. 
 
 @Parameter "Datum.q"
   Der Datumswert, von dem die Stunden ausgegeben werden sollen.
   
 @ReturnValue
-  Gibt die Stunden-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 23.
+  Gibt die Stunden-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 23.
 
 @Example
 @Code
@@ -312,13 +312,13 @@
 @Function Ergebnis = Minute(Datum.q)
 
 @Description
-  Gibt den Minuten-Wert des angegebenen Datums zurück. 
+  Gibt den Minuten-Wert des angegebenen Datums zurÃ¼ck. 
 
 @Parameter "Datum.q"
   Der Datumswert, von dem die Minuten ausgegeben werden sollen.
   
 @ReturnValue
-  Gibt die Minuten-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
+  Gibt die Minuten-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
 
 @Example
 @Code
@@ -336,13 +336,13 @@
 @Function Ergebnis = Second(Datum.q)
 
 @Description
-  Gibt den Sekunden-Wert des angegebenen Datums zurück. 
+  Gibt den Sekunden-Wert des angegebenen Datums zurÃ¼ck. 
 
 @Parameter "Datum.q"
   Der Datumswert, von dem die Sekunden ausgegeben werden sollen.
   
 @ReturnValue
-  Gibt die Sekunden-Komponente zurück, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
+  Gibt die Sekunden-Komponente zurÃ¼ck, andernfalls -1. Das Ergebnis liegt immer zwischen 0 und 59.
 
 @Example
 @Code
@@ -360,10 +360,10 @@
 @Function Text$ = FormatDate(Maske$, Datum.q)
 
 @Description
-  Gibt einen formatierten String vom angegebenen Datum zurück.
+  Gibt einen formatierten String vom angegebenen Datum zurÃ¼ck.
 
 @Parameter "Maske$"
-  Die für das Formatieren des Datums zu verwendende Maske. Die folgenden "Tokens" (reservierten Zeichen)
+  Die fÃ¼r das Formatieren des Datums zu verwendende Maske. Die folgenden "Tokens" (reservierten Zeichen)
   im Masken-String werden entsprechend des angegebenen Datums ersetzt:
 @FixedFont
   %yyyy: wird durch den Jahres-Wert ersetzt, auf 4 Stellen.
@@ -379,8 +379,8 @@
   Der zu verwendende Datumswert.
 
 @ReturnValue
-  Gibt den maskierten String zurück, in dem alle Tokens durch ihre jeweiligen Datumswerte ersetzt werden,
-  sofern das Datum gültig war, andernfalls einen leeren String.
+  Gibt den maskierten String zurÃ¼ck, in dem alle Tokens durch ihre jeweiligen Datumswerte ersetzt werden,
+  sofern das Datum gÃ¼ltig war, andernfalls einen leeren String.
 
 @Example
 @Code
@@ -403,12 +403,12 @@
 @Function Datum.q = ParseDate(Maske$, String$)
 
 @Description
-  Wandelt einen Datums-String in einen regulären Datums-Wert um, welcher danach mit
+  Wandelt einen Datums-String in einen regulÃ¤ren Datums-Wert um, welcher danach mit
   den anderen Datums-Funktionen verwendet werden kann. 
 
 @Parameter "Maske$"
   Ein Masken-String, welcher definiert, wie der Datums-String formatiert ist.
-  Mögliche "Tokens" (reservierte Zeichen) sind:
+  MÃ¶gliche "Tokens" (reservierte Zeichen) sind:
 @FixedFont
   %yyyy: wird durch den Jahres-Wert ersetzt, auf 4 Stellen.
   %yy: wird durch den Jahres-Wert ersetzt, auf 2 Stellen.
@@ -423,12 +423,12 @@
   Der String mit dem zu analysierenden (zu "parsenden") Datum.
 
 @ReturnValue
-  Gibt das Datum entsprechend dem analysierten String zurück. Wenn der Eingabestring
-  nicht mit der Maske übereinstimmt, dann ist das Ergebnis gleich -1.
+  Gibt das Datum entsprechend dem analysierten String zurÃ¼ck. Wenn der Eingabestring
+  nicht mit der Maske Ã¼bereinstimmt, dann ist das Ergebnis gleich -1.
 
 @Remarks
-  Diese Funktion ist sehr nützlich, um bereits gespeicherte Daten (zum Beispiel in einer
-  Log-Datei) zu ermitteln und weitere Operationen damit auszuführen.
+  Diese Funktion ist sehr nÃ¼tzlich, um bereits gespeicherte Daten (zum Beispiel in einer
+  Log-Datei) zu ermitteln und weitere Operationen damit auszufÃ¼hren.
 
 @Example
 @Code

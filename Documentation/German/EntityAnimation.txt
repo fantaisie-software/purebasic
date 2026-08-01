@@ -1,4 +1,4 @@
-;
+Ôªø;
 ;     Entity animation library documentation
 ;
 ;      (c) 2012 - Fantaisie Software
@@ -10,7 +10,7 @@
 
   @LibraryLink "entity" "Entities" sind Objekte, welche aus einem @LibraryLink "mesh" "Mesh-Objekt"
   und einem @LibraryLink "material" "Material" zusammengesetzt wurden und in Echtzeit frei
-  bewegt und verwandelt ("transformt") werden kˆnnen. 
+  bewegt und verwandelt ("transformt") werden k√∂nnen. 
 @LineBreak
 @LineBreak
   Diese Bibliothek wird bereitgestellt, um die Entity-Animation zu steuern. Das dem Entity
@@ -33,19 +33,19 @@
 @Function AddEntityAnimationTime(#Entity, Animation$, Zeit)
 
 @Description
-  F¸gt Zeit zur angegebenen #Entity Animation hinzu.
+  F√ºgt Zeit zur angegebenen #Entity Animation hinzu.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
 @Parameter "Zeit"
-  Die zur angegebenen Animation hinzu zu f¸gende Zeit (in Millisekunden), relativ zur
+  Die zur angegebenen Animation hinzu zu f√ºgende Zeit (in Millisekunden), relativ zur
   aktuellen Animationszeit.
 
 @NoReturnValue
@@ -67,17 +67,17 @@
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
 @Parameter "Flags"
-  Flags kˆnnen eine Kombination der folgenden Werte sein:
+  Flags k√∂nnen eine Kombination der folgenden Werte sein:
   @FixedFont
-  @#PB_EntityAnimation_Once:   Spielt die Animation nur einmal ab. Standardm‰ﬂig beginnt die Animation automatisch von vorn, wenn ihr Ende erreicht wurde.
+  @#PB_EntityAnimation_Once:   Spielt die Animation nur einmal ab. Standardm√§√üig beginnt die Animation automatisch von vorn, wenn ihr Ende erreicht wurde.
                               @@EntityAnimationStatus kann verwendet werden, um das Ende der Animation festzustellen.
-  @#PB_EntityAnimation_Manual: Startet die Animation im manuellen Modus, die Zeit wird nicht automatisch nach jedem @@RenderWorld hinzugef¸gt.
+  @#PB_EntityAnimation_Manual: Startet die Animation im manuellen Modus, die Zeit wird nicht automatisch nach jedem @@RenderWorld hinzugef√ºgt.
                               @@AddEntityAnimationTime muss aufgerufen werden, um die Animations-Zeit manuell zu aktualisieren.
 @EndFixedFont
 
@@ -99,7 +99,7 @@
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
@@ -116,22 +116,22 @@
 @Function Ergebnis = EntityAnimationStatus(#Entity, Animation$)
 
 @Description
-  Gibt den Status der angegebenen #Entity Animation zur¸ck.
+  Gibt den Status der angegebenen #Entity Animation zur√ºck.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
 @ReturnValue
-  Der R¸ckgabewert kann eine der folgenden Konstanten sein:
+  Der R√ºckgabewert kann eine der folgenden Konstanten sein:
 @FixedFont
   @#PB_EntityAnimation_Stopped: Die Animation wurde gestoppt (oder hat ihr Ende erreicht).
-  @#PB_EntityAnimation_Started: Die Animation l‰uft.
+  @#PB_EntityAnimation_Started: Die Animation l√§uft.
   @#PB_EntityAnimation_Unknown: Die Animation existiert nicht im Mesh-Objekt.
 @EndFixedFont
 
@@ -145,7 +145,7 @@
 @Function EntityAnimationBlendMode(#Entity, Modus)
 
 @Description
-  ƒndert den Mischmodus (englisch "blendmode") der #Entity Animation.
+  √Ñndert den Mischmodus (englisch "blendmode") der #Entity Animation.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
@@ -168,7 +168,7 @@
 
 @Remarks
   Beim Wechsel von einer Animation zu einer anderen mittels @@SetEntityAnimationWeight,
-  wird eine Mischung angelegt, um einen sanften ‹bergang zwischen den Animationen zu haben.
+  wird eine Mischung angelegt, um einen sanften √úbergang zwischen den Animationen zu haben.
 
 @SeeAlso
   @@StartEntityAnimation, @@SetEntityAnimationWeight
@@ -180,20 +180,20 @@
 @Function Ergebnis = GetEntityAnimationTime(#Entity, Animation$)
 
 @Description
-  Gibt die aktuelle Zeit der #Entity Animation zur¸ck.
+  Gibt die aktuelle Zeit der #Entity Animation zur√ºck.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
 @ReturnValue
   Die aktuelle Zeit (bzw. der aktuelle Zeitpunkt) der Entity-Animation in Millisekunden
-  - oder 0, wenn die Animation nicht l‰uft.
+  - oder 0, wenn die Animation nicht l√§uft.
 
 @SeeAlso
   @@StartEntityAnimation, @@AddEntityAnimationTime, @@SetEntityAnimationTime
@@ -205,15 +205,15 @@
 @Function SetEntityAnimationTime(#Entity, Animation$, Zeit)
 
 @Description
-  ƒndert die aktuelle Zeit (bzw. den Zeitpunkt) der #Entity Animation. Die ist eine
-  absolute Zeit-Position. Um die Zeit relativ zur aktuellen Zeit zu ‰ndern, verwenden
+  √Ñndert die aktuelle Zeit (bzw. den Zeitpunkt) der #Entity Animation. Die ist eine
+  absolute Zeit-Position. Um die Zeit relativ zur aktuellen Zeit zu √§ndern, verwenden
   Sie @@AddEntityAnimationTime.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
@@ -233,19 +233,19 @@
 @Function Ergebnis = GetEntityAnimationLength(#Entity, Animation$)
 
 @Description
-  Gibt die L‰nge der #Entity Animation zur¸ck.
+  Gibt die L√§nge der #Entity Animation zur√ºck.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
 @ReturnValue
-  Die L‰nge der Entity-Animation (in Millisekunden).
+  Die L√§nge der Entity-Animation (in Millisekunden).
 
 @SeeAlso
   @@StartEntityAnimation, @@SetEntityAnimationLength
@@ -254,22 +254,22 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAnimationLength(#Entity, Animation$, L‰nge)
+@Function SetEntityAnimationLength(#Entity, Animation$, L√§nge)
 
 @Description
-  ƒndert die L‰nge der #Entity Animation.
+  √Ñndert die L√§nge der #Entity Animation.
 
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
 
-@Parameter "L‰nge"
-  Die neue L‰nge der Entity-Animation (in Millisekunden).
+@Parameter "L√§nge"
+  Die neue L√§nge der Entity-Animation (in Millisekunden).
 
 @SeeAlso
   @@StartEntityAnimation, @@GetEntityAnimationLength
@@ -281,16 +281,16 @@
 @Function Ergebnis = GetEntityAnimationWeight(#Entity, Animation$)
 
 @Description
-  Gibt das "Gewicht" (bzw. die Wertigkeit) der #Entity Animation zur¸ck. Das Gewicht ist n¸tzlich
-  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften ‹bergang
-  von einer Animation auf die andere zu haben, ist es mˆglich, schrittweise das Gewicht
-  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhˆhen.
+  Gibt das "Gewicht" (bzw. die Wertigkeit) der #Entity Animation zur√ºck. Das Gewicht ist n√ºtzlich
+  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften √úbergang
+  von einer Animation auf die andere zu haben, ist es m√∂glich, schrittweise das Gewicht
+  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erh√∂hen.
   
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
@@ -298,7 +298,7 @@
 @ReturnValue
   Das aktuelle Gewicht der Entity-Animation (Wert zwischen 0.0 und 1.0). Ist das Gewicht
   gleich 0, dann hat die Animation keinen Effekt. Ist das Gewicht gleich 1, dann wird
-  die Animation vollst‰ndig abgespielt.
+  die Animation vollst√§ndig abgespielt.
 
 @Remarks
   Der @@EntityAnimationBlendMode beeinflusst ebenfalls, wie Animationen gemischt
@@ -314,16 +314,16 @@
 @Function SetEntityAnimationWeight(#Entity, Animation$, Gewicht)
 
 @Description
-  ƒndert das Gewicht (bzw. die Wertigkeit) der #Entity Animation. Das Gewicht ist n¸tzlich
-  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften ‹bergang
-  von einer Animation auf die andere zu haben, ist es mˆglich, schrittweise das Gewicht
-  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhˆhen.
+  √Ñndert das Gewicht (bzw. die Wertigkeit) der #Entity Animation. Das Gewicht ist n√ºtzlich
+  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften √úbergang
+  von einer Animation auf die andere zu haben, ist es m√∂glich, schrittweise das Gewicht
+  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erh√∂hen.
   
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.
@@ -331,7 +331,7 @@
 @Parameter "Gewicht"
   Das neue Gewicht der Entity-Animation (Wert zwischen 0.0 und 1.0). Ist das Gewicht
   gleich 0, dann hat die Animation keinen Effekt. Ist das Gewicht gleich 1, dann wird
-  die Animation vollst‰ndig abgespielt.
+  die Animation vollst√§ndig abgespielt.
 
 @NoReturnValue
 
@@ -350,13 +350,13 @@
 
 @Description
   Aktualisiert die #Entity Animation. Zum Beispiel wenn die Eckpunkte eines @LibraryLink "mesh" "Mesh"
-  ver‰ndert wurden, dann muss der Animations-Cache neu berechnet werden.
+  ver√§ndert wurden, dann muss der Animations-Cache neu berechnet werden.
     
 @Parameter "#Entity"
   Das zu verwendende Entity-Objekt.
 
 @Parameter "Animation$"
-  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Groﬂ-
+  Der Name der Animation. Die Animationen werden im Mesh-Objekt unter Beachtung der Gro√ü-
   und Kleinschreibung gespeichert (d.h. "Walk" ist eine andere Animation als "walk").
   Wenn die Animation nicht gefunden wurde oder das Mesh kein Skelett hat, dann hat diese
   Funktion keinen Effekt.

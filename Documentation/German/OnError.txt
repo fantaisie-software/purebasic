@@ -1,42 +1,47 @@
-;
+ï»¿;
 ;     OnError library documentation
 ;
-;       (c) 2023 - Fantaisie Software
+;       (c) 2024 - Fantaisie Software
 ;
 
 @Library OnError
 
 @Overview
-  Diese Bibliothek bietet eine Möglichkeit, um Programmfehler (Programmabstürze) aufzuspüren, ähnlich 
-  wie mit dem @ReferenceLink "ide_debugger" "PureBasic Debugger", aber ohne die Nachteile einer größeren
-  Dateigröße und geringerer Ausführungsgeschwindigkeit wie bei Nutzung des Debuggers.
+  Diese Bibliothek bietet eine MÃ¶glichkeit, um Programmfehler (ProgrammabstÃ¼rze) aufzuspÃ¼ren, Ã¤hnlich 
+  wie mit dem @ReferenceLink "ide_debugger" "PureBasic Debugger", aber ohne die Nachteile einer grÃ¶ÃŸeren
+  DateigrÃ¶ÃŸe und geringerer AusfÃ¼hrungsgeschwindigkeit wie bei Nutzung des Debuggers.
   Auf diesem Weg kann die finale Version eines Programms, welche an den Endanwender geliefert wird,
-  immer noch Fehler abfangen und dem Anwender einige Informationen über den Fehler zur Verfügung stellen,
-  welche er dann an den Entwickler zurückmelden kann.
+  immer noch Fehler abfangen und dem Anwender einige Informationen Ã¼ber den Fehler zur VerfÃ¼gung stellen,
+  welche er dann an den Entwickler zurÃ¼ckmelden kann.
 @LineBreak
 @LineBreak
   Der @ReferenceLink "ide_debugger" "PureBasic Debugger" ist immer noch das bessere Werkzeug, um Fehler
-  (englisch "Bugs") während der Entwicklungsphase zu finden. Grund dafür ist, dass der Debugger viel 
-  mehr detaillierte Informationen über den Status des Programms (wie z.B. die aktuellen Werte von 
+  (englisch "Bugs") wÃ¤hrend der Entwicklungsphase zu finden. Grund dafÃ¼r ist, dass der Debugger viel 
+  mehr detaillierte Informationen Ã¼ber den Status des Programms (wie z.B. die aktuellen Werte von 
   @ReferenceLink "variables" "Variablen") liefert und eine ganze Reihe an interaktiven Features zum
   schnellen Auffinden von Bugs bietet.
 @LineBreak
 @LineBreak
   @Bold "Hinweis:" Wenn sowohl diese Bibliothek als auch der @ReferenceLink "ide_debugger" "PureBasic Debugger" 
-  verwendet werden, werden nicht alle Fehler von der OnError Bibliothek abgefangen, da einige Überprüfungen
+  verwendet werden, werden nicht alle Fehler von der OnError Bibliothek abgefangen, da einige ÃœberprÃ¼fungen
   durch den Debugger bereits vorgenommen und gemeldet werden, noch bevor der entsprechende Programmcode mit
-  dem Fehler ausgeführt wird. Um OnError in der IDE zu testen, stellen Sie bitte sicher, dass Debugger
+  dem Fehler ausgefÃ¼hrt wird. Um OnError in der IDE zu testen, stellen Sie bitte sicher, dass Debugger
   ausgeschalten ist (@Keyword DisableDebugger ist nicht genug).
 @LineBreak
 @LineBreak
   Diese Bibliothek kann mit Hilfe der Befehle @@ErrorFile und @@ErrorLine
-  Informationen über die Quellcode-Datei und die Zeile, bei der der Fehler auftrat, liefern.
-  Allerdings nur, wenn dieses Feature während des Kompilierens aktiviert wurde (es verursacht eine
-  sehr geringe Verlangsamung der Ausführungsgeschwindigkeit, um die Zeilennummern zu beobachten).
-  Zur Aktivierung dieses Features setzen Sie das Häkchen bei "OnError-Unterstützung einschalten" in den
-  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren über die 
+  Informationen Ã¼ber die Quellcode-Datei und die Zeile, bei der der Fehler auftrat, liefern.
+  Allerdings nur, wenn dieses Feature wÃ¤hrend des Kompilierens aktiviert wurde (es verursacht eine
+  sehr geringe Verlangsamung der AusfÃ¼hrungsgeschwindigkeit, um die Zeilennummern zu beobachten).
+  Zur Aktivierung dieses Features setzen Sie das HÃ¤kchen bei "OnError-UnterstÃ¼tzung einschalten" in den
+  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren Ã¼ber die 
   @ReferenceLink "cli_compiler" "Kommandozeile" den /LINENUMBERING (Windows) bzw. --linenumbering 
   (Linux, Mac OSX) Kommandozeilen-Switch an.
+@LineBreak
+@LineBreak
+  Unter Linux sollte bei der Behandlung schwerwiegender Fehler (im "Error-Handler") die BenutzeroberflÃ¤che (UI)
+  nicht verwendet und das Programm so schnell wie mÃ¶glich beendet werden, da es sich in einem instabilen Zustand
+  befindet.
 
 @CommandList
 
@@ -49,9 +54,9 @@
 @Function OnErrorExit()
 
 @Description
-  Ändert die beim Auftreten eines Fehlers ausgeführte Aktion auf direktes Beenden des Programms,
+  Ã„ndert die beim Auftreten eines Fehlers ausgefÃ¼hrte Aktion auf direktes Beenden des Programms,
   auch wenn die Standard-Aktion auf dem System bei dieser Art von Fehler kein Beenden des Programms
-  vorsieht. Das System zeigt beim Beenden möglicherweise einen Fehler-Dialog an oder gibt eine
+  vorsieht. Das System zeigt beim Beenden mÃ¶glicherweise einen Fehler-Dialog an oder gibt eine
   Fehlermeldung auf der Konsole aus.
 
 @NoParameters
@@ -59,7 +64,7 @@
 @NoReturnValue
 
 @Remarks
-  Um ein Programm unauffällig zu beenden und eine Systemmeldung zu vermeiden, verwenden Sie 
+  Um ein Programm unauffÃ¤llig zu beenden und eine Systemmeldung zu vermeiden, verwenden Sie 
   @@OnErrorCall und beenden das Programm vom "Error-Handler" aus.
 
 @Example
@@ -79,11 +84,11 @@
 @Function OnErrorCall(@ErrorHandler())
 
 @Description
-  Ändert die beim Auftreten eines Fehlers ausgeführte Aktion auf den Aufruf der angegebenen "Handler"-Prozedur
-  (Programmteil, der sich um den Umgang mit dem Fehler kümmert). Der "Handler" kann mit Hilfe der Befehle
-  dieser Bibliothek dem Anwender Informationen über den Fehler anzeigen und alle zum Beenden des Programms
-  nötigen "Aufräumaktionen" durchführen. Das Programm endet, sobald der Handler zurückkehrt (englisch "return",
-  d.h. fertig ausgeführt wurde).
+  Ã„ndert die beim Auftreten eines Fehlers ausgefÃ¼hrte Aktion auf den Aufruf der angegebenen "Handler"-Prozedur
+  (Programmteil, der sich um den Umgang mit dem Fehler kÃ¼mmert). Der "Handler" kann mit Hilfe der Befehle
+  dieser Bibliothek dem Anwender Informationen Ã¼ber den Fehler anzeigen und alle zum Beenden des Programms
+  nÃ¶tigen "AufrÃ¤umaktionen" durchfÃ¼hren. Das Programm endet, sobald der Handler zurÃ¼ckkehrt (englisch "return",
+  d.h. fertig ausgefÃ¼hrt wurde).
 
 @Parameter "@ErrorHandler()"
   Die Adresse einer Prozedur in der folgenden Form:
@@ -116,9 +121,9 @@
 @Function OnErrorGoto(?SprungmarkenAdresse)
 
 @Description
-  Ändert die beim Auftreten eines Fehlers ausgeführte Aktion auf das Springen an die angegebene
+  Ã„ndert die beim Auftreten eines Fehlers ausgefÃ¼hrte Aktion auf das Springen an die angegebene
   Sprungmarken-Adresse und Fortsetzen des Programms von dort aus. Nach dem Springen zu dieser
-  Adresse können die Funktionen dieser Bibliothek verwendet werden, um weitere Informationen über
+  Adresse kÃ¶nnen die Funktionen dieser Bibliothek verwendet werden, um weitere Informationen Ã¼ber
   den Fehler zu erhalten.
 
 @Parameter "?SprungmarkenAdresse"
@@ -128,10 +133,10 @@
 
 @Remarks
   Der Program-Stack wird nicht angepasst, bevor zu dieser Sprungmarke gesprungen
-  wird. Daher sollte auf lokale Variablen nicht zugegriffen werden, da sie möglicherweise nicht
-  mehr erreichbar sind. Es ist auch nicht sicher, die normale Programmausführung nach einem
-  Fehler fortzusetzen, da Dinge wie die Return-Adresse einer Prozedur falsch sein können, wenn
-  der Stack nicht länger korrekt ist. Die beste Vorgehensweise ist, einfach Informationen über
+  wird. Daher sollte auf lokale Variablen nicht zugegriffen werden, da sie mÃ¶glicherweise nicht
+  mehr erreichbar sind. Es ist auch nicht sicher, die normale ProgrammausfÃ¼hrung nach einem
+  Fehler fortzusetzen, da Dinge wie die Return-Adresse einer Prozedur falsch sein kÃ¶nnen, wenn
+  der Stack nicht lÃ¤nger korrekt ist. Die beste Vorgehensweise ist, einfach Informationen Ã¼ber
   den Fehler zu erfassen und anzuzeigen und dann das Programm zu beenden.
 
 @Example
@@ -156,8 +161,8 @@
 @Function OnErrorDefault()
 
 @Description
-  Ändert die beim Auftreten eines Fehlers ausgeführte Aktion auf die Standard-Systemeinstellung.
-  Dies bedeutet üblicherweise die Anzeige eines Fehler-Dialogs und Beenden des Programms, aber
+  Ã„ndert die beim Auftreten eines Fehlers ausgefÃ¼hrte Aktion auf die Standard-Systemeinstellung.
+  Dies bedeutet Ã¼blicherweise die Anzeige eines Fehler-Dialogs und Beenden des Programms, aber
   es meint sicherlich auch, weitere Fehler einfach zu ignorieren. Um ein Programm bei jedem
   Fehler zu beenden, verwenden Sie @@OnErrorExit. 
 
@@ -167,10 +172,10 @@
 
 @Remarks
   Bei Verwendung der OnError Bibliothek innerhalb einer @ReferenceLink "dll" "DLL"
-  ist die beste Vorgehensweise, den "Error-Handler" zu Beginn jeder öffentlichen DLL-Funktion 
-  festzulegen und diesen mit diesem Befehl auf die Standardeinstellung zurückzusetzen, bevor zum
-  aufrufenden Programm zurückgekehrt wird. Damit gehen Sie sicher, dass es zu keinen gegenseitigen
-  Störungen zwischen der OnError Bibliothek und jedweder Ausnahmebehandlung im aufrufenden Programm
+  ist die beste Vorgehensweise, den "Error-Handler" zu Beginn jeder Ã¶ffentlichen DLL-Funktion 
+  festzulegen und diesen mit diesem Befehl auf die Standardeinstellung zurÃ¼ckzusetzen, bevor zum
+  aufrufenden Programm zurÃ¼ckgekehrt wird. Damit gehen Sie sicher, dass es zu keinen gegenseitigen
+  StÃ¶rungen zwischen der OnError Bibliothek und jedweder Ausnahmebehandlung im aufrufenden Programm
   kommt.
 
 @Example
@@ -196,26 +201,26 @@
 @Function Ergebnis = ErrorCode()
 
 @Description
-  Gibt den Fehler-Code des aktuell behandelten Fehlers zurück. Dieser Befehl gibt nur dann einen
-  aussagekräftigen Wert zurück, wenn es einen durch @@OnErrorCall oder @@OnErrorGoto
+  Gibt den Fehler-Code des aktuell behandelten Fehlers zurÃ¼ck. Dieser Befehl gibt nur dann einen
+  aussagekrÃ¤ftigen Wert zurÃ¼ck, wenn es einen durch @@OnErrorCall oder @@OnErrorGoto
   behandelten Fehler gab.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen der folgenden Werte zurück:
+  Gibt einen der folgenden Werte zurÃ¼ck:
 @FixedFont
-  @#PB_OnError_InvalidMemory         : Lese- oder Schreib-Operation an einer ungültigen Stelle
-  @#PB_OnError_Floatingpoint         : Fließkomma-Fehler
+  @#PB_OnError_InvalidMemory         : Lese- oder Schreib-Operation an einer ungÃ¼ltigen Stelle
+  @#PB_OnError_Floatingpoint         : FlieÃŸkomma-Fehler
   @#PB_OnError_Breakpoint            : Debugger Haltepunkt erreicht (nicht-PureBasic Haltepunkte)
-  @#PB_OnError_IllegalInstruction    : Versuch, eine illegale Anweisung auszuführen
-  @#PB_OnError_PriviledgedInstruction: Versuch, eine privilegierte (System-) Anweisung auszuführen
+  @#PB_OnError_IllegalInstruction    : Versuch, eine illegale Anweisung auszufÃ¼hren
+  @#PB_OnError_PriviledgedInstruction: Versuch, eine privilegierte (System-) Anweisung auszufÃ¼hren
   @#PB_OnError_DivideByZero          : Division durch Null (nur auf Windows)
 @EndFixedFont
-  Linux und Mac OSX melden @#PB_OnError_Floatingpoint für "Division durch Null" Fehler.
+  Linux und Mac OSX melden @#PB_OnError_Floatingpoint fÃ¼r "Division durch Null" Fehler.
 @LineBreak
 @LineBreak
-  Daneben wird jedes OS weitere mögliche Fehler-Werte haben. Auf Windows können "selbsterstellte" Fehler
+  Daneben wird jedes OS weitere mÃ¶gliche Fehler-Werte haben. Auf Windows kÃ¶nnen "selbsterstellte" Fehler
   mit dem @@RaiseError Befehl eingerichtet werden.
 
 @SupportedOS
@@ -225,15 +230,15 @@
 @Function Ergebnis$ = ErrorMessage([FehlerCode])
 
 @Description
-  Gibt eine Fehlernachricht für den angegebenen Fehlercode in Englisch zurück.
+  Gibt eine Fehlernachricht fÃ¼r den angegebenen Fehlercode in Englisch zurÃ¼ck.
 
 @OptionalParameter "FehlerCode"
-  Ein spezifischer Fehlercode. Siehe @@ErrorCode für die verfügbaren Fehlercodes.
+  Ein spezifischer Fehlercode. Siehe @@ErrorCode fÃ¼r die verfÃ¼gbaren Fehlercodes.
 
 @ReturnValue
-  Die Nachricht für den aktuell behandelten Fehler. Wenn der Parameter 'FehlerCode'
-  angegeben wird, dann wird eine englische Fehlermeldung für diesen spezifischen
-  Fehler zurückgegeben.
+  Die Nachricht fÃ¼r den aktuell behandelten Fehler. Wenn der Parameter 'FehlerCode'
+  angegeben wird, dann wird eine englische Fehlermeldung fÃ¼r diesen spezifischen
+  Fehler zurÃ¼ckgegeben.
 
 @SupportedOS
 
@@ -242,22 +247,22 @@
 @Function Ergebnis = ErrorLine()
 
 @Description
-  Gibt die Zeilennummer im Quellcode zurück, wo der aktuelle Fehler auftrat.
-  Dieser Befehl gibt nur dann einen aussagekräftigen Wert zurück, wenn es einen durch 
+  Gibt die Zeilennummer im Quellcode zurÃ¼ck, wo der aktuelle Fehler auftrat.
+  Dieser Befehl gibt nur dann einen aussagekrÃ¤ftigen Wert zurÃ¼ck, wenn es einen durch 
   @@OnErrorCall oder @@OnErrorGoto behandelten Fehler gab.
 @LineBreak
 @LineBreak
   Das Verfolgen der Zeilennummern muss beim Kompilieren aktiviert sein, damit dieser Befehl die
-  aktuelle Zeilennummer zurückgibt. 
-  Zur Aktivierung dieses Features setzen Sie das Häkchen bei "OnError-Zeilenunterstützung einschalten" in den
-  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren über die 
+  aktuelle Zeilennummer zurÃ¼ckgibt. 
+  Zur Aktivierung dieses Features setzen Sie das HÃ¤kchen bei "OnError-ZeilenunterstÃ¼tzung einschalten" in den
+  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren Ã¼ber die 
   @ReferenceLink "cli_compiler" "Kommandozeile" den /LINENUMBERING (Windows) bzw. --linenumbering 
   (Linux, Mac OSX) Kommandozeilen-Switch an.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Zeilennummer des Fehlers zurück, oder -1 wenn die OnError Zeilenunterstützung deaktiviert ist.
+  Gibt die Zeilennummer des Fehlers zurÃ¼ck, oder -1 wenn die OnError ZeilenunterstÃ¼tzung deaktiviert ist.
 
 @SupportedOS
 
@@ -266,25 +271,25 @@
 @Function Ergebnis$ = ErrorFile()
 
 @Description
-  Gibt den Dateinamen des Quellcodes bzw. der @ReferenceLink "includes" "Include-Datei" zurück, wo
+  Gibt den Dateinamen des Quellcodes bzw. der @ReferenceLink "includes" "Include-Datei" zurÃ¼ck, wo
   der Fehler auftrat.
-  Dieser Befehl gibt nur dann einen aussagekräftigen Wert zurück, wenn es einen durch 
+  Dieser Befehl gibt nur dann einen aussagekrÃ¤ftigen Wert zurÃ¼ck, wenn es einen durch 
   @@OnErrorCall oder @@OnErrorGoto behandelten Fehler gab.
 @LineBreak
 @LineBreak
   Das Verfolgen der Zeilennummern muss beim Kompilieren aktiviert sein, damit dieser Befehl den
-  aktuellen Dateinamen zurückgibt. 
-  Zur Aktivierung dieses Features setzen Sie das Häkchen bei "OnError-Zeilenunterstützung einschalten" in den
-  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren über die 
+  aktuellen Dateinamen zurÃ¼ckgibt. 
+  Zur Aktivierung dieses Features setzen Sie das HÃ¤kchen bei "OnError-ZeilenunterstÃ¼tzung einschalten" in den
+  @ReferenceLink "ide_compiler" "Compiler-Optionen" oder geben beim Kompilieren Ã¼ber die 
   @ReferenceLink "cli_compiler" "Kommandozeile" den /LINENUMBERING (Windows) bzw. --linenumbering 
   (Linux, Mac OSX) Kommandozeilen-Switch an.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den Dateinamen des Fehlers zurück, oder "OnError line support disabled" wenn die OnError 
-  Zeilenunterstützung deaktiviert ist. (Eine einfache Möglichkeit zur Überprüfung, ob die OnError
-  Zeilenunterstützung aktiv ist, ist zu überprüfen, ob das Ergebnis von @@ErrorLine ungleich -1 ist.)
+  Gibt den Dateinamen des Fehlers zurÃ¼ck, oder "OnError line support disabled" wenn die OnError 
+  ZeilenunterstÃ¼tzung deaktiviert ist. (Eine einfache MÃ¶glichkeit zur ÃœberprÃ¼fung, ob die OnError
+  ZeilenunterstÃ¼tzung aktiv ist, ist zu Ã¼berprÃ¼fen, ob das Ergebnis von @@ErrorLine ungleich -1 ist.)
 
 @SupportedOS
 
@@ -293,8 +298,8 @@
 @Function Ergebnis = ErrorAddress()
 
 @Description
-  Gibt die Speicheradresse der Assembler-Anweisung zurück, welche den aktuellen Fehler verursacht hat.
-  Dieser Befehl gibt nur dann einen aussagekräftigen Wert zurück, wenn es einen durch 
+  Gibt die Speicheradresse der Assembler-Anweisung zurÃ¼ck, welche den aktuellen Fehler verursacht hat.
+  Dieser Befehl gibt nur dann einen aussagekrÃ¤ftigen Wert zurÃ¼ck, wenn es einen durch 
   @@OnErrorCall oder @@OnErrorGoto behandelten Fehler gab.
 
 @NoParameters
@@ -310,8 +315,8 @@
 
 @Description
   Nach einem Fehler mit dem Code @#PB_OnError_InvalidMemory gibt dieser Befehl die 
-  Speicheradresse zurück, welche gelesen/geschrieben wurde, als der Fehler auftrat. Dieser Befehl
-  hat keine Bedeutung für andere Fehlercodes.
+  Speicheradresse zurÃ¼ck, welche gelesen/geschrieben wurde, als der Fehler auftrat. Dieser Befehl
+  hat keine Bedeutung fÃ¼r andere Fehlercodes.
 
 @NoParameters
 
@@ -326,13 +331,13 @@
 @Function Ergebnis = ErrorRegister(Register) 
 
 @Description
-  Gibt den Inhalt des angegebenen CPU-Registers zum Zeitpunkt des Fehlers zurück.
-  Dieser Befehl gibt nur dann einen aussagekräftigen Wert zurück, wenn es einen durch 
+  Gibt den Inhalt des angegebenen CPU-Registers zum Zeitpunkt des Fehlers zurÃ¼ck.
+  Dieser Befehl gibt nur dann einen aussagekrÃ¤ftigen Wert zurÃ¼ck, wenn es einen durch 
   @@OnErrorCall oder @@OnErrorGoto behandelten Fehler gab.
 
 @Parameter "Register"
-  Die verfügbaren Register-Konstanten hängen vom CPU-Typ ab, für welchen das Programm kompiliert wurde.
-  Die folgenden Werte sind verfügbar:
+  Die verfÃ¼gbaren Register-Konstanten hÃ¤ngen vom CPU-Typ ab, fÃ¼r welchen das Programm kompiliert wurde.
+  Die folgenden Werte sind verfÃ¼gbar:
 @LineBreak
 @LineBreak
 
@@ -376,20 +381,20 @@
 @Function RaiseError(Fehlernummer)
 
 @Description
-  Erstellt künstlich den angegebenen Fehler. Die dazugehörige Fehler-Aktion wird ausgeführt (Aufruf
+  Erstellt kÃ¼nstlich den angegebenen Fehler. Die dazugehÃ¶rige Fehler-Aktion wird ausgefÃ¼hrt (Aufruf
   des "Error-Handlers" oder Beenden des Programms, wenn kein Handler festgelegt wurde). Die
   Fehlernummer wird innerhalb des "Error-Handlers" mittels des @@ErrorCode Befehls
-  verfügbar sein.
+  verfÃ¼gbar sein.
 
 @Parameter "Fehlernummer"
-  Auf Windows kann jede Fehlernummer ausgelöst werden (auch von der Applikation definierte). Auf Linux 
-  bzw. Mac OSX können nur die folgenden Fehler ausgelöst werden:
+  Auf Windows kann jede Fehlernummer ausgelÃ¶st werden (auch von der Applikation definierte). Auf Linux 
+  bzw. Mac OSX kÃ¶nnen nur die folgenden Fehler ausgelÃ¶st werden:
 @FixedFont
-  @#PB_OnError_InvalidMemory         : Lese- oder Schreib-Operation an einer ungültigen Stelle
-  @#PB_OnError_Floatingpoint         : Fließkomma-Fehler
+  @#PB_OnError_InvalidMemory         : Lese- oder Schreib-Operation an einer ungÃ¼ltigen Stelle
+  @#PB_OnError_Floatingpoint         : FlieÃŸkomma-Fehler
   @#PB_OnError_Breakpoint            : Debugger Haltepunkt erreicht (nicht-PureBasic Haltepunkte)
-  @#PB_OnError_IllegalInstruction    : Versuch, eine illegale Anweisung auszuführen
-  @#PB_OnError_PriviledgedInstruction: Versuch, eine privilegierte (System-) Anweisung auszuführen
+  @#PB_OnError_IllegalInstruction    : Versuch, eine illegale Anweisung auszufÃ¼hren
+  @#PB_OnError_PriviledgedInstruction: Versuch, eine privilegierte (System-) Anweisung auszufÃ¼hren
 @EndFixedFont
 
 @NoReturnValue
@@ -420,22 +425,22 @@
 @LineBreak
 @LineBreak
   @Bold "Wichtig:" Die Disassembler Befehle verwenden die @InternetLink "http://udis86.sourceforge.net/" "Udis86 Disassembler Library",
-  um die Anweisungen zu dekodieren. Diese Bibliothek wurde unter der BSD-Lizenz veröffentlicht, welche 
+  um die Anweisungen zu dekodieren. Diese Bibliothek wurde unter der BSD-Lizenz verÃ¶ffentlicht, welche 
   @MainGuideLink "license_udis86" "hier" eingesehen werden kann.
-  Wenn @@ExamineAssembly und zugehörige Befehle in einem Programm verwendet werden, das
-  öffentlich gemacht werden soll, muss der oben verlinkte Lizenz-Text mit in die Software aufgenommen 
+  Wenn @@ExamineAssembly und zugehÃ¶rige Befehle in einem Programm verwendet werden, das
+  Ã¶ffentlich gemacht werden soll, muss der oben verlinkte Lizenz-Text mit in die Software aufgenommen 
   werden.
 
 @Parameter "*Address"
   Die Adresse der ersten zu disassemblierenden Anweisung.
   
 @OptionalParameter "*EndAddress"
-  Wenn angegeben, dann endet das Disassemblieren (@@NextInstruction wird 0 zurückgeben),
-  sobald '*EndAdresse' erreicht wird. Wenn '*EndAdresse' nicht angegeben wird, dann läuft das
-  Disassemblieren bis @@NextInstruction nicht länger aufgerufen wird.
+  Wenn angegeben, dann endet das Disassemblieren (@@NextInstruction wird 0 zurÃ¼ckgeben),
+  sobald '*EndAdresse' erreicht wird. Wenn '*EndAdresse' nicht angegeben wird, dann lÃ¤uft das
+  Disassemblieren bis @@NextInstruction nicht lÃ¤nger aufgerufen wird.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das Disassemblieren möglich ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn das Disassemblieren mÃ¶glich ist, andernfalls Null.
 
 @Example
 @Code
@@ -467,15 +472,15 @@
 @Function Ergebnis = NextInstruction()
 
 @Description
-  Disassembliert die nächste Anweisung nach einem Aufruf von @@ExamineAssembly. 
-  Informationen über die disassemblierte Anweisung können mittels @@InstructionString
+  Disassembliert die nÃ¤chste Anweisung nach einem Aufruf von @@ExamineAssembly. 
+  Informationen Ã¼ber die disassemblierte Anweisung kÃ¶nnen mittels @@InstructionString
   und @@InstructionAddress gelesen werden.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Anweisung erfolgreich disassembliert wurde.
-  Gibt Null zurück, wenn es keine zu disassemblierende Anweisung mehr gibt (die bei
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Anweisung erfolgreich disassembliert wurde.
+  Gibt Null zurÃ¼ck, wenn es keine zu disassemblierende Anweisung mehr gibt (die bei
   @@ExamineAssembly angegebene '*EndAdresse' wurde erreicht).
 
 @SeeAlso
@@ -488,7 +493,7 @@
 @Function Ergebnis = InstructionAddress()
 
 @Description
-  Gibt die Adresse der Anweisung zurück, welche durch einen Aufruf von @@NextInstruction
+  Gibt die Adresse der Anweisung zurÃ¼ck, welche durch einen Aufruf von @@NextInstruction
   disassembliert wurde.
 
 @NoParameters
@@ -507,7 +512,7 @@
 @Function Ergebnis$ = InstructionString()
 
 @Description
-  Gibt eine String-Darstellung der Anweisung zurück, welche durch einen Aufruf von @@NextInstruction
+  Gibt eine String-Darstellung der Anweisung zurÃ¼ck, welche durch einen Aufruf von @@NextInstruction
   disassembliert wurde.
 
 @NoParameters

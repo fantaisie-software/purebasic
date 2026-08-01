@@ -1,4 +1,4 @@
-@Title Global
+ï»¿@Title Global
 
 @Syntax
 
@@ -6,22 +6,22 @@
 
 @Description
 
-  @Keyword Global bietet die Möglichkeit, @ReferenceLink "variables" "Variablen" als global zu definieren, z.B.
+  @Keyword Global bietet die MÃ¶glichkeit, @ReferenceLink "variables" "Variablen" als global zu definieren, z.B.
   kann auf solche Variablen dann auch innerhalb einer @ReferenceLink "Procedures" "Prozedur" zugegriffen werden.
-  In diesem Fall muss jedoch die Anweisung @Keyword Global für die entsprechenden Variablen aufgerufen werden,
+  In diesem Fall muss jedoch die Anweisung @Keyword Global fÃ¼r die entsprechenden Variablen aufgerufen werden,
   @Bold bevor die Deklaration der Prozedur erfolgt.
   @LineBreak
-  Diese Regel ist überall gültig - außer in einem Fall: Die @ReferenceLink "module" "Module"
-  haben keinen Zugriff auf die als global deklarierten Variablen außerhalb dieses Moduls.
+  Diese Regel ist Ã¼berall gÃ¼ltig - auÃŸer in einem Fall: Die @ReferenceLink "module" "Module"
+  haben keinen Zugriff auf die als global deklarierten Variablen auÃŸerhalb dieses Moduls.
   @LineBreak  
-  Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden. Wenn für die Variable nach @Keyword Global
-  ein Typ angegeben wird, dann wird der Standard-Typ durch diese Deklaration geändert.
-  @Keyword Global kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "verknüpften Listen"
+  Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden. Wenn fÃ¼r die Variable nach @Keyword Global
+  ein Typ angegeben wird, dann wird der Standard-Typ durch diese Deklaration geÃ¤ndert.
+  @Keyword Global kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "verknÃ¼pften Listen"
   und @ReferenceLink "newmap" "Maps" verwendet werden.
   @LineBreak
   @LineBreak
-  Für den Fall, dass Sie in einer Prozedur 'lokale' Variablen, die den gleichen Namen wie globale Variablen haben,
-  verwenden möchten, schauen Sie sich die Schlüsselworte @ReferenceLink "Protected" "Protected" und @ReferenceLink "Static" "Static" an.
+  FÃ¼r den Fall, dass Sie in einer Prozedur 'lokale' Variablen, die den gleichen Namen wie globale Variablen haben,
+  verwenden mÃ¶chten, schauen Sie sich die SchlÃ¼sselworte @ReferenceLink "Protected" "Protected" und @ReferenceLink "Static" "Static" an.
 
 @Example Mit Variablen
 
@@ -54,7 +54,7 @@
 @Example Mit Standard-Typ
 
 @Code
-  ; 'Angle' und 'Position' werden Fließkomma-Variablen sein, da bei ihnen kein Typ angegeben wurde
+  ; 'Angle' und 'Position' werden FlieÃŸkomma-Variablen sein, da bei ihnen kein Typ angegeben wurde
   ;
   Global.f Angle, Length.b, Position
 
@@ -95,7 +95,7 @@
       Debug "InitFerrari()"  
     EndProcedure  
   
-    Procedure CreateFerrari()    ; Öffentlich
+    Procedure CreateFerrari()    ; Ã–ffentlich
       Init()
       Debug "CreateFerrari()"
       Debug Var_GlobalOutsideModule ; Zeigt 0 an

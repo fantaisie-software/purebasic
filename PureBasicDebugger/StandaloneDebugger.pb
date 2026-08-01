@@ -93,24 +93,13 @@ CompilerSelect #PB_Compiler_OS
     ; There is no CloseHandle_(), so the mutex stays open until the program ends
     CreateMutex_(#Null, #False, "PureBasic_Running")
     
-    PureBasicPath$ = Space(#MAX_PATH)
-    GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
-    PureBasicPath$ = GetPathPart(PureBasicPath$)
+    PureBasicPath$ = GetPathPart(ProgramFilename())
     
     ; we are in the compilers directory, so cut the \Compilers\
     ;
     If UCase(Right(PureBasicPath$, 10)) = "COMPILERS\"
       PureBasicPath$ = Left(PureBasicPath$, Len(PureBasicPath$)-10)
     EndIf
-    
-    CurrentDirectory$ = Space(2000)
-    GetCurrentDirectory_(2000, @CurrentDirectory$)
-    If Trim(CurrentDirectory$) = ""
-      CurrentDirectory$ = ""
-    EndIf
-    
-    ; initialize the scintilla dll
-    InitScintilla(PureBasicPath$+"Compilers\Scintilla.dll")
     
   CompilerDefault
     PureBasicPath$ = GetEnvironmentVariable("PUREBASIC_HOME")
@@ -130,12 +119,12 @@ CompilerSelect #PB_Compiler_OS
         PureBasicPath$ = "/usr/share/purebasic/" ; absolute fallback
       EndIf
     EndIf
-    ; Get the current directory
-    ;
-    CurrentDirectory$ = GetCurrentDirectory()
     
 CompilerEndSelect
-
+    
+; Get the current directory
+;
+CurrentDirectory$ = GetCurrentDirectory()
 
 ; Add the Compiler directory to the (library-)path, so the 3D engine and other
 ; libraries can be loaded by the exe
@@ -1271,6 +1260,45 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
             Type$ = PeekS(*Pointer, -1, #PB_Ascii): *Pointer + Len(Type$) + 1
             Count = PeekL(*Pointer): *Pointer + 4
             
+            ; Calculate the maximum number of lines to display the tooltip up or down.
+            ;
+            ; Currently, with MaxLine = 25 hardcoded, no possibility to display more lines for large structures if there is enough space.
+            ; If there isn't enough space at the bottom or top, the tolltip isn't displayed at all. 
+            ; Large structure tooltip is often not displayed when the cursor is on a middle line, no problem when the cursor is at the top or bottom.
+            ;
+            ; With the calculation below, the number of lines to be displayed is adjusted (with a 1 line margin to be on the safe side) to the available space, 
+            ; And so make sure the tooltip is always displayed with the maximum number of structure fields displayed.
+            ;
+            ; Windows 10, 11 has thin invisible borders on left, right and bottom. It is used to grip the mouse for resizing. Use SPI_GETWORKAREA instead of OpenWindow
+            CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+              SystemParametersInfo_(#SPI_GETWORKAREA, 0, @wr.RECT, 0)
+              WorkAreaWidth  = wr\right - wr\left
+              WorkAreaHeight = wr\bottom - wr\top
+            CompilerElse
+              DummyWindow = OpenWindow(#PB_Any,0,0,0,0,"",#PB_Window_Invisible | #PB_Window_Maximize | #PB_Window_MaximizeGadget | #PB_Window_NoActivate)
+              WorkAreaWidth  = DesktopScaledX(WindowWidth(DummyWindow, #PB_Window_FrameCoordinate))
+              WorkAreaHeight = DesktopScaledY(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
+              CloseWindow(DummyWindow)
+            CompilerEndIf
+            
+            ; ToolTip width enlarged according to the available space between the mouse position and the right desktop border, rather than 100 hard-coded chars
+            ; To be aligned with the mouse position. For a full ToolTip, adjusted to the desktop width, use: MaxLenLine = WorkAreaWidth  / ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A"))
+            MaxLenLine = (WorkAreaWidth - DesktopMouseX()) / ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A")) +1   ; +1 for Chr(10), #LF$
+            
+            ; Number of lines from top: Remove a line for "Structure: " + Name$ and a second line to ensure that the tooltip is displayed with its borders.
+            MaxLineTop = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_LINEFROMPOSITION, MouseDwellPosition, 0) - ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_GETFIRSTVISIBLELINE, 0, 0) - 2
+            Debug "ToolTip - Line From Top = " + Str(MaxLineTop) + " = " + Str(ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_LINEFROMPOSITION, MouseDwellPosition, 0)) + " - " + Str(ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_GETFIRSTVISIBLELINE, 0, 0)) + " - 2"
+
+            ; Number of lines to bottom : (from mouse position + height of 1 line) to bottom and remove a line for "Structure: " + Name$
+            TextHeight = ScintillaSendMessage(SourceFiles(CurrentSource)\Gadget, #SCI_TEXTHEIGHT, 1, 0)
+            MaxLineBottom = Round((WorkAreaHeight -  DesktopMouseY() - TextHeight) / TextHeight, #PB_Round_Down) - 1
+            Debug "ToolTip - MaxLine To Bottom = " + Str(MaxLineBottom) + " = Round((" + Str(WorkAreaHeight) + " - " + Str(DesktopMouseY()) + " - " + Str(TextHeight) + ") / " + Str(TextHeight) + ", #PB_Round_Down) - 1"
+            
+            MaxLine = Max(MaxLineTop, MaxLineBottom)
+            If Count > MaxLine
+              MaxLine - 1
+            EndIf
+            
             For i = 1 To Count
               type        = PeekB(*Pointer): *Pointer + 1
               dynamictype = PeekB(*Pointer): *Pointer + 1
@@ -1322,16 +1350,16 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
               
               ; do not display too large structures !
-              If i <= 25
-                If Len(Line$) > 100
-                  Line$ = Left(Line$, 96) + " ..."
+              If i <= MaxLine
+                If Len(Line$) > MaxLenLine
+                  Line$ = Left(Line$, MaxLenLine-4) + " ..."
                 EndIf
                 
                 Message$ + Line$
               EndIf
             Next i
             
-            If Count > 25
+            If Count > MaxLine
               Message$ + Chr(10) + "..."
             EndIf
             

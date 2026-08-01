@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Keyboard library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,10 +8,10 @@
 
 @Overview
 
-  PureBasic propose un accès simple et rapide au 
-  clavier qui ne doit être utilisé que pour des 
-  jeux ou applications qui nécessitent une 
-  gestion directe, exlusive et très rapide de 
+  PureBasic propose un accÃ¨s simple et rapide au 
+  clavier qui ne doit Ãªtre utilisÃ© que pour des 
+  jeux ou applications qui nÃ©cessitent une 
+  gestion directe, exlusive et trÃ¨s rapide de 
   celui-ci. 
 @LineBreak
 @LineBreak
@@ -21,9 +21,9 @@
 @OS Windows
 @LineBreak
 @LineBreak  
-  Sous Windows, l'interface est assurée par la 
-  technologie DirectX. Une version récente de 
-  DirectX 9  doit être installée (voir ici: 
+  Sous Windows, l'interface est assurÃ©e par la 
+  technologie DirectX. Une version rÃ©cente de 
+  DirectX 9  doit Ãªtre installÃ©e (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 
 @EndOS
@@ -39,18 +39,18 @@
 @Function Resultat = InitKeyboard()
 
 @Description
-  Initialise l'environnement propre à la 
+  Initialise l'environnement propre Ã  la 
   gestion du clavier. 
  
 @NoParameters
   
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'initialisation a réussi, zéro sinon.
+  l'initialisation a rÃ©ussi, zÃ©ro sinon.
   
 @Remarks
   Vous devez appeler cette fonction avant tout 
-  appel de fonctions de cette bibliothèque. 
+  appel de fonctions de cette bibliothÃ¨que. 
 
 @SeeAlso  
   @@ExamineKeyboard, @@KeyboardMode
@@ -62,18 +62,18 @@
 @Function ExamineKeyboard()
 
 @Description
-  Met à jour l'état du clavier. 
+  Met Ã  jour l'Ã©tat du clavier. 
 
 @NoParameters  
 
 @NoReturnValue
   
 @Remarks
-  Cette fonction doit être appelée avant d'utiliser les commandes @@KeyboardInkey, @@KeyboardPushed et @@KeyboardReleased.
+  Cette fonction doit Ãªtre appelÃ©e avant d'utiliser les commandes @@KeyboardInkey, @@KeyboardPushed et @@KeyboardReleased.
 @LineBreak
 @LineBreak
-  En @Link "Screen/OpenScreen" "mode plein écran", la commande @@FlipBuffers doit être appelée dans la boucle d'événements pour gérer 
-  correctement tous les événements.
+  En @Link "Screen/OpenScreen" "mode plein Ã©cran", la commande @@FlipBuffers doit Ãªtre appelÃ©e dans la boucle d'Ã©vÃ©nements pour gÃ©rer 
+  correctement tous les Ã©vÃ©nements.
 
 
 @SeeAlso
@@ -87,13 +87,13 @@
 @Function Resultat$ = KeyboardInkey()
 
 @Description
-  Renvoie le dernier caractère tapé sur le clavier.
+  Renvoie le dernier caractÃ¨re tapÃ© sur le clavier.
   
 @NoParameters
   
 @ReturnValue
-  Renvoie le dernier caractère tapé sur le 
-  clavier, très utile pour interagir facilement 
+  Renvoie le dernier caractÃ¨re tapÃ© sur le 
+  clavier, trÃ¨s utile pour interagir facilement 
   avec l'utilisateur (nom dans les highscores, 
   console dans le jeu, etc.).
 
@@ -106,18 +106,18 @@
       
       ExamineKeyboard()
             
-      ; Efface le dernier caractère si la touche 'Back' est appuyée
+      ; Efface le dernier caractÃ¨re si la touche 'Back' est appuyÃ©e
       ;
       If KeyboardReleased(#PB_Key_Back)  
         FullText$ = Left(FullText$, Len(FullText$)-1)
       Else
         resultat$=KeyboardInkey()
-        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzéèçàù", resultat$) ; Ajouter vos propres caractères valides ici
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzÃ©Ã¨Ã§Ã Ã¹", resultat$) ; Ajouter vos propres caractÃ¨res valides ici
           FullText$ + resultat$
-        EndIf ; Ajouter le nouveau texte à l'actuel (le cas échéant)
+        EndIf ; Ajouter le nouveau texte Ã  l'actuel (le cas Ã©chÃ©ant)
       EndIf
 
-      ; Affiche le résultat
+      ; Affiche le rÃ©sultat
       ;
       If StartDrawing(ScreenOutput())
         DrawingMode(1)
@@ -144,18 +144,18 @@
   Modifie le comportement du clavier. 
   
 @Parameter "Mode"
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont
-  @#PB_Keyboard_Qwerty         : Le clavier ignore l'agencement des touches propres au langage de l'utilisateur et utilise toujours l'agencement QWERTY (mode par défaut).
+  @#PB_Keyboard_Qwerty         : Le clavier ignore l'agencement des touches propres au langage de l'utilisateur et utilise toujours l'agencement QWERTY (mode par dÃ©faut).
   @#PB_Keyboard_International  : Le clavier utilise l'agencement des touches propres au langage de l'utilisateur (utile pour les claviers non QWERTY).
-  @#PB_Keyboard_AllowSystemKeys: Les touches systèmes de l'OS ne sont pas bloquées (comme Win+R etc.). Cette option peut être gênante en mode @Link "Screen/OpenScreen" "plein écran"
+  @#PB_Keyboard_AllowSystemKeys: Les touches systÃ¨mes de l'OS ne sont pas bloquÃ©es (comme Win+R etc.). Cette option peut Ãªtre gÃªnante en mode @Link "Screen/OpenScreen" "plein Ã©cran"
                                 si l'utilisateur presse l'une de ces touches accidentellement.
 @EndFixedFont
   
 @NoReturnValue
   
 @Remarks
-  Cette commande affecte le résultat de 
+  Cette commande affecte le rÃ©sultat de 
   @@KeyboardPushed et @@KeyboardReleased. 
 
 @SeeAlso
@@ -169,16 +169,16 @@
 @Function Resultat = KeyboardPushed(ToucheID)
 
 @Description
-  Teste l'état enfoncé ou non d'une touche du 
+  Teste l'Ã©tat enfoncÃ© ou non d'une touche du 
   clavier. 
 
 @Parameter "ToucheID"
-  L'identifiant PureBasic de la touche à tester.
+  L'identifiant PureBasic de la touche Ã  tester.
 @LineBreak
 @LineBreak  
   Valeurs possibles:
 @FixedFont
-    @#PB_Key_All   ; Toutes les touches sont testées.
+    @#PB_Key_All   ; Toutes les touches sont testÃ©es.
                   ; Utile pour coder un "Appuyer sur une touche..."
     @#PB_Key_1
     @#PB_Key_2
@@ -287,24 +287,24 @@
 
 @ReturnValue
   Renvoie une valeur non nulle si la touche est 
-  pressée, zéro sinon.
+  pressÃ©e, zÃ©ro sinon.
   
 @Remarks
-  - Un nombre quelconque de touches peut être 
-  pressé simultanément.
+  - Un nombre quelconque de touches peut Ãªtre 
+  pressÃ© simultanÃ©ment.
 @LineBreak
 @LineBreak
-  - Si vous voulez tester si une touche spécifique 
-  a été appuyée puis relâchée, utiliser la 
+  - Si vous voulez tester si une touche spÃ©cifique 
+  a Ã©tÃ© appuyÃ©e puis relÃ¢chÃ©e, utiliser la 
   commande @@KeyboardReleased.
 @LineBreak
 @LineBreak
-  - La fonction @@ExamineKeyboard doit être 
-  appelée avant pour mettre à jour l'état du 
+  - La fonction @@ExamineKeyboard doit Ãªtre 
+  appelÃ©e avant pour mettre Ã  jour l'Ã©tat du 
   clavier. 
 @LineBreak
 @LineBreak
-  - Le comportement du clavier peut être changé 
+  - Le comportement du clavier peut Ãªtre changÃ© 
   avec la commande @@KeyboardMode.
  
 @Example
@@ -337,16 +337,16 @@
 @Function Resultat = KeyboardReleased(ToucheID)
 
 @Description
-  Teste l'état relaché ou non d'une touche du 
+  Teste l'Ã©tat relachÃ© ou non d'une touche du 
   clavier.
   
 @Parameter "ToucheID"
-  L'identifiant PureBasic de la touche à tester.
+  L'identifiant PureBasic de la touche Ã  tester.
 @LineBreak
 @LineBreak  
   Valeurs possibles:
 @FixedFont
-    @#PB_Key_All   ; Toutes les touches sont testées.
+    @#PB_Key_All   ; Toutes les touches sont testÃ©es.
                   ; Utile pour coder un "Appuyer sur une touche..."
     @#PB_Key_1
     @#PB_Key_2
@@ -455,7 +455,7 @@
   
 @ReturnValue
   Renvoie une valeur non nulle si la touche  
-  a été appuyée puis relâchée, zéro sinon.
+  a Ã©tÃ© appuyÃ©e puis relÃ¢chÃ©e, zÃ©ro sinon.
    
 @Example
 @Code
@@ -480,7 +480,7 @@
         If Paused = #False
           DrawText(20, 20, "Le programme tourne...        ")
         Else
-          DrawText(20, 20, "Le programme est à l'arrêt...")
+          DrawText(20, 20, "Le programme est Ã  l'arrÃªt...")
         EndIf
 
         StopDrawing()

@@ -1,4 +1,4 @@
-@Title Static
+ï»¿@Title Static
 
 @Syntax
 
@@ -6,22 +6,22 @@
 
 @Description
 
-  @Keyword Static ermöglicht das Deklarieren einer lokalen (statischen) @ReferenceLink "variables" "Variable", die ihren Wert behält,
+  @Keyword Static ermÃ¶glicht das Deklarieren einer lokalen (statischen) @ReferenceLink "variables" "Variable", die ihren Wert behÃ¤lt,
   in einer @ReferenceLink "Procedures" "Prozedur", auch wenn die gleiche Variable im Hauptprogramm bereits 
   als @ReferenceLink "Global" "Global" deklariert wurde.
   @LineBreak
   @LineBreak
-  Wenn nach @Keyword Static ein Typ angegeben wird, dann wird der Standard-Typ für diese Deklaration geändert.
+  Wenn nach @Keyword Static ein Typ angegeben wird, dann wird der Standard-Typ fÃ¼r diese Deklaration geÃ¤ndert.
   @Keyword Static kann auch zusammen mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "Listen" und @ReferenceLink "newmap" "Maps" verwendet werden. 
-  Beim Deklarieren eines statischen Arrays muss der Größen-Parameter ein konstanter Wert sein.
+  Beim Deklarieren eines statischen Arrays muss der GrÃ¶ÃŸen-Parameter ein konstanter Wert sein.
   @LineBreak
   @LineBreak
-  Der Wert der Variable wird nicht bei jedem Prozedur-Aufruf neu initialisiert (zurückgesetzt). Dies bedeutet, 
-  dass Sie lokale Variablen parallel zu globalen Variablen (mit dem gleichen Namen) verwenden können und beide ihre Werte beibehalten.
+  Der Wert der Variable wird nicht bei jedem Prozedur-Aufruf neu initialisiert (zurÃ¼ckgesetzt). Dies bedeutet, 
+  dass Sie lokale Variablen parallel zu globalen Variablen (mit dem gleichen Namen) verwenden kÃ¶nnen und beide ihre Werte beibehalten.
   Jeder Variable kann auch sofort ein Standard-Wert zugewiesen werden, dies muss aber ein konstanter Wert sein.
   @LineBreak
   @LineBreak
-  Neben @Keyword Static können Sie auch das Schlüsselwort @ReferenceLink "Protected" "Protected" verwenden, 
+  Neben @Keyword Static kÃ¶nnen Sie auch das SchlÃ¼sselwort @ReferenceLink "Protected" "Protected" verwenden, 
   um globale von lokalen Variablen zu trennen.
   Mit @ReferenceLink "Protected" "Protected" behalten die lokalen Variablen jedoch nicht ihren Wert.
 
@@ -34,7 +34,7 @@
   Procedure Change()
     Static a
     a+1
-    Debug "In Procedure: "+Str(a) ; Wird 1, 2, 3 ausgeben, da sich die Variable bei jedem Prozedur-Aufruf um eins erhöht.
+    Debug "In Procedure: "+Str(a) ; Wird 1, 2, 3 ausgeben, da sich die Variable bei jedem Prozedur-Aufruf um eins erhÃ¶ht.
   EndProcedure 
   
   Change()
@@ -52,7 +52,7 @@
   Procedure Change()
     Static Dim Array(2)
     Array(0)+1
-    Debug "In Procedure: "+Str(Array(0)) ; Wird 1, 2, 3 ausgeben, da sich der Wert des Array-Felds bei jedem Prozedur-Aufruf um eins erhöht.
+    Debug "In Procedure: "+Str(Array(0)) ; Wird 1, 2, 3 ausgeben, da sich der Wert des Array-Felds bei jedem Prozedur-Aufruf um eins erhÃ¶ht.
   EndProcedure 
   
   Change()

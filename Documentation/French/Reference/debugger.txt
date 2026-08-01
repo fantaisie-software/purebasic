@@ -1,10 +1,10 @@
-@Title Commandes de débogage
+ï»¿@Title Commandes de dÃ©bogage
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#CallDebugger"><u>CallDebugger</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#Debug"><u>Debug</u></a></td>
@@ -24,13 +24,13 @@
 ; -------------------------------------------------------------------------------------------------
 @Section Introduction
 
-  La description complète des fonctionnalités du débogueur se trouve dans
-  les chapitres @ReferenceLink "ide_debugger" "Utilisation du débogueur" et
-  @ReferenceLink "ide_debugtools" "Utiliser les outils de déboguage".
+  La description complÃ¨te des fonctionnalitÃ©s du dÃ©bogueur se trouve dans
+  les chapitres @ReferenceLink "ide_debugger" "Utilisation du dÃ©bogueur" et
+  @ReferenceLink "ide_debugtools" "Utiliser les outils de dÃ©boguage".
 @LineBreak
 @LineBreak
-  Une bibliothèque @LibraryLink "Debugger" "Debugger" est également disponible
-  pour controler le comportement du débogueur à partir du code source.
+  Une bibliothÃ¨que @LibraryLink "Debugger" "Debugger" est Ã©galement disponible
+  pour controler le comportement du dÃ©bogueur Ã  partir du code source.
 @LineBreak
 @LineBreak
 
@@ -46,7 +46,7 @@
   
 @Description    
 
-  Appel du "débogueur" et arrêt immédiat du programme au point courant du code. 
+  Appel du "dÃ©bogueur" et arrÃªt immÃ©diat du programme au point courant du code. 
 @LineBreak
 @LineBreak
 
@@ -62,18 +62,18 @@
 
 @Description    
 
-  Affiche la fenêtre DebugOutput et le résultat correspondant. L'expression peut être toute 
-  expression valide en PureBasic, de forme numérique ou chaine. Un point important est que 
-  toute commande @Keyword Debug et les expressions associées sont totalement ignorées (non compilées) 
-  si le débogueur est désactivé. Cela singifie qu'il n'est pas nécessaire de passer les instruction 
-  @Keyword Debug en commentaires lors de la création de l'exécutable final tout en ayant la possibilité 
-  de tracer facilement l'exécution du programme pour le développeur. @LineBreak
+  Affiche la fenÃªtre DebugOutput et le rÃ©sultat correspondant. L'expression peut Ãªtre toute 
+  expression valide en PureBasic, de forme numÃ©rique ou chaine. Un point important est que 
+  toute commande @Keyword Debug et les expressions associÃ©es sont totalement ignorÃ©es (non compilÃ©es) 
+  si le dÃ©bogueur est dÃ©sactivÃ©. Cela singifie qu'il n'est pas nÃ©cessaire de passer les instruction 
+  @Keyword Debug en commentaires lors de la crÃ©ation de l'exÃ©cutable final tout en ayant la possibilitÃ© 
+  de tracer facilement l'exÃ©cution du programme pour le dÃ©veloppeur. @LineBreak
   @LineBreak
-  'NiveauDebug' est le niveau de priorité des messages du débogueur. Tous les messages (avec un niveau 
-  non spécifié) sont affichés automatiquement. Lorsqu'un niveau est spécifié alors le message correspondant 
-  ne sera affiché que si le niveau de debug courant est égal ou supérieur au niveau associé au message. 
-  Cela permet de réaliser une traçabilité hiérarchisée en affichant des informations de plus en plus 
-  précises en fonction de la valeur 'NiveauDebug' utilisée. 
+  'NiveauDebug' est le niveau de prioritÃ© des messages du dÃ©bogueur. Tous les messages (avec un niveau 
+  non spÃ©cifiÃ©) sont affichÃ©s automatiquement. Lorsqu'un niveau est spÃ©cifiÃ© alors le message correspondant 
+  ne sera affichÃ© que si le niveau de debug courant est Ã©gal ou supÃ©rieur au niveau associÃ© au message. 
+  Cela permet de rÃ©aliser une traÃ§abilitÃ© hiÃ©rarchisÃ©e en affichant des informations de plus en plus 
+  prÃ©cises en fonction de la valeur 'NiveauDebug' utilisÃ©e. 
 @LineBreak
 @LineBreak
 
@@ -92,8 +92,8 @@
   Fixe le niveau courant pour les messages 'Debug'. 
   @LineBreak
   @LineBreak
-  Note: Le niveau est fixé au moment de la compilation, ce qui signifie que vous devez mettre la commande
-  @Keyword "DebugLevel" avant les commandes debug pour être sûr qu'elles seront bien toutes affectées.
+  Note: Le niveau est fixÃ© au moment de la compilation, ce qui signifie que vous devez mettre la commande
+  @Keyword "DebugLevel" avant les commandes debug pour Ãªtre sÃ»r qu'elles seront bien toutes affectÃ©es.
 @LineBreak
 @LineBreak
 
@@ -109,9 +109,9 @@
 
 @Description
 
-   Interromps l'utilisation du débogueur sur les lignes du code qui suivent cette commande. 
-   Il ne désactive pas complètement le débogueur, donc les vérifications de performances ne doivent pas être 
-   effectuées à l'aide de la commande DisableDebugger, mais en désactivant le débogueur avant de compiler le programme.
+   Interromps l'utilisation du dÃ©bogueur sur les lignes du code qui suivent cette commande. 
+   Il ne dÃ©sactive pas complÃ¨tement le dÃ©bogueur, donc les vÃ©rifications de performances ne doivent pas Ãªtre 
+   effectuÃ©es Ã  l'aide de la commande DisableDebugger, mais en dÃ©sactivant le dÃ©bogueur avant de compiler le programme.
 @LineBreak
 @LineBreak
 
@@ -127,8 +127,8 @@
 
 @Description    
 
-  Active l'utilisation du débogueur sur les lignes de code qui suivent cette commande (lorsque 
-  le débogueur a été préalablement interrompu par la commande @Keyword DisableDebugger). 
+  Active l'utilisation du dÃ©bogueur sur les lignes de code qui suivent cette commande (lorsque 
+  le dÃ©bogueur a Ã©tÃ© prÃ©alablement interrompu par la commande @Keyword DisableDebugger). 
 @LineBreak
 @LineBreak
 

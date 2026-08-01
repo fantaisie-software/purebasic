@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Memory library documentation
 ;
-;      (c) 2021 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Memory
@@ -160,7 +160,7 @@
   Character comparison mode. This can be one of the following values:
 @FixedFont
   @#PB_String_CaseSensitive : Case sensitive search (a=a). (default)
-  @#PB_String_NoCase        : Case insensitive search using all unicode character set (ä=Ä).
+  @#PB_String_NoCase        : Case insensitive search using all unicode character set (Ã¤=Ã„).
   @#PB_String_NoCaseAscii   : Case insensitive search using only ascii character set (a=A). 
                              Much faster than @#PB_String_NoCase when full unicode support is not required.
 @EndFixedFont
@@ -306,11 +306,11 @@
 @Function FreeMemory(*MemoryID)
 
 @Description
-  Free the memory previously allocated with @@AllocateMemory or @@ReAllocateMemory.
+  Free the memory previously allocated with @@AllocateMemory, @@ReAllocateMemory, @@Ascii or @@UTF8.
 
 @Parameter "*MemoryID"
   The address of the memory area to free. This must be a value returned from
-  either @@AllocateMemory or @@ReAllocateMemory.
+  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@UTF8.
 
 @NoReturnValue
 
@@ -325,7 +325,7 @@
   All remaining allocated memory blocks are automatically freed when the program ends.
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory
+  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@Utf8
 
 @SupportedOS
 
@@ -368,13 +368,13 @@
 
 @Parameter "*MemoryID"
   The address of the memory area to get the size from. This must be a value returned from
-  either @@AllocateMemory or @@ReAllocateMemory.
+  either @@AllocateMemory or @@ReAllocateMemory or @@Ascii or @@UTF8.
 
 @ReturnValue
   Returns the size of the given memory area in bytes.
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@UTF8
 
 @SupportedOS
 

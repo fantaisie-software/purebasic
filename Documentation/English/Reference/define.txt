@@ -1,4 +1,4 @@
-@Title Define 
+﻿@Title Define 
 
 @Syntax 
 
@@ -8,31 +8,32 @@
 
   Assign the same data type to a series of @ReferenceLink "variables" "variables".
   @LineBreak
-   Without this keyword, variables are created with the default type of PureBasic 
-   which is the type INTEGER. As a reminder, the type INTEGER is: @LineBreak
-   4 bytes (with a 32-bit compiler) ranging from -2147483648 to + 2147483647 @LineBreak
-   8 bytes (with a 64-bit compiler) ranging from -9223372036854775808 to +9223372036854775807
+  Without this keyword, variables are created with the default type of PureBasic 
+  which is the type INTEGER. As a reminder, the type INTEGER is: @LineBreak
+  4 bytes (with a 32-bit compiler) ranging from -2147483648 to + 2147483647 @LineBreak
+  8 bytes (with a 64-bit compiler) ranging from -9223372036854775808 to +9223372036854775807 @LineBreak
+  @LineBreak 
+  @Keyword Define is very flexible because it also allows you to assign a different type to a 
+  particular variable within a series.@LineBreak
+  @LineBreak
+  @Keyword Define can also be used with @ReferenceLink "dim" "arrays",
+  the @ReferenceLink "newlist" "lists" and the @ReferenceLink "newmap" "maps".
   
-@Example
+@Example Serial assignment
 @Code
    Define.b a, b = 10, c = b*2, d ; these 4 variables will be byte typed (.b)
 @EndCode
 
-  @Keyword Define is very flexible because it also allows you to assign a type to a 
-  particular variable within a series.
-
-@Example
+@Example Mix of individual and serial assignments
 @Code  
-   Define.q a, b.w, c, d  ; a, c, and d are Quad (.q) whereas b is a Word (.w)
+   Define.q a, b.w, c, d, st.s = "ok"  ; a, c, and d are Quad (.q), b is a Word (.w) and st a String (.s)
 
-   Debug SizeOf(a) ; will print 8
-   Debug SizeOf(b) ; will print 2, because it doesn't have the default type
-   Debug SizeOf(c) ; will print 8 
-   Debug SizeOf(d) ; will print 8 
+   Debug SizeOf(a)  ; will print 8
+   Debug SizeOf(b)  ; will print 2, because it doesn't have the default type
+   Debug SizeOf(c)  ; will print 8 
+   Debug SizeOf(d)  ; will print 8 
+   Debug st         ; will print ok
 @EndCode
-
-  @Keyword Define can also be used with @ReferenceLink "dim" "arrays",
-  the @ReferenceLink "newlist" "lists" and the @ReferenceLink "newmap" "maps".
    
 ; -------------------------------------------------------------------------------------------------
 

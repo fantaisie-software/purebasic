@@ -1,35 +1,35 @@
-;
+ï»¿;
 ;     Array library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Array
 
 @Overview
   Arrays sind Strukturen zum Speichern von indizierten Elementen. Anders als bei
-  einer @LibraryLink "list" "verknüpften Liste" oder bei einer @LibraryLink "Map" "Map"
-  werden die Elemente in einer zusammenhängenden Weise im Speicher angelegt. 
-  Somit ist es nicht so einfach möglich, ein Element einzufügen oder zu entfernen.
-  Auf der anderen Seite bietet diese sehr schnellen und direkten Zugriff auf ein
+  einer @LibraryLink "list" "verknÃ¼pften Liste" oder bei einer @LibraryLink "Map" "Map"
+  werden die Elemente in einer zusammenhÃ¤ngenden Weise im Speicher angelegt. 
+  Somit ist es nicht so einfach mÃ¶glich, ein Element einzufÃ¼gen oder zu entfernen.
+  Auf der anderen Seite bietet dies sehr schnellen und direkten Zugriff auf ein
   beliebiges Element.
 @LineBreak
 @LineBreak
-  Um mit Arrays zu arbeiten, müssen diese zuerst deklariert werden. Dies kann mit
-  Hilfe des Schlüsselworts @ReferenceLink "dim" "Dim" erfolgen. Sie können ebenso in
-  ihrer Größe verändert werden, was mit Hilfe von @ReferenceLink "dim" "ReDim" geschieht.
+  Um mit Arrays zu arbeiten, mÃ¼ssen diese zuerst deklariert werden. Dies kann mit
+  Hilfe des SchlÃ¼sselworts @ReferenceLink "dim" "Dim" erfolgen. Sie kÃ¶nnen ebenso in
+  ihrer GrÃ¶ÃŸe verÃ¤ndert werden, was mit Hilfe von @ReferenceLink "dim" "ReDim" geschieht.
 @LineBreak
 @LineBreak
-  Arrays können mit Hilfe von @@SortArray bzw. @@SortStructuredArray sortiert werden,
-  und können mittels @@RandomizeArray auch in einer zufälligen Reihenfolge neu angeordnet
+  Arrays kÃ¶nnen mit Hilfe von @@SortArray bzw. @@SortStructuredArray sortiert werden,
+  und kÃ¶nnen mittels @@RandomizeArray auch in einer zufÃ¤lligen Reihenfolge neu angeordnet
   werden.
 @LineBreak
 @LineBreak
-  Hinweis: Diese Arrays werden "dynamisch" genannt, da sich ihre Größe ändern kann. Daneben
-  gibt es auch sogenannte "statische" Arrays, die nicht in ihrer Größe verändert
-  und nur innerhalb von Strukturen verwendet werden können. Diese Arrays werden mit
+  Hinweis: Diese Arrays werden "dynamisch" genannt, da sich ihre GrÃ¶ÃŸe Ã¤ndern kann. Daneben
+  gibt es auch sogenannte "statische" Arrays, die nicht in ihrer GrÃ¶ÃŸe verÃ¤ndert
+  und nur innerhalb von Strukturen verwendet werden kÃ¶nnen. Diese Arrays werden mit
   eckigen Klammern geschrieben. Zum Beispiel: ArrayStatic[2]. Siehe @ReferenceLink "structures" "hier".
-  Die Funktionen dieser Array-Bibliothek können mit diesem Typ von Arrays nicht verwendet werden.
+  Die Funktionen dieser Array-Bibliothek kÃ¶nnen mit diesem Typ von Arrays nicht verwendet werden.
 
 @CommandList
 
@@ -47,23 +47,23 @@
 @Function Ergebnis = ArraySize(Array() [, Dimension])
 
 @Description
-  Gibt die Größe des Arrays zurück, wie diese mit @Keyword Dim oder @Keyword ReDim angegeben wurde.
+  Gibt die GrÃ¶ÃŸe des Arrays zurÃ¼ck, wie diese mit @Keyword Dim oder @Keyword ReDim angegeben wurde.
 
 @Parameter "Array()"
-  Das Array, von dem die Größe ermittelt werden soll.
+  Das Array, von dem die GrÃ¶ÃŸe ermittelt werden soll.
 
 @OptionalParameter "Dimension"
-  Für mehrdimensionale Arrays kann dieser Parameter angegeben werden, um eine bestimmte Dimensions-Größe
+  FÃ¼r mehrdimensionale Arrays kann dieser Parameter angegeben werden, um eine bestimmte Dimensions-GrÃ¶ÃŸe
   zu erhalten. Die erste Dimension beginnt bei 1.
 
 @ReturnValue
-  Gibt die Größe der Array-Dimension zurück.
-  Wenn das Array noch nicht deklariert wurde, wird -1 zurückgegeben (zum Beispiel nach einem @FastLink "FreeArray()"
-  oder wenn das Initialisieren fehlgeschlagen ist).
-  
+  Gibt die GrÃ¶ÃŸe der Array-Dimension zurÃ¼ck.
+  Wenn das Array noch nicht deklariert wurde (zum Beispiel nach einem @FastLink "FreeArray()"
+  oder wenn das Allokieren fehlgeschlagen ist), wird -1 zurÃ¼ckgegeben.
+
 @Remarks
-  Wie bei @ReferenceLink "dim" "Dim" angegeben, entspricht die Anzahl der Elemente gleich Größe + 1.
-  Zum Beispiel: Dim a(2) beinhaltet 3 Elemente von a(0) bis a(2) bei einer Größe von 2.
+  Wie bei @ReferenceLink "dim" "Dim" angegeben, entspricht die Anzahl der Elemente gleich GrÃ¶ÃŸe + 1.
+  Zum Beispiel: Dim a(2) beinhaltet 3 Elemente von a(0) bis a(2) bei einer GrÃ¶ÃŸe von 2.
   @LineBreak
   @LineBreak
   Funktioniert nicht mit statischen Arrays, die in @ReferenceLink "structures" "Strukturen" deklariert wurden. @LineBreak
@@ -73,7 +73,7 @@
 @Code
   Dim MyArray.l(10)
   Debug ArraySize(MyArray()) ; wird '10' ausgeben
-
+  
   Dim MultiArray.l(10, 20, 30)
   Debug ArraySize(MultiArray(), 2) ; wird '20' ausgeben
   
@@ -135,20 +135,20 @@
 @OptionalParameter "Flags"
   Kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
-  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung nicht beachtet (a=A).
   @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
                              Zeigers rekursiv verglichen.
-                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
-                             Siehe die Anmerkungen unten für weitere Details.
+                             StandardmÃ¤ÃŸig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten fÃ¼r weitere Details.
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn beide Arrays gleich sind, oder Null, wenn sie sich unterscheiden.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn beide Arrays gleich sind, oder Null, wenn sie sich unterscheiden.
 
 @Remarks
-  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
-  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  Die Option @#PB_Memory_FollowPointers ist fÃ¼r fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um AbstÃ¼rze zu vermeiden. Wenn diese Option verwendet wird, mÃ¼ssen alle Zeigerwerte auf einen gÃ¼ltigen und
   initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
   Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
 
@@ -179,21 +179,21 @@
 @Function Ergebnis = CopyArray(QuellArray(), ZielArray())
 
 @Description
-  Kopiert alle Elemente vom 'QuellArray()' in das 'ZielArray()'. 
+  Kopiert jedes Element vom 'QuellArray()' in das 'ZielArray()'. 
   Nach erfolgreichem Kopieren sind beide Arrays identisch.
-  Die Arrays müssen die gleiche Anzahl an Dimensionen haben.
+  Die Arrays mÃ¼ssen die gleiche Anzahl an Dimensionen haben.
 
 @Parameter "QuellArray()"
   Das Array, von dem kopiert werden soll.
 
 @Parameter "ZielArray()"
   Das Array, in welches kopiert werden soll. Alle zuvor in diesem Array
-  zu findenden Elemente werden gelöscht.
+  zu findenden Elemente werden gelÃ¶scht.
   Dieses Array muss vom gleichen Typ (nativ oder strukturiert) sein und die gleiche
   Anzahl an Dimensionen wie das Quell-Array haben.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Kopieren erfolgreich war, oder Null,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Kopieren erfolgreich war, oder Null,
   wenn es fehlschlug.
 
 @Example 
@@ -205,11 +205,11 @@
   Numbers(0) = 128
   Numbers(5) = 256
   
-  Debug "Array-Größe vor dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 10 ausgeben
+  Debug "Array-GrÃ¶ÃŸe vor dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 10 ausgeben
   
   CopyArray(Numbers(), NumbersCopy())
   
-  Debug "Array-Größe nach dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 5 ausgeben
+  Debug "Array-GrÃ¶ÃŸe nach dem Kopieren: "+Str(ArraySize(NumbersCopy())) ; wird 5 ausgeben
   Debug NumbersCopy(0)
   Debug NumbersCopy(5)
 @EndCode
@@ -224,7 +224,7 @@
 @Function FreeArray(Array())
 
 @Description
-  Gibt das angegebene 'Array()' und all seinen zugehörigen Speicher frei.
+  Gibt das angegebene 'Array()' und all seinen zugehÃ¶rigen Speicher frei.
   Um erneut darauf zuzugreifen, muss @ReferenceLink "dim" "Dim" aufgerufen werden.
 
 @Parameter "Array()"

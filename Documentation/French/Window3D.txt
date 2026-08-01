@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Window3D library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,34 +8,34 @@
 
 @Overview
 
-  La bibliothèque Window3D permet de créer 
+  La bibliothÃ¨que Window3D permet de crÃ©er 
   des interfaces graphiques complexes (GUI) 
   dans un environnement 3D.
-  Elle est principalement destinée à la 
-  création de jeux ou d'applications qui
-  doivent se lancer en mode plein écran et 
-  qui nécessitent une interface utilisateur.
+  Elle est principalement destinÃ©e Ã  la 
+  crÃ©ation de jeux ou d'applications qui
+  doivent se lancer en mode plein Ã©cran et 
+  qui nÃ©cessitent une interface utilisateur.
 @LineBreak 
-  La syntaxe de cette bibliothèque est 
-  similaire à la bibliothèque 
+  La syntaxe de cette bibliothÃ¨que est 
+  similaire Ã  la bibliothÃ¨que 
   @LibraryLink "window" "Window".
 @LineBreak 
-  Le moteur utilisé pour l'interface graphique 
+  Le moteur utilisÃ© pour l'interface graphique 
   se nomme CEGUI, il permet l'utilisation 
   de skins, il est rapide et contient de 
-  nombreux gadgets prédéfinis. Vous trouverez 
+  nombreux gadgets prÃ©dÃ©finis. Vous trouverez 
   plus d'informations au sujet de CEGUI ici : 
   @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
   avant de pouvoir utiliser les commandes 
-  relatives aux fenêtres 3D.
+  relatives aux fenÃªtres 3D.
 @LineBreak
 @LineBreak
-  Pour utiliser les fenêtres 3D, une 
-  @Link "Camera/CreateCamera" "caméra" doit 
-  être créée au préalable.
+  Pour utiliser les fenÃªtres 3D, une 
+  @Link "Camera/CreateCamera" "camÃ©ra" doit 
+  Ãªtre crÃ©Ã©e au prÃ©alable.
 
 @CommandList
 
@@ -48,20 +48,20 @@
 @Function CloseWindow3D(#Fenetre3D)
 
 @Description
-  Ferme une fenêtre 3D. 
+  Ferme une fenÃªtre 3D. 
  
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à fermer.
+  La fenÃªtre 3D Ã  fermer.
 @LineBreak  
 @LineBreak  
-  Si @#PB_All est spécifié, toutes les 
-  fenêtres 3D restantes sont fermées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  fenÃªtres 3D restantes sont fermÃ©es.
 
 @NoReturnValue
 
 @Remarks  
-  Toutes les fenêtres restant ouvertes sont 
-  automatiquement fermées quand le programme 
+  Toutes les fenÃªtres restant ouvertes sont 
+  automatiquement fermÃ©es quand le programme 
   se termine.
 
 @SupportedOS
@@ -72,17 +72,17 @@
 
 
 @Description
-  Active ou désactive les interactions de 
-  l'utilisateur avec une fenêtre 3D.
+  Active ou dÃ©sactive les interactions de 
+  l'utilisateur avec une fenÃªtre 3D.
  
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser.
+  La fenÃªtre 3D Ã  utiliser.
   
 @Parameter "Etat"  
   Peut prendre une des valeurs suivantes:
 @FixedFont
-  @#True : La fenêtre 3D est désactivée.
-  @#False: La fenêtre 3D est activée.
+  @#True : La fenÃªtre 3D est dÃ©sactivÃ©e.
+  @#False: La fenÃªtre 3D est activÃ©e.
 @EndFixedFont 
 
 @NoReturnValue
@@ -94,15 +94,15 @@
 @Function Resultat = EventGadget3D()
 
 @Description
-  Utiliser cette fonction après un évènement 
-  de type @#PB_Event3D_Gadget (renvoyé par 
-  @@WindowEvent3D) pour connaitre le numéro 
-  du gadget qui a été utilisé. 
+  Utiliser cette fonction aprÃ¨s un Ã©vÃ¨nement 
+  de type @#PB_Event3D_Gadget (renvoyÃ© par 
+  @@WindowEvent3D) pour connaitre le numÃ©ro 
+  du gadget qui a Ã©tÃ© utilisÃ©. 
 
 @NoParameters
 
 @ReturnValue
-  Le numéro du gadget 3D qui a été utilisé.
+  Le numÃ©ro du gadget 3D qui a Ã©tÃ© utilisÃ©.
 
 @SeeAlso
   @@WindowEvent3D
@@ -114,32 +114,32 @@
 @Function Resultat = EventType3D() 
 
 @Description
-  Utiliser cette fonction après @@WindowEvent3D 
+  Utiliser cette fonction aprÃ¨s @@WindowEvent3D 
   pour savoir quel est le type du dernier 
-  évènement survenu. 
+  Ã©vÃ¨nement survenu. 
   
 @NoParameters
   
 @ReturnValue    
   Les valeurs suivantes sont possibles 
-  lorsqu'un évènement du type 
-  @#PB_Event3D_Gadget (bibliothèque 
+  lorsqu'un Ã©vÃ¨nement du type 
+  @#PB_Event3D_Gadget (bibliothÃ¨que 
   @LibraryLink "Gadget3D" "Gadget3D") 
   survient:
 @FixedFont
   @#PB_EventType3D_Focus           : Obtention du focus.
   @#PB_EventType3D_LostFocus       : Perte du focus.
-  @#PB_EventType3D_Change          : Le contenu a changé.
+  @#PB_EventType3D_Change          : Le contenu a changÃ©.
 @EndFixedFont  
 
-  Peut être utilisé avec les gadgets suivants :
+  Peut Ãªtre utilisÃ© avec les gadgets suivants :
 @LineBreak
 @LineBreak
   - @@SpinGadget3D @LineBreak
   - @@StringGadget3D @LineBreak
 @LineBreak  
-  (Voir la définition du gadget pour connaître 
-  les évènements valides)
+  (Voir la dÃ©finition du gadget pour connaÃ®tre 
+  les Ã©vÃ¨nements valides)
 
 @SeeAlso
   @@WindowEvent3D
@@ -151,15 +151,15 @@
 @Function Resultat = EventWindow3D()
 
 @Description
-  Utiliser cette fonction après @@WindowEvent3D 
-  pour savoir sur quelle fenêtre s'est produit 
-  le dernier évènement.
+  Utiliser cette fonction aprÃ¨s @@WindowEvent3D 
+  pour savoir sur quelle fenÃªtre s'est produit 
+  le dernier Ã©vÃ¨nement.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le numéro de la fenêtre 3D où s'est 
-  produit le dernier évènement.
+  Renvoie le numÃ©ro de la fenÃªtre 3D oÃ¹ s'est 
+  produit le dernier Ã©vÃ¨nement.
 
 @SupportedOS
 
@@ -167,51 +167,51 @@
 @Function InputEvent3D(SourisX, SourisY, BoutonGaucheSouris, [, Texte$, ToucheSpeciale]) 
 
 @Description
-  Injecte des événements dans l'interface graphique 3D (GUI). 
+  Injecte des Ã©vÃ©nements dans l'interface graphique 3D (GUI). 
   
 @Parameter "SourisX, SourisY"
   La position de la souris sur l'interface 3D, en pixels.
 
 @Parameter "BoutonGaucheSouris"
-  L'état du bouton gauche de la souris 
+  L'Ã©tat du bouton gauche de la souris 
 @FixedFont
-  0 : Bouton relâché. 
-  1 : Bouton pressé.
+  0 : Bouton relÃ¢chÃ©. 
+  1 : Bouton pressÃ©.
 @EndFixedFont
 
 @OptionalParameter "Texte$"
-  Le texte injecté dans l'interface graphique, par exemple pour alimenter un 
+  Le texte injectÃ© dans l'interface graphique, par exemple pour alimenter un 
   @@StringGadget3D. 
 
 @OptionalParameter "ToucheSpeciale"
-  Touche muette du clavier injectée dans le 
-  système de l'interface graphique, par 
-  exemple pour gérer le Retour Arrière 
-  (Backspace), Entrée ou Retour Chariot 
+  Touche muette du clavier injectÃ©e dans le 
+  systÃ¨me de l'interface graphique, par 
+  exemple pour gÃ©rer le Retour ArriÃ¨re 
+  (Backspace), EntrÃ©e ou Retour Chariot 
   (Enter) et autres.@LineBreak
-  Les touches spéciales disponibles sont:
+  Les touches spÃ©ciales disponibles sont:
 @FixedFont
-  @#PB_Key_Back  : Retour arrière
+  @#PB_Key_Back  : Retour arriÃ¨re
   @#PB_Key_Delete: Supprimer
-  @#PB_Key_Return: Entrée
-  @#PB_Key_Up    : Flèche haut
-  @#PB_Key_Down  : Flèche bas
-  @#PB_Key_Left  : Flèche gauche
-  @#PB_Key_Right : Flèche droite
+  @#PB_Key_Return: EntrÃ©e
+  @#PB_Key_Up    : FlÃ¨che haut
+  @#PB_Key_Down  : FlÃ¨che bas
+  @#PB_Key_Left  : FlÃ¨che gauche
+  @#PB_Key_Right : FlÃ¨che droite
 @EndFixedFont 
 
 @NoReturnValue
 
 @Remarks
-  Cette fonction est nécessaire pour que @@WindowEvent3D fonctionne.
+  Cette fonction est nÃ©cessaire pour que @@WindowEvent3D fonctionne.
 @LineBreak
 @LineBreak
-  Pour plus de souplesse, les événements ne sont pas obtenus automatiquement à 
-  partir de la souris et du clavier, mais injectés à la demande.
+  Pour plus de souplesse, les Ã©vÃ©nements ne sont pas obtenus automatiquement Ã  
+  partir de la souris et du clavier, mais injectÃ©s Ã  la demande.
 
 @Example
 @Code
-  ; Voici une utilisation classique pour renseigner les événements de la souris et du clavier
+  ; Voici une utilisation classique pour renseigner les Ã©vÃ©nements de la souris et du clavier
   ;
   InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left, Input$, 0)
 @EndCode
@@ -226,17 +226,17 @@
 @Function Resultat = GetActiveWindow3D()
 
 @Description
-  Renvoie le numéro de la fenêtre 3D qui est 
+  Renvoie le numÃ©ro de la fenÃªtre 3D qui est 
   actuellement active (qui a le 'focus').
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le numéro de la fenêtre 3D qui a 
+  Renvoie le numÃ©ro de la fenÃªtre 3D qui a 
   le 'focus' clavier ou -1 sinon.
 
 @Remarks
-  Une fenêtre peut être activée avec la 
+  Une fenÃªtre peut Ãªtre activÃ©e avec la 
   commande @@SetActiveWindow3D.
 
 @SeeAlso
@@ -250,17 +250,17 @@
 
 @Description
   Renvoie le texte de la barre de titre
-  d'une fenêtre 3D.
+  d'une fenÃªtre 3D.
 
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser.
+  La fenÃªtre 3D Ã  utiliser.
 
 @ReturnValue
-  Renvoie le texte affiché dans la barre 
-  de titre de la fenêtre 3D spécifiée.
+  Renvoie le texte affichÃ© dans la barre 
+  de titre de la fenÃªtre 3D spÃ©cifiÃ©e.
 
 @Remarks
-  Le titre de la fenêtre est modifiable 
+  Le titre de la fenÃªtre est modifiable 
   avec la commande  @@SetWindowTitle3D.
 
 @SeeAlso
@@ -273,16 +273,16 @@
 @Function HideWindow3D(#Fenetre3D, Etat) 
 
 @Description
-  Affiche ou cache une fenêtre 3D.
+  Affiche ou cache une fenÃªtre 3D.
 
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser.
+  La fenÃªtre 3D Ã  utiliser.
    
 @Parameter "Etat"  
   Peut prendre une des valeurs suivantes:
 @FixedFont
-  @#True : La fenêtre 3D est cachée.
-  @#False: La fenêtre 3D est rendue visible.
+  @#True : La fenÃªtre 3D est cachÃ©e.
+  @#False: La fenÃªtre 3D est rendue visible.
 @EndFixedFont 
 
 @NoReturnValue
@@ -294,22 +294,22 @@
 @Function Resultat = IsWindow3D(#Fenetre3D)
 
 @Description
-  Teste si une fenêtre 3D est correctement 
-  initialisée. 
+  Teste si une fenÃªtre 3D est correctement 
+  initialisÃ©e. 
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser.  
+  La fenÃªtre 3D Ã  utiliser.  
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  fenêtre 3D est valide, zéro sinon.
+  fenÃªtre 3D est valide, zÃ©ro sinon.
 
 @Remarks  
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
-  C'est la fonction idéale pour vérifier qu'un
-  objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier qu'un
+  objet est correctement initialisÃ©.
 
 @SeeAlso
   @@OpenWindow3D
@@ -321,50 +321,50 @@
 @Function Resultat = OpenWindow3D(#Fenetre3D, X, Y, LargeurInterne, HauteurInterne, Titre$ [, Options])
 
 @Description
-  Ouvre une nouvelle fenêtre 3D.
+  Ouvre une nouvelle fenÃªtre 3D.
  
 @Parameter "#Fenetre3D"
-  Le numéro d'identification de la fenêtre 3D. 
+  Le numÃ©ro d'identification de la fenÃªtre 3D. 
 @LineBreak
 @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour autogénérer ce numéro.
+  peut Ãªtre utilisÃ© pour autogÃ©nÃ©rer ce numÃ©ro.
 
 @Parameter "X, Y"
-  La position initiale de la fenêtre 3D dans 
-  l'écran (sauf si l'une des options de 
-  centrage est utilisée).
+  La position initiale de la fenÃªtre 3D dans 
+  l'Ã©cran (sauf si l'une des options de 
+  centrage est utilisÃ©e).
 
 @Parameter "LargeurInterne, HauteurInterne"
   Taille initiale de la zone client de la 
-  fenêtre 3D (sans bordure ni barre de titre...).
+  fenÃªtre 3D (sans bordure ni barre de titre...).
 
 @Parameter "Titre$"  
-  Le titre de la fenêtre 3D.
+  Le titre de la fenÃªtre 3D.
   
 @OptionalParameter "Options"
-  Peut être une combination de:
+  Peut Ãªtre une combination de:
 @FixedFont
-  @#PB_Window3D_SizeGadget     : Redimensionnement de la fenêtre 3D.
-  @#PB_Window3D_Invisible      : Crée la fenêtre 3D mais ne l'affiche pas. 
-  @#PB_Window3D_BorderLess     : Crée une fenêtre 3D sans bordures. 
+  @#PB_Window3D_SizeGadget     : Redimensionnement de la fenÃªtre 3D.
+  @#PB_Window3D_Invisible      : CrÃ©e la fenÃªtre 3D mais ne l'affiche pas. 
+  @#PB_Window3D_BorderLess     : CrÃ©e une fenÃªtre 3D sans bordures. 
 @EndFixedFont  
   
 @ReturnValue
-  Renvoie une valeur non nulle si la fenêtre 
+  Renvoie une valeur non nulle si la fenÃªtre 
   3D est ouverte dans 
-  l'@Link "Screen/OpenScreen" "écran" 
-  en cours, zéro sinon.
+  l'@Link "Screen/OpenScreen" "Ã©cran" 
+  en cours, zÃ©ro sinon.
 
 @Remarks  
-  La nouvelle fenêtre 3D devient la fenêtre 
+  La nouvelle fenÃªtre 3D devient la fenÃªtre 
   active sans avoir besoin d'utiliser 
-  @@SetActiveWindow3D (sauf si elle a été 
-  créée en mode invisible).
+  @@SetActiveWindow3D (sauf si elle a Ã©tÃ© 
+  crÃ©Ã©e en mode invisible).
 @LineBreak
 @LineBreak
-  Tous les évènements possibles des fenêtres 
-  3D sont gérés par la commande @@WindowEvent3D.
+  Tous les Ã©vÃ¨nements possibles des fenÃªtres 
+  3D sont gÃ©rÃ©s par la commande @@WindowEvent3D.
  
 @SeeAlso
   @@CloseWindow3D, @@WindowEvent3D
@@ -376,24 +376,24 @@
 @Function ResizeWindow3D(#Fenetre3D, X, Y, Largeur, Hauteur)
 
 @Description
-  Déplace et redimensionne une fenêtre 3D.
+  DÃ©place et redimensionne une fenÃªtre 3D.
  
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
   
 @Parameter "X, Y"  
-  La nouvelle position de la fenêtre 3D.
+  La nouvelle position de la fenÃªtre 3D.
 @LineBreak
 @LineBreak 
-  @#PB_Ignore peut être utilisée pour 
-  laisser un paramètre inchangé.
+  @#PB_Ignore peut Ãªtre utilisÃ©e pour 
+  laisser un paramÃ¨tre inchangÃ©.
 
 @Parameter "Largeur, Hauteur"  
-  Les nouvelles dimensions de la fenêtre 3D.
+  Les nouvelles dimensions de la fenÃªtre 3D.
 @LineBreak
 @LineBreak 
-  @#PB_Ignore peut être utilisée pour 
-  laisser un paramètre inchangé.
+  @#PB_Ignore peut Ãªtre utilisÃ©e pour 
+  laisser un paramÃ¨tre inchangÃ©.
 
 @NoReturnValue
 
@@ -404,11 +404,11 @@
 @Function SetActiveWindow3D(#Fenetre3D)
 
 @Description
-  Active une fenêtre 3D, elle obtient le 
+  Active une fenÃªtre 3D, elle obtient le 
   'focus'.
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
   
 @NoReturnValue
 
@@ -423,10 +423,10 @@
 
 @Description
   Change le texte de la barre de titre 
-  d'une fenêtre 3D.
+  d'une fenÃªtre 3D.
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
   
 @Parameter "Titre$"
   Le nouveau titre.
@@ -443,33 +443,33 @@
 @Function Resultat = WindowEvent3D()
 
 @Description
-  Teste si un évènement s'est produit 
-  sur chacune des fenêtres 3D.
+  Teste si un Ã©vÃ¨nement s'est produit 
+  sur chacune des fenÃªtres 3D.
 
 @NoParameters
 
 @ReturnValue
-  Les évènements possibles sont :
+  Les Ã©vÃ¨nements possibles sont :
 @FixedFont
-  @#PB_Event3D_Gadget         : Un @LibraryLink "gadget3d" "Gadget3D" a été utilisé
-  @#PB_Event3D_CloseWindow    : L'icône de fermeture de fenêtre a été cliquée
-  @#PB_Event3D_SizeWindow     : La fenêtre a été redimensionnée
-  @#PB_Event3D_MoveWindow     : La fenêtre a été déplacée
-  @#PB_Event3D_ActivateWindow : La fenêtre a été activée (gain du focus)
+  @#PB_Event3D_Gadget         : Un @LibraryLink "gadget3d" "Gadget3D" a Ã©tÃ© utilisÃ©
+  @#PB_Event3D_CloseWindow    : L'icÃ´ne de fermeture de fenÃªtre a Ã©tÃ© cliquÃ©e
+  @#PB_Event3D_SizeWindow     : La fenÃªtre a Ã©tÃ© redimensionnÃ©e
+  @#PB_Event3D_MoveWindow     : La fenÃªtre a Ã©tÃ© dÃ©placÃ©e
+  @#PB_Event3D_ActivateWindow : La fenÃªtre a Ã©tÃ© activÃ©e (gain du focus)
 @EndFixedFont
 
 @Remarks
-  @@InputEvent3D doit être utilisé pour envoyer des événements au système 
-  d'interface graphique 3D et pour pouvoir avoir accès aux évènements provenant 
-  de la fenêtre.
+  @@InputEvent3D doit Ãªtre utilisÃ© pour envoyer des Ã©vÃ©nements au systÃ¨me 
+  d'interface graphique 3D et pour pouvoir avoir accÃ¨s aux Ã©vÃ¨nements provenant 
+  de la fenÃªtre.
 @LineBreak
 @LineBreak
-  Cette fonction est à retour immédiat, elle renvoie le prochain événement 
-  de la file d'attente ou zéro s'il n'y en a plus.@LineBreak
-  Elle n'attend pas pour le prochain évènement. 
+  Cette fonction est Ã  retour immÃ©diat, elle renvoie le prochain Ã©vÃ©nement 
+  de la file d'attente ou zÃ©ro s'il n'y en a plus.@LineBreak
+  Elle n'attend pas pour le prochain Ã©vÃ¨nement. 
 @LineBreak
 @LineBreak
-  Pour obtenir le numéro de fenêtre où s'est produit l'évènement, utiliser la 
+  Pour obtenir le numÃ©ro de fenÃªtre oÃ¹ s'est produit l'Ã©vÃ¨nement, utiliser la 
   fonction @@EventWindow3D. 
 
 @SeeAlso
@@ -482,14 +482,14 @@
 @Function Resultat = WindowHeight3D(#Fenetre3D)
 
 @Description 
-  Renvoie la hauteur d'une fenêtre 3D.
+  Renvoie la hauteur d'une fenÃªtre 3D.
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
 
 @ReturnValue
-  Renvoie la hauteur en pixels de la fenêtre 
-  3D spécifiée.
+  Renvoie la hauteur en pixels de la fenÃªtre 
+  3D spÃ©cifiÃ©e.
 
 @SeeAlso
   @@WindowWidth3D
@@ -501,14 +501,14 @@
 @Function WindowID3D = WindowID3D(#Fenetre3D) 
 
 @Description
-  Renvoie l'identifiant unique d'une fenêtre 3D.
+  Renvoie l'identifiant unique d'une fenÃªtre 3D.
  
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
 
 @ReturnValue
-  Renvoie l'identifiant unique de la fenêtre 3D 
-  spécifiée, dans le système d'exploitation. 
+  Renvoie l'identifiant unique de la fenÃªtre 3D 
+  spÃ©cifiÃ©e, dans le systÃ¨me d'exploitation. 
   
 @SupportedOS
 
@@ -517,14 +517,14 @@
 @Function Resultat = WindowWidth3D(#Fenetre3D)  
 
 @Description 
-  Renvoie la largeur d'une fenêtre 3D.
+  Renvoie la largeur d'une fenÃªtre 3D.
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
 
 @ReturnValue
-  Renvoie la largeur en pixels de la fenêtre 
-  3D spécifiée.
+  Renvoie la largeur en pixels de la fenÃªtre 
+  3D spÃ©cifiÃ©e.
 
 @SeeAlso
   @@WindowHeight3D
@@ -537,14 +537,14 @@
 
 @Description
   Renvoie la position en 'X' (par rapport 
-  au bord gauche d'un écran) d'une fenêtre 3D. 
+  au bord gauche d'un Ã©cran) d'une fenÃªtre 3D. 
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
 
 @ReturnValue
- Renvoie la position gauche de la fenêtre 3D 
- spécifiée, en pixels. 
+ Renvoie la position gauche de la fenÃªtre 3D 
+ spÃ©cifiÃ©e, en pixels. 
   
 @SeeAlso
   @@WindowY3D
@@ -557,15 +557,15 @@
 
 @Description
   Renvoie la position en 'Y' (par rapport 
-  au bord supérieur d'un écran) d'une fenêtre 
+  au bord supÃ©rieur d'un Ã©cran) d'une fenÃªtre 
   3D. 
   
 @Parameter "#Fenetre3D"
-  La fenêtre 3D à utiliser. 
+  La fenÃªtre 3D Ã  utiliser. 
 
 @ReturnValue
- Renvoie la position supérieure de la fenêtre 
- 3D spécifiée, en pixels. 
+ Renvoie la position supÃ©rieure de la fenÃªtre 
+ 3D spÃ©cifiÃ©e, en pixels. 
   
 @SeeAlso
   @@WindowX3D

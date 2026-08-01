@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Desktop library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,17 +8,17 @@
 
 @Overview
 
-La bibliothèque desktop permet d'obtenir des 
+La bibliothÃ¨que desktop permet d'obtenir des 
 informations sur l'environnement de travail 
 de l'utilisateur: Le bureau.@LineBreak
 Ces informations sont les dimensions du bureau, 
-sa résolution, la position du curseur 
+sa rÃ©solution, la position du curseur 
 de la souris, etc.
 @LineBreak
 @LineBreak
-Il est intéressant de signaler que vous avez la 
-possibilité d'utiliser plusieurs écrans 
-(moniteurs) simultanément.
+Il est intÃ©ressant de signaler que vous avez la 
+possibilitÃ© d'utiliser plusieurs Ã©crans 
+(moniteurs) simultanÃ©ment.
 
 @CommandList
 
@@ -31,26 +31,26 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = ExamineDesktops()
 
 @Description
-  Examine les caractéristiques des bureaux 
-  que l'utilisateur a à sa disposition. 
+  Examine les caractÃ©ristiques des bureaux 
+  que l'utilisateur a Ã  sa disposition. 
   
 @NoParameters
 
 @ReturnValue
-  Renvoie le nombre de bureaux détectés, 
-  zéro sinon.
+  Renvoie le nombre de bureaux dÃ©tectÃ©s, 
+  zÃ©ro sinon.
 
 @Remarks
-  Cette commande doit être appelée avant 
+  Cette commande doit Ãªtre appelÃ©e avant 
   d'utiliser les fonctions suivantes: 
   @@DesktopDepth, @@DesktopFrequency, @@DesktopHeight, @@DesktopName et 
   @@DesktopWidth.
 @LineBreak
 @LineBreak
-  En règle générale, un utilisateur n'en 
+  En rÃ¨gle gÃ©nÃ©rale, un utilisateur n'en 
   utilise qu'un seul, mais il est possible 
   d'en avoir plusieurs en cas de 
-  double-écrans par exemple.
+  double-Ã©crans par exemple.
   
 @Example 
 @Code
@@ -71,7 +71,7 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la profondeur de couleur d'un bureau. 
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
@@ -81,14 +81,14 @@ possibilité d'utiliser plusieurs écrans
   par pixels: 1, 2, 4, 8, 15, 16, 24 ou 32. 
   
 @Remarks
-  @@ExamineDesktops doit être appelée avant cette 
-  commande pour mettre à jour les informations 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant cette 
+  commande pour mettre Ã  jour les informations 
   concernant les bureaux.
  
 @Example 
 @Code
   ExamineDesktops()
-  MessageRequester("Information d'affichage", "Résolution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Information d'affichage", "RÃ©solution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso
@@ -103,22 +103,22 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat.d = DesktopResolutionX()
 
 @Description
-  Renvoie le facteur de résolution DPI horizontal du bureau. 
+  Renvoie le facteur de rÃ©solution DPI horizontal du bureau. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le facteur de résolution DPI du bureau sur l'axe 'x'.@LineBreak 
-  Si la valeur est '1', aucun facteur DPI n'a été appliqué sur l'axe 'x'.@LineBreak
-  Si la valeur est '1.25', un facteur de 125% a été appliqué sur l'axe 'x'.
+  Renvoie le facteur de rÃ©solution DPI du bureau sur l'axe 'x'.@LineBreak 
+  Si la valeur est '1', aucun facteur DPI n'a Ã©tÃ© appliquÃ© sur l'axe 'x'.@LineBreak
+  Si la valeur est '1.25', un facteur de 125% a Ã©tÃ© appliquÃ© sur l'axe 'x'.
    
 @Remarks
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie le facteur de rÃ©solution DPI rÃ©el. Sinon, le rÃ©sultat sera toujours '1'.
 
 @Example
 @Code
-  Debug "DPI du bureau: Facteur d'échelle d'affichage horizontal : " + DesktopResolutionX()
+  Debug "DPI du bureau: Facteur d'Ã©chelle d'affichage horizontal : " + DesktopResolutionX()
 @EndCode
 
 @SeeAlso
@@ -131,22 +131,22 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat.d = DesktopResolutionY()
 
 @Description
-  Renvoie le facteur de résolution DPI vertical du bureau. 
+  Renvoie le facteur de rÃ©solution DPI vertical du bureau. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le facteur de résolution DPI du bureau sur l'axe 'y'.@LineBreak 
-  Si la valeur est '1', aucun facteur DPI n'a été appliqué sur l'axe 'y'.@LineBreak
-  Si la valeur est '1.25', un facteur de 125% a été appliqué sur l'axe 'y'.
+  Renvoie le facteur de rÃ©solution DPI du bureau sur l'axe 'y'.@LineBreak 
+  Si la valeur est '1', aucun facteur DPI n'a Ã©tÃ© appliquÃ© sur l'axe 'y'.@LineBreak
+  Si la valeur est '1.25', un facteur de 125% a Ã©tÃ© appliquÃ© sur l'axe 'y'.
    
 @Remarks
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie le facteur de rÃ©solution DPI rÃ©el. Sinon, le rÃ©sultat sera toujours '1'.
 
 @Example
 @Code
-  Debug "DPI du bureau: Facteur d'échelle d'affichage vertical : " + DesktopResolutionY()
+  Debug "DPI du bureau: Facteur d'Ã©chelle d'affichage vertical : " + DesktopResolutionY()
 @EndCode
 
 @SeeAlso
@@ -159,27 +159,27 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = DesktopScaledX(Valeur)
 
 @Description
-  Renvoie une valeur après mise à l'échelle, en fonction du DPI horizontal. 
+  Renvoie une valeur aprÃ¨s mise Ã  l'Ã©chelle, en fonction du DPI horizontal. 
 
 @Parameter "Valeur"
   La valeur avec un DPI de 1.
 
 @ReturnValue
-  Renvoie la valeur mise à l'échelle en fonction de l'affichage actuel du DPI sur l'axe 'x'.@LineBreak 
-  Par exemple, sur un affichage avec une résolution de 125%, une valeur de 100 correspond à 125.
+  Renvoie la valeur mise Ã  l'Ã©chelle en fonction de l'affichage actuel du DPI sur l'axe 'x'.@LineBreak 
+  Par exemple, sur un affichage avec une rÃ©solution de 125%, une valeur de 100 correspond Ã  125.
   
 @Remarks
-  Ceci est surtout utile pour calculer la position réelle du pixel indépendamment du DPI 
+  Ceci est surtout utile pour calculer la position rÃ©elle du pixel indÃ©pendamment du DPI 
   d'affichage.
   @LineBreak 
   @LineBreak 
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours le même 
-  que celui du paramètre 'Valeur'.
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie le facteur de rÃ©solution DPI rÃ©el. Sinon, le rÃ©sultat sera toujours le mÃªme 
+  que celui du paramÃ¨tre 'Valeur'.
 
 @Example
 @Code
-  Debug "DPI horizontal du bureau, valeur mise à l'échelle de 100: " + DesktopScaledX(100)
+  Debug "DPI horizontal du bureau, valeur mise Ã  l'Ã©chelle de 100: " + DesktopScaledX(100)
 @EndCode
 
 @SeeAlso
@@ -192,27 +192,27 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = DesktopScaledY(Valeur)
 
 @Description
-  Renvoie une valeur après mise à l'échelle, en fonction du DPI vertical. 
+  Renvoie une valeur aprÃ¨s mise Ã  l'Ã©chelle, en fonction du DPI vertical. 
 
 @Parameter "Valeur"
   La valeur avec un DPI de 1.
 
 @ReturnValue
-  Renvoie la valeur mise à l'échelle en fonction de l'affichage actuel du DPI sur l'axe 'y'.@LineBreak 
-  Par exemple, sur un affichage avec une résolution de 125%, une valeur de 100 correspond à 125.
+  Renvoie la valeur mise Ã  l'Ã©chelle en fonction de l'affichage actuel du DPI sur l'axe 'y'.@LineBreak 
+  Par exemple, sur un affichage avec une rÃ©solution de 125%, une valeur de 100 correspond Ã  125.
   
 @Remarks
-  Ceci est surtout utile pour calculer la position réelle du pixel indépendamment du DPI 
+  Ceci est surtout utile pour calculer la position rÃ©elle du pixel indÃ©pendamment du DPI 
   d'affichage.
   @LineBreak 
   @LineBreak 
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours le même 
-  que celui du paramètre 'Valeur'.
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie le facteur de rÃ©solution DPI rÃ©el. Sinon, le rÃ©sultat sera toujours le mÃªme 
+  que celui du paramÃ¨tre 'Valeur'.
 
 @Example
 @Code
-  Debug "DPI vertical du bureau, valeur mise à l'échelle de 100: " + DesktopScaledY(100)
+  Debug "DPI vertical du bureau, valeur mise Ã  l'Ã©chelle de 100: " + DesktopScaledY(100)
 @EndCode
 
 @SeeAlso
@@ -225,26 +225,26 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = DesktopUnscaledX(Valeur)
 
 @Description
-  Renvoie une valeur non mise à l'échelle en fonction du DPI horizontal en cours.
+  Renvoie une valeur non mise Ã  l'Ã©chelle en fonction du DPI horizontal en cours.
 
 @Parameter "Valeur"
   La valeur avec le DPI en cours.
 
 @ReturnValue
-  Renvoie la valeur non mise à l'échelle en fonction du DPI actuel sur l'axe 'x'.@LineBreak 
-  Par exemple, sur un affichage avec une résolution de 125%, une valeur de 125 correspond à 100.
+  Renvoie la valeur non mise Ã  l'Ã©chelle en fonction du DPI actuel sur l'axe 'x'.@LineBreak 
+  Par exemple, sur un affichage avec une rÃ©solution de 125%, une valeur de 125 correspond Ã  100.
   
 @Remarks
-  Ceci est surtout utile pour calculer la position réelle du pixel indépendamment du DPI d'affichage.
+  Ceci est surtout utile pour calculer la position rÃ©elle du pixel indÃ©pendamment du DPI d'affichage.
 @LineBreak
 @LineBreak
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie la valeur redimensionnée. Sinon, le résultat sera toujours le même que celui 
-  du paramètre "Valeur".
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie la valeur redimensionnÃ©e. Sinon, le rÃ©sultat sera toujours le mÃªme que celui 
+  du paramÃ¨tre "Valeur".
 
 @Example
 @Code
-  Debug "DPI horizontal du bureau, valeur non mise à l'échelle de 125: " + DesktopUnscaledX(125)
+  Debug "DPI horizontal du bureau, valeur non mise Ã  l'Ã©chelle de 125: " + DesktopUnscaledX(125)
 @EndCode
 
 @SeeAlso
@@ -257,26 +257,26 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = DesktopUnscaledY(Valeur)
 
 @Description
-  Renvoie une valeur non mise à l'échelle en fonction du DPI vertical en cours.
+  Renvoie une valeur non mise Ã  l'Ã©chelle en fonction du DPI vertical en cours.
 
 @Parameter "Valeur"
   La valeur avec le DPI en cours.
 
 @ReturnValue
-  Renvoie la valeur non mise à l'échelle en fonction du DPI actuel sur l'axe 'y'.@LineBreak 
-  Par exemple, sur un affichage avec une résolution de 125%, une valeur de 125 correspond à 100.
+  Renvoie la valeur non mise Ã  l'Ã©chelle en fonction du DPI actuel sur l'axe 'y'.@LineBreak 
+  Par exemple, sur un affichage avec une rÃ©solution de 125%, une valeur de 125 correspond Ã  100.
   
 @Remarks
-  Ceci est surtout utile pour calculer la position réelle du pixel indépendamment du DPI d'affichage.
+  Ceci est surtout utile pour calculer la position rÃ©elle du pixel indÃ©pendamment du DPI d'affichage.
 @LineBreak
 @LineBreak
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie la valeur redimensionnée. Sinon, le résultat sera toujours le même que celui 
-  du paramètre "Valeur".
+  L'application doit Ãªtre compilÃ©e avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
+  renvoie la valeur redimensionnÃ©e. Sinon, le rÃ©sultat sera toujours le mÃªme que celui 
+  du paramÃ¨tre "Valeur".
 
 @Example
 @Code
-  Debug "DPI vertical du bureau, valeur non mise à l'échelle de 125: " + DesktopUnscaledY(125)
+  Debug "DPI vertical du bureau, valeur non mise Ã  l'Ã©chelle de 125: " + DesktopUnscaledY(125)
 @EndCode
 
 @SeeAlso
@@ -289,26 +289,26 @@ possibilité d'utiliser plusieurs écrans
 @Function Resultat = DesktopFrequency(#Bureau)
 
 @Description
-  Renvoie le taux de rafraîchissement d'un bureau. 
+  Renvoie le taux de rafraÃ®chissement d'un bureau. 
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
   
 @ReturnValue
-  Renvoie le taux de rafraîchissement en Hertz 
+  Renvoie le taux de rafraÃ®chissement en Hertz 
   du bureau.
 @LineBreak
 @LineBreak
-  Si Taux vaut 0 alors la fréquence matérielle par 
-  défaut est utilisée, ou la fréquence réelle n'a 
-  pu être déterminée.
+  Si Taux vaut 0 alors la frÃ©quence matÃ©rielle par 
+  dÃ©faut est utilisÃ©e, ou la frÃ©quence rÃ©elle n'a 
+  pu Ãªtre dÃ©terminÃ©e.
   
 @Remarks
-  @@ExamineDesktops doit être appelée avant cette 
-  commande pour mettre à jour les informations 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant cette 
+  commande pour mettre Ã  jour les informations 
   concernant les bureaux.
 @LineBreak
 @LineBreak
@@ -320,9 +320,9 @@ possibilité d'utiliser plusieurs écrans
   ExamineDesktops()
   Frequency = DesktopFrequency(0)
   If Frequency = 0
-    MessageRequester("Information d'affichage", "Il n'y a aucun réglage utilisateur, le taux de rafraîchissement par défaut du matériel est utilisé.")
+    MessageRequester("Information d'affichage", "Il n'y a aucun rÃ©glage utilisateur, le taux de rafraÃ®chissement par dÃ©faut du matÃ©riel est utilisÃ©.")
   Else
-    MessageRequester("Information d'affichage", "taux de rafraîchissement du bureau: "+Str(Frequency)+" Hz.")
+    MessageRequester("Information d'affichage", "taux de rafraÃ®chissement du bureau: "+Str(Frequency)+" Hz.")
   EndIf
 @EndCode
 
@@ -341,7 +341,7 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la hauteur d'un bureau.
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
@@ -350,14 +350,14 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la hauteur en pixels du bureau.
 
 @Remarks
-  @@ExamineDesktops doit être appelée avant cette 
-  commande pour mettre à jour les informations 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant cette 
+  commande pour mettre Ã  jour les informations 
   concernant les bureaux.
 
 @Example   
 @Code
   ExamineDesktops()
-  MessageRequester("Information d'affichage", "Résolution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Information d'affichage", "RÃ©solution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso
@@ -375,24 +375,24 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la position 'X' d'un bureau. 
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
   
 @ReturnValue
-  Renvoie la position 'X' en pixels, à partir 
-  du coin supérieur gauche du bureau.
+  Renvoie la position 'X' en pixels, Ã  partir 
+  du coin supÃ©rieur gauche du bureau.
 @LineBreak
 @LineBreak
-  La coordonnée est relative au coin supérieur 
-  gauche de l'écran principal. @LineBreak
-  Elle est négative si le bureau est indiqué 
-  à gauche de l'écran principal.
+  La coordonnÃ©e est relative au coin supÃ©rieur 
+  gauche de l'Ã©cran principal. @LineBreak
+  Elle est nÃ©gative si le bureau est indiquÃ© 
+  Ã  gauche de l'Ã©cran principal.
   
 @Remarks
-  @@ExamineDesktops doit être appelée avant 
-  cette commande pour mettre à jour les 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant 
+  cette commande pour mettre Ã  jour les 
   informations concernant les bureaux.  
   
 @Example   
@@ -417,24 +417,24 @@ possibilité d'utiliser plusieurs écrans
   
 
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
   
 @ReturnValue
-  Renvoie la position 'Y' en pixels, à partir 
-  du coin supérieur gauche du bureau.
+  Renvoie la position 'Y' en pixels, Ã  partir 
+  du coin supÃ©rieur gauche du bureau.
 @LineBreak
 @LineBreak
-  La coordonnée est relative au coin supérieur 
-  gauche de l'écran principal. @LineBreak
-  Elle est négative si le bureau est indiqué 
-  au dessus de l'écran principal.
+  La coordonnÃ©e est relative au coin supÃ©rieur 
+  gauche de l'Ã©cran principal. @LineBreak
+  Elle est nÃ©gative si le bureau est indiquÃ© 
+  au dessus de l'Ã©cran principal.
 
 @Remarks
-  @@ExamineDesktops doit être appelée avant 
-  cette commande pour mettre à jour les 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant 
+  cette commande pour mettre Ã  jour les 
   informations concernant les bureaux.    
   
 @Example   
@@ -462,12 +462,12 @@ possibilité d'utiliser plusieurs écrans
 
 @ReturnValue
   Renvoie la position absolue en X en pixels 
-  de la souris à partir du coin supérieur 
+  de la souris Ã  partir du coin supÃ©rieur 
   gauche du moniteur principal.
 @LineBreak
 @LineBreak
-  La coordonnée est négative si la souris est 
-  sur un moniteur à gauche de l'écran principal.
+  La coordonnÃ©e est nÃ©gative si la souris est 
+  sur un moniteur Ã  gauche de l'Ã©cran principal.
 
 @Example
 @Code
@@ -477,8 +477,8 @@ possibilité d'utiliser plusieurs écrans
     Repeat
       Event = WindowEvent()
       
-      If Event = 0 ; Il n'y a plus d'événement dans la file d'attente, libère le processeur quelques millisecondes pour le multi-tâches
-        SetGadgetText(0, "Coordonnées : "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
+      If Event = 0 ; Il n'y a plus d'Ã©vÃ©nement dans la file d'attente, libÃ¨re le processeur quelques millisecondes pour le multi-tÃ¢ches
+        SetGadgetText(0, "CoordonnÃ©es : "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
         Delay(20)
       EndIf
        
@@ -504,12 +504,12 @@ possibilité d'utiliser plusieurs écrans
 
 @ReturnValue
   Renvoie la position absolue en Y en pixels 
-  de la souris à partir du coin supérieur 
+  de la souris Ã  partir du coin supÃ©rieur 
   gauche du moniteur principal.
 @LineBreak
 @LineBreak
-  La coordonnée est négative si la souris est 
-  sur un moniteur au dessus de l'écran principal.
+  La coordonnÃ©e est nÃ©gative si la souris est 
+  sur un moniteur au dessus de l'Ã©cran principal.
 
 @Example 
 @Code
@@ -519,8 +519,8 @@ possibilité d'utiliser plusieurs écrans
     Repeat
       Event = WindowEvent()
       
-      If Event = 0 ; Il n'y a plus d'événement dans la file d'attente, libère le processeur quelques millisecondes pour le multi-tâches
-        SetGadgetText(0, "Coordonnées : "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
+      If Event = 0 ; Il n'y a plus d'Ã©vÃ©nement dans la file d'attente, libÃ¨re le processeur quelques millisecondes pour le multi-tÃ¢ches
+        SetGadgetText(0, "CoordonnÃ©es : "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
         Delay(20)
       EndIf
        
@@ -542,18 +542,18 @@ possibilité d'utiliser plusieurs écrans
   Renvoie le nom d'un bureau.
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
   
 @ReturnValue
   Renvoie le nom du bureau , s'il existe, une 
-  chaîne vide sinon. 
+  chaÃ®ne vide sinon. 
 
 @Remarks
-  @@ExamineDesktops doit être appelée avant cette 
-  commande pour mettre à jour les informations 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant cette 
+  commande pour mettre Ã  jour les informations 
   concernant les bureaux.
 
 @Example   
@@ -578,7 +578,7 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la largeur d'un bureau.
   
 @Parameter "#Bureau"
-  Le numéro du bureau à tester.
+  Le numÃ©ro du bureau Ã  tester.
 @LineBreak
 @LineBreak
   Le bureau principal a toujours la valeur 0.
@@ -587,14 +587,14 @@ possibilité d'utiliser plusieurs écrans
   Renvoie la largeur en pixel du bureau.
 
 @Remarks
-  @@ExamineDesktops doit être appelée avant 
-  cette commande pour mettre à jour 
+  @@ExamineDesktops doit Ãªtre appelÃ©e avant 
+  cette commande pour mettre Ã  jour 
   les informations concernant les bureaux.
 
 @Example   
 @Code
   ExamineDesktops()
-  MessageRequester("Information d'affichage", "Résolution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Information d'affichage", "RÃ©solution = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso

@@ -1,26 +1,26 @@
-;
+ï»¿;
 ;     File library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library File
 
 @Overview
-  Dateien sind die wichtigste Methode für das Speichern von Daten auf Computern. PureBasic ermöglicht
+  Dateien sind die wichtigste Methode fÃ¼r das Speichern von Daten auf Computern. PureBasic ermÃ¶glicht
   dem Programmierer das Erstellen von Applikationen in einer solchen Art und Weise, dass die 
   zum Umgang mit diesen Dateien verwendeten Methoden einfach anzuwenden, aber trotzdem optimiert
   sind. Eine beliebige Anzahl an Dateien kann gleichzeitig verwaltet werden. Diese Bibliothek 
-  benutzt gepufferte Funktionen, um die Schreib- und Lesegeschwindigkeit zu erhöhen. Alle Datei-Funktionen
-  können mit großen Dateien (bis zu 2^64 Bytes) umgehen (d.h. wenn das Dateisystem diese unterstützt).
+  benutzt gepufferte Funktionen, um die Schreib- und Lesegeschwindigkeit zu erhÃ¶hen. Alle Datei-Funktionen
+  kÃ¶nnen mit groÃŸen Dateien (bis zu 2^64 Bytes) umgehen (d.h. wenn das Dateisystem diese unterstÃ¼tzt).
 @LineBreak  
 @LineBreak
-  Für große Mengen an Daten kann es nützlich sein, die Daten in ein @ReferenceLink "dim" "Array",
-  eine @ReferenceLink "newlist" "verknüpfte Liste" oder eine @ReferenceLink "newmap" "Map" zu lesen,
+  FÃ¼r groÃŸe Mengen an Daten kann es nÃ¼tzlich sein, die Daten in ein @ReferenceLink "dim" "Array",
+  eine @ReferenceLink "newlist" "verknÃ¼pfte Liste" oder eine @ReferenceLink "newmap" "Map" zu lesen,
   auch die Verwendung eines @LibraryLink "memory" "Speicherblocks" kann eine gute Idee sein.
 @LineBreak  
 @LineBreak
-  Um gültige Dateipfade für das Lesen/Schreiben von Daten zu erhalten, werfen Sie einen 
+  Um gÃ¼ltige Dateipfade fÃ¼r das Lesen/Schreiben von Daten zu erhalten, werfen Sie einen 
   Blick in die Beschreibung der @LibraryLink "filesystem" "FileSystem" 
   und @LibraryLink "requester" "Requester" Bibliotheken.
 
@@ -36,22 +36,22 @@
 @Function CloseFile(#Datei)
 
 @Description
-  Schließt die angegebene Datei.
+  SchlieÃŸt die angegebene Datei.
 
 @Parameter "#Datei"
-  Die zu schließende Datei. Wenn @#PB_All angegeben wird, werden alle verbliebenen Dateien geschlossen.
+  Die zu schlieÃŸende Datei. Wenn @#PB_All angegeben wird, werden alle verbliebenen Dateien geschlossen.
 
 @NoReturnValue
 
 @Remarks
   Sobald die Datei geschlossen ist, kann sie nicht mehr verwendet werden.
-  Das Schließen einer Datei stellt sicher, dass der Puffer tatsächlich auf Disk abgespeichert wird.
+  Das SchlieÃŸen einer Datei stellt sicher, dass der Puffer tatsÃ¤chlich auf Disk abgespeichert wird.
 @LineBreak
 @LineBreak
   Alle noch offenen Dateien werden automatisch geschlossen, wenn das Programm endet.
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe die @@ReadFile bzw. @@CreateFile Befehle.
+  FÃ¼r ein Beispiel siehe die @@ReadFile bzw. @@CreateFile Befehle.
 
 @SeeAlso
   @@CreateFile, @@OpenFile, @@ReadFile
@@ -63,24 +63,25 @@
 @Function Ergebnis = CreateFile(#Datei, Dateiname$ [, Flags])
 
 @Description
-  Öffnet eine leere Datei.
+  Ã–ffnet eine leere Datei.
 
 @Parameter "#Datei"
   Die Nummer zum Identifizieren der neuen Datei. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Nummer automatisch zu generieren.
 
 @Parameter "Dateiname$"
-  Der Dateiname und der Pfad zur neuen Datei. Wenn der Dateiname keinen vollständigen
-  Dateipfad enthält, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
+  Der Dateiname und der Pfad zur neuen Datei. Wenn der Dateiname keinen vollstÃ¤ndigen
+  Dateipfad enthÃ¤lt, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
   interpretiert.
 
 @OptionalParameter "Flags"
   Kann eine Kombination (mit Hilfe des '| Operanden) der folgenden Werte sein:
 @FixedFont
-  @#PB_File_SharedRead : die geöffnete Datei kann von einem anderen Prozess gelesen werden (nur auf Windows).
-  @#PB_File_SharedWrite: die geöffnete Datei kann von einem anderen Prozess geschrieben werden (nur auf Windows).
-  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
+  @#PB_File_SharedRead : die geÃ¶ffnete Datei kann von einem anderen Prozess gelesen werden (nur auf Windows).
+  @#PB_File_SharedWrite: die geÃ¶ffnete Datei kann von einem anderen Prozess geschrieben werden (nur auf Windows).
+  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird fÃ¼r diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : die Datei wird mit einer BOM ("Byte Order Mark"-Bytefolge) erstellt.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString(), @@WriteStringN, 
   @@ReadString, @@ReadCharacter und @@WriteCharacter):
@@ -91,19 +92,19 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich erstellt wurde, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Datei erfolgreich erstellt wurde, und Null bei einem Fehler.
   Wenn @#PB_Any als #Datei Parameter verwendet wurde, dann wird bei Erfolg die neu
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Wenn die Datei bereits existiert, wird sie durch eine neue leere Datei überschrieben.
+  Wenn die Datei bereits existiert, wird sie durch eine neue leere Datei Ã¼berschrieben.
   Die Funktion @@FileSize kann verwendet werden, um
-  festzustellen, ob eine Datei existiert, damit der Anwender vor dem Überschreiben gefragt
+  festzustellen, ob eine Datei existiert, damit der Anwender vor dem Ãœberschreiben gefragt
   werden kann.
 @LineBreak
 @LineBreak
-  Um eine existierende Datei für das Lesen/Schreiben zu öffnen, verwenden Sie die @@OpenFile
-  Funktion. Um eine Datei nur für das Lesen zu öffnen, verwenden Sie @@ReadFile.
+  Um eine existierende Datei fÃ¼r das Lesen/Schreiben zu Ã¶ffnen, verwenden Sie die @@OpenFile
+  Funktion. Um eine Datei nur fÃ¼r das Lesen zu Ã¶ffnen, verwenden Sie @@ReadFile.
 
 @Example
 @Code
@@ -112,9 +113,9 @@
       WriteStringN(0, "Line "+Str(a))  ; wir schreiben 10 Zeilen (jede mit einem Zeilenumbruch)
     Next
     For a=1 To 10
-      WriteString(0, "String"+Str(a))  ; und jetzt ergänzen wir 10 weitere Strings auf der gleichen Zeilen (da kein Zeilenumbruch hinzugefügt wird)
+      WriteString(0, "String"+Str(a))  ; und jetzt ergÃ¤nzen wir 10 weitere Strings auf der gleichen Zeilen (da kein Zeilenumbruch hinzugefÃ¼gt wird)
     Next
-    CloseFile(0)                       ; schließen der zuvor geöffneten Datei und damit endgültiges Abspeichern der Daten
+    CloseFile(0)                       ; schlieÃŸen der zuvor geÃ¶ffneten Datei und damit endgÃ¼ltiges Abspeichern der Daten
   Else
     MessageRequester("Information","Konnte Datei nicht erstellen!")
   EndIf
@@ -130,18 +131,18 @@
 @Function Ergebnis = Eof(#Datei)
 
 @Description
-  Überprüft, ob das Ende einer Datei erreicht wurde.
-  EOF steht dabei für 'End Of File' (Ende der Datei).
+  ÃœberprÃ¼ft, ob das Ende einer Datei erreicht wurde.
+  EOF steht dabei fÃ¼r 'End Of File' (Ende der Datei).
   
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Lese-Zeiger am Ende der Datei
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Lese-Zeiger am Ende der Datei
   angelangt ist, oder Null wenn nicht.
 
 @Remarks
-  Für ein Beispiel siehe die @@ReadFile Funktion.
+  FÃ¼r ein Beispiel siehe die @@ReadFile Funktion.
 
 @SeeAlso
   @@Lof, @@Loc, @@CreateFile, @@OpenFile, @@ReadFile
@@ -150,29 +151,29 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FileBuffersSize(#Datei, Größe)
+@Function FileBuffersSize(#Datei, GrÃ¶ÃŸe)
 
 @Description
-  Ändert die Größe des für Datei-Operationen verwendeten Speicherpuffers.
+  Ã„ndert die GrÃ¶ÃŸe des fÃ¼r Datei-Operationen verwendeten Speicherpuffers.
 
 @Parameter "#Datei"
-  Die Datei, für die der Puffer geändert werden soll.
-  Wenn @#PB_Default für diesen Parameter verwendet wird, dann gilt die neue
-  Puffergröße für alle neu mittels @@OpenFile, @@CreateFile 
-  oder @@ReadFile geöffneten Dateien.
+  Die Datei, fÃ¼r die der Puffer geÃ¤ndert werden soll.
+  Wenn @#PB_Default fÃ¼r diesen Parameter verwendet wird, dann gilt die neue
+  PuffergrÃ¶ÃŸe fÃ¼r alle neu mittels @@OpenFile, @@CreateFile 
+  oder @@ReadFile geÃ¶ffneten Dateien.
 
-@Parameter "Größe"
-  Die neue Größe (in Bytes) für den Speicherpuffer. Eine Größe von 0 deaktiviert das 
-  "Cachen" (Zwischenspeichern) für die Datei.
+@Parameter "GrÃ¶ÃŸe"
+  Die neue GrÃ¶ÃŸe (in Bytes) fÃ¼r den Speicherpuffer. Eine GrÃ¶ÃŸe von 0 deaktiviert das 
+  "Cachen" (Zwischenspeichern) fÃ¼r die Datei.
 
 @NoReturnValue
 
 @Remarks
-  Aus Performance-Gründen sollte die Puffergröße groß genug gehalten werden (1028 erscheint ok 
-  als Minimum). Wenn Puffer verwendet werden, dann werden die Informationen tatsächlich auf Disk geschrieben, 
+  Aus Performance-GrÃ¼nden sollte die PuffergrÃ¶ÃŸe groÃŸ genug gehalten werden (1028 erscheint ok 
+  als Minimum). Wenn Puffer verwendet werden, dann werden die Informationen tatsÃ¤chlich auf Disk geschrieben, 
   sobald der Cache-Puffer voll ist oder die Datei geschlossen wird. Mit dem Befehl @@FlushFileBuffers 
   kann das Schreiben des Zwischenspeichers (Cache) zu dem Zeitpunkt veranlasst werden, an dem der Befehl aufgerufen wird.
-  Die Standard-Puffergröße beträgt 4096 Bytes pro Datei.
+  Die Standard-PuffergrÃ¶ÃŸe betrÃ¤gt 4096 Bytes pro Datei.
 
 @SeeAlso
   @@FlushFileBuffers
@@ -184,13 +185,13 @@
 @Function Ergebnis = FileID(#Datei)
 
 @Description
-  Gibt das Betriebssystem-Handle der Datei zurück.
+  Gibt das Betriebssystem-Handle der Datei zurÃ¼ck.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt das Datei-Handle zurück.
+  Gibt das Datei-Handle zurÃ¼ck.
 
 @SeeAlso
   @@CreateFile, @@OpenFile, @@ReadFile
@@ -202,7 +203,7 @@
 @Function FileSeek(#Datei, NeuePosition.q [, Modus])
 
 @Description
-  Ändert die Position des Lese/Schreib-Zeigers innerhalb der Datei.
+  Ã„ndert die Position des Lese/Schreib-Zeigers innerhalb der Datei.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
@@ -221,13 +222,13 @@
 
 @Example
 @Code
-  File$ = OpenFileRequester("Datei auswählen...","","Alle Dateien (*.*)|*.*",0)
+  File$ = OpenFileRequester("Datei auswÃ¤hlen...","","Alle Dateien (*.*)|*.*",0)
   If File$
     If ReadFile(0, File$)
       
-      ; Lese die Länge der Datei
+      ; Lese die LÃ¤nge der Datei
       Length = Lof(0)                       
-      Debug "Datei-Länge: "+FormatNumber(Length, 0)+" Bytes"
+      Debug "Datei-LÃ¤nge: "+FormatNumber(Length, 0)+" Bytes"
           
       ; Setze den File-Pointer 10 Bytes vor dem Ende der Datei
       FileSeek(0, Length - 10)                                
@@ -250,17 +251,17 @@
 @Function Ergebnis = FlushFileBuffers(#Datei)
 
 @Description
-  Stellt sicher, dass alle gepufferten Operationen tatsächlich auf Disk geschrieben werden.
+  Stellt sicher, dass alle gepufferten Operationen tatsÃ¤chlich auf Disk geschrieben werden.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Puffer erfolgreich auf Disk geschrieben wurde.
-  Wenn ein Fehler auftrat (d.h. Disk voll, Disk-Fehler), wird Null zurückgegeben.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Puffer erfolgreich auf Disk geschrieben wurde.
+  Wenn ein Fehler auftrat (d.h. Disk voll, Disk-Fehler), wird Null zurÃ¼ckgegeben.
 
 @Remarks
-  Siehe @@FileBuffersSize für weitere Informationen über die
+  Siehe @@FileBuffersSize fÃ¼r weitere Informationen Ã¼ber die
   Verwaltung des Dateipuffers.
 
 @SeeAlso
@@ -273,13 +274,13 @@
 @Function Ergebnis = IsFile(#Datei)
 
 @Description
-  Überprüft, ob die angegebene #Datei-Nummer gültig und eine korrekt initialisierte Datei ist.
+  ÃœberprÃ¼ft, ob die angegebene #Datei-Nummer gÃ¼ltig und eine korrekt initialisierte Datei ist.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Datei eine gültige Datei ist, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #Datei eine gÃ¼ltige Datei ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. 
@@ -295,16 +296,16 @@
 @Function Position.q = Loc(#Datei)
 
 @Description
-  Gibt die Position des Lese/Schreib-Zeigers innerhalb der Datei zurück.
+  Gibt die Position des Lese/Schreib-Zeigers innerhalb der Datei zurÃ¼ck.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt die Dateizeiger-Position (in Bytes) relativ zum Anfang der Datei zurück.
+  Gibt die Dateizeiger-Position (in Bytes) relativ zum Anfang der Datei zurÃ¼ck.
 
 @Remarks
-  Für ein Beispiel siehe die @@FileSeek Funktion.
+  FÃ¼r ein Beispiel siehe die @@FileSeek Funktion.
 
 @SeeAlso
   @@FileSeek, @@Lof
@@ -313,25 +314,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Länge.q = Lof(#Datei)
+@Function LÃ¤nge.q = Lof(#Datei)
 
 @Description
-  Gibt die Länge der angegebenen Datei zurück.
-  LOF steht dabei für 'Length Of File' (Länge der Datei).
+  Gibt die LÃ¤nge der angegebenen Datei zurÃ¼ck.
+  LOF steht dabei fÃ¼r 'Length Of File' (LÃ¤nge der Datei).
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt die Länge der Datei in Bytes zurück.
+  Gibt die LÃ¤nge der Datei in Bytes zurÃ¼ck.
 
 @Example
 @Code
-  file$ = OpenFileRequester("Datei auswählen...","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
+  file$ = OpenFileRequester("Datei auswÃ¤hlen...","","Text (.txt)|*.txt|All files (*.*)|*.*",0)
   If file$
     If ReadFile(0, file$) 
-      length = Lof(0)                            ; Länge der geöffneten Datei ermitteln
-      *MemoryID = AllocateMemory(length)         ; Reservieren des benötigten Speichers
+      length = Lof(0)                            ; LÃ¤nge der geÃ¶ffneten Datei ermitteln
+      *MemoryID = AllocateMemory(length)         ; Reservieren des benÃ¶tigten Speichers
       If *MemoryID
         bytes = ReadData(0, *MemoryID, length)   ; Einlesen aller Daten in den Speicherblock
         Debug "Anzahl der gelesenen Bytes: " + Str(bytes)
@@ -351,25 +352,28 @@
 @Function Ergebnis = OpenFile(#Datei, Dateiname$ [, Flags])
 
 @Description
-  Öffnet eine Datei zum Lesen/Schreiben oder erstellt eine neue Datei, falls sie nocht nicht existiert. 
+  Ã–ffnet eine Datei zum Lesen/Schreiben oder erstellt eine neue Datei, falls sie nocht nicht existiert. 
 
 @Parameter "#Datei"
   Die Nummer zum Identifizieren der Datei. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Nummer automatisch zu generieren.
 
 @Parameter "Dateiname$"
-  Der Dateiname und der Pfad zur Datei. Wenn der Dateiname keinen vollständigen
-  Dateipfad enthält, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
+  Der Dateiname und der Pfad zur Datei. Wenn der Dateiname keinen vollstÃ¤ndigen
+  Dateipfad enthÃ¤lt, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
   interpretiert.
 
 @OptionalParameter "Flags"
   Kann eine Kombination (mit Hilfe des '| Operanden) der folgenden Werte sein:
 @FixedFont
-  @#PB_File_SharedRead : die geöffnete Datei kann von einem anderen Prozess gelesen werden (nur auf Windows).
-  @#PB_File_SharedWrite: die geöffnete Datei kann von einem anderen Prozess geschrieben werden (nur auf Windows).
+  @#PB_File_SharedRead : die geÃ¶ffnete Datei kann von einem anderen Prozess gelesen werden (nur auf Windows).
+  @#PB_File_SharedWrite: die geÃ¶ffnete Datei kann von einem anderen Prozess geschrieben werden (nur auf Windows).
   @#PB_File_Append     : die Dateizeiger-Position wird auf das Ende der Datei gesetzt.
-  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
+  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird fÃ¼r diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : enthÃ¤lt die Datei eine Byte Order Mark (BOM), wird diese automatisch verarbeitet
+                        (die Verwendung von @@ReadStringFormat ist nicht erforderlich).
+                        Das erkannte Format wird automatisch von den Lese- und Schreibfunktionen fÃ¼r Strings verwendet.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString, @@WriteStringN, 
   @@ReadString, @@ReadCharacter und @@WriteCharacter):
@@ -380,26 +384,26 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich erstellt wurde, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Datei erfolgreich erstellt wurde, und Null bei einem Fehler.
   Wenn @#PB_Any als #Datei Parameter verwendet wurde, dann wird bei Erfolg die neu
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Diese Funktion schlägt fehl, wenn die Datei nicht mit Schreib-Rechten geöffnet werden kann,
+  Diese Funktion schlÃ¤gt fehl, wenn die Datei nicht mit Schreib-Rechten geÃ¶ffnet werden kann,
   zum Beispiel wenn sich die Datei auf einem "Read-Only" Datei-System wie einer CD befindet.
-  Um eine Datei nur zum Lesen ("Read-Only") zu öffnen, verwenden Sie die @@ReadFile
-  Funktion. Zum Überschreiben einer existierenden Datei mit einer neuen und leeren Datei,
+  Um eine Datei nur zum Lesen ("Read-Only") zu Ã¶ffnen, verwenden Sie die @@ReadFile
+  Funktion. Zum Ãœberschreiben einer existierenden Datei mit einer neuen und leeren Datei,
   verwenden Sie die Funktion @@CreateFile.
 @LineBreak
 @LineBreak
   Der Dateizeiger wird an den Anfang der Datei gesetzt. Um Daten an das Ende einer Datei
-  anzuhängen, verwenden Sie das @#PB_File_Append Flag, um
+  anzuhÃ¤ngen, verwenden Sie das @#PB_File_Append Flag, um
   den Zeiger an das Ende der Datei zu setzen.
 
 @Example
 @Code
-  If OpenFile(0, "Test.txt")    ; öffnet eine existierende Datei oder erstellt eine, wenn sie noch nicht existiert
-    FileSeek(0, Lof(0))         ; springt an das Ende der Datei (das Ergebnis von Lof() wird hierfür verwendet)
+  If OpenFile(0, "Test.txt")    ; Ã¶ffnet eine existierende Datei oder erstellt eine, wenn sie noch nicht existiert
+    FileSeek(0, Lof(0))         ; springt an das Ende der Datei (das Ergebnis von Lof() wird hierfÃ¼r verwendet)
     WriteStringN(0, "... another line at the end.")
     CloseFile(0)
   EndIf
@@ -415,7 +419,7 @@
 @Function TruncateFile(#Datei)
 
 @Description
-  Schneidet die Datei an der aktuellen @Link "FileSeek" "Schreib-/Lese-Position" ab und löscht alle
+  Schneidet die Datei an der aktuellen @Link "FileSeek" "Schreib-/Lese-Position" ab und lÃ¶scht alle
   folgenden Daten.
 
 @Parameter "#Datei"
@@ -424,8 +428,8 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion kann verwendet werden, um eine Datei kürzer zu machen, ohne diese vollständig neu 
-  erstellen zu müssen. Um eine Datei länger zu machen, fügen Sie einfach weitere Daten mit den Write-Befehlen
+  Diese Funktion kann verwendet werden, um eine Datei kÃ¼rzer zu machen, ohne diese vollstÃ¤ndig neu 
+  erstellen zu mÃ¼ssen. Um eine Datei lÃ¤nger zu machen, fÃ¼gen Sie einfach weitere Daten mit den Write-Befehlen
   dieser Bibliothek hinzu.
 
 @SeeAlso
@@ -444,10 +448,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt das ASCII-Zeichen zurück, oder Null bei einem Fehler.
+  Gibt das ASCII-Zeichen zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadAsciiCharacter() wird einfach ein ASCII-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -466,10 +470,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt das gelesene Byte zurück, oder Null bei einem Fehler.
+  Gibt das gelesene Byte zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadByte() wird einfach ein Byte anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -495,14 +499,14 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard im @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
-  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Zeichens von der
+  Wenn dieses Flag nicht gesetzt wird, dann hÃ¤ngt das Format fÃ¼r das Lesen des Zeichens von der
   entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
 @ReturnValue
-  Gibt das gelesene Zeichen zurück, oder Null bei einem Fehler.
+  Gibt das gelesene Zeichen zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadCharacter() wird einfach ein Zeichen (Character) anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -521,10 +525,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Double-Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen Double-Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadDouble() wird einfach ein Double-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -537,26 +541,29 @@
 @Function Ergebnis = ReadFile(#Datei, Dateiname$ [, Flags])
 
 @Description
-  Öffnet eine existierende Datei ausschließlich für Lese-Operationen.
+  Ã–ffnet eine existierende Datei ausschlieÃŸlich fÃ¼r Lese-Operationen.
 
 @Parameter "#Datei"
   Die Nummer zum Identifizieren der Datei. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Nummer automatisch zu generieren.
 
 @Parameter "Dateiname$"
-  Der Dateiname und der Pfad zur Datei. Wenn der Dateiname keinen vollständigen
-  Dateipfad enthält, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
+  Der Dateiname und der Pfad zur Datei. Wenn der Dateiname keinen vollstÃ¤ndigen
+  Dateipfad enthÃ¤lt, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
   interpretiert.
 
 @OptionalParameter "Flags"
   Kann eine Kombination (mit Hilfe des '| Operanden) der folgenden Werte sein:
 @FixedFont
-  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess oder Thread für eine Lese-Operation 
-                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
-  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess oder Thread für eine Schreib-Operation
-                        geöffnet wurde, wird dieses Flag für den Zugriff darauf benötigt (nur auf Windows).
-  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
+  @#PB_File_SharedRead : wenn die Datei bereits von einem anderen Prozess oder Thread fÃ¼r eine Lese-Operation 
+                        geÃ¶ffnet wurde, wird dieses Flag fÃ¼r den Zugriff darauf benÃ¶tigt (nur auf Windows).
+  @#PB_File_SharedWrite: wenn die Datei bereits von einem anderen Prozess oder Thread fÃ¼r eine Schreib-Operation
+                        geÃ¶ffnet wurde, wird dieses Flag fÃ¼r den Zugriff darauf benÃ¶tigt (nur auf Windows).
+  @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird fÃ¼r diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
+  @#PB_File_BOM        : enthÃ¤lt die Datei eine Byte Order Mark (BOM), wird diese automatisch verarbeitet
+                      (die Verwendung von @@ReadStringFormat ist nicht erforderlich). Das erkannte Format
+                      wird von den Read- und Write-Funktionen fÃ¼r Strings automatisch verwendet.
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von
   @@ReadString und @@ReadCharacter):
@@ -567,24 +574,24 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich geöffnet wurde, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Datei erfolgreich geÃ¶ffnet wurde, und Null bei einem Fehler.
   Wenn @#PB_Any als #Datei Parameter verwendet wurde, dann wird bei Erfolg die neu
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Um eine Datei zum Lesen und Schreiben zu öffnen, verwenden Sie die @@OpenFile
+  Um eine Datei zum Lesen und Schreiben zu Ã¶ffnen, verwenden Sie die @@OpenFile
   Funktion. Zum Erstellen einer neuen und leeren Datei verwenden Sie die Funktion @@CreateFile.
 
 @Example
 @Code
-  If ReadFile(0, "Text.txt")       ; wenn die Datei geöffnet werden konnte, setzen wir fort...
+  If ReadFile(0, "Text.txt")       ; wenn die Datei geÃ¶ffnet werden konnte, setzen wir fort...
     Format = ReadStringFormat(0)
     While Eof(0) = 0               ; sich wiederholende Schleife solange das Ende der Datei ("end of file") noch nicht erreicht wurde
-      Debug ReadString(0, Format)  ; Zeile für Zeile im Debugger-Fenster anzeigen
+      Debug ReadString(0, Format)  ; Zeile fÃ¼r Zeile im Debugger-Fenster anzeigen
     Wend
-    CloseFile(0)                   ; schließen der zuvor geöffneten Datei
+    CloseFile(0)                   ; schlieÃŸen der zuvor geÃ¶ffneten Datei
   Else
-    MessageRequester("Information", "Konnte Datei nicht öffnen!")
+    MessageRequester("Information", "Konnte Datei nicht Ã¶ffnen!")
   EndIf
 @EndCode
 
@@ -598,17 +605,17 @@
 @Function Zahl.f = ReadFloat(#Datei)
 
 @Description
-  Liest einen Fließkomma-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
+  Liest einen FlieÃŸkomma-Wert (4 Bytes) aus einer Datei ein, beginnend an der aktuellen Dateiposition.
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Fließkomma-Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen FlieÃŸkomma-Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
-  ReadFloat() wird einfach ein Fließkomma-Wert anstelle einer kompletten Zeile (String) gelesen.
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  ReadFloat() wird einfach ein FlieÃŸkomma-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
   @@WriteFloat, @@ReadDouble, @@OpenFile, @@ReadFile, @@Loc
@@ -627,10 +634,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadInteger() wird einfach ein Ganzzahl-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -649,10 +656,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadLong() wird einfach ein Long-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -671,10 +678,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadQuad() wird einfach ein Quad-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -684,7 +691,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ReadData(#Datei, *Speicherpuffer, ZuLesendeLänge)
+@Function Ergebnis = ReadData(#Datei, *Speicherpuffer, ZuLesendeLÃ¤nge)
 
 @Description
   Liest den Inhalt der Datei in den angegebenen Speicherbereich, beginnend an der aktuellen Dateiposition.
@@ -695,15 +702,15 @@
 @Parameter "*Speicherpuffer"
   Die Adresse, an welche die gelesenen Daten geschrieben werden sollen.
 
-@Parameter "ZuLesendeLänge"
-  Die Anzahl der einzulesenden Bytes. Die maximale Länge beträgt 2 GByte.
+@Parameter "ZuLesendeLÃ¤nge"
+  Die Anzahl der einzulesenden Bytes. Die maximale LÃ¤nge betrÃ¤gt 2 GByte.
 
 @ReturnValue
-  Gibt die Anzahl an Bytes zurück, welche tatsächlich aus der Datei gelesen wurden.
-  Sofern ein Fehler auftrat, ist der Rückgabewert gleich Null.
+  Gibt die Anzahl an Bytes zurÃ¼ck, welche tatsÃ¤chlich aus der Datei gelesen wurden.
+  Sofern ein Fehler auftrat, ist der RÃ¼ckgabewert gleich Null.
 
 @Remarks
-  Für ein Code-Beispiel siehe die @@Lof Funktion.
+  FÃ¼r ein Code-Beispiel siehe die @@Lof Funktion.
 
 @SeeAlso
   @@WriteData, @@OpenFile, @@ReadFile, @@Loc
@@ -712,11 +719,11 @@
     
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = ReadString(#Datei [, Flags [, Länge]])
+@Function Text$ = ReadString(#Datei [, Flags [, LÃ¤nge]])
 
 @Description
   Liest einen String aus einer Datei bis ein 'End Of Line' (EOL - in Deutsch:
-  "Ende der Zeile") oder ein 'Null' Zeichen gefunden wird (Unix-, DOS- und Macintosh-Dateiformate werden unterstützt). 
+  "Ende der Zeile") oder ein 'Null' Zeichen gefunden wird (Unix-, DOS- und Macintosh-Dateiformate werden unterstÃ¼tzt). 
 
 @Parameter "#Datei"
   Die Datei, aus der gelesen werden soll.
@@ -731,24 +738,24 @@
   kombiniert mit:
 @FixedFont
   @#PB_File_IgnoreEOL: ignoriert das Ende der Zeile (aber der daraus resultierende String wird sie noch enthalten)
-                      bis zur angegebenen Länge oder dem Ende der Datei.
+                      bis zur angegebenen LÃ¤nge oder dem Ende der Datei.
 @EndFixedFont
-  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Lesen des Strings von der
+  Wenn dieses Flag nicht gesetzt wird, dann hÃ¤ngt das Format fÃ¼r das Lesen des Strings von der
   entsprechenden Einstellung des zuvor verwendeten @@CreateFile, @@OpenFile bzw. @@ReadFile Befehls ab.
 
-@OptionalParameter "Länge"
-  Liest die Datei, bis die Länge (in Zeichen) erreicht wird. Wenn ein "Ende der Zeile" (EOL) auftritt,
-  bevor die Länge erreicht wird, dann wird das Lesen gestoppt (außer das Flag @#PB_File_IgnoreEOL wurde gesetzt).
+@OptionalParameter "LÃ¤nge"
+  Liest die Datei, bis die LÃ¤nge (in Zeichen) erreicht wird. Wenn ein "Ende der Zeile" (EOL) auftritt,
+  bevor die LÃ¤nge erreicht wird, dann wird das Lesen gestoppt (auÃŸer das Flag @#PB_File_IgnoreEOL wurde gesetzt).
 
 @ReturnValue
-  Gibt den gelesenen String zurück, oder einen leeren String, wenn das Lesen fehlgeschlagen ist.
+  Gibt den gelesenen String zurÃ¼ck, oder einen leeren String, wenn das Lesen fehlgeschlagen ist.
 
 @Remarks
-  Für das Ermitteln der in einer Datei verwendeten String-Kodierung ("Byte Order Mark")
-  ist die @@ReadStringFormat Funktion verfügbar.
+  FÃ¼r das Ermitteln der in einer Datei verwendeten String-Kodierung ("Byte Order Mark")
+  ist die @@ReadStringFormat Funktion verfÃ¼gbar.
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe @@ReadFile.
+  FÃ¼r ein Beispiel siehe @@ReadFile.
 
 @SeeAlso
   @@WriteString, @@ReadStringFormat, @@OpenFile, @@ReadFile
@@ -760,16 +767,16 @@
 @Function Ergebnis = ReadStringFormat(#Datei)
 
 @Description
-  Überprüft, ob die aktuelle Dateiposition ein BOM (Byte Order Mark) enthält und versucht die 
+  ÃœberprÃ¼ft, ob die aktuelle Dateiposition ein BOM (Byte Order Mark) enthÃ¤lt und versucht die 
   in der Datei verwendete String-Kodierung zu identifizieren.
 
 @Parameter "#Datei"
   Die zu verwendende Datei.
 
 @ReturnValue
-  Gibt einen der folgenden Werte zurück:
+  Gibt einen der folgenden Werte zurÃ¼ck:
 @FixedFont
-  @#PB_Ascii  : Kein BOM gefunden. Dies kennzeichnet üblicherweise eine normale Textdatei.
+  @#PB_Ascii  : Kein BOM gefunden. Dies kennzeichnet Ã¼blicherweise eine normale Textdatei.
   @#PB_UTF8   : UTF-8 BOM gefunden.
   @#PB_Unicode: UTF-16 (Little Endian) BOM gefunden.
 
@@ -778,28 +785,28 @@
   @#PB_UTF32BE: UTF-32 (Big Endian) BOM gefunden.
 @EndFixedFont
   Die @#PB_Ascii, @#PB_UTF8 und @#PB_Unicode Ergebnisse
-  können direkt in weiteren Aufrufen von @@ReadString zum Lesen der Datei verwendet 
-  werden. Die anderen Ergebnisse repräsentieren String-Formate, welche nicht direkt mit den String-Befehlen von PureBasic
-  gelesen werden können. Sie sind der Vollständigkeit halber enthalten, damit eine Anwendung eine korrekte
+  kÃ¶nnen direkt in weiteren Aufrufen von @@ReadString zum Lesen der Datei verwendet 
+  werden. Die anderen Ergebnisse reprÃ¤sentieren String-Formate, welche nicht direkt mit den String-Befehlen von PureBasic
+  gelesen werden kÃ¶nnen. Sie sind der VollstÃ¤ndigkeit halber enthalten, damit eine Anwendung eine korrekte
   Fehlermeldung anzeigen kann.
 
 @Remarks
   Wenn ein BOM gefunden wird, dann wird der @Link "FileSeek" "Dateizeiger" an das Ende des BOM gesetzt.
-  Wenn kein BOM gefunden wird, bleibt der Dateizeiger unverändert.
+  Wenn kein BOM gefunden wird, bleibt der Dateizeiger unverÃ¤ndert.
 @LineBreak
 @LineBreak
   Die Byte Order Mark (Kennzeichen der Byte-Reihenfolge) ist eine weithin verwendete Methode, um die Kodierung
-  einer Textdatei zu kennzeichnen. Sie befindet sich üblicherweise am Anfang einer Datei. Dies ist trotzdem
+  einer Textdatei zu kennzeichnen. Sie befindet sich Ã¼blicherweise am Anfang einer Datei. Dies ist trotzdem
   kein Standard, sondern einfach eine oft verwendete Praxis. Wenn also am Anfang einer Datei kein BOM 
   gefunden wird, bedeutet dies nicht notwendigerweise, dass es sich um eine einfache Textdatei handelt.
   Es kann auch einfach bedeuten, dass das Programm, welches die Datei erstellt hat, nicht diese Praxis
   verwendet hat. @@WriteStringFormat kann verwendet werden, um solch ein BOM 
-  in eine Datei einzufügen.
+  in eine Datei einzufÃ¼gen.
 @LineBreak
 @LineBreak
-  Für weitere Informationen siehe diesen @InternetLink "http://de.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Artikel".
+  FÃ¼r weitere Informationen siehe diesen @InternetLink "http://de.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Artikel".
 @LineBreak
-  Weitere Informationen über die Nutzung von Unicode in PureBasic-Programmen sind auch @ReferenceLink "unicode" "hier" zu finden.
+  Weitere Informationen Ã¼ber die Nutzung von Unicode in PureBasic-Programmen sind auch @ReferenceLink "unicode" "hier" zu finden.
 
 @SeeAlso
   @@WriteStringFormat, @@ReadString, @@OpenFile, @@ReadFile
@@ -817,10 +824,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt das gelesene Zeichen zurück, oder Null bei einem Fehler.
+  Gibt das gelesene Zeichen zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadUnicodeCharacter() wird einfach ein Unicode-Zeichen anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -839,10 +846,10 @@
   Die Datei, aus der gelesen werden soll.
 
 @ReturnValue
-  Gibt den gelesenen Wert zurück, oder Null bei einem Fehler.
+  Gibt den gelesenen Wert zurÃ¼ck, oder Null bei einem Fehler.
 
 @Remarks
-  Für ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
+  FÃ¼r ein Beispiel, wie aus einer Datei gelesen wird, siehe den @@ReadFile Befehl - mit
   ReadWord() wird einfach ein Word-Wert anstelle einer kompletten Zeile (String) gelesen.
 
 @SeeAlso
@@ -864,17 +871,17 @@
   Das zu schreibende ASCII-Zeichen.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteAsciiCharacter() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteAsciiCharacter() wird nur
   ein ASCII-Zeichen anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -896,17 +903,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteByte() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteByte() wird nur
   ein Byte-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -935,21 +942,21 @@
   @#PB_Unicode: 2 Bytes Zeichen (Standard, siehe @ReferenceLink "unicode" "Unicode"-Modus).
   @#PB_UTF8   : Multi-Bytes Zeichen (von 1 bis zu 4 Bytes).
 @EndFixedFont  
-  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Characters von der
+  Wenn dieses Flag nicht gesetzt wird, dann hÃ¤ngt das Format fÃ¼r das Schreiben des Characters von der
   entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, oder Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, oder Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteCharacter() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteCharacter() wird nur
   ein Character-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -971,17 +978,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteDouble() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteDouble() wird nur
   ein Double-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -994,27 +1001,27 @@
 @Function Ergebnis = WriteFloat(#Datei, Zahl.f)
 
 @Description
-  Schreibt einen Fließkomma-Wert (4 Bytes) in eine Datei.
+  Schreibt einen FlieÃŸkomma-Wert (4 Bytes) in eine Datei.
 
 @Parameter "#Datei"
   Die Datei, in welche geschrieben werden soll.
 
 @Parameter "Zahl.f"
-  Der zu schreibende Fließkomma-Wert (Float).
+  Der zu schreibende FlieÃŸkomma-Wert (Float).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteFloat() wird nur
-  ein Fließkomma-Wert anstelle eines Strings gespeichert.
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteFloat() wird nur
+  ein FlieÃŸkomma-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
   @@ReadFloat, @@WriteDouble, @@CreateFile, @@OpenFile
@@ -1036,17 +1043,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteInteger() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteInteger() wird nur
   ein Integer-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -1068,17 +1075,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteLong() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteLong() wird nur
   ein Long-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -1088,7 +1095,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = WriteData(#Datei, *Speicherpuffer, Länge)
+@Function Ergebnis = WriteData(#Datei, *Speicherpuffer, LÃ¤nge)
 
 @Description
   Schreibt den Inhalt des angegebenen Speicherpuffers in eine Datei.
@@ -1099,19 +1106,19 @@
 @Parameter "*Speicherpuffer"
   Die Speicheradresse der Daten, welche in die Datei geschrieben werden sollen.
 
-@Parameter "Länge"
-  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen. Die maximale Länge beträgt 2 GByte.
+@Parameter "LÃ¤nge"
+  Die Anzahl an Bytes, welche in die Datei geschrieben werden sollen. Die maximale LÃ¤nge betrÃ¤gt 2 GByte.
 
 @ReturnValue
-  Gibt die Anzahl an Bytes zurück, welche tatsächlich in die Datei geschrieben wurden.
-  Sofern ein Fehler auftrat, ist der Rückgabewert gleich Null.
+  Gibt die Anzahl an Bytes zurÃ¼ck, welche tatsÃ¤chlich in die Datei geschrieben wurden.
+  Sofern ein Fehler auftrat, ist der RÃ¼ckgabewert gleich Null.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 
 @Example
 @Code
@@ -1121,7 +1128,7 @@
   EndIf
   If CreateFile(0, GetHomeDirectory()+"Text.txt")   ; wir erstellen eine neue Text-Datei...
     WriteData(0, *MemoryID, SizeOf(Character)*Len("Speichere diesen String im Speicherblock"))   ; schreibe den Text aus dem Speicherblock in die Datei
-    CloseFile(0)                         ; die zuvor geöffnete Datei schließen und damit die geschriebenen Daten endgültig speichern
+    CloseFile(0)                         ; die zuvor geÃ¶ffnete Datei schlieÃŸen und damit die geschriebenen Daten endgÃ¼ltig speichern
   Else
     Debug "Konnte die Datei nicht erstellen!"
   EndIf
@@ -1146,17 +1153,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteQuad() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteQuad() wird nur
   ein Quad-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -1184,30 +1191,30 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format
   @#PB_Unicode: Schreibt den String im UTF16-Format
 @EndFixedFont
-  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  Wenn dieses Flag nicht gesetzt wird, dann hÃ¤ngt das Format fÃ¼r das Schreiben des Strings von der
   entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
-  Das abschließende "Null" Stringzeichen wird nicht in die Datei geschrieben.
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
+  Das abschlieÃŸende "Null" Stringzeichen wird nicht in die Datei geschrieben.
 @LineBreak
 @LineBreak
-  Um ein BOM ("Byte Order Mark" oder auch "Kennzeichen der Byte-Reihenfolge) einzufügen,
-  mit dessen Hilfe später das String-Kodierungs-Format der Datei identifiziert werden kann,
+  Um ein BOM ("Byte Order Mark" oder auch "Kennzeichen der Byte-Reihenfolge) einzufÃ¼gen,
+  mit dessen Hilfe spÃ¤ter das String-Kodierungs-Format der Datei identifiziert werden kann,
   verwenden Sie die Funktion @@WriteStringFormat 
 @LineBreak
-  Um einen String einschließlich eines Zeilenvorschubs ("Newline") zu schreiben, verwenden Sie
+  Um einen String einschlieÃŸlich eines Zeilenvorschubs ("Newline") zu schreiben, verwenden Sie
   die Funktion FastLink "WriteStringN()".
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl.
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl.
 
 @SeeAlso
   @@ReadString, @@WriteStringN, @@WriteStringFormat, @@CreateFile, @@OpenFile
@@ -1225,9 +1232,9 @@
   Die Datei, in welche geschrieben werden soll.
 
 @Parameter "Format"
-  Das Format, für welches die "Markierung" geschrieben werden soll. Dies kann einer der folgenden Werte sein:
+  Das Format, fÃ¼r welches die "Markierung" geschrieben werden soll. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Ascii  : Schreibt überhaupt kein BOM (dies wird gewöhnlich als eine einfache ASCII-Datei interpretiert).
+  @#PB_Ascii  : Schreibt Ã¼berhaupt kein BOM (dies wird gewÃ¶hnlich als eine einfache ASCII-Datei interpretiert).
   @#PB_UTF8   : UTF-8 BOM
   @#PB_Unicode: UTF-16 (Little Endian) BOM
 
@@ -1236,24 +1243,24 @@
   @#PB_UTF32BE: UTF-32 (Big Endian) BOM
 @EndFixedFont
   Die @#PB_Ascii, @#PB_UTF8 und @#PB_Unicode entsprechen den
-  von @@WriteString und @@WriteStringN unterstützten Flags.
-  Nach dem Einfügen eines solchen BOM sollten alle folgenden Strings mit diesem Flag geschrieben werden.
-  Die anderen Formate repräsentieren String-Formate, welche nicht direkt mit den String-Befehlen von PureBasic
-  geschrieben werden können. Sie sind nur der Vollständigkeit halber enthalten.
+  von @@WriteString und @@WriteStringN unterstÃ¼tzten Flags.
+  Nach dem EinfÃ¼gen eines solchen BOM sollten alle folgenden Strings mit diesem Flag geschrieben werden.
+  Die anderen Formate reprÃ¤sentieren String-Formate, welche nicht direkt mit den String-Befehlen von PureBasic
+  geschrieben werden kÃ¶nnen. Sie sind nur der VollstÃ¤ndigkeit halber enthalten.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
   Die Byte Order Mark (Kennzeichen der Byte-Reihenfolge) ist eine weithin verwendete Methode, um die Kodierung
-  einer Textdatei zu kennzeichnen. Sie befindet sich üblicherweise am Anfang einer Datei. Dies ist trotzdem
+  einer Textdatei zu kennzeichnen. Sie befindet sich Ã¼blicherweise am Anfang einer Datei. Dies ist trotzdem
   kein Standard, sondern einfach eine oft verwendete Praxis. Wenn also am Anfang einer Datei kein BOM 
   gefunden wird, bedeutet dies nicht notwendigerweise, dass es sich um eine einfache Textdatei handelt.
   Es kann auch einfach bedeuten, dass das Programm, welches die Datei erstellt hat, nicht diese Praxis
@@ -1261,9 +1268,9 @@
   in einer Datei aufzufinden.
 @LineBreak
 @LineBreak
-  Für weitere Informationen siehe diesen @InternetLink "http://de.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Artikel".
+  FÃ¼r weitere Informationen siehe diesen @InternetLink "http://de.wikipedia.org/wiki/Byte_Order_Mark" "Wikipedia Artikel".
 @LineBreak
-  Weitere Informationen über die Nutzung von Unicode in PureBasic-Programmen sind auch @ReferenceLink "unicode" "hier" zu finden.
+  Weitere Informationen Ã¼ber die Nutzung von Unicode in PureBasic-Programmen sind auch @ReferenceLink "unicode" "hier" zu finden.
 
 @SeeAlso
   @@ReadStringFormat, @@WriteString, @@WriteStringN, @@CreateFile, @@OpenFile
@@ -1275,7 +1282,7 @@
 @Function Ergebnis = WriteStringN(#Datei, Text$ [, Format])
 
 @Description
-  Schreibt einen String in eine Datei und fügt einen Zeilenvorschub (englisch "End of Line"-Zeichen) hinzu.
+  Schreibt einen String in eine Datei und fÃ¼gt einen Zeilenvorschub (englisch "End of Line"-Zeichen) hinzu.
 
 @Parameter "#Datei"
   Die Datei, in welche geschrieben werden soll.
@@ -1290,29 +1297,29 @@
   @#PB_UTF8   : Schreibt den String im UTF8-Format, auch wenn das Programm im ASCII-Modus kompiliert ist
   @#PB_Unicode: Schreibt den String im UTF16-Format (das Programm kann entweder in Unicode- oder ASCII-Modus kompiliert sein)
 @EndFixedFont
-  Wenn dieses Flag nicht gesetzt wird, dann hängt das Format für das Schreiben des Strings von der
+  Wenn dieses Flag nicht gesetzt wird, dann hÃ¤ngt das Format fÃ¼r das Schreiben des Strings von der
   entsprechenden Einstellung des zuvor verwendeten @@CreateFile bzw. @@OpenFile Befehls ab.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Um ein BOM ("Byte Order Mark" oder auch "Kennzeichen der Byte-Reihenfolge) einzufügen,
-  mit dessen Hilfe später das String-Kodierungs-Format der Datei identifiziert werden kann,
+  Um ein BOM ("Byte Order Mark" oder auch "Kennzeichen der Byte-Reihenfolge) einzufÃ¼gen,
+  mit dessen Hilfe spÃ¤ter das String-Kodierungs-Format der Datei identifiziert werden kann,
   verwenden Sie die Funktion @@WriteStringFormat 
 @LineBreak
   Um einen String ohne einen Zeilenvorschub ("Newline") zu schreiben, verwenden Sie
   die Funktion FastLink "WriteString()".
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl.
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl.
 
 @SeeAlso
   @@ReadString, @@WriteString, @@WriteStringFormat, @@CreateFile, @@OpenFile
@@ -1333,17 +1340,17 @@
   Der zu schreibende Unicode-Character-Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteUnicodeCharacter() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteUnicodeCharacter() wird nur
   ein Unicode-Zeichen anstelle eines Strings gespeichert.
 
 @SeeAlso
@@ -1365,17 +1372,17 @@
   Der zu schreibende Wert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
   Wegen des @Link "FileBuffersSize" "Zwischenspeicherns" (Cachen) kann diese Funktion auch dann
-  eine Erfolgsmeldung zurückgeben, wenn auf dem Ausgabegerät nicht genug Platz für die Schreib-Operation
-  übrig ist.
+  eine Erfolgsmeldung zurÃ¼ckgeben, wenn auf dem AusgabegerÃ¤t nicht genug Platz fÃ¼r die Schreib-Operation
+  Ã¼brig ist.
 @LineBreak
-  Die Datei muss mit Schreib-Unterstützung geöffnet worden sein (d.h. nicht mit @@ReadFile).
+  Die Datei muss mit Schreib-UnterstÃ¼tzung geÃ¶ffnet worden sein (d.h. nicht mit @@ReadFile).
 @LineBreak
 @LineBreak
-  Für ein Beispiel siehe den @@CreateFile Befehl - mit WriteWord() wird nur
+  FÃ¼r ein Beispiel siehe den @@CreateFile Befehl - mit WriteWord() wird nur
   ein Word-Wert anstelle eines Strings gespeichert.
 
 @SeeAlso

@@ -12,33 +12,31 @@
 ;
 
 
-If OpenWindow(0, 100, 150, 300, 100, "PureBasic - SysTray Example", #PB_Window_SystemMenu)
+; Invisible window to just have the systray
+OpenWindow(0, 0, 0, 10, 10, "", #PB_Window_Invisible)
 
-  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-    ; .ico format is available only on Windows
-    IconName$ = #PB_Compiler_Home + "examples/sources/Data/CdPlayer.ico"
-  CompilerElse
-    UsePNGImageDecoder()
-    IconName$ = #PB_Compiler_Home + "examples/sources/Data/world.png"
-  CompilerEndIf
-  
-  AddSysTrayIcon(1, WindowID(0), LoadImage(0, IconName$))
-  AddSysTrayIcon(2, WindowID(0), LoadImage(1, IconName$))
-  SysTrayIconToolTip(1, "Icon 1")
-  SysTrayIconToolTip(2, "Icon 2")
-  
-  Repeat
-    Event = WaitWindowEvent()
-    
-    If Event = #PB_Event_SysTray
-      If EventType() = #PB_EventType_LeftDoubleClick
-        MessageRequester("SysTray", "Left DoubleClick on SysTrayIcon "+Str(EventGadget()),0)
-        
-        ChangeSysTrayIcon (EventGadget(), LoadImage(0, IconName$))
-        SysTrayIconToolTip(EventGadget(), "Changed !")
-      EndIf
-      
-    EndIf
-  Until Event = #PB_Event_CloseWindow
-  
-EndIf
+UsePNGImageDecoder()
+AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
+
+; Create a pop-up menu to be displayed by the systray
+CreatePopupMenu(0)
+  MenuItem(0, "About PureBasic...")
+  MenuBar()
+  MenuItem(1, "Exit")
+
+; Associate the menu to the systray
+SysTrayIconMenu(0, MenuID(0))
+
+Repeat
+  Select WaitWindowEvent()
+    Case #PB_Event_Menu
+      Select EventMenu()
+        Case 0 ; About
+          MessageRequester("About", "Systray example !")
+
+        Case 1 ; Exit 
+          RemoveSysTrayIcon(0)
+          End
+      EndSelect
+  EndSelect
+ForEver

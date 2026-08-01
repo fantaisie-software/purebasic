@@ -1,4 +1,4 @@
-@Title Strukturen
+ï»¿@Title Strukturen
 
 @Syntax
 
@@ -8,19 +8,19 @@
 
 @Description
 
-  @Keyword Structure ist nützlich, um Benutzertypen zu definieren und um Zugriff auf einige Speicherbereiche
-  des OS zu erhalten. Strukturen können für das schnellere und einfachere Verwalten von großen Datenbeständen
-  benutzt werden. Sie sind sehr nützlich, um mit ihrer Hilfe in einem Objekt alle zusammengehörenden Informationen gruppieren
-  zu können. Auf die Struktur-Felder wird mit dem @Keyword "\" Operator zugegriffen. Strukturen können auch verschachtelt werden.
-  Statische Arrays werden innerhalb von Strukturen unterstützt. @LineBreak
+  @Keyword Structure ist nÃ¼tzlich, um Benutzertypen zu definieren und um Zugriff auf einige Speicherbereiche
+  des OS zu erhalten. Strukturen kÃ¶nnen fÃ¼r das schnellere und einfachere Verwalten von groÃŸen DatenbestÃ¤nden
+  benutzt werden. Sie sind sehr nÃ¼tzlich, um mit ihrer Hilfe in einem Objekt alle zusammengehÃ¶renden Informationen gruppieren
+  zu kÃ¶nnen. Auf die Struktur-Felder wird mit dem @Keyword "\" Operator zugegriffen. Strukturen kÃ¶nnen auch verschachtelt werden.
+  Statische Arrays werden innerhalb von Strukturen unterstÃ¼tzt. @LineBreak
   @LineBreak
-  Strukturfelder müssen einen expliziten Typ haben - einer der von PureBasic unterstützten @ReferenceLink "Variables" "Grundtypen",
+  Strukturfelder mÃ¼ssen einen expliziten Typ haben - einer der von PureBasic unterstÃ¼tzten @ReferenceLink "Variables" "Grundtypen",
   d.h. Byte (.b), Ascii (.a), Character (.c), Word (.w) , Unicode (.u), Long (.l), 
-  Integer (.i), Float (.f ), Quad (.q), Double (.d)), String (.s) und Fixed String (.s{ Länge}).
+  Integer (.i), Float (.f ), Quad (.q), Double (.d)), String (.s) und Fixed String (.s{ LÃ¤nge}).
   @LineBreak
-  Dynamische Objekte wie Arrays, Listen und Maps werden innerhalb von Strukturen ebenfalls unterstützt und werden
+  Dynamische Objekte wie Arrays, Listen und Maps werden innerhalb von Strukturen ebenfalls unterstÃ¼tzt und werden
   automatisch initialisiert, wenn das Objekt mit Hilfe der Struktur erstellt wird. Um solche Felder
-  zu deklarieren, verwenden Sie die folgende Schlüsselwörter: @Keyword "Array", @Keyword "List" und @Keyword "Map".
+  zu deklarieren, verwenden Sie die folgende SchlÃ¼sselwÃ¶rter: @Keyword "Array", @Keyword "List" und @Keyword "Map".
   @LineBreak
   @LineBreak
   
@@ -28,56 +28,56 @@
   einem @LibraryLink "array" "Array", einer @LibraryLink "list" "List" oder einer
   @LibraryLink "map" "Map" verwendet.
   @LineBreak
-  Fortgeschrittene Anwender können eine Speicherstruktur jedoch auch mittels @@AllocateStructure
+  Fortgeschrittene Anwender kÃ¶nnen eine Speicherstruktur jedoch auch mittels @@AllocateStructure
   zuweisen und mittels @@FreeStructure freigeben.
-  Es ist auch möglich, eine Struktur im Speicher mit
+  Es ist auch mÃ¶glich, eine Struktur im Speicher mit
   @ReferenceLink "compilerfunctions" "InitializeStructure()" zu initialisieren, sie mit
   @ReferenceLink "compilerfunctions" "CopyStructure()" zu kopieren, sie mit
-  @ReferenceLink "compilerfunctions" "ClearStructure()" zu löschen und sie mit
+  @ReferenceLink "compilerfunctions" "ClearStructure()" zu lÃ¶schen und sie mit
   @ReferenceLink "compilerfunctions" "ResetStructure()" neu zu initialisieren.
   @LineBreak
   @LineBreak
-  Es ist möglich, eine komplette Struktur zu kopieren, indem mittels des Gleichheitszeichens (=) eine Zuweisung zwischen
+  Es ist mÃ¶glich, eine komplette Struktur zu kopieren, indem mittels des Gleichheitszeichens (=) eine Zuweisung zwischen
   zwei Struktur-Elementen des gleichen Typs vorgenommen wird.
   @LineBreak
   @LineBreak
   
-  Der optionale @Keyword Extends Parameter ermöglicht eine Struktur mit neuen Feldern (aus einer bereits definierten Struktur) 
+  Der optionale @Keyword Extends Parameter ermÃ¶glicht eine Struktur mit neuen Feldern (aus einer bereits definierten Struktur) 
   zu erweitern. Alle in der erweiterten (nach @Keyword Extends angegebenen) Struktur gefundenen Felder werden in der neu 
-  definierten Struktur verfügbar sein und werden vor den neuen Feldern platziert. Dies ist nützlich, um einfache 
-  Vererbung von Strukturen durchzuführen. @LineBreak
+  definierten Struktur verfÃ¼gbar sein und werden vor den neuen Feldern platziert. Dies ist nÃ¼tzlich, um einfache 
+  Vererbung von Strukturen durchzufÃ¼hren. @LineBreak
   @LineBreak
   
-  Nur für fortgeschrittene Anwender: Der optionale @Keyword Align Parameter ermöglicht es, die Ausrichtung (englisch
-  "Alignment") zwischen jedem Struktur-Feld einzustellen. Die standardmäßige Ausrichtung (auch Anordnung) ist 1,
+  Nur fÃ¼r fortgeschrittene Anwender: Der optionale @Keyword Align Parameter ermÃ¶glicht es, die Ausrichtung (englisch
+  "Alignment") zwischen jedem Struktur-Feld einzustellen. Die standardmÃ¤ÃŸige Ausrichtung (auch Anordnung) ist 1,
   was keine Ausrichtung bedeutet. Zum Beispiel, wenn die Ausrichtugn auf 4 eingestellt wird, dann wird jedes
   Feld-Offset auf einer 4-Byte-Grenze liegen. Dies kann helfen, eine bessere Leistung beim Zugriff auf die
-  Felder der Struktur zu erreichen. Aber es kann auch mehr Speicher benötigen, da etwas Platz zwischen den
+  Felder der Struktur zu erreichen. Aber es kann auch mehr Speicher benÃ¶tigen, da etwas Platz zwischen den
   einzelnen Feldern verschwendet wird. Der besondere Wert @#PB_Structure_AlignC kann verwendet werden, um die
-  Struktur wie in der Sprache C auszurichten, nützlich beim @ReferenceLink "import_endimport" "Importieren" von
-  C-Strukturen für die Verwendung mit API-Funktionen.
+  Struktur wie in der Sprache C auszurichten, nÃ¼tzlich beim @ReferenceLink "import_endimport" "Importieren" von
+  C-Strukturen fÃ¼r die Verwendung mit API-Funktionen.
   @LineBreak
   @LineBreak
   
-  @ReferenceLink "compilerfunctions" "SizeOf" kann bei Strukturen benutzt werden, um die Größe der Struktur zu ermitteln. 
-  @ReferenceLink "compilerfunctions" "OffsetOf" kann verwendet werden, um den Index des angegebenen Felds zu ermitteln. @LineBreak
+  @ReferenceLink "compilerfunctions" "SizeOf" kann bei Strukturen benutzt werden, um die GrÃ¶ÃŸe der Struktur zu ermitteln. 
+  @ReferenceLink "compilerfunctions" "OffsetOf" kann verwendet werden, um den Adress-Offset des angegebenen Felds zu ermitteln. @LineBreak
   @LineBreak
   
-  Bitte beachten Sie, dass sich in Strukturen ein @Bold "statisches Array[]" nicht so verhält wie das normale BASIC 
+  Bitte beachten Sie, dass sich in Strukturen ein @Bold "statisches Array[]" nicht so verhÃ¤lt wie das normale BASIC 
   Array (definiert mittels @ReferenceLink "Dim" Dim), um konform zum C/C++ Strukturen Format zu bleiben (was direkte API Strukturen 
-  Portierung ermöglicht). Dies bedeutet, dass a@Bold "["2@Bold "]" ein Array von 0 bis 1 definiert, wogegen Dim a@Bold "("2@Bold ")" ein 
+  Portierung ermÃ¶glicht). Dies bedeutet, dass a@Bold "["2@Bold "]" ein Array von 0 bis 1 definiert, wogegen Dim a@Bold "("2@Bold ")" ein 
   Array von 0 bis 2 anlegt. Funktionen der @LibraryLink "Array" "Array"-Bibliothek arbeiten ebenfalls nicht mit statischen Arrays.
   @LineBreak
   @LineBreak
   
   Bei der Verwendung von @ReferenceLink "memory" "Zeigern" in Strukturen muss der '*' weggelassen werden, einmal mehr zur
-  Erleichterung der API-Code Portierung. Dies kann als eine Kuriosität angesehen werden (und um ehrlich zu sein, ist sie das auch),
-  aber es ist so seit dem Beginn von PureBasic und viele, viele Quellcodes bauen darauf, weshalb dies auch nicht geändert wird.
+  Erleichterung der API-Code Portierung. Dies kann als eine KuriositÃ¤t angesehen werden (und um ehrlich zu sein, ist sie das auch),
+  aber es ist so seit dem Beginn von PureBasic und viele, viele Quellcodes bauen darauf, weshalb dies auch nicht geÃ¤ndert wird.
   @LineBreak
   @LineBreak
   
-  Bei der Verwendung vieler Strukturfelder können Sie den Umfang einzugebenden Codes vereinfachen und seine Lesbarkeit 
-  erhöhen, wenn Sie die @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" Schlüsselwörter benutzen.
+  Bei der Verwendung vieler Strukturfelder kÃ¶nnen Sie den Umfang einzugebenden Codes vereinfachen und seine Lesbarkeit 
+  erhÃ¶hen, wenn Sie die @ReferenceLink "with_endwith" "With" : @ReferenceLink "with_endwith" "EndWith" SchlÃ¼sselwÃ¶rter benutzen.
 
 @Example
 
@@ -105,7 +105,7 @@
     *NextWindow.Window  ; verweist auf ein anderes Window Objekt
     x.w 
     y.w
-    Name.s[10]  ; 10 Namen verfügbar (von 0 bis 9)
+    Name.s[10]  ; 10 Namen verfÃ¼gbar (von 0 bis 9)
   EndStructure
 @EndCode
 
@@ -158,7 +158,7 @@
   John\Name$ = "John"
   John\Age   = 23
   
-  ; Jetzt fügen wir einige Freunde zu John hinzu
+  ; Jetzt fÃ¼gen wir einige Freunde zu John hinzu
   ;
   AddElement(John\Friends$())
   John\Friends$() = "Jim"
@@ -172,12 +172,12 @@
 @EndCode
 
 
-@Example Statische, dynamische Arrays und Übergabe einer Struktur an eine Prozedur
+@Example Statische, dynamische Arrays und Ãœbergabe einer Struktur an eine Prozedur
 @Code
   Structure Whatever
     a.l
-    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der Größe veränderbar
-    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der Größe veränderbar mittels ReDim()
+    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der GrÃ¶ÃŸe verÃ¤nderbar
+    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der GrÃ¶ÃŸe verÃ¤nderbar mittels ReDim()
   EndStructure
 
   MyVar.Whatever
@@ -195,9 +195,9 @@
   Debug MyVar\b[1]
   Debug MyVar\c(3,3)
   
-  ;Debug MyVar\c(0,10) ; 'Index außerhalb der erlaubten Grenzen' Fehler
-  ReDim MyVar\c(3,10)  ; Beachte: nur die letzte Dimension kann in der Größe verändert werden!
-  Debug  MyVar\c(0,10) ; Cool, das Array ist jetzt größer!
+  ;Debug MyVar\c(0,10) ; 'Index auÃŸerhalb der erlaubten Grenzen' Fehler
+  ReDim MyVar\c(3,10)  ; Beachte: nur die letzte Dimension kann in der GrÃ¶ÃŸe verÃ¤ndert werden!
+  Debug  MyVar\c(0,10) ; Cool, das Array ist jetzt grÃ¶ÃŸer!
 @EndCode
 
 
@@ -272,9 +272,9 @@
 
 @Description
 
-  @Keyword StructureUnion sind nur nützlich für fortgeschrittene Programmierer, welche etwas Speicher 
+  @Keyword StructureUnion sind nur nÃ¼tzlich fÃ¼r fortgeschrittene Programmierer, welche etwas Speicher 
   sparen wollen, indem sie einige Felder innerhalb derselben Struktur teilen. Sie funktionieren wie 
-  das 'Union' Schlüsselwort in C/C++.
+  das 'Union' SchlÃ¼sselwort in C/C++.
   @LineBreak
   @LineBreak
   Hinweis: Jedes Feld in der @Keyword "StructureUnion" Deklaration kann einen unterschiedlichen

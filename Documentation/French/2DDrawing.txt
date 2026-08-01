@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; 2DDrawing library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,18 +8,18 @@
 
 @Overview
 
-La bibliothèque 2DDrawing contient toutes 
+La bibliothÃ¨que 2DDrawing contient toutes 
 les commandes permettant de dessiner en 
-deux dimensions sur une fenêtre, un écran 
-ou même une imprimante. Vous pourrez ainsi 
+deux dimensions sur une fenÃªtre, un Ã©cran 
+ou mÃªme une imprimante. Vous pourrez ainsi 
 tracer un trait, un rectangle, un cercle,
-une ellipse, créer des dégradés de formes 
-diverses et écrire du texte. 
+une ellipse, crÃ©er des dÃ©gradÃ©s de formes 
+diverses et Ã©crire du texte. 
 @LineBreak
 @LineBreak
-Les dessins commencent toujours après avoir 
-appelé la fonction @@StartDrawing et
-se terminent lorsque @@StopDrawing est appelé.
+Les dessins commencent toujours aprÃ¨s avoir 
+appelÃ© la fonction @@StartDrawing et
+se terminent lorsque @@StopDrawing est appelÃ©.
 
 @CommandList
 
@@ -43,13 +43,13 @@ se terminent lorsque @@StopDrawing est appelé.
   La valeur de la couleur.
 @LineBreak
 @LineBreak  
- Cela peut être une valeur RGB 24 bits ou 
+ Cela peut Ãªtre une valeur RGB 24 bits ou 
  une valeur RGBA 32 bits.
  
 @ReturnValue
   Renvoie la valeur de la composante rouge.
   @LineBreak
-  Le résultat sera compris entre 0 et 255.
+  Le rÃ©sultat sera compris entre 0 et 255.
   
 @Remarks  
   @@RGB permet de combiner les valeurs rouge, 
@@ -58,7 +58,7 @@ se terminent lorsque @@StopDrawing est appelé.
   @@RGBA permet de combiner les valeurs rouge, 
   verte, bleue et alpha en une couleur 32 bits.
   @LineBreak
-  Ces fonctions sont utiles lors des opérations 
+  Ces fonctions sont utiles lors des opÃ©rations 
   de @LibraryLink "2ddrawing" "dessin 2D".
 
 @Example
@@ -66,7 +66,7 @@ se terminent lorsque @@StopDrawing est appelé.
   ; Charge une image
   If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
     StartDrawing(ImageOutput(0))
-    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Couleur=Point(10,10)  ; Couleur aux coordonnÃ©es 10, 10
     Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
     Debug Green(Couleur)  ; Affiche la composante verte de la couleur
     Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
@@ -91,13 +91,13 @@ se terminent lorsque @@StopDrawing est appelé.
   La valeur de la couleur.
 @LineBreak
 @LineBreak  
- Cela peut être une valeur RGB 24 bits ou une 
+ Cela peut Ãªtre une valeur RGB 24 bits ou une 
  valeur RGBA 32 bits.
  
 @ReturnValue
   Renvoie la valeur de la composante verte.
   @LineBreak
-  Le résultat sera compris entre 0 et 255.
+  Le rÃ©sultat sera compris entre 0 et 255.
   
 @Remarks  
   @@RGB permet de combiner les valeurs rouge, 
@@ -106,7 +106,7 @@ se terminent lorsque @@StopDrawing est appelé.
   @@RGBA permet de combiner les valeurs rouge, 
   verte, bleue et alpha en une couleur 32 bits.
   @LineBreak
-  Ces fonctions sont utiles lors des opérations 
+  Ces fonctions sont utiles lors des opÃ©rations 
   de @LibraryLink "2ddrawing" "dessin 2D".
 
 @Example
@@ -114,7 +114,7 @@ se terminent lorsque @@StopDrawing est appelé.
   ; Charge une image
   If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
     StartDrawing(ImageOutput(0))
-    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Couleur=Point(10,10)  ; Couleur aux coordonnÃ©es 10, 10
     Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
     Debug Green(Couleur)  ; Affiche la composante verte de la couleur
     Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
@@ -139,13 +139,13 @@ se terminent lorsque @@StopDrawing est appelé.
   La valeur de la couleur.
 @LineBreak
 @LineBreak  
- Cela peut être une valeur RGB 24 bits ou une 
+ Cela peut Ãªtre une valeur RGB 24 bits ou une 
  valeur RGBA 32 bits.
  
 @ReturnValue
   Renvoie la valeur de la composante bleue.
   @LineBreak
-  Le résultat sera compris entre 0 et 255.
+  Le rÃ©sultat sera compris entre 0 et 255.
   
 @Remarks  
   @@RGB permet de combiner les valeurs rouge, 
@@ -153,7 +153,7 @@ se terminent lorsque @@StopDrawing est appelé.
   @@RGBA permet de combiner les valeurs rouge,
   verte, bleue et alpha en une couleur 32 bits.
   @LineBreak
-  Ces fonctions sont utiles lors des opérations
+  Ces fonctions sont utiles lors des opÃ©rations
   de @LibraryLink "2ddrawing" "dessin 2D".
 
 @Example
@@ -161,7 +161,7 @@ se terminent lorsque @@StopDrawing est appelé.
   ; Charge une image
   If LoadImage(0, #PB_Compiler_Home + "Examples\Sources\Data\Geebee2.bmp")
     StartDrawing(ImageOutput(0))
-    Couleur=Point(10,10)  ; Couleur aux coordonnées 10, 10
+    Couleur=Point(10,10)  ; Couleur aux coordonnÃ©es 10, 10
     Debug Red(Couleur)    ; Affiche la composante rouge de la couleur
     Debug Green(Couleur)  ; Affiche la composante verte de la couleur
     Debug Blue(Couleur)   ; Affiche la composante bleue de la couleur
@@ -186,32 +186,32 @@ se terminent lorsque @@StopDrawing est appelé.
   La valeur de la couleur.
 @LineBreak
 @LineBreak  
- Cela ne peut être qu'une valeur RGBA 32 bits.
+ Cela ne peut Ãªtre qu'une valeur RGBA 32 bits.
   
 @ReturnValue
   Renvoie la valeur de la composante alpha.
   @LineBreak
-  Une valeur de 0 signifie une complète 
+  Une valeur de 0 signifie une complÃ¨te 
   transparence et une valeur de 255 signifie 
-  opacité totale.@LineBreak
-  Le résultat sera compris entre 0 et 255.
+  opacitÃ© totale.@LineBreak
+  Le rÃ©sultat sera compris entre 0 et 255.
   
 @Remarks  
   @@RGBA permet de combiner les valeurs rouge,
   verte, bleue et alpha en une couleur 32 bits.
   @LineBreak
-  Ces fonctions sont utiles lors des opérations de 
+  Ces fonctions sont utiles lors des opÃ©rations de 
   @LibraryLink "2ddrawing" "dessin 2D".
 
 @Example
 @Code
  If OpenWindow(0, 0, 0, 200, 200, "Alpha", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
-  If CreateImage(0, 800, 600, 32) And StartDrawing(ImageOutput(0)) ; création d'une image fond noir par défaut
-    DrawingMode(#PB_2DDrawing_AlphaChannel) ; le Canal alpha (transparence) sera modifié
-    Box(0, 0, 200, 200, $00000000)          ; le noir est complètement transparent
+  If CreateImage(0, 800, 600, 32) And StartDrawing(ImageOutput(0)) ; crÃ©ation d'une image fond noir par dÃ©faut
+    DrawingMode(#PB_2DDrawing_AlphaChannel) ; le Canal alpha (transparence) sera modifiÃ©
+    Box(0, 0, 200, 200, $00000000)          ; le noir est complÃ¨tement transparent
    
-    DrawingMode(#PB_2DDrawing_AlphaBlend)   ; le dessin sera fusionné avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel
-    Circle( 75,  75, 50, RGBA(255,   0,   0, 64))  ; Cercle rouge très transparent
+    DrawingMode(#PB_2DDrawing_AlphaBlend)   ; le dessin sera fusionnÃ© avec le fond en utilisant le canal alpha pour gÃ©rer la transparence de chaque pixel
+    Circle( 75,  75, 50, RGBA(255,   0,   0, 64))  ; Cercle rouge trÃ¨s transparent
     Circle(125,  75, 50, RGBA(  0, 255,   0, 128)) ; Cercle vert moyennement transparent
     Circle(100, 125, 50, RGBA(  0,   0, 255, 192)) ; Cercle bleu peu transparent
     DrawText(20, 180, "Cliquer sur le dessin")     ; Texte sans transparence
@@ -257,7 +257,7 @@ se terminent lorsque @@StopDrawing est appelé.
   bleu de la couleur. 
 @LineBreak
 @LineBreak
-  Chaque valeur doit être comprise entre 0 
+  Chaque valeur doit Ãªtre comprise entre 0 
   et 255.
 
 @ReturnValue
@@ -265,17 +265,17 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Remarks  
   Pour extraire la valeur d'une des composantes 
-  'Rouge', 'Verte' ou 'Bleue' à partir de la 
+  'Rouge', 'Verte' ou 'Bleue' Ã  partir de la 
   valeur d'une couleur 24 Bits, utilisez les 
   commandes suivantes @@Red, @@Green et 
   @@Blue.
 @LineBreak
 @LineBreak  
   Ces fonctions sont utiles pour effectuer des
-  @LibraryLink "2ddrawing" "opérations de dessin".
+  @LibraryLink "2ddrawing" "opÃ©rations de dessin".
 @LineBreak  
 @LineBreak
-  Un tableau représentant les couleurs les plus 
+  Un tableau reprÃ©sentant les couleurs les plus 
   communes est disponible 
   @ReferenceLink "colortable" "ici".
 
@@ -309,7 +309,7 @@ se terminent lorsque @@StopDrawing est appelé.
   bleue de la couleur. 
 @LineBreak  
 @LineBreak
-  Chaque valeur doit être comprise entre 0 et 
+  Chaque valeur doit Ãªtre comprise entre 0 et 
   255.
   
 @Parameter "Alpha"
@@ -317,22 +317,22 @@ se terminent lorsque @@StopDrawing est appelé.
   couleur.
 @LineBreak  
 @LineBreak
-  La valeur doit être comprise entre 0 et 255.
+  La valeur doit Ãªtre comprise entre 0 et 255.
 @LineBreak  
 @LineBreak
   Une valeur de 0 signifie une transparence 
-  complète et une valeur de 255 signifie une 
-  opacité totale. 
+  complÃ¨te et une valeur de 255 signifie une 
+  opacitÃ© totale. 
 
 @ReturnValue
   Renvoie la valeur de la couleur.  
 
 @Remarks   
-  Resultat varie de 0 à 4 294 967 295 teintes. 
-  Il est donc conseillé d'utiliser un 'quad', (Resultat.q) et de mettre à zéro les octets 
-  inutilisés.
-  En effet, sur un système d'exploitation 32 Bits, Resultat est un integer de type Long 
-  (par défaut) dont la plage d'utilisation va de - 2 147 483 648 à + 2 147 483 647,
+  Resultat varie de 0 Ã  4 294 967 295 teintes. 
+  Il est donc conseillÃ© d'utiliser un 'quad', (Resultat.q) et de mettre Ã  zÃ©ro les octets 
+  inutilisÃ©s.
+  En effet, sur un systÃ¨me d'exploitation 32 Bits, Resultat est un integer de type Long 
+  (par dÃ©faut) dont la plage d'utilisation va de - 2 147 483 648 Ã  + 2 147 483 647,
   alors comparer deux couleurs est hasardeux.
 @LineBreak
 @LineBreak
@@ -341,17 +341,17 @@ se terminent lorsque @@StopDrawing est appelé.
   des composantes 'Rouge', 'Verte', 'Bleue' ou 'Alpha'.
 @LineBreak
 @LineBreak
-  Un tableau représentant les couleurs les plus 
+  Un tableau reprÃ©sentant les couleurs les plus 
   communes est disponible 
   @ReferenceLink "colortable" "ici".
-  Ces fonctions sont utiles lors des opérations 
+  Ces fonctions sont utiles lors des opÃ©rations 
   de @LibraryLink "2ddrawing" "dessin 2D".
 
 @Example
 @Code
   Couleur.q = RGBA(255, 255, 255, 255) ; Blanc totalement opaque
   Debug LSet(Hex(Couleur, #PB_Quad), 16, "0")
-  Couleur = Couleur  & $FFFFFFFF  ; mise à zéro des octets inutilisés, 
+  Couleur = Couleur  & $FFFFFFFF  ; mise Ã  zÃ©ro des octets inutilisÃ©s, 
                                   ; utile pour la comparaison de couleur
   Debug LSet(Hex(Couleur, #PB_Quad), 16, "0")
 @EndCode
@@ -359,7 +359,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @Example
 @Code
   Debug RGBA(0, 0, 0, 0)     ; Noir totalement transparent 
-  Debug RGBA(0, 0, 0, 128)   ; Noir à moitié transparent
+  Debug RGBA(0, 0, 0, 128)   ; Noir Ã  moitiÃ© transparent
   Debug RGBA(0, 0, 0, 255)   ; Noir totalement opaque
   Debug RGBA(255, 0, 0, 255) ; Rouge totalement opaque
   Debug RGBA(0, 0, 255, 0)   ; Bleu totalement transparent
@@ -369,13 +369,13 @@ se terminent lorsque @@StopDrawing est appelé.
  
 @Example Couleur 24 bits vers couleur 32 bits
 @Code
-  Alpha = 255 ; de 0 à 255,  255 = aucune transparence (Opacité = 100 %)
+  Alpha = 255 ; de 0 Ã  255,  255 = aucune transparence (OpacitÃ© = 100 %)
   
-  ; Pour les couleurs, il est conseillé d'utiliser des variables de type Quad (Voir remarques)
+  ; Pour les couleurs, il est conseillÃ© d'utiliser des variables de type Quad (Voir remarques)
   Couleur24.q  = ColorRequester()
   
   Couleur32.q = RGBA(Red(Couleur24), Green(Couleur24), Blue(Couleur24), alpha) 
-  Couleur32 = Couleur32 & $FFFFFFFF ; Mise à zéro des octets inutilisés
+  Couleur32 = Couleur32 & $FFFFFFFF ; Mise Ã  zÃ©ro des octets inutilisÃ©s
 
   ; Il est aussi possible de remplacer les deux lignes ci-dessus par:
   ; Couleur32 = Couleur24 | Alpha << 24
@@ -383,7 +383,7 @@ se terminent lorsque @@StopDrawing est appelé.
   Debug "Rouge " + Red(Couleur32)
   Debug "Vert  " + Green(Couleur32)
   Debug "Bleu  " + Blue(Couleur32)
-  Debug "Opacité " + Alpha(Couleur32)
+  Debug "OpacitÃ© " + Alpha(Couleur32)
 @EndCode  
  
 @SeeAlso
@@ -397,25 +397,25 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Description
   Renvoie une couleur 32 bits qui est 
-  le résultat du mélange de deux autres 
+  le rÃ©sultat du mÃ©lange de deux autres 
   couleurs 32 bits.
   
 @Parameter "Couleur1"
-  La couleur d'avant-plan qui sera mélangée 
-  à 'Couleur2'.
+  La couleur d'avant-plan qui sera mÃ©langÃ©e 
+  Ã  'Couleur2'.
 
 @Parameter "Couleur2"
-  La couleur d'arrière-plan.
+  La couleur d'arriÃ¨re-plan.
 
 @ReturnValue
-  Renvoie la couleur mélangée.
+  Renvoie la couleur mÃ©langÃ©e.
   
 @Remarks
-  @@RGBA peut être utilisé pour créer des 
+  @@RGBA peut Ãªtre utilisÃ© pour crÃ©er des 
   couleurs 32 bits avec transparence alpha.
 @LineBreak
 @LineBreak
-  Ces fonctions sont utiles lors des opérations 
+  Ces fonctions sont utiles lors des opÃ©rations 
   de @LibraryLink "2ddrawing" "dessin 2D".
   
 @Example
@@ -424,7 +424,7 @@ se terminent lorsque @@StopDrawing est appelé.
     
     If CreateImage(0, 200, 200) And StartDrawing(ImageOutput(0))
       DrawingMode(#PB_2DDrawing_Default)
-      ;DrawingMode(#PB_2DDrawing_AlphaBlend) ; Enlever le point virgule pour voir la différence.
+      ;DrawingMode(#PB_2DDrawing_AlphaBlend) ; Enlever le point virgule pour voir la diffÃ©rence.
       
       T = 128 ; Transparence
         Box(0  , 0  , 100, 100, RGBA(255, 0, 0, T)) ; Affiche du rouge
@@ -455,15 +455,15 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function BackColor(Couleur)
 
 @Description
-  Définit la couleur d'arrière plan. 
+  DÃ©finit la couleur d'arriÃ¨re plan. 
   
 @Parameter "Couleur"  
-  La couleur d'arrière plan à utiliser 
+  La couleur d'arriÃ¨re plan Ã  utiliser 
   pour le dessin et le texte. 
 @LineBreak
 @LineBreak
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur. 
 @LineBreak
 @LineBreak  
@@ -519,19 +519,19 @@ se terminent lorsque @@StopDrawing est appelé.
 @OptionalParameter "Couleur"  
   La couleur du rectangle. @LineBreak
   @LineBreak
-  S'il n'est pas spécifié, la couleur fixée 
-  par la fonction @@FrontColor sera utilisée.
+  S'il n'est pas spÃ©cifiÃ©, la couleur fixÃ©e 
+  par la fonction @@FrontColor sera utilisÃ©e.
   @LineBreak
   @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être 
-  utilisées pour définir facilement
+  Les fonctions @@RGB ou @@RGBA peuvent Ãªtre 
+  utilisÃ©es pour dÃ©finir facilement
   une couleur.
 
 @NoReturnValue  
 
 @Remarks
   Le mode de remplissage du rectangle est 
-  défini par la fonction @@DrawingMode.
+  dÃ©fini par la fonction @@DrawingMode.
   
 @Example
 @Code
@@ -540,7 +540,7 @@ se terminent lorsque @@StopDrawing est appelé.
       y = 0
       For x = 0 To 95 Step 10
         Box(x, y, 200-2*x, 200-2*y, RGB(Random(255), Random(255), Random(255)))
-        y + 10        ; C'est équivalent à 'y = y + 10'
+        y + 10        ; C'est Ã©quivalent Ã  'y = y + 10'
       Next x
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
@@ -579,19 +579,19 @@ se terminent lorsque @@StopDrawing est appelé.
   La couleur du rectangle.
   @LineBreak
   @LineBreak
-  S'il n'est pas spécifié, la couleur fixée 
-  par la fonction @@FrontColor sera utilisée.
+  S'il n'est pas spÃ©cifiÃ©, la couleur fixÃ©e 
+  par la fonction @@FrontColor sera utilisÃ©e.
   @LineBreak
   @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être 
-  utilisées pour définir facilement une 
+  Les fonctions @@RGB ou @@RGBA peuvent Ãªtre 
+  utilisÃ©es pour dÃ©finir facilement une 
   couleur. 
   
 @NoReturnValue
 
 @Remarks
   Le mode de remplissage du rectangle est 
-  défini par la fonction @@DrawingMode.
+  dÃ©fini par la fonction @@DrawingMode.
 
 @Example
 @Code
@@ -640,19 +640,19 @@ se terminent lorsque @@StopDrawing est appelé.
 @OptionalParameter "Couleur"  
   La couleur du cercle.@LineBreak
 @LineBreak
-  S'il n'est pas spécifié, la couleur fixée 
-  par la fonction @@FrontColor sera utilisée.
+  S'il n'est pas spÃ©cifiÃ©, la couleur fixÃ©e 
+  par la fonction @@FrontColor sera utilisÃ©e.
   @LineBreak
   @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être 
-  utilisées pour définir facilement une 
+  Les fonctions @@RGB ou @@RGBA peuvent Ãªtre 
+  utilisÃ©es pour dÃ©finir facilement une 
   couleur. 
   
 @NoReturnValue  
 
 @Remarks 
   Le mode de remplissage du rectangle est 
-  défini par la fonction @@DrawingMode.
+  dÃ©fini par la fonction @@DrawingMode.
 
 @NoReturnValue
  
@@ -692,35 +692,35 @@ se terminent lorsque @@StopDrawing est appelé.
   dessin en cours. 
   
 @Parameter "ImageID"  
-  Le numéro d'identification de l'image.
+  Le numÃ©ro d'identification de l'image.
   @LineBreak
   @LineBreak
-  L'ImageID peut être obtenu facilement
+  L'ImageID peut Ãªtre obtenu facilement
   en utilisant la fonction @@ImageID de 
-  la bibliothèque Image. 
+  la bibliothÃ¨que Image. 
   
 @Parameter "X, Y" 
-  La position du coin en haut et à gauche 
+  La position du coin en haut et Ã  gauche 
   de l'image.
 
 @OptionalParameter "Largeur, Hauteur"  
-  L'image sera redimensionnée en temps réel avant d'être affichée.
+  L'image sera redimensionnÃ©e en temps rÃ©el avant d'Ãªtre affichÃ©e.
   @LineBreak
   @LineBreak 
-  La taille de l'image originale n'est pas modifiée. 
+  La taille de l'image originale n'est pas modifiÃ©e. 
 
 @NoReturnValue
 
 @Remarks  
   L'image sera transparente si le mode d'affichage courant @@DrawingMode est 
-  utilisé avec une des options d'alpha blending (transparence) sinon l'image 
-  est simplement copiée sur la surface de dessin en cours. 
+  utilisÃ© avec une des options d'alpha blending (transparence) sinon l'image 
+  est simplement copiÃ©e sur la surface de dessin en cours. 
   Pour dessiner une image en utilisant la transparence, voir la commande @@DrawAlphaImage.
   @LineBreak
   @LineBreak
   Un certain nombre de backends (y compris @@WindowOutput sous Linux) ne peuvent pas ignorer le canal alpha. 
-  Dans ce cas DrawImage() fait la même chose que @@DrawAlphaImage. Pour plus de cohérence, utilisez simplement 
-  @@DrawAlphaImage à la place, ce qui devrait produire la même sortie sur tous les backends.
+  Dans ce cas DrawImage() fait la mÃªme chose que @@DrawAlphaImage. Pour plus de cohÃ©rence, utilisez simplement 
+  @@DrawAlphaImage Ã  la place, ce qui devrait produire la mÃªme sortie sur tous les backends.
   
 @Example
 @Code
@@ -760,53 +760,53 @@ se terminent lorsque @@StopDrawing est appelé.
   surface de dessin en cours. 
 
 @Parameter "ImageID"  
-  Le numéro d'identification de l'image. 
+  Le numÃ©ro d'identification de l'image. 
   @LineBreak
 @LineBreak
-  L'ImageID' peut être obtenu facilement
+  L'ImageID' peut Ãªtre obtenu facilement
   en utilisant la fonction @@ImageID de la 
-  bibliothèque Image. 
+  bibliothÃ¨que Image. 
   
 @Parameter "X, Y" 
-  La position du coin en haut et à gauche 
+  La position du coin en haut et Ã  gauche 
   de l'image.
 
 @OptionalParameter "Transparence"  
   Le coefficient de transparence de l'image.
   @LineBreak
 @LineBreak
-  Sa valeur varie de 0 (complètement 
-  transparente) à 255 (complètement opaque).
-  De fait, même les images qui n'ont pas de 
-  canal alpha peuvent être affichées de 
-  manière transparente.
+  Sa valeur varie de 0 (complÃ¨tement 
+  transparente) Ã  255 (complÃ¨tement opaque).
+  De fait, mÃªme les images qui n'ont pas de 
+  canal alpha peuvent Ãªtre affichÃ©es de 
+  maniÃ¨re transparente.
 
 @NoReturnValue
 
 @Remarks  
-  L'image sera fusionnée avec le fond du 
+  L'image sera fusionnÃ©e avec le fond du 
   dessin en tenant compte de son canal alpha 
-  (même si le 
+  (mÃªme si le 
   @Link "DrawingMode" "mode de dessin" actuel 
   n'est pas @#PB_2DDrawing_AlphaBlend).
 @LineBreak
 @LineBreak
   Cette commande fonctionne sur toutes les 
-  surfaces de dessin, même celles qui ne 
+  surfaces de dessin, mÃªme celles qui ne 
   supportent pas les options de transparence 
   (alpha blending) de @@DrawingMode.
 @LineBreak
 @LineBreak
-  L'image sera affichée dans sa taille 
+  L'image sera affichÃ©e dans sa taille 
   originale.@LineBreak
-  @@ResizeImage peut être utilisé pour 
+  @@ResizeImage peut Ãªtre utilisÃ© pour 
   changer la taille d'une image.
    
 @OS Windows
   @LineBreak
   @LineBreak
-  Cette commande ne peut pas être utilisée 
-  pour afficher une icône (chargée à partir 
+  Cette commande ne peut pas Ãªtre utilisÃ©e 
+  pour afficher une icÃ´ne (chargÃ©e Ã  partir 
   d'un fichier '.ico').
  
 @Example
@@ -853,40 +853,40 @@ se terminent lorsque @@StopDrawing est appelé.
 @Description
   Renvoie le tampon (buffer) 
   de dessin, ce qui permet la manipulation 
-  des pixels directement en mémoire.
+  des pixels directement en mÃ©moire.
 
 @NoParameters
 
 @ReturnValue  
-  Renvoie le pointeur de données des pixels 
-  si l'accès direct aux pixels est possible 
-  ou zéro sinon.
+  Renvoie le pointeur de donnÃ©es des pixels 
+  si l'accÃ¨s direct aux pixels est possible 
+  ou zÃ©ro sinon.
   
 @Remarks 
-  Cette fonction doit être appelée à nouveau si 
-  d'autres commandes de dessin de cette bibliothèque 
-  ont été utilisées depuis la dernière manipulation de pixels.
+  Cette fonction doit Ãªtre appelÃ©e Ã  nouveau si 
+  d'autres commandes de dessin de cette bibliothÃ¨que 
+  ont Ã©tÃ© utilisÃ©es depuis la derniÃ¨re manipulation de pixels.
 @LineBreak
 @LineBreak 
-  Une fois que @@StopDrawing a été appelé, le 
-  tampon est invalidé et ne peut plus être utilisé.
+  Une fois que @@StopDrawing a Ã©tÃ© appelÃ©, le 
+  tampon est invalidÃ© et ne peut plus Ãªtre utilisÃ©.
 @LineBreak
 @LineBreak 
-  Cette commande est destinée aux programmeurs 
-  chevronnés. Pour obtenir plus d'informations 
+  Cette commande est destinÃ©e aux programmeurs 
+  chevronnÃ©s. Pour obtenir plus d'informations 
   sur le buffer, les commandes suivantes 
-  peuvent être utilisées : 
+  peuvent Ãªtre utilisÃ©es : 
   @@DrawingBufferPixelFormat et 
   @@DrawingBufferPitch.
 @LineBreak
 @LineBreak  
-  Cela peut correspondre directement à la 
-  mémoire vidéo si la sortie est 
+  Cela peut correspondre directement Ã  la 
+  mÃ©moire vidÃ©o si la sortie est 
   @@ScreenOutput ou @@SpriteOutput et permet 
-  des manipulations très rapide des pixels.
+  des manipulations trÃ¨s rapide des pixels.
   @LineBreak
   Avec @@ImageOutput cette commande permet 
-  l'accès direct aux pixels de l'image. 
+  l'accÃ¨s direct aux pixels de l'image. 
 
 @ExampleFile All DirectScreenDrawing.pb
  
@@ -895,8 +895,8 @@ se terminent lorsque @@StopDrawing est appelé.
   If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
       DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
-      Debug "Adresse mémoire : " + Str(DrawingBuffer())
-      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Adresse mÃ©moire : " + Str(DrawingBuffer())
+      Debug "Longueur rÃ©elle d'une ligne en octet : " + Str(DrawingBufferPitch())    
       Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
@@ -919,7 +919,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function Resultat = DrawingBufferPitch()
 
 @Description
-  Renvoie la longueur réelle d'une ligne 
+  Renvoie la longueur rÃ©elle d'une ligne 
   du buffer courant, en octets. 
   
 @NoParameters
@@ -927,10 +927,10 @@ se terminent lorsque @@StopDrawing est appelé.
 @ReturnValue
   Renvoie la longueur en octets d'une ligne 
   de la surface de dessin, y compris toutes 
-  les données annexes de chaque pixel.
+  les donnÃ©es annexes de chaque pixel.
 
 @Remarks  
-  @@DrawingBuffer doit être appelé avant 
+  @@DrawingBuffer doit Ãªtre appelÃ© avant 
   d'utiliser cette fonction.
  
 @Example
@@ -938,8 +938,8 @@ se terminent lorsque @@StopDrawing est appelé.
   If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
       DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
-      Debug "Adresse mémoire : " + Str(DrawingBuffer())
-      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Adresse mÃ©moire : " + Str(DrawingBuffer())
+      Debug "Longueur rÃ©elle d'une ligne en octet : " + Str(DrawingBufferPitch())    
       Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
@@ -967,31 +967,31 @@ se terminent lorsque @@StopDrawing est appelé.
 @NoParameters
 
 @ReturnValue
-  Peut être la combinaison des valeurs 
+  Peut Ãªtre la combinaison des valeurs 
   suivantes:
   
 @FixedFont
-  @#PB_PixelFormat_8Bits       : 1 octet par pixel, palettisé
+  @#PB_PixelFormat_8Bits       : 1 octet par pixel, palettisÃ©
   @#PB_PixelFormat_15Bits      : 2 octets par pixel
   @#PB_PixelFormat_16Bits      : 2 octets par pixel
   @#PB_PixelFormat_24Bits_RGB  : 3 octets par pixel (RRGGBB)
   @#PB_PixelFormat_24Bits_BGR  : 3 octets par pixel (BBGGRR)
   @#PB_PixelFormat_32Bits_RGB  : 4 octets par pixel (RRGGBB)
   @#PB_PixelFormat_32Bits_BGR  : 4 octets par pixel (BBGGRR)
-  @#PB_PixelFormat_ReversedY   : Les lignes sont inversées en hauteur (la dernière ligne est la première)
-  @#PB_PixelFormat_NoAlpha     : Le format des pixels est de 32 bits mais la composante alpha n'est pas utilisée.
+  @#PB_PixelFormat_ReversedY   : Les lignes sont inversÃ©es en hauteur (la derniÃ¨re ligne est la premiÃ¨re)
+  @#PB_PixelFormat_NoAlpha     : Le format des pixels est de 32 bits mais la composante alpha n'est pas utilisÃ©e.
 @EndFixedFont
 
 @Remarks
-  @@DrawingBuffer doit être appelé avant 
+  @@DrawingBuffer doit Ãªtre appelÃ© avant 
   d'utiliser cette fonction.
 
 @Example
   Les exemples suivants montrent comment 
-  gérer différents formats:
+  gÃ©rer diffÃ©rents formats:
 @Code
   If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB | #PB_PixelFormat_ReversedY
-    ; RGB 32 bits en mode inversé
+    ; RGB 32 bits en mode inversÃ©
   EndIf
   
   If DrawingBufferPixelFormat() = #PB_PixelFormat_32Bits_RGB
@@ -999,7 +999,7 @@ se terminent lorsque @@StopDrawing est appelé.
   EndIf
   
   If DrawingBufferPixelFormat() & #PB_PixelFormat_32Bits_RGB
-    ; RGB 32 bits (mode inversé ou non)
+    ; RGB 32 bits (mode inversÃ© ou non)
   EndIf 
 @EndCode
  
@@ -1008,8 +1008,8 @@ se terminent lorsque @@StopDrawing est appelé.
   If OpenWindow(0, 0, 0, 200, 200, "Buffer Image", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 32) And StartDrawing(ImageOutput(0))
       DrawText(60,80,"PUREBASIC", RGB(255, 255, 0))
-      Debug "Adresse mémoire : " + Str(DrawingBuffer())
-      Debug "Longueur réelle d'une ligne en octet : " + Str(DrawingBufferPitch())    
+      Debug "Adresse mÃ©moire : " + Str(DrawingBuffer())
+      Debug "Longueur rÃ©elle d'une ligne en octet : " + Str(DrawingBufferPitch())    
       Debug "Format de pixel : " + Str(DrawingBufferPixelFormat())
       StopDrawing() 
       ImageGadget(0, 0, 0, 200, 200, ImageID(0))
@@ -1032,23 +1032,23 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function DrawingFont(PoliceID)
 
 @Description
-  Change la police de caractères de la 
+  Change la police de caractÃ¨res de la 
   surface de dessin en cours.
   
 @Parameter "PoliceID"  
-  Le numéro d'identification de la police 
-  à utiliser.@LineBreak
+  Le numÃ©ro d'identification de la police 
+  Ã  utiliser.@LineBreak
 @LineBreak
-  Il peut être obtenu par la fonction 
-  @@FontID de la bibliothèque 'Font'. 
+  Il peut Ãªtre obtenu par la fonction 
+  @@FontID de la bibliothÃ¨que 'Font'. 
 @LineBreak
 @LineBreak  
   
 @Remarks  
-  Tous les textes affichés ensuite le seront 
+  Tous les textes affichÃ©s ensuite le seront 
   avec cette nouvelle police. @LineBreak
   Avant d'utiliser cette fonction, la police 
-  doit être chargée à l'aide de la fonction 
+  doit Ãªtre chargÃ©e Ã  l'aide de la fonction 
   @@LoadFont. 
  
 @Example
@@ -1083,16 +1083,16 @@ se terminent lorsque @@StopDrawing est appelé.
   textes et les dessins.
 
 @Parameter "Mode"  
-  Peut être une combinaison des valeurs 
+  Peut Ãªtre une combinaison des valeurs 
   suivantes:
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_Default
 @Indent
-  C'est le mode de dessin par défaut quand @@StartDrawing est appelé.@LineBreak
-  Le texte est affiché avec un fond solide et les formes géométriques sont pleines.@LineBreak
-  Si la surface de dessin gère un canal alpha, les opérations de dessin n'affecteront
-  que les composantes couleurs et laisseront le canal alpha inchangé.
+  C'est le mode de dessin par dÃ©faut quand @@StartDrawing est appelÃ©.@LineBreak
+  Le texte est affichÃ© avec un fond solide et les formes gÃ©omÃ©triques sont pleines.@LineBreak
+  Si la surface de dessin gÃ¨re un canal alpha, les opÃ©rations de dessin n'affecteront
+  que les composantes couleurs et laisseront le canal alpha inchangÃ©.
 @LineBreak
 @Image PB_2DDrawing_Default.png
 @EndIndent
@@ -1100,7 +1100,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   @#PB_2DDrawing_Transparent
 @Indent
-  Si ce mode est activé alors le fond du texte affiché avec @@DrawText sera transparent.
+  Si ce mode est activÃ© alors le fond du texte affichÃ© avec @@DrawText sera transparent.
 @LineBreak
 @Image PB_2DDrawing_Transparent.png
 @EndIndent
@@ -1109,15 +1109,21 @@ se terminent lorsque @@StopDrawing est appelé.
   @#PB_2DDrawing_NativeText
 @Indent
   Avec ce mode, les commandes @@DrawText et @@DrawRotatedText utiliseront la sortie texte native pour avoir un rendu de texte de type gadget.
-   Tous les effets spéciaux comme XOR, AlphaBlend, CustomFilters, etc. ne sont pas disponibles avec ce mode.
+  Tous les effets spÃ©ciaux comme XOR, AlphaBlend, CustomFilters, etc. ne sont pas disponibles avec ce mode.
+@EndIndent
+@LineBreak
+@LineBreak
+  @#PB_2DDrawing_FastText
+@Indent
+    Avec les commandes @@DrawText et @@DrawRotatedText, le rendu de texte sera plus rapide mais avec une prise en charge Unicode moins prÃ©cise (Windows uniquement).
 @EndIndent
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_XOr
 @Indent
-  Active le mode XOR. Toutes les couleurs des graphiques seront inversées par rapport à la couleur du fond. La
+  Active le mode XOR. Toutes les couleurs des graphiques seront inversÃ©es par rapport Ã  la couleur du fond. La
   couleur courante n'a plus d'importance et n'est pas prise en compte. Ce mode ne peut pas
-  être combiné avec les mode alpha ci-dessous.
+  Ãªtre combinÃ© avec les mode alpha ci-dessous.
 @LineBreak
 @LineBreak
 @Bold "Note:" Ce mode ne fonctionne pas avec la sortie @@PrinterOutput.
@@ -1128,7 +1134,7 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   @#PB_2DDrawing_Outlined
 @Indent
-  Si ce mode est activé, seuls les contours des figures géométriques seront dessinés (les figures ne seront
+  Si ce mode est activÃ©, seuls les contours des figures gÃ©omÃ©triques seront dessinÃ©s (les figures ne seront
   pas pleines). Ceci s'applique aux commandes telles que @@Circle(), @@Box, etc.
 @LineBreak
 @LineBreak
@@ -1136,13 +1142,13 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
 @EndIndent
 @Bold "Note:" Les modes suivants ne fonctionnent qu'avec @@ImageOutput, @@CanvasOutput et 
-@@SpriteOutput. Ils sont ignorés pour toutes les autres sorties:
+@@SpriteOutput. Ils sont ignorÃ©s pour toutes les autres sorties:
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_AlphaBlend
 @Indent
-  Les opérations de dessin seront fusionnées avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel.
-  @@RGBA peut être utilisé pour définir une couleur qui intègre un degré de transparence pour les
+  Les opÃ©rations de dessin seront fusionnÃ©es avec le fond en utilisant le canal alpha pour gÃ©rer la transparence de chaque pixel.
+  @@RGBA peut Ãªtre utilisÃ© pour dÃ©finir une couleur qui intÃ¨gre un degrÃ© de transparence pour les
   commandes comme @@FrontColor, @@Box, @@DrawText etc.
 @LineBreak
 @Image PB_2DDrawing_AlphaBlend.png  
@@ -1151,29 +1157,29 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   @#PB_2DDrawing_AlphaClip
 @Indent
-  Les opérations de dessin seront fusionnées avec le fond en utilisant le canal alpha pour gérer la transparence de chaque pixel, comme
-  avec le mode @#PB_2DDrawing_AlphaBlend mode, mais avec la différence que le fond agit comme un masque.
-  Cela signifie que les zones du fond qui étaient transparentes avant la fusion le resteront après. Si la surface de dessin ne gère
+  Les opÃ©rations de dessin seront fusionnÃ©es avec le fond en utilisant le canal alpha pour gÃ©rer la transparence de chaque pixel, comme
+  avec le mode @#PB_2DDrawing_AlphaBlend mode, mais avec la diffÃ©rence que le fond agit comme un masque.
+  Cela signifie que les zones du fond qui Ã©taient transparentes avant la fusion le resteront aprÃ¨s. Si la surface de dessin ne gÃ¨re
   pas de canal alpha, alors ce mode agit exactement comme @#PB_2DDrawing_AlphaBlend.
 @EndIndent
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_AlphaChannel
 @Indent
-  Les opérations de dessin ne modifieront que les valeurs du canal alpha de la surface de dessin. Toutes les informations
-  concernant les couleurs seront ignorées. Par exemple, dessiner un @Link "Circle" "cercle" avec une couleur 
+  Les opÃ©rations de dessin ne modifieront que les valeurs du canal alpha de la surface de dessin. Toutes les informations
+  concernant les couleurs seront ignorÃ©es. Par exemple, dessiner un @Link "Circle" "cercle" avec une couleur 
   @Link "2DDrawing/RGBA" "RGBA"(0, 0, 0, 0) fera un 'trou' en forme de cercle dans la surface, car cette zone sera
-   alors complètement transparente. Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors les opérations de dessin
+   alors complÃ¨tement transparente. Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors les opÃ©rations de dessin
    n'auront aucun effet dans ce mode.
 @EndIndent
 @LineBreak
 @LineBreak
   @#PB_2DDrawing_AllChannels
 @Indent
-  Les opérations de dessin modifieront les composantes couleurs ainsi que les valeurs du canal alpha de la surface de dessin.
-  Il n'y a plus de mélange lors des opérations de dessin. Ce mode est équivalent à l'enchainement des
+  Les opÃ©rations de dessin modifieront les composantes couleurs ainsi que les valeurs du canal alpha de la surface de dessin.
+  Il n'y a plus de mÃ©lange lors des opÃ©rations de dessin. Ce mode est Ã©quivalent Ã  l'enchainement des
   modes @#PB_2DDrawing_Default et de @#PB_2DDrawing_AlphaChannel.
-  Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors ce mode est identique à @#PB_2DDrawing_Default.
+  Si la surface de dessin n'a pas de canal alpha, comme le CanvasGadget, alors ce mode est identique Ã  @#PB_2DDrawing_Default.
 @EndIndent
 @LineBreak
 @Image AlphaBlending.png
@@ -1181,10 +1187,10 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   @#PB_2DDrawing_Gradient
 @Indent
-  Ce mode permet de dessiner un dégradé à la place d'une couleur solide. La forme du dégradé peut être modifiée à l'aide des
-  commandes telles que @@LinearGradient, @@CircularGradient etc. Les couleurs qui composeront le dégradé peuvent
-  être définies avec @@GradientColor. Les paramètres de couleur spécifiés pour chaque opération de dessin
-  seront ignorés dans ce mode. Il est possible de combiner ce mode avec les modes alpha ci-dessus pour avoir des dégradés semi-transparents.
+  Ce mode permet de dessiner un dÃ©gradÃ© Ã  la place d'une couleur solide. La forme du dÃ©gradÃ© peut Ãªtre modifiÃ©e Ã  l'aide des
+  commandes telles que @@LinearGradient, @@CircularGradient etc. Les couleurs qui composeront le dÃ©gradÃ© peuvent
+  Ãªtre dÃ©finies avec @@GradientColor. Les paramÃ¨tres de couleur spÃ©cifiÃ©s pour chaque opÃ©ration de dessin
+  seront ignorÃ©s dans ce mode. Il est possible de combiner ce mode avec les modes alpha ci-dessus pour avoir des dÃ©gradÃ©s semi-transparents.
 @LineBreak
 @Image PB_2DDrawing_Gradient.png
 @EndIndent
@@ -1192,8 +1198,8 @@ se terminent lorsque @@StopDrawing est appelé.
 @LineBreak
   @#PB_2DDrawing_CustomFilter
 @Indent
-  Dans ce mode, la couleur de chaque pixel pourra être définie par la procédure spécifiée par @@CustomFilterCallback.
-  Cela permet d'implémenter des rendus complètement libres tout en utilisant des formes géométriques pour le dessin.
+  Dans ce mode, la couleur de chaque pixel pourra Ãªtre dÃ©finie par la procÃ©dure spÃ©cifiÃ©e par @@CustomFilterCallback.
+  Cela permet d'implÃ©menter des rendus complÃ¨tement libres tout en utilisant des formes gÃ©omÃ©triques pour le dessin.
 @LineBreak
 @Image customfilter.png  
 @EndIndent
@@ -1202,10 +1208,10 @@ se terminent lorsque @@StopDrawing est appelé.
 @NoReturnValue
 
 @Remarks
-  Pour utiliser plusieurs modes en même 
-  temps, il suffit d'utiliser l'opérateur 
+  Pour utiliser plusieurs modes en mÃªme 
+  temps, il suffit d'utiliser l'opÃ©rateur 
   '|' (OR). Exemple pour des dessins 
-  détourés en mode 'xor':
+  dÃ©tourÃ©s en mode 'xor':
 @Code
   DrawingMode(#PB_2DDrawing_Outlined | #PB_2DDrawing_XOr)
 @EndCode  
@@ -1220,29 +1226,29 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function DrawRotatedText(X.d, Y.d, Texte$, Angle.f [, Couleur])
 
 @Description
-  Affiche un texte avec un angle donné sur la surface de dessin en cours.
+  Affiche un texte avec un angle donnÃ© sur la surface de dessin en cours.
   
 @Parameter "X.d, Y.d" 
-  L'emplacement du coin en haut et à gauche du texte.@LineBreak
+  L'emplacement du coin en haut et Ã  gauche du texte.@LineBreak
 @LineBreak
   C'est aussi le centre de rotation du texte.
   
 @Parameter "Texte$" 
-  Le texte à dessiner.
+  Le texte Ã  dessiner.
 
 @Parameter "Angle.f"  
-  L'angle de rotation en degrés 
+  L'angle de rotation en degrÃ©s 
   (sens anti-horaire).
 
 @OptionalParameter "Couleur"
   La couleur du texte. @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié 
-  alors la couleur par défaut @@FrontColor 
-  sera utilisée.
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ© 
+  alors la couleur par dÃ©faut @@FrontColor 
+  sera utilisÃ©e.
 @LineBreak
 @LineBreak
-  Cette couleur peut être au format @@RGB 
+  Cette couleur peut Ãªtre au format @@RGB 
   ou @@RGBA.
 @LineBreak
 @LineBreak
@@ -1252,7 +1258,7 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Remarks
   Pour avoir une sortie de texte de type gadget, le mode de dessin @#PB_2DDrawing_NativeText 
-  peut être utilisé (Voir @@DrawingMode).
+  peut Ãªtre utilisÃ© (Voir @@DrawingMode).
   
 @Example
 @Code
@@ -1286,35 +1292,35 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Description
   Remplit une zone de dessin avec une 
-  couleur définie.
+  couleur dÃ©finie.
   
 @Parameter "X, Y"  
-  Le remplissage commence à la position X, Y.
+  Le remplissage commence Ã  la position X, Y.
   
 @Parameter "CouleurBord"  
-  Le remplissage s'arrête quand il 
+  Le remplissage s'arrÃªte quand il 
   rencontre la couleur 'CouleurBord'. 
 @LineBreak
 @LineBreak
-  Si défini avec la valeur -1 alors la 
+  Si dÃ©fini avec la valeur -1 alors la 
   zone est remplie avec la couleur 
-  trouvée en 'X, Y' jusqu'à ce qu'une 
-  couleur différente soit rencontrée.
+  trouvÃ©e en 'X, Y' jusqu'Ã  ce qu'une 
+  couleur diffÃ©rente soit rencontrÃ©e.
 @LineBreak
 @LineBreak   
   Sur les images en 32 bits, le canal alpha 
-  est ignoré pour savoir si un pixel fait 
+  est ignorÃ© pour savoir si un pixel fait 
   office de bordure ou non.
 
 @OptionalParameter "Couleur"  
   Couleur de remplissage. @LineBreak
 @LineBreak
-  Si le paramètre  n'est pas précisé, 
-  la couleur définie par @@FrontColor 
-  sera utilisée par défaut. @LineBreak
+  Si le paramÃ¨tre  n'est pas prÃ©cisÃ©, 
+  la couleur dÃ©finie par @@FrontColor 
+  sera utilisÃ©e par dÃ©faut. @LineBreak
 @LineBreak
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur.
 
 @NoReturnValue
@@ -1332,7 +1338,7 @@ se terminent lorsque @@StopDrawing est appelé.
       Circle(150, 150, 125 ,$00FF00)
       Circle(150, 150, 120 ,$FF0000)
       LineXY(30, 150, 270, 150, $FFFFFF)
-      FillArea(150, 155, -1, $0000FF) ; Remplacez -1 par $00FF00 et comparez le résultat.
+      FillArea(150, 155, -1, $0000FF) ; Remplacez -1 par $00FF00 et comparez le rÃ©sultat.
 
       StopDrawing() 
       ImageGadget(0, 0, 0, 300, 300, ImageID(0))
@@ -1355,44 +1361,44 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function Resultat = GrabDrawingImage(#Image, X, Y, Largeur, Hauteur)
 
 @Description
-  Crée une nouvelle image en copiant 
+  CrÃ©e une nouvelle image en copiant 
   une zone de la surface dessin en cours.
 
 @Parameter "#Image"  
-  Le numéro de la nouvelle image. 
+  Le numÃ©ro de la nouvelle image. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "X, Y, Largeur, Hauteur"
-  Position et simensions de la zone à copier.
+  Position et simensions de la zone Ã  copier.
 @LineBreak
 @LineBreak
-  La nouvelle image aura les même dimensions.
+  La nouvelle image aura les mÃªme dimensions.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  "#Image" alors le numéro de la nouvelle 
-  image est renvoyé dans 'Resultat'.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  "#Image" alors le numÃ©ro de la nouvelle 
+  image est renvoyÃ© dans 'Resultat'.
 
 @Remarks
   Cette commande ne fonctionne pas avec 
   @@PrinterOutput.
 @LineBreak
 @LineBreak
-  Toute partie de la zone spécifiée qui se 
+  Toute partie de la zone spÃ©cifiÃ©e qui se 
   trouve en dehors de la surface de dessin 
-  sera indéfinie dans l'image créée. De même,
+  sera indÃ©finie dans l'image crÃ©Ã©e. De mÃªme,
   si la sortie est @@WindowOutput, toute 
-  partie de la fenêtre qui n'est pas visible 
-  à l'écran peut être indéfinie dans l'image 
-  créée.
+  partie de la fenÃªtre qui n'est pas visible 
+  Ã  l'Ã©cran peut Ãªtre indÃ©finie dans l'image 
+  crÃ©Ã©e.
 
 @Example
 @Code
@@ -1422,16 +1428,16 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Description
   Change la surface de dessin par celle 
-  mentionnée par 'OutputID'. Après avoir 
-  utilisé cette fonction, toutes les 
-  commandes de dessin seront exécutées 
+  mentionnÃ©e par 'OutputID'. AprÃ¨s avoir 
+  utilisÃ© cette fonction, toutes les 
+  commandes de dessin seront exÃ©cutÃ©es 
   sur la nouvelle surface.
   
 @Parameter "OutputID"  
   Les dessins seront rendus directement sur:
 @FixedFont
-  @@WindowOutput  : La fenêtre.
-  @@ScreenOutput  : L'écran (utile pour les jeux).
+  @@WindowOutput  : La fenÃªtre.
+  @@ScreenOutput  : L'Ã©cran (utile pour les jeux).
   @@SpriteOutput  : Le sprite (utile pour les jeux).
   @@ImageOutput   : L'image (voir aussi @@CreateImage)
   @@PrinterOutput : L'imprimante.
@@ -1441,25 +1447,25 @@ se terminent lorsque @@StopDrawing est appelé.
    
 @ReturnValue
   Renvoie une valeur non nulle si le dessin 
-  est possible, zéro sinon.
+  est possible, zÃ©ro sinon.
 
 @Remarks  
-  Lorsque tous les dessins sont terminés, 
-  la fonction @@StopDrawing doit être appelée. 
+  Lorsque tous les dessins sont terminÃ©s, 
+  la fonction @@StopDrawing doit Ãªtre appelÃ©e. 
 @LineBreak
 @LineBreak
-  La couleur d'arrière plan est le noir 
+  La couleur d'arriÃ¨re plan est le noir 
   (RGB(0,0,0)) et la couleur d'avant plan 
   est le blanc (RGB(255,255,255)).
 @LineBreak
 @LineBreak
   Si "Activer la gestion des Threads" est 
-  coché dans les 
+  cochÃ© dans les 
   @ReferenceLink "ide_compiler" "options du compilateur" 
   alors chaque thread a sa propre surface de 
   dessin, ce qui signifie que deux threads 
   peuvent dessiner sur des surfaces de dessin 
-  différentes en même temps.
+  diffÃ©rentes en mÃªme temps.
 
 @Example
 @Code
@@ -1492,37 +1498,37 @@ se terminent lorsque @@StopDrawing est appelé.
   Position du texte.
   
 @Parameter "Texte$"
-  Le texte à afficher.
+  Le texte Ã  afficher.
   
 @OptionalParameter "CouleurTexte" 
   Couleur du texte.
 @LineBreak
 @LineBreak
-  Si le paramètre  n'est pas précisé, la couleur définie par @@FrontColor sera utilisée par défaut. 
+  Si le paramÃ¨tre  n'est pas prÃ©cisÃ©, la couleur dÃ©finie par @@FrontColor sera utilisÃ©e par dÃ©faut. 
 @LineBreak
 @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être utilisées pour définir facilement une couleur.
+  Les fonctions @@RGB ou @@RGBA peuvent Ãªtre utilisÃ©es pour dÃ©finir facilement une couleur.
   
 @OptionalParameter "CouleurFond"  
   Couleur de fond.
 @LineBreak
 @LineBreak
-  Si le paramètre  n'est pas précisé, la couleur définie par @@BackColor sera utilisée par défaut. 
+  Si le paramÃ¨tre  n'est pas prÃ©cisÃ©, la couleur dÃ©finie par @@BackColor sera utilisÃ©e par dÃ©faut. 
 @LineBreak
 @LineBreak
-  Les fonctions @@RGB ou @@RGBA peuvent être utilisées pour définir facilement une couleur.
+  Les fonctions @@RGB ou @@RGBA peuvent Ãªtre utilisÃ©es pour dÃ©finir facilement une couleur.
 
 @ReturnValue  
-  Renvoie la nouvelle position en X du curseur texte, juste après le dernier caractère affiché. 
+  Renvoie la nouvelle position en X du curseur texte, juste aprÃ¨s le dernier caractÃ¨re affichÃ©. 
 
 @Remarks
   Si le @@DrawingMode courant utilise l'option @#PB_2DDrawing_Transparent alors le fond est transparent.@LineBreak 
-  Si @@DrawingMode est configuré pour avoir un fond opaque et que le mode de dessin courant utilise 
-  le canal alpha alors le texte est d'abord mélangé au fond et ensuite appliqué sur la zone de dessin.
+  Si @@DrawingMode est configurÃ© pour avoir un fond opaque et que le mode de dessin courant utilise 
+  le canal alpha alors le texte est d'abord mÃ©langÃ© au fond et ensuite appliquÃ© sur la zone de dessin.
 @LineBreak
 @LineBreak
-  Pour avoir une sortie de texte de type gadget, le mode de dessin @#PB_2DDrawing_NativeText peut être 
-  utilisé (Voir @@DrawingMode).
+  Pour avoir une sortie de texte de type gadget, le mode de dessin @#PB_2DDrawing_NativeText peut Ãªtre 
+  utilisÃ© (Voir @@DrawingMode).
   
 @Example
 @Code
@@ -1575,15 +1581,15 @@ se terminent lorsque @@StopDrawing est appelé.
 @OptionalParameter "Couleur"
   Couleur de l'ellipse. @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, la 
-  couleur fixée par la fonction 
-  @@FrontColor sera utilisée. @LineBreak
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, la 
+  couleur fixÃ©e par la fonction 
+  @@FrontColor sera utilisÃ©e. @LineBreak
 @LineBreak 
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement
+  Ãªtre utilisÃ©es pour dÃ©finir facilement
   une couleur. @LineBreak
 @LineBreak 
-  Le mode de remplissage est contrôlé par 
+  Le mode de remplissage est contrÃ´lÃ© par 
   @@DrawingMode.
   
 @NoReturnValue
@@ -1624,16 +1630,16 @@ se terminent lorsque @@StopDrawing est appelé.
   Fixe la couleur d'avant plan.
   
 @Parameter "Couleur"  
-  La nouvelle couleur d'avant plan à 
+  La nouvelle couleur d'avant plan Ã  
   utiliser pour le dessin et le texte. 
 @LineBreak
 @LineBreak
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement
+  Ãªtre utilisÃ©es pour dÃ©finir facilement
   une couleur. @LineBreak
 @LineBreak
   L'utilisation de la transparence (canal 
-  alpha) dépend du 
+  alpha) dÃ©pend du 
   @Link "DrawingMode" "mode de dessin".
 @LineBreak
 @LineBreak  
@@ -1693,19 +1699,19 @@ se terminent lorsque @@StopDrawing est appelé.
 @OptionalParameter "Couleur"  
   Couleur de la ligne. @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, 
-  la couleur fixée par la fonction 
-  @@FrontColor sera utilisée. @LineBreak
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, 
+  la couleur fixÃ©e par la fonction 
+  @@FrontColor sera utilisÃ©e. @LineBreak
 @LineBreak 
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur.
 
 @NoReturnValue
 
 @Remarks
   Pour dessiner une ligne avec des 
-  coordonnées de départ et de fin de ligne, 
+  coordonnÃ©es de dÃ©part et de fin de ligne, 
   utiliser la fonction @@LineXY. 
   
 @Example
@@ -1741,24 +1747,24 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Description
   Trace une ligne sur la surface de dessin 
-  en cours en fonction de ses coordonnées 
-  de début et de fin.
+  en cours en fonction de ses coordonnÃ©es 
+  de dÃ©but et de fin.
 
 @Parameter "X1, Y1"
-  Position du point de départ.
+  Position du point de dÃ©part.
   
 @Parameter "X2, Y2"  
-  Position du point d'arrivée.
+  Position du point d'arrivÃ©e.
   
 @OptionalParameter "Couleur"
   Couleur de la ligne. @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, 
-  la couleur fixée par la fonction 
-  @@FrontColor sera utilisée. @LineBreak
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, 
+  la couleur fixÃ©e par la fonction 
+  @@FrontColor sera utilisÃ©e. @LineBreak
 @LineBreak 
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur.
 
 @NoReturnValue
@@ -1807,26 +1813,26 @@ se terminent lorsque @@StopDrawing est appelé.
   Position du point (pixel).
 @LineBreak
 @LineBreak  
-  Les coordonnées X, Y doivent être 
-  obligatoirement à l'intérieur de la 
+  Les coordonnÃ©es X, Y doivent Ãªtre 
+  obligatoirement Ã  l'intÃ©rieur de la 
   surface de dessin, car il n'y a pas 
-  de contrôle pour des raisons de rapidité.
+  de contrÃ´le pour des raisons de rapiditÃ©.
 @LineBreak
   @@OutputWidth et @@OutputHeight peuvent 
-  être utilisés pour cela. @LineBreak
-  Cette commande n'est pas affectée par le 
-  clipping (écrêtage) imposé par 
+  Ãªtre utilisÃ©s pour cela. @LineBreak
+  Cette commande n'est pas affectÃ©e par le 
+  clipping (Ã©crÃªtage) imposÃ© par 
   @@ClipOutput.
   
 @OptionalParameter "Couleur"  
   Couleur du point. @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, la 
-  couleur fixée par la fonction 
-  @@FrontColor sera utilisée. @LineBreak
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, la 
+  couleur fixÃ©e par la fonction 
+  @@FrontColor sera utilisÃ©e. @LineBreak
 @LineBreak 
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur.
 
 @NoReturnValue
@@ -1867,15 +1873,15 @@ se terminent lorsque @@StopDrawing est appelé.
   Position du pixel.
 @LineBreak
 @LineBreak  
-  Les coordonnées X, Y doivent être 
-  obligatoirement à l'intérieur de la 
+  Les coordonnÃ©es X, Y doivent Ãªtre 
+  obligatoirement Ã  l'intÃ©rieur de la 
   surface de dessin, car il n'y a pas de 
-  contrôle pour des raisons de rapidité.
+  contrÃ´le pour des raisons de rapiditÃ©.
   @LineBreak
   @@OutputWidth et @@OutputHeight peuvent 
-  être utilisés pour cela.@LineBreak
-  Cette commande n'est pas affectée par le 
-  clipping (écrêtage) imposé par 
+  Ãªtre utilisÃ©s pour cela.@LineBreak
+  Cette commande n'est pas affectÃ©e par le 
+  clipping (Ã©crÃªtage) imposÃ© par 
   @@ClipOutput.
   
 @ReturnValue  
@@ -1885,9 +1891,9 @@ se terminent lorsque @@StopDrawing est appelé.
   Cette couleur contiendra une valeur 
   alpha uniquement si la zone de dessin 
   est en 32 bits et que le @@DrawingMode 
-  est configuré sur un des modes alpha 
+  est configurÃ© sur un des modes alpha 
   (transparence). Sinon la valeur alpha 
-  de la couleur sera égale à zéro.
+  de la couleur sera Ã©gale Ã  zÃ©ro.
 
 @Remarks
   Cette commande ne fonctionne pas avec 
@@ -1921,9 +1927,9 @@ se terminent lorsque @@StopDrawing est appelé.
 
 @Description
   Lorsque tous les affichages graphiques 
-  ont été réalisés, cette fonction doit
-  être appelée afin de terminer le dessin 
-  et libérer les ressources.
+  ont Ã©tÃ© rÃ©alisÃ©s, cette fonction doit
+  Ãªtre appelÃ©e afin de terminer le dessin 
+  et libÃ©rer les ressources.
 
 @NoParameters
 
@@ -1954,13 +1960,13 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function Resultat.d = TextHeight(Texte$)
 
 @Description
-  Renvoie la hauteur d'une chaîne de caractère. 
+  Renvoie la hauteur d'une chaÃ®ne de caractÃ¨re. 
   
 @Parameter "Texte$"
-  Le texte à mesurer.
+  Le texte Ã  mesurer.
 
 @ReturnValue
-  Renvoie la hauteur du texte en précision Double dans la police de caractères en cours.
+  Renvoie la hauteur du texte en prÃ©cision Double dans la police de caractÃ¨res en cours.
 
 @Example
 @Code
@@ -1989,13 +1995,13 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function Resultat.d = TextWidth(Texte$)
 
 @Description
-  Renvoie la longueur d'une chaîne de caractère.
+  Renvoie la longueur d'une chaÃ®ne de caractÃ¨re.
 
 @Parameter "Texte$"
-  Le texte à mesurer.
+  Le texte Ã  mesurer.
 
 @ReturnValue
-  Renvoie la longueur du texte en précision Double dans la police de caractères en cours.
+  Renvoie la longueur du texte en prÃ©cision Double dans la police de caractÃ¨res en cours.
 
 @Example
 @Code
@@ -2136,57 +2142,57 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function CustomFilterCallback(@CallbackFiltre())
 
 @Description
-  Spécifie une procédure qui sera appelée 
-  pour chaque pixel affiché par une 
-  opération de dessin en @Link "DrawingMode" "mode"
+  SpÃ©cifie une procÃ©dure qui sera appelÃ©e 
+  pour chaque pixel affichÃ© par une 
+  opÃ©ration de dessin en @Link "DrawingMode" "mode"
   @#PB_2DDrawing_CustomFilter.
 
 @Parameter "@CallbackFiltre()"
-  L'adresse de la procédure de callback. 
+  L'adresse de la procÃ©dure de callback. 
 @LineBreak
 @LineBreak
-  La procédure doit avoir la forme suivante:
+  La procÃ©dure doit avoir la forme suivante:
 @Code
   Procedure CustomCallback(X, Y, CouleurSource.l, CouleurCible.l)
     ;
-    ; Calcule la nouvelle Couleur à partir des entrées
+    ; Calcule la nouvelle Couleur Ã  partir des entrÃ©es
     ; et la renvoie avec ProcedureReturn
     ;
     ProcedureReturn Couleur
   EndProcedure
 @EndCode
 
-  La procédure sera appelée pour chaque 
-  pixel affiché par les commandes telles 
+  La procÃ©dure sera appelÃ©e pour chaque 
+  pixel affichÃ© par les commandes telles 
   que @@Line, @@Box ou @@DrawText. 
 @LineBreak
 @LineBreak
-  'CouleurSource' représente la couleur 
-  donnée  à l'opération de dessin, et 
-  'CouleurCible' représente la couleur 
-  du pixel cible aux coordonnées X, Y de la 
+  'CouleurSource' reprÃ©sente la couleur 
+  donnÃ©e  Ã  l'opÃ©ration de dessin, et 
+  'CouleurCible' reprÃ©sente la couleur 
+  du pixel cible aux coordonnÃ©es X, Y de la 
   surface de dessin.
 @LineBreak
   Ces deux couleurs sont toujours en 32 bits 
-  (avec canal alpha) indépendamment de la 
-  résolution de la surface de dessin. 
+  (avec canal alpha) indÃ©pendamment de la 
+  rÃ©solution de la surface de dessin. 
 @LineBreak
 @LineBreak
-  Les coordonnées X et Y sont toujours 
-  orientées par rapport au coin supérieur 
+  Les coordonnÃ©es X et Y sont toujours 
+  orientÃ©es par rapport au coin supÃ©rieur 
   gauche de la surface de dessin.
 @LineBreak 
-  Les coordonnées ne sont pas affectées par 
-  les appels à @@SetOrigin ou à @@ClipOutput.
+  Les coordonnÃ©es ne sont pas affectÃ©es par 
+  les appels Ã  @@SetOrigin ou Ã  @@ClipOutput.
   
 @NoReturnValue
 
 @Remarks
-  Cette procédure sera appelée de nombreuses 
-  fois (pour chaque pixel à appeler), donc 
-  elle devra être la plus courte et la plus 
-  optimisée possible, sinon l'impact sur 
-  les performances de dessin sera conséquent.
+  Cette procÃ©dure sera appelÃ©e de nombreuses 
+  fois (pour chaque pixel Ã  appeler), donc 
+  elle devra Ãªtre la plus courte et la plus 
+  optimisÃ©e possible, sinon l'impact sur 
+  les performances de dessin sera consÃ©quent.
 @LineBreak
 @LineBreak
   @Bold "Note:" le 
@@ -2238,46 +2244,46 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function GradientColor(Position.f, Couleur)
 
 @Description
-  Ajoute une couleur au dégradé de couleur.
+  Ajoute une couleur au dÃ©gradÃ© de couleur.
 
 @Parameter "Position.f"
-  La position de la couleur dans le dégradé.
+  La position de la couleur dans le dÃ©gradÃ©.
 @LineBreak
 @LineBreak
   C'est une valeur de type float comprise 
   entre 0.0 et 1.0.
 
 @Parameter "Couleur"  
-  La couleur à ajouter. 
+  La couleur Ã  ajouter. 
 @LineBreak
 @LineBreak
   Les fonctions @@RGB ou @@RGBA peuvent 
-  être utilisées pour définir facilement 
+  Ãªtre utilisÃ©es pour dÃ©finir facilement 
   une couleur. @LineBreak
   
 @NoReturnValue
 
 @Remarks
-  Par défaut, le dégradé de couleur va de 
-  la @Link "BackColor" "couleur de fond" à 
-  la position 0.0 à la
+  Par dÃ©faut, le dÃ©gradÃ© de couleur va de 
+  la @Link "BackColor" "couleur de fond" Ã  
+  la position 0.0 Ã  la
   @Link "FrontColor" "couleur d'avant plan" 
-  à la position 1.0. 
+  Ã  la position 1.0. 
 @LineBreak
 @LineBreak
   Avec cette commande, des couleurs 
-  intermédiaires peuvent être ajoutées, 
-  et les couleurs à 0.0 et 1.0 remplacées.
+  intermÃ©diaires peuvent Ãªtre ajoutÃ©es, 
+  et les couleurs Ã  0.0 et 1.0 remplacÃ©es.
 @LineBreak
 @LineBreak
   La commande @@ResetGradientColors permet 
-  de revenir au dégradé par défaut, si 
-  nécessaire.
+  de revenir au dÃ©gradÃ© par dÃ©faut, si 
+  nÃ©cessaire.
 @LineBreak
 @LineBreak
-  Les commandes suivantes peuvent être 
-  utilisées pour indiquer la forme du 
-  dégradé :
+  Les commandes suivantes peuvent Ãªtre 
+  utilisÃ©es pour indiquer la forme du 
+  dÃ©gradÃ© :
 @LineBreak
   - @@LinearGradient @LineBreak
   - @@CircularGradient @LineBreak
@@ -2290,8 +2296,8 @@ se terminent lorsque @@StopDrawing est appelé.
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surface de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si le 
-  mode @#PB_2DDrawing_Gradient est activé 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activÃ© 
   avec @@DrawingMode.
 
 @Example
@@ -2338,11 +2344,11 @@ se terminent lorsque @@StopDrawing est appelé.
 @Function ResetGradientColors()
 
 @Description
-  Retire toutes les couleurs personnalisées 
-  du dégradé et revient au dégradé par 
-  défaut qui part de 
+  Retire toutes les couleurs personnalisÃ©es 
+  du dÃ©gradÃ© et revient au dÃ©gradÃ© par 
+  dÃ©faut qui part de 
   @Link "BackColor" "couleur de fond" 
-  jusqu'à la 
+  jusqu'Ã  la 
   @Link "FrontColor" "couleur d'avant plan".
 
 @NoParameters
@@ -2350,16 +2356,16 @@ se terminent lorsque @@StopDrawing est appelé.
 @NoReturnValue
 
 @Remarks
-  La commande @@GradientColor peut être 
-  utilisée pour ajouter des couleurs au 
-  dégradé.
+  La commande @@GradientColor peut Ãªtre 
+  utilisÃ©e pour ajouter des couleurs au 
+  dÃ©gradÃ©.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si le 
-  mode @#PB_2DDrawing_Gradient est activé 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activÃ© 
   avec @@DrawingMode.
 
 @Example
@@ -2408,30 +2414,30 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function LinearGradient(x1, y1, x2, y2)
 
 @Description
-  Crée un dégradé linéaire entre deux 
+  CrÃ©e un dÃ©gradÃ© linÃ©aire entre deux 
   points. 
 
 @Parameter "x1, y1"
-  La position à laquelle est appliquée la 
-  @Link "BackColor" "couleur d'arrière plan".
+  La position Ã  laquelle est appliquÃ©e la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan".
 
 @Parameter "x2, y2"
-  La position à laquelle est appliquée la 
+  La position Ã  laquelle est appliquÃ©e la 
   @Link "FrontColor" "couleur d'avant plan".
 
 @NoReturnValue
 
 @Remarks@LineBreak
   il est possible d'ajouter des couleurs 
-  au dégradé avec @@GradientColor.
+  au dÃ©gradÃ© avec @@GradientColor.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si 
   le mode @#PB_2DDrawing_Gradient est 
-  activé avec @@DrawingMode.
+  activÃ© avec @@DrawingMode.
 
 @Example
 @Code
@@ -2475,32 +2481,32 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function CircularGradient(X, Y, Rayon)
 
 @Description
-  Crée un dégradé circulaire autour 
+  CrÃ©e un dÃ©gradÃ© circulaire autour 
   d'un point. 
 
 @Parameter "X, Y"
   Position du point autour duquel est 
-  appliqué la 
-  @Link "BackColor" "couleur d'arrière plan".
+  appliquÃ© la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan".
 
 @Parameter "Rayon"
-  Distance autour de 'X, Y' à laquelle est 
-  appliqué la 
+  Distance autour de 'X, Y' Ã  laquelle est 
+  appliquÃ© la 
   @Link "FrontColor" "couleur d'avant plan".
 
 @NoReturnValue
 
 @Remarks
-  Des couleurs additionnelles peuvent être 
-  ajoutées au dégradé avec @@GradientColor.
+  Des couleurs additionnelles peuvent Ãªtre 
+  ajoutÃ©es au dÃ©gradÃ© avec @@GradientColor.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si 
   le mode @#PB_2DDrawing_Gradient est 
-  activé avec @@DrawingMode.
+  activÃ© avec @@DrawingMode.
 
 @Example
 @Code
@@ -2544,32 +2550,32 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function EllipticalGradient(X, Y, RayonX, RayonY)
 
 @Description
-  Crée un dégradé de forme elliptique 
+  CrÃ©e un dÃ©gradÃ© de forme elliptique 
   autour d'un point. 
 
 @Parameter "X, Y"
   Position du point autour duquel est 
-  appliqué la 
-  @Link "BackColor" "couleur d'arrière plan".
+  appliquÃ© la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan".
 
 @Parameter "RayonX, RayonY"
   Distances en X et en Y autour de 'X, Y' 
-  auxquelles est appliqué la 
+  auxquelles est appliquÃ© la 
   @Link "FrontColor" "couleur d'avant plan".
 
 @NoReturnValue
 
 @Remarks
-  Des couleurs additionnelles peuvent être 
-  ajoutées au dégradé avec @@GradientColor.
+  Des couleurs additionnelles peuvent Ãªtre 
+  ajoutÃ©es au dÃ©gradÃ© avec @@GradientColor.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si 
   le mode @#PB_2DDrawing_Gradient est 
-  activé avec @@DrawingMode.
+  activÃ© avec @@DrawingMode.
 
 @Example
 @Code
@@ -2613,32 +2619,32 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function BoxedGradient(X, Y, Largeur, Hauteur)
 
 @Description
-  Crée un dégradé de forme rectangulaire. 
+  CrÃ©e un dÃ©gradÃ© de forme rectangulaire. 
 
 @Parameter "X, Y, Largeur, Hauteur"
   Position et taille du rectangle. 
   @LineBreak
 @LineBreak
-  Le dégradé de couleur va de la 
-  @Link "BackColor" "couleur d'arrière plan" 
-  au centre du rectangle à la
+  Le dÃ©gradÃ© de couleur va de la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan" 
+  au centre du rectangle Ã  la
   @Link "FrontColor" "couleur d'avant plan" 
-  à son contour.
+  Ã  son contour.
 
 @NoReturnValue
 
 @Remarks
 @LineBreak
    Des couleurs additionnelles peuvent 
-   être ajoutées au dégradé avec 
+   Ãªtre ajoutÃ©es au dÃ©gradÃ© avec 
    @@GradientColor.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si le 
-  mode @#PB_2DDrawing_Gradient est activé 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activÃ© 
   avec @@DrawingMode.
 
 @Example
@@ -2682,36 +2688,36 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function ConicalGradient(X, Y, Angle.f)
 
 @Description
-  Crée un dégradé de forme conique autour 
+  CrÃ©e un dÃ©gradÃ© de forme conique autour 
   d'un point.
 
 @Parameter "X, Y"
-  Position du centre du cône.
+  Position du centre du cÃ´ne.
 
 @Parameter "Angle.f"
-  L'angle de départ du dégradé en degré. 
+  L'angle de dÃ©part du dÃ©gradÃ© en degrÃ©. 
 @LineBreak
 @LineBreak
-  Le dégradé de couleur va de la 
-  @Link "BackColor" "couleur d'arrière plan" 
-  à partir de l'angle spécifié, puis change 
-  jusqu'à la 
+  Le dÃ©gradÃ© de couleur va de la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan" 
+  Ã  partir de l'angle spÃ©cifiÃ©, puis change 
+  jusqu'Ã  la 
   @Link "FrontColor" "couleur d'avant plan" 
   dans le sens des aiguilles d'une montre
-  en revenant à l'angle spécifié.
+  en revenant Ã  l'angle spÃ©cifiÃ©.
   
 @NoReturnValue
 
 @Remarks
-  Des couleurs additionnelles peuvent être 
-  ajoutées au dégradé avec @@GradientColor.
+  Des couleurs additionnelles peuvent Ãªtre 
+  ajoutÃ©es au dÃ©gradÃ© avec @@GradientColor.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si le 
-  mode @#PB_2DDrawing_Gradient est activé 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activÃ© 
   avec @@DrawingMode.
 
 @Example
@@ -2755,64 +2761,64 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function CustomGradient(@GradientCallback())
 
 @Description
-  Crée un dégradé avec une forme personnalisée.
+  CrÃ©e un dÃ©gradÃ© avec une forme personnalisÃ©e.
 
 @Parameter "@GradientCallback()"
-  L'adresse de la procédure de callback. 
+  L'adresse de la procÃ©dure de callback. 
 @LineBreak
 @LineBreak
-  La procédure doit avoir la forme suivante:
+  La procÃ©dure doit avoir la forme suivante:
 @Code
   Procedure.f GradientCallback(X, Y)
     ;
-    ; Renvoie une valeur entre 0.0 et 1.0 pour définir le dégradé à la position x,y
+    ; Renvoie une valeur entre 0.0 et 1.0 pour dÃ©finir le dÃ©gradÃ© Ã  la position x,y
     ; 
     ProcedureReturn 1.0
   EndProcedure
 @EndCode
 
-  La procédure sera appelée pour chaque 
-  pixel affiché par l'opération de dessin. 
+  La procÃ©dure sera appelÃ©e pour chaque 
+  pixel affichÃ© par l'opÃ©ration de dessin. 
   @LineBreak
-  La procédure doit renvoyer une valeur 
+  La procÃ©dure doit renvoyer une valeur 
   comprise entre 0.0 and 1.0 (pas une 
-  valeur de couleur) pour définir la valeur
-  du dégradé à une position donnée.
+  valeur de couleur) pour dÃ©finir la valeur
+  du dÃ©gradÃ© Ã  une position donnÃ©e.
 @LineBreak
 @LineBreak
-  Les coordonnées X et Y sont toujours 
-  orientées par rapport au coin supérieur 
+  Les coordonnÃ©es X et Y sont toujours 
+  orientÃ©es par rapport au coin supÃ©rieur 
   gauche de la surface de dessin.@LineBreak 
-  Les coordonnées ne sont pas affectées 
-  par les appels à @@SetOrigin ou à 
+  Les coordonnÃ©es ne sont pas affectÃ©es 
+  par les appels Ã  @@SetOrigin ou Ã  
   @@ClipOutput.
   
 @NoReturnValue
 
 @Remarks
-  Par défaut, la valeur 0.0 représente la 
-  @Link "BackColor" "couleur d'arrière plan" 
-  et la valeur 1.0 représente la 
+  Par dÃ©faut, la valeur 0.0 reprÃ©sente la 
+  @Link "BackColor" "couleur d'arriÃ¨re plan" 
+  et la valeur 1.0 reprÃ©sente la 
   @Link "FrontColor" "couleur d'avant plan".
 @LineBreak
 @LineBreak
-  Des couleurs additionnelles peuvent être 
-  ajoutées au dégradé avec @@GradientColor.
+  Des couleurs additionnelles peuvent Ãªtre 
+  ajoutÃ©es au dÃ©gradÃ© avec @@GradientColor.
 @LineBreak
 @LineBreak
-  Cette procédure sera appelée de nombreuse 
-  fois (pour chaque pixel à appeler), donc 
-  elle devra être la plus courte et la 
-  plus optimisée possible, sinon l'impact 
+  Cette procÃ©dure sera appelÃ©e de nombreuse 
+  fois (pour chaque pixel Ã  appeler), donc 
+  elle devra Ãªtre la plus courte et la 
+  plus optimisÃ©e possible, sinon l'impact 
   sur les performances de dessin sera
-  conséquent.
+  consÃ©quent.
 @LineBreak
 @LineBreak
   @Bold "Note:" Cette commande a un effet 
   uniquement sur des surfaces de type 
   @@ImageOutput et @@CanvasOutput. 
-  Le dégradé est dessiné uniquement si le 
-  mode @#PB_2DDrawing_Gradient est activé 
+  Le dÃ©gradÃ© est dessinÃ© uniquement si le 
+  mode @#PB_2DDrawing_Gradient est activÃ© 
   avec @@DrawingMode.
 
 @Example
@@ -2859,16 +2865,16 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function SetOrigin(X, Y)  
 
 @Description
-  Définit un décalage (offset) d'affichage 
+  DÃ©finit un dÃ©calage (offset) d'affichage 
   que subira tout dessin.
 @LineBreak
 @LineBreak  
-   Ceci définit l'emplacement des 
-   coordonnées (0,0) dans la surface de 
+   Ceci dÃ©finit l'emplacement des 
+   coordonnÃ©es (0,0) dans la surface de 
    sortie pour toutes les commandes 
    de dessin. @LineBreak  
-   Par défaut, l'origine se trouve dans 
-   le coin supérieur gauche de la sortie.
+   Par dÃ©faut, l'origine se trouve dans 
+   le coin supÃ©rieur gauche de la sortie.
   
 @Parameter "X, Y"
   La nouvelle position de l'origine du 
@@ -2876,29 +2882,29 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @LineBreak
 @LineBreak    
   Il s'agit d'une position absolue et 
-  n'est pas affectée par un appel précédent
-  à cette fonction.
+  n'est pas affectÃ©e par un appel prÃ©cÃ©dent
+  Ã  cette fonction.
    
 @NoReturnValue
 
 @Remarks
   Cette commande affecte l'emplacement du 
   dessin pour l'utilisation de toutes les 
-  futures fonctions de dessin à l'exception 
+  futures fonctions de dessin Ã  l'exception 
   de la fonction @@ClipOutput et de la 
-  fonction @@SetOrigin elle-même. En outre, 
-  les coordonnées reçues dans 
+  fonction @@SetOrigin elle-mÃªme. En outre, 
+  les coordonnÃ©es reÃ§ues dans 
   @@CustomGradient ou dans 
   @@CustomFilterCallback sont toujours 
-  absolues, indépendamment de tout appel 
-  à cette fonction.
+  absolues, indÃ©pendamment de tout appel 
+  Ã  cette fonction.
 
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "SetOrigin", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
         
-      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      ; Dessine la mÃªme figure Ã  diffÃ©rents endroits en dÃ©plaÃ§ant l'origine dessin
       For x = 0 To 120 Step 40
         For y = 0 To 120 Step 60
           SetOrigin(X, Y)
@@ -2930,14 +2936,14 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function Resultat = GetOriginX()
 
 @Description
-  Renvoie la coordonnée X de l'origine 
-  du dessin qui a été définie à l'aide 
+  Renvoie la coordonnÃ©e X de l'origine 
+  du dessin qui a Ã©tÃ© dÃ©finie Ã  l'aide 
   de @@SetOrigin.
   
 @NoParameters
 
 @ReturnValue
-  Renvoie la coordonnée X de l'origine 
+  Renvoie la coordonnÃ©e X de l'origine 
   du dessin.
 
 @Example
@@ -2945,7 +2951,7 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
   If OpenWindow(0, 0, 0, 200, 200, "GetOriginX", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
         
-      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      ; Dessine la mÃªme figure Ã  diffÃ©rents endroits en dÃ©plaÃ§ant l'origine dessin
       For x = 0 To 120 Step 40
         For y = 0 To 120 Step 60
           SetOrigin(X, Y)
@@ -2976,14 +2982,14 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function Resultat = GetOriginY()
 
 @Description
-  Renvoie la coordonnée Y de l'origine 
-  du dessin qui a été définie à l'aide 
+  Renvoie la coordonnÃ©e Y de l'origine 
+  du dessin qui a Ã©tÃ© dÃ©finie Ã  l'aide 
   de @@SetOrigin.
   
 @NoParameters
 
 @ReturnValue
-  Renvoie la coordonnée Y de l'origine 
+  Renvoie la coordonnÃ©e Y de l'origine 
   du dessin.
 
 @Example
@@ -2991,7 +2997,7 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
   If OpenWindow(0, 0, 0, 200, 200, "GetOriginY", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
         
-      ; Dessine la même figure à différents endroits en déplaçant l'origine dessin
+      ; Dessine la mÃªme figure Ã  diffÃ©rents endroits en dÃ©plaÃ§ant l'origine dessin
       For x = 0 To 120 Step 40
         For y = 0 To 120 Step 60
           SetOrigin(X, Y)
@@ -3022,40 +3028,40 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function ClipOutput(X, Y, Largeur, Hauteur)  
 
 @Description
-  Définit un cadre d'affichage qui limite 
-  tous les dessins à ce cadre.@LineBreak 
-  Tous les pixels établis en dehors de 
-  cette zone ne seront pas affichés.
+  DÃ©finit un cadre d'affichage qui limite 
+  tous les dessins Ã  ce cadre.@LineBreak 
+  Tous les pixels Ã©tablis en dehors de 
+  cette zone ne seront pas affichÃ©s.
   
 @Parameter "X, Y, Largeur, Hauteur"
   La position et les dimensions de la zone 
-  de découpage.
+  de dÃ©coupage.
 @LineBreak
 @LineBreak    
-  Les coordonnées (X, Y) sont toujours 
-  absolues et ne sont pas affectées par 
-  les appels à @@SetOrigin.
+  Les coordonnÃ©es (X, Y) sont toujours 
+  absolues et ne sont pas affectÃ©es par 
+  les appels Ã  @@SetOrigin.
 
 @NoReturnValue
 
 @Remarks
   Cette commande n'a d'effet que sur les 
-  sorties de dessin créées par 
+  sorties de dessin crÃ©Ã©es par 
   @@ImageOutput ou @@CanvasOutput.
 @LineBreak
 @LineBreak  
-  L'origine du dessin n'est pas modifiée 
-  par un appel à cette fonction. 
-  Pour dessiner dans le coin supérieur 
-  gauche de la boîte de découpage, un 
-  appel séparé à @@SetOrigin doit être 
-  fait si cela est souhaité.
+  L'origine du dessin n'est pas modifiÃ©e 
+  par un appel Ã  cette fonction. 
+  Pour dessiner dans le coin supÃ©rieur 
+  gauche de la boÃ®te de dÃ©coupage, un 
+  appel sÃ©parÃ© Ã  @@SetOrigin doit Ãªtre 
+  fait si cela est souhaitÃ©.
 @LineBreak
 @LineBreak
   Les fonctions @@Plot et @@Point 
-  n'effectuent pas de vérification des 
+  n'effectuent pas de vÃ©rification des 
   limites pour des raisons de performance 
-  et ne sont donc pas concernées par cette 
+  et ne sont donc pas concernÃ©es par cette 
   commande.
   
 @Example
@@ -3063,7 +3069,7 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
   If OpenWindow(0, 0, 0, 200, 200, "ClipOutput", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
 
-      ClipOutput(50, 50, 100, 100) ; restriction de l'affichage du dessin à cette région
+      ClipOutput(50, 50, 100, 100) ; restriction de l'affichage du dessin Ã  cette rÃ©gion
       Circle( 50,  50, 50, $0000FF)  
       Circle( 50, 150, 50, $00FF00)  
       Circle(150,  50, 50, $FF0000)  
@@ -3096,11 +3102,11 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 @Function UnclipOutput()  
 
 @Description
-  Retire tout écrêtage (clipping) imposé 
+  Retire tout Ã©crÃªtage (clipping) imposÃ© 
   par la commande @@ClipOutput.@LineBreak
   Les commandes de dessin qui suivront, 
   seront en mesure d'utiliser toute la 
-  surface de dessin à nouveau.
+  surface de dessin Ã  nouveau.
   
 @NoParameters
 
@@ -3108,14 +3114,14 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
 
 @Remarks
   Cette commande n'a d'effet que sur les 
-  dessins créés par @@ImageOutput ou 
+  dessins crÃ©Ã©s par @@ImageOutput ou 
   @@CanvasOutput.
   
 @Example
 @Code
   If OpenWindow(0, 0, 0, 200, 200, "ClipOutput", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     If CreateImage(0, 200, 200, 24, $FFFFFF) And StartDrawing(ImageOutput(0))
-      ClipOutput(50, 50, 100, 100) ; Avec restriction de l'affichage du dessin à cette région
+      ClipOutput(50, 50, 100, 100) ; Avec restriction de l'affichage du dessin Ã  cette rÃ©gion
       Circle( 50,  50, 50, $0000FF)  
       Circle( 50, 150, 50, $00FF00)  
       Circle(150,  50, 50, $FF0000)  
@@ -3131,7 +3137,7 @@ If OpenWindow(0, 0, 0, 600, 200, "LinearGradient Exemple", #PB_Window_SystemMenu
       Event = WaitWindowEvent()
       If Event = #PB_Event_Gadget 
       StartDrawing(ImageOutput(0))
-      UnclipOutput() ; Sans restriction de l'affichage du dessin à cette région
+      UnclipOutput() ; Sans restriction de l'affichage du dessin Ã  cette rÃ©gion
       Circle( 50,  50, 50, $0000FF)  
       Circle( 50, 150, 50, $00FF00)  
       Circle(150,  50, 50, $FF0000)  

@@ -1,29 +1,29 @@
-@Title Enthaltene Debugging-Werkzeuge
+ï»¿@Title Enthaltene Debugging-Werkzeuge
 
-  Diese Werkzeuge bieten viele Funktionen, um Ihr Programm zu untersuchen, während dies läuft.
-  Sie können nicht verwendet werden, während Sie den Quellcode bearbeiten. Diese Werkzeuge
-  sind sowohl im integrierten als auch im eigenständigen Debugger
-  verfügbar. Der Konsolen-Debugger bietet auch viele dieser Funktionen, jedoch über die 
+  Diese Werkzeuge bieten viele Funktionen, um Ihr Programm zu untersuchen, wÃ¤hrend dies lÃ¤uft.
+  Sie kÃ¶nnen nicht verwendet werden, wÃ¤hrend Sie den Quellcode bearbeiten. Diese Werkzeuge
+  sind sowohl im integrierten als auch im eigenstÃ¤ndigen Debugger
+  verfÃ¼gbar. Der Konsolen-Debugger bietet auch viele dieser Funktionen, jedoch Ã¼ber die 
   Debugger-Konsole.
 
 @LineBreak
 @LineBreak
 
   Einige der Werkzeuge beinhalten das Anzeigen von Variablen.
-  Hier folgt eine Erklärung der üblichen Fehler in allen dieser Variablenanzeigen:
+  Hier folgt eine ErklÃ¤rung der Ã¼blichen Fehler in allen dieser Variablenanzeigen:
 
 @LineBreak
 @LineBreak
 
-@Bold "Gültigkeit"
+@Bold "GÃ¼ltigkeit"
 @LineBreak
-  Der Gültigkeitsbereich einer Variablen ist der Bereich, in dem die Variable gültig ist.
+  Der GÃ¼ltigkeitsbereich einer Variablen ist der Bereich, in dem die Variable gÃ¼ltig ist.
   Dies kann @ReferenceLink "global" "Global", @ReferenceLink "procedures" "Local", 
   @ReferenceLink "shared" "Shared", @ReferenceLink "static" "Static" oder 
-  @ReferenceLink "threaded" "Threaded" sein, abhängig 
+  @ReferenceLink "threaded" "Threaded" sein, abhÃ¤ngig 
   von der Verwendung in Ihrem Quellcode. 'byref' ("By Reference", d.h. Verwendung der Adresse)
   wird verwendet, um ein @ReferenceLink "dim" "Array" oder eine @ReferenceLink "newlist" "Liste" 
-  zu kennzeichnen, welches als Parameter an eine Prozedur übergeben wurde.
+  zu kennzeichnen, welches als Parameter an eine Prozedur Ã¼bergeben wurde.
 
 @LineBreak
 @LineBreak
@@ -70,7 +70,7 @@
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_float.png"></td>
-  <td><font size=2>Float (Fließkomma)</font></td>
+  <td><font size=2>Float (FlieÃŸkomma)</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_double.png"></td>
@@ -82,7 +82,7 @@
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_fixed.png"></td>
-  <td><font size=2>String mit fester Länge</font></td>
+  <td><font size=2>String mit fester LÃ¤nge</font></td>
 </tr>
 </table>
 <br>
@@ -108,13 +108,13 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @LineBreak
   Q : Quad
 @LineBreak
-  F : Float (Fließkomma)
+  F : Float (FlieÃŸkomma)
 @LineBreak
   D : Double
 @LineBreak
   S : String (Zeichenfolge)
 @LineBreak
-  Sn : String mit fester Länge
+  Sn : String mit fester LÃ¤nge
 @LineBreak
 @LineBreak
   Eine @ReferenceLink "structures" "Struktur" wird entweder durch einen Punkt oder einen Pfeil
@@ -125,13 +125,13 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
   Wenn die Markierung mit einem Pfeil erfolgte, kann die Struktur mit einem 
   Doppelklick auf den Pfeil aufgeklappt werden, um die Bestandteile der Struktur zu sehen.
   Ein nach unten zeigender Pfeil kennzeichnet eine aufgeklappte Struktur. Eine mit einem
-  Punkt markierte Struktur kann nicht aufgeklappt werden (üblicherweise weil es sich einfach
+  Punkt markierte Struktur kann nicht aufgeklappt werden (Ã¼blicherweise weil es sich einfach
   um einen Strukturen-Zeiger handelt).
 
 @LineBreak
 @LineBreak
   Dynamische Arrays innerhalb von Strukturen werden mit ihren aktuell zugewiesenen Dimensionen
-  angezeigt. Listen und Maps innerhalb von Strukturen werden mit ihrer Größe und ihrem
+  angezeigt. Listen und Maps innerhalb von Strukturen werden mit ihrer GrÃ¶ÃŸe und ihrem
   aktuellen Element (sofern vorhanden) angezeigt.
 
 
@@ -140,24 +140,24 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Image ide_debugger_output.png
 
   In diesem Fenster wird die Ausgabe der @Keyword Debug Anweisung angezeigt. Die Debug-Anweisung
-  ist ein schneller und einfacher Weg, um Nachrichten für Debugging-Zwecke auszugeben.
+  ist ein schneller und einfacher Weg, um Nachrichten fÃ¼r Debugging-Zwecke auszugeben.
 
 @LineBreak
 @LineBreak
 
-  Das Fenster mit der Debugger-Ausgabe wird automatisch geöffnet, sobald die erste Ausgabe
-  durch Ihr Programm produziert wird. Wenn Sie es dann schließen, wird es bei nachfolgenden
-  Nachrichten nicht automatisch geöffnet, diese werden jedoch trotzdem aufgezeichnet.
-  Sie können diese Ausgabe in die Zwischenablage kopieren oder in eine Datei speichern.
-  Es gibt auch einen Schalter, um die Nachrichten im Fenster zu löschen.
+  Das Fenster mit der Debugger-Ausgabe wird automatisch geÃ¶ffnet, sobald die erste Ausgabe
+  durch Ihr Programm produziert wird. Wenn Sie es dann schlieÃŸen, wird es bei nachfolgenden
+  Nachrichten nicht automatisch geÃ¶ffnet, diese werden jedoch trotzdem aufgezeichnet.
+  Sie kÃ¶nnen diese Ausgabe in die Zwischenablage kopieren oder in eine Datei speichern.
+  Es gibt auch einen Schalter, um die Nachrichten im Fenster zu lÃ¶schen.
 
 @LineBreak
 @LineBreak
 
   Das Eingabefeld am unteren Rand des Fensters erlaubt die Eingabe eines Ausdrucks, welcher
-  ausgewertet und das Ergebnis im Ausgabebereich angezeigt wird. Dies ermöglicht die
-  schnelle Überprüfung des Status von Variablen oder Array-Feldern, ohne nach diesen
-  in einem der Debugger-Werkzeuge sehen zu müssen. Die Auswertung wird gestartet durch
+  ausgewertet und das Ergebnis im Ausgabebereich angezeigt wird. Dies ermÃ¶glicht die
+  schnelle ÃœberprÃ¼fung des Status von Variablen oder Array-Feldern, ohne nach diesen
+  in einem der Debugger-Werkzeuge sehen zu mÃ¼ssen. Die Auswertung wird gestartet durch
   Return oder Anklicken des "Anzeigen" Schalters. Wenn der Ausdruck aus irgendeinem
   Grund nicht ausgewertet werden kann, wird eine Fehlermeldung in der Statusleiste
   angezeigt.
@@ -165,10 +165,10 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @LineBreak
 @LineBreak
 
-  Der Ausdruck kann ein gültiger @ReferenceLink "general_rules" "PB Ausdruck" (ohne logische
-  Ausdrücke oder welche, die @ReferenceLink "reference" "PB Schlüsselwörter" enthalten) sein.
+  Der Ausdruck kann ein gÃ¼ltiger @ReferenceLink "general_rules" "PB Ausdruck" (ohne logische
+  AusdrÃ¼cke oder welche, die @ReferenceLink "reference" "PB SchlÃ¼sselwÃ¶rter" enthalten) sein.
   Er kann @ReferenceLink "variables" "Variablen", @ReferenceLink "dim" "Arrays", 
-  @LibraryLink "List" "verknüpfte Listen", @ReferenceLink "general_rules" "Konstanten"
+  @LibraryLink "List" "verknÃ¼pfte Listen", @ReferenceLink "general_rules" "Konstanten"
   und auch einige Befehle der @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" und 
   @LibraryLink "String" "String" Bibliotheken enthalten.
 
@@ -177,44 +177,44 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_observer.png
 
-  Die Beobachtungsliste kann verwendet werden, um die Veränderungen an @ReferenceLink "variables" "Variablen"
+  Die Beobachtungsliste kann verwendet werden, um die VerÃ¤nderungen an @ReferenceLink "variables" "Variablen"
   in Ihrem Programm in Echtzeit zu verfolgen. Sie kann nur einzelne Variablen (keine
-  ganzen @ReferenceLink "structures" "Strukturen") darstellen, dennoch können diese 
+  ganzen @ReferenceLink "structures" "Strukturen") darstellen, dennoch kÃ¶nnen diese 
   Variablen Teil einer Struktur sein.
   Elemente eines dynamischen Arrays, einer Liste oder einer Map innerhalb von Strukturen
-  können nicht in der Beobachtungsliste angezeigt werden.
+  kÃ¶nnen nicht in der Beobachtungsliste angezeigt werden.
 
 @LineBreak
 @LineBreak
 
-  Um eine Variable hinzuzufügen, wählen Sie deren @ReferenceLink "procedures" "Prozedur" (wenn 
-  es eine lokale Variable ist) oder wählen Sie "--- Haupt ---", wenn es sich um eine 
+  Um eine Variable hinzuzufÃ¼gen, wÃ¤hlen Sie deren @ReferenceLink "procedures" "Prozedur" (wenn 
+  es eine lokale Variable ist) oder wÃ¤hlen Sie "--- Haupt ---", wenn es sich um eine 
   @ReferenceLink "global" "globale" Variable oder Teil eines @ReferenceLink "dim" "Arrays" 
   bzw. einer @ReferenceLink "newlist" "Liste" handelt. Dann geben Sie den Variablennamen, 
-  (wie wenn Sie darauf in Ihrem Quellcode zurückgreifen würden) in das Variablenfeld ein 
-  und drücken "Hinzufügen".
+  (wie wenn Sie darauf in Ihrem Quellcode zurÃ¼ckgreifen wÃ¼rden) in das Variablenfeld ein 
+  und drÃ¼cken "HinzufÃ¼gen".
 
 @LineBreak
 @LineBreak
 @fixedfont
   Beispiele:
-  MyVariable$                      - eine normale String-Variable hinzufügen
-  Array(1, 5)                      – ein Array-Feld hinzufügen
-  Structure\subfield[5]\value      – eine Variable innerhalb einer Struktur hinzufügen
-  MyLinkedList()\structuresubfield – eine Variable innerhalb einer strukturierten Liste hinzufügen
+  MyVariable$                      - eine normale String-Variable hinzufÃ¼gen
+  Array(1, 5)                      â€“ ein Array-Feld hinzufÃ¼gen
+  Structure\subfield[5]\value      â€“ eine Variable innerhalb einer Struktur hinzufÃ¼gen
+  MyLinkedList()\structuresubfield â€“ eine Variable innerhalb einer strukturierten Liste hinzufÃ¼gen
 @endfixedfont
 
-  Sie können auch neu zu beobachtende Variablen über die Variablenliste hinzufügen, indem Sie
-  diese dort mit der rechten Maustaste anklicken und "Zur Beobachtungsliste hinzufügen" auswählen.
+  Sie kÃ¶nnen auch neu zu beobachtende Variablen Ã¼ber die Variablenliste hinzufÃ¼gen, indem Sie
+  diese dort mit der rechten Maustaste anklicken und "Zur Beobachtungsliste hinzufÃ¼gen" auswÃ¤hlen.
 
 
 @LineBreak
 @LineBreak
 
-  In der Liste werden Sie die Werte der überwachten Variablen sehen. Ist der Wert
+  In der Liste werden Sie die Werte der Ã¼berwachten Variablen sehen. Ist der Wert
   dargestellt als "---", bedeutet dies, dass diese Variable zum jetzigen Zeitpunkt
-  im Quellcode nicht gültig ist. (Zum Beispiel wenn Sie eine lokale Variable
-  beobachten oder ein Element einer verknüpften Liste und die Liste kein aktuelles
+  im Quellcode nicht gÃ¼ltig ist. (Zum Beispiel wenn Sie eine lokale Variable
+  beobachten oder ein Element einer verknÃ¼pften Liste und die Liste kein aktuelles
   Element hat.)
 
 @LineBreak
@@ -222,35 +222,35 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
   Die beobachteten Variablen werden zwischen den Debugger-Sitzungen gespeichert
   und sogar mit den Compiler-Optionen gespeichert, weshalb Sie diese Liste nicht
-  ständig neu füllen müssen.
+  stÃ¤ndig neu fÃ¼llen mÃ¼ssen.
 
 
 @Section Die Variablenliste
 
 @Image ide_debugger_variablelist.png
 
-  Die Variablenliste ermöglicht das Untersuchen der Programm-Variablen, 
+  Die Variablenliste ermÃ¶glicht das Untersuchen der Programm-Variablen, 
   @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "Listen" und
   @ReferenceLink "newmap" "Maps". Die individuellen Tabs zeigen 
   @ReferenceLink "global" "globale" und @ReferenceLink "threaded" "threaded" 
-  Einträge im oberen Bereich sowie @ReferenceLink "procedures" "lokale",
+  EintrÃ¤ge im oberen Bereich sowie @ReferenceLink "procedures" "lokale",
   @ReferenceLink "shared" "shared" und @ReferenceLink "static" "statische" 
-  Einträge im unteren Bereich.
+  EintrÃ¤ge im unteren Bereich.
 @LineBreak
 @LineBreak
   Der Schalter "Aktualisieren" kann verwendet werden, um die aktuellsten Daten
   vom Programm zu erhalten. Ist das Programm angehalten oder im Schritt-Modus,
   wird der Inhalt bei jedem Schritt automatisch aktualisiert. Durch einen
-  Rechtsklick auf eine Variable oder ein Array/Listen-Feld können Sie
-  diese Variable kopieren oder zur Beobachtungsliste hinzufügen, um deren
+  Rechtsklick auf eine Variable oder ein Array/Listen-Feld kÃ¶nnen Sie
+  diese Variable kopieren oder zur Beobachtungsliste hinzufÃ¼gen, um deren
   Wert in Echtzeit zu verfolgen.
 
 ; === Windows only for the moment ===
 @OS Windows
 @LineBreak
 @LineBreak
-  Auf Windows kann der Inhalt der Variablenliste nach Name, Gültigkeitsbereich 
-  oder dem Wert der Variablen sortiert werden, indem Sie auf die Überschrift
+  Auf Windows kann der Inhalt der Variablenliste nach Name, GÃ¼ltigkeitsbereich 
+  oder dem Wert der Variablen sortiert werden, indem Sie auf die Ãœberschrift
   der entsprechenden Spalte klicken.
 @EndOS
 
@@ -260,7 +260,7 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Bold "Das Register 'Variablen'"
 @LineBreak
   Dieses Register zeigt die Variablen des Programms.
-  Durch Rechtsklick auf eine Variable, kann diese zur Beobachtungsliste hinzugefügt werden.
+  Durch Rechtsklick auf eine Variable, kann diese zur Beobachtungsliste hinzugefÃ¼gt werden.
 
 @LineBreak
 @LineBreak
@@ -278,7 +278,7 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Bold "Das Register 'Listen'"
 @LineBreak
-  Dieses Register zeigt eine Liste aller (verknüpften) Listen, die Anzahl
+  Dieses Register zeigt eine Liste aller (verknÃ¼pften) Listen, die Anzahl
   der aktuell beinhalteten Elemente ("-" zeigt an, dass @ReferenceLink "newlist" "NewList"
   noch nicht aufgerufen wurde) und den Index des aktuellen Elements in der Liste ("-" zeigt an,
   dass es kein aktuelles Element gibt). 
@@ -292,7 +292,7 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @LineBreak
   Dieses Register zeigt eine Liste aller "Maps", die Anzahl der aktuell beinhalteten 
   Elemente ("-" zeigt an, dass @ReferenceLink "newmap" "NewMap" noch nicht aufgerufen 
-  wurde) und den Schlüssel des aktuellen Elements der Map ("-" zeigt an, dass es kein
+  wurde) und den SchlÃ¼ssel des aktuellen Elements der Map ("-" zeigt an, dass es kein
   aktuelles Element gibt). 
   Durch einen Rechtsklick auf eine Map kann der Inhalt der Map im 
   "Array/Liste/Map anzeigen"-Register angesehen werden.
@@ -302,28 +302,28 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Bold "Das Register 'Array/Liste/Map anzeigen'"
 @LineBreak
-  Dieses Register kann verwendet werden, um individuelle Einträge eines Arrays, einer
-  verknüpften Liste oder einer Map anzusehen. Dies beinhaltet auch Arrays, Listen oder Maps
+  Dieses Register kann verwendet werden, um individuelle EintrÃ¤ge eines Arrays, einer
+  verknÃ¼pften Liste oder einer Map anzusehen. Dies beinhaltet auch Arrays, Listen oder Maps
   innerhalb von Strukturen.
 @LineBreak
-  Um dies durchzuführen, geben Sie den Namen des Arrays, der Map oder der Liste
-  einschließlich eines abschließenden "()" ein, wählen Sie die Art der
-  anzuzeigenden Einträge aus und drücken auf "Anzeigen". Beachten Sie dabei, dass
+  Um dies durchzufÃ¼hren, geben Sie den Namen des Arrays, der Map oder der Liste
+  einschlieÃŸlich eines abschlieÃŸenden "()" ein, wÃ¤hlen Sie die Art der
+  anzuzeigenden EintrÃ¤ge aus und drÃ¼cken auf "Anzeigen". Beachten Sie dabei, dass
   der Inhalt der Anzeige nicht automatisch aktualisiert wird, wenn sich das Programm
   im Schritt-Modus befindet.
 @LineBreak
 @LineBreak
-  "Alle Einträge anzeigen" zeigt einfach alles an. "Nur Nicht-Null Einträge anzeigen" wird nur die Einträge
-  anzeigen, die nicht den Wert 0 oder einen leeren String beinhalten. Dies macht das Ansehen von großen
-  Arrays/Listen mit nur wenigen gültigen Einträgen darin einfacher. Eine @ReferenceLink "structures" "Struktur"
-  wird als "null" angesehen, wenn alle ihrer Einträge entweder den Wert 0 oder einen leeren String beinhalten.
+  "Alle EintrÃ¤ge anzeigen" zeigt einfach alles an. "Nur Nicht-Null EintrÃ¤ge anzeigen" wird nur die EintrÃ¤ge
+  anzeigen, die nicht den Wert 0 oder einen leeren String beinhalten. Dies macht das Ansehen von groÃŸen
+  Arrays/Listen mit nur wenigen gÃ¼ltigen EintrÃ¤gen darin einfacher. Eine @ReferenceLink "structures" "Struktur"
+  wird als "null" angesehen, wenn alle ihrer EintrÃ¤ge entweder den Wert 0 oder einen leeren String beinhalten.
 @LineBreak
 @LineBreak
-  "Bereich anzeigen" ermöglicht es, nur einen bestimmten Bereich eines Arrays, einer Liste oder einer Map anzuzeigen.
-  Der Bereich kann für jede Array-Dimension separat, getrennt durch Kommas, angegeben werden. Wenn eine
-  Dimension nicht angegeben wird, werden alle ihrer Einträge angezeigt.
+  "Bereich anzeigen" ermÃ¶glicht es, nur einen bestimmten Bereich eines Arrays, einer Liste oder einer Map anzuzeigen.
+  Der Bereich kann fÃ¼r jede Array-Dimension separat, getrennt durch Kommas, angegeben werden. Wenn eine
+  Dimension nicht angegeben wird, werden alle ihrer EintrÃ¤ge angezeigt.
 @LineBreak
-  Hier einige Beispiele für gültige Eingaben zu einem Bereich:
+  Hier einige Beispiele fÃ¼r gÃ¼ltige Eingaben zu einem Bereich:
 
 @FixedFont
   "1-2, 2-5, 2" : der erste Index zwischen 1 und 2, ein zweiter Index zwischen 2 und 5 und ein dritter Index von 2.
@@ -339,15 +339,15 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
   "1-3"   : zweites bis viertes Element
 @EndFixedFont
 
-  Bei der Map-Anzeige kann die Option "Bereich anzeigen" verwendet werden, um die anzuzeigenden Schlüssel
-  zu filtern. Sie muss eine Maske für den Schlüssel-String der Map-Elemente beinhalten (keine Anführungszeichen).
-  Ein "?" steht für ein Zeichen, ein "*" steht für eine beliebige Anzahl an Zeichen. Hier einige Beispiele
-  für eine gültige Masken-Eingabe:
+  Bei der Map-Anzeige kann die Option "Bereich anzeigen" verwendet werden, um die anzuzeigenden SchlÃ¼ssel
+  zu filtern. Sie muss eine Maske fÃ¼r den SchlÃ¼ssel-String der Map-Elemente beinhalten (keine AnfÃ¼hrungszeichen).
+  Ein "?" steht fÃ¼r ein Zeichen, ein "*" steht fÃ¼r eine beliebige Anzahl an Zeichen. Hier einige Beispiele
+  fÃ¼r eine gÃ¼ltige Masken-Eingabe:
 
 @FixedFont
-  "hat" : findet nur den Eintrag mit "hat" als Schlüssel.
-  "?at" : findet Einträge mit "hat", "bat" etc. als Schlüssel.
-  "h*t" : findet Einträge mit Schlüsseln, welche mit "h" beginnen und mit "t" enden und irgendetwas dazwischen.
+  "hat" : findet nur den Eintrag mit "hat" als SchlÃ¼ssel.
+  "?at" : findet EintrÃ¤ge mit "hat", "bat" etc. als SchlÃ¼ssel.
+  "h*t" : findet EintrÃ¤ge mit SchlÃ¼sseln, welche mit "h" beginnen und mit "t" enden und irgendetwas dazwischen.
 @EndFixedFont
 
 
@@ -355,24 +355,24 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_profiler.png
 
-  Das Profiler-Werkzeug (auch "Prüfer" oder "Analytiker") zur Programmanalyse kann zählen, wie oft jede Zeile 
-  des Quellcodes ausgeführt wird. Diese gesammelten Daten können für das Überprüfen genutzt werden, 
-  welche Teile des Codes am häufigsten verwendet werden und wo Verbesserungen am sinnvollsten sind.
+  Das Profiler-Werkzeug (auch "PrÃ¼fer" oder "Analytiker") zur Programmanalyse kann zÃ¤hlen, wie oft jede Zeile 
+  des Quellcodes ausgefÃ¼hrt wird. Diese gesammelten Daten kÃ¶nnen fÃ¼r das ÃœberprÃ¼fen genutzt werden, 
+  welche Teile des Codes am hÃ¤ufigsten verwendet werden und wo Verbesserungen am sinnvollsten sind.
   Es hilft auch beim Erkennen, wo ein Teil des Codes - als Resultat eines Fehlers -
-  zu oft ausgeführt wird.
+  zu oft ausgefÃ¼hrt wird.
 
 @LineBreak
 @LineBreak
 
 @Bold "Aufzeichnen der Daten"
 @LineBreak
-  Das Aufzeichnen der Daten kann durch die Schalter "Start", "Stop" und "Zurücksetzen" (um alle 
-  Zähler auf 0 zu setzen) im Profiler-Fenster kontrolliert werden. Der Schalter "Aktualisierung"
-  kann verwendet werden, um das Diagramm zu aktualisieren, während das Programm läuft.
+  Das Aufzeichnen der Daten kann durch die Schalter "Start", "Stop" und "ZurÃ¼cksetzen" (um alle 
+  ZÃ¤hler auf 0 zu setzen) im Profiler-Fenster kontrolliert werden. Der Schalter "Aktualisierung"
+  kann verwendet werden, um das Diagramm zu aktualisieren, wÃ¤hrend das Programm lÃ¤uft.
   Jedes Mal, wenn das Programm angehalten wurde oder sich im "Schritt"-Modus befindet, werden
-  die Daten automatisch aktualisiert. Standardmäßig zeichnet der Profiler die Daten ab dem
+  die Daten automatisch aktualisiert. StandardmÃ¤ÃŸig zeichnet der Profiler die Daten ab dem
   Start des Programms auf. Dies kann in den @ReferenceLink "ide_preferences" "Einstellungen"
-  geändert werden.
+  geÃ¤ndert werden.
   
 @LineBreak
 @LineBreak
@@ -380,23 +380,23 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Bold "Untersuchen der Daten"
 @LineBreak
   Die aufgezeichneten Daten werden als ein Diagramm dargestellt, wobei die vertikale Achse 
-  die Zeilennummer im Quellcode anzeigt und die horizontale Achse wie oft die Zeilen ausgeführt
+  die Zeilennummer im Quellcode anzeigt und die horizontale Achse wie oft die Zeilen ausgefÃ¼hrt
   wurden. Wenn das laufende Programm aus mehr als einem Quellcode besteht, dann wird eine
   Liste der Quellcode-Dateien unterhalb des Diagramms angezeigt. Um das Diagramm zu einer
-  Datei anzuzeigen, wählen Sie entweder die Datei aus oder setzen das Häkchen davor.
-  Mehrere Dateien können gleichzeitig im Diagramm angezeigt werden, um sie besser 
-  vergleichen zu können. Rechtsklick mit der Maus auf einen der Dateinamen ermöglicht das
-  Ändern der Farbe, welche zum Darstellen dieser Datei im Diagramm verwendet wird.
+  Datei anzuzeigen, wÃ¤hlen Sie entweder die Datei aus oder setzen das HÃ¤kchen davor.
+  Mehrere Dateien kÃ¶nnen gleichzeitig im Diagramm angezeigt werden, um sie besser 
+  vergleichen zu kÃ¶nnen. Rechtsklick mit der Maus auf einen der Dateinamen ermÃ¶glicht das
+  Ã„ndern der Farbe, welche zum Darstellen dieser Datei im Diagramm verwendet wird.
   
 @LineBreak
 @LineBreak
 
 @Bold "Maus-Modi innerhalb des Diagramms"
 @LineBreak
-  Ein Rechtsklick mit der Maus innerhalb des Diagramms öffnet ein Popup-Menü, welches folgende
-  Möglichkeiten bietet: Hinein- oder Herauszoomen sowie Anzeigen der angeklickten
+  Ein Rechtsklick mit der Maus innerhalb des Diagramms Ã¶ffnet ein Popup-MenÃ¼, welches folgende
+  MÃ¶glichkeiten bietet: Hinein- oder Herauszoomen sowie Anzeigen der angeklickten
   Quellcode-Zeile in der IDE oder der Code-Anzeige des Debuggers.
-  Die durch einen Linksklick ausgelösten Aktionen können über die Schalter auf der linken
+  Die durch einen Linksklick ausgelÃ¶sten Aktionen kÃ¶nnen Ã¼ber die Schalter auf der linken
   Seite kontrolliert werden:
 @LineBreak
 @LineBreak
@@ -406,15 +406,15 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 <table border=0 cellspacing=2>
 <tr>
   <td><img src="../HelpPictures/debugger_arrow.png"></td>
-  <td><font size=2>Linksklick und Ziehen des Mauspfeils ermöglicht das Scrollen der Diagramm-Anzeige.</font></td>
+  <td><font size=2>Linksklick und Ziehen des Mauspfeils ermÃ¶glicht das Scrollen der Diagramm-Anzeige.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_select.png"></td>
-  <td><font size=2>Linksklick und Ziehen des Mauspfeils ermöglicht die Auswahl eines Bereichs, in den hineingezoomt wird.</font></td>
+  <td><font size=2>Linksklick und Ziehen des Mauspfeils ermÃ¶glicht die Auswahl eines Bereichs, in den hineingezoomt wird.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_cross.png"></td>
-  <td><font size=2>Während dieser Schalter aktiviert (eingedrückt) ist, wird beim Bewegen des Mauspfeils auf der Anzeige ein Fadenkreuz dargestellt, um besser die Zeile und den Aufrufzähler unter dem Mauspfeil anzuzeigen.</font></td>
+  <td><font size=2>WÃ¤hrend dieser Schalter aktiviert (eingedrÃ¼ckt) ist, wird beim Bewegen des Mauspfeils auf der Anzeige ein Fadenkreuz dargestellt, um besser die Zeile und den AufrufzÃ¤hler unter dem Mauspfeil anzuzeigen.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_zoomin.png"></td>
@@ -432,13 +432,13 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @FormatElse
 
-  - Pfeil-Schalter: Linksklick und Ziehen des Mauspfeils ermöglicht das Scrollen der Diagramm-Anzeige.
+  - Pfeil-Schalter: Linksklick und Ziehen des Mauspfeils ermÃ¶glicht das Scrollen der Diagramm-Anzeige.
 @LineBreak
-  - Box-Schalter: Linksklick und Ziehen des Mauspfeils ermöglicht die Auswahl eines Bereichs, in den hineingezoomt wird.
+  - Box-Schalter: Linksklick und Ziehen des Mauspfeils ermÃ¶glicht die Auswahl eines Bereichs, in den hineingezoomt wird.
 @LineBreak
-  - Kreuz-Schalter: Während dieser Schalter aktiviert (eingedrückt) ist, wird beim Bewegen des Mauspfeils auf der Anzeige ein Fadenkreuz dargestellt, um besser die Zeile und den Aufrufzähler unter dem Mauspfeil anzuzeigen.
+  - Kreuz-Schalter: WÃ¤hrend dieser Schalter aktiviert (eingedrÃ¼ckt) ist, wird beim Bewegen des Mauspfeils auf der Anzeige ein Fadenkreuz dargestellt, um besser die Zeile und den AufrufzÃ¤hler unter dem Mauspfeil anzuzeigen.
 @LineBreak
-  - Zoom-Schalter: Diese Schalter ermöglichen das Hinein-/Herauszoomen und das Herauszoomen, bis alle Zeilen sichtbar sind.
+  - Zoom-Schalter: Diese Schalter ermÃ¶glichen das Hinein-/Herauszoomen und das Herauszoomen, bis alle Zeilen sichtbar sind.
 
 @FormatEndIF
 
@@ -448,29 +448,29 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Image ide_debugger_callstats.png
 
   Die @ReferenceLink "procedures" "Prozeduren"-Aufrufverfolgung (auch "Callstack Viewer") zeigt, welche verschachtelten 
-  Prozeduraufrufe zur aktuellen Position im Code führten. Jeder Eintrag in der Liste stellt 
+  Prozeduraufrufe zur aktuellen Position im Code fÃ¼hrten. Jeder Eintrag in der Liste stellt 
   eine Prozedur dar, die gerade offen ist. Sie zeigt die Zeile und die Datei, von welcher
   sie aufgerufen wurde, ebenso die beim Aufruf der Prozedur verwendeten Argumente.
-  Durch Anklicken des Variablen-Schalters bei jeder Prozedur können Sie einen Blick auf
+  Durch Anklicken des Variablen-Schalters bei jeder Prozedur kÃ¶nnen Sie einen Blick auf
   die @ReferenceLink "variables" "Variablen" dieser Instanz der Prozedur werfen.
 
 @LineBreak
 @LineBreak
 
-  Dies ermöglicht das einfache Nachverfolgen, von welchem Teil des Codes eine Prozedur
+  Dies ermÃ¶glicht das einfache Nachverfolgen, von welchem Teil des Codes eine Prozedur
   aufgerufen wurde. Die Aufrufverfolgung wird nur beim Stoppen des Programms oder der
-  schrittweisen Ausführung einzelner Zeilen automatisch aktualisiert. Während das Programm
-  läuft, müssen Sie den Schalter "Aktualisierung" drücken, um die Anzeige für die aktuelle
+  schrittweisen AusfÃ¼hrung einzelner Zeilen automatisch aktualisiert. WÃ¤hrend das Programm
+  lÃ¤uft, mÃ¼ssen Sie den Schalter "Aktualisierung" drÃ¼cken, um die Anzeige fÃ¼r die aktuelle
   Code-Position zu aktualisieren.
 
 @LineBreak
 @LineBreak
 
   Der Bereich "Statistiken" zeigt die Anzahl, wie oft jede Prozedur im Code aufgerufen
-  wurde. Sie können die Zählung für alle Prozeduren durch Anklicken von "Alle zurücksetzen"
-  zurücksetzen, oder für den aktuell markierten Eintrag mit dem Schalter "Zurücksetzen".
+  wurde. Sie kÃ¶nnen die ZÃ¤hlung fÃ¼r alle Prozeduren durch Anklicken von "Alle zurÃ¼cksetzen"
+  zurÃ¼cksetzen, oder fÃ¼r den aktuell markierten Eintrag mit dem Schalter "ZurÃ¼cksetzen".
   Wie bei der Aufrufverfolgung wird die Anzeige nicht automatisch aktualisiert, solange
-  das Programm nicht angehalten wird. Benutzen Sie den Schalter "Aktualisierung" dafür.
+  das Programm nicht angehalten wird. Benutzen Sie den Schalter "Aktualisierung" dafÃ¼r.
 
 
 
@@ -478,17 +478,17 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_memoryviewer.png
 
-  Die Speicheranzeige lässt Sie einen Blick auf einen Speicherbereich in Ihrem Programm 
-  werfen. Geben Sie den Bereich (in dezimal), den Sie sehen möchten, in den "Bereich"-Feldern
-  ein und klicken Sie auf "Anzeigen". Ist der Speicherbereich gültig für das Anzeigen, 
-  wird dieser in der Anzeige darunter dargestellt. Wenn Teile des Bereichs nicht gültig
-  für das Anzeigen sind, erhalten Sie eine Fehlernachricht.
+  Die Speicheranzeige lÃ¤sst Sie einen Blick auf einen Speicherbereich in Ihrem Programm 
+  werfen. Geben Sie den Bereich (in dezimal), den Sie sehen mÃ¶chten, in den "Bereich"-Feldern
+  ein und klicken Sie auf "Anzeigen". Ist der Speicherbereich gÃ¼ltig fÃ¼r das Anzeigen, 
+  wird dieser in der Anzeige darunter dargestellt. Wenn Teile des Bereichs nicht gÃ¼ltig
+  fÃ¼r das Anzeigen sind, erhalten Sie eine Fehlernachricht.
 
 @LineBreak
 @LineBreak
 
-  Die Art der Anzeige kann über das Aufklappmenü in der linken unteren Ecke geändert
-  werden. Die folgenden Ansichtsarten sind verfügbar:
+  Die Art der Anzeige kann Ã¼ber das AufklappmenÃ¼ in der linken unteren Ecke geÃ¤ndert
+  werden. Die folgenden Ansichtsarten sind verfÃ¼gbar:
 
 @LineBreak
 @LineBreak
@@ -497,18 +497,19 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @LineBreak
   Der Speicher wird angezeigt wie in einem Hex-Anzeiger, zuerst die Speicherposition
   in Hex-Anzeige auf der linken Seite, gefolgt von den hexadezimalen Byte-Werten und
-  schließlich deren String-Entsprechung in der rechten Spalte.
+  schlieÃŸlich deren String-Entsprechung in der rechten Spalte.
 
 @LineBreak
 @LineBreak
 
 @Bold "Byte/Character/Word/Long/Quad/Float/Double-Tabelle"
 @LineBreak
-  Der Speicherbereich wird angezeigt als eine Tabelle des angegebenen Variablentyps.
-  Ob diese Tabelle nur eine oder mehrere Spalten hat, kann in den Voreinstellungen
-  angegeben werden. (Siehe @ReferenceLink "ide_preferences" "Anpassung der IDE".)
-  Die Daten werden dezimal, oktal oder hexadezimal angezeigt - mit Hilfe des nächsten
-  Schalters zum Wechseln des Modus.
+  Der Speicherbereich wird als eine Tabelle des angegebenen Variablentyps angezeigt.
+  Ob diese Tabelle ein- oder mehrspaltig ist, lÃ¤sst sich in den Einstellungen festlegen
+  (siehe @ReferenceLink "ide_preferences" "Anpassen der IDE".)
+  @LineBreak
+  Die Daten werden als Dezimal-, Oktal- oder Hexadezimalzahlen angezeigt - mit Hilfe
+  des nÃ¤chsten AufklappmenÃ¼s zum Wechseln des Modus.
 
 @LineBreak
 @LineBreak
@@ -516,9 +517,9 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Bold "String-Ansicht ASCII, Unicode bzw. Utf-8"
 @LineBreak
   Dies stellt den Speicherbereich als einen String dar, mit allen "Nicht-String"
-  Zeichen in [] dargestellt (zum Beispiel "[NULL]" für ein 0-Byte). Nach 'NewLine'
-  Zeichen (stehen für "neue Zeile") wird ein Zeilenumbruch und [NULL] hinzugefügt,
-  um die Lesbarkeit der Ausgabe zu erhöhen. Der Speicherbereich kann als ein
+  Zeichen in [] dargestellt (zum Beispiel "[NULL]" fÃ¼r ein 0-Byte). Nach 'NewLine'
+  Zeichen (stehen fÃ¼r "neue Zeile") wird ein Zeilenumbruch und [NULL] hinzugefÃ¼gt,
+  um die Lesbarkeit der Ausgabe zu erhÃ¶hen. Der Speicherbereich kann als ein
   ASCII, Unicode oder UTF8 String interpretiert werden.
 
 @LineBreak
@@ -526,12 +527,12 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Bold "Data"
 @LineBreak
-  Mit Hilfe des 'Data'-Häkchens können Sie die Tabellenansicht beim Kopieren oder
+  Mit Hilfe des 'Data'-HÃ¤kchens kÃ¶nnen Sie die Tabellenansicht beim Kopieren oder
   Speichern als @ReferenceLink "data" "Data Section" formatiert exportieren.
 
 @LineBreak
 @LineBreak
-  Sie können den angezeigten Speicherbereich auch aus dem Speicheranzeiger exportieren:
+  Sie kÃ¶nnen den angezeigten Speicherbereich auch aus dem Speicheranzeiger exportieren:
 
 @LineBreak
 @LineBreak
@@ -548,8 +549,8 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_librarycalls.png
 
-  Der Library Anzeiger bietet Informationen über Objekte, welche von einigen Befehls-Bibliotheken (Libraries)
-  erstellt wurden. Zum Beispiel ermöglicht dies das schnelle Überprüfen, welche Bilder (Images) gerade im Programm
+  Der Library Anzeiger bietet Informationen Ã¼ber Objekte, welche von einigen Befehls-Bibliotheken (Libraries)
+  erstellt wurden. Zum Beispiel ermÃ¶glicht dies das schnelle ÃœberprÃ¼fen, welche Bilder (Images) gerade im Programm
   geladen sind oder welche Gadgets erstellt wurden.
 
 @LineBreak
@@ -557,22 +558,22 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
   Sobald das Programm gestartet wurde, kann die Auswahlbox am oberen Fensterrand zur Auswahl der
   anzuzeigenden Library verwendet werden. Die Liste darunter wird dann alle Objekte der Library - 
-  zusammen mit einigen zusätzlichen Informationen über jedes Objekt - anzeigen, welche derzeit 
+  zusammen mit einigen zusÃ¤tzlichen Informationen Ã¼ber jedes Objekt - anzeigen, welche derzeit 
   im Executable existieren. Der Schalter "Aktualisieren" wird diese Liste mit Objekten aktualisieren.
-  Die Auswahl eines Objekts in der Liste zeigt detailliertere Informationen darüber im Textbereich
-  auf der linken Seite an, und - wenn durch die Library unterstützt - auch eine visuelle Anzeige 
-  des Objekts auf der rechten Seite. (für Bilder, Sprites, ...)
+  Die Auswahl eines Objekts in der Liste zeigt detailliertere Informationen darÃ¼ber im Textbereich
+  auf der linken Seite an, und - wenn durch die Library unterstÃ¼tzt - auch eine visuelle Anzeige 
+  des Objekts auf der rechten Seite. (fÃ¼r Bilder, Sprites, ...)
 
 @LineBreak
 @LineBreak
   
   Wenn die Auswahlbox "Keine Informationen" anzeigt, bedeutet dies, dass Ihr Executable keine Bibliotheken verwendet,
-  welche dieses Feature unterstützen.
+  welche dieses Feature unterstÃ¼tzen.
 
 @LineBreak
 @LineBreak
 
-  Derzeit wird der Library Anzeiger von den folgenden Bibliotheken unterstützt:
+  Derzeit wird der Library Anzeiger von den folgenden Bibliotheken unterstÃ¼tzt:
 @LineBreak
   @LibraryLink "Thread" "Thread"
 @LineBreak
@@ -595,44 +596,44 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_asm.png
 
-  Der Asm-Debugger wird für fortgeschrittene Programmierer angeboten, um den Inhalt
-  der CPU-Register zu untersuchen und zu verändern. Ebenfalls um den Programmstack für 
+  Der Asm-Debugger wird fÃ¼r fortgeschrittene Programmierer angeboten, um den Inhalt
+  der CPU-Register zu untersuchen und zu verÃ¤ndern. Ebenfalls um den Programmstack fÃ¼r 
   das Debuggen von @ReferenceLink "inlinedasm" "InlineASM"-Code zu untersuchen.
 
 @LineBreak
 @LineBreak
 
-  Die "Prozessor-Register" Anzeige ist nur verfügbar, während die Programmausführung angehalten
-  ist. Durch Ändern irgendeines der Register-Werte und Anklicken von "Setzen" können Sie den
-  Wert in diesem Register verändern.
+  Die "Prozessor-Register" Anzeige ist nur verfÃ¼gbar, wÃ¤hrend die ProgrammausfÃ¼hrung angehalten
+  ist. Durch Ã„ndern irgendeines der Register-Werte und Anklicken von "Setzen" kÃ¶nnen Sie den
+  Wert in diesem Register verÃ¤ndern.
 
 @LineBreak
 @LineBreak
 
   Die "Stapelverfolgung" zeigt den Inhalt des Programmstapels ("Stack"), angegeben in Relation
   zum ESP-Register. Wenn die aktuelle Stapelposition sich nicht an einer 4 Byte Grenze ausrichtet,
-  kann keine Information über den Inhalt des Stacks ausgegeben werden. In diesem Fall wird der 
+  kann keine Information Ã¼ber den Inhalt des Stacks ausgegeben werden. In diesem Fall wird der 
   Stack in einer Hexadezimal-Anzeige dargestellt.
 @LineBreak
 @LineBreak
   Wenn der Stack-Zeiger richtig ausgerichtet ist, werden die Stackinhalte mit Kommentaren
-  über die Bedeutung der enthaltenen Werte dargestellt. (Stellen dann die "pushed" Register
+  Ã¼ber die Bedeutung der enthaltenen Werte dargestellt. (Stellen dann die "pushed" Register
   und andere Werte bei einem PB Prozeduraufruf dar.)
 
 
 @LineBreak
 @LineBreak
 
-  Die Stack- oder Stapelverfolgung wird automatisch aktualisiert, wenn Sie die Programmausführung
+  Die Stack- oder Stapelverfolgung wird automatisch aktualisiert, wenn Sie die ProgrammausfÃ¼hrung
   stoppen oder sich schrittweise durch das Programm bewegen, es sei denn Sie haben etwas anderes
   in den @ReferenceLink "ide_preferences" "Voreinstellungen" angegeben. Wenn Sie das automatische
   Aktualisieren ausschalten, wird ein Schalter "Aktualisieren" dargestellt, um dies manuell 
-  auszuführen.
+  auszufÃ¼hren.
 
 @LineBreak
 @LineBreak
 
-  Hinweis: Der Assembler-Debugger ist derzeit nicht auf MaxOSX verfügbar.
+  Hinweis: Der Assembler-Debugger ist derzeit nicht auf MaxOSX verfÃ¼gbar.
 
 
 
@@ -640,14 +641,14 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 
 @Image ide_debugger_purifier.png
 
-  Der Purifier kann Speicherfehler aufspüren, wie z.B. das Schreiben über das Ende eines reservierten
-  Speicherpuffers oder Strings hinaus. Ohne den Purifier werden einige dieser Fehler zu Abstürzen führen,
-  andere bleiben unerkannt, weil die Schreiboperation einen anderen gültigen Speicherbereich überschreibt.
+  Der Purifier kann Speicherfehler aufspÃ¼ren, wie z.B. das Schreiben Ã¼ber das Ende eines reservierten
+  Speicherpuffers oder Strings hinaus. Ohne den Purifier werden einige dieser Fehler zu AbstÃ¼rzen fÃ¼hren,
+  andere bleiben unerkannt, weil die Schreiboperation einen anderen gÃ¼ltigen Speicherbereich Ã¼berschreibt.
 
 @LineBreak
 @LineBreak
 
-  Der Purifier benötigt zum Arbeiten eine spezielle Ausgabe vom Compiler. Daher ist dieser nur verfügbar,
+  Der Purifier benÃ¶tigt zum Arbeiten eine spezielle Ausgabe vom Compiler. Daher ist dieser nur verfÃ¼gbar,
   wenn beim Kompilieren die Option "Purifier einschalten" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
   aktiviert ist.
 
@@ -655,24 +656,24 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @LineBreak
 
   Der Purifier erkennt diese Fehler, indem er einen speziellen 'Salt'-Wert um globale und lokale Variablen,
-  Strings und Speicherpuffer platziert. Diese 'Salt'-Werte werden dann in regelmäßigen Abständen überprüft
-  und ein Fehler wird angezeigt, wenn sie verändert wurden. Diese Kontrollen verlangsamen die Ausführung
-  des Programms erheblich, insbesondere bei großen Programmen. Deshalb kann die Häufigkeit, mit der die
-  Kontrollen durchgeführt werden, im Purifier-Fenster eingestellt werden:
+  Strings und Speicherpuffer platziert. Diese 'Salt'-Werte werden dann in regelmÃ¤ÃŸigen AbstÃ¤nden Ã¼berprÃ¼ft
+  und ein Fehler wird angezeigt, wenn sie verÃ¤ndert wurden. Diese Kontrollen verlangsamen die AusfÃ¼hrung
+  des Programms erheblich, insbesondere bei groÃŸen Programmen. Deshalb kann die HÃ¤ufigkeit, mit der die
+  Kontrollen durchgefÃ¼hrt werden, im Purifier-Fenster eingestellt werden:
 
 @LineBreak
 @LineBreak
 
 @Bold "Speicherplatz der globalen Variablen"
 @LineBreak
-  Definiert das Intervall in Quellcode-Zeilen, nach dem die globalen Variablen überprüft werden.
+  Definiert das Intervall in Quellcode-Zeilen, nach dem die globalen Variablen Ã¼berprÃ¼ft werden.
 
 @LineBreak
 @LineBreak
 
 @Bold "Speicherplatz der lokalen Variablen"
 @LineBreak
-  Definiert das Intervall in Quellcode-Zeilen, nach dem die lokalen Variablen überprüft werden.
+  Definiert das Intervall in Quellcode-Zeilen, nach dem die lokalen Variablen Ã¼berprÃ¼ft werden.
 
 @LineBreak
 @LineBreak
@@ -680,7 +681,7 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Bold "String-Variablen"
 @LineBreak
   Definiert das Intervall in Quellcode-Zeilen, nach dem der von den String-Variablen verwendete
-  Speicher überprüft wird.
+  Speicher Ã¼berprÃ¼ft wird.
 
 @LineBreak
 @LineBreak
@@ -688,5 +689,5 @@ einen Pfeil <img src="../HelpPictures/debugger_struct1.png"> gekennzeichnet.
 @Bold "Reservierter Speicher"
 @LineBreak
   Definiert das Intervall in Quellcode-Zeilen, nach dem der mittels @@AllocateMemory
-  reservierte Speicher überprüft wird.
+  reservierte Speicher Ã¼berprÃ¼ft wird.
 

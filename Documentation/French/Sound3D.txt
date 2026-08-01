@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Sound3D library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,23 +8,23 @@
 
 @Overview
 
-  Cette bibliothèque permet d'ajouter des 
+  Cette bibliothÃ¨que permet d'ajouter des 
   sons avec un effet 3D dans un monde en 3D. 
 @LineBreak
 @LineBreak
   Un exemple simple est un son qui sera 
-  automatiquement atténué en fonction de 
+  automatiquement attÃ©nuÃ© en fonction de 
   la distance.
 @LineBreak
 @LineBreak
-  La syntaxe est similaire à la bibliothèque 
+  La syntaxe est similaire Ã  la bibliothÃ¨que 
   @LibraryLink "Sound" "Sound".
 @LineBreak
 @LineBreak
-   Cette bibliothèque utilise un moteur 
+   Cette bibliothÃ¨que utilise un moteur 
    graphique pour fonctionner ainsi la 
-   commande @@InitEngine3D doit être 
-   appelée avec succès avant de pouvoir 
+   commande @@InitEngine3D doit Ãªtre 
+   appelÃ©e avec succÃ¨s avant de pouvoir 
    utiliser les commandes relatives aux 
    sons 3D. 
 
@@ -39,20 +39,20 @@
 @Function FreeSound3D(#Son3D)
 
 @Description
-  Arrête et supprime de la mémoire un son 3D.
+  ArrÃªte et supprime de la mÃ©moire un son 3D.
 
 @Parameter "#Son3D"
-  Le son 3D à supprimer.
+  Le son 3D Ã  supprimer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, tous les sons 
-  3D restants sont libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les sons 
+  3D restants sont libÃ©rÃ©s.
 
 @NoReturnValue
 
 @Remarks  
   Tous les sons restants sont automatiquement 
-  libérés quand le programme se termine.
+  libÃ©rÃ©s quand le programme se termine.
       
 @SeeAlso
   @@LoadSound3D
@@ -65,23 +65,23 @@
 
 @Description
   Teste si un son 3D est correctement 
-  initialisé. 
+  initialisÃ©. 
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas 
-  de succès, zéro sinon. 
+  de succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
 @LineBreak
 @LineBreak
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
        
 @SeeAlso
   @@LoadSound3D
@@ -93,16 +93,16 @@
 @Function Resultat = LoadSound3D(#Son3D, NomFichier$ [, Option])
 
 @Description
-  Charge un fichier son 3D en mémoire. 
+  Charge un fichier son 3D en mÃ©moire. 
   
 @Parameter "#Son3D"
-  Le numéro d'identification du son 3D 
-  chargé.
+  Le numÃ©ro d'identification du son 3D 
+  chargÃ©.
 @LineBreak
 @LineBreak
    @ReferenceLink "purebasic_objects" "#PB_Any" 
-   peut être utilisé pour générer 
-   automatiquement ce numéro.
+   peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+   automatiquement ce numÃ©ro.
   
 @Parameter "NomFichier$"
   Le nom du fichier sonore, de type WAV ou 
@@ -115,17 +115,17 @@
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Le son 3D doit être en mono.@LineBreak
+  Le son 3D doit Ãªtre en mono.@LineBreak
   Un son 3D n'a pas de position. @LineBreak
-  Il peut être attaché à un 
+  Il peut Ãªtre attachÃ© Ã  un 
   @LibraryLink "Node" "noeud" 
   pour avoir sa propre position.
-  Un son 3D est joué par rapport à 
-  l'emplacement d'écoute. 
-  Pour modifier l'emplacement d'écoute, 
+  Un son 3D est jouÃ© par rapport Ã  
+  l'emplacement d'Ã©coute. 
+  Pour modifier l'emplacement d'Ã©coute, 
   utilisez @@SoundListenerLocate.
 
 @Example
@@ -139,11 +139,11 @@
     Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data/Packs/skybox.zip", #PB_3DArchive_Zip)
     Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data/Textures", #PB_3DArchive_FileSystem) 
 
-    ; Ouverture de la fenêtre
-    OpenWindow(0,0,0,1000,1000,"Le Son varie en fonction de la position de la planète",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
+    ; Ouverture de la fenÃªtre
+    OpenWindow(0,0,0,1000,1000,"Le Son varie en fonction de la position de la planÃ¨te",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
     OpenWindowedScreen(WindowID(0),0,0,1000,1000,1,0,0)
 
-    ;Création du monde 3D
+    ;CrÃ©ation du monde 3D
     SkyBox("stevecube.jpg");
     cam=CreateCamera(#PB_Any, 0, 0, 100, 100)
     planete=CreateSphere(#PB_Any, 10)
@@ -151,26 +151,26 @@
     material=CreateMaterial(#PB_Any,TextureID(tex_planete))
     planeteE=CreateEntity(#PB_Any,MeshID(planete),MaterialID(material))
 
-    ; Chargement du fichier Son3d Wav ou Ogg, qui doit être mono
+    ; Chargement du fichier Son3d Wav ou Ogg, qui doit Ãªtre mono
     son3D= LoadSound3D(#PB_Any,"Roar.ogg",#PB_Sound3D_Loop) 
 
-    SoundVolume3D(son3D, 20)         ; Volume sonore à 20%
-    SoundRange3D(son3D, 1, 100)      ; Zone d'émission du son
-    SoundCone3D(son3D, 90, 360, 20)  ; Facultatif, Cône sonore
+    SoundVolume3D(son3D, 20)         ; Volume sonore Ã  20%
+    SoundRange3D(son3D, 1, 100)      ; Zone d'Ã©mission du son
+    SoundCone3D(son3D, 90, 360, 20)  ; Facultatif, CÃ´ne sonore
 
-    ; Le Son est joué en boucle
+    ; Le Son est jouÃ© en boucle
     PlaySound3D(son3D, #PB_Sound3D_Loop)
 
-    ; L'auditeur se déplace avec la caméra
+    ; L'auditeur se dÃ©place avec la camÃ©ra
     SoundListenerLocate(CameraX(cam),CameraY(cam),CameraZ(cam))
 
-    ; Le Son et la planète sont liés, 
-    ; ainsi si l'utilisateur déplace la planète, le son se déplace avec elle
+    ; Le Son et la planÃ¨te sont liÃ©s, 
+    ; ainsi si l'utilisateur dÃ©place la planÃ¨te, le son se dÃ©place avec elle
     noeud=CreateNode(#PB_Any, 0, 0, -75)
     AttachNodeObject(noeud, SoundID3D(son3D))
     AttachNodeObject(noeud, EntityID(planeteE))
 
-    ; Gestion de la fenêtre, du clavier et de la souris
+    ; Gestion de la fenÃªtre, du clavier et de la souris
     Repeat
       Repeat 
         Event  = WindowEvent() 
@@ -225,7 +225,7 @@
         MoveNode(noeud,0,0,-5)
       EndIf
       
-      ; Affichage de la scène
+      ; Affichage de la scÃ¨ne
       StartDrawing(WindowOutput(0))
       DrawText(0,5,"X=" + Str(NodeX(noeud)) + " Y=" + Str(NodeY(noeud)) + " Z="+Str(NodeZ(noeud))) 
       DrawText(0,30,"Souris ou Clavier: Haut, Bas, Droite, Gauche et Molette souris")  
@@ -254,7 +254,7 @@
   Joue un son 3D.
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
    
 @OptionalParameter "Option"  
 @FixedFont
@@ -276,18 +276,18 @@
 @Function SoundVolume3D(#Son3D, Volume)
 
 @Description
-  Change le volume en temps réel.  
+  Change le volume en temps rÃ©el.  
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
   
 @Parameter "Volume"
   Le nouveau volume devient la valeur 
-  par défaut pour ce #Son3D. 
+  par dÃ©faut pour ce #Son3D. 
 @LineBreak
 @LineBreak
   Les valeurs valides vont de 0 (muet) 
-  à 100 (volume maximum).
+  Ã  100 (volume maximum).
 
 @NoReturnValue
 
@@ -304,15 +304,15 @@
 @Function StopSound3D(#Son3D)
 
 @Description
-  Arrête l'éxécution d'un son 3D 
-  (s'il était en cours de lecture). 
+  ArrÃªte l'Ã©xÃ©cution d'un son 3D 
+  (s'il Ã©tait en cours de lecture). 
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
 @LineBreak
 @LineBreak
   Avec @#PB_All tous les sons en cours 
-  de lecture sont arrêtés.
+  de lecture sont arrÃªtÃ©s.
    
 @NoReturnValue
 
@@ -329,10 +329,10 @@
   Renvoie l'identifiant unique d'un son 3D. 
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
 
 @ReturnValue
-  Renvoie le numéro du son 3D.
+  Renvoie le numÃ©ro du son 3D.
   
 @SeeAlso
   @@IsSound3D
@@ -344,27 +344,27 @@
 @Function SoundRange3D(#Son3D, Minimum, Maximum)
 
 @Description
-  Modifie le champ d'émission, en unité 
+  Modifie le champ d'Ã©mission, en unitÃ© 
   du monde 3D.
  
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
    
 @Parameter "Minimum, Maximum"
-  Le paramètre 'Minimum' indique la distance 
-  la plus proche à partir de laquelle le son 
+  Le paramÃ¨tre 'Minimum' indique la distance 
+  la plus proche Ã  partir de laquelle le son 
   sera entendu par l'auditeur. 
 @LineBreak
 @LineBreak
-  Le paramètre 'Maximum' indique la distance 
-  la plus grande jusqu'à laquelle le son sera 
+  Le paramÃ¨tre 'Maximum' indique la distance 
+  la plus grande jusqu'Ã  laquelle le son sera 
   entendu. 
 @LineBreak
-  Au delà de cette distance le son ne sera 
-  plus joué.
+  Au delÃ  de cette distance le son ne sera 
+  plus jouÃ©.
 @LineBreak
 @LineBreak
-  Entre ces deux valeurs, le son est atténué 
+  Entre ces deux valeurs, le son est attÃ©nuÃ© 
   en fonction de la position de l'auditeur.
 
 @NoReturnValue
@@ -383,22 +383,22 @@
 @Function SoundCone3D(#Son3D, ConeInterieur.f, ConeExterieur.f, VolumeConeExterieur)
 
 @Description
-  Change l'angle du cône sonore pour créer 
+  Change l'angle du cÃ´ne sonore pour crÃ©er 
   un son 3D directionnel. 
 
 @Parameter "#Son3D"
-  Le son 3D à utiliser.
+  Le son 3D Ã  utiliser.
   
 @Parameter "ConeInterieur, ConeExterieur" 
-  Angles intérieur et extérieur du cône, 
-  en degré.
+  Angles intÃ©rieur et extÃ©rieur du cÃ´ne, 
+  en degrÃ©.
 @LineBreak
 @LineBreak  
-  Valeurs allant de 0 à 360°. 
+  Valeurs allant de 0 Ã  360Â°. 
 
 @Parameter "VolumeConeExterieur"
   Correspond au volume du son en dehors 
-  du cône.
+  du cÃ´ne.
 @LineBreak
 @LineBreak
   Valeur entre 0 et 100.

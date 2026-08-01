@@ -1,4 +1,4 @@
-@Title Prozeduren
+ï»¿@Title Prozeduren
 
 @Syntax
 
@@ -9,51 +9,52 @@
 
 @Description
 
-  Eine @Keyword Procedure ist ein Programmteil, welcher unabhängig vom Hauptcode des 
+  Eine @Keyword Procedure ist ein Programmteil, welcher unabhÃ¤ngig vom Hauptcode des 
   Programms ist und seine eigenen Parameter und @ReferenceLink "variables" "Variablen" haben kann. In PureBasic wird bei 
-  Prozeduren die Rekursion voll unterstützt, jede Prozedur kann sich auch selbst aufrufen. 
-  Die Variablen innerhalb der Prozedur erhalten bei jedem Aufruf der Prozedur standardmäßig 
-  den Wert 0 (null). Um auf Variablen des Hauptprogramms zugreifen zu können, müssen diese mit 
-  der Prozedur "geteilt" (shared) werden. Dies ist mit den @ReferenceLink "Shared" Shared oder @ReferenceLink "Global" Global Schlüsselworten 
-  möglich (siehe auch die @ReferenceLink "Protected" Protected und @ReferenceLink "Static" Static Schlüsselwörter). 
+  Prozeduren die Rekursion voll unterstÃ¼tzt, jede Prozedur kann sich auch selbst aufrufen. 
+  Die Variablen innerhalb der Prozedur erhalten bei jedem Aufruf der Prozedur standardmÃ¤ÃŸig 
+  den Wert 0 (null). Um auf Variablen des Hauptprogramms zugreifen zu kÃ¶nnen, mÃ¼ssen diese mit 
+  der Prozedur "geteilt" (shared) werden. Dies ist mit den @ReferenceLink "Shared" Shared oder @ReferenceLink "Global" Global SchlÃ¼sselworten 
+  mÃ¶glich (siehe auch die @ReferenceLink "Protected" Protected und @ReferenceLink "Static" Static SchlÃ¼sselwÃ¶rter). 
   @LineBreak
   @LineBreak
-  Die letzten Parameter können einen Standardwert (muss ein konstanter Ausdruck sein) haben. Wenn also
+  Die letzten Parameter kÃ¶nnen einen Standardwert (muss ein konstanter Ausdruck sein) haben. Wenn also
   diese Parameter beim Prozedur-Aufruf weggelassen werden, wird der Standardwert verwendet.
   @LineBreak
   @LineBreak
-  @ReferenceLink "dim" "Arrays" können mit Hilfe des Schlüsselworts @Keyword Array als Parameter übergeben werden,
-  @ReferenceLink "newlist" "verknüpfte Listen" mittels des Schlüsselworts @Keyword List und 
-  @ReferenceLink "newmap" "Maps" mittels Schlüsselworts @Keyword Map.
+  @ReferenceLink "dim" "Arrays" kÃ¶nnen mit Hilfe des SchlÃ¼sselworts @Keyword Array als Parameter Ã¼bergeben werden,
+  @ReferenceLink "newlist" "verknÃ¼pfte Listen" mittels des SchlÃ¼sselworts @Keyword List und 
+  @ReferenceLink "newmap" "Maps" mittels SchlÃ¼sselworts @Keyword Map.
   @LineBreak
   @LineBreak
-  Eine Prozedur kann wenn nötig eine Zahl oder einen String zurückliefern. Sie müssen in diesem 
-  Fall nach @Keyword Procedure den Typ (.Typ) festlegen und das @Keyword ProcedureReturn Schlüsselwort an einem beliebigen 
-  Punkt innerhalb der Prozedur aufrufen. Ein Aufruf von @Keyword ProcedureReturn verlässt umgehend die Prozedur, 
+  Eine Prozedur kann wenn nÃ¶tig eine Zahl oder einen String zurÃ¼ckliefern. Sie mÃ¼ssen in diesem 
+  Fall nach @Keyword Procedure den Typ (.Typ) festlegen und das @Keyword ProcedureReturn SchlÃ¼sselwort an einem beliebigen 
+  Punkt innerhalb der Prozedur aufrufen. Ein Aufruf von @Keyword ProcedureReturn verlÃ¤sst umgehend die Prozedur, 
   auch wenn er innerhalb einer Schleife erfolgt. 
   @LineBreak
   @Keyword ProcedureReturn kann nicht verwendet werden, um ein @ReferenceLink "dim" "Array", eine @ReferenceLink "newlist" "Linked List" 
-  oder eine @ReferenceLink "newmap" "Map" zurückzuliefern, übergeben Sie zu diesem Zweck das Array, die Linked List bzw. die Map
+  oder eine @ReferenceLink "newmap" "Map" zurÃ¼ckzuliefern, Ã¼bergeben Sie zu diesem Zweck das Array, die Linked List bzw. die Map
   als Parameter an die Prozedur.
   @LineBreak
   @LineBreak
-  Wenn für @Keyword ProcedureReturn kein (Rückgabe-) Wert angegeben wird, ist der Rückgabewert
+  Wenn fÃ¼r @Keyword ProcedureReturn kein (RÃ¼ckgabe-) Wert angegeben wird, ist der RÃ¼ckgabewert
   @LineBreak
-  - Null, wenn der Compiler das C-Backend verwendet (auf allen von PureBasic unterstützten Prozessoren), oder
+  - Null, wenn der Compiler das C-Backend verwendet (auf allen von PureBasic unterstÃ¼tzten Prozessoren), oder
   @LineBreak
   - der Inhalt des Registers 'eax' auf 32 Bit (X86-Prozessoren) bzw. 'rax' auf 64 Bit (X64-Prozessoren),
-  wenn der Compiler das ASM-Backend verwendet (siehe @ReferenceLink "inlinedasm" "Inline-ASM" für weitere Informationen).
+  wenn der Compiler das ASM-Backend verwendet (siehe @ReferenceLink "inlinedasm" "Inline-ASM" fÃ¼r weitere Informationen).
   @LineBreak
   @LineBreak
-  Hinweis: Für die Rückgabe von Strings aus DLLs siehe @ReferenceLink "DLL" "DLLs". Für fortgeschrittene
-  Programmierer ist @Keyword ProcedureC verfügbar und wird die Prozedur mittels der 'CDecl' anstelle der
-  'StandardCall' Aufruf-Konvention deklarieren.
+  Hinweis: FÃ¼r die RÃ¼ckgabe von Strings aus DLLs siehe @ReferenceLink "DLL" "DLLs". FÃ¼r fortgeschrittene
+  Programmierer ist @Keyword ProcedureC verfÃ¼gbar und wird die Prozedur mittels der 'CDecl' anstelle der
+  'StandardCall' Aufruf-Konvention deklarieren. Weitere Informationen zu Aufrufkonventionen (cdecl, stdcall, fastcall)
+  von Bibliotheken finden Sie @InternetLink "https://de.wikipedia.org/wiki/Aufrufkonvention" "hier".
   @LineBreak
   @LineBreak
-  Einzelne Prozeduren können durch die Nutzung von @LibraryLink "thread" "Threads" auch asynchron zum eigentlichen
-  Hauptprogramm ausgeführt werden.
+  Einzelne Prozeduren kÃ¶nnen durch die Nutzung von @LibraryLink "thread" "Threads" auch asynchron zum eigentlichen
+  Hauptprogramm ausgefÃ¼hrt werden.
 
-  @Example Prozedur mit einer numerischen Variable als Rückgabewert
+  @Example Prozedur mit einer numerischen Variable als RÃ¼ckgabewert
 
 @Code
   Procedure Maximum(nb1, nb2)
@@ -71,7 +72,7 @@
 @EndCode
 
 
-  @Example Prozedur mit einem String als Rückgabewert
+  @Example Prozedur mit einem String als RÃ¼ckgabewert
 
 @Code
   Procedure.s Attach(string1$,string2$)
@@ -91,11 +92,11 @@
     Debug c
   EndProcedure
 
-  a(10, 12)      ; 2 wird als Standardwert für den dritten Parameter genutzt
+  a(10, 12)      ; 2 wird als Standardwert fÃ¼r den dritten Parameter genutzt
   a(10, 12, 15) 
 @EndCode
 
- @Example Verknüpfte Listen als Parameter
+ @Example VerknÃ¼pfte Listen als Parameter
 
 @Code
   NewList Test.Point()
@@ -127,7 +128,7 @@
   Table(0,0)\x = 1
   Table(1,0)\x = 2
 
-  Procedure TestIt(c.l, Array ParameterTable.Point(2))  ; Die Tabelle unterstützt 2 Dimensionen
+  Procedure TestIt(c.l, Array ParameterTable.Point(2))  ; Die Tabelle unterstÃ¼tzt 2 Dimensionen
 
     ParameterTable(1, 2)\x = 3
     ParameterTable(2, 2)\x = 4
@@ -140,12 +141,12 @@
 @EndCode
 
 
-@Example Statische, dynamisches Array und das Übergeben einer Struktur an eine Prozedur
+@Example Statische, dynamisches Array und das Ãœbergeben einer Struktur an eine Prozedur
 @Code
   Structure Whatever
     a.l
-    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der Größe veränderbar
-    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der Größe veränderbar mittels ReDim()
+    b.l[2]          ; Statisches Array (Standard C) mit 2 Werten b[0] und b[1], nicht in der GrÃ¶ÃŸe verÃ¤nderbar
+    Array c.l(3,3)  ; Dynamisches Array mit 16 Werten c(0,0) bis c(3,3), in der GrÃ¶ÃŸe verÃ¤nderbar mittels ReDim()
   EndStructure
 
   MyVar.Whatever
@@ -197,14 +198,14 @@
 @Description
 
   Manchmal ist es notwendig, dass eine Prozedur von einer anderen Prozedur aufgerufen wird, 
-  bevor sie überhaupt deklariert wurde. Dies ist ärgerlich, da der Compiler dies mit 
+  bevor sie Ã¼berhaupt deklariert wurde. Dies ist Ã¤rgerlich, da der Compiler dies mit 
   'Prozedur xxxx nicht gefunden' reklamiert. Das Deklarieren mit @Keyword Declare kann in diesem konkreten 
   Fall helfen, in dem zu Beginn nur der Kopf ('Header') der Prozedur deklariert wird. Nichtsdestotrotz, 
-  die Deklarierung des Headers und die tatsächliche Deklarierung der Prozedur müssen identisch sein 
-  (einschließlich der Typen-Angabe nach dem Prozedurnamen und optionaler Parameter, wenn vorhanden).
+  die Deklarierung des Headers und die tatsÃ¤chliche Deklarierung der Prozedur mÃ¼ssen identisch sein 
+  (einschlieÃŸlich der Typen-Angabe nach dem Prozedurnamen und optionaler Parameter, wenn vorhanden).
   @LineBreak
   @LineBreak
-  Für fortgeschrittene Programmierer ist @Keyword DeclareC verfügbar und wird die Prozedur mit
+  FÃ¼r fortgeschrittene Programmierer ist @Keyword DeclareC verfÃ¼gbar und wird die Prozedur mit
   der 'CDecl' anstelle der 'StandardCall' Aufruf-Konvention deklarieren.
 
   @Example

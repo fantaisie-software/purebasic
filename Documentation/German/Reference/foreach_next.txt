@@ -1,4 +1,4 @@
-@Title ForEach : Next
+ï»¿@Title ForEach : Next
 
 @Syntax
 
@@ -8,23 +8,26 @@
 
 @Description
 
-  @Keyword ForEach durchläuft alle Elemente der angegebenen verknüpften 'Liste' oder 'Map', beginnend 
+  @Keyword ForEach durchlÃ¤uft alle Elemente der angegebenen verknÃ¼pften 'Liste' oder 'Map', beginnend 
   beim ersten Element bis zum letzten Element. Ist die Liste oder die Map leer, wird die @Keyword "ForEach : Next" Schleife 
-  umgehend abgebrochen. Für eine Liste aller Befehle zur Verwaltung von verknüpften Listen siehe die @LibraryLink "list" "Linked List" Bibliothek.
+  umgehend abgebrochen. FÃ¼r eine Liste aller Befehle zur Verwaltung von verknÃ¼pften Listen siehe die @LibraryLink "list" "Linked List" Bibliothek.
   Alle Befehle zur Verwaltung von Maps finden Sie in der @LibraryLink "Map" "Map" Bibliothek.
   @LineBreak
   @LineBreak
-  Bei der Verwendung mit verknüpften Listen ist es möglich, während der Schleife Elemente zu @Link "List/DeleteElement" "löschen"
-  oder @Link "List/AddElement" "hinzuzufügen". Ebenso darf  mit @@ChangeCurrentElement
-  auch das aktuelle Element geändert werden. 
-  Nach einer der genannten Änderungen wird der nächste Schleifendurchlauf mit dem auf das aktuelle Element folgenden
+  Bei der Verwendung mit verknÃ¼pften Listen ist es mÃ¶glich, wÃ¤hrend der Schleife Elemente zu @Link "List/DeleteElement" "lÃ¶schen"
+  oder @Link "List/AddElement" "hinzuzufÃ¼gen". Ebenso darf  mit @@ChangeCurrentElement
+  auch das aktuelle Element geÃ¤ndert werden. 
+  Nach einer der genannten Ã„nderungen wird der nÃ¤chste Schleifendurchlauf mit dem auf das aktuelle Element folgenden
   Element fortgesetzt.
   @LineBreak
   @LineBreak
+  Bei Verwendung im Zusammenhang mit einer Map, geben Sie bitte keinen SchlÃ¼ssel an (siehe Beispiel unten).
+  @LineBreak
+  @LineBreak
   Mit dem @ReferenceLink "Break_Continue" Break Befehl kann die @Keyword "ForEach : Next" Schleife (vorzeitig) verlassen 
-  werden, mit dem @ReferenceLink "Break_Continue" Continue Befehl kann das Ende des aktuellen Schleifendurchlaufs übersprungen werden.
+  werden, mit dem @ReferenceLink "Break_Continue" Continue Befehl kann das Ende des aktuellen Schleifendurchlaufs Ã¼bersprungen werden.
 
-  @Example Verknüpfte Liste
+  @Example VerknÃ¼pfte Liste
 
 @Code       
   NewList Number()
@@ -54,5 +57,6 @@
 
   ForEach Country()
     Debug Country()
+   ;Debug Country("FR") ; So nicht: bitte keinen SchlÃ¼ssel angeben, da dies manchmal zu einer Endlosschleife fÃ¼hren kann
   Next
 @EndCode  

@@ -1,34 +1,41 @@
-;
+ï»¿;
 ;     Help library documentation - MultiOS version !
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Help
 
 @Overview
   Die Hilfe ist ein sehr bedeutender Bestandteil jeder Art von Software. Sie gibt den Endanwendern
-  die Möglichkeit, die Software-Funktionen schnell und einfach zu entdecken.
-  Die PureBasic Help-Funktionen ermöglichen das Anzeigen von Standard Hilfe-Dateien sowohl
-  mit "Global" als auch "Kontext-sensitiver" Unterstützung.
+  die MÃ¶glichkeit, die Software-Funktionen schnell und einfach zu entdecken.
+@LineBreak
+  Die PureBasic Help-Funktionen ermÃ¶glichen dem Programmierer, Standard Hilfe-Dateien mit globaler
+  und kontextbezogener UnterstÃ¼tzung anzuzeigen.
 @LineBreak
 @LineBreak
-  Auf Microsoft Windows gibt es zwei verschiedene Formate von Hilfe-Dateien, welche unterstützt
+  Auf Microsoft Windows gibt es zwei verschiedene Formate von Hilfe-Dateien, welche unterstÃ¼tzt
   werden: Das ".hlp" Format (was das alte Format ist) und das ".chm" Format (was das neue Format
-  ist). Das ".chm" Format basiert auf HTML, was für "Hyper Text Markup Language" steht.
+  ist). Das ".chm" Format basiert auf HTML, was fÃ¼r "Hyper Text Markup Language" steht.
+@LineBreak
+@LineBreak
+  Auf Linux wird das 'yelp' Tool verwendet, siehe @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp auf Wikipedia".
+@LineBreak
+@LineBreak
+  Auf macOS wird das systemeigene Hilfeanzeige-Tool verwendet, siehe @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".    
 
 @CommandList
 
 @ExampleFile All Help.pb
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
 @Function CloseHelp()
 
 @Description
-  Schließt das zuvor mit @@OpenHelp geöffnete Hilfe-Fenster.
+  SchlieÃŸt das zuvor mit @@OpenHelp geÃ¶ffnete Hilfe-Fenster.
 
 @NoParameters
 @NoReturnValue
@@ -36,33 +43,37 @@
 @SeeAlso
   @@OpenHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
 @Function OpenHelp(Dateiname$, Thema$)
 
 @Description
-  Öffnet ein Hilfe-Fenster und zeigt dieses an.
+  Ã–ffnet ein Hilfe-Fenster und zeigt dieses an.
 
 @Parameter "Dateiname$"
-  Der Name der zu öffnenden .chm oder .hlp Datei.
+  Auf Windows der Name der zu Ã¶ffnenden .chm oder .hlp Datei. @LineBreak
+  Auf Linux der Name einer Hilfe-Datei, welche mit dem 'yelp' Tool geÃ¶ffnet werden kann, siehe @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp auf Wikipedia". @LineBreak
+  Auf MacOS der Name einer Hilfe-Datei, welche mit dem systemeigenen macOS Hilfeanzeige-Tool geÃ¶ffnet werden kann, siehe @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Help Viewer".
 
 @Parameter "Thema$"
   Der interne Name der darzustellenden Seite.
   Wenn der Parameter 'Thema$' kein leerer String ist, stellt die OpenHelp-Funktion
-  direkt die angegebene Seite dar (sehr nützlich für Online/kontext-sensitive Hilfe).
+  direkt die angegebene Seite dar (sehr nÃ¼tzlich fÃ¼r Online/kontext-sensitive Hilfe).
 
 @NoReturnValue
+
+@Remarks
+  Hinweis: Dieser Befehl wird nicht vom QT-Subsystem unterstÃ¼tzt.
 
 @Example
 @Code
   OpenHelp("help.chm", "index.htm")
   OpenHelp("help.chm", "print.txt")
-
 @EndCode
 
 @SeeAlso
   @@CloseHelp
 
-@SupportedOS Windows, OSX
+@SupportedOS All

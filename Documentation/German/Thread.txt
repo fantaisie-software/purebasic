@@ -1,57 +1,57 @@
-;
+ï»¿;
 ;     Thread library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Thread
 
 @Overview
   Ein Thread (auch "Teilprozess") ist ein Programmteil, welcher asynchron, d.h. im Hintergrund des
-  Hauptprogramms, läuft. Dies bedeutet: es ist möglich, langwierige Operationen
-  (Packen, Bildverarbeitung...) durchzuführen, ohne das gesamte Programm anzuhalten
-  und damit dem Benutzer das Weiterarbeiten zu ermöglichen. Ein Thread läuft innerhalb
+  Hauptprogramms, lÃ¤uft. Dies bedeutet: es ist mÃ¶glich, langwierige Operationen
+  (Packen, Bildverarbeitung...) durchzufÃ¼hren, ohne das gesamte Programm anzuhalten
+  und damit dem Benutzer das Weiterarbeiten zu ermÃ¶glichen. Ein Thread lÃ¤uft innerhalb
   Ihres Programms, es ist kein weiterer Prozess. Wenn das Hauptprogramm beendet wird,
-  werden alle Threads zerstört. Unter PureBasic sind Threads einfach
-  eine @ReferenceLink "procedures" "Prozedur", welche asynchron aufgerufen wird. Der Thread läuft, bis die 
+  werden alle Threads zerstÃ¶rt. Unter PureBasic sind Threads einfach
+  eine @ReferenceLink "procedures" "Prozedur", welche asynchron aufgerufen wird. Der Thread lÃ¤uft, bis die 
   Prozedur endet.
 @LineBreak
 @LineBreak
-  Beispiele für Einsatzmöglichkeiten von Programmen - bei denen Threads sinnvoll sind -
+  Beispiele fÃ¼r EinsatzmÃ¶glichkeiten von Programmen - bei denen Threads sinnvoll sind -
   bestehen z.B. darin, wenn Sie verschiedene Situationen mit verschiedenen Antwortzeiten oder
-  Situationen, die in verschiedenen Intervallen auftreten, handhaben müssen. Um auf den
-  vorigen Absatz zurückzukommen: die Antwortzeiten der eigentlichen Bild-Verarbeitung und
-  der Benutzeroberfläche sind ziemlich verschieden (Sie können auf die Verarbeitung des
+  Situationen, die in verschiedenen Intervallen auftreten, handhaben mÃ¼ssen. Um auf den
+  vorigen Absatz zurÃ¼ckzukommen: die Antwortzeiten der eigentlichen Bild-Verarbeitung und
+  der BenutzeroberflÃ¤che sind ziemlich verschieden (Sie kÃ¶nnen auf die Verarbeitung des
   Bildes warten, haben aber gleichzeitig eine reagierende Benutzerschnittstelle).
 @LineBreak
 @LineBreak
   PureBasic hat eine spezielle Compiler-Einstellung, um threadsichere Executable zu erstellen.
   (/THREAD @ReferenceLink "cli_compiler" "Kommandozeilen-Option" oder "Erstelle threadsicheres Executable" in den @ReferenceLink "ide_Compiler" "IDE-Optionen".)
   Ohne diesen Modus sind bestimmte Funktionen (und auch der String-Zugriff) schneller, aber
-  nicht sicher zur Verwendung in Threads. Es ist dennoch möglich, Threads ohne diesen Modus
+  nicht sicher zur Verwendung in Threads. Es ist dennoch mÃ¶glich, Threads ohne diesen Modus
   zu erstellen, aber nicht empfehlenswert, da selbst eine einfache Sache wie der lokale Zugriff
-  auf Strings gefährlich sein kann und geschützt werden muss.
+  auf Strings gefÃ¤hrlich sein kann und geschÃ¼tzt werden muss.
   Das Aktivieren dieser Option macht diese Dinge sicher innerhalb von Threads, geht jedoch
   zu Lasten von etwas Geschwindigkeit. Die Entscheidung, ob Threads verwendet werden oder
-  nicht, sollte mit Bedacht gefällt werden, und der Thread-Modus sollte nur dann verwendet
-  werden, wenn wirklicher Bedarf dafür besteht.
+  nicht, sollte mit Bedacht gefÃ¤llt werden, und der Thread-Modus sollte nur dann verwendet
+  werden, wenn wirklicher Bedarf dafÃ¼r besteht.
 @LineBreak
 @LineBreak
-  Hinweis: Threads müssen vorsichtig benutzt werden, da es möglich ist, dass Sie gleichzeitigen
+  Hinweis: Threads mÃ¼ssen vorsichtig benutzt werden, da es mÃ¶glich ist, dass Sie gleichzeitigen
   Zugriff auf geteilte (shared) Ressourcen (Speicher, Variablen, Dateien, etc.) haben und Sie
-  dann manuell sicherstellen müssen, deshalb nicht in Konflikte zu geraten. Die Mutex-Befehle
-  in dieser Library können verwendet werden, um den Zugriff auf solche geteilten Ressourcen
+  dann manuell sicherstellen mÃ¼ssen, deshalb nicht in Konflikte zu geraten. Die Mutex-Befehle
+  in dieser Library kÃ¶nnen verwendet werden, um den Zugriff auf solche geteilten Ressourcen
   zu synchronisieren.
 @LineBreak
 @LineBreak
-  Mittels des @ReferenceLink "threaded" "Threaded" Schlüsselworts ist es möglich, thread-basierte
-  beständige Objekte (@ReferenceLink "variables" "Variablen", @LibraryLink "array" "Arrays",
-  @LibraryLink "list" "verknüpfte Listen", @LibraryLink "map" "Maps") zu erstellen.
+  Mittels des @ReferenceLink "threaded" "Threaded" SchlÃ¼sselworts ist es mÃ¶glich, thread-basierte
+  bestÃ¤ndige Objekte (@ReferenceLink "variables" "Variablen", @LibraryLink "array" "Arrays",
+  @LibraryLink "list" "verknÃ¼pfte Listen", @LibraryLink "map" "Maps") zu erstellen.
 
 @OS Windows
 @LineBreak
 @LineBreak
-  Hinweis: Benutzen Sie innerhalb von Threads kein DirectX (MS Windows Einschränkung)! Wenn
+  Hinweis: Benutzen Sie innerhalb von Threads kein DirectX (MS Windows EinschrÃ¤nkung)! Wenn
   Sie auf Grafikdarstellung in Threads angewiesen sind, verwenden Sie stattdessen
   @LibraryLink "image" "Images" und @LibraryLink "2ddrawing" "2DDrawing".
 
@@ -66,14 +66,14 @@
 @Function Ergebnis = IsThread(Thread)
 
 @Description
-  Überprüft, ob die angegebene Thread-Nummer ein von @@CreateThread erzeugter
-  Thread ist, und ob dieser noch läuft.
+  ÃœberprÃ¼ft, ob die angegebene Thread-Nummer ein von @@CreateThread erzeugter
+  Thread ist, und ob dieser noch lÃ¤uft.
   
 @Parameter "Thread"
   Der zu verwendende Thread.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Thread noch gültig ist und läuft, andernfalls Null.
+  Ein Wert ungleich Null, wenn der Thread noch gÃ¼ltig ist und lÃ¤uft, andernfalls Null.
 
 @SupportedOS
 
@@ -90,7 +90,7 @@
 @ReturnValue
   Der System-Bezeichner (ID).
   Dieses Ergebnis ist manchmal auch als 'Handle' bekannt. Schauen Sie in das Extra-Kapitel
-  @ReferenceLink "handles" "Handles und Nummern" für weitere Informationen.
+  @ReferenceLink "handles" "Handles und Nummern" fÃ¼r weitere Informationen.
 
 @SupportedOS
 
@@ -99,17 +99,17 @@
 @Function Mutex = CreateMutex()
 
 @Description
-  Erstellt ein neues Mutex-Objekt. Dieses ist anfänglich entsperrt ("unlocked").
+  Erstellt ein neues Mutex-Objekt. Dieses ist anfÃ¤nglich entsperrt ("unlocked").
 @Linebreak
 @Linebreak
   Das Hauptziel der Mutex-Befehle ist die Thread-Synchronisation. Sie bedeuten nicht
   zu viel Aufwand, aber sie arbeiten nur innerhalb eines Programms, nicht systemweit.
   Ein Mutex ist ein Objekt, welches zur gleichen Zeit nur "im Besitz" bzw. gesperrt
   ("locked") von einem Thread sein kann. Es wird daher verwendet, um geteilte 
-  Ressourcen zu schützen. Nur der Thread, der den Mutex gesperrt hat, wird Zugriff
+  Ressourcen zu schÃ¼tzen. Nur der Thread, der den Mutex gesperrt hat, wird Zugriff
   auf eine Datei, einen Speicherbereich, etc. haben.
 @Linebreak
-  Siehe @@LockMutex und @@UnlockMutex für
+  Siehe @@LockMutex und @@UnlockMutex fÃ¼r
   das Sperren/Entsperren eines Mutex.
 
 @NoParameters
@@ -122,7 +122,7 @@
   ; Starten Sie diesen Code so wie er ist. Sie werden sehen, das die Zeilen
   ; gemischt durch die Threads ausgegeben werden. Jetzt entfernen Sie den
   ; Kommentar vor den Mutex-Befehlen und die Strings werden in Reihenfolge
-  ; ausgegeben, da nur ein Thread zur gleichen Zeit das Recht zum Ausführen
+  ; ausgegeben, da nur ein Thread zur gleichen Zeit das Recht zum AusfÃ¼hren
   ; der Print-Befehle bekommt.
   ;
   Procedure WithoutMutex(*Number)     
@@ -164,27 +164,27 @@
 @Function Thread = CreateThread(@ProcedureName(), *Wert)
 
 @Description
-  Erstellt einen neuen Thread, welcher im Hintergrund der Applikation läuft. Wenn
-  der Thread korrekt erstellt wurde, wird die 'Thread' Nummer zurückgegeben, welche
+  Erstellt einen neuen Thread, welcher im Hintergrund der Applikation lÃ¤uft. Wenn
+  der Thread korrekt erstellt wurde, wird die 'Thread' Nummer zurÃ¼ckgegeben, welche
   zusammen mit den anderen Befehlen, wie @@KillThread, @@PauseThread,
   etc..., benutzt wird. Die Prozedur, welche Sie als ein Thread verwenden, muss
-  einen Parameter haben und kann nichts zurückgeben. Das '*Wert' Argument von
-  CreateThread() wird als Parameter an die Prozedur übergeben. Wenn Sie versuchen,
-  von Ihrem Thread aus einen Wert zurückzugeben, wird dieser einfach verloren gehen.
+  einen Parameter haben und kann nichts zurÃ¼ckgeben. Das '*Wert' Argument von
+  CreateThread() wird als Parameter an die Prozedur Ã¼bergeben. Wenn Sie versuchen,
+  von Ihrem Thread aus einen Wert zurÃ¼ckzugeben, wird dieser einfach verloren gehen.
 
 @Parameter "@ProcedureName()"
-  Die Adresse der Prozedur, welche Sie als Code für den neuen
-  Thread benutzen möchten. Denken Sie daran, dem Prozedurennamen das @ voranzustellen
-  und an die Klammern dahinter, damit die Adresse der Prozedur übergeben wird.
+  Die Adresse der Prozedur, welche Sie als Code fÃ¼r den neuen
+  Thread benutzen mÃ¶chten. Denken Sie daran, dem Prozedurennamen das @ voranzustellen
+  und an die Klammern dahinter, damit die Adresse der Prozedur Ã¼bergeben wird.
 
 @Parameter "*Wert"
-  Der als Parameter an die Thread-Prozedur übergebene Wert.
-  Es liegt an Ihnen, wofür dieser Wert verwendet wird.
+  Der als Parameter an die Thread-Prozedur Ã¼bergebene Wert.
+  Es liegt an Ihnen, wofÃ¼r dieser Wert verwendet wird.
 
 @Returnvalue
   Die Nummer des neu erstellten Threads - oder Null, wenn der neue Thread nicht
-  erstellt werden konnte. Diese Nummer wird benötigt, wenn Sie den Thread mit den anderen
-  Befehlen dieser Library kontrollieren möchten.
+  erstellt werden konnte. Diese Nummer wird benÃ¶tigt, wenn Sie den Thread mit den anderen
+  Befehlen dieser Library kontrollieren mÃ¶chten.
 
 @Example
   Das nachfolgende Beispiel zeigt den grundlegenden Weg zur Erstellung eines Threads,
@@ -200,7 +200,7 @@
 @EndCode
  
 
-@Example Übergeben mehrerer Parameter an einen Thread
+@Example Ãœbergeben mehrerer Parameter an einen Thread
 
 @Code
   Structure Person
@@ -217,8 +217,8 @@
     Debug *Parameters\Age
     Debug *Parameters\Phone
     
-    ; Sobald wir sie nicht mehr benötigen, verwenden wir ClearStructure(), um sicher zu gehen,
-    ; dass alle dynamischen Objekte (wenn vorhanden) korrekt gelöscht werden, und geben
+    ; Sobald wir sie nicht mehr benÃ¶tigen, verwenden wir ClearStructure(), um sicher zu gehen,
+    ; dass alle dynamischen Objekte (wenn vorhanden) korrekt gelÃ¶scht werden, und geben
     ; den dynamischen Speicherbereich frei
     ClearStructure(*Parameters, Person)
     FreeMemory(*Parameters)
@@ -226,7 +226,7 @@
   EndProcedure
   
   ; Wir verwenden einen dynamisch zugewiesenen Speicherbereich, was auch beim Aufrufen von einer Prozedur aus noch funktioniert.
-  ; Der Speicherbereich wird durch den Thread freigegeben.
+  ; Der Speicherbereich wird durch den Thread freigegeben, wenn der Thread endet.
   ;
   *Parameters.Person = AllocateMemory(SizeOf(Person))
   *Parameters\Name$ = "John"
@@ -245,7 +245,7 @@
 @Function FreeMutex(Mutex)
 
 @Description
-  Gibt ein Mutex-Objekt und dessen benötigten Speicher frei.
+  Gibt ein Mutex-Objekt und dessen benÃ¶tigten Speicher frei.
 
 @Parameter "Mutex"
   Der freizugebende Mutex.
@@ -269,18 +269,18 @@
 
 @Description
   Entfernt umgehend den angegebenen Thread, der zuvor mit @@CreateThread erstellt
-  wurde. Dies ist eine sehr gefährliche Operation und sollte nur selten benutzt werden.
+  wurde. Dies ist eine sehr gefÃ¤hrliche Operation und sollte nur selten benutzt werden.
   Das Problem ist, dass der Thread umgehend entfernt wird und keine Chance
-  hat, irgendwelchen "Aufräumcode" (z.B. Speicher freigeben, Einträge freigeben,
-  De-Allokieren seines eigenen Stacks) auszuführen.
+  hat, irgendwelchen "AufrÃ¤umcode" (z.B. Speicher freigeben, EintrÃ¤ge freigeben,
+  De-Allokieren seines eigenen Stacks) auszufÃ¼hren.
 @LineBreak
 @LineBreak
-  Wenn möglich, sollte ein Flag (z.B. eine globale Variable) verwendet werden, welcher dem Thread
-  mitteilt, sich selbst zu beenden (und das benötigte "Aufräumen" zu erledigen). Und dieser Befehl
-  sollte nur verwendet werden, wenn dies auf irgendwelchen Gründen nicht möglich ist.  
+  Wenn mÃ¶glich, sollte ein Flag (z.B. eine globale Variable) verwendet werden, welcher dem Thread
+  mitteilt, sich selbst zu beenden (und das benÃ¶tigte "AufrÃ¤umen" zu erledigen). Und dieser Befehl
+  sollte nur verwendet werden, wenn dies auf irgendwelchen GrÃ¼nden nicht mÃ¶glich ist.  
 
 @Parameter "Thread"
-  Der zu entfernende Thread. Dieser Wert wird von @@CreateThread zurückgegeben.
+  Der zu entfernende Thread. Dieser Wert wird von @@CreateThread zurÃ¼ckgegeben.
 
 @NoReturnValue
 
@@ -317,28 +317,28 @@
 @Function LockMutex(Mutex)
 
 @Description
-  Wartet, bis das Mutex-Objekt verfügbar ist (nicht von einem anderen Thread gesperrt) und 
+  Wartet, bis das Mutex-Objekt verfÃ¼gbar ist (nicht von einem anderen Thread gesperrt) und 
   sperrt ("lock") dann das Objekt, damit kein anderer Thread einen Zugriff auf dieses Objekt
   bekommt.
 @LineBreak
 @LineBreak
-  Nachdem dieser Befehl zurückkehrt, ist sichergestellt, dass dieser Thread der einzige mit
+  Nachdem dieser Befehl zurÃ¼ckkehrt, ist sichergestellt, dass dieser Thread der einzige mit
   einem gesperrten Status auf den Mutex ist.
-  Der Thread kann nun frei auf die von diesem Mutex geschützten Ressourcen zugreifen, da es
+  Der Thread kann nun frei auf die von diesem Mutex geschÃ¼tzten Ressourcen zugreifen, da es
   der einzige mit exklusivem Zugriff auf den Mutex ist.
 @LineBreak
 @LineBreak
-  Wenn ein weiterer Thread LockMutex() aufruft, während dieser den Zugriff hat, wird innerhalb
+  Wenn ein weiterer Thread LockMutex() aufruft, wÃ¤hrend dieser den Zugriff hat, wird innerhalb
   des LockMutex() Befehls gewartet, bis dieser Thread @@UnlockMutex aufruft,
   um seinen Zugriff auf den Mutex freizugeben.
 @LineBreak
 @LineBreak
-  @Bold "Hinweis:" Da der LockMutex() Befehl wartet, bis der Mutex verfügbar ist, kann dies
-  leicht zu "Lockup"-Situationen (Sperrung innerhalb des Programms) führen, wenn ein 
+  @Bold "Hinweis:" Da der LockMutex() Befehl wartet, bis der Mutex verfÃ¼gbar ist, kann dies
+  leicht zu "Lockup"-Situationen (Sperrung innerhalb des Programms) fÃ¼hren, wenn ein 
   @@UnlockMutex Aufruf vergessen wurde.
 @LineBreak
 @LineBreak
-  Siehe @@CreateMutex für einen Beispiel-Code.
+  Siehe @@CreateMutex fÃ¼r einen Beispiel-Code.
 
 @Parameter "Mutex"
   Der zu sperrende Mutex.
@@ -355,12 +355,12 @@
 @Function PauseThread(Thread)
 
 @Description
-  Hält den angegebenen Thread an, der zuvor mit @@CreateThread erstellt wurde.
+  HÃ¤lt den angegebenen Thread an, der zuvor mit @@CreateThread erstellt wurde.
   Der Thread kann mittels @@ResumeThread fortgesetzt werden.
 
 @Parameter "Thread"
   Der anzuhaltende (zu "pausierende") Thread.
-  Dieser Wert wird von @@CreateThread zurückgegeben.
+  Dieser Wert wird von @@CreateThread zurÃ¼ckgegeben.
 
 @NoReturnValue
 
@@ -383,7 +383,7 @@
         Delay(50)
       Next
         
-      ; Thread fortsetzen und ihm genug Zeit zur Ausführung geben
+      ; Thread fortsetzen und ihm genug Zeit zur AusfÃ¼hrung geben
       ResumeThread(thread)
       Delay(3000)
     EndIf
@@ -407,12 +407,12 @@
   angehalten wurde.
 
 @Parameter "Thread"
-  Der fortzusetzende Thread. Dieser Wert wird von @@CreateThread zurückgegeben.
+  Der fortzusetzende Thread. Dieser Wert wird von @@CreateThread zurÃ¼ckgegeben.
 
 @NoReturnValue
 
 @Remarks
-  Siehe beim @@PauseThread Befehl für einen Beispiel-Code.
+  Siehe beim @@PauseThread Befehl fÃ¼r einen Beispiel-Code.
 
 @SeeAlso
   @@PauseThread, @@CreateThread
@@ -421,87 +421,87 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function AltePriorität = ThreadPriority(Thread, Priorität)
+@Function AltePrioritÃ¤t = ThreadPriority(Thread, PrioritÃ¤t)
 
 @Description
-  Ändert die Priorität des angegebenen Threads und gibt die alte Priorität
-  zurück. 
+  Ã„ndert die PrioritÃ¤t des angegebenen Threads und gibt die alte PrioritÃ¤t
+  zurÃ¼ck. 
 @LineBreak
 @LineBreak
-  Der Prioritäts-Wert kann zwischen 1 und 32 liegen. 1 ist die niedrigste
-  Priorität, 16 ist die normale Priorität und 32 ist die zeitkritische Priorität (die
-  höchste Priorität; bitte benutzen Sie diese nicht - außer Sie wissen, was Sie tun).
+  Der PrioritÃ¤ts-Wert kann zwischen 1 und 32 liegen. 1 ist die niedrigste
+  PrioritÃ¤t, 16 ist die normale PrioritÃ¤t und 32 ist die zeitkritische PrioritÃ¤t (die
+  hÃ¶chste PrioritÃ¤t; bitte benutzen Sie diese nicht - auÃŸer Sie wissen, was Sie tun).
 @LineBreak
 @LineBreak
-  Wird als neue Priorität 0 übergeben, dann wird die Priorität nicht verändert (nützlich,
-  um nur die Priorität des Threads zu ermitteln, aber nicht zu verändern). Alle Threads
-  werden mit normaler Priorität erstellt.
+  Wird als neue PrioritÃ¤t 0 Ã¼bergeben, dann wird die PrioritÃ¤t nicht verÃ¤ndert (nÃ¼tzlich,
+  um nur die PrioritÃ¤t des Threads zu ermitteln, aber nicht zu verÃ¤ndern). Alle Threads
+  werden mit normaler PrioritÃ¤t erstellt.
 @LineBreak
 @LineBreak
-  Normalerweise werden Sie einem ständig laufenden Thread (zum Beispiel, einem Bild
-  verarbeitenden Thread) eine Priorität geben, die nicht größer als die jedes anderen
-  Threads in Ihrem System ist. Der Grund dafür ist, wenn der Thread ständig läuft und
-  eine hohe Priorität hat, dass dann kein anderer Thread die Chance hat, ausgeführt zu werden.
+  Normalerweise werden Sie einem stÃ¤ndig laufenden Thread (zum Beispiel, einem Bild
+  verarbeitenden Thread) eine PrioritÃ¤t geben, die nicht grÃ¶ÃŸer als die jedes anderen
+  Threads in Ihrem System ist. Der Grund dafÃ¼r ist, wenn der Thread stÃ¤ndig lÃ¤uft und
+  eine hohe PrioritÃ¤t hat, dass dann kein anderer Thread die Chance hat, ausgefÃ¼hrt zu werden.
   Wenn ein Thread schnell reagieren muss, aber die meiste Zeit mit dem Warten auf einige
-  Ereignisse (Events) verbringt, dann können Sie ihm möglicherweise eine höhere als die
-  normale Priorität geben.
+  Ereignisse (Events) verbringt, dann kÃ¶nnen Sie ihm mÃ¶glicherweise eine hÃ¶here als die
+  normale PrioritÃ¤t geben.
 @linebreak
 @linebreak
 
 @OS Windows
-  Windows managet Threads (wählt aus, welcher Thread für eine kurze Zeit läuft)
-  durch preemptives Multitasking, welches durch Prioritäten geregelt wird. Dabei
-  können verschiedene Threads unterschiedliche Prioritäten-Stufen haben.
-  Dies bedeutet, wenn es Zeit zur Ausführung eines anderen Threads wird (bekannt als
-  Context-Switch), dann wird der Thread mit der höchsten Priorität (der fertig zum
-  Starten ist) als nächster ausgeführt. Wenn es mehr als einen Thread mit der höchsten
-  Priorität gibt (und sie auch fertig zum Starten sind), dann wird ein Thread nach 
-  dem anderen (basierend auf "Successive Context-Switches") ausgeführt.
+  Windows managet Threads (wÃ¤hlt aus, welcher Thread fÃ¼r eine kurze Zeit lÃ¤uft)
+  durch preemptives Multitasking, welches durch PrioritÃ¤ten geregelt wird. Dabei
+  kÃ¶nnen verschiedene Threads unterschiedliche PrioritÃ¤ten-Stufen haben.
+  Dies bedeutet, wenn es Zeit zur AusfÃ¼hrung eines anderen Threads wird (bekannt als
+  Context-Switch), dann wird der Thread mit der hÃ¶chsten PrioritÃ¤t (der fertig zum
+  Starten ist) als nÃ¤chster ausgefÃ¼hrt. Wenn es mehr als einen Thread mit der hÃ¶chsten
+  PrioritÃ¤t gibt (und sie auch fertig zum Starten sind), dann wird ein Thread nach 
+  dem anderen (basierend auf "Successive Context-Switches") ausgefÃ¼hrt.
 @EndOS
 
 @Parameter "Thread"
-  Der Thread, dessen Priorität geändert werden soll. Dieser Wert wird von @@CreateThread zurückgegeben.
+  Der Thread, dessen PrioritÃ¤t geÃ¤ndert werden soll. Dieser Wert wird von @@CreateThread zurÃ¼ckgegeben.
 
-@Parameter "Priorität"
-  Die neue Priorität, welche dem Thread zugewiesen werden soll. Die Priorität kann 0 sein (bedeutet, dass die
-  Priorität nicht geändert wird) oder im Bereich von 1 (niedrigste Priorität) bis 32 (höchste Priorität) liegen. 16 ist die
-  normale Priorität. Windows unterstützt nicht 32 verschiedene Level der Priorität - hier ist eine
+@Parameter "PrioritÃ¤t"
+  Die neue PrioritÃ¤t, welche dem Thread zugewiesen werden soll. Die PrioritÃ¤t kann 0 sein (bedeutet, dass die
+  PrioritÃ¤t nicht geÃ¤ndert wird) oder im Bereich von 1 (niedrigste PrioritÃ¤t) bis 32 (hÃ¶chste PrioritÃ¤t) liegen. 16 ist die
+  normale PrioritÃ¤t. Windows unterstÃ¼tzt nicht 32 verschiedene Level der PrioritÃ¤t - hier ist eine
   entsprechende Tabelle:
 @FixedFont 
   - 1: niedrigste
   - zwischen 2 und 15: geringer als normal
   - 16: normal
-  - zwischen 17 und 30: höher als normal
-  - 31: höchste
+  - zwischen 17 und 30: hÃ¶her als normal
+  - 31: hÃ¶chste
   - 32: zeitkritisch
 @EndFixedFont
 
 @ReturnValue
-  Dieser Befehl gibt die vor dem Aufrufen dieses Befehls aktuelle Priorität des Threads zurück.
-  Dies kann nützlich sein, wenn Sie die Priorität des Threads nur für eine kurze Zeit erhöhen
-  möchten und danach zur vorher eingestellten Priorität zurückkehren möchten. Der zurückgegebene
+  Dieser Befehl gibt die vor dem Aufrufen dieses Befehls aktuelle PrioritÃ¤t des Threads zurÃ¼ck.
+  Dies kann nÃ¼tzlich sein, wenn Sie die PrioritÃ¤t des Threads nur fÃ¼r eine kurze Zeit erhÃ¶hen
+  mÃ¶chten und danach zur vorher eingestellten PrioritÃ¤t zurÃ¼ckkehren mÃ¶chten. Der zurÃ¼ckgegebene
   Wert ist nicht so notwendig wie der von ThreadPriority(), da es auch von der vom System 
-  angebotenen Prioritätsoptimierung abhängt. 
+  angebotenen PrioritÃ¤tsoptimierung abhÃ¤ngt. 
 @LineBreak
 
 @Example
 @Code
-  ; Prozedur, die immer läuft (beachten Sie, es wird kein Delay Befehl
-  ; verwendet, da dies ein Anhalten des Threads während der Pause
-  ; verursachen würde)
+  ; Prozedur, die immer lÃ¤uft (beachten Sie, es wird kein Delay Befehl
+  ; verwendet, da dies ein Anhalten des Threads wÃ¤hrend der Pause
+  ; verursachen wÃ¼rde)
   Procedure PrintStuff(*Interval)
     For i = 0 To 1000000000
-      ; böse Wartezeit
+      ; bÃ¶se Wartezeit
     Next
   EndProcedure
 
   If OpenConsole()
     thread = CreateThread(@PrintStuff(), 500)
     If thread
-      ; Priorität über die des Haupt-Threads erhöhen.
-      ; Sie sollten die Wartezeit vor dem Ausführen des
-      ; Print Befehls beachten. Ändern Sie jetzt die 17
-      ; in eine 15 (niedrige als die normale Priorität)
+      ; PrioritÃ¤t Ã¼ber die des Haupt-Threads erhÃ¶hen.
+      ; Sie sollten die Wartezeit vor dem AusfÃ¼hren des
+      ; Print Befehls beachten. Ã„ndern Sie jetzt die 17
+      ; in eine 15 (niedrige als die normale PrioritÃ¤t)
       ; und Sie werden feststellen, dass die Ausgabe
       ; umgehend beginnt.
       ThreadPriority(thread, 17)
@@ -525,10 +525,10 @@
   Versucht, den angegebenen Mutex zu sperren ("lock"). 
 @Linebreak
 @Linebreak
-  Anders als @@LockMutex stoppt dieser Befehl nicht die Ausführung bis der 
-  Mutex verfügbar ist. Er kehrt umgehend zurück und sein Rückgabewert zeigt an, ob das Sperren
-  erfolgreich war oder nicht. Dies ist nützlich in Situationen, wo der Thread nicht auf die
-  Verfügbarkeit des Mutex warten soll und stattdessen andere Dinge in der Zwischenzeit
+  Anders als @@LockMutex stoppt dieser Befehl nicht die AusfÃ¼hrung bis der 
+  Mutex verfÃ¼gbar ist. Er kehrt umgehend zurÃ¼ck und sein RÃ¼ckgabewert zeigt an, ob das Sperren
+  erfolgreich war oder nicht. Dies ist nÃ¼tzlich in Situationen, wo der Thread nicht auf die
+  VerfÃ¼gbarkeit des Mutex warten soll und stattdessen andere Dinge in der Zwischenzeit
   erledigen soll.
 
 @Parameter "Mutex"
@@ -540,9 +540,9 @@
 
 @Remarks
   Wenn das Sperren erfolgreich war, muss der @@UnlockMutex 
-  Befehl aufgerufen werden, um den Mutex für andere Threads erneut verfügbar zu machen.
+  Befehl aufgerufen werden, um den Mutex fÃ¼r andere Threads erneut verfÃ¼gbar zu machen.
   Wenn dies unterbleibt, kann dies leicht zu einer "Lockup"-Situation (Sperrung innerhalb
-  des Programms) führen.
+  des Programms) fÃ¼hren.
 
 @Example
 @Code
@@ -585,7 +585,7 @@
 
 @Description
   Entsperrt ("unlock") einen zuvor mittels @@LockMutex gesperrten Mutex.
-  Der Mutex ist dann für andere Threads erneut zum Sperren verfügbar.
+  Der Mutex ist dann fÃ¼r andere Threads erneut zum Sperren verfÃ¼gbar.
 
 @Parameter "Mutex"
   Der zu entsperrende Mutex.
@@ -596,7 +596,7 @@
   Ein Mutex kann nur durch den Thread entsperrt werden, welcher ihn auch gesperrt hat.
 @Linebreak
 @Linebreak
-  Siehe @@CreateMutex für einen Beispiel-Code.
+  Siehe @@CreateMutex fÃ¼r einen Beispiel-Code.
 
 @SeeAlso
   @@LockMutex, @@CreateMutex
@@ -608,12 +608,12 @@
 @Function Ergebnis = WaitThread(Thread [, Timeout])
 
 @Description
-  Hält die Programmausführung an, bis der angegebene 'Thread' endet oder das optionale
+  HÃ¤lt die ProgrammausfÃ¼hrung an, bis der angegebene 'Thread' endet oder das optionale
   'Timeout' (in Millisekunden) erreicht wird. Wurde der Thread bereits abgeschlossen, 
-  kehrt diese Funktion umgehend zurück.
+  kehrt diese Funktion umgehend zurÃ¼ck.
 
 @Parameter "Thread"
-  Der Thread, auf den gewartet werden soll. Dieser Wert wird von @@CreateThread zurückgegeben.
+  Der Thread, auf den gewartet werden soll. Dieser Wert wird von @@CreateThread zurÃ¼ckgegeben.
 
 @OptionalParameter "Timeout"
   Timeout ("Auszeit"), auf welche gewartet werden soll, in Millisekunden.
@@ -649,48 +649,48 @@
 @SupportedOS
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Semaphore = CreateSemaphore([Anfangszähler])
+@Function Semaphore = CreateSemaphore([AnfangszÃ¤hler])
 
 @Description
   Erstellt ein neues Semaphore-Objekt.
 @LineBreak
 @LineBreak
-  Ein Semaphore ist ein Thread-Synchronisations-Objekt, welches einen internen Zähler einschließt.
+  Ein Semaphore ist ein Thread-Synchronisations-Objekt, welches einen internen ZÃ¤hler einschlieÃŸt.
   Es hat zwei Arten von Operationen: @Link "SignalSemaphore" "Signal" und @Link "WaitSemaphore" "Warten".
-  Eine Warte-Operation vermindert den Zähler des Semaphore um eins. Wenn der Zähler unter 0 fallen
-  würde, dann blockiert die Warte-Operation bis ein Signal-Aufruf erfolgt. Eine Signal-Operation
-  erhöht den Zähler um eins, und gibt (wenn vorhanden) einen blockierten Thread wieder frei.
-  Ein Semaphore ermöglicht das Erzwingen von minimalen und maximalen Zählern gegenüber Threads, zum
+  Eine Warte-Operation vermindert den ZÃ¤hler des Semaphore um eins. Wenn der ZÃ¤hler unter 0 fallen
+  wÃ¼rde, dann blockiert die Warte-Operation bis ein Signal-Aufruf erfolgt. Eine Signal-Operation
+  erhÃ¶ht den ZÃ¤hler um eins, und gibt (wenn vorhanden) einen blockierten Thread wieder frei.
+  Ein Semaphore ermÃ¶glicht das Erzwingen von minimalen und maximalen ZÃ¤hlern gegenÃ¼ber Threads, zum
   Beispiel um zu vermeiden, dass einem Queue (Warteschlange) die Elemente ausgehen oder er zu viele
-  Elemente erhält.
+  Elemente erhÃ¤lt.
 @LineBreak
 @LineBreak
   Anders als ein @Link "CreateMutex" "Mutex" ist ein Semaphore-Objekt nicht "im Besitz" eines
   bestimmten Threads, was bedeutet dass Signal/Warte-Aufrufe nicht vom gleichen Thread erfolgen
-  müssen, wie dies mit @@LockMutex und @@UnlockMutex der Fall ist.
-  Tatsächlich ist die gebräuchliche Nutzungsweise eines Semaphore-Objekts, durch einen Thread die
-  @@SignalSemaphore Aufrufe durchzuführen und durch einen weiteren Thread alle
-  @@WaitSemaphore Aufrufe durchzuführen, um eine Hersteller/Konsument-Struktur 
+  mÃ¼ssen, wie dies mit @@LockMutex und @@UnlockMutex der Fall ist.
+  TatsÃ¤chlich ist die gebrÃ¤uchliche Nutzungsweise eines Semaphore-Objekts, durch einen Thread die
+  @@SignalSemaphore Aufrufe durchzufÃ¼hren und durch einen weiteren Thread alle
+  @@WaitSemaphore Aufrufe durchzufÃ¼hren, um eine Hersteller/Konsument-Struktur 
   (englisch: "producer/consumer pattern") zu schaffen.
 
-@OptionalParameter "Anfangszähler"
-  Dies muss ein positiver Wert sein, welcher den anfänglichen Zähler des Semaphore
-  definiert. Wenn dieser nicht angegeben wird, lautet der anfängliche Zähler gleich 0.
+@OptionalParameter "AnfangszÃ¤hler"
+  Dies muss ein positiver Wert sein, welcher den anfÃ¤nglichen ZÃ¤hler des Semaphore
+  definiert. Wenn dieser nicht angegeben wird, lautet der anfÃ¤ngliche ZÃ¤hler gleich 0.
 
 @ReturnValue
   Das neue Semaphore-Objekt - oder Null, wenn die Semaphore-Erstellung fehlgeschlagen ist.
 
 @Example
-  Dieses Beispiel zeigt einen "Hersteller"-Thread, welcher ein Queue mit Elementen bevölkert, und
+  Dieses Beispiel zeigt einen "Hersteller"-Thread, welcher ein Queue mit Elementen bevÃ¶lkert, und
   den Haupt-Thread, der sie liest. Das Semaphore wird verwendet, um sicher zu gehen, dass dem Queue
   nie die Elemente ausgehen. Beachten Sie, dass dies auch erreicht werden kann, mit nur einem
   Mutex und Warten/Abfragen von Queue-Elementen mit einem @@Delay zwischendrin,
-  aber die Semaphore-Befehle führen ein effizienteres Warten aus (kehren umgehend nach einem
-  @@SignalSemaphore Aufruf zurück, und nicht nur wenn das nächste Mal eine Abfrage-Schleife
-  den Queue überprüft).
+  aber die Semaphore-Befehle fÃ¼hren ein effizienteres Warten aus (kehren umgehend nach einem
+  @@SignalSemaphore Aufruf zurÃ¼ck, und nicht nur wenn das nÃ¤chste Mal eine Abfrage-Schleife
+  den Queue Ã¼berprÃ¼ft).
 @Code
 ; Stelle sicher, dass "Thread-sicheres Executable erstellen" in den Compiler-Optionen 
-; aktiviert ist, für genaues Debuggen mit Threads
+; aktiviert ist, fÃ¼r genaues Debuggen mit Threads
 ;
 Global Semaphore = CreateSemaphore()
 Global Mutex     = CreateMutex()
@@ -701,7 +701,7 @@ Procedure Producer(Total)
   For i = 1 To Total
     Delay(Random(750) + 250)
     
-    ; Der Queue-Zugriff benötigt weiterhin einen normalen "Mutex Lock", um Thread-sicher zu sein
+    ; Der Queue-Zugriff benÃ¶tigt weiterhin einen normalen "Mutex Lock", um Thread-sicher zu sein
     LockMutex(Mutex)
       LastElement(Queue())
       AddElement(Queue())
@@ -717,7 +717,7 @@ EndProcedure
 If CreateThread(@Producer(), 30)
 
   For i = 1 To 30  
-    ; Warte auf ein verfügbares Element
+    ; Warte auf ein verfÃ¼gbares Element
     WaitSemaphore(Semaphore)
     
     ; Queue-Status anzeigen
@@ -748,7 +748,7 @@ EndIf
 @Function FreeSemaphore(Semaphore) 
 
 @Description
-  Zerstört das angegebene Semaphore-Objekt und gibt die von ihm verwendeten Ressourcen frei.
+  ZerstÃ¶rt das angegebene Semaphore-Objekt und gibt die von ihm verwendeten Ressourcen frei.
 
 @Parameter "Semaphore"
   Das freizugebende Semaphore-Objekt.
@@ -765,7 +765,7 @@ EndIf
 @Function SignalSemaphore(Semaphore)
 
 @Description
-  Erhöht den internen Zähler des Semaphore um eins, und gibt einen wartenden Thread frei (wenn
+  ErhÃ¶ht den internen ZÃ¤hler des Semaphore um eins, und gibt einen wartenden Thread frei (wenn
   es einen solchen gibt).
   
 @Parameter "Semaphore"
@@ -774,12 +774,12 @@ EndIf
 @NoReturnValue
 
 @Remarks
-  Der Semaphore-Zähler ist begrenzt auf einen vorzeichenbehafteten @ReferenceLink "variables" "32 Bit Wert",
-  womit ein Maximum von 2147483647 @@SignalSemaphore Aufrufen durchgeführt werden kann, ohne dass
+  Der Semaphore-ZÃ¤hler ist begrenzt auf einen vorzeichenbehafteten @ReferenceLink "variables" "32 Bit Wert",
+  womit ein Maximum von 2147483647 @@SignalSemaphore Aufrufen durchgefÃ¼hrt werden kann, ohne dass
   zwischendurch mit @@WaitSemaphore Aufrufen ausgeglichen wird.
 @LineBreak
 @LineBreak
-  Siehe @@CreateSemaphore für ein Code-Beispiel.
+  Siehe @@CreateSemaphore fÃ¼r ein Code-Beispiel.
 
 @SupportedOS
 
@@ -788,8 +788,8 @@ EndIf
 @Function WaitSemaphore(Semaphore)
 
 @Description
-  Vermindert den internen Zähler des Semaphore um eins, und blockiert die weitere Thread-Ausführung,
-  wenn der Zähler unter Null fallen würde. Ein blockierter Thread wird fortgesetzt, sobald ein
+  Vermindert den internen ZÃ¤hler des Semaphore um eins, und blockiert die weitere Thread-AusfÃ¼hrung,
+  wenn der ZÃ¤hler unter Null fallen wÃ¼rde. Ein blockierter Thread wird fortgesetzt, sobald ein
   weiterer Thread @@SignalSemaphore aufruft.
 
 @Parameter "Semaphore"
@@ -798,12 +798,12 @@ EndIf
 @NoReturnValue
 
 @Remarks
-  Der Semaphore-Zähler ist begrenzt auf einen vorzeichenbehafteten @ReferenceLink "variables" "32 Bit Wert",
-  womit ein Maximum von 2147483647 @@SignalSemaphore Aufrufen durchgeführt werden kann, ohne dass
+  Der Semaphore-ZÃ¤hler ist begrenzt auf einen vorzeichenbehafteten @ReferenceLink "variables" "32 Bit Wert",
+  womit ein Maximum von 2147483647 @@SignalSemaphore Aufrufen durchgefÃ¼hrt werden kann, ohne dass
   zwischendurch mit @@WaitSemaphore Aufrufen ausgeglichen wird.
 @LineBreak
 @LineBreak
-  Siehe @@CreateSemaphore für ein Code-Beispiel.
+  Siehe @@CreateSemaphore fÃ¼r ein Code-Beispiel.
 
 @SupportedOS
 
@@ -812,16 +812,16 @@ EndIf
 @Function Ergebnis = TrySemaphore(Semaphore)
 
 @Description
-  Vermindert den internen Zähler des Semaphore um eins, aber nur wenn der Zähler über 0 liegt.
+  Vermindert den internen ZÃ¤hler des Semaphore um eins, aber nur wenn der ZÃ¤hler Ã¼ber 0 liegt.
   Dies bewirkt das gleiche wie eine @@WaitSemaphore Operation, aber ohne das Blockieren,
-  wenn der Zähler unter 0 fallen würde.
+  wenn der ZÃ¤hler unter 0 fallen wÃ¼rde.
 
 @Parameter "Semaphore"
   Das zu verwendende Semaphore-Objekt.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Semaphore-Zähler vermindert wurde - oder 0, wenn der
-  Zähler nicht vermindert werden konnte, weil er bereits bei Null stand.
+  Ein Wert ungleich Null, wenn der Semaphore-ZÃ¤hler vermindert wurde - oder 0, wenn der
+  ZÃ¤hler nicht vermindert werden konnte, weil er bereits bei Null stand.
 
 @SupportedOS
 

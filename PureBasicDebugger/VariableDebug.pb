@@ -648,7 +648,7 @@ Procedure VariableWindowEvents(*Debugger.DebuggerData, EventID)
   ElseIf EventID = #PB_Event_SizeWindow
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Variable_Panel], 10, 10, WindowWidth(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20, WindowHeight(*Debugger\Windows[#DEBUGGER_WINDOW_Variable])-20)
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       ; the resize fails on Linux else when opening the window
       FlushEvents()
     CompilerEndIf
@@ -930,14 +930,18 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       
       ; Set default sorting values (name column, ascending)
       ;
-      *Debugger\ArraySortColumn         = 0
+      *Debugger\ArraySortColumn         = 1
       *Debugger\ArraySortDirection      = 1
       *Debugger\LocalArraySortColumn    = 1
       *Debugger\LocalArraySortDirection = 1
-      *Debugger\ListSortColumn          = 0
+      *Debugger\ListSortColumn          = 1
       *Debugger\ListSortDirection       = 1
       *Debugger\LocalListSortColumn     = 1
       *Debugger\LocalListSortDirection  = 1
+      *Debugger\MapSortColumn           = 1
+      *Debugger\MapSortDirection        = 1
+      *Debugger\LocalMapSortColumn      = 1
+      *Debugger\LocalMapSortDirection   = 1
       
       CompilerIf #CompileWindows
         ; watch column clicks
@@ -959,7 +963,7 @@ Procedure OpenVariableWindow(*Debugger.DebuggerData)
       EndIf
       VariableWindowEvents(*Debugger, #PB_Event_SizeWindow)
       
-      CompilerIf #CompileLinux
+      CompilerIf #CompileLinuxGtk
         FlushEvents() ; Flush the events to finish window creation/resize or SetGadgetState() could fail on linux: https://www.purebasic.fr/english/viewtopic.php?f=23&t=48589
       CompilerEndIf
       

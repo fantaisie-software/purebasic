@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Mesh library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Mesh
@@ -18,7 +18,12 @@
 
 @CommandList
 
-@ExampleFile All Mesh.pb
+@ExampleFile All CreateLine3D.pb
+@ExampleFile All MeshManual.pb
+@ExampleFile All MeshManual2.pb
+@ExampleFile All SetMeshMaterial.pb
+@ExampleFile All BuildMeshLOD.pb
+@ExampleFile All CreateDataMesh.pb
 
 @SupportedOS
 
@@ -100,7 +105,7 @@
   @#PB_Mesh_DiagonalRegular2      : diagonals are aligned in the other way
   @#PB_Mesh_DiagonalAlternate     : diagonals are once in a way and once in the other way (alternate)
   @#PB_Mesh_DiagonalShortestLength: diagonals are between the two closest vertices
-  @#PB_Mesh_DiagonalClosestNormal : diagonals are between the two closest normals (scalar product). Best mode but requieres normals.
+  @#PB_Mesh_DiagonalClosestNormal : diagonals are between the two closest normals (scalar product). Best mode but requires normals.
 @EndFixedFont
 
 @Remarks
@@ -909,6 +914,9 @@
   Returns nonzero if the mesh was created successfully and zero if there was an error.
   If @#PB_Any was used as the #Mesh parameter then the new generated number is returned on success.
 
+@Remarks
+  The total number of vertices is limited by the product "TileCountX" x "TileCountZ" which must not exceed 65100.
+
 @Example
 @Code
   InitEngine3D()
@@ -937,6 +945,41 @@
 
 @SeeAlso
   @@FreeMesh, @@CreateSphere, @@CreateMesh, @@CreateCube, @@CreatePlane, @@CreateLine3D
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function MeshDirectAdd(#Mesh, MeshVertexArray(), MeshFaceArray(), Type, MaterialID)
+
+@Description
+  Add a new submesh to the specified #Mesh. A mesh can have any number of
+  submeshes. A submesh position is relative to the mesh position. 
+
+@Parameter "MeshVertexArray()"
+  The array containing the submesh vertex data. It has to be an array of type "MeshVertex".
+
+@Parameter "MeshFaceArray()"
+  The array containing the submesh face data. It has to be an array of type "MeshFace". 
+
+@Parameter "Type"
+  The type of the new submesh. It can be one of the following value:
+@FixedFont
+  @#PB_Mesh_TriangleList : the submesh will be composed of a list of triangles (default).
+  @#PB_Mesh_TriangleStrip: the submesh will be composed of a list of connected triangles (vertices are shared).
+  @#PB_Mesh_TriangleFan  : the submesh will be composed of a list of triangles sharing the same central vertex point.
+  @#PB_Mesh_PointList    : the submesh will be composed of a list of points.
+  @#PB_Mesh_LineList     : the submesh will be composed of a list of lines.
+  @#PB_Mesh_LineStrip    : the submesh will be composed of a list of connected lines (vertices are shared).
+@EndFixedFont
+
+@Parameter "MaterialID"
+  The default material to use for the submesh. To get a valid 'MaterialID', use @@MaterialID.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeMesh, @@CreateMesh, @@LoadMesh
 
 @SupportedOS
 
@@ -1260,12 +1303,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Mode)
+@Function FinishMesh(StaticMesh)
 
 @Description
   Finish the creation of the current mesh started with @@CreateMesh.
 
-@Parameter "Mode"
+@Parameter "StaticMesh"
   If set to @#True, the mesh will be converted to a static mesh and will be not modifiable anymore.
   If set to @#False, the mesh will still be modifiable with @@UpdateMesh. Static meshes are faster
   to render than dynamic meshes.
@@ -1344,24 +1387,24 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, NbLOD, Distance.f, ReductionValue.f)
+@Function BuildMeshLOD(#Mesh [, NbLOD, Distance.f, ReductionValue.f])
 
 @Description
   Build automatically one or several level of detail (LOD) for the mesh. The #Mesh will be replaced automatically
   with less complex mesh when displayed above the specified distance from the camera. If more precise LOD
-  meshes are requiered, @@AddMeshManualLOD can be used.
+  meshes are required, @@AddMeshManualLOD can be used.
 
 @Parameter "Mesh"
   The mesh to use.
 
-@Parameter "NbLOD"
-  Number of needed LOD for this mesh.
+@OptionalParameter "NbLOD"
+  Number of needed LOD for this mesh. If this parameter isn't used, then the LODs will be automatically calculated.
 
-@Parameter "Distance"
+@OptionalParameter "Distance"
   The minimum distance from the camera where the first LOD mesh will be used instead of #Mesh.
   For the next LOD meshs, the distance will be calculated using this formula: 'Distance / SqrF(1-ReductionValue)'.
 
-@Parameter "ReductionValue"
+@OptionalParameter "ReductionValue"
   The reduction to apply, between 0 (no reduction) and 1 (100% reduction). @LineBreak
 
 @LineBreak

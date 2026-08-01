@@ -1,49 +1,52 @@
-@Title Construire une DLL
+ï»¿@Title Construire une DLL
 
 @Section Introduction
 
-  PureBasic permet de créer des DLL Microsoft 
+  PureBasic permet de crÃ©er des DLL Microsoft 
   Windows (DLL : Dynamic Linked Library), des 
-  objets partagés (.so) sous Linux, et des 
-  bibliothèques dynamiques (.dylib) sous MacOS X. 
-  Le code d'une DLL est de même nature que le code 
-  PureBasic excepté qu'aucun code ne peut exister 
-  en dehors d'une procédure. Tout le code est intégré 
-  dans des procédures, sauf la déclaration des 
+  objets partagÃ©s (.so) sous Linux, et des 
+  bibliothÃ¨ques dynamiques (.dylib) sous MacOS X. 
+  Le code d'une DLL est de mÃªme nature que le code 
+  PureBasic exceptÃ© qu'aucun code ne peut exister 
+  en dehors d'une procÃ©dure. Tout le code est intÃ©grÃ© 
+  dans des procÃ©dures, sauf la dÃ©claration des 
   variables globales et des structures. 
   @LineBreak
   @LineBreak 
   L'avantage d'une DLL est de pouvoir partager du code 
-  déjà compilé avec un programme tiers. Pour cela 
-  il faut déclarer la DLL avec le mot clef 
+  dÃ©jÃ  compilÃ© avec un programme tiers. Pour cela 
+  il faut dÃ©clarer la DLL avec le mot clef 
   @Keyword ProcedureDLL au lieu de 
   @ReferenceLink "Procedures" Procedure.
-  Si la procédure partagée doit être au format 'CDecl' 
+  Si la procÃ©dure partagÃ©e doit Ãªtre au format 'CDecl' 
   (ce qui n'est pas le cas pour les DLL standards de 
   Windows), le mot clef @Keyword ProcedureCDLL doit 
-  être utilisé.@LineBreak
-  De même @ReferenceLink "Procedures" Declare doit 
-  être remplacé par 
+  Ãªtre utilisÃ©.@LineBreak
+  De mÃªme @ReferenceLink "Procedures" Declare doit 
+  Ãªtre remplacÃ© par 
   @Keyword DeclareDLL ou @Keyword DeclareCDLL. 
   @LineBreak
   @LineBreak
   Avant de compiler a DLL, il est necessaire de 
-  sélectionner 'Shared DLL' comme format de sortie 
-  dans le menu 'Compiler\Option' de l'éditeur 
+  sÃ©lectionner 'Shared DLL' comme format de sortie 
+  dans le menu 'Compiler\Option' de l'Ã©diteur 
   PureBasic (ou d'utiliser le commutateur /DLL dans 
-  la ligne de commande). Une fois compilé, une DLL 
-  apparait avec le même nom que le fichier PureBasic.
+  la ligne de commande). Une fois compilÃ©, une DLL 
+  apparait avec le mÃªme nom que le fichier PureBasic.
+  @LineBreak
+  @LineBreak
+  De plus, les @ReferenceLink "prototypes" "prototypes" peuvent Ãªtre utiles lors de la manipulation de DLL.
 
 @Example
 @Code
-  ; Créer et enregistrer ce fichier sous le nom 'PureBasic.pb'
-  ; La DLL 'PureBasic.dll' sera créée.
+  ; CrÃ©er et enregistrer ce fichier sous le nom 'PureBasic.pb'
+  ; La DLL 'PureBasic.dll' sera crÃ©Ã©e.
   
   ProcedureDLL MaFonction()
     MessageRequester("Bonjour", "Voici une DLL PureBasic !", 0)
   EndProcedure
   
-  ; Créer un deuxième fichier PureBasic avec le code suivant:
+  ; CrÃ©er un deuxiÃ¨me fichier PureBasic avec le code suivant:
   ; Voici le programme client qui utilise la DLL
   ; Compiler et executer ce programme dans le dossier
   ; contenant la dll 'PureBasic.dll'. 
@@ -54,42 +57,42 @@
   EndIf
 @EndCode  
   
-  @Bold "Pour les programmeurs avancés", il existe 4 
-  procédures spéciales qui sont appelées automatiquement 
-  par l'OS lorsque l'un des évènements suivants surviennent: @LineBreak
-  - une DLL est attachée à un nouveau process @LineBreak
-  - une DLL est détachée d'un process @LineBreak
-  - une DLL est attachée à un nouveau thread @LineBreak
-  - une DLL est détachée d'un thread 
+  @Bold "Pour les programmeurs avancÃ©s", il existe 4 
+  procÃ©dures spÃ©ciales qui sont appelÃ©es automatiquement 
+  par l'OS lorsque l'un des Ã©vÃ¨nements suivants surviennent: @LineBreak
+  - une DLL est attachÃ©e Ã  un nouveau process @LineBreak
+  - une DLL est dÃ©tachÃ©e d'un process @LineBreak
+  - une DLL est attachÃ©e Ã  un nouveau thread @LineBreak
+  - une DLL est dÃ©tachÃ©e d'un thread 
 @LineBreak
 @LineBreak
-  Pour gérer cela, il est possible de déclarer 4 
-  procédures spéciales nommées: 
+  Pour gÃ©rer cela, il est possible de dÃ©clarer 4 
+  procÃ©dures spÃ©ciales nommÃ©es: 
   @FunctionColor AttachProcess(Instance), 
   @FunctionColor DetachProcess(Instance), 
   @FunctionColor AttachThread(Instance) et 
   @FunctionColor DetachThread(Instance). 
-  Cela signifie que ces 4 noms sont réservés et ne 
-  peuvent être utilisés par le programmeur pour 
+  Cela signifie que ces 4 noms sont rÃ©servÃ©s et ne 
+  peuvent Ãªtre utilisÃ©s par le programmeur pour 
   d'autres usages.
 @LineBreak
 @LineBreak
-  @Bold "Notes à propos de la création des DLL's:" 
+  @Bold "Notes Ã  propos de la crÃ©ation des DLL's:" 
 @LineBreak
-  - La déclaration des tableaux avec 
+  - La dÃ©claration des tableaux avec 
   @ReferenceLink "Dim" Dim, des listes avec 
   @ReferenceLink "NewList" NewList ou des maps avec 
   @ReferenceLink "NewMap" NewMap doit toujours 
-  être faite dans la procédure 'AttachProcess()'. 
+  Ãªtre faite dans la procÃ©dure 'AttachProcess()'. 
   @LineBreak
-  - Ne pas écrire de code en dehors des procédures. La seule exception est la déclaration des variables et des structures. @LineBreak
-  - Les valeurs par défaut dans les paramètres de la procédure n'ont aucun effet. @LineBreak
-  - Les routines d'initialisation DirectX ne doivent pas être dans la procédure 'AttachProcess()'. 
+  - Ne pas Ã©crire de code en dehors des procÃ©dures. La seule exception est la dÃ©claration des variables et des structures. @LineBreak
+  - Les valeurs par dÃ©faut dans les paramÃ¨tres de la procÃ©dure n'ont aucun effet. @LineBreak
+  - Les routines d'initialisation DirectX ne doivent pas Ãªtre dans la procÃ©dure 'AttachProcess()'. 
 @LineBreak
 @LineBreak
-  @Bold "À propos du renvoi de chaîne de caractères (string) par une DLL:" 
+  @Bold "Ã€ propos du renvoi de chaÃ®ne de caractÃ¨res (string) par une DLL:" 
 @LineBreak
-  Pour qu'une fonction puisse renvoyer une string, elle doit être déclarée en @ReferenceLink "Global" "global".
+  Pour qu'une fonction puisse renvoyer une string, elle doit Ãªtre dÃ©clarÃ©e en @ReferenceLink "Global" "global".
 
 @Example
 @Code
@@ -101,18 +104,18 @@
   EndProcedure
 @EndCode
 
-  Si la chaîne de caractères n'est pas déclarée en 
+  Si la chaÃ®ne de caractÃ¨res n'est pas dÃ©clarÃ©e en 
   @ReferenceLink "Global" "global" alors elle sera 
-  locale à la procédure et donc libérée à la fin de 
-  la procédure. Elle ne pourra pas être utilisée par 
+  locale Ã  la procÃ©dure et donc libÃ©rÃ©e Ã  la fin de 
+  la procÃ©dure. Elle ne pourra pas Ãªtre utilisÃ©e par 
   le programme appelant la fonction.
 @LineBreak
 @LineBreak
   Quand @@CallFunction ou une fonction similaire de 
-  type CallXXX est utilisée dans un programme pour 
+  type CallXXX est utilisÃ©e dans un programme pour 
   appeler une fonction dans une DLL, le programme 
-  reçoit un pointeur vers une chaîne de caractères, 
-  qui pourra être lu avec @@PeekS.
+  reÃ§oit un pointeur vers une chaÃ®ne de caractÃ¨res, 
+  qui pourra Ãªtre lu avec @@PeekS.
 
 @Example
 @Code

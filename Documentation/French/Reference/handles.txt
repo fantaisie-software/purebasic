@@ -1,17 +1,17 @@
-@Title Numéros et Identifiants (Handles)
+ï»¿@Title NumÃ©ros et Identifiants (Handles)
 
-@Section Les numéros
+@Section Les numÃ©ros
 
-  Tous les objets crées sont identifiés par un numéro arbitraire (qui n'est pas l'identifiant de l'objet, comme défini ci-dessous). 
-  Dans ce manuel, les numéros s'écrivent sous la forme #Numéro (par exemple, chaque gadget créé a un numéro #Gadget). 
+  Tous les objets crÃ©es sont identifiÃ©s par un numÃ©ro arbitraire (qui n'est pas l'identifiant de l'objet, comme dÃ©fini ci-dessous). 
+  Dans ce manuel, les numÃ©ros s'Ã©crivent sous la forme #NumÃ©ro (par exemple, chaque gadget crÃ©Ã© a un numÃ©ro #Gadget). 
 @LineBreak
 @LineBreak
-  Les numéros que vous leurs attribuez n'ont pas besoin d'être des constantes, 
-  mais ils doivent être uniques pour chaque objet de votre programme (une image peut avoir le même numéro qu'un gadget, 
-  parce que ce sont des types d'objets différents). Ces numéros sont utilisés pour accéder ultérieurement à ces objets dans votre programme.   
+  Les numÃ©ros que vous leurs attribuez n'ont pas besoin d'Ãªtre des constantes, 
+  mais ils doivent Ãªtre uniques pour chaque objet de votre programme (une image peut avoir le mÃªme numÃ©ro qu'un gadget, 
+  parce que ce sont des types d'objets diffÃ©rents). Ces numÃ©ros sont utilisÃ©s pour accÃ©der ultÃ©rieurement Ã  ces objets dans votre programme.   
 @LineBreak
 @LineBreak
-  Par exemple, les fonctions de gestion des évènements renvoient des numéros :
+  Par exemple, les fonctions de gestion des Ã©vÃ¨nements renvoient des numÃ©ros :
 
 @Code  
   EventGadget()
@@ -22,21 +22,21 @@
 
 @Section Les identifiants
 
-  Tous les objets ont également un numéro unique qui leur est attribué par le système. 
-  Ces numéros uniques sont appelés identifiants. 
+  Tous les objets ont Ã©galement un numÃ©ro unique qui leur est attribuÃ© par le systÃ¨me. 
+  Ces numÃ©ros uniques sont appelÃ©s identifiants. 
 
-  Parfois, une fonction PureBasic n'a pas besoin du numéro comme paramètre, 
-  mais de l'identifiant. Dans ce manuel, ce genre de besoin est indiqué, à l'aide du suffixe ID.
+  Parfois, une fonction PureBasic n'a pas besoin du numÃ©ro comme paramÃ¨tre, 
+  mais de l'identifiant. Dans ce manuel, ce genre de besoin est indiquÃ©, Ã  l'aide du suffixe ID.
 
 @Example
   
 @Code  
   ImageGadget(#Gadget, x, y, Largeur, Hauteur, ImageID [, Options])
-  ; #Gadget doit être le numéro que vous voulez attribuer au Gadget
-  ; ImageID doit être l'IDentifiant (numéro unique) de l'image.
+  ; #Gadget doit Ãªtre le numÃ©ro que vous voulez attribuer au Gadget
+  ; ImageID doit Ãªtre l'IDentifiant (numÃ©ro unique) de l'image.
 @EndCode
 
-  Pour obtenir l'identifiant d'un objet, il y a des fonctions spéciales telles que :
+  Pour obtenir l'identifiant d'un objet, il y a des fonctions spÃ©ciales telles que :
 
 @Code  
   FontID()
@@ -46,9 +46,9 @@
   WindowID()
 @EndCode  
 
-  La plupart des fonctions qui créent ces objets renvoient cet identifiant comme résultat, 
-  si tout s'est bien passé. Ceci est seulement le cas si @#PB_Any n'a pas été utilisé pour créer l'objet. 
-  Si @#PB_Any est utilisé, ces fonctions renvoient le numéro de l'objet qui a été attribué par PB pour elles, mais pas l'identifiant.
+  La plupart des fonctions qui crÃ©ent ces objets renvoient cet identifiant comme rÃ©sultat, 
+  si tout s'est bien passÃ©. Ceci est seulement le cas si @#PB_Any n'a pas Ã©tÃ© utilisÃ© pour crÃ©er l'objet. 
+  Si @#PB_Any est utilisÃ©, ces fonctions renvoient le numÃ©ro de l'objet qui a Ã©tÃ© attribuÃ© par PB pour elles, mais pas l'identifiant.
 
 @Example
 

@@ -1,21 +1,21 @@
-;
+ï»¿;
 ;     Clipboard library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Clipboard
 
 @Overview
   Die Zwischenablage (das "Clipboard") ist der Standard-Weg, um Informationen und Daten zwischen gerade
-  auf dem OS laufenden Applikationen auszutauschen. Sie bietet dem Anwender auch einfachen temporären
+  auf dem OS laufenden Applikationen auszutauschen. Sie bietet dem Anwender auch einfachen temporÃ¤ren
   Speicherplatz, worin Informationen und Daten schnell und einfach gespeichert und wieder abgerufen werden
-  können. Zum Beispiel wird im Text-Editor ein Text beim Ausschneiden in die Zwischenablage kopiert, von wo er
-  später wieder abgerufen werden kann, indem er in einer anderen Applikation eingefügt wird.
+  kÃ¶nnen. Zum Beispiel wird im Text-Editor ein Text beim Ausschneiden in die Zwischenablage kopiert, von wo er
+  spÃ¤ter wieder abgerufen werden kann, indem er in einer anderen Applikation eingefÃ¼gt wird.
 @LineBreak
 @LineBreak
-  PureBasic gibt dem Programmierer die Möglichkeit, Anwendungen zu entwickeln, die zum 
-  Ausschneiden, Kopieren und Einfügen von Text oder Bildern über die Standard-Zwischenablage
+  PureBasic gibt dem Programmierer die MÃ¶glichkeit, Anwendungen zu entwickeln, die zum 
+  Ausschneiden, Kopieren und EinfÃ¼gen von Text oder Bildern Ã¼ber die Standard-Zwischenablage
   imstande sind.
   
 @CommandList
@@ -29,8 +29,8 @@
 @Function ClearClipboard()
 
 @Description
-  Löscht die Zwischenablage (das Clipboard). Das bedeutet, dass alle im Clipboard enthaltenen Daten gelöscht 
-  werden und nicht mehr über die Zwischenablage verfügbar sind.
+  LÃ¶scht die Zwischenablage (das Clipboard). Das bedeutet, dass alle im Clipboard enthaltenen Daten gelÃ¶scht 
+  werden und nicht mehr Ã¼ber die Zwischenablage verfÃ¼gbar sind.
 
 @NoParameters
 @NoReturnValue
@@ -49,22 +49,37 @@
   dort welche gibt).
 
 @Parameter "#Image"
-  Die Nummer für das neue Bild.
+  Die Nummer fÃ¼r das neue Bild.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
   automatisch zu generieren.
 
 @OptionalParameter "Tiefe"
-  Die Tiefe des neuen Bildes. Gültige Werte sind 24 (Standard) oder 32 Bit.
+  Die Tiefe des neuen Bildes. GÃ¼ltige Werte sind 24 (Standard) oder 32 Bit.
 
 @ReturnValue
-  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler. 
+  Gibt bei Erfolg einen Wert ungleich Null zurÃ¼ck, und Null bei einem Fehler. 
   Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Image Parameter verwendet wurde,
-  dann wird die neue Image Nummer zurückgegeben.
+  dann wird die neue Image Nummer zurÃ¼ckgegeben.
 
 @Remarks
+  Auf Windows wird die Transparenz mÃ¶glicherweise nicht erkannt, nachdem das Bild aus der Zwischenablage
+  in Drittanbietersoftware eingefÃ¼gt wurde. (Wenn dieses Bild als PNG-Datei gespeichert wird, bleibt die
+  Transparenz erhalten.)
+  @LineBreak
+  Dies ist ein Problem des BMP-Formats und der Art und Weise, wie Windows damit umgeht. Es ist mÃ¶glich,
+  ein 32-Bit-Bitmap ohne Alphakanal zu haben. In diesem Fall sind alle Alphawerte 0, das Bild soll dabei
+  undurchsichtig sein.
+  @LineBreak
+  Da Bilder in GetClipboardImage() von auÃŸerhalb als PB stammen kÃ¶nnen, kÃ¶nnen wir nicht wissen, ob dies
+  ein vollstÃ¤ndig transparentes oder vollstÃ¤ndig undurchsichtiges Bild sein soll. Aus diesem Grund
+  verwenden wir den Alphakanal nur, wenn mindestens ein Pixel einen anderen Wert als 0 hat. Andernfalls
+  behandeln wir es als undurchsichtiges Bild.
+  @LineBreak
+  @LineBreak
   Das Bild kann mittels der Funktion @@FreeImage freigegeben werden.
+  @LineBreak
   Zur weiteren Verwendung des Bildes sind Befehle wie z.B. @@DrawImage 
-  oder @@ImageGadget verfügbar.
+  oder @@ImageGadget verfÃ¼gbar.
 
 @SeeAlso
   @@GetClipboardText
@@ -76,14 +91,14 @@
 @Function Text$ = GetClipboardText()
 
 @Description
-  Gibt den gerade in der Zwischenablage befindlichen Text-String zurück.
+  Gibt den gerade in der Zwischenablage befindlichen Text-String zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den Inhalt der Zwischenablage zurück, wenn diese Text enthält.
-  Wenn die Zwischenablage keine Daten oder keine Text-Daten enthält, dann wird
-  ein leerer String zurückgegeben.
+  Gibt den Inhalt der Zwischenablage zurÃ¼ck, wenn diese Text enthÃ¤lt.
+  Wenn die Zwischenablage keine Daten oder keine Text-Daten enthÃ¤lt, dann wird
+  ein leerer String zurÃ¼ckgegeben.
 
 @SeeAlso
   @@GetClipboardImage
@@ -95,16 +110,16 @@
 @Function SetClipboardImage(#Image)
 
 @Description
-  Stellt eine Kopie des angegebenen Bildes '#Image' in die Zwischenablage.
-  Wenn die Zwischenablage gerade ein Bild enthält, wird dieses überschrieben.
+  Legt eine Kopie des angegebenen Bildes in die Zwischenablage. Falls die Zwischenablage
+  bereits ein Bild enthÃ¤lt, wird dieses Ã¼berschrieben.
 
 @Parameter "#Image"
-  Das Bild, welches in die Zwischenablage kopiert werden soll.
+  Das Bild, das in die Zwischenablage eingefÃ¼gt werden soll.
 
 @NoReturnValue
 
 @Remarks
-  Ein Bild ist für die Verwendung mit dieser Funktion verfügbar, nachdem es z.B. mittels
+  Ein Bild ist fÃ¼r die Verwendung mit dieser Funktion verfÃ¼gbar, nachdem es z.B. mittels
   @@CreateImage erstellt oder mittels @@LoadImage
   geladen wurde.
 
@@ -118,7 +133,7 @@
     SetClipboardImage(0)
   EndIf
 
-  ; jetzt können Sie ein Grafik-Tool öffnen und den Inhalt der Zwischenablage einfügen, 
+  ; jetzt kÃ¶nnen Sie ein Grafik-Tool Ã¶ffnen und den Inhalt der Zwischenablage einfÃ¼gen, 
   ; Sie werden eine japanische Flagge sehen ;-)
 @EndCode
 
@@ -132,11 +147,11 @@
 @Function SetClipboardText(Text$)
 
 @Description
-  Speichert einen String in der Zwischenablage. Wenn die Zwischenablage bereits Text enthält,
-  wird dieser überschrieben.
+  Speichert einen String in der Zwischenablage. Wenn die Zwischenablage bereits Text enthÃ¤lt,
+  wird dieser Ã¼berschrieben.
 
 @Parameter "Text$"
-  Der String, den Sie in der Zwischenablage speichern möchten.
+  Der String, den Sie in der Zwischenablage speichern mÃ¶chten.
 
 @NoReturnValue 
 

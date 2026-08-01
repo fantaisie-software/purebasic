@@ -1,0 +1,224 @@
+;
+;     StringBuilder library documentation
+;
+;      (c) 2026 - Fantaisie Software
+;
+
+@Library StringBuilder
+
+@Overview
+  The StringBuilder library provides efficient string concatenation and manipulation. When concatenating
+  many strings together, using a StringBuilder is much more efficient than repeatedly using string concatenation
+  operators. This library manages internal buffers to minimize memory allocations and copies.
+@LineBreak
+@LineBreak
+  Any number of string builders may be handled at the same time. Each string builder maintains an internal buffer
+  that grows as needed, and the final string can be extracted when all appending operations are complete.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateStringBuilder(#StringBuilder [, IncrementLength])
+
+@Description
+  Create a new string builder object.
+
+@Parameter "#StringBuilder"
+  The number to identify the new string builder. @ReferenceLink "purebasic_objects" "#PB_Any" can be used to
+  auto-generate this number.
+
+@OptionalParameter "IncrementLength"
+  The length (in characters) by which the internal buffer will grow when more space is needed. If not specified,
+  a default increment length of 8192 characters will be used.
+
+@ReturnValue
+  Returns nonzero if the string builder was created successfully and zero if there was an error.
+  If @#PB_Any was used as the #StringBuilder parameter then the new generated number is returned on success.
+
+@Remarks
+  A new string builder starts with an empty string. Use @@AppendStringBuilderString or @@AppendStringBuilderStringN to add content to it.
+  When finished building the string, use @@GetStringBuilderString to retrieve the final result.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+
+  AppendStringBuilderString(0, "Hello ")
+  AppendStringBuilderString(0, "World!")
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AppendStringBuilderString(#StringBuilder, String$)
+
+@Description
+  Append a string to the end of the current string builder content.
+
+@Parameter "#StringBuilder"
+  The string builder to use.
+
+@Parameter "String$"
+  The string to append.
+
+@ReturnValue
+  Returns nonzero if the string was successfully appended and zero if there was an error.
+
+@Remarks
+  This function efficiently appends the string to the internal buffer, growing the buffer as needed.
+  Multiple calls to this function can be chained together to build complex strings efficiently.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderString(0, "Line " + Str(i))
+    AppendStringBuilderString(0, #CRLF$)
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = AppendStringBuilderStringN(#StringBuilder, String$)
+
+@Description
+  Append a string and a newline character to the end of the current string builder content.
+
+@Parameter "#StringBuilder"
+  The string builder to use.
+
+@Parameter "String$"
+  The string to append.
+
+@ReturnValue
+  Returns nonzero if the string was successfully appended and zero if there was an error.
+
+@Remarks
+  This function efficiently appends the string and the newline character to the internal buffer, growing the buffer as needed.
+  Multiple calls to this function can be chained together to build complex strings efficiently.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Line " + Str(i))
+  Next
+    
+  Result$ = GetStringBuilderString(0)
+  Debug Result$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = GetStringBuilderString(#StringBuilder)
+
+@Description
+  Get the current built string.
+
+@Parameter "#StringBuilder"
+  The string builder to use.
+
+@ReturnValue
+  Returns the current built string. If the string builder is empty or invalid, an empty string is returned.
+
+@Remarks
+  This function returns the complete string that has been built through multiple calls to @@AppendStringBuilderString or @@AppendStringBuilderStringN.
+  After calling this function, it's still possible to continue to append strings to the string builder.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ResetStringBuilder(#StringBuilder)
+
+@Description
+  Reset the string builder to an empty string, clearing all previously appended content.
+
+@Parameter "#StringBuilder"
+  The string builder to reset.
+
+@ReturnValue
+  Returns nonzero if the string builder was successfully reset and zero if there was an error.
+
+@Remarks
+  This function clears the internal buffer and returns the string builder to its initial empty state.
+  This is useful when you want to reuse a string builder for building a new string.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsStringBuilder(#StringBuilder)
+
+@Description
+  Test if the given #StringBuilder number is a valid and correctly initialized string builder object.
+
+@Parameter "#StringBuilder"
+  The string builder to check.
+
+@ReturnValue
+  Returns nonzero if #StringBuilder is a valid string builder and zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a string builder is ready to use.
+
+@SeeAlso
+  @@CreateStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStringBuilder(#StringBuilder)
+
+@Description
+  Free the specified string builder and release its associated memory.
+
+@Parameter "#StringBuilder"
+  The string builder to free. If @#PB_All is specified, all the remaining string builders are freed.
+
+@NoReturnValue
+
+@Remarks
+  Once the string builder is freed, it may not be used anymore.
+@LineBreak
+@LineBreak
+  All remaining opened string builders are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateStringBuilder, @@IsStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

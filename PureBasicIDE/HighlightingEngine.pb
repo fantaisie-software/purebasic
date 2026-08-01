@@ -127,9 +127,9 @@ Global SourceStringFormat
 Global NbASMKeywords.l ; Need to be a 'long' as the 'Data' is declared as long (32/64 bits)
 
 CompilerIf #SpiderBasic
-  #NbBasicKeywords = 95
+  #NbBasicKeywords = 98
 CompilerElse
-  #NbBasicKeywords = 111
+  #NbBasicKeywords = 114
 CompilerEndIf
 
 #BasicTypeChars = "ABCUWLSFDQI" ; characters that are basic types (uppercase)
@@ -224,10 +224,10 @@ Enumeration 1
   CompilerEndIf
   #KEYWORD_DisableDebugger
   #KEYWORD_DisableExplicit
-  CompilerIf #SpiderBasic
-    #KEYWORD_DisableJS
+  CompilerIf #SpiderBasic ; It's EnableJS in SpiderBasic, so it needs to be put there as it's alpha-sorted !
+    #KEYWORD_DisableASM
   CompilerEndIf
-
+  #KEYWORD_DisablePureLibrary
   #KEYWORD_Else
   #KEYWORD_ElseIf
   CompilerIf Not #SpiderBasic
@@ -235,13 +235,14 @@ Enumeration 1
   CompilerEndIf
   #KEYWORD_EnableDebugger
   #KEYWORD_EnableExplicit
-  CompilerIf #SpiderBasic
-    #KEYWORD_EnableJS
+  CompilerIf #SpiderBasic ; It's EnableJS in SpiderBasic, so it needs to be put there as it's alpha-sorted !
+    #KEYWORD_EnableASM
   CompilerEndIf
   #KEYWORD_End
   #KEYWORD_EndDataSection
   #KEYWORD_EndDeclareModule
   #KEYWORD_EndEnumeration
+  #KEYWORD_EndHeaderSection
   #KEYWORD_EndIf
   #KEYWORD_EndImport
   #KEYWORD_EndInterface
@@ -270,6 +271,8 @@ Enumeration 1
     #KEYWORD_Gosub
     #KEYWORD_Goto
   CompilerEndIf
+  
+  #KEYWORD_HeaderSection
 
   #KEYWORD_If
   #KEYWORD_Import
@@ -668,6 +671,7 @@ Procedure InitSyntaxHighlighting()
 
   ; PureBasic function Hash Table
   ;
+  ClearMap(BasicFunctionMap())
   For k=1 To NbBasicFunctions
     BasicFunctionMap(UCase(BasicFunctions(k-1)\Name$)) = k
   Next
@@ -1117,7 +1121,7 @@ EndProcedure
 #SkipSeparator = -2
 #ModuleSeparator = -2
 
-Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode)
+Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode, DisableFormatting = 0)
 
   *Cursor.HighlightPTR = *InBuffer
   *InBufferEnd = *InBuffer + InBufferLength
@@ -1219,13 +1223,13 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
     If IsCustomKeyword(WordStart$) And OldSeparatorChar <> '\'
 
       ; -------------------- Custom Keyword -------------------------
-      If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
+      If DisableFormatting = #False And EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(CustomKeyword$), *WordStart, Len(CustomKeyword$)) ; no PokeS() as it will write a 0!
       Else
         TextChanged = 0
       EndIf
 
-      If EnableKeywordBolding ; special fix for the alignment issues. for bolded keywords, we output all whitespace as "normal text"
+      If DisableFormatting = #False And EnableKeywordBolding ; special fix for the alignment issues. for bolded keywords, we output all whitespace as "normal text"
         Callback(*StringStart, *WordStart- *StringStart, *NormalTextColor, 0, 0)
         Callback(*WordStart  , *WordEnd  - *WordStart  , *CustomKeywordColor, 1, TextChanged)
         Callback(*WordEnd    , *Cursor   - *WordEnd    , *NormalTextColor, 0, 0)
@@ -1247,19 +1251,28 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       ; -------------------- Basic Keywords -------------------------
 
       ; do not correct the word the user is currently typing, because it will change the case of any word that starts with a PB keyword, which is not good
-      If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
+      If DisableFormatting = #False And EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(BasicKeyword$), *WordStart, Len(BasicKeyword$)) ; no PokeS() as it will write a 0!
       Else
         TextChanged = 0
       EndIf
 
-      If EnableKeywordBolding ; special fix for the alignment issues. for bolded keywords, we output all whitespace as "normal text"
+      If DisableFormatting = #False And EnableKeywordBolding ; special fix for the alignment issues. for bolded keywords, we output all whitespace as "normal text"
         Callback(*StringStart, *WordStart- *StringStart, *NormalTextColor, 0, 0)
         Callback(*WordStart  , *WordEnd  - *WordStart  , *BasicKeywordColor, 1, TextChanged)
         Callback(*WordEnd    , *Cursor   - *WordEnd    , *NormalTextColor, 0, 0)
       Else
         Callback(*StringStart, *Cursor - *StringStart, *BasicKeywordColor, 0, TextChanged)
       EndIf
+      
+      ; When loading a file, the whole buffer is scanned at once, so detect the EnableJS/DisableJS live, to modify the formatting flag
+      Select LCase(BasicKeyword$)
+        Case BasicKeywords(#KEYWORD_EnableASM), BasicKeywords(#KEYWORD_HeaderSection)
+          DisableFormatting = #True
+          
+        Case BasicKeywords(#KEYWORD_DisableASM), BasicKeywords(#KEYWORD_EndHeaderSection)
+          DisableFormatting = #False
+      EndSelect
 
     ElseIf SeparatorChar = ':' And *Cursor\a[1] = ':'
 
@@ -1291,7 +1304,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       FunctionPosition = IsAPIFunction(*WordStart, WordLength)
       If FunctionPosition > -1
 
-        If EnableCaseCorrection
+        If DisableFormatting = #False And EnableCaseCorrection
           TextChanged = CopyMemoryCheck(APIFunctions(FunctionPosition)\Ascii, *WordStart, WordLength-1)
         EndIf
 
@@ -1299,7 +1312,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         FunctionPosition = IsBasicFunction(UCase(WordStart$))
         If FunctionPosition > -1
 
-          If EnableCaseCorrection And OldSeparatorChar <> '.' ; do not correct structure names
+          If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '.' ; do not correct structure names
             TextChanged = CopyMemoryCheck(BasicFunctions(FunctionPosition)\Ascii, *WordStart, WordLength)
           EndIf
 
@@ -1337,7 +1350,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       ; -------------------- ASM Keywords ---------------------------
 
       ; do not correct the word the user is currently typing, because it will change the case of any word that starts with a PB keyword, which is not good
-      If EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
+      If DisableFormatting = #False And EnableCaseCorrection And (CursorPosition = 0 Or CursorPosition < *WordStart-*InBuffer Or CursorPosition > *WordEnd-*InBuffer)
         TextChanged = CopyMemoryCheck(ToAscii(ASMKeyword$), *WordStart, WordLength) ; no PokeS() as it will write a 0!
         Callback(*StringStart, *Cursor-*StringStart, *ASMKeywordColor, 0, TextChanged)
       Else
@@ -1614,7 +1627,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         EndIf
 
         ; also do not correct case here if the cursor is over the word
-        If EnableCaseCorrection And ConstantListSize > 0 And *Cursor > *StringStart + 1 And IsKnownConstant(PeekAsciiLength(*StringStart, *Cursor-*StringStart)) And (CursorPosition = 0 Or CursorPosition < *StringStart-*InBuffer Or CursorPosition > *Cursor-*InBuffer)
+        If DisableFormatting = #False And EnableCaseCorrection And ConstantListSize > 0 And *Cursor > *StringStart + 1 And IsKnownConstant(PeekAsciiLength(*StringStart, *Cursor-*StringStart)) And (CursorPosition = 0 Or CursorPosition < *StringStart-*InBuffer Or CursorPosition > *Cursor-*InBuffer)
           TextChanged = CopyMemoryCheck(ToAscii(KnownConstant$), *StringStart, Len(KnownConstant$))
           Callback(*StringStart, *Cursor-*StringStart, *ConstantColor, 0, TextChanged) ; don't include the current char!
         Else

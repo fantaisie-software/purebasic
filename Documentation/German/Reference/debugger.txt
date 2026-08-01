@@ -1,17 +1,17 @@
-@Title Debugger-Schlüsselwörter in PureBasic
+ï»¿@Title Debugger-SchlÃ¼sselwÃ¶rter in PureBasic
 
-@Section Überblick
+@Section Ãœberblick
 
-  Eine vollständige Beschreibung aller Funktionen des mächtigen Debuggers 
+  Eine vollstÃ¤ndige Beschreibung aller Funktionen des mÃ¤chtigen Debuggers 
   finden Sie in den gesonderten Kapiteln @ReferenceLink "ide_debugger" "Benutzen des Debuggers"
   bzw. @ReferenceLink "ide_debugtools" "Benutzen der Debugger-Werkzeuge".
   @LineBreak
   @LineBreak
-  Es folgt eine Liste mit speziellen Debugger-Schlüsselwörtern, um den Debugger von Ihrem
+  Es folgt eine Liste mit speziellen Debugger-SchlÃ¼sselwÃ¶rtern, um den Debugger von Ihrem
   Quellcode aus zu kontrollieren. Es gibt auch eine @LibraryLink "Debugger" "Debugger Bibliothek",
-  die weitere Funktionen zur Verfügung stellt, um das Verhalten des Debuggers zu ändern.
+  die weitere Funktionen zur VerfÃ¼gung stellt, um das Verhalten des Debuggers zu Ã¤ndern.
   @LineBreak
-  Verschiedene auch für das Debuggen nützliche Compiler-Konstanten finden Sie im Kapitel
+  Verschiedene auch fÃ¼r das Debuggen nÃ¼tzliche Compiler-Konstanten finden Sie im Kapitel
   @ReferenceLink "compilerdirectives" "Compiler-Direktiven".
   @LineBreak
   @LineBreak
@@ -27,7 +27,7 @@
 
   @Description
   
-    Dies ruft den "Debugger" auf und hält sofort die Programmausführung an. 
+    Dies ruft den "Debugger" auf und hÃ¤lt sofort die ProgrammausfÃ¼hrung an. 
     @LineBreak
 
 ; -------------------------------------------------------------------------------------------------
@@ -41,22 +41,22 @@
 
   @Description
    
-    Zeigt das @ReferenceLink "ide_debugtools" "Debugger-Ausgabefenster" und darin das Ergebnis. Der Ausdruck kann jeder gültige PureBasic 
+    Zeigt das @ReferenceLink "ide_debugtools" "Debugger-Ausgabefenster" und darin das Ergebnis. Der Ausdruck kann jeder gÃ¼ltige PureBasic 
     Ausdruck sein, von numerisch bis zu einem String. Ein wichtiger Punkt ist, dass der Debug Befehl 
-    und sein zugehöriger Ausdruck total ignoriert (nicht kompiliert) werden, wenn der Debugger 
+    und sein zugehÃ¶riger Ausdruck total ignoriert (nicht kompiliert) werden, wenn der Debugger 
     deaktiviert ist. @LineBreak
     @LineBreak  
-    Hinweis: Dies gilt auch, wenn Sie hinter Debug vollständige Befehlszeilen (z.B. Debug LoadImage(1,"test.bmp")) 
+    Hinweis: Dies gilt auch, wenn Sie hinter Debug vollstÃ¤ndige Befehlszeilen (z.B. Debug LoadImage(1,"test.bmp")) 
     angeben. Diese werden bei ausgeschaltetem Debugger nicht mit kompiliert! @LineBreak
     @LineBreak
     Dies bedeutet, dass dieser Befehl benutzt werden kann, um einfach den Programmablauf zu verfolgen 
-    ("tracen"), ohne beim Erstellen des endgültigen Executable die Debug-Befehle auskommentieren zu müssen. @LineBreak
+    ("tracen"), ohne beim Erstellen des endgÃ¼ltigen Executable die Debug-Befehle auskommentieren zu mÃ¼ssen. @LineBreak
     @LineBreak
-    Der 'DebugLevel' ist die Prioritätsstufe der Debug-Mitteilung. Alle normalen Debug-Mitteilungen 
+    Der 'DebugLevel' ist die PrioritÃ¤tsstufe der Debug-Mitteilung. Alle normalen Debug-Mitteilungen 
     (ohne angegebenen DebugLevel) werden automatisch angezeigt. Wenn ein Level angegeben wurde, dann wird 
     die Mitteilung nur angezeigt, wenn der aktuelle DebugLevel (definiert mit dem nachfolgenden 'DebugLevel' Befehl) 
-    gleich oder höher als dieser Wert ist. Dies ermöglicht einen hierarchischen Debug-Modus, indem mehr und mehr 
-    präzisere Informationen in Abhängigkeit vom benutzten DebugLevel angezeigt werden. 
+    gleich oder hÃ¶her als dieser Wert ist. Dies ermÃ¶glicht einen hierarchischen Debug-Modus, indem mehr und mehr 
+    prÃ¤zisere Informationen in AbhÃ¤ngigkeit vom benutzten DebugLevel angezeigt werden. 
     @LineBreak
 
 ; -------------------------------------------------------------------------------------------------
@@ -70,11 +70,11 @@
 
   @Description
   
-    Legt den aktuellen DebugLevel für die @Keyword Debug Mitteilung fest. 
+    Legt den aktuellen DebugLevel fÃ¼r die @Keyword Debug Mitteilung fest. 
     @LineBreak
     @LineBreak
     Hinweis: Der DebugLevel wird zum Zeitpunkt des Kompilierens festgelegt. Dies bedeutet, dass
-    Sie den @Keyword "DebugLevel" Befehl vor jedem anderen Debug-Befehl einfügen müssen, um sicher
+    Sie den @Keyword "DebugLevel" Befehl vor jedem anderen Debug-Befehl einfÃ¼gen mÃ¼ssen, um sicher
     zu gehen, dass dieser sich auf alle Debug-Befehle auswirkt.
     @LineBreak
 
@@ -89,9 +89,9 @@
 
   @Description
   
-    Dies deaktiviert die Debugger-Prüfroutinen für nach diesem Befehl folgenden Quellcode.
-    Dadurch wird der Debugger nicht vollständig ausgeschaltet. Daher sollten Performance-Prüfungen nicht
-    mittels dem @Keyword DisableDebugger Befehl durchgeführt werden, sondern durch Deaktivieren des Debuggers
+    Dies deaktiviert die Debugger-PrÃ¼froutinen fÃ¼r nach diesem Befehl folgenden Quellcode.
+    Dadurch wird der Debugger nicht vollstÃ¤ndig ausgeschaltet. Daher sollten Performance-PrÃ¼fungen nicht
+    mittels dem @Keyword DisableDebugger Befehl durchgefÃ¼hrt werden, sondern durch Deaktivieren des Debuggers
     vor dem Kompilieren des Programms.
     @LineBreak
 
@@ -106,7 +106,7 @@
 
   @Description
   
-    Dies schaltet die Debugger-Prüfroutinen bei nach diesem Befehl folgenden Quellcode ein
+    Dies schaltet die Debugger-PrÃ¼froutinen bei nach diesem Befehl folgenden Quellcode ein
     (wenn der Debugger vorher mittels @Keyword DisableDebugger ausgeschalten wurde). 
     @LineBreak
     @LineBreak

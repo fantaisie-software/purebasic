@@ -1,4 +1,4 @@
-;
+﻿;
 ;     System library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -331,11 +331,44 @@ The system library offers access to specialized commands.
 @Parameter "State"
   It can be one of the following constant:
 @FixedFont 
-  - @#PB_SplashScreen_AutoClose  : The splashscreen will be automatically closed when the application has been launched (default).
-  - @#PB_SplashScreen_NoAutoClose: Disable the auto splashscreen closing. It will need to be manually closed with @#PB_SplashScreen_Close. 
-  - @#PB_SplashScreen_Close      : Force closing the splashscreen.
+  @#PB_SplashScreen_AutoClose  : The splashscreen will be automatically closed when the application has been launched (default).
+  @#PB_SplashScreen_NoAutoClose: Disable the auto splashscreen closing. It will need to be manually closed with @#PB_SplashScreen_Close. 
+  @#PB_SplashScreen_Close      : Force closing the splashscreen.
 @EndFixedFont
 
 @NoReturnValue
 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsDarkMode()
+
+@Description
+  Returns the current device theme mode. To detect when the device theme mode is changing, use the @#PB_Event_ColorSchemeChanged event.
+
+@ReturnValue
+  Returns @#True if the current theme is dark, or @#False otherwise.
+
+@Example
+@Code
+  Debug IsDarkMode() ; Will returns 0 if dark mode is not enabled on the device, or 1 otherwise.
+@EndCode
+
+@Example With theme change monitoring
+@Code
+  Procedure ThemeChangedEvent()
+    If IsDarkMode()
+      Debug "The device is now using dark mode"
+    Else
+      Debug "The device is now using light mode"
+    EndIf      
+  EndProcedure
+
+  BindEvent(#PB_Event_ThemeChanged, @ThemeChangedEvent())
+@EndCode
+
+@SeeAlso
+  @@MobileTheme
+  
 @SupportedOS

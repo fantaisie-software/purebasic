@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Engine3D library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,25 +8,25 @@
 
 @Overview
 
-PureBasic dispose d'un accès simplifié à OGRE, 
-un moteur 3D OpenSource très performant. 
+PureBasic dispose d'un accÃ¨s simplifiÃ© Ã  OGRE, 
+un moteur 3D OpenSource trÃ¨s performant. 
 @LineBreak
 @LineBreak
-Ce choix a été fait car il aurait été dommage 
-de réinventer la roue plutôt que de supporter 
-et de pousser le développement d'un excellent 
-produit déjà disponible.
+Ce choix a Ã©tÃ© fait car il aurait Ã©tÃ© dommage 
+de rÃ©inventer la roue plutÃ´t que de supporter 
+et de pousser le dÃ©veloppement d'un excellent 
+produit dÃ©jÃ  disponible.
 @LineBreak
 @LineBreak
-OGRE est toujours en développement et de 
-nombreuses nouvelles fonctionnalités devraient 
-lui être ajoutées au fur et à mesure.
+OGRE est toujours en dÃ©veloppement et de 
+nombreuses nouvelles fonctionnalitÃ©s devraient 
+lui Ãªtre ajoutÃ©es au fur et Ã  mesure.
 @LineBreak
 @LineBreak
-Plus d'informations à propos de ce moteur 3D 
+Plus d'informations Ã  propos de ce moteur 3D 
 sont disponible sur: 
 @InternetLink "http://www.ogre3d.org" "http://www.ogre3d.org".
-La licence relative à l'usage de OGRE est 
+La licence relative Ã  l'usage de OGRE est 
 consultable @ReferenceLink "license_engine3d" "ici" 
 (plus d'informations ici 
 @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ").
@@ -34,23 +34,23 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @LineBreak
  Note: Si vous utilisez le moteur 3D de 
  PureBasic dans vos projets avec l'intention
- de distribuer votre exécutable, vous devrez 
+ de distribuer votre exÃ©cutable, vous devrez 
  copier la Engine3D.dll du dossier
- PureBasic/Compilers dans le répertoire de 
+ PureBasic/Compilers dans le rÃ©pertoire de 
  votre projet.
 
-@Section  Repère dans l'espace
+@Section  RepÃ¨re dans l'espace
   OGRE utilise les conventions spatiales 
   suivantes:@LineBreak
-  Le repère spatial de Ogre est direct et la 
-  règle des 3 doigts de la main droite nous 
+  Le repÃ¨re spatial de Ogre est direct et la 
+  rÃ¨gle des 3 doigts de la main droite nous 
   permet de retrouver facilement la position 
   des axes X, Y et Z dans l'espace.
 @Image ogre_axes.png
-  @Underline "Attention, l'axe Z est face à vous."
+  @Underline "Attention, l'axe Z est face Ã  vous."
 @LineBreak
 @LineBreak
-  @Bold "Définition de : Roulis, Tangage et Lacet:"
+  @Bold "DÃ©finition de : Roulis, Tangage et Lacet:"
   @LineBreak
   - Le tangage (pitch) est une rotation autour 
   de l'axe X.@LineBreak
@@ -62,9 +62,9 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @LineBreak
   @Bold "Sens de rotation:"@LineBreak
   Le sens positif (direct) d'une rotation 
-  autour d'un axe peut être retrouvé grâce à 
-  ce shéma. 
-  Le pouce dans le sens de l'axe comme indiqué, 
+  autour d'un axe peut Ãªtre retrouvÃ© grÃ¢ce Ã  
+  ce shÃ©ma. 
+  Le pouce dans le sens de l'axe comme indiquÃ©, 
   la direction des doigts donne le sens 
   positif de la rotation.@LineBreak
   (Utilisez votre main droite).
@@ -73,25 +73,21 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @LineBreak
 
 @Section  Importante note:
-  Dans toutes les bibliothèques 3D fournies avec PureBasic, toutes les variables et 
-  les valeurs renvoyées sont de type 'Float' exeptés les ID et les index, même si ce 
-  n'est pas indiqué par un '.f'.
+  Dans toutes les bibliothÃ¨ques 3D fournies avec PureBasic, toutes les variables et 
+  les valeurs renvoyÃ©es sont de type 'Float' exeptÃ©s les ID et les index, mÃªme si ce 
+  n'est pas indiquÃ© par un '.f'.
 
 @CommandList
 
 @ExampleFile All ConvertLocalToWorldPosition.pb
 @ExampleFile All ConvertWorldToLocalPosition.pb
-@ExampleFile All FetchOrientation.pb
 @ExampleFile All MousePick.pb
 @ExampleFile All MouseRayCast.pb
 @ExampleFile All PointPick.pb
 @ExampleFile All PointPick_2D3D.pb
 @ExampleFile All RayPick.pb
-@ExampleFile All RayPick_LightDirection.pb
-@ExampleFile All Screen3DRequester.pb
 @ExampleFile All SetOrientation.pb
 @ExampleFile All SkyBox.pb
-@ExampleFile All SkyDome.pb
 @ExampleFile All Water.pb
 @ExampleFile All WorldDebug.pb
 @ExampleFile All WorldShadows.pb
@@ -108,7 +104,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Ajoute un nouveau chemin absolu ou relatif 
-  dans la liste actuelle des répertoires 
+  dans la liste actuelle des rÃ©pertoires 
   disponibles pour les fonctions 3D telles que
   @LibraryLink "texture" "texture", 
   @LibraryLink "mesh" "mesh", 
@@ -116,38 +112,38 @@ consultable @ReferenceLink "license_engine3d" "ici"
   @Link "RenderWorld" "world")
 
 @Parameter "Chemin$"
-  Le chemin d'accès à ajouter à la liste des 
+  Le chemin d'accÃ¨s Ã  ajouter Ã  la liste des 
   chemins vers les ressources 3D. @LineBreak 
-  Cela peut être un chemin sur le système réel,
+  Cela peut Ãªtre un chemin sur le systÃ¨me rÃ©el,
   ou une archive ZIP.
   
 @Parameter "Type"
 @FixedFont
-  @#PB_3DArchive_FileSystem  : Répertoire classique, situé sur une unité disque
-  @#PB_3DArchive_Zip         : Fichier .zip (archive compressée)
+  @#PB_3DArchive_FileSystem  : RÃ©pertoire classique, situÃ© sur une unitÃ© disque
+  @#PB_3DArchive_Zip         : Fichier .zip (archive compressÃ©e)
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Ce mode spécial de gestion des accès aux 
-  données est dû au fait que ces données 
-  peuvent se trouver indifféremment sur le 
-  disque (répertoire classique) ou dans une 
-  archive (fichier .zip). C'est un moyen très 
-  flexible d'abstraire cet accès aux données 
-  et permet une flexibilité importante. Par 
-  exemple il est possible de créer un .zip de 
-  tout le répertoire 'Data' où sont stockées 
-  les données relatives à l'application 3D et
-  d'y accéder comme si c'était un répertoire 
+  Ce mode spÃ©cial de gestion des accÃ¨s aux 
+  donnÃ©es est dÃ» au fait que ces donnÃ©es 
+  peuvent se trouver indiffÃ©remment sur le 
+  disque (rÃ©pertoire classique) ou dans une 
+  archive (fichier .zip). C'est un moyen trÃ¨s 
+  flexible d'abstraire cet accÃ¨s aux donnÃ©es 
+  et permet une flexibilitÃ© importante. Par 
+  exemple il est possible de crÃ©er un .zip de 
+  tout le rÃ©pertoire 'Data' oÃ¹ sont stockÃ©es 
+  les donnÃ©es relatives Ã  l'application 3D et
+  d'y accÃ©der comme si c'Ã©tait un rÃ©pertoire 
   classique.
 
 @Example
 @Code
-  Add3DArchive("MyData.zip", #PB_3DArchive_Zip) ; Ajoute le .zip comme un répertoire possible
-  LoadTexture(0, "MyTexture.jpg")               ; Charge MyTexture.jpg à partir du zip
-  LoadTexture(1, "World/Grass.jpg")             ; Charge Grass.jpg à partir du zip, situé dans le sous répertoire World/
+  Add3DArchive("MyData.zip", #PB_3DArchive_Zip) ; Ajoute le .zip comme un rÃ©pertoire possible
+  LoadTexture(0, "MyTexture.jpg")               ; Charge MyTexture.jpg Ã  partir du zip
+  LoadTexture(1, "World/Grass.jpg")             ; Charge Grass.jpg Ã  partir du zip, situÃ© dans le sous rÃ©pertoire World/
 @EndCode
 
 @SeeAlso
@@ -166,7 +162,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
   Nouvelle couleur ambiante.
 @LineBreak
 @LineBreak
-  @@RGB peut être utilisée pour obtenir 
+  @@RGB peut Ãªtre utilisÃ©e pour obtenir 
   une couleur valide.
   
 @NoReturnValue
@@ -181,13 +177,13 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function AntialiasingMode(Mode)
 
 @Description
-  Change le mode de l'antialiasing (anti crénelage) 
-  en mode plein écran. 
+  Change le mode de l'antialiasing (anti crÃ©nelage) 
+  en mode plein Ã©cran. 
   
 @Parameter "Mode"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_AntialiasingMode_None: Pas d'antialiasing (valeur par défaut).
+  @#PB_AntialiasingMode_None: Pas d'antialiasing (valeur par dÃ©faut).
   @#PB_AntialiasingMode_x2  : antialiasing  x2 (FSAA).
   @#PB_AntialiasingMode_x4  : antialiasing  x4 (FSAA).
   @#PB_AntialiasingMode_x6  : antialiasing  x6 (FSAA).
@@ -196,7 +192,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoReturnValue
 
 @Remarks
-  Cette fonction doit être appelée avant 
+  Cette fonction doit Ãªtre appelÃ©e avant 
   @@OpenScreen.
 @LineBreak
 @LineBreak
@@ -214,17 +210,16 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function ConvertLocalToWorldPosition(ObjetID, X, Y, Z)
 
 @Description
-  Convertit les coordonnées locales X, Y, Z 
-  en coordonnées dans le monde 3D. 
+  Convertit les coordonnÃ©es locales X, Y, Z 
+  en coordonnÃ©es dans le monde 3D. 
   
 @Parameter "ObjetID"
-  L'ID (Identifiant) de l'objet concerné. 
-  Il peut être un des types suivants:
+  L'ID (Identifiant) de l'objet concernÃ©. 
+  Il peut Ãªtre un des types suivants:
 @FixedFont
   - Camera         : Utiliser @@CameraID pour obtenir un ID valide.
-  - Entité         : Utiliser @@EntityID pour obtenir un ID valide.
-  - Lumière        : Utiliser @@LightID pour obtenir un ID valide.
-  - Mesh           : Utiliser @@MeshID pour obtenir un ID valide.
+  - EntitÃ©         : Utiliser @@EntityID pour obtenir un ID valide.
+  - LumiÃ¨re        : Utiliser @@LightID pour obtenir un ID valide.
   - Noeud          : Utiliser @@NodeID pour obtenir un ID valide.
   - Texte3D        : Utiliser @@Text3DID pour obtenir un ID valide.  
   - Emetteur de Particle : Utiliser @@ParticleEmitterID pour obtenir un ID valide.
@@ -233,11 +228,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @EndFixedFont
 
 @Parameter "X, Y, Z"
-  Les coordonnées locales à convertir.
+  Les coordonnÃ©es locales Ã  convertir.
 
 @Remarks
-  @@GetX, @@GetY et @@GetZ seront utilisés 
-  pour obtenir les coordonnées converties.
+  @@GetX, @@GetY et @@GetZ seront utilisÃ©s 
+  pour obtenir les coordonnÃ©es converties.
   
 @NoReturnValue
   
@@ -251,17 +246,16 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function ConvertWorldToLocalPosition(ObjetID, X, Y, Z)
 
 @Description
-  Convertit les coordonnées dans le monde 3D 
-  X, Y, Z en coordonnées locales. 
+  Convertit les coordonnÃ©es dans le monde 3D 
+  X, Y, Z en coordonnÃ©es locales. 
   
 @Parameter "ObjetID"
-  L'ID (Identifiant) de l'objet concerné. 
-  Il peut être un des types suivants:
+  L'ID (Identifiant) de l'objet concernÃ©. 
+  Il peut Ãªtre un des types suivants:
 @FixedFont
   - Camera         : Utiliser @@CameraID pour obtenir un ID valide.
-  - Entité         : Utiliser @@EntityID pour obtenir un ID valide.
-  - Lumière        : Utiliser @@LightID pour obtenir un ID valide.
-  - Mesh           : Utiliser @@MeshID pour obtenir un ID valide.
+  - EntitÃ©         : Utiliser @@EntityID pour obtenir un ID valide.
+  - LumiÃ¨re        : Utiliser @@LightID pour obtenir un ID valide.
   - Noeud          : Utiliser @@NodeID pour obtenir un ID valide.
   - Texte3D        : Utiliser @@Text3DID pour obtenir un ID valide.  
   - Emetteur de Particle : Utiliser @@ParticleEmitterID pour obtenir un ID valide.
@@ -269,11 +263,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @EndFixedFont
 
 @Parameter "X, Y, Z"
-  Les coordonnées locales à convertir.
+  Les coordonnÃ©es locales Ã  convertir.
 
 @Remarks
-  @@GetX, @@GetY et @@GetZ seront utilisés 
-  pour obtenir les coordonnées converties.
+  @@GetX, @@GetY et @@GetZ seront utilisÃ©s 
+  pour obtenir les coordonnÃ©es converties.
   
 @NoReturnValue
   
@@ -290,19 +284,19 @@ consultable @ReferenceLink "license_engine3d" "ici"
   Renvoie le statut du moteur 3D.
   
 @Parameter "Type"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Engine3D_NbRenderedTriangles  : Nombre de triangles affichés dans la dernière image.
-  @#PB_Engine3D_NbRenderedBatches  : Nombre de batches affichés dans la dernière image.
+  @#PB_Engine3D_NbRenderedTriangles  : Nombre de triangles affichÃ©s dans la derniÃ¨re image.
+  @#PB_Engine3D_NbRenderedBatches  : Nombre de batches affichÃ©s dans la derniÃ¨re image.
   @#PB_Engine3D_CurrentFPS : Nombre d'images par seconde actuel
-  @#PB_Engine3D_AverageFPS : Nombre d'images par seconde moyen depuis que le moteur 3D est lancé
-  @#PB_Engine3D_MaximumFPS : Nombre d'images par seconde maximum depuis que le moteur 3D est lancé
-  @#PB_Engine3D_MinimumFPS : Nombre d'images par seconde minimum depuis que le moteur 3D est lancé
-  @#PB_Engine3D_ResetFPS   : Réinitialise les statistiques (valeurs 'Minimum', 'Maximum' et 'Moyen')
+  @#PB_Engine3D_AverageFPS : Nombre d'images par seconde moyen depuis que le moteur 3D est lancÃ©
+  @#PB_Engine3D_MaximumFPS : Nombre d'images par seconde maximum depuis que le moteur 3D est lancÃ©
+  @#PB_Engine3D_MinimumFPS : Nombre d'images par seconde minimum depuis que le moteur 3D est lancÃ©
+  @#PB_Engine3D_ResetFPS   : RÃ©initialise les statistiques (valeurs 'Minimum', 'Maximum' et 'Moyen')
 @EndFixedFont
 
 @ReturnValue
-  La valeur renvoyée dépend du type demandé.
+  La valeur renvoyÃ©e dÃ©pend du type demandÃ©.
 
 @SupportedOS
 
@@ -311,21 +305,21 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function EnableWorldCollisions(Etat)
 
 @Description
-  Active ou désactive les collisions dans 
+  Active ou dÃ©sactive les collisions dans 
   l'environnement 3D.
 
 @Parameter "Etat"
   Avec une valeur non nulle, la gestion des 
-  collisions est activée (mode par défaut).
+  collisions est activÃ©e (mode par dÃ©faut).
 @LineBreak
 @LineBreak
   Les collisions fonctionnent avec toutes les 
-  @LibraryLink "entity" "entités" qui ont 
-  un corps (body) créé avec @@CreateEntityBody. 
+  @LibraryLink "entity" "entitÃ©s" qui ont 
+  un corps (body) crÃ©Ã© avec @@CreateEntityBody. 
 @LineBreak
 @LineBreak
   Les collisions ne fonctionnent que si 
-  le moteur physique est activé avec 
+  le moteur physique est activÃ© avec 
   @@EnableWorldPhysics.
   
 @NoReturnValue
@@ -340,26 +334,26 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function EnableWorldPhysics(Etat)
 
 @Description
-  Active ou désactive le moteur physique de 
+  Active ou dÃ©sactive le moteur physique de 
   l'environnement 3D. 
  
 @Parameter "Etat"
   Avec une valeur non nulle, le moteur 
-  physique est activé (mode par défaut). 
+  physique est activÃ© (mode par dÃ©faut). 
 @LineBreak
 @LineBreak
-  Toutes les @LibraryLink "entity" "entités" 
-  qui ont un corps (body) attribué par la 
+  Toutes les @LibraryLink "entity" "entitÃ©s" 
+  qui ont un corps (body) attribuÃ© par la 
   commande @@CreateEntityBody 
-  seront affectées par le moteur physique. 
+  seront affectÃ©es par le moteur physique. 
 @LineBreak
 @LineBreak
-  Les collisions peuvent être activées avec 
+  Les collisions peuvent Ãªtre activÃ©es avec 
   @@EnableWorldCollisions. 
 @LineBreak
 @LineBreak
   Les collisions ne fonctionnent que si le 
-  moteur physique est activé.
+  moteur physique est activÃ©.
   
 @NoReturnValue
 
@@ -377,21 +371,21 @@ consultable @ReferenceLink "license_engine3d" "ici"
   
 @Parameter "Contacts"
 @FixedFont
-  @#True  : Les informations de collision seront mémorisées et pourront être récupérées 
+  @#True  : Les informations de collision seront mÃ©morisÃ©es et pourront Ãªtre rÃ©cupÃ©rÃ©es 
             avec @@WorldCollisionContact, @@WorldCollisionNormal et @@WorldCollisionAppliedImpulse. 
-  @#False : Aucune information de contact ne sera collectée (plus rapide).
+  @#False : Aucune information de contact ne sera collectÃ©e (plus rapide).
 @EndFixedFont
   
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  collisions peuvent être examinées, 
-  zéro sinon.
+  collisions peuvent Ãªtre examinÃ©es, 
+  zÃ©ro sinon.
 
 @Remarks
-  Les collisions doivent être activées avec 
+  Les collisions doivent Ãªtre activÃ©es avec 
   @@EnableWorldCollisions avant d'utiliser 
   cette commande. @LineBreak
-  Pour faire défiler les collisions, utilisez 
+  Pour faire dÃ©filer les collisions, utilisez 
   @@NextWorldCollision.
   
 @SeeAlso
@@ -405,17 +399,17 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = NextWorldCollision()
 
 @Description
-  Va à la collision suivante. @LineBreak 
+  Va Ã  la collision suivante. @LineBreak 
 
 @NoParameters
    
 @ReturnValue
   Renvoie une valeur non nulle s'il y a une 
-  autre collision à examiner, ou zéro sinon.
+  autre collision Ã  examiner, ou zÃ©ro sinon.
 
 @Remarks
-  @@ExamineWorldCollisions doit être appelé avec 
-  succès avant d'utiliser cette commande. 
+  @@ExamineWorldCollisions doit Ãªtre appelÃ© avec 
+  succÃ¨s avant d'utiliser cette commande. 
   @LineBreak 
   Pour obtenir plus d'informations sur la collision 
   actuelle, utilisez @@FirstWorldCollisionEntity(), 
@@ -439,14 +433,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = FirstWorldCollisionEntity()
 
 @Description
-  Renvoie le numéro #Entity du premier objet 
+  Renvoie le numÃ©ro #Entity du premier objet 
   dans la collision en cours d'examen avec 
   @@ExamineWorldCollisions.
 
 @NoParameters
      
 @ReturnValue
-  Renvoie le numéro #Entity du premier objet 
+  Renvoie le numÃ©ro #Entity du premier objet 
   dans la collision en cours.
 
 @SeeAlso
@@ -460,14 +454,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = SecondWorldCollisionEntity()
 
 @Description
-  Renvoie le numéro #Entity du second objet 
+  Renvoie le numÃ©ro #Entity du second objet 
   dans la collision en cours d'examen avec 
   @@ExamineWorldCollisions().
 
 @NoParameters
       
 @ReturnValue
-  Renvoie le numéro #Entity du second objet 
+  Renvoie le numÃ©ro #Entity du second objet 
   dans la collision en cours.
 
 @SeeAlso
@@ -481,7 +475,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function WorldCollisionContact()
 
 @Description
-  Récupère les informations de contact lors 
+  RÃ©cupÃ¨re les informations de contact lors 
   de la collision en cours d'examen par 
   @@ExamineWorldCollisions().
 
@@ -490,11 +484,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoReturnValue
 
 @Remarks
-  Le paramètre 'Contacts' de la fonction  
-  @@ExamineWorldCollisions() doit être mis à 
+  Le paramÃ¨tre 'Contacts' de la fonction  
+  @@ExamineWorldCollisions() doit Ãªtre mis Ã  
   @#True.@LineBreak 
   Les valeurs du vecteur de contact peuvent 
-  être récupérées avec @@GetX, @@GetY et 
+  Ãªtre rÃ©cupÃ©rÃ©es avec @@GetX, @@GetY et 
   @@GetZ.
 
 @SeeAlso
@@ -508,7 +502,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function WorldCollisionNormal()
 
 @Description
-  Récupère les informations de la 'normale' 
+  RÃ©cupÃ¨re les informations de la 'normale' 
   de contact lors de la collision en cours 
   d'examen par @@ExamineWorldCollisions().
 
@@ -517,11 +511,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoReturnValue
 
 @Remarks
-  Le paramètre 'Contacts' de la fonction  
-  @@ExamineWorldCollisions() doit être mis à 
+  Le paramÃ¨tre 'Contacts' de la fonction  
+  @@ExamineWorldCollisions() doit Ãªtre mis Ã  
   @#True.@LineBreak 
   Les valeurs du vecteur de contact peuvent 
-  être récupérées avec @@GetX, @@GetY et 
+  Ãªtre rÃ©cupÃ©rÃ©es avec @@GetX, @@GetY et 
   @@GetZ.
 
 @SeeAlso
@@ -535,18 +529,18 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat.f = WorldCollisionAppliedImpulse()
 
 @Description
-  Renvoie l'impulsion appliquée lors de la collision en cours 
+  Renvoie l'impulsion appliquÃ©e lors de la collision en cours 
   d'examen par @@ExamineWorldCollisions.
 
 @NoParameters
       
 @ReturnValue
-  L'impulsion appliquée lors de la collision en cours 
+  L'impulsion appliquÃ©e lors de la collision en cours 
   d'examen par @@ExamineWorldCollisions.
 
 @Remarks
-  Le paramètre 'Contacts' de la fonction  
-  @@ExamineWorldCollisions doit être mis à 
+  Le paramÃ¨tre 'Contacts' de la fonction  
+  @@ExamineWorldCollisions doit Ãªtre mis Ã  
   @#True.
 
 @SeeAlso
@@ -559,15 +553,15 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function FetchOrientation(ObjetID [, Mode])
 
 @Description
-  Renvoie le quaternion représentant 
+  Renvoie le quaternion reprÃ©sentant 
   l'orientation d'un objet.
   
 @Parameter "ObjetID"
-  L'ID (Identifiant) de l'objet concerné. Il peut être un des types suivants:
+  L'ID (Identifiant) de l'objet concernÃ©. Il peut Ãªtre un des types suivants:
 @FixedFont
   - Camera         : Utiliser @@CameraID pour obtenir un ID valide.
-  - Entité         : Utiliser @@EntityID pour obtenir un ID valide.
-  - Lumière        : Utiliser @@LightID pour obtenir un ID valide.
+  - EntitÃ©         : Utiliser @@EntityID pour obtenir un ID valide.
+  - LumiÃ¨re        : Utiliser @@LightID pour obtenir un ID valide.
   - Mesh           : Utiliser @@MeshID pour obtenir un ID valide.
   - Noeud          : Utiliser @@NodeID pour obtenir un ID valide.
   - Texte3D        : Utiliser @@Text3DID pour obtenir un ID valide.  
@@ -577,29 +571,29 @@ consultable @ReferenceLink "license_engine3d" "ici"
  
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
  
 @NoReturnValue
 
 @Remarks
-  Plutôt que de réaliser une série de rotation
-  autour de l'axe X puis Y puis Z, on définit  
+  PlutÃ´t que de rÃ©aliser une sÃ©rie de rotation
+  autour de l'axe X puis Y puis Z, on dÃ©finit  
   un axe de rotation unique et un angle de 
   rotation unique lui aussi, qui est la 
-  résultante de ces trois rotations. Le tout 
-  en une seule opération. Ce qui évite le 
+  rÃ©sultante de ces trois rotations. Le tout 
+  en une seule opÃ©ration. Ce qui Ã©vite le 
   "blocage de cardan". Les 
-  coordonnées de cet axe unique est le 
+  coordonnÃ©es de cet axe unique est le 
   triplet (X, Y, Z) et l'angle unique de 
   rotation est 'W'.
 @LineBreak
 @LineBreak
-  Les valeurs du quaternion peuvent être 
+  Les valeurs du quaternion peuvent Ãªtre 
   obtenues avec @@GetX, @@GetY, @@GetZ et 
   @@GetW. 
 
@@ -614,14 +608,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function SetOrientation(ObjetID, X, Y, Z, W)
 
 @Description
-  Change le quaternion représentant l'orientation d'un objet.
+  Change le quaternion reprÃ©sentant l'orientation d'un objet.
   
 @Parameter "ObjetID"
-  L'ID (Identifiant) de l'objet concerné. Il peut être un des types suivants:
+  L'ID (Identifiant) de l'objet concernÃ©. Il peut Ãªtre un des types suivants:
 @FixedFont
   - Camera         : Utiliser @@CameraID pour obtenir un ID valide.
-  - Entité         : Utiliser @@EntityID pour obtenir un ID valide.
-  - Lumière        : Utiliser @@LightID pour obtenir un ID valide.
+  - EntitÃ©         : Utiliser @@EntityID pour obtenir un ID valide.
+  - LumiÃ¨re        : Utiliser @@LightID pour obtenir un ID valide.
   - Mesh           : Utiliser @@MeshID pour obtenir un ID valide.
   - Noeud          : Utiliser @@NodeID pour obtenir un ID valide.
   - Texte3D        : Utiliser @@Text3DID pour obtenir un ID valide.  
@@ -631,29 +625,29 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Parameter "X, Y, Z, W"
   Les nouvelles valeurs du quaternion 
-  représentant l'orientation de l'objet.
+  reprÃ©sentant l'orientation de l'objet.
 @LineBreak
 @LineBreak
-  'X, Y, Z' sont les coordonnées de l'axe 
-  de rotation et 'w' l'angle de rotation à 
+  'X, Y, Z' sont les coordonnÃ©es de l'axe 
+  de rotation et 'w' l'angle de rotation Ã  
   appliquer.
   
 @NoReturnValue
 
 @Remarks
-  Plutôt que de réaliser une série de rotation
-  autour de l'axe X puis Y puis Z, on définit  
+  PlutÃ´t que de rÃ©aliser une sÃ©rie de rotation
+  autour de l'axe X puis Y puis Z, on dÃ©finit  
   un axe de rotation unique et un angle de 
   rotation unique lui aussi, qui est la 
-  résultante de ces trois rotations. Le tout 
-  en une seule opération. Ce qui évite le 
+  rÃ©sultante de ces trois rotations. Le tout 
+  en une seule opÃ©ration. Ce qui Ã©vite le 
   "blocage de cardan". Les 
-  coordonnées de cet axe unique est le 
+  coordonnÃ©es de cet axe unique est le 
   triplet (X, Y, Z) et l'angle unique de 
   rotation est 'W'.
 @LineBreak
 @LineBreak
-  Les valeurs du quaternion peuvent être 
+  Les valeurs du quaternion peuvent Ãªtre 
   obtenues avec @@GetX, @@GetY, @@GetZ et 
   @@GetW.
 @LineBreak
@@ -669,14 +663,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = GetX()
 
 @Description
-  Renvoie la valeur X de la dernière commande 
-  appelée. 
+  Renvoie la valeur X de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur X de la dernière commande 
-  appelée. 
+  Renvoie la valeur X de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @Remarks
   Les fonctions prises en charge sont
@@ -697,14 +691,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = GetY()
 
 @Description
-  Renvoie la valeur Y de la dernière commande 
-  appelée. 
+  Renvoie la valeur Y de la derniÃ¨re commande 
+  appelÃ©e. 
   
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur Y de la dernière commande 
-  appelée. 
+  Renvoie la valeur Y de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @Remarks
   Les fonctions prises en charge sont
@@ -725,14 +719,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = GetZ()
 
 @Description
-  Renvoie la valeur Z de la dernière commande 
-  appelée. 
+  Renvoie la valeur Z de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur Z de la dernière commande 
-  appelée. 
+  Renvoie la valeur Z de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @Remarks
   Les fonctions prises en charge sont
@@ -753,14 +747,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = GetW()
 
 @Description
-  Renvoie la valeur W de la dernière commande 
-  appelée. 
+  Renvoie la valeur W de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur W de la dernière commande 
-  appelée. 
+  Renvoie la valeur W de la derniÃ¨re commande 
+  appelÃ©e. 
 
 @Remarks
   La seule fonction prise en charge est
@@ -777,37 +771,37 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Fog(Couleur, Intensite, DistanceDebut, DistanceFin)
 
 @Description
-  Affiche un effet de brouillard à la distance spécifiée 
-  et sur toutes les caméras.
+  Affiche un effet de brouillard Ã  la distance spÃ©cifiÃ©e 
+  et sur toutes les camÃ©ras.
 
 @Parameter "Couleur"
   Couleur du brouillard.
 @LineBreak
 @LineBreak  
-  @@RGB peut être utilisée pour obtenir 
-  facilement la couleur désirée.
+  @@RGB peut Ãªtre utilisÃ©e pour obtenir 
+  facilement la couleur dÃ©sirÃ©e.
 
 @Parameter "Intensite"
   Epaisseur du brouillard.
 @LineBreak
 @LineBreak
   Avec une valeur de 0, l'effet de brouillard 
-  est supprimé.
+  est supprimÃ©.
   
 @Parameter "DistanceDebut"
-  Distance à laquelle le brouillard commence 
-  à apparaître.
+  Distance Ã  laquelle le brouillard commence 
+  Ã  apparaÃ®tre.
 
 @Parameter "DistanceFin"
-  Distance à laquelle le brouillard devient 
-  complètement opaque.
+  Distance Ã  laquelle le brouillard devient 
+  complÃ¨tement opaque.
 
 @NoReturnValue
 
 @Remarks
-  L'effet de brouillard est aussi appliqué sur les 
+  L'effet de brouillard est aussi appliquÃ© sur les 
   @@SkyBox et les @@SkyDome si ces fonctions sont 
-  appellées avant la fonction Fog()
+  appellÃ©es avant la fonction Fog()
 
 @SeeAlso
   @@AmbientColor, @@SkyDome, @@SkyBox
@@ -819,54 +813,57 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = InitEngine3D([Options [, Bibliotheque$]) 
 
 @Description
-  Initialise l'environnement nécessaire au 
+  Initialise l'environnement nÃ©cessaire au 
   fonctionnement du moteur 3D. 
 @LineBreak
 @LineBreak
-  Vous devez placer cette fonction au début 
+  Vous devez placer cette fonction au dÃ©but 
   de votre code source si vous souhaitez 
   utiliser les fonctions 3D.
   
 @OptionalParameter "Options"
-  Peut être une combinaison des constantes 
+  Peut Ãªtre une combinaison des constantes 
   suivantes:
 @FixedFont
-  @#PB_Engine3D_NoLog      : Pas de log sauvegardé sur disque ni affiché dans une console (par défaut).
-  @#PB_Engine3D_DebugLog   : Un fichier journal de débogage nommé 'Ogre.log' sera créé dans le répertoire courant.
-                            pour aider au déboguage. Un grand nombre d'actions sont consignées dans ce fichier,
-                            mais il ne devrait pas affecter les performances de sorte qu'il peut même être activé
-                            dans un exécutable distribuable...
-  @#PB_Engine3D_DebugOutput: Les actions sont affichées sur la console. Activez au préalable l'option Console du compilateur 
-                            dans menu Compilateur \ Options du compilateur... \ Options de compilation \ Format de l'exécutable
+  @#PB_Engine3D_NoLog      : Pas de log sauvegardÃ© sur disque ni affichÃ© dans une console (par dÃ©faut).
+  @#PB_Engine3D_DebugLog   : Un fichier journal de dÃ©bogage nommÃ© 'Ogre.log' sera crÃ©Ã© dans le rÃ©pertoire courant.
+                            pour aider au dÃ©boguage. Un grand nombre d'actions sont consignÃ©es dans ce fichier,
+                            mais il ne devrait pas affecter les performances de sorte qu'il peut mÃªme Ãªtre activÃ©
+                            dans un exÃ©cutable distribuable...
+  @#PB_Engine3D_DebugOutput: Les actions sont affichÃ©es sur la console. Activez au prÃ©alable l'option Console du compilateur 
+                            dans menu Compilateur \ Options du compilateur... \ Options de compilation \ Format de l'exÃ©cutable
 
  @EndFixedFont
 
 @OptionalParameter "Bibliotheque$"
-  Le nom d'un fichier Engine3D à charger. 
+  Le nom d'un fichier Engine3D Ã  charger. 
 @LineBreak
 @LineBreak  
   S'il se trouve dans autre endroit que le 
-  dossier courant, il pourra être spécifié 
+  dossier courant, il pourra Ãªtre spÃ©cifiÃ© 
   ici.
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  bibliothèque a été chargée avec succès, 
-  zéro sinon.@LineBreak 
-  Si l'initialisation a échoué, le programme 
+  bibliothÃ¨que a Ã©tÃ© chargÃ©e avec succÃ¨s, 
+  zÃ©ro sinon.@LineBreak 
+  Si l'initialisation a Ã©chouÃ©, le programme 
   ne devrait pas continuer ou alors tous les 
-  appels aux fonctions 3D devraient être 
-  désactivés.
+  appels aux fonctions 3D devraient Ãªtre 
+  dÃ©sactivÃ©s.
   
 @Remarks
   Cette fonction tente de charger la 
-  bibliothèque de moteur 3d (nommé 
+  bibliothÃ¨que de moteur 3d (nommÃ© 
   'Engine3D.dll' sous Windows, 'engine3d.so' 
   sur Linux et 'engine3d.dylib' sur Mac OS X, 
   depuis le dossier PureBasic/compilateurs/). 
-  Si elle échoue, c'est probablement parce 
-  que la bibliothèque est introuvable. Sous 
-  Windows, une version récente du pilote graphique OpenGL doit être installée. 
+  Si elle Ã©choue, c'est probablement parce 
+  que la bibliothÃ¨que est introuvable. Sous 
+  Windows, une version rÃ©cente du pilote graphique OpenGL doit Ãªtre installÃ©e. 
+  @LineBreak
+  @LineBreak 
+  AprÃ¨s l'appel de cette fonction, vous ne pourrez pas utiliser la fonction @@ScreenOutput.
   
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, 
@@ -876,42 +873,42 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Résultat = LoadWorld(NomFichier$)
+@Function RÃ©sultat = LoadWorld(NomFichier$)
 
 @Description
   Charge un monde complet.  
   
 @Parameter "NomFichier$"
   Le nom du fichier contenant le monde 
-  complet doit être accessible dans le chemin 
-  géré par  @@Add3DArchive.
+  complet doit Ãªtre accessible dans le chemin 
+  gÃ©rÃ© par  @@Add3DArchive.
   
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès,
-  zéro sinon.
+  Renvoie une valeur non nulle en cas de succÃ¨s,
+  zÃ©ro sinon.
 
 @Remarks
  Actuellement, seulement le format BSP de 
- iD Software (Quake3) est supporté mais 
+ iD Software (Quake3) est supportÃ© mais 
  d'autres vont suivre.
 @LineBreak  
 @LineBreak 
-  De tels mondes peuvent être facilement créés
-  grâce à des outils comme 'Quark'. Un monde  
+  De tels mondes peuvent Ãªtre facilement crÃ©Ã©s
+  grÃ¢ce Ã  des outils comme 'Quark'. Un monde  
   contient un ciel, des batiments, des 
-  lumières etc... Les mondes de Quake3 peuvent
-  être chargés immediatement, sans aucune 
+  lumiÃ¨res etc... Les mondes de Quake3 peuvent
+  Ãªtre chargÃ©s immediatement, sans aucune 
   conversion. 
 @LineBreak  
 @LineBreak
-  Important: Le format BSP est la propriété 
-  intellectuelle d'iD Software et ne peut être  
-  utilisé librement que dans des logiciels 
-  gratuits. Les logiciels à but commerciaux 
-  doivent acquérir une licence d'exploitation 
-  auprès d'iD Software. Ce système de licence 
-  n'est pas lié à PureBasic et Fantaisie 
-  Software ne peut en aucun cas être tenu 
+  Important: Le format BSP est la propriÃ©tÃ© 
+  intellectuelle d'iD Software et ne peut Ãªtre  
+  utilisÃ© librement que dans des logiciels 
+  gratuits. Les logiciels Ã  but commerciaux 
+  doivent acquÃ©rir une licence d'exploitation 
+  auprÃ¨s d'iD Software. Ce systÃ¨me de licence 
+  n'est pas liÃ© Ã  PureBasic et Fantaisie 
+  Software ne peut en aucun cas Ãªtre tenu 
   pour responsable d'un usage incorrect de 
   cette commande.
   
@@ -928,25 +925,25 @@ consultable @ReferenceLink "license_engine3d" "ici"
   l'objet se trouvant au point 2D. 
   
 @Parameter "#Camera" 
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y" 
-  Les coordonnées du point, en pixels.
+  Les coordonnÃ©es du point, en pixels.
 
 @OptionalParameter " MasqueSelection"
-  Masque de sélection utilisé pour une 
-  reconnaissance d'entités (ray cast).
+  Masque de sÃ©lection utilisÃ© pour une 
+  reconnaissance d'entitÃ©s (ray cast).
 @LineBreak
 @LineBreak
-  Seules les entités avec un masque 
-  correspondant à la valeur 'MasqueSelection'
-  seront reconnues mais si ce paramètre 
-  est omis alors toutes les entités seront 
-  validées. 
+  Seules les entitÃ©s avec un masque 
+  correspondant Ã  la valeur 'MasqueSelection'
+  seront reconnues mais si ce paramÃ¨tre 
+  est omis alors toutes les entitÃ©s seront 
+  validÃ©es. 
 @LineBreak
 @LineBreak
-  Il est possible de sélectionner plus d'un 
-  groupe d'entités en utilisant une combinaison 
+  Il est possible de sÃ©lectionner plus d'un 
+  groupe d'entitÃ©s en utilisant une combinaison 
   de masques.
 @LineBreak
 @LineBreak
@@ -954,17 +951,14 @@ consultable @ReferenceLink "license_engine3d" "ici"
   'MasqueSelection', voir @@CreateEntity. 
 
 @ReturnValue  
-  La valeur renvoyée peut être :
+  La valeur renvoyÃ©e peut Ãªtre :
 @FixedFont
-  @ConstantColor "-1"       : Aucun objet détecté.
-  @ConstantColor "0 et plus": Le clic s'est fait sur une entité. La sélection de l'entité est basée sur sa boîte englobante et non sur son mesh.
+  @ConstantColor "-1"       : Aucun objet dÃ©tectÃ©.
+  @ConstantColor "0 et plus": Le clic s'est fait sur une entitÃ©. La sÃ©lection de l'entitÃ© est basÃ©e sur sa boÃ®te englobante et non sur son mesh.
   @#PB_World_WaterPick  : Le clic s'est fait sur l'eau.
-  @#PB_World_TerrainPick: Le clic s'est fait sur un terrain.
-
 @EndFixedFont
 @LineBreak 
- Pour obtenir les coordonnées 3D de l'objet 
- sélectionné, utiliser @@PickX, @@PickY et 
+ Pour obtenir les coordonnÃ©es 3D de l'objet sÃ©lectionnÃ©, utiliser @@PickX, @@PickY et 
  @@PickZ.
 
 @ExampleFile All MousePick.pb
@@ -980,17 +974,17 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Permet d'obtenir la direction entre un point 
-  2D et une caméra.
+  2D et une camÃ©ra.
 
 @Parameter "#Camera" 
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y" 
-  Les coordonnées du point, en pixels.
+  Les coordonnÃ©es du point, en pixels.
   
 @ReturnValue 
-  Renvoie une valeur non nulle en cas de succès,
-  zéro sinon. 
+  Renvoie une valeur non nulle en cas de succÃ¨s,
+  zÃ©ro sinon. 
   
 @Remarks
   Pour obtenir la direction du point, 
@@ -1007,33 +1001,33 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = BodyPick(#Camera, Corps, X, Y, Bloqué)
+@Function Resultat = BodyPick(#Camera, Corps, X, Y, BloquÃ©)
 
 @Description
-  Simule un clic de souris et commence la manipulation de l'entité 
-  à la coordonnée spécifiée.
+  Simule un clic de souris et commence la manipulation de l'entitÃ© 
+  Ã  la coordonnÃ©e spÃ©cifiÃ©e.
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "Corps"
 @FixedFont
-  @#True : Le corps (Body) est sélectionné
-  @#False: Le corps est libéré.
+  @#True : Le corps (Body) est sÃ©lectionnÃ©
+  @#False: Le corps est libÃ©rÃ©.
 @EndFixedFont
   Il ne peut y avoir qu'un Body choisi.
 
 @Parameter "X, Y"
-  Les coordonnées du point, en pixels.
+  Les coordonnÃ©es du point, en pixels.
   
-@OptionalParameter "Bloqué"
+@Parameter "BloquÃ©"
 @FixedFont
-  @#True : Le corps choisi ne sera pas en mesure de tourner librement lors de son déplacement.
+  @#True : Le corps choisi ne sera pas en mesure de tourner librement lors de son dÃ©placement.
   @#False: Le corps va tourner librement en fonction du mouvement du corps.
 @EndFixedFont
  
 @ReturnValue
-  Le #Entity choisi, ou -1 si aucune entité se trouvent à ces coordonnées.
+  Le #Entity choisi, ou -1 si aucune entitÃ© se trouvent Ã  ces coordonnÃ©es.
 
 @SupportedOS
 
@@ -1048,11 +1042,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoParameters   
    
 @ReturnValue
-  Après @@MousePick, cette commande renvoie 
-  la position en 'X' de l'objet sélectionné, 
+  AprÃ¨s @@MousePick, cette commande renvoie 
+  la position en 'X' de l'objet sÃ©lectionnÃ©, 
   dans le monde 3D. 
 @LineBreak
-  Après @@PointPick, cette commande renvoie 
+  AprÃ¨s @@PointPick, cette commande renvoie 
   la direction en 'X' du point sous le clic 
   de la souris. Sa valeur se situe entre -1 
   et 1.
@@ -1073,11 +1067,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoParameters   
    
 @ReturnValue
-  Après @@MousePick, cette commande renvoie 
-  la position en 'Y' de l'objet sélectionné, 
+  AprÃ¨s @@MousePick, cette commande renvoie 
+  la position en 'Y' de l'objet sÃ©lectionnÃ©, 
   dans le monde 3D. 
 @LineBreak
-  Après @@PointPick, cette commande renvoie 
+  AprÃ¨s @@PointPick, cette commande renvoie 
   la direction en 'Y' du point sous le clic 
   de la souris. Sa valeur se situe entre -1 
   et 1.
@@ -1098,11 +1092,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @NoParameters   
    
 @ReturnValue
-  Après @@MousePick, cette commande renvoie 
-  la position en 'Z' de l'objet sélectionné, 
+  AprÃ¨s @@MousePick, cette commande renvoie 
+  la position en 'Z' de l'objet sÃ©lectionnÃ©, 
   dans le monde 3D. 
 @LineBreak
-  Après @@PointPick, cette commande renvoie 
+  AprÃ¨s @@PointPick, cette commande renvoie 
   la direction en 'Z' du point sous le clic 
   de la souris. Sa valeur se situe entre -1 
   et 1.
@@ -1118,40 +1112,40 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Lance un rayon entre deux points et 
-  vérifie si le rayon rencontre une 
-  @LibraryLink "Entity" "entité" avec 
+  vÃ©rifie si le rayon rencontre une 
+  @LibraryLink "Entity" "entitÃ©" avec 
   un corps (body).
   
 @Parameter "X, Y, Z"
-  Coordonnée du point de départ du 
-  rayon, dans l'unité de monde.
+  CoordonnÃ©e du point de dÃ©part du 
+  rayon, dans l'unitÃ© de monde.
   
 @Parameter "DestinationX, DestinationY, DestinationZ"
-  Coordonnée du point d'arrivée du rayon, 
-  dans l'unité de monde.
+  CoordonnÃ©e du point d'arrivÃ©e du rayon, 
+  dans l'unitÃ© de monde.
 
 @OptionalParameter "CollisionGroupe, CollisionMasque"
-   Le groupe de collision et le masque de collision à utiliser. 
+   Le groupe de collision et le masque de collision Ã  utiliser. 
 @LineBreak
 @LineBreak 
-   Peut être utile pour filtrer l'entité qui doit entrer en collision 
+   Peut Ãªtre utile pour filtrer l'entitÃ© qui doit entrer en collision 
    avec le rayon.@LineBreak 
-   Le groupe et le masque de collision peuvent être modifiés avec 
+   Le groupe et le masque de collision peuvent Ãªtre modifiÃ©s avec 
    @@SetEntityCollisionFilter.
 
 @ReturnValue
-  Renvoie une valeur le numéro de 
-  @LibraryLink "Entity" "l'entité" 
-  rencontrée par le rayon ou -1 sinon.
+  Renvoie une valeur le numÃ©ro de 
+  @LibraryLink "Entity" "l'entitÃ©" 
+  rencontrÃ©e par le rayon ou -1 sinon.
 
 @Remarks
   Pour avoir un quelconque effet, le 
-  moteur physique doit être activé avec 
+  moteur physique doit Ãªtre activÃ© avec 
   la fonction @@EnableWorldPhysics.
 @LineBreak
 @LineBreak
-  Seules les entités avec un corps (body)
-  réagissent au contact du rayon. 
+  Seules les entitÃ©s avec un corps (body)
+  rÃ©agissent au contact du rayon. 
 @LineBreak
 @LineBreak  
   Pour obtenir la position du point de 
@@ -1172,35 +1166,35 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Projette un rayon entre le premier 
-  point et le second point, et vérifie 
+  point et le second point, et vÃ©rifie 
   si un objet traverse le rayon.
 
 @Parameter "X, Y, Z"
-  Coordonnées, dans l'unité de monde, 
+  CoordonnÃ©es, dans l'unitÃ© de monde, 
   du premier point.
 
 @Parameter "DestinationX, DestinationY, DestinationZ"
-  Coordonnées, dans l'unité de monde, 
+  CoordonnÃ©es, dans l'unitÃ© de monde, 
   du second point.
 
 @Parameter "MasqueSelection"
-  Le masque entité à utiliser. 
+  Le masque entitÃ© Ã  utiliser. 
 @LineBreak
 @LineBreak
-  Seules les entités avec un masque 
-  correspondant à la valeur 
-  'MasqueSelection' seront signalées. 
-  Si ce paramètre est omis, toutes les 
-  entités sont des valeurs admissibles 
-  pour la détection des rayons. Le masque
-  peut être une combinaison, pour 
-  sélectionner plus d'un groupe d'entités.
+  Seules les entitÃ©s avec un masque 
+  correspondant Ã  la valeur 
+  'MasqueSelection' seront signalÃ©es. 
+  Si ce paramÃ¨tre est omis, toutes les 
+  entitÃ©s sont des valeurs admissibles 
+  pour la dÃ©tection des rayons. Le masque
+  peut Ãªtre une combinaison, pour 
+  sÃ©lectionner plus d'un groupe d'entitÃ©s.
   @LineBreak
   Pour avoir plus d'informations sur le 
-  masque de sélection, voir @@CreateEntity.
+  masque de sÃ©lection, voir @@CreateEntity.
 
 @ReturnValue
-  Renvoie -1 si le rayon est entré en collision avec un objet.
+  Renvoie -1 si le rayon est entrÃ© en collision avec un objet.
 
 @Remarks
   Cette fonction ne repose pas sur le 
@@ -1221,37 +1215,26 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = MouseRayCast(#Camera, X, Y, MasqueSelection)
 
 @Description
-  Jette un rayon depuis un point 2D à 
-  travers la scène, et vérifie si un 
-  objet traverse le rayon. 
+  Jette un rayon depuis un point 2D Ã  travers la scÃ¨ne, et vÃ©rifie si un objet traverse le rayon. 
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y"
-  Coordonnées 2D, en pixels, du point 
-  de départ.
+  CoordonnÃ©es 2D, en pixels, du point de dÃ©part.
 
 @Parameter "MasqueSelection"
-  Le masque entité à utiliser. 
+  Le masque entitÃ© Ã  utiliser. 
 @LineBreak
 @LineBreak
-  Seules les entités avec un masque 
-  correspondant à la valeur 
-  'MasqueSelection' seront 
-  signalées. Si ce paramètre est omis, 
-  toutes les entités sont des valeurs 
-  admissibles pour la détection des 
-  rayons. Le masque peut être une 
-  combinaison, pour sélectionner 
-  plus d'un groupe d'entités.@LineBreak
-  Pour avoir plus d'informations sur le 
-  masque de sélection, voir @@CreateEntity.
+  Seules les entitÃ©s avec un masque correspondant Ã  la valeur 'MasqueSelection' seront signalÃ©es. 
+  Si ce paramÃ¨tre est omis,toutes les entitÃ©s sont des valeurs admissibles pour la dÃ©tection des 
+  rayons. Le masque peut Ãªtre une combinaison, pour sÃ©lectionner plus d'un groupe d'entitÃ©s.
+  @LineBreak
+  Pour avoir plus d'informations sur lemasque de sÃ©lection, voir @@CreateEntity.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le 
-  rayon est entré en collision avec 
-  un objet.
+  Renvoie le numÃ©ro de l'objet en contact avec le rayon, -1 sinon.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -1264,7 +1247,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Renvoie la valeur 'X' de la normale 
-  au point de rencontre, après @@RayCast,
+  au point de rencontre, aprÃ¨s @@RayCast,
   @@RayCollide ou @@MouseRayCast.
 
 @NoParameters
@@ -1286,7 +1269,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Renvoie la valeur 'Y' de la normale au 
-  point de rencontre, après @@RayCast, 
+  point de rencontre, aprÃ¨s @@RayCast, 
   @@RayCollide ou @@MouseRayCast.
 
 @NoParameters
@@ -1308,7 +1291,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Renvoie la valeur 'Z' de la normale au
-  point de rencontre, après @@RayCast, 
+  point de rencontre, aprÃ¨s @@RayCast, 
   @@RayCollide ou @@MouseRayCast.
 
 @NoParameters
@@ -1330,48 +1313,46 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Lance un rayon entre deux points et 
-  vérifie si un objet traverse la 
+  vÃ©rifie si un objet traverse la 
   trajectoire du rayon.
   
 @Parameter "X, Y, Z"
-  Coordonnée du point de départ du 
-  rayon, dans l'unité de monde.
+  CoordonnÃ©e du point de dÃ©part du 
+  rayon, dans l'unitÃ© de monde.
   
 @Parameter "DestinationX, DestinationY, DestinationZ"
-  Coordonnée du point d'arrivée du rayon, 
-  dans l'unité de monde.
+  CoordonnÃ©e du point d'arrivÃ©e du rayon, 
+  dans l'unitÃ© de monde.
 
 @OptionalParameter "MasqueSelection"
-  Est un masque de sélection d'entités 
-  utilisé pendant une sélection d'objets.
+  Est un masque de sÃ©lection d'entitÃ©s 
+  utilisÃ© pendant une sÃ©lection d'objets.
 @LineBreak
 @LineBreak
-  Seules les entités avec un masque 
-  correspondant à la valeur 
-  'MasqueSelection' seront sélectionnées 
-  mais si ce paramètre est omis alors 
-  toutes les entités seront sélectionnées. 
+  Seules les entitÃ©s avec un masque 
+  correspondant Ã  la valeur 
+  'MasqueSelection' seront sÃ©lectionnÃ©es 
+  mais si ce paramÃ¨tre est omis alors 
+  toutes les entitÃ©s seront sÃ©lectionnÃ©es. 
 @LineBreak
 @LineBreak
-  Il est possible de sélectionner plus 
-  d'un groupe d'entités.
+  Il est possible de sÃ©lectionner plus 
+  d'un groupe d'entitÃ©s.
 @LineBreak
 @LineBreak
   Pour plus d'informations sur 
   'MasqueSelection', voir @@CreateEntity. 
 
 @ReturnValue
-  La valeur renvoyée peut être:
+  La valeur renvoyÃ©e peut Ãªtre:
 @FixedFont
-  @ConstantColor "-1"              : Rien n'a été franchi.
-  @ConstantColor "0 et au-dessus"  : Le rayon traverse une entité. 
-                    La détection d'entité est basée sur sa boîte englobante et pas sur son mesh.
+  @ConstantColor "-1"              : Rien n'a Ã©tÃ© franchi.
+  @ConstantColor "0 et au-dessus"  : Le rayon traverse une entitÃ©. 
+                    La dÃ©tection d'entitÃ© est basÃ©e sur sa boÃ®te englobante et pas sur son mesh.
   @#PB_World_WaterPick  : Le rayon traverse l'eau.
-  @#PB_World_TerrainPick: Le rayon traverse un terrain.
-  
 @EndFixedFont
- Pour obtenir plus d'informations sur la 
- position de l'objet sélectionné, 
+
+ Pour obtenir plus d'informations sur la position de l'objet sÃ©lectionnÃ©, 
  voir @@PickX, @@PickY and @@PickZ.
     
 @SeeAlso
@@ -1384,40 +1365,40 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function ShowGUI(Transparence, AfficherCurseur [, #Camera, Activer])
 
 @Description
-  Affiche ou cache l'ensemble des éléments 
+  Affiche ou cache l'ensemble des Ã©lÃ©ments 
   de l'interface graphique (GUI), qui est 
-  composée de 
-  @LibraryLink "Window3D" "fenêtres 3d" 
+  composÃ©e de 
+  @LibraryLink "Window3D" "fenÃªtres 3d" 
   et de 
   @LibraryLink "Gadget3D" "gadgets 3d". 
   
 @Parameter "Transparence" 
-  Transparence des éléments de 
+  Transparence des Ã©lÃ©ments de 
   l'interface graphique (GUI).
 @LineBreak
 @LineBreak
   Peut prendre une valeur allant de 0 
-  (invisible) à 255 (Opaque). @LineBreak
-  Les valeurs intermédiaires donneront 
+  (invisible) Ã  255 (Opaque). @LineBreak
+  Les valeurs intermÃ©diaires donneront 
   un effet de fondu.
 
 @Parameter "AfficherCurseur"
 @FixedFont
-  0: Curseur de la souris masqué. 
-  1: Curseur de la souris affiché.
+  0: Curseur de la souris masquÃ©. 
+  1: Curseur de la souris affichÃ©.
 @EndFixedfont
     
 @OptionalParameter "#Camera"
-  Indique si la GUI doit être affichée 
-  ou non sur cette caméra.@LineBreak 
+  Indique si la GUI doit Ãªtre affichÃ©e 
+  ou non sur cette camÃ©ra.@LineBreak 
   Fonctionne conjointement avec le 
-  paramètre 'Activer'.
+  paramÃ¨tre 'Activer'.
 
 @OptionalParameter "Activer"
-  Active ou désactive l'affichage de la 
-  GUI sur la caméra indiquée.@LineBreak 
+  Active ou dÃ©sactive l'affichage de la 
+  GUI sur la camÃ©ra indiquÃ©e.@LineBreak 
   Fonctionne conjointement avec le 
-  paramètre '#Camera'.
+  paramÃ¨tre '#Camera'.
 
 @NoReturnValue
 
@@ -1431,17 +1412,17 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function SetGUITheme3D(NomTheme$, NomPolice$)
 
 @Description
-  Cette commande permet de sélectionner 
-  le thème et la police utilisés pour 
+  Cette commande permet de sÃ©lectionner 
+  le thÃ¨me et la police utilisÃ©s pour 
   personnaliser l'interface graphique 3D 
   CEGUI. 
   
 @Parameter "NomTheme$"
-  Le nom du thème à appliquer, sans 
+  Le nom du thÃ¨me Ã  appliquer, sans 
   l'extension '.scheme'
 
 @Parameter "NomPolice$"
-  Le nom de la police à appliquer, sans 
+  Le nom de la police Ã  appliquer, sans 
   l'extension '.font'.
 
 @NoReturnValue
@@ -1462,8 +1443,8 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @Description
   Lit tous les fichiers scripts 
-  '.materials' d'OGRE trouvés dans les 
-  chemins définis avec @@Add3DArchive.
+  '.materials' d'OGRE trouvÃ©s dans les 
+  chemins dÃ©finis avec @@Add3DArchive.
   
 @NoParameters
   
@@ -1472,19 +1453,19 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Remarks
   Cela permet d'utiliser les 
   @LibraryLink "mesh" "meshs" qui ont 
-  des scripts complexes de matières 
+  des scripts complexes de matiÃ¨res 
   directement en PureBasic. 
 @LineBreak
 @LineBreak
   Quand une 
-  @LibraryLink "entity" "entité" 
-  utilisant ce type de mesh sera créée, 
+  @LibraryLink "entity" "entitÃ©" 
+  utilisant ce type de mesh sera crÃ©Ã©e, 
   la constante @#PB_Material_None devra 
-  être spécifiée pour indiquer que 
+  Ãªtre spÃ©cifiÃ©e pour indiquer que 
   les informations concernant les 
-  matières doivent être lues à partir 
-  du script (s'il a été correctement 
-  chargé).
+  matiÃ¨res doivent Ãªtre lues Ã  partir 
+  du script (s'il a Ã©tÃ© correctement 
+  chargÃ©).
 @LineBreak
 @LineBreak
   Vous trouverez plus d'informations au 
@@ -1498,42 +1479,42 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = RenderWorld([TempsPhysiqueEcoulé])
+@Function Resultat = RenderWorld([TempsPhysiqueEcoulÃ©])
 
 @Description
-  Affiche le rendu de la scène 3D sur 
-  l'écran courant. 
+  Affiche le rendu de la scÃ¨ne 3D sur 
+  l'Ã©cran courant. 
 
-@OptionalParameter "TempsPhysiqueEcoulé"
-  Force le moteur physique à utiliser 
+@OptionalParameter "TempsPhysiqueEcoulÃ©"
+  Force le moteur physique Ã  utiliser 
   cette valeur, en millisecondes, qui 
-  est le temps écoulé depuis le dernier 
+  est le temps Ã©coulÃ© depuis le dernier 
   appel de RenderWorld.
 @LineBreak
 @LineBreak
   Utile pour simuler un ralenti ou une 
-  accélération du temps réel.
+  accÃ©lÃ©ration du temps rÃ©el.
 
 @ReturnValue  
-  Renvoie le temps écoulé depuis la 
-  dernière image en millisecondes. 
+  Renvoie le temps Ã©coulÃ© depuis la 
+  derniÃ¨re image en millisecondes. 
 @LineBreak
 @LineBreak  
-  Il peut être utile d'avoir une 
-  simulation basée sur un temps précis,
+  Il peut Ãªtre utile d'avoir une 
+  simulation basÃ©e sur un temps prÃ©cis,
   si le temps de rendu d'image n'est pas 
   stable.
 
 @Remarks  
-  Cette commande doit être appelée quand 
-  toutes les opérations relatives à la 
-  3D sont terminées et une seule fois 
+  Cette commande doit Ãªtre appelÃ©e quand 
+  toutes les opÃ©rations relatives Ã  la 
+  3D sont terminÃ©es et une seule fois 
   par image (frame).
 @LineBreak
 @LineBreak 
   Il est parfaitement possible d'utiliser 
   les fonctions 2D habituelles telles 
-  que @@DisplaySprite après cette commande,
+  que @@DisplaySprite aprÃ¨s cette commande,
   pour afficher des informations en 
   sur-impression.
       
@@ -1552,11 +1533,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
   Modifie l'ordre de rendu de l'objet.
 
 @Parameter "ObjetID"
-  L'ID de l'objet. Il peut être l'un des 
+  L'ID de l'objet. Il peut Ãªtre l'un des 
   types suivants:
 @FixedFont
-  - Entité                 : Utiliser @@EntityID pour obtenir un ID valide.
-  - Lumière                : Utiliser @@LightID pour obtenir un ID valide.
+  - EntitÃ©                 : Utiliser @@EntityID pour obtenir un ID valide.
+  - LumiÃ¨re                : Utiliser @@LightID pour obtenir un ID valide.
   - Mesh                   : Utiliser @@MeshID pour obtenir un ID valide.
   - Emetteur de Particules : Utiliser @@ParticleEmitterID pour obtenir un ID valide.
   - Groupe de Billboards   : Utiliser @@BillboardGroupID pour obtenir un ID valide.
@@ -1564,19 +1545,19 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @EndFixedFont
 
 @Parameter "Queue"
-  Le nombre de files d'attente à utiliser 
+  Le nombre de files d'attente Ã  utiliser 
   pour rendre l'objet.@LineBreak
   Le nombre de files d'attente peut aller
-  de 0 (l'arrière plan) à 100 (le premier
+  de 0 (l'arriÃ¨re plan) Ã  100 (le premier
   plan).@LineBreak
-  La file d'attente par défaut est 0, et 
+  La file d'attente par dÃ©faut est 0, et 
   toutes les files d'attente sont rendues.
 
 @OptionalParameter "Priorite"
-  La priorité à utiliser au sein de la 
+  La prioritÃ© Ã  utiliser au sein de la 
   file d'attente. @LineBreak
   Les valeurs valides sont comprises 
-  entre 0 (arrière plan) et 10 000 
+  entre 0 (arriÃ¨re plan) et 10 000 
   (premier plan).
 
 @NoReturnValue
@@ -1588,15 +1569,15 @@ consultable @ReferenceLink "license_engine3d" "ici"
 @Function Resultat = SkyBox(NomTexture$ [, CouleurBrouillard, EpaisseurBrouillard, DebutDistanceBrouillard, FinDistanceBrouillard])
 
 @Description
-  Crée une boîte artificielle (cube à 6 faces 
-  texturées) située très loin de la caméra pour 
-  fermer complètement le monde.  
+  CrÃ©e une boÃ®te artificielle (cube Ã  6 faces 
+  texturÃ©es) situÃ©e trÃ¨s loin de la camÃ©ra pour 
+  fermer complÃ¨tement le monde.  
   
 @Parameter "NomTexture$"
-  Le nom de chaque texture doit être nommé 
-  selon la règle suivante:
+  Le nom de chaque texture doit Ãªtre nommÃ© 
+  selon la rÃ¨gle suivante:
 @FixedFont
-  NomTexture_BK : Face arrière (BacK)
+  NomTexture_BK : Face arriÃ¨re (BacK)
   NomTexture_FR : Face avant (FRont)
   NomTexture_DN : Face du bas (DowN)
   NomTexture_UP : Face du haut (UP)
@@ -1608,48 +1589,48 @@ consultable @ReferenceLink "license_engine3d" "ici"
   La couleur du brouillard. 
   @LineBreak
   @LineBreak
-  @@RGB peut être utilisé pour obtenir une 
+  @@RGB peut Ãªtre utilisÃ© pour obtenir une 
   valeur valide.@LineBreak
-  Si non spécifié, les paramètres 
+  Si non spÃ©cifiÃ©, les paramÃ¨tres 
   du brouillard seront ceux provenant de la 
   fonction @@Fog.
   
 @OptionalParameter "EpaisseurBrouillard"
-  L'épaisseur du brouillard. 
+  L'Ã©paisseur du brouillard. 
   @LineBreak
   @LineBreak  
-  Si ce paramètre est égal à zéro alors le 
-  brouillard est désactivé.
+  Si ce paramÃ¨tre est Ã©gal Ã  zÃ©ro alors le 
+  brouillard est dÃ©sactivÃ©.
   
 @OptionalParameter "DebutDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
-  brouillard commence (par rapport à la caméra). 
+  La distance en unitÃ© Monde Ã  laquelle le 
+  brouillard commence (par rapport Ã  la camÃ©ra). 
 
 @OptionalParameter "FinDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
+  La distance en unitÃ© Monde Ã  laquelle le 
   brouillard est totalement opaque (par 
-  rapport à la caméra).
+  rapport Ã  la camÃ©ra).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks
   Les @LibraryLink "texture" "textures"  doivent 
-  être dans un des chemins précédemment déclarés 
+  Ãªtre dans un des chemins prÃ©cÃ©demment dÃ©clarÃ©s 
   avec la fonction @@Add3DArchive.
   @LineBreak
   @LineBreak 
-  Si les textures ne peuvent être chargées, le skybox est créé avec des textures blanches.
+  Si les textures ne peuvent Ãªtre chargÃ©es, le skybox est crÃ©Ã© avec des textures blanches.
   
 @Example
 @Code
   ...
-  ; Les 6 textures (images) sont réunies dans le fichier zip "skybox.zip"
+  ; Les 6 textures (images) sont rÃ©unies dans le fichier zip "skybox.zip"
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/skybox.zip", #PB_3DArchive_Zip)
   Parse3DScripts() 
   ...
-  ; Création de la skybox avec les 6 images qui ont pour nom: stevecube_BK.jpg, stevecube_DN.jpg, etc.)
+  ; CrÃ©ation de la skybox avec les 6 images qui ont pour nom: stevecube_BK.jpg, stevecube_DN.jpg, etc.)
   SkyBox("stevecube.jpg")
 @EndCode  
 
@@ -1660,78 +1641,71 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = SkyDome(NomTexture$, Courbure.f [, CouleurBrouillard, EpaisseurBrouillard, DebutDistanceBrouillard, FinDistanceBrouillard])
+@Function Resultat = SkyDome(TextureID, CouleurCiel , CouleurAurore, [NbCoucheNuage, Hauteur.f, VitesseX.f, VitesseZ.f])
 
 @Description
-  Crée un ciel artificiel animé en forme 
-  de dôme, situé très loin de la caméra.
+  CrÃ©e un ciel artificiel nuageux et animÃ© en forme de dÃ´me.
 
-@Parameter "NomTexture$"
-  La texture à utiliser.
+@Parameter "TextureID"
+  L'identifiant de la texture 'nuage' Ã  utiliser.
 @LineBreak
 @LineBreak
-  La @LibraryLink "texture" "texture" 
-  doit être accessible dans l'un des chemins 
-  déclaré par @@Add3DArchive.
+  @@TextureID peut Ãªtre utilisÃ© pour obtenir une valeur valide.
   
-@Parameter "Courbure.f"
-  Cette valeur indique de quelle manière 
-  le ciel doit être courbé.@LineBreak
-  (valeur positive ou négative).
+@Parameter "CouleurCiel"
+  La couleur  du ciel au format @@RGBA.
 
-@OptionalParameter "CouleurBrouillard"
-  La couleur du brouillard. 
-  @LineBreak
-  @LineBreak
-  @@RGB peut être utilisé pour obtenir une 
-  valeur valide. @LineBreak
-  Si non spécifié, les paramètres 
-  du brouillard seront ceux provenant de la 
-  fonction @@Fog.
-  
-@OptionalParameter "EpaisseurBrouillard"
-  L'épaisseur du brouillard. 
-  @LineBreak
-  @LineBreak  
-  Si ce paramètre est égal à zéro alors le 
-  brouillard est désactivé.
-  
-@OptionalParameter "DebutDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
-  brouillard commence (par rapport à la caméra). 
+@Parameter "CouleurAurore"
+  La couleur du levÃ© de soleil au format @@RGBA. 
 
-@OptionalParameter "FinDistanceBrouillard"
-  La distance en unité Monde à laquelle le 
-  brouillard est totalement opaque (par 
-  rapport à la caméra).
+@OptionalParameter "NbCoucheNuage"
+  Le nombre de couche de nuage, en commanÃ§ant par 1. 
+  
+@OptionalParameter "Hauteur.f"
+  La hauteur des nuages en unitÃ© monde (World).
+
+@OptionalParameter "VitesseX.f, VitesseZ.f"
+  La vitesse de dÃ©placement des nuages.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon. 
 
-@Remarks
-  Les @LibraryLink "texture" "textures"  doivent 
-  être dans un des chemins précédemment déclarés 
-  avec la fonction @@Add3DArchive.
-  @LineBreak
-  @LineBreak 
-  Si les textures ne peuvent être chargées, le skybox est créé avec des textures blanches.
-  
-  
 @Example
 @Code
-  ...
-  ; La texture (image) doit être accessible
+  #EndDistance = 1024*4
+
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  ExamineDesktops() : dx = DesktopWidth(0)*0.9 : dy = DesktopHeight(0)*0.9
+  OpenWindow(0, 0, 0, DesktopUnscaledX(dx), DesktopUnscaledY(dy), "SkyDome - Press ESC to quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
-  ...
-  ; Création du skydome
-   SkyDome("clouds.jpg", 30)
-@EndCode  
-  
-@ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
-  
+  Parse3DScripts()
+
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,5,0) 
+  CameraLookAt(0,2,5,10)
+
+  ; Sky
+  TextureSky = LoadTexture(#PB_Any,"sky.png")
+  SkyDome(TextureID(TextureSky), $cc6600, $0088ff, 3, 400, -0.5, 0)
+
+  ; Sun
+  CreateLight(0, $ff88ff, 20000, 40000, 20000)
+  AmbientColor($010101)
+  Fog($554488,1, 0, #EndDistance)
+
+  Repeat
+    While WindowEvent() : Wend
+    ExamineKeyboard()
+    
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
+
 @SeeAlso
   @@SkyBox
 
@@ -1739,149 +1713,48 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateWater(#Camera, X, Y, Z, Transparence, Options)
+@Function CreateWater(TextureVaguesID, TextureEcumeID, CouleurEau, CouleurCiel, Distance.f, GrosseVague.f, PetiteVague.f, Houle.f, Ecume.f)
 
 @Description
-  Crée un plan d'eau.
+  CrÃ©e un plan d'eau.
 
-@Parameter "X, Y, Z"
-  Position du plan d'eau.
-
-@Parameter "Transparence"
-  Transparence du plan d'eau qui peut 
-  varier de 0 (complètement opaque) à 
-  255 (transparent).
+@Parameter "TextureVaguesID"
+  L'identifiant de la texture 'vagues' Ã  utiliser.
+@LineBreak
+@LineBreak
+  @@TextureID peut Ãªtre utilisÃ© pour obtenir une valeur valide.
   
+@Parameter "TextureEcumeID"
+  L'identifiant de la texture 'Ã©cume' Ã  utiliser.
+@LineBreak
+@LineBreak
+  @@TextureID peut Ãªtre utilisÃ© pour obtenir une valeur valide.
   
-@Parameter "Options"
-Peut être une combinaison des constantes 
-suivantes:
-@FixedFont
-  @#PB_World_WaterMediumQuality: Qualité moyenne (valeur par défaut).
-  @#PB_World_WaterLowQuality   : Basse qualité, ce qui implique moins de polygones (et donc un rendu plus rapide).
-  @#PB_World_WaterHighQuality  : Haute qualité, ce qui implique plus de polygones (et donc un rendu plus lent).
-  @#PB_World_WaterCaustics     : Active les effets caustiques sur l'eau, qui sont des formes créées par la lumière à la surface de l'eau. 
-  @#PB_World_WaterSmooth       : Active la transition douce entre les vagues.
-  @#PB_World_WaterFoam         : Active l'effet d'écume, qui affecte les objets sous-marins lorsqu'ils sont vus de l'extérieur du plan d'eau.
-  @#PB_World_WaterSun          : Active la réflexion du soleil sur l'eau. Utilisez @@Sun pour modifier la position et la couleur du soleil.
-  @#PB_World_UnderWater        : Active un effet sous-marin opaque.
-  @#PB_World_WaterGodRays      : Active un effet rayons de soleil divin lorsqu'on est sous l'eau.  @#PB_World_WaterSun doit être spécifié.
-@EndFixedFont
+@Parameter "CouleurEau"
+  La couleur  de l'eau au format @@RGBA.
+  
+@Parameter "CouleurCiel"
+  La couleur  du ciel au format @@RGBA.
+  
+@Parameter "Distance.f"
+  La distance.
+  
+@Parameter "GrosseVague.f"
+  Dimension des grosses vagues.
+  
+@Parameter "PetiteVague.f"
+  Dimension des vaguelettes.
+  
+@Parameter "Houle.f"
+  Dimension de la houle.
 
-@NoReturnValue
-
-@SeeAlso
-  @@WaterColor
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function FreeWater(#Camera)
-
-@Description
-  Supprime le plan d'eau courant d'une 
-  caméra.
-
-@Parameter "#Camera"
-  La caméra à utiliser.
+@Parameter "Ecume.f"
+  Dimension de l'Ã©cume.
   
 @NoReturnValue
 
 @SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterColor(#Camera, Couleur)
-
-@Description
-  Change la couleur de l'eau. 
-
-@Parameter "#Camera"
-  La caméra à utiliser.
-  
-@Parameter "Couleur"
-   La nouvelle couleur de l'eau. 
-@LineBreak
-@LineBreak
-   Une valeur de couleur valide peut
-   être obtenue avec @@RGB.
-  
-@NoReturnValue
-
-@Remarks
-  @@CreateWater doit être appelée avant 
-  d'appeler cette fonction.
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterHeight(#Camera, X, Y)
-
-@Description
-  Renvoie la hauteur d'eau actuelle à la 
-  position spécifiée. 
- 
-@Parameter "#Camera"
-  La caméra à utiliser.
-  
-@Parameter "X, Y"
-  Les coordonnées.
-  
-@ReturnValue
-  La hauteur d'eau absolue, dans les 
-  unités du monde.
-
-@Remarks
-  @@CreateWater doit être appelée avant 
-  d'appeler cette fonction. 
-@LineBreak
-@LineBreak
-  Comme l'eau peut avoir des vagues, la 
-  hauteur varie. @LineBreak
-  Cette fonction peut être utile pour 
-  permettre à un objet de flotter sur 
-  l'eau.
-   
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Sun(X, Y, Z, Couleur)
-
-@Description
-   Change la position et la couleur du 
-   soleil. 
-   
-@Parameter "X, Y, Z"
-  La nouvelle position du soleil.
-  
-@Parameter "Couleur"
-   La nouvelle couleur du soleil. 
-@LineBreak
-@LineBreak
-   @@RGB peut être utilisé pour obtenir 
-   une couleur valide.
-
-@NoReturnValue
-
-@Remarks
-  Attention: Ceci affecte l' 
-  @Link "CreateWater" "eau" créée avec 
-  l'option @#PB_World_WaterSun.
-
-@SeeAlso
-  @@SkyBox, @@SkyDome, @@CreateWater
+  @@SkyDome, @@SkyBox
 
 @SupportedOS
 
@@ -1891,55 +1764,55 @@ suivantes:
 
 @Description
   Change le type d'ombre qui sera 
-  appliqué dans le monde 3D.
+  appliquÃ© dans le monde 3D.
 
 @Parameter "Type" 
   Peut prendre l'une des valeurs 
   suivantes:
 @FixedFont
-  @#PB_Shadow_None      : Aucune ombre ne sera affichée. Cela peut permettre d'économiser beaucoup
-                         de temps processeur si les ombres ne sont pas nécessaires (mode par defaut).
-  @#PB_Shadow_Modulative: Les ombres seront affichées pour les @LibraryLink "entity" "entity" qui ont le
-                         mode 'ombre' activé avec @@EntityRenderMode et @#PB_Entity_CastShadow.
-                         Ce mode est le plus rapide pour afficher des ombres, mais il n'est pas très 
-                         réaliste car les ombres ainsi projetées ne sont pas translucides.
-  @#PB_Shadow_Additive  : Les ombres seront affichées pour les @LibraryLink "entity" "entity" qui ont le
-                         mode 'ombre' activé avec @@EntityRenderMode et @#PB_Entity_CastShadow.
-                         Ce mode est le plus lent mais aussi le plus réaliste, étant donné que les ombres 
+  @#PB_Shadow_None      : Aucune ombre ne sera affichÃ©e. Cela peut permettre d'Ã©conomiser beaucoup
+                         de temps processeur si les ombres ne sont pas nÃ©cessaires (mode par defaut).
+  @#PB_Shadow_Modulative: Les ombres seront affichÃ©es pour les @LibraryLink "entity" "entity" qui ont le
+                         mode 'ombre' activÃ© avec @@EntityRenderMode et @#PB_Entity_CastShadow.
+                         Ce mode est le plus rapide pour afficher des ombres, mais il n'est pas trÃ¨s 
+                         rÃ©aliste car les ombres ainsi projetÃ©es ne sont pas translucides.
+  @#PB_Shadow_Additive  : Les ombres seront affichÃ©es pour les @LibraryLink "entity" "entity" qui ont le
+                         mode 'ombre' activÃ© avec @@EntityRenderMode et @#PB_Entity_CastShadow.
+                         Ce mode est le plus lent mais aussi le plus rÃ©aliste, Ã©tant donnÃ© que les ombres 
                          sont transparentes et s'ajoutent si plusieurs ombres se chevauchent.
-  @#PB_Shadow_TextureAdditive  : Les ombres seront affichées pour les @LibraryLink "entity" "entity" qui ont le
-                         mode 'ombre' activé avec @@EntityRenderMode et @#PB_Entity_CastShadow. Ce mode
-                         est moyen en terme de rapidité et de qualité, mais fonctionnera même avec un 
+  @#PB_Shadow_TextureAdditive  : Les ombres seront affichÃ©es pour les @LibraryLink "entity" "entity" qui ont le
+                         mode 'ombre' activÃ© avec @@EntityRenderMode et @#PB_Entity_CastShadow. Ce mode
+                         est moyen en terme de rapiditÃ© et de qualitÃ©, mais fonctionnera mÃªme avec un 
                          @Link "CreateWater" "plan d'eau".
-  @#PB_Shadow_TextureModulative: Les ombres seront affichées pour les @LibraryLink "entity" "entity" qui ont le
-                         mode 'ombre' activé avec @@EntityRenderMode et @#PB_Entity_CastShadow. 
-                         Ce mode d'ombre est plus rapide que @#PB_Shadow_TextureAdditive mais pas très beau car 
+  @#PB_Shadow_TextureModulative: Les ombres seront affichÃ©es pour les @LibraryLink "entity" "entity" qui ont le
+                         mode 'ombre' activÃ© avec @@EntityRenderMode et @#PB_Entity_CastShadow. 
+                         Ce mode d'ombre est plus rapide que @#PB_Shadow_TextureAdditive mais pas trÃ¨s beau car 
                          les ombres ne sont pas translucides.
 @EndFixedFont
 
 @OptionalParameter "Distance.f"
-  Distance maximale de la caméra au 
-  delà de laquelle les ombres ne seront 
-  plus calculées ni affichées.
+  Distance maximale de la camÃ©ra au 
+  delÃ  de laquelle les ombres ne seront 
+  plus calculÃ©es ni affichÃ©es.
  
 @OptionalParameter "Couleur"
   Couleur de l'ombre. 
 @LineBreak
 @LineBreak
-  @@RGB peut être utilisé pour obtenir 
+  @@RGB peut Ãªtre utilisÃ© pour obtenir 
   une valeur de couleur valide.
 
 @OptionalParameter "TailleTexture"
-  Taille en pixel de la texture utilisée 
+  Taille en pixel de la texture utilisÃ©e 
   pour rendre l'ombre. 
 @LineBreak
 @LineBreak
   Plus elle est grande et plus l'ombre 
-  sera réaliste, mais plus ce sera lent. 
+  sera rÃ©aliste, mais plus ce sera lent. 
 @LineBreak
 @LineBreak
-  La valeur par défaut est 512 et cette 
-  valeur ne doit pas être supérieure à 
+  La valeur par dÃ©faut est 512 et cette 
+  valeur ne doit pas Ãªtre supÃ©rieure Ã  
   4096.
 
 @NoReturnValue
@@ -1954,22 +1827,22 @@ suivantes:
 @Function WorldGravity(Gravitation.f [, x, y, z])
 
 @Description
-  Change la gravité du monde 3D.
+  Change la gravitÃ© du monde 3D.
   
 @Parameter "Gravitation.f"
   Valeur de la nouvelle pesanteur.
 @LineBreak
 @LineBreak
-  La valeur par défaut est -9.806, ce 
-  qui correspond à la gravité terrestre.
+  La valeur par dÃ©faut est -9.806, ce 
+  qui correspond Ã  la gravitÃ© terrestre.
   
 @OptionalParameter "x, y, z"  
-  Les coordonnées du vecteur gravitation à utiliser pour changer la direction de la gravité.
+  Les coordonnÃ©es du vecteur gravitation Ã  utiliser pour changer la direction de la gravitÃ©.
 
 @NoReturnValue
 
 @Remarks
-  Le moteur physique doit être activé 
+  Le moteur physique doit Ãªtre activÃ© 
   avec @@EnableWorldPhysics.
 @LineBreak
 @LineBreak
@@ -2001,23 +1874,23 @@ suivantes:
 @Function WorldDebug(Mode)
 
 @Description
-  Change le mode débogage du monde 3D. 
+  Change le mode dÃ©bogage du monde 3D. 
   
 @Parameter "Mode"
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont
-  @#PB_World_DebugNone  : Pas d'information de débogage (Valeur par défaut).
-  @#PB_World_DebugEntity: Montre les boîtes englobantes des entités.
-  @#PB_World_DebugBody  : Montre les boîtes des corps physiques, à la fois statiques et dynamiques.
+  @#PB_World_DebugNone  : Pas d'information de dÃ©bogage (Valeur par dÃ©faut).
+  @#PB_World_DebugEntity: Montre les boÃ®tes englobantes des entitÃ©s.
+  @#PB_World_DebugBody  : Montre les boÃ®tes des corps physiques, Ã  la fois statiques et dynamiques.
 @EndFixedFont
   
 @NoReturnValue
   
 @Remarks
   Cette fonction est utile pour par 
-  exemple, aider à résoudre un problème 
-  de collision ou de picking lié à une 
-  mauvaise définition des boîtes.
+  exemple, aider Ã  rÃ©soudre un problÃ¨me 
+  de collision ou de picking liÃ© Ã  une 
+  mauvaise dÃ©finition des boÃ®tes.
   
 @SupportedOS
 
@@ -2027,15 +1900,15 @@ suivantes:
 
 @Description
   Applique un tangage sur l'objet 
-  spécifié.
+  spÃ©cifiÃ©.
 
 @Parameter "ObjetID"
-  L'entité spécifiée. Peut être l'un des 
+  L'entitÃ© spÃ©cifiÃ©e. Peut Ãªtre l'un des 
   types suivants:
 @FixedFont
   - Camera                 : Utiliser @@CameraID pour obtenir un identifiant (ID) valide.
-  - Entité                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
-  - Lumière                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
+  - EntitÃ©                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
+  - LumiÃ¨re                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
   - Mesh                   : Utiliser @@MeshID pour obtenir un identifiant (ID) valide.
   - Noeud                  : Utiliser @@NodeID pour obtenir un identifiant (ID) valide.
   - Emetteur de Particules : Utiliser @@ParticleEmitterID pour obtenir un identifiant (ID) valide.
@@ -2044,15 +1917,15 @@ suivantes:
 @EndFixedFont
 
 @Parameter "Valeur.f"
-  La valeur du tangage en degré.
+  La valeur du tangage en degrÃ©.
   
 @Parameter "Mode"
-  Le mode de tangage. Peut être l'une des valeurs suivantes:
+  Le mode de tangage. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Relative: Tangage relatif au tangage en cours.
-  @#PB_Absolute: Tangage absolu (par défaut).
+  @#PB_Absolute: Tangage absolu (par dÃ©faut).
 @EndFixedFont
-  combiné avec l'une des valeurs suivantes:
+  combinÃ© avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.
@@ -2071,15 +1944,15 @@ suivantes:
 @Function Roll(ObjetID, Valeur.f, Mode)
 
 @Description
-  Applique un roulis sur l'objet spécifié.
+  Applique un roulis sur l'objet spÃ©cifiÃ©.
 
 @Parameter "ObjetID"
-  L'entité spécifiée. Peut être l'un des 
+  L'entitÃ© spÃ©cifiÃ©e. Peut Ãªtre l'un des 
   types suivants:
 @FixedFont
   - Camera                 : Utiliser @@CameraID pour obtenir un identifiant (ID) valide.
-  - Entité                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
-  - Lumière                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
+  - EntitÃ©                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
+  - LumiÃ¨re                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
   - Mesh                   : Utiliser @@MeshID pour obtenir un identifiant (ID) valide.
   - Noeud                  : Utiliser @@NodeID pour obtenir un identifiant (ID) valide.
   - Emetteur de Particules : Utiliser @@ParticleEmitterID pour obtenir un identifiant (ID) valide.
@@ -2088,15 +1961,15 @@ suivantes:
 @EndFixedFont
 
 @Parameter "Valeur.f"
-  La valeur du roulis en degré.
+  La valeur du roulis en degrÃ©.
   
 @Parameter "Mode"
-  Le mode de roulis. Peut être l'une des valeurs suivantes:
+  Le mode de roulis. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Relative: Roulis relatif au roulis en cours.
-  @#PB_Absolute: Roulis absolu (par défaut).
+  @#PB_Absolute: Roulis absolu (par dÃ©faut).
 @EndFixedFont
-  combiné avec l'une des valeurs suivantes:
+  combinÃ© avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.
@@ -2116,15 +1989,15 @@ suivantes:
 @Function Yaw(ObjetID, Valeur.f, Mode)
 
 @Description
-  Applique un lacet sur l'objet spécifié.
+  Applique un lacet sur l'objet spÃ©cifiÃ©.
 
 @Parameter "ObjetID"
-  L'entité spécifiée. Peut être l'un des 
+  L'entitÃ© spÃ©cifiÃ©e. Peut Ãªtre l'un des 
   types suivants:
 @FixedFont
   - Camera                 : Utiliser @@CameraID pour obtenir un identifiant (ID) valide.
-  - Entité                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
-  - Lumière                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
+  - EntitÃ©                 : Utiliser @@EntityID pour obtenir un identifiant (ID) valide.
+  - LumiÃ¨re                : Utiliser @@LightID pour obtenir un identifiant (ID) valide.
   - Mesh                   : Utiliser @@MeshID pour obtenir un identifiant (ID) valide.
   - Noeud                  : Utiliser @@NodeID pour obtenir un identifiant (ID) valide.
   - Emetteur de Particules : Utiliser @@ParticleEmitterID pour obtenir un identifiant (ID) valide.
@@ -2133,15 +2006,15 @@ suivantes:
 @EndFixedFont
 
 @Parameter "Valeur.f"
-  La valeur du lacet en degré.
+  La valeur du lacet en degrÃ©.
   
 @Parameter "Mode"
-  Le mode de lacet. Peut être l'une des valeurs suivantes:
+  Le mode de lacet. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Relative: Lacet relatif au lacet en cours.
-  @#PB_Absolute: Lacet absolu (par défaut).
+  @#PB_Absolute: Lacet absolu (par dÃ©faut).
 @EndFixedFont
-  combiné avec l'une des valeurs suivantes:
+  combinÃ© avec l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Local.
   @#PB_Parent: Par rapport au parent.
@@ -2152,5 +2025,71 @@ suivantes:
 
 @SeeAlso
   @@Pitch, @@Roll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.f = GetWorldAttribute(Attribut)
+
+@Description
+  RÃ©cupÃ¨re l'attribut spÃ©cifiÃ© du monde.
+
+@Parameter "Attribut"
+  La valeur de l'attribut Ã  rÃ©cupÃ©rer. Les attributs suivants sont disponibles :
+@FixedFont
+  @#PB_Shadow_FarDistance    : La distance de l'ombre lointaine.
+  @#PB_Shadow_Color          : La couleur de l'ombre actuelle au format @@RGBA.
+  @#PB_SkyDome_SkyColor      : La couleur du ciel au format @@RGBA.
+  @#PB_SkyDome_RiseColor     : La couleur du lever du soleil au format @@RGBA.
+  @#PB_SkyDome_NbCloudLayers : Le nombre de couches de nuages.
+  @#PB_SkyDome_CloudsHeight  : La hauteur des nuages en unitÃ© monde.
+  @#PB_Water_WaterColor      : La couleur de l'eau au format @@RGBA.
+  @#PB_Water_SkyColor        : La couleur du ciel telle qu'elle se reflÃ¨te dans l'eau au forma @@RGBA.
+  @#PB_Water_WaveHeight      : La hauteur des vagues.
+  @#PB_Water_WaveSmall       : L'amplitude de l'onde.
+  @#PB_Water_Swell           : L'intensitÃ© de la houle. 
+  @#PB_Water_Foam            : L'intensitÃ© de l'Ã©cume.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie la valeur de l'attribut spÃ©cifiÃ©.
+
+@SeeAlso
+  @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWorldAttribute(Attribut, Valeur.f)
+
+@Description
+  DÃ©finit l'attribut spÃ©cifiÃ© du monde.
+
+@Parameter "Attribut"
+  La valeur de l'attribut Ã  dÃ©finir. Les attributs suivants sont disponibles :
+@FixedFont
+  @#PB_Shadow_FarDistance    : DÃ©finit la distance de l'ombre
+  @#PB_Shadow_Color          : Modifie la couleur de l'ombre actuelle
+  @#PB_SkyDome_Free          : LibÃ©re le dÃ´me cÃ©leste prÃ©cÃ©demment crÃ©Ã© par @@SkyDome
+  @#PB_SkyDome_SkyColor      : La couleur du ciel au format @@RGBA
+  @#PB_SkyDome_RiseColor     : La couleur du lever du soleil au format @@RGBA
+  @#PB_SkyDome_NbCloudLayers : DÃ©finit le nombre de couches nuageuses (valeur entre X et X)
+  @#PB_SkyDome_CloudsHeight  : DÃ©finit la hauteur des nuages en coordonnÃ©e monde
+  @#PB_Water_WaterColor      : DÃ©finit la couleur de l'eau au format @@RGBA.
+  @#PB_Water_SkyColor        : DÃ©finit la couleur du ciel telle qu'elle se reflÃ¨te dans l'eau au format @@RGBA
+  @#PB_Water_WaveHeight      : DÃ©finit la hauteur des vagues (valeur entre 0 et 3).
+  @#PB_Water_WaveSmall       : DÃ©finit l'amplitude de l'onde (valeur entre 0 et 3).
+  @#PB_Water_Swell           : DÃ©finit l'intensitÃ© de la houle (valeur entre 0 et 2).
+  @#PB_Water_Foam            : DÃ©finit l'intensitÃ© de l'Ã©cume (valeur entre 0 et 1).
+  @#PB_Water_Free            : LibÃ©re le plan d'eau du monde prÃ©cÃ©demment crÃ©Ã© avec @@CreateWater
+@EndFixedFont
+
+@ReturnValue
+  Modifier la valeur de l'attribut spÃ©cifiÃ©.
+
+@SeeAlso
+  @@SetWorldAttribute
 
 @SupportedOS

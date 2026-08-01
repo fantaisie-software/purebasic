@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Music library documentation
 ;
 ; (c) Fantaisie Software
@@ -10,40 +10,40 @@
 
   PureBasic peut jouer de la musique sous 
   forme de modules musicaux (.mod, .xm etc.) 
-  pour ajouter un fond sonore à vos jeux 
-  ou à vos applications. Les modules 
+  pour ajouter un fond sonore Ã  vos jeux 
+  ou Ã  vos applications. Les modules 
   musicaux sont bien connus des demo-makers 
   car c'est un moyen simple et efficace de 
-  créer un environnement sonore.@LineBreak 
-  Les outils utilisés pour créer les modules 
+  crÃ©er un environnement sonore.@LineBreak 
+  Les outils utilisÃ©s pour crÃ©er les modules 
   musicaux s'appellent des 'trackers' 
   ( ProTracker, FastTracker, Impulse 
   Tracker...). Par rapport aux fichiers 
   wav et mp3, les modules musicaux ont 
-  l'avantage d'être très compacts et 
-  d'une longueur illimitée tout en 
-  consommant très peu de ressources 
+  l'avantage d'Ãªtre trÃ¨s compacts et 
+  d'une longueur illimitÃ©e tout en 
+  consommant trÃ¨s peu de ressources 
   processeur. Il est aussi possible de 
-  sélectionner en temps réel différentes 
+  sÃ©lectionner en temps rÃ©el diffÃ©rentes 
   parties du morceau pour s'adapter, par 
-  exemple, à chaque phase d'un jeu. Il est 
+  exemple, Ã  chaque phase d'un jeu. Il est 
   bien entendu possible de mixer un 
   @LibraryLink "sound" "son" classique et 
   un module musical en les jouant 
-  simultanément.   
+  simultanÃ©ment.   
 @LineBreak
 @LineBreak
-  La bibliothèque 
+  La bibliothÃ¨que 
   @InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" 
-  est utilisée et permet une reproduction 
-  sonore très fidèle tout en supportant 
-  de nombreux formats musicaux différents 
+  est utilisÃ©e et permet une reproduction 
+  sonore trÃ¨s fidÃ¨le tout en supportant 
+  de nombreux formats musicaux diffÃ©rents 
   (XM, S3M, ...).
 @LineBreak
 @LineBreak
   Avant de pouvoir utiliser les commandes 
   relatives aux modules musicaux, il est 
-  nécessaire d'appeler avec succès la 
+  nÃ©cessaire d'appeler avec succÃ¨s la 
   commande @@InitSound.
 
 @CommandList
@@ -57,46 +57,46 @@
 @Function Resultat = CatchMusic(#Music, *Memoire, Taille)
 
 @Description
-  Charge un module musical déjà situé en 
-  mémoire.
+  Charge un module musical dÃ©jÃ  situÃ© en 
+  mÃ©moire.
 
 @Parameter "#Music"
-  Le numéro d'identification du module 
+  Le numÃ©ro d'identification du module 
   musical.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 
 @Parameter "*Memoire"  
-  L'adresse mémoire (du buffer) où se 
+  L'adresse mÃ©moire (du buffer) oÃ¹ se 
   trouve le module.
 
 @Parameter "Taille"
-  Taille du tampon (buffer) en mémoire.
+  Taille du tampon (buffer) en mÃ©moire.
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Si le module #Music était déjà créé, 
-  il est automatiquement supprimé 
-  et remplacé par le nouveau. 
+  Si le module #Music Ã©tait dÃ©jÃ  crÃ©Ã©, 
+  il est automatiquement supprimÃ© 
+  et remplacÃ© par le nouveau. 
 @LineBreak
 @LineBreak
   Cette commande est utile pour inclure 
   des modules musicaux directement dans 
-  l'exécutable avec la commande 
+  l'exÃ©cutable avec la commande 
   @ReferenceLink "includes" "IncludeBinary".
-  Néanmoins, n'abusez pas de cette 
-  fonctionnalité car un module musical 
-  inclus dans un exécutable consomme 
-  automatiquement de la mémoire 
-  supplémentaire (car tout l'exécutable, 
-  y compris les modules, sont chargés en 
-  mémoire). 
+  NÃ©anmoins, n'abusez pas de cette 
+  fonctionnalitÃ© car un module musical 
+  inclus dans un exÃ©cutable consomme 
+  automatiquement de la mÃ©moire 
+  supplÃ©mentaire (car tout l'exÃ©cutable, 
+  y compris les modules, sont chargÃ©s en 
+  mÃ©moire). 
 
 @Example
 @Code
@@ -120,21 +120,21 @@
 @Function FreeMusic(#Music)
 
 @Description
-  Arrête l'exécution et supprime un 
-  module musical de la mémoire. 
+  ArrÃªte l'exÃ©cution et supprime un 
+  module musical de la mÃ©moire. 
 
 @Parameter "#Music"
-  Le module musical à libérer.
+  Le module musical Ã  libÃ©rer.
 @LineBreak  
 @LineBreak   
-   Si @#PB_All est spécifié, tous les 
-   modules musicaux restants sont libérés.  
+   Si @#PB_All est spÃ©cifiÃ©, tous les 
+   modules musicaux restants sont libÃ©rÃ©s.  
 
 @NoReturnValue
 
 @Remarks
   Tous les modules musicaux restants sont 
-  automatiquement supprimés quand le 
+  automatiquement supprimÃ©s quand le 
   programme se termine. 
   
 @SeeAlso
@@ -150,13 +150,13 @@
   Renvoie la position en cours. 
 
 @Parameter "#Music"
-  Le module musical à utiliser. 
+  Le module musical Ã  utiliser. 
 
 @ReturnValue
   Renvoie la position dans le module 
   musical en cours de lecture. 
 @LineBreak   
-  La première plage commence à 0.
+  La premiÃ¨re plage commence Ã  0.
 
 @SeeAlso
   @@SetMusicPosition
@@ -171,13 +171,13 @@
   Renvoie la ligne en cours. 
 
 @Parameter "#Music"
-  Le module musical à utiliser. 
+  Le module musical Ã  utiliser. 
 
 @ReturnValue
   Renvoie la ligne dans le module musical 
   en cours de lecture. 
 @LineBreak   
-  La première ligne commence à 0.
+  La premiÃ¨re ligne commence Ã  0.
 
 @SeeAlso
   @@SetMusicPosition
@@ -190,23 +190,23 @@
 
 @Description
   Teste si un module musical est 
-  correctement initialisé. 
+  correctement initialisÃ©. 
 
 @Parameter "#Music"
-  Le module musical à tester. 
+  Le module musical Ã  tester. 
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks  
-  Cette fonction a été créée pour pouvoir 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
   passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir 
+  paramÃ¨tre sans qu'il ne puisse y avoir 
   de plantage. 
 @LineBreak  
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
 
 @SeeAlso
   @@LoadMusic, @@CatchMusic
@@ -218,25 +218,24 @@
 @Function Resultat = LoadMusic(#Music, Fichier$)
 
 @Description
-  Charge en mémoire un module musical 
-  depuis un fichier. 
+  Charge en mÃ©moire un module musical depuis un fichier. 
 
 @Parameter "#Music"
-  Le numéro d'identification du module
-  musical.
+  Le numÃ©ro d'identification du module musical.
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro. 
 
 @Parameter "Fichier$"
-  Le nom et le chemin du fichier musical 
-  à charger.
+  Le nom et le chemin du fichier musical Ã  charger.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon. 
+
+@Remarks
+Pour rappel, @@PlayMusic permet de lancer la lecture de la musique.@LineBreak 
+@InternetLink "http://modplug-xmms.sourceforge.net/" "ModPlug" prend en charge de nombreux formats musicaux, 
+notammentÂ : Protracker (4Â canaux), FastTracker (jusqu'Ã  32Â canaux, qualitÃ© 16Â bits), Impulse Tracker, etc.
 
 @SeeAlso
   @@CatchMusic, @@PlayMusic
@@ -248,16 +247,16 @@
 @Function Resultat = MusicVolume(#Music, Volume.f)
 
 @Description
-  Change le volume général en temps réel. 
+  Change le volume gÃ©nÃ©ral en temps rÃ©el. 
 
 @Parameter "#Music"
-  Le module musical à utiliser.
+  Le module musical Ã  utiliser.
 
 @Parameter "Volume.f"
   Le nouveau volume sonore entre 0 et 100.
 @LineBreak
 @LineBreak 
-  Utile pour les fondus enchaînés (fade in/fade out).
+  Utile pour les fondus enchaÃ®nÃ©s (fade in/fade out).
 
 @NoReturnValue
 
@@ -272,7 +271,7 @@
   Joue un module musical. 
 
 @Parameter "#Music"  
-  Le module musical à jouer.
+  Le module musical Ã  jouer.
 
 @NoReturnValue  
 
@@ -289,13 +288,13 @@
   Change la position. 
   
 @Parameter "#Music"
-  Le module musical à utiliser.
+  Le module musical Ã  utiliser.
 
 @Parameter "Position"
   Change la position du module musical 
-  par la plage spécifiée. 
+  par la plage spÃ©cifiÃ©e. 
 @LineBreak
-  La première plage commence à 0.
+  La premiÃ¨re plage commence Ã  0.
 
 @NoReturnValue  
 
@@ -309,15 +308,13 @@
 @Function StopMusic(#Music)
 
 @Description
-  Arrête la lecture. 
+  ArrÃªte la lecture. 
   
 @Parameter "#Music"
-  Le module musical à utiliser.
+  Le module musical Ã  utiliser.
 @LineBreak
 @LineBreak  
-  Si '#Music' est égal à @#PB_All, alors 
-  tous les modules musicaux en cours de 
-  lecture sont arrêtés.
+  Si '#Music' est Ã©gal Ã  @#PB_All, alors tous les modules musicaux en cours de lecture sont arrÃªtÃ©s.
 
 @NoReturnValue
 

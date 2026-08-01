@@ -1,6 +1,6 @@
-@Title Allgemeine Syntax-Regeln
+ï»¿@Title Allgemeine Syntax-Regeln
 
-PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werden. Dies sind: 
+PureBasic hat ein paar Syntax-Regeln eingefÃ¼hrt, welche sich niemals Ã¤ndern werden. Dies sind: 
 
 @Section Kommentare
 @FormatIf HTML
@@ -8,37 +8,45 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 <blockquote>
   Kommentare werden gekennzeichnet durch ein Semikolon <b><font color="#006666">;</font></b>.
   Alle nach dem Semikolon eingegebenen Texte, bis zum Ende der gleichen Zeile, werden vom Compiler ignoriert.
+  Kommentare sollten nicht in mehrzeiligem Code eingefÃ¼gt werden.
 </blockquote>
 @FormatEndIf
 
   @Example
   
 @Code  
-  If a = 10 ; Dies ist ein Kommentar zur näheren Erläuterung.
+  If a = 10 ; Dies ist ein Kommentar zur nÃ¤heren ErlÃ¤uterung.
+  
+  StringList$() = "First String " +       ; Kommentar hier
+                  "with a second Line "   ; Kommentar auch hier
+  
+  StringList$() = "Third String " +       ; Kommentar hier ist OK
+  ; Ein Kommentar hier ist nicht zulÃ¤ssig, da der Compiler einen Fehler ausgibt.
+                  "with a second Line "   ; Kommentar hier ist auch OK
 @EndCode
 
 @FormatIf HTML
 <br><hr><br>
 @FormatEndIf
 
-@Section Schlüsselwörter
+@Section SchlÃ¼sselwÃ¶rter
 
-  Alle @Bold "Schlüsselwörter" (englisch: "Keywords") werden für grundlegende Dinge innerhalb von PureBasic
+  Alle @Bold "SchlÃ¼sselwÃ¶rter" (englisch: "Keywords") werden fÃ¼r grundlegende Dinge innerhalb von PureBasic
   verwendet, wie das Erstellen von Arrays (Dim) oder Listen (NewList), oder die Kontrolle des Programmablaufs
-  (If : Else : EndIf). Sie werden nicht von Klammern '()' gefolgt, welche typischerweise für PureBasic
+  (If : Else : EndIf). Sie werden nicht von Klammern '()' gefolgt, welche typischerweise fÃ¼r PureBasic
   @Bold "Funktionen" genutzt werden.
 
   @Example
   
 @Code  
-    If a = 1      ; If, Else und EndIf sind Schlüsselwörter; während 'a = 1' eine
+    If a = 1      ; If, Else und EndIf sind SchlÃ¼sselwÃ¶rter; wÃ¤hrend 'a = 1' eine
       ...         ; Variable ist, die innerhalb eines Ausdrucks verwendet wird.
     Else
       ...
     EndIf
 @EndCode  
 
-  @Bold "Schlüsselwörter" werden regelmäßig in den Kapiteln auf der linken Seite der
+  @Bold "SchlÃ¼sselwÃ¶rter" werden regelmÃ¤ÃŸig in den Kapiteln auf der linken Seite der
   Index-Seite im Referenz-Handbuch beschrieben.
   @LineBreak
 
@@ -48,8 +56,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Funktionen
 
-  Jeder @Bold "Funktion" muss ein öffnendes rundes Klammerzeichen '(' folgen, oder sie wird nicht als Funktion erkannt
-  (das gilt auch für Funktionen ohne Parameter).
+  Jeder @Bold "Funktion" muss ein Ã¶ffnendes rundes Klammerzeichen '(' folgen, oder sie wird nicht als Funktion erkannt
+  (das gilt auch fÃ¼r Funktionen ohne Parameter).
 
   @Example
   
@@ -58,7 +66,7 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
     EventWindow   ; ist eine Variable.
 @EndCode
 
-  @Bold "Funktionen" sind regelmäßig Bestandteil der PureBasic "Befehls-Bibliotheken", welche auf der rechten
+  @Bold "Funktionen" sind regelmÃ¤ÃŸig Bestandteil der PureBasic "Befehls-Bibliotheken", welche auf der rechten
   Seite der Index-Seite im Referenz-Handbuch beschrieben werden.
   @LineBreak
 
@@ -69,7 +77,7 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 @Section Konstanten
 
   Allen Konstanten geht das Hash-Zeichen @Keyword "#" voraus.
-  Sie können nur einmal im Code deklariert werden und behalten immer ihre vordefinierten Werte.
+  Sie kÃ¶nnen nur einmal im Code deklariert werden und behalten immer ihre vordefinierten Werte.
   (Der Compiler ersetzt beim Kompilieren des Executable alle Konstanten-Namen durch ihre entsprechenden Werte.)
 
   @Example
@@ -86,24 +94,24 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 @Section Literale Strings (Zeichenketten)
 
   Literale Strings werden mit dem Zeichen " deklariert.
-  Escape-Sequenzen werden unterstützt, indem der Literalzeichenfolge das Zeichen ~ vorangestellt wird.
-  Die unterstützten Escape-Sequenzen sind:
+  Escape-Sequenzen werden unterstÃ¼tzt, indem der Literalzeichenfolge das Zeichen ~ vorangestellt wird.
+  Die unterstÃ¼tzten Escape-Sequenzen sind:
 @FixedFont
   \a: alarm           @Keyword Chr(7)      (Alarm)
-  \b: backspace       @Keyword Chr(8)      (Rücktaste)
+  \b: backspace       @Keyword Chr(8)      (RÃ¼cktaste)
   \f: formfeed        @Keyword Chr(12)     (Seitenvorschub)
   \n: newline         @Keyword Chr(10)     (Zeilenumbruch)
-  \r: carriage return @Keyword Chr(13)     (Wagenrücklauf)
+  \r: carriage return @Keyword Chr(13)     (WagenrÃ¼cklauf)
   \t: horizontal tab  @Keyword Chr(9)      (Horizontaler Tab)
   \v: vertical tab    @Keyword Chr(11)     (Vertikaler Tab)
-  \": double quote    @Keyword Chr(34)     (Doppelte Anführungszeichen)
-  \\: backslash       @Keyword Chr(92)     (Rückstrich)
+  \": double quote    @Keyword Chr(34)     (Doppelte AnfÃ¼hrungszeichen)
+  \\: backslash       @Keyword Chr(92)     (RÃ¼ckstrich)
 @EndFixedFont
-  Es gibt zwei spezielle Konstanten für Strings:
+  Es gibt zwei spezielle Konstanten fÃ¼r Strings:
 @FixedFont
-  @#Empty$: repräsentiert einen leeren String (exakt das gleiche wie "")
-  @#Null$ : repräsentiert einen Null-String. Dieser kann für API-Funktionen verwendet werden, welche
-           einen Null-Zeiger auf einen String benötigen, oder um einen String wirklich freizugeben.
+  @#Empty$: reprÃ¤sentiert einen leeren String (exakt das gleiche wie "")
+  @#Null$ : reprÃ¤sentiert einen Null-String. Dieser kann fÃ¼r API-Funktionen verwendet werden, welche
+           einen Null-Zeiger auf einen String benÃ¶tigen, oder um einen String wirklich freizugeben.
 @EndFixedFont
   Achtung: Auf Windows funktioniert \t nicht mit den grafischen Funktionen der @LibraryLink "2DDrawing" "2DDrawing"- und
   @LibraryLink "VectorDrawing" "VectorDrawing"-Bibliotheken.
@@ -120,9 +128,9 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Sprungmarken
 
-  Allen Sprungmarken (Labels) muss ein Doppelpunkt @Keyword ":" folgen. Die Namen von Sprungmarken dürfen
-  keine Operatoren (+,-,...) oder Sonderzeichen (ß,ä,ö,ü,...) enthalten. Innerhalb einer
-  @ReferenceLink "procedures" "procedure" definierte Sprungmarken sind nur in dieser Prozedur verfügbar.
+  Allen Sprungmarken (Labels) muss ein Doppelpunkt @Keyword ":" folgen. Die Namen von Sprungmarken dÃ¼rfen
+  keine Operatoren (+,-,...) oder Sonderzeichen (ÃŸ,Ã¤,Ã¶,Ã¼,...) enthalten. Innerhalb einer
+  @ReferenceLink "procedures" "procedure" definierte Sprungmarken sind nur in dieser Prozedur verfÃ¼gbar.
 
   @Example
   
@@ -149,16 +157,16 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 <br><hr><br>
 @FormatEndIf
 
-@Section Ausdrücke
+@Section AusdrÃ¼cke
 
   Ein Ausdruck ist etwas, das ausgewertet werden kann.
   Ein Ausdruck kann beliebige Variablen, Konstanten oder Funktionen desselben Typs mischen.
-  Wenn Sie Zahlen in einem Ausdruck verwenden, können Sie ihnen das @Keyword "$" Symbol voranstellen,
-  um eine Hexadezimalzahl anzugeben, oder mit dem @Keyword "%" Symbol, um eine Binärzahl anzugeben.
+  Wenn Sie Zahlen in einem Ausdruck verwenden, kÃ¶nnen Sie ihnen das @Keyword "$" Symbol voranstellen,
+  um eine Hexadezimalzahl anzugeben, oder mit dem @Keyword "%" Symbol, um eine BinÃ¤rzahl anzugeben.
   Ohne eines der beiden Zeichen wird die Zahl als Dezimalzahl behandelt.
-  Strings müssen in gerade doppelte Anführungszeichen eingeschlossen werden.
+  Strings mÃ¼ssen in gerade doppelte AnfÃ¼hrungszeichen eingeschlossen werden.
 
-  @Example gültige Ausdrücke:
+  @Example gÃ¼ltige AusdrÃ¼cke:
   
 @Code  
   a = a + 1 + (12 * 3)
@@ -171,7 +179,7 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
   a$ = b$ + "dies ist ein String Wert" + c$
 
-  Foo = Foo + $69 / %1001  ; Nutzung hexadezimaler und binärer Zahlen
+  Foo = Foo + $69 / %1001  ; Nutzung hexadezimaler und binÃ¤rer Zahlen
 @EndCode  
 
 @FormatIf HTML
@@ -194,9 +202,11 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Zeilenfortsetzung
 
-  Lange Ausdrücke können auf mehrere Zeilen aufgeteilt werden.
+  Lange AusdrÃ¼cke kÃ¶nnen auf mehrere Zeilen aufgeteilt werden.
   Eine aufgesplittete Zeile muss mit einem der folgenden Operatoren enden: Plus (+), Komma (,),
   oder (|), And, Or, Xor.
+  @LineBreak
+  Kommentare sollten nicht in mehrzeiligem Code eingefÃ¼gt werden.
 
   @Example
 
@@ -208,6 +218,13 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
   MessageRequester("Hello this is a very long title",
                    "And a very long message, so we can use the multiline" + #LF$ + Text$,
                    #PB_MessageRequester_Ok)
+    
+  StringList$() = "First String " +       ; Kommentar hier
+                  "with a second Line "   ; Kommentar auch hier
+				  
+  StringList$() = "Third String " +       ; Kommentar hier ist OK
+  ; Ein Kommentar hier ist nicht zulÃ¤ssig, da der Compiler einen Fehler ausgibt.
+                  "with a second Line "   ; Kommentar hier ist auch OK
 @EndCode  
 
 @FormatIf HTML
@@ -232,15 +249,15 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern werd
 
 @Section Sonstiges
 
-  - In dieser Anleitung sind alle Themen in alphabetischer Reihenfolge aufgeführt, um mögliche Suchzeiten zu verkürzen.
+  - In dieser Anleitung sind alle Themen in alphabetischer Reihenfolge aufgefÃ¼hrt, um mÃ¶gliche Suchzeiten zu verkÃ¼rzen.
   @LineBreak
   @LineBreak
-  - @Bold "Rückgabewerte" von Befehlen sind immer vom Typ @ReferenceLink "variables" "Integer", wenn kein anderer Typ
+  - @Bold "RÃ¼ckgabewerte" von Befehlen sind immer vom Typ @ReferenceLink "variables" "Integer", wenn kein anderer Typ
     auf der Syntax-Zeile der jeweiligen Befehlsbeschreibung angegeben ist.
   @LineBreak
   - In der PureBasic-Dokumentation werden die Begriffe "Befehle" und "Funktionen" synonym verwendet,
-    unabhängig davon, ob die Funktion einen Wert zurückgibt oder nicht.
-    Um zu erfahren, welcher Wert von einem bestimmten Befehl oder einer bestimmten Funktion zurückgegeben wird,
+    unabhÃ¤ngig davon, ob die Funktion einen Wert zurÃ¼ckgibt oder nicht.
+    Um zu erfahren, welcher Wert von einem bestimmten Befehl oder einer bestimmten Funktion zurÃ¼ckgegeben wird,
   schauen Sie in die Beschreibung in der Befehls-Dokumentation.
 
   @LineBreak

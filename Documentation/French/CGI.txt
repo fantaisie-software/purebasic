@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     CGI library documentation
 ;
 ;      (c) - Fantaisie Software
@@ -8,20 +8,20 @@
 
 @Overview
   CGI signifie "Common Gateway Interface" 
-  (littéralement "Interface de passerelle 
-  commune") et généralement abrégée en "CGI". 
-  Elle permet de créer des applications côté serveur.
-  Cette bibliothèque fournit toutes les commandes 
-  nécessaires pour recevoir les requêtes ou les 
-  fichiers, répondre et faire diverses autres 
-  opérations. CGI et le mode FastCGI sont pris en 
+  (littÃ©ralement "Interface de passerelle 
+  commune") et gÃ©nÃ©ralement abrÃ©gÃ©e en "CGI". 
+  Elle permet de crÃ©er des applications cÃ´tÃ© serveur.
+  Cette bibliothÃ¨que fournit toutes les commandes 
+  nÃ©cessaires pour recevoir les requÃªtes ou les 
+  fichiers, rÃ©pondre et faire diverses autres 
+  opÃ©rations. CGI et le mode FastCGI sont pris en 
   charge tous les deux.
   @LineBreak
   @LineBreak
   L'article Wikipedia sur @InternetLink "https://en.wikipedia.org/wiki/Common_Gateway_Interface" "CGI" 
-  fournit un bon point de départ pour les débutants à CGI (en anglais).  @LineBreak
+  fournit un bon point de dÃ©part pour les dÃ©butants Ã  CGI (en anglais).  @LineBreak
   L'article Wikipedia sur @InternetLink "https://fr.wikipedia.org/wiki/Common_Gateway_Interface" "CGI" 
-  en français.
+  en franÃ§ais.
     
 @CommandList
 
@@ -34,14 +34,14 @@
 @Function Resultat$ = CGICookieName(Index)
 
 @Description
-  Renvoie le nom du cookie spécifié.
+  Renvoie le nom du cookie spÃ©cifiÃ©.
   
 @Parameter "Index"
   L'indice du cookie. @LineBreak
-  La première valeur de l'indice commence à 0.
+  La premiÃ¨re valeur de l'indice commence Ã  0.
 
 @ReturnValue
-  Renvoie le nom du cookie spécifié.
+  Renvoie le nom du cookie spÃ©cifiÃ©.
   
 @Remarks
   Pour obtenir le nombre de cookies disponibles, 
@@ -53,8 +53,8 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-têtes pour informer le navigateur du format du contenu
-  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommé 'mycookie'
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommÃ© 'mycookie'
   
   WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
                  "NbCookies: " + CountCGICookies() + "<br><br>")
@@ -78,18 +78,18 @@
 @Function Resultat$ = CGICookieValue(Nom$)
 
 @Description
-  Renvoie la valeur du cookie spécifié.
+  Renvoie la valeur du cookie spÃ©cifiÃ©.
   
 @Parameter "Nom$"
   Le nom du cookie. @LineBreak
-  Le nom du cookie est sensible à la casse.
+  Le nom du cookie est sensible Ã  la casse.
 
 @ReturnValue
-  Renvoie la valeur du cookie spécifié.
+  Renvoie la valeur du cookie spÃ©cifiÃ©.
   
 @Remarks
-  La fonction @@CGICookieName peut être utilisée 
-  pour obtenir le nom d'un cookie spécifié.
+  La fonction @@CGICookieName peut Ãªtre utilisÃ©e 
+  pour obtenir le nom d'un cookie spÃ©cifiÃ©.
   @LineBreak
   @LineBreak
   Pour obtenir le nombre de cookies disponibles, 
@@ -101,8 +101,8 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-têtes pour informer le navigateur du format du contenu
-  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommé 'mycookie'
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommÃ© 'mycookie'
   
   WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
                  "NbCookies: " + CountCGICookies() + "<br><br>")
@@ -136,22 +136,22 @@
   
 @Remarks
   Les cookies sont des petits fichiers 
-  persistants stockés par le navigateur 
+  persistants stockÃ©s par le navigateur 
   Web pour permettre de se rappeler un 
   contexte et faciliter la navigation 
-  future lors du chargement de la même 
+  future lors du chargement de la mÃªme 
   page plus tard.
   @LineBreak
   @LineBreak
-  S'il vous plaît noter que la législation 
-  européenne impose désormais d'informer 
+  S'il vous plaÃ®t noter que la lÃ©gislation 
+  europÃ©enne impose dÃ©sormais d'informer 
   les utilisateurs que les cookies ne sont 
-  pas utilisés pour recueillir des informations 
+  pas utilisÃ©s pour recueillir des informations 
   inutilement.
   @LineBreak
   @LineBreak
   Le nom et la valeur des cookies peuvent 
-  être obtenus avec @@CGICookieName et 
+  Ãªtre obtenus avec @@CGICookieName et 
   @@CGICookieValue.
   
 @Example
@@ -160,8 +160,8 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-têtes pour informer le navigateur du format du contenu
-  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommé 'mycookie'
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html") ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderSetCookie  , "mycookie=hello", #PB_CGI_LastHeader) ; Ecrit un cookie nommÃ© 'mycookie'
   
   WriteCGIString("<html><title>PureBasic - cookies</title><body>" +
                  "NbCookies: " + CountCGICookies() + "<br><br>")
@@ -179,19 +179,19 @@
 @Function Resultat = CountCGIParameters()
 
 @Description
-  Renvoie le nombre de paramètres 
-  disponibles après une requête 
+  Renvoie le nombre de paramÃ¨tres 
+  disponibles aprÃ¨s une requÃªte 
   GET ou POST.
     
 @NoParameters
 
 @ReturnValue
-  Renvoie le nombre de paramètres 
-  disponibles après une requête 
+  Renvoie le nombre de paramÃ¨tres 
+  disponibles aprÃ¨s une requÃªte 
   GET ou POST.
   
 @Remarks
- Des paramètres peuvent être obtenus 
+ Des paramÃ¨tres peuvent Ãªtre obtenus 
  avec @@CGIParameterName, 
  @@CGIParameterValue et @@CGIParameterType.
 
@@ -201,7 +201,7 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parameters</title><body>" +
                  "NbParameters: " + CountCGIParameters() + "<br><br>")
@@ -220,17 +220,17 @@
 @Function Resultat = CGIParameterName(Index)
 
 @Description
-  Renvoie le nom du paramètre spécifié.
+  Renvoie le nom du paramÃ¨tre spÃ©cifiÃ©.
   
 @Parameter "Index"
-  L'indice du paramètre. @LineBreak
-  La première valeur de l'indice commence à 0.
+  L'indice du paramÃ¨tre. @LineBreak
+  La premiÃ¨re valeur de l'indice commence Ã  0.
 
 @ReturnValue
-  Renvoie le nom du paramètre spécifié.
+  Renvoie le nom du paramÃ¨tre spÃ©cifiÃ©.
   
 @Remarks
-  Pour obtenir le nombre de paramètres 
+  Pour obtenir le nombre de paramÃ¨tres 
   disponibles, utiliser @@CountCGIParameters.
   
 @Example
@@ -239,12 +239,12 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parametres</title><body>" +
                  "NbParametres: " + CountCGIParameters() + "<br><br>")
   
-  ; La liste de tous les paramètres et affiche leur nom
+  ; La liste de tous les paramÃ¨tres et affiche leur nom
   ;
   For k = 0 To CountCGIParameters()-1 
     WriteCGIString(CGIParameterName(k)+"<br>")
@@ -264,35 +264,35 @@
 @Function Resultat = CGIParameterValue(Nom$ [, Index])
 
 @Description
-  Renvoie la valeur du paramètre spécifié.
+  Renvoie la valeur du paramÃ¨tre spÃ©cifiÃ©.
   
 @Parameter "Nom$"
-  Le nom du paramètre.
+  Le nom du paramÃ¨tre.
   @LineBreak 
   @LineBreak  
-  Le nom du paramètre est sensible à la 
+  Le nom du paramÃ¨tre est sensible Ã  la 
   casse.  @LineBreak
-  Ce paramètre sera ignoré si un 
-  "Index" est spécifié.
+  Ce paramÃ¨tre sera ignorÃ© si un 
+  "Index" est spÃ©cifiÃ©.
 
 @OptionalParameter "Index"
-  L'index du paramètre à chercher.
+  L'index du paramÃ¨tre Ã  chercher.
   @LineBreak  
   @LineBreak    
-  La première valeur de l'indice commence 
-  à 0.
+  La premiÃ¨re valeur de l'indice commence 
+  Ã  0.
   @LineBreak
-  Si spécifié, la valeur du paramètre 'Nom$' 
-  est ignorée (sauf si @#PB_Ignore est utilisé).
+  Si spÃ©cifiÃ©, la valeur du paramÃ¨tre 'Nom$' 
+  est ignorÃ©e (sauf si @#PB_Ignore est utilisÃ©).
   
 @ReturnValue
-  Renvoie la valeur du paramètre spécifié.
+  Renvoie la valeur du paramÃ¨tre spÃ©cifiÃ©.
   
 @Remarks
-  @@CGIParameterName peut être utilisé pour 
-  obtenir le nom d'un paramètre spécifié.
+  @@CGIParameterName peut Ãªtre utilisÃ© pour 
+  obtenir le nom d'un paramÃ¨tre spÃ©cifiÃ©.
   @LineBreak
-  Pour obtenir le nombre de paramètres 
+  Pour obtenir le nombre de paramÃ¨tres 
   disponibles, utiliser @@CountCGIParameters.
   @LineBreak  
   
@@ -303,12 +303,12 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parametres</title><body>" +
                  "NbParametres: " + CountCGIParameters() + "<br><br>")
   
-  ; La liste des tous les paramètres et affiche leur nom et leur valeur
+  ; La liste des tous les paramÃ¨tres et affiche leur nom et leur valeur
   ;
   For k = 0 To CountCGIParameters()-1 
     WriteCGIString(CGIParameterName(k) + ": " + CGIParameterValue("", k) + "<br>")
@@ -328,35 +328,35 @@
 @Function Resultat = CGIParameterType(Nom$ [, Index])
 
 @Description
-  Renvoie le type du paramètre spécifié.
+  Renvoie le type du paramÃ¨tre spÃ©cifiÃ©.
   
 @Parameter "Nom$"
-  Le nom du paramètre.@LineBreak 
-  Le nom du paramètre est sensible à la 
+  Le nom du paramÃ¨tre.@LineBreak 
+  Le nom du paramÃ¨tre est sensible Ã  la 
   casse.
 
 @OptionalParameter "Index"
-  La première valeur de l'indice commence à 0.
+  La premiÃ¨re valeur de l'indice commence Ã  0.
   @LineBreak
-  Si spécifié, la valeur du paramètre 'Nom$' 
-  est ignorée (sauf si @#PB_Ignore est utilisé).
+  Si spÃ©cifiÃ©, la valeur du paramÃ¨tre 'Nom$' 
+  est ignorÃ©e (sauf si @#PB_Ignore est utilisÃ©).
 
 @ReturnValue
-  Renvoie le type du paramètre spécifié.
+  Renvoie le type du paramÃ¨tre spÃ©cifiÃ©.
   @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_CGI_Text: le paramètre est une chaîne
-  @#PB_CGI_File: le paramètre est un fichier binaire. 
+  @#PB_CGI_Text: le paramÃ¨tre est une chaÃ®ne
+  @#PB_CGI_File: le paramÃ¨tre est un fichier binaire. 
                 @@CGIParameterValue renverra le nom du fichier original et
-                @@CGIParameterData récupèrera les données binaires.
+                @@CGIParameterData rÃ©cupÃ¨rera les donnÃ©es binaires.
 @EndFixedFont
    
 @Remarks
-  @@CGIParameterName peut être utilisé 
-  pour obtenir le nom d'un paramètre 
-  spécifié.@LineBreak
-  Pour obtenir le nombre de paramètres 
+  @@CGIParameterName peut Ãªtre utilisÃ© 
+  pour obtenir le nom d'un paramÃ¨tre 
+  spÃ©cifiÃ©.@LineBreak
+  Pour obtenir le nombre de paramÃ¨tres 
   disponibles, utiliser @@CountCGIParameters.
  
 @Example
@@ -365,12 +365,12 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parametres</title><body>" +
                  "NbParametres: " + CountCGIParameters() + "<br><br>")
   
-  ; La liste des tous les paramètres et affiche leur nom
+  ; La liste des tous les paramÃ¨tres et affiche leur nom
   ;
   For k = 0 To CountCGIParameters()-1
     If CGIParameterType("", k) = #PB_CGI_File
@@ -394,34 +394,34 @@
 @Function *Resultat = CGIParameterData(Nom$ [, Index])
 
 @Description
-  Renvoie l'adresse de la mémoire tampon 
-  du paramètre spécifié.
+  Renvoie l'adresse de la mÃ©moire tampon 
+  du paramÃ¨tre spÃ©cifiÃ©.
   
 @Parameter "Nom$"
-  Le nom du paramètre.@LineBreak 
-  Le nom du paramètre est sensible à la 
+  Le nom du paramÃ¨tre.@LineBreak 
+  Le nom du paramÃ¨tre est sensible Ã  la 
   casse.
 
 @OptionalParameter "Index"
-  La première valeur de l'indice commence à 0.
+  La premiÃ¨re valeur de l'indice commence Ã  0.
   @LineBreak
-  Si spécifié, la valeur du paramètre 'Nom$' 
-  est ignorée (sauf si @#PB_Ignore est utilisé).
+  Si spÃ©cifiÃ©, la valeur du paramÃ¨tre 'Nom$' 
+  est ignorÃ©e (sauf si @#PB_Ignore est utilisÃ©).
 
 @ReturnValue
-  Renvoie l'adresse de la mémoire tampon 
-  du paramètre spécifié. @LineBreak 
-  Le type de paramètre doit être @#PB_CGI_File.
+  Renvoie l'adresse de la mÃ©moire tampon 
+  du paramÃ¨tre spÃ©cifiÃ©. @LineBreak 
+  Le type de paramÃ¨tre doit Ãªtre @#PB_CGI_File.
     
 @Remarks
-  @@CGIParameterName peut être utilisé 
-  pour obtenir le nom d'un paramètre 
-  spécifié.@LineBreak
-  Pour obtenir le nombre de paramètres 
+  @@CGIParameterName peut Ãªtre utilisÃ© 
+  pour obtenir le nom d'un paramÃ¨tre 
+  spÃ©cifiÃ©.@LineBreak
+  Pour obtenir le nombre de paramÃ¨tres 
   disponibles, utiliser @@CountCGIParameters.
   @LineBreak
-  @@CGIParameterDataSize peut être utilisé 
-  pour obtenir la taille de la mémoire tampon.
+  @@CGIParameterDataSize peut Ãªtre utilisÃ© 
+  pour obtenir la taille de la mÃ©moire tampon.
  
   
 @Example
@@ -430,12 +430,12 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parametres</title><body>" +
                  "NbParametres: " + CountCGIParameters() + "<br><br>")
   
-  ; La liste des tous les paramètres et affiche leur nom
+  ; La liste des tous les paramÃ¨tres et affiche leur nom
   ;
   For k = 0 To CountCGIParameters()-1
     If CGIParameterType("", k) = #PB_CGI_File
@@ -460,34 +460,34 @@
 @Function Resultat = CGIParameterDataSize(Nom$ [, Index])
 
 @Description
-  Renvoie la taille des données du paramètre 
-  spécifié.
+  Renvoie la taille des donnÃ©es du paramÃ¨tre 
+  spÃ©cifiÃ©.
   
 @Parameter "Nom$"
-  Le nom du paramètre.@LineBreak 
-  Le nom du paramètre est sensible à la 
+  Le nom du paramÃ¨tre.@LineBreak 
+  Le nom du paramÃ¨tre est sensible Ã  la 
   casse.
 
 @OptionalParameter "Index"
-  La première valeur de l'indice commence à 0.
+  La premiÃ¨re valeur de l'indice commence Ã  0.
   @LineBreak
-  Si spécifié, la valeur du paramètre 'Nom$' 
-  est ignorée (sauf si @#PB_Ignore est utilisé).
+  Si spÃ©cifiÃ©, la valeur du paramÃ¨tre 'Nom$' 
+  est ignorÃ©e (sauf si @#PB_Ignore est utilisÃ©).
 
 @ReturnValue
-  Renvoie la taille des données (en octets) 
-  du paramètre spécifié. @LineBreak 
-  Le type de paramètre doit être @#PB_CGI_File.
+  Renvoie la taille des donnÃ©es (en octets) 
+  du paramÃ¨tre spÃ©cifiÃ©. @LineBreak 
+  Le type de paramÃ¨tre doit Ãªtre @#PB_CGI_File.
     
 @Remarks
-  @@CGIParameterName peut être utilisé 
-  pour obtenir le nom d'un paramètre 
-  spécifié.@LineBreak
-  Pour obtenir le nombre de paramètres 
+  @@CGIParameterName peut Ãªtre utilisÃ© 
+  pour obtenir le nom d'un paramÃ¨tre 
+  spÃ©cifiÃ©.@LineBreak
+  Pour obtenir le nombre de paramÃ¨tres 
   disponibles, utiliser @@CountCGIParameters.
   @LineBreak
-  @@CGIParameterDataSize peut être utilisé 
-  pour obtenir la taille de la mémoire tampon.
+  @@CGIParameterDataSize peut Ãªtre utilisÃ© 
+  pour obtenir la taille de la mÃ©moire tampon.
   
 @Example
 @Code
@@ -495,12 +495,12 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - parametres</title><body>" +
                  "NbParametres: " + CountCGIParameters() + "<br><br>")
   
-  ; La liste des tous les paramètres et affiche leur nom
+  ; La liste des tous les paramÃ¨tres et affiche leur nom
   ;
   For k = 0 To CountCGIParameters()-1
     If CGIParameterType("", k) = #PB_CGI_File
@@ -524,24 +524,24 @@
 @Function *Resultat = CGIBuffer()
 
 @Description
-  Pour les utilisateurs avancés. Renvoie 
-  l'adresse de la mémoire tampon de 
-  l'entrée brute CGI (utile seulement 
-  pour une requête de type POST). 
+  Pour les utilisateurs avancÃ©s. Renvoie 
+  l'adresse de la mÃ©moire tampon de 
+  l'entrÃ©e brute CGI (utile seulement 
+  pour une requÃªte de type POST). 
   
 @NoParameters
 
 @ReturnValue
-  Renvoie l'adresse de la mémoire tampon 
-  de l'entrée CGI brute, ou zéro si une 
+  Renvoie l'adresse de la mÃ©moire tampon 
+  de l'entrÃ©e CGI brute, ou zÃ©ro si une 
   erreur est survenue.
   
 @Remarks
-  Il peut être utile de faire une analyse 
-  (parse) supplémentaire non prise en charge 
-  par cette bibliothèque tout en utilisant 
-  d'autres commandes. La taille de la mémoire 
-  tampon est la valeur renvoyée par @@ReadCGI.
+  Il peut Ãªtre utile de faire une analyse 
+  (parse) supplÃ©mentaire non prise en charge 
+  par cette bibliothÃ¨que tout en utilisant 
+  d'autres commandes. La taille de la mÃ©moire 
+  tampon est la valeur renvoyÃ©e par @@ReadCGI.
   
 @Example
 @Code
@@ -551,7 +551,7 @@
   
   BufferSize = ReadCGI()
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - tampon brut(raw)</title><body>")  
   If CGIBuffer()
@@ -572,78 +572,78 @@
 
 @Description
   Renvoie le contenu de la variable 
-  d'environnement CGI spécifiée. 
+  d'environnement CGI spÃ©cifiÃ©e. 
 
 @Parameter "Nom$"
-  Le nom de la variable à obtenir.@LineBreak
-  Peut être une valeur personnalisée ou 
-  l'une des constantes prédéfinies suivantes:
+  Le nom de la variable Ã  obtenir.@LineBreak
+  Peut Ãªtre une valeur personnalisÃ©e ou 
+  l'une des constantes prÃ©dÃ©finies suivantes:
 @FixedFont
-  @#PB_CGI_AuthType          : le procédé d'authentification utilisé par le navigateur Web 
-                              si un quelconque procédé d'authentification a été utilisé.
-                              Il n'est pas défini, sauf si le script est protégé.
+  @#PB_CGI_AuthType          : le procÃ©dÃ© d'authentification utilisÃ© par le navigateur Web 
+                              si un quelconque procÃ©dÃ© d'authentification a Ã©tÃ© utilisÃ©.
+                              Il n'est pas dÃ©fini, sauf si le script est protÃ©gÃ©.
                      
-  @#PB_CGI_ContentLength     : utilisé pour les scripts qui reçoivent des données de 
-                              formulaire utilisant la méthode POST. Cette variable 
-                              indique la longueur en octets du flux de données d'entrée 
-                              de CGI. Cela est nécessaire pour lire les données à partir 
-                              de l'entrée standard avec la méthode POST.
+  @#PB_CGI_ContentLength     : utilisÃ© pour les scripts qui reÃ§oivent des donnÃ©es de 
+                              formulaire utilisant la mÃ©thode POST. Cette variable 
+                              indique la longueur en octets du flux de donnÃ©es d'entrÃ©e 
+                              de CGI. Cela est nÃ©cessaire pour lire les donnÃ©es Ã  partir 
+                              de l'entrÃ©e standard avec la mÃ©thode POST.
                          
-  @#PB_CGI_HeaderContentType : indique le type de support de données en cours de réception 
+  @#PB_CGI_HeaderContentType : indique le type de support de donnÃ©es en cours de rÃ©ception 
                               de l'utilisateur.
-                              il est utilisé pour les scripts appelés en utilisant la méthode POST.
+                              il est utilisÃ© pour les scripts appelÃ©s en utilisant la mÃ©thode POST.
   @#PB_CGI_DocumentRoot      : le chemin de la racine de la page d'accueil HTML pour le serveur.
-  @#PB_CGI_GatewayInterface  : la version de CGI utilisé pour échanger les données entre le client et le serveur. 
-                              Généralement c'est CGI/1.1 pour le niveau de révision actuel.
-  @#PB_CGI_PathInfo          : informations de chemin supplémentaire ajouté à la fin de l'URL qui a accédé au programme de script côté serveur.
+  @#PB_CGI_GatewayInterface  : la version de CGI utilisÃ© pour Ã©changer les donnÃ©es entre le client et le serveur. 
+                              GÃ©nÃ©ralement c'est CGI/1.1 pour le niveau de rÃ©vision actuel.
+  @#PB_CGI_PathInfo          : informations de chemin supplÃ©mentaire ajoutÃ© Ã  la fin de l'URL qui a accÃ©dÃ© au programme de script cÃ´tÃ© serveur.
   @#PB_CGI_PathTranslated    : une version traduite de la variable PATH_INFO par le serveur Web du virtuel vers le chemin physique.
-  @#PB_CGI_QueryString       : cette chaîne contient des informations à la fin du chemin de script côté serveur 
+  @#PB_CGI_QueryString       : cette chaÃ®ne contient des informations Ã  la fin du chemin de script cÃ´tÃ© serveur 
                               qui a suivi un point d'interrogation. 
-                              Utilisé pour renvoyer les données si la méthode GET a été utilisé par un formulaire. 
-                              Il y a des restrictions de longueur à la QUERY_STRING. 
+                              UtilisÃ© pour renvoyer les donnÃ©es si la mÃ©thode GET a Ã©tÃ© utilisÃ© par un formulaire. 
+                              Il y a des restrictions de longueur Ã  la QUERY_STRING. 
   @#PB_CGI_RemoteAddr        : l'adresse IP de l'ordinateur client.
-  @#PB_CGI_RemoteHost        : le nom de domaine complet de la machine du client faisant la requête HTTP. 
-                              Il peut ne pas être possible de déterminer ce nom puisque les noms de nombreux ordinateurs clients 
-                              ne sont pas enregistrées dans le système DNS.
-  @#PB_CGI_RemoteIdent       : la possibilité d'utiliser cette variable est limitée aux serveurs qui prennent 
+  @#PB_CGI_RemoteHost        : le nom de domaine complet de la machine du client faisant la requÃªte HTTP. 
+                              Il peut ne pas Ãªtre possible de dÃ©terminer ce nom puisque les noms de nombreux ordinateurs clients 
+                              ne sont pas enregistrÃ©es dans le systÃ¨me DNS.
+  @#PB_CGI_RemoteIdent       : la possibilitÃ© d'utiliser cette variable est limitÃ©e aux serveurs qui prennent 
                               en charge la RFC 931. Cette variable peut contenir le nom d'utilisateur de la machine 
-                              cliente, mais il est destiné à être utilisé à des fins d'exploitation du fichier log, 
+                              cliente, mais il est destinÃ© Ã  Ãªtre utilisÃ© Ã  des fins d'exploitation du fichier log, 
                               quand il est disponible.
-  @#PB_CGI_RemotePort        : le port utilisé par les clients. 
-  @#PB_CGI_RemoteUser        : si le script CGI a été protégé et l'utilisateur a été connecté pour accéder au script, 
+  @#PB_CGI_RemotePort        : le port utilisÃ© par les clients. 
+  @#PB_CGI_RemoteUser        : si le script CGI a Ã©tÃ© protÃ©gÃ© et l'utilisateur a Ã©tÃ© connectÃ© pour accÃ©der au script, 
                               cette valeur contient le journal de l'utilisateur.
-  @#PB_CGI_RequestURI        : le chemin vers le fichier demandé par le client.
-  @#PB_CGI_RequestMethod     : décrit la méthode de requête utilisée par le navigateur qui est habituellement GET, POST, ou HEAD.
-  @#PB_CGI_ScriptName        : le chemin virtuel du script CGI en cours d'exécution.
-  @#PB_CGI_ScriptFilename    : le nom de fichier local du script en cours d'exécution.
+  @#PB_CGI_RequestURI        : le chemin vers le fichier demandÃ© par le client.
+  @#PB_CGI_RequestMethod     : dÃ©crit la mÃ©thode de requÃªte utilisÃ©e par le navigateur qui est habituellement GET, POST, ou HEAD.
+  @#PB_CGI_ScriptName        : le chemin virtuel du script CGI en cours d'exÃ©cution.
+  @#PB_CGI_ScriptFilename    : le nom de fichier local du script en cours d'exÃ©cution.
   @#PB_CGI_ServerAdmin       : l'adresse e-mail de l'administrateur du serveur. 
-  @#PB_CGI_ServerName        : le nom du serveur, l'adresse IP ou le nom alias DNS présentée comme une URL d'auto-référencement. 
-                              Cela ne comprend pas l'identificateur de protocole tel que "HTTP", le nom de la machine, ou le numéro de port.
-  @#PB_CGI_ServerPort        : le numéro de port sur lequel les requêtes et les réponses HTTP sont envoyées.
-  @#PB_CGI_ServerProtocol    : cette valeur est généralement HTTP qui décrit le protocole utilisé entre les ordinateurs client et serveur.
-  @#PB_CGI_ServerSignature   : information sur le serveur en spécifiant le nom et la version du serveur Web et le port.
+  @#PB_CGI_ServerName        : le nom du serveur, l'adresse IP ou le nom alias DNS prÃ©sentÃ©e comme une URL d'auto-rÃ©fÃ©rencement. 
+                              Cela ne comprend pas l'identificateur de protocole tel que "HTTP", le nom de la machine, ou le numÃ©ro de port.
+  @#PB_CGI_ServerPort        : le numÃ©ro de port sur lequel les requÃªtes et les rÃ©ponses HTTP sont envoyÃ©es.
+  @#PB_CGI_ServerProtocol    : cette valeur est gÃ©nÃ©ralement HTTP qui dÃ©crit le protocole utilisÃ© entre les ordinateurs client et serveur.
+  @#PB_CGI_ServerSignature   : information sur le serveur en spÃ©cifiant le nom et la version du serveur Web et le port.
   @#PB_CGI_ServerSoftware    : le nom et la version du serveur web.
-  @#PB_CGI_HttpAccept        : les types de supports de données que le navigateur client peut accepter. 
-                              Ces types de données sont séparées par des virgules.
+  @#PB_CGI_HttpAccept        : les types de supports de donnÃ©es que le navigateur client peut accepter. 
+                              Ces types de donnÃ©es sont sÃ©parÃ©es par des virgules.
   @#PB_CGI_HttpAcceptEncoding: le type d'encodage que le navigateur client accepte.
   @#PB_CGI_HttpAcceptLanguage: la langue que le navigateur client accepte.
-  @#PB_CGI_HttpCookie        : utilisé comme une variable d'environnement qui contient les cookies associés au domaine du serveur depuis le navigateur.
+  @#PB_CGI_HttpCookie        : utilisÃ© comme une variable d'environnement qui contient les cookies associÃ©s au domaine du serveur depuis le navigateur.
   @#PB_CGI_HttpForwarded     : l'URL de la page transmise juste avant.
-  @#PB_CGI_HttpHost          : nom de l'hôte d'où viennent les requêtes HTTP.
+  @#PB_CGI_HttpHost          : nom de l'hÃ´te d'oÃ¹ viennent les requÃªtes HTTP.
   @#PB_CGI_HttpPragma        : pragmas HTTP 
-  @#PB_CGI_HttpReferer       : l'adresse de la page d'où la requête HTTP est originaire. 
-  @#PB_CGI_HttpUserAgent     : le nom du navigateur Web du client qui a envoyé la requête.
+  @#PB_CGI_HttpReferer       : l'adresse de la page d'oÃ¹ la requÃªte HTTP est originaire. 
+  @#PB_CGI_HttpUserAgent     : le nom du navigateur Web du client qui a envoyÃ© la requÃªte.
 @EndFixedFont
 
 
 @ReturnValue
   Renvoie la valeur de la variable 
-  d'environnement CGI spécifiée.
+  d'environnement CGI spÃ©cifiÃ©e.
   
 @Remarks
-  Lorsque le CGI est chargé, de nombreuses 
-  informations sont envoyées du serveur Web 
-  vers l'application CGI à travers les variables 
+  Lorsque le CGI est chargÃ©, de nombreuses 
+  informations sont envoyÃ©es du serveur Web 
+  vers l'application CGI Ã  travers les variables 
   d'environnement.
   
 @Example
@@ -652,7 +652,7 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - variables</title><body>")  
   
@@ -707,24 +707,24 @@
 @Function FinishFastCGIRequest()
 
 @Description
-  Termine la requête FastCGI en cours 
-  et libère toutes les ressources 
-  associées. 
+  Termine la requÃªte FastCGI en cours 
+  et libÃ¨re toutes les ressources 
+  associÃ©es. 
   
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle si une 
-  nouvelle requête a été traitée.
+  nouvelle requÃªte a Ã©tÃ© traitÃ©e.
   
 @Remarks
   Il n'est pas obligatoire d'utiliser cette 
   commande, car la demande sera automatiquement 
-  terminée lorsque @@WaitFastCGIRequest() 
-  est appelée de nouveau, ou quand le thread 
+  terminÃ©e lorsque @@WaitFastCGIRequest() 
+  est appelÃ©e de nouveau, ou quand le thread 
   se termine. @LineBreak
-  Cela peut être utile dans certains cas 
-  particuliers où les ressources sont 
+  Cela peut Ãªtre utile dans certains cas 
+  particuliers oÃ¹ les ressources sont 
   faibles avant de faire un autre 
   traitement.   
 
@@ -734,14 +734,14 @@
     End
   EndIf
   
-  If Not InitFastCGI(5600) ; Crée le programme FastCGI sur le port 5600
+  If Not InitFastCGI(5600) ; CrÃ©e le programme FastCGI sur le port 5600
     End
   EndIf
   
   While WaitFastCGIRequest()
   
     If ReadCGI()
-      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
       WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
                      "Hello depuis PureBasic FastCGI !<br>" +
@@ -773,26 +773,26 @@
   Initialise l'environnement CGI.
   
 @OptionalParameter "TailleRequeteMax"
-  La taille maximale de la requête, 
-  en octets (la valeur par défaut est 
+  La taille maximale de la requÃªte, 
+  en octets (la valeur par dÃ©faut est 
   de 50 Mo).
   @LineBreak
   @LineBreak
-  Lors de l'envoi de grande quantité 
-  de données (comme les fichiers binaires), 
-  il pourrait être utile de spécifier une 
+  Lors de l'envoi de grande quantitÃ© 
+  de donnÃ©es (comme les fichiers binaires), 
+  il pourrait Ãªtre utile de spÃ©cifier une 
   valeur plus grande.
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'environnement CGI a été 
-  correctement initialisé.
+  l'environnement CGI a Ã©tÃ© 
+  correctement initialisÃ©.
   
 @Remarks
-  Cette fonction doit être appelée 
-  avec succès avant d'utiliser 
+  Cette fonction doit Ãªtre appelÃ©e 
+  avec succÃ¨s avant d'utiliser 
   d'autres commandes de cette 
-  bibliothèque.
+  bibliothÃ¨que.
   
 @Example
 @Code
@@ -800,7 +800,7 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - variables</title><body>" +
                  "Hello depuis PureBasic CGI !" +
@@ -818,52 +818,52 @@
 
 @Description
   Initialise le support de FastCGI. 
-  Une fois appelées, toutes les commandes de 
+  Une fois appelÃ©es, toutes les commandes de 
   CGI commutent automatiquement vers FastCGI.
-  Cette bibliothèque supporte la gestion des 
-  threads FastCGI, à condition d'activer le 
+  Cette bibliothÃ¨que supporte la gestion des 
+  threads FastCGI, Ã  condition d'activer le 
   mode "Activer la gestion des Threads" 
   de PureBasic.
   FastCGI n'est prise en charge uniquement 
-  qu'à travers un socket local. 
-  @@InitCGI doit être appelée avant d'utiliser 
+  qu'Ã  travers un socket local. 
+  @@InitCGI doit Ãªtre appelÃ©e avant d'utiliser 
   cette commande.
   @LineBreak
   @LineBreak
-  Contrairement à un programme CGI standard 
-  qui est lancé à chaque requête, le 
-  programme FastCGI reste en mémoire une fois 
-  lancé et peut gérer un certain nombre de 
-  demandes. Ce peut être très utile si 
+  Contrairement Ã  un programme CGI standard 
+  qui est lancÃ© Ã  chaque requÃªte, le 
+  programme FastCGI reste en mÃ©moire une fois 
+  lancÃ© et peut gÃ©rer un certain nombre de 
+  demandes. Ce peut Ãªtre trÃ¨s utile si 
   l'initialisation de CGI prend du temps 
-  (comme la connexion à une base de données 
+  (comme la connexion Ã  une base de donnÃ©es 
   par exemple).  
   
 @Parameter "PortLocal"
-  Le port local à utiliser.@LineBreak
-  Le serveur web doit être configuré pour 
+  Le port local Ã  utiliser.@LineBreak
+  Le serveur web doit Ãªtre configurÃ© pour 
   utiliser ce port.
   
 @OptionalParameter "LiaisonIP$"
-  L'adresse IP à lier à l'application FastCGI. @LineBreak
-  Pour l'instant, seuls "localhost" ou "127.0.0.1" sont acceptés.
+  L'adresse IP Ã  lier Ã  l'application FastCGI. @LineBreak
+  Pour l'instant, seuls "localhost" ou "127.0.0.1" sont acceptÃ©s.
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'environnement FastCGI a été 
-  correctement initialisé.
+  l'environnement FastCGI a Ã©tÃ© 
+  correctement initialisÃ©.
 
 @Remarks
-  FastCGI peut être beaucoup plus facile 
-  à utiliser que CGI pour le développement, 
-  car le programme peut rester en mémoire 
-  et être déboggué comme une simple application 
+  FastCGI peut Ãªtre beaucoup plus facile 
+  Ã  utiliser que CGI pour le dÃ©veloppement, 
+  car le programme peut rester en mÃ©moire 
+  et Ãªtre dÃ©bogguÃ© comme une simple application 
   PureBasic.
   @LineBreak
   @LineBreak
   Pour configurer le support FastCGI sur Apache, 
   vous devez activer les modules 'mod_proxy' et 
-  'mod_proxy_fcgi', puis ajouter une déclaration 
+  'mod_proxy_fcgi', puis ajouter une dÃ©claration 
   'ProxyPass' dans la configuration:
 @FixedFont  
   ProxyPass /myfastcgiapp/ fcgi://localhost:5600/
@@ -871,7 +871,7 @@
   Ici, l'url '/myfastcgiapp' va rediriger 
   vers le programme FastCGI qui attend 
   sur le port 5600. @LineBreak
-  Il est également possible d'exécuter le 
+  Il est Ã©galement possible d'exÃ©cuter le 
   programme de FastCGI sur le serveur distant.
   
 @Example
@@ -880,14 +880,14 @@
     End
   EndIf
   
-  If Not InitFastCGI(5600) ; Crée le programme FastCGI sur le port 5600
+  If Not InitFastCGI(5600) ; CrÃ©e le programme FastCGI sur le port 5600
     End
   EndIf
   
   While WaitFastCGIRequest()
   
     If ReadCGI()
-      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
       WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
                      "Hello depuis PureBasic FastCGI !<br>" +
@@ -908,23 +908,23 @@
 @Function Resultat = ReadCGI()
 
 @Description
-  Lit la requête CGI.
+  Lit la requÃªte CGI.
   
 @NoParameters
   
 @ReturnValue
   Renvoie une valeur non nulle si 
-  la requête CGI a été lue avec succès.
+  la requÃªte CGI a Ã©tÃ© lue avec succÃ¨s.
   @LineBreak
-  Si la requête était trop importante ou 
-  si une autre erreur survient alors zéro 
-  est renvoyé et le programme CGI doit 
-  être terminé.
+  Si la requÃªte Ã©tait trop importante ou 
+  si une autre erreur survient alors zÃ©ro 
+  est renvoyÃ© et le programme CGI doit 
+  Ãªtre terminÃ©.
   
 @Remarks  
-  @@InitCGI doit être appelé avec 
-  succès avant d'essayer le lire 
-  la requête CGI.
+  @@InitCGI doit Ãªtre appelÃ© avec 
+  succÃ¨s avant d'essayer le lire 
+  la requÃªte CGI.
 
 @Example
 @Code
@@ -932,7 +932,7 @@
     End
   EndIf
   
-  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+  WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
   WriteCGIString("<html><title>PureBasic - variables</title><body>" +
                  "Hello depuis PureBasic CGI !" +
@@ -949,20 +949,20 @@
 @Function Resultat = WriteCGIFile(Fichier$)
 
 @Description
-  Écrit un fichier entier sur la sortie CGI.
+  Ã‰crit un fichier entier sur la sortie CGI.
  
 @Parameter "Fichier$"
-  Le fichier à écrire sur la sortie CGI.
+  Le fichier Ã  Ã©crire sur la sortie CGI.
   
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  fichier a été écrit avec succès sur 
+  fichier a Ã©tÃ© Ã©crit avec succÃ¨s sur 
   la sortie CGI.
 
 @Remarks  
-  Lors de l'envoi des données binaires, 
-  l'en-tête "Content-Type" doit être 
-  défini en "application/octet-stream '. 
+  Lors de l'envoi des donnÃ©es binaires, 
+  l'en-tÃªte "Content-Type" doit Ãªtre 
+  dÃ©fini en "application/octet-stream '. 
 
 @Example
 @Code
@@ -986,23 +986,23 @@
 @Function Resultat = WriteCGIData(*Memoire, Taille)
 
 @Description
-  Écrit les données binaires sur la sortie CGI.
+  Ã‰crit les donnÃ©es binaires sur la sortie CGI.
   
 @Parameter "*Memoire"
-  Le tampon en mémoire à écrire.
+  Le tampon en mÃ©moire Ã  Ã©crire.
   
 @Parameter "Taille"
-  La taille (en octets) à écrire.
+  La taille (en octets) Ã  Ã©crire.
 
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  données ont été écrites avec succès 
+  donnÃ©es ont Ã©tÃ© Ã©crites avec succÃ¨s 
   sur la sortie CGI.
 
 @Remarks  
-  Lors de l'envoi des données binaires, 
-  l'en-tête "Content-Type" doit être 
-  défini en "application/octet-stream '. 
+  Lors de l'envoi des donnÃ©es binaires, 
+  l'en-tÃªte "Content-Type" doit Ãªtre 
+  dÃ©fini en "application/octet-stream '. 
 
 @Example
 @Code
@@ -1016,9 +1016,9 @@
   If ReadFile(0, #PB_Compiler_Home + "examples/sources/data/world.png")
     Taille = Lof(0)
     *Memoire = AllocateMemory(Taille)
-    ReadData(0, *Memoire, Taille) ; Lire l'intégralité du dossier dans le nouveau tampon mémoire
+    ReadData(0, *Memoire, Taille) ; Lire l'intÃ©gralitÃ© du dossier dans le nouveau tampon mÃ©moire
     
-    WriteCGIData(*Memoire, Taille) ; Écrivez le tampon entier sur la sortie CGI
+    WriteCGIData(*Memoire, Taille) ; Ã‰crivez le tampon entier sur la sortie CGI
     
     CloseFile(0)
   EndIf
@@ -1035,46 +1035,46 @@
 @Function Resultat = WriteCGIHeader(EnTete$, Valeur$ [, Options])
 
 @Description
-  Ecrit un en-tête sur la sortie 
+  Ecrit un en-tÃªte sur la sortie 
   de CGI.@LineBreak
-  Les en-têtes doivent être écrits 
-  avant toutes autres données.
+  Les en-tÃªtes doivent Ãªtre Ã©crits 
+  avant toutes autres donnÃ©es.
   
 @Parameter "EnTete$"
-  L'en-tête à écrire.@LineBreak
-  Peut être une valeur personnelle 
+  L'en-tÃªte Ã  Ã©crire.@LineBreak
+  Peut Ãªtre une valeur personnelle 
   ou l'une des valeurs suivantes:
 @FixedFont
-  @#PB_CGI_HeaderContentLength : la longueur (en octets) du flux de sortie (implique des données binaires).
+  @#PB_CGI_HeaderContentLength : la longueur (en octets) du flux de sortie (implique des donnÃ©es binaires).
   @#PB_CGI_HeaderContentType   : le type MIME du contenu du flux de sortie.
-  @#PB_CGI_HeaderExpires       : date et heure lorsque le document n'est plus valide et doit être rechargé par le navigateur.
-  @#PB_CGI_HeaderLocation      : redirection du serveur (ne peut pas être envoyé dans le cadre d'un en-tête complet).
+  @#PB_CGI_HeaderExpires       : date et heure lorsque le document n'est plus valide et doit Ãªtre rechargÃ© par le navigateur.
+  @#PB_CGI_HeaderLocation      : redirection du serveur (ne peut pas Ãªtre envoyÃ© dans le cadre d'un en-tÃªte complet).
   @#PB_CGI_HeaderPragma        : mise en cache des documents ON/OFF.
-  @#PB_CGI_HeaderStatus        : état de la requête (ne peut pas être envoyé dans le cadre d'un en-tête complet).
-  @#PB_CGI_HeaderContentDisposition: permet de spécifier un nom de fichier par défaut lors de l'envoi d'un fichier.
-  @#PB_CGI_HeaderRefresh       : le client recharge le document spécifié.
-  @#PB_CGI_HeaderSetCookie     : le client stocke les données spécifiées, utile pour garder la trace des données entre les requêtes.
+  @#PB_CGI_HeaderStatus        : Ã©tat de la requÃªte (ne peut pas Ãªtre envoyÃ© dans le cadre d'un en-tÃªte complet).
+  @#PB_CGI_HeaderContentDisposition: permet de spÃ©cifier un nom de fichier par dÃ©faut lors de l'envoi d'un fichier.
+  @#PB_CGI_HeaderRefresh       : le client recharge le document spÃ©cifiÃ©.
+  @#PB_CGI_HeaderSetCookie     : le client stocke les donnÃ©es spÃ©cifiÃ©es, utile pour garder la trace des donnÃ©es entre les requÃªtes.
 @EndFixedFont
   
 @Parameter "Valeur$"
-  La valeur d'en-tête à écrire.
+  La valeur d'en-tÃªte Ã  Ã©crire.
 
 @OptionalParameter "Options"
-  Le codage de chaîne à utiliser.@LineBreak
-  Peut être l'une des valeurs suivantes:
+  Le codage de chaÃ®ne Ã  utiliser.@LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Ascii (par défaut)
+  @#PB_Ascii (par dÃ©faut)
   @#PB_UTF8 
 @EndFixedFont
   En combinaison avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_CGI_LastHeader : Ceci est le dernier en-tête écrit, ce qui signifie pas d'autres en-têtes 
-                       peuvent être envoyés. Cette option est obligatoire pour le dernier en-tête écrit.
+  @#PB_CGI_LastHeader : Ceci est le dernier en-tÃªte Ã©crit, ce qui signifie pas d'autres en-tÃªtes 
+                       peuvent Ãªtre envoyÃ©s. Cette option est obligatoire pour le dernier en-tÃªte Ã©crit.
 @EndFixedFont
   
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'en-tête a été écrit avec succès 
+  l'en-tÃªte a Ã©tÃ© Ã©crit avec succÃ¨s 
   sur la sortie CGI.
   
 @Example
@@ -1101,23 +1101,23 @@
 @Function Resultat = WriteCGIString(Chaine$ [, Options])
 
 @Description
-  Ecrit une chaîne de caractères 
+  Ecrit une chaÃ®ne de caractÃ¨res 
   sur la sortie CGI.
   
 @Parameter "Chaine$"
-  La chaîne de caractères à écrire.
+  La chaÃ®ne de caractÃ¨res Ã  Ã©crire.
   
 @OptionalParameter "Options"
   L'encodage du texte.@LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_UTF8 (par défaut)
+  @#PB_UTF8 (par dÃ©faut)
   @#PB_Ascii
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  la chaîne a été écrite avec succès 
+  la chaÃ®ne a Ã©tÃ© Ã©crite avec succÃ¨s 
   sur la sortie CGI.
   
 @Example
@@ -1145,24 +1145,24 @@
 @Function Resultat = WriteCGIStringN(Chaine$ [, Options])
 
 @Description
-  Ecrit une chaîne de caractères 
+  Ecrit une chaÃ®ne de caractÃ¨res 
   sur la sortie CGI incluant un 
-  retour charriot à la fin.
+  retour charriot Ã  la fin.
   
 @Parameter "Chaine$"
-  La chaîne de caractères à écrire.
+  La chaÃ®ne de caractÃ¨res Ã  Ã©crire.
   
 @OptionalParameter "Options"
   L'encodage du texte.@LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_UTF8 (par défaut)
+  @#PB_UTF8 (par dÃ©faut)
   @#PB_Ascii
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  la chaîne a été écrite avec succès 
+  la chaÃ®ne a Ã©tÃ© Ã©crite avec succÃ¨s 
   sur la sortie CGI.
   
 @Example
@@ -1173,7 +1173,7 @@
   
   WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader)
   
-  ; L'utilisation du retour chariot permet une meilleure lisibilité de la page lorsque "Affiche la source de la page" est utilisé dans le navigateur.
+  ; L'utilisation du retour chariot permet une meilleure lisibilitÃ© de la page lorsque "Affiche la source de la page" est utilisÃ© dans le navigateur.
   ;
   WriteCGIStringN("<html><title>PureBasic - test</title><body>")
   WriteCGIStringN("Hello depuis PureBasic CGI<br>")
@@ -1192,19 +1192,19 @@
 @Function Resultat = WaitFastCGIRequest()
 
 @Description
-  Attend une nouvelle requête entrante.@LineBreak
-  Cette commande va arrêter l'exécution 
-  du programme jusqu'à ce qu'une nouvelle 
+  Attend une nouvelle requÃªte entrante.@LineBreak
+  Cette commande va arrÃªter l'exÃ©cution 
+  du programme jusqu'Ã  ce qu'une nouvelle 
   demande soit disponible.
      
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle si une nouvelle 
-  requête a été traitée.
+  requÃªte a Ã©tÃ© traitÃ©e.
   
 @Remarks
-  @@InitFastCGI doit être appelé avec succès 
+  @@InitFastCGI doit Ãªtre appelÃ© avec succÃ¨s 
   avant d'utiliser cette commande.  
 
 @Example
@@ -1213,14 +1213,14 @@
     End
   EndIf
   
-  If Not InitFastCGI(5600) ; Crée le programme FastCGI sur le port 5600
+  If Not InitFastCGI(5600) ; CrÃ©e le programme FastCGI sur le port 5600
     End
   EndIf
   
   While WaitFastCGIRequest()
   
     If ReadCGI()
-      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-têtes pour informer le navigateur du format du contenu
+      WriteCGIHeader(#PB_CGI_HeaderContentType, "text/html", #PB_CGI_LastHeader) ; Ecrit les en-tÃªtes pour informer le navigateur du format du contenu
   
       WriteCGIString("<html><title>PureBasic - FastCGI</title><body>" +
                      "Hello depuis PureBasic FastCGI !<br>" +

@@ -1,0 +1,310 @@
+﻿;
+;     Notification library documentation
+;
+;      (c) 2025 - Fantaisie Software
+;
+
+@Library Notification
+
+@Overview
+
+  This library allows to create and schedule native notification on iOS and Android. A native
+  notification is some text or image displayed outside the application, usually on the top area of the device.
+  A notification can be sent immediately or scheduled to be display at a specified time and date, even
+  if the app is not currently running.
+  
+@CommandList
+
+@ExampleFile All Notification.sb
+
+@SupportedOS All
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CancelNotification(#Notification)
+
+@Description
+  Cancels the specified #Notification. If the notification was currently displayed, it will be removed from
+  the notification area.
+
+@Parameter "#Notification"
+  The notification to cancel. It must have been created with @@CreateNotification. If @#PB_All is specified, then
+  all the notifications are cancelled.
+
+@SeeAlso
+  @@CreateNotification
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CreateNotification(#Notification, Title$, Text$ [, Flags])
+
+@Description
+  Creates a new notification. To actually display the notification, the command @@ScheduleNotification needs
+  to be called.
+  
+@Parameter "#Notification"
+  A number to identify the new notification. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "Title$"
+  The title of the new notification.
+
+@Parameter "Title$"
+  The text to display in the notification. It can includes line feed character to display the text on several lines using the constant @#LF$.
+
+@OptionalParameter "Flags"
+  A combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Notification_Secret  : The notification won't be displayed on the lockscreen when the device is locked.
+  @#PB_Notification_Progress: Create a notification with a progressbar, useful if an operation is in progress and can take some time (Android only)
+@EndFixedFont
+
+@ReturnValue
+  Nonzero if the notification was created successfully, zero otherwise. If @#PB_Any was used
+  for the #Notification parameter then the generated number is returned on success.
+
+@Remarks
+  To handle notification events, use @@BindEvent with @#PB_Event_Notification event type.
+
+@Example
+@Code
+   Procedure NotificationEvents()
+    Select EventNotification()
+      Case 0 ; Something happened on notification 0
+        If EventType() = #PB_EventType_NotificationTriggered
+          Debug "Triggered " + EventNotification()
+        Else
+          ButtonId = EventData() ; Button id are returned in EventData()
+          Select ButtonId
+            Case 1
+              Debug "Yes pressed !"
+            Case 2
+              Debug "No pressed !"
+          EndSelect
+        EndIf
+    EndSelect
+  EndProcedure
+  
+  CreateNotification(0, "Hello world !", "Are you good today ?", 0)
+  NotificationButton(0, 1, "Yes")
+  NotificationButton(0, 2, "No")
+  
+  ScheduleNotification(0, #PB_Notification_InSecond, 10) ; Will be displayed in 10 secs
+  
+  BindEvent(#PB_Event_Notification, @NotificationEvents())
+@EndCode
+
+@SeeAlso
+  @@FreeNotification, @@ScheduleNotification
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeNotification(#Notification)
+
+@Description
+  Frees the specified notification and all its resources.
+  
+@Parameter "#Notification"
+  The notification to free. If @#PB_All is specified, all the remaining notification are freed.
+  If a notification has been already scheduled with @@ScheduleNotification, it won't be automatically removed from the scheduler. @@CancelNotification needs to be used to do that.
+
+@NoReturnValue
+
+@Remarks
+  All remaining notifications are automatically freed when the program ends.
+
+@SeeAlso
+  @@CreateNotification
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsNotification(#Notification)
+
+@Description
+  Tests if the given notification is valid and correctly initialized. 
+  
+@Parameter "#Notification"
+    The notification to test.
+
+@ReturnValue
+  Nonzero if the notification is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value. This is the correct way to ensure a notification is ready to use.
+
+@SeeAlso
+  @@CreateNotification, @@FreeNotification
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NotificationButton(#Notification, ButtonId, Text$)
+
+@Description
+  Add a text button to the specified #Notification.
+  
+@Parameter "#Notification"
+    The notification to use.
+
+@Parameter "ButtonId"
+    The button numeric identifier which will be returned by @@EventData when the button is pressed.
+
+@Parameter "Text$"
+    The text to display in the button.
+
+@NoReturnValue
+
+@Example
+@Code
+   Procedure NotificationEvents()
+    Select EventNotification()
+      Case 0 ; Something happened on notification 0
+        If EventType() = #PB_EventType_NotificationTriggered
+          Debug "Triggered " + EventNotification()
+        Else
+          ButtonId = EventData() ; Button id are returned in EventData()
+          Select ButtonId
+            Case 1
+              Debug "Yes pressed !"
+            Case 2
+              Debug "No pressed !"
+          EndSelect
+        EndIf
+    EndSelect
+  EndProcedure
+  
+  CreateNotification(0, "Hello world !", "Are you good today ?", 0)
+  NotificationButton(0, 1, "Yes")
+  NotificationButton(0, 2, "No")
+  
+  ScheduleNotification(0, #PB_Notification_InSecond, 10) ; Will be displayed in 10 secs
+  
+  BindEvent(#PB_Event_Notification, @NotificationEvents())
+@EndCode
+
+@SeeAlso
+  @@CreateNotification, @@EventData
+  
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function NotificationProgress(#Notification, Value [, Maximum])
+
+@Description
+  Changes the current progress bar value. The notification has to be created with the @#PB_Notification_Progress flag. It is only supported on Android.
+  
+@Parameter "#Notification"
+  The notification to use.
+
+@Parameter "Value"
+  The new progress bar value to set (between 0 and the 'Maximum' parameter value).
+
+@OptionalParameter "Maximum"
+  The maximum value for the progress bar. If not specified, it will be 100.
+
+@NoReturnValue
+
+@Example
+@Code
+   Procedure NotificationEvents()
+    Select EventNotification()
+      Case 0 ; Something happened on notification 0
+        If EventType() = #PB_EventType_NotificationTriggered
+          Debug "Triggered " + EventNotification()
+        Else
+          ButtonId = EventData() ; Button id are returned in EventData()
+          Select ButtonId
+            Case 1
+              Debug "Cancel pressed !"
+              CancelNotification(0)
+          EndSelect
+        EndIf
+    EndSelect
+  EndProcedure
+  
+  CreateNotification(0, "Hello world !", "Are you good today ?", 0)
+  NotificationProgress(0, 1, "Yes")
+  NotificationButton(0, 1, "Cancel")
+  
+  ScheduleNotification(0, #PB_Notification_InSecond, 10) ; Will be displayed in 10 secs
+  
+  BindEvent(#PB_Event_Notification, @NotificationEvents())
+@EndCode
+
+@SeeAlso
+  @@CreateNotification, @@EventData
+  
+@SupportedOS Android
+  
+  
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScheduleNotification(#Notification [, Type [, Value])
+
+@Description
+  Schedule the notification to be displayed in the notification area.
+  
+@Parameter "#Notification"
+  The notification to schedule.
+
+@OptionalParameter "Type"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Notification_Now      : The notification will be displayed immediately. A few seconds can occurs before the real display (default)
+  @#PB_Notification_At       : The notification will be displayed at the specified date. The result of @@Date or @@ParseDate can be used in the 'Value' parameter.
+  @#PB_Notification_InSecond : The notification will be displayed after the number of seconds specified in the 'Value' parameter.
+  @#PB_Notification_InMinute : The notification will be displayed after the number of minutes specified in the 'Value' parameter.
+  @#PB_Notification_InHour   : The notification will be displayed after the number of hours specified in the 'Value' parameter.
+  @#PB_Notification_InDay    : The notification will be displayed after the number of days specified in the 'Value' parameter.
+  @#PB_Notification_InWeek   : The notification will be displayed after the number of weeks specified in the 'Value' parameter.
+  @#PB_Notification_InMonth  : The notification will be displayed after the number of months specified in the 'Value' parameter.
+  @#PB_Notification_InQuarter: The notification will be displayed after the number of quarter (3 months) specified in the 'Value' parameter.
+  @#PB_Notification_InYear   : The notification will be displayed after the number of years specified in the 'Value' parameter.
+  @#PB_Notification_EveryDate  : The notification will be displayed at the date specified in the 'Value' parameter and will be repeated every year.
+  @#PB_Notification_EveryMinute: The notification will be displayed every minutes.
+  @#PB_Notification_EveryHour  : The notification will be displayed every hours.
+  @#PB_Notification_EveryDay   : The notification will be displayed every day.
+  @#PB_Notification_EveryWeek  : The notification will be displayed every weeks.
+  @#PB_Notification_EveryMonth : The notification will be displayed every months.
+  @#PB_Notification_EveryYear  : The notification will be displayed every years.
+@EndFixedFont
+
+@OptionalParameter "Value"
+  The value to set, according to the 'Type' parameter contants.
+
+@NoReturnValue
+  
+@SeeAlso
+  @@CreateNotification
+
+@SupportedOS Android, iOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetNotificationText(#Notification, Text$ [, ButtonId])
+
+@Description
+  Change the text of the specified #Notification.
+  
+@Parameter "#Notification"
+  The notification to change the text.
+
+@Parameter "Text$"
+  The new text to display in the notification body. If the 'ButtonId' parameter is specified, then the text of the button is changed instead.
+
+@OptionalParameter "ButtonId"
+  The id of the button to change the text. If not specified, the notification body text will be changed.
+
+@RNoeturnValue
+  
+@SeeAlso
+  @@CreateNotification, @@NotificationButton
+
+@SupportedOS Android, iOS

@@ -1,7 +1,7 @@
-;
+﻿;
 ;     WebView library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library WebView
@@ -13,7 +13,7 @@
   web content (which is JavaScript) and the PureBasic code.
 @LineBreak
 @LineBreak
-  The WebView gadget is leveraging the built-in OS web components (WebView2 on Windows, WebKit-GTK on Linux/Raspberry and WebKit on macOS). On Windows 10 and above,
+  The WebView gadget is leveraging the built-in OS web components: WebView2 on Windows, WebKit-GTK on Linux/Raspberry (no QT support) and WebKit on macOS. On Windows 10 and above,
   no additional component is required but if older Windows support is needed, the WebView2 redistributable might need to be installed:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
 @LineBreak
@@ -34,7 +34,7 @@
 @Function Result = WebViewGadget(#Gadget, x, y, Width, Height [, Flags])
 
 @Description
-  Creates a new web view gadget in the current GadgetList.
+  Creates a new web view gadget in the current GadgetList. If needed a proxy can be set with @@WebViewProxy.
 
 @Parameter "#Gadget"
   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -66,8 +66,15 @@
   pathname.
 @LineBreak
 @LineBreak
-  - @@SetGadgetItemText: With @#PB_WebView_HtmlCode as 'Item' html code can be streamed into the gadget.
+  - @@SetGadgetItemText: With @#PB_WebView_HtmlCode as 'Item' html code can be streamed into the gadget. The html is treated 
+  as untrusted local content and some permission are not allowed.
 @LineBreak
+@LineBreak    
+  - @@GetGadgetAttribute : With @#PB_WebView_ICoreController as 'attribute' allows you to use the functions of ICoreWebView2 (Windows only).
+@LineBreak
+@LineBreak
+@LineBreak
+  Note: the WebViewGadget() is not supported on QT subsystem.
 
 @Example using local HTML and CSS files
 @Code
@@ -165,7 +172,45 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+@Example In using the ICoreWebView2Controller (Windows only)
+@Code
+  OpenWindow(0, 100, 100, 800, 600, "Hello", #PB_Window_SystemMenu)
+  
+  TrackBarGadget(1, 0 , 0, 800, 30, 10, 400):SetGadgetState(1, 100) 
+  WebViewGadget(0, 0, 30, 800, 600, #PB_WebView_Debug)
+  
+  ; Get the ICoreController interface 
+  ;
+  Controller.ICoreWebView2Controller = GetGadgetAttribute(0, #PB_WebView_ICoreController)
+  
+  ; Get the ICoreWebView2 interface 
+  ;
+  Controller\get_CoreWebView2(@Core.ICoreWebView2)
+  Core\Navigate("https://www.purebasic.com")
+  
+  ; core\
+  DataSection
+    IID_ICoreWebView2Controller2:
+    Data.l $C979903E
+    Data.w $D4CA, $4228
+    Data.b $92, $EB, $47, $EE, $3F, $A9, $6E, $AB
+  EndDataSection
+  
+  If Controller\QueryInterface(?IID_ICoreWebView2Controller2, @Controller2.ICoreWebView2Controller2) = #S_OK
+    Debug "ICoreWebView2Controller2 found: " + Controller2
+  Else
+    Debug "Can't query ICoreWebView2Controller2"
+  EndIf
+  
+  Repeat 
+    Event = WaitWindowEvent()
+    If event = #PB_Event_Gadget And EventGadget() = 1
+      Controller\put_ZoomFactor(GetGadgetState(1)/100)
+    EndIf
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebViewProxy
 
 @SupportedOS
 
@@ -200,6 +245,10 @@
   The callback procedure can return a result which can be used by the JavaScript function. 
 
 @NoReturnValue
+
+@Remarks
+  If your JavaScript callback function returns a @@UTF8 generated result instead of 0, PureBasic will
+  automatically free the memory used to return it when it is no longer needed.
 
 @Example with a 2 parameters Javascript function
 @Code
@@ -245,7 +294,8 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewGadget, @@UnbindWebViewCallback
+@SeeAlso
+  @@WebViewGadget, @@UnbindWebViewCallback
 
 @SupportedOS
 
@@ -318,3 +368,28 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function WebViewProxy(URL$, Port [Username$, Password$])
+
+@Description
+  Setup a proxy for all the future @@WebViewGadget created. This means than all the external link and URL will goes trough
+  this proxy before reaching the destination. It can be useful in a company environment where security level is high.
+  
+@Parameter "URL$"
+  The proxy server URL.
+
+@Parameter "Port"
+  The proxy server port.
+
+@OptionalParameter "Username$, Password$"
+  If the proxy server requires authentication, a username and password can be set.
+
+@NoReturnValue
+
+@Remarks
+  When used on MacOS, the minimum requirement is MacOS 14 (Sonoma).
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS
+

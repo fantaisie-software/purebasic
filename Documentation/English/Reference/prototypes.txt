@@ -1,4 +1,4 @@
-@Title Prototypes
+﻿@Title Prototypes
 
 @Syntax
 
@@ -20,13 +20,16 @@
   without any problem. To get easily the pointer
   of a library function, use @@GetFunction. 
   @LineBreak
+  @Keyword Prototype is also used to work with @ReferenceLink "dll" "DLL's".
+  @LineBreak
   @LineBreak
   The last parameters can have a default value (need to be a constant expression), so if 
   these parameters are omitted when the function is called, the default value will be used.
   @LineBreak
   @LineBreak
   By default the function will use the standard call convention (stdcall on x86, or fastcall on x64). If the function pointer will be
-  a C one, the @Keyword PrototypeC variant should be used instead.
+  a C one, the @Keyword PrototypeC variant should be used instead. For more information on library
+  calling standards (cdecl, stdcall, fastcall), see @InternetLink "https://en.wikipedia.org/wiki/Calling_convention" "here".
   @LineBreak
   @LineBreak
   The @ReferenceLink "pseudotypes" "pseudotypes" can be used for the parameters, but not for the returned

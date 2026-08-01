@@ -16,8 +16,8 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
       #CompileLinuxGtk2 = 0
       #CompileLinuxGtk3 = 0
       #CompileMac       = 0
-      #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
+      #CompileLinuxQt   = 0
       
     CompilerCase #PB_OS_Linux
       #CompileWindows   = 0
@@ -26,13 +26,19 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
         #CompileLinuxGtk  = 1
         #CompileLinuxGtk2 = 1
         #CompileLinuxGtk3 = 0
+        #CompileLinuxQt   = 0
+      CompilerElseIf Subsystem("Qt")
+        #CompileLinuxGtk  = 0
+        #CompileLinuxGtk2 = 0
+        #CompileLinuxGtk3 = 0
+        #CompileLinuxQt   = 1
       CompilerElse
         #CompileLinuxGtk  = 1
         #CompileLinuxGtk2 = 0
         #CompileLinuxGtk3 = 1
+        #CompileLinuxQt   = 0
       CompilerEndIf
       #CompileMac       = 0
-      #CompileMacCarbon = 0
       #CompileMacCocoa  = 0
       
     CompilerCase #PB_OS_MacOS
@@ -42,13 +48,7 @@ CompilerIf Defined(CompileWindows, #PB_Constant) = 0
       #CompileLinuxGtk2 = 0
       #CompileLinuxGtk3 = 0
       #CompileMac       = 1
-      CompilerIf Subsystem("carbon")
-        #CompileMacCocoa  = 0
-        #CompileMacCarbon = 1
-      CompilerElse
-        #CompileMacCocoa  = 1
-        #CompileMacCarbon = 0
-      CompilerEndIf
+      #CompileMacCocoa  = 1
       
   CompilerEndSelect
 CompilerEndIf

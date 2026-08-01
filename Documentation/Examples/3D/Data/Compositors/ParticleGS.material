@@ -1,0 +1,241 @@
+vertex_program Ogre/ParticleGS/GenerateVScg cg
+{
+	source ParticleGS.cg
+	entry_point GenerateParticles_VS
+	profiles  arbvp1
+}
+
+geometry_program Ogre/ParticleGS/GenerateGScg cg
+{
+	source ParticleGS.cg
+	entry_point GenerateParticles_GS
+	profiles gp4gp gpu_gp
+}
+
+vertex_program Ogre/ParticleGS/DisplayVScg cg
+{
+	source ParticleGS.cg
+	entry_point DisplayParticles_VS
+	profiles  arbvp1
+}
+
+geometry_program Ogre/ParticleGS/DisplayGScg cg
+{
+	source ParticleGS.cg
+	entry_point DisplayParticles_GS
+	profiles gp4gp gpu_gp
+}
+
+fragment_program Ogre/ParticleGS/DisplayPScg cg
+{
+	source ParticleGS.cg
+	entry_point DisplayParticles_PS
+	profiles  arbfp1
+}
+
+vertex_program Ogre/ParticleGS/GenerateVShlsl4 hlsl
+{
+	source ParticleGS.hlsl
+	entry_point GenerateParticles_VS
+	enable_backwards_compatibility no
+	target vs_4_0 vs_4_0_level_9_1 vs_4_0_level_9_3
+}
+
+geometry_program Ogre/ParticleGS/GenerateGShlsl4 hlsl
+{
+	source ParticleGS.hlsl
+	entry_point GenerateParticles_GS
+	enable_backwards_compatibility no
+	target gs_4_0
+}
+
+vertex_program Ogre/ParticleGS/DisplayVShlsl4 hlsl
+{
+	source ParticleGS.hlsl
+	entry_point DisplayParticles_VS
+	enable_backwards_compatibility no
+	target vs_4_0 vs_4_0_level_9_1 vs_4_0_level_9_3
+}
+
+geometry_program Ogre/ParticleGS/DisplayGShlsl4 hlsl
+{
+	source ParticleGS.hlsl
+	entry_point DisplayParticles_GS
+	enable_backwards_compatibility no
+	target gs_4_0
+}
+
+fragment_program Ogre/ParticleGS/DisplayPShlsl4 hlsl
+{
+	source ParticleGS.hlsl
+	entry_point DisplayParticles_PS
+	enable_backwards_compatibility no
+	target ps_4_0 ps_4_0_level_9_1 ps_4_0_level_9_3
+}
+
+vertex_program Ogre/ParticleGS/GenerateVSglsl glsl
+{
+	source ParticleGS_GenerateVS.glsl
+	syntax glsl150
+}
+
+geometry_program Ogre/ParticleGS/GenerateGSglsl glsl
+{
+	source ParticleGS_GenerateGS.glsl
+	syntax glsl150
+}
+
+vertex_program Ogre/ParticleGS/DisplayVSglsl glsl
+{
+	source ParticleGS_DisplayVS.glsl
+	syntax glsl150
+}
+
+geometry_program Ogre/ParticleGS/DisplayGSglsl glsl
+{
+	source ParticleGS_DisplayGS.glsl
+	syntax glsl150
+}
+
+fragment_program Ogre/ParticleGS/DisplayPSglsl glsl
+{
+	source ParticleGS_DisplayFS.glsl
+	syntax glsl150
+}
+
+vertex_program Ogre/ParticleGS/GenerateVS unified
+{
+	delegate Ogre/ParticleGS/GenerateVSglsl
+	delegate Ogre/ParticleGS/GenerateVShlsl4
+	delegate Ogre/ParticleGS/GenerateVScg
+}
+
+geometry_program Ogre/ParticleGS/GenerateGS unified
+{
+	delegate Ogre/ParticleGS/GenerateGSglsl
+	delegate Ogre/ParticleGS/GenerateGShlsl4
+	delegate Ogre/ParticleGS/GenerateGScg
+}
+
+// Generate the particle system geometry.
+material Ogre/ParticleGS/Generate
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref Ogre/ParticleGS/GenerateVS
+			{
+				
+			}
+			
+			geometry_program_ref Ogre/ParticleGS/GenerateGS
+			{
+			    param_named gravity float3 0 -9.8 0
+			    param_named_auto globalTime time
+			    param_named_auto elapsedTime frame_time
+			    param_named secondsPerFirework float 0.3
+			}
+			
+			// This texture unit will be filled at runtime.
+			texture_unit RandomTexture
+			{
+		        tex_address_mode wrap
+			    filtering none
+			}
+		}
+	}
+}
+
+// Display the generated particle system geometry.
+material Ogre/ParticleGS/Display
+{
+	technique cg
+	{
+		pass
+		{
+			depth_write off
+			
+			vertex_program_ref Ogre/ParticleGS/DisplayVScg
+			{
+				param_named_auto proj projection_matrix
+				param_named_auto worldView worldview_matrix
+			}
+			
+			geometry_program_ref Ogre/ParticleGS/DisplayGScg
+			{
+			}
+			
+			fragment_program_ref Ogre/ParticleGS/DisplayPScg
+			{
+				
+			}
+			
+			texture_unit
+			{
+				tex_coord_set 0
+				texture particle.dds
+			}
+			
+			scene_blend alpha_blend
+		}
+	}
+	technique hlsl4
+	{
+		pass
+		{
+			depth_write off
+			
+			vertex_program_ref Ogre/ParticleGS/DisplayVShlsl4
+			{
+				param_named_auto proj projection_matrix
+				param_named_auto worldView worldview_matrix
+			}
+			
+			geometry_program_ref Ogre/ParticleGS/DisplayGShlsl4
+			{
+			}
+			
+			fragment_program_ref Ogre/ParticleGS/DisplayPShlsl4
+			{
+				
+			}
+			
+			texture_unit
+			{
+				tex_coord_set 0
+				texture particle.dds
+			}
+			
+			scene_blend alpha_blend
+		}
+	}
+	technique glsl
+	{
+		pass
+		{
+			depth_write off
+			
+			vertex_program_ref Ogre/ParticleGS/DisplayVSglsl
+			{
+				param_named_auto worldView worldview_matrix
+				param_named_auto proj projection_matrix
+				param_named_auto height viewport_height
+			}
+			
+			fragment_program_ref Ogre/ParticleGS/DisplayPSglsl
+			{
+				
+			}
+			
+			texture_unit
+			{
+			    tex_coord_set 0
+			    texture particle.dds
+			}
+			
+			scene_blend alpha_blend
+		}
+	}
+}
+

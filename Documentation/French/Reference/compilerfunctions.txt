@@ -1,10 +1,10 @@
-@Title Les fonctions du compilateur
+ï»¿@Title Les fonctions du compilateur
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Bool"><u>Bool</u></a></td>  
     <td align="center" vAlign="center" nowrap><a href="#Defined"><u>Defined</u></a></td>
@@ -36,19 +36,19 @@
 @FormatEndIf
 
 @Syntax
-  @Keyword Bool(<expression booléenne>)
+  Resultat = @Keyword Bool(<expression boolÃ©enne>)
 
 @Description
-  @Keyword Bool permet d'évaluer une 
-  expression booléenne en dehors des 
-  opérateurs conditionnels réguliers comme 
+  @Keyword Bool permet d'Ã©valuer une 
+  expression boolÃ©enne en dehors des 
+  opÃ©rateurs conditionnels rÃ©guliers comme 
   @Keyword If, @Keyword While, @Keyword Until, etc.
   
-@Parameter "expression booléenne"
-  L'expression booléenne à tester.
+@Parameter "expression boolÃ©enne"
+  L'expression boolÃ©enne Ã  tester.
 
 @ReturnValue
-  Renvoie @#True si l'expression booléenne est vraie, 
+  Renvoie @#True si l'expression boolÃ©enne est vraie, 
   @#False sinon.
   
 @Example
@@ -82,23 +82,23 @@
   Resultat = @Keyword Defined(Nom, Type)
 
 @Description
-  @Keyword Defined détermine si un objet tel qu'une 
+  @Keyword Defined dÃ©termine si un objet tel qu'une 
   @ReferenceLink "structures" "structure", 
   @ReferenceLink "interfaces" "interface", 
   @ReferenceLink "variables" "variables" etc.
-  est déjà défini dans le programme. 
+  est dÃ©jÃ  dÃ©fini dans le programme. 
   
 @Parameter "Nom"
   Le nom de l'objet.
 @LineBreak
 @LineBreak 
-  Le paramètre 'Nom' doit être spécifié sans aucune 
-  forme de décoration (sans le '#' pour une 
+  Le paramÃ¨tre 'Nom' doit Ãªtre spÃ©cifiÃ© sans aucune 
+  forme de dÃ©coration (sans le '#' pour une 
   @ReferenceLink "general_rules" "constante", sans 
   les '()' pour un @ReferenceLink "dim" "tableau", 
   une @ReferenceLink "newlist" "liste",  une 
   @ReferenceLink "newmap" "map" ou une 
-  @ReferenceLink "Procedures" "procédure").  
+  @ReferenceLink "Procedures" "procÃ©dure").  
   
 @Parameter "Type"
   Peut prendre une des valeurs suivantes:
@@ -119,20 +119,21 @@
   @#PB_Enumeration
 @EndFixedFont
 
-@NoReturnValue
+@ReturnValue
+  Renvoie une valeur non nulle si l'objet est dÃ©fini, zÃ©ro sinon.
 
 @Example
 @Code
   #PureConstante = 10
   
   CompilerIf Defined(PureConstante, #PB_Constant)
-    Debug "La constante 'PureConstante' est déjà déclarée"
+    Debug "La constante 'PureConstante' est dÃ©jÃ  dÃ©clarÃ©e"
   CompilerEndIf
   
   Test = 25
   
   CompilerIf Defined(Test, #PB_Variable)
-    Debug "La variable 'Test' est déjà déclarée"
+    Debug "La variable 'Test' est dÃ©jÃ  dÃ©clarÃ©e"
   CompilerEndIf
 @EndCode
 
@@ -146,15 +147,27 @@
   Resultat = @Keyword Subsystem(<expression texte constante>)
 
 @Description
-  @Keyword Subsystem permet de savoir si un @ReferenceLink "subsystems" "sous-système" est utilisé pour le programme en cours de 
+  @Keyword Subsystem permet de savoir si un @ReferenceLink "subsystems" "sous-systÃ¨me" est utilisÃ© pour le programme en cours de 
   compilation. 
 @LineBreak
-  Le nom du sous-système est insensible à la casse.
+  Le nom du sous-systÃ¨me est insensible Ã  la casse.
+
+@Parameter "expression texte constante"
+  Le nom du sous-systÃ¨me.@LineBreak
+  Windows: DirectX9, DirectX11 @LineBreak
+  Linux  : Gtk2, Qt @LineBreak
+  MacOS X: Rien
+  
+@ReturnValue
+  Renvoie une valeur non nulle si le sous-systÃ¨me est utilisÃ©, zÃ©ro sinon.
+
 
 @Example
 @Code
-  CompilerIf Subsystem("OpenGL")
-    Debug "Compilation avec le sous-système OpenGL" 
+  CompilerIf Subsystem("DirectX9")   ; Windows seulement
+    Debug "Compilation avec le sous-systÃ¨me DirectX9"
+  CompilerElseIf Subsystem("gtk2")   ; Linux seulement
+    Debug "Compilation avec le sous-systÃ¨me gtk2"
   CompilerEndIf
 @EndCode
 
@@ -170,9 +183,9 @@
 
 @Description
   La commande @Keyword OffsetOf permet de 
-  déterminer la position en mémoire d'un champ d'une  
+  dÃ©terminer la position en mÃ©moire d'un champ d'une  
   @ReferenceLink "Structures" structure ou 
-  la position en mémoire d'une fonction dans le cas d'une 
+  la position en mÃ©moire d'une fonction dans le cas d'une 
   @ReferenceLink "Interfaces" interface (soit 
   IndexDeLaFunction*SizeOf(Integer)).
   
@@ -182,7 +195,7 @@
 
 @ReturnValue
   Renvoie l'index du champ ou de la fonction,
-  zéro sinon.
+  zÃ©ro sinon.
   
 @Example
 @Code
@@ -192,15 +205,16 @@
     Age.w
   EndStructure
  
-  Debug OffsetOf(Personne\Age) ; Affichera 8 car une 'string' occupe 4 octets en mémoire
-                               ;(16 avec un compilateur 64 bits, car une 'string' occupe 8 octets en mémoire)
+  Debug OffsetOf(Personne\Nom) ; Affichera 0
+  Debug OffsetOf(Personne\Age) ; Affichera 16 avec un compilateur 64 bits ou 8 avec un compilateur 32 bits
+                               ; car une un pointeur 'string' occupe 8 ou 4 octets en mÃ©moire
  
   Interface ITest
     Creer()
     Detruire(Options)
   EndInterface
  
-  Debug OffsetOf(ITest\Detruire()) ; Affichera 4
+  Debug OffsetOf(ITest\Detruire()) ; Affichera 8 ou 4
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -215,42 +229,42 @@
 @Description
   La commande @Keyword SizeOf permet de renvoyer la taille en octets que prendra une 
   @ReferenceLink "Structures" structure, les types de base tels que les 'word', les 'float', 
-  etc.), une @ReferenceLink "Interfaces" interface ou même une variable 
-  (Si une variable et une structure ont le même nom, la structure aura la priorité sur la 
+  etc.), une @ReferenceLink "Interfaces" interface ou mÃªme une variable 
+  (Si une variable et une structure ont le mÃªme nom, la structure aura la prioritÃ© sur la 
   variable.).
   @LineBreak 
   Comme @Keyword SizeOf est une fonction du compilateur, 
   elle ne fonctionne pas avec les tableaux, les Listes ou les Maps. 
-  Utilisez @@ArraySize, @@ListSize ou @@Mapsize à la place.
+  Utilisez @@ArraySize, @@ListSize ou @@Mapsize Ã  la place.
   @LineBreak 
-  En tant que fonction du compilateur, SizeOf(x) est affectée à une constante et ne nécessite 
-  pas d'affectation à une autre variable si elle se trouve à l'intérieur d'une boucle ou 
-  d'une procédure appelée à plusieurs reprise.
+  En tant que fonction du compilateur, SizeOf(x) est affectÃ©e Ã  une constante et ne nÃ©cessite 
+  pas d'affectation Ã  une autre variable si elle se trouve Ã  l'intÃ©rieur d'une boucle ou 
+  d'une procÃ©dure appelÃ©e Ã  plusieurs reprise.
 
 
 @Parameter "Type"
   Le type de l'objet.
 
 @ReturnValue
-  La taille de l'objet en mémoire, en octets
+  La taille de l'objet en mÃ©moire, en octets.
 
 @Remarks  
-  C'est très utile dans de nombreux cas, notamment 
+  C'est trÃ¨s utile dans de nombreux cas, notamment 
   lors de l'utilisation des commandes API.
 @LineBreak
 @LineBreak
-  Note : Une variable de type caractère (CHARACTER) (.c) est unicode et occupe 2 octets et  
+  Note : Une variable de type caractÃ¨re (CHARACTER) (.c) est unicode et occupe 2 octets et  
   une variable de type ASCII (.a) n'occupe qu'1 octet.
 
 @Example 1
 @Code
   VariableCaractere.c = '!'
-  Debug SizeOf(VariableCaractere) ; affiche 2, c'est à dire 2 octets
-  Debug SizeOf(CHARACTER)         ; affiche 2, c'est à dire 2 octets
+  Debug SizeOf(VariableCaractere) ; affiche 2, c'est Ã  dire 2 octets
+  Debug SizeOf(CHARACTER)         ; affiche 2, c'est Ã  dire 2 octets
   
   VariableAscii.a = '!'
-  Debug SizeOf(VariableAscii)     ; affiche 1, c'est à dire 1 octets
-  Debug SizeOf(ASCII)             ; affiche 1, c'est à dire 1 octets
+  Debug SizeOf(VariableAscii)     ; affiche 1, c'est Ã  dire 1 octets
+  Debug SizeOf(ASCII)             ; affiche 1, c'est Ã  dire 1 octets
 @EndCode
   
 @Example 2
@@ -261,11 +275,12 @@
     Age.w
   EndStructure
  
-  Debug "La taille d'une personne est "+Str(Sizeof(Personne))+" octets" ; Affichera 10 (4+4+2)
+  Debug "La taille de la structure 'Personne' est "+Str(Sizeof(Personne))+" octets" ; Affichera 18 avec un compilateur 64 bits(8+8+2)
+                                                                                    ; ou 10 avec un compilateur 32 bits (4+4+2)
  
   Jean.Personne\Nom = "Jean"
  
-  Debug SizeOf(Jean) ; Affichera 10 aussi
+  Debug SizeOf(Jean) ; Affichera 18 ou 10 aussi
 @EndCode
 
 ; -------------------------------------------------------------------------------------------------
@@ -278,18 +293,18 @@
   Resultat = @Keyword TypeOf(Objet)
 
 @Description
-  @Keyword TypeOf permet de déterminer le type d'une 
+  @Keyword TypeOf permet de dÃ©terminer le type d'une 
   @ReferenceLink "variables" "variable", 
   ou d'un champ de @ReferenceLink "structures" "structure". 
   
 @Parameter "Objet"
-  L'objet à utiliser.
+  L'objet Ã  utiliser.
 
 @ReturnValue  
   Le type de l'objet.
 @LineBreak  
 @LineBreak
-  Le type peut être une des valeurs suivantes:
+  Le type peut Ãªtre une des valeurs suivantes:
 @FixedFont
   @#PB_Byte      
   @#PB_Word      
@@ -338,8 +353,8 @@
   @Keyword InitializeStructure(*Memoire, Structure)
 
 @Description
-  Initialise un objet @ReferenceLink "structures" "structuré" 
-  en mémoire.
+  Initialise un objet @ReferenceLink "structures" "structurÃ©" 
+  en mÃ©moire.
 @linebreak
 @linebreak
   En fait, cette fonction initialise les membres 
@@ -348,29 +363,29 @@
   @LibraryLink "Array" "Array", 
   @LibraryLink "List" "List" ou 
   @LibraryLink "Map" "Map" mais les autres 
-  types ne sont pas affectés (.s .l, .i, etc.). 
+  types ne sont pas affectÃ©s (.s .l, .i, etc.). 
   
 @Parameter "*Memoire"
-  L'adresse mémoire à utiliser.
+  L'adresse mÃ©moire Ã  utiliser.
   
 @Parameter "Structure"
-  Le nom de la structure qui doit être utilisé 
+  Le nom de la structure qui doit Ãªtre utilisÃ© 
   pour effectuer l'initialisation.@Linebreak 
-  Il n'y a pas de contrôle pour s'assurer que 
-  la zone mémoire corresponde à la structure.
+  Il n'y a pas de contrÃ´le pour s'assurer que 
+  la zone mÃ©moire corresponde Ã  la structure.
   
 @NoReturnValue
 
 @Remarks
-  Attention: plusieurs appels à 
-  @Keyword InitializeStructure crée une fuite 
-  de mémoire parce que les anciens membres 
-  de la structure ne sont pas libérés de la 
-  mémoire. @Keyword ClearStructure doit être 
-  appelée avant d'appeler une nouvelle fois 
+  Attention: plusieurs appels Ã  
+  @Keyword InitializeStructure crÃ©e une fuite 
+  de mÃ©moire parce que les anciens membres 
+  de la structure ne sont pas libÃ©rÃ©s de la 
+  mÃ©moire. @Keyword ClearStructure doit Ãªtre 
+  appelÃ©e avant d'appeler une nouvelle fois 
   @Keyword InitializeStructure.@Linebreak
   Cette fonction est pour les utilisateurs 
-  avancés et doit être utilisée avec précaution. @Linebreak
+  avancÃ©s et doit Ãªtre utilisÃ©e avec prÃ©caution. @Linebreak
   Pour allouer une structure dynamique, 
   utiliser @@AllocateStructure.
    
@@ -385,7 +400,7 @@
   *Etudiant.Personne = AllocateMemory(SizeOf(Personne))
   InitializeStructure(*Etudiant, Personne)
 
-  ; Maintenant, la liste est prête à l'emploi
+  ; Maintenant, la liste est prÃªte Ã  l'emploi
   ;
   AddElement(*Etudiant\Amis())
   *Etudiant\Amis() = "John"
@@ -411,28 +426,39 @@
   @Keyword CompareStructure(*Pointeur1, *Pointeur2, Structure [, Options])
   
 @Description
-   @Keyword CompareStructure compare la mémoire de deux @ReferenceLink "structures" "structures" pour 
-   vérifier leur égalité.
-   La comparaison est également appliquée de manière récursive aux éléments enfants tels que 
+   @Keyword CompareStructure compare la mÃ©moire de deux @ReferenceLink "structures" "structures" pour 
+   vÃ©rifier leur Ã©galitÃ©.
+   La comparaison est Ã©galement appliquÃ©e de maniÃ¨re rÃ©cursive aux Ã©lÃ©ments enfants tels que 
    @ReferenceLink "dim" "arrays", @ReferenceLink "newlist" "listes" et @ReferenceLink "newmap" "maps". 
-   Renvoie une valeur non nulle si les structures sont les identiques, zéro sinon.
-@LineBreak
-@LineBreak
-   Le paramètre "Options" est facultatif et peut prendre l'une des valeurs suivantes :
+
+@Parameter "*Pointeur1"
+  L'adresse mÃ©moire de la premiÃ¨re variable structurÃ©e a tester.
+  
+@Parameter "*Pointeur2"
+  L'adresse mÃ©moire de la seconde variable structurÃ©e a tester.
+  
+@Parameter "Structure"
+  La structure utilisÃ©e.
+
+@OptionalParameter "Options"
+   Le paramÃ¨tre "Options" est facultatif et peut prendre l'une des valeurs suivantes :
 @FixedFont
-   @#PB_String_CaseSensitive  : La comparaison de chaînes est sensible à la casse (a=a). (par défaut)
-   @#PB_String_NoCase         : La comparaison de chaînes n'est pas sensible à la casse (A=a).
-   @#PB_Memory_FollowPointers : Si un élément de structure est un pointeur qui n'est pas 0, comparez récursivement la cible du pointeur.
-                               La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+   @#PB_String_CaseSensitive  : La comparaison de chaÃ®nes est sensible Ã  la casse (a=a). (par dÃ©faut)
+   @#PB_String_NoCase         : La comparaison de chaÃ®nes n'est pas sensible Ã  la casse (A=a).
+   @#PB_Memory_FollowPointersÂ : Si un Ã©lÃ©ment de structure est un pointeur qui n'est pas 0, comparez rÃ©cursivement la cible du pointeur.
+                               La valeur par dÃ©faut consiste Ã  comparer uniquement la valeur (existante) du pointeur elle-mÃªme.
 @EndFixedFont
 
+@Remarks
 @Bold "Attention:" 
-   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
-   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
-   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
-   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
-   se renvoie à elle-même).
+   L'option @#PB_Memory_FollowPointers est destinÃ©e aux utilisateurs avancÃ©s et nÃ©cessite une attention 
+   particuliÃ¨re pour Ã©viter les plantages. Si cette option est utilisÃ©e, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mÃ©moire valide et initialisÃ©e ou avoir la valeur 0. Il n'est 
+   pas non plus autorisÃ© d'avoir des boucles dans les Ã©lÃ©ments pointÃ©s (une chaÃ®ne de pointeurs qui 
+   se renvoie Ã  elle-mÃªme).
 
+@ReturnValue
+     Renvoie une valeur non nulle si les structures sont les identiques, zÃ©ro sinon.
 
 @Example
 
@@ -456,11 +482,11 @@
 
  EtudiantC.Personne\Prenom$ = "Paul"
  EtudiantC\Nom$ = "Morito"
- EtudiantC\Amis$("Tom") = "Fontaine" ; Différent dans EtudiantA
+ EtudiantC\Amis$("Tom") = "Fontaine" ; DiffÃ©rent dans EtudiantA
  EtudiantC\Amis$("Jim") = "Durand"
 
   Debug CompareStructure(@EtudiantA, @EtudiantB, Personne) ; Egal
-  Debug CompareStructure(@EtudiantA, @EtudiantC, Personne) ; Pas égal
+  Debug CompareStructure(@EtudiantA, @EtudiantC, Personne) ; Pas Ã©gal
 @EndCode
 ; -------------------------------------------------------------------------------------------------
 
@@ -475,40 +501,40 @@
 
 @Description
   Copie une @ReferenceLink "structures" "structure" 
-  en mémoire vers une autre.
+  en mÃ©moire vers une autre.
   
 @Parameter "*Source"
-  L'adresse mémoire contenant la structure à copier.
+  L'adresse mÃ©moire contenant la structure Ã  copier.
   
 @Parameter "*Destination"
-  L'adresse mémoire de la copie.  
+  L'adresse mÃ©moire de la copie.  
   
 @Parameter "Structure"
-  Le nom de la structure qui doit être utilisé 
+  Le nom de la structure qui doit Ãªtre utilisÃ© 
   pour effectuer la copie. 
   
 @NoReturnValue
 
 @Remarks  
-  C'est particulièrement utile lors de l'utilisation 
-  de mémoire dynamique avec les pointeurs. Chaque 
-  champ de la structure sera dupliqué, y compris 
+  C'est particuliÃ¨rement utile lors de l'utilisation 
+  de mÃ©moire dynamique avec les pointeurs. Chaque 
+  champ de la structure sera dupliquÃ©, y compris 
   les @LibraryLink "Array" "tableaux" dynamiques, 
   les @LibraryLink "List" "listes" ou 
   les @LibraryLink "Map" "maps". 
   La structure de destination sera automatiquement 
-  effacée avant de faire la copie, il n'est pas 
-  nécessaire d'appeler @Keyword ClearStructure avant 
+  effacÃ©e avant de faire la copie, il n'est pas 
+  nÃ©cessaire d'appeler @Keyword ClearStructure avant 
   @Keyword CopyStructure. @Linebreak
-  Attention : La destination doit être une zone de 
-  mémoire de structure valide, ou une zone mémoire effacée. 
-  Si la zone de mémoire n'est pas effacée, cela pourrait 
-  provoquer un crash, car des valeurs aléatoires seront 
-  utilisées. @Linebreak
-  Il n'y a pas de contrôle pour s'assurer que les deux 
-  zones mémoires sont bien du type 'Structure', 
-  donc il est impératif de manipuler cette commande avec 
-  précaution.
+  Attention : La destination doit Ãªtre une zone de 
+  mÃ©moire de structure valide, ou une zone mÃ©moire effacÃ©e. 
+  Si la zone de mÃ©moire n'est pas effacÃ©e, cela pourrait 
+  provoquer un crash, car des valeurs alÃ©atoires seront 
+  utilisÃ©es. @Linebreak
+  Il n'y a pas de contrÃ´le pour s'assurer que les deux 
+  zones mÃ©moires sont bien du type 'Structure', 
+  donc il est impÃ©ratif de manipuler cette commande avec 
+  prÃ©caution.
   
 @Example
 @Code
@@ -542,34 +568,34 @@
   Resultat = @Keyword ClearStructure(*Memoire, Structure)
 
 @Description
-  Vide la zone mémoire 
-  @ReferenceLink "structures" "structurée" et 
-  met la valeur de tous les champs à zéro.
+  Vide la zone mÃ©moire 
+  @ReferenceLink "structures" "structurÃ©e" et 
+  met la valeur de tous les champs Ã  zÃ©ro.
   
 @Parameter "*Memoire"
-  L'adresse mémoire contenant la structure à 
+  L'adresse mÃ©moire contenant la structure Ã  
   effacer.
   
 @Parameter "Structure"
-  Le nom de la structure qui sera utilisée 
+  Le nom de la structure qui sera utilisÃ©e 
   pour effectuer le nettoyage. 
    
 @NoReturnValue
 
 @Remarks  
-  C'est particulièrement utile quand la structure 
-  contient des chaînes de caractères, 
+  C'est particuliÃ¨rement utile quand la structure 
+  contient des chaÃ®nes de caractÃ¨res, 
   des @LibraryLink "Array" "tableaux", 
   des @LibraryLink "List" "listes" ou 
-  des @LibraryLink "Map" "maps" qui ont été 
-  alloués en interne par PureBasic.
-  Tous les champs seront mis à zéro, même les types 
+  des @LibraryLink "Map" "maps" qui ont Ã©tÃ© 
+  allouÃ©s en interne par PureBasic.
+  Tous les champs seront mis Ã  zÃ©ro, mÃªme les types 
   natifs comme long, integer, etc. @Linebreak
-  Il n'y a pas de contrôle pour s'assurer que la zone 
-  mémoire est bien du type 'Structure' spécifié, donc 
-  il est impératif de manipuler cette commande avec 
-  précaution. Cette fonction est réservée aux utilisateurs 
-  avancés.
+  Il n'y a pas de contrÃ´le pour s'assurer que la zone 
+  mÃ©moire est bien du type 'Structure' spÃ©cifiÃ©, donc 
+  il est impÃ©ratif de manipuler cette commande avec 
+  prÃ©caution. Cette fonction est rÃ©servÃ©e aux utilisateurs 
+  avancÃ©s.
   
 @Example
 @Code
@@ -602,32 +628,32 @@
   @Keyword ResetStructure(*Memoire, Structure)
 
 @Description
-  @Keyword ResetStructure, vide la zone mémoire 
-  @ReferenceLink "structures" "structurée"
-  et l'initialise pour être prête à être utilisée.
+  @Keyword ResetStructure, vide la zone mÃ©moire 
+  @ReferenceLink "structures" "structurÃ©e"
+  et l'initialise pour Ãªtre prÃªte Ã  Ãªtre utilisÃ©e.
   
 @Parameter "*Memoire"
-  L'adresse mémoire contenant la structure à réinitialiser.
+  L'adresse mÃ©moire contenant la structure Ã  rÃ©initialiser.
   
 @Parameter "Structure"
-  Le nom de la structure utilisée.
+  Le nom de la structure utilisÃ©e.
    
 @NoReturnValue
 
 @Remarks    
-  C'est particulièrement utile quand la structure 
-  contient des chaînes de caractères, 
+  C'est particuliÃ¨rement utile quand la structure 
+  contient des chaÃ®nes de caractÃ¨res, 
   des @LibraryLink "Array" "tableaux", 
   des @LibraryLink "List" "listes" ou 
-  des @LibraryLink "Map" "maps" qui ont été 
-  alloués en interne par PureBasic.
-  Tous les champs seront mis à zéro, même les types 
+  des @LibraryLink "Map" "maps" qui ont Ã©tÃ© 
+  allouÃ©s en interne par PureBasic.
+  Tous les champs seront mis Ã  zÃ©ro, mÃªme les types 
   natifs comme long, integer, etc. @Linebreak
-  Il n'y a pas de contrôle pour s'assurer que la zone 
-  mémoire est bien du type 'Structure' spécifié, donc 
-  il est impératif de manipuler cette commande avec 
-  précaution. Cette fonction est réservée aux utilisateurs 
-  avancés.
+  Il n'y a pas de contrÃ´le pour s'assurer que la zone 
+  mÃ©moire est bien du type 'Structure' spÃ©cifiÃ©, donc 
+  il est impÃ©ratif de manipuler cette commande avec 
+  prÃ©caution. Cette fonction est rÃ©servÃ©e aux utilisateurs 
+  avancÃ©s.
   
 @Example
 
@@ -640,7 +666,7 @@
   
   ResetStructure(@Henri, Personne)
   
-  ; Affiche une chaîne vide car l'ensemble de la structure a été réinitialisée. 
+  ; Affiche une chaÃ®ne vide car l'ensemble de la structure a Ã©tÃ© rÃ©initialisÃ©e. 
   ; La map est encore utilisable, mais vide.
   ;
   Debug Henri\Amis("1")

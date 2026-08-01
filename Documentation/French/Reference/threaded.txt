@@ -1,4 +1,4 @@
-@Title Threaded
+ï»¿@Title Threaded
 
 @Syntax
 
@@ -6,19 +6,19 @@
 
 @Description
 
-  @Keyword Threaded permet de créer une @ReferenceLink "variables" "variable", un @ReferenceLink "dim" "tableau" 
+  @Keyword Threaded permet de crÃ©er une @ReferenceLink "variables" "variable", un @ReferenceLink "dim" "tableau" 
   sauf les tableaux multi-dimensionnels), 
   une @ReferenceLink "newlist" "liste" ou une @ReferenceLink "newmap" "map" qui sera persistant pour chaque @LibraryLink "thread" "thread".
-  C'est à dire que chaque @LibraryLink "thread" "thread" aura sa propre version de l'objet. C'est uniquement utile lors de l'écriture de programmes
-  multi-threadés. @LineBreak
-  Si un type est spécifié après le mot-clef @Keyword Threaded, le type par défaut pour cette déclaration est modifié. @LineBreak
+  C'est Ã  dire que chaque @LibraryLink "thread" "thread" aura sa propre version de l'objet. C'est uniquement utile lors de l'Ã©criture de programmes
+  multi-threadÃ©s. @LineBreak
+  Si un type est spÃ©cifiÃ© aprÃ¨s le mot-clef @Keyword Threaded, le type par dÃ©faut pour cette dÃ©claration est modifiÃ©. @LineBreak
   @LineBreak
-  Chaque variable peut avoir une valeur par défaut assignée, mais cette valeur doit être une constante. 
-  Les variables threadées sont initialisées au lancement du premier thread.
-  Cela implique que si la variable est définie est assignée à une valeur en même temps alors elle est définie pour tous les threads. Voir exemple 2.
-  Lors de la déclaration d'un tableau threadé, les paramètres de dimensionnement doivent être des valeurs constantes. @LineBreak
+  Chaque variable peut avoir une valeur par dÃ©faut assignÃ©e, mais cette valeur doit Ãªtre une constante. 
+  Les variables threadÃ©es sont initialisÃ©es au lancement du premier thread.
+  Cela implique que si la variable est dÃ©finie est assignÃ©e Ã  une valeur en mÃªme temps alors elle est dÃ©finie pour tous les threads. Voir exemple 2.
+  Lors de la dÃ©claration d'un tableau threadÃ©, les paramÃ¨tres de dimensionnement doivent Ãªtre des valeurs constantes. @LineBreak
   @LineBreak
-  Un objet threadé ne peut pas être déclaré dans une procédure, et sa portée est toujours globale.
+  Un objet threadÃ© ne peut pas Ãªtre dÃ©clarÃ© dans une procÃ©dure, et sa portÃ©e est toujours globale.
 
 
 @Example 1 Avec une variable
@@ -30,14 +30,14 @@
   
   Procedure Thread(Parametre)
     
-    Debug Compteur ; Affichera zero, car ce thread n'a pas encore utilisé cette variable
+    Debug Compteur ; Affichera zero, car ce thread n'a pas encore utilisÃ© cette variable
     Compteur = 256
     Debug Compteur ; Affichera 256
     
   EndProcedure
   
   Thread = CreateThread(@Thread(), 0)
-  WaitThread(Thread) ; Attente de la fin d'exécution du thread.
+  WaitThread(Thread) ; Attente de la fin d'exÃ©cution du thread.
   
   Debug Compteur ; Affichera 128, meme si 'Compteur' a ete change dans le thread
 @EndCode
@@ -56,7 +56,7 @@
   EndProcedure
   
   Thread = CreateThread(@Thread(), 0)
-  WaitThread(Thread) ; Attente de la fin d'exécution du thread.
+  WaitThread(Thread) ; Attente de la fin d'exÃ©cution du thread.
   
   Debug Compteur ; Affichera 128, meme si 'Compteur' a ete change dans le thread
 @EndCode

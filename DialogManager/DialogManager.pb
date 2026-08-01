@@ -202,13 +202,6 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
       EndIf
     CompilerEndIf
     
-    CompilerIf #CompileMacCarbon
-      If x = #PB_Ignore And y = #PB_Ignore
-        #kWindowCenterOnMainScreen = 1
-        RepositionWindow_(WindowID(*Window\Window), 0, #kWindowCenterOnMainScreen)
-      EndIf
-    CompilerEndIf
-    
     CompilerIf #CompileMacCocoa
       If x = #PB_Ignore And y = #PB_Ignore
         PB_Gadget_CenterWindow(WindowID(*Window\Window))
@@ -237,12 +230,6 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
         EndIf
       CompilerEndIf
       
-      CompilerIf #CompileMacCarbon
-        If x = #PB_Ignore And y = #PB_Ignore
-          #kWindowCenterOnMainScreen = 1
-          RepositionWindow_(WindowID(*Window\Window), 0, #kWindowCenterOnMainScreen)
-        EndIf
-      CompilerEndIf
     EndIf
     
     CompilerIf #PB_Compiler_Debugger

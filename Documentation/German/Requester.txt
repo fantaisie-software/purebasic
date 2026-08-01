@@ -1,16 +1,16 @@
-;
+Ôªø;
 ;     Requester library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Requester
 
 @Overview
   Computernutzer kennen alle die Requester, da fast alle Applikationen mit einer
-  grafischen Benutzeroberfl‰che wenigstens einen davon benutzen. Sie sind sehr
-  n¸tzlich bei einigen grundlegenden Dingen (wie ÷ffnen einer Datei, Ausw‰hlen
-  einer Farbe, Ausw‰hlen eines Zeichensatzes etc.), welche durch standardm‰ﬂige
+  grafischen Benutzeroberfl√§che wenigstens einen davon benutzen. Sie sind sehr
+  n√ºtzlich bei einigen grundlegenden Dingen (wie √ñffnen einer Datei, Ausw√§hlen
+  einer Farbe, Ausw√§hlen eines Zeichensatzes etc.), welche durch standardm√§√üige
   Auswahlfenster - genannt 'Requester' - sichergestellt werden.
 
 @CommandList
@@ -24,31 +24,31 @@
 @Function Farbe = ColorRequester([AktuelleFarbe] [, ParentID])
 
 @Description
-  ÷ffnet einen Standard-Requester zum Ausw‰hlen einer Farbe. Die ausgew‰hlte Farbe
-  wird als 24 Bit-Wert zur¸ckgegeben, der wie ¸blich die Rot-, Gr¸n- und Blau-Werte
-  enth‰lt.
+  √ñffnet einen Standard-Requester zum Ausw√§hlen einer Farbe. Die ausgew√§hlte Farbe
+  wird als 24 Bit-Wert zur√ºckgegeben, der wie √ºblich die Rot-, Gr√ºn- und Blau-Werte
+  enth√§lt.
   
 @OptionalParameter "AktuelleFarbe"
-  Legt die Standardfarbe fest, wenn der Requester geˆffnet wird. @@RGB kann verwendet
-  werden, um eine g¸ltige Farbe zu erhalten.
+  Legt die Standardfarbe fest, wenn der Requester ge√∂ffnet wird. @@RGB kann verwendet
+  werden, um eine g√ºltige Farbe zu erhalten.
   
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Die ausgew‰hlte Farbe - oder -1, wenn der Benutzer den Requester abgebrochen hat.
-  Um einfach die Werte der RGB-Komponenten zu ermitteln, kˆnnen
+  Die ausgew√§hlte Farbe - oder -1, wenn der Benutzer den Requester abgebrochen hat.
+  Um einfach die Werte der RGB-Komponenten zu ermitteln, k√∂nnen
   @@Red, @@Green und @@Blue verwendet werden. 
 
 @Example
 @Code
   Farbe = ColorRequester()
   If Farbe > -1
-    a$ = "Sie haben folgende Farbwerte ausgew‰hlt:" + Chr(10)  ; Chr(10) wird nur
-    a$ + "24 Bit Wert: " + Str(Farbe)               + Chr(10)  ; f¸r den Zeilen-
-    a$ + "Rot-Wert:    " + Str(Red(Farbe))          + Chr(10)  ; umbruch benˆtigt
-    a$ + "Gr¸n-Wert:  " + Str(Green(Farbe))         + Chr(10)
+    a$ = "Sie haben folgende Farbwerte ausgew√§hlt:" + Chr(10)  ; Chr(10) wird nur
+    a$ + "24 Bit Wert: " + Str(Farbe)               + Chr(10)  ; f√ºr den Zeilen-
+    a$ + "Rot-Wert:    " + Str(Red(Farbe))          + Chr(10)  ; umbruch ben√∂tigt
+    a$ + "Gr√ºn-Wert:  " + Str(Green(Farbe))         + Chr(10)
     a$ + "Blau-Wert:   " + Str(Blue(Farbe))
   Else  
     a$ = "Der Requester wurde abgebrochen."
@@ -63,53 +63,53 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = FontRequester(FontName$, FontGrˆﬂe, Flags [, Farbe [, Stil]] [, ParentID]]])
+@Function Ergebnis = FontRequester(FontName$, FontGr√∂√üe, Flags [, Farbe [, Stil]] [, ParentID]]])
 
 @Description
-  ÷ffnet den Standard-Requester zum Ausw‰hlen eines Zeichensatzes.
+  √ñffnet den Standard-Requester zum Ausw√§hlen eines Zeichensatzes.
 @LineBreak
 @LineBreak
   Die Befehle @@SelectedFontColor, @@SelectedFontName, @@SelectedFontSize 
-  und @@SelectedFontStyle kˆnnen nach einem erfolgreichen Aufruf benutzt werden,
-  um die benˆtigten Informationen ¸ber den ausgew‰hlten Zeichensatz zu erhalten.
+  und @@SelectedFontStyle k√∂nnen nach einem erfolgreichen Aufruf benutzt werden,
+  um die ben√∂tigten Informationen √ºber den ausgew√§hlten Zeichensatz zu erhalten.
 
 @Parameter "FontName$"
-  Der zu verwendende Standard-Fontname, wenn der Requester geˆffnet wird.
+  Der zu verwendende Standard-Fontname, wenn der Requester ge√∂ffnet wird.
 
-@Parameter "FontGrˆﬂe"
-  Die zu verwendend Standard-Fontgrˆﬂe, wenn der Requester geˆffnet wird.
+@Parameter "FontGr√∂√üe"
+  Die zu verwendend Standard-Fontgr√∂√üe, wenn der Requester ge√∂ffnet wird.
 
 @Parameter "Flags"
   Dies kann kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_FontRequester_Effects : Aktiviert die "Effekte" des Requesters, einschlieﬂlich Farbauswahl (nur auf Windows).
+  @#PB_FontRequester_Effects : Aktiviert die "Effekte" des Requesters, einschlie√ülich Farbauswahl (nur auf Windows).
 @EndFixedFont
 
 @OptionalParameter "Farbe"
-  Legt die Standardfarbe fest, wenn der Requester geˆffnet wird.
-  Einen g¸ltigen Farbwert erhalten Sie mit dem Befehl @@RGB.
+  Legt die Standardfarbe fest, wenn der Requester ge√∂ffnet wird.
+  Einen g√ºltigen Farbwert erhalten Sie mit dem Befehl @@RGB.
 
 @OptionalParameter "Stil"
-  Legt den Standardstil fest, wenn der Requester geˆffnet wird.
-  Siehe @@SelectedFontStyle f¸r die verf¸gbaren Stile.
+  Legt den Standardstil fest, wenn der Requester ge√∂ffnet wird.
+  Siehe @@SelectedFontStyle f√ºr die verf√ºgbaren Stile.
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn ein Zeichensatz ausgew‰hlt wurde, und Null wenn der
+  Ein Wert ungleich Null, wenn ein Zeichensatz ausgew√§hlt wurde, und Null wenn der
   Nutzer den Requester abgebrochen hat.
 
 @Example
 @Code
   FontName$ = "Arial"   ; Anfangs-Zeichensatz festlegen  (Kann auch ein leer sein)
-  FontSize  = 14        ; Anfangs-Grˆﬂe festlegen  (kann auch Null sein)
+  FontSize  = 14        ; Anfangs-Gr√∂√üe festlegen  (kann auch Null sein)
   Result = FontRequester(FontName$, FontSize, #PB_FontRequester_Effects)
   If Result
-    Message$ = "Sie haben folgenden Zeichensatz ausgew‰hlt:"  + #LF$ 
+    Message$ = "Sie haben folgenden Zeichensatz ausgew√§hlt:"  + #LF$ 
     Message$ + "Name:  " + SelectedFontName()       + #LF$
-    Message$ + "Grˆﬂe: " + Str(SelectedFontSize())  + #LF$
+    Message$ + "Gr√∂√üe: " + Str(SelectedFontSize())  + #LF$
     Message$ + "Farbe: " + Str(SelectedFontColor()) + #LF$
     If SelectedFontStyle() & #PB_Font_Bold
       Message$ + "Fett" + #LF$
@@ -139,8 +139,8 @@
 @Function Text$ = InputRequester(Titel$, Mitteilung$, StandardText$ [, Flags] [, ParendID]])
 
 @Description
-  ÷ffnet einen (das Programm) "blockierenden" Eingabe-Requester, um eine
-  Texteingabe zu ermˆglichen.
+  √ñffnet einen (das Programm) "blockierenden" Eingabe-Requester, um eine
+  Texteingabe zu erm√∂glichen.
 
 @Parameter "Titel$"
   Titel des Requesters.
@@ -152,17 +152,19 @@
   Standard-Text im Eingabefeld.
 
 @OptionalParameter "Flags"
-  Kann der folgende Wert sein:
+  Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_InputRequester_Password: setzt den Feld-Typ auf 'Passwort'. Der angezeigte Text wird versteckt.
+  @#PB_InputRequester_HandleCancel: Falls angegeben, wird der spezielle Wert @#PB_InputRequester_Cancel
+                                   zur√ºckgegeben, wenn der Benutzer den Requester abbricht.
 @EndFixedFont
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Gibt den Text im Eingabefeld zur¸ck, oder einen leeren String, wenn der Requester ohne Anklicken
+  Gibt den Text im Eingabefeld zur√ºck, oder einen leeren String, wenn der Requester ohne Anklicken
   des "OK"-Schalters geschlossen wurde.
 
 @Example
@@ -170,8 +172,8 @@
   Input$ = InputRequester("Titel", "Bitte machen Sie Ihre Eingabe:", "Ich bin die Standardeingabe.")
 
   If Input$ > ""
-    a$ = "Sie haben folgendes in den Requester geschrieben:" + Chr(10)  ; Chr(10) wird nur f¸r
-    a$ + Input$                                                   ; den Zeilenumbruch benˆtigt
+    a$ = "Sie haben folgendes in den Requester geschrieben:" + Chr(10)  ; Chr(10) wird nur f√ºr
+    a$ + Input$                                                   ; den Zeilenumbruch ben√∂tigt
   Else  
     a$ = "Der Requester wurde abgebrochen oder es wurde nichts eingegeben."
   EndIf
@@ -187,9 +189,9 @@
 @Function Ergebnis = MessageRequester(Titel$, Text$, [, Flags] [, ParentID]])
 
 @Description
-  ÷ffnet einen ('blocking') Requester zum Anzeigen einiger Informationen. Die
-  Programmausf¸hrung wird vollst‰ndig angehalten, bis der Benutzer den Requester
-  schlieﬂt. 
+  √ñffnet einen ('blocking') Requester zum Anzeigen einiger Informationen. Die
+  Programmausf√ºhrung wird vollst√§ndig angehalten, bis der Benutzer den Requester
+  schlie√üt. 
 
 @Parameter "Titel$"
   Der Titel des Requester-Fensters.
@@ -212,15 +214,15 @@
 @EndFixedFont  
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
   Dies kann eine der folgenden Konstanten sein:
 @FixedFont
-  @#PB_MessageRequester_Yes    : es wurde der 'Yes' (Ja) Schalter gedr¸ckt
-  @#PB_MessageRequester_No     : es wurde der 'No' (Nein) Schalter gedr¸ckt
-  @#PB_MessageRequester_Cancel : es wurde der 'Cancel' (Abbruch) Schalter gedr¸ckt
+  @#PB_MessageRequester_Yes    : es wurde der 'Yes' (Ja) Schalter gedr√ºckt
+  @#PB_MessageRequester_No     : es wurde der 'No' (Nein) Schalter gedr√ºckt
+  @#PB_MessageRequester_Cancel : es wurde der 'Cancel' (Abbruch) Schalter gedr√ºckt
 @EndFixedFont
 
 @Example Einfacher MessageRequester  (normalerweise nur zur Informationsausgabe benutzt)
@@ -228,27 +230,27 @@
   MessageRequester("Information", "Nur ein kurzer Informationstext.", #PB_MessageRequester_Ok | #PB_MessageRequester_Info)
 @EndCode
 
-@Example MessageRequester mit Ja / Nein Schaltern  (normalerweise f¸r Fragen benutzt)
+@Example MessageRequester mit Ja / Nein Schaltern  (normalerweise f√ºr Fragen benutzt)
 @Code
   Result = MessageRequester("Titel", "Bitte machen Sie Ihre Eingabe:", #PB_MessageRequester_YesNo)
   a$ = "Ergebnis des Requesters war: "
-  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedr¸ckt
+  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedr√ºckt
     a$ + "Ja"
-  Else                                       ; Nein-Schalter wurde gedr¸ckt
+  Else                                       ; Nein-Schalter wurde gedr√ºckt
     a$ + "Nein"
   EndIf
   MessageRequester("Information", a$, #PB_MessageRequester_Ok)
 @EndCode
 
-@Example MessageRequester mit Ja / Nein / Abbrechen Schaltern (normalerweise f¸r Fragen benutzt)
+@Example MessageRequester mit Ja / Nein / Abbrechen Schaltern (normalerweise f√ºr Fragen benutzt)
 @Code
   Result = MessageRequester("Titel", "Bitte machen Sie Ihre Eingabe:", #PB_MessageRequester_YesNoCancel) 
   a$ = "Das Ergebnis des vorherigen Requesters war: "
-  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedr¸ckt
+  If Result = #PB_MessageRequester_Yes       ; Ja-Schalter wurde gedr√ºckt
     a$ + "Ja"
-  ElseIf Result = #PB_MessageRequester_No    ; Nein-Schalter wurde gedr¸ckt
+  ElseIf Result = #PB_MessageRequester_No    ; Nein-Schalter wurde gedr√ºckt
     a$ + "Nein"
-  Else                                       ; Abbrechen-Schalter oder Esc wurde gedr¸ckt
+  Else                                       ; Abbrechen-Schalter oder Esc wurde gedr√ºckt
     a$ + "Abbrechen"
   EndIf
   MessageRequester("Information", a$, #PB_MessageRequester_Ok)
@@ -258,8 +260,8 @@
 
 @OS Windows
   @LineBreak
-  Hinweis: In PureBasic werden auch viele weitere Konstanten der Windows API unterst¸tzt. Diese sind 
-  dann allerdings nicht plattform¸bergreifend kompatibel! Einen ‹berblick finden Sie in der MSDN Library zur Funktion
+  Hinweis: In PureBasic werden auch viele weitere Konstanten der Windows API unterst√ºtzt. Diese sind 
+  dann allerdings nicht plattform√ºbergreifend kompatibel! Einen √úberblick finden Sie in der MSDN Library zur Funktion
   @InternetLink "http://msdn.microsoft.com/en-us/library/windows/desktop/ms645505%28v=vs.85%29.aspx" "MessageBox". 
   
 @SupportedOS
@@ -270,18 +272,18 @@
 
 @Description
   Nach einem mit #PB_Requester_MultiSelection (Mehrfach-Selektion) aufgerufenen
-  @@OpenFileRequester gibt dieser Befehl (wenn vorhanden) die n‰chste ausgew‰hlte
-  Datei zur¸ck. 
+  @@OpenFileRequester gibt dieser Befehl (wenn vorhanden) die n√§chste ausgew√§hlte
+  Datei zur√ºck. 
   
 @NoParameters
 
 @ReturnValue
-  Ein Dateiname - oder ein leerer String, wenn es keine weiteren ausgew‰hlten
+  Ein Dateiname - oder ein leerer String, wenn es keine weiteren ausgew√§hlten
   Dateinamen gibt.
 
 @Example
 @Code
-  FileName$ = OpenFileRequester("W‰hlen Sie einige Dateien aus", "", "", 0, #PB_Requester_MultiSelection)
+  FileName$ = OpenFileRequester("W√§hlen Sie einige Dateien aus", "", "", 0, #PB_Requester_MultiSelection)
 
   While FileName$ 
     Debug FileName$ 
@@ -296,31 +298,31 @@
 @Function DateiName$ = OpenFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, Flags] [, ParentID]])
 
 @Description
-  ÷ffnet einen Standard-Requester f¸r den Anwender zum Ausw‰hlen einer Datei. Der Titel kann
-  angegeben werden, um den standardm‰ﬂigen Titel zu ersetzen. StandardDatei$ ist
-  n¸tzlich, um den Requester mit dem richtigen Verzeichnis und dem richtigen Dateinamen
+  √ñffnet einen Standard-Requester f√ºr den Anwender zum Ausw√§hlen einer Datei. Der Titel kann
+  angegeben werden, um den standardm√§√üigen Titel zu ersetzen. StandardDatei$ ist
+  n√ºtzlich, um den Requester mit dem richtigen Verzeichnis und dem richtigen Dateinamen
   zu initialisieren.
 
 @Parameter "Titel$"
   Der Titel des Requester-Fensters.
 
 @Parameter "StandardDatei$"
-  Die Standard-Datei, welche beim ÷ffnen des Requesters angezeigt wird.
+  Die Standard-Datei, welche beim √ñffnen des Requesters angezeigt wird.
 
 @Parameter "Pattern$"
   Ein Standard-Filter, welcher nur die Anzeige von Dateien mit dieser
   oder jener Dateiendung erlaubt. Er muss in der folgenden Form angegeben werden:
   "Text-Dateien | *.txt | Musik-Dateien | *.mus;*.mod". Der Pattern arbeitet immer
   paarweise: Name (welcher wirklich im Filter erscheint) und Endung (z.B. *.txt).
-  Mehrere f¸r einen Typ mˆgliche Endungen kˆnnen unter Benutzung des ; (Semikolon)
-  angegeben werden. (Nicht unterst¸tzt auf OSX, der Requester zeigt immer alle
+  Mehrere f√ºr einen Typ m√∂gliche Endungen k√∂nnen unter Benutzung des ; (Semikolon)
+  angegeben werden. (Nicht unterst√ºtzt auf OSX, der Requester zeigt immer alle
   Dateien.)
 
 @Parameter "PatternPosition"
-  Gibt an, welcher Pattern als Standard eingestellt sein soll. Mˆgliche Werte sind 0 bis zur
-  Anzahl der Patterns minus 1 (da der Index f¸r den ersten Pattern bei 0 beginnt). Sobald der Requester
+  Gibt an, welcher Pattern als Standard eingestellt sein soll. M√∂gliche Werte sind 0 bis zur
+  Anzahl der Patterns minus 1 (da der Index f√ºr den ersten Pattern bei 0 beginnt). Sobald der Requester
   geschlossen wurde, kann @@SelectedFilePattern benutzt 
-  werden, um den ausgew‰hlten Pattern zu ermitteln. (Nicht unterst¸tzt auf OSX.)
+  werden, um den ausgew√§hlten Pattern zu ermitteln. (Nicht unterst√ºtzt auf OSX.)
 
 @OptionalParameter "Flags"
   Dies kann der folgende Wert sein:
@@ -329,31 +331,31 @@
 @EndFixedFont
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Der ausgew‰hlte Dateiname - oder ein leerer String, wenn der Requester vom Anwender
+  Der ausgew√§hlte Dateiname - oder ein leerer String, wenn der Requester vom Anwender
   abgebrochen wurde.
 
 @Remarks
-  Der zur¸ckgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
+  Der zur√ºckgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
   und Dateiendung-String zerlegt werden: @@GetFilePart, @@GetPathPart und
   @@GetExtensionPart.
 
 @Example
 @Code
-  StandardFile$ = "C:\autoexec.bat"   ; anf‰nglichen Pfad + Dateiname festlegen
-  ; Mit dem n‰chsten String werden die Pattern (mit "|" als Trennzeichen) f¸r anzuzeigende
+  StandardFile$ = "C:\autoexec.bat"   ; anf√§nglichen Pfad + Dateiname festlegen
+  ; Mit dem n√§chsten String werden die Pattern (mit "|" als Trennzeichen) f√ºr anzuzeigende
   ; Dateitypen festgelegt:
   ;  Erster:  "Text (*.txt)" als Name, ".txt" und ".bat" als erlaubte Dateiendungen
   ;  Zweiter: "PureBasic (*.pb)" als Name, ".pb" als erlaubte Dateiendung
-  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, g¸ltig f¸r alle Dateien
+  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, g√ºltig f√ºr alle Dateien
   Pattern$ = "Text (*.txt;*.bat)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
-  Pattern = 0    ; wir verwenden den ersten von drei mˆglichen Pattern als Standard
-  File$ = OpenFileRequester("Bitte Datei zum Laden ausw‰hlen", StandardFile$, Pattern$, Pattern)
+  Pattern = 0    ; wir verwenden den ersten von drei m√∂glichen Pattern als Standard
+  File$ = OpenFileRequester("Bitte Datei zum Laden ausw√§hlen", StandardFile$, Pattern$, Pattern)
   If File$
-    MessageRequester("Information", "Sie haben folgende Datei ausgew‰hlt:" + Chr(10) + File$, 0)
+    MessageRequester("Information", "Sie haben folgende Datei ausgew√§hlt:" + Chr(10) + File$, 0)
   Else
     MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
   EndIf
@@ -371,33 +373,33 @@
 @Function Pfad$ = PathRequester(Titel$, UrsprungsPfad$ [, ParendID])
 
 @Description
-  ÷ffnet den Standard-Verzeichnis-Requester f¸r den Anwender zum Ausw‰hlen eines
+  √ñffnet den Standard-Verzeichnis-Requester f√ºr den Anwender zum Ausw√§hlen eines
   Verzeichnispfades.
   
 @Parameter "Titel$"
   Der Titel des Requester-Fensters.
 
 @Parameter "UrsprungsPfad$"
-  Der beim ÷ffnen des Requesters zu verwendende anf‰ngliche Pfad.
+  Der beim √ñffnen des Requesters zu verwendende anf√§ngliche Pfad.
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Der ausgew‰hlte Pfad - oder ein leerer String, wenn der Requester vom Anwender
+  Der ausgew√§hlte Pfad - oder ein leerer String, wenn der Requester vom Anwender
   abgebrochen wurde.
 
 @Remarks
-  Der wird mit einem abschlieﬂenden '\' auf Windows zur¸ckgegeben, oder einem
-  abschlieﬂenden '/' auf Linux und OS X.
+  Der wird mit einem abschlie√üenden '\' auf Windows zur√ºckgegeben, oder einem
+  abschlie√üenden '/' auf Linux und OS X.
 
 @Example
 @Code
-  InitialPath$ = "C:\"   ; anf‰nglichen Pfad f¸r die Anzeige festlegen (kann auch leer sein)
-  Path$ = PathRequester("Bitte w‰hlen Sie einen Pfad aus", InitialPath$)
+  InitialPath$ = "C:\"   ; anf√§nglichen Pfad f√ºr die Anzeige festlegen (kann auch leer sein)
+  Path$ = PathRequester("Bitte w√§hlen Sie einen Pfad aus", InitialPath$)
   If Path$
-    MessageRequester("Information", "Sie haben folgenden Pfad ausgew‰hlt:"+Chr(10)+Path$, 0)
+    MessageRequester("Information", "Sie haben folgenden Pfad ausgew√§hlt:"+Chr(10)+Path$, 0)
   Else
     MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
   EndIf
@@ -412,56 +414,56 @@
 @Function DateiName$ = SaveFileRequester(Titel$, StandardDatei$, Pattern$, PatternPosition [, ParentID])
 
 @Description
-  ÷ffnet einen Standard-Requester f¸r den Anwender zum Ausw‰hlen einer zu
+  √ñffnet einen Standard-Requester f√ºr den Anwender zum Ausw√§hlen einer zu
   speichernden Datei.
   
 @Parameter "Titel$"
   Der Titel des Requester-Fensters.
 
 @Parameter "StandardDatei$"
-  Der beim ÷ffnen des Requesters zu verwendende Dateiname.
+  Der beim √ñffnen des Requesters zu verwendende Dateiname.
 
 @Parameter "Pattern$"
   Ein Standard-Filter, welcher nur die Anzeige von Dateien mit dieser
   oder jener Dateiendung erlaubt. Er muss in der folgenden Form angegeben werden:
   "Text-Dateien | *.txt | Musik-Dateien | *.mus;*.mod". Der Pattern arbeitet immer
   paarweise: Name (welcher wirklich im Filter erscheint) und Endung (z.B. *.txt).
-  Mehrere f¸r einen Typ mˆgliche Endungen kˆnnen unter Benutzung des ; (Semikolon)
-  angegeben werden. (Nicht unterst¸tzt auf OSX, der Requester zeigt immer alle
+  Mehrere f√ºr einen Typ m√∂gliche Endungen k√∂nnen unter Benutzung des ; (Semikolon)
+  angegeben werden. (Nicht unterst√ºtzt auf OSX, der Requester zeigt immer alle
   Dateien.)
 
 @Parameter "PatternPosition"
-  Gibt an, welcher Pattern als Standard eingestellt sein soll. Mˆgliche Werte sind 0 bis zur
-  Anzahl der Patterns minus 1 (da der Index f¸r den ersten Pattern bei 0 beginnt). Sobald der Requester
+  Gibt an, welcher Pattern als Standard eingestellt sein soll. M√∂gliche Werte sind 0 bis zur
+  Anzahl der Patterns minus 1 (da der Index f√ºr den ersten Pattern bei 0 beginnt). Sobald der Requester
   geschlossen wurde, kann @@SelectedFilePattern benutzt 
-  werden, um den ausgew‰hlten Pattern zu ermitteln. (Nicht unterst¸tzt auf OSX.)
+  werden, um den ausgew√§hlten Pattern zu ermitteln. (Nicht unterst√ºtzt auf OSX.)
 
 @OptionalParameter "ParentID"
-  Die Kennung des ¸bergeordneten Fensters. Eine g¸ltige Fensterkennung kann mit
+  Die Kennung des √ºbergeordneten Fensters. Eine g√ºltige Fensterkennung kann mit
   @@WindowID abgerufen werden.
 
 @ReturnValue
-  Der ausgew‰hlte Dateiname - oder ein leerer String, wenn der Requester vom
+  Der ausgew√§hlte Dateiname - oder ein leerer String, wenn der Requester vom
   Anwender abgebrochen wurde.
 
 @Remarks
-  Der zur¸ckgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
+  Der zur√ºckgegebene 'DateiName$' kann mit den folgenden Funktionen einfach in Datei-, Pfad-
   und Dateiendung-String zerlegt werden: @@GetFilePart, @@GetPathPart und
   @@GetExtensionPart.
 
 @Example
 @Code
-  StandardFile$ = "C:\autoexec.bat"   ; anf‰nglichen Pfad + Dateiname festlegen
-  ; Mit dem n‰chsten String werden die Pattern (mit "|" als Trennzeichen) f¸r anzuzeigende
+  StandardFile$ = "C:\autoexec.bat"   ; anf√§nglichen Pfad + Dateiname festlegen
+  ; Mit dem n√§chsten String werden die Pattern (mit "|" als Trennzeichen) f√ºr anzuzeigende
   ; Dateitypen festgelegt:
   ;  Erster:  "Text (*.txt)" als Name, ".txt" und ".bat" als erlaubte Dateiendungen
   ;  Zweiter: "PureBasic (*.pb)" als Name, ".pb" al erlaubte Dateiendung
-  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, g¸ltig f¸r alle Dateien
+  ;  Dritter: "Alle Dateien (*.*) als Name, "*.*" als erlaubte Dateiendung, g√ºltig f√ºr alle Dateien
   Pattern$ = "Text (*.txt)|*.txt;*.bat|PureBasic (*.pb)|*.pb|Alle Dateien (*.*)|*.*"
-  Pattern = 0    ; wir verwenden den ersten von drei mˆglichen Pattern als Standard
-  File$ = SaveFileRequester("Bitte Datei zum Speichern ausw‰hlen", StandardFile$, Pattern$, Pattern)
+  Pattern = 0    ; wir verwenden den ersten von drei m√∂glichen Pattern als Standard
+  File$ = SaveFileRequester("Bitte Datei zum Speichern ausw√§hlen", StandardFile$, Pattern$, Pattern)
   If File$
-    MessageRequester("Information", "Sie haben folgende Datei ausgew‰hlt:"+Chr(10)+File$, 0)
+    MessageRequester("Information", "Sie haben folgende Datei ausgew√§hlt:"+Chr(10)+File$, 0)
   Else
     MessageRequester("Information", "Der Requester wurde abgebrochen.", 0) 
   EndIf
@@ -476,32 +478,32 @@
 @Function Index = SelectedFilePattern()
 
 @Description
-  Gibt den mittels @@OpenFileRequester oder @@SaveFileRequester ausgew‰hlten
-  Pattern-Index (Dateien-Filter) zur¸ck. 
+  Gibt den mittels @@OpenFileRequester oder @@SaveFileRequester ausgew√§hlten
+  Pattern-Index (Dateien-Filter) zur√ºck. 
 
 @NoParameters
 
 @ReturnValue
-  Der mittels @@OpenFileRequester oder @@SaveFileRequester ausgew‰hlte
+  Der mittels @@OpenFileRequester oder @@SaveFileRequester ausgew√§hlte
   Pattern-Index (Dateien-Filter).
   Das erste Pattern befindet sich an Position 0.
 
 @Example
 @Code
-  StandardFile$ = "C:\autoexec.bat"        ; anf‰nglicher Pfad + Dateiname
+  StandardFile$ = "C:\autoexec.bat"        ; anf√§nglicher Pfad + Dateiname
   Pattern$ = "Text (*.txt)|*.txt;*.bat|"   ; ersten Pattern festlegen  (Index = 0)
   Pattern$ + "PureBasic (*.pb)|*.pb|"      ; zweiten Pattern festlegen (Index = 1)
   Pattern$ + "Bmp (*.bmp)|*.bmp|"          ; dritten Pattern festlegen (Index = 2)
   Pattern$ + "Jpeg (*.jpg)|*.jpg|"         ; vierten Pattern festlegen (Index = 3)
-  Pattern$ + "All files (*.*)|*.*"         ; f¸nften Pattern festlegen (Index = 4)
-  Pattern = 1    ; wir verwenden den zweiten von f¸nf mˆglichen Pattern als Standard
+  Pattern$ + "All files (*.*)|*.*"         ; f√ºnften Pattern festlegen (Index = 4)
+  Pattern = 1    ; wir verwenden den zweiten von f√ºnf m√∂glichen Pattern als Standard
 
-  ; Jetzt ˆffnen wir den Dateirequester, Sie kˆnnen den Dateityp (Pattern) ‰ndern
-  ; und erhalten nach dem Schlieﬂen des Requesters den Index zur¸ck.
-  File$ = OpenFileRequester("Bitte Datei zum Laden ausw‰hlen", StandardFile$, Pattern$, Pattern)
+  ; Jetzt √∂ffnen wir den Dateirequester, Sie k√∂nnen den Dateityp (Pattern) √§ndern
+  ; und erhalten nach dem Schlie√üen des Requesters den Index zur√ºck.
+  File$ = OpenFileRequester("Bitte Datei zum Laden ausw√§hlen", StandardFile$, Pattern$, Pattern)
   Index = SelectedFilePattern()
   If Index > -1
-    MessageRequester("Information", "Folgender Pattern-Index wurde ausgew‰hlt: "+Str(Index), 0)
+    MessageRequester("Information", "Folgender Pattern-Index wurde ausgew√§hlt: "+Str(Index), 0)
   Else
     MessageRequester("Information", "Der Requester wurde abgebrochen.", 0)
   EndIf
@@ -514,13 +516,13 @@
 @Function Farbe = SelectedFontColor() 
 
 @Description
-  Gibt die vom Benutzer im @@FontRequester ausgew‰hlte Zeichensatz-Farbe zur¸ck. 
+  Gibt die vom Benutzer im @@FontRequester ausgew√§hlte Zeichensatz-Farbe zur√ºck. 
   
 @NoParameters
 
 @ReturnValue
-  Die vom Benutzer im @@FontRequester ausgew‰hlte Zeichensatz-Farbe.
-  Um die individuellen RGB-Farbwerte zu erhalten, kˆnnen @@Red,
+  Die vom Benutzer im @@FontRequester ausgew√§hlte Zeichensatz-Farbe.
+  Um die individuellen RGB-Farbwerte zu erhalten, k√∂nnen @@Red,
   @@Green und @@Blue benutzt werden.
 
 @SeeAlso
@@ -533,13 +535,13 @@
 @Function Name$ = SelectedFontName()
 
 @Description
-  Gibt den Namen des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes
-  zur¸ck. 
+  Gibt den Namen des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes
+  zur√ºck. 
   
 @NoParameters
 
 @ReturnValue
-  Der Name des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes.
+  Der Name des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes.
   Dieser Name kann direkt vom @@LoadFont Befehl verwendet werden. 
 
 @SeeAlso
@@ -549,15 +551,15 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Grˆﬂe = SelectedFontSize()
+@Function Gr√∂√üe = SelectedFontSize()
 
 @Description
-  Gibt die Grˆﬂe des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes zur¸ck. 
+  Gibt die Gr√∂√üe des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes zur√ºck. 
 
 @NoParameters
 
 @ReturnValue
-  Die Grˆﬂe des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes.
+  Die Gr√∂√üe des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes.
   
 @SeeAlso
   @@FontRequester
@@ -569,12 +571,12 @@
 @Function Stil = SelectedFontStyle()
 
 @Description
-  Gibt den Stil des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes zur¸ck.
+  Gibt den Stil des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes zur√ºck.
   
 @NoParameters
 
 @ReturnValue
-  Der Stil des vom Benutzer im @@FontRequester ausgew‰hlten Zeichensatzes.
+  Der Stil des vom Benutzer im @@FontRequester ausgew√§hlten Zeichensatzes.
   Dieser kann einen oder mehrere der folgenden Werte enthalten:
 @FixedFont
   @#PB_Font_Bold  : Zeichensatz ist "fett".

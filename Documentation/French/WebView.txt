@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     WebView library documentation
 ;
 ;      (c) Fantaisie Software
@@ -7,22 +7,22 @@
 @Library WebView
 
 @Overview
-  La bibliothèque WebView est un gadget de navigateur Web moderne qui peut être utilisé pour créer 
+  La bibliothÃ¨que WebView est un gadget de navigateur Web moderne qui peut Ãªtre utilisÃ© pour crÃ©er 
   facilement une interface utilisateur HTML/CSS dans PureBasic. Il permet d'avoir une interface 
-  utilisateur multiplateforme riche, tout en ayant accès à des fonctions CSS avancées afin d'améliorer 
-  l'expérience utilisateur. Le composant est directement intégré au programme PureBasic et utilise des 
+  utilisateur multiplateforme riche, tout en ayant accÃ¨s Ã  des fonctions CSS avancÃ©es afin d'amÃ©liorer 
+  l'expÃ©rience utilisateur. Le composant est directement intÃ©grÃ© au programme PureBasic et utilise des 
   callbacks natives pour l'interaction entre le contenu Web (qui est en JavaScript) et le code PureBasic.
 @LineBreak
 @LineBreak
-  Le gadget WebView exploite les composants Web intégrés du système d'exploitation (WebView2 sous 
-  Windows, WebKit-GTK sous Linux/Raspberry et WebKit sous macOS). Sous Windows 10 et versions ultérieures, 
-  aucun composant supplémentaire n'est requis, mais si une ancienne prise en charge de Windows est 
-  nécessaire, le redistribuable WebView2 devra peut-être être installé :
+  Le gadget WebView exploite les composants Web intÃ©grÃ©s du systÃ¨me d'exploitation :WebView2 sous 
+  Windows, WebKit-GTK sous Linux/Raspberry (exceptÃ© QT) et WebKit sous macOS). Sous Windows 10 et versions ultÃ©rieures, 
+  aucun composant supplÃ©mentaire n'est requis, mais si une ancienne prise en charge de Windows est 
+  nÃ©cessaire, le redistribuable WebView2 devra peut-Ãªtre Ãªtre installÃ©Â :
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "guide de distribution".
 @LineBreak
 @LineBreak
-  Comme le composant WebView est une bibliothèque de gadgets PureBasic @LibraryLink "Gadget", les 
-  commandes standards comme  @@ResizeGadget ou @@HideGadget peuvent être utilisés pour le contrôler.
+  Comme le composant WebView est une bibliothÃ¨que de gadgets PureBasic @LibraryLink "Gadget", les 
+  commandes standards comme  @@ResizeGadget ou @@HideGadget peuvent Ãªtre utilisÃ©s pour le contrÃ´ler.
 @LineBreak
 @LineBreak
 
@@ -37,13 +37,13 @@
 @Function Resultat = WebViewGadget(#Gadget, x, y, Longueur, Hauteur [, Options])
 
 @Description
-  Crée un nouveau gadget d'affichage Web.
+  CrÃ©e un nouveau gadget d'affichage Web.
 
 @Parameter "#Gadget"
-  Le numéro d'identification du gadget.
+  Le numÃ©ro d'identification du gadget.
 @LineBreak
 @LineBreak 
-   @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+   @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @Parameter "x, y,Longueur, Hauteur"
   La position et les dimensions du nouveau gadget.
@@ -51,36 +51,45 @@
 @OptionalParameter "Options"
    Modifie le comportement du gadget :
 @FixedFont
-   @#PB_WebView_Debug : Active l'élément de menu contextuel 'Inspecter' pour afficher l'inspecteur Web et la console.
+   @#PB_WebView_DebugÂ : Active l'Ã©lÃ©ment de menu contextuel 'Inspecter' pour afficher l'inspecteur Web et la console.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, zéro sinon. 
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon. 
 @LineBreak
 @LineBreak 
-  Si @#PB_Any a été utilisé comme paramètre #Gadget alors la valeur de retour est le numéro de gadget 
-  généré automatiquement, en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre #Gadget alors la valeur de retour est le numÃ©ro de gadget 
+  gÃ©nÃ©rÃ© automatiquement, en cas de succÃ¨s.
 
 @Remarks
-  Après la création, utilisez @@BindWebViewCallback pour interagir avec le code JavaScript de 
+  Si nÃ©cessaire, un proxy peut Ãªtre dÃ©fini avec @@WebViewProxy.
+@LineBreak
+@LineBreak
+  AprÃ¨s la crÃ©ation, utilisez @@BindWebViewCallback pour interagir avec le code JavaScript de 
   l'interface utilisateur.@LineBreak 
   De plus, les commandes de gadget courantes telles que @@ResizeGadget ou @@HideGadget peuvent 
-  également être utilisées.
+  Ã©galement Ãªtre utilisÃ©es.
 @LineBreak
 @LineBreak 
-  Les fonctions suivantes peuvent être utilisées pour agir sur un WebViewGadget :
+  Les fonctions suivantes peuvent Ãªtre utilisÃ©es pour agir sur un WebViewGadgetÂ :
 @LineBreak
 @LineBreak 
-  - @@SetGadgetText : Modifie l'URL actuelle. Il peut s'agir d'un URL de fichier local tel que 
+  - @@SetGadgetTextÂ : Modifie l'URL actuelle. Il peut s'agir d'un URL de fichier local tel que 
   "file://c:/purebasic/svn/webview.html" ou d'une URL HTTP standard. Lors de l'utilisation
-  d'un URL de fichier local, il doit s'agir du chemin d'accès complet. Vous pouvez facilement 
-  construire l'URL local en ajoutant 'file://' au chemin d'accès.
+  d'un URL de fichier local, il doit s'agir du chemin d'accÃ¨s complet. Vous pouvez facilement 
+  construire l'URL local en ajoutant 'file://' au chemin d'accÃ¨s.
 @LineBreak
 @LineBreak 
-  - @@SetGadgetItemText : Avec @#PB_WebView_HtmlCode comme 'élément', le code HTML peut être diffusé 
-  (streamé) dans le gadget.
+  - @@SetGadgetItemTextÂ : Avec @#PB_WebView_HtmlCode comme 'Ã©lÃ©ment', le code HTML peut Ãªtre diffusÃ© 
+  (streamÃ©) dans le gadget. Toutefois, le code HTML est traitÃ© comme un contenu local non fiable et certaines 
+  autorisations ne sont pas autorisÃ©es.
 @LineBreak
-
+@LineBreak    
+  - @@GetGadgetAttribute : Avec @#PB_WebView_ICoreController comme 'attribut' permet d'utiliser les 
+   fonctions du ICoreWebView2 (Windows seulement).
+@LineBreak
+@LineBreak
+  Le WebViewGadget() n'est pas pris en charge par le sous-systÃ¨me QT.
 
 @Example Utiliser des fichiers HTML et CSS locaux
 @Code
@@ -129,7 +138,7 @@
 
   SetGadgetItemText(0, #PB_WebView_HtmlCode, 
                     ~"<button id=\"increment\">Cliquez moi !</button>\n"+
-                    ~"<div>Vous avez cliqué <span id=\"count\">0</span> fois.</div>\n"+
+                    ~"<div>Vous avez cliquÃ© <span id=\"count\">0</span> fois.</div>\n"+
                     ~"<button id=\"compute\">Calculer</button>\n"+
                     ~"<div>Resultat du calcul: <span id=\"compute-result\">0</span></div>\n"+
                     ~"<script>\n"+
@@ -161,7 +170,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@Example Avec menu contextuel désactivé
+@Example Avec menu contextuel dÃ©sactivÃ©
 @Code
   Html$ = ~"<html style=\"margin:0px;height:100%;width:100%\">"+
           ~"<body oncontextmenu=\"return false;\" style=\"margin:0px;min-height:100%;width:100%\">"+
@@ -178,7 +187,45 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback
+@Example En utilisant les fonctions du ICoreWebView2Controller (Windows seulement)
+@Code
+  OpenWindow(0, 100, 100, 800, 600, "Salut", #PB_Window_SystemMenu)
+  
+  TrackBarGadget(1, 0 , 0, 800, 30, 10, 400):SetGadgetState(1, 100) 
+  WebViewGadget(0, 0, 30, 800, 600, #PB_WebView_Debug)
+  
+  ; Obtenir l'interface ICoreController  
+  ;
+  Controller.ICoreWebView2Controller = GetGadgetAttribute(0, #PB_WebView_ICoreController)
+  
+  ; Obtenir l'interface ICoreWebView2
+  ;
+  Controller\get_CoreWebView2(@Core.ICoreWebView2)
+  Core\Navigate("https://www.purebasic.com")
+  
+  ; core\
+  DataSection
+    IID_ICoreWebView2Controller2:
+    Data.l $C979903E
+    Data.w $D4CA, $4228
+    Data.b $92, $EB, $47, $EE, $3F, $A9, $6E, $AB
+  EndDataSection
+  
+  If Controller\QueryInterface(?IID_ICoreWebView2Controller2, @Controller2.ICoreWebView2Controller2) = #S_OK
+    Debug "ICoreWebView2Controller2 trouvÃ© : " + Controller2
+  Else
+    Debug "Impossible d'utiliser ICoreWebView2Controller2"
+  EndIf
+  
+  Repeat 
+    Event = WaitWindowEvent()
+    If event = #PB_Event_Gadget And EventGadget() = 1
+      Controller\put_ZoomFactor(GetGadgetState(1)/100)
+    EndIf
+  Until Event = #PB_Event_CloseWindow
+@EndCode
+
+@SeeAlso @@WebViewExecuteScript, @@BindWebViewCallback, @@WebViewProxy
 
 @SupportedOS
 
@@ -187,20 +234,20 @@
 @Function BindWebViewCallback(#Gadget, FonctionJavaScript$, @Callback())
 
 @Description
-  Lie un rappel PureBasic à une nouvelle fonction JavaScript. 
+  Lie un rappel PureBasic Ã  une nouvelle fonction JavaScript. 
   
 @Parameter "#Gadget"
-  Le gadget d’affichage Web auquel lier l’événement.
+  Le gadget dâ€™affichage Web auquel lier lâ€™Ã©vÃ©nement.
 
 @Parameter "FonctionJavaScript$"
-  Nom sensible à la casse de la fonction JavaScript à créer et à laquelle lier le rappel.
+  Nom sensible Ã  la casse de la fonction JavaScript Ã  crÃ©er et Ã  laquelle lier le rappel.
 
 @Parameter "@Callback()"
-  La procédure de rappel à appeler lorsque la fonction JavaScript est appelée. Il faut le déclarer ainsi :
+  La procÃ©dure de rappel Ã  appeler lorsque la fonction JavaScript est appelÃ©e. Il faut le dÃ©clarer ainsi :
 @Code
   Procedure JavaScriptCallback(ParametresJSON$)
      ;
-     ; 'ParametresJSON$' contient tous les paramètres qui ont été spécifiés lors de l'appel de la fonction JavaScript au format JSON.
+     ; 'ParametresJSON$' contient tous les paramÃ¨tres qui ont Ã©tÃ© spÃ©cifiÃ©s lors de l'appel de la fonction JavaScript au format JSON.
      ;
     
      ; Code
@@ -208,19 +255,19 @@
      ProcedureReturn UTF8(ResultatJSON$)
    EndProcedure
 @EndCode
-   La procédure de rappel peut renvoyer un résultat qui peut être utilisé par la fonction JavaScript.
+   La procÃ©dure de rappel peut renvoyer un rÃ©sultat qui peut Ãªtre utilisÃ© par la fonction JavaScript.
    
 @NoReturnValue
 
 @Remarks
-  La fonction JavaScript sera automatiquement créée dans le WebView et sera disponible dans le code 
+  La fonction JavaScript sera automatiquement crÃ©Ã©e dans le WebView et sera disponible dans le code 
   JavaScript.@LineBreak 
-  Lorsque la fonction JavaScript sera appelée dans le gadget WebView, le 'Callback' PureBasic sera 
-  appelé. Le code JavaScript sera arrêté jusqu'à ce que le rappel PureBasic termine son exécution.
+  Lorsque la fonction JavaScript sera appelÃ©e dans le gadget WebView, le 'Callback' PureBasic sera 
+  appelÃ©. Le code JavaScript sera arrÃªtÃ© jusqu'Ã  ce que le rappel PureBasic termine son exÃ©cution.
 
-@Example Avec 2 paramètres fonction Javascript
+@Example Avec 2 paramÃ¨tres fonction Javascript
 @Code
-  ; Un simple bouton qui changera son étiquette par le résultat du rappel PureBasic
+  ; Un simple bouton qui changera son Ã©tiquette par le rÃ©sultat du rappel PureBasic
   ;
   Html$ =  ~"<button id=\"displayInfo\">Afficher les Infos</button>\n"+
            ~"<script>\n"+
@@ -241,10 +288,10 @@
     ParseJSON(0, ParametreJSON$)
     ExtractJSONArray(JSONValue(0), Parameters())
     
-    Debug "Nb de Paramètres: " + ArraySize(Parameters())
+    Debug "Nb de ParamÃ¨tres: " + ArraySize(Parameters())
     
-    Debug "Paramètre 1: " + Parameters(0)
-    Debug "Paramètre 2: " + Parameters(1)
+    Debug "ParamÃ¨tre 1: " + Parameters(0)
+    Debug "ParamÃ¨tre 2: " + Parameters(1)
     
     ProcedureReturn UTF8(~"{ \"sum\": "+Str(Parameters(0) + Parameters(1))+ "}")
   EndProcedure
@@ -271,18 +318,18 @@
 @Function UnbindWebViewCallback(#Gadget, FonctionJavaScript$)
 
 @Description
-  Dissocie une fonction JavaScript précédemment liée avec @@BindWebViewCallback. 
+  Dissocie une fonction JavaScript prÃ©cÃ©demment liÃ©e avec @@BindWebViewCallback. 
 
 @Parameter "#Gadget"
-  Le gadget d’affichage Web à utiliser.
+  Le gadget dâ€™affichage Web Ã  utiliser.
 
 @Parameter "FonctionJavaScript$"
-  Nom sensible à la casse de la fonction JavaScript à dissocier.
+  Nom sensible Ã  la casse de la fonction JavaScript Ã  dissocier.
 
 @NoReturnValue
 
 @Remarks
-  La fonction JavaScript sera automatiquement supprimée du gadget WebView et ne sera plus disponible 
+  La fonction JavaScript sera automatiquement supprimÃ©e du gadget WebView et ne sera plus disponible 
   dans le code JavaScript.
 
 @SeeAlso @@WebViewGadget, @@BindWebViewCallback
@@ -294,13 +341,13 @@
 @Function WebViewExecuteScript(#Gadget, JavaScript$)
 
 @Description
-  Exécute une expression JavaScript de manière asynchrone.
+  ExÃ©cute une expression JavaScript de maniÃ¨re asynchrone.
   
 @Parameter "#Gadget"
-  Le gadget d’affichage Web à utiliser.
+  Le gadget dâ€™affichage Web Ã  utiliser.
 
 @Parameter "JavaScript$"
-  L'expression JavaScript à exécuter.
+  L'expression JavaScript Ã  exÃ©cuter.
 
 @NoReturnValue
 
@@ -318,7 +365,7 @@
            ~"</script>";
     
   Procedure DisplayInfoCallback(ParametreJSON$)
-    ; Exécuter un script dans le webview
+    ; ExÃ©cuter un script dans le webview
     WebViewExecuteScript(0, ~"const element=document.getElementById(\"displayInfo\"); element.textContent=\"Salut depuis la Callback !\";");
   EndProcedure
 
@@ -339,3 +386,32 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
+@Function WebViewProxy(URL$, Port [NomUtilisateur$, MotDePasse$])
+
+@Description
+  Configure un proxy pour tous les futurs @@WebViewGadget crÃ©Ã©s. 
+  
+@Parameter "URL$"
+  L'URL du serveur proxy.
+
+@Parameter "Port"
+  Le port du serveur proxy.
+
+@OptionalParameter "NomUtilisateur$, MotDePasse$"
+  Si le serveur proxy nÃ©cessite une authentification, un nom d'utilisateur et un mot 
+  de passe peuvent Ãªtre dÃ©finis ici.
+
+@NoReturnValue
+
+@Remarks
+  Tous les liens externes et URL passeront par ce proxy avant d'atteindre la destination. 
+  Cela peut Ãªtre utile dans un environnement d'entreprise oÃ¹ le niveau de sÃ©curitÃ© est 
+  Ã©levÃ©.
+@linebreak
+@linebreak
+  Lorsqu'il est utilisÃ© sur MacOS, la configuration minimale requise est MacOS 14 (Sonoma).
+
+@SeeAlso @@WebViewGadget
+
+@SupportedOS

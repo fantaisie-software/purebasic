@@ -56,7 +56,6 @@ Declare SetWindowForeground_NoActivate(Window) ; set window to the foreground wi
 Declare SetWindowStayOnTop(Window, StayOnTop)  ; make window stay on top
 Declare GetPanelWidth(Gadget)                  ; get width of panelgadget items
 Declare GetPanelHeight(Gadget)                 ; get height of panelgadget items
-Declare GetPanelItemID(Gadget, Item)           ; get id of panelgadget item (only for plugins)
 Declare RedrawGadget(Gadget)                   ; trigger an update of the gadget (must work with the EditorGadget!)
 Declare SelectComboBoxText(Gadget)             ; select all text in editable combobox
 Declare SetStringBufferSize(NewSize)           ; set the size of the string manipoulation buffer (for debugger)
@@ -74,7 +73,6 @@ Declare GetListViewScroll(Gadget)              ; Get listview vertical scroll po
 Declare SetListViewScroll(Gadget, Position)    ; Set listview vertical scroll position
 
 CompilerIf #CompileWindows
-  Declare SetCodePage(Gadget)         ; set the correct codepage for the editorgadget (windows only)
   Declare SetWindowForeground_Real(Window) ; grab focus from other apps
 CompilerEndIf
 CompilerIf #CompileLinuxGtk
@@ -152,7 +150,7 @@ Declare.s GetContinuationLine(Index, *Offset.INTEGER = 0, *Source.SourceFile = 0
 Declare SetLine(Index, NewLine$)                                                               ; replace the indexed line with the given text (and highlight it again)
 Declare CreateEditorGadget()                                                                   ; create the editing gadget for this source (must call ChangeActiveSource() right after creating the gadget!)
 Declare SetReadOnly(Gadget, State)                                                             ; set the editing gadget to readonly
-Declare InsertCodeString(String$)                                                              ; insert given string at the current position (also converts to utf8 if needed)
+Declare InsertCodeString(String$, MoveCursor = #False)                                         ; insert given string at the current position (also converts to utf8 if needed)
 Declare Undo()                                                                                 ; perform the standard editior function
 Declare Redo()
 Declare Cut()
@@ -368,6 +366,7 @@ Declare.s UniqueFilename(File$)                     ; return a unique representa
 Declare   IsEqualFile(File1$, File2$)               ; returns true if the 2 filenames identify the same file
 Declare.s CreateRelativePath(BasePath$, FileName$)  ; turn the full path FileName$ into a relative one to BasePath$
 Declare.s ResolveRelativePath(BasePath$, FileName$) ; merge a base path and a relative path to a full path
+Declare   CreateDirectoryRecursive(Directory$)      ; create a directory and its parent directories, recursively if necessary
 
 ;- GotoWindow.pb
 ;
@@ -389,7 +388,7 @@ Declare GrepWindowEvents(EventID)
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
 Declare InitSyntaxHighlighting()      ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
-Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode) ; call the engine
+Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode, DisableFormatting = 0) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 
 ;- HighlightingFunctions.pb
@@ -499,6 +498,8 @@ Declare ApplyPreferences()            ; apply prefs changes to the editor and al
 Declare OpenPreferencesWindow()
 Declare UpdatePreferenceWindow()
 Declare PreferencesWindowEvents(EventID)
+Declare UpdatePreferenceSyntaxColor(ColorIndex, Color)
+Declare UpdateImageColorGadget(Gadget, Image, Color)
 
 ;- ProcedureBrowser.pb
 ;
@@ -600,7 +601,7 @@ Declare ChangeActiveSourcecode(*OldSource.SourceFile = 0) ; change the active so
 Declare NewSource(FileName$, ExecuteTool)                 ; create a new source (with optional name to load a file in)
 Declare SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, ReportErrors) ; save the settings of *ActiveSource (a file must be open in write mode!)
 Declare AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile)          ; fill the *Source structure with the project settings from *Buffer. (return new project length)
-Declare LoadSourceFile(FileName$, Activate = 1)                                          ; load the given file into a new source (if not already open)
+Declare LoadSourceFile(FileName$, Activate = 1, AddToRecentFiles = 1)                    ; load the given file into a new source (if not already open)
 Declare SaveSourceFile(FileName$)                                                        ; save the current source to the given name
 Declare LoadTempFile(FileName$)                                                          ; load the specified file over the current opened source
 Declare SaveTempFile(FileName$)                                                          ; save the current source to a temp name (no change of modified/unmodified by this!)

@@ -1,4 +1,4 @@
-;
+﻿;
 ;     File library documentation
 ;
 ;      (c) 2012 - Fantaisie Software
@@ -145,11 +145,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ExportFile(#File, MimeType$ [, Flags])
+@Function ExportFile(#File, MimeType$ [, Filename$])
 
 @Description
-  Exports the specified file to the user through a download. The file filename will be used
-  as download name.
+  Exports the specified file to the user through a download.
 
 @Parameter "#File"
   The file to export.
@@ -166,26 +165,30 @@
 @EndFixedFont
   Full list can be found here: @InternetLink "http://www.freeformatter.com/mime-types-list.html" "http://www.freeformatter.com/mime-types-list.html".
 
-@OptionalParameter "Flags"
-  Can be one the following value:
-@FixedFont
-  @#PB_LocalFile: the file will be exported as a download (default).
-  @#PB_GoogleDriveFile: the file will be exported on google drive. @@UseGoogleDrive should have been successfully called before using this flag. 
-                       If the flag @#PB_GoogleDriveFile has been specified with OpenFile() or CreateFile(),
-                       the file on goole drive will be updated. If the flag wasn't specified, then a new file will be created using the specified filename.
-@EndFixedFont
+@OptionalParameter "Filename$"
+  The filename to use for the download. If not specified the filename for the #File will be used.
 
 @NoReturnValue
 
 @Example
 @Code
-  If CreateFile(0, "SomeText.txt")
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+    
+  EndProcedure
+
+  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
     ExportFile(0, "text/plain")
-    
-    CloseFile(0)
+    CloseFile(0)                      
   EndIf
 @EndCode
 
@@ -210,14 +213,25 @@
 
 @Example
 @Code
-  If CreateFile(0, "SomeText.txt")
+  Procedure Callback(Status, Filename$, File, SizeRead)
+    Select Status
+      Case #PB_Status_Saved
+        ; File correctly saved
+        
+      Case #PB_Status_Error
+        ; File saving has failed
+    EndSelect
+    
+  EndProcedure
+
+  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
-    *Buffer = ExportFileMemory(0)
+   *Buffer = ExportFileMemory(0)
     Debug PeekS(*Buffer, 0, 3) ; Will display 'Fir'
-    
-    CloseFile(0)
+
+    CloseFile(0)                      
   EndIf
 @EndCode
 
@@ -576,10 +590,7 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
-                 to have access to local files. @@SelectedFileID is used to get the
-                 local file identifier.
-  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester can be called with the @#PB_Requester_GoogleDrive
-                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
+                 to have access to local files.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will save the file on client side using its filename when @@CloseFile is called. This file
@@ -682,10 +693,7 @@
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
   @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
-                 to have access to local files. @@SelectedFileID is used to get the
-                 local file identifier.
-  @#PB_GoogleDriveFile: the filename is a google drive file identifier. @@OpenFileRequester() can be called with the @#PB_Requester_GoogleDrive
-                 flag, @@SelectedFileID() can be used to get the google drive file identifier.
+                 to have access to local files.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will read the file on client side using its filename. The file should have been created before with @@OpenFile or @@CreateFile

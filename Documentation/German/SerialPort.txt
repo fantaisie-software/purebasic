@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     SerialPort library documentation
 ;
 ;      (c) Fantaisie Software
@@ -11,13 +11,13 @@
   und sie wird - trotz ihres "Alters" - immer noch weit verbreitet in der Industrie genutzt.
   Der Prozess der Herstellung von Computer-gesteuerten Hardware-Prototypen wird vereinfacht,
   wenn die serielle Schnittstelle eingesetzt wird. Diese Bibliothek bietet vollen Zugriff auf
-  die am Computer verfügbaren seriellen Schnittstellen. Einiges grundlegendes Wissen über die
-  in dieser Dokumentation verwendeten Begriffe wird benötigt, sehen Sie 
-  @InternetLink "http://de.wikipedia.org/wiki/RS-232" "Wikipedia - RS232" für weitere Informationen.
+  die am Computer verfÃ¼gbaren seriellen Schnittstellen. Einiges grundlegendes Wissen Ã¼ber die
+  in dieser Dokumentation verwendeten Begriffe wird benÃ¶tigt, sehen Sie 
+  @InternetLink "http://de.wikipedia.org/wiki/RS-232" "Wikipedia - RS232" fÃ¼r weitere Informationen.
 @LineBreak
 @LineBreak
   Hinweis: In der Befehlsbeschreibung dieser deutschen Dokumentation wird der Einfachheit halber
-  für die serielle Schnittstelle der englische Begriff "SerialPort" verwendet.  
+  fÃ¼r die serielle Schnittstelle der englische Begriff "SerialPort" verwendet.  
 
 @CommandList
 
@@ -30,7 +30,7 @@
 @Function Ergebnis = AvailableSerialPortInput(#SerialPort)
 
 @Description
-  Gibt die Anzahl verbleibender Bytes im  Eingabepuffer des SerialPorts zurück.
+  Gibt die Anzahl verbleibender Bytes im  Eingabepuffer des SerialPorts zurÃ¼ck.
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
@@ -48,7 +48,7 @@
 @Function Ergebnis = AvailableSerialPortOutput(#SerialPort)
 
 @Description
-  Gibt die Anzahl verbleibender Bytes im Ausgabepuffer des SerialPorts zurück.
+  Gibt die Anzahl verbleibender Bytes im Ausgabepuffer des SerialPorts zurÃ¼ck.
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
@@ -66,10 +66,10 @@
 @Function CloseSerialPort(#SerialPort)
 
 @Description
-  Schließt die serielle Schnittstelle, welche zuvor mittels @@OpenSerialPort geöffnet wurde.
+  SchlieÃŸt die serielle Schnittstelle, welche zuvor mittels @@OpenSerialPort geÃ¶ffnet wurde.
 
 @Parameter "#SerialPort"
-  Der zu schließende SerialPort. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  Der zu schlieÃŸende SerialPort. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
   "SerialPorts" freigegeben.
 
 @NoReturnValue
@@ -85,7 +85,7 @@
 @Function Ergebnis = GetSerialPortStatus(#SerialPort, Attribut)
 
 @Description
-  Gibt den Status des angegebenen SerialPorts zurück.
+  Gibt den Status des angegebenen SerialPorts zurÃ¼ck.
   
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
@@ -97,8 +97,8 @@
   @#PB_SerialPort_DCD: Ermittelt den DCD Signal Status (0 oder 1)
   @#PB_SerialPort_DSR: Ermittelt den DSR Signal Status (0 oder 1)
   @#PB_SerialPort_CTS: Ermittelt den CTS Signal Status (0 oder 1)
-  @#PB_SerialPort_XonCharacter : Zeichen, welches für die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255)
-  @#PB_SerialPort_XoffCharacter: Zeichen, welches für die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255)
+  @#PB_SerialPort_XonCharacter : Zeichen, welches fÃ¼r die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255)
+  @#PB_SerialPort_XoffCharacter: Zeichen, welches fÃ¼r die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255)
 @EndFixedFont
 
 @ReturnValue
@@ -111,13 +111,13 @@
 @Function Ergebnis = IsSerialPort(#SerialPort)
 
 @Description
-  Überprüft, ob der angegebene SerialPort gültig und korrekt initialisiert ist.
+  ÃœberprÃ¼ft, ob der angegebene SerialPort gÃ¼ltig und korrekt initialisiert ist.
 
 @Parameter "#SerialPort"
-  Der zu überprüfende SerialPort.
+  Der zu Ã¼berprÃ¼fende SerialPort.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der SerialPort gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn der SerialPort gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden.
@@ -134,7 +134,7 @@
 @Function Ergebnis = SerialPortError(#SerialPort)
 
 @Description
-  Gibt den Fehler auf dem SerialPort zurück, wenn @@ReadSerialPortData, @@WriteSerialPortData 
+  Gibt den Fehler auf dem SerialPort zurÃ¼ck, wenn @@ReadSerialPortData, @@WriteSerialPortData 
   oder @@WriteSerialPortString fehlschlagen. 
 
 @Parameter "#SerialPort"
@@ -143,23 +143,23 @@
 @ReturnValue
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_SerialPort_RxOver: Ein Eingabepuffer Überlauf (englisch "Overflow") ist aufgetreten.
+  @#PB_SerialPort_RxOver: Ein Eingabepuffer Ãœberlauf (englisch "Overflow") ist aufgetreten.
                          Es ist entweder kein Platz im Eingabepuffer oder ein Zeichen wurde
                          nach dem "End-of-file" (EOF; "Ende der Datei") empfangen.
-  @#PB_SerialPort_OverRun: Ein Zeichen-Puffer Überlauf ist aufgetreten.
-                          Das nächste Zeichen geht verloren.
-  @#PB_SerialPort_RxParity : Die Hardware stellte einen "Parity" (Parität) Fehler fest.
+  @#PB_SerialPort_OverRun: Ein Zeichen-Puffer Ãœberlauf ist aufgetreten.
+                          Das nÃ¤chste Zeichen geht verloren.
+  @#PB_SerialPort_RxParity : Die Hardware stellte einen "Parity" (ParitÃ¤t) Fehler fest.
   @#PB_SerialPort_Frame    : Die Hardware stellte einen "Framing" Fehler fest.
   @#PB_SerialPort_Break    : Die Hardware stellte eine "Break" Bedingung fest.
   @#PB_SerialPort_TxFull   : Die Applikation versuchte ein Zeichen zu senden, aber der Ausgabepuffer war voll.
-  @#PB_SerialPort_IOE      :  Ein I/O Fehler trat während der Kommunikation mit dem Gerät (englisch "device") auf.
-  @#PB_SerialPort_WaitingCTS  : Definiert, ob die Übertragung auf das zu sendende CTS (clear-to-send) Signal wartet.
-  @#PB_SerialPort_WaitingDSR  : Definiert, ob die Übertragung auf das zu sendende DSR (data-set-ready) Signal wartet.
-  @#PB_SerialPort_WaitingRLSD : Definiert, ob die Übertragung auf das zu sendende RLSD (receive-line-signal-detect) Signal wartet.
-  @#PB_SerialPort_XoffReceived: Definiert, ob die Übertragung wartet, weil ein XOFF Zeichen empfangen wurde.
-  @#PB_SerialPort_XoffSent    : Definiert, ob die Übertragung wartet, weil ein XOFF Zeichen übertragen wurde.
-                               Die Übertragung hält an, wenn das XOFF Zeichen an ein System übertragen wird, welches das
-                               nächste Zeichen als XON annimmt, unabhängig vom aktuellen Zeichen.
+  @#PB_SerialPort_IOE      :  Ein I/O Fehler trat wÃ¤hrend der Kommunikation mit dem GerÃ¤t (englisch "device") auf.
+  @#PB_SerialPort_WaitingCTS  : Definiert, ob die Ãœbertragung auf das zu sendende CTS (clear-to-send) Signal wartet.
+  @#PB_SerialPort_WaitingDSR  : Definiert, ob die Ãœbertragung auf das zu sendende DSR (data-set-ready) Signal wartet.
+  @#PB_SerialPort_WaitingRLSD : Definiert, ob die Ãœbertragung auf das zu sendende RLSD (receive-line-signal-detect) Signal wartet.
+  @#PB_SerialPort_XoffReceived: Definiert, ob die Ãœbertragung wartet, weil ein XOFF Zeichen empfangen wurde.
+  @#PB_SerialPort_XoffSent    : Definiert, ob die Ãœbertragung wartet, weil ein XOFF Zeichen Ã¼bertragen wurde.
+                               Die Ãœbertragung hÃ¤lt an, wenn das XOFF Zeichen an ein System Ã¼bertragen wird, welches das
+                               nÃ¤chste Zeichen als XON annimmt, unabhÃ¤ngig vom aktuellen Zeichen.
   @#PB_SerialPort_EOFSent: Definiert, ob das end-of-file (EOF) Zeichen empfangen wurde.
 @EndFixedFont  
 
@@ -173,14 +173,14 @@
 @Function SerialPortID = SerialPortID(#SerialPort)
 
 @Description
-  Gibt den eindeutigen Systembezeichner ("Identifier" bzw. ID) des SerialPorts zurück.
+  Gibt den eindeutigen Systembezeichner ("Identifier" bzw. ID) des SerialPorts zurÃ¼ck.
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
 
 @ReturnValue
-  Die ID des SerialPorts. Diese Funktion ist nützlich, wenn eine andere Befehlsbibliothek
-  oder API-Befehle einen Bezug auf eine serielle Schnittstelle benötigt.
+  Die ID des SerialPorts. Diese Funktion ist nÃ¼tzlich, wenn eine andere Befehlsbibliothek
+  oder API-Befehle einen Bezug auf eine serielle Schnittstelle benÃ¶tigt.
 
 @SeeAlso
   @@OpenSerialPort
@@ -189,10 +189,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenSerialPort(#SerialPort, SerialPortName$, Bauds, Parität, Daten, Stop.f, HandshakeModus, EingabePufferGröße, AusgabePufferGröße)
+@Function Ergebnis = OpenSerialPort(#SerialPort, SerialPortName$, Bauds, ParitÃ¤t, Daten, Stop.f, HandshakeModus, EingabePufferGrÃ¶ÃŸe, AusgabePufferGrÃ¶ÃŸe)
 
 @Description
-  Öffnet einen SerialPort (serielle Schnittstelle) zur weiteren Verwendung.
+  Ã–ffnet einen SerialPort (serielle Schnittstelle) zur weiteren Verwendung.
   
 @Parameter "#SerialPort"
   Eine Nummer zum Identifizieren des neuen SerialPort.
@@ -200,7 +200,7 @@
   automatisch zu generieren.
   
 @Parameter "SerialPortName$"
-  Textkennung (englisch "Text identifier") für die serielle Schnittstelle, zum Beispiel
+  Textkennung (englisch "Text identifier") fÃ¼r die serielle Schnittstelle, zum Beispiel
   "COM1" auf Windows oder "/dev/ttyS0" auf Linux. 
 
 @Parameter "Bauds"
@@ -211,19 +211,19 @@
     4800, 9600, 19200, 38400, 57600 or 115200
 @EndFixedFont
 
-@Parameter "Parität"
-  Definiert, wie die Parität (englisch "Parity") bei dieser Verbindung gehandhabt wird.
+@Parameter "ParitÃ¤t"
+  Definiert, wie die ParitÃ¤t (englisch "Parity") bei dieser Verbindung gehandhabt wird.
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_SerialPort_NoParity   : Keine Parität
-  @#PB_SerialPort_EvenParity : Gerade ("Even") Parität
-  @#PB_SerialPort_MarkParity : "Mark" Parität
-  @#PB_SerialPort_OddParity  : "Odd" Parität
-  @#PB_SerialPort_SpaceParity: "Space" Parität
+  @#PB_SerialPort_NoParity   : Keine ParitÃ¤t
+  @#PB_SerialPort_EvenParity : Gerade ("Even") ParitÃ¤t
+  @#PB_SerialPort_MarkParity : "Mark" ParitÃ¤t
+  @#PB_SerialPort_OddParity  : "Odd" ParitÃ¤t
+  @#PB_SerialPort_SpaceParity: "Space" ParitÃ¤t
 @EndFixedFont
 
 @Parameter "Data"
-  Definiert die Datenlänge, in Bytes (üblicherweise 7 oder 8).
+  Definiert die DatenlÃ¤nge, in Bytes (Ã¼blicherweise 7 oder 8).
   
 @Parameter "Stop"
   Legt die Anzahl an Stop-Bits (1, 1.5 oder 2) fest.
@@ -237,17 +237,17 @@
   @#PB_SerialPort_XonXoffHandshake: Xon/Xoff
 @EndFixedFont
 
-@Parameter "EingabePufferGröße"
-  Definiert die Größe des Eingabepuffers, in Bytes.
+@Parameter "EingabePufferGrÃ¶ÃŸe"
+  Definiert die GrÃ¶ÃŸe des Eingabepuffers, in Bytes.
   
-@Parameter "AusgabePufferGröße"
-  Definiert die Größe des Ausgabepuffers, in Bytes.
+@Parameter "AusgabePufferGrÃ¶ÃŸe"
+  Definiert die GrÃ¶ÃŸe des Ausgabepuffers, in Bytes.
   
 @ReturnValue
-  Ein Wert ungleich Null, wenn der SerialPort erfolgreich geöffnet wurde, andernfalls
+  Ein Wert ungleich Null, wenn der SerialPort erfolgreich geÃ¶ffnet wurde, andernfalls
   Null (er kann bereits in Benutzung sein, oder die Parameter sind falsch).
   Wenn @#PB_Any als #SerialPort Parameter verwendet wurde, dann wird im Erfolgsfall
-  die generierte Nummer zurückgegeben.
+  die generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -265,26 +265,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ReadSerialPortData(#SerialPort, *Puffer, Länge)
+@Function Ergebnis = ReadSerialPortData(#SerialPort, *Puffer, LÃ¤nge)
 
 @Description
   Liest eine beliebige Menge an Daten vom #SerialPort. Wenn der Eingabepuffer leer war,
-  wird diese Funktion das Programm blockieren, bis Daten verfügbar sind. 
-  Um zu überprüfen, ob Daten verfügbar sind, verwenden Sie @@AvailableSerialPortInput.
+  wird diese Funktion das Programm blockieren, bis Daten verfÃ¼gbar sind. 
+  Um zu Ã¼berprÃ¼fen, ob Daten verfÃ¼gbar sind, verwenden Sie @@AvailableSerialPortInput.
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
 
 @Parameter "*Puffer"
-  Die für das Einlesen der Daten zu verwendende Speicheradresse.
+  Die fÃ¼r das Einlesen der Daten zu verwendende Speicheradresse.
     
-@Parameter "Länge"
-  Die Länge der vom SerialPort zu lesenden Daten, in Bytes. Der angegebene Puffer
-  sollte groß genug sein, um diese verarbeiten zu können.
+@Parameter "LÃ¤nge"
+  Die LÃ¤nge der vom SerialPort zu lesenden Daten, in Bytes. Der angegebene Puffer
+  sollte groÃŸ genug sein, um diese verarbeiten zu kÃ¶nnen.
 
 @ReturnValue
-  Die Anzahl Bytes, welche aktuell gelesen wurden. Dies können weniger als die
-  angeforderte Länge sein. Wenn ein Lesefehler auftrat, wird Null zurückgegeben.
+  Die Anzahl Bytes, welche aktuell gelesen wurden. Dies kÃ¶nnen weniger als die
+  angeforderte LÃ¤nge sein. Wenn ein Lesefehler auftrat, wird Null zurÃ¼ckgegeben.
 
 @SeeAlso
   @@AvailableSerialPortInput
@@ -296,35 +296,35 @@
 @Function SerialPortTimeouts(#SerialPort, RIT, RTTC, RTTM, WTTC, WTTM)
 
 @Description
-  Ändert die standardmäßigen "Timeouts" (Zeitüberschreitungen) des SerialPort.
+  Ã„ndert die standardmÃ¤ÃŸigen "Timeouts" (ZeitÃ¼berschreitungen) des SerialPort.
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
 
 @Parameter "RIT"
-  RIT steht für 'ReadIntervalTimeout'. Definiert die maximale Zeit, in Millisekunden, welche zwischen der Ankunft
+  RIT steht fÃ¼r 'ReadIntervalTimeout'. Definiert die maximale Zeit, in Millisekunden, welche zwischen der Ankunft
   von zwei Zeichen auf der Kommunikationsverbindung vergehen darf. Der Standardwert ist 100 ms.
 
 @Parameter "RTTC"
-  RTTC steht für 'ReadTotalTimeoutConstant'. Definiert die Konstante, in Millisekunden, welche zum Berechnen der
-  totalen "Time-out" Periode für Lese-Operationen verwendet wird. Für jede Lese-Operation wird dieser
+  RTTC steht fÃ¼r 'ReadTotalTimeoutConstant'. Definiert die Konstante, in Millisekunden, welche zum Berechnen der
+  totalen "Time-out" Periode fÃ¼r Lese-Operationen verwendet wird. FÃ¼r jede Lese-Operation wird dieser
   Wert zum Produkt aus dem ReadTotalTimeoutMultiplier Element und der angeforderten Anzahl an Bytes
   hinzu addiert. Der Standardwert ist 100 ms.
 
 @Parameter "RTTM"
-  RTTM steht für 'ReadTotalTimeoutMultiplier'. Definiert den Multiplikator, in Millisekunden, welcher zum Berechnen
-  der totalen "Time-out" Periode für Lese-Operationen verwendet wird. Für jede Lese-Operation wird
+  RTTM steht fÃ¼r 'ReadTotalTimeoutMultiplier'. Definiert den Multiplikator, in Millisekunden, welcher zum Berechnen
+  der totalen "Time-out" Periode fÃ¼r Lese-Operationen verwendet wird. FÃ¼r jede Lese-Operation wird
   dieser Wert mit der angeforderten Anzahl zu lesender Bytes multipliziert. Der Standardwert ist 100 ms.
 
 @Parameter "WTTC"
-  WTTC steht für 'WriteTotalTimeoutConstant'. Definiert die Konstante, in Millisekunden, welchen zum Berechnen der
-  der totalen "Time-out" Periode für Schreib-Operationen verwendet wird. Für jede Schreib-Operation wird
+  WTTC steht fÃ¼r 'WriteTotalTimeoutConstant'. Definiert die Konstante, in Millisekunden, welchen zum Berechnen der
+  der totalen "Time-out" Periode fÃ¼r Schreib-Operationen verwendet wird. FÃ¼r jede Schreib-Operation wird
   dieser Wert zum Produkt aus dem WriteTotalTimeoutMultiplier Element und der Anzahl zu schreibender
   Bytes hinzu addiert. Der Standardwert ist 10 ms.
 
 @Parameter "WTTM"
-  WTTM steht für 'WriteTotalTimeoutMultiplier'. Definiert den Multiplikator, in Millisekunden, welcher zum Berechnen
-  der totalen "Time-out" Periode für Schreib-Operationen verwendet wird. Für jede Schreib-Operation wird
+  WTTM steht fÃ¼r 'WriteTotalTimeoutMultiplier'. Definiert den Multiplikator, in Millisekunden, welcher zum Berechnen
+  der totalen "Time-out" Periode fÃ¼r Schreib-Operationen verwendet wird. FÃ¼r jede Schreib-Operation wird
   dieser Wert mit der Anzahl zu schreibender Bytes multipliziert. Der Standardwert ist 100 ms.
 
 @NoReturnValue
@@ -339,7 +339,7 @@
 @Function SetSerialPortStatus(#SerialPort, Attribut, Wert)
 
 @Description
-  Ändert den angegebenen #SerialPort Status. 
+  Ã„ndert den angegebenen #SerialPort Status. 
 
 @Parameter "#SerialPort"
   Der zu verwendende SerialPort.
@@ -350,13 +350,13 @@
   @#PB_SerialPort_DTR: Setzt den DTR Signal Status (0 oder 1)
   @#PB_SerialPort_RTS: Setzt den RTS Signal Status (0 oder 1)
   @#PB_SerialPort_TXD: Setzt den TXD Signal Status (0 oder 1)
-  @#PB_SerialPort_XonCharacter : Zeichen, welches für die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255). Standardwert ist $11.
-  @#PB_SerialPort_XoffCharacter: Zeichen, welches für die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255). Standardwert ist $13.
+  @#PB_SerialPort_XonCharacter : Zeichen, welches fÃ¼r die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255). Standardwert ist $11.
+  @#PB_SerialPort_XoffCharacter: Zeichen, welches fÃ¼r die "Xon/Xoff Handshaking Sequenz" verwendet wird (zwischen 1 und 255). Standardwert ist $13.
 @EndFixedFont
 
 @Parameter "Wert"
   Der zu setzende Attribut-Wert. Siehe die 'Attribut' Beschreibung, um zu sehen, welche Werte
-  genutzt werden können.
+  genutzt werden kÃ¶nnen.
 
 @NoReturnValue
 
@@ -378,7 +378,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = WriteSerialPortData(#SerialPort, *Puffer, Länge)
+@Function Ergebnis = WriteSerialPortData(#SerialPort, *Puffer, LÃ¤nge)
 
 @Description
   Schreibt eine beliebige Menge an Daten auf die angegebene serielle Schnittstelle.
@@ -389,15 +389,15 @@
 @Parameter "*Puffer"
   Der zu schreibende Speicherpuffer.
   
-@Parameter "Länge"
-  Die zu schreibende Pufferlänge, in Bytes.
+@Parameter "LÃ¤nge"
+  Die zu schreibende PufferlÃ¤nge, in Bytes.
   
 @ReturnValue
   Die Anzahl an Bytes, welche auf die serielle Schnittstelle geschrieben wurden -
   oder Null, wenn die Operation fehlgeschlagen ist.
   
 @Remarks
-  Um zu überprüfen, wie viele Daten im Ausgabepuffer verfügbar sind, verwenden Sie
+  Um zu Ã¼berprÃ¼fen, wie viele Daten im Ausgabepuffer verfÃ¼gbar sind, verwenden Sie
   @@AvailableSerialPortOutput.
 
 @SeeAlso
@@ -431,7 +431,7 @@
   oder Null, wenn die Operation fehlgeschlagen ist.
   
 @Remarks
-  Um zu überprüfen, wie viele Daten im Ausgabepuffer verfügbar sind, verwenden Sie
+  Um zu Ã¼berprÃ¼fen, wie viele Daten im Ausgabepuffer verfÃ¼gbar sind, verwenden Sie
   @@AvailableSerialPortOutput.
 
 @SeeAlso

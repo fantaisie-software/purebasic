@@ -75,8 +75,10 @@ Procedure SetCompileTargetDefaults(*Target.CompileTarget)
   *Target\EnableXP         = OptionXPSkin
   *Target\EnableAdmin      = OptionVistaAdmin
   *Target\EnableUser       = OptionVistaUser
+  *Target\EnableWayland    = OptionEnableWayland
   *Target\DPIAware         = OptionDPIAware
   *Target\DllProtection    = OptionDllProtection
+  *Target\SharedUCRT       = OptionSharedUCRT
   *Target\EnableOnError    = OptionOnError
   *Target\ExecutableFormat = OptionExeFormat
   *Target\CPU              = OptionCPU

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Sprite library documentation
 ;
 ; (c) Fantaisie Software
@@ -10,44 +10,44 @@
 
   Les 'Sprites' sont bien connus des joueurs 
   sur ordinateur, ce sont des petites images 
-  parfois appelées 'brush' ou 'brushes' qui 
-  peuvent être affichées n'importe où sur 
-  l'écran. Les Sprites peuvent se déplacer 
+  parfois appelÃ©es 'brush' ou 'brushes' qui 
+  peuvent Ãªtre affichÃ©es n'importe oÃ¹ sur 
+  l'Ã©cran. Les Sprites peuvent se dÃ©placer 
   au dessus d'un plan graphique en utilisant 
   un mode transparent.@LineBreak
   Encore mieux, PureBasic permet d'effectuer 
-  des effets en temps réel comme l'ombrage, 
+  des effets en temps rÃ©el comme l'ombrage, 
   l'alphablending, la coloration, le zoom, 
-  la rotation, tout cela en mode fenêtré ou 
-  en mode plein écran ! 
+  la rotation, tout cela en mode fenÃªtrÃ© ou 
+  en mode plein Ã©cran ! 
 @LineBreak
 @LineBreak
-  Après l'initialisation de l'écran et de 
+  AprÃ¨s l'initialisation de l'Ã©cran et de 
   l'environnement sprite via @@InitSprite, 
-  vous pouvez commencer à ouvrir un  
-  @Link "Screen/OpenScreen" "plein écran" 
-  ou un écran 
-  @Link "Screen/OpenWindowedScreen" "fenêtré".
+  vous pouvez commencer Ã  ouvrir un  
+  @Link "Screen/OpenScreen" "plein Ã©cran" 
+  ou un Ã©cran 
+  @Link "Screen/OpenWindowedScreen" "fenÃªtrÃ©".
 @LineBreak
 @LineBreak
 @OS Windows
-  DirectX 9 est utilisé pour gérer les 
+  DirectX 9 est utilisÃ© pour gÃ©rer les 
   sprites. Cela permet d'utiliser 
-  l'accélération matérielle si elle est 
-  disponible. Une version récente de 
-  DirectX 9 doit être installée (voir ici: 
+  l'accÃ©lÃ©ration matÃ©rielle si elle est 
+  disponible. Une version rÃ©cente de 
+  DirectX 9 doit Ãªtre installÃ©e (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 @LineBreak
 @LineBreak
-  Deux @ReferenceLink "ide_compiler" "sous-systèmes" 
-  supplémentaires, "OpenGL" et "DirectX11", 
-  sont également disponibles pour gérer 
+  Deux @ReferenceLink "ide_compiler" "sous-systÃ¨mes" 
+  supplÃ©mentaires, "OpenGL" et "DirectX11", 
+  sont Ã©galement disponibles pour gÃ©rer 
   les sprites. 
 @EndOS
 
 @OS Linux
-  OpenGL est utilisé pour gérer les sprites. 
-  Cela permet d'utiliser l'accélération 
+  OpenGL est utilisÃ© pour gÃ©rer les sprites. 
+  Cela permet d'utiliser l'accÃ©lÃ©ration 
   du processeur graphique si elle est 
   disponible.
 @LineBreak
@@ -55,8 +55,8 @@
 @EndOS
  
 @OS MacOS
-  OpenGL est utilisé pour gérer les sprites. 
-  Cela permet d'utiliser l'accélération 
+  OpenGL est utilisÃ© pour gÃ©rer les sprites. 
+  Cela permet d'utiliser l'accÃ©lÃ©ration 
   du processeur graphique si elle est 
   disponible.
 @LineBreak
@@ -75,39 +75,39 @@
 @Function Resultat = CatchSprite(#Sprite, *AdresseMemoire [, Mode])
 
 @Description
-  Charge le sprite situé à l'adresse 
-  mémoire spécifiée.
+  Charge le sprite situÃ© Ã  l'adresse 
+  mÃ©moire spÃ©cifiÃ©e.
 
 @Parameter "#Sprite"
-  Le numéro d'identification du nouveau 
+  Le numÃ©ro d'identification du nouveau 
   sprite.
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 
 @Parameter "*AdresseMemoire"
-  L'adresse mémoire de l'image 
-  utilisée pour créer le sprite.
+  L'adresse mÃ©moire de l'image 
+  utilisÃ©e pour crÃ©er le sprite.
 
 @OptionalParameter "Mode"
-  Peut être une combinaison de (utiliser 
-  l'opérateur '|'):
+  Peut Ãªtre une combinaison de (utiliser 
+  l'opÃ©rateur '|'):
 @FixedFont
-  @#PB_Sprite_PixelCollision: Ajoute des informations spéciales pour gérer les collisions de pixels à travers @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Le sprite est créé avec un canal alpha (transparence), nécessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: Ajoute des informations spÃ©ciales pour gÃ©rer les collisions de pixels Ã  travers @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Le sprite est crÃ©Ã© avec un canal alpha (transparence), nÃ©cessaire pour utiliser @@DisplayTransparentSprite.
                              Le format de l'image doit le supporter (seulement PNG et TIFF pour l'instant).
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le sprite 
-  a été créé avec succès, zéro sinon.
+  a Ã©tÃ© crÃ©Ã© avec succÃ¨s, zÃ©ro sinon.
 
 @Remarks 
-  Le sprite peut être au format BMP (non 
-  compressé = non RLE) ou dans un des 
-  formats supportés par la bibliothèque 
+  Le sprite peut Ãªtre au format BMP (non 
+  compressÃ© = non RLE) ou dans un des 
+  formats supportÃ©s par la bibliothÃ¨que 
   @LibraryLink "imageplugin" "ImagePlugin".
 @LineBreak
   @@UseJPEGImageDecoder @LineBreak
@@ -117,30 +117,30 @@
   @@UseTGAImageDecoder 
 @LineBreak
 @LineBreak
-  Avant de charger un sprite, un écran doit 
-  être ouvert à l'aide de la commande 
+  Avant de charger un sprite, un Ã©cran doit 
+  Ãªtre ouvert Ã  l'aide de la commande 
   @@OpenScreen ou @@OpenWindowedScreen.@LineBreak
-  Un Sprite chargé peut être par la suite 
-  libéré par la fonction @@FreeSprite. @LineBreak
+  Un Sprite chargÃ© peut Ãªtre par la suite 
+  libÃ©rÃ© par la fonction @@FreeSprite. @LineBreak
   La commande 'CatchSprite' est utile quand il 
-  est nécessaire d'inclure directement
-  les sprites dans l'exécutable (en utilisant 
+  est nÃ©cessaire d'inclure directement
+  les sprites dans l'exÃ©cutable (en utilisant 
   @ReferenceLink "includes" "IncludeBinary"). 
-  Cette méthode n'est pas idéale
-  et devrait être évitée au maximum car en 
+  Cette mÃ©thode n'est pas idÃ©ale
+  et devrait Ãªtre Ã©vitÃ©e au maximum car en 
   faisant ceci, les sprites prennent deux 
-  fois plus de mémoire (une première fois dans 
-  l'exécutable, et une deuxième fois quand ils 
-  sont chargés). @LineBreak
-  Une autre utilisation souvent utilisée est de 
-  récupérer un sprite dans une banque 
-  de données compressée.
+  fois plus de mÃ©moire (une premiÃ¨re fois dans 
+  l'exÃ©cutable, et une deuxiÃ¨me fois quand ils 
+  sont chargÃ©s). @LineBreak
+  Une autre utilisation souvent utilisÃ©e est de 
+  rÃ©cupÃ©rer un sprite dans une banque 
+  de donnÃ©es compressÃ©e.
 @LineBreak
 @LineBreak
-  Le "?" est un pointeur sur une étiquette.
+  Le "?" est un pointeur sur une Ã©tiquette.
   @LineBreak 
   Plus d'informations sur les pointeurs et 
-  l'accès à la mémoire peuvent être trouvés 
+  l'accÃ¨s Ã  la mÃ©moire peuvent Ãªtre trouvÃ©s 
   @ReferenceLink "memory" "ici".
 
 @Example
@@ -174,34 +174,34 @@
 @LineBreak
 @LineBreak
   Par exemple, si un sprite fait 100*100 
-  pixels et que l'on définit une zone de 
+  pixels et que l'on dÃ©finit une zone de 
   'clipping' X=10, Y=10, Largeur=20, 
   Hauteur=20, alors seule la zone 
   rectangulaire comprise entre ces 
-  coordonnées sera affichée. 
+  coordonnÃ©es sera affichÃ©e. 
   Le Sprite se comporte alors exactement 
   comme un nouveau sprite de 20*20. 
   
 @Parameter "#Sprite"
-  Le sprite à découper.
+  Le sprite Ã  dÃ©couper.
   
 @Parameter "X, Y"
-  La position de départ de la découpe.
+  La position de dÃ©part de la dÃ©coupe.
 
 @Parameter "Largeur, Hauteur"
-  Les dimensions de la découpe, en pixels.
+  Les dimensions de la dÃ©coupe, en pixels.
 
 @NoReturnValue
 
 @Remarks
-  Pour enlever la zone de découpe 
+  Pour enlever la zone de dÃ©coupe 
   ('clipping') du Sprite, la constante 
-  @#PB_Default doit être spécifiée dans 
+  @#PB_Default doit Ãªtre spÃ©cifiÃ©e dans 
   'X', 'Y', et/ou 'Largeur', 'Hauteur'.
 @LineBreak
 @LineBreak
   Sur certaines anciennes cartes graphiques, ClipSprite() ne fonctionne pas correctement si la taille du sprite
-  dépasse la taille de l'écran.
+  dÃ©passe la taille de l'Ã©cran.
 
 @Example
 @Code
@@ -234,30 +234,30 @@ Delay(3000)
   Copie le #Sprite1 sur le #Sprite2. 
   
 @Parameter "#Sprite1"
-  Le numéro d'identifiant du sprite à copier.
+  Le numÃ©ro d'identifiant du sprite Ã  copier.
   
 @Parameter "#Sprite2"
-  Un numéro d'identifiant du sprite de 
+  Un numÃ©ro d'identifiant du sprite de 
   destination. 
   @LineBreak
   @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 @LineBreak  
 @LineBreak
-  Si le #Sprite2 n'existe pas, il est créé.
+  Si le #Sprite2 n'existe pas, il est crÃ©Ã©.
  
 @OptionalParameter "Mode"
-  Peut être une combinaison de (utiliser '|')
+  Peut Ãªtre une combinaison de (utiliser '|')
 @FixedFont
-  @#PB_Sprite_PixelCollision: Ajoute des informations spéciales pour gérer les collisions de pixels à travers @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Le sprite est créé avec un canal alpha (transparence), nécessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: Ajoute des informations spÃ©ciales pour gÃ©rer les collisions de pixels Ã  travers @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Le sprite est crÃ©Ã© avec un canal alpha (transparence), nÃ©cessaire pour utiliser @@DisplayTransparentSprite.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le sprite 
-  a été copié avec succès, zéro sinon.
+  a Ã©tÃ© copiÃ© avec succÃ¨s, zÃ©ro sinon.
 
 @Example
 @Code
@@ -283,91 +283,108 @@ Delay(3000)
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateSprite(#Sprite, Largeur, Hauteur [, Mode])
+@Function Resultat = CreateSprite(#Sprite, Largeur, Hauteur [, Options])
 
 @Description
-  Crée un nouveau Sprite.
+  CrÃ©e un nouveau Sprite.
 
 @Parameter "#Sprite"
-  Le numéro d'identifiant du nouveau sprite.
+  Le numÃ©ro d'identifiant du nouveau sprite.
   @LineBreak
   @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "Largeur, Hauteur"
   Les dimensions du nouveau sprite, 
   en pixels.
 
-@OptionalParameter "Mode"
-  Peut être une combinaison de (utiliser '|')
+@OptionalParameter "Options"
+  Peut Ãªtre une combinaison de (utiliser '|')
 @FixedFont
-  @#PB_Sprite_PixelCollision: Ajoute des informations spéciales pour gérer les collisions de pixels à travers @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Le sprite est créé avec un canal alpha (transparence), nécessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: Ajoute des informations spÃ©ciales pour gÃ©rer les collisions de pixels Ã  travers @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Le sprite est crÃ©Ã© avec un canal alpha (transparence), nÃ©cessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_TransparentÂ   : Le sprite est crÃ©Ã© de maniÃ¨re totalement transparente (valeur du canal alpha dÃ©finie sur 0). 
+                             Si vous utilisez @@DrawingMode, dÃ©finissez @#PB_DrawingMode_AllChannels sur @@SpriteOutput.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le sprite 
-  a été créé avec succès, zéro sinon.
+  a Ã©tÃ© crÃ©Ã© avec succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  CreateSprite() doit être appelée dans 
-  le même thread où @@OpenScreen a été 
-  appelé.
+  CreateSprite() doit Ãªtre appelÃ©e dans 
+  le mÃªme thread oÃ¹ @@OpenScreen a Ã©tÃ© 
+  appelÃ©.
 
-@Example
+@Example CreateSprite et l'option de transparence
 @Code
-InitSprite()
-
-OpenScreen(800,600,32,"Sprite")
-
- ;Création du sprite
-CreateSprite(0,200,200)
-StartDrawing(SpriteOutput(0))
-DrawingMode(#PB_2DDrawing_Gradient)      
-BackColor(RGB(255,255,255))
-FrontColor(RGB(0,0,255))     
-CircularGradient(100, 100, 100)     
-Circle(100, 100, 100)
-CircularGradient(350, 100, 75)
-Circle(300, 100, 100)
-StopDrawing()
-
-DisplaySprite(0, 210, 160)
-
-FlipBuffers()
-Delay(3000)
+  InitSprite()
+   
+  OpenWindow(0, 0, 0, 640, 480, "Sprite...", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+  If OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, #True, 0, 0)
+    
+    CreateSprite(0, 64, 64, #PB_Sprite_AlphaBlending | #PB_Sprite_Transparent)
+    If StartDrawing(SpriteOutput(0))
+      DrawingMode(#PB_2DDrawing_AllChannels)
+      Circle(16, 16, 8, RGBA(255, 0, 0, 255)) ; cercle rouge opaque
+      Circle(32, 32, 8, RGBA(0, 255, 0, 128)) ; cercle vert semi-transparent
+      StopDrawing()
+    EndIf
+      
+    Repeat
+      Repeat ; Il est trÃ¨s important de traiter tous les Ã©vÃ©nements restants dans la file d'attente Ã  chaque image
+        Event = WindowEvent()
+        If Event = #PB_Event_CloseWindow
+          End
+        EndIf
+      Until Event = 0
+      
+      ClearScreen(RGB(0, 0, 0)) ; Un fond noir
+      
+      DisplayTransparentSprite(0, 300, 200)
+      
+      FlipBuffers()
+    ForEver
+        
+  Else
+    Debug "Impossible d'ouvrir l'Ã©cran fenÃªtrÃ© !"
+  EndIf
 @EndCode
+
  
 @SeeAlso
-  @@SpriteOutput
+  @@GrabSprite, @@SpriteOutput
 
 @SupportedOS
   
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, X, Y)
+@Function DisplaySprite(#Sprite, X.f, Y.f)
 
 @Description
-  Affiche un Sprite sur l'écran courant.
+  Affiche un Sprite sur l'Ã©cran courant.
   
 @Parameter "#Sprite"
-  Le sprite à afficher.
+  Le sprite Ã  afficher.
   
-@Parameter "X, Y"
-  Les coordonnées du sprite, en pixels, 
-  dans l' @LibraryLink "screen" "écran".
-
+@Parameter "X.f, Y.f"
+  Les coordonnÃ©es du sprite, en pixels, dans l' @LibraryLink "screen" "Ã©cran".
+  @LineBreak
+  @LineBreak 
+  Elles peuvent Ãªtre spÃ©cifiÃ©s comme des nombres flottants entre les pixels physiques, le moteur interpolera automatiquement 
+  le sprite pour lisser l'affichage (non pris en charge sur les sous-systÃ¨mes DirectX9 et DirectX11).
+  
 @NoReturnValue
 
 @Remarks
   Comme il n'y a pas de couleur transparente, 
   cette fonction est plus rapide que 
   @@DisplayTransparentSprite.@LineBreak 
-  Il est parfaitement autorisé d'afficher 
-  le sprite partiellement ou complètement 
-  hors de l'écran.
+  Il est parfaitement autorisÃ© d'afficher 
+  le sprite partiellement ou complÃ¨tement 
+  hors de l'Ã©cran.
  
 @Example
 @Code
@@ -375,7 +392,7 @@ InitSprite()
 
 OpenScreen(800,600,32,"Sprite")
 
- ;Création du sprite
+ ;CrÃ©ation du sprite
 CreateSprite(0,200,200)
 StartDrawing(SpriteOutput(0))
 DrawingMode(#PB_2DDrawing_Gradient)      
@@ -402,31 +419,34 @@ Delay(3000)
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, X, Y [, Intensite [, Couleur]])
+@Function DisplayTransparentSprite(#Sprite, X.f, Y.f [, Intensite [, Couleur]])
 
 @Description
   Affiche un Sprite avec une couleur de 
-  transparence sur l'écran courant.
+  transparence sur l'Ã©cran courant.
 
 @Parameter "#Sprite"
-  Le sprite à afficher.
+  Le sprite Ã  afficher.
   
-@Parameter "X, Y"
-  Les coordonnées du sprite, en pixels, 
-  dans l' @LibraryLink "screen" "écran".
-
+@Parameter "X.f, Y.f"
+  Les coordonnÃ©es du sprite, en pixels, dans l' @LibraryLink "screen" "Ã©cran".
+  @LineBreak
+  @LineBreak 
+  Elles peuvent Ãªtre spÃ©cifiÃ©s comme des nombres flottants entre les pixels physiques, le moteur interpolera automatiquement 
+  le sprite pour lisser l'affichage (non pris en charge sur les sous-systÃ¨mes DirectX9 et DirectX11).
+  
 @OptionalParameter "Intensite"
-  Le niveau d'intensité d'affichage du 
+  Le niveau d'intensitÃ© d'affichage du 
   sprite.
 @LineBreak
 @LineBreak
   Les valeur valides sont comprises entre 
-  0 (entièrement transparent) à 255 
-  (complètement opaque). @LineBreak
-  La valeur par défaut est 255.
+  0 (entiÃ¨rement transparent) Ã  255 
+  (complÃ¨tement opaque). @LineBreak
+  La valeur par dÃ©faut est 255.
   
 @OptionalParameter "Couleur"
-  La couleur utilisée pour afficher le 
+  La couleur utilisÃ©e pour afficher le 
   sprite.
 @LineBreak
 @LineBreak  
@@ -437,14 +457,14 @@ Delay(3000)
 
 @Remarks
   La couleur noire (RGB(0,0,0,)) est la 
-  couleur transparente par défaut, cette 
-  couleur ne sera donc pas affichée. 
+  couleur transparente par dÃ©faut, cette 
+  couleur ne sera donc pas affichÃ©e. 
   @LineBreak 
-  Elle peut être changée avec la commande 
+  Elle peut Ãªtre changÃ©e avec la commande 
   @@TransparentSpriteColor. @LineBreak
-  Il est parfaitement autorisé d'afficher 
-  le sprite partiellement ou complètement 
-  hors de l'écran.
+  Il est parfaitement autorisÃ© d'afficher 
+  le sprite partiellement ou complÃ¨tement 
+  hors de l'Ã©cran.
 
 @Example
 @Code
@@ -471,18 +491,18 @@ Delay(3000)
 @Function FreeSprite(#Sprite) 
 
 @Description
-  Supprime un Sprite de la mémoire. 
+  Supprime un Sprite de la mÃ©moire. 
 
 @Parameter "#Sprite"
-  Le sprite à libérer. 
+  Le sprite Ã  libÃ©rer. 
   @LineBreak
   @LineBreak
-  Si @#PB_All est spécifié, tous les sprites restants sont libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les sprites restants sont libÃ©rÃ©s.
 
 @NoReturnValue
 
 @Remarks
-  Tous les sprites restants sont automatiquement libérés quand le programme se 
+  Tous les sprites restants sont automatiquement libÃ©rÃ©s quand le programme se 
   termine.
 
 @SeeAlso @@CreateSprite
@@ -491,73 +511,72 @@ Delay(3000)
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = GrabSprite(#Sprite, X, Y, Largeur, Hauteur [, Mode])
+@Function Resultat = GrabSprite(#Sprite, X, Y, Largeur, Hauteur [, Options])
 
 @Description
-  Capture une zone de l'écran et crée un 
+  Capture une zone de l'Ã©cran et crÃ©e un 
   nouveau Sprite avec son contenu.
   
 @Parameter "#Sprite"
-  Le numéro d'identifiant du nouveau sprite.
+  Le numÃ©ro d'identifiant du nouveau sprite.
   @LineBreak
   @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
  
 @Parameter "X, Y"
-  Les coordonnées de la zone de capture, 
+  Les coordonnÃ©es de la zone de capture, 
   en pixels.
 
 @Parameter "Largeur, Hauteur"
   Les dimensions de la zone de capture, 
   en pixels.
 
-@OptionalParameter "Mode"
-  Peut être une combinaison de (utiliser '|')
+@OptionalParameter "Options"
+  Peut Ãªtre une combinaison de (utiliser '|')
 @FixedFont
-  @#PB_Sprite_PixelCollision: Ajoute des informations spéciales pour gérer les collisions de pixels à travers @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Le sprite est créé avec un canal alpha (transparence), nécessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: Ajoute des informations spÃ©ciales pour gÃ©rer les collisions de pixels Ã  travers @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Le sprite est crÃ©Ã© avec un canal alpha (transparence), nÃ©cessaire pour utiliser @@DisplayTransparentSprite.
+                             La couleur transparente dÃ©finie par dÃ©faut avec @@TransparentSpriteColor est automatiquement appliquÃ©e.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  capture s'est faite avec succès, zéro 
+  capture s'est faite avec succÃ¨s, zÃ©ro 
   sinon.
   
 @Remarks
-  GrabSprite() doit toujours être appelé 
-  en dehors d'un bloc @@StartDrawing : 
-  @@StopDrawing.
-
+  GrabSprite() doit toujours Ãªtre appelÃ© en dehors d'un bloc @@StartDrawing : @@StopDrawing.@LineBreak
+  La couleur de transparence du sprite est automatiquement appliquÃ©e lors de l'utilisation de l'indicateur AlphaBlending.
+  
 @Example
 @Code
-InitSprite()
+  InitSprite()
 
-OpenScreen(800,600,32,"Sprite")
+  OpenScreen(800,600,32,"Sprite")
  
- ;Création du sprite 0
-CreateSprite(0,200,200)
-StartDrawing(SpriteOutput(0))
-Circle(100, 100, 100, RGB(255,255,0))
-StopDrawing()
+ ;CrÃ©ation du sprite 0
+  CreateSprite(0,200,200)
+  StartDrawing(SpriteOutput(0))
+  Circle(100, 100, 100, RGB(255,255,0))
+  StopDrawing()
 
  ;Affichage du sprite 0
-DisplaySprite(0, 300, 200)
+  DisplaySprite(0, 300, 200)
 
- ;Capture d'une zone de l'écran et création du sprite 1
-GrabSprite(1, 400, 300, 100, 100)
+ ;Capture d'une zone de l'Ã©cran et crÃ©ation du sprite 1
+  GrabSprite(1, 400, 300, 100, 100)
 
  ;Affichage du sprite 1
-DisplaySprite(1, 500, 100)
+  DisplaySprite(1, 500, 100)
 
-FlipBuffers()
+  FlipBuffers()
 
-Delay(5000)
+  Delay(5000)
 @EndCode
 
-@SeeAlso @@CreateSprite, @@ClipSprite, 
-@@DisplaySprite, @@DisplayTransparentSprite
+@SeeAlso @@CreateSprite, @@ClipSprite, @@DisplaySprite, @@DisplayTransparentSprite
   
 @SupportedOS
 
@@ -566,29 +585,29 @@ Delay(5000)
 @Function Resultat = InitSprite() 
 
 @Description
-  Initialise l'environnement nécessaire au 
+  Initialise l'environnement nÃ©cessaire au 
   fonctionnement des sprites. Vous devez
-  placer cette fonction au début de votre 
+  placer cette fonction au dÃ©but de votre 
   code source si vous souhaitez utiliser 
-  les fonctions de la bibliothèque Sprite.
+  les fonctions de la bibliothÃ¨que Sprite.
 
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'initialisation s'est faite avec succès, 
-  zéro sinon.@LineBreak
-  Il est conseillé de tester cette valeur 
+  l'initialisation s'est faite avec succÃ¨s, 
+  zÃ©ro sinon.@LineBreak
+  Il est conseillÃ© de tester cette valeur 
   car en cas d'erreur d'initialisation, 
   vous devez alors quitter le programme ou 
   annuler tous les appels aux fonctions 
-  de la bibliothèque Sprite.
+  de la bibliothÃ¨que Sprite.
 
 @OS Windows
 @LineBreak
 @LineBreak
   Cette fonction tente d'initialiser DirectX 
-  9. Les causes probables d'un échec sont 
+  9. Les causes probables d'un Ã©chec sont 
   l'absence de DirectX ou une version trop 
   ancienne.
 @EndOS
@@ -597,8 +616,8 @@ Delay(5000)
 @LineBreak
 @LineBreak
   Cette fonction tente d'initialiser la 
-  bibliothèque openGL. Les causes probables 
-  d'un échec sont l'absence de OpenGL ou 
+  bibliothÃ¨que openGL. Les causes probables 
+  d'un Ã©chec sont l'absence de OpenGL ou 
   une version trop ancienne. 
 @EndOS  
 
@@ -610,23 +629,23 @@ Delay(5000)
 
 @Description
   Teste si un Sprite est correctement 
-  initialisé. 
+  initialisÃ©. 
   
 @Parameter "#Sprite"
-  Le sprite à tester.
+  Le sprite Ã  tester.
 
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  sprite est correctement initialisé, 
-  zéro sinon.
+  sprite est correctement initialisÃ©, 
+  zÃ©ro sinon.
     
 @Remarks
-  Cette fonction a été créée pour
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour
   pouvoir passer n'importe quelle valeur 
-  en paramètre sans qu'il ne puisse y avoir 
+  en paramÃ¨tre sans qu'il ne puisse y avoir 
   de plantage. 
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
   
 @SeeAlso
   @@CreateSprite, @@LoadSprite
@@ -638,34 +657,34 @@ Delay(5000)
 @Function Resultat = LoadSprite(#Sprite, Fichier$ [, Mode])
 
 @Description
-  Charge un Sprite en mémoire.
+  Charge un Sprite en mÃ©moire.
 
 @Parameter "#Sprite"
-  Le numéro d'identifiant du nouveau sprite.
+  Le numÃ©ro d'identifiant du nouveau sprite.
 @LineBreak
 @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
    
 @Parameter "Fichier$"
-  Le chemin et le nom du fichier à utiliser pour créer le sprite.
+  Le chemin et le nom du fichier Ã  utiliser pour crÃ©er le sprite.
 
 @OptionalParameter "Mode"
-  Peut être une combinaison de (utiliser '|')
+  Peut Ãªtre une combinaison de (utiliser '|')
 @FixedFont
-  @#PB_Sprite_PixelCollision: Ajoute des informations spéciales pour gérer les collisions de pixels à travers @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Le sprite est créé avec un canal alpha (transparence, PNG et TIFF), nécessaire pour utiliser @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: Ajoute des informations spÃ©ciales pour gÃ©rer les collisions de pixels Ã  travers @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : Le sprite est crÃ©Ã© avec un canal alpha (transparence, PNG et TIFF), nÃ©cessaire pour utiliser @@DisplayTransparentSprite.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le sprite 
-  a été chargé correctement, zéro sinon.
+  a Ã©tÃ© chargÃ© correctement, zÃ©ro sinon.
   
 @Remarks
-  Le fichier peut être une image au format 
-  BMP, ou dans un des formats supportés 
-  par la bibliothèque 
+  Le fichier peut Ãªtre une image au format 
+  BMP, ou dans un des formats supportÃ©s 
+  par la bibliothÃ¨que 
   @LibraryLink "imageplugin" "ImagePlugin". 
 @LineBreak
 @LineBreak
@@ -677,17 +696,17 @@ Delay(5000)
   @@UseTGAImageDecoder 
 @LineBreak 
 @LineBreak  
-  Avant de charger un sprite, un écran 
-  doit être ouvert à l'aide de la commande 
+  Avant de charger un sprite, un Ã©cran 
+  doit Ãªtre ouvert Ã  l'aide de la commande 
   @@OpenScreen ou @@OpenWindowedScreen.
 @LineBreak
 @LineBreak
-  Les sprites ne devraient pas être plus 
-  grands que l'écran utilisé. @LineBreak
+  Les sprites ne devraient pas Ãªtre plus 
+  grands que l'Ã©cran utilisÃ©. @LineBreak
   Utiliser de plus grands sprites peut 
-  éventuellement fonctionner sur certains 
-  matériels, et pas sur d'autres. Mieux 
-  vaut découper votre grand sprite en 
+  Ã©ventuellement fonctionner sur certains 
+  matÃ©riels, et pas sur d'autres. Mieux 
+  vaut dÃ©couper votre grand sprite en 
   plusieurs petits.
 
 @Example
@@ -716,43 +735,43 @@ Delay(3000)
   Enregistre un Sprite dans un fichier.
   
 @Parameter "#Sprite"
-  Le sprite à enregistrer.
+  Le sprite Ã  enregistrer.
   
 @Parameter "Fichier$"
-  Le chemin et le nom du fichier à utiliser.
+  Le chemin et le nom du fichier Ã  utiliser.
 
 @OptionalParameter "ImagePlugin"
   Peut prendre l'une des constantes 
   suivantes:
 @FixedFont
-  @#PB_ImagePlugin_BMP      : Enregistre l'image en BMP  (format par défaut)
-  @#PB_ImagePlugin_JPEG     : Enregistre l'image en JPEG (la commande @@UseJPEGImageEncoder doit être utilisée)
-  @#PB_ImagePlugin_JPEG2000 : Enregistre l'image en JPEG2000 (la commande @@UseJPEG2000ImageEncoder doit être utilisée)
-  @#PB_ImagePlugin_PNG      : Enregistre l'image en PNG  (la commande @@UsePNGImageEncoder doit être utilisée)
+  @#PB_ImagePlugin_BMP      : Enregistre l'image en BMP  (format par dÃ©faut)
+  @#PB_ImagePlugin_JPEG     : Enregistre l'image en JPEG (la commande @@UseJPEGImageEncoder doit Ãªtre utilisÃ©e)
+  @#PB_ImagePlugin_JPEG2000 : Enregistre l'image en JPEG2000 (la commande @@UseJPEG2000ImageEncoder doit Ãªtre utilisÃ©e)
+  @#PB_ImagePlugin_PNG      : Enregistre l'image en PNG  (la commande @@UsePNGImageEncoder doit Ãªtre utilisÃ©e)
 @EndFixedFont
 
 @OptionalParameter "Options"
-  Option de sauvegarde, dépendant du format 
+  Option de sauvegarde, dÃ©pendant du format 
   d'enregistrement choisi.@LineBreak
-  Pour le moment, seul le réglage de la 
-  qualité de l'image est proposé.@LineBreak
-  Il est possible de régler la qualité 
-  d'une image à l'aide d'une valeur allant
-  de 0 (plus mauvaise qualité) à 10 (qualité 
+  Pour le moment, seul le rÃ©glage de la 
+  qualitÃ© de l'image est proposÃ©.@LineBreak
+  Il est possible de rÃ©gler la qualitÃ© 
+  d'une image Ã  l'aide d'une valeur allant
+  de 0 (plus mauvaise qualitÃ©) Ã  10 (qualitÃ© 
   maximale). Seuls les plugins JPEG et 
   JPEG2000 supportent cette option (la 
-  qualité par défaut est fixée à 7 si 
-  aucune option n'est spécifiée).
+  qualitÃ© par dÃ©faut est fixÃ©e Ã  7 si 
+  aucune option n'est spÃ©cifiÃ©e).
 
 @ReturnValue
   Renvoie une valeur non nulle si le sprite 
-  a été sauvegardé avec succès, zéro sinon.
+  a Ã©tÃ© sauvegardÃ© avec succÃ¨s, zÃ©ro sinon.
   
 @Remarks
-  Par défaut, le format de sauvegarde est 
+  Par dÃ©faut, le format de sauvegarde est 
   le BMP 24 bits. @LineBreak
-  Très utile avec la fonction @@GrabSprite 
-  pour faire des copies d'écrans par exemple. 
+  TrÃ¨s utile avec la fonction @@GrabSprite 
+  pour faire des copies d'Ã©crans par exemple. 
 
 @Example
 @Code
@@ -761,7 +780,7 @@ OpenScreen(800,600,32,"Sprite")
 LoadSprite(0,#PB_Compiler_Home +"Examples/Sources/Data/PureBasicLogo.bmp")  
 DisplaySprite(0, 200, 200)
 
- ;Capture de l'écran entier.
+ ;Capture de l'Ã©cran entier.
 GrabSprite(1, 0, 0, 800, 600)
 
 FlipBuffers()
@@ -787,38 +806,38 @@ Delay(3000)
   Teste si deux Sprites se chevauchent. 
   
 @Parameter "#Sprite1"
-  Le premier sprite à tester.
+  Le premier sprite Ã  tester.
 
 @Parameter "X1, Y1"
-  Coordonnées du premier sprite, en pixels.
+  CoordonnÃ©es du premier sprite, en pixels.
 
 @Parameter "#Sprite2"
-  Le second sprite à tester.
+  Le second sprite Ã  tester.
 
 @Parameter "X2, Y2"
-  Coordonnées du second sprite, en pixels.
+  CoordonnÃ©es du second sprite, en pixels.
 
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  sprites entrent en collision, zéro sinon.
+  sprites entrent en collision, zÃ©ro sinon.
     
 @Remarks
  Cette fonction teste une zone rectangulaire, 
- ce qui la rend rapide mais peu précise, 
-  mais cependant très utile dans des jeux 
+ ce qui la rend rapide mais peu prÃ©cise, 
+  mais cependant trÃ¨s utile dans des jeux 
   d'arcade. Fonctionne aussi avec les 
-  sprites zoomés.
+  sprites zoomÃ©s.
 @LineBreak
 @LineBreak
   Utiliser @@SpritePixelCollision pour un 
-  test de collision précis.
+  test de collision prÃ©cis.
    
 @Example
 @Code
 InitSprite()
 OpenScreen(800,600,32,"Exemple OpenScreen")
 
- ;Sprite Flèche
+ ;Sprite FlÃ¨che
 CreateSprite(0,20,20,#PB_Sprite_PixelCollision)
 StartDrawing(SpriteOutput(0))
 DrawText(0,0,"-->",RGB(255,255,0), RGB(0,0,0))
@@ -841,29 +860,29 @@ Circle(50,50,50,RGB(255,0,0))
 DrawText(50-TextWidth("BOOM")/2,50-TextHeight("BOOM")/2,"BOOM",RGB(255,255,0),RGB(255,0,0))
 StopDrawing()
 
- ;Coordonnée de départ en x de la flèche
+ ;CoordonnÃ©e de dÃ©part en x de la flÃ¨che
 x=100
 
  ;Boucle 
-While x < 800  ; Si la flèche manque la cible alors le programme se terminera quand x = 800
+While x < 800  ; Si la flÃ¨che manque la cible alors le programme se terminera quand x = 800
   
-  ;La flèche avancera de 2 pixels vers la droite
+  ;La flÃ¨che avancera de 2 pixels vers la droite
   x=x+2
   
-  ;Effacer complètement l'écran et afficher un fond noir
+  ;Effacer complÃ¨tement l'Ã©cran et afficher un fond noir
   ClearScreen(RGB(0,0,0))
   
-  ;Affichage de la flèche
+  ;Affichage de la flÃ¨che
   DisplaySprite(0, x, 250)
   ;Affichage de la cible
   DisplaySprite(1, 500, 200)
   
-  ;Détection de collision entre la flèche et la cible
+  ;DÃ©tection de collision entre la flÃ¨che et la cible
   If SpriteCollision(0, x, 250, 1, 500, 200) <> 0
-    ;S'il y a collision alors on efface l'écran et on affiche BOOM
+    ;S'il y a collision alors on efface l'Ã©cran et on affiche BOOM
     ClearScreen(RGB(0,0,0))
     DisplaySprite(2, 500, 200)
-    ;On inverse les buffers pour rendre la scène visible à l'écran.
+    ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
     FlipBuffers()
     Delay(2000)
     ClearScreen(RGB(0,0,0))
@@ -871,8 +890,8 @@ While x < 800  ; Si la flèche manque la cible alors le programme se terminera qu
   EndIf 
   
   
-  ;Maintenant que tout est calculé et affiché dans le buffer invisible,
-  ;On inverse les buffers pour rendre la scène visible à l'écran.
+  ;Maintenant que tout est calculÃ© et affichÃ© dans le buffer invisible,
+  ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
   FlipBuffers()
   
   Delay(10)
@@ -895,7 +914,7 @@ Wend
   Sprite.
  
 @Parameter "#Sprite"
-  Le sprite à utiliser.
+  Le sprite Ã  utiliser.
 
 @ReturnValue
   La profondeur de couleurs du sprite, en 
@@ -906,7 +925,7 @@ Wend
 InitSprite()
 OpenScreen(800,600,32,"Exemple OpenScreen 32 bits")
 
- ;Sprite Cible 32 bits car l'écran est 32 bits.
+ ;Sprite Cible 32 bits car l'Ã©cran est 32 bits.
 CreateSprite(0,100,100)
 StartDrawing(SpriteOutput(0))
 Circle(50,50,49,RGB(255,255,0))
@@ -919,13 +938,13 @@ StopDrawing()
  ;Affichage de la cible
 DisplaySprite(0, 500, 200)
 
- ;Affichage d'un texte sur l'écran (sans sprite).
+ ;Affichage d'un texte sur l'Ã©cran (sans sprite).
 StartDrawing(ScreenOutput())
 DrawText(50, 250, "Profondeur de couleurs du sprite : " + SpriteDepth(0) + " bits.")
 StopDrawing()   
 
- ;Maintenant que tout est calculé et affiché dans le buffer invisible,
- ;On inverse les buffers pour rendre la scène visible à l'écran.
+ ;Maintenant que tout est calculÃ© et affichÃ© dans le buffer invisible,
+ ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
 FlipBuffers() 
 
 Delay(5000)
@@ -946,7 +965,7 @@ Delay(5000)
   Renvoie la hauteur d'un Sprite.
  
 @Parameter "#Sprite"
-  Le sprite à utiliser.
+  Le sprite Ã  utiliser.
 
 @ReturnValue
   La hauteur du sprite en pixels.
@@ -956,7 +975,7 @@ Delay(5000)
 InitSprite()
 OpenScreen(800,600,32,"Exemple OpenScreen 32-bits")
 
- ;Sprite Cible 32-bits car l'écran est 32-bits.
+ ;Sprite Cible 32-bits car l'Ã©cran est 32-bits.
 CreateSprite(0,100,100)
 StartDrawing(SpriteOutput(0))
 Circle(50,50,49,RGB(255,255,0))
@@ -969,13 +988,13 @@ StopDrawing()
  ;Affichage de la cible
 DisplaySprite(0, 500, 200)
 
- ;Affichage d'un texte sur l'écran (sans sprite).
+ ;Affichage d'un texte sur l'Ã©cran (sans sprite).
 StartDrawing(ScreenOutput())
 DrawText(50, 250, "Hauteur du sprite : " + SpriteHeight(0) + " pixels.")
 StopDrawing()   
 
- ;Maintenant que tout est calculé et affiché dans le buffer invisible,
- ;On inverse les buffers pour rendre la scène visible à l'écran.
+ ;Maintenant que tout est calculÃ© et affichÃ© dans le buffer invisible,
+ ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
 FlipBuffers() 
 
 Delay(5000)
@@ -992,15 +1011,15 @@ Delay(5000)
 @Function Resultat = SpriteID(#Sprite)
 
 @Description
-  Renvoie l'identifiant système d'un Sprite.
+  Renvoie l'identifiant systÃ¨me d'un Sprite.
 
 @Parameter "#Sprite"
-  Le sprite à utiliser.
+  Le sprite Ã  utiliser.
   
 @ReturnValue
   L'ID du sprite. @LineBreak
-  Ce résultat est parfois aussi appelé 'Handle'. 
-  Voir le chapitre @ReferenceLink "handles" "Numéros et Identifiants (Handles)" pour
+  Ce rÃ©sultat est parfois aussi appelÃ© 'Handle'. 
+  Voir le chapitre @ReferenceLink "handles" "NumÃ©ros et Identifiants (Handles)" pour
   plus d'informations.  
 
 @SeeAlso
@@ -1014,45 +1033,45 @@ Delay(5000)
 @Function Resultat = SpritePixelCollision(#Sprite1, X1, Y1, #Sprite2, X2, Y2)
 
 @Description
-  Vérifie si deux Sprites se chevauchent. 
+  VÃ©rifie si deux Sprites se chevauchent. 
 @LineBreak
 @LineBreak  
-  @#PB_Sprite_PixelCollision doit être 
-  spécifié lors de la création sprite.  
+  @#PB_Sprite_PixelCollision doit Ãªtre 
+  spÃ©cifiÃ© lors de la crÃ©ation sprite.  
 
 @Parameter "#Sprite1"
-  Le premier sprite à tester.
+  Le premier sprite Ã  tester.
 
 @Parameter "X1, Y1"
-  Les coordonnées du premier sprite, 
+  Les coordonnÃ©es du premier sprite, 
   en pixels.
 
 @Parameter "#Sprite2"
-  Le second sprite à tester.
+  Le second sprite Ã  tester.
 
 @Parameter "X2, Y2"
-  Les coordonnées du second sprite, 
+  Les coordonnÃ©es du second sprite, 
   en pixels.
 
 @ReturnValue
   Renvoie une valeur non nulle si les 
   deux sprites entrent en collision, 
-  zéro sinon.
+  zÃ©ro sinon.
 
 @Remarks
   Cette fonction effectue une comparaison 
   pixel par pixel sur les pixels transparents
   des deux sprites ce qui rend la routine 
-  très précise mais également relativement 
+  trÃ¨s prÃ©cise mais Ã©galement relativement 
   lente.
   Pour optimiser au maximum la comparaison, 
   il convient d'enlever le plus possible la 
   zone transparente autour du sprite, pour 
-  ne garder que sa dimension réelle. 
-  Fonctionne avec les sprites zoomés. 
+  ne garder que sa dimension rÃ©elle. 
+  Fonctionne avec les sprites zoomÃ©s. 
 @LineBreak
 @LineBreak  
-  Pour plus de rapidité, utiliser 
+  Pour plus de rapiditÃ©, utiliser 
   @@SpriteCollision qui ne teste ques les 
   bordures rectangulaires.
 @LineBreak
@@ -1088,7 +1107,7 @@ Circle(50,50,50,RGB(255,0,0))
 DrawText(50-TextWidth("BOOM")/2,50-TextHeight("BOOM")/2,"BOOM",RGB(255,255,0),RGB(255,0,0))
 StopDrawing()
 
- ;Coordonnée de départ en x de la flèche
+ ;CoordonnÃ©e de dÃ©part en x de la flÃ¨che
 x=0
 
  ;Boucle 
@@ -1097,28 +1116,28 @@ While x < 800  ; Si la balle manque la cible alors le programme se terminera qua
   ;La balle avancera de 4 pixels vers la droite
   x=x+4
   
-  ;Effacer complètement l'écran et afficher un fond noir
+  ;Effacer complÃ¨tement l'Ã©cran et afficher un fond noir
   ClearScreen(RGB(0,0,0))
   
-  ;Affichage de la flèche
+  ;Affichage de la flÃ¨che
   DisplaySprite(0, x, 240)
   ;Affichage de la cible
   DisplaySprite(1, 500, 200)
   
-  ;Détection de collision entre la balle et la cible
+  ;DÃ©tection de collision entre la balle et la cible
   If SpritePixelCollision(0, x, 240, 1, 500, 200) <> 0
-    ;S'il y a collision alors on efface l'écran et on affiche BOOM
+    ;S'il y a collision alors on efface l'Ã©cran et on affiche BOOM
     ClearScreen(RGB(0,0,0))
     DisplaySprite(2, 500, 200)
-    ;On inverse les buffers pour rendre la scène visible à l'écran.
+    ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
     FlipBuffers()
     Delay(2000)
     ClearScreen(RGB(0,0,0))
     End ; et puis on ferme le programme
   EndIf 
   
-  ;Maintenant que tout est calculé et affiché dans le buffer invisible,
-  ;On inverse les buffers pour rendre la scène visible à l'écran.
+  ;Maintenant que tout est calculÃ© et affichÃ© dans le buffer invisible,
+  ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
   FlipBuffers()
   
   Delay(10)
@@ -1139,7 +1158,7 @@ Wend
   Renvoie la largeur d'un Sprite.
  
 @Parameter "#Sprite"
-  Le sprite à utiliser.
+  Le sprite Ã  utiliser.
 
 @ReturnValue
   La largeur du sprite en pixels.
@@ -1149,7 +1168,7 @@ Wend
 InitSprite()
 OpenScreen(800,600,32,"Exemple OpenScreen 32 bits")
 
- ;Sprite Cible 32 bits car l'écran est 32 bits.
+ ;Sprite Cible 32 bits car l'Ã©cran est 32 bits.
 CreateSprite(0,100,100)
 StartDrawing(SpriteOutput(0))
 Circle(50,50,49,RGB(255,255,0))
@@ -1162,13 +1181,13 @@ StopDrawing()
  ;Affichage de la cible
 DisplaySprite(0, 500, 200)
 
- ;Affichage d'un texte sur l'écran (sans sprite).
+ ;Affichage d'un texte sur l'Ã©cran (sans sprite).
 StartDrawing(ScreenOutput())
 DrawText(50, 250, "Largeur du sprite : " + SpriteWidth(0) + " pixels.")
 StopDrawing()   
 
- ;Maintenant que tout est calculé et affiché dans le buffer invisible,
- ;On inverse les buffers pour rendre la scène visible à l'écran.
+ ;Maintenant que tout est calculÃ© et affichÃ© dans le buffer invisible,
+ ;On inverse les buffers pour rendre la scÃ¨ne visible Ã  l'Ã©cran.
 FlipBuffers() 
 
 Delay(5000)
@@ -1186,7 +1205,7 @@ Delay(5000)
 
 @Description
   Renvoie l'identifiant d'un Sprite 
-  nécessaire à la bibliothèque 
+  nÃ©cessaire Ã  la bibliothÃ¨que 
   @LibraryLink "2ddrawing" "2DDrawing". 
   
 @Parameter "#Sprite"
@@ -1194,7 +1213,7 @@ Delay(5000)
 
 @ReturnValue
   Renvoie l'OutputID du Sprite s'il est 
-  possible de dessiner dessus, zéro sinon.
+  possible de dessiner dessus, zÃ©ro sinon.
 
 @Remarks
   Il faut utiliser un bloc @@StartDrawing 
@@ -1202,14 +1221,14 @@ Delay(5000)
   dessins 2D directement sur le Sprite.  
   @LineBreak
   @LineBreak
-  La mémoire allouée avec SpriteOutput() 
-  est libérée avec @@StopDrawing, OutputID 
-  ne peut donc pas être réutilisé.
+  La mÃ©moire allouÃ©e avec SpriteOutput() 
+  est libÃ©rÃ©e avec @@StopDrawing, OutputID 
+  ne peut donc pas Ãªtre rÃ©utilisÃ©.
   @LineBreak
   @LineBreak
-  SpriteOutput() doit être appelée dans 
-  le même thread où @@OpenScreen a été 
-  appelé.
+  SpriteOutput() doit Ãªtre appelÃ©e dans 
+  le mÃªme thread oÃ¹ @@OpenScreen a Ã©tÃ© 
+  appelÃ©.
   
 @Example
 @Code
@@ -1226,39 +1245,30 @@ Delay(5000)
 @Function TransparentSpriteColor(#Sprite, Couleur)
 
 @Description
-  Change la couleur de transparence d'un 
-  Sprite (quand il est affiché avec 
-  @@DisplayTransparentSprite).
+  Utilise la couleur spÃ©cifiÃ©e comme couleur de transparence des sprites, lorsqu'il est affichÃ© avec @@DisplayTransparentSprite).
 
 @Parameter "#Sprite"
-  Le sprite à utiliser. 
+  Le sprite Ã  utiliser. 
   @LineBreak
   @LineBreak  
-  Si @#PB_Default est utilisé à la place 
-  de #Sprite, alors la couleur par défaut 
-  (Noir - RGB(0,0,0)) est remplacée par la 
-  couleur spécifiée qui devient la nouvelle 
-  couleur de transparence par défaut.
+  Si @#PB_Default est utilisÃ© Ã  la place de #Sprite, alors la couleur par dÃ©faut (Le Noir - RGB(0,0,0)) est remplacÃ©e par la 
+  couleur spÃ©cifiÃ©e qui devient la nouvelle couleur de transparence par dÃ©faut.
   @LineBreak 
-  Elle sera utilisée par tous les sprites 
-  qui seront créés ou chargés ultérieurement 
-  (par @@LoadSprite, @@CreateSprite, etc...).
+  Elle sera utilisÃ©e par tous les sprites qui seront crÃ©Ã©s ou chargÃ©s ultÃ©rieurement (par @@LoadSprite, @@CreateSprite, etc...).
   
 @Parameter "Couleur"
   La nouvelle couleur de transparence. 
   @LineBreak
   @LineBreak   
-  @@RGB peut être utilisé pour définir la 
-  valeur de 'Couleur'.
-  Un tableau représentant les couleurs les 
-  plus communes est disponible 
-  @ReferenceLink "colortable" "ici".
-  @LineBreak
-  @LineBreak
-  La couleur de transparence par défaut 
-  est noire RGB(0,0,0).
+  @@RGB peut Ãªtre utilisÃ© pour dÃ©finir la  valeur de 'Couleur'.@LineBreak
+  Un tableau reprÃ©sentant les couleurs les plus communes est disponible @ReferenceLink "colortable" "ici".
   
 @NoReturnValue
+
+@Remarks
+ Une seule couleur peut Ãªtre dÃ©finie comme couleur transparente et les valeurs du canal alpha prÃ©cÃ©dentes sont perdues.@LineBreak 
+ Si le sprite possÃ¨de dÃ©jÃ  des informations alpha, cette commande n'est probablement pas nÃ©cessaire.@LineBreak
+ Le sprite doit Ãªtre crÃ©Ã© avec l'option @#PB_Sprite_AlphaBlending pour utiliser cette commande.
 
 @Example
 @Code
@@ -1296,18 +1306,18 @@ Delay(6000)
   Rotation d'un Sprite. 
   
 @Parameter "#Sprite"
-  Le sprite à utiliser. 
+  Le sprite Ã  utiliser. 
  
 @Parameter "Angle.f"
-   Angle de rotation, en degrés, dans 
+   Angle de rotation, en degrÃ©s, dans 
    le sens des aiguilles d'une montre, 
-   de 0 à 360. @LineBreak
+   de 0 Ã  360. @LineBreak
 
 @Parameter "Mode"
   'Mode' peut prendre les valeurs suivantes:
 @FixedFont
   @#PB_Absolute: L'angle prend la valeur de 'Angle'.
-  @#PB_Relative: L'angle est ajouté à la valeur précédente.
+  @#PB_Relative: L'angle est ajoutÃ© Ã  la valeur prÃ©cÃ©dente.
 @EndFixedFont
 
 @Example
@@ -1359,8 +1369,8 @@ Next i
 @Function SpriteBlendingMode(ModeSource, ModeDestination)
 
 @Description
-  Change la façon dont les couleurs des 
-  sprites sont mélangées avec le fond 
+  Change la faÃ§on dont les couleurs des 
+  sprites sont mÃ©langÃ©es avec le fond 
   lors de l'utilisation de 
   @@DisplayTransparentSprite.  
 
@@ -1380,7 +1390,7 @@ Next i
   @#PB_Sprite_BlendDestinationAlpha
   @#PB_Sprite_BlendInvertDestinationAlpha
 @EndFixedFont 
-  Les valeurs par défaut sont 
+  Les valeurs par dÃ©faut sont 
   SpriteBlendingMode(#PB_Sprite_BlendSourceAlpha, #PB_Sprite_BlendInvertSourceAlpha).
 
 @NoReturnValue
@@ -1434,7 +1444,7 @@ CopyList(ModeSource(), ModeDestination())
 InitSprite()
 InitKeyboard()
 
- ;Création de l'image de fond qui permettra de voir la transparence des sprites
+ ;CrÃ©ation de l'image de fond qui permettra de voir la transparence des sprites
 CreateImage(1,800,600,32)
 StartDrawing(ImageOutput(1))
 Box(0,0,800,600,RGBA(255,255,255,255))
@@ -1443,7 +1453,7 @@ For i=1 To 1000
 Next i
 StopDrawing()
 
- ;Ouverture d'un écran
+ ;Ouverture d'un Ã©cran
 OpenScreen(800,600,32,"Sprite")
 
  ;Sprite Cible.
@@ -1475,7 +1485,7 @@ ForEach ModeSource()
     DrawText(50, 470, "Couleur transparente = Rouge", RGB(255,255,0))
     StopDrawing()
     
-    ;TRANSPARENCE du sprite : Couleur noire par défaut
+    ;TRANSPARENCE du sprite : Couleur noire par dÃ©faut
     SpriteBlendingMode(ModeSource()\Numero, ModeDestination()\Numero)
     DisplaySprite(0, 50, 160)
     
@@ -1513,7 +1523,7 @@ ForEach ModeSource()
     SpriteBlendingMode(ModeSource()\Numero, ModeDestination()\Numero)
     DisplayTransparentSprite(0, 500, 360,255)
     
-    ;Affichage à l'écran  
+    ;Affichage Ã  l'Ã©cran  
     FlipBuffers()
     
     ;Effacer le buffer
@@ -1533,14 +1543,14 @@ Next
 @Function SpriteQuality(Qualite)
 
 @Description
-  Change la qualité de rendu d'un sprite.
+  Change la qualitÃ© de rendu d'un sprite.
 
 @Parameter "Qualite"
-  La qualité d'affichage du sprite.@LineBreak 
-  Peut-être l'une des valeurs suivantes:
+  La qualitÃ© d'affichage du sprite.@LineBreak 
+  Peut-Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Sprite_NoFiltering      : Pas de filtrage, plus rapide, mais laid après un zoom / rotation (par défaut).
-  @#PB_Sprite_BilinearFiltering: Filtrage bilinéaire, plus lent mais propre lors de zoom / rotation.
+  @#PB_Sprite_NoFiltering      : Pas de filtrage, plus rapide, mais laid aprÃ¨s un zoom / rotation (par dÃ©faut).
+  @#PB_Sprite_BilinearFiltering: Filtrage bilinÃ©aire, plus lent mais propre lors de zoom / rotation.
 @EndFixedFont
 
 @NoReturnValue
@@ -1568,21 +1578,21 @@ CopySprite(0, 1)
  ;Boucle
 For i=0 To 300
   
-  ;Qualité normale pour Cible0
+  ;QualitÃ© normale pour Cible0
   SpriteQuality(#PB_Sprite_NoFiltering)
-  ;Rotation du sprite pour apprécier la qualité
+  ;Rotation du sprite pour apprÃ©cier la qualitÃ©
   RotateSprite(0, 0.5, #PB_Relative)
   ;Affichage du sprite
   DisplaySprite(0, 300, 160)
   
-  ;Haute qualité pour Cible1
+  ;Haute qualitÃ© pour Cible1
   SpriteQuality(#PB_Sprite_BilinearFiltering)
-  ;Rotation du sprite pour apprécier la qualité
+  ;Rotation du sprite pour apprÃ©cier la qualitÃ©
   RotateSprite(1, 0.5, #PB_Relative)
   ;Affichage du sprite
   DisplaySprite(1, 450, 160)
   
-  ;Affichage à l'écran  
+  ;Affichage Ã  l'Ã©cran  
   FlipBuffers()
   
   ;Effacer le buffer
@@ -1599,40 +1609,40 @@ Next i
 @Function TransformSprite(#Sprite, X1, Y1, [z1], X2, Y2, [Z2], X3, Y3, [Z3], X4, Y4, [Z4])
 
 @Description
-  Déforme un Sprite.
+  DÃ©forme un Sprite.
 
 @Parameter "#Sprite"
-  Le sprite à déformer.
+  Le sprite Ã  dÃ©former.
 
 @Parameter "X1, Y1"
-  Coordonnées du premier point, en pixel.
+  CoordonnÃ©es du premier point, en pixel.
   
 @Parameter "X2, Y2"
-  Coordonnées du deuxième point, en pixel.
+  CoordonnÃ©es du deuxiÃ¨me point, en pixel.
   
 @Parameter "X3, Y3"
-  Coordonnées du troisième point, en pixel.
+  CoordonnÃ©es du troisiÃ¨me point, en pixel.
 
 @Parameter "X4, Y4"
-  Coordonnées du quatrième point, en pixel.
+  CoordonnÃ©es du quatriÃ¨me point, en pixel.
 
 @OptionalParameter "Z1, Z2, Z3, Z4"
-  La coordonnée profondeur (en 'Z'), 
+  La coordonnÃ©e profondeur (en 'Z'), 
   en pixel.
 
 @NoReturnValue
 
 @Remarks
-  Généralement utilisé pour effectuer des 
-  transformations en temps réel. 
-  Attention, comme un Sprite est composé 
+  GÃ©nÃ©ralement utilisÃ© pour effectuer des 
+  transformations en temps rÃ©el. 
+  Attention, comme un Sprite est composÃ© 
   de 2 vertex (2 triangles), la 
-  transformation peut donner un résultat 
-  très étrange... 
+  transformation peut donner un rÃ©sultat 
+  trÃ¨s Ã©trange... 
   @LineBreak
   @LineBreak
-  Si l'un des paramètres optionnels 'Z' 
-  est spécifié, tous doivent être précisés.
+  Si l'un des paramÃ¨tres optionnels 'Z' 
+  est spÃ©cifiÃ©, tous doivent Ãªtre prÃ©cisÃ©s.
 
 @FixedFont
 
@@ -1673,11 +1683,11 @@ For i=-100 To 100
   DisplaySprite(0, 200, 160)
   DisplaySprite(1, 500, 160)
   
-  ;Déformation de Cible0 et Cible1
+  ;DÃ©formation de Cible0 et Cible1
   TransformSprite(0,i,i,100,0,100-i,100-i,0,100)
   TransformSprite(1,0,0,100-i,0+i,100-i,100-i,0,100)
   
-  ;Affichage à l'écran  
+  ;Affichage Ã  l'Ã©cran  
   FlipBuffers()
   
   ;Effacer le buffer
@@ -1701,21 +1711,21 @@ Next i
   Zoom un Sprite.
 
 @Parameter "#Sprite"
-  Le sprite à zoomer.
+  Le sprite Ã  zoomer.
 
 @Parameter "Largeur"
   Nouvelle largeur du sprite, en pixels. 
   @LineBreak
   @LineBreak
-  Si @#PB_Default est spécifié, la largeur 
-  initiale du sprite est rétablie.
+  Si @#PB_Default est spÃ©cifiÃ©, la largeur 
+  initiale du sprite est rÃ©tablie.
 
 @Parameter "Hauteur"
   Nouvelle hauteur du sprite, en pixels.
   @LineBreak
   @LineBreak  
-  Si @#PB_Default est spécifié, la hauteur 
-  initiale du sprite est rétablie.
+  Si @#PB_Default est spÃ©cifiÃ©, la hauteur 
+  initiale du sprite est rÃ©tablie.
 
 @NoReturnValue
 
@@ -1747,7 +1757,7 @@ For i=-100 To 100
   ZoomSprite(0,100+i,100+i)
   ZoomSprite(1,100-i,100+i)
   
-  ;Affichage à l'écran  
+  ;Affichage Ã  l'Ã©cran  
   FlipBuffers()
   
   ;Effacer le buffer

@@ -57,23 +57,19 @@ Procedure RenderFrame()
 EndProcedure
 
 
-Procedure Loading(Type, Filename$)
-  Static NbLoadedElements
-  
-  NbLoadedElements+1
-  If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
-    FlipBuffers() ; start the rendering
-  EndIf
-EndProcedure
-
-
-Procedure LoadingError(Type, Filename$)
-  Debug Filename$ + ": loading error"
-EndProcedure
-
-; Register the loading event before calling any resource load command
-BindEvent(#PB_Event_Loading, @Loading())
-BindEvent(#PB_Event_LoadingError, @LoadingError())
-BindEvent(#PB_Event_RenderFrame, @RenderFrame())
-
 LoadSprite(0, "Data/Spider.png")
+
+; Register the render frame callback
+BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+FlipBuffers() ; Start the rendering loop
+
+; IDE Options = SpiderBasic 4.00 beta 1 (Windows - x86)
+; CursorPosition = 58
+; FirstLine = 19
+; Folding = -
+; iOSAppOrientation = 0
+; AndroidAppCode = 0
+; AndroidAppOrientation = 0
+; EnableXP
+; CompileSourceDirectory
+; EnableUnicode

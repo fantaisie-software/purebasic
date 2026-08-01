@@ -1,4 +1,4 @@
-@Title Define
+ï»¿@Title Define
 
 @Syntax
 
@@ -8,31 +8,34 @@
 
   Weist einer Reihe an @ReferenceLink "variables" "Variablen" den gleichen Variablentyp zu.
   @LineBreak
-  Ohne dieses Schlüsselwort werden Variablen mit dem Standardtyp von PureBasic deklariert,
+  Ohne dieses SchlÃ¼sselwort werden Variablen mit dem Standardtyp von PureBasic deklariert,
   welcher vom Typ INTEGER ist. Zur Erinnerung, der Typ INTEGER umfasst: @LineBreak
   4 Byte (mit einem 32-Bit Compiler), im Bereich von -2147483648 bis +2147483647 @LineBreak
   8 Byte (mit einem 64-Bit Compiler), im Bereich von -9223372036854775808 bis +9223372036854775807
+  @LineBreak
+  @LineBreak
+  @Keyword Define ist sehr flexibel, da Sie damit auch einer einzelnen Variable innerhalb einer
+  Serie einen (abweichenden) Typ zuweisen kÃ¶nnen.
+  @LineBreak
+  @LineBreak
+  @Keyword Define kann auch mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "Linked Lists"
+  und @ReferenceLink "newmap" "Maps" verwendet werden.
   
-@Example
+@Example Serien-Zuweisung
 @Code
    Define.b a, b = 10, c = b*2, d  ; diese 4 Variablen werden vom Typ 'Byte' (.b) sein
 @EndCode
 
-  @Keyword Define ist sehr flexibel, da Sie auch einer einzelnen Variable innerhalb einer
-  Serie einen (abweichenden) Typ zuweisen können.
-
-@Example
+@Example Mix aus individueller und Serien-Zuweisung
 @Code  
-   Define.q a, b.w, c, d   ; a, c und d sind vom Typ 'Quad' (.q), während b ein 'Word' (.w) ist
+   Define.q a, b.w, c, d, st.s = "ok"  ; a, c und d sind vom Typ 'Quad' (.q), b ist ein 'Word' (.w) und st ist ein 'String' (.s)
 
    Debug SizeOf(a) ; wird 8 ausgeben
    Debug SizeOf(b) ; wird 2 ausgeben, da es nicht den Standardtyp hat
    Debug SizeOf(c) ; wird 8 ausgeben
-   Debug SizeOf(d) ; will wird 8 ausgeben
+   Debug SizeOf(d) ; wird 8 ausgeben
+   Debug st        ; wird ok ausgeben
 @EndCode
-
-  @Keyword Define kann auch mit @ReferenceLink "dim" "Arrays", @ReferenceLink "newlist" "Linked Lists"
-  und @ReferenceLink "newmap" "Maps" verwendet werden.
 
 ; -------------------------------------------------------------------------------------------------
 
@@ -42,7 +45,7 @@
 
 @Description
   
-  Alternative Möglichkeit zur Variablendeklaration mittels @Keyword "Define".
+  Alternative MÃ¶glichkeit zur Variablendeklaration mittels @Keyword "Define".
 
 @Example
 

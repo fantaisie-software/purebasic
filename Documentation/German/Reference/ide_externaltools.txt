@@ -1,16 +1,16 @@
-@Title Verwenden externer Werkzeuge
+ï»¿@Title Verwenden externer Werkzeuge
 
-  Die PureBasic IDE ermöglicht es Ihnen, externe Programme so zu konfigurieren, dass 
-  diese direkt aus der IDE - über das Menü, Tastenkürzel, die Werkzeugleiste oder 
-  spezieller "Auslöser" (englisch "Trigger") - aufgerufen werden können.
-  Der Nutzen hierfür liegt darin, einen einfachen Zugriff auf andere Programme - die
-  Sie während des Programmierens verwenden - zu gewährleisten. 
+  Die PureBasic IDE ermÃ¶glicht es Ihnen, externe Programme so zu konfigurieren, dass 
+  diese direkt aus der IDE - Ã¼ber das MenÃ¼, TastenkÃ¼rzel, die Werkzeugleiste oder 
+  spezieller "AuslÃ¶ser" (englisch "Trigger") - aufgerufen werden kÃ¶nnen.
+  Der Nutzen hierfÃ¼r liegt darin, einen einfachen Zugriff auf andere Programme - die
+  Sie wÃ¤hrend des Programmierens verwenden - zu gewÃ¤hrleisten. 
 @LineBreak
 @LineBreak
-  Sie können auch Ihre eigenen kleinen Werkzeuge (englisch "Tools") in PureBasic
-  schreiben, die spezielle Aktionen mit dem gerade aufgerufenen Quellcode durchführen, 
-  um gewöhnliche Aufgaben zu automatisieren. Weiterhin können Sie externe Dateibetrachter
-  konfigurieren, um den internen @ReferenceLink "ide_tools" "Dateibetrachter" der IDE für
+  Sie kÃ¶nnen auch Ihre eigenen kleinen Werkzeuge (englisch "Tools") in PureBasic
+  schreiben, die spezielle Aktionen mit dem gerade aufgerufenen Quellcode durchfÃ¼hren, 
+  um gewÃ¶hnliche Aufgaben zu automatisieren. Weiterhin kÃ¶nnen Sie externe Dateibetrachter
+  konfigurieren, um den internen @ReferenceLink "ide_tools" "Dateibetrachter" der IDE fÃ¼r
   bestimmte oder alle Dateien zu ersetzen.
 
 @LineBreak
@@ -18,40 +18,40 @@
 
 @Image ide_exttools_menu.png
 
-  Mit dem Menüpunkt "Werkzeuge konfigurieren" im Werkzeuge-Menü können Sie solche externen
-  Werkzeuge konfigurieren. Die Liste, die Sie im entsprechenden Fenster sehen können, zeigt 
-  alle konfigurierten Werkzeuge in der Reihenfolge, wie sie im Werkzeug-Menü erscheinen 
-  (außer sie sind versteckt). Sie können hier Werkzeuge hinzufügen und entfernen, oder durch 
-  Auswählen eines Eintrags und anschließendem Klicken auf "Nach oben / Nach unten" die 
-  Reihenfolge ändern.
+  Mit dem MenÃ¼punkt "Werkzeuge konfigurieren" im Werkzeuge-MenÃ¼ kÃ¶nnen Sie solche externen
+  Werkzeuge konfigurieren. Die Liste, die Sie im entsprechenden Fenster sehen kÃ¶nnen, zeigt 
+  alle konfigurierten Werkzeuge in der Reihenfolge, wie sie im Werkzeug-MenÃ¼ erscheinen 
+  (auÃŸer sie sind versteckt). Sie kÃ¶nnen hier Werkzeuge hinzufÃ¼gen und entfernen, oder durch 
+  AuswÃ¤hlen eines Eintrags und anschlieÃŸendem Klicken auf "Nach oben / Nach unten" die 
+  Reihenfolge Ã¤ndern.
 
 @Image ide_exttools_toolswindow.png
 
-  Jedes Werkzeug kann im Fenster "Werkzeuge konfigurieren" durch die Häkchen-Box vor jedem
-  Werkzeug-Eintrag schnell aktiviert oder deaktiviert werden. Eine abgehakte Häkchen-Box 
-  bedeutet, dass das Werkzeug aktiviert ist, eine Box ohne Häkchen bedeutet, dass das
+  Jedes Werkzeug kann im Fenster "Werkzeuge konfigurieren" durch die HÃ¤kchen-Box vor jedem
+  Werkzeug-Eintrag schnell aktiviert oder deaktiviert werden. Eine abgehakte HÃ¤kchen-Box 
+  bedeutet, dass das Werkzeug aktiviert ist, eine Box ohne HÃ¤kchen bedeutet, dass das
   Werkzeug derzeit deaktiviert ist.
 
 
 @Section Konfigurieren eines Werkzeugs
 
-  Die grundlegenden Dinge, die Sie angeben müssen, sind die Kommandozeile des zu startenden
-  Programms und einen Namen dafür für die Werkzeuge-Liste bzw. das Werkzeuge-Menü. Alles 
+  Die grundlegenden Dinge, die Sie angeben mÃ¼ssen, sind die Kommandozeile des zu startenden
+  Programms und einen Namen dafÃ¼r fÃ¼r die Werkzeuge-Liste bzw. das Werkzeuge-MenÃ¼. Alles 
   andere ist optional.
 
 @Image ide_exttools_toolsedit.png
 
 @Bold Kommandozeile
 @LineBreak
-  Wählen Sie hier das auszuführende Programm aus.
+  WÃ¤hlen Sie hier das auszufÃ¼hrende Programm aus.
 
 @LineBreak
 @LineBreak
 
 @Bold Argumente
 @LineBreak
-  Geben Sie an das Programm zu übergebende Kommandozeilen-Parameter hier ein.
-  Sie können dabei feste Optionen angeben, aber auch spezielle Platzhalter ("Token"), 
+  Geben Sie an das Programm zu Ã¼bergebende Kommandozeilen-Parameter hier ein.
+  Sie kÃ¶nnen dabei feste Optionen angeben, aber auch spezielle Platzhalter ("Token"), 
   welche beim Starten des Programms ersetzt werden:
 
 @LineBreak
@@ -59,41 +59,41 @@
   %PATH : wird ersetzt durch den Pfad des aktuellen Quellcodes. Bleibt leer, wenn der Quellcode nicht gespeichert wurde.
 @LineBreak
   %FILE : Dateiname des aktuellen Quellcodes. Bleibt leer, wenn dieser noch nicht gespeichert wurde. Wenn Sie das
-  Werkzeug konfigurieren, um den @ReferenceLink "ide_tools" "Dateibetrachter" zu ersetzen, dann repräsentiert 
-  dieser Platzhalter die zu öffnende Datei.
-  Sie sollten niemals den Inhalt der %FILE-Datei ändern. Diese Datei enthält den Zustand des Quellcodes, wie er vom
+  Werkzeug konfigurieren, um den @ReferenceLink "ide_tools" "Dateibetrachter" zu ersetzen, dann reprÃ¤sentiert 
+  dieser Platzhalter die zu Ã¶ffnende Datei.
+  Sie sollten niemals den Inhalt der %FILE-Datei Ã¤ndern. Diese Datei enthÃ¤lt den Zustand des Quellcodes, wie er vom
   Benutzer zuletzt gespeichert wurde. Dies kann sich stark von dem unterscheiden, was derzeit im Editor angezeigt wird.
-  Wenn Sie diese Datei überschreiben, könnte der Benutzer Daten verlieren.
+  Wenn Sie diese Datei Ã¼berschreiben, kÃ¶nnte der Benutzer Daten verlieren.
 @LineBreak
-  %TEMPFILE : Wenn diese Option genutzt wird, dann wird der aktuelle Quellcode in eine temporäre Datei gespeichert und
-  deren Dateiname wird hier eingefügt. Sie können die Datei auf Wunsch modifizieren oder löschen.
+  %TEMPFILE : Wenn diese Option genutzt wird, dann wird der aktuelle Quellcode in eine temporÃ¤re Datei gespeichert und
+  deren Dateiname wird hier eingefÃ¼gt. Sie kÃ¶nnen die Datei auf Wunsch modifizieren oder lÃ¶schen.
 @LineBreak
-  %COMPILEFILE : Dieser Platzhalter ist nur gültig für Kompilierungs-Auslöser (Trigger), siehe dazu weiter unten.
-  Dieser wird ersetzt mit der temporären Datei, welche zur Kompilierung an den Compiler geschickt wird. Durch
-  Ändern dieser Datei können Sie auch beeinflussen, was kompiliert wird.
+  %COMPILEFILE : Dieser Platzhalter ist nur gÃ¼ltig fÃ¼r Kompilierungs-AuslÃ¶ser (Trigger), siehe dazu weiter unten.
+  Dieser wird ersetzt mit der temporÃ¤ren Datei, welche zur Kompilierung an den Compiler geschickt wird. Durch
+  Ã„ndern dieser Datei kÃ¶nnen Sie auch beeinflussen, was kompiliert wird.
 @LineBreak
   %EXECUTABLE : Dieser Platzhalter wird durch den Namen des Executable ersetzt, welches zuletzt mit "Executable
-  erstellen" kompiliert wurde. Beim Auftreten des Auslösers "Nach Kompilieren/Starten" wird dieser Platzhalter
-  durch den Namen der vom Compiler erstellten temporären Executable-Datei ersetzt.
+  erstellen" kompiliert wurde. Beim Auftreten des AuslÃ¶sers "Nach Kompilieren/Starten" wird dieser Platzhalter
+  durch den Namen der vom Compiler erstellten temporÃ¤ren Executable-Datei ersetzt.
 @LineBreak
   %CURSOR : Wird durch die aktuelle Cursor-Position ersetzt. In der Form ZEILExSPALTE.
 @LineBreak
   %SELECTION : Wird ersetzt durch die aktuelle Textauswahl in der Form von STARTZEILExSTARTSPALTExENDEZEILExENDESPALTE.
-  Dies kann zusammen mit %TEMPFILE verwendet werden, wenn Sie möchten, dass Ihr Werkzeug einige Aktionen basierend 
-  auf dem aktuell ausgewählten Textbereich ausführt.
+  Dies kann zusammen mit %TEMPFILE verwendet werden, wenn Sie mÃ¶chten, dass Ihr Werkzeug einige Aktionen basierend 
+  auf dem aktuell ausgewÃ¤hlten Textbereich ausfÃ¼hrt.
 @LineBreak
-  %WORD : Enthält das Wort, welches sich gerade unter dem Cursor befindet.
+  %WORD : EnthÃ¤lt das Wort, welches sich gerade unter dem Cursor befindet.
 @LineBreak
-  %PROJECT : Der vollständige Pfad zum Verzeichnis, welches die Projekt-Datei enthält, sofern ein Projekt geöffnet ist.
+  %PROJECT : Der vollstÃ¤ndige Pfad zum Verzeichnis, welches die Projekt-Datei enthÃ¤lt, sofern ein Projekt geÃ¶ffnet ist.
 @LineBreak
-  %HOME : Der vollständige Pfad zum Purebasic-Verzeichnis.
+  %HOME : Der vollstÃ¤ndige Pfad zum Purebasic-Verzeichnis.
 
 @LineBreak
 @LineBreak
 
-  Hinweis: Für alle Dateinamen- oder Pfad-Platzhalter ist es generell eine gute Idee, sie in "" zu setzen
+  Hinweis: FÃ¼r alle Dateinamen- oder Pfad-Platzhalter ist es generell eine gute Idee, sie in "" zu setzen
   (z.B. "%TEMPFILE"), um sicherzugehen, dass alle Pfade mit darin enthaltenen Leerzeichen korrekt an das
-  Werkzeug übergeben werden. Diese Platzhalter und eine Beschreibung können Sie auch durch Anklicken des
+  Werkzeug Ã¼bergeben werden. Diese Platzhalter und eine Beschreibung kÃ¶nnen Sie auch durch Anklicken des
   "Info"-Schalters neben dem "Argumente"-Feld ansehen.
 
 @LineBreak
@@ -101,52 +101,52 @@
 
 @Bold "Arbeitsverzeichnis"
 @LineBreak
-  Wählen Sie ein Verzeichnis aus, in welchem dieses Werkzeug ausgeführt werden soll. Wenn Sie hier kein
-  Verzeichnis angeben, wird das Werkzeug im Verzeichnis des gerade geöffneten Quellcodes ausgeführt.
+  WÃ¤hlen Sie ein Verzeichnis aus, in welchem dieses Werkzeug ausgefÃ¼hrt werden soll. Wenn Sie hier kein
+  Verzeichnis angeben, wird das Werkzeug im Verzeichnis des gerade geÃ¶ffneten Quellcodes ausgefÃ¼hrt.
 
 @LineBreak
 @LineBreak
 
 @Bold Name
 @LineBreak
-  Geben Sie hier einen Namen für das Werkzeug ein. Dieser wird in der Werkzeuge-Liste und auch im 
-  Werkzeuge-Menü angezeigt, sofern das Werkzeug nicht vom Menü versteckt werden soll.
+  Geben Sie hier einen Namen fÃ¼r das Werkzeug ein. Dieser wird in der Werkzeuge-Liste und auch im 
+  Werkzeuge-MenÃ¼ angezeigt, sofern das Werkzeug nicht vom MenÃ¼ versteckt werden soll.
 
 
-@Section Ereignis zum Auslösen des Werkzeugs
+@Section Ereignis zum AuslÃ¶sen des Werkzeugs
 
-  Hier können Sie auswählen, wann das Werkzeug ausgeführt werden soll. Eine beliebige Anzahl
-  an Werkzeugen kann den gleichen Auslöser haben, sie werden alle ausgeführt, sobald der 
-  "Auslöser" auftritt. Die Reihenfolge ihrer Ausführung hängt von der Reihenfolge, in der sie
+  Hier kÃ¶nnen Sie auswÃ¤hlen, wann das Werkzeug ausgefÃ¼hrt werden soll. Eine beliebige Anzahl
+  an Werkzeugen kann den gleichen AuslÃ¶ser haben, sie werden alle ausgefÃ¼hrt, sobald der 
+  "AuslÃ¶ser" auftritt. Die Reihenfolge ihrer AusfÃ¼hrung hÃ¤ngt von der Reihenfolge, in der sie
   in der Werkzeugeliste erscheinen, ab.
 
 @Image ide_exttools_toolstrigger.png
 
-@Bold "Menü oder Tastenkürzel"
+@Bold "MenÃ¼ oder TastenkÃ¼rzel"
 @LineBreak
-  Das Werkzeug wird nicht automatisch ausgeführt. Es wird durch ein Tastenkürzel oder über das
-  Menü gestartet. Hinweis: Um ein Werkzeug von der Symbolleiste aus zu starten, müssen Sie einen
-  Schalter dafür in der Symbolleisten-Konfiguration in den Einstellungen hinzufügen (siehe
-  @Referencelink "ide_preferences" "Anpassen der IDE" für weitere Informationen).
+  Das Werkzeug wird nicht automatisch ausgefÃ¼hrt. Es wird durch ein TastenkÃ¼rzel oder Ã¼ber das
+  MenÃ¼ gestartet. Hinweis: Um ein Werkzeug von der Symbolleiste aus zu starten, mÃ¼ssen Sie einen
+  Schalter dafÃ¼r in der Symbolleisten-Konfiguration in den Einstellungen hinzufÃ¼gen (siehe
+  @Referencelink "ide_preferences" "Anpassen der IDE" fÃ¼r weitere Informationen).
 @LineBreak
 @LineBreak
-  Mit der Einstellung dieses Auslösers wird die "Tastenkürzel"-Option darunter anwählbar.
-  Dort können Sie dann auch ein Tastenkürzel für das Starten dieses Werkzeugs einstellen.
+  Mit der Einstellung dieses AuslÃ¶sers wird die "TastenkÃ¼rzel"-Option darunter anwÃ¤hlbar.
+  Dort kÃ¶nnen Sie dann auch ein TastenkÃ¼rzel fÃ¼r das Starten dieses Werkzeugs einstellen.
 
 @LineBreak
 @LineBreak
 
 @Bold "Editor-Start"
 @LineBreak
-  Das Werkzeug wird direkt nach dem vollständigen Start der IDE ausgeführt.
+  Das Werkzeug wird direkt nach dem vollstÃ¤ndigen Start der IDE ausgefÃ¼hrt.
 
 @LineBreak
 @LineBreak
 
-@Bold "Editor-Schließen"
+@Bold "Editor-SchlieÃŸen"
 @LineBreak
-  Das Werkzeug wird unmittelbar vor dem Schließen der IDE ausgeführt.
-  Beachten Sie, dass zu diesem Zeitpunkt bereits alle zuvor geöffneten Quellcodes
+  Das Werkzeug wird unmittelbar vor dem SchlieÃŸen der IDE ausgefÃ¼hrt.
+  Beachten Sie, dass zu diesem Zeitpunkt bereits alle zuvor geÃ¶ffneten Quellcodes
   geschlossen sind.
 
 @LineBreak
@@ -156,11 +156,11 @@
 @LineBreak
   Das Werkzeug wird gestartet, unmittelbar bevor der Compiler zum Kompilieren
   eines Quellcodes aufgerufen wird. Durch Verwendung des %COMPILEFILE Platzhalters
-  können Sie den zu kompilierenden Code erhalten und diesen verändern. Dies macht
-  es möglich, einen kleinen Pre-Prozessor für den Quellcode zu schreiben. Denken
+  kÃ¶nnen Sie den zu kompilierenden Code erhalten und diesen verÃ¤ndern. Dies macht
+  es mÃ¶glich, einen kleinen Pre-Prozessor fÃ¼r den Quellcode zu schreiben. Denken
   Sie bitte daran, dass Sie die Option "Warten bis zum Beenden des Werkzeugs"
   aktivieren sollten, wenn Sie Ihre Modifizierungen an den Compiler weitergeben 
-  möchten.
+  mÃ¶chten.
 
 @LineBreak
 @LineBreak
@@ -168,28 +168,28 @@
 @Bold "Nach dem Kompilieren/Starten"
 @LineBreak
   Das Werkzeug wird gestartet, unmittelbar nachdem die Kompilierung abgeschlossen
-  wurde, jedoch bevor das Executable zum Testen ausgeführt wird. Durch Verwendung
-  des %EXECUTABLE Platzhalters können Sie Zugriff auf die soeben erstellte Datei
-  erhalten. Beachten Sie, dass Sie die Datei verändern, jedoch nicht löschen 
-  können, da dies zu einer Fehlermeldung führt, wenn die IDE versucht die Datei 
-  auszuführen.
+  wurde, jedoch bevor das Executable zum Testen ausgefÃ¼hrt wird. Durch Verwendung
+  des %EXECUTABLE Platzhalters kÃ¶nnen Sie Zugriff auf die soeben erstellte Datei
+  erhalten. Beachten Sie, dass Sie die Datei verÃ¤ndern, jedoch nicht lÃ¶schen 
+  kÃ¶nnen, da dies zu einer Fehlermeldung fÃ¼hrt, wenn die IDE versucht die Datei 
+  auszufÃ¼hren.
 
 @LineBreak
 @LineBreak
 
 @Bold "Kompiliertes Programm starten"
 @LineBreak
-  Das Werkzeug wird gestartet, wenn der Anwender den "Starten"-Befehl aus dem Compiler-Menü
-  auswählt. Das Werkzeug wird ausgeführt, bevor das Executable gestartet wird. Der 
-  %EXECUTABLE Platzhalter ist hier ebenfalls gültig.
+  Das Werkzeug wird gestartet, wenn der Anwender den "Starten"-Befehl aus dem Compiler-MenÃ¼
+  auswÃ¤hlt. Das Werkzeug wird ausgefÃ¼hrt, bevor das Executable gestartet wird. Der 
+  %EXECUTABLE Platzhalter ist hier ebenfalls gÃ¼ltig.
 
 @LineBreak
 @LineBreak
 
 @Bold "Vor dem Erstellen des Executable"
 @LineBreak
-  Das gleiche wie beim "Vor dem Kompilieren/Starten" Auslöser passiert auch hier, nur
-  dass das auslösende Ereignis auftritt, wenn der Anwender das fertige Executable erstellt.
+  Das gleiche wie beim "Vor dem Kompilieren/Starten" AuslÃ¶ser passiert auch hier, nur
+  dass das auslÃ¶sende Ereignis auftritt, wenn der Anwender das fertige Executable erstellt.
 
 @LineBreak
 @LineBreak
@@ -197,16 +197,16 @@
 @Bold "Nach dem Erstellen des Executable"
 @LineBreak
   Das Werkzeug wird gestartet, wenn die Kompilierung zur Erstellung des fertigen
-  Executable fertiggestellt ist. Sie können den %EXECUTABLE Platzhalter verwenden, um
-  den Namen der erstellten Datei zu erhalten und damit weitere Aktionen durchzuführen.
+  Executable fertiggestellt ist. Sie kÃ¶nnen den %EXECUTABLE Platzhalter verwenden, um
+  den Namen der erstellten Datei zu erhalten und damit weitere Aktionen durchzufÃ¼hren.
 
 @LineBreak
 @LineBreak
 
 @Bold "Quellcode geladen"
 @LineBreak
-  Das Werkzeug wird ausgeführt, wenn ein Quellcode in die IDE geladen wurde. Die 
-  %FILE und %PATH Platzhalter sind hier immer gültig, da die Datei gerade von Disk
+  Das Werkzeug wird ausgefÃ¼hrt, wenn ein Quellcode in die IDE geladen wurde. Die 
+  %FILE und %PATH Platzhalter sind hier immer gÃ¼ltig, da die Datei gerade von Disk
   geladen wurde.
 
 @LineBreak
@@ -214,8 +214,8 @@
 
 @Bold "Quellcode gespeichert"
 @LineBreak
-  Das Werkzeug wird ausgeführt, sobald ein Quellcode in der IDE erfolgreich gespeichert wurde.
-  Die %FILE und %PATH Platzhalter sind hier immer gültig, da die Datei gerade auf Disk
+  Das Werkzeug wird ausgefÃ¼hrt, sobald ein Quellcode in der IDE erfolgreich gespeichert wurde.
+  Die %FILE und %PATH Platzhalter sind hier immer gÃ¼ltig, da die Datei gerade auf Disk
   gespeichert wurde.
 
 @LineBreak
@@ -223,9 +223,9 @@
 
 @Bold "Quellcode geschlossen"
 @LineBreak
-  Das Werkzeug wird ausgeführt, sobald ein Quellcode geschlossen werden soll. Zu diesem
+  Das Werkzeug wird ausgefÃ¼hrt, sobald ein Quellcode geschlossen werden soll. Zu diesem
   Zeitpunkt ist die Datei noch vorhanden, sodass Sie immer noch deren Inhalt mit dem
-  %TEMPFILE Platzhalter erhalten können. %FILE wird leer sein, wenn die Datei noch nie
+  %TEMPFILE Platzhalter erhalten kÃ¶nnen. %FILE wird leer sein, wenn die Datei noch nie
   gespeichert wurde.
 
 @LineBreak
@@ -234,29 +234,29 @@
 @Bold "Dateianzeiger ersetzen - Alle Dateien"
 @LineBreak
   Das Werkzeug ersetzt komplett den internen Dateianzeiger. Wenn in der IDE ein Versuch 
-  zum öffnen einer Datei gestartet wird, welche nicht in den Editier-Bereich geladen werden
-  kann, wird die IDE zuerst die Werkzeuge mit einem für den speziellen Dateityp gesetzten
-  Auslöser probieren. Wenn keines gefunden werden kann, wird die zu öffnende Datei an dieses
-  Werkzeug geleitet. Verwenden Sie den %FILE Platzhalter, um den Dateinamen der zu öffnenden
+  zum Ã¶ffnen einer Datei gestartet wird, welche nicht in den Editier-Bereich geladen werden
+  kann, wird die IDE zuerst die Werkzeuge mit einem fÃ¼r den speziellen Dateityp gesetzten
+  AuslÃ¶ser probieren. Wenn keines gefunden werden kann, wird die zu Ã¶ffnende Datei an dieses
+  Werkzeug geleitet. Verwenden Sie den %FILE Platzhalter, um den Dateinamen der zu Ã¶ffnenden
   Datei zu erhalten.
 @LineBreak
 @LineBreak
-  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben. Jede weiteren Werkzeuge mit diesem
-  Auslöser werden ignoriert.
+  Hinweis: Nur ein Werkzeug kann diesen AuslÃ¶ser haben. Jede weiteren Werkzeuge mit diesem
+  AuslÃ¶ser werden ignoriert.
 
 @LineBreak
 @LineBreak
 
 @Bold "Dateianzeiger ersetzen - Unbekannte Dateien"
 @LineBreak
-  Dieses Werkzeug ersetzt in erster Linie den Hex-Dateibetrachter, welcher üblicherweise
+  Dieses Werkzeug ersetzt in erster Linie den Hex-Dateibetrachter, welcher Ã¼blicherweise
   verwendet wird, um unbekannte Dateiformate anzuzeigen. Er wird gestartet, wenn die
   Dateiendung der IDE unbekannt ist und wenn kein anderes externes Werkzeug zum Anzeigen
   einer solchen Datei konfiguriert ist. (Wenn ein Werkzeug mit dem "Dateianzeiger ersetzen - Alle 
-  Dateien" Auslöser gesetzt ist, dann wird dieses Werkzeug niemals aufgerufen.)
+  Dateien" AuslÃ¶ser gesetzt ist, dann wird dieses Werkzeug niemals aufgerufen.)
 @LineBreak
 @LineBreak
-  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben. 
+  Hinweis: Nur ein Werkzeug kann diesen AuslÃ¶ser haben. 
 
 @LineBreak
 @LineBreak
@@ -264,120 +264,120 @@
 @Bold "Dateianzeiger ersetzen - Spezielle Dateien"
 @LineBreak
   Damit wird ein Werkzeug zum Umgang mit bestimmten Dateiendungen konfiguriert. Es hat
-  eine höhere Priorität als die "Dateianzeiger ersetzen - Alle Dateien" oder 
-  "Dateianzeiger ersetzen - Unbekannte Dateien" Auslöser und auch als der interne
+  eine hÃ¶here PrioritÃ¤t als die "Dateianzeiger ersetzen - Alle Dateien" oder 
+  "Dateianzeiger ersetzen - Unbekannte Dateien" AuslÃ¶ser und auch als der interne
   Dateibetrachter selbst. Geben Sie die Dateiendungen, welche durch das Werkzeug 
-  geöffnet werden sollen, in dem Eingabefeld auf der rechten Seite an. Mehrere
-  Endungen können eingegeben werden.
+  geÃ¶ffnet werden sollen, in dem Eingabefeld auf der rechten Seite an. Mehrere
+  Endungen kÃ¶nnen eingegeben werden.
 @LineBreak
 @LineBreak
-  Eine beispielhafte Anwendungsmöglichkeit für diesen Auslöser ist zum Beispiel das
+  Eine beispielhafte AnwendungsmÃ¶glichkeit fÃ¼r diesen AuslÃ¶ser ist zum Beispiel das
   Konfigurieren eines Programms wie dem Acrobat Reader zum Umgang mit der "pdf"-Dateiendung.
-  Dies ermöglicht es Ihnen, PDF-Dateien einfach aus dem Dateiexplorer, dem Dateianzeiger 
+  Dies ermÃ¶glicht es Ihnen, PDF-Dateien einfach aus dem Dateiexplorer, dem Dateianzeiger 
   oder mittels Doppelklick auf eine @ReferenceLink "includes" "Includebinary" Anweisung im
-  Quellcode zu öffnen.
+  Quellcode zu Ã¶ffnen.
 
 @LineBreak
 @LineBreak
 
-@Bold "Datei öffnen – spezielle Dateiendungen"
+@Bold "Datei Ã¶ffnen â€“ spezielle Dateiendungen"
 @LineBreak
-  Dies wird ausgelöst (englisch "triggered") bei bestimmten Dateiendungen.
-  Dieser Auslöser hat eine höhere Priorität als "Datei öffnen – nicht-PB Binärdateien"
-  und "Datei öffnen – nicht-PB Textdateien".
-  Geben Sie die Dateiendungen, welche das Tool unterstützen soll, in der Editier-Box
-  rechts an. Mehrere Dateiendungen können angegeben werden.
+  Dies wird ausgelÃ¶st (englisch "triggered") bei bestimmten Dateiendungen.
+  Dieser AuslÃ¶ser hat eine hÃ¶here PrioritÃ¤t als "Datei Ã¶ffnen â€“ nicht-PB BinÃ¤rdateien"
+  und "Datei Ã¶ffnen â€“ nicht-PB Textdateien".
+  Geben Sie die Dateiendungen, welche das Tool unterstÃ¼tzen soll, in der Editier-Box
+  rechts an. Mehrere Dateiendungen kÃ¶nnen angegeben werden.
 @LineBreak
 @LineBreak
   Hinweis:
-  Die "Datei öffnen" Auslöser werden dann aktiv, wenn man eine Datei über das Datei/Öffnen Menü der IDE öffnet
+  Die "Datei Ã¶ffnen" AuslÃ¶ser werden dann aktiv, wenn man eine Datei Ã¼ber das Datei/Ã–ffnen MenÃ¼ der IDE Ã¶ffnet
   oder eine Datei per Drag&Drop auf die IDE gezogen wird.
-  Diese Auslöser haben eine höhere Priorität für die Datei/Öffnen Tasks.
-  Nur wenn kein aktives Werkzeug vorhanden ist, werden die "Dateianzeiger ersetzen"-Auslöser behandelt.
+  Diese AuslÃ¶ser haben eine hÃ¶here PrioritÃ¤t fÃ¼r die Datei/Ã–ffnen Tasks.
+  Nur wenn kein aktives Werkzeug vorhanden ist, werden die "Dateianzeiger ersetzen"-AuslÃ¶ser behandelt.
 
 @LineBreak
 @LineBreak
 
-@Bold "Datei öffnen – nicht-PB Binärdateien"
+@Bold "Datei Ã¶ffnen â€“ nicht-PB BinÃ¤rdateien"
 @LineBreak
-  Dieser Auslöser wird getriggert bei Binärdateien, die nicht zu PureBasic gehören
+  Dieser AuslÃ¶ser wird getriggert bei BinÃ¤rdateien, die nicht zu PureBasic gehÃ¶ren
   (also praktisch alle).
 @LineBreak
 @LineBreak
-  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben. Alle anderen Tools mit diesem Trigger werden ignoriert.
+  Hinweis: Nur ein Werkzeug kann diesen AuslÃ¶ser haben. Alle anderen Tools mit diesem Trigger werden ignoriert.
 
 @LineBreak
 @LineBreak
 
-@Bold "Datei öffnen – nicht-PB Textdateien"
+@Bold "Datei Ã¶ffnen â€“ nicht-PB Textdateien"
 @LineBreak
-  Dieser wird getriggert bei Textdateien, die nicht zu PureBasic gehören.
+  Dieser wird getriggert bei Textdateien, die nicht zu PureBasic gehÃ¶ren.
 @LineBreak
 @LineBreak
-  Hinweis: Nur ein Werkzeug kann diesen Auslöser haben.
+  Hinweis: Nur ein Werkzeug kann diesen AuslÃ¶ser haben.
 
 @Section Andere Optionen auf der rechten Seite
 
 @Bold "Warten bis zum Beenden des Werkzeugs"
 @LineBreak
-  Die IDE wird für Eingaben gesperrt und unterlässt alle Aktionen bis das Werkzeug fertig
-  mit seiner Arbeit ist. Diese Option ist notwendig, wenn Sie einen Quellcode verändern
-  und danach wieder laden oder ihn an nach einem entsprechenden Auslöser an den Compiler 
-  übergeben möchten.
+  Die IDE wird fÃ¼r Eingaben gesperrt und unterlÃ¤sst alle Aktionen bis das Werkzeug fertig
+  mit seiner Arbeit ist. Diese Option ist notwendig, wenn Sie einen Quellcode verÃ¤ndern
+  und danach wieder laden oder ihn an nach einem entsprechenden AuslÃ¶ser an den Compiler 
+  Ã¼bergeben mÃ¶chten.
 
 @LineBreak
 @LineBreak
 
 @Bold "Versteckt starten"
 @LineBreak
-  Startet das Programm im unsichtbaren Modus. Verwenden Sie diese Option nicht für 
+  Startet das Programm im unsichtbaren Modus. Verwenden Sie diese Option nicht fÃ¼r 
   Programme, welche evtl. Anwender-Eingaben erwarten, da es in diesem Fall keine 
-  Möglichkeit zum Schließen des Programms gibt.
+  MÃ¶glichkeit zum SchlieÃŸen des Programms gibt.
 
 @LineBreak
 @LineBreak
 
 @Bold "Editor verstecken"
 @LineBreak
-  Dies ist nur möglich mit der gesetzten Option "Warten bis zum Beenden des Werkzeugs".
-  Versteckt den Editor, während das Werkzeug läuft.
+  Dies ist nur mÃ¶glich mit der gesetzten Option "Warten bis zum Beenden des Werkzeugs".
+  Versteckt den Editor, wÃ¤hrend das Werkzeug lÃ¤uft.
 
 @LineBreak
 @LineBreak
 
 @Bold "Quellcode nach Ende des Werkzeugs neu laden"
 @LineBreak
-  Dies ist nur möglich mit der gesetzten Option "Warten bis zum Beenden des Werkzeugs"
+  Dies ist nur mÃ¶glich mit der gesetzten Option "Warten bis zum Beenden des Werkzeugs"
   und wenn entweder der %FILE oder %TEMPFILE Platzhalter in der Argumente-Liste verwendet
   wird.
 @LineBreak
 @LineBreak
   Nachdem Ihr Programm beendet wurde, wird die IDE den Quellcode erneut in den Editor
-  laden. Sie können auswählen, ob dieser den alten Code ersetzen oder als ein neuer
+  laden. Sie kÃ¶nnen auswÃ¤hlen, ob dieser den alten Code ersetzen oder als ein neuer
   Code geladen werden soll.
 
 @LineBreak
 @LineBreak
 
-@Bold "Werkzeug vom Hauptmenü verstecken"
+@Bold "Werkzeug vom HauptmenÃ¼ verstecken"
 @LineBreak
-  Versteckt das Werkzeug vom Werkzeuge-Menü. Dies ist nützlich für Werkzeuge, welche
-  nur durch einen speziellen "Auslöser" und nicht vom Menü aus gestartet werden sollen.
+  Versteckt das Werkzeug vom Werkzeuge-MenÃ¼. Dies ist nÃ¼tzlich fÃ¼r Werkzeuge, welche
+  nur durch einen speziellen "AuslÃ¶ser" und nicht vom MenÃ¼ aus gestartet werden sollen.
 
 @LineBreak
 @LineBreak
 
 @Bold "Werkzeug auf einer pro-Quellcode Basis aktivieren"
 @LineBreak
-  Werkzeuge mit dieser gesetzten Option werden in der "Werkzeuge ausführen" Liste in den
-  @ReferenceLink "ide_compiler" "Compiler-Optionen" aufgelistet, und nur für solche 
-  Quellcodes ausgeführt, wo es dort aktiviert ist.
+  Werkzeuge mit dieser gesetzten Option werden in der "Werkzeuge ausfÃ¼hren" Liste in den
+  @ReferenceLink "ide_compiler" "Compiler-Optionen" aufgelistet, und nur fÃ¼r solche 
+  Quellcodes ausgefÃ¼hrt, wo es dort aktiviert ist.
   Bitte beachten Sie, dass bei Deaktivieren eines Werkzeugs hier im "Werkzeuge konfigurieren" 
-  Fenster dieses global deaktiviert wird und damit für keinen Quellcode läuft, auch wenn es 
+  Fenster dieses global deaktiviert wird und damit fÃ¼r keinen Quellcode lÃ¤uft, auch wenn es 
   dort aktiviert wird.
 @LineBreak
 @LineBreak
-  Diese Option ist nur verfügbar für die folgenden Auslöser-Ereignisse:
+  Diese Option ist nur verfÃ¼gbar fÃ¼r die folgenden AuslÃ¶ser-Ereignisse:
 @LineBreak
   - Vor dem Kompilieren/Starten @LineBreak
   - Nach dem Kompilieren/Starten @LineBreak
@@ -391,31 +391,31 @@
 @LineBreak
 @LineBreak
 
-@Bold "Unterstützte Dateierweiterungen"
+@Bold "UnterstÃ¼tzte Dateierweiterungen"
 @LineBreak
-  Nur für den "Dateianzeiger ersetzen - Spezielle Dateien" Auslöser.
-  Geben Sie die Liste der durch dieses Werkzeug unterstützten Endungen hier ein.
+  Nur fÃ¼r den "Dateianzeiger ersetzen - Spezielle Dateien" AuslÃ¶ser.
+  Geben Sie die Liste der durch dieses Werkzeug unterstÃ¼tzten Endungen hier ein.
 
 
 
-@Section Tipps für das Schreiben Ihrer eigenen Quellcode-Prozessoren (Verarbeitungswerkzeuge)
+@Section Tipps fÃ¼r das Schreiben Ihrer eigenen Quellcode-Prozessoren (Verarbeitungswerkzeuge)
 
-  Die IDE bietet zusätzliche Informationen für die Werkzeuge in der Form von Umgebungsvariablen.
-  Diese können innerhalb des Werkzeugs einfach mit den Befehlen der @LibraryLink "Process" "Process" Bibliothek
+  Die IDE bietet zusÃ¤tzliche Informationen fÃ¼r die Werkzeuge in der Form von Umgebungsvariablen.
+  Diese kÃ¶nnen innerhalb des Werkzeugs einfach mit den Befehlen der @LibraryLink "Process" "Process" Bibliothek
   gelesen werden.
 
 @LineBreak
 @LineBreak
   
   Dies ist eine Liste der angebotenen Variablen. Bitte beachten Sie, dass die Variablen, welche Informationen
-  über den aktiven Quellcode bieten, nicht für Werkzeuge zum Start oder Ende der IDE verfügbar sind.
+  Ã¼ber den aktiven Quellcode bieten, nicht fÃ¼r Werkzeuge zum Start oder Ende der IDE verfÃ¼gbar sind.
 @FixedFont
   PB_TOOL_IDE         - Voller Pfad und Dateiname der IDE
   PB_TOOL_Compiler    - Voller Pfad und Dateiname des Compilers
   PB_TOOL_Preferences - Voller Pfad und Dateiname der IDE-Einstellungsdatei (.prefs)
   PB_TOOL_Project     - Voller Pfad und Dateiname des aktuell offenen Projekts (falls es eines gibt)
-  PB_TOOL_Language    - Sprache, welche gegenwärtig in der IDE verwendet wird
-  PB_TOOL_FileList    - Eine Liste aller in der IDE geöffneten Dateien, getrennt durch Chr(10)
+  PB_TOOL_Language    - Sprache, welche gegenwÃ¤rtig in der IDE verwendet wird
+  PB_TOOL_FileList    - Eine Liste aller in der IDE geÃ¶ffneten Dateien, getrennt durch Chr(10)
 
   PB_TOOL_Debugger    - Diese Variablen bieten Einstellungen aus dem Fenster @ReferenceLink "ide_compiler" "Compiler Optionen"
   PB_TOOL_InlineASM     des aktuellen Quellcodes. Sie sind auf "1" gesetzt, wenn die Option
@@ -425,10 +425,10 @@
   PB_TOOL_OnError    
 
   PB_TOOL_SubSystem   - Inhalt des "Subsystem" Felds in den Compiler-Optionen
-  PB_TOOL_Executable  - das gleiche wie das %COMPILEFILE Token für die Kommandozeile
-  PB_TOOL_Cursor      - das gleiche wie das %CURSOR Token für die Kommandozeile
-  PB_TOOL_Selection   - das gleiche wie das %SELECTION Token für die Kommandozeile
-  PB_TOOL_Word        - das gleiche wie das %WORD Token für die Kommandozeile
+  PB_TOOL_Executable  - das gleiche wie das %COMPILEFILE Token fÃ¼r die Kommandozeile
+  PB_TOOL_Cursor      - das gleiche wie das %CURSOR Token fÃ¼r die Kommandozeile
+  PB_TOOL_Selection   - das gleiche wie das %SELECTION Token fÃ¼r die Kommandozeile
+  PB_TOOL_Word        - das gleiche wie das %WORD Token fÃ¼r die Kommandozeile
 
   PB_TOOL_MainWindow  - OS Handle des IDE-Hauptfensters
   PB_TOOL_Scintilla   - OS Handle der Scintilla Editor-Komponente des aktuellen Quellcodes
@@ -437,12 +437,12 @@
 @LineBreak
 
   Wenn die %TEMPFILE oder %COMPILEFILE Platzhalter verwendet werden, 
-  hängt die IDE die Compiler-Optionen als Kommentar an das Ende der
-  erstellten temporären Datei - auch wenn der Anwender ausgewählt hat, 
+  hÃ¤ngt die IDE die Compiler-Optionen als Kommentar an das Ende der
+  erstellten temporÃ¤ren Datei - auch wenn der Anwender ausgewÃ¤hlt hat, 
   die Optionen beim Speichern eines Quellcodes nicht zu speichern.
 @LineBreak
 @LineBreak
-  Dies gibt Ihrem Werkzeug die Möglichkeit, die Compiler-Einstellungen
-  für diese Datei auszulesen und diese bei den weiteren Aktionen mit
-  zu berücksichtigen.
+  Dies gibt Ihrem Werkzeug die MÃ¶glichkeit, die Compiler-Einstellungen
+  fÃ¼r diese Datei auszulesen und diese bei den weiteren Aktionen mit
+  zu berÃ¼cksichtigen.
 

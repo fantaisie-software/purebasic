@@ -1,23 +1,23 @@
-;
+ï»¿;
 ;     VectorDrawing library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library VectorDrawing
 
 @Overview
-  Die VectorDrawing Bibliothek bietet auflösungsunabhängige, hoch-qualitative Zeichenoperationen
-  für das Anzeigen, die Bild-Manipulation oder für das Drucken. Anders als die
-  @LibraryLink "2ddrawing" "2DDrawing" Bibliothek können die Funktionen in dieser Bibliothek
-  in einer Vielzahl von Maßeinheiten operieren und erlauben die gewünschten Koordinaten-Umwandlungen.
-  Dies ermöglicht das einfache Programmieren von Zeichenoperationen, welche unabhängig von der
-  aktuellen Ausgabeauflösung sind und einfach in verschiedene Größen skaliert werden können.
+  Die VectorDrawing Bibliothek bietet auflÃ¶sungsunabhÃ¤ngige, hoch-qualitative Zeichenoperationen
+  fÃ¼r das Anzeigen, die Bild-Manipulation oder fÃ¼r das Drucken. Anders als die
+  @LibraryLink "2ddrawing" "2DDrawing" Bibliothek kÃ¶nnen die Funktionen in dieser Bibliothek
+  in einer Vielzahl von MaÃŸeinheiten operieren und erlauben die gewÃ¼nschten Koordinaten-Umwandlungen.
+  Dies ermÃ¶glicht das einfache Programmieren von Zeichenoperationen, welche unabhÃ¤ngig von der
+  aktuellen AusgabeauflÃ¶sung sind und einfach in verschiedene GrÃ¶ÃŸen skaliert werden kÃ¶nnen.
 @LineBreak
-  Die VectorDrawing Bibliothek unterstützt Alpha-Transparenz bei all ihren Operationen.
-  Es sind nur Vektorschriftarten wie TrueType zulässig, dagegen ist die Verwendung von
-  Bitmap-Schriftarten nicht möglich.
-  Sie können auch keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
+  Die VectorDrawing Bibliothek unterstÃ¼tzt Alpha-Transparenz bei all ihren Operationen.
+  Es sind nur Vektorschriftarten wie TrueType zulÃ¤ssig, dagegen ist die Verwendung von
+  Bitmap-Schriftarten nicht mÃ¶glich.
+  Sie kÃ¶nnen auch keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
 
 @Section Zeichen-Sequenz
   Die Zeichenoperationen in dieser Bibliothek beinhalten drei grundlegende Schritte:
@@ -25,94 +25,95 @@
 @LineBreak
   1) Konstruieren eines Pfades (englisch "path") mit Funktionen wie @@AddPathLine, @@AddPathCurve, etc.
 @LineBreak
-  2) Auswählen einer Zeichenquelle (englisch "drawing source") wie @@VectorSourceColor
+  2) AuswÃ¤hlen einer Zeichenquelle (englisch "drawing source") wie @@VectorSourceColor
 @LineBreak
-  3) @Link "StrokePath" "Zeichnen" (stroke), @Link "FillPath" "Füllen" (fill), @Link "DotPath" "Punkten" (dot) oder 
+  3) @Link "StrokePath" "Zeichnen" (stroke), @Link "FillPath" "FÃ¼llen" (fill), @Link "DotPath" "Punkten" (dot) oder 
      @Link "DashPath" "Schraffieren" des Pfades
 @LineBreak
 @LineBreak
-  Nach dem Stricheln oder Füllen eines Pfades (englisch "stroking or filling a path")
-  wird der Pfad zurückgesetzt und ein neuer Pfad kann für die nächste Zeichenoperation
+  Nach dem Stricheln oder FÃ¼llen eines Pfades (englisch "stroking or filling a path")
+  wird der Pfad zurÃ¼ckgesetzt und ein neuer Pfad kann fÃ¼r die nÃ¤chste Zeichenoperation
   konstruiert werden. Die Auswahl der Zeichenquelle (Schritt 2) muss nicht jedes Mal
-  wiederholt werden, da die Zeichenquelle nicht zurückgesetzt wird.
+  wiederholt werden, da die Zeichenquelle nicht zurÃ¼ckgesetzt wird.
 @LineBreak
 @LineBreak
-  Das Pfad-basierte Zeichenmodell ermöglicht das Zeichnen komplexer Flächen (englisch "shapes")
+  Das Pfad-basierte Zeichenmodell ermÃ¶glicht das Zeichnen komplexer FlÃ¤chen (englisch "shapes")
   mit Eigenschaften wie dicke Linien mit abgerundeten/diagonalen Ecken und Punkt-/Strich-Mustern
   (englisch "dot/dash patterns") ohne das Auftreten sichtbarer Artefakte an Stellen, wo sich Teile
-  der Figuren treffen. Da der gesamte Pfad auf einmal gezeichnet wird, können solche Artefakte
+  der Figuren treffen. Da der gesamte Pfad auf einmal gezeichnet wird, kÃ¶nnen solche Artefakte
   vermieden werden.
 @LineBreak
 @LineBreak  
-  Siehe die @@AddPathLine Funktion für ein einfaches Beispiel der Zeichenschritte.
+  Siehe die @@AddPathLine Funktion fÃ¼r ein einfaches Beispiel der Zeichenschritte.
 
-@Section Maßeinheiten
-  Jede Zeichenausgabe hat eine Standard-Maßeinheit. Die Standardeinheiten sind Pixel für die
-  Bildschirm- oder Rasterbild-Ausgabe, und Punkte für die Drucker- oder Vektorbild-Ausgabe.
-  Es ist jedoch möglich, eine andere Maßeinheit für die Ausgabe auszuwählen, wenn diese
-  mit @@ImageVectorOutput, @@PrinterVectorOutput oder einer ähnlichen Funktion erstellt wird.
-  Alle Zeichenoperationen werden die ausgewählte Maßeinheit verwenden und die Werte intern
-  in die aktuellen Geräte (Device) - Koordinaten umwandeln.
-  Dies ermöglicht das Schreiben von Zeichencode in der bevorzugten Maßeinheit, unabhängig
-  von der verwendeten Ausgabe. Die ausgewählte Maßeinheit für die Ausgabe kann mit @@VectorUnit
-  überprüft werden.  
+@Section MaÃŸeinheiten
+  Jede Zeichenausgabe hat eine Standard-MaÃŸeinheit. Die Standardeinheiten sind Pixel fÃ¼r die
+  Bildschirm- oder Rasterbild-Ausgabe, und Punkte fÃ¼r die Drucker- oder Vektorbild-Ausgabe.
+  Es ist jedoch mÃ¶glich, eine andere MaÃŸeinheit fÃ¼r die Ausgabe auszuwÃ¤hlen, wenn diese
+  mit @@ImageVectorOutput, @@PrinterVectorOutput oder einer Ã¤hnlichen Funktion erstellt wird.
+  Alle Zeichenoperationen werden die ausgewÃ¤hlte MaÃŸeinheit verwenden und die Werte intern
+  in die aktuellen GerÃ¤te (Device) - Koordinaten umwandeln.
+@LineBreak
+  Dies ermÃ¶glicht das Schreiben von Zeichencode in der bevorzugten MaÃŸeinheit, unabhÃ¤ngig
+  von der verwendeten Ausgabe. Die ausgewÃ¤hlte MaÃŸeinheit fÃ¼r die Ausgabe kann mit @@VectorUnit
+  Ã¼berprÃ¼ft werden.  
 
 @Section Koordinaten-Umwandlung
-  Es ist möglich, das für das Zeichnen verwendete Koordinatensystem zu @Link "TranslateCoordinates" "bewegen",
+  Es ist mÃ¶glich, das fÃ¼r das Zeichnen verwendete Koordinatensystem zu @Link "TranslateCoordinates" "bewegen",
   zu @Link "ScaleCoordinates" "skalieren", zu @Link "RotateCoordinates" "drehen", zu
   @Link "FlipCoordinatesX" "flippen" oder zu @Link "SkewCoordinates" "verzerren" (englisch "skew").
-  Die Transformationen können frei kombiniert werden. Solche Tranformationen (oder Umwandlungen)
+  Die Transformationen kÃ¶nnen frei kombiniert werden. Solche Tranformationen (oder Umwandlungen)
   wirken sich auf alle Zeichenoperationen aus.
 @LineBreak
 @LineBreak
-  Mögliche Anwendungszwecke der Koordinaten-Umwandlung sind das Zeichnen von Figuren in einer
-  gedrehten oder gestreckten Weise, ohne den aktuellen Zeichenmodus verändern zu müssen.
+  MÃ¶gliche Anwendungszwecke der Koordinaten-Umwandlung sind das Zeichnen von Figuren in einer
+  gedrehten oder gestreckten Weise, ohne den aktuellen Zeichenmodus verÃ¤ndern zu mÃ¼ssen.
   Zum Beispiel kann Drucker-Code leicht ins Querformat umgewandelt werden, indem einfach
   die Koordinaten (und damit die gesamte Ausgabe) beim Start der Zeichenoperationen rotiert
   werden.
 @LineBreak
 @LineBreak 
   Es gibt vier verschiedene Koordinatensysteme und einige Funktionen verwenden einen optionalen
-  Parameter, um das zu verwendende System auszuwählen. Dies sind die verfügbaren Optionen:
+  Parameter, um das zu verwendende System auszuwÃ¤hlen. Dies sind die verfÃ¼gbaren Optionen:
 @LineBreak 
 @LineBreak 
 
   @#PB_Coordinate_Device
 @Indent
-  Dieses Koordinatensystem repräsentiert die physischen Koordinaten des Ausgabegeräts.
-  Es kann nicht umgewandelt / transformiert werden. Dieses Koordinatensystem ist nützlich
-  beim Umwandeln von Werten zwischen dem Geräte- und dem aktuellen Zeichen-Koordinatensystem
+  Dieses Koordinatensystem reprÃ¤sentiert die physischen Koordinaten des AusgabegerÃ¤ts.
+  Es kann nicht umgewandelt / transformiert werden. Dieses Koordinatensystem ist nÃ¼tzlich
+  beim Umwandeln von Werten zwischen dem GerÃ¤te- und dem aktuellen Zeichen-Koordinatensystem
   mittels @@ConvertCoordinateX und @@ConvertCoordinateY.
 @EndIndent
 
   @#PB_Coordinate_Output
 @Indent
-  Dieses Koordinatensystem repräsentiert die anfänglichen Ausgabekoordinaten in der ausgewählten
-  Maßeinheit. Dieses Koordinatensystem entspricht dem @#PB_Coordinate_Device, außer der möglichen
-  Skalierung (Größenänderung) durch eine abweichende Maßeinheit. Dieses Koordinatensystem kann
+  Dieses Koordinatensystem reprÃ¤sentiert die anfÃ¤nglichen Ausgabekoordinaten in der ausgewÃ¤hlten
+  MaÃŸeinheit. Dieses Koordinatensystem entspricht dem @#PB_Coordinate_Device, auÃŸer der mÃ¶glichen
+  Skalierung (GrÃ¶ÃŸenÃ¤nderung) durch eine abweichende MaÃŸeinheit. Dieses Koordinatensystem kann
   nicht umgewandelt / transformiert werden.
 @EndIndent
 
   @#PB_Coordinate_User
 @Indent
-  Dies ist das für alle Zeichenoperationen verwendete Koordinatensystem. Dieses Koordinatensystem
-  wird immer dann verwendet, wenn nicht ausdrücklich ein abweichendes System angegeben wird.
-  Es kann frei umgewandelt / transformiert werden. Anfänglich entspricht dieses Koordinatensystem
-  dem @#PB_Coordinate_Output System und kann mittels @@ResetCoordinates darauf zurückgesetzt werden.
+  Dies ist das fÃ¼r alle Zeichenoperationen verwendete Koordinatensystem. Dieses Koordinatensystem
+  wird immer dann verwendet, wenn nicht ausdrÃ¼cklich ein abweichendes System angegeben wird.
+  Es kann frei umgewandelt / transformiert werden. AnfÃ¤nglich entspricht dieses Koordinatensystem
+  dem @#PB_Coordinate_Output System und kann mittels @@ResetCoordinates darauf zurÃ¼ckgesetzt werden.
 @EndIndent
 
   @#PB_Coordinate_Source
 @Indent
   Dieses Koordinatensystem wird von den Befehlen verwendet, welche die Vektorzeichnen-Quelle
-  auswählen. Es ist am nützlichsten mit dem @@VectorSourceImage Befehl, um das verwendete
+  auswÃ¤hlen. Es ist am nÃ¼tzlichsten mit dem @@VectorSourceImage Befehl, um das verwendete
   Quellbild umzuwandeln. Dieses Koordinatensystem ist relativ zum @#PB_Coordinate_User System,
   daher wirkt sich jede Transformation des @#PB_Coordinate_User Systems auch auf dieses System
   aus.
 @EndIndent
 
-  Für die meisten Anwendungszwecke ist @#PB_Coordinate_User das interessanteste Koordinatensystem
-  und daher auch der Standard. Die anderen Systeme sind hauptsächlich nützlich für die
-  Koordinaten-Umwandlung oder für spezielle Zwecke wie das Umwandeln eines Quellbildes.
+  FÃ¼r die meisten Anwendungszwecke ist @#PB_Coordinate_User das interessanteste Koordinatensystem
+  und daher auch der Standard. Die anderen Systeme sind hauptsÃ¤chlich nÃ¼tzlich fÃ¼r die
+  Koordinaten-Umwandlung oder fÃ¼r spezielle Zwecke wie das Umwandeln eines Quellbildes.
 
 ; ====== Code to generate the various coordinate translation images (do not show in the actual docs) ====
 ;   Procedure DrawSample(Color)
@@ -194,24 +195,24 @@
 @Example Rotieren des Koordinatensystems
 @Image rotatecoordinates.png
 
-@Example Kombinieren von Koordinaten-Transformationen (Übersetzen & Verzerren, englisch "translation & skew")  
+@Example Kombinieren von Koordinaten-Transformationen (Ãœbersetzen & Verzerren, englisch "translation & skew")  
 @Image transformcoordinates.png  
 
 @Section Zeichenstatus und Layer (Schichten)
   Eine Anzahl an Eigenschaften der Zeichenausgabe wie die Koordinaten-Umwandlungen, das
-  Clipping oder die Zeichen-Quelle können gespeichert und später wiederhergestellt werden
-  mittels @@SaveVectorState bzw. @@RestoreVectorState. Dies ermöglicht vorübergehende
-  Veränderungen an der Zeichenausgabe und das spätere Wiederherstellen des vorhergehenden
-  Status. Die Befehle arbeiten in einem Stack - daher ist es möglich, verschiedene
+  Clipping oder die Zeichen-Quelle kÃ¶nnen gespeichert und spÃ¤ter wiederhergestellt werden
+  mittels @@SaveVectorState bzw. @@RestoreVectorState. Dies ermÃ¶glicht vorÃ¼bergehende
+  VerÃ¤nderungen an der Zeichenausgabe und das spÃ¤tere Wiederherstellen des vorhergehenden
+  Status. Die Befehle arbeiten in einem Stack - daher ist es mÃ¶glich, verschiedene
   Zeichen-Status zu speichern/wieder herzustellen.
 @LineBreak
 @LineBreak
   @@BeginVectorLayer erlaubt das Speichern des aktuellen Zeichenstatus und das Konstruieren
-  einer neuen virtuellen Zeichenschicht (Layer). Künftige Zeichenoperationen werden auf diesen
+  einer neuen virtuellen Zeichenschicht (Layer). KÃ¼nftige Zeichenoperationen werden auf diesen
   Layer geleitet. Der Aufruf von @@EndVectorLayer wird den Layer mit der darunter liegenden Zeichenausgabe
-  kombinieren und den vorherigen Zeichenstatus wiederherstellen. Dies ermöglicht das Kombinieren
+  kombinieren und den vorherigen Zeichenstatus wiederherstellen. Dies ermÃ¶glicht das Kombinieren
   einer Anzahl an Zeichenoperationen, um diese dann als einen Layer (Schicht) auf die Ausgabe
-  anzuwenden. Mehrere temporäre Layer können auf diese Art und Weise erstellt werden.
+  anzuwenden. Mehrere temporÃ¤re Layer kÃ¶nnen auf diese Art und Weise erstellt werden.
 
 @CommandList
 
@@ -228,8 +229,8 @@
   Bereitet die VectorDrawing Bibliothek zum Zeichnen auf die angegebene Ausgabe vor.
 
 @Parameter "Ausgabe"
-  Die Ausgabe, auf die gezeichnet werden soll. Diese Funktionen können verwendet werden,
-  um eine Ausgabe für das Vektor-Zeichnen zu erhalten:
+  Die Ausgabe, auf die gezeichnet werden soll. Diese Funktionen kÃ¶nnen verwendet werden,
+  um eine Ausgabe fÃ¼r das Vektor-Zeichnen zu erhalten:
 @LineBreak
 @LineBreak
   @@WindowVectorOutput: Zeichnen wird direkt auf dem Fenster gerendert
@@ -245,7 +246,7 @@
   @@SvgVectorOutput: Zeichnen wird direkt in einer SVG-Datei gerendert
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Zeichnen möglich ist. Oder Null, wenn die
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Zeichnen mÃ¶glich ist. Oder Null, wenn die
   Operation fehlgeschlagen ist.
   
 @Remarks
@@ -254,7 +255,7 @@
 @LineBreak
   Wenn "Erstelle Thread-sicheres Executable" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
   aktiviert ist, dann hat jeder Thread seine eigene Zeichenausgabe. Dies bedeutet, dass zwei Threads
-  auf verschiedenen Ausgaben zur gleichen Zeit zeichnen können.
+  auf verschiedenen Ausgaben zur gleichen Zeit zeichnen kÃ¶nnen.
 
 @SeeAlso
   @@StopVectorDrawing
@@ -266,7 +267,7 @@
 @Function StopVectorDrawing()
 
 @Description
-  Schließt eine Sequenz von Zeichenoperationen ab und gibt alle dadurch reservierten Ressourcen
+  SchlieÃŸt eine Sequenz von Zeichenoperationen ab und gibt alle dadurch reservierten Ressourcen
   frei.
 
 @NoParameters
@@ -282,12 +283,12 @@
 @Function Ergebnis.d = VectorOutputWidth()
 
 @Description
-  Gibt die Breite des Vektorzeichnen-Ausgabebereichs zurück.
+  Gibt die Breite des Vektorzeichnen-Ausgabebereichs zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Ausgabebreite zurück.
+  Gibt die Ausgabebreite zurÃ¼ck.
 
 @Example 
 
@@ -304,12 +305,12 @@
 @Function Ergebnis.d = VectorOutputHeight()
 
 @Description
-  Gibt die Höhe des Vektorzeichnen-Ausgabebereichs zurück.
+  Gibt die HÃ¶he des Vektorzeichnen-Ausgabebereichs zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Ausgabehöhe zurück.
+  Gibt die AusgabehÃ¶he zurÃ¼ck.
 
 @Example 
 
@@ -326,13 +327,13 @@
 @Function Ergebnis.d = VectorResolutionX()
 
 @Description
-  Gibt die horizontale Auflösung des Vektorzeichnen-Ausgabebereichs zurück.
+  Gibt die horizontale AuflÃ¶sung des Vektorzeichnen-Ausgabebereichs zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die horizontale Auflösung in DPI ("dots per inch", englische Maßeinheit "Punkte pro Inch")
-  zurück.
+  Gibt die horizontale AuflÃ¶sung in DPI ("dots per inch", englische MaÃŸeinheit "Punkte pro Inch")
+  zurÃ¼ck.
 
 @SeeAlso
   @@VectorResolutionY
@@ -344,16 +345,16 @@
 @Function Ergebnis.d = VectorResolutionY()
 
 @Description
-  Gibt die vertikale Auflösung des Vektorzeichnen-Ausgabebereichs zurück.
+  Gibt die vertikale AuflÃ¶sung des Vektorzeichnen-Ausgabebereichs zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die vertikale Auflösung in DPI ("dots per inch", englische Maßeinheit für "Punkte pro Zoll")
-  zurück.
+  Gibt die vertikale AuflÃ¶sung in DPI ("dots per inch", englische MaÃŸeinheit fÃ¼r "Punkte pro Zoll")
+  zurÃ¼ck.
 
 @Remarks
-  Die vertikale Auflösung kann im Fall der Druckerausgabe von der horizontalen Auflösung
+  Die vertikale AuflÃ¶sung kann im Fall der Druckerausgabe von der horizontalen AuflÃ¶sung
   abweichen.
   
 @SeeAlso
@@ -366,14 +367,14 @@
 @Function Ergebnis = VectorUnit()
 
 @Description
-  Gibt die Einheit zurück, in der alle Koordinaten und Größen auf der aktuellen
+  Gibt die Einheit zurÃ¼ck, in der alle Koordinaten und GrÃ¶ÃŸen auf der aktuellen
   Vektorzeichnen-Ausgabe gemessen werden. Diese Einheit wurde angegeben, als 
   die Ausgabe erstellt wurde.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen der folgenden Werte zurück:
+  Gibt einen der folgenden Werte zurÃ¼ck:
 @FixedFont
   @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
   @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
@@ -388,8 +389,8 @@
 @Function SaveVectorState()
 
 @Description
-  Speichert den aktuellen Vektorzeichnen-Status, um ihn später wieder herzustellen.
-  Mehrere Status können auf einem Stack (Stapel) gespeichert werden, und in umgekehrter
+  Speichert den aktuellen Vektorzeichnen-Status, um ihn spÃ¤ter wieder herzustellen.
+  Mehrere Status kÃ¶nnen auf einem Stack (Stapel) gespeichert werden, und in umgekehrter
   Reihenfolge (wie sie gespeichert wurden) wiederhergestellt werden.
 @LineBreak
 @LineBreak
@@ -424,7 +425,7 @@
       MovePathCursor(20, 20)
       DrawVectorText("Normal text")
       
-      ; Änderungen am Zeichnungsstatus innerhalb dieses Blocks wirken sich nicht auf die anderen Befehle aus
+      ; Ã„nderungen am Zeichnungsstatus innerhalb dieses Blocks wirken sich nicht auf die anderen Befehle aus
       SaveVectorState()
         MovePathCursor(120, 160)
         RotateCoordinates(120, 160, -50)
@@ -461,7 +462,7 @@
 @NoReturnValue
 
 @Example
-  Siehe @@SaveVectorState für ein Beispiel.
+  Siehe @@SaveVectorState fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@SaveVectorState
@@ -474,23 +475,23 @@
 
 @Description
   Beginnt einen neuen leeren Layer (Schicht) oberhalb der aktuellen Vektorzeichnen-Ausgabe.
-  Alle nachfolgenden Zeichenoperationen werden auf diesem Layer ausgeführt, bis
+  Alle nachfolgenden Zeichenoperationen werden auf diesem Layer ausgefÃ¼hrt, bis
   @@EndVectorLayer aufgerufen wird. Dieser Befehl speichert auf die gleiche Weise wie
   @@SaveVectorState auch den aktuelen Zeichenstatus.
-  Es können mehrere Layer erstellt werden.
+  Es kÃ¶nnen mehrere Layer erstellt werden.
 
 @OptionalParameter "Alpha"
   Definiert die Alpha-Transparenz des neuen Vektor-Layers.
-  Erlaubte Werte reichen von 0 (vollständig transparent) bis 255 (völlig undurchsichtig).
-  Der Standard ist 255 (völlig undurchsichtig).
+  Erlaubte Werte reichen von 0 (vollstÃ¤ndig transparent) bis 255 (vÃ¶llig undurchsichtig).
+  Der Standard ist 255 (vÃ¶llig undurchsichtig).
 
 @NoReturnValue
 
 @Remarks
-  Die zum Erstellen des temporären Layers benötigten Ressourcen hängen von der Größe des
+  Die zum Erstellen des temporÃ¤ren Layers benÃ¶tigten Ressourcen hÃ¤ngen von der GrÃ¶ÃŸe des
   aktuellen @Link "ClipPath" "Clipping-Pfads" ab. Um Ressourcen zu sparen und die
-  Zeichen-Performance zu erhöhen, ist es daher empfehlenswert, einen Clipping-Pfad
-  festzulegen, der nur den Bereich abdeckt, in welchem der temporäre Layer auch
+  Zeichen-Performance zu erhÃ¶hen, ist es daher empfehlenswert, einen Clipping-Pfad
+  festzulegen, der nur den Bereich abdeckt, in welchem der temporÃ¤re Layer auch
   Zeichnungen beinhaltet.
   
 @Example 
@@ -540,16 +541,16 @@
 @Function EndVectorLayer()
 
 @Description
-  Schließt das Zeichnen auf einem temporären Layer, der mit @@BeginVectorLayer erstellt
-  wurde, ab. Die Inhalte des Layers werden auf dem nächstniedrigeren Layer mittels der
-  Alpha-Transparenz des temporären Layers gezeichnet. Dieser Befehl stellt auch den
-  Zeichenstatus wieder her, der beim Aufruf vom @@BeginVectorLayer gültig war.
+  SchlieÃŸt das Zeichnen auf einem temporÃ¤ren Layer, der mit @@BeginVectorLayer erstellt
+  wurde, ab. Die Inhalte des Layers werden auf dem nÃ¤chstniedrigeren Layer mittels der
+  Alpha-Transparenz des temporÃ¤ren Layers gezeichnet. Dieser Befehl stellt auch den
+  Zeichenstatus wieder her, der beim Aufruf vom @@BeginVectorLayer gÃ¼ltig war.
 
 @NoParameters
 @NoReturnValue
 
 @Example
-  Siehe @@BeginVectorLayer für ein Beispiel.
+  Siehe @@BeginVectorLayer fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@BeginVectorLayer, @@SaveVectorState
@@ -561,11 +562,11 @@
 @Function NewVectorPage()
 
 @Description
-  Schließt die aktuelle Seite auf der Vektorzeichnen-Ausgabe ab und beginnt eine
+  SchlieÃŸt die aktuelle Seite auf der Vektorzeichnen-Ausgabe ab und beginnt eine
   neue Seite.
 @LineBreak
 @LineBreak
-  Die folgenden Ausgaben unterstützen mehrere Seiten:
+  Die folgenden Ausgaben unterstÃ¼tzen mehrere Seiten:
 @LineBreak
 @LineBreak
   @@PrinterVectorOutput
@@ -585,9 +586,9 @@
 @Function FillVectorOutput()
 
 @Description
-  Füllt die gesamte Zeichenfläche (außer Bereiche außerhalb des Clipping-Pfades) mit der
+  FÃ¼llt die gesamte ZeichenflÃ¤che (auÃŸer Bereiche auÃŸerhalb des Clipping-Pfades) mit der
   aktuellen Zeichenquelle. Diese Operation entspricht dem Konstruieren eines Pfades,
-  welcher die gesamte Zeichenfläche umfasst und darauf @@FillPath aufgerufen wird.
+  welcher die gesamte ZeichenflÃ¤che umfasst und darauf @@FillPath aufgerufen wird.
 
 @NoParameters
 @NoReturnValue
@@ -623,21 +624,21 @@
 @Function ResetCoordinates([System])
 
 @Description
-  Setzt jegliche Koordinationen-Transformationen zurück, die auf die aktuelle Vektorzeichnen-Ausgabe
+  Setzt jegliche Koordinationen-Transformationen zurÃ¼ck, die auf die aktuelle Vektorzeichnen-Ausgabe
   angewandt wurden, und stellt das Koordinatensystem wieder her, das beim Aufruf von
-  @@StartVectorDrawing gültig war.
+  @@StartVectorDrawing gÃ¼ltig war.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 
 @SeeAlso
@@ -653,28 +654,28 @@
 @Description
   Verschiebt den Ursprung des Vektorzeichnen-Koordinatensystems. Die Verschiebung
   wird entlang der x/y-Achse des aktuellen Koordinatensystems angewandt werden.
-  Alle zukünftigen Zeichenoperationen werden relativ zum neuen Ursprung sein.
+  Alle zukÃ¼nftigen Zeichenoperationen werden relativ zum neuen Ursprung sein.
 
 @Parameter "x.d, y.d"
-  Geben die Größe an, um wieviel der Koordinatenurprung entlang der x/y-Achse bewegt wird.
+  Geben die GrÃ¶ÃŸe an, um wieviel der Koordinatenurprung entlang der x/y-Achse bewegt wird.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
-  Das folgende Bild demonstriert den Effekt der "übersetzten" Koordinaten. 
+  Das folgende Bild demonstriert den Effekt der "Ã¼bersetzten" Koordinaten. 
   Die gleiche Figur wird zweimal gezeichnet - das Original ist in Blau, und die Version mit
-  übersetzten Koordinaten in Rot.
+  Ã¼bersetzten Koordinaten in Rot.
 
 @Image translatecoordinates.png
   
@@ -716,27 +717,27 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ScaleCoordinates(AusmaßX.d, AusmaßY.d [, System])
+@Function ScaleCoordinates(AusmaÃŸX.d, AusmaÃŸY.d [, System])
 
 @Description
   Skaliert das Koordinatensystem der Vektorzeichnung durch Streckung in der x/y Richtung.
  
-@Parameter "AusmaßX.d, AusmaßY.d"
-  Geben die Skalierfaktoren für jede Richtung an. Ein Faktor von 1.0 beläßt das Koordinatensystem 
-  unverändert, während Faktoren über oder unter 1.0 das Koordinatensystem strecken. 
+@Parameter "AusmaÃŸX.d, AusmaÃŸY.d"
+  Geben die Skalierfaktoren fÃ¼r jede Richtung an. Ein Faktor von 1.0 belÃ¤ÃŸt das Koordinatensystem 
+  unverÃ¤ndert, wÃ¤hrend Faktoren Ã¼ber oder unter 1.0 das Koordinatensystem strecken. 
   Ein negativer Faktor spiegelt die ausgegebenen Koordinaten. 
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
@@ -798,16 +799,16 @@
   im Uhrzeigersinn.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
@@ -862,19 +863,19 @@
   auf das Koordinatensystem der Vektorzeichnung.
 
 @Parameter "WinkelX.d, WinkelY.d"
-  Geben die Scherwinkel für jede Richtung in Grad an.
+  Geben die Scherwinkel fÃ¼r jede Richtung in Grad an.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
@@ -931,16 +932,16 @@
   Die x-Koordinate, an welcher das Koordinatensystem gespiegelt werden soll.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
@@ -997,16 +998,16 @@
   Die y-Koordinate, an welcher das Koordinatensystem gespiegelt werden soll.
 
 @OptionalParameter "System"
-  Gibt das zu ändernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
+  Gibt das zu Ã¤ndernde Koordinatensystem an. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Coordinate_User  : Ändert das Koordinatensystem für Punkte im Zeichenpfad (Standard)
-  @#PB_Coordinate_Source: Ändert das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Ã„ndert das Koordinatensystem fÃ¼r Punkte im Zeichenpfad (Standard)
+  @#PB_Coordinate_Source: Ã„ndert das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
@@ -1058,7 +1059,7 @@
 
 @Description
   Konvertiert einen Punkt von einem Koordinatensystem in ein anderes innerhalb der
-  Vektorzeichnen-Ausgabe. Diese Funktion gibt die X-Koordinate der Umwandlung zurück.
+  Vektorzeichnen-Ausgabe. Diese Funktion gibt die X-Koordinate der Umwandlung zurÃ¼ck.
   Die Y-Koordinate kann mit der @@ConvertCoordinateY Funktion ermittelt werden.
 
 @Parameter "x.d, y.d"
@@ -1066,28 +1067,28 @@
   Quell-Koordinatensystem an.
 
 @OptionalParameter "Quelle, Ziel"
-  Geben die Quell- und Ziel-Koordinaten für die Konvertierung an. Jede kann einer
+  Geben die Quell- und Ziel-Koordinaten fÃ¼r die Konvertierung an. Jede kann einer
   der folgenden Werte sein:
 @FixedFont
   @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
   @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
-  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad
-  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Das Koordinatensystem fÃ¼r Punkte im Zeichenpfad
+  @#PB_Coordinate_Source: Das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont 
   Die Standard-Konvertierung erfolgt von @#PB_Coordinate_User in @#PB_Coordinate_Output.
 
 @ReturnValue
-  Gibt die X-Koordinate des Punktes im Ziel-Koordinatensystem zurück.
+  Gibt die X-Koordinate des Punktes im Ziel-Koordinatensystem zurÃ¼ck.
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
   
 @Example 
 
 @Code
-  ; Diese Beispiel zeichnet einen Punkt an der Mausposition, selbst in einem veränderten
-  ; Koordinatensystem - durch Abbilden ("mapping") der Koordinaten vom Gerätesystem 
+  ; Diese Beispiel zeichnet einen Punkt an der Mausposition, selbst in einem verÃ¤nderten
+  ; Koordinatensystem - durch Abbilden ("mapping") der Koordinaten vom GerÃ¤tesystem 
   ; ("device", in Pixel) das Benutzersystem ("user", in Punkten)
   ;
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1132,32 +1133,32 @@
 
 @Description
   Konvertiert einen Punkt von einem Koordinatensystem in ein anderes innerhalb der
-  Vektorzeichnen-Ausgabe. Diese Funktion gibt die Y-Koordinate der Umwandlung zurück.
+  Vektorzeichnen-Ausgabe. Diese Funktion gibt die Y-Koordinate der Umwandlung zurÃ¼ck.
   Die X-Koordinate kann mit der @@ConvertCoordinateX Funktion ermittelt werden.
 
 @Parameter "x.d, y.d"
   Gibt die Koordinaten des zu konvertierenden Punktes in Bezug auf das Quell-Koordinatensystem an.
 
 @OptionalParameter "Quelle, Ziel"
-  Geben die Quell- und Ziel-Koordinaten für die Konvertierung an. Jede kann einer
+  Geben die Quell- und Ziel-Koordinaten fÃ¼r die Konvertierung an. Jede kann einer
   der folgenden Werte sein:
 @FixedFont
   @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
   @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
-  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad
-  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Das Koordinatensystem fÃ¼r Punkte im Zeichenpfad
+  @#PB_Coordinate_Source: Das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont 
   Die Standard-Konvertierung erfolgt von @#PB_Coordinate_User in @#PB_Coordinate_Output.
 
 @ReturnValue
-  Gibt die Y-Koordinate des Punktes im Ziel-Koordinatensystem zurück.
+  Gibt die Y-Koordinate des Punktes im Ziel-Koordinatensystem zurÃ¼ck.
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
   
 @Example 
-  Siehe @@ConvertCoordinateX für ein Beispiel.
+  Siehe @@ConvertCoordinateX fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
@@ -1170,7 +1171,7 @@
 @Function ResetPath()
 
 @Description
-  Setzt den Vektorzeichnen-Pfad auf einen leeren Pfad zurück und verschiebt den Cursor
+  Setzt den Vektorzeichnen-Pfad auf einen leeren Pfad zurÃ¼ck und verschiebt den Cursor
   an die Position (0, 0).
 
 @NoParameters
@@ -1186,12 +1187,12 @@
 @Function ClosePath()
 
 @Description
-  Schließt die aktuelle Figur im Vektorzeichnen-Koordinatensystem durch Hinzufügen einer
+  SchlieÃŸt die aktuelle Figur im Vektorzeichnen-Koordinatensystem durch HinzufÃ¼gen einer
   geraden Linie bis zum Ausgangspunkt der Figur. Der Ausgangspunkt ist der Ort des letzten
   @@MovePathCursor Aufrufs.
 @LineBreak
 @LineBreak
-  Wenn ein Pfad @Link "FillPath" "gefüllt" wird, werden nur geschlossene Figuren berücksichtigt.
+  Wenn ein Pfad @Link "FillPath" "gefÃ¼llt" wird, werden nur geschlossene Figuren berÃ¼cksichtigt.
 
 @NoParameters
 @NoReturnValue
@@ -1215,7 +1216,7 @@
       AddPathLine(380, 160)
       ClosePath()      
 
-      ; Füllt den Pfad
+      ; FÃ¼llt den Pfad
       VectorSourceColor(RGBA(0, 0, 255, 255))
       FillPath()
     
@@ -1243,7 +1244,7 @@
 @Description
   Bewegt den Cursor des Vektorzeichnen-Pfades an eine neue Position. Dies beginnt auch eine
   neue Figur innerhalb des Pfades - was bedeutet, dass ein Aufruf von @@ClosePath eine
-  Linie zurück zu dieser Position zeichnen wird.
+  Linie zurÃ¼ck zu dieser Position zeichnen wird.
 
 @Parameter "x.d, y.d"
   Die neue Position des Pfad-Cursors.
@@ -1296,11 +1297,11 @@
 @Function AddPathLine(x.d, y.d [, Flags])
 
 @Description
-  Fügt eine gerade Linie zum Vektorzeichnen-Pfad hinzu. Die Linie beginnt an der aktuellen
+  FÃ¼gt eine gerade Linie zum Vektorzeichnen-Pfad hinzu. Die Linie beginnt an der aktuellen
   Cursor-Position und endet an den angegebenen Koordinaten.
 
 @Parameter "x.d, y.d"
-  Die Position für das Ende der Linie. Diese wird zur neuen Position des Pfad-Cursors.
+  Die Position fÃ¼r das Ende der Linie. Diese wird zur neuen Position des Pfad-Cursors.
 
 @OptionalParameter "Flags"
   Kann einer der folgenden Werte sein:
@@ -1351,19 +1352,19 @@
 @Function AddPathArc(x1.d, y1.d, x2.d, y2.d, Radius.d, [, Flags])
 
 @Description
-  Ergänzt eine gerade Linie in Richtung (x1, y2) gefolgt von einem Kreisbogen (englisch "arc") in
+  ErgÃ¤nzt eine gerade Linie in Richtung (x1, y2) gefolgt von einem Kreisbogen (englisch "arc") in
   Richtung (x2, y2) zum Vektorzeichnen-Pfad. Diese Funktion kann verwendet werden, um Pfade mit
   abgerundeten Ecken zu erstellen.
   Die neue Cursorposition wird der Endpunkt des Kreisbogens sein.
 
 @Parameter "x1.d, y1.d"
-  Die Zielposition für die gerade Linie.
+  Die Zielposition fÃ¼r die gerade Linie.
 
 @Parameter "x2.d, y2.d"
   Die Zielposition zur Richtungsangabe des Kreisbogens.
 
 @Parameter "Radius.d"
-  Der Radius für die abgerundete Ecke.
+  Der Radius fÃ¼r die abgerundete Ecke.
 
 @OptionalParameter "Flags"
   Kann einer der folgenden Werte sein:
@@ -1377,10 +1378,10 @@
 
 @Remarks
   Die folgende Abbildung zeigt die Bedeutung der beiden Referenzpunkte und der Segmente,
-  die zum Pfad hinzugefügt werden. Zu beachten ist, dass keine zweite gerade Linie in
-  Richtung des (x2, y2) Punktes durch den Befehl hinzugefügt wird. Dies macht es möglich,
+  die zum Pfad hinzugefÃ¼gt werden. Zu beachten ist, dass keine zweite gerade Linie in
+  Richtung des (x2, y2) Punktes durch den Befehl hinzugefÃ¼gt wird. Dies macht es mÃ¶glich,
   @@AddPathArc erneut zu verwenden, um eine weitere abgerundete Ecke auch an der (x2, y2)
-  Position hinzuzufügen.
+  Position hinzuzufÃ¼gen.
   
 ; === Code to produce the below image (don't show this in the manual) ===
 ;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1461,7 +1462,7 @@
 @Function AddPathCurve(x1.d, y1.d, x2.d, y2.d, x3.d, y3.d [, Flags])
 
 @Description
-  Fügt eine kubische Bezier-Kurve zum Vektorzeichnen-Pfad hinzu. Die Kurve beginnt bei
+  FÃ¼gt eine kubische Bezier-Kurve zum Vektorzeichnen-Pfad hinzu. Die Kurve beginnt bei
   der aktuellen Pfad-Position und endet bei (x3, y3). Die beiden anderen Punkte bestimmen
   den Verlauf bzw. die Form der Kurve.
 
@@ -1485,8 +1486,8 @@
 
 @Remarks
   Das nachfolgende Bild zeigt die Position der Referenzpunkte.
-  Siehe @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "hier" für weitere
-  Informationen über Bezier-Kurven.
+  Siehe @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "hier" fÃ¼r weitere
+  Informationen Ã¼ber Bezier-Kurven.
   
 ;=== Code to produce this image (do not show this in the docs)
 ;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
@@ -1560,22 +1561,22 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function AddPathBox(x.d, y.d, Breite.d, Höhe.d [, Flags])
+@Function AddPathBox(x.d, y.d, Breite.d, HÃ¶he.d [, Flags])
 
 @Description
-  Fügt ein Kästchen (Box) zum Vektorzeichnen-Pfad hinzu. Dies ist eine bequeme Funktion,
-  welche die nötigen @@AddPathLine Aufrufe kombiniert, um eine einfache Kastenform zu erstellen.
+  FÃ¼gt ein KÃ¤stchen (Box) zum Vektorzeichnen-Pfad hinzu. Dies ist eine bequeme Funktion,
+  welche die nÃ¶tigen @@AddPathLine Aufrufe kombiniert, um eine einfache Kastenform zu erstellen.
 @LineBreak
 @LineBreak
-  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt die Box als
-  unverbundene und geschlossene Figur zum Pfad hinzu (d.h. ein Kasten, der ausgefüllt
-  werden kann). Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+  StandardmÃ¤ÃŸig beendet diese Funktion die aktuelle Figur im Pfad und fÃ¼gt die Box als
+  unverbundene und geschlossene Figur zum Pfad hinzu (d.h. ein Kasten, der ausgefÃ¼llt
+  werden kann). Dieses Verhalten kann mit den entsprechenden Flags geÃ¤ndert werden.
 
 @Parameter "x.d, y.d"
   Geben den Ursprung der Box an.
 
-@Parameter "Breite.d, Höhe.d"
-  Geben die Breite und Höhe der Box an.
+@Parameter "Breite.d, HÃ¶he.d"
+  Geben die Breite und HÃ¶he der Box an.
 
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
@@ -1623,12 +1624,12 @@
 @Function AddPathCircle(x.d, y.d, Radius.d [, StartWinkel.d, EndWinkel.d [, Flags]])
 
 @Description
-  Fügt einen Kreis (oder einen Teilkreis) zum Vektorzeichnen-Pfad hinzu.
+  FÃ¼gt einen Kreis (oder einen Teilkreis) zum Vektorzeichnen-Pfad hinzu.
 @LineBreak
 @LineBreak
-  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt den Kreis
+  StandardmÃ¤ÃŸig beendet diese Funktion die aktuelle Figur im Pfad und fÃ¼gt den Kreis
   als eine unverbundene Figur zum Pfad hinzu (volle Kreise werden als geschlossen markiert).
-  Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+  Dieses Verhalten kann mit den entsprechenden Flags geÃ¤ndert werden.
 
 @Parameter "x.d, y.d"
   Geben den Mittelpunkt des Kreises an.
@@ -1637,7 +1638,7 @@
   Gibt den Radius des Kreises an.
 
 @OptionalParameter "StartWinkel.d, EndWinkel.d"
-  Geben den Winkel (in Grad) für Beginn und Ende des Kreise an. Der Winkel 0 befindet
+  Geben den Winkel (in Grad) fÃ¼r Beginn und Ende des Kreise an. Der Winkel 0 befindet
   sich an der positiven X-Achse. Die Standardwerte lauten 0 bzw. 360 Grad.
 
 @OptionalParameter "Flags"
@@ -1648,13 +1649,13 @@
   @#PB_Path_Connected       : Der Kreis ist mit dem existierenden Pfad durch eine Linie
                              verbunden und nicht automatisch eine geschlossene Figur.
   @#PB_Path_CounterClockwise: Die Zeichenrichtung zwischen den Start-/End-Winkeln
-                             verläuft gegen den Uhrzeigersinn.
+                             verlÃ¤uft gegen den Uhrzeigersinn.
 @EndFixedFont 
 
 @NoReturnValue
 
 @Remarks
-  Diese Funktion ist gedacht für die Erstellung eigenständiger Kreise oder Kreisbögen.
+  Diese Funktion ist gedacht fÃ¼r die Erstellung eigenstÃ¤ndiger Kreise oder KreisbÃ¶gen.
   Um Figuren mit abgerundeten Ecken zu zeichnen, kann die @@AddPathArc Funktion verwendet
   werden, welche automatisch die richtigen Winkel und den Mittelpunkt berechnet, um
   abgerundete Ecken zu zeichnen.
@@ -1700,12 +1701,12 @@
 @Function AddPathEllipse(x.d, y.d, RadiusX.d, RadiusY.d [, StartWinkel.d, EndWinkel.d [, Flags]])
 
 @Description
-  Fügt eine Ellipse (oder eine Teilellipse) zum Vektorzeichnen-Pfad hinzu.
+  FÃ¼gt eine Ellipse (oder eine Teilellipse) zum Vektorzeichnen-Pfad hinzu.
 @LineBreak
 @LineBreak
-  Standardmäßig beendet diese Funktion die aktuelle Figur im Pfad und fügt die Ellipse
+  StandardmÃ¤ÃŸig beendet diese Funktion die aktuelle Figur im Pfad und fÃ¼gt die Ellipse
   als eine unverbundene Figur zum Pfad hinzu (volle Ellipsen werden als geschlossen markiert).
-  Dieses Verhalten kann mit den entsprechenden Flags geändert werden.
+  Dieses Verhalten kann mit den entsprechenden Flags geÃ¤ndert werden.
 
 @Parameter "x.d, y.d"
   Geben den Mittelpunkt der Ellipse an.
@@ -1714,7 +1715,7 @@
   Geben den Radius der Ellipse in die X- und Y-Richtung an.
 
 @OptionalParameter "StartWinkel.d, EndWinkel.d"
-  Geben den Winkel (in Grad) für Beginn und Ende der Ellipse an. Der Winkel 0 befindet
+  Geben den Winkel (in Grad) fÃ¼r Beginn und Ende der Ellipse an. Der Winkel 0 befindet
   sich an der positiven X-Achse. Die Standardwerte lauten 0 bzw. 360 Grad.
 
 @OptionalParameter "Flags"
@@ -1725,7 +1726,7 @@
   @#PB_Path_Connected       : Der Kreis ist mit dem existierenden Pfad durch eine Linie
                              verbunden und nicht automatisch eine geschlossene Figur.
   @#PB_Path_CounterClockwise: Die Zeichenrichtung zwischen den Start-/End-Winkeln
-                             verläuft gegen den Uhrzeigersinn.
+                             verlÃ¤uft gegen den Uhrzeigersinn.
 @EndFixedFont 
 
 @NoReturnValue
@@ -1734,7 +1735,7 @@
   Diese Funktion zeichnet eine Ellipsenform mit einem definierten Radius an der X- und Y-Achse
   des aktuellen Koordinatensystems. Um eine Ellipse mit einer abweichenden Drehung zu zeichnen,
   drehen Sie das Koordinatensystem um den Mittelpunkt der Ellipse, bevor Sie die Ellipse
-  hinzufügen (wie im Beispiel unten gezeigt). Das aktuelle Koordinatensystem kann mit
+  hinzufÃ¼gen (wie im Beispiel unten gezeigt). Das aktuelle Koordinatensystem kann mit
   @@SaveVectorState und @@RestoreVectorState konserviert werden.
 
 @Example 
@@ -1779,17 +1780,17 @@
 @Function AddPathText(Text$)
 
 @Description
-  Fügt die Umrisse der Zeichen im angegebenen Text an der aktuellen Cursorposition in
+  FÃ¼gt die Umrisse der Zeichen im angegebenen Text an der aktuellen Cursorposition in
   den Vektorzeichnen-Pfad ein. Die aktuelle Position kann mit @@MovePathCursor eingestellt
-  werden. Nach dem Aufruf dieser Funktion wird der Cursor an das Ende des hinzugefügten
+  werden. Nach dem Aufruf dieser Funktion wird der Cursor an das Ende des hinzugefÃ¼gten
   Textes verschoben.
 @LineBreak
 @LineBreak
-  Sofern möglich, sollte die @@DrawVectorText Funktion bevorzugt werden. Siehe die
-  folgenden Anmerkungen für weitere Details.
+  Sofern mÃ¶glich, sollte die @@DrawVectorText Funktion bevorzugt werden. Siehe die
+  folgenden Anmerkungen fÃ¼r weitere Details.
 
 @Parameter "Text$"
-  Gibt den zum Zeichenpfad hinzuzufügenden Text (einzeilig) an.
+  Gibt den zum Zeichenpfad hinzuzufÃ¼genden Text (einzeilig) an.
 
 @NoReturnValue
 
@@ -1797,13 +1798,13 @@
   Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
 @LineBreak
 @LineBreak
-  Das Konvertieren von Text in einen Pfad ist ein aufwändiger Vorgang und kann zu einem
-  Verlust an Textqualität und sogar zu einer etwas anderen Textform (je nach Schriftart)
-  führen - im Vergleich zum direkten Zeichnen des Textes auf die Ausgabe mittels
+  Das Konvertieren von Text in einen Pfad ist ein aufwÃ¤ndiger Vorgang und kann zu einem
+  Verlust an TextqualitÃ¤t und sogar zu einer etwas anderen Textform (je nach Schriftart)
+  fÃ¼hren - im Vergleich zum direkten Zeichnen des Textes auf die Ausgabe mittels
   @@DrawVectorText. Die @@DrawVectorText Funktion ist effizienter und kann Methoden wie
-  "Subpixel-Rendering" verwenden, um die Textqualität zu verbessern. Daher sollte die 
-  @@AddPathText Funktion nur dann verwendet werden, wenn der Text ausdrücklich als ein
-  Pfad benötigt wird und nicht nur für eine einfache Textzeichnung.
+  "Subpixel-Rendering" verwenden, um die TextqualitÃ¤t zu verbessern. Daher sollte die 
+  @@AddPathText Funktion nur dann verwendet werden, wenn der Text ausdrÃ¼cklich als ein
+  Pfad benÃ¶tigt wird und nicht nur fÃ¼r eine einfache Textzeichnung.
 
 @Example 
 
@@ -1842,19 +1843,19 @@
 @Function AddPathSegments(Segmente$ [, Flags])
 
 @Description
-  Fügt mehrere im String-Format beschriebene Segmente zum Vektorzeichnen-Pfad hinzu. Dieser
+  FÃ¼gt mehrere im String-Format beschriebene Segmente zum Vektorzeichnen-Pfad hinzu. Dieser
   Befehl kann verwendet werden, um die mit dem @@PathSegments Befehl aufgezeichneten
   Pfad-Befehle zu reproduzieren.
 
 @Parameter "Segmente$"
-  Gibt die auszuführenden Pfad-Befehle an.
+  Gibt die auszufÃ¼hrenden Pfad-Befehle an.
 @LineBreak
 @LineBreak
   Die Segmentbeschreibung besteht aus "Ein-Buchstaben-Befehlen" gefolgt
-  von der entsprechenden Anzahl an Koordinaten für den Befehl. Die Werte können durch
-  Leerzeichen oder Komma getrennt werden. Befehle in Groß interpretieren ihre Argumente als
+  von der entsprechenden Anzahl an Koordinaten fÃ¼r den Befehl. Die Werte kÃ¶nnen durch
+  Leerzeichen oder Komma getrennt werden. Befehle in GroÃŸ interpretieren ihre Argumente als
   absolute Koordinaten, die entsprechenden Befehle in Klein interpretieren ihre Argumente
-  als relativ zum zuletzt hinzugefügten Pfadsegment.
+  als relativ zum zuletzt hinzugefÃ¼gten Pfadsegment.
   
 @FixedFont
   M x y                @@MovePathCursor
@@ -1863,9 +1864,9 @@
   Z                    @@ClosePath
 @EndFixedFont   
 
-  Zusätzlich zu dieser vereinfachten Segmente-Syntax akzeptiert dieser Befehl auch Pfad-Beschreibungen
+  ZusÃ¤tzlich zu dieser vereinfachten Segmente-Syntax akzeptiert dieser Befehl auch Pfad-Beschreibungen
   im vom @InternetLink "https://www.w3.org/TR/SVGTiny12/paths.html#PathData" "SVG Tiny Standard"
-  definierten Format, welches einige zusätzliche Befehlsbuchstaben enthält.
+  definierten Format, welches einige zusÃ¤tzliche Befehlsbuchstaben enthÃ¤lt.
   
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
@@ -1909,56 +1910,56 @@
 @Function Ergebnis = IsInsidePath(x.d, y.d [, KoordinatenSystem])
 
 @Description
-  Überprüft, ob die angegebenen Koordinaten innerhalb einer geschlossenen Figur im
-  aktuellen Vektorzeichnen-Pfad liegen. Das heißt, diese Funktion gibt nicht Null
-  zurück, wenn der angegebene Punkt durch einen Aufruf von @@FillPath ausgefüllt
-  werden würde.
+  ÃœberprÃ¼ft, ob die angegebenen Koordinaten innerhalb einer geschlossenen Figur im
+  aktuellen Vektorzeichnen-Pfad liegen. Das heiÃŸt, diese Funktion gibt nicht Null
+  zurÃ¼ck, wenn der angegebene Punkt durch einen Aufruf von @@FillPath ausgefÃ¼llt
+  werden wÃ¼rde.
 
 @Parameter "x.d, y.d"
   Geben die Koordinaten des zu testenden Punktes an.
 
 @OptionalParameter "KoordinatenSystem"
-  Gibt das Koordinatensystem für den zu testenden Punkt an. Dies kann einer der folgenden
+  Gibt das Koordinatensystem fÃ¼r den zu testenden Punkt an. Dies kann einer der folgenden
   Werte sein:
 @FixedFont
   @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
   @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
-  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad  (Standard)
-  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Das Koordinatensystem fÃ¼r Punkte im Zeichenpfad  (Standard)
+  @#PB_Coordinate_Source: Das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont 
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Punkt sich innerhalb des Pfades befindet,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Punkt sich innerhalb des Pfades befindet,
   und Null wenn nicht.
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
   
 @Example 
 
 @Code
   
-  ; Dieses Beispiel verwendet die IsInsidePath() Funktion, um die Figur in grün auszufüllen
-  ; während sich die Maus innerhalb befindet, und andernfalls in blau.
+  ; Dieses Beispiel verwendet die IsInsidePath() Funktion, um die Figur in grÃ¼n auszufÃ¼llen
+  ; wÃ¤hrend sich die Maus innerhalb befindet, und andernfalls in blau.
   ;
   Procedure Draw()    
     x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
     y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
   
     If StartVectorDrawing(CanvasVectorOutput(0))
-      VectorSourceColor(RGBA(255, 255, 255, 255))   ; Löschen des vorherigen Inhalts
+      VectorSourceColor(RGBA(255, 255, 255, 255))   ; LÃ¶schen des vorherigen Inhalts
       FillVectorOutput()
       
       AddPathEllipse(200, 100, 150, 75)             ; Vorbereiten des Pfads
       
-      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; Überprüfen, ob die Maus sich innerhalb befindet
+      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; ÃœberprÃ¼fen, ob die Maus sich innerhalb befindet
         VectorSourceColor(RGBA(0, 255, 0, 255))
       Else
         VectorSourceColor(RGBA(0, 0, 255, 255))
       EndIf
       
-      FillPath()                                    ; Ausfüllen des Pfades
+      FillPath()                                    ; AusfÃ¼llen des Pfades
       StopVectorDrawing()
     EndIf      
   EndProcedure
@@ -1989,53 +1990,53 @@
 @Function Ergebnis = IsInsideStroke(x.d, y.d, Breite.d [, Flags [, KoordinatenSystem]])
 
 @Description
-  Überprüft, ob sich die angegebenen Koordinaten innerhalb einer Fläche befinden,
+  ÃœberprÃ¼ft, ob sich die angegebenen Koordinaten innerhalb einer FlÃ¤che befinden,
   in die durch einen Aufruf von @@StrokePath gezeichnet wird.
 
 @Parameter "x.d, y.d"
   Geben die Koordinaten des zu testenden Punktes an.
   
 @Parameter "Breite.d"
-  Gibt die für den Test zu verwendende Linienbreite an.
+  Gibt die fÃ¼r den Test zu verwendende Linienbreite an.
 
 @OptionalParameter "Flags"
-  Mögliche Flags für die Linieneigenschaften, wie bei der @@StrokePath Funktion beschrieben.
+  MÃ¶gliche Flags fÃ¼r die Linieneigenschaften, wie bei der @@StrokePath Funktion beschrieben.
 
 @OptionalParameter "KoordinatenSystem"
-  Gibt das Koordinatensystem für den zu testenden Punkt an. Dies kann einer der folgenden
+  Gibt das Koordinatensystem fÃ¼r den zu testenden Punkt an. Dies kann einer der folgenden
   Werte sein:
 @FixedFont
   @#PB_Coordinate_Device: Das Koordinatensystem der Ausgabe-Einheit
   @#PB_Coordinate_Output: Das Koordinatensystem, wie es mit der Zeichenausgabe-Funktion erstellt wurde
-  @#PB_Coordinate_User  : Das Koordinatensystem für Punkte im Zeichenpfad  (Standard)
-  @#PB_Coordinate_Source: Das Koordinatensystem für die Vektorzeichnen-Quelle
+  @#PB_Coordinate_User  : Das Koordinatensystem fÃ¼r Punkte im Zeichenpfad  (Standard)
+  @#PB_Coordinate_Source: Das Koordinatensystem fÃ¼r die Vektorzeichnen-Quelle
 @EndFixedFont 
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Punkt innerhalb der Linie liegt,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Punkt innerhalb der Linie liegt,
   und Null wenn nicht.
 
 @Example 
 
 @Code
-  ; Dieses Beispiel verwendet die IsInsideStroke() Funktion, um die Figur in grüner Farbe
-  ; auszufüllen, während sich die Maus auf ihrem Umriss befindet, und andernfalls in blau
+  ; Dieses Beispiel verwendet die IsInsideStroke() Funktion, um die Figur in grÃ¼ner Farbe
+  ; auszufÃ¼llen, wÃ¤hrend sich die Maus auf ihrem Umriss befindet, und andernfalls in blau
   ;
   Procedure Draw()    
     x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
     y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
   
     If StartVectorDrawing(CanvasVectorOutput(0))
-      VectorSourceColor(RGBA(255, 255, 255, 255))         ; Löschen des vorherigen Inhalts
+      VectorSourceColor(RGBA(255, 255, 255, 255))         ; LÃ¶schen des vorherigen Inhalts
       FillVectorOutput()
       
       AddPathEllipse(200, 100, 150, 75)                   ; Vorbereiten des Pfades
       
-      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; Überprüfen, ob die Maus sich innerhalb befindet
+      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; ÃœberprÃ¼fen, ob die Maus sich innerhalb befindet
         VectorSourceColor(RGBA(0, 255, 0, 255))
       Else
         VectorSourceColor(RGBA(0, 0, 255, 255))
@@ -2072,13 +2073,13 @@
 @Function Ergebnis = IsPathEmpty()
 
 @Description
-  Überprüft, ob der aktuelle Vektorzeichnen-Pfad leer ist.
+  ÃœberprÃ¼ft, ob der aktuelle Vektorzeichnen-Pfad leer ist.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Pfad leer ist - und Null, wenn der
-  Pfad irgendwelche Liniensegmente enthält.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Pfad leer ist - und Null, wenn der
+  Pfad irgendwelche Liniensegmente enthÃ¤lt.
 
 @SeeAlso
   @@ResetPath, @@IsInsidePath, @@IsInsideStroke
@@ -2094,29 +2095,29 @@
   Zeichenquelle ("drawing source"). Dies zeichnet den Pfad als eine durchgezogene Linie.
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @Parameter "Breite.d"
-  Gibt die Breite für die zu zeichnende Linie an.
+  Gibt die Breite fÃ¼r die zu zeichnende Linie an.
 
 @OptionalParameter "Flags"
-  Gibt optionale Eigenschaften für den gezogenen Strich an. Dies kann eine Kombination der
+  Gibt optionale Eigenschaften fÃ¼r den gezogenen Strich an. Dies kann eine Kombination der
   folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
   @#PB_Path_RoundEnd      : Zeichne die Linie(n) mit abgerundeten Enden
-  @#PB_Path_SquareEnd     : Zeichne die Linie(n) mit eckigen Kästen an den Enden
+  @#PB_Path_SquareEnd     : Zeichne die Linie(n) mit eckigen KÃ¤sten an den Enden
   @#PB_Path_RoundCorner   : Zeichne die Linie(n) mit abgerundeten Ecken
-  @#PB_Path_DiagonalCorner: Zeichne die Linie(n) mit diagonal abgeschrägten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Linie(n) mit diagonal abgeschrÃ¤gten Ecken
 @EndFixedFont    
 
 @NoReturnValue
 
 @Remarks
   Das folgende Bild zeigt den Effekt der verschiedenen Flags. Die Ecken und Enden Flags
-  können mit dem binären Or ('|') Operator kombiniert werden, um die Effekte zu
+  kÃ¶nnen mit dem binÃ¤ren Or ('|') Operator kombiniert werden, um die Effekte zu
   kombinieren.
   
 ; ==== Code to generate the image (do not show this in the help)
@@ -2218,7 +2219,7 @@
   Zeichnet den aktuellen Zeichenpfad als eine Linie aus Punkten (englisch "dots").
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @Parameter "Breite.d"
@@ -2228,17 +2229,17 @@
   Gibt den Abstand zwischen den Zentren jedes Punktes an.
  
 @OptionalParameter "Flags"
-  Gibt optionale Eigenschaften für die gezeichneten Punkte an. Dies kann eine Kombination der
+  Gibt optionale Eigenschaften fÃ¼r die gezeichneten Punkte an. Dies kann eine Kombination der
   folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
   @#PB_Path_RoundEnd      : Zeichne die Punkte rund
   @#PB_Path_SquareEnd     : Zeichne die Punkte als Rechtecke
 @EndFixedFont    
 
 @OptionalParameter "StartOffset.d"
-  Gibt den innerhalb des Punktmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+  Gibt den innerhalb des Punktmusters zu Ã¼berspringenden Abstand an, bevor der Pfad gezeichnet wird.
    Der Standardwert ist 0.
 
 @NoReturnValue
@@ -2279,36 +2280,36 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DashPath(Breite.d, Länge.d [, Flags [, StartOffset.d]]) 
+@Function DashPath(Breite.d, LÃ¤nge.d [, Flags [, StartOffset.d]]) 
 
 @Description
   Zeichnet den aktuellen Zeichenpfad als eine Reihe von Strichen (englisch "dashes")
-  gleicher Länge und Abstands.
+  gleicher LÃ¤nge und Abstands.
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @Parameter "Breite.d"
-  Gibt die Breite der gestrichelten Linie an. Dieser Wert schließt keine runden/eckigen Linienenden ein.
+  Gibt die Breite der gestrichelten Linie an. Dieser Wert schlieÃŸt keine runden/eckigen Linienenden ein.
 
-@Parameter "Länge.d"
-  Gibt die Länge jedes Strichs an (und des Abstands zwischen den Strichen).
+@Parameter "LÃ¤nge.d"
+  Gibt die LÃ¤nge jedes Strichs an (und des Abstands zwischen den Strichen).
 
 @OptionalParameter "Flags"
-  Gibt optionale Eigenschaften für die gezeichneten Striche an. Dies kann eine Kombination der
+  Gibt optionale Eigenschaften fÃ¼r die gezeichneten Striche an. Dies kann eine Kombination der
   folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
   @#PB_Path_RoundEnd      : Zeichne die Striche mit abgerundeten Enden
-  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen Kästen an den Enden
+  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen KÃ¤sten an den Enden
   @#PB_Path_RoundCorner   : Zeichne die Striche mit abgerundeten Ecken
-  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrägten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrÃ¤gten Ecken
 @EndFixedFont    
 
 @OptionalParameter "StartOffset.d"
-  Gibt den innerhalb des Strichmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+  Gibt den innerhalb des Strichmusters zu Ã¼berspringenden Abstand an, bevor der Pfad gezeichnet wird.
   Der Standardwert ist 0.
 
 @NoReturnValue
@@ -2356,32 +2357,32 @@
   (englisch "dashing pattern").
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @Parameter "Breite.d"
   Gibt die Breite der gestrichelten Linie an.
 
 @Parameter "Array.d()"
-  Spezifiert die Länge jedes Striches und jedes Abstands zum nächsten Strich.
-  Das @ReferenceLink "dim" "Array" muss eine gerade Anzahl an Einträgen haben.
+  Spezifiert die LÃ¤nge jedes Striches und jedes Abstands zum nÃ¤chsten Strich.
+  Das @ReferenceLink "dim" "Array" muss eine gerade Anzahl an EintrÃ¤gen haben.
   Wenn die Zeichenoperation das Ende des Arrays erreicht, wird das Muster wiederholt.
-  Eine Strichlänge von 0 wird einen einfachen Punkt zeichnen.
+  Eine StrichlÃ¤nge von 0 wird einen einfachen Punkt zeichnen.
 
 @OptionalParameter "Flags"
-  Gibt optionale Eigenschaften für die gezeichneten Striche an. Dies kann eine Kombination der
+  Gibt optionale Eigenschaften fÃ¼r die gezeichneten Striche an. Dies kann eine Kombination der
   folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default       : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Preserve      : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
   @#PB_Path_RoundEnd      : Zeichne die Striche mit abgerundeten Enden
-  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen Kästen an den Enden
+  @#PB_Path_SquareEnd     : Zeichne die Striche mit eckigen KÃ¤sten an den Enden
   @#PB_Path_RoundCorner   : Zeichne die Striche mit abgerundeten Ecken
-  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrägten Ecken
+  @#PB_Path_DiagonalCorner: Zeichne die Striche mit diagonal abgeschrÃ¤gten Ecken
 @EndFixedFont   
 
 @OptionalParameter "StartOffset.d"
-  Gibt den innerhalb des Strichmusters zu überspringenden Abstand an, bevor der Pfad gezeichnet wird.
+  Gibt den innerhalb des Strichmusters zu Ã¼berspringenden Abstand an, bevor der Pfad gezeichnet wird.
   Der Standardwert ist 0.
 
 @NoReturnValue
@@ -2434,31 +2435,31 @@
 @Function FillPath([Flags])
 
 @Description
-  Füllt alle geschlossenen Figuren im aktuellen Vektorzeichnen-Pfad mit der Farbe
+  FÃ¼llt alle geschlossenen Figuren im aktuellen Vektorzeichnen-Pfad mit der Farbe
   der Zeichenquelle aus.
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default     : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurücksetzen
-  @#PB_Path_Winding     : Füllt den gesamten Pfad einschließlich sich überlappender Figuren (kein ungerade/gerade Modus).
+  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
+  @#PB_Path_Winding     : FÃ¼llt den gesamten Pfad einschlieÃŸlich sich Ã¼berlappender Figuren (kein ungerade/gerade Modus).
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Wenn der Pfad sich überlappende Figuren enthält, dann wird er in einem ungerade /
-  gerade Modus gefüllt, außer es wurde @#PB_Path_Winding angegeben. Von einer ungeraden Anzahl Grenzen eingeschlossene Bereiche
-  werden gefüllt, während in einer geraden Anzahl Grenzen eingeschlossene Bereiche
-  nicht gefüllt werden. Das heißt, alles innerhalb der Außengrenze wird gefüllt,
-  während eingeschlossene Figuren nicht ausgefüllt werden. Wenn die eingeschlossene
-  Figur ebenfalls eine eingeschlossene Figur enthält, wird diese dritte Figur ebenfalls
-  gefüllt, usw.
+  Wenn der Pfad sich Ã¼berlappende Figuren enthÃ¤lt, dann wird er in einem ungerade /
+  gerade Modus gefÃ¼llt, auÃŸer es wurde @#PB_Path_Winding angegeben. Von einer ungeraden Anzahl Grenzen eingeschlossene Bereiche
+  werden gefÃ¼llt, wÃ¤hrend in einer geraden Anzahl Grenzen eingeschlossene Bereiche
+  nicht gefÃ¼llt werden. Das heiÃŸt, alles innerhalb der AuÃŸengrenze wird gefÃ¼llt,
+  wÃ¤hrend eingeschlossene Figuren nicht ausgefÃ¼llt werden. Wenn die eingeschlossene
+  Figur ebenfalls eine eingeschlossene Figur enthÃ¤lt, wird diese dritte Figur ebenfalls
+  gefÃ¼llt, usw.
 
 @Example 
 
@@ -2495,37 +2496,41 @@
 
 @Description
   Beschneidet (englisch "clip") die Vektorzeichnen-Ausgabe auf den vom aktuellen
-  Vektorzeichnen-Pfad definierten Bereich. Spätere Zeichenoperationen werden
+  Vektorzeichnen-Pfad definierten Bereich. SpÃ¤tere Zeichenoperationen werden
   sich nur auf Bereiche innerhalb des aktuellen Pfades auswirken. Das "Clipping"
   wird mit jedem Clipping kombiniert, das vorher bereits auf der Zeichenausgabe
   existierte.
 @LineBreak
 @LineBreak
-  Standardmäßig wird der Pfad nach dem Aufruf dieser Funktion zurückgesetzt.
+  StandardmÃ¤ÃŸig wird der Pfad nach dem Aufruf dieser Funktion zurÃ¼ckgesetzt.
   Dies kann durch entsprechende Flags verhindert werden.
 
 @OptionalParameter "Flags"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Path_Default     : Kein spezielles Verhalten  (Standardwert)
-  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurücksetzen
+  @#PB_Path_Preserve    : Den Pfad nach dieser Funktion nicht zurÃ¼cksetzen
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Es gibt keine "UnclipPath()" Funktion, also zum "Rückgängig machen": Der
-  Clipping-Bereich der Zeichenausgabe kann durch das Hinzufügen weiterer
-  Beschneidung (Clipping-Bereiche) nur kleiner, aber nicht wieder größer 
+  Es gibt keine "UnclipPath()" Funktion, also zum "RÃ¼ckgÃ¤ngig machen": Der
+  Clipping-Bereich der Zeichenausgabe kann durch das HinzufÃ¼gen weiterer
+  Beschneidung (Clipping-Bereiche) nur kleiner, aber nicht wieder grÃ¶ÃŸer 
   gemacht werden.
 @LineBreak
 @LineBreak
   Der Clipping-Bereich kann jedoch durch die Verwendung der @@SaveVectorState
   und @@RestoreVectorState Funktionen gespeichert und wiederhergestellt werden.
-  Um also temporäres Clipping auf die Zeichenausgabe anzuwenden, speichern
-  Sie zuerst den Zeichenstatus und stellen diesen später wieder her, um auf
-  die ursprünglichen Clipping-Bereiche zurück zu wechseln.
-
+  Um also temporÃ¤res Clipping auf die Zeichenausgabe anzuwenden, speichern
+  Sie zuerst den Zeichenstatus und stellen diesen spÃ¤ter wieder her, um auf
+  die ursprÃ¼nglichen Clipping-Bereiche zurÃ¼ck zu wechseln.
+@LineBreak
+@LineBreak
+  Unter Windows ist das Ergebnis an den RÃ¤ndern pixelig, ohne Anti-Aliasing,
+  was eine EinschrÃ¤nkung von GDI+ darstellt.
+  
 @Example 
 
 @Code
@@ -2569,8 +2574,8 @@
 @Function Ergebnis.d = PathCursorX()
 
 @Description
-  Gibt die aktuelle X-Koordinate des Vektorzeichnen-Cursors zurück. Dies ist die Position,
-  an der neue Pfadsegmente hinzugefügt werden oder Text gezeichnet wird.
+  Gibt die aktuelle X-Koordinate des Vektorzeichnen-Cursors zurÃ¼ck. Dies ist die Position,
+  an der neue Pfadsegmente hinzugefÃ¼gt werden oder Text gezeichnet wird.
 
 @NoParameters
 
@@ -2587,8 +2592,8 @@
 @Function Ergebnis.d = PathCursorY()
 
 @Description
-  Gibt die aktuelle Y-Koordinate des Vektorzeichnen-Cursors zurück. Dies ist die Position,
-  an der neue Pfadsegmente hinzugefügt werden oder Text gezeichnet wird.
+  Gibt die aktuelle Y-Koordinate des Vektorzeichnen-Cursors zurÃ¼ck. Dies ist die Position,
+  an der neue Pfadsegmente hinzugefÃ¼gt werden oder Text gezeichnet wird.
 
 @NoParameters
 
@@ -2606,12 +2611,12 @@
 
 @Description
   Gibt die X-Koordinate des Punktes an der angegebenen Distanz vom Beginn des aktuellen
-  Vektorzeichnen-Pfades zurück.
+  Vektorzeichnen-Pfades zurÃ¼ck.
 
 @Parameter "Distanz.d"
-  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
-  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
-  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder grÃ¶ÃŸer
+  als die GesamtpfadlÃ¤nge ist, dann wird der Start/Endpunkt des Pfades zurÃ¼ckgegeben.
+  Die vollstÃ¤ndige LÃ¤nge des Pfades kann mit @@PathLength ermittelt werden.
 
 @ReturnValue
   Die X-Koordinate des Punktes im Pfad.
@@ -2668,18 +2673,18 @@
 
 @Description
   Gibt die Y-Koordinate des Punktes an der angegebenen Distanz vom Beginn des aktuellen
-  Vektorzeichnen-Pfades zurück.
+  Vektorzeichnen-Pfades zurÃ¼ck.
 
 @Parameter "Distanz.d"
-  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
-  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
-  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder grÃ¶ÃŸer
+  als die GesamtpfadlÃ¤nge ist, dann wird der Start/Endpunkt des Pfades zurÃ¼ckgegeben.
+  Die vollstÃ¤ndige LÃ¤nge des Pfades kann mit @@PathLength ermittelt werden.
 
 @ReturnValue
   Die Y-Koordinate des Punktes im Pfad.
 
 @Example
-  Siehe @@PathPointX für ein Beispiel.
+  Siehe @@PathPointX fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@PathPointX, @@PathPointAngle, @@PathLength
@@ -2692,19 +2697,19 @@
 
 @Description
   Gibt den Winkel des Pfads an dem Punkt mit dem angegebenen Abstand vom aktuellen Vektorzeichnen-Pfades
-  zurück.
+  zurÃ¼ck.
 
 @Parameter "Distanz.d"
-  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder größer
-  als die Gesamtpfadlänge ist, dann wird der Start/Endpunkt des Pfades zurückgegeben.
-  Die vollständige Länge des Pfades kann mit @@PathLength ermittelt werden.
+  Gibt die Distanz vom Beginn des Pfades an. Wenn dieser Parameter negativ oder grÃ¶ÃŸer
+  als die GesamtpfadlÃ¤nge ist, dann wird der Start/Endpunkt des Pfades zurÃ¼ckgegeben.
+  Die vollstÃ¤ndige LÃ¤nge des Pfades kann mit @@PathLength ermittelt werden.
 
 @ReturnValue
   Der Winkel des Pfads am angegebenen Punkt in Grad.
   Der Winkel 0 markiert an der positiven X-Achse.
 
 @Example
-  Siehe @@PathPointX für ein Beispiel.
+  Siehe @@PathPointX fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@PathPointX, @@PathPointY, @@PathLength
@@ -2716,12 +2721,12 @@
 @Function Ergebnis.d = PathLength()
 
 @Description
-  Gibt die Gesamtlänge des aktuellen Vektorzeichnen-Pfads zurück.
+  Gibt die GesamtlÃ¤nge des aktuellen Vektorzeichnen-Pfads zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Länge des aktuellen Pfads zurück.
+  Gibt die LÃ¤nge des aktuellen Pfads zurÃ¼ck.
 
 @Example
 @Code
@@ -2734,7 +2739,7 @@
       MovePathCursor(150, 125)
       AddPathCurve(0, 270, 0, -150, 350, 180)
       
-      ; Länge ermitteln
+      ; LÃ¤nge ermitteln
       Debug "Path length: " + PathLength()
 
       ; Zeichnet den Pfad
@@ -2761,8 +2766,8 @@
 
 @Description
   Gibt die X-Koordinate (linke obere Ecke) vom Begrenzungsrahmen (englisch "bounding box") des
-  aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis ist die niedrigste X-Koordinate, welche
-  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+  aktuellen Vektorzeichnen-Pfads zurÃ¼ck. Das Ergebnis ist die niedrigste X-Koordinate, welche
+  beim Zeichnen/AusfÃ¼llen des aktuellen Pfads erreicht wÃ¼rde.
 
 @NoParameters
 
@@ -2817,8 +2822,8 @@
 
 @Description
   Gibt die Y-Koordinate (linke obere Ecke) vom Begrenzungsrahmen (englisch "bounding box") des
-  aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis ist die niedrigste Y-Koordinate, welche
-  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+  aktuellen Vektorzeichnen-Pfads zurÃ¼ck. Das Ergebnis ist die niedrigste Y-Koordinate, welche
+  beim Zeichnen/AusfÃ¼llen des aktuellen Pfads erreicht wÃ¼rde.
 
 @NoParameters
 
@@ -2826,7 +2831,7 @@
   Die Y-Koordinate des Begrenzungsrahmens.
 
 @Example
-  Siehe @@PathBoundsX für ein Beispiel.
+  Siehe @@PathBoundsX fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@PathBoundsX, @@PathBoundsWidth, @@PathBoundsHeight
@@ -2839,8 +2844,8 @@
 
 @Description
   Gibt die Breite des Begrenzungsrahmens (englisch "bounding box") vom aktuellen Vektorzeichnen-Pfad
-  zurück. Das Ergebnis ist die Differenz zwischen der niedrigsten und höchsten X-Koordinate, welche
-  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+  zurÃ¼ck. Das Ergebnis ist die Differenz zwischen der niedrigsten und hÃ¶chsten X-Koordinate, welche
+  beim Zeichnen/AusfÃ¼llen des aktuellen Pfads erreicht wÃ¼rde.
 
 @NoParameters
 
@@ -2848,7 +2853,7 @@
   Die Breite des Begrenzungsrahmens.
 
 @Example
-  Siehe @@PathBoundsX für ein Beispiel.
+  Siehe @@PathBoundsX fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@PathBoundsX, @@PathBoundsY, @@PathBoundsHeight
@@ -2860,17 +2865,17 @@
 @Function Ergebnis.d = PathBoundsHeight()
 
 @Description
-  Gibt die Höhe des Begrenzungsrahmens (englisch "bounding box") vom aktuellen Vektorzeichnen-Pfad
-  zurück. Das Ergebnis ist die Differenz zwischen der niedrigsten und höchsten Y-Koordinate, welche
-  beim Zeichnen/Ausfüllen des aktuellen Pfads erreicht würde.
+  Gibt die HÃ¶he des Begrenzungsrahmens (englisch "bounding box") vom aktuellen Vektorzeichnen-Pfad
+  zurÃ¼ck. Das Ergebnis ist die Differenz zwischen der niedrigsten und hÃ¶chsten Y-Koordinate, welche
+  beim Zeichnen/AusfÃ¼llen des aktuellen Pfads erreicht wÃ¼rde.
 
 @NoParameters
 
 @ReturnValue
-  Die Höhe des Begrenzungsrahmens.
+  Die HÃ¶he des Begrenzungsrahmens.
 
 @Example
-  Siehe @@PathBoundsX für ein Beispiel.
+  Siehe @@PathBoundsX fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@PathBoundsX, @@PathBoundsY, @@PathBoundsWidth
@@ -2882,14 +2887,14 @@
 @Function Ergebnis$ = PathSegments()
 
 @Description
-  Gibt eine String-Beschreibung des aktuellen Vektorzeichnen-Pfads zurück. Das Ergebnis kann
-  verwendet werden, um den aktuellen Pfad zu untersuchen oder später mit Hilfe des
+  Gibt eine String-Beschreibung des aktuellen Vektorzeichnen-Pfads zurÃ¼ck. Das Ergebnis kann
+  verwendet werden, um den aktuellen Pfad zu untersuchen oder spÃ¤ter mit Hilfe des
   @@AddPathSegments Befehls den gleichen Pfad zu reproduzieren.
 
 @NoParameters
 
 @ReturnValue
-  Der zurückgegebene String beinhaltet "Ein-Buchstaben-Befehle", gefolgt von der entsprechenden
+  Der zurÃ¼ckgegebene String beinhaltet "Ein-Buchstaben-Befehle", gefolgt von der entsprechenden
   Anzahl von Koordinaten-Parametern. Jeder Wert wird durch ein Leerzeichen getrennt. Alle
   Koordinaten sind absolut.
   
@@ -2900,7 +2905,7 @@
   Z                    @@ClosePath
 @EndFixedFont
 
-  Es gibt keine String-Darstellungen für Befehle wie @@AddPathCircle oder @@AddPathEllipse, da
+  Es gibt keine String-Darstellungen fÃ¼r Befehle wie @@AddPathCircle oder @@AddPathEllipse, da
   ihre Ergebnisse von der VectorDrawing-Bibliothek intern in @Link "AddPathCurve" "Kurven"
   umgewandelt werden.
 
@@ -2943,7 +2948,7 @@
 @Function VectorSourceColor(Farbe)
 
 @Description
-  Wählt eine einzelne Farbe als die Quelle für Vektorzeichnen-Operationen wie
+  WÃ¤hlt eine einzelne Farbe als die Quelle fÃ¼r Vektorzeichnen-Operationen wie
   @@FillPath, @@StrokePath und andere aus.
 
 @Parameter "Farbe"
@@ -2962,31 +2967,31 @@
 @Function VectorSourceLinearGradient(x1.d, y1.d, x2.d, y2.d)
 
 @Description
-  Wählt einen linearen Farbverlauf (englisch "color gradient") als Quelle für
-  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. Anfänglich ist der
-  Farbverlauf durchgängig schwarz. "Farbstopps" müssen nach dieser Funktion mittels
-  @@VectorSourceGradientColor hinzugefügt werden.
+  WÃ¤hlt einen linearen Farbverlauf (englisch "color gradient") als Quelle fÃ¼r
+  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. AnfÃ¤nglich ist der
+  Farbverlauf durchgÃ¤ngig schwarz. "Farbstopps" mÃ¼ssen nach dieser Funktion mittels
+  @@VectorSourceGradientColor hinzugefÃ¼gt werden.
 
 @Parameter "x1.d, y1.d"
-  Geben den Punkt an, welcher den Start (Position 0.0) des Farbverlaufs repräsentiert.
+  Geben den Punkt an, welcher den Start (Position 0.0) des Farbverlaufs reprÃ¤sentiert.
   Die Koordinaten werden in Bezug auf das @#PB_Coordinate_Source Koordinatensystem
   angegeben.
 
 @Parameter "x2.d, y2.d"
-  Geben den Punkt an, welcher das Ende (Position 1.0) des Farbverlaufs repräsentiert.
+  Geben den Punkt an, welcher das Ende (Position 1.0) des Farbverlaufs reprÃ¤sentiert.
   Die Koordinaten werden in Bezug auf das @#PB_Coordinate_Source coordinate System
   angegeben.
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
   Der Farbverlauf wird nur im Bereich zwischen den (x1, y1) und (x2, y2) Punkten definiert.
-  Außerhalb dieser Punkte hängt die verwendete Quellfarbe vom Betriebssystem ab, so dass
-  Zeichenoperationen außerhalb der Fläche des definierten Farbverlaufs vermieden werden sollten.
+  AuÃŸerhalb dieser Punkte hÃ¤ngt die verwendete Quellfarbe vom Betriebssystem ab, so dass
+  Zeichenoperationen auÃŸerhalb der FlÃ¤che des definierten Farbverlaufs vermieden werden sollten.
 
 @Example 
 
@@ -3025,10 +3030,10 @@
 @Function VectorSourceCircularGradient(x.d, y.d, Radius.d, [MitteX.d, MitteY.d]) 
 
 @Description
-  Wählt einen kreisförmigen Farbverlauf (englisch "color gradient") als Quelle für
-  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. Anfänglich ist der
-  Farbverlauf durchgängig schwarz. "Farbstopps" müssen nach dieser Funktion mittels
-  @@VectorSourceGradientColor hinzugefügt werden.
+  WÃ¤hlt einen kreisfÃ¶rmigen Farbverlauf (englisch "color gradient") als Quelle fÃ¼r
+  Vektorzeichnen-Operationen wie @@FillPath oder @@StrokePath. AnfÃ¤nglich ist der
+  Farbverlauf durchgÃ¤ngig schwarz. "Farbstopps" mÃ¼ssen nach dieser Funktion mittels
+  @@VectorSourceGradientColor hinzugefÃ¼gt werden.
 
 @Parameter "x.d, y.d"
   Geben den Mittelpunkt des Kreises an, welcher den Farbverlauf definiert.
@@ -3036,27 +3041,27 @@
   angegeben.
 @LineBreak
 @LineBreak
-  Der Mittelpunkt des Kreises repräsentiert den Start (Position 0.0) des Farbverlaufs 
-  und der Umfang des Kreises repräsentiert das Ende (Position 1.0) des Farbverlaufs.
+  Der Mittelpunkt des Kreises reprÃ¤sentiert den Start (Position 0.0) des Farbverlaufs 
+  und der Umfang des Kreises reprÃ¤sentiert das Ende (Position 1.0) des Farbverlaufs.
   
 @Parameter "Radius.d"
   Gibt den Radius des Kreises an, welcher den Farbverlauf definiert.
 
 @OptionalParameter "MitteX.d, MitteY.d"
-  Geben einen optionalen "Offset" (Versatz) für den Startpunkt des Farbverlaufs von der
+  Geben einen optionalen "Offset" (Versatz) fÃ¼r den Startpunkt des Farbverlaufs von der
   Mitte des Kreises an. Mit diesen Parametern kann der Farbverlauf an jedem Punkt innerhalb
   des Kreises gestartet werden.
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
 @LineBreak
 @LineBreak
   Der Farbverlauf wird nur im Bereich innerhalb des Kreises definiert.
-  Außerhalb des Kreises hängt die verwendete Quellfarbe vom Betriebssystem ab, so dass
-  Zeichenoperationen außerhalb der Fläche des definierten Farbverlaufs vermieden werden sollten.
+  AuÃŸerhalb des Kreises hÃ¤ngt die verwendete Quellfarbe vom Betriebssystem ab, so dass
+  Zeichenoperationen auÃŸerhalb der FlÃ¤che des definierten Farbverlaufs vermieden werden sollten.
 
 @Example 
 
@@ -3093,28 +3098,28 @@
 @Function VectorSourceGradientColor(Farbe, Position.d)
 
 @Description
-  Fügt einen neuen "Farbstopp" (eine definierte Farbposition) zum mittels
+  FÃ¼gt einen neuen "Farbstopp" (eine definierte Farbposition) zum mittels
   @@VectorSourceLinearGradient bzw. @@VectorSourceCircularGradient
   definierten Farbverlauf hinzu.
 @LineBreak
 @LineBreak
   Ein Farbverlauf muss mindestens eine Farbe an Position 0.0 und 1.0 haben. Wenn
-  keine Farben für diese Positionen hinzugefügt werden, dann sind diese standardmäßig
+  keine Farben fÃ¼r diese Positionen hinzugefÃ¼gt werden, dann sind diese standardmÃ¤ÃŸig
   schwarz. Zu einem Farbverlauf kann eine beliebige Anzahl an Farbpositionen
-  hinzugefügt werden.
+  hinzugefÃ¼gt werden.
 
 @Parameter "Farbe"
   Die 32 Bit @Link "2DDrawing/RGBA" "RGBA" Farbe, inklusive Alpha-Transparenz.
 
 @Parameter "Position.d"
-  Die Position, an welche die Farbe hinzugefügt werden soll. Der Wert muss 
-  zwischen und einschließlich 0.0 (dem Farbverlaufsstart) und und 1.0 (dem
+  Die Position, an welche die Farbe hinzugefÃ¼gt werden soll. Der Wert muss 
+  zwischen und einschlieÃŸlich 0.0 (dem Farbverlaufsstart) und und 1.0 (dem
   Farbverlaufsende) liegen.
 
 @NoReturnValue
 
 @Example 
-  Siehe @@VectorSourceLinearGradient für ein Beispiel.
+  Siehe @@VectorSourceLinearGradient fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@VectorSourceLinearGradient, @@VectorSourceCircularGradient
@@ -3124,10 +3129,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function VectorSourceImage(ImageID [, Alpha [, Breite.d, Höhe.d [, Flags]]])
+@Function VectorSourceImage(ImageID [, Alpha [, Breite.d, HÃ¶he.d [, Flags]]])
 
 @Description
-  Wählt ein Bild als Quelle für Vektorzeichnen-Operationen wie @@FillPath oder
+  WÃ¤hlt ein Bild als Quelle fÃ¼r Vektorzeichnen-Operationen wie @@FillPath oder
   @@StrokePath aus. Diese Funktionen werden Pixel vom angegebenen Bild auf die
   Zeichenausgabe anwenden, wo immer sie etwas zeichnen.
 
@@ -3137,35 +3142,35 @@
 
 @OptionalParameter "Alpha"
   Gibt eine optionale Alpha-Transparenz an, die auf das Quellbild angewendet werden
-  soll. Diese Transparenz wird zusätzlich zu allen im Quellbild bereits vorhandenen
+  soll. Diese Transparenz wird zusÃ¤tzlich zu allen im Quellbild bereits vorhandenen
   transparenten Pixeln angewandt.
   @LineBreak
-  Der Standardwert ist 255 (keine zusätzliche Transparenz).
+  Der Standardwert ist 255 (keine zusÃ¤tzliche Transparenz).
 
-@OptionalParameter "Breite.d, Höhe.d"
-  Geben eine optionale Breite und Höhe für das Bild an. Die Werte werden in Bezug
+@OptionalParameter "Breite.d, HÃ¶he.d"
+  Geben eine optionale Breite und HÃ¶he fÃ¼r das Bild an. Die Werte werden in Bezug
   auf das @#PB_Coordinate_Source Koordinatensystem interpretiert. Wenn keine
-  Breite und Höhe angegeben werden, dann werden die Abmessungen des Quellbildes
+  Breite und HÃ¶he angegeben werden, dann werden die Abmessungen des Quellbildes
   (in Pixel) in die Einheit der Vektorzeichnen-Ausgabe konvertiert und so verwendet
-  (d.h. das Bild hat seine originale Größe).
+  (d.h. das Bild hat seine originale GrÃ¶ÃŸe).
 
 @OptionalParameter "Flags"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_VectorImage_Default: Bereiche außerhalb des Quellbildes sind transparent (Standard)
+  @#PB_VectorImage_Default: Bereiche auÃŸerhalb des Quellbildes sind transparent (Standard)
   @#PB_VectorImage_Repeat : Das Quellbild wird wiederholt, um den gesamten Zeichenbereich abzudecken
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Überblick" für eine Einführung in die
+  Siehe den @LibraryLink "VectorDrawing" "Vektorzeichnen Ãœberblick" fÃ¼r eine EinfÃ¼hrung in die
   verschiedenen Koordinatensysteme.
   @LineBreak
   @LineBreak
   Durch Umwandlung des @#PB_Coordinate_Source Koordinatensystems kann das verwendete Quellbild
   umgewandelt (verschoben, gedreht, gestreckt, verzerrt) werden. Siehe das zweite Beispiel unten
-  für eine Demonstration.
+  fÃ¼r eine Demonstration.
 
 @Example Wiederholtes Quellbild
 
@@ -3232,7 +3237,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawVectorImage(ImageID [, Alpha [, Breite.d, Höhe.d]])
+@Function DrawVectorImage(ImageID [, Alpha [, Breite.d, HÃ¶he.d]])
 
 @Description
   Zeichnet das angegebene Bild direkt in die Vektorzeichnen-Ausgabe.
@@ -3248,16 +3253,16 @@
 
 @OptionalParameter "Alpha"
   Gibt eine optional Alpha-Transparenz an, die auf das Bild angewendet werden
-  soll. Diese Transparenz wird zusätzlich auf alle im Bild bereits vorhandenen
+  soll. Diese Transparenz wird zusÃ¤tzlich auf alle im Bild bereits vorhandenen
   transparenten Pixeln angewandt.
   @LineBreak
-  Der Standardwert ist 255 (keine zusätzliche Transparenz).
+  Der Standardwert ist 255 (keine zusÃ¤tzliche Transparenz).
 
-@OptionalParameter "Breite.d, Höhe.d"
-  Geben eine optionale Breite und Höhe für das Bild an. Wenn keine
-  Breite und Höhe angegeben werden, dann werden die Abmessungen des Bildes
+@OptionalParameter "Breite.d, HÃ¶he.d"
+  Geben eine optionale Breite und HÃ¶he fÃ¼r das Bild an. Wenn keine
+  Breite und HÃ¶he angegeben werden, dann werden die Abmessungen des Bildes
   (in Pixel) in die Einheit der Vektorzeichnen-Ausgabe konvertiert und so verwendet
-  (d.h. das Bild hat seine originale Größe).
+  (d.h. das Bild hat seine originale GrÃ¶ÃŸe).
 
 @NoReturnValue
 
@@ -3316,15 +3321,15 @@
   Es sind nur Vektorschriftarten wie TrueType erlaubt, Bitmap-Schriftarten sind nicht erlaubt.
 @LineBreak
 @LineBreak
-  Diese Funktion zeichnet nur einzelne Zeilen mit Text. Mehrere Aufrufe müssen erfolgen,
+  Diese Funktion zeichnet nur einzelne Zeilen mit Text. Mehrere Aufrufe mÃ¼ssen erfolgen,
   um mehrere Zeilen zu zeichnen. Verwenden Sie @@VectorTextWidth und @@VectorTextHeight,
   um die Abmessungen des Textes zu bestimmen, um diesen richtig mit anderem Inhalt
   auszurichten.
 @LineBreak
 @LineBreak
-  Die @@DrawVectorParagraph Funktion kann verwendet werden, um einen größeren Textblock
-  mit automatischem Layout wie Zeilenumbrüchen zu zeichnen. Diese Funktion eignet sich
-  vor allem für das Zeichnen von mehrzeiligem Text.
+  Die @@DrawVectorParagraph Funktion kann verwendet werden, um einen grÃ¶ÃŸeren Textblock
+  mit automatischem Layout wie ZeilenumbrÃ¼chen zu zeichnen. Diese Funktion eignet sich
+  vor allem fÃ¼r das Zeichnen von mehrzeiligem Text.
   
 @Example 
 
@@ -3364,11 +3369,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawVectorParagraph(Text$, Breite.d, Höhe.d [, Flags])
+@Function DrawVectorParagraph(Text$, Breite.d, HÃ¶he.d [, Flags])
 
 @Description
   Zeichnet einen Textabsatz (mehrere Zeilen) in einer vorgegebenen Zeichen-Box
-  mit automatischem Layout für Zeilenumbrüche. Wenn der Text nicht in das definierte
+  mit automatischem Layout fÃ¼r ZeilenumbrÃ¼che. Wenn der Text nicht in das definierte
   Feld passt, wird er am Ende abgeschnitten. Die zu verwendende Schriftart kann
   mittels @@VectorFont eingestellt werden.
 
@@ -3376,21 +3381,21 @@
   Gibt den zu zeichnenden Text an.
 
 @Parameter "Breite.d"
-  Gibt die Breite des Absatzes an. Zeilenumbrüche werden automatisch hinzufügt, wenn der
-  Text länger als die angegebene Breite ist.
+  Gibt die Breite des Absatzes an. ZeilenumbrÃ¼che werden automatisch hinzufÃ¼gt, wenn der
+  Text lÃ¤nger als die angegebene Breite ist.
 
-@Parameter "Höhe.d"
-  Gibt die maximale Höhe des Absatzes an. Wenn der Text nicht in diese Höhe passt, wird
-  er abgeschnitten. Die benötigte Höhe für den Absatz kann mittels @@VectorParagraphHeight
+@Parameter "HÃ¶he.d"
+  Gibt die maximale HÃ¶he des Absatzes an. Wenn der Text nicht in diese HÃ¶he passt, wird
+  er abgeschnitten. Die benÃ¶tigte HÃ¶he fÃ¼r den Absatz kann mittels @@VectorParagraphHeight
   berechnet werden.
 
 @OptionalParameter "Flags"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_VectorParagraph_Left  : Der Absatz wird linksbündig ausgerichtet (Standard)
-  @#PB_VectorParagraph_Right : Der Absatz wird rechtsbündig ausgerichtet
+  @#PB_VectorParagraph_Left  : Der Absatz wird linksbÃ¼ndig ausgerichtet (Standard)
+  @#PB_VectorParagraph_Right : Der Absatz wird rechtsbÃ¼ndig ausgerichtet
   @#PB_VectorParagraph_Center: Der Absatz wird zentriert
-  @#PB_VectorParagraph_Block : Der Absatz wird im Blocksatz ausgerichtet (nicht unterstützt auf Windows)
+  @#PB_VectorParagraph_Block : Der Absatz wird im Blocksatz ausgerichtet (nicht unterstÃ¼tzt auf Windows)
 @EndFixedFont
 
 @NoReturnValue
@@ -3437,27 +3442,27 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function VectorFont(FontID [, Größe.d])
+@Function VectorFont(FontID [, GrÃ¶ÃŸe.d])
 
 @Description
-  Gibt den für das Vektorzeichnen zu verwendenden Zeichensatz an.
+  Gibt den fÃ¼r das Vektorzeichnen zu verwendenden Zeichensatz an.
   @LineBreak
-  Es sind nur Vektorschriftarten wie TrueType zulässig, dagegen ist die Verwendung von
-  Bitmap-Schriftarten nicht möglich.
+  Es sind nur Vektorschriftarten wie TrueType zulÃ¤ssig, dagegen ist die Verwendung von
+  Bitmap-Schriftarten nicht mÃ¶glich.
 
 @Parameter "FontID"
-  Die @@FontID der, für das Zeichnen, zu verwendenden Schriftart.
+  Die @@FontID der, fÃ¼r das Zeichnen, zu verwendenden Schriftart.
 
-@OptionalParameter "Größe.d"
-  Gibt die Größe der Schriftart an. Die Größe wird in Einheiten der
-  Vektorzeichnen-Ausgabe gemessen. Wenn keine Größe angegeben wird, dann wird
-  die beim @@LoadFont Befehl für den Zeichensatz verwendete Größe in die
+@OptionalParameter "GrÃ¶ÃŸe.d"
+  Gibt die GrÃ¶ÃŸe der Schriftart an. Die GrÃ¶ÃŸe wird in Einheiten der
+  Vektorzeichnen-Ausgabe gemessen. Wenn keine GrÃ¶ÃŸe angegeben wird, dann wird
+  die beim @@LoadFont Befehl fÃ¼r den Zeichensatz verwendete GrÃ¶ÃŸe in die
   aktuelle Vektorzeichnen-Einheit umgewandelt.
 
 @NoReturnValue
 
 @Remarks
-  Sie können keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
+  Sie kÃ¶nnen keine mittels @@RegisterFontFile registrierte Schriftart verwenden.
 
 @SeeAlso
   @@DrawVectorText, @@DrawVectorParagraph, @@VectorTextWidth, @@VectorTextHeight, @@VectorParagraphHeight
@@ -3478,23 +3483,23 @@
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_VectorText_Default: Gibt den logischen Begrenzungsrahmen des Textes zurück
-  @#PB_VectorText_Visible: Gibt den sichtbaren Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Default: Gibt den logischen Begrenzungsrahmen des Textes zurÃ¼ck
+  @#PB_VectorText_Visible: Gibt den sichtbaren Begrenzungsrahmen des Textes zurÃ¼ck
   @#PB_VectorText_Offset : Gibt ausgehend von der aktuellen Position den Offset 
-                          des Begrenzungsrahmens anstelle der Breite zurück
+                          des Begrenzungsrahmens anstelle der Breite zurÃ¼ck
 @EndFixedFont
   
 @ReturnValue
-  Gibt die Textbreite in Einheiten der Vektorzeichnen-Ausgabe zurück.
+  Gibt die Textbreite in Einheiten der Vektorzeichnen-Ausgabe zurÃ¼ck.
 
 @Remarks
-  Die Abmessungen des gezeichneten Textes können im Hinblick auf die beiden
+  Die Abmessungen des gezeichneten Textes kÃ¶nnen im Hinblick auf die beiden
   Zeichen-Boxen (Begrenzungsrahmen) wie folgt definiert werden:
 @LineBreak
 @LineBreak
   Die "logische Zeichen-Box" (englisch "logical bounding box") eines Zeichens oder eines
   Textes definiert den Raum, den der Cursor bewegt werden muss, um den Text richtig
-  nebeneinander zu zeichnen. Jedoch können die tatsächlich gezeichneten Zeichen über
+  nebeneinander zu zeichnen. Jedoch kÃ¶nnen die tatsÃ¤chlich gezeichneten Zeichen Ã¼ber
   diese Box hinausragen (zum Beispiel im Falle von Kursiv- oder oder Serif-Schriften).
   Bei der Bestimmung, wo der Text gezeichnet werden soll, ist die logische Zeichen-Box
   die interessante.
@@ -3502,14 +3507,14 @@
 @LineBreak
   Die "sichtbare Zeichen-Box" (englisch "visible bounding box") eines Zeichens oder eines
   Textes definiert den Raum, in welchem der Text aktuell gezeichnet wird. Dieser Bereich
-  ist üblicherweise größer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
-  Textes können ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
-  sichtbaren Abmessungen des Textes können bei einem Offset zur logischen Zeichen-Box
+  ist Ã¼blicherweise grÃ¶ÃŸer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
+  Textes kÃ¶nnen ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
+  sichtbaren Abmessungen des Textes kÃ¶nnen bei einem Offset zur logischen Zeichen-Box
   liegen. Dieser Versatz kann durch Angabe des @#PB_VectorText_Offset Flags berechnet werden.
 @LineBreak
 @LineBreak
   Das folgende Beispiel zeigt einen Beispieltext mit der logischen Zeichen-Box in Blau,
-  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in Grün. Der Ursprung,
+  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in GrÃ¼n. Der Ursprung,
   an dem der Text gezeichnet wird, ist die obere linke Ecke der logischen Zeichen-Box (Blau).
 
 @Example 
@@ -3569,7 +3574,7 @@
 @Function Ergebnis.d = VectorTextHeight(Text$ [, Flags])
 
 @Description
-  Misst die Höhe des angegebenen Textes in der aktuellen Vektorzeichnen Schriftart.
+  Misst die HÃ¶he des angegebenen Textes in der aktuellen Vektorzeichnen Schriftart.
 
 @Parameter "Text$"
   Der zu messende Text (einzeilig).
@@ -3577,25 +3582,25 @@
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_VectorText_Default : Gibt den logischen Begrenzungsrahmen des Textes zurück
-  @#PB_VectorText_Visible : Gibt den sichtbaren Begrenzungsrahmen des Textes zurück
+  @#PB_VectorText_Default : Gibt den logischen Begrenzungsrahmen des Textes zurÃ¼ck
+  @#PB_VectorText_Visible : Gibt den sichtbaren Begrenzungsrahmen des Textes zurÃ¼ck
   @#PB_VectorText_Offset  : Gibt ausgehend von der aktuellen Position den Offset 
-                           des Begrenzungsrahmens anstelle der Höhe zurück
+                           des Begrenzungsrahmens anstelle der HÃ¶he zurÃ¼ck
   @#PB_VectorText_Baseline: Gibt den Offset der Grundlinie des Textes von der
-                           aktuellen Position zurück
+                           aktuellen Position zurÃ¼ck
 @EndFixedFont
   
 @ReturnValue
-  Gibt die Texthöhe in Einheiten der Vektorzeichnen-Ausgabe zurück.
+  Gibt die TexthÃ¶he in Einheiten der Vektorzeichnen-Ausgabe zurÃ¼ck.
   
 @Remarks
-  Die Abmessungen des gezeichneten Textes können im Hinblick auf die beiden
+  Die Abmessungen des gezeichneten Textes kÃ¶nnen im Hinblick auf die beiden
   Zeichen-Boxen (Begrenzungsrahmen) wie folgt definiert werden:
 @LineBreak
 @LineBreak
   Die "logische Zeichen-Box" (englisch "logical bounding box") eines Zeichens oder eines
   Textes definiert den Raum, den der Cursor bewegt werden muss, um den Text richtig
-  nebeneinander zu zeichnen. Jedoch können die tatsächlich gezeichneten Zeichen über
+  nebeneinander zu zeichnen. Jedoch kÃ¶nnen die tatsÃ¤chlich gezeichneten Zeichen Ã¼ber
   diese Box hinausragen (zum Beispiel im Falle von Kursiv- oder oder Serif-Schriften).
   Bei der Bestimmung, wo der Text gezeichnet werden soll, ist die logische Zeichen-Box
   die interessante.
@@ -3603,20 +3608,20 @@
 @LineBreak
   Die "sichtbare Zeichen-Box" (englisch "visible bounding box") eines Zeichens oder eines
   Textes definiert den Raum, in welchem der Text aktuell gezeichnet wird. Dieser Bereich
-  ist üblicherweise größer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
-  Textes können ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
-  sichtbaren Abmessungen des Textes können bei einem Offset zur logischen Zeichen-Box
+  ist Ã¼blicherweise grÃ¶ÃŸer als die logische Zeichen-Box. Die sichtbaren Abmessungen eines
+  Textes kÃ¶nnen ermittelt werden durch Angabe des @#PB_VectorText_Visible Flags. Die
+  sichtbaren Abmessungen des Textes kÃ¶nnen bei einem Offset zur logischen Zeichen-Box
   liegen. Dieser Versatz kann durch Angabe des @#PB_VectorText_Offset Flags berechnet werden.
 @LineBreak
 @LineBreak
   Die "Grundlinie" definiert die vertikale Distanz vom Ursprung des gezeichneten Textes
-  bis zur Linie, auf der die Buchstaben "sitzen". Diese ist nützlich, um Text mit
-  verschiedenen Höhen auf einer einzigen Linie zu zeichnen. Der Grundlinien-Wert für
+  bis zur Linie, auf der die Buchstaben "sitzen". Diese ist nÃ¼tzlich, um Text mit
+  verschiedenen HÃ¶hen auf einer einzigen Linie zu zeichnen. Der Grundlinien-Wert fÃ¼r
   den Text kann durch Angabe des @#PB_VectorText_Baseline Flags ermittelt werden.
 @LineBreak
 @LineBreak
   Das folgende Beispiel zeigt einen Beispieltext mit der logischen Zeichen-Box in Blau,
-  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in Grün. Der Ursprung,
+  der sichtbaren Zeichen-Box in Rot, und der Position der Grundlinie in GrÃ¼n. Der Ursprung,
   an dem der Text gezeichnet wird, ist die obere linke Ecke der logischen Zeichen-Box (Blau).
 
 @Example 
@@ -3673,28 +3678,28 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis.d = VectorParagraphHeight(Text$, Breite.d, Höhe.d)
+@Function Ergebnis.d = VectorParagraphHeight(Text$, Breite.d, HÃ¶he.d)
 
 @Description
-  Gibt die Höhe zurück, die für das Zeichnen des angegebenen Textabsatzes mittels
-  der @@DrawVectorParagraph Funktion benötigt wird.
+  Gibt die HÃ¶he zurÃ¼ck, die fÃ¼r das Zeichnen des angegebenen Textabsatzes mittels
+  der @@DrawVectorParagraph Funktion benÃ¶tigt wird.
 
 @Parameter "Text$"
-  Der zu messende Absatz mit Text (können mehrere Zeilen sein).
+  Der zu messende Absatz mit Text (kÃ¶nnen mehrere Zeilen sein).
 
 @Parameter "Breite.d"
-  Die für den Absatz zu nutzende Breite.
+  Die fÃ¼r den Absatz zu nutzende Breite.
 
-@Parameter "Höhe.d"
-  Die maximal für den Absatz verfügbare Höhe.
+@Parameter "HÃ¶he.d"
+  Die maximal fÃ¼r den Absatz verfÃ¼gbare HÃ¶he.
 
 @ReturnValue
-  Die aktuell benötigte Höhe, um den Absatz mit Text zu zeichnen.
+  Die aktuell benÃ¶tigte HÃ¶he, um den Absatz mit Text zu zeichnen.
 
 @Remarks
   Wenn der Text nicht in die Zeichen-Box passt, dann wird das Ergebnis gleich dem Wert
-  von "Höhe.d" sein. Dies deutet darauf hin, dass ein Aufruf von @@DrawVectorParagraph
-  Teile des Textes abschneiden würde.
+  von "HÃ¶he.d" sein. Dies deutet darauf hin, dass ein Aufruf von @@DrawVectorParagraph
+  Teile des Textes abschneiden wÃ¼rde.
 
 @SeeAlso
   @@DrawVectorParagraph, @@DrawVectorText, @@VectorFont, @@VectorTextWidth, @@VectorTextHeight
@@ -3704,24 +3709,24 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = PdfVectorOutput(Dateiname$, Breite.d, Höhe.d [, Einheit])
+@Function Ergebnis = PdfVectorOutput(Dateiname$, Breite.d, HÃ¶he.d [, Einheit])
 
 @Description
-  Erstellt eine PDF-Datei und gibt die OutputID (Ausgabe-ID) zurück, um weitere
-  Vektorzeichnen-Operationen auszuführen. Die aktuellen Zeichenoperationen müssen in
+  Erstellt eine PDF-Datei und gibt die OutputID (Ausgabe-ID) zurÃ¼ck, um weitere
+  Vektorzeichnen-Operationen auszufÃ¼hren. Die aktuellen Zeichenoperationen mÃ¼ssen in
   einen @@StartVectorDrawing / @@StopVectorDrawing Block eingeschlossen werden.
   Die PDF-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
   
 @Parameter "Dateiname$"
   Gibt den Dateinamen des zu erstellenden PDF-Dokuments an. Wenn die Datei existiert,
-  wird diese überschrieben.
+  wird diese Ã¼berschrieben.
 
-@Parameter "Breite.d, Höhe.d"
+@Parameter "Breite.d, HÃ¶he.d"
   Geben die Abmessungen einer Seite im PDF in Einheiten der Vektorzeichnen-Ausgabe an.
 
 @OptionalParameter "Einheit"
-  Gibt die Einheiten für die Vektorzeichnen-Ausgabe an.
-  Die Standard-Einheit für PDF-Dateien ist @#PB_Unit_Point.  
+  Gibt die Einheiten fÃ¼r die Vektorzeichnen-Ausgabe an.
+  Die Standard-Einheit fÃ¼r PDF-Dateien ist @#PB_Unit_Point.  
 @FixedFont
   @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
   @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
@@ -3731,7 +3736,7 @@
   
 @ReturnValue
   Die OutputID der angegebenen Datei, um darin 2D Rendering-Operationen mittels
-  @@StartVectorDrawing auszuführen.
+  @@StartVectorDrawing auszufÃ¼hren.
   
 @Example 
 
@@ -3760,25 +3765,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = SvgVectorOutput(Dateiname$, Breite.d, Höhe.d [, Einheit])
+@Function Ergebnis = SvgVectorOutput(Dateiname$, Breite.d, HÃ¶he.d [, Einheit])
 
 @Description
   Erstellt eine SVG-Datei (skalierbare Vektorgrafik, englisch "scalable vector graphics")
-  und gibt OutputID (Ausgabe-ID) zurück, um Vektorzeichnen-Operationen durchzuführen.
-  Die aktuellen Zeichenoperationen müssen in einen @@StartVectorDrawing / @@StopVectorDrawing
+  und gibt OutputID (Ausgabe-ID) zurÃ¼ck, um Vektorzeichnen-Operationen durchzufÃ¼hren.
+  Die aktuellen Zeichenoperationen mÃ¼ssen in einen @@StartVectorDrawing / @@StopVectorDrawing
   Block eingeschlossen werden.
   Die SVG-Datei kann mit Hilfe des @@NewVectorPage Befehls mehrere Seiten haben.
 
 @Parameter "Dateiname$"
   Gibt den Dateinamen der zu erstellenden SVG-Datei an. Wenn die Datei existiert,
-  wird diese überschrieben.
+  wird diese Ã¼berschrieben.
 
-@Parameter "Breite.d, Höhe.d"
+@Parameter "Breite.d, HÃ¶he.d"
   Geben die Abmessungen einer Seite in der SVG-Datei in Einheiten der Vektorzeichnen-Ausgabe an.
 
 @OptionalParameter "Einheit"
-  Gibt die Einheiten für die Vektorzeichnen-Ausgabe an.
-  Die Standard-Einheit für SVG-Dateien ist @#PB_Unit_Point.  
+  Gibt die Einheiten fÃ¼r die Vektorzeichnen-Ausgabe an.
+  Die Standard-Einheit fÃ¼r SVG-Dateien ist @#PB_Unit_Point.  
 @FixedFont
   @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
   @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
@@ -3788,7 +3793,7 @@
   
 @ReturnValue
   Die OutputID der angegebenen Datei, um darin 2D Rendering-Operationen mittels
-  @@StartVectorDrawing auszuführen.
+  @@StartVectorDrawing auszufÃ¼hren.
 
 @Example 
 

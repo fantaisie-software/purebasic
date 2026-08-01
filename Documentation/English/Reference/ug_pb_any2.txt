@@ -1,20 +1,21 @@
-@Title UserGuide - Managing multiple windows with different content
+ï»¿@Title UserGuide - Managing multiple windows with different content
 
 In the @ReferenceLink "ug_pb_any1" "previous article" we examined one way in which a program
 can support multiple instances of a single type of @LibraryLink "window" "window". In this
-one we are going to extend this concept further – developing a program that can support
+one we are going to extend this concept further â€“ developing a program that can support
 multiple instances of several different types of window, in this case three:
 @Indent
-- The Button window – contains a @Link "gadget/listviewgadget" "list view" and two
+- The Button window â€“ contains a @Link "gadget/listviewgadget" "list view" and two
   @Link "gadget/buttongadget" "buttons" labelled 'Add' and 'Remove'. When the 'Add' button
   is clicked a @Link "math/random" "random" integer is added to the list view, when the
   'Remove' button is clicked the currently highlighted entry in the list view is removed.
   @LineBreak
-- The Date window – contains a list view and two buttons in the same way as the Button
+- The Date window â€“ contains a list view and two buttons in the same way as the Button
   window but also contains a @Link "gadget/calendargadget" "calendar gadget" too, the
   window layout is altered to accommodate this additional control. When the 'Add' button
   is clicked, it is the currently selected date that is added to the list view.
-- The Track window – contains two @Link "gadget/trackbargadget" "track bars", with a
+  @LineBreak
+- The Track window â€“ contains two @Link "gadget/trackbargadget" "track bars", with a
   value between 0 and 100, and a @Link "gadget/stringgadget" "string gadget". When the
   track bars are moved the string gadget is updated with the value of the second track
   bar subtracted from the first.
@@ -28,7 +29,7 @@ Things to notice about this program are:
 @LineBreak
 @LineBreak
 In the Structures section 4 @ReferenceLink "structures" "structures" are defined. The
-first, BASEWINDOW, defines a WindowClass value and a Menu value – these values are
+first, BASEWINDOW, defines a WindowClass value and a Menu value â€“ these values are
 common to each window type.
 @LineBreak
 @LineBreak
@@ -37,9 +38,9 @@ unique controls that they require and which are not provided for by the BASEWIND
 @LineBreak
 @LineBreak
 In the @ReferenceLink "variables" "Variables" section note that again a @ReferenceLink "newmap" "map"
-called ActiveWindows is created, however this time it is of integer type, it doesn’t use
+called ActiveWindows is created, however this time it is of integer type, it doesnâ€™t use
 any of the defined structures. There is a good reason for this, we need to store three
-different structure types to make this program work – and we can’t do this in a single map.
+different structure types to make this program work â€“ and we canâ€™t do this in a single map.
 @LineBreak
 @LineBreak
 Also notice that *EventGadgets is defined using the BASEWINDOW structure.
@@ -58,19 +59,19 @@ able to store all three of the different structures in the same map.
 @LineBreak
 @LineBreak
 We also set the WindowClass value in the structure to #WindowClassButton to indicate which
-type of window, and therefore which type of structure, has been created – we will need to
+type of window, and therefore which type of structure, has been created â€“ we will need to
 know this later on.
 @LineBreak
 @LineBreak
-There are two more CreateWindow procedures this time – one for each class of the other
+There are two more CreateWindow procedures this time â€“ one for each class of the other
 window types. They work in a similar way to that described, differing only where the
-window’s gadgets are different and setting a different value in WindowClass.
+windowâ€™s gadgets are different and setting a different value in WindowClass.
 @LineBreak
 @LineBreak
 Similarly we provide DestroyWindow and ResizeWindow procedures to take care of these functions.
 @LineBreak
 @LineBreak
-We also provide a new procedure – EventsButtonWindow. This procedure knows what to do when
+We also provide a new procedure â€“ EventsButtonWindow. This procedure knows what to do when
 any of the gadgets on the window are activated by the user. Similar procedures are provided
 for the other window types too.
 @LineBreak
@@ -82,7 +83,7 @@ that we need to work with in each of these procedures:
   *ThisData = ActiveWindows(ThisKey)
   *ThisData\ListView ...
 @EndCode
-Each procedure only knows how to handle one type of window – so before we start work we
+Each procedure only knows how to handle one type of window â€“ so before we start work we
 check the WindowClass value to make sure that a window of the correct type has been
 supplied as the argument something like this:
 @Code
@@ -100,11 +101,11 @@ it is defined as the BASEWINDOW type and BASEWINDOW is the ancestor structure to
 structures.
 @LineBreak
 @LineBreak
-Providing we don’t attempt to change any of the stored values using *EventGadgets – and
-we’ve no reason to do so – all should be well.
+Providing we donâ€™t attempt to change any of the stored values using *EventGadgets â€“ and
+weâ€™ve no reason to do so â€“ all should be well.
 @LineBreak
 @LineBreak
-Finally, we despatch the recorded event values in EventWindow, EventGadget, EventType
+Finally, we dispatch the recorded event values in EventWindow, EventGadget, EventType
 straight through to the event procedures and let them worry about getting the jobs done.
 
 @Code
@@ -368,7 +369,7 @@ straight through to the event procedures and let them worry about getting the jo
     ; Check that the OpenWindow command worked.
     If ThisWindow
       ; Set minimum window dimensions.
-      WindowBounds(ThisWindow, 310, 245, #PB_Ignore, #PB_Ignore)
+      WindowBounds(ThisWindow, 360, 245, #PB_Ignore, #PB_Ignore)
       
       ; Convert the window reference to a string to use as the map key value.
       ThisKey = StrU(ThisWindow)
@@ -398,9 +399,9 @@ straight through to the event procedures and let them worry about getting the jo
       EndIf
       
       ; Create the window gadgets.
-      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 182, 162)
-      *ThisData\AddButton = ButtonGadget(#PB_Any, 210, 10, 90, 30, "Add")
-      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 210, 45, 90, 30, "Remove")
+      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 240, 170)
+      *ThisData\AddButton = ButtonGadget(#PB_Any, 260, 10, 90, 30, "Add")
+      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 260, 45, 90, 30, "Remove")
       *ThisData\ListView = ListViewGadget(#PB_Any, 10, 187, 290, 200)
     Else
       ; Memory allocation failed.
@@ -597,7 +598,7 @@ straight through to the event procedures and let them worry about getting the jo
     ; Remove Window from the ActiveWindows map, release the allocated memory,
     ; close the window and set the quit flag, if appropriate.
     Shared EventQuit, ActiveWindows()
-    Protected *ThisData.DATEWINDOW
+    Protected *ThisData.TRACKWINDOW
     Protected.s ThisKey
     
     ; Convert the integer Window to a string.
@@ -720,7 +721,7 @@ straight through to the event procedures and let them worry about getting the jo
       Case #PB_Event_Gadget
         ; Check that a valid pointer was obtained.
         If *EventGadgets > 0
-          ; Use *EventGadgets\WindowClass to despatch events to the correct event procedure.
+          ; Use *EventGadgets\WindowClass to dispatch events to the correct event procedure.
           Select *EventGadgets\WindowClass
             Case #WindowClassButton
               EventsButtonWindow(EventWindow, EventGadget, EventType)

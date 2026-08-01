@@ -1,0 +1,236 @@
+;
+;     StringBuilder library documentation
+;
+;      (c) Fantaisie Software
+;
+
+@Library StringBuilder
+
+@Overview
+  La bibliothèque StringBuilder permet une concaténation et une manipulation efficaces des chaînes de caractères. 
+  Lors de la concaténation de nombreuses chaînes, l'utilisation de StringBuilder est bien plus performante que 
+  l'utilisation répétée des opérateurs de concaténation. Cette bibliothèque gère des tampons internes afin de 
+  minimiser les allocations et les copies de mémoire.
+@LineBreak
+@LineBreak
+  Il est possible de traiter simultanément un nombre quelconque de générateurs de chaînes. Chaque générateur 
+  conserve une mémoire tampon interne qui s'agrandit au besoin, et la chaîne finale peut être extraite une fois
+  toutes les opérations d'ajout terminées.
+
+@CommandList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = CreateStringBuilder(#ConstrChaine [, Increment])
+
+@Description
+  Crée un nouvel objet constructeur de chaînes.
+
+@Parameter "#ConstrChaine"
+  Le numéro du nouveau constructeur de chaînes.
+  @LineBreak
+  @LineBreak
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro. 
+
+@OptionalParameter "Increment"
+  Longueur, en caractères, de l'incrémentation de la mémoire tampon interne en cas de besoin d'espace supplémentaire.@LineBreak 
+  Si cette valeur n'est pas spécifiée, une valeur d'incrément par défaut de 8192 caractères sera utilisée.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la création de la chaîne a réussi, zéro sinon.@LineBreak 
+  Si @#PB_Any a été utilisé comme paramètre @#ConstrChaine, le nouveau nombre généré est renvoyé en cas de succès.
+
+@Remarks
+  Un nouveau générateur de chaînes de caractères démarre avec une chaîne vide. Utilisez @@AppendStringBuilderString 
+  ou @@AppendStringBuilderStringN pour y ajouter du contenu. Une fois la chaîne construite, utilisez @@GetStringBuilderString
+  pour récupérer le résultat final.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+
+  AppendStringBuilderString(0, "Bonjour")
+  AppendStringBuilderString(0, " le ")
+  AppendStringBuilderString(0, "Monde !")
+    
+  Resultat$ = GetStringBuilderString(0)
+  Debug Resultat$
+@EndCode
+
+@SeeAlso
+  @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@GetStringBuilderString, @@ResetStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AppendStringBuilderString(#ConstrChaine, Chaine$)
+
+@Description
+  Ajoute une chaîne de caractères à la fin du contenu actuel du générateur de chaînes.
+
+@Parameter "#ConstrChaine"
+  Le générateur de chaînes à utiliser.
+
+@Parameter "String$"
+  La chaîne à ajouter.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la chaîne a été ajoutée avec succès, zéro sinon.
+
+@Remarks
+  Cette fonction ajoute efficacement la chaîne de caractères au tampon interne, en agrandissant ce dernier au besoin.@LineBreak
+  Il est possible d'enchaîner plusieurs appels à cette fonction pour construire efficacement des chaînes complexes.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderString(0, "Ligne " + Str(i))
+    AppendStringBuilderString(0, #CRLF$)
+  Next
+    
+  Resultat$ = GetStringBuilderString(0)
+  Debug Resultat$
+@EndCode
+
+@SeeAlso
+   @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderStringN
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = AppendStringBuilderStringN(#ConstrChaine, Chaine$)
+
+@Description
+  Ajoute une chaîne de caractères avec un caractère retour de ligne à la fin du contenu actuel du générateur de chaînes.
+
+@Parameter "#StringBuilder"
+  Le générateur de chaînes à utiliser.
+
+@Parameter "String$"
+  La chaîne à ajouter.
+
+@ReturnValue
+  Renvoie une valeur non nulle si la chaîne a été ajoutée avec succès, zéro sinon.
+
+@Remarks
+  Cette fonction ajoute efficacement la chaîne de caractères avec retour de ligne au tampon interne, en agrandissant 
+  ce dernier au besoin.@LineBreak
+  Il est possible d'enchaîner plusieurs appels à cette fonction pour construire efficacement des chaînes complexes.
+
+@Example
+@Code
+  CreateStringBuilder(0)
+  
+  For i = 1 To 500
+    AppendStringBuilderStringN(0, "Ligne " + Str(i))
+  Next
+    
+  Resultat$ = GetStringBuilderString(0)
+  Debug Resultat$
+@EndCode
+
+@SeeAlso
+  @@CreateStringBuilder, @@GetStringBuilderString, @@ResetStringBuilder, @@AppendStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = GetStringBuilderString(#ConstrChaine)
+
+@Description
+  Renvoie la chaîne de caractères construite.
+
+@Parameter "#ConstrChaine"
+  Le constructeur de chaînes à utiliser.
+
+@ReturnValue
+  Renvoie la chaîne construite. Si le générateur de chaîne est vide ou invalide, une chaîne vide est renvoyée.
+
+@Remarks
+  Cette fonction renvoie la chaîne complète construite par plusieurs appels à @@AppendStringBuilderString ou 
+  @@AppendStringBuilderStringN.@LineBreak
+  Après l'appel de cette fonction, le générateur de chaînes est automatiquement réinitialisé et prêt à recevoir du nouveau contenu.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderStringN, @@ResetStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = ResetStringBuilder(#ConstrChaine)
+
+@Description
+ Réinitialiser le générateur de chaînes avec une chaîne vide, en effaçant tout le contenu précédemment ajouté.
+
+@Parameter "#ConstrChaine"
+  Le générateur de chaînes à réinitialiser.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le générateur de chaînes a été réinitialisé avec succès, zéro sinon.
+
+@Remarks
+  Cette fonction efface le tampon interne et rétablit l'état initialement vide du constructeur de chaînes.@LineBreak
+  Cela s'avère utile lorsque vous souhaitez réutiliser un constructeur de chaînes pour créer une nouvelle chaîne.
+
+@SeeAlso
+  @@CreateStringBuilder, @@AppendStringBuilderString, @@AppendStringBuilderString, @@GetStringBuilderString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsStringBuilder(#ConstrChaine)
+
+@Description
+  Vérifiez si le numéro @#ConstrChaine donné est un objet constructeur de chaînes valide et correctement initialisé.
+
+@Parameter "#ConstrChaine"
+  Le générateur de chaînes à vérifier.
+
+@ReturnValue
+  Renvoie une valeur non nulle si @#ConstrChaine est un constructeur de chaînes valide, zéro sinon.
+
+@Remarks
+  Cette fonction est infaillible et peut être utilisée avec n'importe quelle valeur.@LineBreak 
+  C'est la méthode appropriée pour garantir qu'un générateur de chaînes de caractères est prêt à l'emploi.
+
+@SeeAlso
+  @@CreateStringBuilder, @@FreeStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FreeStringBuilder(#ConstrChaine)
+
+@Description
+ Libére le constructeur de chaînes spécifié et la mémoire associée.
+
+@Parameter "#ConstrChaine"
+  Le constructeur de chaînes à libérer. 
+@LineBreak
+@LineBreak
+  Si @#PB_All est spécifié, tous les constructeurs de chaînes restants sont libérés.
+
+@NoReturnValue
+
+@Remarks
+ Une fois le générateur de chaînes libéré, il ne peut plus être utilisé.
+@LineBreak
+@LineBreak
+ Tous les constructeurs de chaînes ouverts restants sont automatiquement libérés à la fin du programme.
+
+@SeeAlso
+  @@CreateStringBuilder, @@IsStringBuilder
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------

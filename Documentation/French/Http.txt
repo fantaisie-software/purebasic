@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Http library documentation
 ;
 ; (c) Fantaisie Software
@@ -7,19 +7,19 @@
 @Library Http
 
 @Overview
-  Http est le nom du protocole utilisé 
-  par les navigateurs Web pour accéder 
+  Http est le nom du protocole utilisÃ© 
+  par les navigateurs Web pour accÃ©der 
   aux sites distants, comme par exemple 
-  une page Web. Chaque donnée distante 
+  une page Web. Chaque donnÃ©e distante 
   a son adresse unique: l'URL (Uniform 
-  Resource Locator). Cette bibliothèque 
+  Resource Locator). Cette bibliothÃ¨que 
   permet de manipuler facilement les 
-  URLs et de télécharger des fichiers 
+  URLs et de tÃ©lÃ©charger des fichiers 
   distants.
 @LineBreak
 @LineBreak  
- Sous Linux, 'libcurl' doit être installé pour 
- que certaines commandes HTTP fonctionnent (déjà installé 
+ Sous Linux, 'libcurl' doit Ãªtre installÃ© pour 
+ que certaines commandes HTTP fonctionnent (dÃ©jÃ  installÃ© 
  dans la plupart des distributions Linux).
   
 @CommandList
@@ -33,23 +33,23 @@
 @Function AbortHTTP(ConnexionHttp)
 
 @Description
-  Annule la progression du téléchargement asynchrone spécifié, commencé soit avec 
+  Annule la progression du tÃ©lÃ©chargement asynchrone spÃ©cifiÃ©, commencÃ© soit avec 
   @@ReceiveHTTPFile soit avec @@ReceiveHTTPMemory.
 
 @Parameter "ConnexionHttp"
-  La connexion Http à interrompre.
+  La connexion Http Ã  interrompre.
 
 @NoReturnValue
 
 @Remarks
-  La valeur @#PB_HTTP_Aborted sera envoyée par la fonction @@HTTPProgress.
+  La valeur @#PB_HTTP_Aborted sera envoyÃ©e par la fonction @@HTTPProgress.
 @LineBreak
 @LineBreak
-  @@FinishHTTP doit être appelée une fois le téléchargement interrompu.
+  @@FinishHTTP doit Ãªtre appelÃ©e une fois le tÃ©lÃ©chargement interrompu.
 @LineBreak
 @LineBreak
-  Cette fonction peut être utilisée aussi avec @@HTTPRequest ou @@HTTPRequestMemory 
-  (l'option @#PB_HTTP_Asynchronous doit être appliquée).
+  Cette fonction peut Ãªtre utilisÃ©e aussi avec @@HTTPRequest ou @@HTTPRequestMemory 
+  (l'option @#PB_HTTP_Asynchronous doit Ãªtre appliquÃ©e).
  
 @SeeAlso
   @@HTTPProgress, @@FinishHTTP
@@ -61,27 +61,27 @@
 @Function Resultat = FinishHTTP(ConnexionHttp)
 
 @Description
-  Libère les ressources associées au téléchargement asynchrone spécifié, commencé soit avec @@ReceiveHTTPFile soit avec 
+  LibÃ¨re les ressources associÃ©es au tÃ©lÃ©chargement asynchrone spÃ©cifiÃ©, commencÃ© soit avec @@ReceiveHTTPFile soit avec 
   @@ReceiveHTTPMemory.
 
 @Parameter "ConnexionHttp"
-  La connexion Http à libérer.
+  La connexion Http Ã  libÃ©rer.
 
 @ReturnValue
-  Selon la commande de réception utilisée pour démarrer le téléchargement, 
-  FinishHTTP() renvoie l'un des résultats suivants:
+  Selon la commande de rÃ©ception utilisÃ©e pour dÃ©marrer le tÃ©lÃ©chargement, 
+  FinishHTTP() renvoie l'un des rÃ©sultats suivants:
   @LineBreak
-  Depuis @@ReceiveHTTPFile, la quantité d'octets reçus (taille du fichier stocké) est renvoyée.
+  Depuis @@ReceiveHTTPFile, la quantitÃ© d'octets reÃ§us (taille du fichier stockÃ©) est renvoyÃ©e.
   @LineBreak
   Depuis @@ReceiveHTTPMemory avec l'option @#PB_HTTP_Asynchronous, l'adresse de la 
-  zone de mémoire où les données reçues ont été stockées, est renvoyée. @@MemorySize 
-  permet de connaitre la quantité de données reçues peut alors être déterminée.
+  zone de mÃ©moire oÃ¹ les donnÃ©es reÃ§ues ont Ã©tÃ© stockÃ©es, est renvoyÃ©e. @@MemorySize 
+  permet de connaitre la quantitÃ© de donnÃ©es reÃ§ues peut alors Ãªtre dÃ©terminÃ©e.
 
 @Remarks
-  La valeur @#PB_HTTP_Aborted sera envoyée par la fonction @@HTTPProgress.
+  La valeur @#PB_HTTP_Aborted sera envoyÃ©e par la fonction @@HTTPProgress.
 @LineBreak
 @LineBreak
-  Il doit toujours être appelé après un appel réussi de @@ReceiveHTTPFile ou @@ReceiveHTTPMemory.
+  Il doit toujours Ãªtre appelÃ© aprÃ¨s un appel rÃ©ussi de @@ReceiveHTTPFile ou @@ReceiveHTTPMemory.
 
 @SeeAlso
   @@HTTPProgress, @@AbortHTTP
@@ -96,44 +96,44 @@
   Renvoie une partie d'une URL. 
   
 @Parameter "URL$"
-  L'URL à utiliser.
+  L'URL Ã  utiliser.
 @LineBreak
 @LineBreak
   Une URL peut contenir des 
-  paramètres.@LineBreak 
+  paramÃ¨tres.@LineBreak 
   C'est utile quand un langage 
-  de script est utilisé sur le 
+  de script est utilisÃ© sur le 
   serveur Web (comme PHP). @LineBreak 
   La syntaxe est la suivante: 
   http://www.purebasic.com/index.php?test=1.
   @LineBreak  
-  Ici le paramètre se nomme "test" 
-  et sa valeur associée est "1". 
+  Ici le paramÃ¨tre se nomme "test" 
+  et sa valeur associÃ©e est "1". 
   
 @Parameter "Parametre$"  
-  La valeur à envoyer. 
+  La valeur Ã  envoyer. 
 @LineBreak
 @LineBreak
-  Les paramètres ne sont pas 
-  sensibles à la casse.
+  Les paramÃ¨tres ne sont pas 
+  sensibles Ã  la casse.
 @LineBreak
 @LineBreak  
   De plus, il peut prendre l'une 
-  des valeurs prédéfinies 
-  suivantes pour accéder facilement 
-  à une partie standard de l'URL:
+  des valeurs prÃ©dÃ©finies 
+  suivantes pour accÃ©der facilement 
+  Ã  une partie standard de l'URL:
 @FixedFont
   @#PB_URL_Protocol  : Pour renvoyer le protocole
   @#PB_URL_Site      : Pour renvoyer le site
   @#PB_URL_Port      : Pour renvoyer le port (s'il existe)
-  @#PB_URL_Parameters: Pour renvoyer tous les paramètres
+  @#PB_URL_Parameters: Pour renvoyer tous les paramÃ¨tres
   @#PB_URL_Path      : Pour renvoyer le chemin
   @#PB_URL_User      : Pour renvoyer le nom d'utilisateur (s'il existe)
   @#PB_URL_Password  : Pour renvoyer le mot de passe (s'il existe)
 @EndFixedFont
 
 @ReturnValue  
-  Renvoie la valeur du paramètre 
+  Renvoie la valeur du paramÃ¨tre 
   ou une autre partie de l'URL.
   
 @Example
@@ -162,21 +162,21 @@
 
 @Description
   Renvoie la progression du 
-  téléchargement asynchrone 
-  spécifié, commencé soit avec 
+  tÃ©lÃ©chargement asynchrone 
+  spÃ©cifiÃ©, commencÃ© soit avec 
   @@ReceiveHTTPFile soit avec 
   @@ReceiveHTTPMemory.
 
 @Parameter "ConnexionHttp"
-  La connexion HTTP à utiliser.
+  La connexion HTTP Ã  utiliser.
 
 @ReturnValue
-  Le nombre d'octets reçu ou 
+  Le nombre d'octets reÃ§u ou 
   une des valeurs suivantes:
 @FixedFont
-  @#PB_Http_Success    : Le téléchargement s'est terminé avec succès.
-  @#PB_Http_Failed     : Le téléchargement a échoué.
-  @#PB_Http_Aborted    : Le téléchargement a été interrompu avec @@AbortHTTP.
+  @#PB_Http_Success    : Le tÃ©lÃ©chargement s'est terminÃ© avec succÃ¨s.
+  @#PB_Http_Failed     : Le tÃ©lÃ©chargement a Ã©chouÃ©.
+  @#PB_Http_Aborted    : Le tÃ©lÃ©chargement a Ã©tÃ© interrompu avec @@AbortHTTP.
 @EndFixedFont
 
 @Example
@@ -188,29 +188,29 @@
       Select Progression
         Case #PB_Http_Success
           *Memoire = FinishHTTP(Telechargement)
-          Debug "Téléchargement terminé (Taille: " + MemorySize(*Memoire) + ")"
+          Debug "TÃ©lÃ©chargement terminÃ© (Taille: " + MemorySize(*Memoire) + ")"
           FreeMemory(*Memoire)
           End
 
         Case #PB_Http_Failed
-          Debug "Le téléchargement a échoué"
+          Debug "Le tÃ©lÃ©chargement a Ã©chouÃ©"
           FinishHTTP(Telechargement)
           End
 
         Case #PB_Http_Aborted
-          Debug "Le téléchargement a été interrompu"
+          Debug "Le tÃ©lÃ©chargement a Ã©tÃ© interrompu"
           FinishHTTP(Telechargement)
           End
           
         Default
-          Debug "Téléchargement en cours: " + Progression + "octets reçus"
+          Debug "TÃ©lÃ©chargement en cours: " + Progression + "octets reÃ§us"
        
       EndSelect
       
-      Delay(500) ; Libérer le CPU
+      Delay(500) ; LibÃ©rer le CPU
     ForEver
   Else
-    Debug "Erreur de téléchargement"
+    Debug "Erreur de tÃ©lÃ©chargement"
   EndIf
 
 @EndCode
@@ -225,42 +225,42 @@
 @Function Resultat$ = HTTPInfo(RequeteHttp, Type [, Options])
 
 @Description
-  Renvoie des informations sur une requête HTTP créée avec @@HTTPRequest ou
+  Renvoie des informations sur une requÃªte HTTP crÃ©Ã©e avec @@HTTPRequest ou
   @@HTTPRequestMemory.
 
 @Parameter "RequeteHttp"
- La requête HTTP.
+ La requÃªte HTTP.
   
 @Parameter "Type"
-  L'information spécifique à obtenir. Cela peut être l'une des valeurs suivantes:
+  L'information spÃ©cifique Ã  obtenir. Cela peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Http_StatusCode  : Le code de l'état du serveur (200: OK, 404: Page non trouvée, etc).
-  @#PB_Http_Response    : La réponse du serveur, sous forme de texte. Pour obtenir la réponse brute (raw) , utilisez @@HTTPMemory.
-  @#PB_Http_Headers     : Les en-têtes de requête.
-  @#PB_Http_ErrorMessage: Le message d'erreur (principalement à des fins de débogage).
+  @#PB_Http_StatusCode  : Le code de l'Ã©tat du serveur (200: OK, 404: Page non trouvÃ©e, etc).
+  @#PB_Http_Response    : La rÃ©ponse du serveur, sous forme de texte. Pour obtenir la rÃ©ponse brute (raw) , utilisez @@HTTPMemory.
+  @#PB_Http_Headers     : Les en-tÃªtes de requÃªte.
+  @#PB_Http_ErrorMessage: Le message d'erreur (principalement Ã  des fins de dÃ©bogage).
 @EndFixedFont
 
 @OptionalParameter "Options"
-  Format de la réponse HTTP ou de l'encodage d'en-tête. 
+  Format de la rÃ©ponse HTTP ou de l'encodage d'en-tÃªte. 
   Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
-  @#PB_UTF8  (par défaut)
+  @#PB_UTF8  (par dÃ©faut)
   @#PB_Ascii
 @EndFixedFont  
 
 @ReturnValue
-  Une chaîne de caractères dépendant du paramètre 'Type'.
+  Une chaÃ®ne de caractÃ¨res dÃ©pendant du paramÃ¨tre 'Type'.
 
 @Example
 @Code
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
-    Debug "Réponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "RÃ©ponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     Debug "Status : " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
     
     FinishHTTP(HTTPRequest)
   Else
-    Debug "La requête a échoué"
+    Debug "La requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -274,35 +274,35 @@
 @Function *Resultat = HTTPMemory(RequeteHttp)
 
 @Description
-  Renvoie l'adresse d'une zone mémoire (tampon) contenant la réponse complète d'une 
-  requête HTTP créée avec @@HTTPRequest ou @@HTTPRequestMemory.
+  Renvoie l'adresse d'une zone mÃ©moire (tampon) contenant la rÃ©ponse complÃ¨te d'une 
+  requÃªte HTTP crÃ©Ã©e avec @@HTTPRequest ou @@HTTPRequestMemory.
 
 @Parameter "RequeteHttp"
-  La requête HTTP.
+  La requÃªte HTTP.
   
 @ReturnValue
-  L'adresse mémoire du tampon contenant la réponse complète (raw) d'une requête HTTP.
+  L'adresse mÃ©moire du tampon contenant la rÃ©ponse complÃ¨te (raw) d'une requÃªte HTTP.
   
 @Remarks
-  Le tampon doit être libéré avec@@FreeMemory.@LineBreak
-  Si l'option @#PB_HTTP_Asynchronous a été utilisé lors de l'appel de @@HTTPRequest ou de @@HTTPRequestMemory 
-  alors cette commande n'est valide que si la requête a abouti.
+  Le tampon doit Ãªtre libÃ©rÃ© avec@@FreeMemory.@LineBreak
+  Si l'option @#PB_HTTP_Asynchronous a Ã©tÃ© utilisÃ© lors de l'appel de @@HTTPRequest ou de @@HTTPRequestMemory 
+  alors cette commande n'est valide que si la requÃªte a abouti.
   
 @Example
 @Code
   RequeteHTTP = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If RequeteHTTP
-    Debug "Réponse: " + HTTPInfo(RequeteHTTP, #PB_HTTP_Response)
+    Debug "RÃ©ponse: " + HTTPInfo(RequeteHTTP, #PB_HTTP_Response)
     
     *Reponse = HTTPMemory(RequeteHTTP)
     
     FinishHTTP(RequeteHTTP)
     
-    Debug "Taille de la réponse: " + MemorySize(*Reponse)
+    Debug "Taille de la rÃ©ponse: " + MemorySize(*Reponse)
     FreeMemory(*Reponse)
     
   Else
-    Debug "La requête a échoué"
+    Debug "La requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -316,29 +316,29 @@
 @Function HTTPProxy(URL$ [, Utilisateur$, MotdePasse$])
 
 @Description
-  Spécifie un proxy à utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile 
+  SpÃ©cifie un proxy Ã  utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile 
   @@ReceiveHTTPMemory, @@HTTPRequest et @@HTTPRequestMemory.
 
 @Parameter "URL$"
-  L'URL à utiliser pour le proxy.@LineBreak 
-  Par défaut c'est un proxy HTTP si aucun préfixe n'est spécifié.@LineBreak 
-  Pour les autres types de proxy, voici les préfixes disponibles:
+  L'URL Ã  utiliser pour le proxy.@LineBreak 
+  Par dÃ©faut c'est un proxy HTTP si aucun prÃ©fixe n'est spÃ©cifiÃ©.@LineBreak 
+  Pour les autres types de proxy, voici les prÃ©fixes disponibles:
 @FixedFont
-  http://    - Proxy HTTP(par défaut)
+  http://    - Proxy HTTP(par dÃ©faut)
   socks4://  - Proxy SOCKS4
-  socks4a:// - Proxy SOCKS4 avec le support de nom de domaine plutôt que l'adresse IP
+  socks4a:// - Proxy SOCKS4 avec le support de nom de domaine plutÃ´t que l'adresse IP
   socks5://  - Proxy SOCKS5 
-  socks5h:// - Proxy SOCKS5 et demande au proxy de faire la résolution du nom d'hôte
+  socks5h:// - Proxy SOCKS5 et demande au proxy de faire la rÃ©solution du nom d'hÃ´te
 @EndFixedFont  
 
 @OptionalParameter " Utilisateur$, MotdePasse$"
- L'utilisateur et le mot de passe à utiliser pour se connecter au proxy (le cas échéant).
+ L'utilisateur et le mot de passe Ã  utiliser pour se connecter au proxy (le cas Ã©chÃ©ant).
 
 @NoReturnValue
 
 @Remarks
-  Sur Linux, 'libcurl' doit être installé pour que cette commande fonctionne 
-  (déjà installées sur la plupart des distributions Linux).
+  Sur Linux, 'libcurl' doit Ãªtre installÃ© pour que cette commande fonctionne 
+  (dÃ©jÃ  installÃ©es sur la plupart des distributions Linux).
   
 @Example
 @Code
@@ -347,9 +347,9 @@
   Fichier$ = SaveFileRequester("Enregistrer le fichier index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("http://www.purebasic.com/index.php", Fichier$)
-    Debug "Succès"
+    Debug "SuccÃ¨s"
   Else
-    Debug "Echèc"
+    Debug "EchÃ¨c"
   EndIf
 @EndCode
 
@@ -363,28 +363,28 @@
 @Function HTTPTimeout(DelaideConnexion [, DelaiGlobal])
 
 @Description
-  Spécifie le délai d'attente à utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile,
+  SpÃ©cifie le dÃ©lai d'attente Ã  utiliser pour les commandes HTTP suivantes: @@ReceiveHTTPFile,
   @@ReceiveHTTPMemory, @@HTTPRequest et @@HTTPRequestMemory.
 
 @Parameter "DelaideConnexion"
-  Le délai d'attente, en millisecondes, avant d'abandonner la requête HTTP si l'hôte distant ne se connecte pas.@LineBreak
-  Le délai d'attente par défaut est défini sur 30 secondes.@LineBreak
-  @#PB_Default peut être utilisé pour revenir à la valeur de délai d'attente par défaut (30 secondes).
+  Le dÃ©lai d'attente, en millisecondes, avant d'abandonner la requÃªte HTTP si l'hÃ´te distant ne se connecte pas.@LineBreak
+  Le dÃ©lai d'attente par dÃ©faut est dÃ©fini sur 30 secondes.@LineBreak
+  @#PB_Default peut Ãªtre utilisÃ© pour revenir Ã  la valeur de dÃ©lai d'attente par dÃ©faut (30 secondes).
 
 @OptionalParameter "DelaiGlobal"
-  Délai d'attente global, en millisecondes, avant d'abandonner la requête HTTP.@LineBreak
-  Il n'y a pas de délai d'attente par défaut.@LineBreak
-  @#PB_Default peut être utilisé pour revenir au comportement par défaut (pas de délai d'attente (timeout)).@LineBreak
-  Note : Si une connexion est lente, elle peut abandonner une requête valide en cours.
+  DÃ©lai d'attente global, en millisecondes, avant d'abandonner la requÃªte HTTP.@LineBreak
+  Il n'y a pas de dÃ©lai d'attente par dÃ©faut.@LineBreak
+  @#PB_Default peut Ãªtre utilisÃ© pour revenir au comportement par dÃ©faut (pas de dÃ©lai d'attente (timeout)).@LineBreak
+  Note : Si une connexion est lente, elle peut abandonner une requÃªte valide en cours.
 
 @NoReturnValue
 
 @Remarks
-  Si "Créer un exécutable thread-safe" est activé dans les @ReferenceLink "ide_compiler" "options du compilateur" alors
-  chaque thread a ses propres délais d'attente, ce qui signifie que deux threads peuvent avoir des délais d'attente différents en même temps.
+  Si "CrÃ©er un exÃ©cutable thread-safe" est activÃ© dans les @ReferenceLink "ide_compiler" "options du compilateur" alors
+  chaque thread a ses propres dÃ©lais d'attente, ce qui signifie que deux threads peuvent avoir des dÃ©lais d'attente diffÃ©rents en mÃªme temps.
 @LineBreak
 @LineBreak
-  Sous Linux, "libcurl" doit être installé pour que cette commande fonctionne ce qui est déjà le cas de 
+  Sous Linux, "libcurl" doit Ãªtre installÃ© pour que cette commande fonctionne ce qui est dÃ©jÃ  le cas de 
   la plupart des distributions Linux.
   
   
@@ -394,12 +394,12 @@
 
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
-    Debug "Code d'état : " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
-    Debug "Réponse : " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "Code d'Ã©tat : " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
+    Debug "RÃ©ponse : " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     
     FinishHTTP(HTTPRequest)
   Else
-    Debug "La création de la demande a échoué"
+    Debug "La crÃ©ation de la demande a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -413,62 +413,66 @@
 @Function Resultat = ReceiveHTTPFile(URL$, NomFichier$ [, Options [, AgentUtilisateur$]])
 
 @Description
-  Télécharge un fichier sur le disque à partir d'une URL. 
+  TÃ©lÃ©charge un fichier sur le disque Ã  partir d'une URL. 
   
 @Parameter "URL$"  
-  L'URL de téléchargement.
+  L'URL de tÃ©lÃ©chargement.
   
 @Parameter "NomFichier$"  
-  Le nom du fichier qui sera enregistré sur le disque.
+  Le nom du fichier qui sera enregistrÃ© sur le disque.
 @LineBreak
 @LineBreak 
   Si le nom de fichier ne contient 
   pas de chemin complet, il sera 
-  enregistré dans le 
-  @Link "FileSystem/GetCurrentDirectory" "répertoire courant".
+  enregistrÃ© dans le 
+  @Link "FileSystem/GetCurrentDirectory" "rÃ©pertoire courant".
   @LineBreak
-  Si le fichier existe, il sera écrasé.
+  Si le fichier existe, il sera Ã©crasÃ©.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des 
+  Peut Ãªtre une combinaison des 
   valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Asynchronous: Démarre le téléchargement asynchrone.
+  @#PB_HTTP_Asynchronous: DÃ©marre le tÃ©lÃ©chargement asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
+  @#PB_HTTP_NoSSLCheck  : Ne vÃ©rifie pas si le certificat SSL est valide (peut Ãªtre utile Ã  des fins de test).
+  @#PB_HTTP_WeakSSL     : Pour prendre en charge des serveurs plus anciens.
+  @#PB_HTTP_Debug       : Pour afficher des informations de dÃ©bogage dans la console. 
+
 @EndFixedFont
 
 @OptionalParameter "AgentUtilisateur$"
-  Change l'agent utilisateur (UserAgent) pour la requête HTTP.@LineBreak  
-  L'agent utilisateur par défaut est défini sur "Mozilla / 5.0 Gecko / 41.0 
-  Firefox / 41.0" pour une compatibilité maximale.  
+  Change l'agent utilisateur (UserAgent) pour la requÃªte HTTP.@LineBreak  
+  L'agent utilisateur par dÃ©faut est dÃ©fini sur "Mozilla / 5.0 Gecko / 41.0 
+  Firefox / 41.0" pour une compatibilitÃ© maximale.  
   
 @ReturnValue  
   Renvoie une valeur non nulle 
-  en cas de succès, zéro sinon.
+  en cas de succÃ¨s, zÃ©ro sinon.
   @LineBreak
-  Si @#PB_HTTP_Asynchronous a été 
-  spécifié, la fonction renvoie la 
-  valeur 'ConnexionHttp' nécessaire
+  Si @#PB_HTTP_Asynchronous a Ã©tÃ© 
+  spÃ©cifiÃ©, la fonction renvoie la 
+  valeur 'ConnexionHttp' nÃ©cessaire
   pour @@HTTPProgress, @@AbortHTTP 
   et @@FinishHTTP.
   @LineBreak
-  Si #PB_HTTP_Asynchronous est utilisé alors @@FinishHTTP doit être appelé, que le 
-  téléchargement ait été effectué avec succès ou non.
+  Si #PB_HTTP_Asynchronous est utilisÃ© alors @@FinishHTTP doit Ãªtre appelÃ©, que le 
+  tÃ©lÃ©chargement ait Ã©tÃ© effectuÃ© avec succÃ¨s ou non.
 
 @Remarks
-  Sous Linux, 'libcurl' doit être installé pour que cette commande fonctionne (déjà installé dans la plupart des distributions Linux).
+  Sous Linux, 'libcurl' doit Ãªtre installÃ© pour que cette commande fonctionne (dÃ©jÃ  installÃ© dans la plupart des distributions Linux).
  @LineBreak
 @LineBreak
-  Si le fichier distant n'a pas été trouvé, le fichier créé contiendra l'erreur du serveur Web.
+  Si le fichier distant n'a pas Ã©tÃ© trouvÃ©, le fichier crÃ©Ã© contiendra l'erreur du serveur Web.
 
 @Example 
 @Code
   NomDeFichier$ = SaveFileRequester("Enregistrer index.php ?", "", "", 0)
 
   If ReceiveHTTPFile("https://www.purebasic.com/index.php", NomDeFichier$)
-    Debug "Fichier reçu et écrit sur le disque. Si le fichier distant n'a pas été trouvé, il contiendra l'erreur du serveur Web."
+    Debug "Fichier reÃ§u et Ã©crit sur le disque. Si le fichier distant n'a pas Ã©tÃ© trouvÃ©, il contiendra l'erreur du serveur Web."
   Else
-    Debug "Aucun fichier reçu (erreur réseau)."
+    Debug "Aucun fichier reÃ§u (erreur rÃ©seau)."
   EndIf
 @EndCode
 
@@ -482,56 +486,60 @@
 @Function *Resultat = ReceiveHTTPMemory(URL$ [, Options [, AgentUtilisateur$]])
 
 @Description
-  Télécharge (Download) un fichier 
-  dans un tampon mémoire. 
+  TÃ©lÃ©charge (Download) un fichier 
+  dans un tampon mÃ©moire. 
 
 @Parameter "URL$"
   L'URL (l'adresse) du fichier 
-  à utiliser.
+  Ã  utiliser.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des 
+  Peut Ãªtre une combinaison des 
   valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Asynchronous: Démarre le téléchargement asynchrone.
+  @#PB_HTTP_Asynchronous: DÃ©marre le tÃ©lÃ©chargement asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
+  @#PB_HTTP_NoSSLCheck  : Ne vÃ©rifie pas si le certificat SSL est valide (peut Ãªtre utile Ã  des fins de test).
+  @#PB_HTTP_WeakSSL     : Pour prendre en charge des serveurs plus anciens.
+  @#PB_HTTP_Debug       : Pour afficher des informations de dÃ©bogage dans la console. 
+
 @EndFixedFont
 
 @OptionalParameter "AgentUtilisateur$"
-  Change l'agent utilisateur (UserAgent) pour la requête HTTP.@LineBreak  
-  L'agent utilisateur par défaut est défini sur "Mozilla / 5.0 Gecko / 41.0 
-  Firefox / 41.0" pour une compatibilité maximale.  
+  Change l'agent utilisateur (UserAgent) pour la requÃªte HTTP.@LineBreak  
+  L'agent utilisateur par dÃ©faut est dÃ©fini sur "Mozilla / 5.0 Gecko / 41.0 
+  Firefox / 41.0" pour une compatibilitÃ© maximale.  
  
 @ReturnValue
   Renvoie l'adresse du tampon 
-  mémoire en cas de succès, 
-  zéro sinon.
+  mÃ©moire en cas de succÃ¨s, 
+  zÃ©ro sinon.
 @LineBreak
 @LineBreak
-  @@MemorySize peut être utilisé 
+  @@MemorySize peut Ãªtre utilisÃ© 
   pour obtenir la taille de 
-  l'élément téléchargé. Le tampon 
-  de mémoire doit être libéré 
+  l'Ã©lÃ©ment tÃ©lÃ©chargÃ©. Le tampon 
+  de mÃ©moire doit Ãªtre libÃ©rÃ© 
   avec @@FreeMemory une fois 
   fini.@LineBreak
   Si @#PB_HTTP_Asynchronous a 
-  été spécifié, la fonction
+  Ã©tÃ© spÃ©cifiÃ©, la fonction
   renvoie la valeur 'ConnexionHttp' 
-  nécessaire pour @@HTTPProgress, 
+  nÃ©cessaire pour @@HTTPProgress, 
   @@AbortHTTP et @@FinishHTTP.
   @LineBreak
-  Avec #PB_HTTP_Asynchronous, @@FinishHTTP doit être appelé que le téléchargement s'est 
-  terminé avec succès ou non.
+  Avec #PB_HTTP_Asynchronous, @@FinishHTTP doit Ãªtre appelÃ© que le tÃ©lÃ©chargement s'est 
+  terminÃ© avec succÃ¨s ou non.
 
 @Remarks
-  Lors d'un téléchargement 
+  Lors d'un tÃ©lÃ©chargement 
   asynchrone, il est possible 
   d'obtenir l'adresse du tampon 
-  mémoire avec @@FinishHTTP.
+  mÃ©moire avec @@FinishHTTP.
 @LineBreak
 @LineBreak  
-  Sous Linux, 'libcurl' doit être installé pour 
-  que cette commande fonctionne (déjà installé 
+  Sous Linux, 'libcurl' doit Ãªtre installÃ© pour 
+  que cette commande fonctionne (dÃ©jÃ  installÃ© 
   dans la plupart des distributions Linux).
   
 @Example
@@ -542,7 +550,7 @@
     Debug "Contenu: " + PeekS(*Buffer, Taille, #PB_UTF8|#PB_ByteLength)
     FreeMemory(*Buffer)
   Else
-    Debug "Le téléchargement a échoué"
+    Debug "Le tÃ©lÃ©chargement a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -555,37 +563,37 @@
 @Function Resultat = HTTPRequest(Type, URL$ [, Data$ [, Options [, EnTetes()]]])
 
 @Description
-  Envoie une requête HTTP avec des données textuelles optionnelles.
+  Envoie une requÃªte HTTP avec des donnÃ©es textuelles optionnelles.
 
 @Parameter "Type"
-  Le type de la requête. Peut être l'une des valeurs suivantes:
+  Le type de la requÃªte. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Get    : Requête GET    (le paramètre 'Data$' sera ignoré)
-  @#PB_HTTP_Post   : Requête POST   (le paramètre 'Data$' sera envoyé si spécifié)
-  @#PB_HTTP_Put    : Requête PUT    (le paramètre 'Data$' sera envoyé si spécifié)
-  @#PB_HTTP_Patch  : Requête PATCH  (le paramètre 'Data$' sera envoyé si spécifié)
-  @#PB_HTTP_Delete : Requête DELETE (le paramètre 'Data$' sera envoyé si spécifié)
+  @#PB_HTTP_Get    : RequÃªte GET    (le paramÃ¨tre 'Data$' sera ignorÃ©)
+  @#PB_HTTP_Post   : RequÃªte POST   (le paramÃ¨tre 'Data$' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Put    : RequÃªte PUT    (le paramÃ¨tre 'Data$' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Patch  : RequÃªte PATCH  (le paramÃ¨tre 'Data$' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Delete : RequÃªte DELETE (le paramÃ¨tre 'Data$' sera envoyÃ© si spÃ©cifiÃ©)
 @EndFixedFont
 
 @Parameter "URL$"
-  L'URL à interroger.
+  L'URL Ã  interroger.
 
 @OptionalParameter "Data$"
-  Les données textuelles à envoyer (envoyées au format UTF-8).
+  Les donnÃ©es textuelles Ã  envoyer (envoyÃ©es au format UTF-8).
 
 @OptionalParameter "Options"
-  Ce peut être une combinaison des valeurs suivantes:
+  Ce peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Asynchronous: Téléchargement de manière asynchrone.
+  @#PB_HTTP_Asynchronous: TÃ©lÃ©chargement de maniÃ¨re asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
-  @#PB_HTTP_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
-  @#PB_HTTP_HeadersOnly : Affiche les en-têtes seuls.
-  @#PB_HTTP_WeakSSL     : Support des serveurs anciens.
+  @#PB_HTTP_NoSSLCheck  : Ne pas vÃ©rifier si le certificat SSL est valide (peut Ãªtre utile Ã  des fins de test).
+  @#PB_HTTP_HeadersOnly : Affiche les en-tÃªtes seuls.
+  @#PB_HTTP_WeakSSL     : Support des serveurs anciens.(Non recommandÃ© en raison d'une sÃ©curitÃ© de transport faible ou dÃ©faillante).
   @#PB_HTTP_Debug       : Imprimer des informations dans la console de debogage.
 @EndFixedFont
 
 @OptionalParameter "EnTetes()"
-  Une map d'en-têtes supplémentaires, sous forme de chaînes de caractères.@LineBreak 
+  Une map d'en-tÃªtes supplÃ©mentaires, sous forme de chaÃ®nes de caractÃ¨res.@LineBreak 
   Exemple:
 @Code
   NewMap Header$()
@@ -595,44 +603,44 @@
 @EndCode
 
 @ReturnValue
-  Renvoie l'identifiant de la requête HTTP si l'appel a été initialisé avec succès, 
-  zéro sinon . 
+  Renvoie l'identifiant de la requÃªte HTTP si l'appel a Ã©tÃ© initialisÃ© avec succÃ¨s, 
+  zÃ©ro sinon . 
 
 @Remarks
   Sous Linux, vous devez installer 'libcurl' pour que cette commande fonctionne 
-  (la plupart des distributions Linux l'ont déjà).
+  (la plupart des distributions Linux l'ont dÃ©jÃ ).
 @LineBreak
 @LineBreak
-   Si des données binaires doivent être envoyées, vous pouvez utiliser @@HTTPRequestMemory().
+   Si des donnÃ©es binaires doivent Ãªtre envoyÃ©es, vous pouvez utiliser @@HTTPRequestMemory().
 @LineBreak
 @LineBreak
-   Cette commande est conçue pour gérer facilement REST comme une API Web.
+   Cette commande est conÃ§ue pour gÃ©rer facilement REST comme une API Web.
 @LineBreak
 @LineBreak
-  @@HTTPInfo peut être utilisé pour obtenir des informations sur la requête.@LineBreak 
-  Si @#PB_HTTP_Asynchronous a été spécifié, @@HTTPProgress peut être utilisé et @@AbortHTTP 
-  doit être utilisé.@LineBreak
-  @@HTTPMemory peut être utilisé pour obtenir le résultat sous forme de tampon brut 
-  (le tampon brut doit être libéré avec @@FreeMemory).
+  @@HTTPInfo peut Ãªtre utilisÃ© pour obtenir des informations sur la requÃªte.@LineBreak 
+  Si @#PB_HTTP_Asynchronous a Ã©tÃ© spÃ©cifiÃ©, @@HTTPProgress peut Ãªtre utilisÃ© et @@AbortHTTP 
+  doit Ãªtre utilisÃ©.@LineBreak
+  @@HTTPMemory peut Ãªtre utilisÃ© pour obtenir le rÃ©sultat sous forme de tampon brut 
+  (le tampon brut doit Ãªtre libÃ©rÃ© avec @@FreeMemory).
 @LineBreak
 @LineBreak
-  @@FinishHTTP doit toujours être appelé pour terminer une demande HTTP initialisée 
-  avec succès, même si l'appel était synchrone.@LineBreak
+  @@FinishHTTP doit toujours Ãªtre appelÃ© pour terminer une demande HTTP initialisÃ©e 
+  avec succÃ¨s, mÃªme si l'appel Ã©tait synchrone.@LineBreak
    
 @Example
 @Code
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
-    Debug "Réponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "RÃ©ponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     
     FinishHTTP(HTTPRequest)
   Else
-    Debug "La requête a échoué"
+    Debug "La requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
-@Example Avec en-têtes
+@Example Avec en-tÃªtes
 @Code
   NewMap Header$()
   Header$("Content-Type") = "plaintext"
@@ -641,15 +649,15 @@
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.google.com", "", 0, Header$())
   If HttpRequest
     Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
-    Debug "Réponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "RÃ©ponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     
     FinishHTTP(HTTPRequest)
   Else
-    Debug "La requête a échoué"
+    Debug "La requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
-@Example Requête asynchrone
+@Example RequÃªte asynchrone
 @Code
   HttpRequest = HTTPRequest(#PB_HTTP_Get, "https://www.purebasic.com/download/PureBasic_Demo.zip", "", #PB_HTTP_Asynchronous)
   If HttpRequest
@@ -659,31 +667,32 @@
       Progress = HTTPProgress(HttpRequest)
       Select Progress
         Case #PB_HTTP_Success
-          Debug "Téléchargement terminé"
+          Debug "TÃ©lÃ©chargement terminÃ©"
           *Buffer = HTTPMemory(HTTPRequest)
           If *Buffer
-            Debug "Taille de la mémoire tampon: " + MemorySize(*buffer) ; Ici, le tampon peut être écrit sur le disque ou dans le répertoire
+            Debug "Taille de la mÃ©moire tampon: " + MemorySize(*buffer) ; Ici, le tampon peut Ãªtre Ã©crit sur le disque ou dans le rÃ©pertoire
             FreeMemory(*Buffer)
           EndIf
-          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requÃªte est terminÃ©e
           Break
           
         Case #PB_HTTP_Failed
-          Debug "Échec du téléchargement"
-          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Debug "Ã‰chec du tÃ©lÃ©chargement"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requÃªte est terminÃ©e
           Break
           
         Case #PB_HTTP_Aborted
-          Debug "Téléchargement interrompu"
-          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
+          Debug "TÃ©lÃ©chargement interrompu"
+          FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requÃªte est terminÃ©e
+          Break
           
         Default
-          Debug "Téléchargement en cours: " + Progression ; La progression actuelle du téléchargement, en octets
+          Debug "TÃ©lÃ©chargement en cours: " + Progression ; La progression actuelle du tÃ©lÃ©chargement, en octets
           Delay(100)
       EndSelect
     ForEver
   Else
-    Debug "La création de la requête a échoué"
+    Debug "La crÃ©ation de la requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -698,41 +707,41 @@
 @Function Resultat = HTTPRequestMemory(Type, URL$ [, *Data, TailleData [, Options [, EnTetes()]]])
 
 @Description
-  Envoie une requête HTTP avec des données binaires optionnelles. 
+  Envoie une requÃªte HTTP avec des donnÃ©es binaires optionnelles. 
    
 @Parameter "Type"
-  Le type de la requête. Peut être l'une des valeurs suivantes:
+  Le type de la requÃªte. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Get   : GET request (le paramètre '*Data' sera ignoré)
-  @#PB_HTTP_Post  : POST request (le paramètre '*Data' sera envoyé si spécifié)
-  @#PB_HTTP_Put   : PUT request (le paramètre '*Data' sera envoyé si spécifié)
-  @#PB_HTTP_Patch : PATCH request (le paramètre '*Data' sera envoyé si spécifié)
-  @#PB_HTTP_Delete: DELETE request (le paramètre '*Data' sera envoyé si spécifié)
+  @#PB_HTTP_Get   : GET request (le paramÃ¨tre '*Data' sera ignorÃ©)
+  @#PB_HTTP_Post  : POST request (le paramÃ¨tre '*Data' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Put   : PUT request (le paramÃ¨tre '*Data' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Patch : PATCH request (le paramÃ¨tre '*Data' sera envoyÃ© si spÃ©cifiÃ©)
+  @#PB_HTTP_Delete: DELETE request (le paramÃ¨tre '*Data' sera envoyÃ© si spÃ©cifiÃ©)
 @EndFixedFont
 
 @Parameter "URL$"
-  L'URL à interroger.
+  L'URL Ã  interroger.
 
 @OptionalParameter "*Data"
-  Adresse mémoire du tampon (buffer) contenant les données à envoyer.
+  Adresse mÃ©moire du tampon (buffer) contenant les donnÃ©es Ã  envoyer.
 
 @OptionalParameter "TailleData"
   Taille en octets du tampon.
 
 @OptionalParameter "Options"
-  Ce peut être une combinaison des valeurs suivantes:
+  Ce peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_HTTP_Asynchronous: Téléchargement de manière asynchrone.
+  @#PB_HTTP_Asynchronous: TÃ©lÃ©chargement de maniÃ¨re asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
-  @#PB_Http_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
-  @#PB_HTTP_HeadersOnly : Ne télécharge que les en-têtes.
+  @#PB_Http_NoSSLCheck  : Ne pas vÃ©rifier si le certificat SSL est valide (peut Ãªtre utile Ã  des fins de test).
+  @#PB_HTTP_HeadersOnly : Ne tÃ©lÃ©charge que les en-tÃªtes.
   @#PB_HTTP_WeakSSL     : Support des vieux serveurs.
-  @#PB_HTTP_Debug       : Affiche les informations de débogage.
+  @#PB_HTTP_Debug       : Affiche les informations de dÃ©bogage.
 
 @EndFixedFont
 
 @OptionalParameter "EnTetes()"
-  Une map d'en-têtes supplémentaires, sous forme de chaînes de caractères. @LineBreak
+  Une map d'en-tÃªtes supplÃ©mentaires, sous forme de chaÃ®nes de caractÃ¨res. @LineBreak
   Exemple:
 @Code
   NewMap Header$()
@@ -742,40 +751,40 @@
 @EndCode
 
 @ReturnValue
-  Renvoie l'identifiant de la requête HTTP si l'appel a été initialisé avec succès, 
-  zéro sinon . 
+  Renvoie l'identifiant de la requÃªte HTTP si l'appel a Ã©tÃ© initialisÃ© avec succÃ¨s, 
+  zÃ©ro sinon . 
 
 @Remarks
   Sous Linux, vous devez installer 'libcurl' pour que cette commande fonctionne 
-  (la plupart des distributions Linux l'ont déjà).
+  (la plupart des distributions Linux l'ont dÃ©jÃ ).
 @LineBreak
 @LineBreak
-   Si des données binaires doivent être envoyées, vous pouvez utiliser @@HTTPRequestMemory().
+   Si des donnÃ©es binaires doivent Ãªtre envoyÃ©es, vous pouvez utiliser @@HTTPRequestMemory().
 @LineBreak
 @LineBreak
-   Cette commande est conçue pour gérer  facilement REST comme une API Web.
+   Cette commande est conÃ§ue pour gÃ©rer  facilement REST comme une API Web.
 @LineBreak
 @LineBreak
-  @@HTTPInfo peut être utilisé pour obtenir des informations sur la requête.@LineBreak 
-  Si @#PB_HTTP_Asynchronous a été spécifié, @@HTTPProgress et @@AbortHTTP peuvent être 
-  utilisés.@LineBreak
-  @@HTTPMemory peut être utilisé pour obtenir le résultat sous forme de tampon brut 
-  (le tampon brut doit être libéré avec @@FreeMemory).
+  @@HTTPInfo peut Ãªtre utilisÃ© pour obtenir des informations sur la requÃªte.@LineBreak 
+  Si @#PB_HTTP_Asynchronous a Ã©tÃ© spÃ©cifiÃ©, @@HTTPProgress et @@AbortHTTP peuvent Ãªtre 
+  utilisÃ©s.@LineBreak
+  @@HTTPMemory peut Ãªtre utilisÃ© pour obtenir le rÃ©sultat sous forme de tampon brut 
+  (le tampon brut doit Ãªtre libÃ©rÃ© avec @@FreeMemory).
 @LineBreak
 @LineBreak
-  @@FinishHTTP doit toujours être appelé pour terminer une demande HTTP initialisée 
-  avec succès, même si l'appel était synchrone.@LineBreak
+  @@FinishHTTP doit toujours Ãªtre appelÃ© pour terminer une demande HTTP initialisÃ©e 
+  avec succÃ¨s, mÃªme si l'appel Ã©tait synchrone.@LineBreak
 
 @Example
 @Code
   HttpRequest = HTTPRequestMemory(#PB_HTTP_Get, "https://www.google.com")
   If HttpRequest
     Debug "Status: " + HTTPInfo(HTTPRequest, #PB_HTTP_StatusCode)
-    Debug "Réponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
+    Debug "RÃ©ponse: " + HTTPInfo(HTTPRequest, #PB_HTTP_Response)
     
     FinishHTTP(HTTPRequest)
   Else
-    Debug "La requête a échoué"
+    Debug "La requÃªte a Ã©chouÃ©"
   EndIf
 @EndCode
 
@@ -789,36 +798,36 @@
 @Function Resultat$ = URLDecoder(URL$ [, Format])
 
 @Description
-  Renvoie une URL décodée qui 
-  avait été encodée au format 
+  Renvoie une URL dÃ©codÃ©e qui 
+  avait Ã©tÃ© encodÃ©e au format 
   HTTP.
 
 @Parameter "URL$"
-  L'URL à décoder. 
+  L'URL Ã  dÃ©coder. 
 
 @OptionalParameter "Format"
   Le format d'encodage de 
   l'URL. @LineBreak
-  Peut être une des valeurs 
+  Peut Ãªtre une des valeurs 
   suivantes:
 @FixedFont
-  @#PB_UTF8  (par défaut)
+  @#PB_UTF8  (par dÃ©faut)
   @#PB_Ascii
 @EndFixedFont  
 
 @ReturnValue  
-  Renvoie l'URL décodée.
+  Renvoie l'URL dÃ©codÃ©e.
   
 @Remarks  
   Une URL ne peut pas contenir 
-  certains caractères (comme 
+  certains caractÃ¨res (comme 
   la tabulation, l'espace, les 
-  lettres accentuées etc.) donc 
-  il est nécessaire de les encoder, 
+  lettres accentuÃ©es etc.) donc 
+  il est nÃ©cessaire de les encoder, 
   principalement en utilisant le 
-  caractère d'échappement "%" 
+  caractÃ¨re d'Ã©chappement "%" 
   suivi d'un chiffre. Si l'URL$ 
-  n'était pas encodée, cette 
+  n'Ã©tait pas encodÃ©e, cette 
   fonction n'a aucun effet et 
   renverra l'URL originale.
 @LineBreak
@@ -841,38 +850,38 @@
 @Function Resultat$ = URLEncoder(URL$ [, Format])
 
 @Description
-  Renvoie une URL encodée au format HTTP. 
+  Renvoie une URL encodÃ©e au format HTTP. 
 
 @Parameter "URL$"
-  L'URL à encoder.
+  L'URL Ã  encoder.
 
 @OptionalParameter "Format"
-  Le format de l'URL avant encodage. Peut être une des valeurs suivantes:
+  Le format de l'URL avant encodage. Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_UTF8  (par défaut)
+  @#PB_UTF8  (par dÃ©faut)
   @#PB_Ascii
 @EndFixedFont  
   
 @ReturnValue  
-  Renvoie l'URL encodée.
+  Renvoie l'URL encodÃ©e.
 
 @Remarks
   Une URL ne peut pas contenir 
-  certains caractères (comme la 
+  certains caractÃ¨res (comme la 
   tabulation, l'espace, les lettres 
-  accentuées etc.) donc il est 
-  nécessaire de les encoder, 
+  accentuÃ©es etc.) donc il est 
+  nÃ©cessaire de les encoder, 
   principalement en utilisant 
-  le caractère d'échappement "%" 
+  le caractÃ¨re d'Ã©chappement "%" 
   suivi d'un chiffre. Si l'URL$ 
-  n'était pas encodée, cette 
+  n'Ã©tait pas encodÃ©e, cette 
   fonction n'a aucun effet et 
   renverra l'URL originale.
 @LineBreak
 @LineBreak
-  Notez que cette fonction suit le standard RFC 3986 et donc certains caractères ne seront 
-  pas encodés, car ces caractères doivent rester en clair dans certaines URLs.
-  Il s'agit des caractères suivants (liste non exhaustive):
+  Notez que cette fonction suit le standard RFC 3986 et donc certains caractÃ¨res ne seront 
+  pas encodÃ©s, car ces caractÃ¨res doivent rester en clair dans certaines URLs.
+  Il s'agit des caractÃ¨res suivants (liste non exhaustive):
 @FixedFont
   "-" | "_" | "." | "!" | "~" | "*" | "'" | "(" | ")" | 
   ";" | "/" | "?" | ":" | "@" | "&" | "=" | "+" | "$" |
@@ -919,21 +928,21 @@
   Change une partie d'une URL. 
   
 @Parameter "URL$"  
-  L'URL à modifier.
+  L'URL Ã  modifier.
 @LineBreak
 @LineBreak
   Une URL$ peut contenir 
-  des paramètres. 
+  des paramÃ¨tres. 
   @LineBreak
   C'est utile quand un langage 
-  de script est utilisé sur 
+  de script est utilisÃ© sur 
   le serveur Web (comme PHP). 
   @LineBreak
   La syntaxe est la suivante: 
   http://www.purebasic.com/index.php3?test=1.
   @LineBreak 
-  Ici le paramètre se nomme 
-  "test" et sa valeur associée 
+  Ici le paramÃ¨tre se nomme 
+  "test" et sa valeur associÃ©e 
   est "1". 
 @LineBreak
 @LineBreak  
@@ -943,22 +952,22 @@
   "http://www.purebasic.com"
   
 @Parameter "Parametre$"
-  La valeur à modifier. 
+  La valeur Ã  modifier. 
 @LineBreak
 @LineBreak
-  Les paramètres ne sont pas 
-  sensibles à la casse.
+  Les paramÃ¨tres ne sont pas 
+  sensibles Ã  la casse.
 @LineBreak
 @LineBreak  
   De plus, il peut prendre l'une 
-  des valeurs prédéfinies suivantes 
-  pour accéder facilement à une 
+  des valeurs prÃ©dÃ©finies suivantes 
+  pour accÃ©der facilement Ã  une 
   partie standard de l'URL:
 @FixedFont
   @#PB_URL_Protocol  : Modifie le protocole de l'URL$
   @#PB_URL_Site      : Modifie le site de l'URL$
   @#PB_URL_Port      : Modifie le port de l'URL$ (s'il existe)
-  @#PB_URL_Parameters: Modifie tous les paramètres de l'URL$
+  @#PB_URL_Parameters: Modifie tous les paramÃ¨tres de l'URL$
   @#PB_URL_Path      : Modifie le chemin de l'URL$
   @#PB_URL_User      : Modifie le nom d'utilisateur de l'URL$ (s'il existe)
   @#PB_URL_Password  : Modifie le mot de passe de l'URL$ 
@@ -966,11 +975,11 @@
 @EndFixedFont
 
 @Parameter "Valeur$"
-  La valeur à affecter au paramètre 
-  donné, ou une partie d'une URL.
+  La valeur Ã  affecter au paramÃ¨tre 
+  donnÃ©, ou une partie d'une URL.
   
 @ReturnValue  
-  Renvoie l'URL modifiée.
+  Renvoie l'URL modifiÃ©e.
 
 @Example  
 @Code

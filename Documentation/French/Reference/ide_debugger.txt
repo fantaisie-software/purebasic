@@ -1,89 +1,89 @@
+ï»¿
 
+@Title Utiliser le dÃ©bogueur
 
-@Title Utiliser le débogueur
-
-  PureBasic est fourni avec un puissant débogueur pour trouver rapidement les erreurs
-  et les bugs des programmes. Il permet de contrôler le flux d'exécution du programme, 
+  PureBasic est fourni avec un puissant dÃ©bogueur pour trouver rapidement les erreurs
+  et les bugs des programmes. Il permet de contrÃ´ler le flux d'exÃ©cution du programme, 
   d'observer le contenu des variables, tableaux et listes, d'afficher des
-  informations de débuggage etc. Il supporte aussi des fonctions avancées tels que l'affichage
+  informations de dÃ©buggage etc. Il supporte aussi des fonctions avancÃ©es tels que l'affichage
   du contenu des registres (assembleur), voir le contenu de la pile ou d'une zone de
-  mémoire quelconque. De plus il permet de faire du déboguage à distance, via le réseau.
+  mÃ©moire quelconque. De plus il permet de faire du dÃ©boguage Ã  distance, via le rÃ©seau.
 
 @LineBreak
 @LineBreak
   
-  Pour activer le débogueur, il suffit de choisir "Utiliser le débogueur" dans menu "Débogueur"
+  Pour activer le dÃ©bogueur, il suffit de choisir "Utiliser le dÃ©bogueur" dans menu "DÃ©bogueur"
   (ou de l'activer dans les "Options de compilation"). En choisissant le menu "Compiler
-  avec le débogueur", le débogueur sera activé seulement pour une compilation.
+  avec le dÃ©bogueur", le dÃ©bogueur sera activÃ© seulement pour une compilation.
 
 @LineBreak
 @LineBreak
 
 
-  Le débogueur du PureBasic se présente sous 3 formes:
+  Le dÃ©bogueur du PureBasic se prÃ©sente sous 3 formes:
 
 @LineBreak
 @LineBreak
 
-  - Un débogueur intégré directement dans l'IDE, pour une utilisation facile et rapide.
-  C'est ce débogueur qui propose le plus de fonctionnalités.
+  - Un dÃ©bogueur intÃ©grÃ© directement dans l'IDE, pour une utilisation facile et rapide.
+  C'est ce dÃ©bogueur qui propose le plus de fonctionnalitÃ©s.
 
 @LineBreak
 @LineBreak
 
-  - Un débogueur indépendant, qui est utile dans plusieurs cas spéciaux (par exemple 
-  si le programme est déjà en cours de débuggage et qu'il doit être exécuté une nouvelle
-  fois) ou pour être utilisé par un éditeur de code tierce. Il propose quasiment toutes
-  les fonctionnalités du débogueur intégré, mais parce qu'il est séparé de l'IDE, la rapidité
-  des commandes est légèrement diminuée.
+  - Un dÃ©bogueur indÃ©pendant, qui est utile dans plusieurs cas spÃ©ciaux (par exemple 
+  si le programme est dÃ©jÃ  en cours de dÃ©buggage et qu'il doit Ãªtre exÃ©cutÃ© une nouvelle
+  fois) ou pour Ãªtre utilisÃ© par un Ã©diteur de code tierce. Il propose quasiment toutes
+  les fonctionnalitÃ©s du dÃ©bogueur intÃ©grÃ©, mais parce qu'il est sÃ©parÃ© de l'IDE, la rapiditÃ©
+  des commandes est lÃ©gÃ¨rement diminuÃ©e.
 @LineBreak
-  De plus il permet de déboguer un programme à distance, via le réseau.
+  De plus il permet de dÃ©boguer un programme Ã  distance, via le rÃ©seau.
 
 @LineBreak
 @LineBreak
 
-  Un débogueur en ligne de commande uniquement. Le but premier de ce débogueur est de pouvoir tester 
-  et développer un programme PureBasic sur un système dépourvu d'environnement graphique (comme un serveur
-  linux), et/ou développer à distance via SSH.
+  Un dÃ©bogueur en ligne de commande uniquement. Le but premier de ce dÃ©bogueur est de pouvoir tester 
+  et dÃ©velopper un programme PureBasic sur un systÃ¨me dÃ©pourvu d'environnement graphique (comme un serveur
+  linux), et/ou dÃ©velopper Ã  distance via SSH.
 
 @LineBreak
 @LineBreak
 
-  Le type de débogueur à utiliser est sélectionnable dans les préférences.
+  Le type de dÃ©bogueur Ã  utiliser est sÃ©lectionnable dans les prÃ©fÃ©rences.
 
 @LineBreak
 @LineBreak
 
-  Bien entendu, quand un programme utilise le débogueur, il fonctionne bien plus lentement. Cela
-  ne devrait pas poser de problèmes majeurs étant donné que la rapidité est toujours acceptable,
-  et que ce mode est utilisé uniquement pendant le développement.
+  Bien entendu, quand un programme utilise le dÃ©bogueur, il fonctionne bien plus lentement. Cela
+  ne devrait pas poser de problÃ¨mes majeurs Ã©tant donnÃ© que la rapiditÃ© est toujours acceptable,
+  et que ce mode est utilisÃ© uniquement pendant le dÃ©veloppement.
 @LineBreak
-  Si quelques parties du programme ont déjà été testées et nécessitent une rapidité maximale même pendant les
-  phases de déboguages, il est possible d'utiliser les directives de compilation DisableDebugger et EnableDebugger
+  Si quelques parties du programme ont dÃ©jÃ  Ã©tÃ© testÃ©es et nÃ©cessitent une rapiditÃ© maximale mÃªme pendant les
+  phases de dÃ©boguages, il est possible d'utiliser les directives de compilation DisableDebugger et EnableDebugger
   autour de ces parties.
 
-@Section Le débogueur intégré
+@Section Le dÃ©bogueur intÃ©grÃ©
 
 @Image ide_debugger_integrated.png
 
-  Toutes les commandes relatives au débogueur lorsqu'un programme est en cours d'exécution sont 
-  disponibles à partir du menu "Débogueur" (ou de la barre d'outils et des raccourcis claviers).
+  Toutes les commandes relatives au dÃ©bogueur lorsqu'un programme est en cours d'exÃ©cution sont 
+  disponibles Ã  partir du menu "DÃ©bogueur" (ou de la barre d'outils et des raccourcis claviers).
 
 @LineBreak
 @LineBreak
 
-  Tant que le programme est en cours de débuggage, tous les fichiers sources qui sont en rapport avec
-  ce programme sont verrouillés en lecture seule jusqu'à la fin de son exécution. Ceci est fait pour
-  assurer que le code qui sera affiché lors du 'pas à pas' ou lors d'une erreur sera correct (et qu'il
-  n'a pas été édité entre temps sans avoir été recompilé).
+  Tant que le programme est en cours de dÃ©buggage, tous les fichiers sources qui sont en rapport avec
+  ce programme sont verrouillÃ©s en lecture seule jusqu'Ã  la fin de son exÃ©cution. Ceci est fait pour
+  assurer que le code qui sera affichÃ© lors du 'pas Ã  pas' ou lors d'une erreur sera correct (et qu'il
+  n'a pas Ã©tÃ© Ã©ditÃ© entre temps sans avoir Ã©tÃ© recompilÃ©).
 
 @LineBreak
 @LineBreak
 
-  A noter qu'un programme ne peut être débogué qu'une seule fois par le débogueur intégré. Si le
-  même programme est de nouveau compilé pour être debuggé, le débogueur indépendant sera utilisé.
-  Par contre il est possible de déboguer plusieurs programmes différents simultanément avec le
-  débogueur intégré.
+  A noter qu'un programme ne peut Ãªtre dÃ©boguÃ© qu'une seule fois par le dÃ©bogueur intÃ©grÃ©. Si le
+  mÃªme programme est de nouveau compilÃ© pour Ãªtre debuggÃ©, le dÃ©bogueur indÃ©pendant sera utilisÃ©.
+  Par contre il est possible de dÃ©boguer plusieurs programmes diffÃ©rents simultanÃ©ment avec le
+  dÃ©bogueur intÃ©grÃ©.
 
 ; == WINDOWS ONLY ==
 @OS Windows
@@ -93,10 +93,10 @@
 
 @Bold "Astuce"
 @LineBreak
-  Sous Windows, le menu "Débogueur" est aussi ajouté au menu système de la fenêtre principale
-  de l'IDE (le menu qui apparaît lors d'un click sur l'icône située dans le coin supérieur
-  gauche de la fenêtre). Cela permet aussi d'accéder à ce menu à partir de la barre des
-  tâches, en cliquant avec le bouton de droite de la souris sur l'icône correspondant à
+  Sous Windows, le menu "DÃ©bogueur" est aussi ajoutÃ© au menu systÃ¨me de la fenÃªtre principale
+  de l'IDE (le menu qui apparaÃ®t lors d'un click sur l'icÃ´ne situÃ©e dans le coin supÃ©rieur
+  gauche de la fenÃªtre). Cela permet aussi d'accÃ©der Ã  ce menu Ã  partir de la barre des
+  tÃ¢ches, en cliquant avec le bouton de droite de la souris sur l'icÃ´ne correspondant Ã 
   l'IDE.
 
 @EndOS
@@ -104,362 +104,362 @@
 
 
 
-@Section Controle de l'exécution
+@Section Controle de l'exÃ©cution
 
-  Ces fonctions permettent le contrôle sur le déroulement du programme en cours
-  de débuggage. Le programme peut être stoppé, exécuté pas à pas (ligne par ligne),
-  examiné (voir le contenu des variables à cet instant etc.). Quand le programme est
-  stoppé, la ligne qui va être exécutée est marquée (par défaut en bleu clair) dans 
+  Ces fonctions permettent le contrÃ´le sur le dÃ©roulement du programme en cours
+  de dÃ©buggage. Le programme peut Ãªtre stoppÃ©, exÃ©cutÃ© pas Ã  pas (ligne par ligne),
+  examinÃ© (voir le contenu des variables Ã  cet instant etc.). Quand le programme est
+  stoppÃ©, la ligne qui va Ãªtre exÃ©cutÃ©e est marquÃ©e (par dÃ©faut en bleu clair) dans 
   le code source correspondant.
 @LineBreak
-  L'état du programme est indiqué dans la barre d'état de l'IDE et dans le 
-  rapport d'activité.
+  L'Ã©tat du programme est indiquÃ© dans la barre d'Ã©tat de l'IDE et dans le 
+  rapport d'activitÃ©.
 
 @LineBreak
 @LineBreak
 
-  Commandes du menu permettant le contrôle du programme:
+  Commandes du menu permettant le contrÃ´le du programme:
 
 @LineBreak
 @LineBreak
 
 @Bold Stop
 @LineBreak
-  Stoppe l'exécution du programme et affiche la ligne qui va être exécutée.
+  Stoppe l'exÃ©cution du programme et affiche la ligne qui va Ãªtre exÃ©cutÃ©e.
 
 @LineBreak
 @LineBreak
 
 @Bold Continue
 @LineBreak
-  Reprend l'exécution du programme, de manière normale.
+  Reprend l'exÃ©cution du programme, de maniÃ¨re normale.
 
 @LineBreak
 @LineBreak
 
 @Bold "Tuer le programme"
 @LineBreak
-  Force le programme à se terminer et ferme toutes les fenêtres de débuggage associées à ce programme.
+  Force le programme Ã  se terminer et ferme toutes les fenÃªtres de dÃ©buggage associÃ©es Ã  ce programme.
 
 @LineBreak
 @LineBreak
 
 @Bold Pas
 @LineBreak
-  Exécute la ligne du programme actuellement affichée et stoppe de nouveau l'exécution.
+  ExÃ©cute la ligne du programme actuellement affichÃ©e et stoppe de nouveau l'exÃ©cution.
 
 @LineBreak
 @LineBreak
 
 @Bold "Pas <n>"
 @LineBreak
-  Exécute le nombre de lignes indiqué et stoppe l'exécution du programme.
+  ExÃ©cute le nombre de lignes indiquÃ© et stoppe l'exÃ©cution du programme.
 
 @LineBreak
 @LineBreak
 
-@Bold "Passer au-delà"
+@Bold "Passer au-delÃ "
 @LineBreak
-  Exécute la ligne du programme actuellement affichée et stoppe de nouveau l'exécution, comme
-  un 'Pas' normal. La différence survient si la ligne contient un ou plusieurs appels à des
-  @ReferenceLink "procedures" "procédures". Dans ce cas, les procédures seront toutes exécutées,
-  sans arrêt, contrairement au mode 'Pas' qui rentre dans chaque procédure. Ceci permet de passer
-  rapidement sur des procédures qui sont connues comme étant correctes.
+  ExÃ©cute la ligne du programme actuellement affichÃ©e et stoppe de nouveau l'exÃ©cution, comme
+  un 'Pas' normal. La diffÃ©rence survient si la ligne contient un ou plusieurs appels Ã  des
+  @ReferenceLink "procedures" "procÃ©dures". Dans ce cas, les procÃ©dures seront toutes exÃ©cutÃ©es,
+  sans arrÃªt, contrairement au mode 'Pas' qui rentre dans chaque procÃ©dure. Ceci permet de passer
+  rapidement sur des procÃ©dures qui sont connues comme Ã©tant correctes.
 
 @LineBreak
 @LineBreak
 
 @Bold "Sortir"
 @LineBreak
-  Exécute le reste du code de la @ReferenceLink "procedures" "procédure" en cours d'exécution et s'arrête à sa sortie.
-  Si la ligne courante n'est pas dans une procédure, un 'Pas' normal sera fait.
+  ExÃ©cute le reste du code de la @ReferenceLink "procedures" "procÃ©dure" en cours d'exÃ©cution et s'arrÃªte Ã  sa sortie.
+  Si la ligne courante n'est pas dans une procÃ©dure, un 'Pas' normal sera fait.
 
 
-@Section Points d'arrêt (ligne)
+@Section Points d'arrÃªt (ligne)
 
-  Les points d'arrêt sont une autre manière de contrôler l'exécution d'un programme.
-  Avec la commande "Point d'arrêt" du menu, la ligne courante sera considérée comme
-  un point d'arrêt (ou retire le point d'arrêt si cette ligne en était un).
-  Quand le programme atteint un point d'arrêt, alors l'exécution est stoppée sur
-  cette ligne (la ligne n'a pas encore été exécutée).
-  A noter que si le point se trouve sur une ligne ou aucun code n'est exécutable (commentaire,
-  ligne vide, structure etc.), le programme s'arrêtera sur la prochaine ligne exécutable
-  rencontrée.
-
-@LineBreak
-@LineBreak
-
-  Un fois que l'exécution du programme a été interrompue par un point d'arrêt, il 
-  est possible d'utiliser n'importe quelle commande du "Contrôle de l'exécution"
-  pour continuer à déboguer le programme.
+  Les points d'arrÃªt sont une autre maniÃ¨re de contrÃ´ler l'exÃ©cution d'un programme.
+  Avec la commande "Point d'arrÃªt" du menu, la ligne courante sera considÃ©rÃ©e comme
+  un point d'arrÃªt (ou retire le point d'arrÃªt si cette ligne en Ã©tait un).
+  Quand le programme atteint un point d'arrÃªt, alors l'exÃ©cution est stoppÃ©e sur
+  cette ligne (la ligne n'a pas encore Ã©tÃ© exÃ©cutÃ©e).
+  A noter que si le point se trouve sur une ligne ou aucun code n'est exÃ©cutable (commentaire,
+  ligne vide, structure etc.), le programme s'arrÃªtera sur la prochaine ligne exÃ©cutable
+  rencontrÃ©e.
 
 @LineBreak
 @LineBreak
 
-  Les points d'arrêts peuvent être ajoutés ou retirés de manière dynamique pendant
-  l'édition ou pendant l'exécution du programme. La commande "Effacer les
-  points d'arrêt" permettent d'enlever tous les points d'arrêt du fichier source
-  en cours d'édition.
+  Un fois que l'exÃ©cution du programme a Ã©tÃ© interrompue par un point d'arrÃªt, il 
+  est possible d'utiliser n'importe quelle commande du "ContrÃ´le de l'exÃ©cution"
+  pour continuer Ã  dÃ©boguer le programme.
+
+@LineBreak
+@LineBreak
+
+  Les points d'arrÃªts peuvent Ãªtre ajoutÃ©s ou retirÃ©s de maniÃ¨re dynamique pendant
+  l'Ã©dition ou pendant l'exÃ©cution du programme. La commande "Effacer les
+  points d'arrÃªt" permettent d'enlever tous les points d'arrÃªt du fichier source
+  en cours d'Ã©dition.
   
 @LineBreak
 @LineBreak
 
-  Note: Pour ajouter/retirer un point d'arrêt à l'aide de la souris, il faut maintenir la touche 'Alt'
-  appuyée pendant le clic sur la bordure qui affiche les points d'arrêts (la colonne de numérotation
+  Note: Pour ajouter/retirer un point d'arrÃªt Ã  l'aide de la souris, il faut maintenir la touche 'Alt'
+  appuyÃ©e pendant le clic sur la bordure qui affiche les points d'arrÃªts (la colonne de numÃ©rotation
   des lignes n'est pas prise en compte). 
 
 
-@Section Points d'arrêts (conditionnel)
+@Section Points d'arrÃªts (conditionnel)
 
 @Image ide_debugger_databreak.png
 
-  En plus des points d'arrêts classiques, le débogueur permet d'arrêter l'exécution
-  du programme si une condition donnée est remplie. Par exemple, il est possible de mettre
-  une condition sur la valeur d'une variable et d'arrêter le programme quand elle atteint
-  une certaine limite. La condition prend la forme d'une @ReferenceLink "general_rules" "expression PureBasic" évaluable
-  en vrai ou faux. Tout ce que l'on peut mettre après un @Keyword "If", y compris les
-  @ReferenceLink "variables" "opérateur logiques" tels que @Keyword "And", @Keyword "Or" ou @Keyword "Not" est accepté.
-  La plupart des fonctions des bibliothèques @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" et @LibraryLink "String" "String"
+  En plus des points d'arrÃªts classiques, le dÃ©bogueur permet d'arrÃªter l'exÃ©cution
+  du programme si une condition donnÃ©e est remplie. Par exemple, il est possible de mettre
+  une condition sur la valeur d'une variable et d'arrÃªter le programme quand elle atteint
+  une certaine limite. La condition prend la forme d'une @ReferenceLink "general_rules" "expression PureBasic" Ã©valuable
+  en vrai ou faux. Tout ce que l'on peut mettre aprÃ¨s un @Keyword "If", y compris les
+  @ReferenceLink "variables" "opÃ©rateur logiques" tels que @Keyword "And", @Keyword "Or" ou @Keyword "Not" est acceptÃ©.
+  La plupart des fonctions des bibliothÃ¨ques @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" et @LibraryLink "String" "String"
   ainsi que toutes les fonctions de validation de la forme IsXxx() and the XxxID sont disponibles.
 
 @LineBreak
 @LineBreak
   Exemples de conditions:
 @Code
-  MaVariable$ <> "Salut" Or Compteur < 0  ; arrête l'execution si 'MaVariable$' n'est plus égale à "Salut" ou si 'Compteur' devient inférieur à zéro
-  PeekL(*UneAdresse+500) <> 0             ; arrête l'exécution la valeur de type long contenu à l'adresse données n'est plus égale à zéro
+  MaVariable$ <> "Salut" Or Compteur < 0  ; arrÃªte l'execution si 'MaVariable$' n'est plus Ã©gale Ã  "Salut" ou si 'Compteur' devient infÃ©rieur Ã  zÃ©ro
+  PeekL(*UneAdresse+500) <> 0             ; arrÃªte l'exÃ©cution la valeur de type long contenu Ã  l'adresse donnÃ©es n'est plus Ã©gale Ã  zÃ©ro
 @EndCode
 
-  Un point d'arrêt conditionnel peut être ajouté via l'entrée "Point d'arrêt conditionnel" du menu "Debogueur".
-  Il peut se limiter à une @ReferenceLink "procedures" "procedure" particulière, ou il peut être ajouté
-  pour tout le code source. L'entrée "Principal" dans la selection des procédures indique que le point d'arrêt conditionnel
-  devra être évalué seulement en dehors des procédures.
+  Un point d'arrÃªt conditionnel peut Ãªtre ajoutÃ© via l'entrÃ©e "Point d'arrÃªt conditionnel" du menu "Debogueur".
+  Il peut se limiter Ã  une @ReferenceLink "procedures" "procedure" particuliÃ¨re, ou il peut Ãªtre ajoutÃ©
+  pour tout le code source. L'entrÃ©e "Principal" dans la selection des procÃ©dures indique que le point d'arrÃªt conditionnel
+  devra Ãªtre Ã©valuÃ© seulement en dehors des procÃ©dures.
 
 @LineBreak
 @LineBreak
 
-  La colonne 'status' affiche le résultat de tous les points d'arrêt conditionnels après
-  leur dernière évaluation. Cela peut être 'vrai', 'faux' ou 'error' si la condition n'est
-  pas une expression valide. Dès qu'une condition est vraie, alors l'exécution du programme
-  s'arrête. Cette condition est automatiquement enlevée de la liste, donc si le programme 
-  continue, il ne s'arrêtera pas immédiatement.
+  La colonne 'status' affiche le rÃ©sultat de tous les points d'arrÃªt conditionnels aprÃ¨s
+  leur derniÃ¨re Ã©valuation. Cela peut Ãªtre 'vrai', 'faux' ou 'error' si la condition n'est
+  pas une expression valide. DÃ¨s qu'une condition est vraie, alors l'exÃ©cution du programme
+  s'arrÃªte. Cette condition est automatiquement enlevÃ©e de la liste, donc si le programme 
+  continue, il ne s'arrÃªtera pas immÃ©diatement.
 
 @LineBreak
 @LineBreak
 
-  Note: La vérification des points d'arrêt conditionnels ralentit l'exécution du programme car les expressions
-  doivent être évaluées à chaque ligne de code.
-  Il vaut mieux les déclarer uniquement quand c'est vraiment nécessaire, pour garder une exécution rapide
-  du programme. Le fait de limiter un point d'arrêt conditionnel à une procédure permet aussi
-  de limiter l'impact sur la rapidité d'exécution, car l'expression n'est évaluée que lorsque
-  la procédure est appelée.
+  Note: La vÃ©rification des points d'arrÃªt conditionnels ralentit l'exÃ©cution du programme car les expressions
+  doivent Ãªtre Ã©valuÃ©es Ã  chaque ligne de code.
+  Il vaut mieux les dÃ©clarer uniquement quand c'est vraiment nÃ©cessaire, pour garder une exÃ©cution rapide
+  du programme. Le fait de limiter un point d'arrÃªt conditionnel Ã  une procÃ©dure permet aussi
+  de limiter l'impact sur la rapiditÃ© d'exÃ©cution, car l'expression n'est Ã©valuÃ©e que lorsque
+  la procÃ©dure est appelÃ©e.
 
 
-@Section Variables en cours d'exécution
+@Section Variables en cours d'exÃ©cution
 
-  La valeur d'une variable peut être très rapidement vue pendant que le programme est en cours 
-  d'exécution en plaçant le curseur de la souris dessus un bref instant dans le code source. 
-  Si la variable est actuellement dans la portée et peut être affichée, sa valeur sera 
-  affichée dans une info-bulle. 
+  La valeur d'une variable peut Ãªtre trÃ¨s rapidement vue pendant que le programme est en cours 
+  d'exÃ©cution en plaÃ§ant le curseur de la souris dessus un bref instant dans le code source. 
+  Si la variable est actuellement dans la portÃ©e et peut Ãªtre affichÃ©e, sa valeur sera 
+  affichÃ©e dans une info-bulle. 
 
   @Image ide_debugger_showstructure.png
 
 
   Les @ReferenceLink "general_rules" "expressions"  plus complexes (par exemple les champs de tableau @ReferenceLink "dim" "array") 
-  peuvent être consultées en les sélectionnant avec la souris et en plaçant le curseur de la souris sur la sélection.  
+  peuvent Ãªtre consultÃ©es en les sÃ©lectionnant avec la souris et en plaÃ§ant le curseur de la souris sur la sÃ©lection.  
 
   @Image ide_debugger_showexpression.png
 
 
-  Des @ReferenceLink "ide_debugtools" "outils du Debogueur" offrent également un certain nombre de façons d'examiner 
+  Des @ReferenceLink "ide_debugtools" "outils du Debogueur" offrent Ã©galement un certain nombre de faÃ§ons d'examiner 
   le contenu des @ReferenceLink "variables" "variables", @ReferenceLink "dim" "tableaux" ou des @LibraryLink "list" "listes".
 
 
 @Section Erreurs dans le programme
 
-  Si le débogueur rencontre une erreur dans le programme en cours de débuggage, il
-  arrêtera l'exécution et marquera la ligne qui contient l'erreur (par défaut en rouge)
-  et affichera le message d'erreur dans la barre d'état et le rapport d'activité.
+  Si le dÃ©bogueur rencontre une erreur dans le programme en cours de dÃ©buggage, il
+  arrÃªtera l'exÃ©cution et marquera la ligne qui contient l'erreur (par dÃ©faut en rouge)
+  et affichera le message d'erreur dans la barre d'Ã©tat et le rapport d'activitÃ©.
 
 @LineBreak
 @LineBreak
   
-  A ce moment, il est toujours possible de regarder le contenu des variables, de la mémoire
-  et l'historique des appels des procédures, mais les autres fonctionnalités telles que l'affichage des
-  registres ou l'état de la pile ne sont plus disponibles.
+  A ce moment, il est toujours possible de regarder le contenu des variables, de la mÃ©moire
+  et l'historique des appels des procÃ©dures, mais les autres fonctionnalitÃ©s telles que l'affichage des
+  registres ou l'Ã©tat de la pile ne sont plus disponibles.
   
 @LineBreak
-  Si l'erreur est considérée comme fatale (comme un accès interdit à une zone mémoire
-  ou une division par 0) il ne sera pas possible de continuer l'exécution du programme.
-  Par contre, si l'erreur est reportée par une commande PureBasic, il est possible
-  de continuer tout de même l'exécution du programme, mais dans ce cas 
-  d'autres erreurs anormales peuvent apparaître. 
+  Si l'erreur est considÃ©rÃ©e comme fatale (comme un accÃ¨s interdit Ã  une zone mÃ©moire
+  ou une division par 0) il ne sera pas possible de continuer l'exÃ©cution du programme.
+  Par contre, si l'erreur est reportÃ©e par une commande PureBasic, il est possible
+  de continuer tout de mÃªme l'exÃ©cution du programme, mais dans ce cas 
+  d'autres erreurs anormales peuvent apparaÃ®tre. 
 
 @LineBreak
 @LineBreak
 
-  Après une erreur (même fatale), la commande "Tuer le programme" doit etre utilisée
-  pour finir l'exécution du programme et reprendre l'édition du code source. Le programme
-  n'est pas automatiquement tué après une erreur pour permettre au développeur d'utiliser
-  les fonctionnalités du débogueur (comme examiner le contenu des variables) pour essayer de
-  détecter la cause de l'erreur.
+  AprÃ¨s une erreur (mÃªme fatale), la commande "Tuer le programme" doit etre utilisÃ©e
+  pour finir l'exÃ©cution du programme et reprendre l'Ã©dition du code source. Le programme
+  n'est pas automatiquement tuÃ© aprÃ¨s une erreur pour permettre au dÃ©veloppeur d'utiliser
+  les fonctionnalitÃ©s du dÃ©bogueur (comme examiner le contenu des variables) pour essayer de
+  dÃ©tecter la cause de l'erreur.
 @LineBreak
-  Note: il est possible de paramétrer le débogueur pour qu'il termine automatiquement
-  l'exécution du programme en cas d'erreur (voir @referencelink ide_preferences "Paramétrer l'IDE").
+  Note: il est possible de paramÃ©trer le dÃ©bogueur pour qu'il termine automatiquement
+  l'exÃ©cution du programme en cas d'erreur (voir @referencelink ide_preferences "ParamÃ©trer l'IDE").
 
 
-@Section Le rapport d'activité
+@Section Le rapport d'activitÃ©
 
-  Le rapport d'activité est utilisé pour l'affichage des erreurs de compilation,
-  ainsi que des messages survenant durant le débuggage. Les messages sont toujours
-  affichés dans le rapport d'activité du fichier concerné, donc si une erreur survient
-  dans un fichier inclus, ce dernier sera affiché et un message ajouté dans son
-  rapport d'activité.
+  Le rapport d'activitÃ© est utilisÃ© pour l'affichage des erreurs de compilation,
+  ainsi que des messages survenant durant le dÃ©buggage. Les messages sont toujours
+  affichÃ©s dans le rapport d'activitÃ© du fichier concernÃ©, donc si une erreur survient
+  dans un fichier inclus, ce dernier sera affichÃ© et un message ajoutÃ© dans son
+  rapport d'activitÃ©.
 
 @LineBreak
 @LineBreak
   
-  Le sous-menu "Rapport d'activité" du menu "Débogueur" contient les commandes pour sa gestion:
+  Le sous-menu "Rapport d'activitÃ©" du menu "DÃ©bogueur" contient les commandes pour sa gestion:
 
 @LineBreak
 @LineBreak
 
 @Bold "Afficher/Cacher"
 @LineBreak
-  Affiche ou cache le rapport d'activité pour le fichier en cours d'édition.
+  Affiche ou cache le rapport d'activitÃ© pour le fichier en cours d'Ã©dition.
 
 @LineBreak
 @LineBreak
 
 @Bold "Effacer"
 @LineBreak
-  Efface toutes les lignes du rapport d'activité du fichier en cours d'édition.
+  Efface toutes les lignes du rapport d'activitÃ© du fichier en cours d'Ã©dition.
 
 @LineBreak
 @LineBreak
 
 @Bold "Copier"
 @LineBreak
-  Copie le contenu du rapport d'activité dans le presse-papier.
+  Copie le contenu du rapport d'activitÃ© dans le presse-papier.
 
 @LineBreak
 @LineBreak
 
 @Bold "Effacer les erreurs"
 @LineBreak
-  Une fois que le programme a été tué, les erreurs affichées dans le code sources
-  restent afin de repérer facilement les lignes qui ont causé des problèmes et de
+  Une fois que le programme a Ã©tÃ© tuÃ©, les erreurs affichÃ©es dans le code sources
+  restent afin de repÃ©rer facilement les lignes qui ont causÃ© des problÃ¨mes et de
   les corriger. Cette commande permet d'enlever le surlignage sur les lignes d'erreur.
-  Il est aussi possible de configurer l'IDE pour ôter automatiquement le surlignage
-  des erreurs lorsque le programme se termine (voir @referencelink ide_preferences "Paramétrer l'IDE")
+  Il est aussi possible de configurer l'IDE pour Ã´ter automatiquement le surlignage
+  des erreurs lorsque le programme se termine (voir @referencelink ide_preferences "ParamÃ©trer l'IDE")
 
 
-@Section Le débogueur indépendant
+@Section Le dÃ©bogueur indÃ©pendant
 
 @Image ide_debugger_extern.png
 
-  Le débogueur indépendant est très similaire à celui intégré à l'IDE et sera seulement expliqué
-  brièvement:
+  Le dÃ©bogueur indÃ©pendant est trÃ¨s similaire Ã  celui intÃ©grÃ© Ã  l'IDE et sera seulement expliquÃ©
+  briÃ¨vement:
 @LineBreak
 @LineBreak
-  Sur la fenêtre du débogueur sont présents les boutons permettant le contrôle sur l'exécution
-  du programme comme décrit plus haut. Le bouton "Pas" avance d'autant de lignes que défini
-  dans le champ à sa droite. Quand le débogueur est fermé à l'aide du bouton "Quitter" ou
-  en cliquant sur le bouton de fermeture de la fenêtre, le programme en cours de débuggage est
-  immédiatement tué.
+  Sur la fenÃªtre du dÃ©bogueur sont prÃ©sents les boutons permettant le contrÃ´le sur l'exÃ©cution
+  du programme comme dÃ©crit plus haut. Le bouton "Pas" avance d'autant de lignes que dÃ©fini
+  dans le champ Ã  sa droite. Quand le dÃ©bogueur est fermÃ© Ã  l'aide du bouton "Quitter" ou
+  en cliquant sur le bouton de fermeture de la fenÃªtre, le programme en cours de dÃ©buggage est
+  immÃ©diatement tuÃ©.
 
 @LineBreak
 @LineBreak
 
-  La zone de rapport d'activité peut être cachée à l'aide du bouton 'flèche vers le haut'
-  pour rendre la fenêtre de débuggage plus petite.
+  La zone de rapport d'activitÃ© peut Ãªtre cachÃ©e Ã  l'aide du bouton 'flÃ¨che vers le haut'
+  pour rendre la fenÃªtre de dÃ©buggage plus petite.
 
 @LineBreak
 @LineBreak
 
-  La zone d'affichage du code source est utilisée pour montrer la ligne en cours d'exécution
-  ainsi que les erreurs ou les points d'arrêt. La liste déroulante située au dessus permet de
-  sélectionner les différents fichiers composant le programme. Les boutons "Mettre point d'arrêt",
-  "Enlever point d'arrêt" et "Effacer points d'arrêt" permettent de gérer dynamiquement les points
-  d'arrêt dans le fichier source affiché. Dans le code, existe également la fonction de survol 
-  (du débogueur intégré) pour visualiser rapidement le contenu d'une variable.
+  La zone d'affichage du code source est utilisÃ©e pour montrer la ligne en cours d'exÃ©cution
+  ainsi que les erreurs ou les points d'arrÃªt. La liste dÃ©roulante situÃ©e au dessus permet de
+  sÃ©lectionner les diffÃ©rents fichiers composant le programme. Les boutons "Mettre point d'arrÃªt",
+  "Enlever point d'arrÃªt" et "Effacer points d'arrÃªt" permettent de gÃ©rer dynamiquement les points
+  d'arrÃªt dans le fichier source affichÃ©. Dans le code, existe Ã©galement la fonction de survol 
+  (du dÃ©bogueur intÃ©grÃ©) pour visualiser rapidement le contenu d'une variable.
 
 @LineBreak
 @LineBreak
 
-  Les outils du débogueur peuvent être affichés à l'aides des boutons situés dans la partie inférieure
-  de la fenêtre. L'utilisation de ces outils est la même qu'avec le débogueur intégré.
+  Les outils du dÃ©bogueur peuvent Ãªtre affichÃ©s Ã  l'aides des boutons situÃ©s dans la partie infÃ©rieure
+  de la fenÃªtre. L'utilisation de ces outils est la mÃªme qu'avec le dÃ©bogueur intÃ©grÃ©.
 
 @LineBreak
 @LineBreak
 
-  Note: Le débogueur indépendant n'a pas de configuration spéciale. Il utilise les paramètres du débogueur
-  et de coloration syntaxique de l'IDE. Donc si un éditeur de code tierce est utilisé pour le développement,
-  il convient de régler ces paramètres à l'aide de l'IDE.
+  Note: Le dÃ©bogueur indÃ©pendant n'a pas de configuration spÃ©ciale. Il utilise les paramÃ¨tres du dÃ©bogueur
+  et de coloration syntaxique de l'IDE. Donc si un Ã©diteur de code tierce est utilisÃ© pour le dÃ©veloppement,
+  il convient de rÃ©gler ces paramÃ¨tres Ã  l'aide de l'IDE.
 
 @LineBreak
 @LineBreak
 
-  @Bold "Exécution du débogueur indépendant à partir de la ligne de commande:"
+  @Bold "ExÃ©cution du dÃ©bogueur indÃ©pendant Ã  partir de la ligne de commande:"
 
 @LineBreak
 @LineBreak
 
-  Pour exécuter un programme compilé en ligne de commande avec le débogueur activé (option /DEBUGGER (Windows) ou -d (Linux/MacOS X)),
-  le débogueur doit être invoqué comme suit:
+  Pour exÃ©cuter un programme compilÃ© en ligne de commande avec le dÃ©bogueur activÃ© (option /DEBUGGER (Windows) ou -d (Linux/MacOS X)),
+  le dÃ©bogueur doit Ãªtre invoquÃ© comme suit:
 @LineBreak
 @LineBreak
 
-  pbdebugger <fichier exécutable> <paramètres ligne de commande pour l'exécutable>
+  pbdebugger <fichier exÃ©cutable> <paramÃ¨tres ligne de commande pour l'exÃ©cutable>
 
 @LineBreak
 @LineBreak
-  Si le programme est exécuté immédiatement après une compilation par ligne de commande,
-  le débogueur indépendant est automatiquement utilisé.
+  Si le programme est exÃ©cutÃ© immÃ©diatement aprÃ¨s une compilation par ligne de commande,
+  le dÃ©bogueur indÃ©pendant est automatiquement utilisÃ©.
 
-@Section Le débogueur en ligne de commande
+@Section Le dÃ©bogueur en ligne de commande
 
 @Image ide_debugger_console.png
 
-  Le débogueur en ligne commande ne fait pas partie de l'IDE, il ne sera donc pas expliqué en
-  détail dans cette section.
+  Le dÃ©bogueur en ligne commande ne fait pas partie de l'IDE, il ne sera donc pas expliquÃ© en
+  dÃ©tail dans cette section.
 
 @LineBreak
 @LineBreak
-  Lorsque le programme est en cours d'exécution, la combination Ctrl+C dans le terminal permet
-  de le stopper et d'invoquer le débogueur. La commande "help" permet d'avoir un apercu des
+  Lorsque le programme est en cours d'exÃ©cution, la combination Ctrl+C dans le terminal permet
+  de le stopper et d'invoquer le dÃ©bogueur. La commande "help" permet d'avoir un apercu des
   commandes disponibles et "help <commandname>" affichera une aide sur l'utilisation d'une
-  commande. Sous Windows le débogueur en ligne de commande est utilisé uniquement si l'option 
-  /CONSOLE est spécifiée.
+  commande. Sous Windows le dÃ©bogueur en ligne de commande est utilisÃ© uniquement si l'option 
+  /CONSOLE est spÃ©cifiÃ©e.
   
-@Section Déboguer un programme multi-threadé:
+@Section DÃ©boguer un programme multi-threadÃ©:
   
-  Pour utiliser le débogueur avec un proramme qui utilise des @LibraryLink "thread" "threads", l'option
-  'Créer un exécutable multi-threadé' doit être activé dans les @ReferenceLink "ide_compiler" "Options de compilation", sinon
-  les informations affichées par le débogueur concernant les numéros de lignes, les erreurs, les variables
-  locales peuvent être erronées, à cause des threads.
+  Pour utiliser le dÃ©bogueur avec un proramme qui utilise des @LibraryLink "thread" "threads", l'option
+  'CrÃ©er un exÃ©cutable multi-threadÃ©' doit Ãªtre activÃ© dans les @ReferenceLink "ide_compiler" "Options de compilation", sinon
+  les informations affichÃ©es par le dÃ©bogueur concernant les numÃ©ros de lignes, les erreurs, les variables
+  locales peuvent Ãªtre erronÃ©es, Ã  cause des threads.
 
 @LineBreak
 @LineBreak
 
-  Les limitations suivantes doivent être prises en compte lors du déboguage d'un programme multi-threadé:
+  Les limitations suivantes doivent Ãªtre prises en compte lors du dÃ©boguage d'un programme multi-threadÃ©:
 
 @LineBreak
 @LineBreak
 
-  Quand le programme est en cours d'exécution, la visionneuse de variables, l'affichage de la pile ou le
-  débogueur assembleur afficheront uniquement les informations du thread principal. Quand un programme
-  est sur arrêt, ils afficheront les informations sur le thread courant. Donc, pour examiner les
-  variables locales d'un thread, l'exécution doit être arrêtée dans ce thread (en utilisant un
-  point d'arrêt ou @Keyword CallDebugger). Les commandes 'Pas à pas' du débogueur s'appliquent
-  uniquement au thread où l'exécution est arrêtée.
+  Quand le programme est en cours d'exÃ©cution, la visionneuse de variables, l'affichage de la pile ou le
+  dÃ©bogueur assembleur afficheront uniquement les informations du thread principal. Quand un programme
+  est sur arrÃªt, ils afficheront les informations sur le thread courant. Donc, pour examiner les
+  variables locales d'un thread, l'exÃ©cution doit Ãªtre arrÃªtÃ©e dans ce thread (en utilisant un
+  point d'arrÃªt ou @Keyword CallDebugger). Les commandes 'Pas Ã  pas' du dÃ©bogueur s'appliquent
+  uniquement au thread oÃ¹ l'exÃ©cution est arrÃªtÃ©e.
 @LineBreak
 @LineBreak
-  Si une erreur survient, l'exécution est stoppée dans ce thread, donc toute information affichée
-  par la visionneuse de variables ou l'affichage de la pile sera relative à ce thread.
+  Si une erreur survient, l'exÃ©cution est stoppÃ©e dans ce thread, donc toute information affichÃ©e
+  par la visionneuse de variables ou l'affichage de la pile sera relative Ã  ce thread.
 @LineBreak
 @LineBreak
   La 'Liste de visualisation' des variables affiche seulement les variables locales du thread principal.
 @LineBreak
 @LineBreak
-  Quand le débogueur s'arrête dans un thread, l'exécution de tous les autres threads est suspendue.
+  Quand le dÃ©bogueur s'arrÃªte dans un thread, l'exÃ©cution de tous les autres threads est suspendue.

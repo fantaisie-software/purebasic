@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Sound library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,8 +8,8 @@
 
 @Overview
 
-  La bibliothèque "Son" de PureBasic permet d'ajouter simplement du son à une application ou à un jeu.
-  Les commandes disponibles sont spécialement optimisées pour tirer le maximum du matériel.
+  La bibliothÃ¨que "Son" de PureBasic permet d'ajouter simplement du son Ã  une application ou Ã  un jeu.
+  Les commandes disponibles sont spÃ©cialement optimisÃ©es pour tirer le maximum du matÃ©riel.
  
  
 @CommandList
@@ -23,39 +23,39 @@
 @Function Resultat = CatchSound(#Son, *Memoire [, Taille [, Options]])
 
 @Description
-  Charge un Son qui se trouve déjà en mémoire.
+  Charge un Son qui se trouve dÃ©jÃ  en mÃ©moire.
 @LineBreak
 @LineBreak  
   Les formats reconnus sont le WAV au format 
-  PCM (le format ADPCM n'est pas supporté) 
-  ou n'importe quel format supporté par la 
-  @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".
+  PCM (le format ADPCM n'est pas supportÃ©) 
+  ou n'importe quel format supportÃ© par la 
+  @LibraryLink "SoundPlugin" "bibliothÃ¨que SoundPlugin".
   @LineBreak
   @@UseFLACSoundDecoder @LineBreak
   @@UseOGGSoundDecoder
   
 @Parameter "#Son"
-  Le numéro d'identification du nouveau Son.
+  Le numÃ©ro d'identification du nouveau Son.
   @LineBreak
   @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro. 
   
 @Parameter "*Memoire"  
-  L'adresse de la mémoire où se trouve le Son.
+  L'adresse de la mÃ©moire oÃ¹ se trouve le Son.
   
 @OptionalParameter "Taille"
-  La taille en octets de la zone mémoire appelée tampon 
+  La taille en octets de la zone mÃ©moire appelÃ©e tampon 
   ou buffer qui contient le Son.
 @LineBreak
 @LineBreak
-  Attention, ce paramètre est facultatif avec les 
+  Attention, ce paramÃ¨tre est facultatif avec les 
   fichiers WAV, mais il est obligatoire pour les 
   autres formats sonores. 
  
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Sound_Streaming: Active le support du streaming
                        Seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" et 
@@ -64,7 +64,7 @@
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
   
 @Example
 @Code
@@ -77,10 +77,10 @@
 @EndCode
 
 @Remarks  
-  Le "?" est un pointeur sur une étiquette 
+  Le "?" est un pointeur sur une Ã©tiquette 
   (label). 
   Plus d'informations sur les pointeurs et les 
-  accès mémoire peuvent être trouvées dans le 
+  accÃ¨s mÃ©moire peuvent Ãªtre trouvÃ©es dans le 
   chapitre @ReferenceLink "memory" "ici".
 
 @SeeAlso
@@ -96,20 +96,20 @@
   Renvoie la position courante.
   
 @Parameter "#Son"
-  Le son à utiliser.
+  Le son Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Sound_Frame      : Position en 'frame' (par défaut). 
+  @#PB_Sound_Frame      : Position en 'frame' (par dÃ©faut). 
   @#PB_Sound_Millisecond: Position en millisecondes.
 @EndFixedFont
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak  
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @ReturnValue
@@ -117,7 +117,7 @@
   si une erreur s'est produite.
 
 @Remarks
-  Les sons chargés avec l'option 
+  Les sons chargÃ©s avec l'option 
   @#PB_Sound_Streaming ne sont pas pris en 
   charge.
 
@@ -130,20 +130,20 @@ If InitSound()           ; Initialisation des Sons
   If LoadSound(0, #PB_Compiler_Home +"Examples\3D\Data\Siren.ogg")
     If LoadSound(1, #PB_Compiler_Home +"Examples\3D\Data\Roar.ogg")
       
-      ; La sirène joue 
+      ; La sirÃ¨ne joue 
       PlaySound(0)
       
-      ; Afficher la position pendant que la sirène joue
+      ; Afficher la position pendant que la sirÃ¨ne joue
       Repeat
         Pos=GetSoundPosition(0, #PB_Sound_Millisecond)
         Delay(100)   ; Attendre 100 ms
         Debug Pos    ; Afficher la position toutes les 100 ms environ
-        If Pos>1000  ; Arrêter après 1 seconde environ
+        If Pos>1000  ; ArrÃªter aprÃ¨s 1 seconde environ
           Break
         EndIf
       ForEver
       
-      ; Puis les 2 sons sont joués en même temps
+      ; Puis les 2 sons sont jouÃ©s en mÃªme temps
       PlaySound(1)
       
       MessageRequester("Info", "Ok pour quitter.") 
@@ -151,7 +151,7 @@ If InitSound()           ; Initialisation des Sons
     EndIf
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
 
@@ -165,30 +165,30 @@ EndIf
 @Function SetSoundPosition(#Son, Position, [, Mode [, Canal]])
 
 @Description
-  Régle la position courante.
+  RÃ©gle la position courante.
   
 @Parameter "#Son
-  Le son à utiliser.
+  Le son Ã  utiliser.
 
 @Parameter "Position"
   La nouvelle position.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Sound_Frame      : Position en 'frame' (Par défaut). 
+  @#PB_Sound_Frame      : Position en 'frame' (Par dÃ©faut). 
   @#PB_Sound_Millisecond: Position en millisecondes.
 @EndFixedFont
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.@LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  Le canal Ã  utiliser.@LineBreak 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @NoReturnValue
 
 @Remarks
-  Les sons chargés avec l'option 
+  Les sons chargÃ©s avec l'option 
   @#PB_Sound_Streaming ne sont pas pris en
   charge.
 
@@ -210,7 +210,7 @@ If  InitSound()           ; Initialisation des Sons
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
 
@@ -224,22 +224,22 @@ EndIf
 @Function FreeSound(#Son)
 
 @Description
-  Arrête et supprime de la mémoire un Son 
-  précédemment chargé avec la fonction 
+  ArrÃªte et supprime de la mÃ©moire un Son 
+  prÃ©cÃ©demment chargÃ© avec la fonction 
   @@LoadSound ou @@CatchSound.
 
 @Parameter "#Son"
-  Le Son à supprimer. 
+  Le Son Ã  supprimer. 
 @LineBreak  
 @LineBreak  
-  Si @#PB_All est utilisé alors tous les 
-  Sons seront supprimés.
+  Si @#PB_All est utilisÃ© alors tous les 
+  Sons seront supprimÃ©s.
 
 @NoReturnValue
 
 @Remarks
   Tous les sons restants sont automatiquement 
-  libérés quand le programme se termine.
+  libÃ©rÃ©s quand le programme se termine.
 
 @Example
 @Code  
@@ -253,11 +253,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode  
 
@@ -274,17 +274,17 @@ EndIf
   Initialise l'environnement sonore. 
 
 @OptionalParameter "NbMaxCanaux"
-  Définit le nombre maximum de canaux à utiliser simultanément pour jouer des sons. 
+  DÃ©finit le nombre maximum de canaux Ã  utiliser simultanÃ©ment pour jouer des sons. 
 @LineBreak  
 @LineBreak 
-  De 1 à 254 et la valeur par défaut est 64.
+  De 1 Ã  254 et la valeur par dÃ©faut est 64.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, zéro sinon (par exemple si aucune carte son n'est disponible)..
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon (par exemple si aucune carte son n'est disponible)..
 
 @Remarks
-  Cette fonction doit toujours être appelée avant toute autre fonction de la bibliothèque Sound.
-  De plus si cette fonction échoue alors il faut absolument désactiver tous les appels des fonctions 
+  Cette fonction doit toujours Ãªtre appelÃ©e avant toute autre fonction de la bibliothÃ¨que Sound.
+  De plus si cette fonction Ã©choue alors il faut absolument dÃ©sactiver tous les appels des fonctions 
   sonores.
 
 @Example
@@ -299,11 +299,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 
 @EndCode
@@ -315,21 +315,21 @@ EndIf
 @Function Resultat = IsSound(#Son)
 
 @Description
-  Teste si un Son est correctement initialisé. 
+  Teste si un Son est correctement initialisÃ©. 
 
 @Parameter "#Son"
-  Le Son à utiliser. 
+  Le Son Ã  utiliser. 
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  Cette fonction a été créée pour pouvoir passer 
-  n'importe quelle valeur en paramètre sans 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir passer 
+  n'importe quelle valeur en paramÃ¨tre sans 
   qu'il ne puisse y avoir de plantage. C'est 
-  la fonction idéale pour vérifier qu'un
-  objet est correctement initialisé.  
+  la fonction idÃ©ale pour vÃ©rifier qu'un
+  objet est correctement initialisÃ©.  
  
 @Example
 @Code  
@@ -348,31 +348,31 @@ EndIf
 @Function Resultat = LoadSound(#Son, NomFichier$ [, Options])
 
 @Description
-  Charge un Son en mémoire depuis un fichier.
+  Charge un Son en mÃ©moire depuis un fichier.
 @LineBreak
 @LineBreak  
   Les formats reconnus sont le WAV au format 
-  PCM (le format ADPCM n'est pas supporté) 
-  ou n'importe quel format supporté par la 
-  @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".
+  PCM (le format ADPCM n'est pas supportÃ©) 
+  ou n'importe quel format supportÃ© par la 
+  @LibraryLink "SoundPlugin" "bibliothÃ¨que SoundPlugin".
   @LineBreak
   @@UseFLACSoundDecoder@LineBreak
   @@UseOGGSoundDecoder  
    
 @Parameter "#Son"
-  Le numéro d'identification du nouveau Son.
+  Le numÃ©ro d'identification du nouveau Son.
   @LineBreak
   @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro. 
   
 @Parameter "NomFichier$"  
-  Le chemin et le nom du fichier sonore à 
+  Le chemin et le nom du fichier sonore Ã  
   charger.
   
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Sound_Streaming: Active le support du streaming pour jouer le son 
                       seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" 
@@ -381,7 +381,7 @@ EndIf
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Example
 @Code  
@@ -395,11 +395,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 
 @EndCode 
@@ -417,23 +417,23 @@ EndIf
   Met en pause.
   
 @Parameter "#Son"
-  Le son à utiliser.
+  Le son Ã  utiliser.
 @LineBreak
 @LineBreak   
-  Si @#PB_All est spécifié, tous les sons 
+  Si @#PB_All est spÃ©cifiÃ©, tous les sons 
   (et tous les canaux) sont mis en pause.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @NoReturnValue
 
 @Remarks
-  Les sons chargés avec l'option 
+  Les sons chargÃ©s avec l'option 
   @#PB_Sound_Streaming
   
   ne sont pas pris en charge.
@@ -456,11 +456,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
    
@@ -477,23 +477,23 @@ EndIf
   Reprend la lecture.
   
 @Parameter "#Son"
-  Le son à utiliser. 
+  Le son Ã  utiliser. 
 @LineBreak
 @LineBreak 
-  Si @#PB_All est spécifié, tous les sons 
+  Si @#PB_All est spÃ©cifiÃ©, tous les sons 
   (et tous les canaux) reprennent la lecture.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @NoReturnValue
 
 @Remarks
-  Les sons chargés avec l'option 
+  Les sons chargÃ©s avec l'option 
   @#PB_Sound_Streaming 
   ne sont pas pris en charge.
  
@@ -515,11 +515,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
       
@@ -536,30 +536,31 @@ EndIf
   Joue un Son. 
   
 @Parameter "#Son"
-  Le Son à jouer.
+  Le Son Ã  jouer.
 
 @OptionalParameter "Option"  
-  Peut être la combinaison des valeurs suivantes:
+  Peut Ãªtre la combinaison des valeurs suivantes:
 @FixedFont
+  0                     : pas d'option
   @#PB_Sound_Loop        : joue le son en boucle (infini)
-  @#PB_Sound_MultiChannel: joue le son en utilisant un nouveau canal au lieu de stopper le son précédent. Ceci permet d'utiliser 
-                          le même son et de le jouer plusieurs fois sur différents canaux. 'Resultat' contiendra le nouveau canal alloué, 
-                          et pourra être spécifié avec @@SoundVolume, etc...
+  @#PB_Sound_MultiChannel: joue le son en utilisant un nouveau canal au lieu de stopper le son prÃ©cÃ©dent. Ceci permet d'utiliser 
+                          le mÃªme son et de le jouer plusieurs fois sur diffÃ©rents canaux. 'Resultat' contiendra le nouveau canal allouÃ©, 
+                          et pourra Ãªtre spÃ©cifiÃ© avec @@SoundVolume, etc...
 @EndFixedFont
 
 @OptionalParameter "Volume"
-  Permet de régler le volume initial du Son.
+  Permet de rÃ©gler le volume initial du Son.
 @LineBreak
 @LineBreak    
   Les valeurs valides vont de 0 (aucun volume) 
-  à 100 (volume maximum). 
+  Ã  100 (volume maximum). 
 @LineBreak
 @LineBreak   
-  La valeur par défaut est 100.
+  La valeur par dÃ©faut est 100.
 
 @ReturnValue
   Renvoie le canal si l'option 
-  @#PB_Sound_MultiChannel est utilisée.
+  @#PB_Sound_MultiChannel est utilisÃ©e.
 
 @Example
 @Code  
@@ -573,11 +574,11 @@ If InitSound()           ; Initialisation des Sons
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -592,20 +593,20 @@ EndIf
 @Function GetSoundFrequency(#Son, [, Canal])
 
 @Description
-  Renvoie la fréquence moyenne.
+  Renvoie la frÃ©quence moyenne.
 
 @Parameter "#Son"
-  Le Son à utiliser.
+  Le Son Ã  utiliser.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak  
-  C'est la valeur renvoyée par @@PlaySound 
+  C'est la valeur renvoyÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @ReturnValue 
-  Renvoie la fréquence courante du son, en Hz.
+  Renvoie la frÃ©quence courante du son, en Hz.
 
 @Example
 @Code  
@@ -617,15 +618,15 @@ If InitSound()           ; Initialisation des Sons
     ; Le son joue en boucle
     PlaySound(0, #PB_Sound_Loop, 20)
     
-    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    MessageRequester("Info", "La frÃ©quence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
     
     MessageRequester("Info", "Ok pour quitter.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -639,35 +640,35 @@ EndIf
 @Function SetSoundFrequency(#Son, Frequence [, Canal])
 
 @Description
-  Régle une fréquence en temps réel.
+  RÃ©gle une frÃ©quence en temps rÃ©el.
 
 @Parameter "#Son"
-  Le Son à utiliser.
+  Le Son Ã  utiliser.
 
 @Parameter "Frequence"
-  La fréquence à utiliser.
+  La frÃ©quence Ã  utiliser.
 @LineBreak
 @LineBreak 
   Les valeurs valides sont comprises 
   entre 1 000 Hz et 100 000 Hz.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 @LineBreak
 @LineBreak 
-  Si @#PB_All est spécifié, tous les canaux 
-  sont affectés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les canaux 
+  sont affectÃ©s.
 
 @NoReturnValue 
  
 @Remarks
-  La nouvelle valeur de la fréquence est 
-  enregistrée pour le son, il n'est donc 
-  pas nécessaire de l'appeler à chaque fois.
+  La nouvelle valeur de la frÃ©quence est 
+  enregistrÃ©e pour le son, il n'est donc 
+  pas nÃ©cessaire de l'appeler Ã  chaque fois.
  
 @Example
 @Code  
@@ -679,20 +680,20 @@ If InitSound()           ; Initialisation des Sons
     ; Le son joue en boucle
     PlaySound(0, #PB_Sound_Loop, 20)
     
-    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    MessageRequester("Info", "La frÃ©quence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
     PauseSound(0)
     
     SetSoundFrequency(0,16000)
     
     ResumeSound(0)
     
-    MessageRequester("Info", "La fréquence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
+    MessageRequester("Info", "La frÃ©quence moyenne est de " + Str(GetSoundFrequency(0))+" Hz")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -706,25 +707,25 @@ EndIf
 @Function Resultat = SoundStatus(#Son [, Canal])
 
 @Description
-  Renvoie l'état d'un Son.
+  Renvoie l'Ã©tat d'un Son.
   
 @Parameter "#Son"
-  Le Son à utiliser.
+  Le Son Ã  utiliser.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur renvoyée par @@PlaySound 
+  C'est la valeur renvoyÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 
 @ReturnValue
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Sound_Stopped: Le son est arrêté.
-  @#PB_Sound_Playing: Le son est joué.
+  @#PB_Sound_Stopped: Le son est arrÃªtÃ©.
+  @#PB_Sound_Playing: Le son est jouÃ©.
   @#PB_Sound_Paused : Le son est en pause.
-  @#PB_Sound_Unknown: Le son est dans un état inconnu (une erreur s'est produite lors de l'obtention de l'état).
+  @#PB_Sound_Unknown: Le son est dans un Ã©tat inconnu (une erreur s'est produite lors de l'obtention de l'Ã©tat).
 @EndFixedFont
 
 @Example
@@ -732,10 +733,10 @@ EndIf
 Procedure SelectStatus(Status)
   Select Status
     Case #PB_Sound_Stopped
-      MessageRequester("Info", "Le son est arrêté.")
+      MessageRequester("Info", "Le son est arrÃªtÃ©.")
       
     Case #PB_Sound_Playing
-      MessageRequester("Info", "Le son est joué.")
+      MessageRequester("Info", "Le son est jouÃ©.")
       
     Case  #PB_Sound_Paused
       MessageRequester("Info", "Le son est en pause.")
@@ -767,11 +768,11 @@ If InitSound()           ; Initialisation des Sons
     StopSound(0)
     SelectStatus(SoundStatus(0))
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
     
@@ -786,30 +787,30 @@ EndIf
 @Function SoundPan(#Son, Spacialisation [, Canal])
 
 @Description
-  Change la stéréo d'un Son en temps réel. 
+  Change la stÃ©rÃ©o d'un Son en temps rÃ©el. 
   
 @Parameter "#Son"
-  Le Son à utiliser.
+  Le Son Ã  utiliser.
   
 @Parameter "Spacialisation"
-  La nouvelle valeur de spacialisation stéréo.
+  La nouvelle valeur de spacialisation stÃ©rÃ©o.
  @LineBreak
 @LineBreak   
-  Elle devient la valeur par défaut pour ce 
+  Elle devient la valeur par dÃ©faut pour ce 
   #Son. 
 @LineBreak
 @LineBreak  
   Les valeurs disponibles vont de -100 (tout 
-  le son à gauche) à 100  (tout le son à droite).
+  le son Ã  gauche) Ã  100  (tout le son Ã  droite).
   @LineBreak  
-  Si la stéréo est 0, alors le son est joué sur
+  Si la stÃ©rÃ©o est 0, alors le son est jouÃ© sur
   les deux haut-parleurs.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur renvoyée par @@PlaySound avec 
+  C'est la valeur renvoyÃ©e par @@PlaySound avec 
   l'option @#PB_Sound_MultiChannel.
 
 @NoReturnValue
@@ -824,22 +825,22 @@ If InitSound()           ; Initialisation des Sons
     ; Le son joue en boucle
     PlaySound(0, #PB_Sound_Loop, 20)
     
-    MessageRequester("Info", "Le son est joué en stéréo.")
+    MessageRequester("Info", "Le son est jouÃ© en stÃ©rÃ©o.")
     
     SoundPan(0, -100)
-    MessageRequester("Info", "Le son est joué en mono sur le canal gauche.")
+    MessageRequester("Info", "Le son est jouÃ© en mono sur le canal gauche.")
     
     SoundPan(0, 100)
-    MessageRequester("Info", "Le son est joué en mono sur le canal droit.")
+    MessageRequester("Info", "Le son est jouÃ© en mono sur le canal droit.")
     
     SoundPan(0, 0)
-    MessageRequester("Info", "Le son est joué en stéréo.")
+    MessageRequester("Info", "Le son est jouÃ© en stÃ©rÃ©o.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -853,12 +854,12 @@ EndIf
   Renvoie la longueur d'un Son.
   
 @Parameter "#Son"
-  Le Son à utiliser.
+  Le Son Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Sound_Frame      : Longueur en 'frame' (par défaut).
+  @#PB_Sound_Frame      : Longueur en 'frame' (par dÃ©faut).
   @#PB_Sound_Millisecond: Longueur en millisecondes.
 @EndFixedFont
 
@@ -867,7 +868,7 @@ EndIf
   erreur s'est produite.
 
 @Remarks
-  Les sons chargés avec l'option 
+  Les sons chargÃ©s avec l'option 
   @#PB_Sound_Streaming 
   ne sont pas pris en charge.
 
@@ -881,15 +882,15 @@ If InitSound()           ; Initialisation des Sons
     ; Le son joue en boucle
     PlaySound(0, #PB_Sound_Loop, 20)
     
-    MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0)) + " frames.")
+    MessageRequester("Info", "La durÃ©e du son est de "+ Str(SoundLength(0)) + " frames.")
     
-    MessageRequester("Info", "La durée du son est de "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
+    MessageRequester("Info", "La durÃ©e du son est de "+ Str(SoundLength(0, #PB_Sound_Millisecond)) + " ms.")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -900,13 +901,13 @@ EndIf
 @Function SoundVolume(#Son, Volume.f [, Canal])
 
 @Description
-  Change le volume en temps réel. 
+  Change le volume en temps rÃ©el. 
   
 @Parameter "#Son"
-  Le Son à utiliser. 
+  Le Son Ã  utiliser. 
 @LineBreak
 @LineBreak 
-  Si @#PB_All est spécifié, tous les Sons 
+  Si @#PB_All est spÃ©cifiÃ©, tous les Sons 
   (et tous les canaux) reprennent la lecture.
 
 @Parameter "Volume.f"
@@ -914,18 +915,18 @@ EndIf
 @LineBreak
 @LineBreak 
  Les valeurs valides sont comprises entre 0 
- (pas de volume) à 100 (volume maximal).
+ (pas de volume) Ã  100 (volume maximal).
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
 @LineBreak
 @LineBreak 
-  Si @#PB_All est spécifié, tous les canaux 
-  sont affectés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les canaux 
+  sont affectÃ©s.
 
 @NoReturnValue
 
@@ -939,16 +940,16 @@ If  InitSound()           ; Initialisation des Sons
     ; Le son joue en boucle
     PlaySound(0, #PB_Sound_Loop, 20)
     
-    MessageRequester("Info", "Le volume sonore est à 20%")
+    MessageRequester("Info", "Le volume sonore est Ã  20%")
     
     SoundVolume(0, 80)
-    MessageRequester("Info", "Le volume sonore est à 80%")
+    MessageRequester("Info", "Le volume sonore est Ã  80%")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   
@@ -962,20 +963,20 @@ EndIf
 @Function StopSound(#Son, [, Canal])
 
 @Description
-  Arrête la lecture.
+  ArrÃªte la lecture.
   
 @Parameter "#Son"
-  Le Son à utiliser. 
+  Le Son Ã  utiliser. 
 @LineBreak
 @LineBreak 
-  Si @#PB_All est spécifié, tous les Sons 
-  (et tous les canaux) sont arrêtés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les Sons 
+  (et tous les canaux) sont arrÃªtÃ©s.
 
 @OptionalParameter "Canal"
-  Le canal à utiliser.
+  Le canal Ã  utiliser.
 @LineBreak
 @LineBreak 
-  C'est la valeur retournée par @@PlaySound 
+  C'est la valeur retournÃ©e par @@PlaySound 
   avec l'option @#PB_Sound_MultiChannel.
  
 @NoReturnValue 
@@ -993,13 +994,13 @@ If InitSound()           ; Initialisation des Sons
     MessageRequester("Info", "Ok pour stopper le son")
     
     StopSound(0)
-    MessageRequester("Info", "Son stoppé")
+    MessageRequester("Info", "Son stoppÃ©")
     
-    FreeSound(0) ; Le son est libéré
+    FreeSound(0) ; Le son est libÃ©rÃ©
     End
   EndIf
 Else
-  Debug "Avertissement! L'environnement sonore n'a pas pu être initialisé. Aucune commande sonore ne peut donc être utilisée..."
+  Debug "Avertissement! L'environnement sonore n'a pas pu Ãªtre initialisÃ©. Aucune commande sonore ne peut donc Ãªtre utilisÃ©e..."
 EndIf
 @EndCode
   

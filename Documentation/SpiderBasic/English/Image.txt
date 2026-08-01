@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Image library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -20,6 +20,51 @@
 @ExampleFile All Image.sb
 
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CaptureImage(#Image [, Quality [, Flags [, Width, Height]]])
+
+@Description
+  Capture an image from the device camera. This function is only available for Android or iOS apps.
+
+@Parameter "#Image"
+  A number to identify the new image. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be specified to
+  auto-generate this number.
+
+@OptionalParameter "Quality"
+  A number between 0 (worste) and 100 (best) to control image quality. Default value is 50.
+
+@OptionalParameter "Flags"
+  A combination (using the bitwise OR operator '|') of the following constants:
+@FixedFont
+  @#PB_Image_FrontCamera: Uses the front camera, instead of the back.
+@EndFixedFont
+  
+@OptionalParameter "Width, Height"
+  The final image size, in pixels. If not specified, the full size is returned, which can be big
+  depending of the camera definition.
+
+@ReturnValue
+  Returns nonzero if the image was successfully captured or zero if not.
+  If @#PB_Any was specified as the #Image parameter then the auto-generated number is returned on success.
+
+@Example
+@Code
+  If CaptureImage(0, 50, 0, 200, 400)
+    
+    OpenWindow(#PB_Any, x, y, 300, 300, "Capture Image", #PB_Window_TitleBar | #PB_Window_SizeGadget)
+    ImageGadget(#PB_Any, 0, 0, ImageWidth(0), ImageHeight(0), ImageID(0))
+      
+  Else
+    Debug "Can't capture the image"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@GrabImage, @@FreeImage
+
+@SupportedOS Android, iOS
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -67,9 +112,12 @@
   Valid values can be: 24 and 32. The default is 24-bit if no depth is specified.
 
 @OptionalParameter "BackColor"
-  The back @@RGB color used when the image is created. This color can be set to @#PB_Image_Transparent to create an image with the 
-  alpha channel set to full transparent. This only has an effect on 32-bit images. The default
-  backcolor is black if not specified.
+  The backcolor used when the image is created. @LineBreak
+  If the image is 24-bit, use @@RGB to get a valid color. @LineBreak
+  If the image is 32-bit, use @@RGBA to get a valid color. For 32-bit image, a special constant can be used as well: @LineBreak
+  @#PB_Image_Transparent which is similar to RGBA(255,255,255,0). @LineBreak
+  @LineBreak
+  The default backcolor is black if not specified.
 
 @ReturnValue
   Returns nonzero if the image was created successfully and zero if the image could not be created.
@@ -390,9 +438,10 @@
 @OptionalParameter "Flags"
   It can be one of the following value:
 @FixedFont
-  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
-                 to have access to local files. @@SelectedFileID() is used to get the
-                 local file identifier.
+  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester needs to be called before
+                 to have access to local files.
+  @#PB_Image_JPEGBase64: the filename is a Base64 encoded JPEG image string.
+  @#PB_Image_PNGBase64 : the filename is a Base64 encoded PNG image string.
 @EndFixedFont
 
 @ReturnValue
@@ -439,9 +488,25 @@
   LoadImage(0, "Data/SpiderBasicLogo.png")
 @EndCode
 
-@Example with local file
+@Example with a PNG Base64 image
 @Code
+  Procedure Loaded(Type, Filename$, ObjectId)
 
+    ; Display the image in a new window
+    OpenWindow(#PB_Any, 10, 10, 300, 300, "Image", #PB_Window_SizeGadget)
+      ImageGadget(#PB_Any, 0, 0, ImageWidth(ObjectId), ImageHeight(ObjectId), ImageID(ObjectId))
+    
+  EndProcedure
+  
+  Procedure LoadingError(Type, Filename$, ObjectId)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+  
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loaded())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  
+  LoadImage(0, "iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII=", #PB_Image_PNGBase64)
 @EndCode
 
 @SeeAlso

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Process library documentation
 ;
 ; (c) Fantaisie Software
@@ -7,14 +7,14 @@
 @Library Process
 
 @Overview
-  Cette bibliothèque permet de 
-  récupérer des informations sur 
+  Cette bibliothÃ¨que permet de 
+  rÃ©cupÃ©rer des informations sur 
   le programme en cours, ainsi 
-  que d'exécuter d'autres programmes 
+  que d'exÃ©cuter d'autres programmes 
   et de communiquer avec eux.
-  Elle fournit un accès indépendant 
-  à l'environnement et les paramètres 
-  des programmes, ainsi que l'entrée 
+  Elle fournit un accÃ¨s indÃ©pendant 
+  Ã  l'environnement et les paramÃ¨tres 
+  des programmes, ainsi que l'entrÃ©e 
   et la sortie standard.
   
 @CommandList
@@ -30,11 +30,11 @@
   en lecture sur la sortie du programme.
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
-  avec @@RunProgram en spécifiant 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
+  avec @@RunProgram en spÃ©cifiant 
   l'option @#PB_Program_Read.
   
 @ReturnValue
@@ -42,11 +42,11 @@
   lecture sur la sortie du programme.
   
 @Remarks
-  La sortie peut être effectivement lue soit avec @@ReadProgramString 
+  La sortie peut Ãªtre effectivement lue soit avec @@ReadProgramString 
   soit avec @@ReadProgramData. 
 @LineBreak
-  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquée indéfiniment si le 
-  programme réclame l'intervention de l'utilisateur. Comme par exemple, renvoyer un choix 
+  Cependant @@ReadProgramString ou @@ReadProgramData restent bloquÃ©e indÃ©finiment si le 
+  programme rÃ©clame l'intervention de l'utilisateur. Comme par exemple, renvoyer un choix 
   oui/non au programme pour qu'il se poursuive.
   
 @SeeAlso
@@ -60,40 +60,40 @@
 
 @Description
   Ferme la connexion avec le programme 
-  lancé avec @@RunProgram et libère 
-  toutes les ressources associées.
+  lancÃ© avec @@RunProgram et libÃ¨re 
+  toutes les ressources associÃ©es.
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
   avec @@RunProgram.
 
 @NoReturnValue
 
 @Remarks
   Cette commande ne force pas le 
-  programme à se terminer, seule la 
-  connexion avec lui est fermée. Pour 
-  forcer le programme à quitter, la 
+  programme Ã  se terminer, seule la 
+  connexion avec lui est fermÃ©e. Pour 
+  forcer le programme Ã  quitter, la 
   commande @@KillProgram est disponible. 
-  De plus, même si le programme
-  se termine de façon normale, il est 
+  De plus, mÃªme si le programme
+  se termine de faÃ§on normale, il est 
   important d'appeler CloseProgram() 
-  pour libérer toutes les ressources.
+  pour libÃ©rer toutes les ressources.
 @LineBreak
 @LineBreak
-  Si le programme a été lancé avec 
+  Si le programme a Ã©tÃ© lancÃ© avec 
   l'option @#PB_Program_Write, 
   CloseProgram() enverra un signal 
-  EOF (fin de fichier) sur l'entrée 
+  EOF (fin de fichier) sur l'entrÃ©e 
   standard du 'Programme'. Ce signal 
-  peut aussi être artificiellement 
-  provoqué sans fermer la connexion 
+  peut aussi Ãªtre artificiellement 
+  provoquÃ© sans fermer la connexion 
   avec le programme en appelant 
   @@WriteProgramData avec la valeur 
-  spéciale @#PB_Program_Eof.
+  spÃ©ciale @#PB_Program_Eof.
 
 @SeeAlso
   @@KillProgram, @@RunProgram
@@ -105,20 +105,20 @@
 @Function Resultat = CountProgramParameters()
 
 @Description
-  Renvoie le nombre de paramètres qui 
-  ont été passés au programme.
+  Renvoie le nombre de paramÃ¨tres qui 
+  ont Ã©tÃ© passÃ©s au programme.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le nombre de paramètres qui 
-  ont été passés au programme via 
+  Renvoie le nombre de paramÃ¨tres qui 
+  ont Ã©tÃ© passÃ©s au programme via 
   la ligne de commande ou avec 
   @@RunProgram.
   
 @Remarks
-  @@ProgramParameter peut être utilisé 
-  pour lire chaque paramètre.
+  @@ProgramParameter peut Ãªtre utilisÃ© 
+  pour lire chaque paramÃ¨tre.
 
 @SeeAlso
   @@ProgramParameter   
@@ -131,19 +131,19 @@
 
 @Description
   Renvoie le nom de la variable d'environnement
-  en cours d'énumération. 
+  en cours d'Ã©numÃ©ration. 
   
 @NoParameters
 
 @ReturnValue
   Renvoie le nom de la variable 
   d'environnement en cours 
-  d'énumération avec 
+  d'Ã©numÃ©ration avec 
   @@ExamineEnvironmentVariables
   et @@NextEnvironmentVariable. 
  
 @Remarks
-  Pour récupérer la valeur de cette 
+  Pour rÃ©cupÃ©rer la valeur de cette 
   variable d'environnement, utiliser 
   @@EnvironmentVariableValue.
   
@@ -160,18 +160,18 @@
 
 @Description
   Renvoie la valeur de la variable 
-  d'environnement en cours d'énumération.
+  d'environnement en cours d'Ã©numÃ©ration.
 
 @NoParameters
 
 @ReturnValue
   Renvoie la valeur de la variable 
-  d'environnement en cours d'énumération 
+  d'environnement en cours d'Ã©numÃ©ration 
   avec @@ExamineEnvironmentVariables et 
   @@NextEnvironmentVariable.
 
 @Remarks
-  Pour récupérer le nom de cette variable 
+  Pour rÃ©cupÃ©rer le nom de cette variable 
   d'environnement, utiliser 
   @@EnvironmentVariableName.
   
@@ -187,25 +187,25 @@
 @Function Resultat = ExamineEnvironmentVariables()
 
 @Description
-  Initialise l'énumération des variables 
+  Initialise l'Ã©numÃ©ration des variables 
   d'environnement disponibles.
 
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
   
 @Remarks
   Les commandes @@NextEnvironmentVariable, 
   @@EnvironmentVariableName 
   et @@EnvironmentVariableValue sont 
-  disponibles pour récupérer les informations
+  disponibles pour rÃ©cupÃ©rer les informations
   concernant chaque variable d'environnement.
 
 @Example
 @Code
-  ; énumère toutes les variables d'environnement disponibles pour le programme
+  ; Ã©numÃ¨re toutes les variables d'environnement disponibles pour le programme
   ;
   OpenConsole()
   If ExamineEnvironmentVariables()
@@ -236,9 +236,9 @@
 
 @ReturnValue
   Renvoie le contenu de la 'Variable$' 
-  d'environnement spécifiée. Si la variable 
-  d'environnement n'existe pas, une chaîne 
-  de caractères vide sera renvoyée.
+  d'environnement spÃ©cifiÃ©e. Si la variable 
+  d'environnement n'existe pas, une chaÃ®ne 
+  de caractÃ¨res vide sera renvoyÃ©e.
 
 @Example
 @Code
@@ -261,21 +261,21 @@
 @Function Resultat = IsProgram(Programme)
 
 @Description
-  Teste si un programme préalablement 
-  lancé avec @@RunProgram est correctement 
-  initialisé.
+  Teste si un programme prÃ©alablement 
+  lancÃ© avec @@RunProgram est correctement 
+  initialisÃ©.
 
 @Parameter "Programme"
-  Le programme à tester.
+  Le programme Ã  tester.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  Cette fonction a été créée pour pouvoir 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
   passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir 
+  paramÃ¨tre sans qu'il ne puisse y avoir 
   de plantage.
 
 @SeeAlso
@@ -288,22 +288,22 @@
 @Function KillProgram(Programme)
 
 @Description
-  Termine immédiatement l'exécution 
-  du programme spécifié préalablement 
-  lancé avec @@RunProgram.
+  Termine immÃ©diatement l'exÃ©cution 
+  du programme spÃ©cifiÃ© prÃ©alablement 
+  lancÃ© avec @@RunProgram.
 
 @Parameter "Programme"
-  Le programme à terminer. 
+  Le programme Ã  terminer. 
 
 @NoReturnValue
 
 @Remarks  
-  Cette commande termine l'exécution 
+  Cette commande termine l'exÃ©cution 
   du programme, mais elle ne ferme pas la 
   connexion avec le programme.
-  @@CloseProgram doit toujours être 
-  appelé pour libérer les ressources 
-  associées avec le programme.
+  @@CloseProgram doit toujours Ãªtre 
+  appelÃ© pour libÃ©rer les ressources 
+  associÃ©es avec le programme.
 
 @SeeAlso
   @@CloseProgram
@@ -315,20 +315,20 @@
 @Function Resultat = NextEnvironmentVariable()
 
 @Description
-  Passe à la variable d'environnement 
-  suivante dans l'énumération commencée 
+  Passe Ã  la variable d'environnement 
+  suivante dans l'Ã©numÃ©ration commencÃ©e 
   avec @@ExamineEnvironmentVariables. 
   
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle s'il existe 
-  encore des variables à lire, zéro sinon.
+  encore des variables Ã  lire, zÃ©ro sinon.
   
 @Remarks
   Les commandes @@EnvironmentVariableName et
   @@EnvironmentVariableValue sont 
-  disponibles pour récupérer le nom et 
+  disponibles pour rÃ©cupÃ©rer le nom et 
   la valeur de la variable d'environnement
   courante.
 
@@ -345,40 +345,40 @@
 
 @Description
   Renvoie le code de retour d'un programme 
-  quand il s'est terminé.
+  quand il s'est terminÃ©.
   
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
   avec @@RunProgram.
 
 @ReturnValue
-  Le code de retour (exitcode) renvoyé quand 
-  le programme spécifié se ferme.
+  Le code de retour (exitcode) renvoyÃ© quand 
+  le programme spÃ©cifiÃ© se ferme.
 
 @Remarks  
-  Cette commande doit seulement être 
-  utilisée après que l'exécution du 
-  programme se soit réellement terminée.
+  Cette commande doit seulement Ãªtre 
+  utilisÃ©e aprÃ¨s que l'exÃ©cution du 
+  programme se soit rÃ©ellement terminÃ©e.
   Les commandes @@ProgramRunning ou 
   @@WaitProgram permettent 
-  de faire cette vérification.
+  de faire cette vÃ©rification.
 @LineBreak
 @LineBreak
   Le code de retour permet de renvoyer 
-  une valeur numérique au programme qui 
-  l'a exécuté.
-  C'est souvent utilisé pour signaler 
+  une valeur numÃ©rique au programme qui 
+  l'a exÃ©cutÃ©.
+  C'est souvent utilisÃ© pour signaler 
   si une erreur est survenue dans le
-  programme lancé.
+  programme lancÃ©.
   De plus, sur OSX et Linux le code de retour est compris entre 0 et 255.
 @LineBreak
 @LineBreak
-  Pour renvoyer un code de retour à 
+  Pour renvoyer un code de retour Ã  
   partir d'un programme PureBasic, 
-  il faut utiliser le paramètre 
+  il faut utiliser le paramÃ¨tre 
   optionnel du mot-clef @Keyword "End":
 @Code
   End 1   ; renvoie le code de retour 1
@@ -401,21 +401,24 @@
   du programme.
   
 @Remarks
-  Utile pour savoir où le programme a été 
-  installé ou savoir le nom de l'exécutable. 
+  Utile pour savoir oÃ¹ le programme a Ã©tÃ© 
+  installÃ© ou savoir le nom de l'exÃ©cutable. 
   @@GetPathPart et @@GetFilePart permettent 
   d'isoler respectivement le chemin et le 
-  nom du fichier à partir de 'Resultat$'.
+  nom du fichier Ã  partir de 'Resultat$'.
 
 @Os Windows
 @LineBreak
 @LineBreak
-  Si cette commande est utilisée dans 
+  Si cette commande est utilisÃ©e dans 
   une DLL, cette commande renvoie le 
   chemin et le nom de fichier de
   la DLL, pas celui du programme qui 
-  a chargé la DLL.
+  a chargÃ© la DLL.
 @EndOS
+
+@SeeAlso
+  @@GetPathPart, @@GetFilePart
 
 @SupportedOS
 
@@ -424,43 +427,43 @@
 @Function Resultat = ProgramID(Programme)
 
 @Description
-  Renvoie l'identifiant système 
+  Renvoie l'identifiant systÃ¨me 
   unique d'un programme.
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
   avec @@RunProgram.
 
 @ReturnValue
-  Renvoie l'identifiant système unique d'un 
-  programme, souvent nommé ID ou PID.
+  Renvoie l'identifiant systÃ¨me unique d'un 
+  programme, souvent nommÃ© ID ou PID.
   
 @Os Windows
 @LineBreak
 @LineBreak
-  Si l'identifiant ne peut être retourné, 
-  -1 sera renvoyé.
+  Si l'identifiant ne peut Ãªtre retournÃ©, 
+  -1 sera renvoyÃ©.
 @LineBreak
-  Cela se produit si @@RunProgram est utilisé 
+  Cela se produit si @@RunProgram est utilisÃ© 
   pour ouvrir un fichier dans un autre 
   programme, comme RunProgram("Source.pb").
 @LineBreak
 @LineBreak
-  Note: la valeur renvoyée ici n'est pas 
+  Note: la valeur renvoyÃ©e ici n'est pas 
   un 'handle' (comme la plupart des 
   autres commandes xxxID()). C'est
-  le "Process ID", qui peut être lu 
-  dans le 'Gestionnaire des tâches'. 
+  le "Process ID", qui peut Ãªtre lu 
+  dans le 'Gestionnaire des tÃ¢ches'. 
   Pour obtenir un 'Process handle',
   utiliser l'API OpenProcess_().
 @LineBreak
 @LineBreak
-  Note: La valeur renvoyée peut être fausse si le process est lancé par un wrapper 
+  Note: La valeur renvoyÃ©e peut Ãªtre fausse si le process est lancÃ© par un wrapper 
   comme c'est le cas avec Windows 10 et les applications UWP (Universal Windows Platform) 
-  lancées par ApplicationFrameHost.exe (AFH).
+  lancÃ©es par ApplicationFrameHost.exe (AFH).
 @EndOS
 
 @SupportedOS
@@ -470,30 +473,30 @@
 @Function Resultat$ = ProgramParameter([Index])
 
 @Description
-  Renvoie le paramètre suivant qui a 
-  été passé à l'exécutable a son lancement.
+  Renvoie le paramÃ¨tre suivant qui a 
+  Ã©tÃ© passÃ© Ã  l'exÃ©cutable a son lancement.
   
 @OptionalParameter "Index"
-  Le paramètre à cet index est renvoyé.@LineBreak
-  Le premier paramètre commence à 0.
+  Le paramÃ¨tre Ã  cet index est renvoyÃ©.@LineBreak
+  Le premier paramÃ¨tre commence Ã  0.
   
 @ReturnValue
-  Le paramètre suivant, ou une chaîne vide si 
-  aucun paramètre n'est trouvé. Si index est 
-  spécifié, il renverra la valeur du paramètre 
-  spécifié.
+  Le paramÃ¨tre suivant, ou une chaÃ®ne vide si 
+  aucun paramÃ¨tre n'est trouvÃ©. Si index est 
+  spÃ©cifiÃ©, il renverra la valeur du paramÃ¨tre 
+  spÃ©cifiÃ©.
 
 @Remarks   
-  Cette commande est particulièrement utile avec les @LibraryLink "console" "programmes en mode console", 
-  où l'utilisateur passe un ou plusieurs paramètres au démarrage du programme. 
+  Cette commande est particuliÃ¨rement utile avec les @LibraryLink "console" "programmes en mode console", 
+  oÃ¹ l'utilisateur passe un ou plusieurs paramÃ¨tres au dÃ©marrage du programme. 
 @LineBreak
 @LineBreak
-  @Bold "Note:" Se baser sur le renvoi d'une chaîne vide pour détecter le dernier paramètre n'est pas forcément l'idéal
-  car la commande renverra aussi une chaîne vide si "" est passé sur la ligne de commande.@LineBreak
-  Il est recommandé d'utiliser @@CountProgramParameters et d'appeler ProgramParameter() autant de fois que nécessaire.
+  @Bold "Note:" Se baser sur le renvoi d'une chaÃ®ne vide pour dÃ©tecter le dernier paramÃ¨tre n'est pas forcÃ©ment l'idÃ©al
+  car la commande renverra aussi une chaÃ®ne vide si "" est passÃ© sur la ligne de commande.@LineBreak
+  Il est recommandÃ© d'utiliser @@CountProgramParameters et d'appeler ProgramParameter() autant de fois que nÃ©cessaire.
 @LineBreak
 @LineBreak
-  Pour vérifier le comportement de cette fonction, ou faire plusieurs tests, veuillez lire le paragraphe 'Ligne de commande exécutable' 
+  Pour vÃ©rifier le comportement de cette fonction, ou faire plusieurs tests, veuillez lire le paragraphe 'Ligne de commande exÃ©cutable' 
   dans la page @ReferenceLink "ide_compiler" "Options du compilateur IDE".
 
 @Example
@@ -501,10 +504,10 @@
   MonProgramme.exe MonTexte.txt /RAPIDE "Mode Special"
 @EndCode
 
-  La première fois que ProgramParameter() est appelé, la commande va renvoyer "MonTexte.txt", la seconde 
-  fois "/RAPIDE" et la troisième fois "Mode Special".
+  La premiÃ¨re fois que ProgramParameter() est appelÃ©, la commande va renvoyer "MonTexte.txt", la seconde 
+  fois "/RAPIDE" et la troisiÃ¨me fois "Mode Special".
 
-@Example Executez ce programme (une fois compilé) en ligne de commande avec un fichier en paramètre
+@Example Executez ce programme (une fois compilÃ©) en ligne de commande avec un fichier en paramÃ¨tre
 @Code
   If OpenWindow(0, 0, 0, 520, 510, "Exemple...", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     EditorGadget(0, 5, 5, 510, 500, #PB_Editor_WordWrap)
@@ -519,6 +522,9 @@
   EndIf
 @EndCode
 
+@SeeAlso
+  @@CreatePreferences
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -527,24 +533,24 @@
 
 @Description
   Teste si un programme est toujours en 
-  cours d'exécution. 
+  cours d'exÃ©cution. 
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
   avec @@RunProgram.
 
 @ReturnValue
   Renvoie une valeur non nulle tant que le 
-  programme n'est pas encore terminé, zéro 
+  programme n'est pas encore terminÃ©, zÃ©ro 
   sinon.@LineBreak
-  Si le programme a été exécuté avec l'option 
+  Si le programme a Ã©tÃ© exÃ©cutÃ© avec l'option 
   @#PB_Program_Read, il renverra une valeur 
   non nulle aussi longtemps qu'il y a quelque 
-  chose à lire, même si le programme est déjà 
-  terminé.
+  chose Ã  lire, mÃªme si le programme est dÃ©jÃ  
+  terminÃ©.
 
 @SeeAlso
   @@RunProgram   
@@ -556,43 +562,43 @@
 @Function Resultat = ReadProgramData(Programme, *Memoire, Taille)
 
 @Description
-  Lit les données provenant de la sortie 
+  Lit les donnÃ©es provenant de la sortie 
   standard (stdout) d'un programme. 
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
-  avec @@RunProgram en spécifiant 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
+  avec @@RunProgram en spÃ©cifiant 
   l'option @#PB_Program_Read.
   
 @Parameter "*Memoire"
-  La mémoire tampon dans laquelle seront stockées 
-  les données lues.@LineBreak 
-  Un tampon de mémoire peut être créé avec 
+  La mÃ©moire tampon dans laquelle seront stockÃ©es 
+  les donnÃ©es lues.@LineBreak 
+  Un tampon de mÃ©moire peut Ãªtre crÃ©Ã© avec 
   @@AllocateMemory.
 
 @Parameter "Taille"
-  La taille des données à lire, en octets.@LineBreak  
-  Le tampon devra être suffisamment grand pour 
-  gérer cette taille.
+  La taille des donnÃ©es Ã  lire, en octets.@LineBreak  
+  Le tampon devra Ãªtre suffisamment grand pour 
+  gÃ©rer cette taille.
   
 @ReturnValue
   Le nombre d'octets effectivement lus.
 
 @Remarks  
-  La commande lit un nombre d'octets jusqu'à la valeur 'Taille', ou moins 
-  s'il n'y a pas assez de données  à lire. Par contre, cette commande 
-  attendra jusqu'à ce qu'il y ait au  moins un octet avant de quitter,
+  La commande lit un nombre d'octets jusqu'Ã  la valeur 'Taille', ou moins 
+  s'il n'y a pas assez de donnÃ©es  Ã  lire. Par contre, cette commande 
+  attendra jusqu'Ã  ce qu'il y ait au  moins un octet avant de quitter,
   donc la valeur 0 pour 'Resultat'  n'est pas possible. 
 @LineBreak
 @LineBreak
-  @Bold "Note:" cette commande bloque jusqu'à  ce qu'il y ait des données à lire. 
-  Pour éviter ce blocage, la commande  @@AvailableProgramOutput peut être 
-  utilisée pour vérifier si il y a bien des  données en attente.
+  @Bold "Note:" cette commande bloque jusqu'Ã   ce qu'il y ait des donnÃ©es Ã  lire. 
+  Pour Ã©viter ce blocage, la commande  @@AvailableProgramOutput peut Ãªtre 
+  utilisÃ©e pour vÃ©rifier si il y a bien des  donnÃ©es en attente.
   @LineBreak
-  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquÃ©e indÃ©finiment si le programme rÃ©clame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.  
 
@@ -610,35 +616,35 @@
   la sortie erreur (stderr) d'un programme.
 
 @Parameter "Programme"
-  Le programme à utiliser. 
+  Le programme Ã  utiliser. 
 @LineBreak
 @LineBreak  
-  Il doit être lancé avant en utilisant 
+  Il doit Ãªtre lancÃ© avant en utilisant 
   @@RunProgram avec l'option @#PB_Program_Error.
   
 @OptionalParameter "Options"
- Le format de chaîne de caractères à utiliser 
+ Le format de chaÃ®ne de caractÃ¨res Ã  utiliser 
  pour lire les erreurs en sortie. @LineBreak
- Le format par défaut peut être affecté avec 
+ Le format par dÃ©faut peut Ãªtre affectÃ© avec 
  les options @#PB_Program_Ascii, 
  @#PB_Program_Unicode et @#PB_Program_UTF8 
  de la fonction @@RunProgram. @LineBreak
- Peut être l'une des valeurs suivantes:
+ Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Ascii  : Lecture de la sortie d'erreur en ascii
-  @#PB_UTF8   : Lecture de la sortie d'erreur en UTF8 (Par défaut)
+  @#PB_UTF8   : Lecture de la sortie d'erreur en UTF8 (Par dÃ©faut)
   @#PB_Unicode: Lecture de la sortie d'erreur en @ReferenceLink "unicode" "unicode"
 @EndFixedFont  
 
 @ReturnValue
-  Le texte d'erreur, ou une chaîne vide 
+  Le texte d'erreur, ou une chaÃ®ne vide 
   s'il n'y a pas de sortie d'erreur.
 
 @Remarks
-  Contrairement à @@ReadProgramData, cette 
+  Contrairement Ã  @@ReadProgramData, cette 
   commande n'est pas bloquante, si aucune 
-  donnée n'est disponible (une chaîne de 
-  caractères vide sera renvoyée).
+  donnÃ©e n'est disponible (une chaÃ®ne de 
+  caractÃ¨res vide sera renvoyÃ©e).
   
 @SeeAlso 
   @@ReadProgramData
@@ -654,38 +660,38 @@
   sortie standard (stdout) d'un programme.
 
 @Parameter "Programme"
-  Le programme à utiliser. 
+  Le programme Ã  utiliser. 
 @LineBreak
 @LineBreak  
-  Il doit être lancé avant en utilisant 
+  Il doit Ãªtre lancÃ© avant en utilisant 
   @@RunProgram avec l'option @#PB_Program_Read.
   
 @OptionalParameter "Options"
- Le format de chaîne de caractères à utiliser 
+ Le format de chaÃ®ne de caractÃ¨res Ã  utiliser 
  pour lire le texte en sortie. @LineBreak
- Le format par défaut peut être affecté avec 
+ Le format par dÃ©faut peut Ãªtre affectÃ© avec 
  les options @#PB_Program_Ascii, 
  @#PB_Program_Unicode et @#PB_Program_UTF8 
  de la fonction @@RunProgram. @LineBreak
- Peut être l'une des valeurs suivantes:
+ Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Ascii  : Lecture de la sortie d'erreur en ascii
-  @#PB_UTF8   : Lecture de la sortie d'erreur en UTF8 (Par défaut)
+  @#PB_UTF8   : Lecture de la sortie d'erreur en UTF8 (Par dÃ©faut)
   @#PB_Unicode: Lecture de la sortie d'erreur en @ReferenceLink "unicode" "unicode"
 @EndFixedFont  
 
 @ReturnValue
-  Une chaîne créée à partir du texte de 
+  Une chaÃ®ne crÃ©Ã©e Ã  partir du texte de 
   sortie du programme.
 
 @Remarks
-  Cette commande attend et bloque jusqu'à  ce qu'il y ait des données à lire. 
-  Pour éviter ce blocage, la commande  @@AvailableProgramOutput peut être 
-  utilisée pour vérifier si il y a bien des données en attente. Cette commande 
-  attend également qu'une ligne complète soit reçue. Si une lecture
-  binaire est nécessaire, la commande @@ReadProgramData peut être utilisée.
+  Cette commande attend et bloque jusqu'Ã   ce qu'il y ait des donnÃ©es Ã  lire. 
+  Pour Ã©viter ce blocage, la commande  @@AvailableProgramOutput peut Ãªtre 
+  utilisÃ©e pour vÃ©rifier si il y a bien des donnÃ©es en attente. Cette commande 
+  attend Ã©galement qu'une ligne complÃ¨te soit reÃ§ue. Si une lecture
+  binaire est nÃ©cessaire, la commande @@ReadProgramData peut Ãªtre utilisÃ©e.
 @LineBreak
-  Cependant la fonction reste bloquée indéfiniment si le programme réclame l'intervention 
+  Cependant la fonction reste bloquÃ©e indÃ©finiment si le programme rÃ©clame l'intervention 
   de l'utilisateur. Comme par exemple, renvoyer un choix oui/non au programme pour qu'il 
   se poursuive.
   
@@ -700,11 +706,11 @@
 
 @Description
   Supprime la variable d'environnement 
-  spécifiée du bloc d'environnement du 
+  spÃ©cifiÃ©e du bloc d'environnement du 
   programme.
 
 @Parameter "Nom$"
-  La variable d'environnement à supprimer.
+  La variable d'environnement Ã  supprimer.
   
 @NoReturnValue
 
@@ -718,106 +724,106 @@
   Lance un programme externe. 
   
 @Parameter "Fichier$"
-  Le nom de l'exécutable, y compris son chemin. 
+  Le nom de l'exÃ©cutable, y compris son chemin. 
   
 @OptionalParameter "Parametres$"
-  Les paramètres de ligne de commande qui 
+  Les paramÃ¨tres de ligne de commande qui 
   seront transmis au programme.
   
 @OptionalParameter "RepertoireCourant$"
-  Le répertoire qui sera alors le répertoire 
-  courant pour le programme lancé.
+  Le rÃ©pertoire qui sera alors le rÃ©pertoire 
+  courant pour le programme lancÃ©.
 
 @OptionalParameter "Options"  
-  Peut être l'une des combinaisons suivantes 
-  (en utilisant l'opérateur OR '|'):
+  Peut Ãªtre l'une des combinaisons suivantes 
+  (en utilisant l'opÃ©rateur OR '|'):
 @FixedFont
-  @#PB_Program_Wait   : Attend jusqu'à ce que le programme lancé se termine.
+  @#PB_Program_Wait   : Attend jusqu'Ã  ce que le programme lancÃ© se termine.
   @#PB_Program_Hide   : Lance le programme en mode invisible.
-  @#PB_Program_Open   : Ouvre des canaux de communication entre le programme lancé et le programme PureBasic.
+  @#PB_Program_Open   : Ouvre des canaux de communication entre le programme lancÃ© et le programme PureBasic.
   @#PB_Program_Read   : Lecture possible sur la sortie standard (stdout).
-  @#PB_Program_Write  : Ecriture possible sur l'entrée standard (stdin).
+  @#PB_Program_Write  : Ecriture possible sur l'entrÃ©e standard (stdin).
   @#PB_Program_Error  : Lecture possible sur la sortie d'erreur(stderr).
-  @#PB_Program_Connect: Connecte la sortie d'un autre programme à l'entrée du programme PureBasic.
-  @#PB_Program_Ascii  : Les opérations de lecture/écriture se font en ASCII. 
-  @#PB_Program_Unicode: Les opérations de lecture/écriture se font en Unicode.
-  @#PB_Program_UTF8   : Les opérations de lecture/écriture se font en UTF8. (Par défaut)
+  @#PB_Program_Connect: Connecte la sortie d'un autre programme Ã  l'entrÃ©e du programme PureBasic.
+  @#PB_Program_Ascii  : Les opÃ©rations de lecture/Ã©criture se font en ASCII. 
+  @#PB_Program_Unicode: Les opÃ©rations de lecture/Ã©criture se font en Unicode.
+  @#PB_Program_UTF8   : Les opÃ©rations de lecture/Ã©criture se font en UTF8. (Par dÃ©faut)
 @EndFixedFont
 
-  Un programme exécuté avec l'option @#PB_Program_Open doit toujours être 
-  fermé avec la commande @@CloseProgram.
+  Un programme exÃ©cutÃ© avec l'option @#PB_Program_Open doit toujours Ãªtre 
+  fermÃ© avec la commande @@CloseProgram.
   @LineBreak 
-  Les options 'Read', 'Write', 'Error' et 'Connect' nécessitent aussi l'option 
+  Les options 'Read', 'Write', 'Error' et 'Connect' nÃ©cessitent aussi l'option 
   @#PB_Program_Open.
 @LineBreak
 @LineBreak
-  Quand l'option @#PB_Program_Connect est utilisée, un autre programme doit avoir 
-  été préalablement lancé avec les options @#PB_Program_Open et @#PB_Program_Read. 
-  Le numéro renvoyé par @@RunProgram doit être passé dans le paramètre 
+  Quand l'option @#PB_Program_Connect est utilisÃ©e, un autre programme doit avoir 
+  Ã©tÃ© prÃ©alablement lancÃ© avec les options @#PB_Program_Open et @#PB_Program_Read. 
+  Le numÃ©ro renvoyÃ© par @@RunProgram doit Ãªtre passÃ© dans le paramÃ¨tre 
   'ProgrammeEmetteur'. 
   
 @OptionalParameter "ProgrammeEmetteur" 
-  L'option @#PB_Program_Connect est nécessaire, doit contenir le numéro renvoyé d'un 
-  autre programme démarré auparavant avec RunProgram() avec les options 
+  L'option @#PB_Program_Connect est nÃ©cessaire, doit contenir le numÃ©ro renvoyÃ© d'un 
+  autre programme dÃ©marrÃ© auparavant avec RunProgram() avec les options 
   @#PB_Program_Open et @#PB_Program_Read.@LineBreak
-  La sortie du programme émetteur sera envoyée directement à l'entrée du programme 
-  maintenant exécuté. Plusieurs programmes peuvent être connectés de cette manière, 
-  pour "canaliser" (pipe) les données via ce groupe de programmes connectés.
+  La sortie du programme Ã©metteur sera envoyÃ©e directement Ã  l'entrÃ©e du programme 
+  maintenant exÃ©cutÃ©. Plusieurs programmes peuvent Ãªtre connectÃ©s de cette maniÃ¨re, 
+  pour "canaliser" (pipe) les donnÃ©es via ce groupe de programmes connectÃ©s.
 
 @Remarks  
-  Les commandes suivantes peuvent être utilisées lorsque l'option @#PB_Program_Open est spécifiée:
+  Les commandes suivantes peuvent Ãªtre utilisÃ©es lorsque l'option @#PB_Program_Open est spÃ©cifiÃ©e:
 @LineBreak
 @LineBreak
- - @@IsProgram: teste si le numéro représente un programme lancé avec RunProgram().
+ - @@IsProgram: teste si le numÃ©ro reprÃ©sente un programme lancÃ© avec RunProgram().
 @LineBreak
- - @@ProgramID: renvoie l'identifiant système du programme.
+ - @@ProgramID: renvoie l'identifiant systÃ¨me du programme.
 @LineBreak
- - @@ProgramRunning: teste si le programme est toujours en cours d'exécution.
+ - @@ProgramRunning: teste si le programme est toujours en cours d'exÃ©cution.
 @LineBreak
  - @@WaitProgram: attend la fin du programme.
 @LineBreak
- - @@KillProgram: force le programme à quitter.
+ - @@KillProgram: force le programme Ã  quitter.
 @LineBreak
  - @@ProgramExitCode: renvoie le code de retour du programme.
 @LineBreak
- - @@CloseProgram: ferme les connexions du programme et libère les ressources.
+ - @@CloseProgram: ferme les connexions du programme et libÃ¨re les ressources.
 @LineBreak
 @LineBreak
-  Les commandes suivantes peuvent être utilisées par les programmes lancés 
+  Les commandes suivantes peuvent Ãªtre utilisÃ©es par les programmes lancÃ©s 
   avec les options @#PB_Program_Read, @#PB_Program_Write ou @#PB_Program_Error:
 @LineBreak
 @LineBreak
- - @@AvailableProgramOutput: teste si des données sont disponibles.
+ - @@AvailableProgramOutput: teste si des donnÃ©es sont disponibles.
 @LineBreak
- - @@ReadProgramString: lit une ligne à partir de la sortie standard du 
- programme exécuté.
+ - @@ReadProgramString: lit une ligne Ã  partir de la sortie standard du 
+ programme exÃ©cutÃ©.
 @LineBreak
- - @@ReadProgramData: lit des données binaires à partir de la sortie standard 
- du programme exécuté.
+ - @@ReadProgramData: lit des donnÃ©es binaires Ã  partir de la sortie standard 
+ du programme exÃ©cutÃ©.
 @LineBreak
- - @@ReadProgramError: lit une ligne à partir de la sortie erreur du programme exécuté.
+ - @@ReadProgramError: lit une ligne Ã  partir de la sortie erreur du programme exÃ©cutÃ©.
 @LineBreak
- - @@WriteProgramString: écrit une ligne sur l'entrée standard du programme exécuté.
+ - @@WriteProgramString: Ã©crit une ligne sur l'entrÃ©e standard du programme exÃ©cutÃ©.
 @LineBreak
- - @@WriteProgramData: écrit des données binaires sur l'entrée standard du programme 
- exécuté.
+ - @@WriteProgramData: Ã©crit des donnÃ©es binaires sur l'entrÃ©e standard du programme 
+ exÃ©cutÃ©.
  
 @ReturnValue  
   Renvoie une valeur non nulle si le programme 
-  a été lancé avec succès, zéro sinon.
+  a Ã©tÃ© lancÃ© avec succÃ¨s, zÃ©ro sinon.
 @Linebreak
 @Linebreak  
-  Si l'option @#PB_Program_Open est utilisée, 
-  'Resultat' contient le numéro qui identifie 
-  le nouveau programme lancé.
+  Si l'option @#PB_Program_Open est utilisÃ©e, 
+  'Resultat' contient le numÃ©ro qui identifie 
+  le nouveau programme lancÃ©.
   @@ReadProgramString ou @@ProgramExitCode
-  ou d'autres fonctions déjà mentionnées 
-  peuvent alors être utilisé pour obtenir 
+  ou d'autres fonctions dÃ©jÃ  mentionnÃ©es 
+  peuvent alors Ãªtre utilisÃ© pour obtenir 
   des informations sur ce nouveau programme.
 
 @Example
 @Code
-  ; Exécute le compilateur PureBasic avec l'option -h et affiche la sortie
+  ; ExÃ©cute le compilateur PureBasic avec l'option -h et affiche la sortie
   ;
   Compilateur = RunProgram(#PB_Compiler_Home+"compilers/pbcompiler", "-h", "", #PB_Program_Open | #PB_Program_Read)
   Sortie$ = ""
@@ -838,11 +844,11 @@
 
 @OS Windows
   Sous Windows RunProgram() utilise 
-  l'application par défaut associée à un 
+  l'application par dÃ©faut associÃ©e Ã  un 
   type de fichier.
   Par exemple: RunProgram("Test.html") 
-  ouvrira le navigateur par défaut 
-  configuré sur votre système. 
+  ouvrira le navigateur par dÃ©faut 
+  configurÃ© sur votre systÃ¨me. 
 @EndOS
   
 @SupportedOS
@@ -853,29 +859,29 @@
 @Function SetEnvironmentVariable(Nom$, Valeur$)
 
 @Description
-  Crée une nouvelle variable d'environnement.
+  CrÃ©e une nouvelle variable d'environnement.
 
 @Parameter "Nom$"
   Le nom de la nouvelle variable.
 
 @Parameter "Valeur$"
-  La valeur associée à la variable.
+  La valeur associÃ©e Ã  la variable.
 
 @NoReturnValue
 
 @Remarks  
   Si la variable d'environnement existait 
-  déjà, sa valeur est automatiquement 
-  remplacée.
+  dÃ©jÃ , sa valeur est automatiquement 
+  remplacÃ©e.
 @Linebreak
 @Linebreak
   Les variables d'environnement sont 
-  automatiquement héritées par les 
-  programmes lancés avec @@RunProgram, 
+  automatiquement hÃ©ritÃ©es par les 
+  programmes lancÃ©s avec @@RunProgram, 
   donc il est possible de passer un grand 
   nombre d'informations au nouveau programme 
-  en utilisant cette méthode (le programme 
-  exécuté pourra utiliser
+  en utilisant cette mÃ©thode (le programme 
+  exÃ©cutÃ© pourra utiliser
   @@GetEnvironmentVariable pour lire le 
   contenu des variables). 
 
@@ -889,23 +895,23 @@
 @Function Resultat = WaitProgram(Programme [, Minuteur])
 
 @Description
-  Arrête l'exécution du code jusqu'à ce 
-  que le Programme spécifié se termine, 
+  ArrÃªte l'exÃ©cution du code jusqu'Ã  ce 
+  que le Programme spÃ©cifiÃ© se termine, 
   ou que le minuteur expire. 
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @LineBreak 
 @LineBreak
-  Le programme doit avoir été lancé 
+  Le programme doit avoir Ã©tÃ© lancÃ© 
   avec @@RunProgram.
 
 @OptionalParameter "Minuteur"
-  Le délai à utiliser, en millisecondes.
+  Le dÃ©lai Ã  utiliser, en millisecondes.
 
 @ReturnValue
   Renvoie une valeur non nulle si le programme 
-  a quitté, zéro si le délai a été atteint.
+  a quittÃ©, zÃ©ro si le dÃ©lai a Ã©tÃ© atteint.
 
 @SupportedOS
 
@@ -914,39 +920,39 @@
 @Function Resultat = WriteProgramData(Programme, *Memoire, Taille)
 
 @Description
-  Ecrit des données dans l'entrée standard 
+  Ecrit des donnÃ©es dans l'entrÃ©e standard 
   (stdin) d'un programme. 
 
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @Linebreak
 @Linebreak  
-  Il doit être lancé avant avec 
+  Il doit Ãªtre lancÃ© avant avec 
   @@RunProgram avec l'option 
   @#PB_Program_Write.
   
 @Parameter "*Memoire" 
-  La mémoire tampon qui contient les données 
-à écrire.  
+  La mÃ©moire tampon qui contient les donnÃ©es 
+Ã  Ã©crire.  
 @Linebreak
 @Linebreak  
-   La valeur spéciale @#PB_Program_Eof 
-  peut être passée dans le paramètre 
+   La valeur spÃ©ciale @#PB_Program_Eof 
+  peut Ãªtre passÃ©e dans le paramÃ¨tre 
   '*Memoire' pour que le programme 
-  reçoive un signal EOF (fin de fichier) 
-  ce qui indique qu'il n'y a plus de données 
-  à transmettre. Le paramètre 'Taille' est 
-  ignoré dans ce cas. 
-  Après avoir appelé WriteProgramData() avec 
-  cette valeur spéciale, plus rien ne 
-  peut être écrit dans l'entrée standard 
+  reÃ§oive un signal EOF (fin de fichier) 
+  ce qui indique qu'il n'y a plus de donnÃ©es 
+  Ã  transmettre. Le paramÃ¨tre 'Taille' est 
+  ignorÃ© dans ce cas. 
+  AprÃ¨s avoir appelÃ© WriteProgramData() avec 
+  cette valeur spÃ©ciale, plus rien ne 
+  peut Ãªtre Ã©crit dans l'entrÃ©e standard 
   du programme. 
 
 @Parameter "Taille"
-  La taille des données à écrire.
+  La taille des donnÃ©es Ã  Ã©crire.
 
 @ReturnValue
-  Le nombre d'octet effectivement écrit.
+  Le nombre d'octet effectivement Ã©crit.
  
 @SeeAlso
   @@WriteProgramString, 
@@ -959,45 +965,45 @@
 @Function WriteProgramString(Programme, Texte$ [, Options])
 
 @Description
-  Ecrit un texte dans l'entrée standard 
+  Ecrit un texte dans l'entrÃ©e standard 
   (stdin) d'un programme.
   
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @Linebreak
 @Linebreak  
-  Il doit être lancé avant avec 
+  Il doit Ãªtre lancÃ© avant avec 
   @@RunProgram avec l'option 
   @#PB_Program_Write.
   
 @Parameter "Texte$"
-  Le texte à écrire avec un caractère 
-  retour à la ligne à la fin.
+  Le texte Ã  Ã©crire avec un caractÃ¨re 
+  retour Ã  la ligne Ã  la fin.
 @Linebreak
 @Linebreak 
   Pour inclure le saut de ligne, 
-  @@WriteProgramStringN peut être 
-  utilisé.@Linebreak 
-  Pour écrire des données brutes, 
-  @@WriteProgramData peut être utilisé.
+  @@WriteProgramStringN peut Ãªtre 
+  utilisÃ©.@Linebreak 
+  Pour Ã©crire des donnÃ©es brutes, 
+  @@WriteProgramData peut Ãªtre utilisÃ©.
   @Linebreak 
-  Cette fonction peut également être 
-  utilisée pour envoyer un EOF (fin 
+  Cette fonction peut Ã©galement Ãªtre 
+  utilisÃ©e pour envoyer un EOF (fin 
   de fichier) qui indique au programme 
-  qu'il n'y a plus de données.
+  qu'il n'y a plus de donnÃ©es.
 
 @OptionalParameter "Options"
-  Le format de la chaîne de caractères 
-  à utiliser. @LineBreak
-  Le format par défaut peut être affecté avec 
+  Le format de la chaÃ®ne de caractÃ¨res 
+  Ã  utiliser. @LineBreak
+  Le format par dÃ©faut peut Ãªtre affectÃ© avec 
   les options @#PB_Program_Ascii, 
   @#PB_Program_Unicode et @#PB_Program_UTF8 
   de la fonction @@RunProgram. @LineBreak
   Peut prendre l'une des valeurs suivantes
 @FixedFont
-  @#PB_Ascii  : Écrit la chaîne en ascii
-  @#PB_UTF8   : Écrit la chaîne en UTF8 (Par défaut)
-  @#PB_Unicode: Écrit la chaîne en @ReferenceLink "unicode" "unicode"
+  @#PB_Ascii  : Ã‰crit la chaÃ®ne en ascii
+  @#PB_UTF8   : Ã‰crit la chaÃ®ne en UTF8 (Par dÃ©faut)
+  @#PB_Unicode: Ã‰crit la chaÃ®ne en @ReferenceLink "unicode" "unicode"
 @EndFixedFont 
 
 @NoReturnValue
@@ -1013,48 +1019,48 @@
 @Function WriteProgramStringN(Programme, Texte$ [, Options])
 
 @Description
-  Ecrit un texte dans l'entrée standard 
+  Ecrit un texte dans l'entrÃ©e standard 
   (stdin) d'un programme en ajoutant 
-  automatiquement un caractère 
-  retour à la ligne. 
+  automatiquement un caractÃ¨re 
+  retour Ã  la ligne. 
   
 @Parameter "Programme"
-  Le programme à utiliser.
+  Le programme Ã  utiliser.
 @Linebreak
 @Linebreak  
-  Il doit être lancé avant avec 
+  Il doit Ãªtre lancÃ© avant avec 
   @@RunProgram avec l'option 
   @#PB_Program_Write.
 
 @Parameter "Texte$"
-  Le texte à écrire avec un caractère 
-  retour à la ligne à la fin.
+  Le texte Ã  Ã©crire avec un caractÃ¨re 
+  retour Ã  la ligne Ã  la fin.
 @Linebreak
 @Linebreak   
-  Pour écrire un texte sans retour de 
+  Pour Ã©crire un texte sans retour de 
   ligne, la commande @@WriteProgramString 
   est disponible.@LineBreak
-  Pour écrire autre chose que du texte 
-  dans l'entrée standard, la commande 
+  Pour Ã©crire autre chose que du texte 
+  dans l'entrÃ©e standard, la commande 
   @@WriteProgramData est disponible. 
   @LineBreak
   Elle permet entre autre d'envoyer 
   le signal @#PB_Program_Eof (EOF, End 
   Of File) qui indique au programme 
-  qu'il n'y a plus d'entrée.
+  qu'il n'y a plus d'entrÃ©e.
   
 @OptionalParameter "Options"
-  Le format de la chaîne de caractères 
-  à utiliser. @LineBreak
-  Le format par défaut peut être affecté avec 
+  Le format de la chaÃ®ne de caractÃ¨res 
+  Ã  utiliser. @LineBreak
+  Le format par dÃ©faut peut Ãªtre affectÃ© avec 
   les options @#PB_Program_Ascii, 
   @#PB_Program_Unicode et @#PB_Program_UTF8 
   de la fonction @@RunProgram. @LineBreak
   Peut prendre l'une des valeurs suivantes
 @FixedFont
-  @#PB_Ascii  : Écrit la chaîne en ascii
-  @#PB_UTF8   : Écrit la chaîne en UTF8 (Par défaut)
-  @#PB_Unicode: Écrit la chaîne en @ReferenceLink "unicode" "unicode"
+  @#PB_Ascii  : Ã‰crit la chaÃ®ne en ascii
+  @#PB_UTF8   : Ã‰crit la chaÃ®ne en UTF8 (Par dÃ©faut)
+  @#PB_Unicode: Ã‰crit la chaÃ®ne en @ReferenceLink "unicode" "unicode"
 @EndFixedFont 
 
 @NoReturnValue

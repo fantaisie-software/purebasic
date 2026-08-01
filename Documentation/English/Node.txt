@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Node library documentation
 ;
-;      (c) 2012 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Node
@@ -19,6 +19,7 @@ position. It allows easy hierarchical object management.
 @CommandList
 
 @ExampleFile All Node.pb
+@ExampleFile All AttachNodeObject.pb
 
 @SupportedOS
 
@@ -27,17 +28,17 @@ position. It allows easy hierarchical object management.
 @Function AttachNodeObject(#Node, ObjectID)
 
 @Description
-
-  Attachs an existing object to a node.
+  Attaches an existing object to a node.
   
 @Parameter "#Node"
   The node to use.
 
 @Parameter "ObjectID"
-  The object to attach. The supported objects are the followings:
+  The object to attach. The supported objects are the following:
 @FixedFont
   - Entity : use @@EntityID as 'ObjectID'.
   - Sound3D: use @@SoundID3D as 'ObjectID'.
+  - Text3D : use @@Text3DID as 'ObjetID'.
   - Camera : use @@CameraID as 'ObjectID'.
   - Light  : use @@LightID as 'ObjectID'.
   - Node   : use @@NodeID as 'ObjectID'.
@@ -61,19 +62,20 @@ position. It allows easy hierarchical object management.
 @Function DetachNodeObject(#Node, ObjectID)
 
 @Description
-
-  Detachs a previously attached object from a node.
+  Detaches a previously attached object from a node.
   
 @Parameter "#Node"
   The node to use.
 
 @Parameter "ObjectID"
-  The object to detach. The supported objects are the followings:
+  The object to detach. The supported objects are the following:
 @FixedFont
   - Entity : use @@EntityID as 'ObjectID'.
   - Sound3D: use @@SoundID3D as 'ObjectID'.
   - Camera : use @@CameraID as 'ObjectID'.
+  - Light  : use @@LightID as 'ObjectID'.
   - Node   : use @@NodeID as 'ObjectID'.
+  - Mesh   : use @@MeshID as 'ObjectID' (supported only if #PB_Mesh_Dynamic flag is set).
   - BillboardGroup : use @@BillboardGroupID as 'ObjectID'.
   - ParticleEmitter: use @@ParticleEmitterID as 'ObjectID'.
 @EndFixedFont
@@ -93,7 +95,6 @@ position. It allows easy hierarchical object management.
 @Function Result = CreateNode(#Node [, x, y, z])
 
 @Description
-
   Creates a new node at the specified position.
   
 @Parameter "#Node"
@@ -229,7 +230,7 @@ position. It allows easy hierarchical object management.
 @Function FreeNode(#Node)
 
 @Description
-  Frees the specified #Node created with @@CreateNode before.
+  Frees the specified node created with @@CreateNode before.
   All its associated memory is released and this object can't be used anymore. The attached objects are not freed automatically,
   and can be re-used.
   
@@ -302,7 +303,6 @@ position. It allows easy hierarchical object management.
 @Function RotateNode(#Node, x, y, z [, Mode])
 
 @Description
-
   Rotates the node according to the specified x,y,z angle values.
 
 @Parameter "#Node"
@@ -342,13 +342,17 @@ position. It allows easy hierarchical object management.
   The scale values.
 
 @OptionalParameter "Mode"
- The scale mode. It can be one of the following value:
+  The scale mode. It can be one of the following value:
 @FixedFont
   @#PB_Relative: relative scale, based on the previous size (default). Using 1.0 for scale value will let this value unchanged.
   @#PB_Absolute: absolute scale, in world unit.
 @EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  The attached @LibraryLink "entity" "entities" doesn't scale automatically with the node, unless the
+  attribute @#PB_Entity_InheritScale has been set.
 
 @SupportedOS
 
@@ -378,7 +382,7 @@ position. It allows easy hierarchical object management.
 @Function Result = NodeRoll(#Node [, Mode])
 
 @Description
-  Get the roll of the #Node.
+  Get the roll of the node.
 
 @Parameter "#Node"
   The node to use.
@@ -403,7 +407,7 @@ position. It allows easy hierarchical object management.
 @Function Result = NodePitch(#Node [, Mode])
 
 @Description
-  Get the pitch of the #Node.
+  Get the pitch of the node.
 
 @Parameter "#Node"
   The node to use.
@@ -428,7 +432,7 @@ position. It allows easy hierarchical object management.
 @Function Result = NodeYaw(#Node [, Mode])
 
 @Description
-  Get the yaw of the #Node.
+  Get the yaw of the node.
 
 @Parameter "#Node"
   The node to use.

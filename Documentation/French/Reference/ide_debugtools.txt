@@ -1,18 +1,18 @@
+ï»¿
+@Title Utiliser les outils de dÃ©bogage
 
-@Title Utiliser les outils de débogage
-
-  Ces outils proposent de nombreuses fonctionnalités pour inspecter le programme en
-  cours de déboguage. Ils ne peuvent pas être utilisés lorsque que le code source est en train
-  d'être édité. Ils sont tous disponibles à partir du débogueur intégré ou du débogueur indépendant. 
-  Le débogueur en ligne de commande propose aussi bon nombre de ces
-  fonctionnalités mais uniquement à l'aide de commandes, rendant leurs utilisations moins facile.
+  Ces outils proposent de nombreuses fonctionnalitÃ©s pour inspecter le programme en
+  cours de dÃ©boguage. Ils ne peuvent pas Ãªtre utilisÃ©s lorsque que le code source est en train
+  d'Ãªtre Ã©ditÃ©. Ils sont tous disponibles Ã  partir du dÃ©bogueur intÃ©grÃ© ou du dÃ©bogueur indÃ©pendant. 
+  Le dÃ©bogueur en ligne de commande propose aussi bon nombre de ces
+  fonctionnalitÃ©s mais uniquement Ã  l'aide de commandes, rendant leurs utilisations moins facile.
   
 @LineBreak
 @LineBreak
 
   
   Certains de ces outils permettent d'afficher le contenu des variables. Voici comment
-  est présenté l'affichage pour ces données:
+  est prÃ©sentÃ© l'affichage pour ces donnÃ©es:
 
 @LineBreak
 @LineBreak
@@ -20,11 +20,11 @@
 @Bold Scope
 @LineBreak
   Le scope d'une variable est la zone dans laquelle elle est valide. Un variable
-  peut être @ReferenceLink "global" "globale", @ReferenceLink "procedures" "locale", 
-  @ReferenceLink "shared" "partagée", @ReferenceLink "static" "statique" ou @ReferenceLink "threaded" "threadé", en fonction de sa déclaration
-  dans le code source. Le terme 'byref' ("par référence", c'est à dire en utilisant l'adresse) est utilisé pour indiquer
-  un @ReferenceLink "dim" "tableau" ou une @ReferenceLink "newlist" "liste" qui a été passé
-  en paramètre d'une procédure.
+  peut Ãªtre @ReferenceLink "global" "globale", @ReferenceLink "procedures" "locale", 
+  @ReferenceLink "shared" "partagÃ©e", @ReferenceLink "static" "statique" ou @ReferenceLink "threaded" "threadÃ©", en fonction de sa dÃ©claration
+  dans le code source. Le terme 'byref' ("par rÃ©fÃ©rence", c'est Ã  dire en utilisant l'adresse) est utilisÃ© pour indiquer
+  un @ReferenceLink "dim" "tableau" ou une @ReferenceLink "newlist" "liste" qui a Ã©tÃ© passÃ©
+  en paramÃ¨tre d'une procÃ©dure.
 
 @LineBreak
 @LineBreak
@@ -32,7 +32,7 @@
 
 @Bold "Type des variables"
 @LineBreak
-  Le type des variables est indiqué à l'aide d'une icône colorée, pour faciliter 
+  Le type des variables est indiquÃ© Ã  l'aide d'une icÃ´ne colorÃ©e, pour faciliter 
   leur reconnaissance:
 @LineBreak
 
@@ -89,8 +89,8 @@
 </tr>
 </table>
 <br>
-Une structure est soit indiquée à l'aide d'un point <img src="../HelpPictures/debugger_struct.png">, 
-ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">. 
+Une structure est soit indiquÃ©e Ã  l'aide d'un point <img src="../HelpPictures/debugger_struct.png">, 
+ou d'une flÃ¨che <img src="../HelpPictures/debugger_struct1.png">. 
 
 @FormatElse
 
@@ -106,69 +106,69 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
   S : String (Texte) @LineBreak
   Sn : Fixed String (Texte) @LineBreak
 @LineBreak
-  Une structure est soit indiquée à l'aide d'un point, ou d'une flèche. 
+  Une structure est soit indiquÃ©e Ã  l'aide d'un point, ou d'une flÃ¨che. 
 
 @FormatEndIf
 
-  Si c'est une flèche, alors le contenu de la structure peut être affiché en double-cliquant sur 
-  la ligne. L'icône est alors remplacée par une flèche vers le bas. Une structure
-  représentée par un point ne peut pas être consultée (souvent car il s'agit d'un pointeur
+  Si c'est une flÃ¨che, alors le contenu de la structure peut Ãªtre affichÃ© en double-cliquant sur 
+  la ligne. L'icÃ´ne est alors remplacÃ©e par une flÃ¨che vers le bas. Une structure
+  reprÃ©sentÃ©e par un point ne peut pas Ãªtre consultÃ©e (souvent car il s'agit d'un pointeur
   vers une structure).
 
 @LineBreak
 @LineBreak
-  Les tableaux dynamiques à l'intérieur de structures sont représentés avec leurs dimensions. Les listes et les 
-  maps à l'intérieur de structures sont représentées avec leur taille et de leur élément courant (s'il existe).
+  Les tableaux dynamiques Ã  l'intÃ©rieur de structures sont reprÃ©sentÃ©s avec leurs dimensions. Les listes et les 
+  maps Ã  l'intÃ©rieur de structures sont reprÃ©sentÃ©es avec leur taille et de leur Ã©lÃ©ment courant (s'il existe).
 
-@Section La fenêtre de débug
+@Section La fenÃªtre de dÃ©bug
 
 @Image ide_debugger_output.png
 
-  C'est dans cette fenêtre qu'apparaîtront les résultats de la commande "Debug". Cette commande
-  est un moyen rapide et simple pour afficher des messages destinés au débuggage du
+  C'est dans cette fenÃªtre qu'apparaÃ®tront les rÃ©sultats de la commande "Debug". Cette commande
+  est un moyen rapide et simple pour afficher des messages destinÃ©s au dÃ©buggage du
   programme.
 
 @LineBreak
 @LineBreak
 
-  Cette fenêtre sera affichée automatiquement la première fois qu'un message sera
-  émis par le programme. Si elle est fermée, elle ne sera plus affichée automatiquement
-  pour les messages suivants, mais ils seront tout de même enregistrés. Il est possible
-  de copier le contenu de cette fenêtre dans le presse-papier ou de l'enregistrer dans un
-  fichier. Un bouton est aussi présent pour effacer tous les messages précédents.
+  Cette fenÃªtre sera affichÃ©e automatiquement la premiÃ¨re fois qu'un message sera
+  Ã©mis par le programme. Si elle est fermÃ©e, elle ne sera plus affichÃ©e automatiquement
+  pour les messages suivants, mais ils seront tout de mÃªme enregistrÃ©s. Il est possible
+  de copier le contenu de cette fenÃªtre dans le presse-papier ou de l'enregistrer dans un
+  fichier. Un bouton est aussi prÃ©sent pour effacer tous les messages prÃ©cÃ©dents.
 
 @LineBreak
 @LineBreak
-  Le champ en bas de la fenêtre vous permet de saisir une expression qui sera évaluée, et le résultat 
-  sera affiché dans la fenêtre du débogueur. Ceci permet de contrôler rapidement la valeur d'une variable 
-  ou le champ d'un tableau sans avoir à lancer un des outils de débogage. 
-  Pour afficher le résultat de l'expression , appuyez sur la touche [entrée] ou cliquez sur le bouton "Afficher". 
-  Si l'expression ne peut pas être évaluée, un message d'erreur est affiché dans la barre d'état. 
+  Le champ en bas de la fenÃªtre vous permet de saisir une expression qui sera Ã©valuÃ©e, et le rÃ©sultat 
+  sera affichÃ© dans la fenÃªtre du dÃ©bogueur. Ceci permet de contrÃ´ler rapidement la valeur d'une variable 
+  ou le champ d'un tableau sans avoir Ã  lancer un des outils de dÃ©bogage. 
+  Pour afficher le rÃ©sultat de l'expression , appuyez sur la touche [entrÃ©e] ou cliquez sur le bouton "Afficher". 
+  Si l'expression ne peut pas Ãªtre Ã©valuÃ©e, un message d'erreur est affichÃ© dans la barre d'Ã©tat. 
 
 @LineBreak
 @LineBreak
-  L'expression peut être n'importe quelle  @ReferenceLink "general_rules" "expression PB" valide,
-  à l'exception des expressions logiques ou contenant des @ReferenceLink "reference" "mots clefs". 
+  L'expression peut Ãªtre n'importe quelle  @ReferenceLink "general_rules" "expression PB" valide,
+  Ã  l'exception des expressions logiques ou contenant des @ReferenceLink "reference" "mots clefs". 
   Elle admet les @ReferenceLink "variables" "variables", @ReferenceLink "dim" "tableaux",
   @LibraryLink "List" "listes", @ReferenceLink "general_rules" "constantes" et aussi quelques commandes des 
-  bibliothèques @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" et @LibraryLink "String" "String".  
+  bibliothÃ¨ques @LibraryLink "Math" "Math", @LibraryLink "Memory" "Memory" et @LibraryLink "String" "String".  
 
 
-@Section La fenêtre de surveillance
+@Section La fenÃªtre de surveillance
 
 
 @Image ide_debugger_observer.png
 
-  Elle est utilisée pour surveiller en temps réel les valeurs des variables.
+  Elle est utilisÃ©e pour surveiller en temps rÃ©el les valeurs des variables.
   Il n'est possible d'afficher que des variables de type basique (pas
-  de structures complètes), cependant ces variables peuvent faire partie d'une structure.
+  de structures complÃ¨tes), cependant ces variables peuvent faire partie d'une structure.
   Les champs de type tableau, liste ou map faisant partie d'une structure ne peuvent 
-  pas être affichés dans la liste de surveillance.
+  pas Ãªtre affichÃ©s dans la liste de surveillance.
   
 @LineBreak
 @LineBreak
 
-  Pour ajouter une variable, il faut choisir sa procédure (si c'est une variable
+  Pour ajouter une variable, il faut choisir sa procÃ©dure (si c'est une variable
   locale) ou "--- Principal ---" si c'est une variable globale, une composante
   d'un tableau ou d'une liste. Il suffit d'entrer ensuite le nom de la
   variable dans le champ correspondant et d'appuyer sur "Ajouter".
@@ -178,50 +178,50 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
   Exemples:
 @fixedfont
   MaVariable$                         - ajoute une variable de type string
-  Tableau(1, 5)                       – ajoute une case d'un tableau
-  Structure\SousChamp[5]\Valeur       – ajoute un champ d'une structure
-  MaListeChainee()\SousChampStructure – ajoute un champ d'une liste
+  Tableau(1, 5)                       â€“ ajoute une case d'un tableau
+  Structure\SousChamp[5]\Valeur       â€“ ajoute un champ d'une structure
+  MaListeChainee()\SousChampStructure â€“ ajoute un champ d'une liste
 @endfixedfont
 
-  Il est aussi possible d'ajouter une nouvelle variable à la liste de surveillance
-  à partir du "Visualisateur de variables", en cliquant avec le bouton droit de
-  la souris sur une variable et en sélectionnant "Surveiller".
+  Il est aussi possible d'ajouter une nouvelle variable Ã  la liste de surveillance
+  Ã  partir du "Visualisateur de variables", en cliquant avec le bouton droit de
+  la souris sur une variable et en sÃ©lectionnant "Surveiller".
 
 @LineBreak
 @LineBreak
   
-  Dans la liste, les valeurs des variables surveillées seront affichées. Si la
-  valeur est affichée avec "---", cela veut dire qu'elle n'est pas valide à cet
-  endroit du programme (par exemple une variable locale en dehors de la procédure
-  concernée ou une liste sans élément).
+  Dans la liste, les valeurs des variables surveillÃ©es seront affichÃ©es. Si la
+  valeur est affichÃ©e avec "---", cela veut dire qu'elle n'est pas valide Ã  cet
+  endroit du programme (par exemple une variable locale en dehors de la procÃ©dure
+  concernÃ©e ou une liste sans Ã©lÃ©ment).
   
 @LineBreak
 @LineBreak
 
-  Les variables surveillées sont persistantes entre les sessions de débuggage, et même
-  sauvegardées avec les options de compilation, il n'est donc pas nécessaire de les
-  saisir à chaque fois.
+  Les variables surveillÃ©es sont persistantes entre les sessions de dÃ©buggage, et mÃªme
+  sauvegardÃ©es avec les options de compilation, il n'est donc pas nÃ©cessaire de les
+  saisir Ã  chaque fois.
   
 @Section Le visualisateur de variables
 
 @Image ide_debugger_variablelist.png
 
   Il permet d'examiner les variables, @ReferenceLink "dim" "tableaux",
-  @ReferenceLink "newlist" "listes" et @ReferenceLink "newmap" "maps" présents dans le programme. Des les onglets, la partie
-  supérieure montre les éléments @ReferenceLink "global" "globaux" and @ReferenceLink "threaded" "threadés"
-  et la partie inférieure les éléments @ReferenceLink "procedures" "locaux", @ReferenceLink "shared" "partagés" et
+  @ReferenceLink "newlist" "listes" et @ReferenceLink "newmap" "maps" prÃ©sents dans le programme. Des les onglets, la partie
+  supÃ©rieure montre les Ã©lÃ©ments @ReferenceLink "global" "globaux" and @ReferenceLink "threaded" "threadÃ©s"
+  et la partie infÃ©rieure les Ã©lÃ©ments @ReferenceLink "procedures" "locaux", @ReferenceLink "shared" "partagÃ©s" et
   @ReferenceLink "static" "statiques".
 @LineBreak
 @LineBreak
-  Le bouton "Actualiser" permet de visualiser les données actuelles du programme en cours d'exécution.
-  Si le programme est stoppé ou en mode pas à pas,  les données sont actualisées automatiquement.
+  Le bouton "Actualiser" permet de visualiser les donnÃ©es actuelles du programme en cours d'exÃ©cution.
+  Si le programme est stoppÃ© ou en mode pas Ã  pas,  les donnÃ©es sont actualisÃ©es automatiquement.
  
 ; === Windows only for the moment ===
 @OS Windows
  @LineBreak
  @LineBreak
-  Sous Windows, le contenu du visualisateur de variable peut-être trié par nom, scope ou valeur en cliquant
-  sur l'entête de la colonne appropriée.
+  Sous Windows, le contenu du visualisateur de variable peut-Ãªtre triÃ© par nom, scope ou valeur en cliquant
+  sur l'entÃªte de la colonne appropriÃ©e.
 @EndOS
 
 @LineBreak
@@ -229,7 +229,7 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 @Bold "L'onglet 'Variables'"
 @LineBreak
   Cet onglet affiche toutes les variables du programme.
-  En faisant un click-droit sur la variable, il est possible de l'ajouter à la liste de surveillance.
+  En faisant un click-droit sur la variable, il est possible de l'ajouter Ã  la liste de surveillance.
 
 @LineBreak
 @LineBreak
@@ -237,8 +237,8 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 @Bold "L'onglet 'Tableaux'"
 @LineBreak
   Cet onglet affiche tous les tableaux du programme ainsi
-  que leurs dimensions (-1 indique que @ReferenceLink "dim" "Dim" n'a pas encore été appelé pour ce tableau).
-  En faisant un click-droit sur le tableau, son contenu peut être visualisé dans l'onglet "Voir Tableau/Liste/Map".
+  que leurs dimensions (-1 indique que @ReferenceLink "dim" "Dim" n'a pas encore Ã©tÃ© appelÃ© pour ce tableau).
+  En faisant un click-droit sur le tableau, son contenu peut Ãªtre visualisÃ© dans l'onglet "Voir Tableau/Liste/Map".
 
 @LineBreak
 @LineBreak
@@ -246,9 +246,9 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 @Bold "L'onglet 'Listes'"
 @LineBreak
   Cet onglet affiche toutes les listes du programme,
-  le nombre d'éléments ("-" indique que @ReferenceLink "newlist" "NewList" n'a pas encore été appelé), ainsi
-  que l'index actuel de l'élément courant pour chaque liste ("-" indique qu'il n'y a pas d'élément courant).
-  En faisant un click-droit sur la liste, son contenu peut être visualisé dans l'onglet "Voir Tableau/Liste/Map".
+  le nombre d'Ã©lÃ©ments ("-" indique que @ReferenceLink "newlist" "NewList" n'a pas encore Ã©tÃ© appelÃ©), ainsi
+  que l'index actuel de l'Ã©lÃ©ment courant pour chaque liste ("-" indique qu'il n'y a pas d'Ã©lÃ©ment courant).
+  En faisant un click-droit sur la liste, son contenu peut Ãªtre visualisÃ© dans l'onglet "Voir Tableau/Liste/Map".
 
 @LineBreak
 @LineBreak
@@ -256,51 +256,51 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 @Bold "L'onglet 'Maps'"
 @LineBreak
   Cet onglet affiche toutes les map du programme,
-  le nombre d'éléments ("-" indique que @ReferenceLink "newmap" "NewMap" n'a pas encore été appelé), ainsi
-  que la clef de l'élément courant pour chaque map ("-" indique qu'il n'y a pas d'élément courant).
-  En faisant un click-droit sur la map, son contenu peut être visualisé dans l'onglet "Voir Tableau/Liste/Map".
+  le nombre d'Ã©lÃ©ments ("-" indique que @ReferenceLink "newmap" "NewMap" n'a pas encore Ã©tÃ© appelÃ©), ainsi
+  que la clef de l'Ã©lÃ©ment courant pour chaque map ("-" indique qu'il n'y a pas d'Ã©lÃ©ment courant).
+  En faisant un click-droit sur la map, son contenu peut Ãªtre visualisÃ© dans l'onglet "Voir Tableau/Liste/Map".
 
 @Bold "L'onglet 'Voir Tableau/Liste/Map'"
 @LineBreak
-  Cet onglet permet d'afficher les éléments d'un tableau, d'une liste ou d'une map, y compris ceux
-  déclarés dans une structure. Pour ce faire, il faut spécifier le nom du tableau, de la liste 
-  chaînée ou de la map en incluant les parenthèses "()" à la fin, choisir le type d'éléments à afficher
-  et appuyer sur "Afficher". A noter que les valeurs ne sont pas automatiquement actualisées quand le programme
-  est en mode pas à pas.
+  Cet onglet permet d'afficher les Ã©lÃ©ments d'un tableau, d'une liste ou d'une map, y compris ceux
+  dÃ©clarÃ©s dans une structure. Pour ce faire, il faut spÃ©cifier le nom du tableau, de la liste 
+  chaÃ®nÃ©e ou de la map en incluant les parenthÃ¨ses "()" Ã  la fin, choisir le type d'Ã©lÃ©ments Ã  afficher
+  et appuyer sur "Afficher". A noter que les valeurs ne sont pas automatiquement actualisÃ©es quand le programme
+  est en mode pas Ã  pas.
 
 @LineBreak
 @LineBreak
-  "Afficher tout" montre tous les éléments. "Afficher éléments non-nuls" affiche seulement les éléments qui ne sont pas
-  égaux à 0. Cela permet d'afficher des gros tableaux/listes plus facilement si seulement quelques éléments sont utilisés.
-  Une @ReferenceLink "structures" "structure" est considérée comme "nulle" si tous ses champs sont à 0.
+  "Afficher tout" montre tous les Ã©lÃ©ments. "Afficher Ã©lÃ©ments non-nuls" affiche seulement les Ã©lÃ©ments qui ne sont pas
+  Ã©gaux Ã  0. Cela permet d'afficher des gros tableaux/listes plus facilement si seulement quelques Ã©lÃ©ments sont utilisÃ©s.
+  Une @ReferenceLink "structures" "structure" est considÃ©rÃ©e comme "nulle" si tous ses champs sont Ã  0.
 @LineBreak
 @LineBreak
   "Afficher partiellement" permet d'afficher seulement une partie du tableau, de la liste ou de la map. Pour les tableaux, l'intervalle
-  peut être spécifié séparément pour chaque dimension en utilisant une virgule. Si une dimension n'est pas du tout spécifiée,
-  tous ses éléments seront affichés.
+  peut Ãªtre spÃ©cifiÃ© sÃ©parÃ©ment pour chaque dimension en utilisant une virgule. Si une dimension n'est pas du tout spÃ©cifiÃ©e,
+  tous ses Ã©lÃ©ments seront affichÃ©s.
 @LineBreak
   Voici quelques exemples d'intervalles:
 @FixedFont
-  "1-2, 2-5, 2" : la première dimension entre 1 et 2, la deuxième entre 2 et 5, la troisième à 2.
-  "1, 2-5"      : la première dimension à 1, la deuxième entre 2 et 5
-  "1, , 5"      : la première dimension à 1, tous les éléments de la deuxième dimension, la troisième à 5.
+  "1-2, 2-5, 2" : la premiÃ¨re dimension entre 1 et 2, la deuxiÃ¨me entre 2 et 5, la troisiÃ¨me Ã  2.
+  "1, 2-5"      : la premiÃ¨re dimension Ã  1, la deuxiÃ¨me entre 2 et 5
+  "1, , 5"      : la premiÃ¨re dimension Ã  1, tous les Ã©lÃ©ments de la deuxiÃ¨me dimension, la troisiÃ¨me Ã  5.
 @EndFixedFont
 
-  Pour les listes, "Afficher partiellement" accepte une valeur simple ou un intervalle d'éléments (le premier élément a l'index 0).
+  Pour les listes, "Afficher partiellement" accepte une valeur simple ou un intervalle d'Ã©lÃ©ments (le premier Ã©lÃ©ment a l'index 0).
 
 @FixedFont
-  "0"     : le premier élément
-  "1-3"   : du 2e au 4e élément
+  "0"     : le premier Ã©lÃ©ment
+  "1-3"   : du 2e au 4e Ã©lÃ©ment
 @EndFixedFont
 
 @LineBreak
-  L'affichage des maps, "Afficher partiellement" est utilisable pour filtrer les clefs des éléments à afficher. Il doit
-  contenir le masque de la clef qui servira de filtre (sans les trémas). Un "?" représente n'importe quel caractère, un "*" 
-  représente n'importe quel nombre de caractères. Voici quelques exemples de masque:
+  L'affichage des maps, "Afficher partiellement" est utilisable pour filtrer les clefs des Ã©lÃ©ments Ã  afficher. Il doit
+  contenir le masque de la clef qui servira de filtre (sans les trÃ©mas). Un "?" reprÃ©sente n'importe quel caractÃ¨re, un "*" 
+  reprÃ©sente n'importe quel nombre de caractÃ¨res. Voici quelques exemples de masque:
 @FixedFont
-  "hat" : affichera seulement l'élément avec la clef "hat".
-  "?at" : affichera tous les éléments de 3 lettres se finissant pas "at", comme "bat", "hat" etc.
-  "h*t" : affichera tous les élémentes qui commencent pas "h" et se terminent par "t".
+  "hat" : affichera seulement l'Ã©lÃ©ment avec la clef "hat".
+  "?at" : affichera tous les Ã©lÃ©ments de 3 lettres se finissant pas "at", comme "bat", "hat" etc.
+  "h*t" : affichera tous les Ã©lÃ©mentes qui commencent pas "h" et se terminent par "t".
 @EndFixedFont
  
 
@@ -308,30 +308,30 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 
 @Image ide_debugger_profiler.png
 
-  Le profileur est un outil qui permet de compter le nombre d'exécutions de chaque ligne de code. 
-  Cela permet d'identifier quelles sont les parties les plus utilisées et donc où les optimisations auront le plus d'effet. 
-  Le profileur aide aussi à identifier un problème où une portion du code est exécutée trop souvent à cause d'une erreur.
+  Le profileur est un outil qui permet de compter le nombre d'exÃ©cutions de chaque ligne de code. 
+  Cela permet d'identifier quelles sont les parties les plus utilisÃ©es et donc oÃ¹ les optimisations auront le plus d'effet. 
+  Le profileur aide aussi Ã  identifier un problÃ¨me oÃ¹ une portion du code est exÃ©cutÃ©e trop souvent Ã  cause d'une erreur.
  
 @LineBreak
 @LineBreak
 
-@Bold "Enregistrement des données"
+@Bold "Enregistrement des donnÃ©es"
 @LineBreak
-  L'enregistrement est contrôlé par les boutons placés dans la fenêtre du profileur : 'Démarrer', 'Arrêter' et 'Mettre à zéro' (pour tout initialiser). 
-  Le bouton 'Rafraîchir' permet de mettre à jour le graphe pendant l'exécution du programme. 
-  Les données sont automatiquement mises à jour lorsque le programme est stoppé ou en mode pas à pas.
-  Par défaut le profiler enregistre les données dès le début du programme mais cette option peut-être changée dans 
-  les  @ReferenceLink "ide_preferences" "Préférences".
+  L'enregistrement est contrÃ´lÃ© par les boutons placÃ©s dans la fenÃªtre du profileur : 'DÃ©marrer', 'ArrÃªter' et 'Mettre Ã  zÃ©ro' (pour tout initialiser). 
+  Le bouton 'RafraÃ®chir' permet de mettre Ã  jour le graphe pendant l'exÃ©cution du programme. 
+  Les donnÃ©es sont automatiquement mises Ã  jour lorsque le programme est stoppÃ© ou en mode pas Ã  pas.
+  Par dÃ©faut le profiler enregistre les donnÃ©es dÃ¨s le dÃ©but du programme mais cette option peut-Ãªtre changÃ©e dans 
+  les  @ReferenceLink "ide_preferences" "PrÃ©fÃ©rences".
   
 @LineBreak
 @LineBreak
 
-@Bold "Affichage des données "
+@Bold "Affichage des donnÃ©es "
 @LineBreak
-  L'enregistrement est affiché sous forme de graphe, avec comme ordonnées les numéros de lignes et en abscisses le nombre d'exécutions. 
-  Si le programme est réparti sur plusieurs fichiers source, la liste des fichiers est présentée en dessous du graphe. 
-  Pour afficher un fichier il suffit de le sélectionner ou de cocher la case à cocher, vous pourrez ainsi afficher 
-  les résultats de plusieurs fichiers pour mieux les comparer. 
+  L'enregistrement est affichÃ© sous forme de graphe, avec comme ordonnÃ©es les numÃ©ros de lignes et en abscisses le nombre d'exÃ©cutions. 
+  Si le programme est rÃ©parti sur plusieurs fichiers source, la liste des fichiers est prÃ©sentÃ©e en dessous du graphe. 
+  Pour afficher un fichier il suffit de le sÃ©lectionner ou de cocher la case Ã  cocher, vous pourrez ainsi afficher 
+  les rÃ©sultats de plusieurs fichiers pour mieux les comparer. 
   Un clic droit sur un des fichiers vous permet de changer sa couleur d'affichage dans le graphe. 
   
 @LineBreak
@@ -339,9 +339,9 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 
 @Bold "Utilisation de la souris dans le graphe"
 @LineBreak
-  Un clic droit dans le graphe affiche un menu flottant qui autorise à zoomer, 
-  montrer la ligne de code sélectionnée dans l'IDE ou le code dans le débogueur. 
-  Vous pouvez aussi utiliser les boutons à gauche :
+  Un clic droit dans le graphe affiche un menu flottant qui autorise Ã  zoomer, 
+  montrer la ligne de code sÃ©lectionnÃ©e dans l'IDE ou le code dans le dÃ©bogueur. 
+  Vous pouvez aussi utiliser les boutons Ã  gauche :
 
 @LineBreak
 @LineBreak
@@ -351,15 +351,15 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 <table border=0 cellspacing=2>
 <tr>
   <td><img src="../HelpPictures/debugger_arrow.png"></td>
-  <td><font size=2>Un clic gauche maintenu permet de faire défiler le graphe.</font></td>
+  <td><font size=2>Un clic gauche maintenu permet de faire dÃ©filer le graphe.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_select.png"></td>
-  <td><font size=2>Un clic gauche maintenu permet de sélectionner une zone où faire un zoom.</font></td>
+  <td><font size=2>Un clic gauche maintenu permet de sÃ©lectionner une zone oÃ¹ faire un zoom.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_cross.png"></td>
-  <td><font size=2>Tant que ce bouton est actif, une croix est affichée et vous aide à lire les numéros de ligne et leur nombre d'appels.</font></td>
+  <td><font size=2>Tant que ce bouton est actif, une croix est affichÃ©e et vous aide Ã  lire les numÃ©ros de ligne et leur nombre d'appels.</font></td>
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_zoomin.png"></td>
@@ -371,158 +371,158 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 </tr>
 <tr>
   <td><img src="../HelpPictures/debugger_zoomall.png"></td>
-  <td><font size=2>Toutes les lignes peuvent être affichées. </font></td>
+  <td><font size=2>Toutes les lignes peuvent Ãªtre affichÃ©es. </font></td>
 </tr>
 </table>
 
 @FormatElse
 
-  - Flèche : Un clic gauche maintenu permet de faire défiler le graphe.
+  - FlÃ¨che : Un clic gauche maintenu permet de faire dÃ©filer le graphe.
 @LineBreak
-  - Carré : Un clic gauche maintenu permet de sélectionner une zone où faire un zoom.
+  - CarrÃ© : Un clic gauche maintenu permet de sÃ©lectionner une zone oÃ¹ faire un zoom.
 @LineBreak
-  - Croix : Tant que ce bouton est actif, une croix est affichée et vous aide à lire les numéros de ligne et leur nombre d'appels.
+  - Croix : Tant que ce bouton est actif, une croix est affichÃ©e et vous aide Ã  lire les numÃ©ros de ligne et leur nombre d'appels.
 @LineBreak
   - Zoom : Ces trois boutons permettent de zoomer et d'afficher toutes les lignes. 
 
 @FormatEndIF
 
 
-@Section L'historique des procédures
+@Section L'historique des procÃ©dures
 
 @Image ide_debugger_callstats.png
 
-  Cet outil montre les procédures qui ont été appelées pour en arriver à la position
-  actuelle du programme. Chaque élément de la liste représente une procédure, la ligne
-  et le fichier où elle est déclarée ainsi que ses arguments qui ont été utilisés lors
+  Cet outil montre les procÃ©dures qui ont Ã©tÃ© appelÃ©es pour en arriver Ã  la position
+  actuelle du programme. Chaque Ã©lÃ©ment de la liste reprÃ©sente une procÃ©dure, la ligne
+  et le fichier oÃ¹ elle est dÃ©clarÃ©e ainsi que ses arguments qui ont Ã©tÃ© utilisÃ©s lors
   de son appel. En cliquant sur le bouton "Variables", il est possible de voir les variables
-  de cette procédure.
+  de cette procÃ©dure.
 
 @LineBreak
 @LineBreak
 
-  Cela permet de tracer facilement, à partir de quelle partie du code une procédure
-  a été appelée. L'historique des procédures ne se met à jour automatiquement que
-  lorsque le programme est arrêté, ou en mode pas à pas. Quand le programme est en cours
-  d'exécution, il est nécessaire d'appuyer sur le bouton "Actualiser" pour mettre à jour
+  Cela permet de tracer facilement, Ã  partir de quelle partie du code une procÃ©dure
+  a Ã©tÃ© appelÃ©e. L'historique des procÃ©dures ne se met Ã  jour automatiquement que
+  lorsque le programme est arrÃªtÃ©, ou en mode pas Ã  pas. Quand le programme est en cours
+  d'exÃ©cution, il est nÃ©cessaire d'appuyer sur le bouton "Actualiser" pour mettre Ã  jour
   la liste.
 
 @LineBreak
 @LineBreak
 
-  L'onglet "Statistiques" montre le nombre de fois qu'une procédure a été appelée.
-  Il est possible de réinitialiser un compteur en sélectionnant la procédure puis en
-  appuyant sur "Réinitialiser". De même, en cliquant sur "Réinitialiser tout", tous les
-  compteurs seront remis à 0. Comme pour l'historique des procédures, la mise à jour des
-  compteurs n'est pas automatique quand le programme n'est pas arrété ou en mode pas à pas,
+  L'onglet "Statistiques" montre le nombre de fois qu'une procÃ©dure a Ã©tÃ© appelÃ©e.
+  Il est possible de rÃ©initialiser un compteur en sÃ©lectionnant la procÃ©dure puis en
+  appuyant sur "RÃ©initialiser". De mÃªme, en cliquant sur "RÃ©initialiser tout", tous les
+  compteurs seront remis Ã  0. Comme pour l'historique des procÃ©dures, la mise Ã  jour des
+  compteurs n'est pas automatique quand le programme n'est pas arrÃ©tÃ© ou en mode pas Ã  pas,
   il convient d'utiliser le bouton "Actualiser".
 
 
-@Section Le visualisateur de mémoire
+@Section Le visualisateur de mÃ©moire
 
 @Image ide_debugger_memoryviewer.png
 
-  Il permet d'afficher le contenu d'une zone de mémoire arbitraire de votre programme.
-  Une fois les limites inférieures et supérieures renseignées, cliquez sur "Afficher".
-  (vous pouvez utiliser une valeur décimale, un nombre hexadécimal précédé par le caractère '$'
+  Il permet d'afficher le contenu d'une zone de mÃ©moire arbitraire de votre programme.
+  Une fois les limites infÃ©rieures et supÃ©rieures renseignÃ©es, cliquez sur "Afficher".
+  (vous pouvez utiliser une valeur dÃ©cimale, un nombre hexadÃ©cimal prÃ©cÃ©dÃ© par le caractÃ¨re '$'
   ou n'importe quelle autre expression valide, incluant une variable ou un pointeur provenant du code).
-  Si le contenu du second champ commence par le signe '+', alors il est considéré comme relatif au premier champ.
+  Si le contenu du second champ commence par le signe '+', alors il est considÃ©rÃ© comme relatif au premier champ.
 
-  Si la zone de mémoire est valide, elle sera affichée. Si la zone complète ou seulement
-  une portion est invalide, alors un message d'erreur sera affiché.
-
-@LineBreak
-@LineBreak
-  Exemple: "*Buffer + 10" to "+30" affichera les 30 octets dans la mémoire en commençant
-  10 octets après l'adresse pointée par *Buffer.
+  Si la zone de mÃ©moire est valide, elle sera affichÃ©e. Si la zone complÃ¨te ou seulement
+  une portion est invalide, alors un message d'erreur sera affichÃ©.
 
 @LineBreak
 @LineBreak
-
-  La façon de présenter le contenu de la mémoire peut être défini grâce à la liste
-  déroulante située en bas à gauche. Les modes suivants sont disponibles:
+  Exemple: "*Buffer + 10" to "+30" affichera les 30 octets dans la mÃ©moire en commenÃ§ant
+  10 octets aprÃ¨s l'adresse pointÃ©e par *Buffer.
 
 @LineBreak
 @LineBreak
 
-@Bold "Aperçu Hex"
-@LineBreak
-  La mémoire sera affichée en hexadécimal à la manière des visualisateurs hexadécimaux
-  classiques, avec l'adresse de la mémoire à gauche, suivie par le contenu en hexadécimal
-  et la représentation sous forme de caractères dans la colonne de droite.
+  La faÃ§on de prÃ©senter le contenu de la mÃ©moire peut Ãªtre dÃ©fini grÃ¢ce Ã  la liste
+  dÃ©roulante situÃ©e en bas Ã  gauche. Les modes suivants sont disponibles:
 
 @LineBreak
 @LineBreak
 
-@Bold "Tableau d'octets/de caractères/ de mots/ de long/ de quad/ de float/ de double"
+@Bold "AperÃ§u Hex"
 @LineBreak
-  La mémoire sera montrée sous forme de tableau en fonction du
+  La mÃ©moire sera affichÃ©e en hexadÃ©cimal Ã  la maniÃ¨re des visualisateurs hexadÃ©cimaux
+  classiques, avec l'adresse de la mÃ©moire Ã  gauche, suivie par le contenu en hexadÃ©cimal
+  et la reprÃ©sentation sous forme de caractÃ¨res dans la colonne de droite.
+
+@LineBreak
+@LineBreak
+
+@Bold "Tableau d'octets/de caractÃ¨res/ de mots/ de long/ de quad/ de float/ de double"
+@LineBreak
+  La mÃ©moire sera montrÃ©e sous forme de tableau en fonction du
   type choisi. Il est possible de configurer ce tableau en mode colonne simple
-  ou multi-colonne dans les préférences (voir @ReferenceLink "ide_preferences" "Configurer l'IDE")
-  Les données seront affichées en décimal, octal ou hexadécimal via le bouton d'à côté.
+  ou multi-colonne dans les prÃ©fÃ©rences (voir @ReferenceLink "ide_preferences" "Configurer l'IDE")
+  Les donnÃ©es seront affichÃ©es en dÃ©cimal, octal ou hexadÃ©cimal via le bouton d'Ã  cÃ´tÃ©.
 
 @LineBreak
 @LineBreak
 
 @Bold "Texte ascii, unicode ou utf-8"
 @LineBreak
-  Affiche la zone mémoire sous forme de texte, avec tous les caractères de contrôles 
-  affichés entre [] (par exemple: "[NULL]" pour le caractère 0).
+  Affiche la zone mÃ©moire sous forme de texte, avec tous les caractÃ¨res de contrÃ´les 
+  affichÃ©s entre [] (par exemple: "[NULL]" pour le caractÃ¨re 0).
 
-  Un retour à la ligne est ajouté après les caractères 'nouvelle ligne' ([LF],[CR]) et [NULL] 
-  pour améliorer la lisibilité de la sortie. La zone mémoire peut être interprétée 
-  comme une chaîne Ascii, Unicode ou Utf8. 
+  Un retour Ã  la ligne est ajoutÃ© aprÃ¨s les caractÃ¨res 'nouvelle ligne' ([LF],[CR]) et [NULL] 
+  pour amÃ©liorer la lisibilitÃ© de la sortie. La zone mÃ©moire peut Ãªtre interprÃ©tÃ©e 
+  comme une chaÃ®ne Ascii, Unicode ou Utf8. 
 
 @LineBreak
 @LineBreak
 
 @Bold "Data"
 @LineBreak
-  La case à cocher @Bold "Data", vous permet d'exporter le tableau en 
+  La case Ã  cocher @Bold "Data", vous permet d'exporter le tableau en 
   @ReferenceLink "data" "Data Section" lors de la copie ou de l'enregistrement.
   
 @LineBreak
 @LineBreak
-  Il est aussi possible d'exporter la zone de mémoire affichée:
+  Il est aussi possible d'exporter la zone de mÃ©moire affichÃ©e:
 
 @LineBreak
 @LineBreak
 
-@Bold "Copier (Texte)": Copie la zone de mémoire affichée dans le presse-papier.
+@Bold "Copier (Texte)": Copie la zone de mÃ©moire affichÃ©e dans le presse-papier.
 @LineBreak
-@Bold "Enregistrer (Texte)": Enregistre la zone de mémoire affichée dans un fichier.
+@Bold "Enregistrer (Texte)": Enregistre la zone de mÃ©moire affichÃ©e dans un fichier.
 @LineBreak
-@Bold "Enregistrer (Raw-Binaire)": Enregistre la zone de mémoire affichée dans un fichier sous forme binaire.
+@Bold "Enregistrer (Raw-Binaire)": Enregistre la zone de mÃ©moire affichÃ©e dans un fichier sous forme binaire.
 
 
 
 
-@Section Le visualisateur de bibliothèque
+@Section Le visualisateur de bibliothÃ¨que
 
 @Image ide_debugger_librarycalls.png
 
-  Le visualisateur de bibliothèque donne des informations à propos des objets PureBasic qui ont été créés avec les
-  bibliothèques qui supportent cette fonctionnalité. Par exemple, elle permet de vérifier rapidement les images
-  actuellement chargées dans le programme, ou quels gadgets ont été créés.
+  Le visualisateur de bibliothÃ¨que donne des informations Ã  propos des objets PureBasic qui ont Ã©tÃ© crÃ©Ã©s avec les
+  bibliothÃ¨ques qui supportent cette fonctionnalitÃ©. Par exemple, elle permet de vÃ©rifier rapidement les images
+  actuellement chargÃ©es dans le programme, ou quels gadgets ont Ã©tÃ© crÃ©Ã©s.
 
 @LineBreak
 @LineBreak
 
-  Une fois que le programme est démarré, la liste déroulante en haut de la fenêtre peut être utilisée pour sélectionner
-  la bibliothèque à examiner. La liste de tous les objets de cette bibliothèque apparaîtra et en cliquant sur un
-  objet, des informations relatives à cet objet seront affichées. Certaines bibliothèques affichent même un aperçu
+  Une fois que le programme est dÃ©marrÃ©, la liste dÃ©roulante en haut de la fenÃªtre peut Ãªtre utilisÃ©e pour sÃ©lectionner
+  la bibliothÃ¨que Ã  examiner. La liste de tous les objets de cette bibliothÃ¨que apparaÃ®tra et en cliquant sur un
+  objet, des informations relatives Ã  cet objet seront affichÃ©es. Certaines bibliothÃ¨ques affichent mÃªme un aperÃ§u
   de l'objet (sprite, image par exemple).
   
 @LineBreak
 @LineBreak
   
-  Si la liste déroulante affiche "Aucune information", cela veut dire que l'exécutable n'a utilisé aucune bibliothèque
-  qui utilise cette fonctionnalité.
+  Si la liste dÃ©roulante affiche "Aucune information", cela veut dire que l'exÃ©cutable n'a utilisÃ© aucune bibliothÃ¨que
+  qui utilise cette fonctionnalitÃ©.
 
 @LineBreak
 @LineBreak
 
-  Pour l'instant, les bibliothèques suivantes sont supportées:
+  Pour l'instant, les bibliothÃ¨ques suivantes sont supportÃ©es:
 @LineBreak
   @LibraryLink "Thread" "Thread"
 @LineBreak
@@ -540,69 +540,69 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 @LineBreak
 
 
-@Section Le débogueur assembleur
+@Section Le dÃ©bogueur assembleur
 
 @Image ide_debugger_asm.png
 
-  Le débogueur assembleur est utile pour les développeurs expérimentés qui veulent pouvoir
+  Le dÃ©bogueur assembleur est utile pour les dÃ©veloppeurs expÃ©rimentÃ©s qui veulent pouvoir
   examiner le contenu des registres CPU ou de la pile (surtout quand de l'assembleur en ligne
-  est utilisé).
+  est utilisÃ©).
 
 @LineBreak
 @LineBreak
 
-  La fenêtre des registres est uniquement disponible quand le programme est stoppé, ou 
-  en pas à pas. Il est possible de changer le contenu des registres en modifiant
+  La fenÃªtre des registres est uniquement disponible quand le programme est stoppÃ©, ou 
+  en pas Ã  pas. Il est possible de changer le contenu des registres en modifiant
   les valeurs des champs puis en cliquant sur "Changer".
   
 @LineBreak
 @LineBreak
 
   L'analyse de la pile affiche le contenu de la pile du programme par rapport au
-  registre ESP. Si la position actuelle de la pile n'est pas alignée sur une valeur
-  multiple de 4, il n'est pas possible de la décoder correctement, donc elle sera
-  affichée sous forme hexadécimale.
+  registre ESP. Si la position actuelle de la pile n'est pas alignÃ©e sur une valeur
+  multiple de 4, il n'est pas possible de la dÃ©coder correctement, donc elle sera
+  affichÃ©e sous forme hexadÃ©cimale.
 @LineBreak
-  Si le pointeur est correctement aligné, le contenu de la pile est affiché avec des
-  commentaires par rapport aux valeurs rencontrées (détails des valeurs passées en paramètres
+  Si le pointeur est correctement alignÃ©, le contenu de la pile est affichÃ© avec des
+  commentaires par rapport aux valeurs rencontrÃ©es (dÃ©tails des valeurs passÃ©es en paramÃ¨tres
   des fonctions PureBasic etc.)
 
 @LineBreak
 @LineBreak
 
-  L'affichage du contenu de la pile est actualisé automatiquement quand le programme est
-  stoppé ou en mode pas à pas. Il est possible de désactiver cette mise à jour automatisée
-  dans les préférences de l'IDE, dans ce cas un bouton "Actualiser" sera disponible.
+  L'affichage du contenu de la pile est actualisÃ© automatiquement quand le programme est
+  stoppÃ© ou en mode pas Ã  pas. Il est possible de dÃ©sactiver cette mise Ã  jour automatisÃ©e
+  dans les prÃ©fÃ©rences de l'IDE, dans ce cas un bouton "Actualiser" sera disponible.
   
 @LineBreak
 @LineBreak
 
-  Note: Le débogueur assembleur n'est pas pour l'instant disponible sur MacOS X.
+  Note: Le dÃ©bogueur assembleur n'est pas pour l'instant disponible sur MacOS X.
 
 @Section Le Purificateur
 
 @Image ide_debugger_purifier.png
 
-  Le purificateur permet de détecter des erreurs d'écriture dans des zones de mémoire interdites
-  (dépassement de tampon). La plupart de ces erreurs entrainent des
-  crashs ou des comportements inattendus, souvent très difficiles et laborieux à localiser, car ils
-  sont aléatoires.
+  Le purificateur permet de dÃ©tecter des erreurs d'Ã©criture dans des zones de mÃ©moire interdites
+  (dÃ©passement de tampon). La plupart de ces erreurs entrainent des
+  crashs ou des comportements inattendus, souvent trÃ¨s difficiles et laborieux Ã  localiser, car ils
+  sont alÃ©atoires.
 
 @LineBreak
 @LineBreak
 
-  Pour fonctionner, le purificateur a besoin de données particulières générées par le compilateur, c'est pourquoi il 
-  est nécessaire de cocher la case "Activer le purificateur" dans les @ReferenceLink "ide_compiler" "options de compilation".
+  Pour fonctionner, le purificateur a besoin de donnÃ©es particuliÃ¨res gÃ©nÃ©rÃ©es par le compilateur, c'est pourquoi il 
+  est nÃ©cessaire de cocher la case "Activer le purificateur" dans les @ReferenceLink "ide_compiler" "options de compilation".
   
 @LineBreak
 @LineBreak
   
-  Le purificateur détecte les erreurs d'écriture grâce à des valeurs uniques autour des
-  variables locales et globales, des chaînes de caractères et des blocs de mémoire alloués
-  dynamiquement. Ces valeurs uniques sont vérifiées régulièrement, et si une de ces valeurs
-  a changé, alors il y a eu une écriture interdite et une erreur est affichée. Ces vérifications
-  ralentissent considérablement l'exécution du programme, particulièrement pour les gros programmes,
-  c'est pourquoi il est possible de régler l'intervalle des vérifications dans la fenêtre
+  Le purificateur dÃ©tecte les erreurs d'Ã©criture grÃ¢ce Ã  des valeurs uniques autour des
+  variables locales et globales, des chaÃ®nes de caractÃ¨res et des blocs de mÃ©moire allouÃ©s
+  dynamiquement. Ces valeurs uniques sont vÃ©rifiÃ©es rÃ©guliÃ¨rement, et si une de ces valeurs
+  a changÃ©, alors il y a eu une Ã©criture interdite et une erreur est affichÃ©e. Ces vÃ©rifications
+  ralentissent considÃ©rablement l'exÃ©cution du programme, particuliÃ¨rement pour les gros programmes,
+  c'est pourquoi il est possible de rÃ©gler l'intervalle des vÃ©rifications dans la fenÃªtre
   du purificateur:
 
 @LineBreak
@@ -610,26 +610,26 @@ ou d'une flèche <img src="../HelpPictures/debugger_struct1.png">.
 
 @Bold "Variables globales"
 @LineBreak
-  Définit l'intervalle (en nombre de lignes exécutées) pour la vérification de l'intégrité des variables globales.
+  DÃ©finit l'intervalle (en nombre de lignes exÃ©cutÃ©es) pour la vÃ©rification de l'intÃ©gritÃ© des variables globales.
 
 @LineBreak
 @LineBreak
 
 @Bold "Variables locales"
 @LineBreak
-  Définit l'intervalle (en nombre de lignes exécutées) pour la vérification de l'intégrité des variables locales.
+  DÃ©finit l'intervalle (en nombre de lignes exÃ©cutÃ©es) pour la vÃ©rification de l'intÃ©gritÃ© des variables locales.
 
 @LineBreak
 @LineBreak
 
-@Bold "Chaînes de caractères"
+@Bold "ChaÃ®nes de caractÃ¨res"
 @LineBreak
-  Définit l'intervalle (en nombre de lignes exécutées) pour la vérification de l'intégrité des chaînes de caractères.
+  DÃ©finit l'intervalle (en nombre de lignes exÃ©cutÃ©es) pour la vÃ©rification de l'intÃ©gritÃ© des chaÃ®nes de caractÃ¨res.
 
 @LineBreak
 @LineBreak
 
-@Bold "Blocs de données dynamiques"
+@Bold "Blocs de donnÃ©es dynamiques"
 @LineBreak
-  Définit l'intervalle (en nombre de lignes exécutées) pour la vérification de l'intégrité des blocs
-  de données alloués dynamiquement avec @@AllocateMemory.
+  DÃ©finit l'intervalle (en nombre de lignes exÃ©cutÃ©es) pour la vÃ©rification de l'intÃ©gritÃ© des blocs
+  de donnÃ©es allouÃ©s dynamiquement avec @@AllocateMemory.

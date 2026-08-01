@@ -1,4 +1,4 @@
-@Title Interfaces
+ï»¿@Title Interfaces
 
 @Syntax
 
@@ -9,50 +9,49 @@
 
 @Description
 
-  Les Interfaces sont utilisées pour accéder facilement aux modules 'Orientés Objets' tels que les 
-  bibliothèques COM (Component Object Model) ou DirectX. Ce type de bibliothèques sont de plus en 
+  Les Interfaces sont utilisÃ©es pour accÃ©der facilement aux modules 'OrientÃ©s Objets' tels que les 
+  bibliothÃ¨ques COM (Component Object Model) ou DirectX. Ce type de bibliothÃ¨ques sont de plus en 
   plus courantes sous Windows et les interfaces permettent une exploitation de ces fonctions sans 
-  impacts de performances. Les interfaces jettent aussi les bases pour une 'Programmation Orientée 
-  Object' (OOP en anglais) avec PureBasic mais de solides connaissances sont nécessaires pour en tirer parti 
-  (les interfaces n'ont pas été conçues pour ajouter une couche objet à PureBasic mais plutôt pour 
-  accéder facilement à des objets dejà conçus). La plupart des interfaces utilisées sous Windows sont 
-  déjà incluses dans les fichiers résidents 'Interfaces.res' et 'InterfaceDX.res', ce qui rend leur 
-  utilisation immédiate. 
+  impacts de performances. Les interfaces jettent aussi les bases pour une 'Programmation OrientÃ©e 
+  Object' (OOP en anglais) avec PureBasic mais de solides connaissances sont nÃ©cessaires pour en tirer parti 
+  (les interfaces n'ont pas Ã©tÃ© conÃ§ues pour ajouter une couche objet Ã  PureBasic mais plutÃ´t pour 
+  accÃ©der facilement Ã  des objets dejÃ  conÃ§us). La plupart des interfaces utilisÃ©es sous Windows sont 
+  dÃ©jÃ  incluses dans les fichiers rÃ©sidents 'Interfaces.res' et 'InterfaceDX.res', ce qui rend leur 
+  utilisation immÃ©diate. 
   @LineBreak
   @LineBreak
-  Le paramètre optionnel @Keyword Extends permet d'étendre une interface sans avoir à dupliquer ses 
-  fonctions (ces 'fonctions' sont aussi communément appelées 'méthodes' dans les autres langages objet 
-  tels que C++ ou Java). Toutes les fonctions contenues dans l'interface étendue seront disponibles 
-  dans la nouvelle interface. C'est utile pour un héritage simple d'objets. 
+  Le paramÃ¨tre optionnel @Keyword Extends permet d'Ã©tendre une interface sans avoir Ã  dupliquer ses 
+  fonctions (ces 'fonctions' sont aussi communÃ©ment appelÃ©es 'mÃ©thodes' dans les autres langages objet 
+  tels que C++ ou Java). Toutes les fonctions contenues dans l'interface Ã©tendue seront disponibles 
+  dans la nouvelle interface. C'est utile pour un hÃ©ritage simple d'objets. 
   @LineBreak
   @LineBreak
-  @ReferenceLink "dim" "les tableaux (Arrays)" peuvent être passés en paramètres à l'aide du mot clé @Keyword Array,
-  @ReferenceLink "newlist" "Les listes" en utilisant le mot clé @Keyword List et 
-  @ReferenceLink "newmap" "les maps" en utilisant le mot clé @Keyword Map.
+  @ReferenceLink "dim" "les tableaux (Arrays)" peuvent Ãªtre passÃ©s en paramÃ¨tres Ã  l'aide du mot clÃ© @Keyword Array,
+  @ReferenceLink "newlist" "Les listes" en utilisant le mot clÃ© @Keyword List et 
+  @ReferenceLink "newmap" "les maps" en utilisant le mot clÃ© @Keyword Map.
   @LineBreak
   @LineBreak
-  Un type de retour peut être défini dans la déclaration de l'interface en ajoutant le type après la méthode.
+  Un type de retour peut Ãªtre dÃ©fini dans la dÃ©claration de l'interface en ajoutant le type aprÃ¨s la mÃ©thode.
   @LineBreak
   @LineBreak  
-  La commande @ReferenceLink "compilerfunctions" SizeOf peut être utilisée avec les interfaces pour déterminer la taille d'une interface 
-  et la commande @ReferenceLink "compilerfunctions" OffsetOf peut être utilisée pour déterminer l'index d'une fonction dans une interface. 
+  La commande @ReferenceLink "compilerfunctions" SizeOf peut Ãªtre utilisÃ©e avec les interfaces pour dÃ©terminer la taille d'une interface 
+  et la commande @ReferenceLink "compilerfunctions" OffsetOf peut Ãªtre utilisÃ©e pour dÃ©terminer l'index d'une fonction dans une interface. 
   @LineBreak
   @LineBreak
-  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent être utilisés pour les paramètres des fonctions
+  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent Ãªtre utilisÃ©s pour les paramÃ¨tres des fonctions
   de l'interface, mais pas pour le type de retour.  
   @LineBreak
   @LineBreak
-  Note: Les concepts objets sont principalement appropriés pour les développeurs expérimentés et il n'est pas 
-  nécessaire de les maîtriser ou même les comprendre pour réaliser des applications ou jeux professionnels.
+  Note: Les concepts objets sont principalement appropriÃ©s pour les dÃ©veloppeurs expÃ©rimentÃ©s et il n'est pas 
+  nÃ©cessaire de les maÃ®triser ou mÃªme les comprendre pour rÃ©aliser des applications ou jeux professionnels.
 
 @ExampleFile All Interface.pb
-@ExampleFile All Interface_IUnknown.pb
 
-  @Example Appel à une fonction objet
+  @Example Appel Ã  une fonction objet
 
 @Code
-  ; Nous allons considérer que vous voulez accéder à un objet externe (à l'intérieur d'une DLL par exemple).
-  ; Premièrement, déclarez son interface.
+  ; Nous allons considÃ©rer que vous voulez accÃ©der Ã  un objet externe (Ã  l'intÃ©rieur d'une DLL par exemple).
+  ; PremiÃ¨rement, dÃ©clarez son interface.
   ;
   Interface MonObjet
     Deplacer(x,y)
@@ -60,18 +59,18 @@
     Detruire()
   EndInterface
   
-  ; Si 'CreationObjet()' est la fonction qui crée l'objet, à partir de la DLL,
-  ; dont l'interface vient d'être définie...
-  ; Alors créons le premier objet.
+  ; Si 'CreationObjet()' est la fonction qui crÃ©e l'objet, Ã  partir de la DLL,
+  ; dont l'interface vient d'Ãªtre dÃ©finie...
+  ; Alors crÃ©ons le premier objet.
   ;
   Objet1.MonObjet = CreationObjet()
   
-  ; Et le deuxième.
+  ; Et le deuxiÃ¨me.
   ;
   Objet2.MonObjet = CreationObjet()
   
-  ; Ensuite, les fonctions qui viennent d'être définies, peuvent être utilisées, 
-  ; afin d'agir sur l'objet désiré.
+  ; Ensuite, les fonctions qui viennent d'Ãªtre dÃ©finies, peuvent Ãªtre utilisÃ©es, 
+  ; afin d'agir sur l'objet dÃ©sirÃ©.
   
   Objet1\Deplacer(10, 20)
   Objet1\Detruire()
@@ -83,7 +82,7 @@
   @Example Utilisation de 'Extends'
 
 @Code
-  ; Définition d'une interface générique 'Cube'
+  ; DÃ©finition d'une interface gÃ©nÃ©rique 'Cube'
   ;
   Interface Cube
     EnvoyerPosition()

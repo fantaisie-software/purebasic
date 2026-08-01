@@ -1,4 +1,4 @@
-@Title NewList
+ï»¿@Title NewList
 
 @Syntax
 
@@ -6,25 +6,25 @@
 
 @Description
 
-  @Keyword NewList ermöglicht die Einrichtung einer dynamisch verknüpften Liste ("Dynamic Linked List"). 
+  @Keyword NewList ermÃ¶glicht die Einrichtung einer dynamisch verknÃ¼pften Liste ("Dynamic Linked List"). 
   @LineBreak
   @LineBreak
-  Jedes Element einer Liste wird dynamisch zugewiesen. Es gibt keine Einschränkungen in der Anzahl 
-  der Elemente, es können so viele wie nötig benutzt werden. Eine Liste kann jeden @ReferenceLink "Variables" "Standard-" oder 
+  Jedes Element einer Liste wird dynamisch zugewiesen. Es gibt keine EinschrÃ¤nkungen in der Anzahl 
+  der Elemente, es kÃ¶nnen so viele wie nÃ¶tig benutzt werden. Eine Liste kann jeden @ReferenceLink "Variables" "Standard-" oder 
   @ReferenceLink "Structures" "Struktur-Typ" haben. 
   @LineBreak
   @LineBreak
-  Für eine Liste aller Befehle zum Verwalten von Listen siehe die @LibraryLink "List" "Linked List" Bibliothek. 
+  FÃ¼r eine Liste aller Befehle zum Verwalten von Listen siehe die @LibraryLink "List" "Linked List" Bibliothek. 
   @LineBreak
   @LineBreak
-  Die neuen verknüpften Listen sind immer lokal. Dies bedeutet, dass die @ReferenceLink "Global" "Global" oder
-  @ReferenceLink "Shared" "Shared" Befehle benutzt werden müssen, wenn eine im Haupt-Quellcode deklarierte
-  Liste in Prozeduren verwendet werden soll. Es ist auch möglich, mit dem @Keyword "List"-Schlüsselwort eine verknüpfte Liste als Parameter an eine
-  @ReferenceLink "Procedures" "Prozedur" zu übergeben.
+  Die neuen verknÃ¼pften Listen sind immer lokal. Dies bedeutet, dass die @ReferenceLink "Global" "Global" oder
+  @ReferenceLink "Shared" "Shared" Befehle benutzt werden mÃ¼ssen, wenn eine im Haupt-Quellcode deklarierte
+  Liste in Prozeduren verwendet werden soll. Es ist auch mÃ¶glich, mit dem @Keyword "List"-SchlÃ¼sselwort eine verknÃ¼pfte Liste als Parameter an eine
+  @ReferenceLink "Procedures" "Prozedur" zu Ã¼bergeben.
   @LineBreak
   @LineBreak
-  Für schnelles Vertauschen von Listen-Inhalten steht das @ReferenceLink "others" "Swap" Schlüsselwort
-  zur Verfügung.
+  FÃ¼r schnelles Vertauschen von Listen-Inhalten steht das @ReferenceLink "others" "Swap" SchlÃ¼sselwort
+  zur VerfÃ¼gung.
 
   @Example
 
@@ -45,26 +45,32 @@
   Next
 @EndCode
 
-  @Example Liste als Parameter für eine Prozedur
+  @Example Liste als Parameter fÃ¼r eine Prozedur
 
 @Code
-  NewList Test.l()
-
+  NewList Test()
+  
+  ; Erste 2 EintrÃ¤ge der Liste hinzufÃ¼gen:
   AddElement(Test())
   Test() = 1
   AddElement(Test())
   Test() = 2
-
-  Procedure DebugList(c.l, List ParameterList.l())
-
-    AddElement(ParameterList())
-    ParameterList() = 3
-
-    ForEach ParameterList()
-      MessageRequester("List", Str(ParameterList()))
+  
+  Procedure DebugList(count, List ParameterList())
+    ; Weitere EintrÃ¤ge der Liste hinzufÃ¼gen:
+    For i=1 To count
+      AddElement(ParameterList())
+      ParameterList() = i
+    Next 
+    
+    ; Alle EintrÃ¤ge in der Liste ausgeben:
+  	i = 1
+    ForEach ParameterList() 
+      MessageRequester("List", "Entry" + Str(i) + " = " + Str(ParameterList()))
+      i + 1
     Next
- 
   EndProcedure
-
-  DebugList(10, Test())
+  
+  ; Drei weitere EintrÃ¤ge der Liste hinzufÃ¼gen und deren gesamten Inhalt ausgeben:
+  DebugList(3, Test())
 @EndCode

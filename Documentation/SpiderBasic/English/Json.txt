@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Json library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -1287,23 +1287,15 @@
   The type of the JSON value or its content can be modified with one of the following
   functions:
 @LineBreak
-  - @@SetJSONArray: Change the value to an (empty) array
-@LineBreak
-  - @@SetJSONBoolean: Change the value to a boolean
-@LineBreak
-  - @@SetJSONDouble: Change the value to a number
-@LineBreak
-  - @@SetJSONFloat: Change the value to a number
-@LineBreak
-  - @@SetJSONInteger: Change the value to a number
-@LineBreak
-  - @@SetJSONNull: Change the value to a 'null'
-@LineBreak
-  - @@SetJSONObject: Change the value to an (empty) object
-@LineBreak
-  - @@SetJSONString: Change the value to a string
-@LineBreak
-  - @@SetJSONQuad: Change the value to a number
+  @@SetJSONArray: Change the value to an (empty) array @LineBreak
+  @@SetJSONBoolean: Change the value to a boolean @LineBreak
+  @@SetJSONDouble: Change the value to a number @LineBreak
+  @@SetJSONFloat: Change the value to a number @LineBreak
+  @@SetJSONInteger: Change the value to a number @LineBreak
+  @@SetJSONNull: Change the value to a 'null' @LineBreak
+  @@SetJSONObject: Change the value to an (empty) object @LineBreak
+  @@SetJSONString: Change the value to a string @LineBreak
+  @@SetJSONQuad: Change the value to a number
 
 @Example
 @Code
@@ -1331,14 +1323,13 @@
   @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to auto-generate this number.  
   
 @Parameter "Filename$"
-  The name of the file containing the JSON data. It can be an URL or a local file identifier got with @@SelectedFileID.
+  The name of the file containing the JSON data. It can be an URL or a local file identifier got with @@OpenFileRequester.
 
 @OptionalParameter "Flags"
     It can be one of the following value:
 @FixedFont
-  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
-                 to have access to local files. @@SelectedFileID() is used to get the
-                 local file identifier.
+  @#PB_LocalFile: the filename is a local file, @@OpenFileRequester needs to be called before
+                 to have access to local files.
 @EndFixedFont
   
 @ReturnValue

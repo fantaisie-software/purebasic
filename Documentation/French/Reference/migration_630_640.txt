@@ -1,0 +1,97 @@
+﻿@Title Migration de PureBasic 6.30 vers 6.40
+
+  Le gestionnaire de chaînes ayant été entièrement repensé pour la version 6.40, certains cas particuliers d'utilisation 
+  des chaînes de caractères peuvent ne plus fonctionner. À titre d'information, les chaînes PureBasic utilisent désormais 
+  un préfixe dont la longueur est mise en cache, elles ne s'arrêtent donc plus au premier caractère nul rencontré.
+
+@Section Bibliothèque String
+
+@LineBreak
+L'option @#PB_String_InPlace retiré pour @@ReplaceString.
+@Code
+  ; Ancien
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; Nouveau
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+  Cette méthode sera légèrement plus lente qu'auparavant. Si vous avez besoin d'un remplacement de caractères « à la place de » 
+  très rapide, vous pouvez utiliser la solution ci-dessous. @LineBreak
+  Attention : la modification directe du tampon de chaînes doit être effectuée avec précaution afin d'éviter tout dépassement 
+  de capacité.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Bonjour le Monde !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section  API Win32
+
+  Lors de l'appel à l'API Win32 renvoyant des chaînes de caractères, il était courant d'utiliser la fonction @@Space 
+  pour pré-allouer une mémoire tampon, et c'était une solution de contournement.@LineBreak
+  Cela permettait à l'API d'écrire directement dans la mémoire attribuée à cette chaîne. Cependant, le cache du nouveau 
+  gestionnaire de chaînes qui contient la longueur de la chaîne, n'était pas mis à jour.@LineBreak
+  Pour garantir l'exactitude de la longueur de la chaîne après un appel d'API, utilisez l'une des méthodes suivantes :@LineBreak
+@LineBreak  
+  - Chaîne fixe : Utilisez une chaîne de longueur fixe (par exemple, Define MyString.s{260}), qui ne dépend pas du nouveau gestionnaire de chaînes et donc de sa longueur mise en cache.@LineBreak
+@LineBreak
+  - Mise à jour manuelle : Si vous utilisez une chaîne standard, actualisez manuellement sa longueur à l'aide de @@PeekS après l'appel d'API (par exemple, MyString = PeekS(@MyString)).@LineBreak
+@LineBreak
+  Pour la migration, il est recommandé de rechercher @@Space dans tout votre code et de vérifier si cette fonction est utilisée 
+  pour les appels d'API, afin d'appliquer l'une de ces deux méthodes.
+
+@Code
+ ; Ancien
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra 260, qui n'est pas la bonne longueur
+  
+  ; Nouveau avec une chaîne de longueur fixe
+  CurrentDirectory${260}
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra la bonne longueur
+
+  ; Nouveau avec une chaîne standard
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$)    ; Garantit que la longueur de la chaîne est correctement mise à jour
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; Renverra la bonne longueur
+@EndCode
+
+  Outre les deux méthodes mentionnées ci-dessus, vous pouvez également utiliser @@AllocateMemory pour vos tampons mémoire
+  afin de ne pas troquer une chaîne de caractères.@LineBreak
+@LineBreak
+  L'exemple suivant illustre une méthode éprouvée et fiable pour interagir avec l'API à l'aide d'un tampon mémoire :
+@Code
+  *Buffer = AllocateMemory(#MAX_PATH * SizeOf(Character))
+  If *Buffer
+    Length = GetModuleFileName_(GetModuleHandle_(#Null$), *Buffer, #MAX_PATH-1)  
+    PureBasicPath$ = PeekS(*Buffer, Length)
+    Debug PureBasicPath$
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode
+

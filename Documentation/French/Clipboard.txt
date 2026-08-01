@@ -1,4 +1,4 @@
-;
+Ôªø;
 ; Clipboard library documentation
 ;
 ; (c) Fantaisie Software
@@ -11,13 +11,13 @@
   Le presse-papier (clipboard) est le 
   moyen standard pour partager des 
   informations entre les applications 
-  lancÈes depuis le systËme d'exploitation. 
+  lanc√©es depuis le syst√®me d'exploitation. 
   Par exemple lorsque l'on coupe un texte 
-  dans un Èditeur, il est envoyÈ dans le 
-  presse-papier et peut ensuite Ítre 
-  retrouvÈ et dÈposÈ dans un autre Èditeur 
+  dans un √©diteur, il est envoy√© dans le 
+  presse-papier et peut ensuite √™tre 
+  retrouv√© et d√©pos√© dans un autre √©diteur 
   de texte.
-  PureBasic permet de copier et rÈcupÈrer 
+  PureBasic permet de copier et r√©cup√©rer 
   facilement du texte et des images dans 
   le presse-papier.
   
@@ -44,7 +44,7 @@
   SetClipboardText("Un exemple de texte")
   MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
 
-  ; Le presse-papier est effacÈ
+  ; Le presse-papier est effac√©
   ClearClipboard()
   MessageRequester("Presse-papier","Le presse papier contient le texte suivant : " + GetClipboardText())
 @EndCode
@@ -59,43 +59,44 @@
 @Function Resultat = GetClipboardImage(#Image [, Profondeur])
 
 @Description
-  CrÈe une nouvelle image ‡ partir d'une 
-  image contenue dans le presse-papier (si 
-  elle existe).
+  Cr√©e une nouvelle image √† partir d'une image contenue dans le presse-papier (si elle existe).
   
 @Parameter "#Image"
-  NumÈro de la nouvelle image.
+  Num√©ro de la nouvelle image.
 @LineBreak
 @LineBreak  
-  @ReferenceLink "purebasic_objects" "PB_Any#" 
-  peut Ítre utilisÈ pour gÈnÈrer automatiquement 
-  ce numÈro. 
+  @ReferenceLink "purebasic_objects" "PB_Any#" peut √™tre utilis√© pour g√©n√©rer automatiquement ce num√©ro. 
  
 @OptionalParameter "Profondeur"
   La profondeur de couleur de l'image.
 @LineBreak
 @LineBreak    
-  Les valeurs valides sont 24 bits (par dÈfaut) 
-  ou 32 bits.
+  Les valeurs valides sont 24 bits (par d√©faut) ou 32 bits.
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succËs, 
-  zÈro sinon. 
+  Renvoie une valeur non nulle en cas de succ√®s, z√©ro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any est utilisÈ pour le paramËtre 
-  '#Image', le numÈro de la nouvelle image 
-  sera renvoyÈ dans 'Resultat'.
+  Si @#PB_Any est utilis√© pour le param√®tre '#Image', le num√©ro de la nouvelle image 
+  sera renvoy√© dans 'Resultat'.
   
-@Remarks   
-  L'image ainsi obtenue peut Ítre dÈtruite ‡ 
-  l'aide de la commande @@FreeImage.
+@Remarks
+  Sous Windows, il se peut que la transparence ne soit pas d√©tect√©e une fois l'image du presse-papier 
+  coll√©e dans un logiciel tiers. (L'enregistrement de cette image au format png conserve la transparence.)
+  Il s'agit d'un probl√®me li√© au format BMP et √† la fa√ßon dont Windows 
+  le g√®re. Il est possible d'avoir une image bitmap 32 bits sans canal alpha. Dans ce cas, toutes les 
+  valeurs alpha sont 0 mais l'image est cens√©e √™tre opaque.
+  √âtant donn√© que les images dans GetClipboardImage() peuvent provenir de l'ext√©rieur de PB, nous ne 
+  pouvons pas savoir si l'image est cens√©e √™tre enti√®rement transparente ou enti√®rement opaque. C'est 
+  pourquoi nous n'utilisons le canal alpha que s'il y a au moins un pixel avec une valeur autre que 0. 
+  Sinon, nous la traitons comme une image opaque. 
 @LineBreak
 @LineBreak
-  Pour plus d'information sur les images, voir 
-  la bibliothËque 
-  @LibraryLink "Image" "Image" ou le gadget 
-  @@ImageGadget.
+  L'image ainsi obtenue peut √™tre d√©truite √† l'aide de la commande @@FreeImage.
+@LineBreak
+@LineBreak
+  Pour plus d'information sur les images, voir la biblioth√®que @LibraryLink "Image" "Image" 
+  ou le gadget @@ImageGadget.
 
 @Example 
 @Code
@@ -124,6 +125,36 @@
   ; et vous verrez le drapeau japonais ;-)
 @EndCode
 
+@Example avec transparence
+@Code
+  #Shift= 10
+  Global ImageSource.s
+
+  CreateImage(0,200,200,32,#PB_Image_Transparent)
+  StartDrawing(ImageOutput(0))
+  DrawingMode(#PB_2DDrawing_AlphaChannel) 
+  Box(0, 0, 100, 50, $00000000)
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
+  DrawText(10,50,"PUREBASIC", RGBA(255, 255, 0, 255), RGBA(0, 0, 0, 0))
+  Circle(100,100, 50,RGBA(255, 255, 255,128))
+  StopDrawing() 
+  SetClipboardImage(0)
+  GetClipboardImage(1,32)
+
+
+  CreateImage(0,200,200,32,#Blue)
+  StartDrawing(ImageOutput(0))
+  DrawingMode(#PB_2DDrawing_AlphaBlend)
+  DrawImage(ImageID(1),#Shift,-#Shift)
+  StopDrawing()
+
+  OpenWindow(0,0,0,200,200,Str(ImageDepth(1)))
+    ImageGadget(0,0,0,200,200,ImageID(0))
+  Repeat : Select WaitWindowEvent() : Case #PB_Event_CloseWindow : End : EndSelect : ForEver
+@EndCode
+
+
+
 @SeeAlso
   @@SetClipboardImage, @@GetClipboardText
   
@@ -134,14 +165,14 @@
 @Function Resultat$ = GetClipboardText()
 
 @Description
-  Renvoie le texte actuellement stockÈ dans 
+  Renvoie le texte actuellement stock√© dans 
   le presse-papier.
   
 @NoParameters
 
 @ReturnValue 
-  Renvoie le texte stockÈ dans le presse-papier 
-  ou une chaÓne vide sinon.
+  Renvoie le texte stock√© dans le presse-papier 
+  ou une cha√Æne vide sinon.
 
 @Example 
 @Code
@@ -163,13 +194,13 @@
   Met une copie d'une image dans le presse-papier. 
   
 @Parameter "#Image"
-  NumÈro de l'image ‡ mettre dans le presse-papier.
+  Num√©ro de l'image √† mettre dans le presse-papier.
 
 @NoReturnValue 
 
 @Remarks  
-  Si une image est dÈj‡ prÈsente  dans le 
-  presse-papier, elle sera remplacÈe par la 
+  Si une image est d√©j√† pr√©sente  dans le 
+  presse-papier, elle sera remplac√©e par la 
   nouvelle.
 
 @Example 
@@ -213,13 +244,13 @@
  Place un texte dans le presse-papier. 
  
 @Parameter "Texte$"
-  Le texte ‡ placer dans le presse-papier
+  Le texte √† placer dans le presse-papier
   
 @NoReturnValue 
  
 @Remarks  
-  Si le presse-papier contient dÈj‡ un texte 
-  celui-ci est remplacÈ.
+  Si le presse-papier contient d√©j√† un texte 
+  celui-ci est remplac√©.
 
 @Example 
 @Code

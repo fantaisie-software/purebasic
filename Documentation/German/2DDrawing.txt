@@ -1,30 +1,32 @@
-;
+ï»¿;
 ;     2DDrawing library documentation - MultiOS version !
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library 2DDrawing
 
 @Overview
   Die 2D Zeichnungs-Bibliothek beinhaltet alle 2D-Zeichenfunktionen, die auf einem
-  sichtbaren Bereich ausgeführt werden können. Das Zeichnen einer Linie, einer Box,
-  eines Kreises oder einfach eines Textes gehört zu den 2D-Zeichenoperationen.
+  sichtbaren Bereich ausgefÃ¼hrt werden kÃ¶nnen. Das Zeichnen einer Linie, einer Box,
+  eines Kreises oder einfach eines Textes gehÃ¶rt zu den 2D-Zeichenoperationen.
   @LineBreak
   @LineBreak
   Die Ausgabe der Zeichenfunktionen ist auf einem Fenster, einem Bildschirm (Screen),
-  einem Sprite, einem Bild (Image) oder einer Druckerseite (Printer) möglich.
+  einem Sprite, einem Bild (Image) oder einer Druckerseite (Printer) mÃ¶glich.
   Mehr Informationen hierzu siehe unter @@StartDrawing.
   @LineBreak
   @LineBreak
   Hinweis: Die Zeichenoperationen beginnen immer nach dem Aufruf
-  von @@StartDrawing und müssen mit @@StopDrawing abgeschlossen werden.
+  von @@StartDrawing und mÃ¼ssen mit @@StopDrawing abgeschlossen werden.
 
 @CommandList
 
 @ExampleFile All 2DDrawing.pb
 @ExampleFile All 2DDrawingAlpha.pb
-@ExampleFile All DirectScreenDrawing.pb
+@ExampleFile All MDI_ImageViewer.pb
+@ExampleFile Windows DirectScreenDrawing.pb
+@ExampleFile Windows Win32_API.pb
 
 @SupportedOS
 
@@ -33,18 +35,18 @@
 @Function Ergebnis = Red(Farbe)
 
 @Description
-  Gibt den Rot-Anteil eines Farbwertes zurück.
+  Gibt den Rot-Anteil eines Farbwertes zurÃ¼ck.
   
 @Parameter "Farbe"
   Der Farbwert. Dies kann ein 24 Bit RGB oder ein 32 Bit RGBA Wert sein.
 
 @ReturnValue
-  Gibt den Wert des Rot-Anteils zurück. Das Ergebnis wird zwischen 0 und 255 liegen.
+  Gibt den Wert des Rot-Anteils zurÃ¼ck. Das Ergebnis wird zwischen 0 und 255 liegen.
   
 @Remarks
-  Um für die Erstellung einer 24 Bit RGB-Farbe die Rot-, Grün- und Blau-Werte zu
-  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nützlich
-  für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Um fÃ¼r die Erstellung einer 24 Bit RGB-Farbe die Rot-, GrÃ¼n- und Blau-Werte zu
+  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nÃ¼tzlich
+  fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 
 @SeeAlso
   @@Green, @@Blue, @@Alpha, @@RGB, @@RGBA
@@ -56,18 +58,18 @@
 @Function Ergebnis = Green(Farbe)
 
 @Description
-  Gibt den Grün-Anteil eines Farbwertes zurück.
+  Gibt den GrÃ¼n-Anteil eines Farbwertes zurÃ¼ck.
 
 @Parameter "Farbe"
   Der Farbwert. Dies kann ein 24 Bit RGB oder ein 32 Bit RGBA Wert sein.
 
 @ReturnValue
-  Gibt den Wert des Grün-Anteils zurück. Das Ergebnis wird zwischen 0 und 255 liegen.
+  Gibt den Wert des GrÃ¼n-Anteils zurÃ¼ck. Das Ergebnis wird zwischen 0 und 255 liegen.
 
 @Remarks
-  Um für die Erstellung einer 24 Bit RGB-Farbe die Rot-, Grün- und Blau-Werte zu
-  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nützlich
-  für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Um fÃ¼r die Erstellung einer 24 Bit RGB-Farbe die Rot-, GrÃ¼n- und Blau-Werte zu
+  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nÃ¼tzlich
+  fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 
 @SeeAlso
   @@Red, @@Blue, @@Alpha, @@RGB, @@RGBA
@@ -79,18 +81,18 @@
 @Function Ergebnis = Blue(Farbe)
 
 @Description
-  Gibt den Blau-Anteil eines Farbwertes zurück.
+  Gibt den Blau-Anteil eines Farbwertes zurÃ¼ck.
 
 @Parameter "Farbe"
   Der Farbwert. Dies kann ein 24 Bit RGB oder ein 32 Bit RGBA Wert sein.
 
 @ReturnValue
-  Gibt den Wert des Blau-Anteils zurück. Das Ergebnis wird zwischen 0 und 255 liegen.
+  Gibt den Wert des Blau-Anteils zurÃ¼ck. Das Ergebnis wird zwischen 0 und 255 liegen.
 
 @Remarks
-  Um für die Erstellung einer 24 Bit RGB-Farbe die Rot-, Grün- und Blau-Werte zu
-  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nützlich
-  für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Um fÃ¼r die Erstellung einer 24 Bit RGB-Farbe die Rot-, GrÃ¼n- und Blau-Werte zu
+  kombinieren, verwenden Sie die @@RGB-Funktion. Diese Funktionen sind nÃ¼tzlich
+  fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 
 @SeeAlso
   @@Red, @@Green, @@Alpha, @@RGB, @@RGBA
@@ -102,20 +104,20 @@
 @Function Ergebnis = Alpha(Farbe)
 
 @Description
-  Gibt die Alpha-Komponente eines Farbwertes zurück.
+  Gibt die Alpha-Komponente eines Farbwertes zurÃ¼ck.
 
 @Parameter "Farbe"
   Der Farbwert. Dies muss ein 32 Bit RGBA Wert sein.
 
 @ReturnValue
-  Gibt den Wert der Alpha-Komponente zurück. Das Ergebnis wird zwischen 0 und 255 liegen.
-  Ein Wert von 0 bedeutet vollständig transparent und ein Wert von 255 bedeutet
-  völlig undurchsichtig.
+  Gibt den Wert der Alpha-Komponente zurÃ¼ck. Das Ergebnis wird zwischen 0 und 255 liegen.
+  Ein Wert von 0 bedeutet vollstÃ¤ndig transparent und ein Wert von 255 bedeutet
+  vÃ¶llig undurchsichtig.
   
 @Remarks
-  Um für die Erstellung einer 32 Bit RGB-Farbe die Rot-, Grün-, Blau- und Alpha-Werte zu
-  kombinieren, verwenden Sie die @@RGBA-Funktion. Diese Funktionen sind nützlich
-  für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Um fÃ¼r die Erstellung einer 32 Bit RGB-Farbe die Rot-, GrÃ¼n-, Blau- und Alpha-Werte zu
+  kombinieren, verwenden Sie die @@RGBA-Funktion. Diese Funktionen sind nÃ¼tzlich
+  fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 
 @SeeAlso
   @@Red, @@Green, @@Blue, @@RGBA
@@ -124,26 +126,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Farbe = RGB(Rot, Grün, Blau)
+@Function Farbe = RGB(Rot, GrÃ¼n, Blau)
 
 @Description
-  Gibt den 24 Bit Farb-Wert entsprechend den Rot-, Grün- und Blau-Anteilen zurück.
+  Gibt den 24 Bit Farb-Wert entsprechend den Rot-, GrÃ¼n- und Blau-Anteilen zurÃ¼ck.
   
-@Parameter "Rot, Grün, Blau"
-  Die Werte der Rot-, Grün- und Blau-Anteile der Farbe. Jeder Wert
+@Parameter "Rot, GrÃ¼n, Blau"
+  Die Werte der Rot-, GrÃ¼n- und Blau-Anteile der Farbe. Jeder Wert
   muss zwischen 0 und 255 liegen.
 
 @ReturnValue
-  Gibt den kombinierten Farbwert zurück.
+  Gibt den kombinierten Farbwert zurÃ¼ck.
 
 @Remarks
-  Um aus einem 24 Bit Farbwert die Rot-, Grün- und Blau-Werte zu extrahieren,
+  Um aus einem 24 Bit Farbwert die Rot-, GrÃ¼n- und Blau-Werte zu extrahieren,
   verwenden Sie die @@Red, @@Green und @@Blue Funktionen.
-  Diese Funktionen sind nützlich für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Diese Funktionen sind nÃ¼tzlich fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 
 @LineBreak
 @LineBreak
-  Eine Farbtabelle mit gebräuchlichen Farben ist @ReferenceLink "colortable" "hier" verfügbar.
+  Eine Farbtabelle mit gebrÃ¤uchlichen Farben ist @ReferenceLink "colortable" "hier" verfÃ¼gbar.
   
 @SeeAlso
   @@Red, @@Green, @@Blue, @@RGBA
@@ -152,40 +154,40 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Farbe.q = RGBA(Rot, Grün, Blau, Alpha)
+@Function Farbe.q = RGBA(Rot, GrÃ¼n, Blau, Alpha)
 
 @Description
-  Gibt den 32 Bit Farb-Wert entsprechend den Rot-, Grün-, Blau- und Alpha-Werten zurück.
+  Gibt den 32 Bit Farb-Wert entsprechend den Rot-, GrÃ¼n-, Blau- und Alpha-Werten zurÃ¼ck.
 
-@Parameter "Rot, Grün, Blau"
-  Die Werte der Rot-, Grün- und Blau-Anteile der Farbe. Jeder Wert
+@Parameter "Rot, GrÃ¼n, Blau"
+  Die Werte der Rot-, GrÃ¼n- und Blau-Anteile der Farbe. Jeder Wert
   muss zwischen 0 und 255 liegen.
   
 @Parameter "Alpha"
   Die Alpha-Komponente der Farbe. Dieser Wert muss zwischen 0 und 255 liegen.
-  Ein Wert von 0 bedeutet vollständig transparent und ein Wert von 255 bedeutet
-  völlig undurchsichtig.
+  Ein Wert von 0 bedeutet vollstÃ¤ndig transparent und ein Wert von 255 bedeutet
+  vÃ¶llig undurchsichtig.
 
 @ReturnValue
-  Gibt den kombinierten Farbwert zurück.
+  Gibt den kombinierten Farbwert zurÃ¼ck.
   
 @Remarks
-  Um aus einem 32 Bit Farbwert die Rot-, Grün-, Blau- und Alpha-Werte zu extrahieren,
+  Um aus einem 32 Bit Farbwert die Rot-, GrÃ¼n-, Blau- und Alpha-Werte zu extrahieren,
   verwenden Sie die @@Red, @@Green, @@Blue und @@Alpha Funktionen.
-  Diese Funktionen sind nützlich für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Diese Funktionen sind nÃ¼tzlich fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
 @LineBreak
 @LineBreak
   Das Ergebnis variiert von 0 bis 4.294.967.295 Schattierungen ("shades").
   Es empfiehlt sich daher, ein 'Quad' (Result.q) zu verwenden und unbenutzte Bytes auf
   Null zu setzen. Bei einem 32-Bit-Betriebssystem ist das Ergebnis in der Regel eine
-  Long-Ganzzahl (Standard) mit einem Gültigkeitsbereich von - 2.147.483.648 bis
+  Long-Ganzzahl (Standard) mit einem GÃ¼ltigkeitsbereich von - 2.147.483.648 bis
   + 2.147.483.647, daher ist das Vergleichen von zwei Farben mit einer Long-Ganzzahl
-  gefährlich.
+  gefÃ¤hrlich.
  
 @Example
 @Code
   Debug RGBA(0, 0, 0, 0)         ; Komplett transparentes Schwarz
-  Debug RGBA(255, 255, 255, 255) ; Völlig undurchsichtiges Weiß
+  Debug RGBA(255, 255, 255, 255) ; VÃ¶llig undurchsichtiges WeiÃŸ
 @EndCode 
  
 @Example 24-Bit-Farbe in 32-Bit-Farbe
@@ -198,7 +200,7 @@
   Color32.q = RGBA(Red(Color24), Green(Color24), Blue(Color24), alpha) 
   Color32 = Color32 & $FFFFFFFF ; Nullen unbenutzter Bytes
 
-  ; Es ist auch möglich, die zwei vorherigen Zeilen hiermit zu ersetzen:
+  ; Es ist auch mÃ¶glich, die zwei vorherigen Zeilen hiermit zu ersetzen:
   ; Color32 = Color24 | Alpha << 24
   
   Debug "Red " + Red(Color32)
@@ -217,7 +219,7 @@
 @Function Farbe = AlphaBlend(Farbe1, Farbe2)
 
 @Description
-  Gibt die aus dem Vermischen der beiden 32 Bit-Farben resultierende 32 Bit-Farbe zurück.
+  Gibt die aus dem Vermischen der beiden 32 Bit-Farben resultierende 32 Bit-Farbe zurÃ¼ck.
   
 @Parameter "Farbe1"
   Die im Vordergrund befindliche Farbe. Diese wird auf die 'Farbe2' gemischt
@@ -227,11 +229,11 @@
   Die im Hintergrund befindliche Farbe.
 
 @ReturnValue
-  Gibt die kombinierte Farbe zurück.
+  Gibt die kombinierte Farbe zurÃ¼ck.
   
 @Remarks
   Die @@RGBA Funktion kann verwendet werden, um 32 Bit-Farben mit Alpha-Transparenz zu erstellen.
-  Diese Funktionen sind nützlich für die Ausführung von @LibraryLink "2ddrawing" "Zeichenoperationen".
+  Diese Funktionen sind nÃ¼tzlich fÃ¼r die AusfÃ¼hrung von @LibraryLink "2ddrawing" "Zeichenoperationen".
   
 @SeeAlso
   @@RGBA
@@ -243,16 +245,16 @@
 @Function BackColor(Farbe)
 
 @Description
-  Definiert die standardmäßige Hintergrundfarbe für alle Grafikfunktionen und
+  Definiert die standardmÃ¤ÃŸige Hintergrundfarbe fÃ¼r alle Grafikfunktionen und
   die Textanzeige.
   
 @Parameter "Farbe"
   Die neue Farbe, welche als Hintergrundfarbe verwendet werden soll.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
-  Ob der Alpha-Kanal verwendet wird oder nicht, hängt vom @Link "DrawingMode" "Zeichenmodus" ab.
+  Ob der Alpha-Kanal verwendet wird oder nicht, hÃ¤ngt vom @Link "DrawingMode" "Zeichenmodus" ab.
 @LineBreak
 @LineBreak
-  Eine Farbtabelle mit gebräuchlichen Farben ist @ReferenceLink "colortable" "hier" verfügbar.
+  Eine Farbtabelle mit gebrÃ¤uchlichen Farben ist @ReferenceLink "colortable" "hier" verfÃ¼gbar.
 
 @NoReturnValue
 
@@ -263,18 +265,18 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Box(x, y, Breite, Höhe [, Farbe])
+@Function Box(x, y, Breite, HÃ¶he [, Farbe])
 
 @Description
-  Zeichnet einen Kasten (eine Box) in der angegebenen Größe auf dem aktuellen Ausgabekanal.
-  Der Füllmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
+  Zeichnet einen Kasten (eine Box) in der angegebenen GrÃ¶ÃŸe auf dem aktuellen Ausgabekanal.
+  Der FÃ¼llmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt. 
 
-@Parameter "x, y, Breite, Höhe"
-  Die Position und die Größe des Kastens im aktuellen Ausgabekanal.
+@Parameter "x, y, Breite, HÃ¶he"
+  Die Position und die GrÃ¶ÃŸe des Kastens im aktuellen Ausgabekanal.
 
 @OptionalParameter "Farbe"
-  Die für den Kasten zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Kasten zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -310,21 +312,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function RoundBox(x, y, Breite, Höhe, RundungX, RundungY [, Farbe])
+@Function RoundBox(x, y, Breite, HÃ¶he, RundungX, RundungY [, Farbe])
 
 @Description
-  Zeichnet einen Kasten mit abgerundeten Ecken ("RoundBox" = Rundbox) in der angegebenen Größe auf dem aktuellen Ausgabekanal.
-  Der Füllmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
+  Zeichnet einen Kasten mit abgerundeten Ecken ("RoundBox" = Rundbox) in der angegebenen GrÃ¶ÃŸe auf dem aktuellen Ausgabekanal.
+  Der FÃ¼llmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt. 
 
-@Parameter "x, y, Breite, Höhe"
-  Die Position und die Größe des Kastens im aktuellen Ausgabekanal.
+@Parameter "x, y, Breite, HÃ¶he"
+  Die Position und die GrÃ¶ÃŸe des Kastens im aktuellen Ausgabekanal.
 
 @Parameter "RoundX, RoundY"
   Der Radius der abgerundeten Ecken in X- und Y-Richtung.
 
 @OptionalParameter "Farbe"
-  Die für den abgerundeten Kasten zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den abgerundeten Kasten zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -364,7 +366,7 @@
 
 @Description
   Zeichnet einen Kreis auf dem aktuellen Ausgabekanal.
-  Der Füllmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
+  Der FÃ¼llmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt. 
 
 @Parameter "x, y"
@@ -374,7 +376,7 @@
   Der Radius des Kreises. Dieser Radius beinhaltet nicht den Mittelpunkt (mittlerer Pixel).
 
 @OptionalParameter "Farbe"
-  Die für den Kreis zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Kreis zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -409,11 +411,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawImage(ImageID, x, y [, NeueBreite, NeueHöhe])  
+@Function DrawImage(ImageID, x, y [, NeueBreite, NeueHÃ¶he])  
 
 @Description
   Zeichnet ein Bild auf den aktuellen Ausgabekanal.
-  Der Füllmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
+  Der FÃ¼llmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt. 
 
 @Parameter "ImageID"
@@ -424,9 +426,9 @@
 @Parameter "x, y"
   Die Position der linken oberen Ecke des Bildes auf dem Ausgabekanal.
 
-@OptionalParameter "NeueBreite, NeueHöhe"
-  Das Bild wird auf die angegebene Größe angepasst und dann gezeichnet. Werden diese Parameter nicht
-  angegeben, dann wird das Bild in seiner Original-Größe gezeichnet.
+@OptionalParameter "NeueBreite, NeueHÃ¶he"
+  Das Bild wird auf die angegebene GrÃ¶ÃŸe angepasst und dann gezeichnet. Werden diese Parameter nicht
+  angegeben, dann wird das Bild in seiner Original-GrÃ¶ÃŸe gezeichnet.
 
 @NoReturnValue
 
@@ -438,9 +440,9 @@
   verwendet werden.
   @LineBreak
   @LineBreak
-  Eine Reihe von Backends (einschließlich @@WindowOutput unter Linux) können den
+  Eine Reihe von Backends (einschlieÃŸlich @@WindowOutput unter Linux) kÃ¶nnen den
   Alphakanal beim Zeichnen von Bildern nicht ignorieren. DrawImage() entspricht dort also
-  @@DrawAlphaImage. Wenn Sie konsistente Ergebnisse wünschen, verwenden Sie einfach
+  @@DrawAlphaImage. Wenn Sie konsistente Ergebnisse wÃ¼nschen, verwenden Sie einfach
   @@DrawAlphaImage, das auf allen Backends dieselbe Ausgabe erzeugen sollte.
   
 @SeeAlso
@@ -455,7 +457,7 @@
 @Description
   Zeichnet ein Bild auf den aktuellen Ausgabekanal mittels Alpha-Blending (d.h.
   gemischt mit dem Zeichen-Hintergrund).
-  Der Füllmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
+  Der FÃ¼llmodus wird vom Zeichenmodus @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt. 
 
 @Parameter "ImageID"
@@ -467,19 +469,19 @@
   Die Position der linken oberen Ecke des Bildes auf dem Ausgabekanal.
 
 @OptionalParameter "KonstAlpha"
-  Der Grad der zusätzlichen Transparenz, welche beim Zeichnen auf das Bild
-  angewendet werden soll. Der Wert kann zwischen 0 (völlig transparent) bis 255
-  (völlig undurchsichtig) liegen. Auch Bilder, die selbst keinen Alphakanal haben,
-  können auf diese Weise mit Transparenz gezeichnet werden.
+  Der Grad der zusÃ¤tzlichen Transparenz, welche beim Zeichnen auf das Bild
+  angewendet werden soll. Der Wert kann zwischen 0 (vÃ¶llig transparent) bis 255
+  (vÃ¶llig undurchsichtig) liegen. Auch Bilder, die selbst keinen Alphakanal haben,
+  kÃ¶nnen auf diese Weise mit Transparenz gezeichnet werden.
 
 @NoReturnValue
 
 @Remarks
-  Dieser Befehl arbeitet auf allen Zeichenkanälen - auch denen, die beim Zeichenmodus
-  @@DrawingMode keine Alpha-Blending Flags unterstützen.
-  Das Bild wird in seiner Original-Größe gezeichnet.
-  @@ResizeImage kann verwendet werden, um die Größe
-  eines Bildes zu ändern.
+  Dieser Befehl arbeitet auf allen ZeichenkanÃ¤len - auch denen, die beim Zeichenmodus
+  @@DrawingMode keine Alpha-Blending Flags unterstÃ¼tzen.
+  Das Bild wird in seiner Original-GrÃ¶ÃŸe gezeichnet.
+  @@ResizeImage kann verwendet werden, um die GrÃ¶ÃŸe
+  eines Bildes zu Ã¤ndern.
   
 @OS Windows
   @LineBreak
@@ -497,34 +499,34 @@
 @Function *Puffer = DrawingBuffer()  
 
 @Description
-  Gibt den Zeichenpuffer ("DrawingBuffer") für direkte
-  Pixel-Manipulation zurück.
+  Gibt den Zeichenpuffer ("DrawingBuffer") fÃ¼r direkte
+  Pixel-Manipulation zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den Zeiger ("Pointer") der Pixel-Daten zurück, wenn direkter Zugriff möglich ist,
+  Gibt den Zeiger ("Pointer") der Pixel-Daten zurÃ¼ck, wenn direkter Zugriff mÃ¶glich ist,
   oder Null, wenn auf die Pixel-Daten nicht direkt zugegriffen werden kann.
 
 @Remarks
   Diese Funktion muss erneut aufgerufen werden, wenn andere Befehle dieser Befehls-Bibliothek
   seit der letzten Pixel-Manipulation verwendet wurden. Sobald @@StopDrawing aufgerufen wurde,
-  wird der Puffer ungültig und kann nicht mehr verwendet werden.
+  wird der Puffer ungÃ¼ltig und kann nicht mehr verwendet werden.
 @LineBreak
 @LineBreak
-  Dieser Befehl ist nur für fortgeschrittene Programmierer. Um weitere Informationen über den
-  Zeichenbuffer zu erhalten, stehen Ihnen die folgenden Befehle zur Verfügung:
+  Dieser Befehl ist nur fÃ¼r fortgeschrittene Programmierer. Um weitere Informationen Ã¼ber den
+  Zeichenbuffer zu erhalten, stehen Ihnen die folgenden Befehle zur VerfÃ¼gung:
   @@DrawingBufferPixelFormat und @@DrawingBufferPitch.
 @LineBreak
 @LineBreak
-  Die zurückgegebene Adresse kann sich direkt im Videospeicher befinden, wenn die Ausgabe
+  Die zurÃ¼ckgegebene Adresse kann sich direkt im Videospeicher befinden, wenn die Ausgabe
   auf @@ScreenOutput oder @@SpriteOutput
   erfolgt, und erlaubt sehr schnelle Pixel-Manipulation.
-  Mit @@ImageOutput ermöglicht dieser Befehl direkten Zugriff auf die
+  Mit @@ImageOutput ermÃ¶glicht dieser Befehl direkten Zugriff auf die
   Pixel des Ziel-Bildes.
 
 @Example
-  Für ein Beispiel, wie der Zeichenbuffer zum Erstellen schöner Grafikeffekte genutzt werden kann,
+  FÃ¼r ein Beispiel, wie der Zeichenbuffer zum Erstellen schÃ¶ner Grafikeffekte genutzt werden kann,
   werfen Sie einen Blick auf das:
   @ExampleFile All DirectScreenDrawing.pb
 
@@ -538,13 +540,13 @@
 @Function Ergebnis = DrawingBufferPitch()  
 
 @Description
-  Gibt die tatsächliche Länge einer Zeile des aktuellen Zeichenbuffers zurück. 
+  Gibt die tatsÃ¤chliche LÃ¤nge einer Zeile des aktuellen Zeichenbuffers zurÃ¼ck. 
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Länge in Bytes von einer Zeile in der Ausgabe zurück, einschließlich jedes
-  zusätzlichen "Paddings" (Auffüllen) hinter den Pixel-Daten einer Zeile.
+  Gibt die LÃ¤nge in Bytes von einer Zeile in der Ausgabe zurÃ¼ck, einschlieÃŸlich jedes
+  zusÃ¤tzlichen "Paddings" (AuffÃ¼llen) hinter den Pixel-Daten einer Zeile.
 
 @Remarks
   @@DrawingBuffer muss vor dem Verwenden dieser Funktion aufgerufen werden.
@@ -559,7 +561,7 @@
 @Function Ergebnis = DrawingBufferPixelFormat()
 
 @Description
-  Gibt das Pixel-Format des aktuellen Ausgabekanals zurück.
+  Gibt das Pixel-Format des aktuellen Ausgabekanals zurÃ¼ck.
 
 @NoParameters
 
@@ -608,7 +610,7 @@
 @Function DrawingFont(FontID)  
 
 @Description
-  Ändert den Zeichensatz für die Text-Darstellung auf dem aktuellen Ausgabekanal.
+  Ã„ndert den Zeichensatz fÃ¼r die Text-Darstellung auf dem aktuellen Ausgabekanal.
 
 @Parameter "FontID"
   Der zu verwendende Zeichensatz.
@@ -631,7 +633,7 @@
 @Function DrawingMode(Modus)
 
 @Description
-  Ändert den Zeichenmodus für die Text- und Grafikausgabe.
+  Ã„ndert den Zeichenmodus fÃ¼r die Text- und Grafikausgabe.
 
 @Parameter "Modus"
   Das Verhalten der weiteren Zeichen-Operationen. 
@@ -642,9 +644,9 @@
   @#PB_2DDrawing_Default
 @Indent
   Dies ist der Standard-Zeichenmodus, wenn das Zeichnen beginnt.
-  Text wird mit festem Hintergrund dargestellt und Grafikflächen werden ausgefüllt.
-  Wenn die aktuelle Ausgabe einen Alpha-Kanal hat, verändern die Zeichen-Operationen nur 
-  die Farb-Bestandteile und lassen den Alpha-Kanal unverändert.
+  Text wird mit festem Hintergrund dargestellt und GrafikflÃ¤chen werden ausgefÃ¼llt.
+  Wenn die aktuelle Ausgabe einen Alpha-Kanal hat, verÃ¤ndern die Zeichen-Operationen nur 
+  die Farb-Bestandteile und lassen den Alpha-Kanal unverÃ¤ndert.
   @LineBreak
   @Image PB_2DDrawing_Default.png
 @EndIndent
@@ -659,8 +661,15 @@
   @#PB_2DDrawing_NativeText
 @Indent
   Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText die native
-  Textausgabe, um eine Gadget-ähnliche Textwiedergabe zu ermöglichen.
-  Alle Spezialeffekte wie XOR, AlphaBlend, CustomFilters usw. sind in diesem Modus nicht verfügbar.
+  Textausgabe, um eine Gadget-Ã¤hnliche Textwiedergabe zu ermÃ¶glichen.
+  Alle Spezialeffekte wie XOR, AlphaBlend, CustomFilters usw. sind in diesem Modus nicht verfÃ¼gbar.
+@EndIndent
+
+  @#PB_2DDrawing_FastText
+@Indent
+  Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText die native
+  Wenn dieses Flag gesetzt ist, verwenden die Befehle @@DrawText und @@DrawRotatedText eine schnellere
+  Textrendering-Methode, jedoch mit weniger prÃ¤ziser Unicode-UnterstÃ¼tzung (nur Windows).
 @EndIndent
 
   @#PB_2DDrawing_XOr
@@ -676,14 +685,14 @@
 
   @#PB_2DDrawing_Outlined
 @Indent
-  Wenn dieser Flag gesetzt ist, dann werden Flächen nur mit ihren Umrissen gezeichnet und nicht ausgefüllt.
+  Wenn dieser Flag gesetzt ist, dann werden FlÃ¤chen nur mit ihren Umrissen gezeichnet und nicht ausgefÃ¼llt.
   Dies trifft auf Befehle wie @Link "Circle" "Circle", @Link "Box" "Box", etc. zu.
   @LineBreak
   @Image PB_2DDrawing_Outlined.png
 @EndIndent
 
 @Bold "Hinweis:" Die folgenden Modi arbeiten nur mit @@ImageOutput, @@CanvasOutput und @@SpriteOutput.
-  Sie werden bei allen anderen Ausgabekanälen ignoriert:
+  Sie werden bei allen anderen AusgabekanÃ¤len ignoriert:
 @LineBreak
 @LineBreak
 
@@ -706,15 +715,15 @@
 
   @#PB_2DDrawing_AlphaChannel
 @Indent
-  Die Zeichenoperationen werden nur den Alpha-Kanal der Zeichenausgabe verändern. Alle Farbinformationen werden ignoriert.
+  Die Zeichenoperationen werden nur den Alpha-Kanal der Zeichenausgabe verÃ¤ndern. Alle Farbinformationen werden ignoriert.
   Zum Beispiel wird das Zeichnen eines @Link "Circle" "Kreises" mit einem Farbwert von @Link "2DDrawing/RGBA" "RGBA"(0, 0, 0, 0) 
-  ein Loch in die Zeichenausgabe "schneiden", indem der Kreis-Bereich vollständig transparent gemacht wird. Wenn die
+  ein Loch in die Zeichenausgabe "schneiden", indem der Kreis-Bereich vollstÃ¤ndig transparent gemacht wird. Wenn die
   Zeichenausgabe keinen Alpha-Kanal hat, wie beim @@CanvasGadget, dann wird in diesem Modus kein Zeichnen einen Effekt haben.
 @EndIndent
 
   @#PB_2DDrawing_AllChannels
 @Indent
-  Die Zeichenoperationen werden die Farb-Kanäle und den Alpha-Kanal der Zeichenausgabe verändern. Der Inhalt der Kanäle
+  Die Zeichenoperationen werden die Farb-KanÃ¤le und den Alpha-Kanal der Zeichenausgabe verÃ¤ndern. Der Inhalt der KanÃ¤le
   wird ohne jegliches Vermischen ("Blending") durch die Zeichenoperation ersetzt. Das Zeichnen in diesem Modus hat den
   gleichen Effekt, wie zuerst mittels dem @#PB_2DDrawing_Default Modus zu zeichnen, und dann nochmals
   die gleiche Zeichenoperation mittels dem @#PB_2DDrawing_AlphaChannel Modus.
@@ -726,11 +735,11 @@
 
   @#PB_2DDrawing_Gradient
 @Indent
-  Dieser Modus ermöglicht das Zeichnen mit einem Farbverlauf (englisch "Gradient") anstelle einer festen Farbe.
+  Dieser Modus ermÃ¶glicht das Zeichnen mit einem Farbverlauf (englisch "Gradient") anstelle einer festen Farbe.
   Die Farbverlaufs-Form kann mit Befehlen wie @@LinearGradient, @@CircularGradient 
-  etc. definiert werden, und die im Farbverlauf verwendeten Farben können mittels @@GradientColor
-  festgelegt werden. Die an die einzelnen Zeichen-Befehle übergebenen Farb-Parameter werden in diesem Modus ignoriert.
-  Dieser Modus kann mit den obigen Alpha-Kanal Modi kombiniert werden, um Farbverläufe mit halb-transparenten Farben
+  etc. definiert werden, und die im Farbverlauf verwendeten Farben kÃ¶nnen mittels @@GradientColor
+  festgelegt werden. Die an die einzelnen Zeichen-Befehle Ã¼bergebenen Farb-Parameter werden in diesem Modus ignoriert.
+  Dieser Modus kann mit den obigen Alpha-Kanal Modi kombiniert werden, um FarbverlÃ¤ufe mit halb-transparenten Farben
   zu erhalten.
   @LineBreak
   @Image PB_2DDrawing_Gradient.png
@@ -739,9 +748,9 @@
   @#PB_2DDrawing_CustomFilter
 @Indent
   In diesem Modus kann das Zeichnen der Pixel durch eine benutzerdefinierte ("custom") Prozedur mittels
-  @@CustomFilterCallback definiert werden. Dies ermöglicht die 
-  Implementierung von benutzerdefinierten Zeicheneffekten, während trotzdem noch die Standard-Funktionen
-  für das aktuelle Zeichnen verwendet werden.
+  @@CustomFilterCallback definiert werden. Dies ermÃ¶glicht die 
+  Implementierung von benutzerdefinierten Zeicheneffekten, wÃ¤hrend trotzdem noch die Standard-Funktionen
+  fÃ¼r das aktuelle Zeichnen verwendet werden.
   @LineBreak
   @Image customfilter.png  
 @EndIndent
@@ -749,8 +758,8 @@
 @NoReturnValue
 
 @Remarks
-  Um mehrere Modi auf einmal zu nutzen, müssen Sie den '|' (OR) Operator verwenden. Das folgende ist ein
-  Beispiel für umrissene Flächen, die im XOR-Modus verschmolzen werden:
+  Um mehrere Modi auf einmal zu nutzen, mÃ¼ssen Sie den '|' (OR) Operator verwenden. Das folgende ist ein
+  Beispiel fÃ¼r umrissene FlÃ¤chen, die im XOR-Modus verschmolzen werden:
 @Code
   DrawingMode(#PB_2DDrawing_Outlined | #PB_2DDrawing_XOr)
 @EndCode
@@ -765,7 +774,7 @@
 @Function DrawRotatedText(x.d, y.d, Text$, Winkel.f [, Farbe])
 
 @Description
-  Zeigt den angegebenen Text auf der aktuellen Ausgabe im angegebenen Winkel an. Um eine Gadget-ähnliche
+  Zeigt den angegebenen Text auf der aktuellen Ausgabe im angegebenen Winkel an. Um eine Gadget-Ã¤hnliche
   Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText verwendet werden.
 
 @Parameter "x.d, y.d"
@@ -780,7 +789,7 @@
   von der normalen @Link "DrawText" "Text-Richtung". 
 
 @OptionalParameter "Farbe"
-  Die für den Text zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Text zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
   Der Hintergrund des gedrehten Textes ist immer transparent.
@@ -815,28 +824,28 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FillArea(x, y, RandFarbe [, FüllFarbe])
+@Function FillArea(x, y, RandFarbe [, FÃ¼llFarbe])
 
 @Description
-  Füllt eine beliebige Fläche ausgehend von der Position 'x, y' bis zum Auftreten
-  der 'RandFarbe'. Dies ist nützlich, um beliebige Arten von Formen zu füllen.
+  FÃ¼llt eine beliebige FlÃ¤che ausgehend von der Position 'x, y' bis zum Auftreten
+  der 'RandFarbe'. Dies ist nÃ¼tzlich, um beliebige Arten von Formen zu fÃ¼llen.
 
 @Parameter "x, y"
-  Die Position, an der das Füllen starten soll.
+  Die Position, an der das FÃ¼llen starten soll.
 
 @Parameter "RandFarbe"
-  Die Randfarbe, an der das Ausfüllen enden soll.
+  Die Randfarbe, an der das AusfÃ¼llen enden soll.
 @LineBreak
-  Wenn dieser Parameter auf -1 gesetzt wird, dann wird die Fläche definiert von
-  der an den (x,y) Koordinaten gefundenen Farbe gefüllt, und das Füllen stoppt
+  Wenn dieser Parameter auf -1 gesetzt wird, dann wird die FlÃ¤che definiert von
+  der an den (x,y) Koordinaten gefundenen Farbe gefÃ¼llt, und das FÃ¼llen stoppt
   an jeder Farbe, welche vom Ausgangspunkt abweicht.
 @LineBreak
 @LineBreak
   Bei 32Bit Bildern wird der  Alpha-Kanal ignoriert, wenn untersucht wird, ob ein Pixel
-  als Rand-Pixel zählt oder nicht.
+  als Rand-Pixel zÃ¤hlt oder nicht.
 
-@OptionalParameter "FüllFarbe"
-  Die für das Ausfüllen zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+@OptionalParameter "FÃ¼llFarbe"
+  Die fÃ¼r das AusfÃ¼llen zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -876,29 +885,29 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GrabDrawingImage(#Image, x, y, Breite, Höhe)
+@Function Ergebnis = GrabDrawingImage(#Image, x, y, Breite, HÃ¶he)
 
 @Description
   Erstellt ein neues Bild (englisch "Image) mit dem Inhalt des angegebenen Bereichs in der aktuellen Ausgabe.
 
 @Parameter "#Image"
   Die Nummer des neu zu erstellenden Bildes.
-  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um automatisch eine Nummer auszuwählen.
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um automatisch eine Nummer auszuwÃ¤hlen.
 
-@Parameter "x, y, Breite, Höhe"
-  Die Position und die Größe des Bereiches, welcher in das neue Bild kopiert werden soll.
-  Das neue Bild wird mit der angegebenen Breite und Höhe erstellt.
+@Parameter "x, y, Breite, HÃ¶he"
+  Die Position und die GrÃ¶ÃŸe des Bereiches, welcher in das neue Bild kopiert werden soll.
+  Das neue Bild wird mit der angegebenen Breite und HÃ¶he erstellt.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null bei Erfolg zurück, und Null bei einem Fehler.
+  Gibt einen Wert ungleich Null bei Erfolg zurÃ¼ck, und Null bei einem Fehler.
   Falls @#PB_Any als '#Image' Parameter verwendet wurde, dann wird die
-  Nummer des neuen Bildes zurückgegeben.
+  Nummer des neuen Bildes zurÃ¼ckgegeben.
 
 @Remarks
   Dieser Befehl arbeitet nicht mit @@PrinterOutput.
 @LineBreak
 @LineBreak
-  Jegliche Teile des angegebenen Bereichs, welche außerhalb der Zeichenausgabe liegen, werden 
+  Jegliche Teile des angegebenen Bereichs, welche auÃŸerhalb der Zeichenausgabe liegen, werden 
   im erstellten Bild undefiniert sein. Auch wenn die aktuelle Ausgabe 
   @@WindowOutput ist, kann jeder derzeit unsichtbare Bereich
   im resultierenden Bild undefiniert sein.
@@ -913,7 +922,7 @@
 @Function Ergebnis = StartDrawing(OutputID) 
 
 @Description
-  Ändert die aktuelle Ausgabe auf den angegebenen Ausgabekanal. Nachdem dieser
+  Ã„ndert die aktuelle Ausgabe auf den angegebenen Ausgabekanal. Nachdem dieser
   festgelegt wurde, werden alle Zeichenoperationen darauf ausgegeben. 
 
 @Parameter "OutputID"
@@ -923,9 +932,9 @@
 @LineBreak
   @@WindowOutput: Grafiken werden direkt auf dem Fenster gerendert
 @LineBreak
-  @@ScreenOutput: Grafiken werden direkt auf dem Bildschirm gerendert (für Spiele)
+  @@ScreenOutput: Grafiken werden direkt auf dem Bildschirm gerendert (fÃ¼r Spiele)
 @LineBreak
-  @@SpriteOutput: Grafiken werden direkt auf dem Sprite gerendert (für Spiele)
+  @@SpriteOutput: Grafiken werden direkt auf dem Sprite gerendert (fÃ¼r Spiele)
 @LineBreak
   @@ImageOutput: Grafiken werden direkt in die Bilddaten gerendert (siehe @@CreateImage)
 @LineBreak
@@ -933,15 +942,15 @@
 @LineBreak
   @@CanvasOutput: Grafiken werden direkt auf das @@CanvasGadget gerendert
 @LineBreak
-  @@TextureOutput: Grafiken werden direkt auf eine Textur gerendert (für 3D-Spiele)
+  @@TextureOutput: Grafiken werden direkt auf eine Textur gerendert (fÃ¼r 3D-Spiele)
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Zeichnen möglich ist - oder Null, wenn die
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Zeichnen mÃ¶glich ist - oder Null, wenn die
   Operation fehlschlug.
 
 @Remarks
-  Die Hintergrundfarbe wird standardmäßig auf schwarz (d.h. RGB(0, 0, 0)) und die Vordergrundfarbe
-  auf weiß (d.h. RGB(255, 255, 255)) gesetzt.
+  Die Hintergrundfarbe wird standardmÃ¤ÃŸig auf schwarz (d.h. RGB(0, 0, 0)) und die Vordergrundfarbe
+  auf weiÃŸ (d.h. RGB(255, 255, 255)) gesetzt.
 @LineBreak
 @LineBreak
   Sobald alle Zeichenoperationen abgeschlossen wurden, muss @@StopDrawing
@@ -950,7 +959,7 @@
 @LineBreak
   Wenn "Erstelle threadsicheres Executable" in den @ReferenceLink "ide_compiler" "Compiler-Optionen"
   aktiviert ist, dann hat jeder Thread seine eigene aktuelle Zeichenausgabe. Dies bedeutet, dass
-  zwei Threads zur gleichen Zeit auf verschiedene Ausgaben zeichnen können.
+  zwei Threads zur gleichen Zeit auf verschiedene Ausgaben zeichnen kÃ¶nnen.
 
 @SeeAlso
   @@StopDrawing
@@ -964,7 +973,7 @@
 @Description
   Stellt den angegebenen String auf dem aktuellen Ausgabekanal an der angegebenen (x,y) 
   Position dar. Der aktuelle Ausgabekanal wird mittels @@StartDrawing definiert.
-  Um eine Gadget-ähnliche Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText
+  Um eine Gadget-Ã¤hnliche Textausgabe zu erhalten, kann der Zeichenmodus @#PB_2DDrawing_NativeText
   verwendet werden.
 
 @Parameter "x.d, y.d"
@@ -974,12 +983,12 @@
   Der zu zeichnende Text.
 
 @OptionalParameter "VordergrundFarbe"
-  Die für den Text zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Text zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mit @@FrontColor festgelegte Standardfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
 @OptionalParameter "HintergrundFarbe"
-  Die für den Hintergrund zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Hintergrund zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mit @@BackColor festgelegte Standardfarbe verwendet.
 @LineBreak
 @LineBreak
@@ -987,7 +996,7 @@
   Flag beinhaltet, dann wird dieser Parameter ignoriert und der Hintergrund ist transparent.
   
 @ReturnValue
-  Gibt die neue x-Position des Text-Cursors zurück (d.h. die Position direkt nach dem gezeichneten Text).
+  Gibt die neue x-Position des Text-Cursors zurÃ¼ck (d.h. die Position direkt nach dem gezeichneten Text).
 
 @Remarks
   Wenn @@DrawingMode auf nicht transparenten Hintergrund 
@@ -1027,7 +1036,7 @@
 
 @Description
   Zeichnet eine Ellipse in den aktuellen Ausgabekanal.
-  Der Füllmodus wird vom @@DrawingMode bestimmt.
+  Der FÃ¼llmodus wird vom @@DrawingMode bestimmt.
   Der aktuelle Ausgabekanal wird mittels @@StartDrawing festgelegt.
 
 @Parameter "x, y"
@@ -1038,7 +1047,7 @@
   in diesen Werten nicht enthalten.
 
 @OptionalParameter "Farbe"
-  Die für die Ellipse zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r die Ellipse zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -1076,16 +1085,16 @@
 @Function FrontColor(Farbe)
 
 @Description
-  Definiert die standardmäßige Zeichenfarbe für alle Grafikfunktionen und
+  Definiert die standardmÃ¤ÃŸige Zeichenfarbe fÃ¼r alle Grafikfunktionen und
   die Textanzeige.
 
 @Parameter "Farbe"
   Die neue Farbe, welche als Vordergrund-Farbe verwendet werden soll.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
-  Ob der Alpha-Kanal verwendet wird oder nicht, hängt vom @Link "DrawingMode" "Zeichenmodus" ab.
+  Ob der Alpha-Kanal verwendet wird oder nicht, hÃ¤ngt vom @Link "DrawingMode" "Zeichenmodus" ab.
 @LineBreak
 @LineBreak
-  Eine Farbtabelle mit gebräuchlichen Farben finden Sie @ReferenceLink "colortable" "hier".
+  Eine Farbtabelle mit gebrÃ¤uchlichen Farben finden Sie @ReferenceLink "colortable" "hier".
 
 @NoReturnValue
 
@@ -1096,7 +1105,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Line(x, y, Breite, Höhe [, Farbe])) 
+@Function Line(x, y, Breite, HÃ¶he [, Farbe])) 
 
 @Description
   Zeichnet eine Linie mit den angegebenen Dimensionen in den aktuellen Ausgabekanal.
@@ -1105,13 +1114,13 @@
 @Parameter "x, y"
   Der Startpunkt der zu zeichnenden Linie.
 
-@Parameter "Breite, Höhe"
+@Parameter "Breite, HÃ¶he"
   Die Dimension der zu zeichnenden Linie. Diese Werte beinhalten den Startpunkt der
-  Linie, daher wird bei einer Höhe von 1 eine horizontale Linie gezeichnet, während bei einer
-  Höhe von 0 gar nichts gezeichnet wird.
+  Linie, daher wird bei einer HÃ¶he von 1 eine horizontale Linie gezeichnet, wÃ¤hrend bei einer
+  HÃ¶he von 0 gar nichts gezeichnet wird.
 
 @OptionalParameter "Farbe"
-  Die für die Linie zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r die Linie zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -1163,14 +1172,14 @@
   Die Position des Endpunktes der Linie.
 
 @OptionalParameter "Farbe"
-  Die für die Linie zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r die Linie zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
 @NoReturnValue
 
 @Remarks
-  Um eine Linie unter Angabe ihrer Start-Koordinanten und ihrer Größe zu zeichnen, kann die 
+  Um eine Linie unter Angabe ihrer Start-Koordinanten und ihrer GrÃ¶ÃŸe zu zeichnen, kann die 
   @@Line Funktion verwendet werden.
 
 @Example
@@ -1212,13 +1221,13 @@
   Die Position des zu zeichnenden Punktes.
 @LineBreak
 @LineBreak
-  Aus Geschwindigkeitsgründen findet bei diesen Koordinaten keine Überprüfung der Bereichsgrenzen
-  statt, die angegebenen Koordinaten müssen sich innerhalb des aktuellen Zeichenbereichs befinden.
-  @@OutputWidth und @@OutputHeight können verwendet werden, um dies zu überprüfen.
+  Aus GeschwindigkeitsgrÃ¼nden findet bei diesen Koordinaten keine ÃœberprÃ¼fung der Bereichsgrenzen
+  statt, die angegebenen Koordinaten mÃ¼ssen sich innerhalb des aktuellen Zeichenbereichs befinden.
+  @@OutputWidth und @@OutputHeight kÃ¶nnen verwendet werden, um dies zu Ã¼berprÃ¼fen.
   Dieser Befehl ist auch nicht vom Clipping (Beschneidung) mittels @@ClipOutput betroffen.
   
 @OptionalParameter "Farbe"
-  Die für den Punkt zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
+  Die fÃ¼r den Punkt zu verwendende Farbe. Wenn dieser Parameter nicht angegeben wird,
   dann wird die mittels @@FrontColor festgelegte Standard-Zeichenfarbe verwendet.
   Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
 
@@ -1253,19 +1262,19 @@
 @Function Farbe = Point(x, y)
 
 @Description
-  Gibt die Farbe eines Punktes (Pixel) im aktuellen Ausgabekanal zurück.
+  Gibt die Farbe eines Punktes (Pixel) im aktuellen Ausgabekanal zurÃ¼ck.
 
 @Parameter "x, y"
   Die Position des Punktes im Ausgabekanal.
 @LineBreak
 @LineBreak
-  Aus Geschwindigkeitsgründen findet bei diesen Koordinaten keine Überprüfung der Bereichsgrenzen
-  statt, die angegebenen Koordinaten müssen sich innerhalb des aktuellen Zeichenbereichs befinden.
-  @@OutputWidth und @@OutputHeight können verwendet werden, um dies zu überprüfen.
+  Aus GeschwindigkeitsgrÃ¼nden findet bei diesen Koordinaten keine ÃœberprÃ¼fung der Bereichsgrenzen
+  statt, die angegebenen Koordinaten mÃ¼ssen sich innerhalb des aktuellen Zeichenbereichs befinden.
+  @@OutputWidth und @@OutputHeight kÃ¶nnen verwendet werden, um dies zu Ã¼berprÃ¼fen.
   Dieser Befehl ist auch nicht von @@ClipOutput Aufrufen betroffen.
 
 @ReturnValue
-  Gibt die Farbe des angegebenen Punktes zurück.
+  Gibt die Farbe des angegebenen Punktes zurÃ¼ck.
 @LineBreak
 @LineBreak
   Diese Farbe wird nur dann Alpha-Informationen enthalten, wenn die Ausgabe eine
@@ -1286,9 +1295,9 @@
 @Function StopDrawing() 
 
 @Description
-  Sobald alle benötigten Grafik-Operationen (gestartet mit @@StartDrawing) 
-  durchgeführt wurden, muss dieser Befehl aufgerufen werden, um das Zeichnen abzuschließen und alle
-  zugehörigen Ressourcen freizugeben.
+  Sobald alle benÃ¶tigten Grafik-Operationen (gestartet mit @@StartDrawing) 
+  durchgefÃ¼hrt wurden, muss dieser Befehl aufgerufen werden, um das Zeichnen abzuschlieÃŸen und alle
+  zugehÃ¶rigen Ressourcen freizugeben.
 
 @NoParameters
 
@@ -1312,17 +1321,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe.d = TextHeight(Text$)  
+@Function HÃ¶he.d = TextHeight(Text$)  
 
 @Description
-  Ermittelt die Höhe des angegebenen String, der in der aktuellen Ausgabe und mittels
+  Ermittelt die HÃ¶he des angegebenen String, der in der aktuellen Ausgabe und mittels
   des aktuellen Zeichensatzes dargestellt wird. 
 
 @Parameter "Text$"
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Höhe des angegebenen Textes zurück.
+  Gibt die HÃ¶he des angegebenen Textes zurÃ¼ck.
 
 @SeeAlso
   @@TextWidth, @@DrawingFont
@@ -1341,7 +1350,7 @@
   Der zu messende Text.
 
 @ReturnValue
-  Gibt die Breite des angegebenen Textes zurück.
+  Gibt die Breite des angegebenen Textes zurÃ¼ck.
 
 @SeeAlso
   @@TextHeight, @@DrawingFont
@@ -1353,12 +1362,12 @@
 @Function Ergebnis = OutputDepth()
 
 @Description
-  Gibt die Farbtiefe der aktuellen Zeichenausgabe zurück.
+  Gibt die Farbtiefe der aktuellen Zeichenausgabe zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Farbtiefe in Bits pro Pixel zurück.
+  Gibt die Farbtiefe in Bits pro Pixel zurÃ¼ck.
 
 @SeeAlso 
   @@OutputWidth, @@OutputHeight
@@ -1370,12 +1379,12 @@
 @Function Ergebnis = OutputWidth()
 
 @Description
-  Gibt die Breite der aktuellen Zeichenausgabe zurück.
+  Gibt die Breite der aktuellen Zeichenausgabe zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Breite der Ausgabe in Pixel zurück.
+  Gibt die Breite der Ausgabe in Pixel zurÃ¼ck.
 
 @SeeAlso
   @@OutputHeight, @@OutputDepth
@@ -1387,12 +1396,12 @@
 @Function Ergebnis = OutputHeight()
 
 @Description
-  Gibt die Höhe der aktuellen Zeichenausgabe zurück.
+  Gibt die HÃ¶he der aktuellen Zeichenausgabe zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die Höhe der Ausgabe in Pixel zurück.
+  Gibt die HÃ¶he der Ausgabe in Pixel zurÃ¼ck.
 
 @SeeAlso
   @@OutputWidth, @@OutputDepth
@@ -1404,7 +1413,7 @@
 @Function CustomFilterCallback(@FilterCallback())
 
 @Description
-  Bestimmt einen Callback, welcher für jeden Pixel aufgerufen wird, der Teil einer Zeichenoperation
+  Bestimmt einen Callback, welcher fÃ¼r jeden Pixel aufgerufen wird, der Teil einer Zeichenoperation
   im @#PB_2DDrawing_CustomFilter @Link "DrawingMode" "Zeichenmodus" ist.
 
 @Parameter "@FilterCallback()"
@@ -1419,12 +1428,12 @@
   EndProcedure
 @EndCode
 
-  Der Callback wird für jeden Pixel aufgerufen, der als Ergebnis eines Aufrufs von Zeichenfunktionen
+  Der Callback wird fÃ¼r jeden Pixel aufgerufen, der als Ergebnis eines Aufrufs von Zeichenfunktionen
   wie @@Line, @@Box oder @@DrawText gezeichnet wird.
   Der Parameter 'QuellFarbe' definiert die in der Zeichenoperation angegebene Farbe und der Parameter
   'ZielFarbe' definiert die Farbe des Zielpixels im Zeichenbereich. Beide Farben sind immer 32 Bit mit
-  Alpha-Kanal - unabhängig von der Farbtiefe der Ausgabe. Der Callback hat die Farbe zu berechnen,
-  die der Zielpixel nach dem Zeichnen haben soll, und diese zurückzugeben.
+  Alpha-Kanal - unabhÃ¤ngig von der Farbtiefe der Ausgabe. Der Callback hat die Farbe zu berechnen,
+  die der Zielpixel nach dem Zeichnen haben soll, und diese zurÃ¼ckzugeben.
 @LineBreak
 @LineBreak
   Die im Callback empfangenen x und y Koordinaten sind immer relativ zu oberen linken Ecke
@@ -1434,8 +1443,8 @@
 @NoReturnValue
 
 @Remarks
-  Dieser Callback wird sehr oft aufgerufen (für jeden zu zeichnenden Pixel), weshalb er sehr klein
-  und schnell sein sollte, um nicht zu große Auswirkungen auf die Zeichen-Performanz zu haben.
+  Dieser Callback wird sehr oft aufgerufen (fÃ¼r jeden zu zeichnenden Pixel), weshalb er sehr klein
+  und schnell sein sollte, um nicht zu groÃŸe Auswirkungen auf die Zeichen-Performanz zu haben.
 @LineBreak
 @LineBreak
   Hinweis: Der @#PB_2DDrawing_CustomFilter @Link "DrawingMode" "Zeichenmodus"
@@ -1444,7 +1453,7 @@
 @Example
 @Code
   Procedure FilterCallback(x, y, QuellFarbe.l, ZielFarbe.l)
-    ; Nehme nur die Rot-Komponente aus der Quelle, ändere nicht die anderen
+    ; Nehme nur die Rot-Komponente aus der Quelle, Ã¤ndere nicht die anderen
     ProcedureReturn RGBA(Red(QuellFarbe), Green(ZielFarbe), Blue(ZielFarbe), Alpha(ZielFarbe))
   EndProcedure
   
@@ -1484,11 +1493,11 @@
 @Function GradientColor(Position.f, Farbe)
 
 @Description
-  Fügt die angegebene Farbe an der angegebenen Position zum Spektrum des Farbverlaufs hinzu.
+  FÃ¼gt die angegebene Farbe an der angegebenen Position zum Spektrum des Farbverlaufs hinzu.
 
 @Parameter "Position.f"
   Die Position der Farbe im Farbverlauf.
-  Dies muss ein Fließkomma-Wert zwischen 0.0 und 1.0 sein.
+  Dies muss ein FlieÃŸkomma-Wert zwischen 0.0 und 1.0 sein.
 
 @Parameter "Farbe"
   Die zu verwendende Farbe.
@@ -1497,17 +1506,17 @@
 @NoReturnValue
 
 @Remarks
-  Standardmäßig reicht der Farbverlauf von der aktuellen @Link "BackColor" "Hintergrundfarbe" an der Position
-  0.0 bis zur aktuellen @Link "FrontColor" "Zeichenfarbe" an der Position 1.0. Mit diesem Befehl können zusätzliche
-  Farben dazwischen eingefügt oder die Farben an 0.0 und 1.0 überschrieben werden.
+  StandardmÃ¤ÃŸig reicht der Farbverlauf von der aktuellen @Link "BackColor" "Hintergrundfarbe" an der Position
+  0.0 bis zur aktuellen @Link "FrontColor" "Zeichenfarbe" an der Position 1.0. Mit diesem Befehl kÃ¶nnen zusÃ¤tzliche
+  Farben dazwischen eingefÃ¼gt oder die Farben an 0.0 und 1.0 Ã¼berschrieben werden.
 
 @LineBreak
 @LineBreak
   Der Befehl @@ResetGradientColors kann verwendet werden, um zum Standard-Farbverlauf
-  zurückzukehren.
+  zurÃ¼ckzukehren.
 @LineBreak
 @LineBreak
-  Die folgenden Befehle können verwendet werden, um die Form des Farbverlaufs zu definieren:
+  Die folgenden Befehle kÃ¶nnen verwendet werden, um die Form des Farbverlaufs zu definieren:
 @LineBreak
   - @@LinearGradient
 @LineBreak
@@ -1569,7 +1578,7 @@
 @Function ResetGradientColors()
 
 @Description
-  Entfernt alle Farben vom Farbverlauf und kehrt zurück zu einem Farbverlauf von der aktuellen
+  Entfernt alle Farben vom Farbverlauf und kehrt zurÃ¼ck zu einem Farbverlauf von der aktuellen
   @Link "BackColor" "Hintergrundfarbe" zur aktuellen @Link "FrontColor" "Zeichenfarbe".
 
 @NoParameters
@@ -1577,8 +1586,8 @@
 @NoReturnValue
 
 @Remarks
-  Der Befehl @@GradientColor kann verwendet werden, um zusätzliche Farben
-  zum Farbverlauf hinzuzufügen.
+  Der Befehl @@GradientColor kann verwendet werden, um zusÃ¤tzliche Farben
+  zum Farbverlauf hinzuzufÃ¼gen.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1609,7 +1618,7 @@
 @NoReturnValue
 
 @Remarks
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1657,7 +1666,7 @@
 @Function CircularGradient(x, y, Radius)
 
 @Description
-  Weist dem Farbverlauf eine kreisförmige Form zu.
+  Weist dem Farbverlauf eine kreisfÃ¶rmige Form zu.
   
 @Parameter "x, y"
   Die Position, welcher die aktuelle @Link "BackColor" "Hintergrund-Farbe" zugewiesen werden soll.
@@ -1668,7 +1677,7 @@
 @NoReturnValue
 
 @Remarks
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1716,7 +1725,7 @@
 @Function EllipticalGradient(x, y, RadiusX, RadiusY)
 
 @Description
-  Weist dem Farbverlauf eine ellipsenförmige Form zu.
+  Weist dem Farbverlauf eine ellipsenfÃ¶rmige Form zu.
 
 @Parameter "x, y"
   Die Position, welcher die aktuelle @Link "BackColor" "Hintergrund-Farbe" zugewiesen werden soll.
@@ -1727,7 +1736,7 @@
 @NoReturnValue
 
 @Remarks
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1772,7 +1781,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BoxedGradient(x, y, Breite, Höhe)
+@Function BoxedGradient(x, y, Breite, HÃ¶he)
 
 @Description
   Weist dem Farbverlauf eine rechteckige Form zu.
@@ -1785,7 +1794,7 @@
 @NoReturnValue
 
 @Remarks
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1833,21 +1842,21 @@
 @Function ConicalGradient(x, y, Winkel.f)
 
 @Description
-  Weist dem Farbverlauf eine kegelförmige Form zu.
+  Weist dem Farbverlauf eine kegelfÃ¶rmige Form zu.
 
 @Parameter "x, y"
-  Die mittlere Position des kegelförmigen Farbverlaufs.
+  Die mittlere Position des kegelfÃ¶rmigen Farbverlaufs.
 
 @Parameter "Angle.f"
   Der Winkel (in Grad), bei dem der Farbverlauf gestartet wird.
   Der Farbverlauf startet mit der aktuellen @Link "BackColor" "Hintergrundfarbe" am angegebenen Winkel
-  und ändert sich entgegen der Uhrzeigerrichtung dann bis zur aktuellen @Link "FrontColor" "Zeichenfarbe"
+  und Ã¤ndert sich entgegen der Uhrzeigerrichtung dann bis zur aktuellen @Link "FrontColor" "Zeichenfarbe"
   bis der Winkel erneut erreicht wird.
 
 @NoReturnValue
 
 @Remarks
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1905,14 +1914,14 @@
 @Code
   Procedure.f GradientCallback(x, y)
     ;
-    ; Gibt einen Wert zwischen 0.0 und 1.0 zurück, um den Farbverlauf für die x/y Position zu definieren.
+    ; Gibt einen Wert zwischen 0.0 und 1.0 zurÃ¼ck, um den Farbverlauf fÃ¼r die x/y Position zu definieren.
     ; 
     ProcedureReturn 1.0
   EndProcedure
 @EndCode
 
-  Der Callback wird für jeden Pixel aufgerufen, der Teil der Zeichenoperation ist.
-  Der Callback muss einen Wert zwischen 0.0 und 1.0 (keinen Farbwert) zurückgeben, um
+  Der Callback wird fÃ¼r jeden Pixel aufgerufen, der Teil der Zeichenoperation ist.
+  Der Callback muss einen Wert zwischen 0.0 und 1.0 (keinen Farbwert) zurÃ¼ckgeben, um
   den Farbverlaufs-Wert an der angegebenen Position zu definieren.
 @LineBreak
 @LineBreak
@@ -1923,13 +1932,13 @@
 @NoReturnValue
 
 @Remarks
-  Standmäßig repräsentiert der Wert 0.0 die aktuelle @Link "BackColor" "Hintergrundfarbe" und der Wert
-  1.0 repräsentiert die aktuelle @Link "FrontColor" "Zeichenfarbe".
-  Zusätzliche Farben können zum Farbverlauf mit dem Befehl @@GradientColor hinzugefügt werden.
+  StandmÃ¤ÃŸig reprÃ¤sentiert der Wert 0.0 die aktuelle @Link "BackColor" "Hintergrundfarbe" und der Wert
+  1.0 reprÃ¤sentiert die aktuelle @Link "FrontColor" "Zeichenfarbe".
+  ZusÃ¤tzliche Farben kÃ¶nnen zum Farbverlauf mit dem Befehl @@GradientColor hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Dieser Callback wird sehr oft aufgerufen (für jeden zu zeichnenden Pixel), weshalb er sehr klein
-  und schnell sein sollte, um nicht zu große Auswirkungen auf die Zeichen-Performanz zu haben.
+  Dieser Callback wird sehr oft aufgerufen (fÃ¼r jeden zu zeichnenden Pixel), weshalb er sehr klein
+  und schnell sein sollte, um nicht zu groÃŸe Auswirkungen auf die Zeichen-Performanz zu haben.
 @LineBreak
 @LineBreak
   Hinweis: Dieser Befehl hat nur eine Wirkung bei @@ImageOutput und @@CanvasOutput.
@@ -1982,20 +1991,20 @@
 @Description
   Legt einen Offset (Ausgangspunkt) fest, von dem aus die gesamten Zeichenoperationen
   in der aktuellen Ausgabe stattfinden. Dies definiert die Position der Koordinaten
-  (0, 0) innerhalb der Ausgabe für alle folgenden Zeichenbefehle. Standardmäßig
+  (0, 0) innerhalb der Ausgabe fÃ¼r alle folgenden Zeichenbefehle. StandardmÃ¤ÃŸig
   befindet sich der Offset in der linken oberen Ecke der Zeichenausgabe.
   
 @Parameter "x, y"
   Die neue Position des Zeichnungsursprungs ("drawing origin"). Dies ist eine absolute
-  Position und wird von keinerlei früheren Aufrufen dieser Funktion beeinflusst.
+  Position und wird von keinerlei frÃ¼heren Aufrufen dieser Funktion beeinflusst.
 
 @NoReturnValue
 
 @Remarks
-  Dieser Befehl beeinflusst die Lage aller künftigen Zeichenbefehle - mit Ausnahme des
+  Dieser Befehl beeinflusst die Lage aller kÃ¼nftigen Zeichenbefehle - mit Ausnahme des
   @@ClipOutput Befehls und des @@SetOrigin Befehls selbst. Auch die in einem
   @@CustomGradient oder @@CustomFilterCallback Callback empfangenen Koordinaten sind
-  immer absolut, unabhängig von jeglichen Aufrufen dieser Funktion.
+  immer absolut, unabhÃ¤ngig von jeglichen Aufrufen dieser Funktion.
 
 @Example
 @Code
@@ -2067,15 +2076,15 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClipOutput(x, y, Breite, Höhe)  
+@Function ClipOutput(x, y, Breite, HÃ¶he)  
 
 @Description
   Definiert einen Begrenzungsrahmen ("bounding box"), der die gesamten Zeichenoperationen
-  in der aktuellen Ausgabe eingrenzt. Alle außerhalb dieser "Box" gezeichneten Pixel
+  in der aktuellen Ausgabe eingrenzt. Alle auÃŸerhalb dieser "Box" gezeichneten Pixel
   werden abgeschnitten ("clipped").
   
-@Parameter "x, y, Breite, Höhe"
-  Die Position und Größe des Begrenzungsrahmens. Die (x, y) Koordinaten sind immer
+@Parameter "x, y, Breite, HÃ¶he"
+  Die Position und GrÃ¶ÃŸe des Begrenzungsrahmens. Die (x, y) Koordinaten sind immer
   absolut und werden nicht von @@SetOrigin Aufrufen beeinflusst.
 
 @NoReturnValue
@@ -2086,12 +2095,12 @@
 @LineBreak
 @LineBreak  
   Der Zeichnungsursprung ("drawing origin") wird durch einen Aufruf dieser Funktion
-  nicht verändert. Um alle Zeichenoperationen relativ zur linken oberen Ecke des
-  Begrenzungsrahmens zu machen, muss - wenn dies gewünscht wird - ein separater Aufruf
+  nicht verÃ¤ndert. Um alle Zeichenoperationen relativ zur linken oberen Ecke des
+  Begrenzungsrahmens zu machen, muss - wenn dies gewÃ¼nscht wird - ein separater Aufruf
   von @@SetOrigin erfolgen.
 @LineBreak
 @LineBreak
-  Die @@Plot und @@Point Befehle führen aus Performancegründen keine Überprüfung der
+  Die @@Plot und @@Point Befehle fÃ¼hren aus PerformancegrÃ¼nden keine ÃœberprÃ¼fung der
   Grenzen durch und sind dadurch von diesem Befehl auch nicht betroffen.
   
 @Example
@@ -2132,7 +2141,7 @@
 
 @Description
   Entfernt jegliche Begrenzung ("clipping"), welche zuvor mit dem @@ClipOutput Befehl
-  eingeführt wurde. Die folgenden Zeichenbefehle werden wieder in der Lage sein, auf
+  eingefÃ¼hrt wurde. Die folgenden Zeichenbefehle werden wieder in der Lage sein, auf
   der gesamten Zeichenausgabe zu zeichnen.
   
 @NoParameters

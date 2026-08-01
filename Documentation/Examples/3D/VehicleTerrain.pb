@@ -1,8 +1,12 @@
-﻿; It can take few minutes to build all terrains (it will be more faster after saving it)
-MessageRequester("Warning !", "It can take a few minutes to build all terrains...", 0)
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
 
-#CameraSpeed = 2
+; ------------------------------------------------------------
+;
+;   PureBasic - VehicleTerrain
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
 
 #CameraSpeed = 2
 Global.f KeyX, KeyY, MouseX, MouseY, ElapsedTime
@@ -67,109 +71,92 @@ Declare InitBlendMaps()
 Declare.f Interpolation(x1.f, x2.f, percent.f)
 
 
-; OpenGL needs to have CG enabled to work (Linux and OS X have OpenGL by default)
+InitEngine3D()
+  
+InitSprite()
+InitKeyboard()
+InitMouse()
+
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " VehicleTerrain - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models/", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts/", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main",#PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Terrain",#PB_3DArchive_FileSystem)
+Parse3DScripts()
+
+WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
+;WorldDebug(#PB_World_DebugBody)
+;- Light
 ;
-CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
-  Flags = #PB_Engine3D_EnableCG
-CompilerEndIf
+light = CreateLight(#PB_Any ,RGB(190, 190, 190), 400, 120, 100,#PB_Light_Directional)
+SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+LightDirection(light ,0.55, -0.3, -0.75)
+AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
 
-If InitEngine3D(Flags)
+;- Camera
+;
+CreateCamera(0, 0, 0, 100, 100)
+MoveCamera(0,  800, 400, 80, #PB_Absolute)
+CameraBackColor(0, RGB(5, 5, 10))
+
+
+;- Terrain definition
+SetupTerrains(LightID(Light), 600, #PB_Terrain_NormalMapping)
+; initialize terrain
+CreateTerrain(0, 513, 800, 20, 3, "TerrainGroup", "dat")
+; set all texture will be use when terrrain will be constructed
+AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
+AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
+AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
+
+; Build terrains
+Imported = DefineTerrainTile(0, 0, 0, "terrain513.png", 0, 0)
+BuildTerrain(0)
+
+If imported = #True
+  InitBlendMaps()
+  UpdateTerrain(0)
   
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/", #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia", #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-
-    Add3DArchive("Data/Models"              , #PB_3DArchive_FileSystem)
-
-    Add3DArchive("Data/Scripts"             , #PB_3DArchive_FileSystem)
-
-    Parse3DScripts()
-    
-    WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
-    ;WorldDebug(#PB_World_DebugBody)
-    ;- Light
-    ;
-    light = CreateLight(#PB_Any ,RGB(190, 190, 190), 400, 120, 100,#PB_Light_Directional)
-    SetLightColor(light, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
-    LightDirection(light ,0.55, -0.3, -0.75)
-    AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
-    
-    ;- Camera
-    ;
-    CreateCamera(0, 0, 0, 100, 100)
-    MoveCamera(0,  800, 400, 80, #PB_Absolute)
-    CameraBackColor(0, RGB(5, 5, 10))
-    
-    
-    ;- Terrain definition
-    SetupTerrains(LightID(Light), 600, #PB_Terrain_NormalMapping)
-    ; initialize terrain
-    CreateTerrain(0, 513, 800, 20, 3, "TerrainGroup", "dat")
-    ; set all texture will be use when terrrain will be constructed
-    AddTerrainTexture(0,  0, 100, "dirt_grayrocky_diffusespecular.jpg",  "dirt_grayrocky_normalheight.jpg")
-    AddTerrainTexture(0,  1,  30, "grass_green-01_diffusespecular.jpg", "grass_green-01_normalheight.jpg")
-    AddTerrainTexture(0,  2, 200, "growth_weirdfungus-03_diffusespecular.jpg", "growth_weirdfungus-03_normalheight.jpg")
-    
-    ; Build terrains
-    Imported = DefineTerrainTile(0, 0, 0, "terrain513.png", 0, 0)
-    BuildTerrain(0)
-    
-    If imported = #True
-      InitBlendMaps()
-      UpdateTerrain(0)
-      
-      ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
-      ; SaveTerrain(0, #False)
-    EndIf
-    ; enable shadow terrain
-    TerrainRenderMode(0, 0)
-    
-    
-    ;Add Physic
-    CreateTerrainBody(0, 0.1, 0.0)
-    
-    ; SkyBox
-    ;
-    SkyBox("desert07.jpg")
-    
-    BuildVehicle(@Vehicle)
-    
-    Repeat
-      Screen3DEvents()
-      
-      ExamineMouse()
-      ExamineKeyboard()
-      
-      
-      handleVehicle()
-      ControlVehicle(ElapsedTime/20)
-      
-      CameraFollow(0, EntityID(Vehicle\Chassis),180, TerrainHeight(0,CameraX(0),CameraZ(0))+2.5, 7, 0.08, 0.08)
-      
-      ElapsedTime = RenderWorld()
-      FlipBuffers()
-      
-    Until KeyboardPushed(#PB_Key_Escape)
-    
-    End
-    
-  EndIf
-Else
-  CompilerIf #PB_Compiler_OS <> #PB_OS_Windows Or Subsystem("OpenGL")
-    ;
-    ; Terrain on Linux/OSX and Windows with OpenGL needs CG toolkit from nvidia
-    ; It can be freely downloaded and installed from this site: https://developer.nvidia.com/cg-toolkit-download
-    ;
-    MessageRequester("Error","Can't initialize engine3D (Please ensures than CG Toolkit from nvidia is correcly installed)")
-  CompilerElse
-    MessageRequester("Error","Can't initialize engine3D")
-  CompilerEndIf
+  ; If enabled, it will save the terrain as a (big) cache for a faster load next time the program is executed
+  ; SaveTerrain(0, #False)
 EndIf
+; enable shadow terrain
+TerrainRenderMode(0, 0)
+
+
+;Add Physic
+CreateTerrainBody(0, 0.1, 0.0)
+
+; SkyBox
+;
+SkyBox("desert07.jpg")
+
+BuildVehicle(@Vehicle)
+
+Repeat
+  While WindowEvent():Wend
+  
+  ExamineMouse()
+  ExamineKeyboard()
+  
+  
+  handleVehicle()
+  ControlVehicle(ElapsedTime/20)
+  
+  CameraFollow(0, EntityID(Vehicle\Chassis),180, TerrainHeight(0,CameraX(0),CameraZ(0))+2.5, 7, 0.08, 0.08)
+  
+  ElapsedTime = RenderWorld()
+  FlipBuffers()
+  
+Until KeyboardPushed(#PB_Key_Escape)
+
+End
+
 
 Procedure Clamp(*var.float, min.f, max.f)
   If *var\f < min
@@ -299,7 +286,6 @@ Procedure BuildVehicle(*Vehicle.s_Vehicle)
                     isFrontWheel,
                     RollInfluence)
     
-    Debug #PB_Vehicle_MaxSuspensionForce
     For i= 0 To 3
       SetVehicleAttribute(\Chassis, #PB_Vehicle_MaxSuspensionForce, 4000, i)
     Next
@@ -333,9 +319,6 @@ Procedure HandleVehicle()
       \EngineBrake = 0
       \EngineForce = 0
     EndIf
-    
-    
-    ;  PBO_SetVehicleAttribute(\Chassis, #PB_Vehicle_RollInfluence, 2)
     
   EndWith
 EndProcedure
@@ -390,3 +373,4 @@ Procedure.f Interpolation(x1.f, x2.f, percent.f)
   ProcedureReturn x1 + percent * (x2 - x1)
   
 EndProcedure
+

@@ -1,37 +1,38 @@
-;
+ï»¿;
 ;     System library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library System
 
 @Overview
   Die System-Bibliothek bietet Zugriff auf einige system-spezifische Informationen, wie die
-  Anzahl der CPU's, die Größe des verfügbaren Speichers, und mehr.
+  Anzahl der CPU's, die GrÃ¶ÃŸe des verfÃ¼gbaren Speichers, und mehr.
 
 @CommandList
 
 @ExampleFile All System.pb
+@ExampleFile All CompilerSystemData.pb
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CocoaMessage(RückgabeWertAdresse, Objekt, Methode$ [, ParameterWert [, Parameter$, [, ParamaterWert, ...]]])
+@Function Ergebnis = CocoaMessage(RÃ¼ckgabeWertAdresse, Objekt, Methode$ [, ParameterWert [, Parameter$, [, ParamaterWert, ...]]])
 
 @Description
-  Für fortgeschrittene Anwender. Verfügbar nur auf OS X, erlaubt diese Funktion das einfache Senden einer
+  FÃ¼r fortgeschrittene Anwender. VerfÃ¼gbar nur auf OS X, erlaubt diese Funktion das einfache Senden einer
   "Objective-C Message" (Nachricht) an das OS X Framework und den Zugriff auf jede API.
-  Normalerweise verwendet Objective-C Klammern, um eine klare Syntax für Nachrichten zu haben.
-  Da PureBasic jedoch keine Ojective-C Unterstützung eingebaut hat, muss es sie emulieren,
+  Normalerweise verwendet Objective-C Klammern, um eine klare Syntax fÃ¼r Nachrichten zu haben.
+  Da PureBasic jedoch keine Ojective-C UnterstÃ¼tzung eingebaut hat, muss es sie emulieren,
   deshalb ist die Syntax etwas anders. Einmal erlernt, ist es einfach, die erforderliche API
   aufzurufen. Um weitere Beispiele zu erhalten, lesen Sie bitte folgenden Thread im
   @InternetLink "http://www.purebasic.fr/english/viewtopic.php?f=19&t=50795" "englischen Forum".
   
-@Parameter "RückgabeWertAdresse"
-  Wenn der API-Aufruf eine Struktur oder einen anderen Typ als 'Integer' zurückgibt, wird dieses Feld
-  verwendet, um das zurückgegebene Ergebnis festzuhalten. Eine Adresse der Struktur oder Variable muss
+@Parameter "RÃ¼ckgabeWertAdresse"
+  Wenn der API-Aufruf eine Struktur oder einen anderen Typ als 'Integer' zurÃ¼ckgibt, wird dieses Feld
+  verwendet, um das zurÃ¼ckgegebene Ergebnis festzuhalten. Eine Adresse der Struktur oder Variable muss
   angegeben werden. Wird Null angegeben, wird das Ergebnis ignoriert.
 
 @Parameter "Objekt"
@@ -39,33 +40,33 @@
   Methode eine statische Methode ist (meist bei der Erstellung eines Objekts).
 
 @Parameter "Methode$"
-  Die auf das Objekt aufzurufende Methode, üblicherweise gefolgt von einem Semikolon (':'). Wenn die Methode
-  eine Struktur als Parameter benötigt, muss '@' nach dem Semikolon angehängt werden. Wenn die Methode
-  einen String als Parameter erwartet, kann '$' nach dem Semikolon angehängt werden, wodurch der String
-  automatisch in einen temporären NSString konvertiert wird. Dies ist nicht erforderlich, aber es kann
-  nützlich sein und das Programmieren vereinfachen. Wenn die Methode vom Objekt nicht unterstützt wird,
-  wird während der Laufzeit eine Debugger-Meldung ausgegeben.
+  Die auf das Objekt aufzurufende Methode, Ã¼blicherweise gefolgt von einem Semikolon (':'). Wenn die Methode
+  eine Struktur als Parameter benÃ¶tigt, muss '@' nach dem Semikolon angehÃ¤ngt werden. Wenn die Methode
+  einen String als Parameter erwartet, kann '$' nach dem Semikolon angehÃ¤ngt werden, wodurch der String
+  automatisch in einen temporÃ¤ren NSString konvertiert wird. Dies ist nicht erforderlich, aber es kann
+  nÃ¼tzlich sein und das Programmieren vereinfachen. Wenn die Methode vom Objekt nicht unterstÃ¼tzt wird,
+  wird wÃ¤hrend der Laufzeit eine Debugger-Meldung ausgegeben.
   
 @OptionalParameter "ParameterWert"
   Der Parameter-Wert, welcher der vorherigen Methode zugeordnet ist.
 
 @OptionalParameter "Parameter$"
-  Der nächste Methoden-Parameter. PureBasic unterstützt bis zu 7 Methoden-Parameter.
+  Der nÃ¤chste Methoden-Parameter. PureBasic unterstÃ¼tzt bis zu 7 Methoden-Parameter.
 
 @ReturnValue
-  Integer-Rückgabewert. Nützlich für die ID zur Objekt-Erstellung.
+  Integer-RÃ¼ckgabewert. NÃ¼tzlich fÃ¼r die ID zur Objekt-Erstellung.
 
 @Remarks
-  PureBasic hat bereits einen temporären Speicher-Pool eingerichtet, welcher bei jedem Aufruf von
-  @@WindowEvent oder @@WaitWindowEvent geleert wird. Wenn Sie große Objekte sofort freigeben
-  müssen, müssen Sie einen lokalen Speicher-Pool rund um Ihre Aufrufe schaffen.
+  PureBasic hat bereits einen temporÃ¤ren Speicher-Pool eingerichtet, welcher bei jedem Aufruf von
+  @@WindowEvent oder @@WaitWindowEvent geleert wird. Wenn Sie groÃŸe Objekte sofort freigeben
+  mÃ¼ssen, mÃ¼ssen Sie einen lokalen Speicher-Pool rund um Ihre Aufrufe schaffen.
 
 @Example mit String
 @Code
   ; Objective-C: 
   ;   ColorList = [NSColorList colorListNamed:@"Crayons"];
   ;
-  ColorList = CocoaMessage(0, 0, "NSColorList colorListNamed:$", @"Crayons") ; Wird einen NSString für "Crayons" unter der Haube erstellen
+  ColorList = CocoaMessage(0, 0, "NSColorList colorListNamed:$", @"Crayons") ; Wird einen NSString fÃ¼r "Crayons" unter der Haube erstellen
 @EndCode
 
 @Example mit komplexem Typ
@@ -73,7 +74,7 @@
   ; Objective-C: 
   ;   Transform = [NSAffineTransform transform];
   ;
-  Transform = CocoaMessage(0, 0, "NSAffineTransform transform") ; Sorgt für eine "Identity"-Umwandlung
+  Transform = CocoaMessage(0, 0, "NSAffineTransform transform") ; Sorgt fÃ¼r eine "Identity"-Umwandlung
 
   ; Objective-C: 
   ;   [TransForm scaleXBy:sx yBy:sy];
@@ -97,20 +98,20 @@
 @Function Ergebnis$ = CPUName()
 
 @Description
-  Gibt den Namen der CPU zurück.
+  Gibt den Namen der CPU zurÃ¼ck.
   
 @NoParameters
 
 @ReturnValue
-  Gibt den Namen der CPU (die vollständigen Herstellerangaben) zurück. Es gibt keine
-  standardisierten Ausgabe über der CPU, so dass diese Informationen nicht für die
-  Ermittlung der CPU zur Laufzeit verwendet werden sollten. Sie können jedoch nützlich
-  für Protokollierungszwecke (Logs) sein.
+  Gibt den Namen der CPU (die vollstÃ¤ndigen Herstellerangaben) zurÃ¼ck. Es gibt keine
+  standardisierten Ausgabe Ã¼ber der CPU, so dass diese Informationen nicht fÃ¼r die
+  Ermittlung der CPU zur Laufzeit verwendet werden sollten. Sie kÃ¶nnen jedoch nÃ¼tzlich
+  fÃ¼r Protokollierungszwecke (Logs) sein.
 
 @Example
 
 @Code
-  Debug CPUName() ; Könnte z.B. ausgeben: "Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz"
+  Debug CPUName() ; KÃ¶nnte z.B. ausgeben: "Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz"
 @EndCode
 
 @SupportedOS
@@ -120,20 +121,20 @@
 @Function Delay(Zeit)
 
 @Description
-  Hält die Programmausführung für die angegebene Zeit an.
+  HÃ¤lt die ProgrammausfÃ¼hrung fÃ¼r die angegebene Zeit an.
   
 @Parameter "Zeit"
   Die Halte- oder auch Wartezeit (englisch "delay time") in Millisekunden.
-  Das tatsächliche Anhalten kann länger als die angegebene Zeit dauern.
+  Das tatsÃ¤chliche Anhalten kann lÃ¤nger als die angegebene Zeit dauern.
 
 @NoReturnValue
 
 @Remarks
-  Delay ist insbesondere nützlich in Ereignis-Warteschleifen mit @@WindowEvent oder
+  Delay ist insbesondere nÃ¼tzlich in Ereignis-Warteschleifen mit @@WindowEvent oder
   @@ExamineKeyboard, damit diese Funktionen nicht die gesamte Rechenzeit "schlucken".
 @LineBreak
 @LineBreak
-  Tatsächlich hält diese Funktion den aktuellen Thread an.
+  TatsÃ¤chlich hÃ¤lt diese Funktion den aktuellen Thread an.
 
 @SeeAlso
   @@ElapsedMilliseconds
@@ -145,24 +146,24 @@
 @Function Ergebnis.q = ElapsedMilliseconds()
 
 @Description
-  Gibt die Anzahl an Millisekunden zurück, welche seit einer bestimmten Zeit
+  Gibt die Anzahl an Millisekunden zurÃ¼ck, welche seit einer bestimmten Zeit
   in der Vergangenheit abgelaufen sind.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die abgelaufene Zeit in Millisekunden zurück.
+  Gibt die abgelaufene Zeit in Millisekunden zurÃ¼ck.
   
 @Remarks
-  Der zurückgegebene absolute Wert ist
-  nutzlos, da er abhängig vom Betriebssystem variiert. Stattdessen sollte diese
+  Der zurÃ¼ckgegebene absolute Wert ist
+  nutzlos, da er abhÃ¤ngig vom Betriebssystem variiert. Stattdessen sollte diese
   Funktion verwendet werden, um Zeitunterschiede zwischen mehreren ElapsedMilliseconds()
   Aufrufen zu berechnen.
 @LineBreak
 @LineBreak
   Diese Funktion ist relativ genau: es kann eine leichte Differenz auftreten, je nachdem 
-  auf welchem Betriebssystem sie ausgeführt wird, da manche Systeme eine niedrigere
-  Timer-Auflösung als andere haben.
+  auf welchem Betriebssystem sie ausgefÃ¼hrt wird, da manche Systeme eine niedrigere
+  Timer-AuflÃ¶sung als andere haben.
 
 @Example
 @Code
@@ -181,14 +182,14 @@
 @Function Ergebnis = DoubleClickTime()
 
 @Description
-  Gibt die System-Einstellung für die Zeit eines Doppelklicks zurück.
+  Gibt die System-Einstellung fÃ¼r die Zeit eines Doppelklicks zurÃ¼ck.
   Wenn zwei Mausklicks innerhalb dieser Zeit stattfinden, werden sie als Doppelklick
   erkannt.
   
 @NoParameters
 
 @ReturnValue
-  Gibt die Doppelklick-Zeit in Millisekunden zurück.
+  Gibt die Doppelklick-Zeit in Millisekunden zurÃ¼ck.
   
 @Remarks
   Diese Funktion kann verwendet werden, um das Maus-Handling auf einem
@@ -206,13 +207,13 @@
 
 @Description
   Ermittelt die Version des Betriebssystems (OS - "Operating System"), auf welchem das
-  Programm gestartet wurde. Dies kann z.B. nützlich sein, um abhängig vom laufenden
+  Programm gestartet wurde. Dies kann z.B. nÃ¼tzlich sein, um abhÃ¤ngig vom laufenden
   Betriebssystem einige Features automatisch ein- oder auszuschalten.
 
 @NoParameters
 
 @ReturnValue
-  Gibt einen der folgenden Werte zurück, abhängig vom OS auf dem der Befehl läuft:
+  Gibt einen der folgenden Werte zurÃ¼ck, abhÃ¤ngig vom OS auf dem der Befehl lÃ¤uft:
 @LineBreak
 @LineBreak
 
@@ -236,7 +237,11 @@
   @#PB_OS_Windows_8_1
   @#PB_OS_Windows_Server_2012_R2
   @#PB_OS_Windows_10
+  @#PB_OS_Windows_Server_2016
+  @#PB_OS_Windows_Server_2019
+  @#PB_OS_Windows_Server_2022
   @#PB_OS_Windows_11
+  @#PB_OS_Windows_Server_2025
   @#PB_OS_Windows_Future  ; neue Windows Version (nicht existent, als das Programm geschrieben wurde)
 @EndFixedFont
 @EndIndent
@@ -272,6 +277,9 @@
   @#PB_OS_MacOSX_10_15
   @#PB_OS_MacOSX_11
   @#PB_OS_MacOSX_12
+  @#PB_OS_MacOSX_13
+  @#PB_OS_MacOSX_14
+  @#PB_OS_MacOSX_15
   @#PB_OS_MacOSX_Future  ; neue MacOS X Version (nicht existent, als das Programm geschrieben wurde)
 @EndFixedFont
 @EndIndent
@@ -293,14 +301,14 @@
   EndSelect
 @EndCode
 
-  Hinweis: Der Wert dieser Konstanten wird vor dem Zeitpunkt der Veröffentlichung jeder Version
-  festgelegt, daher können Tests wie der folgende verwendet werden, um alle Versionen älter 
-  oder neuer als die angegebene Version zu überprüfen:
+  Hinweis: Der Wert dieser Konstanten wird vor dem Zeitpunkt der VerÃ¶ffentlichung jeder Version
+  festgelegt, daher kÃ¶nnen Tests wie der folgende verwendet werden, um alle Versionen Ã¤lter 
+  oder neuer als die angegebene Version zu Ã¼berprÃ¼fen:
 
 @Code
   If OSVersion() < #PB_OS_Windows_2000
     ;
-    ; Alle Versionen älter als Windows 2000
+    ; Alle Versionen Ã¤lter als Windows 2000
     ;
   EndIf
 @EndCode
@@ -312,12 +320,12 @@
 @Function Ergebnis$ = ComputerName()
 
 @Description
-  Gibt den Namen des Computers zurück.
+  Gibt den Namen des Computers zurÃ¼ck.
 
 @NoParameters
   
 @ReturnValue
-  Gibt den Namen des Computers zurück.
+  Gibt den Namen des Computers zurÃ¼ck.
 
 @Example
 @Code
@@ -331,12 +339,12 @@
 @Function Ergebnis$ = UserName()
 
 @Description
-  Gibt den Namen des derzeit eingeloggten Anwenders zurück.
+  Gibt den Namen des derzeit eingeloggten Anwenders zurÃ¼ck.
 
 @NoParameters
   
 @ReturnValue
-  Gibt den Namen des derzeit eingeloggten Anwenders zurück.
+  Gibt den Namen des derzeit eingeloggten Anwenders zurÃ¼ck.
 
 @Example
 @Code
@@ -350,22 +358,22 @@
 @Function Ergebnis.q = MemoryStatus(Typ)
 
 @Description
-  Gibt eine Information zum angegebenen Speichertyp zurück.
+  Gibt eine Information zum angegebenen Speichertyp zurÃ¼ck.
 
 @Parameter "Typ"
   Der Typ des zu ermittelnden Speichers. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_System_TotalPhysical: die Gesamtmenge des installierten Speichers, in Bytes
-  @#PB_System_FreePhysical : der verfügbare Speicher, in Bytes
-  @#PB_System_TotalVirtual : die gesamte Größe des virtuellen Speichers, in Bytes (nur Windows)
-  @#PB_System_FreeVirtual  : der verfügbare virtuelle Speicher, in Bytes (nur Windows)
+  @#PB_System_FreePhysical : der verfÃ¼gbare Speicher, in Bytes
+  @#PB_System_TotalVirtual : die gesamte GrÃ¶ÃŸe des virtuellen Speichers, in Bytes (nur Windows)
+  @#PB_System_FreeVirtual  : der verfÃ¼gbare virtuelle Speicher, in Bytes (nur Windows)
   @#PB_System_TotalSwap    : der gesamte Auslagerungsspeicher, in Bytes (nur Windows und Linux)
-  @#PB_System_FreeSwap     : der verfügbare Auslagerungsspeicher, in Bytes (nur Windows und Linux)
-  @#PB_System_PageSize     : die Speicher-Page-Größe, in Bytes (in der Regel 4 KB).
+  @#PB_System_FreeSwap     : der verfÃ¼gbare Auslagerungsspeicher, in Bytes (nur Windows und Linux)
+  @#PB_System_PageSize     : die Speicher-Page-GrÃ¶ÃŸe, in Bytes (in der Regel 4 KB).
 @EndFixedFont
 
 @ReturnValue
-  Gibt eine Information zum angegebenen Speichertyp zurück.
+  Gibt eine Information zum angegebenen Speichertyp zurÃ¼ck.
   
 @SupportedOS
 
@@ -374,17 +382,17 @@
 @Function Ergebnis = CountCPUs([Typ])
 
 @Description
-  Gibt die Anzahl der verfügbaren CPU-Kerne zurück.
+  Gibt die Anzahl der verfÃ¼gbaren CPU-Kerne zurÃ¼ck.
 
 @OptionalParameter "Typ"
   Der abzufragende CPU-Typ. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_System_CPUs        : die Gesamtzahl der CPU-Kerne, die in diesem Computer installiert sind. (Standard)
-  @#PB_System_ProcessCPUs : die für den aktuellen Prozess verfügbaren CPU-Kerne. Dies ist nützlich, da das
+  @#PB_System_ProcessCPUs : die fÃ¼r den aktuellen Prozess verfÃ¼gbaren CPU-Kerne. Dies ist nÃ¼tzlich, da das
                            OS einen Prozess auf die Verwendung einer kleinen CPU-Anzahl begrenzen kann.
 @EndFixedFont
   
 @ReturnValue
-  Gibt die Anzahl der verfügbaren CPU-Kerne zurück.
+  Gibt die Anzahl der verfÃ¼gbaren CPU-Kerne zurÃ¼ck.
 
 @SupportedOS

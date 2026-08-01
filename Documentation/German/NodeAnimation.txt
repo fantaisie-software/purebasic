@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Node animation library documentation
 ;
 ;      (c) 2018 - Fantaisie Software
@@ -7,7 +7,7 @@
 @Library NodeAnimation
 
 @Overview
-  Node Animation ermöglicht die Definition einer Spur (oder auch Strecke bzw. Weg - englisch
+  Node Animation ermÃ¶glicht die Definition einer Spur (oder auch Strecke bzw. Weg - englisch
   "track"), welcher ein Knoten (englisch "node") folgt - mit vordefiniertem Key-Frame und
   glatter Interpolation. Dann kann ein Objekt wie eine Kamera an diesem Knoten angebracht
   (englisch "attached") werden, und leicht auf dieser Strecke bewegt werden.
@@ -25,32 +25,32 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateNodeAnimation(#NodeAnimation, NodeID, Länge, Interpolation, RotationsInterpolation)
+@Function Ergebnis = CreateNodeAnimation(#NodeAnimation, NodeID, LÃ¤nge, Interpolation, RotationsInterpolation)
 
 @Description
-  Erstellt eine neue Node-Animation der angegebenen Länge. Eine Node-Animation ist physikalisch
+  Erstellt eine neue Node-Animation der angegebenen LÃ¤nge. Eine Node-Animation ist physikalisch
   in der 3D-Welt nicht vorhanden, es ist eine virtuelle Spur, um einen Knoten (oder auch "Node",
-  und sein beigefügtes Objekt) leicht durch die Welt zu bewegen.
+  und sein beigefÃ¼gtes Objekt) leicht durch die Welt zu bewegen.
 
 @Parameter "#NodeAnimation"
   Die Nummer zum Identifizieren der neuen Node-Animation. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Zahl automatisch zu generieren.
 
 @Parameter "NodeID"
-  Der automatisch zu bewegende Knoten (Node). @@NodeID kann verwendet werden, um eine gültige Node ID
+  Der automatisch zu bewegende Knoten (Node). @@NodeID kann verwendet werden, um eine gÃ¼ltige Node ID
   zu erhalten.
 
-@Parameter "Länge"
-  Die Länge der neuen Animation (in Millisekunden).
+@Parameter "LÃ¤nge"
+  Die LÃ¤nge der neuen Animation (in Millisekunden).
 
 @Parameter "Interpolation"
   Die Art der zwischen den Punkten anzuwendenden Interpolation. Dies kann einer der folgenden
   Werte sein:
 @FixedFont
   @#PB_NodeAnimation_Linear: alle Punkte werden durch eine gerade Linie miteinander verbunden,
-                            was zu einer abrupten Richtungsänderung führen kann
+                            was zu einer abrupten RichtungsÃ¤nderung fÃ¼hren kann
   @#PB_NodeAnimation_Spline: alle Punkte werden durch ein Spline (auch "Polynomzug") miteinander
-                            verbunden, was in einer sanfteren Richtungsänderung mündet, jedoch
+                            verbunden, was in einer sanfteren RichtungsÃ¤nderung mÃ¼ndet, jedoch
                             auch langsamer ist.
 @EndFixedFont
 
@@ -59,15 +59,15 @@
   der folgenden Werte sein:
 @FixedFont
   @#PB_NodeAnimation_LinearRotation:    alle Punkte werden durch eine gerade Linie miteinander
-                                       verbunden, was zu einer abrupten Rotation führen kann
+                                       verbunden, was zu einer abrupten Rotation fÃ¼hren kann
   @#PB_NodeAnimation_SphericalRotation: alle Punkte werden durch eine Kurve miteinander
-                                       verbunden, was zu einer sanfteren Rotation führt, aber
+                                       verbunden, was zu einer sanfteren Rotation fÃ¼hrt, aber
                                        auch langsamer ist.
 @EndFixedFont
 
 @ReturnValue
-  Gibt null zurück, wenn die #NodeAnimation nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
-  als '#NodeAnimation' Parameter verwendet wurde, dann wird die Nummer der neuen Node-Animation zurückgegeben.
+  Gibt null zurÃ¼ck, wenn die #NodeAnimation nicht erstellt werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
+  als '#NodeAnimation' Parameter verwendet wurde, dann wird die Nummer der neuen Node-Animation zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeNodeAnimation
@@ -81,7 +81,7 @@
 @Description
   Gibt eine Node-Animation und all seinen verwendeten Speicher frei. Diese Node-Animation darf
   nach dem Aufrufen dieser Funktion (mittels seiner Nummer mit anderen Funktionen dieser Bibliothek)
-  nicht mehr verwendet werden, außer Sie erstellen Sie erneut.
+  nicht mehr verwendet werden, auÃŸer Sie erstellen Sie erneut.
 
 @Parameter "#NodeAnimation"
   Die frei zu gebende Node-Animation. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Node-Animationen freigegeben.
@@ -101,7 +101,7 @@
 @Function CreateNodeAnimationKeyFrame(#NodeAnimation, Zeit, x, y, z)
 
 @Description
-  Erstellt ein neues Keyframe (auch "Schlüsselbild") für die #NodeAnimation. Ein Keyframe ist
+  Erstellt ein neues Keyframe (auch "SchlÃ¼sselbild") fÃ¼r die #NodeAnimation. Ein Keyframe ist
   ein Punkt in der Welt zu einem bestimmten Zeitpunkt.
   Wenn die Node-Animation abgespielt wird, folgt sie jedem Keyframe und somit der Bewegung
   von Punkt zu Punkt. Die Bewegung wird interpoliert, um dem Zeitdruck (englisch "time constraint")
@@ -117,7 +117,7 @@
 @Parameter "Zeit"
   Der Zeitpunkt (in Millisekunden) innerhalb der Animation, zu dem das Keyframe festgelegt
   werden soll. Dieser Wert muss zwischen Null und der bei @@CreateNodeAnimation definierten
-  'Länge' liegen.
+  'LÃ¤nge' liegen.
 
 @Parameter "x"
   Die Keyframe 'x' Position in der Welt.
@@ -140,7 +140,7 @@
 @Function Ergebnis = GetNodeAnimationKeyFrameTime(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt die Keyframe-Zeit der #NodeAnimation zurück.
+  Gibt die Keyframe-Zeit der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -149,7 +149,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt die Node-Animation Keyframe-Zeit (in Millisekunden) zurück, oder null wenn das
+  Gibt die Node-Animation Keyframe-Zeit (in Millisekunden) zurÃ¼ck, oder null wenn das
   Keyframe nicht existiert.
 
 @SeeAlso
@@ -162,7 +162,7 @@
 @Function SetNodeAnimationKeyFramePosition(#NodeAnimation, KeyFrame, x, y, z)
 
 @Description
-  Ändert die Keyframe-Position für die #NodeAnimation.
+  Ã„ndert die Keyframe-Position fÃ¼r die #NodeAnimation.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -192,7 +192,7 @@
 @Function Ergebnis = GetNodeAnimationKeyFrameX(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt die Keyframe 'x' Position der #NodeAnimation zurück.
+  Gibt die Keyframe 'x' Position der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -201,7 +201,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt die 'x'-Position des Keyframes der Node-Animation in der Welt zurück, oder Null
+  Gibt die 'x'-Position des Keyframes der Node-Animation in der Welt zurÃ¼ck, oder Null
   wenn das Keyframe nicht existiert.
 
 @SeeAlso
@@ -214,7 +214,7 @@
 @Function Result = GetNodeAnimationKeyFrameY(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt die Keyframe 'y' Position der #NodeAnimation zurück.
+  Gibt die Keyframe 'y' Position der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -223,7 +223,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt die 'y'-Position des Keyframes der Node-Animation in der Welt zurück, oder Null
+  Gibt die 'y'-Position des Keyframes der Node-Animation in der Welt zurÃ¼ck, oder Null
   wenn das Keyframe nicht existiert.
 
 @SeeAlso
@@ -236,7 +236,7 @@
 @Function Result = GetNodeAnimationKeyFrameZ(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt die Keyframe 'z' Position der #NodeAnimation zurück.
+  Gibt die Keyframe 'z' Position der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -245,7 +245,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt die 'z'-Position des Keyframes der Node-Animation in der Welt zurück, oder Null
+  Gibt die 'z'-Position des Keyframes der Node-Animation in der Welt zurÃ¼ck, oder Null
   wenn das Keyframe nicht existiert.
 
 @SeeAlso
@@ -258,7 +258,7 @@
 @Function SetNodeAnimationKeyFrameRotation(#NodeAnimation, KeyFrame, x, y, z [, w, Modus])
 
 @Description
-  Ändert die Keyframe-Rotation für die #NodeAnimation.
+  Ã„ndert die Keyframe-Rotation fÃ¼r die #NodeAnimation.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -268,7 +268,7 @@
   Wenn das Keyframe nicht existiert, dann hat diese Funktion keinen Effekt.
 
 @Parameter "x, y, z"
-  Die neue Keyframe 'x, y, z'-Rotation in der Welt. Die Werte sind vom ausgewählten 'Modus' abhängig.
+  Die neue Keyframe 'x, y, z'-Rotation in der Welt. Die Werte sind vom ausgewÃ¤hlten 'Modus' abhÃ¤ngig.
 
 @OptionalParameter "w"
   Die neue Keyframe 'w'-Rotation in der Welt (wird nur bei @#PB_Orientation_Quaternion und
@@ -279,8 +279,8 @@
 @FixedFont
   @#PB_Orientation_PitchYawRoll: 'x' ("pitch" oder auch "Nick"), 'y' ("yaw" oder auch "Gier"), 'z' ("roll" oder auch "Roll"),
                                 zugewiesen in dieser Reihenfolge (Standard).
-  @#PB_Orientation_Quaternion  : 'x', 'y', 'z', 'w' für Quaternion-Werte
-  @#PB_Orientation_Direction   : 'x', 'y', 'z' für den Richtungsvektor und 'w' für die Rotation (Roll).
+  @#PB_Orientation_Quaternion  : 'x', 'y', 'z', 'w' fÃ¼r Quaternion-Werte
+  @#PB_Orientation_Direction   : 'x', 'y', 'z' fÃ¼r den Richtungsvektor und 'w' fÃ¼r die Rotation (Roll).
 @EndFixedFont
 
 @NoReturnValue
@@ -298,7 +298,7 @@
 @Function Ergebnis = GetNodeAnimationKeyFramePitch(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt den "Pitch"-Wert (Nick-Winkel) des Keyframes der #NodeAnimation zurück.
+  Gibt den "Pitch"-Wert (Nick-Winkel) des Keyframes der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -307,7 +307,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt den aktuellen Pitch-Wert des Keyframes in der Node-Animation zurück,
+  Gibt den aktuellen Pitch-Wert des Keyframes in der Node-Animation zurÃ¼ck,
   oder null wenn der Keyframe nicht existiert.
 
 @Remarks
@@ -323,7 +323,7 @@
 @Function Ergebnis = GetNodeAnimationKeyFrameYaw(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt den "Yaw"-Wert (Gier-Winkel) des Keyframes der #NodeAnimation zurück.
+  Gibt den "Yaw"-Wert (Gier-Winkel) des Keyframes der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -332,7 +332,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt den aktuellen Yaw-Wert des Keyframes in der Node-Animation zurück,
+  Gibt den aktuellen Yaw-Wert des Keyframes in der Node-Animation zurÃ¼ck,
   oder null wenn der Keyframe nicht existiert.
 
 @Remarks
@@ -348,7 +348,7 @@
 @Function Ergebnis = GetNodeAnimationKeyFrameRoll(#NodeAnimation, KeyFrame)
 
 @Description
-  Gibt den "Roll"-Wert (Roll-Winkel) des Keyframes der #NodeAnimation zurück.
+  Gibt den "Roll"-Wert (Roll-Winkel) des Keyframes der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -357,7 +357,7 @@
   Der Node-Animation Keyframe-Index. Der erste Keyframe-Index ist null.
   
 @ReturnValue
-  Gibt den aktuellen Roll-Wert des Keyframes in der Node-Animation zurück,
+  Gibt den aktuellen Roll-Wert des Keyframes in der Node-Animation zurÃ¼ck,
   oder null wenn der Keyframe nicht existiert.
 
 @Remarks
@@ -373,8 +373,8 @@
 @Function SetNodeAnimationKeyFrameScale(#NodeAnimation, KeyFrame, x, y, z)
 
 @Description
-  Ändert den Keyframe Skalierungsfaktor für die #NodeAnimation. Der Skalierungsfaktor
-  wird auf den Knoten (Node) angewendet, mit dem die Animation verknüpft ist.
+  Ã„ndert den Keyframe Skalierungsfaktor fÃ¼r die #NodeAnimation. Der Skalierungsfaktor
+  wird auf den Knoten (Node) angewendet, mit dem die Animation verknÃ¼pft ist.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -398,11 +398,11 @@
 @NoReturnValue
 
 @Remarks
-  Der Skalierungsfaktor wird den Knoten (Node) in der Größe verändern, indem seine
-  Größe mit dem angegebenen Faktor multipliziert wird: @LineBreak
-  - ein Skalierungsfaktor von 1.0 wird sich nicht auf die Größe des Knotens auswirken @LineBreak
-  - ein Skalierungsfaktor von 2.0 wird die Größe des Knotens verdoppeln @LineBreak
-  - ein Skalierungsfaktor von 0.5 wird die Größe des Knotens halbieren @LineBreak
+  Der Skalierungsfaktor wird den Knoten (Node) in der GrÃ¶ÃŸe verÃ¤ndern, indem seine
+  GrÃ¶ÃŸe mit dem angegebenen Faktor multipliziert wird: @LineBreak
+  - ein Skalierungsfaktor von 1.0 wird sich nicht auf die GrÃ¶ÃŸe des Knotens auswirken @LineBreak
+  - ein Skalierungsfaktor von 2.0 wird die GrÃ¶ÃŸe des Knotens verdoppeln @LineBreak
+  - ein Skalierungsfaktor von 0.5 wird die GrÃ¶ÃŸe des Knotens halbieren @LineBreak
   
 @SeeAlso
   @@CreateNodeAnimationKeyFrame, @@GetNodeAnimationKeyFramePitch, @@GetNodeAnimationKeyFrameYaw, @@GetNodeAnimationKeyFrameRoll
@@ -414,13 +414,13 @@
 @Function AddNodeAnimationTime(#NodeAnimation, Zeit)
 
 @Description
-  Fügt Zeit zu der angegebenen #NodeAnimation hinzu.
+  FÃ¼gt Zeit zu der angegebenen #NodeAnimation hinzu.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
 
 @Parameter "Zeit"
-  Die zu der angegebenen Animation hinzu zu fügende Zeit (in Millisekunden), relativ zur
+  Die zu der angegebenen Animation hinzu zu fÃ¼gende Zeit (in Millisekunden), relativ zur
   aktuellen Animations-Zeit.
 
 @NoReturnValue
@@ -443,7 +443,7 @@
 @Parameter "Flag"
   Flag kann der folgende Wert sein:
 @FixedFont
-  @#PB_NodeAnimation_Once:   Spielt die Animation nur einmal ab. Standardmäßig wird die Animation
+  @#PB_NodeAnimation_Once:   Spielt die Animation nur einmal ab. StandardmÃ¤ÃŸig wird die Animation
                             automatisch wiederholt, wenn ihr Ende erreicht wird. @@NodeAnimationStatus
                             kann verwendet werden, um das Ende der Animation festzustellen.
 @EndFixedFont
@@ -477,16 +477,16 @@
 @Function Ergebnis = NodeAnimationStatus(#NodeAnimation)
 
 @Description
-  Gibt den Status der angegebenen #NodeAnimation zurück.
+  Gibt den Status der angegebenen #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
 
 @ReturnValue
-  Der Rückgabewert kann eine der folgenden Konstanten sein:
+  Der RÃ¼ckgabewert kann eine der folgenden Konstanten sein:
 @FixedFont
   @#PB_NodeAnimation_Stopped: Die Animation wurde gestoppt (oder hat ihr Ende erreicht).
-  @#PB_NodeAnimation_Started: Die Animation läuft.
+  @#PB_NodeAnimation_Started: Die Animation lÃ¤uft.
 @EndFixedFont
 
 @SeeAlso
@@ -499,14 +499,14 @@
 @Function Ergebnis = GetNodeAnimationTime(#NodeAnimation)
 
 @Description
-  Gibt die Zeit der aktuellen #NodeAnimation zurück.
+  Gibt die Zeit der aktuellen #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
 
 @ReturnValue
   Die Zeit (bzw. die Zeitposition, in Millisekunden) der aktuellen Node-Animation,
-  oder 0 wenn die Animation nicht läuft.
+  oder 0 wenn die Animation nicht lÃ¤uft.
 
 @SeeAlso
   @@StartNodeAnimation, @@AddNodeAnimationTime, @@SetNodeAnimationTime
@@ -518,8 +518,8 @@
 @Function SetNodeAnimationTime(#NodeAnimation, Zeit)
 
 @Description
-  Ändert die aktuelle Zeit der #NodeAnimation. Dies ist eine absolute
-  Zeit-Position. Um die Zeit relativ zur aktuellen Zeit zu verändern,
+  Ã„ndert die aktuelle Zeit der #NodeAnimation. Dies ist eine absolute
+  Zeit-Position. Um die Zeit relativ zur aktuellen Zeit zu verÃ¤ndern,
   verwenden Sie @@AddNodeAnimationTime.
 
 @Parameter "#NodeAnimation"
@@ -540,13 +540,13 @@
 @Function Ergebnis = GetNodeAnimationLength(#NodeAnimation)
 
 @Description
-  Gibt die Länge der #NodeAnimation zurück.
+  Gibt die LÃ¤nge der #NodeAnimation zurÃ¼ck.
 
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
 
 @ReturnValue
-  Die Länge (in Milli-Sekunden) der Node-Animation.
+  Die LÃ¤nge (in Milli-Sekunden) der Node-Animation.
 
 @SeeAlso
   @@StartNodeAnimation, @@SetNodeAnimationLength
@@ -555,16 +555,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetNodeAnimationLength(#NodeAnimation, Länge)
+@Function SetNodeAnimationLength(#NodeAnimation, LÃ¤nge)
 
 @Description
-  Ändert die Länge der #NodeAnimation.
+  Ã„ndert die LÃ¤nge der #NodeAnimation.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
 
-@Parameter "Länge"
-  Die neue Länge (in Milli-Sekunden) der Node-Animation.
+@Parameter "LÃ¤nge"
+  Die neue LÃ¤nge (in Milli-Sekunden) der Node-Animation.
 
 @SeeAlso
   @@StartNodeAnimation, @@GetNodeAnimationLength
@@ -576,10 +576,10 @@
 @Function Ergebnis = GetNodeAnimationWeight(#NodeAnimation)
 
 @Description
-  Gibt das Gewicht (oder die Wertigkeit) der #NodeAnimation zurück. Das Gewicht ist nützlich
-  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften Übergang
-  von einer Animation auf die andere zu haben, ist es möglich, schrittweise das Gewicht
-  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhöhen.
+  Gibt das Gewicht (oder die Wertigkeit) der #NodeAnimation zurÃ¼ck. Das Gewicht ist nÃ¼tzlich
+  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften Ãœbergang
+  von einer Animation auf die andere zu haben, ist es mÃ¶glich, schrittweise das Gewicht
+  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhÃ¶hen.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -587,7 +587,7 @@
 @ReturnValue
   Das aktuelle Gewicht der Node-Animation (Wert zwischen 0.0 und 1.0). Ist das Gewicht
   gleich 0, dann hat die Animation keinen Effekt. Ist das Gewicht gleich 1, dann wird
-  die Animation vollständig abgespielt.
+  die Animation vollstÃ¤ndig abgespielt.
 
 @SeeAlso
   @@StartNodeAnimation
@@ -599,10 +599,10 @@
 @Function SetNodeAnimationWeight(#NodeAnimation, Gewicht)
 
 @Description
-  Ändert das Gewicht (bzw. die Wertigkeit) der #NodeAnimation. Das Gewicht ist nützlich
-  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften Übergang
-  von einer Animation auf die andere zu haben, ist es möglich, schrittweise das Gewicht
-  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhöhen.
+  Ã„ndert das Gewicht (bzw. die Wertigkeit) der #NodeAnimation. Das Gewicht ist nÃ¼tzlich
+  beim Abspielen mehrerer Animationen auf einmal. Um zum Beispiel einen sanften Ãœbergang
+  von einer Animation auf die andere zu haben, ist es mÃ¶glich, schrittweise das Gewicht
+  der ersten Animation zu reduzieren und das Gewicht der zweiten Animation zu erhÃ¶hen.
   
 @Parameter "#NodeAnimation"
   Die zu verwendende Node-Animation.
@@ -610,7 +610,7 @@
 @Parameter "Gewicht"
   Das neue Gewicht der Node-Animation (Wert zwischen 0.0 und 1.0). Ist das Gewicht
   gleich 0, dann hat die Animation keinen Effekt. Ist das Gewicht gleich 1, dann wird
-  die Animation vollständig abgespielt.
+  die Animation vollstÃ¤ndig abgespielt.
 
 @NoReturnValue
 

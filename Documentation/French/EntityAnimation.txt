@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Entity animation library documentation
 ;
 ;      (c) - Fantaisie Software
@@ -8,26 +8,26 @@
 
 @Overview
 
-  Une entité, ou 'Entity' en anglais 
-  est un objet 3D composé d'un 
+  Une entitÃ©, ou 'Entity' en anglais 
+  est un objet 3D composÃ© d'un 
   @LibraryLink "mesh" "mesh" (un maillage 3D) 
-  et d'une @LibraryLink "material" "matière" 
-  (ou matériau). Une entité peut être déplacée 
-  et transformées en temps réel.  
+  et d'une @LibraryLink "material" "matiÃ¨re" 
+  (ou matÃ©riau). Une entitÃ© peut Ãªtre dÃ©placÃ©e 
+  et transformÃ©es en temps rÃ©el.  
 @LineBreak
 @LineBreak
-  Cette bibliothèque permet le contrôle des 
-  animations propres aux entités, comme 
+  Cette bibliothÃ¨que permet le contrÃ´le des 
+  animations propres aux entitÃ©s, comme 
   faire marcher un personnage par exemple.
   @LineBreak
-  Attention, le mesh associé à l'entité doit 
+  Attention, le mesh associÃ© Ã  l'entitÃ© doit 
   avoir un squelette avec des animations 
-  prédéfinies.
+  prÃ©dÃ©finies.
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec 
-  succès avant d'utiliser les fonctions 
-  d'animations d'entités.
+  @@InitEngine3D doit Ãªtre appelÃ© avec 
+  succÃ¨s avant d'utiliser les fonctions 
+  d'animations d'entitÃ©s.
 
 @CommandList
 
@@ -40,30 +40,30 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function AddEntityAnimationTime(#Entité, Animation$, Temps)
+@Function AddEntityAnimationTime(#EntitÃ©, Animation$, Temps)
 
 @Description
-  Ajoute du temps à l'animation d'une entité.
+  Ajoute du temps Ã  l'animation d'une entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
    Le nom de l'animation. 
 @LineBreak
 @LineBreak
-   Les animations sont stockées dans l'objet 
-   mesh et de manière sensible à la casse 
-   (ex: "Marche" sera une animation différente 
+   Les animations sont stockÃ©es dans l'objet 
+   mesh et de maniÃ¨re sensible Ã  la casse 
+   (ex: "Marche" sera une animation diffÃ©rente 
    de "marche"). 
 @LineBreak
 @LineBreak
-   Si l'animation n'est pas trouvée ou le mesh 
+   Si l'animation n'est pas trouvÃ©e ou le mesh 
    n'a pas de squelette alors cette fonction 
    n'aura aucun effet.
 
 @Parameter "Temps"
-  Le temps à ajouter (en millisecondes) à 
+  Le temps Ã  ajouter (en millisecondes) Ã  
   l'animation.
 
 @NoReturnValue
@@ -75,27 +75,27 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function StartEntityAnimation(#Entité, Animation$ [, Options])
+@Function StartEntityAnimation(#EntitÃ©, Animation$ [, Options])
 
 @Description
-  Lance l'animation d'une entité. @LineBreak
-  L'animation est toujours recommencée depuis 
-  le début.
+  Lance l'animation d'une entitÃ©. @LineBreak
+  L'animation est toujours recommencÃ©e depuis 
+  le dÃ©but.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet mesh 
-  de manière sensible à la casse 
-  ex: "Marche" sera une animation différente de 
+  Les animations sont stockÃ©es dans l'objet mesh 
+  de maniÃ¨re sensible Ã  la casse 
+  ex: "Marche" sera une animation diffÃ©rente de 
   "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
@@ -103,14 +103,14 @@
   Combinaison des valeurs suivantes:
 @FixedFont
   @#PB_EntityAnimation_Once  : Joue l'animation une seule fois. 
-                              Par défaut, l'animation boucle automatiquement 
-                              lorsque son extrémité est atteinte.
-                              @@EntityAnimationStatus peut être utilisé pour 
-                              détecter la fin de l'animation.
+                              Par dÃ©faut, l'animation boucle automatiquement 
+                              lorsque son extrÃ©mitÃ© est atteinte.
+                              @@EntityAnimationStatus peut Ãªtre utilisÃ© pour 
+                              dÃ©tecter la fin de l'animation.
   @#PB_EntityAnimation_Manual: Lance l'animation en mode manuel, le temps ne 
-                              sera pas automatiquement ajouté après chaque @@RenderWorld.
-                              @@AddEntityAnimationTime doit être appelé manuellement 
-                              pour mettre à jour le temps de l'animation.
+                              sera pas automatiquement ajoutÃ© aprÃ¨s chaque @@RenderWorld.
+                              @@AddEntityAnimationTime doit Ãªtre appelÃ© manuellement 
+                              pour mettre Ã  jour le temps de l'animation.
 @EndFixedFont
 
 @NoReturnValue
@@ -124,25 +124,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function StopEntityAnimation(#Entité, Animation$)
+@Function StopEntityAnimation(#EntitÃ©, Animation$)
 
 @Description
-  Arrête l'animation d'une entité.
+  ArrÃªte l'animation d'une entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet mesh 
-  de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet mesh 
+  de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
@@ -155,32 +155,32 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = EntityAnimationStatus(#Entité, Animation$)
+@Function Resultat = EntityAnimationStatus(#EntitÃ©, Animation$)
 
 @Description
-  Renvoie l'état de l'animation d'une entité.
+  Renvoie l'Ã©tat de l'animation d'une entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @ReturnValue
 @FixedFont
-  @#PB_EntityAnimation_Stopped: L'animation est à l'arrêt ou terminée.
-  @#PB_EntityAnimation_Started: L'animation est en cours d'exécution.
+  @#PB_EntityAnimation_Stopped: L'animation est Ã  l'arrÃªt ou terminÃ©e.
+  @#PB_EntityAnimation_Started: L'animation est en cours d'exÃ©cution.
   @#PB_EntityAnimation_Unknown: L'animation n'existe pas dans le mesh.
 @EndFixedFont
 
@@ -191,36 +191,36 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function EntityAnimationBlendMode(#Entité, Mode)
+@Function EntityAnimationBlendMode(#EntitÃ©, Mode)
 
 @Description
-  Change le blendmode (mélange des couleurs) 
-  de l'animation d'une entité. 
+  Change le blendmode (mÃ©lange des couleurs) 
+  de l'animation d'une entitÃ©. 
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Mode"
 @FixedFont
-  @#PB_EntityAnimation_Average   : Le mélange est le résultat de la moyenne des deux animations (par défaut). 
-                                  Par exemple, si la première animation tourne un bras à 40 degrés et la 
-                                  deuxième animation fait tourner le bras à 90 degrés, le bras va tourner 
-                                  de (40+90)/2 = 65 degrés (si les deux animations tournent en même temps 
+  @#PB_EntityAnimation_Average   : Le mÃ©lange est le rÃ©sultat de la moyenne des deux animations (par dÃ©faut). 
+                                  Par exemple, si la premiÃ¨re animation tourne un bras Ã  40 degrÃ©s et la 
+                                  deuxiÃ¨me animation fait tourner le bras Ã  90 degrÃ©s, le bras va tourner 
+                                  de (40+90)/2 = 65 degrÃ©s (si les deux animations tournent en mÃªme temps 
                                   en mode full weight).
-  @#PB_EntityAnimation_Cumulative: Le mélange est la somme des deux animations. 
-                                  Par exemple, si la première animation tourne un bras à 40 degrés 
-                                  et la deuxième animation fait tourner le bras à 90 degrés, alors 
-                                  le bras tourne à 40+90 = 130 degrés (si les deux animations tournent 
-                                  en même temps en mode full weight).
+  @#PB_EntityAnimation_Cumulative: Le mÃ©lange est la somme des deux animations. 
+                                  Par exemple, si la premiÃ¨re animation tourne un bras Ã  40 degrÃ©s 
+                                  et la deuxiÃ¨me animation fait tourner le bras Ã  90 degrÃ©s, alors 
+                                  le bras tourne Ã  40+90 = 130 degrÃ©s (si les deux animations tournent 
+                                  en mÃªme temps en mode full weight).
 
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Lors du passage d'une animation à l'autre 
-  avec @@SetEntityAnimationWeight, un mélange 
-  est appliqué pour une transition en douceur 
+  Lors du passage d'une animation Ã  l'autre 
+  avec @@SetEntityAnimationWeight, un mÃ©lange 
+  est appliquÃ© pour une transition en douceur 
   entre les animations.
 
 @SeeAlso
@@ -231,31 +231,31 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = GetEntityAnimationTime(#Entité, Animation$)
+@Function Resultat = GetEntityAnimationTime(#EntitÃ©, Animation$)
 
 @Description
-  Renvoie le temps de l'animation d'une entité.
+  Renvoie le temps de l'animation d'une entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @ReturnValue
   Le temps courant de l'animation (en 
-  millisecondes) ou zéro si l'animation ne 
+  millisecondes) ou zÃ©ro si l'animation ne 
   fonctionne pas.
 
 @SeeAlso
@@ -267,31 +267,31 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAnimationTime(#Entité, Animation$, Temps)
+@Function SetEntityAnimationTime(#EntitÃ©, Animation$, Temps)
 
 @Description
  Modifie le temps courant de l'animation d'une 
- entité. 
+ entitÃ©. 
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @Parameter "Temps"
-  Le temps absolu à définir (en millisecondes).
+  Le temps absolu Ã  dÃ©finir (en millisecondes).
 
 @NoReturnValue
 
@@ -309,31 +309,31 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = GetEntityAnimationLength(#Entité, Animation$)
+@Function Resultat = GetEntityAnimationLength(#EntitÃ©, Animation$)
 
 @Description
   Renvoie la longueur de l'animation d'une 
-  entité.
+  entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse (ex: 
-  "Marche" sera une animation différente de 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse (ex: 
+  "Marche" sera une animation diffÃ©rente de 
   "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @ReturnValue
-  La durée de l'animation de l'entité (en 
+  La durÃ©e de l'animation de l'entitÃ© (en 
   millisecondes).
 
 @SeeAlso
@@ -344,30 +344,30 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAnimationLength(#Entité, Animation$, Duree)
+@Function SetEntityAnimationLength(#EntitÃ©, Animation$, Duree)
 
 @Description
-  Change la longueur de l'animation d'une entité.
+  Change la longueur de l'animation d'une entitÃ©.
 
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @Parameter "Duree"
-  La nouvelle durée de l'animation de l'entité 
+  La nouvelle durÃ©e de l'animation de l'entitÃ© 
   (en millisecondes).
   
 @NoReturnValue
@@ -380,46 +380,46 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat.f = GetEntityAnimationWeight(#Entité, Animation$)
+@Function Resultat.f = GetEntityAnimationWeight(#EntitÃ©, Animation$)
 
 @Description
-  Renvoie le poids de l'animation d'une entité. 
+  Renvoie le poids de l'animation d'une entitÃ©. 
    
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @ReturnValue
   Le poids actuel de l'animation (valeur 
   comprise entre 0.0 et 1.0). 
-  Si le poids est égal à 0, alors l'animation 
+  Si le poids est Ã©gal Ã  0, alors l'animation 
   est sans effet. 
-  Si le poids est égal à 1 alors l'animation 
+  Si le poids est Ã©gal Ã  1 alors l'animation 
   joue pleinement.
 
 @Remarks
   Le poids est utile lorsque vous jouez 
-  plusieurs animations à la fois.@LineBreak 
+  plusieurs animations Ã  la fois.@LineBreak 
   Par exemple, pour faire une transition en 
-  douceur d'une animation à une autre, il est 
-  possible de réduire progressivement le poids 
-  de la première animation et d'augmenter le 
-  poids de la deuxième animation. @LineBreak
-  L'@@EntityAnimationBlendMode affecte également 
-  la façon dont les animations sont mélangées.
+  douceur d'une animation Ã  une autre, il est 
+  possible de rÃ©duire progressivement le poids 
+  de la premiÃ¨re animation et d'augmenter le 
+  poids de la deuxiÃ¨me animation. @LineBreak
+  L'@@EntityAnimationBlendMode affecte Ã©galement 
+  la faÃ§on dont les animations sont mÃ©langÃ©es.
   
 @SeeAlso
   @@StartEntityAnimation, 
@@ -429,48 +429,48 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetEntityAnimationWeight(#Entité, Animation$, Poids.f)
+@Function SetEntityAnimationWeight(#EntitÃ©, Animation$, Poids.f)
 
 @Description
-  Modifie le poids de l'animation d'une entité. 
+  Modifie le poids de l'animation d'une entitÃ©. 
    
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @Parameter "Poids"
   Le nouveau poids de l'animation (valeur 
   comprise entre 0.0 et 1.0). 
-  Si le poids est égal à 0 alors l'animation 
+  Si le poids est Ã©gal Ã  0 alors l'animation 
   est sans effet. 
-  Si le poids est égal à 1 alors l'animation 
+  Si le poids est Ã©gal Ã  1 alors l'animation 
   joue pleinement.
   
 @NoReturnValue
 
 @Remarks
   Le poids est utile lorsque vous jouez 
-  plusieurs animations à la fois. @LineBreak
+  plusieurs animations Ã  la fois. @LineBreak
   Par exemple, pour faire une transition en 
-  douceur d'une animation à une autre, il est 
-  possible de réduire progressivement le poids 
-  de la première et d'augmenter le poids de la 
-  deuxième animation. @LineBreak
-  L'@@EntityAnimationBlendMode affecte également 
-  la façon dont les animations sont mélangées.
+  douceur d'une animation Ã  une autre, il est 
+  possible de rÃ©duire progressivement le poids 
+  de la premiÃ¨re et d'augmenter le poids de la 
+  deuxiÃ¨me animation. @LineBreak
+  L'@@EntityAnimationBlendMode affecte Ã©galement 
+  la faÃ§on dont les animations sont mÃ©langÃ©es.
 
 @SeeAlso
   @@StartEntityAnimation, 
@@ -480,34 +480,34 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UpdateEntityAnimation(#Entité, Animation$)
+@Function UpdateEntityAnimation(#EntitÃ©, Animation$)
 
 @Description
-  Mise à jour de l'animation d'une entité. 
+  Mise Ã  jour de l'animation d'une entitÃ©. 
     
-@Parameter "#Entité"
-  L'entité à utiliser.
+@Parameter "#EntitÃ©"
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans l'objet 
-  mesh de manière sensible à la casse 
-  (ex: "Marche" sera une animation différente 
+  Les animations sont stockÃ©es dans l'objet 
+  mesh de maniÃ¨re sensible Ã  la casse 
+  (ex: "Marche" sera une animation diffÃ©rente 
   de "marche"). 
 @LineBreak
 @LineBreak
-  Si l'animation n'est pas trouvée ou le mesh 
+  Si l'animation n'est pas trouvÃ©e ou le mesh 
   n'a pas de squelette alors cette fonction 
   n'aura aucun effet.
 
 @NoReturnValue
 
 @Remarks
-  Par exemple, si les sommets du mesh ont été 
-  modifiés alors le cache d'animation doit être 
-  recalculé.
+  Par exemple, si les sommets du mesh ont Ã©tÃ© 
+  modifiÃ©s alors le cache d'animation doit Ãªtre 
+  recalculÃ©.
 
 @SeeAlso
   @@StartEntityAnimation

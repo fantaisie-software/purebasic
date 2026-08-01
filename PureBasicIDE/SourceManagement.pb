@@ -64,6 +64,11 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
       
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
+
+    CompilerElseIf #CompileLinuxGtk
+
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, TabBarGadgetInclude\FaceColor)
       
     CompilerElse
       
@@ -245,7 +250,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       
       FD_SelectNone()
       
-      CompilerIf #CompileWindows | #CompileMac
+      CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
         AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -255,7 +260,7 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   Else
     currentwindow = 0 ; no more active form
     
-    CompilerIf #CompileWindows | #CompileMac
+    CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
       AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -336,10 +341,12 @@ Procedure NewSource(FileName$, ExecuteTool)
   FileList()\Optimizer        = OptionOptimizer
   FileList()\EnableASM        = OptionInlineASM
   FileList()\EnableXP         = OptionXPSkin
+  FileList()\EnableWayland    = OptionWayland
   FileList()\EnableAdmin      = OptionVistaAdmin
   FileList()\EnableUser       = OptionVistaUser
   FileList()\DPIAware         = OptionDPIAware
   FileList()\DllProtection    = OptionDllProtection
+  FileList()\SharedUCRT       = OptionSharedUCRT
   FileList()\EnableThread     = OptionThread
   FileList()\EnableOnError    = OptionOnError
   FileList()\ExecutableFormat = OptionExeFormat
@@ -862,6 +869,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     NbLines + 1
     ConfigLines$(NbLines) = "EnableXP"
   EndIf
+  If *Target\EnableWayland And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "EnableWayland"
+  EndIf
   If *Target\EnableAdmin And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "EnableAdmin"
@@ -877,6 +888,10 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   If *Target\DllProtection And IsCodeFile
     NbLines + 1
     ConfigLines$(NbLines) = "DllProtection"
+  EndIf
+  If *Target\SharedUCRT And IsCodeFile
+    NbLines + 1
+    ConfigLines$(NbLines) = "SharedUCRT"
   EndIf
   If *Target\EnableOnError And IsCodeFile
     NbLines + 1
@@ -1177,6 +1192,7 @@ Procedure AnalyzeSettings_Old(*Source.SourceFile, *Buffer, Length)
         If Line$ = "; EOF" : Found = 1
         ElseIf Line$ =          "; EnableAsm"         : Found = 1 : *Source\EnableASM = 1
         ElseIf Line$ =          "; EnableXP"          : Found = 1 : *Source\EnableXP  = 1
+        ElseIf Line$ =          "; EnableWayland"     : Found = 1 : *Source\EnableWayland = 1
         ElseIf Line$ =          "; EnableOnError"     : Found = 1 : *Source\EnableOnError = 1
         ElseIf Line$ =          "; DisableDebugger"   : Found = 1 : *Source\Debugger  = 0
         ElseIf Left(Line$,13) = "; Executable="       : Found = 1 : *Source\ExecutableName$   = Right(Line$, Len(Line$)-13)
@@ -1231,6 +1247,8 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
   *Source\DllProtection = 0
+  *Source\SharedUCRT    = 0
+  *Source\EnableWayland = 0
   
   ClearList(*Source\UnknownIDEOptionsList$())
   
@@ -1319,10 +1337,12 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "OPTIMIZER":        *Source\Optimizer = 1
       Case "ENABLEASM":        *Source\EnableASM = 1
       Case "ENABLEXP":         *Source\EnableXP = 1
+      Case "ENABLEWAYLAND":    *Source\EnableWayland = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
       Case "DPIAWARE":         *Source\DPIAware = 1
       Case "DLLPROTECTION":    *Source\DllProtection = 1
+      Case "SHAREDUCRT":       *Source\SharedUCRT = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
       Case "ENABLEONERROR":    *Source\EnableOnError = 1
       Case "DISABLEDEBUGGER":  *Source\Debugger = 0
@@ -1601,10 +1621,12 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableASM     = 0
     *Source\EnableThread  = 0
     *Source\EnableXP      = 1
+    *Source\EnableWayland = 0
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
     *Source\DllProtection = 0
+    *Source\SharedUCRT    = 0
     *Source\EnableOnError = 0
     *Source\VersionInfo   = 0
     *Source\ErrorLog      = 1
@@ -1690,7 +1712,7 @@ Procedure FindSourceFile(FileName$)
   
 EndProcedure
 
-Procedure LoadSourceFile(FileName$, Activate = 1)
+Procedure LoadSourceFile(FileName$, Activate = 1, AddToRecentFiles = 1)
   success = 0
   
   ; Check if this is a project file
@@ -1713,11 +1735,17 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
   ; Check if this is a form (file extension only for now)
   ; NOTE: it needs to be after the already opened check !
   If LCase(GetExtensionPart(FileName$)) = "pbf"
+    
+    If FD_VersionCheck(FileName$) = #PB_MessageRequester_No
+      ProcedureReturn 0
+    EndIf
+
     OpenForm(FileName$)
     RecentFiles_AddFile(FileName$, #False)
     AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
     LinkSourceToProject(*ActiveSource) ; Link To project (If any)
     ProcedureReturn 1
+    
   EndIf
   
   ; reset the current source
@@ -1818,7 +1846,9 @@ Procedure LoadSourceFile(FileName$, Activate = 1)
         *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\Filename$, #PB_Cipher_MD5)
       EnableDebugger
       
-      RecentFiles_AddFile(FileName$, #False)
+      If AddToRecentFiles
+        RecentFiles_AddFile(FileName$, #False)
+      EndIf
       AddTools_Execute(#TRIGGER_SourceLoad, *ActiveSource)
       FullSourceScan(*ActiveSource)
       UpdateFolding(*ActiveSource, 0, -1)
@@ -2435,11 +2465,18 @@ Procedure RemoveSource(*Source.SourceFile = 0)
     EndIf
     *ActiveSource = 0
   Else
-    PushListPosition(FileList())
+    If @FileList() <> *Source
+      PushListPosition(FileList())
+      PopList = 1
+    EndIf
     ChangeCurrentElement(FileList(), *Source)
     Index = ListIndex(FileList())
-    DeleteElement(FileList())
-    PopListPosition(FileList())
+    If Not DeleteElement(FileList())
+      FirstElement(FileList())
+    EndIf
+    If PopList
+      PopListPosition(FileList())
+     EndIf
   EndIf
   
   RemoveTabBarGadgetItem(#GADGET_FilesPanel, Index)
@@ -2837,7 +2874,7 @@ Procedure FileMonitorEvent()
           ChangeActiveSourceCode()  ; show the file to the user
           FlushEvents()
           
-          If MessageRequester(#ProductName$, LanguagePattern("FileStuff","DeletedOnDisk", "%filename%", FileList()\FileName$), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
+          If MessageRequester(#ProductName$, LanguagePattern("FileStuff","DeletedOnDisk", "%filename%", GetFilePart(FileList()\FileName$)), #PB_MessageRequester_YesNo) = #PB_MessageRequester_Yes
             SaveSourceFile(*ActiveSource\Filename$)
             HistoryEvent(*ActiveSource, #HISTORY_Save)
           Else
@@ -2862,9 +2899,9 @@ Procedure FileMonitorEvent()
           FlushEvents()
           
           If GetSourceModified() ; different message if the file is modified
-            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", FileList()\Filename$)
+            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", GetFilePart(FileList()\Filename$))
           Else
-            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk1", "%filename%", FileList()\Filename$)
+            Message$ = LanguagePattern("FileStuff","ModifiedOnDisk1", "%filename%", GetFilePart(FileList()\Filename$))
           EndIf
           
           FileMonitorWindowDialog = OpenDialog(?Dialog_FileMonitor, WindowID(#WINDOW_Main))

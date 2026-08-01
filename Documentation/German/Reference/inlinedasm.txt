@@ -1,37 +1,37 @@
-@Title Inline x86 ASM
+ï»¿@Title Inline x86 ASM
 
-@Section Einführung
+@Section EinfÃ¼hrung
+  Die Verwendung von Inline-Assemblercode ist nicht dieselbe, je nachdem, ob das ASM-Backend oder das C-Backend verwendet wird.
+  Mit dem Compiler, der das ASM-Backend verwendet, erlaubt PureBasic das direkte EinfÃ¼gen von allen x86 Assembler Befehlen
+  (einschlieÃŸlich MMX- und FPU-Befehlen) in den Sourcecode, so als wÃ¤re es ein echter Assembler. Und es bietet 
+  noch mehr: Sie kÃ¶nnen direkt alle @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" in den
+  Assembler SchlÃ¼sselwÃ¶rtern benutzen, Sie kÃ¶nnen beliebige Assembler Befehle auf derselben Zeile verwenden, ...
 
-  Mit dem Compiler, der das ASM-Backend verwendet, erlaubt PureBasic das direkte Einfügen von allen x86 Assembler Befehlen
-  (einschließlich MMX- und FPU-Befehlen) in den Sourcecode, so als wäre es ein echter Assembler. Und es bietet 
-  noch mehr: Sie können direkt alle @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" in den
-  Assembler Schlüsselwörtern benutzen, Sie können beliebige Assembler Befehle auf derselben Zeile verwenden, ...
-
-  Auf Windows und Linux verwendet PureBasic @Bold "fasm" (@InternetLink "http://flatassembler.net/" "http://flatassembler.net"), wenn Sie also weitere Informationen über den Syntax wünschen, lesen Sie einfach die @Bold "fasm" Anleitung. @LineBreak
-  Auf OS X verwendet PureBasic @Bold "yasm" (@InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), wenn Sie also weitere Informationen über den Syntax wünschen, lesen Sie einfach die @Bold "yasm" Anleitung. @LineBreak
+  Auf Windows und Linux verwendet PureBasic @Bold "fasm" (@InternetLink "http://flatassembler.net/" "http://flatassembler.net"), wenn Sie also weitere Informationen Ã¼ber den Syntax wÃ¼nschen, lesen Sie einfach die @Bold "fasm" Anleitung. @LineBreak
+  Auf OS X verwendet PureBasic @Bold "yasm" (@InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), wenn Sie also weitere Informationen Ã¼ber den Syntax wÃ¼nschen, lesen Sie einfach die @Bold "yasm" Anleitung. @LineBreak
   @LineBreak
   Zum Aktivieren des Inline-Assemblers verwenden Sie die Compiler-Direktiven @ReferenceLink "CompilerDirectives" "EnableASM"
   und @ReferenceLink "CompilerDirectives" "DisableASM". @LineBreak
-  Es ist möglich, in der IDE mit der @ReferenceLink "ide_compiler" "Compiler-Option" "InlineASM Syntax-Einfärbung einschalten"
-  die ASM-Syntaxeinfärbung zu aktivieren. @LineBreak
+  Es ist mÃ¶glich, in der IDE mit der @ReferenceLink "ide_compiler" "Compiler-Option" "InlineASM Syntax-EinfÃ¤rbung einschalten"
+  die ASM-SyntaxeinfÃ¤rbung zu aktivieren. @LineBreak
 
 @Section Regeln
 
-  Sie müssen einige Regeln genau beachten, wenn Sie ASM im Basic Code einbinden möchten: @LineBreak
+  Sie mÃ¼ssen einige Regeln genau beachten, wenn Sie ASM im Basic Code einbinden mÃ¶chten: @LineBreak
   @LineBreak
-  - Die benutzten @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" müssen @Bold vor ihrer Benutzung in einem Assembler Schlüsselwort deklariert werden.
+  - Die benutzten @ReferenceLink "variables" "Variablen" oder @ReferenceLink "memory" "Zeiger" mÃ¼ssen @Bold vor ihrer Benutzung in einem Assembler SchlÃ¼sselwort deklariert werden.
   Ihre Namen in Assembler sind 'v_variablename' und 'p_pointername', und in einer @ReferenceLink "procedures" "Prozedur" lauten ihre Namen
   'p.v_variablename' und 'p.p_pointername'.
   @LineBreak
-  - Sprungmarken (Labels): Die Sprungmarken müssen in Kleinbuchstaben referenziert werden, wenn der Inline-ASM verwendet wird.
-  Wenn Sie auf eine @ReferenceLink "general_rules" "Sprungmarke" verweisen, müssen Sie das Präfix 'l_' vor dem Namen einfügen.
+  - Sprungmarken (Labels): Die Sprungmarken mÃ¼ssen in Kleinbuchstaben referenziert werden, wenn der Inline-ASM verwendet wird.
+  Wenn Sie auf eine @ReferenceLink "general_rules" "Sprungmarke" verweisen, mÃ¼ssen Sie das PrÃ¤fix 'l_' vor dem Namen einfÃ¼gen.
   @LineBreak
-  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" definiert wird, dann lautet ihr Präfix 'll_procedurename_', in Kleinbuchstaben.
+  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" definiert wird, dann lautet ihr PrÃ¤fix 'll_procedurename_', in Kleinbuchstaben.
   @LineBreak
-  - Wenn Sie auf einen @ReferenceLink "module" "Module"-Eintrag verweisen, dann müssen Sie das Präfix 'module_name.l_' (alles in
-  Kleinbuchstaben) vor dem Eintrag einfügen.
+  - Wenn Sie auf einen @ReferenceLink "module" "Module"-Eintrag verweisen, dann mÃ¼ssen Sie das PrÃ¤fix 'module_name.l_' (alles in
+  Kleinbuchstaben) vor dem Eintrag einfÃ¼gen.
   @LineBreak
-  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" innerhalb eines @ReferenceLink "module" "Moduls" definiert wird, dann lautet ihr Präfix 'module_name.ll_procedurename_', in Kleinbuchstaben.
+  Wenn die Sprungmarke in einer @ReferenceLink "procedures" "Prozedur" innerhalb eines @ReferenceLink "module" "Moduls" definiert wird, dann lautet ihr PrÃ¤fix 'module_name.ll_procedurename_', in Kleinbuchstaben.
 
   @Example
 
@@ -72,39 +72,39 @@
   LabelEnd:  ; sein Name ist l_labelend:
 @EndCode
 
-  - Die Fehler in einem ASM Programmteil werden nicht von PureBasic gemeldet, jedoch von FAsm. Überprüfen Sie einfach 
+  - Die Fehler in einem ASM Programmteil werden nicht von PureBasic gemeldet, jedoch von FAsm. ÃœberprÃ¼fen Sie einfach 
     Ihren Programmcode, wenn ein solcher Fehler auftritt. @LineBreak
-  - Bei eingeschaltetem InlineASM können Sie keine ASM Schlüsselwörter als Namen für Sprungmarken benutzen. @LineBreak
-  - Auf x86-Prozessoren, die zur Verfügung stehenden flüchtigen Register sind: eax, edx und ecx, xmm0, xmm1, xmm2 und xmm3. Alle anderen müssen immer reserviert bleiben. @LineBreak
-  - Auf x64-Prozessoren, die zur Verfügung stehenden flüchtigen Register sind: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 und xmm3. Alle anderen müssen immer reserviert bleiben. @LineBreak
+  - Bei eingeschaltetem InlineASM kÃ¶nnen Sie keine ASM SchlÃ¼sselwÃ¶rter als Namen fÃ¼r Sprungmarken benutzen. @LineBreak
+  - Auf x86-Prozessoren, die zur VerfÃ¼gung stehenden flÃ¼chtigen Register sind: eax, edx und ecx, xmm0, xmm1, xmm2 und xmm3. Alle anderen mÃ¼ssen immer reserviert bleiben. @LineBreak
+  - Auf x64-Prozessoren, die zur VerfÃ¼gung stehenden flÃ¼chtigen Register sind: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 und xmm3. Alle anderen mÃ¼ssen immer reserviert bleiben. @LineBreak
   - Nur auf Windows: Eine ASM Hilfe-Datei kann @InternetLink "http://www.purebasic.com/download/AsmHelp.zip" "hier" geladen werden. Wenn Sie die 'ASM.HLP' ins 'Help/' Verzeichnis von PureBasic 
-    verschieben, können Sie nach Drücken von F1 auch Hilfe zu ASM Schlüsselwörtern erhalten. (Hinweis: Dieses Feature 
+    verschieben, kÃ¶nnen Sie nach DrÃ¼cken von F1 auch Hilfe zu ASM SchlÃ¼sselwÃ¶rtern erhalten. (Hinweis: Dieses Feature 
     ist nur bei aktiviertem InlineASM eingeschalten.) @LineBreak
   @LineBreak
-  Bei Benutzung des Assemblers in einer Prozedur müssen Sie auf verschiedene wichtige Dinge achten: @LineBreak
+  Bei Benutzung des Assemblers in einer Prozedur mÃ¼ssen Sie auf verschiedene wichtige Dinge achten: @LineBreak
   @LineBreak
-  - Um den Inhalt des 'eax' Registers (oder 'rax' auf x64) direkt zurückzugeben, benutzen Sie einfach @Keyword "ProcedureReturn" ohne einen weiteren Ausdruck. 
-    Dies lässt den Inhalt des 'eax' Registers unangetastet und benutzt ihn als Rückgabewert.
+  - Um den Inhalt des 'eax' Registers (oder 'rax' auf x64) direkt zurÃ¼ckzugeben, benutzen Sie einfach @Keyword "ProcedureReturn" ohne einen weiteren Ausdruck. 
+    Dies lÃ¤sst den Inhalt des 'eax' Registers unangetastet und benutzt ihn als RÃ¼ckgabewert.
 
   @Example
 
 @Code
   Procedure.l MyTest()
     MOV eax, 45
-    ProcedureReturn  ; Der zurückgegebene Wert wird 45 sein
+    ProcedureReturn  ; Der zurÃ¼ckgegebene Wert wird 45 sein
   EndProcedure
 @EndCode
 
   - Lokale @ReferenceLink "variables" "Variablen" in PureBasic werden direkt durch den Stack-Pointer indexiert, was bedeutet: 
-    Wenn der Stack-Pointer durch eine ASM Anweisung (wie PUSH, POP etc.) verändert wird, dann wird 
+    Wenn der Stack-Pointer durch eine ASM Anweisung (wie PUSH, POP etc.) verÃ¤ndert wird, dann wird 
     der Variablen-Index fehlerhaft sein und ein direkter Verweis auf Variablen funktioniert nicht mehr.
     @LineBreak
     @LineBreak
-  - Durch die Verwendung des '!' Zeichens am Zeilenbeginn ist es möglich, dem Assembler eine Zeile 
-    Assembler-Code direkt zu übergeben, ohne dass diese erst durch den Compiler verarbeitet wird.
-    Dies ermöglicht vollen Zugriff auf die Assembler-Direktiven. Bei der Nutzung dieses Features
-    kann auf lokale Variablen durch die Verwendung der Schreibweise 'p.v_Variablenname' für eine
-    reguläre @ReferenceLink "variables" "Variable" oder 'p.p_Variablenname' für einen @ReferenceLink "memory" "Zeiger"
+  - Durch die Verwendung des '!' Zeichens am Zeilenbeginn ist es mÃ¶glich, dem Assembler eine Zeile 
+    Assembler-Code direkt zu Ã¼bergeben, ohne dass diese erst durch den Compiler verarbeitet wird.
+    Dies ermÃ¶glicht vollen Zugriff auf die Assembler-Direktiven. Bei der Nutzung dieses Features
+    kann auf lokale Variablen durch die Verwendung der Schreibweise 'p.v_Variablenname' fÃ¼r eine
+    regulÃ¤re @ReferenceLink "variables" "Variable" oder 'p.p_Variablenname' fÃ¼r einen @ReferenceLink "memory" "Zeiger"
     verwiesen werden.
     
    @Example
@@ -122,3 +122,99 @@
   
 
     @ExampleFile All AsmInline.pb
+
+
+@Section "Funktionen des Inline-Assemblers mit dem Compiler unter Verwendung des C-Backends"
+
+  Sie kÃ¶nnen den gcc Syntax verwenden: @InternetLink "https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html" "https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html".
+
+   @Example Pi
+
+@Code  pi
+  Procedure.d get_pi()
+    
+    Define.d pi
+    
+    !asm (
+    !    "fldpi\n"
+    !    "fstpl   %[v_pi]\n"
+    !    :[v_pi]"=m"(v_pi)::
+    !);
+  
+    ProcedureReturn pi
+  EndProcedure
+
+  Define.d n
+  n=get_pi()
+  Debug n
+@EndCode 
+
+   @Example bswap
+   
+@Code
+  Procedure bswap(v.l) 
+    Protected ret.l 
+    CompilerIf #PB_Compiler_Backend = #PB_Backend_C 
+      !".intel_syntax noprefix";
+      !"mov eax, v_v";
+      !"bswap eax"; 
+      !"mov v_ret, eax";
+    CompilerElse 
+      !mov eax, [p.v_v]
+      !bswap eax 
+      !mov [p.v_ret],eax 
+    CompilerEndIf 
+    ProcedureReturn ret 
+  EndProcedure 
+
+  x.i = $FF000000 
+  Debug RSet(Hex(x),8,"0")
+  x = bswap(x) 
+  Debug RSet(Hex(x),8,"0")
+@EndCode 
+
+   @Example Fibonacci
+   
+  Procedure.q fib(ub.l, *f)
+    If (ub<3) 
+      ProcedureReturn 1
+    EndIf
+    ;  !set_dpfpu();
+    !asm (
+    !    "mov %[p_f], %%rax;"
+    !    "fldz;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "fld1;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "mov %[v_ub], %%ecx;"
+    !    "sub $2, %%ecx;"
+    !    "fib2:"
+    !    "fxch %%st(1);"
+    !    "fadd %%st(1),%%st(0);"
+    !    "fld %%st(0);"
+    !    "fistpq (%%rax);"
+    !    "add $8, %%rax;"
+    !    "dec %%ecx;"
+    !    "jg fib2;"
+    !    "fstp %%st(0);"
+    !    "fstp %%st(0);" 
+    !     :[p_f]"=m"(p_f)
+    !     :[v_ub]"m"(v_ub)
+    !     :"rax","ecx"
+    !);
+    ProcedureReturn
+  EndProcedure
+
+  Dim fibonacci.q(20)
+  n=20
+  fib(n+1, @fibonacci(0))
+  For i.l=0 To n
+    Debug fibonacci(i)
+  Next
+@Code
+
+@EndCode 
+
+   @ExampleFile All AsmInlineBackendC.pb

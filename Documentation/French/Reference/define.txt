@@ -1,37 +1,40 @@
-@Title Define
+ï»¿@Title Define
 
 @Syntax
 
   @Keyword Define.<type> [<variable> [= <expression>], <variable> [= <expression>], ...]
 
 @Description
-  Permet d'assigner le même type de données à une série de @ReferenceLink "variables" "variables".
+  Permet d'assigner le mÃªme type de donnÃ©es Ã  une sÃ©rie de @ReferenceLink "variables" "variables".
   @LineBreak 
-  Sans ce mot clé, les variables sont crées avec le type par défaut de PureBasic 
+  Sans ce mot clÃ©, les variables sont crÃ©es avec le type par dÃ©faut de PureBasic 
   qui est le type entier INTEGER. Pour rappel le type INTEGER vaut:@LineBreak 
-  4 octets (avec un compilateur 32 bits) allant de -2147483648 à +2147483647@LineBreak 
-  8 octets (avec un compilateur 64 bits) allant de -9223372036854775808 à +9223372036854775807
-
-@Example
+  4 octets (avec un compilateur 32 bits) allant de -2147483648 Ã  +2147483647@LineBreak 
+  8 octets (avec un compilateur 64 bits) allant de -9223372036854775808 Ã  +9223372036854775807
+  @LineBreak 
+  @LineBreak 
+  @Keyword Define est d'une grande souplesse car il permet aussi d'assigner un type diffÃ©rent
+  Ã  une variable en particulier, Ã  l'intÃ©rieur d'une sÃ©rie. 
+  @LineBreak 
+  @LineBreak 
+ @Keyword Define peut Ã©galement Ãªtre utilisÃ© avec les @ReferenceLink "dim" "tableaux", 
+  les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps".   
+  
+@Example Affectation en sÃ©rie
 @Code
    Define.b a, b = 10, c = b*2, d ; Ces 4 variables sont de type octets (byte .b)
 @EndCode
 
-  @Keyword Define est d'une grande souplesse car il permet aussi d'assigner un type 
-  à une variable en particulier à l'intérieur d'une série.
-
-@Example
+@Example MÃ©lange d'affectations en sÃ©rie et individuelles
 @Code  
-   Define.q a, b.w, c, d  ; a, c, et d sont des Quad (.q) alors que b est un Word (.w)
+   Define.q a, b.w, c, d, st.s = "ok"  ; a, c, et d sont des Quad (.q), b est un Word (.w) et st est une String (.s)
 
-   Debug SizeOf(a) ; Affichera 8
-   Debug SizeOf(b) ; Affichera 2
-   Debug SizeOf(c) ; Affichera 8 
-   Debug SizeOf(d) ; Affichera 8
+   Debug SizeOf(a)  ; Affichera 8
+   Debug SizeOf(b)  ; Affichera 2
+   Debug SizeOf(c)  ; Affichera 8 
+   Debug SizeOf(d)  ; Affichera 8
+   Debug st         ; Affichera ok  
 @EndCode
-
-  @Keyword Define peut également être utilisé avec les @ReferenceLink "dim" "tableaux", 
-  les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". 
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -44,15 +47,15 @@
 
 @Description
   
-  Autre possibilité pour la déclaration des variables avec @Keyword "Define". 
+  Autre possibilitÃ© pour la dÃ©claration des variables avec @Keyword "Define". 
 
   @Example
 @Code
-  Define MonChar.c ; Caractère
+  Define MonChar.c ; CaractÃ¨re
   Define MonLong.l ; Double Mots
   Define MonWord.w ; Mot
   
-  Debug SizeOf(MonChar)   ; Affichera 2 (à cause du mode unicode)
+  Debug SizeOf(MonChar)   ; Affichera 2 (Ã  cause du mode unicode)
   Debug SizeOf(MonLong)   ; Affichera 4 
   Debug SizeOf(MonWord)   ; Affichera 2 
 @EndCode

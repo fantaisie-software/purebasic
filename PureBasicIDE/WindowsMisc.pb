@@ -46,6 +46,7 @@ CompilerIf #CompileWindows
       CurrentValue$ = Space(#MAX_PATH*2) ; Ensure it will be big enough for a path + some infos
       CurrentValueSize = Len(CurrentValue$)*#CharSize
       If RegQueryValueEx_(NewKey, "", 0, @Type, @CurrentValue$, @CurrentValueSize) = #ERROR_SUCCESS
+        CurrentValue$ = PeekS(@CurrentValue$)
         If Value$ = CurrentValue$
           NeedUpdate = 0
         EndIf
@@ -83,6 +84,7 @@ CompilerIf #CompileWindows
       CompilerIf Defined(FredLocalCompile, #PB_Constant) ; Fred config
         CompilerIf #PB_Compiler_Processor = #PB_Processor_x64
           CompilerIf #SpiderBasic
+            CompilerError "Use PureBasic x86 to compile the SpiderBasic IDE on Windows"
             PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\SpiderBasic_x64\"
           CompilerElse
             PureBasicPath$ = "C:\PureBasic\Svn\"+#SVNVersion+"\Build\PureBasic_x64\"
@@ -98,6 +100,10 @@ CompilerIf #CompileWindows
         PureBasicPath$ = #PB_Compiler_Home
       CompilerEndIf
       
+      If FileSize(PureBasicPath$) <> -2
+        MessageRequester("RootPath not found", "RootPath '" + PureBasicPath$ + "' not found !", #PB_MessageRequester_Error)
+        End
+      EndIf
       
       
     CompilerEndIf
@@ -108,6 +114,7 @@ CompilerIf #CompileWindows
     If PureBasicPath$ = "" ; Only change if not set by commandline
       PureBasicPath$ = Space(#MAX_PATH)
       GetModuleFileName_(GetModuleHandle_(#Null$), @PureBasicPath$, #MAX_PATH)
+      PureBasicPath$ = PeekS(@PureBasicPath$)
       PureBasicPath$ = GetPathPart(PureBasicPath$)
     EndIf
     
@@ -139,6 +146,7 @@ CompilerIf #CompileWindows
       If SHGetSpecialFolderLocation_(0,  #CSIDL_COMMON_APPDATA, @*pidlMyDocuments) = #S_OK
         SourcePath$ = Space(#MAX_PATH)
         If SHGetPathFromIDList_(*pidlMyDocuments, @SourcePath$)
+          SourcePath$ = PeekS(@SourcePath$)
           SourcePath$ + "\" + #ProductName$ + "\Examples\" ; We be something like: C:\ProgramData\SpiderBasic\Examples
         Else                                               ; Failed
           SourcePath$ = PureBasicPath$
@@ -288,6 +296,11 @@ CompilerIf #CompileWindows
     Result = #PB_ProcessPureBasicEvents
     
     If Message = #WM_DROPFILES ; drag and drop stuff
+      
+      CompilerIf #PB_Compiler_Debugger
+        InDragDropCallback = #True
+      CompilerEndIf
+      
       *hdrop = wParam
       
       count = DragQueryFile_(*hdrop, $FFFFFFFF, 0, 0)
@@ -307,6 +320,10 @@ CompilerIf #CompileWindows
       Next i
       
       DragFinish_(*hdrop)
+      
+      CompilerIf #PB_Compiler_Debugger
+        InDragDropCallback = #False
+      CompilerEndIf
       
     ElseIf Message = #WM_SYSCOMMAND
       wParam & $FFF0    ; mask out the windows internal 4 bits

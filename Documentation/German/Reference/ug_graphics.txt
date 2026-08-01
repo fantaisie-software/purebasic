@@ -1,10 +1,10 @@
-@Title Einsteiger-Kapitel - Anzeigen von Grafik-Ausgabe & einfaches Zeichnen
+Ôªø@Title Einsteiger-Kapitel - Anzeigen von Grafik-Ausgabe & einfaches Zeichnen
 
 Dieses Beispiel zeigt, wie man eine einfache Zeichnung erstellt. Es verwendet die
 @LibraryLink "2ddrawing" "2D Zeichenbefehle" zum Zeichnen von zwei Sinuskurven
 mit verschiedenen Frequenzen und zeigt die durch die Kombination der beiden Wellen
 hergestelte "Harmonie". Es verwendet @ReferenceLink "procedures" "Prozeduren",
-welche wir uns sp‰ter im Detail anschauen werden, um die Zeichenaufgaben in drei
+welche wir uns sp√§ter im Detail anschauen werden, um die Zeichenaufgaben in drei
 in sich abgeschlossene Aufgaben aufzuteilen:
 @LineBreak
 @LineBreak
@@ -48,10 +48,10 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
     If OpenWindow(#WinHarmonic, 30, 30, #imgPlotW + 20, #imgPlotH + 55, "Harmonics", #PB_Window_SystemMenu | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
       
       ; Dies ist ein nicht sichtbares Image, welches zum Zeichnen des Bildes verwendet wird,
-      ; sp‰ter wird sein Inhalt in #imgPlot dargestellt.
+      ; sp√§ter wird sein Inhalt in #imgPlot dargestellt.
       CreateImage(#drgPlot, #imgPlotW - 5, #imgPlotH - 5, 24)
       
-      ; Beschriftung f¸r die Plot 1 Auswahlbox.
+      ; Beschriftung f√ºr die Plot 1 Auswahlbox.
       TextGadget(#txtPlot1, 2, 5, 50, 25, "Plot 1:")
       
       ; Die Plot 1 Auswahlbox.
@@ -63,10 +63,10 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
       AddGadgetItem(#cboPlot1, 4, "Sin(X * 5)")
       AddGadgetItem(#cboPlot1, 5, "Sin(X * 6)")
       
-      ; Ausw‰hlen von Sin(X)
+      ; Ausw√§hlen von Sin(X)
       SetGadgetState(#cboPlot1, 0)
       
-      ; Beschriftung f¸r die Plot 2 Auswahlbox.
+      ; Beschriftung f√ºr die Plot 2 Auswahlbox.
       TextGadget(#txtPlot2, 230, 5, 50, 25, "Plot 2:")
       
       ; Die Plot 2 Auswahlbox.
@@ -78,7 +78,7 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
       AddGadgetItem(#cboPlot2, 4, "Sin(X * 5)")
       AddGadgetItem(#cboPlot2, 5, "Sin(X * 6)")
       
-      ; Ausw‰hlen Sin(X * 2), andernfalls ist die anf‰ngliche Darstellung ziemlich uninteressant.
+      ; Ausw√§hlen Sin(X * 2), andernfalls ist die anf√§ngliche Darstellung ziemlich uninteressant.
       SetGadgetState(#cboPlot2, 1)
       
       ; Das sichtbare Bild-Gadget auf dem Fenster.
@@ -93,14 +93,14 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
     ; Sendet Zeichenbefehle an #drgPlot.
     StartDrawing(ImageOutput(#drgPlot))
     
-      ; Zeichnet einen weiﬂen Hintergrund.
+      ; Zeichnet einen wei√üen Hintergrund.
       Box(0, 0, ImageWidth(#drgPlot), ImageHeight(#drgPlot), RGB(255, 255, 255))
       
       ; Zeichnet die Achsen in schwarz.
       Line(1, 1, 1, ImageHeight(#drgPlot) - 2, RGB(0, 0, 0))
       Line(1, (ImageHeight(#drgPlot) - 2) /2, ImageWidth(#drgPlot) -2, 1, RGB(0, 0, 0))
       
-      ; Zeichnen abschlieﬂen.
+      ; Zeichnen abschlie√üen.
     StopDrawing()
   EndProcedure
   
@@ -158,7 +158,7 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
     
     StartDrawing(ImageOutput(#drgPlot))
       
-      ; Legt die anf‰nglichen Start-Punkte f¸r jede Welle fest.
+      ; Legt die anf√§nglichen Start-Punkte f√ºr jede Welle fest.
       lngSX = 1
       fltSY1 = ImageHeight(#drgPlot) / 2
       fltSY2 = fltSY1
@@ -166,7 +166,7 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
       
       ; Zeichnet die Wellenformen.
       For lngEX = 1 To 720
-        ; Die Sinus-Funktion arbeitet im Bogenmaﬂ, daher konvertieren von Grad und berechnen den Sinus.
+        ; Die Sinus-Funktion arbeitet im Bogenma√ü, daher konvertieren von Grad und berechnen den Sinus.
         
         ; Funktion 1
         If alngPlot1 = 0 
@@ -188,10 +188,10 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
         fltEY1 = (ImageHeight(#drgPlot) / 2) + (fltRad1 * 100)
         ; Zeichnen einer Linie vom Startpunkt zum Endpunkt.
         LineXY(lngSX, fltSY1, lngEX, fltEY1, RGB(0, 0, 255))
-        ; Aktualisieren des n‰chsten Y Startpunkts, damit dieser den aktuellen Y Endpunkt ¸bernimmt.
+        ; Aktualisieren des n√§chsten Y Startpunkts, damit dieser den aktuellen Y Endpunkt √ºbernimmt.
         fltSY1 = fltEY1
         
-        ; Zeichnen der Funktion 2 in gr¸n.
+        ; Zeichnen der Funktion 2 in gr√ºn.
         fltEY2 = (ImageHeight(#drgPlot) / 2) + (fltRad2 * 100)
         LineXY(lngSX, fltSY2, lngEX, fltEY2, RGB(0, 255, 200))
         fltSY2 = fltEY2
@@ -201,7 +201,7 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
         LineXY(lngSX, fltSY3, lngEX, fltEY3, RGB(255, 0, 0))
         fltSY3 = fltEY3
         
-        ; Aktualisieren des X Startpunkts, damit dieser den aktuellen X Endpunkt ¸bernimmt.
+        ; Aktualisieren des X Startpunkts, damit dieser den aktuellen X Endpunkt √ºbernimmt.
         lngSX = lngEX
       Next lngEX
       
@@ -232,7 +232,7 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
         ElseIf EventGadget = #imgPlot
           ; Tue nichts.
         ElseIf EventGadget = #cboPlot1 Or EventGadget = #cboPlot2
-          ; Wenn eine der Auswahlboxen ver‰ndert wurde, zeichnen wir das Bild erneut.
+          ; Wenn eine der Auswahlboxen ver√§ndert wurde, zeichnen wir das Bild erneut.
           PlotAxes()
           PlotLegend(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
           PlotFunction(GetGadgetState(#cboPlot1), GetGadgetState(#cboPlot2))
@@ -249,4 +249,4 @@ Zeichnen der Wellen - demonstriert den @@LineXY Befehl und zeigt die Verwendung 
 
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_gui" "< Vorheriges: Erstellen einer grafischen Benutzeroberfl‰che (GUI)" | @ReferenceLink "ug_overview" "‹berblick" | @ReferenceLink "ug_procedures" "N‰chstes: Strukturieren von Programmcode in Prozeduren >"
+@ReferenceLink "ug_gui" "< Vorheriges: Erstellen einer grafischen Benutzeroberfl√§che (GUI)" | @ReferenceLink "ug_overview" "√úberblick" | @ReferenceLink "ug_procedures" "N√§chstes: Strukturieren von Programmcode in Prozeduren >"

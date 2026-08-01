@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Database library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,14 +8,14 @@
 
 @Overview
 
-La bibliothèque database est un jeu d'instructions 
-simple pour l'accès à SQLite, PostgreSQL, MySQL, DBMaria  ou à 
-tous types de bases de données (Oracle, MySQL, 
+La bibliothÃ¨que database est un jeu d'instructions 
+simple pour l'accÃ¨s Ã  SQLite, PostgreSQL, MySQL, DBMaria  ou Ã  
+tous types de bases de donnÃ©es (Oracle, MySQL, 
 Access, etc..) via l'API commune ODBC. La 
-bibliothèque est basée sur des requêtes SQL
-pour lire / écrire des données dans une base. 
-Il est donc recommandé de disposer d'une 
-documentation si nécessaire.
+bibliothÃ¨que est basÃ©e sur des requÃªtes SQL
+pour lire / Ã©crire des donnÃ©es dans une base. 
+Il est donc recommandÃ© de disposer d'une 
+documentation si nÃ©cessaire.
 @LineBreak
 @LineBreak
 Voici quelques liens concernant la syntaxe SQL:
@@ -29,7 +29,7 @@ Voici quelques liens concernant la syntaxe SQL:
 @LineBreak
 @LineBreak
   L'environnement de gestion des bases de 
-  données est initialisé à l'aide des commandes 
+  donnÃ©es est initialisÃ© Ã  l'aide des commandes 
   @@UseODBCDatabase, @@UseSQLiteDatabase, @@UseMySQLDatabase  et 
   @@UsePostgreSQLDatabase.
 
@@ -37,12 +37,12 @@ Voici quelques liens concernant la syntaxe SQL:
   @LineBreak
   @LineBreak
   Note : Sous Windows, avant d'employer cette 
-  bibliothèque il est nécessaire d'établir une 
-  source de données utilisateur, ce qui rend 
-  votre base de données disponible par 
-  l'intermédiaire d'ODBC et utilisable avec 
-  cette bibliothèque. 
-  Pour plus d'informations, référez vous au 
+  bibliothÃ¨que il est nÃ©cessaire d'Ã©tablir une 
+  source de donnÃ©es utilisateur, ce qui rend 
+  votre base de donnÃ©es disponible par 
+  l'intermÃ©diaire d'ODBC et utilisable avec 
+  cette bibliothÃ¨que. 
+  Pour plus d'informations, rÃ©fÃ©rez vous au 
   document d'aide de l'ODBC de Windows.
 @EndOS
 
@@ -50,9 +50,9 @@ Voici quelques liens concernant la syntaxe SQL:
   @LineBreak
   @LineBreak
   Note: Le package iODBC (y compris le package 
-  'dev') doit être installé sous Linux pour 
-  utiliser cette bibliothèque.
-  Reportez vous à la section Download de ce site 
+  'dev') doit Ãªtre installÃ© sous Linux pour 
+  utiliser cette bibliothÃ¨que.
+  Reportez vous Ã  la section Download de ce site 
   @InternetLink "http://www.iodbc.org" "http://www.iodbc.org" pour plus d'informations.
 @EndOS 
 
@@ -66,16 +66,16 @@ Voici quelques liens concernant la syntaxe SQL:
 @Function Resultat = AffectedDatabaseRows(#BaseDeDonnees)
 
 @Description
-  Renvoie le nombre de lignes affectées 
-  par la dernière opération 
+  Renvoie le nombre de lignes affectÃ©es 
+  par la derniÃ¨re opÃ©ration 
   @@DatabaseUpdate .
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
-  Renvoie le nombre de lignes affectées 
-  par la dernière opération 
+  Renvoie le nombre de lignes affectÃ©es 
+  par la derniÃ¨re opÃ©ration 
   @@DatabaseUpdate.
 
 @SeeAlso
@@ -88,26 +88,26 @@ Voici quelques liens concernant la syntaxe SQL:
 @Function CloseDatabase(#BaseDeDonnees)
 
 @Description
-  Ferme une  base de données et les 
+  Ferme une  base de donnÃ©es et les 
   connexions / transactions si elles 
   existent. 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à fermer.
+  La base de donnÃ©es Ã  fermer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  bases de données restantes sont fermées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  bases de donnÃ©es restantes sont fermÃ©es.
 
 @NoReturnValue
 
 @Remarks
-   Aucune opération ne peut plus être 
-   faite sur la base concernée.
+   Aucune opÃ©ration ne peut plus Ãªtre 
+   faite sur la base concernÃ©e.
 @LineBreak
 @LineBreak
-  Toutes les bases de données restant 
-  ouvertes sont automatiquement fermées 
+  Toutes les bases de donnÃ©es restant 
+  ouvertes sont automatiquement fermÃ©es 
   quand le programme se termine. 
 
 @SeeAlso
@@ -120,17 +120,17 @@ Voici quelques liens concernant la syntaxe SQL:
 @Function Resultat = DatabaseColumns(#BaseDeDonnees)
 
 @Description
-  Renvoie le nombre de champs après la 
-  dernière requête exécutée avec 
+  Renvoie le nombre de champs aprÃ¨s la 
+  derniÃ¨re requÃªte exÃ©cutÃ©e avec 
   @@DatabaseQuery.
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
   Renvoie le nombre de colonnes de la 
-  base de données depuis la dernière 
-  requête.
+  base de donnÃ©es depuis la derniÃ¨re 
+  requÃªte.
 
 @SeeAlso
   @@DatabaseColumnName, 
@@ -144,24 +144,24 @@ Voici quelques liens concernant la syntaxe SQL:
 @Function Resultat = DatabaseColumnIndex(#BaseDeDonnees, NomColonne$)
 
 @Description
-  Renvoie l'index (le numéro) de la 
-  colonne après l'exécution d'une requête 
+  Renvoie l'index (le numÃ©ro) de la 
+  colonne aprÃ¨s l'exÃ©cution d'une requÃªte 
   avec @@DatabaseQuery dans la base de 
-  données.
+  donnÃ©es.
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "NomColonne$"
   Le nom de la colonne.
 
 @ReturnValue
-  Renvoie l'index de la colonne spécifiée ou -1 si le nom de la colonne est invalide. @LineBreak
-  Ceci n'est valable qu'après avoir 
-  exécuté une requête avec @@DatabaseQuery.
+  Renvoie l'index de la colonne spÃ©cifiÃ©e ou -1 si le nom de la colonne est invalide. @LineBreak
+  Ceci n'est valable qu'aprÃ¨s avoir 
+  exÃ©cutÃ© une requÃªte avec @@DatabaseQuery.
 
 @Remarks
-  Cela peut être utile pour utiliser des 
+  Cela peut Ãªtre utile pour utiliser des 
   commandes telles que @@GetDatabaseLong 
   qui requiert un indice de colonne.
   
@@ -179,10 +179,10 @@ Voici quelques liens concernant la syntaxe SQL:
   Renvoie le nom d'un champ.
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Colonne"
-  Le champ à utiliser.
+  Le champ Ã  utiliser.
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible 
@@ -206,17 +206,17 @@ Voici quelques liens concernant la syntaxe SQL:
   Renvoie la taille d'un champ. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Colonne"
-  Le champ à utiliser.
+  Le champ Ã  utiliser.
   
 @ReturnValue
   Renvoie la taille de la colonne en 
   octets.
 
 @Remarks
-  C'est particulièrement utile quand la 
+  C'est particuliÃ¨rement utile quand la 
   taille de la colonne peut changer en 
   fonction des enregistrements, comme 
   une colonne de type blob ou string.
@@ -237,27 +237,27 @@ Voici quelques liens concernant la syntaxe SQL:
 @LineBreak
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Colonne"
-  Le champ à utiliser.
+  Le champ Ã  utiliser.
   
 @ReturnValue  
-  Renvoie le type de donnée du champ.
+  Renvoie le type de donnÃ©e du champ.
 @LineBreak
 @LineBreak
-  Si le résultat est nul, le type est 
-  indéterminé ou la commande a échoué 
-  (impossibilité de retrouver le type).
+  Si le rÃ©sultat est nul, le type est 
+  indÃ©terminÃ© ou la commande a Ã©chouÃ© 
+  (impossibilitÃ© de retrouver le type).
 @LineBreak
 @LineBreak
-Les valeur du type peuvent être:
+Les valeur du type peuvent Ãªtre:
 @FixedFont
-  @#PB_Database_Long  : Format numérique         :  Long (.l) sous PureBasic
-  @#PB_Database_String: Format chaîne            :  String (.s) sous PureBasic
-  @#PB_Database_Float : Format numérique flottant:  Float (.f) sous PureBasic
-  @#PB_Database_Double: Format numérique double  :  Double (.d) sous PureBasic
-  @#PB_Database_Quad  : Format numérique quad    :  Quad (.q) sous PureBasic
+  @#PB_Database_Long  : Format numÃ©rique         :  Long (.l) sous PureBasic
+  @#PB_Database_String: Format chaÃ®ne            :  String (.s) sous PureBasic
+  @#PB_Database_Float : Format numÃ©rique flottant:  Float (.f) sous PureBasic
+  @#PB_Database_Double: Format numÃ©rique double  :  Double (.d) sous PureBasic
+  @#PB_Database_Quad  : Format numÃ©rique quad    :  Quad (.q) sous PureBasic
   @#PB_Database_Blob  : Format blob
 @EndFixedFont    
 
@@ -283,15 +283,15 @@ Les valeur du type peuvent être:
   Renvoie la description du pilote.
 
 @Remarks
-  Les pilotes sont listés d'après les 
+  Les pilotes sont listÃ©s d'aprÃ¨s les 
   commandes @@ExamineDatabaseDrivers et 
   @@NextDatabaseDriver.
 @LineBreak
 @LineBreak
-  C'est une commande spécifique aux 
-  @Link "UseODBCDatabase" "bases de données ODBC".
+  C'est une commande spÃ©cifique aux 
+  @Link "UseODBCDatabase" "bases de donnÃ©es ODBC".
   @LineBreak  
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.
 
 @SeeAlso
@@ -315,15 +315,15 @@ Les valeur du type peuvent être:
   Renvoie le nom du pilote.
   
 @Remarks
-  Les pilotes sont listés d'après les 
+  Les pilotes sont listÃ©s d'aprÃ¨s les 
   commandes @@ExamineDatabaseDrivers et 
   @@NextDatabaseDriver.
 @LineBreak
 @LineBreak
-  C'est une commande spécifique aux 
-  @Link "UseODBCDatabase" "bases de données ODBC".
+  C'est une commande spÃ©cifique aux 
+  @Link "UseODBCDatabase" "bases de donnÃ©es ODBC".
   @LineBreak  
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.
 
 @SeeAlso
@@ -338,29 +338,29 @@ Les valeur du type peuvent être:
 @Function Resultat$ = DatabaseError()
 
 @Description
-  Renvoie la dernière erreur survenue. 
+  Renvoie la derniÃ¨re erreur survenue. 
 
 @NoParameters
 
 @ReturnValue
-   Renvoie la dernière erreur survenue 
-   lors de l'exécution d'une commande 
-   sur la base de données. 
+   Renvoie la derniÃ¨re erreur survenue 
+   lors de l'exÃ©cution d'une commande 
+   sur la base de donnÃ©es. 
   
 @Remarks
-  C'est particulièrement utile avec les 
+  C'est particuliÃ¨rement utile avec les 
   commandes suivantes: @@OpenDatabase, 
   @@DatabaseQuery et @@DatabaseUpdate.
 
 @Example  
 @Code
-  ; D'abord, il faudra se connecter à une base de données qui contient une table 'employee'
+  ; D'abord, il faudra se connecter Ã  une base de donnÃ©es qui contient une table 'employee'
   ;
-  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; Récupère tous les enregistrements de la table 'employee'
+  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; RÃ©cupÃ¨re tous les enregistrements de la table 'employee'
     ; ...
     FinishDatabaseQuery(#BaseDeDonnees)
   Else
-    MessageRequester("Erreur", "Impossible d'exécuter la requête: "+DatabaseError())
+    MessageRequester("Erreur", "Impossible d'exÃ©cuter la requÃªte: "+DatabaseError())
   EndIf
 @EndCode
 
@@ -375,20 +375,20 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie l'identifiant unique d'une 
-  base de données  dans le système 
+  base de donnÃ©es  dans le systÃ¨me 
   d'exploitation. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @ReturnValue
   Renvoie l'identifiant de la connexion 
-  à la base de données.
+  Ã  la base de donnÃ©es.
   
 @Remarks
   Cette fonction est utile quand une 
-  autre bibliothèque nécessite la 
-  référence de la #BaseDeDonnees.
+  autre bibliothÃ¨que nÃ©cessite la 
+  rÃ©fÃ©rence de la #BaseDeDonnees.
 
 @SeeAlso
   @@OpenDatabase()
@@ -400,87 +400,87 @@ Les valeur du type peuvent être:
 @Function Resultat = DatabaseQuery(#BaseDeDonnees, Requete$ [, Options])
 
 @Description
-  Exécute une requête SQL qui ne modifie 
-  pas la base de donnée (de type 'SELECT' 
+  ExÃ©cute une requÃªte SQL qui ne modifie 
+  pas la base de donnÃ©e (de type 'SELECT' 
   par exemple).
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Requete$"
-  La requête SQL à exécuter.
+  La requÃªte SQL Ã  exÃ©cuter.
   
 @OptionalParameter "Options"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Database_StaticCursor : Exécute la requête pour accéder au résultat d'une manière séquentielle. 
-                              Il n'est pas possible de revenir en arrière avec @@PreviousDatabaseRow ou @@FirstDatabaseRow 
-                              sur certains pilotes, mais c'est le moyen le plus rapide pour obtenir les données (par défaut).
-  @#PB_Database_DynamicCursor: Exécute la requête pour accéder au résultat d'une manière aléatoire 
+  @#PB_Database_StaticCursor : ExÃ©cute la requÃªte pour accÃ©der au rÃ©sultat d'une maniÃ¨re sÃ©quentielle. 
+                              Il n'est pas possible de revenir en arriÃ¨re avec @@PreviousDatabaseRow ou @@FirstDatabaseRow 
+                              sur certains pilotes, mais c'est le moyen le plus rapide pour obtenir les donnÃ©es (par dÃ©faut).
+  @#PB_Database_DynamicCursor: ExÃ©cute la requÃªte pour accÃ©der au rÃ©sultat d'une maniÃ¨re alÃ©atoire 
                               en utilisant @@PreviousDatabaseRow ou @@FirstDatabaseRow.
-                              Cela peut être plus lent, voire non pris en charge sur certains pilotes.
+                              Cela peut Ãªtre plus lent, voire non pris en charge sur certains pilotes.
 @EndFixedFont  
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  requête a réussi, zéro sinon (en raison 
-  d'une erreur SQL ou une requête mal 
-  formatée).
+  requÃªte a rÃ©ussi, zÃ©ro sinon (en raison 
+  d'une erreur SQL ou une requÃªte mal 
+  formatÃ©e).
 
 @Remarks 
-  Pour modifier une base de données, 
+  Pour modifier une base de donnÃ©es, 
   utiliser @@DatabaseUpdate.
 @LineBreak
 @LineBreak   
-  Si une requête n'a pas abouti, la 
+  Si une requÃªte n'a pas abouti, la 
   description exacte de l'erreur peut 
-  être récupérée grâce à @@DatabaseError.
+  Ãªtre rÃ©cupÃ©rÃ©e grÃ¢ce Ã  @@DatabaseError.
 @LineBreak
 @LineBreak  
-  Si une requête a abouti alors 
-  @@NextDatabaseRow peut être utilisé pour 
-  lister les enregistrements renvoyés.
+  Si une requÃªte a abouti alors 
+  @@NextDatabaseRow peut Ãªtre utilisÃ© pour 
+  lister les enregistrements renvoyÃ©s.
   Cette commande affecte toujours 
-  @@NextDatabaseRow même si aucun 
-  enregistrement n'est renvoyé par la 
-  requête. Il est conseillé d'utiliser 
-  @@DatabaseUpdate quand une requête ne 
+  @@NextDatabaseRow mÃªme si aucun 
+  enregistrement n'est renvoyÃ© par la 
+  requÃªte. Il est conseillÃ© d'utiliser 
+  @@DatabaseUpdate quand une requÃªte ne 
   renvoie jamais d'enregistrement.
 @LineBreak
 @LineBreak  
   Pour obtenir le nombre de colonnes 
-  (champs) renvoyé par la requête, utiliser 
+  (champs) renvoyÃ© par la requÃªte, utiliser 
   @@DatabaseColumns.@LineBreak  
-  Pour exécuter une requête qui ne renvoie 
-  pas tous les enregistrements (données), 
+  Pour exÃ©cuter une requÃªte qui ne renvoie 
+  pas tous les enregistrements (donnÃ©es), 
   utiliser @@DatabaseUpdate au lieu de 
   @@DatabaseQuery().
 @LineBreak
 @LineBreak 
-  Une fois que les résultats de la requête 
-  ne sont plus nécessaires, 
-  @@FinishDatabaseQuery doit être appelée 
-  pour libérer toutes les ressources de la 
-  requête.
+  Une fois que les rÃ©sultats de la requÃªte 
+  ne sont plus nÃ©cessaires, 
+  @@FinishDatabaseQuery doit Ãªtre appelÃ©e 
+  pour libÃ©rer toutes les ressources de la 
+  requÃªte.
 @LineBreak
 @LineBreak 
-  La requête peut contenir des espaces 
-  réservés pour les variables de liaison. 
-  Ces variables doivent être définies avant 
+  La requÃªte peut contenir des espaces 
+  rÃ©servÃ©s pour les variables de liaison. 
+  Ces variables doivent Ãªtre dÃ©finies avant 
   d'appeler @@SetDatabaseString, 
-  @@SetDatabaseLong etc. Après l'exécution 
-  de la requête, les variables liées sont 
-  effacées et doivent être définies à nouveau 
+  @@SetDatabaseLong etc. AprÃ¨s l'exÃ©cution 
+  de la requÃªte, les variables liÃ©es sont 
+  effacÃ©es et doivent Ãªtre dÃ©finies Ã  nouveau 
   pour de futurs appels. La syntaxe de 
-  spécification des variables liées à SQL 
-  dépend de la base de données. 
-  Voir le deuxième exemple ci-dessous.
+  spÃ©cification des variables liÃ©es Ã  SQL 
+  dÃ©pend de la base de donnÃ©es. 
+  Voir le deuxiÃ¨me exemple ci-dessous.
 
 @Example  
 @Code
-  ; D'abord, il faudra se connecter à une base de données qui contient une table 'employee'
+  ; D'abord, il faudra se connecter Ã  une base de donnÃ©es qui contient une table 'employee'
   ;
-  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; Recupère tous les enregistrements de la table 'employee'
+  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; RecupÃ¨re tous les enregistrements de la table 'employee'
   
     While NextDatabaseRow(#BaseDeDonnees) ; Enumeration des enregistrements
       Debug GetDatabaseString(#BaseDeDonnees, 0) ; Affichage du contenu du premier champ
@@ -490,9 +490,9 @@ Les valeur du type peuvent être:
   EndIf
 @EndCode
 
-@Example Variables liées avec SQLite, MySQL et ODBC
+@Example Variables liÃ©es avec SQLite, MySQL et ODBC
 @Code
-  ; SQLite, MySQL et ODBC partagent la même syntaxe pour les variables de liaison, indiquées par le caractère "?" 
+  ; SQLite, MySQL et ODBC partagent la mÃªme syntaxe pour les variables de liaison, indiquÃ©es par le caractÃ¨re "?" 
   ;
   SetDatabaseString(#Database, 0, "test")  
   If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=?")    
@@ -503,7 +503,7 @@ Les valeur du type peuvent être:
 
 @Example PostgreSQL
 @Code
-  ; PostgreSQL utilise une autre syntaxe dans la déclaration: $1, $2 ..  pour indiquer le paramètre indéfini
+  ; PostgreSQL utilise une autre syntaxe dans la dÃ©claration: $1, $2 ..  pour indiquer le paramÃ¨tre indÃ©fini
   ;
   SetDatabaseString(#Database, 0, "test")  
   If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=$1")    
@@ -525,62 +525,62 @@ Les valeur du type peuvent être:
 @Function Resultat = DatabaseUpdate(#BaseDeDonnees, Requete$)
 
 @Description
-  Exécute une requête SQL de modification 
-  de la base de données. Elle ne renvoie 
+  ExÃ©cute une requÃªte SQL de modification 
+  de la base de donnÃ©es. Elle ne renvoie 
   aucun enregistrement.
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Requete$"
-  La requête à exécuter.
+  La requÃªte Ã  exÃ©cuter.
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  requête a réussi, zéro sinon (en raison 
-  d'une erreur SQL ou une requête mal 
-  formatée).
+  requÃªte a rÃ©ussi, zÃ©ro sinon (en raison 
+  d'une erreur SQL ou une requÃªte mal 
+  formatÃ©e).
 
 @Remarks
-  Cette fonction est similaire à 
+  Cette fonction est similaire Ã  
   @@DatabaseQuery mais sans affecter la 
   fonction @@NextDatabaseRow, il est donc 
   possible d'utiliser cette commande tout 
   en conservant les enregistrements 
   obtenus par @@DatabaseQuery. Par contre, 
   il n'est pas possible d'effectuer des 
-  sélections ('SELECT' en SQL) ou d'autres 
-  types de requêtes qui renvoient des 
+  sÃ©lections ('SELECT' en SQL) ou d'autres 
+  types de requÃªtes qui renvoient des 
   enregistrements, pour cela, utiliser 
   @@DatabaseQuery.@LineBreak  
-  Cette fonction est utile pour mettre à 
+  Cette fonction est utile pour mettre Ã  
   jour des enregistrements dans la base 
-  de données. @LineBreak  
+  de donnÃ©es. @LineBreak  
   En cas d'erreur, le texte d'erreur peut 
-  être récupéré par @@DatabaseError.
+  Ãªtre rÃ©cupÃ©rÃ© par @@DatabaseError.
 @LineBreak
 @LineBreak 
-  La requête peut contenir des espaces 
-  réservés pour les variables de liaison. 
-  Ces variables doivent être définies avant 
+  La requÃªte peut contenir des espaces 
+  rÃ©servÃ©s pour les variables de liaison. 
+  Ces variables doivent Ãªtre dÃ©finies avant 
   d'appeler @@SetDatabaseString, 
-  @@SetDatabaseLong etc. Après l'exécution 
-  de la requête, les variables liées sont 
-  effacées et doivent être définies à nouveau 
+  @@SetDatabaseLong etc. AprÃ¨s l'exÃ©cution 
+  de la requÃªte, les variables liÃ©es sont 
+  effacÃ©es et doivent Ãªtre dÃ©finies Ã  nouveau 
   pour de futurs appels. La syntaxe de 
-  spécification des variables liées à SQL 
-  dépend de la base de données. 
-  Voir le deuxième exemple ci-dessous.
+  spÃ©cification des variables liÃ©es Ã  SQL 
+  dÃ©pend de la base de donnÃ©es. 
+  Voir le deuxiÃ¨me exemple ci-dessous.
   
 @Example
 @Code
-  ; D'abord, il faudra se connecter à une base de données qui contient une table 'employee'
+  ; D'abord, il faudra se connecter Ã  une base de donnÃ©es qui contient une table 'employee'
   ;
-  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; Recupère tous les enregistrements de la table 'employee'
+  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; RecupÃ¨re tous les enregistrements de la table 'employee'
   
-    While NextDatabaseRow(#BaseDeDonnees) ; Enumération des enregistrements
+    While NextDatabaseRow(#BaseDeDonnees) ; EnumÃ©ration des enregistrements
     
-      ; Mise à jour du champ 'checked'  pour chaque enregistrement, en assumant  que le champ 'id'
+      ; Mise Ã  jour du champ 'checked'  pour chaque enregistrement, en assumant  que le champ 'id'
       ; est le premier de la table 'employee'
       ;
       DatabaseUpdate("UPDATE employee SET checked=1 WHERE id="+GetDatabaseString(#BaseDeDonnees, 0))
@@ -590,9 +590,9 @@ Les valeur du type peuvent être:
   EndIf
 @EndCode
 
-@Example Variables liées avec SQLite, MySQL et ODBC
+@Example Variables liÃ©es avec SQLite, MySQL et ODBC
 @Code
-  ; SQLite, MySQL et ODBC partagent la même syntaxe pour les variables de liaison, indiquées par le caractère "?" 
+  ; SQLite, MySQL et ODBC partagent la mÃªme syntaxe pour les variables de liaison, indiquÃ©es par le caractÃ¨re "?" 
   ;
   SetDatabaseString(#Database, 0, "test")  
   If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=?")    
@@ -603,7 +603,7 @@ Les valeur du type peuvent être:
 
 @Example PostgreSQL
 @Code
-  ; PostgreSQL utilise une autre syntaxe dans la déclaration: $1, $2 ..  pour indiquer le paramètre indéfini
+  ; PostgreSQL utilise une autre syntaxe dans la dÃ©claration: $1, $2 ..  pour indiquer le paramÃ¨tre indÃ©fini
   ;
   SetDatabaseString(#Database, 0, "test")  
   If DatabaseQuery(#Database, "SELECT * FROM employee WHERE id=$1")    
@@ -625,23 +625,23 @@ Les valeur du type peuvent être:
 @Function Resultat = ExamineDatabaseDrivers()
 
 @Description
-  Examine les pilotes de bases de données 
-  disponibles dans le système. 
+  Examine les pilotes de bases de donnÃ©es 
+  disponibles dans le systÃ¨me. 
 
 @NoParameters
 
 @ReturnValue
-  Si ODBC n'est pas installé ou qu'aucun 
+  Si ODBC n'est pas installÃ© ou qu'aucun 
   pilote n'est disponible, la valeur 
-  retournée est 0, sinon 
-  @@NextDatabaseDriver peut être
-  utilisé pour lister tous les pilotes.
+  retournÃ©e est 0, sinon 
+  @@NextDatabaseDriver peut Ãªtre
+  utilisÃ© pour lister tous les pilotes.
 
 @Remarks
-  C'est une commande spécifique aux 
-  @Link "UseODBCDatabase" "bases de données ODBC".  
+  C'est une commande spÃ©cifique aux 
+  @Link "UseODBCDatabase" "bases de donnÃ©es ODBC".  
   @LineBreak
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.
 
 @SeeAlso
@@ -656,26 +656,26 @@ Les valeur du type peuvent être:
 @Function FinishDatabaseQuery(#BaseDeDonnees)
 
 @Description
-  Termine la requête SQL en cours et 
-  libère les ressources associées. 
+  Termine la requÃªte SQL en cours et 
+  libÃ¨re les ressources associÃ©es. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @NoReturnValue
 
 @Remarks
-  Les requêtes comme @@FirstDatabaseRow 
+  Les requÃªtes comme @@FirstDatabaseRow 
   ou @@NextDatabaseRow ne peuvent plus 
-  être utilisées.
+  Ãªtre utilisÃ©es.
 
 @Example  
 @Code
-  ; D'abord, il faudra se connecter à une base de données qui contient une table 'employee'
+  ; D'abord, il faudra se connecter Ã  une base de donnÃ©es qui contient une table 'employee'
   ;
-  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; Recupère tous les enregistrements de la table 'employee'
+  If DatabaseQuery(#BaseDeDonnees, "SELECT * FROM employee") ; RecupÃ¨re tous les enregistrements de la table 'employee'
   
-    While NextDatabaseRow(#BaseDeDonnees) ; Enumération des enregistrements
+    While NextDatabaseRow(#BaseDeDonnees) ; EnumÃ©ration des enregistrements
       Debug GetDatabaseString(#BaseDeDonnees, 0) ; Affiche le contenu du premier champ      
     Wend
     
@@ -693,26 +693,26 @@ Les valeur du type peuvent être:
 @Function Resultat = FirstDatabaseRow(#BaseDeDonnees)
 
 @Description
-  Récupère les informations relatives au 
+  RÃ©cupÃ¨re les informations relatives au 
   premier enregistrement d'une base de 
-  données. 
+  donnÃ©es. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
-  Si le résultat est zéro alors aucun 
+  Si le rÃ©sultat est zÃ©ro alors aucun 
   enregistrement n'est disponible. 
 
 @Remarks
   Attention, l'option 
-  @#PB_Database_DynamicCursor doit être 
-  spécifiée pour que la fonction 
+  @#PB_Database_DynamicCursor doit Ãªtre 
+  spÃ©cifiÃ©e pour que la fonction 
   @@DatabaseQuery puisse fonctionner.
 @LineBreak
 @LineBreak
-  Pour accéder aux informations à 
-  l'intérieur de l'enregistrement on peut 
+  Pour accÃ©der aux informations Ã  
+  l'intÃ©rieur de l'enregistrement on peut 
   utiliser @@GetDatabaseLong, 
   @@GetDatabaseFloat et 
   @@GetDatabaseString.
@@ -730,14 +730,14 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ sous 
-  forme de pointeur mémoire vers un blob. 
+  forme de pointeur mÃ©moire vers un blob. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Colonne"
-  La colonne à utiliser.@LineBreak
-  L'index commence à 0.
+  La colonne Ã  utiliser.@LineBreak
+  L'index commence Ã  0.
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible 
@@ -751,23 +751,23 @@ Les valeur du type peuvent être:
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon alors le blob ne 
-  peut pas être récupéré ou son contenu 
+  succÃ¨s, zÃ©ro sinon alors le blob ne 
+  peut pas Ãªtre rÃ©cupÃ©rÃ© ou son contenu 
   est vide.
 
 @Remarks    
   @@DatabaseColumnType permet de 
-  déterminer le type  d'une colonne et
+  dÃ©terminer le type  d'une colonne et
   @@DatabaseColumnSize permet de 
-  déterminer la taille du blob.
+  dÃ©terminer la taille du blob.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable 
-  s'il doit être utilisé plusieurs fois, 
-  car un nouvel appel sur la même colonne 
-  renverrait une valeur erronée). C'est 
+  stocker le rÃ©sultat dans une variable 
+  s'il doit Ãªtre utilisÃ© plusieurs fois, 
+  car un nouvel appel sur la mÃªme colonne 
+  renverrait une valeur erronÃ©e). C'est 
   une limitation de la technologie ODBC.
 
 @SeeAlso
@@ -785,39 +785,39 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ sous la forme 
-  d'un nombre à virgule en double précision 
+  d'un nombre Ã  virgule en double prÃ©cision 
   (@ReferenceLink "variables" "Double"). 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "Colonne"
-  La colonne à utiliser.    
+  La colonne Ã  utiliser.    
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible pour 
   obtenir l'index d'une colonne.
  
 @ReturnValue  
-  Renvoie une valeur numérique à virgule 
-  flottante et en double précision.
+  Renvoie une valeur numÃ©rique Ã  virgule 
+  flottante et en double prÃ©cision.
 
 @Remarks 
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak  
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une limitation de 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une limitation de 
   la technologie ODBC.
   
 @SeeAlso
@@ -835,39 +835,39 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ sous la forme 
-  d'un nombre à virgule en simple précision 
+  d'un nombre Ã  virgule en simple prÃ©cision 
   (@ReferenceLink "variables" "Float"). 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "Colonne"
-  La colonne à utiliser.    
+  La colonne Ã  utiliser.    
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible pour 
   obtenir l'index d'une colonne.
  
 @ReturnValue  
-  Renvoie une valeur numérique à virgule 
-  flottante et en simple précision.
+  Renvoie une valeur numÃ©rique Ã  virgule 
+  flottante et en simple prÃ©cision.
 
 @Remarks 
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak  
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une limitation 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une limitation 
   de la technologie ODBC.
   
 @SeeAlso
@@ -885,38 +885,38 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ au format 
-  numérique @ReferenceLink "variables" "Long". 
+  numÃ©rique @ReferenceLink "variables" "Long". 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "Colonne"
-  La colonne à utiliser.    
+  La colonne Ã  utiliser.    
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible pour 
   obtenir l'index d'une colonne.
  
 @ReturnValue  
-  Renvoie une valeur numérique entière 
+  Renvoie une valeur numÃ©rique entiÃ¨re 
   (sur 4 octets).
 
 @Remarks 
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak  
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une limitation 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une limitation 
   de la technologie ODBC.
   
 @SeeAlso
@@ -934,38 +934,38 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ au format 
-  numérique @ReferenceLink "variables" "quad". 
+  numÃ©rique @ReferenceLink "variables" "quad". 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "Colonne"
-  La colonne à utiliser.    
+  La colonne Ã  utiliser.    
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible pour 
   obtenir l'index d'une colonne.
  
 @ReturnValue  
-  Renvoie une valeur numérique entière (sur 
+  Renvoie une valeur numÃ©rique entiÃ¨re (sur 
   8 octets).
 
 @Remarks  
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une 
   limitation de la technologie ODBC.
   
 @SeeAlso
@@ -983,37 +983,37 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie le contenu d'un champ au format 
-  chaîne de caractères. 
+  chaÃ®ne de caractÃ¨res. 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "Colonne"
-  La colonne à utiliser.    
+  La colonne Ã  utiliser.    
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible 
   pour obtenir l'index d'une colonne.
  
 @ReturnValue  
-  Renvoie une chaîne de caractères.
+  Renvoie une chaÃ®ne de caractÃ¨res.
 
 @Remarks  
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une limitation 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une limitation 
   de la technologie ODBC.
   
 @SeeAlso
@@ -1030,13 +1030,13 @@ Les valeur du type peuvent être:
 @Function Resultat = CheckDatabaseNull(#BaseDeDonnees, Colonne)
 
 @Description
-  Vérifie si le contenu d'un champ est vide. 
+  VÃ©rifie si le contenu d'un champ est vide. 
 
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Colonne"
-  La colonne à utiliser. 
+  La colonne Ã  utiliser. 
 @LineBreak
 @LineBreak
   @@DatabaseColumnIndex est disponible pour 
@@ -1047,21 +1047,21 @@ Les valeur du type peuvent être:
   @#False sinon.
 
 @Remarks  
-  Cette commande n'est valide qu'après un 
-  succès de @@FirstDatabaseRow, 
+  Cette commande n'est valide qu'aprÃ¨s un 
+  succÃ¨s de @@FirstDatabaseRow, 
   @@PreviousDatabaseRow ou @@NextDatabaseRow.
 @LineBreak
 @LineBreak
-  Pour connaître le type d'un champ il faut 
+  Pour connaÃ®tre le type d'un champ il faut 
   utiliser @@DatabaseColumnType.
 @LineBreak
 @LineBreak
-  Note: Cette commande peut être appelée 
+  Note: Cette commande peut Ãªtre appelÃ©e 
   seulement une fois par colonne (il faut 
-  stocker le résultat dans une variable s'il 
-  doit être utilisé plusieurs fois, car un 
-  nouvel appel sur la même colonne renverrait
-  une valeur erronée). C'est une limitation 
+  stocker le rÃ©sultat dans une variable s'il 
+  doit Ãªtre utilisÃ© plusieurs fois, car un 
+  nouvel appel sur la mÃªme colonne renverrait
+  une valeur erronÃ©e). C'est une limitation 
   de la technologie ODBC.
   
 @SeeAlso
@@ -1078,23 +1078,23 @@ Les valeur du type peuvent être:
 @Function Resultat = IsDatabase(#BaseDeDonnees)
 
 @Description
-  Teste si une base de données est 
-  correctement initialisée. 
+  Teste si une base de donnÃ©es est 
+  correctement initialisÃ©e. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
   Renvoie une valeur non nulle si l'objet 
-  est valide, zéro sinon. 
+  est valide, zÃ©ro sinon. 
 
 @Remarks  
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage.
   @LineBreak 
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
 
 @SeeAlso
   @@OpenDatabase, @@OpenDatabaseRequester
@@ -1107,24 +1107,24 @@ Les valeur du type peuvent être:
 
 @Description
   Renvoie les informations sur le prochain 
-  pilote de base de données.
+  pilote de base de donnÃ©es.
 
 
 @NoParameters
 
 @ReturnValue
-  Si le résultat est nul, il n'y a plus 
+  Si le rÃ©sultat est nul, il n'y a plus 
   aucun pilote suivant disponible.
   
 @Remarks
-  Cette commande doit être appelée après 
+  Cette commande doit Ãªtre appelÃ©e aprÃ¨s 
   @@ExamineDatabaseDrivers.@LineBreak
   Pour obtenir les informations sur le 
   pilote, utiliser @@DatabaseDriverName et 
   @@DatabaseDriverDescription.
 @LineBreak
 @LineBreak
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.  
 
 @SeeAlso
@@ -1139,18 +1139,18 @@ Les valeur du type peuvent être:
 @Function Resultat = NextDatabaseRow(#BaseDeDonnees)
 
 @Description
-  Renvoie les informations relatives à 
+  Renvoie les informations relatives Ã  
   l'enregistrement suivant. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
-  Si le résultat est nul, il n'y a plus 
+  Si le rÃ©sultat est nul, il n'y a plus 
   d'enregistrement suivant (fin de fichier). 
   
 @Remarks
-  Pour accéder aux informations à l'intérieur 
+  Pour accÃ©der aux informations Ã  l'intÃ©rieur 
   de l'enregistrement, utiliser 
   @@GetDatabaseLong, @@GetDatabaseFloat et 
   @@GetDatabaseString.
@@ -1170,18 +1170,18 @@ Les valeur du type peuvent être:
 @Function Resultat = OpenDatabase(#BaseDeDonnees, NomBaseDeDonnes$, Utilisateur$, MotdePasse$ [, Plugin]) 
 
 @Description
-  Ouvrir une base de données. 
+  Ouvrir une base de donnÃ©es. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utiliser pour autogénérer ce 
-  numéro.
+  peut Ãªtre utiliser pour autogÃ©nÃ©rer ce 
+  numÃ©ro.
   
 @Parameter "NomBaseDeDonnes$"
-  Le nom de la base de données à ouvrir.
+  Le nom de la base de donnÃ©es Ã  ouvrir.
 
 @Parameter "Utilisateur$"
   Le nom d'utilisateur de connexion.
@@ -1190,40 +1190,40 @@ Les valeur du type peuvent être:
   Le mot de passe de connexion.
 @LineBreak
 @LineBreak
-  Le mot de passe peut être une chaîne vide 
+  Le mot de passe peut Ãªtre une chaÃ®ne vide 
   si aucun mot de passe n'est requis. 
 
 @OptionalParameter "Plugin"
 @FixedFont
-  @#PB_Database_ODBC      : La base de données utilisera ODBC (@@UseODBCDatabase doit avoir été appelé).
-  @#PB_Database_SQLite    : La base de données utilisera SQLite (@@UseSQLiteDatabase doit avoir été appelé).
-  @#PB_Database_PostgreSQL: La base de données utilisera PostgreSQL (@@UsePostgreSQLDatabase doit avoir été appelé).
-  @#PB_Database_MySQL     : La base de données utilisera MySQL (@@UseMySQLDatabase doit avoir été appelé).
+  @#PB_Database_ODBC      : La base de donnÃ©es utilisera ODBC (@@UseODBCDatabase doit avoir Ã©tÃ© appelÃ©).
+  @#PB_Database_SQLite    : La base de donnÃ©es utilisera SQLite (@@UseSQLiteDatabase doit avoir Ã©tÃ© appelÃ©).
+  @#PB_Database_PostgreSQL: La base de donnÃ©es utilisera PostgreSQL (@@UsePostgreSQLDatabase doit avoir Ã©tÃ© appelÃ©).
+  @#PB_Database_MySQL     : La base de donnÃ©es utilisera MySQL (@@UseMySQLDatabase doit avoir Ã©tÃ© appelÃ©).
 @EndFixedFont
-  Si 'Plugin' n'est pas spécifié, le premier plugin enregistré sera utilisé.
+  Si 'Plugin' n'est pas spÃ©cifiÃ©, le premier plugin enregistrÃ© sera utilisÃ©.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  connexion, zéro sinon.
-  Dans ce cas, la base n'a pas pu être 
-  trouvée ou le compte utilisateur n'est pas 
+  connexion, zÃ©ro sinon.
+  Dans ce cas, la base n'a pas pu Ãªtre 
+  trouvÃ©e ou le compte utilisateur n'est pas 
   valable et la description exacte de 
-  l'erreur peut être récupérée grâce à 
+  l'erreur peut Ãªtre rÃ©cupÃ©rÃ©e grÃ¢ce Ã  
   @@DatabaseError. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé pour le paramètre 
-  #BaseDeDonnees,le nombre généré est renvoyé.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre 
+  #BaseDeDonnees,le nombre gÃ©nÃ©rÃ© est renvoyÃ©.
 
 @Remarks
-  Pour déclarer une base de données ODBC, 
+  Pour dÃ©clarer une base de donnÃ©es ODBC, 
   lire le document d'aide de Windows. 
 @LineBreak
 @LineBreak
-  Si une autre base de données a déjà été 
-  ouverte sous le même numéro, la base 
-  précédement gérée par ce numéro est 
-  automatiquement fermée.  
+  Si une autre base de donnÃ©es a dÃ©jÃ  Ã©tÃ© 
+  ouverte sous le mÃªme numÃ©ro, la base 
+  prÃ©cÃ©dement gÃ©rÃ©e par ce numÃ©ro est 
+  automatiquement fermÃ©e.  
   
 @SeeAlso
   @@OpenDatabaseRequester, @@CloseDatabase,
@@ -1238,44 +1238,44 @@ Les valeur du type peuvent être:
 
 @Description
   Ouvre la boite de dialogue standard 
-  Windows ODBC pour sélectionner une base de
-  données. 
+  Windows ODBC pour sÃ©lectionner une base de
+  donnÃ©es. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @OptionalParameter "Plugin"
 @FixedFont
-  @#PB_Database_ODBC      : La base de données utilisera ODBC (@@UseODBCDatabase doit avoir été appelé).
+  @#PB_Database_ODBC      : La base de donnÃ©es utilisera ODBC (@@UseODBCDatabase doit avoir Ã©tÃ© appelÃ©).
 
 @EndFixedFont
-  Si 'Plugin' n'est pas spécifié, le premier 
+  Si 'Plugin' n'est pas spÃ©cifiÃ©, le premier 
   plugin (ODBC, SQLite ou PostgreSQL) 
-  enregistré sera utilisé.
+  enregistrÃ© sera utilisÃ©.
 
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  connexion, zéro sinon.
-  Dans ce cas, la base n'a pas pu être 
-  trouvée ou le compte utilisateur n'est pas 
+  connexion, zÃ©ro sinon.
+  Dans ce cas, la base n'a pas pu Ãªtre 
+  trouvÃ©e ou le compte utilisateur n'est pas 
   valable et la description exacte de 
-  l'erreur peut être récupérée grâce à 
+  l'erreur peut Ãªtre rÃ©cupÃ©rÃ©e grÃ¢ce Ã  
   @@DatabaseError). 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé pour le 
-  paramètre #BaseDeDonnees, le nombre généré 
-  est renvoyé.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+  paramÃ¨tre #BaseDeDonnees, le nombre gÃ©nÃ©rÃ© 
+  est renvoyÃ©.
 
 @Remarks
-  C'est une commande spécifique aux 
-  @Link "UseODBCDatabase" "bases de données ODBC".  
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  C'est une commande spÃ©cifique aux 
+  @Link "UseODBCDatabase" "bases de donnÃ©es ODBC".  
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.
 @LineBreak
 @LineBreak
-  Note: cette commande n'est pas supportée 
-  sur Linux et MacOS X, elle renverra zéro.
+  Note: cette commande n'est pas supportÃ©e 
+  sur Linux et MacOS X, elle renverra zÃ©ro.
   
 @SeeAlso
 @@OpenDatabase, @@CloseDatabase,
@@ -1287,40 +1287,40 @@ Les valeur du type peuvent être:
 @Function Resultat = PreviousDatabaseRow(#BaseDeDonnees)
 
 @Description
-  Renvoie les informations relatives à 
-  l'enregistrement précédent. 
+  Renvoie les informations relatives Ã  
+  l'enregistrement prÃ©cÃ©dent. 
    
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @ReturnValue
-  Si le résultat est zéro alors il n'y a 
-  plus d'enregistrement précédent disponible 
-  (début de fichier). 
+  Si le rÃ©sultat est zÃ©ro alors il n'y a 
+  plus d'enregistrement prÃ©cÃ©dent disponible 
+  (dÃ©but de fichier). 
 
 @Remarks
   Attention, l'option 
-  @#PB_Database_DynamicCursor doit être 
-  spécifiée pour que la fonction 
+  @#PB_Database_DynamicCursor doit Ãªtre 
+  spÃ©cifiÃ©e pour que la fonction 
   @@DatabaseQuery puisse fonctionner.
 @LineBreak
 @LineBreak
-  Si cette commande renvoie zéro même s'il y
+  Si cette commande renvoie zÃ©ro mÃªme s'il y
   a des enregistrements avant l'enregistrement 
   courant, alors cette commande n'est pas 
-  supportée par le driver ODBC. En effet, un 
-  driver ODBC n'est pas obligé d'implémenter 
-  cette commande (contrairement à 
-  @@NextDatabaseRow) pour être conforme à la 
+  supportÃ©e par le driver ODBC. En effet, un 
+  driver ODBC n'est pas obligÃ© d'implÃ©menter 
+  cette commande (contrairement Ã  
+  @@NextDatabaseRow) pour Ãªtre conforme Ã  la 
   norme ODBC. Bien entendu, si cette commande 
   fonctionne correctement avec un driver, elle
   fonctionnera correctement sur tous les 
   ordinateurs utilisant ce driver.
 @LineBreak
 @LineBreak
-  C'est une commande spécifique aux 
-  @Link "UseODBCDatabase" "bases de données ODBC".  
-  Les @Link "UseSQLiteDatabase" "bases de données SQLite" 
+  C'est une commande spÃ©cifique aux 
+  @Link "UseODBCDatabase" "bases de donnÃ©es ODBC".  
+  Les @Link "UseSQLiteDatabase" "bases de donnÃ©es SQLite" 
   ne supportent pas cette commande.
 
 @SeeAlso
@@ -1338,20 +1338,20 @@ Les valeur du type peuvent être:
 @Function SetDatabaseBlob(#BaseDeDonnees, Index, *Memoire, TailleMemoire)
 
 @Description
-  Indique le blob à insérer lors de la 
+  Indique le blob Ã  insÃ©rer lors de la 
   prochaine utilisation de @@DatabaseUpdate. 
   
 @Parameter "#BaseDeDonnees"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
 
 @Parameter "Index" 
-  Commence à 0 et indique sur lequel des 
-  paramètres non-définis, le blob doit être 
-  associé. @LineBreak
-  La syntaxe SQL pour spécifier un paramètre 
-  indéfini varie en fonction de la base de 
-  données. @LineBreak
-  Pour voir comment procéder, consulter les 
+  Commence Ã  0 et indique sur lequel des 
+  paramÃ¨tres non-dÃ©finis, le blob doit Ãªtre 
+  associÃ©. @LineBreak
+  La syntaxe SQL pour spÃ©cifier un paramÃ¨tre 
+  indÃ©fini varie en fonction de la base de 
+  donnÃ©es. @LineBreak
+  Pour voir comment procÃ©der, consulter les 
   exemples ci-dessous.
 
 @Parameter "*Memoire"
@@ -1365,9 +1365,9 @@ Les valeur du type peuvent être:
 @Example SQLite, MySQL et ODBC
 
 @Code
-  ; SQLite, MySQL et ODBC partagent la même syntaxe pour insérer un blob. C'est indiqué par le caractère '?'
+  ; SQLite, MySQL et ODBC partagent la mÃªme syntaxe pour insÃ©rer un blob. C'est indiquÃ© par le caractÃ¨re '?'
   ;
-  ; La base de données doit être connectée et avoir une table PHOTOS avec 3 colonnes (BLOB, VARCHAR(255), BLOB)
+  ; La base de donnÃ©es doit Ãªtre connectÃ©e et avoir une table PHOTOS avec 3 colonnes (BLOB, VARCHAR(255), BLOB)
   ;
   SetDatabaseBlob(0, 0, ?Picture, PictureLength)
   SetDatabaseBlob(0, 1, ?SmallPicture, SmallPictureLength)
@@ -1378,17 +1378,17 @@ Les valeur du type peuvent être:
 @Example PostgreSQL
 
 @Code
-  ; PostgreSQL utilise une autre syntaxe: $1, $2.. dans la requête pour indiquer les paramètres non-définis
+  ; PostgreSQL utilise une autre syntaxe: $1, $2.. dans la requÃªte pour indiquer les paramÃ¨tres non-dÃ©finis
   ;
-  ; La base de données doit être connectée et avoir une table PHOTOS avec 3 colonnes (BYTEA, VARCHAR(255), BYTEA)
+  ; La base de donnÃ©es doit Ãªtre connectÃ©e et avoir une table PHOTOS avec 3 colonnes (BYTEA, VARCHAR(255), BYTEA)
   ;
   SetDatabaseBlob(0, 0, ?Picture, PictureLength)
   SetDatabaseBlob(0, 1, ?SmallPicture, SmallPictureLength)
   DatabaseUpdate(0, "INSERT INTO PHOTOS (picture, name, small_picture) values ($1, 'my description', $2);")
 @EndCode
-  @Bold "Note:" PostgreSQL utilise le type 'BYTEA' pour stocker les blobs. La conversion nécessaire pour stocker du binaire
-  dans ce type de colonne rend souvent le blob très volumineux. Un bon moyen d'éviter cela est de l'encoder précédemment
-  avec @@Base64Encoder avant de l'insérer dans la base de données.
+  @Bold "Note:" PostgreSQL utilise le type 'BYTEA' pour stocker les blobs. La conversion nÃ©cessaire pour stocker du binaire
+  dans ce type de colonne rend souvent le blob trÃ¨s volumineux. Un bon moyen d'Ã©viter cela est de l'encoder prÃ©cÃ©demment
+  avec @@Base64Encoder avant de l'insÃ©rer dans la base de donnÃ©es.
 
 @SeeAlso
   @@DatabaseUpdate,
@@ -1398,48 +1398,49 @@ Les valeur du type peuvent être:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UseMySQLDatabase([NomBibliotheque$])
+@Function Resultat = UseMySQLDatabase([NomBibliotheque$])
 
 @Description
-  Initialise l’environnement de base de données MySQL et MariaDB pour une utilisation ultérieure. 
+  Initialise lâ€™environnement de base de donnÃ©es MySQL et MariaDB pour une utilisation ultÃ©rieure. 
 
 @OptionalParameter "NomBibliotheque$"
-  Nom de fichier (et chemin si nécessaire) de la bibliothèque dynamique à utiliser. 
-  Comme la plupart des distributions Linux sont livrées avec le paquet libmysql.so,
-  il peut être configuré avec un nom de fichier correct, de sorte que libmaria.so 
-  ne doit pas nécessairement être associé à l'exécutable. Si ce paramètre n'est pas 
-  spécifié, 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) ou 'libmariadb.dylib' 
-  (OSX) seront utilisés.
+  Nom de fichier (et chemin si nÃ©cessaire) de la bibliothÃ¨que dynamique Ã  utiliser. 
+  Comme la plupart des distributions Linux sont livrÃ©es avec le paquet libmysql.so,
+  il peut Ãªtre configurÃ© avec un nom de fichier correct, de sorte que libmaria.so 
+  ne doit pas nÃ©cessairement Ãªtre associÃ© Ã  l'exÃ©cutable. Si ce paramÃ¨tre n'est pas 
+  spÃ©cifiÃ©, 'libmariadb.dll' (Windows), 'libmariadb.so' (Linux) ou 'libmariadb.dylib' 
+  (OSX) seront utilisÃ©s.
 
-@NoReturnValue
+@ReturnValue
+  Renvoie @#True si l'environnement MySQL est initialisÃ© avec succÃ¨s, @#False sinon.
 
 @Remarks
-  MySQL et MariaDB (un fork open source de MySQL) (fork: Logiciel issu d’une scission 
-  d’un projet initial unique, et qui partage avec lui une part de son code source) 
-  sont de puissants gestionnaires de bases de données basés sur serveur qui prennent 
-  en charge des bases de données très volumineuses et des accès simultanés élevés. 
-  PureBasic utilise la bibliothèque opensource MariaDB pour connecter des bases de 
-  données MySQL et MariaDB sans aucun problème, ce qui peut être utilisé dans des 
-  applications commerciales sans licence supplémentaire. Lorsque vous envoyez votre 
+  MySQL et MariaDB (un fork open source de MySQL) (fork: Logiciel issu dâ€™une scission 
+  dâ€™un projet initial unique, et qui partage avec lui une part de son code source) 
+  sont de puissants gestionnaires de bases de donnÃ©es basÃ©s sur serveur qui prennent 
+  en charge des bases de donnÃ©es trÃ¨s volumineuses et des accÃ¨s simultanÃ©s Ã©levÃ©s. 
+  PureBasic utilise la bibliothÃ¨que opensource MariaDB pour connecter des bases de 
+  donnÃ©es MySQL et MariaDB sans aucun problÃ¨me, ce qui peut Ãªtre utilisÃ© dans des 
+  applications commerciales sans licence supplÃ©mentaire. Lorsque vous envoyez votre 
   programme PureBasic, vous devrez ajouter 'libmariadb.dll' (Windows), 'libmariadb.so' 
-  (Linux) ou 'libmariadb.dylib' (OSX) trouvé dans le répertoire 'PureBasic/Compilers' 
+  (Linux) ou 'libmariadb.dylib' (OSX) trouvÃ© dans le rÃ©pertoire 'PureBasic/Compilers' 
   de votre installation ou de votre paquet Purebasic.
 @LineBreak
 @LineBreak
-  Il n'y a pas de pilote supplémentaire à installer, tout est prêt pour connecter un 
-  serveur MySQL ou MariaDB. Pour plus d'informations à propos de MariaDB: 
+  Il n'y a pas de pilote supplÃ©mentaire Ã  installer, tout est prÃªt pour connecter un 
+  serveur MySQL ou MariaDB. Pour plus d'informations Ã  propos de MariaDB: 
   @InternetLink "https://mariadb.org/" "https://mariadb.org/".
 @LineBreak
 @LineBreak
-  Une base de données MySQL ou MariaDB doit être connectée à l'aide de @@OpenDatabase 
-  avant d'utiliser toutes fonctions de base de données.
+  Une base de donnÃ©es MySQL ou MariaDB doit Ãªtre connectÃ©e Ã  l'aide de @@OpenDatabase 
+  avant d'utiliser toutes fonctions de base de donnÃ©es.
 @LineBreak   
-   Les paramètres spécifiques à MySQL doivent être passés dans le paramètre 'NomBaseDeDonnes$' 
+   Les paramÃ¨tres spÃ©cifiques Ã  MySQL doivent Ãªtre passÃ©s dans le paramÃ¨tre 'NomBaseDeDonnes$' 
    de @@OpenDatabase:
 @FixedFont
-  - host: Nom de l'hôte ou adresse IP à laquelle se connecter.
-  - port: Numéro de port auquel se connecter sur le serveur hôte.
-  - dbname: Nom de la base de données. Le nom peut être entouré de guillemets simples (quotes) s'il contient des espaces : dbname='films et musiques'.
+  - host: Nom de l'hÃ´te ou adresse IP Ã  laquelle se connecter.
+  - port: NumÃ©ro de port auquel se connecter sur le serveur hÃ´te.
+  - dbname: Nom de la base de donnÃ©es. Le nom peut Ãªtre entourÃ© de guillemets simples (quotes) s'il contient des espaces : dbname='films et musiques'.
 @EndFixedFont
   
 @Example
@@ -1449,9 +1450,9 @@ Les valeur du type peuvent être:
   ; Vous devez avoir un serveur fonctionnant sur localhost
   ;
   If OpenDatabase(0, "host=localhost port=3306 dbname='test'", "utilisateur", "motdepasse")
-    Debug "Connecté à MySQL"
+    Debug "ConnectÃ© Ã  MySQL"
   Else
-    Debug "La connexion a échoué: "+DatabaseError()
+    Debug "La connexion a Ã©chouÃ©: "+DatabaseError()
   EndIf
 @EndCode
 
@@ -1462,47 +1463,55 @@ Les valeur du type peuvent être:
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UsePostgreSQLDatabase()
+@Function Resultat = UsePostgreSQLDatabase([NomBibliotheque$])
 
 @Description
   Initialise l'environnement de base de 
-  données PostgreSQL pour un usage ultérieur. 
+  donnÃ©es PostgreSQL pour un usage ultÃ©rieur. 
 
-@NoParameters
+@OptionalParameter "NomBibliotheque$"
+  Nom de fichier (et chemin si nÃ©cessaire) de la bibliothÃ¨que dynamique Ã  utiliser. 
+  Il peut Ãªtre utile d'utiliser une version diffÃ©rente de la bibliothÃ¨que que celle 
+  fournie avec PureBasic. Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, la bibliothÃ¨que interne 
+  du client postgresql fournie avec PureBasic sera utilisÃ©e (aucune bibliothÃ¨que 
+  dynamique externe n'est nÃ©cessaire).
 
-@NoReturnValue
+@ReturnValue
+  Renvoie @#True avec le paramÃ¨tre optionnel "NomBibliotheque$", si la bibliothÃ¨que 
+  dynamique a Ã©tÃ© correctement chargÃ©e, @#False dans le cas contraire. Sans le paramÃ¨tre 
+  optionnel, elle renvoie toujours @#True.
 
 @Remarks  
-  PostgreSQL est un serveur de base de données 
-  très puissant qui supporte les bases de 
-  données très grandes, et une gestion des
-  accès concurrents avancée. Il est réellement 
-  libre d'utilisation même dans un projet 
-  commercial, contrairement à MySQL qui 
-  nécessite une licence pour l'utiliser dans un 
+  PostgreSQL est un serveur de base de donnÃ©es 
+  trÃ¨s puissant qui supporte les bases de 
+  donnÃ©es trÃ¨s grandes, et une gestion des
+  accÃ¨s concurrents avancÃ©e. Il est rÃ©ellement 
+  libre d'utilisation mÃªme dans un projet 
+  commercial, contrairement Ã  MySQL qui 
+  nÃ©cessite une licence pour l'utiliser dans un 
   programme non-GPL.
-  Il n'y a pas de pilotes supplémentaires à 
-  installer, tout ce qui est nécessaire à la 
-  connexion au serveur PostgreSQL est présent. 
-  Pour plus d'informations à propos de 
+  Il n'y a pas de pilotes supplÃ©mentaires Ã  
+  installer, tout ce qui est nÃ©cessaire Ã  la 
+  connexion au serveur PostgreSQL est prÃ©sent. 
+  Pour plus d'informations Ã  propos de 
   PostgreSQL: 
   @InternetLink "http://www.postgresql.org" "http://www.postgresql.org".
 @LineBreak
 @LineBreak
-  Une connexion à PostgreSQL doit être établie 
-  à l'aide de la fonction @@OpenDatabase avant 
+  Une connexion Ã  PostgreSQL doit Ãªtre Ã©tablie 
+  Ã  l'aide de la fonction @@OpenDatabase avant 
   de pouvoir utiliser les autres fonctions 
-  relatives aux bases de données. Des 
-  commandes spécifiques à PostgresSQL peuvent 
-  être passées dans le paramètre 
+  relatives aux bases de donnÃ©es. Des 
+  commandes spÃ©cifiques Ã  PostgresSQL peuvent 
+  Ãªtre passÃ©es dans le paramÃ¨tre 
   'NomBaseDeDonnes$' de @@OpenDatabase:
 @FixedFont
-  - host: Nom d'ordinateur hôte pour se connecter.
-  - hostaddr: Adresse IP de l'ordinateur hôte pour se connecter.
-  - port: Numéro du port à utiliser pour la connexion.
-  - dbname: Le nom de la base de données. Par défaut, le même nom que l'utilisateur.
-  - connect_timeout: Attente maximum pour la connexion, en seconde (nombre décimal entier). Zéro ou non spécifié indique une attente infinie.
-                     Il n'est pas recommandé d'utiliser une attente inférieure à 2 secondes.
+  - host: Nom d'ordinateur hÃ´te pour se connecter.
+  - hostaddr: Adresse IP de l'ordinateur hÃ´te pour se connecter.
+  - port: NumÃ©ro du port Ã  utiliser pour la connexion.
+  - dbname: Le nom de la base de donnÃ©es. Par dÃ©faut, le mÃªme nom que l'utilisateur.
+  - connect_timeout: Attente maximum pour la connexion, en seconde (nombre dÃ©cimal entier). ZÃ©ro ou non spÃ©cifiÃ© indique une attente infinie.
+                     Il n'est pas recommandÃ© d'utiliser une attente infÃ©rieure Ã  2 secondes.
 @EndFixedFont
 
 @Example
@@ -1512,9 +1521,9 @@ Les valeur du type peuvent être:
   ; Le serveur doit tourner sur la machine locale.
   ;
   If OpenDatabase(0, "host=localhost port=5432", "utilisateur", "motdepasse")
-    Debug "Connecté à PostgreSQL"
+    Debug "ConnectÃ© Ã  PostgreSQL"
   Else
-    Debug "La connexion a echoué: "+DatabaseError()
+    Debug "La connexion a echouÃ©: "+DatabaseError()
   EndIf
 @EndCode
 
@@ -1529,37 +1538,37 @@ Les valeur du type peuvent être:
 @Function Resultat = UseSQLiteDatabase([NomBibliotheque$])
 
 @Description
-  Initialise l'environnement de base de données SQLite pour un usage ultérieur. 
+  Initialise l'environnement de base de donnÃ©es SQLite pour un usage ultÃ©rieur. 
 
 @OptionalParameter "NomBibliotheque$"
-  Nom de fichier (et chemin si nécessaire) de la bibliothèque dynamique à utiliser.
+  Nom de fichier (et chemin si nÃ©cessaire) de la bibliothÃ¨que dynamique Ã  utiliser.
 
 @ReturnValue
-   Lors de l'utilisation du paramètre facultatif 'NomBibliotheque$', la fonction renverra @#True 
-   si la bibliothèque dynamique a été correctement chargée ou @#False dans le cas contraire. 
-   S'il n'est pas spécifié, elle renverra toujours @#True.
+   Lors de l'utilisation du paramÃ¨tre facultatif 'NomBibliotheque$', la fonction renverra @#True 
+   si la bibliothÃ¨que dynamique a Ã©tÃ© correctement chargÃ©e ou @#False dans le cas contraire. 
+   S'il n'est pas spÃ©cifiÃ©, elle renverra toujours @#True.
 
 @Remarks
-  SQLite est un gestionnaire de base de données sans serveur, utilisant un fichier comme stockage. 
-  Il n'y a rien à déployer ou à configurer, il est tout de suite opérationnel. SQLite est 
-  largement utilisé dans l'industrie et est considéré comme un des meilleurs gestionnaire
-  de base de données embarqué. Pour plus d'informations: 
+  SQLite est un gestionnaire de base de donnÃ©es sans serveur, utilisant un fichier comme stockage. 
+  Il n'y a rien Ã  dÃ©ployer ou Ã  configurer, il est tout de suite opÃ©rationnel. SQLite est 
+  largement utilisÃ© dans l'industrie et est considÃ©rÃ© comme un des meilleurs gestionnaire
+  de base de donnÃ©es embarquÃ©. Pour plus d'informations: 
   @InternetLink "http://www.sqlite.org" "http://www.sqlite.org".
 @LineBreak
 @LineBreak
-  Pour créer une nouvelle base de données vide, il suffit de créer un fichier vide à l'aide de @@CreateFile. 
-  Les commandes SQL sont maintenant disponibles pour créer les tables et insérer des enregistrements.
+  Pour crÃ©er une nouvelle base de donnÃ©es vide, il suffit de crÃ©er un fichier vide Ã  l'aide de @@CreateFile. 
+  Les commandes SQL sont maintenant disponibles pour crÃ©er les tables et insÃ©rer des enregistrements.
 @LineBreak
 @LineBreak
-  La base SQLite doit être ouverte avec @@OpenDatabase avant de pouvoir utiliser les commandes de
-  cette bibliothèque.
+  La base SQLite doit Ãªtre ouverte avec @@OpenDatabase avant de pouvoir utiliser les commandes de
+  cette bibliothÃ¨que.
 @LineBreak
 @LineBreak
-  En utilisant "NomBibliotheque$", vous pourrez ainsi utiliser la dernière version du 
-  fichier 'dll' (so, dylib) sans attendre une mise à jour PB.
+  En utilisant "NomBibliotheque$", vous pourrez ainsi utiliser la derniÃ¨re version du 
+  fichier 'dll' (so, dylib) sans attendre une mise Ã  jour PB.
 @LineBreak
-  Sans ce fichier, c'est la bibliothèque statique qui sera utilisée comme d'habitude 
-  et l'exécutable sera plus gros. 
+  Sans ce fichier, c'est la bibliothÃ¨que statique qui sera utilisÃ©e comme d'habitude 
+  et l'exÃ©cutable sera plus gros. 
   
 @Example 
 @Code
@@ -1568,14 +1577,14 @@ Les valeur du type peuvent être:
   Filename$ = OpenFileRequester("Choisissez le nom d'un fichier", "PureBasic.sqlite", "*.sqlite|*.sqlite", 0)
 
   If CreateFile(0, Filename$)
-    Debug "Fichier de base de données créé"
+    Debug "Fichier de base de donnÃ©es crÃ©Ã©"
     CloseFile(0)
   EndIf
   
   If OpenDatabase(0, Filename$, "", "")
-    Debug "Connecté à PureBasic.sqlite"
+    Debug "ConnectÃ© Ã  PureBasic.sqlite"
     If DatabaseUpdate(0, "CREATE TABLE info (test VARCHAR(255));")
-      Debug "Table créée"
+      Debug "Table crÃ©Ã©e"
     EndIf
   EndIf
 @EndCode
@@ -1592,29 +1601,29 @@ Les valeur du type peuvent être:
 
 @Description
   Initialise l'environnement de base de 
-  données ODBC pour un usage ultérieur. 
+  donnÃ©es ODBC pour un usage ultÃ©rieur. 
 
 @NoParameters
 
 @ReturnValue  
-  Si le résultat est 0, ODBC n'est pas 
+  Si le rÃ©sultat est 0, ODBC n'est pas 
   disponible ou dans une version non
-  compatible (ODBC 3.0 ou supérieur est requis) 
+  compatible (ODBC 3.0 ou supÃ©rieur est requis) 
   et tous les appels de fonctions de base de 
-  données doivent être inhibés.
+  donnÃ©es doivent Ãªtre inhibÃ©s.
 
 @Remarks
-  Une fois l'environnement initialisé, une 
-  base de données doit être ouverte en utilisant 
+  Une fois l'environnement initialisÃ©, une 
+  base de donnÃ©es doit Ãªtre ouverte en utilisant 
   @@OpenDatabase avec un nom de base de 
-  données ODBC enregistré comme base de données 
+  donnÃ©es ODBC enregistrÃ© comme base de donnÃ©es 
   ou @@OpenDatabaseRequester avant d'utiliser 
   toutes les autres fonctions des bases de 
-  données.
+  donnÃ©es.
 @LineBreak
 @LineBreak
-  Il peut être utile de lister les pilotes 
-  (drivers) disponibles sur la machine à 
+  Il peut Ãªtre utile de lister les pilotes 
+  (drivers) disponibles sur la machine Ã  
   l'aide de la commande 
   @@ExamineDatabaseDrivers.
 
@@ -1623,7 +1632,7 @@ Les valeur du type peuvent être:
   UseODBCDatabase()
 
   If OpenDatabase(0, "MySQL-ODBC", "utilisateur", "motdepasse")
-    Debug "Connecté à MySQL"
+    Debug "ConnectÃ© Ã  MySQL"
   Else
     Debug "Pas de Connexion : " + DatabaseError()
   EndIf
@@ -1640,45 +1649,45 @@ Les valeur du type peuvent être:
 @Function SetDatabaseString(#BaseDeDonnees, IndexDeDeclaration, Valeur$)
 
 @Description
-  Définit une variable de liaison  
-  de type chaîne de caractères pour 
-  le prochain appel à @@DatabaseQuery 
-  ou à @@DatabaseUpdate.
+  DÃ©finit une variable de liaison  
+  de type chaÃ®ne de caractÃ¨res pour 
+  le prochain appel Ã  @@DatabaseQuery 
+  ou Ã  @@DatabaseUpdate.
 
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @Parameter "Valeur$"
-  La valeur à utiliser pour la variable 
+  La valeur Ã  utiliser pour la variable 
   de liaison.
 
 @NoReturnValue
 
 @Remarks
-  Lier des variables permet la création plus facile 
-  de déclarations avec des données, car il n'y a 
-  pas besoin d'ajouter les données dans la chaîne. 
-  La déclaration de type chaîne peut contenir les 
-  espaces réservés et les données sont liées avant 
-  l'exécution de la déclaration. Cette méthode 
-  permet également d'éviter les vulnérabilités 
-  dues à une éventuelle injection de code SQL 
-  qui peut être faite si les données (telles 
-  que des chaînes) sont directement insérées 
-  dans le texte de la déclaration. Tant que la 
-  déclaration ne contient que l'espace réservé, 
+  Lier des variables permet la crÃ©ation plus facile 
+  de dÃ©clarations avec des donnÃ©es, car il n'y a 
+  pas besoin d'ajouter les donnÃ©es dans la chaÃ®ne. 
+  La dÃ©claration de type chaÃ®ne peut contenir les 
+  espaces rÃ©servÃ©s et les donnÃ©es sont liÃ©es avant 
+  l'exÃ©cution de la dÃ©claration. Cette mÃ©thode 
+  permet Ã©galement d'Ã©viter les vulnÃ©rabilitÃ©s 
+  dues Ã  une Ã©ventuelle injection de code SQL 
+  qui peut Ãªtre faite si les donnÃ©es (telles 
+  que des chaÃ®nes) sont directement insÃ©rÃ©es 
+  dans le texte de la dÃ©claration. Tant que la 
+  dÃ©claration ne contient que l'espace rÃ©servÃ©, 
   il n'y a pas de danger.
 @LineBreak
 @LineBreak
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   
@@ -1695,45 +1704,45 @@ Les valeur du type peuvent être:
 @Function SetDatabaseLong(#BaseDeDonnees, IndexDeDeclaration, Valeur)
 
 @Description
-  Définit une variable de liaison  
+  DÃ©finit une variable de liaison  
   de type Long pour le prochain 
-  appel à @@DatabaseQuery ou à 
+  appel Ã  @@DatabaseQuery ou Ã  
   @@DatabaseUpdate.
 
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @Parameter "Valeur"
-  La valeur à utiliser pour la variable 
+  La valeur Ã  utiliser pour la variable 
   de liaison.
 
 @NoReturnValue
 
 @Remarks
-  Lier des variables permet la création plus facile 
-  de déclarations avec des données, car il n'y a 
-  pas besoin d'ajouter les données dans la chaîne. 
-  La déclaration de type chaîne peut contenir les 
-  espaces réservés et les données sont liées avant 
-  l'exécution de la déclaration. Cette méthode 
-  permet également d'éviter les vulnérabilités 
-  dues à une éventuelle injection de code SQL 
-  qui peut être faite si les données (telles 
-  que des chaînes) sont directement insérées 
-  dans le texte de la déclaration. Tant que la 
-  déclaration ne contient que l'espace réservé, 
+  Lier des variables permet la crÃ©ation plus facile 
+  de dÃ©clarations avec des donnÃ©es, car il n'y a 
+  pas besoin d'ajouter les donnÃ©es dans la chaÃ®ne. 
+  La dÃ©claration de type chaÃ®ne peut contenir les 
+  espaces rÃ©servÃ©s et les donnÃ©es sont liÃ©es avant 
+  l'exÃ©cution de la dÃ©claration. Cette mÃ©thode 
+  permet Ã©galement d'Ã©viter les vulnÃ©rabilitÃ©s 
+  dues Ã  une Ã©ventuelle injection de code SQL 
+  qui peut Ãªtre faite si les donnÃ©es (telles 
+  que des chaÃ®nes) sont directement insÃ©rÃ©es 
+  dans le texte de la dÃ©claration. Tant que la 
+  dÃ©claration ne contient que l'espace rÃ©servÃ©, 
   il n'y a pas de danger.
 @LineBreak
 @LineBreak
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   
@@ -1750,45 +1759,45 @@ Les valeur du type peuvent être:
 @Function SetDatabaseQuad(#BaseDeDonnees, IndexDeDeclaration, Valeur.q)
 
 @Description
-  Définit une variable de liaison  
+  DÃ©finit une variable de liaison  
   de type Quad pour le prochain 
-  appel à @@DatabaseQuery ou à 
+  appel Ã  @@DatabaseQuery ou Ã  
   @@DatabaseUpdate.
 
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @Parameter "Valeur.q"
-  La valeur à utiliser pour la variable 
+  La valeur Ã  utiliser pour la variable 
   de liaison.
 
 @NoReturnValue
 
 @Remarks
-  Lier des variables permet la création plus facile 
-  de déclarations avec des données, car il n'y a 
-  pas besoin d'ajouter les données dans la chaîne. 
-  La déclaration de type chaîne peut contenir les 
-  espaces réservés et les données sont liées avant 
-  l'exécution de la déclaration. Cette méthode 
-  permet également d'éviter les vulnérabilités 
-  dues à une éventuelle injection de code SQL 
-  qui peut être faite si les données (telles 
-  que des chaînes) sont directement insérées 
-  dans le texte de la déclaration. Tant que la 
-  déclaration ne contient que l'espace réservé, 
+  Lier des variables permet la crÃ©ation plus facile 
+  de dÃ©clarations avec des donnÃ©es, car il n'y a 
+  pas besoin d'ajouter les donnÃ©es dans la chaÃ®ne. 
+  La dÃ©claration de type chaÃ®ne peut contenir les 
+  espaces rÃ©servÃ©s et les donnÃ©es sont liÃ©es avant 
+  l'exÃ©cution de la dÃ©claration. Cette mÃ©thode 
+  permet Ã©galement d'Ã©viter les vulnÃ©rabilitÃ©s 
+  dues Ã  une Ã©ventuelle injection de code SQL 
+  qui peut Ãªtre faite si les donnÃ©es (telles 
+  que des chaÃ®nes) sont directement insÃ©rÃ©es 
+  dans le texte de la dÃ©claration. Tant que la 
+  dÃ©claration ne contient que l'espace rÃ©servÃ©, 
   il n'y a pas de danger.
 @LineBreak
 @LineBreak
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   
@@ -1805,45 +1814,45 @@ Les valeur du type peuvent être:
 @Function SetDatabaseFloat(#BaseDeDonnees, IndexDeDeclaration, Valeur.f)
 
 @Description
-  Définit une variable de liaison  
+  DÃ©finit une variable de liaison  
   de type Float pour le prochain 
-  appel à @@DatabaseQuery ou à 
+  appel Ã  @@DatabaseQuery ou Ã  
   @@DatabaseUpdate.
 
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @Parameter "Valeur.f"
-  La valeur à utiliser pour la 
+  La valeur Ã  utiliser pour la 
   variable de liaison.
 
 @NoReturnValue
 
 @Remarks
-  Lier des variables permet la création plus facile 
-  de déclarations avec des données, car il n'y a 
-  pas besoin d'ajouter les données dans la chaîne. 
-  La déclaration de type chaîne peut contenir les 
-  espaces réservés et les données sont liées avant 
-  l'exécution de la déclaration. Cette méthode 
-  permet également d'éviter les vulnérabilités 
-  dues à une éventuelle injection de code SQL 
-  qui peut être faite si les données (telles 
-  que des chaînes) sont directement insérées 
-  dans le texte de la déclaration. Tant que la 
-  déclaration ne contient que l'espace réservé, 
+  Lier des variables permet la crÃ©ation plus facile 
+  de dÃ©clarations avec des donnÃ©es, car il n'y a 
+  pas besoin d'ajouter les donnÃ©es dans la chaÃ®ne. 
+  La dÃ©claration de type chaÃ®ne peut contenir les 
+  espaces rÃ©servÃ©s et les donnÃ©es sont liÃ©es avant 
+  l'exÃ©cution de la dÃ©claration. Cette mÃ©thode 
+  permet Ã©galement d'Ã©viter les vulnÃ©rabilitÃ©s 
+  dues Ã  une Ã©ventuelle injection de code SQL 
+  qui peut Ãªtre faite si les donnÃ©es (telles 
+  que des chaÃ®nes) sont directement insÃ©rÃ©es 
+  dans le texte de la dÃ©claration. Tant que la 
+  dÃ©claration ne contient que l'espace rÃ©servÃ©, 
   il n'y a pas de danger.
 @LineBreak
 @LineBreak
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   
@@ -1860,45 +1869,45 @@ Les valeur du type peuvent être:
 @Function SetDatabaseDouble(#BaseDeDonnees, IndexDeDeclaration, Valeur.d)
 
 @Description
-  Définit une variable de liaison  
+  DÃ©finit une variable de liaison  
   de type Double pour le prochain 
-  appel à @@DatabaseQuery ou à 
+  appel Ã  @@DatabaseQuery ou Ã  
   @@DatabaseUpdate.
   
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @Parameter "Valeur.d"
-  La valeur à utiliser pour la variable 
+  La valeur Ã  utiliser pour la variable 
   de liaison.
 
 @NoReturnValue
 
 @Remarks
-  Lier des variables permet la création plus facile 
-  de déclarations avec des données, car il n'y a 
-  pas besoin d'ajouter les données dans la chaîne. 
-  La déclaration de type chaîne peut contenir les 
-  espaces réservés et les données sont liées avant 
-  l'exécution de la déclaration. Cette méthode 
-  permet également d'éviter les vulnérabilités 
-  dues à une éventuelle injection de code SQL 
-  qui peut être faite si les données (telles 
-  que des chaînes) sont directement insérées 
-  dans le texte de la déclaration. Tant que la 
-  déclaration ne contient que l'espace réservé, 
+  Lier des variables permet la crÃ©ation plus facile 
+  de dÃ©clarations avec des donnÃ©es, car il n'y a 
+  pas besoin d'ajouter les donnÃ©es dans la chaÃ®ne. 
+  La dÃ©claration de type chaÃ®ne peut contenir les 
+  espaces rÃ©servÃ©s et les donnÃ©es sont liÃ©es avant 
+  l'exÃ©cution de la dÃ©claration. Cette mÃ©thode 
+  permet Ã©galement d'Ã©viter les vulnÃ©rabilitÃ©s 
+  dues Ã  une Ã©ventuelle injection de code SQL 
+  qui peut Ãªtre faite si les donnÃ©es (telles 
+  que des chaÃ®nes) sont directement insÃ©rÃ©es 
+  dans le texte de la dÃ©claration. Tant que la 
+  dÃ©claration ne contient que l'espace rÃ©servÃ©, 
   il n'y a pas de danger.
 @LineBreak
 @LineBreak
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   
@@ -1915,26 +1924,26 @@ Les valeur du type peuvent être:
 @Function SetDatabaseNull(#BaseDeDonnees, IndexDeDeclaration)
 
 @Description
-  Définit une variable de liaison à 
+  DÃ©finit une variable de liaison Ã  
   une valeur NULL pour le prochain 
-  appel à @@DatabaseQuery ou à 
+  appel Ã  @@DatabaseQuery ou Ã  
   @@DatabaseUpdate.
 
 @Parameter "#Database"
-  La base de données à utiliser.
+  La base de donnÃ©es Ã  utiliser.
   
 @Parameter "IndexDeDeclaration"
   L'indice de la variable de liaison 
-  dans la déclaration. 
+  dans la dÃ©claration. 
 @LineBreak
 @LineBreak
-  La première variable a l'index 0.
+  La premiÃ¨re variable a l'index 0.
 
 @NoReturnValue
 
 @Remarks
   Voir @@DatabaseQuery et @@DatabaseUpdate 
-  pour des exemples sur comment spécifier 
+  pour des exemples sur comment spÃ©cifier 
   les variables de liaison dans une 
   instruction SQL.
   

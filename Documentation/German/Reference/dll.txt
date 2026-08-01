@@ -1,23 +1,26 @@
-@Title Erstellung einer DLL
+ï»¿@Title Erstellung einer DLL
 
-  PureBasic ermöglicht das Erstellen einer Standard Microsoft Windows DLL ("Dynamic Linked Library"),
+  PureBasic ermÃ¶glicht das Erstellen einer Standard Microsoft Windows DLL ("Dynamic Linked Library"),
   "shared objects" (.so) auf Linux, und "dynamic libraries" (.dylib) auf MacOS X.
-  Der DLL Code entspricht "normalem" PureBasic Code, mit der Ausnahme, dass außerhalb von Prozeduren 
+  Der DLL Code entspricht "normalem" PureBasic Code, mit der Ausnahme, dass auÃŸerhalb von Prozeduren 
   kein eigentlicher Programmcode geschrieben werden sollte. 
   @LineBreak
   @LineBreak
-  Beim Schreiben einer DLL wird sämtlicher Code innerhalb von Prozeduren ausgeführt. Wenn eine Prozedur 
-  'public' (öffentlich) sein soll (d.h. darauf durch dritte Programme zugegriffen werden kann, die die 
-  DLL benutzen), dann wird das Schlüsselwort @Keyword ProcedureDLL (oder @Keyword ProcedureCDLL wenn die Prozedur im 'CDecl' 
-  Format vorliegen muss, was bei regulären Windows DLL nicht der Fall ist) anstelle von @Keyword Procedure 
-  (und @Keyword DeclareDLL oder @Keyword DeclareCDLL anstelle von @Keyword Declare) benutzt. Dies ist die einzige notwendige Änderung 
+  Beim Schreiben einer DLL wird sÃ¤mtlicher Code innerhalb von Prozeduren ausgefÃ¼hrt. Wenn eine Prozedur 
+  'public' (Ã¶ffentlich) sein soll (d.h. darauf durch dritte Programme zugegriffen werden kann, die die 
+  DLL benutzen), dann wird das SchlÃ¼sselwort @Keyword ProcedureDLL (oder @Keyword ProcedureCDLL wenn die Prozedur im 'CDecl' 
+  Format vorliegen muss, was bei regulÃ¤ren Windows DLL nicht der Fall ist) anstelle von @Keyword Procedure 
+  (und @Keyword DeclareDLL oder @Keyword DeclareCDLL anstelle von @Keyword Declare) benutzt. Dies ist die einzige notwendige Ã„nderung 
   am Programm. 
   @LineBreak
   @LineBreak
-  Nachdem dies erfolgte, wählen Sie 'Shared DLL' als Ausgabeformat (Fenster @ReferenceLink "ide_compiler" "'Compiler-Optionen'" in der
+  Nachdem dies erfolgte, wÃ¤hlen Sie 'Shared DLL' als Ausgabeformat (Fenster @ReferenceLink "ide_compiler" "'Compiler-Optionen'" in der
   PureBasic-IDE) oder den Zusatz '/DLL' bei Verwendung des Compilers im @ReferenceLink "cli_compiler" "Kommandozeilenmodus". 
   Im "Executable erstellen" Speichern-Dialog (bei Verwendung der PureBasic-IDE) wird nun eine DLL mit dem von Ihnen 
-  eingegebenen Namen im ausgewählten Verzeichnis erstellt.
+  eingegebenen Namen im ausgewÃ¤hlten Verzeichnis erstellt.
+  @LineBreak
+  @LineBreak
+  Auch @ReferenceLink "prototypes" "Prototypes" kÃ¶nnen beim Arbeiten mit DLL's nÃ¼tzlich sein.
 
   @Example
 
@@ -34,33 +37,33 @@
   EndIf
 @EndCode
   
-  @Bold "Nur für fortgeschrittene Programmierer:" Es gibt 4 spezielle Prozeduren, die vom OS automatisch aufgerufen 
+  @Bold "Nur fÃ¼r fortgeschrittene Programmierer:" Es gibt 4 spezielle Prozeduren, die vom OS automatisch aufgerufen 
   werden, wenn eines der folgenden Ereignisse auftritt: 
   @Indent @Section
-    - DLL wurde zu einem neuen Prozess hinzugefügt @LineBreak
+    - DLL wurde zu einem neuen Prozess hinzugefÃ¼gt @LineBreak
     - DLL wurde von einem Prozess entfernt @LineBreak
-    - DLL wurde zu einem neuen Thread hinzugefügt @LineBreak
+    - DLL wurde zu einem neuen Thread hinzugefÃ¼gt @LineBreak
     - DLL wurde von einem Thread entfernt 
   @EndIndent    
 
-  Um diese Ereignisse zu verwalten, ist es möglich, 4 spezielle Prozeduren zu deklarieren: @FunctionColor AttachProcess(Instanz), 
+  Um diese Ereignisse zu verwalten, ist es mÃ¶glich, 4 spezielle Prozeduren zu deklarieren: @FunctionColor AttachProcess(Instanz), 
   @FunctionColor DetachProcess(Instanz), @FunctionColor AttachThread(Instanz) und @FunctionColor DetachThread(Instanz). 
-  Dies bedeutet, dass diese 4 Prozedur-Namen reserviert sind und vom Programmierer nicht für andere Zwecke verwendet werden können.
+  Dies bedeutet, dass diese 4 Prozedur-Namen reserviert sind und vom Programmierer nicht fÃ¼r andere Zwecke verwendet werden kÃ¶nnen.
   @LineBreak
   @LineBreak
   @Bold "Hinweise zur Erstellung von DLL's:"
   @Indent @Section
     - Die Deklaration von Arrays, Listen bzw. Maps mittels @ReferenceLink "Dim" "Dim", @ReferenceLink "NewList" "NewList" bzw. @ReferenceLink "newmap" "NewMap" muss stets innerhalb 
       der Prozedur AttachProcess erfolgen. @LineBreak
-    - Schreiben Sie keinen Programmcode außerhalb von Prozeduren. Als Ausnahmen erlaubt sind lediglich 
+    - Schreiben Sie keinen Programmcode auÃŸerhalb von Prozeduren. Als Ausnahmen erlaubt sind lediglich 
       Variablen- oder Strukturen-Deklarationen. @LineBreak
     - Standard-Werte in Prozedur-Parametern haben keinen Effekt. @LineBreak
-    - DirectX Initialisierungsroutinen dürfen nicht innerhalb der AttachProcess Prozedur geschrieben werden. 
+    - DirectX Initialisierungsroutinen dÃ¼rfen nicht innerhalb der AttachProcess Prozedur geschrieben werden. 
   @EndIndent
-  @Bold "Hinweise zur Rückgabe von Strings aus DLL's:"
+  @Bold "Hinweise zur RÃ¼ckgabe von Strings aus DLL's:"
   @LineBreak
   @LineBreak
-  Bei der Rückgabe von Strings aus einer DLL-Funktion muss der String als @ReferenceLink "global" Global deklariert sein.
+  Bei der RÃ¼ckgabe von Strings aus einer DLL-Funktion muss der String als @ReferenceLink "global" Global deklariert sein.
 
   @Example
 
@@ -74,11 +77,11 @@
 @EndCode
 
   Ohne die Deklaration als @ReferenceLink "Global" Global ist der String nur Lokal in der ProcedureDLL
-  verfügbar und kann somit nicht außerhalb verwendet werden. 
+  verfÃ¼gbar und kann somit nicht auÃŸerhalb verwendet werden. 
   @LineBreak
   @LineBreak
   Bei der Verwendung von @@CallFunction (oder einer ihrer verwandten CallXXX-Funktionen) auf 
-  eine DLL-Funktion wird bei der Rückgabe eines Strings immer ein Zeiger auf diesen zurückgegeben, welcher mit 
+  eine DLL-Funktion wird bei der RÃ¼ckgabe eines Strings immer ein Zeiger auf diesen zurÃ¼ckgegeben, welcher mit 
   @@PeekS ausgelesen werden muss.
 
   @Example

@@ -1,0 +1,119 @@
+//---------------------------------------------------------------------------
+//These materials/shaders are part of the NEW InstanceManager implementation
+//Written by Matias N. Goldberg ("dark_sylinc")
+//---------------------------------------------------------------------------
+
+material Examples/Instancing/ShaderBased/shadow_caster
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				lighting_stage gbuffer depth
+				hardware_skinning 70 1 linear
+			}
+		}
+	}
+}
+
+material Examples/Instancing/ShaderBased/shadow_caster_dq
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				lighting_stage gbuffer depth
+				hardware_skinning 80 1 dual_quaternion true false
+			}
+		}
+	}
+}
+
+material Examples/Instancing/ShaderBased/shadow_caster_dq_two_weights
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				lighting_stage gbuffer depth
+				hardware_skinning 80 2 dual_quaternion true false
+			}
+		}
+	}
+}
+
+material Examples/Instancing/RTSS/Robot
+{
+	technique
+	{
+		shadow_caster_material Examples/Instancing/ShaderBased/shadow_caster
+
+		pass
+		{
+			specular	1 1 1 1 12.5
+
+			texture_unit
+			{
+				texture		r2skin.jpg
+			}
+
+			rtshader_system
+			{
+				hardware_skinning 70 1 linear
+			}
+		}
+	}
+}
+
+material Examples/Instancing/RTSS/Robot_dq
+{
+	technique
+	{
+		shadow_caster_material Examples/Instancing/ShaderBased/shadow_caster_dq
+
+		pass
+		{
+			specular	1 1 1 1 12.5
+
+			texture_unit
+			{
+				texture		r2skin.jpg
+			}
+
+			rtshader_system
+			{
+				hardware_skinning 80 1 dual_quaternion true false
+			}
+		}
+	}
+}
+
+material Examples/Instancing/RTSS/spine_dq_two_weights
+{
+	technique
+	{
+		shadow_caster_material Examples/Instancing/ShaderBased/shadow_caster_dq_two_weights
+
+		pass
+		{
+			diffuse		0.3 0.3 0.3
+			specular	0.1 0.1 0.1 0.1 12.5
+
+			texture_unit
+			{
+				texture		circuit.dds
+			}
+
+			rtshader_system
+			{
+				hardware_skinning 80 2 dual_quaternion true false
+			}
+		}
+	}
+}

@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Material library documentation
 ;
-;       (c) 2021 - Fantaisie Software
+;       (c) 2025 - Fantaisie Software
 ;
 
 @Library Material
@@ -20,7 +20,15 @@
 
 @CommandList
 
-@ExampleFile All Material.pb
+@ExampleFile All AddMaterialLayer.pb
+@ExampleFile All Material2.pb
+@ExampleFile All CopyMaterial.pb
+@ExampleFile All GetScriptMaterial.pb
+@ExampleFile All MaterialFog.pb
+@ExampleFile All MaterialTransparent.pb
+@ExampleFile All ReloadMaterial.pb
+@ExampleFile All ResetMaterial.pb
+@ExampleFile All ScaleMaterial.pb
 
 @SupportedOS
 
@@ -909,7 +917,7 @@
    It can be one of the following values:
 @FixedFont
   @#PB_Material_None       : Don't filter the material which becomes very pixelated when the camera gets close.
-  @#PB_Material_Bilinear   : Performs a bilinear filtering when the camera gets close, resulting to a smooth, a bit blured picture.
+  @#PB_Material_Bilinear   : Performs a bilinear filtering when the camera gets close, resulting to a smooth, a bit blurred picture.
   @#PB_Material_Trilinear  : Performs a trilinear filtering when the camera gets close, resulting in the best picture quality possible.
   @#PB_Material_Anisotropic: Set the maximum anisotropic value.
 @EndFixedFont

@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Thread library documentation
 ;
-;      (c) 2009 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Thread
@@ -215,7 +215,7 @@
   EndProcedure
   
   ; We use a dynamically allocated block, so even if we call it from a procedure, it will
-  ; still work. The memory block will be freed by the thread, when 
+  ; still work. The memory block will be freed by the thread, when the thread ends.
   ;
   *Parameters.Person = AllocateMemory(SizeOf(Person))
   *Parameters\Name$ = "John"

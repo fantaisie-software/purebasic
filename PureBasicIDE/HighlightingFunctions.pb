@@ -399,7 +399,7 @@ Procedure RemoveComments()
   
   GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
   
-  If RowEnd <= 1 ; when selecting a full line, it actually selects the newline too, this results in one extra line
+  If RowEnd <= 1 And LineEnd > LineStart ; when selecting a full line, it actually selects the newline too, this results in one extra line
     LineEnd - 1
   EndIf
   

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Memory library documentation
 ;
 ; (c) Fantaisie Software
@@ -7,17 +7,17 @@
 @Library Memory
 
 @Overview
-  Il est parfois très utile d'avoir un accès 
-  direct à la mémoire vive (RAM) de l'ordinateur 
-  pour exécuter et accélérer des routines 
-  gourmandes en temps d'exécution. Cette 
-  bibliothèque vous permet d'allouer un 
-  nombre quelconque de zones mémoire et de 
+  Il est parfois trÃ¨s utile d'avoir un accÃ¨s 
+  direct Ã  la mÃ©moire vive (RAM) de l'ordinateur 
+  pour exÃ©cuter et accÃ©lÃ©rer des routines 
+  gourmandes en temps d'exÃ©cution. Cette 
+  bibliothÃ¨que vous permet d'allouer un 
+  nombre quelconque de zones mÃ©moire et de 
   les utiliser directement avec PureBasic.
 @LineBreak
 @LineBreak
   @Bold "Note:" La manipulation incorrecte 
-  de zones mémoire peut conduire au plantage 
+  de zones mÃ©moire peut conduire au plantage 
   de l'ordinateur.
   
 @CommandList
@@ -31,56 +31,56 @@
 @Function *Resultat = AllocateMemory(Taille [, Options])
 
 @Description
-  Alloue une zone mémoire contiguë remplie 
-  de zéros (caractère @#Null).
+  Alloue une zone mÃ©moire contiguÃ« remplie 
+  de zÃ©ros (caractÃ¨re @#Null).
   
 @Parameter "Taille"
   La taille en octets de la nouvelle zone 
-  mémoire.
+  mÃ©moire.
 
 @OptionalParameter "Options"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_Memory_NoClear: Ne pas remplir la zone de mémoire avec des zéros. Cela peut aider à l'avoir plus rapidement si la mémoire allouée est utilisée immédiatement.
+  @#PB_Memory_NoClear: Ne pas remplir la zone de mÃ©moire avec des zÃ©ros. Cela peut aider Ã  l'avoir plus rapidement si la mÃ©moire allouÃ©e est utilisÃ©e immÃ©diatement.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie l'adresse de la mémoire allouée 
+  Renvoie l'adresse de la mÃ©moire allouÃ©e 
   (@ReferenceLink "memory" "pointeur"), 
-  zéro sinon.
+  zÃ©ro sinon.
   
 @Remarks 
-  La commande @@FreeMemory peut être utilisée
-  pour renvoyer la mémoire allouée au système.
+  La commande @@FreeMemory peut Ãªtre utilisÃ©e
+  pour renvoyer la mÃ©moire allouÃ©e au systÃ¨me.
   @LineBreak
-  La commande @@ReallocateMemory peut être 
-  utilisée pour changer la taille de la zone 
-  allouée.@LineBreak
-  Toutes les zones de mémoire allouées sont 
-  automatiquement libérées lorsque les 
+  La commande @@ReallocateMemory peut Ãªtre 
+  utilisÃ©e pour changer la taille de la zone 
+  allouÃ©e.@LineBreak
+  Toutes les zones de mÃ©moire allouÃ©es sont 
+  automatiquement libÃ©rÃ©es lorsque les 
   programmes se terminent.
 @LineBreak
 @LineBreak
-   @Bold "Note:" Si le programme se bloque à 
-   cette commande, c'est généralement dû à 
-   une corruption de la mémoire plus tôt dans 
-   le programme, après écriture, dans une 
-   zone en dehors de la zone de mémoire 
-   allouée.
-   La cause de ce genre d'erreur peut être 
-   trouvée en utilisant le
+   @Bold "Note:" Si le programme se bloque Ã  
+   cette commande, c'est gÃ©nÃ©ralement dÃ» Ã  
+   une corruption de la mÃ©moire plus tÃ´t dans 
+   le programme, aprÃ¨s Ã©criture, dans une 
+   zone en dehors de la zone de mÃ©moire 
+   allouÃ©e.
+   La cause de ce genre d'erreur peut Ãªtre 
+   trouvÃ©e en utilisant le
    @ReferenceLink "ide_debugtools" "purificateur 
    
 @Example
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    Debug "Adresse de début de la zone mémoire de 5000 octets :"
+    Debug "Adresse de dÃ©but de la zone mÃ©moire de 5000 octets :"
     Debug *MemoireID
-    PokeS(*MemoireID, "Stocke cette chaîne dans la zone mémoire")
-    FreeMemory(*MemoireID)  ; sera également effectué automatiquement à la fin du programme
+    PokeS(*MemoireID, "Stocke cette chaÃ®ne dans la zone mÃ©moire")
+    FreeMemory(*MemoireID)  ; sera Ã©galement effectuÃ© automatiquement Ã  la fin du programme
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf 
 @EndCode  
   
@@ -111,49 +111,49 @@
 @LineBreak
 @LineBreak  
   Cette structure dynamique est correctement 
-  initialisée et prête à être utilisée, sans la 
-  nécessité d'appeler 
+  initialisÃ©e et prÃªte Ã  Ãªtre utilisÃ©e, sans la 
+  nÃ©cessitÃ© d'appeler 
   @ReferenceLink "compilerfunctions" "InitializeStructure()".
-  Pour accéder aux données de la structure, le 
-  @ReferenceLink "memory" "pointeur" associé à 
-  la 'Structure' spécifiée doit être utilisé.
+  Pour accÃ©der aux donnÃ©es de la structure, le 
+  @ReferenceLink "memory" "pointeur" associÃ© Ã  
+  la 'Structure' spÃ©cifiÃ©e doit Ãªtre utilisÃ©.
   
 @Parameter "Structure"
-  Le nom de la structure utilisée pour créer 
+  Le nom de la structure utilisÃ©e pour crÃ©er 
   le nouvel objet dynamique.@LineBreak
-  La structure doit exister au préalable.
+  La structure doit exister au prÃ©alable.
   
 @ReturnValue
   L'adresse (@ReferenceLink "memory" "pointeur"), 
   de la nouvelle structure dynamique, 
-  zéro sinon.
+  zÃ©ro sinon.
   
 @Remarks
-  Cette commande est à la disposition des 
-  utilisateurs avancés et ne devrait pas 
-  être nécessaire dans la plupart des 
+  Cette commande est Ã  la disposition des 
+  utilisateurs avancÃ©s et ne devrait pas 
+  Ãªtre nÃ©cessaire dans la plupart des 
   programmes. Il est souvent plus judicieux 
   d'utiliser un @LibraryLink "array" "tableau" 
-  structuré, une 
+  structurÃ©, une 
   @LibraryLink "list" "liste" 
   ou une @LibraryLink "map" "map" pour 
-  stocker dynamiquement des objets structurés.
+  stocker dynamiquement des objets structurÃ©s.
 @LineBreak
 @LineBreak
-  Utiliser @@FreeStructure pour libérer la 
-  mémoire d'une structure dynamique.@LineBreak
+  Utiliser @@FreeStructure pour libÃ©rer la 
+  mÃ©moire d'une structure dynamique.@LineBreak
   Toutes les structures dynamiques sont 
-  automatiquement libérées lorsque le 
+  automatiquement libÃ©rÃ©es lorsque le 
   programme se termine.
 @LineBreak
 @LineBreak
   Si le programme se bloque avec cette 
-  commande, c'est généralement le résultat 
-  d'une corruption de la mémoire plus tôt 
-  dans le programme, en écrivant dans une 
-  zone à l'extérieur de la zone mémoire 
-  allouée.
-  Il est possible de remonter à la cause 
+  commande, c'est gÃ©nÃ©ralement le rÃ©sultat 
+  d'une corruption de la mÃ©moire plus tÃ´t 
+  dans le programme, en Ã©crivant dans une 
+  zone Ã  l'extÃ©rieur de la zone mÃ©moire 
+  allouÃ©e.
+  Il est possible de remonter Ã  la cause 
   de cette erreur en utilisant le 
   @ReferenceLink "ide_debugtools" "purificateur".
   
@@ -185,22 +185,22 @@
 @Function Resultat = CompareMemory(*Memoire1, *Memoire2, Taille)
 
 @Description
-  Compare deux zones mémoire.
+  Compare deux zones mÃ©moire.
 
 @Parameter "*Memoire1, *Memoire2"
-  Les adresses des deux mémoires à comparer.
+  Les adresses des deux mÃ©moires Ã  comparer.
 
 @Parameter "Taille"
-  Le nombre d'octets à comparer.
+  Le nombre d'octets Ã  comparer.
 
 @ReturnValue
   Renvoie une valeur non nulle si les deux 
-  mémoires sont identiques, zéro sinon.
+  mÃ©moires sont identiques, zÃ©ro sinon.
 
 @Example  
 @Code
   *Memoire1 = AllocateMemory(5000)
-  PokeB(*Memoire1, 65)     ; Stocke cette valeur dans la zone mémoire)
+  PokeB(*Memoire1, 65)     ; Stocke cette valeur dans la zone mÃ©moire)
   *Memoire2 = AllocateMemory(50)
   PokeB(*Memoire2, 65) 
   *Memoire3 = AllocateMemory(100)
@@ -223,47 +223,47 @@
 @Function Resultat = CompareMemoryString(*Texte1, *Texte2 [, Mode [, Longueur [, Options]]])
 
 @Description
-  Compare deux chaînes de caractères situées 
-  en mémoire.
+  Compare deux chaÃ®nes de caractÃ¨res situÃ©es 
+  en mÃ©moire.
   
 @Parameter "*Texte1, *Texte2"
-  Les adresses des deux chaînes de caractères à comparer.
+  Les adresses des deux chaÃ®nes de caractÃ¨res Ã  comparer.
   
 @OptionalParameter "Mode"  
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_String_CaseSensitive : La recherche est sensible à  la casse (a=a) (Par défaut).
-  @#PB_String_NoCase        : Comparaison insensible à la casse (a=A).
-  @#PB_String_NoCaseAscii   : Recherche insensible à la casse utilisant uniquement le jeu de caractères ascii (a=A). 
-                             Beaucoup plus rapide que @#PB_String_NoCase lorsque la prise en charge complète d'Unicode n'est pas requise.
+  @#PB_String_CaseSensitive : La recherche est sensible Ã   la casse (a=a) (Par dÃ©faut).
+  @#PB_String_NoCase        : Comparaison insensible Ã  la casse (a=A).
+  @#PB_String_NoCaseAscii   : Recherche insensible Ã  la casse utilisant uniquement le jeu de caractÃ¨res ascii (a=A). 
+                             Beaucoup plus rapide que @#PB_String_NoCase lorsque la prise en charge complÃ¨te d'Unicode n'est pas requise.
 @EndFixedFont
 
 @OptionalParameter "Longueur"
-  Le nombre de caractères à comparer. 
+  Le nombre de caractÃ¨res Ã  comparer. 
 @LineBreak
 @LineBreak
-  Si ce paramètre ne est pas spécifié ou égal à 
-  -1 alors les chaînes sont comparées jusqu'à 
-  ce qu'un caractère @#Null soit atteint.@LineBreak 
-  Si les chaînes ne sont pas terminées par un 
-  caractère @#Null, ce paramètre doit alors 
-  être spécifié.
+  Si ce paramÃ¨tre ne est pas spÃ©cifiÃ© ou Ã©gal Ã  
+  -1 alors les chaÃ®nes sont comparÃ©es jusqu'Ã  
+  ce qu'un caractÃ¨re @#Null soit atteint.@LineBreak 
+  Si les chaÃ®nes ne sont pas terminÃ©es par un 
+  caractÃ¨re @#Null, ce paramÃ¨tre doit alors 
+  Ãªtre spÃ©cifiÃ©.
   
 @OptionalParameter "Options"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Ascii  : Compare la chaîne de caractères au format ASCII
-  @#PB_UTF8   : Compare la chaîne de caractères au format  UTF-8
-  @#PB_Unicode: Compare la chaîne de caractères au format  Unicode
+  @#PB_Ascii  : Compare la chaÃ®ne de caractÃ¨res au format ASCII
+  @#PB_UTF8   : Compare la chaÃ®ne de caractÃ¨res au format  UTF-8
+  @#PB_Unicode: Compare la chaÃ®ne de caractÃ¨res au format  Unicode
 @EndFixedFont
-  La valeur par défaut est @#PB_Unicode.
+  La valeur par dÃ©faut est @#PB_Unicode.
   
 @ReturnValue  
   Renvoie l'une des valeurs suivantes:
 @FixedFont
-  @#PB_String_Equal  : Le 'Texte1' est égal au 'Texte2'.
-  @#PB_String_Lower  : Le 'Texte1' est inférieur au 'Texte2'.
-  @#PB_String_Greater: Le 'Texte1' est supérieur au 'Texte2'.
+  @#PB_String_Equal  : Le 'Texte1' est Ã©gal au 'Texte2'.
+  @#PB_String_Lower  : Le 'Texte1' est infÃ©rieur au 'Texte2'.
+  @#PB_String_Greater: Le 'Texte1' est supÃ©rieur au 'Texte2'.
 @EndFixedFont 
 
 @Example  
@@ -274,11 +274,11 @@
   Comp = CompareMemoryString(@Texte1$, @Texte2$)
   Select Comp
     Case #PB_String_Equal
-      Debug "Le 'Texte1' est égal au 'Texte2'."
+      Debug "Le 'Texte1' est Ã©gal au 'Texte2'."
     Case #PB_String_Lower  
-      Debug "Le 'Texte1' est inférieur au 'Texte2'."
+      Debug "Le 'Texte1' est infÃ©rieur au 'Texte2'."
     Case #PB_String_Greater
-      Debug "Le 'Texte1' est supérieur au 'Texte2'."
+      Debug "Le 'Texte1' est supÃ©rieur au 'Texte2'."
   EndSelect
 @EndCode
 
@@ -294,23 +294,23 @@
 @Function CopyMemory(*MemoireSource, *MemoireDestination, Taille)
 
 @Description
-  Copie une zone mémoire dans une autre.
+  Copie une zone mÃ©moire dans une autre.
   
 @Parameter "*MemoireSource"
-  L'adresse de la zone mémoire à copier.
+  L'adresse de la zone mÃ©moire Ã  copier.
   
 @Parameter "*MemoireDestination"
-  L'adresse de la zone mémoire de destination.
+  L'adresse de la zone mÃ©moire de destination.
 
 @Parameter "Taille"
-  Le nombre d'octets à copier.
+  Le nombre d'octets Ã  copier.
  
 @NoReturnValue
 
 @Remarks
-  Les zones mémoires source et destination ne 
+  Les zones mÃ©moires source et destination ne 
   devraient pas se chevaucher, dans ce cas, 
-  il est préférable d'utiliser @@MoveMemory.
+  il est prÃ©fÃ©rable d'utiliser @@MoveMemory.
 
 @Example  
 @Code
@@ -319,7 +319,7 @@
   Debug Texte1$ ; Affiche OK
   Debug Texte2$ ; Affiche KO
 
-  CopyMemory(@Texte1$, @Texte2$, 4) ; en unicode, un caractère est codé sur 2 octets
+  CopyMemory(@Texte1$, @Texte2$, 4) ; en unicode, un caractÃ¨re est codÃ© sur 2 octets
 
   Debug Texte1$ ; Affiche OK
   Debug Texte2$ ; Affiche OK
@@ -336,34 +336,34 @@
 @Function Resultat = CopyMemoryString(*Memoire [, @*MemoireDestination])
 
 @Description
-  Copie un texte d'une zone mémoire dans une 
-  autre, si elle est spécifiée, à la fin du 
-  tampon mémoire courant sinon.
+  Copie un texte d'une zone mÃ©moire dans une 
+  autre, si elle est spÃ©cifiÃ©e, Ã  la fin du 
+  tampon mÃ©moire courant sinon.
 
 @Parameter "*Memoire"
-  L'adresse de la chaîne de caractères à copier.
+  L'adresse de la chaÃ®ne de caractÃ¨res Ã  copier.
 @LineBreak
 @LineBreak
-  La chaîne doit se terminer par un caractère 
+  La chaÃ®ne doit se terminer par un caractÃ¨re 
   @#Null.@LineBreak
-  La chaîne doit être dans le format de chaîne 
+  La chaÃ®ne doit Ãªtre dans le format de chaÃ®ne 
   de PureBasic.
   
 @OptionalParameter "@*MemoireDestination"  
   Le @ReferenceLink "memory" "pointeur" sur une 
-  variable contenant l'adresse de la mémoire 
+  variable contenant l'adresse de la mÃ©moire 
   tampon de destination. 
 @LineBreak
 @LineBreak  
-  Après la copie, la variable *MemoireDestination 
-  pointera vers le caractère @#Null à la fin de 
-  la chaîne copiée, donc un nouvel appel à cette 
-  fonction ajoutera la nouvelle chaîne à la 
-  précédente.
+  AprÃ¨s la copie, la variable *MemoireDestination 
+  pointera vers le caractÃ¨re @#Null Ã  la fin de 
+  la chaÃ®ne copiÃ©e, donc un nouvel appel Ã  cette 
+  fonction ajoutera la nouvelle chaÃ®ne Ã  la 
+  prÃ©cÃ©dente.
 @LineBreak
 @LineBreak
-   Si ce paramètre est omis, l'adresse de 
-   l'appel précédent est utilisé.
+   Si ce paramÃ¨tre est omis, l'adresse de 
+   l'appel prÃ©cÃ©dent est utilisÃ©.
   
 @ReturnValue
   Renvoie *MemoireDestination.
@@ -373,9 +373,9 @@
   *Tampon = AllocateMemory(1000)
   *Pointeur = *Tampon
   CopyMemoryString("Salut", @*Pointeur)
-  CopyMemoryString(" le Monde")  ; Cette chaîne sera copiée juste après "Salut"
-  *Pointeur-2*SizeOf(CHARACTER)  ; revient en arrière de 2 caractères (sur le 'd' de 'Monde')
-  CopyMemoryString("DE")         ; les deux dernières lettres seront en majuscules
+  CopyMemoryString(" le Monde")  ; Cette chaÃ®ne sera copiÃ©e juste aprÃ¨s "Salut"
+  *Pointeur-2*SizeOf(CHARACTER)  ; revient en arriÃ¨re de 2 caractÃ¨res (sur le 'd' de 'Monde')
+  CopyMemoryString("DE")         ; les deux derniÃ¨res lettres seront en majuscules
   Debug PeekS(*Tampon)
 @EndCode
 
@@ -389,31 +389,31 @@
 @Function FillMemory(*Memoire, Taille [, Valeur [, Type]])
 
 @Description
-  Remplit une zone mémoire avec une valeur donnée. 
+  Remplit une zone mÃ©moire avec une valeur donnÃ©e. 
   
 @Parameter "*Memoire"
-  L'adresse de la zone mémoire à remplir.
+  L'adresse de la zone mÃ©moire Ã  remplir.
   
 @Parameter "Taille"
-  La taille en octets de la zone mémoire à 
+  La taille en octets de la zone mÃ©moire Ã  
   remplir.
   
 @OptionalParameter "Valeur"
-  La valeur à écrire dans la zone de mémoire. 
+  La valeur Ã  Ã©crire dans la zone de mÃ©moire. 
 @Linebreak
 @Linebreak   
-  La valeur par défaut est la valeur @#NULL (0).
+  La valeur par dÃ©faut est la valeur @#NULL (0).
 
 @OptionalParameter "Type"  
-  Peut être une des constantes suivantes:
+  Peut Ãªtre une des constantes suivantes:
 @FixedFont
-  @#PB_Byte     : Type @ReferenceLink "variables" "byte"  (1 octet signé) (défaut).
-  @#PB_Ascii    : Type @ReferenceLink "variables" "ascii" (1 octet non signé).
-  @#PB_Word     : Type @ReferenceLink "variables" "word"  (2 octets signés).
-  @#PB_Unicode  : Type @ReferenceLink "variables" "word"  (2 octets non signés).
-  @#PB_Character: Type @ReferenceLink "variables" "caractère" (2 octets non signés en @ReferenceLink "unicode" "unicode").
+  @#PB_Byte     : Type @ReferenceLink "variables" "byte"  (1 octet signÃ©) (dÃ©faut).
+  @#PB_Ascii    : Type @ReferenceLink "variables" "ascii" (1 octet non signÃ©).
+  @#PB_Word     : Type @ReferenceLink "variables" "word"  (2 octets signÃ©s).
+  @#PB_Unicode  : Type @ReferenceLink "variables" "word"  (2 octets non signÃ©s).
+  @#PB_Character: Type @ReferenceLink "variables" "caractÃ¨re" (2 octets non signÃ©s en @ReferenceLink "unicode" "unicode").
   @#PB_Long     : Type @ReferenceLink "variables" "long"      (4 octets).
-  @#PB_Integer  : Type @ReferenceLink "variables" "integer"   (4 octets dans un exécutable 32 bits, 8 octets dans un exécutable 64 bits).
+  @#PB_Integer  : Type @ReferenceLink "variables" "integer"   (4 octets dans un exÃ©cutable 32 bits, 8 octets dans un exÃ©cutable 64 bits).
 @EndFixedFont
 
 @NoReturnValue
@@ -422,7 +422,7 @@
 @Code
   *Tampon = AllocateMemory(500)
   
-  FillMemory(*Tampon, 500) ; Remplit 500 octets avec des zéros (vide la zone mémoire)
+  FillMemory(*Tampon, 500) ; Remplit 500 octets avec des zÃ©ros (vide la zone mÃ©moire)
   FillMemory(*Tampon, 500, $FF) ; Remplit 500 octets avec la valeur $FF
   FillMemory(*Tampon, 500, $BADF00D, #PB_Long) ; Remplit 500 octets avec la valeur $BADF00D
 @EndCode
@@ -437,47 +437,46 @@
 @Function FreeMemory(*Memoire)
 
 @Description
-  Libère une zone mémoire.
+  LibÃ¨re une zone mÃ©moire.
   
 @Parameter "*Memoire"
-  L'adresse de la zone de mémoire à libérer.
+  L'adresse de la zone de mÃ©moire Ã  libÃ©rer.
 @LineBreak
 @LineBreak
-  Ce doit être la valeur renvoyée par 
-  @@AllocateMemory ou @@ReAllocateMemory. 
+  Ce doit Ãªtre la valeur renvoyÃ©e par @@AllocateMemory, @@ReAllocateMemory, @@Ascii ou @@UTF8. 
  
 @NoReturnValue
 
 @Remarks
-  Si le programme se bloque à cette commande, 
-  même si l'entrée semble correcte, c'est 
-  généralement le résultat d'une corruption de 
-  mémoire à un moment plus tôt dans le programme 
-  en écrivant dans une zone à l'extérieur de la 
-  zone de mémoire allouée.
-  Une telle erreur peut être analysée en utilisant le 
+  Si le programme se bloque Ã  cette commande, 
+  mÃªme si l'entrÃ©e semble correcte, c'est 
+  gÃ©nÃ©ralement le rÃ©sultat d'une corruption de 
+  mÃ©moire Ã  un moment plus tÃ´t dans le programme 
+  en Ã©crivant dans une zone Ã  l'extÃ©rieur de la 
+  zone de mÃ©moire allouÃ©e.
+  Une telle erreur peut Ãªtre analysÃ©e en utilisant le 
   @ReferenceLink "ide_debugtools" "purificateur" 
 @LineBreak  
 @LineBreak
-  Toutes les zones mémoire restantes sont 
-  automatiquement libérées quand le programme 
+  Toutes les zones mÃ©moire restantes sont 
+  automatiquement libÃ©rÃ©es quand le programme 
   se termine.  
    
 @Example
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    Debug "Adresse de début de la zone mémoire de 5000 octets :"
+    Debug "Adresse de dÃ©but de la zone mÃ©moire de 5000 octets :"
     Debug *MemoireID
-    PokeS(*MemoireID, "Stocke cette chaîne dans la zone mémoire")
-    FreeMemory(*MemoireID)  ; sera également effectué automatiquement à la fin du programme
+    PokeS(*MemoireID, "Stocke cette chaÃ®ne dans la zone mÃ©moire")
+    FreeMemory(*MemoireID)  ; sera Ã©galement effectuÃ© automatiquement Ã  la fin du programme
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf 
 @EndCode  
 
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory
+  @@AllocateMemory, @@ReAllocateMemory, @@Ascii, @@UTF8
     
 @SupportedOS
 
@@ -486,37 +485,37 @@
 @Function FreeStructure(*Structure)
 
 @Description
-  Libère la structure dynamique précédemment 
-  allouée avec @@AllocateStructure. 
+  LibÃ¨re la structure dynamique prÃ©cÃ©demment 
+  allouÃ©e avec @@AllocateStructure. 
 
 @Parameter "*Structure"
-  L'adresse de la structure dynamique à 
-  libérer. 
+  L'adresse de la structure dynamique Ã  
+  libÃ©rer. 
 @LineBreak
 @LineBreak  
-  Ce doit être la valeur renvoyée 
+  Ce doit Ãªtre la valeur renvoyÃ©e 
   par @@AllocateStructure.
   
 @NoReturnValue
 
 @Remarks
-  Il n'est pas nécessaire d'appeler 
+  Il n'est pas nÃ©cessaire d'appeler 
   @ReferenceLink "compilerfunctions" "ClearStructure()" 
-  avant de libérer la structure.
+  avant de libÃ©rer la structure.
 @LineBreak
 @LineBreak 
   Si le programme se bloque avec cette commande, 
-  c'est généralement le résultat d'une corruption 
-  de la mémoire plus tôt dans le programme, en 
-  écrivant dans une zone à l'extérieur de la 
-  zone mémoire allouée.
-  Il est possible de remonter à la cause de cette 
+  c'est gÃ©nÃ©ralement le rÃ©sultat d'une corruption 
+  de la mÃ©moire plus tÃ´t dans le programme, en 
+  Ã©crivant dans une zone Ã  l'extÃ©rieur de la 
+  zone mÃ©moire allouÃ©e.
+  Il est possible de remonter Ã  la cause de cette 
   erreur en utilisant le 
   @ReferenceLink "ide_debugtools" "purificateur". 
 @LineBreak
 @LineBreak
   Toutes les structures dynamiques sont 
-  automatiquement libérées à la fermeture 
+  automatiquement libÃ©rÃ©es Ã  la fermeture 
   du programme.
   
 @Example
@@ -547,17 +546,16 @@
 @Function Resultat = MemorySize(*Memoire)
 
 @Description
-  Renvoie la taille d'une zone mémoire.
+  Renvoie la taille d'une zone mÃ©moire.
   
 @Parameter "*Memoire"
-  L'adresse de la zone mémoire à utiliser. 
+  L'adresse de la zone mÃ©moire Ã  utiliser. 
 @LineBreak
 @LineBreak
-  Ce doit être la valeur renvoyée par 
-  @@AllocateMemory ou @@ReAllocateMemory. 
+  Ce doit Ãªtre la valeur renvoyÃ©e par @@AllocateMemory, @@ReAllocateMemory, @@Ascii ou @@UTF8. 
 
 @ReturnValue
-  Renvoie la taille de la zone mémoire, en octets.
+  Renvoie la taille de la zone mÃ©moire, en octets.
   
 @Example
 @Code
@@ -579,8 +577,7 @@
 @EndCode
     
 @SeeAlso
-  @@AllocateMemory, @@ReAllocateMemory, 
-  @@FreeMemory
+  @@AllocateMemory, @@ReAllocateMemory, @@FreeMemory, @@Ascii, @@UTF8
   
 @SupportedOS
 
@@ -589,30 +586,30 @@
 @Function Resultat = MemoryStringLength(*Memoire [, Options])
 
 @Description
-  Renvoie la longueur d'une chaîne de caractères
-  en mémoire et terminée par un caractère @#Null. 
+  Renvoie la longueur d'une chaÃ®ne de caractÃ¨res
+  en mÃ©moire et terminÃ©e par un caractÃ¨re @#Null. 
   
 @Parameter "*Memoire"
-  L'adresse de la chaîne de caractères.
+  L'adresse de la chaÃ®ne de caractÃ¨res.
 
 @OptionalParameter "Options"
-  Le format à utiliser.@LineBreak 
+  Le format Ã  utiliser.@LineBreak 
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Ascii  : Format ASCII
   @#PB_UTF8   : Format UTF-8 
-  @#PB_Unicode: Format Unicode (par défaut, voir @ReferenceLink "unicode" "unicode")
+  @#PB_Unicode: Format Unicode (par dÃ©faut, voir @ReferenceLink "unicode" "unicode")
 @EndFixedFont
-    Combiné avec l'une des valeurs suivantes:
+    CombinÃ© avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_ByteLength: Seulement avec l'option @#PB_UTF8, le résultat représentera des octets (pas des caractères).
-                  Cela peut être utile car UTF8 a des caractères de longueur variable.
+  @#PB_ByteLength: Seulement avec l'option @#PB_UTF8, le rÃ©sultat reprÃ©sentera des octets (pas des caractÃ¨res).
+                  Cela peut Ãªtre utile car UTF8 a des caractÃ¨res de longueur variable.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la longueur de la chaîne de caractères, 
-  en caractères excepté le caractère @#Null de 
-  fin de chaîne.
+  Renvoie la longueur de la chaÃ®ne de caractÃ¨res, 
+  en caractÃ¨res exceptÃ© le caractÃ¨re @#Null de 
+  fin de chaÃ®ne.
  
 @Example
 @Code
@@ -630,27 +627,27 @@
 @Function MoveMemory(*MemoireSource, *MemoireDestination, Taille)
 
 @Description
-  Copie une zone mémoire dans une autre.@LineBreak
-  Le chevauchement des deux zones mémoire est 
-  autorisé.
+  Copie une zone mÃ©moire dans une autre.@LineBreak
+  Le chevauchement des deux zones mÃ©moire est 
+  autorisÃ©.
   
 @Parameter "*MemoireSource"
-  L'adresse de la zone mémoire à copier.
+  L'adresse de la zone mÃ©moire Ã  copier.
   
 @Parameter "*MemoireDestination"
-  L'adresse de la zone mémoire de destination.
+  L'adresse de la zone mÃ©moire de destination.
 
 @Parameter "Taille"
-  Le nombre d'octets à copier.
+  Le nombre d'octets Ã  copier.
 
 @NoReturnValue
 
 @Remarks
-  Contrairement à @@CopyMemory, les zones mémoires 
+  Contrairement Ã  @@CopyMemory, les zones mÃ©moires 
   source et destination peuvent se chevaucher. 
-  Néanmoins, MoveMemory() est plus lent que 
-  @@CopyMemory, donc il est préférable de 
-  l'utiliser que si c'est justifié.
+  NÃ©anmoins, MoveMemory() est plus lent que 
+  @@CopyMemory, donc il est prÃ©fÃ©rable de 
+  l'utiliser que si c'est justifiÃ©.
 
 @Example  
 @Code
@@ -659,7 +656,7 @@
   Debug Texte1$ ; Affiche OK
   Debug Texte2$ ; Affiche KOKO
 
-  MoveMemory(@Texte1$, @Texte2$ + 4, 4) ; en unicode, un caractère est codé sur 2 octets
+  MoveMemory(@Texte1$, @Texte2$ + 4, 4) ; en unicode, un caractÃ¨re est codÃ© sur 2 octets
 
   Debug Texte1$ ; Affiche OK
   Debug Texte2$ ; Affiche KOOK
@@ -675,76 +672,76 @@
 @Function *Resultat = ReAllocateMemory(*Memoire, Taille [, Options])
 
 @Description
-  Redimensionne une zone mémoire.
+  Redimensionne une zone mÃ©moire.
   
 @Parameter "*Memoire"
-  L'adresse de la zone mémoire à redimensionner.
+  L'adresse de la zone mÃ©moire Ã  redimensionner.
   @LineBreak
-   Cette valeur doit être le résultat d'un 
-   appel à @@AllocateMemory ou à 
+   Cette valeur doit Ãªtre le rÃ©sultat d'un 
+   appel Ã  @@AllocateMemory ou Ã  
    @@ReAllocateMemory.
 @LineBreak
 @LineBreak 
-   Si ce paramètre est @#Null, la commande agit
+   Si ce paramÃ¨tre est @#Null, la commande agit
    comme @@AllocateMemory et alloue une zone 
-   mémoire mais avec la nouvelle dimension.
+   mÃ©moire mais avec la nouvelle dimension.
  
 @Parameter "Taille"
   La nouvelle taille en octets.
   
 @OptionalParameter "Options"
 @FixedFont  
-  @#PB_Memory_NoClear: Ne remplit pas la zone mémoire étendue avec des zéros. Cela peut aider à l'avoir plus rapidement si la mémoire 
-                      étendue est utilisée immédiatement. Si la mémoire est rétrécie, cette option n'a aucun effet.
+  @#PB_Memory_NoClear: Ne remplit pas la zone mÃ©moire Ã©tendue avec des zÃ©ros. Cela peut aider Ã  l'avoir plus rapidement si la mÃ©moire 
+                      Ã©tendue est utilisÃ©e immÃ©diatement. Si la mÃ©moire est rÃ©trÃ©cie, cette option n'a aucun effet.
 @EndFixedFont 
 
 @ReturnValue
-  Renvoie la nouvelle adresse de la zone mémoire 
-  si elle peut être redimensionnée. Dans ce cas, 
+  Renvoie la nouvelle adresse de la zone mÃ©moire 
+  si elle peut Ãªtre redimensionnÃ©e. Dans ce cas, 
   l'ancienne adresse '*MemoireID' ne peut plus 
-  être utilisée. Si le redimensionnement a échoué
-  (car il n'y a pas assez de mémoire disponible),  
-  le résultat est égal à zéro et le '*Memoire' 
-  est toujours valide avec la zone de mémoire 
+  Ãªtre utilisÃ©e. Si le redimensionnement a Ã©chouÃ©
+  (car il n'y a pas assez de mÃ©moire disponible),  
+  le rÃ©sultat est Ã©gal Ã  zÃ©ro et le '*Memoire' 
+  est toujours valide avec la zone de mÃ©moire 
   existante et l'ancienne taille.
 
 @Remarks
-  Si la taille de la zone de mémoire est 
-  augmentée, les nouveaux octets sont tout 
-  d'abord remplis de zéros à moins que 
-  @#PB_Memory_NoClear ne soit indiqué. 
+  Si la taille de la zone de mÃ©moire est 
+  augmentÃ©e, les nouveaux octets sont tout 
+  d'abord remplis de zÃ©ros Ã  moins que 
+  @#PB_Memory_NoClear ne soit indiquÃ©. 
 @LineBreak
 @LineBreak
-  Si le programme se bloque à cette commande, 
-  même si l'entrée semble correcte, c'est 
-  généralement le résultat d'une altération de 
-  la mémoire qui s'est produite antérieurement 
-  dans le programme par l'écriture dans une zone 
-  à l'extérieur de la zone de mémoire allouée.
+  Si le programme se bloque Ã  cette commande, 
+  mÃªme si l'entrÃ©e semble correcte, c'est 
+  gÃ©nÃ©ralement le rÃ©sultat d'une altÃ©ration de 
+  la mÃ©moire qui s'est produite antÃ©rieurement 
+  dans le programme par l'Ã©criture dans une zone 
+  Ã  l'extÃ©rieur de la zone de mÃ©moire allouÃ©e.
   Il est possible de trouver la cause de ce genre 
   d'erreur en utilisant le 
   @ReferenceLink "ide_debugtools" "purificateur"
 @LineBreak
 @LineBreak
-  Tous les blocs de mémoire alloués restants sont 
-  automatiquement libérés lorsque le programme 
+  Tous les blocs de mÃ©moire allouÃ©s restants sont 
+  automatiquement libÃ©rÃ©s lorsque le programme 
   se termine.
   
 @Example
 @Code
   *MemoireID = AllocateMemory(1000)
-  PokeS(*MemoireID, "Stocke cette chaîne")
-  ; faire quelque chose en plus avec ça ici...
+  PokeS(*MemoireID, "Stocke cette chaÃ®ne")
+  ; faire quelque chose en plus avec Ã§a ici...
   ;
-  *NouvelleMemoireID = ReAllocateMemory(*MemoireID, 2000) ; besoin de plus de mémoire
+  *NouvelleMemoireID = ReAllocateMemory(*MemoireID, 2000) ; besoin de plus de mÃ©moire
   If *NouvelleMemoireID
     ; maintenant travailler avec *NouvelleMemoireID avec une taille de 2000 octets
-    Debug "L'ancien contenu est toujours là :"
+    Debug "L'ancien contenu est toujours lÃ  :"
     Debug PeekS(*NouvelleMemoireID)
     ;
     FreeMemory(*NouvelleMemoireID)
   Else
-    ; le redimensionnement a échoué, continuons de travailler avec *MemoireID (de taille 1000 octets)
+    ; le redimensionnement a Ã©chouÃ©, continuons de travailler avec *MemoireID (de taille 1000 octets)
     ;
     FreeMemory(*MemoireID)
   EndIf
@@ -760,30 +757,30 @@
 @Function Resultat.a = PeekA(*Memoire)
 
 @Description
-  Lit un caractère ascii en mémoire.
+  Lit un caractÃ¨re ascii en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
-  Renvoie la valeur du caractère 
+  Renvoie la valeur du caractÃ¨re 
   @ReferenceLink "variables" "ascii".@LineBreak
   Vous trouverez une table ASCII 
   @ReferenceLink "ascii" "ici".
 
 @Remarks
-  Représente 1 octet non signé de 0 à + 255.
+  ReprÃ©sente 1 octet non signÃ© de 0 Ã  + 255.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeA(*MemoireID, 65)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekA(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeA(*MemoireID, 65)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekA(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     Debug Chr(PeekA(*MemoireID))
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
   
@@ -797,30 +794,30 @@
 @Function Resultat.b = PeekB(*Memoire)
 
 @Description
-  Lit un octet (byte) en mémoire.
+  Lit un octet (byte) en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur de l' 
   @ReferenceLink "variables" "octet".
 
 @Remarks
-  Reprsente 1 octet signé de -128 à +127.
+  Reprsente 1 octet signÃ© de -128 Ã  +127.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeB(*MemoireID, 65)     ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekB(*MemoireID)   ; Lit cette valeur depuis la zone mémoire")
+    PokeB(*MemoireID, 65)     ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekB(*MemoireID)   ; Lit cette valeur depuis la zone mÃ©moire")
     PokeB(*MemoireID+1, -65)   
     Debug PeekB(*MemoireID + 1)
-    Debug ~65+1                ; Complément à 2
+    Debug ~65+1                ; ComplÃ©ment Ã  2
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -834,29 +831,29 @@
 @Function Resultat.c = PeekC(*Memoire)
 
 @Description
-  Lit un caractère en mémoire.
+  Lit un caractÃ¨re en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur du 
-  @ReferenceLink "variables" "caractère".
+  @ReferenceLink "variables" "caractÃ¨re".
 
 @Remarks
-  Représente 2 octets non signés de 0 à +65 535 en 
+  ReprÃ©sente 2 octets non signÃ©s de 0 Ã  +65 535 en 
   mode unicode.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeC(*MemoireID, 65)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekC(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeC(*MemoireID, 65)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekC(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     Debug Chr(PeekC(*MemoireID))
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -870,28 +867,28 @@
 @Function Resultat.d = PeekD(*Memoire)
 
 @Description
-  Lit un double en mémoire.
+  Lit un double en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur du 
   @ReferenceLink "variables" "double".
 
 @Remarks
-  Représente 8 octets représentant un nombre 
-  à virgule flottante en double précision.
+  ReprÃ©sente 8 octets reprÃ©sentant un nombre 
+  Ã  virgule flottante en double prÃ©cision.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeD(*MemoireID, 123456789.123456789) ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekD(*MemoireID)                ; Lit cette valeur depuis la zone mémoire")
+    PokeD(*MemoireID, 123456789.123456789) ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekD(*MemoireID)                ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -905,31 +902,31 @@
 @Function Resultat.i = PeekI(*Memoire)
 
 @Description
-  Lit un entier 'integer' en mémoire.
+  Lit un entier 'integer' en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur de l' 
   @ReferenceLink "variables" "integer".
 
 @Remarks
-  Représente 4 octets signés de -2 147 483 648 à 
-  + 2 147 483 647 sur un exécutable 32 bits, 
-  8 octets signés de -9 223 372 036 854 775 808 
-  à + 9 223 372 036 854 775 807 sur un exécutable
+  ReprÃ©sente 4 octets signÃ©s de -2 147 483 648 Ã  
+  + 2 147 483 647 sur un exÃ©cutable 32 bits, 
+  8 octets signÃ©s de -9 223 372 036 854 775 808 
+  Ã  + 9 223 372 036 854 775 807 sur un exÃ©cutable
   64 bits.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeI(*MemoireID, 123456789.123456789)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekI(*MemoireID)                  ; Lit cette valeur depuis la zone mémoire")
+    PokeI(*MemoireID, 123456789.123456789)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekI(*MemoireID)                  ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -943,28 +940,26 @@
 @Function Resultat.l = PeekL(*Memoire)
 
 @Description
-  Lit un long en mémoire.
+  Lit un long en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
-  Renvoie la valeur de l' 
-  @ReferenceLink "variables" "octet".
+  Renvoie la valeur du @ReferenceLink "variables" "long".
 
 @Remarks
-  Représente 4 octets signé de -2 147 483 648 à 
-  + 2 147 483 647.
+  ReprÃ©sente 4 octets signÃ© de -2 147 483 648 Ã  + 2 147 483 647.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeL(*MemoireID, 123456789) ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekL(*MemoireID)      ; Lit cette valeur depuis la zone mémoire")
+    PokeL(*MemoireID, 123456789) ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekL(*MemoireID)      ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -978,30 +973,30 @@
 @Function Resultat.w = PeekW(*Memoire)
 
 @Description
-  Lit un mot (word) en mémoire.
+  Lit un mot (word) en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur du 
   @ReferenceLink "variables" "mot".
 
 @Remarks
-  Représente 2 octets signés de -32 768 à +32 767.
+  ReprÃ©sente 2 octets signÃ©s de -32 768 Ã  +32 767.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeW(*MemoireID, 32000)     ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekW(*MemoireID)      ; Lit cette valeur depuis la zone mémoire")
+    PokeW(*MemoireID, 32000)     ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekW(*MemoireID)      ; Lit cette valeur depuis la zone mÃ©moire")
     PokeW(*MemoireID+2, -32000)  
     Debug PeekW(*MemoireID+2)
-    Debug ~32000+1               ; Complément à deux
+    Debug ~32000+1               ; ComplÃ©ment Ã  deux
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 @SeeAlso
@@ -1014,28 +1009,28 @@
 @Function Resultat.f = PeekF(*Memoire)
 
 @Description
-  Lit un float en mémoire.
+  Lit un float en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur du 
   @ReferenceLink "variables" "float".
 
 @Remarks
-  Représente 4 octets représentant un nombre 
-  à virgule flottante en simple précision.
+  ReprÃ©sente 4 octets reprÃ©sentant un nombre 
+  Ã  virgule flottante en simple prÃ©cision.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeF(*MemoireID, 12345.12345)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekF(*MemoireID)          ; Lit cette valeur depuis la zone mémoire")
+    PokeF(*MemoireID, 12345.12345)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekF(*MemoireID)          ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 @SeeAlso
@@ -1048,28 +1043,28 @@
 @Function Resultat.q = PeekQ(*Memoire)
 
 @Description
-  Lit un quad en mémoire.
+  Lit un quad en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
   Renvoie la valeur du 
   @ReferenceLink "variables" "quad".
 
 @Remarks
-  Représente 8 octets signés de -9 223 372 036 854 775 808 
-  à + 9 223 372 036 854 775 807.
+  ReprÃ©sente 8 octets signÃ©s de -9 223 372 036 854 775 808 
+  Ã  + 9 223 372 036 854 775 807.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeQ(*MemoireID, 1234567890123456789)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekQ(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeQ(*MemoireID, 1234567890123456789)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekQ(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1080,51 +1075,45 @@
 @Function Resultat$ = PeekS(*Memoire [, Longueur [, Format]])
 
 @Description
-  Lit une chaîne de caractères en mémoire.
+  Lit une chaÃ®ne de caractÃ¨res en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
-
-@ReturnValue
-  Renvoie la valeur de la 
-  @ReferenceLink "variables" "chaîne de caractères".
+  L'adresse mÃ©moire Ã  lire.
 
 @OptionalParameter "Longueur"  
-  Le nombre maximum de caractères à lire. 
+  Le nombre maximum de caractÃ¨res Ã  lire. 
   @LineBreak 
-  Si ce paramètre n'est pas spécifié ou s'il 
-  est égal à -1, il n'y a pas de maximum.
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ© ou s'il est Ã©gal Ã  -1, il n'y a pas de maximum.
   @LineBreak 
-  La chaîne est lue jusqu'a ce que le caractère 
-  @#NULL soit rencontré ou si la longueur 
+  La chaÃ®ne est lue jusqu'a ce que le caractÃ¨re @#NULL soit rencontrÃ© ou si la longueur 
   maximale est atteinte.
   
 @OptionalParameter "Format"  
-  Le format à utiliser.@LineBreak 
+  Le format Ã  utiliser.@LineBreak 
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Ascii  : Format ASCII 
   @#PB_UTF8   : Format UTF-8 
-  @#PB_Unicode: Format Unicode (par défaut)
+  @#PB_Unicode: Format Unicode (par dÃ©faut)
 @EndFixedFont
-    Combiné avec l'une des valeurs suivantes:
+    CombinÃ© avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_ByteLength: Seulement avec l'option @#PB_UTF8, le résultat représentera des octets (pas des caractères).
-                  Cela peut être utile car UTF8 a des caractères de longueur variable.
+  @#PB_ByteLength: Seulement avec l'option @#PB_UTF8, le rÃ©sultat reprÃ©sentera des octets (pas des caractÃ¨res).
+                  Cela peut Ãªtre utile car UTF8 a des caractÃ¨res de longueur variable.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la chaîne lue.
+  Renvoie la valeur de la @ReferenceLink "variables" "chaÃ®ne de caractÃ¨res".
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeS(*MemoireID, "PureBasic hé")   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekS(*MemoireID)             ; Lit cette valeur depuis la zone mémoire")
+    PokeS(*MemoireID, "PureBasic hÃ©")   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekS(*MemoireID)             ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 @SeeAlso
@@ -1138,28 +1127,28 @@
 @Function Resultat.u = PeekU(*Memoire)
 
 @Description
-  Lit un caractère unicode en mémoire.
+  Lit un caractÃ¨re unicode en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire à lire.
+  L'adresse mÃ©moire Ã  lire.
 
 @ReturnValue
-  Renvoie la valeur du caractère 
+  Renvoie la valeur du caractÃ¨re 
   @ReferenceLink "variables" "unicode".
 
 @Remarks
-  Représente 2 octets non signés de 0 à + 65 535.
+  ReprÃ©sente 2 octets non signÃ©s de 0 Ã  + 65 535.
    
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeU(*MemoireID, 165)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekU(*MemoireID)  ; Lit cette valeur depuis la zone mémoire")
+    PokeU(*MemoireID, 165)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekU(*MemoireID)  ; Lit cette valeur depuis la zone mÃ©moire")
     Debug Chr(PeekU(*MemoireID))
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1173,18 +1162,18 @@
 @Function PokeA(*Memoire, Valeur.a)
 
 @Description 
-  Ecrit un caractère ascii en mémoire.
+  Ecrit un caractÃ¨re ascii en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.a"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 1 octet non signé de 0 à + 255.@LineBreak
+  ReprÃ©sente 1 octet non signÃ© de 0 Ã  + 255.@LineBreak
   Vous trouverez une table ASCII 
   @ReferenceLink "ascii" "ici".
   
@@ -1192,11 +1181,11 @@
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeA(*MemoireID, 65)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekA(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeA(*MemoireID, 65)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekA(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1210,31 +1199,31 @@
 @Function PokeB(*Memoire, Valeur.b)
 
 @Description 
-  Ecrit un octet (byte) en mémoire.
+  Ecrit un octet (byte) en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.b"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 1 octet signé de -128 à +127. 
+  ReprÃ©sente 1 octet signÃ© de -128 Ã  +127. 
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeB(*MemoireID, 65)     ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekB(*MemoireID)   ; Lit cette valeur depuis la zone mémoire")
+    PokeB(*MemoireID, 65)     ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekB(*MemoireID)   ; Lit cette valeur depuis la zone mÃ©moire")
     PokeB(*MemoireID+1, -65)   
     Debug PeekB(*MemoireID+1)
-    Debug ~65+1               ; Complément à 2
+    Debug ~65+1               ; ComplÃ©ment Ã  2
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1248,36 +1237,36 @@
 @Function PokeC(*Memoire, Valeur.c)
 
 @Description 
-  Ecrit un caractère en mémoire.
+  Ecrit un caractÃ¨re en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.c"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 2 octets non signés de 0 à +65 535 en 
+  ReprÃ©sente 2 octets non signÃ©s de 0 Ã  +65 535 en 
   mode unicode.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeC(*MemoireID, 65)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekC(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeC(*MemoireID, 65)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekC(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     Debug Chr(PeekC(*MemoireID))
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
 @Remarks
-  Représente 8 octets représentant un nombre 
-  à virgule flottante en double précision.
+  ReprÃ©sente 8 octets reprÃ©sentant un nombre 
+  Ã  virgule flottante en double prÃ©cision.
   
 @SeeAlso
   @@PeekC
@@ -1289,29 +1278,29 @@
 @Function PokeD(*Memoire, Valeur.d)
 
 @Description 
-  Ecrit un double en mémoire.
+  Ecrit un double en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeurd."
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 8 octets représentant un nombre 
-  à virgule flottante en double précision.
+  ReprÃ©sente 8 octets reprÃ©sentant un nombre 
+  Ã  virgule flottante en double prÃ©cision.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeD(*MemoireID, 123456789.123456789)     ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekD(*MemoireID)                ; Lit cette valeur depuis la zone mémoire")
+    PokeD(*MemoireID, 123456789.123456789)     ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekD(*MemoireID)                ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1325,32 +1314,32 @@
 @Function PokeI(*Memoire, Valeur.i)
 
 @Description
-  Ecrit un entier (integer) en mémoire.
+  Ecrit un entier (integer) en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.i"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 4 octets signés de -2 147 483 648 à 
-  + 2 147 483 647 sur un exécutable 32 bits, 
-  8 octets signés de -9 223 372 036 854 775 808 
-  à + 9 223 372 036 854 775 807 sur un exécutable
+  ReprÃ©sente 4 octets signÃ©s de -2 147 483 648 Ã  
+  + 2 147 483 647 sur un exÃ©cutable 32 bits, 
+  8 octets signÃ©s de -9 223 372 036 854 775 808 
+  Ã  + 9 223 372 036 854 775 807 sur un exÃ©cutable
   64 bits.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeI(*MemoireID, 123456789.123456789)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekI(*MemoireID)                  ; Lit cette valeur depuis la zone mémoire")
+    PokeI(*MemoireID, 123456789.123456789)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekI(*MemoireID)                  ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1364,29 +1353,29 @@
 @Function PokeL(*Memoire, Valeur.l)
 
 @Description 
-  Ecrit un long en mémoire.
+  Ecrit un long en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.l"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 4 octets signé de -2 147 483 648 à 
+  ReprÃ©sente 4 octets signÃ© de -2 147 483 648 Ã  
   + 2 147 483 647.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeL(*MemoireID, 123456789)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekL(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeL(*MemoireID, 123456789)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekL(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1400,29 +1389,29 @@
 @Function PokeQ(*Memoire, Valeur.q)
 
 @Description 
-  Ecrit un quad en mémoire.
+  Ecrit un quad en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.q"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 8 octets signés de -9 223 372 036 854 775 808 
-  à + 9 223 372 036 854 775 807.
+  ReprÃ©sente 8 octets signÃ©s de -9 223 372 036 854 775 808 
+  Ã  + 9 223 372 036 854 775 807.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeQ(*MemoireID, 1234567890123456789)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekQ(*MemoireID) ; Lit cette valeur depuis la zone mémoire")
+    PokeQ(*MemoireID, 1234567890123456789)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekQ(*MemoireID) ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1436,31 +1425,31 @@
 @Function PokeW(*Memoire, Valeur.w)
 
 @Description 
-  Ecrit un mot (word) en mémoire.
+  Ecrit un mot (word) en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.w"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 2 octets signés de -32 768 à +32 767.
+  ReprÃ©sente 2 octets signÃ©s de -32 768 Ã  +32 767.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeW(*MemoireID, 32000)     ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekW(*MemoireID)      ; Lit cette valeur depuis la zone mémoire")
+    PokeW(*MemoireID, 32000)     ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekW(*MemoireID)      ; Lit cette valeur depuis la zone mÃ©moire")
     PokeW(*MemoireID+2, -32000)  
     Debug PeekW(*MemoireID+2)
-    Debug ~32000+1              ; Complément à deux
+    Debug ~32000+1              ; ComplÃ©ment Ã  deux
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1474,29 +1463,29 @@
 @Function PokeF(*Memoire, Valeur.f)
 
 @Description 
-  Ecrit un float en mémoire.
+  Ecrit un float en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.f"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
 
 @Remarks
-  Représente 4 octets représentant un nombre 
-  à virgule flottante en simple précision.
+  ReprÃ©sente 4 octets reprÃ©sentant un nombre 
+  Ã  virgule flottante en simple prÃ©cision.
 
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeF(*MemoireID, 12345.12345)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekF(*MemoireID)          ; Lit cette valeur depuis la zone mémoire")
+    PokeF(*MemoireID, 12345.12345)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekF(*MemoireID)          ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1510,51 +1499,51 @@
 @Function Resultat = PokeS(*Memoire, Texte$ [, Longueur [, Options]])
 
 @Description
-  Ecrit une chaîne de caractères, suivi d'un
-  caractère @#NULL de fin de chaîne en mémoire.
+  Ecrit une chaÃ®ne de caractÃ¨res, suivi d'un
+  caractÃ¨re @#NULL de fin de chaÃ®ne en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Texte$"
-  La chaîne de caractères à écrire.
+  La chaÃ®ne de caractÃ¨res Ã  Ã©crire.
   
 @OptionalParameter "Longueur"  
-  Longueur maximale (en caractères).
+  Longueur maximale (en caractÃ¨res).
 @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié ou égal 
-  à -1 alors toute la chaîne est écrite.@LineBreak
-  Le caractère @#NULL de fin de chaîne qui est 
-  toujours écrit (sauf si @#PB_String_NoZero 
-  est défini) n'est pas inclus dans ce décompte.
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ© ou Ã©gal 
+  Ã  -1 alors toute la chaÃ®ne est Ã©crite.@LineBreak
+  Le caractÃ¨re @#NULL de fin de chaÃ®ne qui est 
+  toujours Ã©crit (sauf si @#PB_String_NoZero 
+  est dÃ©fini) n'est pas inclus dans ce dÃ©compte.
   
 @OptionalParameter "Options" 
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
   @#PB_Ascii  : Format ASCII
   @#PB_UTF8   : Format UTF-8
-  @#PB_Unicode: Format Unicode (Par défaut)
-  Combiné avec
-  @#PB_String_NoZero: N'écrit pas le caractère @#NULL de fin de chaîne.
+  @#PB_Unicode: Format Unicode (Par dÃ©faut)
+  CombinÃ© avec
+  @#PB_String_NoZero: N'Ã©crit pas le caractÃ¨re @#NULL de fin de chaÃ®ne.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie le nombre d'octets écrits, non compris 
-  le caractère @#NULL de fin de chaîne.@LineBreak
-  Le nombre d'octets écrit diffère de la 
-  longueur de la chaîne en caractères si le 
+  Renvoie le nombre d'octets Ã©crits, non compris 
+  le caractÃ¨re @#NULL de fin de chaÃ®ne.@LineBreak
+  Le nombre d'octets Ã©crit diffÃ¨re de la 
+  longueur de la chaÃ®ne en caractÃ¨res si le 
   format est @#PB_UTF8 ou @#PB_Unicode.
   
 @Example  
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeS(*MemoireID, "PureBasic hé")   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekS(*MemoireID)             ; Lit cette valeur depuis la zone mémoire")
+    PokeS(*MemoireID, "PureBasic hÃ©")   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekS(*MemoireID)             ; Lit cette valeur depuis la zone mÃ©moire")
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 
@@ -1568,13 +1557,13 @@
 @Function PokeU(*Memoire, Valeur.u)
 
 @Description 
-  Ecrit un caractère unicode en mémoire.
+  Ecrit un caractÃ¨re unicode en mÃ©moire.
 
 @Parameter "*Memoire"
-  L'adresse mémoire où écrire.
+  L'adresse mÃ©moire oÃ¹ Ã©crire.
 
 @Parameter "Valeur.u"
-  La valeur à écrire.
+  La valeur Ã  Ã©crire.
   
 @NoReturnValue
    
@@ -1582,12 +1571,12 @@
 @Code
   *MemoireID = AllocateMemory(5000)
   If *MemoireID
-    PokeU(*MemoireID, 165)   ; Stocke cette valeur dans la zone mémoire")
-    Debug PeekU(*MemoireID)  ; Lit cette valeur depuis la zone mémoire")
+    PokeU(*MemoireID, 165)   ; Stocke cette valeur dans la zone mÃ©moire")
+    Debug PeekU(*MemoireID)  ; Lit cette valeur depuis la zone mÃ©moire")
     Debug Chr(PeekU(*MemoireID))
     FreeMemory(*MemoireID)  
   Else
-    Debug "Impossible d'allouer la mémoire demandée !"
+    Debug "Impossible d'allouer la mÃ©moire demandÃ©e !"
   EndIf
 @EndCode
 

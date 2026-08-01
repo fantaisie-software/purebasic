@@ -1,18 +1,18 @@
-;
+ï»¿;
 ;     Particle library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Particle
 
 @Overview
-  Partikel-Systeme (englisch: "Particle systems") werden häufig bei 3D-Szenen verwendet,
+  Partikel-Systeme (englisch: "Particle systems") werden hÃ¤ufig bei 3D-Szenen verwendet,
   um schwer vorherzusagende Ereignisse - wie Regen, Feuer, Explosionen usw. - zu simulieren.
 @LineBreak
 @LineBreak
-  PureBasic ermöglicht je nach Bedarf das Erstellen einer beliebigen Anzahl an
-  "Partikel-Strahlern" (englisch "Particle emitter"), welche unabhängig voneinander laufen. Jeder Strahler hat seine
+  PureBasic ermÃ¶glicht je nach Bedarf das Erstellen einer beliebigen Anzahl an
+  "Partikel-Strahlern" (englisch "Particle emitter"), welche unabhÃ¤ngig voneinander laufen. Jeder Strahler hat seine
   eigene Form und seine eigenen Merkmale, wie Geschwindigkeit, Ausstrahlungstempo und mehr. 
 @LineBreak
 @LineBreak
@@ -22,41 +22,42 @@
 @CommandList
 
 @ExampleFile All Particle.pb
+@ExampleFile All GetScriptParticle.pb
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateParticleEmitter(#ParticleEmitter, Breite, Höhe, Tiefe, Typ [, x.f, y.f, z.f])
+@Function Ergebnis = CreateParticleEmitter(#ParticleEmitter, Breite, HÃ¶he, Tiefe, Typ [, x.f, y.f, z.f])
 
 @Description
-  Erstellt einen neuen leeren Partikelstrahler der angegebenen Größe.
+  Erstellt einen neuen leeren Partikelstrahler der angegebenen GrÃ¶ÃŸe.
     
 @Parameter "#ParticleEmitter"
   Eine Nummer zum Identifizieren des neuen Partikelstrahlers.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
   Nummer automatisch zu generieren.
 
-@Parameter "Breite, Höhe, Tiefe"
-  Die Größe des neuen Partikelstrahlers (beziehungsweise die x, y und z Dimensionen).
-  Die Standardgröße künftiger Partikel kann mit Hilfe der @@ParticleSize Funktion
+@Parameter "Breite, HÃ¶he, Tiefe"
+  Die GrÃ¶ÃŸe des neuen Partikelstrahlers (beziehungsweise die x, y und z Dimensionen).
+  Die StandardgrÃ¶ÃŸe kÃ¼nftiger Partikel kann mit Hilfe der @@ParticleSize Funktion
   festgelegt werden.
 
 @Parameter "Type"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Particle_Point: Der Strahler ist ein einfacher Punkt.
-  @#PB_Particle_Box  : Der Strahler ist eine Box, mit einer Breite, Höhe und Tiefe.
+  @#PB_Particle_Box  : Der Strahler ist eine Box, mit einer Breite, HÃ¶he und Tiefe.
 @EndFixedFont
 
 @OptionalParameter "x, y, z"
-  Die anfängliche Position des Partikelstrahlers in der Welt.
+  Die anfÃ¤ngliche Position des Partikelstrahlers in der Welt.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn der Partikelstrahler erfolgreich erstellt wurde,
   andernfalls Null. Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als
   @#ParticleEmitter Parameter verwendet wurde, dann wird die automatisch generierte
-  Nummer des neuen Partikelstrahlers zurückgegeben.
+  Nummer des neuen Partikelstrahlers zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeParticleEmitter
@@ -68,13 +69,13 @@
 @Function Ergebnis = IsParticleEmitter(#ParticleEmitter)
 
 @Description
-  Überprüft, ob der angegebene Partikelstrahler gültig und korrekt initialisiert ist.
+  ÃœberprÃ¼ft, ob der angegebene Partikelstrahler gÃ¼ltig und korrekt initialisiert ist.
 
 @Parameter "#ParticleEmitter"
-  Der zu überprüfende Partikelstrahler.
+  Der zu Ã¼berprÃ¼fende Partikelstrahler.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Partikelstrahler gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn der Partikelstrahler gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Dies ist der
@@ -112,7 +113,7 @@
 @Function ParticleEmitterID = ParticleEmitterID(#ParticleEmitter)
 
 @Description
-  Gibt den einmaligen Systembezeichner ("system identifier") des Partikelstrahlers zurück.
+  Gibt den einmaligen Systembezeichner ("system identifier") des Partikelstrahlers zurÃ¼ck.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -127,7 +128,7 @@
 @Function Ergebnis = ParticleEmitterX(#ParticleEmitter [, Modus])
 
 @Description
-  Gibt die 'x' Position des Partikelstrahlers innerhalb der Welt zurück.
+  Gibt die 'x' Position des Partikelstrahlers innerhalb der Welt zurÃ¼ck.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -136,11 +137,11 @@
   Der Modus, um die 'x' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'x' Position des Partikelstrahlers in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'x' Position des Partikelstrahlers relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'x' Position des Partikelstrahlers relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont
 
 @ReturnValue
-  Die Position des Partikelstrahlers in der Welt (abhängig vom angegebenen 'Modus').
+  Die Position des Partikelstrahlers in der Welt (abhÃ¤ngig vom angegebenen 'Modus').
 
 @SeeAlso
   @@ParticleEmitterY, @@ParticleEmitterZ
@@ -152,7 +153,7 @@
 @Function Ergebnis = ParticleEmitterY(#ParticleEmitter [, Modus])
 
 @Description
-  Gibt die 'y' Position des Partikelstrahlers innerhalb der Welt zurück.
+  Gibt die 'y' Position des Partikelstrahlers innerhalb der Welt zurÃ¼ck.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -161,11 +162,11 @@
   Der Modus, um die 'y' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'y' Position des Partikelstrahlers in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'y' Position des Partikelstrahlers relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'y' Position des Partikelstrahlers relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont
 
 @ReturnValue
-  Die Position des Partikelstrahlers in der Welt (abhängig vom angegebenen 'Modus').
+  Die Position des Partikelstrahlers in der Welt (abhÃ¤ngig vom angegebenen 'Modus').
 
 @SeeAlso
   @@ParticleEmitterX, @@ParticleEmitterZ
@@ -177,7 +178,7 @@
 @Function Ergebnis = ParticleEmitterZ(#ParticleEmitter [, Modus])
 
 @Description
-  Gibt die 'z' Position des Partikelstrahlers innerhalb der Welt zurück.
+  Gibt die 'z' Position des Partikelstrahlers innerhalb der Welt zurÃ¼ck.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -186,11 +187,11 @@
   Der Modus, um die 'z' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'z' Position des Partikelstrahlers in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'z' Position des Partikelstrahlers relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'z' Position des Partikelstrahlers relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont
 
 @ReturnValue
-  Die Position des Partikelstrahlers in der Welt (abhängig vom angegebenen 'Modus').
+  Die Position des Partikelstrahlers in der Welt (abhÃ¤ngig vom angegebenen 'Modus').
 
 @SeeAlso
   @@ParticleEmitterX, @@ParticleEmitterY
@@ -202,7 +203,7 @@
 @Function ParticleEmitterAngle(#ParticleEmitter, Winkel.f)
 
 @Description
-  Ändert die emittierten Partikelwinkel. Alle Teilchen haben den gleichen Winkel.
+  Ã„ndert die emittierten Partikelwinkel. Alle Teilchen haben den gleichen Winkel.
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -219,7 +220,7 @@
 @Function ParticleEmissionRate(#ParticleEmitter, Rate)
 
 @Description
-  Ändert die Ausstrahlungsrate (englisch: "emission rate") des Partikelstrahlers.
+  Ã„ndert die Ausstrahlungsrate (englisch: "emission rate") des Partikelstrahlers.
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -244,7 +245,7 @@
   Der zu verwendende Partikelstrahler.
 
 @Parameter "MaterialID"
-  Das für diesen Partikelstrahler zu verwendende neue Material. Eine gültige 'MaterialID'
+  Das fÃ¼r diesen Partikelstrahler zu verwendende neue Material. Eine gÃ¼ltige 'MaterialID'
   kann einfach mit Hilfe der @@MaterialID Funktion ermittelt werden.
 
 @NoReturnValue
@@ -259,10 +260,10 @@
 @Function ParticleTimeToLive(#ParticleEmitter, MininumZeit, MaximumZeit)
 
 @Description
-  Ändert die Lebensdauer der Partikel des Partikelstrahlers.
+  Ã„ndert die Lebensdauer der Partikel des Partikelstrahlers.
   Jeder Partikel "lebt" mindestens die 'MinimumZeit' und maximal die
   'MaximumZeit' (in Welt-Zeiteinheiten). Ein Zufallswert innerhalb dieser
-  Spanne wird für jeden ausgestrahlten Partikel verwendet.
+  Spanne wird fÃ¼r jeden ausgestrahlten Partikel verwendet.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -282,8 +283,8 @@
 @Function ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
 
 @Description
-  Ändert die Partikel-Geschwindigkeit. Ein zufälliger Geschwindigkeitswert aus der
-  'Minimum' und 'Maximum' Spanne wird für jeden ausgestrahlten Partikel benutzt.
+  Ã„ndert die Partikel-Geschwindigkeit. Ein zufÃ¤lliger Geschwindigkeitswert aus der
+  'Minimum' und 'Maximum' Spanne wird fÃ¼r jeden ausgestrahlten Partikel benutzt.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -303,8 +304,8 @@
 @Function ParticleAcceleration(#ParticleEmitter, x.f, y.f, z.f)
 
 @Description
-  Ändert den Beschleunigungsvektor ("acceleration vector") der Teilchen. Dies kann
-  nützlich sein, um Schwerkraft, Wind, etc. zu simulieren.
+  Ã„ndert den Beschleunigungsvektor ("acceleration vector") der Teilchen. Dies kann
+  nÃ¼tzlich sein, um Schwerkraft, Wind, etc. zu simulieren.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
@@ -318,17 +319,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ParticleSize(#ParticleEmitter, Breite, Höhe)
+@Function ParticleSize(#ParticleEmitter, Breite, HÃ¶he)
 
 @Description
-  Ändert die Partikel-Dimensionen. Partikel sind 2D-Ebenen ("Billboards"), welche sich immer vor der
-  Kamera befinden. Alle Partikel eines Strahlers haben immer die gleiche Größe.
+  Ã„ndert die Partikel-Dimensionen. Partikel sind 2D-Ebenen ("Billboards"), welche sich immer vor der
+  Kamera befinden. Alle Partikel eines Strahlers haben immer die gleiche GrÃ¶ÃŸe.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
-@Parameter "Breite, Höhe"
-  Die neue Größe der Partikel, in Welt-Einheiten.
+@Parameter "Breite, HÃ¶he"
+  Die neue GrÃ¶ÃŸe der Partikel, in Welt-Einheiten.
 
 @NoReturnValue
 
@@ -339,20 +340,20 @@
 @Function ParticleColorRange(#ParticleEmitter, StartFarbe, EndFarbe)
 
 @Description
-  Ändert den Farbbereich für den Partikelstrahler. Jeder ausgestrahlte Partikel erhält
-  einen Zufallswert aus dem Farbbereich 'StartFarbe' und 'EndFarbe' (Farbverlauf zwischen
-  diesen zwei Farben).
+  Ã„ndert den Farbbereich fÃ¼r den Partikelstrahler. Jeder ausgestrahlte Partikel erhÃ¤lt
+  einen Zufallswert aus dem Farbbereich 'StartFarbe' und 'EndFarbe' (= Farbverlauf zwischen
+  diesen zwei Farben, englisch "gradient").
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
 @Parameter "StartFarbe"
   Die erste Farbe des Partikels.
-  @@RGB kann zum Ermitteln eines gültigen Farbwertes benutzt werden.
+  @@RGB kann zum Ermitteln eines gÃ¼ltigen Farbwertes benutzt werden.
 
 @Parameter "EndFarbe"
   Die letzte Farbe des Partikels.
-  @@RGB kann zum Ermitteln eines gültigen Farbwertes benutzt werden.
+  @@RGB kann zum Ermitteln eines gÃ¼ltigen Farbwertes benutzt werden.
 
 @NoReturnValue
 
@@ -360,18 +361,18 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ParticleColorFader(#ParticleEmitter, RotRate.f, GrünRate.f, BlauRate.f, AlphaRate.f)
+@Function ParticleColorFader(#ParticleEmitter, RotRate.f, GrÃ¼nRate.f, BlauRate.f, AlphaRate.f)
 
 @Description
-  Ändert die Farb-Blend-Raten (englisch: "color fader rate") der Partikel.
+  Ã„ndert die Farb-Blend-Raten (englisch: "color fader rate") der Partikel.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
-@Parameter "RotRate, GrünRate, BlauRate, AlphaRate"
+@Parameter "RotRate, GrÃ¼nRate, BlauRate, AlphaRate"
   Die anzuwendenden Farbkanal-Blendraten, pro Sekunde. Beispielwerte und ihr Effekt:
 @FixedFont
-     0: es wird keine Änderung vorgenommen.
+     0: es wird keine Ã„nderung vorgenommen.
     -1: wird jede Sekunde 256 von der Farbkomponente subtrahieren.
      1: wird jede Sekunde 256 zur Farbkomponente addieren.
  -0.25: wird jede Sekunde 64 von der Farbkomponente subtrahieren.
@@ -386,7 +387,7 @@
 @Function FreeParticleEmitter(#ParticleEmitter)
 
 @Description
-  Gibt den Partikelstrahler frei. Sein gesamter zugehöriger Speicher
+  Gibt den Partikelstrahler frei. Sein gesamter zugehÃ¶riger Speicher
   wird freigegeben und dieses Objekt kann nicht mehr benutzt werden.
 
 @Parameter "#ParticleEmitter"
@@ -444,7 +445,7 @@
   kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Bewegung.
-  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_Parent: Bewegung relativ zur Ã¼bergeordneten ("parent") Position.
   @#PB_World : Bewegung relativ zur Welt.
 @EndFixedFont
 
@@ -460,7 +461,7 @@
 @Function ParticleEmitterDirection(#ParticleEmitter, x.f, y.f, z.f)
 
 @Description
-  Ändert die Richtung des Partikelstrahlers entsprechend den 
+  Ã„ndert die Richtung des Partikelstrahlers entsprechend den 
   angegebenen 'x, y, z' Werten. 
   
 @Parameter "#ParticleEmitter"
@@ -475,17 +476,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResizeParticleEmitter(#ParticleEmitter, Breite, Höhe, Tiefe)
+@Function ResizeParticleEmitter(#ParticleEmitter, Breite, HÃ¶he, Tiefe)
 
 @Description
-  Verändert die Größe des Partikelstrahlers auf die neu angegebenen 'Breite',
-  'Höhe' und 'Tiefe' Dimensionen, in Welt-Maßeinheiten.
+  VerÃ¤ndert die GrÃ¶ÃŸe des Partikelstrahlers auf die neu angegebenen 'Breite',
+  'HÃ¶he' und 'Tiefe' Dimensionen, in Welt-MaÃŸeinheiten.
 
 @Parameter "#ParticleEmitter"
-  Der in der Größe zu ändernde Partikelstrahler.
+  Der in der GrÃ¶ÃŸe zu Ã¤ndernde Partikelstrahler.
 
-@Parameter "Breite, Höhe, Tiefe"
-  Die neue Größe des Partikelstrahlers (beziehungsweise der x, y und z Dimension).
+@Parameter "Breite, HÃ¶he, Tiefe"
+  Die neue GrÃ¶ÃŸe des Partikelstrahlers (beziehungsweise der x, y und z Dimension).
   
 @NoReturnValue
 
@@ -504,14 +505,14 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl automatisch zu generieren.
 
 @Parameter "Name$"
-  Der Name des Partikelstrahlers in der OGRE-Skriptdatei. Dieser Name berücksichtigt die
-  Groß- und Kleinschreibung.
+  Der Name des Partikelstrahlers in der OGRE-Skriptdatei. Dieser Name berÃ¼cksichtigt die
+  GroÃŸ- und Kleinschreibung.
 
 @ReturnValue
   Null, wenn der Partikelstrahler nicht gefunden wurde oder nicht aus den
   Skriptdateien geladen werden konnte. Wenn @ReferenceLink "purebasic_objects" "#PB_Any"
   als '#ParticleEmitter' Parameter verwendet wurde, dann wird die neue Nummer des
-  Partikelstrahlers zurückgegeben.
+  Partikelstrahlers zurÃ¼ckgegeben.
 
 @SupportedOS
 
@@ -520,14 +521,14 @@
 @Function ParticleSpeedFactor(#ParticleEmitter, Faktor.f)
 
 @Description
-  Ändert den aktuellen Geschwindigkeitsfaktor des Partikelstrahlers.
+  Ã„ndert den aktuellen Geschwindigkeitsfaktor des Partikelstrahlers.
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
 @Parameter "Faktor"
   Der neue Geschwindigkeitsfaktor des Partikelstrahlers. Der Standard-Geschwindigkeitsfaktor
-  ist 1. Bei Verwendung eines Wertes größer als 1 wird die Ausstrahl-Geschwindigkeit erhöht.
+  ist 1. Bei Verwendung eines Wertes grÃ¶ÃŸer als 1 wird die Ausstrahl-Geschwindigkeit erhÃ¶ht.
   Bei Verwendung eines Wertes kleiner als 1 wird die Ausstrahl-Geschwindigkeit gesenkt.
 @LineBreak
   Zum Beispiel wird bei Verwendung eines Geschwindigkeitsfaktors von '4.5' die
@@ -544,20 +545,20 @@
 @Function ParticleScaleRate(#ParticleEmitter, Rate.f)
 
 @Description
-  Ändert die aktuelle Skalierrate des Partikelstrahlers.
+  Ã„ndert die aktuelle Skalierrate des Partikelstrahlers.
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
 @Parameter "Rate"
-  Die neue Partikelstrahler-Skalierrate. Die Standardrate ist 0, was bedeutet, dass das Partikel die gleiche Größe haben wird.
-  Wenn ein Wert größer als 0 verwendet wird, erhöht sich die Partikelgröße im Laufe der Zeit (jede Sekunde wird die Rate zur aktuellen Größe addiert).
-  Wenn ein Wert unter 0 verwendet wird, wird die Partikelgröße im Laufe der Zeit verringert (jede Sekunde wird die Rate von der aktuellen Größe abgezogen).
+  Die neue Partikelstrahler-Skalierrate. Die Standardrate ist 0, was bedeutet, dass das Partikel die gleiche GrÃ¶ÃŸe haben wird.
+  Wenn ein Wert grÃ¶ÃŸer als 0 verwendet wird, erhÃ¶ht sich die PartikelgrÃ¶ÃŸe im Laufe der Zeit (jede Sekunde wird die Rate zur aktuellen GrÃ¶ÃŸe addiert).
+  Wenn ein Wert unter 0 verwendet wird, wird die PartikelgrÃ¶ÃŸe im Laufe der Zeit verringert (jede Sekunde wird die Rate von der aktuellen GrÃ¶ÃŸe abgezogen).
 @LineBreak
 @LineBreak
   Zum Beispiel: @LineBreak
-  Eine Rate von 10 wird die Partikelgröße um 10 Einheiten pro Sekunde vergrößern.@LineBreak
-  Eine Rate von -2 wird die Partikelgröße um 2 Einheiten pro Sekunde verringern.
+  Eine Rate von 10 wird die PartikelgrÃ¶ÃŸe um 10 Einheiten pro Sekunde vergrÃ¶ÃŸern.@LineBreak
+  Eine Rate von -2 wird die PartikelgrÃ¶ÃŸe um 2 Einheiten pro Sekunde verringern.
 
 @NoReturnValue
 
@@ -568,18 +569,18 @@
 @Function ParticleAngle(#ParticleEmitter, BereichStart.f, BereichEnde.f [, GeschwindigkeitBereichStart.f, GeschwindigkeitBereichEnde.f])
 
 @Description
-  Ändert den Partikelwinkel bei der Emission.
+  Ã„ndert den Partikelwinkel bei der Emission.
   
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
 @Parameter "BereichStart, BereichEnde"
   Der Partikelbereich (in Grad) zwischen 0 und 360. Zum Beispiel wird ein Bereich von 45 bis 90 nur Partikel mit einem
-  zufälligen Winkel zwischen 45 und 90 Grad emittieren.
+  zufÃ¤lligen Winkel zwischen 45 und 90 Grad emittieren.
 
 @Parameter "GeschwindigkeitBereichStart, GeschwindigkeitBereichEnde"
-  Gibt den Bereich der Rotationsgeschwindigkeit des emittierten Partikels an. Eine zufällige Rotationsgeschwindigkeit
-  wird aus diesem Bereich ausgewählt, wenn ein neues Partikel emittiert wird.
+  Gibt den Bereich der Rotationsgeschwindigkeit des emittierten Partikels an. Eine zufÃ¤llige Rotationsgeschwindigkeit
+  wird aus diesem Bereich ausgewÃ¤hlt, wenn ein neues Partikel emittiert wird.
 
 @Remarks
   Um Anzeigefehler zu vermeiden, sollte das Partikelmaterial so konfiguriert werden, dass es nicht mit

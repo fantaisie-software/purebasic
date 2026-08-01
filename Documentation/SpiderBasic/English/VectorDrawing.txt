@@ -1,4 +1,4 @@
-;
+﻿;
 ;     VectorDrawing library documentation
 ;
 ;      (c) 2015 - Fantaisie Software
@@ -201,6 +201,10 @@
   @@ImageVectorOutput: Drawing will be rendered directly on the Image data (see @@CreateImage)
 @LineBreak
   @@CanvasVectorOutput: Drawing will be rendered directly on the @@CanvasGadget
+@LineBreak
+  @@PdfVectorOutput: Drawing will be rendered to a PDF file
+@LineBreak
+  @@SvgVectorOutput: Drawing will be rendered to an SVG file
 
 @ReturnValue
   Returns nonzero if drawing is possible or zero if the operation failed.
@@ -1952,6 +1956,7 @@
 @FixedFont
   @#PB_Path_Default     : No special behavior (default value)
   @#PB_Path_Preserve    : Don't reset the path after this function
+  @#PB_Path_Winding     : Fill the whole path, including overlapped figures (no odd/even mode).
 @EndFixedFont
 
 @NoReturnValue
@@ -2024,273 +2029,154 @@
 
 @SupportedOS
 
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathPointX(Distance.d)
-
-@Description
-  Returns the X coordinate of the point at the given distance from the start of the
-  current vector drawing path.
-
-@Parameter "Distance.d"
-  Specifies the distance from the start of the path. If this parameter is negative or
-  larger than the total path length, the start/endpoint of the path is returned.  
-  The full length of the path can be determined with @@PathLength.
-
-@ReturnValue
-  The X coordinate of the point of the path.
-
-@Example
-
-@Code
-  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    CanvasGadget(0, 0, 0, 400, 200)
-
-    If StartVectorDrawing(CanvasVectorOutput(0))
-    
-      ; construct path
-      MovePathCursor(150, 125)
-      AddPathCurve(0, 270, 0, -150, 350, 180)
-      
-      ; get location & angle of point on the path
-      x = PathPointX(200)
-      y = PathPointY(200)
-      a = PathPointAngle(200)
-      
-      ; stroke the path
-      VectorSourceColor(RGBA(255, 0, 0, 255))
-      StrokePath(5)
-      
-      ; draw a marker at the path point
-      AddPathCircle(x, y, 10)
-      VectorSourceColor(RGBA(0, 0, 255, 255))
-      FillPath()
-      
-      MovePathCursor(x, y)
-      AddPathLine(30*Cos(Radian(a)), 30*Sin(Radian(a)), #PB_Path_Relative)
-      StrokePath(5)
-
-      StopVectorDrawing()
-    EndIf
-  EndIf
-@EndCode
-
-@Image pathpointx.png
-  
-@SeeAlso
-  @@PathPointY, @@PathPointAngle, @@PathLength
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathPointY(Distance.d)
-
-@Description
-  Returns the Y coordinate of the point at the given distance from the start of the
-  current vector drawing path.
-
-@Parameter "Distance.d"
-  Specifies the distance from the start of the path. If this parameter is negative or
-  larger than the total path length, the start/endpoint of the path is returned.  
-  The full length of the path can be determined with @@PathLength.
-
-@ReturnValue
-  The Y coordinate of the point of the path.
-
-@Example
-  See @@PathPointX for an example.
-  
-@SeeAlso
-  @@PathPointX, @@PathPointAngle, @@PathLength
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathPointAngle(Distance.d)
-
-@Description
-  Returns the angle of the path at the point at the given distance from the start of the
-  current vector drawing path.
-
-@Parameter "Distance.d"
-  Specifies the distance from the start of the path. If this parameter is negative or
-  larger than the total path length, the start/endpoint of the path is returned.  
-  The full length of the path can be determined with @@PathLength.
-
-@ReturnValue
-  The angle of the path at the given point in degrees.
-  The angle 0 marks at the positive X axis.
-
-@Example
-  See @@PathPointX for an example.
-  
-@SeeAlso
-  @@PathPointX, @@PathPointY, @@PathLength
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathLength()
-
-@Description
-  Returns the total length of the current vector drawing path.
-
-@NoParameters
-
-@ReturnValue
-  Returns the length of the current path. 
-
-@Example
-@Code
-  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    CanvasGadget(0, 0, 0, 400, 200)
-
-    If StartVectorDrawing(CanvasVectorOutput(0))
-    
-      ; construct path
-      MovePathCursor(150, 125)
-      AddPathCurve(0, 270, 0, -150, 350, 180)
-      
-      ; get length
-      Debug "Path length: " + PathLength()
-
-      ; stroke the path
-      VectorSourceColor($FF0000FF)
-      StrokePath(5)
-
-      StopVectorDrawing()
-    EndIf
-  EndIf
-@EndCode
-  
-@SeeAlso
-  @@PathPointX, @@PathPointY, @@PathPointAngle
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathBoundsX()
-
-@Description
-  Returns the X coordinate (top/left corner) of the bounding box for the current vector
-  drawing path. The result is the lowest X coordinate that stroking/filling the current
-  path would reach.
-
-@NoParameters
-
-@ReturnValue
-  The X coordinate of the bounding box.
-
-@Example
-@Code
-  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    CanvasGadget(0, 0, 0, 400, 200)
-
-    If StartVectorDrawing(CanvasVectorOutput(0))
-    
-      ; construct path
-      MovePathCursor(150, 125)
-      AddPathCurve(0, 270, 0, -150, 350, 180)
-      
-      ; get path bounds
-      x = PathBoundsX()
-      y = PathBoundsY()
-      w = PathBoundsWidth()
-      h = PathBoundsHeight()
-      
-      ; stroke the path
-      VectorSourceColor($FF0000FF)
-      StrokePath(5)
-      
-      ; draw bounding box
-      AddPathBox(x, y, w, h)
-      VectorSourceColor($FF000000)
-      DashPath(2, 5)
-
-      StopVectorDrawing()
-    EndIf
-  EndIf
-@EndCode
-
-@Image pathboundsx.png
-  
-@SeeAlso
-  @@PathBoundsY, @@PathBoundsWidth, @@PathBoundsHeight
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathBoundsY()
-
-@Description
-  Returns the Y coordinate (top/left corner) of the bounding box for the current vector
-  drawing path. The result is the lowest Y coordinate that stroking/filling the current
-  path would reach.
-
-@NoParameters
-
-@ReturnValue
-  The Y coordinate of the bounding box.
-
-@Example
-  See @@PathBoundsX for an example.
-  
-@SeeAlso
-  @@PathBoundsX, @@PathBoundsWidth, @@PathBoundsHeight
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathBoundsWidth()
-
-@Description
-  Returns the width of the bounding box for the current vector
-  drawing path. The result is the difference between the lowest & highest X coordinate that
-  stroking/filling the current path would reach.
-
-@NoParameters
-
-@ReturnValue
-  The width of the bounding box.
-
-@Example
-  See @@PathBoundsX for an example.
-  
-@SeeAlso
-  @@PathBoundsX, @@PathBoundsY, @@PathBoundsHeight
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result.d = PathBoundsHeight()
-
-@Description
-  Returns the height of the bounding box for the current vector
-  drawing path. The result is the difference between the lowest & highest Y coordinate that
-  stroking/filling the current path would reach.
-
-@NoParameters
-
-@ReturnValue
-  The height of the bounding box.
-
-@Example
-  See @@PathBoundsX for an example.
-  
-@SeeAlso
-  @@PathBoundsX, @@PathBoundsY, @@PathBoundsWidth
-
-@SupportedOS
-
-
-;--------------------------------------------------------------------------------------------------------
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result.d = PathPointX(Distance.d)
+; 
+; @Description
+;   Returns the X coordinate of the point at the given distance from the start of the
+;   current vector drawing path.
+; 
+; @Parameter "Distance.d"
+;   Specifies the distance from the start of the path. If this parameter is negative or
+;   larger than the total path length, the start/endpoint of the path is returned.  
+;   The full length of the path can be determined with @@PathLength.
+; 
+; @ReturnValue
+;   The X coordinate of the point of the path.
+; 
+; @Example
+; 
+; @Code
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+; 
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;     
+;       ; construct path
+;       MovePathCursor(150, 125)
+;       AddPathCurve(0, 270, 0, -150, 350, 180)
+;       
+;       ; get location & angle of point on the path
+;       x = PathPointX(200)
+;       y = PathPointY(200)
+;       a = PathPointAngle(200)
+;       
+;       ; stroke the path
+;       VectorSourceColor(RGBA(255, 0, 0, 255))
+;       StrokePath(5)
+;       
+;       ; draw a marker at the path point
+;       AddPathCircle(x, y, 10)
+;       VectorSourceColor(RGBA(0, 0, 255, 255))
+;       FillPath()
+;       
+;       MovePathCursor(x, y)
+;       AddPathLine(30*Cos(Radian(a)), 30*Sin(Radian(a)), #PB_Path_Relative)
+;       StrokePath(5)
+; 
+;       StopVectorDrawing()
+;     EndIf
+;   EndIf
+; @EndCode
+; 
+; @Image pathpointx.png
+;   
+; @SeeAlso
+;   @@PathPointY, @@PathPointAngle, @@PathLength
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result.d = PathPointY(Distance.d)
+; 
+; @Description
+;   Returns the Y coordinate of the point at the given distance from the start of the
+;   current vector drawing path.
+; 
+; @Parameter "Distance.d"
+;   Specifies the distance from the start of the path. If this parameter is negative or
+;   larger than the total path length, the start/endpoint of the path is returned.  
+;   The full length of the path can be determined with @@PathLength.
+; 
+; @ReturnValue
+;   The Y coordinate of the point of the path.
+; 
+; @Example
+;   See @@PathPointX for an example.
+;   
+; @SeeAlso
+;   @@PathPointX, @@PathPointAngle, @@PathLength
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result.d = PathPointAngle(Distance.d)
+; 
+; @Description
+;   Returns the angle of the path at the point at the given distance from the start of the
+;   current vector drawing path.
+; 
+; @Parameter "Distance.d"
+;   Specifies the distance from the start of the path. If this parameter is negative or
+;   larger than the total path length, the start/endpoint of the path is returned.  
+;   The full length of the path can be determined with @@PathLength.
+; 
+; @ReturnValue
+;   The angle of the path at the given point in degrees.
+;   The angle 0 marks at the positive X axis.
+; 
+; @Example
+;   See @@PathPointX for an example.
+;   
+; @SeeAlso
+;   @@PathPointX, @@PathPointY, @@PathLength
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result.d = PathLength()
+; 
+; @Description
+;   Returns the total length of the current vector drawing path.
+; 
+; @NoParameters
+; 
+; @ReturnValue
+;   Returns the length of the current path. 
+; 
+; @Example
+; @Code
+;   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+;     CanvasGadget(0, 0, 0, 400, 200)
+; 
+;     If StartVectorDrawing(CanvasVectorOutput(0))
+;     
+;       ; construct path
+;       MovePathCursor(150, 125)
+;       AddPathCurve(0, 270, 0, -150, 350, 180)
+;       
+;       ; get length
+;       Debug "Path length: " + PathLength()
+; 
+;       ; stroke the path
+;       VectorSourceColor($FF0000FF)
+;       StrokePath(5)
+; 
+;       StopVectorDrawing()
+;     EndIf
+;   EndIf
+; @EndCode
+;   
+; @SeeAlso
+;   @@PathPointX, @@PathPointY, @@PathPointAngle
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
 
 @Function Result$ = PathSegments()
 
@@ -2422,7 +2308,7 @@
  
 ;--------------------------------------------------------------------------------------------------------
 
-@Function VectorSourceCircularGradient(x.d, y.d, Radius.d) 
+@Function VectorSourceCircularGradient(x.d, y.d, Radius.d, [CenterX.d, CenterY.d]) 
 
 @Description
   Selects a circular gradient as the source for vector drawing operations
@@ -2440,6 +2326,11 @@
   
 @Parameter "Radius.d"
   Specifies the radius of the circle that defines the gradient.
+
+@OptionalParameter "CenterX.d, CenterY.d"
+  Specifies an optional offset for the starting point of the gradient from the center of
+  the circle. With these parameters, the gradient can be started at any point within the
+  circle.
 
 @NoReturnValue
 
@@ -2829,3 +2720,525 @@
 
 @SupportedOS
 
+;--------------------------------------------------------------------------------------------------------
+
+@Function NewVectorPage()
+
+@Description
+  Finishes the current page on the vector drawing output and starts a fresh page.
+@LineBreak
+@LineBreak
+  The following outputs support multiple pages:
+@LineBreak
+@LineBreak
+  @@PdfVectorOutput
+    
+@NoParameters
+@NoReturnValue
+
+@SeeAlso
+  @@PdfVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PdfVectorOutput(Filename$, Width.d, Height.d [, Unit])
+
+@Description
+  Creates a PDF file and returns the OutputID to perform vector drawing operations.
+  The actual drawing operations must be enclosed in a @@StartVectorDrawing / @@StopVectorDrawing block.
+  The PDF file can have multiple pages using the @@NewVectorPage command.
+@LineBreak
+@LineBreak
+  Once the drawing is done, the document can be generated using @@ExportPdf or @@ExportPdfMemory.
+    
+@Parameter "FileName$"
+  Specifies the filename of the PDF to create. It will be used by @@ExportPdf or @@ExportPdfMemory.
+
+@Parameter "Width.d, Height.d"
+  Specifies the dimensions of a page in the PDF in units of the vector drawing output.
+
+@OptionalParameter "Unit"
+  Specifies the units for the vector drawing output. 
+@FixedFont
+  @#PB_Unit_Point     : Values are measured in points (1/72 inch) (default)
+  @#PB_Unit_Pixel     : Values are measured in pixels
+  @#PB_Unit_Inch      : Values are measured in inches
+  @#PB_Unit_Millimeter: Values are measured in millimeters
+@EndFixedFont
+  
+@ReturnValue
+  The OutputID of the given file to perform 2D rendering operation on it using @@StartVectorDrawing.
+  
+@Example 
+
+@Code
+  LoadFont(0, "Times New Roman", 20)
+    
+  If StartVectorDrawing(PdfVectorOutput("test.pdf", 595, 842))  
+    VectorFont(FontID(0), 25)
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("This is page 1...")
+    
+    NewVectorPage()
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("This is page 2...")      
+
+    ExportPdf()
+
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SvgVectorOutput, @@ImageVectorOutput, @@CanvasVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportPdf()
+
+@Description
+  Exports the current pdf being drawn with @@PdfVectorOutput to the user through a download. To export to a memory buffer, use @@ExportPdfMemory.
+  The filename used in @@PdfVectorOutput will be used to name the download file.
+  
+@NoReturnValue  
+
+@Example
+
+@Code
+  LoadFont(0, "Times New Roman", 20)
+    
+  If StartVectorDrawing(PdfVectorOutput("Hello.pdf", 595, 842))  
+    VectorFont(FontID(0), 25)
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("Hello, world")
+
+    ExportPdf() ; Will export the file as 'Hello.pdf'
+
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@PdfVectorOutput, @@ExportPdfMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Buffer = ExportPdfMemory()
+
+@Description
+  Exports the current pdf being drawn with @@PdfVectorOutput to a new memory buffer. To export as an user download, use @@ExportPdf.
+    
+@ReturnValue
+  A new memory buffer internally allocated with @@AllocateMemory containing the pdf document as binary form, or zero if it failed. 
+  Once the buffer is no more needed @@FreeMemory must be called to release the memory.
+
+@Example
+
+@Code
+  LoadFont(0, "Times New Roman", 20)
+    
+  If StartVectorDrawing(PdfVectorOutput("Hello.pdf", 595, 842))  
+    VectorFont(FontID(0), 25)
+    
+    MovePathCursor(20, 20)
+    DrawVectorText("Hello, world")
+
+    ; Export it as a memory buffer
+    *Buffer = ExportPdfMemory()
+    If *Buffer
+      Debug "Export success (size: " + MemorySize(*Buffer) + ") bytes"
+    Else
+      Debug "Export failed"
+    EndIf
+
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@PdfVectorOutput, @@ExportPdf
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = SvgVectorOutput(Filename$, Width.d, Height.d [, Unit])
+
+@Description
+  Creates an SVG (scalable vector graphics) file and returns the OutputID to perform vector drawing operations.
+  The actual drawing operations must be enclosed in a @@StartVectorDrawing / @@StopVectorDrawing block.
+@LineBreak
+@LineBreak
+  Once the drawing is done, the image can be generated using @@ExportSvg or @@ExportSvgString.
+  
+@Parameter "Filename$"
+  Specifies the filename of the SVG which will be used by @@ExportSvg().
+
+@Parameter "Width.d, Height.d"
+  Specifies the dimensions of a page in the SVG file in units of the vector drawing output.
+
+@OptionalParameter "Unit"
+  Not supported.
+
+  
+@ReturnValue
+  The OutputID of the given file to perform 2D rendering operation on it using @@StartVectorDrawing.
+
+@Example 
+
+@Code
+  If StartVectorDrawing(SvgVectorOutput("test.svg", 400, 200))
+
+    AddPathBox(50, 50, 200, 50)
+    AddPathBox(150, 75, 200, 50)
+    VectorSourceColor(RGBA(255, 0, 0, 255))
+    StrokePath(10)
+    
+    ExportSvg()
+    
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@PdfVectorOutput, @@ImageVectorOutput, @@CanvasVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ExportSvg()
+
+@Description
+  Exports the current SVG being drawn with @@SvgVectorOutput to the user through a download. To export to a string, use @@ExportSvgString.
+  The filename used in @@SvgVectorOutput will be used to name the download file.
+  
+@NoReturnValue  
+
+@Example
+
+@Code
+  If StartVectorDrawing(SvgVectorOutput("test.svg", 400, 200))
+
+    AddPathBox(50, 50, 200, 50)
+    AddPathBox(150, 75, 200, 50)
+    VectorSourceColor(RGBA(255, 0, 0, 255))
+    StrokePath(10)
+    
+    ExportSvg()
+    
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SvgVectorOutput, @@ExportSvgString
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = ExportSvgString()
+
+@Description
+  Exports the current SVG being drawn with @@SvgVectorOutput to a string. To export as an user download, use @@ExportSvg.
+    
+@ReturnValue
+  A string containing the new SVG picture.
+
+@Example
+
+@Code
+  If StartVectorDrawing(SvgVectorOutput("test.svg", 400, 200))
+
+    AddPathBox(50, 50, 200, 50)
+    AddPathBox(150, 75, 200, 50)
+    VectorSourceColor(RGBA(255, 0, 0, 255))
+    StrokePath(10)
+    
+    Debug ExportSvgString() ; Will pring the SVG content in the debug window
+    
+    StopVectorDrawing()
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SvgVectorOutput, @@ExportSvg
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClipPath([Flags])
+
+@Description
+  Clip the vector drawing output to the area defined by the current vector drawing path.
+  Future drawing operations will only affect areas within the current path. The clipping
+  will be combined with any clipping that previously existed on the drawing output.
+@LineBreak
+@LineBreak
+  By default, the path is reset after calling this function. This can be prevented with the appropriate flags.
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_Path_Default     : No special behavior (default value)
+  @#PB_Path_Preserve    : Don't reset the path after this function
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  There is no "UnclipPath()" function: The clipping region of the drawing output can only be
+  made smaller by adding further clipping, it cannot be made larger again. However, the clipping
+  region can be saved and restored using the @@SaveVectorState and @@RestoreVectorState functions
+  respectively. So in order to apply temporary clipping to the drawing output, first save the
+  drawing state and later restore it to go back to the original clipping regions.
+
+@SeeAlso
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipCoordinatesX(AxisX.d [, System])
+
+@Description
+  Mirrors the vector drawing coordinate system at the specified X axis.
+
+@Parameter "AxisX.d"
+  The X coordinate at which the coordinate system should be mirrored.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+@LineBreak
+@LineBreak
+  The following image demonstrates the effect of flipped coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with flipped coordinates is in red.
+
+@Image flipcoordinatesx.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      FlipCoordinatesX(200)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesY, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function FlipCoordinatesY(AxisY.d [, System])
+
+@Description
+  Mirrors the vector drawing coordinate system at the specified Y axis.
+
+@Parameter "AxisY.d"
+  The Y coordinate at which the coordinate system should be mirrored.
+
+@OptionalParameter "System"
+  Specifies the coordinate system to change. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_User  : Change the coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: Change the coordinate system for the vector drawing source
+@EndFixedFont  
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+  The following image demonstrates the effect of flipped coordinates. The same figure is drawn
+  twice, the original is in blue, and the version with flipped coordinates is in red.
+
+@Image flipcoordinatesy.png
+  
+@Example 
+
+@Code
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)    
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorFont(LoadFont(0, "Times New Roman", 60, #PB_Font_Bold))
+
+      VectorSourceColor(RGBA(0, 0, 255, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")
+    
+      FlipCoordinatesY(120)
+    
+      VectorSourceColor(RGBA(255, 0, 0, 128))
+      MovePathCursor(50, 50)
+      DrawVectorText("Test")    
+    
+      StopVectorDrawing()
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ResetCoordinates, @@TranslateCoordinates, @@ScaleCoordinates, @@RotateCoordinates,
+  @@SkewCoordinates, @@FlipCoordinatesX, @@ConvertCoordinateX, @@ConvertCoordinateY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorSourceImage(ImageID [, Alpha [, Width.d, Height.d [, Flags]]])
+
+@Description
+  Selects an image as the source for vector drawing operations
+  such as @@FillPath or @@StrokePath. These functions will apply pixels from
+  the specified image to the drawing output wherever they draw something.
+
+@Parameter "ImageID"
+  Specifies the image to use as the source. Use the @@ImageID function to
+  get this value from an image.
+
+@OptionalParameter "Alpha"
+  Specifies an optional alpha transparency to apply to the source image. 
+  This transparency is applied in addition to any transparent pixels already
+  present in the source image.
+  The default is value is 255 (no additional transparency).
+
+@OptionalParameter "Width.d, Height.d"
+  Specifies an optional with and height for the image. The values are interpreted
+  in terms of the @#PB_Coordinate_Source coordinate system. If no width and height
+  are specified, then the dimensions of the source image (in pixels) are converted
+  into the unit of the vector drawing output and used (i.e. the image has its original
+  size).
+
+@OptionalParameter "Flags"
+  Can be one of the following values:
+@FixedFont
+  @#PB_VectorImage_Default: Areas outside of the source image are transparent (default)
+  @#PB_VectorImage_Repeat : The source image is repeated to cover the entire drawing area
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems. 
+@LineBreak
+@LineBreak
+
+@SeeAlso  
+  @@VectorSourceColor, @@VectorSourceLinearGradient, @@VectorSourceCircularGradient
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsInsideStroke(x.d, y.d, Width.d [, Flags [, CoordinateSystem]])
+
+@Description
+  Tests if the given coordinates are within an area that will be drawn to by a call
+  to @@StrokePath.
+
+@Parameter "x.d, y.d"
+  Specifies the coordinates of the point to test.
+  
+@Parameter "Width.d"
+  Specifies the line width to use for the test.
+
+@OptionalParameter "Flags"
+  Possible flags for the line characteristics as described in the @@StrokePath function.
+
+@OptionalParameter "CoordinateSystem"
+  Specifies the coordinate system for the point to test. This can be one of the following values:
+@FixedFont
+  @#PB_Coordinate_Device: The coordinate system of the output device
+  @#PB_Coordinate_Output: The coordinate system as it was created with the drawing output function
+  @#PB_Coordinate_User  : The coordinate system for points in the drawing path (default)
+  @#PB_Coordinate_Source: The coordinate system for the vector drawing source
+@EndFixedFont 
+
+@Remarks
+  See the @LibraryLink "VectorDrawing" "vectordrawing overview" for an introduction to the different
+  coordinate systems.
+
+@ReturnValue
+  Returns non-zero if the point is within the stroke and zero if not.
+
+@Example 
+
+@Code
+    ; This example uses the IsInsideStroke() function to color the figure in green
+  ; while the mouse on its outline and blue otherwise
+  ;
+  Procedure Draw()    
+    x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
+    y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
+    
+    If StartVectorDrawing(CanvasVectorOutput(0))
+      VectorSourceColor(RGBA(255, 255, 255, 255))         ; erase previous content
+      FillVectorOutput()
+      
+      AddPathEllipse(200, 100, 150, 75)                   ; prepare path
+      
+      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; check if the mouse is inside
+        VectorSourceColor(RGBA(0, 255, 0, 255))
+      Else
+        VectorSourceColor(RGBA(0, 0, 255, 255))
+      EndIf
+      
+      StrokePath(20)                                      ; stroke path
+      StopVectorDrawing()
+    EndIf      
+  EndProcedure
+  
+  If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    CanvasGadget(0, 0, 0, 400, 200)
+    Draw()
+    
+    BindGadgetEvent(0, @Draw(), #PB_EventType_MouseMove)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@IsInsidePath, @@StrokePath, @@ResetPath
+
+@SupportedOS

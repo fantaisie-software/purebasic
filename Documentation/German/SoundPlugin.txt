@@ -1,18 +1,18 @@
-;
+ï»¿;
 ;     SoundPlugin library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library SoundPlugin
 
 @Overview
-  PureBasic unterstützt externe Soundformate durch ein dynamisches natives Plugin-System.
-  Dies bedeutet, dass nur der benötigte Encoder oder Decoder zum endgültigen Executable
-  hinzugefügt wird, was die finale Programmgröße wesentlich vermindert. Wenn zum Beispiel
-  nur der OGG-Decoder benötigt wird, dann wird auch nur der zum OGG-Decoder gehörige Code verwendet. Ein
+  PureBasic unterstÃ¼tzt externe Soundformate durch ein dynamisches natives Plugin-System.
+  Dies bedeutet, dass nur der benÃ¶tigte Encoder oder Decoder zum endgÃ¼ltigen Executable
+  hinzugefÃ¼gt wird, was die finale ProgrammgrÃ¶ÃŸe wesentlich vermindert. Wenn zum Beispiel
+  nur der OGG-Decoder benÃ¶tigt wird, dann wird auch nur der zum OGG-Decoder gehÃ¶rige Code verwendet. Ein
   weiteres nettes Feature ist die automatische Soundformat-Erkennung, wann immer mehrere verschiedene Decoder
-  benutzt werden. Die folgenden Befehle unterstützen die Sound-Plugins: @@LoadSound,
+  benutzt werden. Die folgenden Befehle unterstÃ¼tzen die Sound-Plugins: @@LoadSound,
   und @@CatchSound.
     
 @CommandList
@@ -26,21 +26,21 @@
 @Function UseFLACSoundDecoder()
 
 @Description
-  Aktiviert den FLAC (Free Lossless Audio Codec) Sound Support für @@CatchSound und @@LoadSound.
+  Aktiviert den FLAC (Free Lossless Audio Codec) Sound Support fÃ¼r @@CatchSound und @@LoadSound.
 @LineBreak
-  Sound-Streaming wird bei diesem Plugin unterstützt.
+  Sound-Streaming wird bei diesem Plugin unterstÃ¼tzt.
 
 @NoParameters
 
 @NoReturnValue
 
 @Remarks
-  Da FLAC ein @Underline "nicht" verlustbehaftetes Kompressions-Format ist, bleibt die Datei-Größe
-  relativ groß, speziell verglichen mit zum Beispiel @Link "UseOGGSoundDecoder" "OGG".
-  Dies ermöglicht eine Reduzierung der Dateigröße, während alle originalen Sound-Informationen erhalten bleiben.
+  Da FLAC ein @Underline "nicht"-verlustbehaftetes Kompressions-Format ist, bleibt die Datei-GrÃ¶ÃŸe
+  relativ groÃŸ, speziell verglichen mit zum Beispiel @Link "UseOGGSoundDecoder" "OGG".
+  Dies ermÃ¶glicht eine Reduzierung der DateigrÃ¶ÃŸe, wÃ¤hrend alle originalen Sound-Informationen erhalten bleiben.
 @LineBreak
 @LineBreak
-  Für weitere Informationen: @InternetLink "http://de.wikipedia.org/wiki/Free_Lossless_Audio_Codec" "Wikipedia - FLAC".
+  FÃ¼r weitere Informationen: @InternetLink "http://de.wikipedia.org/wiki/Free_Lossless_Audio_Codec" "Wikipedia - FLAC".
   
 @SupportedOS
 
@@ -49,9 +49,9 @@
 @Function UseOGGSoundDecoder()
 
 @Description
-  Aktiviert den OGG (OGG Vorbis) Sound Support für @@CatchSound und @@LoadSound.
+  Aktiviert den OGG (OGG Vorbis) Sound Support fÃ¼r @@CatchSound und @@LoadSound.
 @LineBreak
-  Sound-Streaming wird bei diesem Plugin unterstützt.
+  Sound-Streaming wird bei diesem Plugin unterstÃ¼tzt.
 
 @NoParameters
 
@@ -60,10 +60,10 @@
 @Remarks
   Das OGG-Format verwendet eine verlustbehaftete Komprimierung. Dies bedeutet, dass der Sound beim
   Komprimieren einige seiner Originalinformationen verliert. Dies ist aktuell einer der
-  besten verfügbaren verlustbehafteten Kompressionsalgorithmen, welcher die Soundgröße
-  - ohne eine Menge von hörbaren Artefakten zu produzieren - dramatisch vermindern kann.
+  besten verfÃ¼gbaren verlustbehafteten Kompressionsalgorithmen, welcher die SoundgrÃ¶ÃŸe
+  - ohne eine Menge von hÃ¶rbaren Artefakten zu produzieren - dramatisch vermindern kann.
 @LineBreak
 @LineBreak
-  Für weitere Informationen: @InternetLink "http://de.wikipedia.org/wiki/Vorbis" "Wikipedia - OGG".
+  FÃ¼r weitere Informationen: @InternetLink "http://de.wikipedia.org/wiki/Vorbis" "Wikipedia - OGG".
 
 @SupportedOS

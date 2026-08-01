@@ -1,28 +1,28 @@
-@Title Farbtabelle
+ï»¿@Title Farbtabelle
 
-@Section Übersicht
+@Section Ãœbersicht
   
   Nachfolgend wird eine Farbtabelle mit einer Auswahl von 216 verschiedenen Farben in unterschiedlichen 
-  Variationen dargestellt. Sie soll einen Überblick über mögliche Farben geben und Ihnen so die Farbwahl 
-  für Ihre Grafiken, Texte, Hintergründe etc. erleichtern. Die Farbe wird als HEX-Zahl angegeben!
+  Variationen dargestellt. Sie soll einen Ãœberblick Ã¼ber mÃ¶gliche Farben geben und Ihnen so die Farbwahl 
+  fÃ¼r Ihre Grafiken, Texte, HintergrÃ¼nde etc. erleichtern. Die Farbe wird als HEX-Zahl angegeben!
   @LineBreak
   @LineBreak
-  Die in der Tabelle angegebenen Farbwerte sind im gebräuchlichen RGB-Format (rot, grün, blau) dargestellt.
+  Die in der Tabelle angegebenen Farbwerte sind im gebrÃ¤uchlichen RGB-Format (rot, grÃ¼n, blau) dargestellt.
   Zum Beispiel stellt die blaue Farbe rechts oben den Hex-Wert '$0000FF' dar, wobei die beiden 'FF' den 
   vollen Blau-Anteil kennzeichnen.
   @LineBreak
   @LineBreak
-  Bei allen PureBasic-Befehlen, wo ein Farbwert erwartet wird, haben Sie drei Möglichkeiten:
+  Bei allen PureBasic-Befehlen, wo ein Farbwert erwartet wird, haben Sie drei MÃ¶glichkeiten:
   @LineBreak
   @LineBreak
-  1.) Die dargestellten Hexwerte - in ihre drei Farbanteile zerlegt - in der Reihenfolge (R)ot, (G)rün
-      und (B)lau mit dem Befehl @@RGB übergeben:
+  1.) Die dargestellten Hexwerte - in ihre drei Farbanteile zerlegt - in der Reihenfolge (R)ot, (G)rÃ¼n
+      und (B)lau mit dem Befehl @@RGB Ã¼bergeben:
 @Code
   Plot(0, 0, RGB($00,$00,$FF))
 @EndCode
 
-  2.) den Farbwert als Ganzes übergeben - dann müssen allerdings die Rot- und Blau-Anteile getauscht,
-      d.h. die Farbe im BGR-Format übergeben werden. Unser o.g. blauer Farbwert wird dann wie folgt 
+  2.) den Farbwert als Ganzes Ã¼bergeben - dann mÃ¼ssen allerdings die Rot- und Blau-Anteile getauscht,
+      d.h. die Farbe im BGR-Format Ã¼bergeben werden. Unser o.g. blauer Farbwert wird dann wie folgt 
       verwendet:
 @Code
   Plot(0, 0, $FF0000))
@@ -40,12 +40,12 @@
       #Yellow  
 @EndCode      
 
-  Achten Sie jedoch auf das Desktop-Thema der Betriebssysteme, das die angezeigte Farbe verändern kann.
+  Achten Sie jedoch auf das Desktop-Thema der Betriebssysteme, das die angezeigte Farbe verÃ¤ndern kann.
 @Code
   Plot(0, 0, #Red))
 @EndCode
 
-  Tipp für Fortgeschrittene: RGB-Einzelwerte werden wie folgt in einen Gesamtfarbwert umgerechnet:
+  Tipp fÃ¼r Fortgeschrittene: RGB-Einzelwerte werden wie folgt in einen Gesamtfarbwert umgerechnet:
     Gesamt = R + G*256 + B*65536 
 
 

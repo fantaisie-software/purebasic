@@ -6,6 +6,7 @@
 
 IncludePath "Interface\"
 
+IncludeFile "Oaidl.pb"
 IncludeFile "tnef.pb"
 IncludeFile "tom.pb"
 IncludeFile "unknwn.pb"
@@ -40,7 +41,6 @@ IncludeFile "mshtmhst.pb"
 IncludeFile "mshtmlc.pb"
 IncludeFile "msxml.pb"
 IncludeFile "netmon.pb"
-IncludeFile "Oaidl.pb"
 IncludeFile "Objidl.pb"
 IncludeFile "ocidl.pb"
 IncludeFile "oleacc.pb"
@@ -102,3 +102,28 @@ Interface IImageList Extends IUnknown
   GetItemFlags(a, b)
   GetOverlayImage(a, b)
 EndInterface
+
+
+Interface IMMDeviceEnumerator Extends IUnknown
+  EnumAudioEndpoints(a, b, c)
+  GetDefaultAudioEndpoint(a, b, c)
+  GetDevice(a, b)
+  RegisterEndpointNotificationCallback(a)
+  UnregisterEndpointNotificationCallback(a)
+EndInterface
+
+Interface IMMDevice Extends IUnknown
+  Activate(a, b, c, d)
+  OpenPropertyStore(a, b)
+  GetId(a)
+  GetState(a)
+EndInterface
+
+Interface IPropertyStore Extends IUnknown
+  GetCount(a)
+  GetAt(a, b)
+  GetValue(a, b)
+  SetValue(a, b)
+  Commit()
+EndInterface
+

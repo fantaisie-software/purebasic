@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Dialog library documentation
 ;
 ;     (c) Fantaisie Software
@@ -7,26 +7,19 @@
 @Library Dialog
 
 @Overview
-  La bibliothèque 'dialog' permet de créer 
-  facilement une interface utilisateur complexe 
-  (GUI) basée sur du code XML. C'est une autre 
-  façon de créer des fenêtres, des boîtes de 
-  dialogue, etc. 
-  Elle dispose de l'agencement et de la 
-  réorganisation automatique des 
-  @LibraryLink "gadget" "gadgets" (layout), ce 
-  qui est très utile lors de la création 
-  d'interface qui doit fonctionner sur 
-  différents systèmes d'exploitation ou qui 
-  utilise différentes tailles de  
-  @LibraryLink "font" "police" simultanément. 
+  La bibliothÃ¨que 'dialog' permet de crÃ©er facilement une interface utilisateur complexe 
+  (GUI) basÃ©e sur du code XML. C'est une autre faÃ§on de crÃ©er des fenÃªtres, des boÃ®tes de dialogue, etc. 
+  Elle dispose de l'agencement et de la rÃ©organisation automatique des  @LibraryLink "gadget" "gadgets"
+  (layout), ce qui est trÃ¨s utile lors de la crÃ©ation d'interface qui doit fonctionner sur 
+  diffÃ©rents systÃ¨mes d'exploitation ou qui utilise diffÃ©rentes tailles de @LibraryLink "font" "police" simultanÃ©ment. 
   @LineBreak
   @LineBreak
-  Le code XML peut provenir d'un fichier ou 
-  bien être créé à la volée, en mémoire, 
-  en utilisant la bibliothèque 
-  @LibraryLink "xml" "XML".
- 
+  Le code XML peut provenir d'un fichier ou bien Ãªtre crÃ©Ã© Ã  la volÃ©e, en mÃ©moire, 
+  en utilisant la bibliothÃ¨que @LibraryLink "xml" "XML".
+  @LineBreak
+  @LineBreak
+  Pour trouver une liste de tous les mots-clÃ©s et attributs pris en charge par cette bibliothÃ¨que, voir @Link "OpenXMLDialog" "ici".
+  
 @CommandList
 
 @ExampleFile All Dialog.pb
@@ -38,26 +31,26 @@
 @Function Resultat = CreateDialog(#Dialog)
 
 @Description
-  Créer une nouvelle interface utilisateur 
-  non initialisée. @LineBreak
+  CrÃ©er une nouvelle interface utilisateur 
+  non initialisÃ©e. @LineBreak
   Pour l'afficher, utiliser @@OpenXMLDialog.
 
 @Parameter "#Dialog"
-  Le numéro d'identification de la nouvelle 
+  Le numÃ©ro d'identification de la nouvelle 
   interface utilisateur. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @ReturnValue
   Renvoie une valeur non nulle si l'interface 
-  utilisateur a été créée avec succès ou zéro 
+  utilisateur a Ã©tÃ© crÃ©Ã©e avec succÃ¨s ou zÃ©ro 
   sinon.@LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  '#Dialog' alors le nombre auto-généré est 
-  renvoyé en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  '#Dialog' alors le nombre auto-gÃ©nÃ©rÃ© est 
+  renvoyÃ© en cas de succÃ¨s.
 
 @SeeAlso
   @@OpenXMLDialog, @@FreeDialog
@@ -70,17 +63,17 @@
 
 @Description
   Renvoie le dernier message d'erreur 
-  (en anglais) après l'échec de la fonction 
+  (en anglais) aprÃ¨s l'Ã©chec de la fonction 
   @@OpenXMLDialog. 
 
 @Parameter "#Dialog"
-  L'interface utilisateur à utiliser.
+  L'interface utilisateur Ã  utiliser.
 
 @ReturnValue
   Renvoie le message d'erreur.  @LineBreak
-  Si aucune information supplémentaire n'est 
+  Si aucune information supplÃ©mentaire n'est 
   disponible alors la fonction peut renvoyer 
-  une chaîne de caractères vide.
+  une chaÃ®ne de caractÃ¨res vide.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -92,20 +85,20 @@
 @Function Resultat = DialogGadget(#Dialog, Nom$)
 
 @Description
-  Renvoie le numéro du gadget associé à son 
+  Renvoie le numÃ©ro du gadget associÃ© Ã  son 
   nom.
 
 @Parameter "#Dialog"
-  L'interface utilisateur à utiliser.
+  L'interface utilisateur Ã  utiliser.
 
 @Parameter "Nom$"
-  Le nom du gadget spécifié dans le fichier 
-  XML (après l'attribut 'name').
+  Le nom du gadget spÃ©cifiÃ© dans le fichier 
+  XML (aprÃ¨s l'attribut 'name').
 
 @ReturnValue
-  Renvoie le numéro du gadget à partir du nom 
-  de gadget spécifié, ou -1 si le gadget n'est 
-  pas trouvé.
+  Renvoie le numÃ©ro du gadget Ã  partir du nom 
+  de gadget spÃ©cifiÃ©, ou -1 si le gadget n'est 
+  pas trouvÃ©.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -117,22 +110,22 @@
 @Function Resultat = DialogWindow(#Dialog)
 
 @Description
-  Renvoie le numéro de la fenêtre de 
+  Renvoie le numÃ©ro de la fenÃªtre de 
   l'interface utilisateur. 
 
 @Parameter "#Dialog"
-  L'interface utilisateur à utiliser.
+  L'interface utilisateur Ã  utiliser.
 
 @ReturnValue
-  Renvoie le numéro de la fenêtre de 
-  l'interface utilisateur spécifiée.
+  Renvoie le numÃ©ro de la fenÃªtre de 
+  l'interface utilisateur spÃ©cifiÃ©e.
 
 @Remarks  
-  L'interface utilisateur doit être 
-  initialisée avec @@OpenXMLDialog avant 
+  L'interface utilisateur doit Ãªtre 
+  initialisÃ©e avec @@OpenXMLDialog avant 
   d'utiliser cette commande. @LineBreak
-  Ce numéro peut être utilisé avec n'importe 
-  quelle fonction de la bibliothèque 
+  Ce numÃ©ro peut Ãªtre utilisÃ© avec n'importe 
+  quelle fonction de la bibliothÃ¨que 
   @LibraryLink "window" "Window".   
   
 @SeeAlso
@@ -146,15 +139,15 @@
 
 @Description
   Renvoie l'identifiant unique (ID) de 
-  l'interface utilisateur dans le système 
+  l'interface utilisateur dans le systÃ¨me 
   d'exploitation.
 
 @Parameter "#Dialog"
-  L'interface utilisateur à utiliser.
+  L'interface utilisateur Ã  utiliser.
 
 @ReturnValue
   Renvoie l'ID de l'interface utilisateur dans 
-  le système d'exploitation.
+  le systÃ¨me d'exploitation.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -166,24 +159,24 @@
 @Function FreeDialog(#Dialog)
 
 @Description
-  Libère l'interface utilisateur ainsi que sa 
-  mémoire associée.@LineBreak
+  LibÃ¨re l'interface utilisateur ainsi que sa 
+  mÃ©moire associÃ©e.@LineBreak
   Si l'interface utilisateur est toujours 
-  ouverte, elle sera automatiquement fermée.
+  ouverte, elle sera automatiquement fermÃ©e.
 
 @Parameter "#Dialog"
-  L'interface utilisateur à libérer.
+  L'interface utilisateur Ã  libÃ©rer.
   @LineBreak
   @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  interfaces utilisateur restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  interfaces utilisateur restantes sont libÃ©rÃ©es.
 
 @NoReturnValue
 
 @Remarks
   Toutes les interfaces utilisateur restantes 
-  sont automatiquement libérées lorsque le 
-  programme est fermé.
+  sont automatiquement libÃ©rÃ©es lorsque le 
+  programme est fermÃ©.
   
 @SeeAlso
   @@CreateDialog
@@ -195,24 +188,24 @@
 @Function Resultat = IsDialog(#Dialog)
 
 @Description
-  Teste si l'interface utilisateur donnée est 
+  Teste si l'interface utilisateur donnÃ©e est 
   une interface utilisateur valide. 
 
 @Parameter "#Dialog"
-  L'interface utilisateur à tester.
+  L'interface utilisateur Ã  tester.
 
 @ReturnValue
   Renvoie une valeur non nulle si #Dialog est 
-  une interface utilisateur valide ou zéro 
+  une interface utilisateur valide ou zÃ©ro 
   sinon.
 
 @Remarks
-  Cette fonction peut être utilisée avec 
+  Cette fonction peut Ãªtre utilisÃ©e avec 
   n'importe quelle valeur sans crainte de 
   crash. @LineBreak
-  C'est une bonne façon de s'assurer qu'une 
-  interface utilisateur est prête à être 
-  utilisée.
+  C'est une bonne faÃ§on de s'assurer qu'une 
+  interface utilisateur est prÃªte Ã  Ãªtre 
+  utilisÃ©e.
 
 @SeeAlso
   @@CreateDialog
@@ -224,49 +217,49 @@
 @Function Resultat = OpenXMLDialog(#Dialog, #XML, Nom$ [, X, Y [, Largeur, Hauteur [, ParentID]]]))
 
 @Description
-  Ouvre l'interface utilisateur spécifiée (fenêtre, boîte de dialogue, etc) et l'affiche à l'écran.
+  Ouvre l'interface utilisateur spÃ©cifiÃ©e (fenÃªtre, boÃ®te de dialogue, etc) et l'affiche Ã  l'Ã©cran.
   @LineBreak
   @LineBreak
-  Pour accéder aux gadgets, voir @@DialogGadget. @LineBreak
-  Pour obtenir le numéro de la fenêtre, voir @@DialogWindow. @LineBreak
+  Pour accÃ©der aux gadgets, voir @@DialogGadget. @LineBreak
+  Pour obtenir le numÃ©ro de la fenÃªtre, voir @@DialogWindow. @LineBreak
   @LineBreak
   @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget et @@UseDialogWebViewGadget 
-  peuvent être utilisés pour activer la prise en charge de ces gadgets dans la bibliothèque de dialogue. 
-  Ils ne sont pas activés par défaut pour réduire l'encombrement de la bibliothèque de boîtes de dialogue.
+  peuvent Ãªtre utilisÃ©s pour activer la prise en charge de ces gadgets dans la bibliothÃ¨que de dialogue. 
+  Ils ne sont pas activÃ©s par dÃ©faut pour rÃ©duire l'encombrement de la bibliothÃ¨que de boÃ®tes de dialogue.
 
 @Parameter "#Dialog"
-  L'interface utilisateur à utiliser. 
+  L'interface utilisateur Ã  utiliser. 
   @LineBreak
   @LineBreak
-  Elle doit être créée au préalable avec 
+  Elle doit Ãªtre crÃ©Ã©e au prÃ©alable avec 
   @@CreateDialog.
 
 @Parameter "#XML"
-  Le code @LibraryLink "xml" "xml" à utiliser. 
+  Le code @LibraryLink "xml" "xml" Ã  utiliser. 
   @LineBreak
   @LineBreak
-  Il doit être créé au préalable avec 
+  Il doit Ãªtre crÃ©Ã© au prÃ©alable avec 
   @@LoadXML, @@CreateXML, @@CatchXML ou @@ParseXML.@LineBreak
-  Cela signifie qu'il est possible de créer 
-  des interfaces utilisateur à la volée 
+  Cela signifie qu'il est possible de crÃ©er 
+  des interfaces utilisateur Ã  la volÃ©e 
   avec @@CreateXML, @@CatchXML ou @@ParseXML. @LineBreak
   Voir les remarques ci-dessous pour prendre 
-  connaissance des attributs XML supportés. @LineBreak
+  connaissance des attributs XML supportÃ©s. @LineBreak
   Lorsque le script XML est compris dans le 
-  code, il est peut être plus aisé d'utiliser 
+  code, il est peut Ãªtre plus aisÃ© d'utiliser 
   la quote (guillemet simple) pour les 
   attributs XML (c'est une syntaxe XML 
   parfaitement admise).
 
 @Parameter "Nom$"
-  Le nom de l'interface utilisateur à ouvrir. 
+  Le nom de l'interface utilisateur Ã  ouvrir. 
   @LineBreak
   @LineBreak
   En effet, un fichier XML peut contenir le 
   code de plusieurs interfaces utilisateur.
   
 @OptionalParameter "X, Y"
-  Les coordonnées x, y (en pixels) de 
+  Les coordonnÃ©es x, y (en pixels) de 
   l'interface utilisateur.
 
 @OptionalParameter "Largeur, Hauteur"
@@ -275,25 +268,25 @@
   @LineBreak
   @LineBreak
   Si la taille est plus petite que la taille 
-  calculée d'après le code du fichier XML et 
-  d'après l'agencement automatique des gadgets 
-  ou "layout", alors ces paramètres optionnels 
+  calculÃ©e d'aprÃ¨s le code du fichier XML et 
+  d'aprÃ¨s l'agencement automatique des gadgets 
+  ou "layout", alors ces paramÃ¨tres optionnels 
   ne seront pas pris en compte et la taille 
-  calculée sera bien utilisée.@LineBreak
-  Sans ces paramètres optionnels, la taille de 
-  la boîte de dialogue aura la plus petite 
+  calculÃ©e sera bien utilisÃ©e.@LineBreak
+  Sans ces paramÃ¨tres optionnels, la taille de 
+  la boÃ®te de dialogue aura la plus petite 
   taille possible.
 
 @OptionalParameter "ParentID"
-  L'identifiant de la fenêtre parent.
+  L'identifiant de la fenÃªtre parent.
   @LineBreak
   @LineBreak
-  Un identifiant de fenêtre valide peut être 
-  récupéré avec @@WindowID.
+  Un identifiant de fenÃªtre valide peut Ãªtre 
+  rÃ©cupÃ©rÃ© avec @@WindowID.
 
 @ReturnValue
  Renvoie une valeur non nulle si l'interface 
- utilisateur a été ouverte avec succès ou zéro 
+ utilisateur a Ã©tÃ© ouverte avec succÃ¨s ou zÃ©ro 
  sinon. @LineBreak
  Pour obtenir plus d'informations sur l'erreur 
  qui a eu lieu, voir @@DialogError.
@@ -308,37 +301,37 @@
   I. Attributs communs 
   --------------------
 
-  width     - Largeur minimale. Valeur positive ou nulle (par défaut="0")
-  height    - Hauteur minimale. Valeur positive ou nulle (par défaut="0")
+  width     - Largeur minimale. Valeur positive ou nulle (par dÃ©faut="0")
+  height    - Hauteur minimale. Valeur positive ou nulle (par dÃ©faut="0")
 
-  id        - Numéro d'identification d'un gadget ou d'une fenêtre (par défaut c'est #PB_Any). Il peut être une constante runtime
-  name      - Une chaîne de caractères qui identifie l'objet (principalement pour @@DialogGadget, insensible à la casse) (par défaut="")
-  text      - Texte associé à l'objet (par défaut="")
+  id        - NumÃ©ro d'identification d'un gadget ou d'une fenÃªtre (par dÃ©faut c'est #PB_Any). Il peut Ãªtre une constante runtime
+  name      - Une chaÃ®ne de caractÃ¨res qui identifie l'objet (principalement pour @@DialogGadget, insensible Ã  la casse) (par dÃ©faut="")
+  text      - Texte associÃ© Ã  l'objet (par dÃ©faut="")
 
-  flags     - Options du gadget/fenêtre, comme "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (par défaut="")
+  flags     - Options du gadget/fenÃªtre, comme "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (par dÃ©faut="")
 
   min        - Valeur minimum 
   max        - Valeur maximum
   value      - Valeur courante
 
-  invisible - Egal à "yes", l'objet créé est invisible (par défaut="no")
-  disabled  - Egal à "yes", l'objet créé est désactivé (seulement pour les gadgets) (par défaut="no")
+  invisible - Egal Ã  "yes", l'objet crÃ©Ã© est invisible (par dÃ©faut="no")
+  disabled  - Egal Ã  "yes", l'objet crÃ©Ã© est dÃ©sactivÃ© (seulement pour les gadgets) (par dÃ©faut="no")
 
-  colspan   - Seulement à l'intérieur de l'attribut <gridbox>, permet à un élément de couvrir plusieurs lignes / colonnes
-  rowspan     (par défaut="1")
+  colspan   - Seulement Ã  l'intÃ©rieur de l'attribut <gridbox>, permet Ã  un Ã©lÃ©ment de couvrir plusieurs lignes / colonnes
+  rowspan     (par dÃ©faut="1")
 
   Remarque : Tous ces attributs sont facultatifs.
 
 
-  II. L'élément racine
+  II. L'Ã©lÃ©ment racine
   --------------------
 
-  <window>  : Une fenêtre unique
+  <window>  : Une fenÃªtre unique
   </window>
   
   ou 
     
-  <dialogs> : Plusieurs fenêtres dans un même fichier XML
+  <dialogs> : Plusieurs fenÃªtres dans un mÃªme fichier XML
     <window name="PremiereFenetre">
     </window>
     <window name="SecondeFenetre">
@@ -347,98 +340,98 @@
   </dialogs>
 
 
-  III. L'élément fenêtre 
+  III. L'Ã©lÃ©ment fenÃªtre 
   ----------------------
 
   <window>
   </window>
   
-  Clés reconnues dans le code XML:
+  ClÃ©s reconnues dans le code XML:
   ................................
 
-  Tous les attributs communs ainsi que les clés suivantes:
+  Tous les attributs communs ainsi que les clÃ©s suivantes:
   
-  minwidth  = 'auto' ou une valeur numérique 
-  maxwidth  = 'auto' ou une valeur numérique
-  minheight = 'auto' ou une valeur numérique
-  maxheight = 'auto' ou une valeur numérique
+  minwidth  = 'auto' ou une valeur numÃ©rique 
+  maxwidth  = 'auto' ou une valeur numÃ©rique
+  minheight = 'auto' ou une valeur numÃ©rique
+  maxheight = 'auto' ou une valeur numÃ©rique
   
-  Permet de définir les tailles minimum et maximum d'une fenêtre. 
-  Si la valeur est 'auto' alors la taille est calculée en fonction de la taille 
-  (calculée ou prédéfinie) des éléments contenus dans la fenêtre.
+  Permet de dÃ©finir les tailles minimum et maximum d'une fenÃªtre. 
+  Si la valeur est 'auto' alors la taille est calculÃ©e en fonction de la taille 
+  (calculÃ©e ou prÃ©dÃ©finie) des Ã©lÃ©ments contenus dans la fenÃªtre.
                 
 
-   - Crée la fenêtre
+   - CrÃ©e la fenÃªtre
    - Peut avoir tous les attributs communs.
-   - Est un conteneur à un seul élément.
-   - Si plus d'un élément <window> est présent, l'attribut 'name' est utilisé pour les identifier.
-   - Tous les éléments d'interface graphique ne peuvent être placés qu'ici.
+   - Est un conteneur Ã  un seul Ã©lÃ©ment.
+   - Si plus d'un Ã©lÃ©ment <window> est prÃ©sent, l'attribut 'name' est utilisÃ© pour les identifier.
+   - Tous les Ã©lÃ©ments d'interface graphique ne peuvent Ãªtre placÃ©s qu'ici.
   
   
-  IV. Les élements Boîtes, agencement et réorganisation automatique des gadgets (Layout)
+  IV. Les Ã©lements BoÃ®tes, agencement et rÃ©organisation automatique des gadgets (Layout)
   --------------------------------------------------------------------------------------
   
   **************************************************************************************
   hbox et vbox
   **************************************************************************************
 
-    Boîtes qui disposent les éléments horizontalement ou verticalement. 
-    Peut contenir n'importe quel nombre d'éléments.
+    BoÃ®tes qui disposent les Ã©lÃ©ments horizontalement ou verticalement. 
+    Peut contenir n'importe quel nombre d'Ã©lÃ©ments.
 
-    Clés reconnues dans le code XML:
+    ClÃ©s reconnues dans le code XML:
     ................................
 
-    Tous les attributs communs ainsi que les clés suivantes:
+    Tous les attributs communs ainsi que les clÃ©s suivantes:
   
-    spacing   = Espace à ajouter entre les éléments (par défaut=5)
+    spacing   = Espace Ã  ajouter entre les Ã©lÃ©ments (par dÃ©faut=5)
   
-    expand    = yes           - Les éléments deviennent plus grands pour remplir tout l'espace (par défaut)
-                no            - Les éléments ne s'étendent pas pour remplir tout l'espace
-                equal         - Force les éléments à avoir une taille égale
-                item:<numéro> - Elargit un seul élément, si l'espace est disponible
+    expand    = yes           - Les Ã©lÃ©ments deviennent plus grands pour remplir tout l'espace (par dÃ©faut)
+                no            - Les Ã©lÃ©ments ne s'Ã©tendent pas pour remplir tout l'espace
+                equal         - Force les Ã©lÃ©ments Ã  avoir une taille Ã©gale
+                item:<numÃ©ro> - Elargit un seul Ã©lÃ©ment, si l'espace est disponible
   
-    align     = top/center/bottom      - Ne s'applique que lorsque l'attribut expand="no" pour les vbox et top est l'attribut par défaut
-              = left/center/right      - Ne s'applique que lorsque l'attribut expand="no" pour les hbox et left est l'attribut par défaut
+    align     = top/center/bottom      - Ne s'applique que lorsque l'attribut expand="no" pour les vbox et top est l'attribut par dÃ©faut
+              = left/center/right      - Ne s'applique que lorsque l'attribut expand="no" pour les hbox et left est l'attribut par dÃ©faut
                                        - Un assemblage de vbox et de hbox permet un alignement complexe top/left/center/bottom/right
 
   **************************************************************************************
   gridbox 
   **************************************************************************************
   
-    Aligne les éléments dans un tableau. 
-    Peut contenir n'importe quel nombre d'éléments.
+    Aligne les Ã©lÃ©ments dans un tableau. 
+    Peut contenir n'importe quel nombre d'Ã©lÃ©ments.
     
-    Clés reconnues dans le code XML:
+    ClÃ©s reconnues dans le code XML:
     ................................
 
-    Tous les attributs communs ainsi que les clés suivantes:
+    Tous les attributs communs ainsi que les clÃ©s suivantes:
   
-    columns    = Nombre de colonnes (par défaut = 2)
+    columns    = Nombre de colonnes (par dÃ©faut = 2)
   
-    colspacing = Espace entre les colonnes / lignes (par défaut = 5)
+    colspacing = Espace entre les colonnes / lignes (par dÃ©faut = 5)
     rowspacing
   
-    colexpand = yes           - Les éléments deviennent plus grands pour remplir tout l'espace (par défaut)
-    rowexpand   no            - Les éléments ne s'étendent pas pour remplir tout l'espace
-                equal         - Force les éléments à avoir une taille égale
-                item:<numéro> - Elargit un seul élément, si l'espace est disponible
+    colexpand = yes           - Les Ã©lÃ©ments deviennent plus grands pour remplir tout l'espace (par dÃ©faut)
+    rowexpand   no            - Les Ã©lÃ©ments ne s'Ã©tendent pas pour remplir tout l'espace
+                equal         - Force les Ã©lÃ©ments Ã  avoir une taille Ã©gale
+                item:<numÃ©ro> - Elargit un seul Ã©lÃ©ment, si l'espace est disponible
                 
-                Pour colexpand, par défaut=yes
-                Pour rowexpand, par défaut=no
+                Pour colexpand, par dÃ©faut=yes
+                Pour rowexpand, par dÃ©faut=no
   
-    Tous les éléments d'un gridbox peuvent utiliser les clés suivantes:
-    colspan = nombre de colonnes à fusionner (par défaut = 1)
-    rowspan = nombre de lignes à fusionner
+    Tous les Ã©lÃ©ments d'un gridbox peuvent utiliser les clÃ©s suivantes:
+    colspan = nombre de colonnes Ã  fusionner (par dÃ©faut = 1)
+    rowspan = nombre de lignes Ã  fusionner
   
   **************************************************************************************
   multibox
   **************************************************************************************
    
-    Une boîte avec de multiples éléments dans la même position. 
-    Permet d'utiliser plusieurs conteneurs et de n'en montrer qu'un seul à la fois.
-    Peut contenir n'importe quel nombre d'éléments.
+    Une boÃ®te avec de multiples Ã©lÃ©ments dans la mÃªme position. 
+    Permet d'utiliser plusieurs conteneurs et de n'en montrer qu'un seul Ã  la fois.
+    Peut contenir n'importe quel nombre d'Ã©lÃ©ments.
    
-    Clés reconnues dans le code XML:
+    ClÃ©s reconnues dans le code XML:
     ................................
 
     Tous les attributs communs.
@@ -447,110 +440,111 @@
   singlebox
   **************************************************************************************
    
-    Une boîte avec un seul élément.
-    Utilisée uniquement pour ajouter une marge supplémentaire ou 
-    des propriétés d'alignement supplémentaires à un élément.
+    Une boÃ®te avec un seul Ã©lÃ©ment.
+    UtilisÃ©e uniquement pour ajouter une marge supplÃ©mentaire ou 
+    des propriÃ©tÃ©s d'alignement supplÃ©mentaires Ã  un Ã©lÃ©ment.
    
-     Clés reconnues dans le code XML:
+     ClÃ©s reconnues dans le code XML:
     ................................
 
-     Tous les attributs communs ainsi que les clés suivantes:
+     Tous les attributs communs ainsi que les clÃ©s suivantes:
   
-    margin = Marge autour du contenu (par défaut = 10)
-             Peut être un nombre unique (= pour toutes les marges), ou une combinaison de
+    margin = Marge autour du contenu (par dÃ©faut = 10)
+             Peut Ãªtre un nombre unique (= pour toutes les marges), ou une combinaison de
              top:<num>,left:<num>,right:<num>,bottom:<num>,vertical:<num>,horizontal:<num>
              Exemple: "vertical:5,left:10,right:0"
   
-    expand = yes        - Les éléments deviennent plus grands pour remplir tout l'espace (par défaut)
-             no         - Les éléments ne s'étendent pas pour remplir tout l'espace
+    expand = yes        - Les Ã©lÃ©ments deviennent plus grands pour remplir tout l'espace (par dÃ©faut)
+             no         - Les Ã©lÃ©ments ne s'Ã©tendent pas pour remplir tout l'espace
              vertical   - Elargissement verticalement seulement
              horizontal - Elargissement horizontalement seulement
   
-    expandwidth  = Taille maximale d'élargissement des éléments. Si la taille demandée est supérieure à
-    expandheight   ce paramètre alors la taille de la requête est utilisée (le contenu ne peut pas devenir plus petit)
-                   par défaut=0
+    expandwidth  = Taille maximale d'Ã©largissement des Ã©lÃ©ments. Si la taille demandÃ©e est supÃ©rieure Ã 
+    expandheight   ce paramÃ¨tre alors la taille de la requÃªte est utilisÃ©e (le contenu ne peut pas devenir plus petit)
+                   par dÃ©faut=0
   
     align  = C'est une combinaison de top, left, bottom, right et center. (n'est efficace que lorsque expand <> yes)
-             Exemple: "top,center" ou "top,left" (par défaut) 
+             Exemple: "top,center" ou "top,left" (par dÃ©faut) 
              
              
              
-  V. Les éléments Gadget 
+  V. Les Ã©lÃ©ments Gadget 
   ----------------------
 
-  Clés reconnues dans le code XML:
+  ClÃ©s reconnues dans le code XML:
   ................................
 
   Tous les attributs XML communs sont pris en charge.
   
-  De plus, pour lier une procédure d'événement directement dans le fichier XML, 
+  De plus, pour lier une procÃ©dure d'Ã©vÃ©nement directement dans le fichier XML, 
   les attributs suivants sont disponibles pour les gadgets:
   
-    onevent            = EventProcedure() - Liaison d'événements génériques, pour tous les types d'événements.
-    onchange           = EventProcedure() - Liaison de type #PB_EventType_Change           (uniquement pour les gadgets qui supportent ce type d'événement).
-    onfocus            = EventProcedure() - Liaison de type #PB_EventType_Focus            (uniquement pour les gadgets qui supportent ce type d'événement).
-    onlostfocus        = EventProcedure() - Liaison de type #PB_EventType_LostFocus        (uniquement pour les gadgets qui supportent ce type d'événement).
-    ondragstart        = EventProcedure() - Liaison de type #PB_EventType_DragStart        (uniquement pour les gadgets qui supportent ce type d'événement).
-    onrightclick       = EventProcedure() - Liaison de type #PB_EventType_RightClick       (uniquement pour les gadgets qui supportent ce type d'événement).
-    onleftclick        = EventProcedure() - Liaison de type #PB_EventType_LeftClick        (uniquement pour les gadgets qui supportent ce type d'événement).
-    onrightdoubleclick = EventProcedure() - Liaison de type #PB_EventType_RightDoubleClick (uniquement pour les gadgets qui supportent ce type d'événement).
-    onleftdoubleclick  = EventProcedure() - Liaison de type #PB_EventType_LeftDoubleClick  (uniquement pour les gadgets qui supportent ce type d'événement).
+    onevent            = EventProcedure() - Liaison d'Ã©vÃ©nements gÃ©nÃ©riques, pour tous les types d'Ã©vÃ©nements.
+    onchange           = EventProcedure() - Liaison de type #PB_EventType_Change           (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onfocus            = EventProcedure() - Liaison de type #PB_EventType_Focus            (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onlostfocus        = EventProcedure() - Liaison de type #PB_EventType_LostFocus        (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onresize           = EventProcedure() - Liaison de type #PB_EventType_Resize           (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    ondragstart        = EventProcedure() - Liaison de type #PB_EventType_DragStart        (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onrightclick       = EventProcedure() - Liaison de type #PB_EventType_RightClick       (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onleftclick        = EventProcedure() - Liaison de type #PB_EventType_LeftClick        (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onrightdoubleclick = EventProcedure() - Liaison de type #PB_EventType_RightDoubleClick (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
+    onleftdoubleclick  = EventProcedure() - Liaison de type #PB_EventType_LeftDoubleClick  (uniquement pour les gadgets qui supportent ce type d'Ã©vÃ©nement).
     
-  'EventProcedure()' doit être déclarée comme 'Runtime' dans le code principal, et doit respecter le format 
-  de la procedure BindEvent() de la bibliothèque PureBasic 'Window'.
-  En fait c'est BindGadgetEvent() qui est appelée ;)
+  'EventProcedure()' doit Ãªtre dÃ©clarÃ©e comme 'Runtime' dans le code principal, et doit respecter le format 
+  de la procedure BindEvent() de la bibliothÃ¨que PureBasic 'Window'.
+  En fait c'est BindGadgetEvent() qui est appelÃ©e ;)
   
-  Les gadgets supportés sont :
+  Les gadgets supportÃ©s sont :
   <button>
   <buttonimage>
   <calendar>
   <canvas>
   <checkbox>
   <combobox> 
-  <container>    - Conteneur à un seul élément
+  <container>    - Conteneur Ã  un seul Ã©lÃ©ment
   <date>
   <editor>
   <explorercombo>
   <explorerlist> 
   <explorertree> 
-  <frame>        - Conteneur à un seul élément (Avec bordures standards seulement)
+  <frame>        - Conteneur Ã  un seul Ã©lÃ©ment (Avec bordures standards seulement)
   <hyperlink>
   <ipaddress>
   <image>
   <listicon> 
   <listview> 
-  <opengl>       - UseDialogOpenGLGadget() doit être appelé pour activer le support <opengl>.
-  <option group> - Utilise le même numéro de 'group' pour créer des @@OptionGadget liés entre eux.
+  <opengl>       - UseDialogOpenGLGadget() doit Ãªtre appelÃ© pour activer le support <opengl>.
+  <option group> - Utilise le mÃªme numÃ©ro de 'group' pour crÃ©er des @@OptionGadget liÃ©s entre eux.
   <panel>        - Peut contenir <tab> seulement
   <progressbar min max valeur>
-  <scintilla>    - Le callback reste vide. UseDialogScintillaGadget() doit être appelé pour activer la prise en charge de <scintilla>.  
-  <scrollarea scrolling="="vertical, horizontal ou les deux (par défaut)" innerheight="valeur ou auto (par défaut)" innerwidth="valeur ou auto (par défaut)" pas> 
-                 - Conteneur à un seul élément
+  <scintilla>    - Le callback reste vide. UseDialogScintillaGadget() doit Ãªtre appelÃ© pour activer la prise en charge de <scintilla>.  
+  <scrollarea scrolling="="vertical, horizontal ou les deux (par dÃ©faut)" innerheight="valeur ou auto (par dÃ©faut)" innerwidth="valeur ou auto (par dÃ©faut)" pas> 
+                 - Conteneur Ã  un seul Ã©lÃ©ment
   <scrollbar min max page value> 
                  - page = Longueur de la page
   <spin min max value>
   <splitter firstmin="valeur ou auto" secondmin> 
-                 - Doit contenir 2 éléments, (c'est un container a 2 "éléments-enfants"), 
-                   la taille minimum est déterminée par les gadgets contenus par ces 2 éléments. 
-                   Si 'auto' est spécifié, la valeur min sera la taille minimale de l'enfant.
+                 - Doit contenir 2 Ã©lÃ©ments, (c'est un container a 2 "Ã©lÃ©ments-enfants"), 
+                   la taille minimum est dÃ©terminÃ©e par les gadgets contenus par ces 2 Ã©lÃ©ments. 
+                   Si 'auto' est spÃ©cifiÃ©, la valeur min sera la taille minimale de l'enfant.
   <string>
   <text>
   <trackbar min max valeur>
   <tree> 
-  <web>       - UseDialogWebGadget() doit être appelé pour activer la prise en charge <web>.
-  <webview>   - UseDialogWebViewGadget() doit être appelé pour activer la prise en charge de <webview>.
+  <web>       - UseDialogWebGadget() doit Ãªtre appelÃ© pour activer la prise en charge <web>.
+  <webview>   - UseDialogWebViewGadget() doit Ãªtre appelÃ© pour activer la prise en charge de <webview>.
 
-  Éléments liés à Gadget:
-  <tab>          - Onglet, conteneur à un seul élément (l'attribut 'text' est supporté).
+  Ã‰lÃ©ments liÃ©s Ã  Gadget:
+  <tab>          - Onglet, conteneur Ã  un seul Ã©lÃ©ment (l'attribut 'text' est supportÃ©).
   
-  Element Spécial :
-  <empty>        - Un élément vide, utile quand il est nécessaire d'avoir un espace entre l'élément, 
+  Element SpÃ©cial :
+  <empty>        - Un Ã©lÃ©ment vide, utile quand il est nÃ©cessaire d'avoir un espace entre l'Ã©lÃ©ment, 
                    afin de les aligner aux bordures par exemple.
 
 @EndFixedFont  
   
 
-@Example Simple fenêtre redimensionnable
+@Example Simple fenÃªtre redimensionnable
 
 @Code 
   #Dialog = 0
@@ -562,7 +556,7 @@
          "      <vbox expand='item:2'>" +
          "        <hbox>" +
          "          <button text='Bouton 1'/>" +
-         "          <checkbox text='Case à cocher 1'/>" +
+         "          <checkbox text='Case Ã  cocher 1'/>" +
          "          <button text='Bouton 2'/>" +
          "        </hbox>" +
          "        <editor text='Contenu...' height='150'/>" +
@@ -582,7 +576,7 @@
       Until Event = #PB_Event_CloseWindow 
       
     Else  
-      Debug "Erreur de la bibliothèque -Dialog- : " + DialogError(#Dialog)
+      Debug "Erreur de la bibliothÃ¨que -Dialog- : " + DialogError(#Dialog)
     EndIf
   Else
     Debug "Erreur XML : " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
@@ -590,7 +584,7 @@
 @EndCode  
 
 
-@Example Boîte 'Multibox' 
+@Example BoÃ®te 'Multibox' 
 
 @Code
   #Dialog = 0
@@ -625,13 +619,13 @@
     ShowPanels()
   EndProcedure
   
-  XML$ = "<window id='#PB_Any' name='test' text='Préférences' minwidth='auto' minheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+  XML$ = "<window id='#PB_Any' name='test' text='PrÃ©fÃ©rences' minwidth='auto' minheight='auto' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
          "  <hbox expand='item:2'>" +
          "    <listview id='#ListView' width='100' onEvent='OnListViewEvent()'/>" +
          "    <multibox>" +
          "" +
          "      <container id='#GeneralContainer' invisible='yes'>" +
-         "        <frame text='Général'>" +
+         "        <frame text='GÃ©nÃ©ral'>" +
          "          <vbox expand='no'>" +
          "            <checkbox text='Activer la LED rouge'/>" +
          "            <checkbox text='Activer la LED verte'/>" +
@@ -665,7 +659,7 @@
     
     If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
       
-      AddGadgetItem(#ListView, -1, "Général")
+      AddGadgetItem(#ListView, -1, "GÃ©nÃ©ral")
       AddGadgetItem(#ListView, -1, "Editeur")
       AddGadgetItem(#ListView, -1, "Backup")
       
@@ -678,14 +672,14 @@
       Until Event = #PB_Event_CloseWindow 
       
     Else  
-      Debug "Erreur de la bibliothèque -Dialog- : " + DialogError(#Dialog)
+      Debug "Erreur de la bibliothÃ¨que -Dialog- : " + DialogError(#Dialog)
     EndIf
   Else
     Debug "Erreur XML : " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
   EndIf
 @EndCode
 
-@Example Boîte Gridbox
+@Example BoÃ®te Gridbox
 
 @Code
   #Dialog = 0
@@ -717,7 +711,7 @@
       Until Event = #PB_Event_CloseWindow 
       
     Else  
-      Debug "Erreur de la bibliothèque -Dialog- : " + DialogError(#Dialog)
+      Debug "Erreur de la bibliothÃ¨que -Dialog- : " + DialogError(#Dialog)
     EndIf
   Else
     Debug "Erreur XML : " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
@@ -734,18 +728,18 @@
 @Function RefreshDialog(#Dialog)
 
 @Description
-  Met à jour la taille d'un Dialog pour l'ajuster au mieux 
-  après un changement.
+  Met Ã  jour la taille d'un Dialog pour l'ajuster au mieux 
+  aprÃ¨s un changement.
 
 @Parameter "#Dialog"
-  L'interface utilisateur à rafraîchir.
+  L'interface utilisateur Ã  rafraÃ®chir.
 
 @NoReturnValue
 
 @Remarks
   Par exemple, lorsque vous modifiez le texte d'un gadget, 
-  la taille de la boîte de dialogue aura probablement besoin 
-  d'être réajustée.
+  la taille de la boÃ®te de dialogue aura probablement besoin 
+  d'Ãªtre rÃ©ajustÃ©e.
 
 @SeeAlso
   @@CreateDialog
@@ -757,9 +751,9 @@
 @Function UseDialogOpenGLGadget()
 
 @Description
-  Active la prise en charge de @@OpenGLGadget dans la bibliothèque de dialogue. @LineBreak
-  Ceci n'est pas activé par défaut pour réduire la taille de la bibliothèque de dialogue si 
-  @@OpenGLGadget n'est pas nécessaire.
+  Active la prise en charge de @@OpenGLGadget dans la bibliothÃ¨que de dialogue. @LineBreak
+  Ceci n'est pas activÃ© par dÃ©faut pour rÃ©duire la taille de la bibliothÃ¨que de dialogue si 
+  @@OpenGLGadget n'est pas nÃ©cessaire.
 
 @NoReturnValue
 
@@ -773,9 +767,9 @@
 @Function UseDialogScintillaGadget()
 
 @Description
-  Active la prise en charge de @@ScintillaGadget dans la bibliothèque de dialogue. @LineBreak 
-  Ceci n'est pas activé par défaut pour réduire la taille de la bibliothèque de dialogue si 
-  @@ScintillaGadget n'est pas nécessaire.
+  Active la prise en charge de @@ScintillaGadget dans la bibliothÃ¨que de dialogue. @LineBreak 
+  Ceci n'est pas activÃ© par dÃ©faut pour rÃ©duire la taille de la bibliothÃ¨que de dialogue si 
+  @@ScintillaGadget n'est pas nÃ©cessaire.
 
 @NoReturnValue
 
@@ -789,9 +783,9 @@
 @Function UseDialogWebGadget()
 
 @Description
-  Active la prise en charge de @@WebGadget dans la bibliothèque de dialogue. @LineBreak 
-  Ceci n'est pas activé par défaut pour réduire la taille de la bibliothèque de dialogue si 
-  @@WebGadget n'est pas nécessaire.
+  Active la prise en charge de @@WebGadget dans la bibliothÃ¨que de dialogue. @LineBreak 
+  Ceci n'est pas activÃ© par dÃ©faut pour rÃ©duire la taille de la bibliothÃ¨que de dialogue si 
+  @@WebGadget n'est pas nÃ©cessaire.
 
 @NoReturnValue
 
@@ -805,9 +799,9 @@
 @Function UseDialogWebViewGadget()
 
 @Description
-  Active la prise en charge de  @@WebViewGadget dans la bibliothèque de dialogue. @LineBreak 
-  Ceci n'est pas activé par défaut pour réduire la taille de la bibliothèque de dialogue si 
-  @@WebViewGadget n'est pas nécessaire.
+  Active la prise en charge de  @@WebViewGadget dans la bibliothÃ¨que de dialogue. @LineBreak 
+  Ceci n'est pas activÃ© par dÃ©faut pour rÃ©duire la taille de la bibliothÃ¨que de dialogue si 
+  @@WebViewGadget n'est pas nÃ©cessaire.
 
 @NoReturnValue
 

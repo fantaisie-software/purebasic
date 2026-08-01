@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Date library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,16 +8,16 @@
 
 @Overview
 
- La bibliothèque Date permet de gérer le temps et les dates depuis l'année 1601 
- jusqu'à l'année 9999, en utilisant le modèle Unix (nombre de secondes écoulées 
- depuis le 1er janvier 1970). Les dates antérieures à 1970 sont représentées par 
- des valeurs négatives.
+ La bibliothÃ¨que Date permet de gÃ©rer le temps et les dates depuis l'annÃ©e 1601 
+ jusqu'Ã  l'annÃ©e 9999, en utilisant le modÃ¨le Unix (nombre de secondes Ã©coulÃ©es 
+ depuis le 1er janvier 1970). Les dates antÃ©rieures Ã  1970 sont reprÃ©sentÃ©es par 
+ des valeurs nÃ©gatives.
 @LineBreak
 @LineBreak
-  Remarque : Afin d'utiliser toute la plage de dates disponible, les valeurs renvoyées 
-  par cette bibliothèque doivent être stockées dans des variables de type Quad (.q).
-  L'utilisation d'un type de données 32 bits (Long ou Integer sur les systèmes 32 bits) 
-  entraîne des valeurs non valides à partir de l'année 2038.
+  RemarqueÂ : Afin d'utiliser toute la plage de dates disponible, les valeurs renvoyÃ©es 
+  par cette bibliothÃ¨que doivent Ãªtre stockÃ©es dans des variables de type Quad (.q).
+  L'utilisation d'un type de donnÃ©es 32 bits (Long ou Integer sur les systÃ¨mes 32 bits) 
+  entraÃ®ne des valeurs non valides Ã  partir de l'annÃ©e 2038.
 
 @CommandList
 
@@ -30,44 +30,44 @@
 @Function Resultat.q = AddDate(Date.q, Plage, Valeur)
 
 @Description
-  Ajouter une quantité de temps à une date. 
+  Ajouter une quantitÃ© de temps Ã  une date. 
   
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @Parameter "Plage"  
 @FixedFont
-  @#PB_Date_Year   : Ajoute 'Valeur' années à la date
-  @#PB_Date_Month  : Ajoute 'Valeur' mois à la date
-  @#PB_Date_Week   : Ajoute 'Valeur' semaines à la date
-  @#PB_Date_Day    : Ajoute 'Valeur' jours à la date
-  @#PB_Date_Hour   : Ajoute 'Valeur' heures à la date
-  @#PB_Date_Minute : Ajoute 'valeur' minutes à la date
-  @#PB_Date_Second : Ajoute 'valeur' secondes à la date
+  @#PB_Date_Year   : Ajoute 'Valeur' annÃ©es Ã  la date
+  @#PB_Date_Month  : Ajoute 'Valeur' mois Ã  la date
+  @#PB_Date_Week   : Ajoute 'Valeur' semaines Ã  la date
+  @#PB_Date_Day    : Ajoute 'Valeur' jours Ã  la date
+  @#PB_Date_Hour   : Ajoute 'Valeur' heures Ã  la date
+  @#PB_Date_Minute : Ajoute 'valeur' minutes Ã  la date
+  @#PB_Date_Second : Ajoute 'valeur' secondes Ã  la date
 @EndFixedFont
 
 @Indent
   Note: l'utilisation de @#PB_Date_Month peut entrainer un arrondi automatique 
-  du jour si nécessaire: Par exemple, ajouter un mois au '31 mars 2008' 
+  du jour si nÃ©cessaire: Par exemple, ajouter un mois au '31 mars 2008' 
   renverra '30 avril 2008', car il n'y a pas 31 jours en avril.
 @EndIndent
 
 @Parameter "Valeur
-  La quantité à ajouter à la date.
+  La quantitÃ© Ã  ajouter Ã  la date.
   @LineBreak 
-  Une valeur négative est autorisée et permet de soustraire deux dates.
+  Une valeur nÃ©gative est autorisÃ©e et permet de soustraire deux dates.
 
 @ReturnValue
   Renvoie la nouvelle date. 
   @LineBreak
-  Si les paramètres donnés ne sont pas valides ou en dehors de la plage de dates supportée, 
-  -1 sera renvoyé.
+  Si les paramÃ¨tres donnÃ©s ne sont pas valides ou en dehors de la plage de dates supportÃ©e, 
+  -1 sera renvoyÃ©.
   
 @Example
 @Code
 
-  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, 2))  ; Renvoie la date courante augmentée de 2 ans
-  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, -2)) ; Renvoie la date courante diminuée de 2 ans
+  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, 2))  ; Renvoie la date courante augmentÃ©e de 2 ans
+  Debug FormatDate("%dd/%mm/%yyyy", AddDate(Date(), #PB_Date_Year, -2)) ; Renvoie la date courante diminuÃ©e de 2 ans
 
 @EndCode
 
@@ -81,20 +81,20 @@
 @Function Resultat.q = ConvertDate(Date.q, Format)
 
 @Description
-  Convertit une date entre l'heure locale et l'heure UTC (Temps universel coordonné).
+  Convertit une date entre l'heure locale et l'heure UTC (Temps universel coordonnÃ©).
 
 @Parameter "Date.q"
-  La date à convertir.
+  La date Ã  convertir.
 
 @Parameter "Format"
- Le format de date. Il peut s'agir de l'une des constantes suivantes :
+ Le format de date. Il peut s'agir de l'une des constantes suivantesÂ :
 @FixedFont
-  @#PB_Date_LocalTime: Convertit une date UTC en date d’heure locale.
-  @#PB_Date_UTC      : Convertit une date d’heure locale en date UTC.
+  @#PB_Date_LocalTime: Convertit une date UTC en date dâ€™heure locale.
+  @#PB_Date_UTC      : Convertit une date dâ€™heure locale en date UTC.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la date convertie, ou -1 si la conversion a échoué.
+  Renvoie la date convertie, ou -1 si la conversion a Ã©chouÃ©.
 
 @Example
 @Code
@@ -112,26 +112,26 @@
 @Function Resultat.q = Date([Annee, Mois, Jour, Heure, Minute, Seconde])
 
 @Description
-  Renvoie la valeur de date créée à partir des paramètres donnés, ou la date du système local 
-  si aucun paramètre n'est spécifié.
+  Renvoie la valeur de date crÃ©Ã©e Ã  partir des paramÃ¨tres donnÃ©s, ou la date du systÃ¨me local 
+  si aucun paramÃ¨tre n'est spÃ©cifiÃ©.
 
 @OptionalParameter "Annee, Mois, Jour, Heure, Minute, Seconde"
-  Les composants utilisés pour créer la date. 
+  Les composants utilisÃ©s pour crÃ©er la date. 
 @LineBreak
 @LineBreak   
-  Si ces paramètres ne sont pas spécifiés, la date système locale est renvoyée.@LineBreak  
-  La plage autorisée pour la valeur "Annee" est comprise entre 1 601 et 9 999. 
+  Si ces paramÃ¨tres ne sont pas spÃ©cifiÃ©s, la date systÃ¨me locale est renvoyÃ©e.@LineBreak  
+  La plage autorisÃ©e pour la valeur "Annee" est comprise entre 1Â 601 et 9Â 999. 
 
 @ReturnValue  
-  Renvoie la date demandée (nombre de secondes écoulées depuis le 1er janvier 1970, les dates 
-  antérieures à 1970 sont représentées par des valeurs négatives.)
+  Renvoie la date demandÃ©e (nombre de secondes Ã©coulÃ©es depuis le 1er janvier 1970, les dates 
+  antÃ©rieures Ã  1970 sont reprÃ©sentÃ©es par des valeurs nÃ©gatives.)
   @LineBreak
-  Si les paramètres donnés ne sont pas valides ou en dehors de la plage de dates supportée, 
-  -1 sera renvoyé.
+  Si les paramÃ¨tres donnÃ©s ne sont pas valides ou en dehors de la plage de dates supportÃ©e, 
+  -1 sera renvoyÃ©.
   
 @Example
 @Code
-  Debug Date() / (3600*24*365)  ; Affiche le nombre d'années depuis 01/01/1970 et maintenant
+  Debug Date() / (3600*24*365)  ; Affiche le nombre d'annÃ©es depuis 01/01/1970 et maintenant
   Debug Date(1999, 12, 31, 23, 59, 59)  ; Affiche '946684799' (nombre de secondes entre 01/01/1970 0:00:00 et 12/31/1999 23:59:59)
 @EndCode
 
@@ -145,10 +145,10 @@
 @Function Resultat.q = DateUTC()
 
 @Description
-  Renvoie la date du système sous forme d'heure UTC.
+  Renvoie la date du systÃ¨me sous forme d'heure UTC.
 
 @ReturnValue
-  Renvoie la date du système sous forme d'heure UTC.
+  Renvoie la date du systÃ¨me sous forme d'heure UTC.
 
 @Example
 @Code
@@ -168,17 +168,17 @@
   Renvoie le jour. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie le jour de la date spécifiée ou -1 en cas d'erreur.
+  Renvoie le jour de la date spÃ©cifiÃ©e ou -1 en cas d'erreur.
   @LineBreak
-  Le résultat est compris entre 1 et 31.
+  Le rÃ©sultat est compris entre 1 et 31.
   
 
 @Example
 @Code
-  Debug Day(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '3'.
+  Debug Day(Date(2022, 10, 3, 0, 0, 0))  ; Le rÃ©sultat est '3'.
 @EndCode
 
 @SeeAlso 
@@ -196,12 +196,12 @@
   Renvoie le rang du jour de la semaine. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
   Renvoie le rang du jour de la semaine ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 0 et 6. 
+  Le rÃ©sultat est compris entre 0 et 6. 
 @FixedFont
   0 : Dimanche
   1 : Lundi
@@ -229,22 +229,22 @@
 @Function Resultat = DayOfYear(Date.q)
 
 @Description
-  Renvoie le nombre de jours écoulés 
-  depuis le début de l'année. 
+  Renvoie le nombre de jours Ã©coulÃ©s 
+  depuis le dÃ©but de l'annÃ©e. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie le nombre de jours écoulés 
-  depuis le début de l'année d'une date 
-  spécifiée ou -1 en cas d'erreur.
+  Renvoie le nombre de jours Ã©coulÃ©s 
+  depuis le dÃ©but de l'annÃ©e d'une date 
+  spÃ©cifiÃ©e ou -1 en cas d'erreur.
   @LineBreak
-  Le résultat est compris entre 1 et 366.
+  Le rÃ©sultat est compris entre 1 et 366.
   
 @Example
 @Code
-  Debug DayOfYear(Date(2022, 2, 1, 0, 0, 0))  ; Le résultat est '32'. (31 jours pour janvier + 1)
+  Debug DayOfYear(Date(2022, 2, 1, 0, 0, 0))  ; Le rÃ©sultat est '32'. (31 jours pour janvier + 1)
 @EndCode
 
 @SeeAlso
@@ -262,16 +262,16 @@
   Renvoie le mois. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie le mois de la date spécifiée ou -1 en cas d'erreur. 
+  Renvoie le mois de la date spÃ©cifiÃ©e ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 1 et 12.
+  Le rÃ©sultat est compris entre 1 et 12.
 
 @Example
 @Code
-  Debug Month(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '10'.
+  Debug Month(Date(2022, 10, 3, 0, 0, 0))  ; Le rÃ©sultat est '10'.
 @EndCode
 
 @SeeAlso
@@ -286,19 +286,19 @@
 @Function Resultat = Year(Date.q)
 
 @Description
-  Renvoie l'année. 
+  Renvoie l'annÃ©e. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie l'année de la date spécifiée ou -1 en cas d'erreur. 
+  Renvoie l'annÃ©e de la date spÃ©cifiÃ©e ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 1970 et 2034.
+  Le rÃ©sultat est compris entre 1970 et 2034.
 
 @Example
 @Code
-  Debug Year(Date(2022, 10, 3, 0, 0, 0))  ; Le résultat est '2022'.
+  Debug Year(Date(2022, 10, 3, 0, 0, 0))  ; Le rÃ©sultat est '2022'.
 @EndCode
 
 @SeeAlso
@@ -316,16 +316,16 @@
   Renvoie l'heure. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie l'heure de la date spécifiée ou -1 en cas d'erreur. 
+  Renvoie l'heure de la date spÃ©cifiÃ©e ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 0 et 23.
+  Le rÃ©sultat est compris entre 0 et 23.
 
 @Example
 @Code
-  Debug Hour(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '11'.
+  Debug Hour(Date(1970, 1, 1, 11, 3, 45))  ; Le rÃ©sultat est '11'.
 @EndCode
   
 @SupportedOS
@@ -338,16 +338,16 @@
   Renvoie les minutes.
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie les minutes de la date spécifiée ou -1 en cas d'erreur. 
+  Renvoie les minutes de la date spÃ©cifiÃ©e ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 0 et 59.
+  Le rÃ©sultat est compris entre 0 et 59.
 
 @Example
 @Code
-  Debug Minute(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '3'.
+  Debug Minute(Date(1970, 1, 1, 11, 3, 45))  ; Le rÃ©sultat est '3'.
 @EndCode
  
 @SeeAlso
@@ -365,16 +365,16 @@
   Renvoie les secondes. 
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie les secondes de la date spécifiée ou -1 en cas d'erreur. 
+  Renvoie les secondes de la date spÃ©cifiÃ©e ou -1 en cas d'erreur. 
   @LineBreak
-  Le résultat est compris entre 0 et 59.
+  Le rÃ©sultat est compris entre 0 et 59.
 
 @Example
 @Code
-  Debug Second(Date(1970, 1, 1, 11, 3, 45))  ; Le résultat est '45'.
+  Debug Second(Date(1970, 1, 1, 11, 3, 45))  ; Le rÃ©sultat est '45'.
 @EndCode
 
 @SeeAlso
@@ -389,27 +389,27 @@
 @Function Resultat$ = FormatDate(Masque$, Date.q)
 
 @Description
-  Renvoie une date formatée par l'utilisateur.
+  Renvoie une date formatÃ©e par l'utilisateur.
 
 @Parameter "Masque$"
-  Une chaîne de caractères  indiquant 
+  Une chaÃ®ne de caractÃ¨res  indiquant 
   comment formater et afficher la date.
 @FixedFont
-  %yyyy: L'année sera affichée avec 4 chiffres.
-    %yy: L'année sera affichée avec 2 chiffres.
-    %mm: Le mois sera affiché avec 2 chiffres.
-    %dd: Le jour sera affiché avec 2 chiffres.
-    %hh: L'heure sera affichée avec 2 chiffres.
-    %ii: Les minutes seront affichées avec 2 chiffres.
-    %ss: Les secondes seront affichées avec 2 chiffres.
+  %yyyy: L'annÃ©e sera affichÃ©e avec 4 chiffres.
+    %yy: L'annÃ©e sera affichÃ©e avec 2 chiffres.
+    %mm: Le mois sera affichÃ© avec 2 chiffres.
+    %dd: Le jour sera affichÃ© avec 2 chiffres.
+    %hh: L'heure sera affichÃ©e avec 2 chiffres.
+    %ii: Les minutes seront affichÃ©es avec 2 chiffres.
+    %ss: Les secondes seront affichÃ©es avec 2 chiffres.
 @EndFixedFont
 
 @Parameter "Date.q"  
-  La date à utiliser.
+  La date Ã  utiliser.
   
 @ReturnValue
-  Renvoie la date sous forme de chaîne   de caractères correspondant au masque 
-  spécifié si la date est valide, une chaîne vide sinon. 
+  Renvoie la date sous forme de chaÃ®ne   de caractÃ¨res correspondant au masque 
+  spÃ©cifiÃ© si la date est valide, une chaÃ®ne vide sinon. 
 
 @Example
 @Code
@@ -422,9 +422,9 @@
   Debug FormatDate("%hh:%ii:%ss", Date())  ; affiche le temps selon un format 00:00:00
 @EndCode
 
-  Note: Le temps et les dates supportées 
+  Note: Le temps et les dates supportÃ©es 
   vont de '1970-01-01, 00:00:00' pour le 
-  minimum à '2038-01-19, 03:14:07' pour 
+  minimum Ã  '2038-01-19, 03:14:07' pour 
   le maximum.
 
 @SeeAlso
@@ -437,44 +437,44 @@
 @Function Resultat.q = ParseDate(Masque$, Date$)
 
 @Description
-  Transforme une date donnée sous la 
-  forme d'une chaîne de caractères en 
-  valeur numérique. 
+  Transforme une date donnÃ©e sous la 
+  forme d'une chaÃ®ne de caractÃ¨res en 
+  valeur numÃ©rique. 
   
 @Parameter "Masque$"
-  Une chaîne de caractères indiquant 
+  Une chaÃ®ne de caractÃ¨res indiquant 
   comment formater la date. 
 @FixedFont
-  %yyyy: L'année sera affichée avec 4 chiffres.
-    %yy: L'année sera affichée avec 2 chiffres.
-    %mm: Le mois sera affiché avec 2 chiffres.
-    %dd: Le jour sera affiché avec 2 chiffres.
-    %hh: L'heure sera affichée avec 2 chiffres.
-    %ii: Les minutes seront affichées avec 2 chiffres.
-    %ss: Les secondes seront affichées avec 2 chiffres.
+  %yyyy: L'annÃ©e sera affichÃ©e avec 4 chiffres.
+    %yy: L'annÃ©e sera affichÃ©e avec 2 chiffres.
+    %mm: Le mois sera affichÃ© avec 2 chiffres.
+    %dd: Le jour sera affichÃ© avec 2 chiffres.
+    %hh: L'heure sera affichÃ©e avec 2 chiffres.
+    %ii: Les minutes seront affichÃ©es avec 2 chiffres.
+    %ss: Les secondes seront affichÃ©es avec 2 chiffres.
 @EndFixedFont
   
 @Parameter "Date$" 
-  La date à tester. 
+  La date Ã  tester. 
   
 @ReturnValue  
-  Renvoie la date représentant la chaîne 
-  à analyser.
+  Renvoie la date reprÃ©sentant la chaÃ®ne 
+  Ã  analyser.
 @LineBreak
 @LineBreak   
   Si la date est incorrecte, la valeur 
-  renvoyée est -1. 
+  renvoyÃ©e est -1. 
 @LineBreak
 @LineBreak   
-  Cette fonction est particulièrement 
+  Cette fonction est particuliÃ¨rement 
   utile pour retrouver et traiter des 
-  dates stockées, dans un fichier de 
-  type journal d'évènements par exemple.
+  dates stockÃ©es, dans un fichier de 
+  type journal d'Ã©vÃ¨nements par exemple.
  
 @Example
 @Code
-  Debug ParseDate("%yy/%mm/%dd", "20/12/01") ; Renvoie la date numérique correspondant à "01/12/20"
-  Debug ParseDate("%dd/%mm/%yyyy", "01/07/2020") ; Renvoie la date numérique correspondant à "01/07/2020"
+  Debug ParseDate("%yy/%mm/%dd", "20/12/01") ; Renvoie la date numÃ©rique correspondant Ã  "01/12/20"
+  Debug ParseDate("%dd/%mm/%yyyy", "01/07/2020") ; Renvoie la date numÃ©rique correspondant Ã  "01/07/2020"
 
 @EndCode
 

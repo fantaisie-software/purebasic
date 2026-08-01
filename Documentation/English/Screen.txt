@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Screen library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Screen
@@ -264,7 +264,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @EndFixedFont
   Waiting for the screen synchronization allows the flip to be perfect (no 'tearing'
   or other visible artifacts) because the flip is performed when the screen has been fully drawn (and when the
-  screen spot is outside of visible screen area). This also link the flip frequence to the actual screen refresh, ie: for 60Hz screen it
+  screen spot is outside of visible screen area). This also link the flip frequency to the actual screen refresh, ie: for 60Hz screen it
   could have at most 60 flip per seconds, etc.
 
 @OptionalParameter "RefreshRate"
@@ -327,7 +327,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @EndFixedFont
   Waiting for the screen synchronization allows the flip to be perfect (no 'tearing'
   or other visible artifacts) because the flip is performed when the screen has been fully drawn (and when the
-  screen spot is outside of visible screen area). This also link the flip frequence to the actual screen refresh, ie: for 60Hz screen it
+  screen spot is outside of visible screen area). This also link the flip frequency to the actual screen refresh, ie: for 60Hz screen it
   could have at most 60 flip per seconds, etc.
 @Linebreak  
 @Linebreak
@@ -458,7 +458,8 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Remarks
   On Linux and OS X, ScreenOutput() copies the whole screen buffer back to main memory to do 2D drawing operations 
   (OpenGL doesn't allow direct buffer access). Therefore drawing on a screen is very slow and should be avoided.
-  ScreenOutput() has to be called in the same thread where @@OpenScreen was called.
+  ScreenOutput() has to be called in the same thread where @@OpenScreen was called.@Linebreak
+  The use of @@InitEngine3D is forbidden, @@ScreenOutput returns 0.
 
 @Example
 @Code
@@ -493,7 +494,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 @Description
   This function should be called after @@ExamineScreenModes. It will go step-by-step into
-  the screen modes list. The current screen mode information can be retieved with the following
+  the screen modes list. The current screen mode information can be retrieved with the following
   functions: @@ScreenModeWidth, @@ScreenModeHeight, @@ScreenModeDepth and @@ScreenModeRefreshRate.
 
 @NoParameters

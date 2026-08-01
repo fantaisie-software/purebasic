@@ -1,24 +1,24 @@
-;
+ï»¿;
 ;     Map library documentation
 ;
-;      (c) 2024 Fantaisie Software
+;      (c) 2025 Fantaisie Software
 ;
 
 @Library Map
 
 @Overview
   Maps (auch bekannt als Hashtable oder Dictionary; in Deutsch auch "Liste, Tabelle, Verzeichnis" genannt)
-  sind Strukturen für das Speichern von Daten, welche entsprechend Ihren Bedürfnissen dynamisch zugewiesen
-  werden. Es handelt sich dabei um eine Sammlung von Elementen (die Daten, die Sie speichern möchten) und
-  jedes Element ist vollkommen unabhängig von den anderen. Sie können soviele Elemente hinzufügen, wie Sie
-  möchten (oder soviele, wie in den Speicher Ihres Computers passen), und greifen mittels einem Key
-  (Schlüssel) wieder darauf zu. Diese Art der Datenspeicherung ist sehr nützlich, wenn Sie schnellen 
-  Zugriff auf ein beliebiges Element benötigen. Die Einfüge-Reihenfolge der Elemente wird beim Verwenden
-  einer Map nicht gespeichert (anders als bei einer @LibraryLink "list" "verknüpften Liste") und daher kann
+  sind Strukturen fÃ¼r das Speichern von Daten, welche entsprechend Ihren BedÃ¼rfnissen dynamisch zugewiesen
+  werden. Es handelt sich dabei um eine Sammlung von Elementen (die Daten, die Sie speichern mÃ¶chten) und
+  jedes Element ist vollkommen unabhÃ¤ngig von den anderen. Sie kÃ¶nnen soviele Elemente hinzufÃ¼gen, wie Sie
+  mÃ¶chten (oder soviele, wie in den Speicher Ihres Computers passen), und greifen mittels einem Key
+  (SchlÃ¼ssel) wieder darauf zu. Diese Art der Datenspeicherung ist sehr nÃ¼tzlich, wenn Sie schnellen 
+  Zugriff auf ein beliebiges Element benÃ¶tigen. Die EinfÃ¼ge-Reihenfolge der Elemente wird beim Verwenden
+  einer Map nicht gespeichert (anders als bei einer @LibraryLink "list" "verknÃ¼pften Liste") und daher kann
   sie auch nicht sortiert werden.
 @LineBreak
 @LineBreak
-  Bevor Sie mit Maps arbeiten können, müssen Sie diese zuerst deklarieren. Dies kann mit dem Schlüsselwort
+  Bevor Sie mit Maps arbeiten kÃ¶nnen, mÃ¼ssen Sie diese zuerst deklarieren. Dies kann mit dem SchlÃ¼sselwort
   @ReferenceLink "newmap" "NewMap" erfolgen. @ReferenceLink "structures" "Strukturen" werden auch oft
   verwendet, um mehrere Daten in einem einzelnen Element zu speichern.
 @LineBreak
@@ -28,18 +28,17 @@
   @ReferenceLink "repeat_until" "Repeat : Until" bzw. @ReferenceLink "while_wend" "While : Wend".
 @LineBreak
 @LineBreak
-  Andere Möglichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
-  und @LibraryLink "list" "verknüpften Listen".
+  Andere MÃ¶glichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
+  und @LibraryLink "list" "verknÃ¼pften Listen".
 @LineBreak
 @LineBreak
   Bei Verwendung von @LibraryLink "thread" "Threads" kann nicht in verschiedenen Threads gleichzeitig auf
-  dieselbe Map zugegriffen oder diese geändert werden. Mutexe können verwendet werden, um sicherzustellen,
+  dieselbe Map zugegriffen oder diese geÃ¤ndert werden. Mutexe kÃ¶nnen verwendet werden, um sicherzustellen,
   dass die Map nur von einem Thread verwendet wird.
 
 @CommandList
 
-; TODO: example does not exist so far
-; @ExampleFile All Map.pb
+@ExampleFile All Map.pb
 
 @SupportedOS
 
@@ -48,39 +47,39 @@
 @Function Ergebnis = AddMapElement(Map(), Key$ [, Flags])
 
 @Description
-  Fügt zur Map ein neues leeres Element mittels des angegebenen Schlüssels 'Key$' hinzu. Dieses
+  FÃ¼gt zur Map ein neues leeres Element mittels des angegebenen SchlÃ¼ssels 'Key$' hinzu. Dieses
   neue Element wird das aktuelle Element der Map.
 
 @Parameter "Map()"
-  Die Map, zu welcher das Element hinzugefügt werden soll.
+  Die Map, zu welcher das Element hinzugefÃ¼gt werden soll.
 
 @Parameter "Key$"
-  Der Schlüssel (Key) für das neue Element.
+  Der SchlÃ¼ssel (Key) fÃ¼r das neue Element.
 
 @OptionalParameter "Flags"
   Kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Map_ElementCheck  : Überprüft, ob ein Element mit dem gleichen Key bereits existiert, und ersetzt dieses (Standard).
-  @#PB_Map_NoElementCheck: Keine Element-Überprüfung - wenn also ein vorheriges Element mit dem gleichen Key bereits
+  @#PB_Map_ElementCheck  : ÃœberprÃ¼ft, ob ein Element mit dem gleichen Key bereits existiert, und ersetzt dieses (Standard).
+  @#PB_Map_NoElementCheck: Keine Element-ÃœberprÃ¼fung - wenn also ein vorheriges Element mit dem gleichen Key bereits
                           existierte, wird dieses nicht ersetzt, sondern verbleibt in der Map, jedoch nicht mehr mit direktem Zugriff
-                          erreichbar. Es bleibt solange unerreichbar, bis das neu hinzugefügte Element gelöscht wurde. Solche nicht
+                          erreichbar. Es bleibt solange unerreichbar, bis das neu hinzugefÃ¼gte Element gelÃ¶scht wurde. Solche nicht
                           erreichbaren Elemente werden aber immer noch aufgelistet, wenn alle Map-Elemente mittels 
                           @ReferenceLink "foreach_next" "ForEach" bzw. @@NextMapElement durchgegangen werden.
-                          Dieser Modus ist schneller, aber auch fehleranfälliger, verwenden Sie ihn daher mit Bedacht.
+                          Dieser Modus ist schneller, aber auch fehleranfÃ¤lliger, verwenden Sie ihn daher mit Bedacht.
 @EndFixedFont
 
 @ReturnValue
-  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
-  Der zurückgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die neuen Element-Daten.
+  Gibt bei Erfolg einen Wert ungleich Null zurÃ¼ck, und Null bei einem Fehler.
+  Der zurÃ¼ckgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die neuen Element-Daten.
 
 @Remarks
-  Diese Funktion ist nicht zwingend beim Umgang mit Maps, da Elemente automatisch hinzugefügt werden, wenn ihnen ein Wert zugewiesen wird.
+  Diese Funktion ist nicht zwingend beim Umgang mit Maps, da Elemente automatisch hinzugefÃ¼gt werden, wenn ihnen ein Wert zugewiesen wird.
 
 @Example
 @Code
   NewMap Country.s()
   
-  ; Regulärer Weg zum Hinzufügen eines Elements
+  ; RegulÃ¤rer Weg zum HinzufÃ¼gen eines Elements
   Country("US") = "United States"
   
   ; Das gleiche mittels AddMapElement()
@@ -102,18 +101,18 @@
 @Function ClearMap(Map()) 
 
 @Description
-  Löscht alle Elemente in der angegebenen Map und gibt ihren Speicher frei. Nach diesem
-  Aufruf ist die Map immer noch benutzbar, aber sie ist leer (d.h. sie enthält keine Elemente).
+  LÃ¶scht alle Elemente in der angegebenen Map und gibt ihren Speicher frei. Nach diesem
+  Aufruf ist die Map immer noch benutzbar, aber sie ist leer (d.h. sie enthÃ¤lt keine Elemente).
 
 @Parameter "Map()"
-  Die zu löschende Map.
+  Die zu lÃ¶schende Map.
 
 @NoReturnValue
 
 @Remarks
-  PureBasic gibt lediglich den Speicher der Elemente frei. Wenn Sie die Map z.B. dafür
+  PureBasic gibt lediglich den Speicher der Elemente frei. Wenn Sie die Map z.B. dafÃ¼r
   benutzt haben, die "Handles" von Objekten - die Sie direkt mit dem OS erstellt haben - zu speichern,
-  dann gibt es keine Möglichkeit, dass PureBasic (oder auch jede andere Programmiersprache) wissen
+  dann gibt es keine MÃ¶glichkeit, dass PureBasic (oder auch jede andere Programmiersprache) wissen
   kann, was diese darstellen. In einem solchen Fall, sollten Sie die Elemente der Map durchgehen und
   die Objekte selbst freigeben.
 
@@ -124,10 +123,10 @@
   Country("FR") = "France"
   Country("US") = "United States"
 
-  ; Sichergehen, dass die Elemente zur Map hinzugefügt wurden
+  ; Sichergehen, dass die Elemente zur Map hinzugefÃ¼gt wurden
   MessageRequester("Information", "Es sind " + Str(MapSize(Country())) + " Elemente in der Map")
  
-  ; Löschen der Map-Inhalte und anzeigen, dass die Map wirklich leer ist
+  ; LÃ¶schen der Map-Inhalte und anzeigen, dass die Map wirklich leer ist
   ClearMap(Country())
   MessageRequester("Information", "Es sind " + Str(MapSize(Country())) + " Elemente in der Map")
 @EndCode
@@ -146,7 +145,7 @@
   @ReferenceLink "Structures" "strukturierter" Maps mit dynamischen Elementen (wie eingebetteter
   Arrays, Listen oder Maps).
   @LineBreak
-  Die beiden Maps gelten als gleich, wenn sie den gleichen Typ und die gleiche Größe haben und
+  Die beiden Maps gelten als gleich, wenn sie den gleichen Typ und die gleiche GrÃ¶ÃŸe haben und
   wenn jedes Elemente-Paar gleich ist.
 
 @Parameter "Map1(), Map2()"
@@ -155,20 +154,20 @@
 @OptionalParameter "Flags"
   Kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
-  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung nicht beachtet (a=A).
   @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
                              Zeigers rekursiv verglichen.
-                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
-                             Siehe die Anmerkungen unten für weitere Details.
+                             StandardmÃ¤ÃŸig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten fÃ¼r weitere Details.
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn beide Maps gleich sind, oder Null, wenn sie sich unterscheiden.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn beide Maps gleich sind, oder Null, wenn sie sich unterscheiden.
 
 @Remarks
-  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
-  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  Die Option @#PB_Memory_FollowPointers ist fÃ¼r fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um AbstÃ¼rze zu vermeiden. Wenn diese Option verwendet wird, mÃ¼ssen alle Zeigerwerte auf einen gÃ¼ltigen und
   initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
   Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
 
@@ -203,11 +202,11 @@
 
 @Parameter "ZielMap()"
   Die Map, in welche die Elemente kopiert werden. Die sich vor dem Kopieren in dieser Map
-  befindlichen Elemente werden gelöscht. Nach einem erfolgreichen Kopiervorgang
+  befindlichen Elemente werden gelÃ¶scht. Nach einem erfolgreichen Kopiervorgang
   sind die beiden Maps identisch.
 
 @ReturnValue
-  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
+  Gibt bei Erfolg einen Wert ungleich Null zurÃ¼ck, und Null bei einem Fehler.
   Wenn die beiden Maps nicht den gleichen Typ (nativ oder strukturiert) haben,
   dann wird das Kopieren fehlschlagen.
 
@@ -253,18 +252,18 @@
 @Function Ergebnis = MapSize(Map()) 
 
 @Description
-  Gibt die Anzahl der Elemente in der angegebenen Map zurück. Dies verändert 
+  Gibt die Anzahl der Elemente in der angegebenen Map zurÃ¼ck. Dies verÃ¤ndert 
   nicht das aktuelle Element.
 
 @Parameter "Map()"
   Die zu verwendende Map.
 
 @ReturnValue
-  Gibt die Anzahl der Elemente in der Map zurück.
-  Wenn die Map nicht initialisiert ist, wird -1 zurückgegeben (zum Beispiel nach @@FreeMap).
+  Gibt die Anzahl der Elemente in der Map zurÃ¼ck.
+  Wenn die Map nicht initialisiert ist, wird -1 zurÃ¼ckgegeben (zum Beispiel nach @@FreeMap).
 
 @Remarks
-  Diese Funktion ist sehr schnell (sie durchläuft nicht
+  Diese Funktion ist sehr schnell (sie durchlÃ¤uft nicht
   die ganze Map, sondern verwendet ein zwischengespeichertes Ergebnis) und kann problemlos
   verwendet werden, um zu ermitteln, ob eine Map leer ist oder nicht.
 
@@ -276,7 +275,7 @@
   Country("US") = "United States"
   
   ; Wird '2' ausgeben
-  Debug "Größe der Map: " + Str(MapSize(Country()))
+  Debug "GrÃ¶ÃŸe der Map: " + Str(MapSize(Country()))
 @EndCode
 
 @SupportedOS
@@ -286,31 +285,31 @@
 @Function Ergebnis = DeleteMapElement(Map() [, Key$])  
 
 @Description
-  Entfernt das aktuelle Element oder das Element mit dem angegebenen Schlüssel (Key$)
+  Entfernt das aktuelle Element oder das Element mit dem angegebenen SchlÃ¼ssel (Key$)
   aus der angegebenen Map.
 
 @Parameter "Map()"
   Die zu verwendende Map.
 
 @OptionalParameter "Key$"
-  Der Schlüssel (Key$) für den zu entfernenden Eintrag. Wird dieser nicht angegeben,
-  dann wird das aktuelle Element der Map gelöscht.
+  Der SchlÃ¼ssel (Key$) fÃ¼r den zu entfernenden Eintrag. Wird dieser nicht angegeben,
+  dann wird das aktuelle Element der Map gelÃ¶scht.
 
 @ReturnValue
-  Gibt die Speicheradresse des neuen aktuellen Elements in der Map zurück.
-  Falls die Map nach der Löschung kein aktuelles Element hat, ist das Ergebnis gleich 0.
+  Gibt die Speicheradresse des neuen aktuellen Elements in der Map zurÃ¼ck.
+  Falls die Map nach der LÃ¶schung kein aktuelles Element hat, ist das Ergebnis gleich 0.
 
 @Remarks
   Nach diesem Aufruf wird vorherige
-  Element (dasjenige vor dem gelöschten Element) zum neuen aktuellen Element. Dabei handelt
+  Element (dasjenige vor dem gelÃ¶schten Element) zum neuen aktuellen Element. Dabei handelt
   es sich um ein beliebiges Element, da eine Map nicht sortiert ist. Wenn dieses Element nicht
-  existiert (mit anderen Worten, Sie haben das erste Element in der Map gelöscht), dann gibt
+  existiert (mit anderen Worten, Sie haben das erste Element in der Map gelÃ¶scht), dann gibt
   es kein aktuelles Element mehr; Sie befinden sich vor dem ersten Element, wie nach einem
   @@ResetMap. Wenn sich nur ein Element in der Map befunden hat, wenn Sie dieses
-  gelöscht haben, dann bleiben Sie ohne ein aktuelles Element zurück!
+  gelÃ¶scht haben, dann bleiben Sie ohne ein aktuelles Element zurÃ¼ck!
 @linebreak
 @linebreak
-  Wenn der optionale Parameter 'Key$' (Schlüssel) angegeben wird, dann gibt es nach
+  Wenn der optionale Parameter 'Key$' (SchlÃ¼ssel) angegeben wird, dann gibt es nach
   diesem Aufruf kein aktuelles Element mehr. Verwenden Sie diesen Parameter daher nicht, wenn
   der Befehl innerhalb einer @ReferenceLink "foreach_next" "ForEach : Next" Schleife verwendet wird!
   
@@ -322,7 +321,7 @@
   Country("FR") = "France"
   Country("GE") = "Germany"
 
-  ; Löschen eines Landes
+  ; LÃ¶schen eines Landes
   DeleteMapElement(Country(), "FR")
   
   ForEach Country()
@@ -340,17 +339,17 @@
 @Function Ergebnis = FindMapElement(Map(), Key$)
   
 @Description
-  Ändert das aktuelle Map-Element auf das dem angegebenen Schlüssel 'Key$' zugewiesene Element.
+  Ã„ndert das aktuelle Map-Element auf das dem angegebenen SchlÃ¼ssel 'Key$' zugewiesene Element.
 
 @Parameter "Map()"
   Die zu verwendende Map.
 
 @Parameter "Key$"
-  Der zu findende Schlüssel.
+  Der zu findende SchlÃ¼ssel.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Schlüssel gefunden wurde, andernfalls Null.
-  Der zurückgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Element-Daten.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der SchlÃ¼ssel gefunden wurde, andernfalls Null.
+  Der zurÃ¼ckgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Element-Daten.
 
 @Example
 @Code
@@ -361,15 +360,15 @@
   Country("GE") = "Germany"
 
   If FindMapElement(Country(), "US")
-    Debug "'US' ist in der Länder-Liste."    
+    Debug "'US' ist in der LÃ¤nder-Liste."    
   Else
-    Debug "'US' ist NICHT in der Länder-Liste!"    
+    Debug "'US' ist NICHT in der LÃ¤nder-Liste!"    
   EndIf
   
   If FindMapElement(Country(), "UK")
-    Debug "'UK' ist in der Länder-Liste."
+    Debug "'UK' ist in der LÃ¤nder-Liste."
   Else
-    Debug "'UK' ist NICHT in der Länder-Liste!"
+    Debug "'UK' ist NICHT in der LÃ¤nder-Liste!"
   EndIf
 @EndCode
 
@@ -383,14 +382,14 @@
 @Function Key$ = MapKey(Map())
   
 @Description
-  Gibt den Schlüssel des aktuellen Map-Elements zurück.
+  Gibt den SchlÃ¼ssel des aktuellen Map-Elements zurÃ¼ck.
 
 @Parameter "Map()"
   Die zu verwendende Map.
 
 @ReturnValue
-  Gibt den Schlüssel 'Key$' des aktuellen Map-Elements zurück. Gibt es kein aktuelles Element,
-  dann wird ein leerer String zurückgegeben.
+  Gibt den SchlÃ¼ssel 'Key$' des aktuellen Map-Elements zurÃ¼ck. Gibt es kein aktuelles Element,
+  dann wird ein leerer String zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -415,15 +414,15 @@
 @Function Ergebnis = NextMapElement(Map())  
 
 @Description
-  Springt vom aktuellen Element zum nächsten Element der angegebenen Map, oder zum
+  Springt vom aktuellen Element zum nÃ¤chsten Element der angegebenen Map, oder zum
   ersten Element, wenn zuvor @@ResetMap aufgerufen wurde.
 
 @Parameter "Map()"
   Die zu verwendende Map.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das nächste Element gesetzt wurde, und Null wenn es kein nächstes Element gibt.
-  Der zurückgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die neuen Element-Daten.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das nÃ¤chste Element gesetzt wurde, und Null wenn es kein nÃ¤chstes Element gibt.
+  Der zurÃ¼ckgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die neuen Element-Daten.
 
 @Example
 @Code
@@ -449,9 +448,9 @@
 @Function ResetMap(Map()) 
 
 @Description
-  Setzt die Position des aktuellen Elements der angegebenen Map vor das erste Element zurück. Dies bedeutet,
+  Setzt die Position des aktuellen Elements der angegebenen Map vor das erste Element zurÃ¼ck. Dies bedeutet,
   dass es dann kein aktuelles Element gibt. 
-  Dennoch ist dies sehr nützlich, um alle Elemente mittels @@NextMapElement abzuarbeiten.
+  Dennoch ist dies sehr nÃ¼tzlich, um alle Elemente mittels @@NextMapElement abzuarbeiten.
 
 @Parameter "Map()"
   Die zu verwendende Map.
@@ -482,10 +481,10 @@
 @Function PushMapPosition(Map())
 
 @Description
-  Merkt sich das aktuelle Element (sofern eines vorhanden) der Map, wodurch es später
+  Merkt sich das aktuelle Element (sofern eines vorhanden) der Map, wodurch es spÃ¤ter
   mittels @@PopMapPosition wieder hergestellt werden kann.
   Die Position wird in einer "Stack-Struktur" gespeichert, dadurch sind mehrere Aufrufe
-  dieser Funktion möglich.
+  dieser Funktion mÃ¶glich.
 
 @Parameter "Map()"
   Die zu verwendende Map.
@@ -496,13 +495,13 @@
   Diese Funktion kann verwendet werden, um sich das aktuelle Element zu merken. Damit kann mit Hilfe
   von @@NextMapElement oder @ReferenceLink "foreach_next" "ForEach" ein Map-Durchlauf gemacht werden,
   und das aktuelle Element kann nach dem Durchlauf mittels @@PopMapPosition wieder hergestellt werden.
-  Mehrere Aufrufe dieser Funktion können erfolgen, solange jeder davon später mit einem
+  Mehrere Aufrufe dieser Funktion kÃ¶nnen erfolgen, solange jeder davon spÃ¤ter mit einem
   korrespondierenden @@PopMapPosition Aufruf ausgeglichen wird.
 @LineBreak
 @LineBreak
   Hinweis: Es ist nicht erlaubt, mit Hilfe der @@DeleteMapElement oder @@ClearMap Funktionen ein gemerktes
-  aktuelles Element zu löschen. Dies kann in einen Absturz resultieren, wenn @@PopMapPosition aufgerufen
-  wird, da der Elemente-Speicher nicht länger gültig ist.
+  aktuelles Element zu lÃ¶schen. Dies kann in einen Absturz resultieren, wenn @@PopMapPosition aufgerufen
+  wird, da der Elemente-Speicher nicht lÃ¤nger gÃ¼ltig ist.
 
 @Example
 @Code
@@ -514,7 +513,7 @@
   Numbers("E") = 2
   Numbers("F") = 5
   
-  ; Eine einfache doppelte Löschung mit Hilfe eines verschachtelten Durchlaufs
+  ; Eine einfache doppelte LÃ¶schung mit Hilfe eines verschachtelten Durchlaufs
   ;
   ForEach Numbers()
     Value = Numbers()
@@ -552,12 +551,12 @@
 @NoReturnValue
 
 @Remarks
-  Der Status der Map wird der gleiche sein, wie beim zugehörigen Aufruf von @@PushMapPosition. 
+  Der Status der Map wird der gleiche sein, wie beim zugehÃ¶rigen Aufruf von @@PushMapPosition. 
   Wenn es kein aktuelles Element gab, als @@PushMapPosition aufgerufen wurde, dann wird es auch
   nach diesem Aufruf kein aktuelles Element geben.
 @LineBreak
 @LineBreak
-  Siehe die @@PushMapPosition Funktion für ein Beispiel.
+  Siehe die @@PushMapPosition Funktion fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@PushMapPosition, @@FindMapElement, @@NextMapElement, @@ResetMap,

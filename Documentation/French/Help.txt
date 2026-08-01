@@ -1,4 +1,4 @@
-;
+﻿;
 ; Help library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,34 +8,31 @@
 
 @Overview
 
-  L'aide (help) est un composant cl� d'un 
-  logiciel. Cela permet � l'utilisateur 
-  d'en d�couvrir facilement et efficacement 
-  les fonctions. PureBasic permet d'afficher 
-  des fichiers d'aide normalis�s traitant 
-  un niveau global et un niveau contextuel.
-  
-@OS Windows
+  L'aide (help) est un composant clé d'un logiciel. Cela permet à l'utilisateur d'en découvrir facilement et efficacement 
+  les fonctions. PureBasic permet d'afficher des fichiers d'aide normalisés traitant un niveau global et un niveau contextuel. 
 @LineBreak
 @LineBreak
-  Sous Microsoft Windows, deux types de 
-  formats sont support�s: .hlp 
-  (ancien format) et .chm (nouveau format 
-  compatible HTML).
-@EndOS
+  Sous Microsoft Windows, deux types de formats sont supportés: .hlp (ancien format) et .chm (nouveau format basé sur le HTML).
+@LineBreak
+@LineBreak
+   Sous Linux, l'outil 'yelp' est utilisé, voir @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp sur Wikipedia en anglais".
+@LineBreak
+@LineBreak
+   Sous macOS, l'outil natif de visualisation de l'aide est utilisé, voir @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Visionneuse d'aide".
+    
+
 @CommandList
 
 @ExampleFile All Help.pb
 
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
 @Function CloseHelp()
 
 @Description
-  Ferme la fen�tre d'aide pr�alablement 
-  ouverte avec @@OpenHelp.
+  Ferme la fenêtre d'aide préalablement ouverte avec @@OpenHelp.
   
 @NoParameters
 
@@ -76,25 +73,28 @@
 @SeeAlso
   @@OpenHelp
   
-@SupportedOS Windows, OSX
+@SupportedOS All
 
 ;--------------------------------------------------------------------------------------------------------
 
 @Function OpenHelp(NomFichier$, Theme$)
 
 @Description
-  Ouvre et affiche une fen�tre d'aide. 
+  Ouvre et affiche une fenêtre d'aide. 
 
 @Parameter "NomFichier$" 
-  Le nom du fichier d'aide .chm ou .hlp 
-  � utiliser.
+  Sous Windows, le nom du fichier d'aide .chm ou .hlp à utiliser.@LineBreak
+  Sous Linux, le nom d'un fichier d'aide pouvant être ouvert avec l'outil 'yelp' est indiqué par : @InternetLink "https://en.wikipedia.org/wiki/Yelp_(software)" "Yelp sur Wikipédia". @LineBreak
+  Sous macOS, le nom d'un fichier d'aide pouvant être ouvert avec l'outil de visualisation d'aide intégré à macOS est indiqué par : @InternetLink "https://developer.apple.com/library/archive/documentation/Carbon/Conceptual/ProvidingUserAssitAppleHelp/authoring_help/authoring_help_book.html#//apple_ref/doc/uid/TP30000903-CH206-CIHEAADH" "Visionneuse d'aide".
 
 @Parameter "Theme$"
-  Le nom de la page � afficher.@LineBreak
-  Tr�s utile pour l'aide en ligne / 
-  contextuelle).
+  Le nom de la page à afficher.@LineBreak
+  Très utile pour l'aide en ligne/contextuelle.
 
 @NoReturnValue
+
+@Remarks
+  Remarque : Cette commande n'est pas prise en charge par le sous-système QT.
 
 @Example
 @Code
@@ -126,5 +126,5 @@ EndIf
 @SeeAlso
   @@CloseHelp
   
-@SupportedOS Windows, OSX
+@SupportedOS All
 

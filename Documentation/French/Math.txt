@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Math library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,13 +8,13 @@
 
 @Overview
 
-  La bibliothèque Math propose des fonctions 
-  mathématiques telles que Cos(), Sin(), Pow(), 
+  La bibliothÃ¨que Math propose des fonctions 
+  mathÃ©matiques telles que Cos(), Sin(), Pow(), 
   Log() etc.
   La plupart des commandes fonctionnent avec 
   des nombres flottants (.f) ou des doubles (.d).
-  @Bold"Si une commande est utilisée avec une valeur de type double (.d) en entrée ou en "
-  @Bold"sortie, alors la version double précision de la commande sera automatiquement utilisée."
+  @Bold"Si une commande est utilisÃ©e avec une valeur de type double (.d) en entrÃ©e ou en "
+  @Bold"sortie, alors la version double prÃ©cision de la commande sera automatiquement utilisÃ©e."
 
 @CommandList
 
@@ -27,11 +27,11 @@
 @Function Resultat.f(d) = Abs(Nombre.f(d))
 
 @Description
-  Renvoie la valeur absolue (non signée) 
+  Renvoie la valeur absolue (non signÃ©e) 
   d'un nombre flottant. 
   
 @Parameter "Nombre.f ou Nombre.d"  
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
@@ -39,7 +39,7 @@
   @Bold "toujours positive".@LineBreak
   
 @Remarks
-  Cette fonction ne peut être utilisée correctement 
+  Cette fonction ne peut Ãªtre utilisÃ©e correctement 
   qu'avec des nombres flottants jamais avec des 
   nombres entiers. 
 
@@ -67,21 +67,21 @@
   Renvoie l'arc cosinus d'un nombre. 
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
-  Le nombre doit être compris entre -1.0 et 1.0 inclus.
+  Le nombre doit Ãªtre compris entre -1.0 et 1.0 inclus.
   
 @ReturnValue
   Renvoie l'angle en radian.
 
 @Remarks
-   La valeur renvoyée peut être transformée en degré
+   La valeur renvoyÃ©e peut Ãªtre transformÃ©e en degrÃ©
    en utilisant la fonction @@Degree.
 @LineBreak
 @LineBreak   
-  C'est la fonction réciproque de @@Cos.
+  C'est la fonction rÃ©ciproque de @@Cos.
  
 @Example
 @Code
@@ -102,17 +102,17 @@
   Renvoie l'arc cosinus hyperbolique d'un nombre. 
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
-  Le nombre doit être supérieur ou égal à 1.
+  Le nombre doit Ãªtre supÃ©rieur ou Ã©gal Ã  1.
   
 @ReturnValue
   Renvoie l'angle hyperbolique.
 
 @Remarks
-  C'est la fonction réciproque de @@CosH.
+  C'est la fonction rÃ©ciproque de @@CosH.
  
 @Example
 @Code
@@ -133,21 +133,21 @@
   Renvoie l'arc sinus d'un nombre. 
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
-  La valeur du nombre doit être comprise entre -1.0 et 1.0.
+  La valeur du nombre doit Ãªtre comprise entre -1.0 et 1.0.
   
 @ReturnValue
   Renvoie l'angle en radian.
 
 @Remarks
-   La valeur renvoyée peut être transformée en degré
+   La valeur renvoyÃ©e peut Ãªtre transformÃ©e en degrÃ©
    en utilisant la fonction @@Degree.
 @LineBreak
 @LineBreak   
-  C'est la fonction réciproque de @@Sin.
+  C'est la fonction rÃ©ciproque de @@Sin.
   
 @Example
 @Code
@@ -169,17 +169,17 @@
 
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
-  L'intervalle de valeur n'est pas limité.  
+  L'intervalle de valeur n'est pas limitÃ©.  
   
 @ReturnValue
   Renvoie l'angle hyperbolique.
 
 @Remarks
-  C'est la fonction réciproque de @@SinH.
+  C'est la fonction rÃ©ciproque de @@SinH.
   
 @Example
 @Code
@@ -199,7 +199,7 @@
 @Description
   Renvoie l'arc tangente d'un nombre. 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
@@ -209,11 +209,11 @@
   Renvoie l'angle en radian.
 
 @Remarks
-   La valeur renvoyée peut être transformée en degré
+   La valeur renvoyÃ©e peut Ãªtre transformÃ©e en degrÃ©
    en utilisant la fonction @@Degree.
 @LineBreak
 @LineBreak   
-  C'est la fonction réciproque de @@Tan.
+  C'est la fonction rÃ©ciproque de @@Tan.
   
 @Example
 @Code
@@ -230,51 +230,51 @@
 @Function Resultat.f(d) = ATan2(X.f(d), Y.f(d))
 
 @Description
-  Renvoie l'angle formé par la droite qui passe par (X;Y) 
+  Renvoie l'angle formÃ© par la droite qui passe par (X;Y) 
   et par l'origine (0;0) d'une part et par l'axe des 
   abscisses (axe des X) d'autre part. 
 
 @Parameter "X.f ou X.d, Y.f ou Y.d"
-  Nombres à virgule flottante 
+  Nombres Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
  
 @ReturnValue
   Renvoie l'angle en radian.
 @LineBreak
 @LineBreak   
-  Le résultat est toujours compris entre 
+  Le rÃ©sultat est toujours compris entre 
   @ConstantColor "- #PI" et @ConstantColor "+ #PI".
 @LineBreak
 @LineBreak   
-  @Bold "ATTENTION:" Si X et Y sont égaux à zéro alors la commande renvoie zéro au lieu de 
-  lever une erreur de type 'division par zéro'.
+  @Bold "ATTENTION:" Si X et Y sont Ã©gaux Ã  zÃ©ro alors la commande renvoie zÃ©ro au lieu de 
+  lever une erreur de type 'division par zÃ©ro'.
   
 @Remarks
-   La valeur renvoyée peut être transformée en degré
+   La valeur renvoyÃ©e peut Ãªtre transformÃ©e en degrÃ©
    en utilisant la fonction @@Degree.
 @LineBreak
 @LineBreak   
-  C'est la fonction réciproque de @@TAN
+  C'est la fonction rÃ©ciproque de @@TAN
 @LineBreak
 @LineBreak 
-  L'intérêt de cette fonction et qu'elle prend en compte 
-  le signe des deux coordonnées x, y et place l'angle 
+  L'intÃ©rÃªt de cette fonction et qu'elle prend en compte 
+  le signe des deux coordonnÃ©es x, y et place l'angle 
   dans le bon quadrant. Ainsi, atan2(1, 1) = PI/4
-  et atan2(-1, -1) = -3 x PI/4 contrairement à @@ATan qui 
+  et atan2(-1, -1) = -3 x PI/4 contrairement Ã  @@ATan qui 
   renverrait PI/4 dans les deux cas.
 @LineBreak
 @LineBreak
   C'est utile pour calculer des angles entre des lignes 
-  en 2D, ou pour transformer des coordonnées 
-  rectangulaires en coordonnées polaires.
+  en 2D, ou pour transformer des coordonnÃ©es 
+  rectangulaires en coordonnÃ©es polaires.
 
 @Example
 @Code
-  Debug ATan2(0, 0)    ; Affiche 0.0 au lieu de lever une alerte division par zéro.
-  Debug ATan2(1, 1)    ; Affiche #PI/4   (45 degrés)
-  Debug ATan2(-1, 1)   ; Affiche 3#PI/4  (135 degrés)
-  Debug ATan2(-1, -1)  ; Affiche -3#PI/4 (5#PI/4, 225 degrés) 
-  Debug ATan2(1, -1)   ; Affiche -#PI/4  (7#PI/4 315 degrés)
+  Debug ATan2(0, 0)    ; Affiche 0.0 au lieu de lever une alerte division par zÃ©ro.
+  Debug ATan2(1, 1)    ; Affiche #PI/4   (45 degrÃ©s)
+  Debug ATan2(-1, 1)   ; Affiche 3#PI/4  (135 degrÃ©s)
+  Debug ATan2(-1, -1)  ; Affiche -3#PI/4 (5#PI/4, 225 degrÃ©s) 
+  Debug ATan2(1, -1)   ; Affiche -#PI/4  (7#PI/4 315 degrÃ©s)
   Debug ATan2(1, 0)    ; Affiche 0.0
 @EndCode
 
@@ -291,17 +291,17 @@
   Renvoie l'arc tangente hyperbolique d'un nombre.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
-  Doit être compris entre -1.0 et 1.0, en excluant -1.0 et 1.0.
+  Doit Ãªtre compris entre -1.0 et 1.0, en excluant -1.0 et 1.0.
   
 @ReturnValue
   Renvoie l'angle hyperbolique.
 
 @Remarks
-  C'est la fonction réciproque de @@TanH.
+  C'est la fonction rÃ©ciproque de @@TanH.
 @Example
 @Code
   Debug Exp(ATanH(0.2 * Sqr(5))) ; Affiche '1.618033...' (le nombre d'or)
@@ -330,11 +330,11 @@
   Toujours entre -1.0 and 1.0.
 
 @Remarks
-   Un angle en degré doit être converti en 
+   Un angle en degrÃ© doit Ãªtre converti en 
    radian avec la fonction @@Radian.
 @LineBreak
 @LineBreak 
-  C'est la fonction réciproque de @@ACos.
+  C'est la fonction rÃ©ciproque de @@ACos.
  
 @Example
 @Code
@@ -359,15 +359,15 @@
   
 @ReturnValue
   Renvoie le cosinus hyperbolique de l'angle
-  spécifié en radian.@LineBreak
+  spÃ©cifiÃ© en radian.@LineBreak
   C'est un nombre 'float' ou 'double' (voir 
   @ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak  
-  Toujours supérieur ou égal à 1.0.
+  Toujours supÃ©rieur ou Ã©gal Ã  1.0.
   
 @Remarks
-  C'est la fonction réciproque de @@ACosH.
+  C'est la fonction rÃ©ciproque de @@ACosH.
   
 @Example
 @Code
@@ -384,14 +384,14 @@
 @Function Resultat.f(d) = Degree(Angle.f(d))
 
 @Description
-  Convertit un angle en radian, en degré.
+  Convertit un angle en radian, en degrÃ©.
 
 @Parameter "Angle.f ou Angle.d"
   L'angle en radians. 
   (@ReferenceLink "variables" "float ou double")
   
 @ReturnValue
-  Renvoie l'angle en degré. 
+  Renvoie l'angle en degrÃ©. 
 @LineBreak
 @LineBreak  
   C'est un nombre 'float' ou 'double' (voir 
@@ -399,14 +399,14 @@
 
 @Remarks
   Il n'y a aucune normalisation pour s'assurer 
-  que l'angle renvoyé est compris entre 0 et 360.
-  Si l'entrée est supérieure à 2 x PI alors le 
-  résultat sera plus grand que 360.
-  De même, une entrée négative se traduira par 
-  une sortie négative.
+  que l'angle renvoyÃ© est compris entre 0 et 360.
+  Si l'entrÃ©e est supÃ©rieure Ã  2 x PI alors le 
+  rÃ©sultat sera plus grand que 360.
+  De mÃªme, une entrÃ©e nÃ©gative se traduira par 
+  une sortie nÃ©gative.
 @LineBreak
 @LineBreak
-  C'est la fonction réciproque de @@Radian.
+  C'est la fonction rÃ©ciproque de @@Radian.
 
 @Example
 @Code
@@ -430,14 +430,14 @@
   (Voir @ReferenceLink "variables" "float ou double")
  
 @ReturnValue
- Renvoie la valeur de 'e' élevée à la puissance 'Nombre'.
+ Renvoie la valeur de 'e' Ã©levÃ©e Ã  la puissance 'Nombre'.
 @LineBreak
 @LineBreak  
   C'est un nombre 'float' ou 'double' (voir 
   @ReferenceLink "variables" "float ou double")
   
 @Remarks
-  C'est la fonction réciproque de @@Log.
+  C'est la fonction rÃ©ciproque de @@Log.
 
 @SeeAlso
   @@Log, @@Pow
@@ -449,33 +449,33 @@
 @Function Resultat.f(d) = Infinity()
 
 @Description
-  Renvoie la valeur flottante spéciale 
-  représentant l'infini.
+  Renvoie la valeur flottante spÃ©ciale 
+  reprÃ©sentant l'infini.
   
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur représentant l'infini 
+  Renvoie la valeur reprÃ©sentant l'infini 
   positif. 
 @LineBreak
 @LineBreak  
   C'est un nombre 'float' ou 'double' (voir 
   @ReferenceLink "variables" "float ou double")
-  suivant la variable utilisée.
+  suivant la variable utilisÃ©e.
   
 @Remarks
-  L'infini négatif peut être calculé en utilisant 
+  L'infini nÃ©gatif peut Ãªtre calculÃ© en utilisant 
   "-Infinity()".@LineBreak
-  Infinity et l'infini négatif sont des valeurs 
-  particulières. Elles se comportent dans les 
-  calculs de la façon souhaitée, par exemple 
+  Infinity et l'infini nÃ©gatif sont des valeurs 
+  particuliÃ¨res. Elles se comportent dans les 
+  calculs de la faÃ§on souhaitÃ©e, par exemple 
   diviser par un nombre infini positif (sauf 0 
-  ou infini) entraînera l'infini à nouveau.
+  ou infini) entraÃ®nera l'infini Ã  nouveau.
 @LineBreak  
 @LineBreak 
-  La fonction @@IsInfinity peut être utilisée 
-  pour vérifier si une valeur représente l'infini 
-  positif ou négatif.
+  La fonction @@IsInfinity peut Ãªtre utilisÃ©e 
+  pour vÃ©rifier si une valeur reprÃ©sente l'infini 
+  positif ou nÃ©gatif.
 
 @Example
 @Code
@@ -492,14 +492,14 @@
 @Function Resultat = Int(Nombre.f(d))
 
 @Description
-  Renvoie la partie entière d'un nombre flottant.
+  Renvoie la partie entiÃ¨re d'un nombre flottant.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
-  Renvoie la partie entière sans arrondi (par troncature à l'unité). 
+  Renvoie la partie entiÃ¨re sans arrondi (par troncature Ã  l'unitÃ©). 
 
 @Remarks
   Cette fonction renvoie un @ReferenceLink "variables" "integer".@LineBreak 
@@ -528,20 +528,20 @@
 @Function Resultat.q = IntQ(Nombre.f(d))
 
 @Description
-  Renvoie la partie entière d'un nombre flottant, au format quad.
+  Renvoie la partie entiÃ¨re d'un nombre flottant, au format quad.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
-  Renvoie la partie entière sans arrondi (par troncature à l'unité). 
+  Renvoie la partie entiÃ¨re sans arrondi (par troncature Ã  l'unitÃ©). 
 
 @Remarks
   Cette fonction renvoie un @ReferenceLink "variables" "quad". 
   Pour obtenir un integer, utiliser la fonction 
   @@Int qui de plus, sera beaucoup plus rapide 
-  sur un système 32 bits.
+  sur un systÃ¨me 32 bits.
 @LineBreak
 @LineBreak
   Pour obtenir un arrondi, utiliser @@Round.
@@ -562,30 +562,30 @@
 
 @Description
   Renvoie une valeur non nulle si 'Valeur' 
-  représente un infini.
+  reprÃ©sente un infini.
   
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante suspecté d'être 
+  Le nombre Ã  virgule flottante suspectÃ© d'Ãªtre 
   un infini.  
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
   Renvoie une valeur non nulle si la valeur 
-  représente l'infini positif ou négatif.
+  reprÃ©sente l'infini positif ou nÃ©gatif.
 
 @Remarks
-  Comparer les valeurs infinies n'est pas conseillé, 
-  car cela dépend de l'implémentation matérielle, 
-  si l'infini est égal à lui-même ou non. Les 
-  valeurs de l'infini négatif et positif peuvent 
-  être générées par la fonction @@Infinity.
+  Comparer les valeurs infinies n'est pas conseillÃ©, 
+  car cela dÃ©pend de l'implÃ©mentation matÃ©rielle, 
+  si l'infini est Ã©gal Ã  lui-mÃªme ou non. Les 
+  valeurs de l'infini nÃ©gatif et positif peuvent 
+  Ãªtre gÃ©nÃ©rÃ©es par la fonction @@Infinity.
 
 @Example
 @Code
   Debug IsInfinity(Infinity())  ; infini
   Debug IsInfinity(Log(0))      ; -infini
   Debug IsInfinity(1234.5)      ; nombre fini
-  Debug IsInfinity(NaN())       ; NaN (Attention, 'Not a Number' n'est pas la même chose qu'un infini)
+  Debug IsInfinity(NaN())       ; NaN (Attention, 'Not a Number' n'est pas la mÃªme chose qu'un infini)
 @EndCode
 
 @SeeAlso
@@ -605,7 +605,7 @@
 @LineBreak
  
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
@@ -615,23 +615,23 @@
   pas un nombre (Not a Number).
   
 @Remarks
-  Cette valeur est le résultat d'un calcul 
-  incorrect. Il peut aussi être généré à 
+  Cette valeur est le rÃ©sultat d'un calcul 
+  incorrect. Il peut aussi Ãªtre gÃ©nÃ©rÃ© Ã  
   l'aide de la fonction @@NaN.
 @LineBreak  
 @LineBreak 
-   NaN est une valeur spéciale. Tester sa valeur 
-   ne doit pas être fait avec une comparaison 
+   NaN est une valeur spÃ©ciale. Tester sa valeur 
+   ne doit pas Ãªtre fait avec une comparaison 
    normale, car il y a de nombreuses valeurs 
-   pour NaN. Le fait que NaN soit considéré égal 
-   à lui-même dépend de l'implémentation matérielle.
+   pour NaN. Le fait que NaN soit considÃ©rÃ© Ã©gal 
+   Ã  lui-mÃªme dÃ©pend de l'implÃ©mentation matÃ©rielle.
 
 @Example
 @Code
-  Debug IsNAN(NaN())       ; NaN
-  Debug IsNAN(Sqr(-1))     ; NaN
-  Debug IsNAN(1234.5)      ; un nombre
-  Debug IsNAN(Infinity())  ; Attention, l'infini n'est pas NaN 
+  Debug IsNaN(NaN())       ; NaN
+  Debug IsNaN(Sqr(-1))     ; NaN
+  Debug IsNaN(1234.5)      ; Un nombre
+  Debug IsNaN(Infinity())  ; Attention, l'infini n'est pas NaN 
 @EndCode
 
 @SeeAlso
@@ -644,37 +644,37 @@
 @Function Resultat.f(d) = Pow(Nombre.f(d), Puissance.f(d))
 
 @Description
-  Renvoie un nombre élevé à une puissance.
+  Renvoie un nombre Ã©levÃ© Ã  une puissance.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
   La mantisse.
 
 @Parameter "Puissance.f ou Puissance.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 @LineBreak
 @LineBreak
   L'exposant. 
 @LineBreak
 @LineBreak  
-  Si 'Nombre' est négatif alors l'exposant doit 
-  être un nombre entier.
+  Si 'Nombre' est nÃ©gatif alors l'exposant doit 
+  Ãªtre un nombre entier.
 
 @ReturnValue
-  Renvoie le 'Nombre' élevé à la puissance 
+  Renvoie le 'Nombre' Ã©levÃ© Ã  la puissance 
   'Puissance'. 
 
 @Remarks
-  Attention, le symbole '^' n'est pas un opérateur 
+  Attention, le symbole '^' n'est pas un opÃ©rateur 
   de puissance et ne peut donc pas remplacer la 
   fonction Pow().
 @LineBreak
 @LineBreak
-  Pour information, la racine n-ième de x s'extrait comme cela: Pow(x, 1/n)
+  Pour information, la racine n-iÃ¨me de x s'extrait comme cela: Pow(x, 1/n)
 
 @Example
 @Code
@@ -692,18 +692,18 @@
 @Function Resultat.f(d) = Log(Nombre.f(d))
 
 @Description
-  Renvoie le logarithme népérien d'un nombre.
+  Renvoie le logarithme nÃ©pÃ©rien d'un nombre.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
   Renvoie le logarithme base 'e' (naturel).@LineBreak
-  Souvent écrit sous la forme ln(x).
+  Souvent Ã©crit sous la forme ln(x).
 
 @Remarks
-  C'est la fonction réciproque de @@Exp.
+  C'est la fonction rÃ©ciproque de @@Exp.
 
 @Example
 @Code
@@ -728,7 +728,7 @@
   Renvoie le logarithme base 10 d'un nombre.
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
@@ -742,7 +742,7 @@
   Debug Log10(-0)   ; Affiche '-Infinity'
   Debug Log10(-10)  ; Affiche 'NaN'
   
-  ;Astuce: Log10 permet de connaître le 'nombre de 0' d'une valeur.
+  ;Astuce: Log10 permet de connaÃ®tre le 'nombre de 0' d'une valeur.
   Debug Log10(1000)   ; Affiche '3.0' 
   Debug Log10(0.001)  ; Affiche '-3.0' 
 @EndCode  
@@ -760,11 +760,11 @@
   Renvoie le reste d'une division.
  
 @Parameter "Dividende.f ou Dividende.d"
-  Le nombre à virgule flottante à diviser, le dividende
+  Le nombre Ã  virgule flottante Ã  diviser, le dividende
   (@ReferenceLink "variables" "float ou double")
 
 @Parameter "Diviseur.f ou Diviseur.d"
-  Le nombre diviseur à virgule flottante
+  Le nombre diviseur Ã  virgule flottante
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
@@ -773,7 +773,7 @@
   
 @Remarks  
   Ceci est la version en virgule flottante de 
-  l'opérateur Modulo '%' pour les entiers.
+  l'opÃ©rateur Modulo '%' pour les entiers.
  
 @Example
 @Code
@@ -791,8 +791,8 @@
 @Function Resultat.f(d) = NaN()
 
 @Description
-  Renvoie la valeur flottante spéciale 
-  représentant 'Pas un Nombre' ('Not a 
+  Renvoie la valeur flottante spÃ©ciale 
+  reprÃ©sentant 'Pas un Nombre' ('Not a 
   Number'). 
 
 @NoParameters
@@ -801,15 +801,15 @@
   Renvoie NaN. 
  
 @Remarks
-  Cette valeur est renvoyée lors d'un calcul 
+  Cette valeur est renvoyÃ©e lors d'un calcul 
   invalide, comme le calcul de la 
-  @Link "Sqr" "racine carrée" d'un nombre négatif.
+  @Link "Sqr" "racine carrÃ©e" d'un nombre nÃ©gatif.
 @LineBreak
 @LineBreak
-  NaN est une valeur spéciale. L'utilisation de NaN 
+  NaN est une valeur spÃ©ciale. L'utilisation de NaN 
   dans un calcul renverra de nouveau la valeur NaN.
-  La fonction @@IsNaN peut être utilisée pour 
-  vérifier si une variable a pour valeur NaN.
+  La fonction @@IsNaN peut Ãªtre utilisÃ©e pour 
+  vÃ©rifier si une variable a pour valeur NaN.
   
 @Example
 @Code
@@ -826,11 +826,11 @@
 @Function Resultat.f(d) = Radian(Angle.f(d))
 
 @Description
-  Convertit la valeur d'un angle en degré, en radian.
+  Convertit la valeur d'un angle en degrÃ©, en radian.
 
 
 @Parameter "Angle.f ou Angle.d"
-  L'angle en degrés. 
+  L'angle en degrÃ©s. 
   (@ReferenceLink "variables" "float ou double")
   
 @ReturnValue
@@ -839,12 +839,12 @@
 @Remarks
   Il n'y a aucune normalisation pour s'assurer que l'angle est compris entre 0 et 2xPI
   @LineBreak
-  Si l'entrée est supérieure à 360 alors le résultat sera supérieur à 2xPI.
+  Si l'entrÃ©e est supÃ©rieure Ã  360 alors le rÃ©sultat sera supÃ©rieur Ã  2xPI.
   @LineBreak
-  De même, une entrée négative se traduira par une sortie négative.
+  De mÃªme, une entrÃ©e nÃ©gative se traduira par une sortie nÃ©gative.
 @LineBreak
 @LineBreak
-  L'opération réciproque est disponible à l'aide de la commande @@Degree.
+  L'opÃ©ration rÃ©ciproque est disponible Ã  l'aide de la commande @@Degree.
   
 @Example
 @Code
@@ -861,64 +861,64 @@
 @Function Resultat = Random(Maximum [, Minimum])
 
 @Description
-  Renvoie un nombre aléatoire. 
+  Renvoie un nombre alÃ©atoire. 
   
 @Parameter "Maximum"  
   La valeur maximale.
 @LineBreak  
 @LineBreak  
-  Doit être une valeur positive ou nulle et ne 
-  peut excéder le maximum positif de 
+  Doit Ãªtre une valeur positive ou nulle et ne 
+  peut excÃ©der le maximum positif de 
   @ReferenceLink "variables" "integer".
   
 @OptionalParameter "Minimum"  
    La valeur minimale. 
 @LineBreak  
 @LineBreak    
-  Doit être une valeur positive ou nulle et ne 
-  peut excéder le maximum positif de 
+  Doit Ãªtre une valeur positive ou nulle et ne 
+  peut excÃ©der le maximum positif de 
   @ReferenceLink "variables" "integer".@LineBreak 
-  Si elle est spécifiée, le résultat se situe entre 
+  Si elle est spÃ©cifiÃ©e, le rÃ©sultat se situe entre 
   la valeur minimale et la valeur maximale 
   (les deux valeurs incluses).
   
 @ReturnValue  
-  Renvoie une valeur entre zéro ou une valeur 
+  Renvoie une valeur entre zÃ©ro ou une valeur 
   minimale et une valeur maximale (toutes deux 
   incluses).
   
 @Remarks  
-  @@RandomSeed peut être utilisé pour régénérer la 
-  table des nombres aléatoires. Cela peut être 
+  @@RandomSeed peut Ãªtre utilisÃ© pour rÃ©gÃ©nÃ©rer la 
+  table des nombres alÃ©atoires. Cela peut Ãªtre 
   utile quand un programmeur veut toujours avoir 
-  la même table de nombres aléatoires dans le même 
+  la mÃªme table de nombres alÃ©atoires dans le mÃªme 
   ordre. @LineBreak
-  @@RandomData peut être utilisé pour remplir une 
-  mémoire tampon avec des nombres aléatoires.@LineBreak
-  @@RandomizeArray ou @@RandomizeList peut être 
-  utilisé pour rendre aléatoire les éléments d'un 
+  @@RandomData peut Ãªtre utilisÃ© pour remplir une 
+  mÃ©moire tampon avec des nombres alÃ©atoires.@LineBreak
+  @@RandomizeArray ou @@RandomizeList peut Ãªtre 
+  utilisÃ© pour rendre alÃ©atoire les Ã©lÃ©ments d'un 
   tableau ou d'une liste.
 @LineBreak  
 @LineBreak
-  @Bold "Note:" Cette commande utilise un générateur 
-  de nombre aléatoire conçu pour être très rapide,
-  au détriment de la robustesse. Il convient 
-  parfaitement pour une utilisation générale, mais
-  si les nombres générés sont utilisés à des fins 
-  de chiffrement, il est fortement conseillé
+  @Bold "Note:" Cette commande utilise un gÃ©nÃ©rateur 
+  de nombre alÃ©atoire conÃ§u pour Ãªtre trÃ¨s rapide,
+  au dÃ©triment de la robustesse. Il convient 
+  parfaitement pour une utilisation gÃ©nÃ©rale, mais
+  si les nombres gÃ©nÃ©rÃ©s sont utilisÃ©s Ã  des fins 
+  de chiffrement, il est fortement conseillÃ©
   d'utiliser @@CryptRandom.
 
 @Example
 @Code
   Repeat
     DeAJouer = Random(6,1)  ; Renvoie une valeur entre 1 et 6, incluant 1 et 6
-    Choix = MessageRequester("Lancer le dé", "Vous avez eu un " + DeAJouer + ", Relancer le dé ?", #PB_MessageRequester_YesNo)
+    Choix = MessageRequester("Lancer le dÃ©", "Vous avez eu un " + DeAJouer + ", Relancer le dÃ© ?", #PB_MessageRequester_YesNo)
   Until Choix = #PB_MessageRequester_No
 @EndCode
 
 @Example
 @Code
-  ; La valeur minimum doit être positive mais cette astuce permet d'utiliser un minimum négatif
+  ; La valeur minimum doit Ãªtre positive mais cette astuce permet d'utiliser un minimum nÃ©gatif
   Procedure Random2(Min, Max)
       ProcedureReturn Random(Max - Min) + Min
   EndProcedure
@@ -939,34 +939,34 @@
 @Function RandomData(*Memoire, Longueur)
 
 @Description
-  Remplit une mémoire avec des données aléatoires. 
+  Remplit une mÃ©moire avec des donnÃ©es alÃ©atoires. 
   
 @Parameter "*Memoire"
-  L'adresse de la mémoire tampon à remplir.
+  L'adresse de la mÃ©moire tampon Ã  remplir.
 
 @Parameter "Longueur"
-  La taille de la mémoire tampon à remplir.
+  La taille de la mÃ©moire tampon Ã  remplir.
 
 @NoReturnValue
 
 @Remarks  
-  Cette commande utilise la même racine
+  Cette commande utilise la mÃªme racine
   que la commande @@Random. @LineBreak
-  @@RandomSeed peut être utilisé pour régénérer 
-  la table des nombres aléatoires.
+  @@RandomSeed peut Ãªtre utilisÃ© pour rÃ©gÃ©nÃ©rer 
+  la table des nombres alÃ©atoires.
 @LineBreak
 @LineBreak
-  @Bold "Note:" Cette commande utilise un générateur 
-  de nombre aléatoire conçu pour être très rapide,
-  au détriment de la robustesse. Il convient 
-  parfaitement pour une utilisation générale, mais
-  si les nombres générés sont utilisés à des fins 
-  de chiffrement, il est fortement conseillé
+  @Bold "Note:" Cette commande utilise un gÃ©nÃ©rateur 
+  de nombre alÃ©atoire conÃ§u pour Ãªtre trÃ¨s rapide,
+  au dÃ©triment de la robustesse. Il convient 
+  parfaitement pour une utilisation gÃ©nÃ©rale, mais
+  si les nombres gÃ©nÃ©rÃ©s sont utilisÃ©s Ã  des fins 
+  de chiffrement, il est fortement conseillÃ©
   d'utiliser @@CryptRandomData.
 
 @Example
 @Code
-  ; Crée une image avec un contenu aléatoire
+  ; CrÃ©e une image avec un contenu alÃ©atoire
   ;
   CreateImage(0, 200, 200)
   If StartDrawing(ImageOutput(0))
@@ -978,7 +978,7 @@
     StopDrawing()
   EndIf
   
-  OpenWindow(0, 0, 0, 200, 200, "Image aléatoire ", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  OpenWindow(0, 0, 0, 200, 200, "Image alÃ©atoire ", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
   ImageGadget(0, 0, 0, 200, 200, ImageID(0))
   
   Repeat
@@ -995,23 +995,23 @@
 @Function RandomSeed(Valeur)
 
 @Description
-  Change la table des nombres aléatoires 
-  renvoyée par @@Random ou @@RandomData. 
+  Change la table des nombres alÃ©atoires 
+  renvoyÃ©e par @@Random ou @@RandomData. 
   
 @Parameter "Valeur"
-  La nouvelle table pour le générateur de 
-  nombres aléatoires.
+  La nouvelle table pour le gÃ©nÃ©rateur de 
+  nombres alÃ©atoires.
 
 @NoReturnValue
 
 @Remarks 
   A chaque fois qu'un programme PureBasic se lance, 
-  sa table est régénérée, ce qui assure d'avoir 
-  des nombres aléatoires totalement différents à 
-  chaque exécution. Ainsi @@randomSeed n'est utile 
-  que lorsque l'objectif est de générer des nombres  
-  aléatoires dans le même ordre à chaque fois que 
-  le programme est exécuté.
+  sa table est rÃ©gÃ©nÃ©rÃ©e, ce qui assure d'avoir 
+  des nombres alÃ©atoires totalement diffÃ©rents Ã  
+  chaque exÃ©cution. Ainsi @@randomSeed n'est utile 
+  que lorsque l'objectif est de gÃ©nÃ©rer des nombres  
+  alÃ©atoires dans le mÃªme ordre Ã  chaque fois que 
+  le programme est exÃ©cutÃ©.
 
 @Example
 @Code
@@ -1035,26 +1035,27 @@
   Arrondit un nombre flottant selon le mode choisi. 
  
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
   
 @Parameter "Mode"
  Peut prendre l'une des valeurs suivantes :
 @FixedFont
-  @#PB_Round_Down   : Le nombre est arrondi par défaut. 
-  @#PB_Round_Up     : Le nombre est arrondi par excès.
-  @#PB_Round_Nearest: Le nombre est arrondi à l'entier le plus proche (0.5 est arrondi à 1)
+  @#PB_Round_Down   : Le nombre est arrondi par dÃ©faut. 
+  @#PB_Round_Up     : Le nombre est arrondi par excÃ¨s.
+  @#PB_Round_Nearest: Le nombre est arrondi Ã  l'entier le plus proche (0.5 est arrondi Ã  1)
 @EndFixedFont
 
 @ReturnValue  
   Le nombre arrondi.@LineBreak
-  C'est un nombre à virgule flottante 
-  (@ReferenceLink "variables" "float ou double") 
+  C'est un nombre Ã  virgule flottante (@ReferenceLink "variables" "float ou double") 
 
 @Remarks
-  Pour transformer un nombre à virgule flottante 
-  en un entier sans arrondi, utiliser @@Int ou 
-  @@IntQ.
+  Pour transformer un nombre Ã  virgule flottante en un entier sans arrondi, utiliser @@Int ou @@IntQ.
+  @LineBreak
+  @LineBreak
+  Pour afficher un nombre dÃ©cimal arrondi, vous pouvez utiliser @@FormatNumber.@LineBreak
+  Ex : Debug FormatNumber(1/3); Affiche 0.33 (Attention, c'est une chaÃ®ne de caractÃ¨res.)
   
 @Example
 @Code
@@ -1071,7 +1072,7 @@
 @EndCode
 
 @SeeAlso
-  @@Int, @@IntQ
+  @@Int, @@IntQ, @@FormatNumber
   
 @SupportedOS
 
@@ -1083,15 +1084,15 @@
   Renvoie le signe d'un nombre sous la forme d'un nombre entier (Integer).
 
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
-  Renvoie une valeur Integer représentant le signe du 'Nombre' spécifié : 
+  Renvoie une valeur Integer reprÃ©sentant le signe du 'Nombre' spÃ©cifiÃ© : 
 @FixedFont
  - Renvoie  0 si le 'Nombre' est 0.
  - Renvoie  1 si le 'Nombre' est positif.
- - Renvoie -1 si le 'Nombre' est négatif.
+ - Renvoie -1 si le 'Nombre' est nÃ©gatif.
 @EndFixedFont
 
 @Example
@@ -1118,12 +1119,12 @@
   (@ReferenceLink "variables" "float ou double")
  
 @ReturnValue
-  Renvoie le sinus de l'angle spécifié, exprimé en radian.
+  Renvoie le sinus de l'angle spÃ©cifiÃ©, exprimÃ© en radian.
 @LineBreak 
  Toujours compris entre -1.0 et 1.0. 
 
 @Remarks
-  La fonction réciproque est @@ASin. 
+  La fonction rÃ©ciproque est @@ASin. 
 
 @Example
 @Code
@@ -1148,10 +1149,10 @@
   
 @ReturnValue
   Renvoie le sinus hyperbolique de l'angle 
-  spécifié, exprimé en radian.
+  spÃ©cifiÃ©, exprimÃ© en radian.
 
 @Remarks
-  SinH() est la fonction réciproque de @@ASinH.
+  SinH() est la fonction rÃ©ciproque de @@ASinH.
 
 @Example
 @Code
@@ -1168,14 +1169,14 @@
 @Function Resultat.f(d) = Sqr(Nombre.f(d))
 
 @Description
-  Renvoie la racine carrée d'un nombre.
+  Renvoie la racine carrÃ©e d'un nombre.
   
 @Parameter "Nombre.f ou Nombre.d"
-  Le nombre à virgule flottante 
+  Le nombre Ã  virgule flottante 
   (@ReferenceLink "variables" "float ou double")
 
 @ReturnValue
-  Renvoie la racine carrée du nombre spécifié.
+  Renvoie la racine carrÃ©e du nombre spÃ©cifiÃ©.
 
 @Example
 @Code
@@ -1201,11 +1202,11 @@
   (@ReferenceLink "variables" "float ou double")
   
 @ReturnValue
-  Renvoie la tangente de l'angle spécifié, 
-  exprimé en radian.
+  Renvoie la tangente de l'angle spÃ©cifiÃ©, 
+  exprimÃ© en radian.
 
 @Remarks
-  La fonction réciproque est @@ATan.  
+  La fonction rÃ©ciproque est @@ATan.  
 
 @Example
 @Code
@@ -1230,10 +1231,10 @@
   (@ReferenceLink "variables" "float ou double")
   
 @ReturnValue
-  Renvoie la tangente hyperbolique de l'angle spécifié, exprimé en radian.
+  Renvoie la tangente hyperbolique de l'angle spÃ©cifiÃ©, exprimÃ© en radian.
 
 @Remarks
-  TanH() est la fonction réciproque de @@ATanH.
+  TanH() est la fonction rÃ©ciproque de @@ATanH.
 
 @Example
 @Code

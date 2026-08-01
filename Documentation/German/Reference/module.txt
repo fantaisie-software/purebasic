@@ -1,4 +1,4 @@
-@Title Module
+ï»¿@Title Module
 
 @Syntax
 
@@ -14,25 +14,25 @@
   @Keyword UnuseModule <name>
 
 @Description
-  Module sind eine einfache Möglichkeit, um Teile des Programmcodes vom Haupt-Code zu isolieren, was die
+  Module sind eine einfache MÃ¶glichkeit, um Teile des Programmcodes vom Haupt-Code zu isolieren, was die
   Wiederverwendung und den Austausch von Code ohne das Risiko von Namens-Konflikten erlaubt. In einigen
-  anderen Programmiersprachen sind die Module auch als 'Namespaces' ("Namensräume") bekannt.
+  anderen Programmiersprachen sind die Module auch als 'Namespaces' ("NamensrÃ¤ume") bekannt.
 @LineBreak
 @LineBreak
-  Ein Modul (englisch "module") muss einen @Keyword DeclareModule Abschnitt (das ist die öffentliche
-  Schnittstelle) und einen zugehörigen @Keyword Module Abschnitt (das ist die Implementierung) besitzen.
+  Ein Modul (englisch "module") muss einen @Keyword DeclareModule Abschnitt (das ist die Ã¶ffentliche
+  Schnittstelle) und einen zugehÃ¶rigen @Keyword Module Abschnitt (das ist die Implementierung) besitzen.
 @LineBreak
 @LineBreak
-  Nur auf die im @Keyword DeclareModule Abschnitt deklarierten Elemente kann von außerhalb des Moduls
-  zugegriffen werden. Der gesamte Code im @Keyword Module Abschnitt wird "privat" für dieses Modul gehalten.
+  Nur auf die im @Keyword DeclareModule Abschnitt deklarierten Elemente kann von auÃŸerhalb des Moduls
+  zugegriffen werden. Der gesamte Code im @Keyword Module Abschnitt wird "privat" fÃ¼r dieses Modul gehalten.
   Auf Elemente aus dem Hauptcode wie Prozeduren, Variablen, etc. kann innerhalb des Moduls nicht zugegriffen
   werden, auch wenn sie als @ReferenceLink "global" "global" deklariert wurden. Ein Modul kann als eine
   "Blackbox", eine leere Code-Seite, angesehen werden, wobei die Namen der Elemente nicht in Konflikt mit
-  dem Haupt-Code kommen können. Dies macht es leichter, spezifischen Code zu schreiben, da einfache
-  Namen in jedem Modul - ohne das Risiko eines Namenskonflikts - wiederverwendet werden können.
+  dem Haupt-Code kommen kÃ¶nnen. Dies macht es leichter, spezifischen Code zu schreiben, da einfache
+  Namen in jedem Modul - ohne das Risiko eines Namenskonflikts - wiederverwendet werden kÃ¶nnen.
 @LineBreak
 @LineBreak
-  Die in einem @Keyword DeclareModule Abschnitt erlaubten Elemente können folgende sein: 
+  Die in einem @Keyword DeclareModule Abschnitt erlaubten Elemente kÃ¶nnen folgende sein: 
   @ReferenceLink "procedures" "Prozeduren" (nur die Prozedur-@ReferenceLink "procedures" "Deklaration" ist erlaubt),
   @ReferenceLink "structures" "Strukturen", @ReferenceLink "macros" "Makros",
   @ReferenceLink "variables" "Variablen", @ReferenceLink "general_rules" "Konstanten",
@@ -40,43 +40,43 @@
   @ReferenceLink "newmap" "Map" und @ReferenceLink "general_rules" "Sprungmarken" (Labels) sein.
 @LineBreak
 @LineBreak
-  Um auf ein Modul-Element von außerhalb des Moduls zuzugreifen, muss der Modul-Name gefolgt vom '::' Trennzeichen
-  angegeben werden. Wenn der Modul-Name explizit angegeben wird, dann ist das Modul-Element überall im
-  Quellcode verfügbar, auch in einem anderen Modul. Alle Elemente in einem @Keyword DeclareModule Abschnitt
-  können mit Hilfe von @Keyword UseModule automatisch in ein anderes Modul oder in den Hauptcode importiert
+  Um auf ein Modul-Element von auÃŸerhalb des Moduls zuzugreifen, muss der Modul-Name gefolgt vom '::' Trennzeichen
+  angegeben werden. Wenn der Modul-Name explizit angegeben wird, dann ist das Modul-Element Ã¼berall im
+  Quellcode verfÃ¼gbar, auch in einem anderen Modul. Alle Elemente in einem @Keyword DeclareModule Abschnitt
+  kÃ¶nnen mit Hilfe von @Keyword UseModule automatisch in ein anderes Modul oder in den Hauptcode importiert
   werden. Im Fall eines Namenskonflikts im Modul werden die Modul-Elemente nicht importiert
-  und ein Compiler-Fehler ausgelöst. @Keyword UnuseModule entfernt die Modul-Elemente. @Keyword UseModule 
+  und ein Compiler-Fehler ausgelÃ¶st. @Keyword UnuseModule entfernt die Modul-Elemente. @Keyword UseModule 
   ist nicht zwingend erforderlich, um auf ein Modul-Element zuzugreifen, aber der Modul-Name muss 
   angegeben werden.
 @LineBreak
 @LineBreak
   Um Informationen zwischen den Modulen gemeinsam zu nutzen, kann ein gemeinsames Modul ("common module") erstellt
-  und dann in allen Modulen (die es benötigen) verwendet werden. Dies ist der gebräuchlichste Weg, um globale
-  Daten für alle Module zu haben.
+  und dann in allen Modulen (die es benÃ¶tigen) verwendet werden. Dies ist der gebrÃ¤uchlichste Weg, um globale
+  Daten fÃ¼r alle Module zu haben.
 @LineBreak
 @LineBreak
-  Die in den Modulen verfügbaren Standard-Elemente sind alle PureBasic Befehle, Strukturen und Konstanten. 
-  Daher können Modul-Elemente nicht wie interne PureBasic Befehle, Strukturen oder Konstanten benannt werden.
+  Die in den Modulen verfÃ¼gbaren Standard-Elemente sind alle PureBasic Befehle, Strukturen und Konstanten. 
+  Daher kÃ¶nnen Modul-Elemente nicht wie interne PureBasic Befehle, Strukturen oder Konstanten benannt werden.
 @LineBreak
 @LineBreak
-  Der gesamte in @Keyword DeclareModule bzw. @Keyword Module Abschnitte gesetzte Code wird wie jeder andere Code ausgeführt, 
+  Der gesamte in @Keyword DeclareModule bzw. @Keyword Module Abschnitte gesetzte Code wird wie jeder andere Code ausgefÃ¼hrt, 
   wenn der Programmablauf das Modul erreicht.
 @LineBreak
 @LineBreak
   Wenn die Anweisungen @Keyword Define, @Keyword EnableExplicit, @Keyword EnableASM in einem Modul
-  verwendet werden, haben sie keine Wirkung außerhalb des jeweiligen Moduls, und umgekehrt.
+  verwendet werden, haben sie keine Wirkung auÃŸerhalb des jeweiligen Moduls, und umgekehrt.
 @LineBreak
 @LineBreak
-  Hinweis: Module sind in PureBasic nicht obligatorisch, sind aber beim Erstellen großer Projekte zu empfehlen.
-  Sie helfen dabei, einen besser/leichter zu verwaltenden Code zu erstellen, auch wenn dieser etwas ausführlicher
-  als Modul-freier Code ausfällt. Die Verwendung eines @Keyword DeclareModule Abschnitts macht das Modul ziemlich
-  selbsterklärend dokumentiert, für einfache Wiederverwendung und dessen Austausch.
+  Hinweis: Module sind in PureBasic nicht obligatorisch, sind aber beim Erstellen groÃŸer Projekte zu empfehlen.
+  Sie helfen dabei, einen besser/leichter zu verwaltenden Code zu erstellen, auch wenn dieser etwas ausfÃ¼hrlicher
+  als Modul-freier Code ausfÃ¤llt. Die Verwendung eines @Keyword DeclareModule Abschnitts macht das Modul ziemlich
+  selbsterklÃ¤rend dokumentiert, fÃ¼r einfache Wiederverwendung und dessen Austausch.
 
 @Example
     
 @Code
   
-  ; Alle Elemente in diesem Abschnitt sind für den Zugriff von außerhalb verfügbar
+  ; Alle Elemente in diesem Abschnitt sind fÃ¼r den Zugriff von auÃŸerhalb verfÃ¼gbar
   ;
   DeclareModule Ferrari
     #FerrariName$ = "458 Italia"
@@ -84,7 +84,7 @@
     Declare CreateFerrari()
   EndDeclareModule
   
-  ; Alle Elemente in diesem Abschnitt sind privat. Alle Namen können ohne
+  ; Alle Elemente in diesem Abschnitt sind privat. Alle Namen kÃ¶nnen ohne
   ; Namenskonflikt auch woanders verwendet werden.
   ;
   Module Ferrari
@@ -117,7 +117,7 @@
   
   Debug "------------------------------"
   
-  UseModule Ferrari ; Jetzt alle öffentlichen (public) Elemente in den Geltungsbereich des Hauptprogramms importieren
+  UseModule Ferrari ; Jetzt alle Ã¶ffentlichen (public) Elemente in den Geltungsbereich des Hauptprogramms importieren
   
   CreateFerrari()
   Debug #FerrariName$

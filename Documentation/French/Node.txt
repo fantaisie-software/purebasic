@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Node library documentation
 ;
 ; (c) Fantaisie Software
@@ -9,25 +9,25 @@
 @Overview
 
   Les noeuds sont des conteneurs qui peuvent 
-  être utilisés pour grouper des objets 
-  comme @LibraryLink "entity" "des entités", 
+  Ãªtre utilisÃ©s pour grouper des objets 
+  comme @LibraryLink "entity" "des entitÃ©s", 
   @LibraryLink "sound3D" "des sons 3D", 
-  @LibraryLink "camera" "des caméras", 
+  @LibraryLink "camera" "des camÃ©ras", 
   @LibraryLink "billboard" "des billboards",
-  @LibraryLink "Particle" "des émetteurs de particules" 
-  et également d'autres noeuds.
+  @LibraryLink "Particle" "des Ã©metteurs de particules" 
+  et Ã©galement d'autres noeuds.
 @LineBreak
 @LineBreak
-  Une fois qu'un objet est attaché à un noeud, 
+  Une fois qu'un objet est attachÃ© Ã  un noeud, 
   sa position et ses mouvements sont relatifs 
-  à la position du noeud.
+  Ã  la position du noeud.
 @LineBreak
 @LineBreak  
   Les noeuds permettent une gestion 
-  hiérarchique des objets.
+  hiÃ©rarchique des objets.
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
   avant de pouvoir utiliser les commandes 
   relatives aux noeuds.
 
@@ -43,25 +43,26 @@
 @Function AttachNodeObject(#Noeud, ObjetID)
 
 @Description
-  Attache un objet à un noeud. 
+  Attache un objet Ã  un noeud. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "ObjetID"
-  Le numéro de l'objet. 
+  Le numÃ©ro de l'objet. 
 @LineBreak
 @LineBreak
-  Cet objet peut être :
+  Cet objet peut Ãªtre :
 @FixedFont
-  - Une entité : Utiliser @@EntityID à la place de 'ObjetID'
-  - Un son 3D  : Utiliser @@SoundID3D à la place de 'ObjetID' 
-  - Une caméra : Utiliser @@CameraID à la place de 'ObjetID' 
-  - Une lumière: Utiliser @@LightID à la place de 'ObjectID'.
-  - Un noeud   : Utiliser @@NodeID à la place de 'ObjetID'. 
-  - Mesh       : Utiliser @@MeshID à la place de 'ObjectID' (supporté seulement avec l'option #PB_Mesh_Dynamic).
-  - Un groupe de billboards : @@BillboardGroupID à la place de 'ObjetID' 
-  - Un émetteur de particules: @@ParticleEmitterID à la place de 'ObjetID'.
+  - Une entitÃ© : Utiliser @@EntityID Ã  la place de 'ObjetID'
+  - Un son 3D  : Utiliser @@SoundID3D Ã  la place de 'ObjetID'
+  - Un texte 3D : Utiliser @@Text3DID Ã  la place de 'ObjetID'  
+  - Une camÃ©ra : Utiliser @@CameraID Ã  la place de 'ObjetID' 
+  - Une lumiÃ¨re: Utiliser @@LightID Ã  la place de 'ObjectID'
+  - Un noeud   : Utiliser @@NodeID Ã  la place de 'ObjetID' 
+  - Mesh       : Utiliser @@MeshID Ã  la place de 'ObjectID' (supportÃ© seulement avec l'option #PB_Mesh_Dynamic)
+  - Un groupe de billboards : @@BillboardGroupID Ã  la place de 'ObjetID' 
+  - Un Ã©metteur de particules: @@ParticleEmitterID Ã  la place de 'ObjetID'
 @EndFixedFont
  
 @NoReturnValue 
@@ -76,25 +77,26 @@
 @Function DetachNodeObject(#Noeud, ObjetID)
 
 @Description
-  Détache un objet précédemment attaché à 
+  DÃ©tache un objet prÃ©cÃ©demment attachÃ© Ã  
   un noeud. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "ObjetID"
-  Le numéro de l'objet. 
+  Le numÃ©ro de l'objet. 
 @LineBreak
 @LineBreak
-  Cet objet peut être :
+  Cet objet peut Ãªtre :
 @FixedFont
-  - Une entité : Utiliser @@EntityID à la place de 'ObjetID'
-  - Un son 3D  : Utiliser @@SoundID3D à la place de 'ObjetID' 
-  - Une caméra : Utiliser @@CameraID à la place de 'ObjetID' 
-  - Une lumière: Utiliser @@LightID à la place de 'ObjectID'.
-  - Un noeud   : Utiliser @@NodeID à la place de 'ObjetID'. 
-  - Un groupe de billboards : @@BillboardGroupID à la place de 'ObjetID' 
-  - Un émetteur de particules: @@ParticleEmitterID à la place de 'ObjetID'.
+  - Une entitÃ© : Utiliser @@EntityID Ã  la place de 'ObjetID'
+  - Un son 3D  : Utiliser @@SoundID3D Ã  la place de 'ObjetID' 
+  - Une camÃ©ra : Utiliser @@CameraID Ã  la place de 'ObjetID' 
+  - Une lumiÃ¨re: Utiliser @@LightID Ã  la place de 'ObjectID'.
+  - Un noeud   : Utiliser @@NodeID Ã  la place de 'ObjetID'.
+  - Mesh       : Utiliser @@MeshID Ã  la place de 'ObjectID' (supportÃ© seulement avec l'option #PB_Mesh_Dynamic). 
+  - Un groupe de billboards : @@BillboardGroupID Ã  la place de 'ObjetID' 
+  - Un Ã©metteur de particules: @@ParticleEmitterID Ã  la place de 'ObjetID'.
 @EndFixedFont
 
 @NoReturnValue 
@@ -109,26 +111,26 @@
 @Function Resultat = CreateNode(#Noeud [, X, Y, Z])
 
 @Description
-  Crée un nouveau noeud. 
+  CrÃ©e un nouveau noeud. 
   
 @Parameter "#Noeud"
-  Le noeud à créer.
+  Le noeud Ã  crÃ©er.
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 
 @OptionalParameter "X, Y, Z"
-  Les coordonnées du nouveau noeud.
+  Les coordonnÃ©es du nouveau noeud.
   
 @ReturnValue 
   Renvoie une valeur non nulle en cas 
-  de succès, zéro sinon.
+  de succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-  Si le noeud était déjà créé alors il 
-  sera automatiquement supprimé et remplacé 
+  Si le noeud Ã©tait dÃ©jÃ  crÃ©Ã© alors il 
+  sera automatiquement supprimÃ© et remplacÃ© 
   par le nouveau.
  
 @SeeAlso
@@ -144,15 +146,15 @@
   Renvoie l'identifiant unique d'un noeud. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @ReturnValue
-  Renvoie le numéro du noeud.
+  Renvoie le numÃ©ro du noeud.
 
 @Remarks
-  Cette fonction est très utile quand une 
-  fonction d'une autre bibliothèque 
-  nécessite l'identifiant d'un noeud.
+  Cette fonction est trÃ¨s utile quand une 
+  fonction d'une autre bibliothÃ¨que 
+  nÃ©cessite l'identifiant d'un noeud.
 
 @SeeAlso
   @@CreateNode, @@IsNode
@@ -168,11 +170,11 @@
   le monde.  
 
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Le noeud pointe vers la nouvelle position 
-  'X, Y, Z' (dans l'unité du monde).
+  'X, Y, Z' (dans l'unitÃ© du monde).
 
 @OptionalParameter "DirectionX.f, DirectionY.f, DirectionZ.f"
   La direction en X, Y et Z du vecteur du 
@@ -181,7 +183,7 @@
 @NoReturnValue
 
 @Remarks 
-  La position du noeud n'est pas modifiée. 
+  La position du noeud n'est pas modifiÃ©e. 
  
 @SupportedOS
 
@@ -194,13 +196,13 @@
   dans le Monde. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la position absolue en 'X' dans le monde (par défaut).
-  @#PB_Relative: Renvoie la position relative à son parent en 'X'.
+  @#PB_World:  Renvoie la position absolue en 'X' dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la position relative Ã  son parent en 'X'.
 @EndFixedFont  
  
 @ReturnValue
@@ -221,13 +223,13 @@
   d'un noeud dans le Monde. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la position absolue en 'Y' dans le monde (par défaut).
-  @#PB_Relative: Renvoie la position relative à son parent en 'Y'.
+  @#PB_World:  Renvoie la position absolue en 'Y' dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la position relative Ã  son parent en 'Y'.
 @EndFixedFont  
   
 @ReturnValue
@@ -249,13 +251,13 @@
   d'un noeud dans le Monde.
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la position absolue en 'Z' dans le monde (par défaut).
-  @#PB_Relative: Renvoie la position relative à son parent en 'Z'.
+  @#PB_World : Renvoie la position absolue en 'Z' dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la position relative Ã  son parent en 'Z'.
 @EndFixedFont  
   
 @ReturnValue
@@ -275,25 +277,25 @@
   Supprime un noeud.
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, tous les nœuds 
-  restants sont libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les nÅ“uds 
+  restants sont libÃ©rÃ©s.
   
 @NoReturnValue  
 
 @Remarks 
-  La mémoire qui lui était associée est 
-  libérée et le noeud ne peut plus être 
-  utilisé. @LineBreak 
-  Par contre les objets qui lui étaient 
-  attachés ne sont pas supprimés et peuvent
-  être réutilisés.
+  La mÃ©moire qui lui Ã©tait associÃ©e est 
+  libÃ©rÃ©e et le noeud ne peut plus Ãªtre 
+  utilisÃ©. @LineBreak 
+  Par contre les objets qui lui Ã©taient 
+  attachÃ©s ne sont pas supprimÃ©s et peuvent
+  Ãªtre rÃ©utilisÃ©s.
 @LineBreak  
 @LineBreak
   Tous les noeuds restants sont 
-  automatiquement supprimés quand le 
+  automatiquement supprimÃ©s quand le 
   programme se termine. 
   
 @SeeAlso  
@@ -309,23 +311,23 @@
 
 @Description
   Teste si un noeud est correctement 
-  initialisé. 
+  initialisÃ©. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks  
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé. 
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©. 
 @LineBreak
 @LineBreak  
-  Cette fonction a été créée pour pouvoir 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
   passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir 
+  paramÃ¨tre sans qu'il ne puisse y avoir 
   de plantage.  
 
 @SeeAlso
@@ -338,31 +340,31 @@
 @Function MoveNode(#Noeud, X, Y, Z [, Mode])
 
 @Description
-  Déplace un noeud dans le monde 3D. 
+  DÃ©place un noeud dans le monde 3D. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "X, Y, Z"
-  Nouvelles coordonnées du noeud.
+  Nouvelles coordonnÃ©es du noeud.
   
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position actuelle du noeud (par défaut).
-  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position actuelle du noeud (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu Ã  la position spÃ©cifiÃ©e.
 @EndFixedFont
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement local.
-  @#PB_Parent: Déplacement par rapport à la position du parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement local.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position du parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
 
 @NoReturnValue 
   
 @Remarks  
-  Le déplacement est relatif à la position 
+  Le dÃ©placement est relatif Ã  la position 
   actuelle d'un noeud. 
 
 @SeeAlso
@@ -379,18 +381,18 @@
   fonction de la valeur des angles X, Y, Z. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "X, Y, Z"
   Angles de rotation en X, Y, Z.
 @LineBreak
 @LineBreak 
-  Tous les angles sont en degrés de 0° à 360°.
+  Tous les angles sont en degrÃ©s de 0Â° Ã  360Â°.
  
 @OptionalParameter "Mode"
 @FixedFont
-  @ConstantColor "PB_Absolute": Rotation absolue (par défaut).
-  @ConstantColor "PB_Relative": Rotation relative basée sur la rotation précédente de l'entité.  
+  @ConstantColor "PB_Absolute": Rotation absolue (par dÃ©faut).
+  @ConstantColor "PB_Relative": Rotation relative basÃ©e sur la rotation prÃ©cÃ©dente de l'entitÃ©.  
 @EndFixedFont
 
 @NoReturnValue 
@@ -409,26 +411,23 @@
   Change la taille d'un noeud. 
 
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "X, Y, Z"
-  Les facteurs d'échelle sur les trois axes.
+  Les facteurs d'Ã©chelle sur les trois axes.
 
 @OptionalParameter "Mode"
- Peut être une des valeurs suivantes:
+ Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Facteur d'échelle relatif, sur la base de la taille initiale (par défaut). L'utilisation de 1.0 pour facteur d'échelle conservera la taille inchangée.
-  @#PB_Absolute: Facteur d'échelle absolue, dans l'unité du monde.
+  @#PB_Relative: Facteur d'Ã©chelle relatif, sur la base de la taille initiale (par dÃ©faut). L'utilisation de 1.0 pour facteur d'Ã©chelle conservera la taille inchangÃ©e.
+  @#PB_Absolute: Facteur d'Ã©chelle absolue, dans l'unitÃ© du monde.
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Lorsque vous utilisez le mode
-  @#PB_Relative, alors la taille 
-  du noeud sera multiplié par la 
-  valeur donnée pour obtenir la 
-  nouvelle taille.
+  Les @LibraryLink "entity" "entitÃ©s" attachÃ©es ne sont pas mises Ã  l'Ã©chelle automatiquement avec le noeud, 
+  sauf si l'attribut @#PB_Entity_InheritScale a Ã©tÃ© dÃ©fini.
 
 @SupportedOS
 
@@ -437,20 +436,20 @@
 @Function NodeFixedYawAxis(#Noeud, Activer [, VecteurX.f, VecteurY.f, VecteurZ.f])
 
 @Description
-    Changer l'axe de lacet du nœud. 
+    Changer l'axe de lacet du nÅ“ud. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @Parameter "Activer"
-  Active ou désactive l'utilisation d'un 
-  axe de lacet personnalisé. 
+  Active ou dÃ©sactive l'utilisation d'un 
+  axe de lacet personnalisÃ©. 
 @FixedFont
-  @#True : Un nouvel axe vecteur doit être spécifié.
-  @#False: La caméra effectuera un lacet autour de son propre axe Y.
+  @#True : Un nouvel axe vecteur doit Ãªtre spÃ©cifiÃ©.
+  @#False: La camÃ©ra effectuera un lacet autour de son propre axe Y.
 @EndFixedFont
 
 @OptionalParameter "VecteurX.f, VecteurY.f, VecteurZ.f"
@@ -458,13 +457,13 @@
   lacet (valeur comprise entre -1.0 et 1.0). 
 @LineBreak
 @LineBreak 
-  Le paramètre "Activer" doit être réglé 
+  Le paramÃ¨tre "Activer" doit Ãªtre rÃ©glÃ© 
   sur @#True pour avoir un effet.
 
 @NoReturnValue
 
 @Remarks
-  Le comportement par défaut d'un noeud 
+  Le comportement par dÃ©faut d'un noeud 
   
   est un lacet autour de son propre axe Y.
 
@@ -481,13 +480,13 @@
   Renvoie le roulis d'un noeud.
 
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
-  @#False: Le roulis est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le roulis est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
@@ -495,7 +494,7 @@
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 
-  et 180.0 degrés.
+  et 180.0 degrÃ©s.
 
 @SeeAlso
   @@NodeYaw, @@NodePitch
@@ -510,13 +509,13 @@
   Renvoie le tangage d'un noeud.
 
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
-  @#False: Le tangage est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le tangage est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
@@ -524,7 +523,7 @@
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 
-  et 180.0 degrés.
+  et 180.0 degrÃ©s.
 
 @SeeAlso
   @@NodeYaw, @@NodeRoll
@@ -539,13 +538,13 @@
   Renvoie le lacet d'un noeud.
 
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateNode pour récupérer la même orientation (par défaut).
-  @#False: Le lacet est ajusté, de sorte qu'il peut être réutilisé avec @@RotateNode pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le lacet est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateNode pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
@@ -553,7 +552,7 @@
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 
-  et 180.0 degrés.
+  et 180.0 degrÃ©s.
 
 @SeeAlso
   @@NodePitch, @@NodeRoll

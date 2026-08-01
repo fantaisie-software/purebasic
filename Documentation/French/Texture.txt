@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Texture library documentation
 ;
 ; (c) Fantaisie Software
@@ -10,30 +10,28 @@
 
   Les textures permettent aux objets 3D 
   (@LibraryLink "mesh" "Meshs") d'avoir un 
-  aspect réaliste.
+  aspect rÃ©aliste.
 @LineBreak  
   En effet, sans textures les objets 3D seraient 
-  affichés avec une seule couleur.
+  affichÃ©s avec une seule couleur.
 @LineBreak
 @LineBreak
-  PureBasic offre la possibilité de créer des 
-  textures directement à l'aide 
-  des outils 2D de base (bibliothèque 
+  PureBasic offre la possibilitÃ© de crÃ©er des 
+  textures directement Ã  l'aide 
+  des outils 2D de base (bibliothÃ¨que 
   @LibraryLink "2ddrawing" "2DDrawing") 
-  ou de les charger à partir de fichiers. 
+  ou de les charger Ã  partir de fichiers. 
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
   avant de pouvoir utiliser les commandes 
   relatives aux textures.
 
 @CommandList
 
-@ExampleFile All Texture.pb
 @ExampleFile All CreateTexture.pb
-@ExampleFile All CreateTexture2.pb
 @ExampleFile All CreateRenderTexture.pb
-@ExampleFile All SaveRenderTexture.pb
+@ExampleFile All TextureAddressingMode.pb
 
 @SupportedOS
 
@@ -45,23 +43,23 @@
   Copie une texture.
   
 @Parameter "#Texture"
-  La texture à copier.
+  La texture Ã  copier.
   
 @Parameter "#NouvelleTexture"
-  Le numéro de la nouvelle texture.
+  Le numÃ©ro de la nouvelle texture.
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @linebreak
 @linebreak
-  Si #NouvelleTexture a déjà été créée, elle 
-  sera libérée automatiquement et remplacée 
+  Si #NouvelleTexture a dÃ©jÃ  Ã©tÃ© crÃ©Ã©e, elle 
+  sera libÃ©rÃ©e automatiquement et remplacÃ©e 
   par la nouvelle.
 
 @SeeAlso
@@ -74,50 +72,50 @@
 @Function Resultat = CreateTexture(#Texture, Largeur, Hauteur [, NomTexture$])
 
 @Description
-  Crée une nouvelle texture. 
+  CrÃ©e une nouvelle texture. 
 
 @Parameter "#Texture"
-  Le numéro de la nouvelle texture.
+  Le numÃ©ro de la nouvelle texture.
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Parameter "Largeur, Hauteur"
   Les dimensions de la texture, en pixels.
 
 @OptionalParameter "NomTexture$"
   Le nom de la nouvelle texture dans le 
-  système OGRE. 
+  systÃ¨me OGRE. 
 @linebreak
 @linebreak
   Cela permet d'utiliser ce nom dans le script 
-  pour assigner un shader à cette texture.
+  pour assigner un shader Ã  cette texture.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @linebreak
 @linebreak
-  Si la texture a été déjà créée, elle est 
-  automatiquement libérée et remplacée par 
+  Si la texture a Ã©tÃ© dÃ©jÃ  crÃ©Ã©e, elle est 
+  automatiquement libÃ©rÃ©e et remplacÃ©e par 
   la nouvelle.
 
 @Remarks
-  Il est préférable que les dimensions des 
-  textures soient une puissance de 2 et carrée 
+  Il est prÃ©fÃ©rable que les dimensions des 
+  textures soient une puissance de 2 et carrÃ©e 
   si possible, pour que le rendu soit optimal. 
   Par exemple: 64*64, 128*128, 256*256, mais 
   aussi 128x64, 16x32... etc. En effet, les 
   anciennes cartes graphiques ont des limitations 
-  strictes quant à la taille des textures, et il 
-  est conseillé de se limiter à des textures de 
-  256*256 pour une compatibilité maximale. Le 
-  fait d'utiliser une texture en haute définition 
+  strictes quant Ã  la taille des textures, et il 
+  est conseillÃ© de se limiter Ã  des textures de 
+  256*256 pour une compatibilitÃ© maximale. Le 
+  fait d'utiliser une texture en haute dÃ©finition 
   permet un rendu magnifique sur une carte 
   graphique actuelle mais causera un 
-  ralentissement, parfois très important sur 
+  ralentissement, parfois trÃ¨s important sur 
   une carte ancienne.
 @linebreak
 @linebreak
@@ -126,7 +124,7 @@
   
 @Example
 @Code
-  CreateTexture(0, 256, 256) ; Crée une nouvelle texture de dimension 256x256.
+  CreateTexture(0, 256, 256) ; CrÃ©e une nouvelle texture de dimension 256x256.
 @EndCode
 
 @SeeAlso
@@ -139,40 +137,40 @@
 @Function Resultat = CreateCubicTexture(#Texture, #Texture1, #Texture2, #Texture3, #Texture4, #Texture5, #Texture6)
 
 @Description
-  Crée une nouvelle texture cubique en utilisant les textures spécifiées.@LineBreak 
-  Les textures cubiques sont utiles pour créer des reflets du monde.
+  CrÃ©e une nouvelle texture cubique en utilisant les textures spÃ©cifiÃ©es.@LineBreak 
+  Les textures cubiques sont utiles pour crÃ©er des reflets du monde.
 
 @Parameter "#Texture"
-  Un numéro pour identifier la nouvelle texture.
+  Un numÃ©ro pour identifier la nouvelle texture.
   @LineBreak
   @LineBreak
-   @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
+   @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @Parameter "#Texture1"
- La texture à utiliser pour la première face de la texture cubique.
+ La texture Ã  utiliser pour la premiÃ¨re face de la texture cubique.
 
 @Parameter "#Texture2"
-  La texture à utiliser pour la seconde face de la texture cubique.
+  La texture Ã  utiliser pour la seconde face de la texture cubique.
 
 @Parameter "#Texture3"
-  La texture à utiliser pour la troisième face de la texture cubique.
+  La texture Ã  utiliser pour la troisiÃ¨me face de la texture cubique.
 
 @Parameter "#Texture4"
-  La texture à utiliser pour la quatrième face de la texture cubique.
+  La texture Ã  utiliser pour la quatriÃ¨me face de la texture cubique.
 
 @Parameter "#Texture5"
-  La texture à utiliser pour la cinquième face de la texture cubique.
+  La texture Ã  utiliser pour la cinquiÃ¨me face de la texture cubique.
 
 @Parameter "#Texture6"
-  La texture à utiliser pour la sixième face de la texture cubique.
+  La texture Ã  utiliser pour la sixiÃ¨me face de la texture cubique.
   
 @ReturnValue
-  Renvoie une valeur non nulle si la texture cubique a été créée avec succès, zéro sinon.
+  Renvoie une valeur non nulle si la texture cubique a Ã©tÃ© crÃ©Ã©e avec succÃ¨s, zÃ©ro sinon.
  @LineBreak
-  Si @#PB_Any a été utilisé pour le paramètre #Texture, le nombre généré est renvoyé en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre #Texture, le nombre gÃ©nÃ©rÃ© est renvoyÃ© en cas de succÃ¨s.
 
 @Remarks
-  @#PB_Material_EnvironmentMap doit être spécifié avec @@SetMaterialAttribute pour activer la réflexion cubique.
+  @#PB_Material_EnvironmentMap doit Ãªtre spÃ©cifiÃ© avec @@SetMaterialAttribute pour activer la rÃ©flexion cubique.
 
 @Example
 @Code
@@ -227,62 +225,60 @@
 @Function Resultat = CreateRenderTexture(#Texture, CameraID, Largeur, Hauteur [, Options [, NomTextureRendu$]])
 
 @Description
-  Crée une texture de rendu. 
+  CrÃ©e une texture de rendu. 
 
 @Parameter "#Texture"
-  Le numéro de la nouvelle texture. 
+  Le numÃ©ro de la nouvelle texture. 
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 
 @Parameter "CameraID"
-   Le numéro de la caméra à associer à la texture. 
+   Le numÃ©ro de la camÃ©ra Ã  associer Ã  la texture. 
 @linebreak
 @linebreak
-   Cet ID peut être obtenu par @@CameraID.
+   Cet ID peut Ãªtre obtenu par @@CameraID.
 
 @Parameter "Largeur, Hauteur"
   Les dimensions de la nouvelle texture, en pixels.
 
 @OptionalParameter "Options"
 @FixedFont
-  @#PB_Texture_AutomaticUpdate: La texture est mise à jour automatiquement à chaque @@RenderWorld (par défaut).
-  @#PB_Texture_ManualUpdate   : La texture n'est pas mise à jour automatiquement, @@UpdateRenderTexture doit 
-                               être appelé manuellement.
-  @#PB_Texture_CameraViewPort : La fenêtre caméra ne sera pas supprimée, utile pour toujours être en mesure 
-                               de faire une capture de la caméra.
+  @#PB_Texture_AutomaticUpdate: La texture est mise Ã  jour automatiquement Ã  chaque @@RenderWorld (par dÃ©faut).
+  @#PB_Texture_ManualUpdate   : La texture n'est pas mise Ã  jour automatiquement, @@UpdateRenderTexture doit 
+                               Ãªtre appelÃ© manuellement.
+  @#PB_Texture_CameraViewPort : La fenÃªtre camÃ©ra ne sera pas supprimÃ©e, utile pour toujours Ãªtre en mesure 
+                               de faire une capture de la camÃ©ra.
 @EndFixedFont
 
 @OptionalParameter "NomTextureRendu$"
-  Le nom de la nouvelle texture dans le 
-  système OGRE. 
+  Le nom de la nouvelle texture dans le systÃ¨me OGRE. 
 @linebreak
 @linebreak
-  Cela permet d'utiliser ce nom dans le script 
-  pour assigner un shader à cette texture.
+  Cela permet d'utiliser ce nom dans le script pour assigner un shader Ã  cette texture.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @linebreak
 @linebreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Remarks
-  La caméra associée à la texture rendra son 
-  point de vue directement sur la texture, 
-  sans être affichée à l'écran. Cela peut 
-  être très utile pour des objets qui affichent 
-  une partie de la scène comme un écran de 
-  télévision, un miroir, etc.
+  La camÃ©ra associÃ©e Ã  la texture rendra son point de vue directement sur la texture, 
+  sans Ãªtre affichÃ©e Ã  l'Ã©cran. Cela peut Ãªtre trÃ¨s utile pour des objets qui affichent 
+  une partie de la scÃ¨ne comme un Ã©cran de tÃ©lÃ©vision, un miroir, etc.
 @linebreak
-@linebreak  
-  Note: @@TextureOutput n'est pas supporté sur 
-  les textures rendues.
+@linebreak 
+  La mise Ã  jour automatique ne se produit qu'Ã  l'appel de @@RenderWorld.
+  De plus, si une autre texture porte le mÃªme nom, la crÃ©ation Ã©choue.
+ @linebreak
+ @linebreak 
+  Note: @@TextureOutput n'est pas supportÃ© sur les textures rendues.
   
 @SeeAlso
   @@UpdateRenderTexture, @@SaveRenderTexture
@@ -294,18 +290,18 @@
 @Function UpdateRenderTexture(#Texture)
 
 @Description
-  Met à jour une texture avec la vue actuelle 
-  de la caméra. 
+  Met Ã  jour une texture avec la vue actuelle 
+  de la camÃ©ra. 
 
 @Parameter "#Texture"
-   La texture à mettre à jour.
+   La texture Ã  mettre Ã  jour.
 
 @NoReturnValue
 
 @Remarks
-  Si la texture de rendu a été créée avec 
+  Si la texture de rendu a Ã©tÃ© crÃ©Ã©e avec 
   l'option @#PB_Texture_AutomaticUpdate, 
-  cette fonction n'est pas nécessaire.
+  cette fonction n'est pas nÃ©cessaire.
 
 @SeeAlso
   @@CreateRenderTexture, @@SaveRenderTexture
@@ -320,26 +316,25 @@
   Sauvegarde le contenu d'une texture de rendu. 
 
 @Parameter "#Texture"
-  La texture à utiliser.
+  La texture Ã  utiliser.
 
 @Parameter "NomFichier$"
-  Le nom du fichier où la texture sera sauvée. 
+  Le nom du fichier oÃ¹ la texture sera sauvÃ©e. 
 @linebreak
 @linebreak
-  Cela peut être un chemin absolu ou relatif 
-  (dans le répertoire courant).
+  Cela peut Ãªtre un chemin absolu ou relatif 
+  (dans le rÃ©pertoire courant).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks  
-  Il peut être utile de faire des captures 
-  d'écran d'une scène particulière.
+  Il peut Ãªtre utile de faire des captures 
+  d'Ã©cran d'une scÃ¨ne particuliÃ¨re.
 @linebreak
 @linebreak
-  Le format de sauvegarde peut être "BMP", 
-  "PNG", "JPG", "TGA", etc.
+  Le format de sauvegarde ne peut Ãªtre que "PNG".
   
 @SeeAlso
   @@CreateRenderTexture
@@ -351,20 +346,20 @@
 @Function Resultat = CreateCubeMapTexture(#Texture, Largeur, Hauteur, NomTexture$ [, CouleurFond])
 
 @Description
-  Crée une nouvelle texture cube map. 
+  CrÃ©e une nouvelle texture cube map. 
 @linebreak
 @linebreak
-  Une texture cube map refléchit le milieu 
+  Une texture cube map reflÃ©chit le milieu 
   qui l'entoure.
 
 @Parameter "#Texture"
-  Le numéro d'identification de la nouvelle 
+  Le numÃ©ro d'identification de la nouvelle 
   texture. 
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 @linebreak
 @linebreak
 
@@ -378,14 +373,14 @@
   Le nom de la texture dans les scripts OGRE. 
 @linebreak
 @linebreak
-  Cette texture doit être définie dans le 
+  Cette texture doit Ãªtre dÃ©finie dans le 
   script avec la bonne valeur pour avoir 
   un cube mapping qui fonctionne. 
 @linebreak
 @linebreak
-  Si 'NomTexture$' est réglé sur 'CubeMapTexture', 
-  un script matériau doit contenir la définition 
-  suivante (qui peut être adaptée en fonction 
+  Si 'NomTexture$' est rÃ©glÃ© sur 'CubeMapTexture', 
+  un script matÃ©riau doit contenir la dÃ©finition 
+  suivante (qui peut Ãªtre adaptÃ©e en fonction 
   de vos besoins):
 @FixedFont
   material CubeMapMaterial
@@ -406,8 +401,8 @@
 @EndFixedFont
 
 @OptionalParameter "CouleurFond"
-  La couleur de fond de la scène de cube 
-  mapping, si aucune @@skybox n'est utilisée. 
+  La couleur de fond de la scÃ¨ne de cube 
+  mapping, si aucune @@skybox n'est utilisÃ©e. 
 @linebreak
 @linebreak
   Pour obtenir une couleur valide, utiliser @@RGB.
@@ -416,12 +411,12 @@
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
 
 @Remarks 
   Cette texture doit se trouver dans un script 
@@ -434,30 +429,30 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = EntityCubeMapTexture(#Texture, #Entité)
+@Function Resultat = EntityCubeMapTexture(#Texture, #EntitÃ©)
 
 @Description
-  Applique la texture cube map à l'
-  @LibraryLink "entity" "entité". 
+  Applique la texture cube map Ã  l'
+  @LibraryLink "entity" "entitÃ©". 
 
 @Parameter "#Texture"
-  La texture à utiliser. 
+  La texture Ã  utiliser. 
 @linebreak
 @linebreak
-  La texture doit avoir été créée par 
+  La texture doit avoir Ã©tÃ© crÃ©Ã©e par 
   @@CreateCubeMapTexture.
 
-@Parameter "#Entité"
-  L'entité sur laquelle s'applique la texture. 
+@Parameter "#EntitÃ©"
+  L'entitÃ© sur laquelle s'applique la texture. 
 @linebreak
 @linebreak
-  Une même texture peut être appliquée sur 
-  de nombreuses entités.
+  Une mÃªme texture peut Ãªtre appliquÃ©e sur 
+  de nombreuses entitÃ©s.
 
 @NoReturnValue
 
 @Remarks 
-  L'entité sera le reflet du monde qui l'entoure.
+  L'entitÃ© sera le reflet du monde qui l'entoure.
   
 @SeeAlso
   @@CreateCubeMapTexture
@@ -472,17 +467,17 @@
   Supprime une texture.
   
 @Parameter "#Texture"
-  La texture à utiliser. 
+  La texture Ã  utiliser. 
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  textures restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  textures restantes sont libÃ©rÃ©es.
  
 @NoReturnValue
 
 @Remarks
   Toutes les textures restantes sont 
-  automatiquement supprimées quand 
+  automatiquement supprimÃ©es quand 
   le programme se termine.
 
 @SeeAlso
@@ -496,21 +491,21 @@
 
 @Description
   Teste si une texture est correctement 
-  initialisée. 
+  initialisÃ©e. 
   
 @Parameter "#Texture"
-  La texture à tester. 
+  La texture Ã  tester. 
  
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
   
 @Remarks
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
   
 @SeeAlso
   @@CreateTexture
@@ -522,26 +517,26 @@
 @Function Resultat = GetScriptTexture(#Texture, Nom$)
 
 @Description
-  Obtenir une texture définie dans un fichier 
+  Obtenir une texture dÃ©finie dans un fichier 
   de script OGRE. 
   
 @Parameter "#Texture"
-  La texture à utiliser. 
+  La texture Ã  utiliser. 
 @linebreak
 @linebreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
  
 @Parameter "Nom$" 
   Le nom de la texture dans le fichier script.
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  Les scripts sont chargés et parsés avec 
+  Les scripts sont chargÃ©s et parsÃ©s avec 
   la fonction @@Parse3DScripts.
   
 @SeeAlso
@@ -554,47 +549,47 @@
 @Function Resultat = LoadTexture(#Texture, Fichier$)
 
 @Description
-  Charge une texture à partir d'un fichier.
+  Charge une texture Ã  partir d'un fichier.
 
 @Parameter "#Texture"
-  Le numéro de la texture à charger.
+  Le numÃ©ro de la texture Ã  charger.
 @LineBreak  
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @Parameter "Fichier$"
-  Le nom du fichier qui peut être au format 
+  Le nom du fichier qui peut Ãªtre au format 
   PNG, TGA ou JPG.
 @LineBreak  
 @LineBreak
-  Le fichier doit être accessible dans 
-  le chemin géré par @@Add3DArchive.
+  Le fichier doit Ãªtre accessible dans 
+  le chemin gÃ©rÃ© par @@Add3DArchive.
 
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak   
-  Si la texture était déjà créée, elle est 
-  automatiquement supprimée et remplacée 
+  Si la texture Ã©tait dÃ©jÃ  crÃ©Ã©e, elle est 
+  automatiquement supprimÃ©e et remplacÃ©e 
   par la nouvelle.  
 
 @Remarks
-  Il est préférable que les dimensions des 
-  textures soient une puissance de 2 et carrée 
+  Il est prÃ©fÃ©rable que les dimensions des 
+  textures soient une puissance de 2 et carrÃ©e 
   si possible, pour que le rendu soit optimal. 
   Par exemple: 64*64, 128*128, 256*256, mais 
   aussi 128x64, 16x32... etc. En effet, les 
   anciennes cartes graphiques ont des limitations 
-  strictes quant à la taille des textures, et il 
-  est conseillé de se limiter à des textures de 
-  256*256 pour une compatibilité maximale. Le 
-  fait d'utiliser une texture en haute définition 
+  strictes quant Ã  la taille des textures, et il 
+  est conseillÃ© de se limiter Ã  des textures de 
+  256*256 pour une compatibilitÃ© maximale. Le 
+  fait d'utiliser une texture en haute dÃ©finition 
   permet un rendu magnifique sur une carte 
   graphique actuelle mais causera un 
-  ralentissement, parfois très important sur 
+  ralentissement, parfois trÃ¨s important sur 
   une carte ancienne.
   
 @SeeAlso
@@ -610,13 +605,13 @@
   Renvoie l'identifiant unique d'une texture. 
   
 @Parameter "#Texture"
-  Le numéro de la texture à utiliser.
+  Le numÃ©ro de la texture Ã  utiliser.
   
 @ReturnValue 
-  Renvoie le numéro de la texture. 
+  Renvoie le numÃ©ro de la texture. 
 
 @Remarks
-  Cet identifiant est notamment nécessaire 
+  Cet identifiant est notamment nÃ©cessaire 
   pour les commandes suivantes: 
   @@AddMaterialLayer(), @@CreateMaterial.
   
@@ -633,7 +628,7 @@
   Renvoie la hauteur d'une texture.
 
 @Parameter "#Texture"
-  La texture à utiliser.
+  La texture Ã  utiliser.
   
 @ReturnValue 
   Renvoie la hauteur en pixels de la texture. 
@@ -648,19 +643,19 @@
 @Function Resultat = TextureOutput(#Texture)
 
 @Description
-  Renvoie le numéro d'une texture.
+  Renvoie le numÃ©ro d'une texture.
 
 @Parameter "#Texture"
-  La texture à utiliser.
+  La texture Ã  utiliser.
   
 @ReturnValue 
-  Renvoie l'identifiant d'une texture nécessaire 
-  à @@StartDrawing pour 
+  Renvoie l'identifiant d'une texture nÃ©cessaire 
+  Ã  @@StartDrawing pour 
   @LibraryLink "2ddrawing" "dessiner" directement 
   sur la texture.
 
 @Remarks  
-  Les textures créées avec @@CreateRenderTexture 
+  Les textures crÃ©Ã©es avec @@CreateRenderTexture 
   ne sont pas prises en charge.
    
 @Example
@@ -685,7 +680,7 @@
   Renvoie la largeur d'une texture.
 
 @Parameter "#Texture"
-  La texture à utiliser.
+  La texture Ã  utiliser.
   
 @ReturnValue 
   Renvoie la largeur en pixels de la texture. 

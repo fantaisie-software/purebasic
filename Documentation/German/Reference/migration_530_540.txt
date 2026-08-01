@@ -1,9 +1,9 @@
-@Title Migration von PureBasic 5.30 nach 5.40
+ï»¿@Title Migration von PureBasic 5.30 nach 5.40
 
 @Section Cipher Bibliothek
 
 @LineBreak
-ExamineMD5Fingerprint(): Code-Änderung
+ExamineMD5Fingerprint(): Code-Ã„nderung
 @Code
   ; Alt
   ExamineMD5Fingerprint(#FingerPrint)
@@ -14,7 +14,7 @@ ExamineMD5Fingerprint(): Code-Änderung
 @EndCode
 
 @LineBreak
-ExamineSHA1Fingerprint(): Code-Änderung
+ExamineSHA1Fingerprint(): Code-Ã„nderung
 @Code
   ; Alt
   ExamineSHA1Fingerprint(#FingerPrint)
@@ -25,7 +25,7 @@ ExamineSHA1Fingerprint(): Code-Änderung
 @EndCode
 
 @LineBreak
-MD5FileFingerprint(): Code-Änderung
+MD5FileFingerprint(): Code-Ã„nderung
 @Code
   ; Alt
   Ergebnis$ = MD5FileFingerprint(Dateiname$)
@@ -36,18 +36,18 @@ MD5FileFingerprint(): Code-Änderung
 @EndCode
 
 @LineBreak
-MD5Fingerprint(): Code-Änderung
+MD5Fingerprint(): Code-Ã„nderung
 @Code
   ; Alt
-  Ergebnis$ = MD5Fingerprint(*Puffer, Größe)
+  Ergebnis$ = MD5Fingerprint(*Puffer, GrÃ¶ÃŸe)
   
   ; Neu
   UseMD5FingerPrint()
-  Ergebnis$ = Fingerprint(*Puffer, Größe, #PB_Cipher_MD5)
+  Ergebnis$ = Fingerprint(*Puffer, GrÃ¶ÃŸe, #PB_Cipher_MD5)
 @EndCode
 
 @LineBreak
-SHA1FileFingerprint(): Code-Änderung
+SHA1FileFingerprint(): Code-Ã„nderung
 @Code
   ; Alt
   Ergebnis$ = SHA1FileFingerprint(Dateiname$)
@@ -58,18 +58,18 @@ SHA1FileFingerprint(): Code-Änderung
 @EndCode
 
 @LineBreak
-SHA1Fingerprint(): Code-Änderung
+SHA1Fingerprint(): Code-Ã„nderung
 @Code
   ; Alt
-  Ergebnis$ = SHA1Fingerprint(*Puffer, Größe)
+  Ergebnis$ = SHA1Fingerprint(*Puffer, GrÃ¶ÃŸe)
   
   ; Neu
   UseSHA1FingerPrint()
-  Ergebnis$ = Fingerprint(*Puffer, Größe, #PB_Cipher_SHA1)
+  Ergebnis$ = Fingerprint(*Puffer, GrÃ¶ÃŸe, #PB_Cipher_SHA1)
 @EndCode
 
 @LineBreak
-CRC32FileFingerprint(): Code-Änderung
+CRC32FileFingerprint(): Code-Ã„nderung
 @Code
   ; Alt
   Ergebnis = CRC32FileFingerprint(Dateiname$)
@@ -80,31 +80,31 @@ CRC32FileFingerprint(): Code-Änderung
 @EndCode
 
 @LineBreak
-CRC32Fingerprint(): Code-Änderung
+CRC32Fingerprint(): Code-Ã„nderung
 @Code
   ; Alt
-  Ergebnis = CRC32Fingerprint(*Puffer, Größe)
+  Ergebnis = CRC32Fingerprint(*Puffer, GrÃ¶ÃŸe)
   
   ; Neu
   UseCRC32FingerPrint()
-  Ergebnis.l = Val("$"+Fingerprint(*Puffer, Größe, #PB_Cipher_CRC32))
+  Ergebnis.l = Val("$"+Fingerprint(*Puffer, GrÃ¶ÃŸe, #PB_Cipher_CRC32))
 @EndCode
 
 @LineBreak
 NextFingerprint(): nur Umbenennung
 @Code
   ; Alt
-  NextFingerprint(#FingerPrint, *Puffer, Größe)
+  NextFingerprint(#FingerPrint, *Puffer, GrÃ¶ÃŸe)
   
   ; Neu
-  AddFingerprintBuffer(#FingerPrint, *Puffer, Größe)
+  AddFingerprintBuffer(#FingerPrint, *Puffer, GrÃ¶ÃŸe)
 @EndCode
 
 @LineBreak
 @Section Mail Bibliothek
 
 @LineBreak
-SendMail(): Code-Änderung, wenn der 'Asynchron' Parameter verwendet wurde
+SendMail(): Code-Ã„nderung, wenn der 'Asynchron' Parameter verwendet wurde
 @Code
   ; Alt
   SendMail(#Mail, Smtp$, Port, 1)
@@ -118,20 +118,20 @@ SendMail(): Code-Änderung, wenn der 'Asynchron' Parameter verwendet wurde
 
 @LineBreak
 RemovePackFile(): entfernt @LineBreak
-PackerEntrySize(): @#PB_Packer_CompressedSize Unterstützung für ZIP- und 7z-Archive entfernt @LineBreak
+PackerEntrySize(): @#PB_Packer_CompressedSize UnterstÃ¼tzung fÃ¼r ZIP- und 7z-Archive entfernt @LineBreak
 
 
 @LineBreak
 @Section Screen Bibliothek
 
 @LineBreak
-AvailableScreenMemory() entfernt, da die neue API diese Information nicht mehr unterstützt. Es wurde ohnehin zumeist '0' zurückgegeben.
+AvailableScreenMemory() entfernt, da die neue API diese Information nicht mehr unterstÃ¼tzt. Es wurde ohnehin zumeist '0' zurÃ¼ckgegeben.
 
 @LineBreak
 @Section Engine3D Bibliothek
 
 @LineBreak
-WorldCollisionAppliedImpulse() gibt jetzt einen Fließkomma-Wert über den angewandten Impuls zurück. GetX/Y/Z() werden nicht mehr unterstützt.
+WorldCollisionAppliedImpulse() gibt jetzt einen FlieÃŸkomma-Wert Ã¼ber den angewandten Impuls zurÃ¼ck. GetX/Y/Z() werden nicht mehr unterstÃ¼tzt.
 
 @LineBreak
 @LineBreak

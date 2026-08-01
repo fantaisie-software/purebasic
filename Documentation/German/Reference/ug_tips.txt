@@ -1,25 +1,25 @@
-@Title Einsteiger-Kapitel - Einige Tipps & Tricks
+ï»¿@Title Einsteiger-Kapitel - Einige Tipps & Tricks
 
 @Section "Verwendung einer Map zur Indexierung einer verketteten Liste"
 
 @ReferenceLink "newlist" "Verkettete Listen" (englisch "Linked list") bieten eine
-leistungsfähige Möglichkeit, ein strukturiertes Ablagesystem zu bauen - aber sie
+leistungsfÃ¤hige MÃ¶glichkeit, ein strukturiertes Ablagesystem zu bauen - aber sie
 haben einen Nachteil. Wenn Sie nicht sicher sind, wo genau in der Liste ein
-bestimmtes Element ist, müssen Sie jeden Eintrag in der Liste prüfen, um den
+bestimmtes Element ist, mÃ¼ssen Sie jeden Eintrag in der Liste prÃ¼fen, um den
 richtigen zu finden.
 @LineBreak
 @LineBreak
-@ReferenceLink "newmap" "Maps" bieten auch eine ähnliche Funktion, werden aber
-stattdessen durch einen Schlüssel-Wert (englisch "Key value") indiziert. Aber auch
+@ReferenceLink "newmap" "Maps" bieten auch eine Ã¤hnliche Funktion, werden aber
+stattdessen durch einen SchlÃ¼ssel-Wert (englisch "Key value") indiziert. Aber auch
 sie haben einen Nachteil: sie verwalten nicht die Reihenfolge, in der Elemente in
-die Liste eingefügt werden.
+die Liste eingefÃ¼gt werden.
 @LineBreak
 @LineBreak
-Doch durch Verwendung einer Kombination von beiden können Sie geschickt beide dieser
+Doch durch Verwendung einer Kombination von beiden kÃ¶nnen Sie geschickt beide dieser
 Probleme vermeiden...
 @LineBreak
 @LineBreak
-Dieses Beispiel lädt eine @ReferenceLink "structures" "strukturierte"
+Dieses Beispiel lÃ¤dt eine @ReferenceLink "structures" "strukturierte"
 @ReferenceLink "newlist" "verkettete Liste" von Buch-Daten und erstellt einen
 Index von ISBN-Nummern mittels einer @ReferenceLink "newmap" "Map".
 Dann demonstriert es, wie auf die verkettete Liste mittels des Index in der
@@ -36,7 +36,7 @@ Map zugegriffen wird.
     Price.d
   EndStructure
   
-  ; Erstellen einer Liste zum Speichern der Katalogeinträge.
+  ; Erstellen einer Liste zum Speichern der KatalogeintrÃ¤ge.
   NewList Catalog.BOOK()
   ; Erstellen einer Map zum Speichern des ISBN Index.
   NewMap ISBN13.l()
@@ -44,10 +44,10 @@ Map zugegriffen wird.
   Define.l Count, Index
   Define.s ISBN
   
-  ; Fügt ein leeres Element am Anfang der Liste hinzu.
+  ; FÃ¼gt ein leeres Element am Anfang der Liste hinzu.
   ; Das erste Element in einer verketteten Liste wird mit Null nummeriert, und die Map wird
-  ; Null zurückgeben, wenn ein angeforderter Eintrag nicht vorhanden ist.
-  ; Dieses leere Element vermeidet ein potentielles Problem mit der Rückgabe eines falschen
+  ; Null zurÃ¼ckgeben, wenn ein angeforderter Eintrag nicht vorhanden ist.
+  ; Dieses leere Element vermeidet ein potentielles Problem mit der RÃ¼ckgabe eines falschen
   ; Verweises auf den ersten Katalogeintrag.
   AddElement(Catalog())
   
@@ -73,7 +73,7 @@ Map zugegriffen wird.
     Debug "Book with ISBN13 " + ISBN + " is at list index " + StrU(Index) + "."
     Debug ""
     
-    ; Wir können nun direkt das richtige Listenelement auswählen, ohne eine Suche durchführen zu müssen.
+    ; Wir kÃ¶nnen nun direkt das richtige Listenelement auswÃ¤hlen, ohne eine Suche durchfÃ¼hren zu mÃ¼ssen.
     SelectElement(Catalog(), Index)
     Debug "'" + Catalog()\Title + "' by " + Catalog()\Author
     Debug "ISBN: " + Catalog()\ISBN13
@@ -114,4 +114,4 @@ Map zugegriffen wird.
 
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_advanced" "< Vorheriges: Fortgeschrittene Funktionen" | @ReferenceLink "ug_overview" "Überblick" 
+@ReferenceLink "ug_advanced" "< Vorheriges: Fortgeschrittene Funktionen" | @ReferenceLink "ug_overview" "Ãœberblick" 

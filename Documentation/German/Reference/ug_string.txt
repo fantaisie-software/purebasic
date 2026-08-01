@@ -1,6 +1,6 @@
-@Title Einsteiger-Kapitel - String-Manipulation
+ï»¿@Title Einsteiger-Kapitel - String-Manipulation
 
-Das folgende Beispiel zeigt Schritt für Schritt die verschiedenen Befehle der
+Das folgende Beispiel zeigt Schritt fÃ¼r Schritt die verschiedenen Befehle der
 @LibraryLink "string" "String" Bibliothek zum Arbeiten mit Zeichenfolgen (Strings) -
 ihren Verwendungszweck und ihre korrekte Anwendung.
 
@@ -9,21 +9,21 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   
   String1 = "The quick brown fox jumps over the lazy dog."
   
-  ; Left gibt eine Anzahl an Zeichen von der linken Seite eines Strings zurück.
-  ; Mid gibt eine Anzahl an Zeichen vom angegebenen Startpunkt in der Mitte eines Strings zurück.
-  ; Right gibt eine Anzahl an Zeichen von der rechten Seite eines Strings zurück.
-  ; Space gibt die angegebene Anzahl an Leerzeichen als einen String zurück.
+  ; Left gibt eine Anzahl an Zeichen von der linken Seite eines Strings zurÃ¼ck.
+  ; Mid gibt eine Anzahl an Zeichen vom angegebenen Startpunkt in der Mitte eines Strings zurÃ¼ck.
+  ; Right gibt eine Anzahl an Zeichen von der rechten Seite eines Strings zurÃ¼ck.
+  ; Space gibt die angegebene Anzahl an Leerzeichen als einen String zurÃ¼ck.
   ; Zeigt "The brown dog."
   Debug "* Left, Mid and Right"
   String2 = Left(String1, 3) + Space(1) + Mid(String1, 11, 5) + Space(1) + Right(String1, 4)
   Debug String2
   
-  ; CountString gibt die Anzahl, wie oft der zweite String im ersten String vorkommt, zurück. Dabei wird die Groß-/Kleinschreibung beachtet.
+  ; CountString gibt die Anzahl, wie oft der zweite String im ersten String vorkommt, zurÃ¼ck. Dabei wird die GroÃŸ-/Kleinschreibung beachtet.
   ; Zeigt 1.
   Debug "* CountString"
   Debug CountString(String1, "the")
   
-  ; Die LCase (und UCase) Funktionen können verwendet werden, um einen String komplett in kleine (oder große) Buchstaben umzuwandeln.
+  ; Die LCase (und UCase) Funktionen kÃ¶nnen verwendet werden, um einen String komplett in kleine (oder groÃŸe) Buchstaben umzuwandeln.
   ; Zeigt 2
   Debug "* CountString and LCase"
   String2 = LCase(String1)
@@ -40,14 +40,14 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   String2 = RemoveString(String1, " brown")
   Debug String2
   
-  ; ReplaceString kann verwendet werden, um das Vorkommen eines Teilstrings innerhalb eines anderen Strings zu ändern.
+  ; ReplaceString kann verwendet werden, um das Vorkommen eines Teilstrings innerhalb eines anderen Strings zu Ã¤ndern.
   ; Zeigt The quick brown fox jumps over the sleeping dog.
   Debug "* ReplaceString"
   String2 = ReplaceString(String1, "lazy", "sleeping")
   Debug String2
   
-  ; StringByteLength gibt die Länge eines Strings in Bytes zurück - im angegebenen Format oder
-  ; den aktuellen Standard, wenn kein Format angegeben wird (ohne das abschließende Nullzeichen).
+  ; StringByteLength gibt die LÃ¤nge eines Strings in Bytes zurÃ¼ck - im angegebenen Format oder
+  ; den aktuellen Standard, wenn kein Format angegeben wird (ohne das abschlieÃŸende Nullzeichen).
   Debug "* StringByteLength"
   ; Zeigt 44.
   Debug StringByteLength(String1, #PB_Ascii)
@@ -55,7 +55,7 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   Debug StringByteLength(String1, #PB_Unicode)
   
   ; StringField kann verwendet werden, um einen indexierten Teilstring aus einem Zielstring zu erhalten.
-  ; Nützlich zum Beispiel für das Konvertieren von String in Listen.
+  ; NÃ¼tzlich zum Beispiel fÃ¼r das Konvertieren von String in Listen.
   ; StringField funktioniert auch mit einem Leerzeichen als Trennzeichen, 
   ; aber hoffentlich macht dieses Beispiel das Verhalten der Funktion noch deutlicher.
   ; Zeigt jumps.
@@ -66,7 +66,7 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   Debug String3
   
   ; Trim entfernt Leerzeichen vom Anfang und Ende eines Strings.
-  ; Ähnlich verhält sich LTrim am linken Ende (Start) eines Strings und RTrim am rechten Ende.
+  ; Ã„hnlich verhÃ¤lt sich LTrim am linken Ende (Start) eines Strings und RTrim am rechten Ende.
   Debug "* Trim, LTrim and RTrim"
   String2 = Space(10) + String1 + Space(8)
   Debug #DQUOTE$ + String2 + #DQUOTE$
@@ -77,21 +77,21 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   String3 = RTrim(String2)
   Debug #DQUOTE$ + String3 + #DQUOTE$
   
-  ; LSet setzt einen String - ausgehend vom linken Ende - auf eine bestimmte Länge. Dabei wird
-  ; gegebenenfalls mit Leerzeichen aufgefüllt oder einem anderen angegebenen Zeichen.
-  ; Ist der String bereits länger als die angegebene Länge, wird er abgeschnitten.
+  ; LSet setzt einen String - ausgehend vom linken Ende - auf eine bestimmte LÃ¤nge. Dabei wird
+  ; gegebenenfalls mit Leerzeichen aufgefÃ¼llt oder einem anderen angegebenen Zeichen.
+  ; Ist der String bereits lÃ¤nger als die angegebene LÃ¤nge, wird er abgeschnitten.
   Debug "*LSet"
   Debug LSet("Abc", 10, "*")
   Debug LSet("Abcd", 10, "*")
   Debug LSet("Abcde", 10, "*")
   
-  ; Ähnlich füllt RSet einen String ausgehend vom rechten Ende auf.
+  ; Ã„hnlich fÃ¼llt RSet einen String ausgehend vom rechten Ende auf.
   Debug "* RSet"
   Debug RSet("1.23", 10, "0")
   Debug RSet("10.23", 10, "0")
   Debug RSet("100.23", 10, "0")
   
-  ; Str wandelt einen vorzeichenbehafteten ("signed") Quad-Wert in einen String, ähnlich wandelt StrF Float-Werte um,
+  ; Str wandelt einen vorzeichenbehafteten ("signed") Quad-Wert in einen String, Ã¤hnlich wandelt StrF Float-Werte um,
   ; StrD wandelt Doubles und StrU konvertiert vorzeichenlose ("unsigned") Werte - die letzten zwei Funktionen haben
   ; einen optionalen Parameter, um anzuzeigen, wieviele Dezimalstellen angezeigt werden sollen.
   Debug "* Str, StrF and StrD"
@@ -99,17 +99,17 @@ ihren Verwendungszweck und ihre korrekte Anwendung.
   Debug StrF(1.234, 3)
   Debug StrD(123456.789, 3)
   
-  ; Val wird einen String-Wert in sein numerisches Äquivalent (Quad) umwandeln.
-  ; ValD und ValF führen die gleiche Funktion für Floats und Doubles aus.
+  ; Val wird einen String-Wert in sein numerisches Ã„quivalent (Quad) umwandeln.
+  ; ValD und ValF fÃ¼hren die gleiche Funktion fÃ¼r Floats und Doubles aus.
   Debug "* Val"
   Debug Val("123")
   
-  ; Bin wird einen numerischen Wert in sein binäres Äquivalent konvertieren.
-  ; Hex wird einen in sein hexadezimales Äquivalent umwandeln.
+  ; Bin wird einen numerischen Wert in sein binÃ¤res Ã„quivalent konvertieren.
+  ; Hex wird einen in sein hexadezimales Ã„quivalent umwandeln.
   Debug "* Bin and Hex"
   Debug Bin(19)
   Debug Hex(19)
 @EndCode
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_loops" "< Vorheriges: Schleifen" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_data" "Nächstes: Speichern von Daten im Speicher >"
+@ReferenceLink "ug_loops" "< Vorheriges: Schleifen" | @ReferenceLink "ug_overview" "Ãœberblick" | @ReferenceLink "ug_data" "NÃ¤chstes: Speichern von Daten im Speicher >"

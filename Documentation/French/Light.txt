@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Light library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,17 +8,17 @@
 
 @Overview
 
-  Les lumières sont des composants essentiels 
-  des mondes 3D. Comme dans le monde réel, il 
-  est possible de créer toutes sortes d'
-  éclairages comme spots, etc et de modifier 
+  Les lumiÃ¨res sont des composants essentiels 
+  des mondes 3D. Comme dans le monde rÃ©el, il 
+  est possible de crÃ©er toutes sortes d'
+  Ã©clairages comme spots, etc et de modifier 
   leurs attributs tels que la couleur, 
-  la luminosité, la direction du faisceau, etc. 
+  la luminositÃ©, la direction du faisceau, etc. 
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
   avant de pouvoir utiliser les commandes 
-  relatives aux lumières.
+  relatives aux lumiÃ¨res.
 
 @CommandList
 
@@ -35,35 +35,35 @@
 @Function Resultat = CopyLight(#Lumiere, #NouvelleLumiere)
 
 @Description
-  Crée une copie d'une lumière.
+  CrÃ©e une copie d'une lumiÃ¨re.
   
 @Parameter "#Lumiere"
-  La lumière à copier.
+  La lumiÃ¨re Ã  copier.
   
 @Parameter "#NouvelleLumiere"
-  Numéro de la nouvelle lumière.
+  NumÃ©ro de la nouvelle lumiÃ¨re.
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 @LineBreak
 @LineBreak
   Tous les attributs de la #Lumiere (couleur, 
-  position, ...) sont dupliqués.
+  position, ...) sont dupliquÃ©s.
   
 @Remarks
-  Si le numéro #NouvelleLumiere est déjà créé 
-  alors il est automatiquement supprimé et 
-  remplacé par le nouveau.
+  Si le numÃ©ro #NouvelleLumiere est dÃ©jÃ  crÃ©Ã© 
+  alors il est automatiquement supprimÃ© et 
+  remplacÃ© par le nouveau.
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  alors le numéro est renvoyé dans 'Resultat'.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  alors le numÃ©ro est renvoyÃ© dans 'Resultat'.
 
 @SeeAlso
   @@CreateLight, @@FreeLight
@@ -75,52 +75,55 @@
 @Function Resultat = CreateLight(#Lumiere, Couleur [, X.f, Y.f, Z.f [, Options]])
 
 @Description
-  Crée une nouvelle lumière. 
+  CrÃ©e une nouvelle lumiÃ¨re. 
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 @LineBreak  
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 
 @Parameter "Couleur"
-  Couleur de la nouvelle lumière.
+  Couleur de la nouvelle lumiÃ¨re.
 @LineBreak  
 @LineBreak   
-  @@RGB peut être utilisée pour obtenir 
-  facilement la couleur désirée.
+  @@RGB peut Ãªtre utilisÃ©e pour obtenir 
+  facilement la couleur dÃ©sirÃ©e.
   
 @OptionalParameter "X.f, Y.f, Z.f"
-  Position de la nouvelle lumière.
+  Position de la nouvelle lumiÃ¨re.
 @LineBreak  
 @LineBreak   
-  La nouvelle lumière est créée par défaut 
-  à la position 0.0,0.0,0.0. 
+  La nouvelle lumiÃ¨re est crÃ©Ã©e par dÃ©faut 
+  Ã  la position 0.0,0.0,0.0. 
   
 @OptionalParameter "Options"
 @FixedFont
-  @#PB_Light_Point         : Créer un point de lumière (Par défaut) (la lumière est émise dans toutes les directions).
-  @#PB_Light_Directional   : Crée une lumière directionnelle.
-  @#PB_Light_Spot          : Crée une lumière de type spot. 
-                            @@SpotLightRange peut être utilisé pour modifier le comportement de la lumière.
+  @#PB_Light_Point         : CrÃ©er un point de lumiÃ¨re (Par dÃ©faut) (la lumiÃ¨re est Ã©mise dans toutes les directions).
+  @#PB_Light_Directional   : CrÃ©e une lumiÃ¨re directionnelle.
+  @#PB_Light_Spot          : CrÃ©e une lumiÃ¨re de type spot. 
+                            @@SpotLightRange peut Ãªtre utilisÃ© pour modifier le comportement de la lumiÃ¨re.
 @EndFixedFont
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak  
 @LineBreak  
- Si la lumière était déjà créée alors elle 
- est automatiquement supprimée et remplacée 
+ Si la lumiÃ¨re Ã©tait dÃ©jÃ  crÃ©Ã©e alors elle 
+ est automatiquement supprimÃ©e et remplacÃ©e 
  par la nouvelle.
+
+@Remarks
+  Si @@WorldShadows est requis, il doit Ãªtre appelÃ© avant de crÃ©er des lumiÃ¨res.
 
 @Example:
 @Code
-  CreateLight(0, RGB(255,0,0)) ; Crée une lumière rouge
+  CreateLight(0, RGB(255,0,0)) ; CrÃ©e une lumiÃ¨re rouge
   
-  CreateLight(1, RGB(0,255,0),  0, 100.7, 50) ; Crée une lumière verte à la position (0, 100.7, 50)
+  CreateLight(1, RGB(0,255,0),  0, 100.7, 50) ; CrÃ©e une lumiÃ¨re verte Ã  la position (0, 100.7, 50)
 @EndCode
 
 @SeeAlso
@@ -133,20 +136,20 @@
 @Function FreeLight(#Lumiere)
 
 @Description
-  Supprime une lumière.
+  Supprime une lumiÃ¨re.
   
 @Parameter "#Lumiere"
-  La lumière à supprimer.
+  La lumiÃ¨re Ã  supprimer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  lumières restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  lumiÃ¨res restantes sont libÃ©rÃ©es.
   
 @NoReturnValue  
 
 @Remarks
-  Toutes les lumières restantes sont 
-  automatiquement supprimées quand le 
+  Toutes les lumiÃ¨res restantes sont 
+  automatiquement supprimÃ©es quand le 
   programme se termine. 
 
 @SeeAlso
@@ -159,15 +162,15 @@
 @Function HideLight(#Lumiere, Etat)
 
 @Description
-  Affiche ou cache une lumière. 
+  Affiche ou cache une lumiÃ¨re. 
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
   
 @Parameter "Etat"
 @FixedFont
-  @#True : la lumière est cachée
-  @#False: la lumière est affichée
+  @#True : la lumiÃ¨re est cachÃ©e
+  @#False: la lumiÃ¨re est affichÃ©e
 @EndFixedFont
 
 @NoReturnValue
@@ -182,24 +185,24 @@
 @Function Resultat = IsLight(#Lumiere)
 
 @Description
-  Teste si une lumière est correctement 
-  initialisée. 
+  Teste si une lumiÃ¨re est correctement 
+  initialisÃ©e. 
   
 @Parameter "#Lumiere"
-  La lumière à tester.
+  La lumiÃ¨re Ã  tester.
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage. 
 @LineBreak
 @LineBreak
-   C'est la fonction idéale pour vérifier 
-   qu'un objet est correctement initialisé.
+   C'est la fonction idÃ©ale pour vÃ©rifier 
+   qu'un objet est correctement initialisÃ©.
 
 @SeeAlso
   @@CreateLight, @@LightID
@@ -211,15 +214,15 @@
 @Function Resultat = GetLightColor(#Lumiere, Type)
 
 @Description
-  Renvoie la couleur d'une lumière. 
+  Renvoie la couleur d'une lumiÃ¨re. 
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @Parameter "Type"
 @FixedFont
-  @#PB_Light_DiffuseColor : Renvoie la valeur de la couleur de diffusion de la lumière (default)
-  @#PB_Light_SpecularColor: Renvoie la valeur de la couleur spéculaire de la lumière
+  @#PB_Light_DiffuseColor : Renvoie la valeur de la couleur de diffusion de la lumiÃ¨re (default)
+  @#PB_Light_SpecularColor: Renvoie la valeur de la couleur spÃ©culaire de la lumiÃ¨re
 @EndFixedFont
  
 @ReturnValue
@@ -235,10 +238,10 @@
 @Function SetLightColor(#Lumiere, Type, Couleur)
 
 @Description
-  Modifie la valeur de la couleur d'une lumière.
+  Modifie la valeur de la couleur d'une lumiÃ¨re.
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
   
 @Parameter "Type"    
 @FixedFont
@@ -251,7 +254,7 @@
   RGB.
 @LineBreak
 @LineBreak  
-  Elle peut être facilement créée avec @@RGB.
+  Elle peut Ãªtre facilement crÃ©Ã©e avec @@RGB.
 
 @NoReturnValue
 
@@ -265,38 +268,38 @@
 @Function SpotLightRange(#Lumiere, AngleInterne, AngleExterne [, Attenuation])
 
 @Description
-  Modifie le comportement d'une lumière de 
+  Modifie le comportement d'une lumiÃ¨re de 
   type 'Spot'. 
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.  
+  La lumiÃ¨re Ã  utiliser.  
   
 @Parameter "AngleInterne"
-  Angle interne de la lumière.
+  Angle interne de la lumiÃ¨re.
 
 @Parameter "AngleExterne"
-  Angle externe de la lumière.
+  Angle externe de la lumiÃ¨re.
   
 @OptionalParameter "Attenuation"
-  Atténuation de la lumière en fonction de la 
+  AttÃ©nuation de la lumiÃ¨re en fonction de la 
   distance. 
 @LineBreak
 @LineBreak
   Une valeur de 1 signifie une diminution 
-  linéaire.
+  linÃ©aire.
 @LineBreak
 @LineBreak
-  Une valeur inférieure à 1 signifie une lente 
-  atténuation.
+  Une valeur infÃ©rieure Ã  1 signifie une lente 
+  attÃ©nuation.
 @LineBreak
 @LineBreak
-  Une valeur supérieure à 1 signifie une 
-  rapide atténuation.
+  Une valeur supÃ©rieure Ã  1 signifie une 
+  rapide attÃ©nuation.
 
 @NoReturnValue
 
 @Remarks
-  @Bold "Attention:" La lumière doit être créé 
+  @Bold "Attention:" La lumiÃ¨re doit Ãªtre crÃ©Ã© 
   avec l'option @#PB_Light_Spot.
 
 @SeeAlso
@@ -309,14 +312,14 @@
 @Function LightLookAt(#Lumiere, X.f, Y.f, Z.f)
 
 @Description
-  Modifie l'orientation d'une lumière dans 
+  Modifie l'orientation d'une lumiÃ¨re dans 
   le monde et pointe vers le point X, Y, Z.
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
   
 @Parameter "X.f, Y.f, Z.f"
-  Coordonnées du point.
+  CoordonnÃ©es du point.
   
 @NoReturnValue
 
@@ -331,15 +334,15 @@
 @Function DisableLightShadow(#Lumiere, Etat)
 
 @Description
-  Désactive ou active la projection des ombres.
+  DÃ©sactive ou active la projection des ombres.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @Parameter "Etat"
 @FixedFont
-  @#True : L'ombre est désactivée. 
-  @#False: L'ombre est activée.
+  @#True : L'ombre est dÃ©sactivÃ©e. 
+  @#False: L'ombre est activÃ©e.
 @EndFixedFont
 
 @NoReturnValue
@@ -354,29 +357,29 @@
 @Function MoveLight(#Lumiere, X.f, Y.f, Z.f [, Mode])
 
 @Description
-  Déplace une lumière dans le monde 3D. 
+  DÃ©place une lumiÃ¨re dans le monde 3D. 
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
   
 @Parameter "X.f, Y.f, Z.f"
-  Déplacement de la lumière.
+  DÃ©placement de la lumiÃ¨re.
 @LineBreak
 @LineBreak
-  Le déplacement est relatif à la position 
-  actuelle de la lumière. 
+  Le dÃ©placement est relatif Ã  la position 
+  actuelle de la lumiÃ¨re. 
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de la lumière (par défaut).
-  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position actuelle de la lumiÃ¨re (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu Ã  la position spÃ©cifiÃ©e.
 @EndFixedFont
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement local.
-  @#PB_Parent: Déplacement par rapport à la position du parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement local.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position du parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
   
 @NoReturnValue
@@ -391,23 +394,23 @@
 @Function LightDirection(#Lumiere, X.f, Y.f, Z.f)
 
 @Description
-  Change la direction de la lumière. 
+  Change la direction de la lumiÃ¨re. 
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @Parameter "X.f, Y.f, Z.f"
   Direction du vecteur.
 @LineBreak
 @LineBreak
-  Généralement une valeur pour X.f, Y.f, Z.f, 
+  GÃ©nÃ©ralement une valeur pour X.f, Y.f, Z.f, 
   comprise entre -1.0 et 1.0, sinon il sera 
-  automatiquement normalisé.
+  automatiquement normalisÃ©.
 
 @NoReturnValue
 
 @Remarks
-  La position de la lumière n'est pas modifiée.
+  La position de la lumiÃ¨re n'est pas modifiÃ©e.
 
 @SeeAlso
   @@LightDirectionX, @@LightDirectionY, 
@@ -421,23 +424,23 @@
 
 @Description
   Renvoie le vecteur de direction 'X' d'une 
-  lumière.
+  lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Renvoie le vecteur de direction 'X' de la 
-  lumière. 
+  lumiÃ¨re. 
 @LineBreak
 @LineBreak
   Cette valeur est toujours comprise entre 
@@ -455,23 +458,23 @@
 
 @Description
   Renvoie le vecteur de direction 'Y' d'une 
-  lumière.
+  lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Renvoie le vecteur de direction 'Y' de la 
-  lumière. 
+  lumiÃ¨re. 
 @LineBreak
 @LineBreak
   Cette valeur est toujours comprise entre 
@@ -489,23 +492,23 @@
 
 @Description
   Renvoie le vecteur de direction 'Z' d'une 
-  lumière.
+  lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Renvoie le vecteur de direction 'Z' de la 
-  lumière. 
+  lumiÃ¨re. 
 @LineBreak
 @LineBreak
   Cette valeur est toujours comprise entre 
@@ -522,23 +525,23 @@
 @Function Resultat = LightX(#Lumiere [, Mode])
 
 @Description
-  Renvoie la position actuelle d'une lumière 
+  Renvoie la position actuelle d'une lumiÃ¨re 
   dans le monde.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World:  Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la position de la lumière en 'X'.
+  Renvoie la position de la lumiÃ¨re en 'X'.
   
 @SeeAlso
   @@LightY, @@LightZ, @@MoveLight
@@ -550,23 +553,23 @@
 @Function Resultat = LightY(#Lumiere [, Mode])
 
 @Description
-  Renvoie la position actuelle d'une lumière 
+  Renvoie la position actuelle d'une lumiÃ¨re 
   dans le monde.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World:  Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la position de la lumière en 'Y'.
+  Renvoie la position de la lumiÃ¨re en 'Y'.
   
 @SeeAlso
   @@LightX, @@LightZ, @@MoveLight
@@ -578,23 +581,23 @@
 @Function Resultat = LightZ(#Lumiere [, Mode])
 
 @Description
-  Renvoie la position actuelle d'une lumière 
+  Renvoie la position actuelle d'une lumiÃ¨re 
   dans le monde.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World:  Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la position de la lumière en 'Z'.
+  Renvoie la position de la lumiÃ¨re en 'Z'.
 
 @SeeAlso
   @@LightX, @@LightY, @@MoveLight
@@ -606,25 +609,25 @@
 @Function LightAttenuation(#Lumiere, Champ, Attenuation.f)
 
 @Description
-  Change l'attenuation d'une lumière.
+  Change l'attenuation d'une lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @Parameter "#Champ"
-  Le champ (dans l'unité du monde) au-delà 
-  duquel la lumière n'éclaire plus le monde.
+  Le champ (dans l'unitÃ© du monde) au-delÃ  
+  duquel la lumiÃ¨re n'Ã©claire plus le monde.
 
 @Parameter "Attenuation"
-  L'atténuation globale de la lumière. 
+  L'attÃ©nuation globale de la lumiÃ¨re. 
 @LineBreak
 @LineBreak
-  Une valeur de 0.0 signifie aucune atténuation 
-  globale (l'atténuation est fonction du champ).
+  Une valeur de 0.0 signifie aucune attÃ©nuation 
+  globale (l'attÃ©nuation est fonction du champ).
 @LineBreak
 @LineBreak
-  Elle peut être utilisée pour régler la 
-  luminosité de la lumière.
+  Elle peut Ãªtre utilisÃ©e pour rÃ©gler la 
+  luminositÃ© de la lumiÃ¨re.
 
 @NoReturnValue
 
@@ -638,21 +641,21 @@
 @Function RotateLight(#Lumiere, X.f, Y.f, Z.f [, Mode])
 
 @Description
-  Rotation d'une lumière
+  Rotation d'une lumiÃ¨re
   
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
   
 @Parameter "X.f, Y.f, Z.f"
   Valeurs des angles de rotation.
 @LineBreak
 @LineBreak
-  Tous les angles sont en degrés.
+  Tous les angles sont en degrÃ©s.
 
 @OptionalParameter "Mode"
 @FixedFont
-  @ConstantColor "PB_Absolute": Rotation absolue (par défaut).
-  @ConstantColor "PB_Relative": Rotation relative basée sur la rotation précédente.  
+  @ConstantColor "PB_Absolute": Rotation absolue (par dÃ©faut).
+  @ConstantColor "PB_Relative": Rotation relative basÃ©e sur la rotation prÃ©cÃ©dente.  
 @EndFixedFont
 
 @NoReturnValue
@@ -667,24 +670,24 @@
 @Function Resultat.f = LightRoll(#Lumiere [, Mode])
 
 @Description
-  Renvoie le roulis d'une lumière.
+  Renvoie le roulis d'une lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateLight pour récupérer la même orientation (par défaut).
-  @#False: Le roulis est ajusté, de sorte qu'il peut être réutilisé avec @@RotateLight pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le roulis est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur courante du roulis de la lumière.
+  La valeur courante du roulis de la lumiÃ¨re.
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@LightYaw, @@LightPitch
@@ -696,24 +699,24 @@
 @Function Resultat.f = LightPitch(#Lumiere [, Mode])
 
 @Description
-  Renvoie le tangage d'une lumière.
+  Renvoie le tangage d'une lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateLight pour récupérer la même orientation (par défaut).
-  @#False: Le tangage est ajusté, de sorte qu'il peut être réutilisé avec @@RotateLight pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le tangage est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur courante du tangage de la lumière.
+  La valeur courante du tangage de la lumiÃ¨re.
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@LightYaw, @@LightRoll
@@ -725,24 +728,24 @@
 @Function Resultat.f = LightYaw(#Lumiere [, Mode])
 
 @Description
-  Renvoie le lacet d'une lumière.
+  Renvoie le lacet d'une lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La valeur brute, mais elle ne peut pas être utilisée avec @@RotateLight pour récupérer la même orientation (par défaut).
-  @#False: Le lacet est ajusté, de sorte qu'il peut être réutilisé avec @@RotateLight pour récupérer la même orientation.
+  @#True : La valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le lacet est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateLight pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur courante du lacet de la lumière.
+  La valeur courante du lacet de la lumiÃ¨re.
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@LightPitch, @@LightRoll
@@ -754,14 +757,14 @@
 @Function LumiereID = LightID(#Lumiere)
 
 @Description
-  Renvoie l'identificateur système unique d'une 
-  lumière.
+  Renvoie l'identificateur systÃ¨me unique d'une 
+  lumiÃ¨re.
 
 @Parameter "#Lumiere"
-  La lumière à utiliser.
+  La lumiÃ¨re Ã  utiliser.
 
 @ReturnValue
-  Renvoie le numéro de la lumière.
+  Renvoie le numÃ©ro de la lumiÃ¨re.
 
 @SeeAlso
   @@CreateLight,  @@IsLight

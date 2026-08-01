@@ -661,8 +661,18 @@ Procedure CustomizeTabBarGadget()
   CompilerIf #CompileLinuxGtk
     *Style.GtkStyle = gtk_widget_get_style_(WindowID(#WINDOW_Main))
     TabBarGadgetInclude\TabBarColor = RGB(*Style\bg[#GTK_STATE_NORMAL]\red >> 8, *Style\bg[#GTK_STATE_NORMAL]\green >> 8, *Style\bg[#GTK_STATE_NORMAL]\blue >> 8)
+
+    ;Added to get nicer tabbar on darkmode: Erlend 'Preacher' Rovik
+    TabBarGadgetInclude\BorderColor = $FF<<24 | RGB(*Style\dark[#GTK_STATE_NORMAL]\red >> 8, *Style\dark[#GTK_STATE_NORMAL]\green >> 8, *Style\dark[#GTK_STATE_NORMAL]\blue >> 8)
+    TabBarGadgetInclude\FaceColor = $FF<<24 | RGB(*Style\mid[#GTK_STATE_NORMAL]\red >> 8 +30, *Style\mid[#GTK_STATE_NORMAL]\green >> 8+30, *Style\mid[#GTK_STATE_NORMAL]\blue >> 8+30)
+    TabBarGadgetInclude\TextColor = $FF<<24 | RGB(*Style\fg[#GTK_STATE_NORMAL]\red >> 8, *Style\fg[#GTK_STATE_NORMAL]\green >> 8, *Style\fg[#GTK_STATE_NORMAL]\blue >> 8)
     
     ; some adjustments to the generally larger fonts on Linux
+    TabBarGadgetInclude\CloseButtonSize = 15
+  CompilerEndIf
+  
+  CompilerIf #CompileLinuxQt
+    TabBarGadgetInclude\TabBarColor = QT_WindowBackgroundColor(WindowID(#WINDOW_Main))
     TabBarGadgetInclude\CloseButtonSize = 15
   CompilerEndIf
   
@@ -836,7 +846,7 @@ Procedure CreateGUI()
   
   BindEvent(#PB_Event_SizeWindow, @RealtimeSizeWindowEventHandler(), #PB_All, #PB_All, #PB_All)
   
-  CompilerIf #CompileWindows | #CompileMac ; special shortcuts for tab/enter on scintilla
+  CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt ; special shortcuts for tab/enter on scintilla
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab, #MENU_Scintilla_Tab)
     AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab, #MENU_Scintilla_ShiftTab)
@@ -1799,7 +1809,7 @@ Procedure MainMenuEvent(MenuItemID)
       
       ; Enter handling in Scintilla (and other places) via global shortcut
       ; For linux this is done via ScintillaShortcutHandler()
-      CompilerIf #CompileWindows | #CompileMac
+      CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
         
       Case #MENU_Scintilla_Enter
         If AutoCompleteWindowOpen And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return    ; special handling when enter is used here
@@ -1952,10 +1962,6 @@ Procedure UpdateSourceContainer()
       ResizeGadget(#GADGET_ProjectInfo, 0, PanelTabHeight, EditWidth, EditHeight-PanelTabHeight)
       ResizeProjectInfo(EditWidth, EditHeight-PanelTabHeight)
     Else
-      CompilerIf #CompileMacCarbon
-        EditWidth-4 ; On OS X scintilla a bit buggy concerning size (due to my bad implementation ;)
-      CompilerEndIf
-      
       If *ActiveSource\IsForm <> 0
         ResizeGadget(#GADGET_Form, 0, PanelTabHeight, EditWidth, EditHeight-PanelTabHeight)
         ResizeFormInfo(EditWidth, EditHeight-PanelTabHeight)
@@ -1968,6 +1974,7 @@ EndProcedure
 
 
 Procedure MainWindowEvents(EventID)
+  Static LogSplitterState, ToolsSplitterState
   Quit = 0
   
   If EventID = #PB_Event_ActivateWindow
@@ -2062,17 +2069,40 @@ Procedure MainWindowEvents(EventID)
     EventGadgetID = EventGadget()
     Select EventGadgetID
         
-      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item
-        If ToolsPanelVisible And CurrentTool
-          CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+      Case #GADGET_ToolsSplitter ; Resize current ToolsPanel Item only if there is a real change in the splitter position
+        ToolsSplitterCurrentState   = GetGadgetState(#GADGET_ToolsSplitter)
+        If ToolsSplitterCurrentState <> ToolsSplitterState
+          ToolsSplitterState = ToolsSplitterCurrentState
+          
+          If ToolsPanelVisible And CurrentTool
+            CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+          EndIf
+          
+          If ErrorLogVisible = 0
+            UpdateSourceContainer()
+          EndIf
         EndIf
-        
-        If ErrorLogVisible = 0
+      
+      Case #GADGET_LogSplitter ; Resize current LogPanel Item only if there is a real change in the splitter position
+        LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
+        If LogSplitterCurrentState <> LogSplitterState
+          LogSplitterState = LogSplitterCurrentState
+          
+          If ErrorLogVisible
+            UpdateSourceContainer()
+          EndIf
+        EndIf
+      
+      Case #GADGET_SourceContainer  ; Resize Item only if there is a real change in the splitters positions
+        LogSplitterCurrentState   = GetGadgetState(#GADGET_LogSplitter)
+        ToolsSplitterCurrentState = GetGadgetState(#GADGET_ToolsSplitter)
+        If LogSplitterCurrentState <> LogSplitterState
+           LogSplitterState = LogSplitterCurrentState
+          
           UpdateSourceContainer()
-        EndIf
-        
-      Case #GADGET_LogSplitter
-        If ErrorLogVisible
+        ElseIf  ToolsSplitterCurrentState <> ToolsSplitterState
+          ToolsSplitterState = ToolsSplitterCurrentState
+          
           UpdateSourceContainer()
         EndIf
         
@@ -2214,19 +2244,30 @@ Procedure MainWindowEvents(EventID)
           
           DisplayPopupMenu(#POPUPMENU_ErrorLog, WindowID(#WINDOW_Main))
         EndIf
+              
+      Case #GADGET_ProjectInfo_FilterInput
+        If EventType() = #PB_EventType_Change
+          ProjectInfo_Filter(GetGadgetText(#GADGET_ProjectInfo_FilterInput))
+        EndIf
+        
+      Case #GADGET_ProjectInfo_SortFiles
+        ProjectFilesSort = GetGadgetState(#GADGET_ProjectInfo_SortFiles)
+        UpdateProjectInfo()
         
       Case #GADGET_ProjectInfo_Files
         index = GetGadgetState(#GADGET_ProjectInfo_Files)
         Select EventType()
             
           Case #PB_EventType_DragStart
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              DragFiles(ProjectFiles()\Filename$)
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              DragFiles(*ProjectFiles\Filename$)
             EndIf
             
           Case #PB_EventType_LeftDoubleClick
-            If index <> -1 And SelectElement(ProjectFiles(), index)
-              LoadSourceFile(ProjectFiles()\Filename$) ; will just switch if open
+            If index <> -1
+              *ProjectFiles.ProjectFile = GetGadgetItemData(#GADGET_ProjectInfo_Files, index)
+              LoadSourceFile(*ProjectFiles\Filename$) ; will just switch if open
             EndIf
             
           Case #PB_EventType_RightClick
@@ -2331,7 +2372,7 @@ Procedure ResizeMainWindow()
   ElseIf ToolsPanelAutoHide And ToolsPanelVisible = 0 ; toolspanel existing, but hidden
     EditWidth = EditorWindowWidth - ToolsPanelHiddenWidth
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       ; On linux, we have a nice vertical panel As well here...
       If ToolsPanelSide = 0  ; ToolsPanel on right side
         EditLeft = 0
@@ -2530,190 +2571,187 @@ Procedure DispatchEvent(EventID)
     ;
     If EventID = #PB_Event_Menu And EventMenu() = #MENU_Exit
       QuitIDE = MainWindowEvents(EventID)
-    Else
-    CompilerEndIf
-    
-    ;   If EventID <> 4 And EventID <> -1
-    ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
-    ;   EndIf
-    
-    ; Form events - this is not in the main window event procedure as it handles the grid events as well
-    ; it also handles the specific menu events related to form popups
-    FD_Event(EventID, EventGadget(), EventType())
-    
-    Select EventWindow()
-        
-      Case #WINDOW_Main
-        QuitIDE = MainWindowEvents(EventID)
-        
-      Case #WINDOW_About
-        AboutWindowEvents(EventID)
-        
-      Case #WINDOW_Preferences
-        PreferencesWindowEvents(EventID)
-        
-      Case #WINDOW_FileViewer
-        FileViewerWindowEvents(EventID)
-        
-      Case #WINDOW_Goto
-        GotoWindowEvents(EventID)
-        
-      Case #WINDOW_Find
-        FindWindowEvents(EventID)
-        
-      Case #WINDOW_StructureViewer
-        StructureViewerWindowEvents(EventID)
-        
-      Case #WINDOW_Grep
-        GrepWindowEvents(EventID)
-        
-      Case #WINDOW_GrepOutput
-        GrepOutputWindowEvents(EventID)
-        
-      Case #WINDOW_Option
-        OptionWindowEvents(EventID)
-        
-        CompilerIf #SpiderBasic
-        Case #WINDOW_CreateApp
-          CreateAppWindowEvents(EventID)
-        CompilerEndIf
-        
-      Case #WINDOW_AddTools
-        AddTools_WindowEvents(EventID)
-        
-      Case #WINDOW_EditTools
-        AddTools_EditWindowEvents(EventID)
-        
-      Case #WINDOW_AutoComplete
-        AutoCompleteWindowEvents(EventID)
-        
-      Case #WINDOW_Template
-        TemplateWindowEvents(EventID)
-        
-      Case #WINDOW_MacroError
-        MacroErrorWindowEvents(EventID)
-        
-      Case #WINDOW_Warnings
-        WarningWindowEvents(EventID)
-        
-      Case #WINDOW_Compiler
-        CompilerWindowEvents(EventID)
-        
-      Case #WINDOW_ProjectOptions
-        ProjectOptionsEvents(EventID)
-        
-      Case #WINDOW_Build
-        BuildWindowEvents(EventID)
-        
-      Case #WINDOW_Diff
-        DiffWindowEvents(EventID)
-        
-      Case #WINDOW_DiffDialog
-        DiffDialogWindowEvents(EventID)
-        
-      Case #WINDOW_FileMonitor
-        FileMonitorWindowEvents(EventID)
-        
-      Case #Form_ImgList
-        FormImgListWindowEvents(EventID)
-        
-      Case #Form_Columns
-        FormColumnsWindowEvents(EventID)
-        
-      Case #Form_Items
-        FormItemsWindowEvents(EventID)
-        
-      Case #WINDOW_Form_Parent
-        FD_EventSelectParent(EventID)
-        
-      Case #WINDOW_EditHistory
-        EditHistoryWindowEvent(EventID)
-        
-      Case #WINDOW_Updates
-        UpdateWindowEvents(EventID)
-        
-        CompilerIf #CompileLinux | #CompileMac
-          
-        Case #WINDOW_Help
-          HelpWindowEvents(EventID)
-          
-        CompilerEndIf
-        
-        CompilerIf #DEBUG
-          
-        Case #WINDOW_Debugging
-          DebuggingWindowEvents(EventID)
-          
-        CompilerEndIf
-        
-      Default
-        ; check debugger events
-        ;
-        If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
-          If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
-            
-            ; check ToolsPanel tools in separate windows
-            ;
-            ForEach AvailablePanelTools()
-              If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
-                If EventID = #PB_Event_CloseWindow
-                  
-                  If AvailablePanelTools()\NeedDestroyFunction
-                    Tool.ToolsPanelInterface = @AvailablePanelTools()
-                    Tool\DestroyFunction()
-                  EndIf
-                  
-                  If MemorizeWindow
-                    Window = AvailablePanelTools()\ToolWindowID
-                    If IsWindowMinimized(Window) = 0
-                      AvailablePanelTools()\ToolWindowX      = WindowX(Window)
-                      AvailablePanelTools()\ToolWindowY      = WindowY(Window)
-                      AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
-                      AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
-                    EndIf
-                  EndIf
-                  CloseWindow(AvailablePanelTools()\ToolWindowID)
-                  AvailablePanelTools()\ToolWindowID = -1
-                  AvailablePanelTools()\IsSeparateWindow = 0
-                  
-                ElseIf EventID = #PB_Event_Gadget
-                  If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
-                    AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
-                    SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
-                  Else
-                    Tool.ToolsPanelInterface = @AvailablePanelTools()
-                    Tool\EventHandler(EventGadget())
-                  EndIf
-                  
-                  ; menu events in a separate toolspanel item are treated as main window events,
-                  ; same as when they are integrated in the sidepanel
-                  ; same for drag & drop events
-                ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
-                  MainWindowEvents(EventID)
-                  
-                ElseIf EventID = #PB_Event_SizeWindow
-                  ResizeTools()
-                  
-                ElseIf EventID = #PB_Event_GadgetDrop
-                  ; special case for the Templates D+D
-                  If EventGadget() = #GADGET_Template_Tree
-                    Template_DropEvent()
-                  EndIf
-                  
-                EndIf
-                
-                Break
-              EndIf
-            Next AvailablePanelTools()
-            
-          EndIf
-        EndIf
-        
-    EndSelect
-    
-    CompilerIf #CompileMac
+      ProcedureReturn EventID
     EndIf
   CompilerEndIf
+  
+  ;   If EventID <> 4 And EventID <> -1
+  ;   ;  Debug "Event: "+Str(EventID)+"   Window: " + Str(EventWindow())
+  ;   EndIf
+  
+  ; Form events - this is not in the main window event procedure as it handles the grid events as well
+  ; it also handles the specific menu events related to form popups
+  FD_Event(EventID, EventGadget(), EventType())
+  
+  Select EventWindow()
+      
+    Case #WINDOW_Main
+      QuitIDE = MainWindowEvents(EventID)
+      
+    Case #WINDOW_About
+      AboutWindowEvents(EventID)
+      
+    Case #WINDOW_Preferences
+      PreferencesWindowEvents(EventID)
+      
+    Case #WINDOW_FileViewer
+      FileViewerWindowEvents(EventID)
+      
+    Case #WINDOW_Goto
+      GotoWindowEvents(EventID)
+      
+    Case #WINDOW_Find
+      FindWindowEvents(EventID)
+      
+    Case #WINDOW_StructureViewer
+      StructureViewerWindowEvents(EventID)
+      
+    Case #WINDOW_Grep
+      GrepWindowEvents(EventID)
+      
+    Case #WINDOW_GrepOutput
+      GrepOutputWindowEvents(EventID)
+      
+    Case #WINDOW_Option
+      OptionWindowEvents(EventID)
+      
+      CompilerIf #SpiderBasic
+      Case #WINDOW_CreateApp
+        CreateAppWindowEvents(EventID)
+      CompilerEndIf
+      
+    Case #WINDOW_AddTools
+      AddTools_WindowEvents(EventID)
+      
+    Case #WINDOW_EditTools
+      AddTools_EditWindowEvents(EventID)
+      
+    Case #WINDOW_AutoComplete
+      AutoCompleteWindowEvents(EventID)
+      
+    Case #WINDOW_Template
+      TemplateWindowEvents(EventID)
+      
+    Case #WINDOW_MacroError
+      MacroErrorWindowEvents(EventID)
+      
+    Case #WINDOW_Warnings
+      WarningWindowEvents(EventID)
+      
+    Case #WINDOW_Compiler
+      CompilerWindowEvents(EventID)
+      
+    Case #WINDOW_ProjectOptions
+      ProjectOptionsEvents(EventID)
+      
+    Case #WINDOW_Build
+      BuildWindowEvents(EventID)
+      
+    Case #WINDOW_Diff
+      DiffWindowEvents(EventID)
+      
+    Case #WINDOW_DiffDialog
+      DiffDialogWindowEvents(EventID)
+      
+    Case #WINDOW_FileMonitor
+      FileMonitorWindowEvents(EventID)
+      
+    Case #Form_ImgList
+      FormImgListWindowEvents(EventID)
+      
+    Case #Form_Columns
+      FormColumnsWindowEvents(EventID)
+      
+    Case #Form_Items
+      FormItemsWindowEvents(EventID)
+      
+    Case #WINDOW_Form_Parent
+      FD_EventSelectParent(EventID)
+      
+    Case #WINDOW_EditHistory
+      EditHistoryWindowEvent(EventID)
+      
+    Case #WINDOW_Updates
+      UpdateWindowEvents(EventID)
+      
+      CompilerIf #CompileLinux | #CompileMac
+        
+      Case #WINDOW_Help
+        HelpWindowEvents(EventID)
+        
+      CompilerEndIf
+      
+      CompilerIf #DEBUG
+        
+      Case #WINDOW_Debugging
+        DebuggingWindowEvents(EventID)
+        
+      CompilerEndIf
+      
+    Default
+      ; check debugger events
+      ;
+      If Debugger_ProcessShortcuts(EventWindow(), EventID) = 0 ; ide debugger
+        If Debugger_ProcessEvents(EventWindow(), EventID) = 0  ; 0 means unhandled (debugger general function)
+          
+          ; check ToolsPanel tools in separate windows
+          ;
+          ForEach AvailablePanelTools()
+            If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
+              If EventID = #PB_Event_CloseWindow
+                
+                If AvailablePanelTools()\NeedDestroyFunction
+                  Tool.ToolsPanelInterface = @AvailablePanelTools()
+                  Tool\DestroyFunction()
+                EndIf
+                
+                If MemorizeWindow
+                  Window = AvailablePanelTools()\ToolWindowID
+                  If IsWindowMinimized(Window) = 0
+                    AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+                    AvailablePanelTools()\ToolWindowY      = WindowY(Window)
+                    AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
+                    AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
+                  EndIf
+                EndIf
+                CloseWindow(AvailablePanelTools()\ToolWindowID)
+                AvailablePanelTools()\ToolWindowID = -1
+                AvailablePanelTools()\IsSeparateWindow = 0
+                
+              ElseIf EventID = #PB_Event_Gadget
+                If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
+                  AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
+                  SetWindowStayOnTop(AvailablePanelTools()\ToolWindowID, AvailablePanelTools()\IsToolStayOnTop)
+                Else
+                  Tool.ToolsPanelInterface = @AvailablePanelTools()
+                  Tool\EventHandler(EventGadget())
+                EndIf
+                
+                ; menu events in a separate toolspanel item are treated as main window events,
+                ; same as when they are integrated in the sidepanel
+                ; same for drag & drop events
+              ElseIf EventID = #PB_Event_Menu Or EventID = #PB_Event_GadgetDrop
+                MainWindowEvents(EventID)
+                
+              ElseIf EventID = #PB_Event_SizeWindow
+                ResizeTools()
+                
+              ElseIf EventID = #PB_Event_GadgetDrop
+                ; special case for the Templates D+D
+                If EventGadget() = #GADGET_Template_Tree
+                  Template_DropEvent()
+                EndIf
+                
+              EndIf
+              
+              Break
+            EndIf
+          Next AvailablePanelTools()
+          
+        EndIf
+      EndIf
+      
+  EndSelect
   
   ProcedureReturn EventID ; return the eventid still, to be able to check for 0 events (empty queue)
 EndProcedure
@@ -2722,9 +2760,18 @@ EndProcedure
 ;
 Procedure FlushEvents()
   
-  While DispatchEvent(WindowEvent()) ; returns the eventid
-    EventLoopCallback()
-  Wend
+  CompilerIf #PB_Compiler_Debugger
+    ; When debugging the IDE with a new tab then drag and drop a project, it crashes with: [ERROR] WindowEvent() can Not be called from a 'binded' event callback.
+    If InDragDropCallback = #False
+      While DispatchEvent(WindowEvent()) ; returns the eventid
+        EventLoopCallback()
+      Wend
+    EndIf
+  CompilerElse
+    While DispatchEvent(WindowEvent()) ; returns the eventid
+      EventLoopCallback()
+    Wend
+  CompilerEndIf        
   
 EndProcedure
 

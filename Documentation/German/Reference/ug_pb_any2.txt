@@ -1,29 +1,30 @@
-@Title UserGuide - Verwalten mehrerer Fenster mit unterschiedlichem Inhalt
+ï»¿@Title UserGuide - Verwalten mehrerer Fenster mit unterschiedlichem Inhalt
 
 Im @ReferenceLink "ug_pb_any1" "vorangegangenen Artikel" haben wir einen Weg untersucht,
 wie ein Programm mehrere Ausgaben eines einzelnen @LibraryLink "window" "Fenster"-Typs
-unterstützen kann. In diesem Artikel möchten wir dieses Konzept weiter ausbauen - indem
+unterstÃ¼tzen kann. In diesem Artikel mÃ¶chten wir dieses Konzept weiter ausbauen - indem
 wir ein Programm entwickeln, welches mehrere Instanzen unterschiedlicher Fenster
-unterstützt, in diesem Fall drei:
+unterstÃ¼tzt, in diesem Fall drei:
 @Indent
-- Das Schalter (Button) Fenster – beinhaltet ein @Link "gadget/listviewgadget" "ListView" und zwei
+- Das Schalter (Button) Fenster â€“ beinhaltet ein @Link "gadget/listviewgadget" "ListView" und zwei
   @Link "gadget/buttongadget" "Schalter" (Buttons) genannt 'Add' und 'Remove'. Wenn der
-  Schalter 'Add' (Hinzufügen) angeklickt wird, dann wird eine @Link "math/random" "Zufallszahl"
-  zum ListView hinzugefügt. Wenn der Schalter 'Remove' (Entfernen) angeklickt wird, dann
-  wird der gerade im ListView ausgewählte Eintrag entfernt.
+  Schalter 'Add' (HinzufÃ¼gen) angeklickt wird, dann wird eine @Link "math/random" "Zufallszahl"
+  zum ListView hinzugefÃ¼gt. Wenn der Schalter 'Remove' (Entfernen) angeklickt wird, dann
+  wird der gerade im ListView ausgewÃ¤hlte Eintrag entfernt.
   @LineBreak
-- Das Datums (Date) Fenster – beinhaltet ein ListView und zwei Schalter der gleichen Art
+- Das Datums (Date) Fenster â€“ beinhaltet ein ListView und zwei Schalter der gleichen Art
   wie beim Schalter-Fenster, besitzt jedoch auch ein @Link "gadget/calendargadget" "CalendarGadget",
-  das Fenster-Layout wird wegen dieses zusätzlichen Gadgets angepasst. Wenn der Schalter
-  'Add' angeklickt wird, dann wird das aktuell ausgewählte Datum zum ListView hinzugefügt.
+  das Fenster-Layout wird wegen dieses zusÃ¤tzlichen Gadgets angepasst. Wenn der Schalter
+  'Add' angeklickt wird, dann wird das aktuell ausgewÃ¤hlte Datum zum ListView hinzugefÃ¼gt.
+  @LineBreak
 - Das Schieberegler (Track) Fenster - beinhaltet zwei @Link "gadget/trackbargadget" "TrackBars",
   mit einem Wert zwischen 0 und 100, und ein @Link "gadget/stringgadget" "StringGadget".
   Wenn die Schieberegler bewegt werden, dann wird das StringGadget aktualisiert - mit dem
   Wert des zweiten Schiebereglers subtrahiert vom ersten.
 @EndIndent
 
-Jedes Fenster besitzt eine @LibraryLink "menu" "Menüleiste" mit Einträgen zum Erstellen einer
-neuen Instanz jedes der drei unterstützten Fenstertypen oder zum Schließen des aktuellen
+Jedes Fenster besitzt eine @LibraryLink "menu" "MenÃ¼leiste" mit EintrÃ¤gen zum Erstellen einer
+neuen Instanz jedes der drei unterstÃ¼tzten Fenstertypen oder zum SchlieÃŸen des aktuellen
 Fensters.
 @LineBreak
 @LineBreak
@@ -31,20 +32,20 @@ Wesentliche Dinge, die es zu diesem Programm anzumerken gibt:
 @LineBreak
 @LineBreak
 Im Abschnitt "Strukturen" werden 4 @ReferenceLink "structures" "Strukturen" definiert. Die erste,
-BASEWINDOW, definiert einen WindowClass Wert und einen Menu Wert – diese Werte sind bei
+BASEWINDOW, definiert einen WindowClass Wert und einen Menu Wert â€“ diese Werte sind bei
 jedem Fenstertyp einheitlich.
 @LineBreak
 @LineBreak
-Die weiteren Strukturen erweitern die BASEWINDOW Struktur mit Werten für jedes der einmaligen
-Gadgets, welche von den jeweiligen Fenstertypen benötigt und nicht von BASEWINDOW Struktur
+Die weiteren Strukturen erweitern die BASEWINDOW Struktur mit Werten fÃ¼r jedes der einmaligen
+Gadgets, welche von den jeweiligen Fenstertypen benÃ¶tigt und nicht von BASEWINDOW Struktur
 angeboten werden.
 @LineBreak
 @LineBreak
 Im @ReferenceLink "variables" "Variablen" Abschnitt sehen Sie, dass erneut eine
 @ReferenceLink "newmap" "Map" names ActiveWindows erstellt wird, diesmal ist diese jedoch
-vom Typ Integer, sie verwendet keine der definierten Strukturen. Und dafür gibt es einen
-guten Grund: wir müssen drei verschiedene Struktur-Typen speichern, um dieses Programm
-lauffähig zu machen - und wir können dies nicht mit einer einzigen Map erreichen.
+vom Typ Integer, sie verwendet keine der definierten Strukturen. Und dafÃ¼r gibt es einen
+guten Grund: wir mÃ¼ssen drei verschiedene Struktur-Typen speichern, um dieses Programm
+lauffÃ¤hig zu machen - und wir kÃ¶nnen dies nicht mit einer einzigen Map erreichen.
 @LineBreak
 @LineBreak
 Beachten Sie auch, dass *EventGadgets mittels der BASEWINDOW Struktur definiert wird.
@@ -57,65 +58,65 @@ Wie schon zuvor verwenden wir @ReferenceLink "purebasic_objects" "#PB_Any", um d
 @LineBreak
 Diesmal werden die Ergebnisse jedoch nicht direkt in der ActiveWindows Map gespeichert.
 Stattdessen verwenden wir die @Link "memory/allocatememory" "AllocateMemory" Funktion, um
-Speicher für eine BUTTONWINDOW Struktur zu reservieren, dann speichern wir einen
+Speicher fÃ¼r eine BUTTONWINDOW Struktur zu reservieren, dann speichern wir einen
 @ReferenceLink "memory" "Zeiger" (Pointer) auf diesen Speicherbereich in der ActiveWindows
 Map. Damit umgehen wir das Problem, dass wir nicht alle drei verschiedenen Strukturen
-in der gleichen Map speichern können.
+in der gleichen Map speichern kÃ¶nnen.
 @LineBreak
 @LineBreak
 Wir setzen auch den WindowClass Wert in der Struktur auf #WindowClassButton, um anzugeben,
-welcher Fenstertyp und somit welche Art von Struktur erstellt wurde - wir werden später
-darüber Bescheid wissen müssen.
+welcher Fenstertyp und somit welche Art von Struktur erstellt wurde - wir werden spÃ¤ter
+darÃ¼ber Bescheid wissen mÃ¼ssen.
 @LineBreak
 @LineBreak
-Es gibt zwei weitere CreateWindow Prozeduren dieses Mal - eine für jede Klasse (Class) der
-anderen Fenstertypen. Sie funktionieren auf ähnliche Art und Weise wie die beschriebene, und
-unterscheiden sich nur dadurch, dass die unterschiedlichen Gadgets berücksichtigt werden
+Es gibt zwei weitere CreateWindow Prozeduren dieses Mal - eine fÃ¼r jede Klasse (Class) der
+anderen Fenstertypen. Sie funktionieren auf Ã¤hnliche Art und Weise wie die beschriebene, und
+unterscheiden sich nur dadurch, dass die unterschiedlichen Gadgets berÃ¼cksichtigt werden
 und ein anderer Wert in WindowClass gesetzt wird.
 @LineBreak
 @LineBreak
 Analog haben wir DestroyWindow und ResizeWindow Prozeduren, um auch diese Funktionen zu
-berücksichtigen.
+berÃ¼cksichtigen.
 @LineBreak
 @LineBreak
-Wir haben auch eine neue Prozedur – EventsButtonWindow. Diese Prozedur weiß, was zu tun ist,
-wenn irgendeines der Gadgets auf dem Fenster durch den Anwender aktiviert wird. Ähnliche
-Prozeduren werden auch für die anderen Fenstertypen angeboten.
+Wir haben auch eine neue Prozedur â€“ EventsButtonWindow. Diese Prozedur weiÃŸ, was zu tun ist,
+wenn irgendeines der Gadgets auf dem Fenster durch den Anwender aktiviert wird. Ã„hnliche
+Prozeduren werden auch fÃ¼r die anderen Fenstertypen angeboten.
 @LineBreak
 @LineBreak
 In all diesen Prozeduren verwenden wir die ActiveWindows Map, um den Zeiger auf den
-jeweils reservierten Speicher zu erhalten. Wir können dann diesen Zeiger verwenden, um
+jeweils reservierten Speicher zu erhalten. Wir kÃ¶nnen dann diesen Zeiger verwenden, um
 an die Referenzen der aktuellen Gadgets zu kommen, mit denen wir in jeder dieser
-Prozeduren arbeiten müssen:
+Prozeduren arbeiten mÃ¼ssen:
 @Code
   *ThisData = ActiveWindows(ThisKey)
   *ThisData\ListView ...
 @EndCode
-Jeder Prozedur weiß nur, wie ein Typ von Fenster verwaltet werden kann - daher überprüfen
+Jeder Prozedur weiÃŸ nur, wie ein Typ von Fenster verwaltet werden kann - daher Ã¼berprÃ¼fen
 wir vor den weiteren Schritten den WindowClass Wert, um sicherzugehen, dass ein Fenster
-mit einem korrekten Typ als Argument übermittelt wurde, etwa so hier:
+mit einem korrekten Typ als Argument Ã¼bermittelt wurde, etwa so hier:
 @Code
   If *ThisData\WindowClass <> #WindowClassButton
 @EndCode
-Die @Link "window/waitwindowevent" "Ereignis-Schleife" ist ebenfalls etwas anders. Für jeden
+Die @Link "window/waitwindowevent" "Ereignis-Schleife" ist ebenfalls etwas anders. FÃ¼r jeden
 Ereignis-Typ gibt es eine Bestimmung wie folgt:
 @Code
-  ; Verwende  *EventGadgets\WindowClass, um die korrekte Prozedur zur Größenänderung des Fensters aufzurufen.
+  ; Verwende  *EventGadgets\WindowClass, um die korrekte Prozedur zur GrÃ¶ÃŸenÃ¤nderung des Fensters aufzurufen.
   Select *EventtGadgets\WindowClass ...
 @EndCode
 
 Obwohl die Speicherreservierungen letztlich von den CreateWindow Prozeduren des Typs
-BUTTONWINDOW, DATEWINDOW bzw. TRACKWINDOW durchgeführt werden, können wir hier trotzdem
+BUTTONWINDOW, DATEWINDOW bzw. TRACKWINDOW durchgefÃ¼hrt werden, kÃ¶nnen wir hier trotzdem
 *EventGadgets verwenden, da dies im BASEWINDOW Typ definiert wurde, und BASEWINDOW die
-"Vorgänger-Struktur" (welche vererbt wird) für die anderen Strukturen ist.
+"VorgÃ¤nger-Struktur" (welche vererbt wird) fÃ¼r die anderen Strukturen ist.
 @LineBreak
 @LineBreak
 Sofern wir nicht versuchen, einen der gespeicherten Werte mit Hilfe von *EventGadgets zu
-ändern - und wir haben keinen Grund, dies zu tun - alles ist gut.
+Ã¤ndern - und wir haben keinen Grund, dies zu tun - alles ist gut.
 @LineBreak
 @LineBreak
-Schlussendlich übertragen wir die in EventWindow, EventGadget, EventType aufgezeichneten
-Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die weitere Arbeit.
+Schlussendlich Ã¼bertragen wir die in EventWindow, EventGadget, EventType aufgezeichneten
+Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und Ã¼berlassen diesen die weitere Arbeit.
 
 @Code
   ;- Konstanten
@@ -128,7 +129,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     #WindowClassTrack
   EndEnumeration
   
-  ; Die Menü-Befehle sind die gleichen bei allen Fenstern.
+  ; Die MenÃ¼-Befehle sind die gleichen bei allen Fenstern.
   Enumeration
     #MenuNewButton
     #MenuNewDate
@@ -163,7 +164,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   EndStructure
   
   ;- Variablen
-  ; Diese Map wird alle aktiven Fenster (wie zuvor) verwalten, da sich jedoch die Strukture für jede
+  ; Diese Map wird alle aktiven Fenster (wie zuvor) verwalten, da sich jedoch die Strukture fÃ¼r jede
   ; Fenster-Klasse unterscheidet, werden wir Zeiger auf die Strukturen (und nicht direkt die
   ; Gadget-Referenzen) in der Map speichern.
   NewMap ActiveWindows.i()
@@ -179,8 +180,8 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   
   ;- Button (Schalter) Fenster
   Procedure.i CreateButtonWindow()
-    ; Erstellt ein neues Button Fenster und fügt es zur überwachenden Map hinzu,
-    ; reserviert Speicher für die Gadget-Referenzen, erstellt die Gadgets 
+    ; Erstellt ein neues Button Fenster und fÃ¼gt es zur Ã¼berwachenden Map hinzu,
+    ; reserviert Speicher fÃ¼r die Gadget-Referenzen, erstellt die Gadgets 
     ; und speichert deren Referenzen in der Speicher-Struktur.
     Shared Buttons, ActiveWindows()
     Protected *ThisData.BUTTONWINDOW
@@ -191,22 +192,22 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     Buttons + 1
     ThisTitle = "Button Window " + StrU(Buttons)
     
-    ; Öffnen des Fensters.
+    ; Ã–ffnen des Fensters.
     ThisWindow = OpenWindow(#PB_Any, 30, 30, 225, 300, ThisTitle, #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
     
-    ; Überprüfen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
+    ; ÃœberprÃ¼fen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
     If ThisWindow
-      ; Minimale Fenstergröße festlegen.
+      ; Minimale FenstergrÃ¶ÃŸe festlegen.
       WindowBounds(ThisWindow, 220, 100, #PB_Ignore, #PB_Ignore)
       
-      ; Umwandeln der Fenster-Referenz in einen String, um diesen als Schlüssel für die Map zu verwenden.
+      ; Umwandeln der Fenster-Referenz in einen String, um diesen als SchlÃ¼ssel fÃ¼r die Map zu verwenden.
       ThisKey = StrU(ThisWindow)
       
       ; Reserviert Speicher, um darin die Gadget-Referenzen zu speichern.
       *ThisData = AllocateMemory(SizeOf(BUTTONWINDOW))
     EndIf
     
-    ; Überprüfen, dass die Speicherreservierung erfolgreich war.
+    ; ÃœberprÃ¼fen, dass die Speicherreservierung erfolgreich war.
     If *ThisData
       ; Speichern der Fenster-Referenz und der Speicherzeiger-Werte in der Map.
       ActiveWindows(ThisKey) = *ThisData
@@ -214,10 +215,10 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       ; Festlegen der Fenster-Klasse.
       *ThisData\WindowClass = #WindowClassButton
       
-      ; Erstellen der Menüleiste.
+      ; Erstellen der MenÃ¼leiste.
       *ThisData\Menu = CreateMenu(#PB_Any, WindowID(ThisWindow))
       
-      ; Wenn die Menü-Erstellung erfolgreich war, die Menü-Einträge erstellen.
+      ; Wenn die MenÃ¼-Erstellung erfolgreich war, die MenÃ¼-EintrÃ¤ge erstellen.
       If *ThisData\Menu
         MenuTitle("Window")
         MenuItem(#MenuNewButton, "New Button Window")
@@ -235,19 +236,19 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       CloseWindow(ThisWindow)
     EndIf
     
-    ; Festlegen des Rückgabewerts.
+    ; Festlegen des RÃ¼ckgabewerts.
     If ThisWindow > 0 And *ThisData > 0
-      ; Referenz auf das neue Fenster zurückgeben.
+      ; Referenz auf das neue Fenster zurÃ¼ckgeben.
       ProcedureReturn ThisWindow
     Else
-      ; 0 zurückgeben
+      ; 0 zurÃ¼ckgeben
       ProcedureReturn 0
     EndIf
   EndProcedure
   
   Procedure.i DestroyButtonWindow(Window.i)
     ; Entfernt das Fenster aus der ActiveWindows Map, gibt den reservierten Speicher frei,
-    ; schließt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nötig.
+    ; schlieÃŸt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nÃ¶tig.
     Shared EventQuit, ActiveWindows()
     Protected *ThisData.BUTTONWINDOW
     Protected.s ThisKey
@@ -258,12 +259,12 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassButton
       ProcedureReturn #False
     EndIf
@@ -271,23 +272,23 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Die Speicherreservierung freigeben.
     FreeMemory(*ThisData)
     
-    ; Den Map-Eintrag löschen.
+    ; Den Map-Eintrag lÃ¶schen.
     DeleteMapElement(ActiveWindows(), ThisKey)
     
-    ; Das Fenster schließen.
+    ; Das Fenster schlieÃŸen.
     CloseWindow(Window)
     
-    ; Überprüfen, ob es noch offene Fenster gibt.
+    ; ÃœberprÃ¼fen, ob es noch offene Fenster gibt.
     If MapSize(ActiveWindows()) = 0
       EventQuit = #True
     EndIf
     
-    ; Setzen des 'Erfolgreich' Rückgabewerts.
+    ; Setzen des 'Erfolgreich' RÃ¼ckgabewerts.
     ProcedureReturn #True
   EndProcedure
   
   Procedure.i ResizeButtonWindow(Window.i)
-    ; Die Gadgets des Fensters in der Größe anpassen.
+    ; Die Gadgets des Fensters in der GrÃ¶ÃŸe anpassen.
     Shared ActiveWindows()
     Protected *ThisData.BUTTONWINDOW
     Protected.i X, Y, W, H
@@ -297,17 +298,17 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ThisKey = StrU(Window)
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassButton
       ProcedureReturn #False
     EndIf
     
-    ; Listview in der Größe verändern.
+    ; Listview in der GrÃ¶ÃŸe verÃ¤ndern.
     W = WindowWidth(Window) - 25
     H = WindowHeight(Window) - 85
     ResizeGadget(*ThisData\ListView, #PB_Ignore, #PB_Ignore, W, H)
@@ -324,7 +325,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   EndProcedure
   
   Procedure.i EventsButtonWindow(Window, Gadget, Type)
-    ; Ereignisse für ein Button Fenster verarbeiten.
+    ; Ereignisse fÃ¼r ein Button Fenster verarbeiten.
     Shared Buttons, ActiveWindows()
     Protected *ThisData.BUTTONWINDOW
     Protected.i NewValue, Index
@@ -336,12 +337,12 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassButton
       ProcedureReturn #False
     EndIf
@@ -364,8 +365,8 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   
   ;- Date Window
   Procedure.i CreateDateWindow()
-    ; Erstellt ein neues Date Fenster und fügt es zur überwachenden Map hinzu,
-    ; reserviert Speicher für die Gadget-Referenzen, erstellt die Gadgets 
+    ; Erstellt ein neues Date Fenster und fÃ¼gt es zur Ã¼berwachenden Map hinzu,
+    ; reserviert Speicher fÃ¼r die Gadget-Referenzen, erstellt die Gadgets 
     ; und speichert deren Referenzen in der Speicher-Struktur.
     Shared Dates, ActiveWindows()
     Protected *ThisData.DATEWINDOW
@@ -376,19 +377,19 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ThisTitle = "Date Window " + StrU(Dates)
     ThisWindow = OpenWindow(#PB_Any, 30, 30, 310, 420, ThisTitle , #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
     
-    ; Überprüfen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
+    ; ÃœberprÃ¼fen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
     If ThisWindow
-      ; Minimale Fenstergröße festlegen.
-      WindowBounds(ThisWindow, 310, 245, #PB_Ignore, #PB_Ignore)
+      ; Minimale FenstergrÃ¶ÃŸe festlegen.
+      WindowBounds(ThisWindow, 360, 245, #PB_Ignore, #PB_Ignore)
       
-      ; Umwandeln der Fenster-Referenz in einen String, um diesen als Schlüssel für die Map zu verwenden.
+      ; Umwandeln der Fenster-Referenz in einen String, um diesen als SchlÃ¼ssel fÃ¼r die Map zu verwenden.
       ThisKey = StrU(ThisWindow)
       
       ; Reserviert Speicher, um darin die Gadget-Referenzen zu speichern.
       *ThisData = AllocateMemory(SizeOf(DATEWINDOW))
     EndIf
     
-    ; Überprüfen, dass die Speicherreservierung erfolgreich war.
+    ; ÃœberprÃ¼fen, dass die Speicherreservierung erfolgreich war.
     If *ThisData
       ; Speichern der Fenster-Referenz und der Speicherzeiger-Werte in der Map.
       ActiveWindows(ThisKey) = *ThisData
@@ -396,10 +397,10 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       ; Festlegen der Fenster-Klasse.
       *ThisData\WindowClass = #WindowClassDate
       
-      ; Erstellen der Menüleiste.
+      ; Erstellen der MenÃ¼leiste.
       *ThisData\Menu = CreateMenu(#PB_Any, WindowID(ThisWindow))
       
-      ; Wenn die Menü-Erstellung erfolgreich war, die Menü-Einträge erstellen.
+      ; Wenn die MenÃ¼-Erstellung erfolgreich war, die MenÃ¼-EintrÃ¤ge erstellen.
       If *ThisData\Menu
         MenuTitle("Window")
         MenuItem(#MenuNewButton, "New Button Window")
@@ -409,21 +410,21 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       EndIf
       
       ; Erstellen der Fenster-Gadgets.
-      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 182, 162)
-      *ThisData\AddButton = ButtonGadget(#PB_Any, 210, 10, 90, 30, "Add")
-      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 210, 45, 90, 30, "Remove")
+      *ThisData\Calendar = CalendarGadget(#PB_Any, 10, 10, 240, 170)
+      *ThisData\AddButton = ButtonGadget(#PB_Any, 260, 10, 90, 30, "Add")
+      *ThisData\RemoveButton = ButtonGadget(#PB_Any, 260, 45, 90, 30, "Remove")
       *ThisData\ListView = ListViewGadget(#PB_Any, 10, 187, 290, 200)
     Else
       ; Speicherreservierung fehlgeschlagen.
       CloseWindow(ThisWindow)
     EndIf
     
-    ; Festlegen des Rückgabewerts.
+    ; Festlegen des RÃ¼ckgabewerts.
     If ThisWindow > 0 And *ThisData > 0 
-      ; Referenz auf das neue Fenster zurückgeben.
+      ; Referenz auf das neue Fenster zurÃ¼ckgeben.
       ProcedureReturn ThisWindow
     Else
-      ; 0 zurückgeben
+      ; 0 zurÃ¼ckgeben
       ProcedureReturn 0
     EndIf
     
@@ -431,7 +432,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   
   Procedure.i DestroyDateWindow(Window.i)
     ; Entfernt das Fenster aus der ActiveWindows Map, gibt den reservierten Speicher frei,
-    ; schließt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nötig.
+    ; schlieÃŸt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nÃ¶tig.
     Shared EventQuit, ActiveWindows()
     Protected *ThisData.DATEWINDOW
     Protected.s ThisKey
@@ -442,13 +443,13 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen,
-    ; da diese Prozedur dieses Fenster nicht schließen kann.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen,
+    ; da diese Prozedur dieses Fenster nicht schlieÃŸen kann.
     If *ThisData\WindowClass <> #WindowClassDate
       ProcedureReturn #False
     EndIf
@@ -456,23 +457,23 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Die Speicherreservierung freigeben.
     FreeMemory(*ThisData)
     
-    ; Den Map-Eintrag löschen.
+    ; Den Map-Eintrag lÃ¶schen.
     DeleteMapElement(ActiveWindows(), ThisKey)
     
-    ; Das Fenster schließen.
+    ; Das Fenster schlieÃŸen.
     CloseWindow(Window)
     
-    ; Überprüfen, ob es noch offene Fenster gibt.
+    ; ÃœberprÃ¼fen, ob es noch offene Fenster gibt.
     If MapSize(ActiveWindows()) = 0
       EventQuit = #True
     EndIf
     
-    ; Setzen des 'Erfolgreich' Rückgabewerts.
+    ; Setzen des 'Erfolgreich' RÃ¼ckgabewerts.
     ProcedureReturn #True
   EndProcedure
   
   Procedure.i ResizeDateWindow(Window.i)
-    ; Die Gadgets des Fensters in der Größe anpassen.
+    ; Die Gadgets des Fensters in der GrÃ¶ÃŸe anpassen.
     Shared ActiveWindows()
     Protected *ThisData.DATEWINDOW
     Protected.i X, Y, W, H
@@ -482,17 +483,17 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ThisKey = StrU(Window)
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassDate
       ProcedureReturn #False
     EndIf
     
-    ; Listview in der Größe anpassen.
+    ; Listview in der GrÃ¶ÃŸe anpassen.
     W = WindowWidth(Window) - 20
     H = WindowHeight(Window) - 220
     ResizeGadget(*ThisData\ListView, #PB_Ignore, #PB_Ignore, W, H)
@@ -501,7 +502,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   EndProcedure
   
   Procedure.i EventsDateWindow(Window, Gadget, Type)
-    ; Ereignisse für ein Date Fenster verarbeiten.
+    ; Ereignisse fÃ¼r ein Date Fenster verarbeiten.
     Shared Buttons, ActiveWindows()
     Protected *ThisData.DATEWINDOW
     Protected.i NewValue, Index
@@ -513,12 +514,12 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassDate
       ProcedureReturn #False
     EndIf
@@ -541,8 +542,8 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   
   ;- Track Window
   Procedure.i CreateTrackWindow()
-    ; Erstellt ein neues Track Fenster und fügt es zur überwachenden Map hinzu,
-    ; reserviert Speicher für die Gadget-Referenzen, erstellt die Gadgets 
+    ; Erstellt ein neues Track Fenster und fÃ¼gt es zur Ã¼berwachenden Map hinzu,
+    ; reserviert Speicher fÃ¼r die Gadget-Referenzen, erstellt die Gadgets 
     ; und speichert deren Referenzen in der Speicher-Struktur.
     Shared Tracks, ActiveWindows()
     Protected *ThisData.TRACKWINDOW
@@ -553,19 +554,19 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ThisTitle = "Track Bar Window " + StrU(Tracks)
     ThisWindow = OpenWindow(#PB_Any, 30, 30, 398, 130, ThisTitle, #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
     
-    ; Überprüfen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
+    ; ÃœberprÃ¼fen, dass der OpenWindow Befehl erfolgreich funktioniert hat.
     If ThisWindow
-      ; Minimale Fenstergröße festlegen.
+      ; Minimale FenstergrÃ¶ÃŸe festlegen.
       WindowBounds(ThisWindow, 135, 130, #PB_Ignore, 130)
       
-      ; Umwandeln der Fenster-Referenz in einen String, um diesen als Schlüssel für die Map zu verwenden.
+      ; Umwandeln der Fenster-Referenz in einen String, um diesen als SchlÃ¼ssel fÃ¼r die Map zu verwenden.
       ThisKey = StrU(ThisWindow)
       
       ; Reserviert Speicher, um darin die Gadget-Referenzen zu speichern.
       *ThisData = AllocateMemory(SizeOf(TRACKWINDOW))
     EndIf
     
-    ; Überprüfen, dass die Speicherreservierung erfolgreich war.
+    ; ÃœberprÃ¼fen, dass die Speicherreservierung erfolgreich war.
     If *ThisData
       ; Speichern der Fenster-Referenz und der Speicherzeiger-Werte in der Map.
       ActiveWindows(ThisKey) = *ThisData
@@ -573,10 +574,10 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       ; Festlegen der Fenster-Klasse.
       *ThisData\WindowClass = #WindowClassTrack
       
-      ; Erstellen der Menüleiste.
+      ; Erstellen der MenÃ¼leiste.
       *ThisData\Menu = CreateMenu(#PB_Any, WindowID(ThisWindow))
       
-      ; Wenn die Menü-Erstellung erfolgreich war, die Menü-Einträge erstellen.
+      ; Wenn die MenÃ¼-Erstellung erfolgreich war, die MenÃ¼-EintrÃ¤ge erstellen.
       If *ThisData\Menu
         MenuTitle("Window")
         MenuItem(#MenuNewButton, "New Button Window")
@@ -595,21 +596,21 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
       CloseWindow(ThisWindow)
     EndIf
     
-    ; Festlegen des Rückgabewerts.
+    ; Festlegen des RÃ¼ckgabewerts.
     If ThisWindow > 0 And *ThisData > 0
-      ; Referenz auf das neue Fenster zurückgeben.
+      ; Referenz auf das neue Fenster zurÃ¼ckgeben.
       ProcedureReturn ThisWindow
     Else
-      ; 0 zurückgeben
+      ; 0 zurÃ¼ckgeben
       ProcedureReturn 0
     EndIf
   EndProcedure
   
   Procedure.i DestroyTrackWindow(Window.i)
     ; Entfernt das Fenster aus der ActiveWindows Map, gibt den reservierten Speicher frei,
-    ; schließt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nötig.
+    ; schlieÃŸt das Fenster und setzt das 'Beenden' (Quit) Flag, wenn nÃ¶tig.
     Shared EventQuit, ActiveWindows()
-    Protected *ThisData.DATEWINDOW
+    Protected *ThisData.TRACKWINDOW
     Protected.s ThisKey
     
     ; Umwandeln des Fenster-Werts in einen String.
@@ -618,13 +619,13 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen,
-    ; da diese Prozedur dieses Fenster nicht schließen kann.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen,
+    ; da diese Prozedur dieses Fenster nicht schlieÃŸen kann.
     If *ThisData\WindowClass <> #WindowClassTrack
       ProcedureReturn #False
     EndIf
@@ -632,23 +633,23 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Die Speicherreservierung freigeben.
     FreeMemory(*ThisData)
     
-    ; Den Map-Eintrag löschen.
+    ; Den Map-Eintrag lÃ¶schen.
     DeleteMapElement(ActiveWindows(), ThisKey)
     
-    ; Das Fenster schließen.
+    ; Das Fenster schlieÃŸen.
     CloseWindow(Window)
     
-    ; Überprüfen, ob es noch offene Fenster gibt.
+    ; ÃœberprÃ¼fen, ob es noch offene Fenster gibt.
     If MapSize(ActiveWindows()) = 0
       EventQuit = #True
     EndIf
     
-    ; Setzen des 'Erfolgreich' Rückgabewerts.
+    ; Setzen des 'Erfolgreich' RÃ¼ckgabewerts.
     ProcedureReturn #True
   EndProcedure
   
   Procedure.i ResizeTrackWindow(Window.i)
-    ; Die Gadgets des Fensters in der Größe anpassen.
+    ; Die Gadgets des Fensters in der GrÃ¶ÃŸe anpassen.
     Shared ActiveWindows()
     Protected *ThisData.TRACKWINDOW
     Protected.i X, Y, W, H
@@ -658,17 +659,17 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ThisKey = StrU(Window)
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassTrack
       ProcedureReturn #False
     EndIf
     
-    ; Trackbars (Schieberegler) in der Größe anpassen.
+    ; Trackbars (Schieberegler) in der GrÃ¶ÃŸe anpassen.
     W = WindowWidth(Window) - 20
     ResizeGadget(*ThisData\TrackBar1, #PB_Ignore, #PB_Ignore, W, #PB_Ignore)
     ResizeGadget(*ThisData\TrackBar2, #PB_Ignore, #PB_Ignore, W, #PB_Ignore)
@@ -681,7 +682,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
   EndProcedure
   
   Procedure.i EventsTrackWindow(Window, Gadget, Type)
-    ; Ereignisse für ein Track Fenster verarbeiten.
+    ; Ereignisse fÃ¼r ein Track Fenster verarbeiten.
     Shared Buttons, ActiveWindows()
     Protected *ThisData.TRACKWINDOW
     Protected.i NewValue
@@ -693,12 +694,12 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     ; Referenz-Strukturenzeiger ermitteln.
     *ThisData = ActiveWindows(ThisKey)
     
-    ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde, sonst stoppen.
     If *ThisData = 0
       ProcedureReturn #False
     EndIf
     
-    ; Überprüfen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
+    ; ÃœberprÃ¼fen, dass es sich um den korrekten Fenstertyp handelt, sonst stoppen.
     If *ThisData\WindowClass <> #WindowClassTrack
       ProcedureReturn #False
     EndIf
@@ -731,9 +732,9 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
     
     Select Event
       Case #PB_Event_Gadget
-        ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde.
+        ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde.
         If *EventGadgets > 0
-          ; Verwenden von *EventGadgets\WindowClass, um Ereignisse an die richtige Ereignis-Prozedur zu übermitteln.
+          ; Verwenden von *EventGadgets\WindowClass, um Ereignisse an die richtige Ereignis-Prozedur zu Ã¼bermitteln.
           Select *EventGadgets\WindowClass
             Case #WindowClassButton
               EventsButtonWindow(EventWindow, EventGadget, EventType)
@@ -770,9 +771,9 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
             EndIf
             
           Case #MenuClose
-            ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde.
+            ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde.
             If *EventGadgets > 0
-              ; Verwenden von *EventGadgets\WindowClass, um die richtige Prozedur zum Löschen des Fensters aufzurufen.
+              ; Verwenden von *EventGadgets\WindowClass, um die richtige Prozedur zum LÃ¶schen des Fensters aufzurufen.
               Select *EventGadgets\WindowClass
                 Case #WindowClassButton
                   DestroyButtonWindow(EventWindow)
@@ -790,9 +791,9 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
         EndSelect
         
       Case #PB_Event_CloseWindow
-        ; Überprüfen, dass ein gültiger Zeiger ermittelt wurde.
+        ; ÃœberprÃ¼fen, dass ein gÃ¼ltiger Zeiger ermittelt wurde.
         If *EventGadgets > 0
-          ; Verwenden von *EventGadgets\WindowClass, um die richtige Prozedur zum Löschen des Fensters aufzurufen.
+          ; Verwenden von *EventGadgets\WindowClass, um die richtige Prozedur zum LÃ¶schen des Fensters aufzurufen.
           Select *EventGadgets\WindowClass
             Case #WindowClassButton
               DestroyButtonWindow(EventWindow)
@@ -810,7 +811,7 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
         
       Case #PB_Event_SizeWindow     
         If *EventGadgets > 0
-          ; Verwende  *EventGadgets\WindowClass, um die korrekte Prozedur zur Größenänderung des Fensters aufzurufen.
+          ; Verwende  *EventGadgets\WindowClass, um die korrekte Prozedur zur GrÃ¶ÃŸenÃ¤nderung des Fensters aufzurufen.
           Select *EventGadgets\WindowClass
             Case #WindowClassButton
               ResizeButtonWindow(EventWindow)
@@ -832,4 +833,4 @@ Ereignis-Werte geradewegs zu den Ereignis-Prozeduren und überlassen diesen die w
 @EndCode
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_pb_any1" "< Vorheriges: Dynamische Nummerierung von Fenstern und Gadgets" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_keywords" "Nächstes: Andere Compiler-Schlüsselworte >"
+@ReferenceLink "ug_pb_any1" "< Vorheriges: Dynamische Nummerierung von Fenstern und Gadgets" | @ReferenceLink "ug_overview" "Ãœberblick" | @ReferenceLink "ug_keywords" "NÃ¤chstes: Andere Compiler-SchlÃ¼sselworte >"

@@ -1,0 +1,87 @@
+﻿@Title Migration from PureBasic 6.30 to 6.40
+
+As the whole string manager has been reworked for 6.40, some edge case using string will stop working. For information, PureBasic
+string now uses a prefix with cached length, so it doesn't stop to the first null character encountered anymore.
+
+@Section String library
+
+@LineBreak
+@#PB_String_InPlace flag has been removed for @@ReplaceString.
+@Code
+  ; Old
+  ReplaceString(a$, "H", "I", #PB_String_InPlace)
+  
+  ; New
+  a$ = ReplaceString(a$, "H", "I")
+@EndCode
+
+This will be a bit slower than before, and if you need a very fast 'inplace' character replacement, you can use this replacement. Warning, patching the
+string buffer directly needs to be done with care to avoid buffer overflow.
+
+@Code
+  Procedure ReplaceChar(*String.Character, CharToSearch.c, CharToReplace.c)
+    If *String = 0
+      ProcedureReturn
+    EndIf
+    
+    While *String\c
+      If *String\c = CharToSearch
+        *String\c = CharToReplace
+      EndIf
+      
+      *String+SizeOf(Character)
+    Wend
+  EndProcedure
+
+  Test$ = "Hello World !"
+
+  ReplaceChar(@Test$, 'o', 'O')
+
+  Debug Test$
+@EndCode
+
+
+@LineBreak
+@Section Win32 API call
+
+When calling Win32 API that returned strings, it was common practice to use the @@Space function to pre-allocate a memory buffer, as a hack.
+This allowed the API to write directly into this string's memory. But it does not update the internal length cache of the new string manager.
+@LineBreak
+To ensure your string length is accurate after an API call, use one of the following methods: @LineBreak
+- Fixed String: Use a fixed-length string (e.g., Define MyString.s{260}), which does not rely on the new string manager with its cached length. @LineBreak
+- Manual Update: If using a standard string, manually refresh its length by using PeekS() after the API call (e.g., MyString = PeekS(@MyString) @LineBreak
+@LineBreak
+For migration, the best is to search for @@Space in all your code and see if it's used for API call, to apply one of the methods.
+
+@Code
+  ; Old
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; always returns 260, not the actual length of the path
+  
+  ; New with a fixed string
+  CurrentDirectory${260}
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; will output the real length of the path
+
+  ; New with a standard string
+  CurrentDirectory$ = Space(260)
+  GetCurrentDirectory_(260, @CurrentDirectory$)
+  CurrentDirectory$ = PeekS(@CurrentDirectory$)    ; Ensures the string length is properly updated
+  Debug CurrentDirectory$
+  Debug Len(CurrentDirectory$)  ; will output the real length of the path
+@EndCode
+
+Beside the two ways mentioned above you can also use @@AllocateMemory for your memory buffers instead of "misusing" a string.
+The following example shows a future proof (and past proof) way to interact with the API using a memory buffer:
+@Code
+  *Buffer = AllocateMemory(#MAX_PATH * SizeOf(Character))
+  If *Buffer
+    Length = GetModuleFileName_(GetModuleHandle_(#Null$), *Buffer, #MAX_PATH-1)  
+    PureBasicPath$ = PeekS(*Buffer, Length)
+    Debug PureBasicPath$
+    FreeMemory(*Buffer)
+  EndIf
+@EndCode

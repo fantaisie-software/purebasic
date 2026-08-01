@@ -1,10 +1,10 @@
-@Title Data
+ï»¿@Title Data
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#DataSection"><u>DataSection</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#EndDataSection"><u>EndDataSection</u></a></td>
@@ -21,22 +21,22 @@
 @FormatEndIf
 
 @Section Introduction
-  PureBasic autorise l'utilisation de données pour stocker des blocs d'informations 
-  prédéfinies dans votre programme. Ceci est utile pour disposer de valeurs par 
-  défaut (messages textuels par exemple) ou dans un jeu pour définir le cheminement 
-  prédéfini d'un sprite.
+  PureBasic autorise l'utilisation de donnÃ©es pour stocker des blocs d'informations 
+  prÃ©dÃ©finies dans votre programme. Ceci est utile pour disposer de valeurs par 
+  dÃ©faut (messages textuels par exemple) ou dans un jeu pour dÃ©finir le cheminement 
+  prÃ©dÃ©fini d'un sprite.
   @LineBreak
   @LineBreak
-  @Keyword "DataSection" doit être placé en tête du bloc de données. Tous les labels 
-  et composants data sont stockés dans cette partie data dont l'accès est plus rapide 
-  que la zone de code. @Keyword "Data" est utilisé pour entrer des données. 
-  @Keyword "EndDataSection" doit être spécifié si du code à exécuter est situé après.
-  Il est intéressant de pouvoir placer plusieurs zones de données à différents 
-  endroits du code source. Les données peuvent être chargées à l'aide des commandes 
+  @Keyword "DataSection" doit Ãªtre placÃ© en tÃªte du bloc de donnÃ©es. Tous les labels 
+  et composants data sont stockÃ©s dans cette partie data dont l'accÃ¨s est plus rapide 
+  que la zone de code. @Keyword "Data" est utilisÃ© pour entrer des donnÃ©es. 
+  @Keyword "EndDataSection" doit Ãªtre spÃ©cifiÃ© si du code Ã  exÃ©cuter est situÃ© aprÃ¨s.
+  Il est intÃ©ressant de pouvoir placer plusieurs zones de donnÃ©es Ã  diffÃ©rents 
+  endroits du code source. Les donnÃ©es peuvent Ãªtre chargÃ©es Ã  l'aide des commandes 
   @Keyword "Restore" et @Keyword "Read". 
   @LineBreak
   @LineBreak
-  Ces fonctions ne doivent pas être utilisées dans un thread.
+  Ces fonctions ne doivent pas Ãªtre utilisÃ©es dans un thread.
   
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -49,7 +49,7 @@
   @Keyword DataSection
 
 @Description
-  Début d'une zone de données. 
+  DÃ©but d'une zone de donnÃ©es. 
   
 @Example
 @Code
@@ -73,7 +73,7 @@
   @Keyword EndDataSection
 
 @Description
-  Fin d'une zone de données. 
+  Fin d'une zone de donnÃ©es. 
   
 @Example
 @Code
@@ -96,13 +96,13 @@
   @Keyword Data.NomType
 
 @Description
-  Définit les données. Le type peut être choisi 
+  DÃ©finit les donnÃ©es. Le type peut Ãªtre choisi 
   parmi les @ReferenceLink "variables" "types natifs" 
   (integer, long, word, byte, ascii, unicode, 
   float, double, quad, character, string). 
-  Un nombre quelconque de données peut être 
-  placé sur une même ligne, chacune étant 
-  séparée par une virgule. 
+  Un nombre quelconque de donnÃ©es peut Ãªtre 
+  placÃ© sur une mÃªme ligne, chacune Ã©tant 
+  sÃ©parÃ©e par une virgule. Une chaÃ®ne littÃ©rale ne peut pas exÃ©der 8192 caractÃ¨res. 
   
 @Example
 @Code
@@ -113,17 +113,17 @@
   EndDataSection
 @EndCode
 
-  Pour les programmeurs chevronnés: il est aussi 
+  Pour les programmeurs chevronnÃ©s: il est aussi 
   possible de mettre l'@ReferenceLink "memory" "adresse" 
-  d'une @ReferenceLink "procedures" "procédure"
+  d'une @ReferenceLink "procedures" "procÃ©dure"
   ou d'un @ReferenceLink "memory" "label" avec 
   @Keyword "Data" si le type 'entier' (integer .i) 
-  est utilisé. 
-  Sur un système 32 bits les adresses seront stockées 
-  sur 4 octets et sur 8 octets sur un système 64 bits.
+  est utilisÃ©. 
+  Sur un systÃ¨me 32 bits les adresses seront stockÃ©es 
+  sur 4 octets et sur 8 octets sur un systÃ¨me 64 bits.
   @LineBreak
   Par exemple, des tables de fonctions virtuelles 
-  peuvent être créées facilement.
+  peuvent Ãªtre crÃ©Ã©es facilement.
 
 @Example
 @Code
@@ -180,11 +180,11 @@
 
 @Description
   Ce mot clef permet de placer un indicateur 
-  de début de zone pour la commande 
-  @Keyword "Read". Le label utilisé
-  par cette commande doit être déclaré dans 
+  de dÃ©but de zone pour la commande 
+  @Keyword "Read". Le label utilisÃ©
+  par cette commande doit Ãªtre dÃ©clarÃ© dans 
   le bloc @Keyword "DataSection", car il sera 
-  déplacé lors de la création de l'exécutable.
+  dÃ©placÃ© lors de la crÃ©ation de l'exÃ©cutable.
    
 @Example
 @Code
@@ -222,13 +222,13 @@
     @Keyword Read[.<type>] <variable>
 
 @Description
-  Lit la donnée suivante et par défaut, la donnée suivante est la première donnée 
-  déclarée. @LineBreak
-  Le pointeur peut être modifié en utilisant la commande @Keyword "Restore". @LineBreak  
-  <type> est le type de données à lire et s'il n'est pas spécifié 
-  le @ReferenceLink "define" "type par défaut" qui est 'Integer' sera utilisé.
-  Il est toutefois conseillé d'utiliser le type ad-hoc afin d'éviter le message 
-  d'erreur qui apparaîtra quand vous lirez des datas de type 'String' et pour éviter 
+  Lit la donnÃ©e suivante et par dÃ©faut, la donnÃ©e suivante est la premiÃ¨re donnÃ©e 
+  dÃ©clarÃ©e. @LineBreak
+  Le pointeur peut Ãªtre modifiÃ© en utilisant la commande @Keyword "Restore". @LineBreak  
+  <type> est le type de donnÃ©es Ã  lire et s'il n'est pas spÃ©cifiÃ© 
+  le @ReferenceLink "define" "type par dÃ©faut" qui est 'Integer' sera utilisÃ©.
+  Il est toutefois conseillÃ© d'utiliser le type ad-hoc afin d'Ã©viter le message 
+  d'erreur qui apparaÃ®tra quand vous lirez des datas de type 'String' et pour Ã©viter 
   une confusion de type 'Integer' qui est un type 'Long' pour les compilateurs 
   32 bits et qui est un type 'Quad' pour les compilateurs 64 bits.
   
@@ -240,13 +240,13 @@
   Restore DonneesNumeriques
   Read a   ; Attention, le compilateur lira un 'Integer' (Un 'Long' en 32 bits ou un 'Quad' en 64 bits)
   Read.q b
-  Read c   ; Attention, le compilateur lira un 'Quad' si c'est un compilateur 64 bits même si les données sont 'Long' !
+  Read c   ; Attention, le compilateur lira un 'Quad' si c'est un compilateur 64 bits mÃªme si les donnÃ©es sont 'Long' !
   Read.l d
   
   Debug MonPremierTexte$; Affiche Hello
   Debug a  ; Affiche 100
   Debug b  ; Affiche 111111111111111111
-  Debug c  ; Attention, l'affichage dépend du compilateur !  : 200 en 32 bits ou 1288490189000 en 64 bits
+  Debug c  ; Attention, l'affichage dÃ©pend du compilateur !  : 200 en 32 bits ou 1288490189000 en 64 bits
   Debug d  ; Idem : 300  en 32 bits ou 400 en 64 bits
   
   End  

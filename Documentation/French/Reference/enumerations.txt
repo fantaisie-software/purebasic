@@ -1,4 +1,4 @@
-@Title Enumérations
+ï»¿@Title EnumÃ©rations
 
 @Syntax
 
@@ -20,116 +20,116 @@ Ou
  
 @Description
 
-  Les énumérations sont très pratiques pour 
-  déclarer rapidement une série de constantes 
-  sans s'occuper de leur valeur numérique. 
-  La première constante de l'énumération 
+  Les Ã©numÃ©rations sont trÃ¨s pratiques pour 
+  dÃ©clarer rapidement une sÃ©rie de constantes 
+  sans s'occuper de leur valeur numÃ©rique. 
+  La premiÃ¨re constante de l'Ã©numÃ©ration 
   prendra la valeur 0, la constante suivante 
   prendra la valeur 1 etc. Il est possible de 
-  changer la valeur de départ de l'énumération 
-  et d'ajuster la valeur utilisée pour 
-  l'incrémentation de chaque constante. 
-  Si nécessaire, il est possible d'affecter 
-  directement une valeur numérique à une constante 
-  (grâce à l'opérateur '=') et les constantes 
+  changer la valeur de dÃ©part de l'Ã©numÃ©ration 
+  et d'ajuster la valeur utilisÃ©e pour 
+  l'incrÃ©mentation de chaque constante. 
+  Si nÃ©cessaire, il est possible d'affecter 
+  directement une valeur numÃ©rique Ã  une constante 
+  (grÃ¢ce Ã  l'opÃ©rateur '=') et les constantes 
   suivantes utiliseront cette nouvelle valeur comme 
-  valeur de base. Comme les énumerations n'acceptent 
+  valeur de base. Comme les Ã©numerations n'acceptent 
   que les nombres entiers, les nombres flottants
-  seront arroundis à l'entier le plus proche.
+  seront arroundis Ã  l'entier le plus proche.
   @LineBreak
   @LineBreak
-  Un 'nom' peut être configuré pour identifier 
-  une énumération et permettre de l'interrompre 
+  Un 'nom' peut Ãªtre configurÃ© pour identifier 
+  une Ã©numÃ©ration et permettre de l'interrompre 
   puis de la poursuivre plus tard. 
   C'est utile pour regrouper des objets dans une 
-  même énumération tout en les déclarant dans 
-  différents endroits du code.
+  mÃªme Ã©numÃ©ration tout en les dÃ©clarant dans 
+  diffÃ©rents endroits du code.
   @LineBreak
   @LineBreak  
-  Pour les utilisateurs avancés seulement : 
-  La constante réservée @#PB_Compiler_EnumerationValue 
-  stocke la prochaine valeur qui sera utilisée par 
-  l'énumération. Cela peut être utile pour connaître 
-  la valeur de la dernière énumération ou pour chaîner 
-  plusieurs énumérations.
+  Pour les utilisateurs avancÃ©s seulement : 
+  La constante rÃ©servÃ©e @#PB_Compiler_EnumerationValue 
+  stocke la prochaine valeur qui sera utilisÃ©e par 
+  l'Ã©numÃ©ration. Cela peut Ãªtre utile pour connaÃ®tre 
+  la valeur de la derniÃ¨re Ã©numÃ©ration ou pour chaÃ®ner 
+  plusieurs Ã©numÃ©rations.
   @LineBreak
   @LineBreak
-  @Keyword EnumerationBinary peut être utilisé pour 
-  créer des énumérations appropriées pour les options 
+  @Keyword EnumerationBinary peut Ãªtre utilisÃ© pour 
+  crÃ©er des Ã©numÃ©rations appropriÃ©es pour les options 
   (flags). 
-  La première valeur de l'élément est 1.
+  La premiÃ¨re valeur de l'Ã©lÃ©ment est 1.
   
-  @Example Enumération simple
+  @Example EnumÃ©ration simple
 
 @Code
   Enumeration
-    #GadgetInfo ; égale à 0
-    #GadgetText ; égale à 1
-    #GadgetOK   ; égale à 2
+    #GadgetInfo ; Ã©gale Ã  0
+    #GadgetText ; Ã©gale Ã  1
+    #GadgetOK   ; Ã©gale Ã  2
   EndEnumeration
 @EndCode
 
-  @Example Enumération avec un pas déterminé
+  @Example EnumÃ©ration avec un pas dÃ©terminÃ©
 
 @Code
   Enumeration 20 Step 3
-    #GadgetInfo ; égale à 20
-    #GadgetText ; égale à 23
-    #GadgetOK   ; égale à 26
+    #GadgetInfo ; Ã©gale Ã  20
+    #GadgetText ; Ã©gale Ã  23
+    #GadgetOK   ; Ã©gale Ã  26
   EndEnumeration
 @EndCode
 
-  @Example Enumération avec un changement dynamique
+  @Example EnumÃ©ration avec un changement dynamique
 
 @Code
   Enumeration
-    #GadgetInfo      ; égale à 0
-    #GadgetText = 15 ; égale à 15
-    #GadgetOK        ; égale à 16
+    #GadgetInfo      ; Ã©gale Ã  0
+    #GadgetText = 15 ; Ã©gale Ã  15
+    #GadgetOK        ; Ã©gale Ã  16
   EndEnumeration
 @EndCode
 
-  @Example Enumérations nommées
+  @Example EnumÃ©rations nommÃ©es
 
 @Code
   Enumeration Gadget
-    #GadgetInfo ; égale à 0
-    #GadgetText ; égale à 1
-    #GadgetOK   ; égale à 2
+    #GadgetInfo ; Ã©gale Ã  0
+    #GadgetText ; Ã©gale Ã  1
+    #GadgetOK   ; Ã©gale Ã  2
   EndEnumeration
   
   Enumeration Window
-    #FirstWindow  ; égale à 0
-    #SecondWindow ; égale à 1
+    #FirstWindow  ; Ã©gale Ã  0
+    #SecondWindow ; Ã©gale Ã  1
   EndEnumeration
 
   Enumeration Gadget
-    #GadgetCancel ; égale à 3
-    #GadgetImage  ; égale à 4
-    #GadgetSound  ; égale à 5
+    #GadgetCancel ; Ã©gale Ã  3
+    #GadgetImage  ; Ã©gale Ã  4
+    #GadgetSound  ; Ã©gale Ã  5
   EndEnumeration
 @EndCode
 
-  @Example Obtenir la prochaine valeur d'énumération
+  @Example Obtenir la prochaine valeur d'Ã©numÃ©ration
 
 @Code
   Enumeration
-    #GadgetInfo ; égale à 0
-    #GadgetText ; égale à 1
-    #GadgetOK   ; égale à 2
+    #GadgetInfo ; Ã©gale Ã  0
+    #GadgetText ; Ã©gale Ã  1
+    #GadgetOK   ; Ã©gale Ã  2
   EndEnumeration
   
-  Debug "La prochaine valeur d'énumération est : " + #PB_Compiler_EnumerationValue ; affiche 3
+  Debug "La prochaine valeur d'Ã©numÃ©ration est : " + #PB_Compiler_EnumerationValue ; affiche 3
 @EndCode
 
-  @Example Enumération binaire
+  @Example EnumÃ©ration binaire
 
 @Code
   EnumerationBinary
-    #Flags1 ; égale à 1
-    #Flags2 ; égale à 2
-    #Flags3 ; égale à 4
-    #Flags4 ; égale à 8
-    #Flags5 ; égale à 16
+    #Flags1 ; Ã©gale Ã  1
+    #Flags2 ; Ã©gale Ã  2
+    #Flags3 ; Ã©gale Ã  4
+    #Flags4 ; Ã©gale Ã  8
+    #Flags5 ; Ã©gale Ã  16
   EndEnumeration
 @EndCode

@@ -1,4 +1,4 @@
-@Title Compiler Directives
+﻿@Title Compiler Directives
 
 @Syntax
 
@@ -152,6 +152,77 @@
 <br><hr><br>
 @FormatEndIf
 
+@Syntax
+
+  @Keyword HeaderSection
+    ! NativeCode
+  @Keyword EndHeaderSection
+
+@Description
+
+  For advanced programmers. @Keyword HeaderSection : @Keyword EndHeaderSection allows to insert native code directly
+  in the generated code output, in the header section (outside of any function). The native code which can be inserted
+  depends on the compiler backend used: @LineBreak
+  @LineBreak
+  - If the C backend is used, C code needs to be inserted. @LineBreak
+  - If the x86 backend is used, x86 asm code needs to be inserted. @LineBreak
+  - If the x64 backend is used, x64 asm code needs to be inserted. @LineBreak
+  @LineBreak
+  This command can be useful to automatically tune the generated code output or to insert some raw code into the final executable. @LineBreak
+  
+@Example 
+
+@Code
+  CompilerIf #PB_Compiler_Backend <> #PB_Backend_C
+    CompilerError "This sample only works with C backend"
+  CompilerEndIf
+
+  HeaderSection
+    void customPrint()
+    {
+      printf("%s, %s!\n", "Hello", "World");
+    }
+  EndHeaderSection
+  
+  ; Assign the custom function to a PureBasic variable so we can use it
+  ;
+  PrototypeC CustomPrintProto()
+  CustomPrint.CustomPrintProto
+  !v_customprint = customPrint;
+  
+  OpenConsole()
+  
+  ; Use the native function !
+  CustomPrint()
+  
+  Input()
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
+@Syntax
+
+  @Keyword DisablePureLibrary <LibraryName>
+
+@Description
+
+  Disables the specified PureLibrary. All its associated commands won't be available when compiling this program.
+  This is especially useful when creating a @ReferenceLink "PureLibrary" "PureLibrary".
+
+  @Example
+
+@Code
+  DisablePureLibrary Engine3D
+  
+  InitEngine3D() ; Error, command not found
+@EndCode
+
+@FormatIf HTML
+<br><hr><br>
+@FormatEndIf
+
 @Section Reserved Constants
 
   The PureBasic compiler has several reserved constants which can be useful to the programmer: 
@@ -177,7 +248,7 @@
     @#PB_Compiler_Console    : Console executable (have an effect only on Windows, other act like a regular executable)
     @#PB_Compiler_DLL        : Shared DLL (dynlib on MacOS X and shared object on Linux)
 
-  @#PB_Compiler_Date     : Current date, at the compile time, in the PureBasic  @LibraryLink "Date" "date" format.
+  @#PB_Compiler_Date     : Current date, at the compile time, in the PureBasic  @LibraryLink "Date" "date" format (local time).
   @#PB_Compiler_File     : Full path and name of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.
   @#PB_Compiler_FilePath : Full path of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.
   @#PB_Compiler_Filename : Filename (without path) of the file being compiled, useful for @ReferenceLink "ide_debugger" "debug" purpose.
@@ -201,6 +272,8 @@
   @#PB_Compiler_DPIAware : Set to 1 if the compiler generates a DPI aware executable, set to 0 else.
   
 @EndFixedFont  
+
+@ExampleFile All CompilerSystemData.pb
 
 @FormatIf HTML
 <br><hr><br>

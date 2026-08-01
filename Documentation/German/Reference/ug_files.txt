@@ -1,8 +1,8 @@
-@Title Einsteiger-Kapitel - Lesen und Schreiben von Dateien
+Ôªø@Title Einsteiger-Kapitel - Lesen und Schreiben von Dateien
 
-Dieses Beispiel wird 100 zuf‰llige Datens‰tze schreiben, wobei jeder ein @ReferenceLink "variables" "Byte",
-eine @ReferenceLink "variables" "Flieﬂkomma-Zahl", ein @ReferenceLink "variables" "Long-Integer"
-und einen @ReferenceLink "variables" "String" enth‰lt. Danach liest es alle Datens‰tze wieder
+Dieses Beispiel wird 100 zuf√§llige Datens√§tze schreiben, wobei jeder ein @ReferenceLink "variables" "Byte",
+eine @ReferenceLink "variables" "Flie√ükomma-Zahl", ein @ReferenceLink "variables" "Long-Integer"
+und einen @ReferenceLink "variables" "String" enth√§lt. Danach liest es alle Datens√§tze wieder
 ein und zeigt sie im @ReferenceLink "ide_debugger" "Debug-Fenster" an.
 @LineBreak
 @LineBreak
@@ -11,12 +11,12 @@ Reihe der Befehle zum @LibraryLink "file" "Lesen und Schreiben" von Daten.
 @LineBreak
 @LineBreak
 Es funktioniert soweit recht gut, hat aber einen Nachteil. Da der String-Wert eine variable
-L‰nge hat, kˆnnen Sie nicht zuf‰llig auf die Datens‰tze zugreifen - denn man kann nicht
-vorhersagen, wo jeder neue Datensatz in der Datei beginnt. Sie m¸ssen alle wieder in der
+L√§nge hat, k√∂nnen Sie nicht zuf√§llig auf die Datens√§tze zugreifen - denn man kann nicht
+vorhersagen, wo jeder neue Datensatz in der Datei beginnt. Sie m√ºssen alle wieder in der
 gleichen Reihenfolge eingelesen werden, wie sie geschrieben wurden. Das ist kein Problem
-mit der kleinen Anzahl an Datens‰tzen, welche hier erzeugt werden, dies kann aber mit einer
-grˆﬂeren Datei problematisch werden. PureBasic bietet einen Weg, um auch mit dieser Situation
-umzugehen - aber ein Beispiel w‰re zu komplex f¸r dieses Thema. Sehen Sie in das
+mit der kleinen Anzahl an Datens√§tzen, welche hier erzeugt werden, dies kann aber mit einer
+gr√∂√üeren Datei problematisch werden. PureBasic bietet einen Weg, um auch mit dieser Situation
+umzugehen - aber ein Beispiel w√§re zu komplex f√ºr dieses Thema. Sehen Sie in das
 @LibraryLink "database" "Datenbank"-Kapitel dieser Hilfe-Datei, um zu sehen, wie es gemacht
 werden kann.
 
@@ -31,38 +31,38 @@ werden kann.
   Define.i Count, File
   Define.s Folder, FileName, String
   
-  ; Erstellen eines tempor‰ren Dateinamens.
+  ; Erstellen eines tempor√§ren Dateinamens.
   Folder = GetTemporaryDirectory()
   FileName = Folder + "test.data"
   
-  ; Erstellen der tempor‰ren Datei.
-  ; Wenn #PB_Any verwendet wird, gibt CreateFile die Dateinummer zur¸ck.
-  ; Dies ist n¸tzlich, wenn Sie mehr als eine Datei gleichzeitig geˆffnet haben.
+  ; Erstellen der tempor√§ren Datei.
+  ; Wenn #PB_Any verwendet wird, gibt CreateFile die Dateinummer zur√ºck.
+  ; Dies ist n√ºtzlich, wenn Sie mehr als eine Datei gleichzeitig ge√∂ffnet haben.
   File = CreateFile(#PB_Any, FileName)
   
   If File
-    ; Wenn dies erfolgreich war - schreibe 100 zuf‰llige Datens‰tze.
+    ; Wenn dies erfolgreich war - schreibe 100 zuf√§llige Datens√§tze.
     For Count = 1 To 100
       
-      ; Schreibe ein zuf‰llges Byte (0 - 255).
+      ; Schreibe ein zuf√§llges Byte (0 - 255).
       WriteByte(File, Random(#MAXBYTE))
       
-      ; Erstellen und Schreiben einer zuf‰lligen Flieﬂkommazahl (Float).
-      ; Diese Berechnung erfolgt, damit die Zahl (wahrscheinlich) eine Flieﬂkomma-Komponente hat.
+      ; Erstellen und Schreiben einer zuf√§lligen Flie√ükommazahl (Float).
+      ; Diese Berechnung erfolgt, damit die Zahl (wahrscheinlich) eine Flie√ükomma-Komponente hat.
       Float = Random(#MAXLONG) / ((Random(7) + 2) * 5000)
       WriteFloat(File, Float)
       
-      ; Schreibe einen zuf‰lligen Long-Wert.
+      ; Schreibe einen zuf√§lligen Long-Wert.
       WriteLong(File, Random(#MAXLONG))
       
-      ; Erstellt und schreibt einen zuf‰lligen String im Unicode-Format.
+      ; Erstellt und schreibt einen zuf√§lligen String im Unicode-Format.
       ; Beachten Sie die Verwendung von WriteStringN, um den String mit einem "End of line" (Ende der Zeile) Zeichen zu begrenzen.
       String = "String " + StrU(Random(#MAXLONG))
       WriteStringN(File, String, #PB_Unicode)
       
     Next Count
     
-    ; Schlieﬂen der Datei.
+    ; Schlie√üen der Datei.
     CloseFile(File)
     
   Else
@@ -71,17 +71,17 @@ werden kann.
     
   EndIf
   
-  ; ÷ffnen der Datei - diesmal zum Lesen.
+  ; √ñffnen der Datei - diesmal zum Lesen.
   File = ReadFile(#PB_Any, FileName)
   
   If File
-    ; Wenn dies erfolgreich war - lesen und darstellen der Datens‰tze aus der Datei.
+    ; Wenn dies erfolgreich war - lesen und darstellen der Datens√§tze aus der Datei.
     
-    ; Den Z‰hler zur¸cksetzen.
+    ; Den Z√§hler zur√ºcksetzen.
     Count = 1
     
     ; Schleife bis das Ende der Datei ('end of file') erreicht wird.
-    ; Dies wird alle Datens‰tze einlesen - unabh‰ngig davon, wie viele es sind.
+    ; Dies wird alle Datens√§tze einlesen - unabh√§ngig davon, wie viele es sind.
     While Eof(File) = 0
       
       ; Ausgeben einer Kopfzeile.
@@ -92,7 +92,7 @@ werden kann.
       ; Lesen und ausgeben eines Byte-Wertes.
       Debug StrU(ReadByte(File), #PB_Byte)
       
-      ; Lesen eines Flieﬂkomma-Wertes.
+      ; Lesen eines Flie√ükomma-Wertes.
       Debug StrF(ReadFloat(File))
       
       ; Lesen eines Long-Wertes.
@@ -106,10 +106,10 @@ werden kann.
     ; Ausgeben einer Abschlusszeile.
     Debug "------------------------------------------------------------------------------------------------"
     
-    ; Schlieﬂen der Datei.
+    ; Schlie√üen der Datei.
     CloseFile(File)
     
-    ; Aufr‰umen.
+    ; Aufr√§umen.
     DeleteFile(FileName)
     
   Else
@@ -121,4 +121,4 @@ werden kann.
 
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_directives" "< Vorheriges: Compiler-Direktiven" | @ReferenceLink "ug_overview" "‹berblick" | @ReferenceLink "ug_memory" "N‰chstes: Speicher-Zugriff >"
+@ReferenceLink "ug_directives" "< Vorheriges: Compiler-Direktiven" | @ReferenceLink "ug_overview" "√úberblick" | @ReferenceLink "ug_memory" "N√§chstes: Speicher-Zugriff >"

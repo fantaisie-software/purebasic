@@ -1,4 +1,4 @@
-@Title Static
+ï»¿@Title Static
 
 @Syntax
 
@@ -6,16 +6,16 @@
 
 @Description
 
-  @Keyword Static permet de créer des variables locales persistantes dans une @ReferenceLink "Procedures" procedure.
+  @Keyword Static permet de crÃ©er des variables locales persistantes dans une @ReferenceLink "Procedures" procedure.
   Les variables statiques sont prioritaires sur les variables @ReferenceLink "Global" globales, ce qui implique
-  qu'une variable globale sera ignorée dans une procédure si une variable statique portant
-  le même nom est déjà déclarée. La valeur de la variable statique n'est pas réinitialisée
-  à chaque appel de la procédure: c'est donc un bon moyen pour avoir une variable globale
-  affectée à une seule procédure.
+  qu'une variable globale sera ignorÃ©e dans une procÃ©dure si une variable statique portant
+  le mÃªme nom est dÃ©jÃ  dÃ©clarÃ©e. La valeur de la variable statique n'est pas rÃ©initialisÃ©e
+  Ã  chaque appel de la procÃ©dure: c'est donc un bon moyen pour avoir une variable globale
+  affectÃ©e Ã  une seule procÃ©dure.
   @LineBreak
   @LineBreak
-  @Keyword Static peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les
-  @ReferenceLink "newmap" "maps". Lors de la déclaration d'un tableau static, ses paramètres doivent être une valeur constante.
+  @Keyword Static peut aussi Ãªtre utilisÃ© avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les
+  @ReferenceLink "newmap" "maps". Lors de la dÃ©claration d'un tableau static, ses paramÃ¨tres doivent Ãªtre une valeur constante.
   
 @Example Avec une variable
 
@@ -26,7 +26,7 @@
   Procedure Change()
     Static a
     a+1
-    Debug "Dans la Procédure: "+Str(a) ; Affichera 1, 2, 3 car la variable s'incrémente à chaque appel de la procédure.
+    Debug "Dans la ProcÃ©dure: "+Str(a) ; Affichera 1, 2, 3 car la variable s'incrÃ©mente Ã  chaque appel de la procÃ©dure.
   EndProcedure 
 
   Change()
@@ -44,7 +44,7 @@
   Procedure Change()
     Static Dim Tableau(2)
     Tableau(0)+1
-    Debug "Dans la Procédure: "+Str(Tableau(0)) ; Affichera 1, 2, 3 car la valeur du champ du tableau s'incrémente à chaque appel de la procédure.
+    Debug "Dans la ProcÃ©dure: "+Str(Tableau(0)) ; Affichera 1, 2, 3 car la valeur du champ du tableau s'incrÃ©mente Ã  chaque appel de la procÃ©dure.
   EndProcedure 
   
   Change()
@@ -57,7 +57,7 @@
 
 @Code
   Procedure Foo()
-    Static x = 100  ; La déclaration et l'affectation sont effectuées une seule fois, au lancement du programme.
+    Static x = 100  ; La dÃ©claration et l'affectation sont effectuÃ©es une seule fois, au lancement du programme.
   
     Debug x
     x + 1
@@ -70,8 +70,8 @@
   Debug "---"
 
   Procedure Bar()
-    Static x  ; La déclaration est effectuée une seule fois, au lancement du programme.  
-    x = 100   ; L'affectation est effectuée à chaque lancement de la Procedure.
+    Static x  ; La dÃ©claration est effectuÃ©e une seule fois, au lancement du programme.  
+    x = 100   ; L'affectation est effectuÃ©e Ã  chaque lancement de la Procedure.
   
     Debug x
     x + 1

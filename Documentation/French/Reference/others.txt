@@ -1,10 +1,10 @@
-@Title Autres commandes
+ï»¿@Title Autres commandes
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Goto"><u>Goto</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#End"><u>End</u></a></td>
@@ -25,14 +25,14 @@
   
 @Description
 
-  Cette commande permet de transférer directement l'exécution du programme à l'emplacement 
+  Cette commande permet de transfÃ©rer directement l'exÃ©cution du programme Ã  l'emplacement 
   d'un label. Soyez attentif en utilisant @Keyword Goto car une mauvaise utilisation peut provoquer 
   une fin anormale du programme...
 @LineBreak
 @LineBreak 
-  Note: Pour sortir d'une boucle en toute sécurité, vous devez toujours utiliser 
-  @ReferenceLink "Break_Continue" Break à la place de @Keyword Goto et ne l'utilisez pas dans un 
-  bloc Select/EndSelect, à moins que vous ayez les aptitudes nécessaire pour gérer la pile vous-même.  
+  Note: Pour sortir d'une boucle en toute sÃ©curitÃ©, vous devez toujours utiliser 
+  @ReferenceLink "Break_Continue" Break Ã  la place de @Keyword Goto et ne l'utilisez pas dans un 
+  bloc Select/EndSelect, Ã  moins que vous ayez les aptitudes nÃ©cessaire pour gÃ©rer la pile vous-mÃªme.  
 @LineBreak 
 @LineBreak
 
@@ -48,13 +48,13 @@
 
 @Description
 
-  Termine et quitte le programme de manière correcte à n'importe quel endroit du code source. 
-  Le paramètre optionnel 'CodeDeSortie' peut être utilisé pour renvoyer un code d'erreur différent 
-  de 0 (valeur par défaut) lorsque le programme se termine (souvent utilisé par les programmes en 
+  Termine et quitte le programme de maniÃ¨re correcte Ã  n'importe quel endroit du code source. 
+  Le paramÃ¨tre optionnel 'CodeDeSortie' peut Ãªtre utilisÃ© pour renvoyer un code d'erreur diffÃ©rent 
+  de 0 (valeur par dÃ©faut) lorsque le programme se termine (souvent utilisÃ© par les programmes en 
   mode console).
   @LineBreak
   @LineBreak
-  Le 'CodeDeSortie' peut-être récupéré dans un autre programme à l'aide de la commande @@ProgramExitCode.
+  Le 'CodeDeSortie' peut-Ãªtre rÃ©cupÃ©rÃ© dans un autre programme Ã  l'aide de la commande @@ProgramExitCode.
 @LineBreak 
 @LineBreak
 
@@ -70,13 +70,13 @@
 
 @Description
 
-  Permute la valeur des deux expressions, de manière très rapide. Chaque <expression> doit
-  être soit une @ReferenceLink "variables" "variable", un élément (structuré ou non) de 
+  Permute la valeur des deux expressions, de maniÃ¨re trÃ¨s rapide. Chaque <expression> doit
+  Ãªtre soit une @ReferenceLink "variables" "variable", un Ã©lÃ©ment (structurÃ© ou non) de 
   @ReferenceLink "dim" "tableau", de @ReferenceLink "newlist" "liste" ou
-  de @ReferenceLink "newmap" "map" et être d'un des types natifs: long (.l), 
+  de @ReferenceLink "newmap" "map" et Ãªtre d'un des types natifs: long (.l), 
   quad (.q), string, etc.
   
-@Example Permute des chaînes
+@Example Permute des chaÃ®nes
 
 @Code
   Salut$ = "Salut"
@@ -87,7 +87,7 @@
   Debug Salut$+" "+Monde$
 @EndCode
 
-@Example Permute des tableaux à dimensions multiples
+@Example Permute des tableaux Ã  dimensions multiples
 @Code
   Dim Tableau1(5,5) 
   Dim Tableau2(5,5) 
@@ -97,14 +97,14 @@
   Debug Tableau1(2,2)    ; Affichera 10
   Debug Tableau2(3,3)    ; Affichera 20
     
-  Swap Tableau1(2,2) , Tableau2(3,3)    ; Permutation de 2 éléments entre 2 tableaux différents
+  Swap Tableau1(2,2) , Tableau2(3,3)    ; Permutation de 2 Ã©lÃ©ments entre 2 tableaux diffÃ©rents
   
-  Debug "Contenu des tableaux après permutation:"
+  Debug "Contenu des tableaux aprÃ¨s permutation:"
   Debug Tableau1(2,2)    ; Affichera 20
   Debug Tableau2(3,3)    ; Affichera 10
 @EndCode
 
-@Example Permute différents éléments 
+@Example Permute diffÃ©rents Ã©lÃ©ments 
 @Code
   Define a, b
   Dim Tableau(4, 4)
@@ -116,18 +116,18 @@
 
   Tableau(1,1) = 21
 
-  ;Ajoute un élément à la liste 1
+  ;Ajoute un Ã©lÃ©ment Ã  la liste 1
   AddElement(Liste1())
   Liste1()\x = 31
   Liste1()\y = 32
 
-  ;Permute un élément de la liste avec une variable
+  ;Permute un Ã©lÃ©ment de la liste avec une variable
   Swap Liste1()\x, a
-  ;Permute un élément de la liste avec un élément du tableau
+  ;Permute un Ã©lÃ©ment de la liste avec un Ã©lÃ©ment du tableau
   Swap Liste1()\y, Tableau(1,1)
 
 
-  ;Affiche le résultat
+  ;Affiche le rÃ©sultat
   Debug a              ; Affichera 31
   Debug b              ; Affichera 12
   Debug Tableau(1,1)   ; Affichera 32

@@ -1,25 +1,25 @@
-@Title Pointeurs et accès mémoire
+ï»¿@Title Pointeurs et accÃ¨s mÃ©moire
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Pointeurs"><u>Pointeurs</u></a></td>  
-    <td align="center" vAlign="center" nowrap><a href="#Pointeurs et taille mémoire"><u>Pointeurs et taille mémoire</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Pointeurs et taille mÃ©moire"><u>Pointeurs et taille mÃ©moire</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#Pointeurs et structures"><u>Pointeurs et structures</u></a></td>
   </tr>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Pointeurs et tableaux"><u>Pointeurs et tableaux</u></a></td>  
-    <td align="center" vAlign="center" nowrap><a href="#Pointeurs et chaînes de caractères"><u>Pointeurs et chaînes de caractères</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#Arithmétiques des pointeurs"><u>Arithmétiques des pointeurs</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Pointeurs et chaÃ®nes de caractÃ¨res"><u>Pointeurs et chaÃ®nes de caractÃ¨res</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#ArithmÃ©tiques des pointeurs"><u>ArithmÃ©tiques des pointeurs</u></a></td>
 </u></a></td>
   </tr>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Adresses des variables"><u>Adresses des variables : '@'</u></a></td> 
-    <td align="center" vAlign="center" nowrap><a href="#Adresses des chaines litterales"><u>Adresses des chaines littérales</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#Adresses des procédures"><u>Adresses des procédures : '@'</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Adresses des chaines litterales"><u>Adresses des chaines littÃ©rales</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Adresses des procÃ©dures"><u>Adresses des procÃ©dures : '@'</u></a></td>
   </tr>
     <tr>
     <td align="center" vAlign="center" nowrap><a href="#Adresses des labels"><u>Adresses des labels : '?'</u></a></td>
@@ -36,56 +36,57 @@
 
 @Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pointeurs
 @FormatIf HTML
-<!-- Il y a un bug sur @Section et son indentation, et cette astuce pallie à ça. Mesa -->
+<!-- Il y a un bug sur @Section et son indentation, et cette astuce pallie Ã  Ã§a. Mesa -->
 <blockquote>
-  L'utilisation des pointeurs est possible en plaçant une étoile '*' devant le nom d'une <a href="../reference/variables.html">variable</a> 
+  L'utilisation des pointeurs est possible en plaÃ§ant une Ã©toile '*' devant le nom d'une <a href="../reference/variables.html">variable</a> 
   d'une <a href="../reference/newlist.html">liste</a> ou d'une <a href="../reference/newmap.html">map</a>. <br>
-  Un pointeur est un emplacement en mémoire qui stocke une adresse mémoire et qui est généralement associé à une 
+  Un pointeur est un emplacement en mÃ©moire qui stocke une adresse mÃ©moire et qui est gÃ©nÃ©ralement associÃ© Ã  une 
   <a href="../reference/structures.html">structure</a>. 
   </blockquote>
 @FormatEndIf
   
-@Indent @Example
+@Example
 @Code
   *MonEcran.Ecran = OpenScreen(0,320,200,8,0)
   mouseX = *MonEcran\SourisX ; La structure Ecran devant contenir un champ SourisX
-@Endindent @EndCode
+@EndCode
+  
 
-  Il existe seulement trois méthodes valides pour fixer la valeur d'un pointeur: @LineBreak
-  - Obtenir le résultat par une fonction (voir l'exemple ci-dessous) @LineBreak
+  Il existe seulement trois mÃ©thodes valides pour fixer la valeur d'un pointeur: @LineBreak
+  - Obtenir le rÃ©sultat par une fonction (voir l'exemple ci-dessous) @LineBreak
   - Copier la valeur d'un autre pointeur @LineBreak
-  - Trouver l'adresse d'une variable, procédure ou label (voir ci-dessous) 
+  - Trouver l'adresse d'une variable, procÃ©dure ou label (voir ci-dessous) 
   @LineBreak
   @LineBreak
-  Note : A l'inverse du C/C++, en PureBasic l' '*' fait @Bold "partie intégrante" du nom de la variable. 
+  Note : A l'inverse du C/C++, en PureBasic l' '*' fait @Bold "partie intÃ©grante" du nom de la variable. 
   Aussi ptr et *ptr sont deux variables bien distinctes. @LineBreak
-  ptr est une variable (régulière) contenant une valeur, *ptr est une autre variable de type pointeur contenant une adresse. 
+  ptr est une variable (rÃ©guliÃ¨re) contenant une valeur, *ptr est une autre variable de type pointeur contenant une adresse. 
   @LineBreak
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
-<a name="Pointeurs et taille mémoire"></a>
+<a name="Pointeurs et taille mÃ©moire"></a>
 @FormatEndIf
 
-  @Underline "Pointeurs et taille mémoire"
+  @Underline "Pointeurs et taille mÃ©moire"
   @LineBreak
   @LineBreak
-  Comme un pointeur reçoit uniquement une adresse mémoire comme valeur, sa taille en mémoire sera celle qui permettra 
-  de représenter une adresse du processeur : @LineBreak
-  - Sur un processeur 32-bit, les adresses sont représentées sur 32-bit, par conséquent un pointeur prendra 
-  32-bit en mémoire (soit 4 octets comme une variable de type ‘long').  @LineBreak
-  - Sur les processeurs 64-bit, les adresses sont représentées sur 64-bit, ce qui implique qu'un pointeur prendra 
-  64-bit en mémoire (soit 8 octets comme une variable de type ‘quad').  @LineBreak
+  Comme un pointeur reÃ§oit uniquement une adresse mÃ©moire comme valeur, sa taille en mÃ©moire sera celle qui permettra 
+  de reprÃ©senter une adresse du processeur : @LineBreak
+  - Sur un processeur 32-bit, les adresses sont reprÃ©sentÃ©es sur 32-bit, par consÃ©quent un pointeur prendra 
+  32-bit en mÃ©moire (soit 4 octets comme une variable de type â€˜long').  @LineBreak
+  - Sur les processeurs 64-bit, les adresses sont reprÃ©sentÃ©es sur 64-bit, ce qui implique qu'un pointeur prendra 
+  64-bit en mÃ©moire (soit 8 octets comme une variable de type â€˜quad').  @LineBreak
   @LineBreak
-  C'est pour cette raison qu'un pointeur est une variable dite de type pointeur car son encombrement en mémoire 
-  sera lié à la capacité d'adressage mémoire du processeur. @LineBreak
-  Il en découle qu'affecter un type natif à un pointeur (*Pointeur.l, *Pointeur.b…) n'a aucun sens puisque l'encombrement 
-  mémoire d'un pointeur est imposé par celui d'une adresse et non par celui d'un type.
+  C'est pour cette raison qu'un pointeur est une variable dite de type pointeur car son encombrement en mÃ©moire 
+  sera liÃ© Ã  la capacitÃ© d'adressage mÃ©moire du processeur. @LineBreak
+  Il en dÃ©coule qu'affecter un type natif Ã  un pointeur (*Pointeur.l, *Pointeur.bâ€¦) n'a aucun sens puisque l'encombrement 
+  mÃ©moire d'un pointeur est imposÃ© par celui d'une adresse et non par celui d'un type.
   @LineBreak
   @LineBreak
   Note :   @LineBreak
-  - A chaque fois qu'une adresse mémoire doit être stockée dans une variable, il faudrait le faire par l'intermédiaire d'un pointeur. 
-  Ceci garanti que l'adresse sera correctement représentée lors de la compilation du code que ce soit par un processeur 32-bit 
+  - A chaque fois qu'une adresse mÃ©moire doit Ãªtre stockÃ©e dans une variable, il faudrait le faire par l'intermÃ©diaire d'un pointeur. 
+  Ceci garanti que l'adresse sera correctement reprÃ©sentÃ©e lors de la compilation du code que ce soit par un processeur 32-bit 
   comme par un processeur 64-bit par exemple.   @LineBreak
   @LineBreak
   @LineBreak
@@ -96,19 +97,20 @@
   @Underline "Pointeurs et structures"
   @LineBreak
   @LineBreak
-  Attacher une structure à un pointeur (par exemple *MonPoint.Point) permet d'accéder au contenu mémoire 
-  de chaque membre de la structure avec le caractère \ .
+  Attacher une structure Ã  un pointeur (par exemple *MonPoint.Point) permet d'accÃ©der au contenu mÃ©moire 
+  de chaque membre de la structure avec le caractÃ¨re \ .
   
-  @Indent @Example Pointeurs et variables structurées
+  @Example Pointeurs et variables structurÃ©es
 @Code
   Define Point1.Point, Point2.Point
-  *PointCourant.Point = @Point1 ; Déclare le pointeur, l'associe à une structure et l'initialise avec l'adresse de Point1
-  *PointCourant\x = 10          ; Assigne la valeur 10 à Point1\x
-  *PointCourant.Point = @Point2 ; Récupère l'adresse de Point2
-  *PointCourant\x = 20          ; Assigne la valeur 20 à Point2\x
+  *PointCourant.Point = @Point1 ; DÃ©clare le pointeur, l'associe Ã  une structure et l'initialise avec l'adresse de Point1
+  *PointCourant\x = 10          ; Assigne la valeur 10 Ã  Point1\x
+  *PointCourant.Point = @Point2 ; RÃ©cupÃ¨re l'adresse de Point2
+  *PointCourant\x = 20          ; Assigne la valeur 20 Ã  Point2\x
   Debug Point1\x
   Debug Point2\x
-@Endindent @EndCode
+@EndCode
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -118,83 +120,86 @@
   @Underline "Pointeurs et tableaux"
   @LineBreak
   @LineBreak
-  Attacher un tableau à un pointeur permet d'accéder au contenu mémoire 
-  de chaque cellules à travers son adresse.
+  Attacher un tableau Ã  un pointeur permet d'accÃ©der au contenu mÃ©moire 
+  de chaque cellules Ã  travers son adresse.
 
-@Indent @Example Pointeurs et tableaux
+@Example Pointeurs et tableaux
 @Code
-  Define Point1.Point, Point2.Point ; 2 Variables de type 'point' (type prédéfini dans PureBasic)
+  Define Point1.Point, Point2.Point ; 2 Variables de type 'point' (type prÃ©dÃ©fini dans PureBasic)
   Dim *Points.Point(1) ; Un tableau de 2 pointeurs et le tableau est de type 'Point'
   *Points(0) = @Point1 ; Le premier pointeur contient l'adresse de la variable Point1
   *Points(1) = @Point2 ; Le second pointeur contient l'adresse de la variable Point2
 
-  *Points(0)\x = 10 ; Modification de la variable Point1 à travers le pointeur
+  *Points(0)\x = 10 ; Modification de la variable Point1 Ã  travers le pointeur
   *Points(1)\x = 20 ; Idem avec Point2
   
   Debug Point1\x
   Debug Point2\x
-@Endindent @EndCode
+@EndCode
+  
 
-  Les pointeurs permettent donc de se déplacer, de lire et d'écrire facilement en mémoire. 
-  De plus ils permettent aux programmeurs d'accéder à de grandes quantités de données sans coût supplémentaire 
-  suite à une duplication de ces données. Copier un pointeur est beaucoup plus rapide.
+  Les pointeurs permettent donc de se dÃ©placer, de lire et d'Ã©crire facilement en mÃ©moire. 
+  De plus ils permettent aux programmeurs d'accÃ©der Ã  de grandes quantitÃ©s de donnÃ©es sans coÃ»t supplÃ©mentaire 
+  suite Ã  une duplication de ces donnÃ©es. Copier un pointeur est beaucoup plus rapide.
   @LineBreak
   @LineBreak
-  Les pointeurs sont également disponibles dans les structures, pour plus d'informations, consultez le chapitre sur les @ReferenceLink "structures" "structures".
+  Les pointeurs sont Ã©galement disponibles dans les structures, pour plus d'informations, consultez le chapitre sur les @ReferenceLink "structures" "structures".
   @LineBreak
   @LineBreak
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
-<a name="Pointeurs et chaînes de caractères"></a>
+<a name="Pointeurs et chaÃ®nes de caractÃ¨res"></a>
 @FormatEndIf
 
-  @Underline "Pointeurs et chaînes de caractères"
+  @Underline "Pointeurs et chaÃ®nes de caractÃ¨res"
   @LineBreak
   @LineBreak
-  Toutes les variables ont une taille fixe en mémoire (2 octets pour un Word, 4 octets pour un Long, etc) 
-  hormis les chaînes de caractères dont la longueur peut changer, ce qui fait qu'elles sont gérées différemment.
+  Toutes les variables ont une taille fixe en mÃ©moire (2 octets pour un Word, 4 octets pour un Long, etc) 
+  hormis les chaÃ®nes de caractÃ¨res dont la longueur peut changer, ce qui fait qu'elles sont gÃ©rÃ©es diffÃ©remment.
   @LineBreak
-  Ainsi, les champs d'une structure faisant référence à une chaîne de caractères stockent l'adresse mémoire où 
-  réside la chaîne de caractères et non la chaîne elle-même: ce sont des pointeurs vers des chaînes de caractères.
+  Ainsi, les champs d'une structure faisant rÃ©fÃ©rence Ã  une chaÃ®ne de caractÃ¨res stockent l'adresse mÃ©moire oÃ¹ 
+  rÃ©side la chaÃ®ne de caractÃ¨res et non la chaÃ®ne elle-mÃªme: ce sont des pointeurs vers des chaÃ®nes de caractÃ¨res.
   @LineBreak
-@Indent @Example
+@Example
 @Code
   Texte$ = "Bonjour"
-  *Texte = @Texte$ ;*Texte a pour valeur l'adresse où réside la chaîne de caractères en mémoire
+  *Texte = @Texte$ ;*Texte a pour valeur l'adresse oÃ¹ rÃ©side la chaÃ®ne de caractÃ¨res en mÃ©moire
   *Pointeur.String = @*Texte ; *Pointeur pointe sur *Texte
-  Debug *Pointeur\s ; Lit la chaîne de caractères qui réside à l'adresse écrite en *Pointeur (c-a-d @Texte$)
-@Endindent @EndCode
+  Debug *Pointeur\s ; Lit la chaÃ®ne de caractÃ¨res qui rÃ©side Ã  l'adresse Ã©crite en *Pointeur (c-a-d @Texte$)
+@EndCode
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
-<a name="Arithmétiques des pointeurs"></a>
+<a name="ArithmÃ©tiques des pointeurs"></a>
 @FormatEndIf
 
-  @Underline "Arithmétiques des pointeurs"
+  @Underline "ArithmÃ©tiques des pointeurs"
   @LineBreak
   @LineBreak
-  Il est possible d'effectuer des opérations arithmétiques sur les pointeurs en s'aidant de la commande @ReferenceLink "compilerfunctions" "SizeOf()".
+  Il est possible d'effectuer des opÃ©rations arithmÃ©tiques sur les pointeurs en s'aidant de la commande @ReferenceLink "compilerfunctions" "SizeOf()".
   @LineBreak
-@Indent @Example
+@Example
 @Code
   Dim Tableau.Point(1) ; tableau de points 
 
-  *Pointeur.Point = @Tableau() ; Récupère l'adresse du tableau
-  *Pointeur\x = 10 ; Modifie l'élément 0 du tableau 
+  *Pointeur.Point = @Tableau() ; RÃ©cupÃ¨re l'adresse du tableau
+  *Pointeur\x = 10 ; Modifie l'Ã©lÃ©ment 0 du tableau 
   *Pointeur\y = 15 
   
-  *Pointeur + SizeOf(Point) ; Pointe sur l'élément suivant 
+  *Pointeur + SizeOf(Point) ; Pointe sur l'Ã©lÃ©ment suivant 
   
-  *Pointeur\x = 7 ; Modifie l'élément 1 du tableau 
+  *Pointeur\x = 7 ; Modifie l'Ã©lÃ©ment 1 du tableau 
   *Pointeur\y = 9
 
-  ;Affiche le résultat
+  ;Affiche le rÃ©sultat
   For i = 0 To 1
     Debug Tableau(i)\x
     Debug Tableau(i)\y
   Next i
-@Endindent @EndCode  
+@EndCode 
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -205,11 +210,11 @@
 @Section Adresses des variables : '@'
 
   Pour obtenir l'adresse d'une @ReferenceLink "variables" "variable" dans votre code, utilisez le symbole @. La raison la 
-  plus fréquente d'utiliser ce système est le transfert d'une variable de type structure à une 
-  @ReferenceLink "procedures" "procédure". Il faut passer un pointeur à la procédure car il est impossible de passer directement 
+  plus frÃ©quente d'utiliser ce systÃ¨me est le transfert d'une variable de type structure Ã  une 
+  @ReferenceLink "procedures" "procÃ©dure". Il faut passer un pointeur Ã  la procÃ©dure car il est impossible de passer directement 
   la structure comme argument.
 
-@Indent @Example
+@Example
 @Code
   Structure astruct
     a.w
@@ -225,7 +230,8 @@
   mavariable\b = 0
   SetB( @mavariable )
   Debug mavariable\b
-@Endindent @EndCode
+@EndCode
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -233,41 +239,43 @@
 <a name="Adresses des chaines litterales"></a>
 @FormatEndIf
 
-@Section Adresses des chaînes littérales
+@Section Adresses des chaÃ®nes littÃ©rales
 
-   Pour obtenir l'adresse d'une chaîne de caractères littérales, 
-   utilisez le symbole @ devant elle. Les chaînes constantes sont aussi supportées.
+   Pour obtenir l'adresse d'une chaÃ®ne de caractÃ¨res littÃ©rales, 
+   utilisez le symbole @ devant elle. Les chaÃ®nes constantes sont aussi supportÃ©es.
 
-@Indent @Example
+@Example
 @Code
   *Chaine = @"Test"
   Debug PeekC(*Chaine) ; Affiche 84, qui est la valeur de la lettre T majuscule 'T'
-@Endindent @EndCode
+@EndCode
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
-<a name="Adresses des procédures"></a>
+<a name="Adresses des procÃ©dures"></a>
 @FormatEndIf
 
-@Section Adresses des procédures : '@'
+@Section Adresses des procÃ©dures : '@'
 
-  En principe seuls les programmeurs avancés ont à connaître l'adresse d'une procédure.
-  La raison la plus fréquente est de devoir négocier des échanges de bas niveau avec le 
-  système d'exploitation. Certains systèmes autorisent la mise en place de callbacks ou 
-  points d'ancrage (hooks) permettant au système d'exploitation de dialoguer avec le programme 
-  en étendant ainsi les capacités du système d'exploitation. L'adresse d'une @ReferenceLink "procedures" "procédure" est 
-  accessible d'une manière similaire à une @ReferenceLink "variables" "variable".
+  En principe seuls les programmeurs avancÃ©s ont Ã  connaÃ®tre l'adresse d'une procÃ©dure.
+  La raison la plus frÃ©quente est de devoir nÃ©gocier des Ã©changes de bas niveau avec le 
+  systÃ¨me d'exploitation. Certains systÃ¨mes autorisent la mise en place de callbacks ou 
+  points d'ancrage (hooks) permettant au systÃ¨me d'exploitation de dialoguer avec le programme 
+  en Ã©tendant ainsi les capacitÃ©s du systÃ¨me d'exploitation. L'adresse d'une @ReferenceLink "procedures" "procÃ©dure" est 
+  accessible d'une maniÃ¨re similaire Ã  une @ReferenceLink "variables" "variable".
 
-  @Indent @Example
+  @Example
 
 @Code
   Procedure WindowCB(WindowID.i, Message.i, wParam.i, lParam.i)
-    ; C'est ici que le traitement de votre callback sera effectué
+    ; C'est ici que le traitement de votre callback sera effectuÃ©
   EndProcedure
   
-  ; Un callback spécifique pour Windows permet de traiter les évènements sur les fenêtres
+  ; Un callback spÃ©cifique pour Windows permet de traiter les Ã©vÃ¨nements sur les fenÃªtres
   SetWindowCallback( @WindowCB() )
-@Endindent @EndCode  
+@EndCode  
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
@@ -277,19 +285,20 @@
 
 @Section Adresses des labels : '?'
 
-  Il peut également être utile de connaître l'adresse d'un @ReferenceLink "general_rules" "label" dans votre programme. 
-  Cela peut être le cas pour accéder au code ou aux données placées à cet endroit ou toute autre bonne raison qui peut vous venir à l'esprit. 
+  Il peut Ã©galement Ãªtre utile de connaÃ®tre l'adresse d'un @ReferenceLink "general_rules" "label" dans votre programme. 
+  Cela peut Ãªtre le cas pour accÃ©der au code ou aux donnÃ©es placÃ©es Ã  cet endroit ou toute autre bonne raison qui peut vous venir Ã  l'esprit. 
   Pour trouver l'adresse d'un label dans votre programme, placez un '?' devant le nom du label.
 
-@Indent @Example
+@Example
 @Code
-  Debug "Taille du fichier de données = " + Str(?endofmydata - ?mydata)
+  Debug "Taille du fichier de donnÃ©es = " + Str(?endofmydata - ?mydata)
   
   DataSection
     mydata:
       IncludeBinary "somefile.bin"
     endofmydata:
-@Endindent @EndCode
+@EndCode
+  
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML

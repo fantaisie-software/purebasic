@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Mail library documentation
 ;
 ; (c) Fantaisie Software
@@ -9,14 +9,14 @@
 @Overview
   Les e-mails sont maintenant un moyen 
   commun de communication entre personnes.
-  Cette bibliothèque permet de créer des 
-  e-mails, avec ou sans pièces jointes, 
-  et de les envoyer à un ou plusieurs 
+  Cette bibliothÃ¨que permet de crÃ©er des 
+  e-mails, avec ou sans piÃ¨ces jointes, 
+  et de les envoyer Ã  un ou plusieurs 
   destinataires. 
 @LineBreak
 @LineBreak
- Sous Linux, 'libcurl' doit être installé pour 
- que certaines commandes MAIL fonctionnent (déjà installé 
+ Sous Linux, 'libcurl' doit Ãªtre installÃ© pour 
+ que certaines commandes MAIL fonctionnent (dÃ©jÃ  installÃ© 
  dans la plupart des distributions Linux).
  
 @CommandList
@@ -30,58 +30,58 @@
 @Function Resultat = AddMailAttachment(#Courrier, Description$, Fichier$ [, TypeMime$])
 
 @Description
-  Ajoute un fichier en pièce jointe.
+  Ajoute un fichier en piÃ¨ce jointe.
   
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 
 @Parameter "Description$"
  Le texte d'information qui apparait 
- à côté du fichier. 
+ Ã  cÃ´tÃ© du fichier. 
 
 @Parameter "Fichier$"
-  Le fichier à joindre.
+  Le fichier Ã  joindre.
 @LineBreak
 @LineBreak 
   Si le nom du fichier ne contient 
   pas de chemin complet, il est 
-  interprété par rapport au 
-  @Link "FileSystem/GetCurrentDirectory" "répertoire courant". 
+  interprÃ©tÃ© par rapport au 
+  @Link "FileSystem/GetCurrentDirectory" "rÃ©pertoire courant". 
 @LineBreak
 @LineBreak   
-  Une fois que la pièce jointe a été 
-  ajoutée, son contenu est entièrement 
-  copié dans le courrier et ne prend 
+  Une fois que la piÃ¨ce jointe a Ã©tÃ© 
+  ajoutÃ©e, son contenu est entiÃ¨rement 
+  copiÃ© dans le courrier et ne prend 
   pas en compte les modifications ou 
-  même la suppression du fichier original.
+  mÃªme la suppression du fichier original.
  
 @OptionalParameter "TypeMime$"
   Le type du fichier joint.
 @LineBreak
 @LineBreak   
-   Si ce paramètre est omis, l'extension 
-   de fichier sera utilisée pour 
-   déterminer le type MIME.@LineBreak 
+   Si ce paramÃ¨tre est omis, l'extension 
+   de fichier sera utilisÃ©e pour 
+   dÃ©terminer le type MIME.@LineBreak 
    Ci-dessous, une liste des types MIME 
    disponibles.@LineBreak  
    Si l'extension du fichier ne correspond 
-   à aucun des types MIME disponibles, 
+   Ã  aucun des types MIME disponibles, 
    alors le type "application/octet-stream" 
-   sera utilisé par défaut.
+   sera utilisÃ© par dÃ©faut.
 
 @ReturnValue
   Renvoie une valeur non nulle si le fichier 
-  a été attaché avec succès, zéro sinon.
+  a Ã©tÃ© attachÃ© avec succÃ¨s, zÃ©ro sinon.
   
 @Remarks
-  Le nombre de pièces jointes qui peuvent 
-  être ajoutées n'est pas limité, mais la 
-  taille limite pour chaque pièce jointe 
-  est actuellement fixée à 100 Mo. 
+  Le nombre de piÃ¨ces jointes qui peuvent 
+  Ãªtre ajoutÃ©es n'est pas limitÃ©, mais la 
+  taille limite pour chaque piÃ¨ce jointe 
+  est actuellement fixÃ©e Ã  100 Mo. 
   La plupart des serveurs et des clients 
-  mails n'ont pas la capacité de traiter 
-  les pièces jointes de cette taille, il 
-  est donc conseillé que chaque pièce jointe 
+  mails n'ont pas la capacitÃ© de traiter 
+  les piÃ¨ces jointes de cette taille, il 
+  est donc conseillÃ© que chaque piÃ¨ce jointe 
   aie une taille raisonnable.
 @LineBreak
 @LineBreak
@@ -92,21 +92,21 @@
   application/drafting      | MATRA Prelude drafting   drw
   application/dxf           | AutoCAD  dxf
   application/i-deas        | SDRC I-deas  unv
-  application/iges          | Format d'échange CAO IGES   igs,iges
+  application/iges          | Format d'Ã©change CAO IGES   igs,iges
   application/oda           | ODA  oda
   application/pdf           | Adobe Acrobat  pdf
   application/postscript    | PostScript   ai,eps,ps
   application/pro_eng       | ProEngineer  prt
   application/rtf           | Rich text   rtf
   application/set           | CAO SET  set
-  application/sla           | stéréolithographie   stl
+  application/sla           | stÃ©rÃ©olithographie   stl
   application/solids        | MATRA Solids   dwg
-  application/step          | Données STEP  step
+  application/step          | DonnÃ©es STEP  step
   application/vda           | Surface   vda
   application/x-mif         | Framemaker   mif
   application/x-csh         | Script C-Shell (UNIX)   dwg
   application/x-dvi         | texte dvi  dvi
-  application/hdf           | Données   hdf
+  application/hdf           | DonnÃ©es   hdf
   application/x-latex       | LaTEX  latex
   application/x-netcdf      | NetCDF   nc,cdf
   application/x-sh          | Script Bourne Shell   dwg
@@ -149,21 +149,21 @@
   text/html                 | HTML   htm,html
   text/plain                | Texte sans mise en forme   txt,g,h,c,cc,hh,m,f90
   text/richtext             | Texte enrichi   rtx
-  text/tab-separated-value  | Texte avec séparation des valeurs  tsv
+  text/tab-separated-value  | Texte avec sÃ©paration des valeurs  tsv
   text/x-setext             | Texte Struct   etx
-  video/mpeg                | Vidéos MPEG   mpeg,mpg,mpe
-  video/quicktime           | Vidéos QuickTime  qt,mov
-  video/msvideo             | Vidéos Microsoft Windows  avi
-  video/x-sgi-movie         | Vidéos MoviePlayer  movie
+  video/mpeg                | VidÃ©os MPEG   mpeg,mpg,mpe
+  video/quicktime           | VidÃ©os QuickTime  qt,mov
+  video/msvideo             | VidÃ©os Microsoft Windows  avi
+  video/x-sgi-movie         | VidÃ©os MoviePlayer  movie
 @EndFixedFont  
 
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Salut")
     If AddMailAttachment(0, "Attachment 1", OpenFileRequester("Choisissez un fichier", "", "", 0))
-      Debug "Pièce jointe correctement créée"
+      Debug "PiÃ¨ce jointe correctement crÃ©Ã©e"
     Else
-      Debug "Impossible de créer la pièce jointe "
+      Debug "Impossible de crÃ©er la piÃ¨ce jointe "
     EndIf
   EndIf
 @EndCode
@@ -178,59 +178,59 @@
 @Function Resultat = AddMailAttachmentData(#Courrier, Description$, *Memoire, Taille [, TypeMime$])
 
 @Description
-  Ajoute le contenu d'une zone de mémoire 
-  comme pièce jointe.
+  Ajoute le contenu d'une zone de mÃ©moire 
+  comme piÃ¨ce jointe.
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 
 @Parameter "Description$"
  Le texte d'information qui apparait 
- sur la pièce jointe. 
+ sur la piÃ¨ce jointe. 
 
 @Parameter "*Memoire"
   La @LibraryLink "Memory" "zone de 
-  mémoire" qui contient la pièce jointe.
+  mÃ©moire" qui contient la piÃ¨ce jointe.
 @LineBreak
 @LineBreak   
-  Une fois que la pièce jointe a été 
-  ajoutée, son contenu est entièrement 
-  copié dans le courrier et ne prend 
+  Une fois que la piÃ¨ce jointe a Ã©tÃ© 
+  ajoutÃ©e, son contenu est entiÃ¨rement 
+  copiÃ© dans le courrier et ne prend 
   pas en compte les modifications ou 
-  même la suppression de la zone mémoire 
+  mÃªme la suppression de la zone mÃ©moire 
   originale.
 
 @Parameter "Taille"
-  La taille de la pièce jointe en octets.
+  La taille de la piÃ¨ce jointe en octets.
   
 @OptionalParameter "TypeMime$"
   Le type du fichier joint.
 @LineBreak
 @LineBreak   
-   Si ce paramètre est omis, l'extension 
-   de fichier sera utilisée pour 
-   déterminer le type MIME.@LineBreak 
+   Si ce paramÃ¨tre est omis, l'extension 
+   de fichier sera utilisÃ©e pour 
+   dÃ©terminer le type MIME.@LineBreak 
    Ci-dessous, une liste des types MIME 
    disponibles.@LineBreak  
    Si l'extension du fichier ne correspond 
-   à aucun des types MIME disponibles, 
+   Ã  aucun des types MIME disponibles, 
    alors le type "application/octet-stream"
-   sera utilisé par défaut.
+   sera utilisÃ© par dÃ©faut.
 
 @ReturnValue
   Renvoie une valeur non nulle si la 
-  pièce jointe a été créée avec succès, 
-  zéro sinon.
+  piÃ¨ce jointe a Ã©tÃ© crÃ©Ã©e avec succÃ¨s, 
+  zÃ©ro sinon.
 
 @Remarks 
   Il est possible d'ajouter autant de 
-  pièces jointes que désiré, mais la 
-  taille d'une pièce jointe ne pourra 
-  pas dépasser 100 Mo. 
+  piÃ¨ces jointes que dÃ©sirÃ©, mais la 
+  taille d'une piÃ¨ce jointe ne pourra 
+  pas dÃ©passer 100 Mo. 
   La plupart des serveurs et des clients 
-  mails ne pourront de toutes façons pas 
-  les gérer, donc il est conseillé de garder 
-  une taille raisonnable pour les pièces 
+  mails ne pourront de toutes faÃ§ons pas 
+  les gÃ©rer, donc il est conseillÃ© de garder 
+  une taille raisonnable pour les piÃ¨ces 
   jointes.
 
 @Example
@@ -238,9 +238,9 @@
   If CreateMail(0, "test@purebasic.com", "Salut")
   
     If AddMailAttachmentData(0, "Attachment 1", ?Salut, 5)
-      Debug "Pièce jointe ajoutée"
+      Debug "PiÃ¨ce jointe ajoutÃ©e"
     Else
-      Debug "Impossible d'ajouter la pièce jointe"
+      Debug "Impossible d'ajouter la piÃ¨ce jointe"
     EndIf
   EndIf
     
@@ -262,7 +262,7 @@
   Ajoute un destinataire. 
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.  
+  Le courrier Ã  utiliser.  
   
 @Parameter "Adresse$"
  L'adresse e-mail du destinataire.
@@ -276,7 +276,7 @@
 @EndFixedFont
  
 @Parameter "Options"
- Le type de destinataire. Peut être une 
+ Le type de destinataire. Peut Ãªtre une 
  combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Mail_To : Destinataire principal
@@ -290,8 +290,8 @@
 @Code
   If CreateMail(0, "test@purebasic.com", "Salut")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre est le destinataire principal
-    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred reçoit une copie du mail
-    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo reçoit une copie du mail aussi mais Andre et Fred ne le savent pas
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred reÃ§oit une copie du mail
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo reÃ§oit une copie du mail aussi mais Andre et Fred ne le savent pas
   EndIf
 @EndCode
 
@@ -305,19 +305,19 @@
 @Function Resultat = CreateMail(#Courrier, De$, Objet$ [, Encodage])
 
 @Description
-  Crée un nouveau courrier. 
+  CrÃ©e un nouveau courrier. 
  
 @Parameter "#Courrier"
-  Le numéro d'identification du 
+  Le numÃ©ro d'identification du 
   nouveau courrier. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer automatiquement 
+  ce numÃ©ro.
   
 @Parameter "De$"
-  L'adresse de l'expéditeur.
+  L'adresse de l'expÃ©diteur.
 @LineBreak
 @LineBreak   
     L'adresse doit avoir l'un des formats suivants:
@@ -334,18 +334,18 @@
   L'encodage du courrier. Peut prendre une 
   des valeurs suivantes:
 @FixedFont
-  @#PB_Ascii : Le contenu du courrier est encodé en ascii 
-  @#PB_UTF8  : Le contenu du courrier est encodé en @ReferenceLink "unicode" "UTF-8" (unicode)(valeur par défaut)
+  @#PB_Ascii : Le contenu du courrier est encodÃ© en ascii 
+  @#PB_UTF8  : Le contenu du courrier est encodÃ© en @ReferenceLink "unicode" "UTF-8" (unicode)(valeur par dÃ©faut)
 @EndFixedFont
 
 @ReturnValue 
   Renvoie une valeur non nulle en cas 
-  de succès, zéro sinon.
+  de succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisé alors le 
-  numéro auto-généré est 
-  renvoyé en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© alors le 
+  numÃ©ro auto-gÃ©nÃ©rÃ© est 
+  renvoyÃ© en cas de succÃ¨s.
 
 @Remarks 
   @@SetMailBody, @@SetMailAttribute, 
@@ -355,23 +355,23 @@
   courrier.
 @LineBreak
 @LineBreak
-  D'après le standard 
+  D'aprÃ¨s le standard 
   @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822" 
-  les caractères @#CRLF$ permettent 
-  de créer les sauts de ligne.
+  les caractÃ¨res @#CRLF$ permettent 
+  de crÃ©er les sauts de ligne.
 @LineBreak
 @LineBreak
- Sous Linux, 'libcurl' doit être installé pour 
- que cette commande fonctionnent (déjà installé 
+ Sous Linux, 'libcurl' doit Ãªtre installÃ© pour 
+ que cette commande fonctionnent (dÃ©jÃ  installÃ© 
  dans la plupart des distributions Linux).
  
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Salut")
-    SetMailBody(0, "Ceci est un essai !" + #CRLF$ + "2ème ligne")
-    Debug "Mail créé"
+    SetMailBody(0, "Ceci est un essai !" + #CRLF$ + "2Ã¨me ligne")
+    Debug "Mail crÃ©Ã©"
   Else
-    Debug "Impossible de créer le mail"
+    Debug "Impossible de crÃ©er le mail"
   EndIf
 @EndCode
 
@@ -388,21 +388,21 @@
 @Function FreeMail(#Courrier)
 
 @Description
-  Supprime un courrier et libère 
-  la mémoire associée. 
+  Supprime un courrier et libÃ¨re 
+  la mÃ©moire associÃ©e. 
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 @LineBreak 
 @LineBreak  
-  Si @#PB_All est spécifié, tous 
-  les mails restants seront libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous 
+  les mails restants seront libÃ©rÃ©s.
 
 @NoReturnValue
 
 @Remarks
   Tous les courriers restants sont 
-  automatiquement supprimés quand 
+  automatiquement supprimÃ©s quand 
   le programme se termine.
 
 @SeeAlso
@@ -418,26 +418,26 @@
   Renvoie l'attribut d'un courrier. 
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
   
 @Parameter "Attribut"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Mail_From   : Renvoie l'adresse de retour définie par @@CreateMail.
-  @#PB_Mail_Subject: Renvoie l'objet défini par @@CreateMail.
+  @#PB_Mail_From   : Renvoie l'adresse de retour dÃ©finie par @@CreateMail.
+  @#PB_Mail_Subject: Renvoie l'objet dÃ©fini par @@CreateMail.
   @#PB_Mail_XMailer: Renvoie le champ 'X-Mailer' (s'il existe)
   @#PB_Mail_Date   : Renvoie le champ 'Date' (s'il existe)
   @#PB_Mail_Custom : Renvoie les champs utilisateurs (s'ils existent)
 @EndFixedFont
 
 @ReturnValue
-  Renvoie l'attribut dans une chaîne 
-  de caractères. 
-  Une chaîne vide est renvoyée si 
+  Renvoie l'attribut dans une chaÃ®ne 
+  de caractÃ¨res. 
+  Une chaÃ®ne vide est renvoyÃ©e si 
   l'attribut n'existe pas.
   
 @Remarks
-  @@SetMailAttribute peut être utilisé 
+  @@SetMailAttribute peut Ãªtre utilisÃ© 
   pour modifier les attributs.
 
 @Example
@@ -461,11 +461,11 @@
   Renvoie le contenu d'un courrier.
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 
 @ReturnValue  
-  Renvoie une chaîne de caractères qui est le 
-  contenu du courrier, préalablement défini 
+  Renvoie une chaÃ®ne de caractÃ¨res qui est le 
+  contenu du courrier, prÃ©alablement dÃ©fini 
   par @@SetMailBody.
  
 @Example
@@ -487,23 +487,23 @@
 
 @Description
   Teste si le courrier est correctement 
-  initialisé. 
+  initialisÃ©. 
  
 @Parameter "#Courrier"
-  Le courrier à tester.  
+  Le courrier Ã  tester.  
 
 @ReturnValue
   Renvoie une valeur non nulle si 
   le courrier est valide.
 
 @Remarks   
-  Cette fonction a été créée pour 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour 
   pouvoir passer n'importe quelle 
-  valeur en paramètre sans qu'il 
+  valeur en paramÃ¨tre sans qu'il 
   ne puisse y avoir de plantage. 
-  C'est la fonction idéale pour 
-  vérifier qu'un courrier est 
-  prêt à être utilisé.
+  C'est la fonction idÃ©ale pour 
+  vÃ©rifier qu'un courrier est 
+  prÃªt Ã  Ãªtre utilisÃ©.
 
 @SeeAlso
   @@CreateMail, @@FreeMail
@@ -519,15 +519,15 @@
   d'un courrier.
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
   
 @ReturnValue
-  Renvoie le nombre d'octets déjà 
-  envoyés ou une des valeurs suivantes:
+  Renvoie le nombre d'octets dÃ©jÃ  
+  envoyÃ©s ou une des valeurs suivantes:
 @FixedFont
   @#PB_Mail_Connected: L'envoi du courrier est dans sa phase d'initialisation.
-  @#PB_Mail_Finished : Le courrier a été correctement envoyé.
-  @#PB_Mail_Error    : Le courrier n'a pas pu être envoyé, une erreur est survenue.
+  @#PB_Mail_Finished : Le courrier a Ã©tÃ© correctement envoyÃ©.
+  @#PB_Mail_Error    : Le courrier n'a pas pu Ãªtre envoyÃ©, une erreur est survenue.
 @EndFixedFont
  
 @SeeAlso
@@ -543,33 +543,33 @@
   Supprimer un destinataire.
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 
 @OptionalParameter "Addresse$"
-  L'adresse du destinataire à supprimer. 
+  L'adresse du destinataire Ã  supprimer. 
 @LineBreak
 @LineBreak
-  L'adresse doit être dans un format 
-  correct ou le mail ne sera pas envoyé 
-  et doit correspondre à une adresse 
-  à partir d'un appel à @@AddMailRecipient.
+  L'adresse doit Ãªtre dans un format 
+  correct ou le mail ne sera pas envoyÃ© 
+  et doit correspondre Ã  une adresse 
+  Ã  partir d'un appel Ã  @@AddMailRecipient.
 @LineBreak
 @LineBreak
-  S'il n'est pas spécifié, tous les 
-  destinataires sont retirés de l'e-mail.
+  S'il n'est pas spÃ©cifiÃ©, tous les 
+  destinataires sont retirÃ©s de l'e-mail.
 
 @OptionalParameter "Options"
-  La ou les catégories du ou des destinataires. 
-  Peut être une combinaison des valeurs 
+  La ou les catÃ©gories du ou des destinataires. 
+  Peut Ãªtre une combinaison des valeurs 
   suivantes:
 @FixedFont
   @#PB_Mail_To : Destinataire(s) principal(aux).
   @#PB_Mail_Cc : Destinataire(s) en copie conforme (Copie Carbone: Tous les destinataires sont visibles).
   @#PB_Mail_Bcc: Destinataire(s) en copie invisible ('Blind carbon copy': Seul le destinataire est visible).
 @EndFixedFont
-  S'il n'est pas spécifié, toutes les 
-  catégories sont retirées pour l'adresse 
-  indiquée.
+  S'il n'est pas spÃ©cifiÃ©, toutes les 
+  catÃ©gories sont retirÃ©es pour l'adresse 
+  indiquÃ©e.
 
 @NoReturnValue
 
@@ -577,10 +577,10 @@
 @Code
   If CreateMail(0, "test@votreadresse.com", "Salut")
     AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre est le destinataire principal
-    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred reçoit une copie du mail
-    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo reçoit une copie du mail aussi mais Andre et Fred ne le savent pas
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred reÃ§oit une copie du mail
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo reÃ§oit une copie du mail aussi mais Andre et Fred ne le savent pas
     
-    ; Assurez-vous que Fred soit retiré de toutes les destinations :-)
+    ; Assurez-vous que Fred soit retirÃ© de toutes les destinations :-)
     RemoveMailRecipient(0, "fred@purebasic.com") 
   EndIf
 @EndCode
@@ -598,32 +598,34 @@
    Envoie un courrier. 
  
 @Parameter "#Courrier"
-  Le courrier à envoyer.
+  Le courrier Ã  envoyer.
 
 @Parameter "Smtp$"
   L'adresse du serveur d'envoi de courrier.
    
 @OptionalParameter "Port"
-  Le port du serveur mail (par défaut 25).
+  Le port du serveur mail (par dÃ©faut 25).
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes: 
+  Peut Ãªtre une combinaison des valeurs suivantes: 
 @FixedFont
-  @#PB_Mail_Asynchronous: Envoie le courrier en arrière-plan. Utiliser @@MailProgress pour suivre la progression.
+  @#PB_Mail_Asynchronous: Envoie le courrier en arriÃ¨re-plan. Utiliser @@MailProgress pour suivre la progression.
   @#PB_Mail_UseSSL      : Envoie le courrier avec TLS/SSL (le serveur doit supporter ce protocole).
   @#PB_Mail_UseSMTPS    : Envoie le courrier avec SMTPS (le serveur doit supporter ce protocole).
-  @#PB_Mail_Debug       : Imprimer les informations de débogage dans la console.
+  @#PB_Mail_Debug       : Imprimer les informations de dÃ©bogage dans la console.
+  @#PB_Mail_NoSSLCheckÂ  : Ne vÃ©rifie pas la validitÃ© du certificat SSL (utile Ã  des fins de test).
+  @#PB_Mail_WeakSSLÂ     : Prend en charge les serveurs plus anciens (non recommandÃ© en raison d'une sÃ©curitÃ© de transport faible ou dÃ©faillante).
 @EndFixedFont
 
 @OptionalParameter "Identifiant$, MotdePasse$"
-  L'utilisateur et le mot de passe utilisé 
+  L'utilisateur et le mot de passe utilisÃ© 
   pour l'authentification SMTP, 
   si le serveur les requiert.
 
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  courrier a été envoyé avec succès, 
-  zéro sinon.
+  courrier a Ã©tÃ© envoyÃ© avec succÃ¨s, 
+  zÃ©ro sinon.
 
 @Example Simple SMTP
 @Code 
@@ -676,16 +678,16 @@
   Modifie l'attribut d'un courrier. 
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
    
 @Parameter "Attribut"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Mail_From   : Change l'adresse de retour définie par @@CreateMail.
-  @#PB_Mail_Subject: Change l'objet défini par @@CreateMail.
-  @#PB_Mail_XMailer: Change le champ 'X-Mailer' (par défaut: aucun)
-  @#PB_Mail_Date   : Change le champ 'Date' (par défaut la date de l'ordinateur)
-  @#PB_Mail_Custom : Change les champs utilisateurs (peuvent être sur plusieurs lignes)
+  @#PB_Mail_From   : Change l'adresse de retour dÃ©finie par @@CreateMail.
+  @#PB_Mail_Subject: Change l'objet dÃ©fini par @@CreateMail.
+  @#PB_Mail_XMailer: Change le champ 'X-Mailer' (par dÃ©faut: aucun)
+  @#PB_Mail_Date   : Change le champ 'Date' (par dÃ©faut la date de l'ordinateur)
+  @#PB_Mail_Custom : Change les champs utilisateurs (peuvent Ãªtre sur plusieurs lignes)
 @EndFixedFont
 
 @Parameter "Valeur$"
@@ -714,7 +716,7 @@
   Modifie le contenu (corps) d'un courrier. 
  
 @Parameter "#Courrier"
-  Le courrier à utiliser.
+  Le courrier Ã  utiliser.
 
 @Parameter "CorpsMessage$"
   Le nouveau texte du corps de message.
@@ -728,7 +730,7 @@
   utilise @#CRLF$ .
 @LineBreak
 @LineBreak
-  @@GetMailBody est disponible pour récupérer 
+  @@GetMailBody est disponible pour rÃ©cupÃ©rer 
   le contenu (corps) d'un courrier.
 
 @Example

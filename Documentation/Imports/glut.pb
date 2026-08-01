@@ -8,7 +8,7 @@ CompilerCase #PB_OS_Windows
 
 CompilerCase #PB_OS_MacOS
 
-  ImportC "-framework Carbon -framework OpenGL -framework AGL"
+  ImportC "-framework Carbon -framework OpenGL"
 
 CompilerDefault ; Linux
 

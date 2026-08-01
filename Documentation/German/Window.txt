@@ -1,14 +1,14 @@
-;
+ï»¿;
 ;     Window library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Window
 
 @Overview
-  Fenster (Windows) sind unerlässliche Bestandteile moderner Benutzeroberflächen.
-  PureBasic gewährt Ihnen vollen Zugriff darauf. 
+  Fenster (Windows) sind unerlÃ¤ssliche Bestandteile moderner BenutzeroberflÃ¤chen.
+  PureBasic gewÃ¤hrt Ihnen vollen Zugriff darauf. 
 
 @CommandList
 
@@ -22,9 +22,9 @@
 @Function AddKeyboardShortcut(#Window, Shortcut, Event)
 
 @Description
-  Fügt einen Tastatur-Shortcut ("Tastenkürzel") zum angegebenen Fenster hinzu.
-  Ein Shortcut generiert ein @LibraryLink "Menu" "Menü"-Ereignis (wie ein Menü-Eintrag), da sie meistens im
-  Zusammenhang mit Menüs benutzt werden. 
+  FÃ¼gt einen Tastatur-Shortcut ("TastenkÃ¼rzel") zum angegebenen Fenster hinzu.
+  Ein Shortcut generiert ein @LibraryLink "Menu" "MenÃ¼"-Ereignis (wie ein MenÃ¼-Eintrag), da sie meistens im
+  Zusammenhang mit MenÃ¼s benutzt werden. 
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
@@ -148,8 +148,8 @@
 @EndFixedFont
 
 @Parameter "Event"
-  Der Wert, welcher vom @@EventMenu Befehl zurückgegeben wird. 
-  Dieser Wert hat einen begrenzten Gültigkeitsbereich, von 0 bis 64000. Standardmäßig
+  Der Wert, welcher vom @@EventMenu Befehl zurÃ¼ckgegeben wird. 
+  Dieser Wert hat einen begrenzten GÃ¼ltigkeitsbereich, von 0 bis 64000. StandardmÃ¤ÃŸig
   hat ein Fenster bereits die @#PB_Shortcut_Tab und @#PB_Shortcut_Tab|@#PB_Shortcut_Shift Shortcuts, um die
   Tabulator und Shift-Tabulator Tasten(kombinationen) durch die @LibraryLink "gadget" "Gadgets" korrekt zu handhaben. 
   Ein Shortcut kann mittels @@RemoveKeyboardShortcut  entfernt werden.
@@ -157,20 +157,22 @@
 @NoReturnValue
 
 @Remarks 
-  Die @#PB_Shortcut_Command Konstante ist nur nützlich auf Mac OSX und ermöglicht
-  die Verwendung der 'Apfel'-Taste (links oder rechts) zur Definition von Tastenkürzeln. Diese Konstante
-  wird auch auf anderen OS unterstützt (um die Portierbarkeit zu vereinfachen), agiert dort jedoch wie
-  @#PB_Shortcut_Control. Die Tastenkürzel Apple+Q und Apple+P sind auf Mac OSX für die
-  @#PB_Menu_Quit und @#PB_Menu_Preferences Menü-Einträge im
-  @LibraryLink "Menu" "Anwendungs-Menü" vordefiniert und können nicht erneut zugewiesen werden.
+  Die @#PB_Shortcut_Command Konstante ist nur nÃ¼tzlich auf Mac OSX und ermÃ¶glicht
+  die Verwendung der 'Apfel'-Taste (links oder rechts) zur Definition von TastenkÃ¼rzeln. Diese Konstante
+  wird auch auf anderen OS unterstÃ¼tzt (um die Portierbarkeit zu vereinfachen), agiert dort jedoch wie
+  @#PB_Shortcut_Control. Die TastenkÃ¼rzel Apple+Q und Apple+P sind auf Mac OSX fÃ¼r die
+  @#PB_Menu_Quit und @#PB_Menu_Preferences MenÃ¼-EintrÃ¤ge im
+  @LibraryLink "Menu" "Anwendungs-MenÃ¼" vordefiniert und kÃ¶nnen nicht erneut zugewiesen werden.
+@LineBreak
+  @Link "Gadget/MDIGadget" "MDI-Child-Fenster" werden nicht unterstÃ¼tzt.
 
 @Example
 @Code
-  AddKeyboardShortcut(0, #PB_Shortcut_Control | #PB_ShortCut_F, 15) ; Erstellt ein Tastaturkürzel 'CTRL+F' (STRG-F) für das Fenster 0,
-                                                                    ; welches nach Tastendruck ein Menüereignis '15' liefert
+  AddKeyboardShortcut(0, #PB_Shortcut_Control | #PB_ShortCut_F, 15) ; Erstellt ein TastaturkÃ¼rzel 'CTRL+F' (STRG-F) fÃ¼r das Fenster 0,
+                                                                    ; welches nach Tastendruck ein MenÃ¼ereignis '15' liefert
 @EndCode
 
-@Example Erweitertes Beispiel mit Tastenkürzel für Menü-Einträge und ohne diese ("standalone")
+@Example Erweitertes Beispiel mit TastenkÃ¼rzel fÃ¼r MenÃ¼-EintrÃ¤ge und ohne diese ("standalone")
 @Code
   #Window = 0
   Enumeration Menu
@@ -184,19 +186,19 @@
   EndEnumeration
   
   If OpenWindow(#Window, 200, 200, 200, 100, "Press Ctrl+D")
-    If CreateMenu(#Menu, WindowID(#Window))  ; Erstelle ein reguläres Menü mit Titel und einem Eintrag
+    If CreateMenu(#Menu, WindowID(#Window))  ; Erstelle ein regulÃ¤res MenÃ¼ mit Titel und einem Eintrag
       MenuTitle("File")
       MenuItem(#mOpen, "Open" + #TAB$ + "Ctrl+O")
     EndIf
-    If CreatePopupMenu(#PopupMenu)  ; Erstelle ein zusätzliches Pop-up Menü
+    If CreatePopupMenu(#PopupMenu)  ; Erstelle ein zusÃ¤tzliches Pop-up MenÃ¼
       MenuItem(#mCopy, "Copy" + #TAB$ + "Ctrl+Shift+C")
     EndIf
-    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_D, #mDummy)  ; Tastenkürzel 'standalone' (ohne Menü-Eintrag)
-    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_O, #mOpen)   ; Tastenkürzel für den Menü-Eintrag
-    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_C, #mCopy)  ; Tastenkürzel für den Pop-up Menü-Eintrag
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_D, #mDummy)  ; TastenkÃ¼rzel 'standalone' (ohne MenÃ¼-Eintrag)
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_O, #mOpen)   ; TastenkÃ¼rzel fÃ¼r den MenÃ¼-Eintrag
+    AddKeyboardShortcut(#Window, #PB_Shortcut_Control | #PB_Shortcut_Shift | #PB_Shortcut_C, #mCopy)  ; TastenkÃ¼rzel fÃ¼r den Pop-up MenÃ¼-Eintrag
     Repeat
       Select WaitWindowEvent()
-        Case #PB_Event_RightClick  ; Zeige das Pop-up Menü nach einem rechten Mausklick
+        Case #PB_Event_RightClick  ; Zeige das Pop-up MenÃ¼ nach einem rechten Mausklick
           DisplayPopupMenu(#PopupMenu, WindowID(#Window))
         Case #PB_Event_Menu
           Select EventMenu()
@@ -221,20 +223,20 @@
 @Function AddWindowTimer(#Window, Timer, Timeout)
 
 @Description
-  Fügt einen neuen Timer (in Deutsch "Zeitgeber") zum angegebenen Fenster hinzu. 
-  Dies verursacht @#PB_Event_Timer Ereignisse, die in regelmäßigen 
-  Zeitabständen von den @@WindowEvent bzw. @@WaitWindowEvent 
+  FÃ¼gt einen neuen Timer (in Deutsch "Zeitgeber") zum angegebenen Fenster hinzu. 
+  Dies verursacht @#PB_Event_Timer Ereignisse, die in regelmÃ¤ÃŸigen 
+  ZeitabstÃ¤nden von den @@WindowEvent bzw. @@WaitWindowEvent 
   Funktionen empfangen werden. Die Funktion @@RemoveWindowTimer kann 
   verwendet werden, um den Timer wieder zu entfernen.
 
 @Parameter "#Window"
-  Das zu verwendende Fenster. Ein Timer wird immer zu einem Fenster hinzugefügt
+  Das zu verwendende Fenster. Ein Timer wird immer zu einem Fenster hinzugefÃ¼gt
   und wird entfernt, wenn dieses Fenster geschlossen wird.
 
 @Parameter "Timer"
   Eine benutzerdefinierte Zahl, welche diesen Timer identifiziert. Timer auf
-  verschiedenen Fenstern dürfen sich überschneidende Nummern haben. Dieser
-  Wert wird später von @@EventTimer zurückgegeben, wenn ein @#PB_Event_Timer
+  verschiedenen Fenstern dÃ¼rfen sich Ã¼berschneidende Nummern haben. Dieser
+  Wert wird spÃ¤ter von @@EventTimer zurÃ¼ckgegeben, wenn ein @#PB_Event_Timer
   empfangen wurde. Er kann auch verwendet werden, um den Timer mit der
   @@RemoveWindowTimer Funktion wieder zu entfernen.
 
@@ -243,10 +245,10 @@
 @LineBreak
 @LineBreak
   Die Timer-Ereignisse werden nur generiert, wenn keine anderen Ereignisse zu verarbeiten
-  sind (Timer sind Ereignisse mit niedriger Priorität). Dies bedeutet, dass die zwischen zwei 
-  Timern vergangene Zeit größer sein kann, als der definierte 'TimeOut'-Wert. Timer sind
-  daher nicht geeignet für exaktes Timing (Zeitsteuerung), sondern eher gedacht für das
-  Ausführen regelmäßiger Aufgaben wie das Aktualisieren eines Gadget-Inhalts oder Ähnliches.
+  sind (Timer sind Ereignisse mit niedriger PrioritÃ¤t). Dies bedeutet, dass die zwischen zwei 
+  Timern vergangene Zeit grÃ¶ÃŸer sein kann, als der definierte 'TimeOut'-Wert. Timer sind
+  daher nicht geeignet fÃ¼r exaktes Timing (Zeitsteuerung), sondern eher gedacht fÃ¼r das
+  AusfÃ¼hren regelmÃ¤ÃŸiger Aufgaben wie das Aktualisieren eines Gadget-Inhalts oder Ã„hnliches.
 
 @NoReturnValue
 
@@ -270,9 +272,9 @@
 @EndCode
 
 @Remarks
-  Um den Zeitabstand zwischen den Timer-Ereignissen zu ändern, müssen Sie den Timer zuerst
+  Um den Zeitabstand zwischen den Timer-Ereignissen zu Ã¤ndern, mÃ¼ssen Sie den Timer zuerst
   @Link "RemoveWindowTimer" "entfernen", und diesen dann mit einem neuen 'Timeout'-Wert
-  erneut hinzufügen:
+  erneut hinzufÃ¼gen:
 @Code
     RemoveWindowTimer(#Window, Timer)
     AddWindowTimer(#Window, Timer, Timeout)
@@ -295,7 +297,7 @@
 
 @Parameter "Timer"
   Der gleiche Wert, wie er bei @@AddWindowTimer zur Erstellung des Timers verwendet
-  wurde. Es werden dann keine weiteren Ereignisse für diesen Timer empfangen.
+  wurde. Es werden dann keine weiteren Ereignisse fÃ¼r diesen Timer empfangen.
 
 @NoReturnValue
 
@@ -309,9 +311,9 @@
 @Function Timer = EventTimer()
 
 @Description
-  Nach einem Ereignis vom Typ @#PB_Event_Timer (zurückgegeben von @@WindowEvent
+  Nach einem Ereignis vom Typ @#PB_Event_Timer (zurÃ¼ckgegeben von @@WindowEvent
   bzw. @@WaitWindowEvent) verwenden Sie diese Funktion zur Ermittlung des Timers, der das
-  Ereignis auslöste.
+  Ereignis auslÃ¶ste.
 
 @NoParameters
 
@@ -328,10 +330,10 @@
 @Function CloseWindow(#Window)
 
 @Description
-  Schließt das angegebene Fenster.
+  SchlieÃŸt das angegebene Fenster.
 
 @Parameter "#Window"
-  Das zu schließende Fenster. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  Das zu schlieÃŸende Fenster. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
   Fenster geschlossen.
 
 @NoReturnValue
@@ -340,11 +342,11 @@
   Alle noch offenen Fenster werden automatisch geschlossen, wenn das Programm endet.
 @LineBreak
 @LineBreak
-  Hinweis: Die folgenden Objekte, welche für ein Fenster erstellt wurden, werden beim
-  Schließen des Fensters ebenfalls automatisch freigegeben:
-  @LibraryLink "gadget" "Gadgets", @Link "AddKeyboardShortcut" "Tastenkürzel",
-  @LibraryLink "menu" "Menüs", @LibraryLink "statusbar" "Statusleisten", @Link "AddWindowTimer" "Timer",
-  @LibraryLink "toolbar" "Toolbars" und verknüpfte Ereignisse (mittels @@BindEvent).
+  Hinweis: Die folgenden Objekte, welche fÃ¼r ein Fenster erstellt wurden, werden beim
+  SchlieÃŸen des Fensters ebenfalls automatisch freigegeben:
+  @LibraryLink "gadget" "Gadgets", @Link "AddKeyboardShortcut" "TastenkÃ¼rzel",
+  @LibraryLink "menu" "MenÃ¼s", @LibraryLink "statusbar" "Statusleisten", @Link "AddWindowTimer" "Timer",
+  @LibraryLink "toolbar" "Toolbars" und verknÃ¼pfte Ereignisse (mittels @@BindEvent).
 
 @SeeAlso
   @@OpenWindow
@@ -356,7 +358,7 @@
 @Function DisableWindow(#Window, Status)
 
 @Description
-  Aktiviert und deaktiviert die Benutzereingaben für das angegebene Fenster.
+  Aktiviert und deaktiviert die Benutzereingaben fÃ¼r das angegebene Fenster.
 
 @Parameter "#Window"
   Das zu deaktivierende bzw. zu aktivierende Fenster.
@@ -377,14 +379,14 @@
 @Function Ereignis = Event()
 
 @Description
-  Gibt das aktuelle Ereignis zurück. Es ist der gleiche Wert, wie er von @@WindowEvent und
-  @@WaitWindowEvent zurückgegeben wird. Dies ist hauptsächlich nützlich bei der Verwendung
-  eines Callbacks, um festzustellen, welches Ereignis diesen ausgelöst hat.
+  Gibt das aktuelle Ereignis zurÃ¼ck. Es ist der gleiche Wert, wie er von @@WindowEvent und
+  @@WaitWindowEvent zurÃ¼ckgegeben wird. Dies ist hauptsÃ¤chlich nÃ¼tzlich bei der Verwendung
+  eines Callbacks, um festzustellen, welches Ereignis diesen ausgelÃ¶st hat.
   
 @NoParameters
 
 @ReturnValue
-  Gibt das aktuelle Ereignis zurück.
+  Gibt das aktuelle Ereignis zurÃ¼ck.
 
 @Example
 @Code
@@ -401,11 +403,11 @@
   OpenWindow(0, 100, 100, 300, 100, "", #PB_Window_SizeGadget | #PB_Window_SystemMenu | #PB_Window_MaximizeGadget)
   ButtonGadget(0, 10, 10, 100, 30, "Push me")
   
-  ; Verwendung eines einzigen Callbacks für alle Ereignisse
+  ; Verwendung eines einzigen Callbacks fÃ¼r alle Ereignisse
   BindGadgetEvent(0, @EventHandler())
   BindEvent(#PB_Event_CloseWindow, @EventHandler())
   
-  ; Wir verarbeiten hier keine Ereignisse, daher können wir die Schleife dauerhaft laufen lassen und sie "vergessen"
+  ; Wir verarbeiten hier keine Ereignisse, daher kÃ¶nnen wir die Schleife dauerhaft laufen lassen und sie "vergessen"
   Repeat
     WaitWindowEvent()
   ForEver
@@ -421,15 +423,15 @@
 @Function GadgetNummer = EventGadget()
 
 @Description
-  Nach dem Auftreten eines @#PB_Event_Gadget Ereignisses (zurückgegeben von
+  Nach dem Auftreten eines @#PB_Event_Gadget Ereignisses (zurÃ¼ckgegeben von
   @@WindowEvent oder @@WaitWindowEvent)
-  wird diese Funktion verwendet, um herauszufinden, bei welchem Gadget das Ereignis ausgelöst 
+  wird diese Funktion verwendet, um herauszufinden, bei welchem Gadget das Ereignis ausgelÃ¶st 
   wurde.
   
 @NoParameters
 
 @ReturnValue
-  Gibt zum Ereignis gehörende #Gadget Nummer zurück.
+  Gibt zum Ereignis gehÃ¶rende #Gadget Nummer zurÃ¼ck.
 
 @SeeAlso
   @@WindowEvent, @@WaitWindowEvent
@@ -441,22 +443,22 @@
 @Function MenueEintrag = EventMenu()
 
 @Description
-  Nach dem Auftreten eines @#PB_Event_Menu Ereignisses (zurückgegeben von
+  Nach dem Auftreten eines @#PB_Event_Menu Ereignisses (zurÃ¼ckgegeben von
   @@WindowEvent oder @@WaitWindowEvent) verwenden Sie diese Funktion, um den
-  ausgewählten Menüeintrag, @LibraryLink "toolbar" "Werkzeugleisten"-Eintrag
-  oder @Link "addkeyboardshortcut" "Tastatuskürzel" zu bestimmen.
+  ausgewÃ¤hlten MenÃ¼eintrag, @LibraryLink "toolbar" "Werkzeugleisten"-Eintrag
+  oder @Link "addkeyboardshortcut" "TastatuskÃ¼rzel" zu bestimmen.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die mit dem Ereignis verknüpfte Nummer des Menüeintrags,
-  Werkzeugleisten-Eintrags bzw. Tastenkürzels zurück.
+  Gibt die mit dem Ereignis verknÃ¼pfte Nummer des MenÃ¼eintrags,
+  Werkzeugleisten-Eintrags bzw. TastenkÃ¼rzels zurÃ¼ck.
 
 @Remarks
-  Ein ToolBar-Ereignis ist wie ein Menü-Ereignis (da Werkzeugleisten meistens Abkürzungen
-  für Menü-Einträge sind). Deshalb ist es eine gute Idee, wenn ToolBar-Schalter und Menü-Einträge
-  die gleiche ID erhalten. Dann kann für beide die gleiche Operation ausgelöst werden, ohne 
-  zusätzlichen Programmcode zu benötigen.
+  Ein ToolBar-Ereignis ist wie ein MenÃ¼-Ereignis (da Werkzeugleisten meistens AbkÃ¼rzungen
+  fÃ¼r MenÃ¼-EintrÃ¤ge sind). Deshalb ist es eine gute Idee, wenn ToolBar-Schalter und MenÃ¼-EintrÃ¤ge
+  die gleiche ID erhalten. Dann kann fÃ¼r beide die gleiche Operation ausgelÃ¶st werden, ohne 
+  zusÃ¤tzlichen Programmcode zu benÃ¶tigen.
 
 @SeeAlso
   @@WindowEvent, @@WaitWindowEvent
@@ -468,13 +470,13 @@
 @Function Daten = EventData() 
 
 @Description
-  Ermittelt die mit dem aktuellen Ereignis verknüpften Daten. Das Ereignis muss ein
+  Ermittelt die mit dem aktuellen Ereignis verknÃ¼pften Daten. Das Ereignis muss ein
   benutzerdefiniertes Ereignis sein, welches mit @@PostEvent gesendet wurde.
 
 @NoParameters
   
 @ReturnValue
-  Gibt den mit dem aktuellen Ereignis verknüpften Wert zurück. Ist das aktuelle
+  Gibt den mit dem aktuellen Ereignis verknÃ¼pften Wert zurÃ¼ck. Ist das aktuelle
   Ereignis kein mit @@PostEvent gesendetes benutzerdefiniertes Ereignis, dann ist
   dieser Wert undefiniert.
 
@@ -492,7 +494,7 @@
   um den Typ des letzten Ereignisses (englisch: "Event") festzustellen. 
 @LineBreak
 @LineBreak
-  Die folgenden Gadgets unterstützen EventType():
+  Die folgenden Gadgets unterstÃ¼tzen EventType():
 @LineBreak
 @LineBreak
   - @@CanvasGadget - Das CanvasGadget hat ein spezielles Set von Ereignis-Typen. @LineBreak
@@ -511,12 +513,12 @@
   - @@TreeGadget @LineBreak
   - @@WebGadget - Das WebGadget hat ein spezielles Set von Ereignis-Typen. @LineBreak
 @LineBreak
-  (Siehe die jeweilige Gadget-Beschreibung, welche Ereignisse unterstützt werden.)
+  (Siehe die jeweilige Gadget-Beschreibung, welche Ereignisse unterstÃ¼tzt werden.)
 
 @NoParameters
 
 @ReturnValue
-  Die folgenden Werte sind möglich, wenn ein Ereignis des Typs 
+  Die folgenden Werte sind mÃ¶glich, wenn ein Ereignis des Typs 
   @#PB_Event_Gadget (Bibliothek @LibraryLink "Gadget" "Gadget") oder @#PB_Event_SysTray 
   (Bibliothek @LibraryLink "Systray" "SysTray") auftritt:
 @FixedFont
@@ -526,7 +528,7 @@
   @#PB_EventType_RightDoubleClick : Doppelklick mit der rechten Maustaste
   @#PB_EventType_Focus            : Fokus erhalten
   @#PB_EventType_LostFocus        : Fokus verloren
-  @#PB_EventType_Change           : Inhalt hat sich geändert.
+  @#PB_EventType_Change           : Inhalt hat sich geÃ¤ndert.
   @#PB_EventType_DragStart        : Der Anwender versucht, eine @LibraryLink "dragdrop" "Drag & Drop" Operation zu starten.
 @EndFixedFont
 
@@ -570,7 +572,7 @@
 
 @Description
   Benutzen Sie diese Funktion nach einem @@WindowEvent oder @@WaitWindowEvent
-  Befehl, um das Fenster bestimmen zu können, in dem ein Ereignis stattfand.
+  Befehl, um das Fenster bestimmen zu kÃ¶nnen, in dem ein Ereignis stattfand.
 
 @NoParameters
 
@@ -587,7 +589,7 @@
 @Function FensterNummer = GetActiveWindow()
 
 @Description
-  Gibt die Nummer des Fensters zurück, welches aktuell den Fokus für Tastatureingaben hat.
+  Gibt die Nummer des Fensters zurÃ¼ck, welches aktuell den Fokus fÃ¼r Tastatureingaben hat.
   Oder -1, wenn kein Fenster innerhalb des Programms aktiv ist.
 
 @NoParameters
@@ -597,7 +599,7 @@
   Fenster aktiv ist.
 
 @Remarks
-  Diese Funktion wird nur die Window ID innerhalb des Programms zurückmelden. Ein Fenster
+  Diese Funktion wird nur die Window ID innerhalb des Programms zurÃ¼ckmelden. Ein Fenster
   innerhalb des Programms kann mit dem @@SetActiveWindow Befehl aktiviert (der Fokus 
   darauf gesetzt) werden.
 
@@ -611,7 +613,7 @@
 @Function Farbe = GetWindowColor(#Window)
 
 @Description
-  Gibt die Hintergrundfarbe des angegebenen Fensters zurück, welche zuvor mittels 
+  Gibt die Hintergrundfarbe des angegebenen Fensters zurÃ¼ck, welche zuvor mittels 
   @@SetWindowColor festgelegt wurde.
 
 @Parameter "#Window"
@@ -620,7 +622,7 @@
 @ReturnValue
   Die Hintergrundfarbe des angegebenen Fensters, welche mit @@SetWindowColor
   festgelegt wurde. Wenn noch keine Hintergrundfarbe festgelegt wurde, dann
-  wird -1 zurückgegeben.
+  wird -1 zurÃ¼ckgegeben.
 
 @SeeAlso
   @@SetWindowColor
@@ -632,16 +634,16 @@
 @Function Ergebnis = GetWindowData(#Window)
 
 @Description
-  Gibt den 'Daten' Wert zurück, der mittels der @@SetWindowData Funktion für dieses
-  Fenster gespeichert wurde. Dies ermöglicht es, jedem Fenster einen eigenen Wert
+  Gibt den 'Daten' Wert zurÃ¼ck, der mittels der @@SetWindowData Funktion fÃ¼r dieses
+  Fenster gespeichert wurde. Dies ermÃ¶glicht es, jedem Fenster einen eigenen Wert
   zuzuordnen.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @ReturnValue
-  Gibt den aktuellen Daten-Wert zurück. Wurde für dieses Fenster niemals ein Daten-Wert
-  gespeichert, dann wird der Rückgabewert 0 lauten.
+  Gibt den aktuellen Daten-Wert zurÃ¼ck. Wurde fÃ¼r dieses Fenster niemals ein Daten-Wert
+  gespeichert, dann wird der RÃ¼ckgabewert 0 lauten.
 
 @SeeAlso
   @@SetWindowData, @@GetGadgetData, @@SetGadgetData
@@ -653,7 +655,7 @@
 @Function Status = GetWindowState(#Window)
 
 @Description
-  Überprüft, ob das angegebene Fenster maximiert, minimiert oder normal dargestellt wird.
+  ÃœberprÃ¼ft, ob das angegebene Fenster maximiert, minimiert oder normal dargestellt wird.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
@@ -667,7 +669,7 @@
 @EndFixedFont
 
 @Remarks
-  Der Status eines Fensters kann mittels @@SetWindowState geändert werden.
+  Der Status eines Fensters kann mittels @@SetWindowState geÃ¤ndert werden.
 
 @SeeAlso
   @@SetWindowState
@@ -679,7 +681,7 @@
 @Function Ergebnis$ = GetWindowTitle(#Window) 
 
 @Description
-  Gibt den Text zurück, der momentan in der Titelleiste des angegebenen Fensters
+  Gibt den Text zurÃ¼ck, der momentan in der Titelleiste des angegebenen Fensters
   dargestellt wird.
 
 @Parameter "#Window"
@@ -689,12 +691,12 @@
   Der gerade in der Titelleiste des angegebenen Fensters dargestellte Text.
 
 @Remarks
-  Der Titel eines Fensters kann mittels @@SetWindowTitle geändert werden.
+  Der Titel eines Fensters kann mittels @@SetWindowTitle geÃ¤ndert werden.
 
 @Example
 @Code  
   If OpenWindow(2, 100, 100, 200, 100, "My cool title")
-    Title$ = GetWindowTitle(2)  ; Wird "My cool title" zurückgeben
+    Title$ = GetWindowTitle(2)  ; Wird "My cool title" zurÃ¼ckgeben
   EndIf
 @EndCode
 
@@ -718,15 +720,15 @@
 @FixedFont
   @#True : das Fenster wird versteckt.
   @#False: das Fenster wird angezeigt. Das Fenster wird automatisch aktiviert
-          (bekommt den Fokus), außer das @#PB_Window_NoActivate Flag wird gesetzt.
+          (bekommt den Fokus), auÃŸer das @#PB_Window_NoActivate Flag wird gesetzt.
 @EndFixedFont
 
 @Parameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Window_NoActivate    : das Fenster wird angezeigt, aber nicht aktiviert (nur gültig beim Anzeigen des bisher versteckten Fensters).
-  @#PB_Window_ScreenCentered: das Fenster wird auf dem Bildschirm zentriert (nur gültig beim Anzeigen des bisher versteckten Fensters).
-  @#PB_Window_WindowCentered: das Fenster wird auf dem übergeordneten Fenster zentriert (nur gültig beim Anzeigen des bisher versteckten Fensters).
+  @#PB_Window_NoActivate    : das Fenster wird angezeigt, aber nicht aktiviert (nur gÃ¼ltig beim Anzeigen des bisher versteckten Fensters).
+  @#PB_Window_ScreenCentered: das Fenster wird auf dem Bildschirm zentriert (nur gÃ¼ltig beim Anzeigen des bisher versteckten Fensters).
+  @#PB_Window_WindowCentered: das Fenster wird auf dem Ã¼bergeordneten Fenster zentriert (nur gÃ¼ltig beim Anzeigen des bisher versteckten Fensters).
 @EndFixedFont
 
 @NoReturnValue
@@ -769,18 +771,18 @@
 @Function Ergebnis = IsWindow(#Window)
 
 @Description
-  Überprüft, ob die angegebene #Window Fenster-Nummer gültig und ein korrekt initialisiertes Fenster ist.
+  ÃœberprÃ¼ft, ob die angegebene #Window Fenster-Nummer gÃ¼ltig und ein korrekt initialisiertes Fenster ist.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Window ein gültiges Fensters ist, und
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #Window ein gÃ¼ltiges Fensters ist, und
   andernfalls Null.
   
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
+  ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert, andernfalls wird Null zurÃ¼ckgegeben.
   Dies ist der richtige Weg, um sicher zu stellen, dass ein Fenster bereit zur Verwendung ist.
   
 @SeeAlso
@@ -790,14 +792,14 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenWindow(#Window, x, y, InnereBreite, InnereHöhe, Titel$ [, Flags [, ParentID]])
+@Function Ergebnis = OpenWindow(#Window, x, y, InnereBreite, InnereHÃ¶he, Titel$ [, Flags [, ParentID]])
 
 @Description
-  Öffnet ein neues Fenster entsprechend den übergegebenen Parametern.
+  Ã–ffnet ein neues Fenster entsprechend den Ã¼bergegebenen Parametern.
 @LineBreak
 @LineBreak
   Das neue Fenster wird automatisch zum aktiven Fenster, d.h. es muss nicht erst der
-  @@SetActiveWindow Befehl verwendet werden (außer das Fenster wurde unsichtbar erstellt).
+  @@SetActiveWindow Befehl verwendet werden (auÃŸer das Fenster wurde unsichtbar erstellt).
   
 @Parameter "#Window"
   Eine Nummer, um das neue Fenster zu identifizieren.
@@ -805,13 +807,13 @@
   Nummer automatisch zu generieren.
 
 @Parameter "x, y"
-  Die anfängliche Position des Fensters, in Pixel (außer eines der Flags zum Zentrieren
+  Die anfÃ¤ngliche Position des Fensters, in Pixel (auÃŸer eines der Flags zum Zentrieren
   des Fensters wird verwendet).
   IWenn 'x' oder 'y' auf @#PB_Ignore gesetzt wird, dann wird das OS eine Position
-  für das Fenster auswählen.
+  fÃ¼r das Fenster auswÃ¤hlen.
 
-@Parameter "InnereBreite, InnereHöhe"
-  Die benötigte innere Fenstergröße ("Client area"), in Pixel (ohne Ränder
+@Parameter "InnereBreite, InnereHÃ¶he"
+  Die benÃ¶tigte innere FenstergrÃ¶ÃŸe ("Client area"), in Pixel (ohne RÃ¤nder
   und andere Fensterdekorationen).
 
 @Parameter "Titel$"
@@ -820,47 +822,50 @@
 @OptionalParameter "Flags"
   Kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Window_SystemMenu    : Schaltet das System-Menü in der Fenster-Titelzeile ein. (Standard)
-  @#PB_Window_MinimizeGadget: Fügt das Minimieren-Gadget der Fenster-Titelzeile hinzu.
-                             @#PB_Window_SystemMenu wird automatisch hinzugefügt.
-  @#PB_Window_MaximizeGadget: Fügt das Maximieren-Gadget der Fenster-Titelzeile hinzu.
-                             @#PB_Window_SystemMenu wird automatisch hinzugefügt.
-                             (nur auf MacOS: @#PB_Window_SizeGadget wird ebenfalls automatisch hinzugefügt)
-  @#PB_Window_SizeGadget    : Fügt das Größenänderungs-Gadget zum Fenster hinzu.
+  @#PB_Window_SystemMenu    : Schaltet das System-MenÃ¼ in der Fenster-Titelzeile ein. (Standard)
+  @#PB_Window_MinimizeGadget: FÃ¼gt das Minimieren-Gadget der Fenster-Titelzeile hinzu.
+                             @#PB_Window_SystemMenu wird automatisch hinzugefÃ¼gt.
+  @#PB_Window_MaximizeGadget: FÃ¼gt das Maximieren-Gadget der Fenster-Titelzeile hinzu.
+                             @#PB_Window_SystemMenu wird automatisch hinzugefÃ¼gt.
+                             (nur auf MacOS: @#PB_Window_SizeGadget wird ebenfalls automatisch hinzugefÃ¼gt)
+  @#PB_Window_SizeGadget    : FÃ¼gt das GrÃ¶ÃŸenÃ¤nderungs-Gadget zum Fenster hinzu.
   @#PB_Window_Invisible     : Erstellt ein Fenster, zeigt es aber nicht an.
   @#PB_Window_TitleBar      : Erstellt ein Fenster mit einer Titelzeile.
-  @#PB_Window_Tool          : Erstellt ein Fenster mit einer schmaleren Titelzeile und ohne Taskleisten-Eintrag.
-  @#PB_Window_BorderLess    : Erstellt ein Fenster ohne jegliche Ränder.
+  @#PB_Window_Tool          : Erstellt ein Fenster ohne Taskleisten-Eintrag.
+  @#PB_Window_BorderLess    : Erstellt ein Fenster ohne jegliche RÃ¤nder.
   @#PB_Window_ScreenCentered: Zentriert das Fenster in der Mitte des Bildschirms. Die Parameter x,y werden ignoriert.
-  @#PB_Window_WindowCentered: Zentriert das Fenster in der Mitte des übergeordneten Fensters ("parent window" - 
+  @#PB_Window_WindowCentered: Zentriert das Fenster in der Mitte des Ã¼bergeordneten Fensters ("parent window" - 
                              'ParentWindowID' muss dazu angegeben werden). Die Parameter x,y werden ignoriert.
-  @#PB_Window_Maximize      : Öffnet das Fenster maximiert. (Hinweis: Unter Linux unterstützen dies nicht alle
+  @#PB_Window_Maximize      : Ã–ffnet das Fenster maximiert. (Hinweis: Unter Linux unterstÃ¼tzen dies nicht alle
                              Window-Manager.)
-  @#PB_Window_Minimize      : Öffnet das Fenster minimiert.
-  @#PB_Window_NoGadgets     : Verhindert das Erstellen einer Gadgetliste. @@UseGadgetList kann verwendet werden, um dies später zu tun.
-  @#PB_Window_NoActivate    : Aktiviert das Fenster nach dem Öffnen nicht.
+  @#PB_Window_Minimize      : Ã–ffnet das Fenster minimiert.
+  @#PB_Window_NoGadgets     : Verhindert das Erstellen einer Gadgetliste. @@UseGadgetList kann verwendet werden, um dies spÃ¤ter zu tun.
+  @#PB_Window_NoActivate    : Aktiviert das Fenster nach dem Ã–ffnen nicht.
 @EndFixedFont
 
 @OptionalParameter "ParentID"
-  Der Bezeichner des übergeordneten Fensters. Eine gültige Fensterkennung kann mit @@WindowID abgerufen werden.
+  Der Bezeichner des Ã¼bergeordneten Fensters. Eine gÃ¼ltige Fensterkennung kann mit @@WindowID abgerufen werden.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Fensters erfolgreich erstellt wurde, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Fensters erfolgreich erstellt wurde, andernfalls Null.
   Falls @#PB_Any als #Window Parameter verwendet wurde, wird bei Erfolg die generierte Nummer 
-  zurückgegeben.
+  zurÃ¼ckgegeben.
 
 @Remarks
-  Alle möglichen Ereignisse innerhalb eines Fensters werden mit den Befehlen @@WindowEvent und
+  Alle mÃ¶glichen Ereignisse innerhalb eines Fensters werden mit den Befehlen @@WindowEvent und
   @@WaitWindowEvent abgefragt.
 @Linebreak
 @Linebreak
-  Nur Windows: Für spezielle Situationen werden Callbacks verwendet, siehe Beschreibung bei @@SetWindowCallback.
-  Auf Windows kann die Breite und Höhe eines Fensters mit Titelzeile nicht kleiner als etwa 100 Pixel sein. Zum Öffnen
+  Nur Windows: FÃ¼r spezielle Situationen werden Callbacks verwendet, siehe Beschreibung bei @@SetWindowCallback.
+  Auf Windows kann die Breite und HÃ¶he eines Fensters mit Titelzeile nicht kleiner als etwa 100 Pixel sein. Zum Ã–ffnen
   eines kleineren Fensters verwenden Sie das @#PB_Window_BorderLess Flag (rahmenloses Fenster).
 @Linebreak
+  Auf Windows wird mit dem Flag @#PB_Window_Maximize ohne das Maximierungs-Gadget (@#PB_Window_MaximizeGadget) die
+  volle BildschirmgrÃ¶ÃŸe erreicht, womit das Fenster auch die Taskleiste abdeckt.
 @Linebreak
-  Ein Fenster sollte nicht in einem @LibraryLink "thread" "Thread" geöffnet werden, da es hierfür
-  einige Einschränkungen auf OS X und Linux gibt. Ein Debugger-Fehler wird ausgelöst.
+@Linebreak
+  @Bold "Wichtig:" Ein Fenster sollte nicht in einem @LibraryLink "thread" "Thread" geÃ¶ffnet werden, da es hierfÃ¼r
+  einige EinschrÃ¤nkungen auf OS X und Linux gibt. Ein Debugger-Fehler wird ausgelÃ¶st.
 
 @SeeAlso
   @@CloseWindow
@@ -872,41 +877,45 @@
 @Function Ergebnis = PostEvent(Event [, Window, Objekt [, Typ [, Daten]]])
 
 @Description
-  Sendet ein Ereignis am Ende der internen Ereignis-Warteschlange und setzt die Programmausführung
+  Sendet ein Ereignis am Ende der internen Ereignis-Warteschlange und setzt die ProgrammausfÃ¼hrung
   fort, ohne auf die Verarbeitung der Nachricht zu warten.
   
 @Parameter "Event"
-  Das zu sendende Ereignis. Für eine Liste der PureBasic-Ereignisse siehe @@WindowEvent. Bei der Verwendung
+  Das zu sendende Ereignis. FÃ¼r eine Liste der PureBasic-Ereignisse siehe @@WindowEvent. Bei der Verwendung
   von benutzerdefinierten Ereignissen (englisch "custom events") muss der erste Wert mindestens
   @#PB_Event_FirstCustomValue entsprechen, um nicht mit internen Ereignissen zu kollidieren.
   
 @OptionalParameter "Window"
-  Die mit dem Ereignis verknüpfte Fenster-Nummer. Bei der Verwendung eines benutzerdefinierten
+  Die mit dem Ereignis verknÃ¼pfte Fenster-Nummer. Bei der Verwendung eines benutzerdefinierten
   Ereignisses, kann dies jede Ganzzahl sein. Dieser Wert kann mit @@EventWindow ermittelt werden.
 
 @OptionalParameter "Objekt"
-  Die mit dem Ereignis verknüpfte Objekt-Nummer. Dies kann zum Beispiel ein @LibraryLink "gadget" "Gadget"
-  oder eine @LibraryLink "menu" "Menü"-Nummer sein. Bei der Verwendung eines benutzerdefinierten
+  Die mit dem Ereignis verknÃ¼pfte Objekt-Nummer. Dies kann zum Beispiel ein @LibraryLink "gadget" "Gadget"
+  oder eine @LibraryLink "menu" "MenÃ¼"-Nummer sein. Bei der Verwendung eines benutzerdefinierten
   Ereignisses, kann dies jede positive Ganzzahl sein (inklusive der Null). Dieser Wert kann mit @@EventGadget ermittelt werden.
 
 @OptionalParameter "Typ"
-  Der mit dem Ereignis verknüpfte Typ. Bei der Verwendung eines benutzerdefinierten
+  Der mit dem Ereignis verknÃ¼pfte Typ. Bei der Verwendung eines benutzerdefinierten
   Ereignisses, muss der erste Wert mindestens @#PB_EventType_FirstCustomValue entsprechen,
   um nicht mit internen Werten zu kollidieren.
   Dieser Wert kann mit @@EventType ermittelt werden.
 
 @OptionalParameter "Daten"
-  Die mit dem Ereignis verknüpften Daten. Diese sind nur gültig bei Verwendung eines benutzerdefinierten
-  Ereignisses und können jede Ganzzahl sein. Dieser Wert kann mit @@EventData ermittelt werden.
+  Die mit dem Ereignis verknÃ¼pften Daten. Diese sind nur gÃ¼ltig bei Verwendung eines benutzerdefinierten
+  Ereignisses und kÃ¶nnen jede Ganzzahl sein. Dieser Wert kann mit @@EventData ermittelt werden.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Ereignis ohne Fehler gesandt wurde, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Ereignis ohne Fehler gesandt wurde, andernfalls Null.
 
 @Remarks
-  Dieser Befehl kann sehr nützlich für die Kommunikation zwischen @LibraryLink "thread" "Threads"
+  Dieser Befehl kann sehr nÃ¼tzlich fÃ¼r die Kommunikation zwischen @LibraryLink "thread" "Threads"
   und der Haupt-Ereignis-Warteschlange sein. Zum Beispiel kann ein Thread ein benutzerdefiniertes Ereignis
   (mit zugewiesenen Daten) senden, wenn er mit seiner Verarbeitung fertig ist, wodurch die
-  Haupt-Ereignis-Warteschlange dieses erhält und die weitere Verarbeitung stattfinden kann.
+  Haupt-Ereignis-Warteschlange dieses erhÃ¤lt und die weitere Verarbeitung stattfinden kann.
+@Linebreak
+@Linebreak
+  Alle von PureBasic generierten Ereignisse werden immer vor Systemereignissen verarbeitet (wenn Sie also ein
+  neues Ereignis hinzufÃ¼gen, ohne andere zu verarbeiten, kommt dieses immer zuerst).
 
 @Code
   ; Alle unsere beutzerdefinierten Ereignisse
@@ -952,14 +961,14 @@
 @Function RemoveKeyboardShortcut(#Window, Shortcut)
 
 @Description
-  Entfernt ein Tastatur-Shortcut ("Tastenkürzel") vom angegebenen Fenster, welches zuvor mit @@AddKeyboardShortcut
+  Entfernt ein Tastatur-Shortcut ("TastenkÃ¼rzel") vom angegebenen Fenster, welches zuvor mit @@AddKeyboardShortcut
   definiert wurde. 
   
 @Parameter "#Window"
   Das zu verwendende Fenster.
   
 @Parameter "Shortcut"
-  Das zu entfernende Tastenkürzel. Für eine vollständige Liste der verfügbaren Shortcuts
+  Das zu entfernende TastenkÃ¼rzel. FÃ¼r eine vollstÃ¤ndige Liste der verfÃ¼gbaren Shortcuts
   sehen Sie einfach beim @@AddKeyboardShortcut Befehl nach. Wird als 'Shortcut'
   @#PB_Shortcut_All angegeben, werden alle Shortcuts vom angegebenen Fenster entfernt.
 
@@ -967,7 +976,7 @@
 
 @Example
 @Code
-  RemoveKeyboardShortcut(0, #PB_Shortcut_All) ; Entfernt alle Tastenkürzel vom Fenster 0
+  RemoveKeyboardShortcut(0, #PB_Shortcut_All) ; Entfernt alle TastenkÃ¼rzel vom Fenster 0
 @EndCode 
   
 @SeeAlso
@@ -977,22 +986,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResizeWindow(#Window, x, y, Breite, Höhe)
+@Function ResizeWindow(#Window, x, y, Breite, HÃ¶he)
 
 @Description
-  Verschiebt das Fenster und ändert dessen Größe auf die angegebene Position und Größe.
-  Wenn einer der Parameter ignoriert werden kann (weil er nicht verändert werden soll), kann an dessen
-  Stelle @#PB_Ignore übergeben werden.
+  Verschiebt das Fenster und Ã¤ndert dessen GrÃ¶ÃŸe auf die angegebene Position und GrÃ¶ÃŸe.
+  Wenn einer der Parameter ignoriert werden kann (weil er nicht verÃ¤ndert werden soll), kann an dessen
+  Stelle @#PB_Ignore Ã¼bergeben werden.
 
 @Parameter "#Window"
-  Das zu verändernde Fenster.
+  Das zu verÃ¤ndernde Fenster.
   
-@Parameter "x, y, Breite, Höhe"
-  Die neue Position und Größe des Fensters, in Pixel.
-  @#PB_Ignore kann für jeden Parameter (x, y, Breite bzw. Höhe) übergeben werden, und dieser Parameter
-  wird nicht verändert.
+@Parameter "x, y, Breite, HÃ¶he"
+  Die neue Position und GrÃ¶ÃŸe des Fensters, in Pixel.
+  @#PB_Ignore kann fÃ¼r jeden Parameter (x, y, Breite bzw. HÃ¶he) Ã¼bergeben werden, und dieser Parameter
+  wird nicht verÃ¤ndert.
 
 @NoReturnValue
+
+@SeeAlso
+  @@ResizeGadget, @@BindEvent
 
 @SupportedOS
 
@@ -1009,7 +1021,7 @@
 @NoReturnValue
   
 @Remarks
-  Der Befehl wird nur den Fokus innerhalb Ihres Programms verändern. Sie können damit nicht das Programm
+  Der Befehl wird nur den Fokus innerhalb Ihres Programms verÃ¤ndern. Sie kÃ¶nnen damit nicht das Programm
   in den Vordergrund bringen, wenn ein anderes Programm den Fokus hat.
   
 @SeeAlso
@@ -1022,31 +1034,31 @@
 @Function SetWindowCallback(@ProcedureName() [, #Window [, Modus]])
 
 @Description
-  Nur für erfahrene Programmierer. Diese Funktion wird nur auf Microsoft Windows
-  unterstützt.
+  Nur fÃ¼r erfahrene Programmierer. Diese Funktion wird nur auf Microsoft Windows
+  unterstÃ¼tzt.
 @LineBreak
 @LineBreak
-  Normale Ereignisse (Events) sollten mit den regulären Befehlen @@WaitWindowEvent
+  Normale Ereignisse (Events) sollten mit den regulÃ¤ren Befehlen @@WaitWindowEvent
   oder @@WindowEvent verarbeitet werden. 
 @LineBreak
 @LineBreak
-  Dieser Befehl assoziiert einen Callback ("Rückruf"), um die Ereignisse aller offenen Fenster zu verarbeiten. 
-  Alle Ereignisse werden durch diesen Callback abgefangen und können hier verarbeitet werden. 
-  Um einen Callback nur für ein bestimmtes Fenster festzulegen, kann mit dem optionalen Parameter
-  die PB Fensternummer '#Window' übergeben werden.
+  Dieser Befehl assoziiert einen Callback ("RÃ¼ckruf"), um die Ereignisse aller offenen Fenster zu verarbeiten. 
+  Alle Ereignisse werden durch diesen Callback abgefangen und kÃ¶nnen hier verarbeitet werden. 
+  Um einen Callback nur fÃ¼r ein bestimmtes Fenster festzulegen, kann mit dem optionalen Parameter
+  die PB Fensternummer '#Window' Ã¼bergeben werden.
 @LineBreak
 @LineBreak
   Zum Entfernen/Deaktivieren eines gesetzten Callbacks rufen Sie einfach SetWindowCallback(0 [, #Window]) auf.
 @LineBreak
 @LineBreak
   @Bold "Warnung:" Dieser Weg ist "low-level". Falsche Handhabung der Nachrichten ("Messages") im Callback
-  kann die PB-interne Nachrichten-Verarbeitung stören.
+  kann die PB-interne Nachrichten-Verarbeitung stÃ¶ren.
 
 @Parameter "@ProcedureName()"
   Die zu verwendende Callback-@ReferenceLink "procedures" "Prozedur". 
   Wenn ein vorheriger Callback festgelegt war, wird dieser ersetzt. Der Callback muss 4 Parameter haben.
   Wenn das Ereignis nicht verarbeitet wird, muss das Ergebnis auf @#PB_ProcessPureBasicEvents gesetzt werden,
-  damit das Ereignis ordnungsgemäß von PureBasic verarbeitet wird. Hier ist ein Beispielcode zur korrekten
+  damit das Ereignis ordnungsgemÃ¤ÃŸ von PureBasic verarbeitet wird. Hier ist ein Beispielcode zur korrekten
   Verwendung eines Callbacks:  
 @Code
   Procedure MyWindowCallback(WindowID, Message, WParam, LParam)
@@ -1060,13 +1072,13 @@
 
 @OptionalParameter "#Window"
   Ein bestimmtes Fenster, dem der Callback zugewiesen werden soll. Sofern dieser Parameter
-  weggelassen wird, wird der Callback für jedes Fenster aufgerufen.
+  weggelassen wird, wird der Callback fÃ¼r jedes Fenster aufgerufen.
 
 @OptionalParameter "Modus"
   Der Callback-Modus, kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Window_ProcessChildEvents: die Ereignisse von untergeordneten Gadgets ('child gadget events', mostly #WM_NOTIFY)
-                                 werden an das Hauptfenster gesendet. Funktioniert nicht für alle Gadgets (Standard).
+                                 werden an das Hauptfenster gesendet. Funktioniert nicht fÃ¼r alle Gadgets (Standard).
   @#PB_Window_NoChildEvents     : Ereignisse von untergeordneten Gadgets ('child gadget events' werden nicht an das
                                  Hauptfenster gesendet (WinAPI Standard-Verhalten).
 @EndFixedFont
@@ -1074,11 +1086,11 @@
 @NoReturnValue
 
 @Example
-  Hier sehen Sie ein lauffähiges Beispiel, welches einige Fenster-Parameter überprüft 
+  Hier sehen Sie ein lauffÃ¤higes Beispiel, welches einige Fenster-Parameter Ã¼berprÃ¼ft 
   (unter Verwendung von @InternetLink "http://msdn.microsoft.com/library" "Windows API" Konstanten):
 @Code
   Procedure WinCallback(hWnd, uMsg, wParam, lParam) 
-    ; Windows füllt die Parameter automatisch, welche wir im Callback verwenden...
+    ; Windows fÃ¼llt die Parameter automatisch, welche wir im Callback verwenden...
     
     If uMsg = #WM_SIZE 
       Select wParam 
@@ -1116,19 +1128,19 @@
 @Function SetWindowColor(#Window, Farbe) 
 
 @Description
-  Ändert die Hintergrundfarbe des angegebenen Fensters.
+  Ã„ndert die Hintergrundfarbe des angegebenen Fensters.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
   
 @Parameter "Farbe"
-  Die neue Farbe, welche für den Fenster-Hintergrund verwendet werden soll.
-  @@RGB kann zum Ermitteln eines gültigen Farbwertes benutzt werden.
-  Eine Farbtabelle mit gebräuchlichen Farben finden Sie @ReferenceLink "colortable" "hier".
+  Die neue Farbe, welche fÃ¼r den Fenster-Hintergrund verwendet werden soll.
+  @@RGB kann zum Ermitteln eines gÃ¼ltigen Farbwertes benutzt werden.
+  Eine Farbtabelle mit gebrÃ¤uchlichen Farben finden Sie @ReferenceLink "colortable" "hier".
 @LineBreak
 @LineBreak
   Wenn der Farbwert auf @#PB_Default gesetzt wird, dann wird der Hintergrund auf die
-  Standardfarbe zurückgesetzt.
+  Standardfarbe zurÃ¼ckgesetzt.
 
 @NoReturnValue
 
@@ -1137,7 +1149,7 @@
   zu ermitteln.
 
 @SeeAlso
-  @@GetWindowColor
+  @@GetWindowColor, @@SetGadgetColor
 
 @SupportedOS
 
@@ -1146,8 +1158,8 @@
 @Function SetWindowData(#Window, Wert)
 
 @Description
-  Speichert den angegebenen Wert mit dem angegebenen Fenster. Dieser Wert kann später
-  mit der @@GetWindowData Funktion ausgelesen werden. Dies ermöglicht die Zuweisung
+  Speichert den angegebenen Wert mit dem angegebenen Fenster. Dieser Wert kann spÃ¤ter
+  mit der @@GetWindowData Funktion ausgelesen werden. Dies ermÃ¶glicht die Zuweisung
   eines eigenen Wertes zu jedem Fenster.
 
 @Parameter "#Window"
@@ -1168,7 +1180,7 @@
 @Function SetWindowState(#Window, Status) 
 
 @Description
-  Ändert den Minimiert-/Maximiert-Status des angegebenen Fensters.
+  Ã„ndert den Minimiert-/Maximiert-Status des angegebenen Fensters.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
@@ -1177,7 +1189,7 @@
   Kann einen der folgenden Werte haben:
 @FixedFont
   @#PB_Window_Normal  : Das Fenster wird weder maximiert noch minimiert sein.
-  @#PB_Window_Maximize: Das Fenster wird maximiert. (Hinweis: Unter Linux unterstützen dies nicht
+  @#PB_Window_Maximize: Das Fenster wird maximiert. (Hinweis: Unter Linux unterstÃ¼tzen dies nicht
                        alle Window-Manager.)
   @#PB_Window_Minimize: Das Fenster wird minimiert.
 @EndFixedFont
@@ -1196,7 +1208,7 @@
 @Function SetWindowTitle(#Window, Titel$) 
 
 @Description
-  Ändert den Text, der momentan in der Titelleiste des angegebenen Fensters
+  Ã„ndert den Text, der momentan in der Titelleiste des angegebenen Fensters
   dargestellt wird.
 
 @Parameter "#Window"
@@ -1230,15 +1242,15 @@
 @Function SmartWindowRefresh(#Window, Status) 
 
 @Description
-  Aktiviert eine "smarte" Art zum Auffrischen des Fensters, um das Flackern bei einer Größenänderung
-  ("resizing") des Fensters zu reduzieren. Wenn das Fenster nicht in der Größe änderbar ist, dann
-  wird dieser Befehl nicht benötigt.
+  Aktiviert eine "smarte" Art zum Auffrischen des Fensters, um das Flackern bei einer GrÃ¶ÃŸenÃ¤nderung
+  ("resizing") des Fensters zu reduzieren. Wenn das Fenster nicht in der GrÃ¶ÃŸe Ã¤nderbar ist, dann
+  wird dieser Befehl nicht benÃ¶tigt.
 @LineBreak
 @LineBreak
   Dieser Befehl versucht einfach bei Flackerproblemen zu helfen, ergibt aber nicht immer gute Ergebnisse.
-  Die einzige Möglichkeit zu sehen, ob er für ein bestimmtes Fenster arbeitet, ist es, ihn zu aktivieren
-  und dann zu sehen, ob es einen Unterschied gibt und ob der Fensterinhalt bei einer Größenänderung
-  nicht zerstört wird.
+  Die einzige MÃ¶glichkeit zu sehen, ob er fÃ¼r ein bestimmtes Fenster arbeitet, ist es, ihn zu aktivieren
+  und dann zu sehen, ob es einen Unterschied gibt und ob der Fensterinhalt bei einer GrÃ¶ÃŸenÃ¤nderung
+  nicht zerstÃ¶rt wird.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
@@ -1282,70 +1294,70 @@
 @Function Ereignis = WindowEvent()  
 
 @Description
-  Überprüft, ob in irgendeinem der geöffneten Fenster ein Ereignis stattfand. 
+  ÃœberprÃ¼ft, ob in irgendeinem der geÃ¶ffneten Fenster ein Ereignis stattfand. 
 
 @NoParameters
 
 @ReturnValue
-  Das nächste Ereignis aus dem "Ereignis-Queue" (Warteschlange mit Ereignissen)
+  Das nÃ¤chste Ereignis aus dem "Ereignis-Queue" (Warteschlange mit Ereignissen)
   bzw. Null, wenn es keine weiteren Ereignisse gibt.
-  Anders als @@WaitWindowEvent wartet die Funktion nicht auf das nächste 
-  Ereignis - sie kehrt immer sofort zurück.
+  Anders als @@WaitWindowEvent wartet die Funktion nicht auf das nÃ¤chste 
+  Ereignis - sie kehrt immer sofort zurÃ¼ck.
   @@Event kann verwendet werden, um diesen Wert "wiederherzustellen".
 @LineBreak
 @LineBreak
-  Dies macht sie nützlich für Ereignis-Warteschlangen von Fenstern, wo - ohne dass ein Ereignis auftritt 
-  (z.B. bei @LibraryLink "Network" "Network" Transaktionen) - andere Prozesse ausgeführt werden müssen
+  Dies macht sie nÃ¼tzlich fÃ¼r Ereignis-Warteschlangen von Fenstern, wo - ohne dass ein Ereignis auftritt 
+  (z.B. bei @LibraryLink "Network" "Network" Transaktionen) - andere Prozesse ausgefÃ¼hrt werden mÃ¼ssen
   und daher @@WaitWindowEvent nicht verwendet werden kann.
 @LineBreak
 @LineBreak
   Sie muss mit Vorsicht benutzt werden, da sie bei fortlaufender Verwendung - anders
-  als @@WaitWindowEvent - anderen Programmen während des
-  Wartens auf ein Ereignis keine Rechenzeit zur Verfügung stellt und damit alle
+  als @@WaitWindowEvent - anderen Programmen wÃ¤hrend des
+  Wartens auf ein Ereignis keine Rechenzeit zur VerfÃ¼gung stellt und damit alle
   CPU-Power verbraucht. In diesem Fall sollte innerhalb der Warteschlange entweder 
   @@Delay oder @@WaitWindowEvent 
   mit einem niedrigen Timeout-Wert verwendet werden.
 @LineBreak
 @LineBreak
-  Um die Fenster-Nummer, in dem das Ereignis stattfand, bestimmen zu können, müssen
+  Um die Fenster-Nummer, in dem das Ereignis stattfand, bestimmen zu kÃ¶nnen, mÃ¼ssen
   Sie die @@EventWindow Funktion benutzen. 
 @LineBreak
 @LineBreak
-  Mögliche Ereignisse sind:
+  MÃ¶gliche Ereignisse sind:
 @FixedFont
-  @#PB_Event_Menu            : ein @LibraryLink "menu" "Menü" wurde ausgewählt
-  @#PB_Event_Gadget          : ein @LibraryLink "gadget" "Gadget" wurde gedrückt
+  @#PB_Event_Menu            : ein @LibraryLink "menu" "MenÃ¼" wurde ausgewÃ¤hlt
+  @#PB_Event_Gadget          : ein @LibraryLink "gadget" "Gadget" wurde gedrÃ¼ckt
   @#PB_Event_SysTray         : ein Icon im @LibraryLink "systray" "Systray" wurde angeklickt
-  @#PB_Event_Timer           : ein @Link "AddWindowTimer" "Timer" hat seine Zeitbeschränkung (Timeout) erreicht
-  @#PB_Event_CloseWindow     : das Schließgadget vom Fenster wurde gedrückt
-  @#PB_Event_Repaint         : der Fensterinhalt wurde zerstört und muss neu gezeichnet werden (nützlich
-                              für @LibraryLink "2ddrawing" "2D Grafik-Operationen") 
-  @#PB_Event_SizeWindow      : das Fenster wurde in der Größe verändert
+  @#PB_Event_Timer           : ein @Link "AddWindowTimer" "Timer" hat seine ZeitbeschrÃ¤nkung (Timeout) erreicht
+  @#PB_Event_CloseWindow     : das SchlieÃŸgadget vom Fenster wurde gedrÃ¼ckt
+  @#PB_Event_Repaint         : der Fensterinhalt wurde zerstÃ¶rt und muss neu gezeichnet werden (nÃ¼tzlich
+                              fÃ¼r @LibraryLink "2ddrawing" "2D Grafik-Operationen") 
+  @#PB_Event_SizeWindow      : das Fenster wurde in der GrÃ¶ÃŸe verÃ¤ndert
   @#PB_Event_MoveWindow      : das Fenster wurde verschoben
   @#PB_Event_MinimizeWindow  : das Fenster wurde minimiert
   @#PB_Event_MaximizeWindow  : das Fenster wurde maximiert
-  @#PB_Event_RestoreWindow   : das Fenster wurde auf die normale Größe zurückgesetzt (sowohl von der
-                              minimalen als auch maximalen Größe)
+  @#PB_Event_RestoreWindow   : das Fenster wurde auf die normale GrÃ¶ÃŸe zurÃ¼ckgesetzt (sowohl von der
+                              minimalen als auch maximalen GrÃ¶ÃŸe)
   @#PB_Event_ActivateWindow  : das Fenster wurde aktiviert (hat den Fokus erhalten)
   @#PB_Event_DeactivateWindow: das Fenster wurde deaktiviert (hat den Fokus verloren)
   @#PB_Event_WindowDrop      : eine @LibraryLink "dragdrop" "Drag & Drop" Operation wurde auf einem Fenster abgeschlossen
   @#PB_Event_GadgetDrop      : eine @LibraryLink "dragdrop" "Drag & Drop" Operation wurde auf einem @LibraryLink "gadget" "Gadget" abgeschlossen
-  @#PB_Event_RightClick      : ein rechter Mausklick hat auf dem Fenster stattgefunden. Dies kann nützlich
-                              sein, um ein @Link "menu/CreatePopupMenu" "Popup-Menü" anzuzeigen.
+  @#PB_Event_RightClick      : ein rechter Mausklick hat auf dem Fenster stattgefunden. Dies kann nÃ¼tzlich
+                              sein, um ein @Link "menu/CreatePopupMenu" "Popup-MenÃ¼" anzuzeigen.
   @#PB_Event_LeftClick       : ein linker Mausklick hat auf dem Fenster stattgefunden
   @#PB_Event_LeftDoubleClick : ein linker Maus-Doppelklick hat auf dem Fenster stattgefunden
 @EndFixedFont
   Ein einfaches Beispiel zum Event-Handling finden Sie in der @@WaitWindowEvent Beschreibung.
 
 @Remarks
-  Nach einem @#PB_Event_WindowDrop oder @#PB_Event_GadgetDrop Ereignis können
+  Nach einem @#PB_Event_WindowDrop oder @#PB_Event_GadgetDrop Ereignis kÃ¶nnen
   die Ereignis-Funktionen der @LibraryLink "dragdrop" "Drag & Drop Library" verwendet werden, um die abgelegten
   ("dropped") Daten zu untersuchen und zu lesen.
 @Linebreak
 @Linebreak
   @Bold "Wichtig:" Eine Fenster-Ereignis-Warteschlange sollte nicht in einem @LibraryLink "thread" "Thread"
-  verarbeitet werden, da es auf OS X und Linux einige Einschränkungen gibt. Ein Debugger-Fehler
-  wird ausgelöst.
+  verarbeitet werden, da es auf OS X und Linux einige EinschrÃ¤nkungen gibt. Ein Debugger-Fehler
+  wird ausgelÃ¶st.
 @LineBreak
 @LineBreak
   Der beste Weg zum Handhaben einer WindowEvent()-Warteschlange sieht wie folgt aus:
@@ -1360,11 +1372,11 @@
     EndIf 
   Until Event = #PB_Event_CloseWindow
 @EndCode 
-  @Bold "Wichtig:" Das 'Delay' sollte nicht nach jedem Ereignis eingefügt werden, denn wenn viele
+  @Bold "Wichtig:" Das 'Delay' sollte nicht nach jedem Ereignis eingefÃ¼gt werden, denn wenn viele
   Ereignisse (wie Refresh, Gagdget Updates, etc.) auftreten, wird die Anwendung
   zwischen jedem Ereignis warten. Deshalb muss das Delay dann
-  eingefügt werden, wenn keine Ereignisse empfangen werden. Andere (empfohlene)
-  Möglichkeiten, bestehen darin, @@WaitWindowEvent mit einem niedrigen Timeout-Wert
+  eingefÃ¼gt werden, wenn keine Ereignisse empfangen werden. Andere (empfohlene)
+  MÃ¶glichkeiten bestehen darin, @@WaitWindowEvent mit einem niedrigen Timeout-Wert
   zu verwenden oder einen Timer mittels  @@AddWindowTimer() zu definieren.
 @LineBreak
 @LineBreak
@@ -1379,11 +1391,11 @@
     Repeat
       Event = WindowEvent()
       
-      If Event <> 0  ; Alle Ereignisse werden behandelt, so dass wir die Koordinaten der Maus anzeigen können
+      If Event <> 0  ; Alle Ereignisse werden behandelt, so dass wir die Koordinaten der Maus anzeigen kÃ¶nnen
         SetWindowTitle(0, "Position of the mouse on the window: " + Str(WindowMouseX(0)) + "," + Str(WindowMouseX(0))) 
       Else
       
-      Delay(1)  ; Ohne ein FlipBuffers(), Delay() gibt die CPU für das Multitasking frei
+      Delay(1)  ; Ohne ein FlipBuffers(), Delay() gibt die CPU fÃ¼r das Multitasking frei
       EndIf
     Until Event = #PB_Event_CloseWindow
   EndIf
@@ -1397,11 +1409,11 @@
     Repeat
       Event = WindowEvent()
       
-      If Event = 0  ; Keine Ereignisse in der Warteschlange mehr, damit können wir die Koordinaten der Maus anzeigen
+      If Event = 0  ; Keine Ereignisse in der Warteschlange mehr, damit kÃ¶nnen wir die Koordinaten der Maus anzeigen
         SetGadgetText(0, "Coordinates: "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
       EndIf
       
-      Delay(20)  ; Ohne ein FlipBuffers(), Delay() gibt die CPU für das Multitasking frei
+      Delay(20)  ; Ohne ein FlipBuffers(), Delay() gibt die CPU fÃ¼r das Multitasking frei
       
     Until Event = #PB_Event_CloseWindow
   EndIf
@@ -1424,6 +1436,7 @@
   ;Fenster
   OpenWindow(0, 0, 0, 800, 600, "WindowEvent", #PB_Window_SystemMenu|#PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0), 0, 0, 800, 600)
+  SetFrameRate(30)
 
   ;Hintergrund
   Ground = CreateSprite(#PB_Any, 800, 30)
@@ -1450,20 +1463,20 @@
     Repeat
     ;Fenster-Ereignisse
     ;====================================
-    ;Versuche alle Möglichkeiten, aber nur eine zu einem Zeitpunkt
+    ;Versuche alle MÃ¶glichkeiten, aber nur eine zu einem Zeitpunkt
     Event = WindowEvent()    ; Animation
     ;Event = WaitWindowEvent()  ; Animation wird blockiert
-    ;Event = WaitWindowEvent(1) ; Animation, aber einer 1ms langen unnötigen Verzögerung; und darüber hinaus ist es ein
-                                ; schlechter Weg, um Ereignisse zu programmieren, weil die Warteschlange nicht leer ist
+    ;Event = WaitWindowEvent(100) ; Animation - aber jedes Mal, wenn ein Ereignis wie z.B. eine Mausbewegung eintritt,
+                                  ; wird die Animation fÃ¼r 100 ms angehalten
 
     Select Event   
       Case #PB_Event_CloseWindow
-      End
+        End
     EndSelect 
     Until Event=0
     
-    FlipBuffers() ; ==> Mit WindowEvent(), FlipBuffers() gibt die CPU für das Multitasking frei, so dass Delay(1)
-                  ;     nicht erforderlich ist.
+    FlipBuffers() ; ==> Mit WindowEvent(): FlipBuffers() gibt die CPU fÃ¼r das Multitasking frei,
+                  ;     sodass Delay(1) nicht erforderlich ist.
     ClearScreen(RGB(135, 206, 235))
     
     ExamineKeyboard() ;Keyboard
@@ -1503,32 +1516,32 @@
 
 @Description
   Wartet bis ein Ereignis auftritt. Es ist die selbe Funktion wie @@WindowEvent,
-  hält aber die Programmausführung an, was sehr wichtig in einer Multitasking Umgebung
+  hÃ¤lt aber die ProgrammausfÃ¼hrung an, was sehr wichtig in einer Multitasking Umgebung
   ist. 
 
 @OptionalParameter "Timeout"
   Der Timeout (auch "Zeitlimit", in Millisekunden), welcher die Funktion nach einer
-  bestimmten Zeit zur Rückkehr (aus der Wartestellung) veranlasst, wenn keine Ereignisse
+  bestimmten Zeit zur RÃ¼ckkehr (aus der Wartestellung) veranlasst, wenn keine Ereignisse
   aufgetreten sind. Wenn kein Timeout angegeben wird, dann wartet sie unbegrenzt bis
   ein Ereignis auftritt.
 
 @ReturnValue
-  Gibt das aufgetretene Ereignis zurück, siehe @@WindowEvent für weitere Informationen.
+  Gibt das aufgetretene Ereignis zurÃ¼ck, siehe @@WindowEvent fÃ¼r weitere Informationen.
   @@Event kann verwendet werden, um diesen Wert "wiederherzustellen".
 
 @Remarks
-  Eine Applikation sollte möglichst immer diese Funktion anstelle von @@WindowEvent
+  Eine Applikation sollte mÃ¶glichst immer diese Funktion anstelle von @@WindowEvent
   verwenden, da sie beim Warten auf ein Ereignis keine Rechenzeit beansprucht.
 @Linebreak
 @Linebreak
   Eine Fenster-Ereignis-Warteschlange sollte nicht in einem @LibraryLink "thread" "Thread"
-  verarbeitet werden, da es auf OS X und Linux einige Einschränkungen gibt. Ein Debugger-Fehler
-  wird ausgelöst.
+  verarbeitet werden, da es auf OS X und Linux einige EinschrÃ¤nkungen gibt. Ein Debugger-Fehler
+  wird ausgelÃ¶st.
   @Linebreak
   @Linebreak
   Pro Ereignis-Warteschlange darf nur einmal WaitWindowEvent() aufgerufen werden, da andernfalls Ereignisse
   "verloren" gehen (jedes Ereignis kann nur einmal ausgewertet werden und steht damit nach der ersten
-  Verarbeitung nicht noch ein zweites Mal zur Verfügung).
+  Verarbeitung nicht noch ein zweites Mal zur VerfÃ¼gung).
 
 @Example Allgemeiner Fall
 @Code
@@ -1557,9 +1570,9 @@
        
        Case #PB_Event_Menu
          Select EventMenu()
-           Case 1 : Debug "Menü-Eintrag 1 angeklickt!"
-           Case 2 : Debug "Menü-Eintrag 2 angeklickt!"
-           Case 3 : Debug "Menü-Eintrag 3 angeklickt!"
+           Case 1 : Debug "MenÃ¼-Eintrag 1 angeklickt!"
+           Case 2 : Debug "MenÃ¼-Eintrag 2 angeklickt!"
+           Case 3 : Debug "MenÃ¼-Eintrag 3 angeklickt!"
          EndSelect
      
      EndSelect
@@ -1575,7 +1588,7 @@
     Repeat
       Event = WaitWindowEvent(20)
       
-      If Event = 0 ; Keine Ereignisse in der Warteschlange mehr, also können wir die Mauskoordinaten anzeigen
+      If Event = 0 ; Keine Ereignisse in der Warteschlange mehr, also kÃ¶nnen wir die Mauskoordinaten anzeigen
         SetGadgetText(0, "Coordinates: " + Str(DesktopMouseX()) + "," + Str(DesktopMouseY()))  
       EndIf
        
@@ -1613,19 +1626,19 @@
 @Function BindEvent(Event, @Callback() [, Window [, Objekt [, EventTyp]]])
 
 @Description
-  Verknüpft ("bindet", englisch "bind") ein Ereignis mit einem Callback.
-  Dabei handelt es sich um eine zusätzliche Möglichkeit zur Verwaltung von Ereignissen
-  (englisch "events") in PureBasic, welche problemlos mit den regulären @@WindowEvent /
-  @@WaitWindowEvent Befehlen arbeitet. Es ermöglicht auch die Nutzung von Echtzeit-Ereignismeldungen
+  VerknÃ¼pft ("bindet", englisch "bind") ein Ereignis mit einem Callback.
+  Dabei handelt es sich um eine zusÃ¤tzliche MÃ¶glichkeit zur Verwaltung von Ereignissen
+  (englisch "events") in PureBasic, welche problemlos mit den regulÃ¤ren @@WindowEvent /
+  @@WaitWindowEvent Befehlen arbeitet. Es ermÃ¶glicht auch die Nutzung von Echtzeit-Ereignismeldungen
   (englisch "realtime event notifications"), da die Callback-Funktion aufgerufen werden
-  kann, sobald das Ereignis auftritt (nützlich für @@ScrollBarGadget, Änderung der Fenstergröße
+  kann, sobald das Ereignis auftritt (nÃ¼tzlich fÃ¼r @@ScrollBarGadget, Ã„nderung der FenstergrÃ¶ÃŸe
   in Echtzeit, etc.).
-  Ein Ereignis kann mittels @@UnbindEvent losgelöst (englisch "unbinded") werden.
+  Ein Ereignis kann mittels @@UnbindEvent losgelÃ¶st (englisch "unbinded") werden.
   
 @Parameter "Event"
-  Das zu verknüpfende Ereignis (englisch "event"). Für eine vollständige Liste aller
+  Das zu verknÃ¼pfende Ereignis (englisch "event"). FÃ¼r eine vollstÃ¤ndige Liste aller
   Ereignisse siehe @@WindowEvent. Benutzerdefinierte Ereignisse werden bei Verwendung von
-  @@PostEvent ebenfalls unterstützt.
+  @@PostEvent ebenfalls unterstÃ¼tzt.
 
 @Parameter "@Callback()"
   Die beim Auftreten des Ereignisses aufzurufende Callback-Prozedur. Diese muss wie folgt
@@ -1635,30 +1648,30 @@
     ; Code
   EndProcedure
 @EndCode
-  Die regulären Funktionen wie @@EventGadget, @@EventWindow, @@EventMenu, @@EventType und
-  @@EventData sind innerhalb des Callbacks verfügbar, um weitere Informationen über das
+  Die regulÃ¤ren Funktionen wie @@EventGadget, @@EventWindow, @@EventMenu, @@EventType und
+  @@EventData sind innerhalb des Callbacks verfÃ¼gbar, um weitere Informationen Ã¼ber das
   Ereignis zu erhalten.
   @LineBreak
   @LineBreak
   Hinweis: @@WindowEvent und @@WaitWindowEvent sollten nie aus einem Callback heraus aufgerufen werden. Dies kann das Programm blockieren oder falsches Verhalten hervorrufen. 
 
 @OptionalParameter "Window"
-  Die #Window Fensternummer, mit der das Ereignis verknüpft werden soll. Das Ereignis wird
-  nur ausgelöst, wenn es auf diesem Fenster auftritt. @#PB_All kann angegeben werden, um
-  das Ereignis mit allen Fenstern zu verknüpfen (falls angegeben, müssen 'Object' und
+  Die #Window Fensternummer, mit der das Ereignis verknÃ¼pft werden soll. Das Ereignis wird
+  nur ausgelÃ¶st, wenn es auf diesem Fenster auftritt. @#PB_All kann angegeben werden, um
+  das Ereignis mit allen Fenstern zu verknÃ¼pfen (falls angegeben, mÃ¼ssen 'Object' und
   'EventType' Parameter ebenso als @#PB_All gesetzt werden).
 
 @OptionalParameter "Objekt"
-  Die Objekt-Nummer, mit der das Ereignis verknüpft werden soll. Dies kann ein
-  @LibraryLink "gadget" "Gadget", ein @LibraryLink "menu" "Menüeintrag" oder eine
+  Die Objekt-Nummer, mit der das Ereignis verknÃ¼pft werden soll. Dies kann ein
+  @LibraryLink "gadget" "Gadget", ein @LibraryLink "menu" "MenÃ¼eintrag" oder eine
   @LibraryLink "systray" "Systray" Statusleisten-Nummer sein. @#PB_All kann verwendet werden,
-  um das Ereignis mit allen Objekten zu verknüpfen (falls angegeben, muß der 'EventType' Parameter 
+  um das Ereignis mit allen Objekten zu verknÃ¼pfen (falls angegeben, muÃŸ der 'EventType' Parameter 
   ebenso als @#PB_All gesetzt werden).
 
 @OptionalParameter "EventTyp"
-  Der Ereignis-Typ, mit dem das Ereignis verknüpft werden soll. Für eine vollständige Liste
-  der unterstützten Typen siehe @@EventType. @#PB_All kann verwendet werden, um das Ereignis
-  mit allen Typen zu verknüpfen.
+  Der Ereignis-Typ, mit dem das Ereignis verknÃ¼pft werden soll. FÃ¼r eine vollstÃ¤ndige Liste
+  der unterstÃ¼tzten Typen siehe @@EventType. @#PB_All kann verwendet werden, um das Ereignis
+  mit allen Typen zu verknÃ¼pfen.
 
 @NoReturnValue
 
@@ -1667,7 +1680,7 @@
   Procedure SizeWindowHandler()
     Debug "Size event on window #" + EventWindow()
     
-    ; Größe des Gadgets verändern, um es an die neuen Fenster-Abmessungen anzupassen
+    ; GrÃ¶ÃŸe des Gadgets verÃ¤ndern, um es an die neuen Fenster-Abmessungen anzupassen
     ;
     ResizeGadget(0, #PB_Ignore, #PB_Ignore, WindowWidth(EventWindow())-20, WindowHeight(EventWindow())-20)
   EndProcedure
@@ -1682,7 +1695,7 @@
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
-@SeeAlso @@BindGadgetEvent, @@BindMenuEvent, @@UnbindEvent, @@WindowEvent, @@WaitWindowEvent
+@SeeAlso @@BindGadgetEvent, @@BindMenuEvent, @@UnbindEvent, @@WindowEvent, @@WaitWindowEvent, @@ResizeWindow, @@ResizeGadget
 
 @SupportedOS
 
@@ -1691,28 +1704,28 @@
 @Function UnbindEvent(Event, @Callback() [, Window [, Objekt [, EventTyp]]])  
 
 @Description
-  Löst (englisch "unbind") die Verknüpfung eines Ereignisses von einer Callback-Funktion.
+  LÃ¶st (englisch "unbind") die VerknÃ¼pfung eines Ereignisses von einer Callback-Funktion.
   Wenn keine passende Ereignis-Callback-Funktion gefunden wurde, dann hat dieser
   Befehl keinen Effekt.
   
 @Parameter "Event"
-  Das loszulösende Ereignis. Für eine vollständige Liste der Ereignisse siehe @@WindowEvent.
-  Benutzerdefinierte Ereignisse werden bei Verwendung von @@PostEvent ebenfalls unterstützt.
+  Das loszulÃ¶sende Ereignis. FÃ¼r eine vollstÃ¤ndige Liste der Ereignisse siehe @@WindowEvent.
+  Benutzerdefinierte Ereignisse werden bei Verwendung von @@PostEvent ebenfalls unterstÃ¼tzt.
 
 @Parameter "@Callback()"
-  Die loszulösende Callback-Prozedur.
+  Die loszulÃ¶sende Callback-Prozedur.
   
 @OptionalParameter "Window"
-  Die #Window Fensternummer, von der das Ereignis losgelöst werden soll.
+  Die #Window Fensternummer, von der das Ereignis losgelÃ¶st werden soll.
 
 @OptionalParameter "Objekt"
-  Die Objekt-Nummer, von der das Ereignis losgelöst werden soll. Dies kann ein
-  @LibraryLink "gadget" "Gadget", ein @LibraryLink "menu" "Menüeintrag" oder eine
+  Die Objekt-Nummer, von der das Ereignis losgelÃ¶st werden soll. Dies kann ein
+  @LibraryLink "gadget" "Gadget", ein @LibraryLink "menu" "MenÃ¼eintrag" oder eine
   @LibraryLink "systray" "Systray" Statusleisten-Nummer sein.
 
 @OptionalParameter "EventTyp"
-  Der Ereignis-Typ, von dem das Ereignis losgelöst werden soll. Für eine vollständige Liste
-  aller unterstützten Typen siehe @@EventType.
+  Der Ereignis-Typ, von dem das Ereignis losgelÃ¶st werden soll. FÃ¼r eine vollstÃ¤ndige Liste
+  aller unterstÃ¼tzten Typen siehe @@EventType.
 
 @NoReturnValue
 
@@ -1725,7 +1738,7 @@
   OpenWindow(0, 100, 100, 200, 200, "Resize test", #PB_Window_SizeGadget | #PB_Window_SystemMenu)
   
   BindEvent(#PB_Event_SizeWindow, @SizeWindowHandler())
-  UnbindEvent(#PB_Event_SizeWindow, @SizeWindowHandler()) ; es sofort wieder loslösen
+  UnbindEvent(#PB_Event_SizeWindow, @SizeWindowHandler()) ; es sofort wieder loslÃ¶sen
   
   Repeat
     Event = WaitWindowEvent()
@@ -1738,39 +1751,39 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WindowBounds(#Window, MinimaleBreite, MinimaleHöhe, MaximaleBreite, MaximaleHöhe)  
+@Function WindowBounds(#Window, MinimaleBreite, MinimaleHÃ¶he, MaximaleBreite, MaximaleHÃ¶he)  
 
 @Description
-  Ändert die minimalen und maximalen Fenster-Dimensionen (in Pixel).
-  Dies ist nützlich, um zu vermeiden, dass ein Fenster zu klein oder zu groß wird, wenn 
-  der Anwender es in der Größe verändert. 
+  Ã„ndert die minimalen und maximalen Fenster-Dimensionen (in Pixel).
+  Dies ist nÃ¼tzlich, um zu vermeiden, dass ein Fenster zu klein oder zu groÃŸ wird, wenn 
+  der Anwender es in der GrÃ¶ÃŸe verÃ¤ndert. 
   
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @Parameter "MinimaleBreite"
   Die minimale Breite des Fensters. Wird diese auf @#PB_Ignore gesetzt,
-  dann wird der Wert für die derzeitige minimale Breite nicht verändert.
-  Wird diese auf @#PB_Default gesetzt, dann wird der Wert für die minimale Breite
-  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurückgesetzt.
+  dann wird der Wert fÃ¼r die derzeitige minimale Breite nicht verÃ¤ndert.
+  Wird diese auf @#PB_Default gesetzt, dann wird der Wert fÃ¼r die minimale Breite
+  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurÃ¼ckgesetzt.
   
-@Parameter "MinimaleHöhe"
-  Die minimale Höhe des Fensters. Wird diese auf @#PB_Ignore gesetzt,
-  dann wird der Wert für die derzeitige minimale Höhe nicht verändert.
-  Wird diese auf @#PB_Default gesetzt, dann wird der Wert für die minimale Höhe
-  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurückgesetzt.
+@Parameter "MinimaleHÃ¶he"
+  Die minimale HÃ¶he des Fensters. Wird diese auf @#PB_Ignore gesetzt,
+  dann wird der Wert fÃ¼r die derzeitige minimale HÃ¶he nicht verÃ¤ndert.
+  Wird diese auf @#PB_Default gesetzt, dann wird der Wert fÃ¼r die minimale HÃ¶he
+  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurÃ¼ckgesetzt.
 
 @Parameter "MaximaleBreite"
   Die maximale Breite des Fensters. Wird diese auf @#PB_Ignore gesetzt,
-  dann wird der Wert für die derzeitige maximale Breite nicht verändert.
-  Wird diese auf @#PB_Default gesetzt, dann wird der Wert für die maximale Breite
-  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurückgesetzt.
+  dann wird der Wert fÃ¼r die derzeitige maximale Breite nicht verÃ¤ndert.
+  Wird diese auf @#PB_Default gesetzt, dann wird der Wert fÃ¼r die maximale Breite
+  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurÃ¼ckgesetzt.
   
-@Parameter "MaximaleHöhe"
-  Die maximale Höhe des Fensters. Wird diese auf @#PB_Ignore gesetzt,
-  dann wird der Wert für die derzeitige maximale Höhe nicht verändert.
-  Wird diese auf @#PB_Default gesetzt, dann wird der Wert für die maximale Höhe
-  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurückgesetzt.
+@Parameter "MaximaleHÃ¶he"
+  Die maximale HÃ¶he des Fensters. Wird diese auf @#PB_Ignore gesetzt,
+  dann wird der Wert fÃ¼r die derzeitige maximale HÃ¶he nicht verÃ¤ndert.
+  Wird diese auf @#PB_Default gesetzt, dann wird der Wert fÃ¼r die maximale HÃ¶he
+  auf den Systemstandard (wie vor dem Aufruf dieses Befehls) zurÃ¼ckgesetzt.
 
 @NoReturnValue
 
@@ -1779,7 +1792,7 @@
 
 @Example
 @Code
-  If OpenWindow(0, 0, 0, 300, 300, "Ändere meine Größe !", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
+  If OpenWindow(0, 0, 0, 300, 300, "Ã„ndere meine GrÃ¶ÃŸe !", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)
     WindowBounds(0, 200, 200, 400, 400)
 
     Repeat
@@ -1787,7 +1800,10 @@
     Until Event = #PB_Event_CloseWindow
   EndIf
 @EndCode 
-  
+
+@SeeAlso
+  @@ResizeWindow, @@ResizeGadget
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -1795,21 +1811,21 @@
 @Function Ergebnis = WindowHeight(#Window [, Modus])
 
 @Description
-  Ermittelt die Höhe (in Pixel) des angegebenen Fensters.
+  Ermittelt die HÃ¶he (in Pixel) des angegebenen Fensters.
 
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @OptionalParameter "Modus"
-  Der für die Berechnung der Höhe des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
+  Der fÃ¼r die Berechnung der HÃ¶he des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont  
-  @#PB_Window_InnerCoordinate: Höhe des inneren Bereiches vom Fenster (in dem Gadgets hinzugefügt werden
-                              können), ohne Ränder (Standard).
-  @#PB_Window_FrameCoordinate: Höhe des Fensters, einschließlich Ränder.
+  @#PB_Window_InnerCoordinate: HÃ¶he des inneren Bereiches vom Fenster (in dem Gadgets hinzugefÃ¼gt werden
+                              kÃ¶nnen), ohne RÃ¤nder (Standard).
+  @#PB_Window_FrameCoordinate: HÃ¶he des Fensters, einschlieÃŸlich RÃ¤nder.
 @EndFixedFont
 
 @ReturnValue
-  Gibt die Höhe (in Pixel) des angegeben Fensters zurück.
+  Gibt die HÃ¶he (in Pixel) des angegeben Fensters zurÃ¼ck.
 
 @SeeAlso
   @@OpenWindow, @@WindowWidth
@@ -1829,7 +1845,7 @@
 @ReturnValue
   Die System-ID des Fensters.
   Dieses Ergebnis ist manchmal auch als 'Handle' bekannt. Schauen Sie in das Extra-Kapitel
-  @ReferenceLink "handles" "Handles und Nummern" für weitere Informationen.
+  @ReferenceLink "handles" "Handles und Nummern" fÃ¼r weitere Informationen.
 
 @SupportedOS
 
@@ -1844,15 +1860,15 @@
   Das zu verwendende Fenster.
 
 @OptionalParameter "Modus"
-  Der für die Berechnung der Breite des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
+  Der fÃ¼r die Berechnung der Breite des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont  
-  @#PB_Window_InnerCoordinate: Breite des inneren Bereiches vom Fenster (in dem Gadgets hinzugefügt werden
-                              können), ohne Ränder (Standard).
-  @#PB_Window_FrameCoordinate: Breite des Fensters, einschließlich Ränder.
+  @#PB_Window_InnerCoordinate: Breite des inneren Bereiches vom Fenster (in dem Gadgets hinzugefÃ¼gt werden
+                              kÃ¶nnen), ohne RÃ¤nder (Standard).
+  @#PB_Window_FrameCoordinate: Breite des Fensters, einschlieÃŸlich RÃ¤nder.
 @EndFixedFont
 
 @ReturnValue
-  Gibt die Breite (in Pixel) des angegeben Fensters zurück.
+  Gibt die Breite (in Pixel) des angegeben Fensters zurÃ¼ck.
 
 @SeeAlso
   @@OpenWindow, @@WindowHeight
@@ -1864,21 +1880,21 @@
 @Function Ergebnis = WindowX(#Window [, Modus])
 
 @Description
-  Gibt die x-Position des angegebenen Fensters auf dem Bildschirm zurück.
+  Gibt die x-Position des angegebenen Fensters auf dem Bildschirm zurÃ¼ck.
   
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @OptionalParameter "Modus"
-  Der für die Berechnung der x-Position des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
+  Der fÃ¼r die Berechnung der x-Position des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont  
-  @#PB_Window_FrameCoordinate: x-Position des Fensters, einschließlich Ränder (Standard).
+  @#PB_Window_FrameCoordinate: x-Position des Fensters, einschlieÃŸlich RÃ¤nder (Standard).
   @#PB_Window_InnerCoordinate: x-Position des inneren Bereiches vom Fensters (in dem Gadgets
-                              hinzugefügt werden können), ohne Ränder.
+                              hinzugefÃ¼gt werden kÃ¶nnen), ohne RÃ¤nder.
 @EndFixedFont
 
 @ReturnValue
-  Gibt die x-Position (von links, in Pixel) des angegebenen Fensters auf dem Bildschirm zurück.
+  Gibt die x-Position (von links, in Pixel) des angegebenen Fensters auf dem Bildschirm zurÃ¼ck.
 
 @SeeAlso
   @@OpenWindow, @@WindowY    
@@ -1890,21 +1906,21 @@
 @Function Ergebnis = WindowY(#Window [, Modus])
 
 @Description
-  Gibt die y-Position des angegebenen Fensters auf dem Bildschirm zurück.
+  Gibt die y-Position des angegebenen Fensters auf dem Bildschirm zurÃ¼ck.
   
 @Parameter "#Window"
   Das zu verwendende Fenster.
 
 @OptionalParameter "Modus"
-  Der für die Berechnung der y-Position des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
+  Der fÃ¼r die Berechnung der y-Position des Fensters verwendete Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont  
-  @#PB_Window_FrameCoordinate: y-Position des Fensters, einschließlich Ränder (Standard).
+  @#PB_Window_FrameCoordinate: y-Position des Fensters, einschlieÃŸlich RÃ¤nder (Standard).
   @#PB_Window_InnerCoordinate: y-Position des inneren Bereiches vom Fensters (in dem Gadgets
-                              hinzugefügt werden können), ohne Ränder.
+                              hinzugefÃ¼gt werden kÃ¶nnen), ohne RÃ¤nder.
 @EndFixedFont
 
 @ReturnValue
-  Gibt die y-Position (von oben, in Pixel) des angegebenen Fensters auf dem Bildschirm zurück.
+  Gibt die y-Position (von oben, in Pixel) des angegebenen Fensters auf dem Bildschirm zurÃ¼ck.
 
 @SeeAlso
   @@OpenWindow, @@WindowX    
@@ -1924,7 +1940,7 @@
 
 @ReturnValue
   Die X-Position der Maus im inneren Bereich des angegebenen Fensters.
-  Befindet sich die Maus außerhalb des Fensterbereichs, wird -1 zurückgegeben.
+  Befindet sich die Maus auÃŸerhalb des Fensterbereichs, wird -1 zurÃ¼ckgegeben.
 
 @Remarks
   Um die absolute X-Position des Mauszeigers auf dem Desktop zu ermitteln, verwenden
@@ -1936,7 +1952,7 @@
     TextGadget(0, 10, 6, 200, 20, "")
     
     Repeat
-      Event = WaitWindowEvent(20) ; kehre mindestens alle 20 ms für ein Update zurück
+      Event = WaitWindowEvent(20) ; kehre mindestens alle 20 ms fÃ¼r ein Update zurÃ¼ck
       
       SetGadgetText(0, "Fenster Maus-Position: " + Str(WindowMouseX(0)) + "," + Str(WindowMouseY(0)))
     Until Event = #PB_Event_CloseWindow
@@ -1958,7 +1974,7 @@
 
 @ReturnValue
   Die Y-Position der Maus im inneren Bereich des angegebenen Fensters.
-  Befindet sich die Maus außerhalb des Fensterbereichs, wird -1 zurückgegeben.
+  Befindet sich die Maus auÃŸerhalb des Fensterbereichs, wird -1 zurÃ¼ckgegeben.
 
 @Remarks
   Um die absolute Y-Position des Mauszeigers auf dem Desktop zu ermitteln, verwenden
@@ -1970,7 +1986,7 @@
     TextGadget(0, 10, 6, 200, 20, "")
     
     Repeat
-      Event = WaitWindowEvent(20) ; kehre mindestens alle 20 ms für ein Update zurück
+      Event = WaitWindowEvent(20) ; kehre mindestens alle 20 ms fÃ¼r ein Update zurÃ¼ck
       
       SetGadgetText(0, "Fenster Maus-Position: " + Str(WindowMouseX(0)) + "," + Str(WindowMouseY(0)))
     Until Event = #PB_Event_CloseWindow
@@ -1984,8 +2000,8 @@
 @Function AusgabeID = WindowOutput(#Window)
 
 @Description
-  Gibt die 'AusgabeID' des angegebenen Fensters zurück, um darauf 2D-Zeichenoperationen
-  auszuführen. Hierfür wird die PureBasic @LibraryLink "2ddrawing" "2DDrawing Bibliothek" genutzt.
+  Gibt die 'AusgabeID' des angegebenen Fensters zurÃ¼ck, um darauf 2D-Zeichenoperationen
+  auszufÃ¼hren. HierfÃ¼r wird die PureBasic @LibraryLink "2ddrawing" "2DDrawing Bibliothek" genutzt.
 @LineBreak
 @LineBreak
   WindowOutput() kann nur innerhalb eines @@StartDrawing / @@StopDrawing Blocks verwendet werden.
@@ -1996,7 +2012,7 @@
 
 @ReturnValue
   Die AusgabeID des angegebenen Fensters, um darauf 2D-Zeichenoperationen mittels
-  @@StartDrawing auszuführen.
+  @@StartDrawing auszufÃ¼hren.
 
 @Example
 @Code
@@ -2015,16 +2031,16 @@
 @EndCode
 
 @Remarks
-  Auf ein Fenster gezeichneter Inhalt wird gelöscht, wann immer das Fenster oder ein Teil
-  davon von einem anderen Fenster verdeckt wird, außerhalb des Bildschirms verschoben wird, oder
+  Auf ein Fenster gezeichneter Inhalt wird gelÃ¶scht, wann immer das Fenster oder ein Teil
+  davon von einem anderen Fenster verdeckt wird, auÃŸerhalb des Bildschirms verschoben wird, oder
   wenn das Fenster versteckt oder minimiert wird. Um daher den gezeichneten Inhalt sichtbar zu 
   halten, muss dieser nach jedem @#PB_Event_Repaint Ereignis erneut gezeichnet werden.
   @LineBreak
   @LineBreak
-  Eine komfortablere Lösung ist es, den Inhalt via @@ImageOutput auf ein Bild zu zeichnen
+  Eine komfortablere LÃ¶sung ist es, den Inhalt via @@ImageOutput auf ein Bild zu zeichnen
   und dieses als @@ImageGadget im Applikations-Fenster darzustellen, und
-  wenn nötig dessen Aktualisierung mittels @@SetGadgetState. Auf diesem
-  Weg wird jegliches nötige Auffrischen durch das ImageGadget erledigt.
+  wenn nÃ¶tig dessen Aktualisierung mittels @@SetGadgetState. Auf diesem
+  Weg wird jegliches nÃ¶tige Auffrischen durch das ImageGadget erledigt.
   
 @Example
 @Code
@@ -2063,7 +2079,7 @@
 @Function VektorAusgabeID = WindowVectorOutput(#Window [, Einheit])
 
 @Description
-  Gibt die AusgabeID des gegebenen Fensters zurück, um darauf Vektor-Zeichenoperationen auszuführen.
+  Gibt die AusgabeID des gegebenen Fensters zurÃ¼ck, um darauf Vektor-Zeichenoperationen auszufÃ¼hren.
   Es verwendet die PureBasic @LibraryLink "vectordrawing" "VectorDrawing" Bibliothek und kann nur
   innerhalb des @@StartVectorDrawing / @@StopVectorDrawing Blocks verwendet werden. Der in
   @@WindowVectorOutput zugeteilte Speicher wird mit @@StopVectorDrawing wieder freigegeben.
@@ -2072,7 +2088,7 @@
   Das zu verwendende Fenster.
 
 @OptionalParameter "Einheit"
-  Bestimmt die Maßeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standard-Einheit für Fenster ist @#PB_Unit_Pixel.
+  Bestimmt die MaÃŸeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standard-Einheit fÃ¼r Fenster ist @#PB_Unit_Pixel.
 @FixedFont
   @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
   @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
@@ -2081,7 +2097,7 @@
 @EndFixedFont
   
 @ReturnValue
-  Die AusgabeID des gegebenen Fensters, um darin 2D Rendering-Operationen mittels @@StartVectorDrawing auszuführen.
+  Die AusgabeID des gegebenen Fensters, um darin 2D Rendering-Operationen mittels @@StartVectorDrawing auszufÃ¼hren.
 
 ;@Example
 ;@Code
@@ -2100,12 +2116,12 @@
 ;@EndCode
 
 @Remarks 
-  Die Zeichnung auf dem Fenster wird ausgelöscht, sobald das Fenster (oder Teile davon) von anderen
-  Fenstern überlagert, es aus dem Desktopbereich verschoben, oder es versteckt bzw. minimiert wird.
-  Um die Zeichnung sichbar zu erhalten, muß sie nach jedem @#PB_Event_Repaint Ereignis neu gezeichnet
-  werden. Eine mehr handlichere Alternative wäre es, die Zeichnung via @@ImageVectorOutput  auf ein
-  Bild zu zeichnen und es als @@ImageGadget im Anwendungsfenster darzustellen und wenn nötig, es
-  mittels @@SetGadgetState zu aktualisieren. Auf diesem Weg werden alle benötigten Auffrischungen
+  Die Zeichnung auf dem Fenster wird ausgelÃ¶scht, sobald das Fenster (oder Teile davon) von anderen
+  Fenstern Ã¼berlagert, es aus dem Desktopbereich verschoben, oder es versteckt bzw. minimiert wird.
+  Um die Zeichnung sichbar zu erhalten, muÃŸ sie nach jedem @#PB_Event_Repaint Ereignis neu gezeichnet
+  werden. Eine mehr handlichere Alternative wÃ¤re es, die Zeichnung via @@ImageVectorOutput  auf ein
+  Bild zu zeichnen und es als @@ImageGadget im Anwendungsfenster darzustellen und wenn nÃ¶tig, es
+  mittels @@SetGadgetState zu aktualisieren. Auf diesem Weg werden alle benÃ¶tigten Auffrischungen
   vom ImageGadget gehandhabt.
 
 ;@Example
@@ -2148,17 +2164,17 @@
 @Function Ergebnis = EventwParam()
 
 @Description
-  Diese Funktion wird nicht mehr unterstützt und sollte in neuen Projekten nicht
+  Diese Funktion wird nicht mehr unterstÃ¼tzt und sollte in neuen Projekten nicht
   verwendet werden. Nutzen Sie einen Callback mittels @@SetWindowCallback, um
-  volle Kontrolle über die Windows-Nachrichten (messages) zu erhalten.
+  volle Kontrolle Ã¼ber die Windows-Nachrichten (messages) zu erhalten.
 
 @SupportedOS Windows
 
 @Function Ergebnis = EventlParam()
 
 @Description
-  Diese Funktion wird nicht mehr unterstützt und sollte in neuen Projekten nicht
+  Diese Funktion wird nicht mehr unterstÃ¼tzt und sollte in neuen Projekten nicht
   verwendet werden. Nutzen Sie einen Callback mittels @@SetWindowCallback, um
-  volle Kontrolle über die Windows-Nachrichten (messages) zu erhalten.
+  volle Kontrolle Ã¼ber die Windows-Nachrichten (messages) zu erhalten.
 
 @SupportedOS Windows

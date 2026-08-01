@@ -1,24 +1,24 @@
-@Title Gestion des messages Windows
+ï»¿@Title Gestion des messages Windows
 
 @Section Introduction
 
-  Les messages de votre programme seront transférés par Windows dans une file d'attente, 
-  qui est traitée uniquement si vous le désirez. 
-  Windows transmet un millier de messages à votre programme sans avertissement direct. @LineBreak
+  Les messages de votre programme seront transfÃ©rÃ©s par Windows dans une file d'attente, 
+  qui est traitÃ©e uniquement si vous le dÃ©sirez. 
+  Windows transmet un millier de messages Ã  votre programme sans avertissement direct. @LineBreak
   @LineBreak
   Par exemple si vous changez le statut d'un gadget (que ce soit en ajoutant une saisie ou en changeant l'image d'un ImageGadget), 
-  un message est envoyé à la file d'attente de votre programme.  @LineBreak
+  un message est envoyÃ© Ã  la file d'attente de votre programme.  @LineBreak
   @LineBreak
-  Il y a deux possibilités de récupérer et de traiter les messages Windows dans PureBasic : 
+  Il y a deux possibilitÃ©s de rÃ©cupÃ©rer et de traiter les messages Windows dans PureBasic : 
   @@WaitWindowEvent and @@WindowEvent.
-  La différence est, que WaitWindowEvent() attend qu'un message arrive alors que WindowEvent() permet de continuer à travailler. 
-  Les messages dans la file d'attente ne seront cependant traités qu'après l'appel à WindowEvent() ou WaitWindowEvent().
+  La diffÃ©rence est, que WaitWindowEvent() attend qu'un message arrive alors que WindowEvent() permet de continuer Ã  travailler. 
+  Les messages dans la file d'attente ne seront cependant traitÃ©s qu'aprÃ¨s l'appel Ã  WindowEvent() ou WaitWindowEvent().
 
-@Section Spécificités de WindowEvent()
+@Section SpÃ©cificitÃ©s de WindowEvent()
 
-  La commande WindowEvent() n'attend pas, qu'un message arrive, mais vérifie seulement s'il y en a un dans la file d'attente. 
-  Si Oui, le message est traité et WindowEvent() renvoie le numéro du message. 
-  Si aucun message n'est dans la file, alors zéro (0) est renvoyé.
+  La commande WindowEvent() n'attend pas, qu'un message arrive, mais vÃ©rifie seulement s'il y en a un dans la file d'attente. 
+  Si Oui, le message est traitÃ© et WindowEvent() renvoie le numÃ©ro du message. 
+  Si aucun message n'est dans la file, alors zÃ©ro (0) est renvoyÃ©.
 
   @Example
 
@@ -26,32 +26,32 @@
   While WindowEvent() : Wend
 @EndCode
 
-  Fait en sorte, que WindowEvent() soit appelée tant qu'elle ne renvoie pas 0, 
-  c'est à dire jusqu'à ce que tous les messages de la file d'attente soient traités @LineBreak
+  Fait en sorte, que WindowEvent() soit appelÃ©e tant qu'elle ne renvoie pas 0, 
+  c'est Ã  dire jusqu'Ã  ce que tous les messages de la file d'attente soient traitÃ©s @LineBreak
   @LineBreak
-  Insérer un simple 'WindowEvent()' après un @@SetGadgetState ne suffit pas pour traiter 
-  ce message en particulier. Premièrement il peut toujours y avoir d'autres messages dans la file d'attente, 
-  qui sont arrivés auparavant, et deuxièmement Windows envoie également un nombre conséquent d'autres messages, 
-  dont nous n'avons que faire... mais qui néanmoins sont dans la file d'attente.  @LineBreak
+  InsÃ©rer un simple 'WindowEvent()' aprÃ¨s un @@SetGadgetState ne suffit pas pour traiter 
+  ce message en particulier. PremiÃ¨rement il peut toujours y avoir d'autres messages dans la file d'attente, 
+  qui sont arrivÃ©s auparavant, et deuxiÃ¨mement Windows envoie Ã©galement un nombre consÃ©quent d'autres messages, 
+  dont nous n'avons que faire... mais qui nÃ©anmoins sont dans la file d'attente.  @LineBreak
   @LineBreak
-  Un simple appel à
+  Un simple appel Ã 
 @Code
   WindowEvent()
 @EndCode
   ne suffit pas, le programme peut fonctionner correctement dans certaines circonstances sur une version de Windows, 
-  mais pas sur une autre version. Les différentes versions de Windows ont un fonctionnement interne tellement spécifique, 
-  qu'une version envoie seulement 1 message mais une autre version peut envoyer 5 messages pour le même cas de figure. . @LineBreak
+  mais pas sur une autre version. Les diffÃ©rentes versions de Windows ont un fonctionnement interne tellement spÃ©cifique, 
+  qu'une version envoie seulement 1 message mais une autre version peut envoyer 5 messages pour le mÃªme cas de figure. . @LineBreak
   @LineBreak
-  A cause de cela, on utilise toujours pour la mise à jour :
+  A cause de cela, on utilise toujours pour la mise Ã  jour :
 @Code
   While WindowEvent() : Wend
 @EndCode
-  Bien sûr il y a aussi l'alternative
+  Bien sÃ»r il y a aussi l'alternative
 @Code
   Repeat : Until WindowEvent() = 0
 @EndCode
-  possible, qui n'est cependant pas très courante.  @LineBreak
+  possible, qui n'est cependant pas trÃ¨s courante.  @LineBreak
   @LineBreak
-  La méthode While WindowEvent() : Wend est fréquemment utilisée avec la commande @@Delay,
-  lorsqu'une une boucle est insérée AVANT le Delay(), par exemple pour attendre que la mise à jour d'un ImageGadget soit effective, 
-  après avoir changé une image avec SetGadgetState().
+  La mÃ©thode While WindowEvent() : Wend est frÃ©quemment utilisÃ©e avec la commande @@Delay,
+  lorsqu'une une boucle est insÃ©rÃ©e AVANT le Delay(), par exemple pour attendre que la mise Ã  jour d'un ImageGadget soit effective, 
+  aprÃ¨s avoir changÃ© une image avec SetGadgetState().

@@ -1,14 +1,14 @@
-@Title Einsteiger-Kapitel - Speichern von Daten im Speicher
+ï»¿@Title Einsteiger-Kapitel - Speichern von Daten im Speicher
 
-Dieses Beispiel sammelt Informationen über die @LibraryLink "file" "Dateien" im angemeldeten
+Dieses Beispiel sammelt Informationen Ã¼ber die @LibraryLink "file" "Dateien" im angemeldeten
 Benutzer-Verzeichnis (User Home Directory) in einer @ReferenceLink "structures" "strukturierten"
-@ReferenceLink "newlist" "verketteten Liste". Für den Moment ist die Ausgabe nicht sehr
-aufregend, aber wir kommen später auf dieses Beispiel zurück und machen es auf mehreren
+@ReferenceLink "newlist" "verketteten Liste". FÃ¼r den Moment ist die Ausgabe nicht sehr
+aufregend, aber wir kommen spÃ¤ter auf dieses Beispiel zurÃ¼ck und machen es auf mehreren
 verschiedenen Wegen ein wenig freundlicher.
 @Code
   ; Dieser Abschnitt beschreibt die Felder einer Struktur oder eines Datensatzes, in diesem
-  ; Fall meist Integer, aber beachten Sie den String für den Dateinamen und den Quad-Wert
-  ; für die Dateigröße.
+  ; Fall meist Integer, aber beachten Sie den String fÃ¼r den Dateinamen und den Quad-Wert
+  ; fÃ¼r die DateigrÃ¶ÃŸe.
   Structure FILEITEM
     Name.s
     Attributes.i
@@ -19,7 +19,7 @@ verschiedenen Wegen ein wenig freundlicher.
   EndStructure
   
   ; Jetzt definieren wir eine neue Liste an Dateien unter Verwendung der zuvor spezifizierten
-  ; Struktur, und einige andere Variablen welche wir später verwenden werden.
+  ; Struktur, und einige andere Variablen welche wir spÃ¤ter verwenden werden.
   NewList Files.FILEITEM()
   Define.s Folder
   Define.l Result
@@ -27,18 +27,18 @@ verschiedenen Wegen ein wenig freundlicher.
   ; Diese Funktion ermittelt das Benutzer-Verzeichnis des angemeldeten Anwenders.
   Folder = GetHomeDirectory()
   
-  ; Öffnen des Verzeichnisses zum Auflisten all seiner Inhalte.
+  ; Ã–ffnen des Verzeichnisses zum Auflisten all seiner Inhalte.
   Result = ExamineDirectory(0, Folder, "*.*")  
   
-  ; Ist dies ok, beginnen wir das Auflisten der Einträge.
+  ; Ist dies ok, beginnen wir das Auflisten der EintrÃ¤ge.
   If Result
-    ; Durchlauf bis NextDirectoryEntry(0) Null zurückgibt - was anzeigt, dass es keine weiteren Einträge gibt.
+    ; Durchlauf bis NextDirectoryEntry(0) Null zurÃ¼ckgibt - was anzeigt, dass es keine weiteren EintrÃ¤ge gibt.
     While NextDirectoryEntry(0)
       ; Wenn der Verzeichnis-Eintrag eine Datei und kein Ordner ist.
       If DirectoryEntryType(0) = #PB_DirectoryEntry_File
-        ; Fügt ein neues Element zur verketteten Liste hinzu.
+        ; FÃ¼gt ein neues Element zur verketteten Liste hinzu.
         AddElement(Files())
-        ; Und füllt sie mit den Eigenschaften der Datei.
+        ; Und fÃ¼llt sie mit den Eigenschaften der Datei.
         Files()\Name = DirectoryEntryName(0)
         Files()\Size = DirectoryEntrySize(0)
         Files()\Attributes = DirectoryEntryAttributes(0)
@@ -47,7 +47,7 @@ verschiedenen Wegen ein wenig freundlicher.
         Files()\DateModified = DirectoryEntryDate(0, #PB_Date_Modified)
       EndIf
     Wend
-    ; Schließt das Verzeichnis.
+    ; SchlieÃŸt das Verzeichnis.
     FinishDirectory(0)
   EndIf
   
@@ -62,7 +62,7 @@ verschiedenen Wegen ein wenig freundlicher.
   Next Files()
 @EndCode
 
-Ok, zuerst sind die Datumsangaben in der Ausgabe nur Zahlen - dies ist nicht sehr nützlich,
+Ok, zuerst sind die Datumsangaben in der Ausgabe nur Zahlen - dies ist nicht sehr nÃ¼tzlich,
 daher lasst sie uns ein bisschen vertrauter aussehen. Ersetzen Sie die letzten drei
 Debug-Befehle mit diesen:
 @Code
@@ -73,13 +73,13 @@ Debug-Befehle mit diesen:
 @EndCode
 
 Die @@FormatDate Funktion nimmt ein Datum in PureBasic's eigenem numerischen Datumsformat
-und zeigt es in einem Format an, mit dem wir etwas anfangen können. So, jetzt beginnen die
-Dinge etwas vernünftiger auszusehen.
+und zeigt es in einem Format an, mit dem wir etwas anfangen kÃ¶nnen. So, jetzt beginnen die
+Dinge etwas vernÃ¼nftiger auszusehen.
 @LineBreak
 @LineBreak
 Im Moment liegt die Liste nicht in einer bestimmten Reihenfolge vor, daher lasst uns
 @Link "Sort/SortStructuredList" "die Liste sortieren", bevor wir sie anzeigen.
-Fügen Sie diese Zeile vor dem Kommentar über das Anzeigen der Liste und der
+FÃ¼gen Sie diese Zeile vor dem Kommentar Ã¼ber das Anzeigen der Liste und der
 @ReferenceLink "foreach_next" "ForEach" Schleife hinzu.
 @Code
   ...
@@ -87,14 +87,14 @@ Fügen Sie diese Zeile vor dem Kommentar über das Anzeigen der Liste und der
   ; Sortiert die Liste in alphabetisch aufsteigender Reihenfolge der Dateinamen.
   SortStructuredList(Files(), #PB_Sort_Ascending, OffsetOf(FILEITEM\Name), #PB_String)
   
-  ; Wenn es einige Einträge in der Liste gibt, zeigen wir die Ergebnisse im Debug-Ausgabefenster.
+  ; Wenn es einige EintrÃ¤ge in der Liste gibt, zeigen wir die Ergebnisse im Debug-Ausgabefenster.
   ...
 @EndCode
 
 Dieser Befehl nimmt die @ReferenceLink "structures" "strukturierte" @ReferenceLink "newlist" "Liste",
-und sortiert sie in aufsteigender Reihenfolge (@#PB_Sort_Ascending), abhängig vom Feld 'Name' der Struktur
+und sortiert sie in aufsteigender Reihenfolge (@#PB_Sort_Ascending), abhÃ¤ngig vom Feld 'Name' der Struktur
 (OffsetOf(FILEITEM\Name)), welches ein String-Wert ist (@#PB_String).
 
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_string" "< Vorheriges: String-Manipulation" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_inputoutput" "Nächstes: Eingabe & Ausgabe >"
+@ReferenceLink "ug_string" "< Vorheriges: String-Manipulation" | @ReferenceLink "ug_overview" "Ãœberblick" | @ReferenceLink "ug_inputoutput" "NÃ¤chstes: Eingabe & Ausgabe >"

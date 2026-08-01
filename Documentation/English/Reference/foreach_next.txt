@@ -1,4 +1,4 @@
-@Title ForEach : Next
+﻿@Title ForEach : Next
 
 @Syntax 
 
@@ -16,6 +16,9 @@
   When used with list, it's possible to @Link "List/DeleteElement" "delete" or @Link "List/AddElement" "add" elements
   during the loop. As well it's allowed to change the current element with @@ChangeCurrentElement.
   After one of the mentioned changes the next loop continues with the element following the current element.
+  @LineBreak
+  @LineBreak
+  When used with map, please do not put a key (see example below).
   @LineBreak
   @LineBreak
   With the @ReferenceLink "Break_Continue" Break command its possible to exit the @Keyword ForEach : @Keyword Next loop
@@ -51,5 +54,6 @@
 
   ForEach Country()
     Debug Country()
+   ;Debug Country("FR") ; No, do not put a key because sometimes it can cause an infinite loop
   Next
 @EndCode  

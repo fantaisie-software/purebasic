@@ -1,12 +1,12 @@
-@Title Les objets PureBasic
+ï»¿@Title Les objets PureBasic
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
-    <td align="center" vAlign="center" nowrap><a href="#objets indexés"><u>objets indexés</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#objets indexÃ©s"><u>objets indexÃ©s</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#objets dynamiques"><u>objets dynamiques</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#objets PureBasic"><u>objets PureBasic</u></a></td>
   </tr>
@@ -17,76 +17,76 @@
 
 @Section Introduction
   L'objectif de ce chapitre est d'assimiler 
-  la création et la manipulation des objets 
+  la crÃ©ation et la manipulation des objets 
   en PureBasic. 
-  Pour cette présentation nous allons utiliser 
+  Pour cette prÃ©sentation nous allons utiliser 
   l'objet @LibraryLink Image Image, mais la 
-  même logique s'applique à tous les autres 
-  objets PureBasic. Quand nous voulons créer 
-  une image, nous avons deux possibilités: 
-  la méthode indexée et la méthode dynamique.
+  mÃªme logique s'applique Ã  tous les autres 
+  objets PureBasic. Quand nous voulons crÃ©er 
+  une image, nous avons deux possibilitÃ©s: 
+  la mÃ©thode indexÃ©e et la mÃ©thode dynamique.
 
 @FormatIf HTML
-<a name="objets indexés"></a>
+<a name="objets indexÃ©s"></a>
 @FormatEndIf
-@Section I. Les objets indexés
-  La manière indexée (statique) permet de 
-  référencer un objet à l'aide d'une valeur 
-  numérique que nous déterminons. Elle doit 
-  être comprise entre 0 et un nombre maximum 
-  qui va dépendre du type de l'objet (en 
+@Section I. Les objets indexÃ©s
+  La maniÃ¨re indexÃ©e (statique) permet de 
+  rÃ©fÃ©rencer un objet Ã  l'aide d'une valeur 
+  numÃ©rique que nous dÃ©terminons. Elle doit 
+  Ãªtre comprise entre 0 et un nombre maximum 
+  qui va dÃ©pendre du type de l'objet (en 
   principe entre 5000 et 64000). Ainsi, si 
   vous utilisez la valeur 0 pour votre premier 
-  objet et la valeur 1000 pour votre deuxième 
+  objet et la valeur 1000 pour votre deuxiÃ¨me 
   objet, il y aura 1001 index de disponibles 
-  et 999 seront inutilisés, ce qui n'est pas 
-  très efficace (gâchis de mémoire vive). 
+  et 999 seront inutilisÃ©s, ce qui n'est pas 
+  trÃ¨s efficace (gÃ¢chis de mÃ©moire vive). 
   C'est pour cette raison qu'il faut autant 
   que possible utiliser une indexation 
-  sequentielle, qui commence à 0. Si vous 
-  avez besoin d'une méthode plus flexible, 
+  sequentielle, qui commence Ã  0. Si vous 
+  avez besoin d'une mÃ©thode plus flexible, 
   il vous faudra probablement utiliser la 
-  méthode dynamique, décrite dans la section II. 
-  La méthode indexée offre plusieurs avantages:
+  mÃ©thode dynamique, dÃ©crite dans la section II. 
+  La mÃ©thode indexÃ©e offre plusieurs avantages:
   @Indent @Section
         - Manipulation plus facile, pas besoin de 
         @ReferenceLink "Variables" variables ni de 
         @ReferenceLink "Dim" tableaux. @LineBreak
-        - Manipulation 'Groupée' sans avoir à utiliser 
-        de tableaux supplémentaires. @LineBreak
+        - Manipulation 'GroupÃ©e' sans avoir Ã  utiliser 
+        de tableaux supplÃ©mentaires. @LineBreak
         - Utilisation des objets dans les 
-        @ReferenceLink "Procedures" procédures 
-        sans avoir à déclarer de 
+        @ReferenceLink "Procedures" procÃ©dures 
+        sans avoir Ã  dÃ©clarer de 
         @ReferenceLink "Global" globales (si on 
         utilise une @ReferenceLink "General_Rules" constante 
         ou un nombre). @LineBreak
         - Destruction automatique des objets 
-        précédents quand un index est réutilisé. 
+        prÃ©cÃ©dents quand un index est rÃ©utilisÃ©. 
         @LineBreak
   @EndIndent
-  Les @ReferenceLink "Enumerations" Enumérations 
-  sont fortement recommandées si vous 
+  Les @ReferenceLink "Enumerations" EnumÃ©rations 
+  sont fortement recommandÃ©es si vous 
   souhaitez utiliser des constantes 
-  séquentielles pour identifier vos objets.
+  sÃ©quentielles pour identifier vos objets.
 
 @Example
 @Code
-  CreateImage(0, 640, 480) ; Crée une image à l'index n°0 dans l'indexation des images
-  ResizeImage(0, 320, 240) ; Redimensionne l'image n°0 et modifie le handle de l'image
+  CreateImage(0, 640, 480) ; CrÃ©e une image Ã  l'index nÂ°0 dans l'indexation des images
+  ResizeImage(0, 320, 240) ; Redimensionne l'image nÂ°0 et modifie le handle de l'image
 @EndCode  
 
 @Example
 @Code  
-  CreateImage(2, 640, 480) ; Crée une image à l'index n°2 dans l'indexation des images
-  ResizeImage(2, 320, 240) ; Redimensionne l'image n°2 et modifie son @ReferenceLink "handles" "handle"
-  CreateImage(2, 800, 800) ; Crée une nouvelle image à l'emplacement n°2. L'ancienne image n°2 est désallouée automatiquement
+  CreateImage(2, 640, 480) ; CrÃ©e une image Ã  l'index nÂ°2 dans l'indexation des images
+  ResizeImage(2, 320, 240) ; Redimensionne l'image nÂ°2 et modifie son @ReferenceLink "handles" "handle"
+  CreateImage(2, 800, 800) ; CrÃ©e une nouvelle image Ã  l'emplacement nÂ°2. L'ancienne image nÂ°2 est dÃ©sallouÃ©e automatiquement
 @EndCode  
   
 @Example
 @Code  
   For k = 0 To 9
-    CreateImage(k, 640, 480) ; Crée 10 images, aux emplacements 0 à 9
-    ResizeImage(k, 320, 240) ; Redimensionne les images de moitié et modifie son @ReferenceLink "handles" "handle"
+    CreateImage(k, 640, 480) ; CrÃ©e 10 images, aux emplacements 0 Ã  9
+    ResizeImage(k, 320, 240) ; Redimensionne les images de moitiÃ© et modifie son @ReferenceLink "handles" "handle"
   Next
 @EndCode  
   
@@ -95,36 +95,36 @@
   #ImageBackground = 0
   #ImageButton     = 1
 
-  CreateImage(#ImageBackground, 640, 480) ; Crée une image à l'emplacement #ImageBackground (0)
+  CreateImage(#ImageBackground, 640, 480) ; CrÃ©e une image Ã  l'emplacement #ImageBackground (0)
   ResizeImage(#ImageBackground, 320, 240) ; Redimensionne l'image 0 (ImageBackground)  et modifie son @ReferenceLink "handles" "handle"
-  CreateImage(#ImageButton    , 800, 800) ; Crée une image (n°1)
+  CreateImage(#ImageButton    , 800, 800) ; CrÃ©e une image (nÂ°1)
 @EndCode  
 
 @FormatIf HTML
 <a name="objets dynamiques"></a>
 @FormatEndIf
 @Section II. Les objets dynamiques
-  Quelquefois, les objets indexés ne sont 
-  pas pratiques pour gérer des situations 
-  où l'on ne connaît pas à l'avance le nombre 
-  d'objets nécessaire à un instant donné. 
-  Pour cela PureBasic permet de créer très 
+  Quelquefois, les objets indexÃ©s ne sont 
+  pas pratiques pour gÃ©rer des situations 
+  oÃ¹ l'on ne connaÃ®t pas Ã  l'avance le nombre 
+  d'objets nÃ©cessaire Ã  un instant donnÃ©. 
+  Pour cela PureBasic permet de crÃ©er trÃ¨s 
   facilement des objets dynamiques. 
-  Les deux méthodes (indexée et dynamique) 
-  peuvent être utilisées en même temps sans 
-  risque de conflit. Pour créer un objet 
-  dynamique, il suffit de spécifier la 
-  constante @#PB_Any à la place du numéro 
-  et un numéro dynamique sera retourné comme 
-  résultat de la fonction. 
-  Cette manière de gérer les objets se marie 
+  Les deux mÃ©thodes (indexÃ©e et dynamique) 
+  peuvent Ãªtre utilisÃ©es en mÃªme temps sans 
+  risque de conflit. Pour crÃ©er un objet 
+  dynamique, il suffit de spÃ©cifier la 
+  constante @#PB_Any Ã  la place du numÃ©ro 
+  et un numÃ©ro dynamique sera retournÃ© comme 
+  rÃ©sultat de la fonction. 
+  Cette maniÃ¨re de gÃ©rer les objets se marie 
   bien avec les @LibraryLink "List" "listes", 
-  qui sont aussi un moyen dynamique de gérer 
-  des données. 
+  qui sont aussi un moyen dynamique de gÃ©rer 
+  des donnÃ©es. 
 
 @Example
 @Code  
-  DynamicImage1 = CreateImage(#PB_Any, 640, 480) ; Crée une image dynamiquement
+  DynamicImage1 = CreateImage(#PB_Any, 640, 480) ; CrÃ©e une image dynamiquement
   ResizeImage(DynamicImage1, 320, 240) ; Redimensionne l'image 
 @EndCode  
 
@@ -133,7 +133,7 @@
    
   Code complet d'exemple de gestion 
   dynamique d'objets avec une liste 
-  chainée:
+  chainÃ©e:
     
 @ExampleFile All MDI_ImageViewer.pb
 
@@ -143,15 +143,15 @@
 @FormatIf HTML
 <a name="objets PureBasic"></a>
 @FormatEndIf
-@Section Présentation des différents objets PureBasic
+@Section PrÃ©sentation des diffÃ©rents objets PureBasic
 
-  Différents objets PureBasic (Windows, 
+  DiffÃ©rents objets PureBasic (Windows, 
   gadgets, sprites, etc) peuvent utiliser 
-  la même énumération de numéros d'objet 
+  la mÃªme Ã©numÃ©ration de numÃ©ros d'objet 
   et pas d'autres. Ainsi, chacun des objets 
-  suivants peuvent être énumérés en commençant 
-  à 0 (ou autre valeur) car PureBasic les 
-  gère par leur type:
+  suivants peuvent Ãªtre Ã©numÃ©rÃ©s en commenÃ§ant 
+  Ã  0 (ou autre valeur) car PureBasic les 
+  gÃ¨re par leur type:
   @Indent
   - @LibraryLink "database" "Database" @LineBreak
   - @LibraryLink "dialog" "Dialog" @LineBreak

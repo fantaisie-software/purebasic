@@ -1,4 +1,4 @@
-@Title NewList
+ï»¿@Title NewList
 
 @Syntax
 
@@ -6,21 +6,21 @@
 
 @Description
 
-  @Keyword NewList permet de déclarer une nouvelle liste. Chaque élément de la liste est 
-  alloué dynamiquement. Il n'y a pas de limite, ce qui permet d'en créer autant que nécessaire. 
-  Une liste peut avoir tout type standard ou structuré valide. Pour connaître toutes les commandes 
-  disponibles pour la gestion des listes, consultez la bibliothèque @LibraryLink "List" "List".
+  @Keyword NewList permet de dÃ©clarer une nouvelle liste. Chaque Ã©lÃ©ment de la liste est 
+  allouÃ© dynamiquement. Il n'y a pas de limite, ce qui permet d'en crÃ©er autant que nÃ©cessaire. 
+  Une liste peut avoir tout type standard ou structurÃ© valide. Pour connaÃ®tre toutes les commandes 
+  disponibles pour la gestion des listes, consultez la bibliothÃ¨que @LibraryLink "List" "List".
   @LineBreak
   @LineBreak
-  Les listes sont toujours locales par défaut, donc pour accéder à partir d'une @ReferenceLink "Procedures" "procédure" à une liste définie dans le
+  Les listes sont toujours locales par dÃ©faut, donc pour accÃ©der Ã  partir d'une @ReferenceLink "Procedures" "procÃ©dure" Ã  une liste dÃ©finie dans le
   code source principal du programme, l'utilisation de @ReferenceLink "Global" "Global" ou @ReferenceLink "Shared" "Shared"
   est requise.
-  Il est également possible de passer une liste en paramètre d'une @ReferenceLink "Procedures" "procédure" à l'aide
+  Il est Ã©galement possible de passer une liste en paramÃ¨tre d'une @ReferenceLink "Procedures" "procÃ©dure" Ã  l'aide
   du mot-clef @Keyword List.
   @LineBreak
   @LineBreak
-  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un élément d'une liste avec une variable, 
-  ou un élément d'un tableau ou un élément d'une autre liste.
+  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un Ã©lÃ©ment d'une liste avec une variable, 
+  ou un Ã©lÃ©ment d'un tableau ou un Ã©lÃ©ment d'une autre liste.
 
   @Example Liste simple
 
@@ -41,9 +41,10 @@
   Next
 @EndCode
 
-  @Example Liste en paramètre d'une procédure
+  @Example Liste en paramÃ¨tre d'une procÃ©dure
 
 @Code
+  ; Ajout des 2 premiers Ã©lÃ©ments Ã  la listeÂ :
   NewList Test()
 
   AddElement(Test())
@@ -51,16 +52,23 @@
   AddElement(Test())
   Test() = 2
 
-  Procedure DebugList(c, List ParameterList())
-
-    AddElement(ParameterList())
-    ParameterList() = 3
-
-    ForEach ParameterList()
-      MessageRequester("Liste", Str(ParameterList()))
+  Procedure DebugList(count, List ParameterList())
+    ; Ajout d'Ã©lÃ©ments supplÃ©mentaires Ã  la liste:
+    For i=1 To count
+      AddElement(ParameterList())
+      ParameterList() = i
+    Next 
+    
+    ; Afficher tous les Ã©lÃ©ments de la listeÂ :
+    i = 1
+    ForEach ParameterList() 
+      MessageRequester("Liste","EntrÃ©e" + Str(i) + " = " + Str(ParameterList()))
+      i + 1
     Next
  
   EndProcedure
 
-  DebugList(10, Test())
+  ; Ajout de 3 Ã©lÃ©ments et affiche le contenu de la listeÂ :
+    DebugList(3, Test())
+
 @EndCode

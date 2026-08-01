@@ -8,9 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
-
-#PlayerSpeed = 60
+#PlayerSpeed = 60*2
 #CameraSpeed = 10
 
 
@@ -64,140 +62,137 @@ Declare MakeColimacon(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
 Declare MakeStair(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
 Declare AddObjects()
 
-Define Robot.s_Entity
-Define Camera.s_Camera
-Define.f TimeSinceLastFrame = 0
-If InitEngine3D()
-  
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
-  
-  If Screen3DRequester()
-       
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI"             , #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-    Parse3DScripts()
-    
-    WorldShadows(#PB_Shadow_Modulative, 3000, RGB(150, 150, 150))
-        
-    ;Texture
-    CreateTexture(1, 256, 256)
-    StartDrawing(TextureOutput(1))
-    Box(0, 0, 256, 256, RGB(0, 34, 85))
-    DrawingMode(#PB_2DDrawing_Outlined)
-    Box(0, 0, 256, 256, RGB(255, 255, 255))
-    Box(10, 10, 236, 236, RGB(0, 255, 255))
-    StopDrawing()
-    
-    ;Material
-    CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
-    CreateMaterial(1, TextureID(1))
-    MaterialFilteringMode(1, 2)
-    
-    CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
-    CreateMaterial(3, LoadTexture(3, "Wood.jpg"))
-    GetScriptMaterial(4, "Scene/GroundBlend")
-    
-    MaterialFilteringMode(1, #PB_Material_Anisotropic, 8)
-    
-    ;Robot
-    LoadMesh   (0, "robot.mesh")
-    CreateEntity (0, MeshID(0), #PB_Material_None);
-    StartEntityAnimation(0, "Walk")
-        
-    ;Robot Body
-    CreateEntity(1, MeshID(0), #PB_Material_None, 0, 26, 0)
-    HideEntity(1, 1)
-    
-    ;Ground
-    CreatePlane(2, 5000, 5000, 100, 100, 100, 100)
-    CreateEntity(2, MeshID(2), MaterialID(1), 0, 0, 0)
-       
-    ;Body
-    CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
-    CreateEntityBody(2, #PB_Entity_StaticBody)
-    
-    ;Add some statics and dynamics objects
-    CreateCube(3, 1)
-    AddObjects()
-    
-    ;Add some stairs
-    MakeColimacon(120, 0, 120, 130, 7, 48, 15)
-    MakeStair(360, 0, 220, 130, 11, 48, 15)
-    
-    ;-Light
-    CreateLight(0,RGB(155,155,155),700,500,0)
-    AmbientColor(RGB(85,85,85))
-    
-    ;- Fog
-    Fog(RGB(210, 210, 210), 1, 0, 10000)
-    
-    ; Skybox
-    SkyBox("desert07.jpg")
-    
-    ;
-    With Robot
-      \Entity = 0
-      \EntityBody = 1
-      \BodyOffsetY = 43
-      
-      \Key\Down        = #PB_Key_Down
-      \Key\Left        = #PB_Key_Left
-      \Key\Right       = #PB_Key_Right
-      \Key\Up          = #PB_Key_Up
-      \Key\StrafeLeft  = #PB_Key_X
-      \Key\StrafeRight = #PB_Key_C
-      \Key\Jump        = #PB_Key_Space
-     
-      \MainNode    = CreateNode(#PB_Any) ; Entity position
-      \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
-      \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
-      \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
-      \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
-      
-      AttachNodeObject(\MainNode, NodeID(\SightNode))
-      AttachNodeObject(\MainNode, NodeID(\CameraNode))
-      AttachNodeObject(\MainNode, NodeID(\ForwardNode))
-      AttachNodeObject(\MainNode, NodeID(\StrafeNode))
-      AttachNodeObject(\MainNode, EntityID(\Entity))
-    EndWith
-    
-    ;-Camera
-    CreateCamera(0, 0, 0, 100, 100)
-    With Camera
-      \Camera = 0
-      \Tightness = 0.035
-      ; Camera use 2 nodes
-      \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
-      \TargetNode = CreateNode(#PB_Any) ; For cameraLookAt
-      AttachNodeObject(\CameraNode, CameraID(\Camera))
-    EndWith
-    
-    ;-Main loop
-    ;
-    Repeat
-      Screen3DEvents()
+Global Robot.s_Entity
+Global Camera.s_Camera
+Global.f TimeSinceLastFrame = 0
 
-      Robot\elapsedTime = TimeSinceLastFrame * 40
-       
-      HandleEntity(@Robot)
-         
-      CameraTrack(@Camera, @Robot)
-            
-      TimeSinceLastFrame = RenderWorld(50) / 1000
-      FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
-  EndIf
-  
-Else
-  MessageRequester("Error", "The 3D Engine can't be initialized",0)
-EndIf
+InitEngine3D()
 
-End
+InitSprite()
+InitKeyboard()
+InitMouse()
+
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "test - [PageUp][PageDown] Sun height  [F12] Wireframe  [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"         , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI"             , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Parse3DScripts()
+
+;WorldShadows(#PB_Shadow_Modulative, 3000, RGB(150, 150, 150))
+
+;Texture
+CreateTexture(1, 256, 256)
+StartDrawing(TextureOutput(1))
+Box(0, 0, 256, 256, RGB(0, 34, 85))
+DrawingMode(#PB_2DDrawing_Outlined)
+Box(0, 0, 256, 256, RGB(255, 255, 255))
+Box(10, 10, 236, 236, RGB(0, 255, 255))
+StopDrawing()
+
+;Material
+CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
+CreateMaterial(1, TextureID(1))
+MaterialFilteringMode(1, 2)
+
+CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
+CreateMaterial(3, LoadTexture(3, "Wood.jpg"))
+GetScriptMaterial(4, "Scene/GroundBlend")
+
+MaterialFilteringMode(1, #PB_Material_Anisotropic, 8)
+
+;Robot
+LoadMesh   (0, "robot.mesh")
+CreateEntity (0, MeshID(0), #PB_Material_None);
+StartEntityAnimation(0, "Walk")
+
+;Robot Body
+CreateEntity(1, MeshID(0), #PB_Material_None, 0, 26, 0)
+HideEntity(1, 1)
+
+;Ground
+CreatePlane(2, 5000, 5000, 100, 100, 100, 100)
+CreateEntity(2, MeshID(2), MaterialID(1), 0, 0, 0)
+
+;Body
+CreateEntityBody(1, #PB_Entity_CapsuleBody, 1, 0, 0)
+CreateEntityBody(2, #PB_Entity_StaticBody)
+
+;Add some statics and dynamics objects
+CreateCube(3, 1)
+AddObjects()
+
+;Add some stairs
+MakeColimacon(120, 0, 120, 130, 7, 48, 15)
+MakeStair(360, 0, 220, 130, 11, 48, 15)
+
+;-Light
+CreateLight(0,RGB(155,155,155),700,500,0)
+AmbientColor(RGB(85,85,85))
+
+;- Fog
+Fog(RGB(210, 210, 210), 1, 0, 10000)
+
+; Skybox
+SkyBox("desert07.jpg")
+
+;
+With Robot
+  \Entity = 0
+  \EntityBody = 1
+  \BodyOffsetY = 43
+  
+  \Key\Down        = #PB_Key_Down
+  \Key\Left        = #PB_Key_Left
+  \Key\Right       = #PB_Key_Right
+  \Key\Up          = #PB_Key_Up
+  \Key\StrafeLeft  = #PB_Key_X
+  \Key\StrafeRight = #PB_Key_C
+  \Key\Jump        = #PB_Key_Space
+  
+  \MainNode    = CreateNode(#PB_Any) ; Entity position
+  \SightNode   = CreateNode(#PB_Any,  120,  20,  0) ; For cameraLookAt
+  \CameraNode  = CreateNode(#PB_Any, -140, 100,  0) ; Camera position
+  \ForwardNode = CreateNode(#PB_Any,    1,   0,  0) ; Direction normalized
+  \StrafeNode  = CreateNode(#PB_Any,    0,   0, -1) ; Direction normalized
+  
+  AttachNodeObject(\MainNode, NodeID(\SightNode))
+  AttachNodeObject(\MainNode, NodeID(\CameraNode))
+  AttachNodeObject(\MainNode, NodeID(\ForwardNode))
+  AttachNodeObject(\MainNode, NodeID(\StrafeNode))
+  AttachNodeObject(\MainNode, EntityID(\Entity))
+EndWith
+
+;-Camera
+CreateCamera(0, 0, 0, 100, 100)
+With Camera
+  \Camera = 0
+  \Tightness = 0.035
+  ; Camera use 2 nodes
+  \CameraNode = CreateNode(#PB_Any, -3000, 700, 0) ; Camera position
+  \TargetNode = CreateNode(#PB_Any)                ; For cameraLookAt
+  AttachNodeObject(\CameraNode, CameraID(\Camera))
+EndWith
+
+;-Main loop
+;
+Repeat
+  While WindowEvent():Wend
+  
+  Robot\elapsedTime = TimeSinceLastFrame * 40
+  
+  HandleEntity(@Robot)
+  
+  CameraTrack(@Camera, @Robot)
+  
+  TimeSinceLastFrame = RenderWorld() / 1000
+  FlipBuffers()
+Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+
 
 Procedure OnGround(*Entity.s_Entity)
   With *Entity
@@ -245,7 +240,7 @@ Procedure HandleEntity(*Entity.s_Entity)
       ElseIf KeyboardReleased(#PB_Key_F7)
         WorldDebug(#PB_World_DebugNone)
       EndIf
-           
+      
       If KeyboardPushed(\Key\Jump) And OnGround(*Entity)>-1
         Jump = 4
         MemJump = 1
@@ -265,7 +260,7 @@ Procedure HandleEntity(*Entity.s_Entity)
         Trans\x + Forward\x * -Speed2
         Trans\z + Forward\z * -Speed2
       EndIf
-      
+
       If KeyboardPushed(\Key\Left)
         Rot\y + 2 * \elapsedTime
       ElseIf KeyboardPushed(\Key\Right)
@@ -297,39 +292,39 @@ Procedure HandleEntity(*Entity.s_Entity)
       
     EndIf
     
-    MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z)
+    MoveEntity  (\EntityBody, Trans\x, Trans\y, Trans\z,#PB_Relative|#PB_World)
     RotateEntity(\EntityBody, 0, Rot\y, 0, #PB_Relative)
     
-    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute)
-    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), 0)
+    MoveNode(\MainNode, EntityX(\EntityBody), EntityY(\EntityBody)-\BodyOffsetY, EntityZ(\EntityBody), #PB_Absolute|#PB_World)
+    RotateNode(\MainNode, 0, EntityYaw(\EntityBody), #PB_Absolute)
   EndWith
 EndProcedure
 
 
 Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
-   Protected.Vector3 CameraPosition, TargetPosition
-   Protected.f x, y, z
-
-   GetNodePosition(CameraPosition, *Entity\CameraNode)
-   GetNodePosition(TargetPosition, *Entity\SightNode)
-   x = NodeX(*Camera\CameraNode)
-   y = NodeY(*Camera\CameraNode)
-   z = NodeZ(*Camera\CameraNode)
-   x = (CameraPosition\x - x) *  *Camera\Tightness
-   y = (CameraPosition\y - y) *  *Camera\Tightness
-   z = (CameraPosition\z - z) *  *Camera\Tightness
-   MoveNode(*Camera\CameraNode, x, y, z)
-
-   x = NodeX(*Camera\TargetNode)
-   y = NodeY(*Camera\TargetNode)
-   z = NodeZ(*Camera\TargetNode)
-   x = (TargetPosition\x - x) *  *Camera\Tightness
-   y = (TargetPosition\y - y) *  *Camera\Tightness
-   z = (TargetPosition\z - z) *  *Camera\Tightness
-   MoveNode(*Camera\TargetNode, x, y, z)
-
-   CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
-
+  Protected.Vector3 CameraPosition, TargetPosition
+  Protected.f x, y, z
+  
+  GetNodePosition(CameraPosition, *Entity\CameraNode)
+  GetNodePosition(TargetPosition, *Entity\SightNode)
+  x = NodeX(*Camera\CameraNode)
+  y = NodeY(*Camera\CameraNode)
+  z = NodeZ(*Camera\CameraNode)
+  x = (CameraPosition\x - x) *  *Camera\Tightness
+  y = (CameraPosition\y - y) *  *Camera\Tightness
+  z = (CameraPosition\z - z) *  *Camera\Tightness
+  MoveNode(*Camera\CameraNode, x, y, z,#PB_Relative)
+  
+  x = NodeX(*Camera\TargetNode)
+  y = NodeY(*Camera\TargetNode)
+  z = NodeZ(*Camera\TargetNode)
+  x = (TargetPosition\x - x) *  *Camera\Tightness
+  y = (TargetPosition\y - y) *  *Camera\Tightness
+  z = (TargetPosition\z - z) *  *Camera\Tightness
+  MoveNode(*Camera\TargetNode, x, y, z,#PB_Relative)
+  
+  CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
+  
 EndProcedure
 
 
@@ -350,7 +345,7 @@ EndProcedure
 Procedure MakeStair(PX.f, PY.f, PZ.f, Length.i, Height.i, Width.i, Stair.i)
   Protected.i a, Ent, Nb
   Protected.f Size, SizeD, Delta, H
-
+  
   For a = 1 To Stair
     Ent = CreateEntity(#PB_Any, MeshID(3), MaterialID(2))
     ScaleEntity(Ent, Length, Height, Width)

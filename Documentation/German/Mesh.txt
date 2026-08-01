@@ -1,16 +1,16 @@
-;
+ï»¿;
 ;     Mesh library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Mesh
 
 @Overview
   Meshes sind 3D-Objekte, welche aus vielen Scheiteln (englisch: "vertices" bzw. "vertexes")
-  und Dreiecken ("triangles") bestehen, die miteinander verbunden sind, um die endgültige Form zu
+  und Dreiecken ("triangles") bestehen, die miteinander verbunden sind, um die endgÃ¼ltige Form zu
   ergeben. Ein Mesh kann ein optionales @LibraryLink "Skeleton" "Skelett" (englisch "skeleton")
-  mit Knochen (englisch "bones") haben, um Echtzeit-Animation zu ermöglichen. 
+  mit Knochen (englisch "bones") haben, um Echtzeit-Animation zu ermÃ¶glichen. 
   Das Skelett kann entweder direkt in der Mesh-Datei gefunden oder dynamisch erstellt werden.  
   Ein Mesh kann nicht direkt bewegt oder angezeigt werden, sondern muss mittels
   eines @LibraryLink "Entity" "Entity" (Wesen) benutzt/manipuliert werden.
@@ -21,7 +21,12 @@
 
 @CommandList
 
-@ExampleFile All Mesh.pb
+@ExampleFile All CreateLine3D.pb
+@ExampleFile All MeshManual.pb
+@ExampleFile All MeshManual2.pb
+@ExampleFile All SetMeshMaterial.pb
+@ExampleFile All BuildMeshLOD.pb
+@ExampleFile All CreateDataMesh.pb
 
 @SupportedOS
 
@@ -30,7 +35,7 @@
 @Function Ergebnis = CreateMesh(#Mesh [, Typ [, Modus])
 
 @Description
-  Erstellt ein neues leeres '#Mesh'. Nach der Erstellung können weitere Befehle dieser
+  Erstellt ein neues leeres '#Mesh'. Nach der Erstellung kÃ¶nnen weitere Befehle dieser
   Bibliothek wie @@MeshVertexPosition oder @@MeshFace verwendet werden, um es weiter
   aufzubauen.
   
@@ -56,15 +61,15 @@
   Der Modus des neuen Mesh. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Mesh_Static : sobald es erstellt wurde, kann das Mesh nicht mehr mit den Mesh-Update-Funktionen
-                    verändert werden (Standard).
-  @#PB_Mesh_Dynamic: sobald es erstellt wurde, kann das Mesh mit den Mesh-Update-Funktionen verändert werden.
+                    verÃ¤ndert werden (Standard).
+  @#PB_Mesh_Dynamic: sobald es erstellt wurde, kann das Mesh mit den Mesh-Update-Funktionen verÃ¤ndert werden.
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich null zurück, wenn das Mesh erfolgreich erstellt wurde und
+  Gibt einen Wert ungleich null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde und
   null, wenn ein Fehler auftrat.
   Wenn @#PB_Any als #Mesh Parameter verwendet wurde, dann wird bei Erfolg
-  die neu generierte Nummer zurückgegeben.
+  die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
   Wenn das #Mesh bereits existierte, dann wird dieses freigegeben und durch ein neues ersetzt.
@@ -78,14 +83,14 @@
 @Description
   Erstellt ein neues '#Mesh' vom angegebenen zwei-dimensionalen Array des Typs MeshVertex.
   Dieser Befehl erlaubt eine schnellere Mesh-Erstellung als mittels @@CreateMesh, indem ein
-  Array vorbereitet und mit einmal an den Befehl übergeben wird.
+  Array vorbereitet und mit einmal an den Befehl Ã¼bergeben wird.
   
 @Parameter "#Mesh"
   Die Nummer zum Identifizieren des neuen Mesh. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Zahl automatisch zu generieren.
   
 @Parameter "Array"
-  Ein zwei-dimensionales Array des Typs MeshVertex, das für die Erstellung des neuen
+  Ein zwei-dimensionales Array des Typs MeshVertex, das fÃ¼r die Erstellung des neuen
   Meshs verwendet wird. Die MeshVertex Struktur ist wie folgt definiert:
 @Code
   Structure MeshVertex
@@ -111,8 +116,8 @@
   @#PB_Mesh_DiagonalRegular1      : Diagonalen werden auf die gleiche Weise ausgerichtet
   @#PB_Mesh_DiagonalRegular2      : Diagonalen sind anders ausgerichtet
   @#PB_Mesh_DiagonalAlternate     : Diagonalen sind einmal so und einmal anders (alternativ)
-  @#PB_Mesh_DiagonalShortestLength: Diagonalen liegen zwischen den beiden nächstgelegenen Scheitelpunkten
-  @#PB_Mesh_DiagonalClosestNormal : Diagonalen liegen zwischen den beiden nächsten Normalen (Skalarprodukt).
+  @#PB_Mesh_DiagonalShortestLength: Diagonalen liegen zwischen den beiden nÃ¤chstgelegenen Scheitelpunkten
+  @#PB_Mesh_DiagonalClosestNormal : Diagonalen liegen zwischen den beiden nÃ¤chsten Normalen (Skalarprodukt).
                                    Bester Modus, erfordert aber Normalen.
 @EndFixedFont
 
@@ -128,7 +133,7 @@
 @Description
   Erstellt ein neues Objekt '#NewMesh', welches eine exakte Kopie des angegebenen '#Mesh' ist.
   Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#NewMesh' Parameter verwendet wird, 
-  dann wird die Nummer des neuen Mesh als 'Ergebnis' zurückgegeben.
+  dann wird die Nummer des neuen Mesh als 'Ergebnis' zurÃ¼ckgegeben.
 @LineBreak
 @LineBreak
   Ist das 'Ergebnis' gleich 0, ist das Kopieren des Mesh's fehlgeschlagen.
@@ -142,7 +147,7 @@
 @Function FreeMesh(#Mesh)
 
 @Description
-  Gibt das angegebene '#Mesh' frei. Sein gesamter zugehöriger Speicherplatz wird freigegeben
+  Gibt das angegebene '#Mesh' frei. Sein gesamter zugehÃ¶riger Speicherplatz wird freigegeben
   und dieses Objekt kann nicht mehr benutzt werden.
 
 @Parameter "#Mesh"
@@ -160,7 +165,7 @@
 @Function Ergebnis = IsMesh(#Mesh)
 
 @Description
-  Überprüft, ob das angegebene '#Mesh' gültig und ein korrekt initialisiertes Mesh ist.
+  ÃœberprÃ¼ft, ob das angegebene '#Mesh' gÃ¼ltig und ein korrekt initialisiertes Mesh ist.
 @LineBreak
 @LineBreak
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' gleich Null ist, 
@@ -174,7 +179,7 @@
 @Function Ergebnis = LoadMesh(#Mesh, Dateiname$)
 
 @Description
-  Lädt ein neues '#Mesh' Objekt.
+  LÃ¤dt ein neues '#Mesh' Objekt.
   Vor dem Laden eines Mesh muss ein Archiv mittels @@Add3DArchive definiert werden.
 
 @Parameter "#Mesh"
@@ -187,20 +192,20 @@
 @ReturnValue
   Ein Wert ungleich Null, wenn das Mesh erfolgreich geladen wurde, andernfalls Null.
   Wenn @#PB_Any als #Mesh Parameter verwendet wurde, dann wird im Erfolgsfall die
-  generierte Nummer zurückgegeben.
+  generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
   Das Mesh muss im OGRE .mesh Format vorliegen. Zum Konvertieren vieler 3D-Formate
-  (einschließlich Materialien und Animationen) ist ein Kommandozeilen-Programm - basierend
+  (einschlieÃŸlich Materialien und Animationen) ist ein Kommandozeilen-Programm - basierend
   auf @InternetLink "http://assimp.sourceforge.net/main_features_formats.html" "assimp" -
-  verfügbar. Es kann hier heruntergeladen werden:
-  @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" (nur für Windows).
+  verfÃ¼gbar. Es kann hier heruntergeladen werden:
+  @InternetLink "http://www.purebasic.com/download/OgreAssimpConverter.zip" "OgreAssimpConverter.zip" (nur fÃ¼r Windows).
 @LineBreak
   Es wurden einige Probleme mit Schatten und konvertierten Meshes berichtet - wenn das passiert,
   verwenden Sie OgreMeshUpdater.exe auf das neu konvertierte Mesh und es sollte es reparieren.
 @LineBreak
 @LineBreak
-  Es ist auch möglich, existierende Exporter für Milkshape, Lightwave, Blender oder 3DS Max
+  Es ist auch mÃ¶glich, existierende Exporter fÃ¼r Milkshape, Lightwave, Blender oder 3DS Max
   zu verwenden. Weitere Informationen sind auf der
   @InternetLink "http://www.ogre3d.org" "OGRE Webseite" zu finden.
 
@@ -214,8 +219,8 @@
 @Function Ergebnis = MeshID(#Mesh)
 
 @Description
-  Gibt die einmalige MeshID des '#Mesh' zurück. Die Verwendung dieser Funktion wird
-  insbesondere von der @@CreateEntity Funktion benötigt.
+  Gibt die einmalige MeshID des '#Mesh' zurÃ¼ck. Die Verwendung dieser Funktion wird
+  insbesondere von der @@CreateEntity Funktion benÃ¶tigt.
 
 @SupportedOS
 
@@ -224,8 +229,8 @@
 @Function Ergebnis = GetMeshData(#Mesh, SubMesh, DataArray(), Flags, ErsterIndex, LetzterIndex)
 
 @Description
-  Ermittelt interne Mesh-Daten, wie Eckpunkte (Vertices), Fläche (face), etc.
-  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+  Ermittelt interne Mesh-Daten, wie Eckpunkte (Vertices), FlÃ¤che (face), etc.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstÃ¼tzt.
 
 @Parameter "#Mesh"
   Das zu verwendende Mesh.
@@ -236,7 +241,7 @@
 
 @Parameter "DataArray()"
   Das Array, um die Daten zu empfangen. Es muss ein Array vom Typ "MeshVertex" oder "MeshFace"
-  sein - abhängig von den angegebenen Flags.
+  sein - abhÃ¤ngig von den angegebenen Flags.
 
 @Parameter "Flags"
   Gibt an, welche Art von Daten abgerufen werden sollen. Dies kann einer der folgenden Werte sein:
@@ -277,8 +282,8 @@
   Erster und letzter Index, von dem die Daten ermittelt werden sollen.
 
 @ReturnValue
-  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
-  Im Erfolgsfall wurde DataArray() in der Größe angepasst und enthält die Mesh-Information.
+  Gibt bei Erfolg einen Wert ungleich Null zurÃ¼ck, und Null bei einem Fehler.
+  Im Erfolgsfall wurde DataArray() in der GrÃ¶ÃŸe angepasst und enthÃ¤lt die Mesh-Information.
 
 @SeeAlso
   @@SetMeshData
@@ -290,8 +295,8 @@
 @Function Ergebnis = SetMeshData(#Mesh, SubMesh, DataArray(), Flags, ErsterIndex, LetzterIndex)
 
 @Description
-  Legt die internen Mesh-Daten fest, wie Eckpunkte (vertices), Fläche (face), etc.
-  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+  Legt die internen Mesh-Daten fest, wie Eckpunkte (vertices), FlÃ¤che (face), etc.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstÃ¼tzt.
 
 @Parameter "#Mesh"
   Das zu verwendende Mesh.
@@ -301,8 +306,8 @@
   ist 0 (Haupt-Mesh).
 
 @Parameter "DataArray()"
-  Das Array, welches die festzulegenden Daten enthält. Es muss ein Array vom Typ
-  "MeshVertex" oder "MeshFace" sein - abhängig von den angegebenen Flags.
+  Das Array, welches die festzulegenden Daten enthÃ¤lt. Es muss ein Array vom Typ
+  "MeshVertex" oder "MeshFace" sein - abhÃ¤ngig von den angegebenen Flags.
 
 @Parameter "Flags"
   Gibt an, welche Art von Daten gesetzt werden sollen. Dies kann einer der folgenden
@@ -344,7 +349,7 @@
   Erster und letzter Index, deren Daten festgelegt werden sollen.
 
 @ReturnValue
-  Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler.
+  Gibt bei Erfolg einen Wert ungleich Null zurÃ¼ck, und Null bei einem Fehler.
 
 @SeeAlso
   @@GetMeshData
@@ -356,8 +361,8 @@
 @Function BuildMeshShadowVolume(#Mesh)
 
 @Description
-  Erstellt das Ausmaß des Schattens für das angegebene #Mesh. Dies wird benötigt, wenn das Mesh
-  einen Schatten werfen soll. Erfolgen sollte dies, sobald die Mesh-Erstellung vollständig
+  Erstellt das AusmaÃŸ des Schattens fÃ¼r das angegebene #Mesh. Dies wird benÃ¶tigt, wenn das Mesh
+  einen Schatten werfen soll. Erfolgen sollte dies, sobald die Mesh-Erstellung vollstÃ¤ndig
   abgeschlossen ist, oder der Schatten entspricht nicht dem (fertigen) Mesh.
 
 @Parameter "#Mesh"
@@ -377,7 +382,7 @@
 @Description
   Erstellt ein neues 3D-Linien-Mesh. Die Linie ist ein Drahtgitter-Objekt, welches
   zum Vereinfachen des Debuggings verwendet werden kann.
-  Um die Position der Linie zu verändern, erstellen Sie sie einfach neu.
+  Um die Position der Linie zu verÃ¤ndern, erstellen Sie sie einfach neu.
 
 @Parameter "#Mesh"
   Die Nummer zum Identifizieren des neuen Meshs.
@@ -388,21 +393,21 @@
   Die Koordinaten des ersten Punkts der Linie, in Welt-Einheiten.
 
 @Parameter "Farbe"
-  Die für den ersten Punkt zu verwendende Farbe. @@RGB kann verwendet werden,
-  um eine gültige Farbe zu erhalten.
+  Die fÃ¼r den ersten Punkt zu verwendende Farbe. @@RGB kann verwendet werden,
+  um eine gÃ¼ltige Farbe zu erhalten.
 
 @Parameter "x2, y2, z2"
   Die Koordinaten des zweiten Punkts der Linie, in Welt-Einheiten.
 
 @Parameter "Farbe2"
-  Die für den zweiten Punkt zu verwendende Farbe. Ist diese Farbe anders als die für
+  Die fÃ¼r den zweiten Punkt zu verwendende Farbe. Ist diese Farbe anders als die fÃ¼r
   den ersten Punkt gesetzte Farbe, dann wird ein Farbverlauf zwischen diesen zwei
-  Farben erstellt. @@RGB kann verwendet werden, um eine gültige Farbe zu erhalten.
+  Farben erstellt. @@RGB kann verwendet werden, um eine gÃ¼ltige Farbe zu erhalten.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -437,23 +442,23 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCube(#Mesh, Größe)
+@Function Ergebnis = CreateCube(#Mesh, GrÃ¶ÃŸe)
 
 @Description
-  Erstellt ein neues Würfel-Mesh (englisch "cube").
+  Erstellt ein neues WÃ¼rfel-Mesh (englisch "cube").
 
 @Parameter "#Mesh"
   Die Nummer zum Identifizieren des neuen Meshs.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
   automatisch zu generieren.
 
-@Parameter "Größe"
-  Die Größe, in Welt-Einheiten, des Würfels.
+@Parameter "GrÃ¶ÃŸe"
+  Die GrÃ¶ÃŸe, in Welt-Einheiten, des WÃ¼rfels.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -471,7 +476,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Erstelle den Würfel und binde ihn an die Szene
+  ; Erstelle den WÃ¼rfel und binde ihn an die Szene
   CreateCube(0, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -512,9 +517,9 @@
   Render-Geschwindigkeit auswirken, wenn zu viele von ihnen definiert werden.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -549,35 +554,35 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateTube(#Mesh, AußenRadius.f, InnenRadius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente)
+@Function Ergebnis = CreateTube(#Mesh, AuÃŸenRadius.f, InnenRadius.f, HÃ¶he.f [, AnzBasisSegmente, AnzHÃ¶henSegmente)
 
 @Description
-  Erstellt ein neues Rohr-Mesh (englisch "tube", deutsch auch "Röhre").
+  Erstellt ein neues Rohr-Mesh (englisch "tube", deutsch auch "RÃ¶hre").
 
 @Parameter "#Mesh"
   Die Nummer zum Identifizieren des neuen Meshs.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
   automatisch zu generieren.
 
-@Parameter "AußenRadius"
-  Außen-Radius, in Welt-Einheiten, des Rohrs.
+@Parameter "AuÃŸenRadius"
+  AuÃŸen-Radius, in Welt-Einheiten, des Rohrs.
 
 @Parameter "InnenRadius"
   Innen-Radius, in Welt-Einheiten, des Rohrs.
 
-@Parameter "Höhe"
-  Höhe, in Welt-Einheiten, des Rohrs.
+@Parameter "HÃ¶he"
+  HÃ¶he, in Welt-Einheiten, des Rohrs.
 
 @OptionalParameter "AnzBasisSegmente"
-  Anzahl der Segmente, die für die Basis der Röhre verwendet werden (Standard: 16).
+  Anzahl der Segmente, die fÃ¼r die Basis der RÃ¶hre verwendet werden (Standard: 16).
 
-@OptionalParameter "AnzHöhenSegmente"
-  Anzahl der Segmente, die für die Höhe des Rohrs verwendet werden (Standard: 1).
+@OptionalParameter "AnzHÃ¶henSegmente"
+  Anzahl der Segmente, die fÃ¼r die HÃ¶he des Rohrs verwendet werden (Standard: 1).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -595,7 +600,7 @@
   MoveCamera(0, 2, 4, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Erstelle die Röhre und binde sie an die Szene
+  ; Erstelle die RÃ¶hre und binde sie an die Szene
   CreateTube(0, 0.5, 0.4, 2)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -612,7 +617,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateTorus(#Mesh, Radius.f, InnenRadius.f, Höhe.f [, AnzAusschnittSegmente, AnzKreisSegmente)
+@Function Ergebnis = CreateTorus(#Mesh, Radius.f, InnenRadius.f, HÃ¶he.f [, AnzAusschnittSegmente, AnzKreisSegmente)
 
 @Description
   Erstellt ein neues Ring-Mesh (englisch "torus").
@@ -628,19 +633,19 @@
 @Parameter "InnenRadius"
   Radius des Ausschnitts, in Welt-Einheiten, des Rings.
 
-@Parameter "Höhe"
-  Höhe, in Welt-Einheiten, des Rings.
+@Parameter "HÃ¶he"
+  HÃ¶he, in Welt-Einheiten, des Rings.
 
 @OptionalParameter "AnzAusschnittSegmente"
-  Anzahl der Segmente, die für den Ausschnitt (englisch "section") der Röhre verwendet werden (Standard: 16).
+  Anzahl der Segmente, die fÃ¼r den Ausschnitt (englisch "section") der RÃ¶hre verwendet werden (Standard: 16).
 
 @OptionalParameter "AnzKreisSegmente"
-  Anzahl der Segmente, die für den Kreis (englisch "circle") der Röhre verwendet werden (Standard: 16).
+  Anzahl der Segmente, die fÃ¼r den Kreis (englisch "circle") der RÃ¶hre verwendet werden (Standard: 16).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -675,7 +680,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCapsule(#Mesh, Radius.f, Höhe.f [, AnzRinge, AnzSegmente, AnzHöhenSegmente)
+@Function Ergebnis = CreateCapsule(#Mesh, Radius.f, HÃ¶he.f [, AnzRinge, AnzSegmente, AnzHÃ¶henSegmente)
 
 @Description
   Erstellt ein neues Kapsel-Mesh (englisch "capsule").
@@ -688,22 +693,22 @@
 @Parameter "Radius"
   Radius, in Welt-Einheiten, der Kapsel.
 
-@Parameter "Höhe"
-  Höhe, in Welt-Einheiten, der Kapsel.
+@Parameter "HÃ¶he"
+  HÃ¶he, in Welt-Einheiten, der Kapsel.
 
 @OptionalParameter "AnzRinge"
-  Anzahl der Ringe, die für die Erstellung der Kapsel verwendet werden (Standard: 8).
+  Anzahl der Ringe, die fÃ¼r die Erstellung der Kapsel verwendet werden (Standard: 8).
 
 @OptionalParameter "AnzSegmente"
-  Anzahl der Segmente, die für die Erstellung der Kapsel verwendet werden (Standard: 16).
+  Anzahl der Segmente, die fÃ¼r die Erstellung der Kapsel verwendet werden (Standard: 16).
 
-@OptionalParameter "AnzHöhenSegmente"
-  Anzahl der Höhen-Segmente, die für die Erstellung der Kapsel verwendet werden (Standard: 1).
+@OptionalParameter "AnzHÃ¶henSegmente"
+  Anzahl der HÃ¶hen-Segmente, die fÃ¼r die Erstellung der Kapsel verwendet werden (Standard: 1).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -755,9 +760,9 @@
   Anzahl der Wiederholungen (Iterationen), die zur Erstellung der Ico-Sphere verwendet werden (Standard: 2).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -792,7 +797,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCone(#Mesh, Radius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente])
+@Function Ergebnis = CreateCone(#Mesh, Radius.f, HÃ¶he.f [, AnzBasisSegmente, AnzHÃ¶henSegmente])
 
 @Description
   Erstellt einen neuen Kegel (englisch "cone").
@@ -805,19 +810,19 @@
 @Parameter "Radius"
   Radius, in Welt-Einheiten, des Kegels.
 
-@Parameter "Höhe"
-  Höhe, in Welt-Einheiten, des Kegels.
+@Parameter "HÃ¶he"
+  HÃ¶he, in Welt-Einheiten, des Kegels.
 
 @OptionalParameter "AnzBasisSegmente"
-  Anzahl an Segmenten, die für die Basis des Kegels genutzt werden (Standard: 16).
+  Anzahl an Segmenten, die fÃ¼r die Basis des Kegels genutzt werden (Standard: 16).
 
-@OptionalParameter "AnzHöhenSegmente"
-  Anzahl an Segmenten, die für die Höhe des Kegels genutzt werden (Standard: 1).
+@OptionalParameter "AnzHÃ¶henSegmente"
+  Anzahl an Segmenten, die fÃ¼r die HÃ¶he des Kegels genutzt werden (Standard: 1).
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -835,7 +840,7 @@
   MoveCamera(0, 2, 1, 3, #PB_Absolute | #PB_Local)
   CameraLookAt(0, 0, 0, 0)
   
-  ; Erstellen des Kegels und Hinzufügen zur Szene
+  ; Erstellen des Kegels und HinzufÃ¼gen zur Szene
   CreateCone(0, 0.5, 1)
   CreateEntity(0, MeshID(0), #PB_Material_None)
   
@@ -852,7 +857,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCylinder(#Mesh, Radius.f, Höhe.f [, AnzBasisSegmente, AnzHöhenSegmente, Geschlossen])
+@Function Ergebnis = CreateCylinder(#Mesh, Radius.f, HÃ¶he.f [, AnzBasisSegmente, AnzHÃ¶henSegmente, Geschlossen])
 
 @Description
   Erstellt ein neues Zylinder-Mesh (englisch "cylinder").
@@ -865,14 +870,14 @@
 @Parameter "Radius"
   Radius, in Welt-Einheiten, des Zylinders.
 
-@Parameter "Höhe"
-  Höhe, in Welt-Einheiten, des Zylinders.
+@Parameter "HÃ¶he"
+  HÃ¶he, in Welt-Einheiten, des Zylinders.
 
 @OptionalParameter "AnzBasisSegmente"
-  Anzahl an Segmenten, die für die Basis des Kegels genutzt werden (Standard: 16).
+  Anzahl an Segmenten, die fÃ¼r die Basis des Kegels genutzt werden (Standard: 16).
 
-@OptionalParameter "AnzHöhenSegmente"
-  Anzahl an Segmenten, die für die Höhe des Kegels genutzt werden (Standard: 1).
+@OptionalParameter "AnzHÃ¶henSegmente"
+  Anzahl an Segmenten, die fÃ¼r die HÃ¶he des Kegels genutzt werden (Standard: 1).
 
 @OptionalParameter "Geschlossen"
   Gibt an, ob der Zylinder oben und unten geschlossen sein soll, oder ob er offen bleiben
@@ -880,9 +885,9 @@
   zu erstellen, oder andernfalls auf @#False.
   
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @Example
 @Code
@@ -917,7 +922,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreatePlane(#Mesh, KachelGrößeX, KachelGrößeZ, KachelZählerX, KachelZählerZ, TexturWiederholungsZählerX, TexturWiederholungsZählerZ)
+@Function Ergebnis = CreatePlane(#Mesh, KachelGrÃ¶ÃŸeX, KachelGrÃ¶ÃŸeZ, KachelZÃ¤hlerX, KachelZÃ¤hlerZ, TexturWiederholungsZÃ¤hlerX, TexturWiederholungsZÃ¤hlerZ)
 
 @Description
   Erstellt ein neues Ebenen-Mesh (englisch "plane").
@@ -927,34 +932,38 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer
   automatisch zu generieren.
 
-@Parameter "KachelGrößeX"
-  X-Größe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
+@Parameter "KachelGrÃ¶ÃŸeX"
+  X-GrÃ¶ÃŸe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
   Eine Kachel ist die Basis-Komponente einer Ebene. Eine Ebene kann sich aus einer
-  Menge Kacheln zusammensetzen, um sie größer zu machen und Verformung zu erlauben.
+  Menge Kacheln zusammensetzen, um sie grÃ¶ÃŸer zu machen und Verformung zu erlauben.
 
-@Parameter "KachelGrößeZ"
-  Z-Größe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
+@Parameter "KachelGrÃ¶ÃŸeZ"
+  Z-GrÃ¶ÃŸe (in Welt-Einheiten) einer einzelnen Kachel (englisch "tile") der Ebene.
   Eine Kachel ist die Basis-Komponente einer Ebene. Eine Ebene kann sich aus einer
-  Menge Kacheln zusammensetzen, um sie größer zu machen und Verformung zu erlauben.
+  Menge Kacheln zusammensetzen, um sie grÃ¶ÃŸer zu machen und Verformung zu erlauben.
 
-@Parameter "KachelZählerX"
+@Parameter "KachelZÃ¤hlerX"
   Anzahl der Kacheln ("tiles"), um die X-Achse der Ebene zu erstellen.
 
-@Parameter "KachelZählerZ"
+@Parameter "KachelZÃ¤hlerZ"
   Anzahl der Kacheln ("tiles"), um die Z-Achse der Ebene zu erstellen.
 
-@Parameter "TexturWiederholungsZählerX"
+@Parameter "TexturWiederholungsZÃ¤hlerX"
   Anzahl, wie oft die der Ebene zugewiesene Textur auf der X-Achse wiederholt wird.
   Um die komplette Textur der gesamten X-Achse zuzuweisen, verwenden Sie einfach 1.
 
-@Parameter "TexturWiederholungsZählerZ"
+@Parameter "TexturWiederholungsZÃ¤hlerZ"
   Anzahl, wie oft die der Ebene zugewiesene Textur auf der Z-Achse wiederholt wird.
   Um die komplette Textur der gesamten Z-Achse zuzuweisen, verwenden Sie einfach 1.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Mesh erfolgreich erstellt wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Mesh erfolgreich erstellt wurde,
   und Null bei einem Fehler. Wenn @#PB_Any als #Mesh Parameter 
-  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  verwendet wurde, dann wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
+
+@Remarks
+  Die Gesamtzahl der Scheitelpunkte (Vertices) ist durch das Produkt "KachelZÃ¤hlerX"
+  x "KachelZÃ¤hlerZ" begrenzt und darf 65100 nicht Ã¼berschreiten.
 
 @Example
 @Code
@@ -989,16 +998,58 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function MeshDirectAdd(#Mesh, MeshVertexArray(), MeshFaceArray(), Typ, MaterialID)
+
+@Description
+  FÃ¼gt ein neues Sub-Mesh ("Unter-Objekt" des Mesh) zum angegebenen #Mesh hinzu.
+  Ein Mesh kann eine beliebige Anzahl an Sub-Meshs haben. Die Position eines Sub-Mesh
+  ist relativ zur Position des Mesh.
+
+@Parameter "MeshVertexArray()"
+  Das Array, das die Submesh-Scheitelpunktdaten (englisch "vertex data") enthÃ¤lt.
+  Es muss ein Array vom Typ "MeshVertex" sein.
+
+@Parameter "MeshFaceArray()"
+  Das Array mit den Submesh-OberflÃ¤chendaten (englisch "face data").
+  Es muss ein Array vom Typ "MeshFace" sein.
+
+@Parameter "Typ"
+  Der Typ des neuen Sub-Mesh. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Mesh_TriangleList : das Sub-Mesh wird aus einer Liste von Dreiecken zusammengesetzt (Standard).
+  @#PB_Mesh_TriangleStrip: das Sub-Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+  @#PB_Mesh_TriangleFan  : das Sub-Mesh wird aus einer Liste verbundener Dreiecke zusammengesetzt,
+                          welche den gleichen zentralen Scheitelpunkt gemeinsam haben.
+  @#PB_Mesh_PointList    : das Sub-Mesh wird aus einer Liste von Punkten zusammengesetzt.
+  @#PB_Mesh_LineList     : das Sub-Mesh wird aus einer Liste von Linien zusammengesetzt.
+  @#PB_Mesh_LineStrip    : das Sub-Mesh wird aus einer Liste verbundener Linien zusammengesetzt
+                          (Scheitelpunkte werden geteilt).
+@EndFixedFont
+
+@Parameter "MaterialID"
+  Das fÃ¼r das Sub-Mesh zu verwendende Standard-Material. Um eine gÃ¼ltige 'MaterialID'
+  zu erhalten, verwenden Sie @@MaterialID.
+
+@NoReturnValue
+
+@SeeAlso
+  @@FreeMesh, @@CreateMesh, @@LoadMesh
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function AddSubMesh([Typ])
 
 @Description
-  Fügt ein neues Sub-Mesh ("Unter-Objekt" des Mesh) zum aktuellen Mesh hinzu, welches
+  FÃ¼gt ein neues Sub-Mesh ("Unter-Objekt" des Mesh) zum aktuellen Mesh hinzu, welches
   zuvor mit @@CreateMesh erstellt wurde. Ein Mesh kann eine beliebige Anzahl an
   Sub-Meshs haben. Die Position eines Sub-Mesh ist relativ zur Position des Mesh.
   Sobald ein Sub-Mesh erstellt wurde, verwenden Sie die folgenden Befehle zu dessen
   Aufbau: @@MeshVertexPosition, @@MeshFace und @@MeshIndex.
 
-@OptionalParameter "Type"
+@OptionalParameter "Typ"
   Der Typ des neuen Sub-Mesh. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Mesh_TriangleList : das Sub-Mesh wird aus einer Liste von Dreiecken zusammengesetzt (Standard).
@@ -1024,17 +1075,17 @@
 @Function Ergebnis = MeshIndexCount(#Mesh [, SubMesh])
 
 @Description
-  Gibt die Anzahl der Indexes im Mesh zurück.
+  Gibt die Anzahl der Indexes im Mesh zurÃ¼ck.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh.
 
 @OptionalParameter "SubMesh"
-  Wenn angegeben, wird die Anzahl an Indexes im angegebenen Sub-Mesh zurückgegeben.
+  Wenn angegeben, wird die Anzahl an Indexes im angegebenen Sub-Mesh zurÃ¼ckgegeben.
   Der Index des ersten Sub-Mesh ist 0 (Haupt-Mesh).
 
 @ReturnValue
-  Gibt die Anzahl an Indexes im Mesh zurück, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
+  Gibt die Anzahl an Indexes im Mesh zurÃ¼ck, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@MeshVertexCount
@@ -1046,17 +1097,17 @@
 @Function Ergebnis = MeshVertexCount(#Mesh [, SubMesh])
 
 @Description
-  Gibt die Anzahl an Eckpunkten (Vertex) des Meshs zurück.
+  Gibt die Anzahl an Eckpunkten (Vertex) des Meshs zurÃ¼ck.
 
 @Parameter "Mesh"
   Gibt das zu verwendende Mesh-Objekt an.
 
 @OptionalParameter "SubMesh"
-  Wenn angegeben, wird die Anzahl an Eckpunkten (Vertex) des angegebenen Sub-Mesh zurückgegeben.
+  Wenn angegeben, wird die Anzahl an Eckpunkten (Vertex) des angegebenen Sub-Mesh zurÃ¼ckgegeben.
   Der Index des ersten Sub-Mesh ist 0 (Haupt-Mesh).
 
 @ReturnValue
-  Gibt die Anzahl an Eckpunkten des Mesh zurück, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
+  Gibt die Anzahl an Eckpunkten des Mesh zurÃ¼ck, oder Null wenn das Mesh oder Sub-Mesh nicht existiert.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@MeshIndexCount
@@ -1069,8 +1120,8 @@
 
 @Description
   Aktualisiert den Begrenzungsrahmen (englisch "bounding box") des Meshs. Wenn ein Mesh
-  manuell verändert wurde, muss sein Begrenzungsrahmen neu berechnet werden, insbesondere
-  wenn das Mesh für Kollisionen verwendet wird. Der Begrenzungsrahmen ist der kleinste
+  manuell verÃ¤ndert wurde, muss sein Begrenzungsrahmen neu berechnet werden, insbesondere
+  wenn das Mesh fÃ¼r Kollisionen verwendet wird. Der Begrenzungsrahmen ist der kleinste
   Rahmen (bzw. Box), welcher das komplette Mesh beinhalten kann.
 
 @Parameter "Mesh"
@@ -1089,16 +1140,16 @@
 
 @Description
   Beginnt die Aktualisierung des Mesh, um in Echtzeit seine Eckpunkte (vertices) und andere Werte zu
-  ändern. Das Mesh muss mit dem @#PB_Mesh_Dynamic Flag erstellt worden sein. Sobald die Aktualisierung
+  Ã¤ndern. Das Mesh muss mit dem @#PB_Mesh_Dynamic Flag erstellt worden sein. Sobald die Aktualisierung
   des Mesh abgeschlossen wurde, muss @@FinishMesh aufgerufen werden. Das Mesh kann die folgenden
-  Befehle zur Änderung seiner Eigenschaften verwenden: @@MeshIndex, @@MeshFace, @@MeshVertexPosition,
+  Befehle zur Ã„nderung seiner Eigenschaften verwenden: @@MeshIndex, @@MeshFace, @@MeshVertexPosition,
   @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor und @@MeshVertexTextureCoordinate.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh.
 
 @Parameter "SubMesh"
-  Der Index des Submesh, welches verändert werden soll. Der Index des ersten Submesh ist 0 (Haupt-Mesh).
+  Der Index des Submesh, welches verÃ¤ndert werden soll. Der Index des ersten Submesh ist 0 (Haupt-Mesh).
 
 @NoReturnValue
 
@@ -1113,8 +1164,8 @@
 @Function MeshIndex(Index)
 
 @Description
-  Aktualisiert oder fügt einen einzigen Eckpunkt (vertex) im Mesh hinzu, welches mit @@CreateMesh
-  erstellt oder mit @@UpdateMesh aktualisiert wurde. Dieser verhält sich wie der Befehl @@MeshFace,
+  Aktualisiert oder fÃ¼gt einen einzigen Eckpunkt (vertex) im Mesh hinzu, welches mit @@CreateMesh
+  erstellt oder mit @@UpdateMesh aktualisiert wurde. Dieser verhÃ¤lt sich wie der Befehl @@MeshFace,
   aber mit einer beliebigen Anzahl an Eckpunkten. Bei Verwendung der Modi @#PB_Mesh_LineList oder
   @#PB_Mesh_LineStrip gibt es nur zwei Eckpunkte pro Line, weshalb in diesem Fall @@MeshIndex verwendet
   werden muss.
@@ -1135,13 +1186,13 @@
 @Function Ergebnis = MeshRadius(#Mesh)
 
 @Description
-  Gibt den Radius der kleinsten Kugel, welche das Mesh umfassen kann, zurück.
+  Gibt den Radius der kleinsten Kugel, welche das Mesh umfassen kann, zurÃ¼ck.
   
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
 
 @ReturnValue
-  Gibt den Radius des Mesh zurück.
+  Gibt den Radius des Mesh zurÃ¼ck.
 
 @SeeAlso
   @@CreateMesh
@@ -1153,10 +1204,10 @@
 @Function MeshVertex(x, y, z, u.f, v.f, Farbe [, NormalX, NormalY, NormalZ])
 
 @Description
-  Fügt einen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
-  @@CreateMesh erstellt wurde. Bestimmte Attribute können mittels @@MeshVertexTangent
-  zum neu erstellten Eckpunkt hinzugefügt werden.
-  Um eine neue Oberfläche zu erstellen, verwenden Sie @@MeshFace.
+  FÃ¼gt einen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
+  @@CreateMesh erstellt wurde. Bestimmte Attribute kÃ¶nnen mittels @@MeshVertexTangent
+  zum neu erstellten Eckpunkt hinzugefÃ¼gt werden.
+  Um eine neue OberflÃ¤che zu erstellen, verwenden Sie @@MeshFace.
 
 @Parameter "x, y, z"
   Die Position des neuen Eckpunkts.
@@ -1164,21 +1215,21 @@
 @Parameter "u"
   Der 'u' Wert. Dieser Wert ist die X-Position der Textur, an der der Eckpunkt zugeordnet
   werden soll. Dieser Wert liegt normalerweise zwischen 0 und 1, wobei 0 der Ursprung der
-  Textur X und 1 das Ende der Textur X ist (siehe @@MeshVertexTextureCoordinate für
+  Textur X und 1 das Ende der Textur X ist (siehe @@MeshVertexTextureCoordinate fÃ¼r
   weitere Informationen).
 
 @Parameter "v"
   Der 'v' Wert. Dieser Wert ist die Y-Position der Textur, an der der Eckpunkt zugeordnet
   werden soll. Dieser Wert liegt normalerweise zwischen 0 und 1, wobei 0 der Ursprung der
-  Textur Y und 1 das Ende der Textur Y ist (siehe @@MeshVertexTextureCoordinate für
+  Textur Y und 1 das Ende der Textur Y ist (siehe @@MeshVertexTextureCoordinate fÃ¼r
   weitere Informationen).
 
 @Parameter "Farbe"
   Farbe des Eckpunkts. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB" oder @Link "2DDrawing/RGBA" "RGBA"
-  Format vorliegen (siehe @@MeshVertexColor für weitere Informationen).
+  Format vorliegen (siehe @@MeshVertexColor fÃ¼r weitere Informationen).
 
 @Parameter "NormalX, NormalY, NormalZ"
-  Der Normalvektor(siehe @@MeshVertexNormal für weitere Informationen).
+  Der Normalvektor(siehe @@MeshVertexNormal fÃ¼r weitere Informationen).
   
 @NoReturnValue
 
@@ -1192,11 +1243,11 @@
 @Function MeshVertexPosition(x, y, z)
 
 @Description
-  Fügt einen neuen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
+  FÃ¼gt einen neuen Eckpunkt (Vertex) zum aktuellen Mesh hinzu, welches zuvor mittels
   @@CreateMesh erstellt wurde. Um bestimmte Attribute des neu erstellten Eckpunkts
   festzulegen, verwenden Sie die folgenden Befehle: @@MeshVertexNormal, @@MeshVertexTangent, @@MeshVertexColor und
-  @@MeshVertexTextureCoordinate. Wenn mehrere Attribute angegeben werden müssen, kann @@MeshVertex 
-  stattdessen verwendet werden. Um eine neue Oberfläche zu erstellen, verwenden Sie @@MeshFace.
+  @@MeshVertexTextureCoordinate. Wenn mehrere Attribute angegeben werden mÃ¼ssen, kann @@MeshVertex 
+  stattdessen verwendet werden. Um eine neue OberflÃ¤che zu erstellen, verwenden Sie @@MeshFace.
   
 @Parameter "x, y, z"
   Die Position des neuen Eckpunkts.
@@ -1214,7 +1265,7 @@
 
 @Description
   Legt die "Normalen"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition
-  oder @@MeshVertex hinzugefügt wurde. Der Normalenvektor oder auch die Scheitelpunktnormale (englisch "normal vector") wird verwendet,
+  oder @@MeshVertex hinzugefÃ¼gt wurde. Der Normalenvektor oder auch die Scheitelpunktnormale (englisch "normal vector") wird verwendet,
   um Blitze (englisch "lightning") auf einem Objekt zu berechnen.
 @LineBreak
 @LineBreak
@@ -1237,10 +1288,10 @@
 
 @Description
   Legt die Tangenten-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels
-  @@MeshVertexPosition oder @@MeshVertex hinzugefügt wurde.
+  @@MeshVertexPosition oder @@MeshVertex hinzugefÃ¼gt wurde.
 @LineBreak
 @LineBreak
-  Der Tangenten-Vektor wird hauptsächlich in Shader-Skripten verwendet. Um automatisch
+  Der Tangenten-Vektor wird hauptsÃ¤chlich in Shader-Skripten verwendet. Um automatisch
   den Tangenten-Vektor zu berechnen, sobald das Mesh erstellt wurde, verwenden Sie
   @@BuildMeshTangents.
 
@@ -1260,13 +1311,13 @@
 
 @Description
   Legt die Farb-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels
-  @@MeshVertexPosition oder @@MeshVertex hinzugefügt wurde.
+  @@MeshVertexPosition oder @@MeshVertex hinzugefÃ¼gt wurde.
   @LineBreak
-  Damit dies einen Effekt hat, muss das mit dem Mesh verknüpfte Material mittels
+  Damit dies einen Effekt hat, muss das mit dem Mesh verknÃ¼pfte Material mittels
   @@SetMaterialColor(@#Material, @#PB_Material_AmbientColor, -1) und @@AmbientColor(), das
   auf einen positiven Wert gesetzt wurde, definiert werden.
   @LineBreak
-  Diese Funktion benötigt einen zuvor erstellten Eckpunkt (Vertex), um diesem eine Farbe hinzufügen zu können.
+  Diese Funktion benÃ¶tigt einen zuvor erstellten Eckpunkt (Vertex), um diesem eine Farbe hinzufÃ¼gen zu kÃ¶nnen.
 
 @Parameter "Farbe"
   Farbe des Eckpunkts. Diese Farbe kann im @Link "2DDrawing/RGB" "RGB"- oder @Link "2DDrawing/RGBA" "RGBA"-Format vorliegen.
@@ -1284,21 +1335,21 @@
 
 @Description
   Legt die "UVW"-Informationen des aktuellen Eckpunkts (Vertex) fest, welcher zuvor mittels @@MeshVertexPosition oder @@MeshVertex
-  hinzugefügt wurde. Die "UVW"-Information wird verwendet, um die Textur auf das Mesh-Objekt anzuwenden.
+  hinzugefÃ¼gt wurde. Die "UVW"-Information wird verwendet, um die Textur auf das Mesh-Objekt anzuwenden.
 
 @Parameter "u"
   Der u-Wert. Dieser Wert ist die X-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
-  liegt gewöhnlich zwischen 0 und 1, wobei 0 der X-Ursprung der Textur darstellt und 1 das X-Ende der
+  liegt gewÃ¶hnlich zwischen 0 und 1, wobei 0 der X-Ursprung der Textur darstellt und 1 das X-Ende der
   Textur.
 
 @OptionalParameter "v"
   Der v-Wert. Dieser Wert ist die Y-Position in der Textur, wo der Eckpunkt liegen soll. Dieser Wert
-  liegt gewöhnlich zwischen 0 und 1, wobei 0 der Y-Ursprung der Textur darstellt und 1 das Y-Ende der
+  liegt gewÃ¶hnlich zwischen 0 und 1, wobei 0 der Y-Ursprung der Textur darstellt und 1 das Y-Ende der
   Textur.
 
 @OptionalParameter "w"
-  Der w-Wert (für kubische Texturen). Dieser Wert ist die Z-Position in der Textur, wo der Eckpunkt
-  liegen soll. Dieser Wert liegt gewöhnlich zwischen 0 und 1, wobei 0 der Z-Ursprung der Textur und
+  Der w-Wert (fÃ¼r kubische Texturen). Dieser Wert ist die Z-Position in der Textur, wo der Eckpunkt
+  liegen soll. Dieser Wert liegt gewÃ¶hnlich zwischen 0 und 1, wobei 0 der Z-Ursprung der Textur und
   1 das Z-Ende der Textur ist.
 
 @NoReturnValue
@@ -1313,22 +1364,22 @@
 @Function MeshFace(Vertex1, Vertex2, Vertex3 [, Vertex4])
 
 @Description
-  Aktualisiert oder fügt eine (Ober-) Fläche (englisch "face") zum aktuellen Mesh hinzu, welches zuvor mittels
-  @@CreateMesh erstellt wurde. Die angegebenen Eckpunkte (englisch "vertices") müssen existieren.
-  Der Index des ersten Eckpunkts (Vertex) beginnt bei 0. Die erstellte Fläche ist ein Dreieck oder ein Viereck.
-  @@MeshIndex kann verwendet werden, wenn die Anzahl an Eck-/Scheitelpunkten mehr als vier beträgt.
+  Aktualisiert oder fÃ¼gt eine (Ober-) FlÃ¤che (englisch "face") zum aktuellen Mesh hinzu, welches zuvor mittels
+  @@CreateMesh erstellt wurde. Die angegebenen Eckpunkte (englisch "vertices") mÃ¼ssen existieren.
+  Der Index des ersten Eckpunkts (Vertex) beginnt bei 0. Die erstellte FlÃ¤che ist ein Dreieck oder ein Viereck.
+  @@MeshIndex kann verwendet werden, wenn die Anzahl an Eck-/Scheitelpunkten mehr als vier betrÃ¤gt.
 
 @Parameter "Vertex1"
-  Der Index des ersten Eckpunkts, um die Fläche zu erstellen.
+  Der Index des ersten Eckpunkts, um die FlÃ¤che zu erstellen.
 
 @Parameter "Vertex2"
-  Der Index des zweiten Eckpunkts, um die Fläche zu erstellen.
+  Der Index des zweiten Eckpunkts, um die FlÃ¤che zu erstellen.
 
 @Parameter "Vertex3"
-  Der Index des dritten Eckpunkts, um die Fläche zu erstellen.
+  Der Index des dritten Eckpunkts, um die FlÃ¤che zu erstellen.
 
 @OptionalParameter "Vertex4"
-  Der Index des vierten Eckpunkts, um die Fläche zu erstellen, was in einem Viereck resultieren wird.
+  Der Index des vierten Eckpunkts, um die FlÃ¤che zu erstellen, was in einem Viereck resultieren wird.
 
 @NoReturnValue
 
@@ -1339,14 +1390,14 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FinishMesh(Modus)
+@Function FinishMesh(StatischesMesh)
 
 @Description
-  Schließt die mittels @@CreateMesh begonnene Erstellung des aktuellen Mesh-Objekts ab.
+  SchlieÃŸt die mittels @@CreateMesh begonnene Erstellung des aktuellen Mesh-Objekts ab.
 
-@Parameter "Modus"
-  Wenn auf @#True gesetzt, wird das Mesh in ein statisches Mesh konvertiert und ist nicht mehr veränderbar.
-  Wenn auf @#False gesetzt, wird das Mesh noch mit @@UpdateMesh veränderbar sein. Statische Meshes sind
+@Parameter "StatischesMesh"
+  Wenn auf @#True gesetzt, wird das Mesh in ein statisches Mesh konvertiert und ist nicht mehr verÃ¤nderbar.
+  Wenn auf @#False gesetzt, wird das Mesh noch mit @@UpdateMesh verÃ¤nderbar sein. Statische Meshes sind
   schneller darzustellen (zu "rendern") als dynamische Meshes.
 
 @NoReturnValue
@@ -1361,9 +1412,9 @@
 @Function NormalizeMesh(#Mesh [, SubMesh])
 
 @Description
-  "Normalisiert" das Mesh oder das Sub-Mesh. Es wird automatisch der Normalen-Vektor für jeden
+  "Normalisiert" das Mesh oder das Sub-Mesh. Es wird automatisch der Normalen-Vektor fÃ¼r jeden
   Eckpunkt (Knoten) des angegebenen Meshs oder Sub-Meshs berechnet.
-  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstÃ¼tzt.
 
 @Parameter "Mesh"
   Gibt das zu verwendende Mesh-Objekt an.
@@ -1383,10 +1434,10 @@
 @Function BuildMeshTangents(#Mesh)
 
 @Description
-  Berechnet automatisch den Tangenten-Vektor für alle Scheitel (Vertex) des 
+  Berechnet automatisch den Tangenten-Vektor fÃ¼r alle Scheitel (Vertex) des 
   angegebenen Mesh-Objekts.
   @LineBreak
-  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstützt.
+  Dynamische Meshes (die mit dem @#PB_Mesh_Dynamic Flag erstellt wurden), werden nicht unterstÃ¼tzt.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
@@ -1403,10 +1454,10 @@
 @Function AddMeshManualLOD(#Mesh, #MeshLOD, Distanz.f)
 
 @Description
-  Fügt dem Mesh eine neue Detailebene (englisch: "level of detail", abgekürzt 'LOD') hinzu.
-  Das #Mesh wird automatisch durch #MeshLOD (häufig eine vereinfachte Version des #Mesh, mit
-  weniger Details) ersetzt, wenn es außerhalb der angegebenen Entfernung von der Kamera
-  angezeigt wird. Je nach Entfernung können mehrere "LOD-Meshes" für dasselbe #Mesh verwendet
+  FÃ¼gt dem Mesh eine neue Detailebene (englisch: "level of detail", abgekÃ¼rzt 'LOD') hinzu.
+  Das #Mesh wird automatisch durch #MeshLOD (hÃ¤ufig eine vereinfachte Version des #Mesh, mit
+  weniger Details) ersetzt, wenn es auÃŸerhalb der angegebenen Entfernung von der Kamera
+  angezeigt wird. Je nach Entfernung kÃ¶nnen mehrere "LOD-Meshes" fÃ¼r dasselbe #Mesh verwendet
   werden.
 
 @Parameter "Mesh"
@@ -1427,25 +1478,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BuildMeshLOD(#Mesh, AnzLOD, Distanz.f, ReduktionsWert.f)
+@Function BuildMeshLOD(#Mesh [, AnzLOD, Distanz.f, ReduktionsWert.f])
 
 @Description
-  Erstellt automatisch ein oder mehrere Detailebenen ("level of detail", abgekürzt LOD) für das Mesh.
-  Das #Mesh wird automatisch durch ein weniger komplexes Mesh ersetzt, wenn es außerhalb der angegebenen
-  Entfernung von der Kamera angezeigt wird. Wenn genauere "LOD-Meshes" benötigt werden,
+  Erstellt automatisch ein oder mehrere Detailebenen ("level of detail", abgekÃ¼rzt LOD) fÃ¼r das Mesh.
+  Das #Mesh wird automatisch durch ein weniger komplexes Mesh ersetzt, wenn es auÃŸerhalb der angegebenen
+  Entfernung von der Kamera angezeigt wird. Wenn genauere "LOD-Meshes" benÃ¶tigt werden,
   kann @@AddMeshManualLOD verwendet werden.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
 
-@Parameter "AnzLOD"
-  Anzahl benötigter LOD für dieses Mesh.
+@OptionalParameter "AnzLOD"
+  Anzahl benÃ¶tigter LOD fÃ¼r dieses Mesh. Wenn dieser Parameter nicht verwendet wird, dann werden die
+  LODs automatisch berechnet.
 
-@Parameter "Distanz"
+@OptionalParameter "Distanz"
   Die minimale Entfernung von der Kamera, ab der das erste LOD-Mesh anstelle vom #Mesh verwendet wird.
-  Für die nächsten LOD-Meshes wird die Entfernung mittels dieser Formel berechnet: 'Distanz / SqrF(1-ReduktionsWert)'.
+  FÃ¼r die nÃ¤chsten LOD-Meshes wird die Entfernung mittels dieser Formel berechnet: 'Distanz / SqrF(1-ReduktionsWert)'.
 
-@Parameter "ReduktionsWert"
+@OptionalParameter "ReduktionsWert"
   Die anzuwendende Reduktion (Verkleinerung), zwischen 0 (keine Reduktion) und 1 (100% Reduktion).
   @LineBreak
   
@@ -1474,7 +1526,7 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   Das zu speichernde Mesh-Objekt.
 
 @Parameter "Dateiname$"
-  Gibt den Dateinamen und Pfad zur neuen Mesh-Datei an. Wenn der Dateiname keinen vollständigen
+  Gibt den Dateinamen und Pfad zur neuen Mesh-Datei an. Wenn der Dateiname keinen vollstÃ¤ndigen
   Pfad beinhaltet, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
   interpretiert.
 
@@ -1490,14 +1542,14 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 @Function SetMeshMaterial(#Mesh, MaterialID [, SubMesh])
 
 @Description
-  Legt das Standard-Material für das Mesh-Objekt fest.
+  Legt das Standard-Material fÃ¼r das Mesh-Objekt fest.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
 
 @Parameter "MaterialID"
-  Gibt das Standard-Material an, welches für das Mesh verwendet werden soll. Um eine
-  gültige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
+  Gibt das Standard-Material an, welches fÃ¼r das Mesh verwendet werden soll. Um eine
+  gÃ¼ltige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
 
 @OptionalParameter "SubMesh"
   Wenn angegeben, wird das Material nur auf das Sub-Mesh angewendet.
@@ -1515,13 +1567,13 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 @Function Ergebnis = SubMeshCount(#Mesh)
 
 @Description
-  Gibt die Anzahl an Sub-Meshs vom Mesh-Objekt zurück.
+  Gibt die Anzahl an Sub-Meshs vom Mesh-Objekt zurÃ¼ck.
 
 @Parameter "Mesh"
   Das zu verwendende Mesh-Objekt.
 
 @ReturnValue
-  Gibt die Anzahl an Sub-Meshs vom Mesh zurück.
+  Gibt die Anzahl an Sub-Meshs vom Mesh zurÃ¼ck.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh, @@AddSubMesh
@@ -1540,19 +1592,19 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @Parameter "x, y, z"
   Die neue Position des Meshs an, relativ zu seinem Knoten (Node). Wenn der SubMesh Parameter
-  angegeben wird, gibt dies die neue x-Position des Sub-Meshs an, relativ zu seinem übergeordneten
+  angegeben wird, gibt dies die neue x-Position des Sub-Meshs an, relativ zu seinem Ã¼bergeordneten
   Mesh (englisch "parent").
 
 @Parameter "SkalierungX"
-  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der X-Achse zum Mesh hinzu.
+  FÃ¼gt einen Skalierungs-Faktor (englisch "scale factor") auf der X-Achse zum Mesh hinzu.
   Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
 
 @Parameter "SkalierungY"
-  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der Y-Achse zum Mesh hinzu.
+  FÃ¼gt einen Skalierungs-Faktor (englisch "scale factor") auf der Y-Achse zum Mesh hinzu.
   Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
 
 @Parameter "SkalierungZ"
-  Fügt einen Skalierungs-Faktor (englisch "scale factor") auf der Z-Achse zum Mesh hinzu.
+  FÃ¼gt einen Skalierungs-Faktor (englisch "scale factor") auf der Z-Achse zum Mesh hinzu.
   Wenn der SubMesh Parameter angegeben wird, dann wird die Skalierung auf das Sub-Mesh angewandt.
 
 @Parameter "DrehungX"

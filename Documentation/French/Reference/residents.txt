@@ -1,32 +1,32 @@
-@Title Résidents
+ï»¿@Title RÃ©sidents
 
 @Description
-  Les résidents sont des fichiers pré-compilés qui sont chargés lors du démarrage du 
+  Les rÃ©sidents sont des fichiers prÃ©-compilÃ©s qui sont chargÃ©s lors du dÃ©marrage du 
   compilateur. Ils se trouvent dans le dossier des 'residents' dans le chemin 
-  d'installation de PureBasic. Un fichier résident doit avoir l'extension '.res' et peut 
-  contenir les éléments suivants:  @ReferenceLink "structures" "Structures", 
+  d'installation de PureBasic. Un fichier rÃ©sident doit avoir l'extension '.res' et peut 
+  contenir les Ã©lÃ©ments suivants:  @ReferenceLink "structures" "Structures", 
   @ReferenceLink "interfaces" "interfaces", @ReferenceLink "prototypes" "prototypes", @ReferenceLink "macros" "macros" et 
   @ReferenceLink "general_rules" "constantes". Il ne peut pas contenir un code dynamique 
-  ni des @ReferenceLink "procedures" "procédures".
+  ni des @ReferenceLink "procedures" "procÃ©dures".
   @LineBreak
   @LineBreak
-  Lorsqu'un résident est chargé, tout son contenu est disponible pour le programme en cours 
-  de compilation. C'est pourquoi toutes les constantes intégrées comme @#PB_Event_CloseWindow 
+  Lorsqu'un rÃ©sident est chargÃ©, tout son contenu est disponible pour le programme en cours 
+  de compilation. C'est pourquoi toutes les constantes intÃ©grÃ©es comme @#PB_Event_CloseWindow 
   sont disponibles, elles sont dans le fichier 'PureBasic.res.@LineBreak
-  Toutes les structures et les constantes de l'API sont également dans un fichier résident. 
-  L'utilisation des résidents est un bon moyen pour stocker les macros, les structures et 
+  Toutes les structures et les constantes de l'API sont Ã©galement dans un fichier rÃ©sident. 
+  L'utilisation des rÃ©sidents est un bon moyen pour stocker les macros, les structures et 
   les constantes  communes afin qu'elles soient disponibles pour tous les programmes.@LineBreak
-  Lors de la distribution d'une bibliothèque utilisateur, c'est aussi une bonne solution 
-  pour fournir les constantes et les structures nécessaires. 
+  Lors de la distribution d'une bibliothÃ¨que utilisateur, c'est aussi une bonne solution 
+  pour fournir les constantes et les structures nÃ©cessaires. 
   @LineBreak
   @LineBreak
-  Pour créer un nouveau résident, le @ReferenceLink "cli_compiler" "compilateur en ligne de commande" 
-  doit être utilisé, car il n'y a pas d'option pour le faire à partir de l'IDE. 
-  Il est souvent nécessaire d'utiliser /IGNORERESIDENT et /CREATERESIDENT en même temps afin 
-  d'éviter des erreurs, car la version précédente du résident est chargée avant la 
-  création de la nouvelle.
+  Pour crÃ©er un nouveau rÃ©sident, le @ReferenceLink "cli_compiler" "compilateur en ligne de commande" 
+  doit Ãªtre utilisÃ©, car il n'y a pas d'option pour le faire Ã  partir de l'IDE. 
+  Il est souvent nÃ©cessaire d'utiliser /IGNORERESIDENT et /CREATERESIDENT en mÃªme temps afin 
+  d'Ã©viter des erreurs, car la version prÃ©cÃ©dente du rÃ©sident est chargÃ©e avant la 
+  crÃ©ation de la nouvelle.
   @LineBreak
   @LineBreak
-  Les résidents aident grandement à avoir une compilation et un démarrage du compilateur 
-  plus rapide, car toutes les informations sont stockées au format binaire. C'est beaucoup 
-  plus rapide que l'analyse d'un fichier d'inclusion à chaque compilation.
+  Les rÃ©sidents aident grandement Ã  avoir une compilation et un dÃ©marrage du compilateur 
+  plus rapide, car toutes les informations sont stockÃ©es au format binaire. C'est beaucoup 
+  plus rapide que l'analyse d'un fichier d'inclusion Ã  chaque compilation.

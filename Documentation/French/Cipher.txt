@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Cipher library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,11 +8,11 @@
 
 @Overview
 
-  La bibliothèque Cipher propose un jeu de 
+  La bibliothÃ¨que Cipher propose un jeu de 
   fonctions pour le chiffrement ou 
-  l'encodage des données. Par exemple la 
-  signature SHA-2 est utilisée dans de nombreux domaines en 
-  raison de sa résistance aux piratage.
+  l'encodage des donnÃ©es. Par exemple la 
+  signature SHA-2 est utilisÃ©e dans de nombreux domaines en 
+  raison de sa rÃ©sistance aux piratage.
 
 @CommandList
 
@@ -25,27 +25,27 @@
 @Function AddCipherBuffer(#Cipher, *Entree, *Sortie, Taille)
 
 @Description
-  Ajoute de nouvelles données au 
-  chiffrement démarré avec @@StartAESCipher 
-  et copie les données cryptées dans le 
+  Ajoute de nouvelles donnÃ©es au 
+  chiffrement dÃ©marrÃ© avec @@StartAESCipher 
+  et copie les donnÃ©es cryptÃ©es dans le 
   tampon de sortie.
 
 @Parameter "#Cipher"
-   Le chiffrement auquel les données 
-   doivent être ajoutées.
+   Le chiffrement auquel les donnÃ©es 
+   doivent Ãªtre ajoutÃ©es.
 
 @Parameter "*Entree"
-   Le tampon d'entrée.
+   Le tampon d'entrÃ©e.
 
 @Parameter"*Sortie"
    Le tampon de sortie.
 
 @Parameter "Taille"
-   La taille des données à chiffrer.
+   La taille des donnÃ©es Ã  chiffrer.
    @LineBreak 
-   Il s'agit de la quantité d'octets qui 
-   sera lue à partir du tampon d'entrée 
-   et également écrite dans le tampon de 
+   Il s'agit de la quantitÃ© d'octets qui 
+   sera lue Ã  partir du tampon d'entrÃ©e 
+   et Ã©galement Ã©crite dans le tampon de 
    sortie.
    
 @NoReturnValue
@@ -61,103 +61,103 @@
 @Function Resultat = AESEncoder(*Entree, *Sortie, Taille, *Cle, Bits, *VecteurInitialisation [, Mode])
 
 @Description
-  Encode les données du tampon d'entrée 
+  Encode les donnÃ©es du tampon d'entrÃ©e 
   en utilisant l'algorithme AES dans le 
   tampon de sortie.
   
 @Parameter "*Entree"
-  Le tampon d'entrée avec les données en 
+  Le tampon d'entrÃ©e avec les donnÃ©es en 
   clair.
 
 @Parameter "*Sortie"
-  Le tampon de sortie qui reçoit les 
-  données codées. @LineBreak
-  Il doit être différent du tampon 
-  d'entrée.
+  Le tampon de sortie qui reÃ§oit les 
+  donnÃ©es codÃ©es. @LineBreak
+  Il doit Ãªtre diffÃ©rent du tampon 
+  d'entrÃ©e.
 
 @Parameter "Taille"
-  Le nombre d'octets à encoder.@LineBreak 
-  Au moins 16 octets sinon des données de 
-  rembourrage doivent être ajoutées dans 
-  le tampon d'entrée avant le codage, 
+  Le nombre d'octets Ã  encoder.@LineBreak 
+  Au moins 16 octets sinon des donnÃ©es de 
+  rembourrage doivent Ãªtre ajoutÃ©es dans 
+  le tampon d'entrÃ©e avant le codage, 
   afin d'obtenir ces 16 octets minimum.
 
 @Parameter "*Cle"
-  Un tampon contenant la clé de codage.@LineBreak
-  @@DeriveCipherKey peut être utilisée pour créer cette clé à partir d'un mot de passe.
+  Un tampon contenant la clÃ© de codage.@LineBreak
+  @@DeriveCipherKey peut Ãªtre utilisÃ©e pour crÃ©er cette clÃ© Ã  partir d'un mot de passe.
 @FixedFont  
-  Sa taille dépend du paramètre 'Bits': 
+  Sa taille dÃ©pend du paramÃ¨tre 'Bits': 
     l6 octets pour le cryptage 128 bits 
     24 octets pour le cryptage 192 bits
     32 octets pour le cryptage 256 bits
 @EndFixedFont 
 
 @Parameter "Bits"
-  La taille de la clé utilisée par le 
+  La taille de la clÃ© utilisÃ©e par le 
   chiffrement. @LineBreak 
   Les valeurs valides sont 128, 192 et 256.
 
 @Parameter "*VecteurInitialisation"
-  Est un bloc tampon de données aléatoires 
-  de 16 octets, utilisé pour initialiser 
-  le chiffrement afin d'empêcher toute 
-  violation de décodage (uniquement 
-  nécessaire si vous utilisez le  mode 
+  Est un bloc tampon de donnÃ©es alÃ©atoires 
+  de 16 octets, utilisÃ© pour initialiser 
+  le chiffrement afin d'empÃªcher toute 
+  violation de dÃ©codage (uniquement 
+  nÃ©cessaire si vous utilisez le  mode 
   @#PB_Cipher_CBC).
 
 @OptionalParameter "Mode"
 @FixedFont  
-  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
-                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_CBC: Mode par dÃ©faut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  RecommandÃ© car plus sÃ»r que le mode ECB.
   @#PB_Cipher_ECB: Mode Alternatif (Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
-                  ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
-                  et ne devrait pas être utilisé pour un cryptage sérieux.
+                  ni de chaÃ®nage(chaque bloc est codÃ© indÃ©pendamment). Cryptage trÃ¨s faible comparÃ© Ã  CBC
+                  et ne devrait pas Ãªtre utilisÃ© pour un cryptage sÃ©rieux.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si 
-  l'encodage a réussie, zéro sinon.
+  l'encodage a rÃ©ussie, zÃ©ro sinon.
 
 @Remarks
   AES est un algorithme de chiffrement de 
-  l'industrie qui a un bon équilibre entre 
-  la vitesse et la sécurité. 
+  l'industrie qui a un bon Ã©quilibre entre 
+  la vitesse et la sÃ©curitÃ©. 
   Voici l'introduction wikipedia sur AES: 
   "En cryptographie, le Advanced 
   Encryption Standard (AES) est une norme
-  de cryptage adopté par le gouvernement 
-  des États-Unis. La norme comprend trois 
+  de cryptage adoptÃ© par le gouvernement 
+  des Ã‰tats-Unis. La norme comprend trois 
   chiffrements par bloc, AES-128, AES-192 
   et AES-256. Chaque chiffrement AES a une 
   taille de bloc de 128 bits, avec des 
-  tailles de clés de 128, 192 et 256 bits, 
+  tailles de clÃ©s de 128, 192 et 256 bits, 
   respectivement.
-  Les chiffrements AES ont été analysés de 
-  façon approfondie et sont maintenant 
-  utilisés dans le monde entier.
+  Les chiffrements AES ont Ã©tÃ© analysÃ©s de 
+  faÃ§on approfondie et sont maintenant 
+  utilisÃ©s dans le monde entier.
 @LineBreak
 @LineBreak
-  PureBasic utilise une mise en œuvre 
-  conforme à la RFC de l'AES. 
-  Plus d'informations peuvent être 
-  trouvées dans le RFC 3602 : 
+  PureBasic utilise une mise en Å“uvre 
+  conforme Ã  la RFC de l'AES. 
+  Plus d'informations peuvent Ãªtre 
+  trouvÃ©es dans le RFC 3602 : 
   @InternetLink "http://www.ietf.org/rfc/rfc3602.txt" "http://www.ietf.org/rfc/rfc3602.txt".
 
 @Example CBC
 @Code
-  ; Crypter une chaîne de caractères
+  ; Crypter une chaÃ®ne de caractÃ¨res
   ;
   String$ = "Hello voici un test pour AES"
   
-  StringMemorySize = StringByteLength(String$) + SizeOf(Character) ; Espace pour la chaîne et son caractère 'nul' de terminaison de chaîne
+  StringMemorySize = StringByteLength(String$) + SizeOf(Character) ; Espace pour la chaÃ®ne et son caractÃ¨re 'nul' de terminaison de chaÃ®ne
   *CipheredString = AllocateMemory(StringMemorySize)   
   *DecipheredString = AllocateMemory(StringMemorySize) 
   
   If AESEncoder(@String$, *CipheredString, StringByteLength(String$), ?Key, 128, ?InitializationVector)
-    Debug "Codé : "+PeekS(*CipheredString) ; Attention, ça s'arrêtera sur le premier octet nul, uniquement à des fins de démonstration
+    Debug "CodÃ© : "+PeekS(*CipheredString) ; Attention, Ã§a s'arrÃªtera sur le premier octet nul, uniquement Ã  des fins de dÃ©monstration
     
     AESDecoder(*CipheredString, *DecipheredString, StringByteLength(String$), ?Key, 128, ?InitializationVector)
-    Debug "Décodé : "+PeekS(*DecipheredString)
+    Debug "DÃ©codÃ© : "+PeekS(*DecipheredString)
   EndIf
 
   DataSection
@@ -174,14 +174,14 @@
 @Code
   String$ = "Hello voici un test pour AES"
   
-  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; Espace pour la chaîne de caractère
-  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; et le caractère nul de fin de chaîne
+  *CipheredString   = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; Espace pour la chaÃ®ne de caractÃ¨re
+  *DecipheredString = AllocateMemory(StringByteLength(String$) + SizeOf(Character)) ; et le caractÃ¨re nul de fin de chaÃ®ne
   
   If AESEncoder(@String$, *CipheredString, MemorySize(*CipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Chiffré: " + PeekS(*CipheredString)
+    Debug "ChiffrÃ©: " + PeekS(*CipheredString)
     
     AESDecoder(*CipheredString, *DecipheredString, MemorySize(*DecipheredString), ?Key, 128, 0, #PB_Cipher_ECB)
-    Debug "Déchiffré: " + PeekS(*DecipheredString)
+    Debug "DÃ©chiffrÃ©: " + PeekS(*DecipheredString)
   EndIf
   
   DataSection
@@ -198,71 +198,71 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = AESDecoder(*Entrée, *Sortie, Taille, *Cle, Bits, *VecteurInitialisation [, Mode])
+@Function Resultat = AESDecoder(*EntrÃ©e, *Sortie, Taille, *Cle, Bits, *VecteurInitialisation [, Mode])
 
 @Description
-  Décode les données du tampon d'entrée 
+  DÃ©code les donnÃ©es du tampon d'entrÃ©e 
   en utilisant l'algorithme AES dans le 
   tampon de sortie.
     
 @Parameter "*Entree"
-  Le tampon d'entrée avec les données en 
+  Le tampon d'entrÃ©e avec les donnÃ©es en 
   clair.
 
 @Parameter "*Sortie"
-  Le tampon de sortie qui reçoit les 
-  données codées. @LineBreak
-  Il doit être différent du tampon 
-  d'entrée.
+  Le tampon de sortie qui reÃ§oit les 
+  donnÃ©es codÃ©es. @LineBreak
+  Il doit Ãªtre diffÃ©rent du tampon 
+  d'entrÃ©e.
 
 @Parameter "Taille"
-  Le nombre d'octets à encoder.@LineBreak 
-  Au moins 16 octets sinon des données 
-  de rembourrage doivent être ajoutées 
-  dans le tampon d'entrée avant le codage, 
+  Le nombre d'octets Ã  encoder.@LineBreak 
+  Au moins 16 octets sinon des donnÃ©es 
+  de rembourrage doivent Ãªtre ajoutÃ©es 
+  dans le tampon d'entrÃ©e avant le codage, 
   afin d'obtenir ces 16 octets minimum.
 
 @Parameter "*Cle"
-  Un tampon contenant la clé de codage.@LineBreak
-  @@DeriveCipherKey peut être utilisée pour créer cette clé à partir d'un mot de passe. 
+  Un tampon contenant la clÃ© de codage.@LineBreak
+  @@DeriveCipherKey peut Ãªtre utilisÃ©e pour crÃ©er cette clÃ© Ã  partir d'un mot de passe. 
 @FixedFont  
-  Sa taille dépend du paramètre 'Bits': 
+  Sa taille dÃ©pend du paramÃ¨tre 'Bits': 
     l6 octets pour le cryptage 128 bits 
     24 octets pour le cryptage 192 bits
     32 octets pour le cryptage 256 bits
 @EndFixedFont 
 
 @Parameter "Bits"
-  La taille de la clé utilisée par le 
+  La taille de la clÃ© utilisÃ©e par le 
   chiffrement. @LineBreak 
   Les valeurs valides sont 128, 192 et 256.
 
 @Parameter "*VecteurInitialisation"
-  Est un bloc tampon de données aléatoires, 
-  utilisé pour initialiser le chiffrement
-  afin d'empêcher toute violation de 
-  décodage (uniquement nécessaire si vous 
+  Est un bloc tampon de donnÃ©es alÃ©atoires, 
+  utilisÃ© pour initialiser le chiffrement
+  afin d'empÃªcher toute violation de 
+  dÃ©codage (uniquement nÃ©cessaire si vous 
   utilisez le  mode @#PB_Cipher_CBC).
   Sa taille vaut toujours 16 octets.  
   Le contenu de ce bloc doit correspondre 
-  à celui qui a été utilisé pour 
-  @Link "AESEncoder" "encoder" les données.
+  Ã  celui qui a Ã©tÃ© utilisÃ© pour 
+  @Link "AESEncoder" "encoder" les donnÃ©es.
 
 @OptionalParameter "Mode"
 @FixedFont  
-  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
-                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_CBC: Mode par dÃ©faut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  RecommandÃ© car plus sÃ»r que le mode ECB.
   @#PB_Cipher_ECB: Mode Alternatif (Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
-                  ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
-                  et ne devrait pas être utilisé pour un cryptage sérieux.
+                  ni de chaÃ®nage(chaque bloc est codÃ© indÃ©pendamment). Cryptage trÃ¨s faible comparÃ© Ã  CBC
+                  et ne devrait pas Ãªtre utilisÃ© pour un cryptage sÃ©rieux.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  décodage a réussi, zéro sinon. 
+  dÃ©codage a rÃ©ussi, zÃ©ro sinon. 
 
 @Remarks
-  Pour plus d'informations à propos de 
+  Pour plus d'informations Ã  propos de 
   AES et voir des exemples: @@AESEncoder.
 
 @SeeAlso
@@ -275,48 +275,48 @@
 @Function Resultat$ = CreatePasswordHash(MotDePasse$ [, FacteurdeTravail])
 
 @Description
-  Crée un résumé de hachage d'un mot de passe pour son stockage et sa vérification ultérieure.@LineBreak 
+  CrÃ©e un rÃ©sumÃ© de hachage d'un mot de passe pour son stockage et sa vÃ©rification ultÃ©rieure.@LineBreak 
  
 @Parameter "MotDePasse$"
-  Le mot de passe à hasher.
+  Le mot de passe Ã  hasher.
   
 @OptionalParameter "FacteurdeTravail"
-  Ce paramètre influence la quantité de travail que la fonction de hachage devra utiliser pour 
-  créer ou vérifier un hachage de mot de passe.@LineBreak 
-  Plus la valeur est élevée et plus la tentative de déchiffrement d'un mot de passe par force brute 
-  sera coûteux, mais cela rendra également la création et la vérification du mot de passe plus 
-  coûteuses pour l'application elle-même.
+  Ce paramÃ¨tre influence la quantitÃ© de travail que la fonction de hachage devra utiliser pour 
+  crÃ©er ou vÃ©rifier un hachage de mot de passe.@LineBreak 
+  Plus la valeur est Ã©levÃ©e et plus la tentative de dÃ©chiffrement d'un mot de passe par force brute 
+  sera coÃ»teux, mais cela rendra Ã©galement la crÃ©ation et la vÃ©rification du mot de passe plus 
+  coÃ»teuses pour l'application elle-mÃªme.
 @LineBreak 
 @LineBreak 
-  Les valeurs autorisées sont comprises entre 4 et 31. @LineBreak 
-  Augmenter ce paramètre de un double la quantité de travail effectuée par la fonction pour créer 
-  ou vérifier ultérieurement un mot de passe.@LineBreak  
-  La valeur par défaut est 10.
+  Les valeurs autorisÃ©es sont comprises entre 4 et 31. @LineBreak 
+  Augmenter ce paramÃ¨tre de un double la quantitÃ© de travail effectuÃ©e par la fonction pour crÃ©er 
+  ou vÃ©rifier ultÃ©rieurement un mot de passe.@LineBreak  
+  La valeur par dÃ©faut est 10.
 
 @ReturnValue  
   Renvoie le hachage du mot de passe.
   
 @Remarks  
-  Il n'est pas possible de récupérer le mot de passe saisi à partir de la valeur de hachage, 
-  mais les mots de passe peuvent être vérifiés pour voir s'ils correspondent au hachage en utilisant 
+  Il n'est pas possible de rÃ©cupÃ©rer le mot de passe saisi Ã  partir de la valeur de hachage, 
+  mais les mots de passe peuvent Ãªtre vÃ©rifiÃ©s pour voir s'ils correspondent au hachage en utilisant 
   @@VerifyPasswordHash.
 @LineBreak
 @LineBreak
-  Le hachage du mot de passe renvoyé inclut un composant aléatoire (une valeur de 'salage') pour garantir 
-  que plusieurs hachages créés à partir du même mot de passe d'entrée ne créent pas la même valeur 
-  de hachage. Il n'est donc pas possible de comparer directement le résultat de cette fonction pour 
-  vérifier un mot de passe. La fonction @@VerifyPasswordHash doit être appelée pour vérifier 
+  Le hachage du mot de passe renvoyÃ© inclut un composant alÃ©atoire (une valeur de 'salage') pour garantir 
+  que plusieurs hachages crÃ©Ã©s Ã  partir du mÃªme mot de passe d'entrÃ©e ne crÃ©ent pas la mÃªme valeur 
+  de hachage. Il n'est donc pas possible de comparer directement le rÃ©sultat de cette fonction pour 
+  vÃ©rifier un mot de passe. La fonction @@VerifyPasswordHash doit Ãªtre appelÃ©e pour vÃ©rifier 
   un mot de passe.
 @LineBreak
 @LineBreak
- Cette fonction implémente l'algorithme de hachage de mot de passe bcrypt.
+ Cette fonction implÃ©mente l'algorithme de hachage de mot de passe bcrypt.
 
 @Example
 @Code
-  ; Créer un résumé de hachage pour un stockage sécurisé
+  ; CrÃ©er un rÃ©sumÃ© de hachage pour un stockage sÃ©curisÃ©
   Hash$ = CreatePasswordHash("secret")
 
-  ; Vérifiez les mots de passe par rapport au hachage
+  ; VÃ©rifiez les mots de passe par rapport au hachage
   Debug VerifyPasswordHash("secret", Hash$)      ; correct
   Debug VerifyPasswordHash("autresecret", Hash$) ; incorrect
 @EndCode
@@ -330,16 +330,16 @@
 @Function Resultat = VerifyPasswordHash(MotDePasse$, Hash$)
 
 @Description
-  Vérifie si un mot de passe correspond à la valeur de hachage créée avec @@CreatePasswordHash.
+  VÃ©rifie si un mot de passe correspond Ã  la valeur de hachage crÃ©Ã©e avec @@CreatePasswordHash.
 
 @Parameter "MotDePasse$"
-  Le mot de passe à vérifier.
+  Le mot de passe Ã  vÃ©rifier.
 
 @Parameter "Hash$"
- Le résultat de l’appel à @@CreatePasswordHash.
+ Le rÃ©sultat de lâ€™appel Ã  @@CreatePasswordHash.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le mot de passe correspond à la valeur de hachage, zéro sinon 
+  Renvoie une valeur non nulle si le mot de passe correspond Ã  la valeur de hachage, zÃ©ro sinon 
   (pas de correspondance ou valeur de hachage non valide).
 .
 
@@ -357,9 +357,9 @@
 
 @Description
 @Deprecated
-  Renvoie une version cryptée DES du mot de passe.@LineBreak
-  Cette commande est obsolète car elle n'est plus suffisamment sécurisée pour les utilisations modernes.@LineBreak
-  Utilisez plutôt la fonction @@CreatePasswordHash.
+  Renvoie une version cryptÃ©e DES du mot de passe.@LineBreak
+  Cette commande est obsolÃ¨te car elle n'est plus suffisamment sÃ©curisÃ©e pour les utilisations modernes.@LineBreak
+  Utilisez plutÃ´t la fonction @@CreatePasswordHash.
 
 @SeeAlso
   @@CreatePasswordHash
@@ -371,68 +371,68 @@
 @Function Resultat = DeriveCipherKey(MotDePasse$, Salage$, Iterations, *Cle, CleBits, Plugin [, PluginBits])
 
 @Description
-  Crée une clé de chiffrement avec le nombre spécifié de bits à partir d'un mot de passe d'entrée pour 
-  une utilisation dans d'autres fonctions de chiffrement comme le cryptage ou le déchiffrement. 
-  Cette fonction implémente l'algorithme de dérivation de clé PBKDF2.
+  CrÃ©e une clÃ© de chiffrement avec le nombre spÃ©cifiÃ© de bits Ã  partir d'un mot de passe d'entrÃ©e pour 
+  une utilisation dans d'autres fonctions de chiffrement comme le cryptage ou le dÃ©chiffrement. 
+  Cette fonction implÃ©mente l'algorithme de dÃ©rivation de clÃ© PBKDF2.
 
 @Parameter "MotDePasse$"
-  Le mot de passe pour la génération de la clé.
+  Le mot de passe pour la gÃ©nÃ©ration de la clÃ©.
 
 @Parameter "Salage$"
-  Une chaîne de "salage" ("salt string") afin de rendre le résultat de la fonction unique même si le 
-  même mot de passe est utilisé. Cela rend les attaques par force brute plus difficiles et empêche 
+  Une chaÃ®ne de "salage" ("salt string") afin de rendre le rÃ©sultat de la fonction unique mÃªme si le 
+  mÃªme mot de passe est utilisÃ©. Cela rend les attaques par force brute plus difficiles et empÃªche 
   la divulgation d'informations en cas de correspondance des mots de passe.
 @LineBreak
 @LineBreak
-  Cette valeur ne doit pas nécessairement être secrète mais elle doit être unique si possible.
+  Cette valeur ne doit pas nÃ©cessairement Ãªtre secrÃ¨te mais elle doit Ãªtre unique si possible.
   
 @Parameter "Iterations"
-  Le nombre d'itérations de la boucle de génération de clé PBKDF2. 
+  Le nombre d'itÃ©rations de la boucle de gÃ©nÃ©ration de clÃ© PBKDF2. 
 @LineBreak
 @LineBreak  
-  Un nombre plus élevé augmente le temps/calculs nécessaires pour calculer la clé et rend donc 
+  Un nombre plus Ã©levÃ© augmente le temps/calculs nÃ©cessaires pour calculer la clÃ© et rend donc 
   les attaques par force brute plus difficiles.
   
 @Parameter "*Cle"
-  Pointeur vers l'emplacement mémoire de la clé. @LineBreak
-  La zone mémoire doit avoir une taille d'au moins KeyBits/8 octets.
+  Pointeur vers l'emplacement mÃ©moire de la clÃ©. @LineBreak
+  La zone mÃ©moire doit avoir une taille d'au moins KeyBits/8 octets.
   
 @Parameter "CleBits"
-  La taille de la clé à générer en bits.
+  La taille de la clÃ© Ã  gÃ©nÃ©rer en bits.
   
 @Parameter "Plugin"
-  Le plugin pour la fonction d'empreinte digitale à utiliser dans le calcul des clés. 
-  Il peut s'agir de l'une des valeurs suivantes :
+  Le plugin pour la fonction d'empreinte digitale Ã  utiliser dans le calcul des clÃ©s. 
+  Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Cipher_MD5  : Utilise l'algorithme MD5.  @@UseMD5Fingerprint doit être appelé avant d'enregistrer ce plugin.
-  @#PB_Cipher_SHA1 : Utilise l'algorithme SHA1. @@UseSHA1Fingerprint doit être appelé avant d'enregistrer ce plugin.
-  @#PB_Cipher_SHA2 : Utilise l'algorithme SHA2. @@UseSHA2Fingerprint doit être appelé avant d'enregistrer ce plugin.
-  @#PB_Cipher_SHA3 : Utilise l'algorithme SHA3. @@UseSHA3Fingerprint doit être appelé avant d'enregistrer ce plugin.
+  @#PB_Cipher_MD5  : Utilise l'algorithme MD5.  @@UseMD5Fingerprint doit Ãªtre appelÃ© avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA1 : Utilise l'algorithme SHA1. @@UseSHA1Fingerprint doit Ãªtre appelÃ© avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA2 : Utilise l'algorithme SHA2. @@UseSHA2Fingerprint doit Ãªtre appelÃ© avant d'enregistrer ce plugin.
+  @#PB_Cipher_SHA3 : Utilise l'algorithme SHA3. @@UseSHA3Fingerprint doit Ãªtre appelÃ© avant d'enregistrer ce plugin.
 @EndFixedFont
 
 @OptionalParameter "PluginBits"
-  Le nombre de bits à utiliser pour la fonction d'empreinte digitale (fingerpriint). Il n'est pris en 
-  charge que pour le plugin suivant :
+  Le nombre de bits Ã  utiliser pour la fonction d'empreinte digitale (fingerpriint). Il n'est pris en 
+  charge que pour le plugin suivantÂ :
 @FixedFont
-  @#PB_Cipher_SHA2 : Peut être 224, 256 (par défaut), 384 ou 512.
-  @#PB_Cipher_SHA3 : Peut être 224, 256 (par défaut), 384 ou 512.
+  @#PB_Cipher_SHA2 : Peut Ãªtre 224, 256 (par dÃ©faut), 384 ou 512.
+  @#PB_Cipher_SHA3 : Peut Ãªtre 224, 256 (par dÃ©faut), 384 ou 512.
 @EndFixedFont
-  Le nombre de bits pour la fonction d'empreinte digitale est indépendant de la taille de la clé à 
-  générer. Toute combinaison est autorisée.
+  Le nombre de bits pour la fonction d'empreinte digitale est indÃ©pendant de la taille de la clÃ© Ã  
+  gÃ©nÃ©rer. Toute combinaison est autorisÃ©e.
 
 @ReturnValue
-  Renvoie une valeur non nulle si la clé a été générée. Renvoie zéro uniquement si les paramètres du 
-  plugin n'étaient pas valides.
+  Renvoie une valeur non nulle si la clÃ© a Ã©tÃ© gÃ©nÃ©rÃ©e. Renvoie zÃ©ro uniquement si les paramÃ¨tres du 
+  plugin n'Ã©taient pas valides.
 
 @Example
 @Code
   UseSHA2Fingerprint()
   *Cle = AllocateMemory(32)
 
-  ; Créez une clé de 256 bits à l'aide de la fonction de hachage SHA-512 et de 500 000 itérations
+  ; CrÃ©ez une clÃ© de 256 bits Ã  l'aide de la fonction de hachage SHA-512 et de 500 000 itÃ©rations
   DeriveCipherKey("MotdePasseSecret", "SalageNonSecret", 500000, *Cle, 256, #PB_Cipher_SHA2, 512)
 
-  ; Montrer la clé
+  ; Montrer la clÃ©
   ShowMemoryViewer(*Cle, 32)
 @EndCode
 
@@ -446,78 +446,78 @@
 @Function Resultat = StartFingerprint(#Fingerprint, Plugin [, Bits [, CleHmac$ [,FormatCleHmac]]])
 
 @Description
-  Initialise le calcul d'une empreinte en plusieurs étapes. 
+  Initialise le calcul d'une empreinte en plusieurs Ã©tapes. 
 @LineBreak
 @LineBreak   
-  Contrairement à la commande @@Fingerprint, elle permet de calculer l'empreinte de grandes 
-  quantités de données sans avoir à charger le tout dans un tampon de mémoire continue. 
+  Contrairement Ã  la commande @@Fingerprint, elle permet de calculer l'empreinte de grandes 
+  quantitÃ©s de donnÃ©es sans avoir Ã  charger le tout dans un tampon de mÃ©moire continue. 
 
 @Parameter "#Fingerprint"
   L'identifiant de ce calcul de type 'checksum'. 
 @LineBreak
 @LineBreak 
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut est utilisé pour générer automatiquement ce nombre.
+  peut est utilisÃ© pour gÃ©nÃ©rer automatiquement ce nombre.
 
 @Parameter "Plugin"
-  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+  Le plugin Ã  utiliser. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
 @EndFixedFont
-  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
-  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
-  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Le plugin Ã  utiliser peut Ãªtre combinÃ© avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basÃ© sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramÃ¨tre "CleHmac$" est Ã©galement nÃ©cessaire.@LineBreak 
   Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
      
 @OptionalParameter "Bits"
-  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+  Le nombre de bits Ã  utiliser pour l'empreinte. SupportÃ© seulement avec les plugins suivants:
 @FixedFont
-  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
-  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+  @#PB_Cipher_SHA2 : peut Ãªtre 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut Ãªtre 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
 
 @OptionalParameter "CleHmac$"
-    La clé secrète à utiliser dans le calcul HMAC. 
+    La clÃ© secrÃ¨te Ã  utiliser dans le calcul HMAC. 
 @LineBreak
 @LineBreak 
-  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  Ce paramÃ¨tre n'est utilisÃ© que si le @#PB_Cipher_HMAC est ajoutÃ© au paramÃ¨tre du plugin.
   
 @OptionalParameter "FormatCleHmac"
-  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+  Le format de chaÃ®ne Ã  utiliser pour la clÃ© HMAC. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Ascii  : Encoder la clé en ASCII
-  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
-  @#PB_Unicode: Encoder la clé en Unicode
+  @#PB_Ascii  : Encoder la clÃ© en ASCII
+  @#PB_UTF8   : Encoder la clÃ© en UTF-8 (par dÃ©faut).
+  @#PB_Unicode: Encoder la clÃ© en Unicode
 @EndFixedFont
 
 @ReturnValue  
-  Renvoie la valeur #FingerPrint si @#PB_Any a été utilisé pour ce paramètre.
+  Renvoie la valeur #FingerPrint si @#PB_Any a Ã©tÃ© utilisÃ© pour ce paramÃ¨tre.
 
 @Remarks
-  @@AddFingerprintBuffer permet d'ajouter des blocs de données au calcul et 
-  @@FinishFingerprint le terminera et renverra le résultat.
+  @@AddFingerprintBuffer permet d'ajouter des blocs de donnÃ©es au calcul et 
+  @@FinishFingerprint le terminera et renverra le rÃ©sultat.
    
 @Example
 @Code
   UseMD5Fingerprint()
 
-  *Buffer = AllocateMemory(200) ; Prépare un tampon de données                 
+  *Buffer = AllocateMemory(200) ; PrÃ©pare un tampon de donnÃ©es                 
   If *Buffer
     PokeS(*Buffer, "Le renard brun rapide saute sur le chien paresseux.", -1, #PB_Ascii)
     Taille = MemoryStringLength(*Buffer, #PB_Ascii)
     
-    If StartFingerprint(0, #PB_Cipher_MD5)                ; démarre le calcul
+    If StartFingerprint(0, #PB_Cipher_MD5)                ; dÃ©marre le calcul
       AddFingerprintBuffer(0, *Buffer, Taille/2)          ; calcule la partie 1
       AddFingerprintBuffer(0, *Buffer+Taille/2, Taille/2) ; calcule la partie 2
       
       MD5$ = FinishFingerprint(0)                ; termine le calcul
       Debug "MD5 checksum = " + MD5$
       
-      MD5$ = Fingerprint(*Buffer, Length, #PB_Cipher_MD5)       ; comparaison avec le calcul en une seule étape
+      MD5$ = Fingerprint(*Buffer, Length, #PB_Cipher_MD5)       ; comparaison avec le calcul en une seule Ã©tape
       Debug "MD5 checksum = " + MD5$      
     EndIf
 
@@ -535,19 +535,19 @@
 @Function FinishCipher(#Cipher)
 
 @Description
-  Met fin au flux de cryptage préalablement 
+  Met fin au flux de cryptage prÃ©alablement 
   ouvert avec @@StartAESCipher.
   
 @Parameter "#Cipher"
-  Le cipher à fermer.
+  Le cipher Ã  fermer.
 
 @NoReturnValue
 
 @Remarks
-  Cette commande devrait être appelée pour 
-  clore un calcul de chiffrement même si le 
-  chiffre n'est plus nécessaire car elle 
-  effacera toutes les données liées au 
+  Cette commande devrait Ãªtre appelÃ©e pour 
+  clore un calcul de chiffrement mÃªme si le 
+  chiffre n'est plus nÃ©cessaire car elle 
+  effacera toutes les donnÃ©es liÃ©es au 
   calcul de chiffrement.
 
 @SeeAlso
@@ -560,20 +560,20 @@
 @Function Resultat = IsCipher(#Cipher)
 
 @Description
-  Teste si le numéro #Cipher donné est un chiffre valide et correctement initialisé. 
+  Teste si le numÃ©ro #Cipher donnÃ© est un chiffre valide et correctement initialisÃ©. 
 
 @Parameter "#Cipher"
-  Le cipher à utiliser.
+  Le cipher Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle si #Cipher est un chiffre valide, zéro sinon.
+  Renvoie une valeur non nulle si #Cipher est un chiffre valide, zÃ©ro sinon.
 
 @Remarks
-  Cette fonction a été créée pour pouvoir passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir de plantage.
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir passer n'importe quelle valeur en 
+  paramÃ¨tre sans qu'il ne puisse y avoir de plantage.
 @LineBreak
 @LineBreak  
-  C'est la fonction idéale pour vérifier qu'un chiffre est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier qu'un chiffre est correctement initialisÃ©.
   
 @SeeAlso
   @@StartAESCipher
@@ -585,15 +585,15 @@
 @Function AddFingerprintBuffer(#Fingerprint, *Tampon, Taille)
 
 @Description
-  Ajoute un nouveau tampon mémoire  dans le 
-  calcul d'une somme de contrôle commencé par 
+  Ajoute un nouveau tampon mÃ©moire  dans le 
+  calcul d'une somme de contrÃ´le commencÃ© par 
   @@StartFingerprint.
 @LineBreak
 @LineBreak
-  La somme de contrôle renvoyée à la fin du
-  calcul inclura tous les tampons ajoutés comme 
-  si la somme de contrôle avait été calculée avec 
-  chacun d'eux dans un seul tampon mémoire 
+  La somme de contrÃ´le renvoyÃ©e Ã  la fin du
+  calcul inclura tous les tampons ajoutÃ©s comme 
+  si la somme de contrÃ´le avait Ã©tÃ© calculÃ©e avec 
+  chacun d'eux dans un seul tampon mÃ©moire 
   contigu.
 
 @Parameter "#FingerPrint"
@@ -601,10 +601,10 @@
 
 @Parameter "*Tampon"  
   Le tampon qui contient les nouvelles 
-  données à ajouter à l'empreinte.
+  donnÃ©es Ã  ajouter Ã  l'empreinte.
   
 @Parameter "Taille"  
-  Le nombre d'octets à ajouter à l'empreinte.
+  Le nombre d'octets Ã  ajouter Ã  l'empreinte.
 
 @NoReturnValue
 
@@ -622,23 +622,23 @@
 @Function Resultat$ = FinishFingerprint(#Fingerprint)
 
 @Description
-  Termine le calcul d'empreinte commencé avec 
+  Termine le calcul d'empreinte commencÃ© avec 
   @@StartFingerprint et renvoie la 
-  signature générée dans une chaîne de caractères 
-  hexadécimale.
+  signature gÃ©nÃ©rÃ©e dans une chaÃ®ne de caractÃ¨res 
+  hexadÃ©cimale.
 
 @Parameter "#FingerPrint"
-  L'identifiant du calcul à terminer.
+  L'identifiant du calcul Ã  terminer.
 
 @ReturnValue
-  Renvoie l'empreinte sous forme d'une chaîne 
-  de caractères hexadécimale.
+  Renvoie l'empreinte sous forme d'une chaÃ®ne 
+  de caractÃ¨res hexadÃ©cimale.
   
 @Remarks
- Cette commande doit toujours être appelée 
- pour terminer un calcul, même si la 
- signature n'est plus nécessaire, car elle 
- libère toutes les données associées au 
+ Cette commande doit toujours Ãªtre appelÃ©e 
+ pour terminer un calcul, mÃªme si la 
+ signature n'est plus nÃ©cessaire, car elle 
+ libÃ¨re toutes les donnÃ©es associÃ©es au 
  calcul.
 @LineBreak
 @LineBreak
@@ -656,23 +656,23 @@
 
 @Description
   Teste si un '#Fingerprint' est bien un calcul 
-  d'empreinte valide commencé par 
+  d'empreinte valide commencÃ© par 
   @@StartFingerprint.
   
 @Parameter "#FingerPrint"  
-  L'empreinte à tester.
+  L'empreinte Ã  tester.
   
 @ReturnValue  
   Renvoie une valeur non nulle si l'empreinte 
-  est valide, zéro sinon.
+  est valide, zÃ©ro sinon.
   
 @Remarks  
-  Cette fonction a été conçue pour pouvoir 
+  Cette fonction a Ã©tÃ© conÃ§ue pour pouvoir 
   passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir 
-  de plantage. C'est la fonction idéale 
-  pour vérifier qu'un objet est 
-  correctement initialisé.  
+  paramÃ¨tre sans qu'il ne puisse y avoir 
+  de plantage. C'est la fonction idÃ©ale 
+  pour vÃ©rifier qu'un objet est 
+  correctement initialisÃ©.  
 
 @SeeAlso
   @@StartFingerprint
@@ -687,56 +687,56 @@
   Renvoie une empreinte d'un fichier.
   
 @Parameter "Fichier$"  
-  Le nom du fichier à utiliser.
+  Le nom du fichier Ã  utiliser.
 
 @Parameter "Plugin"
-  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+  Le plugin Ã  utiliser. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
 @EndFixedFont
-  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
-  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
-  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Le plugin Ã  utiliser peut Ãªtre combinÃ© avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basÃ© sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramÃ¨tre "CleHmac$" est Ã©galement nÃ©cessaire.@LineBreak 
   Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
   
 @OptionalParameter "Bits"
-  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+  Le nombre de bits Ã  utiliser pour l'empreinte. SupportÃ© seulement avec les plugins suivants:
 @FixedFont
-  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
-  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+  @#PB_Cipher_SHA2 : peut Ãªtre 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut Ãªtre 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
   
 @OptionalParameter "Decalage"
-  Le décalage en octets (offset), à partir du début du fichier avant de lancer le calcul de la somme 
-  de contrôle.
+  Le dÃ©calage en octets (offset), Ã  partir du dÃ©but du fichier avant de lancer le calcul de la somme 
+  de contrÃ´le.
 
 @OptionalParameter "Longueur"
-  La longueur (en octets) à utiliser pour le calcul de la somme de contrôle.
+  La longueur (en octets) Ã  utiliser pour le calcul de la somme de contrÃ´le.
  
 @OptionalParameter "CleHmac$"
-    La clé secrète à utiliser dans le calcul HMAC. 
+    La clÃ© secrÃ¨te Ã  utiliser dans le calcul HMAC. 
 @LineBreak
 @LineBreak 
-  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  Ce paramÃ¨tre n'est utilisÃ© que si le @#PB_Cipher_HMAC est ajoutÃ© au paramÃ¨tre du plugin.
   
 @OptionalParameter "FormatCleHmac"
-  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+  Le format de chaÃ®ne Ã  utiliser pour la clÃ© HMAC. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Ascii  : Encoder la clé en ASCII
-  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
-  @#PB_Unicode: Encoder la clé en Unicode
+  @#PB_Ascii  : Encoder la clÃ© en ASCII
+  @#PB_UTF8   : Encoder la clÃ© en UTF-8 (par dÃ©faut).
+  @#PB_Unicode: Encoder la clÃ© en Unicode
 @EndFixedFont
  
 @ReturnValue  
-  Renvoie l'empreinte si le calcul a été un succès.
+  Renvoie l'empreinte si le calcul a Ã©tÃ© un succÃ¨s.
 @LineBreak
 @LineBreak   
-   Si le fichier est introuvable ou qu'une erreur s'est produite, le résultat sera une chaîne de 
-   caractères vide.
+   Si le fichier est introuvable ou qu'une erreur s'est produite, le rÃ©sultat sera une chaÃ®ne de 
+   caractÃ¨res vide.
 
 @SeeAlso
   @@Fingerprint, @@StartFingerprint, @@StringFingerprint
@@ -748,61 +748,61 @@
 @Function Resultat$ = Fingerprint(*Tampon, Taille, Plugin [, Bits [, CleHmac$ [,FormatCleHmac]]])
 
 @Description
-  Renvoie l'empreinte des données contenues 
+  Renvoie l'empreinte des donnÃ©es contenues 
   dans un tampon.
 
 @Parameter "*Tampon"
-  Le tampon contenant les données.
+  Le tampon contenant les donnÃ©es.
 
 @Parameter "Taille"
   La taille du tampon.
 
 @Parameter "Plugin"
-  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+  Le plugin Ã  utiliser. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
 @EndFixedFont
-  Le plugin à utiliser peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
-  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
-  cas, le paramètre "CleHmac$" est également nécessaire.@LineBreak 
+  Le plugin Ã  utiliser peut Ãªtre combinÃ© avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basÃ© sur le hachage) au lieu d'une empreinte digitale normale. Dans ce 
+  cas, le paramÃ¨tre "CleHmac$" est Ã©galement nÃ©cessaire.@LineBreak 
   Voir @@StringFingerprint pour un exemple d'utilisation de l'indicateur HMAC.
   
 @OptionalParameter "Bits"
-  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+  Le nombre de bits Ã  utiliser pour l'empreinte. SupportÃ© seulement avec les plugins suivants:
 @FixedFont
-  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
-  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+  @#PB_Cipher_SHA2 : peut Ãªtre 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut Ãªtre 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
 
 @OptionalParameter "CleHmac$"
-    La clé secrète à utiliser dans le calcul HMAC. 
+    La clÃ© secrÃ¨te Ã  utiliser dans le calcul HMAC. 
 @LineBreak
 @LineBreak 
-  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  Ce paramÃ¨tre n'est utilisÃ© que si le @#PB_Cipher_HMAC est ajoutÃ© au paramÃ¨tre du plugin.
   
 @OptionalParameter "FormatCleHmac"
-  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+  Le format de chaÃ®ne Ã  utiliser pour la clÃ© HMAC. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Ascii  : Encoder la clé en ASCII
-  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
-  @#PB_Unicode: Encoder la clé en Unicode
+  @#PB_Ascii  : Encoder la clÃ© en ASCII
+  @#PB_UTF8   : Encoder la clÃ© en UTF-8 (par dÃ©faut).
+  @#PB_Unicode: Encoder la clÃ© en Unicode
 @EndFixedFont
 
 @ReturnValue
-  Renvoie l'empreinte sous forme d'une chaîne de caractères hexadécimale.
+  Renvoie l'empreinte sous forme d'une chaÃ®ne de caractÃ¨res hexadÃ©cimale.
 
-@Example (Une chaîne en tant que tampon mémoire)
+@Example (Une chaÃ®ne en tant que tampon mÃ©moire)
 @Code
   UseMD5Fingerprint()
-  test.s = "Ceci est un test avec une chaîne!"
+  test.s = "Ceci est un test avec une chaÃ®ne!"
   Debug Fingerprint(@test, Len(test), #PB_Cipher_MD5)
 @EndCode
 
-@Example (Avec un tampon mémoire)
+@Example (Avec un tampon mÃ©moire)
 @Code
   UseMD5Fingerprint()
 
@@ -811,7 +811,7 @@
     PokeS(*Buffer, "Le renard brun rapide saute sur le chien paresseux.", -1, #PB_Ascii)
     MD5$ = Fingerprint(*Buffer, MemoryStringLength(*Buffer, #PB_Ascii), #PB_Cipher_MD5)
     Debug "MD5 Fingerprint = " + MD5$
-    FreeMemory(*Buffer)  ; sera libéré aussi à la fin du programme automatiquement
+    FreeMemory(*Buffer)  ; sera libÃ©rÃ© aussi Ã  la fin du programme automatiquement
   EndIf
 @EndCode
 
@@ -825,58 +825,58 @@
 @Function Resultat$ = StringFingerprint(Texte$, Plugin [, Bits [, Format [, CleHmac$ [,FormatCleHmac]]]])
 
 @Description 
-  Renvoie l'empreinte d'une chaîne de caractères.
+  Renvoie l'empreinte d'une chaÃ®ne de caractÃ¨res.
 
 @Parameter "Texte$"
-   La chaîne de caractères.
+   La chaÃ®ne de caractÃ¨res.
 
 @Parameter "Plugin"
-  Le plugin à utiliser. Peut être l'une des valeurs suivantes:
+  Le plugin Ã  utiliser. Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit être appelé avant pour utiliser le plugin.
-  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit être appelé avant pour utiliser le plugin.
+  @#PB_Cipher_CRC32: utilise l'algorithme CRC32. @@UseCRC32Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_MD5  : utilise l'algorithme MD5.   @@UseMD5Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA1 : utilise l'algorithme SHA1.  @@UseSHA1Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA2 : utilise l'algorithme SHA2.  @@UseSHA2Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
+  @#PB_Cipher_SHA3 : utilise l'algorithme SHA3.  @@UseSHA3Fingerprint doit Ãªtre appelÃ© avant pour utiliser le plugin.
 @EndFixedFont
-  Le plugin peut être combiné avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
-  d'authentification de message basé sur le hachage) au lieu d'une empreinte digitale normale. 
-  Dans ce cas, le paramètre "CleHmac$" est également nécessaire.
+  Le plugin peut Ãªtre combinÃ© avec l'indicateur @#PB_Cipher_HMAC pour calculer un HMAC (code 
+  d'authentification de message basÃ© sur le hachage) au lieu d'une empreinte digitale normale. 
+  Dans ce cas, le paramÃ¨tre "CleHmac$" est Ã©galement nÃ©cessaire.
 
 @OptionalParameter "Bits"
-  Le nombre de bits à utiliser pour l'empreinte. Supporté seulement avec les plugins suivants:
+  Le nombre de bits Ã  utiliser pour l'empreinte. SupportÃ© seulement avec les plugins suivants:
 @FixedFont
-  @#PB_Cipher_SHA2 : peut être 224, 256 (par defaut), 384 ou 512.
-  @#PB_Cipher_SHA3 : peut être 224, 256 (par defaut), 384 or 512.
+  @#PB_Cipher_SHA2 : peut Ãªtre 224, 256 (par defaut), 384 ou 512.
+  @#PB_Cipher_SHA3 : peut Ãªtre 224, 256 (par defaut), 384 or 512.
 @EndFixedFont
 
 @OptionalParameter "Format"
-  Le format de la chaîne de caractères à utiliser avant 
+  Le format de la chaÃ®ne de caractÃ¨res Ã  utiliser avant 
   le 'hashage'.@LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont  
-  @#PB_UTF8    : la chaîne sera 'hashée' au format UTF8 (par défaut).
-  @#PB_Ascii   : la chaîne sera 'hashée' au format ASCII.
-  @#PB_Unicode : la chaîne sera 'hashée' au format Unicode (UTF16).
+  @#PB_UTF8    : la chaÃ®ne sera 'hashÃ©e' au format UTF8 (par dÃ©faut).
+  @#PB_Ascii   : la chaÃ®ne sera 'hashÃ©e' au format ASCII.
+  @#PB_Unicode : la chaÃ®ne sera 'hashÃ©e' au format Unicode (UTF16).
 @EndFixedFont
 
 @OptionalParameter "CleHmac$"
-    La clé secrète à utiliser dans le calcul HMAC. 
+    La clÃ© secrÃ¨te Ã  utiliser dans le calcul HMAC. 
 @LineBreak
 @LineBreak 
-  Ce paramètre n'est utilisé que si le @#PB_Cipher_HMAC est ajouté au paramètre du plugin.
+  Ce paramÃ¨tre n'est utilisÃ© que si le @#PB_Cipher_HMAC est ajoutÃ© au paramÃ¨tre du plugin.
   
 @OptionalParameter "FormatCleHmac"
-  Le format de chaîne à utiliser pour la clé HMAC. Il peut s'agir de l'une des valeurs suivantes :
+  Le format de chaÃ®ne Ã  utiliser pour la clÃ© HMAC. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Ascii  : Encoder la clé en ASCII
-  @#PB_UTF8   : Encoder la clé en UTF-8 (par défaut).
-  @#PB_Unicode: Encoder la clé en Unicode
+  @#PB_Ascii  : Encoder la clÃ© en ASCII
+  @#PB_UTF8   : Encoder la clÃ© en UTF-8 (par dÃ©faut).
+  @#PB_Unicode: Encoder la clÃ© en Unicode
 @EndFixedFont
 
 @ReturnValue
-  Renvoie l'empreinte sous forme d'une chaîne 
-  de caractères hexadécimale.
+  Renvoie l'empreinte sous forme d'une chaÃ®ne 
+  de caractÃ¨res hexadÃ©cimale.
   
 @Example
 @Code
@@ -889,9 +889,9 @@
 @Code
   UseSHA2Fingerprint()
 
-  ; Utilise hmacSha256 avec la clé et le message en ascii.
-  ; Devrait être 4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988.
-   Debug StringFingerprint("le message à hacher ici", #PB_Cipher_SHA2|#PB_Cipher_HMAC, 256, #PB_Ascii, "la clé secrète partagée ici", #PB_Ascii)
+  ; Utilise hmacSha256 avec la clÃ© et le message en ascii.
+  ; Devrait Ãªtre 4643978965ffcec6e6d73b36a39ae43ceb15f7ef8131b8307862ebc560e7f988.
+   Debug StringFingerprint("le message Ã  hacher ici", #PB_Cipher_SHA2|#PB_Cipher_HMAC, 256, #PB_Ascii, "la clÃ© secrÃ¨te partagÃ©e ici", #PB_Ascii)
 @EndCode
 
 @SeeAlso
@@ -904,7 +904,7 @@
 @Function UseMD5Fingerprint()
 
 @Description
-  Déclare le plugin de prise d'empreinte MD5 pour une 
+  DÃ©clare le plugin de prise d'empreinte MD5 pour une 
   utilisation future.
 
 @NoParameters
@@ -912,24 +912,24 @@
 @NoReturnValue
   
 @Remarks
-  Voici une explication rapide tireé de la RFC 1321 
+  Voici une explication rapide tireÃ© de la RFC 1321 
   sur MD5:
 @LineBreak  
 @LineBreak
-  L'algorithme prend en entrée un message de longueur 
+  L'algorithme prend en entrÃ©e un message de longueur 
   arbitraire et produit en sortie une "empreinte 
-  digitale" 128 bits ou un "Message Digest" de l'entrée.
-  On suppose qu'il est mathématiquement impossible de 
-  produire deux messages ayant la même empreinte, 
+  digitale" 128 bits ou un "Message Digest" de l'entrÃ©e.
+  On suppose qu'il est mathÃ©matiquement impossible de 
+  produire deux messages ayant la mÃªme empreinte, 
   ou de produire un message ayant un message digest 
-  cible pré-spécifié. L'algorithme MD5 est destiné 
-  à la production de signatures numériques.'
+  cible prÃ©-spÃ©cifiÃ©. L'algorithme MD5 est destinÃ© 
+  Ã  la production de signatures numÃ©riques.'
 @LineBreak  
 @LineBreak
-   MD5 est souvent utilisé pour le cryptage des 
-   mots de passe mais il doit être évité car il 
-   est a été jugé vulnérable à certaines attaques.
-   Plus d'informations peuvent être trouvées dans 
+   MD5 est souvent utilisÃ© pour le cryptage des 
+   mots de passe mais il doit Ãªtre Ã©vitÃ© car il 
+   est a Ã©tÃ© jugÃ© vulnÃ©rable Ã  certaines attaques.
+   Plus d'informations peuvent Ãªtre trouvÃ©es dans 
    la RFC 1321:
    @InternetLink "Http://www.ietf.org/rfc/rfc1321.txt" "http://www.ietf.org/rfc/rfc1321.txt".
 
@@ -952,7 +952,7 @@
 @Function UseSHA1Fingerprint()
 
 @Description
-  Déclare le plugin de prise d'empreinte SHA1 pour une 
+  DÃ©clare le plugin de prise d'empreinte SHA1 pour une 
   utilisation future.
 
 @NoParameters
@@ -960,29 +960,29 @@
 @NoReturnValue
 
 @Remarks
-  SHA1 peut être utilisé pour calculer une somme de 
-  contrôle pour vérifier si un message n'a pas été 
-  modifié. contrairement à 
+  SHA1 peut Ãªtre utilisÃ© pour calculer une somme de 
+  contrÃ´le pour vÃ©rifier si un message n'a pas Ã©tÃ© 
+  modifiÃ©. contrairement Ã  
   @Link "UseCRC32Fingerprint" "CRC32", il est presque 
   impossible de modifier le message d'origine et de 
-  produire la même empreinte SHA1.
+  produire la mÃªme empreinte SHA1.
 @LineBreak
 @LineBreak
-   Voici une explication rapide tiré de la RFC 3174 
+   Voici une explication rapide tirÃ© de la RFC 3174 
    sur SHA1:
 @LineBreak
 @LineBreak
-  'La SHA-1 est dite sécurisée car il est 
-  mathématiquement impossible de trouver un message 
-  digest qui correspond à un message donné, ou de 
-  trouver deux messages différents qui produisent le 
-  même message digest.
+  'La SHA-1 est dite sÃ©curisÃ©e car il est 
+  mathÃ©matiquement impossible de trouver un message 
+  digest qui correspond Ã  un message donnÃ©, ou de 
+  trouver deux messages diffÃ©rents qui produisent le 
+  mÃªme message digest.
   Toute modification d'un message en transit donnera, 
-  avec une très forte probabilité, une autre empreinte, 
-  et la signature sera différente. "
+  avec une trÃ¨s forte probabilitÃ©, une autre empreinte, 
+  et la signature sera diffÃ©rente. "
 @LineBreak
 @LineBreak
-   Plus d'informations peuvent être trouvées dans la 
+   Plus d'informations peuvent Ãªtre trouvÃ©es dans la 
    RFC 3174:
    @InternetLink "Http://www.ietf.org/rfc/rfc3174.txt" "http://www.ietf.org/rfc/rfc3174.txt".
 
@@ -1004,7 +1004,7 @@
 @Function UseSHA2Fingerprint()
 
 @Description
-  Déclare le plugin de prise d'empreinte SHA2 pour une 
+  DÃ©clare le plugin de prise d'empreinte SHA2 pour une 
   utilisation future.
   
 @NoParameters
@@ -1014,20 +1014,20 @@
 @Remarks
   Sur @InternetLink "https://fr.wikipedia.org/wiki/SHA-2" "Wikipedia": 
   SHA-2 comprend des changements importants par rapport  
-  à son prédécesseur, SHA-1.
-  En 2005, un algorithme a émergé qui a trouvé des 
-  collisions SHA-1 avec environ 2000 fois moins d'étapes 
-  que prévu.
-  Bien qu'(à partir de 2015) aucun exemple de collision 
-  SHA-1 n'aie encore été publié, la marge de sécurité 
-  laissée par SHA-1 est plus faible que prévu, et son 
-  utilisation n'est donc plus recommandée pour les 
-  applications qui réclament une forte  résistance aux 
+  Ã  son prÃ©dÃ©cesseur, SHA-1.
+  En 2005, un algorithme a Ã©mergÃ© qui a trouvÃ© des 
+  collisions SHA-1 avec environ 2000 fois moins d'Ã©tapes 
+  que prÃ©vu.
+  Bien qu'(Ã  partir de 2015) aucun exemple de collision 
+  SHA-1 n'aie encore Ã©tÃ© publiÃ©, la marge de sÃ©curitÃ© 
+  laissÃ©e par SHA-1 est plus faible que prÃ©vu, et son 
+  utilisation n'est donc plus recommandÃ©e pour les 
+  applications qui rÃ©clament une forte  rÃ©sistance aux 
   collisions, notamment concernant les signatures 
-  numériques.
-  Bien que SHA-2 présente une certaine similitude avec 
-  l'algorithme SHA-1, ces attaques ont pas été étendues 
-  avec succès à SHA-2.
+  numÃ©riques.
+  Bien que SHA-2 prÃ©sente une certaine similitude avec 
+  l'algorithme SHA-1, ces attaques ont pas Ã©tÃ© Ã©tendues 
+  avec succÃ¨s Ã  SHA-2.
 
 @Example  
 @Code
@@ -1047,7 +1047,7 @@
 @Function UseSHA3Fingerprint()
 
 @Description
-  Déclare le plugin de prise d'empreinte SHA3 pour une 
+  DÃ©clare le plugin de prise d'empreinte SHA3 pour une 
   utilisation future. Les standards 224-bits, 256 bits,
   384 bits et 512 bits sont pris en charge.
   
@@ -1072,7 +1072,7 @@
 @Function UseCRC32Fingerprint()
 
 @Description
-  Déclare le plugin de prise d'empreinte CRC32 pour une 
+  DÃ©clare le plugin de prise d'empreinte CRC32 pour une 
   utilisation future.  
 
 @NoParameters
@@ -1081,16 +1081,16 @@
 
 @Remarks
   CRC32 est un codage 32 bits qui n'est pas 
-  conçu pour le stockage de mot de passe car 
+  conÃ§u pour le stockage de mot de passe car 
   il est facilement piratable, mais 
-  utilisable pour des contrôles rapides 
-  d'intégrité des données. Par exemple les 
-  fichiers ZIP ont une somme de contrôle à la 
-  fin du fichier pour vérifier qu'il n'est pas 
+  utilisable pour des contrÃ´les rapides 
+  d'intÃ©gritÃ© des donnÃ©es. Par exemple les 
+  fichiers ZIP ont une somme de contrÃ´le Ã  la 
+  fin du fichier pour vÃ©rifier qu'il n'est pas 
   corrompu.@LineBreak
   Le principal avantage de l'algorithme 
   CRC32 sur le hachage MD5 ou autre est 
-  sa très grande vitesse.
+  sa trÃ¨s grande vitesse.
 
 @Example  
 @Code
@@ -1110,36 +1110,36 @@
 @Function Resultat = Base64DecoderBuffer(*TamponSource, LongueurSource, *TamponDestination, LongueurDestination)  
 
 @Description
-  Décode un tampon codé en 
+  DÃ©code un tampon codÃ© en 
   @Link "Base64EncoderBuffer" "Base64". 
 
 @Parameter "*TamponSource"
-  Le tampon contenant les données codées.
+  Le tampon contenant les donnÃ©es codÃ©es.
 
 @Parameter "LongueurSource"
-  La taille de la mémoire tampon d'entrée.
+  La taille de la mÃ©moire tampon d'entrÃ©e.
 
 @Parameter "*TamponDestination"
-  Le tampon de sortie où les données 
-  seront copiées.
+  Le tampon de sortie oÃ¹ les donnÃ©es 
+  seront copiÃ©es.
 
 @Parameter "LongueurDestination"
-  La taille de la mémoire tampon de sortie.
+  La taille de la mÃ©moire tampon de sortie.
 @Indent
-  La mémoire tampon de sortie peut être 
-  jusqu'à 25% plus petite que le tampon 
-  d'entrée, avec une taille minimale de 
+  La mÃ©moire tampon de sortie peut Ãªtre 
+  jusqu'Ã  25% plus petite que le tampon 
+  d'entrÃ©e, avec une taille minimale de 
   64 octets.@LineBreak
-  Il est recommandé de faire un tampon 
-  légèrement plus grand, par exemple 20%, 
-  pour éviter les débordements.
+  Il est recommandÃ© de faire un tampon 
+  lÃ©gÃ¨rement plus grand, par exemple 20%, 
+  pour Ã©viter les dÃ©bordements.
 @EndIndent
 
 @ReturnValue
-   Renvoie la longueur des données 
-   décodées en octets.
+   Renvoie la longueur des donnÃ©es 
+   dÃ©codÃ©es en octets.
 
-@Example Encodage & Décodage d'une variable texte
+@Example Encodage & DÃ©codage d'une variable texte
 @Code
   Exemple$ = "Voici une phrase !" 
   Decoded$ = Space(1024) 
@@ -1152,7 +1152,7 @@
   Debug Decoded$
 @EndCode
 
-@Example Encodage & Décodage d'une DataSection
+@Example Encodage & DÃ©codage d'une DataSection
 @Code
   DataSection
     TestDebut:
@@ -1177,35 +1177,35 @@
   ShowMemoryViewer(*DecodeBuffer, Taille)
 @EndCode
 
-@Example Problème de décodage d'une variable texte déjà codé en Base64 par un logiciel externe
+@Example ProblÃ¨me de dÃ©codage d'une variable texte dÃ©jÃ  codÃ© en Base64 par un logiciel externe
 @Code
-  ; Attention, il est délicat d'utiliser une variable pour décoder un texte
-  ; déjà codé en Base64 par un logiciel externe (messagerie par exemple)
+  ; Attention, il est dÃ©licat d'utiliser une variable pour dÃ©coder un texte
+  ; dÃ©jÃ  codÃ© en Base64 par un logiciel externe (messagerie par exemple)
   
-  Encoded$ = "Vm9pY2kgdW5lIHBocmFzZSAh" ;"Voici une phrase !", codée en Base64 utf8
+  Encoded$ = "Vm9pY2kgdW5lIHBocmFzZSAh" ;"Voici une phrase !", codÃ©e en Base64 utf8
   Decoded$ = Space(1024) 
    
   Debug Base64DecoderBuffer(@Encoded$, StringByteLength(Encoded$), @Decoded$, 1024)
   Debug Decoded$ ; ==> Affiche n'importe quoi
   
-  ; Pour résoudre ce problème, suivre la procédure ci-dessous
+  ; Pour rÃ©soudre ce problÃ¨me, suivre la procÃ©dure ci-dessous
   
-  ; Différents exemples de textes déjà codés
-  Encode_utf8$      = "Vm9pY2kgdW5lIHBocmFzZSBow6kgIQ0K" ;Voici une phrase hé !, codée en Base64 utf8
-  Encode_iso8859_1$ = "Vm9pY2kgdW5lIHBocmFzZSBo6SAhDQo=" ;Voici une phrase hé !, codée en Base64 iso8859_1$
-  Encode_ascii$     = "Vm9pY2kgdW5lIHBocmFzZSBoICENCg==" ;Voici une phrase hé !, codée en Base64 ascii 
+  ; DiffÃ©rents exemples de textes dÃ©jÃ  codÃ©s
+  Encode_utf8$      = "Vm9pY2kgdW5lIHBocmFzZSBow6kgIQ0K" ;Voici une phrase hÃ© !, codÃ©e en Base64 utf8
+  Encode_iso8859_1$ = "Vm9pY2kgdW5lIHBocmFzZSBo6SAhDQo=" ;Voici une phrase hÃ© !, codÃ©e en Base64 iso8859_1$
+  Encode_ascii$     = "Vm9pY2kgdW5lIHBocmFzZSBoICENCg==" ;Voici une phrase hÃ© !, codÃ©e en Base64 ascii 
 
   Procedure.s Decode64(Texte64.s, Option=#PB_UTF8)
     Protected *in, *out
     Protected Resultat.s
   
-    *in = Ascii(Texte64) ; Le texte codé en Base64 est supposé être en ascii pour PureBasic
+    *in = Ascii(Texte64) ; Le texte codÃ© en Base64 est supposÃ© Ãªtre en ascii pour PureBasic
     If *in <> 0
-      ; La mémoire tampon de sortie peut être jusqu'à 33% plus petite que le tampon d'entrée
+      ; La mÃ©moire tampon de sortie peut Ãªtre jusqu'Ã  33% plus petite que le tampon d'entrÃ©e
       *out = AllocateMemory(MemoryStringLength(*in,#PB_Ascii) * 0.8) ; Ici nous prenons une valeur de 20%
       If *out <> 0
-        Base64DecoderBuffer(*in, MemorySize(*in), *out, MemorySize(*out))  ; Décodage...
-        Resultat = PeekS(*out, -1, Option) ; Le résultat est transféré dans une variable
+        Base64DecoderBuffer(*in, MemorySize(*in), *out, MemorySize(*out))  ; DÃ©codage...
+        Resultat = PeekS(*out, -1, Option) ; Le rÃ©sultat est transfÃ©rÃ© dans une variable
         FreeMemory(*out)
       EndIf
       FreeMemory(*in)
@@ -1213,10 +1213,10 @@
     ProcedureReturn Resultat
   EndProcedure
 
-  Debug Decode64(Encode_utf8$)                 ; Affiche: Voici une phrase hé !
-  Debug Decode64(Encode_iso8859_1$, #PB_Ascii) ; Affiche: Voici une phrase hé ! (iso8859_1 est aussi appelée Latin-1 ou Europe occidentale et contient tous les caractères ascii)
-  Debug Decode64(Encode_ascii$, #PB_Ascii)     ; Affiche: Voici une phrase h ! (problème avec lettres accentuées...)
-                                               ; car le codage Base64 ascii s'arrête au caractère ascii n°127
+  Debug Decode64(Encode_utf8$)                 ; Affiche: Voici une phrase hÃ© !
+  Debug Decode64(Encode_iso8859_1$, #PB_Ascii) ; Affiche: Voici une phrase hÃ© ! (iso8859_1 est aussi appelÃ©e Latin-1 ou Europe occidentale et contient tous les caractÃ¨res ascii)
+  Debug Decode64(Encode_ascii$, #PB_Ascii)     ; Affiche: Voici une phrase h ! (problÃ¨me avec lettres accentuÃ©es...)
+                                               ; car le codage Base64 ascii s'arrÃªte au caractÃ¨re ascii nÂ°127
 @EndCode
 
 @SeeAlso
@@ -1232,52 +1232,52 @@
   Encode le contenu d'un tampon avec l'algorithme Base64. 
   
 @Parameter "*TamponSource"
-  Le tampon contenant les données à coder.
+  Le tampon contenant les donnÃ©es Ã  coder.
 
 @Parameter "LongueurSource"
-  La taille de la mémoire tampon d'entrée.
+  La taille de la mÃ©moire tampon d'entrÃ©e.
 
 @Parameter "*TamponDestination"
-  Le tampon de sortie où les données codées 
-  seront copiées.
+  Le tampon de sortie oÃ¹ les donnÃ©es codÃ©es 
+  seront copiÃ©es.
 
 @Parameter "LongueurDestination"
-  La taille de la mémoire tampon de sortie.
+  La taille de la mÃ©moire tampon de sortie.
 @Indent
-  La mémoire tampon de sortie peut être 
-  jusqu'à 25% plus petite que le tampon 
-  d'entrée, avec une taille minimale de 
+  La mÃ©moire tampon de sortie peut Ãªtre 
+  jusqu'Ã  25% plus petite que le tampon 
+  d'entrÃ©e, avec une taille minimale de 
   64 octets.@LineBreak
-  Il est recommandé de faire un tampon 
-  légèrement plus grand, par exemple 20%, 
-  pour éviter les débordements.
+  Il est recommandÃ© de faire un tampon 
+  lÃ©gÃ¨rement plus grand, par exemple 20%, 
+  pour Ã©viter les dÃ©bordements.
 @EndIndent
 
 @OptionalParameter "Options"
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont   
-  @#PB_Cipher_NoPadding: Il ne sera pas plus insérer de '=' à la fin de la mémoire tampon.
-  @#PB_Cipher_URL      : Utilisation d'un codage légèrement différent, principalement utilisé 
-                         dans les URLs. Les caractères '+' et '/' seront respectivement codés 
+  @#PB_Cipher_NoPadding: Il ne sera pas plus insÃ©rer de '=' Ã  la fin de la mÃ©moire tampon.
+  @#PB_Cipher_URL      : Utilisation d'un codage lÃ©gÃ¨rement diffÃ©rent, principalement utilisÃ© 
+                         dans les URLs. Les caractÃ¨res '+' et '/' seront respectivement codÃ©s 
                          en '-' et '_'.
 @EndFixedFont
   
 @ReturnValue
-   Renvoie la longueur des données 
-   codées en octets.
+   Renvoie la longueur des donnÃ©es 
+   codÃ©es en octets.
 
 @Remarks
-  Il est largement utilisé dans les 
+  Il est largement utilisÃ© dans les 
   programmes de messagerie mais peut
-  également être utile dans toute 
-  application nécessitant un encodage 
-  basé sur le code ASCII seul (7 bits, 
-  caractères 32 à 127) pour les fichiers 
+  Ã©galement Ãªtre utile dans toute 
+  application nÃ©cessitant un encodage 
+  basÃ© sur le code ASCII seul (7 bits, 
+  caractÃ¨res 32 Ã  127) pour les fichiers 
   binaires.
   
 @Example
 @Code
-  Exemple$ = "Ceci est une chaîne !" 
+  Exemple$ = "Ceci est une chaÃ®ne !" 
   Decoded$ = Space(1024) 
   Encoded$ = Space(1024) 
     
@@ -1288,7 +1288,7 @@
   Debug Decoded$
 @EndCode 
 
-@Example Encodage & Décodage d'une DataSection
+@Example Encodage & DÃ©codage d'une DataSection
 @Code
   DataSection
     TestDebut:
@@ -1323,39 +1323,39 @@
 @Function Resultat = Base64Decoder(Source$, *TamponDestination, LongueurDestination)  
 
 @Description
-  Décode une chaîne de caractères encodée en @Link "Base64Encoder" "Base64". 
+  DÃ©code une chaÃ®ne de caractÃ¨res encodÃ©e en @Link "Base64Encoder" "Base64". 
 
 @Parameter "Source$"
-  La chaîne de caractères à encoder.
+  La chaÃ®ne de caractÃ¨res Ã  encoder.
 
 @Parameter "*TamponDestination"
-  Le tampon où les données brutes de sortie seront copiées.
+  Le tampon oÃ¹ les donnÃ©es brutes de sortie seront copiÃ©es.
 
 @Parameter "LongueurDestination"
   La taille du tampon de sortie.
 @LineBreak
 @LineBreak
-  Le tampon de sortie peut être jusqu'à 33% plus petit que le tampon d'entrée, 
+  Le tampon de sortie peut Ãªtre jusqu'Ã  33% plus petit que le tampon d'entrÃ©e, 
   avec une taille minimale de 64 octets.@LineBreak
-  Il est toutefois recommandé d'obtenir un tampon légèrement plus grand que 33%, comme 30% 
-  plus petit pour éviter les débordements.
+  Il est toutefois recommandÃ© d'obtenir un tampon lÃ©gÃ¨rement plus grand que 33%, comme 30% 
+  plus petit pour Ã©viter les dÃ©bordements.
 
 @ReturnValue
-  Renvoie la longueur des données décodées en octets.
+  Renvoie la longueur des donnÃ©es dÃ©codÃ©es en octets.
 
 @Example
 @Code
   String$ = "Voici un texte !"
   
-  ; Encodage d'une chaîne Ascii
+  ; Encodage d'une chaÃ®ne Ascii
   *Texte = ASCII(String$)
     
   Encoder$ = Base64Encoder(*Texte, StringByteLength(String$, #PB_Ascii))
-  Debug "Texte encodé: " + Encoder$
+  Debug "Texte encodÃ©: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)
   Base64Decoder(Encoder$, *TamponDecoder, 1024)
-  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_Ascii) + "'"
+  Debug "Texte dÃ©codÃ©: " + PeekS(*TamponDecoder, -1, #PB_Ascii) + "'"
   
   FreeMemory(*Texte)
   FreeMemory(*TamponDecoder)
@@ -1371,41 +1371,41 @@
 @Function Resultat$ = Base64Encoder(*TamponSource, LongueurSource [, Options])  
 
 @Description
-Encode le tampon spécifié à l'aide de l'algorithme Base64. 
-Ceci est largement utilisé dans les programmes de courrier électronique mais peut être utile 
+Encode le tampon spÃ©cifiÃ© Ã  l'aide de l'algorithme Base64. 
+Ceci est largement utilisÃ© dans les programmes de courrier Ã©lectronique mais peut Ãªtre utile 
 pour tous les autres programmes qui ont besoin d'un codage ASCII uniquement (7 bits, 
-seulement de 32 à 127 caractères) pour les fichiers binaires bruts. 
+seulement de 32 Ã  127 caractÃ¨res) pour les fichiers binaires bruts. 
 
 @Parameter "*TamponSource"
-  Le tampon contenant les données brutes.
+  Le tampon contenant les donnÃ©es brutes.
 
 @Parameter "LongueurSource"
-  La taille du tampon d'entrée.
+  La taille du tampon d'entrÃ©e.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont  
-  @#PB_Cipher_NoPadding: Pas de '=' supplémentaire à la fin de la mémoire tampon pour la combler à 3 octets.
-  @#PB_Cipher_URL      : Codage légèrement différent, principalement utilisé dans les URLs. Les caractères '+' et '/' habituels
-                        seront encodés respectivement en '-' et '_'
+  @#PB_Cipher_NoPadding: Pas de '=' supplÃ©mentaire Ã  la fin de la mÃ©moire tampon pour la combler Ã  3 octets.
+  @#PB_Cipher_URL      : Codage lÃ©gÃ¨rement diffÃ©rent, principalement utilisÃ© dans les URLs. Les caractÃ¨res '+' et '/' habituels
+                        seront encodÃ©s respectivement en '-' et '_'
 @EndFixedFont
 
 @ReturnValue
-  Renvoie les données codées sous forme de chaîne.
+  Renvoie les donnÃ©es codÃ©es sous forme de chaÃ®ne.
 
 @Example
 @Code
   String$ = "Voici un texte !"
   
-  ; Encodage d'une chaîne 
+  ; Encodage d'une chaÃ®ne 
   *Texte = UTF8( String$)
     
   Encoder$ = Base64Encoder(*Texte, StringByteLength(String$, #PB_UTF8))
-  Debug "Texte encodé: " + Encoder$
+  Debug "Texte encodÃ©: " + Encoder$
   
   *TamponDecoder = AllocateMemory(1024)
   Base64Decoder(Encoder$, *TamponDecoder, 1024)
-  Debug "Texte décodé: " + PeekS(*TamponDecoder, -1, #PB_UTF8) + "'"
+  Debug "Texte dÃ©codÃ©: " + PeekS(*TamponDecoder, -1, #PB_UTF8) + "'"
   
   FreeMemory(*Texte)
   FreeMemory(*TamponDecoder)
@@ -1427,62 +1427,62 @@ seulement de 32 à 127 caractères) pour les fichiers binaires bruts.
   L'identifiant du nouveau chiffrement.
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 
 @Parameter "*Cle"
-   Un tampon contenant la clé de décodage.
+   Un tampon contenant la clÃ© de dÃ©codage.
 @Fixedfont
-   Sa taille dépend du paramètre 'Bits': 
+   Sa taille dÃ©pend du paramÃ¨tre 'Bits': 
      l6 octets pour le cryptage 128 bits. 
      24 octets pour le cryptage 196 bits.
      32 octets pour le cryptage 256 bits.
 @EndFixedfont
 
 @Parameter "Bits"
-   La taille de la clé utilisée par le chiffrement. @LineBreak
+   La taille de la clÃ© utilisÃ©e par le chiffrement. @LineBreak
    Les valeurs valides sont 128, 192 et 256.@LineBreak
-   @@DeriveCipherKey peut être utilisé pour créer cette clé à partir d'un mot de passe.
+   @@DeriveCipherKey peut Ãªtre utilisÃ© pour crÃ©er cette clÃ© Ã  partir d'un mot de passe.
    
 @Parameter "*VecteurInitialisation"
-   Est un bloc de données aléatoires, 
-   utilisé pour initialiser le chiffrement 
-   et pour empêcher toute 
-   violation de décodage (uniquement 
-   nécessaire si vous utilisez le mode 
+   Est un bloc de donnÃ©es alÃ©atoires, 
+   utilisÃ© pour initialiser le chiffrement 
+   et pour empÃªcher toute 
+   violation de dÃ©codage (uniquement 
+   nÃ©cessaire si vous utilisez le mode 
    @ConstantColor"#PB_Cipher_CBC").
 @Fixedfont
-   Sa taille dépend du paramètre 'Bits': 
+   Sa taille dÃ©pend du paramÃ¨tre 'Bits': 
      l6 octets pour le cryptage 128 bits. 
      24 octets pour le cryptage 196 bits.
      32 octets pour le cryptage 256 bits.
 @EndFixedfont
 
 @Parameter "Mode"
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont  
-  @#PB_Cipher_Decode: Le flux est utilisé pour décoder les données.
-  @#PB_Cipher_Encode: Le flux est utilisé pour encoder les données.
+  @#PB_Cipher_Decode: Le flux est utilisÃ© pour dÃ©coder les donnÃ©es.
+  @#PB_Cipher_Encode: Le flux est utilisÃ© pour encoder les donnÃ©es.
 avec
-  @#PB_Cipher_CBC: Mode par défaut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
-                  Recommandé car plus sûr que le mode ECB.
+  @#PB_Cipher_CBC: Mode par dÃ©faut (Cipher Block Chaining). Besoin de '*VecteurInitialisation'.
+                  RecommandÃ© car plus sÃ»r que le mode ECB.
   @#PB_Cipher_ECB: Mode alternatif(Electronic CodeBook). Pas besoin de '*VecteurInitialisation'
-                   ni de chaînage(chaque bloc est codé indépendamment). Cryptage très faible comparé à CBC
-                   et ne devrait pas être utilisé pour un cryptage sérieux.
+                   ni de chaÃ®nage(chaque bloc est codÃ© indÃ©pendamment). Cryptage trÃ¨s faible comparÃ© Ã  CBC
+                   et ne devrait pas Ãªtre utilisÃ© pour un cryptage sÃ©rieux.
 @EndFixedFont
 
 @ReturnValue
-  Si @#PB_Any a été utilisé pour le paramètre #Cipher alors un numéro généré automatiquement
-  est renvoyé.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre #Cipher alors un numÃ©ro gÃ©nÃ©rÃ© automatiquement
+  est renvoyÃ©.
 
 @Remarks
-  Les nouveaux tampons à encoder ou à décoder peuvent être ajoutés avec @@AddCipherBuffer.
+  Les nouveaux tampons Ã  encoder ou Ã  dÃ©coder peuvent Ãªtre ajoutÃ©s avec @@AddCipherBuffer.
   @LineBreak
   @LineBreak
-  Une fois le codage terminé, @@FinishCipher doit être appelé.
+  Une fois le codage terminÃ©, @@FinishCipher doit Ãªtre appelÃ©.
   @LineBreak
   @LineBreak
-  Pour plus d'information à propos de AES, voir @@AESEncoder.
+  Pour plus d'information Ã  propos de AES, voir @@AESEncoder.
 
 @SeeAlso
   @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder, @@DeriveCipherKey
@@ -1494,33 +1494,33 @@ avec
 @Function Resultat = OpenCryptRandom()
 
 @Description
-  Initialise l'accès au générateur de 
-  nombres pseudo-aléatoires. 
+  Initialise l'accÃ¨s au gÃ©nÃ©rateur de 
+  nombres pseudo-alÃ©atoires. 
 
 @NoParameters
 
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  générateur est correctement initialisé,  
-  zéro s'il n'y a pas de générateur 
-  pseudo-aléatoire robuste disponible 
-  dans le système.
+  gÃ©nÃ©rateur est correctement initialisÃ©,  
+  zÃ©ro s'il n'y a pas de gÃ©nÃ©rateur 
+  pseudo-alÃ©atoire robuste disponible 
+  dans le systÃ¨me.
 
 @Remarks
   Les commandes @@CryptRandom et 
-  @@CryptRandomData peuvent être 
-  utilisées pour lire les données 
+  @@CryptRandomData peuvent Ãªtre 
+  utilisÃ©es pour lire les donnÃ©es 
   disponibles.
 @LineBreak
 @LineBreak
-  Ce générateur est très robuste, assez 
-  pour être utilisé à des fins de 
-  cryptographie, comme la génération
-  de clés pour la commande @@AESEncoder. 
-  La source des données du générateur est 
+  Ce gÃ©nÃ©rateur est trÃ¨s robuste, assez 
+  pour Ãªtre utilisÃ© Ã  des fins de 
+  cryptographie, comme la gÃ©nÃ©ration
+  de clÃ©s pour la commande @@AESEncoder. 
+  La source des donnÃ©es du gÃ©nÃ©rateur est 
   "/dev/urandom" sous Linux et MacOS X, 
   et la "Microsoft Cryptography API" 
-  sous Windows. Il est néanmoins
+  sous Windows. Il est nÃ©anmoins
   bien plus lent que la fonction 
   @@Random classique.
 @LineBreak
@@ -1539,9 +1539,9 @@ avec
 @Function CloseCryptRandom()
 
 @Description
-  Libère les ressources utilisées par le 
-  générateur de nombres pseudo-aléatoires 
-  précédemment initialisé avec 
+  LibÃ¨re les ressources utilisÃ©es par le 
+  gÃ©nÃ©rateur de nombres pseudo-alÃ©atoires 
+  prÃ©cÃ©demment initialisÃ© avec 
   @@OpenCryptRandom.
 
 @NoParameters
@@ -1559,40 +1559,40 @@ avec
 @Function Resultat = CryptRandom(Maximum)
 
 @Description
-  Renvoie un nombre aléatoire (entier) 
+  Renvoie un nombre alÃ©atoire (entier) 
   qui se trouve entre 0 (inclus) et la 
-  valeur maximale du générateur 
-  pseudo-aléatoire cryptographique.
+  valeur maximale du gÃ©nÃ©rateur 
+  pseudo-alÃ©atoire cryptographique.
   
 @Parameter "Maximum"  
-  Valeur maximale renvoyée par la fonction.
+  Valeur maximale renvoyÃ©e par la fonction.
   @LineBreak
-  Ne peut pas dépasser la valeur maximale 
+  Ne peut pas dÃ©passer la valeur maximale 
   d'un @ReferenceLink "variables" "long": 
   2147483647.
 
 @ReturnValue
-  Renvoie le nombre aléatoire généré.
+  Renvoie le nombre alÃ©atoire gÃ©nÃ©rÃ©.
 
 @Remarks
-  Le générateur doit d'abord être ouvert 
+  Le gÃ©nÃ©rateur doit d'abord Ãªtre ouvert 
   avec la commande @@OpenCryptRandom.
 @LineBreak
 @LineBreak
   @Bold "Important: " Utiliser une valeur 
-  'Maximum' qui est égale à une puissance 
-  de deux peut causer des probabilités 
-  plus élevés pour certaines valeurs, 
+  'Maximum' qui est Ã©gale Ã  une puissance 
+  de deux peut causer des probabilitÃ©s 
+  plus Ã©levÃ©s pour certaines valeurs, 
   favorisant les attaques statistiques. 
-  C'est la conséquence de la division du 
-  nombre généré pour qu'il soit dans la 
-  plage spécifiée.
+  C'est la consÃ©quence de la division du 
+  nombre gÃ©nÃ©rÃ© pour qu'il soit dans la 
+  plage spÃ©cifiÃ©e.
 @LineBreak
 @LineBreak
-  Pour générer des quantités plus 
-  importantes de nombres aléatoires, 
+  Pour gÃ©nÃ©rer des quantitÃ©s plus 
+  importantes de nombres alÃ©atoires, 
   utilisez la commande @@CryptRandomData.
-  Pour une génération beaucoup plus 
+  Pour une gÃ©nÃ©ration beaucoup plus 
   rapide, mais moins robuste, utilisez 
   la commande @@Random.
 
@@ -1607,29 +1607,29 @@ avec
 @Function Resultat = CryptRandomData(*Tampon, Longueur)
 
 @Description
-  Remplit une mémoire tampon avec des 
-  données aléatoires provenant du 
-  générateur pseudo-aléatoire 
+  Remplit une mÃ©moire tampon avec des 
+  donnÃ©es alÃ©atoires provenant du 
+  gÃ©nÃ©rateur pseudo-alÃ©atoire 
   cryptographique .
 
 @Parameter "*Tampon"
-   Le tampon à remplir.
+   Le tampon Ã  remplir.
 
 @Parameter "Longueur"
-  La taille de la mémoire tampon en 
+  La taille de la mÃ©moire tampon en 
   octets.
 
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  données aléatoires ont été générés 
-  avec succès, zéro sinon.
+  donnÃ©es alÃ©atoires ont Ã©tÃ© gÃ©nÃ©rÃ©s 
+  avec succÃ¨s, zÃ©ro sinon.
   
 @Remarks
-Le générateur doit d'abord être ouvert 
+Le gÃ©nÃ©rateur doit d'abord Ãªtre ouvert 
 avec la commande @@OpenCryptRandom.
 @LineBreak
 @LineBreak
-  Pour une génération de données beaucoup 
+  Pour une gÃ©nÃ©ration de donnÃ©es beaucoup 
   plus rapide, mais moins robuste, 
   utiliser la commande @@RandomData.
 
@@ -1640,14 +1640,14 @@ avec la commande @@OpenCryptRandom.
   If OpenCryptRandom() And *Cle
     CryptRandomData(*Cle, 16)
     
-    Texte$ = "Clé crée :"
+    Texte$ = "ClÃ© crÃ©e :"
     For i = 0 To 15
       Texte$ + " " + RSet(Hex(PeekB(*Cle+i), #PB_Byte), 2, "0")
     Next i     
     
     CloseCryptRandom()
   Else
-    Texte$ = "La création de clé n'est pas disponible"
+    Texte$ = "La crÃ©ation de clÃ© n'est pas disponible"
   EndIf
   
   MessageRequester("Exemple", Texte$)

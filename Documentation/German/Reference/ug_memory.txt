@@ -1,7 +1,7 @@
-@Title Einsteiger-Kapitel - Speicher-Zugriff
+ï»¿@Title Einsteiger-Kapitel - Speicher-Zugriff
 
 Einige PureBasic-Anweisungen, zum Beispiel die aus der @LibraryLink "cipher" "Cipher"
-Bibliothek, und viele Betriebssystem-API-Aufrufe benötigen einen @ReferenceLink "memory" "Zeiger"
+Bibliothek, und viele Betriebssystem-API-Aufrufe benÃ¶tigen einen @ReferenceLink "memory" "Zeiger"
 (Pointer) auf einen @LibraryLink "memory" "Speicherpuffer" als ein Argument, anstatt die
 Daten direkt selbst. PureBasic bietet eine Reihe von Anweisungen zum Manipulieren des
 Speicherpuffers, um dies zu erleichtern.
@@ -13,12 +13,12 @@ um, und stellt ihn in einem @@ListIconGadget als eine simple Hex-Viewer-Applikat
 @LineBreak
 @LineBreak
 Ein @@ExplorerListGadget wird verwendet, um zu Beginn den Inhalt des Benutzer-Verzeichnisses
-anzuzeigen, und die Auswahl einer Datei zu ermöglichen. Zwei @Link "gadget/buttongadget" "Schalter"
-werden angeboten, einer zum Anzeigen einer Datei und ein weiterer um die Anzeige zu löschen.
+anzuzeigen, und die Auswahl einer Datei zu ermÃ¶glichen. Zwei @Link "gadget/buttongadget" "Schalter"
+werden angeboten, einer zum Anzeigen einer Datei und ein weiterer um die Anzeige zu lÃ¶schen.
 @LineBreak
 @LineBreak
 Das ListIcon Gadget ist unterteilt in neun @Link "gadget/addgadgetcolumn" "Spalten",
-die erste zeigt den Basis-Offset jeder Zeile in der Liste, die nächsten zeigen acht
+die erste zeigt den Basis-Offset jeder Zeile in der Liste, die nÃ¤chsten zeigen acht
 Byte-Werte ausgehend vom Basis-Wert und die neunte zeigt die entsprechende Zeichenfolge
 dieser acht Werte.
 @LineBreak
@@ -30,8 +30,8 @@ kompletten Datei. Der zweite (*Byte), in der @ReferenceLink "procedures" "Prozed
 zu erhalten.
 @LineBreak
 @LineBreak
-Schließlich zeigt die "FileClose" Prozedur die Verwendung der @@FillMemory Anweisung für
-das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer freizugeben.
+SchlieÃŸlich zeigt die "FileClose" Prozedur die Verwendung der @@FillMemory Anweisung fÃ¼r
+das Ãœberschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer freizugeben.
 
 @Code
   ;- Compiler-Direktiven
@@ -73,7 +73,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
     
     If OpenWindow(#WindowHex, 50, 50, 500, 400, "Hex View", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_MinimizeGadget | #PB_Window_TitleBar)
       
-      ; Festlegen des Mindest-Fenstergröße.
+      ; Festlegen des Mindest-FenstergrÃ¶ÃŸe.
       WindowBounds(#WindowHex, 175, 175, #PB_Ignore, #PB_Ignore)
       
       ; Erstellen der Explorer Liste und Einstellen auf das Benutzer-Verzeichnis.
@@ -86,7 +86,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
       ; ListIcon Gadget.
       ListIconGadget(#GadgetHex, 5, 215, 490, 180, "Offset", 80, #PB_ListIcon_AlwaysShowSelection | #PB_ListIcon_GridLines | #PB_ListIcon_FullRowSelect)
       
-      ; Spalten-Überschriften.
+      ; Spalten-Ãœberschriften.
       For Col = 0 To 7
         Label = RSet(Hex(Col, #PB_Byte), 2, "0")
         AddGadgetColumn(#GadgetHex, Col + 1, Label, 38)
@@ -98,7 +98,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
   EndProcedure
   
   Procedure WindowResize()
-    ; Verändern der Gadgetgröße auf die neue Fenstergröße.
+    ; VerÃ¤ndern der GadgetgrÃ¶ÃŸe auf die neue FenstergrÃ¶ÃŸe.
     
     Protected.l X, Y, W, H
     
@@ -121,7 +121,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
   EndProcedure
   
   Procedure FileClose()
-    ; Löscht die Listen-Anzeige und gibt den Speicherpuffer frei.
+    ; LÃ¶scht die Listen-Anzeige und gibt den Speicherpuffer frei.
     
     Shared Length, *Buffer
     
@@ -141,27 +141,27 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
     Protected.l Rows, Cols, Offset
     Protected.s OffsetString, Row, String
     
-    ; Löschen der aktuellen Inhalte.
+    ; LÃ¶schen der aktuellen Inhalte.
     ClearGadgetItems(#GadgetHex)
     
     ; Die Zeilen durchlaufen.
     For Rows = 0 To Length - 1 Step 8
       
-      ; Löschen des Text-Wertes jeder Zeile.
+      ; LÃ¶schen des Text-Wertes jeder Zeile.
       String = ""
       
-      ; Konvertieren des Offset-Wertes in einen String fester Länge.
+      ; Konvertieren des Offset-Wertes in einen String fester LÃ¤nge.
       Row = RSet(Hex(Rows, #PB_Long), 6, "0") + Chr(10)
       
       ; Die Spalten durchlaufen.
       For Cols = 0 To 7
         
-        ; Offset für die aktuelle Spalte berechnen.
+        ; Offset fÃ¼r die aktuelle Spalte berechnen.
         Offset = Rows + Cols
         
-        ; Den Offset mit der Datei-Größe vergleichen.
+        ; Den Offset mit der Datei-GrÃ¶ÃŸe vergleichen.
         If Offset < Length
-          ; Der Offset ist kleiner als die Länge der Datei.
+          ; Der Offset ist kleiner als die LÃ¤nge der Datei.
           
           ; Das Byte vom Puffer ermitteln.
           *Byte = *Buffer + Offset
@@ -170,7 +170,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
           ; Das Byte in Text konvertieren.
           Row + RSet(Hex(Peek, #PB_Byte), 2, "0") + Chr(10)
           
-          ; Das Zeichen zur Text-Version hinzufügen.
+          ; Das Zeichen zur Text-Version hinzufÃ¼gen.
           Select Peek
               
             Case 0 To 31, 127
@@ -184,19 +184,19 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
           EndSelect
           
         Else
-          ; Der Offset ist größer als die Länge der Datei.
+          ; Der Offset ist grÃ¶ÃŸer als die LÃ¤nge der Datei.
           
-          ; Eine leere Spalte hinzufügen.
+          ; Eine leere Spalte hinzufÃ¼gen.
           Row + Chr(10)
           
         EndIf
         
       Next Cols
       
-      ; Die Text-Version am Ende der Hex-Spalten hinzufügen.
+      ; Die Text-Version am Ende der Hex-Spalten hinzufÃ¼gen.
       Row + String
       
-      ; Hinzufügen der komplettierten Zeile zur Listen-Anzeige.
+      ; HinzufÃ¼gen der komplettierten Zeile zur Listen-Anzeige.
       AddGadgetItem(#GadgetHex, -1, Row)
       
     Next Rows
@@ -216,13 +216,13 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
       ProcedureReturn
     EndIf
     
-    ; Stoppen wenn die Dateigröße ungültig ist.
+    ; Stoppen wenn die DateigrÃ¶ÃŸe ungÃ¼ltig ist.
     Size = FileSize(File)
     If Size < 1
       ProcedureReturn 
     EndIf
     
-    ; Öffnen der Datei.
+    ; Ã–ffnen der Datei.
     FileNumber = OpenFile(#PB_Any, File)
     Length = Lof(FileNumber)
     
@@ -236,7 +236,7 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
       
     EndIf
     
-    ; Schließen der Datei.
+    ; SchlieÃŸen der Datei.
     CloseFile(FileNumber)
     
   EndProcedure
@@ -291,4 +291,4 @@ das Überschreiben des Pufferinhalts und von @@FreeMemory, um den Speicherpuffer 
 
 
 @Section Einsteiger-Kapitel Navigation
-@ReferenceLink "ug_files" "< Vorheriges: Lesen und Schreiben von Dateien" | @ReferenceLink "ug_overview" "Überblick" | @ReferenceLink "ug_pb_any1" "Nächstes: Dynamische Nummerierung mittels #PB_Any >"
+@ReferenceLink "ug_files" "< Vorheriges: Lesen und Schreiben von Dateien" | @ReferenceLink "ug_overview" "Ãœberblick" | @ReferenceLink "ug_pb_any1" "NÃ¤chstes: Dynamische Nummerierung mittels #PB_Any >"

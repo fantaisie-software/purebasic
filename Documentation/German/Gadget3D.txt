@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Gadget3D library documentation
 ;
 ;      (c) Fantaisie Software
@@ -8,20 +8,20 @@
 
 @Overview
 
-  Die Gadget3D Bibliothek ermöglicht die Erstellung komplexer grafischer Bedienoberflächen (englisch "Graphical 
-  User Interface" - kurz "GUI") direkt über dem Screen-Bereich, mittels der 3D-Engine. Dies ist hauptsächlich
-  gedacht für Spiele und Anwendungen, welche Anwendereingaben benötigen, während sie im Vollbildschirm-Modus
-  laufen. Diese Bibliothek basiert auf der regulären PureBasic @LibraryLink "gadget" "Gadget-Bibliothek", und
-  bietet ähnlichen Syntax und Verhalten. Die verwendete GUI-Engine ist CEGUI 0.7.7, welche einige schöne Optionen
+  Die Gadget3D Bibliothek ermÃ¶glicht die Erstellung komplexer grafischer BedienoberflÃ¤chen (englisch "Graphical 
+  User Interface" - kurz "GUI") direkt Ã¼ber dem Screen-Bereich, mittels der 3D-Engine. Dies ist hauptsÃ¤chlich
+  gedacht fÃ¼r Spiele und Anwendungen, welche Anwendereingaben benÃ¶tigen, wÃ¤hrend sie im Vollbildschirm-Modus
+  laufen. Diese Bibliothek basiert auf der regulÃ¤ren PureBasic @LibraryLink "gadget" "Gadget-Bibliothek", und
+  bietet Ã¤hnlichen Syntax und Verhalten. Die verwendete GUI-Engine ist CEGUI 0.7.7, welche einige schÃ¶ne Optionen
   anbietet - wie "Skinning", gute Geschwindigkeit und eine Menge an eingebauten Gadgets. Mehr Informationen
-  über CEGUI sind hier zu finden: @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
+  Ã¼ber CEGUI sind hier zu finden: @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
 @LineBreak
 @LineBreak
   Sie verwendet die 3D-Engine, daher muss vor dem Verwenden dieser Funktionen 
   @@InitEngine3D erfolgreich aufgerufen worden sein.
 @LineBreak
 @LineBreak
-  Vor dem Verwenden von Gadgets wird normalerweise zuerst ein @Link "Window3D/OpenWindow3D" "Fenster" geöffnet.
+  Vor dem Verwenden von Gadgets wird normalerweise zuerst ein @Link "Window3D/OpenWindow3D" "Fenster" geÃ¶ffnet.
 
 @CommandList
 
@@ -35,17 +35,17 @@
 @Function Ergebnis = AddGadgetItem3D(#Gadget3D, Position, Text$)
 
 @Description
-  Fügt einen Eintrag zum angegebenen #Gadget3D hinzu.
+  FÃ¼gt einen Eintrag zum angegebenen #Gadget3D hinzu.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
   
 @Parameter "Position"
-  Der Eintrag-Index, wo der neue Eintrag eingefügt werden
-  soll. Um diesen Eintrag am Anfang einzufügen, benutzen Sie einen Index von 0.
-  Um diesen Eintrag am Ende der aktuellen Eintrag-Liste hinzuzufügen, benutzen
-  Sie einen Wert von -1. Denken Sie beim Einfügen eines Eintrags daran, dass alle
-  aktuellen Einträge die auf diesen neuen Eintrag folgen, einen um 1 höheren Positions-Index
+  Der Eintrag-Index, wo der neue Eintrag eingefÃ¼gt werden
+  soll. Um diesen Eintrag am Anfang einzufÃ¼gen, benutzen Sie einen Index von 0.
+  Um diesen Eintrag am Ende der aktuellen Eintrag-Liste hinzuzufÃ¼gen, benutzen
+  Sie einen Wert von -1. Denken Sie beim EinfÃ¼gen eines Eintrags daran, dass alle
+  aktuellen EintrÃ¤ge die auf diesen neuen Eintrag folgen, einen um 1 hÃ¶heren Positions-Index
   erhalten.
   
 @Parameter "Text$"
@@ -54,7 +54,7 @@
 @NoReturnValue
   
 @Remarks
-  Die folgenden Gadgets werden unterstützt:
+  Die folgenden Gadgets werden unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
@@ -69,7 +69,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ButtonGadget3D(#Gadget3D, x, y, Breite, Höhe, Text$)
+@Function Ergebnis = ButtonGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Text$)
 
 @Description
   Erstellt ein Schalter-Gadget innerhalb der aktuellen Gadget-Liste.
@@ -79,23 +79,23 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Text$"
   Der auf dem Schalter darzustellende Text.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können zum Kontrollieren des Gadgets verwendet werden: @LineBreak
-  - @@SetGadgetText3D: Ändert den Text des ButtonGadgets. @LineBreak
+  Die folgenden Funktionen kÃ¶nnen zum Kontrollieren des Gadgets verwendet werden: @LineBreak
+  - @@SetGadgetText3D: Ã„ndert den Text des ButtonGadgets. @LineBreak
   - @@GetGadgetText3D: Ermittelt den Text des ButtonGadgets.
 
 @SeeAlso
@@ -105,33 +105,33 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CheckBoxGadget3D(#Gadget3D, x, y, Breite, Höhe, Text$)
+@Function Ergebnis = CheckBoxGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Text$)
 
 @Description
-  Erstellt ein Checkbox-Gadget (Häkchen-Schalter) innerhalb der aktuellen Gadget-Liste.
+  Erstellt ein Checkbox-Gadget (HÃ¤kchen-Schalter) innerhalb der aktuellen Gadget-Liste.
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Text$"
-  Der rechts neben dem Häkchen darzustellende Text.
+  Der rechts neben dem HÃ¤kchen darzustellende Text.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können zum Kontrollieren des Gadgets verwendet werden: @LineBreak
-  - @@SetGadgetText3D: Ändert den Gadget-Status (markiert oder unmarkiert). @LineBreak
+  Die folgenden Funktionen kÃ¶nnen zum Kontrollieren des Gadgets verwendet werden: @LineBreak
+  - @@SetGadgetText3D: Ã„ndert den Gadget-Status (markiert oder unmarkiert). @LineBreak
   - @@GetGadgetText3D: Ermittelt den aktuellen Gadget-Status (markiert oder unmarkiert).
 
 @SeeAlso
@@ -144,7 +144,7 @@
 @Function ClearGadgetItems3D(#Gadget3D)
 
 @Description
-  Löscht alle Einträge im angegebenen #Gadget3D.
+  LÃ¶scht alle EintrÃ¤ge im angegebenen #Gadget3D.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -167,7 +167,7 @@
 @Function CloseGadgetList3D()
 
 @Description
-  Beendet die aktuelle Gadgetlisten-Erstellung und geht zurück zur
+  Beendet die aktuelle Gadgetlisten-Erstellung und geht zurÃ¼ck zur
   vorherigen Gadgetliste.
 
 @NoParameters
@@ -175,7 +175,7 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt: @LineBreak
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt: @LineBreak
 @LineBreak
   - @@ContainerGadget3D @LineBreak
   - @@PanelGadget3D @LineBreak
@@ -185,18 +185,18 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ComboBoxGadget3D(#Gadget3D, x, y, Breite, Höhe [, Flags])
+@Function Ergebnis = ComboBoxGadget3D(#Gadget3D, x, y, Breite, HÃ¶he [, Flags])
 
 @Description
   Erstellt ein ComboBox (Auswahl-) Gadget innerhalb der aktuellen Gadget-Liste.
-  Sobald eine ComboBox erstellt wurde, ist ihre Liste mit Einträgen leer. 
+  Sobald eine ComboBox erstellt wurde, ist ihre Liste mit EintrÃ¤gen leer. 
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @OptionalParameter "Flags"
@@ -206,34 +206,34 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können verwendet werden, um auf die Listen-Inhalte zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf die Listen-Inhalte zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@AddGadgetItem3D: Fügt einen Eintrag hinzu. @LineBreak
-  - @@GetGadgetItemText3D: Gibt den Text eines Gadget-Eintrags zurück. @LineBreak
-  - @@CountGadgetItems3D: Zählt die Einträge in der aktuellen Combobox. @LineBreak
-  - @@ClearGadgetItems3D: Entfernt alle Einträge. @LineBreak
+  - @@AddGadgetItem3D: FÃ¼gt einen Eintrag hinzu. @LineBreak
+  - @@GetGadgetItemText3D: Gibt den Text eines Gadget-Eintrags zurÃ¼ck. @LineBreak
+  - @@CountGadgetItems3D: ZÃ¤hlt die EintrÃ¤ge in der aktuellen Combobox. @LineBreak
+  - @@ClearGadgetItems3D: Entfernt alle EintrÃ¤ge. @LineBreak
   - @@RemoveGadgetItem3D: Entfernt einen Eintrag. @LineBreak
-  - @@SetGadgetItemText3D: Ändert den Text eines Gadget-Eintrags. @LineBreak
+  - @@SetGadgetItemText3D: Ã„ndert den Text eines Gadget-Eintrags. @LineBreak
 @LineBreak
   - @@GetGadgetState3D: Ermittelt den Index (beginnend bei 0) des aktuellen Elements. @LineBreak
   - @@GetGadgetText3D: Ermittelt den (Text-) Inhalt des aktuellen Elements. @LineBreak
-  - @@SetGadgetState3D: Ändert das ausgewählte Element. @LineBreak
-  - @@SetGadgetText3D: Ändert den anzuzeigenden Text. Wenn das ComboBoxGadget nicht editierbar ist, muss sich der Text in der Aufklapp-Liste befinden.
+  - @@SetGadgetState3D: Ã„ndert das ausgewÃ¤hlte Element. @LineBreak
+  - @@SetGadgetText3D: Ã„ndert den anzuzeigenden Text. Wenn das ComboBoxGadget nicht editierbar ist, muss sich der Text in der Aufklapp-Liste befinden.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ContainerGadget3D(#Gadget3D, x, y, Breite, Höhe)
+@Function Ergebnis = ContainerGadget3D(#Gadget3D, x, y, Breite, HÃ¶he)
 
 @Description
   Erstellt ein Container Gadget innerhalb der aktuellen Gadgetliste.
@@ -241,26 +241,26 @@
 @LineBreak
   Es ist ein simples Panel-Gadget
   (Schalttafel), welches andere Gadgets enthalten kann. Sobald dieses Gadget erstellt wurde,
-  werden alle nachfolgenden Gadgets innerhalb des Containers erstellt. Wenn alle benötigten
+  werden alle nachfolgenden Gadgets innerhalb des Containers erstellt. Wenn alle benÃ¶tigten
   Gadgets erstellt wurden, muss @@CloseGadgetList3D aufgerufen werden, um zur vorherigen
-  Gadgetliste zurückzukehren. @@OpenGadgetList3D kann später benutzt werden, um weitere
-  Gadgets während des Programmablaufs ("on-the-fly") zum Container-Bereich hinzuzufügen.
+  Gadgetliste zurÃ¼ckzukehren. @@OpenGadgetList3D kann spÃ¤ter benutzt werden, um weitere
+  Gadgets wÃ¤hrend des Programmablaufs ("on-the-fly") zum Container-Bereich hinzuzufÃ¼gen.
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 
 @SupportedOS
 
@@ -269,16 +269,16 @@
 @Function Ergebnis = CountGadgetItems3D(#Gadget3D)
 
 @Description
-  Gibt die Anzahl der Einträge im angegebenen #Gadget3D zurück.
+  Gibt die Anzahl der EintrÃ¤ge im angegebenen #Gadget3D zurÃ¼ck.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
   
 @ReturnValue
-  Die Anzahl an Einträgen im angegebenen #Gadget3D.
+  Die Anzahl an EintrÃ¤gen im angegebenen #Gadget3D.
   
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt: @LineBreak
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt: @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
   - @@ListViewGadget3D @LineBreak
@@ -306,7 +306,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = EditorGadget3D(#Gadget3D, x, y, Breite, Höhe [, Flags])
+@Function Ergebnis = EditorGadget3D(#Gadget3D, x, y, Breite, HÃ¶he [, Flags])
 
 @Description
   Erstellt ein Editor-Gadget innerhalb der aktuellen Gadgetliste.
@@ -316,7 +316,7 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @OptionalParameter "Flags"
@@ -326,19 +326,19 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Befehle können zum Bearbeiten des Editor-Inhalts verwendet werden:
+  Die folgenden Befehle kÃ¶nnen zum Bearbeiten des Editor-Inhalts verwendet werden:
 @LineBreak
 @LineBreak
   - @@GetGadgetText3D: Ermittelt den Textinhalt des Editor-Gadgets. @LineBreak
-  - @@SetGadgetText3D: Ändert den Textinhalt des Editor-Gadgets. @LineBreak
+  - @@SetGadgetText3D: Ã„ndert den Textinhalt des Editor-Gadgets. @LineBreak
   - @@SetGadgetAttribute3D: Mit den folgenden Attributen:
 @FixedFont
   @#PB_Editor3D_ReadOnly: Setzt den 'ReadOnly' Status. (0 bedeutet editierbar, ungleich 0 bedeutet nur lesbar)
@@ -352,7 +352,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = FrameGadget3D(#Gadget3D, x, y, Breite, Höhe, Text$)
+@Function Ergebnis = FrameGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Text$)
 
 @Description
   Erstellt ein Frame (Rahmen) Gadget innerhalb der Gadgetliste.
@@ -363,20 +363,20 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @OptionalParameter "Text$"
   Der im Frame darzustellende Text.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
   Da dieses Gadget nur zu dekorativen Zwecken dient, kann @@GadgetToolTip3D nicht
-  verwendet werden. Dieses Gadget empfängt auch keine Ereignisse (Events).
+  verwendet werden. Dieses Gadget empfÃ¤ngt auch keine Ereignisse (Events).
 
 @SupportedOS
 
@@ -403,7 +403,7 @@
 @Function GadgetID = GadgetID3D(#Gadget3D)
 
 @Description
-  Gibt den einmaligen System-Bezeichner (Identifier) des #Gadget3D zurück.
+  Gibt den einmaligen System-Bezeichner (Identifier) des #Gadget3D zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -418,9 +418,9 @@
 @Function GadgetToolTip3D(#Gadget3D, Text$)
 
 @Description
-  Verknüpft den angegebenen Text$ mit dem 3D-Gadget. Ein Tooltip-Text ist ein Text,
+  VerknÃ¼pft den angegebenen Text$ mit dem 3D-Gadget. Ein Tooltip-Text ist ein Text,
   der (typischerweise in einer kleinen gelben Box) erscheint, wenn sich der Mauszeiger
-  eine Weile über einem Gadget befindet.
+  eine Weile Ã¼ber einem Gadget befindet.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -431,7 +431,7 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt: @LineBreak
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt: @LineBreak
 @LineBreak
   - @@ButtonGadget3D @LineBreak
   - @@CheckBoxGadget3D @LineBreak
@@ -454,7 +454,7 @@
 @Function Ergebnis = GadgetX3D(#Gadget3D)
 
 @Description
-  Gibt die X-Position des angegebenen 3D-Gadgets zurück.
+  Gibt die X-Position des angegebenen 3D-Gadgets zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -473,7 +473,7 @@
 @Function Ergebnis = GadgetY3D(#Gadget3D)
 
 @Description
-  Gibt die Y-Position des angegebenen 3D-Gadgets zurück.
+  Gibt die Y-Position des angegebenen 3D-Gadgets zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -492,13 +492,13 @@
 @Function Ergebnis = GadgetHeight3D(#Gadget3D)
 
 @Description
-  Gibt die Höhe des angegebenen 3D-Gadgets zurück.
+  Gibt die HÃ¶he des angegebenen 3D-Gadgets zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
 @ReturnValue  
-  Die Höhe, in Pixel, des angegebenen 3D-Gadgets - beginnend vom inneren
+  Die HÃ¶he, in Pixel, des angegebenen 3D-Gadgets - beginnend vom inneren
   oberen Rand der Gadgetliste, in der sich das Gadget befindet.
 
 @SeeAlso
@@ -511,10 +511,10 @@
 @Function Ergebnis = GadgetType3D(#Gadget3D)
 
 @Description
-  Gibt den Typ des Gadgets zurück, welches dem angegebenen 3D-Gadget entspricht.
+  Gibt den Typ des Gadgets zurÃ¼ck, welches dem angegebenen 3D-Gadget entspricht.
 @Linebreak
 @Linebreak
-  Dies kann nützlich sein, um generisches Funktionen zu schreiben, welche mit mehr als
+  Dies kann nÃ¼tzlich sein, um generisches Funktionen zu schreiben, welche mit mehr als
   einem Gadgettyp funktionieren.
 
 @Parameter "#Gadget3D"
@@ -549,7 +549,7 @@
 @Function Ergebnis = GadgetWidth3D(#Gadget3D)
 
 @Description
-  Gibt die Breite des angegebenen 3D-Gadgets zurück.
+  Gibt die Breite des angegebenen 3D-Gadgets zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -568,13 +568,13 @@
 @Function Ergebnis = GetActiveGadget3D()
 
 @Description
-  Gibt die #Gadget3D Nummer des Gadgets zurück, welches gerade den Tastatur-Fokus hat.
+  Gibt die #Gadget3D Nummer des Gadgets zurÃ¼ck, welches gerade den Tastatur-Fokus hat.
 
 @NoParameters
 
 @ReturnValue
   Die Nummer des 3D-Gadgets, welches aktuell den Tastatur-Fokus hat.
-  Wenn kein Gadget den Fokus hat, wird -1 zurückgegeben.
+  Wenn kein Gadget den Fokus hat, wird -1 zurÃ¼ckgegeben.
 
 @SeeAlso
   @@SetActiveGadget3D
@@ -598,7 +598,7 @@
   Der Attribut-Wert des angegebenen 3D-Gadgets.
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@EditorGadget3D @LineBreak
@@ -615,8 +615,8 @@
 @Function Ergebnis = GetGadgetData3D(#Gadget3D)
 
 @Description
-  Gibt den 'Data' Wert zurück, welcher zuvor für dieses Gadget mittels @@SetGadgetData3D gespeichert wurde.
-  Dies ermöglicht es, jedem Gadget einen individuellen Wert zuzuweisen.
+  Gibt den 'Data' Wert zurÃ¼ck, welcher zuvor fÃ¼r dieses Gadget mittels @@SetGadgetData3D gespeichert wurde.
+  Dies ermÃ¶glicht es, jedem Gadget einen individuellen Wert zuzuweisen.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -626,8 +626,8 @@
   Wert festgelegt wurde.
 
 @Remarks
-  Diese Funktion wird von allen 3D-Gadgets unterstützt. Siehe @@SetGadgetData3D
-  für ein Beispiel.
+  Diese Funktion wird von allen 3D-Gadgets unterstÃ¼tzt. Siehe @@SetGadgetData3D
+  fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@SetGadgetData3D
@@ -639,8 +639,8 @@
 @Function Ergebnis = GetGadgetItemData3D(#Gadget3D, Eintrag)
 
 @Description
-  Gibt den Wert zurück, welcher zuvor für diesen '#Gadget'-'Eintrag' mittels
-  @@SetGadgetItemData3D gespeichert wurde. Dies ermöglicht es, jedem Eintrag in
+  Gibt den Wert zurÃ¼ck, welcher zuvor fÃ¼r diesen '#Gadget'-'Eintrag' mittels
+  @@SetGadgetItemData3D gespeichert wurde. Dies ermÃ¶glicht es, jedem Eintrag in
   einem Gadget einen individuellen Wert zuzuweisen. 
   
 @Parameter "#Gadget3D"
@@ -655,13 +655,13 @@
   wenn kein Wert festgelegt wurde.
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
   - @@ListViewGadget3D @LineBreak
 @LineBreak
-  Siehe @@SetGadgetItemData3D für ein Beispiel.
+  Siehe @@SetGadgetItemData3D fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@SetGadgetItemData3D
@@ -673,7 +673,7 @@
 @Function Ergebnis = GetGadgetState3D(#Gadget3D)
 
 @Description
-  Gibt den aktuellen Status des 3D-Gadgets zurück.
+  Gibt den aktuellen Status des 3D-Gadgets zurÃ¼ck.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -682,15 +682,15 @@
   Der aktuelle Status des 3D-Gadgets.
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
-  - @@CheckBoxGadget3D: gibt 1 zurück, wenn abgehakt, andernfalls 0. @LineBreak
-  - @@ComboBoxGadget3D: gibt den aktuell gewählten Eintrag-Index zurück, -1 wenn nichts markiert ist. @LineBreak
-  - @@ImageGadget3D: gibt die TextureID des gerade angezeigten Bilds zurück. @LineBreak
-  - @@ListViewGadget3D: gibt den aktuell gewählten Eintrag-Index zurück, -1 wenn nichts markiert ist. @LineBreak
-  - @@OptionGadget3D: gibt 1 zurück, wenn aktiviert, andernfalls 0. @LineBreak
-  - @@PanelGadget3D: gibt den aktuellen Panel-Index zurück, -1 falls kein Panel. @LineBreak
+  - @@CheckBoxGadget3D: gibt 1 zurÃ¼ck, wenn abgehakt, andernfalls 0. @LineBreak
+  - @@ComboBoxGadget3D: gibt den aktuell gewÃ¤hlten Eintrag-Index zurÃ¼ck, -1 wenn nichts markiert ist. @LineBreak
+  - @@ImageGadget3D: gibt die TextureID des gerade angezeigten Bilds zurÃ¼ck. @LineBreak
+  - @@ListViewGadget3D: gibt den aktuell gewÃ¤hlten Eintrag-Index zurÃ¼ck, -1 wenn nichts markiert ist. @LineBreak
+  - @@OptionGadget3D: gibt 1 zurÃ¼ck, wenn aktiviert, andernfalls 0. @LineBreak
+  - @@PanelGadget3D: gibt den aktuellen Panel-Index zurÃ¼ck, -1 falls kein Panel. @LineBreak
   - @@ProgressBarGadget3D: ermittelt den aktuellen Wert der Fortschrittsanzeige. @LineBreak
   - @@ScrollBarGadget3D: ermittelt die aktuelle Position des Schiebebalkens. @LineBreak
   - @@SpinGadget3D: ermittelt den aktuellen Wert des SpinGadget.
@@ -705,7 +705,7 @@
 @Function Ergebnis$ = GetGadgetItemText3D(#Gadget3D, Eintrag [, Spalte])
 
 @Description
-  Gibt den Textinhalt des angegebenen 3D-Gadget-Eintrags zurück.
+  Gibt den Textinhalt des angegebenen 3D-Gadget-Eintrags zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -721,7 +721,7 @@
   Der Eintrag-Text des angegebenen 3D-Gadget-Eintrags.
   
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D - 'Eintrag' ist die Index-Nummer des Eintrags in der ComboBox-Liste.
@@ -730,7 +730,7 @@
   - @@ListViewGadget3D - 'Eintrag' ist die Nummer des Eintrags, dessen Inhalt Sie ermitteln wollen.
     'Spalte' wird ignoriert.
 @LineBreak
-  - @@PanelGadget3D - 'Eintrag' ist das Panel (Schalttafel), dessen Überschrift Sie ermitteln wollen.
+  - @@PanelGadget3D - 'Eintrag' ist das Panel (Schalttafel), dessen Ãœberschrift Sie ermitteln wollen.
 
 @SeeAlso
   @@SetGadgetItemText3D
@@ -742,7 +742,7 @@
 @Function Ergebnis = GetGadgetItemState3D(#Gadget3D, Eintrag)
 
 @Description
-  Gibt den Status des angegebenen 3D-Gadget-Eintrags zurück.
+  Gibt den Status des angegebenen 3D-Gadget-Eintrags zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -755,10 +755,10 @@
   Der Status des Eintrags vom angegebenen 3D-Gadget-Eintrag.
   
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
-  - @@ListViewGadget3D: gibt 1 zurück, wenn der Eintrag ausgewählt ist, andernfalls 0.
+  - @@ListViewGadget3D: gibt 1 zurÃ¼ck, wenn der Eintrag ausgewÃ¤hlt ist, andernfalls 0.
 
 @SeeAlso
   @@SetGadgetItemState3D
@@ -770,7 +770,7 @@
 @Function String$ = GetGadgetText3D(#Gadget3D)
 
 @Description
-  Gibt den Text-Inhalt des angegebenen 3D-Gadgets zurück.
+  Gibt den Text-Inhalt des angegebenen 3D-Gadgets zurÃ¼ck.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -779,16 +779,16 @@
   Der Text-Inhalt des angegebenen 3D-Gadgets.
   
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
-  - @@ButtonGadget3D: gibt den Text des ButtonGadgets zurück. @LineBreak
-  - @@ComboBoxGadget3D - gibt den Inhalt des aktuellen Eintrags zurück. @LineBreak
-  - @@EditorGadget3D - gibt den Textinhalt des EditorGadgets zurück. Beachten Sie bitte, dass
+  - @@ButtonGadget3D: gibt den Text des ButtonGadgets zurÃ¼ck. @LineBreak
+  - @@ComboBoxGadget3D - gibt den Inhalt des aktuellen Eintrags zurÃ¼ck. @LineBreak
+  - @@EditorGadget3D - gibt den Textinhalt des EditorGadgets zurÃ¼ck. Beachten Sie bitte, dass
     mehrere Textzeilen normalerweise mittels "Chr(13)+Chr(10)" getrennt werden. @LineBreak
-  - @@ListViewGadget3D - gibt den Inhalt des aktuellen Eintrags zurück. @LineBreak
-  - @@StringGadget3D - gibt den Inhalt des StringGadgets zurück. @LineBreak
-  - @@TextGadget3D - gibt den Inhalt des TextGadgets zurück.
+  - @@ListViewGadget3D - gibt den Inhalt des aktuellen Eintrags zurÃ¼ck. @LineBreak
+  - @@StringGadget3D - gibt den Inhalt des StringGadgets zurÃ¼ck. @LineBreak
+  - @@TextGadget3D - gibt den Inhalt des TextGadgets zurÃ¼ck.
 
 @SeeAlso
   @@SetGadgetText3D
@@ -829,12 +829,12 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "TextureID"
   Die im 3D-Gadget darzustellende Textur. @@TextureID kann verwendet werden, um
-  einen gültigen Wert zu erhalten. Wenn dieser Wert auf Null gesetzt wird, dann
+  einen gÃ¼ltigen Wert zu erhalten. Wenn dieser Wert auf Null gesetzt wird, dann
   wird die Textur vom Gadget entfernt.
 
 @OptionalParameter "Flags"
@@ -844,18 +844,18 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
   Die folgende Funktion kann verwendet werden, um auf das Gadget zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@SetGadgetState3D: Ändert das aktuelle Bild des Gadgets. Eine gültige 'TextureID' kann einfach
+  - @@SetGadgetState3D: Ã„ndert das aktuelle Bild des Gadgets. Eine gÃ¼ltige 'TextureID' kann einfach
     mittels @@TextureID ermittelt werden.
     Ist die TextureID gleich 0, dann wird das Bild vom Gadget entfernt.
 
@@ -866,13 +866,13 @@
 @Function Ergebnis = IsGadget3D(#Gadget3D)
 
 @Description
-  Überprüft, ob das angegebene 3D-Gadget gültig und korrekt initialisiert ist.
+  ÃœberprÃ¼ft, ob das angegebene 3D-Gadget gÃ¼ltig und korrekt initialisiert ist.
 
 @Parameter "#Gadget3D"
   Das zu testende 3D-Gadget.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das Gadget gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn das Gadget gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.  Dies ist
@@ -882,7 +882,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ListViewGadget3D(#Gadget3D, x, y, Breite, Höhe)
+@Function Ergebnis = ListViewGadget3D(#Gadget3D, x, y, Breite, HÃ¶he)
 
 @Description
   Erstellt ein ListView Gadget (Auswahlliste) innerhalb der aktuellen Gadgetliste.
@@ -893,36 +893,36 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Befehle können benutzt werden, um auf den Listen-Inhalt zuzugreifen:
+  Die folgenden Befehle kÃ¶nnen benutzt werden, um auf den Listen-Inhalt zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@AddGadgetItem3D: fügt einen Eintrag hinzu. @LineBreak
+  - @@AddGadgetItem3D: fÃ¼gt einen Eintrag hinzu. @LineBreak
   - @@RemoveGadgetItem3D: entfernt einen Eintrag. @LineBreak
-  - @@ClearGadgetItems3D: entfernt alle Einträge. @LineBreak
-  - @@CountGadgetItems3D: ermittelt die Anzahl der aktuellen Einträge im #Gadget3D. @LineBreak
+  - @@ClearGadgetItems3D: entfernt alle EintrÃ¤ge. @LineBreak
+  - @@CountGadgetItems3D: ermittelt die Anzahl der aktuellen EintrÃ¤ge im #Gadget3D. @LineBreak
 @LineBreak
   - @@GetGadgetItemData3D: ermittelt den Wert, der mit dem Gadget-Eintrag gespeichert wurde. @LineBreak
-  - @@GetGadgetItemState3D: gibt einen Wert ungleich Null zurück, wenn der Eintrag ausgewählt ist, andernfalls Null. @LineBreak
+  - @@GetGadgetItemState3D: gibt einen Wert ungleich Null zurÃ¼ck, wenn der Eintrag ausgewÃ¤hlt ist, andernfalls Null. @LineBreak
   - @@GetGadgetItemText3D: ermittelt den Inhalt des angegebenen Eintrags. @LineBreak
-  - @@GetGadgetState3D: ermittelt den Index vom ausgewählten Eintrag oder -1, wenn kein Eintrag selektiert ist. @LineBreak
-  - @@GetGadgetText3D: ermittelt den Textinhalt vom ausgewählten Eintrag. @LineBreak
+  - @@GetGadgetState3D: ermittelt den Index vom ausgewÃ¤hlten Eintrag oder -1, wenn kein Eintrag selektiert ist. @LineBreak
+  - @@GetGadgetText3D: ermittelt den Textinhalt vom ausgewÃ¤hlten Eintrag. @LineBreak
   - @@SetGadgetItemData3D: speichert einen Wert mit dem angegebenen Eintrag. @LineBreak
   - @@SetGadgetItemState3D: selektiert den angegebenen Eintrag oder entfernt die Auswahl. @LineBreak
   - @@SetGadgetItemText3D: Set the text of the given item. @LineBreak
-  - @@SetGadgetState3D: ändert den ausgewählten Eintrag. Wird -1 angegeben, dann wird die Auswahl entfernt. @LineBreak
-  - @@SetGadgetText3D: wählt den Eintrag mit dem angegebenen Text aus (der Text muss exakt übereinstimmen).
+  - @@SetGadgetState3D: Ã¤ndert den ausgewÃ¤hlten Eintrag. Wird -1 angegeben, dann wird die Auswahl entfernt. @LineBreak
+  - @@SetGadgetText3D: wÃ¤hlt den Eintrag mit dem angegebenen Text aus (der Text muss exakt Ã¼bereinstimmen).
 
 @SupportedOS
 
@@ -932,17 +932,17 @@
 
 @Description
   Verwendet das angegebene 3D-Gadget als Gadgetliste, um darauf dynamisch neue Gadgets
-  hinzufügen. Sobald alle notwendigen Änderungen vorgenommen wurden, sollte 
+  hinzufÃ¼gen. Sobald alle notwendigen Ã„nderungen vorgenommen wurden, sollte 
   @@CloseGadgetList3D aufgerufen werden.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
 @OptionalParameter "Eintrag"
-  Der zu verwendende 3D-Gadget-Eintrag. Dies wird nur beim @@PanelGadget3D unterstützt.
+  Der zu verwendende 3D-Gadget-Eintrag. Dies wird nur beim @@PanelGadget3D unterstÃ¼tzt.
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ContainerGadget3D @LineBreak
@@ -953,16 +953,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OptionGadget3D(#Gadget3D, x, y, Breite, Höhe, Text$)
+@Function Ergebnis = OptionGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Text$)
 
 @Description
   Erstellt ein Optionen-Gadget innerhalb der aktuellen Gadgetliste.
 @LineBreak
 @LineBreak
   Beim ersten Aufruf dieser Funktion wird eine Gruppe erstellt und alle folgenden
-  Aufrufe von @@OptionGadget3D fügen dieser Gruppe ein Gadget hinzu. Um die Gruppe
-  abzuschließen, erstellen Sie einfach ein Gadget eines anderen Typs.
-  Diese Art von Gadgets sind sehr nützlich, da zur gleichen Zeit immer nur ein
+  Aufrufe von @@OptionGadget3D fÃ¼gen dieser Gruppe ein Gadget hinzu. Um die Gruppe
+  abzuschlieÃŸen, erstellen Sie einfach ein Gadget eines anderen Typs.
+  Diese Art von Gadgets sind sehr nÃ¼tzlich, da zur gleichen Zeit immer nur ein
   Gadget der Gruppe selektiert sein kann.
 
 @Parameter "#Gadget3D"
@@ -970,19 +970,19 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Text$"
   Der darzustellende Text, nahe des Auswahl-Knopfs.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 
 @SupportedOS
 
@@ -994,57 +994,57 @@
   Erstellt ein Panel-Gadget innerhalb der aktuellen Gadgetliste.
 @LineBreak
 @LineBreak
-  Sobald ein Panel (Schalttafel) erstellt wurde, ist seine Liste mit Schaltflächen leer. 
+  Sobald ein Panel (Schalttafel) erstellt wurde, ist seine Liste mit SchaltflÃ¤chen leer. 
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können verwendet werden, um auf das Gadget zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf das Gadget zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@AddGadgetItem3D: fügt eine Schaltfläche hinzu. @LineBreak
-  - @@RemoveGadgetItem3D: entfernt eine Schaltfläche. @LineBreak
-  - @@CountGadgetItems3D: ermittelt die Anzahl der Schaltflächen. @LineBreak
-  - @@ClearGadgetItems3D: entfernt alle Schaltflächen. @LineBreak
-  - @@GetGadgetItemText3D: ermittelt den Text der angegebenen Schaltfläche. @LineBreak
-  - @@SetGadgetItemText3D: ändert den Text der angegebenen Schaltfläche. @LineBreak
+  - @@AddGadgetItem3D: fÃ¼gt eine SchaltflÃ¤che hinzu. @LineBreak
+  - @@RemoveGadgetItem3D: entfernt eine SchaltflÃ¤che. @LineBreak
+  - @@CountGadgetItems3D: ermittelt die Anzahl der SchaltflÃ¤chen. @LineBreak
+  - @@ClearGadgetItems3D: entfernt alle SchaltflÃ¤chen. @LineBreak
+  - @@GetGadgetItemText3D: ermittelt den Text der angegebenen SchaltflÃ¤che. @LineBreak
+  - @@SetGadgetItemText3D: Ã¤ndert den Text der angegebenen SchaltflÃ¤che. @LineBreak
 @LineBreak
-  - @@SetGadgetState3D: ändert den aktiven Panel (Schalttafel). @LineBreak
+  - @@SetGadgetState3D: Ã¤ndert den aktiven Panel (Schalttafel). @LineBreak
   - @@GetGadgetState3D: ermittelt den Index des aktuellen Panels. @LineBreak
   - @@GetGadgetAttribute3D: mit einem der folgenden Attribute: (es muss mindestens ein Eintrag vorhanden sein, damit dies funktioniert)
 @FixedFont
-  @#PB_Panel3D_ItemWidth : Gibt die Breite des inneren Bereichs zurück, worin die Gadgets angezeigt werden.
-  @#PB_Panel3D_ItemHeight: Gibt die Höhe des inneren Bereichs zurück, worin die Gadgets angezeigt werden.
-  @#PB_Panel3D_TabHeight : Gibt die Höhe der "Reiter" ("Panel-Tabs") am oberen Rand des Gadgets zurück.
+  @#PB_Panel3D_ItemWidth : Gibt die Breite des inneren Bereichs zurÃ¼ck, worin die Gadgets angezeigt werden.
+  @#PB_Panel3D_ItemHeight: Gibt die HÃ¶he des inneren Bereichs zurÃ¼ck, worin die Gadgets angezeigt werden.
+  @#PB_Panel3D_TabHeight : Gibt die HÃ¶he der "Reiter" ("Panel-Tabs") am oberen Rand des Gadgets zurÃ¼ck.
 @EndFixedFont
 
-  Sie müssen erst @@AddGadgetItem3D aufrufen, um eine Schalttafel hinzufügen, bevor Sie
-  andere Gadgets innerhalb des PanelGadget erstellen können. Die nächsten Gadgets werden dann
+  Sie mÃ¼ssen erst @@AddGadgetItem3D aufrufen, um eine Schalttafel hinzufÃ¼gen, bevor Sie
+  andere Gadgets innerhalb des PanelGadget erstellen kÃ¶nnen. Die nÃ¤chsten Gadgets werden dann
   automatisch auf dem neuen Panel-Gadget Eintrag erstellt.
-  Dies ist sehr bequem. Wenn das Panel-Gadget mit allen benötigten Gadgets gefüllt wurde,
+  Dies ist sehr bequem. Wenn das Panel-Gadget mit allen benÃ¶tigten Gadgets gefÃ¼llt wurde,
   muss @@CloseGadgetList3D aufgerufen werden, um zur vorhergehenden Gadgetliste
-  zurückzukehren. Dies bedeutet, dass ein Panel-Gadget auch auf einem anderen
+  zurÃ¼ckzukehren. Dies bedeutet, dass ein Panel-Gadget auch auf einem anderen
   Panel-Gadget erstellt werden kann.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ProgressBarGadget3D(#Gadget3D, x, y, Breite, Höhe, Minimum, Maximum)
+@Function Ergebnis = ProgressBarGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Minimum, Maximum)
 
 @Description
   Erstellt ein ProgressBar-Gadget (Fortschrittsanzeige) innerhalb der aktuellen Gadgetliste.
@@ -1054,36 +1054,36 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Minimum, Maximum"
   Die Minimal- und Maximal-Werte, die die Fortschrittsanzeige annehmen kann.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können verwendet werden, um auf das Gadget zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf das Gadget zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@SetGadgetState3D: ändert den aktuellen Wert der Fortschrittsanzeige. @LineBreak
+  - @@SetGadgetState3D: Ã¤ndert den aktuellen Wert der Fortschrittsanzeige. @LineBreak
   - @@GetGadgetState3D: ermittelt den aktuellen Wert der Fortschrittsanzeige. @LineBreak
   - @@SetGadgetAttribute3D: mit den folgenden Attributen:
 @FixedFont
-  @#PB_ProgressBar3D_Minimum   : ändert den Minimum-Wert.
-  @#PB_ProgressBar3D_Maximum   : ändert den Maximum-Wert.
+  @#PB_ProgressBar3D_Minimum   : Ã¤ndert den Minimum-Wert.
+  @#PB_ProgressBar3D_Maximum   : Ã¤ndert den Maximum-Wert.
 @EndFixedFont
 
   - @@GetGadgetAttribute3D: mit den folgenden Attributen:
 @FixedFont
-  @#PB_ProgressBar3D_Minimum   : gibt den Minimum-Wert zurück.
-  @#PB_ProgressBar3D_Maximum   : gibt den Maximum-Wert zurück.
+  @#PB_ProgressBar3D_Minimum   : gibt den Minimum-Wert zurÃ¼ck.
+  @#PB_ProgressBar3D_Maximum   : gibt den Maximum-Wert zurÃ¼ck.
 @EndFixedFont
 
 @SupportedOS
@@ -1105,7 +1105,7 @@
 @NoReturnValue
 
 @Remarks  
-  Unterstützte Gadgets: @LineBreak
+  UnterstÃ¼tzte Gadgets: @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
   - @@PanelGadget3D @LineBreak
@@ -1115,21 +1115,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResizeGadget3D(#Gadget3D, x, y, Breite, Höhe)
+@Function ResizeGadget3D(#Gadget3D, x, y, Breite, HÃ¶he)
 
 @Description
-  Ändert das angegebene 3D-Gadget auf die angegebene neue Position und Dimensionen.
+  Ã„ndert das angegebene 3D-Gadget auf die angegebene neue Position und Dimensionen.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die neue Position und Dimensionen des Gadgets.
   @LineBreak
   @LineBreak
-  Um das Erstellen von in Echtzeit größenveränderbaren ("realtime resizeable") Graphical
+  Um das Erstellen von in Echtzeit grÃ¶ÃŸenverÃ¤nderbaren ("realtime resizeable") Graphical
   User Interface (GUI) zu vereinfachen, kann jeweils @#PB_Ignore als Parameter (x, y,
-  Breite oder Höhe) übergeben werden und dieser Parameter wird dann nicht verändert.
+  Breite oder HÃ¶he) Ã¼bergeben werden und dieser Parameter wird dann nicht verÃ¤ndert.
 
 @NoReturnValue
 
@@ -1137,7 +1137,7 @@
 @Code
   [...]
 
-  ResizeGadget3D(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Ändert nur die Gadgetbreite.
+  ResizeGadget3D(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Ã„ndert nur die Gadgetbreite.
 
 @EndCode
 
@@ -1145,31 +1145,31 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ScrollBarGadget3D(#Gadget3D, x, y, Breite, Höhe, Minimum, Maximum, SeitenLänge [, Flags])
+@Function Ergebnis = ScrollBarGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Minimum, Maximum, SeitenLÃ¤nge [, Flags])
 
 @Description
   Erstellt ein ScrollBar-Gadget (Schiebebalken) innerhalb der aktuellen Gadgetliste.
-  Es wird häufig verwendet, wenn nur ein Teil eines Objektes angezeigt wird. 
+  Es wird hÃ¤ufig verwendet, wenn nur ein Teil eines Objektes angezeigt wird. 
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Minimum, Maximum"
   Der Bereich an Werten, welche der Schiebebalken annehmen kann. Diese Werte sollten
-  zwischen 0 und 10.000 liegen, um Einschränkungen auf manchen Betriebssystemen zu vermeiden.
+  zwischen 0 und 10.000 liegen, um EinschrÃ¤nkungen auf manchen Betriebssystemen zu vermeiden.
   
-@Parameter "SeitenLänge"
-  Der Wertebereich, der zur gerade dargestellten "Seite" gehört.
+@Parameter "SeitenLÃ¤nge"
+  Der Wertebereich, der zur gerade dargestellten "Seite" gehÃ¶rt.
 @LineBreak
 @LineBreak
   Zum Beispiel: Sie haben ein Bild mit einer Breite von 100 Pixel
   und Sie sehen nur 25 Pixel. Was Sie sehen, wird eine 'Seite' genannt - in diesem
-  Beispiel ist die Seitenlänge 25, der Minimum-Wert beträgt 0 und der Maximum-Wert 100.
+  Beispiel ist die SeitenlÃ¤nge 25, der Minimum-Wert betrÃ¤gt 0 und der Maximum-Wert 100.
 
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
@@ -1178,91 +1178,91 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können verwendet werden, um auf das Gadget zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf das Gadget zuzugreifen:
 @LineBreak
 @LineBreak
-  - @@GetGadgetState3D: Gibt die aktuelle Position des Schiebebalkens zurück (der Wert liegt innerhalb der Minimum-Maximum Spanne). @LineBreak
-  - @@SetGadgetState3D: Ändert die aktuelle Schiebebalken-Position. @LineBreak
+  - @@GetGadgetState3D: Gibt die aktuelle Position des Schiebebalkens zurÃ¼ck (der Wert liegt innerhalb der Minimum-Maximum Spanne). @LineBreak
+  - @@SetGadgetState3D: Ã„ndert die aktuelle Schiebebalken-Position. @LineBreak
   - @@GetGadgetAttribute3D: Mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollBar3D_Minimum   : gibt die minimale Schiebebalken-Position zurück.
-  @#PB_ScrollBar3D_Maximum   : gibt die maximale Schiebebalken-Position zurück.
-  @#PB_ScrollBar3D_PageLength: gibt den Wert der Seitenlänge zurück.
+  @#PB_ScrollBar3D_Minimum   : gibt die minimale Schiebebalken-Position zurÃ¼ck.
+  @#PB_ScrollBar3D_Maximum   : gibt die maximale Schiebebalken-Position zurÃ¼ck.
+  @#PB_ScrollBar3D_PageLength: gibt den Wert der SeitenlÃ¤nge zurÃ¼ck.
 @EndFixedFont
 
   - @@SetGadgetAttribute3D: Mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollBar3D_Minimum   : ändert die minimale Schiebebalken-Position.
-  @#PB_ScrollBar3D_Maximum   : ändert die maximale Schiebebalken-Position.
-  @#PB_ScrollBar3D_PageLength: ändert den Wert der Seitenlänge.
+  @#PB_ScrollBar3D_Minimum   : Ã¤ndert die minimale Schiebebalken-Position.
+  @#PB_ScrollBar3D_Maximum   : Ã¤ndert die maximale Schiebebalken-Position.
+  @#PB_ScrollBar3D_PageLength: Ã¤ndert den Wert der SeitenlÃ¤nge.
 @EndFixedFont
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ScrollAreaGadget3D(#Gadget3D, x, y, Breite, Höhe, ScrollBereichBreite, ScrollBereichHöhe, ScrollSchritt)
+@Function Ergebnis = ScrollAreaGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, ScrollBereichBreite, ScrollBereichHÃ¶he, ScrollSchritt)
 
 @Description
   Erstellt ein ScrollArea-Gadget (scrollbarer Bereich) innerhalb der aktuellen Gadgetliste.
 @LineBreak
 @LineBreak
-  Es ist sehr nützlich, wenn ein Gadget zu groß ist, um in die Fenster-Dimensionen zu passen.
+  Es ist sehr nÃ¼tzlich, wenn ein Gadget zu groÃŸ ist, um in die Fenster-Dimensionen zu passen.
   In diesem Fall kann es in den ScrollArea-Bereich gelegt werden. Das gesamte Scrolling wird automatisch
-  vom Gadget verwaltet. Dies ist ein Container-Gadget und dafür gedacht, ein oder mehrere 
+  vom Gadget verwaltet. Dies ist ein Container-Gadget und dafÃ¼r gedacht, ein oder mehrere 
   Gadgets innerhalb seines Scroll-Bereiches zu haben. Sobald dieses Gadget erstellt wurde,
   werden alle nachfolgenden Gadgets innerhalb des ScrollArea-Bereiches erstellt. Sobald alle
-  benötigten Gadgets erstellt wurden, muss @@CloseGadgetList3D aufgerufen werden, um
-  zur vorherigen Gadgetliste zurückzukehren. @@OpenGadgetList3D kann später verwendet
-  werden, um weitere Gadgets während des Programmablaufs ("on-the-fly") zum Scroll-Bereich
-  hinzuzufügen.
+  benÃ¶tigten Gadgets erstellt wurden, muss @@CloseGadgetList3D aufgerufen werden, um
+  zur vorherigen Gadgetliste zurÃ¼ckzukehren. @@OpenGadgetList3D kann spÃ¤ter verwendet
+  werden, um weitere Gadgets wÃ¤hrend des Programmablaufs ("on-the-fly") zum Scroll-Bereich
+  hinzuzufÃ¼gen.
 
 @Parameter "#Gadget3D"
   Eine Nummer zum Identifizieren des neuen 3D-Gadgets.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
-@Parameter "ScrollBereichBreite, ScrollBereichHöhe"
+@Parameter "ScrollBereichBreite, ScrollBereichHÃ¶he"
   Die Abmessungen des im Gadget enthaltenen scrollbaren Bereichs.
-  Diese können auch kleiner als die äußeren Abmessungen sein, in diesem Fall wird das
+  Diese kÃ¶nnen auch kleiner als die Ã¤uÃŸeren Abmessungen sein, in diesem Fall wird das
   Scrolling deaktiviert.
 
 @OptionalParameter "ScrollSchritt"
-  Die Anzahl an Pixel, um die beim Drücken der Schieberegler-Pfeile gescrollt wird.
+  Die Anzahl an Pixel, um die beim DrÃ¼cken der Schieberegler-Pfeile gescrollt wird.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Die folgenden Funktionen können verwendet werden, um auf das ScrollAreaGadget zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf das ScrollAreaGadget zuzugreifen:
 @LineBreak
 @LineBreak
   @@GetGadgetAttribute3D: mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollArea3D_InnerWidth  : gibt die Breite (in Pixel) des enthaltenen scrollbaren Bereichs zurück.
-  @#PB_ScrollArea3D_InnerHeight : gibt die Höhe (in Pixel) des enthaltenen scrollbaren Bereichs zurück.
-  @#PB_ScrollArea3D_X           : gibt die aktuelle horizontale Scroll-Position (in Pixel) zurück.
-  @#PB_ScrollArea3D_Y           : gibt die aktuelle vertikale Scroll-Position (in Pixel) zurück.
+  @#PB_ScrollArea3D_InnerWidth  : gibt die Breite (in Pixel) des enthaltenen scrollbaren Bereichs zurÃ¼ck.
+  @#PB_ScrollArea3D_InnerHeight : gibt die HÃ¶he (in Pixel) des enthaltenen scrollbaren Bereichs zurÃ¼ck.
+  @#PB_ScrollArea3D_X           : gibt die aktuelle horizontale Scroll-Position (in Pixel) zurÃ¼ck.
+  @#PB_ScrollArea3D_Y           : gibt die aktuelle vertikale Scroll-Position (in Pixel) zurÃ¼ck.
 @EndFixedFont
   @@SetGadgetAttribute3D: mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_ScrollArea3D_InnerWidth  : ändert die Breite (in Pixel) des enthaltenen scrollbaren Bereichs.
-  @#PB_ScrollArea3D_InnerHeight : ändert die Höhe (in Pixel) des enthaltenen scrollbaren Bereichs.
-  @#PB_ScrollArea3D_X           : ändert die aktuelle horizontale Scroll-Position (in Pixel).
-  @#PB_ScrollArea3D_Y           : ändert die aktuelle vertikale Scroll-Position (in Pixel).
+  @#PB_ScrollArea3D_InnerWidth  : Ã¤ndert die Breite (in Pixel) des enthaltenen scrollbaren Bereichs.
+  @#PB_ScrollArea3D_InnerHeight : Ã¤ndert die HÃ¶he (in Pixel) des enthaltenen scrollbaren Bereichs.
+  @#PB_ScrollArea3D_X           : Ã¤ndert die aktuelle horizontale Scroll-Position (in Pixel).
+  @#PB_ScrollArea3D_Y           : Ã¤ndert die aktuelle vertikale Scroll-Position (in Pixel).
 @EndFixedFont
 
 @SupportedOS
@@ -1275,9 +1275,9 @@
   Aktiviert (setzt den Fokus darauf) das Gadget mit der angegebenen #Gadget3D Nummer.
 @LineBreak
 @LineBreak
-  Dies wird hauptsächlich zusammen mit @@ComboBoxGadget3D und @@StringGadget3D verwendet.
-  Das Aktivieren eines Gadgets ermöglicht diesem, zum aktuellen Objekt zu werden, das
-  Nachrichten empfängt und Tastatur-Eingaben einliest.
+  Dies wird hauptsÃ¤chlich zusammen mit @@ComboBoxGadget3D und @@StringGadget3D verwendet.
+  Das Aktivieren eines Gadgets ermÃ¶glicht diesem, zum aktuellen Objekt zu werden, das
+  Nachrichten empfÃ¤ngt und Tastatur-Eingaben einliest.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -1295,12 +1295,12 @@
 @Function SetGadgetAttribute3D(#Gadget3D, Attribut, Wert)
 
 @Description
-  Ändert den Attribut-Wert des angegebenen 3D-Gadgets.
+  Ã„ndert den Attribut-Wert des angegebenen 3D-Gadgets.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
-@Parameter "Atttribut"
+@Parameter "Attribut"
   Das zu setzende Attribut.
 
 @Parameter "Wert"
@@ -1309,7 +1309,7 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion ist für alle Gadgets verfügbar, die Attribute unterstützen:
+  Diese Funktion ist fÃ¼r alle Gadgets verfÃ¼gbar, die Attribute unterstÃ¼tzen:
 @LineBreak
 @LineBreak
   - @@EditorGadget3D @LineBreak
@@ -1326,19 +1326,19 @@
 
 @Description
   Speichert den angegebenen Wert mit dem angegebenen 3D-Gadget.
-  Dieser Wert kann später mit @@GetGadgetData3D wieder ausgelesen werden.
-  Dies ermöglicht das Zuweisen eines individuell vergebenen Wertes zu jedem Gadget.
+  Dieser Wert kann spÃ¤ter mit @@GetGadgetData3D wieder ausgelesen werden.
+  Dies ermÃ¶glicht das Zuweisen eines individuell vergebenen Wertes zu jedem Gadget.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
 @Parameter "Wert"
-  Der neue Wert, der mit dem 3D-Gadget zu verknüpfen ist.
+  Der neue Wert, der mit dem 3D-Gadget zu verknÃ¼pfen ist.
 
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von allen PureBasic-Gadgets unterstützt.
+  Diese Funktion wird von allen PureBasic-Gadgets unterstÃ¼tzt.
 
 @SeeAlso
   @@GetGadgetData3D
@@ -1353,25 +1353,25 @@
   Speichert den angegebenen Wert mit dem spezifizierten Eintrag des #Gadget3D.
 @LineBreak
 @LineBreak
-  Dieser Wert kann später mit dem @@GetGadgetItemData3D Befehl ausgelesen werden.
-  Dies ermöglicht das Verknüpfen eines individuellen Werts mit den Einträgen eines Gadgets. Dieser Wert
-  bleibt zusammen mit dem Eintrag bestehen, auch wenn sich der Index des Eintrags ändert (z.B. weil andere
-  Einträge gelöscht wurden).
+  Dieser Wert kann spÃ¤ter mit dem @@GetGadgetItemData3D Befehl ausgelesen werden.
+  Dies ermÃ¶glicht das VerknÃ¼pfen eines individuellen Werts mit den EintrÃ¤gen eines Gadgets. Dieser Wert
+  bleibt zusammen mit dem Eintrag bestehen, auch wenn sich der Index des Eintrags Ã¤ndert (z.B. weil andere
+  EintrÃ¤ge gelÃ¶scht wurden).
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
 
 @Parameter "Eintrag"
-  Der Eintrag, für den der 'Data'-Wert gesetzt werden soll. Der Index des ersten
+  Der Eintrag, fÃ¼r den der 'Data'-Wert gesetzt werden soll. Der Index des ersten
   Eintrags beginnt bei Null.
 
 @Parameter "Wert"
-  Der neue Wert, der mit dem Eintrag des 3D-Gadgets zu verknüpfen ist.
+  Der neue Wert, der mit dem Eintrag des 3D-Gadgets zu verknÃ¼pfen ist.
 
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
@@ -1387,7 +1387,7 @@
 @Function SetGadgetItemState3D(#Gadget3D, Eintrag, Status)
 
 @Description
-  Ändert den Status des angegebenen Eintrags im betreffenden #Gadget3D.
+  Ã„ndert den Status des angegebenen Eintrags im betreffenden #Gadget3D.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -1397,8 +1397,8 @@
   Eintrags beginnt bei Null.
 
 @Parameter "Status"
-  Der neue Status des 3D-Gadget-Eintrag. Dessen Wert hängt vom Gadget-Typ ab: @LineBreak
-  - @@ListViewGadget3D: 1, wenn der Eintrag ausgewählt sein soll, sonst 0.
+  Der neue Status des 3D-Gadget-Eintrag. Dessen Wert hÃ¤ngt vom Gadget-Typ ab: @LineBreak
+  - @@ListViewGadget3D: 1, wenn der Eintrag ausgewÃ¤hlt sein soll, sonst 0.
 
 @NoReturnValue
 
@@ -1409,7 +1409,7 @@
 @Function SetGadgetItemText3D(#Gadget3D, Eintrag, Text$ [, Spalte])
 
 @Description
-  Ändert den Text des angegebenen Eintrags (in der Spalte) beim angegebenen #Gadget3D.
+  Ã„ndert den Text des angegebenen Eintrags (in der Spalte) beim angegebenen #Gadget3D.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -1419,7 +1419,7 @@
   Eintrags beginnt bei Null.
 
 @Parameter "Text$"
-  Der neue Text für den Eintrag.
+  Der neue Text fÃ¼r den Eintrag.
   
 @OptionalParameter "Spalte"
   Derzeit nicht verwendet.
@@ -1427,7 +1427,7 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@ComboBoxGadget3D @LineBreak
@@ -1441,7 +1441,7 @@
 @Function SetGadgetState3D(#Gadget3D, Status)
 
 @Description
-  Ändert den aktuellen Status des angegebenen #Gadget3D.
+  Ã„ndert den aktuellen Status des angegebenen #Gadget3D.
   
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -1452,18 +1452,18 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
   - @@CheckBoxGadget3D: 1 um es abzuhaken, andernfalls 0. @LineBreak
-  - @@ComboBoxGadget3D: ändert den aktuell selektierten Eintrag. @LineBreak
-  - @@ImageGadget3D: ändert das aktuelle Bild des Gadgets. @LineBreak
-  - @@ListViewGadget3D: ändert den aktuell selektierten Eintrag. Wird -1 angegeben, wird die Selektierung entfernt. @LineBreak
+  - @@ComboBoxGadget3D: Ã¤ndert den aktuell selektierten Eintrag. @LineBreak
+  - @@ImageGadget3D: Ã¤ndert das aktuelle Bild des Gadgets. @LineBreak
+  - @@ListViewGadget3D: Ã¤ndert den aktuell selektierten Eintrag. Wird -1 angegeben, wird die Selektierung entfernt. @LineBreak
   - @@OptionGadget3D: 1 um es zu aktivieren, andernfalls 0. @LineBreak
-  - @@PanelGadget3D: ändert das aktuelle Panel. @LineBreak
-  - @@ProgressBarGadget3D: ändert den Status der Fortschrittsanzeige. @LineBreak
-  - @@ScrollBarGadget3D: ändert die aktuelle Position des Schiebebalkens. @LineBreak
-  - @@SpinGadget3D: ändert den aktuellen Wert des SpinGadgets.
+  - @@PanelGadget3D: Ã¤ndert das aktuelle Panel. @LineBreak
+  - @@ProgressBarGadget3D: Ã¤ndert den Status der Fortschrittsanzeige. @LineBreak
+  - @@ScrollBarGadget3D: Ã¤ndert die aktuelle Position des Schiebebalkens. @LineBreak
+  - @@SpinGadget3D: Ã¤ndert den aktuellen Wert des SpinGadgets.
 
 @SupportedOS
 
@@ -1472,7 +1472,7 @@
 @Function SetGadgetText3D(#Gadget3D, Text$)
 
 @Description
-  Ändert den Text-Inhalt des angegebenen 3D-Gadgets.
+  Ã„ndert den Text-Inhalt des angegebenen 3D-Gadgets.
 
 @Parameter "#Gadget3D"
   Das zu verwendende 3D-Gadget.
@@ -1483,23 +1483,23 @@
 @NoReturnValue
 
 @Remarks
-  Diese Funktion wird von den folgenden 3D-Gadgets unterstützt:
+  Diese Funktion wird von den folgenden 3D-Gadgets unterstÃ¼tzt:
 @LineBreak
 @LineBreak
-  - @@ButtonGadget3D: ändert den Text eines ButtonGadgets. @LineBreak
-  - @@ComboBoxGadget3D: ändert den angezeigten Text. Ist das ComboBoxGadget nicht editierbar, muss sich der Text in der Aufklapp-Liste befinden. @LineBreak
-  - @@EditorGadget3D: ändert den Textinhalt des EditorGadgets. Wenn Sie mehrere Textzeilen mit einmal
-    hinzufügen möchten, trennen Sie diese einfach mit "Chr(13)+Chr(10)". @LineBreak
-  - @@FrameGadget3D: ändert den Titel des FrameGadgets. @LineBreak
-  - @@ListViewGadget3D: wählt den Eintrag aus, welcher exakt mit dem angegebenen Text übereinstimmt. @LineBreak
-  - @@StringGadget3D: ändert den Inhalt des StringGadgets. @LineBreak
-  - @@TextGadget3D: ändert den Inhalt des TextGadgets.
+  - @@ButtonGadget3D: Ã¤ndert den Text eines ButtonGadgets. @LineBreak
+  - @@ComboBoxGadget3D: Ã¤ndert den angezeigten Text. Ist das ComboBoxGadget nicht editierbar, muss sich der Text in der Aufklapp-Liste befinden. @LineBreak
+  - @@EditorGadget3D: Ã¤ndert den Textinhalt des EditorGadgets. Wenn Sie mehrere Textzeilen mit einmal
+    hinzufÃ¼gen mÃ¶chten, trennen Sie diese einfach mit "Chr(13)+Chr(10)". @LineBreak
+  - @@FrameGadget3D: Ã¤ndert den Titel des FrameGadgets. @LineBreak
+  - @@ListViewGadget3D: wÃ¤hlt den Eintrag aus, welcher exakt mit dem angegebenen Text Ã¼bereinstimmt. @LineBreak
+  - @@StringGadget3D: Ã¤ndert den Inhalt des StringGadgets. @LineBreak
+  - @@TextGadget3D: Ã¤ndert den Inhalt des TextGadgets.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = SpinGadget3D(#Gadget3D, x, y, Breite, Höhe, Minimum, Maximum)
+@Function Ergebnis = SpinGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Minimum, Maximum)
 
 @Description
   Erstellt ein SpinGadget in der aktuellen Gadgetliste.
@@ -1509,38 +1509,38 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Minimum, Maximum"
   Die Minimal- und Maximal-Werte, die das SpinGadget annehmen kann.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 @LineBreak
 @LineBreak
-  Die folgenden Funktionen können verwendet werden, um auf das Gadget zuzugreifen:
+  Die folgenden Funktionen kÃ¶nnen verwendet werden, um auf das Gadget zuzugreifen:
 @LineBreak
 @LineBreak
   @@GetGadgetState3D: Ermittelt den aktuellen Gadget-Wert. @LineBreak
-  @@SetGadgetState3D: Ändert den aktuellen Gadget-Wert. Für das Anzeigen des neuen Werts ist jedoch trotzdem noch @@SetGadgetText3D notwendig! @LineBreak
+  @@SetGadgetState3D: Ã„ndert den aktuellen Gadget-Wert. FÃ¼r das Anzeigen des neuen Werts ist jedoch trotzdem noch @@SetGadgetText3D notwendig! @LineBreak
   @@GetGadgetText3D: Ermittelt den im Gadget enthaltenen Text. @LineBreak
-  @@SetGadgetText3D: Ändert den im Gadget enthaltenen Text. @LineBreak
+  @@SetGadgetText3D: Ã„ndert den im Gadget enthaltenen Text. @LineBreak
   @@GetGadgetAttribute3D: Mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_Spin3D_Minimum   : Gibt den Minimal-Wert zurück.
-  @#PB_Spin3D_Maximum   : Gibt den Maximal-Wert zurück.
+  @#PB_Spin3D_Minimum   : Gibt den Minimal-Wert zurÃ¼ck.
+  @#PB_Spin3D_Maximum   : Gibt den Maximal-Wert zurÃ¼ck.
 @EndFixedFont
 
   @@SetGadgetAttribute3D: Mit einem der folgenden Attribute:
 @FixedFont
-  @#PB_Spin3D_Minimum   : Ändert den Minimal-Wert.
-  @#PB_Spin3D_Maximum   : Ändert den Maximal-Wert.
+  @#PB_Spin3D_Minimum   : Ã„ndert den Minimal-Wert.
+  @#PB_Spin3D_Maximum   : Ã„ndert den Maximal-Wert.
 @EndFixedFont
 
 @SupportedOS
@@ -1561,14 +1561,14 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Inhalt$"
-  Der anfängliche Text-Inhalt.
+  Der anfÃ¤ngliche Text-Inhalt.
 
 @OptionalParameter "Flags"
-  Dies kann eine Kombination (verknüpft mit dem '|' OR-Operator) der folgenden Werte sein:
+  Dies kann eine Kombination (verknÃ¼pft mit dem '|' OR-Operator) der folgenden Werte sein:
 @FixedFont
   @#PB_String3D_Numeric    : Nur (positive) Ganzzahlen werden akzeptiert.
   @#PB_String3D_Password   : Passwort-Modus, es werden nur '*' anstelle normaler Zeichen angezeigt.
@@ -1576,29 +1576,29 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Der Inhalt kann später mit @@SetGadgetText3D verändert und mit @@GetGadgetText3D
+  Der Inhalt kann spÃ¤ter mit @@SetGadgetText3D verÃ¤ndert und mit @@GetGadgetText3D
   ermittelt werden.
 @LineBreak
 @LineBreak
-  Die Abfrage der folgenden Ereignisse wird mittels @@EventType3D unterstützt:
+  Die Abfrage der folgenden Ereignisse wird mittels @@EventType3D unterstÃ¼tzt:
 @FixedFont
-  @#PB_EventType3D_Change    : Der Text wurde durch den Anwender geändert.
+  @#PB_EventType3D_Change    : Der Text wurde durch den Anwender geÃ¤ndert.
   @#PB_EventType3D_Focus     : Das StringGadget erhielt den Fokus.
   @#PB_EventType3D_LostFocus : Das StringGadget verlor den Fokus.
 @EndFixedFont
 
-  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefügt werden.
+  Zu diesem Gadget kann mittels @@GadgetToolTip3D eine 'Mini-Hilfe' hinzugefÃ¼gt werden.
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = TextGadget3D(#Gadget3D, x, y, Breite, Höhe, Text$)
+@Function Ergebnis = TextGadget3D(#Gadget3D, x, y, Breite, HÃ¶he, Text$)
 
 @Description
   Erstellt ein Text-Gadget innerhalb der aktuellen Gadget-Liste.
@@ -1609,23 +1609,23 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Zahl
   automatisch zu generieren.
 
-@Parameter "x, y, Breite, Höhe"
+@Parameter "x, y, Breite, HÃ¶he"
   Die Position und Abmessungen des neuen Gadgets.
 
 @Parameter "Text$"
   Der darzustellende Text.
 
 @ReturnValue
-  Gibt im Erfolgsfall einen Wert ungleich Null zurück, andernfalls Null. Wenn @#PB_Any
-  als #Gadget3D Parameter verwendet wurde, dann enthält bei Erfolg der Rückgabewert
+  Gibt im Erfolgsfall einen Wert ungleich Null zurÃ¼ck, andernfalls Null. Wenn @#PB_Any
+  als #Gadget3D Parameter verwendet wurde, dann enthÃ¤lt bei Erfolg der RÃ¼ckgabewert
   die automatisch generierte Nummer.
 
 @Remarks
-  Der Inhalt kann später mit @@SetGadgetText3D verändert und mit @@GetGadgetText3D
+  Der Inhalt kann spÃ¤ter mit @@SetGadgetText3D verÃ¤ndert und mit @@GetGadgetText3D
   ermittelt werden.
 @LineBreak
 @LineBreak
-  Hinweis: Dieses Gadget empfängt keinerlei Anwendereingaben, auch @@GadgetToolTip3D kann
+  Hinweis: Dieses Gadget empfÃ¤ngt keinerlei Anwendereingaben, auch @@GadgetToolTip3D kann
   damit nicht verwendet werden.
 
 @SupportedOS

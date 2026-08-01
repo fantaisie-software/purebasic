@@ -1580,12 +1580,17 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   CompilerIf #CompileWindows
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
     If *Target\DllProtection      : Command$ + Chr(9) + "DLLPROTECTION" : EndIf
+    If *Target\SharedUCRT         : Command$ + Chr(9) + "SHAREDUCRT" : EndIf
     
     If *Target\EnableAdmin
       Command$ + Chr(9) + "ADMINISTRATOR"
     ElseIf *Target\EnableUser ; both at once is impossible
       Command$ + Chr(9) + "USER"
     EndIf
+  CompilerEndIf
+  
+  CompilerIf #CompileLinux
+    If *Target\EnableWayland : Command$ + Chr(9) + "WAYLAND" : EndIf
   CompilerEndIf
   
   CompilerIf Not #SpiderBasic
@@ -1859,7 +1864,6 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       Else
         WebServerAddress$ = "127.0.0.1:" + Str(OptionWebServerPort + WebServerPortIndex)
         MongooseAddress$ = WebServerAddress$
-        WebServerPortIndex+1
       EndIf
       
       ; Check than no server use this adress already (ie: 2 different sources  with the same *Target\WebServerAddress$
@@ -1871,8 +1875,6 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       Next
       
       If Error = #False
-        AddElement(OpenedWebServers())
-        
         CompilerIf #CompileWindows
           ; Note: sbmongoose support UNICODE path on Windows, but it needs to be put on the commandline as UTF8
           ;
@@ -1883,12 +1885,31 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         Debug "Mongoose address: " + MongooseAddress$
         Debug "Mongoose document_root: " + RootPath$
         Debug "Mongoose spiderbasic_root: " + PureBasicPath$
-                
-        OpenedWebServers() = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
-                                                                                 " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
-                                                                                 " -spiderbasic_root "+#DQUOTE$+ReplaceString(PureBasicPath$, "\", "/")+#DQUOTE$, "", #PB_Program_Open | #PB_Program_Hide)
-        Delay(500)
-        WebLaunchedServers(RootPath$) = WebServerAddress$
+        
+        MongooseProgram = RunProgram(PureBasicPath$ + "compilers/sbmongoose", " -listening_ports " + MongooseAddress$ +
+                                                                              " -document_root "+#DQUOTE$+RootPath$+#DQUOTE$ +
+                                                                              " -spiderbasic_root "+#DQUOTE$+ReplaceString(PureBasicPath$, "\", "/")+#DQUOTE$, "", #PB_Program_Open | #PB_Program_Hide | #PB_Program_Read | #PB_Program_Ascii)
+        ; Ensures mongoose is properly started
+        MongooseStarted = #False        
+        If ProgramRunning(MongooseProgram)
+          Line$ = ReadProgramString(MongooseProgram) ; Blocking call
+          If Left(Line$, 33) = "Mongoose web server v.4.2 started"
+            MongooseStarted = #True
+          EndIf
+        EndIf
+        
+        If MongooseStarted
+          AddElement(OpenedWebServers())
+          OpenedWebServers() = MongooseProgram
+          
+          ; Increase the port index for the next program
+          WebServerPortIndex+1
+
+          WebLaunchedServers(RootPath$) = WebServerAddress$
+        Else
+          CloseProgram(MongooseProgram)
+          MessageRequester("Error", "Can't start mongoose on address "+WebServerAddress$+" (may be the port '"+Str(OptionWebServerPort + WebServerPortIndex)+"' is in use)", #FLAG_Error)
+        EndIf
       EndIf
     EndIf
     
@@ -2478,6 +2499,10 @@ Procedure Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.Compile
   If *Target\ExecutableFormat = 2
     Command$ + Chr(9) + "DLL"
   EndIf
+  
+  CompilerIf Not #SpiderBasic
+    CreateDirectoryRecursive(GetPathPart(TargetFileName$))
+  CompilerEndIf
   
   CompilerWrite(Command$)
   

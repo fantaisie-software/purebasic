@@ -20,8 +20,9 @@ IncludeFile "../Common.pb"
 ; Global flags (multi functions)
 ;
 #PB_LocalFile       = 1 << 16
-#PB_GoogleDriveFile = 1 << 17
+#PB_Async           = 1 << 17
 #PB_LocalStorage    = 1 << 18
+; #PB_OpenFile        = 1 << 19 (Not Public)
 
 #PB_Status_Loaded = 0
 #PB_Status_Progress = 1
@@ -76,6 +77,13 @@ IncludeFile "../Common.pb"
 #PB_Image_Smooth = 0
 #PB_Image_Raw    = 1
 
+; LoadImage()
+#PB_Image_PNGBase64  = 1 << 0
+#PB_Image_JPEGBase64 = 1 << 1
+
+; CaptureImage()
+#PB_Image_FrontCamera = 1 << 0
+
 ; ToolBar icon definitions
 ;
 
@@ -122,6 +130,11 @@ IncludeFile "../Common.pb"
 
 #PB_FontRequester_Effects = 256 ; #CF_EFFECTS
 
+; FileSystem
+;
+#PB_FileSystem_Persistent = 0
+#PB_FileSystem_Temporary  = 1
+
 ; RunProgram
 ;
 
@@ -165,6 +178,8 @@ IncludeFile "../Common.pb"
 #PB_Event_SizeDesktop      = 21
 #PB_Event_WebSocket        = 22
 #PB_Event_Mobile           = 23
+#PB_Event_Notification     = 24
+#PB_Event_ThemeChanged     = 25
 
 ; Loading type
 ;
@@ -200,6 +215,10 @@ IncludeFile "../Common.pb"
 #PB_EventType_Data              = 12
 #PB_EventType_String            = 13
 #PB_EventType_Error             = 14
+#PB_EventType_Resize            = 15
+#PB_EventType_PageLoaded        = 16
+#PB_EventType_NotificationClicked   = 17
+#PB_EventType_NotificationTriggered = 18
 
 ; Window flags
 ;
@@ -248,6 +267,29 @@ IncludeFile "../Common.pb"
 
 #PB_FileSystem_NoExtension = 1
 
+; Notification
+;
+#PB_Notification_Secret   = (1 << 1)
+#PB_Notification_Progress = (1 << 2)
+
+#PB_Notification_Now       = 0
+#PB_Notification_InSecond  = 1
+#PB_Notification_InMinute  = 2
+#PB_Notification_InHour    = 3
+#PB_Notification_InDay     = 4
+#PB_Notification_InWeek    = 5
+#PB_Notification_InMonth   = 6
+#PB_Notification_InQuarter = 7
+#PB_Notification_InYear    = 8
+#PB_Notification_EveryDate = 9
+#PB_Notification_EveryMinute = 10
+#PB_Notification_EveryHour   = 11
+#PB_Notification_EveryDay    = 12
+#PB_Notification_EveryWeek   = 13
+#PB_Notification_EveryMonth  = 14
+#PB_Notification_EveryYear   = 15
+#PB_Notification_At          = 16
+
 ; LoadScript()
 ;
 #PB_Script_JavaScript = 0
@@ -264,15 +306,6 @@ IncludeFile "../Common.pb"
 #PB_Date_Created  = 0
 #PB_Date_Accessed = 1
 #PB_Date_Modified = 2
-
-
-; Colors
-#PB_Gadget_FrontColor = 1
-#PB_Gadget_BackColor  = 2
-#PB_Gadget_LineColor  = 3
-#PB_Gadget_TitleFrontColor = 4
-#PB_Gadget_TitleBackColor  = 5
-#PB_Gadget_GrayTextColor   = 6
 
 #PB_Button_Right     = 1 << 0
 #PB_Button_Left      = 1 << 1
@@ -299,12 +332,6 @@ IncludeFile "../Common.pb"
 #PB_ComboBox_UpperCase = 1 << 2
 #PB_ComboBox_Image     = 1 << 3
 
-#PB_Container_BorderLess = 0
-#PB_Container_Flat       = 1
-#PB_Container_Raised     = 2
-#PB_Container_Single     = 4
-#PB_Container_Double     = 8
-
 #PB_Date_Calendar = 0
 #PB_Date_UpDown   = 1
 #PB_Date_CheckBox = 2
@@ -312,135 +339,10 @@ IncludeFile "../Common.pb"
 #PB_Date_Minimum  = 1
 #PB_Date_Maximum  = 2
 
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_NoMyDocuments       = $00000200
-#PB_Explorer_NoHidden            = $00000400
-
-; Flags for ExplorerTreeGadget and ExplorerViewGadget:
-#PB_Explorer_NoFiles             = $00000001
-#PB_Explorer_NoDriveRequester    = $00000010
-#PB_Explorer_AutoSort            = $00000040
-#PB_Explorer_BorderLess          = $00100000
-#PB_Explorer_AlwaysShowSelection = $01000000
-
-; ExplorerList only Flags:
-#PB_Explorer_NoParentFolder      = $00000002
-#PB_Explorer_NoFolders           = $00000004
-#PB_Explorer_NoDirectoryChange   = $00000008
-#PB_Explorer_NoSort              = $00000020
-#PB_Explorer_MultiSelect         = $00200000
-#PB_Explorer_GridLines           = $00400000
-#PB_Explorer_HeaderDragDrop      = $00800000
-#PB_Explorer_FullRowSelect       = $02000000
-
-; ExplorerTree only Flags:
-#PB_Explorer_NoLines             = $04000000
-#PB_Explorer_NoButtons           = $08000000
-
-; ExplorerCombo only Flags:
-#PB_Explorer_DrivesOnly          = $00000080
-#PB_Explorer_Editable            = $00000100
-
-; Return values for Explorer:
-#PB_Explorer_None                = $0
-#PB_Explorer_File                = $1
-#PB_Explorer_Directory           = $2
-#PB_Explorer_Selected            = $4
-
-; Explorerlist standart columns:
-#PB_Explorer_Name                = "PB_Explorer_Column_Name"
-#PB_Explorer_Size                = "PB_Explorer_Column_Size"
-#PB_Explorer_Type                = "PB_Explorer_Column_Type"
-#PB_Explorer_Attributes          = "PB_Explorer_Column_Attributes"
-#PB_Explorer_Created             = "PB_Explorer_Column_Created"
-#PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
-#PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
-
-#PB_Explorer_ColumnWidth = 1
-
 ; Editor
-#PB_Editor_ReadOnly = 1 << 0
-#PB_Editor_WordWrap = 1 << 1
-
-#PB_Frame_Double   = 1
-#PB_Frame_Single   = 2
-#PB_Frame_Flat     = 3
 
 #PB_ListView_MultiSelect = 1 << 0
 #PB_ListView_ClickSelect = 1 << 1
-
-#PB_ListIcon_CheckBoxes     = 1 << 0
-#PB_ListIcon_MultiSelect    = 1 << 1
-#PB_ListIcon_GridLines      = 1 << 2
-#PB_ListIcon_FullRowSelect  = 1 << 3
-#PB_ListIcon_HeaderDragDrop = 1 << 4
-#PB_ListIcon_AlwaysShowSelection = 1 << 5
-
-
-#PB_MDI_BorderLess              = $00000001 ; Flags
-#PB_MDI_AutoSize                = $00000002
-#PB_MDI_NoScrollBars            = $00000004
-
-#PB_MDI_Cascade                 = -1 ; Item States
-#PB_MDI_TileVertically          = -2
-#PB_MDI_TileHorizontally        = -3
-#PB_MDI_Next                    = -4
-#PB_MDI_Previous                = -5
-#PB_MDI_Arrange                 = -6
-
-#PB_MDI_Image     = 3 ; Attributes
-#PB_MDI_TileImage = 4
-
-
-; Flags
-;
-#PB_ScrollArea_Flat = 1
-#PB_ScrollArea_Raised = 2
-#PB_ScrollArea_Single = 4
-#PB_ScrollArea_BorderLess = 8
-#PB_ScrollArea_Center = 16
-
-; Attributes
-;
-#PB_ScrollArea_InnerWidth  = 1
-#PB_ScrollArea_InnerHeight = 2
-#PB_ScrollArea_X = 3
-#PB_ScrollArea_Y = 4
-;#PB_ScrollArea_ScrollStep = 5
-
-
-#PB_ScrollBar_Vertical = 1
-
-#PB_ScrollBar_Minimum = 1 ; Attributes
-#PB_ScrollBar_Maximum = 2
-#PB_ScrollBar_PageLength = 3
-
-; Flags
-;
-#PB_Splitter_Vertical    = 1
-#PB_Splitter_Separator   = 2
-#PB_Splitter_FirstFixed  = 4
-#PB_Splitter_SecondFixed = 8
-
-; Attributes
-;
-#PB_Splitter_FirstMinimumSize  = 1
-#PB_Splitter_SecondMinimumSize = 2
-#PB_Splitter_FirstGadget       = 3
-#PB_Splitter_SecondGadget      = 4
-
-
-; String flags
-;
-#PB_String_Password  = 1 << 0
-#PB_String_ReadOnly  = 1 << 1
-#PB_String_Numeric   = 1 << 2
-#PB_String_LowerCase = 1 << 3
-#PB_String_UpperCase = 1 << 4
-#PB_String_BorderLess = 1 << 5
-#PB_String_AutoComplete = 1 << 6
-#PB_String_AutoInsert = 1 << 7
-#PB_String_PlaceHolder = 1 << 8
 
 #PB_Spin_ReadOnly = 1 ; Flags
 #PB_Spin_Numeric  = 2
@@ -463,6 +365,8 @@ IncludeFile "../Common.pb"
 #PB_Image_Raised = 1 << 0
 #PB_Image_Border = 1 << 1
 
+
+
 #PB_ProgressBar_Smooth   = 1
 
 ; Not supported in DOJO
@@ -470,19 +374,6 @@ IncludeFile "../Common.pb"
 
 #PB_ProgressBar_Minimum  = 1  ; Attributes
 #PB_ProgressBar_Maximum  = 2
-
-#PB_Panel_ItemWidth  = 1 ; Attributes
-#PB_Panel_ItemHeight = 2
-#PB_Panel_TabHeight  = 3
-
-; Not supported yet
-; #PB_TrackBar_Ticks    = 1
-#PB_TrackBar_Vertical = 2
-
-#PB_TrackBar_Minimum = 1 ; Attributes
-#PB_TrackBar_Maximum = 2
-
-#PB_HyperLink_Underline  = 1
 
 #PB_Text_Center = 1 << 0
 #PB_Text_Right  = 1 << 1
@@ -822,3 +713,6 @@ IncludeFile "../Common.pb"
 #PB_Mobile_TabIcon  = "icon"
 #PB_Mobile_TabActiveIcon = "active-icon"
 #PB_Mobile_TabBadge = "badge"
+
+#PB_Mobile_LightTheme = 1
+#PB_Mobile_DarkTheme = 2

@@ -1,4 +1,4 @@
-@Title UserGuide - Building a graphical user interface (GUI)
+ï»¿@Title UserGuide - Building a graphical user interface (GUI)
 
 In addition to the @ReferenceLink "ug_textoutput" "console window", PureBasic supports
 the creation of graphical user interfaces (GUI) too. So let's revisit the file properties
@@ -108,7 +108,7 @@ managing GUI elements, using that gadget would defeat this object a bit.
     ; Convert the attributes to a string, for now.
     Attrib = StrU(Files()\Attributes)
     
-    ; Build a row string.  
+    ; Build a row string. 
     ; The Line Feed character 'Chr(10)' tells the gadget to move to the next column.
     Msg = Num + Chr(10) + Files()\Name + Chr(10) + Create + Chr(10) + Access + Chr(10) + Modify + Chr(10) + Attrib + Chr(10) + Size
     
@@ -116,7 +116,7 @@ managing GUI elements, using that gadget would defeat this object a bit.
     AddGadgetItem(#Files, -1, Msg)
   Next Files()
   
-  ; This is the event loop for the window.  
+  ; This is the event loop for the window. 
   ; It will deal with all the user interaction events that we wish to use. 
   
   Repeat

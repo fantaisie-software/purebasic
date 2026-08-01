@@ -1,4 +1,4 @@
-@Title Import : EndImport
+ï»¿@Title Import : EndImport
 
 @Syntax
 
@@ -9,37 +9,37 @@
   @Keyword EndImport
 
 @Description
-  Für fortgeschrittene Programmierer. @Keyword Import : @Keyword EndImport ermöglicht das
+  FÃ¼r fortgeschrittene Programmierer. @Keyword Import : @Keyword EndImport ermÃ¶glicht das
   einfache Deklarieren externer Funktionen und Variablen aus einer Library (.lib) oder
   Objekt (.obj) Datei.
   @LineBreak
   @LineBreak
   Sobald diese deklariert wurden, sind die importierten Funktionen wie jeder andere Befehl
-  direkt zur Verwendung im Programm verfügbar. Der Compiler überprüft nicht, ob die 
-  Funktion tatsächlich in der importierten Datei existiert; wenn also ein Fehler auftritt,
+  direkt zur Verwendung im Programm verfÃ¼gbar. Der Compiler Ã¼berprÃ¼ft nicht, ob die 
+  Funktion tatsÃ¤chlich in der importierten Datei existiert; wenn also ein Fehler auftritt,
   wird dieser direkt vom Linker mitgeteilt.
   @LineBreak
   @LineBreak
   Dieses Feature kann die @@OpenLibrary/@@CallFunction
-  Sequenz ersetzen, da sie einige Vorteile bietet: es erfolgt eine Typen-Überprüfung, die 
-  Anzahl an Parametern wird geprüft. Nicht wie bei CallFunction() können ohne Probleme 
-  Doubles, Fließkomma und Quad @ReferenceLink "variables" "Variablen" verarbeitet werden. 
+  Sequenz ersetzen, da sie einige Vorteile bietet: es erfolgt eine Typen-ÃœberprÃ¼fung, die 
+  Anzahl an Parametern wird geprÃ¼ft. Nicht wie bei CallFunction() kÃ¶nnen ohne Probleme 
+  Doubles, FlieÃŸkomma und Quad @ReferenceLink "variables" "Variablen" verarbeitet werden. 
   @LineBreak
   @LineBreak
-  Die letzten Parameter können einen Standard-Wert (muss ein konstanter Ausdruck sein) haben. 
+  Die letzten Parameter kÃ¶nnen einen Standard-Wert (muss ein konstanter Ausdruck sein) haben. 
   Wenn also diese Parameter beim Funktionsaufruf weggelassen werden, wird der Standardwert verwendet.
   @LineBreak
   @LineBreak
-  Standardmäßig wird der importierte Funktionsname (Funktionssymbol) auf folgende Art und Weise 'dekoriert':
-  _FunctionName@CallSize (Funktionsname und Aufrufgröße). Dies sollte bei den meisten Funktionen 
+  StandardmÃ¤ÃŸig wird der importierte Funktionsname (Funktionssymbol) auf folgende Art und Weise 'dekoriert':
+  _FunctionName@CallSize (Funktionsname und AufrufgrÃ¶ÃŸe). Dies sollte bei den meisten Funktionen 
   funktionieren, welche die Standardaufruf Konvention (stdcall) verwenden. Wenn es sich bei der
   Library um eine C Library handelt und die Funktionen nicht stdcall entsprechen, sollte stattdessen
-  die @Keyword ImportC Variante verwendet werden. In diesem Fall wird das standardmäßige Funktionssymbol
+  die @Keyword ImportC Variante verwendet werden. In diesem Fall wird das standardmÃ¤ÃŸige Funktionssymbol
   wie folgt 'dekoriert': _FunctionName (nur Funktionsname).
   @LineBreak
   @LineBreak
-  Die @ReferenceLink "pseudotypes" "Pseudotypes" können für die Parameter verwendet werden, jedoch
-  nicht für den Rückgabewert.
+  Die @ReferenceLink "pseudotypes" "Pseudotypes" kÃ¶nnen fÃ¼r die Parameter verwendet werden, jedoch
+  nicht fÃ¼r den RÃ¼ckgabewert.
 @Remarks
   Auf x64 gibt es nur eine Aufruf-Konvention, somit werden sich @Keyword ImportC und 
   @Keyword Import auf die selbe Weise verhalten.
@@ -53,7 +53,7 @@
 
   Import "User32.lib"
    
-    ; Keine Notwendigkeit für die Verwendung von 'As' da PureBasic die Funktion
+    ; Keine Notwendigkeit fÃ¼r die Verwendung von 'As' da PureBasic die Funktion
     ; korrekt dekoriert.
     ; Wir definieren die 'Flags' auch als optional, mit einem Standardwert 
     ; von 0 (wenn sie weggelassen werden).
@@ -75,7 +75,7 @@
 
   Import "User32.lib"
    
-    ; Wir verwenden den 'p-unicode' Pseudotype für die String Parameter, da
+    ; Wir verwenden den 'p-unicode' Pseudotype fÃ¼r die String Parameter, da
     ; MessageBoxW() eine nur unter Unicode verwendbare Funktion ist. Der Compiler
     ; wird - sofern notwendig - die Strings automatisch nach Unicode konvertieren.
     ;

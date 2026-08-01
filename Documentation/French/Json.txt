@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Json library documentation
 ;
 ; Fantaisie Software
@@ -7,19 +7,19 @@
 @Library Json
 
 @Overview
-  La bibliothèque JSON fournit des fonctions 
-  pour parcourir (parse), créer et modifier 
-  des données au format JSON.@LineBreak
+  La bibliothÃ¨que JSON fournit des fonctions 
+  pour parcourir (parse), crÃ©er et modifier 
+  des donnÃ©es au format JSON.@LineBreak
   JSON (JavaScript Object Notation) est un 
-  format léger d'échange de données pris en 
+  format lÃ©ger d'Ã©change de donnÃ©es pris en 
   charge par de nombreux langages de 
   programmation. Vous trouverez une 
-  introduction à JSON 
+  introduction Ã  JSON 
   @InternetLink "http://www.json.org/json-fr.html" "ici".
 @LineBreak
 @LineBreak
-  Cette bibliothèque comprend et produit le 
-  format JSON tel que défini par
+  Cette bibliothÃ¨que comprend et produit le 
+  format JSON tel que dÃ©fini par
   @InternetLink "http://tools.ietf.org/html/rfc7159" "RFC-7159".
 
 @CommandList
@@ -33,14 +33,14 @@
 @Function Resultat = AddJSONElement(JSONValeur [, Index])
 
 @Description
-  Ajoute un nouvel élément à un tableau JSON 
+  Ajoute un nouvel Ã©lÃ©ment Ã  un tableau JSON 
   de @Link "JSONType" "type" @#PB_JSON_Array.
   
 @Parameter "JSONValeur"
-  La valeur JSON à ajouter. 
+  La valeur JSON Ã  ajouter. 
 @LineBreak
 @LineBreak  
-  Doit être du type @#PB_JSON_Array.
+  Doit Ãªtre du type @#PB_JSON_Array.
 
 @OptionalParameter "Index"
   L'index auquel la nouvelle valeur est 
@@ -49,39 +49,39 @@
 @LineBreak  
   Si l'index est en dehors des limites du 
   tableau, la nouvelle valeur est introduite 
-  soit au début (avec un Index <0) soit à la 
+  soit au dÃ©but (avec un Index <0) soit Ã  la 
   fin du tableau. @LineBreak  
-  Si ce paramètre n'est pas spécifié, la 
-  nouvelle valeur est ajoutée à la fin du 
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, la 
+  nouvelle valeur est ajoutÃ©e Ã  la fin du 
   tableau.
   
 @ReturnValue
   Renvoie l'adresse de la valeur JSON 
-  ajoutée.@LineBreak 
-  La valeur nouvellement ajoutée est 
+  ajoutÃ©e.@LineBreak 
+  La valeur nouvellement ajoutÃ©e est 
   initialement de type @#PB_JSON_Null.
 
 @Example
 @Code
   If CreateJSON(0)
   
-    ; transformation d'une collection de données vide en un tableau
+    ; transformation d'une collection de donnÃ©es vide en un tableau
     Tableau = SetJSONArray(JSONValue(0))
     
-    ; ajout de 5 nombres entiers à la fin du tableau
+    ; ajout de 5 nombres entiers Ã  la fin du tableau
     For i = 1 To 5
       AdresseNombre = AddJSONElement(Tableau)
       SetJSONInteger(AdresseNombre, i)
     Next i
     
-    ; insertion de "Hello" à l'index 1
+    ; insertion de "Hello" Ã  l'index 1
     AdresseTexte = AddJSONElement(Tableau, 1)
     SetJSONString(AdresseTexte, "Hello")
     
     Debug ComposeJSON(0)
   EndIf
   
-  ; Résultat : [1, "Hello", 2, 3, 4, 5]
+  ; RÃ©sultat : [1, "Hello", 2, 3, 4, 5]
   ; Remarque : Un tableau est toujours entre crochets "[" "]"
 
 
@@ -101,31 +101,31 @@
 
 @Description
   Ajoute un nouveau membre (couple nom/valeur) 
-  à un objet JSON de 
+  Ã  un objet JSON de 
   @Link "JSONType" "type" @#PB_JSON_Object. 
  
 @Parameter "JSONValeur"
-   La valeur JSON à ajouter. 
+   La valeur JSON Ã  ajouter. 
 @LineBreak
 @LineBreak  
-  Doit être du type @#PB_JSON_Object. 
+  Doit Ãªtre du type @#PB_JSON_Object. 
 
 @Parameter "Cle$"
-  La clé du nouveau membre. 
+  La clÃ© du nouveau membre. 
 @LineBreak
 @LineBreak   
-  Si un membre avec la même clé existe dans 
-  l'objet, il sera remplacé.  
+  Si un membre avec la mÃªme clÃ© existe dans 
+  l'objet, il sera remplacÃ©.  
 
 @ReturnValue
-  Renvoie l'adresse du membre ajouté.
+  Renvoie l'adresse du membre ajoutÃ©.
   @LineBreak 
-  La valeur nouvellement ajoutée est 
+  La valeur nouvellement ajoutÃ©e est 
   initialement de type @#PB_JSON_Null.
 
 @Remarks
-   Si un membre avec la clé spécifiée 
-   existe déjà, il sera remplacé.
+   Si un membre avec la clÃ© spÃ©cifiÃ©e 
+   existe dÃ©jÃ , il sera remplacÃ©.
 
 
 @Example
@@ -133,7 +133,7 @@
   If CreateJSON(0)
     Objet = SetJSONObject(JSONValue(0))
     
-    AdressePrenom = AddJSONMember(Objet, "Prénom")
+    AdressePrenom = AddJSONMember(Objet, "PrÃ©nom")
     SetJSONString(AdressePrenom, "Jean")
     
     AdresseNom = AddJSONMember(Objet, "Nom")
@@ -142,10 +142,10 @@
     Debug ComposeJSON(0)
   EndIf
   
-   ; Résultat : {"Nom": "Dupond", "Prénom": "Jean"}
-   ; Remarque : Un objet JSON, est un ensemble de couples nom/valeur non ordonnés. 
+   ; RÃ©sultat : {"Nom": "Dupond", "PrÃ©nom": "Jean"}
+   ; Remarque : Un objet JSON, est un ensemble de couples nom/valeur non ordonnÃ©s. 
    ;            Un objet commence par { (accolade gauche) et se termine par } (accolade droite). 
-   ;            Chaque nom est suivi de : (deux-points) et les couples nom/valeur sont séparés par une , (virgule).
+   ;            Chaque nom est suivi de : (deux-points) et les couples nom/valeur sont sÃ©parÃ©s par une , (virgule).
   
 @EndCode
   
@@ -162,75 +162,75 @@
 @Function Resultat = CatchJSON(#JSON, *Memoire, Taille [, Option])
 
 @Description
-  Parcourt (parse) les données JSON d'une 
-  mémoire tampon. 
+  Parcourt (parse) les donnÃ©es JSON d'une 
+  mÃ©moire tampon. 
     
 @Parameter "#JSON"
-  Numéro d'identification du nouveau JSON.
+  NumÃ©ro d'identification du nouveau JSON.
 @LineBreak
 @LineBreak   
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.  
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.  
   
 @Parameter "*Memoire"
-  Un emplacement de mémoire accessible en 
+  Un emplacement de mÃ©moire accessible en 
   lecture. 
 
 @Parameter "Taille"
   Longueur (en octets) de l'emplacement en 
-  mémoire.
+  mÃ©moire.
 
 @OptionalParameter "Option"
-  @#PB_JSON_NoCase : Les données JSON 
+  @#PB_JSON_NoCase : Les donnÃ©es JSON 
   seront parcourues sans tenir compte 
   de la casse.
 @LineBreak
 @LineBreak   
-   La valeur par défaut est d'être sensible 
-   à la casse.
+   La valeur par dÃ©faut est d'Ãªtre sensible 
+   Ã  la casse.
 
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  données JSON ont été parcourues 
-  correctement, zéro sinon.@LineBreak  
-  Si @#PB_Any a été utilisé comme paramètre 
-  #JSON alors le nombre généré est renvoyé 
-  en cas de succès.
+  donnÃ©es JSON ont Ã©tÃ© parcourues 
+  correctement, zÃ©ro sinon.@LineBreak  
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  #JSON alors le nombre gÃ©nÃ©rÃ© est renvoyÃ© 
+  en cas de succÃ¨s.
   
 @Remarks
-  Le contenu de la mémoire tampon doit être 
-  codé au format UTF-8.
+  Le contenu de la mÃ©moire tampon doit Ãªtre 
+  codÃ© au format UTF-8.
 @LineBreak
 @LineBreak   
-  La fonction @@JSONValue peut être 
-  utilisée pour accéder à la valeur JSON 
-  après l'analyse.
+  La fonction @@JSONValue peut Ãªtre 
+  utilisÃ©e pour accÃ©der Ã  la valeur JSON 
+  aprÃ¨s l'analyse.
 @LineBreak
 @LineBreak     
   En cas d'erreur, les fonctions 
   @@JSONErrorMessage, @@JSONErrorLine et 
-  @@JSONErrorPosition peuvent être utilisées 
+  @@JSONErrorPosition peuvent Ãªtre utilisÃ©es 
   pour obtenir plus d'informations sur 
   l'erreur.
 @LineBreak
 @LineBreak
-  Pour parcourir les données JSON directement 
-  à partir d'une chaîne, la fonction 
-  @@ParseJSON peut être utilisée à la place.
+  Pour parcourir les donnÃ©es JSON directement 
+  Ã  partir d'une chaÃ®ne, la fonction 
+  @@ParseJSON peut Ãªtre utilisÃ©e Ã  la place.
 @LineBreak
 @LineBreak
-  JSON est un format de données sensible à 
+  JSON est un format de donnÃ©es sensible Ã  
   la casse. Cependant, dans certaines 
   situations, telles que l'utilisation de 
-  structures de désérialisation avec 
+  structures de dÃ©sÃ©rialisation avec 
   @@ExtractJSONStructure ou des commandes 
-  similaires, il peut être utile de traiter 
-  des objets JSON de façon insensible à la 
+  similaires, il peut Ãªtre utile de traiter 
+  des objets JSON de faÃ§on insensible Ã  la 
   casse. 
   L'option @#PB_JSON_NoCase permet de 
-  traiter les clés de chaque membre de 
-  l'objet de façon insensible à la casse.
+  traiter les clÃ©s de chaque membre de 
+  l'objet de faÃ§on insensible Ã  la casse.
   
 @SeeAlso
   @@CreateJSON, @@ParseJSON, @@LoadJSON, 
@@ -246,7 +246,7 @@
 @Function ClearJSONElements(JSONValeur)
 
 @Description
-  Efface tous les éléments d'un tableau 
+  Efface tous les Ã©lÃ©ments d'un tableau 
   JSON de 
   @Link "JSONType" "type" @#PB_JSON_Array.  
   
@@ -254,7 +254,7 @@
     La valeur JSON. 
 @LineBreak
 @LineBreak  
-  Doit être du type @#PB_JSON_Array.
+  Doit Ãªtre du type @#PB_JSON_Array.
 
 @NoReturnValue
 
@@ -268,7 +268,7 @@
   
   Debug ComposeJSON(0)
 
-  ; Résultat : ["Hello"]
+  ; RÃ©sultat : ["Hello"]
 @EndCode
 
 @SeeAlso
@@ -291,7 +291,7 @@
   La valeur JSON. 
 @LineBreak
 @LineBreak  
-  Doit être du type @#PB_JSON_Object. 
+  Doit Ãªtre du type @#PB_JSON_Object. 
 
 @NoReturnValue
 
@@ -307,7 +307,7 @@
   
   Debug ComposeJSON(0)
 
-  ; Résultat : { "x": 10, "y": 20 }
+  ; RÃ©sultat : { "x": 10, "y": 20 }
   ;            {"Hello": "le monde"}
 @EndCode
 
@@ -324,57 +324,57 @@
 @Function Resultat$ = ComposeJSON(#JSON [, Option])
 
 @Description
-  Compose des données JSON dans une chaîne 
-  de caractères.  
+  Compose des donnÃ©es JSON dans une chaÃ®ne 
+  de caractÃ¨res.  
 
 @Parameter "#JSON"
-  Le JSON à composer.
+  Le JSON Ã  composer.
   
 @OptionalParameter "Option"
   Avec la valeur @#PB_JSON_PrettyPrint, la 
-  chaîne de caractères composée contiendra 
+  chaÃ®ne de caractÃ¨res composÃ©e contiendra 
   les sauts de ligne et les espaces 
-  supplémentaires pour une meilleure 
-  lisibilité. 
-  L'espace blanc supplémentaire n'est pas 
-  reconnu par le format JSON. Le résultat 
-  aura le même sens pour un lecteur JSON 
+  supplÃ©mentaires pour une meilleure 
+  lisibilitÃ©. 
+  L'espace blanc supplÃ©mentaire n'est pas 
+  reconnu par le format JSON. Le rÃ©sultat 
+  aura le mÃªme sens pour un lecteur JSON 
   avec ou sans cette option.  
 
 @ReturnValue
-  Les données JSON dans une chaîne de 
-  caractères.
+  Les donnÃ©es JSON dans une chaÃ®ne de 
+  caractÃ¨res.
   
 @Remarks
-  Une chaîne de caractères peut être 
-  parcourue en données JSON en utilisant 
+  Une chaÃ®ne de caractÃ¨res peut Ãªtre 
+  parcourue en donnÃ©es JSON en utilisant 
   la fonction @@ParseJSON.
 @LineBreak
 @LineBreak  
-  La chaîne de caractères produite a le 
-  format des chaînes dans l'exécutable 
+  La chaÃ®ne de caractÃ¨res produite a le 
+  format des chaÃ®nes dans l'exÃ©cutable 
   (Ascii ou Unicode). 
-  JSON est généralement encodé en UTF-8, 
-  donc lors de l'écriture de la chaîne dans 
+  JSON est gÃ©nÃ©ralement encodÃ© en UTF-8, 
+  donc lors de l'Ã©criture de la chaÃ®ne dans 
   un fichier par exemple ou lors d'un envoi 
-  à une autre application, il est conseillé 
-  de convertir la chaîne en UTF-8 avant de 
+  Ã  une autre application, il est conseillÃ© 
+  de convertir la chaÃ®ne en UTF-8 avant de 
   le faire.
 
 @Example
 @Code
   If CreateJSON(0)
     ObjetPersonne = SetJSONObject(JSONValue(0))
-    SetJSONString(AddJSONMember(ObjetPersonne, "Prénom"), "Jean")
+    SetJSONString(AddJSONMember(ObjetPersonne, "PrÃ©nom"), "Jean")
     SetJSONString(AddJSONMember(ObjetPersonne, "Nom"), "Dupond")
     SetJSONInteger(AddJSONMember(ObjetPersonne, "Age"), 42)
     
     Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
   EndIf
 
-   ; Résultat : {
+   ; RÃ©sultat : {
    ;             "Nom"   : "Dupond",
-   ;             "Prénom": "Jean",
+   ;             "PrÃ©nom": "Jean",
    ;             "Age"   : 42
    ;            }
 @EndCode
@@ -389,67 +389,67 @@
 @Function Resultat = CreateJSON(#JSON [, Option])
 
 @Description
-  Crée une nouvelle collection de données 
+  CrÃ©e une nouvelle collection de donnÃ©es 
   JSON vide. 
   
 @Parameter "#JSON"
-  Le numéro d'identification de la nouvelle 
+  Le numÃ©ro d'identification de la nouvelle 
   collection JSON.
 @LineBreak
 @LineBreak    
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
 
 @OptionalParameter "Option"
-  @#PB_JSON_NoCase : Les données JSON seront 
-  traitées de façon insensible à la casse.
+  @#PB_JSON_NoCase : Les donnÃ©es JSON seront 
+  traitÃ©es de faÃ§on insensible Ã  la casse.
   @LineBreak
-  La valeur par défaut est d'être sensible 
-  à la casse.  
+  La valeur par dÃ©faut est d'Ãªtre sensible 
+  Ã  la casse.  
   
 @ReturnValue
   Renvoie une valeur non nulle si la collection 
-  JSON a été créée, zéro sinon.@LineBreak 
-  Si @#PB_Any a été utilisé pour paramètre 
-  #JSON alors le nombre généré est renvoyé 
-  en cas de succès.
+  JSON a Ã©tÃ© crÃ©Ã©e, zÃ©ro sinon.@LineBreak 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour paramÃ¨tre 
+  #JSON alors le nombre gÃ©nÃ©rÃ© est renvoyÃ© 
+  en cas de succÃ¨s.
 
 @Remarks
-  A la création, les données contiennent une 
+  A la crÃ©ation, les donnÃ©es contiennent une 
   valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Null. 
   @LineBreak
-  La fonction @@JSONValue peut être utilisée 
+  La fonction @@JSONValue peut Ãªtre utilisÃ©e 
   pour changer ce type.
 @LineBreak
 @LineBreak  
-  JSON est un format de données sensible à 
+  JSON est un format de donnÃ©es sensible Ã  
   la casse. Cependant, dans certaines 
   situations, telles que l'utilisation de 
-  structures de désérialisation avec 
+  structures de dÃ©sÃ©rialisation avec 
   @@ExtractJSONStructure ou des commandes 
-  similaires, il peut être utile de traiter 
-  des objets JSON de façon insensible à la 
+  similaires, il peut Ãªtre utile de traiter 
+  des objets JSON de faÃ§on insensible Ã  la 
   casse. 
   L'option @#PB_JSON_NoCase permet de 
-  traiter les clés de chaque membre de 
-  l'objet de façon insensible à la casse.
+  traiter les clÃ©s de chaque membre de 
+  l'objet de faÃ§on insensible Ã  la casse.
 
 @Example
 @Code
   If CreateJSON(0)
     ObjetPersonne = SetJSONObject(JSONValue(0))
-    SetJSONString(AddJSONMember(ObjetPersonne, "Prénom"), "Jean")
+    SetJSONString(AddJSONMember(ObjetPersonne, "PrÃ©nom"), "Jean")
     SetJSONString(AddJSONMember(ObjetPersonne, "Nom"), "Dupond")
     SetJSONInteger(AddJSONMember(ObjetPersonne, "Age"), 42)
     
     Debug ComposeJSON(0, #PB_JSON_PrettyPrint)
   EndIf
 
-   ; Résultat : {
+   ; RÃ©sultat : {
    ;             "Nom"   : "Dupond",
-   ;             "Prénom": "Jean",
+   ;             "PrÃ©nom": "Jean",
    ;             "Age"   : 42
    ;            }
 @EndCode
@@ -464,27 +464,27 @@
 @Function Resultat = ExamineJSONMembers(JSONValeur)
 
 @Description
-  Commence à examiner les membres d'une 
+  Commence Ã  examiner les membres d'une 
   valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Object.
   
 @Parameter "JSONValeur"
-  La valeur JSON à examiner.
+  La valeur JSON Ã  examiner.
 @LineBreak
 @LineBreak 
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object. 
 
 @ReturnValue
   Renvoie une valeur non nulle si l'objet 
-  peut être énuméré, zéro sinon.
+  peut Ãªtre Ã©numÃ©rÃ©, zÃ©ro sinon.
 
 @Remarks
-  Les membres qui ont été examinés avec 
+  Les membres qui ont Ã©tÃ© examinÃ©s avec 
   @@NextJSONMember, @@JSONMemberKey et 
   @@JSONMemberValue renvoient une valeur 
-  non nulle si les données JSON ont 
-  été parcourues correctement, zéro sinon.
+  non nulle si les donnÃ©es JSON ont 
+  Ã©tÃ© parcourues correctement, zÃ©ro sinon.
   
   
 @Example
@@ -502,7 +502,7 @@
     Wend
   EndIf
   
-  ; Résultat :   x = 10
+  ; RÃ©sultat :   x = 10
   ;              y = 20
   ;              z = 30
 @EndCode
@@ -519,49 +519,49 @@
 @Function Resultat = ExportJSON(#JSON, *Memoire, Taille [, Option])
 
 @Description
-  Exporte les données JSON dans un 
-  emplacement mémoire. 
+  Exporte les donnÃ©es JSON dans un 
+  emplacement mÃ©moire. 
   
 @Parameter "#JSON"
-  Le JSON à exporter.
+  Le JSON Ã  exporter.
   
 @Parameter "*Memoire"
-  Un emplacement mémoire accessible en 
-  écriture.
+  Un emplacement mÃ©moire accessible en 
+  Ã©criture.
   
 @Parameter "Taille"
-  La taille de l'emplacement mémoire. 
+  La taille de l'emplacement mÃ©moire. 
 @LineBreak
 @LineBreak   
   Si la taille n'est pas assez grande pour 
-  contenir toutes les données JSON, la 
-  fonction remplira l'emplacement de mémoire 
-  avec des données, mais ensuite  elle 
+  contenir toutes les donnÃ©es JSON, la 
+  fonction remplira l'emplacement de mÃ©moire 
+  avec des donnÃ©es, mais ensuite  elle 
   renverra un code erreur.
 @LineBreak
 @LineBreak   
-  La fonction @@ExportJSONSize peut être 
-  utilisée pour déterminer la taille 
-  nécessaire.
+  La fonction @@ExportJSONSize peut Ãªtre 
+  utilisÃ©e pour dÃ©terminer la taille 
+  nÃ©cessaire.
   
 @OptionalParameter "Option"
   Avec la valeur @#PB_JSON_PrettyPrint, la 
-  chaîne de caractères composée contiendra 
+  chaÃ®ne de caractÃ¨res composÃ©e contiendra 
   les sauts de ligne et les espaces 
-  supplémentaires pour une meilleure 
-  lisibilité. 
-  L'espace blanc supplémentaire n'est pas 
-  reconnu par le format JSON. Le résultat 
-  aura le même sens pour un lecteur JSON 
+  supplÃ©mentaires pour une meilleure 
+  lisibilitÃ©. 
+  L'espace blanc supplÃ©mentaire n'est pas 
+  reconnu par le format JSON. Le rÃ©sultat 
+  aura le mÃªme sens pour un lecteur JSON 
   avec ou sans cette option. 
 
 @ReturnValue
-  Renvoie le nombre d'octets écrits dans 
-  l'emplacement mémoire en cas de succès, 
-  zéro sinon.
+  Renvoie le nombre d'octets Ã©crits dans 
+  l'emplacement mÃ©moire en cas de succÃ¨s, 
+  zÃ©ro sinon.
 
 @Remarks
-  Les données JSON sont exportées au format 
+  Les donnÃ©es JSON sont exportÃ©es au format 
   UTF-8.  
   
 @SeeAlso
@@ -576,23 +576,23 @@
 @Function Resultat = ExportJSONSize(#JSON [, Options])
 
 @Description
- Renvoie la taille en octets nécessaire 
- pour exporter avec succès les données JSON 
- dans une mémoire tampon avec les options 
- spécifiées.
+ Renvoie la taille en octets nÃ©cessaire 
+ pour exporter avec succÃ¨s les donnÃ©es JSON 
+ dans une mÃ©moire tampon avec les options 
+ spÃ©cifiÃ©es.
 
 @Parameter "#JSON"
-  Le JSON à exporter.
+  Le JSON Ã  exporter.
 
 @OptionalParameter "Option"
-  Les mêmes options que celles utilisées 
+  Les mÃªmes options que celles utilisÃ©es 
   avec @@ExportJSON.@LineBreak 
-  La seule valeur autorisée est 
+  La seule valeur autorisÃ©e est 
   @#PB_JSON_PrettyPrint.
   
 @ReturnValue
-  Le nombre d'octets nécessaire pour 
-  exporter les données au format JSON.
+  Le nombre d'octets nÃ©cessaire pour 
+  exporter les donnÃ©es au format JSON.
 
 @SeeAlso
   @@ExportJSON, @@ComposeJSON, @@SaveJSON
@@ -604,44 +604,44 @@
 @Function ExtractJSONArray(JSONValeur, Tableau())
 
 @Description
-  Extrait des éléments de la valeur JSON de 
+  Extrait des Ã©lÃ©ments de la valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Array 
-  dans le Tableau() spécifié. 
+  dans le Tableau() spÃ©cifiÃ©. 
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array. 
   
 @Parameter "Tableau()"
-  Le tableau à remplir avec les éléments de 
+  Le tableau Ã  remplir avec les Ã©lÃ©ments de 
   JSON. 
 @LineBreak
 @LineBreak  
-  Le tableau sera redimensionné pour avoir
-  la même taille que la valeur JSON. 
-  Tout le contenu précédent sera perdu.
+  Le tableau sera redimensionnÃ© pour avoir
+  la mÃªme taille que la valeur JSON. 
+  Tout le contenu prÃ©cÃ©dent sera perdu.
 
 @NoReturnValue
 
 @Remarks
-  L'extraction est réalisée de manière 
-  récursive si le tableau a un type 
+  L'extraction est rÃ©alisÃ©e de maniÃ¨re 
+  rÃ©cursive si le tableau a un type 
   structure.@LineBreak
-  Si la valeur JSON contient des éléments 
+  Si la valeur JSON contient des Ã©lÃ©ments 
   qui n'ont pas le bon type pour remplir le 
-  Tableau(), ils seront ignorés et l'élément 
-  de tableau correspondant sera laissé vide.
+  Tableau(), ils seront ignorÃ©s et l'Ã©lÃ©ment 
+  de tableau correspondant sera laissÃ© vide.
 @LineBreak
 @LineBreak
   Si Tableau() a plus d'une dimension alors 
-  les données JSON sont supposées être un 
-  tableau de tableaux pour représenter les 
-  données multidimensionnelles. 
+  les donnÃ©es JSON sont supposÃ©es Ãªtre un 
+  tableau de tableaux pour reprÃ©senter les 
+  donnÃ©es multidimensionnelles. 
   Voir l'exemple ci-dessous pour plus de 
-  détails.
+  dÃ©tails.
 
 @Example
 @Code
@@ -654,7 +654,7 @@
     Debug a(i)
   Next i
   
-  ; Résultat : 1
+  ; RÃ©sultat : 1
   ;            3
   ;            5
   ;            7
@@ -674,7 +674,7 @@
     Next y
   Next x
      
-  ; Résultat : 0
+  ; RÃ©sultat : 0
   ;            1
   ;            2
   ;            3
@@ -699,41 +699,41 @@
 @Function ExtractJSONList(JSONValeur, Liste())
 
 @Description
-  Extrait des éléments de la valeur JSON de 
+  Extrait des Ã©lÃ©ments de la valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Array 
-  dans la Liste() spécifiée. La liste sera 
-  redimensionnée pour contenir le nombre 
-  d'éléments contenus dans la valeur JSON.
+  dans la Liste() spÃ©cifiÃ©e. La liste sera 
+  redimensionnÃ©e pour contenir le nombre 
+  d'Ã©lÃ©ments contenus dans la valeur JSON.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array.  
   
 @Parameter "Liste()"
-  La liste à remplir avec les éléments de 
+  La liste Ã  remplir avec les Ã©lÃ©ments de 
   JSON. 
 @LineBreak
 @LineBreak   
-  La liste sera redimensionnée pour avoir 
-  la même taille que la valeur JSON. 
+  La liste sera redimensionnÃ©e pour avoir 
+  la mÃªme taille que la valeur JSON. 
   @LineBreak
-  Tout le contenu précédent de la liste 
+  Tout le contenu prÃ©cÃ©dent de la liste 
   sera perdu.
 
 @NoReturnValue
 
 @Remarks
-  L'extraction est réalisée de manière 
-  récursive si la liste a un type 
+  L'extraction est rÃ©alisÃ©e de maniÃ¨re 
+  rÃ©cursive si la liste a un type 
   'Structure'.@LineBreak
-  Si la valeur JSON contient des éléments 
+  Si la valeur JSON contient des Ã©lÃ©ments 
   qui n'ont pas le bon type pour correspondre 
-  à la liste(), ils seront ignorés et 
-  l'élément de liste correspondant sera 
-  laissé vide.
+  Ã  la liste(), ils seront ignorÃ©s et 
+  l'Ã©lÃ©ment de liste correspondant sera 
+  laissÃ© vide.
 
 @Example
 @Code
@@ -755,7 +755,7 @@
     Debug Str(Localisations()\x) + ", " + Str(Localisations()\y)
   Next
   
-  ; Résultat : 10, 20
+  ; RÃ©sultat : 10, 20
   ;            30, 50
   ;            -5, 100
 @EndCode
@@ -776,52 +776,52 @@
 @Description
   Extrait les membres de la valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Object 
-  dans la Map() spécifiée. La Map sera 
-  redimensionnée pour le nombre d'éléments 
+  dans la Map() spÃ©cifiÃ©e. La Map sera 
+  redimensionnÃ©e pour le nombre d'Ã©lÃ©ments 
   contenu dans la valeur JSON.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object. 
   
 @Parameter "Map()"
-  La Map à remplir avec les éléments de JSON. 
+  La Map Ã  remplir avec les Ã©lÃ©ments de JSON. 
 @LineBreak
 @LineBreak    
-  La Map sera redimensionnée pour avoir la 
-  même taille que la valeur JSON. @LineBreak
-  Tout le contenu précédent de la map sera 
+  La Map sera redimensionnÃ©e pour avoir la 
+  mÃªme taille que la valeur JSON. @LineBreak
+  Tout le contenu prÃ©cÃ©dent de la map sera 
   perdu.
 
 @NoReturnValue
 
 @Remarks
-  L'extraction est effectuée de manière 
-  récursive si la Map a un type 'Structure'.
+  L'extraction est effectuÃ©e de maniÃ¨re 
+  rÃ©cursive si la Map a un type 'Structure'.
   @LineBreak
   Si la valeur JSON contient des membres qui 
   n'ont pas le bon type pour correspondre 
-  avec la Map(), ils seront ignorés et 
-  l'élément correspondant de la Map sera 
-  laissé vide.
+  avec la Map(), ils seront ignorÃ©s et 
+  l'Ã©lÃ©ment correspondant de la Map sera 
+  laissÃ© vide.
 
 @Example
 @Code
-  Donnees$ = "{" + Chr(34) + "activé" + Chr(34) + ": 1, " + 
-                   Chr(34) + "désactivé" + Chr(34) + ": 1, " + 
+  Donnees$ = "{" + Chr(34) + "activÃ©" + Chr(34) + ": 1, " + 
+                   Chr(34) + "dÃ©sactivÃ©" + Chr(34) + ": 1, " + 
                    Chr(34) + "visible" + Chr(34) + ": 0 }"        
   ParseJSON(0, Donnees$)
   
   NewMap Options()
   ExtractJSONMap(JSONValue(0), Options())       
   
-  Debug Options("activé")
+  Debug Options("activÃ©")
   Debug Options("visible")
   
-  ; Résultat : 1
+  ; RÃ©sultat : 1
   ;            0
 @EndCode
   
@@ -841,60 +841,60 @@
 @Description
   Extrait les membres de la valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Object 
-  dans de la structure spécifiée, en mémoire. 
+  dans de la structure spÃ©cifiÃ©e, en mÃ©moire. 
   
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type @#PB_JSON_Object. 
+  La valeur doit Ãªtre de type @#PB_JSON_Object. 
   
 @Parameter "*Memoire"
-  L'adresse de la mémoire de la structure à remplir.
+  L'adresse de la mÃ©moire de la structure Ã  remplir.
   
 @Parameter "Structure"
-  Le type de la structure à remplir.
+  Le type de la structure Ã  remplir.
   
 @OptionalParameter "Options"
-  Avec @#PB_JSON_NoClear, la structure ne sera pas effacée avant l'extraction des données 
-  JSON: Si les données JSON ne spécifient pas de champ de structure, la valeur du champ 
-  actuel sera conservée.@LineBreak
-  Sans @#PB_JSON_NoClear, la structure entière sera effacée avant l'extraction des données 
-  à partir de JSON.
+  Avec @#PB_JSON_NoClear, la structure ne sera pas effacÃ©e avant l'extraction des donnÃ©es 
+  JSON: Si les donnÃ©es JSON ne spÃ©cifient pas de champ de structure, la valeur du champ 
+  actuel sera conservÃ©e.@LineBreak
+  Sans @#PB_JSON_NoClear, la structure entiÃ¨re sera effacÃ©e avant l'extraction des donnÃ©es 
+  Ã  partir de JSON.
   
 @NoReturnValue
 
 @Remarks
-  La structure sera vidée de tout contenu 
-  précédent avant d'extraire les valeurs de 
-  JSON à moins que @#PB_JSON_NoClear soit défini.
+  La structure sera vidÃ©e de tout contenu 
+  prÃ©cÃ©dent avant d'extraire les valeurs de 
+  JSON Ã  moins que @#PB_JSON_NoClear soit dÃ©fini.
 @LineBreak
 @LineBreak 
-  L'extraction est réalisée de manière 
-  récursive si la structure contient d'autres 
+  L'extraction est rÃ©alisÃ©e de maniÃ¨re 
+  rÃ©cursive si la structure contient d'autres 
   structures, des tableaux, des listes ou des 
   maps.@LineBreak 
   Si la valeur JSON contient des membres qui 
-  n'ont pas le bon type pour correspondre à 
+  n'ont pas le bon type pour correspondre Ã  
   un membre de la structure, ils seront 
-  ignorés et l'élément de structure 
-  correspondante est laissé vide.
+  ignorÃ©s et l'Ã©lÃ©ment de structure 
+  correspondante est laissÃ© vide.
 @LineBreak
 @LineBreak
-  Tous les caractères '*' ou '$' sont 
-  supprimés des noms des membres de la 
+  Tous les caractÃ¨res '*' ou '$' sont 
+  supprimÃ©s des noms des membres de la 
   structure avant de les comparer aux 
-  membres de l'objet JSON. Ainsi, une clé 
+  membres de l'objet JSON. Ainsi, une clÃ© 
   de membre ne doit pas inclure ces 
-  caractères.
+  caractÃ¨res.
 @LineBreak
 @LineBreak
-  La comparaison des clés de membre avec les 
+  La comparaison des clÃ©s de membre avec les 
   noms des membres de la structure est 
-  réalisée de façon sensible à la casse. Si 
-  les données #JSON ont été créées ou 
+  rÃ©alisÃ©e de faÃ§on sensible Ã  la casse. Si 
+  les donnÃ©es #JSON ont Ã©tÃ© crÃ©Ã©es ou 
   parcourues avec l'option @#PB_JSON_NoCase, 
-  la comparaison est effectuée suivant la 
+  la comparaison est effectuÃ©e suivant la 
   casse.
 
 @Example
@@ -909,7 +909,7 @@
                    Chr(34) + "Age" + Chr(34) + ": 42, " + 
                    Chr(34) + "Livres" + Chr(34) + ": [" +
                    Chr(34) + "Investir pour les nuls" + Chr(34) + ", " + 
-                   Chr(34) + "Dépenser pour les nuls ;)" + Chr(34) + "] }"
+                   Chr(34) + "DÃ©penser pour les nuls ;)" + Chr(34) + "] }"
                            
   ParseJSON(0, Donnees$)
   ExtractJSONStructure(JSONValue(0), @P.Personne, Personne)
@@ -918,7 +918,7 @@
   Debug P\Age
   Debug ListSize(P\Livres())
   
-  ; Résultat : Jean Dupond
+  ; RÃ©sultat : Jean Dupond
   ;            42
   ;            2
 @EndCode
@@ -937,20 +937,20 @@
 @Function FreeJSON(#JSON)
 
 @Description
-  Libère les données JSON.
+  LibÃ¨re les donnÃ©es JSON.
 
 @Parameter "#JSON"
-  Les données JSON à libérer.
+  Les donnÃ©es JSON Ã  libÃ©rer.
 @LineBreak
 @LineBreak  
-   Si @#PB_All est spécifié, tous les 
-   objets JSON restants sont libérés.
+   Si @#PB_All est spÃ©cifiÃ©, tous les 
+   objets JSON restants sont libÃ©rÃ©s.
 
 @NoReturnValue
 
 @Remarks  
  Tous les objets JSON restants sont 
- automatiquement libérés lorsque le 
+ automatiquement libÃ©rÃ©s lorsque le 
  programme se termine.
 
 @SeeAlso
@@ -964,7 +964,7 @@
 @Function Resultat = GetJSONBoolean(JSONValeur)
 
 @Description
-  Renvoie la valeur booléenne d'une valeur 
+  Renvoie la valeur boolÃ©enne d'une valeur 
   JSON de 
   @Link "JsonType" "type" @#PB_JSON_Boolean.
 
@@ -972,15 +972,15 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Boolean. 
 
 @ReturnValue
-  La valeur booléenne @#True ou @#False.
+  La valeur boolÃ©enne @#True ou @#False.
 
 @Remarks
-  Une valeur JSON peut être réglée sur une 
-  valeur booléenne avec @@SetJSONBoolean.  
+  Une valeur JSON peut Ãªtre rÃ©glÃ©e sur une 
+  valeur boolÃ©enne avec @@SetJSONBoolean.  
   
 @Example
 @Code
@@ -990,7 +990,7 @@
   Debug GetJSONBoolean(GetJSONElement(JSONValue(0), 1))
   Debug GetJSONBoolean(GetJSONElement(JSONValue(0), 2))
   
-  ; Résultat : 1
+  ; RÃ©sultat : 1
   ;            1
   ;            0
 @EndCode
@@ -1009,12 +1009,12 @@
 @Function Resultat.d = GetJSONDouble(JSONValeur)
 
 @Description
-  Renvoie un nombre décimal double 
-  précision ('Double') d'une valeur JSON de 
+  Renvoie un nombre dÃ©cimal double 
+  prÃ©cision ('Double') d'une valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Number.
 @LineBreak
 @LineBreak
-  Une valeur JSON peut être égale à un 
+  Une valeur JSON peut Ãªtre Ã©gale Ã  un 
   nombre en utilisant @@SetJSONDouble, 
   @@SetJSONFloat, @@SetJSONInteger ou 
   @@SetJSONQuad.
@@ -1023,11 +1023,11 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Number. 
 
 @ReturnValue
-  Le nombre décimal de type 'Double'.
+  Le nombre dÃ©cimal de type 'Double'.
 
 @Example
 @Code
@@ -1037,7 +1037,7 @@
   Debug GetJSONDouble(GetJSONElement(JSONValue(0), 1))
   Debug GetJSONDouble(GetJSONElement(JSONValue(0), 2))
   
-  ; Résultat : 1.0
+  ; RÃ©sultat : 1.0
   ;            1.23
   ;            0.00123
 @EndCode
@@ -1057,30 +1057,30 @@
 @Function Resultat = GetJSONElement(JSONValeur, Index)
 
 @Description
-  Renvoie l'élément de tableau JSON à 
-  l'index donné d'une valeur JSON de 
+  Renvoie l'Ã©lÃ©ment de tableau JSON Ã  
+  l'index donnÃ© d'une valeur JSON de 
   @Link "JSONType" "type" @#PB_JSON_Array.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array. 
 
 @Parameter "Index"
-  L'indice de l'élément de tableau à 
+  L'indice de l'Ã©lÃ©ment de tableau Ã  
   renvoyer. 
 @LineBreak
 @LineBreak    
-  L'indice doit être compris entre 0 et 
+  L'indice doit Ãªtre compris entre 0 et 
   @@JSONArraySize - 1.
   
 @ReturnValue
-  L'adresse de la valeur JSON à l'index de 
-  tableau spécifié.@LineBreak
-  Si la donnée 'Index' est hors de portée, 
-  le résultat est zéro.
+  L'adresse de la valeur JSON Ã  l'index de 
+  tableau spÃ©cifiÃ©.@LineBreak
+  Si la donnÃ©e 'Index' est hors de portÃ©e, 
+  le rÃ©sultat est zÃ©ro.
 
 @Example
 @Code
@@ -1110,12 +1110,12 @@
 @Function Resultat.f = GetJSONFloat(JSONValeur)
 
 @Description
-  Renvoie un nombre décimal simple 
-  précision ('Float') d'une valeur JSON de 
+  Renvoie un nombre dÃ©cimal simple 
+  prÃ©cision ('Float') d'une valeur JSON de 
   @Link "JsonType" "type" @#PB_JSON_Number.
 @LineBreak
 @LineBreak
-  Une valeur JSON peut être égale à un 
+  Une valeur JSON peut Ãªtre Ã©gale Ã  un 
   nombre en utilisant @@SetJSONDouble, 
   @@SetJSONFloat, @@SetJSONInteger ou 
   @@SetJSONQuad.
@@ -1124,11 +1124,11 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Number. 
 
 @ReturnValue
-  Le nombre décimal simple précision 
+  Le nombre dÃ©cimal simple prÃ©cision 
   ('Float')
 
 @Example
@@ -1164,7 +1164,7 @@
  @Link "JSONType" "type" @#PB_JSON_Number.
 @LineBreak
 @LineBreak
-  Une valeur JSON peut être égale à un 
+  Une valeur JSON peut Ãªtre Ã©gale Ã  un 
   nombre en utilisant @@SetJSONDouble, 
   @@SetJSONFloat, @@SetJSONInteger ou 
   @@SetJSONQuad.
@@ -1173,7 +1173,7 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Number. 
 
 @ReturnValue
@@ -1211,30 +1211,30 @@
 
 @Description
   Renvoie le membre de l'objet JSON en 
-  fonction de la clé donnée de 
+  fonction de la clÃ© donnÃ©e de 
   @Link "JSONType" "type" @#PB_JSON_Object.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object. 
 
 @Parameter "Cle$"
-  La clé de l'élément à renvoyer.
+  La clÃ© de l'Ã©lÃ©ment Ã  renvoyer.
 @LineBreak
 @LineBreak
-  La clé est sensible à la casse à moins 
-  que l'option @#PB_JSON_NoCase n'ait été 
-  spécifiée lors de la création ou de 
-  l'analyse des données JSON.
+  La clÃ© est sensible Ã  la casse Ã  moins 
+  que l'option @#PB_JSON_NoCase n'ait Ã©tÃ© 
+  spÃ©cifiÃ©e lors de la crÃ©ation ou de 
+  l'analyse des donnÃ©es JSON.
   
 @ReturnValue
   L'adresse de la valeur JSON en fonction 
-  de la clé spécifiée.@LineBreak
-  Si la clé n'existe pas dans l'objet 
-  alors le résultat est zéro.
+  de la clÃ© spÃ©cifiÃ©e.@LineBreak
+  Si la clÃ© n'existe pas dans l'objet 
+  alors le rÃ©sultat est zÃ©ro.
 
 @Example
 @Code
@@ -1267,7 +1267,7 @@
 @Function Resultat$ = GetJSONString(JSONValeur)
 
 @Description
-  Renvoie la chaîne de caractères de la 
+  Renvoie la chaÃ®ne de caractÃ¨res de la 
   valeur JSON de 
   @Link "JSONType" "type" @#PB_JSON_String.
   
@@ -1275,11 +1275,11 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_String. 
 
 @ReturnValue
-  La chaîne contenue dans la valeur JSON.
+  La chaÃ®ne contenue dans la valeur JSON.
 
 @Example
 @Code
@@ -1311,7 +1311,7 @@
   @Link "JSONType" "type" @#PB_JSON_Number.
 @LineBreak
 @LineBreak
-  Une valeur JSON peut être égale à un 
+  Une valeur JSON peut Ãªtre Ã©gale Ã  un 
   nombre en utilisant @@SetJSONDouble, 
   @@SetJSONFloat, @@SetJSONInteger ou 
   @@SetJSONQuad.
@@ -1320,7 +1320,7 @@
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Number. 
 
 @ReturnValue
@@ -1357,32 +1357,32 @@
 @Function InsertJSONArray(JSONValeur, Tableau())
 
 @Description
-  Insère un tableau dans la valeur JSON 
-  donné. 
+  InsÃ¨re un tableau dans la valeur JSON 
+  donnÃ©. 
 @LineBreak
 @LineBreak   
-  La valeur JSON sera modifiée en 
+  La valeur JSON sera modifiÃ©e en 
   @Link "JSONType" "type" @#PB_JSON_Array.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  Le contenu de la valeur sera remplacée 
+  Le contenu de la valeur sera remplacÃ©e 
   par le contenu de Tableau().
   
 @Parameter "Tableau()"
-  Le tableau à insérer dans la valeur JSON.
+  Le tableau Ã  insÃ©rer dans la valeur JSON.
 
 @NoReturnValue
 
 @Remarks
   Si Tableau() a plus d'une dimension, la 
   valeur JSON sera remplie avec un tableau 
-  de tableaux pour représenter les données 
+  de tableaux pour reprÃ©senter les donnÃ©es 
   multidimensionnelles. 
   Voir l'exemple ci-dessous pour plus de 
-  détails.
+  dÃ©tails.
   
 @Example
 @Code
@@ -1428,22 +1428,22 @@
 @Function InsertJSONList(JSONValeur, Liste())
 
 @Description
-  Insère une liste dans la valeur JSON 
-  donné. 
+  InsÃ¨re une liste dans la valeur JSON 
+  donnÃ©. 
 @LineBreak
 @LineBreak  
-  La valeur JSON sera modifiée en 
+  La valeur JSON sera modifiÃ©e en 
   @Link "JSONType" "type" @#PB_JSON_Array.
 
 @Parameter "JSONValeur"
 La valeur JSON.
  @LineBreak
 @LineBreak   
-  Le contenu de la valeur sera remplacé 
+  Le contenu de la valeur sera remplacÃ© 
   par le contenu de la liste().
   
 @Parameter "Liste()"
-  La liste à insérer dans la valeur JSON.
+  La liste Ã  insÃ©rer dans la valeur JSON.
 
 @NoReturnValue
 
@@ -1480,21 +1480,21 @@ La valeur JSON.
 @Function InsertJSONMap(JSONValeur, Map())
 
 @Description
-  Insère une Map dans la valeur JSON donnée. 
+  InsÃ¨re une Map dans la valeur JSON donnÃ©e. 
 @LineBreak
 @LineBreak  
-  La valeur JSON sera modifiée en 
+  La valeur JSON sera modifiÃ©e en 
   @Link "JSONType" "type" @#PB_JSON_Object.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  Le contenu de la valeur sera remplacé 
+  Le contenu de la valeur sera remplacÃ© 
   par le contenu de la Map().
   
 @Parameter "Map()"
-  La Map à insérer dans la valeur JSON.
+  La Map Ã  insÃ©rer dans la valeur JSON.
 
 @NoReturnValue
 
@@ -1531,12 +1531,12 @@ La valeur JSON.
 @Function InsertJSONStructure(JSONValeur, *Memoire, Structure)
 
 @Description
-  Insère le contenu de la structure 
-  présente en mémoire dans la valeur 
-  JSON donnée.
+  InsÃ¨re le contenu de la structure 
+  prÃ©sente en mÃ©moire dans la valeur 
+  JSON donnÃ©e.
 @LineBreak
 @LineBreak  
-  La valeur JSON sera changé en 
+  La valeur JSON sera changÃ© en 
   @Link "JsonType" "type" @#PB_JSON_Object
   et contient un membre pour chaque membre 
   de la structure.
@@ -1545,15 +1545,15 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  Le contenu de la valeur sera remplacé 
+  Le contenu de la valeur sera remplacÃ© 
   par le contenu de la structure.
   
 @Parameter "*Memoire"
-  L'adresse de la structure à insérer dans 
+  L'adresse de la structure Ã  insÃ©rer dans 
   la valeur JSON.
   
 @Parameter "Structure"
-  Le type de la structure à insérer.
+  Le type de la structure Ã  insÃ©rer.
 
 @NoReturnValue
 
@@ -1572,7 +1572,7 @@ La valeur JSON.
   P\Age        = 42
   AddElement(P\Livres()): P\Livres() = "Investir pour les nuls"
   AddElement(P\Livres()): P\Livres() = "English pour les nuls"
-  AddElement(P\Livres()): P\Livres() = "Dépenser pour les nuls ;)"
+  AddElement(P\Livres()): P\Livres() = "DÃ©penser pour les nuls ;)"
   
   If CreateJSON(0)
     InsertJSONStructure(JSONValue(0), @P, Personne)
@@ -1585,7 +1585,7 @@ La valeur JSON.
   ; "Livres": [
   ;   "Investir pour les nuls",
   ;   "English pour les nuls",
-  ;   "Dépenser pour les nuls ;)"
+  ;   "DÃ©penser pour les nuls ;)"
   ;  ],
   ; "Prenom": "Jean",
   ; "Age"   : 42
@@ -1605,19 +1605,19 @@ La valeur JSON.
 @Function Resultat = IsJSON(#JSON)
 
 @Description
-  Teste si le numéro #JSON donné représente 
-  des données JSON valides et correctement 
-  initialisées. 
+  Teste si le numÃ©ro #JSON donnÃ© reprÃ©sente 
+  des donnÃ©es JSON valides et correctement 
+  initialisÃ©es. 
   
 @Parameter "#JSON"
   La valeur JSON.
 
 @ReturnValue
-  Non nulle si #JSON est valide, zéro sinon.
+  Non nulle si #JSON est valide, zÃ©ro sinon.
   
 @Remarks
-  Cette fonction est solide et peut être 
-  utilisée avec n'importe quelle valeur. 
+  Cette fonction est solide et peut Ãªtre 
+  utilisÃ©e avec n'importe quelle valeur. 
   
 @SeeAlso
   @@CreateJSON, @@CatchJSON, @@LoadJSON, 
@@ -1630,7 +1630,7 @@ La valeur JSON.
 @Function Resultat = JSONArraySize(JSONValeur)
 
 @Description
-  Renvoie le nombre d'éléments dans une 
+  Renvoie le nombre d'Ã©lÃ©ments dans une 
   valeur JSON de 
   @Link "JSONType" "type" @#PB_JSON_Array.
 
@@ -1638,11 +1638,11 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array. 
 
 @ReturnValue
-  Le nombre d'éléments dans le tableau JSON.
+  Le nombre d'Ã©lÃ©ments dans le tableau JSON.
 
 @Example
 @Code
@@ -1665,16 +1665,16 @@ La valeur JSON.
 @Function Resultat = JSONErrorLine()
 
 @Description
-  Renvoie le numéro de ligne dans l'entrée 
-  JSON de la dernière opération qui a échoué 
-  lors du parcours des données avec 
+  Renvoie le numÃ©ro de ligne dans l'entrÃ©e 
+  JSON de la derniÃ¨re opÃ©ration qui a Ã©chouÃ© 
+  lors du parcours des donnÃ©es avec 
   @@ParseJSON, @@CatchJSON ou @@LoadJSON.
 
 @NoParameters
 
 @ReturnValue
-  Le numéro de la ligne (base 1) de la 
-  dernière erreur. 
+  Le numÃ©ro de la ligne (base 1) de la 
+  derniÃ¨re erreur. 
 
 @SeeAlso
   @@JSONErrorPosition, @@JSONErrorMessage, 
@@ -1687,8 +1687,8 @@ La valeur JSON.
 @Function Resultat$ = JSONErrorMessage()
 
 @Description
-  Renvoie un message décrivant la cause de 
-  la dernière opération qui a échoué avec 
+  Renvoie un message dÃ©crivant la cause de 
+  la derniÃ¨re opÃ©ration qui a Ã©chouÃ© avec 
   @@ParseJSON, @@CatchJSON ou @@LoadJSON.
 
 @NoParameters
@@ -1699,7 +1699,7 @@ La valeur JSON.
 @Example
 @Code
   If ParseJSON(0, "[1, 2, 3 4]")
-    ; utilisation des données
+    ; utilisation des donnÃ©es
   Else
     Debug JSONErrorMessage()
   EndIf
@@ -1718,16 +1718,16 @@ La valeur JSON.
 @Function Resultat = JSONErrorPosition()
 
 @Description
-  Renvoie la position du caractère dans la 
-  ligne de la dernière erreur avec 
+  Renvoie la position du caractÃ¨re dans la 
+  ligne de la derniÃ¨re erreur avec 
   @@ParseJSON, @@CatchJSON ou @@LoadJSON.
 
 @NoParameters
 
 @ReturnValue
-  La position du caractère (base 1) de la 
-  dernière erreur à l'intérieur de la ligne 
-  rapportée par @@JSONErrorLine.
+  La position du caractÃ¨re (base 1) de la 
+  derniÃ¨re erreur Ã  l'intÃ©rieur de la ligne 
+  rapportÃ©e par @@JSONErrorLine.
 
 @SeeAlso
   @@JSONErrorLine, @@JSONErrorMessage, 
@@ -1740,9 +1740,9 @@ La valeur JSON.
 @Function Resultat$ = JSONMemberKey(JSONValeur)
 
 @Description
-  Après un appel à @@NextJSONMember, 
-  renvoie la clé du membre de l'objet 
-  en cours d'examen de la valeur spécifiée 
+  AprÃ¨s un appel Ã  @@NextJSONMember, 
+  renvoie la clÃ© du membre de l'objet 
+  en cours d'examen de la valeur spÃ©cifiÃ©e 
   JSON de 
   @Link "JSONType" "type" @#PB_JSON_Object  
 
@@ -1750,11 +1750,11 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object et en cours d'examen par @@ExamineJSONMembers.
 
 @ReturnValue
-  La clé de l'élément courant de l'objet 
+  La clÃ© de l'Ã©lÃ©ment courant de l'objet 
   JSON.
 
 @Example
@@ -1771,9 +1771,9 @@ La valeur JSON.
 @Function Resultat = JSONMemberValue(JSONValeur)
 
 @Description
-  Après un appel à @@NextJSONMember, 
+  AprÃ¨s un appel Ã  @@NextJSONMember, 
   renvoie l'adresse du membre de l'objet 
-  en cours d'examen de la valeur spécifiée 
+  en cours d'examen de la valeur spÃ©cifiÃ©e 
   JSON de 
   @Link "JSONType" "type" @#PB_JSON_Object  
 
@@ -1781,7 +1781,7 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object et en cours d'examen par @@ExamineJSONMembers.
 
 @ReturnValue
@@ -1810,7 +1810,7 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object. 
 
 @ReturnValue
@@ -1841,28 +1841,28 @@ La valeur JSON.
 @Function Resultat = JSONType(JSONValeur)
 
 @Description
-  Renvoie le type de la valeur JSON donné.
+  Renvoie le type de la valeur JSON donnÃ©.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @ReturnValue
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @LineBreak
 @LineBreak
 
   @#PB_JSON_Null
 @Indent
-  La valeur représente la valeur 'null' 
+  La valeur reprÃ©sente la valeur 'null' 
   JSON.
 @EndIndent
 
   @#PB_JSON_String
 @Indent
-  La valeur contient une chaîne de caractères.
+  La valeur contient une chaÃ®ne de caractÃ¨res.
   @LineBreak
-  @@GetJSONString peut être utilisé pour 
-  lire la chaîne de caractères.
+  @@GetJSONString peut Ãªtre utilisÃ© pour 
+  lire la chaÃ®ne de caractÃ¨res.
 @EndIndent
 
   @#PB_JSON_Number
@@ -1870,52 +1870,52 @@ La valeur JSON.
   La valeur contient un nombre.@LineBreak 
   @@GetJSONDouble, @@GetJSONFloat, 
   @@GetJSONInteger ou @@GetJSONQuad peuvent 
-  être utilisées pour lire le nombre.
+  Ãªtre utilisÃ©es pour lire le nombre.
 @EndIndent
 
   @#PB_JSON_Boolean
 @Indent
-  La valeur contient un booléen. @LineBreak
-  @@GetJSONBoolean peut être utilisé pour 
-  lire la valeur booléenne.
+  La valeur contient un boolÃ©en. @LineBreak
+  @@GetJSONBoolean peut Ãªtre utilisÃ© pour 
+  lire la valeur boolÃ©enne.
 @EndIndent
 
   @#PB_JSON_Array
 @Indent
-  La valeur contient un tableau d'éléments 
+  La valeur contient un tableau d'Ã©lÃ©ments 
   JSON. @LineBreak
   @@JSONArraySize renvoie la taille du 
   tableau.@LineBreak 
-  @@GetJSONElement peut être utilisé pour 
-  obtenir un élément du tableau.@LineBreak
+  @@GetJSONElement peut Ãªtre utilisÃ© pour 
+  obtenir un Ã©lÃ©ment du tableau.@LineBreak
   @@AddJSONElement, @@RemoveJSONElement, 
   @@ResizeJSONElements ou 
-  @@ClearJSONElements peuvent être utilisés 
+  @@ClearJSONElements peuvent Ãªtre utilisÃ©s 
   pour modifier le tableau.
 @EndIndent
 
   @#PB_JSON_Object
 @Indent
   La valeur contient un objet (un ensemble 
-  de paires clé/valeur). @LineBreak
+  de paires clÃ©/valeur). @LineBreak
   @@JSONObjectSize renvoie le nombre de 
   membres dans l'objet. @LineBreak
   @@GetJSONMember renvoie la valeur d'un 
   membre.@LineBreak
-  @@ExamineJSONMembers peut être utilisé 
+  @@ExamineJSONMembers peut Ãªtre utilisÃ© 
   pour examiner les valeurs d'un membre.
   @@AddJSONMember, @@RemoveJSONMember ou 
-  @@ClearJSONMembers peuvent être utilisés 
+  @@ClearJSONMembers peuvent Ãªtre utilisÃ©s 
   pour modifier l'objet.  
 @EndIndent
 
 @Example
 @Code
-  ; Une procédure qui accepte n'importe quelle valeur JSON et renvoie une chaîne
+  ; Une procÃ©dure qui accepte n'importe quelle valeur JSON et renvoie une chaÃ®ne
   ;
   Procedure.s GetAnyValue(Value)
     Select JSONType(Value)
-      Case #PB_JSON_Null:    ProcedureReturn "L'élément null"
+      Case #PB_JSON_Null:    ProcedureReturn "L'Ã©lÃ©ment null"
       Case #PB_JSON_String:  ProcedureReturn GetJSONString(Value)
       Case #PB_JSON_Number:  ProcedureReturn StrD(GetJSONDouble(Value))    
       Case #PB_JSON_Boolean: ProcedureReturn Str(GetJSONBoolean(Value))
@@ -1932,7 +1932,7 @@ La valeur JSON.
   ; Resultat : 1
   ;            2
   ;            1
-  ;            L'élément null
+  ;            L'Ã©lÃ©ment null
   ;            hello
 @EndCode
 
@@ -1950,39 +1950,39 @@ La valeur JSON.
 @Function Resultat = JSONValue(#JSON)
 
 @Description
-  Renvoie la valeur des données #JSON 
-  spécifiés.
+  Renvoie la valeur des donnÃ©es #JSON 
+  spÃ©cifiÃ©s.
 @LineBreak
 @LineBreak  
-   Le type de la valeur peut être vérifié 
+   Le type de la valeur peut Ãªtre vÃ©rifiÃ© 
    avec @@JsonType.
 
 @Parameter "#JSON"
-  Les données JSON.
+  Les donnÃ©es JSON.
 
 @ReturnValue
   La valeur JSON.@LineBreak 
-  Le résultat n'est jamais nul pour un 
-  ensemble de données #JSON valides.
+  Le rÃ©sultat n'est jamais nul pour un 
+  ensemble de donnÃ©es #JSON valides.
 
 @Remarks
-  Chaque donnée #JSON contient exactement 
+  Chaque donnÃ©e #JSON contient exactement 
   une valeur JSON (contenant des valeurs 
-  éventuellement imbriquées).@LineBreak
-  Les données #JSON nouvellement créées 
+  Ã©ventuellement imbriquÃ©es).@LineBreak
+  Les donnÃ©es #JSON nouvellement crÃ©Ã©es 
   avec @@CreateJSON contiennent une valeur 
   de type @#PB_JSON_Null.
 @LineBreak
 @LineBreak
   Le type de la valeur JSON ou de son 
-  contenu peut être modifié avec l'une des 
+  contenu peut Ãªtre modifiÃ© avec l'une des 
   fonctions suivantes:
 @LineBreak
   - @@SetJSONArray:   Modifie la valeur en 
   un tableau (vide)
 @LineBreak
   - @@SetJSONBoolean: Modifie la valeur en 
-  un booléen
+  un boolÃ©en
 @LineBreak
   - @@SetJSONDouble:  Modifie la valeur en 
   un nombre 'Double'
@@ -2000,7 +2000,7 @@ La valeur JSON.
   un objet (vide) 
 @LineBreak
   - @@SetJSONString:  Modifie la valeur en 
-  une chaîne de caractère
+  une chaÃ®ne de caractÃ¨re
 @LineBreak
   - @@SetJSONQuad:    Modifie la valeur en 
   un nombre 'Quad' 
@@ -2024,68 +2024,67 @@ La valeur JSON.
 @Function Resultat = LoadJSON(#JSON, Fichier$ [, Options])
 
 @Description
-  Parcourt (parse) les données JSON à 
+  Parcourt (parse) les donnÃ©es JSON Ã  
   partir d'un fichier. 
 @LineBreak
 @LineBreak
-  Le contenu du fichier devrait être encodé 
+  Le contenu du fichier devrait Ãªtre encodÃ© 
   au format UTF-8.@LineBreak
   Les fichiers avec un autre codage de 
-  caractères ne peuvent pas être lus par 
+  caractÃ¨res ne peuvent pas Ãªtre lus par 
   cette commande.@LineBreak
-  La fonction @@JsonValue peut être 
-  utilisée pour accéder à la valeur(s) 
-  JSON après le parse.
+  La fonction @@JsonValue peut Ãªtre 
+  utilisÃ©e pour accÃ©der Ã  la valeur(s) 
+  JSON aprÃ¨s le parse.
 
 @Parameter "#JSON"
-  Un numéro pour identifier la nouvelle 
+  Un numÃ©ro pour identifier la nouvelle 
   JSON.
 @LineBreak
 @LineBreak  
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "Fichier$" 
-  Le nom du fichier au format UTF-8 contenant les données 
-  JSON.
+  Le nom du fichier au format UTF-8 contenant les donnÃ©es JSON.
 
 @OptionalParameter "Options"
-  @#PB_JSON_NoCase : Insensible à la casse.
+  @#PB_JSON_NoCase : Insensible Ã  la casse.
 @LineBreak
 @LineBreak   
-   La valeur par défaut est d'être 
-   sensible à la casse.
+   La valeur par dÃ©faut est d'Ãªtre 
+   sensible Ã  la casse.
   
 @ReturnValue
   Renvoie une valeur non nulle si les 
-  données JSON ont été analysées 
-  correctement, zéro sinon.
+  donnÃ©es JSON ont Ã©tÃ© analysÃ©es 
+  correctement, zÃ©ro sinon.
 @LineBreak
 @LineBreak   
-   Si @#PB_Any a été utilisé pour le 
-   paramètre #JSON alors le nombre généré 
-   est renvoyé en cas de succès.
+   Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+   paramÃ¨tre #JSON alors le nombre gÃ©nÃ©rÃ© 
+   est renvoyÃ© en cas de succÃ¨s.
 
 @Remarks
   En cas d'erreur, les fonctions 
   @@JSONErrorMessage, @@JSONErrorLine et 
-  @@JSONErrorPosition peuvent être utilisées 
+  @@JSONErrorPosition peuvent Ãªtre utilisÃ©es 
   pour obtenir plus d'informations sur 
   l'erreur.
 @LineBreak
 @LineBreak
-  JSON est un format de données sensible à 
+  JSON est un format de donnÃ©es sensible Ã  
   la casse. Cependant, dans certaines 
   situations, telles que les structures de 
-  désérialisation avec 
+  dÃ©sÃ©rialisation avec 
   @@ExtractJSONStructure ou des commandes 
-  similaires, il peut être utile de traiter 
-  des objets JSON de façon insensible à la 
+  similaires, il peut Ãªtre utile de traiter 
+  des objets JSON de faÃ§on insensible Ã  la 
   casse. 
   L'option @#PB_JSON_NoCase permet de 
-  traiter tous les clés des membres de 
-  l'objet comme insensible à la casse.
+  traiter tous les clÃ©s des membres de 
+  l'objet comme insensible Ã  la casse.
 
 @SeeAlso
   @@CreateJSON, @@CatchJSON, 
@@ -2101,30 +2100,30 @@ La valeur JSON.
 @Function Resultat = NextJSONMember(JSONValeur)
 
 @Description
-  Après un appel à @@ExamineJSONMembers, 
-  cette fonction est utilisée pour parcourir 
+  AprÃ¨s un appel Ã  @@ExamineJSONMembers, 
+  cette fonction est utilisÃ©e pour parcourir 
   tous les membres de la valeur JSON 
-  spécifiée de 
+  spÃ©cifiÃ©e de 
   @Link "JSONType" "type" @#PB_JSON_Object.
 @LineBreak
 @LineBreak
   @@JSONMemberKey et @@JSONMemberValue 
-  peuvent être utilisés pour obtenir des 
-  informations sur l'élément courant.
+  peuvent Ãªtre utilisÃ©s pour obtenir des 
+  informations sur l'Ã©lÃ©ment courant.
   
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object et @@ExamineJSONMembers 
-  doit avoir été appelé sur cette valeur.
+  doit avoir Ã©tÃ© appelÃ© sur cette valeur.
 
 @ReturnValue
   Renvoie une valeur non nulle si un autre 
-  membre JSON a été trouvé.@LineBreak
-  Si le résultat est zéro, alors il n'y a 
-  plus de membres JSON à examiner.
+  membre JSON a Ã©tÃ© trouvÃ©.@LineBreak
+  Si le rÃ©sultat est zÃ©ro, alors il n'y a 
+  plus de membres JSON Ã  examiner.
 
 @Example
   Voir @@ExamineJSONMembers.
@@ -2140,66 +2139,66 @@ La valeur JSON.
 @Function Resultat = ParseJSON(#JSON, Entree$ [, Options])
 
 @Description
-  Parcourt (parse) les données JSON à 
-  partir d'une chaîne de caractères.
+  Parcourt (parse) les donnÃ©es JSON Ã  
+  partir d'une chaÃ®ne de caractÃ¨res.
 @LineBreak
 @LineBreak  
-   La fonction @@JsonValue peut être 
-   utilisée pour accéder à la valeur(s) 
-   JSON après le parse.
+   La fonction @@JsonValue peut Ãªtre 
+   utilisÃ©e pour accÃ©der Ã  la valeur(s) 
+   JSON aprÃ¨s le parse.
 
 @Parameter "#JSON"
-  Le numéro d'identification de la nouvelle 
+  Le numÃ©ro d'identification de la nouvelle 
   JSON.
 @LineBreak
 @LineBreak   
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "Entree$"
-  La chaîne de caractères contenant les 
-  données JSON à analyser.
+  La chaÃ®ne de caractÃ¨res contenant les 
+  donnÃ©es JSON Ã  analyser.
 
 @OptionalParameter "Options"
-  @#PB_JSON_NoCase : Insensible à la casse.
+  @#PB_JSON_NoCase : Insensible Ã  la casse.
 @LineBreak
 @LineBreak   
-  La valeur par défaut est d'être sensible 
-  à la casse.
+  La valeur par dÃ©faut est d'Ãªtre sensible 
+  Ã  la casse.
   
 @ReturnValue
-  Renvoie une valeur non nulle si les données JSON ont été analysées correctement, zéro sinon.
+  Renvoie une valeur non nulle si les donnÃ©es JSON ont Ã©tÃ© analysÃ©es correctement, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-   Si @#PB_Any a été utilisé pour le 
-   paramètre #JSON alors le nombre généré 
-   est renvoyé en cas de succès.
+   Si @#PB_Any a Ã©tÃ© utilisÃ© pour le 
+   paramÃ¨tre #JSON alors le nombre gÃ©nÃ©rÃ© 
+   est renvoyÃ© en cas de succÃ¨s.
 
 @Remarks
   En cas d'erreur, les fonctions 
   @@JSONErrorMessage, @@JSONErrorLine et 
-  @@JSONErrorPosition peuvent être utilisées 
+  @@JSONErrorPosition peuvent Ãªtre utilisÃ©es 
   pour obtenir plus d'informations sur 
   l'erreur.
 @LineBreak
 @LineBreak
-  Pour parcourir les données JSON 
-  directement à partir d'une mémoire tampon, 
-  utiliser plutôt la fonction @@CatchJSON.
+  Pour parcourir les donnÃ©es JSON 
+  directement Ã  partir d'une mÃ©moire tampon, 
+  utiliser plutÃ´t la fonction @@CatchJSON.
 @LineBreak
 @LineBreak
-  JSON est un format de données sensible à 
+  JSON est un format de donnÃ©es sensible Ã  
   la casse. Cependant, dans certaines 
   situations, telles que les structures de 
-  désérialisation avec 
+  dÃ©sÃ©rialisation avec 
   @@ExtractJSONStructure ou des commandes 
-  similaires, il peut être utile de traiter 
-  des objets JSON de façon insensible à la 
+  similaires, il peut Ãªtre utile de traiter 
+  des objets JSON de faÃ§on insensible Ã  la 
   casse. 
   L'option @#PB_JSON_NoCase permet de 
-  traiter tous les clés des membres de 
-  l'objet comme insensible à la casse.
+  traiter tous les clÃ©s des membres de 
+  l'objet comme insensible Ã  la casse.
   
 @Example
 @Code
@@ -2222,7 +2221,7 @@ La valeur JSON.
   @@CreateJSON, @@CatchJSON, @@LoadJSON, 
   @@JSONValue, @@FreeJSON,
   @@JSONErrorMessage, @@JSONErrorLine, 
-  @@JSONErrorPosition, @@ExportJSON
+  @@JSONErrorPosition, @@ExportJSON, @@ComposeJSON
   
 @SupportedOS
 
@@ -2231,7 +2230,7 @@ La valeur JSON.
 @Function RemoveJSONElement(JSONValeur, Index)
 
 @Description
-  Retire l'élément à l'index spécifié 
+  Retire l'Ã©lÃ©ment Ã  l'index spÃ©cifiÃ© 
   d'une valeur de JSON de 
   @Link "JSONType" "type" @#PB_JSON_Array.
 
@@ -2239,14 +2238,14 @@ La valeur JSON.
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array. 
 
 @Parameter "Index"
-  L'indice de l'élément à supprimer.
+  L'indice de l'Ã©lÃ©ment Ã  supprimer.
 @LineBreak
 @LineBreak  
-  La valeur doit être comprise entre 0 et 
+  La valeur doit Ãªtre comprise entre 0 et 
   @@JSONArraySize - 1.
   
 @NoReturnValue
@@ -2273,19 +2272,19 @@ La valeur JSON.
 @Function RemoveJSONMember(JSONValeur, Cle$)
 
 @Description
-  Retire le membre dont la clé est 
-  spécifiée, d'une valeur de JSON de 
+  Retire le membre dont la clÃ© est 
+  spÃ©cifiÃ©e, d'une valeur de JSON de 
   @Link "JSONType" "type" @#PB_JSON_Object.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Object. 
 
 @Parameter "Key$"
-  La clé du membre à supprimer. 
+  La clÃ© du membre Ã  supprimer. 
   
 @NoReturnValue
 
@@ -2321,29 +2320,29 @@ La valeur JSON.
 @Description
   Redimensionne une valeur JSON de 
   @Link "JSONType" "type" @#PB_JSON_Array 
-  de sorte qu'il possède un nombre donné 
-  d'éléments.
+  de sorte qu'il possÃ¨de un nombre donnÃ© 
+  d'Ã©lÃ©ments.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 @LineBreak
 @LineBreak   
-  La valeur doit être de type 
+  La valeur doit Ãªtre de type 
   @#PB_JSON_Array. 
   
 @Parameter "Taille"
   La nouvelle taille du tableau.
 @LineBreak
 @LineBreak    
-  Indique le nombre total d'éléments (pas 
-  l'indice de l'élément le plus élevé du 
+  Indique le nombre total d'Ã©lÃ©ments (pas 
+  l'indice de l'Ã©lÃ©ment le plus Ã©levÃ© du 
   tableau comme avec 
   @ReferenceLink "dim" "Dim").
 
 @NoReturnValue
 
 @Remarks
-  Si de nouveaux éléments sont ajoutés au 
+  Si de nouveaux Ã©lÃ©ments sont ajoutÃ©s au 
   tableau, ils auront le type 
   @#PB_JSON_Null.
 
@@ -2371,35 +2370,38 @@ La valeur JSON.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = SaveJSON(#JSON, NomFichier$ [, Options])
+@Function Resultat = SaveJSON(#JSON, Fichier$ [, Options])
 
 @Description
-  Sauvegarde les données JSON dans un 
+  Sauvegarde les donnÃ©es JSON dans un 
   fichier.
 @LineBreak
 @LineBreak 
-  Le fichier sera encodé en UTF-8 sans 
-  en-tête BOM (byte-order mark).
+  Le fichier sera encodÃ© en UTF-8 sans 
+  en-tÃªte BOM (byte-order mark).
 
 @Parameter "#JSON"
-  Le JSON à enregistrer.
+  Le JSON Ã  enregistrer.
+  
+@Parameter "Fichier$" 
+  Le nom du fichier au format UTF-8 contenant les donnÃ©es JSON.
   
 @OptionalParameter "Options"
-  @#PB_JSON_PrettyPrint : Les données 
-  enregistrées contiennent les sauts de 
+  @#PB_JSON_PrettyPrint : Les donnÃ©es 
+  enregistrÃ©es contiennent les sauts de 
   ligne et les espaces pour une meilleure 
-  lisibilité. L'espace blanc supplémentaire 
+  lisibilitÃ©. L'espace blanc supplÃ©mentaire 
   n'est pas significatif pour le format 
   JSON. La sortie sera correctement 
-  interprétée avec un lecteur JSON avec ou 
+  interprÃ©tÃ©e avec un lecteur JSON avec ou 
   sans cette option.  
 
 @ReturnValue
   Renvoie une valeur non nulle si le fichier 
-  a été enregistré avec succès.@LineBreak
+  a Ã©tÃ© enregistrÃ© avec succÃ¨s.@LineBreak
   S'il y a une erreur lors de 
-  l'enregistrement du fichier, le résultat 
-  est zéro. 
+  l'enregistrement du fichier, le rÃ©sultat 
+  est zÃ©ro. 
 
 @SeeAlso
   @@ComposeJSON, @@ExportJSON, 
@@ -2416,15 +2418,15 @@ La valeur JSON.
   valeur JSON en @#PB_JSON_Array.
 @LineBreak
 @LineBreak 
-  Le tableau n'aura pas d'éléments (même 
-  si la valeur précédemment contenait des 
-  éléments de tableau).
+  Le tableau n'aura pas d'Ã©lÃ©ments (mÃªme 
+  si la valeur prÃ©cÃ©demment contenait des 
+  Ã©lÃ©ments de tableau).
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @ReturnValue
-  Renvoie la valeur tableau ou zéro sinon.
+  Renvoie la valeur tableau ou zÃ©ro sinon.
 
 @Example
 @Code
@@ -2455,18 +2457,18 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_Boolean et 
-  stocke la valeur booléenne donnée.
+  stocke la valeur boolÃ©enne donnÃ©e.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Valeur"
-  La valeur booléenne à stocker.
+  La valeur boolÃ©enne Ã  stocker.
 @LineBreak
 @LineBreak   
-   Une valeur non nulle est stockée sous 
+   Une valeur non nulle est stockÃ©e sous 
    forme @#True, une valeur de 0 est 
-   stockée sous forme @#False.
+   stockÃ©e sous forme @#False.
   
 @NoReturnValue
 
@@ -2499,26 +2501,26 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_Number et 
-  stocke la valeur 'Double' donnée.
+  stocke la valeur 'Double' donnÃ©e.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Valeur.d"
-  La valeur à stocker.
+  La valeur Ã  stocker.
   
 @NoReturnValue
 
 @Remarks
   Notez que JSON ne permet pas les valeurs 
-  spéciales en virgule flottante +Infinity,
+  spÃ©ciales en virgule flottante +Infinity,
   -Infinity ou Nan (Not a number).@LineBreak 
-  Si ces valeurs sont utilisées avec cette 
-  fonction, elles seront remplacées par 
-  la donnée 'null' lorsque les données 
-  seront sauvegardées ou encodées.@LineBreak  
+  Si ces valeurs sont utilisÃ©es avec cette 
+  fonction, elles seront remplacÃ©es par 
+  la donnÃ©e 'null' lorsque les donnÃ©es 
+  seront sauvegardÃ©es ou encodÃ©es.@LineBreak  
   Les fonctions @@IsInfinity ou @@IsNaN 
-  peuvent être utilisées pour détecter ce 
+  peuvent Ãªtre utilisÃ©es pour dÃ©tecter ce 
   cas.
 
 @Example
@@ -2550,26 +2552,26 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_Number et 
-  stocke la valeur 'Float' donnée.
+  stocke la valeur 'Float' donnÃ©e.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Valeur.f"
-  La valeur à stocker.
+  La valeur Ã  stocker.
   
 @NoReturnValue
 
 @Remarks
   Notez que JSON ne permet pas les valeurs 
-  spéciales en virgule flottante +Infinity, 
+  spÃ©ciales en virgule flottante +Infinity, 
   -Infinity ou Nan (Not a number).@LineBreak 
-  Si ces valeurs sont utilisées avec cette 
-  fonction, elles seront remplacées par 
-  la donnée 'null' lorsque les données 
-  seront sauvegardées ou encodées.@LineBreak  
+  Si ces valeurs sont utilisÃ©es avec cette 
+  fonction, elles seront remplacÃ©es par 
+  la donnÃ©e 'null' lorsque les donnÃ©es 
+  seront sauvegardÃ©es ou encodÃ©es.@LineBreak  
   Les fonctions @@IsInfinity ou @@IsNaN 
-  peuvent être utilisées pour détecter ce 
+  peuvent Ãªtre utilisÃ©es pour dÃ©tecter ce 
   cas.
 
 @Example
@@ -2601,13 +2603,13 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_Number et 
-  stocke la valeur 'Integer' donnée.
+  stocke la valeur 'Integer' donnÃ©e.
   
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Valeur"
-  La valeur à stocker.
+  La valeur Ã  stocker.
   
 @NoReturnValue
 
@@ -2674,14 +2676,14 @@ La valeur JSON.
   valeur JSON en @#PB_JSON_Object.
 @LineBreak
 @LineBreak
-  L'objet n'a pas de membres (même si la 
-  valeur précédemment contenait des membres).
+  L'objet n'a pas de membres (mÃªme si la 
+  valeur prÃ©cÃ©demment contenait des membres).
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @ReturnValue
-  Renvoie la valeur objet ou zéro sinon.
+  Renvoie la valeur objet ou zÃ©ro sinon.
 
 @Example
 @Code
@@ -2716,13 +2718,13 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_Number et 
-  stocke la valeur 'Quad' donnée.
+  stocke la valeur 'Quad' donnÃ©e.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Valeur.q"
-  La valeur à stocker.
+  La valeur Ã  stocker.
   
 @NoReturnValue
 
@@ -2756,14 +2758,14 @@ La valeur JSON.
 @Description
   Change le @Link "JSONType" "type" de la 
   valeur JSON en @#PB_JSON_String et 
-  stocke la valeur chaîne de caractères 
-  donnée.
+  stocke la valeur chaÃ®ne de caractÃ¨res 
+  donnÃ©e.
 
 @Parameter "JSONValeur"
   La valeur JSON.
 
 @Parameter "Texte$"
-  La chaîne de caractères à stocker.
+  La chaÃ®ne de caractÃ¨res Ã  stocker.
   
 @NoReturnValue
 
@@ -2771,13 +2773,13 @@ La valeur JSON.
 @Code
   If CreateJSON(0)
     ValeurTableau = SetJSONArray(JSONValue(0))
-    SetJSONString(AddJSONElement(ValeurTableau), "avec les caractères" + Chr(13) + Chr(10) + "d'échappement retour chariot et retour à la ligne")
-    SetJSONString(AddJSONElement(ValeurTableau), "avec le caractère \ antislash")
+    SetJSONString(AddJSONElement(ValeurTableau), "avec les caractÃ¨res" + Chr(13) + Chr(10) + "d'Ã©chappement retour chariot et retour Ã  la ligne")
+    SetJSONString(AddJSONElement(ValeurTableau), "avec le caractÃ¨re \ antislash")
     
     Debug ComposeJSON(0)
   EndIf
   
-  ; Resultat : ["avec les caractères\r\nd'échappement retour chariot et retour à la ligne", "avec le caractère \\ antislash"]
+  ; Resultat : ["avec les caractÃ¨res\r\nd'Ã©chappement retour chariot et retour Ã  la ligne", "avec le caractÃ¨re \\ antislash"]
 @EndCode
 
 @SeeAlso

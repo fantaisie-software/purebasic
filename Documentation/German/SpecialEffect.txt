@@ -1,19 +1,20 @@
-;
+ï»¿;
 ;     SpecialEffect library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library SpecialEffect
 
 @Overview
-  Die Spezialeffekt-Bibliothek (englisch: "special effect" library) ermöglicht die
+  Die Spezialeffekt-Bibliothek (englisch: "special effect" library) ermÃ¶glicht die
   einfache Anwendung mehrerer Echtzeit-Effekte in der @LibraryLink "Engine3D" "3D-Welt",
   wie "Post-Processing" und "Ribbon Trails" (Farbband-Spuren).
 
 @CommandList
 
 @ExampleFile All Ribbon.pb
+@ExampleFile All Compositors.pb
 
 @SupportedOS
 
@@ -23,7 +24,7 @@
 
 @Description
   Erstellt einen neuen "Compositor"-Effekt. Sobald dieser erstellt wurde, wird der Effekt
-  sofort auf das Renderung (Darstellung) angewendet. Es ist möglich, den Effekt mittels
+  sofort auf das Renderung (Darstellung) angewendet. Es ist mÃ¶glich, den Effekt mittels
   @@HideEffect zu verstecken.
 
 @Parameter "#Effekt"
@@ -32,17 +33,17 @@
 
 @Parameter "KameraID"
   Die Kamera, auf die der Effekt angewendet werden soll. Dieser Effekt wird sich nur auf diese
-  Kamera auswirken. Um eine gültige 'KameraID' zu erhalten, verwenden Sie
+  Kamera auswirken. Um eine gÃ¼ltige 'KameraID' zu erhalten, verwenden Sie
   @@CameraID.
 
 @Parameter "EffektName$"
-  Name des Effekts, wie dieser in der OGRE Compositor-Datei (üblicherweise eine '.compositor' Daetei)
+  Name des Effekts, wie dieser in der OGRE Compositor-Datei (Ã¼blicherweise eine '.compositor' Daetei)
   beschrieben wird.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
   ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet wurde, dann
-  wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeEffect, @@HideEffect
@@ -51,11 +52,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateRibbonEffect(#Effekt, MaterialID, AnzKetten, AnzElemente, Länge)
+@Function Ergebnis = CreateRibbonEffect(#Effekt, MaterialID, AnzKetten, AnzElemente, LÃ¤nge)
 
 @Description
   Erstellt einen neuen "Ribbon Trail"-Effekt (Farbband-Spuren).  Sobald dieser erstellt wurde, muss der Effekt
-  mittels @@AttachRibbonEffect hinzugefügt werden. Es ist möglich, den Effekt mittels
+  mittels @@AttachRibbonEffect hinzugefÃ¼gt werden. Es ist mÃ¶glich, den Effekt mittels
   @@HideEffect zu verstecken.
 
 @Parameter "#Effekt"
@@ -64,7 +65,7 @@
 
 @Parameter "MaterialID"
   Das Material, welches auf den "Ribbon Trail" (Farbband-Spuren) angewendet werden soll.
-  Um eine gültige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
+  Um eine gÃ¼ltige 'MaterialID' zu erhalten, verwenden Sie @@MaterialID.
 
 @Parameter "AnzKetten"
   Anzahl der Ketten ("Chains") des Farbbands. Je mehr Ketten, desto genauer wird das Farbband sein.
@@ -72,14 +73,14 @@
 @Parameter "AnzElemente"
   Anzahl der Elemente pro Kette. Je mehr Elemente, desto genauer wird das Farbband sein.
 
-@Parameter "Länge"
-  Maximale Länge, in Welt-Einheiten ("World Units"), des Farbbands. Sobald die Länge erreicht
+@Parameter "LÃ¤nge"
+  Maximale LÃ¤nge, in Welt-Einheiten ("World Units"), des Farbbands. Sobald die LÃ¤nge erreicht
   wird, wird das Farbband komplett ausgeblendet werden.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Effekt erfolgreich erstellt wurde, und Null wenn
   ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet wurde, dann
-  wird bei Erfolg die neu generierte Nummer zurückgegeben.
+  wird bei Erfolg die neu generierte Nummer zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeEffect, @@HideEffect
@@ -91,14 +92,14 @@
 @Function RibbonEffectWidth(#Effekt, FarbbandIndex, Breite, FadeoutBreite) 
 
 @Description
-  Ändert die Kettenbreite des Farbbands (englisch "ribbon chain width").
+  Ã„ndert die Kettenbreite des Farbbands (englisch "ribbon chain width").
 
 @Parameter "#Effekt"
   Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
 
 @Parameter "FarbbandIndex"
-  Der Index der Kette, bei welcher die Breite geändert werden soll. Der erste Index beginnt bei
-  Null. Diese Index-Nummer muss kleine als die Anzahl an Farbbändern/Ketten sein, welche mit
+  Der Index der Kette, bei welcher die Breite geÃ¤ndert werden soll. Der erste Index beginnt bei
+  Null. Diese Index-Nummer muss kleine als die Anzahl an FarbbÃ¤ndern/Ketten sein, welche mit
   @@CreateRibbonEffect erstellt wurden.
 
 @Parameter "Breite"
@@ -120,14 +121,14 @@
 @Function AttachRibbonEffect(#Effekt, NodeID) 
 
 @Description
-  Verknüpft das Farbband ("ribbon") mit dem angegebenen Knoten ("Node").
+  VerknÃ¼pft das Farbband ("ribbon") mit dem angegebenen Knoten ("Node").
 
 @Parameter "#Effekt"
   Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
 
 @Parameter "NodeID"
-  Der Knoten, bei dem das Farbband hinzugefügt werden soll. Ein einzelnes Farbband kann
-  zu mehreren Knoten hinzugefügt werden. Um eine gültige Node-ID zu erhalten, verwenden
+  Der Knoten, bei dem das Farbband hinzugefÃ¼gt werden soll. Ein einzelnes Farbband kann
+  zu mehreren Knoten hinzugefÃ¼gt werden. Um eine gÃ¼ltige Node-ID zu erhalten, verwenden
   Sie @@NodeID.
   
 @NoReturnValue
@@ -142,14 +143,14 @@
 @Function DetachRibbonEffect(#Effekt, NodeID) 
 
 @Description
-  Löst das Farbband ("ribbon") vom angegebenen Knoten.
+  LÃ¶st das Farbband ("ribbon") vom angegebenen Knoten.
 
 @Parameter "#Effect"
   Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateRibbonEffect erstellt worden sein.
 
 @Parameter "NodeID"
   Der Knoten, von dem das Farbband getrennt wird. Wenn das Farbband nicht mit diesem Knoten
-  verknüpft war, dann hat die Funktion keinen Effekt. Um eine gültige Node-ID zu erhalten,
+  verknÃ¼pft war, dann hat die Funktion keinen Effekt. Um eine gÃ¼ltige Node-ID zu erhalten,
   verwenden Sie @@NodeID.
 
 @NoReturnValue
@@ -161,11 +162,11 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateLensFlareEffect(#Effekt, CameraID, NodeID, BurstGröße, HaloGröße, HaloMaterialID, CircleMaterialID, BurstMaterialID)
+@Function CreateLensFlareEffect(#Effekt, CameraID, NodeID, BurstGrÃ¶ÃŸe, HaloGrÃ¶ÃŸe, HaloMaterialID, CircleMaterialID, BurstMaterialID)
 
 @Description
-  Erstellt einen neuen Lensflare-Effekt (in deutsch "Linsenlichtreflex") für die angegebene Kamera.
-  Ein Lensflare ist immer mit einem Knoten verknüpft und wird automatisch dargestellt - abhängig
+  Erstellt einen neuen Lensflare-Effekt (in deutsch "Linsenlichtreflex") fÃ¼r die angegebene Kamera.
+  Ein Lensflare ist immer mit einem Knoten verknÃ¼pft und wird automatisch dargestellt - abhÃ¤ngig
   von der Node-Position relativ zur Kamera-Ansicht.
 
 @Parameter "#Effekt"
@@ -173,32 +174,32 @@
   kann verwendet werden, um diese Zahl automatisch zu generieren.
 
 @Parameter "CameraID"
-  Die Kamera, zu welcher der Lichtreflex hinzugefügt werden soll. Dieser wird sich nur auf diese
-  Kamera auswirken. Um eine gültige 'CameraID' zu erhalten, verwenden Sie @@CameraID.
+  Die Kamera, zu welcher der Lichtreflex hinzugefÃ¼gt werden soll. Dieser wird sich nur auf diese
+  Kamera auswirken. Um eine gÃ¼ltige 'CameraID' zu erhalten, verwenden Sie @@CameraID.
   
 @Parameter "NodeID"
-  Der übergeordnete Knoten (englisch "parent node"), um den Lichtreflex zu verarbeiten.
-  Um eine gültige 'NodeID' zu erhalten, verwenden Sie @@NodeID.
+  Der Ã¼bergeordnete Knoten (englisch "parent node"), um den Lichtreflex zu verarbeiten.
+  Um eine gÃ¼ltige 'NodeID' zu erhalten, verwenden Sie @@NodeID.
  
 @Parameter "BurstSize"
-  Die Größe des "Burst", in Welt-Einheiten.
+  Die GrÃ¶ÃŸe des "Burst", in Welt-Einheiten.
 
 @Parameter "HaloSize"
-  Die Größe des "Halos" (Lichthofs), in Welt-Einheiten.
+  Die GrÃ¶ÃŸe des "Halos" (Lichthofs), in Welt-Einheiten.
 
 @Parameter "HaloMaterialID"
-  Das Halo-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+  Das Halo-Material. Um eine gÃ¼ltige Material-ID zu erhalten, verwenden Sie @@MaterialID.
 
 @Parameter "CircleMaterialID"
-  Das Kreis-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+  Das Kreis-Material. Um eine gÃ¼ltige Material-ID zu erhalten, verwenden Sie @@MaterialID.
 
 @Parameter "BurstMaterialID"
-  Das Burst-Material. Um eine gültige Material-ID zu erhalten, verwenden Sie @@MaterialID.
+  Das Burst-Material. Um eine gÃ¼ltige Material-ID zu erhalten, verwenden Sie @@MaterialID.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Lensflare-Effekt erfolgreich erstellt wurde, und
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Lensflare-Effekt erfolgreich erstellt wurde, und
   Null wenn ein Fehler auftrat. Wenn @#PB_Any als #Effekt Parameter verwendet
-  wurde, dann wird bei Erfolg die neu generierte Zahl zurückgegeben.
+  wurde, dann wird bei Erfolg die neu generierte Zahl zurÃ¼ckgegeben.
 
 @SeeAlso
   @@FreeEffect, @@LensFlareEffectColor
@@ -210,7 +211,7 @@
 @Function LensFlareEffectColor(#Effekt, FarbTyp, Farbe)
 
 @Description
-  Ändert die Farbe des angegebenen Lensflare-Effektteils.
+  Ã„ndert die Farbe des angegebenen Lensflare-Effektteils.
 
 @Parameter "#Effect"
   Der zu verwendende Effekt. Dieser Effekt muss mit @@CreateLensFlareEffect erstellt worden sein.
@@ -218,13 +219,13 @@
 @Parameter "FarbTyp"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_LensFlare_HaloColor  : ändert die Halo-Farbe
-  @#PB_LensFlare_CircleColor: ändert die Kreis-Farbe
-  @#PB_LensFlare_BurstColor : ändert die Burst-Farbe
+  @#PB_LensFlare_HaloColor  : Ã¤ndert die Halo-Farbe
+  @#PB_LensFlare_CircleColor: Ã¤ndert die Kreis-Farbe
+  @#PB_LensFlare_BurstColor : Ã¤ndert die Burst-Farbe
 @EndFixedFont
   
 @Parameter "Farbe"
-  Die neue Farbe für den ausgewählten Lensflare-Teil. Eine gültige Farbe kann mit
+  Die neue Farbe fÃ¼r den ausgewÃ¤hlten Lensflare-Teil. Eine gÃ¼ltige Farbe kann mit
   @@RGB ermittelt werden.
 
 @NoReturnValue
@@ -262,14 +263,14 @@
 @Function Ergebnis = IsEffect(#Effekt)
 
 @Description
-  Überprüft, ob die angegebene Effekt-Nummer ein gültiger und korrekt initialisierter
+  ÃœberprÃ¼ft, ob die angegebene Effekt-Nummer ein gÃ¼ltiger und korrekt initialisierter
   Effekt ist.
 
 @Parameter "#Effekt"
   Der zu verwendende Effekt.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Effekt ein gültiger Effekt ist,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #Effekt ein gÃ¼ltiger Effekt ist,
   andernfalls Null.
 
 @Remarks
@@ -307,7 +308,7 @@
 @Function CompositorEffectParameter(#Effekt, TechnikID, PassID, EffektName$, DatenTyp, *Daten)
 
 @Description
-  Legt Echtzeit-Parameter für den angegebenen Effekt fest.
+  Legt Echtzeit-Parameter fÃ¼r den angegebenen Effekt fest.
 
 @Parameter "#Effekt"
   Der zu verwendende Effekt. Der Effekt muss ein "Compositor"-Effekt sein,
@@ -326,7 +327,7 @@
   Der Daten-Typ des festzulegenden Parameters.
 
 @Parameter "Daten"
-  Die Daten des festzulegenden Parameters. Diese hängen vom angegebenen Daten-Typ ab.
+  Die Daten des festzulegenden Parameters. Diese hÃ¤ngen vom angegebenen Daten-Typ ab.
 
 @NoReturnValue
 
@@ -340,14 +341,14 @@
 @Function RibbonEffectColor(#Effekt, KettenIndex, Farbe, AusblendFarbe)
 
 @Description
-  Legt die Farben für die Farbband-Spur ("Ribbon Trail") fest.
+  Legt die Farben fÃ¼r die Farbband-Spur ("Ribbon Trail") fest.
 
 @Parameter "#Effekt"
   Der zu verwendende Effekt. Dies muss ein Farbband ("Ribbon Trail") sein, welches
   mit @@CreateRibbonEffect erstellt wurde.
 
 @Parameter "KettenIndex"
-  Der Index der Kette ("chain"), von der die Farbe geändert werden soll. Der erste Index beginnt bei Null.
+  Der Index der Kette ("chain"), von der die Farbe geÃ¤ndert werden soll. Der erste Index beginnt bei Null.
   Die Index-Nummer muss niedriger als die Anzahl der mit @@CreateRibbonEffect erstellten Ketten sein.
 
 @Parameter "Farbe"

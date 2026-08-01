@@ -24,6 +24,7 @@ Procedure FD_NewWindow(x=0,y=0,width=600,height=400,file.s = "")
   FormWindows()\width = width
   FormWindows()\height = height
   FormWindows()\variable = "Window_"+Str(c_window)
+  FormWindows()\explicitId = 0
   FormWindows()\pbany = FormVariable
   FormWindows()\captionvariable = FormVariableCaption
   FormWindows()\color = -1
@@ -44,7 +45,6 @@ Procedure FD_NewWindow(x=0,y=0,width=600,height=400,file.s = "")
   ProcedureReturn FormWindows()
 EndProcedure
 
-
 Procedure FD_Save(Filename$)
   If FormWindows()\current_view = 1
     FD_SetDesignView()
@@ -62,12 +62,6 @@ Procedure FD_Save(Filename$)
       WriteStringFormat(handle, #PB_UTF8); Write the BOM: https://www.purebasic.fr/english/viewtopic.php?f=4&t=63080
     EndIf
     
-    MajorVersion = #PB_Compiler_Version/100
-    MinorVersion = #PB_Compiler_Version - MajorVersion*100
-    WriteStringN(handle,"; Form Designer for PureBasic - " + MajorVersion + "." +RSet(Str(MinorVersion), 2, "0"))
-    WriteStringN(handle,"; Warning: this file uses a strict syntax, if you edit it, make sure to respect the Form Designer limitation or it won't be opened again.")
-    WriteStringN(handle, "")
-    
     code.s = FD_SelectCode(1)
     
     num = CountString(code,#Endline)
@@ -83,7 +77,6 @@ Procedure FD_Save(Filename$)
     ProcedureReturn #True
   EndIf
 EndProcedure
-
 
 Procedure OpenReadNextParam(line.s,pos,includeequal = 0)
   If includeequal
@@ -115,7 +108,6 @@ Procedure OpenReadNextParam(line.s,pos,includeequal = 0)
     EndIf
   ForEver
 EndProcedure
-
 
 Procedure OpenReadNextParamOld(line.s,pos,includeequal = 0)
   Repeat
@@ -162,20 +154,33 @@ Procedure OpenReadNextParamOld(line.s,pos,includeequal = 0)
   
   ProcedureReturn newpos
 EndProcedure
+
 Procedure OpenReadGadgetParams(line.s)
   FormWindows()\FormGadgets()\itemnumber = itemnumbers
   itemnumbers + 1
   
   pbany = FindString(line, "=")
   start = FindString(line, "(") + 1
-  If pbany
+  
+  ; only treat as "var = Proc(...)" if '=' is before '('
+  If pbany And pbany < start
     FormWindows()\FormGadgets()\variable = Trim(Left(line,pbany - 1))
     FormWindows()\FormGadgets()\pbany = 1
     start = OpenReadNextParam(line,start) + 1
   Else
     startnext = OpenReadNextParam(line,start)
-    FormWindows()\FormGadgets()\variable = Trim(Mid(line,start,startnext-start))
-    FormWindows()\FormGadgets()\variable = Right(FormWindows()\FormGadgets()\variable,Len(FormWindows()\FormGadgets()\variable) -1)
+    
+    tmp.s = Trim(Mid(line, start, startnext - start)) ; e.g. "#ID13310" or "#ID13310=13310"
+    tmp = Right(tmp, Len(tmp) - 1)                    ; remove '#'
+    
+    eq = FindString(tmp, "=")
+    If eq
+      FormWindows()\FormGadgets()\variable   = Trim(Left(tmp, eq - 1))
+      FormWindows()\FormGadgets()\explicitId = Val(Trim(Mid(tmp, eq + 1)))
+    Else
+      FormWindows()\FormGadgets()\variable = tmp
+    EndIf
+
     start = startnext + 1
   EndIf
   
@@ -350,6 +355,9 @@ Procedure OpenReadGadgetParams(line.s)
   ; remove toolbarheight/menuheight
   tempvalue = ReplaceString(tempvalue,"MenuHeight()","")
   tempvalue = ReplaceString(tempvalue,"+","")
+  ;- Change
+  tempvalue = ReplaceString(tempvalue,"FormWindowTop","")
+  tempvalue = ReplaceString(tempvalue,"+","")
   toolpos = FindString(tempvalue,"ToolBarHeight(")
   If toolpos
     toolend = FindString(tempvalue,")",toolpos) + 1
@@ -413,6 +421,9 @@ Procedure OpenReadGadgetParams(line.s)
   ;{ y2
   tempvalue.s = Trim(Mid(line,start,startnext-start))
   toolpos = FindString(tempvalue,"ToolBarHeight(")
+  ;- Change
+  tempvalue = ReplaceString(tempvalue,"FormWindowTop","")
+  tempvalue = ReplaceString(tempvalue,"+","")
   If toolpos
     toolend = FindString(tempvalue,")",toolpos) + 1
     tempvalue = Left(tempvalue,toolpos - 1) + Right(tempvalue,Len(tempvalue) - toolend)
@@ -450,6 +461,7 @@ Procedure OpenReadGadgetParams(line.s)
   
   ProcedureReturn start
 EndProcedure
+
 Procedure OpenReadGadgetFlags(line.s, start)
   startnext = OpenReadNextParam(line,start)
   
@@ -480,6 +492,7 @@ Procedure OpenReadGadgetFlags(line.s, start)
   EndIf
   FormWindows()\FormGadgets()\flags = winflag
 EndProcedure
+
 Procedure OpenReadGadgetCaption(line.s, start)
   startnext = OpenReadNextParam(line,start)
   
@@ -493,6 +506,7 @@ Procedure OpenReadGadgetCaption(line.s, start)
   EndIf
   ProcedureReturn startnext + 1
 EndProcedure
+
 Procedure OpenReadGadgetImageID(line.s, start)
   oldstart = start
   start = FindString(line,"(",start) + 1 ; searching for ImageID(
@@ -520,6 +534,7 @@ Procedure OpenReadGadgetImageID(line.s, start)
   
   ProcedureReturn startnext + 1
 EndProcedure
+
 Procedure OpenReadGadgetMinMax(line.s, start)
   startnext = OpenReadNextParam(line,start)
   
@@ -536,12 +551,14 @@ Procedure OpenReadGadgetMinMax(line.s, start)
   
   ProcedureReturn startnext + 1
 EndProcedure
+
 Macro OpenReadGadgetParent()
   If LastElement(GadgetList())
     FormWindows()\FormGadgets()\parent = GadgetList()\a
     FormWindows()\FormGadgets()\parent_item = GadgetList()\b
   EndIf
 EndMacro
+
 Procedure OpenReadStatusFlags(line.s, start)
   startnext = OpenReadNextParam(line,start)
   
@@ -574,6 +591,7 @@ Procedure OpenReadStatusFlags(line.s, start)
   EndIf
   FormWindows()\FormStatusbars()\flags = winflag
 EndProcedure
+
 Procedure OpenReadStatusFlagsImageID(line.s, start)
   start = FindString(line,"(",start) + 1 ; searching for ImageID(
   startnext = FindString(line,")",start)
@@ -593,6 +611,7 @@ Procedure OpenReadStatusFlagsImageID(line.s, start)
   
   ProcedureReturn startnext + 1
 EndProcedure
+
 Procedure.s OpenReadProcName(line.s)
   pos = FindString(line,"(")
   
@@ -607,7 +626,13 @@ Procedure.s OpenReadProcName(line.s)
   
   ProcedureReturn proc
 EndProcedure
+
 Procedure FD_Open(file.s,update = 0)
+  
+  ; If any changes or new features in this procedure would break backward compatibility with earlier form designer versions,
+  ; for example, implementing a new gadget or including a new command in the output code,
+  ; please update FD_VersionCheck so that the IDE will be aware of this and can warn properly.
+  
   If Not update
     PushListPosition(FormWindows())
     found = 0
@@ -619,7 +644,7 @@ Procedure FD_Open(file.s,update = 0)
     PopListPosition(FormWindows())
     
     If found
-      MessageRequester(appname, Language("Form", "FileAlreadyOpened"))
+      MessageRequester(#ProductName$, Language("Form", "FileAlreadyOpened"))
       ProcedureReturn
     EndIf
     
@@ -651,6 +676,7 @@ Procedure FD_Open(file.s,update = 0)
     ClearList(FormWindows()\FormMenus())
     ClearList(FormWindows()\FormStatusbars())
     ClearList(FormWindows()\FormToolbars())
+    ClearList(FormWindows()\FormCustomFlags())
     
     count = GetLinesCount(*ActiveSource)
     
@@ -681,6 +707,10 @@ Procedure FD_Open(file.s,update = 0)
     custgadgetnb = -1
     event_file.s = ""
     
+    NewMap enumGadgetIds.i()
+    NewMap enumWindowIds.i()
+    enumMode.i = 0 ; 0=none, 1=FormGadget, 2=FormWindow
+
     Repeat
       If update
         line.s = Trim(StringField(content, line_num, #LF$))
@@ -734,15 +764,50 @@ Procedure FD_Open(file.s,update = 0)
         EndIf
         Continue
       EndIf
-      
+            
       If Left(line,11) = "Enumeration" Or Left(line,17) = "EnumerationBinary"
         loop_enumeration = 1
+        enumMode = 0
+      
+        ; detect "Enumeration FormGadget"
+        If FindString(line, "FormGadget")
+          enumMode = 1
+        EndIf
+        
+        ; detect "Enumeration FormWindow"
+        If FindString(line, "FormWindow")
+          enumMode = 2
+        EndIf
+      
+        Continue
       EndIf
+      
       If Left(line,14) = "EndEnumeration"
         loop_enumeration = 0
+        enumMode = 0
+        Continue
       EndIf
       
       If loop_enumeration
+        ; Parse only gadget and window enum lines, ignore others
+        If enumMode > 0
+          If Left(line, 1) = "#"
+            tmp.s = Trim(Mid(line, 2)) ; remove leading '#'
+            eq = FindString(tmp, "=")
+            If eq
+              name.s = Trim(Left(tmp, eq - 1))
+              enumVal.i = Val(Trim(Mid(tmp, eq + 1)))
+              If name <> "" And enumVal <> 0
+                If enumMode = 1 
+                  enumGadgetIds(name) = enumVal 
+                ElseIf enumMode = 2
+                  enumWindowIds(name) = enumVal
+                EndIf
+              EndIf
+            EndIf
+          EndIf         
+        EndIf
+      
         Continue
       EndIf
       
@@ -1218,31 +1283,72 @@ Procedure FD_Open(file.s,update = 0)
           flags.s = Trim(Mid(line,start,startnext-start))
           winflag = 0
           numflags = CountString(flags,"|")
+          addCustomFlag = #False
           
           If numflags = 0
             thisflags.s = Trim(flags)
-            
             ForEach Gadgets()
-              ForEach Gadgets()\Flags()
-                If thisflags = Gadgets()\Flags()\name
-                  winflag = Gadgets()\Flags()\ivalue
+              If Gadgets()\type = #Form_Type_Window
+                flagsDone = #False
+                ForEach Gadgets()\Flags()
+                  If thisflags = Gadgets()\Flags()\name
+                    winflag = Gadgets()\Flags()\ivalue
+                    flagsDone = #True
+                    Break
+                  EndIf
+                Next
+                If Not flagsDone And thisflags And thisflags <> "0"
+                  ;add custom flags to an extra list.
+                  ;custom flags have no effect on the display of the form in the Form Designer
+                  addCustomFlag = #True
+                  ForEach FormWindows()\FormCustomFlags()
+                    If FormWindows()\FormCustomFlags() = thisflags
+                      addCustomFlag = #False
+                      Break
+                    EndIf
+                  Next
+                  If addCustomFlag
+                    LastElement(FormWindows()\FormCustomFlags())
+                    AddElement(FormWindows()\FormCustomFlags())
+                    FormWindows()\FormCustomFlags() = thisflags
+                  EndIf
                 EndIf
-              Next
+              EndIf
             Next
           Else
             For i = 0 To numflags
               thisflags.s = Trim(StringField(flags,i+1,"|"))
-              
               ForEach Gadgets()
-                ForEach Gadgets()\Flags()
-                  If thisflags = Gadgets()\Flags()\name
-                    If winflag = 0
-                      winflag = Gadgets()\Flags()\ivalue
-                    Else
-                      winflag | Gadgets()\Flags()\ivalue
+                If Gadgets()\type = #Form_Type_Window
+                  flagsDone = #False
+                  ForEach Gadgets()\Flags()
+                    If thisflags = Gadgets()\Flags()\name
+                      If winflag = 0
+                        winflag = Gadgets()\Flags()\ivalue
+                      Else
+                        winflag | Gadgets()\Flags()\ivalue
+                      EndIf
+                      flagsDone = #True
+                      Break
+                    EndIf
+                  Next
+                  If Not flagsDone And thisflags
+                    ;add custom flags to an extra list.
+                    ;custom flags have no effect on the display of the form in the Form Designer
+                    addCustomFlag = #True
+                    ForEach FormWindows()\FormCustomFlags()
+                      If FormWindows()\FormCustomFlags() = thisflags
+                        addCustomFlag = #False
+                        Break
+                      EndIf
+                    Next
+                    If addCustomFlag
+                      LastElement(FormWindows()\FormCustomFlags())
+                      AddElement(FormWindows()\FormCustomFlags())
+                      FormWindows()\FormCustomFlags() = thisflags
                     EndIf
                   EndIf
-                Next
+                EndIf
               Next
             Next
           EndIf
@@ -1255,9 +1361,12 @@ Procedure FD_Open(file.s,update = 0)
           
           If startnext
             parentwin.s = Trim(Mid(line,start,startnext-start))
-            
-            parentwin = ReplaceString(parentwin, "WindowID(", "")
-            parentwin = ReplaceString(parentwin, ")", "")
+            If FindString(parentwin, "WindowID(")
+              parentwin = ReplaceString(parentwin, "WindowID(", "")
+              parentwin = ReplaceString(parentwin, ")", "")
+            ElseIf parentwin
+              parentwin = "=" + parentwin
+            EndIf
             FormWindows()\parent = parentwin
           EndIf
         EndIf
@@ -1417,6 +1526,10 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\FormGadgets()\backcolor = -1
         FormWindows()\FormGadgets()\frontcolor = -1
         OpenReadGadgetParent()
+        If FormWindows()\FormGadgets()\flags & #PB_Frame_Container
+          LastElement(GadgetList())
+          AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
+        EndIf
         Continue
       EndIf ;}
       If procname = "IPAddressGadget" ;{
@@ -2502,6 +2615,24 @@ Procedure FD_Open(file.s,update = 0)
       EndIf
     Next
     
+    ForEach FormWindows()\FormGadgets()
+      If FormWindows()\FormGadgets()\pbany = 0
+        If FormWindows()\FormGadgets()\explicitId = 0
+          If FindMapElement(enumGadgetIds(), FormWindows()\FormGadgets()\variable)
+            FormWindows()\FormGadgets()\explicitId = enumGadgetIds()
+          EndIf
+        EndIf
+      EndIf
+    Next
+    
+    If FormWindows()\pbany = 0
+        If FormWindows()\explicitId = 0
+          If FindMapElement(enumWindowIds(), FormWindows()\variable)
+            FormWindows()\explicitId = enumWindowIds()
+          EndIf
+        EndIf
+    EndIf
+
     FD_UpdateObjList()
     FD_UpdateScrollbars()
     FD_SelectWindow(currentwindow)
@@ -2513,6 +2644,122 @@ Procedure FD_Open(file.s,update = 0)
     EndIf
   EndIf
 EndProcedure
+
 Procedure FD_UpdateCode()
   FD_Open(FormWindows()\current_file,1)
+EndProcedure
+
+Procedure.b FD_VersionCheck(FileName.s)
+  ; Check the designer statement for compatibility problems.
+  ; Returns a #PB_MessageRequester_* value from the message requester. 
+  ; (#PB_MessageRequester_Yes if no problems found or preferences prohibit a warning).
+  
+  Define.i File, Format, TagPosition, VerPosition, DotPosition, FileVersion, Loop, Max, MayBreak, Icon, Warn, Result
+  Define VerString$, Message$
+  
+  ; List of compatibility breaking version numbers.
+  ; If any form designer code changes or new features will break backward compatibility with earlier versions, add the version number to this Array.
+  Static Dim Breaks(2)
+  If Breaks(0) = 0
+    Breaks(0) = 610 ; WebViewGadget support.
+    Breaks(1) = 621 ; Custom Flags for OpenWindow and other new flags.
+  EndIf
+  
+  If FileSize(FileName) <= 0
+    ProcedureReturn #PB_MessageRequester_Yes
+  EndIf
+  
+  ; Extract the version content from the first non blank line of the source file.
+  File = OpenFile(#PB_Any, FileName)
+  Format = ReadStringFormat(File)
+  Repeat 
+    VerString$ = ReadString(File, Format)
+  Until VerString$ <> #Empty$
+  CloseFile(File)
+  
+  TagPosition = FindString(VerString$, "; Form Designer")
+  VerPosition = FindString(VerString$, "- ")
+  
+  ; Check for problems and warnings.
+  If TagPosition And VerPosition
+    
+    ; Reformat so that it matches the compiler and version constants.
+    VerString$ = Mid(VerString$, VerPosition + 2)
+    FileVersion = Int(ValD(VerString$) * 100.0)
+    
+    ; Check for a backward compatibility issue.
+    MayBreak = #False
+    Max = ArraySize(Breaks())
+    For Index = 0 To Max
+      If FileVersion < Breaks(Index)
+        MayBreak = #True
+        Break
+      EndIf
+    Next Index
+    
+    If FileVersion = #PB_Compiler_Version
+      ; Matching version, no need to prompt.
+      Warn = #False
+      Result = #PB_MessageRequester_Yes
+      
+    ElseIf FileVersion > #PB_Compiler_Version 
+      ; This is a downgrade.
+      
+      If (FormVersionWarnings & #FDI_Warn_DowngradeAlways) = 0
+        ; Downgrade warnings are off.
+        Warn = #False
+        Result = #PB_MessageRequester_Yes
+        
+      Else
+        ; Downgrade warnings are on.
+        Warn = #True
+        Icon = #FLAG_Warning
+        Message$ = ReplaceString(ReplaceString(Language("Form", "MessageNewer"), "%newline%",  #LF$), "%s%", VerString$)
+        
+      EndIf
+      
+    ElseIf FileVersion < #PB_Compiler_Version 
+      ; This is an upgrade.
+      
+      If FormVersionWarnings & (#FDI_Warn_UpgradeBreaking | #FDI_Warn_UpgradeAlways) = 0
+        ; Upgrade warnings are off.
+        Warn = #False
+        Result = #PB_MessageRequester_Yes
+            
+      ElseIf (FormVersionWarnings & #FDI_Warn_UpgradeBreaking) = #FDI_Warn_UpgradeBreaking And MayBreak = #False
+        ; Non-breaking warnings are off.
+        Warn = #False
+        Result = #PB_MessageRequester_Yes
+        
+      ElseIf (FormVersionWarnings & (#FDI_Warn_UpgradeBreaking | #FDI_Warn_UpgradeAlways)) > 0 And MayBreak = #True
+        ; Breaking warnings are on and a break is possible.
+        Warn = #True
+        Icon = #FLAG_Warning
+        Message$ = ReplaceString(ReplaceString(Language("Form", "MessageBackward"), "%newline%",  #LF$), "%s%", VerString$)
+      
+      ElseIf (FormVersionWarnings & #FDI_Warn_UpgradeAlways) = #FDI_Warn_UpgradeAlways
+        ; Upgrade warnings are always on.
+        Warn = #True
+        Icon = #FLAG_Warning
+        Message$ = ReplaceString(ReplaceString(Language("Form", "MessageOlder"), "%newline%",  #LF$), "%s%", VerString$)
+        
+      EndIf
+      
+    EndIf
+    
+  ElseIf (FormVersionWarnings & #FDI_Warn_NotRecognized) = #FDI_Warn_NotRecognized
+    ; The form designer version line wasn't found, probably not a designer file.
+    Warn = #True
+    Icon = #FLAG_Warning
+    Message$ = ReplaceString(Language("Form", "MessageNotDesign"), "%newline%",  #LF$)
+    
+  EndIf
+  
+  If Warn
+    Message$ + #LF$ + Language("Misc", "MessageContinue")
+    Result = MessageRequester(#ProductName$, Message$, Icon | #PB_MessageRequester_YesNo)
+  EndIf
+  
+  ProcedureReturn Result
+  
 EndProcedure

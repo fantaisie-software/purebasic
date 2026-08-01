@@ -1,4 +1,4 @@
-@Title Protected
+ï»¿@Title Protected
 
 @Syntax
 
@@ -6,14 +6,14 @@
 
 @Description
 
-  @Keyword Protected permet de créer une variable locale dans une procédure. Elle supplante l'éventuelle 
-  variable globale du même nom pendant toute la procédure (contrairement à une variable locale classique non protégée). 
-  Une valeur par défaut peut être assignée à la variable. 
-  @Keyword Protected peut aussi être utilisé avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". @LineBreak
+  @Keyword Protected permet de crÃ©er une variable locale dans une procÃ©dure. Elle supplante l'Ã©ventuelle 
+  variable globale du mÃªme nom pendant toute la procÃ©dure (contrairement Ã  une variable locale classique non protÃ©gÃ©e). 
+  Une valeur par dÃ©faut peut Ãªtre assignÃ©e Ã  la variable. 
+  @Keyword Protected peut aussi Ãªtre utilisÃ© avec les @ReferenceLink "dim" "tableaux", les @ReferenceLink "newlist" "listes" et les @ReferenceLink "newmap" "maps". @LineBreak
   @LineBreak
-  La valeur de la variable locale sera réinitialisée à chaque appel de la procédure. Pour éviter cela,
-  @ReferenceLink "Static" "Static" permet de déclarer une variable locale indépendante des variables
-  globales tout en gardant sa valeur au fil des appels de la procédure.
+  La valeur de la variable locale sera rÃ©initialisÃ©e Ã  chaque appel de la procÃ©dure. Pour Ã©viter cela,
+  @ReferenceLink "Static" "Static" permet de dÃ©clarer une variable locale indÃ©pendante des variables
+  globales tout en gardant sa valeur au fil des appels de la procÃ©dure.
 
 @Example Avec une variable
 
@@ -26,7 +26,7 @@
     a = 20
   EndProcedure 
   
-  Debug a ; Affichera 10 car la variable a été protégée. 
+  Debug a ; Affichera 10 car la variable a Ã©tÃ© protÃ©gÃ©e. 
 @EndCode  
 
 @LineBreak
@@ -37,10 +37,10 @@
   Tableau(0) = 10
   
   Procedure Change()
-    Protected Dim Tableau(2) ; Ce tableau est protégé, il sera local.
+    Protected Dim Tableau(2) ; Ce tableau est protÃ©gÃ©, il sera local.
     Tableau(0) = 20 
   EndProcedure 
   
   Change()
-  Debug Tableau(0) ; Affichera 10 car le tableau a été protégé.
+  Debug Tableau(0) ; Affichera 10 car le tableau a Ã©tÃ© protÃ©gÃ©.
 @EndCode

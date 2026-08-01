@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Font library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,18 +8,18 @@
 
 @Overview
 
-  Les polices de caractères sont largement 
-  utilisées sur les ordinateurs. Elles 
-  permettent d'agrémenter les textes avec 
-  différentes tailles et formes de polices.
+  Les polices de caractÃ¨res sont largement 
+  utilisÃ©es sur les ordinateurs. Elles 
+  permettent d'agrÃ©menter les textes avec 
+  diffÃ©rentes tailles et formes de polices.
 @LineBreak
 @LineBreak
   Note: En PureBasic, les polices de 
-  caractères colorées ne sont pas encore 
-  supportées. Il est néanmoins possible de 
+  caractÃ¨res colorÃ©es ne sont pas encore 
+  supportÃ©es. Il est nÃ©anmoins possible de 
   contourner cette limitation en utilisant la 
   commande @@StartDrawing et dessiner 
-  directement sur la surface souhaitée.
+  directement sur la surface souhaitÃ©e.
 
 @CommandList
 
@@ -33,20 +33,20 @@
 @Function FreeFont(#Police)
 
 @Description
-  Libère une police. 
+  LibÃ¨re une police. 
   
 @Parameter "#Police"
-  Le numéro de la police à libérer.
+  Le numÃ©ro de la police Ã  libÃ©rer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  polices restantes seront libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  polices restantes seront libÃ©rÃ©es.
 
 @NoReturnValue  
 
 @Remarks
   Toutes les polices restantes sont 
-  automatiquement libérées quand le 
+  automatiquement libÃ©rÃ©es quand le 
   programme se termine. 
 
 @SeeAlso
@@ -60,20 +60,20 @@
 
 @Description
   Renvoie l'identifiant d'une police dans 
-  le système d'exploitation. 
+  le systÃ¨me d'exploitation. 
   
 @Parameter "#Police"
-  Le numéro d'identification de la police 
-  à tester.
+  Le numÃ©ro d'identification de la police 
+  Ã  tester.
 
 @ReturnValue  
-  Renvoie l'identifiant système de la police.
+  Renvoie l'identifiant systÃ¨me de la police.
 @LineBreak
 @LineBreak
-  Ce résultat est aussi parfois appelé 
+  Ce rÃ©sultat est aussi parfois appelÃ© 
   'Handle'. Jetez un oeil au chapitre 
   
-  @ReferenceLink "handles" "Numéros et Identifiants" 
+  @ReferenceLink "handles" "NumÃ©ros et Identifiants" 
   pour plus d'informations.
 
 @Example
@@ -113,24 +113,24 @@
 
 @Description
   Teste si une police est correctement 
-  initialisée. 
+  initialisÃ©e. 
   
 @Parameter "#Police"
-  Le numéro de la police à tester.
+  Le numÃ©ro de la police Ã  tester.
 
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
   
 @Remarks
-   Cette fonction a été créée pour pouvoir 
+   Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
    passer n'importe quelle valeur en 
-   paramètre sans qu'il ne puisse y avoir 
+   paramÃ¨tre sans qu'il ne puisse y avoir 
    de plantage. 
 @LineBreak
 @LineBreak
-   C'est la fonction idéale pour vérifier 
-   qu'un objet est correctement initialisé.
+   C'est la fonction idÃ©ale pour vÃ©rifier 
+   qu'un objet est correctement initialisÃ©.
 
 @SeeAlso
   @@FontID, @@LoadFont
@@ -142,15 +142,15 @@
 @Function Resultat = LoadFont(#Police, NomPolice$, Taille [, Options]) 
 
 @Description
-  Charge une police de caractères.
+  Charge une police de caractÃ¨res.
 
 @Parameter "#Police"
-  Le numéro de la police.
+  Le numÃ©ro de la police.
 @LineBreak
 @LineBreak    
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisés pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ©s pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
  
 @Parameter "NomPolice$"
   Le nom de la police.
@@ -159,36 +159,41 @@
    Taille de la police.
    
 @OptionalParameter "Options"
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont
-  @#PB_Font_Bold       : La police de caractères sera en gras
-  @#PB_Font_Italic     : La police de caractères sera en italique
-  @#PB_Font_Underline  : La police de caractères sera soulignée (Windows seulement)
-  @#PB_Font_StrikeOut  : La police de caractères sera barrée (Windows seulement)
-  @#PB_Font_HighQuality: La police de caractères sera en qualité supérieure (plus lent)(Windows seulement)
+  @#PB_Font_Bold       : La police de caractÃ¨res sera en gras
+  @#PB_Font_Italic     : La police de caractÃ¨res sera en italique
+  @#PB_Font_Underline  : La police de caractÃ¨res sera soulignÃ©e (Windows seulement)
+  @#PB_Font_StrikeOut  : La police de caractÃ¨res sera barrÃ©e (Windows seulement)
+  @#PB_Font_HighQuality: La police de caractÃ¨res sera en qualitÃ© supÃ©rieure (plus lent)(Windows seulement)
 @EndFixedFont
   
 @ReturnValue 
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon. 
+  succÃ¨s, zÃ©ro sinon. 
 
 @Remarks
-  Si une autre police de caractères était 
-  déjà chargé avec le même numéro #Police, 
-  elle sera  automatiquement fermée lors du 
+  Si une autre police de caractÃ¨res Ã©tait 
+  dÃ©jÃ  chargÃ© avec le mÃªme numÃ©ro #Police, 
+  elle sera  automatiquement fermÃ©e lors du 
   chargement de la nouvelle.
 @LineBreak
 @LineBreak
   Sous Windows et MacOS, le gestionnaire de police de 
-  caractères essaiera toujours de trouver une
-  police équivalente à celle demandée, si 
-  cette dernière n'est pas disponible. Par 
+  caractÃ¨res essaiera toujours de trouver une
+  police Ã©quivalente Ã  celle demandÃ©e, si 
+  cette derniÃ¨re n'est pas disponible. Par 
   exemple, si vous essayez de charger la 
   police "Tim Now Ronin" et qu'elle n'existe 
-  pas, une autre police sera chargée 
+  pas, une autre police sera chargÃ©e 
   automatiquement, en fonction de sa taille, 
   du style etc. Il est donc peu probable que 
-  cette commande échoue.
+  cette commande Ã©choue.
+@LineBreak
+@LineBreak
+  Sous Windows et MacOS, vous pouvez changer la taille et le style de la police systÃ¨me de l'application sans 
+  indiquer son nom: LoadFont(1, "", 24)
+
 
 @Example
 @Code
@@ -211,33 +216,33 @@
 @Function Resultat = RegisterFontFile(Fichier$)
 
 @Description
-  Enregistre un fichier de police en vue d'être utilisé avec la commande @@LoadFont. @LineBreak
+  Enregistre un fichier de police en vue d'Ãªtre utilisÃ© avec la commande @@LoadFont. @LineBreak
   Toutes les polices contenues dans le fichier seront alors disponibles.
 
 @Parameter "Fichier$"
   Le fichier contenant les polices.@LineBreak 
-  Le fichier doit être au format TrueType.
+  Le fichier doit Ãªtre au format TrueType.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le fichier a été enregistré correctement.
+  Renvoie une valeur non nulle si le fichier a Ã©tÃ© enregistrÃ© correctement.
 
 @Remarks
   Le fichier de police est inscrit pour le programme en cours. 
   Cela signifie que la ou les polices ne sont pas accessibles 
   par les autres programmes.@LineBreak
-  Le fichier est désinscrit lorsque le programme se termine.@LineBreak
-  Aucun changement dans le système d'exploitation n'est fait par cette commande.
+  Le fichier est dÃ©sinscrit lorsque le programme se termine.@LineBreak
+  Aucun changement dans le systÃ¨me d'exploitation n'est fait par cette commande.
   @LineBreak
   @LineBreak
-  Vous ne pouvez pas utiliser de police enregistrée avec la bibliothèque 
+  Vous ne pouvez pas utiliser de police enregistrÃ©e avec la bibliothÃ¨que 
   VectorDrawing.
   
 @Example
 @Code
-  ; Utilisons une nouvelle police qui a été téléchargée à partir d'Internet dans le répertoire temporaire ...
+  ; Utilisons une nouvelle police qui a Ã©tÃ© tÃ©lÃ©chargÃ©e Ã  partir d'Internet dans le rÃ©pertoire temporaire ...
   ; Le nom de la police est "ascii" et le fichier est "ascii.ttf"
   If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; Nous devons l'enregistrer avant de l'utiliser
-    LoadFont(0, "ascii", 12) ; Maintenant, nous pouvons charger la police, le système d'exploitation la connait
+    LoadFont(0, "ascii", 12) ; Maintenant, nous pouvons charger la police, le systÃ¨me d'exploitation la connait
     SetGadgetFont(0, FontID(0))
   ...
 @EndCode

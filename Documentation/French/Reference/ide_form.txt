@@ -1,11 +1,11 @@
-@Title Le Concepteur de fenêtre (Form)
+ï»¿@Title Le Concepteur de fenÃªtre (Form)
 
-  L'IDE du PureBasic a un concepteur de fenêtre (formulaire) très puissant et intégré à l'éditeur, 
-  qui permet de créer et d'organiser des gadgets sur une fenêtre. Il supporte presque tous les 
-  @LibraryLink "gadget" "gadgets", les @LibraryLink "menu" "menus" et même les 
-  @LibraryLink "statusbar" "barres d'état". Un fichier de formulaire est un fichier PureBasic, 
-  de sorte qu'il peut être facilement modifié sans même ouvrir le concepteur de formulaire. 
-  L'analyseur de code n'est pas le même que celui utilisé par le compilateur, donc il ne 
+  L'IDE du PureBasic a un concepteur de fenÃªtre (formulaire) trÃ¨s puissant et intÃ©grÃ© Ã  l'Ã©diteur, 
+  qui permet de crÃ©er et d'organiser des gadgets sur une fenÃªtre. Il supporte presque tous les 
+  @LibraryLink "gadget" "gadgets", les @LibraryLink "menu" "menus" et mÃªme les 
+  @LibraryLink "statusbar" "barres d'Ã©tat". Un fichier de formulaire est un fichier PureBasic, 
+  de sorte qu'il peut Ãªtre facilement modifiÃ© sans mÃªme ouvrir le concepteur de formulaire. 
+  L'analyseur de code n'est pas le mÃªme que celui utilisÃ© par le compilateur, donc il ne 
   prend pas en charge toutes les fonctions PureBasic, alors quand on fait des modifications 
   manuelles dans un fichier formulaire, elles doivent rester basique.
 
@@ -15,108 +15,146 @@
 
 @Bold "Nouveau Form"
 @LineBreak
-  Crée un nouveau formulaire vide. Noter que l'onglet "Form" appelé panneau de conception 
+  CrÃ©e un nouveau formulaire vide. Noter que l'onglet "Form" appelÃ© panneau de conception 
   muni de ses gadgets standards apparait automatiquement.
 @LineBreak
 @LineBreak
 
 @Bold "Changer vue Code/Design"
 @LineBreak
-  Change la vue du formulaire. Cela permet de passer du mode de conception au mode écriture de code. 
-  Un formulaire est construit à partir du code, donc si une modification est apportée 
+  Change la vue du formulaire. Cela permet de passer du mode de conception au mode Ã©criture de code. 
+  Un formulaire est construit Ã  partir du code, donc si une modification est apportÃ©e 
   directement en mode code, il sera traduit visuellement.
 @LineBreak
 @LineBreak
 
-@Bold "Duplicer l'objet"
+@Bold "Dupliquer l'objet"
 @LineBreak
-  Duplique l'objet sélectionné.
+  Duplique l'objet sÃ©lectionnÃ©.
 @LineBreak
 @LineBreak
 
-@Bold "Manager d'image"
+@Bold "Gestionnaire d'image"
 @LineBreak
   @Image ide_form_imagemanager.png
 @LineBreak
 @LineBreak
-  Affiche toutes les images actuellement utilisées par le formulaire. 
-  L'image et son chemin peuvent être changés facilement ici.
+  Affiche toutes les images actuellement utilisÃ©es par le formulaire. 
+  L'image et son chemin peuvent Ãªtre changÃ©s facilement ici.
   
 @Section Panneau de conception
 
   @Image ide_form_designpanel.png
 
-  Ce panneau liste tous les gadgets disponibles. Sélectionnez-en un, et de dessinez-le 
-  directement sur le formulaire. Lorsqu'un gadget est sélectionné sur le formulaire, 
-  ses propriétés sont afficher sur le panneau et peuvent être modifiées.
-  
+  Ce panneau liste tous les gadgets disponibles. SÃ©lectionnez-en un, et de dessinez-le 
+  directement sur le formulaire. Lorsqu'un gadget est sÃ©lectionnÃ© sur le formulaire, 
+  ses propriÃ©tÃ©s sont afficher sur le panneau et peuvent Ãªtre modifiÃ©es.
+
+@Section Options avancÃ©es de gÃ©nÃ©ration de code
+
+@Bold "Identifiant (ID) explicites via une variable (Nom=Nombre)"
+@LineBreak
+  Pour imposer des ID numÃ©riques stables pour une fenÃªtre ou un gadget, saisissezÂ :
+  Nom=Nombre (par exempleÂ : ID13310=13310 ou Dlg=133) dans la propriÃ©tÃ© "Variable".
+  Le concepteur de formulaires gÃ©nÃ©rera une affectation explicite dans lâ€™Ã©numÃ©rationÂ :
+@LineBreak
+@Code
+  Enumeration FormGadget
+    #ID13310 = 13310
+  EndEnumeration
+@EndCode 
+@LineBreak
+  RemarqueÂ : Si le signe '=' nâ€™est pas utilisÃ©, le comportement reste inchangÃ© (rÃ©trocompatibilitÃ©).
+@LineBreak
+@LineBreak
+
+@Bold "FenÃªtre parente personnalisÃ©e (=expression)"
+@LineBreak
+  La valeur "Parent" de la fenÃªtre peut Ãªtre une expression brute en la faisant prÃ©cÃ©der du signe '='.
+  Dans ce cas, cela transmettra directement l'expression (sans passer par @@WindowID).
+@LineBreak
+@LineBreak
+
+@Bold "Indicateurs personnalisÃ©s"
+@LineBreak
+  Cette propriÃ©tÃ© contient des indicateurs personnalisÃ©s supplÃ©mentaires sÃ©parÃ©s par un '|'.
+  Ces indicateurs (flags) sont ajoutÃ©s aux indicateurs gÃ©nÃ©rÃ©s par @@OpenWindow.
+  Les indicateurs personnalisÃ©s n'affectent pas le rendu visuel dans le concepteur de formulaires.
+@LineBreak
+@LineBreak
+
+@Bold "FrameGadget comme conteneur (#PB_Frame_Container)"
+@LineBreak
+  Le FrameGadget prend en charge l'indicateur @#PB_Frame_Container. Si cet indicateur est dÃ©fini, le FrameGadget est traitÃ© comme un conteneur
+  et peut servir de parent Ã  d'autres gadgets.  
+
 @Section Utilisation du concepteur de formulaire dans un projet
 
-  Le concepteur du formulaire a été créé pour permettre la création et la maintenance aisée de 
-  formulaires de façon modulaires. Chaque formulaire doit avoir son propre fichier. Il ne peut pas 
-  y avoir deux formulaires dans un même fichier (en d'autres termes, il ne faut jamais avoir 
-  deux @@OpenWindow dans le même fichier). Une procédure d'événement peut être attribué à 
-  tous les gadgets, et sera traitée automatiquement dans la boucle d'événements. Les 
-  procédures d'événements doivent être définies quelque part dans le code source. @LineBreak
-  Chaque fichier de formulaire devrait être nommé avec l'extension '.pbf', pour  
-  être correctement ouvert par l'IDE. Les fichiers de formulaire ('.pbf') peuvent 
-  également être ajoutés dans un @ReferenceLink "ide_projects" "projet".
+  Le concepteur du formulaire a Ã©tÃ© crÃ©Ã© pour permettre la crÃ©ation et la maintenance aisÃ©e de 
+  formulaires de faÃ§on modulaires. Chaque formulaire doit avoir son propre fichier. Il ne peut pas 
+  y avoir deux formulaires dans un mÃªme fichier (en d'autres termes, il ne faut jamais avoir 
+  deux @@OpenWindow dans le mÃªme fichier). Une procÃ©dure d'Ã©vÃ©nement peut Ãªtre attribuÃ© Ã  
+  tous les gadgets, et sera traitÃ©e automatiquement dans la boucle d'Ã©vÃ©nements. Les 
+  procÃ©dures d'Ã©vÃ©nements doivent Ãªtre dÃ©finies quelque part dans le code source. @LineBreak
+  Chaque fichier de formulaire devrait Ãªtre nommÃ© avec l'extension '.pbf', pour  
+  Ãªtre correctement ouvert par l'IDE. Les fichiers de formulaire ('.pbf') peuvent 
+  Ã©galement Ãªtre ajoutÃ©s dans un @ReferenceLink "ide_projects" "projet".
 @LineBreak
 @LineBreak
-  Par exemple, pour construire un programme qui gèrent deux fenêtres, il va falloir créer 
+  Par exemple, pour construire un programme qui gÃ¨rent deux fenÃªtres, il va falloir crÃ©er 
   deux fichiers de formulaire et un fichier principal. La structure du projet pourrait 
-  ressembler à ça :
+  ressembler Ã  Ã§a :
 @FixedFont  
   Main.pb        ; Le fichier principal qui inclut les liens vers les deux fichiers de formulaire,
-                 ; ainsi que le code des événements
-  MainWindow.pbf ; La fenêtre principale
-  DateWindow.pbf ; Une autre fenêtre
+                 ; ainsi que le code des Ã©vÃ©nements
+  MainWindow.pbf ; La fenÃªtre principale
+  DateWindow.pbf ; Une autre fenÃªtre
 @EndFixedFont
   Si nous supposons que MainWindow.pbf dispose de deux boutons ('OK' et 'Annuler') et 
-  que DateWindow.pbf contient un gadget cadendrier, voici à quoi le fichier principal devrait 
-  ressembler (le fichier principal n'est pas géré par le concepteur de formulaire, 
-  il doit être écrit manuellement):
+  que DateWindow.pbf contient un gadget cadendrier, voici Ã  quoi le fichier principal devrait 
+  ressembler (le fichier principal n'est pas gÃ©rÃ© par le concepteur de formulaire, 
+  il doit Ãªtre Ã©crit manuellement):
   
 @Code
 ;  Main.pb
-  XIncludeFile "MainWindow.pbf" ; Inclusion de la première fenêtre
-  XIncludeFile "DateWindow.pbf" ; Inclusion de la seconde fenêtre
+  XIncludeFile "MainWindow.pbf" ; Inclusion de la premiÃ¨re fenÃªtre
+  XIncludeFile "DateWindow.pbf" ; Inclusion de la seconde fenÃªtre
   
-  OpenMainWindow() ; Création de la première fenêtre. Ce nom de procédure est toujours 'Open' suivi du nom de la fenêtre
-  OpenDateWindow() ; Création de la seconde fenêtre
+  OpenMainWindow() ; CrÃ©ation de la premiÃ¨re fenÃªtre. Ce nom de procÃ©dure est toujours 'Open' suivi du nom de la fenÃªtre
+  OpenDateWindow() ; CrÃ©ation de la seconde fenÃªtre
   
-  ; Les procédures d'événements, tels que spécifiées dans la propriété 'procédure événement' de chaque gadget
+  ; Les procÃ©dures d'Ã©vÃ©nements, tels que spÃ©cifiÃ©es dans la propriÃ©tÃ© 'procÃ©dure Ã©vÃ©nement' de chaque gadget
   Procedure OkButtonEvent(EventType)
-    Debug "Evénement Bouton OK"
+    Debug "EvÃ©nement Bouton OK"
   EndProcedure
   
   Procedure CancelButtonEvent(EventType)
-    Debug "Evénement Bouton Annuler"
+    Debug "EvÃ©nement Bouton Annuler"
   EndProcedure
   
   Procedure TrainCalendarEvent(EventType)
-    Debug "Evénement Calendrier"
+    Debug "EvÃ©nement Calendrier"
   EndProcedure
   
-  ; La boucle principale, comme d'habitude, le seul changement est l'appel de la procédure 
-  ; événementielle automtiquement générée pour chaque fenêtre.
+  ; La boucle principale, comme d'habitude, le seul changement est l'appel de la procÃ©dure 
+  ; Ã©vÃ©nementielle automtiquement gÃ©nÃ©rÃ©e pour chaque fenÃªtre.
   Repeat
     Event = WaitWindowEvent()
     
     Select EventWindow()
       Case MainWindow
-        MainWindow_Events(Event) ; Le nom de la procédure est toujours le nom de la fenêtre suivi de '_Events'
+        MainWindow_Events(Event) ; Le nom de la procÃ©dure est toujours le nom de la fenÃªtre suivi de '_Events'
         
       Case DateWindow
         DateWindow_Events(Event)
         
     EndSelect
     
-  Until Event = #PB_Event_CloseWindow ; Ferme toutes les fenêtres en quittant l'une d'elle
+  Until Event = #PB_Event_CloseWindow ; Ferme toutes les fenÃªtres en quittant l'une d'elle
 @EndCode
 
-  Comme on le voit, il est facile d'intégrer des formulaire dans un programme. 
-  De plus, il est également possible de continuer à créer une fenêtre manuellement aussi. 
-  Pour avoir tout le contrôle sur le code généré, il suffit de passer en mode code.
+  Comme on le voit, il est facile d'intÃ©grer des formulaire dans un programme. 
+  De plus, il est Ã©galement possible de continuer Ã  crÃ©er une fenÃªtre manuellement aussi. 
+  Pour avoir tout le contrÃ´le sur le code gÃ©nÃ©rÃ©, il suffit de passer en mode code.
 @LineBreak
 @LineBreak

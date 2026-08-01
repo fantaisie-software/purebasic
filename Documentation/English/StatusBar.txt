@@ -1,4 +1,4 @@
-;
+﻿;
 ;     StatusBar library documentation
 ;
 ;      (c) 2017 - Fantaisie Software
@@ -8,8 +8,8 @@
 
 @Overview
 
-  A status bar is the bottom bar of a window where some information are displayed
-  on it. This bar is always visible and can be split in several parts.
+  A status bar is the bottom bar of a window where some information is displayed.
+  This bar is always visible and can be split into several parts.
 
 @CommandList
 
@@ -22,32 +22,32 @@
 @Function AddStatusBarField(Width)
 
 @Description  
-  Adds a field to the current statusbar previously created with @@CreateStatusBar.
-  Each new field is created after the old one.
-  
+  Adds a field to the current status bar previously created with @@CreateStatusBar.
+  Each new field is created after the previous one.
+
 @Parameter "Width"
-  The width of the new field in pixels. If sets to @#PB_Ignore then the field
-  will be resized to fill the remaining free space on the statusbar. Multiple fields can have a width of @#PB_Ignore,
+  The width of the new field in pixels. If set to @#PB_Ignore then the field
+  will be resized to fill the remaining free space on the status bar. Multiple fields can have a width of @#PB_Ignore,
   in which case the free space will be divided evenly among these fields.
 
 @NoReturnValue
 
 @Remarks
-  The following commands can be used to set or change the content of the statusbar field:
+  The following commands can be used to set or change the content of the status bar field:
 @LineBreak
   - @@StatusBarText
 @LineBreak
   - @@StatusBarImage
 @LineBreak
   - @@StatusBarProgress
-  
+
 @LineBreak
 @LineBreak
   See @@CreateStatusBar for an example.
 
 @SeeAlso
   @@StatusBarText, @@StatusBarImage, @@StatusBarProgress, @@CreateStatusBar
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -62,10 +62,10 @@
 @Parameter "#StatusBar"
   A number to identify the new status bar.
   @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
-  
+
 @Parameter "WindowID"
-  The window on which the status bar needs to be created. @@WindowID can be used to get this value.
-  
+  The window on which the status bar should be created. @@WindowID can be used to get this value.
+
 @ReturnValue
   Nonzero if the status bar has been successfully created, zero otherwise.
 
@@ -83,7 +83,7 @@
     StatusBarText(0, 1, "Area borderless", #PB_StatusBar_BorderLess)
     StatusBarText(0, 2, "Area right", #PB_StatusBar_Right) 
     StatusBarText(0, 3, "Area centered", #PB_StatusBar_Center)
-    
+
     Repeat
     Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -101,7 +101,7 @@
 
 @Description
   Free the given status bar.
-  
+
 @Parameter "#StatusBar"
   The status bar to free. If @#PB_All is specified, all the remaining status bars are freed.
 
@@ -120,7 +120,7 @@
   Tests if the given status bar number is a valid and correctly initialized status bar. 
 
 @Parameter "#StatusBar"
-  The status bar to use.
+  The status bar number to test.
 
 @ReturnValue
   Nonzero if the status bar is valid, zero otherwise.
@@ -130,7 +130,7 @@
 
 @SeeAlso
   @@CreateStatusBar
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -138,16 +138,16 @@
 @Function StatusBarImage(#StatusBar, Field, ImageID [, Appearance])
 
 @Description
-  Sets the specified Field to display an image. 
-  
+  Sets the specified status bar field to display an image. 
+
 @Parameter "#StatusBar"
   The status bar to use.
-  
+
 @Parameter "Field"
-  The field index to set the image. The first field index starts from zero.
-  
+  The index of the field to put the image on. The first field index starts from zero.
+
 @Parameter "ImageID"
-  The image to set to the specified statusbar field. It can be easily obtained by using @@ImageID.
+  The image to set to the specified status bar field. It can be easily obtained by using @@ImageID.
 
 @OptionalParameter "Appearance"
   It can be used to alter the look of the field with the following values:
@@ -172,7 +172,7 @@
       StatusBarImage(0, 0, ImageID(0))
       StatusBarImage(0, 1, ImageID(0), #PB_StatusBar_Right) 
     EndIf  
-    
+
     Repeat
     Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf 
@@ -205,15 +205,15 @@
 
 @Description
   Sets the text for the specified status bar field. 
-  
+
 @Parameter "#StatusBar"
   The status bar to use.
-  
+
 @Parameter "Field"
-  The field index to set the text. The first field index starts from zero.
-  
+  The index of the field to set the text on. The first field index starts from zero.
+
 @Parameter "Text$"
-  The text to set to the specified statusbar field.
+  The text to set to the specified status bar field.
 
 @OptionalParameter "Appearance"
   It can be used to alter the look of the field with the following values:

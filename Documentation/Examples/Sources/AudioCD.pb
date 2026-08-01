@@ -15,8 +15,6 @@ If NbCDDrives = 0
   End
 EndIf
 
-Global Null$
-
 Procedure.s GetHourFormat(LengthInSeconds)
   Minutes = LengthInSeconds/60
   Seconds = LengthInSeconds-Minutes*60
@@ -27,16 +25,18 @@ EndProcedure
 
 ; Initialize constants for easier code reading
 ;
-#GADGET_Play   = 0
-#GADGET_Stop   = 1
-#GADGET_Eject  = 2
-#GADGET_Close  = 3
-#GADGET_Select = 4
-#GADGET_Status = 5
-#GADGET_Time   = 6
-#GADGET_AudioCDDrive = 7
-#GADGET_SelectDrive  = 8
-
+Enumeration
+  #GADGET_Play
+  #GADGET_Stop
+  #GADGET_Eject
+  #GADGET_Close
+  #GADGET_Select
+  #GADGET_Status
+  #GADGET_Time
+  #GADGET_AudioCDDrive
+  #GADGET_SelectDrive 
+EndEnumeration
+  
 Procedure RefreshCD()
   ClearGadgetItems(#GADGET_Select)
 
@@ -71,64 +71,67 @@ If OpenWindow(0, 100, 200, 265, 125, "PureBasic - AudioCD Example", #PB_Window_S
   If NbCDDrives = 1
     DisableGadget(#GADGET_SelectDrive, 1)
   EndIf
-
+  
+  AddWindowTimer(0, 1, 500) ; Check every 200 ms
+  
   RefreshCD()
 
   Repeat
-    Repeat
-      Event = WindowEvent()  ; This time we use the WindowEvent(), non-blocking command to allow time refreshing
+    Event = WaitWindowEvent()
 
-      If Event = #PB_Event_Gadget
+    Select Event 
+      Case #PB_Event_Gadget
         Select EventGadget()
-
+  
           Case #GADGET_Play
             CurrentTrack = GetGadgetState(4)+1
             PlayAudioCD(CurrentTrack, CurrentTrack)
             
           Case #GADGET_Stop
             StopAudioCD()
-
+  
           Case #GADGET_Eject
             EjectAudioCD(1)
-
+  
           Case #GADGET_Close
             EjectAudioCD(0)
-
+  
           Case #GADGET_SelectDrive
             UseAudioCD(GetGadgetState(#GADGET_SelectDrive))
             RefreshCD()
-
+  
         EndSelect
+        
+      Case #PB_Event_Timer
+        CurrentTrack = AudioCDStatus()
+        If CurrentTrack > 0
+          SetGadgetText(#GADGET_Status, "Playing Track "+Str(CurrentTrack)+" (Length: "+GetHourFormat(AudioCDTrackLength(CurrentTrack))+")")
+          SetGadgetText(#GADGET_Time, "Time: "+GetHourFormat(AudioCDTrackSeconds()))
+          DisableGadget(#GADGET_Play, 1)
+          DisableGadget(#GADGET_Stop, 0)
+          DisableGadget(#GADGET_Select, 0)
+        Else
+          If CurrentTrack = -1
+            NeedRefresh = 1
+            SetGadgetText(#GADGET_Status, "Status: No disk detected")
+            DisableGadget(#GADGET_Select, 1)
+          Else
+            SetGadgetText(#GADGET_Status, "Status: Stopped")
+            DisableGadget(#GADGET_Select, 0)
+            
+            If NeedRefresh
+              RefreshCD()
+              NeedRefresh = 0
+            EndIf
+          EndIf
+          
+          SetGadgetText(#GADGET_Time, "")
+          DisableGadget(#GADGET_Play, 0)
+          DisableGadget(#GADGET_Stop, 1)
+        EndIf
+    EndSelect
 
-      Else
-        If Event = #PB_Event_CloseWindow : Quit = 1 : EndIf
-      EndIf
-    Until Event = 0
-
-    Delay(20) ; Wait 20 ms, which is a long period for the processor, to don't steal the whole CPU power
-              ; for our little application :)
-
-    CurrentTrack = AudioCDStatus()
-    If CurrentTrack > 0
-      SetGadgetText(#GADGET_Status, "Playing Track "+Str(CurrentTrack)+" (Length: "+GetHourFormat(AudioCDTrackLength(CurrentTrack))+")")
-      SetGadgetText(#GADGET_Time, "Time: "+GetHourFormat(AudioCDTrackSeconds()))
-      DisableGadget(#GADGET_Play, 1)
-      DisableGadget(#GADGET_Stop, 0)
-      DisableGadget(#GADGET_Select, 0)
-    Else
-      SetGadgetText(#GADGET_Status, "Status: Stopped")
-      SetGadgetText(#GADGET_Time, "")
-      DisableGadget(#GADGET_Play, 0)
-      DisableGadget(#GADGET_Stop, 1)
-
-      If CurrentTrack = -1 ; CD Drive not ready
-        DisableGadget(#GADGET_Select, 1)
-      Else
-        DisableGadget(#GADGET_Select, 0)
-      EndIf
-    EndIf
-
-  Until Quit = 1
+  Until Event = #PB_Event_CloseWindow
 
 EndIf
 

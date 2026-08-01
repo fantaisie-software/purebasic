@@ -1,4 +1,15 @@
-﻿;{ ============================= biblio
+﻿;
+; ------------------------------------------------------------
+;
+;   PureBasic - MaterialScripts
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+
+;{ ============================= Library
 Structure f2
   x.f
   y.f
@@ -459,6 +470,7 @@ Procedure menu()
   Box(0,0,180,180,$22ffffff)
   DrawingMode(#PB_2DDrawing_AllChannels|#PB_2DDrawing_Outlined)
   Box(0,0,180,180,$44ffffff)
+  DrawingMode(#PB_2DDrawing_AllChannels)
   BackColor($22ffffff)
   FrontColor($ffffffff)
   dt("Moving :")
@@ -474,37 +486,14 @@ Procedure menu()
   StopDrawing()
 EndProcedure
 
-Procedure affiche3d()
-  Protected.f MouseX,Mousey,keyx,keyz,a,ai
-  Repeat
-    While WindowEvent()
-    Wend
-    ExamineMouse()
-    ExamineKeyboard()
-    If KeyboardReleased(#PB_Key_F1 ):diff=1-diff:menu():SetLightColor(0,#PB_Light_DiffuseColor ,diff*$111111* 15*diff):EndIf
-    If KeyboardReleased(#PB_Key_F2 ):spec=1-spec:menu():SetLightColor(0,#PB_Light_SpecularColor,spec*$111111* 15*spec):EndIf
-    If KeyboardReleased(#PB_Key_F3 ):rotG=1-rotG:menu():EndIf:If rotG:For i=0 To #n:ai=a+i*2*#PI/(#n+1):MoveEntity(i,#ecart*Cos(ai),4,#ecart*Sin(ai),#PB_Absolute):Next:a+0.002:EndIf
-    If KeyboardReleased(#PB_Key_F4 ):rotL=1-rotL:menu():EndIf:If rotL:For i=0 To #n:RotateEntity(i,0.1,0.2,0.3,#PB_Relative):Next:EndIf
-    If KeyboardReleased(#PB_Key_F12):fdf=1-fdf:If fdf:CameraRenderMode(0,#PB_Camera_Wireframe):Else:CameraRenderMode(0,#PB_Camera_Textured):EndIf:EndIf
-    keyx=(-Bool(KeyboardPushed(#PB_Key_Left))+Bool(KeyboardPushed(#PB_Key_Right)))*0.1
-    keyz=(-Bool(KeyboardPushed(#PB_Key_Down))+Bool(KeyboardPushed(#PB_Key_Up   )))*0.1+MouseWheel()*1
-    MouseX = -MouseDeltaX() *  0.05
-    MouseY = -MouseDeltaY() *  0.05
-    RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
-    MoveCamera  (0, KeyX, 0, -keyz)
-    CameraReflection(1,0,EntityID(10))
-    RenderWorld()
-    DisplayTransparentSprite(0,8,8)
-    FlipBuffers()
-  Until MouseButton(#PB_MouseButton_Left) Or KeyboardReleased(#PB_Key_Escape)
-EndProcedure
+Define.f MouseX,Mousey,keyx,keyz,a,ai
 
-Procedure main()
+
 InitEngine3D(#PB_Engine3D_DebugLog):InitSprite():InitKeyboard():InitMouse()
 ExamineDesktops()
-ex=DesktopWidth (0)
-ey=DesktopHeight(0)
-OpenWindow(0, 0,0, ex,ey, "Demo Shader",#PB_Window_BorderLess | #PB_Window_Maximize)
+ex=DesktopWidth (0)*0.8
+ey=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(ex),DesktopUnscaledY(ey), "Demo Shader", #PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, ex, ey, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts/MaterialScriptsGeneric", #PB_3DArchive_FileSystem )
@@ -532,7 +521,6 @@ texturenormal(6,256,256,0,3,2, 16,"0,1/0.5,0/1,1")
 GetScriptMaterial(1,"bump"):MaterialTextureAliases(1,TextureID(5),TextureID(6),0,0)
 SetMaterialColor(1,#PB_Material_SpecularColor,$ffffff):MaterialShininess(1,64)
 
-
 For i=0 To #n
     MaterialFilteringMode(i,#PB_Material_Anisotropic,4)
     ai.f=i*2*#PI/(#n+1):CreateEntity(i,MeshID(0),MaterialID(i))
@@ -542,7 +530,8 @@ Next
 ; ================================================== Water RTT
 CreateCamera(1,0,0,100,100):CreateRenderTexture(10,CameraID(1),ex,ey)
 texturenormal(11,128,128,0,3,2,8,"0,0/0.5,1/1,0")
-GetScriptMaterial(10,"water_rtt"):MaterialTextureAliases(10,TextureID(11),TextureID(10),0,0)
+GetScriptMaterial(10,"water_rtt")
+MaterialTextureAliases(10,TextureID(11),TextureID(10),0,0)
 MaterialBlendingMode(10,#PB_Material_AlphaBlend)
 SetMaterialColor(10,#PB_Material_DiffuseColor,$44444400)
 
@@ -565,7 +554,26 @@ Next
 
 LoadFont(0,"arial",10)
 menu()
-affiche3d()
-EndProcedure
 
-main()
+Repeat
+  While WindowEvent()
+  Wend
+  ExamineMouse()
+  ExamineKeyboard()
+  If KeyboardReleased(#PB_Key_F1 ):diff=1-diff:menu():SetLightColor(0,#PB_Light_DiffuseColor ,diff*$111111* 15*diff):EndIf
+  If KeyboardReleased(#PB_Key_F2 ):spec=1-spec:menu():SetLightColor(0,#PB_Light_SpecularColor,spec*$111111* 15*spec):EndIf
+  If KeyboardReleased(#PB_Key_F3 ):rotG=1-rotG:menu():EndIf:If rotG:For i=0 To #n:ai=a+i*2*#PI/(#n+1):MoveEntity(i,#ecart*Cos(ai),4,#ecart*Sin(ai),#PB_Absolute):Next:a+0.002:EndIf
+  If KeyboardReleased(#PB_Key_F4 ):rotL=1-rotL:menu():EndIf:If rotL:For i=0 To #n:RotateEntity(i,0.1,0.2,0.3,#PB_Relative):Next:EndIf
+  If KeyboardReleased(#PB_Key_F12):fdf=1-fdf:If fdf:CameraRenderMode(0,#PB_Camera_Wireframe):Else:CameraRenderMode(0,#PB_Camera_Textured):EndIf:EndIf
+  keyx=(-Bool(KeyboardPushed(#PB_Key_Left))+Bool(KeyboardPushed(#PB_Key_Right)))*0.1
+  keyz=(-Bool(KeyboardPushed(#PB_Key_Down))+Bool(KeyboardPushed(#PB_Key_Up   )))*0.1+MouseWheel()*1
+  MouseX = -MouseDeltaX() *  0.05
+  MouseY = -MouseDeltaY() *  0.05
+  RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
+  MoveCamera  (0, KeyX, 0, -keyz)
+  CameraReflection(1,0,EntityID(10))
+  RenderWorld()
+  DisplayTransparentSprite(0,8,8)
+  FlipBuffers()
+Until MouseButton(#PB_MouseButton_Left) Or KeyboardReleased(#PB_Key_Escape)
+

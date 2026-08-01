@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Node animation library documentation
 ;
 ;      (c)  - Fantaisie Software
@@ -8,20 +8,20 @@
 
 @Overview
 
-Cette bibliothèque d'animation des noeuds 
-permet de définir un chemin à suivre pour 
-un nœud, avec une image-clé (key frame) 
-prédéfinie et l'exécution d'une interpolation 
+Cette bibliothÃ¨que d'animation des noeuds 
+permet de dÃ©finir un chemin Ã  suivre pour 
+un nÅ“ud, avec une image-clÃ© (key frame) 
+prÃ©dÃ©finie et l'exÃ©cution d'une interpolation 
 avec lissage.
 @LineBreak
 @LineBreak
-En conséquence, un objet comme une caméra 
-peut être fixée à ce noeud et être déplacée 
+En consÃ©quence, un objet comme une camÃ©ra 
+peut Ãªtre fixÃ©e Ã  ce noeud et Ãªtre dÃ©placÃ©e 
 facilement le long du chemin.
 (effet de travelling)
 @LineBreak
 @LineBreak
-@@InitEngine3D doit être appelé avec succès 
+@@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
 avant d'utiliser les fonctions d'animation 
 des noeuds.
 
@@ -37,63 +37,63 @@ des noeuds.
 @Function Resultat = CreateNodeAnimation(#NodeAnimation, NoeudID, Duree, Interpolation, InterpolationRotation)
 
 @Description
-  Crée une nouvelle animation. 
+  CrÃ©e une nouvelle animation. 
 
 @Parameter "#NodeAnimation"
-  Le numéro d'identification de l'animation 
+  Le numÃ©ro d'identification de l'animation 
   du noeud. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
   
 @Parameter "NoeudID"
-  Le noeud à déplacer automatiquement. 
+  Le noeud Ã  dÃ©placer automatiquement. 
   @LineBreak
-  @@NodeID peut être utilisé pour obtenir un 
+  @@NodeID peut Ãªtre utilisÃ© pour obtenir un 
   identifiant de noeud valide.
 
 @Parameter "Duree"
-  La durée de la nouvelle animation (en 
+  La durÃ©e de la nouvelle animation (en 
   millisecondes).
 
 @Parameter "Interpolation"
-  Le type d'interpolation à appliquer entre 
+  Le type d'interpolation Ã  appliquer entre 
   les points:
 @FixedFont
-  @#PB_NodeAnimation_Linear: Chacun des points sera relié entre eux à l'aide d'une ligne droite, 
-                            ce qui peut entraîner un brusque changement de direction.
-  @#PB_NodeAnimation_Spline: Chacun des points sera relié entre eux à l'aide d'une courbe (spline), 
+  @#PB_NodeAnimation_Linear: Chacun des points sera reliÃ© entre eux Ã  l'aide d'une ligne droite, 
+                            ce qui peut entraÃ®ner un brusque changement de direction.
+  @#PB_NodeAnimation_Spline: Chacun des points sera reliÃ© entre eux Ã  l'aide d'une courbe (spline), 
                             ce qui conduit un changement de direction en douceur, mais c'est plus lent.
 @EndFixedFont
 
 @Parameter "InterpolationRotation"
-  Le type d'interpolation pour une rotation à appliquer entre 
+  Le type d'interpolation pour une rotation Ã  appliquer entre 
   les points.@LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_NodeAnimation_LinearRotation   : Interpolation linéaire : chaque point sera relié ensemble 
-                                       par une ligne droite, ce qui peut occasionner une rotation saccadée.  
-  @#PB_NodeAnimation_SphericalRotation: Interpolation Sphérique:chaque point sera relié ensemble 
+  @#PB_NodeAnimation_LinearRotation   : Interpolation linÃ©aire : chaque point sera reliÃ© ensemble 
+                                       par une ligne droite, ce qui peut occasionner une rotation saccadÃ©e.  
+  @#PB_NodeAnimation_SphericalRotation: Interpolation SphÃ©rique:chaque point sera reliÃ© ensemble 
                                        par une courbe, ce qui donnera une rotation plus lisse, mais c'est aussi plus lent.
 @EndFixedFont
 
 @ReturnValue
    Renvoie une valeur non nulle en cas de 
-   succès, zéro sinon. 
+   succÃ¨s, zÃ©ro sinon. 
 @LineBreak
 @LineBreak
    Si @ReferenceLink "purebasic_objects" "#PB_Any" 
-   est utilisé, le nouveau numéro sera 
-   renvoyé dans 'Resultat'.
+   est utilisÃ©, le nouveau numÃ©ro sera 
+   renvoyÃ© dans 'Resultat'.
 
 @Remarks
   Une animation d'un noeud n'existe pas 
   physiquement dans le Monde 3D, il 
   s'agit d'un chemin (piste ou track) 
-  virtuel sur lequel se déplace un 
-  noeud et son objet attaché à lui.
+  virtuel sur lequel se dÃ©place un 
+  noeud et son objet attachÃ© Ã  lui.
    
 @SeeAlso
   @@FreeNodeAnimation
@@ -105,28 +105,28 @@ des noeuds.
 @Function FreeNodeAnimation(#NodeAnimation)
 
 @Description
-  Libère une animation et toute la mémoire 
-  associée. 
+  LibÃ¨re une animation et toute la mÃ©moire 
+  associÃ©e. 
 
 @Parameter "#NodeAnimation"
-  L'animation à libérer.
+  L'animation Ã  libÃ©rer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  animations restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  animations restantes sont libÃ©rÃ©es.
 
 @NoReturnValue
 
 @Remarks
   Toutes les animations restantes sont 
-  automatiquement libérées lorsque le 
+  automatiquement libÃ©rÃ©es lorsque le 
   programme se termine.
 
 @Remarks
-  Son numéro ne doit pas être utilisé avec 
-  les autres fonctions de cette bibliothèque 
-  après l'appel de cette fonction, à moins 
-  de la créer à nouveau.
+  Son numÃ©ro ne doit pas Ãªtre utilisÃ© avec 
+  les autres fonctions de cette bibliothÃ¨que 
+  aprÃ¨s l'appel de cette fonction, Ã  moins 
+  de la crÃ©er Ã  nouveau.
 
 @SeeAlso
   @@CreateNodeAnimation
@@ -138,45 +138,45 @@ des noeuds.
 @Function CreateNodeAnimationKeyFrame(#NodeAnimation, Temps, X, Y, Z)
 
 @Description
-  Crée une nouvelle image-clé dans une 
+  CrÃ©e une nouvelle image-clÃ© dans une 
   animation. 
    
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Temps"
-  Le temps dans l'animation où l'on choisit 
-  l'image-clé (en millisecondes). 
+  Le temps dans l'animation oÃ¹ l'on choisit 
+  l'image-clÃ© (en millisecondes). 
 @LineBreak
 @LineBreak
-  Cette valeur doit être comprise entre zéro 
-  et la 'Durée' définie dans 
+  Cette valeur doit Ãªtre comprise entre zÃ©ro 
+  et la 'DurÃ©e' dÃ©finie dans 
   @@CreateNodeAnimation.
 
 @Parameter "X, Y, Z"
-  La nouvelle position de l'image-clé dans 
+  La nouvelle position de l'image-clÃ© dans 
   le monde.
 
 @NoReturnValue
 
 @Remarks
-  Une image-clé est un point dans le monde à 
-  un moment précis.
+  Une image-clÃ© est un point dans le monde Ã  
+  un moment prÃ©cis.
 @LineBreak
 @LineBreak  
-  Lorsque l'animation sera jouée, elle suivra 
-  chaque image-clé et donc le déplacement de 
-  point en point. Le déplacement sera 
-  interpolé pour respecter la contrainte 
+  Lorsque l'animation sera jouÃ©e, elle suivra 
+  chaque image-clÃ© et donc le dÃ©placement de 
+  point en point. Le dÃ©placement sera 
+  interpolÃ© pour respecter la contrainte 
   de temps. 
 @LineBreak
 @LineBreak
-  Par exemple, si la première 
-  image-clé est définie au temps 0, la seconde 
-  au temps 1000 millisecondes, et la troisième 
-  à 3000, le passage de la première à la seconde 
+  Par exemple, si la premiÃ¨re 
+  image-clÃ© est dÃ©finie au temps 0, la seconde 
+  au temps 1000 millisecondes, et la troisiÃ¨me 
+  Ã  3000, le passage de la premiÃ¨re Ã  la seconde 
   durera 1000 millisecondes, et le passage de 
-  la seconde à la troisième durera 2000 
+  la seconde Ã  la troisiÃ¨me durera 2000 
   millisecondes.  
   L'animation globale durera 3000 
   millisecondes.
@@ -191,22 +191,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameTime(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie le temps d'un image-clé.
+  Renvoie le temps d'un image-clÃ©.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé 
-  est égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© 
+  est Ã©gal Ã  zÃ©ro.
   
 @ReturnValue
-  Renvoie le temps de l'image-clé (en 
+  Renvoie le temps de l'image-clÃ© (en 
   millisecondes) de l'animation, ou 
-  zéro si l'image-clé n'existe pas.
+  zÃ©ro si l'image-clÃ© n'existe pas.
 
 @SeeAlso
   @@CreateNodeAnimationKeyFrame
@@ -218,25 +218,25 @@ des noeuds.
 @Function SetNodeAnimationKeyFramePosition(#NodeAnimation, ImageCle, X, Y, Z)
 
 @Description
-  Modifie la position de l'image-clé d'une 
+  Modifie la position de l'image-clÃ© d'une 
   animation.
   
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro. 
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro. 
 @LineBreak
 @LineBreak
-  Si l'image-clé n'existe pas, cette fonction 
+  Si l'image-clÃ© n'existe pas, cette fonction 
   n'a aucun effet.
 
 @Parameter "X, Y, Z"
-  La nouvelle position de l'image-clé dans 
+  La nouvelle position de l'image-clÃ© dans 
   le monde.
   
 @NoReturnValue
@@ -251,22 +251,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameX(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie la position en 'X' de l'image-clé 
+  Renvoie la position en 'X' de l'image-clÃ© 
   d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro.
   
 @ReturnValue
-  Renvoie la position en 'X' de l'image-clé 
-  dans le monde ou zéro si l'image-clé 
+  Renvoie la position en 'X' de l'image-clÃ© 
+  dans le monde ou zÃ©ro si l'image-clÃ© 
   n'existe pas.
 
 @SeeAlso
@@ -281,22 +281,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameY(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie la position en 'Y' de l'image-clé 
+  Renvoie la position en 'Y' de l'image-clÃ© 
   d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro.
   
 @ReturnValue
-  Renvoie la position en 'Y' de l'image-clé 
-  dans le monde ou zéro si l'image-clé 
+  Renvoie la position en 'Y' de l'image-clÃ© 
+  dans le monde ou zÃ©ro si l'image-clÃ© 
   n'existe pas.
 
 @SeeAlso
@@ -311,22 +311,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameZ(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie la position en 'Z' de l'image-clé 
+  Renvoie la position en 'Z' de l'image-clÃ© 
   d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro.
   
 @ReturnValue
-  Renvoie la position en 'Z' de l'image-clé 
-  dans le monde ou zéro si l'image-clé 
+  Renvoie la position en 'Z' de l'image-clÃ© 
+  dans le monde ou zÃ©ro si l'image-clÃ© 
   n'existe pas.
 
 @SeeAlso
@@ -341,34 +341,34 @@ des noeuds.
 @Function SetNodeAnimationKeyFrameRotation(#NodeAnimation, ImageCle, X, Y, Z [, W, Mode])
 
 @Description
- Modifie la rotation de l'image-clé d'une 
+ Modifie la rotation de l'image-clÃ© d'une 
  animation.
   
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro. 
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro. 
 @LineBreak
 @LineBreak
-  Si l'image-clé n'existe pas, cette 
+  Si l'image-clÃ© n'existe pas, cette 
   fonction n'a aucun effet.
 
 @Parameter "X, Y, Z"
-  Rotation 'X, Y, Z' de l'image-clé dans le monde. Les valeurs dépendent du mode sélectionné.
+  Rotation 'X, Y, Z' de l'image-clÃ© dans le monde. Les valeurs dÃ©pendent du mode sÃ©lectionnÃ©.
   
 @OptionalParameter "W"
-  Rotation 'W' de l'image-clé dans le monde. (Utilisé uniquement avec 
+  Rotation 'W' de l'image-clÃ© dans le monde. (UtilisÃ© uniquement avec 
   @#PB_Orientation_Quaternion et @#PB_Orientation_Direction).
 
 @OptionalParameter "Mode"
   Le mode de rotation. Peut avoir l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Orientation_PitchYawRoll: 'X' (tangage), 'Y' (lacet), 'Z' (roulis), appliqués dans cet ordre (par défaut).
+  @#PB_Orientation_PitchYawRoll: 'X' (tangage), 'Y' (lacet), 'Z' (roulis), appliquÃ©s dans cet ordre (par dÃ©faut).
   @#PB_Orientation_Quaternion  : 'X', 'Y', 'Z', 'W' pour les valeurs du quaternion
   @#PB_Orientation_Direction   : 'X', 'Y', 'Z' pour le vecteur de direction et 'W' pour la rotation (roulis).
 @EndFixedFont
@@ -388,22 +388,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFramePitch(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie le tangage de l'image-clé d'une 
+  Renvoie le tangage de l'image-clÃ© d'une 
   animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé est 
-  égal à zéro. 
+  L'indice de la premiÃ¨re image-clÃ© est 
+  Ã©gal Ã  zÃ©ro. 
   
 @ReturnValue
-  Renvoie le tangage actuel de l'image-clé 
-  ou zéro si l'image clé n'existe pas.
+  Renvoie le tangage actuel de l'image-clÃ© 
+  ou zÃ©ro si l'image clÃ© n'existe pas.
 
 @SeeAlso
   @@CreateNodeAnimationKeyFrame, 
@@ -417,22 +417,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameYaw(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie le lacet de l'image-clé d'une 
+  Renvoie le lacet de l'image-clÃ© d'une 
   animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé 
-  est égal à zéro. 
+  L'indice de la premiÃ¨re image-clÃ© 
+  est Ã©gal Ã  zÃ©ro. 
   
 @ReturnValue
-  Renvoie le lacet actuel de l'image-clé 
-  ou zéro si l'image clé n'existe pas.
+  Renvoie le lacet actuel de l'image-clÃ© 
+  ou zÃ©ro si l'image clÃ© n'existe pas.
 
 @SeeAlso
   @@CreateNodeAnimationKeyFrame, 
@@ -446,22 +446,22 @@ des noeuds.
 @Function Resultat = GetNodeAnimationKeyFrameRoll(#NodeAnimation, ImageCle)
 
 @Description
-  Renvoie le roulis de l'image-clé d'une 
+  Renvoie le roulis de l'image-clÃ© d'une 
   animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé 
-  est égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© 
+  est Ã©gal Ã  zÃ©ro.
   
 @ReturnValue
-  Renvoie le roulis actuel de l'image-clé 
-  ou zéro si l'image clé n'existe pas.
+  Renvoie le roulis actuel de l'image-clÃ© 
+  ou zÃ©ro si l'image clÃ© n'existe pas.
 
 @SeeAlso
   @@CreateNodeAnimationKeyFrame, 
@@ -475,48 +475,48 @@ des noeuds.
 @Function SetNodeAnimationKeyFrameScale(#NodeAnimation, ImageCle, X.f, Y.f, Z.f)
 
 @Description
-  Modifie le facteur d'échelle de l'image-clé 
+  Modifie le facteur d'Ã©chelle de l'image-clÃ© 
   d'une animation. 
   
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
   
 @Parameter "#ImageCle"
-  L'indice de l'image-clé. 
+  L'indice de l'image-clÃ©. 
 @LineBreak
 @LineBreak
-  L'indice de la première image-clé 
-  est égal à zéro.
+  L'indice de la premiÃ¨re image-clÃ© 
+  est Ã©gal Ã  zÃ©ro.
 @LineBreak
 @LineBreak  
-  Si l'image-clé n'existe pas alors 
+  Si l'image-clÃ© n'existe pas alors 
   cette fonction n'a pas d'effet.
 
 @Parameter "X.f, Y.f, Z.f"
-  Le nouveau facteur d'échelle de 
-  l'image-clé. 
+  Le nouveau facteur d'Ã©chelle de 
+  l'image-clÃ©. 
 @LineBreak
 @LineBreak   
   Avec une valeur de 1.0, aucune mise 
-  à l'échelle ne sera appliquée sur 
-  l'axe concerné.
+  Ã  l'Ã©chelle ne sera appliquÃ©e sur 
+  l'axe concernÃ©.
 
 @NoReturnValue
 
 @Remarks
-  Le facteur d'échelle est appliqué au 
-  noeud associé à l'animation.
+  Le facteur d'Ã©chelle est appliquÃ© au 
+  noeud associÃ© Ã  l'animation.
 @LineBreak
 @LineBreak
-  Le facteur d'échelle va redimensionner 
+  Le facteur d'Ã©chelle va redimensionner 
   le noeud en multipliant sa taille par 
-  le facteur donné:@LineBreak
-  - Un facteur d'échelle de 1.0 n'affectera 
+  le facteur donnÃ©:@LineBreak
+  - Un facteur d'Ã©chelle de 1.0 n'affectera 
   pas la taille du noeud @LineBreak
-  - Un facteur d'échelle de 2.0 permettra 
+  - Un facteur d'Ã©chelle de 2.0 permettra 
   de doubler la taille du noeud @LineBreak
-  - Un facteur d'échelle de 0,5 permettra 
-  la rédction de moitié du noeud @LineBreak
+  - Un facteur d'Ã©chelle de 0,5 permettra 
+  la rÃ©dction de moitiÃ© du noeud @LineBreak
   
 @SeeAlso
   @@CreateNodeAnimationKeyFrame, 
@@ -531,14 +531,14 @@ des noeuds.
 @Function AddNodeAnimationTime(#NodeAnimation, Temps)
 
 @Description
-  Ajouter du temps à une animation.
+  Ajouter du temps Ã  une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Temps"
-  Le temps à ajouter (en millisecondes) 
-  à l'animation.
+  Le temps Ã  ajouter (en millisecondes) 
+  Ã  l'animation.
 
 @NoReturnValue
 
@@ -555,7 +555,7 @@ des noeuds.
   Lance une animation. 
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Options"
 @FixedFont
@@ -565,16 +565,16 @@ des noeuds.
 @NoReturnValue
 
 @Remarks
-  L'animation démarre toujours depuis le début.
+  L'animation dÃ©marre toujours depuis le dÃ©but.
 @LineBreak
 @LineBreak
-  Par défaut, l'animation boucle 
+  Par dÃ©faut, l'animation boucle 
   automatiquement lorsque sa fin 
   est atteinte.
 @LineBreak
 @LineBreak
-   @@NodeAnimationStatus peut être utilisé 
-   pour détecter la fin de l'animation.
+   @@NodeAnimationStatus peut Ãªtre utilisÃ© 
+   pour dÃ©tecter la fin de l'animation.
    
 @SeeAlso
   @@StopNodeAnimation, @@NodeAnimationStatus, 
@@ -587,10 +587,10 @@ des noeuds.
 @Function StopNodeAnimation(#NodeAnimation)
 
 @Description
-  Arrête une animation.
+  ArrÃªte une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à stopper.
+  L'animation Ã  stopper.
 
 @NoReturnValue
 
@@ -607,12 +607,12 @@ des noeuds.
   Renvoie le statut d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @ReturnValue
 @FixedFont
-  @#PB_NodeAnimation_Stopped: L'animation est à l'arrêt (ou a pris fin).
-  @#PB_NodeAnimation_Started: L'animation est en cours d'exécution.
+  @#PB_NodeAnimation_Stopped: L'animation est Ã  l'arrÃªt (ou a pris fin).
+  @#PB_NodeAnimation_Started: L'animation est en cours d'exÃ©cution.
 @EndFixedFont
 
 @SeeAlso
@@ -628,11 +628,11 @@ des noeuds.
   Renvoie le temps courant d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @ReturnValue
   Le temps actuel de l'animation (en 
-  millisecondes) ou zéro si l'animation 
+  millisecondes) ou zÃ©ro si l'animation 
   ne fonctionne pas.
 
 @SeeAlso
@@ -650,7 +650,7 @@ des noeuds.
   Modifie le temps courant d'une animation . 
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Temps"
   Le temps absolu (en millisecondes).
@@ -675,13 +675,13 @@ des noeuds.
 @Function Duree = GetNodeAnimationLength(#NodeAnimation)
 
 @Description
-  Renvoie la durée d'une animation.
+  Renvoie la durÃ©e d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @ReturnValue
-  Renvoie la durée de l'animation 
+  Renvoie la durÃ©e de l'animation 
   (en millisecondes).
 
 @SeeAlso
@@ -695,28 +695,28 @@ des noeuds.
 @Function SetNodeAnimationLength(#NodeAnimation, Duree)
 
 @Description
-  Change la durée d'une animation.
+  Change la durÃ©e d'une animation.
 
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Animation$"
   Le nom de l'animation. 
 @LineBreak
 @LineBreak
-  Les animations sont stockées dans 
-  l'objet mesh de manière sensible à 
+  Les animations sont stockÃ©es dans 
+  l'objet mesh de maniÃ¨re sensible Ã  
   la casse (ex: "Marche" sera une 
-  animation différente de "marche"). 
+  animation diffÃ©rente de "marche"). 
 @LineBreak
   @LineBreak
-  Si l'animation n'est pas trouvée 
+  Si l'animation n'est pas trouvÃ©e 
   ou le mesh n'a pas de squelette 
   alors la fonction n'aura aucun 
   effet.
 
 @Parameter "Duree"
-  La nouvelle durée de l'animation 
+  La nouvelle durÃ©e de l'animation 
   (en millisecondes).
 
 @SeeAlso
@@ -733,7 +733,7 @@ des noeuds.
   Renvoie le poids d'une animation. 
   
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @ReturnValue
   Le poids actuel de l'animation 
@@ -745,14 +745,14 @@ des noeuds.
 
 @Remarks
   Le poids est utile lorsque vous jouez 
-  plusieurs animations à la fois.
+  plusieurs animations Ã  la fois.
 @LineBreak
 @LineBreak
   Par exemple, pour faire une transition 
-  en douceur d'une animation à l'autre, 
-  il est possible de réduire progressivement 
-  le poids de la première animation et 
-  d'augmenter le poids de la deuxième 
+  en douceur d'une animation Ã  l'autre, 
+  il est possible de rÃ©duire progressivement 
+  le poids de la premiÃ¨re animation et 
+  d'augmenter le poids de la deuxiÃ¨me 
   animation.
   
 @SeeAlso
@@ -768,7 +768,7 @@ des noeuds.
   Modifie le poids d'une animation. 
   
 @Parameter "#NodeAnimation"
-  L'animation à utiliser.
+  L'animation Ã  utiliser.
 
 @Parameter "Poids"
    Le nouveau poids de l'animation 
@@ -782,14 +782,14 @@ des noeuds.
 
 @Remarks
   Le poids est utile lorsque vous jouez 
-  plusieurs animations à la fois. 
+  plusieurs animations Ã  la fois. 
 @LineBreak
 @LineBreak
   Par exemple, pour faire une transition 
-  en douceur d'une animation à l'autre, 
-  il est possible de réduire progressivement 
-  le poids de la première animation et 
-  d'augmenter le poids de la deuxième 
+  en douceur d'une animation Ã  l'autre, 
+  il est possible de rÃ©duire progressivement 
+  le poids de la premiÃ¨re animation et 
+  d'augmenter le poids de la deuxiÃ¨me 
   animation.  
 
 @SeeAlso

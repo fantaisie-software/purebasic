@@ -1,18 +1,19 @@
-;
+ï»¿;
 ;     Spline library documentation
 ;
-;      (c) 2013 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Spline
 
 @Overview
   Ein Spline (auch Polynomzug) beinhaltet eine beliebige Anzahl von Punkten, welche
-  gleichmäßig interpoliert werden. Die Zeit, um von einem Punkt zum nächsten zu gehen,
-  ist immer die gleiche, unabhängig von der Entfernung zwischen diesen Punkten.
+  gleichmÃ¤ÃŸig interpoliert werden. Die Zeit, um von einem Punkt zum nÃ¤chsten zu gehen,
+  ist immer die gleiche, unabhÃ¤ngig von der Entfernung zwischen diesen Punkten.
+@LineBreak
   Ein Spline ist physikalisch in der 3D-Welt nicht vorhanden - es ist ein virtuelles Objekt,
-  welches für verschiedene Zwecke verwendet werden kann, wie z.B. Wegfindung (englisch
-  "Path-finding"), sanftes Bewegen von Knoten (englisch "Nodes" - schauen Sie sich hierfür
+  welches fÃ¼r verschiedene Zwecke verwendet werden kann, wie z.B. Wegfindung (englisch
+  "Path-finding"), sanftes Bewegen von Knoten (englisch "Nodes" - schauen Sie sich hierfÃ¼r
   auf jeden Fall auch die @LibraryLink "nodeanimation" "NodeAnimation" Bibliothek an) und
   mehr.
 @LineBreak
@@ -42,14 +43,14 @@
   kann verwendet werden, um diese Zahl automatisch zu generieren.
 
 @ReturnValue
-  Gibt null zurück, wenn das Spline nicht erstellt werden konnte. Wenn
+  Gibt null zurÃ¼ck, wenn das Spline nicht erstellt werden konnte. Wenn
   @ReferenceLink "purebasic_objects" "#PB_Any" als '#Spline' Parameter verwendet wurde,
-  dann wird die neue Spline-Nummer zurückgegeben.
+  dann wird die neue Spline-Nummer zurÃ¼ckgegeben.
 
 @Remarks
   Ein Spline ist physikalisch in der 3D-Welt nicht vorhanden - es ist ein virtuelles Objekt,
-  welches für verschiedene Zwecke verwendet werden kann, wie z.B. Wegfindung (englisch
-  "Path-finding"), sanftes Bewegen von Knoten (englisch "Nodes" - schauen Sie sich hierfür
+  welches fÃ¼r verschiedene Zwecke verwendet werden kann, wie z.B. Wegfindung (englisch
+  "Path-finding"), sanftes Bewegen von Knoten (englisch "Nodes" - schauen Sie sich hierfÃ¼r
   auf jeden Fall auch die @LibraryLink "nodeanimation" "NodeAnimation" Bibliothek an) und
   mehr.
 
@@ -65,7 +66,7 @@
 @Description
   Gibt ein Spline und all seinen zugewiesenen Speicher frei. Dieses Spline darf nach
   Aufruf dieser Funktion nicht mehr verwendet werden (durch Verwendung seiner Nummer
-  mit anderen Befehlen dieser Bibliothek), außer Sie erstellen es erneut.
+  mit anderen Befehlen dieser Bibliothek), auÃŸer Sie erstellen es erneut.
 
 @Parameter "#Spline"
   Das freizugebende Spline. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Splines freigegeben.
@@ -85,8 +86,8 @@
 @Function AddSplinePoint(#Spline, x, y, z)
 
 @Description
-  Fügt einen neuen Punkt zum Spline hinzu. Die Zeit, um von einem Punkt zum nächsten zu gehen,
-  ist immer die gleiche, unabhängig von der Entfernung zwischen diesen Punkten.
+  FÃ¼gt einen neuen Punkt zum Spline hinzu. Die Zeit, um von einem Punkt zum nÃ¤chsten zu gehen,
+  ist immer die gleiche, unabhÃ¤ngig von der Entfernung zwischen diesen Punkten.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
@@ -112,10 +113,10 @@
 @Function ClearSpline(#Spline)
 
 @Description
-  Löscht das Spline. Alle Punkte werden vom Spline entfernt.
+  LÃ¶scht das Spline. Alle Punkte werden vom Spline entfernt.
 
 @Parameter "#Spline"
-  Das zu löschende Spline.
+  Das zu lÃ¶schende Spline.
 
 @NoReturnValue
 
@@ -129,13 +130,13 @@
 @Function Ergebnis = CountSplinePoints(#Spline)
 
 @Description
-  Gibt die Anzahl der Punkte im Spline zurück.
+  Gibt die Anzahl der Punkte im Spline zurÃ¼ck.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
 
 @ReturnValue
-  Gibt die Anzahl der Punkte im Spline zurück.
+  Gibt die Anzahl der Punkte im Spline zurÃ¼ck.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint
@@ -147,7 +148,7 @@
 @Function Ergebnis = SplinePointX(#Spline, PunktIndex)
 
 @Description
-  Gibt die 'x'-Position des Punktes im Spline zurück.
+  Gibt die 'x'-Position des Punktes im Spline zurÃ¼ck.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
@@ -157,7 +158,7 @@
   des Ergebnisses von @@CountSplinePoints liegen.
   
 @ReturnValue
-  Gibt die 'x'-Position des Punktes im Spline zurück.
+  Gibt die 'x'-Position des Punktes im Spline zurÃ¼ck.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint, @@SplinePointY, @@SplinePointZ
@@ -169,7 +170,7 @@
 @Function Ergebnis = SplinePointY(#Spline, PunktIndex)
 
 @Description
-  Gibt die 'y'-Position des Punktes im Spline zurück.
+  Gibt die 'y'-Position des Punktes im Spline zurÃ¼ck.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
@@ -179,7 +180,7 @@
   des Ergebnisses von @@CountSplinePoints liegen.
   
 @ReturnValue
-  Gibt die 'y'-Position des Punktes im Spline zurück.
+  Gibt die 'y'-Position des Punktes im Spline zurÃ¼ck.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint, @@SplinePointX, @@SplinePointZ
@@ -191,7 +192,7 @@
 @Function Ergebnis = SplinePointZ(#Spline, PunktIndex)
 
 @Description
-  Gibt die 'z'-Position des Punktes im Spline zurück.
+  Gibt die 'z'-Position des Punktes im Spline zurÃ¼ck.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
@@ -201,7 +202,7 @@
   des Ergebnisses von @@CountSplinePoints liegen.
   
 @ReturnValue
-  Gibt die 'z'-Position des Punktes im Spline zurück.
+  Gibt die 'z'-Position des Punktes im Spline zurÃ¼ck.
 
 @SeeAlso
   @@CreateSpline, @@AddSplinePoint, @@SplinePointX, @@SplinePointY
@@ -213,8 +214,8 @@
 @Function UpdateSplinePoint(#Spline, PunktIndex, x, y, z)
 
 @Description
-  Aktualisiert den angegebenen Punkt im Spline. Die Zeit, um von einem Punkt zum nächsten zu gehen,
-  ist immer die gleiche, unabhängig von der Entfernung zwischen diesen Punkten.
+  Aktualisiert den angegebenen Punkt im Spline. Die Zeit, um von einem Punkt zum nÃ¤chsten zu gehen,
+  ist immer die gleiche, unabhÃ¤ngig von der Entfernung zwischen diesen Punkten.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
@@ -245,13 +246,13 @@
 
 @Description
   Berechnet die Position des Spline-Punktes am angegebenen Offset. Sobald der Punkt berechnet
-  worden ist, ist seine Position mittels @@SplineX, @@SplineY und @@SplineZ verfügbar.
+  worden ist, ist seine Position mittels @@SplineX, @@SplineY und @@SplineZ verfÃ¼gbar.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
 
 @Parameter "Offset"
-  Der Offset im Spline. Der Offset-Wert reicht von 0.0 (Start des Spline) und 1.0 (Ende des Spline).
+  Der Offset im Spline. Der Offset-Wert reicht von 0.0 (Start des Spline) bis 1.0 (Ende des Spline).
 
 @NoReturnValue
 
@@ -265,13 +266,13 @@
 @Function Ergebnis = SplineX(#Spline)
 
 @Description
-  Gibt die 'x'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'x'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
   
 @ReturnValue
-  Gibt die 'x'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'x'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineY, @@SplineZ
@@ -283,13 +284,13 @@
 @Function Ergebnis = SplineY(#Spline)
 
 @Description
-  Gibt die 'y'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'y'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
   
 @ReturnValue
-  Gibt die 'y'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'y'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineX, @@SplineZ
@@ -301,13 +302,13 @@
 @Function Ergebnis = SplineZ(#Spline)
 
 @Description
-  Gibt die 'z'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'z'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @Parameter "#Spline"
   Das zu verwendende Spline.
   
 @ReturnValue
-  Gibt die 'z'-Position des Spline in der Welt zurück, nach einem @@ComputeSpline.
+  Gibt die 'z'-Position des Spline in der Welt zurÃ¼ck, nach einem @@ComputeSpline.
 
 @SeeAlso
   @@ComputeSpline, @@SplineX, @@SplineY

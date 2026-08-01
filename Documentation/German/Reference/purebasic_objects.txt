@@ -1,18 +1,18 @@
-@Title PureBasic Objekte
+ï»¿@Title PureBasic Objekte
 
-@Section Einführung
+@Section EinfÃ¼hrung
 
   Der Sinn dieses Kapitels besteht darin, das Verhalten, die Erstellung und die 
   Handhabung von Objekten in PureBasic zu beschreiben. Zur Demonstration 
-  verwenden wir das @LibraryLink Image Image (Bild) Objekt, aber dieselbe Logik gilt auch für 
-  alle anderen PureBasic Objekte. Wenn wir ein Image-Objekt erstellen, können 
+  verwenden wir das @LibraryLink Image Image (Bild) Objekt, aber dieselbe Logik gilt auch fÃ¼r 
+  alle anderen PureBasic Objekte. Wenn wir ein Image-Objekt erstellen, kÃ¶nnen 
   wir dies auf zwei Weisen tun: indexiert und dynamisch. 
 
 @Section I. Indexierte Nummerierung
 
-  Der statische bzw. indexierte Weg ermöglicht Ihnen, auf ein Objekt durch einen 
-  vordefinierten numerischen Wert zu verweisen. Die erste verfügbare Index-Zahl 
-  ist 0, weitere Indizes werden anschließend fortlaufend (sequentiell) 
+  Der statische bzw. indexierte Weg ermÃ¶glicht Ihnen, auf ein Objekt durch einen 
+  vordefinierten numerischen Wert zu verweisen. Die erste verfÃ¼gbare Index-Zahl 
+  ist 0, weitere Indizes werden anschlieÃŸend fortlaufend (sequentiell) 
   zugeordnet. Dies bedeutet, wenn Sie die Index-Nummer 0 und dann die Nummer 
   1000 verwenden, werden 1001 Indizes reserviert und 999 (von 1 bis 999) bleiben 
   unbenutzt, welches keine effiziente Art und Weise zur Benutzung von 
@@ -22,30 +22,30 @@
   @LineBreak
   Der indexierte Weg bietet mehrere Vorteile an:
   @Indent @Section
-        - Einfachere Handhabung, da keine @ReferenceLink "Variables" Variablen oder @ReferenceLink "Dim" Arrays benötigt werden. @LineBreak
+        - Einfachere Handhabung, da keine @ReferenceLink "Variables" Variablen oder @ReferenceLink "Dim" Arrays benÃ¶tigt werden. @LineBreak
         - 'Gruppen' Verarbeitung, ohne die Notwendigkeit eines zwischenzeitlichen Arrays. @LineBreak
-        - Benutzung des Objekts in @ReferenceLink "Procedures" Prozeduren, ohne irgendetwas @ReferenceLink "Global" global definierten zu müssen (bei Verwendung einer @ReferenceLink "General_Rules" Konstante oder Zahl). @LineBreak
-        - Ein Objekt, das mit einem Index verknüpft ist, wird bei erneuter Nutzung dieses Index automatisch freigegeben.
+        - Benutzung des Objekts in @ReferenceLink "Procedures" Prozeduren, ohne irgendetwas @ReferenceLink "Global" global definierten zu mÃ¼ssen (bei Verwendung einer @ReferenceLink "General_Rules" Konstante oder Zahl). @LineBreak
+        - Ein Objekt, das mit einem Index verknÃ¼pft ist, wird bei erneuter Nutzung dieses Index automatisch freigegeben.
   @EndIndent
 
   Die maximale Index-Zahl wird auf eine obere Grenze (normalerweise von 5000 bis 
-  60000) beschränkt und hängt vom Objekttyp ab. @ReferenceLink "Enumerations" Enumerations (Aufzählungen) sind 
-  ausdrücklich zu empfehlen, wenn Sie mit fortlaufenden Konstanten zur 
-  Identifizierung von Objekten (was ebenso empfehlenswert ist) arbeiten möchten.
+  60000) beschrÃ¤nkt und hÃ¤ngt vom Objekttyp ab. @ReferenceLink "Enumerations" Enumerations (AufzÃ¤hlungen) sind 
+  ausdrÃ¼cklich zu empfehlen, wenn Sie mit fortlaufenden Konstanten zur 
+  Identifizierung von Objekten (was ebenso empfehlenswert ist) arbeiten mÃ¶chten.
 
   @Example
 
 @Code
-  CreateImage(0, 640, 480) ; Erstellt ein Bild, die n°0
-  ResizeImage(0, 320, 240) ; Verändert die Größe des n°0 Bilds und ändert sein @ReferenceLink "handles" "Handle"
+  CreateImage(0, 640, 480) ; Erstellt ein Bild, die nÂ°0
+  ResizeImage(0, 320, 240) ; VerÃ¤ndert die GrÃ¶ÃŸe des nÂ°0 Bilds und Ã¤ndert sein @ReferenceLink "handles" "Handle"
 @EndCode  
 
   @Example
     
 @Code
-  CreateImage(2, 640, 480) ; Erstellt ein Bild, die n°2
-  ResizeImage(2, 320, 240) ; Verändert die Größe des n°2 Bilds und ändert sein @ReferenceLink "handles" "Handle"
-  CreateImage(2, 800, 800) ; Erstellt ein neues Bild mit dem n°2 Index, das alte wird automatisch freigegeben
+  CreateImage(2, 640, 480) ; Erstellt ein Bild, die nÂ°2
+  ResizeImage(2, 320, 240) ; VerÃ¤ndert die GrÃ¶ÃŸe des nÂ°2 Bilds und Ã¤ndert sein @ReferenceLink "handles" "Handle"
+  CreateImage(2, 800, 800) ; Erstellt ein neues Bild mit dem nÂ°2 Index, das alte wird automatisch freigegeben
 @EndCode
 
   @Example
@@ -53,7 +53,7 @@
 @Code
   For k = 0 To 9
     CreateImage(k, 640, 480) ; Erstellt 10 verschiedene Bilder, nummeriert von 0 bis 9
-    ResizeImage(k, 320, 240) ; Verändert die Größe der Bilder auf halbe Breite/Höhe und ändert ihre @ReferenceLink "handles" "Handles"
+    ResizeImage(k, 320, 240) ; VerÃ¤ndert die GrÃ¶ÃŸe der Bilder auf halbe Breite/HÃ¶he und Ã¤ndert ihre @ReferenceLink "handles" "Handles"
   Next
 @EndCode  
 
@@ -63,9 +63,9 @@
   #ImageBackground = 0
   #ImageButton     = 1
 
-  CreateImage(#ImageBackground, 640, 480) ; Erstellt ein Hintergrund-Bild (n°0)
-  ResizeImage(#ImageBackground, 320, 240) ; Verändert die Größe des Hintergrund-Bilds
-  CreateImage(#ImageButton    , 800, 800) ; Erstellt ein Bild (n°1)
+  CreateImage(#ImageBackground, 640, 480) ; Erstellt ein Hintergrund-Bild (nÂ°0)
+  ResizeImage(#ImageBackground, 320, 240) ; VerÃ¤ndert die GrÃ¶ÃŸe des Hintergrund-Bilds
+  CreateImage(#ImageButton    , 800, 800) ; Erstellt ein Bild (nÂ°1)
 @EndCode  
 
 @EndIndent
@@ -74,16 +74,16 @@
 
   Manchmal ist die indexierte Nummerierung nicht sehr praktisch, um dynamische 
   Situationen zu handhaben, wo wir mit einer unbekannten Anzahl von Objekten 
-  umgehen müssen. PureBasic bietet eine einfache und komplementäre Möglichkeit, 
+  umgehen mÃ¼ssen. PureBasic bietet eine einfache und komplementÃ¤re MÃ¶glichkeit, 
   Objekte auf eine dynamische Art und Weise zu erstellen. Beide Methoden 
-  (indexiert und dynamisch) können gleichzeitig - ohne irgendeinen Konflikt -
-  verwendet werden. Um ein dynamisches Objekt zu erstellen, müssen Sie die 
+  (indexiert und dynamisch) kÃ¶nnen gleichzeitig - ohne irgendeinen Konflikt -
+  verwendet werden. Um ein dynamisches Objekt zu erstellen, mÃ¼ssen Sie die 
   @#PB_Any Konstante anstelle einer Index-Zahl angeben, und die dynamische Nummer 
-  wird als Ergebnis der entsprechenden Funktion zurückgegeben. Dann verwenden 
+  wird als Ergebnis der entsprechenden Funktion zurÃ¼ckgegeben. Dann verwenden 
   Sie einfach diese Nummer mit den anderen Objektfunktionen an der Stelle, wo 
-  Sie sonst eine indexierte Zahl verwenden würden (außer zum Erstellen eines neuen Objekts). Diese Art und Weise des 
-  Objekt-Handlings kann sehr nützlich sein, wenn es in Verbindung mit einer 
-  verknüpften Liste verwendet wird, welche auch einen dynamischen Weg des 
+  Sie sonst eine indexierte Zahl verwenden wÃ¼rden (auÃŸer zum Erstellen eines neuen Objekts). Diese Art und Weise des 
+  Objekt-Handlings kann sehr nÃ¼tzlich sein, wenn es in Verbindung mit einer 
+  verknÃ¼pften Liste verwendet wird, welche auch einen dynamischen Weg des 
   Speicherns darstellt. 
 
   @Indent
@@ -91,25 +91,25 @@
 
 @Code
   DynamicImage1 = CreateImage(#PB_Any, 640, 480) ; Erstellen eines dynamisch nummerierten Bildes
-  ResizeImage(DynamicImage1, 320, 240) ; Verändern der Größe von DynamicImage1
+  ResizeImage(DynamicImage1, 320, 240) ; VerÃ¤ndern der GrÃ¶ÃŸe von DynamicImage1
 @EndCode  
 
-  Ein vollständiges Beispiel für dynamische Objekte und @LibraryLink "list" "verknüpfte Listen" finden Sie hier:
+  Ein vollstÃ¤ndiges Beispiel fÃ¼r dynamische Objekte und @LibraryLink "list" "verknÃ¼pfte Listen" finden Sie hier:
   
 @ExampleFile All MDI_ImageViewer.pb
 
   @LineBreak
   @LineBreak
-  Weitere Erläuterungen und ein Beispiel für dynamische Nummerierung mehrerer
+  Weitere ErlÃ¤uterungen und ein Beispiel fÃ¼r dynamische Nummerierung mehrerer
   Fenster und Gadgets finden Sie im entsprechenden Kapitel des
   @ReferenceLink "ug_pb_any1" "'Einsteiger-Kapitels'".
 
 @EndIndent 
 
-@Section Übersicht über die verschiedenen PureBasic-Objekte
+@Section Ãœbersicht Ã¼ber die verschiedenen PureBasic-Objekte
 
-  Verschiedene PureBasic-Objekte (Fenster, Gadgets, Sprites, etc.) können den gleichen Bereich
-  an Objekt-Nummern erneut verwenden. Somit können die folgenden Objekte jeweils beginnend
+  Verschiedene PureBasic-Objekte (Fenster, Gadgets, Sprites, etc.) kÃ¶nnen den gleichen Bereich
+  an Objekt-Nummern erneut verwenden. Somit kÃ¶nnen die folgenden Objekte jeweils beginnend
   bei 0 (oder einem anderen Wert) nummeriert werden und PureBasic unterscheidet sie anhand
   ihres Typs:
   @Indent
@@ -118,7 +118,7 @@
   - @LibraryLink "entity" "Entity" @LineBreak
   - @LibraryLink "file" "File" @LineBreak
   - @LibraryLink "ftp" "FTP" @LineBreak
-  - @LibraryLink "gadget" "Gadget" (einschließlich dem @@ScintillaGadget) @LineBreak
+  - @LibraryLink "gadget" "Gadget" (einschlieÃŸlich dem @@ScintillaGadget) @LineBreak
   - @LibraryLink "gadget3d" "Gadget3D"
   - @LibraryLink "image" "Image" @LineBreak
   - @LibraryLink "library" "Library" @LineBreak

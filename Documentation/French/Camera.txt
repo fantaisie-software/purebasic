@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Camera library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,32 +8,31 @@
 
 @Overview
 
-Les caméras sont utilisées pour visualiser 
+Les camÃ©ras sont utilisÃ©es pour visualiser 
 un monde en 3D. Il est possible de les 
-utiliser comme des caméras réelles. On 
-peut déplacer une caméra, la faire pivoter,
+utiliser comme des camÃ©ras rÃ©elles. On 
+peut dÃ©placer une camÃ©ra, la faire pivoter,
 modifier le champ de vision, etc.
 @LineBreak
 @LineBreak 
-Au moins une caméra est nécessaire pour 
+Au moins une camÃ©ra est nÃ©cessaire pour 
 effectuer un 
 @Link "Engine3D/RenderWorld" "rendu" 
-du monde 3D sur un écran, mais plusieurs 
-caméras peuvent être utilisées en même 
+du monde 3D sur un Ã©cran, mais plusieurs 
+camÃ©ras peuvent Ãªtre utilisÃ©es en mÃªme 
 temps pour afficher le monde sous des 
-angles de vue différents, rétroviseurs, 
+angles de vue diffÃ©rents, rÃ©troviseurs, 
 split-screen.... 
 @LineBreak
 @LineBreak
-La commande @@InitEngine3D doit être appelée 
-avec succès avant de pouvoir utiliser les 
-commandes relatives aux caméras.
+La commande @@InitEngine3D doit Ãªtre appelÃ©e 
+avec succÃ¨s avant de pouvoir utiliser les 
+commandes relatives aux camÃ©ras.
 
 @CommandList
 
 @ExampleFile All Camera.pb
 @ExampleFile All CameraProjection.pb
-@ExampleFile All CameraTrack.pb
 @ExampleFile All CameraView.pb
 @ExampleFile All CheckObjectVisibility.pb
 @ExampleFile All CheckObjectVisibility2.pb
@@ -47,22 +46,22 @@ commandes relatives aux caméras.
 @Function CameraBackColor(#Camera, Couleur)
 
 @Description
-  Change la couleur de fond d'une caméra. 
+  Change la couleur de fond d'une camÃ©ra. 
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
   
 @Parameter "Couleur"
   Nouvelle couleur de fond. 
 @LineBreak
 @LineBreak  
-  La fonction @@RGB peut être utilisée 
+  La fonction @@RGB peut Ãªtre utilisÃ©e 
   pour obtenir une couleur valide.
 
 @NoReturnValue  
 
 @Remarks
-  Par défaut, une caméra nouvellement créée 
+  Par dÃ©faut, une camÃ©ra nouvellement crÃ©Ã©e 
   a une couleur de fond noir. 
 
 @SeeAlso  
@@ -78,13 +77,13 @@ commandes relatives aux caméras.
 Suivre un objet.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
   
 @Parameter "ObjetID"
-  L'objet à suivre. Il peut être l'un des types suivants:
+  L'objet Ã  suivre. Il peut Ãªtre l'un des types suivants:
 @FixedFont
-  - Entité                : Utiliser @@EntityID pour obtenir un identifiant valide.
-  - Lumière               : Utiliser @@LightID pour obtenir un identifiant valide.
+  - EntitÃ©                : Utiliser @@EntityID pour obtenir un identifiant valide.
+  - LumiÃ¨re               : Utiliser @@LightID pour obtenir un identifiant valide.
   - Noeud                 : Utiliser @@NodeID pour obtenir un identifiant valide.
   - Emetteur de Particles : Utiliser @@ParticleEmitterID pour obtenir un identifiant valide.
   - Groupe de Billboards  : Utiliser @@BillboardGroupID pour obtenir un identifiant valide.
@@ -92,44 +91,44 @@ Suivre un objet.
 @EndFixedFont
 
 @Parameter "Angle"
-  L'angle de la caméra par rapport à 
+  L'angle de la camÃ©ra par rapport Ã  
   l'objet suivi.
 
 @Parameter "Hauteur"
-  La hauteur absolue de la caméra.
+  La hauteur absolue de la camÃ©ra.
 
 @Parameter "Distance"
-  La distance de la caméra par rapport à 
+  La distance de la camÃ©ra par rapport Ã  
   l'objet suivi.
 
 @Parameter " PourcentageRotation"
-  Valeur à appliquer lorsque la caméra 
-  tourne pour obtenir à nouveau le bon 
+  Valeur Ã  appliquer lorsque la camÃ©ra 
+  tourne pour obtenir Ã  nouveau le bon 
   angle. @LineBreak
-  Les valeurs valides vont de 0 à 1.
+  Les valeurs valides vont de 0 Ã  1.
 
 @Parameter "PourcentagePosition"
-  Valeur à appliquer lorsque la caméra se 
-  déplace pour obtenir la position correcte 
-  à nouveau. @LineBreak
-  Les valeurs valides vont de 0 à 1.
+  Valeur Ã  appliquer lorsque la camÃ©ra se 
+  dÃ©place pour obtenir la position correcte 
+  Ã  nouveau. @LineBreak
+  Les valeurs valides vont de 0 Ã  1.
   @LineBreak
-  Lorsque la valeur est 0, la caméra ne 
+  Lorsque la valeur est 0, la camÃ©ra ne 
   bouge pas. Lorsque la valeur est 1, 
-  l'appareil est réglé sur la 
+  l'appareil est rÃ©glÃ© sur la 
   position finale, sans interpolation.
   
 @OptionalParameter "Mode"
-   Peut être une des valeurs suivantes:
+   Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#True : La caméra regarde automatiquement l'objet (par défaut).
-  @#False: La caméra ne regarde pas automatiquement l'objet.
+  @#True : La camÃ©ra regarde automatiquement l'objet (par dÃ©faut).
+  @#False: La camÃ©ra ne regarde pas automatiquement l'objet.
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  La poursuite de l'objet se fait de façon 
+  La poursuite de l'objet se fait de faÃ§on 
   douce en utilisant l'interpolation.
 
 @SeeAlso @@CreateCamera
@@ -142,25 +141,25 @@ Suivre un objet.
 
 @Description
   Modifie le champ de vision d'une 
-  caméra (FOV: Field Of Vision) pour 
+  camÃ©ra (FOV: Field Of Vision) pour 
   permettre une vue plus ou moins large 
-  de la scène. 
+  de la scÃ¨ne. 
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
   
 @Parameter "Angle"
-  Le nouveau champ de vision en degrés.
+  Le nouveau champ de vision en degrÃ©s.
 @LineBreak
 @LineBreak 
-  Un angle supérieur à 90° donnera un 
+  Un angle supÃ©rieur Ã  90Â° donnera un 
   effet de type grand-angle (ou fish-eye).
   @LineBreak
-  Un angle inférieur à 30° donnera un 
-  effet rétréci (téléscopique) à la scène.
+  Un angle infÃ©rieur Ã  30Â° donnera un 
+  effet rÃ©trÃ©ci (tÃ©lÃ©scopique) Ã  la scÃ¨ne.
   @LineBreak 
   Les valeurs habituelles sont comprises 
-  entre 45° et 60°.
+  entre 45Â° et 60Â°.
   
 @NoReturnValue
 
@@ -175,18 +174,18 @@ Suivre un objet.
 
 @Description
   Renvoie l'identifiant unique d'une 
-  caméra. 
+  camÃ©ra. 
    
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @ReturnValue
-  Renvoie le numéro de la caméra.
+  Renvoie le numÃ©ro de la camÃ©ra.
   
 @Remarks
-  Cette fonction est très utile quand une 
-  fonction d'une autre bibliothèque 
-  nécessite l'identifiant d'une caméra.
+  Cette fonction est trÃ¨s utile quand une 
+  fonction d'une autre bibliothÃ¨que 
+  nÃ©cessite l'identifiant d'une camÃ©ra.
   
 @SeeAlso  
   @@CreateCamera, @@IsCamera
@@ -197,29 +196,29 @@ Suivre un objet.
 @Function CameraCustomParameter(#Camera, ParametreIndex, Valeur1,Valeur2, Valeur3, Valeur4)
 
 @Description
- Définit des valeurs personnalisées pour un paramètre d'un script shaders 
- (soit GLSL soit HLSL) d'une caméra. 
+ DÃ©finit des valeurs personnalisÃ©es pour un paramÃ¨tre d'un script shaders 
+ (soit GLSL soit HLSL) d'une camÃ©ra. 
  .
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "ParametreIndex"
-  L'indice de paramètre dans le script shader.
+  L'indice de paramÃ¨tre dans le script shader.
 
 @Parameter "Valeur1"
-  La première valeur du paramètre.
+  La premiÃ¨re valeur du paramÃ¨tre.
 
 @Parameter "Valeur2"
-  La seconde valeur du paramètre (si le paramètre n'en n'accepte qu'une, 
-  cette valeur sera ignorée).
+  La seconde valeur du paramÃ¨tre (si le paramÃ¨tre n'en n'accepte qu'une, 
+  cette valeur sera ignorÃ©e).
 
 @Parameter "Valeur3"
-  La troisième valeur du paramètre (si le paramètre n'en n'accepte que deux, 
-  cette valeur sera ignorée).
+  La troisiÃ¨me valeur du paramÃ¨tre (si le paramÃ¨tre n'en n'accepte que deux, 
+  cette valeur sera ignorÃ©e).
 
 @Parameter "Valeur"
-  La quatrième valeur du paramètre (si le paramètre n'en n'accepte que trois, 
-  cette valeur sera ignorée).
+  La quatriÃ¨me valeur du paramÃ¨tre (si le paramÃ¨tre n'en n'accepte que trois, 
+  cette valeur sera ignorÃ©e).
 
 @NoReturnValue
 
@@ -230,16 +229,16 @@ Suivre un objet.
 @Function Resultat = CheckObjectVisibility(#Camera, ObjetID)
 
 @Description
-  Vérifie si un objet est visible par une caméra.
+  VÃ©rifie si un objet est visible par une camÃ©ra.
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "ObjetID"
-  L'objet à vérifier. Il peut s'agir de l'un des types suivants:
+  L'objet Ã  vÃ©rifier. Il peut s'agir de l'un des types suivants:
 @FixedFont
-  - Entité                   : Utiliser @@EntityID  pour obtenir un identifiant valide.
-  - Lumière                  : Utiliser @@LightID  pour obtenir un identifiant valide.
+  - EntitÃ©                   : Utiliser @@EntityID  pour obtenir un identifiant valide.
+  - LumiÃ¨re                  : Utiliser @@LightID  pour obtenir un identifiant valide.
   - Noeud                    : Utiliser @@NodeID  pour obtenir un identifiant valide.
   - Emmetteur de Particules  : Utiliser @@ParticleEmitterID  pour obtenir un identifiant valide.
   - Groupe de Billboards     : Utiliser @@BillboardGroupID  pour obtenir un identifiant valide.
@@ -255,7 +254,7 @@ Suivre un objet.
   InitSprite()
   InitKeyboard()
 
-  OpenWindow(0, 0, 0, 800, 600, "Visibilité d'un objet (Utilisez les flèches <--   -->  et Echap pour terminer)", #PB_Window_ScreenCentered)
+  OpenWindow(0, 0, 0, 800, 600, "VisibilitÃ© d'un objet (Utilisez les flÃ¨ches <--   -->  et Echap pour terminer)", #PB_Window_ScreenCentered)
   OpenWindowedScreen(WindowID(0),0, 0, 800, 600)
   CreateCamera(0, 0, 0, 100, 100)
   
@@ -302,23 +301,23 @@ Suivre un objet.
 @Function CameraDirection(#Camera, X, Y, Z)
 
 @Description
-  Change l'axe d'une caméra.
+  Change l'axe d'une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y, Z"
   La nouvelle direction.
 @LineBreak
 @LineBreak
-  C'est un vecteur généralement compris 
+  C'est un vecteur gÃ©nÃ©ralement compris 
   entre -1.0 et 1.0, sinon il sera 
-  automatiquement normalisé.
+  automatiquement normalisÃ©.
 
 @NoReturnValue
 
 @Remarks
-  La position de la caméra reste inchangée.
+  La position de la camÃ©ra reste inchangÃ©e.
 
 @SeeAlso
  @@CameraDirectionX, @@CameraDirectionY, 
@@ -331,26 +330,26 @@ Suivre un objet.
 @Function Resultat = CameraDirectionX(#Camera [, Mode])
 
 @Description
-  Renvoie la direction en X de la caméra.
+  Renvoie la direction en X de la camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Renvoie le vecteur de direction X de la 
-  caméra. @LineBreak
-  Cette valeur est généralement comprise 
+  camÃ©ra. @LineBreak
+  Cette valeur est gÃ©nÃ©ralement comprise 
   entre -1.0 et 1.0, sinon il sera 
-  automatiquement normalisé.  
+  automatiquement normalisÃ©.  
 
 @SeeAlso
   @@CameraDirection, @@CameraDirectionY, 
@@ -363,26 +362,26 @@ Suivre un objet.
 @Function Resultat = CameraDirectionY(#Camera [, Mode])
 
 @Description
-  Renvoie la direction Y de la caméra.
+  Renvoie la direction Y de la camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Retourne le vecteur de direction Y de 
-  la caméra. @LineBreak
-  Cette valeur est généralement comprise 
+  la camÃ©ra. @LineBreak
+  Cette valeur est gÃ©nÃ©ralement comprise 
   entre -1.0 et 1.0, sinon il sera 
-  automatiquement normalisé.  
+  automatiquement normalisÃ©.  
 
 @SeeAlso
   @@CameraDirection, @@CameraDirectionX, 
@@ -395,26 +394,26 @@ Suivre un objet.
 @Function Resultat = CameraDirectionZ(#Camera [, Mode])
 
 @Description
-  Renvoie la direction Z de la caméra.
+  Renvoie la direction Z de la camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_Absolute: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Relative: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
   Retourne le vecteur de direction Z de 
-  la caméra. @LineBreak
-  Cette valeur est généralement comprise 
+  la camÃ©ra. @LineBreak
+  Cette valeur est gÃ©nÃ©ralement comprise 
   entre -1.0 et 1.0, sinon il sera 
-  automatiquement normalisé.  
+  automatiquement normalisÃ©.  
 
 @SeeAlso 
   @@CameraDirection, @@CameraDirectionX, 
@@ -427,35 +426,35 @@ Suivre un objet.
 @Function CameraFixedYawAxis(#Camera, Activer [, VecteurX, VecteurY, VecteurZ])
 
 @Description
-  Change l'axe fixe de lacet d'une caméra. 
+  Change l'axe fixe de lacet d'une camÃ©ra. 
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "Activer"
-  Active ou désactive l'utilisation d'un 
-  axe de lacet personnalisé.
+  Active ou dÃ©sactive l'utilisation d'un 
+  axe de lacet personnalisÃ©.
 @FixedFont  
-  @#True : Un nouveau vecteur doit être spécifié.
-  @#False: La caméra fera un lacet autour de son propre axe Y.
+  @#True : Un nouveau vecteur doit Ãªtre spÃ©cifiÃ©.
+  @#False: La camÃ©ra fera un lacet autour de son propre axe Y.
 @EndFixedFont 
 
 @OptionalParameter "VecteurX, VecteurY, VecteurZ"
   Direction du nouvel axe de lacet. 
 @LineBreak
 @LineBreak  
-  Généralement le vecteur a une valeur 
+  GÃ©nÃ©ralement le vecteur a une valeur 
   comprise entre -1.0 et 1.0, sinon il 
-  sera automatiquement normalisé).
+  sera automatiquement normalisÃ©).
 @LineBreak
 @LineBreak 
-  Le paramètre "Activer" doit être sur 
+  Le paramÃ¨tre "Activer" doit Ãªtre sur 
   @#True pour avoir un effet.
   
 @NoReturnValue
 
 @Remarks
-  Le comportement par défaut de la caméra 
+  Le comportement par dÃ©faut de la camÃ©ra 
   est un lacet autour de son propre axe Y.
 
 @SeeAlso
@@ -468,14 +467,14 @@ Suivre un objet.
 @Function CameraLookAt(#Camera, X, Y, Z)
 
 @Description
-  Spécifie le point, dans l'unité du monde
-  qui fait face à une caméra.
+  SpÃ©cifie le point, dans l'unitÃ© du monde
+  qui fait face Ã  une camÃ©ra.
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y, Z"
-  La caméra pointe vers la position 'X, Y, 
+  La camÃ©ra pointe vers la position 'X, Y, 
   Z'.   
 
 @NoReturnValue
@@ -487,18 +486,18 @@ Suivre un objet.
 @Function CameraProjectionMode(#Camera, Mode [, Largeur, Hauteur]))
 
 @Description
-  Change le mode de projection utilisé 
-  par une caméra. 
+  Change le mode de projection utilisÃ© 
+  par une camÃ©ra. 
   
 @Parameter "#Camera"
-  La caméra à utiliser.  
+  La camÃ©ra Ã  utiliser.  
   
 @Parameter "Mode"
-  Le paramètre 'Mode' représente la façon 
-  dont le monde sera projeté:
+  Le paramÃ¨tre 'Mode' reprÃ©sente la faÃ§on 
+  dont le monde sera projetÃ©:
 @FixedFont
-  @#PB_Camera_Perspective : Rend la scène en tenant compte de la perspective
-  @#PB_Camera_Orthographic: Rend la scène sans perspective (plat, pas de profondeur)
+  @#PB_Camera_Perspective : Rend la scÃ¨ne en tenant compte de la perspective
+  @#PB_Camera_Orthographic: Rend la scÃ¨ne sans perspective (plat, pas de profondeur)
 @EndFixedFont
 
 @OptionalParameter "Largeur"
@@ -521,25 +520,25 @@ Suivre un objet.
 
 @Description
   Renvoie la position X d'un point 3D vu 
-  par une caméra.
+  par une camÃ©ra.
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y, Z"
-  Les coordonnées du point.   
+  Les coordonnÃ©es du point.   
 
 @ReturnValue
   Renvoie la position X, en pixels, 
-  d'un point 3D vu par la caméra. 
+  d'un point 3D vu par la camÃ©ra. 
   @LineBreak
   Si ce point est en dehors du champ de 
-  vision de la caméra alors 'Resultat' = 
+  vision de la camÃ©ra alors 'Resultat' = 
   -1. 
   
 @Remarks
-  Cette fonction est très utile pour 
-  mapper des points 3D sur un écran 2D.  
+  Cette fonction est trÃ¨s utile pour 
+  mapper des points 3D sur un Ã©cran 2D.  
  
 @SeeAlso 
   @@CameraProjectionMode, 
@@ -553,25 +552,25 @@ Suivre un objet.
 
 @Description
   Renvoie la position Y d'un point 3D 
-  vu par une caméra.
+  vu par une camÃ©ra.
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "X, Y, Z"
-  Les coordonnées du point.   
+  Les coordonnÃ©es du point.   
 
 @ReturnValue
   Renvoie la position Y, en pixels, 
-  d'un point 3D vu par la caméra. 
+  d'un point 3D vu par la camÃ©ra. 
   @LineBreak
   Si ce point est en dehors du champ de 
-  vision de la caméra alors 'Resultat' = 
+  vision de la camÃ©ra alors 'Resultat' = 
   -1. 
   
 @Remarks
-  Cette fonction est très utile pour 
-  mapper des points 3D sur un écran 2D.  
+  Cette fonction est trÃ¨s utile pour 
+  mapper des points 3D sur un Ã©cran 2D.  
  
 @SeeAlso 
   @@CameraProjectionMode, 
@@ -585,22 +584,25 @@ Suivre un objet.
 
 @Description
   Modifie les valeurs du champ de vision 
-  d'une caméra.  
+  d'une camÃ©ra.  
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
   
 @Parameter "Proche"
   Indique la distance la plus proche de 
-  la caméra à partir de laquelle la scène 
+  la camÃ©ra Ã  partir de laquelle la scÃ¨ne 
   sera rendue.
 
 @Parameter "Lointain"
-  Indique la distance maximale jusqu'à 
-  laquelle la scène sera rendue.
+  Indique la distance maximale jusqu'Ã  
+  laquelle la scÃ¨ne sera rendue.
 
 @NoReturnValue
 
+@Remarks
+  Si le ratio Proche/Lointain est trop Ã©levÃ©, il y aura des problÃ¨mes de z-fighting.
+  
 @SeeAlso  
   @@CameraLookAt
 
@@ -611,27 +613,27 @@ Suivre un objet.
 @Function CameraRenderMode(#Camera, Mode)
 
 @Description
-  Change le mode de rendu d'une caméra. 
+  Change le mode de rendu d'une camÃ©ra. 
   
 @Parameter "#Camera" 
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @Parameter "Mode"
-  La manière dont le monde doit être 
+  La maniÃ¨re dont le monde doit Ãªtre 
   rendu:
 @FixedFont
-  @#PB_Camera_Plot     : Rend la scène en mode point (seuls les sommets des objets sont visibles)
-  @#PB_Camera_Wireframe: Rend la scène en mode ligne (seuls les triangles des objets sont visibles)
-  @#PB_Camera_Textured : Rend la scène avec un maximum de détails (textures, transparence etc..)
+  @#PB_Camera_Plot     : Rend la scÃ¨ne en mode point (seuls les sommets des objets sont visibles)
+  @#PB_Camera_Wireframe: Rend la scÃ¨ne en mode ligne (seuls les triangles des objets sont visibles)
+  @#PB_Camera_Textured : Rend la scÃ¨ne avec un maximum de dÃ©tails (textures, transparence etc..)
 @EndFixedFont
   
 @NoReturnValue
 
 @Remarks
-  Quand vous créez une nouvelle caméra 
+  Quand vous crÃ©ez une nouvelle camÃ©ra 
   avec @@CreateCamera, le mode de rendu 
-  par défaut se fait avec un niveau de 
-  détails et de textures maximum.
+  par dÃ©faut se fait avec un niveau de 
+  dÃ©tails et de textures maximum.
 
 @SeeAlso    
   @@CameraProjectionMode
@@ -643,31 +645,31 @@ Suivre un objet.
 @Function CameraReflection(#Camera, #CameraPrincipale, EntiteID)
 
 @Description
-  Définit une caméra comme une caméra-miroir.
+  DÃ©finit une camÃ©ra comme une camÃ©ra-miroir.
   
 @Parameter "#Camera" 
-  La caméra à utiliser comme caméra-miroir.
+  La camÃ©ra Ã  utiliser comme camÃ©ra-miroir.
 
 @Parameter "#CameraPrincipale"
-  La caméra à utiliser comme source d'image à refléter.
+  La camÃ©ra Ã  utiliser comme source d'image Ã  reflÃ©ter.
 
 @Parameter "EntiteID"
-  L'@@EntityID à utiliser comme source d'image à refléter.
+  L'@@EntityID Ã  utiliser comme source d'image Ã  reflÃ©ter.
 
 @NoReturnValue
 
 @Remarks
-  Ce sont à la fois #CameraPrincipale et EntiteID qui seront utilisés comme sources 
-  de l'image à refléter en image miroir.
+  Ce sont Ã  la fois #CameraPrincipale et EntiteID qui seront utilisÃ©s comme sources 
+  de l'image Ã  reflÃ©ter en image miroir.
   @LineBreak
   @LineBreak
-  Une texture RTT doit être créée à partir de #Camera à l’aide de @@CreateRenderTexture.
+  Une texture RTT doit Ãªtre crÃ©Ã©e Ã  partir de #Camera Ã  lâ€™aide de @@CreateRenderTexture.
   @LineBreak  
-  La matière (matériau) qui utilisera cette texture RTT doit être définie avec @@SetMaterialAttribute 
-  de cette manière: SetMaterialAttribute(Matiere, @#PB_Material_ProjectiveTexturing, #Camera).
+  La matiÃ¨re (matÃ©riau) qui utilisera cette texture RTT doit Ãªtre dÃ©finie avec @@SetMaterialAttribute 
+  de cette maniÃ¨re: SetMaterialAttribute(Matiere, @#PB_Material_ProjectiveTexturing, #Camera).
   @LineBreak
   @LineBreak
-  Cette commande doit être utilisée dans la boucle de rendu.
+  Cette commande doit Ãªtre utilisÃ©e dans la boucle de rendu.
   @LineBreak
   @LineBreak
   @ExampleFile All Reflection.pb
@@ -682,22 +684,22 @@ Suivre un objet.
 @Function Resultat.f = CameraRoll(#Camera [, Mode])
 
 @Description
-  Renvoie le roulis d'une caméra. 
+  Renvoie le roulis d'une camÃ©ra. 
   
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : Valeur brute du roulis, mais elle ne peut pas être utilisée avec @@RotateCamera pour récupérer la même orientation (par défaut).
-  @#False: Le roulis est ajusté, de sorte qu'il peut être réutilisé avec @@RotateCamera pour récupérer la même orientation.
+  @#True : Valeur brute du roulis, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le roulis est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur du roulis de la caméra. 
+  La valeur du roulis de la camÃ©ra. 
   @LineBreak
-  Valeur entre -180.0 et 180.0 degrés.
+  Valeur entre -180.0 et 180.0 degrÃ©s.
 
 @SeeAlso
   @@CameraYaw, @@CameraPitch
@@ -709,22 +711,22 @@ Suivre un objet.
 @Function Resultat.f = CameraPitch(#Camera [, Mode])
 
 @Description
-  Renvoie le tangage d'une caméra.
+  Renvoie le tangage d'une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : Valeur brute du tangage, mais elle ne peut pas être utilisée avec @@RotateCamera pour récupérer la même orientation (par défaut).
-  @#False: Le tangage est ajusté, de sorte qu'il peut être réutilisé avec @@RotateCamera pour récupérer la même orientation.
+  @#True : Valeur brute du tangage, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le tangage est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur du tangage de la caméra. 
+  La valeur du tangage de la camÃ©ra. 
   @LineBreak
-  Valeur entre -180.0 et 180.0 degrés.
+  Valeur entre -180.0 et 180.0 degrÃ©s.
 
 @SeeAlso
   @@CameraYaw, @@CameraRoll
@@ -737,22 +739,22 @@ Suivre un objet.
 @Function Resultat.f = CameraYaw(#Camera [, Mode])
 
 @Description
-  Renvoie le lacet d'une caméra.
+  Renvoie le lacet d'une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : Valeur brute du lacet, mais elle ne peut pas être utilisée avec @@RotateCamera pour récupérer la même orientation (par défaut).
-  @#False: Le lacet est ajusté, de sorte qu'il peut être réutilisé avec @@RotateCamera pour récupérer la même orientation.
+  @#True : Valeur brute du lacet, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#False: Le lacet est ajustÃ©, de sorte qu'il peut Ãªtre rÃ©utilisÃ© avec @@RotateCamera pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur du lacet de la caméra. 
+  La valeur du lacet de la camÃ©ra. 
   @LineBreak
-  Valeur entre -180.0 et 180.0 degrés.
+  Valeur entre -180.0 et 180.0 degrÃ©s.
 
 @SeeAlso
   @@CameraPitch, @@CameraRoll 
@@ -765,14 +767,14 @@ Suivre un objet.
 
 @Description
   Renvoie la position en X de l'image 
-  affichée par une caméra.
+  affichÃ©e par une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @ReturnValue
  Renvoie la position en X, en pixels de 
- l'image affichée par la caméra.
+ l'image affichÃ©e par la camÃ©ra.
 
 @SeeAlso  
   @@CameraViewY, @@CameraViewHeight, 
@@ -786,14 +788,14 @@ Suivre un objet.
 
 @Description
   Renvoie la position en Y de l'image 
-  affichée par une caméra.
+  affichÃ©e par une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @ReturnValue
  Renvoie la position en Y, en pixels de 
- l'image affichée par la caméra.
+ l'image affichÃ©e par la camÃ©ra.
 
 @SeeAlso  
   @@CameraViewX, @@CameraViewHeight, 
@@ -806,15 +808,15 @@ Suivre un objet.
 @Function Resultat = CameraViewWidth(#Camera)
 
 @Description
-  Renvoie la largeur de l'image affichée 
-  par une caméra.
+  Renvoie la largeur de l'image affichÃ©e 
+  par une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @ReturnValue
  Renvoie la largeur, en pixels de 
- l'image affichée par la caméra.
+ l'image affichÃ©e par la camÃ©ra.
 
 @SeeAlso  
   @@CameraViewHeight, @@CameraViewX, 
@@ -827,15 +829,15 @@ Suivre un objet.
 @Function Resultat = CameraViewHeight(#Camera)
 
 @Description
-  Renvoie la hauteur de l'image affichée 
-  par une caméra.
+  Renvoie la hauteur de l'image affichÃ©e 
+  par une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @ReturnValue
   Renvoie la hauteur, en pixels de 
-  l'image affichée par la caméra.
+  l'image affichÃ©e par la camÃ©ra.
 
 @SeeAlso  
   @@CameraViewWidth, @@CameraViewX, 
@@ -849,22 +851,22 @@ Suivre un objet.
 
 @Description
   Renvoie la position courante en X d'une 
-  caméra dans le monde 3D.
+  camÃ©ra dans le monde 3D.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @##PB_World: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la position en X de la caméra.
+  Renvoie la position en X de la camÃ©ra.
 
 @SeeAlso
   @@CameraY, @@CameraZ, @@MoveCamera
@@ -877,22 +879,22 @@ Suivre un objet.
 
 @Description
   Renvoie la position courante en Y d'une 
-  caméra dans le monde 3D.
+  camÃ©ra dans le monde 3D.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @##PB_World: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la position en Y de la caméra.
+  Renvoie la position en Y de la camÃ©ra.
 
 @SeeAlso
   @@CameraX, @@CameraZ, @@MoveCamera
@@ -905,22 +907,22 @@ Suivre un objet.
 
 @Description
   Renvoie la position courante en Z 
-  d'une caméra dans le monde 3D.
+  d'une camÃ©ra dans le monde 3D.
 
 @Parameter "#Camera"
-  La caméra à utiliser.
+  La camÃ©ra Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de 
-  direction de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  direction de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @##PB_World: Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la position en Z de la caméra.
+  Renvoie la position en Z de la camÃ©ra.
 
 @SeeAlso
   @@CameraX, @@CameraY, @@MoveCamera
@@ -932,16 +934,16 @@ Suivre un objet.
 @Function Resultat = CreateCamera(#Camera, X, Y, Largeur, Hauteur [, MasqueVisibilite] [, NiveauDetails]])
 
 @Description
-  Crée une nouvelle caméra dans le monde 
+  CrÃ©e une nouvelle camÃ©ra dans le monde 
   courant.
   
 @Parameter "#Camera"
-  Numéro de la nouvelle caméra. 
+  NumÃ©ro de la nouvelle camÃ©ra. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour autogénérer ce 
-  numéro.
+  peut Ãªtre utilisÃ© pour autogÃ©nÃ©rer ce 
+  numÃ©ro.
 
 @Parameter "X, Y"
   La position (en pourcentage) du bord gauche de l'affichage 
@@ -949,8 +951,8 @@ Suivre un objet.
 @LineBreak  
   Voir l'image ci-dessous.
 @FixedFont
-  0%  : Affichage sur le bord gauche (haut) de l'écran
-  100%: Affichage sur le bord droit (bas) de l'écran
+  0%  : Affichage sur le bord gauche (haut) de l'Ã©cran
+  100%: Affichage sur le bord droit (bas) de l'Ã©cran
 @EndFixedFont  
 
 @Parameter "Largeur, Hauteur"
@@ -960,72 +962,72 @@ Suivre un objet.
   Voir l'image ci-dessous.
 
 @OptionalParameter "MasqueVisibilite"
-  Un masque pour sélectionner les 
-  @LibraryLink "entity" "entités" et les  
-  @LibraryLink "billboard" "billboards" à 
-  afficher par la caméra. 
+  Un masque pour sÃ©lectionner les 
+  @LibraryLink "entity" "entitÃ©s" et les  
+  @LibraryLink "billboard" "billboards" Ã  
+  afficher par la camÃ©ra. 
 @LineBreak
 @LineBreak
-  La caméra définit son propre masque, et 
-  si l'entité ou le billboard masqué 
-  correspond, alors il sera affiché. 
+  La camÃ©ra dÃ©finit son propre masque, et 
+  si l'entitÃ© ou le billboard masquÃ© 
+  correspond, alors il sera affichÃ©. 
 @LineBreak
 @LineBreak
-  Par défaut, les entités et les billboards 
+  Par dÃ©faut, les entitÃ©s et les billboards 
   n'ont pas de masque, ce qui signifie 
-  qu'ils seront toujours affichés par 
-  toutes les caméras.
+  qu'ils seront toujours affichÃ©s par 
+  toutes les camÃ©ras.
   
 @OptionalParameter "NiveauDetails"
-  Le niveau de détails (Lod Bias = Level Of Details) à appliquer aux entités qui le supportent. @LineBreak
-  S'il est inférieur à 1, un objet plus détaillé sera affiché, s'il est supérieur à 1, une entité 
-  moins détaillée sera affichée.@LineBreak
-  La distance de l'entité est divisée par le niveau de détail, par exemple un niveau de détail de 0.5 
+  Le niveau de dÃ©tails (Lod Bias = Level Of Details) Ã  appliquer aux entitÃ©s qui le supportent. @LineBreak
+  S'il est infÃ©rieur Ã  1, un objet plus dÃ©taillÃ© sera affichÃ©, s'il est supÃ©rieur Ã  1, une entitÃ© 
+  moins dÃ©taillÃ©e sera affichÃ©e.@LineBreak
+  La distance de l'entitÃ© est divisÃ©e par le niveau de dÃ©tail, par exemple un niveau de dÃ©tail de 0.5 
   double la distance.
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro si la caméra n'a pas pu 
-  être crée. 
+  succÃ¨s, zÃ©ro si la camÃ©ra n'a pas pu 
+  Ãªtre crÃ©e. 
 @LineBreak
 @LineBreak
   Si @ReferenceLink "purebasic_objects" "#PB_Any" 
-  est utilisé à la place du paramètre 
-  '#Camera' alors le nouveau numéro de la 
-  caméra sera renvoyé dans 'Resultat'.
+  est utilisÃ© Ã  la place du paramÃ¨tre 
+  '#Camera' alors le nouveau numÃ©ro de la 
+  camÃ©ra sera renvoyÃ© dans 'Resultat'.
 
 @Remarks
   Le fait de poser la position et les 
-  dimensions d'une caméra (ce qu'elle 
+  dimensions d'une camÃ©ra (ce qu'elle 
   affiche en fait) en pourcentage permet de 
-  s'abstraire des dimensions de l'écran 
+  s'abstraire des dimensions de l'Ã©cran 
   de l'utilisateur. 
-  Ainsi une caméra affichera la même chose 
-  sur un écran 800x600 que sur un écran 
+  Ainsi une camÃ©ra affichera la mÃªme chose 
+  sur un Ã©cran 800x600 que sur un Ã©cran 
   1024x768, etc.  
 
 @Example
 @Code
-  CreateCamera(0, 0, 0, 100, 100) ; Crée une caméra qui prend tout l'écran
+  CreateCamera(0, 0, 0, 100, 100) ; CrÃ©e une camÃ©ra qui prend tout l'Ã©cran
   
-  CreateCamera(0, 0,  0, 100, 50) ; Crée une caméra qui ne prend que 50% de la hauteur (effet Split-Screen pour 2 joueurs)
-  CreateCamera(1, 0, 50, 100, 50) ; Crée la deuxieme caméra de 50% de hauteur mais dans la partie basse de l'écran
+  CreateCamera(0, 0,  0, 100, 50) ; CrÃ©e une camÃ©ra qui ne prend que 50% de la hauteur (effet Split-Screen pour 2 joueurs)
+  CreateCamera(1, 0, 50, 100, 50) ; CrÃ©e la deuxieme camÃ©ra de 50% de hauteur mais dans la partie basse de l'Ã©cran
 
-  CreateCamera(0, 0, 0, 100, 100) ; Crée une caméra qui prend tout l'écran
-  CreateCamera(1, 25, 0, 50, 10)  ; Avec un effet rétroviseur (miroir).
-                                  ; Notez que le rétroviseur est le dernier, de sorte qu'il est affiché en haut de la caméra plein écran
+  CreateCamera(0, 0, 0, 100, 100) ; CrÃ©e une camÃ©ra qui prend tout l'Ã©cran
+  CreateCamera(1, 25, 0, 50, 10)  ; Avec un effet rÃ©troviseur (miroir).
+                                  ; Notez que le rÃ©troviseur est le dernier, de sorte qu'il est affichÃ© en haut de la camÃ©ra plein Ã©cran
 @EndCode
 
 @Example
 @Code
-  ; 2 caméras qui séparent l'écran en deux parties égales :
+  ; 2 camÃ©ras qui sÃ©parent l'Ã©cran en deux parties Ã©gales :
   
-  ; Caméra au dessus
+  ; CamÃ©ra au dessus
   CreateCamera(0, 0, 0, 100, 50)  
   MoveCamera(0, 0, 50, 150, #PB_Absolute)
   CameraBackColor(0, RGB(215, 225, 255))
   
-  ; Caméra en dessous  
+  ; CamÃ©ra en dessous  
   CreateCamera(1, 0, 50, 100, 50) 
   MoveCamera(1, 0, 50, -150, #PB_Absolute)
   CameraBackColor(1, RGB(255, 225, 215))
@@ -1043,21 +1045,21 @@ Suivre un objet.
 @Function FreeCamera(#Camera)
 
 @Description
-  Supprime une caméra et libère la 
-  mémoire associée. 
+  Supprime une camÃ©ra et libÃ¨re la 
+  mÃ©moire associÃ©e. 
 
 @Parameter "#Camera"
-  La caméra à libérer.
+  La camÃ©ra Ã  libÃ©rer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  caméras restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  camÃ©ras restantes sont libÃ©rÃ©es.
 
 @NoReturnValue
  
 @Remarks
-  Toutes les caméras restantes sont 
-  automatiquement libérées lorsque le 
+  Toutes les camÃ©ras restantes sont 
+  automatiquement libÃ©rÃ©es lorsque le 
   programme se termine.
   
 @SeeAlso
@@ -1070,26 +1072,26 @@ Suivre un objet.
 @Function Resultat = IsCamera(#Camera)
 
 @Description
-  Teste si une caméra est correctement 
-  initialisée. 
+  Teste si une camÃ©ra est correctement 
+  initialisÃ©e. 
   
 @Parameter "#Camera"
-  La caméra à tester.  
+  La camÃ©ra Ã  tester.  
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon
+  succÃ¨s, zÃ©ro sinon
   
 @Remarks  
-  Cette fonction a été créée pour pouvoir 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
   passer n'importe quelle valeur en 
-  paramètre sans qu'il ne puisse y avoir 
+  paramÃ¨tre sans qu'il ne puisse y avoir 
   de plantage.
 @LineBreak
 @LineBreak  
-  C'est la fonction idéale pour vérifier 
-  qu'une caméra est correctement 
-  initialisée.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'une camÃ©ra est correctement 
+  initialisÃ©e.
   
 @SeeAlso  
   @@CameraID, @@CreateCamera
@@ -1101,25 +1103,25 @@ Suivre un objet.
 @Function MoveCamera(#Camera, X, Y, Z [, Mode])
 
 @Description
-  Déplace une caméra dans le monde 3D. 
+  DÃ©place une camÃ©ra dans le monde 3D. 
 
 @Parameter "#Camera"
-  La caméra à déplacer.
+  La camÃ©ra Ã  dÃ©placer.
   
 @Parameter "X, Y, Z"
-  La nouvelle position de la caméra.
+  La nouvelle position de la camÃ©ra.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de la caméra (par défaut).
-  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position actuelle de la camÃ©ra (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu Ã  la position spÃ©cifiÃ©e.
 @EndFixedFont
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement par rapport à sa propre orientation.
-  @#PB_Parent: Déplacement par rapport à la position de son parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement par rapport Ã  sa propre orientation.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position de son parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
 
 @NoReturnValue
@@ -1135,22 +1137,22 @@ Suivre un objet.
 @Function ResizeCamera(#Camera, X, Y, Largeur, Hauteur)
 
 @Description
-  Redimensionne l'affichage d'une caméra.
+  Redimensionne l'affichage d'une camÃ©ra.
   
 @Parameter "#Camera"
-  La caméra à redimensionner.
+  La camÃ©ra Ã  redimensionner.
 
 @Parameter "X, Y"  
-  La nouvelle position de l'affichage de la caméra.
+  La nouvelle position de l'affichage de la camÃ©ra.
 @LineBreak
 @LineBreak 
-  Ces valeurs sont exprimées en pourcentage, soit de 0 à 100.
+  Ces valeurs sont exprimÃ©es en pourcentage, soit de 0 Ã  100.
 
 @Parameter "Largeur, Hauteur"  
-  La nouvelle taille de l'affichage de la caméra. 
+  La nouvelle taille de l'affichage de la camÃ©ra. 
 @LineBreak
 @LineBreak 
-  Ces valeurs sont exprimées en pourcentage, soit de 0 à 100.
+  Ces valeurs sont exprimÃ©es en pourcentage, soit de 0 Ã  100.
 
 @NoReturnValue
 
@@ -1164,21 +1166,21 @@ Suivre un objet.
 @Function RotateCamera(#Camera, X, Y, Z [, Mode])
 
 @Description
-  Effectue une rotation d'une caméra.
+  Effectue une rotation d'une camÃ©ra.
 
 @Parameter "#Camera"
-  La caméra à tourner.
+  La camÃ©ra Ã  tourner.
   
 @Parameter "X, Y, Z"
   Valeur des angles en x,y,z.@LineBreak
-  Tous les angles sont en degrés, de 
-  0 à 360 degrés.
+  Tous les angles sont en degrÃ©s, de 
+  0 Ã  360 degrÃ©s.
 
 @OptionalParameter "Mode"  
-Peut être une des valeurs suivantes:
+Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @ConstantColor "PB_Absolute": Rotation absolue (par défaut).
-  @ConstantColor "PB_Relative": Rotation relative basée sur la rotation précédente.  
+  @ConstantColor "PB_Absolute": Rotation absolue (par dÃ©faut).
+  @ConstantColor "PB_Relative": Rotation relative basÃ©e sur la rotation prÃ©cÃ©dente.  
 @EndFixedFont
 
 @NoReturnValue
@@ -1190,21 +1192,3 @@ Peut être une des valeurs suivantes:
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
-
-@Function SwitchCamera(#Camera, #NouvelleCamera)
-
-@Description
-  Echange une caméra avec une autre.
-
-@Parameter "#Camera"
-  La caméra à échanger.
-
-@Parameter "#NouvelleCamera"
-  La nouvelle caméra à afficher.
-
-@NoReturnValue
-
-@SeeAlso
-  @@CreateCamera
-  
-@SupportedOS

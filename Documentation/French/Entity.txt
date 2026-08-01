@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Entity library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,39 +8,39 @@
 
 @Overview
 
-  Une entité, ou 'Entity' en anglais 
-  est un objet 3D composé d'un 
+  Une entitÃ©, ou 'Entity' en anglais 
+  est un objet 3D composÃ© d'un 
   @LibraryLink "mesh" "mesh" (un maillage 3D) 
-  et d'une @LibraryLink "material" "matière" 
-  (ou matériau). Une entité peut être déplacée 
-  et transformée en temps réel. De plus, la 
-  bibliothèque 
+  et d'une @LibraryLink "material" "matiÃ¨re" 
+  (ou matÃ©riau). Une entitÃ© peut Ãªtre dÃ©placÃ©e 
+  et transformÃ©e en temps rÃ©el. De plus, la 
+  bibliothÃ¨que 
   @LibraryLink "entityanimation" "EntityAnimation" 
   est disponible pour animer une partie d'une 
-  entité constituée d'un squelette, ce qui 
-  permet de faire marcher une entité, par 
+  entitÃ© constituÃ©e d'un squelette, ce qui 
+  permet de faire marcher une entitÃ©, par 
   exemple.  
 @LineBreak
 @LineBreak
   Il est possible de partager un mesh et/ou 
-  une matière entre plusieurs entités 
-  réduisant ainsi la consommation mémoire et 
+  une matiÃ¨re entre plusieurs entitÃ©s 
+  rÃ©duisant ainsi la consommation mÃ©moire et 
   l'utilisation du processeur. 
 @LineBreak
 @LineBreak
-  @@InitEngine3D doit être appelé avec succès 
+  @@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s 
   avant de pouvoir utiliser les commandes 
-  relatives aux entités.
+  relatives aux entitÃ©s.
 
 @CommandList
 
 @ExampleFile All Entity.pb
+@ExampleFile All EntityCustomParameter.pb
 @ExampleFile All CopyAngle.pb
 @LineBreak
 @LineBreak
 @ExampleFile All AttachEntityObject.pb
 @ExampleFile All AttachEntityObject2.pb
-@ExampleFile All AttachEntityObject3.pb
 @LineBreak
 @LineBreak
 @ExampleFile All EntityBonePosition.pb
@@ -59,31 +59,31 @@
 @Function ApplyEntityForce(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode [, ModePosition]]])
 
 @Description
-  Applique une force sur une entité. 
+  Applique une force sur une entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Valeur de la force en x, y et z.
 
 @OptionalParameter "PositionX, PositionY, PositionZ"
   La position relative par rapport au centre 
-  de l'entité, où la force doit être appliquée.
+  de l'entitÃ©, oÃ¹ la force doit Ãªtre appliquÃ©e.
   
 @OptionalParameter "Mode"
-  Le mode à appliquer. Il peut s'agir de l'une des valeurs suivantes:
+  Le mode Ã  appliquer. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Force locale.
-  @#PB_Parent: Force relative à la position du parent.
+  @#PB_Parent: Force relative Ã  la position du parent.
   @#PB_World : Force relative au monde.
 @EndFixedFont
 
 @OptionalParameter "ModePosition"
-  Le mode position à appliquer. Il peut s'agir de l'une des valeurs suivantes:
+  Le mode position Ã  appliquer. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Position locale.
-  @#PB_Parent: Position relative à la position du parent.
+  @#PB_Parent: Position relative Ã  la position du parent.
   @#PB_World : Position relative au monde.
 @EndFixedFont
 
@@ -100,23 +100,23 @@
 @Function ApplyEntityImpulse(#Entity, X, Y, Z [, PositionX, PositionY, PositionZ [, Mode]])
 
 @Description
-  Applique une impulsion à une entité.  
+  Applique une impulsion Ã  une entitÃ©.  
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Valeur de la force d'impulsion en en x, y et z.
 
 @OptionalParameter "PositionX, PositionY, PositionZ"
   La position relative par rapport au centre 
-  de l'entité, où l'impulsion doit être appliquée.
+  de l'entitÃ©, oÃ¹ l'impulsion doit Ãªtre appliquÃ©e.
   
 @OptionalParameter "Mode"
-  Le mode d'impulsion appliqué. Il peut s'agir de l'une des valeurs suivantes:
+  Le mode d'impulsion appliquÃ©. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Impulsion locale.
-  @#PB_Parent: Impulsion relative à la position du parent.
+  @#PB_Parent: Impulsion relative Ã  la position du parent.
   @#PB_World : Impulsion relative au monde.
 @EndFixedFont
    
@@ -133,19 +133,19 @@
 @Function ApplyEntityTorque(#Entity, X, Y, Z [, Mode])
 
 @Description
-  Applique un couple de force à l'entité.
+  Applique un couple de force Ã  l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Les valeurs du couple en x, y et z.
   
 @OptionalParameter "Mode"
-  Le mode de couple de force de rotation appliqué. Il peut s'agir de l'une des valeurs suivantes:
+  Le mode de couple de force de rotation appliquÃ©. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Rotation locale.
-  @#PB_Parent: Rotation relative à la position du parent.
+  @#PB_Parent: Rotation relative Ã  la position du parent.
   @#PB_World : Rotation relative au monde.
 @EndFixedFont
 
@@ -161,19 +161,19 @@
 @Function ApplyEntityTorqueImpulse(#Entity, X, Y, Z [, Mode])
 
 @Description
-  Applique une impulsion de couple à l'entité.
+  Applique une impulsion de couple Ã  l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Les valeurs de l'impulsion de couple en x, y et z.
   
 @OptionalParameter "Mode"
-  Le mode d'impulsion de couple de force de rotation appliqué. Il peut s'agir de l'une des valeurs suivantes:
+  Le mode d'impulsion de couple de force de rotation appliquÃ©. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Impulsion de rotation locale.
-  @#PB_Parent: Impulsion de rotation relative à la position du parent.
+  @#PB_Parent: Impulsion de rotation relative Ã  la position du parent.
   @#PB_World : Impulsion de rotation relative au monde.
 @EndFixedFont  
 
@@ -189,30 +189,30 @@
 @Function Resultat = CopyEntity(#Entity, #NouvelleEntity)
 
 @Description
-  Crée une copie d'une entité.
+  CrÃ©e une copie d'une entitÃ©.
   
 @Parameter "#Entity"
-  L'entité à copier.
+  L'entitÃ© Ã  copier.
 
 @Parameter "#NouvelleEntity"  
   La copie.
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 @LineBreak
 @LineBreak
-  Tous ses attributs sont dupliqués.  
+  Tous ses attributs sont dupliquÃ©s.  
   
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak
-  Si la '#NouvelleEntity' était déjà créée, 
-  elle est automatiquement supprimée et 
-  remplacée par la nouvelle.
+  Si la '#NouvelleEntity' Ã©tait dÃ©jÃ  crÃ©Ã©e, 
+  elle est automatiquement supprimÃ©e et 
+  remplacÃ©e par la nouvelle.
 
 @SeeAlso
   @@CreateEntity, @@FreeEntity
@@ -224,91 +224,91 @@
 @Function Resultat = CreateEntity(#Entity, MeshID, MatiereID, [X, Y, Z [, MasqueSelection [, MasqueVisibilite]])
 
 @Description
-  Crée une nouvelle entité utilisant un 
-  mesh et une matière. 
+  CrÃ©e une nouvelle entitÃ© utilisant un 
+  mesh et une matiÃ¨re. 
    
 @Parameter "#Entity"  
-  Numéro de l'entité. 
+  NumÃ©ro de l'entitÃ©. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 
 @Parameter "MeshID"  
-   Le mesh à utiliser. 
+   Le mesh Ã  utiliser. 
 @LineBreak
 @LineBreak    
    Pour obtenir un identifiant valide, 
    utiliser @@MeshID.
 @LineBreak
 @LineBreak   
-  Les meshes dynamiques (créés avec l'option 
-  @#PB_Mesh_Dynamic) ne sont pas autorisés.  
+  Les meshes dynamiques (crÃ©Ã©s avec l'option 
+  @#PB_Mesh_Dynamic) ne sont pas autorisÃ©s.  
   
 @Parameter "MatiereID"
-  La matière à utiliser. 
+  La matiÃ¨re Ã  utiliser. 
 @LineBreak
 @LineBreak 
   Pour obtenir un identifiant valide, 
   utilisez @@MaterialID.
 
 @OptionalParameter "X, Y, Z" 
-  La position de la nouvelle entité dans 
+  La position de la nouvelle entitÃ© dans 
   le monde.
 
 @OptionalParameter "MasqueSelection"
-  Utilisé par  @@RayPick et @@MousePick  
-  pour sélectionner le groupe d'entités 
-  qui sera traité.
+  UtilisÃ© par  @@RayPick et @@MousePick  
+  pour sÃ©lectionner le groupe d'entitÃ©s 
+  qui sera traitÃ©.
 @LineBreak
 @LineBreak
   Comme il s'agit d'un masque, chaque 
-  valeur doit être une puissance de deux 
-  et 31 masques différents sont disponibles.
+  valeur doit Ãªtre une puissance de deux 
+  et 31 masques diffÃ©rents sont disponibles.
 @LineBreak
 @LineBreak
-  Pour créer une valeur de masque facilement, 
-  l'opérateur '<<'  peut être utilisé: 
+  Pour crÃ©er une valeur de masque facilement, 
+  l'opÃ©rateur '<<'  peut Ãªtre utilisÃ©: 
 @FixedFont
-  - 1 << 1  : Première valeur de masque valide
-  - 1 << 2  : Deuxième valeur de masque valide
-  - 1 << 3  : Troisième valeur de masque valide
+  - 1 << 1  : PremiÃ¨re valeur de masque valide
+  - 1 << 2  : DeuxiÃ¨me valeur de masque valide
+  - 1 << 3  : TroisiÃ¨me valeur de masque valide
   - ...
-  - 1 << 31 : Dernières valeur de masque valide
+  - 1 << 31 : DerniÃ¨res valeur de masque valide
 @EndFixedFont
    Pour faciliter l'utilisation, les 
-   constantes doivent être utilisées pour 
+   constantes doivent Ãªtre utilisÃ©es pour 
    stocker la valeur du masque.
 @LineBreak
 @LineBreak
    Lorsque vous appelez les fonctions de 
-   sélection, les masques peuvent être 
-   combinés avec l'opérateur '|'
-   pour sélectionner plus d'un type d'entité.
+   sÃ©lection, les masques peuvent Ãªtre 
+   combinÃ©s avec l'opÃ©rateur '|'
+   pour sÃ©lectionner plus d'un type d'entitÃ©.
 
 @OptionalParameter "MasqueVisibilite" 
-  Un masque à choisir sur la caméra qui 
-  affiche l'entité. 
+  Un masque Ã  choisir sur la camÃ©ra qui 
+  affiche l'entitÃ©. 
 @LineBreak
 @LineBreak
-Si ce masque correspond au masque spécifié par 
-  @@CreateCamera alors l'entité sera affichée 
-  par la caméra. @LineBreak
+Si ce masque correspond au masque spÃ©cifiÃ© par 
+  @@CreateCamera alors l'entitÃ© sera affichÃ©e 
+  par la camÃ©ra. @LineBreak
   Voir l'option 'MasqueSelection' ci-dessus 
-  pour construire des masques appropriés.
+  pour construire des masques appropriÃ©s.
 @LineBreak
 @LineBreak
-  Si ce paramètre est omis alors l'entité 
-  sera visible par toutes les caméras.
+  Si ce paramÃ¨tre est omis alors l'entitÃ© 
+  sera visible par toutes les camÃ©ras.
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 @LineBreak
 @LineBreak  
-  Si l'entité était déjà créée, elle est 
-  automatiquement supprimée et remplacée 
+  Si l'entitÃ© Ã©tait dÃ©jÃ  crÃ©Ã©e, elle est 
+  automatiquement supprimÃ©e et remplacÃ©e 
   par la nouvelle.
 
 @SeeAlso
@@ -320,17 +320,17 @@ Si ce masque correspond au masque spécifié par
 @Function EntityFixedYawAxis(#Entity, Actif [, VecteurX.f, VecteurY.f, VecteurZ.f])
 
 @Description
-  Change l'axe fixe de lacet d'une entité. 
+  Change l'axe fixe de lacet d'une entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Actif"
-  Active ou désactive l'utilisation d'un axe 
-  de lacet personnalisé. 
+  Active ou dÃ©sactive l'utilisation d'un axe 
+  de lacet personnalisÃ©. 
 @FixedFont
-  @#True : Un nouvel axe vecteur doit être spécifié. 
-  @#False: L'entité fera un lacet autour de son axe propre Y.
+  @#True : Un nouvel axe vecteur doit Ãªtre spÃ©cifiÃ©. 
+  @#False: L'entitÃ© fera un lacet autour de son axe propre Y.
 @EndFixedFont
 
 @OptionalParameter "VecteurX, VecteurY, VecteurZ"
@@ -340,13 +340,13 @@ Si ce masque correspond au masque spécifié par
   Valeur comprise entre -1.0 et 1.0.
 @LineBreak
 @LineBreak  
-  Le paramètre "Actif" doit être posé à 
+  Le paramÃ¨tre "Actif" doit Ãªtre posÃ© Ã  
   @#True pour avoir un effet.
   
 @NoReturnValue
 
 @Remarks
-  Le comportement par défaut d'une entité est 
+  Le comportement par dÃ©faut d'une entitÃ© est 
   un lacet autour de son propre axe Y.
 
 @SeeAlso
@@ -359,18 +359,18 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityID(#Entity)
 
 @Description
-  Renvoie l'identifiant unique d'une entité.  
+  Renvoie l'identifiant unique d'une entitÃ©.  
 
 @Parameter "#Entity"
-  L'entité à utiliser.  
+  L'entitÃ© Ã  utiliser.  
 
 @ReturnValue
-  Renvoie le numéro de l'entité.
+  Renvoie le numÃ©ro de l'entitÃ©.
   
 @Remarks
-  Cette fonction est très utile quand une 
-  fonction d'une autre bibliothèque nécessite 
-  l'identifiant d'une entité.
+  Cette fonction est trÃ¨s utile quand une 
+  fonction d'une autre bibliothÃ¨que nÃ©cessite 
+  l'identifiant d'une entitÃ©.
 
 @SeeAlso
   @@CreateEntity, @@FreeEntity
@@ -382,18 +382,18 @@ Si ce masque correspond au masque spécifié par
 @Function EntityLookAt(#Entity, X, Y, Z [, DirectionX.f, DirectionY.f, DirectionZ.f])
 
 @Description
-  Spécifie le point (dans l'unité du monde) 
-  auquel une entité fait face.
+  SpÃ©cifie le point (dans l'unitÃ© du monde) 
+  auquel une entitÃ© fait face.
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
-   L'entité pointe vers la position 'X, Y, Z' 
-   (dans l'unité du monde).
+   L'entitÃ© pointe vers la position 'X, Y, Z' 
+   (dans l'unitÃ© du monde).
 
 @OptionalParameter "DirectionX, DirectionY, DirectionZ"
-  La direction de l'entité.
+  La direction de l'entitÃ©.
 @LineBreak
 @LineBreak 
   Valeur comprise entre -1.0 et 1.0.
@@ -401,7 +401,7 @@ Si ce masque correspond au masque spécifié par
 @NoReturnValue
 
 @Remarks
-  La position de l'entité n'est pas modifiée.
+  La position de l'entitÃ© n'est pas modifiÃ©e.
 
 @SupportedOS
 
@@ -410,10 +410,10 @@ Si ce masque correspond au masque spécifié par
 @Function EntityVelocity(#Entity, X, Y, Z)
 
 @Description
-  Modifie la vitesse linéaire d'une entité. 
+  Modifie la vitesse linÃ©aire d'une entitÃ©. 
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Le vecteur vitesse.
@@ -421,17 +421,17 @@ Si ce masque correspond au masque spécifié par
 @NoReturnValue
 
 @Remarks
-  Le facteur linéaire est appliqué à l'entité.
+  Le facteur linÃ©aire est appliquÃ© Ã  l'entitÃ©.
   @LineBreak
   Consultez @@EntityLinearFactor pour plus 
   d'informations.
 @LineBreak
 @LineBreak
-  L'entité a besoin d'un corps physique pour 
-  avoir une vitesse linéaire. 
+  L'entitÃ© a besoin d'un corps physique pour 
+  avoir une vitesse linÃ©aire. 
 @LineBreak
 @LineBreak
-  Pour obtenir la vitesse courante de l'entité, 
+  Pour obtenir la vitesse courante de l'entitÃ©, 
   utilisez @@GetEntityAttribute.
 
 @SeeAlso
@@ -447,10 +447,10 @@ Si ce masque correspond au masque spécifié par
 @Function EntityAngularFactor(#Entity, X, Y, Z)
 
 @Description
-  Modifie le facteur angulaire d'une entité.
+  Modifie le facteur angulaire d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
    Les facteurs angulaires du vecteur.
@@ -468,37 +468,37 @@ Si ce masque correspond au masque spécifié par
 @Function EntityLinearFactor(#Entity, X, Y, Z)
 
 @Description
-   Modifie le facteur linéaire d'une entité. 
+   Modifie le facteur linÃ©aire d'une entitÃ©. 
    
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
-  Les valeurs du facteur linéaire. 
+  Les valeurs du facteur linÃ©aire. 
 @LineBreak
 @LineBreak
-  0 indique que l'entité ne sera plus en 
-  mesure de se déplacer sur l'axe spécifié 'x, y ou z'.
+  0 indique que l'entitÃ© ne sera plus en 
+  mesure de se dÃ©placer sur l'axe spÃ©cifiÃ© 'x, y ou z'.
 
 @NoReturnValue
 
 @Remarks
-  En cas de déplacement, la vitesse linéaire 
-  est multipliée par le facteur linéaire 
+  En cas de dÃ©placement, la vitesse linÃ©aire 
+  est multipliÃ©e par le facteur linÃ©aire 
   pour obtenir la vitesse finale. 
 @LineBreak
 @LineBreak  
-  Ceci est très utile pour contraindre le 
-  mouvement d'une entité sur un ou plusieurs 
+  Ceci est trÃ¨s utile pour contraindre le 
+  mouvement d'une entitÃ© sur un ou plusieurs 
   axes. 
 @LineBreak
 @LineBreak  
-  Par défaut, le facteur linéaire est de 1 
+  Par dÃ©faut, le facteur linÃ©aire est de 1 
   pour tous les axes ce qui signifie aucun 
   impact sur la vitesse. 
 @LineBreak
 @LineBreak  
-  L'entité a besoin d'un corps physique pour 
+  L'entitÃ© a besoin d'un corps physique pour 
   utiliser cette contrainte.
 
 
@@ -513,45 +513,42 @@ Si ce masque correspond au masque spécifié par
 @Function EntityCustomParameter(#Entity, SousEntity, IndexParametre, Valeur1.f, Valeur2.f, Valeur3.f, Valeur4.f)
 
 @Description
-  Définit des paramètres personnalisés pour le 'script shader' matériau d'une entité.
+  DÃ©finit des paramÃ¨tres personnalisÃ©s pour le 'script shader' matÃ©riau d'une entitÃ©.
   @LineBreak  
-  Pour avoir un effet, le matériau associé à l'entité doit avoir un 'script shader', soit GLSL soit HLSL.
+  Pour avoir un effet, le matÃ©riau associÃ© Ã  l'entitÃ© doit avoir un 'script shader', soit GLSL soit HLSL.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "SousEntity"
-  La sous-entité à utiliser. 
+  La sous-entitÃ© Ã  utiliser. 
 @LineBreak
 @LineBreak   
-  Le premier indice commence à 0 (reprensentant l'entité principale).
+  Le premier indice commence Ã  0 (reprensentant l'entitÃ© principale).
 
 @Parameter "IndexParametre"
-  L'indice de paramètre dans le shader script.
+  L'indice de paramÃ¨tre dans le shader script.
 
 @Parameter "Valeur1.f, Valeur2.f, Valeur3.f, Valeur4.f"
-  Les valeurs du paramètre.
+  Les valeurs du paramÃ¨tre.
 @LineBreak
 @LineBreak 
-  Si le paramètre ne peut accepter une valeur, cette valeur sera ignorée.
+  Si le paramÃ¨tre ne peut accepter une valeur, cette valeur sera ignorÃ©e.
 
 @NoReturnValue
 
 @Remarks
-   Pour définir des paramètres dans un matériau, vous devez les définir dans le script du matériau sous la forme param_named_auto 'VariableName' 
+   Pour dÃ©finir des paramÃ¨tres dans un matÃ©riau, vous devez les dÃ©finir dans le script du matÃ©riau sous la forme param_named_auto 'VariableName' 
    custom 'ParameterIndex', par exemple :
 @FixedFont
    param_named_auto foo custom 1
    param_named_auto barre custom 2
 @EndFixedFont
-   La définition et la taille du paramètre sont définies dans le script shaders, par exemple :
+   La dÃ©finition et la taille du paramÃ¨tre sont dÃ©finies dans le script shaders, par exemple :
 @FixedFont
   uniform float foo;
   uniform vec3 bar;
 @EndFixedFont
-   Pour plus d’informations, consultez l’exemple suivant :
-
-@ExampleFile All RustyBall.pb
 
 @SeeAlso
   @@EntityVelocity, @@EntityLinearFactor, 
@@ -564,33 +561,33 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoundingBox(#Entity, Options)
 
 @Description
-  Renvoie la position de la boîte englobante 
-  d'une entité en coordonnées locales ou 
+  Renvoie la position de la boÃ®te englobante 
+  d'une entitÃ© en coordonnÃ©es locales ou 
   mondiales.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Options"
 @FixedFont
-  @#PB_Entity_MinBoundingBoxX: Min 'x' de la boîte englobante
-  @#PB_Entity_MaxBoundingBoxX: Max 'x' de la boîte englobante
-  @#PB_Entity_MinBoundingBoxY: Min 'y' de la boîte englobante
-  @#PB_Entity_MaxBoundingBoxY: Max 'y' de la boîte englobante
-  @#PB_Entity_MinBoundingBoxZ: Min 'z' de la boîte englobante
-  @#PB_Entity_MaxBoundingBoxZ: Max 'z' de la boîte englobante
+  @#PB_Entity_MinBoundingBoxX: Min 'x' de la boÃ®te englobante
+  @#PB_Entity_MaxBoundingBoxX: Max 'x' de la boÃ®te englobante
+  @#PB_Entity_MinBoundingBoxY: Min 'y' de la boÃ®te englobante
+  @#PB_Entity_MaxBoundingBoxY: Max 'y' de la boÃ®te englobante
+  @#PB_Entity_MinBoundingBoxZ: Min 'z' de la boÃ®te englobante
+  @#PB_Entity_MaxBoundingBoxZ: Max 'z' de la boÃ®te englobante
 @EndFixedFont
   
   Il est possible de la combiner avec l'une 
   des valeurs suivantes:
 @FixedFont
-  @#PB_Entity_WorldBoundingBox: Coordonnées mondiales (par défaut)
-  @#PB_Entity_LocalBoundingBox: Coordonnées locales
+  @#PB_Entity_WorldBoundingBox: CoordonnÃ©es mondiales (par dÃ©faut)
+  @#PB_Entity_LocalBoundingBox: CoordonnÃ©es locales
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la position de la boîte englobante 
-  en coordonnées locales ou mondiales.
+  Renvoie la position de la boÃ®te englobante 
+  en coordonnÃ©es locales ou mondiales.
  
 @SupportedOS
 
@@ -599,22 +596,22 @@ Si ce masque correspond au masque spécifié par
 @Function DisableEntityBody(#Entity, Desactiver)
 
 @Description
-  Désactive le corps d'une entité. 
+  DÃ©sactive le corps d'une entitÃ©. 
 
 @Parameter "#Entity"
-  L'entité à désactiver.
+  L'entitÃ© Ã  dÃ©sactiver.
 
 @Parameter "Desactiver"
 @FixedFont
-   @#True : Le corps de l'entité est désactivé. 
-   @#False: Le corps de l'entité est activé.
+   @#True : Le corps de l'entitÃ© est dÃ©sactivÃ©. 
+   @#False: Le corps de l'entitÃ© est activÃ©.
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Le moteur physique n'affecte plus l'entité 
-  quand son corps est désactivé.
+  Le moteur physique n'affecte plus l'entitÃ© 
+  quand son corps est dÃ©sactivÃ©.
  
 @SeeAlso
   @@CreateEntityBody, @@CreateEntity
@@ -626,19 +623,19 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityParentNode(#Entity)
 
 @Description
-  Renvoie le numéro du noeud parent d'une 
-  entité.
+  Renvoie le numÃ©ro du noeud parent d'une 
+  entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
   Renvoie le  @@NodeID parent, s'il existe 
-  ou zéro sinon. 
+  ou zÃ©ro sinon. 
 
 @Remarks 
-  Il peut s'agir d'un noeud réel ou d'un 
-  os si l'entité est fixée à un os.
+  Il peut s'agir d'un noeud rÃ©el ou d'un 
+  os si l'entitÃ© est fixÃ©e Ã  un os.
 
 @SeeAlso
   @@FreeEntityJoints
@@ -650,24 +647,24 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = FetchEntityMaterial(#Entity, #Matiere [, SousEntity])
 
 @Description
-  Installe la matière associée à l'#Entity 
+  Installe la matiÃ¨re associÃ©e Ã  l'#Entity 
   avec @@SetEntityMaterial.
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "#Material"
-  Le numéro de la nouvelle 
-  @LibraryLink "material" "matière".  
+  Le numÃ©ro de la nouvelle 
+  @LibraryLink "material" "matiÃ¨re".  
 
 @OptionalParameter "SousEntity"
- La sous-entité  à utiliser. @LineBreak
- Le premier indice commence à 0 (ce qui 
- représente la principale entité).
+ La sous-entitÃ©  Ã  utiliser. @LineBreak
+ Le premier indice commence Ã  0 (ce qui 
+ reprÃ©sente la principale entitÃ©).
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
  
 @SeeAlso
   @@SetEntityMaterial, @@GetEntityAttribute, 
@@ -680,26 +677,26 @@ Si ce masque correspond au masque spécifié par
 @Function SetEntityMaterial(#Entity, MatiereID [, SousEntity])
 
 @Description
-  Assigne une matière à l'entité. 
+  Assigne une matiÃ¨re Ã  l'entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "MatiereID
-  La matière.
+  La matiÃ¨re.
 @LineBreak
 @LineBreak
-  Si une matière était déjà assignée à 
-  l'entité alors elle est remplacée.
+  Si une matiÃ¨re Ã©tait dÃ©jÃ  assignÃ©e Ã  
+  l'entitÃ© alors elle est remplacÃ©e.
 @LineBreak
 @LineBreak
-  Peut être facilement obtenu avec la 
+  Peut Ãªtre facilement obtenu avec la 
   commande @@MaterialID.
 
 @OptionalParameter "SousEntity"
- La sous-entité  à utiliser. @LineBreak
- Le premier indice commence à 0 (ce qui 
- représente la principale entité).
+ La sous-entitÃ©  Ã  utiliser. @LineBreak
+ Le premier indice commence Ã  0 (ce qui 
+ reprÃ©sente la principale entitÃ©).
  
 @NoReturnValue
   
@@ -714,27 +711,27 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityCollide(#Entity, #Entity2)
 
 @Description
-  Vérifie si deux entités entrent en collision. 
+  VÃ©rifie si deux entitÃ©s entrent en collision. 
   
 @Parameter "#Entity"
-  La première entité à tester.
+  La premiÃ¨re entitÃ© Ã  tester.
   
 @Parameter "#Entity2"
-  La seconde entité à tester.
+  La seconde entitÃ© Ã  tester.
   
 @ReturnValue
   Renvoie une valeur non nulle si les deux 
-  entités entrent en collision.
+  entitÃ©s entrent en collision.
 
 @Remarks
-  Pour que les collisions soient gérées par 
-  le moteur physique, une entité a besoin 
-  d'un corps (body) créé avec 
+  Pour que les collisions soient gÃ©rÃ©es par 
+  le moteur physique, une entitÃ© a besoin 
+  d'un corps (body) crÃ©Ã© avec 
   @@CreateEntityBody.
 @LineBreak
 @LineBreak
-  De plus, le moteur physique doit être 
-  activé avec @@EnableWorldPhysics.
+  De plus, le moteur physique doit Ãªtre 
+  activÃ© avec @@EnableWorldPhysics.
 
 
 @SeeAlso
@@ -745,41 +742,40 @@ Si ce masque correspond au masque spécifié par
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateEntityBody(#Entity, Type [, Masse [, Restitution, Friction [, TailleX, TailleY, TailleZ [, AxeX, AxeY, AxeZ]])
+@Function CreateEntityBody(#Entity, Type [, Masse [, Restitution, Friction [, Axe [, TailleX, TailleY, TailleZ ]]]])
 
 @Description
-  Crée ou change le type de corps (body) 
-  associé à une entité. 
+  CrÃ©e ou change le type de corps (body) associÃ© Ã  une entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Type"  
-  Définit comment le moteur physique gère 
-  l'entité:
+  DÃ©finit comment le moteur physique gÃ¨re 
+  l'entitÃ©:
 @FixedFont
-  @#PB_Entity_None       : Aucun body associé à l'entity (mode par défaut).
-  @#PB_Entity_StaticBody : Le body est statique, c'est à dire que le mesh ne peut pas être animé.
-                          Ce mode permet des collisions très précises, car elles sont faites par rapport aux triangles
+  @#PB_Entity_None       : Aucun body associÃ© Ã  l'entity (mode par dÃ©faut).
+  @#PB_Entity_StaticBody : Le body est statique, c'est Ã  dire que le mesh ne peut pas Ãªtre animÃ©.
+                          Ce mode permet des collisions trÃ¨s prÃ©cises, car elles sont faites par rapport aux triangles
                           qui composent le mesh (connu comme la tri-mesh collision). Les collisions entre body static et les autres types de body
-                          (sphere, box etc.) sont très rapides, mais entre deux body static, cela devient très lent.
+                          (sphere, box etc.) sont trÃ¨s rapides, mais entre deux body static, cela devient trÃ¨s lent.
                           C'est le type de body parfait pour utiliser une mesh comme un sol ou pour un monde statique.
-  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mêmes dimensions)
-                          est utilisé pour gérer les collisions entre les autres entités.
-  @#PB_Entity_ConeBody   : Un cône 'virtuel' englobant totalement l'entity (avec les mêmes dimensions)
-                          est utilisée pour gérer les collisions entre les autres entités.
-  @#PB_Entity_BoxBody    : Une boîte 'virtuelle' englobant totalement l'entity (avec les mêmes dimensions)
-                          est utilisée pour gérer les collisions entre les autres entités.
-  @#PB_Entity_SphereBody : Une sphère 'virtuelle' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ© pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_ConeBody   : Un cÃ´ne 'virtuel' englobant totalement l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_BoxBody    : Une boÃ®te 'virtuelle' englobant totalement l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_SphereBody : Une sphÃ¨re 'virtuelle' englobant totalement l'entity
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
   @#PB_Entity_CylinderBody : Un cylindre 'virtuel' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
   @#PB_Entity_CapsuleBody : Une capsule 'virtuelle' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
-  @#PB_Entity_ConvexHullBody : Une forme complexe 'virtuelle' déduite du mesh réel gère les collisions contre les autres
-                          entités. Ce mode est plus lent que le mode basic de collision.
-  @#PB_Entity_CompoundBody   : Un corps composé 'virtuelle' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_ConvexHullBody : Une forme complexe 'virtuelle' dÃ©duite du mesh rÃ©el gÃ¨re les collisions contre les autres
+                          entitÃ©s. Ce mode est plus lent que le mode basic de collision.
+  @#PB_Entity_CompoundBody   : Un corps composÃ© 'virtuelle' englobant totalement l'entity
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
 @EndFixedFont
 
 @OptionalParameter "Masse"
@@ -787,31 +783,31 @@ Si ce masque correspond au masque spécifié par
 @LineBreak
 @LineBreak
   Ne pas utiliser une valeur trop grande car 
-  il pourrait se produire des incohérences 
-  physiques (Préférer la valeur 1).
+  il pourrait se produire des incohÃ©rences 
+  physiques (PrÃ©fÃ©rer la valeur 1).
 
 @OptionalParameter "Restitution"
   Coefficient de Restitution de la vitesse 
-  de l'objet suite à une collision (Rebond).
+  de l'objet suite Ã  une collision (Rebond).
 @LineBreak
 @LineBreak
-  En théorie, ce coefficient est égal à la 
-  vitesse restituée, divisée par la vitesse 
+  En thÃ©orie, ce coefficient est Ã©gal Ã  la 
+  vitesse restituÃ©e, divisÃ©e par la vitesse 
   initiale.
-  Il est aussi égal à la racine carrée de la 
-  hauteur du rebond, divisée par la hauteur 
-  du lâché.
+  Il est aussi Ã©gal Ã  la racine carrÃ©e de la 
+  hauteur du rebond, divisÃ©e par la hauteur 
+  du lÃ¢chÃ©.
 @LineBreak
 @LineBreak 
-  Il est généralement compris entre 0 et 1 
-  mais s'il est supérieur à 1 ou inférieur à 
-  0, la collision produit de l'énergie 
-  cinétique et donc de la vitesse (vitesse 
-  restituée > vitesse initiale).
+  Il est gÃ©nÃ©ralement compris entre 0 et 1 
+  mais s'il est supÃ©rieur Ã  1 ou infÃ©rieur Ã  
+  0, la collision produit de l'Ã©nergie 
+  cinÃ©tique et donc de la vitesse (vitesse 
+  restituÃ©e > vitesse initiale).
 @LineBreak
 @LineBreak
-  Cette valeur peut également être obtenue ou 
-  définie via @@GetEntityAttribute et 
+  Cette valeur peut Ã©galement Ãªtre obtenue ou 
+  dÃ©finie via @@GetEntityAttribute et 
   @@SetEntityAttribute
 
 @OptionalParameter "Friction"
@@ -819,16 +815,27 @@ Si ce masque correspond au masque spécifié par
   l'objet. 
 @LineBreak
 @LineBreak
-  Attention ce paramètre est proportionnel 
-  à la Masse.
+  Attention ce paramÃ¨tre est proportionnel 
+  Ã  la Masse.
 @LineBreak
 @LineBreak 
-  Cette valeur peut également être obtenue 
-  ou définie via @@GetEntityAttribute et 
-  @@SetEntityAttribute
+  Cette valeur peut Ã©galement Ãªtre obtenue 
+  ou dÃ©finie via @@GetEntityAttribute et 
+  @@SetEntityAttribute 
   
+@OptionalParameter "Axe"
+  L'axe du corps.
+@LineBreak
+@LineBreak 
+  Ne s'applique que sur les types de corps suivants:
+@FixedFont
+  @#PB_Entity_PlaneBody
+  @#PB_Entity_CylinderBody
+  @#PB_Entity_CapsuleBody 
+@EndFixedFont 
+
 @OptionalParameter "TailleX, TailleY, TailleZ"
-  Les dimensions de la boîte englobante autour du corps. Ne concerne que le type de corps suivant:
+  Les dimensions de la boÃ®te englobante autour du corps. Ne concerne que le type de corps suivant:
 @FixedFont
   @#PB_Entity_BoxBody     : TailleX, TailleY, TailleZ sont disponibles.
   @#PB_Entity_SphereBody  : TailleX est disponible.
@@ -837,32 +844,25 @@ Si ce masque correspond au masque spécifié par
   @#PB_Entity_CapsuleBody : TailleX, TailleY, TailleZ sont disponibles.
 @EndFixedFont  
 
-@OptionalParameter "AxeX, AxeY, AxeZ"
-  Les axes du corps. Ne concerne que le type de corps suivant:
-@FixedFont
-  @#PB_Entity_PlaneBody
-  @#PB_Entity_CylinderBody
-  @#PB_Entity_CapsuleBody 
-@EndFixedFont 
 
 @NoReturnValue
 
 @Remarks
-  Pour que les collisions soient gérées par 
-  le moteur physique, une entité doit avoir 
+  Pour que les collisions soient gÃ©rÃ©es par 
+  le moteur physique, une entitÃ© doit avoir 
   un corps. @LineBreak
 @LineBreak
-  De plus, le moteur physique doit être 
-  activé à l'aide de la commande 
+  De plus, le moteur physique doit Ãªtre 
+  activÃ© Ã  l'aide de la commande 
   @@EnableWorldPhysics.
 @LineBreak
 @LineBreak 
   En fait, seul le corps est connu du moteur 
   physique lequel fera tous les calculs 
-  concernant l'entité, vérifiera sa masse, 
+  concernant l'entitÃ©, vÃ©rifiera sa masse, 
   les forces de frottement (friction) 
-  et s'il entre en collision, cela entraînera 
-  un mouvement de recul de l'entité 
+  et s'il entre en collision, cela entraÃ®nera 
+  un mouvement de recul de l'entitÃ© 
   (Restitution).
   
 @SeeAlso
@@ -882,17 +882,17 @@ Si ce masque correspond au masque spécifié par
 @Function EntityRenderMode(#Entity, Mode)
 
 @Description
-  Change le mode de rendu d'une entité.
+  Change le mode de rendu d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Mode"
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont
-  @#PB_Entity_CastShadow      : L'entité projette des ombres si @@WorldShadows est activé (mode par défaut).
-  @#PB_Entity_DisplaySkeleton : Affiche le squelette de l'entité
-  @#PB_Shadow_None            : Désactive la projection des ombres (utile pour l'affichage des "sols")
+  @#PB_Entity_CastShadow      : L'entitÃ© projette des ombres si @@WorldShadows est activÃ© (mode par dÃ©faut).
+  @#PB_Entity_DisplaySkeleton : Affiche le squelette de l'entitÃ©
+  @#PB_Shadow_None            : DÃ©sactive la projection des ombres (utile pour l'affichage des "sols")
 @EndFixedFont
  
 @NoReturnValue
@@ -907,39 +907,41 @@ Si ce masque correspond au masque spécifié par
 @Function AttachEntityObject(#Entity, Os$, ObjetID [, X, Y, Z, Tangage, Roulis, Lacet])
 
 @Description
-  Attache un objet existant à un os d'une entité. 
+  Attache un objet existant Ã  un os d'une entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Os$
-  Le nom de l'os dans le mesh OGRE ou celui spécifié par @@CreateBone.
+  Le nom de l'os dans le mesh OGRE ou celui spÃ©cifiÃ© par @@CreateBone.
 @LineBreak
 @LineBreak
-  Si le nom de l'os est vide, l'objet n'est pas attaché à un os, mais directement à l'entité.
+  Si le nom de l'os est vide, l'objet n'est pas attachÃ© Ã  un os, mais directement Ã  l'entitÃ©.
   
 @Parameter "ObjetID"
-  Peut être un des objets suivants:
+  Peut Ãªtre un des objets suivants:
 @FixedFont
   - Entity : Utilisation de @@EntityID en tant que 'ObjetID'.
   - Camera : Utilisation de @@CameraID en tant que 'ObjetID'.
   - Light  : Utilisation de @@LightID en tant que 'ObjetID'.
   - BillboardGroup : Utilisation de @@BillboardGroupID en tant que 'ObjetID'.
   - ParticleEmitter: Utilisation de @@ParticleEmitterID en tant que 'ObjetID'.
+  - Un noeud       : Utilisation de @@NodeID en tant que 'ObjetID'.
+  - Un texte 3D    : Utilisation de @@Text3DID en tant que 'ObjetID'
 @EndFixedFont
   
 @OptionalParameter "X, Y, Z"
-  Déplacement relatif par rapport à la 
+  DÃ©placement relatif par rapport Ã  la 
   position de l'objet.
 
 @OptionalParameter "Tangage, Roulis, Lacet"
-  Correspondent à la rotation de l'objet par 
+  Correspondent Ã  la rotation de l'objet par 
   rapport aux 3 axes.
   
 @NoReturnValue
 
 @Remarks
-  Un objet peut être détaché de l'os d'une entité avec @@DetachEntityObject.
+  Un objet peut Ãªtre dÃ©tachÃ© de l'os d'une entitÃ© avec @@DetachEntityObject.
    
 @SeeAlso
   @@DetachEntityObject
@@ -951,11 +953,11 @@ Si ce masque correspond au masque spécifié par
 @Function DetachEntityObject(#Noeud, ObjetID)
 
 @Description
-  Détache un objet précédemment attaché à un 
-  os d'une entité. 
+  DÃ©tache un objet prÃ©cÃ©demment attachÃ© Ã  un 
+  os d'une entitÃ©. 
   
 @Parameter "#Noeud"
-  Le noeud à utiliser.
+  Le noeud Ã  utiliser.
 
 @Parameter "ObjetID"
   Les objets pris en charge sont:
@@ -970,7 +972,7 @@ Si ce masque correspond au masque spécifié par
 @NoReturnValue
 
 @Remarks
-  Un objet peut être attaché à un os avec 
+  Un objet peut Ãªtre attachÃ© Ã  un os avec 
   @@AttachEntityObject.
 
 @SeeAlso
@@ -986,32 +988,32 @@ Si ce masque correspond au masque spécifié par
   Activer la commande manuelle d'un os. 
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE ou comme spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE ou comme spÃ©cifiÃ© dans @@CreateBone.
 
 @Parameter "Etat"  
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : La commande manuelle de l'os est activée.
-  @#False: La commande manuelle de l'os est désactivée.
+  @#True : La commande manuelle de l'os est activÃ©e.
+  @#False: La commande manuelle de l'os est dÃ©sactivÃ©e.
 @EndFixedFont
 
 @OptionalParameter "HeritageOrientation"
   Indique si l'orientation de l'os doit 
-  hériter de l'orientation de l'entité. 
-  Peut être une des valeurs suivantes:
+  hÃ©riter de l'orientation de l'entitÃ©. 
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#True : L'orientation manuelle de l'os est héritée de l'entité.
-  @#False: L'orientation manuelle de l'os ne prend pas en compte l'orientation de l'entité.
+  @#True : L'orientation manuelle de l'os est hÃ©ritÃ©e de l'entitÃ©.
+  @#False: L'orientation manuelle de l'os ne prend pas en compte l'orientation de l'entitÃ©.
 @EndFixedFont
   
 @NoReturnValue  
 
 @Remarks
-  Il peut être déplacé manuellement avec @@MoveEntityBone, tourné avec @@RotateEntityBone et
-  ou changer d'échelle avec @@ScaleEntityBone.
+  Il peut Ãªtre dÃ©placÃ© manuellement avec @@MoveEntityBone, tournÃ© avec @@RotateEntityBone et
+  ou changer d'Ã©chelle avec @@ScaleEntityBone.
 
 @SupportedOS
 
@@ -1020,34 +1022,34 @@ Si ce masque correspond au masque spécifié par
 @Function MoveEntityBone(#Entity, Os$, X, Y, Z, Mode)
 
 @Description
-  Déplace l'os d'une entité. 
+  DÃ©place l'os d'une entitÃ©. 
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE ou comme spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE ou comme spÃ©cifiÃ© dans @@CreateBone.
 
 @Parameter "X, Y, Z"  
   Nouvelle position de l'os.
 
 @Parameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de l'os (par défaut).
-  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position actuelle de l'os (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu Ã  la position spÃ©cifiÃ©e.
 @EndFixedFont
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement local.
-  @#PB_Parent: Déplacement par rapport à la position du parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement local.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position du parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
 
 @NoReturnValue  
 
 @Remarks
-  L'os doit être en mode manuel en utilisant 
+  L'os doit Ãªtre en mode manuel en utilisant 
   @@EnableManualEntityBoneControl.
 
 @SeeAlso
@@ -1060,29 +1062,29 @@ Si ce masque correspond au masque spécifié par
 @Function ScaleEntityBone(#Entity, Os$, X, Y, Z, Mode)
 
 @Description
-  Met à l'échelle l'os de l'entité spécifiée.
+  Met Ã  l'Ã©chelle l'os de l'entitÃ© spÃ©cifiÃ©e.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @Parameter "X, Y, Z"  
-  La nouvelle échelle de l'os.
+  La nouvelle Ã©chelle de l'os.
 
 @Parameter "Mode"
-  Le mode échelle. Il peut s'agir de l'une des valeurs suivantes :
+  Le mode Ã©chelle. Il peut s'agir de l'une des valeurs suivantes :
 @FixedFont
-  @#PB_Relative : Échelle relative, basée sur la taille précédente (par défaut). 
-                  L’utilisation de 1.0 pour la valeur d’échelle laissera cette valeur inchangée.
-  @#PB_Absolute : Échelle absolue, en unité monde.
+  @#PB_Relative : Ã‰chelle relative, basÃ©e sur la taille prÃ©cÃ©dente (par dÃ©faut). 
+                  Lâ€™utilisation de 1.0 pour la valeur dâ€™Ã©chelle laissera cette valeur inchangÃ©e.
+  @#PB_Absolute : Ã‰chelle absolue, en unitÃ© monde.
 @EndFixedFont
 
 @NoReturnValue  
 
 @Remarks
- L'os doit être en mode manuel, défini avec @@EnableManualEntityBoneControl.
+ L'os doit Ãªtre en mode manuel, dÃ©fini avec @@EnableManualEntityBoneControl.
 
 @SeeAlso
   @@RotateEntityBone, @@MoveEntityBone
@@ -1094,10 +1096,10 @@ Si ce masque correspond au masque spécifié par
 @Function FreeEntityBody(#Entity)
 
 @Description
-  Libère le corps associé à l'entité.
+  LibÃ¨re le corps associÃ© Ã  l'entitÃ©.
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @NoReturnValue
 
@@ -1111,12 +1113,12 @@ Si ce masque correspond au masque spécifié par
 @Function FreeEntityJoints(#Entity)
 
 @Description
-  Libère toutes les 
+  LibÃ¨re toutes les 
   @LibraryLink "joint" "articulations" 
-  associées à une entité.
+  associÃ©es Ã  une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
  
 @NoReturnValue
   
@@ -1130,16 +1132,16 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneX(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
-  Renvoie la position en X d'un os d'une entité.
+  Renvoie la position en X d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
-  Le décalage par rapport à l'os.
+  Le dÃ©calage par rapport Ã  l'os.
 
 @ReturnValue
   Renvoie la position en X de l'os dans le monde.
@@ -1154,16 +1156,16 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneY(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
- Renvoie la position en Y d'un os d'une entité.
+ Renvoie la position en Y d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
-  Le décalage par rapport à l'os.
+  Le dÃ©calage par rapport Ã  l'os.
 
 @ReturnValue
   Renvoie la position en Y de l'os dans le monde.
@@ -1178,16 +1180,16 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityBoneZ(#Entity, Os$ [, DeplacementX, DeplacementY, DeplacementZ])
 
 @Description
-  Renvoie la position en Z d'un os d'une entité.
+  Renvoie la position en Z d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @OptionalParameter "DeplacementX, DeplacementY, DeplacementZ"
-  Le décalage par rapport à l'os.
+  Le dÃ©calage par rapport Ã  l'os.
 
 @ReturnValue
   Renvoie la position en Z de l'os dans le monde.
@@ -1203,20 +1205,20 @@ Si ce masque correspond au masque spécifié par
 
 @Description
   Renvoie le tangage (torsion de haut en 
-  bas) d'un os d'une entité.
+  bas) d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @ReturnValue
   La valeur du tangage de l'os. 
 @LineBreak
 @LineBreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
   
 @SeeAlso
   @@EntityBoneYaw, @@EntityBoneRoll
@@ -1229,20 +1231,20 @@ Si ce masque correspond au masque spécifié par
 
 @Description
   Renvoie le lacet (torsion horizontale de 
-  gauche à droite) d'un os d'une entité.
+  gauche Ã  droite) d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @ReturnValue
   La valeur du lacet de l'os. 
 @LineBreak
 @LineBreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@EntityBonePitch, @@EntityBoneRoll
@@ -1255,20 +1257,20 @@ Si ce masque correspond au masque spécifié par
 
 @Description
   Renvoie le roulis (torsion verticale de 
-  gauche à droite) d'un os d'une entité.
+  gauche Ã  droite) d'un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @ReturnValue
   La valeur du roulis de l'os. 
 @LineBreak
 @LineBreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@EntityBoneRoll, @@EntityBoneYaw
@@ -1280,22 +1282,22 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityX(#Entity [, Mode])
 
 @Description
-  Renvoie la position en X d'une entité.
+  Renvoie la position en X d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
   
 @ReturnValue
-  Renvoie la position en X de l'entité dans 
+  Renvoie la position en X de l'entitÃ© dans 
   le monde 3D.
 
 @SeeAlso
@@ -1308,22 +1310,22 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityY(#Entity [, Mode])
 
 @Description
-  Renvoie la position en Y d'une entité.
+  Renvoie la position en Y d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
    
 @ReturnValue
-  Renvoie la position en Y de l'entité dans 
+  Renvoie la position en Y de l'entitÃ© dans 
   le monde 3D.
  
 @SeeAlso
@@ -1336,22 +1338,22 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityZ(#Entity [, Mode])
 
 @Description
-  Renvoie la position en Z d'une entité.
+  Renvoie la position en Z d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
  
 @OptionalParameter "Mode"
   Le mode d'obtention du vecteur de direction 
-  de la caméra. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  de la camÃ©ra. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute: Renvoie la direction de la caméra dans le monde (par défaut).
-  @#PB_Relative: Renvoie la direction de la caméra par rapport à son parent.
+  @#PB_World : Renvoie la direction de la camÃ©ra dans le monde (par dÃ©faut).
+  @#PB_Parent: Renvoie la direction de la camÃ©ra par rapport Ã  son parent.
 @EndFixedFont
    
 @ReturnValue
-  Renvoie la position en Z de l'entité dans 
+  Renvoie la position en Z de l'entitÃ© dans 
   le monde 3D.
 
 @SeeAlso
@@ -1364,20 +1366,20 @@ Si ce masque correspond au masque spécifié par
 @Function FreeEntity(#Entity)
 
 @Description
-  Supprime une entité. 
+  Supprime une entitÃ©. 
 
 @Parameter "#Entity"
-  L'entité à supprimer.
+  L'entitÃ© Ã  supprimer.
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, toutes les 
-  entités restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  entitÃ©s restantes sont libÃ©rÃ©es.
   
 @NoReturnValue  
 
 @Remarks
   Toutes les entities restantes sont 
-  automatiquement supprimées quand le 
+  automatiquement supprimÃ©es quand le 
   programme se termine. 
 
 @SeeAlso  
@@ -1390,15 +1392,15 @@ Si ce masque correspond au masque spécifié par
 @Function HideEntity(#Entity, Etat)
 
 @Description
-  Affiche ou cache une entité.
+  Affiche ou cache une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Etat"
 @FixedFont
-  @#False: L'entité est affichée
-  @#True : L'entité est cachée
+  @#False: L'entitÃ© est affichÃ©e
+  @#True : L'entitÃ© est cachÃ©e
 @EndFixedFont
   
 @NoReturnValue 
@@ -1413,24 +1415,24 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = IsEntity(#Entity)
 
 @Description
-  Teste si une entité est correctement 
-  initialisée. 
+  Teste si une entitÃ© est correctement 
+  initialisÃ©e. 
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue   
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  Cette fonction a été créée pour pouvoir 
-  passer n'importe quelle valeur en paramètre 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir 
+  passer n'importe quelle valeur en paramÃ¨tre 
   sans qu'il ne puisse y avoir de plantage.
 @LineBreak
 @LineBreak
-  C'est la fonction idéale pour vérifier 
-  qu'un objet est correctement initialisé.
+  C'est la fonction idÃ©ale pour vÃ©rifier 
+  qu'un objet est correctement initialisÃ©.
   
 @SeeAlso
   @@CreateEntity, @@FreeEntity 
@@ -1442,31 +1444,31 @@ Si ce masque correspond au masque spécifié par
 @Function MoveEntity(#Entity, X, Y, Z [, Mode])
 
 @Description
-  Déplace une entité. 
+  DÃ©place une entitÃ©. 
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "X, Y, Z"
-  Nouvelle position de l'entité.
+  Nouvelle position de l'entitÃ©.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position actuelle de l'entité (par défaut).
-  @#PB_Absolute: Déplacement absolu à la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position actuelle de l'entitÃ© (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu Ã  la position spÃ©cifiÃ©e.
 @EndFixedFont
-  combinée avec l'une des valeurs suivantes:
+  combinÃ©e avec l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement local.
-  @#PB_Parent: Déplacement par rapport à la position du parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement local.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position du parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
 
 @NoReturnValue
    
 @Remarks
-  Le déplacement dans le monde 3D est relatif à la position actuelle de l'entité. 
+  Le dÃ©placement dans le monde 3D est relatif Ã  la position actuelle de l'entitÃ©. 
   
   
 @SeeAlso
@@ -1479,21 +1481,21 @@ Si ce masque correspond au masque spécifié par
 @Function RotateEntity(#Entity, X, Y, Z [, Mode])
 
 @Description
-  Effectue une rotation d'une entité.
+  Effectue une rotation d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "X, Y, Z"
   Angles de rotation.
 @LineBreak
 @LineBreak
-  Tous les angles sont en degrés, de 0 à 359.
+  Tous les angles sont en degrÃ©s, de 0 Ã  359.
 
 @OptionalParameter "Mode"
 @FixedFont
-  @#PB_Absolute: Rotation absolue (par défaut).
-  @#PB_Relative: Rotation relative basée sur la rotation précédente de l'entité.  
+  @#PB_Absolute: Rotation absolue (par dÃ©faut).
+  @#PB_Relative: Rotation relative basÃ©e sur la rotation prÃ©cÃ©dente de l'entitÃ©.  
 @EndFixedFont
   
 @NoReturnValue  
@@ -1508,28 +1510,28 @@ Si ce masque correspond au masque spécifié par
 @Function RotateEntityBone(#Entity, Os$, X, Y, Z, Mode)
 
 @Description
-  Fait pivoter un os d'une entité.
+  Fait pivoter un os d'une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Os$"
-  Le nom de l'os dans le mesh OGRE, ou tel que spécifié dans @@CreateBone.
+  Le nom de l'os dans le mesh OGRE, ou tel que spÃ©cifiÃ© dans @@CreateBone.
 
 @Parameter "X, Y, Z"
   La valeur de rotation en X, Y, Z, 
-  entre 0 à 359 degrés.
+  entre 0 Ã  359 degrÃ©s.
 
 @OptionalParameter "Mode"
 @FixedFont
-  @#PB_Absolute: Rotation absolue (par défaut).
-  @#PB_Relative: Rotation relative basée sur la rotation précédente de l'os.  
+  @#PB_Absolute: Rotation absolue (par dÃ©faut).
+  @#PB_Relative: Rotation relative basÃ©e sur la rotation prÃ©cÃ©dente de l'os.  
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
- L'os doit être en mode manuel, défini avec @@EnableManualEntityBoneControl.
+ L'os doit Ãªtre en mode manuel, dÃ©fini avec @@EnableManualEntityBoneControl.
  
 @SeeAlso
   @@MoveEntityBone, @@ScaleEntityBone
@@ -1541,40 +1543,40 @@ Si ce masque correspond au masque spécifié par
 @Function ScaleEntity(#Entity, X, Y, Z [, Mode])
 
 @Description
-  Change les dimensions d'une entité.
+  Change les dimensions d'une entitÃ©.
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "X, Y, Z"
-  Les facteurs d'échelle sur les trois axes. 
+  Les facteurs d'Ã©chelle sur les trois axes. 
 @linebreak
 @linebreak  
-  Les dimensions de l'entité vont être 
-  multipliées par les valeurs X, Y, Z.
+  Les dimensions de l'entitÃ© vont Ãªtre 
+  multipliÃ©es par les valeurs X, Y, Z.
  
 @OptionalParameter "Mode"
- Peut être une des valeurs suivantes:
+ Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Facteur d'échelle relatif, sur la base de la taille initiale (par défaut). 
-                L'utilisation de la valeur 1.0 permettra de garder la taille inchangée.
-  @#PB_Absolute: Facteur d'échelle absolue, dans l'unité du monde.
+  @#PB_Relative: Facteur d'Ã©chelle relatif, sur la base de la taille initiale (par dÃ©faut). 
+                L'utilisation de la valeur 1.0 permettra de garder la taille inchangÃ©e.
+  @#PB_Absolute: Facteur d'Ã©chelle absolue, dans l'unitÃ© du monde.
 @EndFixedFont 
 
 @NoReturnValue 
 
 @Remarks  
   Lorsque vous utilisez le mode @#PB_Relative, 
-  alors la taille de l'entité sera multipliée 
-  par la valeur donnée pour obtenir la 
+  alors la taille de l'entitÃ© sera multipliÃ©e 
+  par la valeur donnÃ©e pour obtenir la 
   nouvelle taille.
 
 @Example
 @Code
-  ScaleEntity(0, 2, 2, 2) ; Double la taille courante de l'entité.
-  ScaleEntity(0, 1, 1, 1) ; Ne change pas la taille de l'entité (Multiplication par '1').
+  ScaleEntity(0, 2, 2, 2) ; Double la taille courante de l'entitÃ©.
+  ScaleEntity(0, 1, 1, 1) ; Ne change pas la taille de l'entitÃ© (Multiplication par '1').
   ScaleEntity(0, 3, 1, 1) ; Change la taille en 'x': 3 fois plus grande.
-  ScaleEntity(0, 1, 1, 1, #PB_Absolute) ; Réinitialise la taille de l'entité à 1,1,1.
+  ScaleEntity(0, 1, 1, 1, #PB_Absolute) ; RÃ©initialise la taille de l'entitÃ© Ã  1,1,1.
 @EndCode
  
 @SeeAlso
@@ -1587,30 +1589,30 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat.f = EntityRoll(#Entity [, Mode])
 
 @Description
-  Renvoie le roulis d'une entité. 
-  (Mouvement vertical de gauche à droite)
+  Renvoie le roulis d'une entitÃ©. 
+  (Mouvement vertical de gauche Ã  droite)
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignoré (par défaut).
+  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignorÃ© (par dÃ©faut).
   @#PB_Relative : Valeur relative par rapport au roulis courant du parent.
 @EndFixedFont    
-  Combinée avec
+  CombinÃ©e avec
 @FixedFont
-  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#PB_Engine3D_Adjusted : Valeur ajustÃ©e, de sorte qu'elle peut Ãªtre rÃ©utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur du roulis actuel de l'entité. 
+  La valeur du roulis actuel de l'entitÃ©. 
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@EntityYaw, @@EntityPitch
@@ -1622,30 +1624,30 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat.f = EntityPitch(#Entity [, Mode])
 
 @Description
-  Renvoie le tangage d'une entité. 
+  Renvoie le tangage d'une entitÃ©. 
   (Mouvement vertical de haut en bas)
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute : Valeur absolue, et le tangage du parent est ignoré (par défaut).
+  @#PB_Absolute : Valeur absolue, et le tangage du parent est ignorÃ© (par dÃ©faut).
   @#PB_Relative : Valeur relative par rapport au tangage courant du parent.
 @EndFixedFont    
-  Combinée avec
+  CombinÃ©e avec
 @FixedFont
-  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#PB_Engine3D_Adjusted : Valeur ajustÃ©e, de sorte qu'elle peut Ãªtre rÃ©utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont  
 
 @ReturnValue
-  La valeur du tangage actuel de l'entité. 
+  La valeur du tangage actuel de l'entitÃ©. 
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés. 
+  180.0 degrÃ©s. 
   
 @SeeAlso
   @@EntityYaw, @@EntityRoll
@@ -1657,30 +1659,30 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat.f = EntityYaw(#Entity [, Mode])
 
 @Description
-  Renvoie le lacet d'une entité. 
-  (Mouvement horizontal de gauche à droite)
+  Renvoie le lacet d'une entitÃ©. 
+  (Mouvement horizontal de gauche Ã  droite)
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @OptionalParameter "Mode"
-  Peut être une des valeurs suivantes:
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignoré (par défaut).
+  @#PB_Absolute : Valeur absolue, et le roulis du parent est ignorÃ© (par dÃ©faut).
   @#PB_Relative : Valeur relative par rapport au roulis courant du parent.
 @EndFixedFont    
-  Combinée avec
+  CombinÃ©e avec
 @FixedFont
-  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas Ãªtre utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation (par dÃ©faut).
+  @#PB_Engine3D_Adjusted : Valeur ajustÃ©e, de sorte qu'elle peut Ãªtre rÃ©utilisÃ©e avec @@RotateEntity pour rÃ©cupÃ©rer la mÃªme orientation.
 @EndFixedFont 
 
 @ReturnValue
-  La valeur du lacet actuel de l'entité. 
+  La valeur du lacet actuel de l'entitÃ©. 
 @linebreak
 @linebreak
   Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  180.0 degrÃ©s.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll
@@ -1692,41 +1694,41 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat.f = GetEntityAttribute(#Entity, Attribut)
 
 @Description
-  Renvoie la valeur d'un attribut d'une 
-  entité.
+  Renvoie la valeur d'un attribut d'une entitÃ©.
   
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "Attribut" 
 @FixedFont
   @#PB_Entity_Friction          : Renvoie la valeur de la force de friction ou de frottement.
   @#PB_Entity_Restitution       : Renvoie la valeur du coefficient de restitution de la vitesse.
-  @#PB_Entity_LinearVelocity    : Renvoie la vitesse linéaire courante (tous les axes).
-  @#PB_Entity_LinearVelocityX   : Renvoie la vitesse linéaire courante sur l'axe des 'x'.
-  @#PB_Entity_LinearVelocityY   : Renvoie la vitesse linéaire courante sur l'axe des 'y'.
-  @#PB_Entity_LinearVelocityZ   : Renvoie la vitesse linéaire courante sur l'axe des 'z'.
+  @#PB_Entity_LinearVelocity    : Renvoie la vitesse linÃ©aire courante (tous les axes).
+  @#PB_Entity_LinearVelocityX   : Renvoie la vitesse linÃ©aire courante sur l'axe des 'x'.
+  @#PB_Entity_LinearVelocityY   : Renvoie la vitesse linÃ©aire courante sur l'axe des 'y'.
+  @#PB_Entity_LinearVelocityZ   : Renvoie la vitesse linÃ©aire courante sur l'axe des 'z'.
   @#PB_Entity_assCenterX        : Renvoie la position du centre de masse en 'x'.
   @#PB_Entity_MassCenterY       : Renvoie la position du centre de masse en 'y'.
   @#PB_Entity_MassCenterZ       : Renvoie la position du centre de masse en 'z'.
-  @#PB_Entity_NbSubEntities     : Renvoie le nombre de sous-entités.
-  @#PB_Entity_LinearSleeping    : Renvoie la valeur de vitesse linéaire minimum en dessous de laquelle l'entité sera endormie.
-  @#PB_Entity_AngularSleeping   : Renvoie la valeur de vitesse angulaire minimum en dessous de laquelle l'entité sera endormie.
-  @#PB_Entity_DeactivationTime  : Renvoie le temps d'attente (en millisecondes) avant de mettre l'entité en mode veille lorsque les conditions ci-dessus sont remplies.
-  @#PB_Entity_IsActive          : Renvoie si un corps d'entité est actif (pas de veille).
+  @#PB_Entity_NbSubEntities     : Renvoie le nombre de sous-entitÃ©s.
+  @#PB_Entity_LinearSleeping    : Renvoie la valeur de vitesse linÃ©aire minimum en dessous de laquelle l'entitÃ© sera endormie.
+  @#PB_Entity_AngularSleeping   : Renvoie la valeur de vitesse angulaire minimum en dessous de laquelle l'entitÃ© sera endormie.
+  @#PB_Entity_DeactivationTime  : Renvoie le temps d'attente (en millisecondes) avant de mettre l'entitÃ© en mode veille lorsque les conditions ci-dessus sont remplies.
+  @#PB_Entity_IsActive          : Renvoie si un corps d'entitÃ© est actif (pas de veille).
   @#PB_Entity_AngularVelocityX  : Renvoie la vitesse angulaire courante sur l'axe 'x'.
   @#PB_Entity_AngularVelocityY  : Renvoie la vitesse angulaire courante sur l'axe 'y'.
   @#PB_Entity_AngularVelocityZ  : Renvoie la vitesse angulaire courante sur l'axe 'z'.
   @#PB_Entity_AngularVelocity   : Renvoie la vitesse angulaire courante (tous les axes).
-  @#PB_Entity_HasContactResponse: Teste si le corps de l'entité est en contact.
-  @#PB_Entity_ScaleX            : Renvoie la valeur courante de l'échelle sur l'axe 'x'.
-  @#PB_Entity_ScaleY            : Renvoie la valeur courante de l'échelle sur l'axe 'y'.
-  @#PB_Entity_ScaleZ            : Renvoie la valeur courante de l'échelle sur l'axe 'z'.
+  @#PB_Entity_HasContactResponse: Teste si le corps de l'entitÃ© est en contact.
+  @#PB_Entity_ScaleX            : Renvoie la valeur courante de l'Ã©chelle sur l'axe 'x'.
+  @#PB_Entity_ScaleY            : Renvoie la valeur courante de l'Ã©chelle sur l'axe 'y'.
+  @#PB_Entity_ScaleZ            : Renvoie la valeur courante de l'Ã©chelle sur l'axe 'z'.
+  @#PB_Entity_InheritScale      : Renvoie si l'entitÃ© a hÃ©ritÃ© de l'Ã©chelle.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la valeur de l'attribut spécifié 
-  ou zéro si l'entité ne supporte pas 
+  Renvoie la valeur de l'attribut spÃ©cifiÃ© 
+  ou zÃ©ro si l'entitÃ© ne supporte pas 
   l'attribut. 
   
 @SeeAlso
@@ -1741,28 +1743,29 @@ Si ce masque correspond au masque spécifié par
 
 @Description
   Assigne la valeur d'un attribut de 
-  l'articulation associée à une entité.
+  l'articulation associÃ©e Ã  une entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "Attribut"
-  L'attribut à définir parmi:  
+  L'attribut Ã  dÃ©finir parmi:  
 
 @FixedFont
   @#PB_Entity_Friction        : Change la valeur de la force de friction ou de frottement.
   @#PB_Entity_Restitution     : Change la valeur du coefficient de restitution de la vitesse.
-  @#PB_Entity_MinVelocity     : Change la vitesse minimum linéaire. Comme cette valeur n'est pas stockée,
-                               il doit être appelé à chaque fois que l'entité est déplacée.
-  @#PB_Entity_MaxVelocity     : Change la vitesse maximum linéaire. Comme cette valeur n'est pas stockée,
-                               il doit être appelé à chaque fois que l'entité est déplacée.
-  @#PB_Entity_ForceVelocity   : Définit la vitesse linéaire de l'entité. Comme cette valeur n'est pas stockée,
-                               il doit être appelé à chaque fois que l'entité est déplacée.
-  @#PB_Entity_LinearSleeping  : Change la valeur de vitesse linéaire minimum en dessous de laquelle l'entité sera endormie.
-  @#PB_Entity_AngularSleeping : Change la valeur de vitesse angulaire minimum en dessous de laquelle l'entité sera endormie.
-  @#PB_Entity_DeactivationTime: Temps d'attente (en millisecondes) avant de mettre l'entité en mode veille lorsque les conditions ci-dessus sont remplies.
-  @#PB_Entity_DisableContactResponse: Désactive ou active les contacts physiques pour cette entité. La valeur peut être @#True ou @#False.
-@EndFixedFont
+  @#PB_Entity_MinVelocity     : Change la vitesse minimum linÃ©aire. Comme cette valeur n'est pas stockÃ©e,
+                               il doit Ãªtre appelÃ© Ã  chaque fois que l'entitÃ© est dÃ©placÃ©e.
+  @#PB_Entity_MaxVelocity     : Change la vitesse maximum linÃ©aire. Comme cette valeur n'est pas stockÃ©e,
+                               il doit Ãªtre appelÃ© Ã  chaque fois que l'entitÃ© est dÃ©placÃ©e.
+  @#PB_Entity_ForceVelocity   : DÃ©finit la vitesse linÃ©aire de l'entitÃ©. Comme cette valeur n'est pas stockÃ©e,
+                               il doit Ãªtre appelÃ© Ã  chaque fois que l'entitÃ© est dÃ©placÃ©e.
+  @#PB_Entity_LinearSleeping  : Change la valeur de vitesse linÃ©aire minimum en dessous de laquelle l'entitÃ© sera endormie.
+  @#PB_Entity_AngularSleeping : Change la valeur de vitesse angulaire minimum en dessous de laquelle l'entitÃ© sera endormie.
+  @#PB_Entity_DeactivationTime: Temps d'attente (en millisecondes) avant de mettre l'entitÃ© en mode veille lorsque les conditions ci-dessus sont remplies.
+  @#PB_Entity_DisableContactResponse: DÃ©sactive ou active les contacts physiques pour cette entitÃ©. La valeur peut Ãªtre @#True ou @#False.
+  @#PB_Entity_InheritScale    : DÃ©sactiver ou activer si l'entitÃ© possÃ¨de une Ã©chelle hÃ©ritÃ©e. La valeur peut Ãªtre @#True ou @#False
+  @EndFixedFont
 
 @Parameter "Valeur.f"
   Valeur de l'attribut.
@@ -1780,15 +1783,15 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = GetEntityCollisionMask(#Entity)
 
 @Description
-  Renvoie le masque de collision de l'entité 
-  actuelle, telle que déterminé par 
+  Renvoie le masque de collision de l'entitÃ© 
+  actuelle, telle que dÃ©terminÃ© par 
   @@SetEntityCollisionFilter.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  le masque de collision de l'entité actuelle.
+  le masque de collision de l'entitÃ© actuelle.
 
 @SeeAlso
   @@SetEntityCollisionFilter, 
@@ -1801,15 +1804,15 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = GetEntityCollisionGroup(#Entity)
 
 @Description
-  Renvoie le groupe de collision de l'entité 
-  actuelle, telle que déterminée par 
+  Renvoie le groupe de collision de l'entitÃ© 
+  actuelle, telle que dÃ©terminÃ©e par 
   @@SetEntityCollisionFilter.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  Le groupe actuel de collision de l'entité.
+  Le groupe actuel de collision de l'entitÃ©.
 
 @SeeAlso
   @@SetEntityCollisionFilter, 
@@ -1822,11 +1825,11 @@ Si ce masque correspond au masque spécifié par
 @Function SetEntityCollisionFilter(#Entity, CollisionGroupe, CollisionMasque)
 
 @Description
-  Définit le groupe de collision de l'entité 
+  DÃ©finit le groupe de collision de l'entitÃ© 
   et le masque.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "CollisionGroupe"
   Le nouveau groupe de collision.
@@ -1848,45 +1851,45 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = AddSubEntity(#Entity, #SubEntity, Type, [DecalageX, DecalageY, DecalageZ [, TailleX, TailleY, TailleZ [, AxeX, AxeY, AxeZ]]])
 
 @Description
-  Ajoute une entité en tant que sous-entité à une entité existante.
+  Ajoute une entitÃ© en tant que sous-entitÃ© Ã  une entitÃ© existante.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
   
 @Parameter "#SubEntity"
-  L'entité à ajouter.
+  L'entitÃ© Ã  ajouter.
   
 @Parameter "Type"  
-  Définit comment le moteur physique gère la sous-entité:
+  DÃ©finit comment le moteur physique gÃ¨re la sous-entitÃ©:
 @FixedFont
-  @#PB_Entity_StaticBody : Le body est statique, c'est à dire que le mesh ne peut pas être animé.
-                          Ce mode permet des collisions très précises, car elles sont faites par rapport aux triangles
+  @#PB_Entity_StaticBody : Le body est statique, c'est Ã  dire que le mesh ne peut pas Ãªtre animÃ©.
+                          Ce mode permet des collisions trÃ¨s prÃ©cises, car elles sont faites par rapport aux triangles
                           qui composent le mesh (connu comme la tri-mesh collision). Les collisions entre body static et les autres types de body
-                          (sphere, box etc.) sont très rapides, mais entre deux body static, cela devient très lent.
+                          (sphere, box etc.) sont trÃ¨s rapides, mais entre deux body static, cela devient trÃ¨s lent.
                           C'est le type de body parfait pour utiliser une mesh comme un sol ou pour un monde statique.
-  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mêmes dimensions)
-                          est utilisé pour gérer les collisions entre les autres entités.
-  @#PB_Entity_ConeBody   : Un cône 'virtuel' englobant totalement l'entity (avec les mêmes dimensions)
-                          est utilisée pour gérer les collisions entre les autres entités.
-  @#PB_Entity_BoxBody    : Une boîte 'virtuelle' englobant totalement l'entity (avec les mêmes dimensions)
-                          est utilisée pour gérer les collisions entre les autres entités.
-  @#PB_Entity_SphereBody : Une sphère 'virtuelle' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+  @#PB_Entity_PlaneBody  : Un plan 'virtuel' sur l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ© pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_ConeBody   : Un cÃ´ne 'virtuel' englobant totalement l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_BoxBody    : Une boÃ®te 'virtuelle' englobant totalement l'entity (avec les mÃªmes dimensions)
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
+  @#PB_Entity_SphereBody : Une sphÃ¨re 'virtuelle' englobant totalement l'entity
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
   @#PB_Entity_CylinderBody : Un cylindre 'virtuel' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
   @#PB_Entity_CapsuleBody : Une capsule 'virtuelle' englobant totalement l'entity
-                          est utilisée pour gérer les collisions entre les autres entités.
+                          est utilisÃ©e pour gÃ©rer les collisions entre les autres entitÃ©s.
   @#PB_Entity_ConvexHullBody : Une forme arbitraire 'virtuelle' englobant totalement l'entity 
-                          définie par un nuage de vertices et la forme sera la plus petite 
+                          dÃ©finie par un nuage de vertices et la forme sera la plus petite 
                           forme convexe qui entoure les vertices.
 
 @EndFixedFont
 
 @OptionalParameter "DecalageX, DecalageY, DecalageZ"
-  Le décalage ou translation (Offset) du body en X, Y et Z.
+  Le dÃ©calage ou translation (Offset) du body en X, Y et Z.
   
 @OptionalParameter "TailleX, TailleY, TailleZ"
-  Les dimensions de la boîte englobante autour du corps. Ne concerne que le type de corps suivant:
+  Les dimensions de la boÃ®te englobante autour du corps. Ne concerne que le type de corps suivant:
 @FixedFont
   @#PB_Entity_BoxBody     : TailleX, TailleY, TailleZ sont disponibles.
   @#PB_Entity_SphereBody  : TailleX est disponible.
@@ -1894,7 +1897,7 @@ Si ce masque correspond au masque spécifié par
   @#PB_Entity_CylinderBody: TailleX, TailleY sont disponibles.
   @#PB_Entity_CapsuleBody : TailleX, TailleY, TailleZ sont disponibles.
 @EndFixedFont  
-  Si TailleX = -1 alors le système utilise la boîte englobante.
+  Si TailleX = -1 alors le systÃ¨me utilise la boÃ®te englobante.
   
 @OptionalParameter "AxeX, AxeY, AxeZ"
   Les axes du corps. Ne concerne que le type de corps suivant:
@@ -1905,12 +1908,12 @@ Si ce masque correspond au masque spécifié par
 @EndFixedFont 
 
 @ReturnValue   
-  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+  Renvoie une valeur non nulle en cas de succÃ¨s, zÃ©ro sinon.
  
 @Remarks
-  Il est nécessaire d'utiliser la fonction @@CreateEntityBody() 
-  avec l'option #PB_Entity_CompoundBody après l'ajout de toutes 
-  les sous-entités. 
+  Il est nÃ©cessaire d'utiliser la fonction @@CreateEntityBody() 
+  avec l'option #PB_Entity_CompoundBody aprÃ¨s l'ajout de toutes 
+  les sous-entitÃ©s. 
  
 @SeeAlso
   @@CreateEntity
@@ -1922,10 +1925,10 @@ Si ce masque correspond au masque spécifié par
 @Function EntityDirection(#Entity, X, Y, Z [, Mode, VecteurDirectionLocal])
 
 @Description
-  Définit la direction de l'entité.
+  DÃ©finit la direction de l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @Parameter "X, Y, Z"
   Le vecteur direction (valeur entre -1.0 et 1.0).
@@ -1934,7 +1937,7 @@ Si ce masque correspond au masque spécifié par
   Le mode de direction. Il peut s'agir de l'une des valeurs suivantes:
 @FixedFont
   @#PB_Local : Mouvement local.
-  @#PB_Parent: Mouvement relatif à la position des parents.
+  @#PB_Parent: Mouvement relatif Ã  la position des parents.
   @#PB_World : Mouvement relatif au monde.
 @EndFixedFont
 
@@ -1961,13 +1964,13 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityDirectionX(#Entity)
 
 @Description
-  Obtenir la direction 'x' de l'entité.
+  Obtenir la direction 'x' de l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  Renvoie la direction 'x' de l'entité.
+  Renvoie la direction 'x' de l'entitÃ©.
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionY, @@EntityDirectionZ
@@ -1979,13 +1982,13 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityDirectionY(#Entity)
 
 @Description
-  Obtenir la direction 'y' de l'entité.
+  Obtenir la direction 'y' de l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  Renvoie la direction 'y' de l'entité.
+  Renvoie la direction 'y' de l'entitÃ©.
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionZ
@@ -1997,13 +2000,13 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = EntityDirectionZ(#Entity)
 
 @Description
-  Obtenir la direction 'z' de l'entité.
+  Obtenir la direction 'z' de l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  Renvoie la direction 'z' de l'entité.
+  Renvoie la direction 'z' de l'entitÃ©.
  
 @SeeAlso
   @@EntityDirection, @@EntityDirectionX, @@EntityDirectionY
@@ -2015,13 +2018,13 @@ Si ce masque correspond au masque spécifié par
 @Function Resultat = GetEntityMesh(#Entity)
 
 @Description
-  Obtenir le #Mesh utilisé par l'entité.
+  Obtenir le #Mesh utilisÃ© par l'entitÃ©.
 
 @Parameter "#Entity"
-  L'entité à utiliser.
+  L'entitÃ© Ã  utiliser.
 
 @ReturnValue
-  Renvoie le #Mesh utilisé par l'entité.
+  Renvoie le #Mesh utilisÃ© par l'entitÃ©.
  
 @SeeAlso
   @@CreateEntity

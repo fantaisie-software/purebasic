@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Array library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,35 +8,35 @@
 
 @Overview
 
-  Un tableau permet de stocker des éléments 
-  de manière indexée. Contrairement à une 
-  @LibraryLink "List" "liste" ou à une 
-  @LibraryLink "Map" "map", les éléments
-  sont alloués de façon contiguë en mémoire. 
+  Un tableau permet de stocker des Ã©lÃ©ments 
+  de maniÃ¨re indexÃ©e. Contrairement Ã  une 
+  @LibraryLink "List" "liste" ou Ã  une 
+  @LibraryLink "Map" "map", les Ã©lÃ©ments
+  sont allouÃ©s de faÃ§on contiguÃ« en mÃ©moire. 
   C'est pourquoi il n'est pas possible
-  d'insérer ou de supprimer un élément. 
-  D'un autre côté, il permet d'accéder à 
-  n'importe quel élément quasiment 
-  instantanément.
+  d'insÃ©rer ou de supprimer un Ã©lÃ©ment. 
+  D'un autre cÃ´tÃ©, il permet d'accÃ©der Ã  
+  n'importe quel Ã©lÃ©ment quasiment 
+  instantanÃ©ment.
 @LineBreak
 @LineBreak
-  Pour manipuler un tableau, il doit d'abord être déclaré avec le mot clé 
-  @ReferenceLink "dim" "Dim" et peuvent être redimensionnés avec 
+  Pour manipuler un tableau, il doit d'abord Ãªtre dÃ©clarÃ© avec le mot clÃ© 
+  @ReferenceLink "dim" "Dim" et peuvent Ãªtre redimensionnÃ©s avec 
   @ReferenceLink "dim" "ReDim".
 @LineBreak
 @LineBreak
-  Les tableaux peuvent être triés avec 
+  Les tableaux peuvent Ãªtre triÃ©s avec 
   @@sortArray ou @@SortStructuredArray 
-  Il est également possible de réordonner 
-  les éléments d'un tableau dans un ordre 
-  aléatoire avec la fonction @@RandomizeArray.
+  Il est Ã©galement possible de rÃ©ordonner 
+  les Ã©lÃ©ments d'un tableau dans un ordre 
+  alÃ©atoire avec la fonction @@RandomizeArray.
 @LineBreak
 @LineBreak
   Note: Ces tableaux sont dit dynamiques car ils peuvent changer de taille. Ils existent 
-  toutefois des tableaux dit statiques, non redimensionnables et utilisés seulement dans 
-  les structures. Ces tableaux s'écrivent avec des crochets. Par exemple: TabStatic[2].
-  Voir @ReferenceLink "structures" "ici". Les fonctions de cette bibliothèque Array ne peuvent 
-  pas être utilisées avec ce type de tableaux.
+  toutefois des tableaux dit statiques, non redimensionnables et utilisÃ©s seulement dans 
+  les structures. Ces tableaux s'Ã©crivent avec des crochets. Par exemple: TabStatic[2].
+  Voir @ReferenceLink "structures" "ici". Les fonctions de cette bibliothÃ¨que Array ne peuvent 
+  pas Ãªtre utilisÃ©es avec ce type de tableaux.
   
 @CommandList
 
@@ -57,30 +57,30 @@
   Renvoie la taille d'un tableau.
   
 @Parameter "Tableau()"  
-  Le tableau à tester.
+  Le tableau Ã  tester.
   
 @OptionalParameter "Dimension"  
-  Pour les tableaux multidimensionnels, permet de renvoyer la taille d'une dimension donnée. 
+  Pour les tableaux multidimensionnels, permet de renvoyer la taille d'une dimension donnÃ©e. 
 @LineBreak
 @LineBreak
-  La première dimension commence à 1. 
+  La premiÃ¨re dimension commence Ã  1. 
 
 @ReturnValue
-  Renvoie la taille de la dimension du tableau telle qu'elle a été spécifiée 
-  lors de sa déclaration avec @ReferenceLink "dim" "Dim" ou @ReferenceLink "dim" "ReDim". 
+  Renvoie la taille de la dimension du tableau telle qu'elle a Ã©tÃ© spÃ©cifiÃ©e 
+  lors de sa dÃ©claration avec @ReferenceLink "dim" "Dim" ou @ReferenceLink "dim" "ReDim". 
 @LineBreak
 @LineBreak
-  Renvoie -1 si le tableau n'est pas initialisé, (par exemple après @FastLink "FreeArray()" ou si son initialisation 
-  a échoué).
+  Renvoie -1 si le tableau n'est pas dÃ©clarÃ©, (par exemple aprÃ¨s @FastLink "FreeArray()" ou si son initialisation 
+  a Ã©chouÃ©).
 
 @Remarks
-  Attention, le nombre d'éléments est égale à la taille plus 1.@LineBreak
-  Par exemple: Dim a(2) contient 3 éléments de a(0) à a(2) pour une taille de 2.
+  Attention, le nombre d'Ã©lÃ©ments est Ã©gale Ã  la taille plus 1.@LineBreak
+  Par exemple: Dim a(2) contient 3 Ã©lÃ©ments de a(0) Ã  a(2) pour une taille de 2.
 @LineBreak
 @LineBreak  
-  Ne fonctionne pas avec les tableaux statiques déclarés dans les 
+  Ne fonctionne pas avec les tableaux statiques dÃ©clarÃ©s dans les 
   @ReferenceLink "structures" "Structures".@LineBreak
-  Utilisez @ReferenceLink "compilerfunctions" "SizeOf" à la place.
+  Utilisez @ReferenceLink "compilerfunctions" "SizeOf" Ã  la place.
     
 @Example 
 @Code
@@ -96,7 +96,7 @@
   Next n
   Debug MultiArray2(0,0,0) ; affichera '1'
   Debug MultiArray2(0,1,0) ; affichera '2'
-  Debug MultiArray2(0,2,0) ; affichera '3' (Nous avons bien 3 éléments)
+  Debug MultiArray2(0,2,0) ; affichera '3' (Nous avons bien 3 Ã©lÃ©ments)
   Debug ArraySize(MultiArray2(),2) ; affichera '2' (Et pourtant la taille est de 2)
 @EndCode
 
@@ -107,7 +107,7 @@
   If ArraySize(Test()) <> -1
     Test(12345) = 123  ; tout se passe bien
   Else
-    Debug "Le tableau 'Test()' ne peut pas être initialisé."
+    Debug "Le tableau 'Test()' ne peut pas Ãªtre initialisÃ©."
   EndIf
 @EndCode
  
@@ -115,8 +115,8 @@
 @Code
 Structure MaStructure
   TabStatic.l[3]        ; Tableau statique, uniquement dans les structures
-                        ; (Standard C) avec 3 valeurs de Ex\TabStatic[0] à Ex\TabStatic[2], non redimensionnable
-  Array TabDynamic.l(4) ; Tableau dynamique avec 5 valeurs de TabDynamic.i(0) à TabDynamic.i(4), redimensionnable 
+                        ; (Standard C) avec 3 valeurs de Ex\TabStatic[0] Ã  Ex\TabStatic[2], non redimensionnable
+  Array TabDynamic.l(4) ; Tableau dynamique avec 5 valeurs de TabDynamic.i(0) Ã  TabDynamic.i(4), redimensionnable 
 EndStructure
 
 Debug SizeOf(MaStructure\TabStatic) ; Affiche 12
@@ -136,35 +136,35 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
 @Function Resultat = CompareArray(Tableau1(), Tableau2() [, Options])
 
 @Description
-  Compare chaque élément des deux tableaux pour vérifier leur égalité. 
+  Compare chaque Ã©lÃ©ment des deux tableaux pour vÃ©rifier leur Ã©galitÃ©. 
 
 @Parameter "Tableau1(), Tableau2()"
-  Les tableaux à comparer.
+  Les tableaux Ã  comparer.
   
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes :
+  Peut Ãªtre une combinaison des valeurs suivantesÂ :
 @FixedFont
-  @#PB_String_CaseSensitive : La comparaison de chaînes est sensible à la casse (a=a). (Par défaut)
-  @#PB_String_NoCase        : La comparaison de chaînes n'est pas sensible à la casse (A=a).
-  @#PB_Memory_FollowPointers: Si un élément de structure est un pointeur qui n'est pas 0, comparez récursivement la cible du pointeur. 
-                             La valeur par défaut consiste à comparer uniquement la valeur (existante) du pointeur elle-même.
+  @#PB_String_CaseSensitive : La comparaison de chaÃ®nes est sensible Ã  la casse (a=a). (Par dÃ©faut)
+  @#PB_String_NoCase        : La comparaison de chaÃ®nes n'est pas sensible Ã  la casse (A=a).
+  @#PB_Memory_FollowPointers: Si un Ã©lÃ©ment de structure est un pointeur qui n'est pas 0, comparez rÃ©cursivement la cible du pointeur. 
+                             La valeur par dÃ©faut consiste Ã  comparer uniquement la valeur (existante) du pointeur elle-mÃªme.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si les deux tableaux sont identiques, zéro sinon.
+  Renvoie une valeur non nulle si les deux tableaux sont identiques, zÃ©ro sinon.
 
 @Remarks
-  Compare également de manière récursive le contenu des tableaux structurés contenant des éléments 
-  dynamiques (tels que des tableaux intégrés, des listes ou des maps).@LineBreak 
-  Les deux tableaux sont considérés comme égaux s’ils ont le même type et les mêmes dimensions et si
-  chaque paire d’éléments est égale.
+  Compare Ã©galement de maniÃ¨re rÃ©cursive le contenu des tableaux structurÃ©s contenant des Ã©lÃ©ments 
+  dynamiques (tels que des tableaux intÃ©grÃ©s, des listes ou des maps).@LineBreak 
+  Les deux tableaux sont considÃ©rÃ©s comme Ã©gaux sâ€™ils ont le mÃªme type et les mÃªmes dimensions et si
+  chaque paire dâ€™Ã©lÃ©ments est Ã©gale.
 @LineBreak
 @LineBreak
-   L'option @#PB_Memory_FollowPointers est destinée aux utilisateurs avancés et nécessite une attention 
-   particulière pour éviter les plantages. Si cette option est utilisée, alors toutes les valeurs de 
-   pointeur doivent pointer vers une mémoire valide et initialisée ou avoir la valeur 0. Il n'est 
-   pas non plus autorisé d'avoir des boucles dans les éléments pointés (une chaîne de pointeurs qui 
-   se renvoie à elle-même).
+   L'option @#PB_Memory_FollowPointers est destinÃ©e aux utilisateurs avancÃ©s et nÃ©cessite une attention 
+   particuliÃ¨re pour Ã©viter les plantages. Si cette option est utilisÃ©e, alors toutes les valeurs de 
+   pointeur doivent pointer vers une mÃ©moire valide et initialisÃ©e ou avoir la valeur 0. Il n'est 
+   pas non plus autorisÃ© d'avoir des boucles dans les Ã©lÃ©ments pointÃ©s (une chaÃ®ne de pointeurs qui 
+   se renvoie Ã  elle-mÃªme).
    
 @Example
 @Code
@@ -177,10 +177,10 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
   Dim B(4)
   B(0) = 10
   B(1) = 20
-  B(2) = 50 ; Pas égal à A(2)
+  B(2) = 50 ; Pas Ã©gal Ã  A(2)
   B(3) = 40
 
-  Debug CompareArray(A(), B()) ; Différent
+  Debug CompareArray(A(), B()) ; DiffÃ©rent
 @EndCode
 
 @SeeAlso
@@ -197,23 +197,23 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
   Copie un tableau. 
   
 @Parameter "TableauSource()"
-  Le tableau à copier.
+  Le tableau Ã  copier.
   
 @Parameter "TableauDestination()"
   La copie du tableau source. 
 @LineBreak
 @LineBreak
-  Tous les éléments qui se trouvaient 
-  auparavant dans ce tableau seront supprimés. 
+  Tous les Ã©lÃ©ments qui se trouvaient 
+  auparavant dans ce tableau seront supprimÃ©s. 
 @LineBreak
 @LineBreak
-  Ce tableau doit être du même type (natif ou 
-  structuré) et avoir le même nombre de 
+  Ce tableau doit Ãªtre du mÃªme type (natif ou 
+  structurÃ©) et avoir le mÃªme nombre de 
   dimensions que TableauSource().
    
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Example 
 @Code
@@ -227,7 +227,7 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
   
   CopyArray(Nombres(), NombresCopie())
   
-  Debug "Taille du tableau après copie: "+Str(ArraySize(NombresCopie())) ; affichera 5
+  Debug "Taille du tableau aprÃ¨s copie: "+Str(ArraySize(NombresCopie())) ; affichera 5
   Debug NombresCopie(0)
   Debug NombresCopie(5)
 @EndCode
@@ -242,17 +242,17 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
 @Function FreeArray(Tableau())
 
 @Description
-  Détruit un tableau et libère toutes 
-  les ressources associées. 
+  DÃ©truit un tableau et libÃ¨re toutes 
+  les ressources associÃ©es. 
 
 @Parameter "Tableau()"
-  Le tableau à libérer.
+  Le tableau Ã  libÃ©rer.
 
 @NoReturnValue
 
 @Remarks
- Pour continuer à l'utiliser, 
- @ReferenceLink "dim" "Dim" doit être appelé.
+ Pour continuer Ã  l'utiliser, 
+ @ReferenceLink "dim" "Dim" doit Ãªtre appelÃ©.
 
 @SeeAlso
   @@FreeList, @@FreeMap

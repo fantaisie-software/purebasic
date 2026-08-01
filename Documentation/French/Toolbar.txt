@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; ToolBar library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,14 +8,14 @@
 
 @Overview
 
-  Les barres d'outils (Toolbar) sont très utiles 
-  pour accéder rapidement aux fonctions d'une 
+  Les barres d'outils (Toolbar) sont trÃ¨s utiles 
+  pour accÃ©der rapidement aux fonctions d'une 
   application, comme le copier-coller par exemple, 
-  en cliquant simplement sur une icône. 
-  Les barres d'outils représentent souvent des 
+  en cliquant simplement sur une icÃ´ne. 
+  Les barres d'outils reprÃ©sentent souvent des 
   raccourcis de menus. PureBasic vous permet de 
-  créer un nombre quelconque de barres d'outils 
-  et de les gérer comme si elles étaient des 
+  crÃ©er un nombre quelconque de barres d'outils 
+  et de les gÃ©rer comme si elles Ã©taient des 
   menus. 
 
 @CommandList
@@ -29,51 +29,51 @@
 @Function Resultat = CreateToolBar(#BarreOutils, FenetreID [, Options])
 
 @Description
-  Crée une barre d'outils vide.
+  CrÃ©e une barre d'outils vide.
   
 @Parameter "#BarreOutils"  
   L'identifiant de la barre d'outils
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro. 
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro. 
   
 @Parameter "FenetreID"  
-  L'identifiant de la fenêtre.
+  L'identifiant de la fenÃªtre.
 @LineBreak
 @LineBreak    
-  'FenetreID' peut être récupéré facilement 
-  grâce à la commande @@WindowID. 
+  'FenetreID' peut Ãªtre rÃ©cupÃ©rÃ© facilement 
+  grÃ¢ce Ã  la commande @@WindowID. 
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_ToolBar_Small     : Petites icônes (16x16) (par défaut) 
-  @#PB_ToolBar_Large     : Grandes icônes (24x24)
-  @#PB_ToolBar_Text      : Le texte sera affiché sous le bouton
-  @#PB_ToolBar_InlineText: Le texte sera affiché à droite du bouton (Windows uniquement)
+  @#PB_ToolBar_Small     : Petites icÃ´nes (16x16) (par dÃ©faut) 
+  @#PB_ToolBar_Large     : Grandes icÃ´nes (24x24)
+  @#PB_ToolBar_Text      : Le texte sera affichÃ© sous le bouton
+  @#PB_ToolBar_InlineText: Le texte sera affichÃ© Ã  droite du bouton (Windows uniquement)
 @EndFixedFont
   
 @ReturnValue  
   Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  succÃ¨s, zÃ©ro sinon.
 
 @Remarks
-  Cette barre d'outils devient celle par défaut 
-  pour les créations des éléments qu'elle doit 
+  Cette barre d'outils devient celle par dÃ©faut 
+  pour les crÃ©ations des Ã©lÃ©ments qu'elle doit 
   contenir. 
-  Vous pouvez maintenant utiliser @@ToolBarImageButton et @@ToolBarSeparator pour ajouter des éléments.
+  Vous pouvez maintenant utiliser @@ToolBarImageButton et @@ToolBarSeparator pour ajouter des Ã©lÃ©ments.
 @LineBreak
 @LineBreak  
-  La détection des évènements sur les barres 
-  d'outils est similaire à celle des menus, 
-  et nécessite donc la commande @@EventMenu. 
-  Les barres d'outils sont souvent utilisées 
-  comme raccourci des éléments de menu, ainsi 
-  en attribuant le même numéro ID à un menu et 
-  à un bouton de la barre d'outils, les deux 
-  événements sont traités en utilisant le même 
+  La dÃ©tection des Ã©vÃ¨nements sur les barres 
+  d'outils est similaire Ã  celle des menus, 
+  et nÃ©cessite donc la commande @@EventMenu. 
+  Les barres d'outils sont souvent utilisÃ©es 
+  comme raccourci des Ã©lÃ©ments de menu, ainsi 
+  en attribuant le mÃªme numÃ©ro ID Ã  un menu et 
+  Ã  un bouton de la barre d'outils, les deux 
+  Ã©vÃ©nements sont traitÃ©s en utilisant le mÃªme 
   code.
 
 @Example
@@ -110,17 +110,17 @@
   Supprime une barre d'outils. 
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à supprimer.
+  La barre d'outils Ã  supprimer.
 @LineBreak  
 @LineBreak
-  Si @#PB_All est spécifiée, toutes les 
-  barres d'outils restantes sont libérées.
+  Si @#PB_All est spÃ©cifiÃ©e, toutes les 
+  barres d'outils restantes sont libÃ©rÃ©es.
   
 @NoReturnValue  
 
 @Remarks 
   Toutes les barres d'outils restantes sont 
-  automatiquement supprimées quand le programme 
+  automatiquement supprimÃ©es quand le programme 
   se termine.
   
 @SeeAlso
@@ -133,19 +133,19 @@
 @Function DisableToolBarButton(#BarreOutils, Bouton, Etat)
 
 @Description
-  Active ou désactive un bouton d'une 
+  Active ou dÃ©sactive un bouton d'une 
   barre d'outils.
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à supprimer.  
+  La barre d'outils Ã  supprimer.  
   
 @Parameter "Bouton"
-  Le bouton à activer ou à désactiver.  
+  Le bouton Ã  activer ou Ã  dÃ©sactiver.  
   
 @Parameter "Etat" 
 @FixedFont 
-  @#False : Le bouton est activé.
-  @#True  : Le bouton est désactivé.
+  @#False : Le bouton est activÃ©.
+  @#True  : Le bouton est dÃ©sactivÃ©.
 @EndFixedFont
 
 @NoReturnValue   
@@ -162,7 +162,7 @@
       DisableToolBarButton(0, 1, 1) : Disabled = #True
     EndIf
 
-    ButtonGadget(0, 10, 30, 130, 20, "Active l'icône 'Ouvrir'")
+    ButtonGadget(0, 10, 30, 130, 20, "Active l'icÃ´ne 'Ouvrir'")
     ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
     
     Repeat
@@ -171,12 +171,12 @@
         If EventGadget() = 0
           If Disabled = #True
             DisableToolBarButton(0, 1, 0)
-            SetGadgetText(0,"Désactive l'icône 'Ouvrir'")
+            SetGadgetText(0,"DÃ©sactive l'icÃ´ne 'Ouvrir'")
             ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
             Disabled = #False
           Else
             DisableToolBarButton(0, 1, 1)
-            SetGadgetText(0,"Active l'icône 'Ouvrir'")
+            SetGadgetText(0,"Active l'icÃ´ne 'Ouvrir'")
             ResizeGadget(0, #PB_Ignore, #PB_Ignore, GadgetWidth(0, #PB_Gadget_RequiredSize), #PB_Ignore)
             Disabled = #True
           EndIf
@@ -198,26 +198,26 @@
 @Function Resultat = GetToolBarButtonState(#BarreOutils, Bouton)
 
 @Description
-  Renvoie l'état d'un Bouton. 
+  Renvoie l'Ã©tat d'un Bouton. 
     
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser.  
+  La barre d'outils Ã  utiliser.  
   
 @Parameter "Bouton"
-  Le bouton à tester.  
+  Le bouton Ã  tester.  
   
 @ReturnValue
   Renvoie une valeur non nulle si le bouton de 
-  la barre d'outils est activé (enfoncé), 
-  zéro sinon.
+  la barre d'outils est activÃ© (enfoncÃ©), 
+  zÃ©ro sinon.
   
 @Remarks
-  Attention, le bouton doit avoir été créé 
+  Attention, le bouton doit avoir Ã©tÃ© crÃ©Ã© 
   avec l'option @#PB_ToolBar_Toggle.
 @LineBreak  
 @LineBreak
   @@SetToolBarButtonState permet de changer 
-  l'état d'un bouton.
+  l'Ã©tat d'un bouton.
 
 @SeeAlso
   @@SetToolBarButtonState
@@ -230,18 +230,18 @@
 
 @Description
   Teste si une barre d'outils est correctement 
-  initialisée.
+  initialisÃ©e.
     
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser. 
+  La barre d'outils Ã  utiliser. 
   
 @ReturnValue
-  Renvoie une valeur non nulle en cas de succès, 
-  zéro sinon.
+  Renvoie une valeur non nulle en cas de succÃ¨s, 
+  zÃ©ro sinon.
   
 @Remarks
-  Cette fonction a été créée pour pouvoir passer 
-  n'importe quelle valeur en paramètre sans 
+  Cette fonction a Ã©tÃ© crÃ©Ã©e pour pouvoir passer 
+  n'importe quelle valeur en paramÃ¨tre sans 
   qu'il ne puisse y avoir de plantage.
   
 @SeeAlso
@@ -254,29 +254,29 @@
 @Function SetToolBarButtonState(#BarreOutils, Bouton, Etat)
 
 @Description
-  Change l'état d'un Bouton. 
+  Change l'Ã©tat d'un Bouton. 
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser.  
+  La barre d'outils Ã  utiliser.  
   
 @Parameter "Bouton"
-  Le bouton à utiliser.  
+  Le bouton Ã  utiliser.  
   
 @Parameter "Etat" 
 @FixedFont
-  @#False : Etat relâché
-  @#True  : Etat enfoncé  
+  @#False : Etat relÃ¢chÃ©
+  @#True  : Etat enfoncÃ©  
 @EndFixedFont
 
 @NoReturnValue
    
 @Remarks
-  Attention, le bouton doit avoir été créé 
+  Attention, le bouton doit avoir Ã©tÃ© crÃ©Ã© 
   avec l'option @#PB_ToolBar_Toggle.
 @LineBreak  
 @LineBreak
-  @@GetToolBarButtonState permet de connaître 
-  l'état d'un bouton.
+  @@GetToolBarButtonState permet de connaÃ®tre 
+  l'Ã©tat d'un bouton.
 
 @SupportedOS
 
@@ -289,7 +289,7 @@
   barre d'outils.
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser.    
+  La barre d'outils Ã  utiliser.    
   
 @ReturnValue 
   Renvoie la hauteur en pixel de la 
@@ -297,14 +297,14 @@
 
 @Remarks  
   C'est utile pour calculer correctement 
-  la hauteur d'une fenêtre lorsqu'une barre 
-  d'outils est utilisée. 
+  la hauteur d'une fenÃªtre lorsqu'une barre 
+  d'outils est utilisÃ©e. 
 @LineBreak
 @LineBreak
   Sous OS X cette commande renvoie 0, car la 
   barre d'outils ne fait pas partie de 
-  l'intérieur de la fenêtre, aucun calcul 
-  n'est nécessaire.
+  l'intÃ©rieur de la fenÃªtre, aucun calcul 
+  n'est nÃ©cessaire.
 
 @SeeAlso
   @@CreateToolBar
@@ -316,20 +316,20 @@
 @Function ToolBarImageButton(#Bouton, ImageID [, Mode [, Texte$]])
 
 @Description
-  Ajoute un bouton image à une barre d'outils en 
-  cours de création. 
+  Ajoute un bouton image Ã  une barre d'outils en 
+  cours de crÃ©ation. 
   
 @Parameter "#Button"  
-  Le numéro du nouveau bouton.
+  Le numÃ©ro du nouveau bouton.
   
 @Parameter "ImageID" 
-  L'identifiant de l'image à utiliser. 
+  L'identifiant de l'image Ã  utiliser. 
 @LineBreak
 @LineBreak  
-  'ImageID' peut être obtenu simplement 
-  en utilisant @@ImageID de la bibliothèque 
-  Image. Cela peut être une image chargée 
-  avec @@LoadImage ou créée en mémoire 
+  'ImageID' peut Ãªtre obtenu simplement 
+  en utilisant @@ImageID de la bibliothÃ¨que 
+  Image. Cela peut Ãªtre une image chargÃ©e 
+  avec @@LoadImage ou crÃ©Ã©e en mÃ©moire 
   avec @@CreateImage.@LineBreak  
   Pour avoir un fond transparent, utiliser 
   le format de fichier Windows .ICO ou .PNG, 
@@ -339,30 +339,30 @@
 @OptionalParameter "Mode"  
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_ToolBar_Normal: Bouton standard (par défaut)
-  @#PB_ToolBar_Toggle: Bouton bascule (soit enfoncé, soit relâché)
+  @#PB_ToolBar_Normal: Bouton standard (par dÃ©faut)
+  @#PB_ToolBar_Toggle: Bouton bascule (soit enfoncÃ©, soit relÃ¢chÃ©)
 @EndFixedFont
   Les commandes @@GetToolBarButtonState et
   @@SetToolBarButtonState permettent de changer 
-  l'état d'un bouton de type @#PB_ToolBar_Toggle.  
+  l'Ã©tat d'un bouton de type @#PB_ToolBar_Toggle.  
 
 @OptionalParameter "Texte$"
-  Le texte à afficher avec le bouton.
+  Le texte Ã  afficher avec le bouton.
 @LineBreak
 @LineBreak
- La barre d'outils doit être créée avec l'option @#PB_ToolBar_Text 
- sinon le texte ne sera pas affiché.
+ La barre d'outils doit Ãªtre crÃ©Ã©e avec l'option @#PB_ToolBar_Text 
+ sinon le texte ne sera pas affichÃ©.
 
 @NoReturnValue  
 
 @Remarks
-  La fonction @@CreateToolBar doit avoir été 
-  appelée avant d'utiliser cette fonction. 
+  La fonction @@CreateToolBar doit avoir Ã©tÃ© 
+  appelÃ©e avant d'utiliser cette fonction. 
 @LineBreak
 @LineBreak 
-  La détection des évènements sur les barres 
-  d'outils est similaire à celle des menus, 
-  et nécessite donc la commande @@EventMenu.
+  La dÃ©tection des Ã©vÃ¨nements sur les barres 
+  d'outils est similaire Ã  celle des menus, 
+  et nÃ©cessite donc la commande @@EventMenu.
 
 @Example
 @Code
@@ -402,16 +402,16 @@
 @Function ToolBarSeparator()
 
 @Description
-  Ajoute un séparateur vertical à la barre 
-  d'outils en cours de création. 
+  Ajoute un sÃ©parateur vertical Ã  la barre 
+  d'outils en cours de crÃ©ation. 
   
 @NoParameters
 
 @NoReturnValue
 
 @Remarks  
-  La fonction @@CreateToolBar doit avoir été 
-  appelée avant d'utiliser cette fonction.
+  La fonction @@CreateToolBar doit avoir Ã©tÃ© 
+  appelÃ©e avant d'utiliser cette fonction.
 
 @Example
 @Code
@@ -451,10 +451,10 @@
   Modifie le texte d'un bouton.
    
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser. 
+  La barre d'outils Ã  utiliser. 
   
 @Parameter "Button"  
-  Le numéro du bouton à utiliser.  
+  Le numÃ©ro du bouton Ã  utiliser.  
 
 @Parameter "Texte$"
   Le nouveau texte. @LineBreak  
@@ -462,7 +462,7 @@
 @NoReturnValue
 
 @Remarks
-  La barre d'outils a dû être créée avec l'option @#PB_ToolBar_Text.
+  La barre d'outils a dÃ» Ãªtre crÃ©Ã©e avec l'option @#PB_ToolBar_Text.
 
 @Example
 @Code
@@ -477,7 +477,7 @@
     EndIf
     Repeat
     Until WaitWindowEvent() = #PB_Event_CloseWindow 
-  EndI
+  EndIf
 @EndCode
 @LineBreak
 
@@ -491,18 +491,18 @@
 @Function ToolBarToolTip(#BarreOutils, Bouton, Texte$)
 
 @Description
-  Crée ou remplace une info-bulle. 
+  CrÃ©e ou remplace une info-bulle. 
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser. 
+  La barre d'outils Ã  utiliser. 
   
 @Parameter "Button"  
-  Le numéro du bouton à utiliser.  
+  Le numÃ©ro du bouton Ã  utiliser.  
 
 @Parameter "Texte$"
   Le nouveau texte. @LineBreak  
   Si le texte est vide, l'info-bulle est 
-  supprimée.
+  supprimÃ©e.
   
 @NoReturnValue
 
@@ -546,10 +546,10 @@
   Renvoie l'identifiant d'une barre d'outils.
   
 @Parameter "#BarreOutils"  
-  La barre d'outils à utiliser. 
+  La barre d'outils Ã  utiliser. 
   
 @ReturnValue 
-  Renvoie l'identifiant système unique 
+  Renvoie l'identifiant systÃ¨me unique 
   de la barre d'outils.
 
 @SeeAlso

@@ -15,7 +15,6 @@ EXAMPLES =  2DDrawing.html \
             Font.html \
             Gadget.html \
             GadgetOverview.html \
-            GoogleDriveEditor.html \
             Http.html \
             Image.html \
             InAppPurchase.html \
@@ -31,6 +30,7 @@ EXAMPLES =  2DDrawing.html \
             Mouse.html \
             MultiWindows.html \
             OpenFileRequester.html \
+            Preference.html \
             PopupMenu.html \
             RegularExpression.html \
             Requester.html \

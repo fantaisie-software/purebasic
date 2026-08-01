@@ -1,4 +1,4 @@
-@Title Runtime
+ï»¿@Title Runtime
 
 @Syntax
 
@@ -9,31 +9,31 @@
   
 @Description
 
-  Pour les programmeurs chevronnés. @Keyword Runtime est utilisé pour créer une liste dite 
-  "runtime" ("en cours d'exécution") pour avoir accès aux objets du programme en cours, comme les 
-  variables, les constantes et les procédures. 
-  Une fois compilé, un programme n'a plus d'étiquette (labels) ni de variable, 
-  ni de constantes ou de noms de procédure car tout est converti en code binaire. 
-  @Keyword Runtime force le compilateur à ajouter une référence supplémentaire à chaque 
-  objet qui sera alors disponible à travers la bibliothèque @LibraryLink "Runtime" "Runtime". 
-  Les objets peuvent être manipulés à l'aide de leur référence qui est une chaîne de caractère, 
-  même lorsque le programme est compilé.
+  Pour les programmeurs chevronnÃ©s. @Keyword Runtime est utilisÃ© pour crÃ©er une liste dite 
+  "runtime" ("en cours d'exÃ©cution") pour avoir accÃ¨s aux objets du programme en cours, comme les 
+  variables, les constantes et les procÃ©dures. 
+  Une fois compilÃ©, un programme n'a plus d'Ã©tiquette (labels) ni de variable, 
+  ni de constantes ou de noms de procÃ©dure car tout est converti en code binaire. 
+  @Keyword Runtime force le compilateur Ã  ajouter une rÃ©fÃ©rence supplÃ©mentaire Ã  chaque 
+  objet qui sera alors disponible Ã  travers la bibliothÃ¨que @LibraryLink "Runtime" "Runtime". 
+  Les objets peuvent Ãªtre manipulÃ©s Ã  l'aide de leur rÃ©fÃ©rence qui est une chaÃ®ne de caractÃ¨re, 
+  mÃªme lorsque le programme est compilÃ©.
   @LineBreak
   @LineBreak
-  Pour illustrer l'utilisation d'un @Keyword Runtime, jetez un coup d'oeil à la bibliothèque 
-  @LibraryLink "Dialog" "Dialog" qui l'utilise pour accéder aux procédures d'événement associées 
-  à un @LibraryLink "Gadget" "gadget". Ici, le nom de la procédure à utiliser par le gestionnaire 
-  d'événements est spécifié dans le fichier XML (qui est un fichier texte), puis 
-  la bibliothèque @LibraryLink "Dialog" "Dialog" utilise la fonction @@GetRuntimeInteger pour 
-  retrouver l'adresse de la procédure pendant l'exécution du programme. 
-  Il n'est pas nécessaire de recompiler le programme pour la changer.
+  Pour illustrer l'utilisation d'un @Keyword Runtime, jetez un coup d'oeil Ã  la bibliothÃ¨que 
+  @LibraryLink "Dialog" "Dialog" qui l'utilise pour accÃ©der aux procÃ©dures d'Ã©vÃ©nement associÃ©es 
+  Ã  un @LibraryLink "Gadget" "gadget". Ici, le nom de la procÃ©dure Ã  utiliser par le gestionnaire 
+  d'Ã©vÃ©nements est spÃ©cifiÃ© dans le fichier XML (qui est un fichier texte), puis 
+  la bibliothÃ¨que @LibraryLink "Dialog" "Dialog" utilise la fonction @@GetRuntimeInteger pour 
+  retrouver l'adresse de la procÃ©dure pendant l'exÃ©cution du programme. 
+  Il n'est pas nÃ©cessaire de recompiler le programme pour la changer.
   @LineBreak
   @LineBreak
-  Une autre utilisation serait d'ajouter un petit langage de script en temps réel pour le 
-  programme, ce qui permet de modifier facilement les variables exposées, en utilisant les 
-  valeurs des constantes à l'exécution. Alors que cela pourrait être fait manuellement par 
-  la construction d'une Map d'objets, le mot clé  @Keyword Runtime permet de le faire d'une 
-  manière standard et unifiée.
+  Une autre utilisation serait d'ajouter un petit langage de script en temps rÃ©el pour le 
+  programme, ce qui permet de modifier facilement les variables exposÃ©es, en utilisant les 
+  valeurs des constantes Ã  l'exÃ©cution. Alors que cela pourrait Ãªtre fait manuellement par 
+  la construction d'une Map d'objets, le mot clÃ©  @Keyword Runtime permet de le faire d'une 
+  maniÃ¨re standard et unifiÃ©e.
 
   @Example Procedure
 
@@ -42,7 +42,7 @@
     Debug "OnEvent"
   EndProcedure 
 
-  Debug GetRuntimeInteger("OnEvent()") ; Affichera l'adresse de la procédure
+  Debug GetRuntimeInteger("OnEvent()") ; Affichera l'adresse de la procÃ©dure
 @EndCode
 
   @Example Enumeration
@@ -68,7 +68,7 @@
   Debug GetRuntimeInteger("a")
   SetRuntimeInteger("a", 30)
   
-  Debug a ; La variable a été modifiée
+  Debug a ; La variable a Ã©tÃ© modifiÃ©e
 @EndCode
 
   @Example Appeler une fonction par son nom

@@ -1,46 +1,46 @@
-;
+ï»¿;
 ;     List library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library List
 
 @Overview
-  Verknüpfte Listen (oder auch "verkettete Listen", in Englisch "linked lists") sind
+  VerknÃ¼pfte Listen (oder auch "verkettete Listen", in Englisch "linked lists") sind
   Strukturen zum Speichern von Daten, welche dynamisch
   entsprechend Ihrem Bedarf reserviert werden. Sie sind eine Liste von Elementen (die Daten, welche
-  Sie speichern möchten), wobei jedes Element vollkommen unabhängig von den anderen ist. Sie können
-  so viele Elemente hinzufügen wie Sie wollen (bzw. so viele, wie in den Speicher Ihres Computers
-  passen), Elemente an der von Ihnen gewünschten Stelle einfügen, einige andere löschen und vieles
-  mehr. Diese Art des Datenmanagements ist sehr nützlich, da sie eine der besten Möglichkeiten zum
-  Umgang mit Daten darstellt, wenn Sie vorher nicht wissen, wie viele Elemente Sie speichern müssen
-  oder Sie oft die Anzahl der gespeicherten Elemente verändern.
+  Sie speichern mÃ¶chten), wobei jedes Element vollkommen unabhÃ¤ngig von den anderen ist. Sie kÃ¶nnen
+  so viele Elemente hinzufÃ¼gen wie Sie wollen (bzw. so viele, wie in den Speicher Ihres Computers
+  passen), Elemente an der von Ihnen gewÃ¼nschten Stelle einfÃ¼gen, einige andere lÃ¶schen und vieles
+  mehr. Diese Art des Datenmanagements ist sehr nÃ¼tzlich, da sie eine der besten MÃ¶glichkeiten zum
+  Umgang mit Daten darstellt, wenn Sie vorher nicht wissen, wie viele Elemente Sie speichern mÃ¼ssen
+  oder Sie oft die Anzahl der gespeicherten Elemente verÃ¤ndern.
 @LineBreak
 @LineBreak
-  Bevor Sie mit verknüpften Listen arbeiten können, müssen Sie diese erst deklarieren. Dies geschieht mit
-  dem Schlüsselwort @ReferenceLink "newlist" "NewList". Zum Speichern von Inhalten
+  Bevor Sie mit verknÃ¼pften Listen arbeiten kÃ¶nnen, mÃ¼ssen Sie diese erst deklarieren. Dies geschieht mit
+  dem SchlÃ¼sselwort @ReferenceLink "newlist" "NewList". Zum Speichern von Inhalten
   kommen oftmals auch @ReferenceLink "structures" "Strukturen" zum Einsatz.
 @LineBreak
 @LineBreak
-  Verknüpfte Listen können mit Hilfe von @@SortList bzw. @@SortStructuredList sortiert werden, und
-  können mittels @@RandomizeList auch in einer zufälligen Reihenfolge neu angeordnet werden.
+  VerknÃ¼pfte Listen kÃ¶nnen mit Hilfe von @@SortList bzw. @@SortStructuredList sortiert werden, und
+  kÃ¶nnen mittels @@RandomizeList auch in einer zufÃ¤lligen Reihenfolge neu angeordnet werden.
 @LineBreak
 @LineBreak
-  Um die Inhalte einer verknüpften Liste gezielt durchsuchen zu können, empfiehlt sich der Einsatz von
+  Um die Inhalte einer verknÃ¼pften Liste gezielt durchsuchen zu kÃ¶nnen, empfiehlt sich der Einsatz von
   Schleifen: @ReferenceLink "for_next" "For : Next", @ReferenceLink "foreach_next" "ForEach : Next", 
   @ReferenceLink "repeat_until" "Repeat : Until" oder @ReferenceLink "while_wend" "While : Wend".
 @LineBreak
 @LineBreak
-  Das erste Element befindet sich an Position 0, das nächste an 1, usw.
+  Das erste Element befindet sich an Position 0, das nÃ¤chste an 1, usw.
 @LineBreak
 @LineBreak
-  Andere Möglichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
+  Andere MÃ¶glichkeiten zum Speichern von Daten bestehen in der Verwendung von @LibraryLink "array" "Arrays"
   und @LibraryLink "map" "Maps".
 @LineBreak
 @LineBreak
   Bei Verwendung von @LibraryLink "thread" "Threads" kann nicht in verschiedenen Threads gleichzeitig auf
-  dieselbe Liste zugegriffen oder diese geändert werden. Mutexe können verwendet werden, um sicherzustellen,
+  dieselbe Liste zugegriffen oder diese geÃ¤ndert werden. Mutexe kÃ¶nnen verwendet werden, um sicherzustellen,
   dass die Liste nur von einem Thread verwendet wird.    
 
 @CommandList
@@ -54,17 +54,17 @@
 @Function *Ergebnis = AddElement(Liste())
 
 @Description
-  Fügt ein neues, leeres Listenelement nach dem aktuellen Element ein oder als erstes Element,
-  wenn die Liste noch keine Elemente enthält. Dieses neue Element wird zum aktuellen Element
+  FÃ¼gt ein neues, leeres Listenelement nach dem aktuellen Element ein oder als erstes Element,
+  wenn die Liste noch keine Elemente enthÃ¤lt. Dieses neue Element wird zum aktuellen Element
   der Liste. 
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das neue Element erstellt wurde, andernfalls Null.
-  Der zurückgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Daten des neuen Elements.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das neue Element erstellt wurde, andernfalls Null.
+  Der zurÃ¼ckgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Daten des neuen Elements.
 
 @Example
 @Code
@@ -73,11 +73,11 @@
   AddElement(simple())    ; Erstellt das erste neue Element innerhalb der Liste
   simple() = 23 
     
-  AddElement(simple())    ; Aktuelle Position ist das erste Element, wir fügen
+  AddElement(simple())    ; Aktuelle Position ist das erste Element, wir fÃ¼gen
   simple() = 45           ; daher ein neues an der zweiten Position ein
 
 
-  ; Das nachfolgende Beispiel zeigt die Benutzung des Rückgabewerts von AddElement
+  ; Das nachfolgende Beispiel zeigt die Benutzung des RÃ¼ckgabewerts von AddElement
   NewList advanced.l() 
   If AddElement(advanced()) <> 0 
     advanced() = 12345 
@@ -113,13 +113,13 @@
 @Function ChangeCurrentElement(Liste(), *NeuesElement)
 
 @Description
-  Ändert das aktuelle Element der angegebenen Liste auf das angegebene neue Element '*NeuesElement'.
-  Diese Funktion ist sehr nützlich, wenn Sie sich ein Element "merken" wollen und es nach
+  Ã„ndert das aktuelle Element der angegebenen Liste auf das angegebene neue Element '*NeuesElement'.
+  Diese Funktion ist sehr nÃ¼tzlich, wenn Sie sich ein Element "merken" wollen und es nach
   der Verarbeitung anderer Prozesse wiederherstellen wollen.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @Parameter "*NeuesElement"
   Das neue Element, was als aktuelles Element der Liste gesetzt werden soll. 
@@ -134,8 +134,8 @@
 @Code
   *Old_Element = @mylist()   ; Ermittelt die Adresse des aktuellen Elements
   
-  ResetList(mylist())        ; Durchführen einer Suchschleife nach allen
-  While NextElement(mylist())   ; Elementen mit Name "John" und Änderung dieser in "J" 
+  ResetList(mylist())        ; DurchfÃ¼hren einer Suchschleife nach allen
+  While NextElement(mylist())   ; Elementen mit Name "John" und Ã„nderung dieser in "J" 
     If mylist()\name = "John"
       mylist()\name = "J"     
     EndIf 
@@ -179,19 +179,19 @@
 @Function ClearList(Liste()) 
 
 @Description
-  Löscht alle Elemente in dieser Liste und gibt deren Speicherplatz frei. Nach diesem Aufruf ist
+  LÃ¶scht alle Elemente in dieser Liste und gibt deren Speicherplatz frei. Nach diesem Aufruf ist
   die Liste noch benutzbar, sie ist jedoch leer (d.h. es befinden sich keine Elemente mehr in ihr).
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @NoReturnValue
 
 @Remarks
-  PureBasic gibt lediglich den Speicher der Elemente frei. Wenn Sie die verknüpfte Liste z.B. dafür
+  PureBasic gibt lediglich den Speicher der Elemente frei. Wenn Sie die verknÃ¼pfte Liste z.B. dafÃ¼r
   benutzt haben, die "Handles" von Objekten - die Sie direkt mit dem OS erstellt haben - zu speichern,
-  dann gibt es keine Möglichkeit, dass PureBasic (oder auch jede andere Programmiersprache) wissen
+  dann gibt es keine MÃ¶glichkeit, dass PureBasic (oder auch jede andere Programmiersprache) wissen
   kann, was diese darstellen. In einem solchen Fall, sollten Sie die Elemente der Liste durchgehen und
   die Objekte selbst freigeben.
 
@@ -199,16 +199,16 @@
 @Code
   NewList Numbers.w() 
 
-  ; Eine kleine Schleife, um viele Einträge zur Liste hinzufügen
+  ; Eine kleine Schleife, um viele EintrÃ¤ge zur Liste hinzufÃ¼gen
   For i=1 To 100 
     AddElement(Numbers()) 
     Numbers() = i 
   Next 
     
-  ; Prüfen, dass auch Einträge zur Liste hinzugefügt wurden
+  ; PrÃ¼fen, dass auch EintrÃ¤ge zur Liste hinzugefÃ¼gt wurden
   MessageRequester("Information", "Es sind "+Str(ListSize(Numbers()))+" Elemente in der Liste", #PB_MessageRequester_OK) 
      
-  ; Löschen des Listeninhalts und Anzeigen, dass die Liste wirklich leer ist
+  ; LÃ¶schen des Listeninhalts und Anzeigen, dass die Liste wirklich leer ist
   ClearList(Numbers()) 
   MessageRequester("Information", "Es sind "+Str(ListSize(Numbers()))+" Elemente in der Liste", #PB_MessageRequester_OK) 
 @EndCode
@@ -227,7 +227,7 @@
   @ReferenceLink "Structures" "strukturierter" Listen mit dynamischen Elementen (wie eingebetteter
   Arrays, Listen oder Maps).
   @LineBreak
-  Die beiden Listen gelten als gleich, wenn sie den gleichen Typ und die gleiche Größe haben und
+  Die beiden Listen gelten als gleich, wenn sie den gleichen Typ und die gleiche GrÃ¶ÃŸe haben und
   wenn jedes Elemente-Paar gleich ist.
 
 @Parameter "Liste1(), Liste2()"
@@ -236,20 +236,20 @@
 @OptionalParameter "Flags"
   Kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_String_CaseSensitive : Beim String-Vergleich wird die Groß-/Kleinschreibung beachtet (a=a). (Standard)
-  @#PB_String_NoCase        : Beim String-Vergleich wird die Groß-/Kleinschreibung nicht beachtet (a=A).
+  @#PB_String_CaseSensitive : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung beachtet (a=a). (Standard)
+  @#PB_String_NoCase        : Beim String-Vergleich wird die GroÃŸ-/Kleinschreibung nicht beachtet (a=A).
   @#PB_Memory_FollowPointers: Wenn ein Strukturelement ein Zeiger (Pointer) ist, der nicht 0 ist, wird das Ziel des
                              Zeigers rekursiv verglichen.
-                             Standardmäßig wird nur der Zeigerwert selbst verglichen.
-                             Siehe die Anmerkungen unten für weitere Details.
+                             StandardmÃ¤ÃŸig wird nur der Zeigerwert selbst verglichen.
+                             Siehe die Anmerkungen unten fÃ¼r weitere Details.
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn beide Listen gleich sind, oder Null, wenn sie sich unterscheiden.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn beide Listen gleich sind, oder Null, wenn sie sich unterscheiden.
 
 @Remarks
-  Die Option @#PB_Memory_FollowPointers ist für fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
-  um Abstürze zu vermeiden. Wenn diese Option verwendet wird, müssen alle Zeigerwerte auf einen gültigen und
+  Die Option @#PB_Memory_FollowPointers ist fÃ¼r fortgeschrittene Benutzer gedacht und erfordert besondere Sorgfalt,
+  um AbstÃ¼rze zu vermeiden. Wenn diese Option verwendet wird, mÃ¼ssen alle Zeigerwerte auf einen gÃ¼ltigen und
   initialisierten Speicher zeigen oder den Wert 0 haben. Es ist auch nicht erlaubt, Schleifen in den pointierten
   Elementen (englisch "pointed elements" - eine Kette von Zeigern, die auf sich selbst verweist) zu haben.
 
@@ -261,7 +261,7 @@
   AddElement(A$()) : A$() = "Jack"
   
   NewList B$()
-  AddElement(B$()) : B$() = "JIM"  ; Groß-/Kleinschreibung unterscheidet sich
+  AddElement(B$()) : B$() = "JIM"  ; GroÃŸ-/Kleinschreibung unterscheidet sich
   AddElement(B$()) : B$() = "John"
   AddElement(B$()) : B$() = "Jack"
   
@@ -287,11 +287,11 @@
 
 @Parameter "ZielListe()"
   Die Liste, in welche die Elemente kopiert werden. Die sich vor dem Kopieren in dieser Liste
-  befindlichen Elemente werden gelöscht. Wenn diese Liste nicht den gleichen Typ (nativ oder
+  befindlichen Elemente werden gelÃ¶scht. Wenn diese Liste nicht den gleichen Typ (nativ oder
   strukturiert) wie die QuellListe() hat, dann wird das Kopieren fehlschlagen.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Kopieren erfolgreich war, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Kopieren erfolgreich war, andernfalls Null.
 
 @Example
 @Code
@@ -322,7 +322,7 @@
 
 @Description
   Gibt die angegebene Liste und den gesamten ihr zugewiesenen Speicher frei.
-  Um auf diese Liste später erneut zuzugreifen, muss dafür @ReferenceLink "newlist" "NewList" aufgerufen werden.
+  Um auf diese Liste spÃ¤ter erneut zuzugreifen, muss dafÃ¼r @ReferenceLink "newlist" "NewList" aufgerufen werden.
   
 @Parameter "Liste()"
   Der Name der freizugebenden Liste.
@@ -339,25 +339,25 @@
 @Function Ergebnis = ListSize(Liste()) 
 
 @Description
-  Gibt die Anzahl der Elemente in der verknüpften Liste zurück. Es ändert
-  nicht das aktuelle Listenelement. Dieser Befehl ist sehr schnell (er durchläuft
+  Gibt die Anzahl der Elemente in der verknÃ¼pften Liste zurÃ¼ck. Es Ã¤ndert
+  nicht das aktuelle Listenelement. Dieser Befehl ist sehr schnell (er durchlÃ¤uft
   nicht die gesamte Liste, sondern verwendet ein zwischengespeichertes Ergebnis)
   und kann bedenkenlos zum Ermitteln, ob eine Liste leer ist oder nicht, benutzt 
   werden.  
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
-  Die Gesamtzahl der Elemente in der verknüpften Liste.
-  Wenn die Liste nicht initialisiert ist, wird -1 zurückgegeben (zum Beispiel nach @@FreeList).
+  Die Gesamtzahl der Elemente in der verknÃ¼pften Liste.
+  Wenn die Liste nicht initialisiert ist, wird -1 zurÃ¼ckgegeben (zum Beispiel nach @@FreeList).
 
 @Example
 @Code
   NewList countme.w() 
     
-  ; Eine kleine Schleife, um einige Elemente zur Liste hinzuzufügen.
+  ; Eine kleine Schleife, um einige Elemente zur Liste hinzuzufÃ¼gen.
   For i=0 To 10 
     AddElement(countme()) 
     countme() = i * 23 
@@ -379,26 +379,26 @@
 
 @Description
   Entfernt das aktuelle Element aus der Liste. Nach dem Aufruf dieser Funktion
-  wird das vorherige Element (dasjenige vor dem gelöschten Element) neues
+  wird das vorherige Element (dasjenige vor dem gelÃ¶schten Element) neues
   aktuelles Element. Wenn dieses Element nicht existiert (mit anderen Worten:
-  Sie haben das erste Element in der Liste gelöscht), dann gibt es kein aktuelles 
+  Sie haben das erste Element in der Liste gelÃ¶scht), dann gibt es kein aktuelles 
   Element mehr, da es sich vor dem ersten Element befindet, wie nach einem
   @@ResetList.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @OptionalParameter "Flags"
   Wenn dieser Parameter auf 1 gesetzt wird und dann
-  das erste Element gelöscht wird, wird das zweite Element (dasjenige nach dem 
-  gelöschten Element) das neue aktuelle Element sein. Dieses Flag stellt sicher, 
-  dass nach dem Löschen immer ein gültiges aktuelles Element vorhanden ist,
+  das erste Element gelÃ¶scht wird, wird das zweite Element (dasjenige nach dem 
+  gelÃ¶schten Element) das neue aktuelle Element sein. Dieses Flag stellt sicher, 
+  dass nach dem LÃ¶schen immer ein gÃ¼ltiges aktuelles Element vorhanden ist,
   solange es noch Elemente in der Liste gibt.
 
 @ReturnValue
-  Gibt die Speicheradresse des neuen aktuellen Elements in der Liste zurück.
-  Falls die Liste nach der Löschung kein aktuelles Element hat, ist das Ergebnis gleich 0.
+  Gibt die Speicheradresse des neuen aktuellen Elements in der Liste zurÃ¼ck.
+  Falls die Liste nach der LÃ¶schung kein aktuelles Element hat, ist das Ergebnis gleich 0.
 
 @Example
 @Code
@@ -410,12 +410,12 @@
   AddElement(people()) : people() = "Bob"
 
   FirstElement(people())     ; Bewegt sich zu "Tom"
-  DeleteElement(people(), 1) ; Löscht "Tom". Da sich kein weiteres Element davor befand, wird "Dick" neues aktuelles Element.
+  DeleteElement(people(), 1) ; LÃ¶scht "Tom". Da sich kein weiteres Element davor befand, wird "Dick" neues aktuelles Element.
   MessageRequester("Information", "Erste Person in der Liste ist "+people(), #PB_MessageRequester_Ok) 
 
   LastElement(people())      ; Bewegt sich zu "Bob"
   PreviousElement(people())  ; Bewegt sich zu "Harry"
-  DeleteElement(people())    ; und löscht ihn. Es gibt ein Element vor Harry, daher wird dies das aktuelle.
+  DeleteElement(people())    ; und lÃ¶scht ihn. Es gibt ein Element vor Harry, daher wird dies das aktuelle.
   MessageRequester("Information", "Aktuelle Person in der Liste ist "+people(), #PB_MessageRequester_Ok)
 @EndCode
 
@@ -429,15 +429,15 @@
 @Function *Ergebnis = FirstElement(Liste())  
 
 @Description
-  Ändert das aktuelle Listenelement auf das erste Listenelement.
+  Ã„ndert das aktuelle Listenelement auf das erste Listenelement.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
   Gibt bei Erfolg die @ReferenceLink "memory" "Adresse" (Zeiger) auf die Daten des ersten Elements
-  zurück, und Null wenn es keine Elemente in der Liste gibt.
+  zurÃ¼ck, und Null wenn es keine Elemente in der Liste gibt.
 
 @Example
 @Code
@@ -453,7 +453,7 @@
   MessageRequester("Information", "Der Wert des ersten Elements ist "+Str(Numbers()), #PB_MessageRequester_OK)
 
 
-  ; Ein Beispiel, welches den Rückgabewert verwendet
+  ; Ein Beispiel, welches den RÃ¼ckgabewert verwendet
   NewList Numbers.w()
 
   If FirstElement(Numbers()) <> 0
@@ -474,7 +474,7 @@
   EndIf
 
 
-  ; Ein Beispiel für fortgeschrittene Anwender
+  ; Ein Beispiel fÃ¼r fortgeschrittene Anwender
   NewList Numbers.w()
 
   AddElement(Numbers())
@@ -501,16 +501,16 @@
 @Function *Result = InsertElement(Liste()) 
 
 @Description
-  Fügt ein neues Element vor dem aktuellen Element ein, oder am Anfang der Liste - wenn die Liste leer
+  FÃ¼gt ein neues Element vor dem aktuellen Element ein, oder am Anfang der Liste - wenn die Liste leer
   ist (d.h. keine Elemente beinhaltet). Dieses neue Element wird das aktuelle Element der Liste.
   
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das neue Element erstellt wurde, andernfalls Null.
-  Der zurückgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Daten des neuen Elements.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das neue Element erstellt wurde, andernfalls Null.
+  Der zurÃ¼ckgegebene Wert ist ein @ReferenceLink "memory" "Zeiger" auf die Daten des neuen Elements.
 
 @Example
 @Code
@@ -519,11 +519,11 @@
   InsertElement(simple())    ; Erstellt das erste neue Element in der Liste
   simple() = 23
 
-  InsertElement(simple())    ; Aktuelle Position ist das erste Element, daher fügen wir das neue Element am Anfang der  Liste ein.
+  InsertElement(simple())    ; Aktuelle Position ist das erste Element, daher fÃ¼gen wir das neue Element am Anfang der  Liste ein.
   simple() = 45              ; Das alte erste Element wird jetzt zum zweiten Element in der Liste.
 
 
-  ; Dies zeigt, wie der Rückgabewert von InsertElement benutzt wird
+  ; Dies zeigt, wie der RÃ¼ckgabewert von InsertElement benutzt wird
   NewList advanced.l()
   If InsertElement(advanced()) <> 0
     advanced() = 12345
@@ -559,15 +559,15 @@
 @Function *Ergebnis = LastElement(Liste())
 
 @Description
-  Ändert das aktuelle Listenelement auf das letzte Listenelement.
+  Ã„ndert das aktuelle Listenelement auf das letzte Listenelement.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
   Gibt bei Erfolg die @ReferenceLink "memory" "Adresse" (Zeiger) auf die Daten des letzten Elements
-  zurück, und Null wenn es keine Elemente in der Liste gibt.
+  zurÃ¼ck, und Null wenn es keine Elemente in der Liste gibt.
 
 @Example
 @Code
@@ -583,7 +583,7 @@
   MessageRequester("Information", "Der Wert des letzten Elements ist "+Str(Numbers()), #PB_MessageRequester_OK)
 
 
-  ; Ein Beispiel, welches den Rückgabewert verwendet
+  ; Ein Beispiel, welches den RÃ¼ckgabewert verwendet
   NewList Numbers.w()
 
   If LastElement(Numbers()) <> 0
@@ -604,7 +604,7 @@
   EndIf
 
 
-  ; Ein Beispiel nur für fortgeschrittene Anwender
+  ; Ein Beispiel nur fÃ¼r fortgeschrittene Anwender
   NewList Numbers.w()
 
   AddElement(Numbers())
@@ -633,16 +633,16 @@
 @Description
   Findet die Position des aktuellen Listenelements heraus - dabei wird davon ausgegangen,
   dass sich das erste Element an Position 0 befindet. Diese Funktion ist sehr schnell
-  und kann ohne Performanzverlust auch häufig verwendet werden (sie durchläuft nicht
+  und kann ohne Performanzverlust auch hÃ¤ufig verwendet werden (sie durchlÃ¤uft nicht
   jedes Mal die gesamte Liste, sondern nutzt einen zwischengespeicherten Wert).
   
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
   Ein Wert, welcher die Position des aktuellen Elements in der Liste beinhaltet.
-  Das erste Element befindet sich dabei an Position 0, das nächste an 1 und so weiter.
+  Das erste Element befindet sich dabei an Position 0, das nÃ¤chste an 1 und so weiter.
   Ein Wert von -1 bedeutet, dass es kein aktuelles Element gibt (entweder ist die Liste leer
   oder @@ResetList wurde benutzt).
 
@@ -678,16 +678,16 @@
 @Function *Ergebnis = NextElement(Liste())  
 
 @Description
-  Wechselt vom aktuellen Element auf das nächste Element in der Liste - oder auf das
+  Wechselt vom aktuellen Element auf das nÃ¤chste Element in der Liste - oder auf das
   erste Element, wenn Sie zuvor @@ResetList aufgerufen haben.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
-  Gibt bei Erfolg die @ReferenceLink "memory" "Adresse" (Zeiger) auf die Daten des nächsten Elements
-  zurück, und Null wenn es keine Elemente in der Liste gibt.
+  Gibt bei Erfolg die @ReferenceLink "memory" "Adresse" (Zeiger) auf die Daten des nÃ¤chsten Elements
+  zurÃ¼ck, und Null wenn es keine Elemente in der Liste gibt.
 
 @Example
 @Code
@@ -720,12 +720,12 @@
   Wechselt vom aktuellen Element auf das vorhergehende Element in der Liste.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @ReturnValue
   Gibt bei Erfolg die @ReferenceLink "memory" "Adresse" (Zeiger) auf die Daten des vorhergehenden Elements
-  zurück, und Null wenn es keine Elemente in der Liste gibt.
+  zurÃ¼ck, und Null wenn es keine Elemente in der Liste gibt.
 
 @Example
 @Code
@@ -753,13 +753,13 @@
 @Function ResetList(Liste()) 
 
 @Description
-  Setzt das aktuelle Listenelement vor das erste Element zurück.
-  Das bedeutet, dass kein Element mehr gültig ist. Dies ist sehr nützlich, 
-  um anschließend alle Elemente mittels @@NextElement abzuarbeiten.
+  Setzt das aktuelle Listenelement vor das erste Element zurÃ¼ck.
+  Das bedeutet, dass kein Element mehr gÃ¼ltig ist. Dies ist sehr nÃ¼tzlich, 
+  um anschlieÃŸend alle Elemente mittels @@NextElement abzuarbeiten.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @NoReturnValue
 
@@ -789,28 +789,28 @@
 @Function *Ergebnis = SelectElement(Liste(), Position)
 
 @Description
-  Ändert das aktuelle Listenelement auf das Element an der angegebenen Position.
-  Dies ist sehr nützlich, wenn Sie an eine bestimmte Position innerhalb der Liste
-  springen wollen, ohne dafür eine eigene Schleife zu verwenden.
+  Ã„ndert das aktuelle Listenelement auf das Element an der angegebenen Position.
+  Dies ist sehr nÃ¼tzlich, wenn Sie zu einer bestimmten Position in der Liste springen
+  mÃ¶chten, ohne die Liste manuell mithilfe einer Schleife zu durchlaufen.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @Parameter "Position"
   Die Position, zu der in der Liste gesprungen werden soll. Dabei wird davon ausgegangen, dass sich
-  das erste Element in der Liste an Position 0 befindet, das nächste an 1 und so weiter. Sie
-  müssen sicherstellen, dass Sie keine Position angeben, die außerhalb der Anzahl an Elementen
+  das erste Element in der Liste an Position 0 befindet, das nÃ¤chste an 1 und so weiter. Sie
+  mÃ¼ssen sicherstellen, dass Sie keine Position angeben, die auÃŸerhalb der Anzahl an Elementen
   in der Liste liegt!
 
 @ReturnValue
-  Gibt im Erfolgsfall die Daten-Adresse des ausgewählten Elements zurück -
-  oder Null, wenn die Position außerhalb des gültigen Bereichs liegt.
+  Gibt im Erfolgsfall die Daten-Adresse des ausgewÃ¤hlten Elements zurÃ¼ck -
+  oder Null, wenn die Position auÃŸerhalb des gÃ¼ltigen Bereichs liegt.
 
 @Remarks
-  Da verknüpfte Listen intern keinen Index verwenden, springt diese Funktion zwangsläufig zu jedem
-  Element in der Liste, bis die Zielposition erreicht ist, was bei einer großen Liste Zeit benötigt.
-  Wird eine schnellere Methode benötigt, sollte @@ChangeCurrentElement genutzt werden.
+  Da verknÃ¼pfte Listen intern keinen Index verwenden, springt diese Funktion zwangslÃ¤ufig zu jedem
+  Element in der Liste, bis die Zielposition erreicht ist, was bei einer groÃŸen Liste Zeit benÃ¶tigt.
+  Wird eine schnellere Methode benÃ¶tigt, sollte @@ChangeCurrentElement genutzt werden.
 
 @Example
 @Code
@@ -845,19 +845,19 @@
 
 @Description
   Vertauscht ("swap't") die Position von zwei Elementen in der angegebenen Liste. 
-  Diese Funktion ist eine schnelle Möglichkeit, um eine Liste schnell zu reorganisieren,
+  Diese Funktion ist eine schnelle MÃ¶glichkeit, um eine Liste schnell zu reorganisieren,
   da sie nicht die Element-Daten selbst verschiebt.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @Parameter "*ErstesElement"
-  Adresse des ersten zu tauschenden Elements. Sie können diese Adresse durch Verwendung des @ Operators 
+  Adresse des ersten zu tauschenden Elements. Sie kÃ¶nnen diese Adresse durch Verwendung des @ Operators 
   auf den Listennamen erhalten.
 
 @Parameter "*ZweitesElement"
-  Adresse des zweiten zu tauschenden Elements. Sie können diese Adresse durch Verwendung des @ Operators
+  Adresse des zweiten zu tauschenden Elements. Sie kÃ¶nnen diese Adresse durch Verwendung des @ Operators
   auf den Listennamen erhalten.
 
 @NoReturnValue
@@ -871,17 +871,17 @@
     Numbers() = k
   Next
     
-  SelectElement(Numbers(), 3) ; Auswählen des vierten Elements (beachte: es gibt auch ein 0-tes Element)
+  SelectElement(Numbers(), 3) ; AuswÃ¤hlen des vierten Elements (beachte: es gibt auch ein 0-tes Element)
   *FirstElement = @Numbers()
   
-  SelectElement(Numbers(), 9) ; Auswählen des zehnten Elements (beachte: es gibt auch ein 0-tes Element)
+  SelectElement(Numbers(), 9) ; AuswÃ¤hlen des zehnten Elements (beachte: es gibt auch ein 0-tes Element)
   *SecondElement = @Numbers()
   
   ; Tausche die 3 mit der 9
   ;
   SwapElements(Numbers(), *FirstElement, *SecondElement)
     
-  ; Überprüfen des Ganzen
+  ; ÃœberprÃ¼fen des Ganzen
   ;
   ForEach Numbers()
     Debug Numbers()
@@ -901,11 +901,11 @@
   Verschiebt das aktuelle Element der angegebenen Liste an eine andere Position in der Liste.
   Das verschobene Element bleibt das aktuelle Element in der Liste. Dies ist eine schnelle
   Operation, da die Element-Daten selbst nicht verschoben werden, um die Position in der Liste
-  zu ändern.
+  zu Ã¤ndern.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @Parameter "Lokation"
   Position, wohin das aktuelle Element verschoben werden soll. Dies kann einer der folgenden Werte sein:
@@ -918,8 +918,8 @@
 
 @OptionalParameter "*RelativesElement"
   Die Adresse eines anderen Elements, wohin das aktuelle Element verschoben werden soll.
-  Dieser Parameter wird benötigt, wenn der Parameter 'Lokation' @#PB_List_Before
-  oder @#PB_List_After lautet. Sie können diese Adresse durch Verwendung des
+  Dieser Parameter wird benÃ¶tigt, wenn der Parameter 'Lokation' @#PB_List_Before
+  oder @#PB_List_After lautet. Sie kÃ¶nnen diese Adresse durch Verwendung des
   @ Operators auf den Listennamen erhalten.
 
 @NoReturnValue
@@ -959,14 +959,15 @@
 @Function PushListPosition(Liste())
 
 @Description
-  Merkt sich das aktuelle Element (sofern eines vorhanden) der Liste, wodurch es später
-  mittels @@PopListPosition wieder hergestellt werden kann.
-  Die Position wird in einer "Stack-Struktur" gespeichert, dadurch sind mehrere Aufrufe
-  dieser Funktion möglich.
+  Merkt sich das aktuelle Element (sofern eines vorhanden) der Liste, wodurch es spÃ¤ter
+  mittels @@PopListPosition wiederhergestellt werden kann.
+  Die Position wird in einer "Stack-Struktur" (einem "Lifo-Stapel": "Last In", "First Out" -
+  in Deutsch "zuletzt rein, zuerst raus") gespeichert, sodass mehrere Aufrufe dieser
+  Funktion mÃ¶glich sind.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @NoReturnValue
 
@@ -974,13 +975,16 @@
   Diese Funktion kann verwendet werden, um sich das aktuelle Element zu merken. Damit kann mit Hilfe
   von @@NextElement oder @ReferenceLink "foreach_next" "ForEach" ein Listen-Durchlauf gemacht werden,
   und das aktuelle Element kann nach dem Durchlauf mittels @@PopListPosition wieder hergestellt werden.
-  Mehrere Aufrufe dieser Funktion können erfolgen, solange jeder davon später mit einem
+  Mehrere Aufrufe dieser Funktion kÃ¶nnen erfolgen, solange jeder davon spÃ¤ter mit einem
   korrespondierenden @@PopListPosition Aufruf ausgeglichen wird.
 @LineBreak
 @LineBreak
   Hinweis: Es ist nicht erlaubt, mit Hilfe der @@DeleteElement oder @@ClearList Funktionen ein gemerktes
-  aktuelles Element zu löschen. Dies kann in einen Absturz resultieren, wenn @@PopListPosition aufgerufen
-  wird, da der Elemente-Speicher nicht länger gültig ist.
+  aktuelles Element zu lÃ¶schen. Dies kann in einen Absturz resultieren, wenn @@PopListPosition aufgerufen
+  wird, da der Elemente-Speicher nicht lÃ¤nger gÃ¼ltig ist.
+@LineBreak
+@LineBreak
+  Der hier verwendete Stapel ist ein Speicherbereich, keine Liste.
 
 @Example
 @Code
@@ -992,7 +996,7 @@
   AddElement(Numbers()): Numbers() = 5
   AddElement(Numbers()): Numbers() = 2
   
-  ; Eine einfache doppelte Löschung mit Hilfe eines verschachtelten Durchlaufs
+  ; Eine einfache doppelte LÃ¶schung mit Hilfe eines verschachtelten Durchlaufs
   ;
   ForEach Numbers()
     Value = Numbers()
@@ -1025,18 +1029,18 @@
   wurde.
 
 @Parameter "Liste()"
-  Der Variablenname der verknüpften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
-  wurde. Sie müssen die Klammern nach dem Listennamen immer angeben.
+  Der Variablenname der verknÃ¼pften Liste, welche mit dem @ReferenceLink "newlist" "NewList" Befehl erstellt
+  wurde. Sie mÃ¼ssen die Klammern nach dem Listennamen immer angeben.
 
 @NoReturnValue
 
 @Remarks
-  Der Status der Liste wird der gleiche sein, wie beim zugehörigen Aufruf von @@PushListPosition. 
+  Der Status der Liste wird der gleiche sein, wie beim zugehÃ¶rigen Aufruf von @@PushListPosition. 
   Wenn es kein aktuelles Element gab, als @@PushListPosition aufgerufen wurde, dann wird es auch
   nach diesem Aufruf kein aktuelles Element geben.
 @LineBreak
 @LineBreak
-  Siehe die @@PushListPosition Funktion für ein Beispiel.
+  Siehe die @@PushListPosition Funktion fÃ¼r ein Beispiel.
 
 @SeeAlso
   @@PushListPosition, @@SelectElement, @@ChangeCurrentElement, @@NextElement, @@PreviousElement, 
@@ -1050,7 +1054,7 @@
 
 @Description
   Verschiebt alle Elemente von der QuellListe() zur ZielListe(). Dies ist eine schnelle Operation,
-  da die Element-Daten selber nicht verschoben werden, um die zwei Listen zusammenzuführen (englisch
+  da die Element-Daten selber nicht verschoben werden, um die zwei Listen zusammenzufÃ¼hren (englisch
   "to merge").
 
 @Parameter "QuellListe()"
@@ -1062,13 +1066,13 @@
   Listen beinhalten, nachdem diese Funktion abgeschlossen ist.
 
 @OptionalParameter "Lokation"
-  Position, wo die Elemente in der ZielListe() eingefügt werden. Dies kann einer der folgenden
+  Position, wo die Elemente in der ZielListe() eingefÃ¼gt werden. Dies kann einer der folgenden
   Werte sein:
 @FixedFont
-  @#PB_List_Last  : Hängt die Elemente am Ende der ZielListe() an  (Standard)
-  @#PB_List_First : Fügt die Elemente am Anfang der ZielListe() ein
-  @#PB_List_Before: Fügt die Elemente vor dem aktuellen Element der ZielListe() ein
-  @#PB_List_After : Fügt die Elemente nach dem aktuellen Element der ZielListe() ein
+  @#PB_List_Last  : HÃ¤ngt die Elemente am Ende der ZielListe() an  (Standard)
+  @#PB_List_First : FÃ¼gt die Elemente am Anfang der ZielListe() ein
+  @#PB_List_Before: FÃ¼gt die Elemente vor dem aktuellen Element der ZielListe() ein
+  @#PB_List_After : FÃ¼gt die Elemente nach dem aktuellen Element der ZielListe() ein
 @EndFixedFont
 
 @NoReturnValue
@@ -1087,7 +1091,7 @@
   AddElement(B()): B() = "b2"
   AddElement(B()): B() = "b3"
     
-  ; Fügt die Elemente von A() vor dem "b1" Element in B() ein
+  ; FÃ¼gt die Elemente von A() vor dem "b1" Element in B() ein
   SelectElement(B(), 1)
   MergeLists(A(), B(), #PB_List_Before)
   
@@ -1106,7 +1110,7 @@
 @Function SplitList(QuellListe(), ZielListe() [, ErhalteAktuelles])
 
 @Description
-  Verschiebt die Elemente der QuellListe() vom aktuellen Element an vorwärts zur ZielListe().
+  Verschiebt die Elemente der QuellListe() vom aktuellen Element an vorwÃ¤rts zur ZielListe().
   Dies ist eine schnelle Operation, da die Element-Daten selber nicht verschoben werden, um
   die Listen zu teilen (englisch "to split").
 
@@ -1117,7 +1121,7 @@
 
 @Parameter "ZielListe()"
   Die Liste, wohin die Elemente verschoben werden. Alle in dieser Liste existierenden
-  Elemente werden gelöscht, bevor die neuen Elemente hinzugefügt werden.
+  Elemente werden gelÃ¶scht, bevor die neuen Elemente hinzugefÃ¼gt werden.
 
 @OptionalParameter "ErhalteAktuelles" (englisch "KeepCurrent")
   Gibt an, ob der aktuelle Eintrag der QuellListe() in der QuellListe() verbleibt, oder

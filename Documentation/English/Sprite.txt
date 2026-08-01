@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Sprite library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Sprite
@@ -32,7 +32,6 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @CommandList
 
 @ExampleFile All Sprite.pb
-@ExampleFile Linux Sprite.pb
 @ExampleFile All WindowedScreen.pb
 
 @SupportedOS
@@ -160,7 +159,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateSprite(#Sprite, Width, Height [, Mode])
+@Function Result = CreateSprite(#Sprite, Width, Height [, Flags])
 
 @Description
   Creates an empty sprite with the specified dimensions. @@SpriteOutput can be used
@@ -173,11 +172,12 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "Width, Height"
   The size of the new sprite (in pixels).
 
-@OptionalParameter "Mode"
+@OptionalParameter "Flags"
   It can be a combination of the following values (with the '|' operator):
 @FixedFont
   @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
   @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+  @#PB_Sprite_Transparent : Sprite is created fully transparent (alpha channel value set to 0). If used, @@DrawingMode should be set to @#PB_DrawingMode_AllChannels when using @@SpriteOutput.
 @EndFixedFont
 
 @ReturnValue
@@ -187,14 +187,49 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Remarks
   CreateSprite() has to be called in the same thread where @@OpenScreen was called.
 
+@Example CreateSprite using transparent flag
+@Code
+  InitSprite()
+   
+  OpenWindow(0, 0, 0, 640, 480, "A screen in a window...", #PB_Window_SystemMenu | #PB_Window_SizeGadget | #PB_Window_ScreenCentered)
+  If OpenWindowedScreen(WindowID(0), 0, 0, 640, 480, #True, 0, 0)
+    
+    CreateSprite(0, 64, 64, #PB_Sprite_AlphaBlending | #PB_Sprite_Transparent)
+    If StartDrawing(SpriteOutput(0))
+      DrawingMode(#PB_2DDrawing_AllChannels)
+      Circle(16, 16, 8, RGBA(255, 0, 0, 255)) ; Opaque red circle
+      Circle(32, 32, 8, RGBA(0, 255, 0, 128)) ; Semi transparent green circle
+      StopDrawing()
+    EndIf
+      
+    Repeat
+      Repeat ; It's very important to process all the events remaining in the queue at each frame
+        Event = WindowEvent()
+        If Event = #PB_Event_CloseWindow
+          End
+        EndIf
+      Until Event = 0
+      
+      ClearScreen(RGB(128, 128, 128)) ; Grey background
+      
+      DisplayTransparentSprite(0, 300, 200)
+      
+      FlipBuffers()
+    ForEver
+        
+  Else
+    Debug "Can't open windowed screen!"
+  EndIf
+@EndCode
+
 @SeeAlso
-  @@SpriteOutput
+  @@GrabSprite, @@SpriteOutput
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplaySprite(#Sprite, x, y)
+@Function DisplaySprite(#Sprite, x.f, y.f)
 
 @Description
   Displays the #Sprite at the specified position on the current screen.
@@ -204,8 +239,10 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "#Sprite"
   The sprite to display.
   
-@Parameter "x, y"
-  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be display.
+@Parameter "x.f, y.f"
+  The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be displayed.
+  They can be specified as float numbers to be between physical pixels, the engine
+  will automatically interpolate the sprite to smooth the display (not supported on DirectX9 and DirectX11 subsystems).
 
 @NoReturnValue
 
@@ -216,7 +253,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayTransparentSprite(#Sprite, x, y [, Intensity [, Color]])
+@Function DisplayTransparentSprite(#Sprite, x.f, y.f [, Intensity [, Color]])
 
 @Description
   Display the #Sprite at the specified position on the current screen. The default
@@ -228,8 +265,10 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "#Sprite"
   The sprite to display.
   
-@Parameter "x, y"
+@Parameter "x.f, y.f"
   The coordinate (in pixels) in the @LibraryLink "screen" "screen" where the sprite will be displayed.
+  They can be specified as float numbers to be between physical pixels, the engine
+  will automatically interpolate the sprite to smooth the display (not supported on DirectX9 and DirectX11 subsystems).
 
 @OptionalParameter "Intensity"
   The intensity level used to display the sprite. Valid value are from 0 (fully transparent) 
@@ -265,10 +304,10 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = GrabSprite(#Sprite, x, y, Width, Height [, Mode])
+@Function Result = GrabSprite(#Sprite, x, y, Width, Height [, Flags])
 
 @Description
-  Grabs the screen content from the area x,y,Width,Height and creates a new sprite.
+  Grabs the screen content from the area x, y, Width, Height and creates a new sprite.
 
 @Parameter "#Sprite"
   A number to identify the new grabbed sprite. @ReferenceLink "purebasic_objects" "#PB_Any" can
@@ -280,11 +319,12 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Parameter "Width, Height"
   The size of the grab (in pixels).
 
-@OptionalParameter "Mode"
+@OptionalParameter "Flags"
   It can be a combination of the following values (with the '|' operator):
 @FixedFont
   @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite. The default transparent color
+                             set with @@TransparentSpriteColor is automatically applied.
 @EndFixedFont
 
 @ReturnValue
@@ -292,7 +332,8 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
   for the #Sprite parameter then the generated number is returned on success.
 
 @Remarks
-  GrabSprite() should be always called outside a @@StartDrawing : @@StopDrawing block.
+  GrabSprite() should be always called outside a @@StartDrawing : @@StopDrawing block.@Linebreak
+  The transparent sprite color is automatically applied when using AlphaBlending flag.
   
 @SupportedOS
 
@@ -307,7 +348,7 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @NoParameters
 
 @ReturnValue
-  Nonzero if the initialization of the sprite environment has successed, zero otherwise.
+  Nonzero if the initialization of the sprite environment has succeeded, zero otherwise.
   You should always test this result to see if the sprite environment has been correctly
   initialized. If not you must quit the program or disable all the calls to the sprite
   related functions.
@@ -614,7 +655,9 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @Function TransparentSpriteColor(#Sprite, Color)
 
 @Description
-  Changes the sprite transparent color (when displayed with @@DisplayTransparentSprite).
+  Use the specified color as the transparent sprite color (when displayed with @@DisplayTransparentSprite). Only one
+  color can be set as the transparent color and the previous alpha channel values are lost. If the sprite already have alpha information, this command is probably not needed.
+  The sprite has to be created with @#PB_Sprite_AlphaBlending flag to use this command. 
 
 @Parameter "#Sprite"
   The sprite to use. If @#PB_Default is used, then the default color (black - RGB(0,0,0)) is changed to the new given

@@ -1,0 +1,669 @@
+// -------------------------------
+// Cel Shading Section
+// -------------------------------
+vertex_program Ogre/CelShadingVPCg cg
+{
+	source Example_CelShading.cg
+	entry_point main_vp
+	profiles vs_4_0 vs_3_0 vs_1_1 arbvp1
+
+	default_params
+	{
+		param_named_auto lightPosition light_position_object_space 0
+		param_named_auto eyePosition camera_position_object_space
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named shininess float 10 
+	}
+}
+
+fragment_program Ogre/CelShadingFPCg cg
+{
+	source Example_CelShading.cg
+	entry_point main_fp
+	profiles ps_4_0 ps_3_0 ps_2_0 ps_1_1 arbfp1 fp20
+
+}
+
+vertex_program Ogre/CelShadingVPhlsl hlsl
+{
+	source Example_CelShading.cg
+	entry_point main_vp
+	target vs_2_0
+
+	default_params
+	{
+		param_named_auto lightPosition light_position_object_space 0
+		param_named_auto eyePosition camera_position_object_space
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named shininess float 10 
+	}
+}
+
+fragment_program Ogre/CelShadingFPhlsl hlsl
+{
+	source Example_CelShading.cg
+	entry_point main_fp
+	target ps_4_0 ps_2_0
+}
+
+vertex_program Ogre/CelShadingVPGLSLES glsles
+{
+	source Example_CelShadingVp.glsles
+	profiles glsles
+
+	default_params
+	{
+		param_named_auto lightPosition light_position_object_space 0
+		param_named_auto eyePosition camera_position_object_space
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named shininess float 10 
+	}
+}
+
+fragment_program Ogre/CelShadingFPGLSLES glsles
+{
+	source Example_CelShadingFp.glsles
+	profiles glsles
+}
+
+//! [celshading_vp]
+vertex_program Ogre/CelShadingVPGLSL glsl
+{
+	source Example_CelShadingVp.glsl
+	syntax glsl150
+
+	default_params
+	{
+		param_named_auto lightPosition light_position_object_space 0
+		param_named_auto eyePosition camera_position_object_space
+		param_named_auto worldViewProj worldviewproj_matrix
+		param_named shininess float 10 
+	}
+}
+//! [celshading_vp]
+
+fragment_program Ogre/CelShadingFPGLSL glsl
+{
+	source Example_CelShadingFp.glsl
+	syntax glsl150
+}
+
+fragment_program Ogre/CelShadingFP unified
+{
+	delegate Ogre/CelShadingFPhlsl
+	delegate Ogre/CelShadingFPGLSL
+	delegate Ogre/CelShadingFPGLSLES
+	delegate Ogre/CelShadingFPCg
+}
+
+vertex_program Ogre/CelShadingVP unified
+{
+	delegate Ogre/CelShadingVPhlsl
+	delegate Ogre/CelShadingVPGLSL
+	delegate Ogre/CelShadingVPGLSLES
+	delegate Ogre/CelShadingVPCg
+}
+
+//shared_params lighting
+//{
+//    shared_param_named diffuse float4 0 0.5 0 1
+//    shared_param_named specular float4 0.3 0.5 0.3 1.0
+//}
+
+sampler CelShading
+{
+	tex_address_mode clamp
+	filtering none
+}
+
+material Examples/CelShading
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref Ogre/CelShadingVP
+			{
+				// map shininess from custom renderable param 1
+				param_named_auto shininess custom 1
+			}
+			fragment_program_ref Ogre/CelShadingFP
+			{
+//    			shared_params_ref lighting
+				// map diffuse from custom renderable param 2
+				param_named_auto diffuse custom 2
+				// map specular from custom renderable param 3
+				param_named_auto specular custom 3
+			}
+			texture_unit
+			{
+				texture cel_shading_diffuse.png 1d
+				sampler_ref CelShading
+			}
+			texture_unit
+			{
+				texture cel_shading_specular.png 1d
+				sampler_ref CelShading
+			}
+			texture_unit
+			{
+				texture cel_shading_edge.png 1d
+				sampler_ref CelShading
+			}
+		}
+	}
+	
+}
+
+
+
+//------------------------
+// Bump mapping section
+//------------------------
+
+// Bump map vertex program, support for this is required
+vertex_program Examples/BumpMapVPHLSL hlsl
+{
+	source Example_BumpMapping.cg
+	entry_point main_vp
+	target vs_2_0
+}
+
+vertex_program Examples/BumpMapVPGLSL glsl glsles
+{
+	source Example_BumpMappingVp.glsl
+}
+
+vertex_program Examples/BumpMapVP unified
+{
+	delegate Examples/BumpMapVPGLSL
+	delegate Examples/BumpMapVPHLSL
+}
+
+// Bump map vertex program, with tangent parity support for this is required
+vertex_program Examples/BumpMapVPTangentParityCg cg
+{
+	source Example_BumpMapping.cg
+	entry_point main_vp
+	profiles vs_1_1 arbvp1
+	compile_arguments -DTANGENTS_HAVE_PARITY=1
+}
+
+// Bump map fragment program, support for this is optional
+fragment_program Examples/BumpMapFPHLSL hlsl
+{
+	source Example_BumpMapping.cg
+	entry_point main_fp
+	target ps_2_0
+}
+
+fragment_program Examples/BumpMapFPGLSL glsl glsles
+{
+	source Example_BumpMappingFp.glsl
+	default_params
+	{
+		// assign samplers as required by GLSL
+		param_named normalMap int 0
+	}
+}
+
+fragment_program Examples/BumpMapFP unified
+{
+	delegate Examples/BumpMapFPGLSL
+	delegate Examples/BumpMapFPHLSL
+}
+
+// Bump map vertex program shadow receiver
+vertex_program Examples/BumpMapVPShadowRcvCg cg
+{
+	source Example_BumpMapping.cg
+	entry_point main_shadowreceiver_vp
+	profiles vs_1_1 arbvp1
+}
+
+// Bump map vertex program shadow receiver
+vertex_program Examples/BumpMapVPShadowRcvGLSL glsl glsles
+{
+	source Example_BumpMappingShadowRcvVp.glsl
+}
+
+vertex_program Examples/BumpMapVPShadowRcv unified
+{
+	delegate Examples/BumpMapVPShadowRcvGLSL
+	delegate Examples/BumpMapVPShadowRcvCg
+}
+
+// Bump map fragment program shadow receiver, support for this is optional
+fragment_program Examples/BumpMapFPShadowRcvCg cg
+{
+	source Example_BumpMapping.cg
+	entry_point main_shadowreceiver_fp
+	profiles ps_2_0 arbfp1 fp20
+}
+
+// Bump map fragment program shadow receiver, support for this is optional
+fragment_program Examples/BumpMapFPShadowRcvGLSL glsl glsles
+{
+	source Example_BumpMappingShadowRcvFp.glsl
+	default_params
+	{
+		// assign samplers as required by GLSL
+		param_named shadowMap int 0
+		param_named normalMap int 1
+	}
+}
+
+fragment_program Examples/BumpMapFPShadowRcv unified
+{
+	delegate Examples/BumpMapFPShadowRcvGLSL
+	delegate Examples/BumpMapFPShadowRcvCg
+}
+
+//![normal_map_multipass]
+// Per-pixel normal mapping. Any number of lights, diffuse only
+material Examples/BumpMapping/MultiLight
+{
+	technique
+	{
+		shadow_receiver_material Examples/BumpMapping/MultiLight/Rcv
+
+		// Base ambient pass
+		pass ambient
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			diffuse 0 0 0
+		}
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass perlight
+		{
+			// do this for each light
+			iteration once_per_light
+			scene_blend add
+
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 0 0 0
+
+			// Vertex program reference
+			vertex_program_ref Examples/BumpMapVP
+			{
+				param_named_auto lightPosition light_position_object_space 0
+				param_named_auto worldViewProj worldviewproj_matrix
+			}
+
+			// Fragment program
+			fragment_program_ref Examples/BumpMapFP
+			{
+				param_named_auto lightDiffuse light_diffuse_colour 0 
+			}
+			
+			// Base bump map
+			texture_unit normalmap
+			{
+				texture NMBumpsOut.png
+			}
+		}
+		
+		// Decal pass
+		pass decal
+		{
+			// hint to pass categorisation routine, that this is decal only
+			lighting off
+			scene_blend dest_colour zero
+			texture_unit decalmap
+			{
+				texture RustedMetal.jpg 
+			}
+		}
+	}
+}
+
+material Examples/BumpMapping/MultiLight/Rcv
+{
+	technique
+	{
+		pass
+		{
+			scene_blend add
+
+			// texture shadow receiver program
+			vertex_program_ref Examples/BumpMapVPShadowRcv
+			{
+				param_named_auto lightPosition light_position_object_space 0
+				param_named_auto worldViewProj worldviewproj_matrix
+				param_named_auto worldMatrix world_matrix
+				param_named_auto texViewProj texture_viewproj_matrix
+			}
+			// Additive texture shadow receiver program
+			fragment_program_ref Examples/BumpMapFPShadowRcv
+			{
+				param_named_auto lightDiffuse light_diffuse_colour 0
+			}
+
+			texture_unit shadowmap
+			{
+				content_type shadow
+			}
+			texture_unit normalmap
+			{
+				texture NMBumpsOut.png
+			}
+		}
+	}
+}
+//![normal_map_multipass]
+
+// Any number of lights, diffuse and specular.
+material Examples/BumpMapping/MultiLightSpecular
+{
+	technique
+	{
+		pass
+		{
+			specular 1 1 1 4
+
+			texture_unit decalmap
+			{
+				texture RustedMetal.jpg
+			}
+
+			rtshader_system
+			{
+				lighting_stage normal_map NMBumpsOut.png
+			}
+		}
+		
+	}
+
+}
+
+// Any number of lights, diffuse only, correct for tangent parity.
+material Examples/BumpMapping/MultiLightTangentParity
+{
+	technique
+	{
+		pass
+		{
+			texture_unit decalmap
+			{
+				texture RustedMetal.jpg
+			}
+
+			rtshader_system
+			{
+				lighting_stage normal_map NMBumpsOut.png
+			}
+		}
+	}
+
+}
+
+
+//---------------------------
+// Projective texture section
+//---------------------------
+
+
+vertex_program Examples/TexProjectionVP cg
+{
+	source Example_Projection.cg
+	entry_point generalPurposeProjection_vp
+	profiles vs_1_1 arbvp1
+}
+
+fragment_program Examples/TexProjectionFP cg
+{
+	source Example_Projection.cg
+	entry_point generalPurposeProjection_fp
+	// sorry, ps_1_1 can't do this, fp20 can though
+	profiles ps_2_0 arbfp1 fp20
+}
+
+material Examples/GeneralTexProjection
+{
+	technique
+	{
+		pass 
+		{
+			
+			vertex_program_ref Examples/TexProjectionVP
+			{
+				param_named_auto worldViewProjMatrix worldviewproj_matrix
+				param_named_auto worldMatrix world_matrix
+				// You'll need to update the tex projection, I suggest using
+				// the Frustum class
+				//param_named_auto texWorldViewProj worldviewproj_matrix
+			}
+			fragment_program_ref Examples/TexProjectionFP
+			{
+				// no params
+			}
+			texture_unit
+			{
+				// Project the OGRE logo
+				texture ogrelogo.png
+				tex_address_mode clamp
+			}
+		}
+		
+			
+	}
+    
+}
+
+//----------------------------
+// Distortion effects
+//----------------------------
+vertex_program Examples/FresnelRefractReflectVP glsl glsles glslang hlsl
+{
+	source Example_FresnelVp.glsl
+}
+fragment_program Examples/FresnelRefractReflectFP glsl glsles glslang hlsl
+{
+	source Example_FresnelFp.glsl
+	default_params
+	{
+		// assign samplers as required by GLSL
+		param_named noiseMap int 0
+		param_named reflectMap int 1
+		param_named refractMap int 2
+	}
+}
+
+material Examples/FresnelReflectionRefraction
+{
+	// ps_2_0 / arbfp1
+	technique
+	{
+		pass 
+		{
+			
+			vertex_program_ref Examples/FresnelRefractReflectVP
+			{
+				param_named_auto worldViewProjMatrix worldviewproj_matrix
+				param_named_auto textureProjMatrix texture_worldviewproj_matrix 0
+				param_named_auto eyePosition camera_position_object_space
+				param_named_auto timeVal time 0.05
+				param_named scroll float 1  
+				param_named scale float 1 
+				param_named noise float 1 
+				// scroll and noisePos will need updating per frame
+			}
+			fragment_program_ref Examples/FresnelRefractReflectFP
+			{
+				param_named fresnelBias float -0.1 
+				param_named fresnelScale float 1.8 
+				param_named fresnelPower float 8  
+				param_named tintColour float4 0 0.05 0.05 1
+				param_named noiseScale float 0.05 
+			}
+			// Noise
+			texture_unit
+			{
+				// Perlin noise volume
+				texture waves2.dds
+				// min / mag filtering, no mip
+				filtering linear linear none
+			}
+			// Reflection
+			texture_unit
+			{
+				content_type compositor Fresnel reflection
+				tex_address_mode clamp
+			}
+			// Refraction
+			texture_unit
+			{
+				content_type compositor Fresnel refraction
+				tex_address_mode clamp
+			}
+		}
+		
+			
+	}
+}
+
+// Normal-mapped Athene statue
+material Examples/Athene/NormalMapped : Examples/BumpMapping/MultiLight
+{
+
+	// This is the preferred technique which uses both vertex and
+	// fragment programs, supports coloured lights
+	technique
+	{
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass perlight
+		{
+
+			
+			// Base bump map
+			texture_unit normalmap
+			{
+				texture atheneNormalMap.png
+				colour_op replace
+			}
+		}
+		
+		// Decal pass
+		pass decal
+		{
+			texture_unit decalmap
+			{
+				texture egyptrockyfull.jpg 
+			}
+			
+		}
+	}
+}
+
+// Basic Athene statue
+material Examples/Athene/Basic
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 0.3 0.3 0.3
+			diffuse 1.0 1.0 0.9
+
+			texture_unit
+			{
+				texture egyptrockyfull.jpg 
+			}
+			
+		}
+	}
+}
+
+
+// Any number of lights, diffuse and specular
+material Examples/Athene/NormalMappedSpecular : Examples/BumpMapping/MultiLightSpecular
+{
+
+	// This is the preferred technique which uses both vertex and
+	// fragment programs, supports coloured lights
+	technique
+	{
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass perlight
+		{
+			
+			// Base bump map
+			texture_unit normalmap
+			{
+				texture atheneNormalMap.png
+			}
+		}
+		
+		// Decal pass
+		pass decal
+		{
+			texture_unit decalmap
+			{
+				texture egyptrockyfull.jpg 
+			}
+			
+		}
+
+	}
+}
+
+vertex_program Examples/TextureArrayVS glsl glsles hlsl glslang
+{
+	source Example_TextureArrayVS.glsl
+
+	default_params
+	{
+		param_named_auto worldViewProj worldviewproj_matrix
+	}
+}
+
+fragment_program Examples/TextureArrayPSglsl glsl glslang
+{
+	source Example_TextureArrayPS.glsl
+}
+
+fragment_program Examples/TextureArrayPSglsles glsles
+{
+	source Example_TextureArrayPS.glsles
+	syntax glsl300es
+}
+
+fragment_program Examples/TextureArrayPShlsl4 hlsl
+{
+	source Example_TextureArrayPS.glsl
+	target ps_4_0 ps_4_0_level_9_1 ps_4_0_level_9_3
+}
+
+fragment_program Examples/TextureArrayPS unified
+{
+	delegate Examples/TextureArrayPSglsl
+	delegate Examples/TextureArrayPSglsles
+	delegate Examples/TextureArrayPShlsl4
+	default_params
+	{
+		param_named TextureArrayTex int 0
+	}
+}
+
+material Examples/TextureArray
+{
+	technique
+	{
+		pass
+		{
+			vertex_program_ref Examples/TextureArrayVS
+			{
+			}
+
+			fragment_program_ref Examples/TextureArrayPS
+			{
+			}
+		}
+	}
+}

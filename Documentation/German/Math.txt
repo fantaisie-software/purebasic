@@ -1,7 +1,7 @@
-;
+ï»¿;
 ;     Math library documentation
 ;
-;      (c) 2022 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Math
@@ -10,9 +10,9 @@
   Die 'Math' (Mathe) Library bietet grundlegende mathematische Funktionen wie Cos(), Sin(),
   Pow(), Log() etc...
 @LineBreak
-  Die meisten dieser Funktionen arbeiten mit Fließkommazahlen, d.h. mit Zahlen einfacher (.f)
+  Die meisten dieser Funktionen arbeiten mit FlieÃŸkommazahlen, d.h. mit Zahlen einfacher (.f)
   oder doppelter (.d) Genauigkeit. 
-  @Bold "Wenn eine Funktion mit einem Double-Wert als Eingabe oder Ausgabe verwendet wird, wird für die"
+  @Bold "Wenn eine Funktion mit einem Double-Wert als Eingabe oder Ausgabe verwendet wird, wird fÃ¼r die"
   @Bold "Berechnung automatisch auf doppelte Genauigkeit (Double) anstelle einfacher Genauigkeit (Float) umgeschaltet."
 
 @CommandList
@@ -26,28 +26,28 @@
 @Function Ergebnis.f(.d) = Abs(Zahl.f(.d))
 
 @Description
-  Gibt den absoluten Wert (ohne Vorzeichen) der angegebenen Fließkomma-Zahl zurück.
+  Gibt den absoluten Wert (ohne Vorzeichen) der angegebenen FlieÃŸkomma-Zahl zurÃ¼ck.
 
 @Parameter "Zahl.f oder Zahl.d"
   Die Zahl, von welcher der absolute Wert ermittelt werden soll.
-  Diese Funktion arbeitet nur korrekt mit Fließkomma-Zahlen. Mit Integer (Ganzzahlen) schlägt sie
-  fehl, wenn die Integerzahl zu groß ist (wegen Verlust der Präzision).
+  Diese Funktion arbeitet nur korrekt mit FlieÃŸkomma-Zahlen. Mit Integer (Ganzzahlen) schlÃ¤gt sie
+  fehl, wenn die Integerzahl zu groÃŸ ist (wegen Verlust der PrÃ¤zision).
 
 @ReturnValue
-  Gibt den absoluten Wert zurück. Der Rückgabewert ist immer positiv.
+  Gibt den absoluten Wert zurÃ¼ck. Der RÃ¼ckgabewert ist immer positiv.
   
 @Remarks
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
   Debug Abs(3.14159)  ; wird '3.14159' anzeigen
   Debug Abs(-3.14159) ; wird '3.14159' anzeigen
   
-  pi.f = -3.14159
-  pi.d = -3.14159
-  Debug Abs(pi)  ; Gibt eine Fließkomma-Zahl zurück
-  Debug Abs(pi)  ; Gibt eine Double-Zahl zurück
+  pif.f = -3.14159
+  pid.d = -3.14159
+  Debug Abs(pif)  ; Gibt eine FlieÃŸkomma-Zahl zurÃ¼ck
+  Debug Abs(pid)  ; Gibt eine Double-Zahl zurÃ¼ck
 @EndCode
 
 @SeeAlso
@@ -60,24 +60,24 @@
 @Function Ergebnis.f(.d) = ACos(Wert.f(.d))
 
 @Description
-  Gibt den Arkuskosinus des angegebenen Wertes zurück.
+  Gibt den Arkuskosinus des angegebenen Wertes zurÃ¼ck.
   
 @Parameter "Wert.f oder Wert.d"
   Der Eingabewert. Dieser muss zwischen -1.0 und 1.0 liegen (-1.0 und 1.0
   eingeschlossen).
   
 @ReturnValue
-  Gibt den resultierenden Winkel im Bogenmaß (Radiant) zurück.
+  Gibt den resultierenden Winkel im BogenmaÃŸ (Radiant) zurÃ¼ck.
   Dieser kann mittels der Funktion @@Degree in Grad umgewandelt werden.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@Cos.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
   Debug ACos(1)  ; wird '0.0' anzeigen
-  Debug Acos(-1) ; wird 'Pi' anzeigen (annähernd 3.14159...)
+  Debug Acos(-1) ; wird 'Pi' anzeigen (annÃ¤hernd 3.14159...)
 @EndCode
 
 @SeeAlso
@@ -90,17 +90,17 @@
 @Function Ergebnis.f(.d) = ACosH(Wert.f(.d))
 
 @Description
-  Gibt den Areacosinus (Area Cosinus Hyperbolicus) des angegebenen Wertes zurück.
+  Gibt den Areacosinus (Area Cosinus Hyperbolicus) des angegebenen Wertes zurÃ¼ck.
   
 @Parameter "Wert.f oder Wert.d"
-  Der Eingabewert. Dieser muss größer als oder gleich 1 sein.
+  Der Eingabewert. Dieser muss grÃ¶ÃŸer als oder gleich 1 sein.
 
 @ReturnValue
-  Gibt den hyperbolischen Winkel zurück.
+  Gibt den hyperbolischen Winkel zurÃ¼ck.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@CosH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -118,19 +118,19 @@
 @Function Ergebnis.f(.d) = ASin(Wert.f(.d))
 
 @Description
-  Gibt den Arkussinus des angegebenen Wertes zurück.
+  Gibt den Arkussinus des angegebenen Wertes zurÃ¼ck.
   
 @Parameter "Wert.f oder Wert.d"
   Der Eingabewert. Dieser muss zwischen -1.0
   und 1.0 liegen (-1.0 und 1.0 eingeschlossen).
   
 @ReturnValue
-  Gibt den resultierenden Winkel im Bogenmaß (Radiant) zurück.
+  Gibt den resultierenden Winkel im BogenmaÃŸ (Radiant) zurÃ¼ck.
   Dieser kann mittels der Funktion @@Degree in Grad umgewandelt werden.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@Sin.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -148,17 +148,17 @@
 @Function Ergebnis.f(.d) = ASinH(Wert.f(.d))
 
 @Description
-  Gibt den Areasinus (Area Sinus Hyperbolicus) des angegebenen Wertes zurück.
+  Gibt den Areasinus (Area Sinus Hyperbolicus) des angegebenen Wertes zurÃ¼ck.
 
 @Parameter "Wert.f oder Wert.d"
   Der Eingabewert. Der Wertebereich von 'Wert.f(.d)' ist nicht begrenzt.
   
 @ReturnValue
-  Gibt den hyperbolischen Winkel zurück.
+  Gibt den hyperbolischen Winkel zurÃ¼ck.
   
 @Remarks
   Dies ist die Umkehrfunktion von @@SinH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
   
 @Example
 @Code
@@ -176,18 +176,18 @@
 @Function Ergebnis.f(.d) = ATan(Wert.f(.d))
 
 @Description
-  Gibt den Arkustangens des angegebenen Wertes zurück.
+  Gibt den Arkustangens des angegebenen Wertes zurÃ¼ck.
   
 @Parameter "Wert.f oder Wert.d"
-  Der Eingabewert. Sein Wertebereich ist nicht eingeschränkt. 
+  Der Eingabewert. Sein Wertebereich ist nicht eingeschrÃ¤nkt. 
   
 @ReturnValue
-  Gibt den resultierenden Winkel im Bogenmaß (Radiant) zurück.
+  Gibt den resultierenden Winkel im BogenmaÃŸ (Radiant) zurÃ¼ck.
   Dieser kann mittels der Funktion @@Degree in Grad umgewandelt werden.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@Tan.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -204,7 +204,7 @@
 @Function Ergebnis.f(.d) = ATan2(x.f(.d), y.f(.d))
 
 @Description
-  Berechnet den Winkel im Bogenmaß (Radiant) zwischen der X-Achse und einer Linie, welche in
+  Berechnet den Winkel im BogenmaÃŸ (Radiant) zwischen der X-Achse und einer Linie, welche in
   der von 'x' und 'y' definierten Richtung gezeichnet wird. Der Winkel kann zum Berechnen
   von Winkeln zwischen Linien in 2D verwendet werden, oder zum Umwandeln rechtwinkeliger
   Koordinaten in Polarkoordinaten.
@@ -214,26 +214,26 @@
   Null-Werte sind erlaubt.
   
 @ReturnValue
-  Gibt den resultierenden Winkel im Bogenmaß (Radiant) zurück.
+  Gibt den resultierenden Winkel im BogenmaÃŸ (Radiant) zurÃ¼ck.
   Dieser kann mittels der Funktion @@Degree in Grad umgewandelt werden.
   
 @Remarks
-  Diese Funktion berechnet den Wert @Link "ATan" "ATan(y/x)" und prüft das Vorzeichen von x und y,
-  um den Winkel im richtigen Quadranten zu setzen. Sie kann auch mit den Fällen umgehen, wo y gleich 
+  Diese Funktion berechnet den Wert @Link "ATan" "ATan(y/x)" und prÃ¼ft das Vorzeichen von x und y,
+  um den Winkel im richtigen Quadranten zu setzen. Sie kann auch mit den FÃ¤llen umgehen, wo y gleich 
   null ist, um die "Division durch Null" Fehler zu vermeiden.
 @LineBreak
 @LineBreak
   Das Ergebnis liegt immer zwischen @ConstantColor "-#PI" und @ConstantColor "+#PI". Negative
   Winkel zeigen an, dass die Linie unterhalb der X-Achse liegt; positive Werte zeigen an, dass
-  die Linie über der X-Achse liegt. Wenn 'x' und 'y' gleich null sind, dann gibt die Funktion
-  0.0 zurück.
+  die Linie Ã¼ber der X-Achse liegt. Wenn 'x' und 'y' gleich null sind, dann gibt die Funktion
+  0.0 zurÃ¼ck.
 @LineBreak
 @LineBreak
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
-  Debug ATan2(10, 10) ; wird #PI/4 anzeigen (45 Grad im Bogenmaß)
+  Debug ATan2(10, 10) ; wird #PI/4 anzeigen (45 Grad im BogenmaÃŸ)
 @EndCode
 
 @SeeAlso
@@ -246,18 +246,18 @@
 @Function Ergebnis.f(.d) = ATanH(Wert.f(.d))
 
 @Description
-  Gibt den Areatangens (Area Tangens Hyperbolicus) des angegebenen Wertes zurück.
+  Gibt den Areatangens (Area Tangens Hyperbolicus) des angegebenen Wertes zurÃ¼ck.
   
 @Parameter "Wert.f oder Wert.d"
   Der Eingabewert. Dieser muss zwischen -1.0
   und 1.0 liegen (-1.0 und 1.0 nicht eingeschlossen).
   
 @ReturnValue
-  Gibt den hyperbolischen Winkel zurück.
+  Gibt den hyperbolischen Winkel zurÃ¼ck.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@TanH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -274,19 +274,19 @@
 @Function Ergebnis.f(.d) = Cos(Winkel.f(.d))
 
 @Description
-  Gibt den Kosinus des angegebenen Winkels zurück.
+  Gibt den Kosinus des angegebenen Winkels zurÃ¼ck.
   
 @Parameter "Winkel.f oder Winkel.d"
-  Der Eingabewinkel im Bogenmaß (Radiant).
-  @@Radian kann verwendet werden, um einen Winkel von Grad ins Bogenmaß umzuwandeln.
+  Der Eingabewinkel im BogenmaÃŸ (Radiant).
+  @@Radian kann verwendet werden, um einen Winkel von Grad ins BogenmaÃŸ umzuwandeln.
   
 @ReturnValue
-  Gibt den Kosinus des Winkels zurück.
+  Gibt den Kosinus des Winkels zurÃ¼ck.
   Das Ergebnis liegt immer zwischen -1.0 und 1.0.
 
 @Remarks
   Die Umkehrfunktion von Cos() ist @@ACos.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -303,18 +303,18 @@
 @Function Ergebnis.f(.d) = CosH(Winkel.f(.d))
 
 @Description
-  Gibt den hyperbolischen Kosinus des angegebenen hyperbolischen Winkels zurück.
+  Gibt den hyperbolischen Kosinus des angegebenen hyperbolischen Winkels zurÃ¼ck.
   
 @Parameter "Winkel.f oder Winkel.d"
   Der hyperbolische Eingabewinkel.
   
 @ReturnValue
-  Gibt den hyperbolischen Kosinus des Winkels zurück.
-  Das Ergebnis wird größer oder gleich 1 sein.
+  Gibt den hyperbolischen Kosinus des Winkels zurÃ¼ck.
+  Das Ergebnis wird grÃ¶ÃŸer oder gleich 1 sein.
 
 @Remarks
   Die Umkehrfunktion von CosH() ist @@ACosH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -331,23 +331,23 @@
 @Function Ergebnis.f(.d) = Degree(Winkel.f(.d))
 
 @Description
-  Konvertiert den angegebenen Winkel vom Bogenmaß (Radiant) ins Winkelmaß (Grad).
+  Konvertiert den angegebenen Winkel vom BogenmaÃŸ (Radiant) ins WinkelmaÃŸ (Grad).
 
 @Parameter "Winkel.f oder Winkel.d"
-  Der Eingabewinkel im Bogenmaß (Radiant).
+  Der Eingabewinkel im BogenmaÃŸ (Radiant).
   
 @ReturnValue
-  Gibt den Winkel in Grad zurück.
+  Gibt den Winkel in Grad zurÃ¼ck.
 
 @Remarks
   Es gibt keine Angleichung, um sicher zu gehen, dass der resultierende Winkel zwischen
-  0 und 360 liegt. Wenn die Eingabe größer als @#PI*2 war, dann wird das
-  Ergebnis größer als 360 sein.
+  0 und 360 liegt. Wenn die Eingabe grÃ¶ÃŸer als @#PI*2 war, dann wird das
+  Ergebnis grÃ¶ÃŸer als 360 sein.
   Ebenso wird eine negative Eingabe in eine negative Ausgabe resultieren.
 @LineBreak
 @LineBreak
   Die umgekehrte Umwandlung kann mit der @@Radian Funktion vorgenommen werden.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -364,17 +364,17 @@
 @Function Ergebnis.f(.d) = Exp(Zahl.f(.d))
 
 @Description
-  Gibt das Ergebnis der Exponentialfunktion zurück. Dies ist der Wert e potenziert um 'Zahl'.
+  Gibt das Ergebnis der Exponentialfunktion zurÃ¼ck. Dies ist der Wert e potenziert um 'Zahl'.
   
 @Parameter "Zahl.f oder Zahl.d"
-  Die Eingabe für die Exponentialfunktion.
+  Die Eingabe fÃ¼r die Exponentialfunktion.
   
 @ReturnValue
-  Gibt den Wert e potenziert um 'Zahl' zurück.
+  Gibt den Wert e potenziert um 'Zahl' zurÃ¼ck.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@Log.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @SeeAlso
   @@Log
@@ -386,22 +386,22 @@
 @Function Ergebnis.f(.d) = Infinity()
 
 @Description
-  Gibt die spezielle Fließkommazahl, welche positive Unendlichkeit repräsentiert, zurück.
+  Gibt die spezielle FlieÃŸkommazahl, welche positive Unendlichkeit reprÃ¤sentiert, zurÃ¼ck.
   Negative Unendlichkeit kann mittels "-Infinity()" berechnet werden.
   
 @NoParameters
 
 @ReturnValue
-  Gibt den Wert zurück, welcher Unendlichkeit repräsentiert. Das Ergebnis ist ein Float- oder
-  Double-Wert, was davon abhängig ist, ob es einer @ReferenceLink "variables" "Float oder Double"
+  Gibt den Wert zurÃ¼ck, welcher Unendlichkeit reprÃ¤sentiert. Das Ergebnis ist ein Float- oder
+  Double-Wert, was davon abhÃ¤ngig ist, ob es einer @ReferenceLink "variables" "Float oder Double"
   Variable zugewiesen wird.
   
 @Remarks
   Unendlichkeit und negative Unendlichkeit sind spezielle Werte. Sie verhalten sich in Berechnungen
-  auf eine Weise, die Sie allgemein erwarten würden. Zum Beispiel beim Teilen von Unendlichkeit durch
-  jede positive Zahl (außer 0 bzw. Unendlichkeit) wird erneut in Unendlichkeit resultieren. Die
-  @@IsInfinity Funktion kann verwendet werden, um zu überprüfen, ob ein Wert positive
-  oder negative Unendlichkeit repräsentiert.
+  auf eine Weise, die Sie allgemein erwarten wÃ¼rden. Zum Beispiel beim Teilen von Unendlichkeit durch
+  jede positive Zahl (auÃŸer 0 bzw. Unendlichkeit) wird erneut in Unendlichkeit resultieren. Die
+  @@IsInfinity Funktion kann verwendet werden, um zu Ã¼berprÃ¼fen, ob ein Wert positive
+  oder negative Unendlichkeit reprÃ¤sentiert.
 
 @Example
 @Code
@@ -418,16 +418,16 @@
 @Function Ergebnis = Int(Zahl.f(.d))
 
 @Description
-  Gibt den ganzzahligen Anteil einer Fließkommazahl zurück.
+  Gibt den ganzzahligen Anteil einer FlieÃŸkommazahl zurÃ¼ck.
 
 @Parameter "Zahl.f oder Zahl.d"
   Der Eingabewert. Dies kann ein @ReferenceLink "variables" "Float oder Double" Wert sein.
 
 @ReturnValue
-  Gibt den Ganzzahl-Anteil zurück, indem die Nachkommastellen abgeschnitten werden.
+  Gibt den Ganzzahl-Anteil zurÃ¼ck, indem die Nachkommastellen abgeschnitten werden.
 
 @Remarks
-  Diese Funktion gibt einen @ReferenceLink "variables" "Integer" Wert zurück. Um einen
+  Diese Funktion gibt einen @ReferenceLink "variables" "Integer" Wert zurÃ¼ck. Um einen
   Quad-Wert zu erhalten, verwenden Sie die @@IntQ Funktion.
 @LineBreak
 @LineBreak
@@ -449,18 +449,18 @@
 @Function Ergebnis = IntQ(Zahl.f(.d))
 
 @Description
-  Gibt den ganzzahligen Anteil einer Fließkommazahl als ein Quad zurück.
+  Gibt den ganzzahligen Anteil einer FlieÃŸkommazahl als ein Quad zurÃ¼ck.
   
 @Parameter "Zahl.f oder Zahl.d"
   Der Eingabewert. Dies kann ein @ReferenceLink "variables" "Float oder Double" Wert sein.
 
 @ReturnValue
-  Gibt den Ganzzahl-Anteil zurück, indem die Nachkommastellen abgeschnitten werden.
+  Gibt den Ganzzahl-Anteil zurÃ¼ck, indem die Nachkommastellen abgeschnitten werden.
 
 @Remarks
-  Diese Funktion gibt einen @ReferenceLink "variables" "Quad" Wert zurück.
-  Die @@Int Funktion umfasst nur den Wertebereich einer Integer-Variable, dafür wird sie
-  auf 32 Bit-Systemen möglicherweise schneller ausgeführt.
+  Diese Funktion gibt einen @ReferenceLink "variables" "Quad" Wert zurÃ¼ck.
+  Die @@Int Funktion umfasst nur den Wertebereich einer Integer-Variable, dafÃ¼r wird sie
+  auf 32 Bit-Systemen mÃ¶glicherweise schneller ausgefÃ¼hrt.
 @LineBreak
 @LineBreak
   Der Ganzzahl-Anteil ergibt sich durch das Abschneiden der Nachkommastellen des Wertes.
@@ -481,24 +481,24 @@
 @Function Ergebnis.f(.d) = IsInfinity(Wert.f(.d))
 
 @Description
-  Gibt einen Wert ungleich Null zurück, wenn der angegebene 'Wert' positive oder negative
-  Unendlichkeit repräsentiert.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der angegebene 'Wert' positive oder negative
+  Unendlichkeit reprÃ¤sentiert.
 
 @Parameter "Wert.f oder Wert.d"
-  Der Wert, welcher auf Unendlichkeit geprüft werden soll.
+  Der Wert, welcher auf Unendlichkeit geprÃ¼ft werden soll.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Eingabewert positive oder negative
-  Unendlichkeit repräsentiert, und andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Eingabewert positive oder negative
+  Unendlichkeit reprÃ¤sentiert, und andernfalls Null.
 
 @Remarks
-  Das Überprüfen der Unendlichkeits-Werte sollte nicht durch normalen Vergleich erfolgen, da
-  es von der Hardware-Implementation abhängt, ob Unendlichkeit als gleich zu sich selbst oder 
+  Das ÃœberprÃ¼fen der Unendlichkeits-Werte sollte nicht durch normalen Vergleich erfolgen, da
+  es von der Hardware-Implementation abhÃ¤ngt, ob Unendlichkeit als gleich zu sich selbst oder 
   nicht behandelt wird. Der Wert positiver Unendlichkeit kann mittels der @@Infinity 
   Funktion generiert werden.
 @LineBreak
 @LineBreak
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -518,32 +518,32 @@
 @Function Ergebnis.f(.d) = IsNaN(Wert.f(.d))
 
 @Description
-  Gibt einen Wert ungleich Null zurück, wenn der angegebene 'Wert' keine Zahl ist (in englisch 
-  "Not a number", was auch namensgebend für die Funktion ist). Dieser Wert ist das Ergebnis
-  einiger ungültiger Berechnungen. Er kann auch mittels der @@NaN Funktion
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der angegebene 'Wert' keine Zahl ist (in englisch 
+  "Not a number", was auch namensgebend fÃ¼r die Funktion ist). Dieser Wert ist das Ergebnis
+  einiger ungÃ¼ltiger Berechnungen. Er kann auch mittels der @@NaN Funktion
   generiert werden.
   
 @Parameter "Wert.f oder Wert.d"
-  Der Wert, welcher auf "NaN" geprüft werden soll.
+  Der Wert, welcher auf "NaN" geprÃ¼ft werden soll.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Eingabewert keine Zahl ist,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Eingabewert keine Zahl ist,
   und andernfall Null.
   
 @Remarks
-  "NaN" ist ein spezieller Wert. Dessen Überprüfung sollte nicht durch normale Vergleiche erfolgen,
-  da es viele verschiedene Werte für "NaN" gibt und ob "NaN" in Vergleichen als gleich zu sich selbst 
-  oder nicht behandelt wird, hängt von der Hardware ab.
+  "NaN" ist ein spezieller Wert. Dessen ÃœberprÃ¼fung sollte nicht durch normale Vergleiche erfolgen,
+  da es viele verschiedene Werte fÃ¼r "NaN" gibt und ob "NaN" in Vergleichen als gleich zu sich selbst 
+  oder nicht behandelt wird, hÃ¤ngt von der Hardware ab.
 @LineBreak
 @LineBreak
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
-  Ergebnis = IsNAN(NaN())       ; NaN (keine Zahl)
-  Ergebnis = IsNAN(Sqr(-1))     ; NaN (keine Zahl)
-  Ergebnis = IsNAN(1234.5)      ; eine normale Zahl
-  Ergebnis = IsNAN(Infinity())  ; unendlich ist nicht NaN
+  Ergebnis = IsNaN(NaN())       ; NaN (keine Zahl)
+  Ergebnis = IsNaN(Sqr(-1))     ; NaN (keine Zahl)
+  Ergebnis = IsNaN(1234.5)      ; eine normale Zahl
+  Ergebnis = IsNaN(Infinity())  ; unendlich ist nicht NaN
 @EndCode
 
 @SeeAlso
@@ -556,7 +556,7 @@
 @Function Ergebnis.f(.d) = Pow(Basis.f(.d), Exponent.f(.d))
 
 @Description
-  Gibt als Ergebnis die Potenz (Basis^Exponent) zurück. (Die Basis.f wird sooft mit
+  Gibt als Ergebnis die Potenz (Basis^Exponent) zurÃ¼ck. (Die Basis.f wird sooft mit
   sich selbst multipliziert, wie im Exponent.f angegeben.)
   
 @Parameter "Basis.f oder Basis.d"
@@ -566,12 +566,12 @@
   Der Exponent. Ist 'Basis.f(.d)' negativ, dann muss der Exponent eine ganze Zahl sein.
 
 @ReturnValue
-  Gibt den Wert von 'Basis' potenziert um den 'Exponent' zurück.
+  Gibt den Wert von 'Basis' potenziert um den 'Exponent' zurÃ¼ck.
 
 @Remarks
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
   @LineBreak
-  Das Symbol '^' selbst ist kein unterstützter Operator. Dafür ist die Pow() Funktion verfügbar.
+  Das Symbol '^' selbst ist kein unterstÃ¼tzter Operator. DafÃ¼r ist die Pow() Funktion verfÃ¼gbar.
 
 @Example
 @Code
@@ -589,18 +589,18 @@
 @Function Ergebnis.f(.d) = Log(Zahl.f(.d))
 
 @Description
-  Gibt den natürlichen Logarithmus (d.h. zur Basis e) der angegebenen Zahl zurück.
+  Gibt den natÃ¼rlichen Logarithmus (d.h. zur Basis e) der angegebenen Zahl zurÃ¼ck.
 
 @Parameter "Zahl.f oder Zahl.d"
   Die Zahl, von welcher der Logarithmus berechnet werden soll. Dies muss
   ein positiver Wert sein.
 
 @ReturnValue
-  Gibt den natürlichen Logarithmus der Zahl zurück.
+  Gibt den natÃ¼rlichen Logarithmus der Zahl zurÃ¼ck.
 
 @Remarks
   Dies ist die Umkehrfunktion von @@Exp.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @SeeAlso
   @@Exp, @@Log10
@@ -612,17 +612,17 @@
 @Function Ergebnis.f(.d) = Log10(Zahl.f(.d))
 
 @Description
-  Gibt den Logarithmus (Log) auf Basis 10 der angegebenen 'Zahl' zurück.
+  Gibt den Logarithmus (Log) auf Basis 10 der angegebenen 'Zahl' zurÃ¼ck.
 
 @Parameter "Zahl.f oder Zahl.d"
   Die Zahl, von welcher der Logarithmus berechnet werden soll. Dies muss
   ein positiver Wert sein.
 
 @ReturnValue
-  Gibt den Logarithmus auf Basis 10 zurück.
+  Gibt den Logarithmus auf Basis 10 zurÃ¼ck.
   
 @Remarks
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @SeeAlso
   @@Log
@@ -634,7 +634,7 @@
 @Function Ergebnis.f(.d) = Mod(Zahl.f(.d), Divisor.f(.d))
 
 @Description
-  Gibt den Rest der Division von Zahl.f(.d) durch Divisor.f(.d) zurück.
+  Gibt den Rest der Division von Zahl.f(.d) durch Divisor.f(.d) zurÃ¼ck.
 
 @Parameter "Zahl.f oder Zahl.d"
   Die Zahl, welche dividiert werden soll. Die Eingabe muss keine ganze Zahl sein.
@@ -644,12 +644,12 @@
   ganze Zahl sein.
 
 @ReturnValue
-  Gibt den Rest der Division zurück. Das Ergebnis hat das gleiche Vorzeichen wie
+  Gibt den Rest der Division zurÃ¼ck. Das Ergebnis hat das gleiche Vorzeichen wie
   der Parameter 'Zahl.f'.
 
 @Remarks
-  Dies ist die Fließkomma-Version des '%' Operators für Ganzzahlen.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Dies ist die FlieÃŸkomma-Version des '%' Operators fÃ¼r Ganzzahlen.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @SupportedOS
 
@@ -658,21 +658,21 @@
 @Function Ergebnis.f(.d) = NaN()
 
 @Description
-  Gibt den speziellen Fließkommawert zurück, welcher 'Not a Number' (keine Zahl) repräsentiert.
-  Dieser Wert wird von ungültigen Berechnungen zurückgegeben, wie z.B. Berechnung der 
+  Gibt den speziellen FlieÃŸkommawert zurÃ¼ck, welcher 'Not a Number' (keine Zahl) reprÃ¤sentiert.
+  Dieser Wert wird von ungÃ¼ltigen Berechnungen zurÃ¼ckgegeben, wie z.B. Berechnung der 
   @Link "Sqr" "Quadratwurzel" von einer negativen Zahl.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den Wert zurück, welcher "keine Zahl" (NaN) repräsentiert. Das Ergebnis ist
-  ein Float- oder Double-Wert, abhängig davon, ob er einer
+  Gibt den Wert zurÃ¼ck, welcher "keine Zahl" (NaN) reprÃ¤sentiert. Das Ergebnis ist
+  ein Float- oder Double-Wert, abhÃ¤ngig davon, ob er einer
   @ReferenceLink "variables" "Float oder Double" Variable zugewiesen wird.
 
 @Remarks
   NaN ist ein spezieller Wert. Die Verwendung von NaN in jeglichen Berechnungen mit anderen
-  Werten wird wiederrum den Wert NaN zurückgeben. Die @@IsNaN Funktion kann verwendet
-  werden, um zu überprüfen, ob eine Variable den Wert NaN repräsentiert.
+  Werten wird wiederrum den Wert NaN zurÃ¼ckgeben. Die @@IsNaN Funktion kann verwendet
+  werden, um zu Ã¼berprÃ¼fen, ob eine Variable den Wert NaN reprÃ¤sentiert.
 
 @Example
 @Code
@@ -689,23 +689,23 @@
 @Function Ergebnis.f(.d) = Radian(Winkel.f(.d))
 
 @Description
-  Konvertiert den angegebenen Winkel vom Winkelmaß (Grad) ins Bogenmaß (Radiant).
+  Konvertiert den angegebenen Winkel vom WinkelmaÃŸ (Grad) ins BogenmaÃŸ (Radiant).
 
 @Parameter "Winkel.f oder Winkel.d"
   Der Eingabe-Winkel in Grad.
  
 @ReturnValue
-  Gibt den Winkel im Bogenmaß (Radiant) zurück.
+  Gibt den Winkel im BogenmaÃŸ (Radiant) zurÃ¼ck.
 
 @Remarks
   Es gibt keine Angleichung, um sicher zu gehen, dass der resultierende Winkel zwischen
-  0 und @#PI*2 liegt. Wenn die Eingabe größer als 360 war, dann wird das
-  Ergebnis größer als @#PI*2 sein.
+  0 und @#PI*2 liegt. Wenn die Eingabe grÃ¶ÃŸer als 360 war, dann wird das
+  Ergebnis grÃ¶ÃŸer als @#PI*2 sein.
   Ebenso wird eine negative Eingabe in eine negative Ausgabe resultieren.
 @LineBreak
 @LineBreak
   Die umgekehrte Umwandlung kann mit der @@Degree Funktion vorgenommen werden.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -726,35 +726,35 @@
   
 @Parameter "Maximum"
   Der Maximal-Wert. Dieser Wert muss positiv sein (Null eingeschlossen) und
-  darf nicht den maximalen positiven @ReferenceLink "variables" "Integer-Wert" überschreiten.
+  darf nicht den maximalen positiven @ReferenceLink "variables" "Integer-Wert" Ã¼berschreiten.
 
 @OptionalParameter "Minimum"
-  Der Minimal-Wert. Er darf nicht den Maximal-Wert überschreiten. Wenn angegeben,
+  Der Minimal-Wert. Er darf nicht den Maximal-Wert Ã¼berschreiten. Wenn angegeben,
   wird die Zufallszahl zwischen dem Minimal-Wert und dem Maximal-Wert liegen (beide
   Werte eingeschlossen). Dieser Wert muss positiv sein (Null eingeschlossen) und
-  darf nicht den maximalen positiven @ReferenceLink "variables" "Integer-Wert" überschreiten.
+  darf nicht den maximalen positiven @ReferenceLink "variables" "Integer-Wert" Ã¼berschreiten.
   
 @ReturnValue
-  Gibt einen Wert (Ganzzahl) von Null bis zum Maximal-Wert (beide Werte eingeschlossen) zurück,
-  außer ein Minimal-Wert wird angegeben.
+  Gibt einen Wert (Ganzzahl) von Null bis zum Maximal-Wert (beide Werte eingeschlossen) zurÃ¼ck,
+  auÃŸer ein Minimal-Wert wird angegeben.
   
 @Remarks
-  Zusätzlich kann @@RandomSeed benutzt werden, um den aktuellen Ausgangswert der Zufallszahl
-  (englisch: "random number seed") zu ändern. @@RandomData kann verwendet werden, um einen
-  Speicherpuffer mit Zufallsdaten zu füllen.
-  @@RandomizeArray bzw. @@RandomizeList können verwendet werden, um die Elemente eines Arrays
-  oder einer verknüpften Liste nach dem Zufallsprinzip neu anzuordnen.
+  ZusÃ¤tzlich kann @@RandomSeed benutzt werden, um den aktuellen Ausgangswert der Zufallszahl
+  (englisch: "random number seed") zu Ã¤ndern. @@RandomData kann verwendet werden, um einen
+  Speicherpuffer mit Zufallsdaten zu fÃ¼llen.
+  @@RandomizeArray bzw. @@RandomizeList kÃ¶nnen verwendet werden, um die Elemente eines Arrays
+  oder einer verknÃ¼pften Liste nach dem Zufallsprinzip neu anzuordnen.
 @LineBreak
 @LineBreak
   @Bold "Hinweis:" Dieser Befehl verwendet einen Pseudo-Zufallszahlen-Generator, der sehr schnell ist
-  und eine zufällig aussehende Ausgabe produziert, aber nicht stark genug für kryptographische Zwecke ist.
+  und eine zufÃ¤llig aussehende Ausgabe produziert, aber nicht stark genug fÃ¼r kryptographische Zwecke ist.
   Der langsamere @@CryptRandom Befehl kann verwendet werden, wenn
-  eine sicherere Erzeugung von Zufallszahlen benötigt wird.
+  eine sicherere Erzeugung von Zufallszahlen benÃ¶tigt wird.
 
 @Example
 @Code
   Repeat
-    Dice = Random(6, 1)  ; einen Wert zwischen 1 und 6 erhalten, einschließlich 1 und 6
+    Dice = Random(6, 1)  ; einen Wert zwischen 1 und 6 erhalten, einschlieÃŸlich 1 und 6
     Choice = MessageRequester("Roll the dice", "You got a " + Dice + ", roll again?", #PB_MessageRequester_YesNo)
   Until Choice = #PB_MessageRequester_No
 @EndCode
@@ -766,33 +766,33 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function RandomData(*Puffer, Länge)
+@Function RandomData(*Puffer, LÃ¤nge)
 
 @Description
-  Füllt den angegebenen Speicherpuffer mit Zufallsdaten.
+  FÃ¼llt den angegebenen Speicherpuffer mit Zufallsdaten.
   
 @Parameter "*Puffer"
-  Die Speicheradresse des zu füllenden Puffers.
+  Die Speicheradresse des zu fÃ¼llenden Puffers.
 
-@Parameter "Länge"
-  Die Größe des zu füllenden Puffers.
+@Parameter "LÃ¤nge"
+  Die GrÃ¶ÃŸe des zu fÃ¼llenden Puffers.
 
 @NoReturnValue
 
 @Remarks
   Dieser Befehl verwendet den gleichen
   Ausgangswert wie der @@Random Befehl. @@RandomSeed kann verwendet
-  werden, um den Ausgangswert der Zufallszahlen zu ändern.
+  werden, um den Ausgangswert der Zufallszahlen zu Ã¤ndern.
 @LineBreak
 @LineBreak
   @Bold "Hinweis:" Dieser Befehl verwendet einen Pseudo-Zufallszahlen-Generator, der sehr schnell ist
-  und eine zufällig aussehende Ausgabe produziert, aber nicht stark genug für kryptographische Zwecke ist.
+  und eine zufÃ¤llig aussehende Ausgabe produziert, aber nicht stark genug fÃ¼r kryptographische Zwecke ist.
   Der langsamere @@CryptRandom Befehl kann verwendet werden, wenn
-  eine sicherere Erzeugung von Zufallszahlen benötigt wird.
+  eine sicherere Erzeugung von Zufallszahlen benÃ¶tigt wird.
 
 @Example
 @Code
-  ; Erstellt ein Bild mit zufälligem Inhalt
+  ; Erstellt ein Bild mit zufÃ¤lligem Inhalt
   ;
   CreateImage(0, 200, 200)
   If StartDrawing(ImageOutput(0))
@@ -821,17 +821,17 @@
 @Function RandomSeed(Wert)
 
 @Description
-  Ändert den aktuellen Ausgangswert für die mit @@Random und @@RandomData
-  zurückgegebenen Zufallszahlen.
+  Ã„ndert den aktuellen Ausgangswert fÃ¼r die mit @@Random und @@RandomData
+  zurÃ¼ckgegebenen Zufallszahlen.
   
 @Parameter "Wert"
-  Der neue Ausgangswert für den Zufallszahlen-Generator.
+  Der neue Ausgangswert fÃ¼r den Zufallszahlen-Generator.
 
 @NoReturnValue
 
 @Remarks
   Bei jedem neuen Programmstart wird automatisch ein neuer Ausgangswert
-  generiert. @@RandomSeed ist daher nur nützlich, wenn das Ziel darin besteht,
+  generiert. @@RandomSeed ist daher nur nÃ¼tzlich, wenn das Ziel darin besteht,
   bei jedem Start des Programms immer die gleichen Zufallszahlen in der gleichen Reihenfolge zu erhalten.
 
 @SeeAlso
@@ -844,7 +844,7 @@
 @Function Ergebnis.f(.d) = Round(Zahl.f(.d), Modus)
 
 @Description
-  Rundet die angegebene @ReferenceLink "variables" "Float-Zahl" abhängig vom angegebenen Modus.
+  Rundet die angegebene @ReferenceLink "variables" "Float-Zahl" abhÃ¤ngig vom angegebenen Modus.
 
 @Parameter "Zahl.f oder Zahl.d"
   Die zu rundende Zahl.
@@ -854,12 +854,15 @@
 @FixedFont
   @#PB_Round_Down   : rundet die Zahl nach unten
   @#PB_Round_Up     : rundet die Zahl auf
-  @#PB_Round_Nearest: rundet auf die nächste ganze Zahl (0.5 und größer wird aufgerundet)
+  @#PB_Round_Nearest: rundet auf die nÃ¤chste ganze Zahl (0.5 und grÃ¶ÃŸer wird aufgerundet)
 @EndFixedFont
 
 @Remarks
-  Um eine Fließkommazahl ohne Runden in eine Ganzzahl umzuwandeln, verwenden Sie @@Int bzw. @@IntQ.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Um eine FlieÃŸkommazahl ohne Runden in eine Ganzzahl umzuwandeln, verwenden Sie @@Int bzw. @@IntQ.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
+  @LineBreak
+  @LineBreak
+  Um eine Zahl nur fÃ¼r die Ausgabe zu formatieren (eine gerundete Dezimalzahl anzeigen) kÃ¶nnen Sie @@FormatNumber verwenden.
 
 @Example
 @Code
@@ -876,7 +879,7 @@
 @EndCode
 
 @SeeAlso
-  @@Int, @@IntQ
+  @@Int, @@IntQ, @@FormatNumber
 
 @SupportedOS
 
@@ -885,21 +888,21 @@
 @Function Ergebnis = Sign(Zahl.f(.d))
 
 @Description
-  Gibt einen Ganzzahl-Wert zurück, der das Vorzeichen der angegebenen Zahl repräsentiert.
+  Gibt einen Ganzzahl-Wert zurÃ¼ck, der das Vorzeichen der angegebenen Zahl reprÃ¤sentiert.
   
 @Parameter "Zahl.f oder Zahl.d"
   Die Zahl, von welcher das Vorzeichen ermittelt werden soll.
 
 @ReturnValue
- - Gibt 0 zurück, falls die Zahl 0 ist.
+ - Gibt 0 zurÃ¼ck, falls die Zahl 0 ist.
 @LineBreak
- - Gibt 1 zurück, falls die Zahl positiv ist.
+ - Gibt 1 zurÃ¼ck, falls die Zahl positiv ist.
 @LineBreak
- - Gibt -1 zurück, falls die Zahl negativ ist.
+ - Gibt -1 zurÃ¼ck, falls die Zahl negativ ist.
 
 @Remarks
   Diese Funktion verarbeitet @ReferenceLink "variables" "Float oder Double" Werte, aber
-  gibt einen Ganzzahl-Wert zurück.
+  gibt einen Ganzzahl-Wert zurÃ¼ck.
 
 @Example
 @Code
@@ -918,19 +921,19 @@
 @Function Ergebnis.f(.d) = Sin(Winkel.f(.d))
 
 @Description
-  Gibt den Sinus des angegebenen Winkels zurück.
+  Gibt den Sinus des angegebenen Winkels zurÃ¼ck.
   
 @Parameter "Winkel.f oder Winkel.d"
-  Der Eingabe-Winkel im Bogenmaß (Radiant).
+  Der Eingabe-Winkel im BogenmaÃŸ (Radiant).
   Die @@Radian Funktion kann verwendet werden, um einen Winkel von Grad in das
-  Bogenmaß (Radiant) umzuwandeln.
+  BogenmaÃŸ (Radiant) umzuwandeln.
   
 @ReturnValue
-  Gibt den Sinus des Winkels zurück. Das Ergebnis wird zwischen -1.0 und 1.0 liegen.
+  Gibt den Sinus des Winkels zurÃ¼ck. Das Ergebnis wird zwischen -1.0 und 1.0 liegen.
 
 @Remarks
   Die Umkehrfunktion von Sin() ist @@ASin.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
@@ -947,21 +950,21 @@
 @Function Ergebnis.f(.d) = SinH(Winkel.f(.d))
 
 @Description
-  Gibt den hyperbolischen Sinus des angegebenen hyperbolischen Winkels zurück.
+  Gibt den hyperbolischen Sinus des angegebenen hyperbolischen Winkels zurÃ¼ck.
 
 @Parameter "Winkel.f oder Winkel.d"
   Der Eingabe-Winkel.
   
 @ReturnValue
-  Gibt den hyperbolischen Sinus des Winkels zurück.
+  Gibt den hyperbolischen Sinus des Winkels zurÃ¼ck.
 
 @Remarks
   Die Umkehrfunktion von SinH() ist @@ASinH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code
-  Debug SinH(Log(1.618033)) ; wird annähernd 0.5 ausgeben
+  Debug SinH(Log(1.618033)) ; wird annÃ¤hernd 0.5 ausgeben
 @EndCode
   
 @SeeAlso
@@ -974,16 +977,16 @@
 @Function Ergebnis.f(.d) = Sqr(Zahl.f(.d))
 
 @Description
-  Gibt die Quadratwurzel der angegebenen Zahl zurück.
+  Gibt die Quadratwurzel der angegebenen Zahl zurÃ¼ck.
   
 @Parameter "Zahl.f oder Zahl.d"
   Die Eingabezahl. Dies muss ein positiver Wert sein.
   
 @ReturnValue
-  Gibt die Quadratwurzel der Zahl zurück.
+  Gibt die Quadratwurzel der Zahl zurÃ¼ck.
   
 @Remarks
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @SeeAlso
   @@Pow
@@ -995,23 +998,23 @@
 @Function Ergebnis.f(.d) = Tan(Winkel.f(.d))
 
 @Description
-  Gibt den Tangens des angegebenen Winkels zurück.
+  Gibt den Tangens des angegebenen Winkels zurÃ¼ck.
   
 @Parameter "Winkel.f oder Winkel.d"
-  Der Eingabe-Winkel im Bogenmaß (Radiant).
+  Der Eingabe-Winkel im BogenmaÃŸ (Radiant).
   Die @@Radian Funktion kann verwendet werden, um einen Winkel von Grad in das
-  Bogenmaß (Radiant) umzuwandeln.
+  BogenmaÃŸ (Radiant) umzuwandeln.
   
 @ReturnValue
-  Gibt den Tangens des angegebenen Winkels zurück.
+  Gibt den Tangens des angegebenen Winkels zurÃ¼ck.
 
 @Remarks
   Die Umkehrfunktion von Tan() ist @@ATan.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
   
 @Example
 @Code
-  Debug Tan(0.785398) ; wird ungefähr '1.0' ergeben
+  Debug Tan(0.785398) ; wird ungefÃ¤hr '1.0' ergeben
 @EndCode
   
 @SeeAlso
@@ -1024,17 +1027,17 @@
 @Function Ergebnis.f(.d) = TanH(Winkel.f(.d))
 
 @Description
-  Gibt den hyperbolischen Tangens des angegebenen hyperbolischen Winkels zurück.
+  Gibt den hyperbolischen Tangens des angegebenen hyperbolischen Winkels zurÃ¼ck.
 
 @Parameter "Winkel.f oder Winkel.d"
   Der Eingabe-Winkel.
   
 @ReturnValue
-  Gibt den hyperbolischen Tangens des Winkels zurück.
+  Gibt den hyperbolischen Tangens des Winkels zurÃ¼ck.
 
 @Remarks
   Die Umkehrfunktion von TanH() ist @@ATanH.
-  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurück.
+  Diese Funktion verarbeitet und gibt @ReferenceLink "variables" "Float oder Double" Werte zurÃ¼ck.
 
 @Example
 @Code

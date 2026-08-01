@@ -1,7 +1,8 @@
-@Title Inline x86 ASM
+﻿@Title Inline x86 ASM
 
 @Section Introduction
 
+  Using inline assembly code is not done the same way with the ASM backend and the C backend.
   With the compiler using the ASM backend, PureBasic allows you to include any x86 assembler commands (including MMX and FPU one) directly 
   in the source code, as if it was a real assembler (X86 and X64 processors only). And it gives you even more: you can use directly 
   any @ReferenceLink "variables" "variables" or @ReferenceLink "memory" "pointers" in the assembler keywords, you can put any ASM commands on the same line, ... 
@@ -113,3 +114,97 @@
 
     @ExampleFile All AsmInline.pb
 
+@Section "Features of inline assembler with compiler using C backend"
+
+  You can use the gcc syntax: @InternetLink "https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html" "https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html".
+
+   @Example Pi
+
+@Code  pi
+  Procedure.d get_pi()
+    
+    Define.d pi
+    
+    !asm (
+    !    "fldpi\n"
+    !    "fstpl   %[v_pi]\n"
+    !    :[v_pi]"=m"(v_pi)::
+    !);
+  
+    ProcedureReturn pi
+  EndProcedure
+
+  Define.d n
+  n=get_pi()
+  Debug n
+@EndCode 
+
+   @Example bswap
+   
+@Code
+  Procedure bswap(v.l) 
+    Protected ret.l 
+    CompilerIf #PB_Compiler_Backend = #PB_Backend_C 
+      !".intel_syntax noprefix";
+      !"mov eax, v_v";
+      !"bswap eax"; 
+      !"mov v_ret, eax";
+    CompilerElse 
+      !mov eax, [p.v_v]
+      !bswap eax 
+      !mov [p.v_ret],eax 
+    CompilerEndIf 
+    ProcedureReturn ret 
+  EndProcedure 
+
+  x.i = $FF000000 
+  Debug RSet(Hex(x),8,"0")
+  x = bswap(x) 
+  Debug RSet(Hex(x),8,"0")
+@EndCode 
+
+   @Example Fibonacci
+   
+  Procedure.q fib(ub.l, *f)
+    If (ub<3) 
+      ProcedureReturn 1
+    EndIf
+    ;  !set_dpfpu();
+    !asm (
+    !    "mov %[p_f], %%rax;"
+    !    "fldz;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "fld1;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "mov %[v_ub], %%ecx;"
+    !    "sub $2, %%ecx;"
+    !    "fib2:"
+    !    "fxch %%st(1);"
+    !    "fadd %%st(1),%%st(0);"
+    !    "fld %%st(0);"
+    !    "fistpq (%%rax);"
+    !    "add $8, %%rax;"
+    !    "dec %%ecx;"
+    !    "jg fib2;"
+    !    "fstp %%st(0);"
+    !    "fstp %%st(0);" 
+    !     :[p_f]"=m"(p_f)
+    !     :[v_ub]"m"(v_ub)
+    !     :"rax","ecx"
+    !);
+    ProcedureReturn
+  EndProcedure
+
+  Dim fibonacci.q(20)
+  n=20
+  fib(n+1, @fibonacci(0))
+  For i.l=0 To n
+    Debug fibonacci(i)
+  Next
+@Code
+
+@EndCode 
+
+   @ExampleFile All AsmInlineBackendC.pb

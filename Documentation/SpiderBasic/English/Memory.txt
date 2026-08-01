@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Memory library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -139,6 +139,37 @@
 @SeeAlso
   @@AllocateMemory, @@MemorySize
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CopyMemory(*SourceBuffer, SourceOffset, *DestinationBuffer, DestinationOffset, Size)
+
+@Description
+  Copy a memory area starting from *SourceBuffer to *DestinationBuffer.
+
+@Parameter "*SourceBuffer"
+  The addresses of the source memory buffer to copy.
+   This buffer must have been allocated with @@AllocateMemory.
+
+@Parameter "SourceOffset"
+  The '*SourceBuffer' offset (in bytes). 
+
+@Parameter "*DestinationBuffer"
+  The addresses of the destination memory buffer.
+   This buffer must have been allocated with @@AllocateMemory.
+
+@Parameter "DestinationOffset"
+  The '*DestinationBuffer' offset (in bytes). 
+
+@Parameter "Size"
+  The amount of bytes to copy.
+
+@NoReturnValue
+
+@SeeAlso
+  @@AllocateMemory, @@MemorySize
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

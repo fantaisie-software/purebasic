@@ -1,15 +1,15 @@
-;
+ï»¿;
 ;     Node library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Node
 
 @Overview
-  Nodes ("Knoten" oder auch "Verbindungen") sind Container, welche verwendet werden können, um Objekte wie @LibraryLink "entity" "Entities",
+  Nodes ("Knoten" oder auch "Verbindungen") sind Container, welche verwendet werden kÃ¶nnen, um Objekte wie @LibraryLink "entity" "Entities",
   @LibraryLink "sound3d" "Sound", @LibraryLink "camera" "Camera", @LibraryLink "billboard" "Billboard" und sogar
-  Nodes selbst zusammen zu gruppieren. Sobald ein Objekt zu einem Node hinzugefügt wurde, ist seine Position und
+  Nodes selbst zusammen zu gruppieren. Sobald ein Objekt zu einem Node hinzugefÃ¼gt wurde, ist seine Position und
   Bewegung relativ zur Node-Position. Dies erlaubt einfaches hierarchisches Objekt-Management.
 @LineBreak
 @LineBreak
@@ -19,6 +19,7 @@
 @CommandList
 
 @ExampleFile All Node.pb
+@ExampleFile All AttachNodeObject.pb
 
 @SupportedOS
 
@@ -27,17 +28,32 @@
 @Function AttachNodeObject(#Node, ObjektID)
 
 @Description
-  Fügt ein existierendes Objekt zu einem #Node hinzu. Die unterstützten Objekte sind die
-  folgenden:
+  FÃ¼gt ein existierendes Objekt zu einem Knoten hinzu.
+
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@Parameter "ObjectID"
+  Das anzufÃ¼gende Objekt. Die folgenden Objekte werden unterstÃ¼tzt:
 @FixedFont
   - Entity : verwenden Sie @@EntityID als 'ObjektID'.
   - Sound3D: verwenden Sie @@SoundID3D als 'ObjektID'.
+  - Text3D : verwenden Sie @@Text3DID als 'ObjektID'.
   - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Light  : verwenden Sie @@LightID als 'ObjektID'.
   - Node   : verwenden Sie @@NodeID als 'ObjektID'.
+  - Mesh   : verwenden Sie @@MeshID als 'ObjektID' (wird nur unterstÃ¼tzt, wenn das #PB_Mesh_Dynamic Flag gesetzt ist).
   - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
   - ParticleEmitter: verwenden Sie @@ParticleEmitterID as 'ObjektID'.
 @EndFixedFont
-  Ein Objekt kann mittels @@DetachNodeObject von einem Node getrennt werden.
+
+@NoReturnValue
+
+@Remarks
+  Ein Objekt kann mittels @@DetachNodeObject von einem Knoten getrennt werden.
+
+@SeeAlso
+  @@DetachNodeObject
 
 @SupportedOS
 
@@ -46,17 +62,31 @@
 @Function DetachNodeObject(#Node, ObjektID)
 
 @Description
-  Trennt ein zuvor hinzugefügtes Objekt von einem #Node. Die unterstützten Objekte sind die
-  folgenden:
+  Trennt ein zuvor hinzugefÃ¼gtes Objekt von einem Knoten.
+  
+@Parameter "#Node"
+  Der zu verwendende Knoten.
+
+@Parameter "ObjectID"
+  Das abzutrennende Objekt. Die folgenden Objekte werden unterstÃ¼tzt:
 @FixedFont
   - Entity : verwenden Sie @@EntityID als 'ObjektID'.
   - Sound3D: verwenden Sie @@SoundID3D als 'ObjektID'.
   - Camera : verwenden Sie @@CameraID als 'ObjektID'.
+  - Light  : verwenden Sie @@LightID als 'ObjektID'.
   - Node   : verwenden Sie @@NodeID als 'ObjektID'.
+  - Mesh   : verwenden Sie @@MeshID als 'ObjektID' (wird nur unterstÃ¼tzt, wenn das #PB_Mesh_Dynamic Flag gesetzt ist).
   - BillboardGroup : verwenden Sie @@BillboardGroupID als 'ObjektID'.
   - ParticleEmitter: verwenden Sie @@ParticleEmitterID as 'ObjektID'.
 @EndFixedFont
-  Ein Objekt kann mittels @@AttachNodeObject zu einem Node hinzugefügt werden.
+
+@NoReturnValue
+
+@Remarks
+  Ein Objekt kann mittels @@AttachNodeObject zu einem Knoten hinzugefÃ¼gt werden.
+
+@SeeAlso
+  @@AttachNodeObject
 
 @SupportedOS
 
@@ -65,12 +95,23 @@
 @Function Ergebnis = CreateNode(#Node [, x, y, z])
 
 @Description
-  Erstellt einen neuen Knoten #Node an der angegebenen Position. Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als '#Node' 
-  Parameter verwendet wird, dann wird die neue Node-Nummer als 'Ergebnis' zurückgegeben.
-@LineBreak
-@LineBreak
-  Ist das 'Ergebnis' gleich 0, dann ist die Erstellung des Knotens fehlgeschlagen. Wenn #Node bereits erstellt
-  war, wird er automatisch freigegeben und durch den neuen ersetzt.
+  Erstellt einen neuen Knoten an der angegebenen Position.
+  
+@Parameter "#Node"
+  Eine Nummer zum Identifizieren des neuen Knotens (Node).
+  @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese Nummer automatisch
+  zu generieren.
+
+@OptionalParameter "x, y, z"
+  Die absolute Position des neuen Knotens in der Welt.
+  StandardmÃ¤ÃŸig wird der neue Knoten an der Position "0, 0, 0" erstellt.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Knoten erfolgreich erstellt wurde, andernfalls Null.
+  Wenn @#PB_Any als #Node Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer zurÃ¼ckgegeben.
+  
+@SeeAlso
+  @@FreeNode
 
 @SupportedOS
 
@@ -79,13 +120,13 @@
 @Function NodeID = NodeID(#Node)
 
 @Description
-  Gibt den einmaligen Systembezeichner für den Knoten zurück.
+  Gibt den einmaligen Systembezeichner fÃ¼r den Knoten zurÃ¼ck.
   
 @Parameter "#Node"
   Der zu verwendende Knoten.
 
 @ReturnValue
-  Gibt den einmaligen Systembezeichner für den Knoten zurück.
+  Gibt den einmaligen Systembezeichner fÃ¼r den Knoten zurÃ¼ck.
 
 @SupportedOS
 
@@ -95,28 +136,16 @@
 
 @Description
   Der Punkt (in Welt-Einheiten), auf den der Knoten ausgerichtet ist.
-  Die Position des Knotens selbst wird dabei nicht geändert.
+Â  Die Position des Knotens selbst wird dabei nicht geÃ¤ndert.
 
 @Parameter "#Node"
   Der zu verwendende Knoten.
 
-@Parameter "x"
-  Die 'x' Position (in Welt-Einheiten), auf welche der Knoten weist.
+@Parameter "x, y, z"
+  Die Position (in Welt-Einheiten), auf welche der Knoten weist.
 
-@Parameter "y"
-  Die 'y' Position (in Welt-Einheiten), auf welche der Knoten weist.
-
-@Parameter "z"
-  Die 'z' Position (in Welt-Einheiten), auf welche der Knoten weist.
-
-@OptionalParameter "RichtungX"
-  Die 'x' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
-
-@OptionalParameter "RichtungY"
-  Die 'y' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
-
-@OptionalParameter "RichtungZ"
-  Die 'z' Vektor-Richtung des Knotens (Wert zwischen -1.0 und 1.0).
+@OptionalParameter "RichtungX, RichtungY, RichtungZ"
+  Die Vektor-Richtung des Knotens (Werte zwischen -1.0 und 1.0).
 
 @NoReturnValue
 
@@ -127,7 +156,7 @@
 @Function Ergebnis = NodeX(#Node [, Modus])
 
 @Description
-  Gibt die 'x' Position des Knotens in der Welt zurück.
+  Gibt die 'x' Position des Knotens in der Welt zurÃ¼ck.
   
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -136,7 +165,7 @@
   Der Modus, um die 'x' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'x' Position des Knotens in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'x' Position des Knotens relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'x' Position des Knotens relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont  
   
 @ReturnValue
@@ -152,7 +181,7 @@
 @Function Ergebnis = NodeY(#Node [, Modus])
 
 @Description
-  Gibt die 'y' Position des Knotens in der Welt zurück.
+  Gibt die 'y' Position des Knotens in der Welt zurÃ¼ck.
   
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -161,7 +190,7 @@
   Der Modus, um die 'y' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'y' Position des Knotens in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'y' Position des Knotens relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'y' Position des Knotens relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont  
   
 @ReturnValue
@@ -177,7 +206,7 @@
 @Function Ergebnis = NodeZ(#Node [, Modus])
 
 @Description
-  Gibt die 'z' Position des Knotens in der Welt zurück.
+  Gibt die 'z' Position des Knotens in der Welt zurÃ¼ck.
   
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -186,7 +215,7 @@
   Der Modus, um die 'z' Position zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute 'z' Position des Knotens in der Welt (Standard).
-  @#PB_Relative: ermittelt die 'z' Position des Knotens relativ zu seinem übergeordneten ("parent").
+  @#PB_Relative: ermittelt die 'z' Position des Knotens relativ zu seinem Ã¼bergeordneten ("parent").
 @EndFixedFont  
   
 @ReturnValue
@@ -202,15 +231,15 @@
 @Function FreeNode(#Node)
 
 @Description
-  Gibt den angegebenen Knoten #Node frei, welcher zuvor mit @@CreateNode erstellt wurde.
-  Sein gesamter zugehöriger Speicher wird freigegeben und dieses Objekt kann nicht mehr 
+  Gibt den angegebenen Knoten frei, welcher zuvor mit @@CreateNode erstellt wurde.
+  Sein gesamter zugehÃ¶riger Speicher wird freigegeben und dieses Objekt kann nicht mehr 
   verwendet werden. 
 @LineBreak
 @LineBreak
-  Die hinzugefügten Objekte werden nicht automatisch freigegeben, und können daher
+  Die hinzugefÃ¼gten Objekte werden nicht automatisch freigegeben, und kÃ¶nnen daher
   wiederverwendet werden.
-
-@Parameter "#Node"
+  
+@Parameter "#Node"  
   Der freizugebende Knoten. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Knoten freigegeben.
   
 @NoReturnValue
@@ -225,12 +254,20 @@
 @Function Result = IsNode(#Node)
 
 @Description
-  Überprüft, ob der angegebene Knoten #Node gültig und ein korrekt initialisierter Knoten ist.
-@LineBreak
-@LineBreak
-  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. Wenn 'Ergebnis' ungleich Null ist, 
-  dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben. Dies ist der korrekte Weg, 
-  um sicherzugehen, dass ein Knoten fertig zur Benutzung ist.
+  ÃœberprÃ¼ft, ob der angegebene Knoten gÃ¼ltig und korrekt initialisiert ist.
+
+@Parameter "#Node"
+  Der zu Ã¼berprÃ¼fende Knoten.
+
+@ReturnValue
+  Ein Wert ungleich Null, wenn der Knoten gÃ¼ltig ist, andernfalls Null.
+
+@Remarks
+  Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. 
+  Dies ist der korrekte Weg, um sicherzugehen, dass ein Knoten fertig zur Benutzung ist.
+
+@SeeAlso
+  @@CreateNode
   
 @SupportedOS
 
@@ -242,16 +279,10 @@
   Bewegt den angegebenen Knoten.
 
 @Parameter "#Node"
-  Der zu verwendende Knoten.
+  Der zu bewegende Knoten.
 
-@Parameter "x"
-  Die neue 'x'-Position des Knotens.
-
-@Parameter "y"  
-  Die neue 'y'-Position des Knotens.
-
-@Parameter "z"  
-  Die neue 'z'-Position des Knotens.
+@Parameter "x, y, z"  
+  Die neue Position des Knotens.
 
 @OptionalParameter "Modus"
   Der Bewegungsmodus. Dies kann einer der folgenden Werte sein:
@@ -262,7 +293,7 @@
   kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Bewegung.
-  @#PB_Parent: Bewegung relativ zur übergeordneten ("parent") Position.
+  @#PB_Parent: Bewegung relativ zur Ã¼bergeordneten ("parent") Position.
   @#PB_World : Bewegung relativ zur Welt.
 @EndFixedFont
 
@@ -278,16 +309,27 @@
 @Function RotateNode(#Node, x, y, z [, Modus])
 
 @Description
-  Rotiert den Knoten #Node entsprechend der angegebenen x,y, und z Winkel-Angaben.
-  Alle Winkel werden in Grad angegeben, mit Werten von 0 bis 360.
-@LineBreak
-@LineBreak
-  Der optionale Parameter 'Modus' kann einer der folgende Werte sein:
+  Rotiert den Knoten entsprechend der angegebenen x,y,z Winkel-Werte.
+
+@Parameter "#Node"
+  Der zu rotierende Knoten.
+
+@Parameter "x, y, z"
+  Die neue Rotation, die auf den Knoten angewendet werden soll.
+  Die Werte werden in Grad angegeben und reichen von 0 bis 360.
+
+@OptionalParameter "Modus"
+  Der Rotationsmodus. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @ConstantColor "PB_Absolute": absolute Rotation (Standard).
-  @ConstantColor "PB_Relative": relative Rotation, basierend auf der vorherigen "Node"-Rotation.
+  @#PB_Absolute: absolute Rotation (Standard).
+  @#PB_Relative: relative Rotation, basierend auf der vorherigen "Node"-Rotation.
 @EndFixedFont
- 
+
+@NoReturnValue
+
+@SeeAlso
+  @@MoveNode
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -295,32 +337,30 @@
 @Function ScaleNode(#Node, x, y, z [, Modus])
 
 @Description
-  Skaliert den Knoten entsprechend der angegebenen x,y,z Werte. Wenn der @#PB_Relative Modus
-  verwendet wird, handelt es sich dabei um eine faktor-basierende Skalierung (Größenänderung).
-  Dies bedeutet, dass die Größe des Knotens mit dem angegebenen Wert multipliziert wird, um die
-  neue Größe zu erhalten.
+  Skaliert den Knoten entsprechend den angegebenen x,y,z-Werten.
+  @LineBreak
+  Im @#PB_Relative-Modus handelt es sich um eine faktorbasierte Skalierung (GrÃ¶ÃŸenÃ¤nderung). Das bedeutet,
+  dass die KnotengrÃ¶ÃŸe mit dem angegebenen Wert multipliziert wird, um die neue GrÃ¶ÃŸe zu erhalten.
 
 @Parameter "#Node"
   Der zu verwendende Knoten.
  
-@Parameter "x"
-  Der 'x' Skalierungs-Wert.
-
-@Parameter "y"
-  Der 'y' Skalierungs-Wert.
-
-@Parameter "z"
-  Der 'z' Skalierungs-Wert.
+@Parameter "x, y, z"
+  Die Skalierungs-Werte.
 
 @OptionalParameter "Modus"
   Der Skalierungs-Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Relative: relative Skalierung, basierend auf der vorherigen Größe (Standard). Die Verwendung
-                von 1.0 als Skalierungs-Wert lässt diesen Wert unverändert.
+  @#PB_Relative: relative Skalierung, basierend auf der vorherigen GrÃ¶ÃŸe (Standard). Die Verwendung
+                von 1.0 als Skalierungs-Wert lÃ¤sst diesen Wert unverÃ¤ndert.
   @#PB_Absolute: absolute Skalierung, in Welt-Einheiten.
 @EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  Die angehÃ¤ngten @LibraryLink "entity" "Entities" skalieren nicht automatisch mit dem Knoten - es sei denn, das Attribut
+  @#PB_Entity_InheritScale wurde gesetzt.
 
 @SupportedOS
 
@@ -329,7 +369,7 @@
 @Function NodeFixedYawAxis(#Node, Aktivieren [, VektorX, VektorY, VektorZ])
 
 @Description
-  Ändert die feste Hoch- bzw. Gierachse (englisch "fixed yaw axis") des Knotens.
+  Ã„ndert die feste Hoch- bzw. Gierachse (englisch "fixed yaw axis") des Knotens.
   Das Standard-Verhalten eines Knotens ist es, um seine eigene Y-Achse zu gieren.
 
 @Parameter "#Node"
@@ -341,17 +381,9 @@
   angegeben werden. Wenn er auf @#False gesetzt wird, dann wird der
   Knoten um seine eigene Y-Achse gieren.
 
-@OptionalParameter "VektorX"
-  Die X Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
-  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
-
-@OptionalParameter "VektorY"
-  Die Y Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
-  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
-
-@OptionalParameter "VektorZ"
-  Die Z Vektor-Richtung der neuen Gier-Achse (Wert zwischen -1.0 und 1.0).
-  Der 'Aktivieren' Parameter muss gesetzt werden, um einen Effekt zu haben.
+@OptionalParameter "VektorX, VektorY, VektorZ"
+  Die Vektor-Richtung der neuen Gier-Achse (Werte zwischen -1.0 und 1.0).
+  Der 'Aktivieren' Parameter muss auf @#True gesetzt werden, damit dies einen Effekt hat.
 
 @NoReturnValue
 
@@ -362,7 +394,7 @@
 @Function Ergebnis = NodeRoll(#Node [, Modus])
 
 @Description
-  Ermittelt den Roll-Wert (englisch "roll") des Knotens #Node.
+  Ermittelt den Roll-Wert (englisch "roll") des Knotens.
 
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -370,14 +402,14 @@
 @OptionalParameter "Modus"
   Der Modus zum Ermitteln des Roll-Wertes. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#True : Der Roll-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode 
-          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#False: Der Roll-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
-          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#True : Der Roll-Wert ist der ursprÃ¼ngliche (Roh-) Wert, kann aber mit @@RotateNode nicht
+          verwendet werden, um die gleiche Ausrichtung wiederherzustellen (Standard).
+  @#False: Der Roll-Wert wurde angepasst und kann daher mit @@RotateNode zurÃ¼ckgesetzt werden,
+          um die gleiche Ausrichtung wiederherzustellen.
 @EndFixedFont  
 
 @ReturnValue
-  Der aktuelle Roll-Wert des angegebenen Knotens.
+  Der aktuelle Roll-Wert des Knotens.
 
 @SeeAlso
   @@NodeYaw, @@NodePitch
@@ -389,7 +421,7 @@
 @Function Ergebnis = NodePitch(#Node [, Modus])
 
 @Description
-  Ermittelt die Neigung bzw. den Nick-Wert (englisch "pitch") des Knotens #Node.
+  Ermittelt die Neigung bzw. den Nick-Wert (englisch "pitch") des Knotens.
 
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -397,14 +429,14 @@
 @OptionalParameter "Modus"
   Der Modus zum Ermitteln des Neigungs-Wertes. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#True : Der Neigungs-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode
-          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#False: Der Neigungs-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
-          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#True : Die Neigung wurde angepasst, sodass sie mit @@RotateNode zurÃ¼ckgesetzt werden kann,
+          um die gleiche Ausrichtung wiederherzustellen (Standard).
+  @#False: Die Neigung ist der Rohwert, kann aber mit @@RotateNode nicht verwendet werden,
+          um die gleiche Ausrichtung wiederherzustellen.
 @EndFixedFont  
 
 @ReturnValue
-  Der aktuelle Neigungs-Wert des angegebenen Knotens.
+  Der aktuelle Neigungs-Wert des Knotens.
 
 @SeeAlso
   @@NodeYaw, @@NodeRoll
@@ -416,7 +448,7 @@
 @Function Ergebnis = NodeYaw(#Node [, Modus])
 
 @Description
-  Ermittelt den Gier-Wert (englisch "yaw") des Knotens #Node.
+  Ermittelt den Gier-Wert (englisch "yaw") des Knotens.
 
 @Parameter "#Node"
   Der zu verwendende Knoten.
@@ -424,14 +456,14 @@
 @OptionalParameter "Modus"
   Der Modus zum Ermitteln des Gier-Wertes. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#True : Der Gier-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateNode 
-          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#False: Der Gier-Wert wird bereinigt/justiert, womit er erneut mit @@RotateNode verwendet
-          werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#True : Der Gier-Wert ist angepasst und kann daher mit @@RotateNode zurÃ¼ckgesetzt werden,
+          um die gleiche Ausrichtung wiederherzustellen (Standard).
+  @#False: Der Gier-Wert ist der Rohwert, kann aber mit @@RotateNode nicht verwendet werden,
+          um die gleiche Ausrichtung wiederherzustellen.
 @EndFixedFont  
 
 @ReturnValue
-  Der aktuelle Gier-Wert des angegebenen Knotens.
+  Der aktuelle Gier-Wert des Knotens.
 
 @SeeAlso
   @@NodePitch, @@NodeRoll

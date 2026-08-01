@@ -1,4 +1,4 @@
-﻿; --------------------------------------------------------------------------------------------
+; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -75,6 +75,11 @@ Enumeration 0
   #COLOR_PlainBackground
   
   #COLOR_Last = #COLOR_PlainBackground
+  
+  ; Special cases beyond "Last"
+  #COLOR_ToolsPanelFrontColor = #COLOR_Last + 1
+  #COLOR_ToolsPanelBackColor
+  #COLOR_Last_IncludingToolsPanel = #COLOR_Last + 2
 EndEnumeration
 
 
@@ -140,6 +145,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_ProjectInfo_FrameFiles
   #GADGET_ProjectInfo_FrameTargets
   #GADGET_ProjectInfo_Info
+  #GADGET_ProjectInfo_FilterInput
+  #GADGET_ProjectInfo_SortFiles
   #GADGET_ProjectInfo_Files
   #GADGET_ProjectInfo_Targets
   #GADGET_ProjectInfo_OpenOptions
@@ -168,8 +175,21 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Form_Parent_Cancel
   
   #GADGET_ProcedureBrowser
+  ; Controls for the 'Multicolored Procedure List'
+  #GADGET_ProcedureBrowser_FilterInput
+  #GADGET_ProcedureBrowser_HideModuleNames
+  #GADGET_ProcedureBrowser_HighlightProcedure
+  #GADGET_ProcedureBrowser_ScrollProcedure
+  #GADGET_ProcedureBrowser_EnableFolding
+  #GADGET_ProcedureBrowser_BackColor
+  #GADGET_ProcedureBrowser_FrontColor
+  #GADGET_ProcedureBrowser_RestoreColor
+  #GADGET_ProcedureBrowser_CopyClipboard
+  #GADGET_ProcedureBrowser_SwitchButtons
   
   #GADGET_ProjectPanel
+  #GADGET_ProjectPanel_FilterInput
+  #GADGET_ProjectPanel_DummyButton
   
   #GADGET_Explorer
   #GADGET_Explorer_Pattern
@@ -323,10 +343,12 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_Optimizer
   #GADGET_Preferences_InlineASM
   #GADGET_Preferences_XPSkin
+  #GADGET_Preferences_Wayland
   #GADGET_Preferences_VistaAdmin
   #GADGET_Preferences_VistaUser
   #GADGET_Preferences_DPIAware
   #GADGET_Preferences_DllProtection
+  #GADGET_Preferences_SharedUCRT
   #GADGET_Preferences_Thread
   #GADGET_Preferences_OnError
   #GADGET_Preferences_CustomCompiler
@@ -356,6 +378,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_ProcedureBrowserSort
   #GADGET_Preferences_ProcedureBrowserGroup
   #GADGET_Preferences_ProcedureProtoType
+  #GADGET_Preferences_ProcedureMulticolor
   ;  #GADGET_Preferences_ColorPickerHistory
   #GADGET_Preferences_Languages
   #GADGET_Preferences_LanguageInfo
@@ -452,6 +475,12 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_FormEventProcedure
   #GADGET_Preferences_FormGridSize
   #GADGET_Preferences_FormSkin
+  #GADGET_Preferences_FormNotRecognizedCaption
+  #GADGET_Preferences_FormNotRecognized
+  #GADGET_Preferences_FormDowngradeCaption
+  #GADGET_Preferences_FormDowngrade
+  #GADGET_Preferences_FormUpgradeCaption
+  #GADGET_Preferences_FormUpgrade
   #GADGET_Preferences_EnableHistory
   #GADGET_Preferences_HistoryTimer  ; first to auto disable
   #GADGET_Preferences_HistoryMaxFileSize
@@ -584,9 +613,11 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_Option_IconName
     #GADGET_Option_EnableThread
     #GADGET_Option_EnableXP
+    #GADGET_Option_EnableWayland
     #GADGET_Option_EnableAdmin
     #GADGET_Option_EnableUser
     #GADGET_Option_DllProtection
+    #GADGET_Option_SharedUCRT
     #GADGET_Option_EnableOnError
     #GADGET_Option_ExecutableFormat
     #GADGET_Option_EnableASM
@@ -905,6 +936,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
     #GADGET_AndroidApp_EnableDebugger
     #GADGET_AndroidApp_KeepAppDirectory
     #GADGET_AndroidApp_InsecureFileMode
+    #GADGET_AndroidApp_CheckInstall
     
     #GADGET_iOSApp_Name
     #GADGET_iOSApp_Icon
@@ -1156,10 +1188,14 @@ Enumeration 0
   
   #MENU_Help_Enter
   
-  CompilerIf #CompileWindows | #CompileMac; to handle autocomplete in scintilla
+  CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt; to handle autocomplete in scintilla
     #MENU_Scintilla_Enter
     #MENU_Scintilla_Tab
     #MENU_Scintilla_ShiftTab
+  CompilerEndIf
+  
+  CompilerIf #CompileLinux
+    #MENU_ProcedureBrowser_Filter_Enter
   CompilerEndIf
   
   #MENU_Template_Use
@@ -1512,6 +1548,17 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Explorer_FilePB
   #IMAGE_Explorer_Directory
   
+  #IMAGE_ProcedureBrowser_BackColor
+  #IMAGE_ProcedureBrowser_CopyClipboard
+  #IMAGE_ProcedureBrowser_EnableFolding
+  #IMAGE_ProcedureBrowser_FilterClear
+  #IMAGE_ProcedureBrowser_FrontColor
+  #IMAGE_ProcedureBrowser_HideModuleNames
+  #IMAGE_ProcedureBrowser_HighlightProcedure
+  #IMAGE_ProcedureBrowser_RestoreColor
+  #IMAGE_ProcedureBrowser_ScrollProcedure
+  #IMAGE_ProcedureBrowser_SwitchButtons
+  
   #IMAGE_CreateApp_StartupColor
   
   #IMAGE_History_Session
@@ -1548,8 +1595,17 @@ Enumeration 1
   #TIMER_DebuggerProcessing
   #TIMER_UpdateCheck
   #TIMER_ToolPanelAutoHide
+  ; Timer for the 'Multicolored Procedure List' for automatic selection of the procedure according to the cursor position in the editor.
+  #TIMER_ProcedureBrowser
 EndEnumeration
 
+;- Custom PostEvent event types
+;
+Enumeration #PB_EventType_FirstCustomValue
+  #EVENTTYPE_WordUpdate       ; Linux specific
+  #EVENTTYPE_LoadHelpPage     ; Linux specific
+EndEnumeration
+  
 ;- Some predefined color values
 ;
 #COLOR_FilePanelFront  = $000000 ; text color for FilePanel tabs with non-OS color
@@ -1672,12 +1728,14 @@ Enumeration 0
   #ITEM_Interface
   #ITEM_Label
   #ITEM_Declare
+  #ITEM_InlineASM     ; EnableJS / EnableC / EnableASM blocks
   
   ; Items following are not in the Sorted[] array
   #ITEM_FoldStart      ; for the folding only
   #ITEM_FoldEnd
   #ITEM_MacroEnd       ; so we know what stuff to ignore later on
   #ITEM_ProcedureEnd   ; for procedure background color
+  #ITEM_InlineASMEnd   
   #ITEM_Define
   #ITEM_Keyword
   #ITEM_CommentMark    ; ";-" marks
@@ -1917,17 +1975,19 @@ EndStructure
 #MARKER_LastIssue         = 10
 #MAX_IssueMarkers         = #MARKER_LastIssue - #MARKER_FirstIssue + 1
 
-#MARKER_Marker            = 22 ; line markers
+#MARKER_InlineASM         = 11 ; To detect when we are in an inline ASM block
+
+#MARKER_Breakpoint        = 15
+#MARKER_CurrentLine       = 16 ; line backgrounds
+#MARKER_Warning           = 17
+#MARKER_Error             = 18
 
 #MARKER_WarningSymbol     = 19
 #MARKER_ErrorSymbol       = 20 ; merker symbols
 #MARKER_BreakpointSymbol  = 21
+#MARKER_Marker            = 22 ; line markers
 #MARKER_CurrentLineSymbol = 23
 
-#MARKER_CurrentLine       = 16 ; line backgrounds
-#MARKER_Warning           = 17
-#MARKER_Error             = 18
-#MARKER_Breakpoint        = 15
 
 ;- Styling related constants
 
@@ -2118,10 +2178,12 @@ Structure CompileTarget
   EnableASM.l
   EnableThread.l
   EnableXP.l
+  EnableWayland.l
   EnableAdmin.l
   EnableUser.l
   DPIAware.l
   DllProtection.l
+  SharedUCRT.l
   EnableOnError.l
   
   ; For backward compatibility in project files (only read/stored in project files)
@@ -2318,6 +2380,8 @@ Structure ProcedureInfo
   Line.l ; 1 based!
   Type.l ; 0= Procedure, 1=Macro, 2=marker, 3=issue
   Prototype$
+  ; For the 'Multicolored Procedure List' and automatic selection of the procedure or macro according to the cursor position in the editor.
+  LineEnd.l
 EndStructure
 
 
@@ -2387,7 +2451,7 @@ EndStructure
 ;
 
 Interface ToolsPanelInterface
-  CreateFunction(PanelItemID)    ; called when the panelitem was created (external Tools should call UseGadgetList(PanelItemID) before adding gadgets)
+  CreateFunction()               ; called when the panelitem was created. The current gadgetlist is the panel item or tool window
   DestroyFunction()              ; called when the item is destroyed
   
   ResizeHandler(PanelWidth, PanelHeight)   ; called after the panel is resized
@@ -2457,6 +2521,12 @@ Structure ToolsPanelEntry
   ;
   PanelTitle$        ; title in the PanelGadget
   ToolName$          ; tool name (used in the Preferences)
+  
+  ; PanelTabOrder must be > 0 for tools available in the Tool Panel (ProcedureBrowser, ProjectPanel, Explorer, Form and WebView)
+  ; This defines the default tab (tool) order in the Tool Panel when a new fresh PureBasic is installed or without PureBasic.prefs
+  ; Once PureBasic.prefs is used, the tabs (tools) order is defined using KeyName: Tool_1,2,..,5
+  ;
+  PanelTabOrder.l
 EndStructure
 
 
@@ -2558,13 +2628,14 @@ Global SaveProjectSettings
 Global EnableMenuIcons, AutoClearLog, DisplayFullPath, DisplayDarkMode, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
 Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
-Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion
+Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion, FormVersionWarnings
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
 Global ExtraWordChars$
 Global UseTabIndentForSplittedLines
 Global NbSchemes
 Global ScreenReaderChecked
+Global ProcedureMulticolor
 
 ; Dialog Window data
 ;
@@ -2606,7 +2677,7 @@ CompilerIf #SpiderBasic
 CompilerEndIf
 
 Global OptionWindowDialog.DialogWindow, OptionWindowPosition.DialogPosition, ProjectOptionWindowPosition.DialogPosition
-Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
+Global OptionDebugger, OptionPurifier, OptionOptimizer, OptionInlineASM, OptionXPSkin, OptionWayland, OptionVistaAdmin, OptionVistaUser, OptionDPIAware, OptionDllProtection, OptionSharedUCRT, OptionThread, OptionOnError, OptionExeFormat, OptionCPU
 Global OptionNewLineType, OptionSubSystem$, OptionErrorLog, OptionEncoding
 Global OptionUseCompileCount, OptionUseBuildCount, OptionUseCreateExe, OptionTemporaryExe
 Global OptionCustomCompiler, OptionCompilerVersion$
@@ -2643,6 +2714,7 @@ Global FakeToolsPanelID ; for the windows vertical toolspanel (only non-XP windo
 Global AlwaysHideLog, ErrorLogVisible
 Global CustomKeywordFile$
 Global ToolsPanelUseFont, ToolsPanelUseColors
+Global PreferenceToolsPanelFrontColor, PreferenceToolsPanelBackColor
 
 ; OS specific highlighting color representation:
 ;
@@ -2733,7 +2805,7 @@ Global IsProjectBusy = 0
 Global ProjectFile$, ProjectName$, ProjectComments$, DefaultProjectFile$, LastOpenProjectFile$
 Global ProjectExplorerPattern, ProjectExplorerPath$
 Global ProjectCloseFiles.l
-Global ProjectOpenMode.l, ProjectShowLog.l, AutoCloseBuildWindow.l
+Global ProjectOpenMode.l, ProjectShowLog.l, AutoCloseBuildWindow.l, ProjectFilesSort.l
 Global ProjectLastOpenDate, ProjectLastOpenHost$, ProjectLastOpenUser$, ProjectLastOpenEditor$
 Global *DefaultTarget.CompileTarget
 Global *ProjectInfo.SourceFile ; the fake sourcefile in the File tab
@@ -2888,6 +2960,10 @@ CompilerIf #PB_Compiler_Debugger
   ; (new debugger event is processed While being in a debugger event. It is wrong, As it can changes the display order, and creates weird bug).
   ;
   Global InDebuggerCallback = #False
+  ; Useful to ensures WindowEvent() is NEVER called in the MainWindowCallback WM_DropFiles event when débugging as it crash
+  ; (WindowEvent() can Not be called from a 'binded' event callback) 
+  ; 
+  Global InDragDropCallback = #False
 CompilerEndIf
 
 UseMD5Fingerprint()

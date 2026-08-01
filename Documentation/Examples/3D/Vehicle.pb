@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - CreateVehicle
@@ -7,7 +7,7 @@
 ;
 ; ------------------------------------------------------------
 ;
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
+
 
 #CameraSpeed = 2
 
@@ -59,108 +59,105 @@ Declare HandleVehicle()
 Declare ControlVehicle(elapsedTime.f)
 Declare.f  Interpolation(x1.f, x2.f, percent.f)
 
-If InitEngine3D()
+InitEngine3D()
+
+InitSprite()
+InitKeyboard()
+InitMouse()
+
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " CreateVehicle - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts" , #PB_3DArchive_FileSystem)
+Parse3DScripts()
+
+WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
+
+;- Material
+;
+CreateMaterial(0, LoadTexture(0, "Wood.jpg"))
+GetScriptMaterial(1, "SphereMap/SphereMappedRustySteel")
+CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
+ScaleMaterial(2,0.05,0.05)
+GetScriptMaterial(3, "Scene/GroundBlend")
+
+;-Ground
+;
+CreatePlane(0, 500, 500, 5, 5, 5, 5)
+CreateEntity(0,MeshID(0),MaterialID(2))
+EntityRenderMode(0, 0)
+CreateEntityBody(0, #PB_Entity_PlaneBody, 0, 0, 1)
+
+;-Walls
+;
+CreateCube(1, 1)
+CreateEntity(1,MeshID(1),MaterialID(2),0,1, 250)
+ScaleEntity(1,500,2,0.5)
+CreateEntityBody(1, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_NegativeZ, -1,-1,-1)
+
+CreateEntity(2,MeshID(1),MaterialID(2),0,1, -250)
+ScaleEntity(2,500,2,0.5)
+CreateEntityBody(2, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_Z, -1,-1,-1)
+
+CreateEntity(3,MeshID(1),MaterialID(2),250,1, 0)
+ScaleEntity(3,0.5,2,500)
+CreateEntityBody(3, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_NegativeX, -1,-1,-1)
+
+CreateEntity(4,MeshID(1),MaterialID(2),-250,1, 0)
+ScaleEntity(4,0.5,2,500)
+CreateEntityBody(4, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_X, -1,-1,-1)
+
+
+CylinderMEsh = CreateCylinder(#PB_Any, 0.5, 2)
+
+For i=-250 To 250 Step 30
+  Cylinder = CreateEntity(#PB_Any,MeshID(CylinderMEsh),MaterialID(1), 0, 1, i)
+  CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, 0, 0, 1)
+Next
+
+;- Light
+;
+CreateLight(0 ,RGB(190, 190, 190), 400, 120, 100,#PB_Light_Directional)
+SetLightColor(0, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
+LightDirection(0 ,0.55, -0.3, -0.75)
+AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
+
+;- Camera
+;
+CreateCamera(0, 0, 0, 100, 100)
+MoveCamera(0,  800, 400, 80, #PB_Absolute)
+
+; SkyBox
+;
+SkyBox("desert07.jpg")
+
+;-
+BuildVehicle(@Vehicle)
+
+;-Main
+;
+Repeat
+  While WindowEvent():Wend
   
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
+  ExamineMouse()
+  ExamineKeyboard()
   
-  If Screen3DRequester()
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/", #PB_3DArchive_FileSystem)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-    Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts" , #PB_3DArchive_FileSystem)
-    Parse3DScripts()
-    
-    WorldShadows(#PB_Shadow_Modulative, -1, RGB(105, 105, 105))
-    
-    ;- Material
-    ;
-    CreateMaterial(0, LoadTexture(0, "Wood.jpg"))
-    GetScriptMaterial(1, "SphereMap/SphereMappedRustySteel")
-    CreateMaterial(2, LoadTexture(2, "Dirt.jpg"))
-    ScaleMaterial(2,0.05,0.05)
-    GetScriptMaterial(3, "Scene/GroundBlend")
-    
-    ;-Ground
-    ;
-    CreatePlane(0, 500, 500, 5, 5, 5, 5)
-    CreateEntity(0,MeshID(0),MaterialID(2))
-    EntityRenderMode(0, 0)
-    CreateEntityBody(0, #PB_Entity_PlaneBody, 0, 0, 1)
-    
-    ;-Walls
-    ;
-    CreateCube(1, 1)
-    CreateEntity(1,MeshID(1),MaterialID(2),0,1, 250)
-    ScaleEntity(1,500,2,0.5)
-    CreateEntityBody(1, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_NegativeZ, -1,-1,-1)
-    
-    CreateEntity(2,MeshID(1),MaterialID(2),0,1, -250)
-    ScaleEntity(2,500,2,0.5)
-    CreateEntityBody(2, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_Z, -1,-1,-1)
-    
-    CreateEntity(3,MeshID(1),MaterialID(2),250,1, 0)
-    ScaleEntity(3,0.5,2,500)
-    CreateEntityBody(3, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_NegativeX, -1,-1,-1)
-    
-    CreateEntity(4,MeshID(1),MaterialID(2),-250,1, 0)
-    ScaleEntity(4,0.5,2,500)
-    CreateEntityBody(4, #PB_Entity_PlaneBody, 0, 0, 1, #PB_Vector_X, -1,-1,-1)
-    
-    
-    CylinderMEsh = CreateCylinder(#PB_Any, 0.5, 2)
-    
-    For i=-250 To 250 Step 30
-      Cylinder = CreateEntity(#PB_Any,MeshID(CylinderMEsh),MaterialID(1), 0, 1, i)
-      CreateEntityBody(Cylinder, #PB_Entity_CylinderBody, 0, 0, 1)
-    Next
-    
-    ;- Light
-    ;
-    CreateLight(0 ,RGB(190, 190, 190), 400, 120, 100,#PB_Light_Directional)
-    SetLightColor(0, #PB_Light_SpecularColor, RGB(255*0.4, 255*0.4,255*0.4))
-    LightDirection(0 ,0.55, -0.3, -0.75)
-    AmbientColor(RGB(255*0.2, 255*0.2,255*0.2))
-    
-    ;- Camera
-    ;
-    CreateCamera(0, 0, 0, 100, 100)
-    MoveCamera(0,  800, 400, 80, #PB_Absolute)
-    
-    ; SkyBox
-    ;
-    SkyBox("desert07.jpg")
-    
-    ;-
-    BuildVehicle(@Vehicle)
-    
-    ;-Main
-    ;
-    Repeat
-      Screen3DEvents()
-      
-      ExamineMouse()
-      ExamineKeyboard()
-      
-      HandleVehicle()
-      
-      ControlVehicle(ElapsedTime/20)
-      
-      CameraFollow(0, EntityID(Vehicle\Chassis),180, 3.5, 10, 0.1, 0.1)
-      
-      ElapsedTime = RenderWorld()
-      
-      FlipBuffers()
-      
-    Until KeyboardPushed(#PB_Key_Escape)
-    
-    End
-    
-  EndIf
+  HandleVehicle()
   
-Else
-  MessageRequester("Error","Can't initialize engine3D")
-EndIf
+  ControlVehicle(ElapsedTime/20)
+  
+  CameraFollow(0, EntityID(Vehicle\Chassis),180, 3.5, 10, 0.1, 0.1)
+  
+  ElapsedTime = RenderWorld()
+  
+  FlipBuffers()
+  
+Until KeyboardPushed(#PB_Key_Escape)
+
 
 Procedure Clamp(*var.float, min.f, max.f)
   If *var\f < min
@@ -200,7 +197,7 @@ Procedure BuildVehicle(*Vehicle.s_Vehicle)
     
     SetEntityAttribute(\Chassis, #PB_Entity_LinearDamping, 0.2)
     SetEntityAttribute(\Chassis, #PB_Entity_AngularDamping, 0.2)
-        
+    
     Wheel = CreateSphere(#PB_Any, WheelRadius)
     For i = 0 To 3
       \Wheels[i] = CreateEntity(#PB_Any, MeshID(Wheel), #PB_Material_None)
@@ -273,7 +270,7 @@ Procedure HandleVehicle()
 EndProcedure
 
 Procedure ControlVehicle(elapsedTime.f)
-
+  
   ; apply engine Force on relevant wheels
   For i = 0 To 1
     ApplyVehicleBrake(Vehicle\Chassis, i, Vehicle\EngineBrake)
@@ -296,7 +293,7 @@ Procedure ControlVehicle(elapsedTime.f)
     EndIf
     
   Else
-     Vehicle\Steering = Interpolation(Vehicle\Steering, 0, 0.05)
+    Vehicle\Steering = Interpolation(Vehicle\Steering, 0, 0.05)
     
   EndIf
   
@@ -318,4 +315,5 @@ Procedure.f Interpolation(x1.f, x2.f, percent.f)
   ProcedureReturn x1 + percent * (x2 - x1)
   
 EndProcedure
+
 

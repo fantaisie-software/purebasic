@@ -1,31 +1,30 @@
-;
+ï»¿;
 ;     Screen library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Screen
 
 @Overview
-
-Ein Screen (in Deutsch "Bildschirm") ist eine Oberfläche, welche für die beschleunigte Anzeige
-von Spielinhalten wie @LibraryLink "Sprite" "Sprites" oder @LibraryLink "Engine3D" "3D-Welten"
-verwendet wird. Ein Screen kann sowohl in einem regulären @LibraryLink "window" "Fenster" oder
-unter Verwendung des kompletten Displays (Vollbild-Modus) erstellt werden.
+  Ein Screen (in Deutsch "Bildschirm") ist eine OberflÃ¤che, welche fÃ¼r die beschleunigte Anzeige
+  von Spielinhalten wie @LibraryLink "Sprite" "Sprites" oder @LibraryLink "Engine3D" "3D-Welten"
+  verwendet wird. Ein Screen kann sowohl in einem regulÃ¤ren @LibraryLink "window" "Fenster" oder
+  unter Verwendung des kompletten Displays (Vollbild-Modus) erstellt werden.
 @LineBreak
 @LineBreak
-@Bold "Windows": DirectX 9 wird für die Screen-Erstellung verwendet, um für Ihre Programme wenn
-möglich Hardware-Beschleunigung zu nutzen. Zwei weitere @ReferenceLink "ide_compiler" "Subsysteme"
-sind ebenfalls verfügbar, je nach Ihren Bedürfnissen: "OpenGL" und "DirectX11", welche OpenGL
-bzw. DirectX11 für die Screen-Erstellung verwenden.
+  @Bold "Windows": DirectX 9 wird fÃ¼r die Screen-Erstellung verwendet, um fÃ¼r Ihre Programme wenn
+  mÃ¶glich Hardware-Beschleunigung zu nutzen. Zwei weitere @ReferenceLink "ide_compiler" "Subsysteme"
+  sind ebenfalls verfÃ¼gbar, je nach Ihren BedÃ¼rfnissen: "OpenGL" und "DirectX11", welche OpenGL
+  bzw. DirectX11 fÃ¼r die Screen-Erstellung verwenden.
 @LineBreak
 @LineBreak
-@Bold "Linux": OpenGL wird für die Screen-Erstellung verwendet, was die Verwendung von
-Hardware-Beschleunigung ermöglicht.
+  @Bold "Linux": OpenGL wird fÃ¼r die Screen-Erstellung verwendet, was die Verwendung von
+  Hardware-Beschleunigung ermÃ¶glicht.
 @LineBreak
 @LineBreak
-@Bold "MacOS X": OpenGL wird für die Screen-Erstellung verwendet, was die Verwendung von
-Hardware-Beschleunigung ermöglicht.
+  @Bold "MacOS X": OpenGL wird fÃ¼r die Screen-Erstellung verwendet, was die Verwendung von
+  Hardware-Beschleunigung ermÃ¶glicht.
 
 @CommandList
 
@@ -37,20 +36,20 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ChangeGamma(RotIntensität, GrünIntensität, BlauIntensität)
+@Function ChangeGamma(RotIntensitÃ¤t, GrÃ¼nIntensitÃ¤t, BlauIntensitÃ¤t)
 
 @Description
-  Ändert den Gamma-Wert für den aktuellen Bildschirm. Die Funktion arbeitet nur im Vollbild-Modus
-  (nicht im Fenster-Modus). Die Intensität der Rot-, Grün- und Blau-Kanäle kann individuell geändert werden.
+  Ã„ndert den Gamma-Wert fÃ¼r den aktuellen Bildschirm. Die Funktion arbeitet nur im Vollbild-Modus
+  (nicht im Fenster-Modus). Die IntensitÃ¤t der Rot-, GrÃ¼n- und Blau-KanÃ¤le kann individuell geÃ¤ndert werden.
 @LineBreak
 @LineBreak
-  Dieser Befehl kann zum Einblenden/Ausblenden (FadeIn/FadeOut), für Farbspritzer (Color-Splashing) etc... 
-  des gesamten Bildschirms ('FullScreen') genutzt werden. Wenn dieser Befehl nichts tut, dann unterstützt 
-  die Hardware diese Funktion nicht (es wird keine Emulation angeboten, wegen der großen Zahl an 
-  erforderlichen Operationen, um dies im Software-Modus durchzuführen).
+  Dieser Befehl kann zum Einblenden/Ausblenden (FadeIn/FadeOut), fÃ¼r Farbspritzer (Color-Splashing) etc... 
+  des gesamten Bildschirms ('FullScreen') genutzt werden. Wenn dieser Befehl nichts tut, dann unterstÃ¼tzt 
+  die Hardware diese Funktion nicht (es wird keine Emulation angeboten, wegen der groÃŸen Zahl an 
+  erforderlichen Operationen, um dies im Software-Modus durchzufÃ¼hren).
 
-@Parameter "RotIntensität, GrünIntensität, BlauIntensität"
-  Die neu anzuwendende Intensität. Gültige Werte für jeden Kanal liegen zwischen 0 und 255.
+@Parameter "RotIntensitÃ¤t, GrÃ¼nIntensitÃ¤t, BlauIntensitÃ¤t"
+  Die neu anzuwendende IntensitÃ¤t. GÃ¼ltige Werte fÃ¼r jeden Kanal liegen zwischen 0 und 255.
 
 @NoReturnValue  
 
@@ -66,17 +65,17 @@ Hardware-Beschleunigung ermöglicht.
 @Function ClearScreen(Farbe)
 
 @Description
-  Löscht den gesamten Bildschirm mit der angegebenen Farbe.
+  LÃ¶scht den gesamten Bildschirm mit der angegebenen Farbe.
   
 @Parameter "Farbe"
-  Die für das Löschen des Bildschirms zu verwendende Farbe.   @@RGB 
-  kann verwendet werden, um einen gültigen Farbwert zu erhalten. Eine Tabelle 
-  gebräuchlicher Farbwerte finden Sie @ReferenceLink "colortable" "hier".
+  Die fÃ¼r das LÃ¶schen des Bildschirms zu verwendende Farbe.   @@RGB 
+  kann verwendet werden, um einen gÃ¼ltigen Farbwert zu erhalten. Eine Tabelle 
+  gebrÃ¤uchlicher Farbwerte finden Sie @ReferenceLink "colortable" "hier".
 
 @NoReturnValue
 
 @Remarks
-  ClearScreen() muss stets außerhalb eines @@StartDrawing :
+  ClearScreen() muss stets auÃŸerhalb eines @@StartDrawing :
   @@StopDrawing Blocks aufgerufen werden.
 
 @SupportedOS
@@ -86,12 +85,12 @@ Hardware-Beschleunigung ermöglicht.
 @Function CloseScreen()
 
 @Description
-  Schließt den aktuellen Bildschirm (egal ob "Windowed" oder "Fullscreen" Modus). Nach dem Schließen
-  eines Bildschirms, müssen alle Sprites erneut geladen werden, da das Bildschirmformat verloren geht
+  SchlieÃŸt den aktuellen Bildschirm (egal ob "Windowed" oder "Fullscreen" Modus). Nach dem SchlieÃŸen
+  eines Bildschirms, mÃ¼ssen alle Sprites erneut geladen werden, da das Bildschirmformat verloren geht
   und der Videospeicher freigegeben wird. 
 @LineBreak
 @LineBreak
-  Ein(e) Applikation/Spiel kann problemlos während des Programmablaufs zwischen "Fullscreen" und
+  Ein(e) Applikation/Spiel kann problemlos wÃ¤hrend des Programmablaufs zwischen "Fullscreen" und
   "Windowed" Modus umschalten.
 
 @NoParameters
@@ -110,8 +109,8 @@ Hardware-Beschleunigung ermöglicht.
 @Description
   Vertauscht den hinteren mit dem vorderen Puffer des aktuellen Bildschirms. Der
   unsichtbare Bereich wird nun sichtbar und umgekehrt, welches einen 'Double-Buffering' Effekt (flickerfreie
-  grafische Darstellung) ermöglicht. Ein Bildschirm muss mittels @@OpenScreen bzw. 
-  @@OpenWindowedScreen geöffnet worden sein.
+  grafische Darstellung) ermÃ¶glicht. Ein Bildschirm muss mittels @@OpenScreen bzw. 
+  @@OpenWindowedScreen geÃ¶ffnet worden sein.
 @LineBreak
 @LineBreak
   Die Art und Weise, wie die Puffer vertauscht ("geflippt") werden (mit oder ohne Synchronisation),
@@ -122,12 +121,12 @@ Hardware-Beschleunigung ermöglicht.
 @NoReturnValue
 
 @Remarks
-  FlipBuffers() muss stets außerhalb eines @@StartDrawing : ... :
+  FlipBuffers() muss stets auÃŸerhalb eines @@StartDrawing : ... :
   @@StopDrawing Programmblocks aufgerufen werden.
   @LineBreak
   @LineBreak
   FlipBuffers() muss in jeder Ereignisschleife auf einem @Link "Screen/OpenScreen" "Vollbildschirm"
-  aufgerufen werden, um die Ereignisse für @Link "Joystick/ExamineJoystick" "Joystick" /
+  aufgerufen werden, um die Ereignisse fÃ¼r @Link "Joystick/ExamineJoystick" "Joystick" /
   @Link "Keyboard/ExamineKeyboard" "Keyboard"" / @Link "Mouse/ExamineMouse" "Mouse" korrekt zu verarbeiten.
 
 @SeeAlso
@@ -142,8 +141,8 @@ Hardware-Beschleunigung ermöglicht.
 @Description
   Spiele und 'FullScreen' (den ganzen Bildschirm nutzende) Applikationen nutzen
   PureBasic Befehle, welche unter einer Multitasking Umgebung laufen.
-  Dies bedeutet, dass der User vom Bildschirm zurück auf den
-  normalen Desktop wechseln kann. Diese Veränderung kann mit diesem Befehl 
+  Dies bedeutet, dass der User vom Bildschirm zurÃ¼ck auf den
+  normalen Desktop wechseln kann. Diese VerÃ¤nderung kann mit diesem Befehl 
   registriert werden und sollte entsprechende Aktionen einleiten, wie 
   @@ReleaseMouse, Anhalten des Spiels, Stoppen der Sounds, etc...
 @LineBreak
@@ -166,7 +165,7 @@ Hardware-Beschleunigung ermöglicht.
 @Function ID = ScreenID()
 
 @Description
-  Gibt die ScreenID des OS zurück.
+  Gibt die ScreenID des OS zurÃ¼ck.
 
 @NoParameters
 
@@ -184,13 +183,13 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = ScreenWidth()
 
 @Description
-  Gibt die Breite des aktuellen Screens zurück, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
-  geöffnet wurde.
+  Gibt die Breite des aktuellen Screens zurÃ¼ck, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
+  geÃ¶ffnet wurde.
   
 @NoParameters
 
 @ReturnValue
-  Gibt die aktuelle Screen-Breite zurück - oder Null, wenn kein Screen geöffnet ist.
+  Gibt die aktuelle Screen-Breite zurÃ¼ck - oder Null, wenn kein Screen geÃ¶ffnet ist.
   
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@ScreenHeight, @@ScreenDepth
@@ -202,13 +201,13 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = ScreenHeight()
 
 @Description
-  Gibt die Höhe des aktuellen Screens zurück, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
-  geöffnet wurde.
+  Gibt die HÃ¶he des aktuellen Screens zurÃ¼ck, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
+  geÃ¶ffnet wurde.
   
 @NoParameters
 
 @ReturnValue
-  Gibt die aktuelle Screen-Höhe zurück - oder Null, wenn kein Screen geöffnet ist.
+  Gibt die aktuelle Screen-HÃ¶he zurÃ¼ck - oder Null, wenn kein Screen geÃ¶ffnet ist.
   
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@ScreenWidth, @@ScreenDepth
@@ -220,13 +219,13 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = ScreenDepth()
 
 @Description
-  Gibt die Tiefe des aktuellen Screens zurück, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
-  geöffnet wurde.
+  Gibt die Tiefe des aktuellen Screens zurÃ¼ck, welcher vorher mit @@OpenScreen oder @@OpenWindowedScreen
+  geÃ¶ffnet wurde.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die aktuelle Screen-Tiefe zurück - oder Null, wenn kein Screen geöffnet ist.
+  Gibt die aktuelle Screen-Tiefe zurÃ¼ck - oder Null, wenn kein Screen geÃ¶ffnet ist.
   Tiefe ist ein Wert zwischen 8 und 32.
   
 @SeeAlso
@@ -239,9 +238,9 @@ Hardware-Beschleunigung ermöglicht.
 @Function SetFrameRate(FrameRate)
 
 @Description
-  Legt die Frame-Rate (in Frames pro Sekunde) für den aktuellen Bildschirm fest.
-  Dies ist insbesondere nützlich für den mit @@OpenWindowedScreen festgelegten
-  'windowed' Bildschirmmodus, wofür es keine Refresh-Rate des Bildschirms gibt.
+  Legt die Frame-Rate (in Frames pro Sekunde) fÃ¼r den aktuellen Bildschirm fest.
+  Dies ist insbesondere nÃ¼tzlich fÃ¼r den mit @@OpenWindowedScreen festgelegten
+  'windowed' Bildschirmmodus, wofÃ¼r es keine Refresh-Rate des Bildschirms gibt.
 @LineBreak
 @LineBreak
   Dieser Befehl legt die maximale Anzahl pro Sekunde fest, mit der der @@FlipBuffers
@@ -259,33 +258,33 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenScreen(Breite, Höhe, Tiefe, Titel$ [, FlipModus [, RefreshRate]])
+@Function Ergebnis = OpenScreen(Breite, HÃ¶he, Tiefe, Titel$ [, FlipModus [, RefreshRate]])
 
 @Description
-  Öffnet einen neuen Bildschirm entsprechend der angegebenen 'Breite', 'Höhe' und 
+  Ã–ffnet einen neuen Bildschirm entsprechend der angegebenen 'Breite', 'HÃ¶he' und 
   'Tiefe'. Vor der Verwendung dieses Befehls muss @@InitSprite erfolgreich aufgerufen
   worden sein.
 @LineBreak
 @LineBreak
-  Der geöffnete Bildschirm wird mit 2 Videopuffern erstellt, um das
-  'Double-Buffering' zu ermöglichen, welches speziell für Spiele nützlich ist.
-  Die Puffer können mittels dem @@FlipBuffers Befehl manipuliert werden.
+  Der geÃ¶ffnete Bildschirm wird mit 2 Videopuffern erstellt, um das
+  'Double-Buffering' zu ermÃ¶glichen, welches speziell fÃ¼r Spiele nÃ¼tzlich ist.
+  Die Puffer kÃ¶nnen mittels dem @@FlipBuffers Befehl manipuliert werden.
 
-@Parameter "Breite, Höhe"
-  Die Bildschirm-Auflösung, in Pixel. Die angegebene Auflösung muss unterstützt werden,
-  oder der Bildschirm wird nicht geöffnet. @@ExamineScreenModes kann verwendet werden,
-  um eine vollständige List aller unterstützten Auflösungen zu erhalten.
+@Parameter "Breite, HÃ¶he"
+  Die Bildschirm-AuflÃ¶sung, in Pixel. Die angegebene AuflÃ¶sung muss unterstÃ¼tzt werden,
+  oder der Bildschirm wird nicht geÃ¶ffnet. @@ExamineScreenModes kann verwendet werden,
+  um eine vollstÃ¤ndige List aller unterstÃ¼tzten AuflÃ¶sungen zu erhalten.
 
 @Parameter "Tiefe"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
   16: 65.000 Farben, feste Palette
   24: 16 Mio. Farben, feste Palette
-  32: 16 Mio. Farben, schneller als der 24 Bit Modus, ermöglicht Alpha-Blending
+  32: 16 Mio. Farben, schneller als der 24 Bit Modus, ermÃ¶glicht Alpha-Blending
 @EndFixedFont
 
 @Parameter "Titel$"
-  Der Titel der Applikation, der nach beim Wechsel zurück auf den Desktop angezeigt wird
+  Der Titel der Applikation, der nach beim Wechsel zurÃ¼ck auf den Desktop angezeigt wird
   (nur auf Windows). Er wird in der Taskleiste angezeigt.
   Es ist daher empfehlenswert, einen Titel entsprechend dem Programmnamen zu verwenden.
 
@@ -297,33 +296,33 @@ Hardware-Beschleunigung ermöglicht.
    @#PB_Screen_NoSynchronization    : Synchronisation ausschalten
    @#PB_Screen_WaitSynchronization  : Synchronisation einschalten   (Standard-Wert)
    @#PB_Screen_SmartSynchronization : Synchronisation einschalten, mit einer CPU-schonenderen Routine, wenn das Programm
-                                     nicht die gesamte CPU-Rechenzeit benötigt (nur bei Vollbildschirm)
+                                     nicht die gesamte CPU-Rechenzeit benÃ¶tigt (nur bei Vollbildschirm)
 @EndFixedFont
-  Das Warten auf die Bildschirm-Synchronisation ermöglicht einen perfekten Puffer-"Tausch" (Flip ohne 
-  "Ausreißer" oder andere sichtbare Artefakte), da der Flip erst nach dem vollständigen Zeichnen
-  des Bildschirms (und wenn sich der "Screen-Spot" außerhalb des sichtbaren Bildschirmbereichs befindet)
-  ausgeführt wird. Dies verknüpft auch die Flip-Frequenz (Häufigkeit des Puffer-Tauschs) mit dem aktuellen
+  Das Warten auf die Bildschirm-Synchronisation ermÃ¶glicht einen perfekten Puffer-"Tausch" (Flip ohne 
+  "AusreiÃŸer" oder andere sichtbare Artefakte), da der Flip erst nach dem vollstÃ¤ndigen Zeichnen
+  des Bildschirms (und wenn sich der "Screen-Spot" auÃŸerhalb des sichtbaren Bildschirmbereichs befindet)
+  ausgefÃ¼hrt wird. Dies verknÃ¼pft auch die Flip-Frequenz (HÃ¤ufigkeit des Puffer-Tauschs) mit dem aktuellen
   Bildschirm-Refresh ("Auffrischung"), z.B. bei einem 60 Hz Bildschirm sind maximal 60 Flips pro Sekunde
-  möglich.
+  mÃ¶glich.
   
 @OptionalParameter "RefreshRate"
-  Legt die Refresh-Rate (in Hz) für den neuen Bildschirm fest. Wenn diese
+  Legt die Refresh-Rate (in Hz) fÃ¼r den neuen Bildschirm fest. Wenn diese
   nicht verarbeitet werden kann, dann wird OpenScreen() fehlschlagen. 
-  @@ExamineScreenModes kann verwendet werden, um eine vollständige Liste aller
-  unterstützten Refresh-Raten zu erhalten.
+  @@ExamineScreenModes kann verwendet werden, um eine vollstÃ¤ndige Liste aller
+  unterstÃ¼tzten Refresh-Raten zu erhalten.
 @LineBreak
   Hinweis: Auf Windows kann die Refresh-Rate von den Grafikkarten-Treibern gesperrt oder
   erzwungen werden, so dass diese Funktion ungenau sein kann.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Bildschirm erfolgreich geöffnet wurde, andernfalls Null.
+  Ein Wert ungleich Null, wenn der Bildschirm erfolgreich geÃ¶ffnet wurde, andernfalls Null.
 
 @Remarks
-  Die @LibraryLink "Requester" "Requester"-Befehle können nicht auf Bildschirmen verwendet
-  werden, die mittels OpenScreen() geöffneten wurden.
+  Die @LibraryLink "Requester" "Requester"-Befehle kÃ¶nnen nicht auf Bildschirmen verwendet
+  werden, die mittels OpenScreen() geÃ¶ffneten wurden.
 @LineBreak
 @LineBreak  
-  Zum Öffnen eines Bildschirm-Bereichs auf einem regulären Fenster siehe @@OpenWindowedScreen.
+  Zum Ã–ffnen eines Bildschirm-Bereichs auf einem regulÃ¤ren Fenster siehe @@OpenWindowedScreen.
 
 @SeeAlso
   @@OpenWindowedScreen, @@FlipBuffers
@@ -332,37 +331,37 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenWindowedScreen(WindowID, x, y, Breite, Höhe [, AutoStretch, RightOffset, BottomOffset [, FlipModus]])
+@Function Ergebnis = OpenWindowedScreen(WindowID, x, y, Breite, HÃ¶he [, AutoStretch, RightOffset, BottomOffset [, FlipModus]])
 
 @Description
-  Öffnet einen neuen Bildschirm entsprechend den angegebenen Parametern auf dem angegebenen
-  Fenster, welches zuvor mittels @@OpenWindow geöffnet werden muss.
+  Ã–ffnet einen neuen Bildschirm entsprechend den angegebenen Parametern auf dem angegebenen
+  Fenster, welches zuvor mittels @@OpenWindow geÃ¶ffnet werden muss.
   Vor der Verwendung dieses Befehls muss @@InitSprite erfolgreich aufgerufen worden sein.
 @LineBreak
 @LineBreak
   Der "Windowed Screen" (Bildschirm im Fenster) ist in der Lage, die Hardware-Beschleunigung in der 
-  gleichen Art und Weise wie der für Vollbildschirme gedachte Befehl @@OpenScreen zu verwenden.
-  Sobald ein solches Fenster geöffnet wurde, müssen die Fenster-Ereignisse mittels @@WindowEvent
-  verarbeitet werden, um ein korrektes Verhalten zu haben. Alle Ereignisse müssen verarbeitet
+  gleichen Art und Weise wie der fÃ¼r Vollbildschirme gedachte Befehl @@OpenScreen zu verwenden.
+  Sobald ein solches Fenster geÃ¶ffnet wurde, mÃ¼ssen die Fenster-Ereignisse mittels @@WindowEvent
+  verarbeitet werden, um ein korrektes Verhalten zu haben. Alle Ereignisse mÃ¼ssen verarbeitet
   werden, bevor die Puffer getauscht werden (siehe die Beispiele unten).
 
 @Parameter "WindowID"
-  Das für das Erstellen des Bildschirm zu verwendende Fenster. @@WindowID kann verwendet
-  werden, um eine gültige WindowID zu erhalten.
+  Das fÃ¼r das Erstellen des Bildschirm zu verwendende Fenster. @@WindowID kann verwendet
+  werden, um eine gÃ¼ltige WindowID zu erhalten.
 
 @Parameter "x, y"
   Die Position des Bildschirms im angegebenen Fenster, in Pixel.
 
-@Parameter "Breite, Höhe"
-  Die Bildschirmauflösung, in Pixel.
+@Parameter "Breite, HÃ¶he"
+  Die BildschirmauflÃ¶sung, in Pixel.
 
 @OptionalParameter "AutoStretch"
-  Ist dieser auf @#True gesetzt, dann wird die Größe des Bildschirmbereichs
-  automatisch angepasst (und der Inhalt auf die neue Bildschirm-Größe gezoomt), 
-  wenn sich die Fenstergröße ändert. 
+  Ist dieser auf @#True gesetzt, dann wird die GrÃ¶ÃŸe des Bildschirmbereichs
+  automatisch angepasst (und der Inhalt auf die neue Bildschirm-GrÃ¶ÃŸe gezoomt), 
+  wenn sich die FenstergrÃ¶ÃŸe Ã¤ndert. 
 
 @OptionalParameter "RightOffset, BottomOffset"
-  Definieren den rechten und unteren Rand des Fensters, in Pixel (für eine
+  Definieren den rechten und unteren Rand des Fensters, in Pixel (fÃ¼r eine
   @Link "StatusBar/CreateStatusBar" "Statusleiste" zum Beispiel).
 
 @OptionalParameter "FlipModus"
@@ -373,29 +372,29 @@ Hardware-Beschleunigung ermöglicht.
    @#PB_Screen_NoSynchronization    : Synchronisation ausschalten
    @#PB_Screen_WaitSynchronization  : Synchronisation einschalten   (Standard-Wert)
    @#PB_Screen_SmartSynchronization : Synchronisation einschalten, mit einer CPU-schonenderen Routine, wenn das Programm
-                                     nicht die gesamte CPU-Rechenzeit benötigt (nur bei Vollbildschirm)
+                                     nicht die gesamte CPU-Rechenzeit benÃ¶tigt (nur bei Vollbildschirm)
 @EndFixedFont
-  Das Warten auf die Bildschirm-Synchronisation ermöglicht einen perfekten Puffer-"Tausch" (Flip ohne 
-  "Ausreißer" oder andere sichtbare Artefakte), da der Flip erst nach dem vollständigen Zeichnen
-  des Bildschirms (und wenn sich der "Screen-Spot" außerhalb des sichtbaren Bildschirmbereichs befindet)
-  ausgeführt wird. Dies verknüpft auch die Flip-Frequenz (Häufigkeit des Puffer-Tauschs) mit dem aktuellen
+  Das Warten auf die Bildschirm-Synchronisation ermÃ¶glicht einen perfekten Puffer-"Tausch" (Flip ohne 
+  "AusreiÃŸer" oder andere sichtbare Artefakte), da der Flip erst nach dem vollstÃ¤ndigen Zeichnen
+  des Bildschirms (und wenn sich der "Screen-Spot" auÃŸerhalb des sichtbaren Bildschirmbereichs befindet)
+  ausgefÃ¼hrt wird. Dies verknÃ¼pft auch die Flip-Frequenz (HÃ¤ufigkeit des Puffer-Tauschs) mit dem aktuellen
   Bildschirm-Refresh ("Auffrischung"), z.B. bei einem 60 Hz Bildschirm sind maximal 60 Flips pro Sekunde
-  möglich.
+  mÃ¶glich.
 @LineBreak
 @LineBreak
-  Der geöffnete Bildschirm wird mit 2 Videopuffern erstellt, um das
-  speziell für Spiele entwickelte "Double-Buffering" (Doppelpufferung) zu ermöglichen. Die Puffer können mittels
+  Der geÃ¶ffnete Bildschirm wird mit 2 Videopuffern erstellt, um das
+  speziell fÃ¼r Spiele entwickelte "Double-Buffering" (Doppelpufferung) zu ermÃ¶glichen. Die Puffer kÃ¶nnen mittels
   dem @@FlipBuffers Befehl manipuliert werden.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn der Bildschirm erfolgreich geöffnet wurde, andernfalls Null.
+  Ein Wert ungleich Null, wenn der Bildschirm erfolgreich geÃ¶ffnet wurde, andernfalls Null.
 
 @Remarks
   Nur ein "Windowed Screen" (also Bildschirm im/auf dem Fenster) kann zur gleichen
-  Zeit geöffnet sein. Die Bildschirm-Dimensionen können nicht größer als das Fenster sein,
-  andernfalls können Artefakte auftreten.
+  Zeit geÃ¶ffnet sein. Die Bildschirm-Dimensionen kÃ¶nnen nicht grÃ¶ÃŸer als das Fenster sein,
+  andernfalls kÃ¶nnen Artefakte auftreten.
 
-@Example Feste Bildschirmgröße mit Gadgets
+@Example Feste BildschirmgrÃ¶ÃŸe mit Gadgets
 @Code
   If InitSprite() = 0
     MessageRequester("Error", "Can't open screen & sprite environment!", 0)
@@ -420,7 +419,7 @@ Hardware-Beschleunigung ermöglicht.
   
   direction = 2
   Repeat
-    ; Es ist sehr wichtig, alle im Queue befindlichen Ereignisse während jedes Frames abzuarbeiten
+    ; Es ist sehr wichtig, alle im Queue befindlichen Ereignisse wÃ¤hrend jedes Frames abzuarbeiten
     ;
     Repeat
       Event = WindowEvent()
@@ -465,7 +464,7 @@ Hardware-Beschleunigung ermöglicht.
       CreateSprite(0, 50, 50) ; Erstellt ein leeres Sprites, dies wird komplett schwarz sein
         
       Repeat
-        ; Es ist sehr wichtig, alle im Queue befindlichen Ereignisse während jedes Frames abzuarbeiten
+        ; Es ist sehr wichtig, alle im Queue befindlichen Ereignisse wÃ¤hrend jedes Frames abzuarbeiten
         ;
         Repeat
           Event = WaitWindowEvent(10)
@@ -489,7 +488,7 @@ Hardware-Beschleunigung ermöglicht.
 @EndCode
 @Image openwindowedscreen2.png
 @Linebreak
-  Für ein detaillierteres Beispiel schauen Sie in
+  FÃ¼r ein detaillierteres Beispiel schauen Sie in
   @ExampleFile All WindowedScreen.pb
   
 @SeeAlso
@@ -502,8 +501,8 @@ Hardware-Beschleunigung ermöglicht.
 @Function OutputID = ScreenOutput()
 
 @Description
-  Gibt die 'OutputID' des aktuell benutzten Bildschirms zurück, um darauf 2D-Zeichenoperationen
-  auszuführen. Hierfür wird die PureBasic @LibraryLink "2ddrawing" "2DDrawing Bibliothek" genutzt.
+  Gibt die 'OutputID' des aktuell benutzten Bildschirms zurÃ¼ck, um darauf 2D-Zeichenoperationen
+  auszufÃ¼hren. HierfÃ¼r wird die PureBasic @LibraryLink "2ddrawing" "2DDrawing Bibliothek" genutzt.
 @LineBreak
 @LineBreak
   ScreenOutput() kann nur innerhalb eines @@StartDrawing / @@StopDrawing Blocks verwendet werden.
@@ -512,14 +511,17 @@ Hardware-Beschleunigung ermöglicht.
 @NoParameters
 
 @ReturnValue
-  Die OutputID des aktuell verwendeten Bildschirms, um darauf 2D-Zeichenoperationen auszuführen.
+  Die OutputID des aktuell verwendeten Bildschirms, um darauf 2D-Zeichenoperationen auszufÃ¼hren.
 
 @Remarks
-  Auf Linux und OS X kopiert ScreenOutput() den gesamten Bildschirmpuffer zurück in den
-  Hauptspeicher, um 2D-Operationen auszuführen (OpenGL erlaubt keinen direkten Puffer-Zugriff).
+  Auf Linux und OS X kopiert ScreenOutput() den gesamten Bildschirmpuffer zurÃ¼ck in den
+  Hauptspeicher, um 2D-Operationen auszufÃ¼hren (OpenGL erlaubt keinen direkten Puffer-Zugriff).
   Damit ist das Zeichnen auf einem Bildschirm sehr langsam und sollte vermieden werden.
-  ScreenOutput() muß im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde.
-
+  @Linebreak
+  ScreenOutput() muÃŸ im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde.
+  @Linebreak
+  Die Verwendung von @@InitEngine3D ist verboten, @@ScreenOutput gibt 0 zurÃ¼ck.
+  
 @Example
 @Code
   StartDrawing(ScreenOutput())
@@ -534,7 +536,7 @@ Hardware-Beschleunigung ermöglicht.
 @Function Ergebnis = ExamineScreenModes()
 
 @Description
-  Beginnt die verfügbaren Bildschirmmodi auf dem lokalen Computer zu untersuchen. Auf die Liste
+  Beginnt die verfÃ¼gbaren Bildschirmmodi auf dem lokalen Computer zu untersuchen. Auf die Liste
   der Bildschirmmodi kann mit Hilfe des @@NextScreenMode Befehls zugegriffen werden.
   
 @NoParameters
@@ -554,11 +556,11 @@ Hardware-Beschleunigung ermöglicht.
 
 @Description
   Dieser Befehl sollte nach einem @@ExamineScreenModes aufgerufen werden. Er geht (durch
-  entsprechendes mehrmaliges Aufrufen) Schritt für Schritt durch die Liste der verfügbaren
+  entsprechendes mehrmaliges Aufrufen) Schritt fÃ¼r Schritt durch die Liste der verfÃ¼gbaren
   Bildschirmmodi.
 @LineBreak
 @LineBreak
-  Die Informationen zum aktuellen Bildschirmmodus können mit folgenden Befehlen
+  Die Informationen zum aktuellen Bildschirmmodus kÃ¶nnen mit folgenden Befehlen
   ermittelt werden: @@ScreenModeWidth, @@ScreenModeHeight, @@ScreenModeDepth
   und @@ScreenModeRefreshRate.
 
@@ -596,7 +598,7 @@ Hardware-Beschleunigung ermöglicht.
   
 @ReturnValue
   Die Tiefe des aktuell aufgelisteten Bildschirmmodus. Die Tiefe kann entweder 8, 15, 16, 24
-  oder 32 Bit betragen, abhängig von der Grafikkarte.
+  oder 32 Bit betragen, abhÃ¤ngig von der Grafikkarte.
 
 @SeeAlso
   @@ExamineScreenModes, @@NextScreenMode, @@ScreenModeWidth, @@ScreenModeHeight, @@ScreenModeRefreshRate
@@ -605,16 +607,16 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Höhe = ScreenModeHeight()
+@Function HÃ¶he = ScreenModeHeight()
 
 @Description
-  Ermittelt die Höhe des aktuell mit den @@ExamineScreenModes und
+  Ermittelt die HÃ¶he des aktuell mit den @@ExamineScreenModes und
   @@NextScreenMode Befehlen aufgelisteten Bildschirmmodus'.
   
 @NoParameters
   
 @ReturnValue
-  Die Höhe (in Pixel) des aktuell aufgelisteten Bildschirmmodus.
+  Die HÃ¶he (in Pixel) des aktuell aufgelisteten Bildschirmmodus.
 
 @SeeAlso
   @@ExamineScreenModes, @@NextScreenMode, @@ScreenModeWidth, @@ScreenModeDepth, @@ScreenModeRefreshRate
@@ -635,7 +637,7 @@ Hardware-Beschleunigung ermöglicht.
   Die Aktualisierungsrate (in Hertz) des aktuell aufgelisteten Bildschirmmodus.
 
 @Remarks
-  Auf OS X geben viele Notebooks und Monitore 0 zurück.
+  Auf OS X geben viele Notebooks und Monitore 0 zurÃ¼ck.
 
 @SeeAlso
   @@ExamineScreenModes, @@NextScreenMode, @@ScreenModeWidth, @@ScreenModeHeight, @@ScreenModeDepth

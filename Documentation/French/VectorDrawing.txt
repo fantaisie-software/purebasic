@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     VectorDrawing library documentation
 ;
 ;      (c) Fantaisie Software
@@ -7,33 +7,33 @@
 @Library VectorDrawing
 
 @Overview
-  La bibliothèque de dessin vectoriel fournit des 
-  opérations de dessin de haute qualité et 
-  indépendantes de la résolution de l'affichage, 
-  aussi bien sur des images qu'à l'impression. 
-  Contrairement à la bibliothèque 
+  La bibliothÃ¨que de dessin vectoriel fournit des 
+  opÃ©rations de dessin de haute qualitÃ© et 
+  indÃ©pendantes de la rÃ©solution de l'affichage, 
+  aussi bien sur des images qu'Ã  l'impression. 
+  Contrairement Ã  la bibliothÃ¨que 
   @LibraryLink "2DDrawing" "2DDrawing", elle peut 
-  fonctionner avec une grande variété d'unités de 
-  mesure et permet des changements de coordonnées 
-  à l'envie. Ainsi, l'écriture de routine de dessin 
-  en est facilitée car elle s'adaptera à la sortie 
-  de l'utilisateur, quelle que soit sa résolution ou 
-  sa taille. De plus, cette bibliothèque prend en 
+  fonctionner avec une grande variÃ©tÃ© d'unitÃ©s de 
+  mesure et permet des changements de coordonnÃ©es 
+  Ã  l'envie. Ainsi, l'Ã©criture de routine de dessin 
+  en est facilitÃ©e car elle s'adaptera Ã  la sortie 
+  de l'utilisateur, quelle que soit sa rÃ©solution ou 
+  sa taille. De plus, cette bibliothÃ¨que prend en 
   charge la transparence alpha dans toutes ses 
-  opérations. Seules les polices vectorielles sont autorisées, comme TrueType, 
-  les polices bitmap ne sont donc pas autorisées.
-  Vous ne pouvez pas non plus utiliser de police enregistrée avec 
+  opÃ©rations. Seules les polices vectorielles sont autorisÃ©es, comme TrueType, 
+  les polices bitmap ne sont donc pas autorisÃ©es.
+  Vous ne pouvez pas non plus utiliser de police enregistrÃ©e avec 
   @Link "Font/RegisterFontFile" "RegisterFontFile()"
   
 @Section Mode d'emploi
-  Les opérations de dessin de cette bibliothèque 
-  comportent trois étapes de base:
+  Les opÃ©rations de dessin de cette bibliothÃ¨que 
+  comportent trois Ã©tapes de base:
 @LineBreak
 @LineBreak
   1) Construction d'un chemin avec des fonctions 
   telles que @@AddPathLine, @@AddPathCurve, etc.
 @LineBreak
-  2) Sélection d'une source de dessin comme avec 
+  2) SÃ©lection d'une source de dessin comme avec 
   @@VectorSourceColor, etc.
 @LineBreak
   3) Le chemin est rempli avec un 
@@ -41,138 +41,138 @@
   un @Link "FillPath" "motif plein", 
   des @Link "DotPath" "points", 
   des @Link "DashPath" "traits" 
-  ou un mélange de  
+  ou un mÃ©lange de  
   @Link "CustomDashPath" "points et de traits".
 @LineBreak
 @LineBreak
-  Après avoir rempli le contour ou l'intérieur 
-  d'une figure, le chemin est remis à zéro et
-  un nouveau chemin peut être construit pour 
-  l'opération de dessin suivante. La sélection 
-  de la source de dessin (étape 2) n'a pas besoin 
-  d'être répétée à chaque fois, car elle n'est 
-  pas remise à zéro.  
+  AprÃ¨s avoir rempli le contour ou l'intÃ©rieur 
+  d'une figure, le chemin est remis Ã  zÃ©ro et
+  un nouveau chemin peut Ãªtre construit pour 
+  l'opÃ©ration de dessin suivante. La sÃ©lection 
+  de la source de dessin (Ã©tape 2) n'a pas besoin 
+  d'Ãªtre rÃ©pÃ©tÃ©e Ã  chaque fois, car elle n'est 
+  pas remise Ã  zÃ©ro.  
 @LineBreak
 @LineBreak
-  Ce type de dessin à base de chemin permet 
+  Ce type de dessin Ã  base de chemin permet 
   de dessiner des formes complexes avec des 
-  attributs intéressants comme dessiner des 
-  lignes épaisses, avec un motif à base de 
+  attributs intÃ©ressants comme dessiner des 
+  lignes Ã©paisses, avec un motif Ã  base de 
   points et de traits, aux coins arrondis ou 
   pointus, le tout sans introduire d'artefacts 
-  d'affichage à la jonction des segments et 
+  d'affichage Ã  la jonction des segments et 
   des figures. Cela est du au fait que 
-  l'ensemble du chemin est tracé en une seule 
+  l'ensemble du chemin est tracÃ© en une seule 
   fois.
 @LineBreak
 @LineBreak  
   Voir la fonction @@AddPathLine pour un exemple 
   simple.
 
-@Section Les unités de mesure
-  Chaque sortie de dessin a une unité de mesure 
-  par défaut. L'unité par défaut est le pixel 
-  pour les écrans ou les images matricielles 
+@Section Les unitÃ©s de mesure
+  Chaque sortie de dessin a une unitÃ© de mesure 
+  par dÃ©faut. L'unitÃ© par dÃ©faut est le pixel 
+  pour les Ã©crans ou les images matricielles 
   (bmp, jpg, gif, png, etc) et le 
   point pour les imprimantes ou les images 
   vectorielles. Il est cependant possible de 
-  sélectionner une unité de mesure différente 
-  lors de la création avec les fonctions 
+  sÃ©lectionner une unitÃ© de mesure diffÃ©rente 
+  lors de la crÃ©ation avec les fonctions 
   @@ImageVectorOutput, @@PrinterVectorOutput,... 
-  Toutes les opérations de dessin 
-  utiliseront l'unité de mesure sélectionnée et 
-  convertiront en interne les valeurs en coordonnées 
-  réelles pour le dispositif de sortie.
-  Utiliser l'unité de mesure par défaut permet 
-  d'écrire du code qui est indépendant de la sortie 
-  utilisée. L'unité de mesure peut être vérifiée 
+  Toutes les opÃ©rations de dessin 
+  utiliseront l'unitÃ© de mesure sÃ©lectionnÃ©e et 
+  convertiront en interne les valeurs en coordonnÃ©es 
+  rÃ©elles pour le dispositif de sortie.
+  Utiliser l'unitÃ© de mesure par dÃ©faut permet 
+  d'Ã©crire du code qui est indÃ©pendant de la sortie 
+  utilisÃ©e. L'unitÃ© de mesure peut Ãªtre vÃ©rifiÃ©e 
   avec @@VectorUnit.
   
-@Section Transformation de coordonnées
+@Section Transformation de coordonnÃ©es
   Il est possible de @Link "TranslateCoordinates" "translater", 
-  de changer d'@Link "ScaleCoordinates"" échelle (homothétie)", 
+  de changer d'@Link "ScaleCoordinates"" Ã©chelle (homothÃ©tie)", 
   d'appliquer une @Link "RotateCoordinates" "rotation", 
   d'@Link "FlipCoordinatesX" "inverser" ou d'
-  @Link "SkewCoordinates" "incliner" le système 
-  de coordonnées utilisé pour le dessin. Les transformations 
-  peuvent être combinées librement. Ces transformations 
-  affectent toutes les opérations de dessin.
+  @Link "SkewCoordinates" "incliner" le systÃ¨me 
+  de coordonnÃ©es utilisÃ© pour le dessin. Les transformations 
+  peuvent Ãªtre combinÃ©es librement. Ces transformations 
+  affectent toutes les opÃ©rations de dessin.
 @LineBreak
 @LineBreak
   Les utilisations possibles de ces transformations 
-  de coordonnées est de faire pivoter une figure 
-  ou de l'étirer sans avoir à modifier le code. 
+  de coordonnÃ©es est de faire pivoter une figure 
+  ou de l'Ã©tirer sans avoir Ã  modifier le code. 
   Par exemple, pour imprimer en paysage, il suffit 
-  de faire tourner simplement les coordonnées 
+  de faire tourner simplement les coordonnÃ©es 
   (et donc toutes les sorties).
 @LineBreak
 @LineBreak 
-  Il existe quatre systèmes de coordonnées 
-  différents et certaines fonctions prennent 
-  un paramètre facultatif permettant de 
-  sélectionner le système qui devrait être 
-  utilisé. 
+  Il existe quatre systÃ¨mes de coordonnÃ©es 
+  diffÃ©rents et certaines fonctions prennent 
+  un paramÃ¨tre facultatif permettant de 
+  sÃ©lectionner le systÃ¨me qui devrait Ãªtre 
+  utilisÃ©. 
   Ce sont les options suivantes:
 @LineBreak 
 @LineBreak 
 
   @#PB_Coordinate_Device
 @Indent
-  Ce système de coordonnées représente les 
-  coordonnées physiques du périphérique de 
-  sortie. Il ne peut pas être transformé. 
-  Ce système de coordonnées est utile lors 
-  de la conversion de coordonnées entre le
-  périphérique et le dessin  avec 
+  Ce systÃ¨me de coordonnÃ©es reprÃ©sente les 
+  coordonnÃ©es physiques du pÃ©riphÃ©rique de 
+  sortie. Il ne peut pas Ãªtre transformÃ©. 
+  Ce systÃ¨me de coordonnÃ©es est utile lors 
+  de la conversion de coordonnÃ©es entre le
+  pÃ©riphÃ©rique et le dessin  avec 
   @@ConvertCoordinateX et @@ConvertCoordinateY.
 @EndIndent
 
   @#PB_Coordinate_Output
 @Indent
-  Coordonnées initiales de sortie en unité 
-  de mesure sélectionnée. Ce système de 
-  coordonnées est égal à @#PB_Coordinate_Device 
-  sauf pour une éventuelle mise à l'échelle 
-  avec une unité de mesure différente. Ce 
-  système de coordonnées ne peut pas être 
-  transformée.
+  CoordonnÃ©es initiales de sortie en unitÃ© 
+  de mesure sÃ©lectionnÃ©e. Ce systÃ¨me de 
+  coordonnÃ©es est Ã©gal Ã  @#PB_Coordinate_Device 
+  sauf pour une Ã©ventuelle mise Ã  l'Ã©chelle 
+  avec une unitÃ© de mesure diffÃ©rente. Ce 
+  systÃ¨me de coordonnÃ©es ne peut pas Ãªtre 
+  transformÃ©e.
 @EndIndent
 
   @#PB_Coordinate_User
 @Indent
-  Ceci est le système de coordonnées utilisé 
-  pour toutes les opérations de dessin. 
-  Ce système de coordonnées est utilisé 
-  chaque fois qu'un autre système n'est 
-  pas explicitement spécifié. Il peut 
-  être transformé librement. Initialement, 
-  ce système de coordonnées est égal au 
-  système @#PB_Coordinate_Output et peut 
-  être réinitialisé avec @@resetcoordinates.
+  Ceci est le systÃ¨me de coordonnÃ©es utilisÃ© 
+  pour toutes les opÃ©rations de dessin. 
+  Ce systÃ¨me de coordonnÃ©es est utilisÃ© 
+  chaque fois qu'un autre systÃ¨me n'est 
+  pas explicitement spÃ©cifiÃ©. Il peut 
+  Ãªtre transformÃ© librement. Initialement, 
+  ce systÃ¨me de coordonnÃ©es est Ã©gal au 
+  systÃ¨me @#PB_Coordinate_Output et peut 
+  Ãªtre rÃ©initialisÃ© avec @@resetcoordinates.
 @EndIndent
 
   @#PB_Coordinate_Source
 @Indent
-  Ce système de coordonnées est utilisé par 
-  les fonctions qui sélectionnent la source 
+  Ce systÃ¨me de coordonnÃ©es est utilisÃ© par 
+  les fonctions qui sÃ©lectionnent la source 
   de dessin vectoriel. Il est utile avec 
   @@VectorSourceImage afin de transformer 
-  l'image de la source. Ce système de coordonnées 
-  est relié au système @#PB_Coordinate_User, 
+  l'image de la source. Ce systÃ¨me de coordonnÃ©es 
+  est reliÃ© au systÃ¨me @#PB_Coordinate_User, 
   de sorte que toute transformation du 
-  système de @#PB_Coordinate_User aura 
-  une incidence sur ce système.
+  systÃ¨me de @#PB_Coordinate_User aura 
+  une incidence sur ce systÃ¨me.
 @EndIndent
 
-  Dans la plupart des cas, le  système 
+  Dans la plupart des cas, le  systÃ¨me 
   @#PB_Coordinate_User est le plus 
-  intéressant et est donc la valeur par 
-  défaut. Les autres systèmes sont utiles 
+  intÃ©ressant et est donc la valeur par 
+  dÃ©faut. Les autres systÃ¨mes sont utiles 
   principalement pour la conversion de 
-  coordonnées ou dans des buts spéciaux,
+  coordonnÃ©es ou dans des buts spÃ©ciaux,
   tels que la transformation de l'image source.
 
-; ====== Code pour générer les images de diverses changement de coordonnées (ne pas montrer dans les docs réels) ====
+; ====== Code pour gÃ©nÃ©rer les images de diverses changement de coordonnÃ©es (ne pas montrer dans les docs rÃ©els) ====
 ;   Procedure DrawSample(Color)
 ;     SaveVectorState()
 ;     VectorSourceColor(Color)     
@@ -249,45 +249,45 @@
 ; =============================================================================================
   
   
-@Example Rotation du système de coordonnées
+@Example Rotation du systÃ¨me de coordonnÃ©es
 @Image rotatecoordinates.png
 
 @Example Combinaison de translation et d'inclinaison  
 @Image transformcoordinates.png  
 
 @Section Etat et couches
-  Un certain nombre de propriétés de la sortie 
+  Un certain nombre de propriÃ©tÃ©s de la sortie 
   de dessin tels que les transformations de 
-  coordonnées, le zonage (clipping) ou la 
-  source de dessin peuvent être sauvegardées et 
-  restaurées ultérieurement avec les fonctions  
+  coordonnÃ©es, le zonage (clipping) ou la 
+  source de dessin peuvent Ãªtre sauvegardÃ©es et 
+  restaurÃ©es ultÃ©rieurement avec les fonctions  
   @@SaveVectorState et @@RestoreVectorState. 
   Cela permet de faire des modifications 
   temporaires sur la sortie de dessin puis de 
-  restaurer l'état précédent, plus tard. Les 
+  restaurer l'Ã©tat prÃ©cÃ©dent, plus tard. Les 
   commandes fonctionnent dans une pile, 
   il est donc possible de sauvegarder/restaurer 
-  plusieurs états de dessin.
+  plusieurs Ã©tats de dessin.
 @LineBreak
 @LineBreak  
   La fonction @@BeginVectorLayer permet 
-  de sauvegarder l'état de dessin actuel 
-  en créant une nouvelle couche de dessin 
-  virtuelle. Les futures opérations de 
-  dessin seront dirigées sur cette couche.
-  Un appel à @@EndVectorLayer combinera la 
+  de sauvegarder l'Ã©tat de dessin actuel 
+  en crÃ©ant une nouvelle couche de dessin 
+  virtuelle. Les futures opÃ©rations de 
+  dessin seront dirigÃ©es sur cette couche.
+  Un appel Ã  @@EndVectorLayer combinera la 
   couche avec la sortie du dessous et restaurera 
-  l'état du dessin précédent. Ceci permet 
-  de combiner un certain nombre d'opérations
+  l'Ã©tat du dessin prÃ©cÃ©dent. Ceci permet 
+  de combiner un certain nombre d'opÃ©rations
   de dessin, puis de les appliquer en tant 
   que couche de sortie. De multiples couches 
-  temporaires peuvent être créées de cette façon.
+  temporaires peuvent Ãªtre crÃ©Ã©es de cette faÃ§on.
   
 @Section Remarque
-  Afin d'atteindre un rendu parfait, la bibliothèque utilise 
-  l'anti crénelage (antialiasing). Ainsi, il n'est pas possible 
-  d'exécuter des figures d'un seul pixel d'épaisseur, stricto sensu. 
-  Utiliser pour cela la bibliothèque @LibraryLink "2ddrawing" "dessin 2D".
+  Afin d'atteindre un rendu parfait, la bibliothÃ¨que utilise 
+  l'anti crÃ©nelage (antialiasing). Ainsi, il n'est pas possible 
+  d'exÃ©cuter des figures d'un seul pixel d'Ã©paisseur, stricto sensu. 
+  Utiliser pour cela la bibliothÃ¨que @LibraryLink "2ddrawing" "dessin 2D".
   
 @CommandList
 
@@ -301,14 +301,14 @@
 @Function Resultat = StartVectorDrawing(Sortie)
 
 @Description
-  Prépare la bibliothèque de dessin 
+  PrÃ©pare la bibliothÃ¨que de dessin 
   vectoriel pour dessiner sur la 
-  sortie spécifiée.
+  sortie spÃ©cifiÃ©e.
   
 @Parameter "Sortie"
   Les dessins seront rendus directement sur:
 @FixedFont
-  @@WindowVectorOutput : Une fenêtre
+  @@WindowVectorOutput : Une fenÃªtre
   @@ImageVectorOutput  : Une image (voir @@CreateImage)
   @@PrinterVectorOutput: Une imprimante
   @@CanvasVectorOutput : Un @@CanvasGadget
@@ -318,20 +318,20 @@
 
 @ReturnValue
   Renvoie une valeur non nulle si le dessin 
-  est possible, zéro sinon.
+  est possible, zÃ©ro sinon.
   
 @Remarks
-  Lorsque tous les dessins sont terminés, 
-  la fonction @@StopVectorDrawing doit être appelée.
+  Lorsque tous les dessins sont terminÃ©s, 
+  la fonction @@StopVectorDrawing doit Ãªtre appelÃ©e.
 @LineBreak
 @LineBreak
   Si "Activer la gestion des Threads" est 
-  coché dans les 
+  cochÃ© dans les 
   @ReferenceLink "ide_compiler" "options du compilateur" 
   alors chaque thread a sa propre surface de 
   dessin, ce qui signifie que deux threads 
   peuvent dessiner sur des surfaces de dessin 
-  différentes en même temps.
+  diffÃ©rentes en mÃªme temps.
   
 @SeeAlso
   @@StopVectorDrawing
@@ -343,9 +343,9 @@
 @Function StopVectorDrawing()
 
 @Description
-  Termine une séquence d'opérations 
-  de dessin vectoriel et libère toutes 
-  les ressources allouées.
+  Termine une sÃ©quence d'opÃ©rations 
+  de dessin vectoriel et libÃ¨re toutes 
+  les ressources allouÃ©es.
 
 @NoParameters
 
@@ -404,13 +404,13 @@
 @Function Resultat.d = VectorResolutionX()
 
 @Description
-  Renvoie la résolution horizontale de 
+  Renvoie la rÃ©solution horizontale de 
   la zone de sortie de dessin vectoriel.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la résolution horizontale en 
+  Renvoie la rÃ©solution horizontale en 
   dpi (points par pouce)
 
 @SeeAlso
@@ -423,18 +423,18 @@
 @Function Resultat.d = VectorResolutionY()
 
 @Description
-  Renvoie la résolution verticale de la 
+  Renvoie la rÃ©solution verticale de la 
   zone de sortie de dessin vectoriel.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la résolution verticale en 
+  Renvoie la rÃ©solution verticale en 
   dpi (ppp: points par pouce).
 
 @Remarks
-  La résolution verticale peut différer 
-  de la résolution horizontale dans le 
+  La rÃ©solution verticale peut diffÃ©rer 
+  de la rÃ©solution horizontale dans le 
   cas d'une sortie sur imprimante.
   
 @SeeAlso
@@ -447,22 +447,22 @@
 @Function Resultat = VectorUnit()
 
 @Description
-  Renvoie l'unité dans laquelle toutes les 
-  coordonnées et les dimensions sont mesurées 
+  Renvoie l'unitÃ© dans laquelle toutes les 
+  coordonnÃ©es et les dimensions sont mesurÃ©es 
   sur la sortie de dessin vectoriel en cours.
   @LineBreak 
-  Cette unité a été spécifiée lors de la 
-  création de la sortie.
+  Cette unitÃ© a Ã©tÃ© spÃ©cifiÃ©e lors de la 
+  crÃ©ation de la sortie.
 
 @NoParameters
 
 @ReturnValue
   Renvoie l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Unit_Pixel     : Les valeurs sont mesurées en pixels (ou point (dots) pour les imprimantes)
-  @#PB_Unit_Point     : Les valeurs sont mesurées en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
-  @#PB_Unit_Inch      : Les valeurs sont mesurées en pouces (25,4 millimètres)
-  @#PB_Unit_Millimeter: Les valeurs sont mesurées en millimètres (0,039 370 pouce)
+  @#PB_Unit_Pixel     : Les valeurs sont mesurÃ©es en pixels (ou point (dots) pour les imprimantes)
+  @#PB_Unit_Point     : Les valeurs sont mesurÃ©es en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
+  @#PB_Unit_Inch      : Les valeurs sont mesurÃ©es en pouces (25,4 millimÃ¨tres)
+  @#PB_Unit_Millimeter: Les valeurs sont mesurÃ©es en millimÃ¨tres (0,039 370 pouce)
 @EndFixedFont
 
 @SupportedOS
@@ -472,8 +472,8 @@
 @Function SaveVectorState()
 
 @Description
-  Enregistre l'état du dessin vectoriel 
-  en cours en vue d'être restauré plus 
+  Enregistre l'Ã©tat du dessin vectoriel 
+  en cours en vue d'Ãªtre restaurÃ© plus 
   tard. 
 
 @NoParameters
@@ -481,20 +481,20 @@
 @NoReturnValue
 
 @Remarks
-  De multiples états peuvent être sauvegardés 
-  sur une pile et restaurés dans l'ordre inverse.
+  De multiples Ã©tats peuvent Ãªtre sauvegardÃ©s 
+  sur une pile et restaurÃ©s dans l'ordre inverse.
 @LineBreak
 @LineBreak
-  Les informations suivantes sont enregistrées:
+  Les informations suivantes sont enregistrÃ©es:
   @LineBreak
-  - Les transformations de coordonnées @LineBreak
+  - Les transformations de coordonnÃ©es @LineBreak
   - La source de dessin @LineBreak
   - La police de dessin @LineBreak
   - Le zonage (clipping) @LineBreak
 @LineBreak
 @LineBreak
    Notez que le chemin courant n'est @Underline "pas" 
-   sauvegardé par cette commande.
+   sauvegardÃ© par cette commande.
  
 @Example 
 @Code
@@ -510,7 +510,7 @@
       MovePathCursor(20, 20)
       DrawVectorText("Texte normal")
       
-      ; Les modifications apportées à l'état de dessin au sein de ce bloc ne touchent pas les autres commandes
+      ; Les modifications apportÃ©es Ã  l'Ã©tat de dessin au sein de ce bloc ne touchent pas les autres commandes
       SaveVectorState()
         MovePathCursor(120, 160)
         RotateCoordinates(120, 160, -50)
@@ -540,8 +540,8 @@
 @Function RestoreVectorState()
 
 @Description
-  Restaure l'état de dessin vectoriel 
-  qui a été stocké avec l'appel à 
+  Restaure l'Ã©tat de dessin vectoriel 
+  qui a Ã©tÃ© stockÃ© avec l'appel Ã  
   @@SaveVectorState.
 
 @NoParameters
@@ -562,7 +562,7 @@
       MovePathCursor(20, 20)
       DrawVectorText("Texte normal")
       
-      ; Les modifications apportées à l'état de dessin au sein de ce bloc ne touchent pas les autres commandes
+      ; Les modifications apportÃ©es Ã  l'Ã©tat de dessin au sein de ce bloc ne touchent pas les autres commandes
       SaveVectorState()
         MovePathCursor(120, 160)
         RotateCoordinates(120, 160, -50)
@@ -597,34 +597,34 @@
   du dessin vectoriel en cours.
 @LineBreak
 @LineBreak  
-  Désormais, toutes les opérations de dessin 
-  seront effectuées sur cette couche jusqu'à 
-  ce que @@EndVectorLayer soit appelée.
+  DÃ©sormais, toutes les opÃ©rations de dessin 
+  seront effectuÃ©es sur cette couche jusqu'Ã  
+  ce que @@EndVectorLayer soit appelÃ©e.
 
 @OptionalParameter "Transparence"
   Le niveau de transparence (alpha) de la nouvelle 
   couche.
 @LineBreak
 @LineBreak
-  Entre 0 (transparent) et 255 (opaque par défaut).
+  Entre 0 (transparent) et 255 (opaque par dÃ©faut).
 
 @NoReturnValue
 
 @Remarks
-  Cette commande enregistre également l'état 
-  de dessin courant de la même manière que 
+  Cette commande enregistre Ã©galement l'Ã©tat 
+  de dessin courant de la mÃªme maniÃ¨re que 
   @@SaveVectorState.
 @LineBreak
 @LineBreak
-  Plusieurs couches peuvent être créées. 
+  Plusieurs couches peuvent Ãªtre crÃ©Ã©es. 
 @LineBreak 
 @LineBreak   
-  Les ressources nécessaires pour créer la couche 
-  temporaire dépendent de la taille du 
-  @Link "ClipPath" "chemin clippé". 
-  Il est donc recommandé de définir un chemin de 
-  détourage qui ne couvre que la zone nécessaire 
-  afin d'économiser les ressources et d'améliorer 
+  Les ressources nÃ©cessaires pour crÃ©er la couche 
+  temporaire dÃ©pendent de la taille du 
+  @Link "ClipPath" "chemin clippÃ©". 
+  Il est donc recommandÃ© de dÃ©finir un chemin de 
+  dÃ©tourage qui ne couvre que la zone nÃ©cessaire 
+  afin d'Ã©conomiser les ressources et d'amÃ©liorer 
   les performances de dessin.
   
 @Example 
@@ -675,21 +675,21 @@
 
 @Description
   Termine le dessin sur une couche 
-  temporaire créée par @@BeginVectorLayer. 
+  temporaire crÃ©Ã©e par @@BeginVectorLayer. 
   
 @NoParameters
 
 @NoReturnValue
 
 @Remarks
-  Le contenu de la couche est dessiné vers la 
-  couche inférieure suivante en utilisant la 
+  Le contenu de la couche est dessinÃ© vers la 
+  couche infÃ©rieure suivante en utilisant la 
   transparence (alpha) de la couche temporaire.
 @LineBreak 
 @LineBreak  
-  Cette commande rétablit également l'état de 
-  dessin qui était en vigueur lorsque 
-  @@BeginVectorLayer a été appelé.
+  Cette commande rÃ©tablit Ã©galement l'Ã©tat de 
+  dessin qui Ã©tait en vigueur lorsque 
+  @@BeginVectorLayer a Ã©tÃ© appelÃ©.
   
 @Example 
 @Code
@@ -762,8 +762,8 @@
 @Function FillVectorOutput()
 
 @Description
-  Remplit toute la zone de dessin (à 
-  l'exception des zones non clippées) 
+  Remplit toute la zone de dessin (Ã  
+  l'exception des zones non clippÃ©es) 
   avec la source de dessin en cours. 
 
 @NoParameters
@@ -771,9 +771,9 @@
 @NoReturnValue
 
 @Remarks
-  Cette opération est équivalente à la construction 
-  d'un chemin qui couvre la totalité de la zone de
-  dessin après un appel à @@FillPath.
+  Cette opÃ©ration est Ã©quivalente Ã  la construction 
+  d'un chemin qui couvre la totalitÃ© de la zone de
+  dessin aprÃ¨s un appel Ã  @@FillPath.
 
 @Example 
 @Code
@@ -782,7 +782,7 @@
 
     If StartVectorDrawing(CanvasVectorOutput(0))
 
-      ; Mettre la sortie entièrement en rouge
+      ; Mettre la sortie entiÃ¨rement en rouge
       VectorSourceColor(RGBA(255, 0, 0, 255))
       FillVectorOutput()
     
@@ -805,28 +805,28 @@
 @Function ResetCoordinates([Systeme])
 
 @Description
-  Rétablit les transformations qui ont été 
-  appliquées sur le dessin vectoriel ainsi 
-  que le système de coordonnées qui était 
+  RÃ©tablit les transformations qui ont Ã©tÃ© 
+  appliquÃ©es sur le dessin vectoriel ainsi 
+  que le systÃ¨me de coordonnÃ©es qui Ã©tait 
   en vigueur lorsque @@StartVectorDrawing 
-  a été appelé.
+  a Ã©tÃ© appelÃ©.
   
 @OptionalParameter "Systeme"
- Indique le système de coordonnées à 
+ Indique le systÃ¨me de coordonnÃ©es Ã  
  changer. @LineBreak
- Peut être l'une des valeurs suivantes:
+ Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
- Voir l'aperçu de la bibliothèque 
+ Voir l'aperÃ§u de la bibliothÃ¨que 
  @LibraryLink "VectorDrawing" "VectorDrawing" 
- pour une introduction aux différents systèmes 
- de coordonnées.
+ pour une introduction aux diffÃ©rents systÃ¨mes 
+ de coordonnÃ©es.
 
 @SeeAlso
   @@TranslateCoordinates, @@ScaleCoordinates, 
@@ -841,38 +841,38 @@
 @Function TranslateCoordinates(X.d, Y.d [, Systeme])
 
 @Description
-  Déplace l'origine du système de 
-  coordonnées du dessin vectoriel.
+  DÃ©place l'origine du systÃ¨me de 
+  coordonnÃ©es du dessin vectoriel.
 
 @Parameter "X.d, Y.d"
-  Le déplacement en X et en Y de l'origine.
+  Le dÃ©placement en X et en Y de l'origine.
 
 @OptionalParameter "Systeme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   changer. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Toutes les futures opérations de dessin 
-  se feront par rapport à la nouvelle origine.
+  Toutes les futures opÃ©rations de dessin 
+  se feront par rapport Ã  la nouvelle origine.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
 @LineBreak
 @LineBreak
   L'image suivante montre l'effet de la translation de 
-  coordonnées. Une même figure est dessinée à deux 
+  coordonnÃ©es. Une mÃªme figure est dessinÃ©e Ã  deux 
   reprises, l'originale est en bleu, et la version 
-  après translation de coordonnées est en rouge.
+  aprÃ¨s translation de coordonnÃ©es est en rouge.
 
 @Image translatecoordinates.png
   
@@ -889,7 +889,7 @@
       MovePathCursor(50, 50)
       DrawVectorText("Test")
     
-      TranslateCoordinates(30, 30) ; toutes les coordonnées sont déplacés de 30 pixels dans chaque direction
+      TranslateCoordinates(30, 30) ; toutes les coordonnÃ©es sont dÃ©placÃ©s de 30 pixels dans chaque direction
     
       VectorSourceColor(RGBA(255, 0, 0, 128))
       MovePathCursor(50, 50)
@@ -919,41 +919,41 @@
 @Function ScaleCoordinates(EchelleX.d, EchelleY.d [, Systeme])
 
 @Description
-  Changement d'échelle du système de 
-  coordonnées du dessin vectoriel en 
-  l'étirant dans les directions X 
+  Changement d'Ã©chelle du systÃ¨me de 
+  coordonnÃ©es du dessin vectoriel en 
+  l'Ã©tirant dans les directions X 
   et/ou Y.
   
 @Parameter "EchelleX.d, EchelleY.d"
-  Le facteur d'échelle dans chaque direction. 
+  Le facteur d'Ã©chelle dans chaque direction. 
 @FixedFont
-  < 0.0: Un facteur négatif donne un effet miroir.  
-  < 1.0: Rapetisse le système de coordonnées
-    1.0: Un facteur de 1 laisse les coordonnées inchangées
-  > 1.0: Agrandit le système de coordonnées
+  < 0.0: Un facteur nÃ©gatif donne un effet miroir.  
+  < 1.0: Rapetisse le systÃ¨me de coordonnÃ©es
+    1.0: Un facteur de 1 laisse les coordonnÃ©es inchangÃ©es
+  > 1.0: Agrandit le systÃ¨me de coordonnÃ©es
 @EndFixedFont 
 
 @OptionalParameter "Systeme"
- Indique le système de coordonnées à changer. @LineBreak
- Peut être l'une des valeurs suivantes:
+ Indique le systÃ¨me de coordonnÃ©es Ã  changer. @LineBreak
+ Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
 @LineBreak
 @LineBreak
-  L'image suivante montre l'effet d'échelle de 
-  coordonnées. Une même figure est dessinée à deux 
+  L'image suivante montre l'effet d'Ã©chelle de 
+  coordonnÃ©es. Une mÃªme figure est dessinÃ©e Ã  deux 
   reprises, l'originale est en bleu, et la version 
-  après l'effet est en rouge.
+  aprÃ¨s l'effet est en rouge.
   
 @Image scalecoordinates.png
   
@@ -1000,45 +1000,45 @@
 @Function RotateCoordinates(X.d, Y.d, Angle.d [, Systeme])
 
 @Description
-  Rotation du système de coordonnées du 
-  dessin vectoriel autour du point donné. 
+  Rotation du systÃ¨me de coordonnÃ©es du 
+  dessin vectoriel autour du point donnÃ©. 
   
 @Parameter "X.d, Y.d"
   Indique le centre de rotation.
 
 @Parameter "Angle.d"
-  Angle de rotation en degrés. 
+  Angle de rotation en degrÃ©s. 
 @LineBreak
 @LineBreak
   Un angle positif tourne dans le 
   sens horaire.
 
 @OptionalParameter "Systeme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   changer. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Le centre est exprimé en termes 
-  de système de coordonnées courant.
+  Le centre est exprimÃ© en termes 
+  de systÃ¨me de coordonnÃ©es courant.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
 @LineBreak
 @LineBreak
   L'image suivante montre l'effet de la rotation de 
-  coordonnées. Une même figure est dessinée à deux 
+  coordonnÃ©es. Une mÃªme figure est dessinÃ©e Ã  deux 
   reprises, l'originale est en bleu, et la version 
-  après rotation de coordonnées est en rouge.
+  aprÃ¨s rotation de coordonnÃ©es est en rouge.
 
 @Image rotatecoordinates.png
   
@@ -1055,7 +1055,7 @@
       MovePathCursor(50, 50)
       DrawVectorText("Test")
     
-      RotateCoordinates(50, 50, -20) ; rotation de -20 degrés autour du point(50, 50)
+      RotateCoordinates(50, 50, -20) ; rotation de -20 degrÃ©s autour du point(50, 50)
     
       VectorSourceColor(RGBA(255, 0, 0, 128))
       MovePathCursor(50, 50)
@@ -1085,35 +1085,35 @@
 @Function SkewCoordinates(AngleX.d, AngleY.d [, Systeme])
 
 @Description
-  Incline le système de coordonnées du 
+  Incline le systÃ¨me de coordonnÃ©es du 
   dessin vectoriel dans la direction X 
   et/ou Y.
 
 @Parameter "AngleX.d, AngleY.d"
   Angle de cisaillement dans chaque 
-  direction en degrés.
+  direction en degrÃ©s.
 
 @OptionalParameter "Systeme"
-  Indique le système de coordonnées à changer. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Indique le systÃ¨me de coordonnÃ©es Ã  changer. @LineBreak
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont 
 
 @NoReturnValue
 
 @Remarks
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
 @LineBreak
 @LineBreak
   L'image suivante montre l'effet de cisaillement de 
-  coordonnées. Une même figure est dessinée à deux 
+  coordonnÃ©es. Une mÃªme figure est dessinÃ©e Ã  deux 
   reprises, l'originale est en bleu, et la version 
-  après inclinaison de coordonnées est en rouge.
+  aprÃ¨s inclinaison de coordonnÃ©es est en rouge.
 
 @Image skewcoordinates.png
   
@@ -1160,37 +1160,37 @@
 @Function FlipCoordinatesX(AxeX.d [, Systeme])
 
 @Description
-  Effet miroir du  système de coordonnées 
-  du dessin vectoriel par rapport à l'axe X 
-  spécifié.
+  Effet miroir du  systÃ¨me de coordonnÃ©es 
+  du dessin vectoriel par rapport Ã  l'axe X 
+  spÃ©cifiÃ©.
   
 @Parameter "AxeX.d"
-  La coordonnée X à laquelle le système 
-  de coordonnées doit être inversé.
+  La coordonnÃ©e X Ã  laquelle le systÃ¨me 
+  de coordonnÃ©es doit Ãªtre inversÃ©.
 
 @OptionalParameter "Systeme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   changer. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
 @LineBreak
 @LineBreak
   L'image suivante montre l'effet miroir 
-  de coordonnées. Une même figure est 
-  dessinée à deux reprises, l'originale 
-  est en bleu, et la version après l'effet 
-  miroir de coordonnées est en rouge.
+  de coordonnÃ©es. Une mÃªme figure est 
+  dessinÃ©e Ã  deux reprises, l'originale 
+  est en bleu, et la version aprÃ¨s l'effet 
+  miroir de coordonnÃ©es est en rouge.
 
 @Image flipcoordinatesx.png
   
@@ -1237,37 +1237,37 @@
 @Function FlipCoordinatesY(AxeY.d [, Systeme])
 
 @Description
-  Effet miroir du  système de coordonnées 
-  du dessin vectoriel par rapport à l'axe Y 
-  spécifié.
+  Effet miroir du  systÃ¨me de coordonnÃ©es 
+  du dessin vectoriel par rapport Ã  l'axe Y 
+  spÃ©cifiÃ©.
 
 @Parameter "AxeY.d"
-  La coordonnée Y à laquelle le système 
-  de coordonnées doit être inversé.
+  La coordonnÃ©e Y Ã  laquelle le systÃ¨me 
+  de coordonnÃ©es doit Ãªtre inversÃ©.
 
 @OptionalParameter "Systeme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   changer. @LineBreak
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin (par défaut)
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin (par dÃ©faut)
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Voir l'aperçu de la bibliothèque 
+  Voir l'aperÃ§u de la bibliothÃ¨que 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
 @LineBreak
 @LineBreak
   L'image suivante montre l'effet miroir de 
-  coordonnées. Une même figure est dessinée 
-  à deux reprises, l'originale est en bleu, 
-  et la version après l'effet miroir de 
-  coordonnées est en rouge.
+  coordonnÃ©es. Une mÃªme figure est dessinÃ©e 
+  Ã  deux reprises, l'originale est en bleu, 
+  et la version aprÃ¨s l'effet miroir de 
+  coordonnÃ©es est en rouge.
 
 @Image flipcoordinatesy.png
   
@@ -1314,46 +1314,46 @@
 @Function Resultat.d = ConvertCoordinateX(X.d, Y.d [, Source, Cible])
 
 @Description
-  Convertit un point d'un système de 
-  coordonnées dans un autre.
+  Convertit un point d'un systÃ¨me de 
+  coordonnÃ©es dans un autre.
 
 @Parameter "X.d, Y.d"
-  Les coordonnées du point à convertir.
+  Les coordonnÃ©es du point Ã  convertir.
 
 @OptionalParameter "Source, Cible"
-  Indique les systèmes de coordonnées 
-  source et cible à utiliser. @LineBreak
-  Chacun d'eux peut être l'une des valeurs 
+  Indique les systÃ¨mes de coordonnÃ©es 
+  source et cible Ã  utiliser. @LineBreak
+  Chacun d'eux peut Ãªtre l'une des valeurs 
   suivantes:  
 @FixedFont
-  @#PB_Coordinate_Device: Le système de coordonnées du dispositif de sortie
-  @#PB_Coordinate_Output: Le système de coordonnées comme il a été créé avec la fonction de sortie de dessin
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin 
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_Device: Le systÃ¨me de coordonnÃ©es du dispositif de sortie
+  @#PB_Coordinate_Output: Le systÃ¨me de coordonnÃ©es comme il a Ã©tÃ© crÃ©Ã© avec la fonction de sortie de dessin
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin 
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont 
-  La conversion par défaut va de 
+  La conversion par dÃ©faut va de 
   @#PB_Coordinate_User vers 
   @#PB_Coordinate_Output.
 
 @ReturnValue
-  Renvoie la coordonnée X du point 
-  dans le système de coordonnées 
+  Renvoie la coordonnÃ©e X du point 
+  dans le systÃ¨me de coordonnÃ©es 
   cible.
 
 @Remarks
-  La coordonnée Y peut être récupérée 
+  La coordonnÃ©e Y peut Ãªtre rÃ©cupÃ©rÃ©e 
   avec la fonction @@ConvertCoordinateY. 
 @LineBreak
 @LineBreak
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
   
 @Example 
 @Code
-  ; Cet exemple dessine un point à l'emplacement de la souris, même dans un système de coordonnées modifiées
-  ; en utilisant les coordonnées du dispositif (pixels) en coordonnées de l'utilisateur (point)
+  ; Cet exemple dessine un point Ã  l'emplacement de la souris, mÃªme dans un systÃ¨me de coordonnÃ©es modifiÃ©es
+  ; en utilisant les coordonnÃ©es du dispositif (pixels) en coordonnÃ©es de l'utilisateur (point)
   ;
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)   
@@ -1398,44 +1398,44 @@
 @Function Resultat.d = ConvertCoordinateY(X.d, Y.d [, Source, Cible])
 
 @Description
-  Convertit un point d'un système de 
-  coordonnées dans un autre.
+  Convertit un point d'un systÃ¨me de 
+  coordonnÃ©es dans un autre.
 
 @Parameter "X.d, Y.d"
-  Les coordonnées du point à convertir.
+  Les coordonnÃ©es du point Ã  convertir.
 
 @OptionalParameter "Source, Cible"
-  Indique les systèmes de coordonnées source 
-  et cible à utiliser. @LineBreak
-  Chacun d'eux peut être l'une des valeurs 
+  Indique les systÃ¨mes de coordonnÃ©es source 
+  et cible Ã  utiliser. @LineBreak
+  Chacun d'eux peut Ãªtre l'une des valeurs 
   suivantes:  
 @FixedFont
-  @#PB_Coordinate_Device: Le système de coordonnées du dispositif de sortie
-  @#PB_Coordinate_Output: Le système de coordonnées comme il a été créé avec la fonction de sortie de dessin
-  @#PB_Coordinate_User  : Change le système de coordonnées des points du chemin de dessin 
-  @#PB_Coordinate_Source: Change le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_Device: Le systÃ¨me de coordonnÃ©es du dispositif de sortie
+  @#PB_Coordinate_Output: Le systÃ¨me de coordonnÃ©es comme il a Ã©tÃ© crÃ©Ã© avec la fonction de sortie de dessin
+  @#PB_Coordinate_User  : Change le systÃ¨me de coordonnÃ©es des points du chemin de dessin 
+  @#PB_Coordinate_Source: Change le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont 
-  La conversion par défaut va de @#PB_Coordinate_User
+  La conversion par dÃ©faut va de @#PB_Coordinate_User
   vers @#PB_Coordinate_Output.
 
 @ReturnValue
-  Renvoie la coordonnée Y du point 
-  dans le système de coordonnées cible.
+  Renvoie la coordonnÃ©e Y du point 
+  dans le systÃ¨me de coordonnÃ©es cible.
 
 @Remarks
-  La coordonnée X peut être récupérée avec 
+  La coordonnÃ©e X peut Ãªtre rÃ©cupÃ©rÃ©e avec 
   la fonction @@ConvertCoordinateX.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
   
 @Example 
 @Code
-  ; Cet exemple dessine un point à l'emplacement de la souris, même dans un système de coordonnées modifiées
-  ; en utilisant les coordonnées du dispositif (pixels) en coordonnées de l'utilisateur (point)
+  ; Cet exemple dessine un point Ã  l'emplacement de la souris, mÃªme dans un systÃ¨me de coordonnÃ©es modifiÃ©es
+  ; en utilisant les coordonnÃ©es du dispositif (pixels) en coordonnÃ©es de l'utilisateur (point)
   ;
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)   
@@ -1480,15 +1480,15 @@
 @Function ResetPath()
 
 @Description
-  Remet à zéro le chemin de dessin vectoriel
+  Remet Ã  zÃ©ro le chemin de dessin vectoriel
   
 @NoParameters
 
 @NoReturnValue
 
 @Remarks
-  Le chemin est vide et le curseur se déplace 
-  à la position (0,0).
+  Le chemin est vide et le curseur se dÃ©place 
+  Ã  la position (0,0).
 
 @SeeAlso
   @@IsPathEmpty
@@ -1502,19 +1502,19 @@
 @Description
   Ferme la figure courante dans le chemin 
   de dessin vectoriel en ajoutant une ligne 
-  droite vers le point de départ de la figure.
+  droite vers le point de dÃ©part de la figure.
 
 @NoParameters
 
 @NoReturnValue
 
 @Remarks
-  Le point de départ est l'emplacement du 
-  dernier appel à @@MovePathCursor.
+  Le point de dÃ©part est l'emplacement du 
+  dernier appel Ã  @@MovePathCursor.
 @LineBreak
 @LineBreak
   Lorsqu'un chemin est @Link "FillPath" "rempli", 
-  seules les figures fermées sont prise en compte.
+  seules les figures fermÃ©es sont prise en compte.
 
 @Example 
 
@@ -1524,7 +1524,7 @@
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
-      ; Crée un chemin avec deux triangles fermés
+      ; CrÃ©e un chemin avec deux triangles fermÃ©s
       MovePathCursor(20, 160)
       AddPathLine(100, 20)
       AddPathLine(180, 160)
@@ -1562,7 +1562,7 @@
 @Function MovePathCursor(X.d, Y.d [, Options])
 
 @Description
-  Déplace le curseur du chemin de dessin 
+  DÃ©place le curseur du chemin de dessin 
   vectoriel vers un nouvel emplacement. 
 
 @Parameter "X.d, Y.d"
@@ -1572,18 +1572,18 @@
 @OptionalParameter "Options"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Position absolue (par défaut)
-  @#PB_Path_Relative: Position relative à la dernière position.
+  @#PB_Path_Default : Position absolue (par dÃ©faut)
+  @#PB_Path_Relative: Position relative Ã  la derniÃ¨re position.
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  En plus du déplacement du curseur, cette 
+  En plus du dÃ©placement du curseur, cette 
   fonction commence aussi une nouvelle 
   figure dans le chemin, ce qui signifie 
-  qu'un appel à @@closePath va dessiner
-  une ligne en arrière à cet endroit.
+  qu'un appel Ã  @@closePath va dessiner
+  une ligne en arriÃ¨re Ã  cet endroit.
 
 @Example 
 @Code
@@ -1626,11 +1626,11 @@
 @Description
   Ajoute une ligne droite sur le chemin 
   de dessin vectoriel, de la position 
-  actuelle du curseur aux coordonnées 
-  données.  
+  actuelle du curseur aux coordonnÃ©es 
+  donnÃ©es.  
 
 @Parameter "X.d, Y.d"
-  La position de l'extrémité de la ligne.
+  La position de l'extrÃ©mitÃ© de la ligne.
 @LineBreak
 @LineBreak
   Devient la nouvelle position du curseur.
@@ -1638,8 +1638,8 @@
 @OptionalParameter "Options"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Position absolue (par défaut)
-  @#PB_Path_Relative: Position relative à la dernière position.
+  @#PB_Path_Default : Position absolue (par dÃ©faut)
+  @#PB_Path_Relative: Position relative Ã  la derniÃ¨re position.
 @EndFixedFont  
 
 @NoReturnValue
@@ -1703,15 +1703,15 @@
 @OptionalParameter "Options"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Position absolue (par défaut)
-  @#PB_Path_Relative: Position relative à la dernière position.
+  @#PB_Path_Default : Position absolue (par dÃ©faut)
+  @#PB_Path_Relative: Position relative Ã  la derniÃ¨re position.
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  Cette fonction peut être utilisée pour 
-  créer des chemins avec des coins arrondis.
+  Cette fonction peut Ãªtre utilisÃ©e pour 
+  crÃ©er des chemins avec des coins arrondis.
 @LineBreak
 @LineBreak
   La nouvelle position du curseur sera le point 
@@ -1719,12 +1719,12 @@
 @LineBreak
 @LineBreak
   L'image suivante illustre la signification
-  des droites et des deux points de référence. 
+  des droites et des deux points de rÃ©fÃ©rence. 
   @LineBreak 
-  Notez qu'il n'y a pas de deuxième ligne droite 
-  ajoutée en direction du point (X2, Y2).@LineBreak
+  Notez qu'il n'y a pas de deuxiÃ¨me ligne droite 
+  ajoutÃ©e en direction du point (X2, Y2).@LineBreak
   Cela permet d'utiliser @@AddPathArc de nouveau 
-  pour ajouter un coin arrondi à la position 
+  pour ajouter un coin arrondi Ã  la position 
   (X2, Y2).
   
 ; === Code to produce the below image (don't show this in the manual) ===
@@ -1807,7 +1807,7 @@
 @Function AddPathCurve(X1.d, Y1.d, X2.d, Y2.d, X3.d, Y3.d [, Options])
 
 @Description
-  Ajoute une courbe de Bézier cubique 
+  Ajoute une courbe de BÃ©zier cubique 
   au chemin de dessin vectoriel. 
 
 @Parameter "X1.d, Y1.d"
@@ -1826,27 +1826,27 @@
 @OptionalParameter "Options"
   Peut prendre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Position absolue (par défaut)
-  @#PB_Path_Relative: Position relative à la dernière position.
+  @#PB_Path_Default : Position absolue (par dÃ©faut)
+  @#PB_Path_Relative: Position relative Ã  la derniÃ¨re position.
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
-  La courbe commence à la position courante 
-  du chemin  et se termine à (X3, Y3). 
-  Les deux autres points déterminent la 
+  La courbe commence Ã  la position courante 
+  du chemin  et se termine Ã  (X3, Y3). 
+  Les deux autres points dÃ©terminent la 
   forme de la courbe.
 @LineBreak
 @LineBreak
   L'image ci-dessous montre la 
-  position des points de référence. 
+  position des points de rÃ©fÃ©rence. 
 @LineBreak
 @LineBreak  
   Pour plus d'informations sur les 
-  courbes de Bézier, voir 
-  @InternetLink "https://fr.wikipedia.org/wiki/Courbe_de_B%C3%A9zier" "ici en français",
-  @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "là en anglais" 
+  courbes de BÃ©zier, voir 
+  @InternetLink "https://fr.wikipedia.org/wiki/Courbe_de_B%C3%A9zier" "ici en franÃ§ais",
+  @InternetLink "http://en.wikipedia.org/wiki/B%C3%A9zier_curve" "lÃ  en anglais" 
 
   
 ;=== Code to produce this image (do not show this in the docs)
@@ -1924,41 +1924,41 @@
 @Function AddPathBox(X.d, Y.d, Largeur.d, Hauteur.d [, Options])
 
 @Description
-  Ajoute un rectangle (box ou boîte) dans 
+  Ajoute un rectangle (box ou boÃ®te) dans 
   le chemin du dessin vectoriel. 
 
 @Parameter "X.d, Y.d"
-  Origine de la boîte.
+  Origine de la boÃ®te.
 
 @Parameter "Largeur.d, Hauteur.d"
-  Largeur et hauteur de la boîte.
+  Largeur et hauteur de la boÃ®te.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs 
+  Peut Ãªtre une combinaison des valeurs 
   suivantes:
 @FixedFont
-  @#PB_Path_Default  : Pas de comportement spécial (Par défaut)
-  @#PB_Path_Relative : Les positions sont relatives à la dernière position du curseur.
-  @#PB_Path_Connected: La boîte est reliée au chemin existant avec une ligne et non pas automatiquement à une figure fermée.
+  @#PB_Path_Default  : Pas de comportement spÃ©cial (Par dÃ©faut)
+  @#PB_Path_Relative : Les positions sont relatives Ã  la derniÃ¨re position du curseur.
+  @#PB_Path_Connected: La boÃ®te est reliÃ©e au chemin existant avec une ligne et non pas automatiquement Ã  une figure fermÃ©e.
 @EndFixedFont  
 
 @NoReturnValue
 
 @Remarks
   C'est une fonction pratique qui combine 
-  les appels nécessaires à @@AddPathLine pour 
-  créer une forme de type simple boîte (box).
+  les appels nÃ©cessaires Ã  @@AddPathLine pour 
+  crÃ©er une forme de type simple boÃ®te (box).
 @LineBreak
 @LineBreak  
-  Par défaut, cette fonction achève la figure 
-  en cours dans le chemin et ajoute la boîte 
-  en tant que figure fermée et non connectée 
-  au chemin (à savoir qu'une boîte peut être 
+  Par dÃ©faut, cette fonction achÃ¨ve la figure 
+  en cours dans le chemin et ajoute la boÃ®te 
+  en tant que figure fermÃ©e et non connectÃ©e 
+  au chemin (Ã  savoir qu'une boÃ®te peut Ãªtre 
   remplie).
 @LineBreak
 @LineBreak   
-  Ce comportement peut être modifié avec les 
-  options appropriées.
+  Ce comportement peut Ãªtre modifiÃ© avec les 
+  options appropriÃ©es.
 
 @Example 
 @Code
@@ -2005,22 +2005,22 @@
   Rayon du cercle.
 
 @OptionalParameter "AngleDebut.d, AngleFin.d"
-  Angle de début et de fin du cercle 
-  (du secteur), en degrés.
+  Angle de dÃ©but et de fin du cercle 
+  (du secteur), en degrÃ©s.
 @LineBreak
 @LineBreak
   L'angle 0 indique l'axe X positif. 
   @LineBreak
-  Les valeurs par défaut vont de 0 à 
-  360 degrés.
+  Les valeurs par dÃ©faut vont de 0 Ã  
+  360 degrÃ©s.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default         : Pas de comportement spécial (Par défaut)
-  @#PB_Path_Relative        : Les positions sont relatives à la dernière position du curseur.
-  @#PB_Path_Connected       : Le cercle est relié au chemin existant avec une ligne et non pas automatiquement à une figure fermée.
-  @#PB_Path_CounterClockwise: La direction de dessin entre les angles de début et de fin est dans le sens antihoraire.
+  @#PB_Path_Default         : Pas de comportement spÃ©cial (Par dÃ©faut)
+  @#PB_Path_Relative        : Les positions sont relatives Ã  la derniÃ¨re position du curseur.
+  @#PB_Path_Connected       : Le cercle est reliÃ© au chemin existant avec une ligne et non pas automatiquement Ã  une figure fermÃ©e.
+  @#PB_Path_CounterClockwise: La direction de dessin entre les angles de dÃ©but et de fin est dans le sens antihoraire.
 @EndFixedFont 
 
 @NoReturnValue
@@ -2031,18 +2031,18 @@
   Pour dessiner des figures avec des coins 
   arrondis, utiliser la fonction @@AddPathArc, 
   qui calcule automatiquement les angles 
-  appropriés et le point central afin de 
+  appropriÃ©s et le point central afin de 
   dessiner les coins arrondis.
 @LineBreak
 @LineBreak   
-  Par défaut, cette fonction achève la figure 
+  Par dÃ©faut, cette fonction achÃ¨ve la figure 
   en cours dans le chemin et ajoute le cercle 
-  non connecté au chemin (les cercles complets 
-  sont marqués comme fermé).
+  non connectÃ© au chemin (les cercles complets 
+  sont marquÃ©s comme fermÃ©).
 @LineBreak
 @LineBreak   
-  Ce comportement peut être modifié avec les 
-  options appropriées.
+  Ce comportement peut Ãªtre modifiÃ© avec les 
+  options appropriÃ©es.
   
 @Example 
 @Code
@@ -2097,44 +2097,44 @@
   X et Y.
 
 @OptionalParameter "AngleDebut.d, AngleFin.d"
-  Angle de début et de fin de l'ellipse 
-  (secteur d'ellipse), en degrés.
+  Angle de dÃ©but et de fin de l'ellipse 
+  (secteur d'ellipse), en degrÃ©s.
 @LineBreak
 @LineBreak
   L'angle 0 indique l'axe X positif. @LineBreak
-  Les valeurs par défaut vont de 0 à 360 degrés.
+  Les valeurs par dÃ©faut vont de 0 Ã  360 degrÃ©s.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs 
+  Peut Ãªtre une combinaison des valeurs 
   suivantes:
 @FixedFont
-  @#PB_Path_Default         : Pas de comportement spécial (Par défaut)
-  @#PB_Path_Relative        : Les positions sont relatives à la dernière position du curseur.
-  @#PB_Path_Connected       : L'ellipse est reliée au chemin existant avec une ligne et non pas automatiquement à une figure fermée.
-  @#PB_Path_CounterClockwise: La direction de dessin entre les angles de début et de fin est dans le sens antihoraire.
+  @#PB_Path_Default         : Pas de comportement spÃ©cial (Par dÃ©faut)
+  @#PB_Path_Relative        : Les positions sont relatives Ã  la derniÃ¨re position du curseur.
+  @#PB_Path_Connected       : L'ellipse est reliÃ©e au chemin existant avec une ligne et non pas automatiquement Ã  une figure fermÃ©e.
+  @#PB_Path_CounterClockwise: La direction de dessin entre les angles de dÃ©but et de fin est dans le sens antihoraire.
 @EndFixedFont 
 
 @NoReturnValue
 
 @Remarks
   Pour dessiner une ellipse suivant un angle, 
-  faire pivoter le système de coordonnées 
+  faire pivoter le systÃ¨me de coordonnÃ©es 
   autour du centre de l'ellipse avant 
   d'ajouter l'ellipse comme le montre 
-  l'exemple ci-dessous. Le système de 
-  coordonnées courant peut être préservé 
+  l'exemple ci-dessous. Le systÃ¨me de 
+  coordonnÃ©es courant peut Ãªtre prÃ©servÃ© 
   en utilisant @@SaveVectorState et 
   @@RestoreVectorState.
 @LineBreak
 @LineBreak   
-  Par défaut, cette fonction achève la figure 
+  Par dÃ©faut, cette fonction achÃ¨ve la figure 
   en cours dans le chemin et ajoute l'ellipse 
-  non connectée au chemin (les ellipses pleines 
-  sont marquées comme fermées).
+  non connectÃ©e au chemin (les ellipses pleines 
+  sont marquÃ©es comme fermÃ©es).
 @LineBreak
 @LineBreak   
-  Ce comportement peut être modifié avec les 
-  options appropriées.
+  Ce comportement peut Ãªtre modifiÃ© avec les 
+  options appropriÃ©es.
 
 @Example 
 @Code
@@ -2178,41 +2178,41 @@
 @Function AddPathText(Texte$)
 
 @Description
-  Ajoute le contour des caractères du 
-  texte donné à la position actuelle 
+  Ajoute le contour des caractÃ¨res du 
+  texte donnÃ© Ã  la position actuelle 
   du curseur dans le chemin du dessin
   vectoriel. 
   
 @Parameter "Texte$"
-   Le texte (une seule ligne) à ajouter 
+   Le texte (une seule ligne) Ã  ajouter 
    au chemin du dessin.
 
 @NoReturnValue
 
 @Remarks
-  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
-  donc pas autorisées.
+  Seules les polices vectorielles sont autorisÃ©es, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisÃ©es.
 @LineBreak
 @LineBreak 
-  La position courante peut être réglée avec @@MovePathCursor. 
+  La position courante peut Ãªtre rÃ©glÃ©e avec @@MovePathCursor. 
 @LineBreak
 @LineBreak
-  Après l'appel à cette fonction, le curseur est déplacé à la fin du texte.
+  AprÃ¨s l'appel Ã  cette fonction, le curseur est dÃ©placÃ© Ã  la fin du texte.
 @LineBreak
 @LineBreak  
-  La fonction @@DrawVectorText devrait être 
-  préférée. En effet, la conversion de texte 
-  en un chemin est une opération coûteuse 
-  et peut entraîner une perte de qualité du texte 
-  et le contour du texte peut même être légèrement 
-  différent (selon la police) par rapport à un 
-  dessin de texte directement dessiné sur la sortie 
+  La fonction @@DrawVectorText devrait Ãªtre 
+  prÃ©fÃ©rÃ©e. En effet, la conversion de texte 
+  en un chemin est une opÃ©ration coÃ»teuse 
+  et peut entraÃ®ner une perte de qualitÃ© du texte 
+  et le contour du texte peut mÃªme Ãªtre lÃ©gÃ¨rement 
+  diffÃ©rent (selon la police) par rapport Ã  un 
+  dessin de texte directement dessinÃ© sur la sortie 
   avec @@DrawVectorText. 
   La fonction @@DrawVectorText est plus efficace et 
-  peut faire usage de méthode de calcul, tel que le 
-  rendu sous-pixel. Par conséquent, la fonction 
-  @@AddPathText ne doit être utilisée que si le texte 
-  est explicitement nécessaire comme un chemin et non 
+  peut faire usage de mÃ©thode de calcul, tel que le 
+  rendu sous-pixel. Par consÃ©quent, la fonction 
+  @@AddPathText ne doit Ãªtre utilisÃ©e que si le texte 
+  est explicitement nÃ©cessaire comme un chemin et non 
   pas pour dessiner un simple texte.
   
 @Example  
@@ -2252,20 +2252,20 @@
 @Function AddPathSegments(Segments$ [, Options])
 
 @Description
-  Ajoute des segments décrits sous forme de chaîne dans le chemin du dessin vectoriel. @LineBreak
-  Cette commande peut être utilisé pour reproduire les commandes de chemin enregistrées 
+  Ajoute des segments dÃ©crits sous forme de chaÃ®ne dans le chemin du dessin vectoriel. @LineBreak
+  Cette commande peut Ãªtre utilisÃ© pour reproduire les commandes de chemin enregistrÃ©es 
   avec la commande @@PathSegments.
 
 @Parameter "Segments$"
-  Indique les commandes à exécuter.
+  Indique les commandes Ã  exÃ©cuter.
 @LineBreak
 @LineBreak
-  La description du segment se compose de commandes à une lettre suivie par 
-  un nombre approprié de coordonnées. Les valeurs peuvent être séparés par 
-  des espaces ou des virgules. Les commandes en majuscules interprètent 
-  leurs arguments comme des coordonnées absolues, les commandes équivalentes 
-  en minuscules interprètent ses arguments comme relatif au dernier segment
-  ajouté.
+  La description du segment se compose de commandes Ã  une lettre suivie par 
+  un nombre appropriÃ© de coordonnÃ©es. Les valeurs peuvent Ãªtre sÃ©parÃ©s par 
+  des espaces ou des virgules. Les commandes en majuscules interprÃ¨tent 
+  leurs arguments comme des coordonnÃ©es absolues, les commandes Ã©quivalentes 
+  en minuscules interprÃ¨tent ses arguments comme relatif au dernier segment
+  ajoutÃ©.
   
 @FixedFont
   Chemin absolu:
@@ -2281,20 +2281,20 @@
   z                    @@ClosePath  
 @EndFixedFont   
 
-  En plus de cette syntaxe simplifiée, la commande accepte également les descriptions 
-  de chemin dans le format défini par le 
+  En plus de cette syntaxe simplifiÃ©e, la commande accepte Ã©galement les descriptions 
+  de chemin dans le format dÃ©fini par le 
   @InternetLink "https://www.w3.org/TR/SVGTiny12/paths.html#PathData" "Standard SVG Tiny" 
-  qui contient quelques lettres de commandes supplémentaires.
+  qui contient quelques lettres de commandes supplÃ©mentaires.
 @LineBreak
 @LineBreak
 
-  Une traduction en français et de nombreuses informations cachées @ReferenceLink "vectorcheminsegments_fr" ">> ici <<"@LineBreak
+  Une traduction en franÃ§ais et de nombreuses informations cachÃ©es @ReferenceLink "vectorcheminsegments_fr" ">> ici <<"@LineBreak
   
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default          : Aucun comportement spécial (par défaut)
-  @#PB_Path_Relative         : Interprète toutes les coordonnées par rapport à la position courante du curseur
+  @#PB_Path_Default          : Aucun comportement spÃ©cial (par dÃ©faut)
+  @#PB_Path_Relative         : InterprÃ¨te toutes les coordonnÃ©es par rapport Ã  la position courante du curseur
 @EndFixedFont 
 
 @NoReturnValue
@@ -2331,56 +2331,56 @@
 @Function Resultat = IsInsidePath(X.d, Y.d [, CoordonneeSysteme])
 
 @Description
-  Teste si les coordonnées données sont 
-  dans une figure fermée dans le chemin 
+  Teste si les coordonnÃ©es donnÃ©es sont 
+  dans une figure fermÃ©e dans le chemin 
   du dessin vectoriel en cours. 
    
 @Parameter "X.d, Y.d"
-  Les coordonnées du point à tester.
+  Les coordonnÃ©es du point Ã  tester.
 
 @OptionalParameter "CoordonneeSysteme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   utiliser. @LineBreak
-  Peut être l'une des valeurs suivantes:  
+  Peut Ãªtre l'une des valeurs suivantes:  
 @FixedFont
-  @#PB_Coordinate_Device: Le système de coordonnées du dispositif de sortie
-  @#PB_Coordinate_Output: Le système de coordonnées comme il a été créé avec la fonction de sortie de dessin
-  @#PB_Coordinate_User  : Le système de coordonnées des points du chemin de dessin (Par défaut)
-  @#PB_Coordinate_Source: Le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_Device: Le systÃ¨me de coordonnÃ©es du dispositif de sortie
+  @#PB_Coordinate_Output: Le systÃ¨me de coordonnÃ©es comme il a Ã©tÃ© crÃ©Ã© avec la fonction de sortie de dessin
+  @#PB_Coordinate_User  : Le systÃ¨me de coordonnÃ©es des points du chemin de dessin (Par dÃ©faut)
+  @#PB_Coordinate_Source: Le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont 
 
 @ReturnValue
   Renvoie une valeur non nulle 
   si le point est dans le chemin, 
-  zéro sinon.
+  zÃ©ro sinon.
   
 @Remarks
   Cette fonction renvoie une valeur non nulle 
-  si le point donné serait comblé par un appel 
-  à @@FillPath.
+  si le point donnÃ© serait comblÃ© par un appel 
+  Ã  @@FillPath.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
   
 @Example 
 @Code 
   ; Cet exemple utilise la fonction IsInsidePath() pour colorer la figure en vert
-  ; tant que la souris est à l'intérieur du chemin, en bleu sinon
+  ; tant que la souris est Ã  l'intÃ©rieur du chemin, en bleu sinon
   ;
   Procedure Draw()    
     x = GetGadgetAttribute(0, #PB_Canvas_MouseX)
     y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
   
     If StartVectorDrawing(CanvasVectorOutput(0))
-      VectorSourceColor(RGBA(255, 255, 255, 255))   ; efface le contenu précédent
+      VectorSourceColor(RGBA(255, 255, 255, 255))   ; efface le contenu prÃ©cÃ©dent
       FillVectorOutput()
       
-      AddPathEllipse(200, 100, 150, 75)             ; prépare le chemin
+      AddPathEllipse(200, 100, 150, 75)             ; prÃ©pare le chemin
       
-      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; vérifie si la souris est à l'intérieur
+      If IsInsidePath(x, y, #PB_Coordinate_Device)  ; vÃ©rifie si la souris est Ã  l'intÃ©rieur
         VectorSourceColor(RGBA(0, 255, 0, 255))
       Else
         VectorSourceColor(RGBA(0, 0, 255, 255))
@@ -2418,50 +2418,50 @@
 @Function Resultat = IsInsideStroke(X.d, Y.d, Largeur.d [, Options [, CoordonneeSysteme]])
 
 @Description
-  Teste si les coordonnées indiquées sont 
-  dans un contour qui sera dessiné par un 
-  appel à @@StrokePath.
+  Teste si les coordonnÃ©es indiquÃ©es sont 
+  dans un contour qui sera dessinÃ© par un 
+  appel Ã  @@StrokePath.
   
 @Parameter "X.d, Y.d"
-  Les coordonnées du point à tester.
+  Les coordonnÃ©es du point Ã  tester.
 
 @Parameter "Largeur.d"
-  La largeur de ligne à utiliser 
+  La largeur de ligne Ã  utiliser 
   pour le test.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des 
+  Peut Ãªtre une combinaison des 
   valeurs suivantes:
 @FixedFont
-   @#PB_Path_Default       : Pas de comportement spécial (Par défaut)
-   @#PB_Path_Preserve      : Ne pas réinitialiser le chemin après cette fonction
-   @#PB_Path_RoundEnd      : Trace la ligne avec des extrémités arrondies
-   @#PB_Path_SquareEnd     : Trace la ligne avec un carré aux extrémités
+   @#PB_Path_Default       : Pas de comportement spÃ©cial (Par dÃ©faut)
+   @#PB_Path_Preserve      : Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
+   @#PB_Path_RoundEnd      : Trace la ligne avec des extrÃ©mitÃ©s arrondies
+   @#PB_Path_SquareEnd     : Trace la ligne avec un carrÃ© aux extrÃ©mitÃ©s
    @#PB_Path_RoundCorner   : Trace la ligne avec des coins arrondis
-   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupés en diagonal
+   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupÃ©s en diagonal
 @EndFixedFont
 
 @OptionalParameter "CoordonneeSysteme"
-  Indique le système de coordonnées à 
+  Indique le systÃ¨me de coordonnÃ©es Ã  
   utiliser. @LineBreak
-  Peut être l'une des valeurs suivantes:  
+  Peut Ãªtre l'une des valeurs suivantes:  
 @FixedFont
-  @#PB_Coordinate_Device: Le système de coordonnées du dispositif de sortie
-  @#PB_Coordinate_Output: Le système de coordonnées comme il a été créé avec la fonction de sortie de dessin
-  @#PB_Coordinate_User  : Le système de coordonnées des points du chemin de dessin (Par défaut)
-  @#PB_Coordinate_Source: Le système de coordonnées de la source du dessin vectoriel
+  @#PB_Coordinate_Device: Le systÃ¨me de coordonnÃ©es du dispositif de sortie
+  @#PB_Coordinate_Output: Le systÃ¨me de coordonnÃ©es comme il a Ã©tÃ© crÃ©Ã© avec la fonction de sortie de dessin
+  @#PB_Coordinate_User  : Le systÃ¨me de coordonnÃ©es des points du chemin de dessin (Par dÃ©faut)
+  @#PB_Coordinate_Source: Le systÃ¨me de coordonnÃ©es de la source du dessin vectoriel
 @EndFixedFont 
 
 @ReturnValue
   Renvoie une valeur non nulle 
   si le point est dans le trait, 
-  zéro sinon.
+  zÃ©ro sinon.
 
 @Remarks
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents 
-  systèmes de coordonnées.
+  pour une introduction aux diffÃ©rents 
+  systÃ¨mes de coordonnÃ©es.
   
 @Example 
 @Code
@@ -2473,12 +2473,12 @@
     y = GetGadgetAttribute(0, #PB_Canvas_MouseY)
   
     If StartVectorDrawing(CanvasVectorOutput(0))
-      VectorSourceColor(RGBA(255, 255, 255, 255))         ; efface le contenu précédent
+      VectorSourceColor(RGBA(255, 255, 255, 255))         ; efface le contenu prÃ©cÃ©dent
       FillVectorOutput()
       
-      AddPathEllipse(200, 100, 150, 75)                   ; prépare le chemin
+      AddPathEllipse(200, 100, 150, 75)                   ; prÃ©pare le chemin
       
-      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; vérifie si la souris est à l'intérieur
+      If IsInsideStroke(x, y, 20, #PB_Path_Default, #PB_Coordinate_Device)  ; vÃ©rifie si la souris est Ã  l'intÃ©rieur
         VectorSourceColor(RGBA(0, 255, 0, 255))
       Else
         VectorSourceColor(RGBA(0, 0, 255, 255))
@@ -2524,7 +2524,7 @@
 
 @ReturnValue
   Renvoie une valeur non nulle si le 
-  chemin est vide, zéro sinon (le chemin 
+  chemin est vide, zÃ©ro sinon (le chemin 
   contient des segments de ligne.)
 
 @SeeAlso
@@ -2538,41 +2538,41 @@
 @Function StrokePath(Largeur.d [, Options])
 
 @Description
-  Détour le chemin de dessin courant avec la 
+  DÃ©tour le chemin de dessin courant avec la 
   source de dessin en cours. 
   Ceci dessine le chemin sous la forme d'une 
-  ligne pleine (non pointillée).
+  ligne pleine (non pointillÃ©e).
 
 @Parameter "Largeur.d"
   Largeur de la ligne.  
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-   @#PB_Path_Default       : Pas de comportement spécial (Par défaut)
-   @#PB_Path_Preserve      : Ne pas réinitialiser le chemin après cette fonction
-   @#PB_Path_RoundEnd      : Trace la ligne avec des extrémités arrondies
-   @#PB_Path_SquareEnd     : Trace la ligne avec un carré aux extrémités
+   @#PB_Path_Default       : Pas de comportement spÃ©cial (Par dÃ©faut)
+   @#PB_Path_Preserve      : Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
+   @#PB_Path_RoundEnd      : Trace la ligne avec des extrÃ©mitÃ©s arrondies
+   @#PB_Path_SquareEnd     : Trace la ligne avec un carrÃ© aux extrÃ©mitÃ©s
    @#PB_Path_RoundCorner   : Trace la ligne avec des coins arrondis
-   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupés en diagonal
+   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupÃ©s en diagonal
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Par défaut, le chemin est réinitialisé 
-  après l'appel à cette fonction. 
-  Ceci peut être évité avec les options 
-  appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© 
+  aprÃ¨s l'appel Ã  cette fonction. 
+  Ceci peut Ãªtre Ã©vitÃ© avec les options 
+  appropriÃ©es.
 @LineBreak
 @LineBreak
    L'image suivante montre l'effet des 
-   différentes options.
+   diffÃ©rentes options.
    Les options de coin et de fin peuvent 
-   être combinées avec l'opérateur binaire 
+   Ãªtre combinÃ©es avec l'opÃ©rateur binaire 
    OR ('|')pour combiner les effets. 
    
-; ==== Code qui génère l'image (ne pas montrer dans l'aide)
+; ==== Code qui gÃ©nÃ¨re l'image (ne pas montrer dans l'aide)
 ;   Procedure Draw(Flags, x, y, Text$)
 ;     VectorSourceColor($FF0000FF)
 ;     StrokePath(30, Flags|#PB_Path_Preserve)      
@@ -2680,27 +2680,27 @@
   Distance entre le centre de chaque point.
 
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-   @#PB_Path_Default     : Pas de comportement spécial (Par défaut)
-   @#PB_Path_Preserve    : Ne pas réinitialiser le chemin après cette fonction
+   @#PB_Path_Default     : Pas de comportement spÃ©cial (Par dÃ©faut)
+   @#PB_Path_Preserve    : Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
    @#PB_Path_RoundEnd    : Trace des points ronds
-   @#PB_Path_SquareEnd   : Trace des points carrés
+   @#PB_Path_SquareEnd   : Trace des points carrÃ©s
 @EndFixedFont
 
 @OptionalParameter "Decalage.d"
-  La distance après laquelle le motif de 
-  points commence à être dessiné.
+  La distance aprÃ¨s laquelle le motif de 
+  points commence Ã  Ãªtre dessinÃ©.
   @LineBreak
   @LineBreak
-  La valeur par défaut est 0.
+  La valeur par dÃ©faut est 0.
 
 @NoReturnValue
 
 @Remarks
-  Par défaut, le chemin est réinitialisé après
-  l'appel à cette fonction. Ceci peut être évité 
-  avec les options appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© aprÃ¨s
+  l'appel Ã  cette fonction. Ceci peut Ãªtre Ã©vitÃ© 
+  avec les options appropriÃ©es.
   
 @Example 
 @Code
@@ -2743,46 +2743,46 @@
 
 @Description
   Dessine le chemin de dessin courant avec 
-  une série de tirets d'égale longueur et 
-  d'égal intervalle.
+  une sÃ©rie de tirets d'Ã©gale longueur et 
+  d'Ã©gal intervalle.
   
 @Parameter "Largeur.d"
   Largeur de la ligne.
   @LineBreak
   @LineBreak
   Cette valeur ne comprend pas la largeur de 
-  l'extrêmité de la ligne dessinée par un rond 
-  ou un carré.
+  l'extrÃªmitÃ© de la ligne dessinÃ©e par un rond 
+  ou un carrÃ©.
 
 @Parameter "Longueur.d"
   Longueur de chaque trait (et l'espace 
   entre les traits).
   
 @OptionalParameter "Options"
-  Peut être une combinaison des 
+  Peut Ãªtre une combinaison des 
   valeurs suivantes:
 @FixedFont
-   @#PB_Path_Default       : Pas de comportement spécial (Par défaut)
-   @#PB_Path_Preserve      : Ne pas réinitialiser le chemin après cette fonction
-   @#PB_Path_RoundEnd      : Trace la ligne avec des extrémités arrondies
-   @#PB_Path_SquareEnd     : Trace la ligne avec un carré aux extrémités
+   @#PB_Path_Default       : Pas de comportement spÃ©cial (Par dÃ©faut)
+   @#PB_Path_Preserve      : Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
+   @#PB_Path_RoundEnd      : Trace la ligne avec des extrÃ©mitÃ©s arrondies
+   @#PB_Path_SquareEnd     : Trace la ligne avec un carrÃ© aux extrÃ©mitÃ©s
    @#PB_Path_RoundCorner   : Trace la ligne avec des coins arrondis
-   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupés en diagonal
+   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupÃ©s en diagonal
 @EndFixedFont
 
 @OptionalParameter "Decalage.d"
-  La distance après laquelle le motif 
-  commence à être dessiné.
+  La distance aprÃ¨s laquelle le motif 
+  commence Ã  Ãªtre dessinÃ©.
   @LineBreak
   @LineBreak
-  La valeur par défaut est 0.
+  La valeur par dÃ©faut est 0.
   
 @NoReturnValue
 
 @Remarks
-  Par défaut, le chemin est réinitialisé après
-  l'appel à cette fonction. Ceci peut être évité 
-  avec les options appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© aprÃ¨s
+  l'appel Ã  cette fonction. Ceci peut Ãªtre Ã©vitÃ© 
+  avec les options appropriÃ©es.
   
 @Example 
 @Code
@@ -2824,7 +2824,7 @@
 
 @Description
   Dessine le chemin de dessin courant 
-  avec un motif personnalisé à base 
+  avec un motif personnalisÃ© Ã  base 
   de trait.
   
 @Parameter "Largeur.d"
@@ -2835,38 +2835,38 @@
   et chaque espace qui le suit. 
 @LineBreak
 @LineBreak
-  Le tableau doit avoir un nombre d'entrées 
+  Le tableau doit avoir un nombre d'entrÃ©es 
   pair. @LineBreak
-  Lorsque l'opération de dessin atteint 
+  Lorsque l'opÃ©ration de dessin atteint 
   la fin de la matrice, le motif se 
-  répète. 
+  rÃ©pÃ¨te. 
   @LineBreak
   Une longueur de 0 dessinera un seul point.
   
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-   @#PB_Path_Default       : Pas de comportement spécial (Par défaut)
-   @#PB_Path_Preserve      : Ne pas réinitialiser le chemin après cette fonction
-   @#PB_Path_RoundEnd      : Trace la ligne avec des extrémités arrondies
-   @#PB_Path_SquareEnd     : Trace la ligne avec un carré aux extrémités
+   @#PB_Path_Default       : Pas de comportement spÃ©cial (Par dÃ©faut)
+   @#PB_Path_Preserve      : Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
+   @#PB_Path_RoundEnd      : Trace la ligne avec des extrÃ©mitÃ©s arrondies
+   @#PB_Path_SquareEnd     : Trace la ligne avec un carrÃ© aux extrÃ©mitÃ©s
    @#PB_Path_RoundCorner   : Trace la ligne avec des coins arrondis
-   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupés en diagonal
+   @#PB_Path_DiagonalCorner: Trace la ligne avec les coins coupÃ©s en diagonal
 @EndFixedFont
 
 @OptionalParameter "Decalage.d"
-  La distance après laquelle le motif  
-  commence à être dessiné.
+  La distance aprÃ¨s laquelle le motif  
+  commence Ã  Ãªtre dessinÃ©.
   @LineBreak
   @LineBreak
-  La valeur par défaut est 0.
+  La valeur par dÃ©faut est 0.
   
 @NoReturnValue
 
 @Remarks
-  Par défaut, le chemin est réinitialisé après
-  l'appel à cette fonction. Ceci peut être évité 
-  avec les options appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© aprÃ¨s
+  l'appel Ã  cette fonction. Ceci peut Ãªtre Ã©vitÃ© 
+  avec les options appropriÃ©es.
   
 @Example 
 @Code
@@ -2917,29 +2917,29 @@
 @Function FillPath([Options])
 
 @Description
-  Remplit toutes les figures fermées dans
+  Remplit toutes les figures fermÃ©es dans
   le chemin du dessin vectoriel courant 
   avec la couleur de la source de dessin.
   
 @OptionalParameter "Options"
-  Peut être une combinaison des valeurs suivantes:
+  Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Pas de comportement spécial (Par défaut)
-  @#PB_Path_Preserve: Ne pas réinitialiser le chemin après cette fonction 
+  @#PB_Path_Default : Pas de comportement spÃ©cial (Par dÃ©faut)
+  @#PB_Path_Preserve: Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction 
   @#PB_Path_Winding : Remplit tout le chemin, y compris les figures qui se chevauchent (pas de mode pair/impair).
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Par défaut, le chemin est réinitialisé 
-  après l'appel à cette fonction. Ceci 
-  peut être évité avec les options appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© 
+  aprÃ¨s l'appel Ã  cette fonction. Ceci 
+  peut Ãªtre Ã©vitÃ© avec les options appropriÃ©es.
 @LineBreak
 @LineBreak
   Si le chemin comporte des figures qui se chevauchent, le remplissage se fait suivant 
-  une séquence pair/impair, sauf si l'option @#PB_Path_Winding est spécifiée. Les surfaces 
-  fermées de rang impair sont remplies, alors que les surfaces fermées de rang pair 
+  une sÃ©quence pair/impair, sauf si l'option @#PB_Path_Winding est spÃ©cifiÃ©e. Les surfaces 
+  fermÃ©es de rang impair sont remplies, alors que les surfaces fermÃ©es de rang pair 
   ne le sont pas. 
 
 @Example 
@@ -2976,45 +2976,34 @@
 @Function ClipPath([Options])
 
 @Description
-  Clip du chemin de dessin vectoriel 
-  en cours.
+  Clip du chemin de dessin vectoriel en cours.
 
 @OptionalParameter "Options"
-  Peut être l'une des valeurs suivantes:
+  Peut Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Path_Default : Pas de comportement spécial (Par défaut)
-  @#PB_Path_Preserve: Ne pas réinitialiser le chemin après cette fonction
+  @#PB_Path_Default : Pas de comportement spÃ©cial (Par dÃ©faut)
+  @#PB_Path_Preserve: Ne pas rÃ©initialiser le chemin aprÃ¨s cette fonction
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Les futures opérations de dessin ne 
-  toucheront que les zones clippées 
-  dans le chemin courant. La zone sera 
-  combinée avec tout clipping qui existait 
-  auparavant.
+  Les futures opÃ©rations de dessin ne toucheront que les zones clippÃ©es dans le chemin courant. La zone sera 
+  combinÃ©e avec tout clipping qui existait auparavant.
 @LineBreak
 @LineBreak
-  Par défaut, le chemin est réinitialisé 
-  après l'appel à cette fonction. Ceci 
-  peut être évité avec les options 
-  appropriées.
+  Par dÃ©faut, le chemin est rÃ©initialisÃ© aprÃ¨s l'appel Ã  cette fonction. Ceci peut Ãªtre Ã©vitÃ© avec les options 
+  appropriÃ©es.
 @LineBreak
 @LineBreak
-  Il n'y a pas de fonction "UnclipPath()". 
-  La zone de découpage de la sortie de 
-  dessin peut être réduite en ajoutant 
-  plus de clipping, mais ne peut pas
-  être agrandie. Cependant, la zone 
-  découpée peut être sauvegardée et 
-  restaurée en utilisant les fonctions 
-  @@SaveVectorState et @@RestoreVectorState 
-  respectivement. Ainsi, pour appliquer 
-  une découpe temporaire, il suffit 
-  d'enregistrer l'état du dessin puis 
-  de le restaurer plus tard pour revenir 
-  à la découpe originale.
+  Il n'y a pas de fonction "UnclipPath()". La zone de dÃ©coupage de la sortie de dessin peut Ãªtre rÃ©duite en ajoutant 
+  plus de clipping, mais ne peut pas Ãªtre agrandie. Cependant, la zone dÃ©coupÃ©e peut Ãªtre sauvegardÃ©e et restaurÃ©e 
+  en utilisant les fonctions @@SaveVectorState et @@RestoreVectorState respectivement. Ainsi, pour appliquer 
+  une dÃ©coupe temporaire, il suffit d'enregistrer l'Ã©tat du dessin puis de le restaurer plus tard pour revenir 
+  Ã  la dÃ©coupe originale.
+@LineBreak
+@LineBreak
+  Sous Windows, Le rÃ©sultat obtenu sera pixelisÃ© sur les bordures, sans antialiasing, ce qui est une limitation de GDI+.
   
 @Example 
 @Code
@@ -3024,15 +3013,15 @@
 
     If StartVectorDrawing(CanvasVectorOutput(0))
     
-      ; Mise en place d'un chemin de découpe complexe avec des ellipses imbriquées 
-      ;(chaque seconde ellipse sera tronquée)
+      ; Mise en place d'un chemin de dÃ©coupe complexe avec des ellipses imbriquÃ©es 
+      ;(chaque seconde ellipse sera tronquÃ©e)
    
       For i = 10 To 150 Step 5
         AddPathEllipse(200, 100, 2*i, i)
       Next i
       ClipPath()
     
-      ; Dessin d'un texte avec cet écrêtage
+      ; Dessin d'un texte avec cet Ã©crÃªtage
       VectorFont(FontID(0), 150)      
       VectorSourceColor(RGBA(255, 0, 0, 255))
       
@@ -3059,18 +3048,18 @@
 @Function Resultat.d = PathCursorX()
 
 @Description
-  Renvoie la coordonnée X du curseur. 
+  Renvoie la coordonnÃ©e X du curseur. 
   
 @NoParameters
 
 @ReturnValue
-  La coordonnée X du curseur dans le 
+  La coordonnÃ©e X du curseur dans le 
   chemin.
 
 @Remarks
-  Ceci est l'endroit où de nouveaux 
-  segments de chemin seront ajoutés 
-  ou du texte sera dessiné.
+  Ceci est l'endroit oÃ¹ de nouveaux 
+  segments de chemin seront ajoutÃ©s 
+  ou du texte sera dessinÃ©.
 
 @SeeAlso
   @@PathCursorY, @@MovePathCursor, 
@@ -3083,18 +3072,18 @@
 @Function Resultat.d = PathCursorY()
 
 @Description
-  Renvoie la coordonnée Y du curseur. 
+  Renvoie la coordonnÃ©e Y du curseur. 
   
 @NoParameters
 
 @ReturnValue
-  La coordonnée Y du curseur dans le 
+  La coordonnÃ©e Y du curseur dans le 
   chemin.
 
 @Remarks
-  Ceci est l'endroit où de nouveaux 
-  segments de chemin seront ajoutés 
-  ou du texte sera dessiné.
+  Ceci est l'endroit oÃ¹ de nouveaux 
+  segments de chemin seront ajoutÃ©s 
+  ou du texte sera dessinÃ©.
 
 @SeeAlso
   @@PathCursorX, @@MovePathCursor, 
@@ -3107,19 +3096,19 @@
 @Function Resultat.d = PathPointX(Distance.d)
 
 @Description
- Renvoie la coordonnée X du point à la distance donnée depuis 
- le début du chemin du dessin vectoriel en cours.
+ Renvoie la coordonnÃ©e X du point Ã  la distance donnÃ©e depuis 
+ le dÃ©but du chemin du dessin vectoriel en cours.
 
 @Parameter "Distance.d"
-  La distance depuis le début du chemin. 
+  La distance depuis le dÃ©but du chemin. 
   @LineBreak
   @LineBreak
-  Si ce paramètre est négatif ou plus grand que la longueur totale du chemin, 
-  le point de départ/d'arrivé du chemin est renvoyé.@LineBreak
-  La longueur totale du chemin peut être déterminée avec @@PathLength.
+  Si ce paramÃ¨tre est nÃ©gatif ou plus grand que la longueur totale du chemin, 
+  le point de dÃ©part/d'arrivÃ© du chemin est renvoyÃ©.@LineBreak
+  La longueur totale du chemin peut Ãªtre dÃ©terminÃ©e avec @@PathLength.
 
 @ReturnValue
-  La coordonnée X du point de la trajectoire.
+  La coordonnÃ©e X du point de la trajectoire.
 
 @Example
 
@@ -3172,19 +3161,19 @@
 @Function Resultat.d = PathPointY(Distance.d)
 
 @Description
- Renvoie la coordonnée Y du point à la distance donnée depuis 
- le début du chemin du dessin vectoriel en cours.
+ Renvoie la coordonnÃ©e Y du point Ã  la distance donnÃ©e depuis 
+ le dÃ©but du chemin du dessin vectoriel en cours.
 
 @Parameter "Distance.d"
-  La distance depuis le début du chemin. 
+  La distance depuis le dÃ©but du chemin. 
   @LineBreak
   @LineBreak
-  Si ce paramètre est négatif ou plus grand que la longueur totale du chemin, 
-  le point de départ/d'arrivé du chemin est renvoyé.@LineBreak
-  La longueur totale du chemin peut être déterminée avec @@PathLength.
+  Si ce paramÃ¨tre est nÃ©gatif ou plus grand que la longueur totale du chemin, 
+  le point de dÃ©part/d'arrivÃ© du chemin est renvoyÃ©.@LineBreak
+  La longueur totale du chemin peut Ãªtre dÃ©terminÃ©e avec @@PathLength.
 
 @ReturnValue
-  La coordonnée Y du point de la trajectoire.
+  La coordonnÃ©e Y du point de la trajectoire.
 
 @Example
 
@@ -3237,19 +3226,19 @@
 @Function Resultat.d = PathPointAngle(Distance.d)
 
 @Description
- Renvoie l'angle du chemin au point à la distance donnée depuis 
- le début du chemin du dessin vectoriel en cours.
+ Renvoie l'angle du chemin au point Ã  la distance donnÃ©e depuis 
+ le dÃ©but du chemin du dessin vectoriel en cours.
 
 @Parameter "Distance.d"
-  La distance depuis le début du chemin. 
+  La distance depuis le dÃ©but du chemin. 
   @LineBreak
   @LineBreak
-  Si ce paramètre est négatif ou plus grand que la longueur totale du chemin, 
-  le point de départ/d'arrivé du chemin est renvoyé.@LineBreak
-  La longueur totale du chemin peut être déterminée avec @@PathLength.
+  Si ce paramÃ¨tre est nÃ©gatif ou plus grand que la longueur totale du chemin, 
+  le point de dÃ©part/d'arrivÃ© du chemin est renvoyÃ©.@LineBreak
+  La longueur totale du chemin peut Ãªtre dÃ©terminÃ©e avec @@PathLength.
 
 @ReturnValue
-  L'angle de la trajectoire au point donné en degrés.@LineBreak
+  L'angle de la trajectoire au point donnÃ© en degrÃ©s.@LineBreak
   L'angle 0 marque l'axe des X positifs.
 
 @Example
@@ -3347,16 +3336,16 @@
 @Function Resultat.d = PathBoundsX()
 
 @Description
-  Renvoie la coordonnée X (du coin en haut et gauche) de la zone de délimitation du 
+  Renvoie la coordonnÃ©e X (du coin en haut et gauche) de la zone de dÃ©limitation du 
   chemin de dessin vectoriel en cours. 
 
 @NoParameters
 
 @ReturnValue
-  La coordonnée X de la zone de délimitation.
+  La coordonnÃ©e X de la zone de dÃ©limitation.
 
 @Remarks
-  Le résultat est la coordonnée X la plus petite du chemin en cours.
+  Le rÃ©sultat est la coordonnÃ©e X la plus petite du chemin en cours.
   
 @Example
 @Code
@@ -3369,7 +3358,7 @@
       MovePathCursor(150, 125)
       AddPathCurve(0, 270, 0, -150, 350, 180)
       
-      ; coordonnées et dimensions de la zone de délimitation du chemin
+      ; coordonnÃ©es et dimensions de la zone de dÃ©limitation du chemin
       x = PathBoundsX()
       y = PathBoundsY()
       w = PathBoundsWidth()
@@ -3379,7 +3368,7 @@
       VectorSourceColor($FF0000FF)
       StrokePath(5)
       
-      ; dessin de la zone de délimitation du chemin
+      ; dessin de la zone de dÃ©limitation du chemin
       AddPathBox(x, y, w, h)
       VectorSourceColor($FF000000)
       DashPath(2, 5)
@@ -3405,16 +3394,16 @@
 @Function Resultat.d = PathBoundsY()
 
 @Description
-  Renvoie la coordonnée Y (du coin en haut et gauche) de la zone de délimitation du 
+  Renvoie la coordonnÃ©e Y (du coin en haut et gauche) de la zone de dÃ©limitation du 
   chemin de dessin vectoriel en cours. 
 
 @NoParameters
 
 @ReturnValue
-  La coordonnée Y de la zone de délimitation.
+  La coordonnÃ©e Y de la zone de dÃ©limitation.
 
 @Remarks
-  Le résultat est la coordonnée Y la plus petite du chemin en cours.
+  Le rÃ©sultat est la coordonnÃ©e Y la plus petite du chemin en cours.
   
 @Example
 @Code
@@ -3427,7 +3416,7 @@
       MovePathCursor(150, 125)
       AddPathCurve(0, 270, 0, -150, 350, 180)
       
-      ; coordonnées et dimensions de la zone de délimitation du chemin
+      ; coordonnÃ©es et dimensions de la zone de dÃ©limitation du chemin
       x = PathBoundsX()
       y = PathBoundsY()
       w = PathBoundsWidth()
@@ -3437,7 +3426,7 @@
       VectorSourceColor($FF0000FF)
       StrokePath(5)
       
-      ; dessin de la zone de délimitation du chemin
+      ; dessin de la zone de dÃ©limitation du chemin
       AddPathBox(x, y, w, h)
       VectorSourceColor($FF000000)
       DashPath(2, 5)
@@ -3463,17 +3452,17 @@
 @Function Resultat.d = PathBoundsWidth()
 
 @Description
-  Renvoie la longueur de la zone de délimitation du 
+  Renvoie la longueur de la zone de dÃ©limitation du 
   chemin de dessin vectoriel en cours. 
 
 @NoParameters
 
 @ReturnValue
-  La longueur de la zone de délimitation.
+  La longueur de la zone de dÃ©limitation.
 
 @Remarks
-  Le résultat est la différence entre la coordonnée X la plus élevée et la 
-  coordonnée X la plus petite du chemin en cours.
+  Le rÃ©sultat est la diffÃ©rence entre la coordonnÃ©e X la plus Ã©levÃ©e et la 
+  coordonnÃ©e X la plus petite du chemin en cours.
   
 @Example
 @Code
@@ -3486,7 +3475,7 @@
       MovePathCursor(150, 125)
       AddPathCurve(0, 270, 0, -150, 350, 180)
       
-      ; coordonnées et dimensions de la zone de délimitation du chemin
+      ; coordonnÃ©es et dimensions de la zone de dÃ©limitation du chemin
       x = PathBoundsX()
       y = PathBoundsY()
       w = PathBoundsWidth()
@@ -3496,7 +3485,7 @@
       VectorSourceColor($FF0000FF)
       StrokePath(5)
       
-      ; dessin de la zone de délimitation du chemin
+      ; dessin de la zone de dÃ©limitation du chemin
       AddPathBox(x, y, w, h)
       VectorSourceColor($FF000000)
       DashPath(2, 5)
@@ -3522,17 +3511,17 @@
 @Function Resultat.d = PathBoundsHeight()
 
 @Description
-  Renvoie la hauteur de la zone de délimitation du 
+  Renvoie la hauteur de la zone de dÃ©limitation du 
   chemin de dessin vectoriel en cours. 
 
 @NoParameters
 
 @ReturnValue
-  La hauteur de la zone de délimitation.
+  La hauteur de la zone de dÃ©limitation.
 
 @Remarks
-  Le résultat est la différence entre la coordonnée Y la plus élevée et la 
-  coordonnée Y la plus petite du chemin en cours.
+  Le rÃ©sultat est la diffÃ©rence entre la coordonnÃ©e Y la plus Ã©levÃ©e et la 
+  coordonnÃ©e Y la plus petite du chemin en cours.
   
 @Example
 @Code
@@ -3545,7 +3534,7 @@
       MovePathCursor(150, 125)
       AddPathCurve(0, 270, 0, -150, 350, 180)
       
-      ; coordonnées et dimensions de la zone de délimitation du chemin
+      ; coordonnÃ©es et dimensions de la zone de dÃ©limitation du chemin
       x = PathBoundsX()
       y = PathBoundsY()
       w = PathBoundsWidth()
@@ -3555,7 +3544,7 @@
       VectorSourceColor($FF0000FF)
       StrokePath(5)
       
-      ; dessin de la zone de délimitation du chemin
+      ; dessin de la zone de dÃ©limitation du chemin
       AddPathBox(x, y, w, h)
       VectorSourceColor($FF000000)
       DashPath(2, 5)
@@ -3582,14 +3571,14 @@
 @Function Resultat$ = PathSegments()
 
 @Description
-  Renvoie une chaîne décrivant le chemin de dessin vectoriel en cours. 
+  Renvoie une chaÃ®ne dÃ©crivant le chemin de dessin vectoriel en cours. 
   
 @NoParameters
 
 @ReturnValue
-  La chaîne renvoyée  contient une série de lettre suivie par le nombre approprié 
-  de coordonnées. Chaque valeur est séparée par un seul espace. 
-  Toutes les coordonnées sont absolues.
+  La chaÃ®ne renvoyÃ©e  contient une sÃ©rie de lettre suivie par le nombre appropriÃ© 
+  de coordonnÃ©es. Chaque valeur est sÃ©parÃ©e par un seul espace. 
+  Toutes les coordonnÃ©es sont absolues.
   
 @FixedFont
   M x y                @@MovePathCursor
@@ -3599,13 +3588,13 @@
 @EndFixedFont
  
 @Remarks
-  Le résultat peut être utilisé pour examiner le chemin courant ou bien 
-  pour reproduire le même chemin plus tard, en utilisant les commandes @@AddPathSegments . 
+  Le rÃ©sultat peut Ãªtre utilisÃ© pour examiner le chemin courant ou bien 
+  pour reproduire le mÃªme chemin plus tard, en utilisant les commandes @@AddPathSegments . 
 @LineBreak
 @LineBreak
-  Il n'y a pas de chaîne pour les commandes @@AddPathCircle et @@AddPathEllipse, 
-  et leurs résultats sont convertis en interne en @Link "AddPathCurve" "courbes" par 
-  la bibliothèque de dessin vectoriel.
+  Il n'y a pas de chaÃ®ne pour les commandes @@AddPathCircle et @@AddPathEllipse, 
+  et leurs rÃ©sultats sont convertis en interne en @Link "AddPathCurve" "courbes" par 
+  la bibliothÃ¨que de dessin vectoriel.
   
 @Example 
 @Code
@@ -3645,8 +3634,8 @@
 @Function VectorSourceColor(Couleur)
 
 @Description
-  Sélectionne une seule couleur comme 
-  source pour les opérations de dessin 
+  SÃ©lectionne une seule couleur comme 
+  source pour les opÃ©rations de dessin 
   vectoriel telles que @@FillPath, 
   @@StrokePath et autres.
   
@@ -3670,43 +3659,43 @@
 @Function VectorSourceLinearGradient(X1.d, Y1.d, X2.d, Y2.d)
 
 @Description
-  Sélectionne un dégradé de couleur linéaire 
-  comme source pour les opérations de dessin 
+  SÃ©lectionne un dÃ©gradÃ© de couleur linÃ©aire 
+  comme source pour les opÃ©rations de dessin 
   vectoriel telles que @@FillPath ou @@StrokePath. 
 
 @Parameter "X1.d, Y1.d"
-  Indique le point qui représente le début 
+  Indique le point qui reprÃ©sente le dÃ©but 
   (position 0.0) du gradient.@LineBreak
-  Les coordonnées sont indiquées en termes de 
-  système de coordonnées @#PB_Coordinate_Source.
+  Les coordonnÃ©es sont indiquÃ©es en termes de 
+  systÃ¨me de coordonnÃ©es @#PB_Coordinate_Source.
 
 @Parameter "X2.d, Y2.d"
-  Indique le point qui représente la fin 
+  Indique le point qui reprÃ©sente la fin 
   (position 1.0) du gradient.@LineBreak
-  Les coordonnées sont indiquées en termes de 
-  système de coordonnées @#PB_Coordinate_Source.
+  Les coordonnÃ©es sont indiquÃ©es en termes de 
+  systÃ¨me de coordonnÃ©es @#PB_Coordinate_Source.
 
 @NoReturnValue
 
 @Remarks
   Initialement, le gradient est solide et noir.
   @LineBreak
-  La couleur d'arrêt doit être ajoutée à la 
+  La couleur d'arrÃªt doit Ãªtre ajoutÃ©e Ã  la 
   fonction @@VectorSourceGradientColor.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
 @LineBreak
 @LineBreak  
-  Le gradient de couleur est défini uniquement 
+  Le gradient de couleur est dÃ©fini uniquement 
   dans la zone entre les points (X1, Y1) et (X2, Y2).
   En dehors de ces points, la couleur de la source 
-  est fonction du système d'exploitation, 
-  de sorte que les opérations de dessin à l'extérieur 
-  de cette région de gradient doivent être évitées.
+  est fonction du systÃ¨me d'exploitation, 
+  de sorte que les opÃ©rations de dessin Ã  l'extÃ©rieur 
+  de cette rÃ©gion de gradient doivent Ãªtre Ã©vitÃ©es.
 
 @Example  
 @Code
@@ -3746,53 +3735,53 @@
 @Function VectorSourceCircularGradient(X.d, Y.d, Rayon.d, [CentreX.d, CentreY.d]) 
 
 @Description
-  Sélectionne un dégradé de couleur linéaire 
-  comme source pour les opérations de dessin 
+  SÃ©lectionne un dÃ©gradÃ© de couleur linÃ©aire 
+  comme source pour les opÃ©rations de dessin 
   vectoriel telles que @@FillPath ou @@StrokePath. 
 
 @Parameter "X.d, Y.d"
-  Les coordonnées du centre du cercle qui 
-  définit le gradient.
+  Les coordonnÃ©es du centre du cercle qui 
+  dÃ©finit le gradient.
 @LineBreak
 @LineBreak
-  Les coordonnées sont indiquées en termes de 
-  système de coordonnées @#PB_Coordinate_Source.
+  Les coordonnÃ©es sont indiquÃ©es en termes de 
+  systÃ¨me de coordonnÃ©es @#PB_Coordinate_Source.
 @LineBreak
 @LineBreak
-   Le centre du cercle représente le début du 
-   gradient (position 0.0) et le périmètre du 
-   cercle représente la fin du gradient (position 
+   Le centre du cercle reprÃ©sente le dÃ©but du 
+   gradient (position 0.0) et le pÃ©rimÃ¨tre du 
+   cercle reprÃ©sente la fin du gradient (position 
    1.0).
 
 @Parameter "Rayon.d"
-  Le rayon du cercle définissant le gradient.
+  Le rayon du cercle dÃ©finissant le gradient.
 
 @OptionalParameter "CentreX.d, CentreY.d"
-  Indique un décalage pour le point de départ 
-  du gradient à partir du centre du cercle. 
-  Avec ces paramètres, le gradient peut commencer  
-  n'importe où, entre le centre et la circonférence.
+  Indique un dÃ©calage pour le point de dÃ©part 
+  du gradient Ã  partir du centre du cercle. 
+  Avec ces paramÃ¨tres, le gradient peut commencer  
+  n'importe oÃ¹, entre le centre et la circonfÃ©rence.
 
 @NoReturnValue
 
 @Remarks
   Initialement, le gradient est solide et noir.@LineBreak
-  La couleur d'arrêt doit être ajoutée à la 
+  La couleur d'arrÃªt doit Ãªtre ajoutÃ©e Ã  la 
   fonction @@VectorSourceGradientColor.
 @LineBreak
 @LineBreak
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
 @LineBreak
 @LineBreak  
-  Le gradient de couleur est défini uniquement 
-  dans la zone entre le centre et la circonférence.
+  Le gradient de couleur est dÃ©fini uniquement 
+  dans la zone entre le centre et la circonfÃ©rence.
   En dehors de ces points, la couleur de la source 
-  utilisée est fonction du système d'exploitation, 
-  de sorte que les opérations de dessin à l'extérieur 
-  de cette région de gradient doivent être évitées.  
+  utilisÃ©e est fonction du systÃ¨me d'exploitation, 
+  de sorte que les opÃ©rations de dessin Ã  l'extÃ©rieur 
+  de cette rÃ©gion de gradient doivent Ãªtre Ã©vitÃ©es.  
   
 @Example 
 @Code
@@ -3831,7 +3820,7 @@
 
 @Description
   Ajoute un nouvelle position de couleur 
-  d'arrêt au gradient défini par 
+  d'arrÃªt au gradient dÃ©fini par 
   @@VectorSourceLinearGradient 
   ou @@VectorSourceCircularGradient.
   
@@ -3840,22 +3829,22 @@
   32 bits comprenant la transparence alpha.
   
 @Parameter "Position.d"
-  La position à laquelle ajouter la couleur. 
+  La position Ã  laquelle ajouter la couleur. 
 @LineBreak
 @LineBreak  
-  La valeur doit être comprise entre 0,0 
-  (le début du gradient) et 1.0 (la fin 
+  La valeur doit Ãªtre comprise entre 0,0 
+  (le dÃ©but du gradient) et 1.0 (la fin 
   du gradient).
 
 @NoReturnValue
 
 @Remarks
   Un gradient doit au moins avoir une couleur 
-  à la position 0.0 et une à la position 1.0. 
+  Ã  la position 0.0 et une Ã  la position 1.0. 
   Si ces deux positions n'ont pas de couleur, 
-  elles prennent par défaut la couleur noire. 
+  elles prennent par dÃ©faut la couleur noire. 
   Un nombre quelconque de positions de couleur 
-  peut être ajouté à un gradient.
+  peut Ãªtre ajoutÃ© Ã  un gradient.
 
 @Example  
 @Code
@@ -3893,45 +3882,45 @@
 @Function VectorSourceImage(ImageID [, Transparence [, Largeur.d, Hauteur.d [, Options]]])
 
 @Description
-  Sélectionne une image en tant que source 
-  pour les opérations de dessin vectoriel 
+  SÃ©lectionne une image en tant que source 
+  pour les opÃ©rations de dessin vectoriel 
   telles que @@FillPath ou @@StrokePath. 
   
 @Parameter "ImageID"
-  L'image à utiliser comme source. 
+  L'image Ã  utiliser comme source. 
 @LineBreak
 @LineBreak  
   Utiliser la fonction @@ImageID pour
   obtenir l'identifiant de l'image.
   
 @OptionalParameter "Transparence"
-  La transparence (alpha) à appliquer à 
+  La transparence (alpha) Ã  appliquer Ã  
   l'image source.
 @LineBreak
 @LineBreak
-  Cette transparence est appliquée en plus de 
-  tous les pixels transparents déjà présents 
+  Cette transparence est appliquÃ©e en plus de 
+  tous les pixels transparents dÃ©jÃ  prÃ©sents 
   dans l'image source.
-  La valeur par défaut est 255 (pas de 
-  transparence supplémentaire).
+  La valeur par dÃ©faut est 255 (pas de 
+  transparence supplÃ©mentaire).
   
 @OptionalParameter "Largeur.d, Hauteur.d"
-  Spécifie une largeur et une hauteur de 
+  SpÃ©cifie une largeur et une hauteur de 
   l'image. 
 @LineBreak
 @LineBreak
-  Les valeurs sont interprétées en termes de 
-  coordonnées système @#PB_Coordinate_Source. 
-  Si non spécifiées alors les dimensions de 
+  Les valeurs sont interprÃ©tÃ©es en termes de 
+  coordonnÃ©es systÃ¨me @#PB_Coordinate_Source. 
+  Si non spÃ©cifiÃ©es alors les dimensions de 
   l'image source (en pixels) sont converties 
-  dans l'unité de la sortie de dessin vectoriel 
+  dans l'unitÃ© de la sortie de dessin vectoriel 
   (taille d'origine).
   
 @OptionalParameter "Options"
-  Peut-être l'une des valeurs suivantes:
+  Peut-Ãªtre l'une des valeurs suivantes:
 @FixedFont
-  @#PB_VectorImage_Default: Les zones en dehors de l'image source sont transparentes (Par défaut)
-  @#PB_VectorImage_Repeat : L'image source est répétée pour couvrir toute la zone de dessin
+  @#PB_VectorImage_Default: Les zones en dehors de l'image source sont transparentes (Par dÃ©faut)
+  @#PB_VectorImage_Repeat : L'image source est rÃ©pÃ©tÃ©e pour couvrir toute la zone de dessin
 @EndFixedFont
 
 @NoReturnValue
@@ -3939,22 +3928,22 @@
 @Remarks
   Ces fonctions utiliseront chaque pixel 
   de l'image sur la sortie de dessin 
-  où il y a quelque chose à dessiner.
+  oÃ¹ il y a quelque chose Ã  dessiner.
 @LineBreak
 @LineBreak  
-  Voir l'aperçu de 
+  Voir l'aperÃ§u de 
   @LibraryLink "VectorDrawing" "VectorDrawing" 
-  pour une introduction aux différents systèmes 
-  de coordonnées.
+  pour une introduction aux diffÃ©rents systÃ¨mes 
+  de coordonnÃ©es.
 @LineBreak
 @LineBreak
-  En transformant le système de coordonnées 
+  En transformant le systÃ¨me de coordonnÃ©es 
   @#PB_Coordinate_Source, l'image de la source 
-  peut être transformée (déplacée, tournée, étirées, 
-  inclinée). @LineBreak
-  Voir le deuxième exemple ci-dessous pour une démonstration.
+  peut Ãªtre transformÃ©e (dÃ©placÃ©e, tournÃ©e, Ã©tirÃ©es, 
+  inclinÃ©e). @LineBreak
+  Voir le deuxiÃ¨me exemple ci-dessous pour une dÃ©monstration.
   
-@Example Image source répétée
+@Example Image source rÃ©pÃ©tÃ©e
 @Code
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
@@ -3980,7 +3969,7 @@
 
 @Image vectorsourceimage.png
 
-@Example Image source tournée et renversée 
+@Example Image source tournÃ©e et renversÃ©e 
 @Code
   If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     CanvasGadget(0, 0, 0, 400, 200)
@@ -4022,47 +4011,47 @@
 @Function DrawVectorImage(ImageID [, Transparence [, Largeur.d, Hauteur.d]])
 
 @Description
-  Dessine l'image spécifiée directement 
+  Dessine l'image spÃ©cifiÃ©e directement 
   sur la sortie de dessin vectoriel.
 
 @Parameter "ImageID"
-  L'image à utiliser comme source. 
+  L'image Ã  utiliser comme source. 
 @LineBreak
 @LineBreak  
   Utiliser la fonction @@ImageID pour
   obtenir l'identifiant de l'image.
   
 @OptionalParameter "Transparence"
-  La transparence (alpha) à appliquer à 
+  La transparence (alpha) Ã  appliquer Ã  
   l'image source.
 @LineBreak
 @LineBreak
-  Cette transparence est appliquée en plus de 
-  tous les pixels transparents déjà présents 
+  Cette transparence est appliquÃ©e en plus de 
+  tous les pixels transparents dÃ©jÃ  prÃ©sents 
   dans l'image source.
-  La valeur par défaut est 255 (pas de 
-  transparence supplémentaire).
+  La valeur par dÃ©faut est 255 (pas de 
+  transparence supplÃ©mentaire).
   
 @OptionalParameter "Largeur.d, Hauteur.d"
-  Spécifie une largeur et une hauteur de 
+  SpÃ©cifie une largeur et une hauteur de 
   l'image. 
 @LineBreak
 @LineBreak
-  Les valeurs sont interprétées en termes de 
-  coordonnées système @#PB_Coordinate_Source. 
-  Si non spécifiées alors les dimensions de 
+  Les valeurs sont interprÃ©tÃ©es en termes de 
+  coordonnÃ©es systÃ¨me @#PB_Coordinate_Source. 
+  Si non spÃ©cifiÃ©es alors les dimensions de 
   l'image source (en pixels) sont converties 
-  dans l'unité de la sortie de dessin vectoriel 
+  dans l'unitÃ© de la sortie de dessin vectoriel 
   (taille d'origine).
 
 @NoReturnValue
 
 @Remarks
-  L'image sera dessinée à l'emplacement du 
+  L'image sera dessinÃ©e Ã  l'emplacement du 
   @Link "MovePathCursor" "curseur dans le chemin".
   @LineBreak
-  A la fin, le curseur sera placé dans 
-  le coin en bas à droite de l'image.
+  A la fin, le curseur sera placÃ© dans 
+  le coin en bas Ã  droite de l'image.
 
 
 @Example 
@@ -4105,29 +4094,29 @@
 @Function DrawVectorText(Texte$)
 
 @Description
-  Dessine une seule ligne de texte à l'emplacement 
+  Dessine une seule ligne de texte Ã  l'emplacement 
   actuel du 
   @Link "MovePathCursor" "curseur dans le chemin".
   
 @Parameter "Texte$"
-  Le texte à dessiner (une seule ligne).
+  Le texte Ã  dessiner (une seule ligne).
   
 @NoReturnValue
 
 @Remarks
-  A la fin, le curseur sera déplacé à la fin du texte. 
+  A la fin, le curseur sera dÃ©placÃ© Ã  la fin du texte. 
 @LineBreak
 @LineBreak
-  La police à utiliser peut être réglée avec @@VectorFont.@LineBreak
-  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont donc 
-  pas autorisées.
+  La police Ã  utiliser peut Ãªtre rÃ©glÃ©e avec @@VectorFont.@LineBreak
+  Seules les polices vectorielles sont autorisÃ©es, comme TrueType, les polices bitmap ne sont donc 
+  pas autorisÃ©es.
 @LineBreak
 @LineBreak
   La fonction @@DrawVectorParagraph est plus 
-  adaptée pour dessiner du texte multiligne, 
+  adaptÃ©e pour dessiner du texte multiligne, 
   elle offre en plus une mise en page automatique, 
   prend en compte les sauts de ligne, etc. 
-  Sinon, il vous faudra appel plusieurs fois à 
+  Sinon, il vous faudra appel plusieurs fois Ã  
   @@DrawVectorText pour afficher plusieurs lignes, 
   sans oublier de prendre en compte les dimensions 
   du texte avec @@VectorTextWidth et @@VectorTextHeight. 
@@ -4175,48 +4164,48 @@
 
 @Description
   Dessine un paragraphe de texte (plusieurs 
-  lignes) dans une boîte de sélection 
+  lignes) dans une boÃ®te de sÃ©lection 
   avec des sauts de lignes automatiques. 
 
 @Parameter "Texte$"
-  Le texte à dessiner.
+  Le texte Ã  dessiner.
 
 @Parameter "Largeur.d"
   La largeur du paragraphe. 
 @LineBreak
 @LineBreak
-  Les sauts de ligne seront ajoutés si 
+  Les sauts de ligne seront ajoutÃ©s si 
   le texte est plus long que la largeur 
-  spécifiée.
+  spÃ©cifiÃ©e.
   
 @Parameter "Hauteur.d"
   La hauteur maximale du paragraphe. 
 @LineBreak
 @LineBreak  
-  Si le texte ne correspond pas à cette 
-  hauteur il sera tronqué. 
+  Si le texte ne correspond pas Ã  cette 
+  hauteur il sera tronquÃ©. 
   La hauteur requise pour un paragraphe 
-  peut être calculée avec @@VectorParagraphHeight.
+  peut Ãªtre calculÃ©e avec @@VectorParagraphHeight.
   
 @OptionalParameter "Options"
-  Peut-être l'une des valeurs suivantes:
+  Peut-Ãªtre l'une des valeurs suivantes:
 @FixedFont
-   @#PB_VectorParagraph_Left  : Le paragraphe est aligné à gauche (Par défaut)
-   @#PB_VectorParagraph_Right : Le paragraphe est aligné à droite
-   @#PB_VectorParagraph_Center: Le paragraphe est centré
-   @#PB_VectorParagraph_Block : Le paragraphe est justifié (sauf Windows)
+   @#PB_VectorParagraph_Left  : Le paragraphe est alignÃ© Ã  gauche (Par dÃ©faut)
+   @#PB_VectorParagraph_Right : Le paragraphe est alignÃ© Ã  droite
+   @#PB_VectorParagraph_Center: Le paragraphe est centrÃ©
+   @#PB_VectorParagraph_Block : Le paragraphe est justifiÃ© (sauf Windows)
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
-  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap ne sont 
-  donc pas autorisées.
+  Seules les polices vectorielles sont autorisÃ©es, comme TrueType, les polices bitmap ne sont 
+  donc pas autorisÃ©es.
 @LineBreak
-  La police à utiliser peut être réglée avec @@VectorFont.  
+  La police Ã  utiliser peut Ãªtre rÃ©glÃ©e avec @@VectorFont.  
 @LineBreak
 @LineBreak
-  Si le texte ne rentre pas en entier dans la boîte, il sera tronqué. 
+  Si le texte ne rentre pas en entier dans la boÃ®te, il sera tronquÃ©. 
 
 @Example 
 @Code
@@ -4226,9 +4215,9 @@
     
     If StartVectorDrawing(CanvasVectorOutput(0))
     
-      Texte$ = "Chaque sortie de dessin a une unité de mesure par défaut. L'unité par défaut est le pixel " +
-              "pour les écrans ou les images et les points pour les imprimantes et les images vectorielles. " +
-              "Il est cependant possible de sélectionner une unité de mesure différente avec ImageVectorOutput(), " +
+      Texte$ = "Chaque sortie de dessin a une unitÃ© de mesure par dÃ©faut. L'unitÃ© par dÃ©faut est le pixel " +
+              "pour les Ã©crans ou les images et les points pour les imprimantes et les images vectorielles. " +
+              "Il est cependant possible de sÃ©lectionner une unitÃ© de mesure diffÃ©rente avec ImageVectorOutput(), " +
               "PrinterVectorOutput() ou une fonction similaire."
               
       VectorFont(FontID(0), 18)
@@ -4261,29 +4250,29 @@
 @Function VectorFont(PoliceID [, Taille.d])
 
 @Description
-  La police à utiliser pour le dessin vectoriel.@LineBreak
-  Seules les polices vectorielles sont autorisées, comme TrueType, les polices bitmap 
-  ne sont donc pas autorisées.
+  La police Ã  utiliser pour le dessin vectoriel.@LineBreak
+  Seules les polices vectorielles sont autorisÃ©es, comme TrueType, les polices bitmap 
+  ne sont donc pas autorisÃ©es.
   
 @Parameter "PoliceID"
-  Le numéro d'identification de la police 
-  à utiliser pour le dessin.
+  Le numÃ©ro d'identification de la police 
+  Ã  utiliser pour le dessin.
   
 @OptionalParameter "Taille.d"
   La taille de la police. 
 @LineBreak
 @LineBreak
-  La taille est mesurée en unités de mesure 
-  utilisée par la sortie de dessin vectoriel. 
-  Si aucune taille n'est spécifiée, la taille 
-  utilisée dans la commande @@LoadFont sera 
-  convertie en unité de dessin vectoriel en 
+  La taille est mesurÃ©e en unitÃ©s de mesure 
+  utilisÃ©e par la sortie de dessin vectoriel. 
+  Si aucune taille n'est spÃ©cifiÃ©e, la taille 
+  utilisÃ©e dans la commande @@LoadFont sera 
+  convertie en unitÃ© de dessin vectoriel en 
   cours.
 
 @NoReturnValue
 
 @Remarks
-  Vous ne pouvez pas utiliser de police enregistrée avec @Link "Font/RegisterFontFile" "RegisterFontFile()"
+  Vous ne pouvez pas utiliser de police enregistrÃ©e avec @Link "Font/RegisterFontFile" "RegisterFontFile()"
 
 @SeeAlso
   @@DrawVectorText, @@DrawVectorParagraph, 
@@ -4298,59 +4287,59 @@
 @Function Resultat.d = VectorTextWidth(Texte$ [, Options])
 
 @Description
-  Mesure la largeur du texte donné dans la 
+  Mesure la largeur du texte donnÃ© dans la 
   police de dessin vectoriel en cours.
   
 @Parameter "Texte$"
-  Le texte (une seule ligne) à mesurer.
+  Le texte (une seule ligne) Ã  mesurer.
 
 @OptionalParameter "Options"
-   Peut être une combinaison des valeurs suivantes:
+   Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-   @#PB_VectorText_Default: Renvoie la zone de délimitation logique du texte
-   @#PB_VectorText_Visible: Renvoie la zone de délimitation visible du texte
-   @#PB_VectorText_Offset : Renvoie le décalage de la zone de délimitation de la position actuelle à la place de la largeur
+   @#PB_VectorText_Default: Renvoie la zone de dÃ©limitation logique du texte
+   @#PB_VectorText_Visible: Renvoie la zone de dÃ©limitation visible du texte
+   @#PB_VectorText_Offset : Renvoie le dÃ©calage de la zone de dÃ©limitation de la position actuelle Ã  la place de la largeur
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la largeur du texte en unités 
-  de mesure utilisée par la sortie du 
+  Renvoie la largeur du texte en unitÃ©s 
+  de mesure utilisÃ©e par la sortie du 
   dessin vectoriel.
 
 @Remarks
-  Les dimensions du texte peuvent être 
-  définies en terme de deux boîtes englobantes:
+  Les dimensions du texte peuvent Ãªtre 
+  dÃ©finies en terme de deux boÃ®tes englobantes:
 @LineBreak
 @LineBreak
-  La "boîte englobante logique" d'un caractère 
-  ou d'un texte définit l'espace que le curseur 
+  La "boÃ®te englobante logique" d'un caractÃ¨re 
+  ou d'un texte dÃ©finit l'espace que le curseur 
   doit parcourir pour dessiner correctement le 
-  texte. Cependant, certains caractères peuvent 
-  s'étendre au-delà de cette boîte (par exemple 
-  en cas de cursive ou d'Empattement (sérif). 
-  Intéressant pour déterminer l'emplacement d'un 
+  texte. Cependant, certains caractÃ¨res peuvent 
+  s'Ã©tendre au-delÃ  de cette boÃ®te (par exemple 
+  en cas de cursive ou d'Empattement (sÃ©rif). 
+  IntÃ©ressant pour dÃ©terminer l'emplacement d'un 
   texte.
 @LineBreak
 @LineBreak
-  La "boîte englobante visible" d'un caractère ou 
-  d'un texte définit la zone dans laquelle le texte 
-  est effectivement dessiné.@LineBreak
-  Cette zone est généralement plus grande que la zone 
-  de délimitation logique. Les dimensions visibles du 
-  texte peuvent être récupérées en spécifiant l'option 
+  La "boÃ®te englobante visible" d'un caractÃ¨re ou 
+  d'un texte dÃ©finit la zone dans laquelle le texte 
+  est effectivement dessinÃ©.@LineBreak
+  Cette zone est gÃ©nÃ©ralement plus grande que la zone 
+  de dÃ©limitation logique. Les dimensions visibles du 
+  texte peuvent Ãªtre rÃ©cupÃ©rÃ©es en spÃ©cifiant l'option 
   @#PB_VectorText_Visible. Les dimensions visibles du 
-  texte peuvent être en décalage par rapport aux 
+  texte peuvent Ãªtre en dÃ©calage par rapport aux 
   dimensions logiques.  
-  Ce décalage peut être calculé en spécifiant l'option 
+  Ce dÃ©calage peut Ãªtre calculÃ© en spÃ©cifiant l'option 
   @#PB_VectorText_Offset.
 @LineBreak
 @LineBreak
   L'exemple suivant montre un texte avec la zone 
-  de délimitation logique en bleu, la zone de 
-  délimitation visible en rouge et l'emplacement 
-  de la ligne de base en vert. Le début du texte 
-  est dessiné dans le coin supérieur gauche de la 
-  zone de délimitation logique (bleu).
+  de dÃ©limitation logique en bleu, la zone de 
+  dÃ©limitation visible en rouge et l'emplacement 
+  de la ligne de base en vert. Le dÃ©but du texte 
+  est dessinÃ© dans le coin supÃ©rieur gauche de la 
+  zone de dÃ©limitation logique (bleu).
   
 @Example 
 @Code
@@ -4367,12 +4356,12 @@
       MovePathCursor(25, 25)
       DrawVectorText(Texte$)
       
-      ; dessin  de la boîte englobante logique (en bleu)
+      ; dessin  de la boÃ®te englobante logique (en bleu)
       AddPathBox(25, 25, VectorTextWidth(Texte$), VectorTextHeight(Texte$))
       VectorSourceColor(RGBA(0, 0, 255, 255))
       DashPath(2, 10)
 
-      ; dessin de la boîte englobante visible (en rouge)
+      ; dessin de la boÃ®te englobante visible (en rouge)
       AddPathBox(25 + VectorTextWidth(Texte$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
                  25 + VectorTextHeight(Texte$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
                  VectorTextWidth(Texte$, #PB_VectorText_Visible), 
@@ -4409,62 +4398,62 @@
 @Function Resultat.d = VectorTextHeight(Texte$ [, Options])
 
 @Description
-  Mesure la hauteur du texte donné dans la 
+  Mesure la hauteur du texte donnÃ© dans la 
   police de dessin vectoriel en cours.
   
 @Parameter "Texte$"
-  Le texte (une seule ligne) à mesurer.
+  Le texte (une seule ligne) Ã  mesurer.
 
 @OptionalParameter "Options"
-   Peut être une combinaison des valeurs suivantes:
+   Peut Ãªtre une combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_VectorText_Default : Renvoie la zone de délimitation logique du texte
-  @#PB_VectorText_Visible : Renvoie la zone de délimitation visible du texte
-  @#PB_VectorText_Offset  : Renvoie le décalage de la zone de délimitation de la position actuelle à la place de la largeur
-  @#PB_VectorText_Baseline: Renvoie le décalage de la ligne de base du texte à partir de la position courante
+  @#PB_VectorText_Default : Renvoie la zone de dÃ©limitation logique du texte
+  @#PB_VectorText_Visible : Renvoie la zone de dÃ©limitation visible du texte
+  @#PB_VectorText_Offset  : Renvoie le dÃ©calage de la zone de dÃ©limitation de la position actuelle Ã  la place de la largeur
+  @#PB_VectorText_Baseline: Renvoie le dÃ©calage de la ligne de base du texte Ã  partir de la position courante
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la hauteur du texte en unité 
-  de mesure utilisée par la sortie du 
+  Renvoie la hauteur du texte en unitÃ© 
+  de mesure utilisÃ©e par la sortie du 
   dessin vectoriel.
 
 @ReturnValue
 
 @Remarks
-  Les dimensions du texte peuvent être 
-  définies en terme de deux boîtes englobantes:
+  Les dimensions du texte peuvent Ãªtre 
+  dÃ©finies en terme de deux boÃ®tes englobantes:
 @LineBreak
 @LineBreak
-  La "boîte englobante logique" d'un caractère 
-  ou d'un texte définit l'espace que le curseur 
+  La "boÃ®te englobante logique" d'un caractÃ¨re 
+  ou d'un texte dÃ©finit l'espace que le curseur 
   doit parcourir pour dessiner correctement le 
-  texte. Cependant, certains caractères peuvent 
-  s'étendre au-delà de cette boîte (par exemple 
-  en cas de cursive ou d'empattement (sérif). 
-  Intéressant pour déterminer l'emplacement d'un 
+  texte. Cependant, certains caractÃ¨res peuvent 
+  s'Ã©tendre au-delÃ  de cette boÃ®te (par exemple 
+  en cas de cursive ou d'empattement (sÃ©rif). 
+  IntÃ©ressant pour dÃ©terminer l'emplacement d'un 
   texte.
 @LineBreak
 @LineBreak
-  La "boîte englobante visible" d'un caractère ou 
-  d'un texte définit la zone dans laquelle le texte 
-  est effectivement dessiné.@LineBreak
-  Cette zone est généralement plus grande que la zone 
-  de délimitation logique. Les dimensions visibles du 
-  texte peuvent être récupérées en spécifiant l'option 
+  La "boÃ®te englobante visible" d'un caractÃ¨re ou 
+  d'un texte dÃ©finit la zone dans laquelle le texte 
+  est effectivement dessinÃ©.@LineBreak
+  Cette zone est gÃ©nÃ©ralement plus grande que la zone 
+  de dÃ©limitation logique. Les dimensions visibles du 
+  texte peuvent Ãªtre rÃ©cupÃ©rÃ©es en spÃ©cifiant l'option 
   @#PB_VectorText_Visible. Les dimensions visibles du 
-  texte peuvent être en décalage par rapport aux 
+  texte peuvent Ãªtre en dÃ©calage par rapport aux 
   dimensions logiques. 
-  Ce décalage peut être calculé en spécifiant l'option 
+  Ce dÃ©calage peut Ãªtre calculÃ© en spÃ©cifiant l'option 
   @#PB_VectorText_Offset.
 @LineBreak
 @LineBreak
   L'exemple suivant montre un texte avec la zone 
-  de délimitation logique en bleu, la zone de 
-  délimitation visible en rouge et l'emplacement 
-  de la ligne de base en vert. Le début du texte 
-  est dessiné dans le coin supérieur gauche de la 
-  zone de délimitation logique (bleu).
+  de dÃ©limitation logique en bleu, la zone de 
+  dÃ©limitation visible en rouge et l'emplacement 
+  de la ligne de base en vert. Le dÃ©but du texte 
+  est dessinÃ© dans le coin supÃ©rieur gauche de la 
+  zone de dÃ©limitation logique (bleu).
   
 @Example 
 @Code
@@ -4481,12 +4470,12 @@
       MovePathCursor(25, 25)
       DrawVectorText(Texte$)
       
-      ; dessin de la boîte englobante logique (en bleu)
+      ; dessin de la boÃ®te englobante logique (en bleu)
       AddPathBox(25, 25, VectorTextWidth(Texte$), VectorTextHeight(Texte$))
       VectorSourceColor(RGBA(0, 0, 255, 255))
       DashPath(2, 10)
 
-      ; dessin de la boîte englobante visible (en rouge)
+      ; dessin de la boÃ®te englobante visible (en rouge)
       AddPathBox(25 + VectorTextWidth(Texte$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
                  25 + VectorTextHeight(Texte$, #PB_VectorText_Visible|#PB_VectorText_Offset), 
                  VectorTextWidth(Texte$, #PB_VectorText_Visible), 
@@ -4524,30 +4513,30 @@
 @Function Resultat.d = VectorParagraphHeight(Texte$, Largeur.d, Hauteur.d)
 
 @Description
-  Renvoie la hauteur nécessaire pour dessiner 
-  le paragraphe de texte donné en utilisant 
+  Renvoie la hauteur nÃ©cessaire pour dessiner 
+  le paragraphe de texte donnÃ© en utilisant 
   la fonction @@DrawVectorParagraph.
 
 @Parameter "Texte$"
-  Le paragraphe de texte à mesurer 
+  Le paragraphe de texte Ã  mesurer 
   (peut contenir plusieurs lignes).
   
 @Parameter "Largeur.d"
-  La largeur à utiliser pour le paragraphe.
+  La largeur Ã  utiliser pour le paragraphe.
 
 @Parameter "Hauteur.d"
   La hauteur maximale disponible pour 
   le paragraphe.
 
 @ReturnValue
-  La hauteur réelle nécessaire pour dessiner 
+  La hauteur rÃ©elle nÃ©cessaire pour dessiner 
   le paragraphe.
 
 @Remarks
   Si le texte ne tient pas dans la zone de 
-  délimitation définie, le résultat sera égal 
-  à la valeur de "Hauteur.d". Cela indique 
-  que l'appel à @@DrawVectorParagraph couperait 
+  dÃ©limitation dÃ©finie, le rÃ©sultat sera Ã©gal 
+  Ã  la valeur de "Hauteur.d". Cela indique 
+  que l'appel Ã  @@DrawVectorParagraph couperait 
   le texte.
 
 @SeeAlso
@@ -4562,37 +4551,37 @@
 @Function Resultat = PdfVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier PDF.
+  CrÃ©e un fichier PDF.
   
 @Parameter "Fichier$"
-  Le nom du fichier PDF à créer. @LineBreak
-  Si le fichier existe, il sera écrasé.
+  Le nom du fichier PDF Ã  crÃ©er. @LineBreak
+  Si le fichier existe, il sera Ã©crasÃ©.
 
 @Parameter "Largeur.d, Hauteur.d"
   Les dimensions de la page dans le fichier 
-  PDF en unité de mesure utilisée par la 
+  PDF en unitÃ© de mesure utilisÃ©e par la 
   sortie de dessin vectoriel.
 
 @OptionalParameter "Unite"
   Peut prendre l'une des valeurs suivantes:
   @LineBreak
-  L'unité par défaut pour les fichiers PDF 
+  L'unitÃ© par dÃ©faut pour les fichiers PDF 
   est @#PB_Unit_Point.
 @FixedFont
-  @#PB_Unit_Pixel     : Les valeurs sont mesurées en pixels (ou point (dots) pour les imprimantes)
-  @#PB_Unit_Point     : Les valeurs sont mesurées en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
-  @#PB_Unit_Inch      : Les valeurs sont mesurées en pouces (25,4 millimètres)
-  @#PB_Unit_Millimeter: Les valeurs sont mesurées en millimètres (0,039 370 pouce)
+  @#PB_Unit_Pixel     : Les valeurs sont mesurÃ©es en pixels (ou point (dots) pour les imprimantes)
+  @#PB_Unit_Point     : Les valeurs sont mesurÃ©es en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
+  @#PB_Unit_Inch      : Les valeurs sont mesurÃ©es en pouces (25,4 millimÃ¨tres)
+  @#PB_Unit_Millimeter: Les valeurs sont mesurÃ©es en millimÃ¨tres (0,039 370 pouce)
 @EndFixedFont
 
 @ReturnValue
-  Renvoie le OutputID du fichier donné afin 
-  d'effectuer le rendu 2D à l'aide de 
+  Renvoie le OutputID du fichier donnÃ© afin 
+  d'effectuer le rendu 2D Ã  l'aide de 
   @@StartVectorDrawing.
   
 @Remarks
-  Les opérations de dessin doivent se faire 
-  à l'intérieur d'un bloc @@StartVectorDrawing
+  Les opÃ©rations de dessin doivent se faire 
+  Ã  l'intÃ©rieur d'un bloc @@StartVectorDrawing
   /@@StopVectorDrawing.
 @LineBreak
 @LineBreak
@@ -4632,36 +4621,36 @@
 @Function Resultat = SvgVectorOutput(Fichier$, Largeur.d, Hauteur.d [, Unite])
 
 @Description
-  Crée un fichier SVG (scalable vector graphics).
+  CrÃ©e un fichier SVG (scalable vector graphics).
   
 @Parameter "Fichier$"
-  Le nom du fichier SVG à créer. @LineBreak
-  Si le fichier existe, il sera écrasé.
+  Le nom du fichier SVG Ã  crÃ©er. @LineBreak
+  Si le fichier existe, il sera Ã©crasÃ©.
 
 @Parameter "Largeur.d, Hauteur.d"
   Les dimensions de la page dans le fichier 
-  SVG en unité de mesure utilisée par la 
+  SVG en unitÃ© de mesure utilisÃ©e par la 
   sortie de dessin vectoriel.
 
 @OptionalParameter "Unite"
   Peut prendre l'une des valeurs suivantes:
   @LineBreak
-  L'unité par défaut pour les fichiers SVG 
+  L'unitÃ© par dÃ©faut pour les fichiers SVG 
   est @#PB_Unit_Point.
 @FixedFont
-  @#PB_Unit_Pixel     : Les valeurs sont mesurées en pixels (ou point (dots) pour les imprimantes)
-  @#PB_Unit_Point     : Les valeurs sont mesurées en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
-  @#PB_Unit_Inch      : Les valeurs sont mesurées en pouces (25,4 millimètres)
-  @#PB_Unit_Millimeter: Les valeurs sont mesurées en millimètres (0,039 370 pouce)
+  @#PB_Unit_Pixel     : Les valeurs sont mesurÃ©es en pixels (ou point (dots) pour les imprimantes)
+  @#PB_Unit_Point     : Les valeurs sont mesurÃ©es en points (1/72 pouce = 25.4/72 mm = 0,352 778 mm)
+  @#PB_Unit_Inch      : Les valeurs sont mesurÃ©es en pouces (25,4 millimÃ¨tres)
+  @#PB_Unit_Millimeter: Les valeurs sont mesurÃ©es en millimÃ¨tres (0,039 370 pouce)
 @EndFixedFont
 
 @ReturnValue
-  Renvoie le OutputID du fichier donné afin d'effectuer 
-  le rendu à l'aide de @@StartVectorDrawing.
+  Renvoie le OutputID du fichier donnÃ© afin d'effectuer 
+  le rendu Ã  l'aide de @@StartVectorDrawing.
   
 @Remarks
-  Les opérations de dessin doivent se faire 
-  à l'intérieur d'un bloc @@StartVectorDrawing
+  Les opÃ©rations de dessin doivent se faire 
+  Ã  l'intÃ©rieur d'un bloc @@StartVectorDrawing
   /@@StopVectorDrawing.
 @LineBreak
 @LineBreak

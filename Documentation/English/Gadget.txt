@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Gadget library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Gadget
@@ -108,13 +108,13 @@
   <caption> <b>Additional gadgets:</b> </caption>
   <tr>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_scintillagadget.png"> <a href="../Scintilla/index.html"><u>Scintilla</u></a></td>
+    <td vAlign="center" nowrap><img src="../HelpPictures/vd_screengadget.png"> <a href="../ScreenGadget/index.html"><u>ScreenGadget</u></a></td>
     <td vAlign="center" nowrap><img src="../HelpPictures/vd_webviewgadget.png"> <a href="../WebView/index.html"><u>Webview</u></a></td>
      </tr>
   </table>
   </center> 
 
 @FormatEndIf
-
 
 @CommandList
 
@@ -134,6 +134,7 @@
 @ExampleFile All SysTray.pb
 @ExampleFile All ToolBar.pb
 @ExampleFile All WebBrowser.pb
+@ExampleFile All WebView.pb
 
 @SupportedOS
 
@@ -486,10 +487,6 @@
   - @@SetGadgetState: Set the currently displayed date.
 @LineBreak
   - @@GetGadgetState: Get the currently displayed date.
-@LineBreak
-  - @@SetGadgetItemState: Make a specific date appear bold (Windows only).
-@LineBreak
-  - @@GetGadgetItemState: Get the bold state of a specific date (Windows only).
 @LineBreak
   - @@SetGadgetAttribute: With the following attributes:
 @FixedFont
@@ -945,7 +942,7 @@
 @LineBreak
 @LineBreak
 
-  As the OpenGL gadget is meant to be a realtime rendering gadget, it doesn't store its current rendering in a seperate buffer:
+  As the OpenGL gadget is meant to be a realtime rendering gadget, it doesn't store its current rendering in a separate buffer:
   it needs to be rendered again when the window is resized, minimized, maximized or if the gadget itself is resized or moved.
   
 @LineBreak
@@ -1484,8 +1481,7 @@
 
 @OptionalParameter "Mask$"
   The format in which the date can be entered. See @@FormatDate for the format of
-  this mask. Important note: The gadget does not support the display of seconds, so if you specify "%ss" in the Mask$ parameter, it will simply be ignored!
-  If you don't specify the mask or specify an empty string, a default mask will be chosen. The mask can be modified with the @@SetGadgetText function.
+  this mask. If you don't specify the mask or specify an empty string, a default mask will be chosen. The mask can be modified with the @@SetGadgetText function.
 
 @OptionalParameter "Date"
   The initial date for the gadget. Not specifying this parameter or specifying a 0 value will display
@@ -1624,10 +1620,11 @@
   The position and dimensions of the new gadget.
 
 @OptionalParameter "Flags"
-  Flags to modify the gadget behavior. This can be the following value:
+  Flags to modify the gadget behavior. This can be a combination of the following values:
 @FixedFont
-  @#PB_Editor_ReadOnly: the user cannot edit the text in the gadget.
-  @#PB_Editor_WordWrap: the lines too long to be displayed will be wrapped still displayed completely
+  @#PB_Editor_ReadOnly     : the user cannot edit the text in the gadget.
+  @#PB_Editor_WordWrap     : the lines too long to be displayed will be wrapped still displayed completely
+  @#PB_Editor_TabNavigation: when using TAB in the editor gadget it will cycle to the next gadget instead of inserting a TAB character.
 @EndFixedFont  
 
 @ReturnValue
@@ -1798,6 +1795,7 @@
   @#PB_Explorer_GridLines           : Display separator lines between rows and columns.
   @#PB_Explorer_HeaderDragDrop      : In report view, the headers can be changed by Drag'n'Drop.
   @#PB_Explorer_FullRowSelect       : The selection covers the full row instead of the first column.
+  @#PB_Explorer_NoHeaders           : Hide the columns titles.
 
   @#PB_Explorer_NoFiles             : No files will be displayed.
   @#PB_Explorer_NoFolders           : No folders will be displayed.
@@ -2009,9 +2007,11 @@
 @OptionalParameter "Flags"
   Flags to modify the gadget behavior. It can be a combination of the following values:
 @FixedFont
-  @#PB_Frame_Single  : Single sunken frame (Windows only).
-  @#PB_Frame_Double  : Double sunken frame (Windows only).
-  @#PB_Frame_Flat    : Flat frame (Windows only).
+  @#PB_Frame_Container: Enables container support so gadgets can be added to it (strongly recommended to avoid various issues).
+                       @@CloseGadgetList needs to be called to go back to previous gadget list like any other container gadget.
+  @#PB_Frame_Single   : Single sunken frame (Windows only).
+  @#PB_Frame_Double   : Double sunken frame (Windows only).
+  @#PB_Frame_Flat     : Flat frame (Windows only).
 @EndFixedFont
 
 @ReturnValue
@@ -2020,6 +2020,19 @@
 
 @Remarks
   As this Gadget is decorative only, @@GadgetToolTip cannot be used. This Gadget also receives no events.
+
+@Example With Container
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "FrameGadget", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    FrameGadget(0, 10,  10, 300, 200, "Options", #PB_Frame_Container)
+      CheckBoxGadget(1, 10, 40, 200, 30, "Enable Optimizer")
+      CheckBoxGadget(2, 10, 75, 200, 30, "Validate Output")
+    CloseGadgetList()
+
+    Repeat
+    Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
 
 @Example
 @Code
@@ -2033,6 +2046,7 @@
     Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
+
 @LineBreak
 @Image framegadget.png
 
@@ -2286,6 +2300,7 @@
   @#PB_GadgetType_ListIcon      : @@ListIconGadget
   @#PB_GadgetType_ListView      : @@ListViewGadget
   @#PB_GadgetType_MDI           : @@MDIGadget
+  @#PB_GadgetType_OpenGL        : @@OpenGLGadget
   @#PB_GadgetType_Option        : @@OptionGadget
   @#PB_GadgetType_Panel         : @@PanelGadget
   @#PB_GadgetType_ProgressBar   : @@ProgressBarGadget
@@ -2300,6 +2315,7 @@
   @#PB_GadgetType_TrackBar      : @@TrackBarGadget
   @#PB_GadgetType_Tree          : @@TreeGadget
   @#PB_GadgetType_Web           : @@WebGadget
+  @#PB_GadgetType_WebView       : @@WebViewGadget 
   @#PB_GadgetType_Unknown       : The type is unknown. Most likely it is not a PB gadget at all.
 @EndFixedFont
 
@@ -2398,7 +2414,8 @@
   - @@SplitterGadget @LineBreak
   - @@StringGadget @LineBreak
   - @@TrackBarGadget @LineBreak
-  - @@WebGadget
+  - @@WebGadget @LineBreak
+  - @@WebViewGadget
 
 @SeeAlso
   @@SetGadgetAttribute, @@GetGadgetItemAttribute, @@SetGadgetItemAttribute
@@ -2816,10 +2833,6 @@
 @Remarks
   This is a universal function that works for almost all gadgets which handle several items:
 @LineBreak
-  - @@CalendarGadget: returns @#PB_Calendar_Bold when the specified date is displayed bold,
-    @#PB_Calendar_Normal otherwise.
-    'Item' must be a PureBasic @LibraryLink "Date" "date" value.
-@LineBreak
   - @@ExplorerListGadget: returns a combination of the following values
 @FixedFont
   @#PB_Explorer_File      : The item is a file.
@@ -3208,6 +3221,7 @@
   @#PB_ListIcon_FullRowSelect      : The selection covers the full row instead of the first column (Windows and QT only).
   @#PB_ListIcon_HeaderDragDrop     : The order of columns can be changed using drag'n'drop.
   @#PB_ListIcon_AlwaysShowSelection: The selection is still visible, even when the gadget is not activated (Windows only).
+  @#PB_ListIcon_NoHeaders          : Hide the columns titles.
 @EndFixedFont
   The @#PB_ListIcon_ThreeState flag can be used in combination with the 
   @#PB_ListIcon_CheckBoxes flag to get checkboxes that can have an "on", "off" and "in between" state.
@@ -3282,7 +3296,7 @@
   @@SetGadgetItemAttribute: With the following attribute:
 @FixedFont
   @#PB_ListIcon_ColumnWidth    : Changes the width of the given 'Column'. The 'Item' parameter is ignored.
-  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Item' parameter can be one of the following value:
+  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Value' parameter can be one of the following value:
      - @#PB_ListIcon_Left  : Text is left aligned (default).
      - @#PB_ListIcon_Right : Text is right aligned.
      - @#PB_ListIcon_Center: Text is centered.
@@ -3722,6 +3736,7 @@
   - @@GetGadgetState: Get the index of the current panel.
 @LineBreak
   - @@GetGadgetAttribute: With one of the following attributes: (there must be at least 1 item for this to work)
+    (not supported on Linux GTK)
 @FixedFont
   @#PB_Panel_ItemWidth : Returns the width of the inner area where the gadgets are displayed.
   @#PB_Panel_ItemHeight: Returns the height of the inner area where the gadgets are displayed.
@@ -3929,6 +3944,39 @@
 @LineBreak
   - @@TreeGadget - If the removed item is a node, all child-items will be removed too.
 
+@Example Remove selected item in a ListIconGadget by pressing 'Delete'
+@Code
+  Enumeration 
+    #KeyDelete
+  EndEnumeration
+  
+  If OpenWindow(0, 100, 100, 300, 500, "ListIcon Example", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 5, 5, 290, 290, "Number", 100, #PB_ListIcon_FullRowSelect | #PB_ListIcon_AlwaysShowSelection)
+    For i=1 To 100
+      AddGadgetItem(0, -1, Str(i))
+    Next
+    StringGadget(1, 5, 305, 290, 25, "Edit me!")
+    EditorGadget(2, 5, 335, 290, 100)
+    SetGadgetText(2, "And me too!")
+    
+    Repeat
+      Event = WaitWindowEvent()
+      If GetActiveGadget() = 0
+        AddKeyboardShortcut(0, #PB_Shortcut_Delete, #KeyDelete)
+      Else
+        RemoveKeyboardShortcut(0, #PB_Shortcut_Delete)
+      EndIf
+      If Event = #PB_Event_Menu And EventMenu() = #KeyDelete
+        i = GetGadgetState(0)
+        If i > -1
+          RemoveGadgetItem(0, i)
+          SetGadgetState(0, i)
+        EndIf
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
 @SeeAlso
   @@AddGadgetItem, @@ClearGadgetItems, @@CountGadgetItems
 
@@ -3976,10 +4024,8 @@
   EndIf
 @EndCode
   
-
-
 @SeeAlso
-  @@GadgetX, @@GadgetY, @@GadgetWidth, @@GadgetHeight
+  @@GadgetX, @@GadgetY, @@GadgetWidth, @@GadgetHeight, @@ResizeWindow, @@WindowBounds, @@BindEvent
 
 @SupportedOS
 
@@ -3998,7 +4044,7 @@
   The position and dimensions of the new gadget.
 
 @Parameter "Minimum, Maximum"
-  The range of values that the scrollbar can take. These values should be between 0 and 10,000 to avoid
+  The range of values that the scrollbar can take. These values must be between 0 and 10,000 to avoid
   limitations on some operating systems.
 
 @Parameter "PageLength"
@@ -4152,19 +4198,19 @@
 @LineBreak
   @@GetGadgetAttribute: With one of the following attribute:
 @FixedFont
-  @#PB_ScrollArea_InnerWidth  : Returns the width (in pixels) of the contained scrollable area.
-  @#PB_ScrollArea_InnerHeight : Returns the height (in pixels) of the contained scrollable area.
-  @#PB_ScrollArea_X           : Returns the current horizontal scrolling position (in pixels).
-  @#PB_ScrollArea_Y           : Returns the current vertical scrolling position (in pixels).
-  @#PB_ScrollArea_ScrollStep  : Returns the current scroll step value (in pixels).
+  @#PB_ScrollArea_InnerWidth  : Returns the width of the contained scrollable area.
+  @#PB_ScrollArea_InnerHeight : Returns the height of the contained scrollable area.
+  @#PB_ScrollArea_X           : Returns the current horizontal scrolling position.
+  @#PB_ScrollArea_Y           : Returns the current vertical scrolling position.
+  @#PB_ScrollArea_ScrollStep  : Returns the current scroll step value.
 @EndFixedFont
   @@SetGadgetAttribute: With one of the following attribute:
 @FixedFont
-  @#PB_ScrollArea_InnerWidth  : Changes the width (in pixels) of the contained scrollable area.
-  @#PB_ScrollArea_InnerHeight : Changes the height (in pixels) of the contained scrollable area.
-  @#PB_ScrollArea_X           : Changes the current horizontal scrolling position (in pixels).
-  @#PB_ScrollArea_Y           : Changes the current vertical scrolling position (in pixels).
-  @#PB_ScrollArea_ScrollStep  : Changes the current scroll step value (in pixels).
+  @#PB_ScrollArea_InnerWidth  : Changes the width of the contained scrollable area.
+  @#PB_ScrollArea_InnerHeight : Changes the height of the contained scrollable area.
+  @#PB_ScrollArea_X           : Changes the current horizontal scrolling position.
+  @#PB_ScrollArea_Y           : Changes the current vertical scrolling position.
+  @#PB_ScrollArea_ScrollStep  : Changes the current scroll step value.
 @EndFixedFont
 @LineBreak
 @LineBreak
@@ -4418,7 +4464,7 @@
 @Image setgadgetcolor.png
 
 @SeeAlso
-  @@GetGadgetColor, @@GetGadgetItemColor, @@SetGadgetItemColor
+  @@GetGadgetColor, @@GetGadgetItemColor, @@SetGadgetItemColor, @@SetWindowColor
 
 @SupportedOS
 
@@ -4792,8 +4838,6 @@
 @Remarks
   This is a universal function which works for almost all
   gadgets which handle several items. 'State' can take the following values:
-@LineBreak
-  - @@CalendarGadget: @#PB_Calendar_Bold to make a date appear bold, @#PB_Calendar_Normal otherwise.
 @LineBreak
   - @@ExplorerListGadget: with the following value:
 @FixedFont
@@ -5273,6 +5317,7 @@
   @#PB_String_LowerCase  : All characters are converted to lower case automatically.
   @#PB_String_UpperCase  : All characters are converted to upper case automatically.
   @#PB_String_BorderLess : No borders are drawn around the gadget.
+  @#PB_String_PlaceHolder: The 'Content$' paramater will be used as place holder (an informative text displayed when the gadget is empty).
 @EndFixedFont
 
 @ReturnValue
@@ -5314,7 +5359,7 @@
 @Example
 @Code
   ; Shows possible flags of StringGadget in action...
-  If OpenWindow(0, 0, 0, 322, 205, "StringGadget Flags", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  If OpenWindow(0, 0, 0, 322, 235, "StringGadget Flags", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
     StringGadget(0, 8,  10, 306, 20, "Normal StringGadget...")
     StringGadget(1, 8,  35, 306, 20, "1234567", #PB_String_Numeric)
     StringGadget(2, 8,  60, 306, 20, "Read-only StringGadget", #PB_String_ReadOnly)
@@ -5322,6 +5367,7 @@
     StringGadget(4, 8, 110, 306, 20, "uppercase...", #PB_String_UpperCase)
     StringGadget(5, 8, 140, 306, 20, "Borderless StringGadget", #PB_String_BorderLess)
     StringGadget(6, 8, 170, 306, 20, "Password", #PB_String_Password)
+	StringGadget(7, 8, 210, 306, 20, "PlaceHolder...", #PB_String_PlaceHolder)
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
 @EndCode
@@ -5742,13 +5788,13 @@
   @#PB_Web_SelectedText : Get the currently selected text inside the gadget.
 @EndFixedFont
 
-  - @@SetGadgetAttribute: Set the following attributes  (Windows only):
+  - @@SetGadgetAttribute: Set the following attributes:
 @FixedFont
-  @#PB_Web_ScrollX       : Set the horizontal scrolling position.
-  @#PB_Web_ScrollY       : Set the vertical scrolling position.
-  @#PB_Web_BlockPopups   : Block popup windows. @#PB_EventType_PopupWindow is fired if this setting is enabled.
-  @#PB_Web_BlockPopupMenu: Block standard the popup menu. @#PB_EventType_PopupMenu is fired if this setting is enabled.
   @#PB_Web_NavigationCallback: Set a callback for monitoring (and disabling) navigation.
+  @#PB_Web_ScrollX           : Set the horizontal scrolling position (Windows only).
+  @#PB_Web_ScrollY           : Set the vertical scrolling position (Windows only).
+  @#PB_Web_BlockPopups       : Block popup windows. @#PB_EventType_PopupWindow is fired if this setting is enabled (Windows only).
+  @#PB_Web_BlockPopupMenu    : Block standard the popup menu. @#PB_EventType_PopupMenu is fired if this setting is enabled (Windows only).
 @EndFixedFont
 
   The Navigation callback must have the following format: (Windows only)

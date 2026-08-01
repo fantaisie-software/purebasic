@@ -1,29 +1,29 @@
-@Title Table des couleurs
+ï»¿@Title Table des couleurs
 
-@Section Généralités
+@Section GÃ©nÃ©ralitÃ©s
   
-  Le tableau suivant représente 216 couleurs  dans différentes variations. Cela donne un
-  aperçu des couleurs possibles ainsi que leurs valeurs numériques (en hexadécimale).
+  Le tableau suivant reprÃ©sente 216 couleurs  dans diffÃ©rentes variations. Cela donne un
+  aperÃ§u des couleurs possibles ainsi que leurs valeurs numÃ©riques (en hexadÃ©cimale).
   @LineBreak
   @LineBreak
-  La table des couleurs est affichée dans le format RGB habituel (rouge, vert, bleu).
-  Par exemple la couleur bleue en haut à droite a pour valeur hexadécimale '$0000FF', 
-  avec 'FF' pour indiquer la pleine échelle de la composante bleue.
+  La table des couleurs est affichÃ©e dans le format RGB habituel (rouge, vert, bleu).
+  Par exemple la couleur bleue en haut Ã  droite a pour valeur hexadÃ©cimale '$0000FF', 
+  avec 'FF' pour indiquer la pleine Ã©chelle de la composante bleue.
   @LineBreak
   @LineBreak
-  Pour toutes les commandes PureBasic qui attendent la valeur d'une couleur, vous avez trois possibilités:
+  Pour toutes les commandes PureBasic qui attendent la valeur d'une couleur, vous avez trois possibilitÃ©s:
   @LineBreak
   @LineBreak
-  1.) Utilisez les valeurs affichées avec la commande @@RGB 
-      en séparant la valeur de chaque composante de la couleur dans l'ordre  
+  1.) Utilisez les valeurs affichÃ©es avec la commande @@RGB 
+      en sÃ©parant la valeur de chaque composante de la couleur dans l'ordre  
       (R)ed, (G)reen and (B)lue  (Rouge ,Vert , Bleu) :
 @Code
   Plot(0, 0, RGB($00,$00,$FF))
 @EndCode
 
   2.) Utilisez une seule valeur de couleur incluant toutes les composantes, mais dans ce cas les composantes bleue et rouge 
-      doivent être croisées, de telle sorte que la couleur soit dans le format BGR.
-      Par exemple la couleur bleue sera utilisée comme ceci :
+      doivent Ãªtre croisÃ©es, de telle sorte que la couleur soit dans le format BGR.
+      Par exemple la couleur bleue sera utilisÃ©e comme ceci :
 @Code
   Plot(0, 0, $FF0000))
 @EndCode    
@@ -39,14 +39,14 @@
       #White   
       #Yellow  
 @EndCode
-  Attention toutefois au thème de bureau des systèmes d'exploitation qui peuvent altérer 
-  la couleur à l'affichage. 
+  Attention toutefois au thÃ¨me de bureau des systÃ¨mes d'exploitation qui peuvent altÃ©rer 
+  la couleur Ã  l'affichage. 
   
 @Code
   Plot(0, 0, #Red))
 @EndCode
 
-  Truc pour programmeur avancé: La valeur RGB est calculée de la façon suivante :
+  Truc pour programmeur avancÃ©: La valeur RGB est calculÃ©e de la faÃ§on suivante :
     Couleur = Rouge + Vert*256 + Bleu*65536 
 
 @FormatIf HTML WEBSITE

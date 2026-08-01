@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Packer library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,9 +8,9 @@
 
 @Overview
 
-  La bibliothèque Packer propose un ensemble de fonctions efficaces pour compresser / 
-  décompresser des données et gérer les archives compressées.@LineBreak
-  Plusieurs formats de compressions sont pris en charge, de Zip à Lzma.
+  La bibliothÃ¨que Packer propose un ensemble de fonctions efficaces pour compresser / 
+  dÃ©compresser des donnÃ©es et gÃ©rer les archives compressÃ©es.@LineBreak
+  Plusieurs formats de compressions sont pris en charge, de Zip Ã  Lzma.
 
 @CommandList
 
@@ -23,70 +23,74 @@
 @Function Resultat = AddPackFile(#Archive, Fichier$, FichierCompresser$)
 
 @Description
-  Ajoute et compresse un fichier dans une archive préalablement créée avec @@CreatePack. 
+  Ajoute et compresse un fichier dans une archive prÃ©alablement crÃ©Ã©e avec @@CreatePack. 
  
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @Parameter "Fichier$"
-  Le fichier à ajouter à l'archive.
+  Le fichier Ã  ajouter Ã  l'archive.
 
 @Parameter "FichierCompresser$"
-  Le nom de fichier à utiliser dans l'archive.
+  Le nom de fichier Ã  utiliser dans l'archive.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le fichier a été ajouté avec succès à l'archive.
+  Renvoie une valeur non nulle si le fichier a Ã©tÃ© ajoutÃ© avec succÃ¨s Ã  l'archive.
   @LineBreak
-  Si le fichier ne peut pas être compressé, il sera stocké tel quel dans l'archive.
+  Si le fichier ne peut pas Ãªtre compressÃ©, il sera stockÃ© tel quel dans l'archive.
 
 @Remarks
   L'ajout d'un grand fichier peut prendre un temps assez long.
+  @LineBreak
+  @LineBreak
+  @@PackerCallback peut Ãªtre utilisÃ© pour surveiller ou interrompre la compression.
 
 @Example Utilisation d'une arborescence de fichiers  
 @Code
 
   UseZipPacker()
 
-  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
-  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
+  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accÃ¨s aux fichiers sources des exemples PureBasic
+  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accÃ¨s au futur fichier comprÃ©ssÃ© (zip)
     If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
     AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
     AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
     AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
     ClosePack(0)
-    Debug "Fichier compressé créé avec succès : " + PackFile$
+    Debug "Fichier compressÃ© crÃ©Ã© avec succÃ¨sÂ : " + PackFile$
   Else
-    Debug "Erreur lors de la création du fichier compressé !"
+    Debug "Erreur lors de la crÃ©ation du fichier compressÃ© !"
   EndIf
 
-  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accès au répertoire dans lequel les fichiers compressés doivent être extraits
+  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accÃ¨s au rÃ©pertoire dans lequel les fichiers compressÃ©s doivent Ãªtre extraits
   If OpenPack(0, PackFile$)
     If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
       If ExaminePack(0)
-         Debug "Fichier compressé créé avec succès : " + PackFile$
+         Debug "Fichier compressÃ© crÃ©Ã© avec succÃ¨sÂ : " + PackFile$
         While NextPackEntry(0)
+          Debug " - date: " + FormatDate("%dd/%mm/%yyyy %hh:%ii:%ss", PackEntryDate(0))
           Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
-            Debug "Erreur : échec de décompression du fichier compressé : " + PackEntryName(0)
+            Debug "ErreurÂ : Ã©chec de dÃ©compression du fichierÂ compressÃ© : " + PackEntryName(0)
           EndIf
         Wend
       Else
-        Debug "Erreur lors de l'examen du fichier compressé !"
+        Debug "Erreur lors de l'examen du fichier compressÃ©Â !"
       EndIf
       ClosePack(0)
     
-      RunProgram(PackFile$) ; Ouverture du répertoire contenant les fichiers décompressés
+      RunProgram(PackFile$) ; Ouverture du rÃ©pertoire contenant les fichiers dÃ©compressÃ©s
     Else
-      Debug "Erreur lors de la création du dossier de décompression de l'archive !"  
+      Debug "Erreur lors de la crÃ©ation du dossier de dÃ©compression de l'archiveÂ !"  
     EndIf
   Else
-    Debug "Erreur lors de l'ouverture du fichier compressé !"
+    Debug "Erreur lors de l'ouverture du fichier compressÃ©Â !"
   EndIf
 @EndCode
 
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
   
 @SupportedOS
 
@@ -95,19 +99,19 @@
 @Function Resultat = AddPackDirectory(#Archive, Repertoire$)
 
 @Description
-   Ajoute un nouveau répertoire vide à l'archive créée avec @@CreatePack.
+   Ajoute un nouveau rÃ©pertoire vide Ã  l'archive crÃ©Ã©e avec @@CreatePack.
 
 @Parameter "#Pack"
-   L'archive à utiliser.
+   L'archive Ã  utiliser.
 
-@Parameter "NomRépertoire$"
-   Le nom du répertoire vide à ajouter à l'archive.
+@Parameter "NomRÃ©pertoire$"
+   Le nom du rÃ©pertoire vide Ã  ajouter Ã  l'archive.
 
 @ReturnValue
-   Renvoie une valeur non nulle si le répertoire vide a été ajouté avec succès à l'archive.
+   Renvoie une valeur non nulle si le rÃ©pertoire vide a Ã©tÃ© ajoutÃ© avec succÃ¨s Ã  l'archive.
   
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
 
 @SupportedOS
 
@@ -116,35 +120,38 @@
 @Function Resultat = AddPackMemory(#Archive, *MemoireTampon, Longueur , FichierCompresser$)
 
 @Description
-  Ajoute et compresse une zone mémoire 
-  tampon dans une archive préalablement 
-  créée avec la commande @@CreatePack.
+  Ajoute et compresse une zone mÃ©moire 
+  tampon dans une archive prÃ©alablement 
+  crÃ©Ã©e avec la commande @@CreatePack.
 
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon dont 
-  le contenu sera ajouté à l'archive.
+  L'adresse de la mÃ©moire tampon dont 
+  le contenu sera ajoutÃ© Ã  l'archive.
 
 @Parameter "Longueur"
-  La taille de la mémoire à ajouter à 
+  La taille de la mÃ©moire Ã  ajouter Ã  
   l'archive.
 
 @Parameter "FichierCompresser$"
-  Le nom de fichier à utiliser dans 
+  Le nom de fichier Ã  utiliser dans 
   l'archive.
 
 @ReturnValue
   Renvoie une valeur non nulle si le contenu 
-  de la mémoire tampon a été ajouté avec 
-  succès à l'archive.@LineBreak
-  Si le contenu de la mémoire tampon ne peut 
-  pas être compressé, il sera stocké tel 
+  de la mÃ©moire tampon a Ã©tÃ© ajoutÃ© avec 
+  succÃ¨s Ã  l'archive.@LineBreak
+  Si le contenu de la mÃ©moire tampon ne peut 
+  pas Ãªtre compressÃ©, il sera stockÃ© tel 
   quel dans l'archive.
 
+@Remarks
+  @@PackerCallback peut Ãªtre utilisÃ© pour surveiller ou interrompre la compression.
+  
 @SeeAlso
-  @@CreatePack
+  @@CreatePack, @@PackerCallback
  
 @SupportedOS
 
@@ -156,17 +163,17 @@
   Ferme un fichier archive. 
 
 @Parameter "#Archive"
-  L'archive à fermer. 
+  L'archive Ã  fermer. 
 @LineBreak  
 @LineBreak  
-  Si @#PB_All est spécifié, toutes les 
-  archives restantes sont fermées.
+  Si @#PB_All est spÃ©cifiÃ©, toutes les 
+  archives restantes sont fermÃ©es.
 
 @NoReturnValue
 
 @Remarks
   Tous les fichiers archives ouverts sont 
-  automatiquement fermés quand le programme 
+  automatiquement fermÃ©s quand le programme 
   se termine. 
 
 @SeeAlso
@@ -179,56 +186,57 @@
 @Function Resultat = CompressMemory(*MemoireTampon, Taille, *Sortie, SortieTaille [, Plugin [, Niveau]])
 
 @Description
-  Compresse le contenu d'une mémoire tampon 
-  dans une mémoire tampon de sortie. 
+  Compresse le contenu d'une mÃ©moire tampon 
+  dans une mÃ©moire tampon de sortie. 
   
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon de compression.
+  L'adresse de la mÃ©moire tampon de compression.
 
 @Parameter "Taille"
-  La taille de la mémoire à compresser.
+  La taille de la mÃ©moire Ã  compresser.
 
 @Parameter "*Sortie"
-  L'adresse de la mémoire tampon qui 
-  contiendra les données compressées.
+  L'adresse de la mÃ©moire tampon qui 
+  contiendra les donnÃ©es compressÃ©es.
 
 @Parameter "SortieTaille"
-  La taille de la mémoire tampon qui 
-  contiendra les données compressées.
+  La taille de la mÃ©moire tampon qui 
+  contiendra les donnÃ©es compressÃ©es.
 
 @OptionalParameter "Plugin"
-  Le plug-in à utiliser, si plus d'un 
-  plug-in a été enregistré. Il peut 
-  être une des valeurs suivantes:
+  Le plug-in Ã  utiliser, si plus d'un 
+  plug-in a Ã©tÃ© enregistrÃ©. Il peut 
+  Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit être appelé auparavant.
+  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit Ãªtre appelÃ© auparavant.
 @EndFixedFont
 
 @OptionalParameter "Niveau"
-  Le niveau de compression à utiliser.
+  Le niveau de compression Ã  utiliser.
 @LineBreak
 @LineBreak 
-  Une valeur entière allant de 0 (taux de compression inférieur, compression plus rapide) 
-  à 9 (taux de compression plus élevé, compression plus lente).
+  Une valeur entiÃ¨re allant de 0 (taux de compression infÃ©rieur, compression plus rapide) 
+  Ã  9 (taux de compression plus Ã©levÃ©, compression plus lente).
 
 @ReturnValue
-  Renvoie la taille compressée si le contenu 
-  de la mémoire tampon a été correctement 
-  compressé, zéro sinon.@LineBreak
-  Si les données du tampon ne peuvent pas 
-  être compressées, il renverra zéro (ex: 
-  les données déjà compressées ne peuvent 
-  généralement pas l'être davantage).
+  Renvoie la taille compressÃ©e si le contenu 
+  de la mÃ©moire tampon a Ã©tÃ© correctement 
+  compressÃ©, zÃ©ro sinon.@LineBreak
+  Si les donnÃ©es du tampon ne peuvent pas 
+  Ãªtre compressÃ©es, il renverra zÃ©ro (ex: 
+  les donnÃ©es dÃ©jÃ  compressÃ©es ne peuvent 
+  gÃ©nÃ©ralement pas l'Ãªtre davantage).
 
 @Remarks
-  La longueur du tampon de sortie doit être 
-  au moins aussi grande que celle du tampon 
-  de compression.
+  La longueur du tampon de sortie doit Ãªtre au moins aussi grande que celle du tampon de compression.
+@LineBreak
+@LineBreak 
+  @@PackerCallback peut Ãªtre utilisÃ© pour surveiller ou interrompre la compression.
   
 @SeeAlso
-  @@UncompressMemory
+  @@UncompressMemory, @@PackerCallback
     
 @SupportedOS
 
@@ -240,26 +248,26 @@
   Commence l'examen du contenu d'une archive. 
   
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'archive peut être examinée, zéro sinon.
+  Renvoie une valeur non nulle si l'archive peut Ãªtre examinÃ©e, zÃ©ro sinon.
 
 @Remarks
-  @@NextPackEntry doit être appelé pour lister les entrées dans le fichier archive.
+  @@NextPackEntry doit Ãªtre appelÃ© pour lister les entrÃ©es dans le fichier archive.
   @LineBreak
-  L'archive doit être préalablement ouverte avec @@OpenPack ou @@CatchPack.@LineBreak 
-  Les archives créées avec @@CreatePack ne peuvent pas être examinées.
+  L'archive doit Ãªtre prÃ©alablement ouverte avec @@OpenPack ou @@CatchPack.@LineBreak 
+  Les archives crÃ©Ã©es avec @@CreatePack ne peuvent pas Ãªtre examinÃ©es.
   
 @Example
 @Code
 
   UseZipPacker()
 
-  ; Ouvre le fichier compressé
+  ; Ouvre le fichier compressÃ©
   If OpenPack(0, "Mesfichierscompresses.zip") 
     
-    ; Liste toutes les entrées
+    ; Liste toutes les entrÃ©es
     If ExaminePack(0)
       While NextPackEntry(0)
         Debug "Nom: " + PackEntryName(0) + ", Taille: " + PackEntrySize(0)
@@ -280,20 +288,20 @@
 @Function Resultat = NextPackEntry(#Archive)
 
 @Description
-  Va à l'entrée suivante dans le fichier archive. 
+  Va Ã  l'entrÃ©e suivante dans le fichier archive. 
   
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'archive contient une autre entrée, zéro sinon.
+  Renvoie une valeur non nulle si l'archive contient une autre entrÃ©e, zÃ©ro sinon.
   
 @Remarks
-  @@ExaminePack doit être appelé auparavant.
+  @@ExaminePack doit Ãªtre appelÃ© auparavant.
   @LineBreak
-  Pour obtenir plus d'informations sur l'entrée en cours, voir @@PackEntrySize, @@PackEntryType 
+  Pour obtenir plus d'informations sur l'entrÃ©e en cours, voir @@PackEntrySize, @@PackEntryType 
   et @@PackEntryName.@LineBreak
-  Pour décompresser l'entrée courante, voir @@UncompressPackMemory ou @@UncompressPackFile.
+  Pour dÃ©compresser l'entrÃ©e courante, voir @@UncompressPackMemory ou @@UncompressPackFile.
   
 @SeeAlso
   @@OpenPack, @@CatchPack, @@PackEntrySize, @@PackEntryDate, @@PackEntryType, @@PackEntryName,
@@ -307,17 +315,17 @@
 @Function Resultat.q = PackEntryDate(#Archive [, TypeDate])
 
 @Description
-   Renvoie la date du fichier de l'entrée actuelle de l'archive, définie avec @@NextPackEntry.
+   Renvoie la date du fichier de l'entrÃ©e actuelle de l'archive, dÃ©finie avec @@NextPackEntry.
   
 @Parameter "#Pack"
-   L'archive à utiliser.
+   L'archive Ã  utiliser.
   
 @Parameter "TypeDate"
-   Le genre de date à renvoyer. Il peut s'agir de l'une des valeurs suivantes :
+   Le genre de date Ã  renvoyer. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-   @#PB_Date_Created  : Renvoie la date de création du fichier.
-   @#PB_Date_Accessed : Renvoie la date du dernier accès au fichier.
-   @#PB_Date_Modified : Renvoie la date de la dernière modification du fichier.
+   @#PB_Date_Created  : Renvoie la date de crÃ©ation du fichier.
+   @#PB_Date_Accessed : Renvoie la date du dernier accÃ¨s au fichier.
+   @#PB_Date_Modified : Renvoie la date de la derniÃ¨re modification du fichier.
 @EndFixedFont
 
 @ReturnValue
@@ -333,17 +341,17 @@
 @Function Resultat = PackEntryType(#Archive)
 
 @Description
-  Renvoie le type de l'entrée courante 
-  trouvée avec @@NextPackEntry.
+  Renvoie le type de l'entrÃ©e courante 
+  trouvÃ©e avec @@NextPackEntry.
   
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @ReturnValue
   Renvoie une des valeurs suivantes:
 @FixedFont
-  @#PB_Packer_File     : L'entrée courante est un fichier.
-  @#PB_Packer_Directory: L'entrée courante est un répertoire.
+  @#PB_Packer_File     : L'entrÃ©e courante est un fichier.
+  @#PB_Packer_Directory: L'entrÃ©e courante est un rÃ©pertoire.
 @EndFixedFont
 
 @SeeAlso
@@ -356,23 +364,23 @@
 @Function Resultat = PackEntrySize(#Archive [, Mode])
 
 @Description
-  Renvoie la taille de l'entrée courante 
-  trouvée avec @@NextPackEntry.
+  Renvoie la taille de l'entrÃ©e courante 
+  trouvÃ©e avec @@NextPackEntry.
   
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @OptionalParameter "Mode"
-  Le type de taille à obtenir. @LineBreak
-  Peut être une des valeurs suivantes:
+  Le type de taille Ã  obtenir. @LineBreak
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont
-  @#PB_Packer_UncompressedSize: Renvoie la taille non compressée de l'entrée courante (par défaut).
-  @#PB_Packer_CompressedSize  : Renvoie la taille compressée de l'entrée courante.
+  @#PB_Packer_UncompressedSize: Renvoie la taille non compressÃ©e de l'entrÃ©e courante (par dÃ©faut).
+  @#PB_Packer_CompressedSize  : Renvoie la taille compressÃ©e de l'entrÃ©e courante.
                                Seulement avec les archives BriefLZ.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la taille de l'entrée courante.
+  Renvoie la taille de l'entrÃ©e courante.
 
 @SeeAlso
   @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntryName.
@@ -384,14 +392,14 @@
 @Function Resultat$ = PackEntryName(#Archive)
 
 @Description
-  Renvoie le nom de l'entrée courante 
-  trouvée avec @@NextPackEntry.
+  Renvoie le nom de l'entrÃ©e courante 
+  trouvÃ©e avec @@NextPackEntry.
   
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @ReturnValue
-  Renvoie le nom de l'entrée courante.
+  Renvoie le nom de l'entrÃ©e courante.
 
 @SeeAlso
   @@OpenPack, @@CatchPack, @@NextPackEntry, @@PackEntryType, @@PackEntrySize.
@@ -403,51 +411,51 @@
 @Function Resultat = CreatePack(#Archive, Fichier$ [, Plugin [, Niveau]])
 
 @Description
-  Créé un nouveau fichier archive vide. 
+  CrÃ©Ã© un nouveau fichier archive vide. 
   
 @Parameter "#Archive"
-  Un numéro pour identifier le nouveau 
+  Un numÃ©ro pour identifier le nouveau 
   fichier archive. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé en tant que paramètre pour 
-  générer automatiquement ce numéro.
+  peut Ãªtre utilisÃ© en tant que paramÃ¨tre pour 
+  gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @Parameter "Fichier$"
   Le nom du nouveau fichier archive.
   
 @OptionalParameter "Plugin"
-  Le plug-in à utiliser, si plus d'un plug-in 
-  a été enregistré.@LineBreak 
-  Peut être une des valeurs suivantes:
+  Le plug-in Ã  utiliser, si plus d'un plug-in 
+  a Ã©tÃ© enregistrÃ©.@LineBreak 
+  Peut Ãªtre une des valeurs suivantes:
 @FixedFont  
-  @#PB_PackerPlugin_BriefLZ: utilisation de BriefLZ. @@UseBriefLZPacker doit être déclaré auparavant.
-  @#PB_PackerPlugin_Zip    : utilisation de Zip. @@UseZipPacker doit être déclaré auparavant.
-  @#PB_PackerPlugin_Lzma   : utilisation de Lzma (archive 7z). @@UseLzmaPacker doit être déclaré auparavant.
-  @#PB_PackerPlugin_Tar    : utilisation de Tar. @@UseTarPacker doit être déclaré auparavant.
-                            Il peut être combiné avec @#PB_Packer_Gzip ou @#PB_Packer_Bzip2.
+  @#PB_PackerPlugin_BriefLZ: utilisation de BriefLZ. @@UseBriefLZPacker doit Ãªtre dÃ©clarÃ© auparavant.
+  @#PB_PackerPlugin_Zip    : utilisation de Zip. @@UseZipPacker doit Ãªtre dÃ©clarÃ© auparavant.
+  @#PB_PackerPlugin_Lzma   : utilisation de Lzma (archive 7z). @@UseLzmaPacker doit Ãªtre dÃ©clarÃ© auparavant.
+  @#PB_PackerPlugin_Tar    : utilisation de Tar. @@UseTarPacker doit Ãªtre dÃ©clarÃ© auparavant.
+                            Il peut Ãªtre combinÃ© avec @#PB_Packer_Gzip ou @#PB_Packer_Bzip2.
 
 @EndFixedFont
 
 @OptionalParameter "Niveau"
-  Le niveau de compression à utiliser.
+  Le niveau de compression Ã  utiliser.
 @LineBreak
 @LineBreak 
-  Une valeur entière allant de 0 (taux de compression inférieur, compression plus rapide) 
-  à 9 (taux de compression plus élevé, compression plus lente).
+  Une valeur entiÃ¨re allant de 0 (taux de compression infÃ©rieur, compression plus rapide) 
+  Ã  9 (taux de compression plus Ã©levÃ©, compression plus lente).
 
 @ReturnValue
   Renvoie une valeur non nulle si le fichier 
-  archive a été créé avec succès, zéro sinon. @LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  #Archive alors c'est le numéro de l'archive 
-  généré est renvoyé.
+  archive a Ã©tÃ© crÃ©Ã© avec succÃ¨s, zÃ©ro sinon. @LineBreak
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  #Archive alors c'est le numÃ©ro de l'archive 
+  gÃ©nÃ©rÃ© est renvoyÃ©.
 
 @Code
   UseZipPacker()
 
-  ; Créer le fichier compressé
+  ; CrÃ©er le fichier compressÃ©
   If CreatePack(0, "MesFichiersCompresses.zip") 
   
     ; Ajouter vos fichiers 
@@ -472,50 +480,50 @@
   Ouvre un fichier Archive. 
 
 @Parameter "#Archive"
-  Un numéro pour identifier le fichier archive. 
+  Un numÃ©ro pour identifier le fichier archive. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé en tant que paramètre pour 
-  générer automatiquement ce numéro.
+  peut Ãªtre utilisÃ© en tant que paramÃ¨tre pour 
+  gÃ©nÃ©rer automatiquement ce numÃ©ro.
 
 @Parameter "Fichier$"
-  Le nom du fichier archive à ouvrir.
+  Le nom du fichier archive Ã  ouvrir.
   
 @OptionalParameter "Plugin"
-  Le plug-in à utiliser, si plus d'un plug-in 
-  a été enregistré. Il peut être une des 
+  Le plug-in Ã  utiliser, si plus d'un plug-in 
+  a Ã©tÃ© enregistrÃ©. Il peut Ãªtre une des 
   valeurs suivantes:
 @FixedFont  
-  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Tar    : Utilisation de Tar.     @@UseTarPacker doit être appelé auparavant.
+  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Tar    : Utilisation de Tar.     @@UseTarPacker doit Ãªtre appelÃ© auparavant.
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si le fichier 
-  archive a été ouvert avec succès, zéro sinon. 
-  Si @#PB_Any a été utilisé comme paramètre 
-  #Archive alors c'est le numéro de l'archive 
-  généré qui est renvoyé.
+  archive a Ã©tÃ© ouvert avec succÃ¨s, zÃ©ro sinon. 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre 
+  #Archive alors c'est le numÃ©ro de l'archive 
+  gÃ©nÃ©rÃ© qui est renvoyÃ©.
 
 @Remarks
   Avant d'ouvrir un fichier archive, au moins 
-  un Plug-in doit être enregistré avec l'une 
+  un Plug-in doit Ãªtre enregistrÃ© avec l'une 
   des commandes suivantes: @@UseZipPacker, 
   @@UseLzmaPacker, , @@UseTarPacker, 
   @@UseBriefLZPacker.
   Une fois ouvert, le contenu de l'archive 
-  peut être listé avec @@ExaminePack.
+  peut Ãªtre listÃ© avec @@ExaminePack.
   
 @Code
   UseZipPacker()
 
-  ; Ouvre le fichier compressé
+  ; Ouvre le fichier compressÃ©
   If OpenPack(0, "MesFichiersCompresses.zip") 
     
-    ; Liste toutes les entrées
+    ; Liste toutes les entrÃ©es
     If ExaminePack(0)
       While NextPackEntry(0)
         Debug "Nom: " + PackEntryName(0) + ", Taille: " + PackEntrySize(0)
@@ -536,38 +544,38 @@
 @Function Resultat = CatchPack(#Archive, *AdresseMemoire, Taille [, Plugin])
 
 @Description
-  Ouvre un fichier archive depuis la mémoire. 
+  Ouvre un fichier archive depuis la mÃ©moire. 
 
 @Parameter "#Archive"
-  Le numéro d'identification de l'archive à ouvrir. 
+  Le numÃ©ro d'identification de l'archive Ã  ouvrir. 
   @LineBreak
   @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé comme paramètre pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut Ãªtre utilisÃ© comme paramÃ¨tre pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
 
 @Parameter "*AdresseMemoire"
-  L'adresse mémoire où se trouve le fichier archive.
+  L'adresse mÃ©moire oÃ¹ se trouve le fichier archive.
 
 @Parameter "Taille"
   La taille du fichier archive en octets.
 
 @OptionalParameter "Plugin"
-   Le plugin à utiliser, si plusieurs plugins packer ont été enregistrés. Il peut s'agir de l'une des valeurs suivantes :
+   Le plugin Ã  utiliser, si plusieurs plugins packer ont Ã©tÃ© enregistrÃ©s. Il peut s'agir de l'une des valeurs suivantesÂ :
 @FixedFont
-   @#PB_PackerPlugin_BriefLZ : Utilise le packer BriefLZ pour ouvrir l'archive. @@UseBriefLZPacker doit être appelé avant.
-   @#PB_PackerPlugin_Zip     : Utilise le packer Zip pour ouvrir l'archive. @@UseZipPacker doit être appelé avant.
-   @#PB_PackerPlugin_Lzma    : Utilise le packer Lzma pour ouvrir l'archive. @@UseLzmaPacker doit être appelé avant.
-   @#PB_PackerPlugin_Tar     : Utilise le packer Tar pour ouvrir l'archive. @@UseTarPacker doit être appelé avant.
+   @#PB_PackerPlugin_BriefLZÂ : Utilise le packer BriefLZ pour ouvrir l'archive. @@UseBriefLZPacker doit Ãªtre appelÃ© avant.
+   @#PB_PackerPlugin_Zip     : Utilise le packer Zip pour ouvrir l'archive. @@UseZipPacker doit Ãªtre appelÃ© avant.
+   @#PB_PackerPlugin_Lzma    : Utilise le packer Lzma pour ouvrir l'archive. @@UseLzmaPacker doit Ãªtre appelÃ© avant.
+   @#PB_PackerPlugin_Tar     : Utilise le packer Tar pour ouvrir l'archive. @@UseTarPacker doit Ãªtre appelÃ© avant.
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si le fichier archive a été ouvert avec succès, zéro sinon. 
-  Si @#PB_Any a été utilisé comme paramètre #Archive, un numéro généré est renvoyé.
+  Renvoie une valeur non nulle si le fichier archive a Ã©tÃ© ouvert avec succÃ¨s, zÃ©ro sinon. 
+  Si @#PB_Any a Ã©tÃ© utilisÃ© comme paramÃ¨tre #Archive, un numÃ©ro gÃ©nÃ©rÃ© est renvoyÃ©.
 
 @Remarks
-  Avant d'ouvrir un fichier archive, au moins un packer doit être enregistré avec l'une des 
-  commandes suivantes : @@UseZipPacker, @@UseLzmaPacker, @@UseTarPacker, @@UseBriefLZPacker.@LineBreak
-  Une fois ouvert, le contenu de l'archive peut être répertorié avec @@ExaminePack.
+  Avant d'ouvrir un fichier archive, au moins un packer doit Ãªtre enregistrÃ© avec l'une des 
+  commandes suivantesÂ : @@UseZipPacker, @@UseLzmaPacker, @@UseTarPacker, @@UseBriefLZPacker.@LineBreak
+  Une fois ouvert, le contenu de l'archive peut Ãªtre rÃ©pertoriÃ© avec @@ExaminePack.
 
 @SeeAlso
   @@ClosePack, @@ExaminePack, @@OpenPack
@@ -579,45 +587,45 @@
 @Function Resultat = UncompressMemory(*MemoireTampon, Taille, *Sortie, SortieTaille [, Plugin])
 
 @Description
-  Décompresse le contenu de la mémoire tampon 
-  dans la mémoire tampon de sortie. 
+  DÃ©compresse le contenu de la mÃ©moire tampon 
+  dans la mÃ©moire tampon de sortie. 
   
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon à 
-  décompresser.
+  L'adresse de la mÃ©moire tampon Ã  
+  dÃ©compresser.
 
 @Parameter "Taille"
-  La taille de la mémoire à décompresser.
+  La taille de la mÃ©moire Ã  dÃ©compresser.
 
 @Parameter "*Sortie"
-  L'adresse de la mémoire tampon qui 
-  contiendra les données non compressées.
+  L'adresse de la mÃ©moire tampon qui 
+  contiendra les donnÃ©es non compressÃ©es.
 
 @Parameter "SortieTaille"
-  La taille de la mémoire tampon qui 
-  contiendra les données non compressées. 
+  La taille de la mÃ©moire tampon qui 
+  contiendra les donnÃ©es non compressÃ©es. 
   @LineBreak
-  Elle doit être au moins aussi grande que la taille des données non compressées.
+  Elle doit Ãªtre au moins aussi grande que la taille des donnÃ©es non compressÃ©es.
 
 @OptionalParameter "Plugin"
-  Le plug-in à utiliser, si plus d'un 
-  plug-in a été enregistré. Peut être 
+  Le plug-in Ã  utiliser, si plus d'un 
+  plug-in a Ã©tÃ© enregistrÃ©. Peut Ãªtre 
   une des valeurs suivantes:
 @FixedFont  
-  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit être appelé auparavant.
-  @#PB_PackerPlugin_Jcalg1 : Utilisation de Jcalg1.  @@UseJcalg1Packer doit être appelé auparavant.
-  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit être appelé auparavant.  
+  @#PB_PackerPlugin_Zip    : Utilisation de Zip.     @@UseZipPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Lzma   : Utilisation de Lzma.    @@UseLzmaPacker doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_Jcalg1 : Utilisation de Jcalg1.  @@UseJcalg1Packer doit Ãªtre appelÃ© auparavant.
+  @#PB_PackerPlugin_BriefLZ: Utilisation de BriefLZ. @@UseBriefLZPacker doit Ãªtre appelÃ© auparavant.  
 @EndFixedFont
 
 @ReturnValue
-  Renvoie la taille décompressée si le tampon 
-  a été correctement décompressé, zéro sinon.
+  Renvoie la taille dÃ©compressÃ©e si le tampon 
+  a Ã©tÃ© correctement dÃ©compressÃ©, zÃ©ro sinon.
 
 @Remarks
-  La longueur du tampon de sortie doit être 
+  La longueur du tampon de sortie doit Ãªtre 
   au moins aussi grande que celle de la 
-  mémoire tampon à décompresser.
+  mÃ©moire tampon Ã  dÃ©compresser.
     
 @SeeAlso
   @@CompressMemory
@@ -629,34 +637,34 @@
 @Function Resultat = UncompressPackMemory(#Archive, *MemoireTampon, Taille [, FichierCompresser$])
 
 @Description
-  Décompresse dans une mémoire tampon, 
-  l'entrée courante en cours d'examen 
+  DÃ©compresse dans une mÃ©moire tampon, 
+  l'entrÃ©e courante en cours d'examen 
   avec @@ExaminePack et @@NextPackEntry.
 
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @Parameter "*MemoireTampon"
-  L'adresse de la mémoire tampon pour 
-  décompresser une entrée de l'archive.
+  L'adresse de la mÃ©moire tampon pour 
+  dÃ©compresser une entrÃ©e de l'archive.
 
 @Parameter "Taille"
-  La taille de la mémoire pour décompresser 
-  une entrée de l'archive.
+  La taille de la mÃ©moire pour dÃ©compresser 
+  une entrÃ©e de l'archive.
 
 @OptionalParameter "FichierCompresser$"
-  L'entrée à décompresser. 
+  L'entrÃ©e Ã  dÃ©compresser. 
 @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, 
-  l'entrée courante en cours d'examen 
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, 
+  l'entrÃ©e courante en cours d'examen 
   avec @@ExaminePack et @@NextPackEntry 
-  est décompressée.
+  est dÃ©compressÃ©e.
 
 @ReturnValue
-  Renvoie la taille décompressée si l'entrée 
-  de l'archive a bien été décompressée 
-  dans la mémoire tampon, zéro sinon.
+  Renvoie la taille dÃ©compressÃ©e si l'entrÃ©e 
+  de l'archive a bien Ã©tÃ© dÃ©compressÃ©e 
+  dans la mÃ©moire tampon, zÃ©ro sinon.
   
 @SeeAlso
   @@OpenPack, @@CatchPack, @@ExaminePack, @@NextPackEntry
@@ -668,75 +676,75 @@
 @Function Resultat = UncompressPackFile(#Archive, Fichier$ [, FichierCompresser$])
 
 @Description
-  Décompresse dans le nom de fichier spécifié, 
-  l'entrée courante de l'archive en cours 
+  DÃ©compresse dans le nom de fichier spÃ©cifiÃ©, 
+  l'entrÃ©e courante de l'archive en cours 
   d'examen avec @@ExaminePack et @@NextPackEntry. 
 
 @Parameter "#Archive"
-  L'archive à utiliser.
+  L'archive Ã  utiliser.
 
 @Parameter "Fichier$"
-  Le nom de fichier de décompression de 
-  l'entrée courante de l'archive.
+  Le nom de fichier de dÃ©compression de 
+  l'entrÃ©e courante de l'archive.
 
 @OptionalParameter "FichierCompresser$"
-  L'entrée à décompresser.
+  L'entrÃ©e Ã  dÃ©compresser.
 @LineBreak
 @LineBreak
-  Si ce paramètre n'est pas spécifié, l'entrée 
-  courante examinée avec @@ExaminePack et 
-  @@NextPackEntry est décompressée.
+  Si ce paramÃ¨tre n'est pas spÃ©cifiÃ©, l'entrÃ©e 
+  courante examinÃ©e avec @@ExaminePack et 
+  @@NextPackEntry est dÃ©compressÃ©e.
 
 @ReturnValue
-  Renvoie la taille décompressée si l'entrée 
-  de l'archive a bien été décompressée dans 
-  le nom du fichier, zéro sinon.
+  Renvoie la taille dÃ©compressÃ©e si l'entrÃ©e 
+  de l'archive a bien Ã©tÃ© dÃ©compressÃ©e dans 
+  le nom du fichier, zÃ©ro sinon.
 
 @Remarks
-  Si le nom de fichier existe déjà, il sera 
-  effacé et remplacé par les nouvelles 
-  données non compressées.
+  Si le nom de fichier existe dÃ©jÃ , il sera 
+  effacÃ© et remplacÃ© par les nouvelles 
+  donnÃ©es non compressÃ©es.
 
 @Example Utilisation d'une arborescence de fichiers  
 @Code
 
   UseZipPacker()
 
-  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accès aux fichiers sources des exemples PureBasic
-  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accès au futur fichier compréssé (zip)
+  Path$ =  #PB_Compiler_Home + "examples/sources/"  ; Chemin d'accÃ¨s aux fichiers sources des exemples PureBasic
+  PackFile$ = GetTemporaryDirectory() + "MyCompressedFiles.zip"  ; Chemin d'accÃ¨s au futur fichier comprÃ©ssÃ© (zip)
     If CreatePack(0, PackFile$)
     AddPackFile(0, Path$ + "Data/world.png", "Data/world.png")
     AddPackFile(0, Path$ + "Data/test.pref", "Data/test.pref")
     AddPackFile(0, Path$ + "Data/CdPlayer.ico", "Data/CdPlayer.ico")
     AddPackFile(0, Path$ + "2DDrawing.pb", "2DDrawing.pb")
     ClosePack(0)
-    Debug "Fichier compressé créé avec succès : " + PackFile$
+    Debug "Fichier compressÃ© crÃ©Ã© avec succÃ¨sÂ : " + PackFile$
   Else
-    Debug "Erreur lors de la création du fichier compressé !"
+    Debug "Erreur lors de la crÃ©ation du fichier compressÃ© !"
   EndIf
 
-  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accès au répertoire dans lequel les fichiers compressés doivent être extraits
+  Path$ = GetTemporaryDirectory() + "test_a_supprimer/"  ; Chemin d'accÃ¨s au rÃ©pertoire dans lequel les fichiers compressÃ©s doivent Ãªtre extraits
   If OpenPack(0, PackFile$)
     If (CreateDirectory(Path$) And CreateDirectory(Path$ + "Data/")) Or FileSize(Path$ + "Data/") = -2
       If ExaminePack(0)
-        Debug ""Extraction de l'archive dans : " + Path$
+        Debug ""Extraction de l'archive dansÂ : " + Path$
         While NextPackEntry(0)
           Debug " - nom : " + PackEntryName(0) + ", taille : " + PackEntrySize(0)
           If UncompressPackFile(0, Path$ + PackEntryName(0), PackEntryName(0)) = -1
-            Debug "Erreur : échec de décompression du fichier compressé : " + PackEntryName(0)
+            Debug "ErreurÂ : Ã©chec de dÃ©compression du fichierÂ compressÃ© : " + PackEntryName(0)
           EndIf
         Wend
       Else
-        Debug "Erreur lors de l'examen du fichier compressé !"
+        Debug "Erreur lors de l'examen du fichier compressÃ©Â !"
       EndIf
       ClosePack(0)
     
-      RunProgram(PackFile$) ; Ouverture du répertoire contenant les fichiers décompressés
+      RunProgram(PackFile$) ; Ouverture du rÃ©pertoire contenant les fichiers dÃ©compressÃ©s
     Else
-      Debug "Erreur lors de la création du dossier de décompression de l'archive !"  
+      Debug "Erreur lors de la crÃ©ation du dossier de dÃ©compression de l'archiveÂ !"  
     EndIf
   Else
-    Debug "Erreur lors de l'ouverture du fichier compressé !"
+    Debug "Erreur lors de l'ouverture du fichier compressÃ©Â !"
   EndIf
 @EndCode
 
@@ -750,7 +758,7 @@
 @Function UseZipPacker()
 
 @Description
-  Active le compresseur, le décompresseur 
+  Active le compresseur, le dÃ©compresseur 
   et le support des archives Zip.
   
 @NoParameters
@@ -758,10 +766,10 @@
 @NoReturnValue
 
 @Remarks
-  L'archive créée sera compatible avec d'autres 
+  L'archive crÃ©Ã©e sera compatible avec d'autres 
   archives Zip au format 2.0. @LineBreak
-  La taille de l'archive créée peut aller 
-  jusqu'à 2GB. @LineBreak
+  La taille de l'archive crÃ©Ã©e peut aller 
+  jusqu'Ã  2GB. @LineBreak
   @LineBreak
   @LineBreak
   Pour plus d'information: 
@@ -778,7 +786,7 @@
 @Function UseLzmaPacker()
 
 @Description
-  Active le compresseur, le décompresseur Lzma 
+  Active le compresseur, le dÃ©compresseur Lzma 
   et le support des archives 7z.
   
 @NoParameters
@@ -786,12 +794,12 @@
 @NoReturnValue
 
 @Remarks
-  La compression Lzma est considérée comme l'un 
+  La compression Lzma est considÃ©rÃ©e comme l'un 
   des meilleurs algorithmes de compression 
   disponible et polyvalent.@LineBreak 
-  Il offre un très bon rapport compression /
+  Il offre un trÃ¨s bon rapport compression /
   vitesse.@LineBreak
-  La compression peut être lente. 
+  La compression peut Ãªtre lente. 
 @LineBreak
 @LineBreak
   Pour plus d'informations : 
@@ -808,7 +816,7 @@
 @Function UseTarPacker()
 
 @Description
-  Active la compression, la décompression et 
+  Active la compression, la dÃ©compression et 
   le support des archives Tar.
   
 @NoParameters
@@ -816,12 +824,12 @@
 @NoReturnValue
 
 @Remarks
-  La compression et la décompression des 
-  archives Tar sont généralement rapides.
+  La compression et la dÃ©compression des 
+  archives Tar sont gÃ©nÃ©ralement rapides.
 @LineBreak
 @LineBreak
   Les compressions Bzip2 et Gzip sont toutes 
-  deux supportées.  
+  deux supportÃ©es.  
 
 @SeeAlso
   @@OpenPack, @@CompressMemory, 
@@ -834,7 +842,7 @@
 @Function UseBriefLZPacker()
 
 @Description
-  Active le compresseur, le décompresseur 
+  Active le compresseur, le dÃ©compresseur 
   et le support des archives BriefLZ.
 
 @NoParameters
@@ -842,14 +850,14 @@
 @NoReturnValue
 
 @Remarks
-  Les archives créées sont un format personnalisé 
-  créé pour PureBasic.@LineBreak
-  La compression BriefLZ est très rapide 
-  et le fichier produit est très petit, 
-  il pourrait être le bon choix pour un 
+  Les archives crÃ©Ã©es sont un format personnalisÃ© 
+  crÃ©Ã© pour PureBasic.@LineBreak
+  La compression BriefLZ est trÃ¨s rapide 
+  et le fichier produit est trÃ¨s petit, 
+  il pourrait Ãªtre le bon choix pour un 
   programme qui a besoin d'une petite taille 
-  de l'exécutable.@LineBreak
-  La décompression est également très rapide, 
+  de l'exÃ©cutable.@LineBreak
+  La dÃ©compression est Ã©galement trÃ¨s rapide, 
   mais le rapport compression/vitesse n'est 
   pas aussi bon qu'avec Zip ou Lzma.
 
@@ -865,26 +873,104 @@
 @Function UseJCALG1Packer()
 
 @Description
-  Active le décompresseur JCALG1. 
+  Active le dÃ©compresseur JCALG1. 
 
 @NoParameters
 
 @NoReturnValue
 
 @Remarks
-  Il s'agit d'un ancien algorithme qui a été 
-  utilisé dans les versions précédentes de 
+  Il s'agit d'un ancien algorithme qui a Ã©tÃ© 
+  utilisÃ© dans les versions prÃ©cÃ©dentes de 
   PureBasic, il est toujours disponible 
-  pour permettre la compatibilité avec 
-  les anciens fichiers compressés. @LineBreak
+  pour permettre la compatibilitÃ© avec 
+  les anciens fichiers compressÃ©s. @LineBreak
   La compression et l'archivage ne sont 
   plus disponibles.@LineBreak 
   Il est disponible uniquement sous 
   Windows x86 (32-bit).@LineBreak 
-  Il est obsolète et n'est plus pris 
+  Il est obsolÃ¨te et n'est plus pris 
   en charge.@LineBreak
 
 @SeeAlso
   @@UncompressMemory
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = IsPack(#Pack)
+
+@Description
+  Teste si le numÃ©ro de pack donnÃ© est un pack valide et correctement initialisÃ©.
+
+@Parameter "#Pack"
+  Le pack Ã  tester.
+
+@ReturnValue
+  Renvoie une valeur non nulle si #Pack est un pack valide, zÃ©ro sinon.
+
+@Remarks
+  Cette fonction est infaillible et peut Ãªtre utilisÃ©e avec n'importe quelle valeur.
+  C'est la bonne faÃ§on de s'assurer qu'un pack est prÃªt Ã  Ãªtre utilisÃ©.
+
+@SeeAlso
+  @@CreatePack, @@OpenPack
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = PackerCallback(@Callback())
+
+@Description
+ DÃ©finir une fonction de rappel pour surveiller ou interrompre la compression pour @@CompressMemory, @@AddPackFile et @@AddPackMemory.
+
+@Parameter "@Callback()"
+  Adresse de la fonction de rappel. Elle doit avoir la forme suivanteÂ :
+@Code
+  Procedure Callback(EnCours.q, Total.q)
+    ;
+    ; Renvoie #True pour continuer la compression, ou #False pour abandonner.
+    ;
+    ProcedureReturn Resultat
+  EndProcedure
+@EndCode
+ 
+@NoReturnValue
+
+@Remarks
+  La fonction de rappel sera appelÃ©e Ã  intervalles rÃ©guliers pendant le processus de compression.
+
+
+@Example
+@Code
+  UseZipPacker()
+   
+  ; La CallBack sera appelÃ©e Ã  intervalles rÃ©guliers pour afficher ou interrompre la compression. 
+  ; Elle doit correspondre Ã  la dÃ©claration suivante.
+  ;
+  Procedure Callback(EnCours.q, Total.q)
+    Debug "Progression: " + EnCours + " octets / "+ Total + " octet"
+    
+    ProcedureReturn #True ; Renvoie #True pour continuer la compression, ou #False pour abandonner.
+  EndProcedure
+    
+  ; Installer le rappel pour toutes les futures compressions de packer 
+  PackerCallback(@Callback())
+  
+  ; Allouer 50 Go de mÃ©moire pour la compression
+  *Tampon = AllocateMemory(50*1024*1024, #PB_Memory_NoClear)
+  
+  ; Le tampon de sortie est un peu plus grand que la source, juste au cas oÃ¹
+  *Sortie = AllocateMemory(51*1024*1024, #PB_Memory_NoClear)
+
+  Taille_compressee = CompressMemory(*Tampon, MemorySize(*Tampon), *Sortie, MemorySize(*Sortie))
+
+  Debug "Longueur compressÃ©e: " + Taille_compressee + " octet"
+@EndCode
+
+@SeeAlso
+  @@CompressMemory, @@AddPackFile, @@AddPackMemory
 
 @SupportedOS

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Window3D library documentation
 ;
 ;      (c) Fantaisie Software
@@ -8,16 +8,16 @@
 @Library Window3D
 
 @Overview
-  Die Window3D Bibliothek ermöglicht die Erstellung komplexer grafischer Bedienoberflächen (englisch "Graphical 
-  User Interface" - kurz "GUI") direkt über dem Screen-Bereich, mittels der 3D-Engine. Dies ist hauptsächlich
-  gedacht für Spiele und Anwendungen, welche Anwendereingaben benötigen, während sie im Vollbildschirm-Modus
-  laufen. Diese Bibliothek basiert auf der regulären PureBasic @LibraryLink "window" "Window-Bibliothek", und
-  bietet ähnlichen Syntax und Verhalten. Die verwendete GUI-Engine ist CEGUI, welche einige schöne Optionen
-  anbietet - wie "Skinning", gute Geschwindigkeit und eine Menge an eingebauten Gadgets. Mehr Informationen
-  über CEGUI sind hier zu finden: @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
+  Die Window3D-Bibliothek ermÃ¶glicht die Erstellung komplexer grafischer BenutzeroberflÃ¤chen (englisch "Graphical 
+  User Interfaces" - kurz "GUI's") direkt auf dem Bildschirm (Screen) mithilfe der 3D-Engine. Sie ist hauptsÃ¤chlich
+  fÃ¼r Spiele oder Anwendungen gedacht, die im Vollbildmodus Benutzereingaben erfordern. Diese Bibliothek basiert
+  auf der regulÃ¤ren PureBasic @LibraryLink "window" "Window-Bibliothek" und bietet eine Ã¤hnliche Syntax und
+  Ã¤hnliches Verhalten. Die verwendete GUI-Engine ist CEGUI, die einige nÃ¼tzliche Optionen wie "Skinning", hohe
+  Geschwindigkeit und zahlreiche integrierte Gadgets bietet. Weitere Informationen Ã¼ber CEGUI finden Sie hier:
+  @InternetLink "http://www.cegui.org.uk" "http://www.cegui.org.uk".
 @LineBreak
 @LineBreak
-  Sie verwendet die 3D-Engine, daher muss vor dem Verwenden dieser Funktionen 
+  Diese Bibliothek verwendet die 3D-Engine, daher muss vor dem Verwenden dieser Funktionen 
   @@InitEngine3D erfolgreich aufgerufen worden sein.
 
 @CommandList
@@ -31,10 +31,10 @@
 @Function CloseWindow3D(#Window3D)
 
 @Description
-  Schließt das angegebene Fenster.
+  SchlieÃŸt das angegebene Fenster.
 
 @Parameter "#Window3D"
-  Das zu schließende 3D-Fenster. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
+  Das zu schlieÃŸende 3D-Fenster. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
   3D-Fenster geschlossen.
 
 @NoReturnValue
@@ -49,7 +49,7 @@
 @Function DisableWindow3D(#Window3D, Status)
 
 @Description
-  Aktiviert und deaktiviert die Benutzereingaben für das angegebene Fenster.
+  Aktiviert und deaktiviert die Benutzereingaben fÃ¼r das angegebene Fenster.
 
 @Parameter "#Window3D"
   Das zu verwendende 3D-Fenster.
@@ -70,14 +70,14 @@
 @Function Ergebnis = EventGadget3D()
 
 @Description
-  Nach dem Auftreten eines @#PB_Event3D_Gadget Ereignisses (zurückgegeben von
+  Nach dem Auftreten eines @#PB_Event3D_Gadget Ereignisses (zurÃ¼ckgegeben von
   @@WindowEvent3D), wird diese Funktion verwendet, um herauszufinden, bei welchem
-  Gadget das Ereignis ausgelöst wurde. 
+  Gadget das Ereignis ausgelÃ¶st wurde. 
   
 @NoParameters
 
 @ReturnValue
-  Die mit dem letzten @#PB_Event3D_Gadget Ereignis verknüpfte 3D-Gadget-Nummer.
+  Die mit dem letzten @#PB_Event3D_Gadget Ereignis verknÃ¼pfte 3D-Gadget-Nummer.
 
 @SeeAlso
   @@WindowEvent3D
@@ -95,21 +95,21 @@
 @NoParameters
   
 @ReturnValue  
-  Die folgenden Werte sind möglich, wenn ein Ereignis des Typs @#PB_Event3D_Gadget
+  Die folgenden Werte sind mÃ¶glich, wenn ein Ereignis des Typs @#PB_Event3D_Gadget
   (Bibliothek @LibraryLink "Gadget3D" "Gadget3D") auftritt:
 @FixedFont
   @#PB_EventType3D_Focus    : Fokus erhalten
   @#PB_EventType3D_LostFocus: Fokus verloren
-  @#PB_EventType3D_Change   : Inhalt hat sich geändert
+  @#PB_EventType3D_Change   : Inhalt hat sich geÃ¤ndert
 @EndFixedFont
 
-  Die folgenden Gadgets unterstützen EventType3D():
+  Die folgenden Gadgets unterstÃ¼tzen EventType3D():
 @LineBreak
 @LineBreak
   - @@SpinGadget3D @LineBreak
   - @@StringGadget3D @LineBreak
 @LineBreak
-  (Siehe die jeweilige Gadget-Beschreibung, welche Ereignisse unterstützt werden.)
+  (Siehe die jeweilige Gadget-Beschreibung, welche Ereignisse unterstÃ¼tzt werden.)
 
 @SeeAlso
   @@WindowEvent3D
@@ -127,7 +127,7 @@
 @NoParameters
 
 @ReturnValue
-  Die mit dem letzten Ereignis verknüpfte 3D-Window-Nummer.
+  Die mit dem letzten Ereignis verknÃ¼pfte 3D-Window-Nummer.
 
 @SupportedOS
 
@@ -146,7 +146,7 @@
   Status der linken Maustaste. Dies kann einer der folgenden Werte sein:
 @FixedFont 
   0: linke Maustaste ist losgelassen.
-  1: linke Maustaste ist gedrückt.
+  1: linke Maustaste ist gedrÃ¼ckt.
 @EndFixedFont
 
 @OptionalParameter "Text$"
@@ -174,7 +174,7 @@
   ;
   If ExamineKeyboard() And ExamineMouse()
     Input$ = KeyboardInkey()
-        
+    
     InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left), Input$, 0)
   EndIf
 @EndCode
@@ -189,16 +189,16 @@
 @Function Ergebnis = GetActiveWindow3D()
 
 @Description
-  Gibt die 3D-Window-Nummer des Fensters zurück, welches aktuell den Fokus für Tastatureingaben hat.
+  Gibt die 3D-Window-Nummer des Fensters zurÃ¼ck, welches aktuell den Fokus fÃ¼r Tastatureingaben hat.
 
 @NoParameters
 
 @ReturnValue
-  Die 3D-Window-Nummer des Fensters, welches aktuell den Fokus für Tastatureingaben hat.
-  Wenn kein Fenster den Fokus hat, wird -1 zurückgegeben.
+  Die 3D-Window-Nummer des Fensters, welches aktuell den Fokus fÃ¼r Tastatureingaben hat.
+  Wenn kein Fenster den Fokus hat, wird -1 zurÃ¼ckgegeben.
 
 @Remarks
-  Ein Fenster kann mit dem @@SetActiveWindow3D Befehl aktiviert (der Fokus 
+  Ein Fenster kann mit dem @@SetActiveWindow3D Befehl aktiviert (der Tastaturfokus 
   darauf gesetzt) werden.
 
 @SeeAlso
@@ -211,8 +211,7 @@
 @Function Ergebnis$ = GetWindowTitle3D(#Window3D) 
 
 @Description
-  Gibt den Text zurück, der momentan in der Titelleiste des angegebenen 3D-Fensters
-  dargestellt wird.
+  Gibt den Text zurÃ¼ck, der aktuell in der Titelleiste des angegebenen 3D-Fensters angezeigt wird.
 
 @Parameter "#Window3D"
   Das zu verwendende 3D-Fenster.
@@ -222,7 +221,7 @@
   dargestellt wird.
 
 @Remarks
-  Der Titel eines Fensters kann mittels @@SetWindowTitle3D geändert werden.
+  Der Titel eines Fensters kann mittels @@SetWindowTitle3D geÃ¤ndert werden.
 
 @SeeAlso
   @@SetWindowTitle3D
@@ -255,13 +254,13 @@
 @Function Ergebnis = IsWindow3D(#Window3D)
 
 @Description
-  Überprüft, ob das angegebene 3D-Fenster gültig und korrekt initialisiert ist.
+  ÃœberprÃ¼ft, ob das angegebene 3D-Fenster gÃ¼ltig und korrekt initialisiert ist.
 
 @Parameter "#Window3D"
-  Das zu prüfende 3D-Fenster.
+  Das zu prÃ¼fende 3D-Fenster.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das 3D-Fenster gültig ist, andernfalls Null.
+  Ein Wert ungleich Null, wenn das 3D-Fenster gÃ¼ltig ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Dies ist
@@ -274,19 +273,19 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenWindow3D(#Window3D, x, y, InnereBreite, InnereHöhe, Titel$ [, Flags])
+@Function Ergebnis = OpenWindow3D(#Window3D, x, y, InnereBreite, InnereHÃ¶he, Titel$ [, Flags])
 
 @Description
-  Öffnet ein neues Fenster auf dem aktuellen @Link "Screen/OpenScreen" "Bildschirm" entsprechend den 
-  übergegebenen Parametern. 
+  Ã–ffnet ein neues Fenster auf dem aktuellen @Link "Screen/OpenScreen" "Bildschirm" entsprechend den 
+  Ã¼bergegebenen Parametern. 
 @LineBreak
 @LineBreak
   Das neue Fenster wird automatisch zum aktiven Fenster, d.h. es ist nicht notwendig,
-  hierfür erst den @@SetActiveWindow3D Befehl zu benutzen (außer das Fenster wurde
+  hierfÃ¼r erst den @@SetActiveWindow3D Befehl zu benutzen (auÃŸer das Fenster wurde
   unsichtbar erstellt).
 @LineBreak
 @LineBreak
-  Alle möglichen Ereignisse innerhalb eines Fenster werden mit dem Befehl @@WindowEvent3D
+  Alle mÃ¶glichen Ereignisse innerhalb eines Fenster werden mit dem Befehl @@WindowEvent3D
   abgefragt.
 
 @Parameter "#Window3D"
@@ -295,23 +294,23 @@
   Zahl automatisch zu generieren.
 
 @Parameter "x, y"
-  Die anfängliche Position des 3D-Fensters auf dem Bildschirm (außer eines der Flags
+  Die anfÃ¤ngliche Position des 3D-Fensters auf dem Bildschirm (auÃŸer eines der Flags
   zum Zentrieren wurde verwendet).
 
-@Parameter "InnereBreite, InnereHöhe"
-  Die anfängliche Größe des Client-Bereichs des 3D-Fensters (ohne Rahmen und
+@Parameter "InnereBreite, InnereHÃ¶he"
+  Die anfÃ¤ngliche GrÃ¶ÃŸe des Client-Bereichs des 3D-Fensters (ohne Rahmen und
   Fensterdekorationen).
 
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Window3D_SizeGadget : Fügt das Größenänderungs-Gadget zum Fenster hinzu.
+  @#PB_Window3D_SizeGadget : FÃ¼gt das GrÃ¶ÃŸenÃ¤nderungs-Gadget zum Fenster hinzu.
   @#PB_Window3D_Invisible  : Erstellt ein Fenster, zeigt es aber nicht an.
-  @#PB_Window3D_BorderLess : Erstellt ein Fenster ohne jegliche Ränder.
+  @#PB_Window3D_BorderLess : Erstellt ein Fenster ohne jegliche RÃ¤nder.
 @EndFixedFont
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das 3D-Fenster erfolgreich geöffnet wurde, andernfalls Null.
+  Ein Wert ungleich Null, wenn das 3D-Fenster erfolgreich geÃ¶ffnet wurde, andernfalls Null.
   
 @SeeAlso
   @@CloseWindow3D, @@WindowEvent3D
@@ -320,21 +319,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResizeWindow3D(#Window3D, x, y, Breite, Höhe)
+@Function ResizeWindow3D(#Window3D, x, y, Breite, HÃ¶he)
 
 @Description
-  Verschiebt das Fenster und ändert dessen Größe auf die angegebene Position und Größe.
+  Verschiebt das Fenster und Ã¤ndert dessen GrÃ¶ÃŸe auf die angegebene Position und GrÃ¶ÃŸe.
 
 @Parameter "#Window3D"
-  Das zu verändernde 3D-Fenster.
+  Das zu verÃ¤ndernde 3D-Fenster.
   
 @Parameter "x, y"
   Die neue Position des 3D-Fensters. Wenn 'x' oder 'y' auf @#PB_Ignore gesetzt wird,
-  dann wird der aktuelle Wert von 'x' bzw. 'y' nicht verändert.
+  dann wird der aktuelle Wert von 'x' bzw. 'y' nicht verÃ¤ndert.
   
-@Parameter "Breite, Höhe"
-  Die neue Größe des 3D-Fensters. Wenn 'Breite' oder 'Höhe' auf @#PB_Ignore gesetzt wird,
-  dann wird der aktuelle Wert von 'Breite' bzw. 'Höhe' nicht verändert.
+@Parameter "Breite, HÃ¶he"
+  Die neue GrÃ¶ÃŸe des 3D-Fensters. Wenn 'Breite' oder 'HÃ¶he' auf @#PB_Ignore gesetzt wird,
+  dann wird der aktuelle Wert von 'Breite' bzw. 'HÃ¶he' nicht verÃ¤ndert.
 
 @NoReturnValue
 
@@ -353,7 +352,7 @@
 @NoReturnValue
 
 @Remarks  
-  Der Befehl wird nur den Fokus innerhalb Ihres Programms verändern. Sie können damit nicht das Programm
+  Der Befehl wird nur den Fokus innerhalb Ihres Programms verÃ¤ndern. Sie kÃ¶nnen damit nicht das Programm
   in den Vordergrund bringen, wenn ein anderes Programm den Fokus hat.
 
 @SeeAlso
@@ -366,7 +365,7 @@
 @Function SetWindowTitle3D(#Window3D, Titel$)
 
 @Description
-  Ändert den Text, der momentan in der Titelleiste des angegebenen 3D-Fensters
+  Ã„ndert den Text, der momentan in der Titelleiste des angegebenen 3D-Fensters
   dargestellt wird.
 
 @Parameter "#Window3D"
@@ -387,27 +386,27 @@
 @Function Ereignis = WindowEvent3D()
 
 @Description
-  Überprüft, ob in einem der geöffneten 3D-Fenster ein Ereignis aufgetreten ist.
+  ÃœberprÃ¼ft, ob in einem der geÃ¶ffneten 3D-Fenster ein Ereignis aufgetreten ist.
   @@InputEvent3D muss verwendet werden, um Ereignisse an das 3D-GUI-System zu senden,
-  damit Fensterereignisse angezeigt werden können.
+  damit Fensterereignisse angezeigt werden kÃ¶nnen.
 @LineBreak 
 @LineBreak 
-  WindowEvent3D() gibt das nächste Ereignis aus dem "Ereignis-Queue" (Warteschlange mit Ereignissen)
-  zurück bzw. Null, wenn es keine weiteren Ereignisse gibt.
-  Die Funktion wartet nicht auf das nächste Ereignis - sie kehrt immer sofort zurück.
+  WindowEvent3D() gibt das nÃ¤chste Ereignis aus dem "Ereignis-Queue" (Warteschlange mit Ereignissen)
+  zurÃ¼ck bzw. Null, wenn es keine weiteren Ereignisse gibt.
+  Die Funktion wartet nicht auf das nÃ¤chste Ereignis - sie kehrt immer sofort zurÃ¼ck.
 @LineBreak
 @LineBreak
-  Um die Fenster-Nummer, in dem das Ereignis stattfand, bestimmen zu können, müssen
-  Sie die @@EventWindow3D Funktion benutzen. 
+  Um die Nummer des Fensters zu erhalten, in dem das Ereignis aufgetreten ist, verwenden Sie
+  die Funktion @@EventWindow3D.
   
 @NoParameters
 
 @ReturnValue
-  Mögliche Ereignisse sind:
+  MÃ¶gliche Ereignisse sind:
 @FixedFont
-  @#PB_Event3D_Gadget         : ein @LibraryLink "gadget3d" "Gadget3D" wurde gedrückt
-  @#PB_Event3D_CloseWindow    : das Schließgadget vom Fenster wurde gedrückt
-  @#PB_Event3D_SizeWindow     : das Fenster wurde in der Größe verändert
+  @#PB_Event3D_Gadget         : ein @LibraryLink "gadget3d" "Gadget3D" wurde gedrÃ¼ckt
+  @#PB_Event3D_CloseWindow    : das SchlieÃŸgadget vom Fenster wurde gedrÃ¼ckt
+  @#PB_Event3D_SizeWindow     : das Fenster wurde in der GrÃ¶ÃŸe verÃ¤ndert
   @#PB_Event3D_MoveWindow     : das Fenster wurde verschoben
   @#PB_Event3D_ActivateWindow : das Fenster wurde aktiviert (hat den Fokus erhalten)
 @EndFixedFont
@@ -422,13 +421,13 @@
 @Function Ergebnis = WindowHeight3D(#Window3D)  
 
 @Description
-  Ermittelt die Höhe des angegebenen Fensters.
+  Ermittelt die HÃ¶he des angegebenen Fensters.
 
 @Parameter "#Window3D"
   Das zu verwendende 3D-Fenster.
 
 @ReturnValue
-  Die Höhe, in Pixel, des angegebenen Fensters.
+  Die HÃ¶he, in Pixel, des angegebenen Fensters.
 
 @SeeAlso
   @@WindowWidth3D

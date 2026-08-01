@@ -1,19 +1,19 @@
-@Title Data
+ï»¿@Title Data
 
-@Section Einführung
+@Section EinfÃ¼hrung
 
-  PureBasic erlaubt die Benutzung von @Keyword Data, um vordefinierte Blöcke mit Informationen 
-  innerhalb Ihres Programms zu speichern. Dies ist sehr nützlich für Standard-Werte 
+  PureBasic erlaubt die Benutzung von @Keyword Data, um vordefinierte BlÃ¶cke mit Informationen 
+  innerhalb Ihres Programms zu speichern. Dies ist sehr nÃ¼tzlich fÃ¼r Standard-Werte 
   eines Programms (Sprachen-Strings zum Beispiel) oder, in einem Spiel, zum Definieren 
   eines (vorberechneten) Sprite-Weges.
   @LineBreak
   @LineBreak
-  @Keyword DataSection muss zuerst aufgerufen werden, um den nachfolgenden Datenabschnitt (englisch "Data section") anzukündigen. 
+  @Keyword DataSection muss zuerst aufgerufen werden, um den nachfolgenden Datenabschnitt (englisch "Data section") anzukÃ¼ndigen. 
   Dies bedeutet, dass alle Sprungmarken (Labels) und Datenbestandteile in der @Keyword DataSection des 
   Programms gespeichert werden, welche einen viel schnelleren Zugriff als der Code-Abschnitt hat. 
   @Keyword Data wird benutzt zum Eingeben der Daten. @Keyword EndDataSection muss angegeben werden, wenn nach dem 
   Datenabschnitt weiterer Programmcode folgt. Einer der Vorteile ist, dass Sie ohne Probleme 
-  verschiedene @Keyword Datenabschnitte in ihrem Code definieren können. Die @Keyword Restore und @Keyword Read Befehle werden 
+  verschiedene @Keyword Datenabschnitte in ihrem Code definieren kÃ¶nnen. Die @Keyword Restore und @Keyword Read Befehle werden 
   benutzt, um die Daten auszulesen. 
   @LineBreak
   @LineBreak
@@ -34,7 +34,7 @@
 @Code
   DataSection
     NumerischeDaten:
-    Data.w 120, 250, 645 ; drei Zahlen der Größe 'Word'
+    Data.w 120, 250, 645 ; drei Zahlen der GrÃ¶ÃŸe 'Word'
   EndDataSection
 @EndCode
 
@@ -77,9 +77,10 @@
 
   @Description
   
-    Definiert Daten. Der Typ kann nur ein einfacher @ReferenceLink "variables" "Basic Typ" (Integer, Long, Word, Byte, Ascii, Unicode, Float, Double, Quad, Character, String) 
+    Definiert Daten. Der Typ kann nur ein einfacher @ReferenceLink "variables" "Basic Typ"
+	(Integer, Long, Word, Byte, Ascii, Unicode, Float, Double, Quad, Character, String)
     sein. Eine beliebige Anzahl Daten kann sich auf einer Zeile befinden, jede abgegrenzt durch 
-    ein Komma ','.
+    ein Komma ','. Eine String darf nicht lÃ¤nger als 8192 Zeichen sein.
     
   @Example
 
@@ -92,7 +93,7 @@
 @EndCode
 
 
-  Für fortgeschrittene Programmierer: Es ist auch möglich, eine @ReferenceLink "procedures" "Prozedur"-@ReferenceLink "memory" "Adresse"
+  FÃ¼r fortgeschrittene Programmierer: Es ist auch mÃ¶glich, eine @ReferenceLink "procedures" "Prozedur"-@ReferenceLink "memory" "Adresse"
   oder die @ReferenceLink "memory" "Adresse einer Sprungmarke" innerhalb eines @Keyword "Data"-Blocks zu speichern,
   wenn dessen Typ auf Integer (.i) gesetzt wird.
   (Die Verwendung des Typs 'Integer' speichert die (verschiedenen) Adressen in 32-Bit bzw. 64-Bit Umgebungen korrekt.)
@@ -158,10 +159,10 @@
 
 @Description
 
-  Dieses Schlüsselwort ist nützlich, um die Startposition für ein nachfolgendes @Keyword "Read" auf eine angegebene 
-  Sprungmarke (Label) zu setzen. Alle für diesen Zweck verwendeten Sprungmarken sollten sich innerhalb einer
+  Dieses SchlÃ¼sselwort ist nÃ¼tzlich, um die Startposition fÃ¼r ein nachfolgendes @Keyword "Read" auf eine angegebene 
+  Sprungmarke (Label) zu setzen. Alle fÃ¼r diesen Zweck verwendeten Sprungmarken sollten sich innerhalb einer
   @Keyword "DataSection" (des Datenabschnitts) befinden, da die Daten beim Kompilieren als ein vom Programmcode separater Block 
-  behandelt werden und möglicherweise von einer Sprungmarke getrennt werden, wenn die Sprungmarke außerhalb
+  behandelt werden und mÃ¶glicherweise von einer Sprungmarke getrennt werden, wenn die Sprungmarke auÃŸerhalb
   der @Keyword "DataSection" platziert wurde.
      
 @Example
@@ -203,14 +204,14 @@
     
 @Description    
 
-  Liest die nächsten verfügbaren Daten ein. Die nächsten verfügbaren Daten können mittels des @Keyword Restore 
-  Befehls geändert werden. Standardmäßig sind die nächsten verfügbaren Daten die zuerst deklarierten Daten. 
+  Liest die nÃ¤chsten verfÃ¼gbaren Daten ein. Die nÃ¤chsten verfÃ¼gbaren Daten kÃ¶nnen mittels des @Keyword Restore 
+  Befehls geÃ¤ndert werden. StandardmÃ¤ÃŸig sind die nÃ¤chsten verfÃ¼gbaren Daten die zuerst deklarierten Daten. 
   Der Typ der zu lesenden Daten wird durch den 'Typ'-Suffix festgelegt. Der @ReferenceLink "define" "Standard-Typ"
   wird verwendet, wenn dieser nicht angegeben wird.
   @LineBreak
   Es ist jedoch ratsam, den Ad-hoc-Typ zu verwenden, um eine Fehlermeldung beim Lesen des Daten-Strings zu
-  vermeiden, und um Verwirrung bzgl. des Integer-Typs zu vermeiden, der für 32-Bit-Compiler vom Typ
-  'Long' und für 64-Bit-Compiler vom Typ 'Quad' ist.
+  vermeiden, und um Verwirrung bzgl. des Integer-Typs zu vermeiden, der fÃ¼r 32-Bit-Compiler vom Typ
+  'Long' und fÃ¼r 64-Bit-Compiler vom Typ 'Quad' ist.
   
 @Example
 
@@ -227,7 +228,7 @@
   Debug MyFirstData$ ; Zeigt 'Hello' an
   Debug a  ; Display 100
   Debug b  ; Display 111111111111111111
-  Debug c  ; Achtung, die Anzeige hängt von Ihrem Compiler ab! : 200 bei 32-Bit bzw. 1288490189000 bei 64-Bit
+  Debug c  ; Achtung, die Anzeige hÃ¤ngt von Ihrem Compiler ab! : 200 bei 32-Bit bzw. 1288490189000 bei 64-Bit
   Debug d  ; ...analog: 300 bei 32-Bit bzw. 400 bei 64-Bit
   
   End  

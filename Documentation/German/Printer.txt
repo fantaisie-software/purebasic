@@ -1,16 +1,15 @@
-;
+ï»¿;
 ;     Printer library documentation - MultiOS version !
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Printer
 
 @Overview
-  Drucker (englisch "Printer") sind essentielle Schnittstellen, um virtuelle, numerische Daten auf Papier auszugeben.
-  Viele Software benötigt einen Weg, Daten auf Papier auszudrucken, um wirklich nützlich zu sein.
-  PureBasic erlaubt jede Art von Daten - von einfachem Text bis hin zu Bildern - in jeder Auflösung
-  zu drucken.
+  Drucker (englisch "Printer") sind unverzichtbare GerÃ¤te, um virtuelle, numerische Daten auf Papier zu Ã¼bertragen.
+  Viele Softwareprogramme benÃ¶tigen eine MÃ¶glichkeit, Daten auf Papier zu drucken, um wirklich nÃ¼tzlich zu sein.
+  PureBasic ermÃ¶glicht den Druck aller Arten von Daten â€“ von Rohtext bis hin zu Bildern â€“ in jeder AuflÃ¶sung.
   
 @CommandList
 
@@ -23,11 +22,18 @@
 @Function Ergebnis = DefaultPrinter()
 
 @Description
-  Wählt den Standard-Drucker als aktuellen Drucker für die Druckoperation. Dieser Befehl
-  muss vor allen anderen Drucker-Befehlen aufgerufen werden. Ist 'Ergebnis' gleich 0, dann
-  ist kein Standard-Drucker verfügbar. Sobald @@DefaultPrinter erfolgreich
-  aufgerufen wurde, wird @@StartPrinting zum tatsächlichen Start des Ausdrucks benutzt.
-  
+  WÃ¤hlt den Standarddrucker als aktuellen Drucker fÃ¼r den Druckvorgang aus. Diese Funktion muss vor
+  allen anderen Druckerfunktionen aufgerufen werden. Nach dem erfolgreichen Aufruf von @@DefaultPrinter
+  wird der Druckvorgang mit @@StartPrinting gestartet.
+
+@NoParameters
+
+@ReturnValue  
+  Ungleich Null, wenn ein Standarddrucker verfÃ¼gbar ist, andernfalls Null.
+
+@SeeAlso
+  @@StartPrinting
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -36,26 +42,28 @@
 
 @Description
   Erstellt eine neue leere Seite ("ein virtuelles Blatt Papier"). Die vorherige Seite
-  wird an den Drucker geschickt und kann nicht mehr verändert werden.
+  wird an den Drucker geschickt und kann nicht mehr verÃ¤ndert werden.
 @LineBreak
 @LineBreak
-  Der Befehl muss innerhalb eines @@StartDrawing/@@StopDrawing
-  Blocks aufgerufen werden.
+  Der Aufruf muss innerhalb eines @@StartDrawing/@@StopDrawing-Blocks erfolgen.
+
+@NoParameters  
+
+@NoReturnValue
 
 @Example
-
 @Code
   If PrintRequester()
-    If StartPrinting("Zwei Blätter")
+    If StartPrinting("Zwei BlÃ¤tter")
       If StartDrawing(PrinterOutput())
         DrawingMode(#PB_2DDrawing_Transparent)
         DrawText(10, 10, "Erste Seite !", RGB(0, 0, 0))
-      
+        
         ; Dem Drucker sagen, dass eine neue Seite begonnen wird
         NewPrinterPage()
         
         DrawText(10, 10, "Zweite Seite !", RGB(0, 0, 0))
-      
+        
         StopDrawing()
       EndIf
       
@@ -63,7 +71,7 @@
     EndIf
   EndIf
 @EndCode
-  
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -71,9 +79,9 @@
 @Function AusgabeID = PrinterOutput()
 
 @Description
-  Gibt die 'AusgabeID' des aktuellen Druckers zurück, die zusammen mit der @@StartDrawing
+  Gibt die 'AusgabeID' des aktuellen Druckers zurÃ¼ck, die zusammen mit der @@StartDrawing
   Funktion benutzt werden kann. Das Zeichnen auf dem Drucker wird mittels pixel-basierter
-  Zeichenoperationen ausgeführt.
+  Zeichenoperationen ausgefÃ¼hrt.
 
 @NoParameters
 
@@ -81,10 +89,10 @@
   Die AusgabeID des aktuellen Druckers, die mit der @@StartDrawing Funktion verwendet werden soll.
 
 @Remarks
-  Das Zeichnen auf dem Drucker mittels pixel-basiertem Zeichnen kann die Druckqualität verringern
-  und für zusätzliche Komplexität sorgen, da die Drucker-Auflösung berücksichtigt werden muss.
-  Vektor-basiertes Zeichnen mittels @@PrinterVectorOutput sollte daher bevorzugt werden, da es 
-  Auflösungs-unabhängige Funktionen für hohe Druckqualität bietet.
+  Pixelbasiertes Zeichnen auf einem Drucker kann die DruckqualitÃ¤t beeintrÃ¤chtigen und die
+  KomplexitÃ¤t erhÃ¶hen, da die DruckerauflÃ¶sung berÃ¼cksichtigt werden muss. Vektorbasiertes
+  Zeichnen mit @@PrinterVectorOutput sollte bevorzugt werden, da es auflÃ¶sungsunabhÃ¤ngige
+  Funktionen fÃ¼r qualitativ hochwertiges Drucken bietet.
   
 @Example
 @Code
@@ -103,10 +111,11 @@
 @Function VektorAusgabeID = PrinterVectorOutput([Einheit])
 
 @Description
-  Gibt die AusgabeID des aktuellen Druckers zurück, zur Verwendung mit der @@StartVectorDrawing Funktion.
+  Gibt die AusgabeID des aktuellen Druckers zurÃ¼ck, zur Verwendung mit der @@StartVectorDrawing Funktion.
 
 @OptionalParameter "Einheit"
-  Bestimmt die Maßeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standard-Einheit für Druckerausgaben ist @#PB_Unit_Point.
+  Gibt die Einheit fÃ¼r die Entfernungsmessung in der Zeichenausgabe an.
+  Die Standardeinheit fÃ¼r die Druckerausgabe ist @#PB_Unit_Point.
 @FixedFont
   @#PB_Unit_Pixel     : Werte werden in Pixel gemessen (oder Dots/Punkte im Fall eines Druckers)
   @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll bzw. Inch) gemessen
@@ -115,7 +124,7 @@
 @EndFixedFont
 
 @ReturnValue
-  Die AusgabeID des aktuellen Druckers kann mit der @@StartVectorDrawing Funktion verwendet werden.
+  Die AusgabeID des aktuellen Druckers, die mit der @@StartVectorDrawing-Funktion verwendet werden soll.
 
 @Example
 @Code
@@ -134,11 +143,14 @@
 @Function Ergebnis = PrintRequester()
 
 @Description
-  Öffnet den regulären Drucker-Requester, um den Drucker auszuwählen und einige Einstellungen zu
-  treffen. Dieser Befehl muss vor allen anderen Drucker-Befehlen aufgerufen werden. Ist das
-  'Ergebnis' gleich 0, dann ist entweder kein Drucker verfügbar oder der Benutzer hat den
-  Requester abgebrochen. Sobald @@PrintRequester erfolgreich aufgerufen wurde, wird 
-  @@StartPrinting benutzt, um das Ausdrucken zu beginnen.
+  Ã–ffnet einen regulÃ¤ren Druck-Requester, um den Drucker auszuwÃ¤hlen und einige Einstellungen
+  vorzunehmen. Diese Funktion muss vor allen anderen Druckerfunktionen aufgerufen werden.
+  Nach dem erfolgreichen Aufruf von @@PrintRequester wird der Druckvorgang mit @@StartPrinting gestartet.
+
+@NoParameters
+
+@ReturnValue
+  Ungleich Null, wenn der Benutzer erfolgreich einen Drucker ausgewÃ¤hlt hat, andernfalls Null.
   
 @SupportedOS
 
@@ -147,9 +159,16 @@
 @Function Ergebnis = StartPrinting(JobName$)
 
 @Description
-  Initialisiert den Drucker und startet die Druck-Operation. 'JobName$' ist der Name, welcher
-  im Drucker-Spooler angezeigt wird und den Druck identifiziert. Ist das 'Ergebnis'
-  gleich 0, konnte die Druck-Operation nicht gestartet werden.
+  Initialisiert den Drucker und startet den Druckvorgang.
+
+@Parameter "JobName$"
+  Der Name, der im Druckerspooler angezeigt werden soll und den neuen Druckvorgang identifiziert.
+
+@ReturnValue
+  Ungleich Null, wenn der Druckvorgang erfolgreich gestartet wurde, andernfalls Null.
+
+@SeeAlso
+  @@StopPrinting
   
 @SupportedOS
 
@@ -159,7 +178,14 @@
 
 @Description
   Stoppt alle Druck-Operationen und sendet die Daten an den Drucker.
-  
+
+@NoParameters
+
+@NoReturnValue
+
+@SeeAlso
+  @@StartPrinting
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -167,13 +193,21 @@
 @Function Ergebnis = PrinterPageWidth()
 
 @Description
-  Gibt die Breite (in Pixel) des Zeichen-Bereichs zurück. Der Wert ändert sich mit der Auflösung 
-  (DPI) des Druckers. Dies bedeutet, dass ein Dokument, das mit 75 DPI gedruckt wird, einen 
-  Zeichenbereich hat, der 4-mal kleiner ist als beim Druck eines Dokuments mit 150 DPI.
-@LineBreak
-@LineBreak
-  Hinweis: Der Rückgabewert bezieht sich auf den Client-Bereich, auf dem Sie drucken können. Evtl.
-  hardwarebedingte Seitenränder oder manuell eingestellte Ränder werden dabei nicht berücksichtigt.
+  Gibt die Breite des Zeichenbereichs zurÃ¼ck.
+
+@NoParameters
+
+@ReturnValue
+  Die Breite des Zeichenbereichs in Pixeln. Der Wert Ã¤ndert sich mit der AuflÃ¶sung (DPI) des Druckers.
+  Das bedeutet, dass ein mit 75 DPI gedrucktes Dokument einen viermal kleineren Zeichenbereich hat
+  als ein mit 150 DPI gedrucktes Dokument.
+  @LineBreak
+  Dieser Wert bezieht sich auf den Clientbereich, also den Bereich, auf dem Sie schreiben kÃ¶nnen.
+  Evtl. Hardware-bedingte DruckerrÃ¤nder werden nicht berÃ¼cksichtigt, es werden aber auch keine
+  â€žweichenâ€œ (manuell eingestellte) RÃ¤nder hinzugefÃ¼gt.
+
+@SeeAlso
+  @@PrinterPageHeight
 
 @SupportedOS
 
@@ -182,12 +216,20 @@
 @Function Ergebnis = PrinterPageHeight()
 
 @Description
-  Gibt die Höhe (in Pixel) des Zeichen-Bereichs zurück. Der Wert ändert sich mit der Auflösung 
-  (DPI) des Druckers. Dies bedeutet, dass ein Dokument, das mit 75 DPI gedruckt wird, einen 
-  Zeichenbereich hat, der 4-mal kleiner ist als beim Druck eines Dokuments mit 150 DPI.
-@LineBreak
-@LineBreak
-  Hinweis: Der Rückgabewert bezieht sich auf den Client-Bereich, auf dem Sie drucken können. Evtl.
-  hardwarebedingte Seitenränder oder manuell eingestellte Ränder werden dabei nicht berücksichtigt.
+  Gibt die HÃ¶he des Zeichenbereichs zurÃ¼ck.
+
+@NoParameters
+
+@ReturnValue
+  Die HÃ¶he des Zeichenbereichs in Pixeln. Der Wert Ã¤ndert sich mit der AuflÃ¶sung (DPI) des Druckers.
+  Das bedeutet, dass ein mit 75 DPI gedrucktes Dokument einen viermal kleineren Zeichenbereich hat
+  als ein mit 150 DPI gedrucktes Dokument.
+  @LineBreak
+  Dieser Wert bezieht sich auf den Clientbereich, also den Bereich, auf dem Sie schreiben kÃ¶nnen.
+  Evtl. Hardware-bedingte DruckerrÃ¤nder werden nicht berÃ¼cksichtigt, es werden aber auch keine
+  â€žweichenâ€œ (manuell eingestellte) RÃ¤nder hinzugefÃ¼gt.
+
+@SeeAlso
+  @@PrinterPageWidth
 
 @SupportedOS

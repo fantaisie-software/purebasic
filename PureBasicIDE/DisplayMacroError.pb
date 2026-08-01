@@ -5,7 +5,11 @@
 ; --------------------------------------------------------------------------------------------
 
 
-#NbIntendKeywords = 47
+CompilerIf #SpiderBasic
+  #NbIntendKeywords = 49
+CompilerElse
+  #NbIntendKeywords = 47
+CompilerEndIf
 
 Structure IntendKeywords
   Keyword$
@@ -301,6 +305,8 @@ DataSection
   Data$ "ProcedureCDLL", "EndProcedure" : Data.l  0, 1, 1, 0
   Data$ "ProcedureDLL", "EndProcedure"  : Data.l  0, 1, 1, 0
   Data$ "EndProcedure", "Procedure,ProcedureC,ProcedureDLL,ProcedureCDLL": Data.l -1, 0, 0, 1
+  Data$ "HeaderSection", "EndHeaderSection" : Data.l  0, 1, 1, 0
+  Data$ "EndHeaderSection", "HeaderSection" : Data.l -1, 0, 0, 1
   
 EndDataSection
 

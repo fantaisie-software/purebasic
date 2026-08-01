@@ -411,7 +411,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     LoadHighlightingFiles = 0 ; do not try to load the functions files
     
-    CompilerIf #CompileLinux
+    CompilerIf #CompileLinuxGtk
       
       ; find the part of the fontname that specifies the font wheight (3rd field)
       count = 0

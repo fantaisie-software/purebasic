@@ -1,16 +1,16 @@
-;
+ï»¿;
 ;     Json library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Json
 
 @Overview
   Die JSON Bibliothek bietet Funktionen zum Analysieren ("parsen"), Erstellen oder
-  Verändern von Daten im JSON-Format. JSON (JavaScript Object Notation) ist ein
-  einfaches Datenaustauschformat, das von vielen Programmiersprachen unterstützt
-  wird. Eine Einführung in das Format finden Sie @InternetLink "http://www.json.org/" "hier".
+  VerÃ¤ndern von Daten im JSON-Format. JSON (JavaScript Object Notation) ist ein
+  einfaches Datenaustauschformat, das von vielen Programmiersprachen unterstÃ¼tzt
+  wird. Eine EinfÃ¼hrung in das Format finden Sie @InternetLink "http://www.json.org/" "hier".
 @LineBreak
 @LineBreak
   Diese Bibliothek versteht und produziert das JSON-Format wie definiert vom
@@ -27,21 +27,21 @@
 @Function Ergebnis = AddJSONElement(JSONWert [, Index])
 
 @Description
-  Fügt ein neues Array-Element zu einem JSON-Wert vom @Link "JSONType" "Typ"
+  FÃ¼gt ein neues Array-Element zu einem JSON-Wert vom @Link "JSONType" "Typ"
   @#PB_JSON_Array hinzu.
   
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
 
 @OptionalParameter "Index"
-  Der Index, an dem der neue Wert in das Array eingefügt wird. Wenn der Index außerhalb des
-  Array-Bereichs liegt, wird der neue Wert entweder am Beginn (für Index < 0) oder am
-  Ende des Arrays eingefügt. Wird dieser Parameter nicht angegeben, dann wird der neue
-  Werte am Ende des Arrays hinzugefügt.
+  Der Index, an dem der neue Wert in das Array eingefÃ¼gt wird. Wenn der Index auÃŸerhalb des
+  Array-Bereichs liegt, wird der neue Wert entweder am Beginn (fÃ¼r Index < 0) oder am
+  Ende des Arrays eingefÃ¼gt. Wird dieser Parameter nicht angegeben, dann wird der neue
+  Werte am Ende des Arrays hinzugefÃ¼gt.
   
 @ReturnValue
-  Gibt die Adresse des hinzugefügten JSON-Werts zurück.
-  Der neu hinzugefügte Wert hat anfänglich den Typ @#PB_JSON_Null.
+  Gibt die Adresse des hinzugefÃ¼gten JSON-Werts zurÃ¼ck.
+  Der neu hinzugefÃ¼gte Wert hat anfÃ¤nglich den Typ @#PB_JSON_Null.
 
 @Example
 @Code
@@ -70,23 +70,23 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = AddJSONMember(JSONWert, Schlüssel$)
+@Function Ergebnis = AddJSONMember(JSONWert, SchlÃ¼ssel$)
 
 @Description
-  Fügt ein neues Mitglied (englisch "member") zu einem JSON-Wert vom @Link "JSONType" "Typ"
-  @#PB_JSON_Object. Wenn ein Mitglied mit dem angegebenen Schlüssel (englisch "key")
+  FÃ¼gt ein neues Mitglied (englisch "member") zu einem JSON-Wert vom @Link "JSONType" "Typ"
+  @#PB_JSON_Object. Wenn ein Mitglied mit dem angegebenen SchlÃ¼ssel (englisch "key")
   bereits existiert, dann wird dieser ersetzt.
   
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
 
-@Parameter "Schlüssel$"
-  Der Schlüssel für das neue Mitglied. Wenn ein Mitglied mit dem gleichen Schlüssel im
+@Parameter "SchlÃ¼ssel$"
+  Der SchlÃ¼ssel fÃ¼r das neue Mitglied. Wenn ein Mitglied mit dem gleichen SchlÃ¼ssel im
   Objekt bereits existiert, dann wird es ersetzt.
 
 @ReturnValue
-  Gibt die Adresse des hinzugefügten JSON-Werts zurück.
-  Der neu hinzugefügte Wert hat anfänglich den Typ @#PB_JSON_Null.
+  Gibt die Adresse des hinzugefÃ¼gten JSON-Werts zurÃ¼ck.
+  Der neu hinzugefÃ¼gte Wert hat anfÃ¤nglich den Typ @#PB_JSON_Null.
 
 @Example
 @Code
@@ -112,7 +112,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CatchJSON(#JSON, *Puffer, Länge [, Flags])
+@Function Ergebnis = CatchJSON(#JSON, *Puffer, LÃ¤nge [, Flags])
 
 @Description
   Analysiert ("parst") JSON-Daten von einem Speicherpuffer. Vom Inhalt des Speicherpuffers
@@ -127,33 +127,33 @@
 @Parameter "*Puffer"
   Ein lesbarer @LibraryLink "memory" "Speicherplatz".
 
-@Parameter "Länge"
-  Länge (in Bytes) des Speicherplatzes.
+@Parameter "LÃ¤nge"
+  LÃ¤nge (in Bytes) des Speicherplatzes.
 
 @OptionalParameter "Flags"
   Wenn dieser auf @#PB_JSON_NoCase gesetzt wird, dann werden die JSON-Daten ohne Beachtung
-  von Groß- und Kleinschreibung analysiert. Standardmäßig wird die Groß- und Kleinschreibung
+  von GroÃŸ- und Kleinschreibung analysiert. StandardmÃ¤ÃŸig wird die GroÃŸ- und Kleinschreibung
   beachtet.
 
 @ReturnValue
   Ein Wert ungleich Null, wenn die JSON-Daten korrekt analysiert ("geparst") wurden,
   andernfalls Null. Wenn @#PB_Any als #JSON Parameter verwendet wurde, dann wird im
-  Erfolgsfall die generierte Nummer zurückgegeben.
+  Erfolgsfall die generierte Nummer zurÃ¼ckgegeben.
   
 @Remarks
-  Im Fall eines Fehlers können die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
-  Funktionen verwendet werden, um weitere Informationen über den Fehler zu ermitteln.
+  Im Fall eines Fehlers kÃ¶nnen die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
+  Funktionen verwendet werden, um weitere Informationen Ã¼ber den Fehler zu ermitteln.
 @LineBreak
 @LineBreak
   Um JSON-Daten aus einem String zu parsen, kann stattdessen die @@ParseJSON Funktion
   verwendet werden.
 @LineBreak
 @LineBreak
-  JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
+  JSON ist ein Datenformat, dass die GroÃŸ- und Kleinschreibung berÃ¼cksichtigt. In manchen
   Situationen jedoch, wie z.B. beim Deserialisieren von Strukturen mittels @@ExtractJSONStructure
-  oder ähnlichen Befehlen, kann es nützlich sein, JSON-Objekte ohne Beachtung der Groß- und
+  oder Ã¤hnlichen Befehlen, kann es nÃ¼tzlich sein, JSON-Objekte ohne Beachtung der GroÃŸ- und
   Kleinschreibung zu nutzen. Das @#PB_JSON_NoCase Flag zwingt alle Mitglieder-relevanten
-  Funktionen, die Schlüssel in diesem Objekt ohne Berücksichtigung von Groß- und Kleinschreibung
+  Funktionen, die SchlÃ¼ssel in diesem Objekt ohne BerÃ¼cksichtigung von GroÃŸ- und Kleinschreibung
   zu behandeln.
   
 @SeeAlso
@@ -179,7 +179,7 @@
 @Code
   ParseJSON(0, "[1, 2, 3, 4]")
   
-  ; löscht alle Werte und fügt einen neuen String hinzu
+  ; lÃ¶scht alle Werte und fÃ¼gt einen neuen String hinzu
   ClearJSONElements(JSONValue(0))
   SetJSONString(AddJSONElement(JSONValue(0)), "Hello")
   
@@ -210,7 +210,7 @@
   Debug Input$  
   ParseJSON(0, Input$)
   
-  ; löscht alle Elemente und fügt ein neues hinzu
+  ; lÃ¶scht alle Elemente und fÃ¼gt ein neues hinzu
   ClearJSONMembers(JSONValue(0))
   SetJSONString(AddJSONMember(JSONValue(0), "Hello"), "World")
   
@@ -230,23 +230,23 @@
 
 @Description
   Wandelt die angegebenen JSON-Daten in einen String um. Ein String kann mittels der
-  @@ParseJSON Funktion zurück in JSON-Daten gewandelt ("geparst") werden.
+  @@ParseJSON Funktion zurÃ¼ck in JSON-Daten gewandelt ("geparst") werden.
 
 @Parameter "#JSON"
   Die umzuwandelnden JSON-Daten.
   
 @OptionalParameter "Flags"
   Wenn dieses auf @#PB_JSON_PrettyPrint gesetzt wird, wird der umgewandelte String
-  zusätzliche Zeilenumbrüche und Leerzeichen für eine bessere Lesbarkeit beinhalten.
-  Die zusätzlichen Leerzeichen sind nicht typisch für das JSON-Format. Die Ausgabe
-  hat für einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
+  zusÃ¤tzliche ZeilenumbrÃ¼che und Leerzeichen fÃ¼r eine bessere Lesbarkeit beinhalten.
+  Die zusÃ¤tzlichen Leerzeichen sind nicht typisch fÃ¼r das JSON-Format. Die Ausgabe
+  hat fÃ¼r einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
 
 @ReturnValue
   Die JSON-Daten als ein String.
   
 @Remarks
   Der Ausgabestring hat das Stringformat des Executables (ASCII oder
-  @ReferenceLink "unicode" "Unicode"). JSON ist grundsätzlich in UTF-8 kodiert -
+  @ReferenceLink "unicode" "Unicode"). JSON ist grundsÃ¤tzlich in UTF-8 kodiert -
   bevor also der Ergebnisstring in eine Datei geschrieben oder an eine andere
   Anwendung geschickt wird, ist es ratsam, den String vorher in UTF-8 umzuwandeln.
 
@@ -283,19 +283,19 @@
 
 @OptionalParameter "Flags"
   Wenn dieser auf @#PB_JSON_NoCase gesetzt wird, dann werden die JSON-Daten ohne Beachtung
-  von Groß- und Kleinschreibung betrachtet. Standardmäßig wird die Groß- und Kleinschreibung
+  von GroÃŸ- und Kleinschreibung betrachtet. StandardmÃ¤ÃŸig wird die GroÃŸ- und Kleinschreibung
   beachtet.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn die JSON-Daten korrekt erstellt wurden. Wenn @#PB_Any als
-  #JSON Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer zurückgegeben.
+  #JSON Parameter verwendet wurde, dann wird im Erfolgsfall die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
+  JSON ist ein Datenformat, dass die GroÃŸ- und Kleinschreibung berÃ¼cksichtigt. In manchen
   Situationen jedoch, wie z.B. beim Deserialisieren von Strukturen mittels @@ExtractJSONStructure
-  oder ähnlichen Befehlen, kann es nützlich sein, JSON-Objekte ohne Beachtung der Groß- und
+  oder Ã¤hnlichen Befehlen, kann es nÃ¼tzlich sein, JSON-Objekte ohne Beachtung der GroÃŸ- und
   Kleinschreibung zu nutzen. Das @#PB_JSON_NoCase Flag zwingt alle Mitglieder-relevanten
-  Funktionen, die Schlüssel in diesem Objekt ohne Berücksichtigung von Groß- und Kleinschreibung
+  Funktionen, die SchlÃ¼ssel in diesem Objekt ohne BerÃ¼cksichtigung von GroÃŸ- und Kleinschreibung
   zu behandeln.
 
 @Example
@@ -321,14 +321,14 @@
 
 @Description
   Startet die Untersuchung der Mitglieder (Elemente) eines JSON-Werts vom @Link "JSONType" "Typ"
-  @#PB_JSON_Object. Die individuellen Mitglieder können mit den @@NextJSONMember,
+  @#PB_JSON_Object. Die individuellen Mitglieder kÃ¶nnen mit den @@NextJSONMember,
   @@JSONMemberKey und @@JSONMemberValue Funktionen untersucht.
 
 @Parameter "JSONWert"
   Der zu untersuchende JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Objet aufgezählt ("enumerated") werden
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Objet aufgezÃ¤hlt ("enumerated") werden
   kann - oder Null, wenn ein Fehler auftrat.
 
 @Example
@@ -355,7 +355,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ExportJSON(#JSON, *Puffer, Größe [, Flags])
+@Function Ergebnis = ExportJSON(#JSON, *Puffer, GrÃ¶ÃŸe [, Flags])
 
 @Description
   Exportiert die angegebenen JSON-Daten in einen Speicherbereich. Die JSON-Daten werden
@@ -367,21 +367,21 @@
 @Parameter "*Puffer"
   Ein beschreibbarer @LibraryLink "memory" "Speicherplatz".
   
-@Parameter "Größe"
-  Die Größe des Speicherplatzes. Ist die Größe nicht groß genug, um die gesamten JSON-Daten
-  aufzunehmen, dann wird die Funktion den Speicherbereich mit Daten füllen, aber dann einen
-  Fehler zurückgeben. Die @@ExportJSONSize Funktion kann verwendet werden, um die benötigte
-  Größe zu ermitteln.
+@Parameter "GrÃ¶ÃŸe"
+  Die GrÃ¶ÃŸe des Speicherplatzes. Ist die GrÃ¶ÃŸe nicht groÃŸ genug, um die gesamten JSON-Daten
+  aufzunehmen, dann wird die Funktion den Speicherbereich mit Daten fÃ¼llen, aber dann einen
+  Fehler zurÃ¼ckgeben. Die @@ExportJSONSize Funktion kann verwendet werden, um die benÃ¶tigte
+  GrÃ¶ÃŸe zu ermitteln.
   
 @OptionalParameter "Flags"
   Wenn dieses auf @#PB_JSON_PrettyPrint gesetzt wird, wird der umgewandelte String
-  zusätzliche Zeilenumbrüche und Leerzeichen für eine bessere Lesbarkeit beinhalten.
-  Die zusätzlichen Leerzeichen sind nicht typisch für das JSON-Format. Die Ausgabe
-  hat für einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
+  zusÃ¤tzliche ZeilenumbrÃ¼che und Leerzeichen fÃ¼r eine bessere Lesbarkeit beinhalten.
+  Die zusÃ¤tzlichen Leerzeichen sind nicht typisch fÃ¼r das JSON-Format. Die Ausgabe
+  hat fÃ¼r einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
 
 @ReturnValue
-  Gibt im Erfolgsfall die Anzahl der in den Speicherbereich geschriebenen Bytes zurück.
-  Wenn die Funktion fehlschlägt, ist das Ergebnis gleich 0.
+  Gibt im Erfolgsfall die Anzahl der in den Speicherbereich geschriebenen Bytes zurÃ¼ck.
+  Wenn die Funktion fehlschlÃ¤gt, ist das Ergebnis gleich 0.
 
 @SeeAlso
   @@ExportJSONSize, @@ComposeJSON, @@SaveJSON, @@CatchJSON
@@ -393,18 +393,18 @@
 @Function Ergebnis = ExportJSONSize(#JSON [, Flags])
 
 @Description
-  Gibt die für den erfolgreichen Export der angegebenen JSON-Daten in einen Speicherbereich
-  (ggf. unter Beachtung des angegebenen Flags) benötigte Größe in Bytes zurück.
+  Gibt die fÃ¼r den erfolgreichen Export der angegebenen JSON-Daten in einen Speicherbereich
+  (ggf. unter Beachtung des angegebenen Flags) benÃ¶tigte GrÃ¶ÃŸe in Bytes zurÃ¼ck.
 
 @Parameter "#JSON"
   Die zu exportierenden JSON-Daten.
 
 @OptionalParameter "Flags"
-  Die im zugehörigen Aufruf von @@ExportJSON ebenfalls verwendeten Flags.
+  Die im zugehÃ¶rigen Aufruf von @@ExportJSON ebenfalls verwendeten Flags.
   Der einzige erlaubte Wert ist @#PB_JSON_PrettyPrint.
   
 @ReturnValue
-  Die Anzahl an Bytes, die zum Exportieren der JSON-Daten benötigt werden.
+  Die Anzahl an Bytes, die zum Exportieren der JSON-Daten benÃ¶tigt werden.
 
 @SeeAlso
   @@ExportJSON, @@ComposeJSON, @@SaveJSON
@@ -417,29 +417,29 @@
 
 @Description
   Extrahiert Elemente vom angegebenen JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Array
-  in das angegebene Array(). Das Array wird in der Größe auf die Anzahl der im JSON-Wert
+  in das angegebene Array(). Das Array wird in der GrÃ¶ÃŸe auf die Anzahl der im JSON-Wert
   beinhalteten Elemente angepasst.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
   
 @Parameter "Array()"
-  Das @LibraryLink "array" "Array", welches mit den JSON-Elementen gefüllt werden soll.
-  Das Array wird in der Größe angepasst, um die gleiche Größe wie der JSON-Wert zu haben.
+  Das @LibraryLink "array" "Array", welches mit den JSON-Elementen gefÃ¼llt werden soll.
+  Das Array wird in der GrÃ¶ÃŸe angepasst, um die gleiche GrÃ¶ÃŸe wie der JSON-Wert zu haben.
   Der gesamte vorherige Inhalt des Arrays geht verloren.
 
 @NoReturnValue
 
 @Remarks
   Die Extrahierung erfolgt rekursiv, wenn das Array einen Struktur-Typ hat. Wenn der
-  JSON-Wert Elemente enthält, die nicht den richtigen Typ haben, um mit dem Array()
-  übereinzustimmen, dann werden sie ignoriert und das zugehörige Array-Element bleibt
+  JSON-Wert Elemente enthÃ¤lt, die nicht den richtigen Typ haben, um mit dem Array()
+  Ã¼bereinzustimmen, dann werden sie ignoriert und das zugehÃ¶rige Array-Element bleibt
   leer.
 @LineBreak
 @LineBreak
   Wenn das angegebene Array() mehr als eine Dimension hat, wird von den JSON-Daten
   erwartet, dass es sich dabei um verschachtelte Arrays in Arrays handelt, um die
-  mehrdimensionalen Daten abzubilden. Siehe das Beispiel unten für weitere Details.
+  mehrdimensionalen Daten abzubilden. Siehe das Beispiel unten fÃ¼r weitere Details.
 
 @Example
 @Code
@@ -480,23 +480,23 @@
 
 @Description
   Extrahiert Elemente vom angegebenen JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Array
-  in die angegebene Liste(). Die Liste wird in der Größe auf die Anzahl der im JSON-Wert
+  in die angegebene Liste(). Die Liste wird in der GrÃ¶ÃŸe auf die Anzahl der im JSON-Wert
   beinhalteten Elemente angepasst.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
   
 @Parameter "Liste()"
-  Die @LibraryLink "list" "Liste", welche mit den JSON-Elementen gefüllt werden soll.
-  Die Liste wird in der Größe angepasst, um die gleiche Größe wie der JSON-Wert zu haben.
+  Die @LibraryLink "list" "Liste", welche mit den JSON-Elementen gefÃ¼llt werden soll.
+  Die Liste wird in der GrÃ¶ÃŸe angepasst, um die gleiche GrÃ¶ÃŸe wie der JSON-Wert zu haben.
   Der gesamte vorherige Inhalt der Liste geht verloren.
 
 @NoReturnValue
 
 @Remarks
   Die Extrahierung erfolgt rekursiv, wenn die Liste einen Struktur-Typ hat. Wenn der
-  JSON-Wert Elemente enthält, die nicht den richtigen Typ haben, um mit der Liste()
-  übereinzustimmen, dann werden sie ignoriert und das zugehörige Listen-Element bleibt
+  JSON-Wert Elemente enthÃ¤lt, die nicht den richtigen Typ haben, um mit der Liste()
+  Ã¼bereinzustimmen, dann werden sie ignoriert und das zugehÃ¶rige Listen-Element bleibt
   leer.
 
 @Example
@@ -533,23 +533,23 @@
 
 @Description
   Extrahiert Elemente vom angegebenen JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Object
-  in die angegebene Map(). Die Map wird in der Größe auf die Anzahl der im JSON-Wert
+  in die angegebene Map(). Die Map wird in der GrÃ¶ÃŸe auf die Anzahl der im JSON-Wert
   beinhalteten Elemente angepasst.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
   
 @Parameter "Map()"
-  Die @LibraryLink "map" "Map", welche mit den JSON-Elementen gefüllt werden soll.
-  Die Map wird in der Größe angepasst, um die gleiche Größe wie der JSON-Wert zu haben.
+  Die @LibraryLink "map" "Map", welche mit den JSON-Elementen gefÃ¼llt werden soll.
+  Die Map wird in der GrÃ¶ÃŸe angepasst, um die gleiche GrÃ¶ÃŸe wie der JSON-Wert zu haben.
   Der gesamte vorherige Inhalt der Map geht verloren.
 
 @NoReturnValue
 
 @Remarks
   Die Extrahierung erfolgt rekursiv, wenn die Map einen Struktur-Typ hat. Wenn der
-  JSON-Wert Elemente enthält, die nicht den richtigen Typ haben, um mit der Map()
-  übereinzustimmen, dann werden sie ignoriert und das zugehörige Map-Element bleibt
+  JSON-Wert Elemente enthÃ¤lt, die nicht den richtigen Typ haben, um mit der Map()
+  Ã¼bereinzustimmen, dann werden sie ignoriert und das zugehÃ¶rige Map-Element bleibt
   leer.
 
 @Example
@@ -580,45 +580,45 @@
 @Description
   Extrahiert Elemente vom angegebenen JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Object
   in den angegebenen Struktur-Speicher. Der gesamte vorherige Inhalt der Struktur wird
-  gelöscht, bevor die JSON-Werte extrahiert werden, sofern nicht das @#PB_JSON_NoClear Flag
+  gelÃ¶scht, bevor die JSON-Werte extrahiert werden, sofern nicht das @#PB_JSON_NoClear Flag
   gesetzt ist.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
   
 @Parameter "*Puffer"
-  Die Adresse des zu füllenden Struktur-@LibraryLink "memory" "Speichers".
+  Die Adresse des zu fÃ¼llenden Struktur-@LibraryLink "memory" "Speichers".
   
 @Parameter "Struktur"
-  Der Typ der zu füllenden @ReferenceLink "structures" "Struktur".
+  Der Typ der zu fÃ¼llenden @ReferenceLink "structures" "Struktur".
 
 @OptionalParameter "Flags"
   Wenn dieses Flag auf @#PB_JSON_NoClear gesetzt wird, dann wird die Struktur vor dem Extrahieren
-  der JSON-Daten nicht gelöscht:
+  der JSON-Daten nicht gelÃ¶scht:
   Wenn die JSON-Daten kein Strukturfeld angeben, wird der Wert des aktuellen Felds beibehalten.
-  Wenn nicht angegeben, wird die gesamte Struktur gelöscht, bevor Daten aus JSON extrahiert werden.
+  Wenn nicht angegeben, wird die gesamte Struktur gelÃ¶scht, bevor Daten aus JSON extrahiert werden.
 
 @NoReturnValue
 
 @Remarks
   Die Extrahierung erfolgt rekursiv, wenn die Struktur weitere
   @ReferenceLink "structures" "Strukturen", @LibraryLink "array" "Arrays",
-  @LibraryLink "list" "Listen" oder @LibraryLink "map" "Maps" enthält.
-  Wenn der JSON-Wert Elemente enthält, die nicht den richtigen Typ haben, um mit
-  einem Struktur-Element übereinzustimmen, dann werden sie ignoriert und das
-  zugehörige Struktur-Element bleibt leer.
+  @LibraryLink "list" "Listen" oder @LibraryLink "map" "Maps" enthÃ¤lt.
+  Wenn der JSON-Wert Elemente enthÃ¤lt, die nicht den richtigen Typ haben, um mit
+  einem Struktur-Element Ã¼bereinzustimmen, dann werden sie ignoriert und das
+  zugehÃ¶rige Struktur-Element bleibt leer.
 @LineBreak
 @LineBreak
   Jegliche '*' oder '$' Zeichen werden aus den Namen der Struktur-Elemente entfernt,
   bevor diese mit den JSON-Objektelementen verglichen werden. Daher darf ein
-  Mitgliedsschlüssel diese Zeichen nicht beinhalten, um korrekt mit einem Struktur-Element
-  übereinzustimmen.
+  MitgliedsschlÃ¼ssel diese Zeichen nicht beinhalten, um korrekt mit einem Struktur-Element
+  Ã¼bereinzustimmen.
 @LineBreak
 @LineBreak
-  Der Vergleich der Mitgliederschlüssel ("member keys") mit den Namen der Struktur-Elemente
-  erfolgt unter Beachtung der Groß- und Kleinschreibung. Wenn die JSON-Daten mit dem
+  Der Vergleich der MitgliederschlÃ¼ssel ("member keys") mit den Namen der Struktur-Elemente
+  erfolgt unter Beachtung der GroÃŸ- und Kleinschreibung. Wenn die JSON-Daten mit dem
   @#PB_JSON_NoCase Flag erstellt oder geparst wurden, dann erfolgt der Vergleich ohne
-  Berücksichtigung der Groß- und Kleinschreibung.
+  BerÃ¼cksichtigung der GroÃŸ- und Kleinschreibung.
 
 @Example
 @Code
@@ -676,7 +676,7 @@
 
 @Description
   Gibt den booleschen ("boolean") Wert eines JSON-Werts vom @Link "JSONType" "Typ"
-  @#PB_JSON_Boolean zurück. Ein JSON-Wert kann mittels @@SetJSONBoolean auf einen
+  @#PB_JSON_Boolean zurÃ¼ck. Ein JSON-Wert kann mittels @@SetJSONBoolean auf einen
   booleschen Wert gesetzt werden.
 
 @Parameter "JSONWert"
@@ -706,7 +706,7 @@
 
 @Description
   Gibt den Wert eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Number als
-  Fließkommazahl doppelter Genauigkeit ("Double") zurück.
+  FlieÃŸkommazahl doppelter Genauigkeit ("Double") zurÃ¼ck.
 @LineBreak
 @LineBreak
   Ein JSON-Wert kann mittels @@SetJSONDouble, @@SetJSONFloat, 
@@ -740,18 +740,18 @@
 
 @Description
   Gibt das JSON-Arrayelement am angegebenen 'Index' von einem JSON-Wert des
-  @Link "JSONType" "Typs" @#PB_JSON_Array zurück.
+  @Link "JSONType" "Typs" @#PB_JSON_Array zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
 
 @Parameter "Index"
-  Der Index des zurückzugebenden @LibraryLink "array" "Array"-Elements.
+  Der Index des zurÃ¼ckzugebenden @LibraryLink "array" "Array"-Elements.
   Der Index muss zwischen 0 und @@JSONArraySize - 1 liegen.
   
 @ReturnValue
   Die Adresse des JSON-Werts am angegebenen Array-Index. Liegt der
-  angegebene 'Index' außerhalb des gültigen Bereichs, wird das Ergebnis 0 sein.
+  angegebene 'Index' auÃŸerhalb des gÃ¼ltigen Bereichs, wird das Ergebnis 0 sein.
 
 @Example
 @Code
@@ -774,7 +774,7 @@
 
 @Description
   Gibt den Wert eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Number als
-  Fließkommazahl einfacher Genauigkeit ("Float") zurück.
+  FlieÃŸkommazahl einfacher Genauigkeit ("Float") zurÃ¼ck.
 @LineBreak
 @LineBreak
   Ein JSON-Wert kann mittels @@SetJSONDouble, @@SetJSONFloat, 
@@ -808,7 +808,7 @@
 
 @Description
   Gibt den Wert eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Number als
-  Ganzzahl ("Integer") zurück.
+  Ganzzahl ("Integer") zurÃ¼ck.
 @LineBreak
 @LineBreak
   Ein JSON-Wert kann mittels @@SetJSONDouble, @@SetJSONFloat, 
@@ -838,25 +838,25 @@
   
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GetJSONMember(JSONWert, Schlüssel$)
+@Function Ergebnis = GetJSONMember(JSONWert, SchlÃ¼ssel$)
 
 @Description
-  Gibt das JSON-Objektelement mit dem angegebenen Schlüssel$ von einem
-  JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Object zurück.
+  Gibt das JSON-Objektelement mit dem angegebenen SchlÃ¼ssel$ von einem
+  JSON-Wert des @Link "JSONType" "Typs" @#PB_JSON_Object zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
 
-@Parameter "Schlüssel$"
-  Der Schlüssel ("Key") des zurückzugebenen Elements (Mitglieds).
+@Parameter "SchlÃ¼ssel$"
+  Der SchlÃ¼ssel ("Key") des zurÃ¼ckzugebenen Elements (Mitglieds).
 @LineBreak
 @LineBreak
-  Der Schlüssel wird unter Beachtung der Groß- und Kleinschreibung verglichen, außer es
+  Der SchlÃ¼ssel wird unter Beachtung der GroÃŸ- und Kleinschreibung verglichen, auÃŸer es
   wurde das @#PB_JSON_NoCase Flag beim Erstellen oder Parsen der JSON-Daten angegeben.
   
 @ReturnValue
-  Die Adresse des JSON-Werts mit dem angegebenen Schlüssel.
-  Wenn der angegebene 'Schlüssel$' im Objekt nicht existiert, wird das Ergebnis 0 sein.
+  Die Adresse des JSON-Werts mit dem angegebenen SchlÃ¼ssel.
+  Wenn der angegebene 'SchlÃ¼ssel$' im Objekt nicht existiert, wird das Ergebnis 0 sein.
 
 @Example
 @Code
@@ -884,7 +884,7 @@
 
 @Description
   Gibt den Wert eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_String als
-  String zurück.
+  String zurÃ¼ck.
   
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_String sein.
@@ -912,7 +912,7 @@
 
 @Description
   Gibt den Wert eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Number als
-  Quad-Wert zurück.
+  Quad-Wert zurÃ¼ck.
 @LineBreak
 @LineBreak
   Ein JSON-Wert kann mittels @@SetJSONDouble, @@SetJSONFloat, 
@@ -945,21 +945,21 @@
 @Function InsertJSONArray(JSONWert, Array())
 
 @Description
-  Fügt das angegebene Array() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
-  auf den @Link "JSONType" "Typ" @#PB_JSON_Array geändert.
+  FÃ¼gt das angegebene Array() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
+  auf den @Link "JSONType" "Typ" @#PB_JSON_Array geÃ¤ndert.
 
 @Parameter "JSONWert"
-  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt des Arrays geändert.
+  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt des Arrays geÃ¤ndert.
   
 @Parameter "Array()"
-  Das in den JSON-Wert einzufügende @LibraryLink "array" "Array".
+  Das in den JSON-Wert einzufÃ¼gende @LibraryLink "array" "Array".
 
 @NoReturnValue
 
 @Remarks
   Wenn das angegebene Array() mehr als eine Dimension hat, dann wird der JSON-Wert mit
-  einem verschachtelten Array von Arrays gefüllt, um die mehrdimensionalen Daten
-  wiederzugeben. Siehe das Beispiel unten für weitere Details.
+  einem verschachtelten Array von Arrays gefÃ¼llt, um die mehrdimensionalen Daten
+  wiederzugeben. Siehe das Beispiel unten fÃ¼r weitere Details.
   
 @Example
 @Code
@@ -999,14 +999,14 @@
 @Function InsertJSONList(JSONWert, Liste())
 
 @Description
-  Fügt die angegebene Liste() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
-  auf den @Link "JSONType" "Typ" @#PB_JSON_Array geändert.
+  FÃ¼gt die angegebene Liste() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
+  auf den @Link "JSONType" "Typ" @#PB_JSON_Array geÃ¤ndert.
 
 @Parameter "JSONWert"
-  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Liste geändert.
+  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Liste geÃ¤ndert.
   
 @Parameter "Liste()"
-  Die in den JSON-Wert einzufügende @LibraryLink "list" "Liste".
+  Die in den JSON-Wert einzufÃ¼gende @LibraryLink "list" "Liste".
 
 @NoReturnValue
 
@@ -1034,14 +1034,14 @@
 @Function InsertJSONMap(JSONWert, Map())
 
 @Description
-  Fügt die angegebene Map() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
-  auf den @Link "JSONType" "Typ" @#PB_JSON_Object geändert.
+  FÃ¼gt die angegebene Map() in den angegebenen JSON-Wert sein. Der JSON-Wert wird
+  auf den @Link "JSONType" "Typ" @#PB_JSON_Object geÃ¤ndert.
 
 @Parameter "JSONWert"
-  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Map geändert.
+  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Map geÃ¤ndert.
   
 @Parameter "Map()"
-  Die in den JSON-Wert einzufügende @LibraryLink "map" "Map".
+  Die in den JSON-Wert einzufÃ¼gende @LibraryLink "map" "Map".
 
 @NoReturnValue
 
@@ -1069,18 +1069,18 @@
 @Function InsertJSONStructure(JSONWert, *Puffer, Struktur)
 
 @Description
-  Fügt den Inhalt des angegebenen Struktur-Speichers in den angegebenen JSON-Wert ein.
-  Der JSON-Wert wird auf den @Link "JSONType" "Typ" @#PB_JSON_Object geändert und
-  enthält dann ein Element (Mitglied) für jedes Struktur-Element.
+  FÃ¼gt den Inhalt des angegebenen Struktur-Speichers in den angegebenen JSON-Wert ein.
+  Der JSON-Wert wird auf den @Link "JSONType" "Typ" @#PB_JSON_Object geÃ¤ndert und
+  enthÃ¤lt dann ein Element (Mitglied) fÃ¼r jedes Struktur-Element.
 
 @Parameter "JSONWert"
-  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Struktur geändert.
+  Der JSON-Wert. Der vorherige Inhalt des Werts wird auf den Inhalt der Struktur geÃ¤ndert.
   
 @Parameter "*Puffer"
-  Die Adresse der in den JSON-Wert einzufügenden @ReferenceLink "structures" "Struktur".
+  Die Adresse der in den JSON-Wert einzufÃ¼genden @ReferenceLink "structures" "Struktur".
   
 @Parameter "Struktur"
-  Der Typ der einzufügenden @ReferenceLink "structures" "Struktur".
+  Der Typ der einzufÃ¼genden @ReferenceLink "structures" "Struktur".
 
 @NoReturnValue
 
@@ -1118,19 +1118,19 @@
 @Function Ergebnis = IsJSON(#JSON)
 
 @Description
-  Überprüft, of die angegebene #JSON Nummer gültige und korrekt initialisierte
-  JSON-Daten repräsentiert.
+  ÃœberprÃ¼ft, of die angegebene #JSON Nummer gÃ¼ltige und korrekt initialisierte
+  JSON-Daten reprÃ¤sentiert.
   
 @Parameter "#JSON"
   Die zu verwendenden JSON-Daten.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #JSON gültige JSON-Daten sind,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #JSON gÃ¼ltige JSON-Daten sind,
   andernfalls Null.
   
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden.
-  Ist das 'Ergebnis' ungleich Null, dann ist das Objekt gültig und initialisiert
+  Ist das 'Ergebnis' ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert
   andernfalls ist es gleich Null.
   
 @SeeAlso
@@ -1144,7 +1144,7 @@
 
 @Description
   Gibt die Anzahl der in einem JSON-Wert vom @Link "JSONType" "Typ" @#PB_JSON_Array
-  beinhalteten Elemente zurück.
+  beinhalteten Elemente zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
@@ -1170,7 +1170,7 @@
 
 @Description
   Gibt die Zeilennummer innerhalb der JSON-Eingabe der letzten bei @@ParseJSON,
-  @@CatchJSON oder @@LoadJSON fehlgeschlagenen JSON-Parsing-Operation zurück.
+  @@CatchJSON oder @@LoadJSON fehlgeschlagenen JSON-Parsing-Operation zurÃ¼ck.
 
 @NoParameters
 
@@ -1187,8 +1187,8 @@
 @Function Ergebnis$ = JSONErrorMessage()
 
 @Description
-  Gibt eine Nachricht zurück, welche die Ursache für den Fehler bei der letzten
-  JSON-Parsing-Operation mittels @@ParseJSON, @@CatchJSON oder @@LoadJSON enthält.
+  Gibt eine Nachricht zurÃ¼ck, welche die Ursache fÃ¼r den Fehler bei der letzten
+  JSON-Parsing-Operation mittels @@ParseJSON, @@CatchJSON oder @@LoadJSON enthÃ¤lt.
 
 @NoParameters
 
@@ -1233,19 +1233,19 @@
 @Function Ergebnis$ = JSONMemberKey(JSONWert)
 
 @Description
-  Nach einem Aufruf von @@NextJSONMember gibt diese Funktion den Schlüssel ("Key")
+  Nach einem Aufruf von @@NextJSONMember gibt diese Funktion den SchlÃ¼ssel ("Key")
   des gerade untersuchten JSON-Objektelements vom angegebenen JSON-Wert des
-  @Link "JSONType" "Typs" @#PB_JSON_Object zurück.
+  @Link "JSONType" "Typs" @#PB_JSON_Object zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein und gerade mittels
   @@ExamineJSONMembers untersucht werden.
 
 @ReturnValue
-  Der Schlüssel des aktuellen JSON-Objektelements.
+  Der SchlÃ¼ssel des aktuellen JSON-Objektelements.
 
 @Example
-  Siehe @@ExamineJSONMembers für ein Beispiel.
+  Siehe @@ExamineJSONMembers fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@ExamineJSONMembers, @@NextJSONMember, @@JSONMemberValue
@@ -1259,7 +1259,7 @@
 @Description
   Nach einem Aufruf von @@NextJSONMember gibt diese Funktion die Adresse
   des gerade untersuchten JSON-Objektelements vom angegebenen JSON-Wert des
-  @Link "JSONType" "Typs" @#PB_JSON_Object zurück.
+  @Link "JSONType" "Typs" @#PB_JSON_Object zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein und gerade mittels
@@ -1269,7 +1269,7 @@
   Die Adresse des aktuellen JSON-Objektelements.
 
 @Example
-  Siehe @@ExamineJSONMembers für ein Beispiel.
+  Siehe @@ExamineJSONMembers fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@ExamineJSONMembers, @@NextJSONMember, @@JSONMemberKey
@@ -1282,7 +1282,7 @@
 
 @Description
   Gibt die Anzahl Elemente in einem JSON-Wert des @Link "JSONType" "Typs"
-  @#PB_JSON_Object zurück.
+  @#PB_JSON_Object zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
@@ -1312,7 +1312,7 @@
 @Function Ergebnis = JSONType(JSONWert)
 
 @Description
-  Gibt den Typ des angegebenen JSON-Werts zurück.
+  Gibt den Typ des angegebenen JSON-Werts zurÃ¼ck.
 
 @Parameter "JSONWert"
   Der JSON-Wert.
@@ -1324,7 +1324,7 @@
 
   @#PB_JSON_Null
 @Indent
-  Der Wert stellt die JSON wörtliche ("literal") Null dar.
+  Der Wert stellt die JSON wÃ¶rtliche ("literal") Null dar.
 @EndIndent
 
   @#PB_JSON_String
@@ -1336,7 +1336,7 @@
   @#PB_JSON_Number
 @Indent
   Der Wert beinhaltet eine Nummer. @@GetJSONDouble, @@GetJSONFloat, @@GetJSONInteger oder 
-  @@GetJSONQuad können verwendet, um die Zahl zu lesen.
+  @@GetJSONQuad kÃ¶nnen verwendet, um die Zahl zu lesen.
 @EndIndent
 
   @#PB_JSON_Boolean
@@ -1348,23 +1348,23 @@
   @#PB_JSON_Array
 @Indent
   Der Wert beinhaltet ein Array von JSON-Elementen. @@JSONArraySize gibt die
-  Größe des Arrays zurück. @@GetJSONElement kann verwendet werden, um ein bestimmtes
+  GrÃ¶ÃŸe des Arrays zurÃ¼ck. @@GetJSONElement kann verwendet werden, um ein bestimmtes
   Array-Element zu ermitteln. @@AddJSONElement, @@RemoveJSONElement, @@ResizeJSONElements
-  bzw. @@ClearJSONElements können verwendet werden, um das Array zu verändern.
+  bzw. @@ClearJSONElements kÃ¶nnen verwendet werden, um das Array zu verÃ¤ndern.
 @EndIndent
 
   @#PB_JSON_Object
 @Indent
-  Der Wert beinhaltet ein Objekt (ein Set von Schlüssel/Werte Paaren). @@JSONObjectSize
-  gibt die Anzahl Elemente im Objekt zurück. @@GetJSONMember gibt einen bestimmten
-  Element-Wert zurück. @@ExamineJSONMembers kann verwendet werden, um die Element-Werte
-  zu untersuchen. @@AddJSONMember, @@RemoveJSONMember bzw. @@ClearJSONMembers können
-  verwendet werden, um das Objekt zu verändern.
+  Der Wert beinhaltet ein Objekt (ein Set von SchlÃ¼ssel/Werte Paaren). @@JSONObjectSize
+  gibt die Anzahl Elemente im Objekt zurÃ¼ck. @@GetJSONMember gibt einen bestimmten
+  Element-Wert zurÃ¼ck. @@ExamineJSONMembers kann verwendet werden, um die Element-Werte
+  zu untersuchen. @@AddJSONMember, @@RemoveJSONMember bzw. @@ClearJSONMembers kÃ¶nnen
+  verwendet werden, um das Objekt zu verÃ¤ndern.
 @EndIndent
 
 @Example
 @Code
-  ; Eine Prozedur, die jeden JSON-Wert akzeptiert und einen String zurückgibt
+  ; Eine Prozedur, die jeden JSON-Wert akzeptiert und einen String zurÃ¼ckgibt
   ;
   Procedure.s GetAnyValue(Value)
     Select JSONType(Value)
@@ -1395,41 +1395,41 @@
 @Function Ergebnis = JSONValue(#JSON)
 
 @Description
-  Gibt den Wert der angegebenen #JSON-Daten zurück. Der Typ des Werts kann
-  mit Hilfe von @@JSONType überprüft werden.
+  Gibt den Wert der angegebenen #JSON-Daten zurÃ¼ck. Der Typ des Werts kann
+  mit Hilfe von @@JSONType Ã¼berprÃ¼ft werden.
 
 @Parameter "#JSON"
-  Die JSON-Daten, von denen der Wert zurückgegeben werden soll.
+  Die JSON-Daten, von denen der Wert zurÃ¼ckgegeben werden soll.
 
 @ReturnValue
-  Der JSON-Wert. Das Ergebnis wird für gültige #JSON-Daten niemals 0 sein.
+  Der JSON-Wert. Das Ergebnis wird fÃ¼r gÃ¼ltige #JSON-Daten niemals 0 sein.
 
 @Remarks
-  Alle #JSON-Daten beinhalten exakt einen JSON-Wert (der möglicherweise verschachtelte
+  Alle #JSON-Daten beinhalten exakt einen JSON-Wert (der mÃ¶glicherweise verschachtelte
   Werte beinhaltet). Mittels @@CreateJSON neu erstellte #JSON-Daten beinhalten einen
   Wert vom Typ @#PB_JSON_Null.
 @LineBreak
 @LineBreak
-  Der Typ des JSON-Werts oder seines Inhaltes kann mit den folgenden Funktionen verändert
+  Der Typ des JSON-Werts oder seines Inhaltes kann mit den folgenden Funktionen verÃ¤ndert
   werden:
 @LineBreak
-  - @@SetJSONArray: Ändert den Wert auf ein (leeres) Array
+  - @@SetJSONArray: Ã„ndert den Wert auf ein (leeres) Array
 @LineBreak
-  - @@SetJSONBoolean: Ändert den Wert auf einen booleschen Wert ("Boolean")
+  - @@SetJSONBoolean: Ã„ndert den Wert auf einen booleschen Wert ("Boolean")
 @LineBreak
-  - @@SetJSONDouble: Ändert den Wert auf eine Zahl
+  - @@SetJSONDouble: Ã„ndert den Wert auf eine Zahl
 @LineBreak
-  - @@SetJSONFloat: Ändert den Wert auf eine Zahl
+  - @@SetJSONFloat: Ã„ndert den Wert auf eine Zahl
 @LineBreak
-  - @@SetJSONInteger: Ändert den Wert auf eine Zahl
+  - @@SetJSONInteger: Ã„ndert den Wert auf eine Zahl
 @LineBreak
-  - @@SetJSONNull: Ändert den Wert auf eine 'null'
+  - @@SetJSONNull: Ã„ndert den Wert auf eine 'null'
 @LineBreak
-  - @@SetJSONObject: Ändert den Wert auf ein (leeres) Objekt
+  - @@SetJSONObject: Ã„ndert den Wert auf ein (leeres) Objekt
 @LineBreak
-  - @@SetJSONString: Ändert den Wert auf einen String
+  - @@SetJSONString: Ã„ndert den Wert auf einen String
 @LineBreak
-  - @@SetJSONQuad: Ändert den Wert auf eine Zahl
+  - @@SetJSONQuad: Ã„ndert den Wert auf eine Zahl
 
 @Example
 @Code
@@ -1449,7 +1449,7 @@
 
 @Description
   Parst JSON-Daten aus einer Datei. Von den Inhalten der Datei wird erwartet, dass diese
-  im UTF-8 Format kodiert sind. Dateien mit einer anderen Zeichenkodierung können von
+  im UTF-8 Format kodiert sind. Dateien mit einer anderen Zeichenkodierung kÃ¶nnen von
   diesem Befehl nicht gelesen werden. Die @@JSONValue Funktion kann verwendet werden,
   um nach dem Parsen auf den/die beinhalteten JSON-Wert(e) zuzugreifen.
 
@@ -1463,24 +1463,24 @@
 
 @OptionalParameter "Flags"
   Wenn dieser auf @#PB_JSON_NoCase gesetzt wird, dann werden die JSON-Daten ohne Beachtung
-  von Groß- und Kleinschreibung geparst. Standardmäßig wird die Groß- und Kleinschreibung
+  von GroÃŸ- und Kleinschreibung geparst. StandardmÃ¤ÃŸig wird die GroÃŸ- und Kleinschreibung
   beachtet.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn die JSON-Daten korrekt geparst wurden, andernfalls Null.
   Wenn @#PB_Any als #JSON Parameter verwendet wurde, dann wird im Erfolgsfall die generierte
-  Nummer zurückgegeben.
+  Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Im Fall eines Fehlers können die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
-  Funktionen verwendet werden, um weitere Informationen über den Fehler zu erhalten.
+  Im Fall eines Fehlers kÃ¶nnen die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
+  Funktionen verwendet werden, um weitere Informationen Ã¼ber den Fehler zu erhalten.
 @LineBreak
 @LineBreak
-  JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
+  JSON ist ein Datenformat, dass die GroÃŸ- und Kleinschreibung berÃ¼cksichtigt. In manchen
   Situationen jedoch, wie z.B. beim Deserialisieren von Strukturen mittels @@ExtractJSONStructure
-  oder ähnlichen Befehlen, kann es nützlich sein, JSON-Objekte ohne Beachtung der Groß- und
+  oder Ã¤hnlichen Befehlen, kann es nÃ¼tzlich sein, JSON-Objekte ohne Beachtung der GroÃŸ- und
   Kleinschreibung zu nutzen. Das @#PB_JSON_NoCase Flag zwingt alle Mitglieder-relevanten
-  Funktionen, die Schlüssel in diesem Objekt ohne Berücksichtigung von Groß- und Kleinschreibung
+  Funktionen, die SchlÃ¼ssel in diesem Objekt ohne BerÃ¼cksichtigung von GroÃŸ- und Kleinschreibung
   zu behandeln.
 
 @SeeAlso
@@ -1500,7 +1500,7 @@
   durchzugehen.
 @LineBreak
 @LineBreak
-  @@JSONMemberKey und @@JSONMemberValue können verwendet werden, um Informationen über
+  @@JSONMemberKey und @@JSONMemberValue kÃ¶nnen verwendet werden, um Informationen Ã¼ber
   das aktuelle Element (Mitglied) zu erhalten.
   
 @Parameter "JSONWert"
@@ -1508,11 +1508,11 @@
   @@ExamineJSONMembers muss auf diesen Wert aufgerufen worden sein.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn ein weiteres JSON-Element gefunden wurde.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn ein weiteres JSON-Element gefunden wurde.
   Ist das Ergebnis gleich Null, dann gibt es keine weiteren JSON-Elemente zu untersuchen.
 
 @Example
-  Siehe @@ExamineJSONMembers für ein Beispiel.
+  Siehe @@ExamineJSONMembers fÃ¼r ein Beispiel.
   
 @SeeAlso
   @@ExamineJSONMembers, @@JSONMemberKey, @@JSONMemberValue
@@ -1533,32 +1533,32 @@
   zu generieren.
 
 @Parameter "Eingabe$"
-  Ein String, der die zu parsenden JSON-Daten enthält.
+  Ein String, der die zu parsenden JSON-Daten enthÃ¤lt.
 
 @OptionalParameter "Flags"
   Wenn dieser auf @#PB_JSON_NoCase gesetzt wird, dann werden die JSON-Daten ohne Beachtung
-  von Groß- und Kleinschreibung geparst. Standardmäßig wird die Groß- und Kleinschreibung
+  von GroÃŸ- und Kleinschreibung geparst. StandardmÃ¤ÃŸig wird die GroÃŸ- und Kleinschreibung
   beachtet.
   
 @ReturnValue
   Ein Wert ungleich Null, wenn die JSON-Daten korrekt geparst wurden, andernfalls Null.
   Wenn @#PB_Any als #JSON Parameter verwendet wurde, dann wird im Erfolgsfall die generierte
-  Nummer zurückgegeben.
+  Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Im Fall eines Fehlers können die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
-  Funktionen verwendet werden, um weitere Informationen über den Fehler zu erhalten.
+  Im Fall eines Fehlers kÃ¶nnen die @@JSONErrorMessage, @@JSONErrorLine und @@JSONErrorPosition
+  Funktionen verwendet werden, um weitere Informationen Ã¼ber den Fehler zu erhalten.
 @LineBreak
 @LineBreak
   Um JSON-Daten direkt aus einem Speicherpuffer zu parsen, kann stattdessen die @@CatchJSON
   Funktion verwendet werden.
 @LineBreak
 @LineBreak
-  JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
+  JSON ist ein Datenformat, dass die GroÃŸ- und Kleinschreibung berÃ¼cksichtigt. In manchen
   Situationen jedoch, wie z.B. beim Deserialisieren von Strukturen mittels @@ExtractJSONStructure
-  oder ähnlichen Befehlen, kann es nützlich sein, JSON-Objekte ohne Beachtung der Groß- und
+  oder Ã¤hnlichen Befehlen, kann es nÃ¼tzlich sein, JSON-Objekte ohne Beachtung der GroÃŸ- und
   Kleinschreibung zu nutzen. Das @#PB_JSON_NoCase Flag zwingt alle Mitglieder-relevanten
-  Funktionen, die Schlüssel in diesem Objekt ohne Berücksichtigung von Groß- und Kleinschreibung
+  Funktionen, die SchlÃ¼ssel in diesem Objekt ohne BerÃ¼cksichtigung von GroÃŸ- und Kleinschreibung
   zu behandeln.
   
 @Example
@@ -1575,7 +1575,7 @@
 @SeeAlso
   @@CreateJSON, @@CatchJSON, @@LoadJSON, @@JSONValue, @@FreeJSON,
   @@JSONErrorMessage, @@JSONErrorLine, @@JSONErrorPosition,
-  @@ExportJSON
+  @@ExportJSON, @@ComposeJSON
   
 @SupportedOS
 
@@ -1611,17 +1611,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function RemoveJSONMember(JSONWert, Schlüssel$)
+@Function RemoveJSONMember(JSONWert, SchlÃ¼ssel$)
 
 @Description
-  Entfernt ein Element (Mitglied) mit dem angegebenen Schlüssel von einem JSON-Wert des
+  Entfernt ein Element (Mitglied) mit dem angegebenen SchlÃ¼ssel von einem JSON-Wert des
   @Link "JSONType" "Typs" @#PB_JSON_Object.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Object sein.
 
-@Parameter "Schlüssel$"
-  Der Schlüssel ("Key") des zu entfernenden Elements.
+@Parameter "SchlÃ¼ssel$"
+  Der SchlÃ¼ssel ("Key") des zu entfernenden Elements.
   
 @NoReturnValue
 
@@ -1645,23 +1645,23 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ResizeJSONElements(JSONWert, Größe)
+@Function ResizeJSONElements(JSONWert, GrÃ¶ÃŸe)
 
 @Description
-  Verändert die Größe eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Array
+  VerÃ¤ndert die GrÃ¶ÃŸe eines JSON-Werts vom @Link "JSONType" "Typ" @#PB_JSON_Array
   so, dass er die angegebene Anzahl Elemente hat.
 
 @Parameter "JSONWert"
   Der JSON-Wert. Der Wert muss vom Typ @#PB_JSON_Array sein.
   
-@Parameter "Größe"
-  Die neue Größe des Arrays. Dieser Wert gibt die absolute Anzahl an Elementen an
-  (nicht den Index des höchsten Array-Elements wie bei @ReferenceLink "dim" "Dim").
+@Parameter "GrÃ¶ÃŸe"
+  Die neue GrÃ¶ÃŸe des Arrays. Dieser Wert gibt die absolute Anzahl an Elementen an
+  (nicht den Index des hÃ¶chsten Array-Elements wie bei @ReferenceLink "dim" "Dim").
 
 @NoReturnValue
 
 @Remarks
-  Wenn neue Elemente zum Array hinzugefügt werden, dann haben diese den Typ @#PB_JSON_Null.
+  Wenn neue Elemente zum Array hinzugefÃ¼gt werden, dann haben diese den Typ @#PB_JSON_Null.
 
 @Example
 @Code
@@ -1686,20 +1686,23 @@
 
 @Description
   Speichert die angegebenen JSON-Daten in eine Datei. Die Datei wird im UTF-8 Format
-  kodiert (ohne ein führendes "Byte-Order Mark").
+  kodiert (ohne ein fÃ¼hrendes "Byte-Order Mark").
 
 @Parameter "#JSON"
   Die zu speichernden JSON-Daten.
-  
+
+@Parameter "DateiName$"
+  Der Name der Datei, welche die JSON-Daten enthÃ¤lt.
+
 @OptionalParameter "Flags"
   Wenn dieses auf @#PB_JSON_PrettyPrint gesetzt wird, dann werden die gespeicherten Daten
-  zusätzliche Zeilenumbrüche und Leerzeichen für eine bessere Lesbarkeit beinhalten.
-  Die zusätzlichen Leerzeichen sind nicht typisch für das JSON-Format. Die Ausgabe
-  hat für einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
+  zusÃ¤tzliche ZeilenumbrÃ¼che und Leerzeichen fÃ¼r eine bessere Lesbarkeit beinhalten.
+  Die zusÃ¤tzlichen Leerzeichen sind nicht typisch fÃ¼r das JSON-Format. Die Ausgabe
+  hat fÃ¼r einen JSON-Leser die gleiche Bedeutung, egal ob mit oder ohne dieses Flag.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich gespeichert wurde.
-  Tritt während des Speicherns ein Fehler auf, dann ist das Ergebnis gleich Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Datei erfolgreich gespeichert wurde.
+  Tritt wÃ¤hrend des Speicherns ein Fehler auf, dann ist das Ergebnis gleich Null.
 
 @SeeAlso
   @@ComposeJSON, @@ExportJSON, @@ExportJSONSize, @@LoadJSON
@@ -1711,7 +1714,7 @@
 @Function Ergebnis = SetJSONArray(JSONWert)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Array.
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Array.
   Das Array wird dann keine Elemente enthalten (auch nicht, wenn der Wert vorher
   Array-Elemente enthielt).
 
@@ -1719,7 +1722,7 @@
   Der JSON-Wert.
 
 @ReturnValue
-  Gibt die Array-Nummer zurück, andernfalls Null.
+  Gibt die Array-Nummer zurÃ¼ck, andernfalls Null.
   
 @Example
 @Code
@@ -1744,7 +1747,7 @@
 @Function SetJSONBoolean(JSONWert, Wert)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Boolean und speichert
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Boolean und speichert
   den angegebenen booleschen Wert.
 
 @Parameter "JSONWert"
@@ -1780,8 +1783,8 @@
 @Function SetJSONDouble(JSONWert, Wert.d)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
-  den angegebenen Fließkommawert doppelter Genauigkeit (@ReferenceLink "variables" "Double").
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
+  den angegebenen FlieÃŸkommawert doppelter Genauigkeit (@ReferenceLink "variables" "Double").
 
 @Parameter "JSONWert"
   Der JSON-Wert.
@@ -1792,10 +1795,10 @@
 @NoReturnValue
 
 @Remarks
-  Beachte, dass JSON nicht die speziellen Fließkommawerte +Infinity, -Infinity oder NaN in
-  den JSON-Daten ermöglicht. Wenn ein solcher Wert mit dieser Funktion gesetzt wird, dann
+  Beachte, dass JSON nicht die speziellen FlieÃŸkommawerte +Infinity, -Infinity oder NaN in
+  den JSON-Daten ermÃ¶glicht. Wenn ein solcher Wert mit dieser Funktion gesetzt wird, dann
   wird dieser beim Speichern oder Kodieren durch ein JSON 'null' Literal ersetzt.
-  Die Funktionen @@IsInfinity bzw. @@IsNaN können verwendet werden, um dies festzustellen.
+  Die Funktionen @@IsInfinity bzw. @@IsNaN kÃ¶nnen verwendet werden, um dies festzustellen.
 
 @Example
 @Code
@@ -1821,8 +1824,8 @@
 @Function SetJSONFloat(JSONWert, Wert.f)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
-  den angegebenen Fließkommawert (@ReferenceLink "variables" "Float").
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
+  den angegebenen FlieÃŸkommawert (@ReferenceLink "variables" "Float").
 
 @Parameter "JSONWert"
   Der JSON-Wert.
@@ -1833,10 +1836,10 @@
 @NoReturnValue
 
 @Remarks
-  Beachte, dass JSON nicht die speziellen Fließkommawerte +Infinity, -Infinity oder NaN in
-  den JSON-Daten ermöglicht. Wenn ein solcher Wert mit dieser Funktion gesetzt wird, dann
+  Beachte, dass JSON nicht die speziellen FlieÃŸkommawerte +Infinity, -Infinity oder NaN in
+  den JSON-Daten ermÃ¶glicht. Wenn ein solcher Wert mit dieser Funktion gesetzt wird, dann
   wird dieser beim Speichern oder Kodieren durch ein JSON 'null' Literal ersetzt.
-  Die Funktionen @@IsInfinity bzw. @@IsNaN können verwendet werden, um dies festzustellen.
+  Die Funktionen @@IsInfinity bzw. @@IsNaN kÃ¶nnen verwendet werden, um dies festzustellen.
 
 @Example
 @Code
@@ -1862,7 +1865,7 @@
 @Function SetJSONInteger(JSONWert, Wert)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
   die angegebene Ganzzahl (@ReferenceLink "variables" "Integer").
 
 @Parameter "JSONWert"
@@ -1898,7 +1901,7 @@
 @Function SetJSONNull(JSONWert)
 
 @Description
-  Löscht den JSON-Wert und setzt den @Link "JSONType" "Typ" auf @#PB_JSON_Null.
+  LÃ¶scht den JSON-Wert und setzt den @Link "JSONType" "Typ" auf @#PB_JSON_Null.
 
 @Parameter "JSONWert"
   Der JSON-Wert.
@@ -1925,7 +1928,7 @@
 @Function Ergebnis = SetJSONObject(JSONWert)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Object.
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Object.
   Das Objekt wird dann keine Elemente enthalten (auch wenn der Wert zuvor
   Objekt-Elemente enthielt).
 
@@ -1933,7 +1936,7 @@
   Der JSON-Wert.
 
 @ReturnValue
-  Gibt die Objekt-Nummer zurück, andernfalls Null.
+  Gibt die Objekt-Nummer zurÃ¼ck, andernfalls Null.
 
 @Example
 @Code
@@ -1959,7 +1962,7 @@
 @Function SetJSONQuad(JSONWert, Wert.q)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_Number und speichert
   den angegebenen @ReferenceLink "variables" "Quad-Wert".
 
 @Parameter "JSONWert"
@@ -1995,7 +1998,7 @@
 @Function SetJSONString(JSONWert, String$)
 
 @Description
-  Ändert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_String und speichert
+  Ã„ndert den @Link "JSONType" "Typ" des JSON-Wertes auf @#PB_JSON_String und speichert
   den angegebenen String.
 
 @Parameter "JSONWert"

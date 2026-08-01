@@ -10,7 +10,7 @@ Structure AsciiTableStructure Extends ToolsPanelEntry
 EndStructure
 
 
-Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure, PanelItemID)
+Procedure AsciiTable_CreateFunction(*Entry.AsciiTableStructure)
   
   ListIconGadget(#GADGET_AsciiTable, 0, 0, 50, 0, "Char", 50, #PB_ListIcon_GridLines|#PB_ListIcon_FullRowSelect|#PB_ListIcon_AlwaysShowSelection)
   AddGadgetColumn(#GADGET_AsciiTable, 1, "Ascii", 50)

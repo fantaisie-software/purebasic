@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Sort library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,23 +8,23 @@
 
 @Overview
 
-  PureBasic propose des fonctions de tri optimisées pour trier les données numériques 
-  ou alphanumériques contenues dans les @ReferenceLink "dim" "tableaux" et les 
-  @LibraryLink "List" "listes", soit en ordre croissant soit en ordre décroissant.
+  PureBasic propose des fonctions de tri optimisÃ©es pour trier les donnÃ©es numÃ©riques 
+  ou alphanumÃ©riques contenues dans les @ReferenceLink "dim" "tableaux" et les 
+  @LibraryLink "List" "listes", soit en ordre croissant soit en ordre dÃ©croissant.
   @LineBreak
   @LineBreak
-  Les listes structurées sont triées avec la méthode Mergesort qui est de type stable, 
-  ce qui veut dire que si vous triez suivant un champs, les autres champs ne sont pas touchés, 
-  ainsi si vous commencez par trier une liste structurée par un champs "titre" et ensuite 
-  par un champs "album", vous obtiendrez une liste qui est triée par album et chaque album 
-  est trié par titres.
+  Les listes structurÃ©es sont triÃ©es avec la mÃ©thode Mergesort qui est de type stable, 
+  ce qui veut dire que si vous triez suivant un champs, les autres champs ne sont pas touchÃ©s, 
+  ainsi si vous commencez par trier une liste structurÃ©e par un champs "titre" et ensuite 
+  par un champs "album", vous obtiendrez une liste qui est triÃ©e par album et chaque album 
+  est triÃ© par titres.
   @LineBreak
-  Par contre le tri des tableaux structurés ou non, utilise la méthode Quicksort qui est 
-  instable, c'est-à-dire que le tri sur la clé secondaire est perdu.
+  Par contre le tri des tableaux structurÃ©s ou non, utilise la mÃ©thode Quicksort qui est 
+  instable, c'est-Ã -dire que le tri sur la clÃ© secondaire est perdu.
   @LineBreak
   @LineBreak
-  De plus, il est aussi possible de réorganiser les données  d'un tableau ou d'une liste, 
-  de façon aléatoire.
+  De plus, il est aussi possible de rÃ©organiser les donnÃ©es  d'un tableau ou d'une liste, 
+  de faÃ§on alÃ©atoire.
   
 @CommandList
 
@@ -38,50 +38,50 @@
 @Function CustomSortArray(Tableau(), @ProcedureCompare() [, Options [, Debut, Fin]])
 
 @Description
-  Trie le @ReferenceLink "dim" "tableau" selon les options données par une procédure personnalisée
-  pour comparer les éléments du tableau.
+  Trie le @ReferenceLink "dim" "tableau" selon les options donnÃ©es par une procÃ©dure personnalisÃ©e
+  pour comparer les Ã©lÃ©ments du tableau.
 
 @Parameter "Tableau()"
-  Le tableau à trier.
+  Le tableau Ã  trier.
   
 @Parameter "@ProcedureCompare()"
-  L'adresse d'une procédure pour comparer les éléments du tableau. La procédure doit avoir deux 
-  paramètres qui recevront l'adresse mémoire des deux éléments à comparer et renvoyer l'une des 
+  L'adresse d'une procÃ©dure pour comparer les Ã©lÃ©ments du tableau. La procÃ©dure doit avoir deux 
+  paramÃ¨tres qui recevront l'adresse mÃ©moire des deux Ã©lÃ©ments Ã  comparer et renvoyer l'une des 
   valeurs suivantes :
 @FixedFont
-   @#PB_Sort_Greater : Le premier élément est supérieur au second.
-   @#PB_Sort_Equal   : Les deux éléments sont égaux.
-   @#PB_Sort_Lesser  : Le premier élément est inférieur au second.
+   @#PB_Sort_GreaterÂ : Le premier Ã©lÃ©ment est supÃ©rieur au second.
+   @#PB_Sort_Equal   : Les deux Ã©lÃ©ments sont Ã©gaux.
+   @#PB_Sort_Lesser  : Le premier Ã©lÃ©ment est infÃ©rieur au second.
 @EndFixedFont
-  La procédure de comparaison est appelée très souvent pendant le processus de tri, elle doit donc 
-  effectuer le moins de travail possible et être rapide à exécuter.
+  La procÃ©dure de comparaison est appelÃ©e trÃ¨s souvent pendant le processus de tri, elle doit donc 
+  effectuer le moins de travail possible et Ãªtre rapide Ã  exÃ©cuter.
 
 @OptionalParameter "Options"
-   Il peut s'agir d'une combinaison des valeurs suivantes :
+   Il peut s'agir d'une combinaison des valeurs suivantesÂ :
 @FixedFont
-  @#PB_Sort_Ascending  : Trie le tableau par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par défaut.
-  @#PB_Sort_Descending : Trie le tableau par ordre décroissant (les valeurs les plus élevées en premier)
+  @#PB_Sort_Ascending  : Trie le tableau par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par dÃ©faut.
+  @#PB_Sort_DescendingÂ : Trie le tableau par ordre dÃ©croissant (les valeurs les plus Ã©levÃ©es en premier)
 @EndFixedFont
 
 @OptionalParameter "Debut, Fin"
-  L'index du premier et du dernier élément du tableau qui doit être trié.@LineBreak 
-  Si ces paramètres ne sont pas spécifiés alors tout le tableau est trié.
+  L'index du premier et du dernier Ã©lÃ©ment du tableau qui doit Ãªtre triÃ©.@LineBreak 
+  Si ces paramÃ¨tres ne sont pas spÃ©cifiÃ©s alors tout le tableau est triÃ©.
 
 @NoReturnValue
 
 @Remarks
   Le tableau peut avoir une @ReferenceLink "Structures" "structure" 
-  ou l'un des @ReferenceLink "variables" "types de base" : octet, mot, long, entier, chaîne ou flottant 
+  ou l'un des @ReferenceLink "variables" "types de base"Â : octet, mot, long, entier, chaÃ®ne ou flottant 
   (byte, word, long, integer, string ou float).
   Les tableaux multidimensionnels ne sont pas pris en charge.
 
-@Example Trier un tableau structuré
+@Example Trier un tableau structurÃ©
 @Code
    Structure CustomStruct
      Valeur$
    EndStructure
   
-   ; Trier par valeur numérique dans l'élément chaîne de la structure
+   ; Trier par valeur numÃ©rique dans l'Ã©lÃ©ment chaÃ®ne de la structure
    Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
     If Val(*a\Valeur$) < Val(*b\Valeur$)
       ProcedureReturn #PB_Sort_Lesser
@@ -111,7 +111,7 @@
 
 @Example Trier un tableau avec un  type de base
 @Code
-   ; Trier les éléments flottants par valeur absolue (en ignorant le signe)
+   ; Trier les Ã©lÃ©ments flottants par valeur absolue (en ignorant le signe)
    Procedure AbsCompare(*a.Float, *b.Float)
     If Abs(*a\f) < Abs(*b\f)
       ProcedureReturn #PB_Sort_Lesser
@@ -146,51 +146,51 @@
 @Function CustomSortList(Liste(), @ProcedureCompare() [, Options [, Debut, Fin]])
 
 @Description
-  Trie la  @LibraryLink "List" "liste" selon les options données à l'aide d'une procédure personnalisée
-  pour comparer les éléments du tableau.
+  Trie la  @LibraryLink "List" "liste" selon les options donnÃ©es Ã  l'aide d'une procÃ©dure personnalisÃ©e
+  pour comparer les Ã©lÃ©ments du tableau.
 
 @Parameter "Liste()"
-  La liste à trier.
+  La liste Ã  trier.
 
 @Parameter "@ProcedureCompare()"
-  L'adresse de la procédure pour comparer les éléments de la liste. 
-  La procédure doit avoir deux paramètres qui recevront l'adresse mémoire des deux éléments à comparer 
+  L'adresse de la procÃ©dure pour comparer les Ã©lÃ©ments de la liste. 
+  La procÃ©dure doit avoir deux paramÃ¨tres qui recevront l'adresse mÃ©moire des deux Ã©lÃ©ments Ã  comparer 
   et renvoyer l'une des valeurs suivantes :
 @FixedFont
-   @#PB_Sort_Greater : Le premier élément est supérieur au second.
-   @#PB_Sort_Equal   : Les deux éléments sont égaux.
-   @#PB_Sort_Lesser  : Le premier élément est inférieur au second.
+   @#PB_Sort_GreaterÂ : Le premier Ã©lÃ©ment est supÃ©rieur au second.
+   @#PB_Sort_Equal   : Les deux Ã©lÃ©ments sont Ã©gaux.
+   @#PB_Sort_Lesser  : Le premier Ã©lÃ©ment est infÃ©rieur au second.
 @EndFixedFont
-  La procédure de comparaison est appelée très souvent pendant le processus de tri, elle doit donc 
-  effectuer le moins de travail possible et être rapide à exécuter.
+  La procÃ©dure de comparaison est appelÃ©e trÃ¨s souvent pendant le processus de tri, elle doit donc 
+  effectuer le moins de travail possible et Ãªtre rapide Ã  exÃ©cuter.
 
 @OptionalParameter "Options"
-  Il peut s'agir d'une combinaison des valeurs suivantes :
+  Il peut s'agir d'une combinaison des valeurs suivantesÂ :
 @FixedFont
-   @#PB_Sort_Ascending  : Trie la liste par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par défaut.
-   @#PB_Sort_Descending : Trie la liste par ordre décroissant (les valeurs les plus élevées en premier)
+   @#PB_Sort_Ascending  : Trie la liste par ordre croissant (les valeurs les plus basses en premier). C'est la valeur par dÃ©faut.
+   @#PB_Sort_DescendingÂ : Trie la liste par ordre dÃ©croissant (les valeurs les plus Ã©levÃ©es en premier)
 @EndFixedFont
 
 @OptionalParameter "Debut, Fin"
-  L'index du premier et du dernier élément de la liste qui doit être trié. 
-  Si ces paramètres ne sont pas spécifiés, alors toute la liste est triée.
+  L'index du premier et du dernier Ã©lÃ©ment de la liste qui doit Ãªtre triÃ©. 
+  Si ces paramÃ¨tres ne sont pas spÃ©cifiÃ©s, alors toute la liste est triÃ©e.
   @LineBreak
-  Le premier élément de la liste est à la position 0, le suivant à 1 et ainsi de suite.
+  Le premier Ã©lÃ©ment de la liste est Ã  la position 0, le suivant Ã  1 et ainsi de suite.
 
 @NoReturnValue
 
 @Remarks
   La liste peut avoir une @ReferenceLink "Structures" "structure"
-  ou l'un des @ReferenceLink "variables" "types de base" : Octet, mot, long, entier, chaîne ou flottant 
+  ou l'un des @ReferenceLink "variables" "types de base"Â : Octet, mot, long, entier, chaÃ®ne ou flottant 
   (byte, word, long, integer, string ou float).@LineBreak
 
-@Example Trier la liste structurée
+@Example Trier la liste structurÃ©e
 @Code
    Structure CustomStruct
      Valeur$
    EndStructure
   
-   ; Trier par valeur numérique dans l'élément chaîne de la structure
+   ; Trier par valeur numÃ©rique dans l'Ã©lÃ©ment chaÃ®ne de la structure
     Procedure CustomCompare(*a.CustomStruct, *b.CustomStruct)
     If Val(*a\Valeur$) < Val(*b\Valeur$)
       ProcedureReturn #PB_Sort_Lesser
@@ -220,7 +220,7 @@
 
 @Example Trier la liste avec un type de base
 @Code
-   ; Trier les éléments flottants par valeur absolue (en ignorant le signe)
+   ; Trier les Ã©lÃ©ments flottants par valeur absolue (en ignorant le signe)
    Procedure AbsCompare(*a.Float, *b.Float)
     If Abs(*a\f) < Abs(*b\f)
       ProcedureReturn #PB_Sort_Lesser
@@ -255,55 +255,55 @@
 @Function SortArray(Tableau(), Options [, Debut, Fin])
 
 @Description
-  Trie les données d'un tableau. 
+  Trie les donnÃ©es d'un tableau. 
 
 @Parameter "Tableau()"
-  Le tableau à trier.
+  Le tableau Ã  trier.
 
 @Parameter "Options"
-  Peut être une combinaison des constantes 
+  Peut Ãªtre une combinaison des constantes 
   suivantes:
 @LineBreak
 @LineBreak
   @#PB_Sort_Ascending : Trie le tableau par 
   ordre croissant (les plus petites valeurs 
-  en tête) @LineBreak
+  en tÃªte) @LineBreak
   @#PB_Sort_Descending: Trie le tableau par 
-  ordre décroissant (les plus grandes 
-  valeurs en tête) 
+  ordre dÃ©croissant (les plus grandes 
+  valeurs en tÃªte) 
 @LineBreak
 @LineBreak
   Et la constante suivante : @LineBreak
   @#PB_Sort_NoCase : Trie un tableau de 
-  chaînes de caractères en ne tenant pas 
+  chaÃ®nes de caractÃ¨res en ne tenant pas 
   compte de la casse (a=A, b=B etc..).
   @LineBreak 
-  Par défaut le tri est sensible à la casse.
+  Par dÃ©faut le tri est sensible Ã  la casse.
 
 @OptionalParameter "Debut, Fin"
-  Ne trie que la plage de 'Debut' à 'Fin'.
+  Ne trie que la plage de 'Debut' Ã  'Fin'.
 
 @NoReturnValue
   
 @Remarks
-  - Le tableau doit être de l'un des types 
+  - Le tableau doit Ãªtre de l'un des types 
   suivants:@LineBreak
   byte, word, long, string ou float. 
   @LineBreak
   - Les tableaux multi-dimensionnels ne 
-  sont pas supportés.@LineBreak 
-  - Les tableaux structurés sont triés à 
+  sont pas supportÃ©s.@LineBreak 
+  - Les tableaux structurÃ©s sont triÃ©s Ã  
   l'aide de la fonction 
   @@SortStructuredArray
   @LineBreak 
   @LineBreak
   Note: Si un tableau n'est pas totalement 
-  plein, les éléments vides seront placés 
-  en tête dans l'ordre croissant et en fin 
-  dans l'ordre décroissant.
+  plein, les Ã©lÃ©ments vides seront placÃ©s 
+  en tÃªte dans l'ordre croissant et en fin 
+  dans l'ordre dÃ©croissant.
   @LineBreak
-  @Link "Math/IsNaN" "Nombres NaN (not a number)" ne sont pas acceptés lors du tri car 
-  ils produisent des résultats aléatoires.
+  @Link "Math/IsNaN" "Nombres NaN (not a number)" ne sont pas acceptÃ©s lors du tri car 
+  ils produisent des rÃ©sultats alÃ©atoires.
   
 @SeeAlso
   @@SortList, @@CustomSortArray, @@SortStructuredArray, 
@@ -317,44 +317,44 @@
 @Function SortList(Liste(), Options [, Debut, Fin])
 
 @Description
-  Trie les données d'une liste. 
+  Trie les donnÃ©es d'une liste. 
   
 @Parameter "Liste()"
-  La liste à trier.
+  La liste Ã  trier.
 
 @Parameter "Options"
-  Peut être une combinaison des constantes 
+  Peut Ãªtre une combinaison des constantes 
   suivantes:
 @LineBreak
 @LineBreak
   @#PB_Sort_Ascending : Trie la liste par 
   ordre croissant (les plus petites valeurs 
-  en tête) @LineBreak
+  en tÃªte) @LineBreak
   @#PB_Sort_Descending: Trie la liste par 
-  ordre décroissant (les plus grandes 
-  valeurs en tête) @LineBreak
+  ordre dÃ©croissant (les plus grandes 
+  valeurs en tÃªte) @LineBreak
 @LineBreak
   Et la constante suivante : @LineBreak
   @#PB_Sort_NoCase : Trie la liste de 
-  chaînes de caractères en ne tenant pas 
+  chaÃ®nes de caractÃ¨res en ne tenant pas 
   compte de la casse (a=A, b=B etc..).
   @LineBreak 
-  Par défaut le tri est sensible à la 
+  Par dÃ©faut le tri est sensible Ã  la 
   casse.
 
 @OptionalParameter "Debut, Fin"
-  Ne trie que la plage de 'Debut' à 'Fin'.
+  Ne trie que la plage de 'Debut' Ã  'Fin'.
 @LineBreak
-  Le premier élément d'une list a la position 0, le deuxième la position 1, etc.. 
+  Le premier Ã©lÃ©ment d'une list a la position 0, le deuxiÃ¨me la position 1, etc.. 
 
 @NoReturnValue
    
 @Remarks  
-  - La liste peut être de l'un des types 
+  - La liste peut Ãªtre de l'un des types 
   suivants :
   byte, word, long, string ou float.
   @LineBreak 
-  - Les listes structurées sont triées à 
+  - Les listes structurÃ©es sont triÃ©es Ã  
   l'aide de la fonction 
   @@SortStructuredList.
   
@@ -373,73 +373,73 @@
   Trie un tableau de structures.
   
 @Parameter "Tableau()"
-  Le tableau de structures à trier selon 
-  les options souhaitées.@LineBreak
+  Le tableau de structures Ã  trier selon 
+  les options souhaitÃ©es.@LineBreak
   Le tableau doit avoir une 
   @ReferenceLink "Structures" "structure" 
-  associée.
+  associÃ©e.
 
 @Parameter "Options"
-  Peut être une combinaison des constantes 
+  Peut Ãªtre une combinaison des constantes 
   suivantes:
 @LineBreak
 @LineBreak
   @#PB_Sort_Ascending : Trie le tableau 
   par ordre croissant (les plus petites 
-  valeurs en tête) @LineBreak
+  valeurs en tÃªte) @LineBreak
   @#PB_Sort_Descending: Trie le tableau 
-  par ordre décroissant (les plus grandes 
-  valeurs en tête) @LineBreak
+  par ordre dÃ©croissant (les plus grandes 
+  valeurs en tÃªte) @LineBreak
 @LineBreak
   Et la constante suivante : @LineBreak
   @#PB_Sort_NoCase : Trie le tableau de 
-  chaînes de caractères en ne tenant pas 
+  chaÃ®nes de caractÃ¨res en ne tenant pas 
   compte de la casse (a=A, b=B etc..).
   @LineBreak 
-  Par défaut le tri est sensible à la 
+  Par dÃ©faut le tri est sensible Ã  la 
   casse.
  
 @Parameter "OffsetOf(Structure\Champs)"
   @ReferenceLink "compilerfunctions" "OffsetOf()" 
-  peut être utilisé pour obtenir l'offset 
-  du champ dans la structure associée au 
+  peut Ãªtre utilisÃ© pour obtenir l'offset 
+  du champ dans la structure associÃ©e au 
   tableau. 
 
 @Parameter "TypeOf(Structure\Champs"   
    @ReferenceLink "compilerfunctions" "TypeOf()" 
-   définit le type du champ de la structure 
+   dÃ©finit le type du champ de la structure 
    qui sert pour le tri. Les types 
    disponibles sont:
 @FixedFont  
   @#PB_Byte     : Le champ de la structure est un octet (.b)
   @#PB_Word     : Le champ de la structure est un word (.w)
   @#PB_Long     : Le champ de la structure est un long (.l)
-  @#PB_String   : Le champ de la structure est un string (.s ou $). Les strings fixes (fixed strings) ne sont pas supportées)
+  @#PB_String   : Le champ de la structure est un string (.s ou $). Les strings fixes (fixed strings) ne sont pas supportÃ©es)
   @#PB_Float    : Le champ de la structure est un flottant (.f)
   @#PB_Double   : Le champ de la structure est un double (.d)
   @#PB_Quad     : Le champ de la structure est un quad (.q)
-  @#PB_Character: Le champ de la structure est un caractère (.c)
+  @#PB_Character: Le champ de la structure est un caractÃ¨re (.c)
   @#PB_Integer  : Le champ de la structure est un integer (.i)
-  @#PB_Ascii    : Le champ de la structure est un caractère ascii (.a)
-  @#PB_Unicode  : Le champ de la structure est un caractère unicode (.u)
+  @#PB_Ascii    : Le champ de la structure est un caractÃ¨re ascii (.a)
+  @#PB_Unicode  : Le champ de la structure est un caractÃ¨re unicode (.u)
 @EndFixedFont
 
 @OptionalParameter "Debut, Fin"
-  Ne trie que la plage de 'Debut' à 'Fin'.
+  Ne trie que la plage de 'Debut' Ã  'Fin'.
 
 @NoReturnValue
 
 @Remarks  
   Notes: Si un tableau n'est pas totalement 
-  plein, les éléments vides seront placés 
-  en tête dans l'ordre croissant et en fin 
-  dans l'ordre décroissant. @LineBreak
-  Les @ReferenceLink "variables" "chaînes fixes" 
-  (fixed strings) ne sont pas supportées dans 
+  plein, les Ã©lÃ©ments vides seront placÃ©s 
+  en tÃªte dans l'ordre croissant et en fin 
+  dans l'ordre dÃ©croissant. @LineBreak
+  Les @ReferenceLink "variables" "chaÃ®nes fixes" 
+  (fixed strings) ne sont pas supportÃ©es dans 
   les commandes de tri.@LineBreak  
   @LineBreak
-  @Link "Math/IsNaN" "Nombres NaN (not a number)" ne sont pas acceptés lors du tri car 
-  ils produisent des résultats aléatoires.
+  @Link "Math/IsNaN" "Nombres NaN (not a number)" ne sont pas acceptÃ©s lors du tri car 
+  ils produisent des rÃ©sultats alÃ©atoires.
 @Example  
 @Code
   Structure Animal
@@ -455,10 +455,10 @@
   Animaux(1)\Nom$ = "Jaguar"
   Animaux(1)\Vitesse = 40
   
-  Animaux(2)\Nom$ = "Zèbre"
+  Animaux(2)\Nom$ = "ZÃ¨bre"
   Animaux(2)\Vitesse = 30
   
-  ; Trie le tableau en fonction du champ 'Nom$'qui est une chaîne de caractères (String) 
+  ; Trie le tableau en fonction du champ 'Nom$'qui est une chaÃ®ne de caractÃ¨res (String) 
   ;
   SortStructuredArray(Animaux(), #PB_Sort_Ascending, OffsetOf(Animal\Nom$), TypeOf(Animal\Nom$))
   
@@ -493,68 +493,68 @@
   Trie une liste de structures.
   
 @Parameter "Liste()"
-  La liste de structures à trier selon les 
-  options souhaitées.@LineBreak
+  La liste de structures Ã  trier selon les 
+  options souhaitÃ©es.@LineBreak
   La liste doit avoir une 
   @ReferenceLink "Structures" "structure" 
-  associée.
+  associÃ©e.
 
 @Parameter "Options"
-  Peut être une combinaison des constantes 
+  Peut Ãªtre une combinaison des constantes 
   suivantes:
 @LineBreak
 @LineBreak
   @#PB_Sort_Ascending : Trie la liste par 
   ordre croissant (les plus petites valeurs 
-  en tête) @LineBreak
+  en tÃªte) @LineBreak
   @#PB_Sort_Descending: Trie la liste par 
-  ordre décroissant (les plus grandes 
-  valeurs en tête) @LineBreak
+  ordre dÃ©croissant (les plus grandes 
+  valeurs en tÃªte) @LineBreak
 @LineBreak
   Et la constante suivante : @LineBreak
   @#PB_Sort_NoCase : Trie la liste de 
-  chaînes de caractères en ne tenant pas 
+  chaÃ®nes de caractÃ¨res en ne tenant pas 
   compte de la casse (a=A, b=B etc..).
   @LineBreak 
-  Par défaut le tri est sensible à la 
+  Par dÃ©faut le tri est sensible Ã  la 
   casse.
  
 @Parameter "OffsetOf(Structure\Champs)"
   @ReferenceLink "compilerfunctions" "OffsetOf()" 
-  peut être utilisé pour obtenir l'offset 
-  du champ dans la structure associée à la 
+  peut Ãªtre utilisÃ© pour obtenir l'offset 
+  du champ dans la structure associÃ©e Ã  la 
   liste. 
 
 @Parameter "TypeOf(Structure\Champs"   
   @ReferenceLink "compilerfunctions" "TypeOf()" 
-  définit le type du champ de la structure 
+  dÃ©finit le type du champ de la structure 
   qui sert pour le tri. Les types disponibles 
   sont:
 @FixedFont  
   @#PB_Byte     : Le champ de la structure est un octet (.b)
   @#PB_Word     : Le champ de la structure est un word (.w)
   @#PB_Long     : Le champ de la structure est un long (.l)
-  @#PB_String   : Le champ de la structure est un string (.s ou $). Les strings fixe (fixed strings) ne sont pas supportées)
+  @#PB_String   : Le champ de la structure est un string (.s ou $). Les strings fixe (fixed strings) ne sont pas supportÃ©es)
   @#PB_Float    : Le champ de la structure est un flottant (.f)
   @#PB_Double   : Le champ de la structure est un double (.d)
   @#PB_Quad     : Le champ de la structure est un quad (.q)
-  @#PB_Character: Le champ de la structure est un caractère (.c)
+  @#PB_Character: Le champ de la structure est un caractÃ¨re (.c)
   @#PB_Integer  : Le champ de la structure est un integer (.i)
-  @#PB_Ascii    : Le champ de la structure est un caractère ascii (.a)
-  @#PB_Unicode  : Le champ de la structure est un caractère unicode (.u)
+  @#PB_Ascii    : Le champ de la structure est un caractÃ¨re ascii (.a)
+  @#PB_Unicode  : Le champ de la structure est un caractÃ¨re unicode (.u)
 @EndFixedFont
 
 @OptionalParameter "Debut, Fin"
-  Ne trie que la plage de 'Debut' à 'Fin'.
+  Ne trie que la plage de 'Debut' Ã  'Fin'.
 @LineBreak
-  Le premier élément d'une list a la position 0, le deuxième la position 1, etc..
+  Le premier Ã©lÃ©ment d'une list a la position 0, le deuxiÃ¨me la position 1, etc..
   
 @NoReturnValue
 
 @Remarks  
   Notes: Les 
-  @ReferenceLink "variables" "chaînes fixes" 
-  (fixed strings) ne sont pas supportées 
+  @ReferenceLink "variables" "chaÃ®nes fixes" 
+  (fixed strings) ne sont pas supportÃ©es 
   dans les commandes de tri.  
 
 @Example  
@@ -575,10 +575,10 @@
   Animaux()\Vitesse = 40
   
   AddElement(Animaux())
-  Animaux()\Nom$ = "Zèbre"
+  Animaux()\Nom$ = "ZÃ¨bre"
   Animaux()\Vitesse = 30
   
-  ; Trie la liste en fonction du champ 'Nom$'qui est une chaîne de caractères (String) 
+  ; Trie la liste en fonction du champ 'Nom$'qui est une chaÃ®ne de caractÃ¨res (String) 
   ;
   SortStructuredList(Animaux(), #PB_Sort_Ascending, OffsetOf(Animal\Nom$),TypeOf(Animal\Nom$))
   
@@ -610,28 +610,28 @@
 @Function RandomizeArray(Tableau() [, Debut, Fin])
 
 @Description
-  Réordonne les éléments d'un tableau 
-  dans un ordre aléatoire.
+  RÃ©ordonne les Ã©lÃ©ments d'un tableau 
+  dans un ordre alÃ©atoire.
 
 @Parameter "Tableau()"
-  Le tableau à mettre dans un ordre 
-  aléatoire.
+  Le tableau Ã  mettre dans un ordre 
+  alÃ©atoire.
 
 @OptionalParameter "Debut, Fin"
-  L'index du premier et du dernier élément 
-  du tableau qui doivent être mis dans un 
-  ordre aléatoire. Si ces paramètres ne sont 
-  pas spécifiés alors la totalité du tableau 
-  sera mis dans un ordre aléatoire.
+  L'index du premier et du dernier Ã©lÃ©ment 
+  du tableau qui doivent Ãªtre mis dans un 
+  ordre alÃ©atoire. Si ces paramÃ¨tres ne sont 
+  pas spÃ©cifiÃ©s alors la totalitÃ© du tableau 
+  sera mis dans un ordre alÃ©atoire.
 
 @NoReturnValue
 
 @Remarks
-  Cette fonction utilise le générateur de 
-  nombres pseudo-aléatoire de la fonction 
-  @@Random pour déterminer le nouvel ordre 
-  des éléments du tableau. 
-  C'est donc dépendant du @@RandomSeed 
+  Cette fonction utilise le gÃ©nÃ©rateur de 
+  nombres pseudo-alÃ©atoire de la fonction 
+  @@Random pour dÃ©terminer le nouvel ordre 
+  des Ã©lÃ©ments du tableau. 
+  C'est donc dÃ©pendant du @@RandomSeed 
   courant.
 
 @SeeAlso
@@ -645,31 +645,31 @@
 @Function RandomizeList(Liste() [, Debut, Fin])
 
 @Description
-  Réordonne les éléments d'une liste dans 
-  un ordre aléatoire.
+  RÃ©ordonne les Ã©lÃ©ments d'une liste dans 
+  un ordre alÃ©atoire.
 
 @Parameter "Liste()"
-  La liste à mettre dans un ordre aléatoire.
+  La liste Ã  mettre dans un ordre alÃ©atoire.
 
 @OptionalParameter "Debut, Fin"
-  L'index du premier et du dernier élément 
+  L'index du premier et du dernier Ã©lÃ©ment 
   de la @Link "List/ListIndex" "Liste" 
-  qui doivent être dans mis un ordre 
-  aléatoire. 
-  Si ces paramètres ne sont pas spécifiés 
-  alors la totalité du tableau sera mis 
-  dans un ordre aléatoire.
+  qui doivent Ãªtre dans mis un ordre 
+  alÃ©atoire. 
+  Si ces paramÃ¨tres ne sont pas spÃ©cifiÃ©s 
+  alors la totalitÃ© du tableau sera mis 
+  dans un ordre alÃ©atoire.
   @LineBreak
-  Le premier élément d'une list a la position 0, le deuxième la position 1, etc..
+  Le premier Ã©lÃ©ment d'une list a la position 0, le deuxiÃ¨me la position 1, etc..
 
 @NoReturnValue
 
 @Remarks
-  Cette fonction utilise le générateur de 
-  nombres pseudo-aléatoire de la fonction 
-  @@Random pour déterminer le nouvel ordre 
-  des éléments de la liste. C'est donc 
-  dépendant du @@RandomSeed courant.
+  Cette fonction utilise le gÃ©nÃ©rateur de 
+  nombres pseudo-alÃ©atoire de la fonction 
+  @@Random pour dÃ©terminer le nouvel ordre 
+  des Ã©lÃ©ments de la liste. C'est donc 
+  dÃ©pendant du @@RandomSeed courant.
 
 @SeeAlso
   @@SortList, @@SortStructuredList, 

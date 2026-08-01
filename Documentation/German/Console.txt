@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Console library documentation
 ;
 ;      (c) 2023 - Fantaisie Software
@@ -7,28 +7,28 @@
 @Library Console
 
 @Overview
-  Diese Bibliothek ermöglicht dem Programmierer das Schreiben von Applikationen im Konsolen-Modus.
+  Diese Bibliothek ermÃ¶glicht dem Programmierer das Schreiben von Applikationen im Konsolen-Modus.
   Dieser wird benutzt, um kleine Programme zu erstellen, die keine (grafische) Benutzer-Schnittstelle
-  benötigen oder über die Eingabeaufforderung (Befehlszeile, ggf. in einem Skript) benutzt werden sollen. 
+  benÃ¶tigen oder Ã¼ber die Eingabeaufforderung (Befehlszeile, ggf. in einem Skript) benutzt werden sollen. 
   Die Konsolen-Befehle helfen dem
   Programmierer auch beim Debuggen eines Programms, indem einige Informationen auf der Konsole
-  ausgegeben werden können, ohne den Programmablauf anzuhalten.
+  ausgegeben werden kÃ¶nnen, ohne den Programmablauf anzuhalten.
 @LineBreak
 @LineBreak
   Wenn Ihre Applikation eine echte Konsolen-Anwendung ist (und nicht eine GUI-Applikation, welche
-  manchmal eine Konsole öffnet), dann denken Sie daran, das Executable-Format vor dem Kompilieren
+  manchmal eine Konsole Ã¶ffnet), dann denken Sie daran, das Executable-Format vor dem Kompilieren
   auf 'Console' einzustellen.
 @LineBreak
 @LineBreak
   Sie sollten mit dem @@OpenConsole Befehl beginnen, da Sie diesen Befehl zum
-  Öffnen einer Konsole (Charakter-Modus) benutzen müssen, bevor Sie andere Befehle dieser Bibliothek
+  Ã–ffnen einer Konsole (Charakter-Modus) benutzen mÃ¼ssen, bevor Sie andere Befehle dieser Bibliothek
   verwenden.
 
 @OS Windows
   @LineBreak
   @LineBreak
-  Bitte beachten Sie bei der Erstellung von Konsolenprogrammen mit PureBasic, dass Sie dafür trotzdem
-  Windows 95 oder neuer benötigen. Die Programme dürfen nur von der Windows-Eingabeaufforderung aus
+  Bitte beachten Sie bei der Erstellung von Konsolenprogrammen mit PureBasic, dass Sie dafÃ¼r trotzdem
+  Windows 95 oder neuer benÃ¶tigen. Die Programme dÃ¼rfen nur von der Windows-Eingabeaufforderung aus
   gestartet werden. Sie sind keine wirklichen MSDOS-Programme!
 
 @CommandList
@@ -42,7 +42,7 @@
 @Function ClearConsole()
 
 @Description
-  Löscht den gesamten Konsolen-Inhalt mittels der aktuellen Hintergrundfarbe. Die Hintergrundfarbe
+  LÃ¶scht den gesamten Konsolen-Inhalt mittels der aktuellen Hintergrundfarbe. Die Hintergrundfarbe
   wird mit dem Befehl @@ConsoleColor festgelegt.
 @LineBreak
 @LineBreak
@@ -59,7 +59,7 @@
     PrintN("Diesen Text werden Sie nie sehen.")
     ClearConsole()
 
-    PrintN("Drücken Sie Return zum Beenden.")
+    PrintN("DrÃ¼cken Sie Return zum Beenden.")
     Input()
   EndIf
 @EndCode
@@ -74,11 +74,11 @@
 @Function CloseConsole()
 
 @Description
-  Schließt die zuvor mittels @@OpenConsole geöffnete Konsole. 
+  SchlieÃŸt die zuvor mittels @@OpenConsole geÃ¶ffnete Konsole. 
 @LineBreak
 @LineBreak
-  Sobald die Konsole geschlossen wurde, können keine Funktionen aus dieser Bibliothek mehr benutzt 
-  werden, außer Sie öffnen erneut eine Konsole. Die Konsole wird automatisch geschlossen, wenn
+  Sobald die Konsole geschlossen wurde, kÃ¶nnen keine Funktionen aus dieser Bibliothek mehr benutzt 
+  werden, auÃŸer Sie Ã¶ffnen erneut eine Konsole. Die Konsole wird automatisch geschlossen, wenn
   das Programm endet.
 @LineBreak
   Ohne Effekt auf Linux und MacOS.
@@ -127,7 +127,7 @@
 @Function ConsoleTitle(Titel$)
 
 @Description
-  Ändert den Konsolentitel auf den angegebenen 'Titel$'. Der Konsolentitel wird
+  Ã„ndert den Konsolentitel auf den angegebenen 'Titel$'. Der Konsolentitel wird
   typischerweise in der Titelzeile des Konsolen-Fensters angezeigt (wenn Sie die Konsole
   in einer grafischen Umgebung wie Ihrem Desktop sehen).
 
@@ -135,11 +135,11 @@
 @LineBreak
 @LineBreak
   Unter Windows ist der Konsolentitel auch der Text, welcher in der Startleiste und
-  im Taskmanager für Ihre Konsolen-Anwendung angezeigt wird.
+  im Taskmanager fÃ¼r Ihre Konsolen-Anwendung angezeigt wird.
 @EndOS
 
 @Parameter "Titel$"
-  Der neue Titel für die Konsole.
+  Der neue Titel fÃ¼r die Konsole.
 
 @NoReturnValue
 
@@ -162,33 +162,33 @@
 @Function ConsoleColor(Zeichenfarbe, Hintergrundfarbe)
 
 @Description
-  Ändert die von der Textanzeige benutzten Farben. Alle nach diesem Befehl ausgegebenen
+  Ã„ndert die von der Textanzeige benutzten Farben. Alle nach diesem Befehl ausgegebenen
   Zeichen benutzen die neu eingestellten Farben.
 
 @Parameter "Zeichenfarbe"
-  Die für die Zeichen zu verwendende Farbe. Die Farbwerte reichen von 0 bis 15, welche
-  die im Konsolen-Modus verfügbaren 16 Farben darstellen.
+  Die fÃ¼r die Zeichen zu verwendende Farbe. Die Farbwerte reichen von 0 bis 15, welche
+  die im Konsolen-Modus verfÃ¼gbaren 16 Farben darstellen.
 @FixedFont
   0 - Schwarz (Standard-Hintergrund)
   1 - Blau
-  2 - Grün
-  3 - Türkis
+  2 - GrÃ¼n
+  3 - TÃ¼rkis
   4 - Rot
   5 - Magenta
   6 - Braun
   7 - Hellgrau (Standard-Vordergrund)
   8 - Dunkelgrau
   9 - Hellblau
-  10 - Hellgrün
-  11 - Helles türkis
+  10 - HellgrÃ¼n
+  11 - Helles tÃ¼rkis
   12 - Hellrot
   13 - Helles Magenta
   14 - Gelb
-  15 - Weiß
+  15 - WeiÃŸ
 @EndFixedFont
 
 @Parameter "Hintergrundfarbe"
-  Die Farbe für den Zeichen-Hintergrund. Die Werte sind die gleichen wie für die Zeichenfarbe.
+  Die Farbe fÃ¼r den Zeichen-Hintergrund. Die Werte sind die gleichen wie fÃ¼r die Zeichenfarbe.
 
 @NoReturnValue
     
@@ -221,28 +221,28 @@
 @Function EnableGraphicalConsole(Status)
 
 @Description
-  Ändert die Art und Weise, wie die Zeichen auf der Konsole dargestellt werden, zwischen einem Grafik-
+  Ã„ndert die Art und Weise, wie die Zeichen auf der Konsole dargestellt werden, zwischen einem Grafik-
   und einem reinen Text-Modus.
 
 @Parameter "Status"
-  Ist 'Status' gleich 1, dann wird die Konsole in den Grafikmodus umgeschalten. Wird für 
-  'Status' dagegen 0 angegeben, dann wird die Konsole zurück in den Textmodus umgeschalten.
+  Ist 'Status' gleich 1, dann wird die Konsole in den Grafikmodus umgeschalten. Wird fÃ¼r 
+  'Status' dagegen 0 angegeben, dann wird die Konsole zurÃ¼ck in den Textmodus umgeschalten.
 
 @NoReturnValue
 
 @Remarks
   Der Standardmodus der Konsole ist der Textmodus. Dies bedeutet, dass der Text nirgends in
-  der Konsole positioniert werden kann, aber Umleitungen ("Redirection" über Pipes) korrekt
+  der Konsole positioniert werden kann, aber Umleitungen ("Redirection" Ã¼ber Pipes) korrekt
   arbeiten.
 @LineBreak
 @LineBreak
   Wenn der Grafikmodus aktiv ist, dann sind Befehle wie @@ClearConsole oder
-  @@ConsoleLocate verfügbar und der Text kann überall im Konsolenfenster 
-  positioniert werden. Dies ermöglicht Konsolenspiele oder "text-only" (nur Text) Anwendungen, 
-  was für Remote-Anwendungen (aus der Ferne gesteuert) über Telnet oder SSH nützlich sein kann.
+  @@ConsoleLocate verfÃ¼gbar und der Text kann Ã¼berall im Konsolenfenster 
+  positioniert werden. Dies ermÃ¶glicht Konsolenspiele oder "text-only" (nur Text) Anwendungen, 
+  was fÃ¼r Remote-Anwendungen (aus der Ferne gesteuert) Ã¼ber Telnet oder SSH nÃ¼tzlich sein kann.
 @LineBreak
 @LineBreak
-  Die Umleitung ("Redirection" über Pipes) arbeitet nicht korrekt, wenn der Grafikmodus aktiv
+  Die Umleitung ("Redirection" Ã¼ber Pipes) arbeitet nicht korrekt, wenn der Grafikmodus aktiv
   ist.
 
 @Example
@@ -265,8 +265,8 @@
 @Function String$ = Inkey()
 
 @Description
-  Gibt einen "ein Zeichen"-String zurück, wenn eine Taste während dem Aufruf von Inkey()
-  gedrückt wurde. Der Programmablauf wird dabei nicht unterbrochen (angehalten). 
+  Gibt einen "ein Zeichen"-String zurÃ¼ck, wenn eine Taste wÃ¤hrend dem Aufruf von Inkey()
+  gedrÃ¼ckt wurde. Der Programmablauf wird dabei nicht unterbrochen (angehalten). 
 @LineBreak
 @LineBreak
   Wenn Sonderzeichen (nicht-ASCII, wie z.B. Cursortasten etc.) abgefragt werden sollen,
@@ -275,7 +275,7 @@
 @NoParameters
 
 @ReturnValue
-  Gibt einen String mit dem gedrückten Zeichen zurück, wenn es keine spezielle Taste war,
+  Gibt einen String mit dem gedrÃ¼ckten Zeichen zurÃ¼ck, wenn es keine spezielle Taste war,
   andernfalls einen leeren String.
 
 @Example
@@ -300,15 +300,15 @@
         Delay(20) ; Wir verbrauchen nicht die gesamte CPU-Leistung, da wir uns auf einem Multitasking-OS befinden
       EndIf
     
-    Until KeyPressed$ = Chr(27) ; Wartet, bis Escape gedrückt wird
+    Until KeyPressed$ = Chr(27) ; Wartet, bis Escape gedrÃ¼ckt wird
   EndIf
 @EndCode
 
 @Remarks
-  Die in dieser Beschreibung aufgeführten ASCII-Codes und numerischen werte können sich -
-  je nach der von Ihnen beim Booten für die Tastatureingabe eingestellten "Code-Page" - 
-  unterscheiden. Jedoch sollte das Konzept das Gleiche sein, und Sie können das oben
-  genannte Beispiel verwenden, um die wirklichen Werte für Ihr System zu ermitteln.
+  Die in dieser Beschreibung aufgefÃ¼hrten ASCII-Codes und numerischen werte kÃ¶nnen sich -
+  je nach der von Ihnen beim Booten fÃ¼r die Tastatureingabe eingestellten "Code-Page" - 
+  unterscheiden. Jedoch sollte das Konzept das Gleiche sein, und Sie kÃ¶nnen das oben
+  genannte Beispiel verwenden, um die wirklichen Werte fÃ¼r Ihr System zu ermitteln.
 @LineBreak
 @LineBreak
   Eine Tabelle mit ASCII-Codes finden Sie @ReferenceLink "ascii" "hier".
@@ -323,31 +323,31 @@
 @Function String$ = Input()
 
 @Description
-  Ermöglicht dem Programm, eine ganze Zeichenkette zu erfassen. Dieser Befehl hält die
-  Programmausführung an und wartet bis der Benutzer die Return-Taste drückt. 
+  ErmÃ¶glicht dem Programm, eine ganze Zeichenkette zu erfassen. Dieser Befehl hÃ¤lt die
+  ProgrammausfÃ¼hrung an und wartet bis der Benutzer die Return-Taste drÃ¼ckt. 
 
 @NoParameters
 
 @ReturnValue
-  Gibt den String zurück, welchen der Anwender vor dem Drücken der Return-Taste eingegeben hat.
+  Gibt den String zurÃ¼ck, welchen der Anwender vor dem DrÃ¼cken der Return-Taste eingegeben hat.
 
 @Remarks
   Wenn die Konsole sich im Grafikmodus befindet (siehe @@EnableGraphicalConsole), 
-  kann die Eingabezeile (Zeichenkette) nicht länger als die Konsolen-Breite sein (es werden keine weiteren
+  kann die Eingabezeile (Zeichenkette) nicht lÃ¤nger als die Konsolen-Breite sein (es werden keine weiteren
   Zeichen akzeptiert, wenn die Zeile zu lang wird).
 @LineBreak
 @LineBreak
-  Im nicht-grafischen Modus (Text-Modus) wird ein spezieller Rückgabewert @#PB_Input_Eof 
+  Im nicht-grafischen Modus (Text-Modus) wird ein spezieller RÃ¼ckgabewert @#PB_Input_Eof 
   (entspricht Chr(4)) empfangen, wenn der Anwender ein einfaches Strg+D in der Konsole eingibt oder wenn
   das Ende einer in die Eingabe des Programms umgeleiteten Datei erreicht wurde.
 @Os Windows
-  Zwecks Kompatibilität mit anderen Konsolen-Anwendungen unter Windows wird @#PB_Input_Eof 
+  Zwecks KompatibilitÃ¤t mit anderen Konsolen-Anwendungen unter Windows wird @#PB_Input_Eof 
   auch empfangen, wenn Strg+Z in der Konsole eingegeben wurde.
 @EndOs
 
 @LineBreak
 @LineBreak
-  Wenn keine zeilenbasierte oder eine "rohe" Eingabe benötigt wird, dann kann @@ReadConsoleData 
+  Wenn keine zeilenbasierte oder eine "rohe" Eingabe benÃ¶tigt wird, dann kann @@ReadConsoleData 
   im nicht-grafischen Modus verwendet werden.
 
 @Example
@@ -409,29 +409,29 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ConsoleCursor(Höhe)
+@Function ConsoleCursor(HÃ¶he)
 
 @Description
-  Ändert die Anzeige des Cursors, welcher ein Indikator dafür ist, wo das nächste darzustellende
-  Zeichen ausgegeben wird. Dieser Befehl ermöglicht Ihnen, die Höhe des Cursors zu ändern.
+  Ã„ndert die Anzeige des Cursors, welcher ein Indikator dafÃ¼r ist, wo das nÃ¤chste darzustellende
+  Zeichen ausgegeben wird. Dieser Befehl ermÃ¶glicht Ihnen, die HÃ¶he des Cursors zu Ã¤ndern.
 
-@Parameter "Höhe"
-  Die neue Höhe des Cursors. Dieser Wert kann Null (für einen unsichtbaren Cursor) oder
-  ein Bereich von 1 bis 10 für die Höhe des Cursors sein. Aktuell sind drei Werte verfügbar:
+@Parameter "HÃ¶he"
+  Die neue HÃ¶he des Cursors. Dieser Wert kann Null (fÃ¼r einen unsichtbaren Cursor) oder
+  ein Bereich von 1 bis 10 fÃ¼r die HÃ¶he des Cursors sein. Aktuell sind drei Werte verfÃ¼gbar:
 
 @FixedFont
   1  : Cursor als Unterstrich (Standard)
-  5  : Cursor mittlerer Höhe
-  10 : Cursor voller Höhe
+  5  : Cursor mittlerer HÃ¶he
+  10 : Cursor voller HÃ¶he
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
 @OS Windows
-  Standardmäßig ist der Cursor in Konsolen unter dem Windows OS ein blinkender Unterstrich.
-  Beachten Sie, dass Sie möglicherweise das Konsolenfenster auf volle Bildschirmgröße bringen
-  müssen, um die tatsächliche Wirkung dieses Befehls zu sehen.
+  StandardmÃ¤ÃŸig ist der Cursor in Konsolen unter dem Windows OS ein blinkender Unterstrich.
+  Beachten Sie, dass Sie mÃ¶glicherweise das Konsolenfenster auf volle BildschirmgrÃ¶ÃŸe bringen
+  mÃ¼ssen, um die tatsÃ¤chliche Wirkung dieses Befehls zu sehen.
   @LineBreak
   @LineBreak
 @EndOS
@@ -467,35 +467,35 @@
 
 @Parameter "Text$"
   Der anzuzeigende Text. Im @Link "EnableGraphicalConsole" "Grafikmodus" 
-  darf die Länge des Strings die Breite der Konsole nicht überschreiten, andernfalls wird das Ende des 
+  darf die LÃ¤nge des Strings die Breite der Konsole nicht Ã¼berschreiten, andernfalls wird das Ende des 
   Strings abgeschnitten. 
 
 @NoReturnValue
 
 @Remarks
-  Im @Link "EnableGraphicalConsole" "Grafikmodus" ist es möglich, die aktuelle Cursor-Position mit dem 
-  Befehl @@ConsoleLocate zu ändern. Um das Aussehen des Strings bei der Ausgabe 
-  zu ändern, sollte der Befehl @@ConsoleColor verwendet werden.
+  Im @Link "EnableGraphicalConsole" "Grafikmodus" ist es mÃ¶glich, die aktuelle Cursor-Position mit dem 
+  Befehl @@ConsoleLocate zu Ã¤ndern. Um das Aussehen des Strings bei der Ausgabe 
+  zu Ã¤ndern, sollte der Befehl @@ConsoleColor verwendet werden.
 @LineBreak
 @LineBreak
-  Der Cursor wird auf das nächste Zeichen nach dem Ende des ausgegebenen Strings bewegt.
-  Bei der nächsten Anwendung von Print() beginnt die Ausgabe also unmittelbar hinter dem zuletzt 
-  ausgegebenen String. Um den Cursor nach der Ausgabe automatisch auf die nächste Zeile springen zu lassen, 
+  Der Cursor wird auf das nÃ¤chste Zeichen nach dem Ende des ausgegebenen Strings bewegt.
+  Bei der nÃ¤chsten Anwendung von Print() beginnt die Ausgabe also unmittelbar hinter dem zuletzt 
+  ausgegebenen String. Um den Cursor nach der Ausgabe automatisch auf die nÃ¤chste Zeile springen zu lassen, 
   verwenden Sie den Befehl @@PrintN. 
 @LineBreak
 @LineBreak
-  Wenn Sie Text über den rechten Rand des Konsolenfensters hinaus ausgeben, wird dieser automatisch umgebrochen
-  und am linken Rand der nächsten Zeile fortgesetzt. Wenn Ihre Textausgabe über den unteren Rand
+  Wenn Sie Text Ã¼ber den rechten Rand des Konsolenfensters hinaus ausgeben, wird dieser automatisch umgebrochen
+  und am linken Rand der nÃ¤chsten Zeile fortgesetzt. Wenn Ihre Textausgabe Ã¼ber den unteren Rand
   des Konsolenfensters hinausgeht, wird das Konsolenfenster seinen Inhalt automatisch nach oben
   scrollen.
 @LineBreak
 @LineBreak
-  Um Roh-Daten auf einer nicht-grafischen Konsole (für Pipe-Kommunikation) auszugeben, kann
+  Um Roh-Daten auf einer nicht-grafischen Konsole (fÃ¼r Pipe-Kommunikation) auszugeben, kann
   @@WriteConsoleData verwendet werden.
 @LineBreak
 @LineBreak
-  Hinweis: Im Konsolenfenster werden im ASCII-Modus, ohne weitere Maßnahmen (z.B. Nutzung des WinAPI-Befehls CharToOem_()),
-  deutsche Umlaute oder Sonderzeichen (z.B. ä, ö, ü, ß) nicht korrekt dargestellt.
+  Hinweis: Im Konsolenfenster werden im ASCII-Modus, ohne weitere MaÃŸnahmen (z.B. Nutzung des WinAPI-Befehls CharToOem_()),
+  deutsche Umlaute oder Sonderzeichen (z.B. Ã¤, Ã¶, Ã¼, ÃŸ) nicht korrekt dargestellt.
 
 @Example
 @Code
@@ -522,36 +522,36 @@
 @Function PrintN(Text$)
 
 @Description
-  Zeigt den angegebenen 'Text$' in der Konsole an und fügt einen Zeilenumbruch hinzu.
+  Zeigt den angegebenen 'Text$' in der Konsole an und fÃ¼gt einen Zeilenumbruch hinzu.
 
 @Parameter "Text$"
   Der vor dem Zeilenumbruch darzustellende Text.
-  Im @Link "EnableGraphicalConsole" "Grafikmodus" darf die Länge des Strings die Breite der 
-  Konsole nicht überschreiten, andernfalls wird das Ende des Strings abgeschnitten. 
+  Im @Link "EnableGraphicalConsole" "Grafikmodus" darf die LÃ¤nge des Strings die Breite der 
+  Konsole nicht Ã¼berschreiten, andernfalls wird das Ende des Strings abgeschnitten. 
 
 @NoReturnValue
 
 @Remarks
-  Im @Link "EnableGraphicalConsole" "Grafikmodus" ist es möglich, die aktuelle Cursor-Position mit dem 
-  Befehl @@ConsoleLocate zu ändern. Um das Aussehen des Strings bei der Ausgabe 
-  zu ändern, sollte der Befehl @@ConsoleColor verwendet werden.
+  Im @Link "EnableGraphicalConsole" "Grafikmodus" ist es mÃ¶glich, die aktuelle Cursor-Position mit dem 
+  Befehl @@ConsoleLocate zu Ã¤ndern. Um das Aussehen des Strings bei der Ausgabe 
+  zu Ã¤ndern, sollte der Befehl @@ConsoleColor verwendet werden.
 @LineBreak
 @LineBreak
-  Der Cursor wird nach dem Ende des Strings auf den Anfang der nächsten Zeile bewegt.
-  Wenn Sie Text über den rechten Rand des Konsolenfensters hinaus ausgeben, wird dieser
-  automatisch umgebrochen und am linken Rand der nächsten Zeile fortgesetzt. Wenn Ihre
-  Textausgabe über den unteren Rand des Konsolenfensters hinausgeht, wird das
+  Der Cursor wird nach dem Ende des Strings auf den Anfang der nÃ¤chsten Zeile bewegt.
+  Wenn Sie Text Ã¼ber den rechten Rand des Konsolenfensters hinaus ausgeben, wird dieser
+  automatisch umgebrochen und am linken Rand der nÃ¤chsten Zeile fortgesetzt. Wenn Ihre
+  Textausgabe Ã¼ber den unteren Rand des Konsolenfensters hinausgeht, wird das
   Konsolenfenster seinen Inhalt automatisch nach oben scrollen.
-  Möchten Sie den automatischen Zeilenvorschub vermeiden und die Ausgabe direkt nach
+  MÃ¶chten Sie den automatischen Zeilenvorschub vermeiden und die Ausgabe direkt nach
   dem letzten Zeichen fortsetzen, dann verwenden Sie den Befehl @@Print.
 @LineBreak
 @LineBreak
-  Um Roh-Daten auf einer nicht-grafischen Konsole (für Pipe Kommunikation) auszugeben, kann
+  Um Roh-Daten auf einer nicht-grafischen Konsole (fÃ¼r Pipe Kommunikation) auszugeben, kann
   @@WriteConsoleData verwendet werden.
 @LineBreak
 @LineBreak
-  Hinweis: Im Konsolenfenster werden im ASCII-Modus, ohne weitere Maßnahmen (z.B. Nutzung des WinAPI-Befehls CharToOem_()),
-  deutsche Umlaute oder Sonderzeichen (z.B. ä, ö, ü, ß) nicht korrekt dargestellt.
+  Hinweis: Im Konsolenfenster werden im ASCII-Modus, ohne weitere MaÃŸnahmen (z.B. Nutzung des WinAPI-Befehls CharToOem_()),
+  deutsche Umlaute oder Sonderzeichen (z.B. Ã¤, Ã¶, Ã¼, ÃŸ) nicht korrekt dargestellt.
 
 @Example
 @Code
@@ -575,29 +575,29 @@
 @Function Ergebnis = OpenConsole([Titel$] [, Modus]])
 
 @Description
-  Öffnet ein Konsolen-Fenster. Diese Funktion muss vor den anderen Befehlen aus dieser Bibliothek
-  aufgerufen werden. Nur eine Konsole kann zur gleichen Zeit in einem PureBasic Programm geöffnet
+  Ã–ffnet ein Konsolen-Fenster. Diese Funktion muss vor den anderen Befehlen aus dieser Bibliothek
+  aufgerufen werden. Nur eine Konsole kann zur gleichen Zeit in einem PureBasic Programm geÃ¶ffnet
   werden. 
 
 @OptionalParameter "Titel$"
-  Der Titel für das neue Konsolen-Fenster. Auf Windows ermöglicht das Angeben eines Titels das
+  Der Titel fÃ¼r das neue Konsolen-Fenster. Auf Windows ermÃ¶glicht das Angeben eines Titels das
   Speichern benutzerdefinierter Konsolen-Parameter, wie Zeichensatz, Farbe, etc. Dies hat keinen
   Effekt auf anderen OS.
   
 @OptionalParameter "Modus"
-  Der für die Konsolen-Ausgabe zu verwendende Modus. Dies kann einer der folgenden Werte sein:
+  Der fÃ¼r die Konsolen-Ausgabe zu verwendende Modus. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_UTF8: Strings verwenden das UTF-8 Format, wenn sie auf der Konsole ausgegeben werden (Standard).
   @#PB_Ascii: Strings verwenden das ASCII-Format, wenn sie auf der Konsole ausgegeben werden.
   @#PB_Unicode: Strings verwenden das UTF-16 Format, wenn sie auf der Konsole ausgegeben werden.
-               Dies kann auf Windows nützlich sein, wenn String-Umleitung verwendet wird, und das
+               Dies kann auf Windows nÃ¼tzlich sein, wenn String-Umleitung verwendet wird, und das
                Zielprogramm einen UTF-16-Eingang erwartet. Hat keine Auswirkungen auf Linux oder
                OS X (verwenden UTF-8).
 @EndFixedFont
 
 @ReturnValue
-  Ist das Ergebnis gleich 0, ist das Öffnen fehlgeschlagen und alle weiteren Aufrufe von 
-  Console-Befehlen müssen deaktiviert werden.
+  Ist das Ergebnis gleich 0, ist das Ã–ffnen fehlgeschlagen und alle weiteren Aufrufe von 
+  Console-Befehlen mÃ¼ssen deaktiviert werden.
 
 @Remarks
   Die Konsole kann mittels dem @@CloseConsole Befehl geschlossen werden.
@@ -607,14 +607,14 @@
   Text- und Grafikmodus umgeschalten werden.
 @LineBreak
 @LineBreak
-  Unter Microsoft Windows gibt es zwei verschiedene "Executable" Formate (von ausführbaren
+  Unter Microsoft Windows gibt es zwei verschiedene "Executable" Formate (von ausfÃ¼hrbaren
   Programmen): Win32 und Console. Wenn Sie eine Standard-Konsolen-Applikation, wie 'Dir', 'Del'
-  etc. erstellen möchten, müssen Sie das Executable im Format "Console" (Menüeintrag
+  etc. erstellen mÃ¶chten, mÃ¼ssen Sie das Executable im Format "Console" (MenÃ¼eintrag
   @ReferenceLink "ide_compiler" "Compiler-Optionen" im PureBasic-Editor) erstellen.
 @LineBreak
 @LineBreak
   Auf Linux und OS X gibt es kein spezielles Konsolen-Format, jedoch wird das Einstellen
-  der Compiler-Option auf 'Console' automatisch ein Terminal-Fenster öffnen, wenn Sie Ihr
+  der Compiler-Option auf 'Console' automatisch ein Terminal-Fenster Ã¶ffnen, wenn Sie Ihr
   Programm aus der IDE heraus starten.
 
 @Example
@@ -631,35 +631,35 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ReadConsoleData(*Puffer, Größe)
+@Function Ergebnis = ReadConsoleData(*Puffer, GrÃ¶ÃŸe)
 
 @Description
-  Liest "Roh-Eingaben" aus der Konsole. Dieser Befehl wird nur im nicht-grafischen Modus unterstützt.
+  Liest "Roh-Eingaben" aus der Konsole. Dieser Befehl wird nur im nicht-grafischen Modus unterstÃ¼tzt.
   Er kann zum Einlesen von nicht zeilenbasierten Daten verwendet werden, oder zum Einlesen von
-  text-ähnlichen Dateien, welche über eine Pipe an das Programm umgeleitet wurden.
+  text-Ã¤hnlichen Dateien, welche Ã¼ber eine Pipe an das Programm umgeleitet wurden.
 
 @Parameter "*Puffer"
   Der Speicherpuffer, in welchen die Daten gelesen werden sollen.
 
-@Parameter "Größe"
+@Parameter "GrÃ¶ÃŸe"
   Der maximalen Umfang (in Bytes) an zu lesenden Daten.
 
 @Returnvalue
-  Gibt die Anzahl an Bytes zurück, welche gerade von der Eingabe eingelesen wurden.
-  Wenn Null zurückgegeben wird, bedeutet dies, dass keine weiteren Eingaben zu lesen
+  Gibt die Anzahl an Bytes zurÃ¼ck, welche gerade von der Eingabe eingelesen wurden.
+  Wenn Null zurÃ¼ckgegeben wird, bedeutet dies, dass keine weiteren Eingaben zu lesen
   sind (ein 'EOF' - Ende der Datei wurde empfangen).
 
 @Remarks
   Dieser Befehl wartet, bis es einige zu lesende Eingaben gab. Er kehrt nur ohne gelesene Daten
-  zurück, wenn ein Fehler oder eine EOF ("End of file" - Ende der Datei) Bedingung auftrat.
+  zurÃ¼ck, wenn ein Fehler oder eine EOF ("End of file" - Ende der Datei) Bedingung auftrat.
 
 @Example
 @Code
-  ; Dies liest ein übergebenes Bild von der Konsole und stellt dieses in einem Fenster dar.
+  ; Dies liest ein Ã¼bergebenes Bild von der Konsole und stellt dieses in einem Fenster dar.
   ; Kompilieren Sie diesen Code in ein Executable und starten dieses wie folgt "myexe < image.bmp"
   ;
   ; (setzen Sie "Executable-Format" auf "Console" in the Compiler-Optionen!)
-  ; (funktioniert nur mit Bitmaps und Icons, außer Sie nutzen einen Image Decoder)
+  ; (funktioniert nur mit Bitmaps und Icons, auÃŸer Sie nutzen einen Image Decoder)
   ;
   OpenConsole()
   TotalSize = 0
@@ -670,11 +670,11 @@
     ReadSize = ReadConsoleData(*Buffer+TotalSize, BufferFree) ; liest einen Block an Daten
     TotalSize + ReadSize
     BufferFree - ReadSize
-    If BufferFree < 100  ; verändert die Buffergröße, wenn diese nicht groß genug ist
+    If BufferFree < 100  ; verÃ¤ndert die BuffergrÃ¶ÃŸe, wenn diese nicht groÃŸ genug ist
       BufferFree = 10000
       *Buffer = ReAllocateMemory(*Buffer, TotalSize+10000)
     EndIf
-  Until ReadSize = 0 ; sobald 0 zurückgegeben wird, gibt es nichts weiter zum einlesen
+  Until ReadSize = 0 ; sobald 0 zurÃ¼ckgegeben wird, gibt es nichts weiter zum einlesen
   
   If TotalSize > 0 ; das Bild darstellen, wenn vorher erfolgreich
     If CatchImage(0, *Buffer, TotalSize)
@@ -686,7 +686,7 @@
       EndIf
     EndIf
   EndIf
-  MessageRequester("Fehler", "Kein gültiges Bild.")
+  MessageRequester("Fehler", "Kein gÃ¼ltiges Bild.")
 @EndCode
 
 @SeeAlso
@@ -699,14 +699,14 @@
 @Function Ergebnis = RawKey()
 
 @Description
-  Gibt den Roh-Code ("Raw key") des letzten Aufrufs von @@Inkey zurück.
-  Dies ist nützlich für erweiterte (nicht-ASCII) Tasten (zum Beispiel Funktionstasten,
+  Gibt den Roh-Code ("Raw key") des letzten Aufrufs von @@Inkey zurÃ¼ck.
+  Dies ist nÃ¼tzlich fÃ¼r erweiterte (nicht-ASCII) Tasten (zum Beispiel Funktionstasten,
   Cursortasten, etc.).
 
 @NoParameters
 
 @ReturnValue
-  Gibt den Roh-Code der letzten gedrückten Taste zurück.
+  Gibt den Roh-Code der letzten gedrÃ¼ckten Taste zurÃ¼ck.
 
 @Remarks
   Es sind nicht nur die alpha-numerischen Tasten, welche einen ASCII-Wert haben. Die
@@ -737,7 +737,7 @@
         Delay(20) ; Wir verwenden nicht die gesamte CPU-Zeit, da wir uns auf einem Multitaskting-OS befinden
       EndIf
     
-    Until KeyPressed$ = Chr(27) ; Warten, bis Escape gedrückt wird
+    Until KeyPressed$ = Chr(27) ; Warten, bis Escape gedrÃ¼ckt wird
   EndIf
 @EndCode
 
@@ -748,25 +748,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = WriteConsoleData(*Puffer, Größe)
+@Function Ergebnis = WriteConsoleData(*Puffer, GrÃ¶ÃŸe)
 
 @Description
-  Schreibt Roh-Daten in die Konsolenausgabe. Dieser Befehl wird nur im nicht-grafischen Modus unterstützt.
+  Schreibt Roh-Daten in die Konsolenausgabe. Dieser Befehl wird nur im nicht-grafischen Modus unterstÃ¼tzt.
   Er kann zum Ausgeben von anderen Daten als Text auf die Konsole verwendet werden, welche dann auf eine
-  Datei oder ein anderes Programm umgeleitet werden können.
+  Datei oder ein anderes Programm umgeleitet werden kÃ¶nnen.
 
 @Parameter "*Puffer"
   Der Speicherpuffer, von welchem die Daten gelesen werden.
 
-@Parameter "Größe"
+@Parameter "GrÃ¶ÃŸe"
   Der Umfang (in Bytes) an zu schreibenden Daten.
 
 @Returnvalue
-  Gibt die Anzahl aktuell (bisher) in die Ausgabe geschriebener Bytes zurück.
+  Gibt die Anzahl aktuell (bisher) in die Ausgabe geschriebener Bytes zurÃ¼ck.
 
 @Remarks
   Der Speicherbereich muss zuvor mit den Befehlen der 
-  @LibraryLink "Memory" "Memory"-Bibliothek reserviert und gefüllt worden sein.
+  @LibraryLink "Memory" "Memory"-Bibliothek reserviert und gefÃ¼llt worden sein.
 
 @SeeAlso
   @@ReadConsoleData

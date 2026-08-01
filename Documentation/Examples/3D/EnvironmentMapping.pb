@@ -1,4 +1,4 @@
-﻿;
+
 ; ------------------------------------------------------------
 ;
 ;   PureBasic - Environment mapping
@@ -11,9 +11,9 @@ Define.f a,da,r,MouseX,Mousey,depx,depz,dist
 
 InitEngine3D():InitSprite():InitKeyboard():InitMouse()
 
-ExamineDesktops()
-OpenWindow(0, 0,0, DesktopWidth(0)*0.8,DesktopHeight(0)*0.8, "Environment mapping - [Esc] quit",#PB_Window_ScreenCentered)
-OpenWindowedScreen(WindowID(0), 0, 0, WindowWidth(0), WindowHeight(0), 0, 0, 0)
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "Environment mapping - [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx,dy, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia", #PB_3DArchive_FileSystem)
@@ -21,16 +21,25 @@ Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArch
 Add3DArchive(GetCurrentDirectory(), #PB_3DArchive_FileSystem )
 Parse3DScripts()
 
-SkyBox("desert07.jpg")
-
+; camera
 CreateCamera(0, 0, 0, 100, 100):MoveCamera(0,0,2,0):CameraLookAt(0,0,0,10)
 CreateLight(0, $ffffff, 8000, 5700,4500);  ;light on the sun of the skybox !
 AmbientColor($444444)
 
+;light
+CreateLight(0,$ffffff,10000,1000,0)
+
+Fog($0088ff,1,0,1000)
+
+;sky
+tx_sky=LoadTexture(#PB_Any,"sky.png")
+SkyDome(TextureID(tx_sky),$cc6600,$0088ff,3,400,0.5,0.5)
+
 ; Ground
 LoadTexture(0, "MRAMOR6X6.jpg")
 CreateMaterial(0,TextureID(0))
-CreatePlane(0,256,256,1,1,32,32)
+MaterialFilteringMode(0,#PB_Material_Anisotropic,4)
+CreatePlane(0,2000,2000,16,16,256,256)
 CreateEntity(0,MeshID(0),MaterialID(0))
 
 ; objects
@@ -57,11 +66,10 @@ For j=0 To 6
 		MaterialShaderParameter(c,#PB_Shader_Fragment,"glossy",#PB_Shader_Float,Random(2,1)*0.2,0,0,0)
 		CreateEntity(c,MeshID(c%5),MaterialID(c), (i-3)*8,2,(j-3)*8)
 		RotateEntity(c,Random(360),Random(360),Random(360),#PB_Absolute)
-		EntityCubeMapTexture(tx_Cubic(c), c)  ; <- associate the entity to position the cubic texture
+		EntityCubeMapTexture(tx_Cubic(c), c)  ; <- associate the entity to position of the cubic texture
 	Next
 Next
 
-; get the cubic texture (2 pass for better result)
 For j=0 To 1
 	For i=1 To c
 		UpdateRenderTexture(tx_Cubic(i))
@@ -85,6 +93,8 @@ Repeat
 	RotateCamera(0, MouseY, MouseX, 0, #PB_Relative)
 	dist+(depz-dist)*0.05:MoveCamera  (0, depX, 0, -dist)
 	CameraReflection(1,0,EntityID(0))
+	UpdateRenderTexture(1)
 	RenderWorld()
 	FlipBuffers()    
 Until KeyboardReleased(#PB_Key_Escape) Or MouseButton(3)
+

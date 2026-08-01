@@ -1,0 +1,2160 @@
+;
+;     ScreenGadget library documentation
+;
+;      (c) Fantaisie Software
+;
+
+
+@Library ScreenGadget
+
+@Overview
+  The ScreenGadget library allows you to create
+  complex graphical user interfaces (GUIs)
+  directly on the screen.
+@LineBreak 
+  The syntax of this library is similar
+  to the library
+  @LibraryLink "gadget" "Gadget".
+@LineBreak
+@LineBreak
+  @@InitScreenGadgets must be called
+  before being able to use the commands
+  related to gadgets.
+
+@CommandList
+
+@ExampleFile All ScreenGadget.pb
+@ExampleFile All ScreenGadgetMultipleWindow.pb
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function InitScreenGadgets()
+
+@Description
+  Initializes the ScreenGadget library.
+ 
+@NoReturnValue
+  
+@Remarks  
+  Must be placed after @@OpenScreen / @@OpenWindowedScreen.
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function RenderScreenGadgets()
+
+@Description
+  Displays windows and gadgets on the screen.
+ 
+@NoReturnValue
+  
+@Remarks  
+  This function must be placed in the rendering loop.
+  The background needs to be "refreshed", for example with @ClearScreen or @RenderWorld (3D).
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ScreenWindowAnimation(#ScreenWindow, Meaning, Duration [, Fading [, Zoom, [,x [,y [, Rotation]]]])
+
+@Description
+  Makes the window appear/disappear with an animation.
+ 
+@Parameter "#ScreenWindow"
+  The window to be animated.
+@Parameter "Meaning"
+  1: appearance
+  2: disappearance
+  3: Appearance and disappearance
+@Parameter "Duration"
+  In millisecond.
+@OptionalParameter "Fading"
+  0 or 1.
+@OptionalParameter "Zoom"
+  0 or 1.
+@OptionalParameter "x"
+  -1: the window appears/disappears from the left, 1: from the left, 0: no horizontal movement.
+@OptionalParameter "y"
+  -1: the window appears/disappears from the top, 1: from the bottom, 0: no vertical movement.
+@OptionalParameter "Rotation"
+  In degrees.
+
+@NoReturnValue
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function ScreenGadgetSkin(SkinPart, #Image [, FreePrevious])
+
+@Description
+  Defines an image for a type of skin (border, icon, mouse pointer...).
+
+@Parameter "SkinPart"
+  It could be one of the following values:
+  @FixedFont
+  #PB_ScreenGadget_Mouse
+  #PB_ScreenGadget_TextureWindow
+  #PB_ScreenGadget_FrameWindow
+  #PB_ScreenGadget_FrameRaised      
+  #PB_ScreenGadget_FrameSunken		
+  #PB_ScreenGadget_FrameFlat    
+  #PB_ScreenGadget_FrameScroll 
+  #PB_ScreenGadget_FrameScrollIn 
+  #PB_ScreenGadget_FrameString
+  #PB_ScreenGadget_FrameProgressBar0
+  #PB_ScreenGadget_FrameProgressBar1
+  #PB_ScreenGadget_FramePanel
+  #PB_ScreenGadget_FrameSplitter
+  #PB_ScreenGadget_FrameToolTip
+  #PB_ScreenGadget_CheckBox0
+  #PB_ScreenGadget_CheckBox1
+  #PB_ScreenGadget_Option0
+  #PB_ScreenGadget_Option1
+  #PB_ScreenGadget_ComboBox
+  #PB_ScreenGadget_ScrollLeft
+  #PB_ScreenGadget_ScrollRight
+  #PB_ScreenGadget_ScrollUp
+  #PB_ScreenGadget_ScrollDown
+  #PB_ScreenGadget_FrameTrackBar
+  #PB_ScreenGadget_HorizontalTrackBar
+  #PB_ScreenGadget_TrackBarV
+  @EndFixedFont
+@Parameter "#Image"
+  The replacement image.
+@Parameter "FreePrevious"
+  If true, erase the previous image.
+
+@NoReturnValue
+ 
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = TrackBarScreenGadget(#ScreenGadget, x, y, Width, Height, Min, Max [, Flags])
+
+@Description
+  Creates a Cursor gadget in the current GadgetList.
+ 
+@Parameter "#ScreenGadget"
+  The identification number of the new gadget.
+  @#PB_Any can be used to automatically generate this number.
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+@Parameter "Min, Max"
+  The minimum and maximum values used by the gadget. Must be defined with integer values.
+@OptionalParameter "Flags"
+  #PB_TrackBar_Vertical: The gadget is vertical.
+ 
+@ReturnValue
+  Returns a non-zero value on success, zero otherwise.
+  If @#PB_Any was used for the #ScreenGadget parameter, then the return value is the gadget's ID number, generated automatically.
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = ButtonImageScreenGadget(#ScreenGadget, x, y, Width, Height, ImageID [, Flags])
+
+@Description
+  Creates a button with an image in the current GadgetList.
+
+@Parameter "#ScreenGadget"
+  The identification number of the new gadget.
+  @#PB_Any can be used to automatically generate this number.
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+@Parameter "ImageID"
+  The gadget image identification number. Use @@ImageID to get this ID from an image.
+@OptionalParameter "Flags"
+  Not supported.
+ 
+@ReturnValue
+  Returns a non-zero value on success, zero otherwise.
+  If @#PB_Any was used for the #ScreenGadget parameter, then the return value is the gadget ID number, generated automatically.
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = SplitterScreenGadget(#ScreenGadget, x, y, Width, Height, #ScreenGadget1, #ScreenGadget2 [, Flags])
+
+@Description
+  Creates an area divided into two parts (horizontally or vertically), each containing a gadget thread.
+  @LineBreak
+  The divider bar can be moved freely by the user and the two associated gadgets will be resized automatically.
+  
+@Parameter "#ScreenGadget"
+  The identification number of the new gadget.
+  @#PB_Any can be used to automatically generate this number.
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+@Parameter "#ScreenGadget1, #ScreenGadget2"
+  The gadgets, which should be placed inside the splitter area.
+@Parameter "Flags"
+  #PB_Splitter_Vertical: The area will be separated vertically.
+ 
+@ReturnValue
+  Returns a non-zero value on success, zero otherwise.
+  If @#PB_Any was used for the #ScreenGadget parameter, then the return value is the gadget ID number, generated automatically.
+  
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = SetScreenGadgetFont(#ScreenGadget, FontID)
+
+@Description
+  Change the font of a gadget.
+ 
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  If the value of #ScreenGadget is @#PB_Default, then the default font used by new gadgets is changed by the new value.
+@Parameter "FontID"
+  The font identification number to use. @@FontID can be used to get a valid FontID.
+ 
+@NoReturnValue
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = ScreenMouseVisible(State)
+
+@Description
+  Shows or hides the mouse pointer.
+ 
+@Parameter "State"
+  0: The mouse pointer is invisible.
+  @LineBreak
+  1: The mouse pointer is visible.
+ 
+@NoReturnValue
+
+@SupportedOS
+
+;------------------------------------------------------------------------------------
+
+@Function Result = ScreenVirtualSize(VirtualWidth, VirtualHeight)
+
+@Description
+  Defines the virtual screen dimensions to automatically adjust the position of gadgets to the resolution.
+  @LineBreak
+  This command is useful when the screen resolution is not known in advance.
+
+@Parameter "VirtualWidth, VirtuelHeight"
+  The virtual dimensions of the screen.
+ 
+@ReturnValue
+  Of type float, corresponding to the minimum (actual width / virtual width, actual height / virtual height).
+  This value can then be used to adjust the font size.
+  
+@Remarks  
+  If this command is used, the position and size of the gadget must be defined in these virtual dimensions.
+
+@Example
+@Code
+  ...
+  fontratio.f = ScreenVirtualSize(1000, 500)
+  SetScreenGadgetFont(#PB_Default, LoadFont(0, "Arial", 24*fontratio))
+  ...
+@EndCode
+
+@SupportedOS
+
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function AddScreenGadgetItem(#ScreenGadget, Position, Text$)
+
+@Description
+  Add an item to the specified #ScreenGadget.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  
+@Parameter "Position"
+  The item index where the new item should be inserted. To add
+  the item at the start, use a value of 0. To add this item to the end of the current
+  item list, use a value of -1. Remember that when you add an item that all current
+  items which come after the new one will have their positions increased by 1.
+  
+@Parameter "Text$"
+  The new item text.
+  
+@NoReturnValue
+  
+@Remarks
+  The following gadgets are supported:
+@LineBreak
+@LineBreak
+  - @@ComboBoxScreenGadget @LineBreak
+  - @@ListViewScreenGadget @LineBreak
+  - @@PanelScreenGadget @LineBreak
+@LineBreak
+
+@SeeAlso
+  @@ComboBoxScreenGadget, @@ListViewScreenGadget, @@PanelScreenGadget
+
+@SupportedOS
+
+;-------------------------------------------------------------------------------------------------------
+
+@Function Result = ButtonScreenGadget(#ScreenGadget, x, y, Width, Height, Text$)
+
+@Description
+  Creates a button gadget in the current GadgetList.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display on the button.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to control the gadget: @LineBreak
+  - @@SetScreenGadgetText: Changes the text of the ButtonGadget. @LineBreak
+  - @@GetScreenGadgetText: Returns the text of the ButtonGadget.
+
+@SeeAlso
+  @@ScreenGadgetToolTip, @@SetScreenGadgetText, @@GetScreenGadgetText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CheckBoxScreenGadget(#ScreenGadget, x, y, Width, Height, Text$)
+
+@Description
+  Creates a checkbox gadget in the current GadgetList.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display at the right of the checkbox.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks  
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to control the gadget: @LineBreak
+  - @@GetScreenGadgetState can be used to get the current gadget state (checked or unchecked). @LineBreak
+  - @@SetScreenGadgetState can be used to change the gadget state (checked or unchecked). @LineBreak
+
+@SeeAlso
+  @@ScreenGadgetToolTip, @@GetScreenGadgetState, @@SetScreenGadgetState
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ClearScreenGadgetItems(#ScreenGadget)
+
+@Description
+  Clears all the items from the specified #ScreenGadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  
+@NoReturnValue
+
+@Remarks
+  The Gadget must be one of the following types:  @LineBreak
+  - @@ComboBoxScreenGadget @LineBreak
+  - @@ListViewScreenGadget @LineBreak
+  - @@PanelScreenGadget
+
+@SeeAlso
+  @@AddScreenGadgetItem
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseScreenGadgetList()
+
+@Description
+  Closes the current gadget list creation and go back to the previous GadgetList.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak  
+  - @@ContainerScreenGadget @LineBreak
+  - @@PanelScreenGadget @LineBreak
+  - @@ScrollAreaScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ComboBoxScreenGadget(#ScreenGadget, x, y, Width, Height [, Flags])
+
+@Description
+  Creates a ComboBox gadget in the current GadgetList. Once a ComboBox
+  is created, its list of items is empty.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  Not supported.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to act on the list contents: @LineBreak
+  - @@AddScreenGadgetItem: Add an item. @LineBreak
+  - @@CountScreenGadgetItems: Count the items in the current combobox. @LineBreak
+  - @@ClearScreenGadgetItems: Remove all the items. @LineBreak
+  - @@RemoveScreenGadgetItem: Remove an item. @LineBreak
+@LineBreak
+  - @@GetScreenGadgetState: Get the index (starting from 0) of the current element. @LineBreak
+  - @@GetScreenGadgetText: Get the (text) content of the current element. @LineBreak
+  - @@SetScreenGadgetState: Change the selected element. @LineBreak
+  - @@SetScreenGadgetText: Set the displayed text. If the ComboBoxGadget is not editable, the text must be in the dropdown list.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ContainerScreenGadget(#ScreenGadget, x, y, Width, Height)
+
+@Description
+  Creates a container gadget in the current GadgetList. It's a simple panel gadget which
+  can contain other gadgets. Once the gadget is created,
+  all future created gadgets will be created inside the container. When all the needed
+  gadgets have been created, @@CloseScreenGadgetList must be called to return to the
+  previous GadgetList. @@OpenScreenGadgetList can be used later to add others gadgets
+  on the fly in the container area.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = CountScreenGadgetItems(#ScreenGadget)
+
+@Description
+  Returns the number of items in the specified #ScreenGadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  
+@ReturnValue
+  The number of items in the specified #ScreenGadget.
+  
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxScreenGadget @LineBreak
+  - @@ListViewScreenGadget @LineBreak
+  - @@PanelScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableScreenGadget(#ScreenGadget, State)
+
+@Description
+  Disable or enable the gadget.
+  
+@Parameter "#ScreenGadget"
+  The gadget to enable or disable.
+
+@Parameter "State"
+  The new state of the gadget.
+  If State = 1, the gadget will be disabled, if State = 0 it will be enabled.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = EditorScreenGadget(#ScreenGadget, x, y, Width, Height [, Flags])
+
+@Description
+  Creates an editor gadget in the current GadgetList.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  It can be one of the following value:
+@FixedFont
+  @#PB_Editor_ReadOnly: The user cannot edit the text in the gadget.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to act on the editor content: @LineBreak
+@LineBreak
+  - @@GetScreenGadgetText: Get the text content of the editor gadget. @LineBreak
+  - @@SetScreenGadgetText: Change the text content of the editor gadget. @LineBreak
+
+@SupportedOS
+
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = FrameScreenGadget(#ScreenGadget, x, y, Width, Height, Text$)
+; 
+; @Description
+;     @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Creates a frame gadget in the current GadgetList. This kind of gadget is decorative only. 
+;   
+; @Parameter "#ScreenGadget"
+;   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+;   be used to auto-generate this number.
+; 
+; @Parameter "x, y, Width, Height"
+;   The position and dimensions of the new gadget.
+; 
+; @OptionalParameter "Text$"
+;   The text to display in the frame.
+; 
+; @ReturnValue
+;   Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+;   then the return-value is the auto-generated gadget number on success.
+;   
+; @Remarks
+;   As this Gadget is decorative only, @@ScreenGadgetToolTip cannot be used. This Gadget also receives no events.
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+
+@Function FreeScreenGadget(#ScreenGadget)
+
+@Description
+  Free and remove the gadget from the display (and free its gadgetlist if the gadget was a container).
+  
+@Parameter "#ScreenGadget"
+  The gadget to free. If @#PB_All is specified, all the remaining gadgets are freed.
+  
+@NoReturnValue
+
+@Remarks
+  All remaining gadgets are automatically freed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function GadgetID = ScreenGadgetID(#ScreenGadget)
+
+@Description
+  Returns the unique system identifier of the gadget.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue
+  The unique system identifier of the gadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ScreenGadgetToolTip(#ScreenGadget, Text$)
+
+@Description
+  Associates the specified Text$ with the gadget. A tooltip text is text which is displayed
+  when the mouse cursor is over the gadget for a small amount of time (typically a yellow floating box).
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@Parameter "Text$"
+  The text to display in the tooltip.
+
+@NoReturnValue
+
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@ButtonScreenGadget @LineBreak
+  - @@CheckBoxScreenGadget @LineBreak
+  - @@ComboBoxScreenGadget @LineBreak
+  - @@ContainerScreenGadget @LineBreak
+  - @@EditorScreenGadget @LineBreak
+  - @@ImageScreenGadget @LineBreak
+  - @@ListViewScreenGadget @LineBreak
+  - @@OptionScreenGadget @LineBreak
+  - @@PanelScreenGadget @LineBreak
+  - @@ProgressBarScreenGadget @LineBreak
+  - @@ScrollBarScreenGadget @LineBreak
+  - @@StringScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenGadgetX(#ScreenGadget)
+
+@Description
+  Returns the X position of the specified gadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue  
+  The X position, in pixels, of the specified gadget starting from
+  the inside of the left edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@ScreenGadgetY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenGadgetY(#ScreenGadget)
+
+@Description
+  Returns the Y position of the specified gadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue  
+  The Y position, in pixels, of the specified gadget starting from
+  the inside of the top edge of the gadget list that the gadget is in.
+
+@SeeAlso
+  @@ScreenGadgetX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenGadgetHeight(#ScreenGadget)
+
+@Description
+  Returns the height of the specified gadget.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue  
+  The height, in pixels, of the specified gadget.
+
+@SeeAlso
+  @@ScreenGadgetWidth
+    
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenGadgetType(#ScreenGadget)
+
+@Description
+  Returns the type of gadget that is represented by the specified gadget. It can be useful
+  to write generic functions that work with more than one type of gadget.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue
+  It can be one of the following values:
+@FixedFont
+  @#PB_ScreenGadgetType_Button        : @@ButtonScreenGadget
+  @#PB_ScreenGadgetType_CheckBox      : @@CheckBoxScreenGadget
+  @#PB_ScreenGadgetType_ComboBox      : @@ComboBoxScreenGadget
+  @#PB_ScreenGadgetType_Container     : @@ContainerScreenGadget
+  @#PB_ScreenGadgetType_Editor        : @@EditorScreenGadget
+  @#PB_ScreenGadgetType_Image         : @@ImageScreenGadget
+  @#PB_ScreenGadgetType_ListView      : @@ListViewScreenGadget
+  @#PB_ScreenGadgetType_Option        : @@OptionScreenGadget
+  @#PB_ScreenGadgetType_Panel         : @@PanelScreenGadget
+  @#PB_ScreenGadgetType_ProgressBar   : @@ProgressBarScreenGadget
+  @#PB_ScreenGadgetType_ScrollArea    : @@ScrollAreaScreenGadget
+  @#PB_ScreenGadgetType_ScrollBar     : @@ScrollBarScreenGadget
+  @#PB_ScreenGadgetType_String        : @@StringScreenGadget
+  @#PB_ScreenGadgetType_Text          : @@TextScreenGadget
+  @#PB_ScreenGadgetType_Unknown       : The type is unknown. Most likely it is not a PB gadget at all.
+@EndFixedFont
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenGadgetWidth(#ScreenGadget)
+
+@Description
+  Returns the width of the specified gadget.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue  
+  The width, in pixels, of the specified gadget.
+
+@SeeAlso
+  @@ScreenGadgetHeight
+    
+@SupportedOS
+
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = GetActiveScreenGadget()
+; 
+; @Description
+;     @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the #ScreenGadget number of the Gadget that currently has the keyboard focus.
+;   
+; @NoParameters
+; 
+; @ReturnValue
+;   The gadget number that currently has the keyboard focus. If no gadget has the
+;   focus, -1 is returned.
+; 
+; @SeeAlso
+;   @@SetActiveScreenGadget
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Value = GetScreenGadgetAttribute(#ScreenGadget, Attribute)
+; 
+; @Description
+;     @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Gets the attribute value of the specified gadget.
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Attribute"
+;   The attribute to get.
+;   
+; @ReturnValue
+;   The attribute value of the specified gadget.
+; 
+; @Remarks
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@EditorScreenGadget @LineBreak
+;   - @@PanelScreenGadget @LineBreak
+;   - @@ProgressBarScreenGadget @LineBreak
+;   - @@ScrollAreaScreenGadget @LineBreak
+;   - @@ScrollBarScreenGadget @LineBreak
+;   - @@SpinScreenGadget
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = GetScreenGadgetData(#ScreenGadget)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the data value that has been stored for this gadget with the @@SetScreenGadgetData function.
+;   This allows to associate a custom value with any gadget. 
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @ReturnValue
+;   The current data value associated with the gadget, or zero if no value has been set.
+; 
+; @Remarks
+;   This function is supported by all gadgets. See @@SetScreenGadgetData for an example.
+; 
+; @SeeAlso
+;   @@SetScreenGadgetData
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = GetScreenGadgetItemData(#ScreenGadget, Item)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the value that was previously stored with this gadget item with the @@SetScreenGadgetItemData
+;   function. This allows to associate a custom value with the items of a gadget.
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Item"
+;   The item to get the data value. First item index starts from zero.
+; 
+; @ReturnValue
+;   The current data value associated with the gadget item, or zero if no value has been set.
+;     
+; @Remarks
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@ComboBoxScreenGadget @LineBreak
+;   - @@ListViewScreenGadget @LineBreak
+; @LineBreak
+;   See @@SetScreenGadgetItemData for an example.
+; 
+; @SeeAlso
+;   @@SetScreenGadgetItemData
+; 
+; @SupportedOS
+; 
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = GetScreenGadgetState(#ScreenGadget)
+
+@Description
+  Returns the current state of the gadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue
+  The current state of the gadget. 
+
+@Remarks  
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@CheckBoxScreenGadget: returns 1 if checked, 0 otherwise. @LineBreak
+  - @@ComboBoxScreenGadget: returns the currently selected item index, -1 if none is selected. @LineBreak
+  - @@ImageScreenGadget: returns the TextureID of the currently displayed image. @LineBreak
+  - @@ListViewScreenGadget: returns the currently selected item index, -1 if none is selected. @LineBreak
+  - @@OptionScreenGadget: returns 1 if activated, 0 otherwise. @LineBreak
+  - @@PanelScreenGadget: returns the current panel index, -1 if no panel. @LineBreak
+  - @@ProgressBarScreenGadget: returns the current value of the ProgressBar. @LineBreak
+  - @@ScrollBarScreenGadget: returns the current slider position. @LineBreak
+
+@SeeAlso
+  @@SetScreenGadgetState
+
+@SupportedOS
+
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result$ = GetScreenGadgetItemText(#ScreenGadget, Item [, Column])
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the item text of the specified gadget item. 
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Item"
+;   The item to get the text. First item index starts from zero.
+; 
+; @OptionalParameter "Column"
+;   Not used for now.
+; 
+; @ReturnValue
+;   The item text of the specified gadget item. 
+;   
+; @Remarks  
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@ComboBoxScreenGadget - 'Item' is the index of the item in the ComboBox list. 'Column' will be ignored. @LineBreak
+;   - @@ListViewScreenGadget - 'Item' is the index of the entry from which you want to receive the content. 'Column' will be ignored. @LineBreak
+;   - @@PanelScreenGadget - 'Item' is the panel from which you want to receive the header text. @LineBreak
+; 
+; @SeeAlso
+;   @@SetScreenGadgetItemText
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = GetScreenGadgetItemState(#ScreenGadget, Item)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the item state of the specified gadget item. 
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Item"
+;   The item to get the state. First item index starts from zero.
+; 
+; @ReturnValue
+;   The item state of the specified gadget item. 
+;   
+; @Remarks  
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@ListViewScreenGadget: returns 1 if the item is selected, 0 otherwise.
+; 
+; @SeeAlso
+;   @@SetScreenGadgetItemState
+; 
+; @SupportedOS
+; 
+;--------------------------------------------------------------------------------------------------------
+
+@Function String$ = GetScreenGadgetText(#ScreenGadget)
+
+@Description
+  Returns the text content of the specified gadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@ReturnValue
+  The text content of the specified gadget. 
+  
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@ButtonScreenGadget: return the text of the ButtonGadget. @LineBreak
+  - @@ComboBoxScreenGadget: return the content of the current item. @LineBreak
+  - @@EditorScreenGadget: return the text content of the editor gadget. Please note, that several
+    lines of text are normally separated with "Chr(13)+Chr(10)". @LineBreak
+  - @@ListViewScreenGadget: return the content of the current item. @LineBreak
+  - @@StringScreenGadget: return the content of the StringGadget. @LineBreak
+  - @@TextScreenGadget: return the content of the TextGadget.
+
+@SeeAlso
+  @@SetScreenGadgetText
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideScreenGadget(#ScreenGadget, State)
+
+@Description
+  Hide or show a gadget.
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@Parameter "State"
+  The new state of the gadget.
+  If State = 1, the gadget will be hidden, if State = 0 it will be shown.
+
+@NoReturnValue
+
+@SeeAlso
+  @@DisableScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ImageScreenGadget(#ScreenGadget, x, y, Width, Height, TextureID [, Flags])
+
+@Description
+  Creates an image gadget in the current GadgetList.
+  
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "TextureID"
+  The texture to display in the gadget. @@TextureID can be used to get a valid value.
+  If this value is sets to zero, then no texture is displayed.
+
+@OptionalParameter "Flags"
+  It can be one of the following constants:
+@FixedFont
+  @#PB_Image_Border : display a sunken border around the image.
+@EndFixedFont
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip.
+@LineBreak
+@LineBreak
+  The following function can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@SetScreenGadgetState: Change the current Image of the gadget. A valid TextureID can be easily
+  obtained with the @@TextureID function.
+  If the TextureID is sets to zero, then the texture is removed from the gadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = IsScreenGadget(#ScreenGadget)
+
+@Description
+  Tests if the given gadget is valid and correctly initialized. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to test.
+
+@ReturnValue
+  Nonzero if the gadget is valid, zero otherwise.
+
+@Remarks
+  This function is bulletproof and may be used with any value.
+  This is the correct way to ensure a gadget is ready to use.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ListViewScreenGadget(#ScreenGadget, x, y, Width, Height [, Flags])
+
+@Description
+  Creates a ListView gadget in the current GadgetList. Once a ListView
+  is created, its list of items is empty.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  Not supported yet.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to act on the list content: @LineBreak
+@LineBreak
+  - @@AddScreenGadgetItem: Add an item. @LineBreak
+  - @@RemoveScreenGadgetItem: Remove an item. @LineBreak
+  - @@ClearScreenGadgetItems: Remove all the items @LineBreak
+  - @@CountScreenGadgetItems: Returns the number of items currently in the #ScreenGadget. @LineBreak
+@LineBreak
+  - @@GetScreenGadgetState: Get the index of the selected item or -1 if there is no selected item. @LineBreak
+  - @@GetScreenGadgetText: Get the content of the selected item. @LineBreak
+  - @@SetScreenGadgetState: Change the selected item. If -1 is specified, the selection will be removed. @LineBreak
+  - @@SetScreenGadgetText: Selects the item with the given text (the text must match exactly).
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function OpenScreenGadgetList(#ScreenGadget [, Item])
+
+@Description
+  Use the specified gadget as a GadgetList, to dynamically add new gadgets
+  to it. Once the all the needed changes are done, @@CloseScreenGadgetList should be called.
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@OptionalParameter "Item"
+  The gadget item to use. This is only supported for @@PanelScreenGadget.
+
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@ContainerScreenGadget @LineBreak
+  - @@PanelScreenGadget : The optional 'Item' parameter needs to be specified @LineBreak
+  - @@ScrollAreaScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OptionScreenGadget(#ScreenGadget, x, y, Width, Height, Text$)
+
+@Description
+  Creates an OptionGadget in the current GadgetList. The first time this function is called,
+  a group is created and all following calls of @@OptionScreenGadget will add a gadget to
+  this group. To finish the group, just create a gadget of another type. These kind of gadgets
+  are very useful as only one gadget from the group can be selected at any time.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display, near the selection button.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = PanelScreenGadget(#ScreenGadget, x, y, Width, Height)
+
+@Description
+  Creates a panel gadget in the current GadgetList. Once a panel is created, its list of panels is empty.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip.
+@LineBreak
+@LineBreak
+  The following functions can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@AddScreenGadgetItem: Add a panel. @LineBreak
+  - @@RemoveScreenGadgetItem: Remove a panel. @LineBreak
+  - @@CountScreenGadgetItems: Count the number of panels. @LineBreak
+  - @@ClearScreenGadgetItems: Remove all panels. @LineBreak
+@LineBreak
+  - @@SetScreenGadgetState: Change the active panel. @LineBreak
+  - @@GetScreenGadgetState: Get the index of the current panel. @LineBreak
+@FixedFont
+  @#PB_Panel_ItemWidth : Returns the width of the inner area where the gadgets are displayed.
+  @#PB_Panel_ItemHeight: Returns the height of the inner area where the gadgets are displayed.
+  @#PB_Panel_TabHeight : Returns height of the panel tabs on top of the gadget.
+@EndFixedFont
+
+  You must call @@AddScreenGadgetItem to add a panel before you can create other
+  gadgets inside the panel gadget. The next gadgets will then be created automatically in the new panel.
+  This is very convenient. When the PanelGadget item has been filled with all the
+  needed gadgets, @@CloseScreenGadgetList must be called to return to the previous GadgetList.
+  This means that a PanelGadget can be created inside another PanelGadget.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ProgressBarScreenGadget(#ScreenGadget, x, y, Width, Height, Minimum, Maximum)
+
+@Description
+  Creates a ProgressBar gadget in the current GadgetList.
+  
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Minimum, Maximum"
+  The minimum and maximum values that the progress bar can take.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to act on the gadget: @LineBreak
+@LineBreak
+  - @@SetScreenGadgetState: Change progress bar value. @LineBreak
+  - @@GetScreenGadgetState: Get the current progress bar value. @LineBreak
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function RemoveScreenGadgetItem(#ScreenGadget, Position)
+
+@Description
+  Removes an item of the specified #ScreenGadget at the given Position. 
+
+@Parameter "#ScreenGadget"
+  The gadget to use.
+
+@Parameter "Position"
+  The item position to remove. The first position index starts from zero.
+
+@NoReturnValue
+  
+@Remarks  
+  Supported gadgets: @LineBreak
+@LineBreak
+  - @@ComboBoxScreenGadget @LineBreak
+  - @@PanelScreenGadget @LineBreak
+  - @@ListViewScreenGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeScreenGadget(#ScreenGadget, x, y, Width, Height)
+
+@Description
+  Resize the specified gadget to the given position and dimensions. 
+  
+@Parameter "#Gadget"
+  The gadget to resize.
+
+@Parameter "x, y, Width, Height"
+  The new position and dimensions of the gadget. To ease the building of real-time resizable
+  Graphical User Interfaces (GUIs), @#PB_Ignore can be passed as any parameter (x, y, Width or Height) and this
+  parameter will not be changed. 
+
+@NoReturnValue
+
+@Example
+@Code
+  [...]
+
+  ResizeScreenGadget(0, #PB_Ignore, #PB_Ignore, 300, #PB_Ignore) ; Only change the gadget width.
+
+@EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScrollBarScreenGadget(#ScreenGadget, x, y, Width, Height, Minimum, Maximum, PageLength [, Flags])
+
+@Description
+  Creates a scrollbar gadget in the current GadgetList. It's widely used when displaying only a part of an object. 
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Minimum, Maximum"
+  The range of values that the scrollbar can take. These values should be between 0 and 10,000 to avoid
+  limitations on some operating systems.
+
+@Parameter "PageLength"
+  The amount of values that are part of the current displayed "page". @LineBreak
+@LineBreak
+  For example you can have a picture
+  which is 100 pixels width and you only see 25 pixels. What you see is a called a 'page',
+  in this example, the page length will be 25, the Minimum will be 0 and the Maximum will be 100.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_ScrollBar_Vertical : The scrollbar is vertical (instead of horizontal, which is the default).
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+@LineBreak
+  The following functions can be used to act on this gadget: @LineBreak
+@LineBreak
+  - @@GetScreenGadgetState: Returns the current slider position (value between the Minimum-Maximum range). @LineBreak
+  - @@SetScreenGadgetState: Changes the current slider position. @LineBreak
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScrollAreaScreenGadget(#ScreenGadget, x, y, Width, Height, ScrollAreaWidth, ScrollAreaHeight, ScrollStep)
+
+@Description
+  Creates a ScrollArea gadget in the current GadgetList. It's very useful when a gadget is 
+  too big to fit the window dimension. In that case, it can be put into a scrollarea. All the
+  scrolling is handled automatically by the gadget. This is a container gadget, intended
+  to have one or several gadget in its scroll area. Once the gadget is created,
+  all future created gadgets will be created inside the scroll area. When all the needed
+  gadgets have been created, @@CloseScreenGadgetList must be called to return to the
+  previous GadgetList. @@OpenScreenGadgetList can be used later to add others gadgets
+  on the fly in the scroll area.
+  
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "ScrollAreaWidth, ScrollAreaHeight"
+  The dimensions of the scrollable area inside the gadget. These can also be smaller than the outer dimensions, in 
+  this case scrolling will be disabled.
+
+@OptionalParameter "ScrollStep"
+  The amount of pixels to scroll when the user presses the scroll bar arrows.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function SetActiveScreenGadget(#ScreenGadget)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Activates (sets the focus on) the gadget specified by the given #ScreenGadget number. This is mainly used
+;   with @@ComboBoxScreenGadget and @@StringScreenGadget. Activating a gadget allows
+;   it to become the current object to receive messages and handle keystrokes. 
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to activate. If sets to -1, then the focus is removed (if any).
+; 
+; @NoReturnValue
+; 
+; @SeeAlso
+;   @@GetActiveScreenGadget
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function SetScreenGadgetAttribute(#ScreenGadget, Attribute, Value)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Changes the attribute value of the specified gadget.
+; 
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Attribute"
+;   The attribute to set.
+; 
+; @Parameter "Value"
+;   The new attribute value.
+; 
+; @NoReturnValue
+; 
+; @Remarks
+;   This function is available for all gadgets which support attributes: @LineBreak
+; @LineBreak
+;   - @@EditorScreenGadget @LineBreak
+;   - @@ProgressBarScreenGadget @LineBreak
+;   - @@ScrollAreaScreenGadget @LineBreak
+;   - @@ScrollBarScreenGadget @LineBreak
+;   - @@SpinScreenGadget
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function SetScreenGadgetData(#ScreenGadget, Value)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Stores the given value with the specified #ScreenGadget. This value can later be read with the @@GetScreenGadgetData
+;   function. This allows to associate a custom value with any gadget.
+; 
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+; 
+; @Parameter "Value"
+;   The new value to associate with the gadget.
+; 
+; @NoReturnValue
+; 
+; @Remarks
+;   This function is supported by all PureBasic gadgets.
+; 
+; @SeeAlso
+;   @@GetScreenGadgetData
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function SetScreenGadgetItemData(#ScreenGadget, Item, Value)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Stores the given value with the specified #ScreenGadget item. This value can later be read with the @@GetScreenGadgetItemData
+;   function. This allows to associate a custom value with the items of a gadget. This value will remain with the item, even
+;   if the item changes its index (for example because other items were deleted).
+; 
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+;   
+; @Parameter "Item"
+;   The item to set the data value. First item index starts from zero.
+; 
+; @Parameter "Value"
+;   The new value to associate with the gadget item.
+; 
+; @NoReturnValue
+; 
+; @Remarks
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@ComboBoxScreenGadget @LineBreak
+;   - @@ListViewScreenGadget
+; 
+; @SeeAlso
+;   @@GetScreenGadgetItemData
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function SetScreenGadgetItemState(#ScreenGadget, Item, State)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Changes the item state of the specified #ScreenGadget. 
+;   
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+;   
+; @Parameter "Item"
+;   The item to set the state. First item index starts from zero.
+; 
+; @Parameter "State"
+;   The new state of the gadget item. Its value depends of the gadget type: @LineBreak
+;   - @@ListViewScreenGadget: 1 if the item should be selected, 0 otherwise.
+; 
+; @NoReturnValue
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function SetScreenGadgetItemText(#ScreenGadget, Item, Text$ [, Column])
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Changes the item text of the specified #ScreenGadget. 
+; 
+; @Parameter "#ScreenGadget"
+;   The gadget to use.
+;   
+; @Parameter "Item"
+;   The item to set the text. First item index starts from zero.
+; 
+; @Parameter "Text$"
+;   The new text for the item.
+;   
+; @OptionalParameter "Column"
+;   Not used for now.
+; 
+; @NoReturnValue
+; 
+; @Remarks
+;   This function is supported by the following gadgets: @LineBreak
+; @LineBreak
+;   - @@ComboBoxScreenGadget @LineBreak
+;   - @@ListViewScreenGadget @LineBreak
+;   - @@PanelScreenGadget
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetScreenGadgetState(#ScreenGadget, State)
+
+@Description
+  Changes the current state of the specified #ScreenGadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  
+@Parameter "State"
+  The new gadget state.
+
+@NoReturnValue
+  
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@CheckBoxScreenGadget: 1 to check it, 0 otherwise. @LineBreak
+  - @@ComboBoxScreenGadget: change the currently selected item. @LineBreak
+  - @@ImageScreenGadget: change the current image of the gadget. @LineBreak
+  - @@ListViewScreenGadget: change the currently selected item. If -1 is specified, it will remove the selection. @LineBreak
+  - @@OptionScreenGadget: 1 to activate it, 0 otherwise. @LineBreak
+  - @@PanelScreenGadget: change the current panel. @LineBreak
+  - @@ProgressBarScreenGadget: change progress bar value. @LineBreak
+  - @@ScrollBarScreenGadget: change the current slider position. @LineBreak
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetScreenGadgetText(#ScreenGadget, Text$)
+
+@Description
+  Change the gadget text content of the specified gadget. 
+  
+@Parameter "#ScreenGadget"
+  The gadget to use.
+  
+@Parameter "Text$"
+  The new gadget text.
+
+@NoReturnValue
+  
+@Remarks
+  This function is supported by the following gadgets: @LineBreak
+@LineBreak
+  - @@ButtonScreenGadget: change the text of the ButtonGadget. @LineBreak
+  - @@ComboBoxScreenGadget: Set the displayed text. If the ComboBoxGadget is not editable, the text must be in the dropdown list. @LineBreak
+  - @@EditorScreenGadget: change the text content of the editor gadget. If you want to add several lines of text at once, separate them with "Chr(13)+Chr(10)". @LineBreak
+  - @@ListViewScreenGadget: selects the item that exactly matches the given text. @LineBreak
+  - @@StringScreenGadget: change the content of the StringGadget. @LineBreak
+  - @@TextScreenGadget: change the content of the TextGadget.
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = SpinScreenGadget(#ScreenGadget, x, y, Width, Height, Minimum, Maximum)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Creates a spin gadget in the current GadgetList.
+;   
+; @Parameter "#ScreenGadget"
+;   A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+;   be used to auto-generate this number.
+; 
+; @Parameter "x, y, Width, Height"
+;   The position and dimensions of the new gadget.
+; 
+; @Parameter "Minimum, Maximum"
+;   The minimum and maximum values that the SpinGadget can take.
+; 
+; @ReturnValue
+;   Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+;   then the return-value is the auto-generated gadget number on success.
+;   
+; @Remarks
+;   To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip. @LineBreak
+; @LineBreak
+;   The following functions can be used to act on the gadget: @LineBreak
+; @LineBreak
+;   @@GetScreenGadgetState: Get the current gadget value. @LineBreak
+;   @@SetScreenGadgetState: Change the gadget value. For displaying the new value you still must use @@SetScreenGadgetText  @LineBreak
+;   @@GetScreenGadgetText: Get the text contained in the gadget. @LineBreak
+;   @@SetScreenGadgetText: Change the text contained in the gadget. @LineBreak
+;   @@GetScreenGadgetAttribute: With one of the following attributes:
+; @FixedFont
+;   @#PB_Spin_Minimum   : Returns the minimum value.
+;   @#PB_Spin_Maximum   : Returns the maximum value.
+; @EndFixedFont
+; 
+;   @@SetScreenGadgetAttribute: With one of the following attributes:
+; @FixedFont
+;   @#PB_Spin_Minimum   : Changes the minimum value.
+;   @#PB_Spin_Maximum   : Changes the maximum value.
+; @EndFixedFont
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = StringScreenGadget(#ScreenGadget, x, y, Width, Height, Content$ [, Flags])
+
+@Description
+  Creates a String gadget in the current GadgetList.
+  This gadget accepts only one line of text. To get multi-line input, use the @@EditorScreenGadget function.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Content$"
+  The initial text content.
+
+@OptionalParameter "Flags"
+  It can be a combination of the following values:
+@FixedFont
+  @#PB_String_ReadOnly   : Read-only mode. No text can be entered.
+@EndFixedFont
+  
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks
+  Later the content can be changed with @@SetScreenGadgetText and received with @@GetScreenGadgetText.
+@LineBreak
+@LineBreak
+  The following events are supported through @@ScreenEventType:
+@FixedFont
+  @#PB_ScreenEventType_Change    : The text has been modified by the user.
+  @#PB_ScreenEventType_Focus     : The StringGadget got the focus.
+  @#PB_ScreenEventType_LostFocus : The StringGadget lost the focus.
+@EndFixedFont
+
+  To add a 'mini help' to this gadget, use @@ScreenGadgetToolTip.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = TextScreenGadget(#ScreenGadget, x, y, Width, Height, Text$)
+
+@Description
+  Creates a text gadget in the current GadgetList. This is a basic text area for displaying,
+  not entering, text.
+
+@Parameter "#ScreenGadget"
+  A number to identify the new gadget. @ReferenceLink "purebasic_objects" "#PB_Any" can
+  be used to auto-generate this number.
+
+@Parameter "x, y, Width, Height"
+  The position and dimensions of the new gadget.
+
+@Parameter "Text$"
+  The text to display.
+
+@ReturnValue
+  Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
+  then the return-value is the auto-generated gadget number on success.
+  
+@Remarks  
+  The content can be changed with the function @@SetScreenGadgetText and can be
+  obtained with @@GetScreenGadgetText.
+@LineBreak
+@LineBreak
+  This Gadget doesn't receive any user events, and @@ScreenGadgetToolTip can't be used with it.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function CloseScreenWindow(#ScreenWindow)
+
+@Description
+  Close the specified window.
+
+@Parameter "#ScreenWindow"
+  The window to close. If @#PB_All is specified, all the remaining windows are closed.
+
+@NoReturnValue
+
+@Remarks
+  All remaining opened windows are automatically closed when the program ends.
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableScreenWindow(#ScreenWindow, State)
+
+@Description
+  Enables or disables user input to the specified Window. 
+
+@Parameter "#ScreenWindow"
+  The window to use.
+
+@Parameter "State"
+  It can take the following values:
+@FixedFont
+  @#True : The window is disabled.
+  @#False: The window is enabled.
+@EndFixedFont  
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = EventScreenGadget()
+
+@Description
+  After an event of type @#PB_Event_Gadget (returned by @@ScreenWindowEvent), use this function 
+  to determine which gadget has been triggered.
+
+@NoParameters
+
+@ReturnValue
+  The gadget number associated to the last @#PB_Event_Gadget event.
+
+@SeeAlso
+  @@ScreenWindowEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenEventType() 
+
+@Description
+  After a @@ScreenWindowEvent function, use this function to determine of which
+  type the event is. 
+
+@NoParameters
+
+@ReturnValue  
+  The following values are possible, if an event of the type @#PB_Event_Gadget (library 
+  @LibraryLink "ScreenGadget" "ScreenGadget") occurs:
+@FixedFont
+  @#PB_ScreenEventType_Focus    : Get the focus.
+  @#PB_ScreenEventType_LostFocus: Lose the focus.
+  @#PB_ScreenEventType_Change   : Content change.
+@EndFixedFont
+
+  The following gadgets support ScreenEventType():
+@LineBreak
+@LineBreak
+  - @@StringScreenGadget @LineBreak
+@LineBreak
+  (See the gadget definition to see which events are supported).
+
+@SeeAlso
+  @@ScreenWindowEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = EventScreenWindow()
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   After a @@ScreenWindowEvent function, use this function to determine on which window
+;   the event has occurred.
+; 
+; @NoParameters
+; 
+; @ReturnValue
+;   The window number associated with the last event.
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function InputEvent(MouseX, MouseY, LeftMouseButton [, Text$, SpecialKey])
+
+@Description
+  Send an event to the GUI system. It is required to have @@ScreenWindowEvent working.
+
+@Parameter "MouseX, MouseY"
+  The new mouse coordinate to use.
+
+@Parameter "LeftMouseButton"
+  Left mouse button state. It can be one of the following values:
+@FixedFont 
+  0: left mouse button is released.
+  1: left mouse button is pushed.
+@EndFixedFont
+
+@OptionalParameter "Text$"
+  The text to use as input.
+
+@OptionalParameter "SpecialKey"
+  The special key to use as key press. It can be one of the following values:
+@FixedFont
+  @#PB_Key_Back
+  @#PB_Key_Delete
+  @#PB_Key_Return
+  @#PB_Key_Up
+  @#PB_Key_Down
+  @#PB_Key_Left
+  @#PB_Key_Right
+@EndFixedFont
+
+@NoReturnValue
+
+@Example
+@Code
+  ;
+  ; Typical code to use to send to the GUI system with actual mouse and keyboard events
+  ;
+  If ExamineKeyboard() And ExamineMouse()
+    Input$ = KeyboardInkey()
+    
+    InputEvent(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left), Input$, 0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@ScreenWindowEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = GetActiveScreenWindow()
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the window number which currently has the keyboard focus.
+; 
+; @NoParameters
+; 
+; @ReturnValue
+;   The window number which currently has the keyboard focus. If no window has the focus,
+;   -1 is returned.
+; 
+; @Remarks
+;   A window can be activated (have the keyboard focus set to it) with the @@SetActiveScreenWindow function.
+; 
+; @SeeAlso
+;   @@SetActiveScreenWindow
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result$ = GetScreenWindowTitle(#ScreenWindow) 
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the text which is currently displayed in the title bar of the specified window.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The text which is currently displayed in the specified window title bar.
+; 
+; @Remarks
+;   The title of a window can be changed with @@SetScreenWindowTitle.
+; 
+; @SeeAlso
+;   @@SetScreenWindowTitle
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function HideScreenWindow(#ScreenWindow, State) 
+
+@Description
+  Hides or shows the specified #ScreenWindow.
+
+@Parameter "#ScreenWindow"
+  The window to use.
+
+@Parameter "State"
+  It can take the following values:
+@FixedFont
+  @#True : the #ScreenWindow is hidden
+  @#False: the #ScreenWindow is shown
+@EndFixedFont
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = IsScreenWindow(#ScreenWindow)
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Tests if the given window is valid and correctly initialized. 
+; 
+; @Parameter "#ScreenWindow"
+;   The window to test.
+; 
+; @ReturnValue
+;   Nonzero if the window is valid, zero otherwise.
+; 
+; @Remarks
+;   This function is bulletproof and may be used with any value. This is the correct way to ensure a window is ready to use.
+; 
+; @SeeAlso
+;   @@OpenScreenWindow
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = OpenScreenWindow(#ScreenWindow, x, y, InnerWidth, InnerHeight, Title$ [, Flags])
+
+@Description
+  Opens a new window on the current @Link "Screen/OpenScreen" "screen" according to the specified parameters.
+  The new window becomes the active window. All possible events in a window are handled with @@ScreenWindowEvent.
+
+@Parameter "#ScreenWindow"
+  A number to identify the new window.
+  @ReferenceLink "purebasic_objects" "#PB_Any" can be used to auto-generate this number.
+
+@Parameter "x, y"
+  The initial position of the window on the screen (unless one of the center flags is used).
+
+@Parameter "InnerWidth, InnerHeight"
+  The initial size of the client area of the window (without borders and window
+  decorations).
+
+@OptionalParameter "Flags"
+  Not supported yet.
+
+@ReturnValue
+  Nonzero if the window has been successfully opened, zero otherwise.
+
+@SeeAlso
+  @@CloseScreenWindow, @@ScreenWindowEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function ResizeScreenWindow(#ScreenWindow, x, y, Width, Height)  
+
+@Description
+  Move and resize the given window to the given position and size. 
+
+@Parameter "#ScreenWindow"
+  The window to resize.
+
+@Parameter "x, y"
+  The new window position. If 'x' or 'y' is set to @#PB_Ignore, the current value
+  of 'x' or 'y' won't be changed.
+
+@Parameter "Width, Height"
+  The new window size. If 'Width' or 'Height' is set to @#PB_Ignore, the current value
+  of 'Width' or 'Height' won't be changed.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function SetActiveScreenWindow(#ScreenWindow)
+; 
+; @Description    @red " !!! Not yet supported !!!"
+; @LineBreak
+; 
+;   Activate the specified window, which means the focus has been put on this window.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to activate.
+; 
+; @NoReturnValue
+; 
+; @SeeAlso
+;   @@GetActiveScreenWindow
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function SetScreenWindowTitle(#ScreenWindow, Title$) 
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Changes the text which is currently displayed in the specified window title bar.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @Parameter "Title$"
+;   The new title to set.
+; 
+; @NoReturnValue
+; 
+; @SeeAlso
+;   @@GetScreenWindowTitle
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = ScreenWindowEvent()  
+
+@Description
+  Checks if an event has occurred on any of the opened windows. @@InputEvent needs to be used to 
+  send events to the GUI system to be able to have window events.
+@LineBreak 
+@LineBreak 
+  ScreenWindowEvent() returns the next event from the event queue and returns zero when there are no more events.
+  It doesn't wait for the next event - it always returns immediately.
+
+@NoParameters
+
+@ReturnValue
+  Possible Events are:
+@FixedFont
+  @#PB_Event_Gadget         : a @LibraryLink "gadget3d" "ScreenGadget" has been used
+  @#PB_Event_CloseWindow    : the window close gadget has been pushed
+  @#PB_Event_SizeWindow     : the window has been resized
+  @#PB_Event_MoveWindow     : the window has been moved
+  @#PB_Event_ActivateWindow : the window has been activated (got the focus)
+@EndFixedFont
+
+@SeeAlso
+  @@InputEvent
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = ScreenWindowHeight(#ScreenWindow)  
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the height of the given window.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The height, in pixels, of the given window.
+; 
+; @SeeAlso
+;   @@ScreenWindowWidth
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = ScreenWindowID(#ScreenWindow)
+; 
+; @Description
+;   Returns the unique system identifier of the window.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The unique system identifier of the window.
+; 
+; @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+; @Function Result = ScreenWindowWidth(#ScreenWindow)  
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Return the width of the given window.
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The width, in pixels, of the given window.
+; 
+; @SeeAlso
+;   @@ScreenWindowHeight
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = ScreenWindowX(#ScreenWindow)  
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the left position on the screen of the given window. 
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The left position on the screen, in pixels, of the given window.
+; 
+; @SeeAlso
+;   @@ScreenWindowY
+; 
+; @SupportedOS
+; 
+; ;--------------------------------------------------------------------------------------------------------
+; 
+; @Function Result = ScreenWindowY(#ScreenWindow)  
+; 
+; @Description
+;   @red " !!! Not yet supported !!!"
+; @LineBreak
+;   Returns the top position on the screen, of the given window. 
+; 
+; @Parameter "#ScreenWindow"
+;   The window to use.
+; 
+; @ReturnValue
+;   The top position on the screen, in pixels, of the given window.
+; 
+; @SeeAlso
+;   @@ScreenWindowX
+; 
+; @SupportedOS

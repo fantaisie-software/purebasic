@@ -1,14 +1,14 @@
-;
+ï»¿;
 ;     Joystick library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Joystick
 
 @Overview
-  PureBasic bietet vollen Zugriff auf die Joysticks, welche am Computer angeschlossen sind.
-  Diese Bibliothek unterstützt Joysticks und komplexe Gamepads mit mehreren Pads, Triggern
+  PureBasic bietet vollen Zugriff auf Joysticks, die am Computer angeschlossen sind.
+  Diese Bibliothek unterstÃ¼tzt Joysticks und komplexe Gamepads mit mehreren Pads, Triggern
   und vielen Tasten.
 
 @Remarks  
@@ -25,14 +25,14 @@
 @Function Ergebnis = InitJoystick()
 
 @Description
-  Initialisiert die gesamte Programmumgebung zur späteren Benutzung der Joystick-Befehle.
+  Initialisiert die gesamte Programmumgebung zur spÃ¤teren Benutzung der Joystick-Befehle.
   Diese Funktion muss vor allen anderen Befehlen aus dieser Bibliothek aufgerufen werden.
 
 @ReturnValue
-  Gibt die Anzahl an Joysticks zurück, welche bereit zur Verwendung sind.
-   
+  Gibt die Anzahl an Joysticks zurÃ¼ck, welche bereit zur Verwendung sind.
+  
 @Remarks
-  Diese Funktion kann regelmäßig aufgerufen werden, um festzustellen, ob neue Joysticks
+  Diese Funktion kann regelmÃ¤ÃŸig aufgerufen werden, um festzustellen, ob neue Joysticks
   angeschlossen wurden.
 
 @SeeAlso
@@ -51,14 +51,14 @@
 
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Joystick-Status korrekt aktualisiert
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Joystick-Status korrekt aktualisiert
   wurde, andernfalls Null.
 
 @Remarks
-  Im @Link "Screen/OpenScreen" "Vollbild-Modus" muss der Befehl @@FlipBuffers innerhalb Ihrer
+  Im @Link "Screen/OpenScreen" "Vollbild-Modus" muss der Befehl @@FlipBuffers innerhalb der
   Ereignisschleife aufgerufen werden, um alle Ereignisse korrekt zu verarbeiten.
 
 @SeeAlso
@@ -71,11 +71,11 @@
 @Function Ergebnis = JoystickAxisX(#Joystick [, Pad [, Modus]])
 
 @Description
-  Gibt den Status der X-Achse des Joysticks zurück.
+  Gibt den Status der X-Achse des Joysticks zurÃ¼ck.
   
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @OptionalParameter "Pad"
   Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
@@ -85,13 +85,13 @@
   Der Modus kann einer der folgenden Werte sein:
 
 @FixedFont
-  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1 (links), 0 (keine Bewegung) oder 1 (rechts). (Standard)
-  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (links) und 1000 (rechts). Wenn das 
-                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+  @#PB_Absolute: Der zurÃ¼ckgegebene Wert ist entweder -1 (links), 0 (keine Bewegung) oder 1 (rechts). (Standard)
+  @#PB_Relative: Der zurÃ¼ckgegebene Wert liegt im Bereich zwischen -1000 (links) und 1000 (rechts). Wenn das 
+                Gamepad keine relative Bewegung unterstÃ¼tzt, wird das Ergebnis -1000, 0 oder 1000 lauten.
 @EndFixedFont
 
 @ReturnValue
-  Gibt den Wert der X-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+  Gibt den Wert der X-Achse des Joysticks zurÃ¼ck, abhÃ¤ngig vom angegebenen Modus.
 
 @Remarks
   @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
@@ -107,11 +107,11 @@
 @Function Ergebnis = JoystickAxisY(#Joystick [, Pad [, Modus]])
 
 @Description
-  Gibt den Status der Y-Achse des Joysticks zurück.
+  Gibt den Status der Y-Achse des Joysticks zurÃ¼ck.
   
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @OptionalParameter "Pad"
   Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
@@ -121,13 +121,13 @@
   Der Modus kann einer der folgenden Werte sein:
 
 @FixedFont
-  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1 (oben), 0 (keine Bewegung) oder 1 (unten). (Standard)
-  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
-                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+  @#PB_Absolute: Der zurÃ¼ckgegebene Wert ist entweder -1 (oben), 0 (keine Bewegung) oder 1 (unten). (Standard)
+  @#PB_Relative: Der zurÃ¼ckgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
+                Gamepad keine relative Bewegung unterstÃ¼tzt, wird das Ergebnis -1000, 0 oder 1000 lauten.
 @EndFixedFont
 
 @ReturnValue
-  Gibt den Wert der Y-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+  Gibt den Wert der Y-Achse des Joysticks zurÃ¼ck, abhÃ¤ngig vom angegebenen Modus.
 
 @Remarks
   @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
@@ -143,12 +143,12 @@
 @Function Ergebnis = JoystickAxisZ(#Joystick [, Pad [, Modus]])
 
 @Description
-  Gibt den Status der Z-Achse des Joysticks zurück.
-  Diese Achse wird auf neuen Gamepads oft als Trigger (Auslöser) bezeichnet.
+  Gibt den Status der Z-Achse des Joysticks zurÃ¼ck.
+  Diese Achse wird auf neuen Gamepads oft als Trigger (AuslÃ¶ser) bezeichnet.
   
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @OptionalParameter "Pad"
   Der zu verwendende Pad, wenn der Joystick mehrere Pads besitzt. Der Index des
@@ -158,13 +158,13 @@
   Der Modus kann einer der folgenden Werte sein:
 
 @FixedFont
-  @#PB_Absolute: Der zurückgegebene Wert ist entweder -1, 0 (keine Bewegung) oder 1. (Standard)
-  @#PB_Relative: Der zurückgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
-                Gamepad keine relative Bewegung unterstützt, wird das Ergebnis -1000, 0 oder 1000 lauten.
+  @#PB_Absolute: Der zurÃ¼ckgegebene Wert ist entweder -1, 0 (keine Bewegung) oder 1. (Standard)
+  @#PB_Relative: Der zurÃ¼ckgegebene Wert liegt im Bereich zwischen -1000 (oben) und 1000 (unten). Wenn das 
+                Gamepad keine relative Bewegung unterstÃ¼tzt, wird das Ergebnis -1000, 0 oder 1000 lauten.
 @EndFixedFont
 
 @ReturnValue
-  Gibt den Wert der Z-Achse des Joysticks zurück, abhängig vom angegebenen Modus.
+  Gibt den Wert der Z-Achse des Joysticks zurÃ¼ck, abhÃ¤ngig vom angegebenen Modus.
 
 @Remarks
   @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen
@@ -180,15 +180,15 @@
 @Function Ergebnis$ = JoystickName(#Joystick)
 
 @Description
-  Gibt den Joystick-Namen zurück. Dies kann nützlich sein, wenn mehrere Joysticks angeschlossen
+  Gibt den Joystick-Namen zurÃ¼ck. Dies kann nÃ¼tzlich sein, wenn mehrere Joysticks angeschlossen
   sind, um den richtigen zu identifizieren.
 
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @ReturnValue
-  Gibt den Joystick-Namen zurück.
+  Gibt den Joystick-Namen zurÃ¼ck.
 
 @SeeAlso
   @@InitJoystick
@@ -200,19 +200,19 @@
 @Function Ergebnis = JoystickButton(#Joystick, Button)
 
 @Description
-  Gibt den Status des Joystick-Buttons (Knopfes) zurück.
+  Gibt den Status des Joystick-Buttons (Knopfes) zurÃ¼ck.
 
 @Parameter "#Joystick"
   Der zu verwendende Joystick. Der Index des ersten Joysticks lautet 0. Die Anzahl
-  der verfügbaren Joysticks wird von @@InitJoystick zurückgegeben.
+  der verfÃ¼gbaren Joysticks wird von @@InitJoystick zurÃ¼ckgegeben.
 
 @Parameter "Button"
   Der abzufragende Joystick-Knopf. Der Index des ersten Knopfes lautet 1.
 
 @LineBreak
-  Gibt Null zurück, wenn der angegebene Knopf nicht gedrückt ist, andernfalls wird
-  ein Wert ungleich Null zurückgegeben. Eine beliebige Anzahl an Knöpfen kann zur
-  gleichen Zeit gedrückt sein.
+  Gibt Null zurÃ¼ck, wenn der angegebene Knopf nicht gedrÃ¼ckt ist, andernfalls wird
+  ein Wert ungleich Null zurÃ¼ckgegeben. Eine beliebige Anzahl an KnÃ¶pfen kann zur
+  gleichen Zeit gedrÃ¼ckt sein.
   
 @Remarks
   @@ExamineJoystick muss vor der Verwendung dieser Funktion aufgerufen werden, um den momentanen

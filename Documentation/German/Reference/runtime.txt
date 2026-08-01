@@ -1,4 +1,4 @@
-@Title Runtime
+ï»¿@Title Runtime
 
 @Syntax
 
@@ -9,26 +9,26 @@
   
 @Description
 
-  Für fortgeschrittene Programmierer. @Keyword Runtime wird verwendet, um eine zur Laufzeit (Runtime) zugängliche Liste
+  FÃ¼r fortgeschrittene Programmierer. @Keyword Runtime wird verwendet, um eine zur Laufzeit (Runtime) zugÃ¤ngliche Liste
   von Programmobjekten wie @ReferenceLink "variables" "Variablen", @ReferenceLink "general_rules" "Konstanten"
   oder @ReferenceLink "procedures" "Prozeduren" zu erhalten. Sobald ein Programm kompiliert wurde, hat es keine Variablen-,
-  Konstanten- oder Prozedur-Bezeichnungen ("Labels") mehr, da alles in Binärcode umgewandelt wurde. @Keyword Runtime
-  zwingt den Compiler, eine zusätzliche Referenz für ein bestimmtes Objekt hinzuzufügen, damit dieses für und über die 
-  @LibraryLink "Runtime" "Runtime" Bibliothek verfügbar ist. Die Objekte können mit Hilfe ihrer String-Referenz
+  Konstanten- oder Prozedur-Bezeichnungen ("Labels") mehr, da alles in BinÃ¤rcode umgewandelt wurde. @Keyword Runtime
+  zwingt den Compiler, eine zusÃ¤tzliche Referenz fÃ¼r ein bestimmtes Objekt hinzuzufÃ¼gen, damit dieses fÃ¼r und Ã¼ber die 
+  @LibraryLink "Runtime" "Runtime" Bibliothek verfÃ¼gbar ist. Die Objekte kÃ¶nnen mit Hilfe ihrer String-Referenz
   manipuliert werden, auch wenn das Programm kompiliert wurde.
   @LineBreak
   @LineBreak
   Um die Verwendung von @Keyword Runtime zu veranschaulichen: Die @LibraryLink "Dialog" "Dialog" Bibliothek verwendet
-  dies, um auf die einem @LibraryLink "Gadget" "Gadget" zugewiesene Ereignis-Prozedur zuzugreifen. Der Name der für
+  dies, um auf die einem @LibraryLink "Gadget" "Gadget" zugewiesene Ereignis-Prozedur zuzugreifen. Der Name der fÃ¼r
   den Event-Handler zu verwendenden Prozedur wird in der XML-Datei angegeben (welche im Text-Format vorliegt), und
-  dann verwendet die Dialog-Bibliothek @@GetRuntimeInteger, um die Prozedur-Adressen zur Laufzeit aufzulösen. Es ist
-  nicht notwendig das Programm neu zu kompilieren, um diese zu ändern.
+  dann verwendet die Dialog-Bibliothek @@GetRuntimeInteger, um die Prozedur-Adressen zur Laufzeit aufzulÃ¶sen. Es ist
+  nicht notwendig das Programm neu zu kompilieren, um diese zu Ã¤ndern.
   @LineBreak
   @LineBreak
-  Eine weitere Anwendung wäre das Hinzufügen einer kleinen Realtime-Skriptsprache zum Programm, welche eine einfache
-  Änderung von freigegebenen Variablen durch die Verwendung von konstanten Werten zur Laufzeit ermöglicht.
-  Während dies auch manuell durch den Aufbau einer @ReferenceLink "newmap" "Map" von Objekten erreicht
-  werden kann, ermöglicht die Verwendung des @Keyword Runtime Schlüsselworts dies auf standardisiertem und einheitlichem
+  Eine weitere Anwendung wÃ¤re das HinzufÃ¼gen einer kleinen Realtime-Skriptsprache zum Programm, welche eine einfache
+  Ã„nderung von freigegebenen Variablen durch die Verwendung von konstanten Werten zur Laufzeit ermÃ¶glicht.
+  WÃ¤hrend dies auch manuell durch den Aufbau einer @ReferenceLink "newmap" "Map" von Objekten erreicht
+  werden kann, ermÃ¶glicht die Verwendung des @Keyword Runtime SchlÃ¼sselworts dies auf standardisiertem und einheitlichem
   Weg zu tun.
 
   @Example Procedure
@@ -64,7 +64,7 @@
   Debug GetRuntimeInteger("a")
   SetRuntimeInteger("a", 30)
   
-  Debug a ; die Variable wurde verändert
+  Debug a ; die Variable wurde verÃ¤ndert
 @EndCode
 
 

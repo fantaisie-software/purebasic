@@ -1,97 +1,98 @@
-@Title Introduction
+ï»¿@Title Introduction
 
-  PureBasic est un langage de programmation de "haut niveau" basé sur les règles du 
+  PureBasic est un langage de programmation de "haut niveau" basÃ© sur les rÃ¨gles du 
   langage BASIC. 
-  Il est identique à tout autre compilateur BASIC que vous auriez pu déjà utiliser. 
-  PureBasic a été créé pour être aussi accessible au débutant qu'à l'expert, il est 
-  donc très facile à apprendre. La compilation est très rapide, presque instantanée.
-  Nous avons consacré beaucoup de temps et d'efforts pour vous proposer un langage 
+  Il est identique Ã  tout autre compilateur BASIC que vous auriez pu dÃ©jÃ  utiliser. 
+  PureBasic a Ã©tÃ© crÃ©Ã© pour Ãªtre aussi accessible au dÃ©butant qu'Ã  l'expert, il est 
+  donc trÃ¨s facile Ã  apprendre. La compilation est trÃ¨s rapide, presque instantanÃ©e.
+  Nous avons consacrÃ© beaucoup de temps et d'efforts pour vous proposer un langage 
   rapide, fiable et convivial. 
   @LineBreak
   @LineBreak
-  La syntaxe de PureBasic est simple, mais ses possibilités sont infinies grâce à 
-  certaines caractéristiques évoluées comme, entre autres, les pointeurs, structures, 
-  procédures, listes dynamiques, les maps, les interfaces, la programmation modulaire 
-  (modules), un assembleur en ligne, etc. Le programmeur expérimenté n'aura 
-  aucune difficulté à accéder aux structures du système d'exploitation et aux API's. 
+  La syntaxe de PureBasic est simple, mais ses possibilitÃ©s sont infinies grÃ¢ce Ã  
+  certaines caractÃ©ristiques Ã©voluÃ©es comme, entre autres, les pointeurs, structures, 
+  procÃ©dures, listes dynamiques, les maps, les interfaces, la programmation modulaire 
+  (modules), un assembleur en ligne, etc. Le programmeur expÃ©rimentÃ© n'aura 
+  aucune difficultÃ© Ã  accÃ©der aux structures du systÃ¨me d'exploitation et aux API's. 
   @LineBreak
   @LineBreak
   PureBasic est un langage portable qui fonctionne actuellement sur les ordinateurs 
-  PC dotés du système d'exploitation Windows, Linux ou Mac OS X. 
-  Cela signifie qu'un même programme peut être compilé sur chacune de ces machines 
+  PC dotÃ©s du systÃ¨me d'exploitation Windows, Linux ou Mac OS X et les machines sous Raspberry PI OS. 
+  Cela signifie qu'un mÃªme programme peut Ãªtre compilÃ© sur chacune de ces machines 
   et en exploiter toute la puissance. PureBasic est un compilateur. Il n'utilise 
-  donc pas de code intermédiaire ou de machine virtuelle, mais produit un code 
-  optimisé directement exécutable par la machine ou le système d'exploitation sur 
-  lequel il est compilé. Les bibliothèques externes sont écrites et optimisées 
-  manuellement en assembleur. Les commandes sont donc très rapides, souvent plus 
-  rapides que leurs équivalentes écrites en langage C/C++. 
+  donc pas de code intermÃ©diaire ou de machine virtuelle, mais produit un code 
+  optimisÃ© directement exÃ©cutable par la machine ou le systÃ¨me d'exploitation sur 
+  lequel il est compilÃ©. Les bibliothÃ¨ques externes sont Ã©crites et optimisÃ©es 
+  manuellement en assembleur. Les commandes sont donc trÃ¨s rapides, souvent plus 
+  rapides que leurs Ã©quivalentes Ã©crites en langage C/C++. 
   @LineBreak
   @LineBreak
-  Pour information, les passionnés de machines anciennes
+  Pour information, les passionnÃ©s de machines anciennes
   trouveront une version en opensource pour AmigaOS 
   (680x0 et PowerPC) 
   @InternetLink "http://www.purebasic.com/french/download.php" "ici"
 
 
-@Section Caractéristiques techniques 
+@Section CaractÃ©ristiques techniques 
 
-  - Supporte nativement les microprocesseurs x86 et x64 @LineBreak 
-  - 83 bibliothèques natives @LineBreak 
+  - Supporte nativement les microprocesseurs Intel/AMD et autres x86 et x64, M1, M2, M3, arm32 et arm64 @LineBreak 
+  - 86 bibliothÃ¨ques natives @LineBreak 
   - Des centaines de fonctions @LineBreak 
-  - Définitions intégrées de tableaux, listes dynamiques, structures complexes, maps, pointeurs et variables @LineBreak
-  - Types supportés : Byte (8-bit), Word (16-bit), Long (32-bit), Quad (64-bit), Flottant (32 et 64-bit) et Caractère (8 ou 16-bit) @LineBreak
-  - Types définis par l'utilisateur (structures) @LineBreak
-  - Définition intégrée des chaines de caractères avec de nombreuses fonctions dédiées, y compris en mode unicode @LineBreak
+  - DÃ©finitions intÃ©grÃ©es de tableaux, listes dynamiques, structures complexes, maps, pointeurs et variables @LineBreak
+  - Types supportÃ©s : Byte (8-bit), Word (16-bit), Long (32-bit), Quad (64-bit), Flottant (32 et 64-bit) et CaractÃ¨re (8 ou 16-bit) @LineBreak
+  - Types dÃ©finis par l'utilisateur (structures) @LineBreak
+  - DÃ©finition intÃ©grÃ©e des chaines de caractÃ¨res avec de nombreuses fonctions dÃ©diÃ©es, y compris en mode unicode @LineBreak
   - Puissant support des macros @LineBreak
-  - Support des constantes et valeurs octales et hexadécimales @LineBreak
-  - Réducteur d'expression (regroupement des constantes et valeurs explicites) @LineBreak
-  - Calcul arithmétique standard avec respect de la priorité des opérateurs et parenthèses : +, -, /, *, and, or, lsl, asl, lsr, asr @LineBreak
-  - Compilation extrêmement rapide @LineBreak
-  - Support des procédures pour une programmation structurée avec variables globales, statiques et locales @LineBreak
-  - Supporte tous les mots-clé évolués du langage Basic : If-Else-EndIf, Repeat-Until, For-Next, etc. @LineBreak
-  - Support de bibliothèques externes pour la manipulation d'objets Windows : Images, fenêtres, composants graphiques, DirectX, etc. @LineBreak
-  - Les bibliothèques externes sont également toutes écrites en langage assembleur optimisé pour plus de rapidité et de compacité @LineBreak
-  - Les API's de Windows (Linux et OSX) sont supportées et considérées comme des mots-clé du BASIC @LineBreak
-  - Langage assembleur intégré permettant d'insérer toute commande ou routine assembleur dans le corps du programme Basic @LineBreak
-  - Constantes et structures précompilées pour une compilation encore plus rapide @LineBreak
-  - Débogueur intégré pour suivre l'exécution d'un programme et corriger les erreurs plus facilement@LineBreak
+  - Support des constantes et valeurs octales et hexadÃ©cimales @LineBreak
+  - RÃ©ducteur d'expression (regroupement des constantes et valeurs explicites) @LineBreak
+  - Calcul arithmÃ©tique standard avec respect de la prioritÃ© des opÃ©rateurs et parenthÃ¨ses : +, -, /, *, and, or, lsl, asl, lsr, asr @LineBreak
+  - Compilation extrÃªmement rapide @LineBreak
+  - Support des procÃ©dures pour une programmation structurÃ©e avec variables globales, statiques et locales @LineBreak
+  - Supporte tous les mots-clÃ© Ã©voluÃ©s du langage Basic : If-Else-EndIf, Repeat-Until, For-Next, etc. @LineBreak
+  - Support de bibliothÃ¨ques externes pour la manipulation d'objets Windows : Images, fenÃªtres, composants graphiques, DirectX, etc. @LineBreak
+  - Les bibliothÃ¨ques externes sont Ã©galement toutes Ã©crites en langage assembleur optimisÃ© pour plus de rapiditÃ© et de compacitÃ© @LineBreak
+  - Les API's de Windows (Linux et OSX) sont supportÃ©es et considÃ©rÃ©es comme des mots-clÃ© du BASIC @LineBreak
+  - Langage assembleur intÃ©grÃ© permettant d'insÃ©rer toute commande ou routine assembleur dans le corps du programme Basic @LineBreak
+  - Constantes et structures prÃ©compilÃ©es pour une compilation encore plus rapide @LineBreak
+  - DÃ©bogueur intÃ©grÃ© pour suivre l'exÃ©cution d'un programme et corriger les erreurs plus facilement@LineBreak
   - Options de compilation configurables @LineBreak
-  - Editeur dédié avec syntaxe automatiquement surlignée @LineBreak
-  - Système convivial, facile à installer, à comprendre et utiliser @LineBreak
-  - Entièrement en français @LineBreak
+  - Editeur dÃ©diÃ© avec syntaxe automatiquement surlignÃ©e @LineBreak
+  - SystÃ¨me convivial, facile Ã  installer, Ã  comprendre et utiliser @LineBreak
+  - EntiÃ¨rement en franÃ§ais @LineBreak
   - SDK Visual C @LineBreak
 @LineBreak
 @LineBreak
-  - Compilation de programme fenêtré, console ou DLL @LineBreak
-  - Création de fenêtres wysiwyg intégré @LineBreak
-  - Création de fenêtres avec réorganisation automatique des gadgets (layout) avec la bibliothèque 'Dialog' @LineBreak
+  - Compilation de programme fenÃªtrÃ©, console ou DLL @LineBreak
+  - CrÃ©ation de fenÃªtres wysiwyg intÃ©grÃ© @LineBreak
+  - CrÃ©ation de fenÃªtres avec rÃ©organisation automatique des gadgets (layout) avec la bibliothÃ¨que 'Dialog' @LineBreak
   - 33 gadgets natifs @LineBreak
-  - 1 gadget spécialisé dans l'OpenGL @LineBreak
+  - 1 gadget spÃ©cialisÃ© dans l'OpenGL @LineBreak
   - 1 gadget scintilla @LineBreak
+  - 1 gadget webview pour crÃ©er facilement une interface utilisateur basÃ©e sur HTML/CSS @LineBreak
   - Processus, thread, mutex, semaphore @LineBreak
   - Drag'n drop @LineBreak
-  - DPI pour MS Windows@ LineBreak
+  - DPI pour MS Windows et OSX @LineBreak
   - QT and GTK3 pour Linux @LineBreak
-  - Sous système DirectX et OpenGL @LineBreak
-  - Import de bibliothèques statiques (lib) ou dynamiques (dll, so, etc) @LineBreak
-  - Dessin avec antialiasing avec la bibliothèque 'Vector' @LineBreak
+  - Sous systÃ¨me DirectX et OpenGL @LineBreak
+  - Import de bibliothÃ¨ques statiques (lib) ou dynamiques (dll, so, etc) @LineBreak
+  - Dessin avec antialiasing avec la bibliothÃ¨que 'Vector' @LineBreak
   - Fonction 3D avec le moteur 3D OGRE @LineBreak
   - Pseudotypes : p-ascii, p-utf8,  p-bstr, p-unicode,  p-variant @LineBreak
-  - Array, listes, maps, Base de données (MySQL, SQLite, ODBC, PostgreSQL, Maria) @LineBreak
+  - Array, listes, maps, Base de donnÃ©es (MySQL, SQLite, ODBC, PostgreSQL, Maria) @LineBreak
   - json, xml @LineBreak
-  - Expression régulière@LineBreak
+  - Expression rÃ©guliÃ¨re@LineBreak
   - http, ftp, mail, application server/client@LineBreak, CGI et FastCGI @LineBreak
   - Cypher @LineBreak 
   - OnError@LineBreak
-  - Compresseur/décompresseur : BriefLZ, JCALG1, LZMA, Tar, Zip@LineBreak
+  - Compresseur/dÃ©compresseur : BriefLZ, JCALG1, LZMA, Tar, Zip@LineBreak
   - ini file@LineBreak
-  - Imprimante, port série@LineBreak
+  - Imprimante, port sÃ©rie@LineBreak
   - Runtime@LineBreak
 @LineBreak
-  Voici la liste exhaustives de toutes les bibliothèques que propose PureBasic:@LineBreak
+  Voici la liste exhaustives de toutes les bibliothÃ¨ques que propose PureBasic:@LineBreak
 @LineBreak
-@Code
-  Fenêtres & systèmes :
+@FixedFont
+  FenÃªtres & systÃ¨mes :
     arrays
     cgi
     cipher
@@ -136,10 +137,11 @@
     systray
     thread
     toolbar
+    webview
     window
     xml
 
- 2D & Multimédia :
+ 2D & MultimÃ©dia :
     2ddrawing
     audiocd
     font
@@ -170,6 +172,7 @@
     node
     nodeanimation
     particle
+    skeleton
     sound3d
     specialeffect
     spline
@@ -180,4 +183,4 @@
     vehicle
     vertexanimation
     window3d
-@EndCode
+@EndFixedFont

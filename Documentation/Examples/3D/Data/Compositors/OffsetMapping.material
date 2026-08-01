@@ -1,0 +1,115 @@
+// Bump map with Parallax offset
+material RTSS/OffsetMapping
+{
+   technique
+   {
+       pass 
+       {
+           specular 1 1 1 32
+
+           // Base diffuse texture map 
+           texture_unit 
+           { 
+              texture Bricks076C_diffspec.dds
+           }
+
+           texture_unit
+           {
+               texture Bricks076C_normheight.dds
+               rtshader_system
+               {
+                  normal_map parallax
+               }
+           }
+       }
+   }
+}
+
+// Steep parallax occlusion mapping
+material RTSS/ParallaxOcclusionMapping
+{
+   technique
+   {
+       pass
+       {
+           specular 1 1 1 32
+
+           // Base diffuse texture map
+           texture_unit
+           {
+              texture Bricks076C_diffspec.dds
+           }
+
+           texture_unit
+           {
+               texture Bricks076C_normheight.dds
+               rtshader_system
+               {
+                  normal_map parallax_occlusion
+               }
+           }
+       }
+   }
+}
+
+material Examples/OffsetMapping/Specular
+{
+   technique
+   {
+       // ambient / depth
+       pass
+       {
+           illumination_stage ambient
+           diffuse 0 0 0
+       }
+       // do the lighting and bump mapping with parallax pass
+       pass
+       {
+           illumination_stage per_light
+           iteration once_per_light point
+           scene_blend add
+           specular 0.5 0.5 0.5 32
+
+           // Base diffuse texture map
+           texture_unit
+           {
+              texture rockwall.tga
+           }
+           rtshader_system
+           {
+               lighting_stage normal_map rockwall_NH.tga parallax
+           }
+       }
+   }
+}
+
+material Examples/OffsetMapping/IntegratedShadows 
+{ 
+
+   technique 
+   { 
+      // do the lighting  and bump mapping with parallax pass 
+      pass 
+      { 
+         rtshader_system
+         {
+            shadow_mapping light_count 2
+         }
+         // Normal + height(alpha) map 
+         texture_unit 
+         { 
+            texture rockwall_NH.tga
+            rtshader_system
+            {
+               normal_map parallax
+            }
+         } 
+
+         // Base diffuse texture map 
+         texture_unit 
+         { 
+            texture rockwall.tga
+         }
+      } 
+   }
+}

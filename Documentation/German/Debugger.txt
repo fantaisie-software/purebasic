@@ -1,7 +1,7 @@
-;
+ï»¿;
 ;     Debugger library documentation
 ;
-;      (c) 2018 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Debugger
@@ -9,7 +9,7 @@
 @Overview
 
   Die Debugger Bibliothek bietet Funktionen zur Kontrolle des @ReferenceLink "ide_debugger" "Debuggers",
-  zum Beispiel für das Leeren des Debug-Ausgabefensters oder für das Öffnen der Speicheranzeige mit der Anzeige
+  zum Beispiel fÃ¼r das Leeren des Debug-Ausgabefensters oder fÃ¼r das Ã–ffnen der Speicheranzeige mit der Anzeige
   eines bestimmten Speicherbereichs.
   Alle diese Debugger-Werkzeuge werden im Kapitel @ReferenceLink "ide_debugtools" "Debugger-Werkzeuge" beschrieben.
 @LineBreak
@@ -20,8 +20,8 @@
   
 @LineBreak
 @LineBreak
-  Es gibt auch eine Reihe an speziellen @ReferenceLink "debugger" "Schlüsselwörtern" zum Kontrollieren des 
-  Debuggers über den Quellcode.
+  Es gibt auch eine Reihe an speziellen @ReferenceLink "debugger" "SchlÃ¼sselwÃ¶rtern" zum Kontrollieren des 
+  Debuggers Ã¼ber den Quellcode.
 
 @CommandList
 
@@ -51,7 +51,7 @@
 @Function ShowDebugOutput()
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Debug-Ausgabefenster" oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Debug-Ausgabefenster" oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
 @NoParameters
 @NoReturnValue
@@ -68,7 +68,7 @@
 @Function CloseDebugOutput()
 
 @Description
-  Schließt die @ReferenceLink "ide_debugtools" "Debug-Ausgabe".
+  SchlieÃŸt die @ReferenceLink "ide_debugtools" "Debug-Ausgabe".
 
 @NoParameters
 @NoReturnValue
@@ -85,7 +85,7 @@
 @Function ClearDebugOutput()
 
 @Description
-  Löscht den Inhalt des Debug-Ausgabefensters.
+  LÃ¶scht den Inhalt des Debug-Ausgabefensters.
 
 @NoParameters
 @NoReturnValue
@@ -117,8 +117,8 @@
 @Function DebuggerError(Nachricht$)
 
 @Description
-  Erzeugt einen Runtime Debugger Fehler. Die Programmausführung wird gestoppt, wenn der Debugger
-  aktiviert ist. Dies kann nützlich sein, wenn wiederverwendbare Module erstellt werden, die für
+  Erzeugt einen Runtime Debugger Fehler. Die ProgrammausfÃ¼hrung wird gestoppt, wenn der Debugger
+  aktiviert ist. Dies kann nÃ¼tzlich sein, wenn wiederverwendbare Module erstellt werden, die fÃ¼r
   die gemeinsame Nutzung gedacht sind.
 
 @Parameter "Nachricht$"
@@ -136,8 +136,8 @@
 @Function DebuggerWarning(Nachricht$)
 
 @Description
-  Erzeugt eine Runtime Debugger Warnung. Dies kann nützlich sein, wenn wiederverwendbare Module
-  erstellt werden, die für die gemeinsame Nutzung gedacht sind.
+  Erzeugt eine Runtime Debugger Warnung. Dies kann nÃ¼tzlich sein, wenn wiederverwendbare Module
+  erstellt werden, die fÃ¼r die gemeinsame Nutzung gedacht sind.
 
 @Parameter "Nachricht$"
   Die anzuzeigende Warnmeldung.
@@ -185,7 +185,7 @@
 @Function ShowProfiler()
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Profiler"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Profiler"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
 @NoParameters
 @NoReturnValue
@@ -203,7 +203,7 @@
 @Function ResetProfiler()
 
 @Description
-  Setzt die Linien-Zähler des Profilers zurück.
+  Setzt die Linien-ZÃ¤hler des Profilers zurÃ¼ck.
 
 @NoParameters
 @NoReturnValue
@@ -221,7 +221,7 @@
 @Function StartProfiler()
 
 @Description
-  Startet das Zählen ausgeführter Zeilen durch den @ReferenceLink "ide_debugtools" "Profiler".
+  Startet das ZÃ¤hlen ausgefÃ¼hrter Zeilen durch den @ReferenceLink "ide_debugtools" "Profiler".
 
 @NoParameters
 @NoReturnValue
@@ -239,7 +239,7 @@
 @Function StopProfiler()
 
 @Description
-  Stoppt das Zählen ausgeführter Zeilen durch den Profiler.
+  Stoppt das ZÃ¤hlen ausgefÃ¼hrter Zeilen durch den Profiler.
 
 @NoParameters
 @NoReturnValue
@@ -254,15 +254,15 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ShowMemoryViewer([*Puffer, Länge])
+@Function ShowMemoryViewer([*Puffer, LÃ¤nge])
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Speicheranzeige"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Speicheranzeige"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
-@OptionalParameter "*Puffer, Länge"
+@OptionalParameter "*Puffer, LÃ¤nge"
   Der in der Speicheranzeige darzustellende Speicherbereich.
   Wenn diese Parameter nicht angegeben werden, dann wird die Speicheranzeige einfach
-  nur geöffnet, ohne einen bestimmten Speicherbereich anzuzeigen.
+  nur geÃ¶ffnet, ohne einen bestimmten Speicherbereich anzuzeigen.
 
 @NoReturnValue
 
@@ -270,9 +270,9 @@
 @Code
   *Memory = AllocateMemory(1000)
   If *Memory
-    RandomData(*Memory, 1000)       ; den Speicher mit einigen Daten füllen
+    RandomData(*Memory, 1000)       ; den Speicher mit einigen Daten fÃ¼llen
   
-    ShowMemoryViewer(*Memory, 1000) ; die Speicheranzeige öffnen
+    ShowMemoryViewer(*Memory, 1000) ; die Speicheranzeige Ã¶ffnen
     CallDebugger     ; das Programm anhalten, damit es nicht sofort beendet wird
   EndIf
 @EndCode
@@ -287,14 +287,14 @@
 @Function ShowLibraryViewer([Bibliothek$ [, #Objekt]])
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Library-Anzeiger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Library-Anzeiger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
   Wenn 'Bibliothek$' angegeben wird, dann wird der Anzeiger die Objekte dieser Bibliothek (Library) anzeigen.
   Wenn eine '#Objekt'-Nummer angegeben wird, dann wird der Anzeiger das angegebene Objekt dieser
   Bibliothek anzeigen.
 
 @OptionalParameter "Bibliothek$"
   Die Bibliothek, welche im Anzeiger dargestellt werden soll.
-  Wenn dieser Parameter nicht angegeben wird, dann wird der Anzeiger geöffnet,
+  Wenn dieser Parameter nicht angegeben wird, dann wird der Anzeiger geÃ¶ffnet,
   ohne eine bestimmte Bibliothek anzuzeigen.
 
 @OptionalParameter "#Objekt"
@@ -328,7 +328,7 @@
 @Function ShowWatchlist()
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Beobachtungslisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Beobachtungslisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
 @NoParameters
 @NoReturnValue
@@ -343,7 +343,7 @@
 @Function ShowVariableViewer()
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Variablenlisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Variablenlisten"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
 @NoParameters
 @NoReturnValue
@@ -358,7 +358,7 @@
 @Function ShowCallstack()
 
 @Description
-  Öffnet das Fenster zur @ReferenceLink "ide_debugtools" "Prozeduren-Aufrufverfolgung" oder bringt es in den Vordergrund,
+  Ã–ffnet das Fenster zur @ReferenceLink "ide_debugtools" "Prozeduren-Aufrufverfolgung" oder bringt es in den Vordergrund,
   wenn es bereits offen ist.
 
 @NoParameters
@@ -374,7 +374,7 @@
 @Function ShowAssemblyViewer()
 
 @Description
-  Öffnet das @ReferenceLink "ide_debugtools" "Assembler-Debugger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
+  Ã–ffnet das @ReferenceLink "ide_debugtools" "Assembler-Debugger"-Fenster oder bringt es in den Vordergrund, wenn es bereits offen ist.
 
 @NoParameters
 @NoReturnValue
@@ -386,37 +386,37 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function PurifierGranularity(GlobaleGranularität, LokaleGranularität, StringGranularität, DynamikGranularität)
+@Function PurifierGranularity(GlobaleGranularitÃ¤t, LokaleGranularitÃ¤t, StringGranularitÃ¤t, DynamikGranularitÃ¤t)
 
 @Description
-  Ändert das Intervall, in welchem der @ReferenceLink "ide_debugtools" "Purifier" ("Reiniger") die
-  verschiedenen Bereiche auf Speicherfehler überprüft.
+  Ã„ndert das Intervall, in welchem der @ReferenceLink "ide_debugtools" "Purifier" ("Reiniger") die
+  verschiedenen Bereiche auf Speicherfehler Ã¼berprÃ¼ft.
 
-@Parameter "GlobaleGranularität"
-  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung der
-  globalen Variablen ausgeführt werden. Die Verwendung von @#PB_Ignore 
-  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+@Parameter "GlobaleGranularitÃ¤t"
+  Die Anzahl an Quellcode-Zeilen (= GranularitÃ¤t), die zwischen jeder ÃœberprÃ¼fung der
+  globalen Variablen ausgefÃ¼hrt werden. Die Verwendung von @#PB_Ignore 
+  lÃ¤sst den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die ÃœberprÃ¼fung.
 
-@Parameter "LokaleGranularität"
-  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung der
-  lokalen Variablen ausgeführt werden. Die Verwendung von @#PB_Ignore 
-  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+@Parameter "LokaleGranularitÃ¤t"
+  Die Anzahl an Quellcode-Zeilen (= GranularitÃ¤t), die zwischen jeder ÃœberprÃ¼fung der
+  lokalen Variablen ausgefÃ¼hrt werden. Die Verwendung von @#PB_Ignore 
+  lÃ¤sst den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die ÃœberprÃ¼fung.
 
-@Parameter "StringGranularität"
-  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung des
-  String-Speichers ausgeführt werden. Die Verwendung von @#PB_Ignore 
-  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+@Parameter "StringGranularitÃ¤t"
+  Die Anzahl an Quellcode-Zeilen (= GranularitÃ¤t), die zwischen jeder ÃœberprÃ¼fung des
+  String-Speichers ausgefÃ¼hrt werden. Die Verwendung von @#PB_Ignore 
+  lÃ¤sst den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die ÃœberprÃ¼fung.
 
-@Parameter "DynamikGranularität"
-  Die Anzahl an Quellcode-Zeilen (= Granularität), die zwischen jeder Überprüfung des
-  reservierten Speichers ausgeführt werden. Die Verwendung von @#PB_Ignore 
-  lässt den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die Überprüfung.
+@Parameter "DynamikGranularitÃ¤t"
+  Die Anzahl an Quellcode-Zeilen (= GranularitÃ¤t), die zwischen jeder ÃœberprÃ¼fung des
+  reservierten Speichers ausgefÃ¼hrt werden. Die Verwendung von @#PB_Ignore 
+  lÃ¤sst den vorhandenen Intervall-Wert gleich. Ein Wert von 0 deaktiviert die ÃœberprÃ¼fung.
 
 @NoReturnValue
 
 @Example
 @Code
-  ; Deaktiviert die Überprüfung für den String-Speicher und überprüft 
+  ; Deaktiviert die ÃœberprÃ¼fung fÃ¼r den String-Speicher und Ã¼berprÃ¼ft 
   ; den reservierten Speicher alle 10 Zeilen
   PurifierGranularity(#PB_Ignore, #PB_Ignore, 0, 10)
 @EndCode

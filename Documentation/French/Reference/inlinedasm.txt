@@ -1,19 +1,20 @@
-@Title L'assembleur en ligne x86 
+ï»¿@Title L'assembleur en ligne x86 
 
+  L'utilisation de code assembleur en ligne (in line) ne se fait pas de la mÃªme faÃ§on avec le backend ASM et le backend C.
   Avec le compilateur utilisant le backend ASM, PureBasic permet d'inclure toute commande 
   assembleur x86 (y compris les instructions MMX et FPU) directement dans le code source 
   comme dans un vrai source assembleur (pour les processeurs X86 et X64 seulement). 
-  Vous pouvez également utiliser directement les @ReferenceLink "variables" "variables" ou 
-  @ReferenceLink "memory" "pointeurs" avec les instructions assembleur et pouvez intégrer 
-  plusieurs commandes assembleur sur une même ligne. 
+  Vous pouvez Ã©galement utiliser directement les @ReferenceLink "variables" "variables" ou 
+  @ReferenceLink "memory" "pointeurs" avec les instructions assembleur et pouvez intÃ©grer 
+  plusieurs commandes assembleur sur une mÃªme ligne. 
 @LineBreak
 @LineBreak  
   Sous Windows et Linux, PureBasic utilise @Bold "fasm" (
   @InternetLink "http://flatassembler.net/" "http://flatassembler.net"), 
-  alors pour plus d'information à propos de la syntaxe, lire le guide fasm. @LineBreak
+  alors pour plus d'information Ã  propos de la syntaxe, lire le guide fasm. @LineBreak
   Sous OS X, PureBasic utilise @Bold "yasm" (
   @InternetLink "http://yasm.tortall.net/" "http://yasm.tortall.net/"), 
-  alors pour plus d'information à propos de la syntaxe, lire le guide yasm. 
+  alors pour plus d'information Ã  propos de la syntaxe, lire le guide yasm. 
 @LineBreak
 @LineBreak
   Pour utiliser l'assembleur en ligne, utiliser 
@@ -24,32 +25,32 @@
 @LineBreak
   Il est possible d'activer la coloration syntaxique 
   ASM dans l'IDE avec "Activer la coloration des 
-  mots clés assembleur" 
+  mots clÃ©s assembleur" 
   @ReferenceLink "ide_compiler" "compiler option". 
 @LineBreak
    
-@Section Règles
+@Section RÃ¨gles
 
-  Vous devez respecter plusieurs règles précises 
+  Vous devez respecter plusieurs rÃ¨gles prÃ©cises 
   pour inclure de l'assembleur dans du code PureBasic: 
 @LineBreak
 @LineBreak
   - Les @ReferenceLink "variables" "variables" et les @ReferenceLink "memory" "pointeurs" 
-  doivent être déclarés @Bold préalablement à leur utilisation dans un contexte assembleur. @LineBreak
-  - Concernant les étiquettes (labels): Les labels référencés en assembleur sont toujours en 
-  minuscule. Par exemple, le label 'ETIquette:' sera transformé en 'l_etiquette' dans le code 
+  doivent Ãªtre dÃ©clarÃ©s @Bold prÃ©alablement Ã  leur utilisation dans un contexte assembleur. @LineBreak
+  - Concernant les Ã©tiquettes (labels): Les labels rÃ©fÃ©rencÃ©s en assembleur sont toujours en 
+  minuscule. Par exemple, le label 'ETIquette:' sera transformÃ© en 'l_etiquette' dans le code 
   assembleur.@LineBreak
-  Lorsque vous faites référence à un @ReferenceLink "general_rules" "label purebasic" dans 
+  Lorsque vous faites rÃ©fÃ©rence Ã  un @ReferenceLink "general_rules" "label purebasic" dans 
   le corps du programme (en dehors des procedures et des modules) avec des fonctions 
-  assembleurs, vous devez précéder son nom par un L minuscule et d'un caractère de 
+  assembleurs, vous devez prÃ©cÃ©der son nom par un L minuscule et d'un caractÃ¨re de 
   soulignement comme ceci @Bold "'l_'". @LineBreak  
-  Si le label est défini dans une @ReferenceLink "procedures" "procédure", alors son 
-  préfixe est @Bold "'ll_nomprocedure_'", en minuscules (ll comme local label) mais il n'est 
-  accessible qu'à l'intérieur de la procédure.@LineBreak
-  Pour accéder à un label dans un @ReferenceLink "module" "module" avec des fonctions 
- assembleurs, vous devez ajouter devant le label le préfixe @Bold "'nomdumodule.l_nomprocedure_'" écrit 
+  Si le label est dÃ©fini dans une @ReferenceLink "procedures" "procÃ©dure", alors son 
+  prÃ©fixe est @Bold "'ll_nomprocedure_'", en minuscules (ll comme local label) mais il n'est 
+  accessible qu'Ã  l'intÃ©rieur de la procÃ©dure.@LineBreak
+  Pour accÃ©der Ã  un label dans un @ReferenceLink "module" "module" avec des fonctions 
+ assembleurs, vous devez ajouter devant le label le prÃ©fixe @Bold "'nomdumodule.l_nomprocedure_'" Ã©crit 
  tout en minuscule.@LineBreak
- Et enfin un label défini dans une procédure elle-même dans un module s'écrira @Bold "'nomdumodule.ll_nomprocedure_'"
+ Et enfin un label dÃ©fini dans une procÃ©dure elle-mÃªme dans un module s'Ã©crira @Bold "'nomdumodule.ll_nomprocedure_'"
   - Pour info, les listes commencent par 't_nomlist', les map par 'm_nommap' et les tableaux 
   par 'a_nomtableau' est toujours en minuscule.
   
@@ -85,38 +86,38 @@
   Test(0,0) 
   
   Label1: ;Son nom assembleur est l_label1:  
-  !jmp l_labelend ; Une instruction en assembler doit suivre les règles ci-dessus. Ici c'est l_nomelabel
+  !jmp l_labelend ; Une instruction en assembler doit suivre les rÃ¨gles ci-dessus. Ici c'est l_nomelabel
   ;...
   LabelEnd: ;Son nom assembleur est l_labelend:
 @EndCode
 
-  - Les erreurs dans une section asm ne sont pas reportées par PureBasic mais par Fasm. Vérifiez 
+  - Les erreurs dans une section asm ne sont pas reportÃ©es par PureBasic mais par Fasm. VÃ©rifiez 
   votre code si une telle erreur survient. @LineBreak
-  - Avec l'assembleur en ligne activé, vous ne pouvez pas utiliser les mots clés ASM pour les 
-  étiquettes (label). @LineBreak
+  - Avec l'assembleur en ligne activÃ©, vous ne pouvez pas utiliser les mots clÃ©s ASM pour les 
+  Ã©tiquettes (label). @LineBreak
   - @Bold "Sur les processeurs x86, les registres volatiles sont: eax, ecx, edx, xmm0, xmm1, xmm2 et xmm3." 
-  Tous les autres doivent être préservés. @LineBreak
+  Tous les autres doivent Ãªtre prÃ©servÃ©s. @LineBreak
   - @Bold "Sur les processeurs x64, les registres volatiles sont: rax, rcx, rdx, r8, r9, xmm0, xmm1, xmm2 et xmm3." 
-  Tous les autres doivent être préservés.
+  Tous les autres doivent Ãªtre prÃ©servÃ©s.
   @LineBreak
-  - Windows: un fichier aide-ASM peut être téléchargé 
+  - Windows: un fichier aide-ASM peut Ãªtre tÃ©lÃ©chargÃ© 
   @InternetLink "http://www.purebasic.com/download/AsmHelp.zip" 
-  ici. Si vous déplacez le fichier 'ASM.HLP' dans le dossier 'Help/' de PureBasic, vous aurez accès à 
-  l'aide sur les mots clés assembleur en appuyant sur F1. 
-  (Note: Ne fonctionne que si l'option 'assembleur en ligne' est activé). 
+  ici. Si vous dÃ©placez le fichier 'ASM.HLP' dans le dossier 'Help/' de PureBasic, vous aurez accÃ¨s Ã  
+  l'aide sur les mots clÃ©s assembleur en appuyant sur F1. 
+  (Note: Ne fonctionne que si l'option 'assembleur en ligne' est activÃ©). 
 @LineBreak
 @LineBreak
   Quand on utilise l'assembleur dans une 
-  @ReferenceLink "procedures" "procédure", 
-  il est utile de connaître les points suivants: 
+  @ReferenceLink "procedures" "procÃ©dure", 
+  il est utile de connaÃ®tre les points suivants: 
   @LineBreak
   @LineBreak
   - Pour renvoyer directement la valeur du 
   registre 'eax' (ou 'rax' sur x64) comme valeur 
   de retour, il suffit d'utiliser 
-  @Keyword "ProcedureReturn", sans paramètre. 
+  @Keyword "ProcedureReturn", sans paramÃ¨tre. 
   Le contenu du registre 'eax' (ou 'rax' sur x64) 
-  restera inchangé et sera utilisé comme valeur 
+  restera inchangÃ© et sera utilisÃ© comme valeur 
   de retour.
 
 @Example
@@ -129,19 +130,19 @@
 @EndCode
   
   - Les variables locales en PureBasic sont directement 
-  indexées par rapport au registre de la @Bold pile (ESP) 
+  indexÃ©es par rapport au registre de la @Bold pile (ESP) 
   ce qui implique qu'un changement de la valeur de 
   ce registre par une instruction assembleur (tel 
-  que PUSH, POP etc..) implique que la référence vers la variable 
+  que PUSH, POP etc..) implique que la rÃ©fÃ©rence vers la variable 
   ne sera plus correcte.
 @LineBreak  
 @LineBreak
   - Il est possible de passer directement une ligne 
-  complète à l'assembleur sans aucune modification 
-  en utilisant le caractère @Bold "'!'" en début de ligne. 
-  Ceci permet d'avoir un accès total aux fonctionnalités 
-  de l'assembleur. Pour faciliter l'accès aux variables 
-  locales, une notation a été mise en place: 
+  complÃ¨te Ã  l'assembleur sans aucune modification 
+  en utilisant le caractÃ¨re @Bold "'!'" en dÃ©but de ligne. 
+  Ceci permet d'avoir un accÃ¨s total aux fonctionnalitÃ©s 
+  de l'assembleur. Pour faciliter l'accÃ¨s aux variables 
+  locales, une notation a Ã©tÃ© mise en place: 
   @Bold "'p.v_NomVariable'" pour une variable standard et 
   @Bold "'p.p_NomPointeur'" pour un pointeur.
     
@@ -158,3 +159,97 @@
 @EndCode 
 
 @ExampleFile All AsmInline.pb
+
+  ParticularitÃ©s de l'assembleur en ligne avec le compilateur utilisant le backend C.
+  
+   Il faut utiliser la syntaxe de gcc, voir @InternetLink "https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html" "ici".
+
+   @Example Pi
+
+@Code  pi
+  Procedure.d get_pi()
+  
+  Define.d pi
+  
+  !asm (
+  !    "fldpi\n"
+  !    "fstpl   %[v_pi]\n"
+  !    :[v_pi]"=m"(v_pi)::
+  !);
+  
+    ProcedureReturn pi
+  EndProcedure
+
+  Define.d n
+  n=get_pi()
+  Debug n
+@EndCode 
+
+   @Example bswap
+   
+@Code
+  Procedure bswap(v.l) 
+  Protected ret.l 
+  CompilerIf #PB_Compiler_Backend = #PB_Backend_C 
+    !".intel_syntax noprefix";
+    !"mov eax, v_v";
+    !"bswap eax"; 
+    !"mov v_ret, eax";
+  CompilerElse 
+    !mov eax, [p.v_v]
+    !bswap eax 
+    !mov [p.v_ret],eax 
+  CompilerEndIf 
+    ProcedureReturn ret 
+  EndProcedure 
+
+  x.i = $FF000000 
+  Debug RSet(Hex(x),8,"0")
+  x = bswap(x) 
+  Debug RSet(Hex(x),8,"0")
+@EndCode 
+
+   @Example Fibonacci
+   
+   @Code
+  Procedure.q fib(ub.l, *f)
+  If (ub<3) 
+    ProcedureReturn 1
+  EndIf
+  ;  !set_dpfpu();
+  !asm (
+  !    "mov %[p_f], %%rax;"
+  !    "fldz;"
+  !    "fistl (%%rax);"
+  !    "add $8, %%rax;"
+  !    "fld1;"
+  !    "fistl (%%rax);"
+  !    "add $8, %%rax;"
+  !    "mov %[v_ub], %%ecx;"
+  !    "sub $2, %%ecx;"
+  !    "fib2:"
+  !    "fxch %%st(1);"
+  !    "fadd %%st(1),%%st(0);"
+  !    "fld %%st(0);"
+  !    "fistpq (%%rax);"
+  !    "add $8, %%rax;"
+  !    "dec %%ecx;"
+  !    "jg fib2;"
+  !    "fstp %%st(0);"
+  !    "fstp %%st(0);" 
+  !     :[p_f]"=m"(p_f)
+  !     :[v_ub]"m"(v_ub)
+  !     :"rax","ecx"
+  !);
+    ProcedureReturn
+  EndProcedure
+
+  Dim fibonacci.q(20)
+  n=20
+  fib(n+1, @fibonacci(0))
+  For i.l=0 To n
+    Debug fibonacci(i)
+  Next
+@EndCode 
+
+    @ExampleFile All AsmInlineBackendC.pb

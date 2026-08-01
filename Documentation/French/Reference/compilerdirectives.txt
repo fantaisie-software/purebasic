@@ -1,10 +1,10 @@
-@Title Les directives du compilateur
+Ôªø@Title Les directives du compilateur
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>RÈsumÈ des fonctions:</b> </caption>
+  <caption> <b>R√©sum√© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#CompilerIf"><u>CompilerIf</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#CompilerSelect"><u>CompilerSelect</u></a></td>
@@ -13,7 +13,11 @@
     <tr>
     <td align="center" vAlign="center" nowrap><a href="#EnableExplicit"><u>EnableExplicit<br>DisableExplicit</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#EnableASM"><u>EnableASM<br>DisableASM</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#Constantes"><u>Constantes prÈdÈfinies</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#HeaderSection"><u>HeaderSection</u></a></td>
+  </tr>
+    <tr>
+    <td align="center" vAlign="center" nowrap><a href="#DisablePureLibrary"><u>DisablePureLibrary</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#Constantes"><u>Constantes pr√©d√©finies</u></a></td>
   </tr>
     </table>
   </center>
@@ -36,19 +40,19 @@
 
 @Description
   Si <expression constante> est vrai alors le code 
-  inclus dans la structure 'If' sera compilÈ, 
-  sinon il sera totalement ignorÈ. @Linebreak
+  inclus dans la structure 'If' sera compil√©, 
+  sinon il sera totalement ignor√©. @Linebreak
   Cette directive permet de construire des 
   programmes multi-plateformes en personnalisant 
   des parties du code source en fonctions de
-  chaque systËme d'exploitation.
+  chaque syst√®me d'exploitation.
 
 @Example
 @Code
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    ; code spÈcifique Linux..
+    ; code sp√©cifique Linux..
   CompilerElseIf #PB_Compiler_OS = #PB_OS_Windows
-    ; code spÈcifique pour Windows
+    ; code sp√©cifique pour Windows
   CompilerEndIf
 @EndCode  
 
@@ -59,8 +63,8 @@
 @FormatEndIf
 
 @Syntax
-  @Keyword CompilerSelect <constante numÈrique>
-    @Keyword CompilerCase <constante numÈrique>
+  @Keyword CompilerSelect <constante num√©rique>
+    @Keyword CompilerCase <constante num√©rique>
       ...
     [@Keyword CompilerElse]
       ...
@@ -71,19 +75,19 @@
 @Description
   Fonctionne comme un 
   @ReferenceLink "Select_EndSelect" "Select : EndSelect" 
-  classique en opÈrant une compilation conditionnelle. 
+  classique en op√©rant une compilation conditionnelle. 
   @Linebreak
   Cette directive permet de construire des 
   programmes multi-plateformes en personnalisant 
   des parties du code source en fonctions de
-  chaque systËme d'exploitation.
+  chaque syst√®me d'exploitation.
 
 @Code
   CompilerSelect #PB_Compiler_OS
     CompilerCase #PB_OS_MacOS
-      ; du code spÈcifique ‡ Mac OS X
+      ; du code sp√©cifique √† Mac OS X
     CompilerCase #PB_OS_Linux
-      ; du code spÈcifique ‡ Linux
+      ; du code sp√©cifique √† Linux
   CompilerEndSelect
 @EndCode
 
@@ -99,29 +103,29 @@
   
 @Description
 
-  GÈnËre une erreur ou un avertissement du compilateur, comme si c'Ètait une 
-  erreur de syntaxe et affiche le message spÈcifiÈ. Ceci peut Ítre utile pour faire 
-  des routines spÈcifiques et indiquer qu'elles ne sont pas disponibles pour un OS
+  G√©n√®re une erreur ou un avertissement du compilateur, comme si c'√©tait une 
+  erreur de syntaxe et affiche le message sp√©cifi√©. Ceci peut √™tre utile pour faire 
+  des routines sp√©cifiques et indiquer qu'elles ne sont pas disponibles pour un OS
   particulier.
   @LineBreak
   Note: @Keyword "CompilerWarning" affiche des avertissements" et le processus de compilation se poursuit, 
-  alors que la commande @Keyword "CompilerError" arrÍte le processus de compilation.
+  alors que la commande @Keyword "CompilerError" arr√™te le processus de compilation.
 
-@Example GÈnËre une erreur
+@Example G√©n√®re une erreur
 @Code
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    CompilerError "Linux n'est pas supportÈ, dÈsolÈ."
+    CompilerError "Linux n'est pas support√©, d√©sol√©."
   CompilerElse
-    CompilerError "OS SupportÈ, vous pouvez me mettre en commentaire."
+    CompilerError "OS Support√©, vous pouvez me mettre en commentaire."
   CompilerEndIf
 @EndCode
   
-@Example GÈnËre un avertissement
+@Example G√©n√®re un avertissement
 @Code
   CompilerIf #PB_Compiler_OS = #PB_OS_Linux
-    CompilerWarning "Linux n'est pas supportÈ, dÈsolÈ."
+    CompilerWarning "Linux n'est pas support√©, d√©sol√©."
   CompilerElse
-    CompilerWarning "OS SupportÈ, vous pouvez me mettre en commentaire."
+    CompilerWarning "OS Support√©, vous pouvez me mettre en commentaire."
   CompilerEndIf
 @EndCode
 
@@ -136,17 +140,17 @@
   @Keyword DisableExplicit
 
 @Description
-  Active ou dÈsactive le mode explicite. 
+  Active ou d√©sactive le mode explicite. 
   Quand il est actif, toutes les 
   @ReferenceLink "variables" "variables" qui ne
-  sont pas explicitement dÈclarÈes avec 
+  sont pas explicitement d√©clar√©es avec 
   @ReferenceLink "define" "Define", 
   @ReferenceLink "global" "Global", 
   @ReferenceLink "protected" "Protected" ou
   @ReferenceLink "static" "Static" ne seront 
-  pas acceptÈes par le compilateur et
-  gÈnËreront une erreur. Cela peut aider ‡ 
-  Èviter les erreurs de frappe.
+  pas accept√©es par le compilateur et
+  g√©n√®reront une erreur. Cela peut aider √† 
+  √©viter les erreurs de frappe.
 
 @Example
 @Code
@@ -154,7 +158,7 @@
   
   Define a
   
-  a = 20 ; Ok, car dÈclarÈ avec 'Define'
+  a = 20 ; Ok, car d√©clar√© avec 'Define'
   b = 10 ; Erreur
 @EndCode
 
@@ -170,11 +174,11 @@
 
 @Description
 
-  Active ou dÈsactive l'assembleur en ligne. 
+  Active ou d√©sactive l'assembleur en ligne. 
   Quand il est actif, toutes les commandes 
   assembleur sont incluses directement 
   dans le code source, pour plus d'informations 
-  rÈfÈrez vous ‡ la page 
+  r√©f√©rez vous √† la page 
   @ReferenceLink "InlinedASM" "L'assembleur en ligne".
 
 @Example
@@ -192,63 +196,140 @@
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML
+<br><hr><br>
+<a name="HeaderSection"></a>
+@FormatEndIf
+
+@Syntax
+
+@Keyword HeaderSection
+    ! Code natif en assembleur ou en langage C
+  @Keyword EndHeaderSection
+
+@Description
+
+  Pour les programmeurs avanc√©s. @Keyword HeaderSection:@Keyword EndHeaderSection permet d'ins√©rer du code natif directement 
+  √† condition qu'il soit dans la section d'en-t√™te, et en dehors de toute fonction. 
+  L'insertion de code natif d√©pend du compilateur utilis√©¬†: @LineBreak
+  @LineBreak
+  - Si le compilateur utilise le backend C, seul du code C peut √™tre ins√©r√©. @LineBreak
+  - Si le backend x86 est utilis√©, seul du code ASM x86 peut √™tre ins√©r√©. @LineBreak
+  - Si le backend x64 est utilis√©, seul du code ASM x64 peut √™tre ins√©r√©. @LineBreak
+@LineBreak
+  Cette commande peut √™tre utile pour ajuster automatiquement le code g√©n√©r√© ou pour ins√©rer du code brut dans l'ex√©cutable final. @LineBreak
+
+@Example 
+
+@Code
+  CompilerIf #PB_Compiler_Backend <> #PB_Backend_C
+    CompilerError "D√©sol√©, cet exemple ne fonctionne qu'avec le backend C."
+  CompilerEndIf
+
+  HeaderSection
+    void customPrint()
+    {
+      printf("%s, %s!\n", "Salut", "le Monde");
+    }
+  EndHeaderSection
+  
+  ; Affecter la fonction personnalis√©e √† une variable PureBasic afin que nous puissions l'utiliser
+  ;
+  PrototypeC CustomPrintProto()
+  CustomPrint.CustomPrintProto
+  !v_customprint = customPrint;
+  
+  OpenConsole()
+  
+  ; Utilisez la fonction native !
+  CustomPrint()
+  
+  Input()
+@EndCode
+; -------------------------------------------------------------------------------------------------
+
+@FormatIf HTML
+<br><hr><br>
+<a name="DisablePureLibrary"></a>
+@FormatEndIf
+
+@Syntax
+
+@Keyword DisablePureLibrary <NomBibliotheque>
+
+@Description
+
+  D√©sactive la PureLibrary sp√©cifi√©e. Toutes ses commandes associ√©es ne seront pas 
+  disponibles lors de la compilation de ce programme.
+  Ceci est particuli√®rement utile lors de la cr√©ation d'un 
+  @ReferenceLink "PureLibrary" "PureLibrary".
+
+@Example
+
+@Code
+  DisablePureLibrary Engine3D
+
+  InitEngine3D() ; Erreur, commande non trouv√©e
+@EndCode
+
+; -------------------------------------------------------------------------------------------------
+@FormatIf HTML
 <br><hr><br><br>
 <a name="Constantes"></a>
 @FormatEndIf
 
-@Section Constantes prÈdÈfinies
-  Le compilateur PureBasic dÈclare automatiquement 
+@Section Constantes pr√©d√©finies
+  Le compilateur PureBasic d√©clare automatiquement 
   plusieurs constantes avant chaque compilation
   pour donner plus d'informations sur l'environnement 
-  de dÈveloppement:
+  de d√©veloppement:
  
 @FixedFont
-    @#PB_Compiler_OS: Permet de savoir sur quelle plateforme est exÈcutÈ le compilateur
-    @#PB_OS_Windows : Le compilateur est exÈcutÈ sur Windows
-    @#PB_OS_Linux   : Le compilateur est exÈcutÈ sur Linux
-    @#PB_OS_MacOS   : Le compilateur est exÈcutÈ sur Mac OS X
+    @#PB_Compiler_OS: Permet de savoir sur quelle plateforme est ex√©cut√© le compilateur
+    @#PB_OS_Windows : Le compilateur est ex√©cut√© sur Windows
+    @#PB_OS_Linux   : Le compilateur est ex√©cut√© sur Linux
+    @#PB_OS_MacOS   : Le compilateur est ex√©cut√© sur Mac OS X
 
-  @#PB_Compiler_Processor : DÈtermine le type de processeur pour lequel le programme est crÈÈ. Il peut s'agir de l'un des ÈlÈments suivants:
-    @#PB_Processor_x86     : Architecture de processeur x86 (aussi appelÈ IA-32 ou x86-32)
-    @#PB_Processor_x64     : Architecture de processeur x86-64 (aussi appelÈ x64, AMD64 ou Intel64)
+  @#PB_Compiler_Processor : D√©termine le type de processeur pour lequel le programme est cr√©√©. Il peut s'agir de l'un des √©l√©ments suivants:
+    @#PB_Processor_x86     : Architecture de processeur x86 (aussi appel√© IA-32 ou x86-32)
+    @#PB_Processor_x64     : Architecture de processeur x86-64 (aussi appel√© x64, AMD64 ou Intel64)
     @#PB_Processor_arm32   : Architecture de processeur  arm32
-    @#PB_Processor_arm64   : Architecture de processeur arm64 (appelÈ M1 sur les ordinateurs Apple)
+    @#PB_Processor_arm64   : Architecture de processeur arm64 (appel√© M1 sur les ordinateurs Apple)
 
-  @#PB_Compiler_Backend : DÈtermine quel type de compilateur est actuellement utilisÈ. Il peut s'agir de l'un des ÈlÈments suivants†:
-    @#PB_Backend_Asm    : Le compilateur assembleur gÈnÈre le code.
-    @#PB_Backend_C      : Le compilateur C gÈnÈre le code.
+  @#PB_Compiler_Backend : D√©termine quel type de compilateur est actuellement utilis√©. Il peut s'agir de l'un des √©l√©ments suivants¬†:
+    @#PB_Backend_Asm    : Le compilateur assembleur g√©n√©re le code.
+    @#PB_Backend_C      : Le compilateur C g√©n√©re le code.
    
-  @#PB_Compiler_ExecutableFormat : DÈtermine le format de l'exÈcutable. Il peut Ítre l'un des suivants:
-    @#PB_Compiler_Executable : ExÈcutable standard
-    @#PB_Compiler_Console    : ExÈcutable console (Uniquement sur Windows, les autres OS utiliseront le format exÈcutable standard)
-    @#PB_Compiler_DLL        : DLL (dynlib sur MacOS X et objet partagÈ sur Linux)
+  @#PB_Compiler_ExecutableFormat : D√©termine le format de l'ex√©cutable. Il peut √™tre l'un des suivants:
+    @#PB_Compiler_Executable : Ex√©cutable standard
+    @#PB_Compiler_Console    : Ex√©cutable console (Uniquement sur Windows, les autres OS utiliseront le format ex√©cutable standard)
+    @#PB_Compiler_DLL        : DLL (dynlib sur MacOS X et objet partag√© sur Linux)
 
     
-  @#PB_Compiler_Date     : La date actuelle, au moment de la compilation, au format @LibraryLink "Date" "date" PureBasic.
+  @#PB_Compiler_Date     : La date actuelle, au moment de la compilation, au format @LibraryLink "Date" "date" PureBasic (heure locale).
   @#PB_Compiler_File     : Chemin complet et nom du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
   @#PB_Compiler_FilePath : Chemin complet du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
-  @#PB_Compiler_Line     : NumÈro de la ligne du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
-  @#PB_Compiler_Procedure: Nom de la procÈdure actuelle, si la ligne est ‡ l'intÈrieur d'une @ReferenceLink "procedures" "procÈdure".  
-  @#PB_Compiler_Module   : Nom du module courant, si la ligne est ‡ l'intÈrieur d'un @ReferenceLink "module" "module".
+  @#PB_Compiler_Line     : Num√©ro de la ligne du fichier en cours de compilation, utile pour @ReferenceLink "ide_debugger" "debogguer".
+  @#PB_Compiler_Procedure: Nom de la proc√©dure actuelle, si la ligne est √† l'int√©rieur d'une @ReferenceLink "procedures" "proc√©dure".  
+  @#PB_Compiler_Module   : Nom du module courant, si la ligne est √† l'int√©rieur d'un @ReferenceLink "module" "module".
   @#PB_Compiler_Version  : Version du compilateur, nombre entier sous la forme '420' pour la version 4.20.
-  @#PB_Compiler_Home     : Chemin complet du rÈpertoire PureBasic, utile pour localiser des @ReferenceLink "includes" "fichiers inclus"
-  @#PB_Compiler_Debugger : Egal ‡ 1 si @ReferenceLink "ide_debugger" "le dÈbogueur" est activÈ, Ègal 0 sinon. Quand un exÈcutable est
-                          crÈÈ, le dÈbogueur est toujours dÈsactivÈ (cette constante sera Ègale ‡ 0).
-  @#PB_Compiler_Thread   : Egal ‡ 1 si l'exÈcutable est compilÈ en mode 'multi-threadÈ', Ègal ‡ 0 sinon.
-  @#PB_Compiler_Unicode  : Egal ‡ 1 si l'exÈcutable est compilÈ en mode @ReferenceLink "unicode" "unicode", Ègal ‡ 0 sinon.
-  @#PB_Compiler_LineNumbering : Egal ‡ 1 si l'exÈcutable est compilÈ avec l'option 'Activer le numÈro de ligne pour @LibraryLink "OnError" "OnError"', Ègal ‡ 0 sinon.
-  @#PB_Compiler_InlineAssembly: Egal ‡ 1 si l'exÈcutable est compilÈ avec l'option 'Activer @ReferenceLink "inlinedasm" "l'assembleur en ligne"', Ègal ‡ 0 sinon.
-  @#PB_Compiler_EnableExplicit: Egal ‡ 1 si l'exÈcutable est compilÈ en mode 'explicit', Ègal ‡ 0 sinon.
-  @#PB_Compiler_IsMainFile    : Egal ‡ 1 si l'exÈcutable en cours de compilation est le fichier principal, Ègal ‡ 0 sinon.
-  @#PB_Compiler_IsIncludeFile : Egal ‡ 1 si l'exÈcutable en cours de compilation a ÈtÈ inclus par un autre fichier, Ègal ‡ 0 sinon.
-  @#PB_Compiler_32Bit    : Mis ‡ 1 si le compilateur gÈnËre du code 32 bits, mis ‡ 0 sinon.
-  @#PB_Compiler_64Bit    : Mis ‡ 1 si le compilateur gÈnËre du code 64 bits, mis ‡ 0 sinon.
-  @#PB_Compiler_Optimizer: Mis ‡ 1 si le compilateur gÈnËre du code optimisÈ, mis ‡ 0 sinon.
-  @#PB_Compiler_DPIAware : Mis ‡ 1 si le compilateur gÈnËre un exÈcutable compatible DPI, mis ‡ 0 sinon.
+  @#PB_Compiler_Home     : Chemin complet du r√©pertoire PureBasic, utile pour localiser des @ReferenceLink "includes" "fichiers inclus"
+  @#PB_Compiler_Debugger : Egal √† 1 si @ReferenceLink "ide_debugger" "le d√©bogueur" est activ√©, √©gal 0 sinon. Quand un ex√©cutable est
+                          cr√©√©, le d√©bogueur est toujours d√©sactiv√© (cette constante sera √©gale √† 0).
+  @#PB_Compiler_Thread   : Egal √† 1 si l'ex√©cutable est compil√© en mode 'multi-thread√©', √©gal √† 0 sinon.
+  @#PB_Compiler_Unicode  : Egal √† 1 si l'ex√©cutable est compil√© en mode @ReferenceLink "unicode" "unicode", √©gal √† 0 sinon.
+  @#PB_Compiler_LineNumbering : Egal √† 1 si l'ex√©cutable est compil√© avec l'option 'Activer le num√©ro de ligne pour @LibraryLink "OnError" "OnError"', √©gal √† 0 sinon.
+  @#PB_Compiler_InlineAssembly: Egal √† 1 si l'ex√©cutable est compil√© avec l'option 'Activer @ReferenceLink "inlinedasm" "l'assembleur en ligne"', √©gal √† 0 sinon.
+  @#PB_Compiler_EnableExplicit: Egal √† 1 si l'ex√©cutable est compil√© en mode 'explicit', √©gal √† 0 sinon.
+  @#PB_Compiler_IsMainFile    : Egal √† 1 si l'ex√©cutable en cours de compilation est le fichier principal, √©gal √† 0 sinon.
+  @#PB_Compiler_IsIncludeFile : Egal √† 1 si l'ex√©cutable en cours de compilation a √©t√© inclus par un autre fichier, √©gal √† 0 sinon.
+  @#PB_Compiler_32Bit    : Mis √† 1 si le compilateur g√©n√®re du code 32 bits, mis √† 0 sinon.
+  @#PB_Compiler_64Bit    : Mis √† 1 si le compilateur g√©n√®re du code 64 bits, mis √† 0 sinon.
+  @#PB_Compiler_Optimizer: Mis √† 1 si le compilateur g√©n√®re du code optimis√©, mis √† 0 sinon.
+  @#PB_Compiler_DPIAware : Mis √† 1 si le compilateur g√©n√®re un ex√©cutable compatible DPI, mis √† 0 sinon.
   
 @EndFixedFont
 
-@ExampleFile All Compiler_FileSystem_and_System_Datas.pb
+@ExampleFile All CompilerSystemData.pb
 
 ; -------------------------------------------------------------------------------------------------
 @FormatIf HTML

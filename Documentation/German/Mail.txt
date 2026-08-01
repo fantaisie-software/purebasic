@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Mail library documentation
 ;
 ;      (c) Fantaisie Software
@@ -7,15 +7,15 @@
 @Library Mail
 
 @Overview
-  Mail (Email) ist inzwischen ein gebräuchlicher Weg, um Informationen zwischen zwei entfernten Computern 
-  auszutauschen. Die Funktionen in dieser Bibliothek ermöglichen nicht nur die Erstellung von Emails,
-  sondern auch das Versenden dieser Email an einen einzelnen oder mehrere Empfänger.
-  Darüber hinaus können bei Bedarf optionale Anhänge erfolgen. Diese werden dann durch
+  Mail (Email) ist inzwischen ein gebrÃ¤uchlicher Weg, um Informationen zwischen zwei entfernten Computern 
+  auszutauschen. Die Funktionen in dieser Bibliothek ermÃ¶glichen nicht nur die Erstellung von Emails,
+  sondern auch das Versenden dieser Email an einen einzelnen oder mehrere EmpfÃ¤nger.
+  DarÃ¼ber hinaus kÃ¶nnen bei Bedarf optionale AnhÃ¤nge erfolgen. Diese werden dann durch
   einen Mail-Server gesendet.
 @LineBreak
 @LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
-  Linux-Distributionen haben es bereits standardmäßig installiert).
+  Linux-Distributionen haben es bereits standardmÃ¤ÃŸig installiert).
 
 @CommandList
 
@@ -28,42 +28,42 @@
 @Function Ergebnis = AddMailAttachment(#Mail, Beschreibung$, Dateiname$ [, MimeTyp$])
 
 @Description
-  Fügt eine Datei-Anlage zur Email hinzu.
+  FÃ¼gt eine Datei-Anlage zur Email hinzu.
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @Parameter "Beschreibung$"
-  Der Informations-String, welcher für die Anlage in der Email angezeigt wird.
+  Der Informations-String, welcher fÃ¼r die Anlage in der Email angezeigt wird.
 
 @Parameter "Dateiname$"
-  Die Datei, welche als Anlage (oder auch "Anhang") beigefügt werden soll.
-  Wenn der Dateiname keinen vollständigen Pfad beinhaltet, wird dieser relativ zum
+  Die Datei, welche als Anlage (oder auch "Anhang") beigefÃ¼gt werden soll.
+  Wenn der Dateiname keinen vollstÃ¤ndigen Pfad beinhaltet, wird dieser relativ zum
   @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis" interpretiert.
 @LineBreak
 @LineBreak
-  Sobald die Anlage hinzugefügt wurde, kann die lokale Datei geändert oder gelöscht werden, da
-  deren kompletter Inhalt kopiert und an die Email gehängt wird. 
+  Sobald die Anlage hinzugefÃ¼gt wurde, kann die lokale Datei geÃ¤ndert oder gelÃ¶scht werden, da
+  deren kompletter Inhalt kopiert und an die Email gehÃ¤ngt wird. 
 
 @OptionalParameter "MimeTyp$"
-  Der Typ der angehängten Datei.
+  Der Typ der angehÃ¤ngten Datei.
 @LineBreak
   Wenn dieser
   Parameter weggelassen wird, dann wird die Datei-Endung verwendet, um den Mime-Typ dieser Datei zu bestimmen.
-  Im Anschluss folgt eine Liste der verfügbaren Mime-Typen. Wenn die Dateiendung mit keinem der verfügbaren
-  Mime-Typen übereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
+  Im Anschluss folgt eine Liste der verfÃ¼gbaren Mime-Typen. Wenn die Dateiendung mit keinem der verfÃ¼gbaren
+  Mime-Typen Ã¼bereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Anhang erfolgreich hinzugefügt wurde, und Null wenn nicht.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Anhang erfolgreich hinzugefÃ¼gt wurde, und Null wenn nicht.
 
 @Remarks
-  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefügt werden, aber das Größen-Limit
-  für eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
-  verfügen nicht über die Fähigkeit, Anlagen dieser Größe zu verarbeiten. Daher empfiehlt es sich, dass
-  jede Anlage auf eine vernünftige Größe beschränkt wird.
+  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefÃ¼gt werden, aber das GrÃ¶ÃŸen-Limit
+  fÃ¼r eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
+  verfÃ¼gen nicht Ã¼ber die FÃ¤higkeit, Anlagen dieser GrÃ¶ÃŸe zu verarbeiten. Daher empfiehlt es sich, dass
+  jede Anlage auf eine vernÃ¼nftige GrÃ¶ÃŸe beschrÃ¤nkt wird.
 @LineBreak
 @LineBreak
-  Die verfügbaren Mime-Typen sind:
+  Die verfÃ¼gbaren Mime-Typen sind:
 @FixedFont
   application/acad          | AutoCAD    dwg
   application/clariscad     | ClarisCAD  ccad
@@ -96,7 +96,7 @@
   application/x-troff-me    | Troff/macro ME   me
   application/x-troff-ms    | Troff/macro MS   ms
   application/x-wais-source | Source Wais   src
-  application/x-bcpio       | CPIO binär  bcpio
+  application/x-bcpio       | CPIO binÃ¤r  bcpio
   application/x-cpio        | CPIO Posix  cpio
   application/x-gtar        | Tar GNU   gtar
   application/x-shar        | Archiv Shell  shar
@@ -138,8 +138,8 @@
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Hello")
-    If AddMailAttachment(0, "Anhang 1", OpenFileRequester("Einen Anhang auswählen", "", "", 0))
-      Debug "Anhang korrekt hinzugefügt"
+    If AddMailAttachment(0, "Anhang 1", OpenFileRequester("Einen Anhang auswÃ¤hlen", "", "", 0))
+      Debug "Anhang korrekt hinzugefÃ¼gt"
     Else
       Debug "Anhang fehlgeschlagen"
     EndIf
@@ -153,51 +153,51 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = AddMailAttachmentData(#Mail, Beschreibung$, *Puffer, PufferLänge [, MimeTyp$])
+@Function Ergebnis = AddMailAttachmentData(#Mail, Beschreibung$, *Puffer, PufferLÃ¤nge [, MimeTyp$])
 
 @Description
-  Fügt Speicherdaten als Anlage zur Email hinzu. 
+  FÃ¼gt Speicherdaten als Anlage zur Email hinzu. 
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @Parameter "Beschreibung$"
-  Der Informations-String, welcher für die Anlage in der Email angezeigt wird.
+  Der Informations-String, welcher fÃ¼r die Anlage in der Email angezeigt wird.
 
 @Parameter "*Puffer"
-  Der @LibraryLink "Memory" "Speicherbereich" der Daten, welche als Anhang hinzugefügt
+  Der @LibraryLink "Memory" "Speicherbereich" der Daten, welche als Anhang hinzugefÃ¼gt
   werden sollen.
   @LineBreak
 @LineBreak
-  Sobald die Anlage hinzugefügt wurde, kann der Speicherbereich geändert oder freigegeben werden, da
+  Sobald die Anlage hinzugefÃ¼gt wurde, kann der Speicherbereich geÃ¤ndert oder freigegeben werden, da
   dessen kompletter Inhalt in die Email kopiert wird.
 
-@Parameter "PufferLänge"
-  Die Größe des Anhangs in Bytes.
+@Parameter "PufferLÃ¤nge"
+  Die GrÃ¶ÃŸe des Anhangs in Bytes.
 
 @OptionalParameter "MimeTyp$"
-  Der Typ der angehängten Datei.
+  Der Typ der angehÃ¤ngten Datei.
   @LineBreak
   Wenn dieser
   Parameter weggelassen wird, dann wird die Datei-Endung verwendet, um den Mime-Typ dieser Datei zu bestimmen.
-  Siehe den @@AddMailAttachment Befehl für eine Liste der verfügbaren Mime-Typen. Wenn die Dateiendung mit
-  keinem der verfügbaren Mime-Typen übereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
+  Siehe den @@AddMailAttachment Befehl fÃ¼r eine Liste der verfÃ¼gbaren Mime-Typen. Wenn die Dateiendung mit
+  keinem der verfÃ¼gbaren Mime-Typen Ã¼bereinstimmt, dann wird der "application/octet-stream" Mime-Typ verwendet.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Anhang erfolgreich hinzugefügt wurde, und Null wenn nicht.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Anhang erfolgreich hinzugefÃ¼gt wurde, und Null wenn nicht.
 
 @Remarks
-  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefügt werden, aber das Größen-Limit
-  für eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
-  verfügen nicht über die Fähigkeit, Anlagen dieser Größe zu verarbeiten. Daher empfiehlt es sich, dass
-  jede Anlage auf eine vernünftige Größe beschränkt wird.
+  Eine beliebige Anzahl an Anlagen kann zu einer Email hinzugefÃ¼gt werden, aber das GrÃ¶ÃŸen-Limit
+  fÃ¼r eine einzelne Anlage ist derzeit auf 100 MByte festgelegt. Die meisten Server und Clients
+  verfÃ¼gen nicht Ã¼ber die FÃ¤higkeit, Anlagen dieser GrÃ¶ÃŸe zu verarbeiten. Daher empfiehlt es sich, dass
+  jede Anlage auf eine vernÃ¼nftige GrÃ¶ÃŸe beschrÃ¤nkt wird.
 
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Hello")
 
     If AddMailAttachmentData(0, "Anhang 1", ?Hello, 5)
-      Debug "Anhang korrekt hinzugefügt"
+      Debug "Anhang korrekt hinzugefÃ¼gt"
     Else
       Debug "Anhang fehlgeschlagen"
     EndIf
@@ -219,13 +219,13 @@
 @Function AddMailRecipient(#Mail, Adresse$, Flags)
 
 @Description
-  Fügt einen Empfänger (englisch "recipient") zur angegebenen Email hinzu. 
+  FÃ¼gt einen EmpfÃ¤nger (englisch "recipient") zur angegebenen Email hinzu. 
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @Parameter "Adresse$"
-  Die Adresse des Empfängers. Die Adresse muss in einem der folgenden Formate vorliegen:
+  Die Adresse des EmpfÃ¤ngers. Die Adresse muss in einem der folgenden Formate vorliegen:
 @FixedFont
   "joe.doe@domain.com"
   "<joe.doe@domain.com>"
@@ -233,12 +233,12 @@
 @EndFixedFont
   
 @Parameter "Flags"
-  Die Kategorien, zu welcher der Empfänger hinzugefügt werden soll. Dies kann eine
+  Die Kategorien, zu welcher der EmpfÃ¤nger hinzugefÃ¼gt werden soll. Dies kann eine
   Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Mail_To : Haupt-Empfänger (ggf. mehrere) der Email
-  @#PB_Mail_Cc : Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
-  @#PB_Mail_Bcc: Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
+  @#PB_Mail_To : Haupt-EmpfÃ¤nger (ggf. mehrere) der Email
+  @#PB_Mail_Cc : EmpfÃ¤nger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
+  @#PB_Mail_Bcc: EmpfÃ¤nger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
 @EndFixedFont
 
 @NoReturnValue
@@ -246,9 +246,9 @@
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Hello")
-    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
-    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
-    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhält auch eine Kopie, aber Andre und Fred wissen dies nicht
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der HauptempfÃ¤nger
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhÃ¤lt eine Kopie
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhÃ¤lt auch eine Kopie, aber Andre und Fred wissen dies nicht
   EndIf
 @EndCode
 
@@ -270,7 +270,7 @@
   automatisch zu generieren.
 
 @Parameter "Von$"
-  Die Absender-Adresse für die Email. Die Adresse muss in einem der folgenden Formate vorliegen:
+  Die Absender-Adresse fÃ¼r die Email. Die Adresse muss in einem der folgenden Formate vorliegen:
 @FixedFont
   "joe.doe@domain.com"
   "<joe.doe@domain.com>"
@@ -278,23 +278,23 @@
 @EndFixedFont
 
 @Parameter "Betreff$"
-  Die Betreffzeile für die Email.
+  Die Betreffzeile fÃ¼r die Email.
 
 @OptionalParameter "Kodierung"
-  Die Kodierung (auch Verschlüsselung) für die Email. Dies kann einer der folgenden Werte sein:
+  Die Kodierung (auch VerschlÃ¼sselung) fÃ¼r die Email. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @ConstantColor "PB_Ascii" : Der Mail-Inhalt wird in ASCII sein
   @ConstantColor "PB_UTF8"  : Der Mail-Inhalt wird in @ReferenceLink "unicode" "UTF-8" sein (Standard)
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Email erfolgreich erstellt wurde, und Null wenn nicht.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Email erfolgreich erstellt wurde, und Null wenn nicht.
   Wenn @#PB_Any als #Mail Parameter verwendet wurde, dann wird bei Erfolg die
-  automatisch generierte Nummer zurückgegeben.
+  automatisch generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
   @@SetMailBody, @@SetMailAttribute, @@AddMailAttachment und
-  @@AddMailAttachmentData können verwendet werden, um den Inhalt der Email zu verändern.
+  @@AddMailAttachmentData kÃ¶nnen verwendet werden, um den Inhalt der Email zu verÃ¤ndern.
 @LineBreak
 @LineBreak
   Hinweis: Entsprechend dem @InternetLink "http://www.ietf.org/rfc/rfc2822.txt" "RFC 2822"-Standard
@@ -302,7 +302,7 @@
 @LineBreak
 @LineBreak
   Auf Linux muss 'libcurl' installiert sein, damit die Mail-Befehle funktionieren (die meisten
-  Linux-Distributionen haben es bereits standardmäßig installiert).
+  Linux-Distributionen haben es bereits standardmÃ¤ÃŸig installiert).
 
 @Example
 @Code
@@ -344,7 +344,7 @@
 @Function Ergebnis$ = GetMailAttribute(#Mail, Attribut)
 
 @Description
-  Gibt das angegebene Email-Attribut zurück. 
+  Gibt das angegebene Email-Attribut zurÃ¼ck. 
 
 @Parameter "#Mail"
   Die zu verwendende Email.
@@ -360,11 +360,11 @@
 @EndFixedFont
 
 @ReturnValue
-  Gibt das Attribut als einen String zurück. Ein leerer String wird zurückgegeben, wenn das
+  Gibt das Attribut als einen String zurÃ¼ck. Ein leerer String wird zurÃ¼ckgegeben, wenn das
   Attribut nicht existiert.
 
 @Remarks
-  @@SetMailAttribute kann verwendet werden, um die Email-Attribute zu ändern.
+  @@SetMailAttribute kann verwendet werden, um die Email-Attribute zu Ã¤ndern.
 
 @Example
 @Code
@@ -384,14 +384,14 @@
 @Function Ergebnis$ = GetMailBody(#Mail)
 
 @Description
-  Gibt den angegebenen Email-Inhalt (auch "Email-Körper") zurück, welcher zuvor mit
+  Gibt den angegebenen Email-Inhalt (auch "Email-KÃ¶rper") zurÃ¼ck, welcher zuvor mit
   @@SetMailBody festgelegt wurde.
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @ReturnValue
-  Gibt den Inhalt (Körper) als einen String zurück.
+  Gibt den Inhalt (KÃ¶rper) als einen String zurÃ¼ck.
 
 @Example
 @Code
@@ -411,13 +411,13 @@
 @Function Ergebnis = IsMail(#Mail)
 
 @Description
-  Überprüft, ob die angegebene '#Mail' Nummer gültig ist und die Email korrekt initialisiert wurde.
+  ÃœberprÃ¼ft, ob die angegebene '#Mail' Nummer gÃ¼ltig ist und die Email korrekt initialisiert wurde.
 
 @Parameter "#Mail"
-  Die zu überprüfende Nummer.
+  Die zu Ã¼berprÃ¼fende Nummer.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die gültige Nummer gültig war.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die gÃ¼ltige Nummer gÃ¼ltig war.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden. 
@@ -433,14 +433,14 @@
 @Function Ergebnis = MailProgress(#Mail)
 
 @Description
-  Gibt den Fortschritt (englisch "progress") des angegebenen Email-Transfers zurück, welcher
+  Gibt den Fortschritt (englisch "progress") des angegebenen Email-Transfers zurÃ¼ck, welcher
   mit @@SendMail gestartet wurde.
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @ReturnValue
-  Gibt die Anzahl der übertragenen Bytes zurück, oder einen der folgenden Werte:
+  Gibt die Anzahl der Ã¼bertragenen Bytes zurÃ¼ck, oder einen der folgenden Werte:
 @FixedFont
   @#PB_Mail_Connected: Der Email-Transfer ist in seiner Initialisierungsphase.
   @#PB_Mail_Finished : Der Email-Transfer ist korrekt abgeschlossen.
@@ -457,33 +457,33 @@
 @Function RemoveMailRecipient(#Mail [, Addresse$ [, Flags])
 
 @Description
-  Entfernt einen Empfänger (englisch "recipient") von der angegebenen Email.
+  Entfernt einen EmpfÃ¤nger (englisch "recipient") von der angegebenen Email.
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @OptionalParameter "Adresse$"
-  Die zu entfernende Adresse. Diese muss mit der Adresse eines Aufrufs von @@AddMailRecipient übereinstimmen.
-  Wenn nicht angegeben, werden alle Empfänger der Email entfernt.
+  Die zu entfernende Adresse. Diese muss mit der Adresse eines Aufrufs von @@AddMailRecipient Ã¼bereinstimmen.
+  Wenn nicht angegeben, werden alle EmpfÃ¤nger der Email entfernt.
 
 @OptionalParameter "Flags"
-  Die Kategorie(n), aus welcher/n der Empfänger entfernt werden soll. Dies kann eine
+  Die Kategorie(n), aus welcher/n der EmpfÃ¤nger entfernt werden soll. Dies kann eine
   Kombination der folgenden Werte sein:
 @FixedFont
-  @#PB_Mail_To : Haupt-Empfänger (ggf. mehrere) der Email
-  @#PB_Mail_Cc : Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
-  @#PB_Mail_Bcc: Empfänger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
+  @#PB_Mail_To : Haupt-EmpfÃ¤nger (ggf. mehrere) der Email
+  @#PB_Mail_Cc : EmpfÃ¤nger (ggf. mehrere), welche eine Kopie der Email erhalten (und jeder dies sehen kann)
+  @#PB_Mail_Bcc: EmpfÃ¤nger (ggf. mehrere), welche eine Kopie der Email erhalten (aber niemand dies sieht)
 @EndFixedFont
-  Wenn nicht angegeben, dann werden für die angegebene Adresse alle Kategorien entfernt.
+  Wenn nicht angegeben, dann werden fÃ¼r die angegebene Adresse alle Kategorien entfernt.
 
 @NoReturnValue
 
 @Example
 @Code
   If CreateMail(0, "test@purebasic.com", "Hello")
-    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der Hauptempfänger
-    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhält eine Kopie
-    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhält auch eine Kopie, aber Andre und Fred wissen dies nicht
+    AddMailRecipient(0, "andre@purebasic.com", #PB_Mail_To) ; Andre ist der HauptempfÃ¤nger
+    AddMailRecipient(0, "fred@purebasic.com", #PB_Mail_Cc)  ; Fred erhÃ¤lt eine Kopie
+    AddMailRecipient(0, "timo@purebasic.com", #PB_Mail_Bcc) ; Timo erhÃ¤lt auch eine Kopie, aber Andre und Fred wissen dies nicht
 
     ; Sicherstellen, dass Fred aus jeder Zieladresse entfernt wird :-)
     RemoveMailRecipient(0, "fred@purebasic.com")
@@ -516,21 +516,23 @@
 @FixedFont
   @#PB_Mail_Asynchronous: sendet die Email im Hintergrund (asynchron). @@MailProgress kann verwendet werden,
                          um den Fortschritt zu verfolgen.
-  @#PB_Mail_UseSSL      : verwendet TLS/SSL zum Senden der Email (der Server muss dieses Protokoll unterstützen).
-  @#PB_Mail_UseSMTPS    : verwendet SMTPS zum Senden der Email (der Server muss dieses Protokoll unterstützen).
+  @#PB_Mail_UseSSL      : verwendet TLS/SSL zum Senden der Email (der Server muss dieses Protokoll unterstÃ¼tzen).
+  @#PB_Mail_UseSMTPS    : verwendet SMTPS zum Senden der Email (der Server muss dieses Protokoll unterstÃ¼tzen).
   @#PB_Mail_Debug       : um Debug-Informationen in der Konsole auszugeben.
+  @#PB_Mail_NoSSLCheck  : prÃ¼ft nicht, ob das SSL-Zertifikat gÃ¼ltig ist (kann zu Testzwecken nÃ¼tzlich sein).
+  @#PB_Mail_WeakSSL     : zur UnterstÃ¼tzung Ã¤lterer Server (nicht empfohlen aufgrund schwacher/fehlerhafter Transportsicherheit).
 @EndFixedFont
 
 @OptionalParameter "User$, Passwort$"
-  Der User (Anwender) und das Passwort, welche für die SMTP Authentifizierung verwendet werden, sofern
+  Der User (Anwender) und das Passwort, welche fÃ¼r die SMTP Authentifizierung verwendet werden, sofern
   der Server dies erfordert.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Email korrekt gesendet wurde, und andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Email korrekt gesendet wurde, und andernfalls Null.
 
 @Example Einfaches SMTP
 @Code
-  ; Hinweis: ändere die Adresse und Smtp, um ein lauffähiges Beispiel zu erhalten
+  ; Hinweis: Ã¤ndere die Adresse und Smtp, um ein lauffÃ¤higes Beispiel zu erhalten
   ;
   If CreateMail(0, "test@youraddress.com", "Hello")
     AddMailRecipient(0, "youraddress@youraddress.com", #PB_Mail_To)
@@ -575,23 +577,23 @@
 @Function SetMailAttribute(#Mail, Attribut, Wert$)
 
 @Description
-  Ändert das angegebene Email-Attribut auf einen neuen Wert.
+  Ã„ndert das angegebene Email-Attribut auf einen neuen Wert.
 
 @Parameter "#Mail"
   Die zu verwendende Email.
 
 @Parameter "Attribut"
-  Das zu ändernde Attribut. Dies kann einer der folgenden Werte sein:
+  Das zu Ã¤ndernde Attribut. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Mail_From   : Ändert das 'Von' Attribut, definiert mit @@CreateMail.
-  @#PB_Mail_Subject: Ändert das 'Betreff' (englisch "subject") Attribut, definiert mit @@CreateMail.
-  @#PB_Mail_XMailer: Ändert das 'X-Mailer' Attribut (wird nicht standardmäßig gesendet).
-  @#PB_Mail_Date   : Ändert das 'Datums' Attribut (Standard ist das aktuelle Computerdatum).
-  @#PB_Mail_Custom : Fügt besondere ("Custom") Felder hinzu (können mehrzeilig sein).
+  @#PB_Mail_From   : Ã„ndert das 'Von' Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_Subject: Ã„ndert das 'Betreff' (englisch "subject") Attribut, definiert mit @@CreateMail.
+  @#PB_Mail_XMailer: Ã„ndert das 'X-Mailer' Attribut (wird nicht standardmÃ¤ÃŸig gesendet).
+  @#PB_Mail_Date   : Ã„ndert das 'Datums' Attribut (Standard ist das aktuelle Computerdatum).
+  @#PB_Mail_Custom : FÃ¼gt besondere ("Custom") Felder hinzu (kÃ¶nnen mehrzeilig sein).
 @EndFixedFont
 
 @Parameter "Wert$"
-  Der neue Wert für das Attribut.
+  Der neue Wert fÃ¼r das Attribut.
 
 @NoReturnValue
 
@@ -613,7 +615,7 @@
 @Function SetMailBody(#Mail, Body$)
 
 @Description
-  Ändert den Email-Inhalt ("body" = "Körper"). @@GetMailBody kann verwendet werden, um den
+  Ã„ndert den Email-Inhalt ("body" = "KÃ¶rper"). @@GetMailBody kann verwendet werden, um den
   Inhalt wieder zu ermitteln.
 
 @Parameter "#Mail"

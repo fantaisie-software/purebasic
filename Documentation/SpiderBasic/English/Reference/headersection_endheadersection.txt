@@ -1,0 +1,33 @@
+﻿@Title HeaderSection
+
+@Section Introduction
+
+  SpiderBasic allows to easily customize the <header></header> section of the app HTML file. It can be useful
+  when needed to add additional meta tags or to include css or javascript files directly in the HTML.
+    
+@Section Commands
+
+@Syntax
+
+  @Keyword HeaderSection
+
+@Description
+
+  Open the header section. All the code put into the @Keyword "HeaderSection" will be directly added at the end of the <header></header> section. If a tag already exists in the HTML
+  header, it won't be replaced. @Keyword EndHeaderSection needs to be called to close the header section. It can have several @Keyword "HeaderSection" in the program.
+
+@Example
+@Code
+  HeaderSection
+    <meta name="description" content="Customizd description">
+    <script type="text/javascript" src="https://cdn.babylonjs.com/babylon.js"></script>
+  EndHeaderSection
+@EndCode
+
+@Syntax
+
+  @Keyword EndHeaderSection
+
+@Description
+
+  Close the current header section previously opened with @Keyword "HeaderSection". 

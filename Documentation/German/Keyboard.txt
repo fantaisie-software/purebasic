@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Keyboard library documentation - MultiOS version !
 ;
 ;      (c) 2023 - Fantaisie Software
@@ -7,16 +7,16 @@
 @Library Keyboard
 
 @Overview
-  PureBasic bietet einfachen und schnellen Zugriff auf die Tastatur. Diese Möglichkeit
+  PureBasic bietet einfachen und schnellen Zugriff auf die Tastatur. Diese MÃ¶glichkeit
   sollte nur in Applikationen genutzt werden, die einen extrem schnellen Zugriff
-  auf die Tastatur im "Roh-Format" (raw) benötigen, wie z.B. Spielen.
+  auf die Tastatur im "Roh-Format" (raw) benÃ¶tigen, wie z.B. Spielen.
     
 @OS Windows
   Es wird die DirectX Technologie benutzt.
 @LineBreak
 @LineBreak
-  Diese Library wurde für Spiele und Multimedia-Applikationen geschaffen, welche
-  schnellen - auf DirectX basierenden - Tastaturzugriff benötigen. Für normale
+  Diese Library wurde fÃ¼r Spiele und Multimedia-Applikationen geschaffen, welche
+  schnellen - auf DirectX basierenden - Tastaturzugriff benÃ¶tigen. FÃ¼r normale
   Windows-Applikationen ist es besser, den @@AddKeyboardShortcut Befehl zu verwenden.
 
 @CommandList
@@ -30,7 +30,7 @@
 @Function Ergebnis = InitKeyboard()
 
 @Description
-  Initialisiert die Programmumgebung zur späteren Benutzung der Keyboard-Befehle.
+  Initialisiert die Programmumgebung zur spÃ¤teren Benutzung der Keyboard-Befehle.
   Diese Funktion muss vor allen anderen Befehlen aus dieser Bibliothek aufgerufen werden.
 
 @NoParameters
@@ -70,8 +70,8 @@
 @Function String$ = KeyboardInkey()
 
 @Description
-  Gibt das zuletzt eingegebene Zeichen zurück - sehr nützlich, wenn effiziente Tastatureingabe
-  für ein Spiel (z.B. Name in einem HighScore, in einer Game-Konsole, etc.) erforderlich ist.
+  Gibt das zuletzt eingegebene Zeichen zurÃ¼ck - sehr nÃ¼tzlich, wenn effiziente Tastatureingabe
+  fÃ¼r ein Spiel (z.B. Name in einem HighScore, in einer Game-Konsole, etc.) erforderlich ist.
 
 @NoParameters
 
@@ -91,15 +91,15 @@
       
       ExamineKeyboard()
       
-      ; Wenn wir die 'Backspace'-Taste drücken, löschen wir das letzte Zeichen
+      ; Wenn wir die 'Backspace'-Taste drÃ¼cken, lÃ¶schen wir das letzte Zeichen
       ;
       If KeyboardReleased(#PB_Key_Back)  
         FullText$ = Left(FullText$, Len(FullText$)-1)
       Else
         result$=KeyboardInkey()
-        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", result$) ; oder die von Ihnen ausgewählten gültigen Zeichen
+        If FindString("1234567890 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz", result$) ; oder die von Ihnen ausgewÃ¤hlten gÃ¼ltigen Zeichen
           FullText$ + result$
-        EndIf ; den neuen Text zum aktuellen (wenn vorhanden) hinzufügen
+        EndIf ; den neuen Text zum aktuellen (wenn vorhanden) hinzufÃ¼gen
       EndIf
 
       ; Ergebnis darstellen
@@ -125,17 +125,17 @@
 @Function KeyboardMode(Flags)
 
 @Description
-  Ändert das aktuelle Verhalten der Tastaturabfragen. Dieser Befehl beeinflusst die Befehle
+  Ã„ndert das aktuelle Verhalten der Tastaturabfragen. Dieser Befehl beeinflusst die Befehle
   @@KeyboardPushed und @@KeyboardReleased. 
 
 @Parameter "Flags" 
   Dies kann eine Kombination (mittels des '|' Operators) der folgenden Werte sein:
 @FixedFont
   @#PB_Keyboard_Qwerty         : Die Tastaturabfrage ignoriert die Standard-Tastasturbelegung und verwendet immer das QWERTY-Schema (Standard-Verhaltensweise). 
-  @#PB_Keyboard_International  : Die Tastaturabfrage verwendet die Standard-Tastasturbelegung zur Abbildung ("mappen") der Tasten (kann nützlich bei Tastaturen 
-                                sein, die nicht dem QWERTY-Schema entsprechen, wie z.B. einer üblichen deutschen Tastatur).
-  @#PB_Keyboard_AllowSystemKeys: Die 'OS' System-Tasten sind erlaubt (wie Win+R etc.). Dies kann jedoch zu Fehlbedienungen führen, wenn der Anwender diese im @Link "Screen/OpenScreen" "Fullscreen-Modus"
-                                versehentlich drückt.
+  @#PB_Keyboard_International  : Die Tastaturabfrage verwendet die Standard-Tastasturbelegung zur Abbildung ("mappen") der Tasten (kann nÃ¼tzlich bei Tastaturen 
+                                sein, die nicht dem QWERTY-Schema entsprechen, wie z.B. einer Ã¼blichen deutschen Tastatur).
+  @#PB_Keyboard_AllowSystemKeys: Die 'OS' System-Tasten sind erlaubt (wie Win+R etc.). Dies kann jedoch zu Fehlbedienungen fÃ¼hren, wenn der Anwender diese im @Link "Screen/OpenScreen" "Fullscreen-Modus"
+                                versehentlich drÃ¼ckt.
 @EndFixedFont
 
 @NoReturnValue
@@ -150,22 +150,22 @@
 @Function Ergebnis = KeyboardPushed(KeyID) 
 
 @Description
-  Überprüft, ob die angegebene Taste gedrückt wird. Eine beliebige Anzahl an Tasten kann
-  zur gleichen Zeit gedrückt werden.
+  ÃœberprÃ¼ft, ob die angegebene Taste gedrÃ¼ckt wird. Eine beliebige Anzahl an Tasten kann
+  zur gleichen Zeit gedrÃ¼ckt werden.
 @LineBreak
 @LineBreak
   @@ExamineKeyboard muss vor dieser Funktion aufgerufen werden, um den Tastatur-Status zu
-  aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geändert werden.
+  aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geÃ¤ndert werden.
 @LineBreak
 @LineBreak
-  Wenn Sie überprüfen möchten, ob eine Taste gedrückt und wieder losgelassen wurde, dann 
+  Wenn Sie Ã¼berprÃ¼fen mÃ¶chten, ob eine Taste gedrÃ¼ckt und wieder losgelassen wurde, dann 
   verwenden Sie den Befehl @@KeyboardReleased.
 
 @Parameter "KeyID"
-  Der Bezeichner (ID) der zu überprüfenden Taste.
-  Liste gültiger 'KeyID' Konstanten:
+  Der Bezeichner (ID) der zu Ã¼berprÃ¼fenden Taste.
+  Liste gÃ¼ltiger 'KeyID' Konstanten:
 @FixedFont
-    @#PB_Key_All   ; Alle Tasten werden überprüft. Sehr nützlich für beliebige Tastendrücke.
+    @#PB_Key_All   ; Alle Tasten werden Ã¼berprÃ¼ft. Sehr nÃ¼tzlich fÃ¼r beliebige TastendrÃ¼cke.
   
     @#PB_Key_1
     @#PB_Key_2
@@ -273,7 +273,7 @@
 @EndFixedFont
 
 @ReturnValue
-  Ungleich Null, wenn die angegebene Taste gedrückt wird, andernsfall Null.
+  Ungleich Null, wenn die angegebene Taste gedrÃ¼ckt wird, andernsfall Null.
 
 @Example
 @Code
@@ -282,12 +282,12 @@
       FlipBuffers()
       
       If StartDrawing(ScreenOutput())
-        DrawText(0, 0, "ESC zum Beenden drücken")
+        DrawText(0, 0, "ESC zum Beenden drÃ¼cken")
         StopDrawing()
       EndIf
       
       ExamineKeyboard()
-      If KeyboardPushed(#PB_Key_Escape)   ; drücken Sie Esc zum Beenden
+      If KeyboardPushed(#PB_Key_Escape)   ; drÃ¼cken Sie Esc zum Beenden
         End
       EndIf
     ForEver
@@ -304,21 +304,21 @@
 @Function Ergebnis = KeyboardReleased(KeyID)
 
 @Description
-  Überprüft, ob die angegebene Taste gedrückt und wieder losgelassen wurde.
-  Dieser Befehl ist nützlich für die Überprüfung von "Umschalt-Tasten", wie z.B. einer
-  "Pause"-Taste in einem Spiel (einmal wird das Spiel angehalten, beim nächsten Mal wird
+  ÃœberprÃ¼ft, ob die angegebene Taste gedrÃ¼ckt und wieder losgelassen wurde.
+  Dieser Befehl ist nÃ¼tzlich fÃ¼r die ÃœberprÃ¼fung von "Umschalt-Tasten", wie z.B. einer
+  "Pause"-Taste in einem Spiel (einmal wird das Spiel angehalten, beim nÃ¤chsten Mal wird
   es fortgesetzt). 
 @LineBreak
 @LineBreak
   @@ExamineKeyboard muss vor dieser Funktion aufgerufen werden, um den Tastatur-Status
-  zu aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geändert werden.
+  zu aktualisieren. Das Verhalten der Tastaturabfrage kann mittels @@KeyboardMode geÃ¤ndert werden.
 
 @Parameter "KeyID"
-  Der Bezeichner (ID) der zu überprüfenden Taste.
-  Für eine komplette Liste der gültigen 'KeyID' Werte siehe @@KeyboardPushed.
+  Der Bezeichner (ID) der zu Ã¼berprÃ¼fenden Taste.
+  FÃ¼r eine komplette Liste der gÃ¼ltigen 'KeyID' Werte siehe @@KeyboardPushed.
   
 @ReturnValue
-  Ungleich Null, wenn die angegebene Taste gedrückt und wieder losgelassen wurde,
+  Ungleich Null, wenn die angegebene Taste gedrÃ¼ckt und wieder losgelassen wurde,
   andernfalls Null.
 
 @Example
@@ -342,7 +342,7 @@
         DrawingMode(0)
 
         If Paused = #False
-          DrawText(20, 20, "Programm läuft...     ")
+          DrawText(20, 20, "Programm lÃ¤uft...     ")
         Else
           DrawText(20, 20, "Programm angehalten...")
         EndIf

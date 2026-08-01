@@ -18,8 +18,6 @@
 
 ; [PgUp]&[Pgdown] = Speed animation
 
-IncludeFile #PB_Compiler_Home + "examples/3d/Screen3DRequester.pb"
-
 #PB_Shadow_TextureModulative = 5
 
 #NUM_ANIMS       = 13   ; number of animations the character has
@@ -136,82 +134,80 @@ Declare setTopAnimation(id.i, reset.i = #False)
 Define.f KeyX, KeyY, MouseX, MouseY, deltaTime, Ralenti = 1.0, TimeSinceLastFrame
 Global Sinbad.s_Entity
 
-If InitEngine3D(3)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"          , #PB_3DArchive_FileSystem)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/Sinbad.zip", #PB_3DArchive_Zip)
-  Parse3DScripts()
+InitEngine3D()
+InitSprite()
+InitKeyboard()
+InitMouse()
+
+ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "Animation Entity [PageUp]   [PageDown] [E]   [Q]   [Space]  [Esc] Quit  ",#PB_Window_ScreenCentered)
+OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures"        , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models"          , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts"          , #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/Sinbad.zip", #PB_3DArchive_Zip)
+Parse3DScripts()
+
+; WorldShadows(#PB_Shadow_Additive)
+
+;-Ground
+;
+CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
+CreatePlane(0, 500, 500, 1, 1, 25, 25)
+CreateEntity(0,MeshID(0),MaterialID(0))
+EntityRenderMode(0, 0)
+GetScriptMaterial(1, "Examples/LightRibbonTrail")
+
+;- Light
+CreateLight(0, RGB(255, 255, 255), -10, 40, 20, #PB_Light_Point)
+SetLightColor(0, #PB_Light_SpecularColor, RGB(255, 255, 255))
+
+AmbientColor(RGB(255*0.3, 255*0.3, 255*0.3))
+
+;- Skybox
+Fog(RGB(255,255,255*0.8), 1, 0, 25000)
+SkyBox("desert07.jpg")
+
+setupBody()
+setupCamera()
+setupAnimations()
+
+KeyboardMode(#PB_Keyboard_International)
+
+;->> Main Loop
+Repeat
   
-  InitSprite()
-  InitKeyboard()
-  InitMouse()
+  While WindowEvent():Wend
   
-  If Screen3DRequester()
-    
-    WorldShadows(#PB_Shadow_TextureModulative, 0, RGB(127, 127, 127), 2048)
-        
-    ;-Ground
-    ;
-    CreateMaterial(0, LoadTexture(0, "Dirt.jpg"))
-    CreatePlane(0, 500, 500, 1, 1, 25, 25)
-    CreateEntity(0,MeshID(0),MaterialID(0))
-    EntityRenderMode(0, 0)
-    GetScriptMaterial(1, "Examples/LightRibbonTrail")
-    
-    ;- Light
-    CreateLight(0, RGB(255, 255, 255), -10, 40, 20, #PB_Light_Point)
-    SetLightColor(0, #PB_Light_SpecularColor, RGB(255, 255, 255))
-    
-    AmbientColor(RGB(255*0.3, 255*0.3, 255*0.3))
-    
-    ;- Skybox
-    Fog(RGB(255,255,255*0.8), 1, 0, 25000)
-    SkyBox("desert07.jpg")
-    
-    setupBody()
-    setupCamera()
-    setupAnimations()
-    
-    KeyboardMode(#PB_Keyboard_International)
-    
-    ;->> Main Loop
-    Repeat
-      
-      Screen3DEvents()
-      
-      If ExamineMouse()
-        injectMouseMove()
-        injectMouseDown()
-      EndIf
-      
-      
-      If ExamineKeyboard()
-        injectKeyDown()
-        injectKeyUp()
-        
-        If KeyboardReleased(#PB_Key_PageUp) And Ralenti < 1.0
-          Ralenti + 0.1
-        ElseIf KeyboardReleased(#PB_Key_PageDown) And Ralenti > 0.1
-          Ralenti - 0.1
-        EndIf
-        
-      EndIf
-      
-      deltaTime = TimeSinceLastFrame * Ralenti / 1000.0
-      updateBody(deltaTime)
-      updateAnimations(deltaTime)
-      updateCamera(deltaTime)
-      
-      TimeSinceLastFrame = RenderWorld()
-      FlipBuffers()
-    Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+  If ExamineMouse()
+    injectMouseMove()
+    injectMouseDown()
   EndIf
   
-Else
-  MessageRequester("Error", "The 3D Engine can't be initialized",0)
-EndIf
+  
+  If ExamineKeyboard()
+    injectKeyDown()
+    injectKeyUp()
+    
+    If KeyboardReleased(#PB_Key_PageUp) And Ralenti < 1.0
+      Ralenti + 0.1
+    ElseIf KeyboardReleased(#PB_Key_PageDown) And Ralenti > 0.1
+      Ralenti - 0.1
+    EndIf
+    
+  EndIf
+  
+  deltaTime = TimeSinceLastFrame * Ralenti / 1000.0
+  updateBody(deltaTime)
+  updateAnimations(deltaTime)
+  updateCamera(deltaTime)
+  
+  TimeSinceLastFrame = RenderWorld()
+  FlipBuffers()
+Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 
 End
 
@@ -238,7 +234,7 @@ Procedure injectKeyDown()
         ; start dancing
         setBaseAnimation(#ANIM_DANCE, #True)
         setTopAnimation(#ANIM_NONE);
-        ; disable hand animation because the dance controls hands
+                                   ; disable hand animation because the dance controls hands
         StopEntityAnimation(\BodyEnt, \Anims[#ANIM_HANDS_RELAXED])
         
       ElseIf (\BaseAnimID = #ANIM_DANCE)
@@ -348,7 +344,7 @@ Procedure setupBody()
     \Sword2 = CreateEntity(#PB_Any, MeshID(Sword), #PB_Material_None)
     AttachEntityObject(\BodyEnt, "Sheath.L", EntityID(\Sword1))
     AttachEntityObject(\BodyEnt, "Sheath.R", EntityID(\Sword2))
-       
+    
     ;create a couple of ribbon trails For the swords, just For fun
     \SwordTrail = CreateRibbonEffect(#PB_Any, MaterialID(1), 2, 80, 20)
     
@@ -484,20 +480,20 @@ Procedure updateBody(deltaTime.f)
       Dir\x * deltaTime * #RUN_SPEED * GetEntityAnimationWeight(\BodyEnt, \Anims[\BaseAnimID])
       Dir\y * deltaTime * #RUN_SPEED * GetEntityAnimationWeight(\BodyEnt, \Anims[\BaseAnimID])
       Dir\z * deltaTime * #RUN_SPEED * GetEntityAnimationWeight(\BodyEnt, \Anims[\BaseAnimID])
-      MoveNode(\BodyNode, Dir\x, dir\y, Dir\z)
+      MoveNode(\BodyNode, Dir\x, dir\y, Dir\z,#PB_Relative|#PB_World)
     EndIf
     
     If \BaseAnimID = #ANIM_JUMP_LOOP
       
       ; If we're jumping, add a vertical offset too, and apply gravity
-      MoveNode(\BodyNode, 0, \VerticalVelocity * deltaTime, 0)
+      MoveNode(\BodyNode, 0, \VerticalVelocity * deltaTime, 0,#PB_Relative|#PB_World)
       \VerticalVelocity - #GRAVITY * deltaTime
       GetNodePosition(pos, \BodyNode)
       If pos\y <= #CHAR_HEIGHT
         
         ; If we've hit the ground, change to landing state
         pos\y = #CHAR_HEIGHT;
-        MoveNode(\BodyNode, pos\x, pos\y, pos\z, #PB_Absolute)
+        MoveNode(\BodyNode, pos\x, pos\y, pos\z, #PB_Absolute|#PB_World)
         setBaseAnimation(#ANIM_JUMP_END, #True)
         \Timer = 0;
       EndIf
@@ -520,7 +516,7 @@ Procedure updateAnimations(deltaTime.f)
       Else
         topAnimSpeed = 1
       EndIf
-            
+      
       ; half-way through the animation is when the hand grasps the handles...
       If (\Timer >= GetEntityAnimationLength(\BodyEnt, \Anims[\TopAnimID]) / 2000.0) And (\Timer - deltaTime < GetEntityAnimationLength(\BodyEnt, \Anims[\TopAnimID]) / 2000.0)
         
@@ -661,11 +657,11 @@ Procedure updateCamera(deltaTime.f)
   With Sinbad
     ; place the camera pivot roughly at the character's shoulder
     MoveNode(\CameraPivot, NodeX(\BodyNode), NodeY(\BodyNode) + #CAM_HEIGHT, NodeZ(\BodyNode), #PB_Absolute)
-    ; move the camera smoothly To the goal
+    ;; move the camera smoothly To the goal
     GetNodePosition(mCameraGoalPos, \CameraGoal)
     GetNodePosition(mCameraNodePos, \CameraNode)
     SubVector3(goalOffset, mCameraGoalPos, mCameraNodePos)
-    MoveNode(\CameraNode, goalOffset\x * deltaTime * 9.0, goalOffset\y * deltaTime * 9.0, goalOffset\z * deltaTime * 9.0)
+    MoveNode(\CameraNode, goalOffset\x * deltaTime * 9.0, goalOffset\y * deltaTime * 9.0, goalOffset\z * deltaTime * 9.0,#PB_Relative)
     ; always look at the pivot
     CameraLookAt(\Camera, NodeX(\CameraPivot), NodeY(\CameraPivot), NodeZ(\CameraPivot))
   EndWith
@@ -740,7 +736,7 @@ Procedure setTopAnimation(id.i, reset.i = #False)
       If reset = #False
         Flags | #PB_EntityAnimation_Continue
       EndIf
-
+      
       StartEntityAnimation(\BodyEnt, \Anims[id], Flags)
       SetEntityAnimationWeight(\BodyEnt, \Anims[id], 0)
       \FadingOut[id] = #False

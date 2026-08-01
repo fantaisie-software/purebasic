@@ -1,4 +1,4 @@
-@Title Integrated form designer
+﻿@Title Integrated form designer
 
   The PureBasic IDE has a very powerful integrated form designer, which allows to design
   easily windows and arrange gadgets on them. It supports almost all native PureBasic @LibraryLink "gadget" "gadgets",
@@ -43,6 +43,44 @@
 
   This panel list all available gadgets. Select one, and draw directly on the form the size needed. When
   a gadget is selected on the form, its properties are display on this panel and can be modified here.
+
+@Section Advanced code generation options
+
+@Bold "Explicit IDs via Variable (Name=Number)"
+@LineBreak
+  To force stable numeric IDs for a window or gadget, enter:
+  Name=Number (for example: ID13310=13310 or Dlg=133) in the "Variable" property.
+  The Form Designer will generate an explicit assignment in the enumeration:
+@LineBreak
+@Code
+  Enumeration FormGadget
+    #ID13310 = 13310
+  EndEnumeration
+@EndCode
+@LineBreak
+  Note: If no '=' is used, behavior is unchanged (backward compatible).
+@LineBreak
+@LineBreak
+
+@Bold "Custom parent window (=expression)"
+@LineBreak
+  The window "Parent" value can be a raw expression by prefixing it with '='.
+  In this case it passes the expression directly (no @@WindowID wrapper).
+@LineBreak
+@LineBreak
+
+@Bold "Custom Flags"
+@LineBreak
+  This optional window property contains flags separated by '|'.
+  These flags are appended to the generated OpenWindow() flags.
+  Custom flags do not affect the visual rendering inside the Form Designer.
+@LineBreak
+@LineBreak
+
+@Bold "FrameGadget as container (#PB_Frame_Container)"
+@LineBreak
+  FrameGadget supports the flag @#PB_Frame_Container. If set, the FrameGadget is treated as a container
+  and can be used as a parent for other gadgets.
   
 @Section Using the form designer in real world projects
 

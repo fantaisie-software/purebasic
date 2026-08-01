@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Text3D library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,14 +8,14 @@
 
 @Overview
 
-La bibliothèque Text3D est destinée à faciliter 
+La bibliothÃ¨que Text3D est destinÃ©e Ã  faciliter 
 l'affichage du texte dans le monde de la 3D. 
 Il est possible d'utiliser n'importe quelle police, 
-le texte peut être déplacé ou sa taille peut changer 
-en fonction de l'objet à suivre.
+le texte peut Ãªtre dÃ©placÃ© ou sa taille peut changer 
+en fonction de l'objet Ã  suivre.
 @LineBreak
 @LineBreak
-@@InitEngine3D doit être appelé avec succès avant 
+@@InitEngine3D doit Ãªtre appelÃ© avec succÃ¨s avant 
 d'utiliser ces fonctions.
 
 @CommandList
@@ -29,49 +29,49 @@ d'utiliser ces fonctions.
 @Function Resultat = CreateText3D(#Texte3D, Texte$ [, Police$, Hauteur, Couleur])
 
 @Description
-  Crée un nouveau texte 3D. 
+  CrÃ©e un nouveau texte 3D. 
 
 @Parameter "#Texte3D"
-  Le numéro du nouveau texte 3D. 
+  Le numÃ©ro du nouveau texte 3D. 
 @LineBreak
 @LineBreak
   @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  peut Ãªtre utilisÃ© pour gÃ©nÃ©rer 
+  automatiquement ce numÃ©ro.
   
 @Parameter "Texte$"
-  Le texte à afficher. 
+  Le texte Ã  afficher. 
 @LineBreak
 @LineBreak  
-  Il peut être modifié avec @@Text3DCaption.
+  Il peut Ãªtre modifiÃ© avec @@Text3DCaption.
   
 @OptionalParameter "Police$"
-  Le nom de la police à utiliser.
+  Le nom de la police Ã  utiliser.
   @LineBreak
-  La police doit être présente dans le chemin @@Add3DArchive et doit être définie 
+  La police doit Ãªtre prÃ©sente dans le chemin @@Add3DArchive et doit Ãªtre dÃ©finie 
   dans le fichier 'proper-definitions.fontdef'.
 
 @OptionalParameter "Hauteur"
-  La hauteur de la police à utiliser.
+  La hauteur de la police Ã  utiliser.
 
 @OptionalParameter "Couleur"
-  La couleur RGBA à utiliser.
+  La couleur RGBA Ã  utiliser.
 @LineBreak
 @LineBreak  
   Pour obtenir une couleur valide, utiliser @@RGBA. 
   @LineBreak
-  La couleur peut être changée avec @@Text3DColor.
+  La couleur peut Ãªtre changÃ©e avec @@Text3DColor.
 
 @ReturnValue
-  Renvoie une valeur non nulle si le texte a été 
-  créé avec succès ou zéro en cas d'erreur.
+  Renvoie une valeur non nulle si le texte a Ã©tÃ© 
+  crÃ©Ã© avec succÃ¨s ou zÃ©ro en cas d'erreur.
   @LineBreak  
-  Si @#PB_Any a été utilisé pour le paramètre 
-  #Texte3D alors le nouveau numéro généré 
-  est renvoyé en cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ© pour le paramÃ¨tre 
+  #Texte3D alors le nouveau numÃ©ro gÃ©nÃ©rÃ© 
+  est renvoyÃ© en cas de succÃ¨s.
    
 @Remarks
-  Pour être affiché, le texte doit être relié à un LibraryLink "node" "noeud" or an @LibraryLink "entity" "entité".
+  Pour Ãªtre affichÃ©, le texte doit Ãªtre reliÃ© Ã  un LibraryLink "node" "noeud" or an @LibraryLink "entity" "entitÃ©".
   
 @Example
 @Code
@@ -84,27 +84,27 @@ Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_File
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/fonts", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
 OpenWindow(0,0,0,1000,1000,"Texte 3D",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
 OpenWindowedScreen(WindowID(0),0,0,1000,1000,1,0,0)
 
-  ; Création du monde 3D    
+  ; CrÃ©ation du monde 3D    
 CreateSphere(0, 2)
 CreateMaterial(0, LoadTexture(0, "clouds.jpg"))
 CreateEntity(0, MeshID(0), MaterialID(0))
 CreateCamera(0, 0, 0, 100, 100)
 MoveCamera(0, 0, 0, 10, #PB_Absolute)    
 
-  ; Création d'un texte 3D
-CreateText3D(0, FormatDate("%hh:%ii:%ss", Date()))  ; Création du texte 3D
+  ; CrÃ©ation d'un texte 3D
+CreateText3D(0, FormatDate("%hh:%ii:%ss", Date()))  ; CrÃ©ation du texte 3D
 Text3DColor(0, RGBA(255, 0, 0, 255))                ; Couleur et transparence
 Text3DAlignment(0, #PB_Text3D_HorizontallyCentered) ; Alignement du texte
-AttachEntityObject(0, "", Text3DID(0))              ; Il est obligatoire de lier un texte 3D à une entité (ou un noeud)
+AttachEntityObject(0, "", Text3DID(0))              ; Il est obligatoire de lier un texte 3D Ã  une entitÃ© (ou un noeud)
 MoveText3D(0, 0.5, 1, 2)                            ; Position du texte 3D
 ScaleText3D(0,0.8,0.2,0.5,#PB_Absolute)             ; Dimension du texte 3D
 
 
-  ; Gestion de la fenêtre, du clavier et de la souris   
+  ; Gestion de la fenÃªtre, du clavier et de la souris   
  Repeat
   Repeat 
     Event  = WindowEvent() 
@@ -153,15 +153,15 @@ ScaleText3D(0,0.8,0.2,0.5,#PB_Absolute)             ; Dimension du texte 3D
     EndIf
   EndIf
   
-  ; Barre espace = ON/OFF rotation de l'entité avec le texte 3d attaché à elle
+  ; Barre espace = ON/OFF rotation de l'entitÃ© avec le texte 3d attachÃ© Ã  elle
   If rotation =1
     RotateEntity(0, 1, 1, 1, #PB_Relative)
   EndIf
   
-  ; Mise à jour de l'heure
+  ; Mise Ã  jour de l'heure
   Text3DCaption(0, FormatDate("%hh:%ii:%ss", Date()))
   
-  ; Affichage de la scène
+  ; Affichage de la scÃ¨ne
   StartDrawing(WindowOutput(0))
   DrawText(0,5,"Souris et Clavier: Espace et Molette souris")  
   DrawText(0,30,".: Echap ou clic gauche pour quitter :.")
@@ -186,24 +186,24 @@ End
 @Function FreeText3D(#Texte3D)
 
 @Description
-  Libère un texte 3D.
+  LibÃ¨re un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à libérer. 
+  Le texte 3D Ã  libÃ©rer. 
 @LineBreak
 @LineBreak
-  Si @#PB_All est spécifié, tous les textes 
-  3D restants sont libérés.
+  Si @#PB_All est spÃ©cifiÃ©, tous les textes 
+  3D restants sont libÃ©rÃ©s.
 
 @NoReturnValue
 
 @Remarks
-  Une fois que le texte est libéré, il ne peut 
-  plus être utilisé.
+  Une fois que le texte est libÃ©rÃ©, il ne peut 
+  plus Ãªtre utilisÃ©.
 @LineBreak
 @LineBreak
   Tout les textes restants sont automatiquement 
-  libérés lorsque le programme se termine.
+  libÃ©rÃ©s lorsque le programme se termine.
 
 @SeeAlso
   @@CreateText3D
@@ -215,13 +215,13 @@ End
 @Function Resultat = Text3DID(#Texte3D)
 
 @Description
-  Renvoie l'identifiant système unique d'un texte 3D.
+  Renvoie l'identifiant systÃ¨me unique d'un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
 
 @ReturnValue
-  Renvoie l'identifiant système unique du texte 3D.
+  Renvoie l'identifiant systÃ¨me unique du texte 3D.
 
 @SupportedOS
 
@@ -230,21 +230,21 @@ End
 @Function Resultat = IsText3D(#Texte3D)
 
 @Description
-  Teste si le nombre donné est un texte 3D 
-  valide et correctement initialisé. 
+  Teste si le nombre donnÃ© est un texte 3D 
+  valide et correctement initialisÃ©. 
 
 @Parameter "#Texte3D"
-  Le texte 3D à tester.
+  Le texte 3D Ã  tester.
 
 @ReturnValue
   Renvoie une valeur non nulle si #Texte3D 
-  est un texte valide ou zéro sinon.
+  est un texte valide ou zÃ©ro sinon.
 
 @Remarks
-  Cette fonction est robuste et peut être 
-  utilisée avec n'importe quelle valeur. 
-  C'est une bonne façon de s'assurer que 
-  le texte est prêt à être utilisé.
+  Cette fonction est robuste et peut Ãªtre 
+  utilisÃ©e avec n'importe quelle valeur. 
+  C'est une bonne faÃ§on de s'assurer que 
+  le texte est prÃªt Ã  Ãªtre utilisÃ©.
 
 @SeeAlso
   @@CreateText3D
@@ -255,26 +255,26 @@ End
 @Function MoveText3D(#Texte3D, X.f, Y.f, Z.f [, Mode])
 
 @Description
-  Déplace un texte 3D.
+  DÃ©place un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
 
 @Parameter "X.f, Y.f, Z.f"  
   La nouvelle position du texte.
 
 @OptionalParameter "Mode"
-  Le mode de déplacement. Peut être une 
+  Le mode de dÃ©placement. Peut Ãªtre une 
   des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Déplacement relatif, à partir de la position courante du texte (par défaut).
-  @#PB_Absolute: Déplacement absolu vers la position spécifiée.
+  @#PB_Relative: DÃ©placement relatif, Ã  partir de la position courante du texte (par dÃ©faut).
+  @#PB_Absolute: DÃ©placement absolu vers la position spÃ©cifiÃ©e.
 @EndFixedFont
- Combiné à l'une des valeurs suivantes:
+ CombinÃ© Ã  l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Local : Déplacement local.
-  @#PB_Parent: Déplacement par rapport à la position du parent.
-  @#PB_World : Déplacement par rapport au monde.
+  @#PB_Local : DÃ©placement local.
+  @#PB_Parent: DÃ©placement par rapport Ã  la position du parent.
+  @#PB_World : DÃ©placement par rapport au monde.
 @EndFixedFont
 
 @NoReturnValue  
@@ -296,25 +296,25 @@ End
   les 3 directions de l'espace. 
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
  
 @Parameter "X.f, Y.f, Z.f"
-  Les facteurs d'échelle (agrandissement ou 
+  Les facteurs d'Ã©chelle (agrandissement ou 
   rapetissement) en X, Y et Z.
 
 @OptionalParameter "Mode"
- Le mode du changement de taille. Peut être 
+ Le mode du changement de taille. Peut Ãªtre 
  une des valeurs suivantes:
 @FixedFont
-  @#PB_Relative: Changement relatif, sur la base de la taille initiale (par défaut). Une valeur de 1.0 ne change pas la taille.
-  @#PB_Absolute: Changement absolu, dans l'unité du monde.
+  @#PB_Relative: Changement relatif, sur la base de la taille initiale (par dÃ©faut). Une valeur de 1.0 ne change pas la taille.
+  @#PB_Absolute: Changement absolu, dans l'unitÃ© du monde.
 @EndFixedFont
 
 @NoReturnValue
 
 @Remarks
   Avec le mode @#PB_Relative, la taille sera 
-  multipliée par la valeur donnée.
+  multipliÃ©e par la valeur donnÃ©e.
   
 @Example
   Voir @@CreateText3D
@@ -329,13 +329,13 @@ End
 @Function Text3DCaption(#Texte3D, Texte$)
 
 @Description
-  Modifie le texte affiché d'un texte 3D.
+  Modifie le texte affichÃ© d'un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
  
 @Parameter "Texte$"
-  Le nouveau texte à afficher.
+  Le nouveau texte Ã  afficher.
 
 @NoReturnValue
   
@@ -355,7 +355,7 @@ End
   Change la couleur d'un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
  
 @Parameter "Couleur"
   La nouvelle couleur @@RGBA et transparence du texte. 
@@ -378,17 +378,17 @@ End
   Modifie l'alignement d'un texte 3D.
 
 @Parameter "#Texte3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
  
 @Parameter "Alignement"
-  L'alignement du texte. Peut être une 
+  L'alignement du texte. Peut Ãªtre une 
   combinaison des valeurs suivantes:
 @FixedFont
-  @#PB_Text3D_Left  : Le texte sera aligné à gauche
-  @#PB_Text3D_Top   : Le texte sera aligné en haut
-  @#PB_Text3D_Bottom: Le texte sera aligné en bas
-  @#PB_Text3D_HorizontallyCentered: Le texte sera centré horizontalement
-  @#PB_Text3D_VerticallyCentered  : Le texte sera centré verticalement
+  @#PB_Text3D_Left  : Le texte sera alignÃ© Ã  gauche
+  @#PB_Text3D_Top   : Le texte sera alignÃ© en haut
+  @#PB_Text3D_Bottom: Le texte sera alignÃ© en bas
+  @#PB_Text3D_HorizontallyCentered: Le texte sera centrÃ© horizontalement
+  @#PB_Text3D_VerticallyCentered  : Le texte sera centrÃ© verticalement
 @EndFixedFont
 
 @NoReturnValue
@@ -409,7 +409,7 @@ End
   Renvoie la position absolue 'x' du texte dans le monde.
 
 @Parameter "#Text3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
 
 @ReturnValue
   Renvoie la position absolue 'x' du texte.
@@ -427,7 +427,7 @@ End
   Renvoie la position absolue 'y' du texte dans le monde.
 
 @Parameter "#Text3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
 
 @ReturnValue
   Renvoie la position absolue 'y' du texte.
@@ -445,7 +445,7 @@ End
   Renvoie la position absolue 'z' du texte dans le monde.
 
 @Parameter "#Text3D"
-  Le texte 3D à utiliser.
+  Le texte 3D Ã  utiliser.
   
 @ReturnValue
  Renvoie la position absolue 'z' du texte.

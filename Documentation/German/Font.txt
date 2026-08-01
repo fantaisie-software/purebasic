@@ -1,18 +1,18 @@
-;
+ï»¿;
 ;     Font library documentation
 ;
-;      (c) 2020 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Font
 
 @Overview
-  Zeichensätze (englisch "Fonts") sind auf Computern weit verbreitet, da sie die einzige Möglichkeit
-  darstellen, Text in verschiedenen Größen und Formen auszugeben.
+  Schriftarten bzw. ZeichensÃ¤tze (englisch "Fonts") sind auf Computern weit verbreitet, da sie die einzige MÃ¶glichkeit
+  darstellen, Text in verschiedenen GrÃ¶ÃŸen und Formen auszugeben.
 @LineBreak
 @LineBreak
-  Hinweis: Mit PureBasic ist die Verwendung farbiger Zeichensätze noch nicht möglich. Dies kann jedoch 
-  mit Hilfe des @@StartDrawing Befehls und daran anschließendem Zeichnen
+  Hinweis: Mit PureBasic ist die Verwendung farbiger ZeichensÃ¤tze noch nicht mÃ¶glich. Dies kann jedoch 
+  mit Hilfe des @@StartDrawing Befehls und daran anschlieÃŸendem Zeichnen
   direkt auf den sichtbaren Bereich erreicht werden.
 
 @CommandList
@@ -27,15 +27,15 @@
 @Function FreeFont(#Font)
 
 @Description
-  Gibt den angegebenen Zeichensatz frei, der zuvor mittels @@LoadFont initialisiert wurde.
+  Gibt den angegebenen Zeichensatz frei, der zuvor mittels @@LoadFont geladen wurde.
 
 @Parameter "#Font"
-  Der freizugebende Zeichensatz. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Zeichensätze freigegeben.
+  Der freizugebende Zeichensatz. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen ZeichensÃ¤tze freigegeben.
 
 @NoReturnValue
 
 @Remarks
-  Alle verbleibenden Zeichensätze werden automatisch freigegeben, wenn das Programm endet.
+  Alle verbleibenden ZeichensÃ¤tze werden automatisch freigegeben, wenn das Programm endet.
 
 @SeeAlso
   @@LoadFont
@@ -47,41 +47,41 @@
 @Function FontID = FontID(#Font)
 
 @Description
-  Gibt den eindeutigen System-Identifier (Bezeichner) des Zeichensatzes zurück.
+  Gibt den eindeutigen System-Identifier (Bezeichner) des Zeichensatzes zurÃ¼ck.
 
 @Parameter "#Font"
   Der zu verwendende Zeichensatz.
 
 @ReturnValue
-  Gibt die ID des Zeichensatzes zurück.
+  Gibt die eindeutige System-ID des Zeichensatzes zurÃ¼ck.
   Dieses Ergebnis wird manchmal auch als 'Handle' bezeichnet. Schauen Sie in das Extra-Kapitel
-  @ReferenceLink "handles" "'Handles und Nummern'" für weitere Informationen.
+  @ReferenceLink "handles" "'Handles und Nummern'" fÃ¼r weitere Informationen.
 
 @Example
-  Ein Beispiel für die Verwendung von FontID() in Kombination mit @@SetGadgetFont:
+  Ein Beispiel fÃ¼r die Verwendung von FontID() in Kombination mit @@SetGadgetFont:
 @Code
   If OpenWindow(0, 0, 0, 222, 130, "FontID()", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-    ButtonGadget(0, 10, 10, 200, 30, "Anklicken zum Ändern des Fonts...")
+    ButtonGadget(0, 10, 10, 200, 30, "Anklicken zum Ã„ndern des Fonts...")
     Font1 = LoadFont(#PB_Any, "Arial"  ,  8, #PB_Font_Bold)
     Font2 = LoadFont(#PB_Any, "Verdana", 12, #PB_Font_StrikeOut)
     UsedFont = 1
   EndIf
-
+  
   Repeat
     Event = WaitWindowEvent()
-
-  If Event = #PB_Event_Gadget
-    If EventGadget() = 0
-      If UsedFont = 1
-        SetGadgetFont(0, FontID(Font2))
-        UsedFont = 2
-      Else
-        SetGadgetFont(0, FontID(Font1))
-        UsedFont = 1
+  
+    If Event = #PB_Event_Gadget
+      If EventGadget() = 0
+        If UsedFont = 1
+          SetGadgetFont(0, FontID(Font2))
+          UsedFont = 2
+        Else
+          SetGadgetFont(0, FontID(Font1))
+          UsedFont = 1
+        EndIf
       EndIf
     EndIf
-  EndIf
-
+  
   Until Event = #PB_Event_CloseWindow
 @EndCode
 
@@ -97,17 +97,17 @@
 @Function Ergebnis = IsFont(#Font)
 
 @Description
-  Überprüft, ob die angegebene #Font Nummer gültig und ein korrekt initialisierter Zeichensatz ist.
+  ÃœberprÃ¼ft, ob die angegebene #Font Nummer gÃ¼ltig und ein korrekt initialisierter Zeichensatz ist.
 
 @Parameter "#Font"
   Der zu verwendende Zeichensatz.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Font ein gültiger Zeichensatz ist, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #Font ein gÃ¼ltiger Zeichensatz ist, andernfalls Null.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das Ergebnis
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird Null zurückgegeben.
+  ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert, andernfalls wird Null zurÃ¼ckgegeben.
   Dies ist der richtige Weg, um sicher zu stellen, dass ein Zeichensatz bereit zur Verwendung ist.
 
 @SeeAlso
@@ -117,10 +117,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = LoadFont(#Font, Name$, Höhe [, Flags])
+@Function Ergebnis = LoadFont(#Font, Name$, HÃ¶he [, Flags])
 
 @Description
-  Versucht den angegebenen Zeichensatz zu öffnen. 
+  Versucht den angegebenen Zeichensatz zu Ã¶ffnen. 
 
 @Parameter "#Font"
   Die Nummer, durch welche der neue Zeichensatz identifiziert wird.
@@ -130,36 +130,40 @@
 @Parameter "Name$"
   Der Name des zu ladenden Zeichensatzes.
 
-@Parameter "Höhe"
-  Die vertikale Größe des Zeichensatzes in Punkten.
+@Parameter "HÃ¶he"
+  Die vertikale GrÃ¶ÃŸe des Zeichensatzes in Punkten.
 
 @OptionalParameter "Flags"
   Optionale Varianten des zu ladenden Zeichensatzes.
   Dies kann eine Kombination der folgenden Konstanten sein:
 @FixedFont
   @#PB_Font_Bold       : Fettschrift
-  @#PB_Font_Italic     : Kursiv (Schrägschrift)
+  @#PB_Font_Italic     : Kursiv (SchrÃ¤gschrift)
   @#PB_Font_Underline  : Unterstrichen (nur auf Windows)
   @#PB_Font_StrikeOut  : Durchgestrichen (nur auf Windows)
-  @#PB_Font_HighQuality: Zeichensatz mit höchster Qualität laden (langsamer) (nur auf Windows)
+  @#PB_Font_HighQuality: Zeichensatz mit hÃ¶chster QualitÃ¤t laden (langsamer) (nur auf Windows)
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Zeichensatz erfolgreich geladen wurde,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Zeichensatz erfolgreich geladen wurde,
   und Null wenn nicht. Wenn @#PB_Any als #Font Parameter verwendet wurde,
-  dann wird bei Erfolg die generierte Nummer zurückgegeben.
+  dann wird bei Erfolg die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Wenn vorher ein anderer Zeichensatz mit der gleichen '#Font' Nummer geladen wurde, wird dieser
-  automatisch freigegeben.
+  Wenn vorher ein anderer Zeichensatz mit derselben #Font-Nummer geladen wurde, wird der Ã¤ltere
+  Zeichensatz beim Laden des neuen automatisch freigegeben.
 @LineBreak
 @LineBreak
   Auf Windows und OS X wird der systemseitige Font-Mapper (die Schriftart-Zuordnung) immer versuchen,
   eine Schriftart zu finden. Wenn ein nicht existierender Zeichensatz-Name wie
   z.B. "Tim Now Ronin" verwendet wird, dann versucht der Font-Mapper den am besten
   passenden zu finden. Dies wird anhand solcher Kriterien wie Zeichensatz-Name,
-  Zeichensatz-Höhe, Stil usw. erfolgen. Daher kann also nicht davon ausgegangen
-  werden, dass kein Zeichensatz geladen wird, nur wegen inkorrektem Namen, Größe, etc...
+  Zeichensatz-HÃ¶he, Stil usw. erfolgen. Daher kann also nicht davon ausgegangen
+  werden, dass kein Zeichensatz geladen wird, nur wegen inkorrektem Namen, GrÃ¶ÃŸe, etc.
+@LineBreak
+@LineBreak
+  Auf Windows und macOS kÃ¶nnen Sie die GrÃ¶ÃŸe und den Stil der Systemschriftart der Anwendung Ã¤ndern,
+  ohne ihren Namen anzugeben, und zwar wie folgt: LoadFont(1, "", 24)
 
 @Example
 @Code
@@ -184,36 +188,35 @@
 @Function Ergebnis = RegisterFontFile(DateiName$)
 
 @Description
-  Registriert eine Zeichensatz-Datei für die Verwendung mit dem @@LoadFont Befehl. Alle in der Datei
-  enthaltenen Zeichensätze sind dann verfügbar.
+  Registriert eine Zeichensatz-Datei fÃ¼r die Verwendung mit dem @@LoadFont Befehl. Alle in der Datei
+  enthaltenen ZeichensÃ¤tze sind dann verfÃ¼gbar.
 
 @Parameter "DateiName$"
   Die Datei, welche den Zeichensatz beinhaltet. Die Datei muss im TrueType-Format vorliegen.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Datei erfolgreich registriert wurde.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Datei erfolgreich registriert wurde, andernfalls Null.
 
 @Remarks
-  Die Zeichensatz-Datei wird nur für das aktuelle Programm registriert. Dies bedeutet, dass die
-  Schrift(en) nicht für andere Programme zugänglich ist (sind) und sie auch nicht mehr registriert
+  Die Zeichensatz-Datei wird nur fÃ¼r das aktuelle Programm registriert. Dies bedeutet, dass die
+  Schrift(en) nicht fÃ¼r andere Programme zugÃ¤nglich ist (sind) und sie auch nicht mehr registriert
   sein wird (werden), wenn das Programm endet. Durch diesen Befehl werden keine systemweiten
-  Änderungen vorgenommen.
+  Ã„nderungen vorgenommen.
 @LineBreak
 @LineBreak  
-  Sie können keine registrierte Schriftart mit der @LibraryLink "VectorDrawing" "VectorDrawing"-Bibliothek verwenden.
+  Sie kÃ¶nnen keine registrierte Schriftart mit der @LibraryLink "VectorDrawing" "VectorDrawing"-Bibliothek verwenden.
 
 @Example
 @Code
-  ; Nun lasst uns einen neuen Zeichensatz nutzen, der aus dem Internet in das temporäre Verzeichnis geladen wurde...
+  ; Nun lasst uns einen neuen Zeichensatz nutzen, der aus dem Internet in das temporÃ¤re Verzeichnis geladen wurde...
   ; Der Zeichensatz-Name lautet "ascii" und dessen Datei ist die "ascii.ttf"
-  If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; Wir müssen sie registrieren, bevor wir sie nutzen können
-    LoadFont(0, "ascii", 12) ; Jetzt können wir den Zeichensatz laden, das Betriebssystem kennt ihn
+  If RegisterFontFile(GetTemporaryDirectory() + "ascii.ttf") ; Wir mÃ¼ssen sie registrieren, bevor wir sie nutzen kÃ¶nnen
+    LoadFont(0, "ascii", 12) ; Jetzt kÃ¶nnen wir den Zeichensatz laden, das Betriebssystem kennt ihn
     SetGadgetFont(0, FontID(0))
   ...
 @EndCode
 
 @ExampleFile All FontRegister.pb
-
 
 @SeeAlso
   @@LoadFont

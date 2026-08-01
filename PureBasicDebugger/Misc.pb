@@ -276,7 +276,7 @@ Procedure.s StrF_Debug(Value.f)
   EndIf
 EndProcedure
 
-Procedure.s StrD_Debug(Value.d, Digits = 25)
+Procedure.s StrD_Debug(Value.d, Digits = 16)
   String$ = StrD(Value, Digits)
   If FindString(String$, ".", 1) = 0
     ProcedureReturn String$
@@ -358,6 +358,10 @@ Procedure ScrollEditorGadgetToEnd(Gadget)
       gtk_text_buffer_add_mark_(*Buffer, *Mark , @iter)
       gtk_text_view_scroll_to_mark_(GadgetID(Gadget), *Mark , 0.0, #True, 0.0, 0.17) ; gtk_text_view_scroll_to_iter_() is broken, so use the mark system
       gtk_text_buffer_delete_mark_(*Buffer, *Mark)
+    CompilerEndIf
+    
+    CompilerIf #CompileLinuxQt
+      Qt_ScrollEditorToBottom(GadgetID(Gadget))
     CompilerEndIf
     
     CompilerIf #CompileWindows

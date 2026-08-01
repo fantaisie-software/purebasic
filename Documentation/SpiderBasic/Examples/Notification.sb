@@ -1,0 +1,37 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Notification example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+; Note: it only work when compiled for iOS or Android devices
+;
+
+Procedure NotificationEvents()
+  Select EventNotification()
+    Case 0 ; Something happened on notification 0
+      If EventType() = #PB_EventType_NotificationTriggered
+        Debug "Triggered " + EventNotification()
+      Else
+        ButtonId = EventData() ; Button id are returned in EventData()
+        Select ButtonId
+          Case 1
+            Debug "Yes pressed !"
+          Case 2
+            Debug "No pressed !"
+        EndSelect
+      EndIf
+  EndSelect
+EndProcedure
+
+CreateNotification(0, "Hello world !", "Are you good today ?", 0)
+NotificationButton(0, 1, "Yes")
+NotificationButton(0, 2, "No")
+
+ScheduleNotification(0, #PB_Notification_InSecond, 20) ; Will be displayed in 20 secs
+
+BindEvent(#PB_Event_Notification, @NotificationEvents())
+  

@@ -1,4 +1,4 @@
-@Title NewList
+﻿@Title NewList
 
 @Syntax
 
@@ -41,22 +41,28 @@
 
 @Code
   NewList Test()
-
+  
+  ; Adding the first 2 items to the list:
   AddElement(Test())
   Test() = 1
   AddElement(Test())
   Test() = 2
-
-  Procedure DebugList(c, List ParameterList())
-
-    AddElement(ParameterList())
-    ParameterList() = 3
-
-    ForEach ParameterList()
-      MessageRequester("List", Str(ParameterList()))
+  
+  Procedure DebugList(count, List ParameterList())
+    ; Adding further items to the list:
+    For i=1 To count
+      AddElement(ParameterList())
+      ParameterList() = i
+    Next 
+    
+    ; Display all items in the list:
+  	i = 1
+    ForEach ParameterList() 
+      MessageRequester("List", "Entry" + Str(i) + " = " + Str(ParameterList()))
+      i + 1
     Next
- 
   EndProcedure
-
-  DebugList(10, Test())
+  
+  ; Add another 3 items to the list and display the list contents:
+  DebugList(3, Test())
 @EndCode

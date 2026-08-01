@@ -1,4 +1,4 @@
-@Title Residents
+ï»¿@Title Residents
 
 @Description
   Residents sind vorkompilierte Dateien, die geladen werden, wenn der Compiler gestartet wird. Sie sind im
@@ -9,19 +9,19 @@
   Sie kann keinen dynamischen Code oder @ReferenceLink "procedures" "Prozeduren" enthalten.
   @LineBreak
   @LineBreak
-  Wenn ein Resident geladen wird, dann ist sein gesamter Inhalt für das zu kompilierende Programm verfügbar.
-  Das ist der Grund, warum alle eingebauten Konstanten wie @#PB_Event_CloseWindow verfügbar sind, sie befinden
+  Wenn ein Resident geladen wird, dann ist sein gesamter Inhalt fÃ¼r das zu kompilierende Programm verfÃ¼gbar.
+  Das ist der Grund, warum alle eingebauten Konstanten wie @#PB_Event_CloseWindow verfÃ¼gbar sind, sie befinden
   sich in der 'PureBasic.res' Datei. Alle API-Strukturen und Konstanten befinden sich auch in einer
   Resident-Datei.
   @LineBreak
   @LineBreak
   Die Verwendung von Residents ist ein sinnvoller Weg, um gemeinsam genutzte Makros, Strukturen und Konstanten
-  zu speichern, so dass sie für alle Programme verfügbar sind. Beim Weitergeben einer Anwender-Bibliothek ist
-  dies auch eine gute Lösung, die benötigten Konstanten und Strukturen anzubieten, wie dies PureBasic tut.
+  zu speichern, so dass sie fÃ¼r alle Programme verfÃ¼gbar sind. Beim Weitergeben einer Anwender-Bibliothek ist
+  dies auch eine gute LÃ¶sung, die benÃ¶tigten Konstanten und Strukturen anzubieten, wie dies PureBasic tut.
   @LineBreak
   @LineBreak
   Um eine neue Resident-Datei zu erstellen, muss der @ReferenceLink "cli_compiler" "Kommandozeilen-Compiler"
-  verwendet werden, da keine Möglichkeit gibt, dies aus der IDE heraus zu tun.
+  verwendet werden, da keine MÃ¶glichkeit gibt, dies aus der IDE heraus zu tun.
   @LineBreak
   Es ist oftmals erforderlich, /IGNORERESIDENT und /CREATERESIDENT zur gleichen Zeit zu verwenden, um
   Dopplungs-Fehler zu vermeiden, da die vorherige Version des Residents geladen wird, bevor die neue
@@ -29,5 +29,5 @@
   @LineBreak
   @LineBreak
   Residents helfen sehr dabei, eine schnellere Kompilierung und einen schnelleren Compiler-Start zu erhalten, da alle
-  Informationen im binären Format gespeichert werden. Dies ist viel schneller zu laden, als bei jedem
+  Informationen im binÃ¤ren Format gespeichert werden. Dies ist viel schneller zu laden, als bei jedem
   Kompilieren eine Include-Datei zu parsen.

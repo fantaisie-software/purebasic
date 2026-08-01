@@ -1,14 +1,14 @@
-@Title Zeiger und Speicherzugriff
+ï»¿@Title Zeiger und Speicherzugriff
 
 @Section Pointer (Zeiger)
 
 @FormatIf HTML
 <!-- There is a bug somewhere, and i had to do this work around. Mesa -->
 <blockquote>
-Das Verwenden von Pointern (Zeigern) ist möglich, indem Sie ein '*' (Sternchen) vor den Namen einer <a href="../reference/variables.html">Variable</a>,
+Das Verwenden von Pointern (Zeigern) ist mÃ¶glich, indem Sie ein '*' (Sternchen) vor den Namen einer <a href="../reference/variables.html">Variable</a>,
 eines <a href="../reference/dim.html">Array</a>, einer
 <a href="../reference/newlist.html">Liste</a> oder einer <a href="../reference/newmap.html">Map</a> schreiben. 
-Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer <a href="../reference/structures.html">Struktur</a> zugeordnet ist.
+Ein Zeiger ist ein Platzhalter fÃ¼r eine Speicheradresse, die normalerweise einer <a href="../reference/structures.html">Struktur</a> zugeordnet ist.
 </blockquote>
 @FormatEndIf
 
@@ -19,31 +19,31 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
   mouseX = *MyScreen\MouseX  ; setzt voraus, dass die Screen Struktur ein MouseX Feld beinhaltet
 @EndCode  
 
-  Es gibt nur drei gültige Methoden, den Wert eines Zeigers zu setzen: @LineBreak
+  Es gibt nur drei gÃ¼ltige Methoden, den Wert eines Zeigers zu setzen: @LineBreak
   - als Ergebnis einer Funktion erhalten (wie im obigen Beispiel gezeigt) @LineBreak
   - den Wert von einem anderen Zeiger kopieren @LineBreak
   - Adresse einer Variable, einer Prozedur oder einer Sprungmarke (siehe weiter unten) ermitteln @LineBreak
   @LineBreak
   Hinweis: Anders als in C/C++ ist in PureBasic der * @Bold immer Teil des Variablennamens. Damit sind '*ptr' und 'ptr' zwei 
-  verschiedene Variablen. 'ptr' ist eine (reguläre) Variable zum Speichern eines Werts, '*ptr' ist eine andere Variable 
+  verschiedene Variablen. 'ptr' ist eine (regulÃ¤re) Variable zum Speichern eines Werts, '*ptr' ist eine andere Variable 
   vom Typ Zeiger zum Speichern einer Adresse.
 
   @LineBreak
   @LineBreak
-  @Underline "Zeiger und Speichergröße"
+  @Underline "Zeiger und SpeichergrÃ¶ÃŸe"
   @LineBreak
   @LineBreak
-  Da Zeiger als Werte nur Adressen empfangen, ist die Speichergröße eines Zeigers der Platz, 
-  der das Speichern einer absoluten Adresse des Prozessors ermöglicht:
+  Da Zeiger als Werte nur Adressen empfangen, ist die SpeichergrÃ¶ÃŸe eines Zeigers der Platz, 
+  der das Speichern einer absoluten Adresse des Prozessors ermÃ¶glicht:
   @LineBreak
   - Auf 32 Bit Prozessoren ist der Adressraum auf 32 Bit begrenzt, weshalb ein Zeiger 32 Bit
   (4 Bytes, wie ein 'Long') im Speicher verbraucht 
   @LineBreak
-  - Auf 64 Bit Prozessoren benötigt er 64 Bit (8 Bytes, wie ein 'Quad') im Speicher,
+  - Auf 64 Bit Prozessoren benÃ¶tigt er 64 Bit (8 Bytes, wie ein 'Quad') im Speicher,
   weil die absolute Adresse in einem 64 Bit Bereich liegt.
   @LineBreak
   @LineBreak
-  Als eine Konsequenz daraus hängt der Typ des Zeigers vom CPU-Adressmodus ab ('Long' auf 32 Bit
+  Als eine Konsequenz daraus hÃ¤ngt der Typ des Zeigers vom CPU-Adressmodus ab ('Long' auf 32 Bit
   CPU und 'Quad' auf 64 Bit zum Beispiel), so ist ein Zeiger eine Variable vom Typ Zeiger.
   @LineBreak
   Daraus resultiert, dass das Zuweisen eines nativen Typs zu einem Zeiger (*Pointer.l , *Pointer.b ...) 
@@ -53,43 +53,43 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
   Hinweis:
   @LineBreak
   - Jedes Mal, wenn eine Speicheradresse in einer Variable gespeichert werden muss, sollte dies
-  mit einem Zeiger erfolgen. Dies garantiert Adressintegrität zur Kompilationszeit, unabhängig 
+  mit einem Zeiger erfolgen. Dies garantiert AdressintegritÃ¤t zur Kompilationszeit, unabhÃ¤ngig 
   davon wie gerade der CPU-Adressmodus ist. 
   @LineBreak
-  - PureBasic x86 erstellt @Underline "keine" 64 Bit Executables. Für damit kompilierte Programme 
-  gewährt das Betriebssystem nur eine Adressierung mit 32 Bit Pointern.
+  - PureBasic x86 erstellt @Underline "keine" 64 Bit Executables. FÃ¼r damit kompilierte Programme 
+  gewÃ¤hrt das Betriebssystem nur eine Adressierung mit 32 Bit Pointern.
   @LineBreak
   @LineBreak
   @Underline "Zeiger und Strukturen"
   @LineBreak
   @LineBreak
   Durch das Zuweisen einer Struktur zu einem Zeiger (zum Beispiel *MyPointer.Point) wird der
-  Zugriff auf jede Speicheradresse auf strukturiertem Weg (mit dem Operator '\') ermöglicht.
+  Zugriff auf jede Speicheradresse auf strukturiertem Weg (mit dem Operator '\') ermÃ¶glicht.
   @LineBreak
 @Example
 @Code
   Define Point1.Point, Point2. Point
-  *CurrentPoint.Point = @Point1  ; Zeiger-Deklaration, verknüpft mit einer Struktur und initialisiert mit der Adresse von Point1
-  *CurrentPoint \x = 10          ; Point1\x erhält den Wert 10 zugewiesen
+  *CurrentPoint.Point = @Point1  ; Zeiger-Deklaration, verknÃ¼pft mit einer Struktur und initialisiert mit der Adresse von Point1
+  *CurrentPoint \x = 10          ; Point1\x erhÃ¤lt den Wert 10 zugewiesen
   *CurrentPoint.Point = @Point2  ; Springen zur Adresse von Point2
-  *CurrentPoint \x = 20          ; Point2\x erhält den Wert 20 zugewiesen
+  *CurrentPoint \x = 20          ; Point2\x erhÃ¤lt den Wert 20 zugewiesen
   Debug Point1\x
   Debug Point2\x
 @EndCode
 
-  Zeiger erlauben das einfache Bewegen, Lesen und Schreiben im Speicher. Weiterhin ermöglichen sie 
-  dem Programmierer den Zugriff auf große Datenmengen ohne den zusätzlichen Aufwand der 
-  Datenvervielfältigung. Das Kopieren eines Zeigers ist viel schneller.
+  Zeiger erlauben das einfache Bewegen, Lesen und Schreiben im Speicher. Weiterhin ermÃ¶glichen sie 
+  dem Programmierer den Zugriff auf groÃŸe Datenmengen ohne den zusÃ¤tzlichen Aufwand der 
+  DatenvervielfÃ¤ltigung. Das Kopieren eines Zeigers ist viel schneller.
   @LineBreak
   @LineBreak
-  Zeiger sind auch in Strukturen verfügbar, für weitere Informationen siehe das @ReferenceLink "structures" "Kapitel Strukturen".
+  Zeiger sind auch in Strukturen verfÃ¼gbar, fÃ¼r weitere Informationen siehe das @ReferenceLink "structures" "Kapitel Strukturen".
   @LineBreak
   @LineBreak
   @Underline "Zeiger und Zeichenketten (Strings)"
   @LineBreak
   @LineBreak
-  Alle Variablen haben eine permanente Größe im Speicher (2 Byte für Word, 4 Bytes für Long, etc.) -
-  außer für Strings, da sich deren Länge verändern kann. Aus diesem Grund werden String-Variablen auch 
+  Alle Variablen haben eine permanente GrÃ¶ÃŸe im Speicher (2 Byte fÃ¼r Word, 4 Bytes fÃ¼r Long, etc.) -
+  auÃŸer fÃ¼r Strings, da sich deren LÃ¤nge verÃ¤ndern kann. Aus diesem Grund werden String-Variablen auch 
   auf eine andere Weise gehandhabt wie sonstige Variablen.
   @LineBreak
   Daher speichert ein Struktur-Feld, welches auf einen String verweist, nur die Speicheradresse
@@ -106,19 +106,19 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
   @Underline "Zeiger Arithmetik" 
   @LineBreak
   @LineBreak
-  Arithmetische Operationen mit Zeigern sind möglich und praktisch durch Verwendung von @ReferenceLink "compilerfunctions" "SizeOf()".
+  Arithmetische Operationen mit Zeigern sind mÃ¶glich und praktisch durch Verwendung von @ReferenceLink "compilerfunctions" "SizeOf()".
   @LineBreak
 @Example
 @Code
   Dim Array.Point(1)         ; Array von Punkten
  
   *Pointer.Point = @Array()  ; Speichern der Array-Adresse
-  *Pointer\x = 10            ; Ändern des Werts vom ersten Array-Element
+  *Pointer\x = 10            ; Ã„ndern des Werts vom ersten Array-Element
   *Pointer\y = 15   
 
-  *Pointer + SizeOf(Point)   ; Springen zum nächsten Array-Element
+  *Pointer + SizeOf(Point)   ; Springen zum nÃ¤chsten Array-Element
 
-  *Pointer\x = 7             ; Ändern des Werts vom zweiten Array-Element
+  *Pointer\x = 7             ; Ã„ndern des Werts vom zweiten Array-Element
   *Pointer\y = 9
  
   ; Anzeigen der Ergebnisse
@@ -136,9 +136,9 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
 @Section Adressen von Variablen
 
   Um die Adresse einer @ReferenceLink "variables" "Variable" in Ihrem Programmcode zu ermitteln, benutzen Sie das 'at' Symbol (@). 
-  Ein üblicher Grund für die Benutzung dieser Methode ist, wenn Sie die Variable eines Struktur-Typs 
-  an eine @ReferenceLink "procedures" "Prozedur" übergeben wollen. Sie müssen einen Zeiger auf diese Variable übergeben, da Sie 
-  strukturierte Variablen nicht direkt übergeben können.
+  Ein Ã¼blicher Grund fÃ¼r die Benutzung dieser Methode ist, wenn Sie die Variable eines Struktur-Typs 
+  an eine @ReferenceLink "procedures" "Prozedur" Ã¼bergeben wollen. Sie mÃ¼ssen einen Zeiger auf diese Variable Ã¼bergeben, da Sie 
+  strukturierte Variablen nicht direkt Ã¼bergeben kÃ¶nnen.
 
 @Example
 
@@ -166,8 +166,8 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
 
 @Section Adressen von literalen Strings (Buchstabenketten)
 
-  Um die Adresse eines literalen Strings zu ermitteln, können Sie das 'at' symbol (@) davor verwenden. String-Konstanten werden
-  ebenfalls unterstützt.
+  Um die Adresse eines literalen Strings zu ermitteln, kÃ¶nnen Sie das 'at' symbol (@) davor verwenden. String-Konstanten werden
+  ebenfalls unterstÃ¼tzt.
 
 @Example
 
@@ -183,11 +183,11 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
 
 @Section Adressen von Prozeduren
 
-  Für fortgeschrittene Programmierer.
-  Die häufigste Ursache für die Notwendigkeit zum Ermitteln einer Adresse besteht darin, wenn auf "low-level" Ebene mit dem OS 
-  gearbeitet werden soll. Einige OS erlauben "Callback"- oder "Hook"-Funktionen (für einige Operationen) zu definieren, 
-  welche durch das OS aufgerufen werden und dem Programmierer den Ausbau der Fähigkeiten der betreffenden OS-Routine 
-  ermöglichen. Die Adresse einer @ReferenceLink "procedures" "Prozedur" wird auf ähnliche Art und Weise wie bei 
+  FÃ¼r fortgeschrittene Programmierer.
+  Die hÃ¤ufigste Ursache fÃ¼r die Notwendigkeit zum Ermitteln einer Adresse besteht darin, wenn auf "low-level" Ebene mit dem OS 
+  gearbeitet werden soll. Einige OS erlauben "Callback"- oder "Hook"-Funktionen (fÃ¼r einige Operationen) zu definieren, 
+  welche durch das OS aufgerufen werden und dem Programmierer den Ausbau der FÃ¤higkeiten der betreffenden OS-Routine 
+  ermÃ¶glichen. Die Adresse einer @ReferenceLink "procedures" "Prozedur" wird auf Ã¤hnliche Art und Weise wie bei 
   @ReferenceLink "variables" "Variablen" ermittelt.
 
 @Example
@@ -197,7 +197,7 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
     ; Hier wird Ihre Callback Prozedur abgearbeitet.
   EndProcedure
   
-  ; Ein spezielles Callback für Windows OS ermöglicht die Verarbeitung von Window-Ereignissen.
+  ; Ein spezielles Callback fÃ¼r Windows OS ermÃ¶glicht die Verarbeitung von Window-Ereignissen.
   SetWindowCallback( @WindowCB() )
 @EndCode
 
@@ -208,15 +208,15 @@ Ein Zeiger ist ein Platzhalter für eine Speicheradresse, die normalerweise einer
 
 @Section Adressen von Sprungmarken (Labels)
 
-  Es kann auch nützlich sein, die Adresse einer @ReferenceLink "general_rules" "Sprungmarke" innerhalb Ihres Programmcodes zu ermitteln. Dies ist möglich, 
-  wenn Sie Zugriff auf an dieser Sprungmarke gespeicherten Code oder Daten erhalten möchten. Oder jede andere gute 
-  Möglichkeit, die Sie sich vorstellen können. Um die Adresse einer Sprungmarke zu ermitteln, schreiben Sie ein 
+  Es kann auch nÃ¼tzlich sein, die Adresse einer @ReferenceLink "general_rules" "Sprungmarke" innerhalb Ihres Programmcodes zu ermitteln. Dies ist mÃ¶glich, 
+  wenn Sie Zugriff auf an dieser Sprungmarke gespeicherten Code oder Daten erhalten mÃ¶chten. Oder jede andere gute 
+  MÃ¶glichkeit, die Sie sich vorstellen kÃ¶nnen. Um die Adresse einer Sprungmarke zu ermitteln, schreiben Sie ein 
   Fragezeichen (?) vor den Namen der Sprungmarke.
 
 @Example
 
 @Code
-  Debug "Größe der Daten = " + Str(?EndOfMyData - ?MyData)
+  Debug "GrÃ¶ÃŸe der Daten = " + Str(?EndOfMyData - ?MyData)
   End
   
   DataSection

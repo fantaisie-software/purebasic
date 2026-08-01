@@ -1,4 +1,4 @@
-;
+﻿;
 ;     Cipher library documentation
 ;
 ;      (c) 2014 - Fantaisie Software
@@ -942,3 +942,85 @@ with
   @@AddCipherBuffer, @@FinishCipher, @@AESEncoder, @@AESDecoder
  
 @SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = CreatePasswordHash(Password$ [, WorkFactor])
+
+@Description
+  Creates a hash digest of a password for storage and later verification of a password. It is not possible to
+  recover the input password from the hash value, but passwords can be verified to see if they
+  match the hash using @@VerifyPasswordHash later.
+
+@Parameter "Password$"
+  The password to hash.
+
+@OptionalParameter "WorkFactor"
+  A parameter to influence the amount of work the hash function should require to create or verify a password hash.
+  Larger values for this factor make it more costly to try to break a password by brute force but it will also
+  make creating and verifying the password more costly for the application itself.
+@LineBreak
+@LineBreak
+  Allowed values are 4 to 31. Increasing the WorkFactor by one doubles the amount of work that the function
+  does to create or later verify a password. The default value is 10.
+
+@ReturnValue
+  Returns the hash of the password.
+
+@Remarks
+  The returned password hash includes a random component (a salt value) to ensure that multiple hashes created from
+  the same input password do not create the same hash value. It is therefore not possible to compare the result
+  from this function directly to check a password. The @@VerifyPasswordHash function must be called to check a password
+  instead.
+@LineBreak
+@LineBreak
+  This function implements the bcrypt password hashing algorithm.
+  
+@Example
+@Code
+  ; Create a hash digest for secure storage
+  Hash$ = CreatePasswordHash("secret")
+
+  ; Check passwords against the hash
+  Debug VerifyPasswordHash("secret", Hash$)      ; correct
+  Debug VerifyPasswordHash("othersecret", Hash$) ; incorrect
+@EndCode
+
+@SeeAlso
+  @@VerifyPasswordHash
+ 
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = VerifyPasswordHash(Password$, Hash$)
+
+@Description
+  Checks if a given password matches the hash value previously created with @@CreatePasswordHash.
+
+@Parameter "Password$"
+  The password to check.
+
+@Parameter "Hash$"
+  The result from a previous call to @@CreatePasswordHash.
+
+@ReturnValue
+  Returns non-zero if the password matches the hash value or zero if it does not match or if the
+  hash value was not valid.
+
+@Example
+@Code
+  ; Create a hash digest for secure storage
+  Hash$ = CreatePasswordHash("secret")
+
+  ; Check passwords against the hash
+  Debug VerifyPasswordHash("secret", Hash$)      ; correct
+  Debug VerifyPasswordHash("othersecret", Hash$) ; incorrect
+@EndCode
+
+@SeeAlso
+  @@CreatePasswordHash
+ 
+@SupportedOS
+
+

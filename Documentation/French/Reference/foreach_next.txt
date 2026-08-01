@@ -1,4 +1,4 @@
-@Title ForEach : Next
+ï»¿@Title ForEach : Next
 
 @Syntax
 
@@ -8,20 +8,23 @@
 
 @Description
 
-  @Keyword ForEach énumère tous les élèments d'une @LibraryLink "List" "liste" ou d'une @LibraryLink "Map" "map".
-  Si la @LibraryLink "List" "liste" ou la @LibraryLink "Map" "map" est vide, @Keyword ForEach : @Keyword Next quitte immédiatement, sans entrer dans la boucle. 
+  @Keyword ForEach Ã©numÃ¨re tous les Ã©lÃ¨ments d'une @LibraryLink "List" "liste" ou d'une @LibraryLink "Map" "map".
+  Si la @LibraryLink "List" "liste" ou la @LibraryLink "Map" "map" est vide, @Keyword ForEach : @Keyword Next quitte immÃ©diatement, sans entrer dans la boucle. 
   @LineBreak
   @LineBreak
-  Lors du l'utilisation en conjonction avec une liste: comme la boucle se termine seulement lorsque le dernier élément de la liste est atteint (en terme de position), 
-  il est tout à fait possible de @Link "List/DeleteElement" "supprimer" ou d' @Link "List/AddElement" "ajouter" 
-  des éléments durant un cycle de boucle. 
-  De même il est permis de changer l'élément courant avec @@ChangeCurrentElement. 
-  Après l'un de ces changements, le prochain cycle de boucle continue avec l'élément qui suit l'élément courant.
+  Lors du l'utilisation en conjonction avec une liste: comme la boucle se termine seulement lorsque le dernier Ã©lÃ©ment de la liste est atteint (en terme de position), 
+  il est tout Ã  fait possible de @Link "List/DeleteElement" "supprimer" ou d' @Link "List/AddElement" "ajouter" 
+  des Ã©lÃ©ments durant un cycle de boucle. 
+  De mÃªme il est permis de changer l'Ã©lÃ©ment courant avec @@ChangeCurrentElement. 
+  AprÃ¨s l'un de ces changements, le prochain cycle de boucle continue avec l'Ã©lÃ©ment qui suit l'Ã©lÃ©ment courant.
   @LineBreak
   @LineBreak
-  Il est possible de quitter une boucle @Keyword ForEach : @Keyword Next à tout moment à l'aide de la commande 
+  Lors du l'utilisation en conjonction avec une map, veuillez Ã  ne pas mettre de clÃ© (voir exemple ci-dessous).
+  @LineBreak
+  @LineBreak
+  Il est possible de quitter une boucle @Keyword ForEach : @Keyword Next Ã  tout moment Ã  l'aide de la commande 
   @ReferenceLink "Break_Continue" Break. La commande @ReferenceLink "Break_Continue" Continue permet de passer 
-  directement à l'itération suivante, sans exécuter la fin du code contenu dans la boucle. @LineBreak
+  directement Ã  l'itÃ©ration suivante, sans exÃ©cuter la fin du code contenu dans la boucle. @LineBreak
   @LineBreak
   
   @Example Liste
@@ -55,5 +58,6 @@
 
   ForEach Pays()
     Debug Pays()
+    ;Debug Pays("FR") ; Non, ne pas mettre de clÃ© car cela peut engendrer une boucle infinie
   Next
 @EndCode  

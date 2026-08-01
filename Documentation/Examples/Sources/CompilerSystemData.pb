@@ -91,6 +91,11 @@ Select OSVersion()
   Case #PB_OS_Windows_8_1:Debug "#PB_OS_Windows_8_1"
   Case #PB_OS_Windows_Server_2012_R2:Debug "#PB_OS_Windows_Server_2012_R2"
   Case #PB_OS_Windows_10:Debug "#PB_OS_Windows_10"
+  Case #PB_OS_Windows_Server_2016:Debug "#PB_OS_Windows_Server_2016"
+  Case #PB_OS_Windows_Server_2019:Debug "#PB_OS_Windows_Server_2019"
+  Case #PB_OS_Windows_Server_2022:Debug " #PB_OS_Windows_Server_2022"
+  Case #PB_OS_Windows_11:Debug "#PB_OS_Windows_11"
+  Case #PB_OS_Windows_Server_2025:Debug "#PB_OS_Windows_Server_2025"
   Case #PB_OS_Windows_Future:Debug "#PB_OS_Windows_Future"
     
     ;Linux

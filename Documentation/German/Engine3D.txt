@@ -1,36 +1,36 @@
-;
+ï»¿;
 ;     Engine3D library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Engine3D
 
 @Overview
-  PureBasic bietet einfachen Zugriff auf eine sehr mächtige OpenSource 3D-Engine
+  PureBasic bietet einfachen Zugriff auf eine sehr mÃ¤chtige OpenSource 3D-Engine
   genannt OGRE. Diese Entscheidung wurde getroffen, weil wir das Rad nicht noch einmal
-  erfinden wollten. Als wir die Code-Qualität von OGRE sahen, waren wir der Meinung,
-  dass diese Engine einen beträchtlichen Beitrag zur PureBasic 3D Bibliothek leisten würde.
+  erfinden wollten. Als wir die Code-QualitÃ¤t von OGRE sahen, waren wir der Meinung,
+  dass diese Engine einen betrÃ¤chtlichen Beitrag zur PureBasic 3D Bibliothek leisten wÃ¼rde.
 @LineBreak
 @LineBreak
-  OGRE befindet sich in ständiger
+  OGRE befindet sich in stÃ¤ndiger
   Weiterentwicklung und wird sicherlich bald eine sehr fortschrittliche
-  Engine. Ihre Community wächst mehr und mehr und viele Werkzeuge (Blender,
-  Lightwave und 3DS Max Exporter, Terrain Manager etc.) sind verfügbar, um das Beste 
-  aus dieser Engine herauszuholen. Weitere Informationen über OGRE sind auf der
-  @InternetLink "http://www.ogre3d.org" "OGRE Webseite" verfügbar.
+  Engine. Ihre Community wÃ¤chst mehr und mehr und viele Werkzeuge (Blender,
+  Lightwave und 3DS Max Exporter, Terrain Manager etc.) sind verfÃ¼gbar, um das Beste 
+  aus dieser Engine herauszuholen. Weitere Informationen Ã¼ber OGRE sind auf der
+  @InternetLink "http://www.ogre3d.org" "OGRE Webseite" verfÃ¼gbar.
   Die OGRE-Lizenzdatei kann @ReferenceLink "license_engine3d" "hier" eingesehen werden
   (lesen Sie mehr in den @InternetLink "http://www.ogre3d.org/licensing/licensing-faq" "Licensing FAQ").
 @LineBreak
 @LineBreak
   Hinweis: Wenn Sie in Ihren Projekten die 3D-Engine von PureBasic verwenden
-  und Ihr erstelltes Executable weitergeben möchten, müssen Sie die Engine3D.dll
+  und Ihr erstelltes Executable weitergeben mÃ¶chten, mÃ¼ssen Sie die Engine3D.dll
   aus dem PureBasic/Compilers Verzeichnis in das Hauptverzeichnis Ihres Projekts kopieren.
 @LineBreak
 
-@Section Räumliche Konventionen
-  OGRE verwendet die folgenden räumlichen Konventionen: @LineBreak
-  Der räumliche Bezug von OGRE ist direkt und die Regel der "drei Finger der rechten Hand"
+@Section RÃ¤umliche Konventionen
+  OGRE verwendet die folgenden rÃ¤umlichen Konventionen: @LineBreak
+  Der rÃ¤umliche Bezug von OGRE ist direkt und die Regel der "drei Finger der rechten Hand"
   erlaubt es uns, einfach die Position der Achsen X, Y und Z in der 3D-Welt zu finden.
 @Image ogre_axes.png
   @Underline "Achtung, die Z-Achse ist Ihnen zugewandt."
@@ -43,7 +43,7 @@
 @LineBreak
 @LineBreak
   @Bold "Positive Richtung:" @LineBreak
-  Die positive Richtung für eine Drehung um die Achse. @LineBreak
+  Die positive Richtung fÃ¼r eine Drehung um die Achse. @LineBreak
    Daumen in der Richtung der Achse wie angedeutet, ergibt die Richtung der Finger die positive
    Drehrichtung. @LineBreak
    (Verwenden Sie Ihre rechte Hand).
@@ -52,14 +52,30 @@
 @LineBreak
 
 @Section Wichtiger Hinweis:
-  In allen bei PureBasic mitgelieferten 3D-Bibliotheken sind alle Variablen und Rückgabewerte
-  vom Typ 'Float' (Fließkommazahl), außer bei IDs und Indexes, auch wenn dies nicht durch ein
+  In allen bei PureBasic mitgelieferten 3D-Bibliotheken sind alle Variablen und RÃ¼ckgabewerte
+  vom Typ 'Float' (FlieÃŸkommazahl), auÃŸer bei IDs und Indexes, auch wenn dies nicht durch ein
   '.f' angegeben wird.
 @LineBreak
 @LineBreak
 
-
 @CommandList
+
+@ExampleFile All ConvertLocalToWorldPosition.pb
+@ExampleFile All ConvertWorldToLocalPosition.pb
+@ExampleFile All MousePick.pb
+@ExampleFile All MouseRayCast.pb
+@ExampleFile All PointPick.pb
+@ExampleFile All PointPick_2D3D.pb
+@ExampleFile All RayPick.pb
+@ExampleFile All SetOrientation.pb
+@ExampleFile All SkyBox.pb
+@ExampleFile All Water.pb
+@ExampleFile All WorldDebug.pb
+@ExampleFile All WorldShadows.pb
+@LineBreak
+@LineBreak 
+@ExampleFile All Bridge.pb
+@ExampleFile All Pendulum.pb
 
 @SupportedOS
 
@@ -68,22 +84,22 @@
 @Function Add3DArchive(Pfad$, Typ)
 
 @Description
-  Fügt der aktuellen 3D Pfad-Liste einen neuen absoluten oder relativen Datei-'Pfad$' hinzu. 
+  FÃ¼gt der aktuellen 3D Pfad-Liste einen neuen absoluten oder relativen Datei-'Pfad$' hinzu. 
 @LineBreak
 @LineBreak
   Alle 3D-Befehle, welche auf das Laden von Daten angewiesen sind (z.B. @LibraryLink "texture" "Texturen", 
   @LibraryLink "mesh" "Mesh's", @Link "SkyBox" "Sky", @Link "RenderWorld" "World", ...),
-  werden diesen Pfad benutzen.
+  werden diesen Pfad benutzen. Es muss nach @@OpenScreen oder @@OpenWindowedScreen angegeben werden.
 @LineBreak
 @LineBreak
   Sie wundern sich, warum es einen speziellen Weg zur Handhabung der
-  Dateien für die 3D-Befehle gibt? Dies liegt daran, dass dieser den Datei-Zugriff flexibler
-  macht und Sie auf die Daten mittels des Standard-Dateisystems oder direkt über die Archiv-Datei (wie .zip)
-  zugreifen können. Dies ist ein sehr cooles Feature, da Sie all Ihre Daten in eine große Datei
-  packen können, und dann auf deren Inhalte so zugreifen können als würden diese sich in einem Standard-Verzeichnis befinden.
+  Dateien fÃ¼r die 3D-Befehle gibt? Dies liegt daran, dass dieser den Datei-Zugriff flexibler
+  macht und Sie auf die Daten mittels des Standard-Dateisystems oder direkt Ã¼ber die Archiv-Datei (wie .zip)
+  zugreifen kÃ¶nnen. Dies ist ein sehr cooles Feature, da Sie all Ihre Daten in eine groÃŸe Datei
+  packen kÃ¶nnen, und dann auf deren Inhalte so zugreifen kÃ¶nnen als wÃ¼rden diese sich in einem Standard-Verzeichnis befinden.
 
 @Parameter "Pfad$"
-  Der Dateipfad, welcher zur 3D-Pfad-Liste hinzugefügt werden soll. Dies kann ein tatsächlicher Pfad
+  Der Dateipfad, welcher zur 3D-Pfad-Liste hinzugefÃ¼gt werden soll. Dies kann ein tatsÃ¤chlicher Pfad
   im Dateisystem oder ein ZIP-Archiv sein.
 
 @Parameter "Typ"
@@ -97,9 +113,9 @@
 
 @Example
 @Code
-  Add3DArchive("MyData.zip", #PB_3DArchive_Zip) ; Fügt die .zip Datei als ein Verzeichnis der Pfad-Liste hinzu
-  LoadTexture(0, "MyTexture.jpg")               ; Lädt MyTexture.jpg aus der Zip-Datei
-  LoadTexture(1, "World/Grass.jpg")             ; Lädt Grass.jpg aus dem "World\"-Verzeichnis der Zip-Datei
+  Add3DArchive("MyData.zip", #PB_3DArchive_Zip) ; FÃ¼gt die .zip Datei als ein Verzeichnis der Pfad-Liste hinzu
+  LoadTexture(0, "MyTexture.jpg")               ; LÃ¤dt MyTexture.jpg aus der Zip-Datei
+  LoadTexture(1, "World/Grass.jpg")             ; LÃ¤dt Grass.jpg aus dem "World\"-Verzeichnis der Zip-Datei
 @EndCode
 
 @SupportedOS
@@ -109,11 +125,11 @@
 @Function AmbientColor(Farbe)
 
 @Description
-  Verändert die Umgebungsfarbe ("Ambient Color") der Welt.
+  VerÃ¤ndert die Umgebungsfarbe ("Ambient Color") der Welt.
 
 @Parameter "Farbe"
   Die neu festzulegende Umgebungsfarbe.
-  @@RGB kann zur Ermittlung eines gültigen Farbwertes benutzt werden.
+  @@RGB kann zur Ermittlung eines gÃ¼ltigen Farbwertes benutzt werden.
   
 @NoReturnValue
 
@@ -124,21 +140,21 @@
 @Function AntialiasingMode(Modus)
 
 @Description
-  Ändert den Modus der Kantenglättung (englisch "Antialiasing") des Vollbildschirms.
+  Ã„ndert den Modus der KantenglÃ¤ttung (englisch "Antialiasing") des Vollbildschirms.
   Dieser Befehl muss vor @@OpenScreen aufgerufen werden,
   um einen Effekt zu haben.
 
 @Parameter "Modus"
   Dies kann eine der folgenden Konstanten sein:
 @FixedFont
-  @#PB_AntialiasingMode_None: Keine Kantenglättung (Standard).
-  @#PB_AntialiasingMode_x2  : x2 Vollbild-Kantenglättung (FSAA).
-  @#PB_AntialiasingMode_x4  : x4 Vollbild-Kantenglättung (FSAA).
-  @#PB_AntialiasingMode_x6  : x6 Vollbild-Kantenglättung (FSAA).
+  @#PB_AntialiasingMode_None: Keine KantenglÃ¤ttung (Standard).
+  @#PB_AntialiasingMode_x2  : x2 Vollbild-KantenglÃ¤ttung (FSAA).
+  @#PB_AntialiasingMode_x4  : x4 Vollbild-KantenglÃ¤ttung (FSAA).
+  @#PB_AntialiasingMode_x6  : x6 Vollbild-KantenglÃ¤ttung (FSAA).
 @EndFixedFont
 
 @Remarks  
-  Abhängig von der Grafikkarte kann dieser Befehl eine massive Auswirkung auf
+  AbhÃ¤ngig von der Grafikkarte kann dieser Befehl eine massive Auswirkung auf
   die Darstellungs-Geschwindigkeit ("Rendering-Performance") haben.
   
 @SupportedOS
@@ -148,26 +164,26 @@
 @Function Ergebnis = CheckObjectVisibility(#Camera, ObjektID)
 
 @Description
-  Überprüft, ob ein Objekt von der angegebenen Kamera aus sichtbar ist.
+  ÃœberprÃ¼ft, ob ein Objekt von der angegebenen Kamera aus sichtbar ist.
 
 @Parameter "#Camera"
   Die zu verwendende Kamera.
 
 @Parameter "ObjektID"
-  Die Objekt-ID, deren Sichtbarkeit überprüft werden soll. Dies kann einer
+  Die Objekt-ID, deren Sichtbarkeit Ã¼berprÃ¼ft werden soll. Dies kann einer
   der folgenden Typen sein:
 @FixedFont
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
   
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Objekt sichtbar ist, andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das Objekt sichtbar ist, andernfalls Null.
 
 @SeeAlso
   @@CreateCamera
@@ -186,14 +202,13 @@
   Die Objekt-ID, von welcher die Koordinaten konvertiert werden sollen. Dies kann einer
   der folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "x, y, z"
@@ -218,14 +233,13 @@
   Die Objekt-ID, von welcher die Koordinaten konvertiert werden sollen. Dies kann einer
   der folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "x, y, z"
@@ -252,13 +266,13 @@
   @#PB_Engine3D_NbRenderedBatches  : Anzahl der im letzten Frame dargestellten ("gerenderten") Batches.
   @#PB_Engine3D_CurrentFPS         : Aktuelle Framerate.
   @#PB_Engine3D_AverageFPS         : Durchschnittlich erreichte Framerate seit dem Start der 3D-Engine.
-  @#PB_Engine3D_MaximumFPS         : Höchste Framerate seit dem Start der 3D-Engine.
+  @#PB_Engine3D_MaximumFPS         : HÃ¶chste Framerate seit dem Start der 3D-Engine.
   @#PB_Engine3D_MinimumFPS         : Niedrigste Framerate seit dem Start der 3D-Engine.
-  @#PB_Engine3D_ResetFPS           : Rücksetzen aller Framerate-relevanten Statistiken.
+  @#PB_Engine3D_ResetFPS           : RÃ¼cksetzen aller Framerate-relevanten Statistiken.
 @EndFixedFont
 
 @ReturnValue
-  Der Wert abhängig vom angegebenen 'Typ'.
+  Der Wert abhÃ¤ngig vom angegebenen 'Typ'.
 
 @SupportedOS
 
@@ -271,8 +285,8 @@
 
 @Parameter "Status"
   Wenn ungleich null, werden die Kollisionen aktiviert (Standard). Die Kollisionen werden auf alle
-  @LibraryLink "entity" "Entities" (Objekte) angewandt, für die mittels @@CreateEntityBody ein
-  Körper definiert wurde. Die Kollisionen funktionieren nur, wenn die Physik-Engine mittels
+  @LibraryLink "entity" "Entities" (Objekte) angewandt, fÃ¼r die mittels @@CreateEntityBody ein
+  KÃ¶rper definiert wurde. Die Kollisionen funktionieren nur, wenn die Physik-Engine mittels
   @@EnableWorldPhysics aktiviert wurde.
 
 @NoReturnValue
@@ -291,8 +305,8 @@
 
 @Parameter "Status"
   Wenn ungleich null, wird die Physik-Engine aktiviert (Standard). Die Physik-Engine wird auf alle
-  @LibraryLink "entity" "Entities" (Objekte) angewandt, für die mittels @@CreateEntityBody ein
-  Körper definiert wurde. Kollisionen können mittels @@EnableWorldCollisions aktiviert werden.
+  @LibraryLink "entity" "Entities" (Objekte) angewandt, fÃ¼r die mittels @@CreateEntityBody ein
+  KÃ¶rper definiert wurde. Kollisionen kÃ¶nnen mittels @@EnableWorldCollisions aktiviert werden.
   Um funktionierende Kollisionen zu haben, muss die Physik-Engine aktiviert sein.
 
 @NoReturnValue
@@ -308,19 +322,19 @@
 
 @Description
   Untersucht die Kollisionen, welche seit dem letzten Aufruf in der Welt aufgetreten sind.
-  Kollisionen müssen mittels @@EnableWorldCollisions aktiviert worden sein, bevor dieser
+  Kollisionen mÃ¼ssen mittels @@EnableWorldCollisions aktiviert worden sein, bevor dieser
   Befehl verwendet wird. Um schrittweise durch die Kollisionen zu gehen, verwenden Sie
   @@NextWorldCollision.
   
 @Parameter "Kontakte"
-  Wenn auf @#True gesetzt, werden Kontakt-Informationen über die kollidierenden Objekte
-  gesammelt und können mittels @@WorldCollisionContact, @@WorldCollisionNormal und
+  Wenn auf @#True gesetzt, werden Kontakt-Informationen Ã¼ber die kollidierenden Objekte
+  gesammelt und kÃ¶nnen mittels @@WorldCollisionContact, @@WorldCollisionNormal und
   @@WorldCollisionAppliedImpulse abgerufen werden. Wenn auf @#False gesetzt, werden keine
   Kontakt-Informationen gesammelt (was schneller ist).
   
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Kollisionen untersucht werden können,
-  andernfalls wird Null zurückgegeben.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Kollisionen untersucht werden kÃ¶nnen,
+  andernfalls wird Null zurÃ¼ckgegeben.
 
 @SeeAlso
   @@EnableWorldCollisions, @@NextWorldCollision
@@ -332,13 +346,13 @@
 @Function Ergebnis = NextWorldCollision()
 
 @Description
-  Geht zur nächsten Kollision. @@ExamineWorldCollisions muss erfolgreich aufgerufen werden,
-  bevor dieser Befehl verwendet wird. Um weitere Informationen über die aktuelle Kollision
+  Geht zur nÃ¤chsten Kollision. @@ExamineWorldCollisions muss erfolgreich aufgerufen werden,
+  bevor dieser Befehl verwendet wird. Um weitere Informationen Ã¼ber die aktuelle Kollision
   zu erhalten, verwenden Sie @@FirstWorldCollisionEntity, @@SecondWorldCollisionEntity,
   @@WorldCollisionContact, @@WorldCollisionNormal und @@WorldCollisionAppliedImpulse.
     
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn eine weitere Kollision untersucht werden
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn eine weitere Kollision untersucht werden
   werdem kann, oder Null wenn es keine weiteren Kollision gibt.
 
 @SeeAlso
@@ -351,11 +365,11 @@
 @Function Ergebnis = FirstWorldCollisionEntity()
 
 @Description
-  Gibt die #Entity Nummmer des ersten Objekts zurück, welches bei dieser Kollision mit
+  Gibt die #Entity Nummmer des ersten Objekts zurÃ¼ck, welches bei dieser Kollision mit
   @@ExamineWorldCollisions untersucht wird.
       
 @ReturnValue
-  Gibt die #Entity Nummer des ersten Objekts in der aktuellen Kollision zurück.
+  Gibt die #Entity Nummer des ersten Objekts in der aktuellen Kollision zurÃ¼ck.
   
 @SeeAlso
   @@ExamineWorldCollisions, @@SecondWorldCollisionEntity
@@ -367,11 +381,11 @@
 @Function Ergebnis = SecondWorldCollisionEntity()
 
 @Description
-  Gibt die #Entity Nummmer des zweiten Objekts zurück, welches bei dieser Kollision mit
+  Gibt die #Entity Nummmer des zweiten Objekts zurÃ¼ck, welches bei dieser Kollision mit
   @@ExamineWorldCollisions untersucht wird.
       
 @ReturnValue
-  Gibt die #Entity Nummer des zweiten Objekts in der aktuellen Kollision zurück.
+  Gibt die #Entity Nummer des zweiten Objekts in der aktuellen Kollision zurÃ¼ck.
 
 @SeeAlso
   @@ExamineWorldCollisions, @@FirstWorldCollisionEntity
@@ -383,12 +397,12 @@
 @Function WorldCollisionContact()
 
 @Description
-  Ruft die Kontaktinformation über die aktuell mit @@ExamineWorldCollisions untersuchte
+  Ruft die Kontaktinformation Ã¼ber die aktuell mit @@ExamineWorldCollisions untersuchte
   Kollision ab. Der @@ExamineWorldCollisions 'Kontakte' Parameter muss auf @#True
   gesetzt werden, damit dieser Befehl arbeitet.
 @LineBreak
 @LineBreak
-  Die Kontakt-Vektorwerte können mittels @@GetX, @@GetY und @@GetZ ermittelt werden.
+  Die Kontakt-Vektorwerte kÃ¶nnen mittels @@GetX, @@GetY und @@GetZ ermittelt werden.
       
 @NoReturnValue
 
@@ -402,12 +416,12 @@
 @Function WorldCollisionNormal()
 
 @Description
-  Ruft die Kontakt-Normalen-Information über die aktuell mit @@ExamineWorldCollisions untersuchte
+  Ruft die Kontakt-Normalen-Information Ã¼ber die aktuell mit @@ExamineWorldCollisions untersuchte
   Kollision ab. Der @@ExamineWorldCollisions 'Kontakte' Parameter muss auf @#True
   gesetzt werden, damit dieser Befehl arbeitet.
 @LineBreak
 @LineBreak
-  Die Kontakt-Normalen-Vektorwerte können mittels @@GetX, @@GetY und @@GetZ ermittelt werden.
+  Die Kontakt-Normalen-Vektorwerte kÃ¶nnen mittels @@GetX, @@GetY und @@GetZ ermittelt werden.
       
 @NoReturnValue
 
@@ -421,8 +435,8 @@
 @Function Ergebnis.f = WorldCollisionAppliedImpulse()
 
 @Description
-  Gibt die zugewiesenen Impuls-Werte über die aktuell mit @@ExamineWorldCollisions untersuchte
-  Kollision zurück. Der @@ExamineWorldCollisions 'Kontakte' Parameter muss auf @#True
+  Gibt die zugewiesenen Impuls-Werte Ã¼ber die aktuell mit @@ExamineWorldCollisions untersuchte
+  Kollision zurÃ¼ck. Der @@ExamineWorldCollisions 'Kontakte' Parameter muss auf @#True
   gesetzt werden, damit dieser Befehl arbeitet.
 
 @ReturnValue
@@ -445,21 +459,21 @@
   Die Objekt-ID, von der die Ausrichtung ermittelt werden soll. Dies kann einer der folgenden
   Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @OptionalParameter "Modus"
   Der Modus, um die Ausrichtung zu ermitteln. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Absolute: ermittelt die absolute Ausrichtung des Objekts in der Welt (Standard).
-  @#PB_Relative: ermittelt die Ausrichtung des Objekts relativ zu seinem übergeordneten Objekt.
+  @#PB_Relative: ermittelt die Ausrichtung des Objekts relativ zu seinem Ã¼bergeordneten Objekt.
 @EndFixedFont
 
 @NoReturnValue
@@ -480,14 +494,14 @@
   Die Objekt-ID, von der die Ausrichtung festgelegt werden soll. Dies kann einer der
   folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "x, y, z, w"
@@ -505,11 +519,11 @@
 @Function Ergebnis = GetX()
 
 @Description
-  Gibt den x-Wert des letzten aufgerufenen Befehls zurück. Unterstützte Befehle sind @@FetchOrientation,
+  Gibt den x-Wert des letzten aufgerufenen Befehls zurÃ¼ck. UnterstÃ¼tzte Befehle sind @@FetchOrientation,
   @@ConvertLocalToWorldPosition und @@ConvertWorldToLocalPosition.
 
 @ReturnValue
-  Gibt den x-Wert des letzten aufgerufenen Befehls zurück.
+  Gibt den x-Wert des letzten aufgerufenen Befehls zurÃ¼ck.
   
 @SeeAlso
   @@GetY, @@GetZ, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
@@ -521,11 +535,11 @@
 @Function Ergebnis = GetY()
 
 @Description
-  Gibt den y-Wert des letzten aufgerufenen Befehls zurück. Unterstützte Befehle sind @@FetchOrientation,
+  Gibt den y-Wert des letzten aufgerufenen Befehls zurÃ¼ck. UnterstÃ¼tzte Befehle sind @@FetchOrientation,
   @@ConvertLocalToWorldPosition und @@ConvertWorldToLocalPosition.
 
 @ReturnValue
-  Gibt den y-Wert des letzten aufgerufenen Befehls zurück.
+  Gibt den y-Wert des letzten aufgerufenen Befehls zurÃ¼ck.
   
 @SeeAlso
   @@GetX, @@GetZ, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
@@ -537,11 +551,11 @@
 @Function Ergebnis = GetZ()
 
 @Description
-  Gibt den z-Wert des letzten aufgerufenen Befehls zurück. Unterstützte Befehle sind @@FetchOrientation,
+  Gibt den z-Wert des letzten aufgerufenen Befehls zurÃ¼ck. UnterstÃ¼tzte Befehle sind @@FetchOrientation,
   @@ConvertLocalToWorldPosition und @@ConvertWorldToLocalPosition.
 
 @ReturnValue
-  Gibt den z-Wert des letzten aufgerufenen Befehls zurück.
+  Gibt den z-Wert des letzten aufgerufenen Befehls zurÃ¼ck.
   
 @SeeAlso
   @@GetX, @@GetY, @@GetW, @@FetchOrientation, @@ConvertLocalToWorldPosition, @@ConvertWorldToLocalPosition
@@ -553,10 +567,10 @@
 @Function Ergebnis = GetW()
 
 @Description
-  Gibt den w-Wert des letzten aufgerufenen Befehls zurück. Der einzige unterstützte Befehl ist @@FetchOrientation.
+  Gibt den w-Wert des letzten aufgerufenen Befehls zurÃ¼ck. Der einzige unterstÃ¼tzte Befehl ist @@FetchOrientation.
 
 @ReturnValue
-  Gibt den w-Wert des letzten aufgerufenen Befehls zurück.
+  Gibt den w-Wert des letzten aufgerufenen Befehls zurÃ¼ck.
   
 @SeeAlso
   @@GetX, @@GetY, @@GetZ, @@FetchOrientation
@@ -565,7 +579,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Fog(Farbe, Intensität, StartDistanz, EndDistanz)
+@Function Fog(Farbe, IntensitÃ¤t, StartDistanz, EndDistanz)
 
 @Description
   Erstellt eine "Nebel"-Zone ("Fog") in der angegebenen Entfernung ('StartDistanz' bis
@@ -574,10 +588,10 @@
   wenn er vorher aufgerufen wird.
 
 @Parameter "Farbe"
-  Die Nebel-Farbe. @@RGB kann zur Ermittlung eines gültigen Farbwertes benutzt werden.
+  Die Nebel-Farbe. @@RGB kann zur Ermittlung eines gÃ¼ltigen Farbwertes benutzt werden.
   
-@Parameter "Intensiät"
-  Die Nebel-Intensität. Wird diese auf Null gesetzt, wird der Nebel-Effekt deaktiviert.
+@Parameter "IntensiÃ¤t"
+  Die Nebel-IntensitÃ¤t. Wird diese auf Null gesetzt, wird der Nebel-Effekt deaktiviert.
   
 @Parameter "StartDistanz"
   Die Entfernung von der Kamera (in Welt-Einheiten), wo die Nebelzone beginnen soll.
@@ -597,8 +611,8 @@
 @Function Ergebnis = InitEngine3D([Flags [, LibraryName$]) 
 
 @Description
-  Initialisiert die 3D-Umgebung zur späteren Benutzung. Sie müssen diesen Befehl
-  zu Beginn Ihres Sourcecodes aufrufen, wenn Sie irgendeinen der 3D-Befehle verwenden möchten.
+  Initialisiert die 3D-Umgebung zur spÃ¤teren Benutzung. Sie mÃ¼ssen diesen Befehl
+  zu Beginn Ihres Sourcecodes aufrufen, wenn Sie irgendeinen der 3D-Befehle verwenden mÃ¶chten.
 
 @OptionalParameter "Flags"
   Dies kann eine Kombination der folgenden Werte sein:
@@ -606,9 +620,9 @@
   @#PB_Engine3D_NoLog      : Es wird kein Protokoll (Log) auf Disk oder in die Konsolenausgabe geschrieben (Standard).
   @#PB_Engine3D_DebugLog   : Eine Debug-Protokolldatei names 'Ogre.log' wird im aktuellen Verzeichnis erstellt, um
                             beim Debuggen oder bei Anwender-Reports zu helfen. Eine Menge an Aktionen werden in dieser
-                            Datei festgehalten, was aber die Performance nicht beeinträchtigen sollte, weshalb es
+                            Datei festgehalten, was aber die Performance nicht beeintrÃ¤chtigen sollte, weshalb es
                             sogar bei einem fertigen (Release-) Produkt aktiviert bleiben kann.
-  @#PB_Engine3D_DebugOutput: Die Aktionen werden in der Konsole ausgegeben. Sie müssen hier daran denken, das
+  @#PB_Engine3D_DebugOutput: Die Aktionen werden in der Konsole ausgegeben. Sie mÃ¼ssen hier daran denken, das
                             Executable-Format auf 'Console' zu setzen, wenn Sie Ihr Excecutable kompilieren.
 @EndFixedFont
 
@@ -623,11 +637,13 @@
 
 @Remarks
   InitEngine3D() versucht, die Engine3D-Bibliothek (namens 'Engine3D.dll' auf Windows, 'engine3d.so' auf Linux
-  und 'engine3d.dylib' auf OS X, zu finden im PureBasic/Compilers/ Verzeichnis) zu laden. Wenn dies fehlschlägt, dann
-  liegt dies möglicherweise daran, dass die Bibliothek nicht gefunden wurde oder nicht mit aktuellen
+  und 'engine3d.dylib' auf OS X, zu finden im PureBasic/Compilers/ Verzeichnis) zu laden. Wenn dies fehlschlÃ¤gt, dann
+  liegt dies mÃ¶glicherweise daran, dass die Bibliothek nicht gefunden wurde oder nicht mit aktuellen
   PureBasic-Version zusammenpasst.
   @LineBreak
   Auf Windows muss eine aktuelle Version der OpenGL-Treiber installiert sein.
+  @LineBreak
+  Nach dem Aufruf dieser Funktion kÃ¶nnen Sie die Funktion @@ScreenOutput nicht mehr verwenden.
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@Add3DArchive
@@ -650,18 +666,18 @@
   Die 'y'-Position der Maus (in Pixel), welche in das GUI-System eingespeist werden soll.
   
 @Parameter "LinkeMausTaste"
-  Der Status der linken Maustaste (entweder null, wenn nicht gedrückt - oder eins, wenn gedrückt),
+  Der Status der linken Maustaste (entweder null, wenn nicht gedrÃ¼ckt - oder eins, wenn gedrÃ¼ckt),
   welcher in das GUI-System eingespeist werden soll.
   
 @OptionalParameter "Text$"
-  Der in das GUI-System einzuspeisende Text, zum Beispiel zum Befüllen eines @@StringGadget3D,
+  Der in das GUI-System einzuspeisende Text, zum Beispiel zum BefÃ¼llen eines @@StringGadget3D,
   wenn dies den Fokus hat.
   
 @OptionalParameter "SonderTaste"
   Nicht darstellbare Zeichen, welche in das GUI-System eingespeist werden sollen.
   Zum Beispiel zur Nutzung von Backspace, Return, Cursor-Tasten usw.
   @LineBreak
-  Die verfügbaren Sondertasten sind:
+  Die verfÃ¼gbaren Sondertasten sind:
 @FixedFont
   @#PB_Key_Back
   @#PB_Key_Delete
@@ -688,21 +704,21 @@
 @Function Ergebnis = LoadWorld(Dateiname$)
 
 @Description
-  Diese Funktion lädt eine komplette Welt. Zur Zeit ist das Quake3 BSP-Format das einzige unterstützte Format,
+  Diese Funktion lÃ¤dt eine komplette Welt. Zur Zeit ist das Quake3 BSP-Format das einzige unterstÃ¼tzte Format,
   weitere Formate werden jedoch folgen.
 @LineBreak  
 @LineBreak
-  Der 'Dateiname$' muss im 3D-Pfad verfügbar sein, deshalb sollte vor dem Aufruf dieser Funktion der 
+  Der 'Dateiname$' muss im 3D-Pfad verfÃ¼gbar sein, deshalb sollte vor dem Aufruf dieser Funktion der 
   @@Add3DArchive Befehl benutzt worden sein. Eine Welt kann einfach
   mit Tools von Drittherstellern, wie z.B. "Quark", erstellt werden. Eine Welt kann einen Himmel ("Sky"),
-  Gebäude ("Buildings"), Lichter ("Lights") und mehr enthalten. Zur Zeit können alle Quake 3
+  GebÃ¤ude ("Buildings"), Lichter ("Lights") und mehr enthalten. Zur Zeit kÃ¶nnen alle Quake 3
   Maps direkt mit allen Details geladen werden.
   Ist 'Ergebnis' gleich 0, konnte die Welt nicht geladen werden.
 @LineBreak  
 @LineBreak
-  Das BSP-Format gehört "iD Software" und kann nur in Freeware Programmen benutzt werden.
-  Kommerzielle Software benötigt eine Lizenz von iD, um dieses Format verwenden zu dürfen. Das Lizenzverfahren
-  ist unabhängig von PureBasic. Fantaisie Software kann daher nicht für inkorrekte Benutzung
+  Das BSP-Format gehÃ¶rt "iD Software" und kann nur in Freeware Programmen benutzt werden.
+  Kommerzielle Software benÃ¶tigt eine Lizenz von iD, um dieses Format verwenden zu dÃ¼rfen. Das Lizenzverfahren
+  ist unabhÃ¤ngig von PureBasic. Fantaisie Software kann daher nicht fÃ¼r inkorrekte Benutzung
   dieses Befehls verantwortlich gemacht werden.
   
 @SupportedOS Windows, Linux
@@ -712,7 +728,7 @@
 @Function Ergebnis = MousePick(#Camera, x, y [, PickMaske])
 
 @Description
-  Simuliert einen Mausklick und gibt zurück, welches Objekt sich unter dem angegebenen 2D-Punkt (x,y - 
+  Simuliert einen Mausklick und gibt zurÃ¼ck, welches Objekt sich unter dem angegebenen 2D-Punkt (x,y - 
   in Pixel) auf der angegebenen #Camera befindert.
 
 @Parameter "#Camera"
@@ -722,22 +738,21 @@
   Die Koordinaten (in Pixel) des Punktes.
   
 @OptionalParameter "PickMaske"
-  Die während des Strahlenwurfs ("ray cast") zu verwendende Entity-Maske. Nur die Entities 
-  mit einer Maske übereinstimmend zur Pick-Maske werden zurückgemeldet. Wird dieser Parameter
-  weggelassen, sind alle Entities gültig für das Feststellen eines Mausklicks. Diese Maske
-  kann eine Kombination sein, um mehr als eine Entity-Gruppe auszuwählen. Um weitere Informationen
-  über die Pick-Maske zu erhalten, siehe @@CreateEntity.
+  Die wÃ¤hrend des Strahlenwurfs ("ray cast") zu verwendende Entity-Maske. Nur die Entities 
+  mit einer Maske Ã¼bereinstimmend zur Pick-Maske werden zurÃ¼ckgemeldet. Wird dieser Parameter
+  weggelassen, sind alle Entities gÃ¼ltig fÃ¼r das Feststellen eines Mausklicks. Diese Maske
+  kann eine Kombination sein, um mehr als eine Entity-Gruppe auszuwÃ¤hlen. Um weitere Informationen
+  Ã¼ber die Pick-Maske zu erhalten, siehe @@CreateEntity.
 
 @ReturnValue
-  Der zurückgegebene Wert kann lauten:
+  Der zurÃ¼ckgegebene Wert kann lauten:
 @FixedFont
   -1 : Nichts wurde bemerkt
   @#PB_World_WaterPick: der Klick passierte auf dem Wasser.
-  @#PB_World_TerrainPick: der Klick passierte auf einem Terrain.
-  0 und größer: der Klick traf das #Entity. Die Entity-Auswahl ("Pick") basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
+  0 und grÃ¶ÃŸer: der Klick traf das #Entity. Die Entity-Auswahl ("Pick") basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
 @EndFixedFont
 
-  Um weitere Informationen über die ausgewählte Objekt-Position zu erhalten, verwenden Sie @@PickX, 
+  Um weitere Informationen Ã¼ber die ausgewÃ¤hlte Objekt-Position zu erhalten, verwenden Sie @@PickX, 
   @@PickY und @@PickZ.
     
 @SupportedOS
@@ -747,7 +762,7 @@
 @Function Ergebnis = PointPick(#Camera, x, y)
 
 @Description
-  Ermöglicht die Richtung des angegebenen 2D-Punktes auf der angegebenen
+  ErmÃ¶glicht die Richtung des angegebenen 2D-Punktes auf der angegebenen
   Kamera zu ermitteln. 
 
 @Parameter "#Camera"
@@ -757,7 +772,7 @@
   Die Koordinaten (in Pixel) des Punktes.
   
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die Auswahl ("Pick") erfolgreich war.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die Auswahl ("Pick") erfolgreich war.
   Um die angezeigte Richtung zu erhalten, verwenden Sie @@PickX, @@PickY 
   und @@PickZ.
     
@@ -765,7 +780,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = BodyPick(#Camera, Ausgewählt, x, y, Gesperrt)
+@Function Ergebnis = BodyPick(#Camera, AusgewÃ¤hlt, x, y, Gesperrt)
 
 @Description
   Simuliert einen Mausklick und beginnt das Entity-Objekt an der angegebenen Koordinate zu manipulieren.
@@ -773,20 +788,20 @@
 @Parameter "#Camera"
   Die zu verwendende Kamera.
 
-@Parameter "Ausgewählt"
-  Wenn @#True, dann wird der ausgewählte Körper (englisch "picked body") nicht freigegeben bis ein
+@Parameter "AusgewÃ¤hlt"
+  Wenn @#True, dann wird der ausgewÃ¤hlte KÃ¶rper (englisch "picked body") nicht freigegeben bis ein
   neuer Funktionsaufruf mit diesem Parameter diesen auf @#False setzt.
-  Es kann nur einen ausgewählten Körper zur gleichen Zeit geben.
+  Es kann nur einen ausgewÃ¤hlten KÃ¶rper zur gleichen Zeit geben.
 
 @Parameter "x, y"
   Die Koordinaten (in Pixel) des Punktes.
   
-@OptionalParameter "Gesperrt"
-  Wenn auf @#True gesetzt, wird der ausgewählte Körper sich nicht frei drehen können, wenn er bewegt
-  wird. Wenn auf @#False gesetzt, wird sich der Körper frei drehen entsprechend der Körperbewegung.
+@Parameter "Gesperrt"
+  Wenn auf @#True gesetzt, wird der ausgewÃ¤hlte KÃ¶rper sich nicht frei drehen kÃ¶nnen, wenn er bewegt
+  wird. Wenn auf @#False gesetzt, wird sich der KÃ¶rper frei drehen entsprechend der KÃ¶rperbewegung.
 
 @ReturnValue
-  Das ausgewählte ("picked") #Entity, oder -1 wenn an diesen Koordinaten kein Entity-Objekt gefunden
+  Das ausgewÃ¤hlte ("picked") #Entity, oder -1 wenn an diesen Koordinaten kein Entity-Objekt gefunden
   wurde.
 
 @SupportedOS
@@ -796,10 +811,10 @@
 @Function Ergebnis.f = PickX()
 
 @Description
-  Nach einem @@MousePick oder @@RayPick gibt dies die 'x' Position des ausgewählten Objekt in
-  Welt-Koordinaten zurück.
+  Nach einem @@MousePick oder @@RayPick gibt dies die 'x' Position des ausgewÃ¤hlten Objekt in
+  Welt-Koordinaten zurÃ¼ck.
 @LineBreak
-  Nach @@PointPick gibt dies die 'x' Richtung des ausgewählten Punktes zurück, 
+  Nach @@PointPick gibt dies die 'x' Richtung des ausgewÃ¤hlten Punktes zurÃ¼ck, 
   zwischen -1 und 1.
     
 @SupportedOS
@@ -809,10 +824,10 @@
 @Function Ergebnis.f = PickY()
 
 @Description
-  Nach einem @@MousePick oder @@RayPick gibt dies die 'y' Position des ausgewählten Objekt in
-  Welt-Koordinaten zurück.
+  Nach einem @@MousePick oder @@RayPick gibt dies die 'y' Position des ausgewÃ¤hlten Objekt in
+  Welt-Koordinaten zurÃ¼ck.
 @LineBreak
-  Nach @@PointPick gibt dies die 'y' Richtung des ausgewählten Punktes zurück, 
+  Nach @@PointPick gibt dies die 'y' Richtung des ausgewÃ¤hlten Punktes zurÃ¼ck, 
   zwischen -1 und 1.
     
 @SupportedOS
@@ -822,10 +837,10 @@
 @Function Ergebnis.f = PickZ()
 
 @Description
-  Nach einem @@MousePick oder @@RayPick gibt dies die 'z' Position des ausgewählten Objekt in
-  Welt-Koordinaten zurück.
+  Nach einem @@MousePick oder @@RayPick gibt dies die 'z' Position des ausgewÃ¤hlten Objekt in
+  Welt-Koordinaten zurÃ¼ck.
 @LineBreak
-  Nach @@PointPick gibt dies die 'z' Richtung des ausgewählten Punktes zurück, 
+  Nach @@PointPick gibt dies die 'z' Richtung des ausgewÃ¤hlten Punktes zurÃ¼ck, 
   zwischen -1 und 1.
     
 @SupportedOS
@@ -836,8 +851,8 @@
 
 @Description
   Wirft einen Strahl (englisch: "casts a ray") zwischen dem ersten und dem zweiten
-  Punkt, und prüft, ob ein LibraryLink "Entity" "Entity" mit dem Strahl kollidiert.
-  Nur Objekte (entities) mit einem Körper (body) reagieren auf den Strahl.
+  Punkt, und prÃ¼ft, ob ein LibraryLink "Entity" "Entity" mit dem Strahl kollidiert.
+  Nur Objekte (entities) mit einem KÃ¶rper (body) reagieren auf den Strahl.
 @LineBreak
 @LineBreak
   Diese Funktion basiert auf der Physik-Engine, welche vor Verwendung dieses Befehls mittels
@@ -845,7 +860,7 @@
 @LineBreak
 @LineBreak
   Um die Position des Kollisions-Punktes zu ermitteln, verwenden Sie @@PickX, @@PickY und @@PickZ.
-  Die Normalen-Werte am Kollisions-Punkt sind verfügbar mittels @@NormalX, @@NormalY und @@NormalZ.
+  Die Normalen-Werte am Kollisions-Punkt sind verfÃ¼gbar mittels @@NormalX, @@NormalY und @@NormalZ.
   
 @Parameter "x, y, z"
   Die Koordinaten des ersten Punkts, in Welt-Einheiten.
@@ -854,12 +869,12 @@
   Die Koordinaten des zweiten Punkts, in Welt-Einheiten.
   
 @OptionalParameter "KollisionsGruppe, KollisionsMaske"
-  Die zu verwendende Kollisionsgruppe und Kollisionsmaske. Dies kann nützlich sein, um zu filtern,
-  welches Entity mit dem Strahl kollidieren soll. Kollisionsgruppe und -maske können mit
-  @@SetEntityCollisionFilter verändert werden.
+  Die zu verwendende Kollisionsgruppe und Kollisionsmaske. Dies kann nÃ¼tzlich sein, um zu filtern,
+  welches Entity mit dem Strahl kollidieren soll. Kollisionsgruppe und -maske kÃ¶nnen mit
+  @@SetEntityCollisionFilter verÃ¤ndert werden.
 
 @ReturnValue
-  Gibt die @LibraryLink "Entity" "Entity"-Nummer zurück, wenn der Strahl mit einem kollidierte.
+  Gibt die @LibraryLink "Entity" "Entity"-Nummer zurÃ¼ck, wenn der Strahl mit einem kollidierte.
   Oder -1, wenn keine Kollision aufgetreten ist.
 
 @SeeAlso
@@ -872,8 +887,8 @@
 @Function Ergebnis = RayCast(x, y, z, ZielX, ZielY, ZielZ, PickMaske)
 
 @Description
-  Wirft einen Strahl zwischen dem ersten Punkt und dem zweiten Punkt, und prüft, ob dieser
-  auf ein Objekt trifft. Die Normalen-Werte am Auftreffpunkt sind verfügbar mit
+  Wirft einen Strahl zwischen dem ersten Punkt und dem zweiten Punkt, und prÃ¼ft, ob dieser
+  auf ein Objekt trifft. Die Normalen-Werte am Auftreffpunkt sind verfÃ¼gbar mit
   @@NormalX, @@NormalY und @@NormalZ.
 @LineBreak
 @LineBreak
@@ -886,14 +901,14 @@
   Die Koordinaten des zweiten Punkts, in Welt-Einheiten.
 
 @Parameter "PickMaske"
-  Die Objekt-Maske während der Durchführung des Strahlenwurfs ("ray cast"). Es werden nur die Objekte
-  zurückgemeldet, welche eine zum Wert 'PickMaske' passende Maske haben. Wird dieser Parameter
-  weggelassen, sind alle Objekte für die Feststellung des Strahlenwurfs gültig.
-  Die Maske kann eine Kombination sein, um mehr als eine Objekt-Gruppe ("entity group") auszuwählen.
-  Für weitere Informationen über die Pick-Maske siehe @@CreateEntity.
+  Die Objekt-Maske wÃ¤hrend der DurchfÃ¼hrung des Strahlenwurfs ("ray cast"). Es werden nur die Objekte
+  zurÃ¼ckgemeldet, welche eine zum Wert 'PickMaske' passende Maske haben. Wird dieser Parameter
+  weggelassen, sind alle Objekte fÃ¼r die Feststellung des Strahlenwurfs gÃ¼ltig.
+  Die Maske kann eine Kombination sein, um mehr als eine Objekt-Gruppe ("entity group") auszuwÃ¤hlen.
+  FÃ¼r weitere Informationen Ã¼ber die Pick-Maske siehe @@CreateEntity.
 
 @ReturnValue
-  Gibt den Wert -1 zurück, wenn der Strahl mit irgendeinem Objekt kollidierte.
+  Gibt den Wert -1 zurÃ¼ck, wenn der Strahl mit irgendeinem Objekt kollidierte.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -905,8 +920,8 @@
 @Function Ergebnis = MouseRayCast(#Camera, x, y, PickMaske)
 
 @Description
-  Wirft einen Strahl ausgehend vom 2D-Punkt durch die Szene, und prüft, ob dieser
-  auf ein Objekt trifft. Die Normalen-Werte am Auftreffpunkt sind verfügbar mit
+  Wirft einen Strahl ausgehend vom 2D-Punkt durch die Szene, und prÃ¼ft, ob dieser
+  auf ein Objekt trifft. Die Normalen-Werte am Auftreffpunkt sind verfÃ¼gbar mit
   @@NormalX, @@NormalY und @@NormalZ.
 @LineBreak
 @LineBreak
@@ -919,14 +934,14 @@
   Die Koordinaten des Punktes (in Pixel).
   
 @Parameter "PickMaske"
-  Die Objekt-Maske während der Durchführung des Strahlenwurfs ("ray cast"). Es werden nur die Objekte
-  zurückgemeldet, welche eine zum Wert 'PickMaske' passende Maske haben. Wird dieser Parameter
-  weggelassen, sind alle Objekte für die Feststellung des Strahlenwurfs gültig.
-  Die Maske kann eine Kombination sein, um mehr als eine Objekt-Gruppe ("entity group") auszuwählen.
-  Für weitere Informationen über die Pick-Maske siehe @@CreateEntity.
+  Die Objekt-Maske wÃ¤hrend der DurchfÃ¼hrung des Strahlenwurfs ("ray cast"). Es werden nur die Objekte
+  zurÃ¼ckgemeldet, welche eine zum Wert 'PickMaske' passende Maske haben. Wird dieser Parameter
+  weggelassen, sind alle Objekte fÃ¼r die Feststellung des Strahlenwurfs gÃ¼ltig.
+  Die Maske kann eine Kombination sein, um mehr als eine Objekt-Gruppe ("entity group") auszuwÃ¤hlen.
+  FÃ¼r weitere Informationen Ã¼ber die Pick-Maske siehe @@CreateEntity.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Strahl mit irgendeinem Objekt kollidierte.
+  Gibt die Nummer des Objekts zurÃ¼ck, das mit dem Strahl kollidiert, andernfalls -1.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -938,11 +953,11 @@
 @Function Ergebnis.f = NormalX()
 
 @Description
-  Gibt den 'x'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurück, nach
-  Ausführung von @@RayCast, @@RayCollide oder @@MouseRayCast.
+  Gibt den 'x'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurÃ¼ck, nach
+  AusfÃ¼hrung von @@RayCast, @@RayCollide oder @@MouseRayCast.
 
 @ReturnValue
-  Gibt den 'x'-Normalenwert am Kreuzungspunkt zurück.
+  Gibt den 'x'-Normalenwert am Kreuzungspunkt zurÃ¼ck.
 
 @SeeAlso
   @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalY, @@NormalZ
@@ -954,11 +969,11 @@
 @Function Ergebnis.f = NormalY()
 
 @Description
-  Gibt den 'y'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurück, nach
-  Ausführung von @@RayCast, @@RayCollide oder @@MouseRayCast.
+  Gibt den 'y'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurÃ¼ck, nach
+  AusfÃ¼hrung von @@RayCast, @@RayCollide oder @@MouseRayCast.
 
 @ReturnValue
-  Gibt den 'y'-Normalenwert am Kreuzungspunkt zurück.
+  Gibt den 'y'-Normalenwert am Kreuzungspunkt zurÃ¼ck.
 
 @SeeAlso
   @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalX, @@NormalZ
@@ -970,11 +985,11 @@
 @Function Ergebnis.f = NormalZ()
 
 @Description
-  Gibt den 'z'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurück, nach
-  Ausführung von @@RayCast, @@RayCollide oder @@MouseRayCast.
+  Gibt den 'z'-Normalenwert am Kreuzungspunkt (zwischen Strahl und Objekt) zurÃ¼ck, nach
+  AusfÃ¼hrung von @@RayCast, @@RayCollide oder @@MouseRayCast.
 
 @ReturnValue
-  Gibt den 'z'-Normalenwert am Kreuzungspunkt zurück.
+  Gibt den 'z'-Normalenwert am Kreuzungspunkt zurÃ¼ck.
 
 @SeeAlso
   @@RayCast, @@RayCollide, @@MouseRayCast, @@NormalX, @@NormalY
@@ -987,7 +1002,7 @@
 
 @Description
   Wirft einen Strahl (englisch: "casts a ray") zwischen dem ersten und dem zweiten
-  Punkt, und prüft, ob ein Objekt den Strahl überquert.
+  Punkt, und prÃ¼ft, ob ein Objekt den Strahl Ã¼berquert.
 
 @Parameter "x, y, z"
   Die Koordinaten des ersten Punkts, in Welt-Einheiten.
@@ -996,21 +1011,20 @@
   Die Koordinaten des zweiten Punkts, in Welt-Einheiten.
   
 @OptionalParameter "PickMaske"
-  Die während der Überprüfung des Strahls verwendete Entity-Maske. Nur die Entities mit
-  einer Maske, die mit dem Wert der Pick-Maske übereinstimmt, werden gemeldet. Wird dieser
-  Parameter weggelassen, sind alle Entities gültig für die Strahlen-Erkennung. Die Maske kann
-  eine Kombination sein, um mehr als eine Entity-Gruppe auszuwählen. Um weitere Informationen
-  über die Pick-Maske zu erhalten, siehe bei @@CreateEntity.
+  Die wÃ¤hrend der ÃœberprÃ¼fung des Strahls verwendete Entity-Maske. Nur die Entities mit
+  einer Maske, die mit dem Wert der Pick-Maske Ã¼bereinstimmt, werden gemeldet. Wird dieser
+  Parameter weggelassen, sind alle Entities gÃ¼ltig fÃ¼r die Strahlen-Erkennung. Die Maske kann
+  eine Kombination sein, um mehr als eine Entity-Gruppe auszuwÃ¤hlen. Um weitere Informationen
+  Ã¼ber die Pick-Maske zu erhalten, siehe bei @@CreateEntity.
 
 @ReturnValue
-  Der zurückgegebene Wert kann sein:
+  Der zurÃ¼ckgegebene Wert kann sein:
 @FixedFont
-  -1 : Nichts wurde überquert.
+  -1 : Nichts wurde Ã¼berquert.
   @#PB_World_WaterPick: der Strahl durchquerte das Wasser.
-  @#PB_World_TerrainPick: der Strahl durchquerte ein Terrain.
-  0 und darüber: der Strahl durchquerte ein #Entity. Die Erkennung des Entity basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
+  0 und darÃ¼ber: der Strahl durchquerte ein #Entity. Die Erkennung des Entity basiert auf dessen Rahmen ("Bounding box"), nicht auf seinem Mesh.
 @EndFixedFont
-  Um weitere Informationen über die ausgewählte Objekt-Position zu erhalten, verwenden Sie @@PickX, 
+  Um weitere Informationen Ã¼ber die ausgewÃ¤hlte Objekt-Position zu erhalten, verwenden Sie @@PickX, 
   @@PickY und @@PickZ.
     
 @SupportedOS
@@ -1024,10 +1038,10 @@
   und @LibraryLink "Gadget3D" "3D-Gadgets" zusammensetzen.
 
 @Parameter "Transparenz"
-  Transparenz-Level des GUI. Gültige Werte liegen zwischen 0 (versteckt) und 255 (vollständig angezeigt).
+  Transparenz-Level des GUI. GÃ¼ltige Werte liegen zwischen 0 (versteckt) und 255 (vollstÃ¤ndig angezeigt).
 
 @Parameter "ZeigeMaus"
-  Ändert die Sichtbarkeit des Mauspfeils. Ist ZeigeMaus = 1, wird der Mauspfeil angezeigt,
+  Ã„ndert die Sichtbarkeit des Mauspfeils. Ist ZeigeMaus = 1, wird der Mauspfeil angezeigt,
   ist ZeigeMaus = 0 wird er versteckt.
 
 @OptionalParameter "#Kamera"
@@ -1035,7 +1049,7 @@
   dem folgenden Parameter 'Aktivieren'.
   
 @OptionalParameter "Aktivieren"
-  Aktiviert oder deaktiviert die GUI-Anzeige auf der zuvor ausgewählten Kamera. Arbeitet
+  Aktiviert oder deaktiviert die GUI-Anzeige auf der zuvor ausgewÃ¤hlten Kamera. Arbeitet
   zusammen mit dem vorherigen Parameter '#Kamera'.
 
 @NoReturnValue
@@ -1047,8 +1061,8 @@
 @Function SetGUITheme3D(ThemeName$, FontName$)
 
 @Description
-  Da CEGUI "Skinning" (austauschbare Oberflächen) unterstützt, ermöglicht dieser Befehl eine Auswahl,
-  welches "Theme" und welcher Zeichensatz für das GUI verwendet werden sollen.
+  Da CEGUI "Skinning" (austauschbare OberflÃ¤chen) unterstÃ¼tzt, ermÃ¶glicht dieser Befehl eine Auswahl,
+  welches "Theme" und welcher Zeichensatz fÃ¼r das GUI verwendet werden sollen.
 @LineBreak  
   Dieser Befehl muss vor allen anderen GUI-Befehlen aufgerufen werden, um einen Effekt zu
   haben.
@@ -1062,7 +1076,7 @@
 @NoReturnValue
 
 @Remarks  
-  Für weitere Informationen über Skins besuchen Sie die @InternetLink "http://www.cegui.org.uk/wiki/index.php/Main_Page" "CEGUI Webseite".
+  FÃ¼r weitere Informationen Ã¼ber Skins besuchen Sie die @InternetLink "http://www.cegui.org.uk/wiki/index.php/Main_Page" "CEGUI Webseite".
     
 @SupportedOS
 
@@ -1082,7 +1096,7 @@
 @NoReturnValue
 
 @Remarks
-  Weitere Informationen über OGRE Material-Skripte sind im 
+  Weitere Informationen Ã¼ber OGRE Material-Skripte sind im 
   @InternetLink "http://www.ogre3d.org/docs/manual/manual_14.html" "OGRE Online Manual" zu finden.
   
 @SupportedOS
@@ -1093,42 +1107,42 @@
 
 @Description
   Stellt ("rendert") die gesamte Welt auf dem Bildschirm dar. Dieser Befehl sollte aufgerufen werden,
-  sobald alle 3D-Operationen durchgeführt wurden und nur einmal pro Frame. 
+  sobald alle 3D-Operationen durchgefÃ¼hrt wurden und nur einmal pro Frame. 
 
 @OptionalParameter "ElapsedPhysicTime"
   Wenn angegeben, wird dies die Physik-Engine zwingen, diesen Wert (in Milli-Sekunden) als
   seit dem letzten Aufruf von RenderWorld vergangene Zeit zu verwenden.
-  Dies kann nützlich sein, um die Physik-Simulation schneller oder langsamer als die
-  tatsächliche Zeit (Echtzeit) zu machen.
+  Dies kann nÃ¼tzlich sein, um die Physik-Simulation schneller oder langsamer als die
+  tatsÃ¤chliche Zeit (Echtzeit) zu machen.
 
 @ReturnValue
-  Gibt die seit dem letzten Frame vergangene Zeit in Millisekunden zurück. Dies kann nützlich
+  Gibt die seit dem letzten Frame vergangene Zeit in Millisekunden zurÃ¼ck. Dies kann nÃ¼tzlich
   sein, um eine genaue zeit-basierte Simulation zu haben, wenn die Render-Zeit des Frames
   nicht stabil bzw. gleichbleibend ist.
 
 @Remarks
-  Sobald der RenderWorld() Befehl ausgeführt wurde, ist die Verwendung der regulären 2D-Befehle wie
-  @@DisplaySprite zum Darstellen von 2D-Sprites auf der 3D-Welt möglich.
+  Sobald der RenderWorld() Befehl ausgefÃ¼hrt wurde, ist die Verwendung der regulÃ¤ren 2D-Befehle wie
+  @@DisplaySprite zum Darstellen von 2D-Sprites auf der 3D-Welt mÃ¶glich.
     
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetRenderQueue(ObjektID, Queue [, Priorität])
+@Function SetRenderQueue(ObjektID, Queue [, PrioritÃ¤t])
 
 @Description
-  Ändert die Reihenfolge der Darstellung des angegebenen Objekts.
+  Ã„ndert die Reihenfolge der Darstellung des angegebenen Objekts.
 
 @Parameter "ObjektID"
   Die Objekt-ID, von welcher die Koordinaten konvertiert werden sollen.
   Dies kann einer der folgenden Typen sein:
 @FixedFont
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "Queue"
@@ -1137,8 +1151,8 @@
   Die Standard-Warteschlange (Queue) hat den Wert 0, und wird hinter allen
   anderen Render-Warteschlangen (Queues) dargestellt.
 
-@OptionalParameter "Priorität"
-  Die innerhalb der Warteschlange (Queue) zu verwendende Priorität. Gültige Werte
+@OptionalParameter "PrioritÃ¤t"
+  Die innerhalb der Warteschlange (Queue) zu verwendende PrioritÃ¤t. GÃ¼ltige Werte
   reichen von 0 (Hintergrund) bis 10000 (Vordergrund).
 
 @NoReturnValue
@@ -1147,19 +1161,19 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = SkyBox(TexturName$ [, FogFarbe, FogIntensität, FogStartDistanz, FogEndDistanz])
+@Function Ergebnis = SkyBox(TexturName$ [, FogFarbe, FogIntensitÃ¤t, FogStartDistanz, FogEndDistanz])
 
 @Description
-  Lädt einen sechsseitigen Würfel ("SkyBox") und erstellt eine künstliche Box, welche weit
-  weg von der Kamera liegt, aber nah zur Welt. Dies ist sehr nützlich, um einfach eine
+  LÃ¤dt einen sechsseitigen WÃ¼rfel ("SkyBox") und erstellt eine kÃ¼nstliche Box, welche weit
+  weg von der Kamera liegt, aber nah zur Welt. Dies ist sehr nÃ¼tzlich, um einfach eine
   abgeschlossene Welt zu erhalten.
 
 @Parameter "TexturName$"
-  Die @LibraryLink "texture" "Texturen" müssen im zuvor mit dem @@Add3DArchive Befehl deklarierten
+  Die @LibraryLink "texture" "Texturen" mÃ¼ssen im zuvor mit dem @@Add3DArchive Befehl deklarierten
   Pfad liegen. Der "Basis-Name" der einzelnen Texturen, welche nach der
   folgenden Regel ihre Datei-Namen erhalten sollten:
 @FixedFont
-  TexturName_BK ; BacK face   (Rückseite)
+  TexturName_BK ; BacK face   (RÃ¼ckseite)
   TexturName_FR ; FRont face  (Vorderseite)
   TexturName_DN ; DowN face   (Unterseite)
   TexturName_UP ; UP face     (Oberseite)
@@ -1168,20 +1182,20 @@
 @EndFixedFont
 
 @OptionalParameter "FogFarbe"
-  Die Nebel-Farbe. @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten.
+  Die Nebel-Farbe. @@RGB kann verwendet werden, um einen gÃ¼ltigen Farbwert zu erhalten.
   Wenn diese nicht angegeben wird, werden die Nebel-Einstellungen vom @@Fog Befehl geerbt.
   
-@OptionalParameter "FogIntensität"
-  Die Nebel-Intensität. Wenn diese auf Null gesetzt wird, dann wird der Nebel-Effekt deaktiviert.
+@OptionalParameter "FogIntensitÃ¤t"
+  Die Nebel-IntensitÃ¤t. Wenn diese auf Null gesetzt wird, dann wird der Nebel-Effekt deaktiviert.
   
 @OptionalParameter "FogStartDistanz"
   Die Distanz von der Kamera (in Welt-Einheiten), ab der der Nebel starten soll.
 
 @OptionalParameter "FogEndDistanz"
-  Die Distanz von der Kamera, ab der der Nebel völlig undurchsichtig wird.
+  Die Distanz von der Kamera, ab der der Nebel vÃ¶llig undurchsichtig wird.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn die "SkyBox" erfolgreich erstellt wurde.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn die "SkyBox" erfolgreich erstellt wurde.
   Wenn die Texturen nicht geladen werden konnten, dann wird die "SkyBox" mit leeren Texturen erstellt.
 
 @SeeAlso
@@ -1191,36 +1205,69 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = SkyDome(TexturName$, Kurve.f [, FogFarbe, FogIntensität, FogStartDistanz, FogEndDistanz])
+@Function Ergebnis = SkyDome(TextureID, SkyFarbe, RiseFarbe [, AnzCloudLayer, Hoehe.f, SpeedX.f, SpeedZ.f])
 
 @Description
-  Erstellt einen neuen "SkyDome" ("Himmelkuppel"), wobei es sich um einen gekrümmten, sich bewegenden Himmel 
-  handelt, der mittels der angegebenen @LibraryLink "texture" "Textur" dargestellt wird.
-
-@Parameter "TexturName$"
-  Die zu verwendende Textur. @LibraryLink "texture" "Texturen" müssen im zuvor mit dem @@Add3DArchive Befehl 
-  deklarierten Pfad liegen.
-
-@Parameter "Kurve"
-  Der Wert 'Kurve' gibt an, wie sehr der Himmel gekrümmt sein soll (kann sowohl positiv als auch negativ
-  sein). 
-
-@OptionalParameter "FogFarbe"
-  Die Nebel-Farbe. @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten.
-  Wenn diese nicht angegeben wird, werden die Nebel-Einstellungen vom @@Fog Befehl geerbt.
+  Erstellt einen neuen "SkyDome" ("Himmelskuppel"), wobei es sich um einen gekrÃ¼mmten, sich bewegenden Himmel 
+  handelt, der mittels der angegebenen Wolken-Textur dargestellt wird.
   
-@OptionalParameter "FogIntensität"
-  Die Nebel-Intensität. Wenn diese auf Null gesetzt wird, dann wird der Nebel-Effekt deaktiviert.
+@Parameter "TextureID"
+  Die zu verwendende Wolken-Textur (Cloud). @@TextureID kann verwendet werden, um einen gÃ¼ltigen Wert zu erhalten.
   
-@OptionalParameter "FogStartDistanz"
-  Die Distanz von der Kamera (in Welt-Einheiten), ab der der Nebel starten soll.
+@Parameter "SkyFarbe"
+  Die Himmelsfarbe als @@RGBA.
 
-@OptionalParameter "FogEndDistanz"
-  Die Distanz von der Kamera, ab der der Nebel völlig undurchsichtig wird.
+@Parameter "RiseFarbe"
+  Die Farbe des Sonnenaufgangs ("sun rising") als @@RGBA.
+  
+@OptionalParameter "NbCloudLayers"
+  Die Anzahl der Wolkenschichten ("cloud layer"), beginnend bei 1.
+  
+@OptionalParameter "Hoehe"
+  Die WolkenhÃ¶he in Welteinheiten.
+
+@OptionalParameter "SpeedX, SpeedZ"
+  Die Geschwindigkeit der Wolkenbewegung.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der "SkyDome" erfolgreich erstellt wurde.
-  Wenn die Textur nicht geladen werden konnte, dann wird der "SkyDome" mit einer leeren Textur erstellt.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der SkyDome erfolgreich erstellt wurde.
+
+@Example
+
+@Code
+  #EndDistance = 1024*4
+
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  ExamineDesktops() : dx = DesktopWidth(0)*0.9 : dy = DesktopHeight(0)*0.9
+  OpenWindow(0, 0, 0, DesktopUnscaledX(dx), DesktopUnscaledY(dy), "SkyDome - Press ESC to quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+  Parse3DScripts()
+
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,5,0) 
+  CameraLookAt(0,2,5,10)
+
+  ; Sky
+  TextureSky = LoadTexture(#PB_Any,"sky.png")
+  SkyDome(TextureID(TextureSky), $cc6600, $0088ff, 3, 400, -0.5, 0)
+
+  ; Sun
+  CreateLight(0, $ff88ff, 20000, 40000, 20000)
+  AmbientColor($010101)
+  Fog($554488,1, 0, #EndDistance)
+
+  Repeat
+    While WindowEvent() : Wend
+    ExamineKeyboard()
+    
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
 
 @SeeAlso
   @@SkyBox
@@ -1229,129 +1276,23 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateWater(#Camera, x, y, z, Transparenz, Flags)
+@Function CreateWater(WaveTextureID, FoamTextureID, WaterColor, SkyColor, Distance.f, WaveBig.f, WaveLittle.f, Swell.f, Foam.f)
 
 @Description
-  Erstellt eine Wasserfläche an der angegebenen Position.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-
-@Parameter "x, y, z"
-  Die absoluten Koordinaten, an denen die Wasserfläche erstellt werden soll.
+  Erstellt eine weltweite Wasserebene.
   
-@Parameter "Transparenz"
-  Regelt die gesamte Wasser-Transparenz,
-  von 0 (vollständig undurchsichtig) bis 255 (transparent).
-
-@Parameter "Flags"
-  Kann eine Kombination der folgenden Konstanten sein:
-@FixedFont
-  @#PB_World_WaterMediumQuality: mittlere Qualität (Standard).
-  @#PB_World_WaterLowQuality   : niedrigere Qualität, was weniger Polygone bedeutet (aber schnellere Darstellung).
-  @#PB_World_WaterHighQuality  : hohe Qualität, was mehr Polygone bedeutet (aber langsamere Darstellung).
-  @#PB_World_WaterCaustics     : Aktiviert Wasser "Caustic-Effekte", was kleine Muster sind, welche durch das Licht auf der Wasser-Oberfläche entstehen.
-  @#PB_World_WaterSmooth       : Aktiviert gleichmäßigen Wellen-Übergang.
-  @#PB_World_WaterFoam         : Aktiviert Schaum-Effekt, welcher Unterwasser-Objekte betrifft, wenn sich diese oberhalb der Wasseroberfläche zeigen.
-  @#PB_World_WaterSun          : Aktiviert Sonnen-Reflexion auf dem Wasser. Um die Sonnen-Position und -farbe zu kontrollieren, verwenden Sie @@Sun.
-  @#PB_World_UnderWater        : Aktiviert einen Unterwasser-Effekt, um undurchsichtiges Unterwasser zu haben.
-  @#PB_World_WaterGodRays      : Aktiviert die Darstellung von Sonnenstrahlen ("sun god rays"), wenn man sich unter Wasser befindet. @#PB_World_WaterSun muss angegeben werden.
-@EndFixedFont
-
-@NoReturnValue
-
-@SeeAlso
-  @@FreeWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function FreeWater(#Camera)
-
-@Description
-  Gibt die aktuelle Wasserfläche, welche mit der angegebenen Kamera verknüpft ist, frei.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
+;---- TODO: complete parameter description is missing! ----------------------------
   
 @NoReturnValue
 
 @SeeAlso
-  @@CreateWater
+  @@SkyDome, @@SkyBox
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function WaterColor(#Camera, Farbe)
-
-@Description
-  Ändert die Wasserfarbe auf der angegebenen Kamera. @@CreateWater muss aufgerufen werden,
-  bevor diese Funktion verwendet wird.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-  
-@Parameter "Farbe"
-  Die neue Farbe des Wassers. Ein gültiger Farbwert kann mit @@RGB ermittelt werden.
-  
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterHeight(#Camera, x, y)
-
-@Description
-  Ermittelt die aktuelle Wasserhöhe an der angegebenen Position. @@CreateWater muss aufgerufen
-  worden sein, bevor diese Funktion verwendet wird.
-  Da Wasser auch Wellen haben kann, ist die Höhe nicht immer über das gesamte Wasser gleich.
-  Diese Funktion kann nützlich sein, um ein Objekt über das Wasser gleiten zu lassen.
-
-@Parameter "#Camera"
-  Die zu verwendende Kamera.
-  
-@Parameter "x, y"
-  Die bei der Ermittlung der Höhe zu verwendenden Koordinaten.
-  
-@ReturnValue
-  Die absolute Wasserhöhe, in Welt-Einheiten.
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Sun(x, y, z, Farbe)
-
-@Description
-  Ändert die Position und Farbe der Sonne. Dies wirkt sich auf @Link "CreateWater" "Wasser" aus, was mit @#PB_World_WaterSun
-  Unterstützung erstellt wurde.
-
-@Parameter "x, y, z"
-  Der neue absolute Position der Sonne in der Welt.
-  
-@Parameter "Farbe"
-  Die neue Sonnen-Farbe.
-  @@RGB kann verwendet werden, um einen gültigen Farbwert zu erhalten.
-
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WorldShadows(Typ [, Distanz.f [, Farbe [, TexturGröße]]])
+@Function WorldShadows(Typ [, Distanz.f [, Farbe [, TexturGrÃ¶ÃŸe]]])
 
 @Description
   Legt fest, wie die Schatten in der Welt dargestellt ("gerendert") werden.
@@ -1360,38 +1301,38 @@
   Typ kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_Shadow_None      : Es werden keine Schatten in dieser Welt dargestellt. Dies kann eine Menge
-                         an CPU-Power einsparen, wenn Schatten nicht benötigt werden. (Standard)
-  @#PB_Shadow_Modulative: Schatten werden für die @LibraryLink "entity" "Entities" dargestellt, für welche der
+                         an CPU-Power einsparen, wenn Schatten nicht benÃ¶tigt werden. (Standard)
+  @#PB_Shadow_Modulative: Schatten werden fÃ¼r die @LibraryLink "entity" "Entities" dargestellt, fÃ¼r welche der
                          Schattenwurf mittels @@EntityRenderMode und @#PB_Entity_CastShadow
-                         eingestellt wurde. Dieser Schattenmodus ist der schnellste verfügbare, er
+                         eingestellt wurde. Dieser Schattenmodus ist der schnellste verfÃ¼gbare, er
                          sieht jedoch nicht besonders gut aus, da die Schatten nicht durchscheinend sind.
-  @#PB_Shadow_Additive  : Schatten werden für die @LibraryLink "entity" "Entities" dargestellt, für welche der
+  @#PB_Shadow_Additive  : Schatten werden fÃ¼r die @LibraryLink "entity" "Entities" dargestellt, fÃ¼r welche der
                          Schattenwurf mittels @@EntityRenderMode und @#PB_Entity_CastShadow
                          eingestellt wurde. Dieser Schattenmodus ist langsamer als der modulative Modus,
                          aber er sieht wesentlich besser aus, da die Schatten durchscheinend sind.
-                         Auch wenn sich mehrere Schatten überlappen, werden die Schatten addiert,
-                         was zu einem dunkleren Resultat führt.
-  @#PB_Shadow_TextureAdditive: Schatten werden für die @LibraryLink "entity" "Entities" dargestellt, für welche der Schattenwurf 
+                         Auch wenn sich mehrere Schatten Ã¼berlappen, werden die Schatten addiert,
+                         was zu einem dunkleren Resultat fÃ¼hrt.
+  @#PB_Shadow_TextureAdditive: Schatten werden fÃ¼r die @LibraryLink "entity" "Entities" dargestellt, fÃ¼r welche der Schattenwurf 
                          mittels @@EntityRenderMode und @#PB_Entity_CastShadow eingestellt wurde. 
-                         Dieser Modus liegt im Hinblick auf Geschwindigkeit und Qualität zwischen 
+                         Dieser Modus liegt im Hinblick auf Geschwindigkeit und QualitÃ¤t zwischen 
                          dem modulativen und additiven Schatten, und arbeitet auch mit Wasser.
-  @#PB_Shadow_TextureModulative: Schatten werden für die @LibraryLink "entity" "Entities" dargestellt, für welche der Schattenwurf 
+  @#PB_Shadow_TextureModulative: Schatten werden fÃ¼r die @LibraryLink "entity" "Entities" dargestellt, fÃ¼r welche der Schattenwurf 
                          mittels @@EntityRenderMode und @#PB_Entity_CastShadow eingestellt wurde. 
                          Dieser Schattenmodus ist schneller als @#PB_Shadow_TextureAdditive, er sieht 
                          jedoch nicht besonders gut aus, da die Schatten nicht durchscheinend sind.
 @EndFixedFont
 
 @OptionalParameter "Distanz"
-  Maximale Distanz von der Kamera, in Welt-Einheiten, über die hinaus die Schatten nicht mehr
+  Maximale Distanz von der Kamera, in Welt-Einheiten, Ã¼ber die hinaus die Schatten nicht mehr
   berechnet werden.
 
 @OptionalParameter "Farbe"
-  Farbe der Schatten. @@RGB kann verwendet werden, um einen gültigen Farb-Wert zu erhalten.
+  Farbe der Schatten. @@RGB kann verwendet werden, um einen gÃ¼ltigen Farb-Wert zu erhalten.
 
-@OptionalParameter "TexturGröße"
-  Pixel-Größe der Textur, welche zum Rendern des Schattens verwendet wird. Je größer sie ist,
+@OptionalParameter "TexturGrÃ¶ÃŸe"
+  Pixel-GrÃ¶ÃŸe der Textur, welche zum Rendern des Schattens verwendet wird. Je grÃ¶ÃŸer sie ist,
   desto besser wird der Schatten aussehen, aber desto langsamer wird es auch. Der Standardwert
-  ist 512, und dieser Wert sollte nicht größer als 4096 sein.
+  ist 512, und dieser Wert sollte nicht grÃ¶ÃŸer als 4096 sein.
 
 @NoReturnValue
 
@@ -1402,15 +1343,15 @@
 @Function WorldGravity(Gravitation.f [, x, y, z])
 
 @Description
-  Ändert die Gravitation (auch: Schwerkraft, Erdanziehungskraft, Masse, englisch "Gravity") der Welt, wenn 
+  Ã„ndert die Gravitation (auch: Schwerkraft, Erdanziehungskraft, Masse, englisch "Gravity") der Welt, wenn 
   die Physik-Engine mittels @@EnableWorldPhysics eingeschalten ist. 
 
 @Parameter "Gravitation"  
   Die neu festzulegende Gravitation.
-  Der Standardwert für die Gravitation beträgt -9.806 (was der Erdanziehungskraft entspricht).
+  Der Standardwert fÃ¼r die Gravitation betrÃ¤gt -9.806 (was der Erdanziehungskraft entspricht).
 
 @OptionalParameter "x, y, z"  
-  Der zu verwendende Gravitationskraftvektor, um die Gravitationsrichtung zu ändern.
+  Der zu verwendende Gravitationskraftvektor, um die Gravitationsrichtung zu Ã¤ndern.
 
 @NoReturnValue
 
@@ -1424,15 +1365,15 @@
 @Function Ergebnis = WorldDebug(Modus)
 
 @Description
-  Ändert den Debug-Modus für die Welt.
-  Dies kann sehr nützlich sein, um zum Beispiel Probleme mit Kollisionen oder Auswählen ("picking") zu finden.
+  Ã„ndert den Debug-Modus fÃ¼r die Welt.
+  Dies kann sehr nÃ¼tzlich sein, um zum Beispiel Probleme mit Kollisionen oder AuswÃ¤hlen ("picking") zu finden.
 
 @Parameter "Modus"
   Dies kann eine Kombination der folgenden Konstanten sein:
 @FixedFont
   @#PB_World_DebugNone  : keine Debug-Informationen (Standard).
   @#PB_World_DebugEntity: zeigt die Rahmen der Entities.
-  @#PB_World_DebugBody  : zeigt die physischen Körper, sowohl statisch als auch dynamisch.
+  @#PB_World_DebugBody  : zeigt die physischen KÃ¶rper, sowohl statisch als auch dynamisch.
 @EndFixedFont
   
 @NoReturnValue
@@ -1444,19 +1385,19 @@
 @Function Pitch(ObjektID, Wert.f, Modus)
 
 @Description
-  Ändert die Neigung bzw. dreht das angegebene Objekt um die x-Achse.
+  Ã„ndert die Neigung bzw. dreht das angegebene Objekt um die x-Achse.
 
 @Parameter "ObjektID"
   Das zu drehende Objekt. Dies kann von einem der folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "Wert"
@@ -1471,7 +1412,7 @@
   kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Drehung/Neigung.
-  @#PB_Parent: Drehung/Neigung relativ zu den übergeordneten Objekten ("Parent").
+  @#PB_Parent: Drehung/Neigung relativ zu den Ã¼bergeordneten Objekten ("Parent").
   @#PB_World : Drehung/Neigung relativ zur Welt.
 @EndFixedFont
 
@@ -1487,19 +1428,19 @@
 @Function Roll(ObjektID, Wert.f, Modus)
 
 @Description
-  Ändert den Roll-Wert bzw. dreht das angegebene Objekt um die z-Achse.
+  Ã„ndert den Roll-Wert bzw. dreht das angegebene Objekt um die z-Achse.
 
 @Parameter "ObjektID"
   Das zu drehende Objekt. Dies kann von einem der folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "Wert"
@@ -1514,7 +1455,7 @@
   kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Drehung/Rollen.
-  @#PB_Parent: Drehung/Rollen relativ zu den übergeordneten Objekten ("Parent").
+  @#PB_Parent: Drehung/Rollen relativ zu den Ã¼bergeordneten Objekten ("Parent").
   @#PB_World : Drehung/Rollen releativ zur Welt.
 @EndFixedFont
 
@@ -1530,19 +1471,19 @@
 @Function Yaw(ObjektID, Wert.f, Modus)
 
 @Description
-  Ändert die Gierung bzw. dreht das angegebene Objekt um die y-Achse.
+  Ã„ndert die Gierung bzw. dreht das angegebene Objekt um die y-Achse.
 
 @Parameter "ObjektID"
   Das zu drehende Objekt. Dies kann von einem der folgenden Typen sein:
 @FixedFont
-  - Camera         : verwenden Sie @@CameraID, um eine gültige ID zu erhalten.
-  - Entity         : verwenden Sie @@EntityID, um eine gültige ID zu erhalten.
-  - Light          : verwenden Sie @@LightID, um eine gültige ID zu erhalten.
-  - Mesh           : verwenden Sie @@MeshID, um eine gültige ID zu erhalten.
-  - Node           : verwenden Sie @@NodeID, um eine gültige ID zu erhalten.
-  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gültige ID zu erhalten.
-  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gültige ID zu erhalten.
-  - Text3D         : verwenden Sie @@Text3DID, um eine gültige ID zu erhalten.
+  - Camera         : verwenden Sie @@CameraID, um eine gÃ¼ltige ID zu erhalten.
+  - Entity         : verwenden Sie @@EntityID, um eine gÃ¼ltige ID zu erhalten.
+  - Light          : verwenden Sie @@LightID, um eine gÃ¼ltige ID zu erhalten.
+  - Mesh           : verwenden Sie @@MeshID, um eine gÃ¼ltige ID zu erhalten.
+  - Node           : verwenden Sie @@NodeID, um eine gÃ¼ltige ID zu erhalten.
+  - ParticleEmitter: verwenden Sie @@ParticleEmitterID, um eine gÃ¼ltige ID zu erhalten.
+  - BillboardGroup : verwenden Sie @@BillboardGroupID, um eine gÃ¼ltige ID zu erhalten.
+  - Text3D         : verwenden Sie @@Text3DID, um eine gÃ¼ltige ID zu erhalten.
 @EndFixedFont
 
 @Parameter "Wert"
@@ -1557,7 +1498,7 @@
   kombiniert mit einem der folgenden Werte:
 @FixedFont
   @#PB_Local : lokale Drehung/Gierung.
-  @#PB_Parent: Drehung/Gierung relativ zu den übergeordneten Objekten ("Parent").
+  @#PB_Parent: Drehung/Gierung relativ zu den Ã¼bergeordneten Objekten ("Parent").
   @#PB_World : Drehung/Gierung releativ zur Welt.
 @EndFixedFont
 
@@ -1565,5 +1506,71 @@
 
 @SeeAlso
   @@Pitch, @@Roll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.f = GetWorldAttribute(Attribut)
+
+@Description
+  Ermittelt das angegebene Attribut der Welt.
+
+@Parameter "Attribut"
+  Der abzurufende Attributwert. Die folgenden Attribute sind verfÃ¼gbar:
+@FixedFont
+  @#PB_Shadow_FarDistance    : Schattenentfernung ("shadow far distance") ermitteln.
+  @#PB_Shadow_Color          : aktuelle Schattenfarbe ("shadow color") als @@RGBA ermitteln.
+  @#PB_SkyDome_SkyColor      : Farbe des Himmels ("sky color") als @@RGBA ermitteln.
+  @#PB_SkyDome_RiseColor     : Farbe des Sonnenaufgangs ("sun rise color") als @@RGBA ermitteln.
+  @#PB_SkyDome_NbCloudLayers : Anzahl der Wolkenschichten ("cloud layer") ermitteln.
+  @#PB_SkyDome_CloudsHeight  : HÃ¶he der Wolken ("clouds") in Welteinheiten ermitteln.
+  @#PB_Water_WaterColor      : Wasserfarbe ("water color") als @@RGBA ermitteln.
+  @#PB_Water_SkyColor        : Farbe des Himmels ("sky color"), wie er im Wasser reflektiert wird, als @@RGBA ermitteln.
+  @#PB_Water_WaveHeight      : WellenhÃ¶he ("wave height") ermitteln.
+  @#PB_Water_WaveSmall       : Amplitude der Wellen ("wave riddle amplitude") ermitteln.
+  @#PB_Water_Swell           : IntensitÃ¤t der WasserdÃ¼nung ("water swell intensity") ermitteln.
+  @#PB_Water_Foam            : IntensitÃ¤t des Schaums ("foam intensity") ermitteln.
+@EndFixedFont
+
+@ReturnValue
+  Gibt den Wert des angegebenen Attributs zurÃ¼ck.
+
+@SeeAlso
+  @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWorldAttribute(Attribut, Wert.f)
+
+@Description
+  Legt das angegebene Attribut der Welt fest.
+
+@Parameter "Attribute"
+  Der zu setzende Attributwert. Die folgenden Attribute sind verfÃ¼gbar:
+@FixedFont
+  @#PB_Shadow_FarDistance    : Schattenentfernung ("shadow far distance") festlegen.
+  @#PB_Shadow_Color          : aktuelle Schattenfarbe ("shadow color") Ã¤ndern.
+  @#PB_SkyDome_Free          : die zuvor mit @@SkyDome erstellte Himmelskuppel freigeben.
+  @#PB_SkyDome_SkyColor      : Farbe des Himmels ("sky color") als @@RGBA festlegen.
+  @#PB_SkyDome_RiseColor     : Farbe des Sonnenaufgangs ("sun rise color") als @@RGBA festlegen.
+  @#PB_SkyDome_NbCloudLayers : Anzahl der Wolkenschichten ("cloud layer") festlegen (Wert zwischen X und X).
+  @#PB_SkyDome_CloudsHeight  : HÃ¶he der Wolken ("clouds") in Weltkoordinaten festlegen.
+  @#PB_Water_WaterColor      : Wasserfarbe ("water color") als @@RGBA festlegen.
+  @#PB_Water_SkyColor        : Farbe des Himmels ("sky color"), wie er im Wasser reflektiert wird, als @@RGBA festlegen.
+  @#PB_Water_WaveHeight      : WellenhÃ¶he ("wave height") festlegen (Wert zwischen 0 und 3).
+  @#PB_Water_WaveSmall       : Amplitude der Wellen ("wave riddle amplitude") festlegen (Wert zwischen 0 und 3).
+  @#PB_Water_Swell           : IntensitÃ¤t der WasserdÃ¼nung ("water swell intensity") festlegen (Wert zwischen 0 und 2).
+  @#PB_Water_Foam            : IntensitÃ¤t des Schaums ("foam intensity") festlegen (Wert zwischen 0 und 1).
+  @#PB_Water_Free            : die zuvor mit @@CreateWater erstellte Weltwasserebene freigeben.
+@EndFixedFont
+
+@ReturnValue
+  Ã„ndert den Wert des angegebenen Attributs.
+
+@SeeAlso
+  @@SetWorldAttribute
 
 @SupportedOS

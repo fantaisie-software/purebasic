@@ -325,7 +325,7 @@ Procedure UpdateDebugOutputWindow(*Debugger.DebuggerData)
     Gadget = *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]
     
     AddGadgetItem(Gadget, -1, *Debugger\DebugMessage$)
-    
+
     ScrollEditorGadgetToEnd(Gadget)
     
     *Debugger\DebugMessage$ = ""

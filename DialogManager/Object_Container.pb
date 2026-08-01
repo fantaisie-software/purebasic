@@ -79,25 +79,7 @@ Procedure DlgContainer_SizeRequest(*THIS.DlgContainer, *Width.LONG, *Height.LONG
     *THIS\BorderInClient = #True ; to be tested
   CompilerEndIf
   
-  CompilerIf #CompileMacCarbon
-    ; border sizes are fixed, as we draw them ourselves in the gadget lib
-    ;
-    If *THIS\StaticData\Flags & (#PB_Container_Flat|#PB_Container_Single)
-      *THIS\BorderWidth  = 2 ; represents 2x the border size
-      *THIS\BorderHeight = 2
-    ElseIf *THIS\StaticData\Flags =  #PB_Container_BorderLess
-      *THIS\BorderWidth  = 0
-      *THIS\BorderHeight = 0
-    Else
-      *THIS\BorderWidth  = 4
-      *THIS\BorderHeight = 4
-    EndIf
-    *THIS\BorderInClient = #True
-  CompilerEndIf
-  
   CompilerIf #CompileMacCocoa
-    ; cocoa has different border sizes from carbon
-    ;
     If *THIS\StaticData\Flags = #PB_Container_BorderLess
       *THIS\BorderWidth  = 0
       *THIS\BorderHeight = 0

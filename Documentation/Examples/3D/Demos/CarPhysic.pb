@@ -326,6 +326,9 @@ InitKeyboard()
 OpenWmain()
 OpenWindowedScreen(WindowID(Wmain), DesktopScaledX(300), DesktopScaledY(0), DesktopScaledX(#SCREENWIDTH-300), DesktopScaledY(#SCREENHEIGHT), 0, 0, 0,#PB_Screen_SmartSynchronization)
 
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main", #PB_3DArchive_FileSystem)
+Parse3DScripts()
+
 ;-Textures
 txBlank = CreateTexture(#PB_Any,4,4)
 StartDrawing(TextureOutput(txBlank))
@@ -498,3 +501,9 @@ Repeat
 Until KeyboardPushed(#PB_Key_Escape) Or dontQuit = #False
 
 End
+; IDE Options = PureBasic 6.12 LTS (Windows - x86)
+; CursorPosition = 390
+; FirstLine = 363
+; Folding = --
+; EnableXP
+; DPIAware

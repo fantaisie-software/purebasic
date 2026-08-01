@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Drag & Drop library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,23 +8,23 @@
 
 @Overview
 
-  Le 'Drag & Drop' (glisser-déposer) est 
-  aujourd'hui une technologie très largement 
-  utilisée et permet d'échanger de manière 
-  intuitive des données entre applications. 
-  Cette bibliothèque ajoute ces fonctionnalités
+  Le 'Drag & Drop' (glisser-dÃ©poser) est 
+  aujourd'hui une technologie trÃ¨s largement 
+  utilisÃ©e et permet d'Ã©changer de maniÃ¨re 
+  intuitive des donnÃ©es entre applications. 
+  Cette bibliothÃ¨que ajoute ces fonctionnalitÃ©s
   aux @LibraryLink "gadget" "gadgets" et aux 
-  @LibraryLink "window" "fenêtres" juste en 
+  @LibraryLink "window" "fenÃªtres" juste en 
   rajoutant quelques lignes de code.
 @LineBreak
 @LineBreak
-  De plus, pour les programmeurs expérimentés, 
-  elle donne accès aux fonctions bas-niveau de 
-  l'API pour exploiter au maximum les capacités 
-  d'un système d'exploitation particulier.
+  De plus, pour les programmeurs expÃ©rimentÃ©s, 
+  elle donne accÃ¨s aux fonctions bas-niveau de 
+  l'API pour exploiter au maximum les capacitÃ©s 
+  d'un systÃ¨me d'exploitation particulier.
 @LineBreak
 @LineBreak
-  OSX est limité pour l'instant et seules les images peuvent être cliqué-déposées.
+  OSX est limitÃ© pour l'instant et seules les images peuvent Ãªtre cliquÃ©-dÃ©posÃ©es.
   
 @CommandList
 
@@ -37,59 +37,59 @@
 @Function Resultat = DragText(Texte$ [, Actions])
 
 @Description
-  Lance une opération de 'Drag & Drop' 
-  en utilisant une donnée de type texte. 
+  Lance une opÃ©ration de 'Drag & Drop' 
+  en utilisant une donnÃ©e de type texte. 
 
 @Parameter "Texte$"
-  Le texte à transférer. 
+  Le texte Ã  transfÃ©rer. 
 
 @OptionalParameter "Actions"
-  Si ce paramètre est omis, @#PB_Drag_Copy 
-  sera utilisé comme valeur par défaut.
+  Si ce paramÃ¨tre est omis, @#PB_Drag_Copy 
+  sera utilisÃ© comme valeur par dÃ©faut.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_Copy: Le texte peut être copié
-  @#PB_Drag_Move: Le texte peut être déplacé
-  @#PB_Drag_Link: Le texte peut être lié
+  @#PB_Drag_Copy: Le texte peut Ãªtre copiÃ©
+  @#PB_Drag_Move: Le texte peut Ãªtre dÃ©placÃ©
+  @#PB_Drag_Link: Le texte peut Ãªtre liÃ©
 @EndFixedFont
 @Indent
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
-  (Sous MacOSX, les actions ne sont traitées 
-  que comme une suggestion. La cible de dépôt 
+  Ãªtre dÃ©posÃ©.
+  (Sous MacOSX, les actions ne sont traitÃ©es 
+  que comme une suggestion. La cible de dÃ©pÃ´t 
   peut encore choisir une autre action.)
 @EndIndent
 
 @ReturnValue
   Renvoie une des valeurs 'Actions' pour 
-  indiquer laquelle a été choisie par 
+  indiquer laquelle a Ã©tÃ© choisie par 
   l'utilisateur, ou @#PB_Drag_None si le 
-  'Drag & Drop' a été annulé. 
+  'Drag & Drop' a Ã©tÃ© annulÃ©. 
 @LineBreak
 @LineBreak
-  @Bold "Note:" si @#PB_Drag_Move est renvoyé, 
-  le texte déposé ne sera pas automatiquement
-  effacé de l'application PureBasic. Il faudra 
-  le faire en réponse à ce message. 
+  @Bold "Note:" si @#PB_Drag_Move est renvoyÃ©, 
+  le texte dÃ©posÃ© ne sera pas automatiquement
+  effacÃ© de l'application PureBasic. Il faudra 
+  le faire en rÃ©ponse Ã  ce message. 
 
 @Remarks
-  Un 'Drag & Drop' peut être
-  démarré n'importe quand, mais il faut que le 
-  bouton gauche de la souris soit appuyé sinon 
-  l'opération se terminera immédiatement. Le 
-  moment le plus approprié pour lancer un 
-  'Drag & Drop' est en réponse à un évènement 
+  Un 'Drag & Drop' peut Ãªtre
+  dÃ©marrÃ© n'importe quand, mais il faut que le 
+  bouton gauche de la souris soit appuyÃ© sinon 
+  l'opÃ©ration se terminera immÃ©diatement. Le 
+  moment le plus appropriÃ© pour lancer un 
+  'Drag & Drop' est en rÃ©ponse Ã  un Ã©vÃ¨nement 
   sur un @LibraryLink "Gadget" "Gadget" avec 
   un @@EventType valant
   @#PB_EventType_DragStart. 
 @LineBreak
 @LineBreak
-  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  Sous MacOS X, l'Ã©vÃ¨nement @#PB_EventType_DragStart doit Ãªtre gÃ©rÃ© Ã  l'aide de @@BindEvent 
   ou de @@BindGadgetEvent.
   
 @Example
@@ -100,12 +100,12 @@
       Texte$ + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
     Wend
     
-    Debug "Texte en cours de déplacement : " + Texte$
+    Debug "Texte en cours de dÃ©placement : " + Texte$
     
     DragText(Texte$)
   EndProcedure
 
-  ; Sélectionnez des fichiers ou des dossiers et faites-les glisser vers une autre application.
+  ; SÃ©lectionnez des fichiers ou des dossiers et faites-les glisser vers une autre application.
   ;
   If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
     ListViewGadget(0, 10, 10, 380, 380, #PB_ListView_MultiSelect)
@@ -113,7 +113,7 @@
     AddGadgetItem(0, -1, "Element 2")
     AddGadgetItem(0, -1, "Element 3")
     
-    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    ; BindGadgetEvent() est requis pour gÃ©rer l'Ã©vÃ©nement de dÃ©marrage par glisser-dÃ©poser
     BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
     
     Repeat
@@ -133,61 +133,61 @@
 @Function Resultat = DragImage(ImageID [, Actions])
 
 @Description
-  Lance une opération de 'Drag & Drop' en utilisant une donnée de type image. 
+  Lance une opÃ©ration de 'Drag & Drop' en utilisant une donnÃ©e de type image. 
 
 @Parameter "ImageID"
-  L'image à transférer. 
+  L'image Ã  transfÃ©rer. 
 @LineBreak
 @LineBreak
-  @@ImageID peut être utilisé pour obtenir 
+  @@ImageID peut Ãªtre utilisÃ© pour obtenir 
   cet identifiant.
 
 @OptionalParameter "Actions"
-  Si ce paramètre est omis, @#PB_Drag_Copy 
-  sera utilisé comme valeur par défaut.
+  Si ce paramÃ¨tre est omis, @#PB_Drag_Copy 
+  sera utilisÃ© comme valeur par dÃ©faut.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_Copy: L'image peut être copiée
-  @#PB_Drag_Move: L'image peut être déplacée
-  @#PB_Drag_Link: L'image peut être liée
+  @#PB_Drag_Copy: L'image peut Ãªtre copiÃ©e
+  @#PB_Drag_Move: L'image peut Ãªtre dÃ©placÃ©e
+  @#PB_Drag_Link: L'image peut Ãªtre liÃ©e
 @EndFixedFont
 @Indent
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
-  (Sous MacOSX, les actions ne sont traitées 
-  que comme une suggestion. La cible de dépôt 
+  Ãªtre dÃ©posÃ©.
+  (Sous MacOSX, les actions ne sont traitÃ©es 
+  que comme une suggestion. La cible de dÃ©pÃ´t 
   peut encore choisir une autre action.)
 @EndIndent
 
 @ReturnValue
   Renvoie une des valeurs 'Actions' pour 
-  indiquer laquelle a été choisie par 
+  indiquer laquelle a Ã©tÃ© choisie par 
   l'utilisateur, ou @#PB_Drag_None si le 
-  'Drag & Drop' a été annulé. 
+  'Drag & Drop' a Ã©tÃ© annulÃ©. 
 @LineBreak
 @LineBreak
-@Bold "Note:" si @#PB_Drag_Move est renvoyé, 
-  l'image déposée ne sera pas automatiquement
-  effacée de l'application PureBasic. Il 
-  faudra le faire en réponse à ce message. 
+@Bold "Note:" si @#PB_Drag_Move est renvoyÃ©, 
+  l'image dÃ©posÃ©e ne sera pas automatiquement
+  effacÃ©e de l'application PureBasic. Il 
+  faudra le faire en rÃ©ponse Ã  ce message. 
 
 @Remarks
-  Un 'Drag & Drop' peut être démarré n'importe 
+  Un 'Drag & Drop' peut Ãªtre dÃ©marrÃ© n'importe 
   quand, mais il faut que le bouton gauche de 
-  la souris soit appuyé sinon l'opération
-  se terminera immédiatement. Le moment le plus 
-  approprié pour lancer un 'Drag & Drop' est en 
-  réponse à un évènement sur un 
+  la souris soit appuyÃ© sinon l'opÃ©ration
+  se terminera immÃ©diatement. Le moment le plus 
+  appropriÃ© pour lancer un 'Drag & Drop' est en 
+  rÃ©ponse Ã  un Ã©vÃ¨nement sur un 
   @LibraryLink "Gadget" "Gadget" avec un 
   @@EventType valant @#PB_EventType_DragStart.
 @LineBreak
 @LineBreak
-  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  Sous MacOS X, l'Ã©vÃ¨nement @#PB_EventType_DragStart doit Ãªtre gÃ©rÃ© Ã  l'aide de @@BindEvent 
   ou de @@BindGadgetEvent.
   
 @Example
@@ -208,6 +208,58 @@
   EndIf
 @EndCode
 
+@Example
+@Code
+  Enumeration ; Gadgets
+    #Liste1
+    #Liste2
+  EndEnumeration
+  
+  If OpenWindow(0, 0, 0, 415, 410, "Drag depuis Liste 1 vers Liste 2", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(#Liste1, 5, 5, 200, 400, "Liste 1" , 140)
+    ListIconGadget(#Liste2, 210, 5, 200, 400, "Liste 2" , 140)
+    
+    For i = 0 To 9
+      AddGadgetItem(#Liste1, -1, "Item " + Str(i))
+      AddGadgetItem(#Liste2, -1, "Item " + Str(i + 10))
+    Next
+    
+    ; Permet de faire glisser un Ã©lÃ©ment depuis #Liste1 vers #Liste2
+    EnableGadgetDrop(#Liste2, #PB_Drop_Private, #PB_Drag_Copy, 1)
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_GadgetDrop ; L'Ã©vÃ©nement drag
+          Select EventGadget()
+            Case #Liste2
+              Select EventDropType()
+                Case #PB_Drop_Private
+                  tmp = GetGadgetState(#Liste2)
+                  AddGadgetItem(#Liste2, tmp, tmp$)
+                  tmp = GetGadgetState(#Liste1)
+                  RemoveGadgetItem(#Liste1, tmp)
+              EndSelect
+          EndSelect
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case #Liste1
+              Select EventType()
+                Case #PB_EventType_DragStart
+                  tmp = GetGadgetState(#Liste1)
+                  If tmp <> -1
+                    tmp$ = GetGadgetItemText(#Liste1, tmp)
+                    DragPrivate(1) ; DÃ©finir le type de glisser-dÃ©poser sur 1 jusqu'Ã  ce que l'action de dÃ©pÃ´t rÃ©ussisse (dans #Liste2).
+                  EndIf
+              EndSelect
+          EndSelect
+        Case #PB_Event_CloseWindow
+          End
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
+
 @SeeAlso
   @@DragFiles, @@DragText, @@DragPrivate, @@DragOSFormats,
   @@SetDragCallback
@@ -219,79 +271,79 @@
 @Function Resultat = DragFiles(Fichiers$ [, Actions])
 
 @Description
-  Lance une opération de 'Drag & Drop' en 
+  Lance une opÃ©ration de 'Drag & Drop' en 
   utilisant une liste de fichiers.
 
 @Parameter "Fichiers$"
   La liste des noms de fichiers ou de 
-  répertoires à transférer. 
+  rÃ©pertoires Ã  transfÃ©rer. 
 @LineBreak
 @LineBreak
-  Les noms doivent être séparés par le 
-  caractère @Link "String/Chr" "Chr(10)" 
+  Les noms doivent Ãªtre sÃ©parÃ©s par le 
+  caractÃ¨re @Link "String/Chr" "Chr(10)" 
   (fin de ligne). 
 @LineBreak
 @LineBreak
   Chaque nom de fichier doit contenir son 
   chemin absolu, car l'application qui recevra 
-  ces données ne sera pas capable de résoudre 
+  ces donnÃ©es ne sera pas capable de rÃ©soudre 
   les chemins relatifs. 
 @LineBreak
 @LineBreak
-  Ces noms de fichiers doivent se référer à 
+  Ces noms de fichiers doivent se rÃ©fÃ©rer Ã  
   des fichiers existants, accessibles par 
   l'application cible.
 
 @OptionalParameter "Actions"
-  Si ce paramètre est omis, @#PB_Drag_Copy 
-  sera utilisé comme valeur par défaut.
+  Si ce paramÃ¨tre est omis, @#PB_Drag_Copy 
+  sera utilisÃ© comme valeur par dÃ©faut.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_Copy: Les fichiers peuvent être copiés
-  @#PB_Drag_Move: Les fichiers peuvent être déplacés
-  @#PB_Drag_Link: Les fichiers peuvent être liés
+  @#PB_Drag_Copy: Les fichiers peuvent Ãªtre copiÃ©s
+  @#PB_Drag_Move: Les fichiers peuvent Ãªtre dÃ©placÃ©s
+  @#PB_Drag_Link: Les fichiers peuvent Ãªtre liÃ©s
 @EndFixedFont
 @Indent
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
-  (Sous MacOSX, les actions ne sont traitées 
-  que comme une suggestion. La cible de dépôt 
+  Ãªtre dÃ©posÃ©.
+  (Sous MacOSX, les actions ne sont traitÃ©es 
+  que comme une suggestion. La cible de dÃ©pÃ´t 
   peut encore choisir une autre action.)
 @EndIndent
 
 @ReturnValue
   Renvoie une des valeurs 'Actions' pour 
-  indiquer laquelle a été choisie par 
+  indiquer laquelle a Ã©tÃ© choisie par 
   l'utilisateur, ou @#PB_Drag_None si le 
-  'Drag & Drop' a été annulé. 
+  'Drag & Drop' a Ã©tÃ© annulÃ©. 
 @LineBreak
 @LineBreak
 @Bold "Note:" contrairement aux autres 
   fonctions de 'Drag & Drop', aucune action 
-  n'est à prendre lorsque @#PB_Drag_Move est 
-  renvoyé. Comme les données déposées ne sont
+  n'est Ã  prendre lorsque @#PB_Drag_Move est 
+  renvoyÃ©. Comme les donnÃ©es dÃ©posÃ©es ne sont
   que le nom du fichier et pas le fichier 
-  lui-même, toutes actions entreprises sur le
+  lui-mÃªme, toutes actions entreprises sur le
   fichier seront faites par l'application 
   cible.
 
 @Remarks
-  Un 'Drag & Drop' peut être
-  démarré n'importe quand, mais il faut que le 
-  bouton gauche de la souris soit appuyé sinon 
-  l'opération se terminera immédiatement. Le 
-  moment le plus approprié pour lancer un 
-  'Drag & Drop' est en réponse à un évènement 
+  Un 'Drag & Drop' peut Ãªtre
+  dÃ©marrÃ© n'importe quand, mais il faut que le 
+  bouton gauche de la souris soit appuyÃ© sinon 
+  l'opÃ©ration se terminera immÃ©diatement. Le 
+  moment le plus appropriÃ© pour lancer un 
+  'Drag & Drop' est en rÃ©ponse Ã  un Ã©vÃ¨nement 
   sur un @LibraryLink "Gadget" "Gadget" avec 
   un @@EventType valant @#PB_EventType_DragStart.
 @LineBreak
 @LineBreak
-  Sous MacOS X, l'évènement @#PB_EventType_DragStart doit être géré à l'aide de @@BindEvent 
+  Sous MacOS X, l'Ã©vÃ¨nement @#PB_EventType_DragStart doit Ãªtre gÃ©rÃ© Ã  l'aide de @@BindEvent 
   ou de @@BindGadgetEvent.
   
 @Example
@@ -302,17 +354,17 @@
       Fichiers$ + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex()) + Chr(10)
     Wend
     
-    Debug "Fichiers en cours de déplacement : " + Fichiers$
+    Debug "Fichiers en cours de dÃ©placement : " + Fichiers$
     
     DragFiles(Fichiers$)
   EndProcedure
 
-  ; Sélectionnez dess fichiers ou des dossiers et faites-les glisser vers une autre application.
+  ; SÃ©lectionnez dess fichiers ou des dossiers et faites-les glisser vers une autre application.
   ;
   If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
     ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
     
-    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    ; BindGadgetEvent() est requis pour gÃ©rer l'Ã©vÃ©nement de dÃ©marrage par glisser-dÃ©poser
     BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
     
     Repeat
@@ -332,92 +384,92 @@
 @Function Resultat = DragPrivate(Type [, Actions])
 
 @Description
-  Lance une opération de 'Drag & Drop' limitée 
-  à l'appicaton elle-même. 
+  Lance une opÃ©ration de 'Drag & Drop' limitÃ©e 
+  Ã  l'appicaton elle-mÃªme. 
 
 @Parameter "Type"
-  La valeur qui identifiera la donnée à 
-  déposer dans l'application. 
+  La valeur qui identifiera la donnÃ©e Ã  
+  dÃ©poser dans l'application. 
 @LineBreak
 @LineBreak
   N'importe quelle valeur de type Long (.l) 
   est utilisable. 
 @LineBreak
 @LineBreak
-  La même valeur devra être spécifiée à 
+  La mÃªme valeur devra Ãªtre spÃ©cifiÃ©e Ã  
   @@EnableGadgetDrop ou @@EnableWindowDrop
   pour les 
   @LibraryLink "gadget" "Gadgets"/
-  @LibraryLink "window" "Fenêtres" 
-  qui accepteront cette donnée.
+  @LibraryLink "window" "FenÃªtres" 
+  qui accepteront cette donnÃ©e.
 @LineBreak
 @LineBreak
-  Cela permet de définir avec exactitude quel 
-  Gadget/Fenêtre acceptera tel type de données, 
-  et ainsi de réaliser des schémas 'Drag & 
+  Cela permet de dÃ©finir avec exactitude quel 
+  Gadget/FenÃªtre acceptera tel type de donnÃ©es, 
+  et ainsi de rÃ©aliser des schÃ©mas 'Drag & 
   Drop' complexes.
 
 @OptionalParameter "Actions"
-  Si ce paramètre est omis, @#PB_Drag_Copy 
-  sera utilisé comme valeur par défaut.
+  Si ce paramÃ¨tre est omis, @#PB_Drag_Copy 
+  sera utilisÃ© comme valeur par dÃ©faut.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de:
+  Peut Ãªtre une combinaison de:
 @FixedFont
-  @#PB_Drag_Copy: Le texte peut être copié
-  @#PB_Drag_Move: Le texte peut être déplacé
-  @#PB_Drag_Link: Le texte peut être lié
+  @#PB_Drag_Copy: Le texte peut Ãªtre copiÃ©
+  @#PB_Drag_Move: Le texte peut Ãªtre dÃ©placÃ©
+  @#PB_Drag_Link: Le texte peut Ãªtre liÃ©
 @EndFixedFont
 @Indent 
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
+  Ãªtre dÃ©posÃ©.
 @EndIndent 
 
 @ReturnValue
   Renvoie une des valeurs 'Actions' pour 
-  indiquer laquelle a été choisie par 
+  indiquer laquelle a Ã©tÃ© choisie par 
   l'utilisateur, ou @#PB_Drag_None si le 
-  'Drag & Drop' a été annulé. 
+  'Drag & Drop' a Ã©tÃ© annulÃ©. 
 @LineBreak
 @LineBreak
-  Si l'opération n'a pas été annulée, la 
-  @Link "window/waitwindowevent" "boucle d'évènement" 
+  Si l'opÃ©ration n'a pas Ã©tÃ© annulÃ©e, la 
+  @Link "window/waitwindowevent" "boucle d'Ã©vÃ¨nement" 
   recevra @#PB_Event_WindowDrop ou
   @#PB_Event_GadgetDrop de type 
   @#PB_Drop_Private. 
 
 @Remarks
   Contrairement aux autres commandes qui 
-  démarrent un 'Drag & Drop', la donnée ne 
-  pourra être déposée qu'au sein de 
-  l'application (les données transférées avec 
+  dÃ©marrent un 'Drag & Drop', la donnÃ©e ne 
+  pourra Ãªtre dÃ©posÃ©e qu'au sein de 
+  l'application (les donnÃ©es transfÃ©rÃ©es avec 
   les commandes telles que @@DragText ou
-  @@DragImage peuvent aussi être acceptés par 
+  @@DragImage peuvent aussi Ãªtre acceptÃ©s par 
   les autres applications). 
   Cette commande permet d'ajouter des 
-  fonctionnalités de 'Drag & Drop' entre les
+  fonctionnalitÃ©s de 'Drag & Drop' entre les
   @LibraryLink "gadget" "Gadgets" ou les 
-  @LibraryLink "window" "Fenêtres" en utilisant 
-  des données qui ne seraient pas 
-  interprétables par d'autres applications.
+  @LibraryLink "window" "FenÃªtres" en utilisant 
+  des donnÃ©es qui ne seraient pas 
+  interprÃ©tables par d'autres applications.
 @LineBreak
 @LineBreak
-  Un 'Drag & Drop' peut être démarré n'importe 
+  Un 'Drag & Drop' peut Ãªtre dÃ©marrÃ© n'importe 
   quand, mais il faut que le bouton gauche de 
-  la souris soit appuyé sinon l'opération se 
-  terminera immédiatement. Le moment le plus 
-  approprié pour lancer un 'Drag & Drop' est 
-  en réponse à un évènement sur un 
+  la souris soit appuyÃ© sinon l'opÃ©ration se 
+  terminera immÃ©diatement. Le moment le plus 
+  appropriÃ© pour lancer un 'Drag & Drop' est 
+  en rÃ©ponse Ã  un Ã©vÃ¨nement sur un 
   @LibraryLink "Gadget" "Gadget" avec un 
   @@EventType valant @#PB_EventType_DragStart.
 @LineBreak
 @LineBreak
-  Si l'opération n'a pas été interrompue, la 
-  @Link "window/WaitWindowEvent" "boucle d'événements" 
-  recevra un événement @#PB_Event_WindowDrop ou 
+  Si l'opÃ©ration n'a pas Ã©tÃ© interrompue, la 
+  @Link "window/WaitWindowEvent" "boucle d'Ã©vÃ©nements" 
+  recevra un Ã©vÃ©nement @#PB_Event_WindowDrop ou 
   @#PB_Event_GadgetDrop de type 
   @#PB_Drop_Private.
 
@@ -433,24 +485,24 @@
 
 
 @Description
-  Lance une opération de 'Drag & Drop' avec 
-  une liste de formats propre au système 
+  Lance une opÃ©ration de 'Drag & Drop' avec 
+  une liste de formats propre au systÃ¨me 
   d'exploitation.
   Ceci permet de supporter des formats de 
-  données qui ne sont pas nativement gérés par
-  PureBasic tout en gardant la simplicité 
-  d'utilisation fournie par cette bibliothèque.
+  donnÃ©es qui ne sont pas nativement gÃ©rÃ©s par
+  PureBasic tout en gardant la simplicitÃ© 
+  d'utilisation fournie par cette bibliothÃ¨que.
 
 @Parameter "Formats()"
   Est un @ReferenceLink "dim" "tableau" de 
   @ReferenceLink "structures" "structures" 'DragDataFormat'
-  contenant un ou plusieurs formats à gérer.
+  contenant un ou plusieurs formats Ã  gÃ©rer.
 
 @Code
   Structure DragDataFormat
     Format.i    ; L'identifant de l'OS concernant le format (voir ci-dessous)
-   *Buffer      ; La zone mémoire contenant la donnée dans ce format
-    Size.i      ; La taille de la zone mémoire
+   *Buffer      ; La zone mÃ©moire contenant la donnÃ©e dans ce format
+    Size.i      ; La taille de la zone mÃ©moire
   EndStructure
 @EndCode
 
@@ -458,93 +510,93 @@
   @Indent
   Sous Windows, le champ 'Format' est une 
   valeur de type 'CLIPBOARDFORMAT'. Ce peut 
-  être n'importe quel format standard (voir 
-  le SDK Windows), ou un format enregistré 
+  Ãªtre n'importe quel format standard (voir 
+  le SDK Windows), ou un format enregistrÃ© 
   avec l'API RegisterClipboardFormat_().
   @EndIndent
 
   @Bold "Linux:"
   @Indent  
   Sous Linux, le champ 'Format' est une 
-  valeur de type 'GdkAtom'. Il peut être 
-  créé avec la fonction gdk_atom_intern_(). 
-  Les "atomes" sont généralement assimilés 
-  à des types mime usuels (i.e "text/html" 
-  pour des données HTML). 
-  L'atome peut aussi être créé avec n'importe 
-  quelle chaîne capable d'être correctement 
-  interprétée par l'application cible.
+  valeur de type 'GdkAtom'. Il peut Ãªtre 
+  crÃ©Ã© avec la fonction gdk_atom_intern_(). 
+  Les "atomes" sont gÃ©nÃ©ralement assimilÃ©s 
+  Ã  des types mime usuels (i.e "text/html" 
+  pour des donnÃ©es HTML). 
+  L'atome peut aussi Ãªtre crÃ©Ã© avec n'importe 
+  quelle chaÃ®ne capable d'Ãªtre correctement 
+  interprÃ©tÃ©e par l'application cible.
   @EndIndent 
 
   @Bold "MacOSX:"
   @Indent
-  Sur MacOSX, le champ 'Format' précise un type 
+  Sur MacOSX, le champ 'Format' prÃ©cise un type 
   pour le contenu du presse-papier via le 
   "scrap manager" ( le gestionnaire du 
   presse-papier). 
-  Il possède quatre caractères alphanumériques 
+  Il possÃ¨de quatre caractÃ¨res alphanumÃ©riques 
   constants, 'TEXT' par exemple. Il y a un 
-  certain nombre de types prédéfinis, mais on 
-  peut également utiliser des valeurs 
-  personnalisées à condition que le programme 
-  cible puisse les interpréter correctement.
+  certain nombre de types prÃ©dÃ©finis, mais on 
+  peut Ã©galement utiliser des valeurs 
+  personnalisÃ©es Ã  condition que le programme 
+  cible puisse les interprÃ©ter correctement.
   @EndIndent 
 
 @Parameter "NbFormats"
   Le nombre de formats dans le tableau.
 @Indent  
-  Si plusieurs formats sont transférés, 
+  Si plusieurs formats sont transfÃ©rÃ©s, 
   l'application cible acceptera le premier 
-  qu'elle reconnaîtra.
+  qu'elle reconnaÃ®tra.
   Le format qui fournit le plus d'informations 
-  (donc qui représente le plus fidèlement la 
-  donnée) doit être le premier dans le tableau, 
+  (donc qui reprÃ©sente le plus fidÃ¨lement la 
+  donnÃ©e) doit Ãªtre le premier dans le tableau, 
   suivi par les autres qui sont de moins en 
-  moins précis. 
-  De cette façon, chaque application recevra 
-  la meilleure réprésentation de la donnée, en 
-  fonction de ce qu'elle sait interpréter.
+  moins prÃ©cis. 
+  De cette faÃ§on, chaque application recevra 
+  la meilleure rÃ©prÃ©sentation de la donnÃ©e, en 
+  fonction de ce qu'elle sait interprÃ©ter.
 @EndIndent 
 
 @OptionalParameter "Actions"
-  Si ce paramètre est omis, @#PB_Drag_Copy 
-  sera utilisé comme valeur par défaut.
-  Peut être une combinaison de: 
+  Si ce paramÃ¨tre est omis, @#PB_Drag_Copy 
+  sera utilisÃ© comme valeur par dÃ©faut.
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_Copy: La donnée peut être copiée
-  @#PB_Drag_Move: La donnée peut être déplacée
-  @#PB_Drag_Link: La donnée peut être liée
+  @#PB_Drag_Copy: La donnÃ©e peut Ãªtre copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e peut Ãªtre dÃ©placÃ©e
+  @#PB_Drag_Link: La donnÃ©e peut Ãªtre liÃ©e
 @EndFixedFont
 @Indent
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
-  (Sous MacOSX, les actions ne sont traitées 
-  que comme une suggestion. La cible de dépôt 
+  Ãªtre dÃ©posÃ©.
+  (Sous MacOSX, les actions ne sont traitÃ©es 
+  que comme une suggestion. La cible de dÃ©pÃ´t 
   peut encore choisir une autre action.)
 @EndIndent
 
 @ReturnValue
   Renvoie une des valeurs 'Actions' pour 
-  indiquer laquelle a été choisie par 
+  indiquer laquelle a Ã©tÃ© choisie par 
   l'utilisateur, ou @#PB_Drag_None si le 
-  'Drag & Drop' a été annulé. 
+  'Drag & Drop' a Ã©tÃ© annulÃ©. 
 @LineBreak
 @LineBreak
-  @Bold "Note:" si @#PB_Drag_Move est renvoyé, 
-  la donnée déposée ne sera pas automatiquement
-  effacée de l'application PureBasic. Il faudra 
-  le faire en réponse à ce message. 
+  @Bold "Note:" si @#PB_Drag_Move est renvoyÃ©, 
+  la donnÃ©e dÃ©posÃ©e ne sera pas automatiquement
+  effacÃ©e de l'application PureBasic. Il faudra 
+  le faire en rÃ©ponse Ã  ce message. 
 
 @Remarks
-  Un 'Drag & Drop' peut être démarré n'importe 
+  Un 'Drag & Drop' peut Ãªtre dÃ©marrÃ© n'importe 
   quand, mais il faut que le bouton gauche de 
-  la souris soit appuyé sinon l'opération se 
-  terminera immédiatement. Le moment le plus 
-  approprié pour lancer un 'Drag & Drop' est 
-  en réponse à un évènement sur un 
+  la souris soit appuyÃ© sinon l'opÃ©ration se 
+  terminera immÃ©diatement. Le moment le plus 
+  appropriÃ© pour lancer un 'Drag & Drop' est 
+  en rÃ©ponse Ã  un Ã©vÃ¨nement sur un 
   @LibraryLink "Gadget" "Gadget" avec un 
   @@EventType valant @#PB_EventType_DragStart.
 
@@ -559,24 +611,24 @@
 @Function EnableGadgetDrop(#Gadget, Format, Actions [, TypeInterne])
 
 @Description
-  Permet à un @LibraryLink "gadget" "gadget" 
-  d'être la cible d'un 'Drag & Drop' d'un 
-  format spécifique. Quand l'utilisateur voudra 
-  déposer une donnée de ce format sur le gadget, 
-  le curseur sera modifié en conséquence, 
+  Permet Ã  un @LibraryLink "gadget" "gadget" 
+  d'Ãªtre la cible d'un 'Drag & Drop' d'un 
+  format spÃ©cifique. Quand l'utilisateur voudra 
+  dÃ©poser une donnÃ©e de ce format sur le gadget, 
+  le curseur sera modifiÃ© en consÃ©quence, 
   indiquant que l'action est possible.
 
 @Parameter "#Gadget"
-  Le numéro du gadget qui supportera le 'Drag 
+  Le numÃ©ro du gadget qui supportera le 'Drag 
   & Drop'.
 
 @Parameter "Format"
-  Indique quel type de donnée pourra être 
-  déposé sur le gadget. 
+  Indique quel type de donnÃ©e pourra Ãªtre 
+  dÃ©posÃ© sur le gadget. 
 @LineBreak
 @LineBreak
   Il peut prendre une des valeurs suivantes 
-  ou un identifiant de format système (voir 
+  ou un identifiant de format systÃ¨me (voir 
   @@DragOSFormats pour plus d'informations).
 @FixedFont
   @#PB_Drop_Text   : Accepte du texte sur ce gadget
@@ -586,50 +638,50 @@
 @EndFixedFont
 
 @Parameter "Actions"
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
+  Ãªtre dÃ©posÃ©.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_None: Le format de données ne sera pas accepté par ce gadget
-  @#PB_Drag_Copy: La donnée peut être copiée
-  @#PB_Drag_Move: La donnée peut être déplacée
-  @#PB_Drag_Link: La donnée peut être liée
+  @#PB_Drag_None: Le format de donnÃ©es ne sera pas acceptÃ© par ce gadget
+  @#PB_Drag_Copy: La donnÃ©e peut Ãªtre copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e peut Ãªtre dÃ©placÃ©e
+  @#PB_Drag_Link: La donnÃ©e peut Ãªtre liÃ©e
 @EndFixedFont
 
 @OptionalParameter "TypeInterne"
-  Uniquement nécessaire quand @#PB_Drop_Private 
-  est utilisé comme format.@LineBreak 
+  Uniquement nÃ©cessaire quand @#PB_Drop_Private 
+  est utilisÃ© comme format.@LineBreak 
   Il indique le type du 'Drag & Drop' interne 
-  à accepter. @LineBreak
+  Ã  accepter. @LineBreak
   Voir @@DragPrivate pour plus d'informations.
   @LineBreak
-  Ce paramètre est ignoré pour les autres 
+  Ce paramÃ¨tre est ignorÃ© pour les autres 
   formats.
 
 @NoReturnValue
 
 @Remarks 
-  Plusieurs types de formats peuvent être 
-  acceptés par un même gadget. Si la source des 
-  données transférées a spécifié plusieurs 
+  Plusieurs types de formats peuvent Ãªtre 
+  acceptÃ©s par un mÃªme gadget. Si la source des 
+  donnÃ©es transfÃ©rÃ©es a spÃ©cifiÃ© plusieurs 
   formats qui sont pris en compte par le gadget, 
-  celui qui aura été activé en dernier sera
-  accepté. Donc le format le plus approprié 
-  devra être activé en dernier.
+  celui qui aura Ã©tÃ© activÃ© en dernier sera
+  acceptÃ©. Donc le format le plus appropriÃ© 
+  devra Ãªtre activÃ© en dernier.
 @LineBreak
 @LineBreak  
-  Quand une donnée sera déposée sur le gadget, 
-  le programme recevra un évènement 
+  Quand une donnÃ©e sera dÃ©posÃ©e sur le gadget, 
+  le programme recevra un Ã©vÃ¨nement 
   @#PB_Event_GadgetDrop. 
-  @@EventGadget indiquera le gadget concerné 
+  @@EventGadget indiquera le gadget concernÃ© 
   et les commandes 'Event' de cette
-  bibliothèque permettront de récupérer la 
-  donnée déposée. 
+  bibliothÃ¨que permettront de rÃ©cupÃ©rer la 
+  donnÃ©e dÃ©posÃ©e. 
   
 @Example
 @Code
@@ -647,7 +699,7 @@
         Select WaitWindowEvent()
             Case #PB_Event_GadgetDrop
                 Select EventGadget()
-                    Case 0 ; gadgets ayant reçu l'évènement glisser-déposer de fichier/dossier
+                    Case 0 ; gadgets ayant reÃ§u l'Ã©vÃ¨nement glisser-dÃ©poser de fichier/dossier
                         If Not FindString(EventDropFiles(), Chr(10))
                             SetGadgetText(0, EventDropFiles())
                         EndIf
@@ -673,73 +725,73 @@
 @Function EnableWindowDrop(#Fenetre, Format, Actions [, TypeInterne])
 
 @Description
-  Permet à une @LibraryLink "window" "fenêtre" 
-  d'être la cible d'un 'Drag & Drop' d'un format
-  spécifique. Quand l'utilisateur voudra déposer 
-  une donnée de ce format sur la fenêtre, le 
-  curseur sera modifié en conséquence, indiquant 
+  Permet Ã  une @LibraryLink "window" "fenÃªtre" 
+  d'Ãªtre la cible d'un 'Drag & Drop' d'un format
+  spÃ©cifique. Quand l'utilisateur voudra dÃ©poser 
+  une donnÃ©e de ce format sur la fenÃªtre, le 
+  curseur sera modifiÃ© en consÃ©quence, indiquant 
   que l'action est possible.
 
 @Parameter "#Fenetre"
- Le numéro de la fenêtre qui supportera le 
+ Le numÃ©ro de la fenÃªtre qui supportera le 
  'Drag & Drop'.
 
 @Parameter "Format"
-  Indique quel type de donnée pourra être 
-  déposé sur la fenêtre. 
+  Indique quel type de donnÃ©e pourra Ãªtre 
+  dÃ©posÃ© sur la fenÃªtre. 
 @LineBreak
 @LineBreak
   Il peut prendre une des valeurs suivantes ou 
-  un identifiant de format système (voir 
+  un identifiant de format systÃ¨me (voir 
   @@DragOSFormats pour plus d'informations).
 @FixedFont
-  @#PB_Drop_Text   : Accepte du texte sur cette fenêtre
-  @#PB_Drop_Image  : Accepte des images sur cette fenêtre
-  @#PB_Drop_Files  : Accepte des noms de fichiers sur cette fenêtre
+  @#PB_Drop_Text   : Accepte du texte sur cette fenÃªtre
+  @#PB_Drop_Image  : Accepte des images sur cette fenÃªtre
+  @#PB_Drop_Files  : Accepte des noms de fichiers sur cette fenÃªtre
   @#PB_Drop_Private: Accepte un 'Drag & Drop' interne
 @EndFixedFont
 
 @Parameter "Actions"
-  L'utilisateur peut décider de l'action à 
+  L'utilisateur peut dÃ©cider de l'action Ã  
   prendre en utilisant les touches Ctrl ou 
-  Shift. Les actions disponibles dépendent 
+  Shift. Les actions disponibles dÃ©pendent 
   aussi du composant sur lequel le texte va 
-  être déposé.
+  Ãªtre dÃ©posÃ©.
 @LineBreak
 @LineBreak
-  Peut être une combinaison de: 
+  Peut Ãªtre une combinaison de: 
 @FixedFont
-  @#PB_Drag_None: Le format de données ne sera pas accepté par cette fenêtre
-  @#PB_Drag_Copy: La donnée peut être copiée
-  @#PB_Drag_Move: La donnée peut être déplacée
-  @#PB_Drag_Link: La donnée peut être liée
+  @#PB_Drag_None: Le format de donnÃ©es ne sera pas acceptÃ© par cette fenÃªtre
+  @#PB_Drag_Copy: La donnÃ©e peut Ãªtre copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e peut Ãªtre dÃ©placÃ©e
+  @#PB_Drag_Link: La donnÃ©e peut Ãªtre liÃ©e
 @EndFixedFont
 
 @OptionalParameter "TypeInterne"
-  Uniquement nécessaire quand @#PB_Drop_Private 
-  est utilisé comme format. @LineBreak
-  Il indique le type du 'Drag & Drop' interne à 
+  Uniquement nÃ©cessaire quand @#PB_Drop_Private 
+  est utilisÃ© comme format. @LineBreak
+  Il indique le type du 'Drag & Drop' interne Ã  
   accepter. @LineBreak
   Voir @@DragPrivate pour plus d'informations.
 
 @NoReturnValue
 
 @Remarks  
-  Plusieurs types de formats peuvent être 
-  acceptés par une même fenêtre. Si la source 
-  des données transférées a spécifié plusieurs 
+  Plusieurs types de formats peuvent Ãªtre 
+  acceptÃ©s par une mÃªme fenÃªtre. Si la source 
+  des donnÃ©es transfÃ©rÃ©es a spÃ©cifiÃ© plusieurs 
   formats qui sont pris en compte par la 
-  fenêtre, celui qui aura été activé en dernier 
-  sera accepté. Donc le format le plus 
-  approprié devra être activé en dernier.
+  fenÃªtre, celui qui aura Ã©tÃ© activÃ© en dernier 
+  sera acceptÃ©. Donc le format le plus 
+  appropriÃ© devra Ãªtre activÃ© en dernier.
 @LineBreak
 @LineBreak  
-  Quand une donnée sera déposée sur la fenêtre, 
-  le programme recevra un évènement 
+  Quand une donnÃ©e sera dÃ©posÃ©e sur la fenÃªtre, 
+  le programme recevra un Ã©vÃ¨nement 
   @#PB_Event_WindowDrop. 
-  @@EventWindow indiquera la fenêtre concernée 
-  et les commandes 'Event' de cette bibliothèque 
-  permettront de récupérer la donnée déposée.
+  @@EventWindow indiquera la fenÃªtre concernÃ©e 
+  et les commandes 'Event' de cette bibliothÃ¨que 
+  permettront de rÃ©cupÃ©rer la donnÃ©e dÃ©posÃ©e.
 
 @SeeAlso
   @@EnableGadgetDrop, @@EventDropType, 
@@ -752,21 +804,21 @@
 @Function Resultat = EventDropAction()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
   ou @@WindowEvent, cette fonction renvoie 
-  l'action qui devra être gérée pour la donnée 
-  transférée.
+  l'action qui devra Ãªtre gÃ©rÃ©e pour la donnÃ©e 
+  transfÃ©rÃ©e.
 
 @NoParameters
 
 @ReturnValue
 @FixedFont
-  @#PB_Drag_Copy: La donnée devra être copiée
-  @#PB_Drag_Move: La donnée devra être déplacée
+  @#PB_Drag_Copy: La donnÃ©e devra Ãªtre copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e devra Ãªtre dÃ©placÃ©e
                  (La source du transfert est responsable 
-                 d'effacer la donnée originale)
-  @#PB_Drag_Link: La donnée devra être liée
+                 d'effacer la donnÃ©e originale)
+  @#PB_Drag_Link: La donnÃ©e devra Ãªtre liÃ©e
 @EndFixedFont
 
 @SeeAlso
@@ -780,28 +832,28 @@
 @Function Resultat = EventDropType()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
   ou @@WindowEvent, cette fonction renvoie le 
-  format de la donnée transférée.
+  format de la donnÃ©e transfÃ©rÃ©e.
 
 @NoParameters
 
 @ReturnValue
   Renvoie une des valeurs suivantes, ou un 
-  identifiant de format système (voir 
+  identifiant de format systÃ¨me (voir 
   @@DragOSFormats pour plus d'informations).
 @FixedFont
-  @#PB_Drop_Text   : Un texte a été déposé.     (@FastLink  "EventDropText()"  pour le récupérer)
-  @#PB_Drop_Image  : Une image a été déposée.   (@FastLink  "EventDropImage()" pour la récupérer)
-  @#PB_Drop_Files  : Des noms de fichiers ont été déposés.  (@@EventDropFiles pour les récupérer)
-  @#PB_Drop_Private: Une opération interne a été effectuée. (@@EventDropPrivate pour connaître le type)
+  @#PB_Drop_Text   : Un texte a Ã©tÃ© dÃ©posÃ©.     (@FastLink  "EventDropText()"  pour le rÃ©cupÃ©rer)
+  @#PB_Drop_Image  : Une image a Ã©tÃ© dÃ©posÃ©e.   (@FastLink  "EventDropImage()" pour la rÃ©cupÃ©rer)
+  @#PB_Drop_Files  : Des noms de fichiers ont Ã©tÃ© dÃ©posÃ©s.  (@@EventDropFiles pour les rÃ©cupÃ©rer)
+  @#PB_Drop_Private: Une opÃ©ration interne a Ã©tÃ© effectuÃ©e. (@@EventDropPrivate pour connaÃ®tre le type)
 @EndFixedFont
 
 @Remarks
-  Pour gérer les formats systèmes, 
+  Pour gÃ©rer les formats systÃ¨mes, 
   @@EventDropBuffer et @@EventDropSize peuvent 
-  être utilisés.
+  Ãªtre utilisÃ©s.
 
 @SeeAlso
   @@EnableGadgetDrop, @@EnableWindowDrop, 
@@ -817,15 +869,15 @@
 @Function Resultat$ = EventDropText()
 
 @Description
-  Renvoie le texte déposé.
+  Renvoie le texte dÃ©posÃ©.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie le texte déposé après avoir reçu 
+  Renvoie le texte dÃ©posÃ© aprÃ¨s avoir reÃ§u 
   @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format (récupérable 
+  ou @@WindowEvent et un format (rÃ©cupÃ©rable 
   avec @@EventDropType) de type @#PB_Drop_Text.
 
 @SeeAlso
@@ -840,20 +892,20 @@
 @Function Resultat = EventDropImage(#Image [, Profondeur])
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format (récupérable 
+  ou @@WindowEvent et un format (rÃ©cupÃ©rable 
   avec @@EventDropType) de type @#PB_Drop_Image, 
-  cette fonction permet de récupérer l'image 
-  déposée.
+  cette fonction permet de rÃ©cupÃ©rer l'image 
+  dÃ©posÃ©e.
 
 @Parameter "#Image" 
-  Le numéro de la nouvelle image à créer. 
+  Le numÃ©ro de la nouvelle image Ã  crÃ©er. 
 @LineBreak
 @LineBreak
   Si @ReferenceLink "purebasic_objects" "#PB_Any" 
-  est utilisé, le nouveau numéro de l'image sera 
-  renvoyé dans 'Resultat'.
+  est utilisÃ©, le nouveau numÃ©ro de l'image sera 
+  renvoyÃ© dans 'Resultat'.
 
 @OptionalParameter "Profondeur"
   Profondeur de couleur de la nouvelle image.
@@ -861,18 +913,18 @@
 @LineBreak
   Les valeurs possibles sont:
 @FixedFont
-  24 : 24 Bits (par défaut)
+  24 : 24 Bits (par dÃ©faut)
   32 : 32 Bits
 @EndFixedFont
 
 @ReturnValue
   Renvoie une valeur non nulle si l'image a 
-  été créée avec succès et zéro sinon. 
+  Ã©tÃ© crÃ©Ã©e avec succÃ¨s et zÃ©ro sinon. 
 @LineBreak
 @LineBreak
-  Si @#PB_Any a été utilisée pour le paramètre 
-  #Image alors le nombre généré est renvoyé en 
-  cas de succès.
+  Si @#PB_Any a Ã©tÃ© utilisÃ©e pour le paramÃ¨tre 
+  #Image alors le nombre gÃ©nÃ©rÃ© est renvoyÃ© en 
+  cas de succÃ¨s.
 
 @SeeAlso
   @@EnableGadgetDrop, @@EnableWindowDrop,
@@ -886,20 +938,20 @@
 @Function Resultat$ = EventDropFiles()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format (récupérable 
+  ou @@WindowEvent et un format (rÃ©cupÃ©rable 
   avec @@EventDropType) de type @#PB_Drop_Files, 
-  cette fonction permet de récupérer les noms 
-  de fichiers déposés.
+  cette fonction permet de rÃ©cupÃ©rer les noms 
+  de fichiers dÃ©posÃ©s.
 
 @NoParameters
 
 @ReturnValue
   Renvoie une liste de fichiers et de 
-  répertoires, avec leurs chemin absolu. Les 
-  noms de fichiers sont séparés par le 
-  caractère @Link "String/Chr" "Chr(10)" 
+  rÃ©pertoires, avec leurs chemin absolu. Les 
+  noms de fichiers sont sÃ©parÃ©s par le 
+  caractÃ¨re @Link "String/Chr" "Chr(10)" 
   (fin de ligne).
 
 @SeeAlso
@@ -914,19 +966,19 @@
 @Function Resultat = EventDropPrivate()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format (récupérable 
+  ou @@WindowEvent et un format (rÃ©cupÃ©rable 
   avec @@EventDropType) de type 
   @#PB_Drop_Private, cette fonction renvoie le 
-  'TypeInterne' qui a été déposé (voir 
+  'TypeInterne' qui a Ã©tÃ© dÃ©posÃ© (voir 
   @@DragPrivate pour plus d'informations).
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la valeur de type privé utilisé lors 
-  du démarrage de l'opération de Drag & Drop.
+  Renvoie la valeur de type privÃ© utilisÃ© lors 
+  du dÃ©marrage de l'opÃ©ration de Drag & Drop.
   (Voir @@DragPrivate pour plus d'informations.)
 
 @SeeAlso
@@ -941,29 +993,29 @@
 @Function *Resultat = EventDropBuffer()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format système, cette 
-  fonction permet d'accéder à la donnée déposée.
+  ou @@WindowEvent et un format systÃ¨me, cette 
+  fonction permet d'accÃ©der Ã  la donnÃ©e dÃ©posÃ©e.
 
 @NoParameters
   
 @ReturnValue
-  Renvoie l'adresse mémoire de la donnée 
-  déposée. 
+  Renvoie l'adresse mÃ©moire de la donnÃ©e 
+  dÃ©posÃ©e. 
 
 @Remarks
-  Cette zone de mémoire est gérée par la 
-  bibliothèque et ne doit en aucun cas être 
-  détruite. Elle reste valide jusqu'au prochain 
-  appel à la commande @@WaitWindowEvent ou 
-  @@WindowEvent, donc son contenu devra être 
-  copié s'il est nécessaire de le conserver 
+  Cette zone de mÃ©moire est gÃ©rÃ©e par la 
+  bibliothÃ¨que et ne doit en aucun cas Ãªtre 
+  dÃ©truite. Elle reste valide jusqu'au prochain 
+  appel Ã  la commande @@WaitWindowEvent ou 
+  @@WindowEvent, donc son contenu devra Ãªtre 
+  copiÃ© s'il est nÃ©cessaire de le conserver 
   plus longtemps.
 @LineBreak
 @LineBreak
   @@EventDropSize renvoie la taille de cette 
-  zone mémoire (buffer).
+  zone mÃ©moire (buffer).
 
 @SeeAlso
   @@EventDropSize, 
@@ -978,17 +1030,17 @@
 @Function Resultat = EventDropSize()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
-  ou @@WindowEvent et un format système, cette 
-  fonction renvoie la taille de la donnée 
-  déposée.
+  ou @@WindowEvent et un format systÃ¨me, cette 
+  fonction renvoie la taille de la donnÃ©e 
+  dÃ©posÃ©e.
 
 @NoParameters
 
 @ReturnValue
   Renvoie la taille en octets de la zone de 
-  mémoire renvoyée par @@EventDropBuffer.
+  mÃ©moire renvoyÃ©e par @@EventDropBuffer.
 
 @SeeAlso
   @@EventDropBuffer, 
@@ -1004,18 +1056,18 @@
 @Function Resultat = EventDropX()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
   ou @@WindowEvent, cette fonction renvoie la 
-  position en X dans la fenêtre ou le gadget 
-  sur lequel la donnée a été déposée.
+  position en X dans la fenÃªtre ou le gadget 
+  sur lequel la donnÃ©e a Ã©tÃ© dÃ©posÃ©e.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la coordonnée X de la zone de dépôt 
-  par rapport à la fenêtre ou au gadget dans 
-  lequel les données ont été déposées.
+  Renvoie la coordonnÃ©e X de la zone de dÃ©pÃ´t 
+  par rapport Ã  la fenÃªtre ou au gadget dans 
+  lequel les donnÃ©es ont Ã©tÃ© dÃ©posÃ©es.
 
 @SeeAlso
   @@EnableGadgetDrop, @@EnableWindowDrop,
@@ -1029,18 +1081,18 @@
 @Function Resultat = EventDropY()
 
 @Description
-  Après avoir reçu @#PB_Event_GadgetDrop ou 
+  AprÃ¨s avoir reÃ§u @#PB_Event_GadgetDrop ou 
   @#PB_Event_WindowDrop avec @@WaitWindowEvent 
   ou @@WindowEvent, cette fonction renvoie la 
-  position en Y dans la fenêtre ou le gadget 
-  sur lequel la donnée a été déposée.
+  position en Y dans la fenÃªtre ou le gadget 
+  sur lequel la donnÃ©e a Ã©tÃ© dÃ©posÃ©e.
 
 @NoParameters
 
 @ReturnValue
-  Renvoie la coordonnée Y de la zone de dépôt 
-  par rapport à la fenêtre ou au gadget dans 
-  lequel les données ont été déposées.
+  Renvoie la coordonnÃ©e Y de la zone de dÃ©pÃ´t 
+  par rapport Ã  la fenÃªtre ou au gadget dans 
+  lequel les donnÃ©es ont Ã©tÃ© dÃ©posÃ©es.
 
 @SeeAlso
   @@EnableGadgetDrop, @@EnableWindowDrop,
@@ -1055,19 +1107,19 @@
 
 @Description
   Installe une fonction callback qui sera 
-  appelée automatiquement quand une opération 
-  de 'Drag & Drop' sera démarrée depuis cette 
+  appelÃ©e automatiquement quand une opÃ©ration 
+  de 'Drag & Drop' sera dÃ©marrÃ©e depuis cette 
   application. La callback permet de modifier 
-  le comportement par défaut fourni par 
+  le comportement par dÃ©faut fourni par 
   PureBasic, par exemple pour changer le 
-  curseur via l'API du système d'exploitation.
-  La fonction callback est dépendante de l'OS.
+  curseur via l'API du systÃ¨me d'exploitation.
+  La fonction callback est dÃ©pendante de l'OS.
   
 @Parameter "@DragCallback()"
-  L'adresse d'une fonction à appeler lors du 
-  début d'une opération de drag & drop.
+  L'adresse d'une fonction Ã  appeler lors du 
+  dÃ©but d'une opÃ©ration de drag & drop.
   @LineBreak
-  La forme et l'objet du rappel dépend de l'OS.
+  La forme et l'objet du rappel dÃ©pend de l'OS.
   @LineBreak
   Elle doit prendre la forme suivante:
 @LineBreak
@@ -1076,58 +1128,58 @@
 @Bold "Windows:"
 @Indent
 @Code
-  Procedure DragCallback(Action)
+  Procedure DragCallback(Action.l)
   
     ProcedureReturn #True
   EndProcedure
 @EndCode
 
-  La callback est appelée durant toute 
-  l'opération de 'Drag & Drop'. Le paramètre 
+  La callback est appelÃ©e durant toute 
+  l'opÃ©ration de 'Drag & Drop'. Le paramÃ¨tre 
   'Action' indique quelle action serait prise 
   en compte si l'utilisateur relachait le 
-  bouton de la souris à cet instant. Il peut 
+  bouton de la souris Ã  cet instant. Il peut 
   prendre une des valeurs suivantes: 
 @FixedFont
-  @#PB_Drag_None: La donnée ne sera pas acceptée
-  @#PB_Drag_Copy: La donnée sera copiée
-  @#PB_Drag_Move: La donnée sera déplacée
-  @#PB_Drag_Link: La donnée sera liée
+  @#PB_Drag_None: La donnÃ©e ne sera pas acceptÃ©e
+  @#PB_Drag_Copy: La donnÃ©e sera copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e sera dÃ©placÃ©e
+  @#PB_Drag_Link: La donnÃ©e sera liÃ©e
 @EndFixedFont  
 
   La callback permet de fournir un curseur ou 
-  une image différente. Si c'est le cas, il 
+  une image diffÃ©rente. Si c'est le cas, il 
   faudra renvoyer @#False, sinon le curseur 
-  par défaut sera utilisé.
+  par dÃ©faut sera utilisÃ©.
 @EndIndent
 
 @Bold "Linux:"
 @Indent
 @Code
-  Procedure DragCallback(*Context.GdkDragContext, isStart)
+  Procedure DragCallback(*Context.GdkDragContext, isStart.l)
   
   EndProcedure
 @EndCode
 
-  La callback est appelée seulement au début 
-  et à la fin d'une opération de 'Drag & Drop'. 
-  Le paramètre '*Context' indique le contexte 
-  gdk de cette opération, 'isStart' indique si 
-  c'est le début ou la fin de l'opération.
-  La valeur renvoyée par la callback est 
-  ignorée.
+  La callback est appelÃ©e seulement au dÃ©but 
+  et Ã  la fin d'une opÃ©ration de 'Drag & Drop'. 
+  Le paramÃ¨tre '*Context' indique le contexte 
+  gdk de cette opÃ©ration, 'isStart' indique si 
+  c'est le dÃ©but ou la fin de l'opÃ©ration.
+  La valeur renvoyÃ©e par la callback est 
+  ignorÃ©e.
 @LineBreak
 @LineBreak  
   Des fonctions Gtk comme 
-  gtk_drag_set_icon_pixbuf_() peuvent être 
-  utilisées dans la callback pour définir une 
-  image différente durant l'opération.
+  gtk_drag_set_icon_pixbuf_() peuvent Ãªtre 
+  utilisÃ©es dans la callback pour dÃ©finir une 
+  image diffÃ©rente durant l'opÃ©ration.
 @EndIndent
 
 
 @Bold "MacOSX:"
 @Indent
-  Non supporté.
+  Non supportÃ©.
 @EndIndent
 
 @NoReturnValue
@@ -1143,94 +1195,91 @@
 
 @Description
   Installe une fonction callback qui sera 
-  appelée automatiquement quand une donnée en 
+  appelÃ©e automatiquement quand une donnÃ©e en 
   cours de transfert se trouve au dessus d'une 
-  fenêtre ou d'un gadget pouvant l'accepter 
+  fenÃªtre ou d'un gadget pouvant l'accepter 
   (voir @@EnableGadgetDrop / @@EnableWindowDrop).
   La callback permet de modifier le 
-  comportement par défaut de PureBasic, en 
+  comportement par dÃ©faut de PureBasic, en 
   fournissant par exemple des effets visuels 
-  supplémentaires en fonction de la position 
-  de la donnée. 
+  supplÃ©mentaires en fonction de la position 
+  de la donnÃ©e. 
 
 @Parameter "@DropCallback()"
   L'adresse de la fonction callback.
 @LineBreak
 @LineBreak
-  La callback est appelée quand la souris 
-  entre, se déplace et quitte une zone propice 
-  au 'Drag & Drop', pour permettre de réagir 
+  La callback est appelÃ©e quand la souris 
+  entre, se dÃ©place et quitte une zone propice 
+  au 'Drag & Drop', pour permettre de rÃ©agir 
   contextuellement. De plus la callback peut 
-  interdire le transfert si nécessaire. 
-  Le curseur ne doit pas être modifié dans 
+  interdire le transfert si nÃ©cessaire. 
+  Le curseur ne doit pas Ãªtre modifiÃ© dans 
   cette fonction, car seule la source du 
   transfert en est responsable. 
 @LineBreak
 @LineBreak
-  Les paramètres de la callback sont décrits 
+  Les paramÃ¨tres de la callback sont dÃ©crits 
   ci-dessous: 
 @LineBreak
 @LineBreak
 
 @Code
-  Procedure DropCallback(Handle, Etat.l, Format.l, Action.l, x.l, y.l)
+  Procedure DropCallback(Handle, Etat, Format, Action, x, y)
   
     ProcedureReturn #True
   EndProcedure
 @EndCode
 
-  Le premier paramètre indique l' 
+  Le premier paramÃ¨tre indique l' 
   @ReferenceLink "handles" "identifiant (Handle) 
-  spécifique de l'OS" pour le gadget ou la 
-  fenêtre cible.
+  spÃ©cifique de l'OS" pour le gadget ou la 
+  fenÃªtre cible.
   Sous Windows, il s'agit de la valeur HWND, 
   sous Linux d'un pointeur GtkWidget et sous 
   MacOSX de la valeur ControlRef ou WindowRef. 
   Pour obtenir ces valeurs, vous pouvez 
   utiliser @@GadgetID ou @@WindowID pour le 
-  gadget ou la fenêtre cible.
+  gadget ou la fenÃªtre cible.
 @LineBreak  
 @LineBreak
-  'Etat' représente l'état actuel du 'Drag & 
+  'Etat' reprÃ©sente l'Ã©tat actuel du 'Drag & 
   Drop' en cours. Peut prendre l'une des 
   valeurs suivantes:
 @FixedFont
-  @#PB_Drag_Enter : La souris est entrée dans la zone du gadget ou de la fenêtre
-  @#PB_Drag_Update: La souris se déplace dans le gadget ou la fenêtre, ou l'action a changé
-  @#PB_Drag_Leave : La souris est sortie de la zone du gadget ou de la fenêtre (Format, Action, x, y sont à 0)
-  @#PB_Drag_Finish: Le 'Drag & Drop' est terminé
+  @#PB_Drag_Enter : La souris est entrÃ©e dans la zone du gadget ou de la fenÃªtre
+  @#PB_Drag_Update: La souris se dÃ©place dans le gadget ou la fenÃªtre, ou l'action a changÃ©
+  @#PB_Drag_Leave : La souris est sortie de la zone du gadget ou de la fenÃªtre (Format, Action, x, y sont Ã  0)
+  @#PB_Drag_Finish: Le 'Drag & Drop' est terminÃ©
 @EndFixedFont
 
-  'Format' représente le format de la donnée. 
+  'Format' reprÃ©sente le format de la donnÃ©e. 
   Peut prendre l'une des valeurs suivantes, 
-  ou un identifiant de format système (voir 
+  ou un identifiant de format systÃ¨me (voir 
   @@DragOSFormats pour plus d'informations):
 @FixedFont
-  @#PB_Drop_Text   : Le texte est accepté sur ce gadget ou cette fenêtre
-  @#PB_Drop_Image  : Les images sont acceptées sur ce gadget ou cette fenêtre
-  @#PB_Drop_Files  : Les fichiers sont acceptés sur ce gadget ou cette fenêtre
-  @#PB_Drop_Private: Le type interne est accepté sur ce gadget ou cette fenêtre
+  @#PB_Drop_Text   : Le texte est acceptÃ© sur ce gadget ou cette fenÃªtre
+  @#PB_Drop_Image  : Les images sont acceptÃ©es sur ce gadget ou cette fenÃªtre
+  @#PB_Drop_Files  : Les fichiers sont acceptÃ©s sur ce gadget ou cette fenÃªtre
+  @#PB_Drop_Private: Le type interne est acceptÃ© sur ce gadget ou cette fenÃªtre
 @EndFixedFont
   
-  Le paramètre 'Action' indique quelle action 
+  Le paramÃ¨tre 'Action' indique quelle action 
   serait prise en compte si l'utilisateur 
-  relachait le bouton de la souris à cet 
+  relachait le bouton de la souris Ã  cet 
   instant. Il peut prendre une des valeurs 
   suivantes: 
 @FixedFont
-  @#PB_Drag_None: La donnée ne sera pas acceptée
-  @#PB_Drag_Copy: La donnée sera copiée
-  @#PB_Drag_Move: La donnée sera déplacée
-  @#PB_Drag_Link: La donnée sera liée
+  @#PB_Drag_None: La donnÃ©e ne sera pas acceptÃ©e
+  @#PB_Drag_Copy: La donnÃ©e sera copiÃ©e
+  @#PB_Drag_Move: La donnÃ©e sera dÃ©placÃ©e
+  @#PB_Drag_Link: La donnÃ©e sera liÃ©e
 @EndFixedFont  
 
-  En renvoyant @#True, la callback permet que 
-  l'action se déroule normalement.
-  En renvoyant @#False, la callback interdit 
-  l'action (le curseur sera changé en "panneau 
-  d'interdiction" par la source du transfert).
-  Si l'Etat' est @#PB_Drag_Finish, renvoyer 
-  @#False annulera le 'Drag & Drop'.
+  En renvoyant @#True, la callback permet que l'action se dÃ©roule normalement.
+  En renvoyant @#False, la callback interdit l'action (le curseur sera changÃ© en "panneau 
+  d'interdiction" par la source du transfert sauf sous Linux GTK oÃ¹ le curseur ne changera pas).
+  Si l'Etat' est @#PB_Drag_Finish, renvoyer @#False annulera le 'Drag & Drop'.
 
 @NoReturnValue
 
@@ -1244,17 +1293,17 @@
 @Function ExamineDraggedItems()
 
 @Description
-  Examine les éléments à déplacés.
+  Examine les Ã©lÃ©ments Ã  dÃ©placÃ©s.
   
 @NoReturnValue
 
 @Remarks
-  L'examen des éléments à déplacer nécessitera l'utilisation des fonctions @@NextDraggedItem 
+  L'examen des Ã©lÃ©ments Ã  dÃ©placer nÃ©cessitera l'utilisation des fonctions @@NextDraggedItem 
   et @@DraggedItemIndex. @LineBreak 
-  Il doit être utilisé après un @#PB_Event_DragStart.
+  Il doit Ãªtre utilisÃ© aprÃ¨s un @#PB_Event_DragStart.
   @LineBreak
   @LineBreak
-  Cette fonction est prise en charge pour les gadgets suivants : @@ExplorerListGadget,
+  Cette fonction est prise en charge pour les gadgets suivantsÂ : @@ExplorerListGadget,
   @@ExplorerTreeGadget, @@ListIconGadget, @@ListViewGadget et @@TreeGadget.
 
 
@@ -1262,23 +1311,23 @@
 @Code
   Procedure DragStartHandler()
     
-    ; Examine les éléments à déplacer. Doit être après un événement #PB_EventType_DragStart
+    ; Examine les Ã©lÃ©ments Ã  dÃ©placer. Doit Ãªtre aprÃ¨s un Ã©vÃ©nement #PB_EventType_DragStart
     ;
     ExamineDraggedItems()
     
-    ; Itérer les éléments à déplacer
+    ; ItÃ©rer les Ã©lÃ©ments Ã  dÃ©placer
     ;
     While NextDraggedItem()
-      Debug "Eléments à déplacer : " + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex())
+      Debug "ElÃ©ments Ã  dÃ©placer : " + GetGadgetText(0) + GetGadgetItemText(0, DraggedItemIndex())
     Wend
   EndProcedure
 
-  ; Sélectionner des fichiers ou des dossiers et faites-les glisser vers une autre application.
+  ; SÃ©lectionner des fichiers ou des dossiers et faites-les glisser vers une autre application.
   ;
   If OpenWindow(0, 200, 200, 400, 400, "Cliquer-glisser")
     ExplorerListGadget(0, 10, 10, 380, 380, GetHomeDirectory(), #PB_Explorer_MultiSelect)
     
-    ; BindGadgetEvent() est requis pour gérer l'événement de démarrage par glisser-déposer
+    ; BindGadgetEvent() est requis pour gÃ©rer l'Ã©vÃ©nement de dÃ©marrage par glisser-dÃ©poser
     BindGadgetEvent(0, @DragStartHandler(), #PB_EventType_DragStart)
     
     Repeat
@@ -1297,10 +1346,10 @@
 @Function Resultat = NextDraggedItem()
 
 @Description
-  Cette fonction doit être appelée après @@ExamineDraggedItems qui parcourra les éléments à déplacer. 
+  Cette fonction doit Ãªtre appelÃ©e aprÃ¨s @@ExamineDraggedItems qui parcourra les Ã©lÃ©ments Ã  dÃ©placer. 
    
 @ReturnValue
- Renvoie une valeur non nulle si un autre élément à déplacer est disponible ou zéro sinon.
+ Renvoie une valeur non nulle si un autre Ã©lÃ©ment Ã  dÃ©placer est disponible ou zÃ©ro sinon.
 
 @SeeAlso
   @@ExamineDraggedItems, @@DraggedItemIndex
@@ -1312,13 +1361,13 @@
 @Function Resultat = DraggedItemIndex()
 
 @Description
-  Renvoie l'index de l'élément en cours à déplacer. 
+  Renvoie l'index de l'Ã©lÃ©ment en cours Ã  dÃ©placer. 
    
 @ReturnValue
-  Renvoie l'index de l'élément actuellement déplacé (le premier index est zéro).
+  Renvoie l'index de l'Ã©lÃ©ment actuellement dÃ©placÃ© (le premier index est zÃ©ro).
 
 @Remarks
-  Cette fonction doit être appelée après @@NextDraggedItem.
+  Cette fonction doit Ãªtre appelÃ©e aprÃ¨s @@NextDraggedItem.
 
 @SeeAlso
   @@ExamineDraggedItems, @@NextDraggedItem

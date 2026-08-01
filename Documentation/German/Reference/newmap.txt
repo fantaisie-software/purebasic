@@ -1,4 +1,4 @@
-@Title NewMap
+ï»¿@Title NewMap
 
 @Syntax
 
@@ -6,35 +6,35 @@
   
 @Description
 
-  @Keyword NewMap ermöglicht das Deklarieren einer neuen Map, auch bekannt als Hashtable oder Dictionary (in Deutsch auch 
-  "Liste, Tabelle, Verzeichnis" genannt). Sie ermöglicht das einfache Referenzieren (= Zuweisen/Aufrufen) eines Elements,
-  basierend auf einem Schlüssel ('Key'). Alle Schlüssel in der Map sind einmalig. Dies bedeutet, dass sie keine zwei
-  verschiedenen Elemente mit dem gleichen Schlüssel haben kann. Es gibt kein Limit für die Elemente, daher kann es soviele
-  wie nötig geben. Eine Map kann alle @ReferenceLink "Variables" "Standard-Variablen" bzw. 
+  @Keyword NewMap ermÃ¶glicht das Deklarieren einer neuen Map, auch bekannt als Hashtable oder Dictionary (in Deutsch auch 
+  "Liste, Tabelle, Verzeichnis" genannt). Sie ermÃ¶glicht das einfache Referenzieren (= Zuweisen/Aufrufen) eines Elements,
+  basierend auf einem SchlÃ¼ssel ('Key'). Alle SchlÃ¼ssel in der Map sind einmalig. Dies bedeutet, dass sie keine zwei
+  verschiedenen Elemente mit dem gleichen SchlÃ¼ssel haben kann. Es gibt kein Limit fÃ¼r die Elemente, daher kann es soviele
+  wie nÃ¶tig geben. Eine Map kann alle @ReferenceLink "Variables" "Standard-Variablen" bzw. 
   @ReferenceLink "Structures" "strukturierten Typen" haben. Um alle Befehle zum Verwalten von Maps zu sehen, schauen
   Sie in die @LibraryLink "Map" "Map" Bibliothek.
   @LineBreak
   @LineBreak
-  Wenn ein neuer Schlüssel für eine Zuweisung verwendet wird, wird automatisch ein neues Element zur Map hinzugefügt.
-  Wenn sich bereits ein anderes Element mit dem gleichen Schlüssel in der Map befindet, wird dieses durch das neue ersetzt.
+  Wenn ein neuer SchlÃ¼ssel verwendet wird, wird automatisch ein neues Element zur Map hinzugefÃ¼gt, auch ohne eine Zuweisung.
+  Wenn sich bereits ein anderes Element mit dem gleichen SchlÃ¼ssel in der Map befindet, wird dieses durch das neue ersetzt.
   Sobald auf ein Element zugegriffen wurde oder eines erstellt wurde, wird dieses das aktuelle Element der Map,
-  und weiterer Zugriff auf dieses Element kann ohne Angabe des Schlüssels erfolgen. Dies ist nützlich beim Verwenden
-  von strukturierten Maps, da kein weiterer Aufruf des Elements benötigt wird, um auf die verschiedenen Struktur-Felder 
+  und weiterer Zugriff auf dieses Element kann ohne Angabe des SchlÃ¼ssels erfolgen. Dies ist nÃ¼tzlich beim Verwenden
+  von strukturierten Maps, da kein weiterer Aufruf des Elements benÃ¶tigt wird, um auf die verschiedenen Struktur-Felder 
   zuzugreifen.
   @LineBreak
   @LineBreak
-  Neue Maps sind standardmäßig immer lokal, weshalb die @ReferenceLink "Global" "Global" bzw. @ReferenceLink "Shared" "Shared"
-  Befehle verwendet werden müssen, wenn auf eine im Haupt-Quellcode deklarierte Map in Prozeduren zugegriffen werden muss.
-  Es ist möglich, eine Map als Parameter an eine @ReferenceLink "Procedures" "Prozedur" zu übergeben, indem das 
-  Schlüsselwort @Keyword "Map" verwendet wird.
+  Neue Maps sind standardmÃ¤ÃŸig immer lokal, weshalb die @ReferenceLink "Global" "Global" bzw. @ReferenceLink "Shared" "Shared"
+  Befehle verwendet werden mÃ¼ssen, wenn auf eine im Haupt-Quellcode deklarierte Map in Prozeduren zugegriffen werden muss.
+  Es ist mÃ¶glich, eine Map als Parameter an eine @ReferenceLink "Procedures" "Prozedur" zu Ã¼bergeben, indem das 
+  SchlÃ¼sselwort @Keyword "Map" verwendet wird.
   @LineBreak
   @LineBreak
-  Für das schnelle Austauschen von Map-Elementen gibt es das @ReferenceLink "others" "Swap" Schlüsselwort.
+  FÃ¼r das schnelle Austauschen von Map-Elementen gibt es das @ReferenceLink "others" "Swap" SchlÃ¼sselwort.
   @LineBreak
   @LineBreak
-  Der optionale Parameter 'Slots' definiert, wie viele "Slots" die Map zum Speichern ihrer Elemente erhält.
-  Je mehr Slots sie hat, desto schneller ist sie beim Zugriff auf ein Element, aber desto mehr Speicher benötigt sie auch.
-  Es ist ein Kompromiss - abhängig davon, wie viele Elemente die Map letztendlich enthalten wird und wie schnell der 
+  Der optionale Parameter 'Slots' definiert, wie viele "Slots" die Map zum Speichern ihrer Elemente erhÃ¤lt.
+  Je mehr Slots sie hat, desto schneller ist sie beim Zugriff auf ein Element, aber desto mehr Speicher benÃ¶tigt sie auch.
+  Es ist ein Kompromiss - abhÃ¤ngig davon, wie viele Elemente die Map letztendlich enthalten wird und wie schnell der 
   direkte Zugriff sein soll. Der Standardwert ist 512. Dieser Parameter hat keinen Einfluss darauf, wieviele Elemente
   eine Map enthalten kann.
 
@@ -88,7 +88,7 @@
 
   NewMap Cars.Car()
   
-  ; Hier verwenden wir das aktuelle Element nach dem Einfügen
+  ; Hier verwenden wir das aktuelle Element nach dem EinfÃ¼gen
   ;
   Cars("Ferrari F40")\Weight = 1000
   Cars()\Speed = 320
@@ -102,4 +102,19 @@
     Debug "Car name: "+MapKey(Cars())
     Debug "Weight: "+Str(Cars()\Weight)
   Next 
+@EndCode
+
+  @Example Erstellen eines Elements ohne Zuweisung
+  
+@Code
+  NewMap IconMap()
+  
+  IconMap("1") = 1
+  IconMap("2") = 2
+  
+  Debug FindMapElement(IconMap(), "3") ; Zeigt 0 an, da das Element nicht existiert
+
+  If IconMap("3") : EndIf ; PureBasic erstellt das Element ohne eine Zuweisung, da ein neuer SchlÃ¼ssel festgestellt wurde
+  
+  Debug FindMapElement(IconMap(), "3") ; Zeigt die Speicheradresse des Elements an
 @EndCode

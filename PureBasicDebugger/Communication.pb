@@ -161,6 +161,15 @@ Procedure Debugger_CheckDestroy(*Debugger.DebuggerData)
   
   ; Close the Process Object
   If *Debugger\ProcessObject
+    
+    ; There can be zombies process in Linux when the debugger exits: https://www.purebasic.fr/english/viewtopic.php?t=84602
+    ;
+    CompilerIf #CompileLinux
+      If WaitProgram(*Debugger\ProcessObject, 0) = #False ; still running
+        KillProgram(*Debugger\ProcessObject)
+      EndIf
+    CompilerEndIf
+    
     CloseProgram(*Debugger\ProcessObject)
     *Debugger\ProcessObject = 0
   EndIf
@@ -464,7 +473,7 @@ Procedure SendDebuggerCommandWithData(*Debugger.DebuggerData, *Command.CommandIn
   If *Debugger\Communication And *Debugger\ProgramState <> -1 ; can only send to loaded executables!
     *Debugger\Communication\Send(*Command, *CommandData)
     
-    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3
+    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3 TODO-QT
       ; Send an X event to the child (actually to all x windows), which should make its WaitWindowEvent() return.
       Event.GdkEventClient
       Event\type         = #GDK_CLIENT_EVENT

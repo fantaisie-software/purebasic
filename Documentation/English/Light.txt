@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Light library documentation
 ;
-;      (c) 2014 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Light
@@ -16,6 +16,10 @@ be called successfully before using the light functions.
 @CommandList
 
 @ExampleFile All Light.pb
+@ExampleFile All LightAttenuation.pb
+@ExampleFile All LightDirectionXYZ.pb
+@ExampleFile All LightLookAt.pb
+@ExampleFile All RotateLight.pb
 
 @SupportedOS
 
@@ -46,7 +50,8 @@ be called successfully before using the light functions.
 
 @Description
 
-  Creates a new #Light of the given color in the current world. 
+  Creates a new #Light of the given color in the current world. If @@WorldShadows is required, it must be
+  called before creating lights.
   
 @Parameter "#Light"
   A number to identify the light.

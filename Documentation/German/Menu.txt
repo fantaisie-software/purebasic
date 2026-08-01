@@ -1,30 +1,30 @@
-;
+ï»¿;
 ;     Menu library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Menu
 
 @Overview
-  Die Menüverwaltung in PureBasic ist sehr einfach. Natürlich können Sie auch
-  alle möglichen Parameter einstellen.
+  Die MenÃ¼verwaltung in PureBasic ist sehr einfach. NatÃ¼rlich kÃ¶nnen Sie auch
+  alle mÃ¶glichen Parameter einstellen.
 @LineBreak
 @LineBreak
-  Sie sollten beim Erstellen eines Menüs stets mit @@CreateMenu für normale
-  Menüs bzw. @@CreatePopupMenu für Popup-Menüs beginnen.
+  Sie sollten beim Erstellen eines MenÃ¼s stets mit @@CreateMenu fÃ¼r normale
+  MenÃ¼s bzw. @@CreatePopupMenu fÃ¼r Popup-MenÃ¼s beginnen.
 @LineBreak
 @LineBreak
   @Bold "macOS:"
 @LineBreak
-  Auf macOS wird ein Anwendungsmenü nie an das Fenster geheftet, sondern immer an den Desktop.
-  Das Menü am oberen Rand des Desktops zeigt die Einträge der Anwendung, welche den Fokus hat.
+  Auf macOS wird ein AnwendungsmenÃ¼ nie an das Fenster geheftet, sondern immer an den Desktop.
+  Das MenÃ¼ am oberen Rand des Desktops zeigt die EintrÃ¤ge der Anwendung, welche den Fokus hat.
 @LineBreak
-  Es gibt die vordefinierten Menü-Ereignisse @#PB_Menu_Quit, @#PB_Menu_About 
-  und @#PB_Menu_Preferences, um die Einträge im Anwendungs-Menü (was bei jedem macOS-Programm
+  Es gibt die vordefinierten MenÃ¼-Ereignisse @#PB_Menu_Quit, @#PB_Menu_About 
+  und @#PB_Menu_Preferences, um die EintrÃ¤ge im Anwendungs-MenÃ¼ (was bei jedem macOS-Programm
   vorhanden ist) darzustellen. Ihre Werte sind negativ, um nicht mit den im Programm definierten
-  Menüeinträgen zu kollidieren. Sie werden von @@EventMenu als reguläre
-  Menü-Ereignisse gemeldet.
+  MenÃ¼eintrÃ¤gen zu kollidieren. Sie werden von @@EventMenu als regulÃ¤re
+  MenÃ¼-Ereignisse gemeldet.
 
 @CommandList
 
@@ -38,14 +38,14 @@
 @Function CloseSubMenu() 
 
 @Description
-  Schließt das aktuelle Unter-Menü und kehrt nach einem vorangegangenen Aufruf von
-  @@OpenSubMenu zum übergeordneten Menü zurück.
+  SchlieÃŸt das aktuelle Unter-MenÃ¼ und kehrt nach einem vorangegangenen Aufruf von
+  @@OpenSubMenu zum Ã¼bergeordneten MenÃ¼ zurÃ¼ck.
 
 @NoParameters
 @NoReturnValue
 
 @Remarks
-  Für ein Beispiel und ein Vorschaubild siehe @@OpenSubMenu.
+  FÃ¼r ein Beispiel und ein Vorschaubild siehe @@OpenSubMenu.
 
 @SeeAlso
   @@OpenSubMenu
@@ -54,34 +54,34 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateMenu(#Menü, WindowID) 
+@Function Ergebnis = CreateMenu(#MenÃ¼, WindowID) 
 
 @Description
-  Erstellt ein neues leeres Menü auf dem angegebenen Fenster.
+  Erstellt ein neues leeres MenÃ¼ auf dem angegebenen Fenster.
   
-@Parameter "#Menü"
-  Die Nummer, mit der das neue Menü identifiziert wird.
+@Parameter "#MenÃ¼"
+  Die Nummer, mit der das neue MenÃ¼ identifiziert wird.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
   Nummer automatisch zu generieren.
 
 @Parameter "WindowID"
-  Das Fenster für das neue Menü. Es kann mit der @@WindowID Funktion ermittelt werden.
+  Das Fenster fÃ¼r das neue MenÃ¼. Es kann mit der @@WindowID Funktion ermittelt werden.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das Menü erfolgreich erstellt wurde,
-  andernfalls Null. Wenn @#PB_Any als #Menü Parameter verwendet wurde,
-  dann wird bei Erfolg die generierte Nummer zurückgegeben.
+  Ein Wert ungleich Null, wenn das MenÃ¼ erfolgreich erstellt wurde,
+  andernfalls Null. Wenn @#PB_Any als #MenÃ¼ Parameter verwendet wurde,
+  dann wird bei Erfolg die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Um ein Menü mit Unterstützung für Bilder zu erstellen, verwenden Sie @@CreateImageMenu.
+  Um ein MenÃ¼ mit UnterstÃ¼tzung fÃ¼r Bilder zu erstellen, verwenden Sie @@CreateImageMenu.
 @LineBreak
 @LineBreak
-  Unmittelbar nach dem Erstellen des Menüs wird dieses das aktuelle Menü zum Einfügen
-  weiterer Einträge. Es ist nun möglich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
-  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des Menüs zu verwenden.
+  Unmittelbar nach dem Erstellen des MenÃ¼s wird dieses das aktuelle MenÃ¼ zum EinfÃ¼gen
+  weiterer EintrÃ¤ge. Es ist nun mÃ¶glich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
+  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des MenÃ¼s zu verwenden.
 @LineBreak
 @LineBreak
-  Um alle Menü-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
+  Um alle MenÃ¼-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
   Befehle:
 @LineBreak
   @@WaitWindowEvent (alternativ @@WindowEvent)
@@ -93,26 +93,23 @@
 @OS macOS
   @LineBreak
   @LineBreak
-  Hinweis: Auf macOS können Sie nur eine Menüleiste haben, welche am oberen Rand des Bildschirms
-  angezeigt wird. Dies ist das Standard-Design von macOS Applikationen, weshalb Sie das Menü
-  anpassen müssen, falls nötig. Sie können nicht verschiedene Menüs auf individuellen Fenstern
+  Hinweis: Auf macOS kÃ¶nnen Sie nur eine MenÃ¼leiste haben, welche am oberen Rand des Bildschirms
+  angezeigt wird. Dies ist das Standard-Design von macOS Applikationen, weshalb Sie das MenÃ¼
+  anpassen mÃ¼ssen, falls nÃ¶tig. Sie kÃ¶nnen nicht verschiedene MenÃ¼s auf individuellen Fenstern
   gleichzeitig haben.
 @EndOS
 
 @Example
 @Code
-  UsePNGImageDecoder()
-
-  If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
-    If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
+  If OpenWindow(0, 200, 200, 200, 100, "Menu Example")
+    If CreateMenu(0, WindowID(0))    ; die MenÃ¼-Erstellung beginnt....
       MenuTitle("Project")
-        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
-        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
-        MenuBar()
-        MenuItem(3, "Quit"  +Chr(9)+"Ctrl+Q")
+        MenuItem(1, "Open"   +Chr(9)+"Ctrl+O")
+        MenuItem(2, "Save"   +Chr(9)+"Ctrl+S")
+        MenuItem(3, "Save as"+Chr(9)+"Ctrl+A")
+        MenuItem(4, "Close"  +Chr(9)+"Ctrl+C")
     EndIf
-  
-    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+    Repeat : Until WaitWindowEvent()=#PB_Event_CloseWindow
   EndIf
 @EndCode
 @Image createmenu.png
@@ -124,40 +121,37 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateImageMenu(#Menü, WindowID [, Flags])
+@Function Ergebnis = CreateImageMenu(#MenÃ¼, WindowID [, Flags])
 
 @Description
-  Erstellt ein neues leeres Menü auf dem angegebenen Fenster, mit Unterstützung für Bilder bei seinen Menü-Einträgen.
+  Erstellt ein neues leeres MenÃ¼ auf dem angegebenen Fenster, mit UnterstÃ¼tzung fÃ¼r Bilder bei seinen MenÃ¼-EintrÃ¤gen.
   
-@Parameter "#Menü"
-  Die Nummer, mit der das neue Menü identifiziert wird.
+@Parameter "#MenÃ¼"
+  Die Nummer, mit der das neue MenÃ¼ identifiziert wird.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
   Nummer automatisch zu generieren.
 
 @Parameter "WindowID"
-  Das Fenster für das neue Menü. Es kann mit der @@WindowID Funktion ermittelt werden.
+  Das Fenster fÃ¼r das neue MenÃ¼. Es kann mit der @@WindowID Funktion ermittelt werden.
 
 @OptionalParameter "Flags"
-  Dies kann folgender Wert sein:
+  Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Menu_ModernLook: Farbverlauf und modernes Aussehen aktivieren (hat nur einen Effekt auf Windows)
+  @#PB_Menu_NativeImageSize: verwendet die native GrÃ¶ÃŸe von Bildern beim Rendern von MenÃ¼elementen (nur Windows).
 @EndFixedFont
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das Menü erfolgreich erstellt wurde,
-  andernfalls Null. Wenn @#PB_Any als #Menü Parameter verwendet wurde,
-  dann wird bei Erfolg die generierte Nummer zurückgegeben.
+  Ein Wert ungleich Null, wenn das MenÃ¼ erfolgreich erstellt wurde,
+  andernfalls Null. Wenn @#PB_Any als #MenÃ¼ Parameter verwendet wurde,
+  dann wird bei Erfolg die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Unmittelbar nach dem Erstellen des Menüs wird dieses das aktuelle Menü zum Einfügen
-  weiterer Einträge. Es ist nun möglich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
-  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des Menüs zu verwenden.
+  Unmittelbar nach dem Erstellen des MenÃ¼s wird dieses das aktuelle MenÃ¼ zum EinfÃ¼gen
+  weiterer EintrÃ¤ge. Es ist nun mÃ¶glich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
+  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des MenÃ¼s zu verwenden.
 @LineBreak
 @LineBreak
-  Die Abmessungen der Bilder sind 16x16 Pixel.
-@LineBreak
-@LineBreak
-  Um alle Menü-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
+  Um alle MenÃ¼-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
   Befehle:
 @LineBreak
   @@WaitWindowEvent (alternativ @@WindowEvent)
@@ -170,8 +164,8 @@
 @Code
   UsePNGImageDecoder()
 
-  If OpenWindow(0, 200, 200, 200, 100, "Image menu Example")
-    If CreateImageMenu(0, WindowID(0))    ; menu creation starts....
+  If OpenWindow(0, 200, 200, 200, 100, "Image Menu Example")
+    If CreateImageMenu(0, WindowID(0))    ; die MenÃ¼-Erstellung beginnt....
       MenuTitle("Project")
         MenuItem(1, "Open"   +Chr(9)+"Ctrl+O", LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png"))
         MenuItem(2, "Save"   +Chr(9)+"Ctrl+S", LoadImage(1, #PB_Compiler_Home + "examples/sources/Data/ToolBar/Save.png"))
@@ -190,35 +184,35 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreatePopupMenu(#Menü) 
+@Function Ergebnis = CreatePopupMenu(#MenÃ¼) 
 
 @Description
-  Erstellt ein neues leeres Popup-Menü.
+  Erstellt ein neues leeres Popup-MenÃ¼.
 
-@Parameter "#Menü"
-  Die Nummer, mit der das neue Menü identifiziert wird.
+@Parameter "#MenÃ¼"
+  Die Nummer, mit der das neue MenÃ¼ identifiziert wird.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
   Nummer automatisch zu generieren.
 
 @ReturnValue
-  Ein Wert ungleich Null, wenn das Menü erfolgreich erstellt wurde,
-  andernfalls Null. Wenn @#PB_Any als #Menü Parameter verwendet wurde,
-  dann wird bei Erfolg die generierte Nummer zurückgegeben.
+  Ein Wert ungleich Null, wenn das MenÃ¼ erfolgreich erstellt wurde,
+  andernfalls Null. Wenn @#PB_Any als #MenÃ¼ Parameter verwendet wurde,
+  dann wird bei Erfolg die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Um ein Popup-Menü mit Unterstützung für Bilder zu erstellen, verwenden Sie @@CreatePopupImageMenu.
+  Um ein Popup-MenÃ¼ mit UnterstÃ¼tzung fÃ¼r Bilder zu erstellen, verwenden Sie @@CreatePopupImageMenu.
 @LineBreak
 @LineBreak
-  Unmittelbar nach dem Erstellen des Menüs wird dieses das aktuelle Menü zum Einfügen
-  weiterer Einträge. Es ist nun möglich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
-  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des Menüs zu verwenden.
+  Unmittelbar nach dem Erstellen des MenÃ¼s wird dieses das aktuelle MenÃ¼ zum EinfÃ¼gen
+  weiterer EintrÃ¤ge. Es ist nun mÃ¶glich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
+  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des MenÃ¼s zu verwenden.
 @LineBreak
 @LineBreak
-  @@DisplayPopupMenu kann benutzt werden, um dieses Popup-Menü an einer beliebigen
+  @@DisplayPopupMenu kann benutzt werden, um dieses Popup-MenÃ¼ an einer beliebigen
   Position auf dem Bildschirm darzustellen.
 @LineBreak
 @LineBreak
-  Um alle Menü-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
+  Um alle MenÃ¼-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
   Befehle:
 @LineBreak
   @@WaitWindowEvent (alternativ @@WindowEvent)
@@ -231,9 +225,9 @@
 @Code
   If OpenWindow(0, 200, 200, 200, 120, "Popup-Menu Example")
   
-    If CreatePopupMenu(0)      ; hier beginnt das Erstellen des Popup-Menüs...
-      MenuItem(1, "Open")      ; Sie können alle Befehle zum Erstellen eines Menüs
-      MenuItem(2, "Save")      ; verwenden, ganz wie bei einem normalen Menü...
+    If CreatePopupMenu(0)      ; hier beginnt das Erstellen des Popup-MenÃ¼s...
+      MenuItem(1, "Open")      ; Sie kÃ¶nnen alle Befehle zum Erstellen eines MenÃ¼s
+      MenuItem(2, "Save")      ; verwenden, ganz wie bei einem normalen MenÃ¼...
       MenuItem(3, "Save as")
       MenuItem(4, "Quit")
       MenuBar()
@@ -244,14 +238,14 @@
     EndIf
     
     Repeat
-      Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
+      Event = WaitWindowEvent()    ; Ã¼berprÃ¼fe Window-Ereignisse
       
       Select Event
-        Case #PB_Event_RightClick       ; rechte Maustaste wurde gedrückt =>
-          DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-Menü an
+        Case #PB_Event_RightClick       ; rechte Maustaste wurde gedrÃ¼ckt =>
+          DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-MenÃ¼ an
           
-        Case #PB_Event_Menu        ; ein Eintrag des Popup-Menüs wurde angeklickt
-          Select EventMenu()       ; ermittle den angeklickten Menü-Eintrag...
+        Case #PB_Event_Menu        ; ein Eintrag des Popup-MenÃ¼s wurde angeklickt
+          Select EventMenu()       ; ermittle den angeklickten MenÃ¼-Eintrag...
             Case 1 : Debug "Menu: Open"
             Case 2 : Debug "Menu: Save"
             Case 3 : Debug "Menu: Save as"
@@ -275,42 +269,38 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreatePopupImageMenu(#Menü [, Flags]) 
+@Function Ergebnis = CreatePopupImageMenu(#MenÃ¼ [, Flags]) 
 
 @Description
-  Erstellt ein neues leeres Popup-Menü, mit Unterstützung für Bilder bei seinen Einträgen.
+  Erstellt ein neues leeres Popup-MenÃ¼, mit UnterstÃ¼tzung fÃ¼r Bilder bei seinen EintrÃ¤gen.
 
-@Parameter "#Menü"
-  Die Nummer, mit der das neue Menü identifiziert wird.
+@Parameter "#MenÃ¼"
+  Die Nummer, mit der das neue MenÃ¼ identifiziert wird.
   @ReferenceLink "purebasic_objects" "#PB_Any" kann verwendet werden, um diese
   Nummer automatisch zu generieren.
 
 @OptionalParameter "Flags"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Menu_ModernLook : Farbverlauf und modernes Aussehen aktivieren (hat nur einen Effekt auf Windows)
-  @#PB_Menu_SysTrayLook: Aktiviert den "Systray-Look" zur Verwendung mit @@SysTrayIconMenu (hat nur einen Effekt auf Windows)
+  @#PB_Menu_NativeImageSize: verwendet die native GrÃ¶ÃŸe von Bildern beim Rendern von MenÃ¼elementen (nur Windows).
 @EndFixedFont
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn das Menü erfolgreich erstellt wurde, und
-  Null wenn nicht. Wenn @#PB_Any als #Menü Parameter verwendet wurde,
-  dann wird bei Erfolg die generierte Nummer zurückgegeben.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn das MenÃ¼ erfolgreich erstellt wurde, und
+  Null wenn nicht. Wenn @#PB_Any als #MenÃ¼ Parameter verwendet wurde,
+  dann wird bei Erfolg die generierte Nummer zurÃ¼ckgegeben.
 
 @Remarks
-  Unmittelbar nach dem Erstellen des Menüs wird dieses das aktuelle Menü zum Einfügen
-  weiterer Einträge. Es ist nun möglich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
-  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des Menüs zu verwenden.
+  Unmittelbar nach dem Erstellen des MenÃ¼s wird dieses das aktuelle MenÃ¼ zum EinfÃ¼gen
+  weiterer EintrÃ¤ge. Es ist nun mÃ¶glich, Funktionen wie z.B. @@MenuTitle, @@MenuItem, 
+  @@MenuBar, @@OpenSubMenu zum weiteren Aufbau des MenÃ¼s zu verwenden.
 @LineBreak
 @LineBreak
-  Die Abmessungen der Bilder sind 16x16 Pixel.
-@LineBreak
-@LineBreak
-  @@DisplayPopupMenu kann benutzt werden, um dieses Popup-Menü an einer beliebigen
+  @@DisplayPopupMenu kann benutzt werden, um dieses Popup-MenÃ¼ an einer beliebigen
   Position auf dem Bildschirm darzustellen.
 @LineBreak
 @LineBreak
-  Um alle Menü-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
+  Um alle MenÃ¼-Ereignisse korrekt zu handhaben, siehe die Beschreibung der folgenden
   Befehle:
 @LineBreak
   @@WaitWindowEvent (alternativ @@WindowEvent)
@@ -332,11 +322,11 @@
     
   OpenWindow(0, 200, 200, 200, 120, "Image Popup-Menu Example")
   
-  If LoadImage(1,#PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png")  ; lädt ein Icon
-    If CreatePopupImageMenu(0, #PB_Menu_ModernLook)      ; hier beginnt das Erstellen des Popup-Menüs...
+  If LoadImage(1,#PB_Compiler_Home + "examples/sources/Data/ToolBar/Open.png")  ; lÃ¤dt ein Icon
+    If CreatePopupImageMenu(0, #PB_Menu_ModernLook)      ; hier beginnt das Erstellen des Popup-MenÃ¼s...
       MenuItem(1, "Open", ImageID(1))      ; Zeigt das Icon an
-      MenuItem(2, "Save")      ; Sie können alle Befehle zum Erstellen eines Menüs
-      MenuItem(3, "Save as")   ; verwenden, ganz wie bei einem normalen Menü...
+      MenuItem(2, "Save")      ; Sie kÃ¶nnen alle Befehle zum Erstellen eines MenÃ¼s
+      MenuItem(3, "Save as")   ; verwenden, ganz wie bei einem normalen MenÃ¼...
       MenuItem(4, "Quit", ImageID(0))      ; Zeigt unser eigenes Icon an
       MenuBar()
       OpenSubMenu("Recent files")
@@ -346,14 +336,14 @@
     EndIf
   
     Repeat
-	  Event = WaitWindowEvent()    ; überprüfe Window-Ereignisse
+	  Event = WaitWindowEvent()    ; Ã¼berprÃ¼fe Window-Ereignisse
 	  
       Select Event
-        Case #PB_Event_RightClick  ; rechte Maustaste wurde gedrückt =>
-          DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-Menü an
+        Case #PB_Event_RightClick  ; rechte Maustaste wurde gedrÃ¼ckt =>
+          DisplayPopupMenu(0, WindowID(0))  ; zeige jetzt das Popup-MenÃ¼ an
           
-        Case #PB_Event_Menu        ; ein Eintrag des Popup-Menüs wurde angeklickt
-          Select EventMenu()       ; ermittle den angeklickten Menü-Eintrag...
+        Case #PB_Event_Menu        ; ein Eintrag des Popup-MenÃ¼s wurde angeklickt
+          Select EventMenu()       ; ermittle den angeklickten MenÃ¼-Eintrag...
             Case 1 : Debug "Menu: Open"
             Case 2 : Debug "Menu: Save"
             Case 3 : Debug "Menu: Save as"
@@ -375,37 +365,37 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisplayPopupMenu(#Menü, WindowID [, x, y])
+@Function DisplayPopupMenu(#MenÃ¼, WindowID [, x, y])
 
 @Description
-  Stellt ein Popup-Menü an der aktuellen Maus-Position oder der angegebenen
+  Stellt ein Popup-MenÃ¼ an der aktuellen Maus-Position oder der angegebenen
   Bildschirm-Position dar.
 
-@Parameter "#Menü"
-  Das anzuzeigende Menü. Es muss zuvor mittels @@CreatePopupMenu oder
+@Parameter "#MenÃ¼"
+  Das anzuzeigende MenÃ¼. Es muss zuvor mittels @@CreatePopupMenu oder
   @@CreatePopupImageMenu erstellt worden sein.
   
 @Parameter "WindowID"
-  Das Fenster, welchem das Popup-Menü zugewiesen werden soll. Dieser
+  Das Fenster, welchem das Popup-MenÃ¼ zugewiesen werden soll. Dieser
   Wert kann mit Hilfe der @@WindowID Funktion ermittelt werden.
 
 @OptionalParameter "x, y"
-  Die Position (in Bildschirm-Koordinaten), an der das Menü angezeigt
+  Die Position (in Bildschirm-Koordinaten), an der das MenÃ¼ angezeigt
   werden soll. Dies sind Koordinaten in Pixel - relativ zur linken oberen Ecke
   des Haupt-Monitors.
 @LineBreak
 @LineBreak
-  Wenn diese Parameter nicht angegeben werden, wird das Menü an der aktuellen
+  Wenn diese Parameter nicht angegeben werden, wird das MenÃ¼ an der aktuellen
   Maus-Position dargestellt.
 
 @NoReturnValue
   
 @Remarks
-  Das Popup-Menü wird wieder versteckt, wenn der Anwender einen Eintrag
-  auswählt oder irgendwo außerhalb des Popup-Menü-Bereichs klickt.
+  Das Popup-MenÃ¼ wird wieder versteckt, wenn der Anwender einen Eintrag
+  auswÃ¤hlt oder irgendwo auÃŸerhalb des Popup-MenÃ¼-Bereichs klickt.
 @LineBreak
 @LineBreak
-  Für ein Beispiel und ein Vorschaubild siehe die @@CreatePopupMenu Hilfe.
+  FÃ¼r ein Beispiel und ein Vorschaubild siehe die @@CreatePopupMenu Hilfe.
 
 @SeeAlso
   @@CreatePopupMenu, @@CreatePopupImageMenu
@@ -414,21 +404,21 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DisableMenuItem(#Menü, MenueEintrag, Status)
+@Function DisableMenuItem(#MenÃ¼, MenueEintrag, Status)
 
 @Description
-  Deaktiviert (oder aktiviert) einen Menü-Eintrag im angegebenen Menü.
+  Deaktiviert (oder aktiviert) einen MenÃ¼-Eintrag im angegebenen MenÃ¼.
 
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
 
 @Parameter "MenueEintrag"
-  Die Nummer des Menü-Eintrags, welcher deaktiviert oder aktiviert
+  Die Nummer des MenÃ¼-Eintrags, welcher deaktiviert oder aktiviert
   werden soll.
 
 @Parameter "Status"
-  Der neue Status des Menü-Eintrags. Ein Wert von 1 deaktiviert
-  den Menü-Eintrag und ein Wert von 0 aktiviert ihn.
+  Der neue Status des MenÃ¼-Eintrags. Ein Wert von 1 deaktiviert
+  den MenÃ¼-Eintrag und ein Wert von 0 aktiviert ihn.
   
 @NoReturnValue
 
@@ -439,7 +429,7 @@
       MenuTitle("Project")
         MenuItem(1, "Open")
         MenuItem(2, "Save")
-        DisableMenuItem(0, 2, 1)    ; deaktiviere den zweiten Menü-Eintrag (Save)
+        DisableMenuItem(0, 2, 1)    ; deaktiviere den zweiten MenÃ¼-Eintrag (Save)
     EndIf
     
     Repeat
@@ -455,18 +445,18 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function FreeMenu(#Menü) 
+@Function FreeMenu(#MenÃ¼) 
 
 @Description
-  Gibt das angegebene Menü und all seine Ressourcen frei.
+  Gibt das angegebene MenÃ¼ und all seine Ressourcen frei.
   
-@Parameter "#Menü"
-  Das freizugebende Menü. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen Menüs freigegeben.
+@Parameter "#MenÃ¼"
+  Das freizugebende MenÃ¼. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen MenÃ¼s freigegeben.
 
 @NoReturnValue
 
 @Remarks
-  Alle verbleibenden Menüs werden automatisch freigegeben, wenn das Programm endet.
+  Alle verbleibenden MenÃ¼s werden automatisch freigegeben, wenn das Programm endet.
 
 @SeeAlso
   @@CreateMenu, @@CreateImageMenu, @@CreatePopupMenu, @@CreatePopupImageMenu
@@ -475,24 +465,24 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = GetMenuItemState(#Menü, MenueEintrag)
+@Function Ergebnis = GetMenuItemState(#MenÃ¼, MenueEintrag)
 
 @Description
-  Gibt den Status des Häkchens eines Menü-Eintrags zurück.
+  Gibt den Status des HÃ¤kchens eines MenÃ¼-Eintrags zurÃ¼ck.
   
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
   
 @Parameter "MenueEintrag"
-  Die Nummer des Menü-Eintrags, von dem der Status ermittelt werden soll.
+  Die Nummer des MenÃ¼-Eintrags, von dem der Status ermittelt werden soll.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Menü-Eintrag abgehakt (englisch
-  "checked", also mit einem Häkchen versehen) ist, und andernfalls Null.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der MenÃ¼-Eintrag abgehakt (englisch
+  "checked", also mit einem HÃ¤kchen versehen) ist, und andernfalls Null.
 
 @Remarks
-  Verwenden Sie die @@SetMenuItemState, um den Status eines Menü-Eintrags
-  zu ändern.
+  Verwenden Sie die @@SetMenuItemState, um den Status eines MenÃ¼-Eintrags
+  zu Ã¤ndern.
  
 @Example
 @Code
@@ -500,16 +490,16 @@
     If CreateMenu(0, WindowID(0))
       MenuTitle("Project")
         MenuItem(1, "Changed")
-        SetMenuItemState(0, 1, 1)   ; setze ein Häkchen vor den zuletzt erstellten Menü-Eintrag
+        SetMenuItemState(0, 1, 1)   ; setze ein HÃ¤kchen vor den zuletzt erstellten MenÃ¼-Eintrag
     EndIf
     Repeat
       Event = WaitWindowEvent()          ; warte auf ein Ereignis
-      If Event = #PB_Event_Menu          ; ein Menü-Ereignis trat auf
-        If EventMenu() = 1               ; der erste Menü-Eintrag wurde angeklickt
-          If GetMenuItemState(0, 1) = 1  ; aktueller Status des Eintrags = Häkchen gesetzt
-            SetMenuItemState(0, 1, 0)    ; jetzt entfernen wir das Häkchen
-          Else                           ; aktueller Status des Eintrags = kein Häkchen
-            SetMenuItemState(0, 1, 1)    ; jetzt setzen wir das Häkchen
+      If Event = #PB_Event_Menu          ; ein MenÃ¼-Ereignis trat auf
+        If EventMenu() = 1               ; der erste MenÃ¼-Eintrag wurde angeklickt
+          If GetMenuItemState(0, 1) = 1  ; aktueller Status des Eintrags = HÃ¤kchen gesetzt
+            SetMenuItemState(0, 1, 0)    ; jetzt entfernen wir das HÃ¤kchen
+          Else                           ; aktueller Status des Eintrags = kein HÃ¤kchen
+            SetMenuItemState(0, 1, 1)    ; jetzt setzen wir das HÃ¤kchen
           EndIf
         EndIf
       EndIf
@@ -524,20 +514,58 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = GetMenuItemText(#Menü, Eintrag)
+@Function Text$ = GetMenuItemText(#MenÃ¼, Eintrag)
 
 @Description
-  Gibt den Text des angegebenen Menü-Eintrags zurück.
+  Gibt den Text des angegebenen MenÃ¼-Eintrags zurÃ¼ck.
 
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
   
 @Parameter "Eintrag"
   Der Eintrag, von dem der Text ermittelt werden soll.
 
 @ReturnValue
-  Gibt den Text des Menü-Eintrags zurück.
+  Gibt den Text des MenÃ¼-Eintrags zurÃ¼ck.
+
+@Example
+@Code
+  Enumeration ; MenÃ¼-EintrÃ¤ge
+    #New
+    #Open
+    #Last
+  EndEnumeration
   
+  ; Mehrere MenÃ¼-EintrÃ¤ge festlegen und spÃ¤ter ihren Text ermitteln...
+  If OpenWindow(0, 200, 200, 300, 100, "GetMenuItemText Example")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("File")
+      MenuItem(#New, "New")
+      MenuItem(#Open, "Open")
+      For i = #Last To 10
+        MenuItem(i, "Item" + Str(i))
+      Next
+    EndIf
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Menu
+          em = EventMenu()
+          Select em
+            Case #New
+              Debug "pressed: " + GetMenuItemText(0, #New)
+            Case #Open
+              Debug "pressed: " + GetMenuItemText(0, #Open)
+            Case #Last To 10
+              Debug "pressed: " + GetMenuItemText(0, em)
+          EndSelect
+        Case #PB_Event_CloseWindow
+          Break
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@SetMenuItemText, @@MenuItem
 
@@ -545,19 +573,19 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Text$ = GetMenuTitleText(#Menü, Titel)
+@Function Text$ = GetMenuTitleText(#MenÃ¼, Titel)
 
 @Description
-  Gibt den Titel-Text des angegebenen Menütitel-Eintrags zurück.
+  Gibt den Titel-Text des angegebenen MenÃ¼titel-Eintrags zurÃ¼ck.
 
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
 
 @Parameter "Titel"
-  Der Index des Menütitel-Eintrags, von dem der Titel gelesen werden soll.
+  Der Index des MenÃ¼titel-Eintrags, von dem der Titel gelesen werden soll.
 
 @ReturnValue
-  Gibt den Text des Menütitel-Eintrags zurück.
+  Gibt den Text des MenÃ¼titel-Eintrags zurÃ¼ck.
 
 @SeeAlso
   @@MenuTitle, @@SetMenuTitleText
@@ -566,20 +594,52 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function HideMenu(#Menü, Status)
+@Function HideMenu(#MenÃ¼, Status)
 
 @Description
-  Versteckt oder zeigt das angegebene Menü an.
+  Versteckt oder zeigt das angegebene MenÃ¼ an.
   
-@Parameter "#Menü"
-  Das Menü, welches versteckt oder angezeigt werden soll.
+@Parameter "#MenÃ¼"
+  Das MenÃ¼, welches versteckt oder angezeigt werden soll.
 
 @Parameter "Status"
-  Der neue Status des Menüs. Ein Wert von 1 versteckt das Menü und
+  Der neue Status des MenÃ¼s. Ein Wert von 1 versteckt das MenÃ¼ und
   ein Wert von 0 zeigt es an.
 
 @NoReturnValue
-  
+
+@Example
+@Code
+  If OpenWindow(0, 200, 200, 300, 100, "HideMenu Example")
+    ButtonGadget(0, 70, 10, 150, 30, "Hide/Show menu")
+    If CreateMenu(0, WindowID(0))
+      MenuTitle("Project")
+      MenuItem(1, "New")
+      MenuItem(2, "Open")
+    EndIf
+    
+    Repeat
+      Select WaitWindowEvent()
+        Case #PB_Event_Gadget
+          Select EventGadget()
+            Case 0
+              ; Den Toggle-Status (an/aus) des MenÃ¼s festlegen:
+              Toggle = Bool(Not Toggle)
+              HideMenu(0, Toggle)
+              ; Die y-Position des Schalters entsprechend dem Vorhandensein des MenÃ¼s anpassen:
+              If Toggle
+                ResizeGadget(0, #PB_Ignore, 10 + MenuHeight(), #PB_Ignore, #PB_Ignore)
+              Else
+                ResizeGadget(0, #PB_Ignore, 10, #PB_Ignore, #PB_Ignore)
+              EndIf
+          EndSelect
+        Case #PB_Event_CloseWindow
+          Break
+      EndSelect
+    ForEver
+  EndIf
+@EndCode
+
 @SeeAlso
   @@CreateMenu, @@CreateImageMenu
 
@@ -587,22 +647,22 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = IsMenu(#Menü)
+@Function Ergebnis = IsMenu(#MenÃ¼)
 
 @Description
-  Überprüft, ob die angegebene #Menü Nummer gültig und ein korrekt initialisiertes Menü ist.
+  ÃœberprÃ¼ft, ob die angegebene #MenÃ¼ Nummer gÃ¼ltig und ein korrekt initialisiertes MenÃ¼ ist.
   
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Menü ein gültiges Menü ist,
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #MenÃ¼ ein gÃ¼ltiges MenÃ¼ ist,
   und andernfalls Null.
   
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert benutzt werden. Ist das 'Ergebnis'
-  ungleich Null, dann ist das Objekt gültig und initialisiert, andernfalls wird es gleich Null sein.
-  Dies ist der richtige Weg, um sicher zu stellen, dass ein Menü bereit zur Verwendung ist.
+  ungleich Null, dann ist das Objekt gÃ¼ltig und initialisiert, andernfalls wird es gleich Null sein.
+  Dies ist der richtige Weg, um sicher zu stellen, dass ein MenÃ¼ bereit zur Verwendung ist.
   
 @SeeAlso
   @@CreateMenu, @@CreatePopupMenu, @@CreateImageMenu, @@CreatePopupImageMenu
@@ -614,7 +674,7 @@
 @Function MenuBar() 
 
 @Description
-  Erstellt einen Abgrenzungsbalken im aktuellen Menü.
+  Erstellt einen Abgrenzungsbalken im aktuellen MenÃ¼.
   
 @NoParameters
 @NoReturnValue
@@ -622,10 +682,10 @@
 @Example
 @Code
   If OpenWindow(0, 200, 200, 200, 100, "MenuBar Example")
-    If CreateMenu(0, WindowID(0))  ; hier beginnt das Erstellen des Menüs...
+    If CreateMenu(0, WindowID(0))  ; hier beginnt das Erstellen des MenÃ¼s...
       MenuTitle("Project")
         MenuItem(1, "Open")
-        MenuBar()                  ; hier wird der Abgrenzungsbalken eingefügt
+        MenuBar()                  ; hier wird der Abgrenzungsbalken eingefÃ¼gt
         MenuItem(4, "Close")
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
@@ -643,19 +703,22 @@
 @Function Ergebnis = MenuHeight() 
 
 @Description
-  Gibt die Höhe der Titelzeile vom Menü zurück. Dies ist nützlich zur Berechnung der
-  richtigen Fensterhöhe, wenn ein Menü benutzt wird.
+  Gibt die HÃ¶he der Titelzeile vom MenÃ¼ zurÃ¼ck. Dies ist nÃ¼tzlich zur Berechnung der
+  richtigen FensterhÃ¶he, wenn ein MenÃ¼ benutzt wird.
   
 @NoParameters
 
 @ReturnValue
-  Gibt die Höhe (in Pixel) der Titelzeile des Menüs zurück.
+  Gibt die HÃ¶he (in Pixel) der Titelzeile des MenÃ¼s zurÃ¼ck.
 
 @Remarks
-  @Bold "Linux & macOS": Dieser Befehl gibt immer 0 zurück, da die Menü-Zeile nicht Bestandteil
-  des Fensters ist (sie befindet sich immer im Hauptmenü am oberen Rand des Bildschirms).
-  Damit kann MenuHeight() problemlos auf jedem OS verwendet werden, um die Fenstergröße in
-  Abhängigkeit von der tatsächlichen Menü-Höhe einzustellen.
+  @Bold "Linux & macOS": Dieser Befehl gibt immer 0 zurÃ¼ck, da die MenÃ¼-Zeile nicht Bestandteil
+  des Fensters ist (sie befindet sich immer im HauptmenÃ¼ am oberen Rand des Bildschirms).
+  Damit kann MenuHeight() problemlos auf jedem OS verwendet werden, um die FenstergrÃ¶ÃŸe in
+  AbhÃ¤ngigkeit von der tatsÃ¤chlichen MenÃ¼-HÃ¶he einzustellen.
+
+@Example
+  FÃ¼r ein Beispiel zur Verwendung von MenuHeight() siehe @@HideMenu.
 
 @SupportedOS
 
@@ -664,28 +727,28 @@
 @Function MenuItem(MenuItemID, Text$ [, ImageID]) 
 
 @Description
-  Erstellt einen neuen Menü-Eintrag im aktuellen Menü.
+  Erstellt einen neuen MenÃ¼-Eintrag im aktuellen MenÃ¼.
   
 @Parameter "MenuItemID"
-  Die Nummer, mit der dieser Menü-Eintrag bei Ereignissen und bei
+  Die Nummer, mit der dieser MenÃ¼-Eintrag bei Ereignissen und bei
   Befehlen wie @@SetMenuItemState identifiziert wird. Dieser Wert sollte
   zwischen 0 und 65535 liegen.
 
 @Parameter "Text$"
-  Der Text des Menü-Eintrags.
+  Der Text des MenÃ¼-Eintrags.
 @OS Windows
-  Auf Windows können Sie im Text$ das Sonderzeichen '&' benutzen, um einen bestimmten
+  Auf Windows kÃ¶nnen Sie im Text$ das Sonderzeichen '&' benutzen, um einen bestimmten
   Buchstaben zu unterstreichen:
 @LineBreak
 @LineBreak
-  "&Datei" wird im Menü dann wie folgt angezeigt: @Underline "D"atei
+  "&Datei" wird im MenÃ¼ dann wie folgt angezeigt: @Underline "D"atei
 @LineBreak
 @LineBreak
 @EndOS
 
 @OptionalParameter "ImageID"
-  Das Bild (Image), welches nahe des Menü-Eintrags angezeigt werden soll.
-  Das Menü muss mit @@CreateImageMenu oder @@CreatePopupImageMenu erstellt worden sein.
+  Das Bild (Image), welches nahe des MenÃ¼-Eintrags angezeigt werden soll.
+  Das MenÃ¼ muss mit @@CreateImageMenu oder @@CreatePopupImageMenu erstellt worden sein.
   Dieser Wert kann mit der @@ImageID Funktion ermittelt werden.
 
 @NoReturnValue
@@ -694,34 +757,34 @@
   Die Abmessungen der Bilder sind 16x16 Pixel.
 @LineBreak
 @LineBreak
-  Um ein Tastenkürzel (wird mit dem Befehl @@AddKeyboardShortcut aktiviert, außer auf OS X)
-  auf der rechten Seite des Menüeintrags (z.B. "Speichern    Strg+S") darzustellen, verwenden
-  Sie das TAB(ulator)-Zeichen für den richtigen Abstand. Das TAB-Zeichen hat den
+  Um ein TastenkÃ¼rzel (wird mit dem Befehl @@AddKeyboardShortcut aktiviert, auÃŸer auf OS X)
+  auf der rechten Seite des MenÃ¼eintrags (z.B. "Speichern    Strg+S") darzustellen, verwenden
+  Sie das TAB(ulator)-Zeichen fÃ¼r den richtigen Abstand. Das TAB-Zeichen hat den
   ASCII-Code 9, verwenden Sie daher den Befehl @@Chr mit dem Wert 9 
-  zum Einfügen eines TAB-Zeichens. Ihr Code sollte z.B. so aussehen:
+  zum EinfÃ¼gen eines TAB-Zeichens. Ihr Code sollte z.B. so aussehen:
 @Code
   MenuItem(1, "&Open" + Chr(9) + "Strg+O")
 @EndCode
-  Die unterstützten Zusatztasten sind:
+  Die unterstÃ¼tzten Zusatztasten sind:
 @Code
   - "Ctrl"  : Ctrl-/Strg-Taste
   - "Shift" : Shift-/Umschalt-Taste
   - "Alt"   : Alt-Taste
   - "Cmd"   : Command/Apple-Taste (nur auf macOS)
 @EndCode
-  Sie können mit Hilfe des "+" Zeichens miteinander gemixt werden: "Speichern als" + Chr(9) + "Ctrl+Shift+S".
-  Auf macOS ist es - wenn ein Tastenkürzel im Menü erstellt wird - nicht erforderlich, die @@AddKeyboardShortcut
-  Funktion mit diesem Kürzel aufzurufen.
+  Sie kÃ¶nnen mit Hilfe des "+" Zeichens miteinander gemixt werden: "Speichern als" + Chr(9) + "Ctrl+Shift+S".
+  Auf macOS ist es - wenn ein TastenkÃ¼rzel im MenÃ¼ erstellt wird - nicht erforderlich, die @@AddKeyboardShortcut
+  Funktion mit diesem KÃ¼rzel aufzurufen.
 @LineBreak
 @LineBreak
-@Bold "macOS": die Einträge 'Quit' (Ende), 'Preferences' (Einstellungen) und 'About' (Über) werden als
-  spezielle Menü-Einträge behandelt und müssen im 'Application' (Anwendung) Menü platziert werden, um das Look & Feel 
-  von macOS Anwendungen zu erhalten. PureBasic unterstützt die @#PB_Menu_Quit, @#PB_Menu_Preferences und 
-  @#PB_Menu_About Konstanten (müssen als 'MenuItemID' angegeben werden) für diese Art von Menü-Einträgen.
+@Bold "macOS": die EintrÃ¤ge 'Quit' (Ende), 'Preferences' (Einstellungen) und 'About' (Ãœber) werden als
+  spezielle MenÃ¼-EintrÃ¤ge behandelt und mÃ¼ssen im 'Application' (Anwendung) MenÃ¼ platziert werden, um das Look & Feel 
+  von macOS Anwendungen zu erhalten. PureBasic unterstÃ¼tzt die @#PB_Menu_Quit, @#PB_Menu_Preferences und 
+  @#PB_Menu_About Konstanten (mÃ¼ssen als 'MenuItemID' angegeben werden) fÃ¼r diese Art von MenÃ¼-EintrÃ¤gen.
   Wenn eine dieser Konstanten festgestellt wird, dann wird der Eintrag nicht am aktuellen Platz, sondern
-  im 'Application'-Menü eingefügt. Wenn ein Tastenkürzel angegeben wurde, wird dies einfach ignoriert
-  und durch ein standardmäßiges ersetzt. Diese drei Konstanten sind nicht auf anderen OS definiert, um
-  ein flexibles Nummerieren auf diesen OS zu ermöglichen.
+  im 'Application'-MenÃ¼ eingefÃ¼gt. Wenn ein TastenkÃ¼rzel angegeben wurde, wird dies einfach ignoriert
+  und durch ein standardmÃ¤ÃŸiges ersetzt. Diese drei Konstanten sind nicht auf anderen OS definiert, um
+  ein flexibles Nummerieren auf diesen OS zu ermÃ¶glichen.
 
 @Example
 @Code
@@ -730,8 +793,8 @@
       MenuTitle("Project")
         MenuItem(1, "Open")    ; normaler Eintrag
         MenuItem(2, "&Save")   ; Eintrag mit unterstrichenem Zeichen, die Unterstreichung wird jedoch
-                               ; nur angezeigt, wenn das Menü mit F10 + den Cursor-Tasten aufgerufen wird
-        MenuItem(3, "Quit"+Chr(9)+"Esc")   ; Eintrag mit separatem Text als Tastenkürzel
+                               ; nur angezeigt, wenn das MenÃ¼ mit F10 + den Cursor-Tasten aufgerufen wird
+        MenuItem(3, "Quit"+Chr(9)+"Esc")   ; Eintrag mit separatem Text als TastenkÃ¼rzel
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -746,17 +809,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function MenuID = MenuID(#Menü)
+@Function MenuID = MenuID(#MenÃ¼)
 
 @Description
-  Gibt den eindeutigen System-Identifier (Bezeichner) des angegebenen Menüs zurück.
+  Gibt den eindeutigen System-Identifier (Bezeichner) des angegebenen MenÃ¼s zurÃ¼ck.
 
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
   
 @ReturnValue
-  Gibt die ID des Menüs zurück. Diese ist manchmal auch als 'Handle' bekannt. Schauen Sie in
-  das Extra-Kapitel @ReferenceLink "handles" "Handles und Nummern" für weitere Informationen.
+  Gibt die ID des MenÃ¼s zurÃ¼ck. Diese ist manchmal auch als 'Handle' bekannt. Schauen Sie in
+  das Extra-Kapitel @ReferenceLink "handles" "Handles und Nummern" fÃ¼r weitere Informationen.
 
 @Example
 @Code
@@ -779,13 +842,13 @@
 @Function MenuTitle(Titel$)
 
 @Description
-  Erstellt einen neuen Titel-Eintrag für das Menü.
+  Erstellt einen neuen Titel-Eintrag fÃ¼r das MenÃ¼.
 
 @Parameter "Titel$"
-  Der Text, welcher als Titel-Eintrag des Menüs angezeigt wird.
+  Der Text, welcher als Titel-Eintrag des MenÃ¼s angezeigt wird.
   
 @OS Windows
-  Auf Windows können Sie im Titel$ das spezielle '&' Zeichen benutzen, um einen bestimmten
+  Auf Windows kÃ¶nnen Sie im Titel$ das spezielle '&' Zeichen benutzen, um einen bestimmten
   Buchstaben zu unterstreichen, wenn das "Grafik-Theme" dies erlaubt:
 @LineBreak
 @LineBreak
@@ -795,21 +858,21 @@
 @NoReturnValue
 
 @Remarks
-  @@MenuTitle kann nicht in @Link "createpopupmenu" "Popup-Menüs" verwendet werden, da es hier
-  keinen Menütitel gibt.
+  @@MenuTitle kann nicht in @Link "createpopupmenu" "Popup-MenÃ¼s" verwendet werden, da es hier
+  keinen MenÃ¼titel gibt.
   
 @Example
 @Code
   If OpenWindow(0, 200, 200, 200, 100, "MenuTitle Example")
     If CreateMenu(0, WindowID(0))
-      MenuTitle("Project")      ; normaler Menü-Titel mit nachfolgenden Einträgen
+      MenuTitle("Project")      ; normaler MenÃ¼-Titel mit nachfolgenden EintrÃ¤gen
         MenuItem(1, "Open")  
         MenuItem(2, "Close")
-      MenuTitle("&Edit")        ; Menü-Titel mit unterstrichenem Zeichen, die Unterstreichung wird 
-                                ; jedoch nur angezeigt, wenn das Menü mit der F10-Taste aufgerufen wird
+      MenuTitle("&Edit")        ; MenÃ¼-Titel mit unterstrichenem Zeichen, die Unterstreichung wird 
+                                ; jedoch nur angezeigt, wenn das MenÃ¼ mit der F10-Taste aufgerufen wird
         MenuItem(3, "Undo")
         MenuItem(4, "Redo")
-      MenuTitle("About")        ; nur Menü-Titel
+      MenuTitle("About")        ; nur MenÃ¼-Titel
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -826,35 +889,35 @@
 @Function OpenSubMenu(Text$ [, ImageID]) 
 
 @Description
-  Erstellt ein leeres Unter-Menü im aktuellen Menü.
+  Erstellt ein leeres Unter-MenÃ¼ im aktuellen MenÃ¼.
 
 @Parameter "Text$"
-  Der Text für das Unter-Menü.
+  Der Text fÃ¼r das Unter-MenÃ¼.
 @OS Windows
 @LineBreak
 @LineBreak
   @Bold "Windows:"
 @LineBreak
-  Im Parameter Text$ können Sie das spezielle '&' Zeichen benutzen, um einen bestimmten
+  Im Parameter Text$ kÃ¶nnen Sie das spezielle '&' Zeichen benutzen, um einen bestimmten
   Buchstaben zu unterstreichen:
 @LineBreak
   "&Datei" ergibt in Wirklichkeit: @Underline "D"atei
 @EndOS
 
 @OptionalParameter "ImageID"
-  Ein optionales Bild (Image), welches nahe des Unter-Menüs angezeigt werden soll.
-  Dieser Parameter hat nur einen Effekt, wenn das aktuelle Menü mittels @@CreateImageMenu
+  Ein optionales Bild (Image), welches nahe des Unter-MenÃ¼s angezeigt werden soll.
+  Dieser Parameter hat nur einen Effekt, wenn das aktuelle MenÃ¼ mittels @@CreateImageMenu
   oder @@CreatePopupImageMenu erstellt worden ist.
   Dieser Wert kann mit der @@ImageID Funktion ermittelt werden.
 
 @NoReturnValue
 
 @Remarks
-  Es ist nicht möglich, ein OpenSubMenu einfach umzubenennen - außer auf Windows, welches eine Menü-Nummer zurückgibt.@LineBreak
+  Es ist nicht mÃ¶glich, ein OpenSubMenu einfach umzubenennen - auÃŸer auf Windows, welches eine MenÃ¼-Nummer zurÃ¼ckgibt.@LineBreak
   Beispiel: @LineBreak
   SubMenu = OpenSubMenu ("New")@LineBreak
   SetMenuItemText (0, SubMenu, "Open")@LineBreak
-  Auf Linux und macOS müssen Sie mit mehreren Menüs "jonglieren" oder es "zerstören" und neu erstellen.
+  Auf Linux und macOS mÃ¼ssen Sie mit mehreren MenÃ¼s "jonglieren" oder es "zerstÃ¶ren" und neu erstellen.
 
 @Example
 @Code
@@ -864,10 +927,10 @@
         MenuItem(1, "Open")  
         MenuItem(2, "Close")
         MenuBar()
-        OpenSubMenu("Recent files")       ; beginne Erstellung des Unter-Menüs
+        OpenSubMenu("Recent files")       ; beginne Erstellung des Unter-MenÃ¼s
           MenuItem( 3, "C:\Autoexec.bat")
           MenuItem( 4, "D:\Test.txt")
-        CloseSubMenu()                    ; beende Unter-Menü
+        CloseSubMenu()                    ; beende Unter-MenÃ¼
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -882,26 +945,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetMenuItemState(#Menü, MenueEintrag, Status)
+@Function SetMenuItemState(#MenÃ¼, MenueEintrag, Status)
 
 @Description
-  Ändert den Status des angegebenen Menü-Eintrags. Diese Funktion ermöglicht die
-  Darstellung eines Häkchens ("Checkbox") nahe dem Text des Menü-Eintrags.
+  Ã„ndert den Status des angegebenen MenÃ¼-Eintrags. Diese Funktion ermÃ¶glicht die
+  Darstellung eines HÃ¤kchens ("Checkbox") nahe dem Text des MenÃ¼-Eintrags.
   
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
 
 @Parameter "MenueEintrag"
-  Der Menü-Eintrag, von dem der Status geändert werden soll.
+  Der MenÃ¼-Eintrag, von dem der Status geÃ¤ndert werden soll.
 
 @Parameter "Status"
-  Der zu setzende Status. Das Häkchen wird nicht angezeigt, wenn Status gleich 0
-  ist; hat Status einen anderen Wert, wird das Häkchen angezeigt.
+  Der zu setzende Status. Das HÃ¤kchen wird nicht angezeigt, wenn Status gleich 0
+  ist; hat Status einen anderen Wert, wird das HÃ¤kchen angezeigt.
 
 @NoReturnValue
 
 @Remarks
-  @@GetMenuItemState kann benutzt werden, um den aktuellen Status des Menü-Eintrags
+  @@GetMenuItemState kann benutzt werden, um den aktuellen Status des MenÃ¼-Eintrags
   zu ermitteln.
 
 @Example
@@ -910,7 +973,7 @@
     If CreateMenu(0, WindowID(0))
       MenuTitle("Project")
         MenuItem(1, "Changed")
-        SetMenuItemState(0, 1, 1)    ; setze Häkchen vor den zuvor erstellten Menüeintrag
+        SetMenuItemState(0, 1, 1)    ; setze HÃ¤kchen vor den zuvor erstellten MenÃ¼eintrag
     EndIf
     Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
   EndIf
@@ -924,16 +987,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetMenuItemText(#Menü, Eintrag, Text$)
+@Function SetMenuItemText(#MenÃ¼, Eintrag, Text$)
 
 @Description
-  Ändert den Text des angegebenen Menü-Eintrags.
+  Ã„ndert den Text des angegebenen MenÃ¼-Eintrags.
 
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
 
 @Parameter "Eintrag"
-  Die Nummer des Menü-Eintrags, welcher geändert werden soll.
+  Die Nummer des MenÃ¼-Eintrags, welcher geÃ¤ndert werden soll.
   
 @Parameter "Text$"
   Der neue Text des Eintrags.
@@ -947,16 +1010,16 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SetMenuTitleText(#Menü, Titel, Text$)
+@Function SetMenuTitleText(#MenÃ¼, Titel, Text$)
 
 @Description
-  Ändert den Text des angegebenen Menü-Titels.
+  Ã„ndert den Text des angegebenen MenÃ¼-Titels.
   
-@Parameter "#Menü"
-  Das zu verwendende Menü.
+@Parameter "#MenÃ¼"
+  Das zu verwendende MenÃ¼.
   
 @Parameter "Titel"
-  Der Index des zu ändernden Titel-Eintrags.
+  Der Index des zu Ã¤ndernden Titel-Eintrags.
   
 @Parameter "Text$"
   Der neue Text des Titel-Eintrags.
@@ -970,20 +1033,20 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function BindMenuEvent(#Menü, MenüEintrag, @Callback())
+@Function BindMenuEvent(#MenÃ¼, MenÃ¼Eintrag, @Callback())
 
 @Description
-  Verknüpft ("bindet", englisch "bind") ein Menü-Ereignis mit einem Callback.
-  Dabei handelt es sich um eine zusätzliche Möglichkeit zur Verwaltung von Ereignissen
-  (englisch "events") in PureBasic, welche problemlos mit den regulären @@WindowEvent /
+  VerknÃ¼pft ("bindet", englisch "bind") ein MenÃ¼-Ereignis mit einem Callback.
+  Dabei handelt es sich um eine zusÃ¤tzliche MÃ¶glichkeit zur Verwaltung von Ereignissen
+  (englisch "events") in PureBasic, welche problemlos mit den regulÃ¤ren @@WindowEvent /
   @@WaitWindowEvent Befehlen arbeitet.
-  Ein Menü-Ereignis kann mittels @@UnbindMenuEvent losgelöst (englisch "unbound") werden.
+  Ein MenÃ¼-Ereignis kann mittels @@UnbindMenuEvent losgelÃ¶st (englisch "unbound") werden.
   
-@Parameter "#Menü"
-  Das Menü, mit dem das Ereignis verknüpft werden soll.
+@Parameter "#MenÃ¼"
+  Das MenÃ¼, mit dem das Ereignis verknÃ¼pft werden soll.
 
-@Parameter "MenüEintrag"
-  Der Menüeintrag innerhalb des Menüs, mit dem das Ereignis verknüpft werden soll.
+@Parameter "MenÃ¼Eintrag"
+  Der MenÃ¼eintrag innerhalb des MenÃ¼s, mit dem das Ereignis verknÃ¼pft werden soll.
 
 @Parameter "@Callback()"
   Die beim Auftreten des Ereignisses aufzurufende Callback-Prozedur. Diese muss wie folgt
@@ -993,8 +1056,8 @@
     ; Code
   EndProcedure
 @EndCode
-  Die regulären Funktionen wie @@EventGadget, @@EventWindow, @@EventMenu, @@EventType und
-  @@EventData sind innerhalb des Callbacks verfügbar, um weitere Informationen über das
+  Die regulÃ¤ren Funktionen wie @@EventGadget, @@EventWindow, @@EventMenu, @@EventType und
+  @@EventData sind innerhalb des Callbacks verfÃ¼gbar, um weitere Informationen Ã¼ber das
   Ereignis zu erhalten.
   @LineBreak
   @LineBreak
@@ -1034,21 +1097,21 @@ Hinweis: @@WindowEvent und @@WaitWindowEvent sollten nie aus einem Callback hera
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function UnbindMenuEvent(#Menü, MenüEintrag, @Callback())
+@Function UnbindMenuEvent(#MenÃ¼, MenÃ¼Eintrag, @Callback())
 
 @Description
-  Löst die Verknüpfung eines Menü-Ereignisses von einer Callback-Funktion.
+  LÃ¶st die VerknÃ¼pfung eines MenÃ¼-Ereignisses von einer Callback-Funktion.
   Wenn keine passende Ereignis-Callback-Funktion gefunden wurde, dann hat dieser
   Befehl keinen Effekt. 
   
-@Parameter "#Menü"
-  Das vom Ereignis loszulösende Menü.
+@Parameter "#MenÃ¼"
+  Das vom Ereignis loszulÃ¶sende MenÃ¼.
 
-@Parameter "MenüEintrag"
-  Der Menüeintrag innerhalb des Menüs, von dem das Ereignis losgelöst werden soll.
+@Parameter "MenÃ¼Eintrag"
+  Der MenÃ¼eintrag innerhalb des MenÃ¼s, von dem das Ereignis losgelÃ¶st werden soll.
   
 @Parameter "@Callback()"
-  Die loszulösende Callback-Prozedur.
+  Die loszulÃ¶sende Callback-Prozedur.
   
 @NoReturnValue
 
@@ -1073,7 +1136,7 @@ Hinweis: @@WindowEvent und @@WaitWindowEvent sollten nie aus einem Callback hera
   BindMenuEvent(0, 0, @TestHandler())
   BindMenuEvent(0, 1, @QuitHandler())
   
-  UnbindMenuEvent(0, 1, @QuitHandler()) ; das Quit-Ereignis loslösen
+  UnbindMenuEvent(0, 1, @QuitHandler()) ; das Quit-Ereignis loslÃ¶sen
   
   Repeat
     Event = WaitWindowEvent()

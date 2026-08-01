@@ -73,26 +73,6 @@ IncludeFile "../Common.pb"
 #PB_OnError_PriviledgedInstruction = 31 ; SIGSYS
 #PB_OnError_DivideByZero           = -1 ; Windows only, linux reports SIGFPE instead here
 
-; Requester
-;
-#PB_MessageRequester_Ok          = 0
-#PB_MessageRequester_YesNo       = 1 << 0
-#PB_MessageRequester_YesNoCancel = 1 << 1
-#PB_MessageRequester_Info        = 1 << 2
-#PB_MessageRequester_Error       = 1 << 3
-#PB_MessageRequester_Warning     = 1 << 4
-
-; MessageRequester return value
-#PB_MessageRequester_Yes    = 6
-#PB_MessageRequester_No     = 7
-#PB_MessageRequester_Cancel = 2
-
-#PB_Requester_MultiSelection = 1
-
-#PB_InputRequester_Password = 1
-
-#PB_FontRequester_Effects = 0 ; TODO (#CF_EFFECTS)
-
 ; RunProgram
 ;
 #PB_Program_Wait     = 1
@@ -114,14 +94,6 @@ IncludeFile "../Common.pb"
 #PB_StatusBar_BorderLess = 2
 #PB_StatusBar_Center     = 4
 #PB_StatusBar_Right      = 8
-
-; Colors
-#PB_Gadget_FrontColor = 1
-#PB_Gadget_BackColor  = 2
-#PB_Gadget_LineColor  = 3
-#PB_Gadget_TitleFrontColor = 4
-#PB_Gadget_TitleBackColor  = 5
-#PB_Gadget_GrayTextColor   = 6
 
 #PB_Button_Default = $8
 #PB_Button_Left = $2
@@ -147,53 +119,11 @@ IncludeFile "../Common.pb"
 #PB_Calendar_Minimum = 1
 #PB_Calendar_Maximum = 2
 
-#PB_Container_BorderLess = 0
-#PB_Container_Flat       = 1
-#PB_Container_Raised     = 2
-#PB_Container_Single     = 4
-#PB_Container_Double     = 8
-
 #PB_Date_Calendar = 0  ; default
 #PB_Date_UpDown   = $1 ;DTS_UPDOWN
 #PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
 #PB_Date_Maximum  = 2
 #PB_Date_CheckBox = $2 ;DTS_SHOWNONE
-
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_NoMyDocuments       = 1 << 0
-
-; Flags for ExplorerTreeGadget and ExplorerViewGadget:
-#PB_Explorer_NoFiles             = 1 << 1
-#PB_Explorer_NoDriveRequester    = 1 << 2
-#PB_Explorer_AutoSort            = 1 << 3
-#PB_Explorer_BorderLess          = 1 << 4
-#PB_Explorer_AlwaysShowSelection = 1 << 5
-
-; ExplorerList only Flags:
-#PB_Explorer_NoParentFolder      = 1 << 6
-#PB_Explorer_NoFolders           = 1 << 7
-#PB_Explorer_NoDirectoryChange   = 1 << 8
-#PB_Explorer_NoSort              = 1 << 9
-#PB_Explorer_MultiSelect         = 1 << 10
-#PB_Explorer_GridLines           = 1 << 11
-#PB_Explorer_HeaderDragDrop      = 1 << 12
-#PB_Explorer_FullRowSelect       = 1 << 13
-
-; ExplorerTree only Flags:
-#PB_Explorer_NoLines             = 1 << 14
-#PB_Explorer_NoButtons           = 1 << 15
-
-; ExplorerCombo only Flags:
-#PB_Explorer_DrivesOnly          = 1 << 16
-#PB_Explorer_Editable            = 1 << 17
-
-; Common Flags for all Explorer[...]Gadgets:
-#PB_Explorer_HiddenFiles         = 1 << 18
-
-; Return values for Explorer:
-#PB_Explorer_File             = 1
-#PB_Explorer_Directory        = 2
-#PB_Explorer_Selected         = 4
 
 ; Explorerlist standart columns:
 #PB_Explorer_Name                = "PB_Explorer_Column_Name"
@@ -204,27 +134,8 @@ IncludeFile "../Common.pb"
 #PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
 #PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
 
-#PB_Explorer_ColumnWidth = 1 << 19
-
-#PB_Frame_Double   = 1
-#PB_Frame_Single   = 2
-#PB_Frame_Flat     = 3
-
 #PB_Image_Border = 1 << 0
 #PB_Image_Raised = 1 << 1
-
-
-#PB_ListIcon_MultiSelect = 1
-#PB_ListIcon_CheckBoxes = 2
-#PB_ListIcon_GridLines = 4
-#PB_ListIcon_ThreeState = 8
-#PB_ListIcon_HeaderDragDrop = 16
-#PB_ListIcon_AlwaysShowSelection = 0 ; NOT SUPPORTED
-CompilerIf Subsystem("qt")
-  #PB_ListIcon_FullRowSelect = 32
-CompilerElse
-  #PB_ListIcon_FullRowSelect = 0       ; NOT SUPPORTED
-CompilerEndIf
 
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2
@@ -247,11 +158,6 @@ CompilerEndIf
 #PB_MDI_ItemHeight              = 2
 #PB_MDI_SizedItem               = 1
 
-#PB_Panel_ItemWidth  = 1
-#PB_Panel_ItemHeight = 2
-#PB_Panel_TabHeight  = 3
-
-
 ; Flags
 ;
 #PB_ProgressBar_Smooth = $0
@@ -264,32 +170,6 @@ CompilerEndIf
 
 ; Flags
 ;
-#PB_ScrollArea_Flat = 1
-#PB_ScrollArea_Raised = 2
-#PB_ScrollArea_Single = 4
-#PB_ScrollArea_BorderLess = 8
-#PB_ScrollArea_Center = 16
-
-; Attributes
-;
-#PB_ScrollArea_InnerWidth = 1
-#PB_ScrollArea_InnerHeight = 2
-#PB_ScrollArea_X = 3
-#PB_ScrollArea_Y = 4
-#PB_ScrollArea_ScrollStep = 5
-
-; Flags
-;
-#PB_ScrollBar_Vertical = 1
-
-; Attributes
-;
-#PB_ScrollBar_Minimum    = 1
-#PB_ScrollBar_Maximum    = 2
-#PB_ScrollBar_PageLength = 3
-
-; Flags
-;
 #PB_Spin_ReadOnly =  4
 #PB_Spin_Numeric = 8
 
@@ -298,39 +178,9 @@ CompilerEndIf
 #PB_Spin_Minimum = 1
 #PB_Spin_Maximum = 2
 
-#PB_Editor_ReadOnly = 1
-#PB_Editor_WordWrap = 2
-
-#PB_Splitter_Vertical = 1
-#PB_Splitter_Separator = 2
-#PB_Splitter_FirstFixed = 4
-#PB_Splitter_SecondFixed = 8
-
-#PB_Splitter_FirstMinimumSize = 1
-#PB_Splitter_SecondMinimumSize = 2
-#PB_Splitter_FirstGadget = 3
-#PB_Splitter_SecondGadget = 4
-
-#PB_String_BorderLess = $20 ; supported for gtk2
-#PB_String_LowerCase = $8
-#PB_String_Numeric = $10
-#PB_String_Password = $1
-#PB_String_ReadOnly = $2
-#PB_String_UpperCase = $4
-
 #PB_Text_Border = $4
 #PB_Text_Center = $2
 #PB_Text_Right = $1
-
-; Flags
-;
-#PB_TrackBar_Ticks    = 1
-#PB_TrackBar_Vertical = 2
-
-; Attributes
-;
-#PB_TrackBar_Minimum = 1
-#PB_TrackBar_Maximum = 2
 
 #PB_Tree_AlwaysShowSelection = $0
 #PB_Tree_CheckBoxes = $4
@@ -345,8 +195,6 @@ CompilerEndIf
 #PB_Tree_Checked = 4
 #PB_Tree_Collapsed = 8
 #PB_Tree_Inbetween = 16
-
-#PB_HyperLink_Underline = 1
 
 ; Window
 ;

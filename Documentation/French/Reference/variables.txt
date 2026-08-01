@@ -1,25 +1,25 @@
-@Title Variables, Types et Opérateurs 
+ï»¿@Title Variables, Types et OpÃ©rateurs 
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
-    <td align="center" vAlign="center" nowrap><a href="#Déclaration"><u>Déclaration</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#DÃ©claration"><u>DÃ©claration</u></a></td>  
     <td align="center" vAlign="center" nowrap><a href="#Types basiques"><u>Types basiques</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#chaîne de caractères"><u>Chaîne de caractères</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#chaÃ®ne de caractÃ¨res"><u>ChaÃ®ne de caractÃ¨res</u></a></td>
   </tr>
   <tr>
-    <td align="center" vAlign="center" nowrap><a href="#Opérateurs"><u>Opérateurs logiques</u></a></td>  
-    <td align="center" vAlign="center" nowrap><a href="#Opérateurs raccourcis"><u>Opérateurs raccourcis</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#Priorité des opérateurs"><u>Priorité des opérateurs</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#OpÃ©rateurs"><u>OpÃ©rateurs logiques</u></a></td>  
+    <td align="center" vAlign="center" nowrap><a href="#OpÃ©rateurs raccourcis"><u>OpÃ©rateurs raccourcis</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#PrioritÃ© des opÃ©rateurs"><u>PrioritÃ© des opÃ©rateurs</u></a></td>
 </u></a></td>
   </tr>
   <tr>
-    <td align="center" vAlign="center" nowrap><a href="#Types structurés "><u>Types structurés</u></a></td> 
+    <td align="center" vAlign="center" nowrap><a href="#Types structurÃ©s "><u>Types structurÃ©s</u></a></td> 
     <td align="center" vAlign="center" nowrap><a href="#Types Pointeur"><u>Types Pointeur</u></a></td>
-    <td align="center" vAlign="center" nowrap><a href="#nombres flottants"><u>Problèmes des nombres flottants</u></a></td>
+    <td align="center" vAlign="center" nowrap><a href="#nombres flottants"><u>ProblÃ¨mes des nombres flottants</u></a></td>
   </tr>
     </table>
   </center>
@@ -27,29 +27,29 @@
 @FormatEndIf
 
 @FormatIf HTML
-<a name="Déclaration"></a>
+<a name="DÃ©claration"></a>
 @FormatEndIf
-@Section Déclaration des variables
+@Section DÃ©claration des variables
 
-  La déclaration d'une variable en PureBasic 
+  La dÃ©claration d'une variable en PureBasic 
   se fait en la nommant. Les variables n'ont 
-  pas besoin d'être explicitement déclarées 
-  et peuvent être utilisées "à la volée".
+  pas besoin d'Ãªtre explicitement dÃ©clarÃ©es 
+  et peuvent Ãªtre utilisÃ©es "Ã  la volÃ©e".
   @LineBreak 
-  Vous pouvez également spécifier le type que 
+  Vous pouvez Ã©galement spÃ©cifier le type que 
   vous souhaitez pour cette variable. 
-  Cependant, par défaut, une variable qui est déclarée sans 
-  indiquer son type de façon explicite sera considérée 
-  comme étant de type INTEGER.
+  Cependant, par dÃ©faut, une variable qui est dÃ©clarÃ©e sans 
+  indiquer son type de faÃ§on explicite sera considÃ©rÃ©e 
+  comme Ã©tant de type INTEGER.
   @LineBreak 
   Le mot clef @ReferenceLink "define" "Define"
-  peut être utilisé pour déclarer plusieurs 
-  variables sur une même ligne.
+  peut Ãªtre utilisÃ© pour dÃ©clarer plusieurs 
+  variables sur une mÃªme ligne.
 
 @Example 
 @Code  
-  vitesse.q ; Déclare une variable 'vitesse' du type quad (.q).
-  c.l = a*d.w ; 'd' est déclarée ici au milieu d'une expression et elle est de type word (.w) !
+  vitesse.q ; DÃ©clare une variable 'vitesse' du type quad (.q).
+  c.l = a*d.w ; 'd' est dÃ©clarÃ©e ici au milieu d'une expression et elle est de type word (.w) !
   Define.b a0, b0 = 10, c0 = b0*2, d0 
 @EndCode
 
@@ -59,14 +59,14 @@
   @Bold "Note:" 
   Les noms de variables ne peuvent pas commencer 
   par un chiffre (0, 1, etc.), ne peuvent pas contenir 
-  de caractères spéciaux(é, à, ß, ä, ö, ü, etc.) ni 
-  d'opérateurs (+, -, etc.). 
+  de caractÃ¨res spÃ©ciaux(Ã©, Ã , ÃŸ, Ã¤, Ã¶, Ã¼, etc.) ni 
+  d'opÃ©rateurs (+, -, etc.). 
   @LineBreak
   @LineBreak
   @Bold "Note:" 
   Si le contenu d'une variable ne change pas tout au 
-  long de l'exécution du programme (utilisation d'une
-  valeur fixe), il est préférable d'utiliser une 
+  long de l'exÃ©cution du programme (utilisation d'une
+  valeur fixe), il est prÃ©fÃ©rable d'utiliser une 
   @ReferenceLink "general_rules" "constante".
   
 @FormatIf HTML
@@ -77,11 +77,11 @@
 @FormatEndIf
 @Section Types basiques
 
-  PureBasic permet de définir des variables de 
+  PureBasic permet de dÃ©finir des variables de 
   plusieurs types comme les entiers, des 
-  nombres à virgule, des caractères (char)
-  et des chaînes de caractères aussi. @LineBreak
-  Voici la liste des types natifs supportés: 
+  nombres Ã  virgule, des caractÃ¨res (char)
+  et des chaÃ®nes de caractÃ¨res aussi. @LineBreak
+  Voici la liste des types natifs supportÃ©s: 
   @LineBreak
   @LineBreak
 
@@ -188,21 +188,21 @@
 
 @FixedFont
  
-    Nom        | Extension    | Taille en mémoire                  | Plage
+    Nom        | Extension    | Taille en mÃ©moire                  | Plage
   -------------+--------------+------------------------------------+----------------------------------------------
-  Byte         |    .b        | 1 octet                            | -128 à +127
-  Ascii        |    .a        | 1 octet                            | 0 à +255
-  Caractère    |    .c        | 2 octets                           | 0 à +65535
-  Word         |    .w        | 2 octets                           | -32768 à +32767
-  Unicode      |    .u        | 2 octets                           | 0 à +65535
-  Long         |    .l        | 4 octets                           | -2147483648 à +2147483647
-  Integer      |    .i        | 4 octets (avec compilateur 32-bit) | -2147483648 à +2147483647
-  Integer      |    .i        | 8 octets (avec compilateur 64-bit) | -9223372036854775808 à +9223372036854775807 
-  Float        |    .f        | 4 octets                           | illimité (voir ci-dessous)
-  Quad         |    .q        | 8 octets                           | -9223372036854775808 à +9223372036854775807
-  Double       |    .d        | 8 octets                           | illimité (voir ci-dessous)
-  String       |    .s        | longueur string+1                  | illimité
-  String Fixe  | .s{Longueur} | longueur string                    | illimité
+  Byte         |    .b        | 1 octet                            | -128 Ã  +127
+  Ascii        |    .a        | 1 octet                            | 0 Ã  +255
+  CaractÃ¨re    |    .c        | 2 octets                           | 0 Ã  +65535
+  Word         |    .w        | 2 octets                           | -32768 Ã  +32767
+  Unicode      |    .u        | 2 octets                           | 0 Ã  +65535
+  Long         |    .l        | 4 octets                           | -2147483648 Ã  +2147483647
+  Integer      |    .i        | 4 octets (avec compilateur 32-bit) | -2147483648 Ã  +2147483647
+  Integer      |    .i        | 8 octets (avec compilateur 64-bit) | -9223372036854775808 Ã  +9223372036854775807 
+  Float        |    .f        | 4 octets                           | illimitÃ© (voir ci-dessous)
+  Quad         |    .q        | 8 octets                           | -9223372036854775808 Ã  +9223372036854775807
+  Double       |    .d        | 8 octets                           | illimitÃ© (voir ci-dessous)
+  String       |    .s        | longueur string+1                  | illimitÃ©
+  String Fixe  | .s{Longueur} | longueur string                    | illimitÃ©
   
 @EndFixedFont
 
@@ -210,46 +210,46 @@
 
 @LineBreak
 @LineBreak
-  @Bold "> Types non-signés (.a, .u et .c):" @LineBreak
-  Purebasic offre des types non-signés 
+  @Bold "> Types non-signÃ©s (.a, .u et .c):" @LineBreak
+  Purebasic offre des types non-signÃ©s 
   pour les variables de type 'byte' 
   et 'word' au travers des types 
   'ascii' (.a) et 'unicode' (.u).
   @LineBreak
   Le type 'character'(.c) est 'word' 
-  non-signé en  mode 
+  non-signÃ© en  mode 
   @ReferenceLink "unicode" "unicode".
 @LineBreak
 @LineBreak
 @FormatIf HTML
-<a name="chaîne de caractères"></a>
+<a name="chaÃ®ne de caractÃ¨res"></a>
 @FormatEndIf
-  @Bold "> Notation des variables de type chaîne de caractères ($ et .s):" 
-  Généralement une chaîne de caractère 
-  se définie avec le type '.s' mais il 
+  @Bold "> Notation des variables de type chaÃ®ne de caractÃ¨res ($ et .s):" 
+  GÃ©nÃ©ralement une chaÃ®ne de caractÃ¨re 
+  se dÃ©finie avec le type '.s' mais il 
   est possible d'utiliser '@Bold "$"' comme 
-  dernier caractère d'une variable
+  dernier caractÃ¨re d'une variable
   pour indiquer qu'il s'agit d'une 
-  chaîne de caractères.
-  De cette façon vous pouvez utiliser 
+  chaÃ®ne de caractÃ¨res.
+  De cette faÃ§on vous pouvez utiliser 
   'a$' et 'a.s' qui sont alors deux 
-  variables différentes.
+  variables diffÃ©rentes.
 @LineBreak  
-  Vous devrez conserver le '$' à 
+  Vous devrez conserver le '$' Ã  
   la fin de la variable a$ contrairement 
   au '.s' de la variable a.s qui n'est 
-  nécessaire que pour sa déclaration.
+  nÃ©cessaire que pour sa dÃ©claration.
 
 @Code
-  a.s = "Une chaîne"
-  a$ = "Une autre chaîne"
-  Debug a   ; Affichera "Une chaîne"
-  Debug a$  ; Affichera "Une autre chaîne"
+  a.s = "Une chaÃ®ne"
+  a$ = "Une autre chaÃ®ne"
+  Debug a   ; Affichera "Une chaÃ®ne"
+  Debug a$  ; Affichera "Une autre chaÃ®ne"
 @EndCode
 
   @Bold "> Notation scientifique exponentielle (Ae+-B):" 
-  Les nombres à virgules (Float ou Double) 
-  peuvent être écrits sous la forme exponentielle:  
+  Les nombres Ã  virgules (Float ou Double) 
+  peuvent Ãªtre Ã©crits sous la forme exponentielle:  
 @Code
   valeur.d = 123.5e-20
   Debug valeur   ; affichera 0.000000000000000001235
@@ -259,20 +259,20 @@
 <br>
 <br>
 <hr>
-<a name="Opérateurs"></a>
+<a name="OpÃ©rateurs"></a>
 @FormatEndIf
-@Section Opérateurs
+@Section OpÃ©rateurs
 
-  Les opérateurs peuvent être intégrés 
+  Les opÃ©rateurs peuvent Ãªtre intÃ©grÃ©s 
   aux expressions pour combiner les 
   variables, constantes et tout ce qui 
-  est nécessaire.  @LineBreak 
+  est nÃ©cessaire.  @LineBreak 
   La table ci-dessous montre tous les 
-  opérateurs utilisables en PureBasic. 
+  opÃ©rateurs utilisables en PureBasic. 
   @LineBreak 
   @LineBreak 
-  @Bold "LHS" = Left Hand Side ou partie gauche de l'équation. @LineBreak
-  @Bold "RHS" = Right Hand Side ou partie droite de l'équation. @LineBreak
+  @Bold "LHS" = Left Hand Side ou partie gauche de l'Ã©quation. @LineBreak
+  @Bold "RHS" = Right Hand Side ou partie droite de l'Ã©quation. @LineBreak
   @LineBreak
 
 @FormatIf HTML WEBSITE
@@ -296,9 +296,9 @@
     </font>
     <br><br>
     Avec les cha&icirc;nes, '=' est utilis&eacute; aussi bien pour affecter une cha&icirc;ne que pour comparer deux cha&icirc;nes.<br> 
-    Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.<br>
+    Note: La comparaison entre deux cha&icirc;nes est sensible Ã  la casse.<br>
     <br><i><b>Exemple:</b></i><br>
-    <font face="Courier New, Courier, mono">a$ = b$ <font color="#006666">   ; Affecte le contenu de la cha&icirc;ne &quot;b$&quot; à la cha&icirc;ne &quot;a$&quot; </font><br>
+    <font face="Courier New, Courier, mono">a$ = b$ <font color="#006666">   ; Affecte le contenu de la cha&icirc;ne &quot;b$&quot; Ã  la cha&icirc;ne &quot;a$&quot; </font><br>
     <b><font color="#006666">If</font></b> a$ = b$ <font color="#006666">; Teste si les cha&icirc;nes a$ et b$ sont identiques.</font>
     </font>
     </font></td>
@@ -319,12 +319,12 @@
     est directement ajout&eacute;e &agrave; &quot;variable&quot;</font> 
     </font>
     <br><br>
-    Avec les cha&icirc;nes, '+' permet aussi de combiner le contenu de deux cha&icirc;nes, le r&eacute;sultat sera affect&eacute; &agrave la cha&icirc;ne &agrave; gauche de l'opérateur '=' 
-    ou sera directement affect&eacute; &agrave; la cha&icirc;ne de gauche. Les valeurs num&eacute;riques sont &eacute;galement accept&eacute;es combin&eacute; avec une chaîne. 
+    Avec les cha&icirc;nes, '+' permet aussi de combiner le contenu de deux cha&icirc;nes, le r&eacute;sultat sera affect&eacute; &agrave la cha&icirc;ne &agrave; gauche de l'opÃ©rateur '=' 
+    ou sera directement affect&eacute; &agrave; la cha&icirc;ne de gauche. Les valeurs num&eacute;riques sont &eacute;galement accept&eacute;es combin&eacute; avec une chaÃ®ne. 
     Cela se comporte comme Str, StrF ou StrD avec leurs valeurs par d&eacute;faut dans les param&egrave;tres optionnels.<br>
     <br><i><b>Example:</b></i><br>
     <font face="Courier New, Courier, mono">
-    a$ = b$ + " plus" <font color="#006666">; Combine le contenu de la cha&icirc;ne &quot;b$&quot; avec la cha&icirc;ne &quot; plus&quot; et affecte le tout à la cha&icirc;ne &quot;a$&quot;</font><br>
+    a$ = b$ + " plus" <font color="#006666">; Combine le contenu de la cha&icirc;ne &quot;b$&quot; avec la cha&icirc;ne &quot; plus&quot; et affecte le tout Ã  la cha&icirc;ne &quot;a$&quot;</font><br>
     a$ + b$ <font color="#006666">; Ajoute le contenu de la cha&icirc;ne b$ directement &agrave; la cha&icirc;ne a$.</font><br>
     a$ = b$ + 123 <font color="#006666">; Ici le 123 sera concat&eacute;n&eacute; en tant que cha&icirc;ne de caract&egrave;res.</font><br>
     </font></font></td>
@@ -408,7 +408,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="67"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -498,7 +498,7 @@
         <td width="0">
            <p>&nbsp;</p> 
         </td>
-        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="67"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -589,7 +589,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="67"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -675,7 +675,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="67"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -702,8 +702,8 @@
     <font face="Courier New, Courier, mono"> <font color="#006666">; La repr&eacute;sentation 
     binaire des valeurs est utilis&eacute;e pour une pr&eacute;sentation claire 
     et lisible</font><br>
-    a.b = ~%1000 <font color="#006666">; En théorie le r&eacute;sultat sera %0111 mais en r&eacute;alit&eacute; il sera %11110111 (= -9 car le 'byte' est sign&eacute;)</font><br>
-    b.b = ~%1010 <font color="#006666">; En théorie le r&eacute;sultat sera %0101 mais en r&eacute;alit&eacute; il sera %11110101 (= -11 car le 'byte' est sign&eacute;)</font><br>
+    a.b = ~%1000 <font color="#006666">; En thÃ©orie le r&eacute;sultat sera %0111 mais en r&eacute;alit&eacute; il sera %11110111 (= -9 car le 'byte' est sign&eacute;)</font><br>
+    b.b = ~%1010 <font color="#006666">; En thÃ©orie le r&eacute;sultat sera %0101 mais en r&eacute;alit&eacute; il sera %11110101 (= -11 car le 'byte' est sign&eacute;)</font><br>
     c.b = ~%0000 <font color="#006666">; Le r&eacute;sultat sera %11111111, soit -1 car c'est un nombre sign&eacute;</font><br>
     d.a=%11111111<br>
     e.a=~d <font color="#006666">; Affiche 0 car c'est un nombre non sign&eacute;</font><br>
@@ -732,10 +732,10 @@
     <br><i><b>Exemple:</b></i><br>
     <font face="Courier New, Courier, mono">
     <b><font color="#006666">If</font></b> a &lt; b <font color="#006666">; Teste si la valeur de a est plus petite que la valeur de b,
-    et utilise le résultat dans la commande If</font>
+    et utilise le rÃ©sultat dans la commande If</font>
     </font>
     <br>
-    <br>Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.
+    <br>Note: La comparaison entre deux cha&icirc;nes est sensible Ã  la casse.
     </font></td>
 </tr>
 
@@ -748,10 +748,10 @@
     <br><i><b>Exemple:</b></i><br>
     <font face="Courier New, Courier, mono">
     <b><font color="#006666">If</font></b> a &gt; b <font color="#006666">; Teste si la valeur de a est plus grande que la valeur de b,
-    et utilise le résultat dans la commande If</font>
+    et utilise le rÃ©sultat dans la commande If</font>
     </font>
     <br>
-    <br>Note: La comparaison entre deux cha&icirc;nes est sensible à la casse.
+    <br>Note: La comparaison entre deux cha&icirc;nes est sensible Ã  la casse.
     </font></td>    
 </tr>
 
@@ -799,7 +799,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="83"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -874,7 +874,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="83"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -949,7 +949,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="83"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="83"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -1011,8 +1011,8 @@
 
 <tr>
     <td><div align="center">Not</div></td>
-    <td><font face="Arial" size="2"><b>NOT</b>Le résultat de cet opérateur sera la négation de l'expression RHS.
-    Cet opérateur ne fonctionne pas avec les strings.<br>
+    <td><font face="Arial" size="2"><b>NOT</b>Le rÃ©sultat de cet opÃ©rateur sera la nÃ©gation de l'expression RHS.
+    Cet opÃ©rateur ne fonctionne pas avec les strings.<br>
     <br>
 <table align="center" border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
     <tr>
@@ -1021,7 +1021,7 @@
         <td width="0">
             <p>&nbsp;</p>
         </td>
-        <td width="67"><p align="center"><font size="3" face="Arial">Résultat</font></p>
+        <td width="67"><p align="center"><font size="3" face="Arial">RÃ©sultat</font></p>
         </td>
     </tr>
     <tr>
@@ -1051,33 +1051,33 @@
 
 <tr>
     <td><div align="center">&lt;&lt;</div></td>
-    <td><font face="Arial" size="2"><b>Décalage à gauche</b>. Décale vers la gauche les bits du nombre LHS de RHS places. Decaler les bits vers la gauche revient à faire une multiplication par un multiple de 2. Il est conseillé de bien comprendre les opérations binaires avant d'utiliser cet opérateur.<br>
+    <td><font face="Arial" size="2"><b>DÃ©calage Ã  gauche</b>. DÃ©cale vers la gauche les bits du nombre LHS de RHS places. Decaler les bits vers la gauche revient Ã  faire une multiplication par un multiple de 2. Il est conseillÃ© de bien comprendre les opÃ©rations binaires avant d'utiliser cet opÃ©rateur.<br>
 
     <br><i><b>Exemple:</b></i><br>
     <font face="Courier New, Courier, mono">
     a=%1011 &lt;&lt; 1 <font color="#006666">; La valeur de 'a' sera %10110. (en decimal: %1011=11 et %10110=22)</font><br>
     b=%111 &lt;&lt; 4 <font color="#006666">; La valeur de 'b' sera %1110000. (en decimal: %111=7 et %1110000=112)</font><br>
 
-    c.l=$80000000 &lt;&lt; 1 <font color="#006666">; La valeur de 'c' sera 0. Les bits supérieurs sont perdus car ils dépassent la capacité du type.</font><br>
+    c.l=$80000000 &lt;&lt; 1 <font color="#006666">; La valeur de 'c' sera 0. Les bits supÃ©rieurs sont perdus car ils dÃ©passent la capacitÃ© du type.</font><br>
     </font></font></td>
 </tr>
     
 <tr>
     <td><div align="center">&gt;&gt;</div></td>
-    <td><font face="Arial" size="2"><b>Décalage à droite</b>. Décale vers la droite les bits du nombre LHS de RHS places. Décaler les bits vers la droite revient à faire une division par un multiple de 2. Il est conseillé de bien comprendre les opérations binaires avant d'utiliser cet opérateur.<br>
+    <td><font face="Arial" size="2"><b>DÃ©calage Ã  droite</b>. DÃ©cale vers la droite les bits du nombre LHS de RHS places. DÃ©caler les bits vers la droite revient Ã  faire une division par un multiple de 2. Il est conseillÃ© de bien comprendre les opÃ©rations binaires avant d'utiliser cet opÃ©rateur.<br>
 
     <br><i><b>Exemple:</b></i><br>
     <font face="Courier New, Courier, mono">
     d=16 &gt;&gt; 1 <font color="#006666">; La valeur de 'd' sera 8. (en binaire: 16=%10000 et 8=%1000)</font><br>
-    e.w=%10101010 &gt;&gt; 4 <font color="#006666">; La valeur de 'e' sera %1010. (en décimal: %10101010=170 et %1010=10). </font><br>
+    e.w=%10101010 &gt;&gt; 4 <font color="#006666">; La valeur de 'e' sera %1010. (en dÃ©cimal: %10101010=170 et %1010=10). </font><br>
 
-    f.b=-128 &gt;&gt; 1 <font color="#006666">; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du décalage, le bit le plus fort reste (conservation du signe).</font><br>
+    f.b=-128 &gt;&gt; 1 <font color="#006666">; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du dÃ©calage, le bit le plus fort reste (conservation du signe).</font><br>
     </font></font></td>
 </tr>
 
 <tr>
     <td><div align="center">%</div></td>
-    <td><font face="Arial" size="2"><b>Modulo</b>. Calcule le reste de la division entière de RHS par LHS.<br>
+    <td><font face="Arial" size="2"><b>Modulo</b>. Calcule le reste de la division entiÃ¨re de RHS par LHS.<br>
     <br><i><b>Exemple:</b></i><br>
     <font face="Courier New, Courier, mono">
     a=16 % 2 <font color="#006666">; La valeur sera 0 car 16/2 = 8 (aucun reste)</font><br>
@@ -1089,93 +1089,93 @@
 
 @FormatElse
   
-@Section Opérateur = (Egal) 
+@Section OpÃ©rateur = (Egal) 
 
-  Peut être utilisé suivant deux acceptions. La première est pour l'affectation de la variable LHS à 
-  la valeur résultat de l'expression RHS. La seconde signification est l'utilisation dans une expression 
-  de comparaison entre LHS et RHS. Si le résultat de LHS est identique au résultat de RHS la valeur 'vrai' 
-  sera retournée sinon se sera la valeur 'faux'.
+  Peut Ãªtre utilisÃ© suivant deux acceptions. La premiÃ¨re est pour l'affectation de la variable LHS Ã  
+  la valeur rÃ©sultat de l'expression RHS. La seconde signification est l'utilisation dans une expression 
+  de comparaison entre LHS et RHS. Si le rÃ©sultat de LHS est identique au rÃ©sultat de RHS la valeur 'vrai' 
+  sera retournÃ©e sinon se sera la valeur 'faux'.
   
   @Example
 
 @Code
-  a=b+c ; Affecte la valeur de "b+c" à la variable "a"
-  If abc=def ; Teste si les valeurs de abc et def sont identiques et utilise le résultat dans la commande If
+  a=b+c ; Affecte la valeur de "b+c" Ã  la variable "a"
+  If abc=def ; Teste si les valeurs de abc et def sont identiques et utilise le rÃ©sultat dans la commande If
 @EndCode  
   
 
-@Section Opérateur + (Plus)
+@Section OpÃ©rateur + (Plus)
 
-  Donne le résultat de la valeur de l'expression RHS ajoutée à la valeur de l'expression LHS. 
-  Si le résultat de cet opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la 
-  valeur de l'expression RHS sera directement ajoutée à la valeur LHS.
+  Donne le rÃ©sultat de la valeur de l'expression RHS ajoutÃ©e Ã  la valeur de l'expression LHS. 
+  Si le rÃ©sultat de cet opÃ©rateur n'est pas utilisÃ© et qu'il y a une variable LHS, alors la 
+  valeur de l'expression RHS sera directement ajoutÃ©e Ã  la valeur LHS.
   
   @Example
 
 @Code
-  nombre=mavaleur+2 ; Ajoute la valeur 2 à "mavaleur" et utilise le résultat avec l'opérateur =
-  variable+expression ; La valeur de "expression" est directement ajoutée à "variable"
+  nombre=mavaleur+2 ; Ajoute la valeur 2 Ã  "mavaleur" et utilise le rÃ©sultat avec l'opÃ©rateur =
+  variable+expression ; La valeur de "expression" est directement ajoutÃ©e Ã  "variable"
 @EndCode
 
 
-@Section Opérateur - (Moins) 
+@Section OpÃ©rateur - (Moins) 
 
   Soustrait la valeur de l'expression RHS de la valeur de l'expression LHS. S'il n'y a 
-  pas d'expression LHS l'opérateur prend la valeur négative de la valeur RHS. Si le 
-  résultat de l'opérateur n'est pas utilisé et qu'il n'y a pas de variable LHS, alors la 
-  valeur de RHS est directement soustraite à la valeur de la variable LHS. Cet opérateur
-  ne peut être utilisé avec les variables de type chaîne.
+  pas d'expression LHS l'opÃ©rateur prend la valeur nÃ©gative de la valeur RHS. Si le 
+  rÃ©sultat de l'opÃ©rateur n'est pas utilisÃ© et qu'il n'y a pas de variable LHS, alors la 
+  valeur de RHS est directement soustraite Ã  la valeur de la variable LHS. Cet opÃ©rateur
+  ne peut Ãªtre utilisÃ© avec les variables de type chaÃ®ne.
  
   @Example
 
 @Code
-  var=#MaConstante-chose; Soustrait la valeur de "chose" de "#MyConstant" et utilise le résultat avec l'opérateur égal.
-  uneautre=uneautre+ -var ; Calcule la valeur négative de "var" et utilise le résultat avec l'opérateur +.
-  variable-expression ; La valeur "expression" est directement soustraite à "variable"
+  var=#MaConstante-chose; Soustrait la valeur de "chose" de "#MyConstant" et utilise le rÃ©sultat avec l'opÃ©rateur Ã©gal.
+  uneautre=uneautre+ -var ; Calcule la valeur nÃ©gative de "var" et utilise le rÃ©sultat avec l'opÃ©rateur +.
+  variable-expression ; La valeur "expression" est directement soustraite Ã  "variable"
 @EndCode
 
 
-@Section Opérateur * (Multiplication)
+@Section OpÃ©rateur * (Multiplication)
 
-  Multiplie la valeur de l'expression LHS par la valeur de RHS. Si le résultat de 
-  l'opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la valeur de 
-  la variable est directement multipliée par la valeur de l'expression RHS. Cet 
-  opérateur ne peut être utilisé dans une variable de type chaine.
+  Multiplie la valeur de l'expression LHS par la valeur de RHS. Si le rÃ©sultat de 
+  l'opÃ©rateur n'est pas utilisÃ© et qu'il y a une variable LHS, alors la valeur de 
+  la variable est directement multipliÃ©e par la valeur de l'expression RHS. Cet 
+  opÃ©rateur ne peut Ãªtre utilisÃ© dans une variable de type chaine.
   
   @Example
 
 @Code
-  total=prix*quantite ; Multiplie la valeur de "prix" par la valeur de "quantite" et utilise le résultat avec l'opérateur =
-  variable*expression ; "variable" est multiplé directement par la valeur de "expression"
+  total=prix*quantite ; Multiplie la valeur de "prix" par la valeur de "quantite" et utilise le rÃ©sultat avec l'opÃ©rateur =
+  variable*expression ; "variable" est multiplÃ© directement par la valeur de "expression"
 @EndCode
 
 
-@Section Opérateur / (Division)
+@Section OpÃ©rateur / (Division)
 
-  Divise la valeur de l'expression LHS par la valeur de l'expression RHS. Si le résultat 
-  de l'opérateur n'est pas utilisé et qu'il y a une variable LHS, alors la valeur de la 
-  variable est directement divisée par la valeur de l'expression RHS. Cet opérateur ne peut 
-  être utilisé dans les variables de type chaine.
+  Divise la valeur de l'expression LHS par la valeur de l'expression RHS. Si le rÃ©sultat 
+  de l'opÃ©rateur n'est pas utilisÃ© et qu'il y a une variable LHS, alors la valeur de la 
+  variable est directement divisÃ©e par la valeur de l'expression RHS. Cet opÃ©rateur ne peut 
+  Ãªtre utilisÃ© dans les variables de type chaine.
   
   @Example
   
 @Code  
-  quantite=total/prix ; Divise la valeur "total" par la valeur "prix" et utilise le résultat avec l'opérateur =
-  variable/expression ; "variable" est directement divisé par la valeur "expression"
+  quantite=total/prix ; Divise la valeur "total" par la valeur "prix" et utilise le rÃ©sultat avec l'opÃ©rateur =
+  variable/expression ; "variable" est directement divisÃ© par la valeur "expression"
 @EndCode
 
 
-@Section Opérateur & (AND est un ET logique (binaire))
+@Section OpÃ©rateur & (AND est un ET logique (binaire))
 
-  Il vous faut être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
-  Le résultat de cet opérateur est le résultat d'un ET logique entre les valeurs des 
-  expressions LHS et RHS, bit à bit. La valeur de chaque bit résultant est fixée comme 
-  indiqué dans la table ci-dessous. De plus, si le résultat de l'opérateur n'est pas utilisé 
-  et qu'il y a une variable LHS, alors le résultat sera directement stocké dans cette variable. 
-  Cet opérateur ne peut être utilisé avec une variable de type chaîne.
+  Il vous faut Ãªtre familiarisÃ© avec les nombres binaires pour utiliser cet opÃ©rateur. 
+  Le rÃ©sultat de cet opÃ©rateur est le rÃ©sultat d'un ET logique entre les valeurs des 
+  expressions LHS et RHS, bit Ã  bit. La valeur de chaque bit rÃ©sultant est fixÃ©e comme 
+  indiquÃ© dans la table ci-dessous. De plus, si le rÃ©sultat de l'opÃ©rateur n'est pas utilisÃ© 
+  et qu'il y a une variable LHS, alors le rÃ©sultat sera directement stockÃ© dans cette variable. 
+  Cet opÃ©rateur ne peut Ãªtre utilisÃ© avec une variable de type chaÃ®ne.
 
 @FixedFont
-LHS | RHS |Résultat
+LHS | RHS |RÃ©sultat
 ------------------
  0  |  0  |    0
  0  |  1  |    0
@@ -1186,25 +1186,25 @@ LHS | RHS |Résultat
     @Example
 
 @Code
-  ; La représentation binaire des valeurs est utilisée pour une présentation plus claire et lisible
-  a.w = %1000 & %0101 ; Le résultat sera 0
-  b.w = %1100 & %1010 ; Le résutlat sera %1000
-  bits = a & b ; Effectue un ET bit à bit entre a et b et utilise le résultat avec l'opérateur =
-  a & b ; Effectue un ET bit à bit entre a et b et place le résultat directement dans la variable "a"
+  ; La reprÃ©sentation binaire des valeurs est utilisÃ©e pour une prÃ©sentation plus claire et lisible
+  a.w = %1000 & %0101 ; Le rÃ©sultat sera 0
+  b.w = %1100 & %1010 ; Le rÃ©sutlat sera %1000
+  bits = a & b ; Effectue un ET bit Ã  bit entre a et b et utilise le rÃ©sultat avec l'opÃ©rateur =
+  a & b ; Effectue un ET bit Ã  bit entre a et b et place le rÃ©sultat directement dans la variable "a"
 @EndCode
 
 
-@Section Opérateur | (OR est un OU logique (binaire)) 
+@Section OpÃ©rateur | (OR est un OU logique (binaire)) 
 
-  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
-  Le résultat de cet opérateur est le résultat d'un OU logique entre les valeurs des 
-  expressions LHS et RHS bit à bit. La valeur de chaque bit résultant est fixée comme 
-  indiqué dans la table ci-dessous. De plus, si le résultat de l'opérateur n'est pas 
-  utilisé et qu'il et qu'il y a une variable LHS alors le résultat est directement stocké 
-  dans cette variable. Cet opérateur ne peut être utilisé avec une variable de type chaîne.
+  Vous devez Ãªtre familiarisÃ© avec les nombres binaires pour utiliser cet opÃ©rateur. 
+  Le rÃ©sultat de cet opÃ©rateur est le rÃ©sultat d'un OU logique entre les valeurs des 
+  expressions LHS et RHS bit Ã  bit. La valeur de chaque bit rÃ©sultant est fixÃ©e comme 
+  indiquÃ© dans la table ci-dessous. De plus, si le rÃ©sultat de l'opÃ©rateur n'est pas 
+  utilisÃ© et qu'il et qu'il y a une variable LHS alors le rÃ©sultat est directement stockÃ© 
+  dans cette variable. Cet opÃ©rateur ne peut Ãªtre utilisÃ© avec une variable de type chaÃ®ne.
 
 @FixedFont
-LHS | RHS |Résultat
+LHS | RHS |RÃ©sultat
 ------------------
  0  |  0  |    0
  0  |  1  |    1
@@ -1215,25 +1215,25 @@ LHS | RHS |Résultat
     @Example
 
 @Code    
-  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
-  a.w = %1000 | %0101 ; Le résultat sera %1101
-  b.w = %1100 | %1010 ; Le résultat sera %1110
-  bits = a | b ; Effectue un OU bit à bit entre a et b et utilise le résultat avec l'opérateur =
-  a | b ; Effectue un OU bit à bit entre a et b et place le résultat directement dans la variable "a"
+  ; La reprÃ©sentation binaire des valeurs est utilisÃ©e pour une prÃ©sentation claire et lisible
+  a.w = %1000 | %0101 ; Le rÃ©sultat sera %1101
+  b.w = %1100 | %1010 ; Le rÃ©sultat sera %1110
+  bits = a | b ; Effectue un OU bit Ã  bit entre a et b et utilise le rÃ©sultat avec l'opÃ©rateur =
+  a | b ; Effectue un OU bit Ã  bit entre a et b et place le rÃ©sultat directement dans la variable "a"
 @EndCode
 
 
-@Section Opérateur ! (XOR est un OU exclusif logique (binaire))
+@Section OpÃ©rateur ! (XOR est un OU exclusif logique (binaire))
 
-  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
-  Le résultat de cet opérateur est le résultat d'un OU Exclusif entre les valeurs LHS et 
-  RHS bit à bit. La valeur de chaque bit résultant est fixée comme indiqué dans la table 
-  ci-dessous. De plus, si le résultat de l'opérateur n'est pas utilisé et qu'il y a 
-  une variable LHS alors le résultat est directement stocké dans cette variable. Cet opérateur 
-  ne peut être utilisé avec une variable de type chaîne.
+  Vous devez Ãªtre familiarisÃ© avec les nombres binaires pour utiliser cet opÃ©rateur. 
+  Le rÃ©sultat de cet opÃ©rateur est le rÃ©sultat d'un OU Exclusif entre les valeurs LHS et 
+  RHS bit Ã  bit. La valeur de chaque bit rÃ©sultant est fixÃ©e comme indiquÃ© dans la table 
+  ci-dessous. De plus, si le rÃ©sultat de l'opÃ©rateur n'est pas utilisÃ© et qu'il y a 
+  une variable LHS alors le rÃ©sultat est directement stockÃ© dans cette variable. Cet opÃ©rateur 
+  ne peut Ãªtre utilisÃ© avec une variable de type chaÃ®ne.
 
 @FixedFont
-LHS | RHS |Résultat
+LHS | RHS |RÃ©sultat
 ------------------
  0  |  0  |    0
  0  |  1  |    1
@@ -1244,23 +1244,23 @@ LHS | RHS |Résultat
   @Example
 
 @Code
-  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
-  a.w = %1000 ! %0101 ; Le résultat sera %1101
-  b.w = %1100 ! %1010 ; Le résultat sera %0110
-  bits = a ! b ; Effectue un OU Exclusif bit à bit entre a et b et utilise le résultat avec l'opérateur =
-  a ! b ; Effectue un OU Exclusif bit à bit entre a et b et place le résultat directement dans "a"
+  ; La reprÃ©sentation binaire des valeurs est utilisÃ©e pour une prÃ©sentation claire et lisible
+  a.w = %1000 ! %0101 ; Le rÃ©sultat sera %1101
+  b.w = %1100 ! %1010 ; Le rÃ©sultat sera %0110
+  bits = a ! b ; Effectue un OU Exclusif bit Ã  bit entre a et b et utilise le rÃ©sultat avec l'opÃ©rateur =
+  a ! b ; Effectue un OU Exclusif bit Ã  bit entre a et b et place le rÃ©sultat directement dans "a"
 @EndCode
 
 
-@Section Opérateur ~ (NON inversion logique (binaire))
+@Section OpÃ©rateur ~ (NON inversion logique (binaire))
 
-  Vous devez être familiarisé avec les nombres binaires pour utiliser cet opérateur. 
-  Le résultat de cet opérateur est une inversion bit à bit de la valeur RHS. La valeur 
-  de chaque bit est fixée comme indiqué dans la table ci-dessous. Cet opérateur ne peut 
-  être utilisé avec une variable de type chaîne.
+  Vous devez Ãªtre familiarisÃ© avec les nombres binaires pour utiliser cet opÃ©rateur. 
+  Le rÃ©sultat de cet opÃ©rateur est une inversion bit Ã  bit de la valeur RHS. La valeur 
+  de chaque bit est fixÃ©e comme indiquÃ© dans la table ci-dessous. Cet opÃ©rateur ne peut 
+  Ãªtre utilisÃ© avec une variable de type chaÃ®ne.
 
 @FixedFont
-RHS |Résultat
+RHS |RÃ©sultat
 ----------
  0  |    1
  1  |    0
@@ -1269,66 +1269,66 @@ RHS |Résultat
   @Example
 
 @Code
-  ; La représentation binaire des valeurs est utilisée pour une présentation claire et lisible
-  a.w = ~%1000 ; Le résultat sera %0111
-  b.w = ~%1010 ; Le résultat sera %0101
+  ; La reprÃ©sentation binaire des valeurs est utilisÃ©e pour une prÃ©sentation claire et lisible
+  a.w = ~%1000 ; Le rÃ©sultat sera %0111
+  b.w = ~%1010 ; Le rÃ©sultat sera %0101
 @EndCode
 
 
-@Section () (Parenthèses)
+@Section () (ParenthÃ¨ses)
 
-  Vous pouvez utiliser les parenthèses pour forcer l'évaluation prioritaire 
-  d'une partie d'une expression ou modifier l'ordre d'évaluation.
+  Vous pouvez utiliser les parenthÃ¨ses pour forcer l'Ã©valuation prioritaire 
+  d'une partie d'une expression ou modifier l'ordre d'Ã©valuation.
   
   @Example
 
 @Code
-  a = (5 + 6) * 3 ; Le résultat est 33 car 5+6 est évalué en premier
-  b = 4 * (2 - (3 - 4)) ; Le résultat est 12 car 3-4 est évalué en premier, ensuite 2-résultat puis la mutiplication pour finir
+  a = (5 + 6) * 3 ; Le rÃ©sultat est 33 car 5+6 est Ã©valuÃ© en premier
+  b = 4 * (2 - (3 - 4)) ; Le rÃ©sultat est 12 car 3-4 est Ã©valuÃ© en premier, ensuite 2-rÃ©sultat puis la mutiplication pour finir
 @EndCode
 
 
-@Section < (Inférieur à)
+@Section < (InfÃ©rieur Ã )
 
-  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est plus 
-  petite que la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat est faux.
+  UtilisÃ© pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est plus 
+  petite que la valeur de RHS cet opÃ©rateur rend un rÃ©sultat vrai, sinon le rÃ©sultat est faux.
 
 
-@Section > (Supérieur à)
+@Section > (SupÃ©rieur Ã )
 
-  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
-  plus grande que la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat 
+  UtilisÃ© pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
+  plus grande que la valeur de RHS cet opÃ©rateur rend un rÃ©sultat vrai, sinon le rÃ©sultat 
   est faux.
   
 
-@Section <=, =<  (Inférieur ou égal à)
+@Section <=, =<  (InfÃ©rieur ou Ã©gal Ã )
 
-  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS 
-  est plus petite ou égale à la valeur de RHS cet opérateur rend un résultat vrai, 
-  sinon le résultat est faux.
+  UtilisÃ© pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS 
+  est plus petite ou Ã©gale Ã  la valeur de RHS cet opÃ©rateur rend un rÃ©sultat vrai, 
+  sinon le rÃ©sultat est faux.
 
 
-@Section >=, =>  (Supérieur ou égal à)
+@Section >=, =>  (SupÃ©rieur ou Ã©gal Ã )
 
-  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de 
-  LHS est plus grande ou égale à la valeur de RHS cet opérateur rend un résultat 
-  vrai, sinon le résultat est faux.
+  UtilisÃ© pour comparer les valeurs des expressions LHS et RHS. Si la valeur de 
+  LHS est plus grande ou Ã©gale Ã  la valeur de RHS cet opÃ©rateur rend un rÃ©sultat 
+  vrai, sinon le rÃ©sultat est faux.
   
   
-@Section <> (Différent) 
+@Section <> (DiffÃ©rent) 
 
-  Utilisé pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
-  différente de la valeur de RHS cet opérateur rend un résultat vrai, sinon le résultat 
+  UtilisÃ© pour comparer les valeurs des expressions LHS et RHS. Si la valeur de LHS est 
+  diffÃ©rente de la valeur de RHS cet opÃ©rateur rend un rÃ©sultat vrai, sinon le rÃ©sultat 
   est faux.
   
     
 @Section And (ET logique)
     
-  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
-  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+  Peut Ãªtre utilisÃ© pour combiner les rÃ©sultats vrais ou faux des opÃ©rateurs de comparaison 
+  en donnant un rÃ©sultat fixÃ© comme indiquÃ© dans la table ci-dessous.
 
 @FixedFont
-  LHS  |  RHS  |Résultat
+  LHS  |  RHS  |RÃ©sultat
 -----------------------
   faux |  faux |  faux
   faux |  vrai |  faux 
@@ -1339,11 +1339,11 @@ RHS |Résultat
   
 @Section Or (OU logique)
   
-  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
-  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+  Peut Ãªtre utilisÃ© pour combiner les rÃ©sultats vrais ou faux des opÃ©rateurs de comparaison 
+  en donnant un rÃ©sultat fixÃ© comme indiquÃ© dans la table ci-dessous.
 
 @FixedFont
-  LHS  |  RHS  | Résultat
+  LHS  |  RHS  | RÃ©sultat
 -------------------------
   faux |  faux |  faux
   faux |  vrai |  vrai
@@ -1354,11 +1354,11 @@ RHS |Résultat
 
 @Section Operator XOr (OU exclusif logique)
 
-  Peut être utilisé pour combiner les résultats vrais ou faux des opérateurs de comparaison 
-  en donnant un résultat fixé comme indiqué dans la table ci-dessous.
+  Peut Ãªtre utilisÃ© pour combiner les rÃ©sultats vrais ou faux des opÃ©rateurs de comparaison 
+  en donnant un rÃ©sultat fixÃ© comme indiquÃ© dans la table ci-dessous.
 
 @FixedFont
-  LHS |  RHS | Résultat
+  LHS |  RHS | RÃ©sultat
 -----------------------
  faux | faux | faux
  faux | vrai | vrai
@@ -1368,50 +1368,50 @@ RHS |Résultat
 
 @Section Operator Not (NON logique)
 
-  Le résultat de cet opérateur sera la négation de l'expression RHS.
-  Cet opérateur ne fonctionne pas avec les strings.
+  Le rÃ©sultat de cet opÃ©rateur sera la nÃ©gation de l'expression RHS.
+  Cet opÃ©rateur ne fonctionne pas avec les strings.
 
 @FixedFont
-  RHS | Résultat
+  RHS | RÃ©sultat
 ----------------
  faux | vrai
  vrai | faux
 @EndFixedFont
 
   
-@Section Opérateur << (Décalage à gauche) 
+@Section OpÃ©rateur << (DÃ©calage Ã  gauche) 
   
-  Décale vers la gauche les bits du nombre LHS de RHS places. Décaler les bits vers la gauche 
-  revient à faire une multiplication par un multiple de 2. Il est conseillé de bien comprendre 
-  les opérations binaires avant d'utiliser cet opérateur.
+  DÃ©cale vers la gauche les bits du nombre LHS de RHS places. DÃ©caler les bits vers la gauche 
+  revient Ã  faire une multiplication par un multiple de 2. Il est conseillÃ© de bien comprendre 
+  les opÃ©rations binaires avant d'utiliser cet opÃ©rateur.
 
   @Example
 
 @Code  
   a=%1011 << 1 ; La valeur de 'a' sera %10110. (en decimal: %1011=11 et %10110=22)
   b=%111 << 4 ; La valeur de 'b' sera %1110000. (en decimal: %111=7 et %1110000=112)
-  c.l=$80000000 << 1 ; La valeur de 'c' sera 0. Les bits supérieurs sont perdus car ils dépassent la capacité du type.
+  c.l=$80000000 << 1 ; La valeur de 'c' sera 0. Les bits supÃ©rieurs sont perdus car ils dÃ©passent la capacitÃ© du type.
 @EndCode  
   
   
-@Section Opérateur >> (Décalage à droite)
+@Section OpÃ©rateur >> (DÃ©calage Ã  droite)
     
-  Décale vers la droite les bits du nombre LHS de RHS places. Décaler les bits vers la droite revient 
-  à faire une division par un multiple de 2. Il est conseillé de bien comprendre les opérations 
-  binaires avant d'utiliser cet opérateur.
+  DÃ©cale vers la droite les bits du nombre LHS de RHS places. DÃ©caler les bits vers la droite revient 
+  Ã  faire une division par un multiple de 2. Il est conseillÃ© de bien comprendre les opÃ©rations 
+  binaires avant d'utiliser cet opÃ©rateur.
 
   @Example
 
 @Code  
   d=16 >> 1 ; La valeur de 'd' sera 8. (en binaire: 16=%10000 et 8=%1000)
-  e.w=%10101010 >> 4 ; La valeur de 'e' sera %1010. (en décimal: %10101010=170 et %1010=10).
-  f.b=-128 >> 1 ; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du décalage, le bit le plus fort reste (conservation du signe).
+  e.w=%10101010 >> 4 ; La valeur de 'e' sera %1010. (en dÃ©cimal: %10101010=170 et %1010=10).
+  f.b=-128 >> 1 ; La valeur de 'f' sera -64. -128=%10000000, -64=%11000000. Lors du dÃ©calage, le bit le plus fort reste (conservation du signe).
 @EndCode  
   
 
-@Section Opérateur % (Modulo)
+@Section OpÃ©rateur % (Modulo)
  
-  Calcule le reste de la division entière de RHS par LHS.
+  Calcule le reste de la division entiÃ¨re de RHS par LHS.
 
   @Example
   
@@ -1428,45 +1428,45 @@ RHS |Résultat
 <br>
 <br>
 <hr>
-<a name="Opérateurs raccourcis"></a>
+<a name="OpÃ©rateurs raccourcis"></a>
 @FormatEndIf
-@Section Opérateurs raccourcis
+@Section OpÃ©rateurs raccourcis
 
-  Tous les opérateurs mathématiques peuvent être utilisés sous une forme abrégée.
+  Tous les opÃ©rateurs mathÃ©matiques peuvent Ãªtre utilisÃ©s sous une forme abrÃ©gÃ©e.
 
 @Example
 @Code
-  Valeur + 1   ; Equivaut à : Valeur = Valeur + 1
-  Valeur * 2   ; Equivaut à : Valeur = Valeur * 2
-  Valeur << 1  ; Equivaut à : Valeur = Valeur << 1
+  Valeur + 1   ; Equivaut Ã  : Valeur = Valeur + 1
+  Valeur * 2   ; Equivaut Ã  : Valeur = Valeur * 2
+  Valeur << 1  ; Equivaut Ã  : Valeur = Valeur << 1
 @EndCode
   
-  Note: Cela peut conduire à des résultats "imprévus" dans quelques rares cas, 
-  si l'assignement est modifiée avant l'affection.
+  Note: Cela peut conduire Ã  des rÃ©sultats "imprÃ©vus" dans quelques rares cas, 
+  si l'assignement est modifiÃ©e avant l'affection.
 
 @Example
 @Code
   Dim MonTableau(10)
-  MonTableau(Random(10)) + 1 ; Equivaut à: MonTableau(Random(10)) = MonTableau(Random(10)) + 1, mais ici Random() ne renverra pas la même valeur à chaque appel.
+  MonTableau(Random(10)) + 1 ; Equivaut Ã : MonTableau(Random(10)) = MonTableau(Random(10)) + 1, mais ici Random() ne renverra pas la mÃªme valeur Ã  chaque appel.
 @EndCode
 
 @FormatIf HTML
 <br>
 <br>
 <hr>
-<a name="Priorité des opérateurs"></a>
+<a name="PrioritÃ© des opÃ©rateurs"></a>
 @FormatEndIf
-@Section Priorité des opérateurs
+@Section PrioritÃ© des opÃ©rateurs
 
 @FormatIf HTML WEBSITE 
 
 <table  align="center" border="1" width="383" cellspacing="0" bordercolordark="white" bordercolorlight="black">
     <tr>
         <td width="191" height="28">
-            <p align="center">&nbsp;Niveau de priorité</p>
+            <p align="center">&nbsp;Niveau de prioritÃ©</p>
         </td>
         <td width="176" height="28">
-            <p align="center">Opérateurs</p>
+            <p align="center">OpÃ©rateurs</p>
         </td>
     </tr>
     <tr>
@@ -1541,9 +1541,9 @@ RHS |Résultat
 
 @FormatElse
 @FixedFont
-  Niveau de Priorité |     Opérateurs
+  Niveau de PrioritÃ© |     OpÃ©rateurs
   -------------------+-----------------------------
-       8 (haut)      |      ~, - (ici - est le négatif)
+       8 (haut)      |      ~, - (ici - est le nÃ©gatif)
        7             |    <<, >>, %, !
        6             |       |, &
        5             |       *, /
@@ -1559,11 +1559,11 @@ RHS |Résultat
 <br>
 <br>
 <hr>
-<a name="Types structurés"></a>
+<a name="Types structurÃ©s"></a>
 @FormatEndIf
-@Section Types structurés
+@Section Types structurÃ©s
 
-  Les types structurés peuvent être définis avec les options propres aux structures. Voyez le 
+  Les types structurÃ©s peuvent Ãªtre dÃ©finis avec les options propres aux structures. Voyez le 
   @ReferenceLink Structures "chapitre structures" pour plus d'informations.
 
 @FormatIf HTML
@@ -1574,8 +1574,8 @@ RHS |Résultat
 @FormatEndIf
 @Section Types Pointeur 
  
-  Les pointeurs sont déclarés avec un '*' devant le nom de la variable. Plus d'informations 
-  peuvent être trouvées dans le @ReferenceLink "memory" "chapitre pointeurs".
+  Les pointeurs sont dÃ©clarÃ©s avec un '*' devant le nom de la variable. Plus d'informations 
+  peuvent Ãªtre trouvÃ©es dans le @ReferenceLink "memory" "chapitre pointeurs".
 
 @FormatIf HTML
 <br>
@@ -1585,32 +1585,32 @@ RHS |Résultat
 @FormatEndIf
 @Section Informations concernant les nombres flottants
 
-  Un nombre flottant est stocké de telle manière que la 'virgule flotte' autour de la partie réelle. 
-  De la sorte, il est possible d'avoir des nombres dont la valeur peut être aussi bien grande que petite. 
-  Toutefois vous ne pouvez pas stocker de grands nombres avec une précision aussi élevée que des petits nombres. 
+  Un nombre flottant est stockÃ© de telle maniÃ¨re que la 'virgule flotte' autour de la partie rÃ©elle. 
+  De la sorte, il est possible d'avoir des nombres dont la valeur peut Ãªtre aussi bien grande que petite. 
+  Toutefois vous ne pouvez pas stocker de grands nombres avec une prÃ©cision aussi Ã©levÃ©e que des petits nombres. 
   @LineBreak
   @LineBreak
-  Une autre limitation concernant les nombres flottants est qu'ils restent concrètement représentés sous 
-  une forme binaire. Ainsi, ils ne peuvent être restitués qu'à partir de multiples et de divisions 
-  en base 2. Celà est important pour comprendre que la représentation décimale lors de l'affichage ou du calcul 
-  n'est pas tout à fait identique à ce que l'on peut attendre dans une représentation humaine. Représenter 0.5 
+  Une autre limitation concernant les nombres flottants est qu'ils restent concrÃ¨tement reprÃ©sentÃ©s sous 
+  une forme binaire. Ainsi, ils ne peuvent Ãªtre restituÃ©s qu'Ã  partir de multiples et de divisions 
+  en base 2. CelÃ  est important pour comprendre que la reprÃ©sentation dÃ©cimale lors de l'affichage ou du calcul 
+  n'est pas tout Ã  fait identique Ã  ce que l'on peut attendre dans une reprÃ©sentation humaine. ReprÃ©senter 0.5 
   ou 0.125 est simple car ce sont des divisions parfaites de 2, cela est plus complexe pour des 
-  nombres comme 0.11 ou 0.10999999. L'affichage approché de la valeur est toujours correct à un nombre 
-  limité de décimales, mais ne soyez pas surpris si au-delà le nombre affiché s'écarte de la valeur que vous attendez! 
+  nombres comme 0.11 ou 0.10999999. L'affichage approchÃ© de la valeur est toujours correct Ã  un nombre 
+  limitÃ© de dÃ©cimales, mais ne soyez pas surpris si au-delÃ  le nombre affichÃ© s'Ã©carte de la valeur que vous attendez! 
   @LineBreak
   @LineBreak
-  Ces remarques s'appliquent aux nombres flottants traités par ordinateur d'une manière générale et non 
-  spécifiquement à Purebasic.
+  Ces remarques s'appliquent aux nombres flottants traitÃ©s par ordinateur d'une maniÃ¨re gÃ©nÃ©rale et non 
+  spÃ©cifiquement Ã  Purebasic.
   @LineBreak
   @LineBreak
   Comme leur nom l'indique, les 'doubles' sont des flottants 'double-precision' (64-bit) comparativement aux flottants
-  'simple-precision' que sont les floats (32-bit). Donc, pour avoir plus de précision dans la manipulation des
-  nombres à virgule, il est préférable d'utiliser les 'doubles'.
+  'simple-precision' que sont les floats (32-bit). Donc, pour avoir plus de prÃ©cision dans la manipulation des
+  nombres Ã  virgule, il est prÃ©fÃ©rable d'utiliser les 'doubles'.
   @LineBreak
   @LineBreak
   @Indent
-    Float : De +- 1.175494e-38 à +- 3.402823e+38  @LineBreak
-    Double: De +-; 2.2250738585072013e-308 à +- 1.7976931348623157e+308 
+    Float : De +- 1.175494e-38 Ã  +- 3.402823e+38  @LineBreak
+    Double: De +-; 2.2250738585072013e-308 Ã  +- 1.7976931348623157e+308 
   @EndIndent
   @LineBreak
   @LineBreak  

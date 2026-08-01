@@ -1,10 +1,10 @@
-@Title Dim
+ï»¿@Title Dim
 
 @FormatIf HTML
   <p>&nbsp;</p>
   <center> 
   <table WIDTH="96%"  border="1" cellspacing="0" bordercolordark="white" bordercolorlight="black">
-  <caption> <b>Résumé des fonctions:</b> </caption>
+  <caption> <b>RÃ©sumÃ© des fonctions:</b> </caption>
   <tr>
     <td align="center" vAlign="center" nowrap><a href="#Dim"><u>Dim</u></a></td>
     <td align="center" vAlign="center" nowrap><a href="#ReDim"><u>ReDim</u></a></td>
@@ -27,53 +27,53 @@
 
 @Description
 
-  @Keyword Dim est utilisé pour créer un nouveau tableau. 
+  @Keyword Dim est utilisÃ© pour crÃ©er un nouveau tableau. 
   @LineBreak
   @LineBreak
-  Un tableau peut être composé d'éléments de @ReferenceLink "variables" type 
+  Un tableau peut Ãªtre composÃ© d'Ã©lÃ©ments de @ReferenceLink "variables" type 
   @ReferenceLink "general_rules" "basique" connus sous PureBasic, incluant les 
-  @ReferenceLink "Structures" et les types définis par l'utilisateur. @LineBreak
-  Attention : Les éléments d'un tableau doivent tous être de même type.@LineBreak
-  Une fois le tableau créé, il peut être redimensionné avec @ReferenceLink "dim" "ReDim".@LineBreak
-  Pour afficher toutes les commandes utilisées pour gérer les tableaux, reportez-vous à la 
-  bibliothèque @LibraryLink "Array" "Array".  
+  @ReferenceLink "Structures" et les types dÃ©finis par l'utilisateur. @LineBreak
+  Attention : Les Ã©lÃ©ments d'un tableau doivent tous Ãªtre de mÃªme type.@LineBreak
+  Une fois le tableau crÃ©Ã©, il peut Ãªtre redimensionnÃ© avec @ReferenceLink "dim" "ReDim".@LineBreak
+  Pour afficher toutes les commandes utilisÃ©es pour gÃ©rer les tableaux, reportez-vous Ã  la 
+  bibliothÃ¨que @LibraryLink "Array" "Array".  
   @LineBreak
   @LineBreak
-  Les tableaux sont alloués dynamiquement ce qui signifie que leur dimensionnement peut se 
-  faire à partir d'une variable ou d'une expression.
+  Les tableaux sont allouÃ©s dynamiquement ce qui signifie que leur dimensionnement peut se 
+  faire Ã  partir d'une variable ou d'une expression.
   @LineBreak
   @LineBreak
-  Attention, la numérotation des éléments dans PureBasic (comme dans les autres BASIC) 
-  commence à 0. Par exemple, le tableau @Keyword Dim(10) aura 11 éléments allant de 0 à 10.
+  Attention, la numÃ©rotation des Ã©lÃ©ments dans PureBasic (comme dans les autres BASIC) 
+  commence Ã  0. Par exemple, le tableau @Keyword Dim(10) aura 11 Ã©lÃ©ments allant de 0 Ã  10.
   @LineBreak
-  Ce comportement est différent pour les tableaux statiques spécifiques aux  
+  Ce comportement est diffÃ©rent pour les tableaux statiques spÃ©cifiques aux  
   @ReferenceLink "Structures" "structures". Les tableaux statiques utilisent des crochets 
-  "[]", par exemple TabStatic[2] ne comporte que 2 éléments de 0 à 1 et les fonctions 
-  de la bibliothèques @LibraryLink "Array" "Array" ne fonctionnent pas avec eux.  
+  "[]", par exemple TabStatic[2] ne comporte que 2 Ã©lÃ©ments de 0 Ã  1 et les fonctions 
+  de la bibliothÃ¨ques @LibraryLink "Array" "Array" ne fonctionnent pas avec eux.  
   @LineBreak
   @LineBreak
-  Les tableaux sont toujours locaux par défaut, donc pour accéder à partir d'une procedure à 
-  un tableau défini dans le code source principal du programme, l'utilisation de 
+  Les tableaux sont toujours locaux par dÃ©faut, donc pour accÃ©der Ã  partir d'une procedure Ã  
+  un tableau dÃ©fini dans le code source principal du programme, l'utilisation de 
   @ReferenceLink "Global" Global ou @ReferenceLink "Shared" Shared est requise.
-  Il est également possible de passer un tableau en paramètre d'une 
-  @ReferenceLink "Procedures" procédure à l'aide du mot clef @Keyword Array. Il sera passé 
-  "par référence" (ce qui signifie que le tableau ne sera pas copié, et les fonctions dans 
-  la procédure manipulerons le tableau original).
+  Il est Ã©galement possible de passer un tableau en paramÃ¨tre d'une 
+  @ReferenceLink "Procedures" procÃ©dure Ã  l'aide du mot clef @Keyword Array. Il sera passÃ© 
+  "par rÃ©fÃ©rence" (ce qui signifie que le tableau ne sera pas copiÃ©, et les fonctions dans 
+  la procÃ©dure manipulerons le tableau original).
   @LineBreak
   @LineBreak
-  Pour effacer le contenu complet d'un tableau et libérer la mémoire qu'il occupe, 
+  Pour effacer le contenu complet d'un tableau et libÃ©rer la mÃ©moire qu'il occupe, 
   utilisez @@FreeArray. 
   @LineBreak
   @LineBreak
-  Si @Keyword Dim est utilisé sur un tableau existant, il réinitialise son contenu à zéro.
+  Si @Keyword Dim est utilisÃ© sur un tableau existant, il rÃ©initialise son contenu Ã  zÃ©ro.
   @LineBreak
   @LineBreak
   Utilisez la commande @ReferenceLink "others" "Swap" pour permuter le contenu de tableaux 
   rapidement.
   @LineBreak
   @LineBreak
-  Note: La vérification des accès à un tableau est effectuée uniquement quand le 
-  @ReferenceLink "Debugger" "débogueur" est activé.
+  Note: La vÃ©rification des accÃ¨s Ã  un tableau est effectuÃ©e uniquement quand le 
+  @ReferenceLink "Debugger" "dÃ©bogueur" est activÃ©.
 
   @Example
 
@@ -83,7 +83,7 @@
   MonTableau(1) = 2 
 @EndCode
 
-  @Example Tableau à dimensions multiples
+  @Example Tableau Ã  dimensions multiples
 
 @Code
   Dim TableauMultiple.b(NbColonnes, NbLignes)
@@ -91,17 +91,17 @@
   TableauMultiple(20, 30) = 20
 @EndCode
 
-  @Example Tableau en paramètre d'une procédure
+  @Example Tableau en paramÃ¨tre d'une procÃ©dure
   
 @Code  
-  Procedure fill(Array Nombres(1), Longueur)  ; Le 1 représente le nombre de dimensions du tableau
+  Procedure fill(Array Nombres(1), Longueur)  ; Le 1 reprÃ©sente le nombre de dimensions du tableau
     For i = 0 To Longueur
       Nombres(i) = i
     Next i
   EndProcedure
   
   Dim Nombres(10)
-  fill(Nombres(), 10)  ; Le tableau Nombres() est passé en paramètre
+  fill(Nombres(), 10)  ; Le tableau Nombres() est passÃ© en paramÃ¨tre
   
   Debug Nombres(5)
   Debug Nombres(10)
@@ -120,20 +120,20 @@
 
 @Description
 
-  @Keyword ReDim permet de redimensionner un tableau déjà déclaré tout en préservant son contenu. La nouvelle
-  taille peut être plus grande ou plus petite, mais le nombre de dimensions ne peut pas être modifié.
+  @Keyword ReDim permet de redimensionner un tableau dÃ©jÃ  dÃ©clarÃ© tout en prÃ©servant son contenu. La nouvelle
+  taille peut Ãªtre plus grande ou plus petite, mais le nombre de dimensions ne peut pas Ãªtre modifiÃ©.
   @LineBreak
   @LineBreak
-  Si @Keyword ReDim est utilisé sur un tableau à plusieurs dimensions, seule la dernière dimension
-  peut être changée.
+  Si @Keyword ReDim est utilisÃ© sur un tableau Ã  plusieurs dimensions, seule la derniÃ¨re dimension
+  peut Ãªtre changÃ©e.
 
 @Example Une dimension
 @Code
-  Dim MonTableau.l(1) ; nous avons 2 éléments
+  Dim MonTableau.l(1) ; nous avons 2 Ã©lÃ©ments
   MonTableau(0) = 1
   MonTableau(1) = 2
   
-  ReDim MonTableau(4) ; Maintenant nous avons 5 éléments
+  ReDim MonTableau(4) ; Maintenant nous avons 5 Ã©lÃ©ments
   MonTableau(2) = 3
   
   For k = 0 To 2
@@ -143,9 +143,9 @@
 
 @Example Plusieurs dimensions
 @Code
-  Dim MonTableau.l(1,1,1) ; 3 dimensions et 2 éléments par dimension
+  Dim MonTableau.l(1,1,1) ; 3 dimensions et 2 Ã©lÃ©ments par dimension
   
-  ReDim MonTableau(1,1,4) ; OUI seule la dernière dimension peut être changée.
+  ReDim MonTableau(1,1,4) ; OUI seule la derniÃ¨re dimension peut Ãªtre changÃ©e.
   ;ReDim MonTableau(4,1,1) ; NON
   ;ReDim MonTableau(1,4,1) ; NON
   MonTableau(1,1,4) = 3

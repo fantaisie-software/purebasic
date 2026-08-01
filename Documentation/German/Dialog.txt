@@ -1,23 +1,26 @@
-;
+ï»¿;
 ;     Dialog library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Dialog
 
 @Overview
-  Die Dialog Befehlsbibliothek ermöglicht das einfache Erstellen komplexer Benutzeroberflächen (GUI) -
-  basierend auf einer @LibraryLink "xml" "XML"-Definition. Sie verfügt über ein automatisches
-  @LibraryLink "gadget" "Gadget"-Layout, was sehr nützlich beim Erstellen von Oberflächen ist, die
-  auf verschiedenen Betriebssystemen laufen oder mit verschiedenen @LibraryLink "font" "Zeichensatz"-Größen
+  Die Dialog Befehlsbibliothek ermÃ¶glicht das einfache Erstellen komplexer BenutzeroberflÃ¤chen (GUI) -
+  basierend auf einer @LibraryLink "xml" "XML"-Definition. Sie verfÃ¼gt Ã¼ber ein automatisches
+  @LibraryLink "gadget" "Gadget"-Layout, was sehr nÃ¼tzlich beim Erstellen von OberflÃ¤chen ist, die
+  auf verschiedenen Betriebssystemen laufen oder mit verschiedenen @LibraryLink "font" "Zeichensatz"-GrÃ¶ÃŸen
   arbeiten sollen.
   @LineBreak
   @LineBreak
   Die XML-Definition kann @LibraryLink "file" "Datei"-basierend sein, oder mit Hilfe der 
-  @LibraryLink "xml" "XML"-Bibliothek während der Laufzeit ("on the fly") im @LibraryLink "memory" "Speicher"
+  @LibraryLink "xml" "XML"-Bibliothek wÃ¤hrend der Laufzeit ("on the fly") im @LibraryLink "memory" "Speicher"
   erstellt werden.
- 
+  @LineBreak
+  @LineBreak
+  Eine Liste aller unterstÃ¼tzten SchlÃ¼sselwÃ¶rter und Attribute dieser Bibliothek finden Sie @Link "OpenXMLDialog" "hier".
+
 @CommandList
 
 @ExampleFile All Dialog.pb
@@ -37,9 +40,9 @@
   werden, um diese Zahl automatisch zu generieren.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Dialog erfolgreich erstellt wurde, oder Null wenn nicht.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Dialog erfolgreich erstellt wurde, oder Null wenn nicht.
   Wenn @#PB_Any als #Dialog Parameter verwendet wurde, dann wird im Erfolgsfall die automatisch generierte
-  Nummer zurückgegeben.
+  Nummer zurÃ¼ckgegeben.
 
 @SeeAlso
   @@OpenXMLDialog, @@FreeDialog
@@ -51,14 +54,14 @@
 @Function Ergebnis$ = DialogError(#Dialog)
 
 @Description
-  Gibt die letzte Fehlernachricht (in Englisch) zurück, um nach einem @@OpenXMLDialog weitere Informationen
-  über einen Fehler bei der Dialog-Erstellung zu erhalten.
+  Gibt die letzte Fehlernachricht (in Englisch) zurÃ¼ck, um nach einem @@OpenXMLDialog weitere Informationen
+  Ã¼ber einen Fehler bei der Dialog-Erstellung zu erhalten.
 
 @Parameter "#Dialog"
   Der zu verwendende Dialog.
 
 @ReturnValue
-  Gibt die Fehlernachricht zurück. Wenn keine weiteren Informationen verfügbar sind, dann kann die
+  Gibt die Fehlernachricht zurÃ¼ck. Wenn keine weiteren Informationen verfÃ¼gbar sind, dann kann die
   Fehlernachricht leer sein.
 
 @SeeAlso
@@ -71,7 +74,7 @@
 @Function Ergebnis = DialogGadget(#Dialog, Name$)
 
 @Description
-  Gibt die @LibraryLink "gadget" "Gadget"-Nummer des Gadgets mit dem angegebenen Namen zurück.
+  Gibt die @LibraryLink "gadget" "Gadget"-Nummer des Gadgets mit dem angegebenen Namen zurÃ¼ck.
 
 @Parameter "#Dialog"
   Der zu verwendende Dialog.
@@ -80,7 +83,7 @@
   Der Name des Gadgets, wie in der XML-Datei angegeben (unter Verwendung des 'name' Attributs).
 
 @ReturnValue
-  Gibt die zum angegebenen Gadget-Namen gehörende Gadget-Nummer zurück, oder -1 wenn das Gadget
+  Gibt die zum angegebenen Gadget-Namen gehÃ¶rende Gadget-Nummer zurÃ¼ck, oder -1 wenn das Gadget
   im Dialog nicht gefunden wurde. 
 
 @SeeAlso
@@ -93,7 +96,7 @@
 @Function Ergebnis = DialogWindow(#Dialog)
 
 @Description
-  Gibt die Fenster-Nummer ("Window") des Dialogs zurück. Diese ermöglicht die Verwendung aller
+  Gibt die Fenster-Nummer ("Window") des Dialogs zurÃ¼ck. Diese ermÃ¶glicht die Verwendung aller
   @LibraryLink "window" "Fenster"-relevanten Befehle mit diesem Dialog. Der Dialog
   muss vor Verwendung dieses Befehls erfolgreich mittels @@OpenXMLDialog initialisiert
   worden sein.
@@ -102,7 +105,7 @@
   Der zu verwendende Dialog.
 
 @ReturnValue
-  Gibt die Fenster-Nummer des angegebenen Dialogs zurück.
+  Gibt die Fenster-Nummer des angegebenen Dialogs zurÃ¼ck.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -114,13 +117,13 @@
 @Function Ergebnis = DialogID(#Dialog)
 
 @Description
-  Gibt die einmalige ID zurück, welche den Dialog im Betriebssystem identifiziert.
+  Gibt die einmalige ID zurÃ¼ck, welche den Dialog im Betriebssystem identifiziert.
 
 @Parameter "#Dialog"
   Der zu verwendende Dialog.
 
 @ReturnValue
-  Gibt die einmalige ID zurück, welche den Dialog im Betriebssystem identifiziert.
+  Gibt die einmalige ID zurÃ¼ck, welche den Dialog im Betriebssystem identifiziert.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -132,8 +135,8 @@
 @Function FreeDialog(#Dialog)
 
 @Description
-  Gibt den angegebenen Dialog und seinen zugehörigen Speicher frei. Wenn das Dialog-Fenster
-  noch geöffnet ist, wird es automatisch geschlossen.
+  Gibt den angegebenen Dialog und seinen zugehÃ¶rigen Speicher frei. Wenn das Dialog-Fenster
+  noch geÃ¶ffnet ist, wird es automatisch geschlossen.
 
 @Parameter "#Dialog"
   Der freizugebende Dialog. Wenn @#PB_All angegeben wird, dann werden alle verbliebenen
@@ -154,13 +157,13 @@
 @Function Ergebnis = IsDialog(#Dialog)
 
 @Description
-  Überprüft, ob die angegebene Dialog-Nummer ein gültiger Dialog ist.
+  ÃœberprÃ¼ft, ob die angegebene Dialog-Nummer ein gÃ¼ltiger Dialog ist.
 
 @Parameter "#Dialog"
   Der zu testende Dialog.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn #Dialog ein gültiger Dialog ist, und Null wenn nicht.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn #Dialog ein gÃ¼ltiger Dialog ist, und Null wenn nicht.
 
 @Remarks
   Diese Funktion ist "kugelsicher" und kann mit jedem Wert verwendet werden.
@@ -173,47 +176,47 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = OpenXMLDialog(#Dialog, #XML, Name$ [, x, y [, Breite, Höhe [, ParentID]]])
+@Function Ergebnis = OpenXMLDialog(#Dialog, #XML, Name$ [, x, y [, Breite, HÃ¶he [, ParentID]]])
 
 @Description
-  Öffnet den angegebenen Dialog und zeigt diesen auf dem Bildschirm an.
-  Um auf die @LibraryLink "gadget" "Gadgets" des Dialogs zurückzugreifen, verwenden Sie @@DialogGadget.
+  Ã–ffnet den angegebenen Dialog und zeigt diesen auf dem Bildschirm an.
+  Um auf die @LibraryLink "gadget" "Gadgets" des Dialogs zurÃ¼ckzugreifen, verwenden Sie @@DialogGadget.
   Um die @LibraryLink "window" "Fenster"-Nummer dieses Dialogs zu erhalten, verwenden Sie @@DialogWindow. 
 @LineBreak
 @LineBreak
   @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget und @@UseDialogWebViewGadget
-  können verwendet werden, um die Unterstützung für diese Gadgets in der Dialogbibliothek zu aktivieren.
-  Sie sind standardmäßig nicht aktiviert, um den "Footprint" (Platzbedarf) der Dialogbibliothek zu verringern.
+  kÃ¶nnen verwendet werden, um die UnterstÃ¼tzung fÃ¼r diese Gadgets in der Dialogbibliothek zu aktivieren.
+  Sie sind standardmÃ¤ÃŸig nicht aktiviert, um den "Footprint" (Platzbedarf) der Dialogbibliothek zu verringern.
 
 @Parameter "#Dialog"
   Der zu verwendende Dialog. Dieser muss zuvor mittels @@CreateDialog erstellt werden.
 
 @Parameter "#XML"
   Der zu verwendende @LibraryLink "xml" "XML"-Datensatz. Dieser muss zuvor mittels @@LoadXML, @@CreateXML, @@CatchXML
-  oder @@ParseXML erstellt werden. Das bedeutet, es ist möglich, Dialoge während der Laufzeit "on the
+  oder @@ParseXML erstellt werden. Das bedeutet, es ist mÃ¶glich, Dialoge wÃ¤hrend der Laufzeit "on the
   fly") mittels @@CreateXML, @@CatchXML oder @@ParseXML zu erstellen.
   @LineBreak
-  Siehe unten für die unterstützten XML-Attribute. Beim Einbinden von XML im Quellcode kann es
-  einfacher sein, im XML einfache Anführungszeichen (Apostrophe) für die Attribute zu nutzen
-  (was absolut zulässiger XML-Syntax ist).
+  Siehe unten fÃ¼r die unterstÃ¼tzten XML-Attribute. Beim Einbinden von XML im Quellcode kann es
+  einfacher sein, im XML einfache AnfÃ¼hrungszeichen (Apostrophe) fÃ¼r die Attribute zu nutzen
+  (was absolut zulÃ¤ssiger XML-Syntax ist).
 
 @Parameter "Name$"
-  Der Name des zu öffnenden Dialogs. Eine XML-Datei kann mehrere definierte Dialoge beinhalten.
+  Der Name des zu Ã¶ffnenden Dialogs. Eine XML-Datei kann mehrere definierte Dialoge beinhalten.
 
 @OptionalParameter "x, y"
   Die x, y Koordinaten (in Pixel) des #Dialogs.
 
-@OptionalParameter "Breite, Höhe"
-  Die Größe (in Pixel) des #Dialogs. Ist die hier angegebene Größe kleiner als die benötigte Größe, wie sie im XML-Datensatz definiert
-  wurde (nach der Layout-Kalkulation), dann wird die benötigte Größe verwendet. Wird dieser Parameter weggelassen,
-  dann wird die Größe des Dialogs der kleinsten benötigten Größe entsprechen.
+@OptionalParameter "Breite, HÃ¶he"
+  Die GrÃ¶ÃŸe (in Pixel) des #Dialogs. Ist die hier angegebene GrÃ¶ÃŸe kleiner als die benÃ¶tigte GrÃ¶ÃŸe, wie sie im XML-Datensatz definiert
+  wurde (nach der Layout-Kalkulation), dann wird die benÃ¶tigte GrÃ¶ÃŸe verwendet. Wird dieser Parameter weggelassen,
+  dann wird die GrÃ¶ÃŸe des Dialogs der kleinsten benÃ¶tigten GrÃ¶ÃŸe entsprechen.
 
 @OptionalParameter "ParentID"
-  Die ID des übergeordneten Fensters. Eine gültige Fenster-ID kann mittels @@WindowID abgerufen werden.
+  Die ID des Ã¼bergeordneten Fensters. Eine gÃ¼ltige Fenster-ID kann mittels @@WindowID abgerufen werden.
 
 @ReturnValue
-  Gibt einen Wert ungleich Null zurück, wenn der Dialog erfolgreich geöffnet wurde, andernfalls Null.
-  Um weitere Informationen über einen aufgetretenen Fehler zu erhalten, verwenden Sie @@DialogError.
+  Gibt einen Wert ungleich Null zurÃ¼ck, wenn der Dialog erfolgreich geÃ¶ffnet wurde, andernfalls Null.
+  Um weitere Informationen Ã¼ber einen aufgetretenen Fehler zu erhalten, verwenden Sie @@DialogError.
 
 @Remarks
   
@@ -225,12 +228,12 @@
   I. Allgemeine Attribute
   -----------------------
 
-  width     - positiver Integerwert oder 0 (Standard="0") (legt die "Minimal-Größe" eines Gadgets fest)
+  width     - positiver Integerwert oder 0 (Standard="0") (legt die "Minimal-GrÃ¶ÃŸe" eines Gadgets fest)
   height
 
-  id        - #Nummer (ID) für ein Gadget oder ein Fenster (Standard ist #PB_Any, wenn nicht angegeben). Dies kann eine Runtime-Konstante sein.
-  name      - ein String, welcher das Objekt identifiziert (hauptsächlich für @@DialogGadget, Groß-/Kleinschreibung unberücksichtigt) (Standard="")
-  text      - Text-String für das Objekt (Standard="")
+  id        - #Nummer (ID) fÃ¼r ein Gadget oder ein Fenster (Standard ist #PB_Any, wenn nicht angegeben). Dies kann eine Runtime-Konstante sein.
+  name      - ein String, welcher das Objekt identifiziert (hauptsÃ¤chlich fÃ¼r @@DialogGadget, GroÃŸ-/Kleinschreibung unberÃ¼cksichtigt) (Standard="")
+  text      - Text-String fÃ¼r das Objekt (Standard="")
 
   flags     - Gadget/Window Flags in der Form "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (Standard="")
 
@@ -241,7 +244,7 @@
   invisible - wenn auf "yes" gesetzt, wird das Objekt unsichtbar erstellt (Standard="no")
   disabled  - wenn "yes", wird das Objekt deaktiviert erstellt (nur bei Gadgets) (Standard="no")
 
-  colspan   - nur innerhalb des <gridbox> Elements, ermöglicht einem Element sich über mehrere Zeilen/Spalten zu erstrecken
+  colspan   - nur innerhalb des <gridbox> Elements, ermÃ¶glicht einem Element sich Ã¼ber mehrere Zeilen/Spalten zu erstrecken
   rowspan     (Standard="1")
 
   Alle diese Attribute sind optional.
@@ -250,12 +253,12 @@
   II. Grund-Element
   -----------------
 
-  <window> für eine einzelne Fenster-Definition in der gleichen XML-Datei
+  <window> fÃ¼r eine einzelne Fenster-Definition in der gleichen XML-Datei
   </window>
   
   oder 
     
-  <dialogs> für mehrere Fenster-Definitionen in der gleichen XML-Datei
+  <dialogs> fÃ¼r mehrere Fenster-Definitionen in der gleichen XML-Datei
     <window name="FirstWindow">
     </window>
     <window name="SecondWindow">
@@ -270,24 +273,24 @@
   <window>
   </window>
   
-  Akzeptierte Schlüsselwörter im XML:
-  Alle üblichen Attribute und die folgenden:
+  Akzeptierte SchlÃ¼sselwÃ¶rter im XML:
+  Alle Ã¼blichen Attribute und die folgenden:
   
   minwidth  = 'auto' oder ein numerischer Wert (= Mindestbreite)
   maxwidth  = 'auto' oder ein numerischer Wert (= Maximalbreite)
-  minheight = 'auto' oder ein numerischer Wert (= Mindesthöhe)
-  maxheight = 'auto' oder ein numerischer Wert (= Maximalhöhe)
+  minheight = 'auto' oder ein numerischer Wert (= MindesthÃ¶he)
+  maxheight = 'auto' oder ein numerischer Wert (= MaximalhÃ¶he)
   
-  Dies ermöglicht die Festlegung der Fenstergrenzen. Wenn die Werte auf 'auto'
-  gesetzt sind, dann wird die Größe abhängig vom Platzbedarf der beinhalteten
+  Dies ermÃ¶glicht die Festlegung der Fenstergrenzen. Wenn die Werte auf 'auto'
+  gesetzt sind, dann wird die GrÃ¶ÃŸe abhÃ¤ngig vom Platzbedarf der beinhalteten
   Gadgets berechnet.
   
 
   - Erstellt ein neues Fenster.
-  - Kann alle üblichen Attribute haben.
+  - Kann alle Ã¼blichen Attribute haben.
   - Entspricht einem "Ein-Element"-Container.
   - Wenn mehr als ein <window> Element vorhanden ist, dann wird das 'name' Attribut zu deren Identifizierung verwendet.
-  - Alle GUI-Elemente können nur hierin platziert werden.
+  - Alle GUI-Elemente kÃ¶nnen nur hierin platziert werden.
   
   
   IV. Layout-Elemente
@@ -300,19 +303,19 @@
     Ordnet die Elemente horizontal oder vertikal. Kann eine beliebige
     Anzahl von "Kindern" (Unterbereiche, Gadgets...) enthalten.
 
-    Akzeptierte Schlüsselwörter im XML:
+    Akzeptierte SchlÃ¼sselwÃ¶rter im XML:
 
-    Alle gebräuchlichen Attribute und die folgenden:
+    Alle gebrÃ¤uchlichen Attribute und die folgenden:
   
-    spacing   = der zwischen den eingefassten Gadgets ("Childs") hinzuzufügende Abstand (Standard=5)
+    spacing   = der zwischen den eingefassten Gadgets ("Childs") hinzuzufÃ¼gende Abstand (Standard=5)
   
-    expand    = yes           - Elemente werden vergrößert, um den Platz auszufüllen (Standard)
-                no            - nicht vergrößern, um den gesamten Platz auszufüllen
-                equal         - gleich große Elemente erzwingen
-                item:<number> - nur ein Element vergrößern, wenn Platz verfügbar ist
+    expand    = yes           - Elemente werden vergrÃ¶ÃŸert, um den Platz auszufÃ¼llen (Standard)
+                no            - nicht vergrÃ¶ÃŸern, um den gesamten Platz auszufÃ¼llen
+                equal         - gleich groÃŸe Elemente erzwingen
+                item:<number> - nur ein Element vergrÃ¶ÃŸern, wenn Platz verfÃ¼gbar ist
   
-    align     = top/center/bottom - wird nur mit expand="no" für die vbox angewendet, 'top' (oben) ist der Standard
-              = left/center/right - wird nur mit expand="no" für die hbox angewendet, 'left' (links) ist der Standard
+    align     = top/center/bottom - wird nur mit expand="no" fÃ¼r die vbox angewendet, 'top' (oben) ist der Standard
+              = left/center/right - wird nur mit expand="no" fÃ¼r die hbox angewendet, 'left' (links) ist der Standard
                                   - Eine Verbindung von vbox und hbox erlaubt die komplexe Ausrichtung top/left/center/bottom/right.
 
 
@@ -323,23 +326,23 @@
     Richtet die Elemente in einer Tabelle aus. Kann eine beliebige
     Anzahl von "Kindern" (Unterbereiche, Gadgets...) enthalten.
     
-    Akzeptierte Schlüsselwörter im XML:
+    Akzeptierte SchlÃ¼sselwÃ¶rter im XML:
 
-    Alle gebräuchlichen Attribute und die folgenden:
+    Alle gebrÃ¤uchlichen Attribute und die folgenden:
   
     columns = Anzahl der Spalten (Standard = 2)
   
-    colspacing = der zwischen den Spalten/Zeilen hinzuzufügende Abstand (Standard = 5)
+    colspacing = der zwischen den Spalten/Zeilen hinzuzufÃ¼gende Abstand (Standard = 5)
     rowspacing
   
-    colexpand = yes           - Elemente werden vergrößert, um den Platz auszufüllen
-    rowexpand   no            - nicht vergrößern, um den gesamten Platz auszufüllen
-                equal         - gleich große Elemente erzwingen
-                item:<number> - nur ein Element vergrößern, wenn Platz verfügbar ist
+    colexpand = yes           - Elemente werden vergrÃ¶ÃŸert, um den Platz auszufÃ¼llen
+    rowexpand   no            - nicht vergrÃ¶ÃŸern, um den gesamten Platz auszufÃ¼llen
+                equal         - gleich groÃŸe Elemente erzwingen
+                item:<number> - nur ein Element vergrÃ¶ÃŸern, wenn Platz verfÃ¼gbar ist
   
-                für colexpand ist der Standard=yes, für rowexpand der Standard=no
+                fÃ¼r colexpand ist der Standard=yes, fÃ¼r rowexpand der Standard=no
 
-    Alle Elemente ("Childs") in einer Tabelle ("gridbox") können diese Schlüssel haben:
+    Alle Elemente ("Childs") in einer Tabelle ("gridbox") kÃ¶nnen diese SchlÃ¼ssel haben:
   
     colspan = Anzahl der zu umfassenden Spalten (Standard = 1)
     rowspan = Anzahl der zu umfassenden Zeilen
@@ -353,36 +356,36 @@
     davon zur gleichen Zeit anzuzeigen. Kann eine beliebige Anzahl
     von "Kindern" (Unterbereiche, Gadgets...) enthalten.
     
-    Akzeptierte Schlüsselwörter im XML:
+    Akzeptierte SchlÃ¼sselwÃ¶rter im XML:
 
-    Alle gebräuchlichen Attribute.
+    Alle gebrÃ¤uchlichen Attribute.
     
   *****************************************************************
   singlebox
   *****************************************************************
 
     Eine Box mit nur einem "Child" (Bereich). Wird nur verwendet, um extra
-    Abstands-/Ausrichtungseigenschaften zu einem "Child" hinzuzufügen.
+    Abstands-/Ausrichtungseigenschaften zu einem "Child" hinzuzufÃ¼gen.
     Es wird eine Box genannt (so wie alle virtuellen Container genannt werden).
 
-    Akzeptierte Schlüsselwörter im XML:
+    Akzeptierte SchlÃ¼sselwÃ¶rter im XML:
     
-    Alle gebräuchlichen Attribute und die folgenden:
+    Alle gebrÃ¤uchlichen Attribute und die folgenden:
   
     margin = Rand rings um den Inhalt (Standard = 10)
-             kann eine einzelne Zahl (= alle Ränder), oder eine Kombination von
+             kann eine einzelne Zahl (= alle RÃ¤nder), oder eine Kombination von
              top:<num>,left:<num>,right:<num>,bottom:<num>,vertical:<num>,horizontal:<num>
-             für die Randangaben zu oben/links/rechts/unten/vertikal/horizontal sein.
+             fÃ¼r die Randangaben zu oben/links/rechts/unten/vertikal/horizontal sein.
              Beispiel: "vertical:5,left:10,right:0"
   
-    expand = yes        - Element werden vergrößert, um den Platz auszufüllen (Standard)
-             no         - keine Vergrößerung
-             vertical   - vergrößert nur vertikal
-             horizontal - vergrößert nur horizontal
+    expand = yes        - Element werden vergrÃ¶ÃŸert, um den Platz auszufÃ¼llen (Standard)
+             no         - keine VergrÃ¶ÃŸerung
+             vertical   - vergrÃ¶ÃŸert nur vertikal
+             horizontal - vergrÃ¶ÃŸert nur horizontal
   
-    expandwidth  = max. Größe, auf die das "Child" (Element) vergrößert werden soll. Wenn die
-    expandheight   angeforderte Größe größer als diese Einstellung ist, dann wird die
-                   angeforderte Größe verwendet (d.h. der Inhalt wird nicht kleiner).
+    expandwidth  = max. GrÃ¶ÃŸe, auf die das "Child" (Element) vergrÃ¶ÃŸert werden soll. Wenn die
+    expandheight   angeforderte GrÃ¶ÃŸe grÃ¶ÃŸer als diese Einstellung ist, dann wird die
+                   angeforderte GrÃ¶ÃŸe verwendet (d.h. der Inhalt wird nicht kleiner).
                    (Standard=0)
   
     align  = Kombination von top,left,bottom,right und center. (nur wirksam, wenn expand <> yes)
@@ -393,23 +396,24 @@
   V. Gadget-Elemente
   ------------------
 
-  Alle gebräuchlichen XML-Attribute werden unterstützt. Um eine Ereignis-Prozedur direkt im
-  XML-Datensatz zu verknüpfen, sind für die Gadgets die folgenden Attribute verfügbar:
+  Alle gebrÃ¤uchlichen XML-Attribute werden unterstÃ¼tzt. Um eine Ereignis-Prozedur direkt im
+  XML-Datensatz zu verknÃ¼pfen, sind fÃ¼r die Gadgets die folgenden Attribute verfÃ¼gbar:
   
-    onevent      = EventProcedure() - allgemeine Ereignis-Verknüpfung, für alle Ereignis-Typen
-    onchange     = EventProcedure() - #PB_EventType_Change Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onfocus      = EventProcedure() - #PB_EventType_Focus Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onlostfocus  = EventProcedure() - #PB_EventType_LostFocus Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    ondragstart  = EventProcedure() - #PB_EventType_DragStart Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onrightclick = EventProcedure() - #PB_EventType_RightClick Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onleftclick  = EventProcedure() - #PB_EventType_LeftClick Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onrightdoubleclick = EventProcedure() - #PB_EventType_RightDoubleClick Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
-    onleftdoubleclick  = EventProcedure() - #PB_EventType_LeftDoubleClick Verknüpfung (nur für Gadgets, die diesen Ereignis-Typ unterstützen)
+    onevent      = EventProcedure() - allgemeine Ereignis-VerknÃ¼pfung, fÃ¼r alle Ereignis-Typen
+    onchange     = EventProcedure() - #PB_EventType_Change VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onfocus      = EventProcedure() - #PB_EventType_Focus VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onlostfocus  = EventProcedure() - #PB_EventType_LostFocus VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onresize     = EventProcedure() - #PB_EventType_Resize binding VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    ondragstart  = EventProcedure() - #PB_EventType_DragStart VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onrightclick = EventProcedure() - #PB_EventType_RightClick VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onleftclick  = EventProcedure() - #PB_EventType_LeftClick VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onrightdoubleclick = EventProcedure() - #PB_EventType_RightDoubleClick VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
+    onleftdoubleclick  = EventProcedure() - #PB_EventType_LeftDoubleClick VerknÃ¼pfung (nur fÃ¼r Gadgets, die diesen Ereignis-Typ unterstÃ¼tzen)
 
   Die 'EventProcedure()' muss als 'Runtime' im Hauptcode deklariert werden, und muss sich an das BindEvent() Prozedur-Format
   halten. Hinter den Kulissen wird BindGadgetEvent() mit der angegebenen Prozedur aufgerufen.
   
-  Unterstützte Gadgets:
+  UnterstÃ¼tzte Gadgets:
 
   <button>
   <buttonimage>
@@ -423,40 +427,40 @@
   <explorercombo>
   <explorerlist>
   <explorertree> 
-  <frame> - Container mit nur einem Element (nur mit Standardrändern verfügbar)
+  <frame> - Container mit nur einem Element (nur mit StandardrÃ¤ndern verfÃ¼gbar)
   <hyperlink>
   <ipaddress>
   <image>
   <listicon>
   <listview>
-  <opengl> - UseDialogOpenGLGadget() muss aufgerufen werden, um die <opengl> Unterstützung zu aktivieren.
-  <option group> - numerischer Wert - verwende die gleiche 'group' Nummer, um zusammengehörende @@OptionGadget zu erstellen.
+  <opengl> - UseDialogOpenGLGadget() muss aufgerufen werden, um die <opengl> UnterstÃ¼tzung zu aktivieren.
+  <option group> - numerischer Wert - verwende die gleiche 'group' Nummer, um zusammengehÃ¶rende @@OptionGadget zu erstellen.
   <panel> - kann nur <tab> Elemente enthalten
   <progressbar min max Wert>
-  <scintilla> - der Callback bleibt leer. UseDialogScintillaGadget() muss aufgerufen werden, um die <scintilla> Unterstützung zu aktivieren.
+  <scintilla> - der Callback bleibt leer. UseDialogScintillaGadget() muss aufgerufen werden, um die <scintilla> UnterstÃ¼tzung zu aktivieren.
   <scrollarea scrolling="vertical,horizontal oder both (Standard)" innerheight="Wert oder auto (Standard)" innerwidth="Wert oder auto (Standard)" step> - 
      Container mit nur einem Element, der Scrollwert 'step' bestimmt das Wachstumsverhalten.
-  <scrollbar min max page Wert> - 'page' = Seitenlänge.
+  <scrollbar min max page Wert> - 'page' = SeitenlÃ¤nge.
   <spin min max Wert>
   <splitter firstmin="Wert oder auto" secondmin> - muss 2 Unterelemente enthalten, daher ist es
-     grundsätzlich ein 2-Element-Container, die Mindestgröße wird von den beinhalteten Gadgets bestimmt.
-     Wenn "auto" angegeben wird, dann wird der Mindestwert die Mindestgräße des "Childs" sein.
+     grundsÃ¤tzlich ein 2-Element-Container, die MindestgrÃ¶ÃŸe wird von den beinhalteten Gadgets bestimmt.
+     Wenn "auto" angegeben wird, dann wird der Mindestwert die MindestgrÃ¤ÃŸe des "Childs" sein.
   <string>
   <text>
   <trackbar min max Wert>
   <tree> - kann <item> beinhalten
-  <web> - UseDialogWebGadget() muss aufgerufen werden, um die <web> Unterstützung zu aktivieren.
-  <webview> - UseDialogWebViewGadget() muss aufgerufen werden, um die <webview> Unterstützung zu aktivieren.
+  <web> - UseDialogWebGadget() muss aufgerufen werden, um die <web> UnterstÃ¼tzung zu aktivieren.
+  <webview> - UseDialogWebViewGadget() muss aufgerufen werden, um die <webview> UnterstÃ¼tzung zu aktivieren.
 
   Gadget-bezogene Elemente:
-  <tab> - einfacher Element-Container, für Panel-Register (Attribut 'text' wird unterstützt).
+  <tab> - einfacher Element-Container, fÃ¼r Panel-Register (Attribut 'text' wird unterstÃ¼tzt).
 
   Spezielle Elemente:
-  <empty> - ein leeres Element, nützlich um etwas Abstand zwischen den Gadgets zu haben, zum Beispiel für deren Ausrichtung an den Rändern.
+  <empty> - ein leeres Element, nÃ¼tzlich um etwas Abstand zwischen den Gadgets zu haben, zum Beispiel fÃ¼r deren Ausrichtung an den RÃ¤ndern.
 
 @EndFixedFont  
   
-@Example Einfacher in der Größe veränderbarer Dialog
+@Example Einfacher in der GrÃ¶ÃŸe verÃ¤nderbarer Dialog
 
 @Code
   #Dialog = 0
@@ -639,8 +643,8 @@
 @Function RefreshDialog(#Dialog)
 
 @Description
-  Aktualisiert die Dialog-Größe, um diese an jegliche Änderungen anzupassen. Zum
-  Beispiel kann nach dem Ändern des Textinhaltes von Gadgets die Dialog-Größe
+  Aktualisiert die Dialog-GrÃ¶ÃŸe, um diese an jegliche Ã„nderungen anzupassen. Zum
+  Beispiel kann nach dem Ã„ndern des Textinhaltes von Gadgets die Dialog-GrÃ¶ÃŸe
   Anpassungen erfordern.
 
 @Parameter "#Dialog"
@@ -658,9 +662,9 @@
 @Function UseDialogOpenGLGadget()
 
 @Description
-  Aktiviert die @@OpenGLGadget-Unterstützung in der Dialogbibliothek. Diese ist standardmäßig nicht aktiviert,
+  Aktiviert die @@OpenGLGadget-UnterstÃ¼tzung in der Dialogbibliothek. Diese ist standardmÃ¤ÃŸig nicht aktiviert,
   um den Platzbedarf (englisch "footprint") der Dialogbibliothek zu verringern, wenn das @@OpenGLGadget nicht
-  benötigt wird.
+  benÃ¶tigt wird.
 
 @NoReturnValue
 
@@ -674,9 +678,9 @@
 @Function UseDialogScintillaGadget()
 
 @Description
-  Aktiviert die @@ScintillaGadget-Unterstützung in der Dialogbibliothek. Diese ist standardmäßig nicht aktiviert,
+  Aktiviert die @@ScintillaGadget-UnterstÃ¼tzung in der Dialogbibliothek. Diese ist standardmÃ¤ÃŸig nicht aktiviert,
   um den Platzbedarf (englisch "footprint") der Dialogbibliothek zu verringern, wenn das @@ScintillaGadget nicht
-  benötigt wird.
+  benÃ¶tigt wird.
 
 @NoReturnValue
 
@@ -690,9 +694,9 @@
 @Function UseDialogWebGadget()
 
 @Description
-  Aktiviert die @@WebGadget-Unterstützung in der Dialogbibliothek. Diese ist standardmäßig nicht aktiviert,
+  Aktiviert die @@WebGadget-UnterstÃ¼tzung in der Dialogbibliothek. Diese ist standardmÃ¤ÃŸig nicht aktiviert,
   um den Platzbedarf (englisch "footprint") der Dialogbibliothek zu verringern, wenn das @@WebGadget nicht
-  benötigt wird.
+  benÃ¶tigt wird.
 
 @NoReturnValue
 
@@ -706,9 +710,9 @@
 @Function UseDialogWebViewGadget()
 
 @Description
-  Aktiviert die @@WebViewGadget-Unterstützung in der Dialogbibliothek. Diese ist standardmäßig nicht aktiviert,
+  Aktiviert die @@WebViewGadget-UnterstÃ¼tzung in der Dialogbibliothek. Diese ist standardmÃ¤ÃŸig nicht aktiviert,
   um den Platzbedarf (englisch "footprint") der Dialogbibliothek zu verringern, wenn das @@WebViewGadget nicht
-  benötigt wird.
+  benÃ¶tigt wird.
 
 @NoReturnValue
 

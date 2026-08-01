@@ -1,34 +1,34 @@
-@Title Formules mathématiques (géométrie 2D)
+ï»¿@Title Formules mathÃ©matiques (gÃ©omÃ©trie 2D)
 
 @Section Introduction
 
-  Ci-dessous vous trouverez un ensemble de diverses formules mathématiques. Données pour référence, 
-  elles seront également utiles, pour combler vos éventuelles lacunes. 
-  Car sans une bonne connaissance des mathématiques, 
-  les jeux et les applications avancées ne peuvent pas être réalisés. . @LineBreak
+  Ci-dessous vous trouverez un ensemble de diverses formules mathÃ©matiques. DonnÃ©es pour rÃ©fÃ©rence, 
+  elles seront Ã©galement utiles, pour combler vos Ã©ventuelles lacunes. 
+  Car sans une bonne connaissance des mathÃ©matiques, 
+  les jeux et les applications avancÃ©es ne peuvent pas Ãªtre rÃ©alisÃ©s. . @LineBreak
   @LineBreak
-  Note: A la place du symbole '^' Utilisez plutôt la commande PureBasic Pow() de la bibliothèque 'Math'. 
-  'PI' réfère à la valeur constante "PI = 3.1415...". 
-  Un exemple pour réaliser une telle formule en langage PureBasic : A = PI*r^2 devient A = PI*Pow(r,2)
+  Note: A la place du symbole '^' Utilisez plutÃ´t la commande PureBasic Pow() de la bibliothÃ¨que 'Math'. 
+  'PI' rÃ©fÃ¨re Ã  la valeur constante "PI = 3.1415...". 
+  Un exemple pour rÃ©aliser une telle formule en langage PureBasic : A = PI*r^2 devient A = PI*Pow(r,2)
 
-@Section Carré
+@Section CarrÃ©
 
   @Image formula01.gif
 
-  l = Longueur du côté  @LineBreak
+  l = Longueur du cÃ´tÃ©  @LineBreak
   e = Diagonale (mesure)  @LineBreak
   A = Surface  @LineBreak
-  U = Périmètre  @LineBreak
+  U = PÃ©rimÃ¨tre  @LineBreak
   @LineBreak
   @Bold Surface : A = l^2  @LineBreak
   @LineBreak
-  @Bold Périmètre : U = 4*l  @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = 4*l  @LineBreak
   @LineBreak
   @Bold "Diagonale (mesure)" : e = SQR(2)*l  @LineBreak
 
 @Example
 @Code
-  ; Longueur d'un côté du carré
+  ; Longueur d'un cÃ´tÃ© du carrÃ©
   Longueur = 35 
 
   ; Racine de 2
@@ -37,31 +37,31 @@
   ; Surface
   Surface = Pow(Longueur, 2) ; ou encore Longueur * Longueur (c'est plus rapide)
 
-  ; Périmètre
+  ; PÃ©rimÃ¨tre
   Perimetre = 4 * Longueur 
 
   ; Longueur de la Diagonale 
-  Diagonale = Sqr(2) * Longueur ; Pour accélérer le calcul il est possible de remplacer Sqr(2) par #RacineDeDeux 
+  Diagonale = Sqr(2) * Longueur ; Pour accÃ©lÃ©rer le calcul il est possible de remplacer Sqr(2) par #RacineDeDeux 
   
-  ;Affiche le résultat
-  Debug "Longueur d'un côté du carré = " + Str(Longueur) + " m"
-  Debug "Diagonale du carré = " + Str(Diagonale) + " m"  
-  Debug "Surface du carré = " + Str(Surface) + " m²"
-  Debug "Périmètre du carré = " + Str(Perimetre) + " m"
+  ;Affiche le rÃ©sultat
+  Debug "Longueur d'un cÃ´tÃ© du carrÃ© = " + Str(Longueur) + " m"
+  Debug "Diagonale du carrÃ© = " + Str(Diagonale) + " m"  
+  Debug "Surface du carrÃ© = " + Str(Surface) + " mÂ²"
+  Debug "PÃ©rimÃ¨tre du carrÃ© = " + Str(Perimetre) + " m"
 @EndCode
 
 @Section Rhombe/Losange
   
   @Image formula02.gif
 
-  l = Longueur du côté @LineBreak
+  l = Longueur du cÃ´tÃ© @LineBreak
   b = Largeur @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold Surface : A = l*b @LineBreak
   @LineBreak
-  @Bold Périmètre : U = 4*l @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = 4*l @LineBreak
 
 @Example
 @Code  
@@ -74,14 +74,14 @@
   ; Surface
   Surface = Longueur * Largeur 
 
-  ; Périmètre
+  ; PÃ©rimÃ¨tre
   Perimetre = 4 * Longueur
   
-  ;Affiche le résultat
+  ;Affiche le rÃ©sultat
   Debug "Longueur = " + Str(Longueur) + " m"
   Debug "Largueur = " + Str(Largeur) + " m"
-  Debug "Surface du losange = " + Str(Surface) + " m²"
-  Debug "Périmètre du losange = " + Str(Perimetre) + " m"
+  Debug "Surface du losange = " + Str(Surface) + " mÂ²"
+  Debug "PÃ©rimÃ¨tre du losange = " + Str(Perimetre) + " m"
 @EndCode
 
 @Section Rectangle
@@ -92,11 +92,11 @@
   b = Largeur @LineBreak
   e = Diagonale (mesure) @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold Surface : A = l*b @LineBreak
   @LineBreak
-  @Bold Périmètre : U = 2*l+2*b @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = 2*l+2*b @LineBreak
   @LineBreak
   @Bold "Diagonale (mesure)" : e = SQR(l^2+b^2)) @LineBreak
 
@@ -113,18 +113,18 @@
   ; Surface
   Surface = Longueur * Largeur 
 
-  ; Périmètre
+  ; PÃ©rimÃ¨tre
   Perimetre = 2 * Longueur + 2 * Largeur
   
-  ;Affiche le résultat
+  ;Affiche le rÃ©sultat
   Debug "Longueur = " + Str(Longueur) + " m"
   Debug "Largueur = " + Str(Largeur) + " m"
   Debug "Diagonale du rectangle = " + Str(Diagonale) + " m"
-  Debug "Surface du rectangle = " + Str(Surface) + " m²"
-  Debug "Périmètre du rectangle = " + Str(Perimetre) + " m"
+  Debug "Surface du rectangle = " + Str(Surface) + " mÂ²"
+  Debug "PÃ©rimÃ¨tre du rectangle = " + Str(Perimetre) + " m"
 @EndCode
 
-@Section Rhomboïde/Parallélogramme
+@Section RhomboÃ¯de/ParallÃ©logramme
 
   @Image formula04.gif
   
@@ -132,68 +132,68 @@
   h = Hauteur @LineBreak
   b = Largeur @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold Surface : A = l*h @LineBreak
   @LineBreak
-  @Bold Périmètre : U = 2*l+2*b @LineBreak 
+  @Bold PÃ©rimÃ¨tre : U = 2*l+2*b @LineBreak 
 
-@Section Trapèze
+@Section TrapÃ¨ze
 
   @Image formula05.gif
 
-  a = Côté 1 @LineBreak
-  b = Côté 2 @LineBreak
-  c = Côté 3 @LineBreak
-  d = Côté 4 @LineBreak
-  lm = Longueur médiane @LineBreak
+  a = CÃ´tÃ© 1 @LineBreak
+  b = CÃ´tÃ© 2 @LineBreak
+  c = CÃ´tÃ© 3 @LineBreak
+  d = CÃ´tÃ© 4 @LineBreak
+  lm = Longueur mÃ©diane @LineBreak
   h = Hauteur @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold Surface : A = (a+c)/2*h @LineBreak
   @LineBreak
-  @Bold Périmètre : U = a+b+c+d @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = a+b+c+d @LineBreak
   @LineBreak
-  @Bold Longueur médiane : lm = (a+c)/2 @LineBreak
+  @Bold Longueur mÃ©diane : lm = (a+c)/2 @LineBreak
 
 
 @Section Triangle
 
   @Image formula06.gif
   
-  a = Côté 1 @LineBreak
-  b = Côté 2 @LineBreak
-  c = Côté 3 @LineBreak
+  a = CÃ´tÃ© 1 @LineBreak
+  b = CÃ´tÃ© 2 @LineBreak
+  c = CÃ´tÃ© 3 @LineBreak
   l = Longueur de la base @LineBreak
   h = Hauteur @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold Surface : @LineBreak
   A = (l*h)/2 @LineBreak
   A = 1/4*SQR(U*(U-2*a)*(U-2*b)*(U-2*c)) @LineBreak
   @LineBreak
-  @Bold Périmètre : U = a+b+c @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = a+b+c @LineBreak
 
 @Section Polygone
 
   @Image formula07.gif
   
-  l = Longueur du côté @LineBreak
-  d = Diamètre du cercle inscrit @LineBreak
-  D = Diamètre du cercle circonscrit @LineBreak
-  n = Nombre de côtés @LineBreak
+  l = Longueur du cÃ´tÃ© @LineBreak
+  d = DiamÃ¨tre du cercle inscrit @LineBreak
+  D = DiamÃ¨tre du cercle circonscrit @LineBreak
+  n = Nombre de cÃ´tÃ©s @LineBreak
   alpha = Angle au centre @LineBreak
   beta = Angle au sommet @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
-  @Bold "Diamètre du cercle inscrit" : d = SQR(D*D-l*l) @LineBreak
+  @Bold "DiamÃ¨tre du cercle inscrit" : d = SQR(D*D-l*l) @LineBreak
   @LineBreak
-  @Bold "Diamètre du cercle circonscrit" : D = SQR(d*d+l*l) @LineBreak
+  @Bold "DiamÃ¨tre du cercle circonscrit" : D = SQR(d*d+l*l) @LineBreak
   @LineBreak
-  @Bold "Longueur du côté" : l = D*SIN(180/n) @LineBreak
+  @Bold "Longueur du cÃ´tÃ©" : l = D*SIN(180/n) @LineBreak
   @LineBreak
   @Bold "Angle au centre" : alpha = 360/n @LineBreak
   @LineBreak
@@ -201,22 +201,22 @@
   @LineBreak
   @Bold Surface : A = n*l*d/4 @LineBreak
   @LineBreak
-  @Bold Périmètre : U = l*n @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = l*n @LineBreak
 
 @Section Cercle
 
   @Image formula08.gif
 
   r = Rayon @LineBreak
-  D = Diamètre @LineBreak
+  D = DiamÃ¨tre @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
 
   @Bold Surface : @LineBreak
   A = PI*r^2 @LineBreak
   A = PI/4*d^2 @LineBreak
 @LineBreak
-  @Bold Périmètre : @LineBreak
+  @Bold PÃ©rimÃ¨tre : @LineBreak
   U = 2*PI*r @LineBreak
   U = PI*d @LineBreak
   
@@ -225,12 +225,12 @@
   @Image formula09.gif
 
   r = Rayon @LineBreak
-  D = Diamètre @LineBreak
+  D = DiamÃ¨tre @LineBreak
   l = Longueur de la corde @LineBreak
   lb = Longueur de l'arc @LineBreak
   alpha = Angle au centre @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold "Longueur de la corde" : l = 2*r*SIN(alpha/2) @LineBreak
   @LineBreak
@@ -240,20 +240,20 @@
   A = PI*D^2*alpha/1440 @LineBreak
   A = lb*r/2 @LineBreak
   @LineBreak
-  @Bold Périmètre : U = lb+D @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = lb+D @LineBreak
 
 @Section Section de cercle 
 
   @Image formula10.gif
 
   r = Rayon @LineBreak
-  D = Diamètre @LineBreak
+  D = DiamÃ¨tre @LineBreak
   l = Longueur de la corde @LineBreak
   lb = Longueur de l'arc @LineBreak
   alpha = Angle au centre @LineBreak
   b = Largeur @LineBreak
   A = Surface @LineBreak
-  U = Périmètre @LineBreak
+  U = PÃ©rimÃ¨tre @LineBreak
   @LineBreak
   @Bold "Longueur de la corde" : @LineBreak
   l = 2*r*SIN(alpha/2) @LineBreak
@@ -271,25 +271,25 @@
   A = PI*d^2*alpha/1440-(l*(r-b))/2 @LineBreak
   A = (lb*r-l*(r-b))/2 @LineBreak
   @LineBreak
-  @Bold Périmètre : U = lb+l @LineBreak
+  @Bold PÃ©rimÃ¨tre : U = lb+l @LineBreak
 
 @Section Anneau
 
   @Image formula11.gif
   
-  d = Diamètre interne @LineBreak
-  D = Diamètre externe @LineBreak
-  dm = Diamètre intermédiaire @LineBreak
+  d = DiamÃ¨tre interne @LineBreak
+  D = DiamÃ¨tre externe @LineBreak
+  dm = DiamÃ¨tre intermÃ©diaire @LineBreak
   b = Largeur @LineBreak
   A = Surface @LineBreak
   @LineBreak
-  @Bold "Diamètre intermédiaire" : dm = (D+d)/2 @LineBreak
+  @Bold "DiamÃ¨tre intermÃ©diaire" : dm = (D+d)/2 @LineBreak
   @LineBreak
   @Bold Surface : @LineBreak
   A = PI*dm*b @LineBreak
   A = PI/4*(D^2-d^2) @LineBreak
 
-@Section Consommation mémoire d'une image
+@Section Consommation mÃ©moire d'une image
 
   a = Largeur de l'image (en Pixel) @LineBreak
   b = Hauteur de l'image (en Pixel) @LineBreak
@@ -300,18 +300,18 @@
   
 @Section Distance entre deux points
 
-  (x1|y1) = coordonnées XY du point n°1 @LineBreak
-  (x2|y2) = coordonnées XY du point n°2 @LineBreak
+  (x1|y1) = coordonnÃ©es XY du point nÂ°1 @LineBreak
+  (x2|y2) = coordonnÃ©es XY du point nÂ°2 @LineBreak
   a = Distance entre les points @LineBreak
   @LineBreak
   a = SQR((x1-x2)^2 + (y1-y2)^2) @LineBreak
 
 
-@Section "Mélange" de deux valeurs
+@Section "MÃ©lange" de deux valeurs
   
   a = 1er Nombre @LineBreak
-  b = 2ème Nombre @LineBreak
+  b = 2Ã¨me Nombre @LineBreak
   v = Rapport (0% - 100%) @LineBreak
-  e = Résultat @LineBreak
+  e = RÃ©sultat @LineBreak
   @LineBreak
   e = ((a*v)/100) + ((b*(100-v)) / 100) @LineBreak

@@ -1,4 +1,4 @@
-;
+ï»¿;
 ; Mouse library documentation
 ;
 ; (c) Fantaisie Software
@@ -8,27 +8,27 @@
 
 @Overview
 
-  PureBasic permet un plein accès aux souris 
-  connectées à l'ordinateur. 
-  Les souris standards sont supportées 
-  jusqu'à trois boutons. 
-  Cette bibliothèque est optimisée et 
-  utilise des fonctions de très bas 
-  niveau particulièrement efficaces pour 
-  le développement des jeux. 
+  PureBasic permet un plein accÃ¨s aux souris 
+  connectÃ©es Ã  l'ordinateur. 
+  Les souris standards sont supportÃ©es 
+  jusqu'Ã  trois boutons. 
+  Cette bibliothÃ¨que est optimisÃ©e et 
+  utilise des fonctions de trÃ¨s bas 
+  niveau particuliÃ¨rement efficaces pour 
+  le dÃ©veloppement des jeux. 
 @LineBreak
 @LineBreak
-  N'utilisez pas cette bibliothèque pour 
+  N'utilisez pas cette bibliothÃ¨que pour 
   des applications classiques, dans ce cas, 
   @@WindowMouseX, @@WindowMouseY et 
-  @@EventType doivent être utilisées.
+  @@EventType doivent Ãªtre utilisÃ©es.
   
 @OS Windows
 @LineBreak
 @LineBreak
   Sous Windows, c'est la technologie 
-  DirectX qui est utilisée. Une version récente de 
-  DirectX 9  doit être installée (voir ici: 
+  DirectX qui est utilisÃ©e. Une version rÃ©cente de 
+  DirectX 9  doit Ãªtre installÃ©e (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 @EndOS
 
@@ -49,24 +49,24 @@
 
 @ReturnValue  
   Renvoie une valeur non nulle si une 
-  souris est disponible, zéro sinon.
+  souris est disponible, zÃ©ro sinon.
   
 @Remarks
   Vous devez appeler cette fonction avant 
   tout usage des autres commandes de la 
-  bibliothèque.
+  bibliothÃ¨que.
   
 @OS Windows
 @LineBreak
 @LineBreak
   Cette commande tente d'ouvrir DirectX 
-  (v3.0 pour la compatibilité NT4.0 ou 
+  (v3.0 pour la compatibilitÃ© NT4.0 ou 
   v7.0 ou plus sinon).
-  Si la fonction échoue (Resultat = 0), cela peut 
+  Si la fonction Ã©choue (Resultat = 0), cela peut 
   donc provenir de l'absence de DirectX sur votre 
   ordinateur ou d'une version de DirectX trop 
-  ancienne. Sous Windows, une version récente 
-  de DirectX 9 doit être installé (voir ici: 
+  ancienne. Sous Windows, une version rÃ©cente 
+  de DirectX 9 doit Ãªtre installÃ© (voir ici: 
   @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
   
 @Example 
@@ -75,19 +75,19 @@
   InitSprite()
   InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - Cliquer et utiliser la molette...",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ;Création du curseur de la souris
+  ;CrÃ©ation du curseur de la souris
   LoadSprite(0, #PB_Compiler_Home + "examples/sources/Data/PureBasic.bmp")   ; Load nice small Logo
 
-  ; Déplacement de la souris
+  ; DÃ©placement de la souris
   MouseLocate(300,200)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-    Repeat      ; Gestion de la fenêtre
+    Repeat      ; Gestion de la fenÃªtre
       Event  = WindowEvent() 
       Select Event 
         Case #PB_Event_CloseWindow 
@@ -106,7 +106,7 @@
   tiks = MouseWheel()
   RotateSprite(0, tiks, #PB_Relative)
   
-  ; Affichage de l'état de la souris
+  ; Affichage de l'Ã©tat de la souris
   StartDrawing(ScreenOutput())
   DrawText(0,5, "X=" + Str(x) + "   Y=" + Str(y) + "  DeltaX " + Str(MouseDeltaX()) + "  DeltaY= " + Str(MouseDeltaY())) 
   If MouseButton(#PB_MouseButton_Left) <> 0
@@ -129,10 +129,10 @@
   Else
     DrawText(450,30, "Molette", RGB(255,255,255))
   EndIf
-  DrawText(0,60,".: Libérer la souris: Clic sur bouton gauche et droit :.")
+  DrawText(0,60,".: LibÃ©rer la souris: Clic sur bouton gauche et droit :.")
   StopDrawing()
   
-  ; Si clic sur bouton gauche ET droit alors la souris est libérée de l'écran courant
+  ; Si clic sur bouton gauche ET droit alors la souris est libÃ©rÃ©e de l'Ã©cran courant
   If MouseButton(#PB_MouseButton_Left)  And MouseButton(#PB_MouseButton_Right) 
     ReleaseMouse(1)
     oui=6
@@ -159,28 +159,28 @@
 @Function Resultat = ExamineMouse() 
 
 @Description
-  Met à jour l'état de la souris. 
+  Met Ã  jour l'Ã©tat de la souris. 
   
 @NoParameters
 
 @ReturnValue  
-  Renvoie une valeur non nulle si l'état de 
-  la souris a changé, zéro sinon.
+  Renvoie une valeur non nulle si l'Ã©tat de 
+  la souris a changÃ©, zÃ©ro sinon.
   
 @Remarks
-   Cette commande doit être utilisée avant @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY ou @@MouseButton.
+   Cette commande doit Ãªtre utilisÃ©e avant @@MouseDeltaX, @@MouseDeltaY, @@MouseX, @@MouseY ou @@MouseButton.
 @LineBreak
 @LineBreak
-   Le premier appel à ExamineMouse() capture la souris dans l'écran (surface accélérée) en cours, aussi bien en plein écran 
-   (@Link "Screen/OpenScreen" "Screen" ) que dans un écran fenêtré (@Link "Screen/OpenWindowedScreen" "WindowedScreen").
+   Le premier appel Ã  ExamineMouse() capture la souris dans l'Ã©cran (surface accÃ©lÃ©rÃ©e) en cours, aussi bien en plein Ã©cran 
+   (@Link "Screen/OpenScreen" "Screen" ) que dans un Ã©cran fenÃªtrÃ© (@Link "Screen/OpenWindowedScreen" "WindowedScreen").
 @LineBreak
 @LineBreak
-   La souris est à nouveau disponible pour l’ensemble du système après avoir appelé @Link "ReleaseMouse" "ReleaseMouse(#True)" 
-   ou après la fin de ce programme.
+   La souris est Ã  nouveau disponible pour lâ€™ensemble du systÃ¨me aprÃ¨s avoir appelÃ© @Link "ReleaseMouse" "ReleaseMouse(#True)" 
+   ou aprÃ¨s la fin de ce programme.
 @LineBreak
 @LineBreak
-  En @Link "Screen/OpenScreen" "mode plein écran", la commande @@FlipBuffers doit être appelée dans la boucle d'événements pour gérer 
-  correctement tous les événements.
+  En @Link "Screen/OpenScreen" "mode plein Ã©cran", la commande @@FlipBuffers doit Ãªtre appelÃ©e dans la boucle d'Ã©vÃ©nements pour gÃ©rer 
+  correctement tous les Ã©vÃ©nements.
 
 @Example 
 @Code
@@ -188,19 +188,19 @@
   InitSprite()
   InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - Cliquer et utiliser la molette...",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ;Création du curseur de la souris
+  ;CrÃ©ation du curseur de la souris
   LoadSprite(0, #PB_Compiler_Home + "examples/sources/Data/PureBasic.bmp")   ; Load nice small Logo
 
-  ; Déplacement de la souris
+  ; DÃ©placement de la souris
   MouseLocate(300,200)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-    Repeat      ; Gestion de la fenêtre
+    Repeat      ; Gestion de la fenÃªtre
       Event  = WindowEvent() 
       Select Event 
         Case #PB_Event_CloseWindow 
@@ -219,7 +219,7 @@
   tiks = MouseWheel()
   RotateSprite(0, tiks, #PB_Relative)
   
-  ; Affichage de l'état de la souris
+  ; Affichage de l'Ã©tat de la souris
   StartDrawing(ScreenOutput())
   DrawText(0,5, "X=" + Str(x) + "   Y=" + Str(y) + "  DeltaX " + Str(MouseDeltaX()) + "  DeltaY= " + Str(MouseDeltaY())) 
   If MouseButton(#PB_MouseButton_Left) <> 0
@@ -242,10 +242,10 @@
   Else
     DrawText(450,30, "Molette", RGB(255,255,255))
   EndIf
-  DrawText(0,60,".: Libérer la souris: Clic sur bouton gauche et droit :.")
+  DrawText(0,60,".: LibÃ©rer la souris: Clic sur bouton gauche et droit :.")
   StopDrawing()
   
-  ; Si clic sur bouton gauche ET droit alors la souris est libérée de l'écran courant
+  ; Si clic sur bouton gauche ET droit alors la souris est libÃ©rÃ©e de l'Ã©cran courant
   If MouseButton(#PB_MouseButton_Left)  And MouseButton(#PB_MouseButton_Right) 
     ReleaseMouse(1)
     oui=6
@@ -273,27 +273,27 @@
 @Function Resultat = MouseButton(Bouton)
 
 @Description
-  Teste si un bouton est enfoncé.
+  Teste si un bouton est enfoncÃ©.
   
 @Parameter "Bouton"
   @FixedFont
-  @#PB_MouseButton_Left  : Teste si le bouton gauche de la souris est enfoncé
-  @#PB_MouseButton_Right : Teste si le bouton droit de la souris est enfoncé
-  @#PB_MouseButton_Middle: Teste si le bouton du milieu de la souris est enfoncé
+  @#PB_MouseButton_Left  : Teste si le bouton gauche de la souris est enfoncÃ©
+  @#PB_MouseButton_Right : Teste si le bouton droit de la souris est enfoncÃ©
+  @#PB_MouseButton_Middle: Teste si le bouton du milieu de la souris est enfoncÃ©
 @EndFixedFont
 
 @ReturnValue  
    Renvoie une valeur non nulle si le 
-   bouton spécifié est appuyé, zéro sinon.
+   bouton spÃ©cifiÃ© est appuyÃ©, zÃ©ro sinon.
   
 @Remarks
   On peut appuyer sur plusieurs boutons 
-  simultanément. 
+  simultanÃ©ment. 
 @LineBreak
 @LineBreak  
-  @@ExamineMouse doit être appelé avant 
-  cette fonction pour mettre l'état des 
-  boutons à jour.
+  @@ExamineMouse doit Ãªtre appelÃ© avant 
+  cette fonction pour mettre l'Ã©tat des 
+  boutons Ã  jour.
 
 @Example 
 @Code
@@ -302,19 +302,19 @@
  InitKeyboard()
  InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseButton",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
   
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(200,180, "Cliquez sur le bouton gauche, milieu ou droit de la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -353,25 +353,25 @@
 @Function Resultat = MouseDeltaX()
 
 @Description
-  Teste le déplacement horizontal de la souris.
+  Teste le dÃ©placement horizontal de la souris.
   
 @NoParameters
 
 @ReturnValue  
-  Renvoie le déplacement horizontal (en pixels) 
+  Renvoie le dÃ©placement horizontal (en pixels) 
   de la souris depuis le dernier appel de 
   cette fonction. 
   
 @Remarks
-  Le résultat peut être positif ou négatif 
-  selon que le déplacement s'est 
-  effectué vers la droite ou vers la gauche 
+  Le rÃ©sultat peut Ãªtre positif ou nÃ©gatif 
+  selon que le dÃ©placement s'est 
+  effectuÃ© vers la droite ou vers la gauche 
   depuis le dernier appel. 
 @LineBreak
 @LineBreak  
-  @@ExamineMouse doit être appelé avant cette 
+  @@ExamineMouse doit Ãªtre appelÃ© avant cette 
   fonction pour mettre la position courante de 
-  la souris à jour.
+  la souris Ã  jour.
  
 @Example 
 @Code
@@ -380,19 +380,19 @@
  InitKeyboard()
  InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseDeltaX",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
    
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(250,180, "Bougez la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -420,25 +420,25 @@
 @Function Resultat = MouseDeltaY()
 
 @Description
-  Teste le déplacement vertical de la souris.
+  Teste le dÃ©placement vertical de la souris.
   
 @NoParameters
 
 @ReturnValue  
-  Renvoie le déplacement vertical (en pixels) 
+  Renvoie le dÃ©placement vertical (en pixels) 
   de la souris depuis le dernier appel de 
   cette fonction. 
   
 @Remarks
-  Le résultat peut être positif ou négatif 
-  selon que le déplacement s'est effectué 
+  Le rÃ©sultat peut Ãªtre positif ou nÃ©gatif 
+  selon que le dÃ©placement s'est effectuÃ© 
   vers le haut ou vers le bas depuis le 
   dernier appel. 
 @LineBreak
 @LineBreak  
-  @@ExamineMouse doit être appelé avant 
+  @@ExamineMouse doit Ãªtre appelÃ© avant 
   cette fonction pour mettre la position 
-  courante de la souris à jour.
+  courante de la souris Ã  jour.
  
 @Example 
 @Code
@@ -447,19 +447,19 @@
  InitKeyboard()
  InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseDeltaY",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat        ; Gestion de la fenêtre
+   Repeat        ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
    
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(250,180, "Bougez la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -488,7 +488,7 @@
 
 @Description
   Change la position absolue (en pixels) 
-  de la souris dans l'écran courant. 
+  de la souris dans l'Ã©cran courant. 
   
 @Parameter "X, Y"
   La nouvelle position du curseur.
@@ -496,7 +496,7 @@
 @NoReturnValue 
 
 @Remarks
-  Principalement utilisé avec les commandes 
+  Principalement utilisÃ© avec les commandes 
   @@MouseX et @@MouseY.
  
 @Example 
@@ -512,22 +512,22 @@
   Circle(10, 10, 10, RGB(255, 255, 0))
   StopDrawing()
   
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseLocate",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
    
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
-   DrawText(100,180, "Bougez la souris puis cliquez pour remettre le curseur au centre de l'écran.", RGB(255,0,0),RGB(255,255,0))
+   DrawText(100,180, "Bougez la souris puis cliquez pour remettre le curseur au centre de l'Ã©cran.", RGB(255,0,0),RGB(255,255,0))
    
    DrawText(MouseX(), MouseY(), "["+Chr(164)+"]", RGB(255,255,0))
    
@@ -561,19 +561,19 @@
 @NoParameters
 
 @ReturnValue  
-  Renvoie le nombre de "ticks" (unité pas-à-pas 
-  du système) réalisé par la molette de la 
+  Renvoie le nombre de "ticks" (unitÃ© pas-Ã -pas 
+  du systÃ¨me) rÃ©alisÃ© par la molette de la 
   souris depuis le dernier appel de cette fonction.
   
 @Remarks
-  La valeur est positive si la molette a été 
-  déplacée vers l'avant et négative si la molette 
-  a été déplacée vers l'arrière. 
+  La valeur est positive si la molette a Ã©tÃ© 
+  dÃ©placÃ©e vers l'avant et nÃ©gative si la molette 
+  a Ã©tÃ© dÃ©placÃ©e vers l'arriÃ¨re. 
 @LineBreak
 @LineBreak
-  @@ExamineMouse doit être appelé avant cette 
+  @@ExamineMouse doit Ãªtre appelÃ© avant cette 
   fonction pour mettre les informations sur la 
-  souris à jour.
+  souris Ã  jour.
  
 @Example 
 @Code
@@ -582,13 +582,13 @@
  InitKeyboard()
  InitMouse()
 
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - Utiliser la molette",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
@@ -596,7 +596,7 @@
    
   ; Molette de la souris = Rotation du curseur
    tiks = MouseWheel()
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(250,180, "Utilisez la molette centrale de la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -636,12 +636,12 @@
 
 @ReturnValue  
   Renvoie la position horizontale actuelle 
-  (en pixels) de la souris sur l'écran actif. 
+  (en pixels) de la souris sur l'Ã©cran actif. 
   
 @Remarks
-  @@ExamineMouse doit être appelé avant cette 
+  @@ExamineMouse doit Ãªtre appelÃ© avant cette 
   fonction pour mettre la position courante de 
-  la souris à jour.
+  la souris Ã  jour.
 
 @SeeAlso
   @@ExamineMouse, @@MouseY, @@MouseLocate
@@ -653,19 +653,19 @@
   InitKeyboard()
   InitMouse()
   
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseX",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
    
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(300,180, "Bougez la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -698,12 +698,12 @@
 
 @ReturnValue  
   Renvoie la position verticale actuelle 
-  (en pixels) de la souris sur l'écran actif. 
+  (en pixels) de la souris sur l'Ã©cran actif. 
   
 @Remarks
-  @@ExamineMouse doit être appelé avant cette 
+  @@ExamineMouse doit Ãªtre appelÃ© avant cette 
   fonction pour mettre la position courante de 
-  la souris à jour.
+  la souris Ã  jour.
  
 @Example 
 @Code
@@ -712,19 +712,19 @@
   InitKeyboard()
   InitMouse()
   
-  ; Ouverture de la fenêtre
+  ; Ouverture de la fenÃªtre
   OpenWindow(0,0,0,800,600,"Souris - MouseY",#PB_Window_ScreenCentered|#PB_Window_SystemMenu)
   OpenWindowedScreen(WindowID(0),0,0,800,600,1,0,0)
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
-   Repeat         ; Gestion de la fenêtre
+   Repeat         ; Gestion de la fenÃªtre
      Event  = WindowEvent() 
    Until Event = 0
   
    ExamineMouse() ; Etat de la souris
    
-   ; Affichage de l'état des boutons de la souris
+   ; Affichage de l'Ã©tat des boutons de la souris
    StartDrawing(ScreenOutput())
    DrawText(10,10, "Appuyer sur une touche du clavier pour quitter.", RGB(255,255,0))
    DrawText(300,180, "Bougez la souris.", RGB(255,0,0),RGB(255,255,0))
@@ -755,20 +755,20 @@
 @Function ReleaseMouse(Etat)
 
 @Description
-  Capture ou libère la souris pour rendre son 
-  usage possible dans le système d'exploitation. 
+  Capture ou libÃ¨re la souris pour rendre son 
+  usage possible dans le systÃ¨me d'exploitation. 
   
 @Parameter "Etat"
 @FixedFont
-  @#True  : La souris est libérée de l'écran
-  @#False : La souris est capturée dans l'écran.
+  @#True  : La souris est libÃ©rÃ©e de l'Ã©cran
+  @#False : La souris est capturÃ©e dans l'Ã©cran.
 @EndFixedFont
 
 @NoReturnValue  
   
 @Remarks
-  On utilise typiquement cette fonction après 
-  avoir vérifié le résultat de la 
+  On utilise typiquement cette fonction aprÃ¨s 
+  avoir vÃ©rifiÃ© le rÃ©sultat de la 
   commande @@IsScreenActive.
  
 @Example 
@@ -784,37 +784,37 @@
   InitSprite()
   InitMouse() 
   
-  ; Ouverture de la fenêtre et de l'écran
-  OpenWindow(0,0,0,650,480,"Capture/Libération de la souris",#PB_Window_ScreenCentered|#PB_Window_SystemMenu) 
+  ; Ouverture de la fenÃªtre et de l'Ã©cran
+  OpenWindow(0,0,0,650,480,"Capture/LibÃ©ration de la souris",#PB_Window_ScreenCentered|#PB_Window_SystemMenu) 
   ButtonGadget(1,500,440,120,24,"Cliquez !") 
   OpenWindowedScreen(WindowID(0),20,20,LargeurEcran,HauteurEcran,0,0,0) 
 
-  ; Gestion de la fenêtre et de l'écran
+  ; Gestion de la fenÃªtre et de l'Ã©cran
   Repeat
     
-    Repeat ; Gestion de la fenêtre
+    Repeat ; Gestion de la fenÃªtre
       Event  = WindowEvent()  
       Select Event 
         Case #PB_Event_Gadget 
           If EventGadget() = 1     ; Si Clic sur le Bouton "Cliquez !"
-            MessageRequester("Attention","Bouton cliqué !") 
+            MessageRequester("Attention","Bouton cliquÃ© !") 
           EndIf 
-        Case #PB_Event_CloseWindow ; Si fermeture de la fenêtre
+        Case #PB_Event_CloseWindow ; Si fermeture de la fenÃªtre
           End
       EndSelect
       
-      ; Affichage de la position de la souris dans la fenêtre
-      SetWindowTitle(0, "Capture/Libération de la souris X= " + Str(mx) + " Y= "+ Str(my))
+      ; Affichage de la position de la souris dans la fenÃªtre
+      SetWindowTitle(0, "Capture/LibÃ©ration de la souris X= " + Str(mx) + " Y= "+ Str(my))
     Until Event =  0 
     
-    ; Gestion de la capture de la souris dans l'écran noir
-      If inScreen = #True       ; Si la souris est dans l'écran noir...
+    ; Gestion de la capture de la souris dans l'Ã©cran noir
+      If inScreen = #True       ; Si la souris est dans l'Ã©cran noir...
         If MouseX() > LargeurEcran-2 Or MouseY() > HauteurEcran-2 Or MouseX() < 1 Or MouseY() <1 
-              ReleaseMouse(#True)   ; ...et si elle s'approche des bords de l'écran alors on libère la souris
+              ReleaseMouse(#True)   ; ...et si elle s'approche des bords de l'Ã©cran alors on libÃ¨re la souris
               inScreen = #False 
           EndIf  
       Else                      
-        mx = WindowMouseX(0)      ; Sinon, si la souris entre dans l'écran noir...
+        mx = WindowMouseX(0)      ; Sinon, si la souris entre dans l'Ã©cran noir...
         my = WindowMouseY(0)
         If mx < LargeurEcran + MargeG And mx > MargeG And my > MargeH And my < MargeH + HauteurEcran                         
           ReleaseMouse(#False)    ; ... alors on capture la souris 
@@ -823,18 +823,18 @@
         EndIf 
     EndIf 
     
-    ; Affichage de l'écran noir
+    ; Affichage de l'Ã©cran noir
     ClearScreen(0) 
     StartDrawing(ScreenOutput()) 
-        DrawText(150,200,"Souris relachée") 
+        DrawText(150,200,"Souris relachÃ©e") 
         DrawText(180,230,"X= ")
         DrawText(180,260,"Y= ")
     StopDrawing()  
-    If inScreen  ; Si la souris est dans l'écran noir... 
+    If inScreen  ; Si la souris est dans l'Ã©cran noir... 
         ExamineMouse() 
         StartDrawing(ScreenOutput())
         FrontColor(RGB(255,255,0))
-        DrawText(150,200,"Souris capturée" ) 
+        DrawText(150,200,"Souris capturÃ©e" ) 
         DrawText(180,230,"X= "+ Str(MouseX())) 
         DrawText(180,260,"Y= "+ Str(MouseY()))
         DrawText(MouseX(), MouseY(), "["+Chr(164)+"]")

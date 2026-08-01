@@ -1,4 +1,4 @@
-@Title NewMap
+ï»¿@Title NewMap
 
 @Syntax
 
@@ -6,32 +6,32 @@
   
 @Description
 
-  @Keyword NewMap permet de déclarer une nouvelle map, aussi connue sous le nom de table de hachage ou dictionnaire. Elle permet un accès rapide à
-  un élément basé sur une clef. Chaque clef dans la map est unique, ce qui signifie qu'il n'est pas possible d'avoir deux éléments 
-  distincts avec la même clef. Il n'y a pas de limite sur le nombre d'élément que peut contenir une map. Une map peut être déclarée avec
-  n'importe quel type @ReferenceLink "Variables" "basic" ou @ReferenceLink "Structures" "structuré". 
-  Pour consulter toutes les commandes nécessaires à la manipulation des maps, voir la bibliothèque @LibraryLink "Map" "Map". @LineBreak
+  @Keyword NewMap permet de dÃ©clarer une nouvelle map, aussi connue sous le nom de table de hachage ou dictionnaire. Elle permet un accÃ¨s rapide Ã 
+  un Ã©lÃ©ment basÃ© sur une clef. Chaque clef dans la map est unique, ce qui signifie qu'il n'est pas possible d'avoir deux Ã©lÃ©ments 
+  distincts avec la mÃªme clef. Il n'y a pas de limite sur le nombre d'Ã©lÃ©ment que peut contenir une map. Une map peut Ãªtre dÃ©clarÃ©e avec
+  n'importe quel type @ReferenceLink "Variables" "basic" ou @ReferenceLink "Structures" "structurÃ©". 
+  Pour consulter toutes les commandes nÃ©cessaires Ã  la manipulation des maps, voir la bibliothÃ¨que @LibraryLink "Map" "Map". @LineBreak
   @LineBreak
-  Quand une nouvelle clef est utilisée lors d'une affectation, un nouvel élément est automatiquement ajouté à la map. Si un autre élément avec
-  la même clef était déjà présent dans la map, il sera remplacé par le nouveau. Une fois qu'un élément a été créé ou accédé, il devient l'
-  élément courant de la map, et les accès à cet élément peuvent ensuite s'effectuer sans avoir à spécifier de clef. C'est très utile
-  lors de l'utilisation d'une map structurée, car la recherche de l'élément ne sera plus nécéssaire pour accéder aux différents champs. @LineBreak
+  Quand une nouvelle clef est utilisÃ©e, un nouvel Ã©lÃ©ment est automatiquement ajoutÃ© Ã  la map mÃªme sans affectation. Si un autre Ã©lÃ©ment avec
+  la mÃªme clef Ã©tait dÃ©jÃ  prÃ©sent dans la map, il sera remplacÃ© par le nouveau. Une fois qu'un Ã©lÃ©ment a Ã©tÃ© crÃ©Ã© ou accÃ©dÃ©, il devient l'
+  Ã©lÃ©ment courant de la map, et les accÃ¨s Ã  cet Ã©lÃ©ment peuvent ensuite s'effectuer sans avoir Ã  spÃ©cifier de clef. C'est trÃ¨s utile
+  lors de l'utilisation d'une map structurÃ©e, car la recherche de l'Ã©lÃ©ment ne sera plus nÃ©cÃ©ssaire pour accÃ©der aux diffÃ©rents champs. @LineBreak
   @LineBreak
-  Les maps sont toujours locales par défaut, donc pour accéder à partir d'une @ReferenceLink "Procedures" "procédure" à une map définie dans le
+  Les maps sont toujours locales par dÃ©faut, donc pour accÃ©der Ã  partir d'une @ReferenceLink "Procedures" "procÃ©dure" Ã  une map dÃ©finie dans le
   code source principal du programme, l'utilisation de @ReferenceLink "Global" "Global" ou @ReferenceLink "Shared" "Shared"
   est requise.
-  Il est également possible de passer une map en paramètre d'une @ReferenceLink "Procedures" "procédure" à l'aide
+  Il est Ã©galement possible de passer une map en paramÃ¨tre d'une @ReferenceLink "Procedures" "procÃ©dure" Ã  l'aide
   du mot-clef @Keyword Map.
   @LineBreak
   @LineBreak
-  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un élément d'une map avec une variable, 
-  un élément d'un tableau ou un élément de la map.
+  Utilisez la commande @ReferenceLink "others" "Swap" pour permuter rapidement un Ã©lÃ©ment d'une map avec une variable, 
+  un Ã©lÃ©ment d'un tableau ou un Ã©lÃ©ment de la map.
   @LineBreak
   @LineBreak
-  Le paramètre optionnel 'Slots' défini le nombre de slots interne qui sera utilisé par la map pour effectuer le stockage des éléments. Plus il y a de slots
-  en interne, plus l'accès à un élément sera rapide, mais plus la consommation mémoire sera importante. C'est un compromis dépendant
-  du nombre d'éléments que la map contiendra au maximum et de la rapidité nécessaire à l'accès d'un élément. La valeur par défaut est 512. Ce paramètre
-  n'a pas d'influence sur le nombre d'éléments que la map peut contenir.
+  Le paramÃ¨tre optionnel 'Slots' dÃ©fini le nombre de slots interne qui sera utilisÃ© par la map pour effectuer le stockage des Ã©lÃ©ments. Plus il y a de slots
+  en interne, plus l'accÃ¨s Ã  un Ã©lÃ©ment sera rapide, mais plus la consommation mÃ©moire sera importante. C'est un compromis dÃ©pendant
+  du nombre d'Ã©lÃ©ments que la map contiendra au maximum et de la rapiditÃ© nÃ©cessaire Ã  l'accÃ¨s d'un Ã©lÃ©ment. La valeur par dÃ©faut est 512. Ce paramÃ¨tre
+  n'a pas d'influence sur le nombre d'Ã©lÃ©ments que la map peut contenir.
   
   @Example Map simple
 
@@ -49,7 +49,7 @@
   Next
 @EndCode
 
-  @Example Map en paramètre d'une procédure
+  @Example Map en paramÃ¨tre d'une procÃ©dure
 
 @Code
   NewMap Pays.s()
@@ -72,7 +72,7 @@
 @EndCode
 
 
-  @Example Map structurée
+  @Example Map structurÃ©e
 
 @Code
   Structure Voiture
@@ -83,7 +83,7 @@
 
   NewMap Voitures.Voiture()
   
-  ; Ici, nous utilisons l'élément courant après l'insertion du nouvel élément
+  ; Ici, nous utilisons l'Ã©lÃ©ment courant aprÃ¨s l'insertion du nouvel Ã©lÃ©ment
   ;
   Voitures("Ferrari F40")\Poids = 1000
   Voitures()\Vitesse = 320
@@ -98,4 +98,19 @@
     Debug "Poids: "+Str(Voitures()\Poids)
   Next
  
+@EndCode
+
+  @Example Ã‰lÃ©mÃ©nt de Map crÃ©Ã© sans affectation
+  
+@Code
+  NewMap IconeMap()
+
+  IconeMap("1")=1
+  IconeMap("2")=2
+
+  Debug FindMapElement(IconeMap(),"3"); Affiche 0 car l'Ã©lÃ©ment n'existe pas
+
+  If IconeMap("3"):EndIf; PureBasic le crÃ©e sans affectation parce qu'une nouvelle clÃ© a Ã©tÃ© dÃ©tectÃ©e
+
+  Debug FindMapElement(IconeMap(),"3"); Affiche le pointeur vers ce nouvel Ã©lÃ©ment. 
 @EndCode

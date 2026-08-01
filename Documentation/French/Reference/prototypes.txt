@@ -1,4 +1,4 @@
-@Title Prototypes
+ï»¿@Title Prototypes
 
 @Syntax
 
@@ -6,32 +6,34 @@
 
 @Description
 
-  Pour les programmeurs chevronnés. Un @Keyword Prototype permet la déclaration d'un
-  type particulier qui servira à appeler une fonction. Cela permet de faire facilement des pointeurs
-  de fonctions, car ce type peut être affecté à une variable.
+  Pour les programmeurs chevronnÃ©s. Un @Keyword Prototype permet la dÃ©claration d'un
+  type particulier qui servira Ã  appeler une fonction. Cela permet de faire facilement des pointeurs
+  de fonctions, car ce type peut Ãªtre affectÃ© Ã  une variable.
   @LineBreak
   @LineBreak
-  Cette fonctionnalité peut remplacer @@CallFunction 
-  car elle présente quelques avantages: vérification du type de paramètre, du nombre
-  de paramètres.
+  Cette fonctionnalitÃ© peut remplacer @@CallFunction 
+  car elle prÃ©sente quelques avantages: vÃ©rification du type de paramÃ¨tre, du nombre
+  de paramÃ¨tres.
   @LineBreak
   @LineBreak
-  Contrairement à  @@CallFunction, le prototype peut gérer les paramètres de
-  types 'double', 'float' et 'quad' sans aucun problème. @@GetFunction permet d'obtenir 
-  facilement le pointeur d'une fonction dans une bibliothèque.
+  Contrairement Ã   @@CallFunction, le prototype peut gÃ©rer les paramÃ¨tres de
+  types 'double', 'float' et 'quad' sans aucun problÃ¨me. @@GetFunction permet d'obtenir 
+  facilement le pointeur d'une fonction dans une bibliothÃ¨que.
   @LineBreak
   @LineBreak
-  Les paramètres en fin de prototype peuvent avoir une valeur par défaut (une expression constante est requise).
-  Les paramètres ayant une valeur par défaut pourront être omis lors de l'appel du prototype, la valeur
-  par défaut de chaque paramètre manquant sera utilisée.
+  Les @Keyword Prototypes sont aussi utiliser dans les @ReferenceLink "dll" "DLL's".
+  @LineBreak
+  @LineBreak 
+  Les paramÃ¨tres en fin de prototype peuvent avoir une valeur par dÃ©faut (une expression constante est requise).
+  Les paramÃ¨tres ayant une valeur par dÃ©faut pourront Ãªtre omis lors de l'appel du prototype, la valeur
+  par dÃ©faut de chaque paramÃ¨tre manquant sera utilisÃ©e.
   @LineBreak
   @LineBreak
-  Par défaut, la fonction utilisera la convention d'appel 'stdcall' sur x86, ou 'fastcall' sur x64. Si le pointeur de fonction appelle
-  une fonction C utilisant la convention d'appel 'cdecl', @Keyword PrototypeC est fortement conseillé.
+  Par dÃ©faut, la fonction utilisera la convention d'appel @InternetLink "https://fr.wikipedia.org/wiki/Convention_d%27appel" "stdcall" sur x86, ou 'fastcall' sur x64. Si le pointeur de fonction appelle
+  une fonction C utilisant la convention d'appel @InternetLink "https://fr.wikipedia.org/wiki/Convention_d%27appel" "cdecl", @Keyword PrototypeC est fortement conseillÃ©.
   @LineBreak
   @LineBreak
-  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent être utilisés pour les paramètres, mais pas pour le
-  type de retour.
+  Les @ReferenceLink "pseudotypes" "pseudotypes" peuvent Ãªtre utilisÃ©s pour les paramÃ¨tres, mais pas pour le type de retour.
   
 @Example 
 
@@ -49,7 +51,7 @@
     ;
     MsgBox.ProtoMessageBox = GetFunction(0, "MessageBoxW")
     
-    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent Ãªtre omises
   EndIf
     
 @EndCode
@@ -62,9 +64,9 @@
     CompilerError "Cet exemple ne fonctionne que sous Windows"
   CompilerEndIf
   
-  ; Nous spécifions le pseudotype 'p-unicode'pour les 2 paramètres de type string
-  ; (texte à afficher et titre) car l'api MessageBoxW est une fonction unicode. Le compilateur
-  ; convertira automatiquement les chaînes ascii en unicode pour les besoins de la fonction 
+  ; Nous spÃ©cifions le pseudotype 'p-unicode'pour les 2 paramÃ¨tres de type string
+  ; (texte Ã  afficher et titre) car l'api MessageBoxW est une fonction unicode. Le compilateur
+  ; convertira automatiquement les chaÃ®nes ascii en unicode pour les besoins de la fonction 
   ;
  
   Prototype.i ProtoMessageBoxA(Fenetre.i, Corps.p-ascii, Titre.p-ascii, Options.i = 0)
@@ -75,7 +77,7 @@
     ;
     MsgBox.ProtoMessageBoxA = GetFunction(0, "MessageBoxA")
     
-    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent être omises
+    MsgBox(0, "Le Monde", "Bonjour") ; Les options peuvent Ãªtre omises
   EndIf
     
 @EndCode

@@ -1,59 +1,59 @@
-@Title Unicode
+ï»¿@Title Unicode
 
 @Section Introduction
 
-  'Unicode' est un terme utilisé pour désigner un jeu de caractères étendu destiné à afficher du texte
-  dans de nombreux langages différents (y compris les langages non latins, avec beaucoup de symboles
-  différents tel que le Japonais, le Coréen etc.). En unicode, chaque symbole a sa place propre, et il n'est
-  pas nécessaire d'avoir une table de caractères par langue.
+  'Unicode' est un terme utilisÃ© pour dÃ©signer un jeu de caractÃ¨res Ã©tendu destinÃ© Ã  afficher du texte
+  dans de nombreux langages diffÃ©rents (y compris les langages non latins, avec beaucoup de symboles
+  diffÃ©rents tel que le Japonais, le CorÃ©en etc.). En unicode, chaque symbole a sa place propre, et il n'est
+  pas nÃ©cessaire d'avoir une table de caractÃ¨res par langue.
   @LineBreak
   @LineBreak
-  Pour simplifier, l'unicode peut être vu comme une très grande table ascii, qui n'a pas 256 caractères mais 65536.
-  Donc, pour stocker un caractère, 2 octets seront nécessaires en mémoire (c'est important de noter cette
-  différence, notamment lors de l'utilisation de @ReferenceLink "memory" "pointeurs" vers des chaînes de caractères).
+  Pour simplifier, l'unicode peut Ãªtre vu comme une trÃ¨s grande table ascii, qui n'a pas 256 caractÃ¨res mais 65536.
+  Donc, pour stocker un caractÃ¨re, 2 octets seront nÃ©cessaires en mÃ©moire (c'est important de noter cette
+  diffÃ©rence, notamment lors de l'utilisation de @ReferenceLink "memory" "pointeurs" vers des chaÃ®nes de caractÃ¨res).
   @LineBreak
   @LineBreak
-  Voici quelques liens pour se faire une meilleure idée de l'unicode (lecture vivement conseillée):
+  Voici quelques liens pour se faire une meilleure idÃ©e de l'unicode (lecture vivement conseillÃ©e):
   @LineBreak
   @LineBreak
-  @InternetLink "http://fr.wikipedia.org/wiki/Unicode" "Information générale sur l'unicode (Français)" @LineBreak
-  @InternetLink "http://en.wikipedia.org/wiki/Unicode" "Information générale sur l'unicode (Anglais)" @LineBreak
+  @InternetLink "http://fr.wikipedia.org/wiki/Unicode" "Information gÃ©nÃ©rale sur l'unicode (FranÃ§ais)" @LineBreak
+  @InternetLink "http://en.wikipedia.org/wiki/Unicode" "Information gÃ©nÃ©rale sur l'unicode (Anglais)" @LineBreak
   @InternetLink "http://www.unicode.org/faq/utf_bom.html" "L'unicode et les BOM"
    
 @Section Unicode et Windows
   
-  PureBasic utilise l'encodage UCS2 qui est aussi le format utilisé de manière 
-  interne par l'API unicode MS Windows, donc aucune conversion n'est nécessaire 
-  lorsqu'un fonction est appelée. Si le programme utilise des fonctions API,
+  PureBasic utilise l'encodage UCS2 qui est aussi le format utilisÃ© de maniÃ¨re 
+  interne par l'API unicode MS Windows, donc aucune conversion n'est nÃ©cessaire 
+  lorsqu'un fonction est appelÃ©e. Si le programme utilise des fonctions API,
   PureBasic utilisera automatiquement la version unicode de la fonction si elle est 
   disponible (par exemple MessageBox_() pointera vers MessageBoxW()). Il en va de 
-  même pour toutes les structures et les constantes API supportées par PureBasic.
+  mÃªme pour toutes les structures et les constantes API supportÃ©es par PureBasic.
   
 @Section UTF-8
   
-  L'UTF-8 est une autre façon d'encoder une chaîne de caractères unicode. 
-  Contrairement à UCS2 qui prend toujours 2 octets par caractère, UTF-8 utilise un 
-  encodage variable pour chaque caractère (jusqu'à 4 octets pour représenter un 
-  caractère). Le point fort de l'UTF-8 est qu'il ne contient pas de caractère nul 
-  lors de son encodage, donc le texte peut être édité facilement. De plus, les 
-  caractères ASCII de 1 à 127 sont conservés (ils ne sont pas modifiés lors
-  de l'encodage) ce qui rend le texte à peu près lisible pour les langues latines. 
-  Son point faible est le côté variable de ses caractères, ce qui nécessite des 
+  L'UTF-8 est une autre faÃ§on d'encoder une chaÃ®ne de caractÃ¨res unicode. 
+  Contrairement Ã  UCS2 qui prend toujours 2 octets par caractÃ¨re, UTF-8 utilise un 
+  encodage variable pour chaque caractÃ¨re (jusqu'Ã  4 octets pour reprÃ©senter un 
+  caractÃ¨re). Le point fort de l'UTF-8 est qu'il ne contient pas de caractÃ¨re nul 
+  lors de son encodage, donc le texte peut Ãªtre Ã©ditÃ© facilement. De plus, les 
+  caractÃ¨res ASCII de 1 Ã  127 sont conservÃ©s (ils ne sont pas modifiÃ©s lors
+  de l'encodage) ce qui rend le texte Ã  peu prÃ¨s lisible pour les langues latines. 
+  Son point faible est le cÃ´tÃ© variable de ses caractÃ¨res, ce qui nÃ©cessite des 
   routines de gestion de texte plus lentes.
   @LineBreak
   @LineBreak
-  PureBasic utilise l'UTF-8 comme encodage par défaut pour l'écriture et la lecture 
-  des chaînes de caractères dans les fichiers (bibliothèques 
-  @LibraryLink "File" "Fichier" et @LibraryLink "Preference" "Préférence"),
-  pour que les fichiers soient complètement indépendants de la plateforme.
+  PureBasic utilise l'UTF-8 comme encodage par dÃ©faut pour l'Ã©criture et la lecture 
+  des chaÃ®nes de caractÃ¨res dans les fichiers (bibliothÃ¨ques 
+  @LibraryLink "File" "Fichier" et @LibraryLink "Preference" "PrÃ©fÃ©rence"),
+  pour que les fichiers soient complÃ¨tement indÃ©pendants de la plateforme.
   @LineBreak
   @LineBreak
-  Le compilateur du PureBasic gère aussi les fichiers sources ascii et UTF-8 (les 
-  fichiers UTF-8 doivent avoir une entête BOM). Les deux types de fichiers peuvent 
-  être combinés dans un programme sans problème: un fichier source ASCII peut
-  inclure un fichier source UTF-8 et vice-versa, tant que les variable .c et .s créées
-  par l'utilisateur (c'est-à-dire "x" ou 'x') ne contiennent que des caractères 
-  avec un code <= 127 dans les fichiers ASCII. Lors du développement d'un programme, 
-  il est recommandé de  mettre l'IDE en mode UTF-8, pour que tous les fichiers 
-  sources soient enregistrés en unicode.
+  Le compilateur du PureBasic gÃ¨re aussi les fichiers sources ascii et UTF-8 (les 
+  fichiers UTF-8 doivent avoir une entÃªte BOM). Les deux types de fichiers peuvent 
+  Ãªtre combinÃ©s dans un programme sans problÃ¨me: un fichier source ASCII peut
+  inclure un fichier source UTF-8 et vice-versa, tant que les variable .c et .s crÃ©Ã©es
+  par l'utilisateur (c'est-Ã -dire "x" ou 'x') ne contiennent que des caractÃ¨res 
+  avec un code <= 127 dans les fichiers ASCII. Lors du dÃ©veloppement d'un programme, 
+  il est recommandÃ© de  mettre l'IDE en mode UTF-8, pour que tous les fichiers 
+  sources soient enregistrÃ©s en unicode.
   

@@ -1,0 +1,76 @@
+﻿@Title Building a PureLibrary
+
+@Section Introduction
+
+  PureBasic allows to easily create custom libraries to extend the core PureBasic commandset with more commands.
+  The generated library will be located in the PureBasic/PureLibraries/UserLibraries/ folder, so be sure to have
+  the proper access rights when trying to generate one.@LineBreak
+  @LineBreak
+  For now, the purelibrary creation is only available from commandline, using the C backend
+  compiler using the '--purelibrary' option. It's also possible to use the great library creation tool from the IDE by 'Pf Shadoko' found @InternetLink "https://www.purebasic.fr/english/viewtopic.php?t=85882" "here" which
+  also come with some more features.@LineBreak
+  @LineBreak
+  As a PureLibary adds new command to the standard commandset, the new command name must be different than the internal commands. A PureLibrary should always been compiled with the PureBasic compiler 
+  it will be used on. If a PureLibrary doesn't come with it's associated code source, it will be very likely to break in a future version of PureBasic and should be avoided. @LineBreak
+  @LineBreak
+  A PureLibrary can also be created using C/C++ or ASM, please look in the PureLibrary/SDK/ folder. @LineBreak
+
+@Section Exporting functions  
+  
+  No code should be written outside procedures, except for object declaration. @LineBreak
+  @LineBreak
+  To export a function when creating a PureLibrary, it needs to be declared as @Keyword ProcedureDLL. If optional parameters are needed another function with the same name but with an incremented number can be used.
+  A 'QuickHelp' comment can also be added to have the quick help displayed in the IDE when using the command. @LineBreak
+@LineBreak
+@Bold "Example:" @LineBreak
+
+@Code
+  ;  QuickHelp  MyMax(Min [, Max [, Flags, Mode]]) - A standard min/max function
+  ProcedureDLL MyMax3(a, b, c, d)
+    ; Your code here
+    ProcedureReturn a
+  EndProcedure
+
+  ProcedureDLL MyMax2(a, b)
+    ProcedureReturn MyMax3(a, b, 0, 0)
+  EndProcedure
+
+  ProcedureDLL MyMax(a)
+    ProcedureReturn MyMax2(a, 0)
+  EndProcedure
+@EndCode
+
+@Section Automatic functions  
+
+  There are two special functions for automatic initialization and to free the library: InitPureLibrary() and FreePureLibrary(). Unlike other library functions,
+  these are not declared with @Keyword ProcedureDLL but with @Keyword Procedure. These two functions are automatically called when the program is launched and 
+  when the program is terminated. @LineBreak
+@LineBreak
+@Bold "Example:" @LineBreak
+
+@Code
+  Procedure InitPureLibrary()
+    ; Your init routine here
+  EndProcedure
+
+  Procedure FreePureLibrary()
+    ; Your free routine here
+  EndProcedure
+@EndCode
+  
+@Section Disabling a PureLibrary
+  
+  When coding the PureLibrary, it might be useful to ignore the current library with the @Keyword DisablePureLibrary so the function name can be used again. @LineBreak
+@LineBreak
+@Bold "Example:" @LineBreak
+  
+@Code
+  DisablePureLibrary MyCoolLib
+
+  ; All functions found in 'MyCoolLib' will be ignored, so their name can be used again with ProcedureDLL
+@EndCode  
+
+@Section Removing a PureLibrary
+
+  To remove a custom PureLibrary, just delete the according file in the PureBasic/PureLibraries/UserLibraries/ folder.
+  

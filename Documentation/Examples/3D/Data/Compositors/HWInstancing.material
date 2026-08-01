@@ -1,0 +1,67 @@
+//---------------------------------------------------------------------------
+//These materials/shaders are part of the NEW InstanceManager implementation
+//Written by Matias N. Goldberg ("dark_sylinc")
+//---------------------------------------------------------------------------
+
+material Examples/Instancing/HWBasic/shadow_caster
+{
+	technique
+	{
+		pass
+		{
+			rtshader_system
+			{
+				lighting_stage gbuffer depth
+				transform_stage instanced
+			}
+		}
+	}
+}
+
+material Examples/Instancing/HWBasic/Robot
+{
+	technique
+	{
+		shadow_caster_material Examples/Instancing/HWBasic/shadow_caster
+
+		pass
+		{
+			specular	1 1 1 1 12.5
+
+			texture_unit Diffuse
+			{
+				texture		r2skin.jpg
+			}
+
+			rtshader_system
+            {
+				transform_stage instanced
+			}
+		}
+	}
+}
+
+material Examples/Instancing/HWBasic/spine
+{
+	technique
+	{
+		shadow_caster_material Examples/Instancing/HWBasic/shadow_caster
+
+		pass
+		{
+			diffuse		0.3 0.3 0.3
+			specular	0.1 0.1 0.1 0.1 12.5
+
+			texture_unit Diffuse
+			{
+				texture		circuit.dds
+				tex_address_mode	clamp
+			}
+
+			rtshader_system
+            {
+				transform_stage instanced
+			}
+		}
+	}
+}

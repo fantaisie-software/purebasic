@@ -1,16 +1,16 @@
-@Title UserGuide - Dynamic numbering of windows and gadgets using #PB_Any
+ï»¿@Title UserGuide - Dynamic numbering of windows and gadgets using #PB_Any
 
-If you’ve looked at the help articles for the @Link "window/openwindow" "OpenWindow" command
+If youâ€™ve looked at the help articles for the @Link "window/openwindow" "OpenWindow" command
 or for any of the @LibraryLink "gadget" "gadget" creation commands (for example @@ButtonGadget)
 or if you have experimented with the Form Designer tool, you may have noticed references to a
-special constant called @ReferenceLink "purebasic_objects" "#PB_Any". In this article we’re
+special constant called @ReferenceLink "purebasic_objects" "#PB_Any". In this article weâ€™re
 going to look into this a little further to find out why its so important.
 @LineBreak
 @LineBreak
 So far all of our examples have used a group of constants, an @ReferenceLink "enumerations" "enumeration",
 to identify a single @LibraryLink "window" "window" and each @LibraryLink "gadget" "gadget"
-on that window. This is fine in the simple programs we’ve demonstrated so far but presents
-a problem in more complex programs – only one of each of these windows can exist at the
+on that window. This is fine in the simple programs weâ€™ve demonstrated so far but presents
+a problem in more complex programs â€“ only one of each of these windows can exist at the
 same time.
 @LineBreak
 @LineBreak
@@ -24,7 +24,7 @@ generated and returned as a result of the function.
 @LineBreak
 @LineBreak
 Providing we keep track of all these references we can use this to our advantage.
-Organising this is a little more complex than the examples we’ve seen so far – but the
+Organising this is a little more complex than the examples weâ€™ve seen so far â€“ but the
 increased flexibility that it can provide makes this well worth the effort.
 @LineBreak
 @LineBreak
@@ -37,7 +37,7 @@ current window.
 There are several things to notice about this program:
 @Indent
   In the Enumerations section, note that there are only enumerations for the
-  @LibraryLink "menu" "menu items". These will be shared on all the windows – although
+  @LibraryLink "menu" "menu items". These will be shared on all the windows â€“ although
   each window will have its own menu bar.
   @LineBreak
   @LineBreak
@@ -70,19 +70,19 @@ There are several things to notice about this program:
   @LineBreak
   Look at the DestroyPolygonWindow procedure. @LineBreak
   Here the child control references are removed from the map when a window is closed.
-  If the map size reaches zero – there are no more open windows and DestroyPolygonWindow
+  If the map size reaches zero â€“ there are no more open windows and DestroyPolygonWindow
   sets an event flag to tell the program to end.
   @LineBreak
   @LineBreak
   Start the program up. @LineBreak
   - Use the New Window menu item to open up two or three new polygon windows. @LineBreak
-  - Use the combo box in each one to select a different shape – notice that each window
+  - Use the combo box in each one to select a different shape â€“ notice that each window
     works independently of all the others. @LineBreak
-  - Resize some of the windows – notice that they can all be resized independently of
+  - Resize some of the windows â€“ notice that they can all be resized independently of
     each other and that the polygon resizes with the window too. @LineBreak
 @EndIndent
 
-Finally, note that a @ReferenceLink "newmap" "map" isn’t the only way to achieve this
+Finally, note that a @ReferenceLink "newmap" "map" isnâ€™t the only way to achieve this
 effect, a @ReferenceLink "newlist" "List" or an @ReferenceLink "dim" "Array" could 
 be used to do the job too, if you prefer, although the code to implement these alternatives
 would need to be slightly different to that presented here because of the differences in

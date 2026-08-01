@@ -1,7 +1,7 @@
-;
+﻿;
 ;     Engine3D library documentation
 ;
-;      (c) 2017 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Engine3D
@@ -57,6 +57,23 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @CommandList
 
+@ExampleFile All ConvertLocalToWorldPosition.pb
+@ExampleFile All ConvertWorldToLocalPosition.pb
+@ExampleFile All MousePick.pb
+@ExampleFile All MouseRayCast.pb
+@ExampleFile All PointPick.pb
+@ExampleFile All PointPick_2D3D.pb
+@ExampleFile All RayPick.pb
+@ExampleFile All SetOrientation.pb
+@ExampleFile All SkyBox.pb
+@ExampleFile All Water.pb
+@ExampleFile All WorldDebug.pb
+@ExampleFile All WorldShadows.pb
+@LineBreak
+@LineBreak 
+@ExampleFile All Bridge.pb
+@ExampleFile All Pendulum.pb
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -66,11 +83,10 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @Description
   Add a new absolute or relative path to the current 3D path list. All the 3D functions which need
   to load data (e.g. @LibraryLink "texture" "texture", @LibraryLink "mesh" "mesh", @Link "SkyBox" "sky",
-  @Link "RenderWorld" "world") will use this path. 
+  @Link "RenderWorld" "world") will use this path. It needs to be put after @@OpenScreen or @@OpenWindowedScreen.
 @LineBreak
 @LineBreak
-  You may wonder why there is a special
-  way to handle the files for 3D functions? Because it makes the data access more flexible and now,
+  You may wonder why there is a special way to handle the files for 3D functions? Because it makes the data access more flexible and now,
   you can access the data using the standard filesystem or directly via the archive file like a .zip file. It's a
   very cool feature because you can pack all your data in one big compressed file, and then access the assets as
   if these were contained a standard directory. 
@@ -150,7 +166,6 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   - Camera         : use @@CameraID to get a valid ID.
   - Entity         : use @@EntityID to get a valid ID.
   - Light          : use @@LightID to get a valid ID.
-  - Mesh           : use @@MeshID to get a valid ID.
   - Node           : use @@NodeID to get a valid ID.
   - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
   - BillboardGroup : use @@BillboardGroupID to get a valid ID.
@@ -181,7 +196,6 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   - Camera         : use @@CameraID to get a valid ID.
   - Entity         : use @@EntityID to get a valid ID.
   - Light          : use @@LightID to get a valid ID.
-  - Mesh           : use @@MeshID to get a valid ID.
   - Node           : use @@NodeID to get a valid ID.
   - ParticleEmitter: use @@ParticleEmitterID to get a valid ID.
   - BillboardGroup : use @@BillboardGroupID to get a valid ID.
@@ -271,7 +285,7 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @Parameter "Contacts"
   If set the @#True, contact information about the colliding objects are collected and can be retrieved with
   @@WorldCollisionContact, @@WorldCollisionNormal and @@WorldCollisionAppliedImpulse. If set to @#False,
-  no contact informations are collected (faster).
+  no contact information are collected (faster).
   
 @ReturnValue
   Returns nonzero if the collisions can be examined, returns zero otherwise.
@@ -563,7 +577,8 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @Remarks  
   InitEngine3D() tries to load the Engine3D library (named 'Engine3D.dll' on Windows, 'engine3d.so' on Linux
   and 'engine3d.dylib' on OS X, found in the PureBasic/compilers/ directory). If it fails, it's probably because the library
-  is not found or doesn't match the current PureBasic version. On Windows, a recent version of openGL drivers needs to be installed. 
+  is not found or doesn't match the current PureBasic version. On Windows, a recent version of openGL drivers needs to be installed. @LineBreak 
+  After calling this function, you will not be able to use the @@ScreenOutput function.
 
 @SeeAlso
   @@OpenScreen, @@OpenWindowedScreen, @@Add3DArchive
@@ -614,7 +629,6 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @FixedFont
   -1 : Nothing has been detected
   @#PB_World_WaterPick: the click occurred on the water.
-  @#PB_World_TerrainPick: the click occurred on a terrain.
   0 and above: the click occurred on the #Entity. The entity pick is based on its bounding box, not on its mesh.
 @EndFixedFont
   To get more information about the picked object position, use @@PickX, @@PickY and @@PickZ.
@@ -659,8 +673,8 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @Parameter "x, y"
   The coordinates, in pixels, of the point.
   
-@OptionalParameter "Locked"
-  If sets to @#True, the picked body won't be able to freely rotate when moving it. If sets to @#False, the body will rotate
+@Parameter "Locked"
+  If set to @#True, the picked body won't be able to freely rotate when moving it. If set to @#False, the body will rotate
   freely according to body move.
 
 @ReturnValue
@@ -784,7 +798,7 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   To have more information about pick mask, see @@CreateEntity.
 
 @ReturnValue
-  Returns non-zero if the ray has collided with any object.
+  Returns the number of the object in contact with the ray, -1 otherwise.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -861,7 +875,6 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 @FixedFont
   -1 : Nothing has been crossed.
   @#PB_World_WaterPick: the ray crossed the water.
-  @#PB_World_TerrainPick: the ray crossed a terrain.
   0 and above: the ray crossed an #Entity. The entity detection is based on its bounding box, not on its mesh.
 @EndFixedFont
   To get more information about the picked object position, use @@PickX, @@PickY and @@PickZ.
@@ -1030,34 +1043,69 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = SkyDome(TextureName$, Curve.f [, FogColor, FogIntensity, FogStartDistance, FogEndDistance])
+@Function Result = SkyDome(TextureID, SkyColor, RiseColor [, NbCloudLayers, Height.f, SpeedX.f, SpeedZ.f])
 
 @Description
 
-  Creates a new SkyDome which is a curved moving sky displayed using the specified texture.
+  Creates a new SkyDome which is a curved moving sky displayed using the specified cloud texture.
   
-@Parameter "TextureName$"
-  The texture to use. The @LibraryLink "texture" "texture" must be in a path previously declared with the @@Add3DArchive function.
+@Parameter "TextureID"
+  The cloud texture id to use. @@TextureID can be used to get a valid value.
   
-@Parameter "Curve"
-  The curve value indicates how much the sky should be curved (can be either negative or positive).
+@Parameter "SkyColor"
+  The sky color as @@RGBA.
 
-@OptionalParameter "FogColor"
-  The fog color. @@RGB can be used to get a valid color value. If not specified, the fog settings are inherited from
-  the @@Fog command.
+@Parameter "RiseColor"
+  The sun rising color as @@RGBA.
   
-@OptionalParameter "FogIntensity"
-  The fog intensity. If sets to zero, the fog effect is disable.
+@OptionalParameter "NbCloudLayers"
+  The number of clouds layer, starting from 1.
   
-@OptionalParameter "FogStartDistance"
-  The distance from the camera (in world units) where the fog should start. 
+@OptionalParameter "Height"
+  The clouds height in world unit.
 
-@OptionalParameter "FogEndDistance"
-  The distance from the camera where the fog is fully opaque.
+@OptionalParameter "SpeedX, SpeedZ"
+  The clouds moving speed
 
 @ReturnValue
-  Returns non-zero if the SkyDome has been successfully created. If the texture can't be loaded, the skydome is created with
-  blank texture.
+  Returns non-zero if the SkyDome has been successfully created.
+
+@Example
+
+@Code
+  #EndDistance = 1024*4
+
+  InitEngine3D() : InitSprite() : InitKeyboard()
+
+  ExamineDesktops() : dx = DesktopWidth(0)*0.9 : dy = DesktopHeight(0)*0.9
+  OpenWindow(0, 0, 0, DesktopUnscaledX(dx), DesktopUnscaledY(dy), "SkyDome - Press ESC to quit", #PB_Window_ScreenCentered)
+  OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+
+  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
+  Parse3DScripts()
+
+  ; Camera
+  CreateCamera(0, 0, 0, 100, 100)
+  MoveCamera(0,0,5,0) 
+  CameraLookAt(0,2,5,10)
+
+  ; Sky
+  TextureSky = LoadTexture(#PB_Any,"sky.png")
+  SkyDome(TextureID(TextureSky), $cc6600, $0088ff, 3, 400, -0.5, 0)
+
+  ; Sun
+  CreateLight(0, $ff88ff, 20000, 40000, 20000)
+  AmbientColor($010101)
+  Fog($554488,1, 0, #EndDistance)
+
+  Repeat
+    While WindowEvent() : Wend
+    ExamineKeyboard()
+    
+    RenderWorld()
+    FlipBuffers()    
+  Until KeyboardReleased(#PB_Key_Escape)
+@EndCode
 
 @SeeAlso
   @@SkyBox
@@ -1066,121 +1114,20 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CreateWater(#Camera, x, y, z, Transparency, Flags)
+@Function CreateWater(WaveTextureID, FoamTextureID, WaterColor, SkyColor, Distance.f, WaveBig.f, WaveLittle.f, Swell.f, Foam.f)
 
 @Description
-
-  Creates a water plane at the given position.
+  Creates a world wide water plane.
   
-@Parameter "#Camera"
-  The camera to use. 
-
-@Parameter "x, y, z"
-  The absolute coordinates where the water plane has to be created.
-  
-@Parameter "Transparency"
-  Sets the whole water transparency, from 0 (fully opaque) to 255 (transparent).
-
-@Parameter "Flags"
-  Can be a combination of the following constants:
-@FixedFont
-  @#PB_World_WaterMediumQuality: medium quality (default).
-  @#PB_World_WaterLowQuality   : low quality, which means less polygons (but faster rendering).
-  @#PB_World_WaterHighQuality  : high quality, which means more polygons (but slower rendering).
-  @#PB_World_WaterCaustics     : Enable the water caustics effects, which are small patterns created by the light on the water surface.
-  @#PB_World_WaterSmooth       : Enable smooth wave transition.
-  @#PB_World_WaterFoam         : Enable foam effect, which affect underwater objects when viewed out of the water plane.
-  @#PB_World_WaterSun          : Enable sun reflection on water. To control the sun position and color, use @@Sun.
-  @#PB_World_UnderWater        : Activate an underwater effect, to have opaque underwater.
-  @#PB_World_WaterGodRays      : Activate sun god rays rendering when being underwater. @#PB_World_WaterSun has to be specified.
-@EndFixedFont
+;---- TODO: complete parameter description is missing! ----------------------------
 
 @NoReturnValue
 
 @SeeAlso
-  @@FreeWater
+  @@SkyDome, @@SkyBox
 
 @SupportedOS
 
-;--------------------------------------------------------------------------------------------------------
-
-@Function FreeWater(#Camera)
-
-@Description
-  Free the current water plane associated with the specified camera.
-
-@Parameter "#Camera"
-  The camera to use.
-  
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterColor(#Camera, Color)
-
-@Description
-  Changes the water color on the specified camera. @@CreateWater has to be called before calling this function.
-
-@Parameter "#Camera"
-  The camera to use.
-  
-@Parameter "Color"
-  The new color for the water. A valid color value can be get with @@RGB.
-  
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function WaterHeight(#Camera, x, y)
-
-@Description
-  Gets the current water height at the specified position. @@CreateWater has to be called before calling this function.
-  As water can have waves, the height isn't always the same accross the water. This function can be useful to allow an
-  object to float over the water.
-
-@Parameter "#Camera"
-  The camera to use.
-  
-@Parameter "x, y"
-  The coordinates to use get the height.
-  
-@ReturnValue
-  The absolute water height, in world units.
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Sun(x, y, z, Color)
-
-@Description
-   Changes the sun position and color. This affects @Link "CreateWater" "water" created with the @#PB_World_WaterSun support.
-   
-@Parameter "x, y, z"
-  The new absolute position of the sun in the world.
-  
-@Parameter "Color"
-   The new sun color. @@RGB can be used to get a valid color value.
-
-@NoReturnValue
-
-@SeeAlso
-  @@CreateWater
-
-@SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
@@ -1390,5 +1337,71 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @SeeAlso
   @@Pitch, @@Roll
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.f = GetWorldAttribute(Attribute)
+
+@Description
+  Get the specified attribute of the world.
+
+@Parameter "Attribute"
+  The attribute value to get. The following attributes are available:
+@FixedFont
+  @#PB_Shadow_FarDistance   : get shadow far distance.
+  @#PB_Shadow_Color         : get the current shadow color as @@RGBA.
+  @#PB_SkyDome_SkyColor     : get the color of the sky as @@RGBA.
+  @#PB_SkyDome_RiseColor    : get the sun rise color as @@RGBA.
+  @#PB_SkyDome_NbCloudLayers: get the number of cloud layer.
+  @#PB_SkyDome_CloudsHeight : get the height of the clouds in world unit.
+  @#PB_Water_WaterColor     : get the water color as @@RGBA.
+  @#PB_Water_SkyColor       : get the sky color as reflected in the water as @@RGBA.
+  @#PB_Water_WaveHeight     : get the wave height.
+  @#PB_Water_WaveSmall      : get the wave riddle amplitude. 
+  @#PB_Water_Swell          : get the water swell intensity.
+  @#PB_Water_Foam           : get the foam intensity.
+@EndFixedFont
+
+@ReturnValue
+  Returns the value of the specified attribute.
+
+@SeeAlso
+  @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function SetWorldAttribute(Attribute, Value.f)
+
+@Description
+  Set the specified attribute of the world.
+
+@Parameter "Attribute"
+  The attribute value to set. The following attributes are available:
+@FixedFont
+  @#PB_Shadow_FarDistance   : set shadow far distance
+  @#PB_Shadow_Color         : change the current shadow color
+  @#PB_SkyDome_Free         : free the sky dome previously created by @@SkyDome
+  @#PB_SkyDome_SkyColor     : the color of the sky as @@RGBA
+  @#PB_SkyDome_RiseColor    : the sun rise color as @@RGBA
+  @#PB_SkyDome_NbCloudLayers: set the number of cloud layer (value between X and X)
+  @#PB_SkyDome_CloudsHeight : set the height of the clouds in world coordinates
+  @#PB_Water_WaterColor     : set the water color as @@RGBA.
+  @#PB_Water_SkyColor       : set the sky color as reflected in the water as @@RGBA
+  @#PB_Water_WaveHeight     : set the wave height (value between 0 to 3).
+  @#PB_Water_WaveSmall      : set the wave riddle amplitude (value between 0 to 3). 
+  @#PB_Water_Swell          : set the swell intensity (value between 0 to 2).
+  @#PB_Water_Foam           : set the foam intensity (value between 0 to 1).
+  @#PB_Water_Free           : free the world water plane previously created with @@CreateWater
+@EndFixedFont
+
+@ReturnValue
+  Change the value of the specified attribute.
+
+@SeeAlso
+  @@SetWorldAttribute
 
 @SupportedOS

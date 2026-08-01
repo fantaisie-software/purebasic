@@ -1,19 +1,19 @@
-;
+ï»¿;
 ;     Mouse library documentation - MultiOS version !
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2025 - Fantaisie Software
 ;
 
 @Library Mouse
 
 @Overview
   PureBasic bietet vollen Zugriff auf die am Computer angeschlossenen
-  Mäuse. Es unterstützt Standard-Mäuse mit bis zu 3 Knöpfen. Diese Bibliothek ist
+  MÃ¤use. Es unterstÃ¼tzt Standard-MÃ¤use mit bis zu 3 KnÃ¶pfen. Diese Bibliothek ist
   optimiert und benutzt "low-level" (hardware-nahe) Funktionen, speziell zur
   Benutzung in Spielen.
   @LineBreak
   @LineBreak
-  Verwenden Sie die Befehle dieser Bibliothek nicht in einer regulären Applikation,
+  Verwenden Sie die Befehle dieser Bibliothek nicht in einer regulÃ¤ren Applikation,
   realisieren Sie in diesem Fall die Mausabfrage mittels @@WindowMouseX,
   @@WindowMouseY und @@EventType.
   
@@ -31,21 +31,20 @@
 @Function Ergebnis = InitMouse()
 
 @Description
-  Initialisiert die Programmumgebung zur weiteren Benutzung der Maus-Befehle. Sie müssen
+  Initialisiert die Programmumgebung zur weiteren Benutzung der Maus-Befehle. Sie mÃ¼ssen
   diese Funktion vor allen anderen Befehlen dieser Library aufrufen. Ist das Ergebnis
-  gleich 0, ist keine Maus verfügbar...
+  gleich Null, ist keine Maus verfÃ¼gbar.
 
 @NoParameters
 
 @ReturnValue
-  Ungleich Null, wenn die Maus-Funktionen verfügbar sind, andernfalls Null.
+  Ungleich Null, wenn die Maus-Funktionen verfÃ¼gbar sind, andernfalls Null.
   
 @OS Windows
   @LineBreak
   @LineBreak
-  Dieser Befehl versucht, DirectX (v3.0 mit NT4.0 Kompatibilität oder sonst v7.0) zu öffnen.
-  Wenn dies also fehlschlägt, liegt es möglicherweise an einer zu alten oder ganz fehlenden
-  Version von DirectX. 
+  Diese Funktion versucht, DirectX (v3.0 mit NT4.0-KompatibilitÃ¤t oder andernfalls v7.0) zu Ã¶ffnen.
+  SchlÃ¤gt dies fehl, ist DirectX entweder nicht verfÃ¼gbar oder zu alt fÃ¼r die Verwendung.
   
 @SupportedOS
 
@@ -66,7 +65,7 @@
   Der erste Aufruf von ExamineMouse() begrenzt die Maus auf den aktiven @Link "Screen/OpenScreen" "Screen"
   oder @Link "Screen/OpenWindowedScreen" "'WindowedScreen'".
   Die Maus ist nach einem Aufruf von @Link "ReleaseMouse" "ReleaseMouse(#True)" oder nach Ende dieses
-  Programms wieder für das gesamte System verfügbar.
+  Programms wieder fÃ¼r das gesamte System verfÃ¼gbar.
   @LineBreak
   @LineBreak
   Im @Link "Screen/OpenScreen" "Vollbild-Modus" muss der Befehl @@FlipBuffers innerhalb Ihrer
@@ -82,20 +81,20 @@
 @Function Ergebnis = MouseButton(Mausknopf)
 
 @Description
-  Gibt Null zurück, wenn der angegebene 'Mausknopf' nicht gedrückt wird, andernfalls ist der Knopf gedrückt. Eine beliebige
-  Anzahl an Knöpfen kann zur gleichen Zeit gedrückt sein. @@ExamineMouse sollte vor dieser
-  Funktion aufgerufen werden, um den aktuellen Status der Mausknöpfe zu ermitteln.
+  Gibt Null zurÃ¼ck, wenn der angegebene 'Mausknopf' nicht gedrÃ¼ckt wird, andernfalls ist der Knopf gedrÃ¼ckt. Eine beliebige
+  Anzahl an KnÃ¶pfen kann zur gleichen Zeit gedrÃ¼ckt sein. @@ExamineMouse sollte vor dieser
+  Funktion aufgerufen werden, um den aktuellen Status der MausknÃ¶pfe zu ermitteln.
 
 @Parameter "Mausknopf"
   Dies kann eine der folgenden Konstanten sein:
 @FixedFont
-  @#PB_MouseButton_Left  : Überprüft, ob die linke Maustaste gedrückt wird
-  @#PB_MouseButton_Right : Überprüft, ob die rechte Maustaste gedrückt wird
-  @#PB_MouseButton_Middle: Überprüft, ob die mittlere Maustaste gedrückt wird
+  @#PB_MouseButton_Left  : ÃœberprÃ¼ft, ob die linke Maustaste gedrÃ¼ckt wird
+  @#PB_MouseButton_Right : ÃœberprÃ¼ft, ob die rechte Maustaste gedrÃ¼ckt wird
+  @#PB_MouseButton_Middle: ÃœberprÃ¼ft, ob die mittlere Maustaste gedrÃ¼ckt wird
 @EndFixedFont
 
 @ReturnValue
-  Ungleich Null, wenn der angegebene Mausknopf gedrückt wird, andernfalls Null.
+  Ungleich Null, wenn der angegebene Mausknopf gedrÃ¼ckt wird, andernfalls Null.
 
 @SeeAlso
   @@ExamineMouse
@@ -108,7 +107,7 @@
 
 @Description
   Gibt die Mausbewegung auf der X-Achse (in Pixel) seit dem letzten Aufruf dieser Funktion
-  zurück.
+  zurÃ¼ck.
   
 @NoParameters
 
@@ -130,7 +129,7 @@
 
 @Description
   Gibt die Mausbewegung auf der Y-Achse (in Pixel) seit dem letzten Aufruf dieser Funktion
-  zurück. 
+  zurÃ¼ck. 
   
 @NoParameters
 
@@ -151,8 +150,8 @@
 @Function MouseLocate(x, y)
 
 @Description
-  Verändert die absolute Position (in Pixel) der Maus auf dem aktuellen Bildschirm (Screen). Dies
-  ist nützlich in Verbindung mit den @@MouseX bzw. @@MouseY Befehlen.
+  VerÃ¤ndert die absolute Position (in Pixel) der Maus auf dem aktuellen Bildschirm (Screen). Dies
+  ist nÃ¼tzlich in Verbindung mit den @@MouseX bzw. @@MouseY Befehlen.
   
 @Parameters "x, y"
   Die neue absolute Position (in Pixel) der Maus auf dem aktuellen Bildschirm.
@@ -171,7 +170,7 @@
 @Function Ergebnis = MouseWheel()
 
 @Description
-  Gibt die Anzahl der seit dem letzten Aufruf erfolgten "Ticks" des Mausrads zurück.
+  Gibt die Anzahl der seit dem letzten Aufruf erfolgten "Ticks" des Mausrads zurÃ¼ck.
   Der Befehl @@ExamineMouse sollte vor dieser Funktion
   aufgerufen werden, um die Mausinformationen zu aktualisieren.
 
@@ -179,8 +178,8 @@
 
 @ReturnValue
   Die Anzahl an Ticks, um die das Mausrad seit dem letzten Funktionsaufruf bewegt
-  wurde. Der Wert ist positiv, wenn das Rad vorwärts gedreht wurde und negativ, wenn das
-  Rad rückwärts gedreht wurde.
+  wurde. Der Wert ist positiv, wenn das Rad vorwÃ¤rts gedreht wurde und negativ, wenn das
+  Rad rÃ¼ckwÃ¤rts gedreht wurde.
   
 @SeeAlso
   @@ExamineMouse
@@ -193,7 +192,7 @@
 
 @Description
   Gibt die aktuelle Maus-Position (in Pixel) auf der X-Achse des aktuellen Bildschirms
-  zurück. Die Maus-Position kann einfach mit dem @@MouseLocate Befehl verändert werden.
+  zurÃ¼ck. Die Maus-Position kann einfach mit dem @@MouseLocate Befehl verÃ¤ndert werden.
   @@ExamineMouse sollte vor dieser Funktion aufgerufen werden, um die aktuelle
   Maus-Position zu aktualisieren.
 
@@ -213,7 +212,7 @@
 
 @Description
   Gibt die aktuelle Maus-Position (in Pixel) auf der Y-Achse des aktuellen Bildschirms
-  zurück. Die Maus-Position kann einfach mit dem @@MouseLocate Befehl verändert werden.
+  zurÃ¼ck. Die Maus-Position kann einfach mit dem @@MouseLocate Befehl verÃ¤ndert werden.
   @@ExamineMouse muss vor dieser Funktion aufgerufen werden, um die aktuelle
   Maus-Position zu aktualisieren.
 
@@ -233,7 +232,7 @@
 
 @Description
   Blockiert ("locked") die Maus oder gibt sie zur Benutzung unter dem Standard-OS frei. Dies geschieht
-  typischerweise nach Überprüfung des Ergebnisses von @@IsScreenActive.
+  typischerweise nach ÃœberprÃ¼fung des Ergebnisses von @@IsScreenActive.
 
 @Parameter "Status"
 @FixedFont

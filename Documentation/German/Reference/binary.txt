@@ -1,31 +1,31 @@
-@Title Arbeiten mit verschiedenen Zahlensystemen
+ï»¿@Title Arbeiten mit verschiedenen Zahlensystemen
 
-(Hinweis: Die Beispiele auf dieser Seite benutzen das ^ Symbol, um die Potenz (entspricht: x "hoch" y) anzuzeigen. Dies dient jedoch nur dem Komfort in diesem Dokument, aktuell unterstützt PureBasic diesen Operator noch nicht! Benutzen Sie stattdessen die PureBasic-Funktion Pow() aus der "Math"-Befehlsbibliothek.)
+(Hinweis: Die Beispiele auf dieser Seite benutzen das ^ Symbol, um die Potenz (entspricht: x "hoch" y) anzuzeigen. Dies dient jedoch nur dem Komfort in diesem Dokument, aktuell unterstÃ¼tzt PureBasic diesen Operator noch nicht! Benutzen Sie stattdessen die PureBasic-Funktion Pow() aus der "Math"-Befehlsbibliothek.)
 
 @Section Allgemein
 
-  Ein Zahlensystem stellt eine Möglichkeit zur Darstellung von Zahlenwerten dar, bei der jeweils
-  eine festgelegte Anzahl an möglichen "Symbolen" je Stelle einer Zahl benutzt wird. Das Ihnen 
-  aus dem täglichen Leben sicherlich bekannteste Zahlensystem ist das Dezimalsystem, welches auf
+  Ein Zahlensystem stellt eine MÃ¶glichkeit zur Darstellung von Zahlenwerten dar, bei der jeweils
+  eine festgelegte Anzahl an mÃ¶glichen "Symbolen" je Stelle einer Zahl benutzt wird. Das Ihnen 
+  aus dem tÃ¤glichen Leben sicherlich bekannteste Zahlensystem ist das Dezimalsystem, welches auf
   der Basis 10 (Ziffern 0 bis 9) beruht. @LineBreak
   @LineBreak
-  Der Sinn dieser Seite liegt darin, die verschiedenen Zahlensysteme zu erklären und Ihnen zu 
-  vermitteln, wie Sie mit diesen arbeiten können. Im Gegensatz zum Dezimalsystem arbeitet der 
-  Computer binär (Basis 2) und es gibt gewisse Umstände, wo es vorteilhaft ist diese Arbeitsweise 
+  Der Sinn dieser Seite liegt darin, die verschiedenen Zahlensysteme zu erklÃ¤ren und Ihnen zu 
+  vermitteln, wie Sie mit diesen arbeiten kÃ¶nnen. Im Gegensatz zum Dezimalsystem arbeitet der 
+  Computer binÃ¤r (Basis 2) und es gibt gewisse UmstÃ¤nde, wo es vorteilhaft ist diese Arbeitsweise 
   zu verstehen (zum Beispiel bei der Benutzung von logischen Operatoren, Bit-Masken etc).
 
-@Section Übersicht über Zahlensysteme
+@Section Ãœbersicht Ã¼ber Zahlensysteme
 
 @Section Dezimal-System
 
-  Stellen Sie sich eine Dezimal-Zahl vor, und anschließend wie Sie diese in einzelne Ziffern zerlegen.
+  Stellen Sie sich eine Dezimal-Zahl vor, und anschlieÃŸend wie Sie diese in einzelne Ziffern zerlegen.
   Wir nehmen als Beispiel die Zahl 1234. Das Zerlegen dieser Zahl in einzelne Ziffern ergibt:
 
 @FixedFont
   1   2   3   4
 @EndFixedFont
 
-  Die Überschrift für jede dieser Ziffern nennt man Potenz. In diesem Fall 10er Potenzen, die von rechts
+  Die Ãœberschrift fÃ¼r jede dieser Ziffern nennt man Potenz. In diesem Fall 10er Potenzen, die von rechts
   nach links in ihrer Wertigkeit ansteigen. Im Dezimalsystem sind dies Einheiten wie: Einer, Zehner, 
   Hundert, Tausend usw., diese werden wie folgt dargestellt:
 
@@ -34,7 +34,7 @@
      1    2    3    4
 @EndFixedFont
 
-  Wir können daraus ersehen, die Zahl 1234 besteht aus
+  Wir kÃ¶nnen daraus ersehen, die Zahl 1234 besteht aus
 
 @FixedFont
     1*1000=1000
@@ -44,18 +44,18 @@
   Summe   =1234
 @EndFixedFont
 
-  Wenn Sie sich nun die Überschriften der Ziffern ansehen, werden Sie folgendes bemerken: jedesmal wenn 
-  Sie eine Spalte nach links gehen, wird mit 10 multipliziert, was ebenso für die Zahlen-Basis gilt. 
-  Jedesmal wenn Sie eine Spalte nach rechts gehen, wird durch 10 dividiert. Die Überschriften jeder
+  Wenn Sie sich nun die Ãœberschriften der Ziffern ansehen, werden Sie folgendes bemerken: jedesmal wenn 
+  Sie eine Spalte nach links gehen, wird mit 10 multipliziert, was ebenso fÃ¼r die Zahlen-Basis gilt. 
+  Jedesmal wenn Sie eine Spalte nach rechts gehen, wird durch 10 dividiert. Die Ãœberschriften jeder
   Spalte kann man auch "Wertigkeit" nennen, da wir zur Ermittlung des vollen Zahlenwerts die Ziffer 
-  in jeder Spalte mit der "Wertigkeit" multiplizieren müssen. Wir können die "Wertigkeit" auch mittels
-  Index-Zahlen (in den nachfolgenden Beispielen die kleinen hochgestellten Ziffern) erklären. Zum 
-  Beispiel 10^2 bedeutet '10 hoch 2' oder 1*10*10 (=100). Ähnlich, 10^4 bedeutet 1*10*10*10*10 (=10000). 
+  in jeder Spalte mit der "Wertigkeit" multiplizieren mÃ¼ssen. Wir kÃ¶nnen die "Wertigkeit" auch mittels
+  Index-Zahlen (in den nachfolgenden Beispielen die kleinen hochgestellten Ziffern) erklÃ¤ren. Zum 
+  Beispiel 10^2 bedeutet '10 hoch 2' oder 1*10*10 (=100). Ã„hnlich, 10^4 bedeutet 1*10*10*10*10 (=10000). 
   Merken Sie sich am besten folgendes: der Index-Wert gibt an, wie oft die Zahl mit sich selbst 
   multipliziert wird. 10^0 bedeutet 1 (da wir nicht mit 10 multiplizieren). Die Benutzung von negativen 
-  Index-Zahlen zeigt an, dass wir dividieren müssen, z.B. 10^-2 bedeutet 1/10/10 (=0.01). Der Index-Wert
+  Index-Zahlen zeigt an, dass wir dividieren mÃ¼ssen, z.B. 10^-2 bedeutet 1/10/10 (=0.01). Der Index-Wert
   macht mehr Sinn, wenn wir jeder Stelle eine Zahl zuweisen - Sie werden oft Sachen sehen wie 'Bit 0',
-  was eigentlich bedeutet 'Binärstelle an Stelle 0'.
+  was eigentlich bedeutet 'BinÃ¤rstelle an Stelle 0'.
 
 @FixedFont
   In diesem Beispiel bedeutet ^ 'x hoch y', z.B. 10^2 bedeutet 10 hoch 2.
@@ -76,7 +76,7 @@
      Zum Beispiel: wir haben den Wert 'abcde' mit unserer fiktiven Zahlen-Basis 'B',
      die einzelnen Stellen lauten dann:   a   b   c   d   e
   
-  2) Multiplizieren Sie jede Stelle mit der dazugehörigen Wertigkeit (diese berechnet sich
+  2) Multiplizieren Sie jede Stelle mit der dazugehÃ¶rigen Wertigkeit (diese berechnet sich
      mittels 'B' hoch der Wertigkeit der Stelle):
        a * B^4 = a * B * B * B * B
        b * B^3 = b * B * B * B
@@ -84,7 +84,7 @@
        d * B^1 = d * B
        e * B^0 = e
   
-  3) Errechnen Sie die Summe all dieser Werte. Indem all diese Werte während der Berechnung
+  3) Errechnen Sie die Summe all dieser Werte. Indem all diese Werte wÃ¤hrend der Berechnung
      mit ihrem dezimalen Gegenwert niedergeschrieben werden, wird die Berechnung und das
      Ermitteln des Ergebnisses viel einfacher (wenn wir in einen Dezimalwert umwandeln).
 @EndFixedFont     
@@ -93,7 +93,7 @@
   mittels Division anstelle der Multiplikation:
 
 @FixedFont
-  1) Beginnen Sie mit der Dezimalzahl (z.B. 1234), die Sie umwandeln möchten.
+  1) Beginnen Sie mit der Dezimalzahl (z.B. 1234), die Sie umwandeln mÃ¶chten.
   
   2) Dividieren Sie durch die Ziel-Zahlenbasis ('B') und merken Sie sich Ergebnis und den
      Restwert.
@@ -111,23 +111,23 @@
   Genauere Beispiele finden Sie in den Abschnitten zu den verschiedenen Zahlen-Basen.
 
 
-@Section Binär-System
+@Section BinÃ¤r-System
 
-  Alles in einem Computer wird binär (Basis 2, ergibt sich aus den Ziffern '0' oder '1') gespeichert,
-  das Arbeiten mit Binär-Zahlen folgt jedoch denselben Regeln wie bei Dezimal-Zahlen. Jede Stelle in 
-  einer Binär-Zahl wird "Bit" genannt, eine Kurzform für Binary digit (Binärstelle). Im allgemeinen 
+  Alles in einem Computer wird binÃ¤r (Basis 2, ergibt sich aus den Ziffern '0' oder '1') gespeichert,
+  das Arbeiten mit BinÃ¤r-Zahlen folgt jedoch denselben Regeln wie bei Dezimal-Zahlen. Jede Stelle in 
+  einer BinÃ¤r-Zahl wird "Bit" genannt, eine Kurzform fÃ¼r Binary digit (BinÃ¤rstelle). Im allgemeinen 
   werden Sie mit den Typen Byte (8 Bit), Word (16 Bit) oder Long (32 Bit) arbeiten, da dies die 
-  Standardgrößen der in PureBasic eingebauten Typen sind. Die Wertigkeit eines Bytes wird wie folgt 
+  StandardgrÃ¶ÃŸen der in PureBasic eingebauten Typen sind. Die Wertigkeit eines Bytes wird wie folgt 
   dargestellt:
 
 @FixedFont
-  (^ bedeutet 'hoch', Zahlenbasis ist 2 für binär)
+  (^ bedeutet 'hoch', Zahlenbasis ist 2 fÃ¼r binÃ¤r)
   Bit/Stelle                      7     6     5     4     3     2     1     0
   Wertigkeit (Index)            2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
   Wertigkeit (aktueller Wert)   128    64    32    16     8     4     2     1
 @EndFixedFont
 
-  Wenn wir zum Beispiel die Zahl 00110011 (Base 2) haben, können wir deren Wert wie folgt ermitteln:
+  Wenn wir zum Beispiel die Zahl 00110011 (Base 2) haben, kÃ¶nnen wir deren Wert wie folgt ermitteln:
 
 @FixedFont
     0 * 128
@@ -141,7 +141,7 @@
   =      51
 @EndFixedFont
 
-  Ein weiteres Beispiel zum entgegengesetzten Konvertieren ist das Umwandeln der Dezimalzahl 69 in eine Binärzahl. 
+  Ein weiteres Beispiel zum entgegengesetzten Konvertieren ist das Umwandeln der Dezimalzahl 69 in eine BinÃ¤rzahl. 
   Wir erledigen dies wie folgt:
 
 @FixedFont
@@ -154,55 +154,55 @@
    1 / 2 =  0 R 1     |
   (Stoppe hier, da das Ergebnis der letzten Division 0 war)
 
-  Lesen Sie die Restwerte rückwärts, um den Wert als Binär-Zahl zu erhalten = 1000101
+  Lesen Sie die Restwerte rÃ¼ckwÃ¤rts, um den Wert als BinÃ¤r-Zahl zu erhalten = 1000101
 @EndFixedFont
 
-  Ein weiterer Punkt, der beim Arbeiten mit Binär-Zahlen zu beachten ist, ist die Darstellung von negativen 
-  Werten. Bei der alltäglichen Benutzung können wir einfach ein Minus vor die Dezimalzahl setzen. Wir können 
-  dies jedoch nicht mit Binärzahlen machen - es gibt jedoch eine Möglichkeit (PureBasic arbeitet hauptsächlich 
+  Ein weiterer Punkt, der beim Arbeiten mit BinÃ¤r-Zahlen zu beachten ist, ist die Darstellung von negativen 
+  Werten. Bei der alltÃ¤glichen Benutzung kÃ¶nnen wir einfach ein Minus vor die Dezimalzahl setzen. Wir kÃ¶nnen 
+  dies jedoch nicht mit BinÃ¤rzahlen machen - es gibt jedoch eine MÃ¶glichkeit (PureBasic arbeitet hauptsÃ¤chlich 
   mit vorzeichenbehafteten Zahlen, es muss also einen Weg zum Arbeiten mit negativen Zahlen geben). Diese 
-  Methode wird 'twos complement' genannt und neben allen Vorteilen dieser Methode (werden hier nicht näher 
-  erläutert, um einige Verwirrung zu vermeiden) ist der einfachste Weg, um davon eine Vorstellung zu bekommen: 
-  die Wertigkeit des bedeutendsten Bits ("most significant bit" - MSb ist das Bit mit der höchsten Wertigkeit, 
-  bei einem Byte wäre dies das Bit 7) ist ein negativer Wert. Bei einem "two's complement" System, ändern sich 
+  Methode wird 'twos complement' genannt und neben allen Vorteilen dieser Methode (werden hier nicht nÃ¤her 
+  erlÃ¤utert, um einige Verwirrung zu vermeiden) ist der einfachste Weg, um davon eine Vorstellung zu bekommen: 
+  die Wertigkeit des bedeutendsten Bits ("most significant bit" - MSb ist das Bit mit der hÃ¶chsten Wertigkeit, 
+  bei einem Byte wÃ¤re dies das Bit 7) ist ein negativer Wert. Bei einem "two's complement" System, Ã¤ndern sich 
   die Wertigkeiten der Bits wie folgt:
 
 @FixedFont
-  (^ bedeutet 'hoch', Zahlenbasis ist 2 für binär)
+  (^ bedeutet 'hoch', Zahlenbasis ist 2 fÃ¼r binÃ¤r)
   Bit/Stelle                       7     6     5     4     3     2     1     0
   Wertigkeit (Index)            -2^7   2^6   2^5   2^4   2^3   2^2   2^1   2^0
   Wertigkeit (aktueller Wert)   -128    64    32    16     8     4     2     1
 @EndFixedFont
 
-  und Sie werden die Umwandlung von binär zu dezimal auf exakt demselben Weg wie oben beschrieben vornehmen, 
+  und Sie werden die Umwandlung von binÃ¤r zu dezimal auf exakt demselben Weg wie oben beschrieben vornehmen, 
   benutzen aber die neuen Wertigkeiten. Zum Beispiel ergibt die Zahl 10000000 (Base 2) gleich -128, 
   und 10101010 (Base 2) ergibt -86. @LineBreak
   @LineBreak
-  Beim Umwandeln einer positiven Binärzahl in eine negative Binärzahl und zurück, invertieren Sie alle Bits und 
-  addieren dann 1. Zum Beispiel die positive Binärzahl 00100010 in eine negative Binärzahl umgewandelt ergibt 
+  Beim Umwandeln einer positiven BinÃ¤rzahl in eine negative BinÃ¤rzahl und zurÃ¼ck, invertieren Sie alle Bits und 
+  addieren dann 1. Zum Beispiel die positive BinÃ¤rzahl 00100010 in eine negative BinÃ¤rzahl umgewandelt ergibt 
   durch Invertierung -> 11011101 und 1 hinzuaddiert -> 11011110. @LineBreak
   @LineBreak
-  Diese Vorgehensweise macht das Konvertieren von Dezimal zu Binär einfacher, da Sie negative Dezimalzahlen als 
-  ihre positiven Gegenwerte umwandeln können (mittels der oben beschriebenen Methode) und zum Schluss die Binärzahl 
+  Diese Vorgehensweise macht das Konvertieren von Dezimal zu BinÃ¤r einfacher, da Sie negative Dezimalzahlen als 
+  ihre positiven Gegenwerte umwandeln kÃ¶nnen (mittels der oben beschriebenen Methode) und zum Schluss die BinÃ¤rzahl 
   negativ machen. @LineBreak
   @LineBreak
-  Binärzahlen werden in PureBasic mit einem vorangestellten Prozentsymbol geschrieben, und natürlich müssen alle 
-  Bits in der Zahl aus '0' oder '1' bestehen. Zum Beispiel können Sie in PureBasic den Wert %110011 benutzen, 
-  um 51 darzustellen. Beachten Sie, dass Sie führende Nullen nicht angeben müssen (die eben genannte Binärzahl 
-  lautet eigentlich %00110011), es kann aber die Lesbarkeit Ihres Sourcecodes fördern, wenn Sie die volle Anzahl 
+  BinÃ¤rzahlen werden in PureBasic mit einem vorangestellten Prozentsymbol geschrieben, und natÃ¼rlich mÃ¼ssen alle 
+  Bits in der Zahl aus '0' oder '1' bestehen. Zum Beispiel kÃ¶nnen Sie in PureBasic den Wert %110011 benutzen, 
+  um 51 darzustellen. Beachten Sie, dass Sie fÃ¼hrende Nullen nicht angeben mÃ¼ssen (die eben genannte BinÃ¤rzahl 
+  lautet eigentlich %00110011), es kann aber die Lesbarkeit Ihres Sourcecodes fÃ¶rdern, wenn Sie die volle Anzahl 
   an Bits angeben.
 
 
 @Section Hexadezimal-System
 
   Hexadezimal (Basis 16, alle Ziffern bestehen aus '0' bis '9' und dann 'A' bis 'F') ist die Zahlenbasis, 
-  die beim Umgang mit Computern am häufigsten benutzt wird, da sie von den "nicht auf Basis 10 (Dezimal)
-  beruhenden" Zahlenbasen die für den Menschen am einfachsten zu verstehende Zahlenbasis darstellt. 
-  Außerdem enden Ihre Zahlen nicht in langen Strings mit vielen Stellen (wie beim Arbeiten mit Binärzahlen). @LineBreak
+  die beim Umgang mit Computern am hÃ¤ufigsten benutzt wird, da sie von den "nicht auf Basis 10 (Dezimal)
+  beruhenden" Zahlenbasen die fÃ¼r den Menschen am einfachsten zu verstehende Zahlenbasis darstellt. 
+  AuÃŸerdem enden Ihre Zahlen nicht in langen Strings mit vielen Stellen (wie beim Arbeiten mit BinÃ¤rzahlen). @LineBreak
   @LineBreak
   Hexadezimale Mathematik folgt denselben Regeln wie dezimal, Sie haben allerdings jetzt 16 Symbole (0-9 und A-F)
-  zur Verfügung. Das Umwandeln zwischen hexadezimal und dezimal erfolgt nach den gleichen Prinzipien wie zwischen 
-  dezimal und binär, außer dass die Wertigkeiten jetzt auf Basis 16 anstelle von Basis 2 multipliziert bzw. dividiert werden:
+  zur VerfÃ¼gung. Das Umwandeln zwischen hexadezimal und dezimal erfolgt nach den gleichen Prinzipien wie zwischen 
+  dezimal und binÃ¤r, auÃŸer dass die Wertigkeiten jetzt auf Basis 16 anstelle von Basis 2 multipliziert bzw. dividiert werden:
 
 @FixedFont
   Stellen-Zahl                      3      2      1      0
@@ -230,19 +230,19 @@
   Hexadezimaler Wert von 666 ist 29A
 @EndFixedFont
 
-  Eine besonders gute Eigenschaft an Hexadezimal-Zahlen ist, dass diese sehr einfach in Binärzahlen konvertiert 
-  werden können. Jede Stelle einer Hexadezimal-Zahl repräsentiert 4 Bits, um also zwischen hexadezimal und binär 
+  Eine besonders gute Eigenschaft an Hexadezimal-Zahlen ist, dass diese sehr einfach in BinÃ¤rzahlen konvertiert 
+  werden kÃ¶nnen. Jede Stelle einer Hexadezimal-Zahl reprÃ¤sentiert 4 Bits, um also zwischen hexadezimal und binÃ¤r 
   zu konvertieren, wandeln Sie einfach jede Stelle einer Hexadezimalzahl in 4 Bits um oder umgekehrt jeweils 4 Bits 
-  in eine Hexadezimal-Stelle (4 ist ein gerader Divisor für alle bekannten Längen einer Binär-Zahl in einer CPU). 
+  in eine Hexadezimal-Stelle (4 ist ein gerader Divisor fÃ¼r alle bekannten LÃ¤ngen einer BinÃ¤r-Zahl in einer CPU). 
   Einige Beispiele:
 
 @FixedFont
   Hex-Zahl            5        9        D        F           4E
-  Binär-Wert        0101     1001     1101     1111       01001110
+  BinÃ¤r-Wert        0101     1001     1101     1111       01001110
 @EndFixedFont
 
   Wenn Sie Hexadezimal-Zahlen in PureBasic benutzen, stellen Sie diesen ein Dollar-Zeichen voran, zum Beispiel $BEEF. @LineBreak
   @LineBreak
-  Zum Abschluss finden Sie @ReferenceLink "Number_Tab" hier noch eine Tabelle mit den Zahlen 0 bis 255 im Dezimal-, Binär- 
+  Zum Abschluss finden Sie @ReferenceLink "Number_Tab" hier noch eine Tabelle mit den Zahlen 0 bis 255 im Dezimal-, BinÃ¤r- 
   und Hexadezimalformat. 
   

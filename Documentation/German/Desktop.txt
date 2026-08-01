@@ -1,4 +1,4 @@
-;
+ï»¿;
 ;     Desktop library documentation
 ;
 ;       (c) Fantaisie Software
@@ -7,8 +7,8 @@
 @Library Desktop
 
 @Overview
-  Die Desktop (= Arbeitsoberfläche Ihres Betriebssystems) Bibliothek ermöglicht den Zugriff auf Informationen
-  über die Desktopumgebung des Anwenders, wie Bildschirmbreite und -höhe, Farbtiefe, Mausposition, etc. 
+  Die Desktop (= ArbeitsoberflÃ¤che Ihres Betriebssystems) Bibliothek ermÃ¶glicht den Zugriff auf Informationen
+  Ã¼ber die Desktopumgebung des Anwenders, wie Bildschirmbreite und -hÃ¶he, Farbtiefe, Mausposition, etc. 
 
 @CommandList
 
@@ -21,7 +21,7 @@
 @Function Ergebnis = ExamineDesktops()
 
 @Description
-  Ermittelt Informationen über alle am lokalen Computer angeschlossenen Desktops.
+  Ermittelt Informationen Ã¼ber alle am lokalen Computer angeschlossenen Desktops.
   Dieser Befehl muss vor der Benutzung folgender Befehle aufgerufen werden: @@DesktopDepth, 
   @@DesktopFrequency, @@DesktopHeight, 
   @@DesktopName und @@DesktopWidth.
@@ -29,12 +29,12 @@
 @NoParameters
 
 @ReturnValue
-  Gibt im Erfolgsfall die Anzahl der vorhandenen Desktops zurück,
+  Gibt im Erfolgsfall die Anzahl der vorhandenen Desktops zurÃ¼ck,
   andernfalls Null.
 
 @Remarks
   Typischerweise hat der "Normalanwender" nur einen Desktop,
-  aber Multi-Bildschirm-Anwender können mehrere Desktops haben, jeder mit seiner eigenen Auflösung.
+  aber Multi-Bildschirm-Anwender kÃ¶nnen mehrere Desktops haben, jeder mit seiner eigenen AuflÃ¶sung.
 
 @Example
 @Code
@@ -52,23 +52,23 @@
 @Function Ergebnis = DesktopDepth(#Desktop)
 
 @Description
-  Gibt die Farbtiefe des angegebenen Desktops zurück.
+  Gibt die Farbtiefe des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die Farbtiefe in Bits pro Pixel zurück: 1, 2, 4, 8, 15, 16, 24 oder 32 Bit.
+  Gibt die Farbtiefe in Bits pro Pixel zurÃ¼ck: 1, 2, 4, 8, 15, 16, 24 oder 32 Bit.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @Example
 @Code
   ExamineDesktops()
-  MessageRequester("Display Information", "Aktuelle Auflösung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Display Information", "Aktuelle AuflÃ¶sung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso
@@ -83,18 +83,18 @@
 @Function Ergebnis.d = DesktopResolutionX()
 
 @Description
-  Gibt den DPI-Auflösungsfaktor des Desktops auf der 'x'-Achse zurück.
+  Gibt den DPI-AuflÃ¶sungsfaktor des Desktops auf der 'x'-Achse zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den DPI-Auflösungsfaktor des Desktops auf der 'x'-Achse zurück. Wenn der Wert '1' lautet, wurde
+  Gibt den DPI-AuflÃ¶sungsfaktor des Desktops auf der 'x'-Achse zurÃ¼ck. Wenn der Wert '1' lautet, wurde
   auf die Anzeige auf der 'x'-Achse kein DPI-Faktor angewendet.
   Wenn der Wert '1.25' lautet, wurde der Anzeige auf der 'x'-Achse ein Faktor von 125% zugewiesen.
 
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl einen tatsächlichen DPI-Auflösungsfaktor liefert.
+  damit dieser Befehl einen tatsÃ¤chlichen DPI-AuflÃ¶sungsfaktor liefert.
   Wenn nicht, ist das Ergebnis immer '1'.
 
 @Example
@@ -112,18 +112,18 @@
 @Function Ergebnis.d = DesktopResolutionY()
 
 @Description
-  Gibt den DPI-Auflösungsfaktor des Desktops auf der 'y'-Achse zurück.
+  Gibt den DPI-AuflÃ¶sungsfaktor des Desktops auf der 'y'-Achse zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt den DPI-Auflösungsfaktor des Desktops auf der 'y'-Achse zurück. Wenn der Wert '1' lautet, wurde
+  Gibt den DPI-AuflÃ¶sungsfaktor des Desktops auf der 'y'-Achse zurÃ¼ck. Wenn der Wert '1' lautet, wurde
   auf die Anzeige auf der 'y'-Achse kein DPI-Faktor angewendet.
   Wenn der Wert '1.25' lautet, wurde der Anzeige auf der 'y'-Achse ein Faktor von 125% zugewiesen.
 
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl einen tatsächlichen DPI-Auflösungsfaktor liefert.
+  damit dieser Befehl einen tatsÃ¤chlichen DPI-AuflÃ¶sungsfaktor liefert.
   Wenn nicht, ist das Ergebnis immer '1'.
 
 @Example
@@ -141,19 +141,19 @@
 @Function Ergebnis = DesktopScaledX(Wert)
 
 @Description
-  Gibt den skalierten Wert gemäß der aktuellen DPI-Anzeige auf der x-Achse zurück. Dies ist vor allem
-  nützlich, um die reale Pixelposition unabhängig von der angezeigten DPI zu berechnen.
+  Gibt den skalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der x-Achse zurÃ¼ck. Dies ist vor allem
+  nÃ¼tzlich, um die reale Pixelposition unabhÃ¤ngig von der angezeigten DPI zu berechnen.
 
 @Parameter "Value"
   Der zu verwendende Wert.
 
 @ReturnValue
-  Gibt den skalierten Wert gemäß der aktuellen DPI-Anzeige auf der x-Achse zurück. Beispielsweise
+  Gibt den skalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der x-Achse zurÃ¼ck. Beispielsweise
   resultiert bei einer Anzeige mit einem zugewiesenen DPI von 125% aus einem Wert von 100 im Ergebnis 125.
 
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl tatsächlich einen skalierten DPI-Wert zurückgibt.
+  damit dieser Befehl tatsÃ¤chlich einen skalierten DPI-Wert zurÃ¼ckgibt.
   Wenn nicht, ist das Ergebnis immer gleich dem 'Wert' Parameter.
 
 @Example
@@ -171,19 +171,19 @@
 @Function Ergebnis = DesktopScaledY(Wert)
 
 @Description
-  Gibt den skalierten Wert gemäß der aktuellen DPI-Anzeige auf der y-Achse zurück. Dies ist vor allem
-  nützlich, um die reale Pixelposition unabhängig von der angezeigten DPI zu berechnen.
+  Gibt den skalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der y-Achse zurÃ¼ck. Dies ist vor allem
+  nÃ¼tzlich, um die reale Pixelposition unabhÃ¤ngig von der angezeigten DPI zu berechnen.
 
 @Parameter "Value"
   Der zu verwendende Wert.
 
 @ReturnValue
-  Gibt den skalierten Wert gemäß der aktuellen DPI-Anzeige auf der y-Achse zurück. Beispielsweise
+  Gibt den skalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der y-Achse zurÃ¼ck. Beispielsweise
   resultiert bei einer Anzeige mit einem zugewiesenen DPI von 125% aus einem Wert von 100 im Ergebnis 125.
   
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl tatsächlich einen skalierten DPI-Wert zurückgibt.
+  damit dieser Befehl tatsÃ¤chlich einen skalierten DPI-Wert zurÃ¼ckgibt.
   Wenn nicht, ist das Ergebnis immer gleich dem 'Wert' Parameter.
 
 @Example
@@ -201,19 +201,19 @@
 @Function Ergebnis = DesktopUnscaledX(Wert)
 
 @Description
-  Gibt den unskalierten Wert gemäß der aktuellen DPI-Anzeige auf der x-Achse zurück. Dies ist vor allem
-  nützlich, um die reale Pixelposition unabhängig von der angezeigten DPI zu berechnen.
+  Gibt den unskalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der x-Achse zurÃ¼ck. Dies ist vor allem
+  nÃ¼tzlich, um die reale Pixelposition unabhÃ¤ngig von der angezeigten DPI zu berechnen.
 
 @Parameter "Value"
   Der zu verwendende Wert.
 
 @ReturnValue
-  Gibt den unskalierten Wert gemäß der aktuellen DPI-Anzeige auf der x-Achse zurück. Beispielsweise
+  Gibt den unskalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der x-Achse zurÃ¼ck. Beispielsweise
   resultiert bei einer Anzeige mit einem zugewiesenen DPI von 125% aus einem Wert von 125 im Ergebnis 100.
 
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl tatsächlich einen skalierten DPI-Wert zurückgibt.
+  damit dieser Befehl tatsÃ¤chlich einen skalierten DPI-Wert zurÃ¼ckgibt.
   Wenn nicht, ist das Ergebnis immer gleich dem 'Wert' Parameter.
 
 @Example
@@ -231,19 +231,19 @@
 @Function Ergebnis = DesktopUnscaledY(Wert)
 
 @Description
-  Gibt den unskalierten Wert gemäß der aktuellen DPI-Anzeige auf der y-Achse zurück. Dies ist vor allem
-  nützlich, um die reale Pixelposition unabhängig von der angezeigten DPI zu berechnen.
+  Gibt den unskalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der y-Achse zurÃ¼ck. Dies ist vor allem
+  nÃ¼tzlich, um die reale Pixelposition unabhÃ¤ngig von der angezeigten DPI zu berechnen.
 
 @Parameter "Value"
   Der zu verwendende Wert.
 
 @ReturnValue
-  Gibt den unskalierten Wert gemäß der aktuellen DPI-Anzeige auf der y-Achse zurück. Beispielsweise
+  Gibt den unskalierten Wert gemÃ¤ÃŸ der aktuellen DPI-Anzeige auf der y-Achse zurÃ¼ck. Beispielsweise
   resultiert bei einer Anzeige mit einem zugewiesenen DPI von 125% aus einem Wert von 125 im Ergebnis 100.
 
 @Remarks
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
-  damit dieser Befehl tatsächlich einen skalierten DPI-Wert zurückgibt.
+  damit dieser Befehl tatsÃ¤chlich einen skalierten DPI-Wert zurÃ¼ckgibt.
   Wenn nicht, ist das Ergebnis immer gleich dem 'Wert' Parameter.
 
 @Example
@@ -261,22 +261,22 @@
 @Function Ergebnis = DesktopFrequency(#Desktop)
 
 @Description
-  Gibt die Frequenz des angegebenen Desktops zurück.
+  Gibt die Frequenz des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die Frequenz des angegebenen Desktops in Hertz zurück.
+  Gibt die Frequenz des angegebenen Desktops in Hertz zurÃ¼ck.
   Ist das Ergebnis gleich 0, dann wird die Standard Hardware-Frequenz verwendet (der
-  Anwender hat diese nicht gegenüber der Standardeinstellung verändert), oder die
+  Anwender hat diese nicht gegenÃ¼ber der Standardeinstellung verÃ¤ndert), oder die
   aktuelle Frequenz konnte nicht ermittelt werden.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
-  @Bold "Hinweis:" Auf Linux gibt diese Funktion immer 0 zurück.
+  @Bold "Hinweis:" Auf Linux gibt diese Funktion immer 0 zurÃ¼ck.
 
 @Example
 @Code
@@ -301,23 +301,23 @@
 @Function Ergebnis = DesktopHeight(#Desktop)
 
 @Description
-  Gibt die Höhe des angegebenen Desktops zurück.
+  Gibt die HÃ¶he des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die Höhe in Pixel zurück.
+  Gibt die HÃ¶he in Pixel zurÃ¼ck.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @Example
 @Code
   ExamineDesktops()
-  MessageRequester("Display Information", "Aktuelle Auflösung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Display Information", "Aktuelle AuflÃ¶sung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso
@@ -332,19 +332,19 @@
 @Function Ergebnis = DesktopX(#Desktop)
 
 @Description
-  Gibt die x-Koordinate des angegebenen Desktops zurück.
+  Gibt die x-Koordinate des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die x-Koordinate (in Pixel) der linken oberen Ecke des angegebenen Desktops zurück.
+  Gibt die x-Koordinate (in Pixel) der linken oberen Ecke des angegebenen Desktops zurÃ¼ck.
   Die Koordinate ist relativ zur linken oberen Ecke des Hauptmonitors. Sie ist negativ,
   wenn sich der angebenene Monitor links vom Hauptmonitor befindet.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @SeeAlso
@@ -359,19 +359,19 @@
 @Function Ergebnis = DesktopY(#Desktop)
 
 @Description
-  Gibt die y-Koordinate des angegebenen Desktops zurück.
+  Gibt die y-Koordinate des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die y-Koordinate (in Pixel) der linken oberen Ecke des angegebenen Desktops zurück.
+  Gibt die y-Koordinate (in Pixel) der linken oberen Ecke des angegebenen Desktops zurÃ¼ck.
   Die Koordinate ist relativ zur linken oberen Ecke des Hauptmonitors. Sie ist negativ,
   wenn sich der angebenene Monitor oberholb vom Hauptmonitor befindet.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @SeeAlso
@@ -386,12 +386,12 @@
 @Function Ergebnis = DesktopMouseX()
 
 @Description
-  Gibt die absolute x-Position der Maus auf dem Desktop zurück.
+  Gibt die absolute x-Position der Maus auf dem Desktop zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die x-Koordinate (in Pixel) der Maus relativ zur linken oberen Ecke des Hauptmonitors zurück.
+  Gibt die x-Koordinate (in Pixel) der Maus relativ zur linken oberen Ecke des Hauptmonitors zurÃ¼ck.
   Die Koordinate ist negativ, wenn sich die Maus auf einem Monitor links vom Hauptmonitor befindet.
 
 @Example
@@ -403,7 +403,7 @@
       Event = WindowEvent()
       
       If Event = 0 ; Es sind keine Ereignisse mehr in der Warteschlange, daher halten wir den Prozess
-                   ; für ein paar Millisekunden an, um das Multitasking nicht zu beeinträchtigen
+                   ; fÃ¼r ein paar Millisekunden an, um das Multitasking nicht zu beeintrÃ¤chtigen
         SetGadgetText(0, "Desktop Maus-Position: "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
         Delay(20)
       EndIf
@@ -422,12 +422,12 @@
 @Function Ergebnis = DesktopMouseY()
 
 @Description
-  Gibt die absolute y-Position der Maus auf dem Desktop zurück.
+  Gibt die absolute y-Position der Maus auf dem Desktop zurÃ¼ck.
 
 @NoParameters
 
 @ReturnValue
-  Gibt die y-Koordinate (in Pixel) der Maus relativ zur linken oberen Ecke des Hauptmonitors zurück.
+  Gibt die y-Koordinate (in Pixel) der Maus relativ zur linken oberen Ecke des Hauptmonitors zurÃ¼ck.
   Die Koordinate ist negativ, wenn sich die Maus auf einem Monitor oberhalb vom Hauptmonitor befindet.
 
 @Example
@@ -439,7 +439,7 @@
       Event = WindowEvent()
       
       If Event = 0 ; Es sind keine Ereignisse mehr in der Warteschlange, daher halten wir den Prozess
-                   ; für ein paar Millisekunden an, um das Multitasking nicht zu beeinträchtigen
+                   ; fÃ¼r ein paar Millisekunden an, um das Multitasking nicht zu beeintrÃ¤chtigen
         SetGadgetText(0, "Desktop Maus-Position: "+Str(DesktopMouseX())+","+Str(DesktopMouseY()))
         Delay(20)
       EndIf
@@ -458,18 +458,18 @@
 @Function Ergebnis$ = DesktopName(#Desktop)
 
 @Description
-  Gibt - sofern vorhanden - den Namen des angegebenen Desktops zurück.
+  Gibt - sofern vorhanden - den Namen des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt einen String mit dem Desktop-Namen zurück. Wenn kein Name vorhanden ist,
-  wird ein leerer String zurückgegeben.
+  Gibt einen String mit dem Desktop-Namen zurÃ¼ck. Wenn kein Name vorhanden ist,
+  wird ein leerer String zurÃ¼ckgegeben.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @Example
@@ -490,23 +490,23 @@
 @Function Ergebnis = DesktopWidth(#Desktop)
 
 @Description
-  Gibt die Breite des angegebenen Desktops zurück.
+  Gibt die Breite des angegebenen Desktops zurÃ¼ck.
 
 @Parameter "#Desktop"
   Der Index des Desktops. Der erste Index spezifiziert immer den Hauptdesktop (-monitor).
   Der erste Index-Wert ist Null.
 
 @ReturnValue
-  Gibt die Breite in Pixel zurück.
+  Gibt die Breite in Pixel zurÃ¼ck.
 
 @Remarks
-  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen über
+  @@ExamineDesktops muss vor diesem Befehl aufgerufen werden, um die Informationen Ã¼ber
   vorhandene Desktops zu ermitteln.
 
 @Example
 @Code
   ExamineDesktops()
-  MessageRequester("Display Information", "Aktuelle Auflösung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
+  MessageRequester("Display Information", "Aktuelle AuflÃ¶sung = "+Str(DesktopWidth(0))+"x"+Str(DesktopHeight(0))+"x"+Str(DesktopDepth(0)))
 @EndCode
 
 @SeeAlso
