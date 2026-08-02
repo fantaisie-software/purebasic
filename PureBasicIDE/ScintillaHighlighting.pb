@@ -1327,6 +1327,40 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     FreeMemory(*NewLine)
   EndProcedure
+
+  Procedure RemoveTrailingWhitespace()
+    LineCount = SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
+    Modified = #False
+
+    ; Work backwards so later deletions do not invalidate earlier positions.
+    For Line = LineCount - 1 To 0 Step -1
+      LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, Line, 0)
+      LineEnd = SendEditorMessage(#SCI_GETLINEENDPOSITION, Line, 0)
+      TrimStart = LineEnd
+
+      While TrimStart > LineStart
+        Character = SendEditorMessage(#SCI_GETCHARAT, TrimStart - 1, 0)
+        If Character = ' ' Or Character = 9
+          TrimStart - 1
+        Else
+          Break
+        EndIf
+      Wend
+
+      If TrimStart < LineEnd
+        ; Avoid adding an empty action when no cleanup is needed.
+        If Modified = #False
+          SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+          Modified = #True
+        EndIf
+        SendEditorMessage(#SCI_DELETERANGE, TrimStart, LineEnd - TrimStart)
+      EndIf
+    Next Line
+
+    If Modified
+      SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
+    EndIf
+  EndProcedure
   
   Procedure BuildIndentVT()
     
