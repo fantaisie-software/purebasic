@@ -823,6 +823,8 @@ DataSection
   Data$ "FilesPanelCloseButtons", "Display close buttons in each tab"
   Data$ "FilesPanelNewButton",    "Add a tab to create a new source"
   Data$ "CodeFileExtensions","Code file extensions"
+  Data$ "OnSave",           "On Save"
+  Data$ "RemoveTrailingWhitespace", "Remove trailing whitespace"
   
   Data$ "Editing",          "Editing"
   Data$ "Colors",           "Coloring"

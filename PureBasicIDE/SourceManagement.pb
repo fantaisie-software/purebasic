@@ -1961,8 +1961,10 @@ Procedure SaveSourceFile(FileName$)
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
   
   If CreateFile(#FILE_SaveSource, FileName$)
-    ; Clean the editor before measuring it so the buffer and saved file agree.
-    RemoveTrailingWhitespace()
+    If RemoveTrailingWhitespaceOnSave
+      ; Clean the editor before measuring it so the buffer and saved file agree.
+      RemoveTrailingWhitespace()
+    EndIf
 
     If *ActiveSource\Parser\Encoding = 0
       WriteStringFormat(#FILE_SaveSource, #PB_Ascii)

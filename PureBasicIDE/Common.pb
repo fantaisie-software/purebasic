@@ -234,6 +234,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_PageUp    ; Not actually a gadget, for now, just a shortcut
   #GADGET_Preferences_PageDown  ; Not actually a gadget, for now, just a shortcut
   #GADGET_Preferences_MonitorFileChanges
+  #GADGET_Preferences_RemoveTrailingWhitespace
   #GADGET_Preferences_SystemMessages
   #GADGET_Preferences_DebugToLog
   #GADGET_Preferences_ToolsPanelDelay
@@ -2627,7 +2628,7 @@ Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, Tool
 Global SaveProjectSettings
 Global EnableMenuIcons, AutoClearLog, DisplayFullPath, DisplayDarkMode, NoSplashScreen, DisplayProtoType, DisplayErrorWindow
 Global InitialSourceLine, MemorizeMarkers, LanguageFile$, ToolsPanelWidth_Hidden, ErrorLogHeight_Hidden
-Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges
+Global EnableBraceMatch, EnableKeywordMatch, ShowWhiteSpace, ShowIndentGuides, MonitorFileChanges, RemoveTrailingWhitespaceOnSave
 Global FormVariable, FormVariableCaption, FormGrid, FormGridSize, FormEventProcedure, FormSkin, FormSkinVersion, FormVersionWarnings
 Global FilesPanelMultiline, FilesPanelCloseButtons, FilesPanelNewButton
 Global CurrentZoom, SynchronizingZoom
