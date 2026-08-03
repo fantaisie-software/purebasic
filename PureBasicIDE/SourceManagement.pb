@@ -1961,9 +1961,16 @@ Procedure SaveSourceFile(FileName$)
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
   
   If CreateFile(#FILE_SaveSource, FileName$)
-    If RemoveTrailingWhitespaceOnSave
-      ; Clean the editor before measuring it so the buffer and saved file agree.
-      RemoveTrailingWhitespace()
+    If RemoveTrailingWhitespaceOnSave Or NormalizeSourceFileEndOnSave
+      ; Keep all enabled save-time transformations in one undo action.
+      SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+      If RemoveTrailingWhitespaceOnSave
+        RemoveTrailingWhitespace()
+      EndIf
+      If NormalizeSourceFileEndOnSave
+        NormalizeSourceFileEnd()
+      EndIf
+      SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
     EndIf
 
     If *ActiveSource\Parser\Encoding = 0

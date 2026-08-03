@@ -825,6 +825,7 @@ DataSection
   Data$ "CodeFileExtensions","Code file extensions"
   Data$ "OnSave",           "On Save"
   Data$ "RemoveTrailingWhitespace", "Remove trailing whitespace"
+  Data$ "NormalizeSourceFileEnd", "Normalize end of source file"
   
   Data$ "Editing",          "Editing"
   Data$ "Colors",           "Coloring"

@@ -1330,7 +1330,6 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
 
   Procedure RemoveTrailingWhitespace()
     LineCount = SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
-    Modified = #False
 
     ; Work backwards so later deletions do not invalidate earlier positions.
     For Line = LineCount - 1 To 0 Step -1
@@ -1348,17 +1347,45 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       Wend
 
       If TrimStart < LineEnd
-        ; Avoid adding an empty action when no cleanup is needed.
-        If Modified = #False
-          SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
-          Modified = #True
-        EndIf
         SendEditorMessage(#SCI_DELETERANGE, TrimStart, LineEnd - TrimStart)
       EndIf
     Next Line
+  EndProcedure
 
-    If Modified
-      SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
+  Procedure NormalizeSourceFileEnd()
+    SourceLength = SendEditorMessage(#SCI_GETLENGTH, 0, 0)
+    TrimStart = SourceLength
+
+    While TrimStart > 0
+      Character = SendEditorMessage(#SCI_GETCHARAT, TrimStart - 1, 0)
+      If Character = 10 Or Character = 13
+        TrimStart - 1
+      Else
+        Break
+      EndIf
+    Wend
+
+    If TrimStart > 0 And SourceLength - TrimStart = #NewLineLength
+      CompilerIf #NewLineLength = 1
+        If SendEditorMessage(#SCI_GETCHARAT, TrimStart, 0) = 10
+          ProcedureReturn
+        EndIf
+      CompilerElse
+        If SendEditorMessage(#SCI_GETCHARAT, TrimStart, 0) = 13 And SendEditorMessage(#SCI_GETCHARAT, TrimStart + 1, 0) = 10
+          ProcedureReturn
+        EndIf
+      CompilerEndIf
+    EndIf
+
+    If TrimStart < SourceLength
+      SendEditorMessage(#SCI_DELETERANGE, TrimStart, SourceLength - TrimStart)
+    EndIf
+
+    If TrimStart > 0
+      ; The save pipeline converts this native newline back to the source's selected format.
+      *NewLine = Ascii(#NewLine)
+      SendEditorMessage(#SCI_APPENDTEXT, #NewLineLength, *NewLine)
+      FreeMemory(*NewLine)
     EndIf
   EndProcedure
   
