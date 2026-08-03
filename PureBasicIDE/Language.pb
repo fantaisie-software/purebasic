@@ -826,6 +826,7 @@ DataSection
   Data$ "OnSave",           "On Save"
   Data$ "RemoveTrailingWhitespace", "Remove trailing whitespace"
   Data$ "NormalizeSourceFileEnd", "Normalize end of source file"
+  Data$ "FormatIndentation", "Format indentation"
   
   Data$ "Editing",          "Editing"
   Data$ "Colors",           "Coloring"

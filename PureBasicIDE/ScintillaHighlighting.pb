@@ -2166,14 +2166,20 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If *LineStart\c = 0
         
         ; Apply the line change (whitespace only line)
-        SetLine(Line, Prefix$)
+        If Line$ <> Prefix$
+          SetLine(Line, Prefix$)
+          Modified = #True
+        EndIf
         CommentAnchor$ = ""
         
       Else
         
         ; Apply the line change and adjust comment position (if needed)
         CommentAnchor$ = AlignLineComments(Prefix$ + PeekS(*LineStart), CommentAnchor$)
-        SetLine(Line, CommentAnchor$)
+        If Line$ <> CommentAnchor$
+          SetLine(Line, CommentAnchor$)
+          Modified = #True
+        EndIf
         
       EndIf
       
@@ -2197,7 +2203,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
           ; update line and adjust comment position if needed
           CommentAnchor$ = AlignLineComments(ContinuedPrefix$ + PeekS(*Cursor), CommentAnchor$)
-          SetLine(Line, CommentAnchor$)
+          If Line$ <> CommentAnchor$
+            SetLine(Line, CommentAnchor$)
+            Modified = #True
+          EndIf
           Previous$ + Chr(10) + ContinuedPrefix$ + PeekS(*Cursor)
         Until Line = LastLine Or IsContinuedLineStart(Line$) = 0
         
@@ -2206,6 +2215,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; on to next line
       Line + 1
     Wend
+
+    ProcedureReturn Modified
     
   EndProcedure
   

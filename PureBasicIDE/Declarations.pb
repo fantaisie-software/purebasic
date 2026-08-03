@@ -407,6 +407,7 @@ Declare RemoveComments()                                                        
 Declare InsertTab()                                                                                      ; tab intend a block
 Declare RemoveTab()                                                                                      ; tab unintend a block
 Declare AutoIndent()
+Declare FormatSourceIndentation()
 Declare SelectBlock()
 Declare DeselectBlock()
 Declare ShiftComments(IsRight)

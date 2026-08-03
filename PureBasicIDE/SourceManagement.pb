@@ -1961,9 +1961,12 @@ Procedure SaveSourceFile(FileName$)
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
   
   If CreateFile(#FILE_SaveSource, FileName$)
-    If RemoveTrailingWhitespaceOnSave Or NormalizeSourceFileEndOnSave
+    If FormatIndentationOnSave Or RemoveTrailingWhitespaceOnSave Or NormalizeSourceFileEndOnSave
       ; Keep all enabled save-time transformations in one undo action.
       SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+      If FormatIndentationOnSave
+        FormatSourceIndentation()
+      EndIf
       If RemoveTrailingWhitespaceOnSave
         RemoveTrailingWhitespace()
       EndIf
