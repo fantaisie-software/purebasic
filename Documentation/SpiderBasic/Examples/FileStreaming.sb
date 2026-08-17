@@ -17,34 +17,48 @@ EndEnumeration
 
 Global *Buffer = AllocateMemory(#ChunkSize) ; Allocate a global memory buffer to avoid realloc
 
-Procedure ChooseFileEvent()
-  Filename$ = OpenFileRequester("text/plain")
-  If Filename$
-    Debug Filename$
-    If ReadFile(0, Filename$, 0, #PB_LocalFile | #PB_File_Streaming)
-      
-      ; Initialize fingerprint calc
-      StartFingerprint(0, #PB_Cipher_MD5)
-      
-      ; Read the first chunk from the file
-      While FetchData(0, #ChunkSize) 
-      
-        ; Read all data into the memory buffer
-        ReadData(0, *Buffer, 0, Size)
-      
-        ; Continue the fingerprint calculation
-        AddFingerprintBuffer(0, *Buffer, 0, Size)
-      
-        ; Update the progressbar
-        SetGadgetState(#ProgressGadget, (Loc(0) * 100) / Lof(0));
-      Wend
-      
-      Debug "MD5 Result:" + FinishFingerprint(0) ; Display the MD5 result
-      
-    EndIf 
-  EndIf 
+Procedure ReadCallback(Status, Filename$, File, Size)
+  If Status = #PB_Status_Loaded
+    ; Read all data into the memory buffer
+    ReadData(0, *Buffer, 0, Size)
+    
+    ; Continue the fingerprint calculation
+    AddFingerprintBuffer(0, *Buffer, 0, Size) ; MD5
+    AddFingerprintBuffer(1, *Buffer, 0, Size) ; SHA2
+    
+    ; Update the progressbar
+    SetGadgetState(#ProgressGadget, (Loc(0) * 100) / Lof(0));
+    
+    If Not Eof(0)
+      FetchData(0, #ChunkSize) ; Continue the reading if the end of file hasn't be reach yet
+    Else
+      Debug "MD5 Result: " + FinishFingerprint(0) ; Display the MD5 result
+      Debug "SHA2 Result: " + FinishFingerprint(1) ; Display the SHA2 result
+    EndIf
+    
+  ElseIf Status = #PB_Status_Error
+    Debug "Error when loading the file: " + Filename$
+  EndIf
 EndProcedure
 
+
+Procedure ChooseFileEvent()
+  Filename$ = OpenFileRequester("*")
+  If Filename$
+    ; Start the read the file, in streaming mode (no read is done unless FetchData() is used).
+    ; A callback is mandatory when using streaming mode, as it will be asyncronous
+    ;
+    If ReadFile(0, Filename$, @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
+      
+      ; Initialize fingerprints calculation
+      StartFingerprint(0, #PB_Cipher_MD5)
+      StartFingerprint(1, #PB_Cipher_SHA2)
+      
+      ; Read the first chunk from the file
+      FetchData(0, #ChunkSize) 
+    EndIf 
+  EndIf
+EndProcedure
 
 If OpenWindow(0, 0, 0, 300, 80, "MD5 calculator", #PB_Window_ScreenCentered)
   ButtonGadget(#SelectFileGadget, 10, 10, 280, 25, "Please choose a (big) file for MD5 sum...")
@@ -53,14 +67,3 @@ If OpenWindow(0, 0, 0, 300, 80, "MD5 calculator", #PB_Window_ScreenCentered)
   
   BindGadgetEvent(0, @ChooseFileEvent())
 EndIf
-
-
-; IDE Options = SpiderBasic 3.30 beta 1 (Windows - x86)
-; CursorPosition = 23
-; Folding = -
-; iOSAppOrientation = 0
-; AndroidAppCode = 0
-; AndroidAppOrientation = 0
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

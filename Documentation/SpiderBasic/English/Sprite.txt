@@ -70,27 +70,12 @@ you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/O
     FlipBuffers() ; continue the rendering
   EndProcedure
 
-  Procedure Loading(Type, Filename$)
-    Static NbLoadedElements
-    
-    NbLoadedElements+1
-    If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
-      AddSpriteShader(0, #PB_Shader_Blur)
-      
-      FlipBuffers() ; start the rendering
-    EndIf
-  EndProcedure
-
-  Procedure LoadingError(Type, Filename$)
-    Debug Filename$ + ": loading error"
-  EndProcedure
-
-  ; Register the loading event before calling any resource load command
-  BindEvent(#PB_Event_Loading, @Loading())
-  BindEvent(#PB_Event_LoadingError, @LoadingError())
-  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
-
   LoadSprite(0, "Data/Geebee.png")
+  
+  AddSpriteShader(0, #PB_Shader_Blur)
+  
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  FlipBuffers() ; start the rendering
 @EndCode
 
 @SeeAlso
@@ -375,7 +360,7 @@ you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/O
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = LoadSprite(#Sprite, Filename$ [, Mode])
+@Function Result = LoadSprite(#Sprite, Filename$ [, Flags])
 
 @Description
   Load the specified sprite into memory for immediate use. A screen should be opened with @@OpenScreen or 
@@ -391,23 +376,91 @@ you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/O
 @Parameter "Filename$"
   Name of the image file used to create the sprite.
 
-@OptionalParameter "Mode"
+@OptionalParameter "Flags"
   It can be a combination of the following values (with the '|' operator):
 @FixedFont
-  @#PB_Sprite_PixelCollision: Add special information to handle pixel collision through @@SpritePixelCollision.
-  @#PB_Sprite_AlphaBlending : Sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
+  @#PB_Sprite_PixelCollision: add special information to handle pixel collision through @@SpritePixelCollision.
+  @#PB_Sprite_AlphaBlending : the sprite is created with per pixel alpha-channel support, needed for @@DisplayTransparentSprite.
                             The image format has to support it (PNG only for now).
+  @#PB_ASync                : the sprite will be loaded in async mode. This function will return immediately and the sprite will be available only once the binded loading callbacks will be called.
 @EndFixedFont
 
 @ReturnValue
   Nonzero if the sprite has been created, zero otherwise. 
-  The sprite is still not loaded, the callbacks binded to @#PB_Event_Loading and @#PB_Event_LoadingError
-  will be called once the loading is done.
   If @#PB_Any was used for the #Sprite parameter then the generated number is returned on success.
 
 @Remarks
   Sprites shouldn't be larger than the used screenmode. Using larger sprites possibly works on some
   hardware, on others not. Better split your large sprite to several smaller ones.
+
+@Example
+@Code
+  OpenScreen(800, 600, 32, "Sprite")
+  SetFrameRate(60)
+
+  Procedure RenderFrame()
+    Static x = -100
+    
+    ClearScreen(RGB(0, 0, 0))
+
+    For y = 0 to 300 step 30
+      DisplaySprite(0, x, y + 100)
+    Next
+    
+    If x > 800 : x = -100 : Else :  x+1 : EndIf
+
+    FlipBuffers() ; continue the rendering
+  EndProcedure
+
+  LoadSprite(0, "Data/Geebee.png")
+  
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  FlipBuffers() ; start the rendering
+@EndCode
+
+
+@Example using async loading
+@Code
+  OpenScreen(800, 600, 32, "Sprite")
+  SetFrameRate(60)
+
+  Procedure RenderFrame()
+    Static x = -100
+    
+    ClearScreen(RGB(0, 0, 0))
+
+    For y = 0 to 300 step 30
+      DisplaySprite(0, x, y + 100)
+    Next
+    
+    If x > 800 : x = -100 : Else :  x+1 : EndIf
+
+    FlipBuffers() ; continue the rendering
+  EndProcedure
+
+  Procedure Loading(Type, Filename$)
+    Static NbLoadedElements
+    
+    NbLoadedElements+1
+    If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
+      FlipBuffers() ; start the rendering
+    EndIf
+  EndProcedure
+
+  Procedure LoadingError(Type, Filename$)
+    Debug Filename$ + ": loading error"
+  EndProcedure
+
+  ; Register the loading event before calling any resource load command
+  BindEvent(#PB_Event_Loading, @Loading())
+  BindEvent(#PB_Event_LoadingError, @LoadingError())
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+
+  ; With the async flag, the sprite is loaded in the background, and will be only available when the binded callback is called.
+  ; It can be faster when loading a lot of sprite from distant server than using sync mode.
+  ;
+  LoadSprite(0, "Data/Geebee.png", #PB_Async)
+@EndCode
 
 @SupportedOS
 

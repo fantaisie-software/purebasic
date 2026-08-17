@@ -95,6 +95,7 @@ Interface ISWbemObjectSet
   Item(a.p-bstr, b.l, c.l)
   get_Count(a.l)
   get_Security_(a.l)
+  ItemIndex(a.l, b.l)
 EndInterface
 
 ; ISWbemNamedValue interface definition
