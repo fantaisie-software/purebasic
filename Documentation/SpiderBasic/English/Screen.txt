@@ -60,28 +60,13 @@ or using the whole display (fullscreen mode).
     FlipBuffers() ; continue the rendering
   EndProcedure
 
-  Procedure Loading(Type, Filename$)
-    Static NbLoadedElements
-    
-    NbLoadedElements+1
-    If NbLoadedElements = 1 ; Finished the loading of all images and sounds, we can start the applications
-      AddScreenShader(#PB_Shader_Reflection)
-      ScreenShaderAttribute(#PB_ReflectionShader_Boundary, 0.80)
-      
-      FlipBuffers() ; start the rendering
-    EndIf
-  EndProcedure
-
-  Procedure LoadingError(Type, Filename$)
-    Debug Filename$ + ": loading error"
-  EndProcedure
-
-  ; Register the loading event before calling any resource load command
-  BindEvent(#PB_Event_Loading, @Loading())
-  BindEvent(#PB_Event_LoadingError, @LoadingError())
-  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
-
   LoadSprite(0, "Data/Mountain.jpg")
+  
+  AddScreenShader(#PB_Shader_Reflection)
+  ScreenShaderAttribute(#PB_ReflectionShader_Boundary, 0.80)
+      
+  BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  FlipBuffers() ; start the rendering
 @EndCode
 
 @SeeAlso

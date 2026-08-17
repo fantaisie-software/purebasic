@@ -140,10 +140,13 @@
   @#PB_LocalFile: the filename is a local file, @@OpenFileRequester() needs to be called before
                  to have access to local files.
 @EndFixedFont
+  Combined with:
+@FixedFont
+  @#PB_ASync: the XML will be loaded in async mode. This function will return immediately and the XML will be available only once the binded loading callbacks will be called.
+@EndFixedFont
 
 @ReturnValue
-  Nonzero if the xml object has been created. The xml data is still not loaded, the callbacks binded to 
-  @#PB_Event_Loading and @#PB_Event_LoadingError will be called once the loading is done.
+  Nonzero if the xml object has been created. 
   If @#PB_Any was used for the #XML parameter then the generated number is returned on success.
 
 @SeeAlso

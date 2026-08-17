@@ -2432,37 +2432,25 @@
 @Example 
 
 @Code
-  Procedure Loaded(Type, Filename$, ObjectId)
-    If OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
-      CanvasGadget(0, 0, 0, 400, 200)
-      
-      If StartVectorDrawing(CanvasVectorOutput(0))
-        
-        MovePathCursor(120, 0)
-        RotateCoordinates(120, 0, 35)
-        DrawVectorImage(ImageID(0), 127)
-        
-        StopVectorDrawing()
-      EndIf
-    EndIf
-  EndProcedure
-  
-  Procedure LoadingError(Type, Filename$, ObjectId)
-    Debug Filename$ + ": loading error"
-  EndProcedure
-  
-  ; Register the loading event before calling any resource load command
-  BindEvent(#PB_Event_Loading, @Loaded())
-  BindEvent(#PB_Event_LoadingError, @LoadingError())
-  
   LoadImage(0, "Data/Spider.png")
+
+  OpenWindow(0, 0, 0, 400, 200, "VectorDrawing", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+  CanvasGadget(0, 0, 0, 400, 200)
+      
+  If StartVectorDrawing(CanvasVectorOutput(0))
+
+    MovePathCursor(120, 0)
+    RotateCoordinates(120, 0, 35)
+    DrawVectorImage(ImageID(0), 127)
+    
+    StopVectorDrawing()
+  EndIf
 @EndCode
 
 @SeeAlso
   @@MovePathCursor, @@PathCursorX, @@PathCursorY
 
 @SupportedOS
-
 
 ;--------------------------------------------------------------------------------------------------------
 

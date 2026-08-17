@@ -27,14 +27,13 @@ EndIf
 
 Procedure GadgetEvents()
   If EventGadget() = 0 And EventType() = #PB_EventType_RightClick
-    Debug "here"
     DisplayPopupMenu(0, WindowID(0))
   EndIf
 EndProcedure
 
 
 Procedure MenuEvents()
-  Debug EventMenu()  ; To see which menu has been selected
+  Debug "Selected menu item:" + EventMenu()  ; To see which menu has been selected
 EndProcedure
 
 ;
