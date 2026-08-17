@@ -2884,8 +2884,3 @@ Procedure DisableMenuAndToolbarItem(MenuItemID, State)
     DisableToolBarButton(#TOOLBAR, MenuItemID, State)
   EndIf
 EndProcedure
-
-; IDE Options = PureBasic 6.41 - C Backend (MacOS X - x64)
-; Folding = -----
-; EnableXP
-; HideErrorLog
