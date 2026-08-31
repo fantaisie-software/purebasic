@@ -164,8 +164,10 @@
 
 @Example
 @Code
-  CompilerIf Subsystem("OpenGL")
-    Debug "Compilation avec le sous-système OpenGL" 
+  CompilerIf Subsystem("DirectX9")   ; Windows seulement
+    Debug "Compilation avec le sous-système DirectX9"
+  CompilerElseIf Subsystem("gtk2")   ; Linux seulement
+    Debug "Compilation avec le sous-système gtk2"
   CompilerEndIf
 @EndCode
 

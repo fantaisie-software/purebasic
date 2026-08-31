@@ -15,15 +15,15 @@
 ;
 Structure Plugin_Xml
   ; Xml Object
-  XmlID.l
+  XmlID.i
   
   ; Gadgets
-  Tree.l
-  Panel.l
-  Splitter.l
-  Info.l
-  Attributes.l
-  Text.l
+  Tree.i
+  Panel.i
+  Splitter.i
+  Info.i
+  Attributes.i
+  Text.i
 EndStructure
 
 ; count children and grandchildren

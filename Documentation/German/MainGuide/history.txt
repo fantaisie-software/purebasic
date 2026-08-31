@@ -1,5 +1,10 @@
 ﻿@Title PureBasic Geschichte
 
+@Section 10. August 2026 : Version 6.41
+
+- @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
+
 @Section 10. April 2026 : Version 6.40
 
 - @Green "Hinzugefügt": Interne Stringverwaltung vollständig überarbeitet, für eine deutlich schnellere Ausführung ! @LineBreak
@@ -80,7 +85,7 @@
 - @Green "Hinzugefügt": SFTP-Unterstützung für die FTP-Bibliothek ! @LineBreak
 - @Green "Hinzugefügt": #PB_OS_MacOSX_13, #PB_OS_MacOSX_14 und #PB_OS_MacOSX_15 für OSVersion() @LineBreak
 - @Green "Hinzugefügt": #PB_Frame_Container Unterstützung für FrameGadget() @LineBreak
-- @Green "Hinzugefügt": '--console' Kommandozeilen-Switch beim Linux- und OSX-Compiler (aus Konsistenzgründen) @LineBreak
+- @Green "Hinzugefügt": '--console' Kommandozeilen-Switch beim Linux- und macOS-Compiler (aus Konsistenzgründen) @LineBreak
 - @Green "Hinzugefügt": NavigationCallback-Unterstützung für GTK WebGadget() (alle OS unterstützen es jetzt) @LineBreak
 - @Green "Hinzugefügt": Neuer Linker zur DLL-Erstellung, um kleinere Binärgrößen zu erhalten (Windows) @LineBreak
 - @Green "Hinzugefügt": 32-Bit-Float-WAV-Unterstützung für LoadSound() und CatchSound() @LineBreak
@@ -105,12 +110,12 @@
 - @Green "Hinzugefügt": Vollständige Überarbeitung der Date-Bibliothek, um Jahre von 1601 bis 9999 zu verarbeiten! @LineBreak
 - @Green "Hinzugefügt": Skeleton-Bibliothek zum Erstellen eines benutzerdefinierten Skeletons (Skeletts) zu einem Mesh! @LineBreak
 - @Green "Hinzugefügt": SvgVectorOutput() und PdfVectorOutput() für alle OS @LineBreak
-- @Green "Hinzugefügt": DPI-Aware-Unterstützung für OS X @LineBreak
+- @Green "Hinzugefügt": DPI-Aware-Unterstützung für macOS @LineBreak
 - @Green "Hinzugefügt": ExamineDraggedItems(), NextDraggedItem() und DraggedItemIndex() für Drag'n'drop @LineBreak
 - @Green "Hinzugefügt": GetGadgetItemText() Unterstützung für das ExplorerTreeGadget() @LineBreak
 - @Green "Hinzugefügt": CompareStructure(), CompareArray(), CompareList() und CompareMap() Funktionen @LineBreak
 - @Green "Hinzugefügt": CustomSortList() und CustomSortArray() Funktionen für die Sort-Bibliothek @LineBreak
-- @Green "Hinzugefügt": CatchPack(), PackEntryDate() @LineBreak
+- @Green "Hinzugefügt": CatchPack() und PackEntryDate() @LineBreak
 - @Green "Hinzugefügt": CreatePasswordHash() und VerifyPasswordHash() Funktionen (BCrypt-Algorithmus) @LineBreak
 - @Green "Hinzugefügt": DeriveCipherKey() zum Erstellen eines Chiffrierschlüssels aus einem Passwort (PBKDF2-Algorithmus) @LineBreak
 - @Green "Hinzugefügt": DateUTC() um das Datum in UTC-Zeit zu erhalten @LineBreak
@@ -129,20 +134,18 @@
 - @Green "Hinzugefügt": GadgetItemID() Unterstützung für PanelGadget() (nur Windows) @LineBreak
 - @Green "Hinzugefügt": #PB_Preference_NoBOM Flag für CreatePreference() zum Erstellen von UTF-8-Einstellungsdateien ohne BOM @LineBreak
 - @Green "Hinzugefügt": #PB_Cipher_HMAC Flag bei den Fingerprint (Fingerabdruck)-Funktionen @LineBreak
-
 - @Green "Hinzugefügt": #PB_2DDrawing_NativeText Unterstützung für DrawingMode() @LineBreak
 - @Green "Hinzugefügt": #PB_PixelFormat_NoAlpha für DrawingBufferFormat() @LineBreak
 - @Green "Hinzugefügt": #PB_EventType_ColumnClick für ListIconGadget() @LineBreak
 - @Green "Hinzugefügt": #PB_String_EscapeJSON Unterstützung für EscapeString() und UnescapeString(). @LineBreak
 - @Green "Hinzugefügt": #PB_Menu_SysTrayLook Unterstützung für ein besser aussehendes Popup-Menü bei dessen Verwendung mit dem SysTray (nur Windows) @LineBreak
-- @Green "Hinzugefügt": #PB_EventType_Refresh Unterstützung für ExplorerListGadget() (nur Window) @LineBreak
+- @Green "Hinzugefügt": #PB_EventType_Refresh Unterstützung für ExplorerListGadget() (nur Windows) @LineBreak
 - @Green "Hinzugefügt": Subsystem-Unterstützung ohne Berücksichtigung der Groß-/Kleinschreibung unter Linux @LineBreak
 - @Green "Hinzugefügt": --listfunctions/constants/interfaces und --querystructure Unterstützung für den Windows-Compiler. @LineBreak
  @LineBreak
-
 - @Green "Aktualisiert": Unicode-Dateinamen-Unterstützung für den Windows-Compiler @LineBreak
 - @Green "Aktualisiert": Libvlc anstelle der alten xine Bibliothek unter Linux zum Abspielen von Filmen @LineBreak
-- @Green "Aktualisiert": Die Sound- und Music-Bibliotheken wurden überarbeitet, um MiniAudio unter Windows, OS X und Linux zu verwenden (SDL-Abhängigkeit ist für Sounds unter Linux nicht mehr gegeben). @LineBreak
+- @Green "Aktualisiert": Die Sound- und Music-Bibliotheken wurden überarbeitet, um MiniAudio unter Windows, macOS und Linux zu verwenden (SDL-Abhängigkeit ist für Sounds unter Linux nicht mehr gegeben). @LineBreak
 - @Green "Aktualisiert": SQLite Version auf 3.45.0 @LineBreak
 - @Green "Aktualisiert": Toolchain unter Windows verwendet jetzt VisualStudio 2022 und das neue MSVCRT für schnellere PureBasic-Programme und einfachere Integration externer Bibliotheken. @LineBreak
 - @Green "Aktualisiert": Mindestversion für Linux x86 ist jetzt Debian 12 @LineBreak
@@ -154,7 +157,7 @@
 - @Orange "Geändert": Die DESFingerprint() Funktion ist veraltet - verwenden Sie stattdessen das neue CreatePasswordHash(). @LineBreak
 - @Orange "Geändert": ListSize() und MapSize() geben jetzt ordnungsgemäß -1 zurück, wenn die Liste oder Map freigegeben wurde. @LineBreak
  @LineBreak
-- @Red "Entfernt": --listpath unter Linux/OSX (verwenden Sie --output, um die Ausgabedatei anzugeben) @LineBreak
+- @Red "Entfernt": --listpath unter Linux/macOS (verwenden Sie --output, um die Ausgabedatei anzugeben) @LineBreak
 - @Red "Entfernt": Windows XP-Unterstützung. Die älteste unterstützte Windows-Version für erstellte Executables ist jetzt Windows Vista. @LineBreak
 - @Red "Entfernt": Einige sehr alte veraltete Funktionen. @LineBreak
  @LineBreak
@@ -165,7 +168,7 @@
 
 - @Green "Hinzugefügt": /DLLPROTECTION Flag in der Kommandozeile und eine Auswahl in den 'Compiler-Optionen' zum Aktivieren des 'DLL-Preloading'-Schutzes (Windows) @LineBreak
 @LineBreak
-- @Blue "Repariert": Einige IDE-Probleme und Fehler in den Bibliotheken, hauptsächlich auf OS X @LineBreak
+- @Blue "Repariert": Einige IDE-Probleme und Fehler in den Bibliotheken, hauptsächlich auf macOS @LineBreak
 
 
 @Section 11. Oktober 2023 : Version 6.03 LTS
@@ -186,13 +189,15 @@
 
 - @Green "Hinzugefügt": HttpTimeout() zum Festlegen eines Verbindungs- und eines globalen Timeouts für HTTP-Befehle. @LineBreak
 - @Green "Hinzugefügt": GTK3 IDE Build auf Linux zum Testen (purebasic_gtk3). @LineBreak
-- @Green "Hinzugefügt": ReAssembly (--reasm) Unterstützung für OS X und Linux. @LineBreak
+- @Green "Hinzugefügt": ReAssembly (--reasm) Unterstützung für macOS und Linux. @LineBreak
 @LineBreak
-- @Green "Aktualisiert": libarchive auf 3.6.2
+- @Green "Aktualisiert": libarchive auf 3.6.2 @LineBreak
 - @Green "Aktualisiert": lib7z auf 22.01
 @LineBreak
 - @Red "Entfernt": EnableASM Unterstützung für das C-Backend, da es nicht korrekt verwendet werden kann (die IDE wandelt die Buchstaben für If in Großbuchstaben um, etc.) und die Erkennung eines echten x86/x64-ASM-Blocks verhindert, was zu seltsamen Fehlern führt.
 Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen, um direkt C-Code zu verwenden.
+@LineBreak
+- @Blue "Repariert": Eine Menge Bugs im Compiler und den Bibliotheken @LineBreak
 
 
 @Section 7. März 2023 : Version 6.01 LTS
@@ -212,15 +217,15 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": #PB_Compiler_Backend, #PB_Backend_C und #PB_Backend_Asm Compiler-Konstanten @LineBreak
 - @Green "Hinzugefügt": #PB_Compiler_64Bit und #PB_Compiler_32Bit Compiler-Konstanten @LineBreak
 - @Green "Hinzugefügt": #PB_Compiler_Optimizer Konstante - welche auf #True gesetzt ist, wenn der Optimizer eingeschaltet ist @LineBreak
-- @Green "Hinzugefügt": Support für Windows 11, OS X 11 und 12 bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": Support für Windows 11, macOS 11 und 12 bei OSVersion() @LineBreak
 - @Green "Hinzugefügt": /OPTIMIZER, -z, --optimizer Flag bei Nutzung der Kommandozeile, und eine 'Code-Optimizer verwenden' Checkbox in den IDE 'Compiler-Optionen', um die C Optimierungen einzuschalten @LineBreak
 - @Green "Hinzugefügt": automatische DPI-Unterstützung für die Menu und ToolBar Bibliotheken (Windows) @LineBreak
 - @Green "Hinzugefügt": WebGadget() Support für GTK3 auf Linux @LineBreak
-- @Green "Hinzugefügt": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter(), MaterialShaderTexture() @LineBreak
+- @Green "Hinzugefügt": CreateShader(), CreateShaderMaterial(), MaterialShaderAutoParameter(), MaterialShaderParameter() und MaterialShaderTexture() @LineBreak
 - @Green "Hinzugefügt": optionaler Parameter bei MeshFace() zum Erstellen eines Vierecks (Quads) @LineBreak
 - @Green "Hinzugefügt": optionaler Gravitationskraftvektor bei WorldGravity() @LineBreak
 - @Green "Hinzugefügt": optionaler PositionsModus bei ApplyEntityForce() @LineBreak
-- @Green "Hinzugefügt": GetEntityMesh(), CreateCubicTexture(), CreateAnimatedMaterial() @LineBreak
+- @Green "Hinzugefügt": GetEntityMesh(), CreateCubicTexture() und CreateAnimatedMaterial() @LineBreak
 - @Green "Hinzugefügt": neuer Modus bei CreateDataMesh(): #PB_Mesh_DiagonalShortestLength, #PB_Mesh_DiagonalClosestNormal, #PB_Mesh_DiagonalAlternate, #PB_Mesh_DiagonalRegular1, #PB_Mesh_DiagonalRegular2 @LineBreak
 - @Green "Hinzugefügt": neue Strukturen: Vector3, Vector4  @LineBreak
 - @Green "Hinzugefügt": vordefinierte Shader: #PB_Material_ColorShader, #PB_Material_PerpixelShader, #PB_Material_BumpShader, #PB_Material_SkyShader, #PB_Material_WaterShader, #PB_Material_WaterShaderRTT, #PB_Material_OceanShader, #PB_Material_PointSpriteSphereShader @LineBreak
@@ -236,7 +241,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 @LineBreak
 - @Green "Aktualisiert": SetMaterialColor() kann jetzt mittels '|' mehrere Farbtypen auf einmal nutzen @LineBreak
 - @Green "Aktualisiert": fasm, polink, polib und porc auf die neuesten Versionen (Windows) @LineBreak
-- @Green "Aktualisiert": Movie Bibliothek auf OS X zwecks Unterstützung moderner OS X Versionen @LineBreak
+- @Green "Aktualisiert": Movie Bibliothek auf macOS zwecks Unterstützung moderner macOS Versionen @LineBreak
 - @Green "Aktualisiert": Mouse Bibliothek auf Windows zwecks Verwendung von RawInput anstelle von DirectX, um HighDPI-Mäuse zu unterstützen @LineBreak
 - @Green "Aktualisiert": SQLite auf 3.38.2 @LineBreak
 - @Green "Aktualisiert": zlib auf 1.12.12 @LineBreak
@@ -250,7 +255,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Orange "Geändert": Backface-Culling für das Sprite-OpenGL-Subsystem aktiviert, um schneller zu sein und mit DirectX9/11 übereinzustimmen @LineBreak
 - @Orange "Geändert": InitNetwork() wird nicht mehr benötigt, um Netzwerk-Funktionen zu verwenden (veraltet) @LineBreak
 @LineBreak
-- @Red "Entfernt": x86 Version von PureBasic für OS X, da sie seit OS X Catalina nicht mehr unterstützt wurde (das älteste unterstützte OS X ist jetzt 10.10 - veröffentlicht in 2014). @LineBreak
+- @Red "Entfernt": x86 Version von PureBasic für macOS, da sie seit macOS Catalina nicht mehr unterstützt wurde (das älteste unterstützte macOS ist jetzt 10.10 - veröffentlicht in 2014). @LineBreak
 - @Red "Entfernt": die 'Help' Bibliothek auf Linux @LineBreak
 - @Red "Entfernt": Nvidia CG Support für OGRE, da es von Nvidia seit einiger Zeit nicht mehr unterstützt wird @LineBreak
 - @Red "Entfernt": ToolBarStandardButton() da er kein High-DPI unterstützt @LineBreak
@@ -303,9 +308,11 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Blue "Repariert": Viele Verbesserungen an der Dokumentation (Andre und Mesa) @LineBreak
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
 
+
 @Section 16. August 2019 : Version 5.71 LTS
 
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 2. Januar 2019 : Version 5.70 LTS
 
@@ -342,11 +349,10 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 
 
 @Section  12. September 2017 : Version 5.61
-
 - @Blue "Repariert": Das Touchbar-Problem beim neuen MacBook Air und das DebugOutput-Problem auf Windows. @LineBreak
 - @Blue "Repariert": Viele Fehler behoben. Bemerkenswerte Bug-Fixes sind: Prototyp und Quad-Return waren fehlerhaft,
             MacBook Pro Absturz und OptionGadget unter Windows unterstützt jetzt die Tastatur. @LineBreak
-- @Green "Aktualisiert": Das MacOS X-Paket ist nun eigenständig ("self-contained"), um kompatibel mit OSX Sierra zu sein. @LineBreak
+- @Green "Aktualisiert": Das macOS-Paket ist nun eigenständig ("self-contained"), um kompatibel mit macOS Sierra zu sein. @LineBreak
 @LineBreak
 - @Green "Aktualisiert": Diese Version ist mit neuen Zertifikaten signiert, um falsche positive (Antivirus) zu vermeiden. @LineBreak
 
@@ -356,7 +362,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Blue "Repariert": Das Touchbar-Problem beim neuen MacBook Air und das DebugOutput-Problem auf Windows. @LineBreak
 - @Blue "Repariert": Viele Fehler behoben. Bemerkenswerte Bug-Fixes sind: Prototyp und Quad-Return waren fehlerhaft,
             MacBook Pro Absturz und OptionGadget unter Windows unterstützt jetzt die Tastatur. @LineBreak
-- @Green "Aktualisiert": Das MacOS X-Paket ist nun eigenständig ("self-contained"), um kompatibel mit OSX Sierra zu sein. @LineBreak
+- @Green "Aktualisiert": Das macOS-Paket ist nun eigenständig ("self-contained"), um kompatibel mit macOS Sierra zu sein. @LineBreak
 @LineBreak
 - @Green "Aktualisiert": Diese Version ist mit neuen Zertifikaten signiert, um falsche positive (Antivirus) zu vermeiden. @LineBreak
 
@@ -394,9 +400,10 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Orange "Geändert": bisherigen Befehl Base64Decoder() in Base64DecoderBuffer() umbenannt @LineBreak
 - @Orange "Geändert": 'define.b' Syntax zum Ändern des Standard-Typs entfernt, da dies schwer zu findende Bugs hervorrufen konnte. @LineBreak
 
+
 @Section 19. Dezember 2016 : Version 5.51
 
-- @Green "Aktualisiert": MacOS X Paket ist jetzt 'self-contained' (in sich selbst enthalten), um OSX Sierra kompatibel zu sein @LineBreak
+- @Green "Aktualisiert": MacOS Paket ist jetzt 'self-contained' (in sich selbst enthalten), um macOS Sierra kompatibel zu sein @LineBreak
 @LineBreak
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
 
@@ -404,16 +411,15 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 @Section 19. November 2016 : Version 5.44 LTS
 
 - @Green  "Aktualisiert": Eine Bug-Fix Version des aktuellen "LTS"-Branches. @LineBreak
-  Diese behebt wichtige Linux-Probleme und bringt einen neuen Weg, um die App auf OS X zu installieren,
-  um auch OSX Sierra zu entsprechen. Nun ist das ganze Purebasic-Verzeichnis in die PureBasic.app eingebettet.
+  Diese behebt wichtige Linux-Probleme und bringt einen neuen Weg, um die App auf macOS zu installieren,
+  um auch macOS Sierra zu entsprechen. Nun ist das ganze Purebasic-Verzeichnis in die PureBasic.app eingebettet.
   Wenn Sie daher die die Kommandozeile benutzen möchten, müssen Sie den Pfad
   PureBasic.app/MacOS/Content/Resources/compiler zum $PATH hinzufügen. @LineBreak
 
 
 @Section 25. July 2016 : Version Version 5.43 LTS 
 
-- @Green  "Aktualisiert": Die neue Version des "Zweigs" von PureBasic mit Langzeit-Unterstützung ("long-term support", ohne
-  neue Funktionen etc.). @LineBreak
+- @Green  "Aktualisiert": Die neue Version des "Zweigs" von PureBasic mit Langzeit-Unterstützung ("long-term support", ohne neue Funktionen etc.). @LineBreak
   Alle Fixes der 5.50 sollten auch in dieser Version verfügbar sein. @LineBreak
 
   
@@ -453,10 +459,11 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 
 - @Green "Hinzugefügt": 'auto' Unterstützung für die innere Breite/Höhe einer ScrollArea in der Dialog Bibliothek @LineBreak
 @LineBreak
-- @Green "Aktualisiert": neueste Assembler Versionen für Windows, Linux und OS X @LineBreak
+- @Green "Aktualisiert": neueste Assembler Versionen für Windows, Linux und macOS @LineBreak
 @LineBreak
 - @Blue "Repariert": französische Anleitung komplett korrigiert durch 'GG' @LineBreak
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak
+
 
 @Section 16. Oktober 2015 : Version 5.40 LTS
 
@@ -487,10 +494,10 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": #PB_ProgressBar_Unknown für SetGadgetState() zum Anzeigen eines unbekannten Fortschritts @LineBreak
 - @Green "Hinzugefügt": #PB_UTF8/Ascii/Unicode Unterstützung bei ReadCharacter() und WriteCharacter() @LineBreak
 - @Green "Hinzugefügt": #PB_UTF8 Unterstützung bei URLEncoder() und URLDecoder (jetzt der Standard-Modus) @LineBreak
-- @Green "Hinzugefügt": Windows 8.1/10 und OS X 10.9/10/11 Unterstützung bei OSVersion() @LineBreak
+- @Green "Hinzugefügt": Windows 8.1/10 und macOS 10.9/10/11 Unterstützung bei OSVersion() @LineBreak
 - @Green "Hinzugefügt": #PB_Editor_xxx Konstanten bei Verwendung der 'Version' Info auf Windows @LineBreak
 - @Green "Hinzugefügt": #PB_Program_Ascii/Unicode/UTF8 Unterstützung für RunProgram() @LineBreak
-- @Green "Hinzugefügt": linux/osx Style-Flags beim Kommandozeilen-Compiler auf Windows, um Cross-Plattform-Skripts zu vereinfachen @LineBreak
+- @Green "Hinzugefügt": linux/macOS Style-Flags beim Kommandozeilen-Compiler auf Windows, um Cross-Plattform-Skripts zu vereinfachen @LineBreak
 - @Green "Hinzugefügt": #PB_File_SharedWrite Unterstützung bei ReadFile() und CreateFile() @LineBreak
 - @Green "Hinzugefügt": 'IMPORTLIST' Compiler-Interface, um alle vordefinierten API-Funktionen zu erhalten @LineBreak
 - @Green "Hinzugefügt": #Null$ spezielle String-Konstante, um einen echten Null-Wert auf einen String anzuwenden (um diesen komplett freizugeben).
@@ -524,10 +531,10 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Orange "Geändert": EntityPhysicBody() in CreateEntityBody() @LineBreak
 - @Orange "Geändert": TerrainPhysicBody() in CreateTerrainBody() @LineBreak
 - @Orange "Geändert": Der SendMail() 'Asynchron' Parameter wurde durch das #PB_Mail_Asynchronous Flag ersetzt. @LineBreak
-- @Orange "Geändert": DLLImporter wurde entfernt und .pbl Dateien werden nicht mehr unterstützt.. Neue 'Import Library' Dateien können
+- @Orange "Geändert": DLLImporter wurde entfernt und .pbl Dateien werden nicht länger unterstützt. Neue 'Import Library' Dateien können
     können mit Hilfe des '/IMPORT' Switchs vom pbcompiler erstellt werden. @LineBreak
 @LineBreak
-- @Red "Entfernt": SetWindowCallback() Unterstützung auf OS X. Verwenden Sie BindEvent() stattdessen. @LineBreak
+- @Red "Entfernt": SetWindowCallback() Unterstützung auf macOS. Verwenden Sie BindEvent() stattdessen. @LineBreak
 - @Red "Entfernt": RemovePackFile() @LineBreak
 - @Red "Entfernt": #PB_Packer_CompressedSize Unterstützung für ZIP und 7z Archive mit PackerEntrySize() @LineBreak
 - @Red "Entfernt": AvailableScreenMemory() @LineBreak
@@ -548,8 +555,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Blue "Repariert": Die neue LTS Version, welche die meisten der letzten Bug-Fixe beinhalten sollte
   (ohne die der neuen IDE, gelöst durch den neuen Unicode-Modus). Einige andere für die 5.30 verfügbare
   Fixes könnten fehlen, da wenn wir zu viele interne Dinge einer Bibliothek geändert haben, wir diese
-  nicht in die alten "Branches" einfügen wollten. Daher keine aufregenden neuen Sachen, nur ein
-  Stabilisierungs-Release. @LineBreak
+  nicht in die alten "Branches" einfügen wollten. Daher keine aufregenden neuen Sachen, nur ein Stabilisierungs-Release. @LineBreak
 
   
 @Section 23. Juli 2014 : Version 5.30
@@ -557,7 +563,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": "Problem" ("Issue") IDE-Werkzeug, um TODO/FIXME-Markierungen innerhalb des Codes zu sammeln und anzuzeigen. @LineBreak
 - @Green "Hinzugefügt": JSON-Bibliothek @LineBreak
 - @Green "Hinzugefügt": ParseXML(), ComposeXML(), InsertXMLArray/List/Map/Structure(), ExtractXMLArray/List/Map/Structure() zur XML-Bibliothek @LineBreak
-- @Green "Hinzugefügt": OpenGLGadget() mit Unterstützung für native OpenGL-Befehle und -Konstanten auf Windows, OSX und Linux @LineBreak
+- @Green "Hinzugefügt": OpenGLGadget() mit Unterstützung für native OpenGL-Befehle und -Konstanten auf Windows, macOS und Linux @LineBreak
 - @Green "Hinzugefügt": ExamineRegularExpression() und zugehörige Befehle, um RegEx-Übereinstimmungen Schritt für Schritt zu verarbeiten (mit Unterstützung für Gruppierungen) @LineBreak
 - @Green "Hinzugefügt": ClipOutput(), UnclipOutput(), SetOrigin(), GetOriginX(), GetOriginY() @LineBreak
 - @Green "Hinzugefügt": GetWindowData(), SetWindowData() @LineBreak
@@ -695,7 +701,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Red "Entfernt": DisplayRGBFilter() -> kann durch ein gezoomtes Sprite mit Farbe ersetzt werden @LineBreak
 - @Red "Entfernt": DisplayShadowSprite() -> kann durch DisplayTransparentSprite() mit einer Farbe ersetzt werden @LineBreak
 - @Red "Entfernt": StartSpecialFX(), StopSpecialFX(), DisplayAlphaSprite(), ChangeAlphaIntensity(), UseBuffer() @LineBreak
-- @Red "Entfernt": Carbon Subsystem auf OS X, es war zu alt um mit den neuen Bibliotheken verwendet zu werden @LineBreak
+- @Red "Entfernt": Carbon Subsystem auf macOS, es war zu alt um mit den neuen Bibliotheken verwendet zu werden @LineBreak
 @LineBreak
 - @Blue "Repariert": Viele Bugs @LineBreak
 
@@ -713,7 +719,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": System-Bibliothek: ComputerName(), UserName(), MemoryStatus(), CountCPUs() @LineBreak
 - @Green "Hinzugefügt": Zeilenfortsetzungs-Funktion, mit folgenden Operanden: ',' '|' '+' And Or XOr @LineBreak
 - @Green "Hinzugefügt": Vergleiche mit konstanten Strings werden jetzt zum Zeitpunkt des Kompilierens verarbeitet, was die Verwendung z.B. in CompilerIf ermöglicht. @LineBreak
-- @Green "Hinzugefügt": CocoaMessage() für  OS X @LineBreak
+- @Green "Hinzugefügt": CocoaMessage() für  macOS @LineBreak
 - @Green "Hinzugefügt": 'Syntax überprüfen' um den Code nur zu kompilieren, ohne ein Executable zu erstellen/zu starten (/CHECK Switch oder im IDE Compiler Menü) @LineBreak
 - @Green "Hinzugefügt": Array/List/Map Parameter Unterstützung bei Interface Methoden @LineBreak
 - @Green "Hinzugefügt": Unterstützung für dynamische Array/List/Map in Strukturen/Interfaces in Residents. @LineBreak
@@ -733,7 +739,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": #PB_Cipher_URL und #PB_Cipher_NoPadding bei Base64Encoder(), URL-Kompatibilität bei Base64Decoder() hinzugefügt @LineBreak
 - @Green "Hinzugefügt": SetGadgetItemImage() bei allen Gadgets, welche Bilder bei den Einträgen unterstützen @LineBreak
 - @Green "Hinzugefügt": #PB_Gadget_ScreenCoordinate und #PB_Gadget_WindowCoordinate Flag bei GadgetX/Y() @LineBreak
-- @Green "Hinzugefügt": #PB_File_SharedRead (kein Effekt auf Linux/OSX), #PB_File_SharedWrite (kein Effekt auf Linux/OSX), #PB_File_Append und #PB_File_NoBuffering bei OpenFile(), ReadFile() und CreateFile() @LineBreak
+- @Green "Hinzugefügt": #PB_File_SharedRead (kein Effekt auf Linux/macOS), #PB_File_SharedWrite (kein Effekt auf Linux/macOS), #PB_File_Append und #PB_File_NoBuffering bei OpenFile(), ReadFile() und CreateFile() @LineBreak
 - @Green "Hinzugefügt": #PB_Event_RightClick, #PB_Event_LeftClick und #PB_Event_LeftDoubleClick Ereignisse @LineBreak
 - @Green "Hinzugefügt": optionaler Titel-Parameter bei OpenConsole() @LineBreak
 - @Green "Hinzugefügt": #PB_ScrollArea_ScrollStep beim ScrollAreaGadget() @LineBreak
@@ -808,7 +814,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Red "Entfernt": SendNetworkFile(), RecieveNetworkFile(), #PB_NetworkEvent_File, um mögliche Sicherheitslücke zu vermeiden @LineBreak
 - @Red "Entfernt": DirectX7 und NT4 Subsystem auf Windows @LineBreak
 - @Red "Entfernt": SDL Subsystem auf Linux @LineBreak
-- @Red "Entfernt": PowerPC Version auf OS X @LineBreak
+- @Red "Entfernt": PowerPC Version auf macOS @LineBreak
 @LineBreak
 - ConstantColor "Optimiert": FindString() ist jetzt fast doppelt so schnell @LineBreak
 @LineBreak
@@ -817,19 +823,19 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 
 @Section 5. November 2012 : Version 5.00
 
-- @Green "Hinzugefügt": Cocoa Support auf OS X (jetzt das Standard-Toolkit) @LineBreak
-- @Green "Hinzugefügt": 64-Bit Version von PureBasic für OS X @LineBreak
-- @Green "Hinzugefügt": Brandneuer Form-Designer, für Windows, Linux und OS X @LineBreak
+- @Green "Hinzugefügt": Cocoa Support auf macOS (jetzt das Standard-Toolkit) @LineBreak
+- @Green "Hinzugefügt": 64-Bit Version von PureBasic für macOS @LineBreak
+- @Green "Hinzugefügt": Brandneuer Form-Designer, für Windows, Linux und macOS @LineBreak
 - @Green "Hinzugefügt": Carbon Subsystem für PowerPC und x86 Versionen von PureBasic @LineBreak
 - @Green "Hinzugefügt": Unterstützung für mehrdimensionale Arrays in Strukturen @LineBreak
-- @Green "Hinzugefügt": InitScintilla() auf Linux und OS X, um Kompilierungsprobleme zu vermeiden @LineBreak
+- @Green "Hinzugefügt": InitScintilla() auf Linux und macOS, um Kompilierungsprobleme zu vermeiden @LineBreak
 - @Green "Hinzugefügt": #PB_Window_NoActivate Flag bei OpenWindow() und HideWindow() @LineBreak
 - @Green "Hinzugefügt": #PB_EventType_RightClick Support beim ScintillaGadget() @LineBreak
 - @Green "Hinzugefügt": Favoriten-Auswahl im Explorer-Werkzeug (IDE) @LineBreak
 - @Green "Hinzugefügt": Trigger für selbsterstellte Tools, wenn eine neue Quellcode-Datei erstellt wird (IDE) @LineBreak
-- @Green "Hinzugefügt": SetWindowCallback() Support auf OS X, um Callback-Ereignisse zu haben  @LineBreak
+- @Green "Hinzugefügt": SetWindowCallback() Support auf macOS, um Callback-Ereignisse zu haben  @LineBreak
 - @Green "Hinzugefügt": teilweise Thread-Sicherheit bei GTK (Linux) @LineBreak
-- @Green "Hinzugefügt": SpritePixelCollision() Support auf OS X und Linux @LineBreak
+- @Green "Hinzugefügt": SpritePixelCollision() Support auf macOS und Linux @LineBreak
 @LineBreak
 - @Green "Aktualisiert": Scintilla aktualisiert auf 3.2.2 @LineBreak
 - @Green "Aktualisiert": Expat aktualisiert auf 2.1.0 @LineBreak
@@ -962,12 +968,12 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 @Bold "IDE:" @LineBreak
 - @Green "Hinzugefügt": IDE-Optionen für die Projekt-Erstellung per Kommandozeile @LineBreak
 - @Green "Hinzugefügt": Überwachen von Dateien auf Änderungen auf Disk, während sie in der IDE geöffnet sind @LineBreak
-- @Green "Hinzugefügt": eigene Datei-Panel Implementierung mit Drag & Drop, Dropdown Menü, Scrolling auch auf OSX @LineBreak
+- @Green "Hinzugefügt": eigene Datei-Panel Implementierung mit Drag & Drop, Dropdown Menü, Scrolling auch auf macOS @LineBreak
 - @Green "Hinzugefügt": Vergleichs-Tool für Verzeichnisse/Dateien @LineBreak
-- @Green "Hinzugefügt": Html Hilfe-Anzeiger für Linux/OSX @LineBreak
+- @Green "Hinzugefügt": Html Hilfe-Anzeiger für Linux/macOS @LineBreak
 - @Green "Hinzugefügt": Hilfe-Anzeiger im Werkzeug-Panel @LineBreak
 - @Green "Hinzugefügt": neues Farbauswahl-Tool ("Color-Picker") @LineBreak
-- @Green "Hinzugefügt": aktivierte Zeichensatz-Auswahl in der IDE für OSX @LineBreak
+- @Green "Hinzugefügt": aktivierte Zeichensatz-Auswahl in der IDE für macOS @LineBreak
 - @Green "Hinzugefügt": Projekt-Panel merkt sich jetzt den Status aufgeklappter Knoten @LineBreak
 @LineBreak
 @Bold "Debugger:" @LineBreak
@@ -995,7 +1001,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": #PB_2DDrawing_AllChannels Modus bei DrawingMode() @LineBreak
 - @Green "Hinzugefügt": Image (Bild) Unterstützung bei ComboBoxGadget() @LineBreak
 - @Green "Hinzugefügt": Grafische Console-Funktionen auf Linux @LineBreak
-- @Green "Hinzugefügt": Unterstützung für große Dateien bei der 'File' Library auf Linux/OSX @LineBreak
+- @Green "Hinzugefügt": Unterstützung für große Dateien bei der 'File' Library auf Linux/macOS @LineBreak
 - @Green "Hinzugefügt": CryptRandom(), CryptRandomData(), OpenCryptRandom(), CloseCryptRandom() @LineBreak
 - @Green "Hinzugefügt": Viele Mathe-Funktionen: Exp(), ATan2(), Radian(), Degree(), [A]CosH(), [A]SinH(), [A]TanH(), IsNaN(), IsInfinity(), NaN(), Infinity(), Sign() @LineBreak
 - @Green "Hinzugefügt": 'Debugger' Library, um einige Debugger-Aktionen aus dem Code heraus kontrollieren zu können @LineBreak
@@ -1033,9 +1039,9 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": Struktur-Zuweisung kopiert die Struktur (a.point = b.point) @LineBreak
 - @Green "Hinzugefügt": ClearStructure() @LineBreak
 - @Green "Hinzugefügt": AESEncoder(), AESDecoder(), StartAESCipher(), AddCipherBuffer(), FinishCipher() @LineBreak
-- @Green "Hinzugefügt": Dylib Unterstützung für OS X @LineBreak
-- @Green "Hinzugefügt": Joystick Bibliothek für OS X @LineBreak
-- @Green "Hinzugefügt": Systray Bibliothek für OS X @LineBreak
+- @Green "Hinzugefügt": Dylib Unterstützung für macOS @LineBreak
+- @Green "Hinzugefügt": Joystick Bibliothek für macOS @LineBreak
+- @Green "Hinzugefügt": Systray Bibliothek für macOS @LineBreak
 - @Green "Hinzugefügt": Trim/LTrim/RTrim() haben ein optionales zu kürzendes Zeichen erhalten @LineBreak
 - @Green "Hinzugefügt": #PB_Function, #PB_OSFunction, #PB_Map bei Defined() @LineBreak
 - @Green "Hinzugefügt": ReverseString(), InsertString(), RemoveString() @LineBreak
@@ -1053,7 +1059,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": ShortcutGadget(), StatusBarProgress() @LineBreak
 - @Green "Hinzugefügt": StatusBarImage() unterstützt jetzt normale Bilder (nicht nur Icons) @LineBreak
 - @Green "Hinzugefügt": #PB_Checkbox_ThreeState Flag zum Erstellen einer "3 Status"-Checkbox @LineBreak
-- @Green "Hinzugefügt": CreateImageMenu(), CreatePopupImageMenu() für OSX @LineBreak
+- @Green "Hinzugefügt": CreateImageMenu(), CreatePopupImageMenu() für macOS @LineBreak
 - @Green "Hinzugefügt": Vollständige Alpha-Kanal Unterstützung für alle GUI-Elemente, die Bilder darstellen @LineBreak
 - @Green "Hinzugefügt": Vollständige Alpha-Kanal Unterstützung für die Image Bibliothek @LineBreak
 - @Green "Hinzugefügt": Neue Zeichen-Modi für 2DDrawing in ImageOutput() @LineBreak
@@ -1061,7 +1067,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": CustomGradient(), GradientColor(), ResetGradientColors(), CustomFilterCallback() @LineBreak
 - @Green "Hinzugefügt": DrawAlphaImage() für alle Ausgabekanäle auf allen OS @LineBreak
 - @Green "Hinzugefügt": DrawAlphaImage() hat einen neuen Transparenz-Parameter und kann verwendet werden, um nicht-Alpha-Bilder teilweise transparent zu zeichnen @LineBreak
-- @Green "Hinzugefügt": QuickDraw Subsystem für WindowOutput() auf OSX @LineBreak
+- @Green "Hinzugefügt": QuickDraw Subsystem für WindowOutput() auf macOS @LineBreak
 - @Green "Hinzugefügt": Sprite/ScreenOutput für OpenGL (alle OS) @LineBreak
 - @Green "Hinzugefügt": DrawingFont() funktioniert für die SDL-Ausgabe @LineBreak
 - @Green "Hinzugefügt": OutputWidth(), OutputHeight(), OutputDepth() für 2DDrawing @LineBreak
@@ -1107,14 +1113,14 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 @Section 16. Dezember 2008 : Version 4.30
 
 - @Green "Hinzugefügt": Vollständige 64 Bit Version von PureBasic (Windows) @LineBreak
-- @Green "Hinzugefügt": MacOS X x86 Unterstützung @LineBreak
+- @Green "Hinzugefügt": macOS x86 Unterstützung @LineBreak
 - @Green "Hinzugefügt": 'JPEG 2000' Bibliothek @LineBreak
 - @Green "Hinzugefügt": 'Node' Bibliothek @LineBreak
 - @Green "Hinzugefügt": 'Gadget3D' Bibliothek @LineBreak
 - @Green "Hinzugefügt": 'Window3D' Bibliothek @LineBreak
 - @Green "Hinzugefügt": 'Sound3D' Bibliothek @LineBreak
 - @Green "Hinzugefügt": Vollständige Unicode-Unterstützung bei der Engine3D @LineBreak
-- @Green "Hinzugefügt": MacOS X Unterstützung für die Engine3D @LineBreak
+- @Green "Hinzugefügt": macOS Unterstützung für die Engine3D @LineBreak
 - @Green "Hinzugefügt": Absolute/relative Rotation bei allen Engine3D Rotate-Befehlen @LineBreak
 - @Green "Hinzugefügt": Absolute Bewegung beim Engine3D physischen Körper @LineBreak
 - @Green "Hinzugefügt": EntityID(), EntityLookAt() @LineBreak
@@ -1181,7 +1187,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": Hexadezimal- und Binärunterstützung für Val() und ValQ() @LineBreak
 - @Green "Hinzugefügt": #PB_Compiler_Procedure Compiler Konstante @LineBreak
 - @Green "Hinzugefügt": #PB_Round_Nearest für Round() @LineBreak
-- @Green "Hinzugefügt": 'XOr' Unterstützung für 2DDrawing unter MacOS X @LineBreak
+- @Green "Hinzugefügt": 'XOr' Unterstützung für 2DDrawing unter macOS @LineBreak
 - @Green "Hinzugefügt": Neues Tool zur Programmanalyse im Debugger Menu - um zu beobachten, wie oft Zeilen ausgeführt werden @LineBreak
 - @Green "Hinzugefügt": Der Debugger kann jetzt Ausdrücke auswerten (siehe Ausgabefenster des Debuggers) @LineBreak
 - @Green "Hinzugefügt": Der Speicheranzeiger kann Ausdrücke als Start-/Endadresse annehmen @LineBreak
@@ -1209,7 +1215,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": Viele neue Features beim WebGadget() @LineBreak
 - @Green "Hinzugefügt": Viele neue kleine Verbesserungen bei der IDE (neues Compiler Kommunikations-Protokoll, 
   Vista fähig, Klammer-Markierung, schnelleres Einfärben etc.) @LineBreak
-- @Green "Hinzugefügt": synchronisierte Veröffentlichung von Windows, Linux und MacOS X ! @LineBreak
+- @Green "Hinzugefügt": synchronisierte Veröffentlichung von Windows, Linux und macOS! @LineBreak
 @LineBreak
 - @orange "Geändert": InitDatabase() in UseODBCDatabase() @LineBreak
 - @orange "Geändert": Auf Windows werden die Einstellungen der IDE und der PB-Werkzeuge jetzt im Anwender "applicationdata" (Anwenderdaten) Ordner gespeichert @LineBreak
@@ -1242,12 +1248,12 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": OpenFileRequester() hatte Probleme mit zu vielen selektierten Dateien @LineBreak
 - @blue "Repariert": Viele weitere bugs
 
+
 @Section 8. Mai 2006 : Version 4.00
 
   Da PureBasic 4 ein ziemlich großes Release ist - sowohl im Hinblick auf Änderungen als auch
   Verbesserungen, ist ein Dokument mit einer Übersicht aller Änderungen an den Library-Befehlen
-  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". 
-@LineBreak
+  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". @LineBreak
 @LineBreak
 - @Green "Hinzugefügt": Native Unicode-Unterstützung @LineBreak
 - @Green "Hinzugefügt": Unterstützung von Subsystems @LineBreak
@@ -1515,7 +1521,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": Einige Pfad-Probleme bei der Verwendung des Compilers im Konsolenmodus @LineBreak
 - @blue "Repariert": Alle Requester blockieren ('lock') jetzt alle geöffneten Fenster @LineBreak
 
-  
+
 @Section 9. Dezember 2003 : Version 3.81
 
 - @Green "Hinzugefügt": DatabaseUpdate(), DatabaseError() @LineBreak
@@ -1609,6 +1615,7 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 
   
 @Section 7. Juni 2003 : Version 3.70
+
 - @Green "Hinzugefügt": Terrain Library @LineBreak
 - @Green "Hinzugefügt": Billboard Library @LineBreak
 - @Green "Hinzugefügt": Entity Library @LineBreak
@@ -1661,7 +1668,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": Val(): akzeptiert jetzt alle in BASIC gültigen Formen @LineBreak
 - @blue "Repariert": AddPackFile() Problem mit manchen Dateien @LineBreak
 - @blue "Repariert": RunProgram() mit sehr langen Pfaden @LineBreak
-  @LineBreak 
 
 
 @Section 19. März 2003 : Version 3.61
@@ -1673,7 +1679,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
  - @blue "Repariert": Laden von Sprite und Image-Plugin (JPEG, PNG) im 16 Bit Modus @LineBreak
  - @blue "Repariert": XOR Inline-Asm Schlüsselwort wurde nicht mehr erkannt @LineBreak
  - @blue "Repariert": TGA Decoder konnte einige Dateien nicht laden @LineBreak
-   @LineBreak
 
 
 @Section 17. März 2003 : Version 3.60
@@ -1710,7 +1715,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": ImageOutput() Problem mit Windows 98 @LineBreak
 - @blue "Repariert": das 16Bit-Sprite Darstellungsproblem mit einigen alten Grafikkarten, welche intern 15 Bit verwenden @LineBreak
 - @blue "Repariert": einige Bugs im Compiler @LineBreak
- @LineBreak
 
 
 @Section 13. Januar 2003 (Version 3.51)
@@ -1728,7 +1732,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": OpenWindow() Dimension, wenn kein Flag angegeben wurde @LineBreak
   @LineBreak
 - @red "Entfernt": Gosub/Return Check, welcher in v3.50 eingeführt wurde (aus Flexibilitätsgründen) @LineBreak
- @LineBreak
 
 
 @Section 6. Januar 2003 : Happy New Year ! (Version 3.50)
@@ -1765,13 +1768,11 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": OpenFileRequester() mit dem Mehrfachselektions-Modus (MultiSelection) @LineBreak
 - @blue "Repariert": ein blöder Bug beim Benutzen vieler Bilder in den Gadget-Einträgen (TreeGadget, ListIconGadget...) @LineBreak
 - @blue "Repariert": Cipher Library @LineBreak
- @LineBreak
 
 
 @Section 9. Oktober 2002 : Version 3.40
 
-- @orange "Geändert": Struktur-Namen sind nicht mehr "case sensitive" (Groß- und Kleinschreibung wurde bisher unterschieden), da
-    dies einen schwierig zu findenden Bug verursachen konnte @LineBreak
+- @orange "Geändert": Struktur-Namen sind nicht mehr "case sensitive" (Groß- und Kleinschreibung wurde bisher unterschieden), da dies einen schwierig zu findenden Bug verursachen konnte @LineBreak
   @LineBreak
 - @Green "Hinzugefügt": Date Library: Date(), Year(), Month(), Day(), DayOfWeek(), DayOfYear(), Hour(), Minute(), Second(), FormatDate(), AddDate(), ParseDate() @LineBreak
 - @Green "Hinzugefügt": Hostname(), ExamineIPAddresses(), NextIPAddress(), IPString() @LineBreak
@@ -1812,7 +1813,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": Compiler Bug wenn DEBUG in Prozeduren mit String-Operationen benutzt wurde @LineBreak
   @LineBreak
   - Editor @constantcolor verbessert (mehrere Dateien, Prozeduren-Browser, Zusatz-Tools und mehr...) und den Sourcecode veröffentlicht... Dankeschön an Danilo ! @LineBreak
-  @LineBreak
 
 
 @Section 16. August 2002 : Version 3.30
@@ -1823,11 +1823,9 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": Französische Hilfe (vollständig übersetzt) @LineBreak
   @LineBreak
 - @functioncolor "Aktualisiert": SortArray() arbeitet jetzt auch mit Fließkommazahlen-Arrays @LineBreak
-- @functioncolor "Aktualisiert": LoadSprite(), GrabSprite(), CopySprite(), CatchSprite(), LoadJPEGSPrite(), CatchJPEGSprite() haben jetzt
-  einen optionalen 'Modus' Parameter @LineBreak
+- @functioncolor "Aktualisiert": LoadSprite(), GrabSprite(), CopySprite(), CatchSprite(), LoadJPEGSPrite(), CatchJPEGSprite() haben jetzt einen optionalen 'Modus' Parameter @LineBreak
 - @functioncolor "Aktualisiert": GetFilePart(), GetPathPart() und GetExtensionPart() entfernen jetzt die evtl. vorhandene Anführungszeichen (") @LineBreak
-- @functioncolor "Aktualisiert": SetGadgetItemState() und GetGadgetItemState() können jetzt den Status der Häkchen bei einem ListIconGadget()
-  Eintrag setzen/ermitteln @LineBreak
+- @functioncolor "Aktualisiert": SetGadgetItemState() und GetGadgetItemState() können jetzt den Status der Häkchen bei einem ListIconGadget() Eintrag setzen/ermitteln @LineBreak
   @LineBreak
 - @blue "Repariert": SetClipboardText(): schlug in manchen Situation fehl @LineBreak
 - @blue "Repariert": SpritePixelCollision(): schlug fehl, wenn die Sprites verschiedene Größen hatten @LineBreak
@@ -1850,13 +1848,11 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": PathRequester stürzte ab, wenn DefaultPath nicht initialisiert war @LineBreak
 - @blue "Repariert": InitSprite3D() stürzte bei alleinigem Aufruf ab @LineBreak
 - @blue "Repariert": Editor: ZoomSprite3D() wurde nicht hervorgehoben @LineBreak
-  @LineBreak
 
 
 @Section 9. Juni 2002 : Version 3.20
 
-  @Bold "WARNUNG!" Das Verhalten des Window Callbacks hat sich geändert und "locked" (blockiert) das Programm
-  bei Benutzung einer entsprechenden Routine ! Seht die SetWindowCallback() Dokumentation für weitere Info. @LineBreak
+  @Bold "WARNUNG!" Das Verhalten des Window Callbacks hat sich geändert und "locked" (blockiert) das Programm bei Benutzung einer entsprechenden Routine ! Seht die SetWindowCallback() Dokumentation für weitere Info. @LineBreak
   @LineBreak
 - @Green "Hinzugefügt": Cipher Library: CRC32Fingerprint(), MD5Fingerprint(), DESFingerprint(), Base64Encoder() @LineBreak
 - @Green "Hinzugefügt": AddKeyboardShortcut(), RemoveKeyboardShortcut(), SpinGadget(), WebGadget() @LineBreak
@@ -1877,7 +1873,8 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @functioncolor "Aktualisiert": WindowID() kann einen optionalen #Window Parameter erhalten @LineBreak
 - @functioncolor "Aktualisiert": Alle Gadget Befehle haben jetzt einen optionalen 'Flags' Parameter, welcher die volle Kontrolle über deren Aussehen ermöglicht ! (Seht in die Gadget Dokumentation für weitere Informationen) @LineBreak
 - @functioncolor "Aktualisiert": Plot(), Line(), Box(), Circle(), Ellipse() haben jetzt einen optionalen 'Color' (Farb) Parameter. @LineBreak
-- @functioncolor "Aktualisiert": Beim Debugger wurden einige Bugs entfernt. Wenn ein Programm anhält oder der Debugger beendet wird, wird jetzt alles korrekt freigegeben. Dies leichteres Debuggen von "Fullscreen" Spielen, da der Bildschirm geschlossen wird, bevor der Fehler angezeigt wird. @LineBreak
+- @functioncolor "Aktualisiert": Beim Debugger wurden einige Bugs entfernt. Wenn ein Programm anhält oder der Debugger beendet wird, wird jetzt alles korrekt freigegeben.
+  Dies erlaubt leichteres Debuggen von "Fullscreen" Spielen, da der Bildschirm geschlossen wird, bevor der Fehler angezeigt wird. @LineBreak
 - @functioncolor "Aktualisiert": Debug-Routinen der Sprite Library. @LineBreak
   @LineBreak
 - @orange "Geändert": StripLead() und StripTrail() in RTrim() und LTrim() umbenannt, für höhere Kompatibilität zu anderen BASIC Dialekten @LineBreak
@@ -1905,7 +1902,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": @LinkedList() mit dem '.s' Typ gibt jetzt den korrekten Listenelement-Zeiger zurück (anstelle des String-Zeigers) @LineBreak
 - @blue "Repariert": ReadPreferenceString() war in manchen Situationen fehlerhaft @LineBreak
 - @blue "Repariert": Dokumentation: SaveImage(), ScreenID(), SelectedFontStyle() und SelectedFontColor() fehlten @LineBreak
-  @LineBreak
 
 
 @Section 6. Mai 2002 : Version 3.10
@@ -1956,7 +1952,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": ResizeImage() auf Win9x @LineBreak
 - @blue "Repariert": IncludeBinary Bug (bisher funktionierten nur absolute Pfade) @LineBreak
 - @blue "Repariert": Editor: Tab wurde schlecht verarbeitet. Kleiner Farbfehler beim Einfügen. @LineBreak
-  @LineBreak
 
 
 @Section 4. April 2002 : Version 3.00
@@ -1983,13 +1978,16 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": HideGadget(), GadgetID() @LineBreak
 - @Green "Hinzugefügt": Niederländischer Catalog für den Editor @LineBreak
   @LineBreak     
-- @functioncolor "Aktualisiert": Brandneue Library-Architektur, um NUR benötigte Befehle in das endgültige Executable einzubinden. Zur Zeit sind noch nicht alle Libraries soweit optimiert, um diese Funktion zu benutzen. Aber dies wird passieren, in naher Zukunft :). Außerdem benutzen alle Libraries das Standard STDCALL Format, somit gibt es keine umgekehrte Argumentreihenfolge mehr.. Alte Libraries sind jedoch weiterhin voll kompatibel. @LineBreak
+- @functioncolor "Aktualisiert": Brandneue Library-Architektur, um NUR benötigte Befehle in das endgültige Executable einzubinden. Zur Zeit sind noch nicht alle Libraries
+    soweit optimiert, um diese Funktion zu benutzen. Aber dies wird passieren, in naher Zukunft :). Außerdem benutzen alle Libraries das Standard STDCALL Format,
+	somit gibt es keine umgekehrte Argumentreihenfolge mehr.. Alte Libraries sind jedoch weiterhin voll kompatibel. @LineBreak
 - @functioncolor "Aktualisiert": StopSound(): Die Übergabe von '-1' stoppt alle gerade abgespielten Sounds. @LineBreak
 - @functioncolor "Aktualisiert": PlaySound(): Der Flags Parameter ist jetzt optional. @LineBreak
 - @functioncolor "Aktualisiert": Sort(): es kann jetzt ein zu sortierender Bereich definiert werden (z.B.: von den Elementen 20 bis 50 eines Arrays). @LineBreak
 - @functioncolor "Aktualisiert": Resident Datei: #VK_xx Konstanten hinzugefügt, einige Strukturen repariert. @LineBreak
   @LineBreak
-- @orange "Geändert": Intern werden die Parameter von Prozeduren jetzt in der richtigen Reihenfolge verarbeitet. Warnung: alle Callbacks müssen geändert werden, um dies zu berücksichtigen. Dies bedeutet auch, dass DLL Prozedur-Parameter in der richtigen Reihenfolge übergeben werden können. @LineBreak
+- @orange "Geändert": Intern werden die Parameter von Prozeduren jetzt in der richtigen Reihenfolge verarbeitet. Warnung: alle Callbacks müssen geändert werden,
+    um dies zu berücksichtigen. Dies bedeutet auch, dass DLL Prozedur-Parameter in der richtigen Reihenfolge übergeben werden können. @LineBreak
 - @orange "Geändert": InitSound() benötigt keinen "Maximum Sound" Parameter mehr. @LineBreak
 - @orange "Geändert": Namensänderung von BackColour(), FrontColour() und TransparentSpriteColour() in BackColor(), FrontColor() und TransparentSpriteColor() @LineBreak
   @LineBreak
@@ -2004,7 +2002,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": 'Debug' Befehl: akzeptiert jetzt Fließkomma- und String-Funktionen ohne Probleme. @LineBreak
   @LineBreak
 - @red "Entfernt": Mr. Skunk PureLibraries, da einige fehlerhaft waren und wir nicht im Besitz der Sourcecodes sind, um diese zu reparieren. @LineBreak
-  @LineBreak
 
 
 @Section 24. Februar 2002 : Version 2.95
@@ -2016,7 +2013,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @blue "Repariert": Compiler Bugs (Float Variablen innerhalb eines Structure Arrays, XIncludeFile, 'a' Konstanten unter manch seltenen Umständen, Bug bei Ausdrücken, Konstanten-Verdopplung und die Integration der Image Library beim Benutzen mit Sprites, Speicherverlust in String-Prozuduren) @LineBreak
 - @blue "Repariert": LoadJPGSprite Bug @LineBreak
 - @blue "Repariert": Editor Farben-Problem mit normalen Textfarben @LineBreak
-  @LineBreak
 
 
 @Section 27. Januar 2002 : Version 2.90
@@ -2074,8 +2070,6 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
  @Underline Editor: @LineBreak
 - @Green "Hinzugefügt": QuickHelp ("schnelle Hilfe") für die meisten Befehle @LineBreak
 - @Green "Hinzugefügt": Direktaufruf von Prozeduren @LineBreak
-- @Green "Hinzugefügt": Windows XP farbkompatibel und Support für Themen @LineBreak
-- @blue "Repariert": blöder Bug beim Ersetzen @LineBreak
 
 
 @Section 28. November 2001 : Version 2.70
@@ -2137,7 +2131,9 @@ Der richtige Weg besteht jetzt darin, das '!' Zeichen am Zeilenanfang zu nutzen,
 - @Green "Hinzugefügt": Sort Library @LineBreak
 - @Green "Hinzugefügt": Procedure Adresse (@ProcedureName()) @LineBreak
 - @Green "Hinzugefügt": Unterstützung für das 'Console' Executable Format @LineBreak
-- @Green "Hinzugefügt": DisplayTranslucideSprite(), DisplayAlphaSprite(), DisplayShadowSprite(), DisplayRGBFilter(), ChangeAlphaIntensity(), ClearScreen(), OpenWindowedScreen(), DisplaySolidSprite(), CloseScreen(), SetFrameRate(), IsScreenActive(), StartSpecialFX(), StopSpecialFX(), ResizeGadget(), JoystickAxisX(), JoystickAxisY(), ChangeGamma(), SetWindowCallback(), Red(), Green(), Blue() @LineBreak
+- @Green "Hinzugefügt": DisplayTranslucideSprite(), DisplayAlphaSprite(), DisplayShadowSprite(), DisplayRGBFilter(), ChangeAlphaIntensity(), ClearScreen(),
+    OpenWindowedScreen(), DisplaySolidSprite(), CloseScreen(), SetFrameRate(), IsScreenActive(), StartSpecialFX(), StopSpecialFX(), ResizeGadget(),
+	JoystickAxisX(), JoystickAxisY(), ChangeGamma(), SetWindowCallback(), Red(), Green(), Blue() @LineBreak
  @LineBreak
 - @orange "Änderung" bei LoadSprite() @LineBreak
 - @orange "Änderung" bei DisplayPalette (Screen-Argument entfernt) @LineBreak
@@ -2192,9 +2188,10 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
 
 @Section 17. Mai 2001 : Version 2.30
 
-- @Green "Hinzugefügt": zum Editor: Drag & Drop auf dem Hauptfenster, automatische Registry Unterstützung für .pb Dateien, automatisches Einrücken, Tab/Shift+Tab um einen markierten Block einfach einzurücken. @LineBreak
-- @Green "Hinzugefügt": Tonnen neuer Befehle: GetGadgetState(), SetGadgetState(), AddGadgetItem(), RemoveGadgetItem(), ClearGadgetItemList()
-  PanelGadget(), ClosePanelGadget(), TextGadget(), SpritesCollision(), Delay(), OptionGadget(), FrameGadget()
+- @Green "Hinzugefügt": zum Editor: Drag & Drop auf dem Hauptfenster, automatische Registry Unterstützung für .pb Dateien, automatisches Einrücken,
+    Tab/Shift+Tab um einen markierten Block einfach einzurücken. @LineBreak
+- @Green "Hinzugefügt": Tonnen neuer Befehle: GetGadgetState(), SetGadgetState(), AddGadgetItem(), RemoveGadgetItem(), ClearGadgetItemList(),
+  PanelGadget(), ClosePanelGadget(), TextGadget(), SpritesCollision(), Delay(), OptionGadget(), FrameGadget(),
   Loc(), PeekW/B(), PokeW/B(), GetPathPart(), GetFilePart(), RunProgram(), DoubleClick(), PathRequester() @LineBreak
 - @Green "Hinzugefügt": 'Tab' Unterstützung zur Gadget Bibliothek. @LineBreak
 - @Green "Hinzugefügt": Compiler-Anweisungen: CompilerIf/Else/Endif, CompilerSelect/Case/Default/EndSelect @LineBreak
@@ -2216,18 +2213,22 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
                  
 @Section 25. März 2001 : Version 2.20
 
-- @Green "Hinzugefügt": Debugger Laufzeit (Runtime) Unterstützung für alle Pure Bibliotheken. Ein Programm stürzt jetzt nicht mehr so einfach ab. Es ist jetzt viel einfacher, Bugs aufzuspüren ! @LineBreak
-- @Green "Hinzugefügt": NT4.0 Unterstützung bei den Multimedia Bibliotheken (Sprite, Palette, Sound & Keyboard), welches auch die Entwicklung von auf NT4.0 laufenden Spielen oder Multimedia-Anwendungen ermöglicht ! @LineBreak
+- @Green "Hinzugefügt": Debugger Laufzeit (Runtime) Unterstützung für alle Pure Bibliotheken. Ein Programm stürzt jetzt nicht mehr so einfach ab.
+    Es ist jetzt viel einfacher, Bugs aufzuspüren ! @LineBreak
+- @Green "Hinzugefügt": NT4.0 Unterstützung bei den Multimedia Bibliotheken (Sprite, Palette, Sound & Keyboard), welches auch die Entwicklung
+    von auf NT4.0 laufenden Spielen oder Multimedia-Anwendungen ermöglicht ! @LineBreak
 - @Green "Hinzugefügt": Einige neue Funktionen hinzugefügt: Lof(), ReadMemory(), WriteMemory(), PeekS(), PokeS(), NetworkClientEvent(), SetGadgetFont(), WaitWindowEvent(), FileSeek() @LineBreak
-- @Green "Hinzugefügt": Eine brandneue Module Bibliothek hinzugefügt, die einfaches Abspielen von ProTracker, FastTracker oder ImpulseTracker Modulen ermöglicht. @LineBreak
+- @Green "Hinzugefügt": Eine brandneue Module Bibliothek hinzugefügt, die einfaches Abspielen von ProTracker, FastTracker oder ImpulseTracker
+    Modulen ermöglicht. @LineBreak
 - @Green "Hinzugefügt": Speichern von Projekteinstellungen für jede Datei (Executable Name, Compiler-Einstellungen etc...) @LineBreak
 - @Green "Hinzugefügt": Einstellungs-Fenster zum einfachen Konfigurieren des Editors (Farbe, Standard-Verzeichnis etc..) @LineBreak
 - @Green "Hinzugefügt": Mehrsprachen-Unterstützung (Englisch, Französisch und Deutsch) für den Editor @LineBreak
 - @Green "Hinzugefügt": Icon (.ico) Unterstützung beim Erstellen eines Executable ! @LineBreak
 - @Green "Hinzugefügt": Win32 Hilfe-Support (beim Drücken von F1 über einer Windows-Funktion) hinzugefügt) @LineBreak
+@LineBreak
+- @Green "Aktualisiert": Dokumentation @LineBreak
  @LineBreak
- - Viele @blue Bug-Fixes am Compiler, dieser ist jetzt viel zuverlässiger. @LineBreak
- - Aktualisierung der Dokumentation @LineBreak
+- @Blue "Repariert": Compiler umfassend überarbeitet, dieser ist jetzt viel zuverlässiger @LineBreak
 
 
 @Section 26 Februar 2001 : Version 2.10
@@ -2243,33 +2244,41 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
   - Den Editor stark @constantcolor verbessert: kontext-sensitive Hilfe (F1 auf einem Schlüsselwort), Goto, Compiler Optionen, viel besseres
     Syntax-Highlightning, '.prefs' Einstellungsdatei @LineBreak
  @LineBreak
-- @blue "Repariert": Eine Menge an Bugs, und die gesamte Stabilität @constantcolor verbessert @LineBreak
+- @blue "Repariert": Eine Menge an Bugs, und die gesamte Stabilität verbessert @LineBreak
 
 
 @Section 17. Dezember 2000 : Version 2.00 - Final release
 
-  - @blue Bereinigung aller bekannten Bugs, die 2D Drawing Library @Green hinzugefügt und einige wesentliche @constantcolor Verbesserungen
+- @Green "Hinzugefügt": 2D Drawing Library @LineBreak
+@LineBreak
+- @Blue "Repariert": alle bekannten Bugs, und einige wesentliche @constantcolor Verbesserungen
 
 
 @Section 28. November 2000 : Version 2.00 PR 3
 
-- @blue Bereinigung der mit DirectX zusammenhängenden Fehler @LineBreak
-- Eingebauter Editor (Syntax-Highlighting und direkter Zugriff auf den Compiler!) @LineBreak
-- @Green "Hinzugefügt": 2 neue Bibliotheken (Requester und ToolBar)
+- @Green "Hinzugefügt": Requester Bibliothek @LineBreak
+- @Green "Hinzugefügt": ToolBar Bibliothek @LineBreak
+- @Green "Hinzugefügt": Eingebauter Editor (Syntax-Highlighting und direkter Zugriff auf den Compiler!) @LineBreak
+@LineBreak
+- @Blue "Repariert": mit DirectX zusammenhängende Bugs @LineBreak
 
 
 @Section 12. November 2000 : Version 2.00 PR 2
 
-- Vielzahl an Fehlern wurde @blue bereinigt. Danke an alle Bug-Reporter :) @LineBreak
-- @Green "Hinzugefügt": 6 neue Bibliotheken (Sprite, Joystick, Keyboard, Sound, Network und Palette) 
+- @Green "Hinzugefügt": Sprite Bibliothek @LineBreak
+- @Green "Hinzugefügt": Joystick Bibliothek @LineBreak
+- @Green "Hinzugefügt": Keyboard Bibliothek @LineBreak
+- @Green "Hinzugefügt": Sound Bibliothek @LineBreak
+- @Green "Hinzugefügt": Network Bibliothek @LineBreak
+- @Green "Hinzugefügt": Palette Bibliothek @LineBreak
+@LineBreak
+- @Blue "Repariert": Vielzahl an Fehlern. Danke an alle Bug-Reporter :)
 
 
 @Section 22. Oktober 2000 : Version 2.00 PR 1
 
-  - Erstes öffentliches Release von PureBasic x86. Nur für Testzwecke.
+  - Erstes öffentliches Release von PureBasic x86. Nur für Testzwecke. @LineBreak
  @LineBreak
- @LineBreak
-
 
 
 ; LINUX ---------------------------------------------------------------------------------------------
@@ -2277,7 +2286,6 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
 ; LINUX ---------------------------------------------------------------------------------------------
 
 @OS Linux
-
 
 @Section 28. April 2007 : Version 4.01
 
@@ -2289,8 +2297,7 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
 
   Da PureBasic 4 ein ziemlich großes Release ist - sowohl im Hinblick auf Änderungen als auch
   Verbesserungen, ist ein Dokument mit einer Übersicht aller Änderungen an den Library-Befehlen
-  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". 
-@LineBreak
+  seit dem letzten stabilen Release verfügbar: @MainGuideLink "changes" "Klicken Sie hier". @LineBreak
 @LineBreak
 - @Green "Hinzugefügt": Native Unicode-Unterstützung @LineBreak
 - @Green "Hinzugefügt": Unterstützung von Subsystems @LineBreak
@@ -2346,7 +2353,6 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
 @LineBreak
 - @blue "Repariert": Interne System-Funktionen zerstören nicht mehr reservierte Register. @LineBreak
 - @blue "Repariert": Viele kleine/mittlere Angelegenheiten, die seit der letzten Version aufgetreten sind.
-
 
 
 @Section 21. September 2005 : Version 3.94
@@ -2542,7 +2548,6 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
  @LineBreak
 - @blue "Repariert": Loc() und Lof(), wenn keine aktuelle Datei geöffnet ist @LineBreak
 
-
 @Section 22. September 2002 : Version 3.30
 
 - Dritte Linux Version, welche immer ausgereifter wird. Dennoch befindet sie sich noch in der Testphase. @LineBreak
@@ -2564,38 +2569,34 @@ ToolBarImageButton(), EventMouseButton(), UseDirectory() @LineBreak
 @Section 10. Juli 2001 : Version 2.32
 
   - Erstes öffentliches Release der Linux Version. Ausschließlich für Testzwecke.
- @LineBreak
- @LineBreak
 
 
-; MACOS X ---------------------------------------------------------------------------------------------
+; macOS ---------------------------------------------------------------------------------------------
 ;
-; MACOS X ---------------------------------------------------------------------------------------------
+; macOS ---------------------------------------------------------------------------------------------
 
 @OS MacOS
 
 @Section 5. Oktober 2005 : Version 3.94
   
   Sie ist endlich da! Sie ist das Ergebnis vieler Monate harter Arbeit und wir sind sehr
-  glücklich, die OS X Version von PureBasic präsentieren zu können. Sie ist sehr vollständig,
+  glücklich, die macOS Version von PureBasic präsentieren zu können. Sie ist sehr vollständig,
   bietet native Unterstützung aller PureBasic Libraries und kann entweder über die 
-  Kommandozeile (für die Kommandozeilen-Freaks) oder über die mitgelieferte IDE verwendet
-  werden.
+  Kommandozeile (für die Kommandozeilen-Freaks) oder über die mitgelieferte IDE verwendet werden.
   @LineBreak
   @LineBreak
   Es gibt sogar eine optionale Unterstützung für GTK 1 und 2, um "Look & Feel" (Aussehen und
-  Handhabung) der Anwendung mit dieser API zu testen (zum Beispiel beim Portieren von OS X
+  Handhabung) der Anwendung mit dieser API zu testen (zum Beispiel beim Portieren von macOS
   auf Linux). Zögern Sie nicht damit, diese Version auszuprobieren und berichten Sie 
   auftretende Probleme hier: @InternetLink "http://forums.purebasic.com" "http://forums.purebasic.com".
   Viel Spaß! 
   @LineBreak
   @LineBreak
-
   - Eingebaute native IDE und Debugger (eigenständig oder Konsole). @LineBreak
-  - Native OS X Unterstützung für GUI (Carbon), Sprites (OpenGL), Sounds und Movies (QuickTime). @LineBreak
+  - Native macOS Unterstützung für GUI (Carbon), Sprites (OpenGL), Sounds und Movies (QuickTime). @LineBreak
   - Sehr schnelle PowerPC Assembler Code-Generierung, welche ausgezeichnete Leistung und reduzierte 
     Executable-Größe ermöglicht. @LineBreak
-  - Eingebaute OS X API Unterstützung (derzeit nur einige Funktionen). @LineBreak
+  - Eingebaute macOS API Unterstützung (derzeit nur einige Funktionen). @LineBreak
   - Die IDE und die Debugger sind vollständig in PureBasic geschrieben, was das Portierbarkeits-Konzept 
-    zwischen OS X, Windows und Linux beweist. @LineBreak
+    zwischen macOS, Windows und Linux beweist. @LineBreak
   - Der größte Teil des PureBasic-Befehlssets wird unterstützt. @LineBreak

@@ -1,7 +1,7 @@
 ﻿;
 ;     Image library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Image
@@ -322,6 +322,7 @@
   Für 32-Bit-Bilder können auch spezielle Konstanten verwendet werden: @LineBreak
   - @#PB_Image_Transparent ist ähnlich zu RGBA(255,255,255,0) mit einem weißen Hintergrund, der für leichtes Antialiasing geeignet ist. @LineBreak
   - @#PB_Image_TransparentBlack ist ähnlich RGBA(0,0,0,0) mit einem schwarzen Hintergrund, der für starkes Antialiasing geeignet ist. @LineBreak
+  @LineBreak
   Die Standard-Hintergrundfarbe ist Schwarz, sofern dieser Parameter nicht angegeben wird.
 
 @ReturnValue
@@ -444,10 +445,9 @@
   automatisch zu generieren.
 @LineBreak
 @LineBreak
-  Hinweis: Die Nummer eines existierenden Bildes, welches mit Hilfe von @#PB_Any
-  erstellt wurde, kann nicht als Ziel-Bild verwendet werden.
-  Stattdessen muss das existierende Bild freigegeben werden, und hier eine neue Nummer durch Angabe
-  von @#PB_Any generiert werden.
+  Hinweis: Eine existierende Bildnummer, die mittels @#PB_Any erzeugt wurde, kann nicht als Ziel-Bild wiederverwendet werden.
+  Stattdessen muss das existierende Bild freigegeben werden (sofern es nicht mehr benötigt wird) und eine neue
+  Nummer generiert werden, indem an dieser Stelle @#PB_Any übergeben wird.
 
 @Parameter "x, y, Breite, Höhe"
   Die Position und die Größe des Bereiches, welcher in das neue Bild kopiert werden soll.

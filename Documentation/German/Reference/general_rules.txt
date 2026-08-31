@@ -8,6 +8,7 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern we
 <blockquote>
   Kommentare werden gekennzeichnet durch ein Semikolon <b><font color="#006666">;</font></b>.
   Alle nach dem Semikolon eingegebenen Texte, bis zum Ende der gleichen Zeile, werden vom Compiler ignoriert.
+  Kommentare sollten nicht in mehrzeiligem Code eingefügt werden.
 </blockquote>
 @FormatEndIf
 
@@ -15,6 +16,13 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern we
   
 @Code  
   If a = 10 ; Dies ist ein Kommentar zur näheren Erläuterung.
+  
+  StringList$() = "First String " +       ; Kommentar hier
+                  "with a second Line "   ; Kommentar auch hier
+  
+  StringList$() = "Third String " +       ; Kommentar hier ist OK
+  ; Ein Kommentar hier ist nicht zulässig, da der Compiler einen Fehler ausgibt.
+                  "with a second Line "   ; Kommentar hier ist auch OK
 @EndCode
 
 @FormatIf HTML
@@ -197,6 +205,8 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern we
   Lange Ausdrücke können auf mehrere Zeilen aufgeteilt werden.
   Eine aufgesplittete Zeile muss mit einem der folgenden Operatoren enden: Plus (+), Komma (,),
   oder (|), And, Or, Xor.
+  @LineBreak
+  Kommentare sollten nicht in mehrzeiligem Code eingefügt werden.
 
   @Example
 
@@ -208,6 +218,13 @@ PureBasic hat ein paar Syntax-Regeln eingeführt, welche sich niemals ändern we
   MessageRequester("Hello this is a very long title",
                    "And a very long message, so we can use the multiline" + #LF$ + Text$,
                    #PB_MessageRequester_Ok)
+    
+  StringList$() = "First String " +       ; Kommentar hier
+                  "with a second Line "   ; Kommentar auch hier
+				  
+  StringList$() = "Third String " +       ; Kommentar hier ist OK
+  ; Ein Kommentar hier ist nicht zulässig, da der Compiler einen Fehler ausgibt.
+                  "with a second Line "   ; Kommentar hier ist auch OK
 @EndCode  
 
 @FormatIf HTML

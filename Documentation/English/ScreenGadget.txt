@@ -24,6 +24,7 @@
 @CommandList
 
 @ExampleFile All ScreenGadget.pb
+@ExampleFile All ScreenGadgetMultipleWindow.pb
 
 @SupportedOS
 
@@ -1059,7 +1060,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ListViewScreenGadget(#ScreenGadget, x, y, Width, Height)
+@Function Result = ListViewScreenGadget(#ScreenGadget, x, y, Width, Height [, Flags])
 
 @Description
   Creates a ListView gadget in the current GadgetList. Once a ListView
@@ -1071,6 +1072,9 @@
 
 @Parameter "x, y, Width, Height"
   The position and dimensions of the new gadget.
+
+@OptionalParameter "Flags"
+  Not supported yet.
 
 @ReturnValue
   Nonzero on success, zero otherwise. If @#PB_Any was used as the #ScreenGadget parameter
@@ -1958,12 +1962,7 @@
   decorations).
 
 @OptionalParameter "Flags"
-  It can be a combination of the following values:
-@FixedFont
-  @#PB_ScreenWindow_SizeGadget : Adds the sizeable feature to a window.
-  @#PB_ScreenWindow_Invisible  : Creates the window but doesn't display it.
-  @#PB_ScreenWindow_BorderLess : Creates a window without any borders.
-@EndFixedFont
+  Not supported yet.
 
 @ReturnValue
   Nonzero if the window has been successfully opened, zero otherwise.

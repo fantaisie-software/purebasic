@@ -46,12 +46,12 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateFile(#File, Filename$, Callback [, Flags])
+@Function Result = CreateFile(#File, Filename$ [, Flags])
 
 @Description
   Create an empty file. In SpiderBasic, the file are always created in memory. To be saved,
   the file needs to be exported using @@ExportFile or use the @#PB_LocalStorage flag.
-   The file will automatically grows when write commands are used.
+  The file will automatically grows when write commands are used.
 
 @Parameter "#File"
   The number to identify the new file. @ReferenceLink "spiderbasic_objects" "#PB_Any" can be used to
@@ -59,21 +59,6 @@
 
 @Parameter "Filename$"
   The filename to the new file. It wille be used when using @@ExportFile
-
-@Parameter "Callback"
-  The callback to be called when data has been saved to the file. It has to use the following syntax:
-
-@Code
-  Procedure Callback(Status, Filename$, File, SizeRead)
-    Select Status
-      Case #PB_Status_Saved
-        ; File correctly saved
-        
-      Case #PB_Status_Error
-        ; File saving has failed
-    EndSelect
-  EndProcedure
-@EndCode
 
 @OptionalParameter "Flags"
   It can be a combination (using the '| operand) of the following values (affects the @@WriteString, @@WriteStringN, 
@@ -86,6 +71,7 @@
                   could be opened again in anothe session in the same browser later, but it can be wiped if the
                   user clear its local cache. It's also domain related, so if the application domain name change,
                   the files won't be accessible anymore.
+  @#PB_LocalFile: will save the file on the device filesystem (Android and iOS only).
 @EndFixedFont
 
 @ReturnValue
@@ -94,17 +80,7 @@
 
 @Example
 @Code
-  Procedure Callback(Status, Filename$, File, SizeRead)
-    Select Status
-      Case #PB_Status_Saved
-        ; File correctly saved
-        
-      Case #PB_Status_Error
-        ; File saving has failed
-    EndSelect
-  EndProcedure
-
-  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
+  If CreateFile(0, "Text.txt")      ; we create a new text file
     For a=1 To 10
       WriteStringN(0, "Line "+Str(a))  ; we write 10 lines (each with 'end of line' character)
     Next
@@ -112,7 +88,12 @@
       WriteString(0, "String"+Str(a))  ; and now we add 10 more strings on the same line (because there is no 'end of line' character)
     Next
     
-    ExportFile(0, "text/plain")
+    If ExportFile(0, "text/plain")
+      Debug "Properly exported !"
+    Else
+      Debug "Error: can't export filed."
+    EndIf
+    
     CloseFile(0)                      
   EndIf
 @EndCode
@@ -168,22 +149,12 @@
 @OptionalParameter "Filename$"
   The filename to use for the download. If not specified the filename for the #File will be used.
 
-@NoReturnValue
+@ReturnValue
+  Return non zero if the file has been properly exported, zero otherwise.
 
 @Example
 @Code
-  Procedure Callback(Status, Filename$, File, SizeRead)
-    Select Status
-      Case #PB_Status_Saved
-        ; File correctly saved
-        
-      Case #PB_Status_Error
-        ; File saving has failed
-    EndSelect
-    
-  EndProcedure
-
-  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
+  If CreateFile(0, "Text.txt")      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
@@ -213,18 +184,7 @@
 
 @Example
 @Code
-  Procedure Callback(Status, Filename$, File, SizeRead)
-    Select Status
-      Case #PB_Status_Saved
-        ; File correctly saved
-        
-      Case #PB_Status_Error
-        ; File saving has failed
-    EndSelect
-    
-  EndProcedure
-
-  If CreateFile(0, "Text.txt", @Callback())      ; we create a new text file
+  If CreateFile(0, "Text.txt")      ; we create a new text file
     WriteStringN(0, "First line")
     WriteStringN(0, "Second line")
     
@@ -257,11 +217,20 @@
 @Code
   Procedure ReadCallback(Status, Filename$, File, Size)
     If Status = #PB_Status_Loaded
+      Debug ""
+      Debug "---------------------------------------------------------------"
       Debug "File: " + Filename$ + " - Size read: " + Size + " bytes"
+      Debug "---------------------------------------------------------------"
+      Debug ""
       
-      ; Do something with the data
-      FileSeek(0, Size, #PB_Relative) ; Skip the read data and continue the streaming
+      ; Read the data as a whole block of text
+      ;
+      *Buffer = AllocateMemory(Size)
+      ReadData(File, *Buffer, 0, Size)
+      Debug PeekS(*Buffer, 0, Size, #PB_Ascii)
+      FreeMemory(*Buffer)
       
+      ; If not in the file, continue the streaming
       If Not Eof(0)
         FetchData(0, 1024) ; Read the next 1024 bytes of the file
       EndIf
@@ -271,15 +240,12 @@
     EndIf
   EndProcedure
   
-  Procedure OpenFileRequesterCallback()
-    If NextSelectedFile()
-      ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
+  Procedure ChooseFileEvent()
+    Filename$ = OpenFileRequester("*.txt")
+    If Filename$
+      ReadFile(0, Filename$, @ReadCallback(), #PB_LocalFile | #PB_File_Streaming)
       FetchData(0, 1024) ; Read the first 1024 bytes of the file
     EndIf
-  EndProcedure
-  
-  Procedure ChooseFileEvent()
-    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
   EndProcedure
   
   OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
@@ -400,7 +366,17 @@
     EndIf
   EndProcedure
   
-  ReadFile(0, "yourbigfilehere", @ReadCallback())
+  Procedure ChooseFileEvent()
+    Filename$ = OpenFileRequester("*.txt")
+    If Filename$
+      ReadFile(0, Filename$, @ReadCallback(), #PB_LocalFile)
+    EndIf
+  EndProcedure
+  
+  OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
+  ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+    
+  BindGadgetEvent(0, @ChooseFileEvent())
 @EndCode
 
 @SeeAlso
@@ -562,11 +538,11 @@
   auto-generate this number.
 
 @Parameter "Filename$"
-   The name of the file to read. The filename can be an URL or a local file (if the flag @#PB_LocalFile is set).
+   The name of the file to read or write. The filename can be an URL or a local file (if the flag @#PB_LocalFile is set).
 
 @Parameter "Callback"
-  The callback to be called when data has been read from the file. If the flag @#PB_File_Streaming is not
-  set, the callback will be called only when the whole file has been read. It has to use the following syntax:
+  The callback to be called when data has been read from the file. This callback is not mandatory unless the @#PB_File_Streaming is used. If the flag @#PB_File_Streaming is not
+  set, the callback will be called periodically to be able to monitor the progress using @@FileProgress. It has to use the following syntax:
 
 @Code
   Procedure Callback(Status, Filename$, File, SizeRead)
@@ -589,9 +565,7 @@
 @OptionalParameter "Flags"
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
-  @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
-                 to have access to local files. @@SelectedFileID is used to get the
-                 local file identifier.
+  @#PB_LocalFile: the filename is a local file on the device filesystem (Android and iOS only) or the result of @@OpenFileRequester.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will save the file on client side using its filename when @@CloseFile is called. This file
@@ -616,40 +590,26 @@
 
 @Example
 @Code
-
-  Procedure ReadCallback(Status, Filename$, File, Size)
-    If Status = #PB_Status_Loaded
-      Debug "File: " + Filename$ + " - Size: " + Size + " bytes"
-      
-      ; Read the first 10 lines
-      ;
-      While Eof(0) = 0 And NbLine < 10 
-        Debug ReadString(0)            
-        NbLine+1
-      Wend
-      
-      CloseFile(0)
-      
-    ElseIf Status = #PB_Status_Error
-      Debug "Error when loading the file: " + Filename$
-    EndIf
-  EndProcedure
-  
-  Procedure OpenFileRequesterCallback()
-    If NextSelectedFile()
-      OpenFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile)
-    EndIf
-  EndProcedure
-  
   Procedure ChooseFileEvent()
-    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+    Filename$ = OpenFileRequester("*.txt")
+    If Filename$
+      If OpenFile(0, Filename$, 0, #PB_LocalFile)
+        While Eof(0) = 0 And NbLine < 10 
+          Debug ReadString(0)            
+          NbLine+1
+        Wend
+        
+        CloseFile(0)
+      Else
+        Debug "Error: can't open the file"
+      EndIf
+    EndIf 
   EndProcedure
   
   OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
-    ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+  ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
     
   BindGadgetEvent(0, @ChooseFileEvent())
-
 @EndCode
 
 @SeeAlso
@@ -693,9 +653,7 @@
 @OptionalParameter "Flags"
   It can be a combination (using the '| operand) of the following values:
 @FixedFont
-  @#PB_LocalFile: the filename is a local file. @@OpenFileRequester needs to be called before
-                 to have access to local files. @@SelectedFileID is used to get the
-                 local file identifier.
+  @#PB_LocalFile: the filename is a local file on the device filesystem (Android and iOS only) or the result of @@OpenFileRequester.
   @#PB_File_Streaming: the file will be read chunk by chunk, using @@FetchData. It is only 
                       supported with @#PB_LocalFile. 
   @#PB_LocalStorage: will read the file on client side using its filename. The file should have been created before with @@OpenFile or @@CreateFile
@@ -717,40 +675,26 @@
 
 @Example
 @Code
-
-  Procedure ReadCallback(Status, Filename$, File, Size)
-    If Status = #PB_Status_Loaded
-      Debug "File: " + Filename$ + " - Size: " + Size + " bytes"
-      
-      ; Read the first 10 lines
-      ;
-      While Eof(0) = 0 And NbLine < 10 
-        Debug ReadString(0)            
-        NbLine+1
-      Wend
-      
-      CloseFile(0)
-      
-    ElseIf Status = #PB_Status_Error
-      Debug "Error when loading the file: " + Filename$
-    EndIf
-  EndProcedure
-  
-  Procedure OpenFileRequesterCallback()
-    If NextSelectedFile()
-      ReadFile(0, SelectedFileID(), @ReadCallback(), #PB_LocalFile)
-    EndIf
-  EndProcedure
-  
   Procedure ChooseFileEvent()
-    OpenFileRequester("*.txt", @OpenFileRequesterCallback())
+    Filename$ = OpenFileRequester("*.txt")
+    If Filename$
+      If ReadFile(0, Filename$, 0, #PB_LocalFile)
+        While Eof(0) = 0 And NbLine < 10 
+          Debug ReadString(0)            
+          NbLine+1
+        Wend
+        
+        CloseFile(0)
+      Else
+        Debug "Error: can't open the file"
+      EndIf
+    EndIf 
   EndProcedure
   
   OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
-    ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
+  ButtonGadget(0, 10, 10, 280, 30, "Choose a file...")
     
   BindGadgetEvent(0, @ChooseFileEvent())
-
 @EndCode
 
 @SeeAlso
@@ -1185,18 +1129,16 @@
 
 @Example
 @Code
-
   *Buffer = AllocateMemory(128)       ; allocating a memory block
   If *Buffer
     PokeS(*Buffer, 0, "Store this string in the memory area")   ; we write a string into the memory block (in UTF-8 format)
     If CreateFile(0, "Text.txt")          
-      WriteData(0, *Buffer, 10)       ; write the first 10 chars from the memory block into the file
+      WriteData(0, *Buffer, 0, 10)    ; write the first 10 chars from the memory block into the file
       
       ExportFile(0, "text/plain")
       CloseFile(0)                    ; close the previously opened file and so store the written data
     EndIf
   EndIf
-
 @EndCode
 
 @SeeAlso

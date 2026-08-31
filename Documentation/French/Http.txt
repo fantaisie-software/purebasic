@@ -435,6 +435,10 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: Démarre le téléchargement asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
+  @#PB_HTTP_NoSSLCheck  : Ne vérifie pas si le certificat SSL est valide (peut être utile à des fins de test).
+  @#PB_HTTP_WeakSSL     : Pour prendre en charge des serveurs plus anciens.
+  @#PB_HTTP_Debug       : Pour afficher des informations de débogage dans la console. 
+
 @EndFixedFont
 
 @OptionalParameter "AgentUtilisateur$"
@@ -495,6 +499,10 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: Démarre le téléchargement asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
+  @#PB_HTTP_NoSSLCheck  : Ne vérifie pas si le certificat SSL est valide (peut être utile à des fins de test).
+  @#PB_HTTP_WeakSSL     : Pour prendre en charge des serveurs plus anciens.
+  @#PB_HTTP_Debug       : Pour afficher des informations de débogage dans la console. 
+
 @EndFixedFont
 
 @OptionalParameter "AgentUtilisateur$"
@@ -677,7 +685,7 @@
           Debug "Téléchargement interrompu"
           FinishHTTP(HTTPRequest) ; Appelez toujours FinishHTTP() lorsque la requête est terminée
           Break
-		  
+          
         Default
           Debug "Téléchargement en cours: " + Progression ; La progression actuelle du téléchargement, en octets
           Delay(100)

@@ -1,0 +1,40 @@
+﻿;
+; ------------------------------------------------------------
+;
+;   SpiderBasic - Preference example file
+;
+;    (c) Fantaisie Software
+;
+; ------------------------------------------------------------
+;
+
+; Create a preference file named Test.prefs
+CreatePreferences("Test.prefs")
+
+; Create a group named "Window"
+PreferenceGroup("Window")
+  WritePreferenceLong("X", 10)      ; X = 10
+  WritePreferenceLong("Y", 10)      ; Y = 10
+  WritePreferenceLong("W", 800)     ; W = 800
+  WritePreferenceLong("H", 600)     ; H = 600
+  WritePreferenceFloat("%", 20)     ; % = 20.000000
+  WritePreferenceString("Title", "PureNote") ; Title = "PureNote"
+
+; Close the preference file
+ClosePreferences()
+  
+; Read back the values
+;
+OpenPreferences("Test.prefs")
+
+; Select a group
+PreferenceGroup("Window")
+
+; Examine keys in the group 'Window'
+ExaminePreferenceKeys()
+While NextPreferenceKey() ; While a key exists
+  Debug "Key group 'Window': " + PreferenceKeyName() + " = " + PreferenceKeyValue()  ; Display the key with its data
+Wend
+
+; Close the preference file
+ClosePreferences()

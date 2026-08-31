@@ -1,15 +1,12 @@
 EnableExplicit
 
-;InitSprite()
-;InitKeyboard()
-;UsePNGImageDecoder()
-
 InitSound()
+InitJoystick()
 
 ExamineDesktops()
 Global ScreenWidth = DesktopWidth(0)
 Global ScreenHeight = DesktopHeight(0)
-
+ 
 #BackWidth = 320
 #BackHeight = 320
 
@@ -67,37 +64,30 @@ Procedure AddBullet(Sprite, x, y, SpeedX, SpeedY)
   Bullet()\SpeedY = SpeedY
 EndProcedure
 
-Procedure SpritePixelCollision_2(sprite1,x1,y1,sprite2,x2,y2)
-  ; ProcedureReturn SpriteCollision(sprite1, x1, y1, sprite2, x2, y2)
-  ProcedureReturn SpritePixelCollision(sprite1, x1, y1, sprite2, x2, y2)
-EndProcedure
 
 Procedure MovePlayers()
   Fire = 0
   PlayerImage = 3  ; Non-moving player image
 
-;   If EnableJoystick
-;     If ExamineJoystick(0)
-;     
-;       PlayerX+JoystickAxisX(0)*PlayerSpeedX
-;       PlayerY+JoystickAxisY(0)*PlayerSpeedY
-; 
-;       If JoystickAxisX(0) = 1
-;         PlayerImage = 0
-;       EndIf
-;       
-;       If JoystickAxisX(0) = -1
-;         PlayerImage = 2
-;       EndIf
-;       
-;       ; All buttons works to fire the aLiEnZ !
-;       ;
-;       If JoystickButton(0, 1) Or JoystickButton(0, 2) Or JoystickButton(0, 3) Or JoystickButton(0, 4)
-;         Fire = 1
-;       EndIf
-;    
-;     EndIf
-;   EndIf
+  If ExamineJoystick(0)
+    
+    PlayerX+JoystickAxisX(0)*PlayerSpeedX
+    PlayerY+JoystickAxisY(0)*PlayerSpeedY
+
+    If JoystickAxisX(0) = 1
+      PlayerImage = 0
+    EndIf
+    
+    If JoystickAxisX(0) = -1
+      PlayerImage = 2
+    EndIf
+    
+    ; All buttons works to fire the aLiEnZ !
+    ;
+    If JoystickButton(0, 1) Or JoystickButton(0, 2) Or JoystickButton(0, 3) Or JoystickButton(0, 4)
+       Fire = 1
+    EndIf
+  EndIf
 
   ExamineKeyboard()
      
@@ -310,15 +300,15 @@ Procedure CheckCollisions()
     ResetList(Bullet())
     While NextElement(Bullet())
     
-      If SpritePixelCollision_2(Bullet()\Image, Bullet()\x, Bullet()\y, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
+      If SpritePixelCollision(Bullet()\Image, Bullet()\x, Bullet()\y, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
         Aliens()\Armor-1
         DeleteElement(Bullet())
       EndIf
       
     Wend
 
-    If DeadDelay = 0 ; No more invincible...
-      If SpritePixelCollision_2(PlayerImage, PlayerX, PlayerY, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
+    If DeadDelay = 0 ; No more  invincible...
+      If SpritePixelCollision (PlayerImage, PlayerX, PlayerY, Aliens()\ActualImage, Aliens()\x, Aliens()\y)
         Dead = 1
         DeadDelay = 300
 

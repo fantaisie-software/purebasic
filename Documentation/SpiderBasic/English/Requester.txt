@@ -98,112 +98,108 @@ all performed through standard windows called 'requesters'.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = NextSelectedFile()
+@Function Filename$ = NextSelectedFilename()
 
 @Description
-  After a call to @@OpenFileRequester it returns the next selected file (if any). 
-  It has to be called in the callback specified in @@OpenFileRequester.
-  @@SelectedFilename and @@SelectedFileID can be used to get info about
-  the current selected file.
+  After @@OpenFileRequester with #PB_Requester_MultiSelection, it returns the next selected
+  file (if any).
 
 @NoParameters
 
 @ReturnValue
-  Returns @#True if there is another file, @#False otherwise.
+  A filename, or an empty string if there are no more selected filenames.
+
+@Example
+@Code
+  Procedure ButtonEvent()
+    Filename$ = OpenFileRequester("", #PB_Requester_MultiSelection)
+    
+    While Filename$ 
+      Debug Filename$ 
+      Filename$ = NextSelectedFilename() 
+    Wend 
+  EndProcedure
+    
+  OpenWindow(0, 100, 100, 200, 55, "File")
+  ButtonGadget(0, 10, 10, 170, 25, "Open local file(s)...")
+  BindGadgetEvent(0, @ButtonEvent())
+@EndCode
 
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result$ = SelectedFileName()
-
-@Description
-  Returns the current selected filename. It has to be called after @@NextSelectedFile.
-  The filename shouldn't be used directly with other SpiderBasic command, see @@SelectedFileID
-  for more information.
-
-@NoParameters
-
-@ReturnValue
-  The selected filename. 
-  
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result$ = SelectedFileID()
-
-@Description
-  Returns the current selected filename identifier. It has to be called after @@NextSelectedFile.
-  Remote drives like Google Drive can have several files with the exact same filename, that's why
-  a file identifier is needed to be able to select the right one.
-
-@NoParameters
-
-@ReturnValue
-  A filename identifier. This identifier can be used in the following commands: 
-  @@ReadFile, @@OpenFile, @@LoadJSON, @@LoadImage and @@LoadXML.
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Filename$ = OpenFileRequester(Pattern$, Callback [, Flags])
+@Function Filename$ = OpenFileRequester(Pattern$ [, Flags])
 
 @Description
   Opens the standard requester for the user to choose one or several local files.
   For security reason, the requester can be opened only from an event callback 
   triggered by a real user action (ie: when the user click on a gadget).
   This commands needs to be put in an event procedure, like in the example below.
-  The selected file is get with @@NextSelectedFile and @@SelectedFilename in the callback.
 
 @Parameter "Pattern$"
   A standard filter which allow to display only the files which 
   end with such or such extension. It has to be in the MIME form : "image/*",
   "audio/*" etc. A list of most common MIME types can be found here: @InternetLink "http://www.freeformatter.com/mime-types-list.html" "http:://www.freeformatter.com".
   
-@Parameter "Callback"
-  The callback to be called if the user has selected one or several file. It won't be called
-  if the user canceled the requester. It has to use the following syntax:
-
-@Code
-  Procedure Callback()
-    ; Code here
-  EndProcedure
-@EndCode
-
 @OptionalParameter "Flags"
   It can be a combination of one of the following values:
 @FixedFont
-  @#PB_Requester_MultiSelection: Enable the multiselection (see @@NextSelectedFile).
+  @#PB_Requester_MultiSelection: Enable the multiselection (see @@NextSelectedFilename).
 @EndFixedFont
 
 @NoReturnValue
 
-@Example
+@Example Single file selection
 @Code
-  Procedure RequesterSuccess()
-    
-    ; Process all the selected filename
-    ;
-    While NextSelectedFile()
-      Debug "Filename: " + SelectedFileName()
-    Wend
-  EndProcedure
-  
   Procedure ButtonEvent()
-    OpenFileRequester("", @RequesterSuccess(), #PB_Requester_MultiSelection)
+    Filename$ = OpenFileRequester("")
+    Debug Filename$
   EndProcedure
     
-  If OpenWindow(0, 100, 100, 200, 55, "File")
-    ButtonGadget(0, 10, 10, 170, 25, "Open local file...")
-    BindGadgetEvent(0, @ButtonEvent())
-  EndIf
+  OpenWindow(0, 100, 100, 200, 55, "File")
+  ButtonGadget(0, 10, 10, 170, 25, "Open local file...")
+  BindGadgetEvent(0, @ButtonEvent())
 @EndCode
+
+@Example Multi files selection
+@Code
+  Procedure ButtonEvent()
+    Filename$ = OpenFileRequester("", #PB_Requester_MultiSelection)
+    
+    While Filename$ 
+      Debug Filename$ 
+      Filename$ = NextSelectedFilename() 
+    Wend 
+  EndProcedure
+    
+  OpenWindow(0, 100, 100, 200, 55, "File")
+  ButtonGadget(0, 10, 10, 170, 25, "Open local file(s)...")
+  BindGadgetEvent(0, @ButtonEvent())
+@EndCode
+
+@Example Selecting an image and display it
+@Code
+  Procedure ButtonEvent()
+    Filename$ = OpenFileRequester("image/*")
+    If Filename$
+      Image = LoadImage(#PB_Any, Filename$, #PB_LocalFile) ; when using #PB_LocalFile, all files selected with OpenFileRequester() are directly available
+      If Image
+        OpenWindow(#PB_Any, x, y, 300, 300, Filename$, #PB_Window_TitleBar | #PB_Window_SizeGadget)
+          ImageGadget(#PB_Any, 0, 0, ImageWidth(Image), ImageHeight(Image), ImageID(Image))
+      EndIf
+    EndIf
+  EndProcedure
+
+  OpenWindow(0, 100, 100, 200, 45, "Image viewer", #PB_Window_TitleBar)
+  ButtonGadget(0, 10, 10, 180, 25, "Open local image...")
+  BindGadgetEvent(0, @ButtonEvent())
+@EndCode
+
 @LineBreak
 @Image openfilerequester.png
 
 @SeeAlso
-  @@NextSelectedFile
+  @@NextSelectedFilename
 
 @SupportedOS

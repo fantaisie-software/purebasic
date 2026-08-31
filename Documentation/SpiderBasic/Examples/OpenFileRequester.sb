@@ -9,45 +9,32 @@
 ;
 
 
-Procedure Loaded(Type, Filename$, ObjectId)
-  Static x = 200, y = 200
+Procedure ButtonEvent()
+  x = 200
+  y = 200
   
-  OpenWindow(#PB_Any, x, y, 300, 300, Filename$, #PB_Window_TitleBar | #PB_Window_SizeGadget)
-    ImageGadget(#PB_Any, 0, 0, ImageWidth(ObjectId), ImageHeight(ObjectId), ImageID(ObjectId))
-    
-  ; Shift the next opened window
-  ;
-  x + 40 
-  y + 40
-EndProcedure
-
-
-Procedure LoadingError(Type, Filename$)
-  Debug Filename$ + ": loading error"
-EndProcedure
-
- 
-Procedure RequesterSuccess()
+  Filename$ = OpenFileRequester("image/*", #PB_Requester_MultiSelection)
   
   ; Process all the selected filename
   ;
-  While NextSelectedFile()
-    LoadImage(#PB_Any, SelectedFileID(), #PB_LocalFile) ; when using #PB_LocalFile, all files selected with OpenFileRequester() are directly available
-    Filename$ = SelectedFileName()
+  While Filename$
+    Image = LoadImage(#PB_Any, Filename$, #PB_LocalFile) ; when using #PB_LocalFile, all files selected with OpenFileRequester() are directly available
+    If Image
+        
+      OpenWindow(#PB_Any, x, y, 300, 300, Filename$, #PB_Window_TitleBar | #PB_Window_SizeGadget)
+        ImageGadget(#PB_Any, 0, 0, ImageWidth(Image), ImageHeight(Image), ImageID(Image))
+    
+      ; Shift the next opened window
+      ;
+      x + 40 
+      y + 40
+    EndIf
+    
+    Filename$ = NextSelectedFilename()
   Wend
-  
-EndProcedure
-
-Procedure ButtonEvent()
-  OpenFileRequester("image/*", @RequesterSuccess(), #PB_Requester_MultiSelection)
 EndProcedure
 
 
 OpenWindow(0, 100, 100, 200, 45, "Image viewer", #PB_Window_TitleBar)
-ButtonGadget(0, 10, 10, 180, 25, "Open local image...")
+ButtonGadget(0, 10, 10, 180, 25, "Open local images...")
 BindGadgetEvent(0, @ButtonEvent())
-
-
-; Register the loading event before calling any resource load command
-BindEvent(#PB_Event_Loading, @Loaded())
-BindEvent(#PB_Event_LoadingError, @LoadingError())

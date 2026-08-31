@@ -82,7 +82,7 @@
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
   ; Crée un menu contextuel à afficher par la barre d'état système avec un aspect de barre d'état système
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  CreatePopupMenu(0)
     MenuItem(0, "À Propos de PureBasic...")
     MenuBar()
     MenuItem(1, "Quitter")
@@ -144,7 +144,7 @@
   AddSysTrayIcon(0, WindowID(0), ImageID(0))
   
   ; Crée un menu contextuel à utiliser ultérieurement avec l'icône Systray:
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  CreatePopupMenu(0)
     MenuItem(0, "Quitter")
     
   SysTrayIconMenu(0, MenuID(0))
@@ -229,7 +229,6 @@
 @NoReturnValue
 
 @Remarks
-  Le menu doit être créé avec @@CreatePopupImageMenu en utilisant l'option @#PB_Menu_SysTrayLook. 
   C'est le meilleur moyen d'associer un menu contextuel à une icône SysTray car il affichera le menu 
   contextuel à la bonne position sur tous les systèmes d'exploitation lorsque l'utilisateur clique 
   sur l'icône.
@@ -242,8 +241,8 @@
   UsePNGImageDecoder()
   AddSysTrayIcon(0, WindowID(0), LoadImage(0, #PB_Compiler_Home + "examples/sources/Data/world.png"))
 
-  ; Crée un menu contextuel à afficher par la barre d'état système (utilisez #PB_Menu_SysTrayLook)
-  CreatePopupImageMenu(0, #PB_Menu_SysTrayLook)
+  ; Crée un menu contextuel à afficher par la barre d'état système
+  CreatePopupMenu(0)
     MenuItem(0, "À Propos de PureBasic...")
     MenuBar()
     MenuItem(1, "Quitter")
