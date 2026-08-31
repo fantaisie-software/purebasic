@@ -7163,6 +7163,9 @@ Procedure FD_SetDesignView()
   HideGadget(#GADGET_Form, 0)
   HideEditorGadget(*ActiveSource\EditorGadget, 1)
   
+  ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Form Designer
+  AddStringShortcuts()
+  
   ChangeCurrentElement(FormWindows(),currentwindow)
   FD_SelectWindow(currentwindow)
   redraw = 1

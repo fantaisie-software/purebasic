@@ -2757,6 +2757,14 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     Select *scinotify\nmhdr\code
         
+      Case #SCN_FOCUSIN
+        ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Scintilla component
+        AddStringShortcuts()
+        
+      Case #SCN_FOCUSOUT
+        ; Remove the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) to restore the default StringGadget behavior
+        DelStringShortcuts()
+        
       Case #SCN_MODIFYATTEMPTRO
         ChangeStatus(Language("Debugger","EditError"), -1)
         CompilerIf #CompileWindows

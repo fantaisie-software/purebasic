@@ -711,24 +711,9 @@ Procedure ProjectPanel_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
   
   Select EventGadgetID
     Case #GADGET_ProjectPanel_FilterInput
-      ; Add/remove the 4 main keyboard shortcuts to restore the standard behavior for FilterInput StringGadget when they gain/lose focus
-      Select EventType()
-        Case #PB_EventType_Focus
-          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_C)
-          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_X)
-          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_V)
-          RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_A)
-        Case #PB_EventType_Change
-          ProjectPanel_Filter(GetGadgetText(#GADGET_ProjectPanel_FilterInput))
-        Case #PB_EventType_LostFocus
-          ; #PB_Shortcut_Command will act like #PB_Shortcut_Control on non-macOS 
-          For item = 0 To #MENU_LastShortcutItem
-            Select KeyboardShortcuts(item)
-              Case #PB_Shortcut_Command | #PB_Shortcut_C, #PB_Shortcut_Command | #PB_Shortcut_X, #PB_Shortcut_Command | #PB_Shortcut_V, #PB_Shortcut_Command | #PB_Shortcut_A
-                AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
-            EndSelect
-          Next
-      EndSelect
+      If EventType() = #PB_EventType_Change
+        ProjectPanel_Filter(GetGadgetText(#GADGET_ProjectPanel_FilterInput))
+      EndIf
       
     Case #GADGET_ProjectPanel
       Index = GetGadgetState(#GADGET_ProjectPanel)

@@ -194,6 +194,10 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
     HideGadget(#GADGET_ProjectInfo, 0)
     SetActiveGadget(#GADGET_ProjectInfo_Files)
     
+    ; Remove the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) to restore the default StringGadget behavior
+    ; Useful here, if the previous tab was a Form, with shortcuts created. For other tabs (Scintilla), it's already done on #SCN_FOCUSOUT event
+    DelStringShortcuts()
+    
   Else
     If *ProjectInfo
       HideGadget(#GADGET_ProjectInfo, 1)
@@ -243,6 +247,9 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab)
+      
+      ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Form Designer
+      AddStringShortcuts()
     Else
       HideGadget(#GADGET_Form, 1)
       HideEditorGadget(*ActiveSource\EditorGadget, 0)
