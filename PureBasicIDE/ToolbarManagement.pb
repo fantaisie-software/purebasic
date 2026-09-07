@@ -5,9 +5,9 @@
 ; --------------------------------------------------------------------------------------------
 
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 99-22 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 101-22 ; menu items specified in the datasection
 CompilerElse
-  #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 101 ; menu items specified in the datasection
 CompilerEndIf
 ;#NB_InternalIcons = 45
 
@@ -481,6 +481,7 @@ DataSection
   Data.l #MENU_NewlineLinux:        Data$ "Menu:NewlineLinux"
   Data.l #MENU_NewlineMacOS:        Data$ "Menu:NewlineMacOS"
   ;Data.l #MENU_SortSources:         Data$ "Menu:SortSources"
+  Data.l #MENU_ShowInFolder:        Data$ "Menu:ShowInFolder"
   Data.l #MENU_Preference:          Data$ "Menu:Preferences"
   Data.l #MENU_History:             Data$ "Menu:EditHistory"
   Data.l #MENU_Exit:                Data$ "Menu:Quit"
@@ -490,6 +491,7 @@ DataSection
   Data.l #MENU_Cut:                 Data$ "Menu:Cut"
   Data.l #MENU_Copy:                Data$ "Menu:Copy"
   Data.l #MENU_Paste:               Data$ "Menu:Paste"
+  Data.l #MENU_PasteAsComment:      Data$ "Menu:PasteAsComment"
   Data.l #MENU_CommentSelection:    Data$ "Menu:InsertComment"
   Data.l #MENU_UnCommentSelection:  Data$ "Menu:RemoveComment"
   Data.l #MENU_AutoIndent:          Data$ "Menu:AutoIndent"
