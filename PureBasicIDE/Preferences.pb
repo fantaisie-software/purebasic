@@ -100,6 +100,9 @@ Procedure LoadPreferences()
   ShowCompilerProgress        = ReadPreferenceLong  ("ShowCompilerProgress", 0)
   UseHelpToolF1               = ReadPreferenceLong  ("UseHelpToolF1"     , 1)
   MonitorFileChanges          = ReadPreferenceLong  ("MonitorFileChanges", 1)
+  RemoveTrailingWhitespaceOnSave = ReadPreferenceLong("RemoveTrailingWhitespaceOnSave", 0)
+  NormalizeSourceFileEndOnSave = ReadPreferenceLong("NormalizeSourceFileEndOnSave", 0)
+  FormatIndentationOnSave     = ReadPreferenceLong("FormatIndentationOnSave", 0)
   
   UpdateCheckInterval         = ReadPreferenceLong  ("UpdateCheckInterval", #UPDATE_Interval_Weekly)
   UpdateCheckVersions         = ReadPreferenceLong  ("UpdateCheckVersions", #UPDATE_Version_Final)
@@ -1141,6 +1144,9 @@ Procedure SavePreferences()
     WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
     WritePreferenceLong  ("UseHelpToolF1",        UseHelpToolF1)
     WritePreferenceLong  ("MonitorFileChanges",   MonitorFileChanges)
+    WritePreferenceLong  ("RemoveTrailingWhitespaceOnSave", RemoveTrailingWhitespaceOnSave)
+    WritePreferenceLong  ("NormalizeSourceFileEndOnSave", NormalizeSourceFileEndOnSave)
+    WritePreferenceLong  ("FormatIndentationOnSave", FormatIndentationOnSave)
     
     WritePreferenceLong  ("UpdateCheckInterval",  UpdateCheckInterval)
     WritePreferenceLong  ("UpdateCheckVersions",  UpdateCheckVersions)
@@ -1900,6 +1906,9 @@ Procedure IsPreferenceChanged()
   If DisplayErrorWindow        <> GetGadgetState(#GADGET_Preferences_DisplayErrorWindow): ProcedureReturn 1: EndIf
   If ProfilerRunAtStart        <> GetGadgetState(#GADGET_Preferences_ProfilerStartup): ProcedureReturn 1: EndIf
   If MonitorFileChanges        <> GetGadgetState(#GADGET_Preferences_MonitorFileChanges): ProcedureReturn 1: EndIf
+  If RemoveTrailingWhitespaceOnSave <> GetGadgetState(#GADGET_Preferences_RemoveTrailingWhitespace): ProcedureReturn 1: EndIf
+  If NormalizeSourceFileEndOnSave <> GetGadgetState(#GADGET_Preferences_NormalizeSourceFileEnd): ProcedureReturn 1: EndIf
+  If FormatIndentationOnSave <> GetGadgetState(#GADGET_Preferences_FormatIndentation): ProcedureReturn 1: EndIf
   If FormVariable              <> GetGadgetState(#GADGET_Preferences_FormVariable): ProcedureReturn 1: EndIf
   If FormVariableCaption       <> GetGadgetState(#GADGET_Preferences_FormVariableCaption): ProcedureReturn 1: EndIf
   If FormGrid                  <> GetGadgetState(#GADGET_Preferences_FormGrid): ProcedureReturn 1: EndIf
@@ -2292,6 +2301,9 @@ Procedure ApplyPreferences()
   DisplayErrorWindow        = GetGadgetState(#GADGET_Preferences_DisplayErrorWindow)
   ProfilerRunAtStart        = GetGadgetState(#GADGET_Preferences_ProfilerStartup)
   MonitorFileChanges        = GetGadgetState(#GADGET_Preferences_MonitorFileChanges)
+  RemoveTrailingWhitespaceOnSave = GetGadgetState(#GADGET_Preferences_RemoveTrailingWhitespace)
+  NormalizeSourceFileEndOnSave = GetGadgetState(#GADGET_Preferences_NormalizeSourceFileEnd)
+  FormatIndentationOnSave = GetGadgetState(#GADGET_Preferences_FormatIndentation)
   FormVariable              = GetGadgetState(#GADGET_Preferences_FormVariable)
   FormVariableCaption       = GetGadgetState(#GADGET_Preferences_FormVariableCaption)
   FormGrid                  = GetGadgetState(#GADGET_Preferences_FormGrid)
@@ -2974,6 +2986,9 @@ Procedure OpenPreferencesWindow()
   ;- Editor
   ;
   SetGadgetState(#GADGET_Preferences_MonitorFileChanges, MonitorFileChanges)
+  SetGadgetState(#GADGET_Preferences_RemoveTrailingWhitespace, RemoveTrailingWhitespaceOnSave)
+  SetGadgetState(#GADGET_Preferences_NormalizeSourceFileEnd, NormalizeSourceFileEndOnSave)
+  SetGadgetState(#GADGET_Preferences_FormatIndentation, FormatIndentationOnSave)
   SetGadgetState(#GADGET_Preferences_SaveProjectSettings, SaveProjectSettings)
   SetGadgetState(#GADGET_Preferences_AutoSave, AutoSave)
   SetGadgetState(#GADGET_Preferences_AutoSaveAll, AutoSaveAll)

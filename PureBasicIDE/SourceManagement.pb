@@ -1961,6 +1961,25 @@ Procedure SaveSourceFile(FileName$)
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
   
   If CreateFile(#FILE_SaveSource, FileName$)
+    PreviousIsCode = *ActiveSource\IsCode
+    ; Save As transformations must follow the target extension, not the source's previous mode.
+    *ActiveSource\IsCode = IsCodeFile(FileName$)
+
+    If FormatIndentationOnSave Or RemoveTrailingWhitespaceOnSave Or NormalizeSourceFileEndOnSave
+      ; Keep all enabled save-time transformations in one undo action.
+      SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
+      If FormatIndentationOnSave
+        FormatSourceIndentation()
+      EndIf
+      If RemoveTrailingWhitespaceOnSave
+        RemoveTrailingWhitespace()
+      EndIf
+      If NormalizeSourceFileEndOnSave
+        NormalizeSourceFileEnd()
+      EndIf
+      SendEditorMessage(#SCI_ENDUNDOACTION, 0, 0)
+    EndIf
+
     If *ActiveSource\Parser\Encoding = 0
       WriteStringFormat(#FILE_SaveSource, #PB_Ascii)
     Else
@@ -1985,7 +2004,6 @@ Procedure SaveSourceFile(FileName$)
     
     If *Buffer Or FileLength = 0
       *ActiveSource\FileName$ = FileName$ ; SaveProjectSettings() needs an updated FileName$ (https://www.purebasic.fr/english/viewtopic.php?f=4&t=59566)
-      *ActiveSource\IsCode = IsCodeFile(FileName$)
       
       SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 1)
       CloseFile(#FILE_SaveSource)
@@ -2006,6 +2024,7 @@ Procedure SaveSourceFile(FileName$)
       AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
       
     Else
+      *ActiveSource\IsCode = PreviousIsCode
       CloseFile(#FILE_SaveSource)
       DeleteFile(FileName$)
       MessageRequester(#ProductName$, Language("FileStuff","SaveError")+#NewLine+FileName$, #FLAG_Error)

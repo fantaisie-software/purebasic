@@ -148,6 +148,8 @@ Declare.s GetLine(Index, *Source.SourceFile = 0)                                
 Declare HasLineContinuation(Index, *Source.SourceFile = 0)                                     ; Returns true if the given line (0 based) ends with a line continuation
 Declare.s GetContinuationLine(Index, *Offset.INTEGER = 0, *Source.SourceFile = 0)              ; Return the line with given index (0 based) including any continued lines before or after)
 Declare SetLine(Index, NewLine$)                                                               ; replace the indexed line with the given text (and highlight it again)
+Declare RemoveTrailingWhitespace()                                                             ; remove trailing spaces and tabs from all source lines
+Declare NormalizeSourceFileEnd()                                                               ; normalize non-empty sources to one final newline
 Declare CreateEditorGadget()                                                                   ; create the editing gadget for this source (must call ChangeActiveSource() right after creating the gadget!)
 Declare SetReadOnly(Gadget, State)                                                             ; set the editing gadget to readonly
 Declare InsertCodeString(String$, MoveCursor = #False)                                         ; insert given string at the current position (also converts to utf8 if needed)
@@ -405,6 +407,7 @@ Declare RemoveComments()                                                        
 Declare InsertTab()                                                                                      ; tab intend a block
 Declare RemoveTab()                                                                                      ; tab unintend a block
 Declare AutoIndent()
+Declare FormatSourceIndentation()
 Declare SelectBlock()
 Declare DeselectBlock()
 Declare ShiftComments(IsRight)

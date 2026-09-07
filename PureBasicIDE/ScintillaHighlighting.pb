@@ -1327,6 +1327,67 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     FreeMemory(*NewLine)
   EndProcedure
+
+  Procedure RemoveTrailingWhitespace()
+    LineCount = SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
+
+    ; Work backwards so later deletions do not invalidate earlier positions.
+    For Line = LineCount - 1 To 0 Step -1
+      LineStart = SendEditorMessage(#SCI_POSITIONFROMLINE, Line, 0)
+      LineEnd = SendEditorMessage(#SCI_GETLINEENDPOSITION, Line, 0)
+      TrimStart = LineEnd
+
+      While TrimStart > LineStart
+        Character = SendEditorMessage(#SCI_GETCHARAT, TrimStart - 1, 0)
+        If Character = ' ' Or Character = 9
+          TrimStart - 1
+        Else
+          Break
+        EndIf
+      Wend
+
+      If TrimStart < LineEnd
+        SendEditorMessage(#SCI_DELETERANGE, TrimStart, LineEnd - TrimStart)
+      EndIf
+    Next Line
+  EndProcedure
+
+  Procedure NormalizeSourceFileEnd()
+    SourceLength = SendEditorMessage(#SCI_GETLENGTH, 0, 0)
+    TrimStart = SourceLength
+
+    While TrimStart > 0
+      Character = SendEditorMessage(#SCI_GETCHARAT, TrimStart - 1, 0)
+      If Character = 10 Or Character = 13
+        TrimStart - 1
+      Else
+        Break
+      EndIf
+    Wend
+
+    If TrimStart > 0 And SourceLength - TrimStart = #NewLineLength
+      CompilerIf #NewLineLength = 1
+        If SendEditorMessage(#SCI_GETCHARAT, TrimStart, 0) = 10
+          ProcedureReturn
+        EndIf
+      CompilerElse
+        If SendEditorMessage(#SCI_GETCHARAT, TrimStart, 0) = 13 And SendEditorMessage(#SCI_GETCHARAT, TrimStart + 1, 0) = 10
+          ProcedureReturn
+        EndIf
+      CompilerEndIf
+    EndIf
+
+    If TrimStart < SourceLength
+      SendEditorMessage(#SCI_DELETERANGE, TrimStart, SourceLength - TrimStart)
+    EndIf
+
+    If TrimStart > 0
+      ; The save pipeline converts this native newline back to the source's selected format.
+      *NewLine = Ascii(#NewLine)
+      SendEditorMessage(#SCI_APPENDTEXT, #NewLineLength, *NewLine)
+      FreeMemory(*NewLine)
+    EndIf
+  EndProcedure
   
   Procedure BuildIndentVT()
     
@@ -2105,14 +2166,20 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If *LineStart\c = 0
         
         ; Apply the line change (whitespace only line)
-        SetLine(Line, Prefix$)
+        If Line$ <> Prefix$
+          SetLine(Line, Prefix$)
+          Modified = #True
+        EndIf
         CommentAnchor$ = ""
         
       Else
         
         ; Apply the line change and adjust comment position (if needed)
         CommentAnchor$ = AlignLineComments(Prefix$ + PeekS(*LineStart), CommentAnchor$)
-        SetLine(Line, CommentAnchor$)
+        If Line$ <> CommentAnchor$
+          SetLine(Line, CommentAnchor$)
+          Modified = #True
+        EndIf
         
       EndIf
       
@@ -2136,7 +2203,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
           ; update line and adjust comment position if needed
           CommentAnchor$ = AlignLineComments(ContinuedPrefix$ + PeekS(*Cursor), CommentAnchor$)
-          SetLine(Line, CommentAnchor$)
+          If Line$ <> CommentAnchor$
+            SetLine(Line, CommentAnchor$)
+            Modified = #True
+          EndIf
           Previous$ + Chr(10) + ContinuedPrefix$ + PeekS(*Cursor)
         Until Line = LastLine Or IsContinuedLineStart(Line$) = 0
         
@@ -2145,6 +2215,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; on to next line
       Line + 1
     Wend
+
+    ProcedureReturn Modified
     
   EndProcedure
   
