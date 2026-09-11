@@ -2949,6 +2949,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
           
           If *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT) And NoUserChange = 0
+            ; the document just changed, so any position remembered by FindText() for 'Find Next'
+            ; continuation is potentially stale (e.g. Backspace deleting the just-found match
+            ; leaves the caret at the same offset as FindLastSetSelection, but FindSearchContinueMarker
+            ; wasn't shifted back) -> invalidate it, so the next Find/FindNext searches from the
+            ; live caret position instead of the stale marker (https://www.purebasic.fr/english/viewtopic.php?t=88888)
+            FindLastSetSelection = -1
+
             If *scinotify\linesAdded >= 1 Or *scinotify\linesAdded <= -1
               line = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
               
@@ -3879,8 +3886,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
-    Static LastSetSelection, LastSearchString$, SearchContinueMarker
-    
+
     MatchesFound = 0
     ContinueQuestionAsked = 0
     
@@ -3913,16 +3919,16 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         If Reverse
           ; Reverse search: #SCI_FINDTEXT support it if 'max' is lower than 'min'
           ;
-          If Mode <> 2 And SelectionStart = LastSetSelection And LastSearchString$ = FindSearchString$
-            Find\chrg\cpMin = SearchContinueMarker-1
+          If Mode <> 2 And SelectionStart = FindLastSetSelection And FindLastSearchString$ = FindSearchString$
+            Find\chrg\cpMin = FindSearchContinueMarker-1
           Else
             Find\chrg\cpMin = SelectionEnd
           EndIf
           Find\chrg\cpMax = 0
           
         Else
-          If Mode <> 2 And SelectionStart = LastSetSelection And LastSearchString$ = FindSearchString$
-            Find\chrg\cpMin = SearchContinueMarker
+          If Mode <> 2 And SelectionStart = FindLastSetSelection And FindLastSearchString$ = FindSearchString$
+            Find\chrg\cpMin = FindSearchContinueMarker
           Else
             Find\chrg\cpMin = SelectionStart
           EndIf
@@ -3956,8 +3962,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
               SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
-              LastSetSelection = Find\chrgText\cpMin
-              SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindSearchString$, StringMode) ; skip the found string on the next search
+              FindLastSetSelection = Find\chrgText\cpMin
+              FindSearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindSearchString$, StringMode) ; skip the found string on the next search
               Mode = 1                                                                                     ; make sure the 'replace' mode is not done twice
               
             Case 2 ; replace
@@ -3977,8 +3983,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   UpdateVariableViewer()
                 EndIf
                 
-                LastSetSelection = Find\chrgText\cpMin
-                SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode) ; skip the replaced string on the next search
+                FindLastSetSelection = Find\chrgText\cpMin
+                FindSearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode) ; skip the replaced string on the next search
                                                                                                               ; after this, a normal "find" is done
                 
                 
@@ -3987,8 +3993,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
                 SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
                 SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
-                LastSetSelection = Find\chrgText\cpMin
-                SearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again
+                FindLastSetSelection = Find\chrgText\cpMin
+                FindSearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again
                 Mode = 1
               EndIf
               
@@ -3996,8 +4002,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
               SendEditorMessage(#SCI_REPLACESEL, 0, *ReplaceString)
-              LastSetSelection = -1
-              SearchContinueMarker = 0
+              FindLastSetSelection = -1
+              FindSearchContinueMarker = 0
               
           EndSelect
           
@@ -4050,7 +4056,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
       Until Result = -1 Or (Success And Mode <> 3)
       
-      LastSearchString$ = FindSearchString$
+      FindLastSearchString$ = FindSearchString$
       
       FreeMemory(Find\lpstrText) ; its the utf8/ascii buffer
       FreeMemory(*ReplaceString)
