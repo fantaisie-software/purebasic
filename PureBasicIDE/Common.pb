@@ -2643,6 +2643,7 @@ Global FindWindowDialog.DialogWindow, FindWindowPosition.DialogPosition
 Global FindDoReplace, FindCaseSensitive, FindWholeWord, FindSelectionOnly, FindNoComments, FindNoStrings
 Global FindAutoWrap
 Global FindHistorySize, FindSearchString$, FindReplaceString$
+Global FindLastSetSelection = -1, FindLastSearchString$, FindSearchContinueMarker ; tracks FindText() continuation state; invalidated on document edits
 Global WarningWindowPosition.DialogPosition
 Global *WarningWindowSource.SourceFile
 Global FileMonitorWindowDialog.DialogWindow
