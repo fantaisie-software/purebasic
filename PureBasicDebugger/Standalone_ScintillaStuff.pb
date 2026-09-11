@@ -16,7 +16,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     *WordStart.Character = *Buffer
     *WordEnd.Character   = *Buffer + BufferLength
     
-    If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position < BufferLength)
+    If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position <= BufferLength)
       *Cursor.Character = *Buffer + Position*#CharSize
       
       If Mode = 1 ; Needed for Auto-complete

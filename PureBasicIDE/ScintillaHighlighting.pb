@@ -2502,11 +2502,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               EndIf
               
               ; Mark the original item
+              ; (use *OriginalItem's byte-based Position/Length, not the char-based StartIndex/EndIndex from
+              ; GetWordBoundary(), which would misplace the indicator on lines with multi-byte UTF-8 characters)
               If IsMatch
                 If Colors(#COLOR_GoodBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
-                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)
-                  
+                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+*OriginalItem\Position, *OriginalItem\Length)
+
                   ; Unfortunately, this does not seem to work. Would have been cool to highlight the matching indent guide,
                   ; but it just never changes the color. Dunno what to do about it.
                   ;                 If ShowIndentGuides And FirstMatchColumn = LastMatchColumn
@@ -2515,11 +2517,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   ;                   SendEditorMessage(#SCI_SETHIGHLIGHTGUIDE, Column)
                   ;                 EndIf
                 EndIf
-                
+
               ElseIf IsMismatch
                 If Colors(#COLOR_BadBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
-                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)
+                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+*OriginalItem\Position, *OriginalItem\Length)
                 EndIf
                 
               EndIf
@@ -2680,8 +2682,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                     *Item = 0
                     
                     If FindBreakKeywords(@*ActiveSource\Parser, *OriginalItem, OriginalLine, Items())
+                      EndBytePosition = CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, EndIndex)
                       ForEach Items()
-                        If Items()\Line > *ActiveSource\CurrentLine-1 Or (Items()\Line = *ActiveSource\CurrentLine-1 And Items()\Item\Position > EndIndex)
+                        If Items()\Line > *ActiveSource\CurrentLine-1 Or (Items()\Line = *ActiveSource\CurrentLine-1 And Items()\Item\Position > EndBytePosition)
                           *Item = Items()\Item
                           Line  = Items()\Line
                           Break
