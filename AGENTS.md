@@ -29,7 +29,46 @@ All source is written in **PureBasic** (`.pb`, `.pbi`, `.pbf`) — think of it a
 
 - `devel` is the default/baseline branch — all contributions and PRs target `devel`.
 - `master` is maintainer-only, used for tagged releases; never PR against it.
-- Never commit directly to a local `devel`/`master` checkout — work happens on topic branches cut from `devel` (see CONTRIBUTING.md for the full fork/rebase workflow if asked to prepare a PR).
+- Never commit directly to a local `devel`/`master` checkout — work happens on topic branches cut from `devel` (see CONTRIBUTING.md for the full fork/rebase workflow, which is written for outside contributors working from a personal fork).
+
+## Creating a Pull Request
+
+`origin` in this checkout is the upstream repo itself
+(`fantaisie-software/purebasic`), not a personal fork — the maintainer's `gh`
+account has direct push rights, so CONTRIBUTING.md's fork-based flow (steps 1-4:
+fork, clone the fork, add an `upstream` remote) does not apply here. Push
+straight to `origin` and open the PR from there:
+
+1. **Confirm `gh` is available and authenticated** — `gh auth status`. If `gh`
+   is reported as not found even though it's installed, the terminal's `PATH`
+   was captured before `gh` was added to it; ask the maintainer to relaunch
+   VS Code/the terminal rather than trying to work around it.
+2. **Branch from `origin/devel`**, not from whatever branch happens to be
+   checked out — an existing checked-out branch may already carry an
+   unrelated fix/PR of its own, and mixing a new, unrelated change into it
+   pollutes that PR. `git fetch origin devel` then
+   `git checkout -b <topic-branch-name> origin/devel`.
+3. **If the working tree already has unrelated uncommitted changes** (common
+   in this repo — see the `## Building` warning about generated files ending
+   up tracked), do not carry them onto the new branch. Move only the files
+   this task actually touched with a pathspec'd stash:
+   `git stash push -u -m "<description>" -- <file1> <file2> …`, then
+   `git checkout -b <topic-branch-name> origin/devel`, then `git stash pop`.
+   Confirm with `git status` that only the intended files are
+   staged/modified before committing — never `git add -A` in this repo.
+4. **Commit** only the relevant files (`git add <file> <file> …`, not `-A`),
+   with a message explaining the *why*, referencing the forum/issue URL if
+   there is one.
+5. **Push and open the PR**:
+   ```
+   git push -u origin <topic-branch-name>
+   gh pr create --base devel --head <topic-branch-name> --title "…" --body-file <path-to-body.md>
+   ```
+   Always pass the PR body via `--body-file` (a temp file written first),
+   never inline via a bash heredoc — a body containing nested backticks/code
+   fences and parentheses (near-unavoidable when the description quotes code
+   or file names) can break heredoc quoting and abort the command.
+6. Report the PR URL from the `gh pr create` output back to the user.
 
 ## Building
 
