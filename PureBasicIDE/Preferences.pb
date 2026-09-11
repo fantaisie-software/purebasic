@@ -2326,7 +2326,6 @@ Procedure ApplyPreferences()
       FormSkin = #PB_OS_Linux
   EndSelect
   
-  CallDebugger
   Debug GetGadgetState(#GADGET_Preferences_FormNotRecognized)
   Select GetGadgetState(#GADGET_Preferences_FormNotRecognized)
     Case 0

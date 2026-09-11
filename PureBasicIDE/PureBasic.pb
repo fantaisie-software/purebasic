@@ -8,7 +8,6 @@
 ; This will reduce the number of XIncludeFile's in each file, and there is no more need to check dependencies.
 ; Even platform specific files are always included. Whether their code is compiled
 ; is decided in each file.
-
 XIncludeFile "CompilerFlags.pb"
 XIncludeFile "Build/BuildInfo.pb"
 XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "Common.pb" ; must be before Common.pb
@@ -202,6 +201,9 @@ XIncludeFile "CodeViewer.pb"
 XIncludeFile "DisplayMacroError.pb"
 XIncludeFile "Templates.pb"
 XIncludeFile "ToolsPanel.pb"
+
+; Must appear after Templates and Variable Viewer because it references collections there.
+XIncludeFile "MakerTool.pb"
 
 ; crossplatform debugging helpers
 XIncludeFile "Debugging.pb"
