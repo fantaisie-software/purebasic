@@ -1053,11 +1053,11 @@ CompilerEndIf
 
 ; RegularExpression
 ;
-#PB_RegularExpression_DotAll     = $00000004 ; #PCRE_DOTALL
-#PB_RegularExpression_Extended   = $00000008 ; #PCRE_EXTENDED
-#PB_RegularExpression_MultiLine  = $00000002 ; #PCRE_MULTILINE
-#PB_RegularExpression_AnyNewLine = $00500000 ; #PCRE_NEWLINE_ANYCRLF
-#PB_RegularExpression_NoCase     = $00000001 ; #PCRE_CASELESS
+#PB_RegularExpression_DotAll     = $00000020 ; #PCRE2_DOTALL
+#PB_RegularExpression_Extended   = $00000080 ; #PCRE2_EXTENDED
+#PB_RegularExpression_MultiLine  = $00000400 ; #PCRE2_MULTILINE
+#PB_RegularExpression_AnyNewLine = $10000000 ; PureBasic-private bit (PCRE2 has no newline option flag); mapped to PCRE2_NEWLINE_ANYCRLF via pcre2_set_newline()
+#PB_RegularExpression_NoCase     = $00000008 ; #PCRE2_CASELESS
 
 
 ; Javascript doesn't support them
@@ -1182,6 +1182,7 @@ CompilerEndIf
 
 #PB_Packer_Gzip    = (1 << 16)
 #PB_Packer_Bzip2   = (1 << 17)
+#PB_Packer_Xz      = (1 << 18)
 
 #PB_Packer_UncompressedSize = 0
 #PB_Packer_CompressedSize   = 1

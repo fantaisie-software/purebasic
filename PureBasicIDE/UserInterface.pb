@@ -2341,7 +2341,12 @@ EndProcedure
 
 Procedure ResizeMainWindow()
   EditorWindowWidth  = WindowWidth(#WINDOW_Main)   ; update the global variables to speed up things like splitter movement
-  EditorWindowHeight = WindowHeight(#WINDOW_Main)
+
+  CompilerIf #CompileMac
+    EditorWindowHeight = WindowHeight(#WINDOW_Main, #PB_Window_FrameCoordinate)
+  CompilerElse
+    EditorWindowHeight = WindowHeight(#WINDOW_Main)
+  CompilerEndIf
   
   If IsWindowMaximized(#WINDOW_Main) = 0 And IsWindowMinimized(#WINDOW_Main) = 0
     Save_EditorX = WindowX(#WINDOW_Main)
