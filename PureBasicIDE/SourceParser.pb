@@ -824,6 +824,15 @@ Procedure.s Parser_Cleanup(Input$)
             While ValidCharacters(*Cursor\c & $FF)
               *Cursor + #CharSize
             Wend
+
+            ; if this word is directly followed by a space and then another word
+            ; (possibly a pointer, i.e. starting with '*') - e.g. an empty macro
+            ; used purely for parameter annotation, like "_IN b" or "_OUT *c" -
+            ; keep that one space too, so the two separate words don't get merged
+            ; into a single one below (Chr(1) marks removed whitespace)
+            If *Cursor\c = ' ' And (ValidCharacters(*Cursor\c[1] & $FF) Or (*Cursor\c[1] = '*' And ValidCharacters(*Cursor\c[2] & $FF)))
+              PreserveSpace = #True
+            EndIf
           EndIf
           
         Else
