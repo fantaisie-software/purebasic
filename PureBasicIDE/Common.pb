@@ -211,6 +211,40 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_HelpTool_Home
   #GADGET_HelpTool_Help
   
+  #GADGET_Maker_Panel
+  #GADGET_Maker_FrameMake
+  #GADGET_Maker_ComboMakeType
+  #GADGET_Maker_FrameParam
+  #GADGET_Maker_LabelParam1
+  #GADGET_Maker_StringParam1
+  #GADGET_Maker_LabelParam2
+  #GADGET_Maker_StringParam2
+  #GADGET_Maker_LabelParam3
+  #GADGET_Maker_StringParam3
+  #GADGET_Maker_FrameOption
+  #GADGET_Maker_CheckOptional
+  #GADGET_Maker_CheckDebug
+  #GADGET_Maker_CheckToDo
+  #GADGET_Maker_FrameTidy
+  #GADGET_Maker_CheckSemiColon
+  #GADGET_Maker_CheckEquals
+  #GADGET_Maker_CheckColon
+  #GADGET_Maker_CheckType
+  #GADGET_Maker_LabelEnumType
+  #GADGET_Maker_ComboEnumType
+  #GADGET_Maker_LabelSubType
+  #GADGET_Maker_ComboSubType
+  #GADGET_Maker_LabelTemplate
+  #GADGET_Maker_ComboTemplate
+  #GADGET_Maker_ListSelectEnum
+  #GADGET_Maker_EditAdHocEnum
+  #GADGET_Maker_EditTemplate
+  #GADGET_Maker_ResultCode
+  #GADGET_Maker_ButtonRefresh
+  #GADGET_Maker_ButtonClear
+  #GADGET_Maker_ButtonCopy
+  #GADGET_Maker_ButtonPaste
+
   CompilerIf #SpiderBasic
     #GADGET_WebView_Url
     #GADGET_WebView_OpenBrowser
@@ -1080,6 +1114,7 @@ Enumeration 0
   #MENU_Issues
   #MENU_ProjectPanel
   #MENU_Templates
+  #MENU_Maker
   #MENU_Diff
   #MENU_WebView
   #MENU_AddTools

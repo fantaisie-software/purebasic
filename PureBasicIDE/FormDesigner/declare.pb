@@ -496,6 +496,8 @@ FontFlags()\ivalue = #FDI_Font_Underline
 AddElement(FontFlags()) : FontFlags()\name = "#PB_Font_StrikeOut" : FontFlags()\value = #PB_Font_StrikeOut
 FontFlags()\ivalue = #FDI_Font_StrikeOut
 
+; Note: This list is also used in the Maker tool.  If you alter its structure bear in mind
+; that Maker may need a change too.
 Global NewList Gadgets.Gadgets()
 
 ;- Window

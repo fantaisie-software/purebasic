@@ -689,6 +689,7 @@ DataSection
   Data$ "Tools", "Issues":           Data.l 0
   Data$ "Tools", "ProjectPanel":     Data.l 0
   Data$ "Tools", "Templates":        Data.l 0
+  Data$ "Tools", "Maker":            Data.l 0
   Data$ "Tools", "Diff":             Data.l 0
   Data$ "Tools", "WebView":          Data.l 0
   Data$ "Tools", "AddTools":         Data.l 0

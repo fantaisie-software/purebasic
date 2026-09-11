@@ -319,6 +319,7 @@ Procedure CreateIDEMenu()
     ShortcutMenuItem(#MENU_Explorer, Language("MenuItem","Explorer"))
     ShortcutMenuItem(#MENU_ColorPicker, Language("MenuItem","ColorPicker"))
     ShortcutMenuItem(#MENU_AsciiTable, Language("MenuItem","AsciiTable"))
+    ShortcutMenuItem(#MENU_Maker, Language("MenuItem","Maker"))
     
     MenuBar()
     ShortcutMenuItem(#MENU_AddTools, Language("MenuItem","AddTools"))
@@ -1606,6 +1607,9 @@ Procedure MainMenuEvent(MenuItemID)
       
     Case #MENU_ProjectPanel
       ActivateTool("ProjectPanel")
+      
+    Case #MENU_Maker
+      ActivateTool("Maker")
       
     Case #MENU_Templates
       ActivateTool("Templates")
