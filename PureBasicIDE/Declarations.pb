@@ -584,6 +584,8 @@ Declare.s GetShortcutText(Shortcut)         ; get the text for any shortcut
 Declare ShortcutMenuItem(MenuItemID, Text$) ; create a menuitem with or without the shortcut name (when one is set)
 Declare FillShortcutList()                  ; fill the combobox with all shortcut names
 Declare.s GetShortcutOwner(Shortcut)        ; get the name where a shortcut is assigned to
+Declare AddStringShortcuts()
+Declare DelStringShortcuts()
 Declare IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool) ; check if a given shortcut is already used
 Declare.s ShortcutToIndependentName(Shortcut)                       ; translate shortcut into a OS independent name
 Declare IndependentNameToShortcut(Name$)                            ; trandlate os independent name back to shortcut
