@@ -810,6 +810,9 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
   #PB_Canvas_Transparent = 1 << 4
 CompilerEndIf
 #PB_Canvas_Container = 1 << 5
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Canvas_NoTabNavigation = 1 << 6 ; Not supported in JS
+CompilerEndIf
 
 
 ; Get/SetGadgetAttribute for CanvasGadget
@@ -2127,6 +2130,7 @@ EndStructure
 #PB_Texture_ManualUpdate    = 1 << 1
 #PB_Texture_CameraViewPort  = 1 << 2
 #PB_Texture_VisibilityMask  = 1 << 3
+#PB_Texture_Overwrite       = 1 << 4 ; TextureVectorOutput()
 
 ; Text3D
 ;
