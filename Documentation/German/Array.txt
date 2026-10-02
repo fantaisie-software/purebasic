@@ -1,7 +1,7 @@
 ﻿;
 ;     Array library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Array
@@ -37,6 +37,10 @@
   @@SortArray @LineBreak
   @@SortStructuredArray @LineBreak
   @@RandomizeArray @LineBreak
+
+@Section Text-Konvertierung
+  @@ExtractArray @LineBreak
+  @@JoinArray @LineBreak
 
 @ExampleFile All Array.pb
 
@@ -221,6 +225,60 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Ergebnis = ExtractArray(Array(), Text$ [, Separator$ [, Limit]])
+
+@Description
+  Zerlegt 'Text$' in das 'Array()' und verwendet dabei den 'Separator$', um die einzelnen
+  Elemente zu ermitteln. 'Array()' wird so in der Größe angepasst, dass es genau die Anzahl
+  der gefundenen Elemente aufnimmt.
+
+@Parameter "Array()"
+  Das Ziel-Array. Es muss vom Typ String, Integer oder Double sein und über eine einzige
+  Dimension verfügen.
+
+@Parameter "Text$"
+  Der zu teilende Text.
+
+@OptionalParameter "Separator$"
+  Das zwischen den einzelnen Elementen zu verwendende Trennzeichen. Standardmäßig ist dies ein
+  Komma (",") und kann aus mehreren Zeichen bestehen. Handelt es sich um einen leeren String,
+  wird 'Text$' nicht aufgeteilt, sondern als einzelnes Element in das 'Array()' kopiert.
+
+@OptionalParameter "Limit"
+  Falls angegeben und größer als Null, werden höchstens 'Limit' Elemente extrahiert; das letzte
+  Element enthält dann den Rest von 'Text$' einschließlich evtl. noch darin enthaltenen Trennzeichen. 
+  Wird der Parameter weggelassen oder hat einen Wert von Null oder kleiner, gibt es keine Begrenzung.
+
+@ReturnValue
+  Gibt die Anzahl der gefundenen (und in 'Array()' gespeicherten) Elemente zurück.
+
+@Example
+@Code
+  Dim MyArray.s(0)
+
+  Result = ExtractArray(MyArray(), "Apple,Orange,Cherry")
+
+  Debug Result       ; wird '3' ausgeben
+  Debug MyArray(0)   ; wird 'Apple' ausgeben
+  Debug MyArray(1)   ; wird 'Orange' ausgeben
+  Debug MyArray(2)   ; wird 'Cherry' ausgeben
+@EndCode
+
+@Example
+@Code
+  ; Es kann auch ein numerisches Array verwendet werden
+  Dim Numbers.i(0)
+  ExtractArray(Numbers(), "10|20|30", "|")
+  Debug Numbers(0) + Numbers(1) + Numbers(2) ; wird '60' ausgeben
+@EndCode
+
+@SeeAlso
+  @@JoinArray, @@ExtractList, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function FreeArray(Array())
 
 @Description
@@ -237,3 +295,42 @@
 
 @SupportedOS
 
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = JoinArray(Array() [, Separator$ [, Limit]])
+
+@Description
+  Verbindet alle Elemente vom 'Array()' zu einem einzigen String, wobei 'Separator$' zwischen
+  den einzelnen Elementen verwendet wird.
+
+@Parameter "Array()"
+  Das Quell-Array. Es muss vom Typ String, Integer oder Double sein und über eine einzige
+  Dimension verfügen.
+
+@OptionalParameter "Separator$"
+  Das Trennzeichen, das zwischen die einzelnen Elemente eingefügt wird. Standardmäßig ist dies
+  ein Komma (","), es kann auch aus mehreren Zeichen bestehen.
+
+@OptionalParameter "Limit"
+  Wird der Parameter angegeben und ist größer als Null, werden nur die ersten 'Limit' Elemente
+  vom 'Array()' zusammengefügt. 
+  Wird er weggelassen, ist Null oder negativ, werden alle Elemente zusammengefügt.
+
+@ReturnValue
+  Gibt den resultierenden String zurück.
+
+@Example
+@Code
+  Dim MyArray.s(2)
+  MyArray(0) = "Apple"
+  MyArray(1) = "Orange"
+  MyArray(2) = "Cherry"
+
+  Debug JoinArray(MyArray())        ; wird 'Apple,Orange,Cherry' ausgeben
+  Debug JoinArray(MyArray(), " - ") ; wird 'Apple - Orange - Cherry' ausgeben
+@EndCode
+
+@SeeAlso
+  @@ExtractArray, @@JoinList
+
+@SupportedOS

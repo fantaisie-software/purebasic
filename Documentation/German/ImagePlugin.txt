@@ -1,7 +1,7 @@
 ﻿;
 ;     ImagePlugin library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library ImagePlugin
@@ -157,6 +157,83 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function UseOSImageDecoder()
+
+@Description
+  Aktiviert das Laden von Bildern über die vom Betriebssystem bereitgestellte Bildverarbeitungsbibliothek
+  für die @@CatchImage, @@LoadImage, @@CatchSprite und @@LoadSprite Funktionen.
+  @LineBreak
+  @LineBreak
+  Es werden folgende Systembibliotheken verwendet: GDI+ unter Windows, ImageIO unter macOS sowie GdkPixbuf
+  (oder Qt) unter Linux. Da kein Decoder in die ausführbare Datei eingebettet ist, fügt dieses Plugin dem
+  fertigen Programm kaum Code hinzu; zudem werden die Liste der unterstützten Formate sowie die entsprechenden
+  Sicherheitskorrekturen automatisch durch Betriebssystem-Updates aktualisiert.
+  @LineBreak
+  @LineBreak
+  Ein einziger Aufruf dieser Funktion ersetzt @@UseJPEGImageDecoder, @@UsePNGImageDecoder, @@UseGIFImageDecoder
+  sowie die übrigen einzelnen Decoder. Sie lässt sich jedoch weiterhin mit diesen kombinieren:
+  Die automatische Bildformaterkennung wählt für jede Datei den passenden Decoder aus.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Die genaue Auswahl der unterstützten Formate hängt vom Betriebssystem und den auf dem Rechner installierten
+  Codecs ab. JPEG, PNG und GIF stehen auf jeder unterstützten Plattform zur Verfügung (BMP wird von PureBasic
+  stets nativ unterstützt). Weitere Formate wie TIFF, ICO, WebP oder HEIC können abhängig vom System verfügbar sein.
+  @LineBreak
+  @LineBreak
+  Bilder, die einen Alphakanal enthalten, werden als 32-Bit-Bilder geladen, die übrigen als 24-Bit-Bilder.
+  Bei "multi-frame" Dateien mit mehreren Einzelbildern (animiertes GIF, mehrseitiges TIFF) wird nur das erste
+  Einzelbild dekodiert.
+
+@SeeAlso
+  @@UseOSImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOSImageEncoder()
+
+@Description
+  Aktiviert das Speichern von Bildern über die vom Betriebssystem bereitgestellte Bildverarbeitungsbibliothek
+  für die @@SaveImage und @@SaveSprite Funktionen.
+  @LineBreak
+  @LineBreak
+  Es werden folgende Systembibliotheken verwendet: GDI+ unter Windows, ImageIO unter macOS sowie GdkPixbuf
+  (oder Qt) unter Linux. Da kein Encoder in die ausführbare Datei eingebettet ist, fügt dieses Plugin dem
+  fertigen Programm so gut wie keinen Code hinzu.
+  @LineBreak
+  @LineBreak
+  Dieser einfache Aufruf stellt die Encoder für die @#PB_ImagePlugin_JPEG, @#PB_ImagePlugin_PNG,
+  @#PB_ImagePlugin_BMP, @#PB_ImagePlugin_TIFF und @#PB_ImagePlugin_GIF Konstanten von @@SaveImage bereit,
+  sodass beispielsweise @@SaveImage mit @#PB_ImagePlugin_JPEG auch ohne @@UseJPEGImageEncoder funktioniert.
+  Falls zusätzlich ein spezifischer Encoder (wie etwa @@UseJPEGImageEncoder) verwendet wird, hat dieser Vorrang.  
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Das Speichern im JPEG- und PNG-Format ist auf allen unterstützten Plattformen möglich. BMP und TIFF werden
+  auf fast allen Systemen unterstützt, während das Speichern im GIF-Format nicht von allen Betriebssystemen
+  unterstützt wird (so ist es beispielsweise bei GdkPixbuf unter Linux nicht verfügbar); in diesem Fall gibt
+  @@SaveImage null zurück.
+  @LineBreak
+  @LineBreak
+  32-Bit-Bilder mit Alphakanal bleiben beim Speichern als PNG, BMP oder TIFF erhalten. JPEG-Dateien werden
+  immer mit 24 Bit gespeichert. Der Parameter für die Bildqualität von @@SaveImage wird bei JPEG berücksichtigt.
+  
+@SeeAlso
+  @@UseOSImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function UsePNGImageDecoder()
 
 @Description
@@ -248,5 +325,50 @@
 @SeeAlso 
   @@LoadImage, @@CatchImage,
   @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseWebPImageDecoder()
+
+@Description
+  Aktiviert die WebP-Bildunterstützung für die Funktionen @@CatchImage, @@LoadImage, @@CatchSprite
+  und @@LoadSprite.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Sowohl die verlustbehaftete als auch die verlustfreie Variante des WebP-Formats werden automatisch
+  dekodiert, ohne dass angegeben werden muss, welche davon verwendet wird. Bilder mit Alphakanal
+  werden als 32-Bit-Bilder geladen, die übrigen als 24-Bit-Bilder.
+
+@SeeAlso
+  @@UseWebPImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseWebPImageEncoder()
+
+@Description
+  Aktiviert die WebP-Bildunterstützung für die Funktionen @@SaveImage und @@SaveSprite.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Dieser Encoder erzeugt stets die verlustbehaftete Variante des WebP-Formats: Das Bild verliert bei der
+  Komprimierung einen Teil der ursprünglichen Informationen zugunsten einer geringeren Dateigröße. Der
+  Parameter für die Bildqualität von @@SaveImage wird dabei berücksichtigt. Dieser Encoder ist in der
+  Lage, 32-Bit-Bilder mit Alphakanal zu kodieren.
+
+@SeeAlso
+  @@UseWebPImageDecoder,
+  @@SaveImage, @@SaveSprite
 
 @SupportedOS

@@ -336,6 +336,13 @@
 @ReturnValue
   Gibt den Namen des Eintrags zurück.
 
+@Remarks
+  Der Dateiname wird nur dann als UTF-8 dekodiert, wenn der Server Unterstützung hierfür signalisiert
+  hat (mittels einer "FEAT"-Anfrage, die gemäß RFC 2640 automatisch beim Verbindungsaufbau erfolgt).
+  Andernfalls wird davon ausgegangen, dass er in der lokalen Systemkodierung vorliegt. Falls ein
+  Server Dateinamen auf andere Weise kodiert, verwenden Sie stattdessen @@FTPDirectoryEntryRaw und
+  parsen Sie den Eintrag manuell.
+
 @SeeAlso
   @@ExamineFTPDirectory,
   @@NextFTPDirectoryEntry,
@@ -343,7 +350,7 @@
   @@FTPDirectoryEntryDate,
   @@FTPDirectoryEntrySize,
   @@FTPDirectoryEntryRaw,
-  @@FTPDirectoryEntryAttributes  
+  @@FTPDirectoryEntryAttributes
 
 @SupportedOS
 
