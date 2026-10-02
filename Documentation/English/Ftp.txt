@@ -318,6 +318,12 @@ and more).
 @ReturnValue
   Returns the entry name.
 
+@Remarks
+  The filename is decoded as UTF-8 only if the server advertised support for it (through a "FEAT"
+  request done automatically when the connection is opened, per RFC 2640). Otherwise, it is assumed to
+  be in the local system encoding. If a server encodes filenames in some other way, use
+  @@FTPDirectoryEntryRaw instead and parse the entry manually.
+
 @SeeAlso
   @@ExamineFTPDirectory,
   @@NextFTPDirectoryEntry,
@@ -325,7 +331,7 @@ and more).
   @@FTPDirectoryEntryDate,
   @@FTPDirectoryEntrySize,
   @@FTPDirectoryEntryRaw,
-  @@FTPDirectoryEntryAttributes  
+  @@FTPDirectoryEntryAttributes
 
 @SupportedOS
 

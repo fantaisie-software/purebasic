@@ -19,14 +19,16 @@ InitKeyboard()
 InitMouse()
 
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
-OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "PointJoint -  [Space]   [Return]  [Esc] quit",#PB_Window_ScreenCentered)
+OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "Bridge - [Space]   [Return]  [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
 Parse3DScripts()
+
+; Enable shadows
+WorldShadows(#PB_Shadow_Additive)
 
 ;Materials
 ;
@@ -58,6 +60,12 @@ For i= 1 To #NbPlanks-2
 Next i
 PointJoint(#PB_Any, EntityID(Plank(#NbPlanks)),  Pas, 0, 5)
 toto=PointJoint(#PB_Any, EntityID(Plank(#NbPlanks-1)),  Pas, 0, 5, EntityID(Plank(#NbPlanks)), -Pas, 0, 5)
+
+; Water
+WaterTexture = LoadTexture(#PB_Any, "waternormal.png")
+FoamTexture  = LoadTexture(#PB_Any, "foam.png")
+#EndDistance = 1024*4
+CreateWater(TextureID(WaterTexture),TextureID(FoamTexture), $cc888800,$886666, #EndDistance, 1.5,1.5,0.0,0.7)
 
 ; Objects
 ;

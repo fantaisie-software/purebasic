@@ -557,6 +557,8 @@
                         to go back to previous gadget list like any other container gadget.
                         On Windows, the transparency of the gadgets does not work so the text of the following gadgets will be 
                         displayed on an opaque background: CheckBoxGadget, FrameGadget, HyperlinkGadget, OptionGadget, TextGadget and TrackBarGadget.
+  @#PB_Canvas_NoTabNavigation: when using TAB or SHIFT+TAB in the gadget, it will receive the keys as regular @#PB_EventType_KeyDown events
+                        instead of cycling to the next or previous gadget. It needs the @#PB_Canvas_Keyboard flag to work.
 @EndFixedFont
   The @#PB_Canvas_Keyboard flag is required to receive any keyboard events in the gadget. If you include this flag, you should
   check for the @#PB_EventType_Focus and @#PB_EventType_LostFocus events and draw a visual indication on the gadget
@@ -1601,7 +1603,61 @@
 @Image disablegadget.png
 
 @SeeAlso
-  @@HideGadget
+  @@HideGadget, @@DisableGadgetRedraw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableGadgetRedraw(#Gadget, State)
+
+@Description
+  Disables or enables the redrawing of a gadget.
+@LineBreak
+@LineBreak
+  When a large number of items is added to a gadget such as @@ListIconGadget, @@TreeGadget or
+  @@ListViewGadget, each insertion normally triggers a repaint which can make the update slow and
+  flickering. Disabling the redraw before the mass update and enabling it again afterwards performs a
+  single repaint once all the items are in place.
+@LineBreak
+@LineBreak
+  Every call which disables the redraw must be paired with a call which enables it again. Enabling the
+  redraw automatically refreshes the gadget content. The current selection and scroll position are
+  kept across the operation.
+
+@Parameter "#Gadget"
+  The gadget to update.
+
+@Parameter "State"
+@FixedFont
+  @#False: The gadget will be redrawn again and its content refreshed.
+  @#True : The gadget will not be redrawn until it is enabled again.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  On Linux the optimization applies to @@ListIconGadget, @@ListViewGadget and @@TreeGadget. For any
+  other gadget, and on OS X, the graphical toolkit already batches its drawing operations, so the
+  command has no effect and is only provided for source code compatibility.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "DisableGadgetRedraw", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 10, 10, 300, 230, "Items", 280)
+
+    DisableGadgetRedraw(0, #True)     ; freeze the redraw during the mass insert
+    For i = 1 To 5000
+      AddGadgetItem(0, -1, "Item " + i)
+    Next
+    DisableGadgetRedraw(0, #False)    ; enable and refresh once
+
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddGadgetItem, @@HideGadget
 
 @SupportedOS
 
@@ -3879,7 +3935,8 @@
 
 @Parameter "Column"
   The column to remove (the first column has index 0). @#PB_All can be used
-  to remove all the columns.
+  to remove all the columns at once (supported for both @@ListIconGadget and
+  @@ExplorerListGadget).
 
 @NoReturnValue
 
@@ -4595,6 +4652,10 @@
   - @@ListIconGadget:
 @FixedFont
   @#PB_ListIcon_ColumnWidth : Changes the width of the given 'Column'. The 'Item' parameter is ignored.
+  @#PB_ListIcon_ColumnAlignment: Changes the text alignment of the given 'Column'. The 'Value' parameter can be one of the following value:
+     - @#PB_ListIcon_Left  : Text is left aligned (default).
+     - @#PB_ListIcon_Right : Text is right aligned.
+     - @#PB_ListIcon_Center: Text is centered.
 @EndFixedFont
 
 @SeeAlso
@@ -5782,7 +5843,7 @@
 
   - @@GetGadgetItemText: The following constants can be used to get information  (Windows only):
 @FixedFont
-  @#PB_Web_HtmlCode     : Get the html code from the gadget.
+  @#PB_Web_HtmlCode     : Get the current html code from the gadget, including the changes done by scripts or by the user (for example in a 'contenteditable' element).
   @#PB_Web_PageTitle    : Get the current title for the displayed page.
   @#PB_Web_StatusMessage: Get the current statusbar message.
   @#PB_Web_SelectedText : Get the currently selected text inside the gadget.
