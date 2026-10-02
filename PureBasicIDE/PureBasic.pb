@@ -120,7 +120,6 @@ XIncludeFile "ErrorHandler.pb"
 XIncludeFile "Commandline.pb"
 XIncludeFile "DiffAlgorithm.pb"
 XIncludeFile "DiffWindow.pb"
-XIncludeFile "LinuxHelp.pb"
 XIncludeFile "EditHistory.pb"
 XIncludeFile "UpdateCheck.pb"
 XIncludeFile "RadixTree.pb"
@@ -191,7 +190,6 @@ XIncludeFile "WindowsHelp.pb"
 
 ; linux specific
 XIncludeFile "LinuxMisc.pb"
-XIncludeFile "HelpViewer.pb"
 
 ; macos specific
 XIncludeFile "MacMisc.pb"
@@ -684,13 +682,7 @@ Procedure ShutdownIDE()
   EndIf
   
   ; OptionWindow is closed when the source is closed
-  
-  CompilerIf #CompileLinux | #CompileMac
-    If IsWindow(#WINDOW_Help)
-      HelpWindowevents(#PB_Event_CloseWindow)
-    EndIf
-  CompilerEndIf
-  
+
   ; call the destroy function for all ToolsPanel items that have one
   ;
   ForEach UsedPanelTools()

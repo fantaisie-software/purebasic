@@ -31,15 +31,10 @@ Declare Compiler_CompileRun(SourceFileName$, *Source.SourceFile, CheckSyntax)   
 Declare Compiler_Run(*Target.CompileTarget, IsFirstRun)                                 ; run the target
 Declare Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.CompileTarget, CreateExe, CheckSyntax)  ; create executable with the given source
 
-;- HelpViewer.pb
+;- HelpTool.pb
 ;- WindowsHelp.pb
 ;
 Declare DisplayHelp(CurrentWord$)  ; display the help for the given word (all os)
-CompilerIf #CompileLinux | #CompileMac
-  Declare OpenHelpWindow()           ; linux/mac only
-  Declare UpdateHelpWindow()         ; linux/mac only
-  Declare HelpWindowEvents(EventID)  ; linux/mac only
-CompilerEndIf
 CompilerIf #CompileWindows
   Declare ClosePlatformSDKWindow()          ; windows only (called at program end)
 CompilerEndIf
@@ -710,6 +705,9 @@ Declare ToolsPanel_Update()           ; toolspanel update after prefs change
 Declare ToolsPanel_CheckAutoHide()    ; update the autohide state of the toolspanel
 Declare ToolsPanel_Hide()
 Declare ToolsPanel_Show()
+
+;- HelpTool.pb
+Declare HelpTool_DisplayPage(Page$)   ; display a help page in the help tool (for F1), opening the tool if needed. Returns #False if the page doesn't exist
 
 ;- UpdateCheck.pb
 Declare UpdateWindowEvents(EventID)

@@ -111,7 +111,6 @@ Runtime Enumeration 1 ; 0 is reserved
   #WINDOW_Warnings
   #WINDOW_ProjectOptions
   #WINDOW_Build
-  #WINDOW_Help
   #WINDOW_Diff
   #WINDOW_DiffDirectory
   #WINDOW_DiffDialog
@@ -203,13 +202,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Ascii_InsertAscii
   #GADGET_Ascii_InsertHex
   #GADGET_Ascii_InsertHtml
-  
-  ; help viewer gadget (windows only right now)
-  #GADGET_HelpTool_Viewer
-  #GADGET_HelpTool_Back
-  #GADGET_HelpTool_Forward
-  #GADGET_HelpTool_Home
-  #GADGET_HelpTool_Help
   
   CompilerIf #SpiderBasic
     #GADGET_WebView_Url
@@ -468,7 +460,9 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_IndentAfter
   #GADGET_Preferences_IndentAdd
   #GADGET_Preferences_IndentRemove  ; last to auto disable
-  #GADGET_Preferences_UseHelpToolF1
+  #GADGET_Preferences_HelpSourceText
+  #GADGET_Preferences_HelpSource
+  #GADGET_Preferences_HelpSourceBrowse
   #GADGET_Preferences_FormVariable
   #GADGET_Preferences_FormVariableCaption
   #GADGET_Preferences_FormGrid
@@ -877,28 +871,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Issues_SingleFile
   #GADGET_Issues_MultiFile
   #GADGET_Issues_Export
-  
-  ; Help viewer for Linux and OSX
-  #GADGET_Help_Panel
-  #GADGET_Help_Tree
-  #GADGET_Help_Index
-  #GADGET_Help_IndexText
-  #GADGET_Help_SearchValue
-  #GADGET_Help_SearchGo
-  #GADGET_Help_SearchResults
-  #GADGET_Help_Forward
-  #GADGET_Help_Back
-  #GADGET_Help_Home
-  #GADGET_Help_Next
-  #GADGET_Help_Previous
-  #GADGET_Help_Viewer
-  #GADGET_Help_Container
-  #GADGET_Help_Splitter
-  
-  ; Linux only
-  #GADGET_Help_Editor
-  #GADGET_Help_Parent
-  
+
   CompilerIf #SpiderBasic
     #GADGET_WebApp_Name
     #GADGET_WebApp_Icon
@@ -1521,9 +1494,9 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Help_Back
   #IMAGE_Help_Forward
   #IMAGE_Help_Home
-  #IMAGE_Help_Previous
-  #IMAGE_Help_Next
-  #IMAGE_Help_OpenHelp
+  #IMAGE_Help_LoadCode
+  #IMAGE_Help_RunCode
+  #IMAGE_Help_Edit
   
   #IMAGE_Diff_Open1
   #IMAGE_Diff_Open2
@@ -1598,13 +1571,14 @@ Enumeration 1
   #TIMER_ToolPanelAutoHide
   ; Timer for the 'Multicolored Procedure List' for automatic selection of the procedure according to the cursor position in the editor.
   #TIMER_ProcedureBrowser
+  ; Timer for the help tool, to reload the help when its source is edited
+  #TIMER_HelpTool
 EndEnumeration
 
 ;- Custom PostEvent event types
 ;
 Enumeration #PB_EventType_FirstCustomValue
   #EVENTTYPE_WordUpdate       ; Linux specific
-  #EVENTTYPE_LoadHelpPage     ; Linux specific
 EndEnumeration
   
 ;- Some predefined color values
@@ -2623,7 +2597,6 @@ Global AutoReload, MemorizeWindow, CurrentLanguage$, EnableColoring, EnableCaseC
 Global AutoSave, AutoSaveAll, Editor_RunOnce, ShowMainToolbar, TabLength, MemorizeCursor, VisualDesigner$
 Global ToolsPanelMode, ToolsPanelWidth, ToolsPanelSide, SplitterMoving, SplitterCursor, SelectedFilePattern
 Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPattern, FileViewerMaximize
-Global HelpWindowX, HelpWindowY, HelpWindowWidth, HelpWindowHeight, HelpWindowMaximized, HelpWindowSplitter
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
 Global SaveProjectSettings
@@ -2743,7 +2716,7 @@ Global AutoCompleteProject, AutoCompleteAllFiles
 Global AutoPopupNormal, AutoPopupStructures, AutoPopupModules
 Global CtrlDoubleClickHappened
 
-Global UseHelpToolF1, HelpToolOpen
+Global HelpToolOpen
 Global IssueMultiFile, IssueToolOpen, SelectedIssue, IssuesCol1, IssuesCol2, IssuesCol3, IssuesCol4, IssuesCol5
 
 Global CurrentTool.ToolsPanelInterface, CurrentPreferenceTool.ToolsPanelInterface

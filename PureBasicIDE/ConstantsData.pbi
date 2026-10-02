@@ -83,7 +83,7 @@ DataSection
   Data$ "CameraYaw,2,#True,#False"
   Data$ "CameraZ,2,#PB_Absolute,#PB_Relative"
   Data$ "CanvasGadget,1,#PB_Any"
-  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_ClipMouse,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Container"
+  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_ClipMouse,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Container,#PB_Canvas_NoTabNavigation"
   Data$ "CanvasVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "CatchImage,1,#PB_Any"
   Data$ "CatchJSON,1,#PB_Any"
