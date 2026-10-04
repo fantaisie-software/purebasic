@@ -1,7 +1,7 @@
 ﻿;
 ;     Json library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Json
@@ -147,6 +147,10 @@
 @LineBreak
   Um JSON-Daten aus einem String zu parsen, kann stattdessen die @@ParseJSON Funktion
   verwendet werden.
+@LineBreak
+@LineBreak
+  Arrays und Objekte, die mehr als 1000 Ebenen tief verschachtelt sind, werden mit einem Fehler
+  abgelehnt, um vor übermäßig tief verschachtelten Eingaben zu schützen.
 @LineBreak
 @LineBreak
   JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
@@ -1476,6 +1480,10 @@
   Funktionen verwendet werden, um weitere Informationen über den Fehler zu erhalten.
 @LineBreak
 @LineBreak
+  Arrays und Objekte, die mehr als 1000 Ebenen tief verschachtelt sind, werden mit einem Fehler
+  abgelehnt, um vor übermäßig tief verschachtelten Eingaben zu schützen.
+@LineBreak
+@LineBreak
   JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen
   Situationen jedoch, wie z.B. beim Deserialisieren von Strukturen mittels @@ExtractJSONStructure
   oder ähnlichen Befehlen, kann es nützlich sein, JSON-Objekte ohne Beachtung der Groß- und
@@ -1552,6 +1560,10 @@
 @LineBreak
   Um JSON-Daten direkt aus einem Speicherpuffer zu parsen, kann stattdessen die @@CatchJSON
   Funktion verwendet werden.
+@LineBreak
+@LineBreak
+  Arrays und Objekte, die mehr als 1000 Ebenen tief verschachtelt sind, werden mit einem Fehler
+  abgelehnt, um vor übermäßig tief verschachtelten Eingaben zu schützen.
 @LineBreak
 @LineBreak
   JSON ist ein Datenformat, dass die Groß- und Kleinschreibung berücksichtigt. In manchen

@@ -1,7 +1,7 @@
 ﻿;
 ;     Printer library documentation
 ;
-;      (c) 2012 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Printer
@@ -107,9 +107,6 @@
 
 @Description
   Returns the OutputID of the current printer to be used with the @@StartVectorDrawing function.
-  Drawing coordinates are always relative to the physical page (its top-left corner is (0,0)), not
-  to the printable area: if the printer has a hardware margin, it is automatically taken into
-  account so a given coordinate prints at the same physical position regardless of that margin.
 
 @OptionalParameter "Unit"
   Specifies the unit used for measuring distances on the drawing output. 
@@ -123,6 +120,11 @@
 
 @ReturnValue
   The OutputID of the current printer to be used with the @@StartVectorDrawing function.
+
+@Remarks
+  Drawing coordinates are always relative to the physical page (its top-left corner is (0,0)), not
+  to the printable area: if the printer has a hardware margin, it is automatically taken into
+  account so a given coordinate prints at the same physical position regardless of that margin.
 
 @Example
 @Code
