@@ -34,7 +34,9 @@
   @@UseFLACSoundDecoder
 @LineBreak
   @@UseOGGSoundDecoder
-
+ @LineBreak
+  @@UseOpusSoundDecode
+  
 @Parameter "#Sound"
   Eine Nummer zum Identifizieren des neuen Sounds. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Zahl automatisch zu generieren.
@@ -50,9 +52,9 @@
 @OptionalParameter "Flags"
   Dies kann der folgende Wert sein:
 @FixedFont
-  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen 
-           Laden und Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher
-           geladen werden muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" und @Link "SoundPlugin/UseOGGSoundDecoder" "OGG")
+  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen Laden und
+           Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher geladen werden
+           muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC", @Link "SoundPlugin/UseOGGSoundDecoder" "OGG" und @Link "SoundPlugin/UseOpusSoundDecoder" "Opus"))
 @EndFixedFont
 
 @ReturnValue
@@ -325,6 +327,8 @@
   @@UseFLACSoundDecoder
 @LineBreak
   @@UseOGGSoundDecoder
+@LineBreak
+  @@UseOpusSoundDecoder
 
 @Parameter "#Sound"
   Eine Nummer zum Identifizieren des neuen Sounds. @ReferenceLink "purebasic_objects" "#PB_Any"
@@ -336,9 +340,9 @@
 @OptionalParameter "Flags"
   Dies kann der folgende Wert sein:
 @FixedFont
-  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen 
-           Laden und Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher
-           geladen werden muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" und @Link "SoundPlugin/UseOGGSoundDecoder" "OGG")
+  @#PB_Sound_Streaming: Aktiviert "Streaming Playback" - einem System zum gleichzeitigen Laden und
+           Abspielen, wodurch nicht erst die gesamte Sound-Datei in den Speicher geladen werden
+           muss (nur unterstützt für @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC", @Link "SoundPlugin/UseOGGSoundDecoder" "OGG" und @Link "SoundPlugin/UseOpusSoundDecoder" "Opus"))
 @EndFixedFont
 
 @ReturnValue
@@ -366,6 +370,110 @@
 @SeeAlso
   @@CatchSound, @@FreeSound, @@PlaySound
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = SaveSound(#Sound, Dateiname$ [, SoundPlugin [, Qualität]])
+
+@Description
+  Speichert den angegebenen Sound auf der Festplatte. Der Sound darf kein Streaming-Sound sein
+  (siehe das Flag @Link "Sound/LoadSound" "#PB_Sound_Streaming" bei @@LoadSound).
+
+@Parameter "#Sound"
+  Der zu speichernde Sound.
+
+@Parameter "Dateiname$"
+  Die Datei, in der gespeichert werden soll. Enthält der Dateiname keinen vollständigen Pfad,
+  wird er relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis" interpretiert.
+
+@OptionalParameter "SoundPlugin"
+  Das Format, in dem der Sound gespeichert werden soll. Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_SoundPlugin_WAV : Speichert den Sound als unkomprimierte PCM-WAV-Datei (Standard).
+  @#PB_SoundPlugin_FLAC: Speichert den Sound als verlustfreie FLAC-Datei (@@UseFLACSoundEncoder muss verwendet
+                        werden). Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt. 
+  @#PB_SoundPlugin_OGG : Speichert den Sound als verlustbehaftetes OGG-Vorbis-Datei (@@UseOGGSoundEncoder muss
+                        verwendet werden). Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt. 
+  @#PB_SoundPlugin_Opus: Speichert den Sound als verlustbehaftete Opus-Datei (@@UseOpusSoundEncoder muss verwendet
+                        werden). Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt, und die Abtastrate des
+                        Sounds muss bereits 8000, 12000, 16000, 24000 oder 48000 Hz betragen. 
+  @#PB_SoundPlugin_MP3 : Speichert den Sound als verlustbehaftete MP3-Datei (@@UseMP3SoundEncoder muss verwendet
+                        werden). Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt.
+@EndFixedFont
+
+@OptionalParameter "Qualität"
+  Ein Wert von 0 (kleinste Datei) bis 100 (beste Qualität), der von den FLAC-, OGG-, Opus- und MP3-Plugins
+  verwendet wird, um den Kompressionsgrad, die Zielqualität oder die Zielbitrate zu steuern. Wird kein Wert
+  angegeben, wählt jedes Plugin seinen eigenen, sinnvollen Standardwert. Dieser Parameter wird vom WAV-Format
+  ignoriert, da dieses stets verlustfrei und unkomprimiert ist.
+
+@ReturnValue
+Gibt einen Wert ungleich Null zurück, wenn der Vorgang erfolgreich war, und Null, wenn er fehlgeschlagen ist.
+
+@Example
+@Code
+  If InitSound()
+    UseFLACSoundEncoder()
+
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.wav")
+      SaveSound(0, "Siren.flac", #PB_SoundPlugin_FLAC)
+      FreeSound(0)
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EncodeSound, @@LoadSound, @@CatchSound,
+  @LibraryLink "SoundPlugin" "SoundPlugin Bibliothek"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = EncodeSound(#Sound [, SoundPlugin [, Qualität]])
+
+@Description
+  Kodiert den angegebenen Sound im Arbeitsspeicher, unter Verwendung derselben Parameter und Encoder wie
+  @@SaveSound. Dies ist beispielsweise nützlich, um die Sounddaten über ein Netzwerk zu übertragen, ohne
+  sie zuvor auf die Festplatte zu schreiben.
+@LineBreak
+@LineBreak
+  Bei dem Sound darf es sich nicht um einen Streaming-Sound handeln (siehe das Flag
+  @Link "Sound/LoadSound" "#PB_Sound_Streaming" bei @@LoadSound).
+
+@Parameter "#Sound"
+  Der zu kodierende Sound.
+
+@OptionalParameter "SoundPlugin"
+  Das Format, in dem der Sound kodiert werden soll. Für eine Liste der unterstützten Werte siehe @@SaveSound.
+
+@OptionalParameter "Qualität"
+  Siehe @@SaveSound.
+
+@ReturnValue
+  Gibt eine Speicheradresse zurück, die die kodierten Sounddaten enthält, wenn der Vorgang erfolgreich war,
+  andernfalls Null. Die Größe der kodierten Daten lässt sich mit @@MemorySize ermitteln. Der zurückgegebene
+  Speicher muss mit @@FreeMemory freigegeben werden, sobald er nicht mehr benötigt wird.
+
+@Example
+@Code
+  If InitSound()
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.wav")
+      *Buffer = EncodeSound(0) ; kodiert als WAV, im Speicher
+      If *Buffer
+        Debug "Kodierte Größe: " + Str(MemorySize(*Buffer))
+        FreeMemory(*Buffer)
+      EndIf
+      FreeSound(0)
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SaveSound, @@LoadSound, @@CatchSound,
+  @LibraryLink "SoundPlugin" "SoundPlugin Bibliothek"
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

@@ -14,8 +14,9 @@
   verwendet native Callbacks für die Interaktion zwischen dem Webinhalt (der JavaScript ist) und dem PureBasic-Code.
 @LineBreak
 @LineBreak
-  Das WebView-Gadget nutzt die integrierten Betriebssystem-Webkomponenten: WebView2 unter Windows, WebKit-GTK unter
-  Linux/Raspberry (keine QT-Unterstützung) und WebKit unter macOS. Unter Windows 10 und höher ist keine zusätzliche Komponente erforderlich.
+  Das WebView-Gadget nutzt die in das Betriebssystem integrierten Webkomponenten: WebView2 unter Windows, WebKit-GTK
+  unter Linux/Raspberry (GTK-Subsystem) bzw. QtWebEngine (Qt-Subsystem) und WebKit unter macOS. Unter Windows 10 und höher
+  ist keine zusätzliche Komponente erforderlich.
   Wenn jedoch Unterstützung für ältere Windows-Versionen benötigt wird, muss möglicherweise die weiterverteilbare Datei
   (Redistributable) WebView2 installiert werden:
   @InternetLink "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/distribution" "distribution guide". 
@@ -51,8 +52,8 @@
   Flags zum Ändern des Gadget-Verhaltens. Es kann (mit dem Operator '|') aus einer der folgenden
   Konstanten zusammengesetzt sein:
 @FixedFont
-  @#PB_WebView_Debug: Aktiviert den Menüpunkt "Inspizieren" (englisch 'inspect') im Kontextmenü,
-                     um den Web-Inspektor und die Konsole anzuzeigen.
+  @#PB_WebView_Debug: Aktiviert den Menüpunkt "Inspizieren" (englisch 'inspect') im Kontextmenü, um den
+                     Web-Inspektor und die Konsole anzuzeigen. Im Qt-Subsystem noch nicht unterstützt.
 @EndFixedFont
 
 @ReturnValue
@@ -81,10 +82,6 @@
 @LineBreak    
   - @@GetGadgetAttribute : Mit @#PB_WebView_ICoreController als 'Attribut' ermöglicht Ihnen die
   Nutzung der Funktionen vom ICoreWebView2 (nur auf Windows).
-@LineBreak
-@LineBreak
-@LineBreak
-  Hinweis: das WebViewGadget() wird nicht auf dem QT-Subsystem unterstützt.
 
 @Example mit lokalen HTML- und CSS-Dateien
 @Code
