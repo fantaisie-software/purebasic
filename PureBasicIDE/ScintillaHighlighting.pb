@@ -3960,8 +3960,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       EndIf
       
       If FindCaseSensitive: Flags | #SCFIND_MATCHCASE: EndIf
-      If FindWholeWord    : Flags | #SCFIND_WHOLEWORD: EndIf
-      
+
       Repeat
         Result = SendEditorMessage(#SCI_FINDTEXT, Flags, @Find)
         If Result <> -1
@@ -3980,6 +3979,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 Break ; keep this element, for the range update after a replace
               EndIf
             Next
+
+          If Success And FindWholeWord ; not #SCFIND_WHOLEWORD, see IsWholeWordMatch()
+            *Text = SendEditorMessage(#SCI_GETCHARACTERPOINTER, 0, 0)
+            Success = IsWholeWordMatch(*Text, *Text + SendEditorMessage(#SCI_GETTEXTLENGTH, 0, 0), *Text + Find\chrgText\cpMin, Find\chrgText\cpMax - Find\chrgText\cpMin)
           EndIf
         Else
           Success = 0
