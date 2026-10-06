@@ -214,6 +214,90 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
 EndProcedure
 
 
+; The standalone debugger saves its window positions in the IDE preference file when it quits.
+; Read them back, else the IDE overwrites them with its old values when saving its preferences
+; (https://www.purebasic.fr/english/viewtopic.php?t=37139). Only the window geometry is read,
+; the other debugger settings can be changed in the IDE preferences while the debugger runs.
+;
+Procedure StandaloneDebuggers_ReloadWindowPositions()
+
+  If OpenPreferences(PreferencesFile$)
+    PreferenceGroup("Debugger")
+
+    IsDebuggerMaximized        = ReadPreferenceLong("IsDebuggerMaximized", IsDebuggerMaximized)
+
+    DebugWindowX               = ReadPreferenceLong("DebugWindowX", DebugWindowX)
+    DebugWindowY               = ReadPreferenceLong("DebugWindowY", DebugWindowY)
+    DebugWindowWidth           = ReadPreferenceLong("DebugWindowWidth", DebugWindowWidth)
+    DebugWindowHeight          = ReadPreferenceLong("DebugWindowHeight", DebugWindowHeight)
+    DebugWindowMaximize        = ReadPreferenceLong("DebugWindowMaximize", DebugWindowMaximize)
+
+    AsmWindowX                 = ReadPreferenceLong("AsmWindowX", AsmWindowX)
+    AsmWindowY                 = ReadPreferenceLong("AsmWindowY", AsmWindowY)
+    AsmWindowWidth             = ReadPreferenceLong("AsmWindowWidth", AsmWindowWidth)
+    AsmWindowHeight            = ReadPreferenceLong("AsmWindowHeight", AsmWindowHeight)
+    AsmWindowMaximize          = ReadPreferenceLong("AsmWindowMaximize", AsmWindowMaximize)
+
+    MemoryViewerX              = ReadPreferenceLong("MemoryViewerX", MemoryViewerX)
+    MemoryViewerY              = ReadPreferenceLong("MemoryViewerY", MemoryViewerY)
+    MemoryViewerWidth          = ReadPreferenceLong("MemoryViewerWidth", MemoryViewerWidth)
+    MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", MemoryViewerHeight)
+    MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", MemoryViewerMaximize)
+
+    VariableWindowX            = ReadPreferenceLong("VariableWindowX", VariableWindowX)
+    VariableWindowY            = ReadPreferenceLong("VariableWindowY", VariableWindowY)
+    VariableWindowWidth        = ReadPreferenceLong("VariableWindowWidth", VariableWindowWidth)
+    VariableWindowHeight       = ReadPreferenceLong("VariableWindowHeight", VariableWindowHeight)
+    VariableViewerMaximize     = ReadPreferenceLong("VariableViewerMaximize", VariableViewerMaximize)
+
+    HistoryWindowX             = ReadPreferenceLong("HistoryWindowX", HistoryWindowX)
+    HistoryWindowY             = ReadPreferenceLong("HistoryWindowY", HistoryWindowY)
+    HistoryWindowWidth         = ReadPreferenceLong("HistoryWindowWidth", HistoryWindowWidth)
+    HistoryWindowHeight        = ReadPreferenceLong("HistoryWindowHeight", HistoryWindowHeight)
+    HistoryMaximize            = ReadPreferenceLong("HistoryMaximize", HistoryMaximize)
+
+    WatchListWindowX           = ReadPreferenceLong("WatchListWindowX", WatchListWindowX)
+    WatchListWindowY           = ReadPreferenceLong("WatchListWindowY", WatchListWindowY)
+    WatchListWindowWidth       = ReadPreferenceLong("WatchListWindowWidth", WatchListWindowWidth)
+    WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", WatchListWindowHeight)
+    WatchListWindowMaximize    = ReadPreferenceLong("WatchListWindowMaximize", WatchListWindowMaximize)
+
+    LibraryViewerX             = ReadPreferenceLong("LibraryViewerX", LibraryViewerX)
+    LibraryViewerY             = ReadPreferenceLong("LibraryViewerY", LibraryViewerY)
+    LibraryViewerWidth         = ReadPreferenceLong("LibraryViewerWidth", LibraryViewerWidth)
+    LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", LibraryViewerHeight)
+    LibraryViewerSplitter1     = ReadPreferenceLong("LibraryViewerSplitter1", LibraryViewerSplitter1)
+    LibraryViewerSplitter2     = ReadPreferenceLong("LibraryViewerSplitter2", LibraryViewerSplitter2)
+    LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", LibraryViewerMaximize)
+
+    IsMiniDebugger             = ReadPreferenceLong("IsMiniDebugger", IsMiniDebugger)
+    DebuggerMainWindowX        = ReadPreferenceLong("DebuggerMainWindowX", DebuggerMainWindowX)
+    DebuggerMainWindowY        = ReadPreferenceLong("DebuggerMainWindowY", DebuggerMainWindowY)
+    DebuggerMainWindowWidth    = ReadPreferenceLong("DebuggerMainWindowWidth", DebuggerMainWindowWidth)
+    DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", DebuggerMainWindowHeight)
+
+    ProfilerX                  = ReadPreferenceLong("ProfilerX", ProfilerX)
+    ProfilerY                  = ReadPreferenceLong("ProfilerY", ProfilerY)
+    ProfilerWidth              = ReadPreferenceLong("ProfilerWidth", ProfilerWidth)
+    ProfilerHeight             = ReadPreferenceLong("ProfilerHeight", ProfilerHeight)
+    ProfilerSplitter           = ReadPreferenceLong("ProfilerSplitter", ProfilerSplitter)
+    ProfilerMaximize           = ReadPreferenceLong("ProfilerMaximize", ProfilerMaximize)
+
+    DataBreakpointWindowX      = ReadPreferenceLong("DataBreakpointWindowX", DataBreakpointWindowX)
+    DataBreakpointWindowY      = ReadPreferenceLong("DataBreakpointWindowY", DataBreakpointWindowY)
+    DataBreakpointWindowWidth  = ReadPreferenceLong("DataBreakpointWindowWidth", DataBreakpointWindowWidth)
+    DataBreakpointWindowHeight = ReadPreferenceLong("DataBreakpointWindowHeight", DataBreakpointWindowHeight)
+    DataBreakpointWindowMaximize = ReadPreferenceLong("DataBreakpointWindowMaximize", DataBreakpointWindowMaximize)
+
+    PurifierWindowX            = ReadPreferenceLong("PurifierWindowX", PurifierWindowX)
+    PurifierWindowY            = ReadPreferenceLong("PurifierWindowY", PurifierWindowY)
+
+    ClosePreferences()
+  EndIf
+
+EndProcedure
+
+
 ; checks if a running externaldebugger has quit, and updates
 ; the watchlist that was passed back by it
 ;
@@ -258,7 +342,9 @@ Procedure StandaloneDebuggers_CheckExits()
         ; (these files are deleted on IDE end)
         ; DeleteFile(Standalone_Debuggers()\CommFile$)
       EndIf
-      
+
+      StandaloneDebuggers_ReloadWindowPositions()
+
       DeleteElement(Standalone_Debuggers())
       Break
     EndIf
