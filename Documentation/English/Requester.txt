@@ -154,14 +154,20 @@ called 'requesters'.
 
 @Example
 @Code
-  Input$ = InputRequester("Title", "Please make your input:", "I'm the default input.")
-
-  If Input$ > ""
+  Input$ = InputRequester("Title", "Please make your input:", "I'm the default input.", #PB_InputRequester_HandleCancel)
+  
+  If Input$ = #PB_InputRequester_Cancel 
+    a$ = "You canceled the requester!"
+  
+  ElseIf Input$ = #Empty$
+    a$ = "You didn't enter anything in the requester!"
+  
+  ElseIf Input$ > ""
     a$ = "You entered in the requester:" + Chr(10)  ; Chr(10) only needed
-    a$ + Input$                                                  ; for line-feed
-  Else  
-    a$ = "The requester was canceled or there was nothing entered."
+    a$ + Input$                                     ; for line-feed
+  
   EndIf
+  
   MessageRequester("Information", a$, 0)
 @EndCode
 @LineBreak
