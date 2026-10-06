@@ -589,6 +589,7 @@ Enumeration
   #DEBUGGER_GADGET_History_CurrentText
   #DEBUGGER_GADGET_History_CurrentContainer
   #DEBUGGER_GADGET_History_Updating
+  #DEBUGGER_GADGET_History_Truncated
   #DEBUGGER_GADGET_History_Stats
   #DEBUGGER_GADGET_History_Reset
   #DEBUGGER_GADGET_History_ResetAll
@@ -758,6 +759,7 @@ Structure DebuggerData
   MemoryDumpStart.q  ; start address of the dump (in the exe memory)
   
   HistorySize.l      ; size of procedure history
+  HistoryOffset.l    ; callstack index of the first displayed history entry (outer calls are not displayed)
   *History           ; pointer to the procedure history data
   
   NbLibraries.l      ; number of libraries registered with LibraryDebugger
