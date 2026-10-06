@@ -1432,8 +1432,16 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         *Source\PurifierGranularity$ = Value$
         
       Case "CONSTANT", "CONSTANTOFF"
-        ; the array is fixed size: more lines (like duplicated ones) overwrote the memory after it (https://www.purebasic.fr/english/viewtopic.php?t=49041)
-        If *Source\NbConstants < #MAX_Constants
+        ; only keep unique constants, as some files have the same line many times (https://www.purebasic.fr/english/viewtopic.php?t=49041)
+        IsDuplicateConstant = #False
+        For ConstantIndex = 0 To *Source\NbConstants-1
+          If LCase(*Source\Constant$[ConstantIndex]) = LCase(Value$)
+            IsDuplicateConstant = #True
+            Break
+          EndIf
+        Next ConstantIndex
+        ; the array is fixed size: more lines overwrote the memory after it
+        If IsDuplicateConstant = #False And *Source\NbConstants < #MAX_Constants
           *Source\Constant$[*Source\NbConstants] = Value$
           *Source\ConstantEnabled[*Source\NbConstants] = Bool(Name$ = "CONSTANT")
           *Source\NbConstants + 1

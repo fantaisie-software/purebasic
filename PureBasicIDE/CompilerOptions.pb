@@ -1065,6 +1065,16 @@ Procedure OptionWindowEvents(EventID)
         Case #GADGET_Option_ConstantAdd
           Text$ = GetGadgetText(#GADGET_Option_ConstantLine)
           index = CountGadgetItems(#GADGET_Option_ConstantList)
+          
+          ; do not add the same constant twice, select the existing one instead
+          For i = 0 To index-1
+            If LCase(GetGadgetItemText(#GADGET_Option_ConstantList, i, 0)) = LCase(Text$)
+              SetGadgetState(#GADGET_Option_ConstantList, i)
+              Text$ = ""
+              Break
+            EndIf
+          Next i
+          
           If Text$ <> "" And index < #MAX_Constants-1
             AddGadgetItem(#GADGET_Option_ConstantList, index, Text$)
             SetGadgetItemState(#GADGET_Option_ConstantList, index, #PB_ListIcon_Checked)
