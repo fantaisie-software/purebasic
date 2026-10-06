@@ -582,6 +582,14 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETSTART, *StringStart-*HighlightBuffer+HighlightOffset, 0)
       ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETEND, *StringStart-*HighlightBuffer+HighlightOffset+ChangeLength, 0)
       ScintillaSendMessage(HighlightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)
+
+      ; The styling position is not reliable after the replacement (the following tokens were styled
+      ; one char off, leaving the last char of a corrected constant unstyled), so restart it at this token
+      ; https://www.purebasic.fr/english/viewtopic.php?t=30448
+      ;
+      If EnableColoring
+        ScintillaSendMessage(HighlightGadget, #SCI_STARTSTYLING, *StringStart-*HighlightBuffer+HighlightOffset, 0)
+      EndIf
     EndIf
     
     
