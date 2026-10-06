@@ -494,12 +494,7 @@ EndProcedure
 
 
 Declare UpdateSourceContainer()
-Declare ResizeHelpSplitterContent()
 Declare ResizeFileViewer()
-
-CompilerIf #CompileMacCocoa
-  Declare ResizeHelpWindow()
-CompilerEndIf
 
 Procedure RealtimeSizeWindowEventHandler()
   
@@ -510,12 +505,7 @@ Procedure RealtimeSizeWindowEventHandler()
   Select Window
     Case #WINDOW_Main
       ResizeMainWindow()
-      
-      CompilerIf #CompileMacCocoa
-      Case #WINDOW_Help
-        ResizeHelpWindow()
-      CompilerEndIf
-      
+
     Case #WINDOW_FileViewer
       ResizeFileViewer()
       
@@ -637,10 +627,7 @@ CompilerIf #CompileMacCocoa
         If ErrorLogVisible
           UpdateSourceContainer()
         EndIf
-        
-      Case #GADGET_Help_Splitter
-        ResizeHelpSplitterContent()
-        
+
     EndSelect
   EndProcedure
   
@@ -2682,14 +2669,7 @@ Procedure DispatchEvent(EventID)
       
     Case #WINDOW_Updates
       UpdateWindowEvents(EventID)
-      
-      CompilerIf #CompileLinux | #CompileMac
-        
-      Case #WINDOW_Help
-        HelpWindowEvents(EventID)
-        
-      CompilerEndIf
-      
+
       CompilerIf #DEBUG
         
       Case #WINDOW_Debugging

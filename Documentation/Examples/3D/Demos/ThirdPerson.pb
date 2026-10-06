@@ -144,7 +144,7 @@ SkyBox("desert07.jpg")
 With Robot
   \Entity = 0
   \EntityBody = 1
-  \BodyOffsetY = 43
+  \BodyOffsetY = -10
   
   \Key\Down        = #PB_Key_Down
   \Key\Left        = #PB_Key_Left

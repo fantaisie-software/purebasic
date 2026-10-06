@@ -1,7 +1,7 @@
 ﻿;
 ;     System library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library System
@@ -312,6 +312,36 @@
     ;
   EndIf
 @EndCode
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = OSLanguage()
+
+@Description
+  Gibt die Sprache zurück, in der das Betriebssystem derzeit ausgeführt wird.
+
+@NoParameters
+
+@ReturnValue
+  Gibt die Sprache als zweistelligen @InternetLink "https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes" "ISO 639-1"
+  Code in Kleinbuchstaben zurück (zum Beispiel 'en', 'fr', 'de' oder 'ja'). Etwaige Angaben zu Region oder Schriftzeichen
+  werden entfernt, sodass nur die Sprache selbst ausgegeben wird. Kann die Sprache nicht ermittelt werden, wird ein leerer
+  String zurückgegeben.
+@LineBreak
+@LineBreak
+  Unter Windows wird die vom Benutzer festgelegte Benutzeroberflächensprache verwendet, unter macOS der erste Eintrag in
+  der Liste der bevorzugten Sprachen und unter Linux die Umgebungsvariable 'LC_ALL', 'LC_MESSAGES' oder 'LANG'  (in dieser
+  Reihenfolge).
+
+@Example
+@Code
+  Debug OSLanguage() ; Könnte ausgeben: "de"
+@EndCode
+
+@SeeAlso
+  @@OSVersion
 
 @SupportedOS
 

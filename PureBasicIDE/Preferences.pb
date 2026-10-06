@@ -98,7 +98,6 @@ Procedure LoadPreferences()
   NoSplashScreen              = ReadPreferenceLong  ("NoSplashScreen"    , 0)
   AlwaysHideLog               = ReadPreferenceLong  ("AlwaysHideLog"     , 0)
   ShowCompilerProgress        = ReadPreferenceLong  ("ShowCompilerProgress", 0)
-  UseHelpToolF1               = ReadPreferenceLong  ("UseHelpToolF1"     , 1)
   MonitorFileChanges          = ReadPreferenceLong  ("MonitorFileChanges", 1)
   
   UpdateCheckInterval         = ReadPreferenceLong  ("UpdateCheckInterval", #UPDATE_Interval_Weekly)
@@ -943,18 +942,7 @@ Procedure LoadPreferences()
   Next i
   
   LastOpenProjectFile$ = ReadPreferenceString("OpenedProject", "")
-  
-  CompilerIf #CompileLinux | #CompileMac
-    ;- - Help
-    PreferenceGroup("Help")
-    HelpWindowX                = ReadPreferenceLong("X", -1)
-    HelpWindowY                = ReadPreferenceLong("Y", -1)
-    HelpWindowWidth            = ReadPreferenceLong("Width", 600)
-    HelpWindowHeight           = ReadPreferenceLong("Height", 400)
-    HelpWindowSplitter         = ReadPreferenceLong("Splitter", 180)
-    HelpWindowMaximized        = ReadPreferenceLong("IsMaximized", 0)
-  CompilerEndIf
-  
+
   ;- - Debugger
   PreferenceGroup("Debugger")
   DebuggerMode               = ReadPreferenceLong("DebuggerMode", 1)
@@ -1139,7 +1127,6 @@ Procedure SavePreferences()
     WritePreferenceLong  ("NoSplashScreen",       NoSplashScreen)
     WritePreferenceLong  ("AlwaysHideLog",        AlwaysHideLog)
     WritePreferenceLong  ("ShowCompilerProgress", ShowCompilerProgress)
-    WritePreferenceLong  ("UseHelpToolF1",        UseHelpToolF1)
     WritePreferenceLong  ("MonitorFileChanges",   MonitorFileChanges)
     
     WritePreferenceLong  ("UpdateCheckInterval",  UpdateCheckInterval)
@@ -1623,19 +1610,7 @@ Procedure SavePreferences()
     Next OpenFiles()
     
     WritePreferenceString("OpenedProject", LastOpenProjectFile$)
-    
-    ;- - Help
-    CompilerIf #CompileLinux | #CompileMac
-      PreferenceComment("")
-      PreferenceGroup("Help")
-      WritePreferenceLong("X",           HelpWindowX)
-      WritePreferenceLong("Y",           HelpWindowY)
-      WritePreferenceLong("Width",       HelpWindowWidth)
-      WritePreferenceLong("Height",      HelpWindowHeight)
-      WritePreferenceLong("Splitter",    HelpWindowSplitter)
-      WritePreferenceLong("IsMaximized", HelpWindowMaximized)
-    CompilerEndIf
-    
+
     ;- - Debugger
     PreferenceComment("")
     PreferenceGroup("Debugger")
@@ -2834,13 +2809,7 @@ Procedure ApplyPreferences()
   If IsWindow(#WINDOW_Updates)
     UpdateWindowEvents(#PB_Event_CloseWindow) ; just close this, no updating
   EndIf
-  
-  CompilerIf #CompileLinux | #CompileMac
-    If IsWindow(#WINDOW_Help)
-      UpdateHelpWindow()
-    EndIf
-  CompilerEndIf
-  
+
   ; update all debugger windows
   ;
   Debugger_UpdateWindowPreferences()

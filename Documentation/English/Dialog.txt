@@ -26,7 +26,8 @@
 @Function Result = CreateDialog(#Dialog)
 
 @Description
-  Create a new uninitialized dialog. To initialize the dialog, use @@OpenXMLDialog.
+  Create a new uninitialized dialog. To initialize the dialog, use @@OpenXMLDialog (to open it as its
+  own window) or @@XmlDialogGadget (to create it as a gadget embedded in an existing window).
 
 @Parameter "#Dialog"
   A number to identify the new dialog. @ReferenceLink "purebasic_objects" "#PB_Any" can be used
@@ -37,7 +38,7 @@
   If @#PB_Any was used as the #Dialog parameter, then the auto-generated number is returned in case of success.
 
 @SeeAlso
-  @@OpenXMLDialog, @@FreeDialog
+  @@OpenXMLDialog, @@XmlDialogGadget, @@FreeDialog
   
 @SupportedOS
 
@@ -46,7 +47,8 @@
 @Function Result$ = DialogError(#Dialog)
 
 @Description
-  Returns the last error message (in english) to get more information about dialog creation failure after @@OpenXMLDialog. 
+  Returns the last error message (in english) to get more information about dialog creation failure after
+  @@OpenXMLDialog or @@XmlDialogGadget.
 
 @Parameter "#Dialog"
   The dialog to use.
@@ -55,7 +57,7 @@
   Returns the error message. If no additional information is available, then the error message can be empty.
 
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -74,10 +76,12 @@
 
 @ReturnValue
   Returns the gadget number of the specified gadget name, or -1 if the gadget isn't found in the
-  dialog.
+  dialog. @LineBreak
+  For a dialog created with @@XmlDialogGadget, the root gadget itself can also be retrieved this way,
+  by giving the root <window> element a 'name' attribute in the XML.
 
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -94,10 +98,11 @@
   The dialog to use.
 
 @ReturnValue
-  Returns the window number of the specified dialog.
+  Returns the window number of the specified dialog, or -1 if the dialog was created with
+  @@XmlDialogGadget instead of @@OpenXMLDialog, as it has no window of its own in that case.
 
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -125,7 +130,8 @@
 
 @Description
   Free the specified dialog and release its associated memory. If the dialog window was still opened, it will be
-  automatically closed.
+  automatically closed. For a dialog created with @@XmlDialogGadget, its gadget is freed instead (the window
+  hosting it is left untouched).
 
 @Parameter "#Dialog"
   The dialog to free. If @#PB_All is specified, all the remaining dialogs are freed.
@@ -248,24 +254,29 @@
     ...
   </dialogs>
 
+  The root <window> element is opened as a real window by @@OpenXMLDialog. The very same XML document
+  can instead be turned into a gadget (a @@ContainerGadget) with @@XmlDialogGadget - in that case any
+  window-only attribute or flag the root <window> may carry (title, screencentered, systemmenu, ...)
+  is simply ignored.
+
 
   III. Window element
   -------------------
 
   <window>
   </window>
-  
-  Accepted keys in the XML: 
+
+  Accepted keys in the XML:
   All common attributes and the following:
-  
+
   minwidth  = 'auto' or a numeric value
   maxwidth  = 'auto' or a numeric value
   minheight = 'auto' or a numeric value
   maxheight = 'auto' or a numeric value
-  
+
   It allows to set the window bounds. If set to 'auto', then the
   size is calculated depending of the children size requirement.
-  
+
 
   - Creates the a window
   - Can have all common attributes.
@@ -612,12 +623,73 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = XmlDialogGadget(#Dialog, #XML, Name$ [, x, y [, Width, Height]])
+
+@Description
+  Creates the specified dialog as a gadget (a @@ContainerGadget), instead of opening it as its own
+  window like @@OpenXMLDialog does. This allows a dialog defined in XML to be embedded inside an
+  existing window, next to other gadgets. @LineBreak
+@LineBreak
+  It uses exactly the same XML format as @@OpenXMLDialog (see its documentation for the full XML
+  reference) - the very same XML document can be used with either command: the root <window> element
+  becomes the created @@ContainerGadget, and any window-only attribute or flag it may still carry
+  (title, screencentered, systemmenu, ...) is simply ignored. @LineBreak
+@LineBreak
+  The gadget is created inside the currently active window, exactly like @@ContainerGadget itself, so
+  @@XmlDialogGadget has to be called after opening (or after selecting, with @@UseGadgetList) the
+  window that should host it. @LineBreak
+@LineBreak
+  To access the dialog gadgets, including the root gadget itself, use @@DialogGadget (give the root
+  <window> element a 'name' attribute in the XML to retrieve it). Unlike a dialog opened with
+  @@OpenXMLDialog, @@DialogWindow returns -1 for a dialog created with @@XmlDialogGadget, as it has
+  no window of its own. @LineBreak
+@LineBreak
+  @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget and @@UseDialogWebViewGadget can be used to
+  enable support for these gadgets in the dialog lib. They are not enabled by default to reduce the dialog
+  library size footprint.
+
+@Parameter "#Dialog"
+  The dialog to use. It has to be previously created with @@CreateDialog.
+
+@Parameter "#XML"
+  The @LibraryLink "xml" "xml" to use. It has to be previously created with @@LoadXML, @@CreateXML, @@CatchXML or @@ParseXML.
+  See @@OpenXMLDialog for the supported XML attributes.
+
+@Parameter "Name$"
+  The name of the dialog to use. An XML file can have several dialogs defined.
+
+@OptionalParameter "x, y"
+  The x, y coordinate (in pixels) of the #Dialog gadget, relative to its container.
+
+@OptionalParameter "Width, Height"
+  The size (in pixels) of the #Dialog gadget. If the size is smaller than the required size as defined
+  in the XML (after layout calculation), then the required size will be used. If omitted, the size of
+  the dialog will be the smallest size required.
+
+@ReturnValue
+  Returns nonzero if the dialog gadget has been successfully created, returns zero otherwise.
+  To get more information about the error which has occurred, use @@DialogError.
+
+@Remarks
+  Resizing the created gadget (for example with @@ResizeGadget, or from the host window's own resize
+  handling) automatically relayouts its children to fit the new size, the same way a dialog window
+  opened with @@OpenXMLDialog does.
+
+@SeeAlso
+  @@OpenXMLDialog, @@DialogGadget, @@DialogWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function RefreshDialog(#Dialog)
 
 @Description
   Refresh the dialog size to adjust it to any change. For
   example, when changing the text content of gadgets, the dialog size will may be
-  need adjustments.
+  need adjustments. @LineBreak
+  For a dialog created with @@XmlDialogGadget, this relayouts its children within the gadget's
+  current size instead (its own size is left untouched, as it is controlled by the caller).
 
 @Parameter "#Dialog"
   The dialog to refresh.

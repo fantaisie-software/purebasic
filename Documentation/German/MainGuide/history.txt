@@ -1,5 +1,33 @@
 ﻿@Title PureBasic Geschichte
 
+@Section xxth October 2026 : Version 6.50 [beta1]
+
+- @Green "Hinzugefügt": Automatische DPI-Skalierung pro Monitor für Fenster und Gadgets unter Windows 10 und neuer!
+- @Green "Hinzugefügt": ExtractArray(), JoinArray(), ExtractList(), JoinList()
+- @Green "Hinzugefügt": WindowResolutionX(), WindowResolutionY(), WindowScaledX(), WindowScaledY(), WindowUnscaledX(), WindowUnscaledY()
+- @Green "Hinzugefügt": XmlDialogGadget(), um die Funktionen eines XML-Dialogs in einem Container-Gadget bereitzustellen
+- @Green "Hinzugefügt": WebViewGaUnterstützung für das Decodieren und Codieren von WebP-Bilderndget() für das Qt-Subsystem (außer für Raspberry ARM32)
+- @Green "Hinzugefügt": Unterstützung für das Decodieren und Codieren von WebP-Bildern
+- @Green "Hinzugefügt": UseOSImageDecoder() und UseOSImageEncoder(), um Bilder mithilfe nativer Plugins zu laden und zu speichern
+- @Green "Hinzugefügt": EncodeSound() und SaveSound(), um Sounds mithilfe von nativen Plugins zu speichern
+- @Green "Hinzugefügt": UseMP3SoundDecoder(), um das Laden und Speichern von MP3-Dateien zu ermöglichen
+- @Green "Hinzugefügt": UseOpusSoundDecoder(), um das Laden und Speichern von Opus-Dateien zu aktivieren
+- @Green "Hinzugefügt": DisableGadgetRedraw() für schnelleres Einfügen von Elementen in ListIconGadget(), ListViewGadget() und ComboboxGadget() (hauptsächlich unter Windows)
+- @Green "Hinzugefügt": Resize-Modus für DrawImage(), um eine rohe (raw) oder geglättete Größenänderung zu ermöglichen
+- @Green "Hinzugefügt": #PB_Window_Modal Flag für OpenWindow(), um das darunterliegende Fenster zu deaktivieren
+- @Green "Hinzugefügt": #PB_Packer_Xz Unterstützung für die Packer-Bibliothek
+- @Green "Hinzugefügt": Unterstützung für lange Dateinamen unter Windows (mit \\?\ sowie ohne explizites \\?\) für alle dateibezogenen Befehle
+- @Green "Hinzugefügt": #PB_Editor_Centered Flag für das EditorGadget()
+- @Green "Hinzugefügt": #PB_All bei RemoveGadgetColumns() auch beim ExplorerListGadget() – der Konsistenz halber
+- @Green "Hinzugefügt": eine spezielle Dokumentationsseite, die alle externen Abhängigkeiten von PureBasic sowie deren Versionen auflistet
+
+- @Blue "Aktualisiert": libjpeg wurde durch libjpeg-turbo ersetzt, das wesentlich schneller ist.
+- @Blue "Aktualisiert": die PCRE1-Bibliothek ist veraltet und wurde durch PCRE2 ersetzt.
+- @Blue "Aktualisiert": alle statischen Abhängigkeiten auf die neueste Version aktualisiert!
+
+- @Blue "Repariert": viele Fehler in den Bibliotheken - viele weitere Unit-Tests erstellt, um Regressionen zu vermeiden und Betriebssystemabweichungen aufzudecken.
+
+
 @Section 10. August 2026 : Version 6.41
 
 - @Blue "Repariert": Einige Bugs im Compiler und den Bibliotheken @LineBreak

@@ -428,6 +428,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ImagePlugin_TIFF     = $46464954
   #PB_ImagePlugin_ICON     = $4E4F4349
   #PB_ImagePlugin_GIF      = $474946
+  #PB_ImagePlugin_WEBP     = $50424557
 
 CompilerEndIf
 
@@ -639,6 +640,9 @@ CompilerEndIf
 #PB_Editor_ReadOnly      = 1 << 0
 #PB_Editor_WordWrap      = 1 << 1
 #PB_Editor_TabNavigation = 1 << 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Editor_Centered      = 1 << 3
+CompilerEndIf
 
 ; HyperLink flags
 ;
@@ -806,6 +810,9 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
   #PB_Canvas_Transparent = 1 << 4
 CompilerEndIf
 #PB_Canvas_Container = 1 << 5
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Canvas_NoTabNavigation = 1 << 6 ; Not supported in JS
+CompilerEndIf
 
 
 ; Get/SetGadgetAttribute for CanvasGadget
@@ -1250,6 +1257,12 @@ CompilerEndIf
 
 #PB_Sound_Millisecond = 1
 #PB_Sound_Frame       = 0
+
+#PB_SoundPlugin_WAV   = $564157
+#PB_SoundPlugin_FLAC  = $43414C46
+#PB_SoundPlugin_OGG   = $47474F
+#PB_SoundPlugin_MP3   = $33504D
+#PB_SoundPlugin_Opus  = $5355504F
 
 ; ToolBar library
 ;
@@ -2117,6 +2130,7 @@ EndStructure
 #PB_Texture_ManualUpdate    = 1 << 1
 #PB_Texture_CameraViewPort  = 1 << 2
 #PB_Texture_VisibilityMask  = 1 << 3
+#PB_Texture_Overwrite       = 1 << 4 ; TextureVectorOutput()
 
 ; Text3D
 ;

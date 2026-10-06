@@ -849,12 +849,12 @@ RHS | Result
   Value << 1 ; The same as: Value = Value << 1
 @EndCode
   
-  Note: this can lead to 'unexpected' results is some rare cases, if the assignment is modified before the affection.
+  Note: if the left part contains a function call (for example in an array index or a map key), it is evaluated only once.
 
 @Example
 @Code
   Dim MyArray(10)
-  MyArray(Random(10)) + 1 ; The same as: MyArray(Random(10)) = MyArray(Random(10)) + 1, but here Random() won't return the same value for each call.
+  MyArray(Random(10)) + 1 ; Random() is called only once, so the same element is read and written.
 @EndCode
 
 @Section Operators priorities

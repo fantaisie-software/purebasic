@@ -142,6 +142,10 @@
   To parse JSON data directly from a string, the @@ParseJSON function can be used instead.
 @LineBreak
 @LineBreak
+  Arrays and objects nested more than 1000 levels deep are rejected as an error, to
+  protect against excessively deep input.
+@LineBreak
+@LineBreak
   JSON is a case sensitive data format. However, in some situations, such as deserializing
   structures with @@ExtractJSONStructure or similar commands it may be useful to treat
   JSON objects as case insensitive. The @#PB_JSON_NoCase flag causes all
@@ -1443,6 +1447,10 @@
   functions can be used to get more information about the error.
 @LineBreak
 @LineBreak
+  Arrays and objects nested more than 1000 levels deep are rejected as an error, to
+  protect against excessively deep input.
+@LineBreak
+@LineBreak
   JSON is a case sensitive data format. However, in some situations, such as deserializing
   structures with @@ExtractJSONStructure or similar commands it may be useful to treat
   JSON objects as case insensitive. The @#PB_JSON_NoCase flag causes all
@@ -1512,6 +1520,10 @@
 @LineBreak
 @LineBreak
   To parse JSON data directly from a memory buffer, the @@CatchJSON function can be used instead.
+@LineBreak
+@LineBreak
+  Arrays and objects nested more than 1000 levels deep are rejected as an error, to
+  protect against excessively deep input.
 @LineBreak
 @LineBreak
   JSON is a case sensitive data format. However, in some situations, such as deserializing

@@ -407,7 +407,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawImage(ImageID, x, y [, Width, Height])  
+@Function DrawImage(ImageID, x, y [, Width, Height [, Mode]])
 
 @Description
   Draws an image to the current drawing output.
@@ -415,8 +415,8 @@
   The current output is set with @@StartDrawing.
 
 @Parameter "ImageID"
-  The ID of the image to draw. This value can be obtained 
-  using the @@ImageID function from the image library. 
+  The ID of the image to draw. This value can be obtained
+  using the @@ImageID function from the image library.
 
 @Parameter "x, y"
   The position of the top/left corner of the image in the drawing output.
@@ -424,6 +424,13 @@
 @OptionalParameter "Width, Height"
   The image will be resized and drawn. If these parameters are not specified then
   the image will be drawn in its original size.
+
+@OptionalParameter "Mode"
+  The resize method to use when 'Width' and 'Height' are specified. It can be one of the following values:
+@FixedFont
+  @#PB_Image_Smooth: Resize the image with smoothing (default).
+  @#PB_Image_Raw   : Resize the image without any interpolation.
+@EndFixedFont
 
 @NoReturnValue
 

@@ -88,6 +88,12 @@ extern "C" QWidget *QT_GetViewPort(QAbstractScrollArea *Widget)
   return Widget->viewport();
 }
 
+// Wayland doesn't allow a client to raise or activate its windows (QWindow::requestActivate() is unsupported)
+extern "C" integer QT_IsWayland()
+{
+  return QGuiApplication::platformName().startsWith(QLatin1String("wayland"));
+}
+
 // -------------------  Event handling for AutoComplete -----------------
 
 

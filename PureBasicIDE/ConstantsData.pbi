@@ -83,7 +83,7 @@ DataSection
   Data$ "CameraYaw,2,#True,#False"
   Data$ "CameraZ,2,#PB_Absolute,#PB_Relative"
   Data$ "CanvasGadget,1,#PB_Any"
-  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_ClipMouse,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Container"
+  Data$ "CanvasGadget,6,#PB_Canvas_Border,#PB_Canvas_ClipMouse,#PB_Canvas_Keyboard,#PB_Canvas_DrawFocus,#PB_Canvas_Container,#PB_Canvas_NoTabNavigation"
   Data$ "CanvasVectorOutput,2,#PB_Unit_Pixel,#PB_Unit_Point,#PB_Unit_Inch,#PB_Unit_Millimeter"
   Data$ "CatchImage,1,#PB_Any"
   Data$ "CatchJSON,1,#PB_Any"
@@ -627,7 +627,7 @@ DataSection
   ;Data$ "SetGadgetAttribute3D,2,"    ; leave out because of the many different constants depending on the gadget type
   Data$ "SetGadgetColor,2,#PB_Gadget_FrontColor,#PB_Gadget_BackColor,#PB_Gadget_LineColor,#PB_Gadget_TitleFrontColor,#PB_Gadget_TitleBackColor,#PB_Gadget_GrayTextColor"
   Data$ "SetGadgetFont,1,#PB_Default"
-  Data$ "SetGadgetItemAttribute,3,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth"
+  Data$ "SetGadgetItemAttribute,3,#PB_Explorer_ColumnWidth,#PB_ListIcon_ColumnWidth,#PB_ListIcon_ColumnAlignment"
   Data$ "SetGadgetItemColor,3,#PB_Gadget_FrontColor,#PB_Gadget_BackColor"
   Data$ "SetGadgetItemText,2,#PB_WebView_HtmlCode,#PB_Web_HtmlCode"
   Data$ "SetJointAttribute,2,#PB_Joint_EnableSpring,#PB_Joint_Stiffness,#PB_Joint_Damping,#PB_Joint_Position,#PB_Joint_NoLimit,#PB_Joint_LowerLimit,#PB_PointJoint_Tau,#PB_PointJoint_Damping,#PB_ConeTwistJoint_SwingSpan,#PB_ConeTwistJoint_SwingSpan2,#PB_ConeTwistJoint_TwistSpan,#PB_HingeJoint_LowerLimit,#PB_HingeJoint_UpperLimit,#PB_SliderJoint_LowerLimit,#PB_SliderJoint_UpperLimit"

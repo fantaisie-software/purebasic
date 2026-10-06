@@ -1,7 +1,7 @@
 ﻿;
 ;     Material library documentation
 ;
-;       (c) 2025 - Fantaisie Software
+;       (c) 2026 - Fantaisie Software
 ;
 
 @Library Material
@@ -935,12 +935,22 @@
 @Parameter "Modus"
   Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Material_Add        : Führt eine Pixel 'Add' (Hinzufügen) Operation über der Szene aus
-                            (schwarze Farbe ist wie transparent).
-  @#PB_Material_AlphaBlend : Benutzt den Alpha-Kanal Layer der Textur (sollte im TGA- oder
-                            PNG-Format vorliegen) und mischt ihn mit der Szene.
-  @#PB_Material_Color      : Verwendet die Transparenzfarbe der Textur beim Mischen des Materials
-                            mit der Szene.
+  @#PB_Material_Replace          : Ersetzt die Szene durch das Material (keine Überblendung, Standard).
+  @#PB_Material_Add              : Führt eine Pixel-Addition ('Add'-Operation) auf der Szene aus
+                                  (schwarze Farbe ist wie transparent).
+  @#PB_Material_AddSigned        : Führt eine vorzeichenbehaftete Pixel-Addition ('Add'-Operation) auf der Szene aus.
+  @#PB_Material_Substract        : Führt eine Pixel-Subtraktion ('Substract'-Operation) auf der Szene aus.
+  @#PB_Material_Modulate         : Führt eine Pixel-Multiplikation ('Multiply'-Operation) auf der Szene aus.
+  @#PB_Material_ModulateX2       : Führt eine Pixel-Multiplikation ('Multiply'-Operation) auf der Szene aus
+                                  und hellt das Ergebnis anschließend auf (x2).
+  @#PB_Material_ModulateX4       : Führt eine Pixel-Multiplikation ('Multiply'-Operation) auf der Szene aus
+                                  und hellt das Ergebnis anschließend auf (x4).
+  @#PB_Material_AlphaBlend       : Benutzt den Alpha-Kanal Layer der Textur (sollte im TGA- oder
+                                  PNG-Format vorliegen) und mischt ihn mit der Szene.
+  @#PB_Material_BlendDiffuseAlpha: Verwendet den diffusen Alpha-Wert, um das Material mit der Szene zu mischen.
+  @#PB_Material_BlendCurrentAlpha: Verwendet den aktuellen Alpha-Wert, um das Material mit der Szene zu mischen.
+  @#PB_Material_Color            : Verwendet die Transparenzfarbe der Textur beim Mischen des Materials
+                                  mit der Szene.
 @EndFixedFont
 
 @NoReturnValue

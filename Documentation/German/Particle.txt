@@ -1,7 +1,7 @@
 ﻿;
 ;     Particle library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Particle
@@ -280,20 +280,26 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
+@Function ParticleVelocity(#ParticleEmitter, Modus, Wert)
 
 @Description
-  Ändert die Partikel-Geschwindigkeit. Ein zufälliger Geschwindigkeitswert aus der
-  'Minimum' und 'Maximum' Spanne wird für jeden ausgestrahlten Partikel benutzt.
+   Ändert die Partikel-Geschwindigkeit.
 
 @Parameter "#ParticleEmitter"
   Der zu verwendende Partikelstrahler.
 
-@Parameter "Minimum"
-  Die minimale Geschwindigkeit eines Partikels.
+@Parameter "Modus"
+  Einer der folgenden Werte:
+@FixedFont
+  #PB_Particle_Velocity        : Legt eine feste Geschwindigkeit für jedes Partikel fest.
+  #PB_Particle_MinimumVelocity : Legt die Mindestgeschwindigkeit des zufälligen Bereichs fest, aus dem jedes
+                                Partikel seine Geschwindigkeit auswählt.
+  #PB_Particle_MaximumVelocity : Legt die maximale Geschwindigkeit des zufälligen Bereichs fest, aus dem jedes
+                                Partikel seine Geschwindigkeit auswählt.
+@EndFixedFont
 
-@Parameter "Maximum"
-  Die maximale Geschwindigkeit eines Partikels.
+@Parameter "Wert"
+  Die einzustellende Geschwindigkeit gemäß dem festgelegten 'Modus'.
 
 @NoReturnValue
 

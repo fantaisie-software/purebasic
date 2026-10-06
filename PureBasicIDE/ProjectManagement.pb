@@ -1121,6 +1121,7 @@ Procedure LoadProject(Filename$)
                     ProjectTargets()\EnableAdmin   = Xml_Boolean(GetXMLAttribute(*Entry, "admin"))
                     ProjectTargets()\EnableUser    = Xml_Boolean(GetXMLAttribute(*Entry, "user"))
                     ProjectTargets()\DPIAware      = Xml_Boolean(GetXMLAttribute(*Entry, "dpiaware"))
+                    ProjectTargets()\DPIAwareMode  = Xml_Boolean(GetXMLAttribute(*Entry, "dpiawaremode"))
                     ProjectTargets()\DllProtection = Xml_Boolean(GetXMLAttribute(*Entry, "dllprotection"))
                     ProjectTargets()\SharedUCRT    = Xml_Boolean(GetXMLAttribute(*Entry, "shareducrt"))
                     ProjectTargets()\EnableOnError = Xml_Boolean(GetXMLAttribute(*Entry, "onerror"))
@@ -1583,6 +1584,9 @@ Procedure SaveProject(ShowErrors)
       EndIf
       If ProjectTargets()\DPIAware
         SetXMLAttribute(*Options, "dpiaware",  "1")
+      EndIf
+      If ProjectTargets()\DPIAwareMode
+        SetXMLAttribute(*Options, "dpiawaremode",  "1")
       EndIf
       If ProjectTargets()\DllProtection
         SetXMLAttribute(*Options, "dllprotection",  "1")

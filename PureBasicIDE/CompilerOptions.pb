@@ -48,6 +48,8 @@ Procedure DisableOptionGadgets()
   
   ; disable / enable the resource options
   CompilerIf #CompileWindows And Not #SpiderBasic
+    DisableGadget(#GADGET_Option_DPIAwareMode, 1-GetGadgetState(#GADGET_Option_DPIAware))
+
     DisableGadget(#GADGET_Option_IncludeVersion, UseMainFile)
     
     UseVersion = GetGadgetState(#GADGET_Option_IncludeVersion)
@@ -168,6 +170,9 @@ Procedure SetTargetOptions(*Target.CompileTarget)
     SetGadgetState(#GADGET_Option_EnableUser   , *Target\EnableUser)
     SetGadgetState(#GADGET_Option_DllProtection, *Target\DllProtection)
     SetGadgetState(#GADGET_Option_SharedUCRT   , *Target\SharedUCRT)
+    CompilerIf #CompileWindows
+      SetGadgetState(#GADGET_Option_DPIAwareMode, *Target\DPIAwareMode)
+    CompilerEndIf
     SetGadgetState(#GADGET_Option_EnableOnError, *Target\EnableOnError)
     
     SetGadgetState(#GADGET_Option_SelectDebugger, *Target\CustomDebugger)
@@ -282,6 +287,9 @@ Procedure TargetOptionsChanged(*Target.CompileTarget)
     If *Target\EnableUser        <> GetGadgetState(#GADGET_Option_EnableUser): Changed = 1: EndIf
     If *Target\DllProtection     <> GetGadgetState(#GADGET_Option_DllProtection): Changed = 1: EndIf
     If *Target\SharedUCRT        <> GetGadgetState(#GADGET_Option_SharedUCRT): Changed = 1: EndIf
+    CompilerIf #CompileWindows
+      If *Target\DPIAwareMode    <> GetGadgetState(#GADGET_Option_DPIAwareMode): Changed = 1: EndIf
+    CompilerEndIf
     If *Target\EnableOnError     <> GetGadgetState(#GADGET_Option_EnableOnError): Changed = 1: EndIf
     If *Target\CPU               <> GetGadgetState(#GADGET_Option_CPU): Changed = 1: EndIf
     If *Target\ExecutableFormat  <> GetGadgetState(#GADGET_Option_ExecutableFormat): Changed = 1: EndIf
@@ -387,6 +395,9 @@ Procedure GetTargetOptions(*Target.CompileTarget)
     *Target\EnableUser       = GetGadgetState(#GADGET_Option_EnableUser)
     *Target\DllProtection    = GetGadgetState(#GADGET_Option_DllProtection)
     *Target\SharedUCRT       = GetGadgetState(#GADGET_Option_SharedUCRT)
+    CompilerIf #CompileWindows
+      *Target\DPIAwareMode   = GetGadgetState(#GADGET_Option_DPIAwareMode)
+    CompilerEndIf
     *Target\EnableOnError    = GetGadgetState(#GADGET_Option_EnableOnError)
     *Target\CPU              = GetGadgetState(#GADGET_Option_CPU)
     *Target\TemporaryExePlace= GetGadgetState(#GADGET_Option_TemporaryExe)
@@ -906,7 +917,10 @@ Procedure OptionWindowEvents(EventID)
           
         Case #GADGET_Option_Debugger
           ; No action here anymore, as the menu item is disabled anyway for consistency
-          
+
+        Case #GADGET_Option_DPIAware
+          DisableOptionGadgets()
+
           
         Case #GADGET_Option_SelectMainFile
           File$ = ResolveRelativePath(Options_CurrentBasePath$, GetGadgetText(#GADGET_Option_MainFile))

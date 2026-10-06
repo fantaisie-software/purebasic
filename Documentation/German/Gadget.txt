@@ -588,6 +588,9 @@
                         Unter Windows funktioniert die Transparenz der Gadgets nicht, daher wird der Text der folgenden Gadgets
                         auf einem undurchsichtigen Hintergrund angezeigt: @@CheckBoxGadget, @@FrameGadget, @@HyperlinkGadget,
                         @@OptionGadget, @@TextGadget und @@TrackBarGadget.
+  @#PB_Canvas_NoTabNavigation: Bei Verwendung von TAB oder SHIFT+TAB im Gadget, werden die Tastenanschläge als reguläre @#PB_EventType_KeyDown
+                       Ereignisse empfangen, anstatt zum nächsten oder vorherigen Gadget zu wechseln. Damit dies funktioniert, ist das Flag
+					   @#PB_Canvas_Keyboard erforderlich.
 @EndFixedFont
   Das @#PB_Canvas_Keyboard Flag wird benötigt, um jegliche Tastatur-Ereignisse im Gadget zu empfangen. Wenn Sie dieses Flag
   verwenden, sollten Sie die @#PB_EventType_Focus und @#PB_EventType_LostFocus Ereignisse überprüfen,
@@ -1688,7 +1691,62 @@
 @Image disablegadget.png
 
 @SeeAlso
-  @@HideGadget
+  @@HideGadget, @@DisableGadgetRedraw
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function DisableGadgetRedraw(#Gadget, Status)
+
+@Description
+  Deaktiviert oder aktiviert das Neuzeichnen eines Gadgets.
+@LineBreak
+@LineBreak
+  Wenn einem Gadget wie dem @@ListIconGadget, @@TreeGadget oder @@ListViewGadget eine große Anzahl von
+  Elementen hinzugefügt wird, löst jeder Einfügevorgang normalerweise eine Neuzeichnung aus, was die
+  Aktualisierung verlangsamen und zu Flackern führen kann. Wird die Neuzeichnung vor der Masseneinfügung
+  deaktiviert und anschließend wieder aktiviert, erfolgt nur eine einzige Neuzeichnung, sobald alle
+  Elemente eingefügt sind.
+@LineBreak
+@LineBreak
+  Jeder Aufruf, der die Neuzeichnung deaktiviert, muss mit einem Aufruf gepaart werden, der sie wieder
+  aktiviert. Das Aktivieren der Neuzeichnung aktualisiert automatisch den Inhalt des Gadgets. Die
+  aktuelle Auswahl und die Scroll-Position bleiben während des Vorgangs erhalten.
+
+@Parameter "#Gadget"
+  Das zu aktualisierende Gadget.
+
+@Parameter "Status"
+@FixedFont
+  @#False: Das Gadget wird erneut gezeichnet und sein Inhalt aktualisiert. 
+  @#True : Das Gadget wird erst wieder gezeichnet, wenn es erneut aktiviert wird.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Unter Linux gilt die Optimierung für das @@ListIconGadget, @@ListViewGadget und @@TreeGadget. Bei
+  allen anderen Gadgets sowie unter OS X fasst das Grafik-Toolkit die Zeichenoperationen bereits
+  zusammen; daher hat der Befehl keine Auswirkung und dient lediglich der Kompatibilität des Quellcodes.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "DisableGadgetRedraw", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 10, 10, 300, 230, "Items", 280)
+
+    DisableGadgetRedraw(0, #True)     ; Neuzeichnung während des Massen-Einfügens deaktiveren
+    For i = 1 To 5000
+      AddGadgetItem(0, -1, "Item " + i)
+    Next
+    DisableGadgetRedraw(0, #False)    ; Aktivieren und einmal neuzeichnen
+
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddGadgetItem, @@HideGadget
 
 @SupportedOS
 
@@ -4082,8 +4140,8 @@
   Das zu verwendende Gadget.
 
 @Parameter "Spalte"
-  Die zu entfernende Spalte (die erste Spalte hat den Index 0).
-  @#PB_All kann verwendet werden, um alle Spalten zu entfernen.
+  Die zu entfernende Spalte (die erste Spalte hat den Index 0). @#PB_All kann verwendet werden, um alle
+  Spalten auf einmal zu entfernen (unterstützt beim @@ListIconGadget wie auch dem @@ExplorerListGadget).
 
 @NoReturnValue
 
@@ -4818,6 +4876,11 @@
   - @@ListIconGadget:
 @FixedFont
   @#PB_ListIcon_ColumnWidth : Ändert die Breite der angegebenen 'Spalte'. Der Parameter 'Eintrag' wird ignoriert.
+  @#PB_ListIcon_ColumnAlignment: Ändert die Textausrichtung der angegebenen 'Spalte'. Der Parameter 'Wert' kann
+                                einen der folgenden Werte annehmen:
+     - @#PB_ListIcon_Left  : Text wird linksbündig ausgerichtet (Standard).
+     - @#PB_ListIcon_Right : Text wird rechtsbündig ausgerichtet.
+     - @#PB_ListIcon_Center: Text wird zentriert.
 @EndFixedFont
 
 @SeeAlso
@@ -6061,7 +6124,8 @@
 
   - @@GetGadgetItemText: Die folgenden Konstanten können verwendet werden, um Informationen zu erhalten: (nur auf Windows)
 @FixedFont
-  @#PB_Web_HtmlCode     : Ermittelt den Html-Code vom Gadget.
+  @#PB_Web_HtmlCode     : Ermittelt den aktuellen Html-Code vom Gadget, einschließlich der durch Skripte oder den Benutzer
+                         (zum Beispiel in einem 'contenteditable'-Element) vorgenommenen Änderungen.
   @#PB_Web_PageTitle    : Ermittelt den aktuellen Titel der angezeigten Seite.
   @#PB_Web_StatusMessage: Ermittelt die aktuelle Statusleisten-Nachricht.
   @#PB_Web_SelectedText : Ermittelt den aktuell selektierten Text innerhalb des Gadgets.

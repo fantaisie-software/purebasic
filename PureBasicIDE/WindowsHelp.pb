@@ -162,39 +162,23 @@ CompilerIf #CompileWindows
     
   EndProcedure
   
-  Procedure HtmlHelp(File$, Page$)
-    ; Open the help tool if configured to do so, or html help otherwise
-    ;
-    If UseHelpToolF1 And HelpToolOpen
-      If Page$ = ""
-        Page$ = "/Reference/reference.html"
-      ElseIf Left(Page$, 1) <> "/"
-        Page$ = "/" + Page$
-      EndIf
-      SetGadgetText(#GADGET_HelpTool_Viewer, "mk:@MSITStore:" + File$ + "::" + Page$)
-      ActivateTool("HelpTool") ; switches to the tool
-    Else
-      OpenHelp(File$, Page$)
-    EndIf
-  EndProcedure
-  
-  
+  ; The PureBasic help is displayed in the help tool (HelpTool.pb). The API, ASM and user libraries
+  ; with their own .chm help are still opened with OpenHelp()
+  ;
   Procedure DisplayHelp(CurrentWord$)
-    
+
     If *ActiveSource\EnableASM And IsASMKeyword(CurrentWord$) And Asc(UCase(CurrentWord$)) = 'F' And FileSize(PureBasicPath$+"Help\ASMFPU.hlp") > 0
       OpenHelp(PureBasicPath$+"Help\ASMFPU.hlp", CurrentWord$)
-      
+
     ElseIf *ActiveSource\EnableASM And IsASMKeyword(CurrentWord$) And FileSize(PureBasicPath$+"Help\ASM.hlp") > 0
       OpenHelp(PureBasicPath$+"Help\ASM.hlp", CurrentWord$)
-      
+
     ElseIf CurrentWord$ = ""
-      HtmlHelp(PureBasicPath$ + #ProductName$ + ".chm", "")
-      
-      
+      HelpTool_DisplayPage("")
+
     ElseIf CheckPureBasicKeyWords(CurrentWord$) <> ""
-      HtmlHelp(PureBasicPath$ + #ProductName$ + ".chm", CheckPureBasicKeyWords(CurrentWord$)+".html")
-      
-      
+      HelpTool_DisplayPage(CheckPureBasicKeyWords(CurrentWord$))
+
     Else
       ForceDefaultCompiler()
       
@@ -209,23 +193,26 @@ CompilerIf #CompileWindows
             OpenHelp(PureBasicpath$+"Help\Win32.hlp", CurrentWord$)
           Else
             If DisplayPlatformSDKHelp(CurrentWord$) = 0
-              HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", "") ; Fallback to PB help if all API help fail
+              HelpTool_DisplayPage("") ; Fallback to PB help if all API help fail
             EndIf
           EndIf
-          
+
         ElseIf HelpDirectory$ = "UNKNOWN"
-          HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", "")
-          
+          HelpTool_DisplayPage("")
+
         Else ; build in command or userlib
           If LCase(GetExtensionPart(HelpDirectory$)) = "chm"  ; A .chm has been defined in the .DESC -> It's a user lib with its own help
-            HtmlHelp(PureBasicPath$+"Help\"+HelpDirectory$, GetFilePart(HelpDirectory$, #PB_FileSystem_NoExtension)+"/"+CurrentWord$+".html")
+            OpenHelp(PureBasicPath$+"Help\"+HelpDirectory$, GetFilePart(HelpDirectory$, #PB_FileSystem_NoExtension)+"/"+CurrentWord$+".html")
           Else
-            HtmlHelp(PureBasicPath$+#ProductName$ + ".chm", HelpDirectory$+"/"+CurrentWord$+".html")
+            HelpTool_DisplayPage(HelpDirectory$+"/"+CurrentWord$+".html")
           EndIf
-          
+
         EndIf
+
+      Else
+        HelpTool_DisplayPage(CurrentWord$) ; no compiler to ask, try the command name
       EndIf
-      
+
     EndIf
     
   EndProcedure

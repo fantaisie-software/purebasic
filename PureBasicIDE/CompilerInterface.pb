@@ -1574,7 +1574,17 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
   EndIf
   
   CompilerIf #CompileMac | #CompileWindows | #SpiderBasic
-    If *Target\DPIAware : Command$ + Chr(9) + "DPIAWARE" : EndIf
+    If *Target\DPIAware
+      CompilerIf #CompileWindows
+        If *Target\DPIAwareMode = 1
+          Command$ + Chr(9) + "DPIWINDOWAWARE"
+        Else
+          Command$ + Chr(9) + "DPIAWARE"
+        EndIf
+      CompilerElse
+        Command$ + Chr(9) + "DPIAWARE"
+      CompilerEndIf
+    EndIf
   CompilerEndIf
   
   CompilerIf #CompileWindows

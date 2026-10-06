@@ -951,14 +951,14 @@
   Value * 2  ; Das gleiche wie: Value = Value * 2
   Value << 1 ; Das gleiche wie: Value = Value << 1
 @EndCode
-  
-  Hinweis: Dies kann in einigen seltenen Fällen zu "unerwarteten" Ergebnissen führen,
-  wenn die Zuweisung ("assignement") vor der Neigung ("affection") modifiziert wird.
+
+  Hinweis: Wenn der linke Teil einen Funktionsaufruf enthält (zum Beispiel in einem Array-Index oder einem
+  Map-Schlüssel), wird dieser nur einmal ausgewertet.
 
 @Example
 @Code
   Dim MyArray(10)
-  MyArray(Random(10)) + 1 ; Das gleiche wie: MyArray(Random(10)) = MyArray(Random(10)) + 1, nur wird hier Random() nicht bei jedem Aufruf das gleiche Ergebnis zurückliefern.
+  MyArray(Random(10)) + 1 ; Random() wird nur einmal aufgerufen, sodass dasselbe Element gelesen und geschrieben wird.
 @EndCode
 
 @Section Priorität von Operatoren

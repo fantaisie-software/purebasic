@@ -1,5 +1,32 @@
 ﻿@Title History
 
+@Section xxth October 2026 : Version 6.50 [beta1]
+
+- @Green "Added": Per monitor auto DPI scaling for Windows 10+ window and gadgets !
+- @Green "Added": ExtractArray(), JoinArray(), ExtractList(), JoinList()
+- @Green "Added": WindowResolutionX(), WindowResolutionY(), WindowScaledX(), WindowScaledY(), WindowUnscaledX(), WindowUnscaledY()
+- @Green "Added": XmlDialogGadget() to have the XML dialog features into a container gadget.
+- @Green "Added": WebViewGadget() for QT subsystem (except for Raspberry ARM32)
+- @Green "Added": WebP image support for decoding and encoding
+- @Green "Added": UseOSImageDecoder() and UseOSImageEncoder() to load and save images using native plugins
+- @Green "Added": EncodeSound() and SaveSound() to save sounds using native plugins
+- @Green "Added": UseMP3SoundDecoder() to enable MP3 loading and saving
+- @Green "Added": UseOpusSoundDecoder() to enable Opus loading and saving
+- @Green "Added": DisableGadgetRedraw() for faster insert item on ListIconGadget(), ListViewGadget(), ComboboxGadget() (mainly for Windows)
+- @Green "Added": Resize mode for DrawImage() to have raw or smooth resize.
+- @Green "Added": #PB_Window_Modal flag to OpenWindow() to disable the underlying window.
+- @Green "Added": #PB_Packer_Xz support to Packer library.
+- @Green "Added": Long filename support for Windows (using \\?\ and without explicit \\?\) for all file related commands
+- @Green "Added": #PB_Editor_Centered flag to EditorGadget()
+- @Green "Added": #PB_All for RemoveGadgetColumns() to ExplorerListGadget() as well for consistency
+- @Green "Added": a special doc page which list all the PureBasic third dependencies and their versions
+
+- @Blue "Updated": libjpeg is now replaced by libjpeg-turbo which is much faster.
+- @Blue "Updated": PCRE1 library is obsolete and now replaced by PCRE2.
+- @Blue "Updated": all static dependencies to latest version !
+
+- @Blue "Fixed": a lot of library bugs, many more unit tests created to avoid regression and catch OS discrepencies.
+
 
 @Section 10th August 2026 : Version 6.41
 

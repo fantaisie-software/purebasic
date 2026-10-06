@@ -1,7 +1,7 @@
 ﻿;
 ;     Array library documentation
 ;
-;      (c) 2024 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Array
@@ -34,6 +34,10 @@
   @@sortArray @LineBreak
   @@SortStructuredArray @LineBreak
   @@RandomizeArray @LineBreak
+
+@Section Text conversion
+  @@ExtractArray @LineBreak
+  @@JoinArray @LineBreak
 
 @ExampleFile All Array.pb
 
@@ -211,6 +215,59 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result = ExtractArray(Array(), Text$ [, Separator$ [, Limit]])
+
+@Description
+  Splits 'Text$' into 'Array()', using 'Separator$' to find each element. 'Array()' is
+  redimensioned to hold exactly the number of elements found.
+
+@Parameter "Array()"
+  The destination array. It has to be of string, integer or double type and have a single
+  dimension.
+
+@Parameter "Text$"
+  The text to split.
+
+@OptionalParameter "Separator$"
+  The separator to use between each element. It defaults to a comma (",") and can be several
+  characters long. If it is an empty string, 'Text$' is not split and is copied as a single
+  element into 'Array()'.
+
+@OptionalParameter "Limit"
+  If specified and greater than zero, at most 'Limit' elements are extracted: the last one
+  then contains the remainder of 'Text$', including any separator it may still contain.
+  If omitted, zero or negative, there is no limit.
+
+@ReturnValue
+  Returns the number of elements found (and stored into 'Array()').
+
+@Example
+@Code
+  Dim MyArray.s(0)
+
+  Result = ExtractArray(MyArray(), "Apple,Orange,Cherry")
+
+  Debug Result       ; will print '3'
+  Debug MyArray(0)   ; will print 'Apple'
+  Debug MyArray(1)   ; will print 'Orange'
+  Debug MyArray(2)   ; will print 'Cherry'
+@EndCode
+
+@Example
+@Code
+  ; A numeric array can be used as well
+  Dim Numbers.i(0)
+  ExtractArray(Numbers(), "10|20|30", "|")
+  Debug Numbers(0) + Numbers(1) + Numbers(2) ; will print '60'
+@EndCode
+
+@SeeAlso
+  @@JoinArray, @@ExtractList, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function FreeArray(Array())
 
 @Description
@@ -224,5 +281,43 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 
 @SeeAlso
   @@FreeList, @@FreeMap
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = JoinArray(Array() [, Separator$ [, Limit]])
+
+@Description
+  Joins all the elements of 'Array()' into a single string, using 'Separator$' between each
+  element.
+
+@Parameter "Array()"
+  The source array. It has to be of string, integer or double type and have a single dimension.
+
+@OptionalParameter "Separator$"
+  The separator to insert between each element. It defaults to a comma (",") and can be
+  several characters long.
+
+@OptionalParameter "Limit"
+  If specified and greater than zero, only the first 'Limit' elements of 'Array()' are joined.
+  If omitted, zero or negative, every element is joined.
+
+@ReturnValue
+  Returns the resulting string.
+
+@Example
+@Code
+  Dim MyArray.s(2)
+  MyArray(0) = "Apple"
+  MyArray(1) = "Orange"
+  MyArray(2) = "Cherry"
+
+  Debug JoinArray(MyArray())        ; will print 'Apple,Orange,Cherry'
+  Debug JoinArray(MyArray(), " - ") ; will print 'Apple - Orange - Cherry'
+@EndCode
+
+@SeeAlso
+  @@ExtractArray, @@JoinList
 
 @SupportedOS

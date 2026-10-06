@@ -169,15 +169,22 @@
 
 @Example
 @Code
-  Input$ = InputRequester("Titel", "Bitte machen Sie Ihre Eingabe:", "Ich bin die Standardeingabe.")
-
-  If Input$ > ""
+  Input$ = InputRequester("Titel", "Bitte machen Sie Ihre Eingabe:", "Ich bin die Standardeingabe.", #PB_InputRequester_HandleCancel)
+  
+  If Input$ = #PB_InputRequester_Cancel 
+    a$ = "Der Requester wurde abgebrochen!"
+  
+  ElseIf Input$ = #Empty$
+    a$ = "Sie haben keine Eingabe gemacht!"
+    
+  ElseIf Input$ > ""
     a$ = "Sie haben folgendes in den Requester geschrieben:" + Chr(10)  ; Chr(10) wird nur für
-    a$ + Input$                                                   ; den Zeilenumbruch benötigt
-  Else  
-    a$ = "Der Requester wurde abgebrochen oder es wurde nichts eingegeben."
+    a$ + Input$                                                         ; den Zeilenumbruch benötigt
+    
   EndIf
+  
   MessageRequester("Information", a$, 0)
+  End
 @EndCode
 @LineBreak
 @Image inputrequester.png

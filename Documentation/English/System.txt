@@ -304,6 +304,34 @@ amount of memory available, and more.
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Result$ = OSLanguage()
+
+@Description
+  Returns the language the operating system is currently running in.
+
+@NoParameters
+
+@ReturnValue
+  Returns the language as a lowercase two-letter @InternetLink "https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes" "ISO 639-1"
+  code (for example 'en', 'fr', 'de' or 'ja'). Any region or script part is stripped, so only the language itself is reported.
+  An empty string is returned if the language can't be determined.
+@LineBreak
+@LineBreak
+  On Windows the user default UI language is used, on macOS the first entry of the preferred languages list, and on Linux the
+  'LC_ALL', 'LC_MESSAGES' or 'LANG' environment variable (in that order).
+
+@Example
+@Code
+  Debug OSLanguage() ; Could print: "en"
+@EndCode
+
+@SeeAlso
+  @@OSVersion
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function Result$ = ComputerName()
 
 @Description

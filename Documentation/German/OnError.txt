@@ -1,7 +1,7 @@
 ﻿;
 ;     OnError library documentation
 ;
-;       (c) 2024 - Fantaisie Software
+;       (c) 2026 - Fantaisie Software
 ;
 
 @Library OnError
@@ -69,6 +69,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "Der Debugger muss ausgeschaltet sein, um diese Funktion zu testen"
+  CompilerEndIf
+
   MessageRequester("OnError Test", "Test starten")
 
   OnErrorExit()
@@ -102,6 +106,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "Der Debugger muss ausgeschaltet sein, um diese Funktion zu testen"
+  CompilerEndIf
+
   Procedure ErrorHandler()
     MessageRequester("OnError Test", "Der folgende Fehler trat auf: " + ErrorMessage())
   EndProcedure
@@ -141,6 +149,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "Der Debugger muss ausgeschaltet sein, um diese Funktion zu testen"
+  CompilerEndIf
+
   MessageRequester("OnError Test", "Test starten")
 
   OnErrorGoto(?ErrorHandler)
@@ -180,6 +192,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "Der Debugger muss ausgeschaltet sein, um diese Funktion zu testen"
+  CompilerEndIf
+
   Procedure ErrorHandler()
     MessageRequester("OnError Test", "Der folgende Fehler trat auf: " + ErrorMessage())
   EndProcedure
@@ -401,6 +417,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "Der Debugger muss ausgeschaltet sein, um diese Funktion zu testen"
+  CompilerEndIf
+
   Procedure ErrorHandler()
     MessageRequester("OnError Test", "Der folgende Fehler trat auf: " + ErrorMessage())
   EndProcedure

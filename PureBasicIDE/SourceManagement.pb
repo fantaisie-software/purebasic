@@ -883,7 +883,11 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   EndIf
   If *Target\DPIAware And IsCodeFile
     NbLines + 1
-    ConfigLines$(NbLines) = "DPIAware"
+    If *Target\DPIAwareMode = 1
+      ConfigLines$(NbLines) = "DPIWindowAware"
+    Else
+      ConfigLines$(NbLines) = "DPIAware"
+    EndIf
   EndIf
   If *Target\DllProtection And IsCodeFile
     NbLines + 1
@@ -1246,6 +1250,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   ; These configs are enabled by default, so if not present, should be 0
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
+  *Source\DPIAwareMode  = 0
   *Source\DllProtection = 0
   *Source\SharedUCRT    = 0
   *Source\EnableWayland = 0
@@ -1340,7 +1345,8 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "ENABLEWAYLAND":    *Source\EnableWayland = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
-      Case "DPIAWARE":         *Source\DPIAware = 1
+      Case "DPIAWARE":         *Source\DPIAware = 1: *Source\DPIAwareMode = 0
+      Case "DPIWINDOWAWARE":   *Source\DPIAware = 1: *Source\DPIAwareMode = 1
       Case "DLLPROTECTION":    *Source\DllProtection = 1
       Case "SHAREDUCRT":       *Source\SharedUCRT = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
@@ -1625,6 +1631,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
+    *Source\DPIAwareMode  = 0
     *Source\DllProtection = 0
     *Source\SharedUCRT    = 0
     *Source\EnableOnError = 0
