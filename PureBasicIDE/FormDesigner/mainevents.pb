@@ -3794,9 +3794,6 @@ Procedure FD_Move(x,y)
         
         If y2 = 0
           y2 = FormWindows()\height - bottompaddingsb
-          If FormSkin = #PB_OS_MacOS
-            y2 - toptoolpadding - topmenupadding
-          EndIf
         EndIf
         
         If x2 = 0
