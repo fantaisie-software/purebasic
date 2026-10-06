@@ -390,6 +390,7 @@ Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 ;
 Declare GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)   ; Retrieve the boundary of a word
 Declare.s GetWord(*Buffer, BufferLength, Position)                                                       ; extract the word at position from *Buffer
+Declare IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)                                       ; check that the chars around a match are not identifier chars
 Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                                               ; get module prefix from the given (Wordstart) position
 Declare.s GetCurrentWord()                                                                               ; get the current word of the source file.
 Declare.s GetCurrentLine()                                                                               ; return the text of the current line

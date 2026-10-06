@@ -104,6 +104,24 @@ Procedure.s GetWord(*Buffer, BufferLength, Position)
   EndIf
 EndProcedure
 
+; Check that a match is a whole word: the chars around it must not be identifier chars (ascii/utf8 buffer)
+; Used by Find and Find in Files. Scintilla's #SCFIND_WHOLEWORD can't be used, as the editor word chars also
+; contain the extra chars for the double-click selection ("$#*%" by default, see #WORDCHARS_Default), so "Abc"
+; was not found in "3*Abc" (https://www.purebasic.fr/english/viewtopic.php?t=43010)
+;
+Procedure IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)
+  
+  If *Match > *BufferStart And ValidCharacters(PeekA(*Match-1))
+    ProcedureReturn #False
+  EndIf
+  
+  If *Match+Length < *BufferEnd And ValidCharacters(PeekA(*Match+Length))
+    ProcedureReturn #False
+  EndIf
+  
+  ProcedureReturn #True
+EndProcedure
+
 
 Procedure.s GetModulePrefix(*Buffer, BufferLength, Position)
   
