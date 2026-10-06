@@ -1357,7 +1357,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         Callback(*StringStart, *Cursor-*StringStart, *ASMKeywordColor, 0, 0)
       EndIf
 
-    ElseIf OldSeparatorChar = '\' Or SeparatorChar = '\'
+    ElseIf (OldSeparatorChar = '\' Or SeparatorChar = '\') And SeparatorChar <> '.' ; "\List.s()" is handled below like "List.s()" (https://www.purebasic.fr/english/viewtopic.php?t=45973)
 
       ; ---------------------- Structures --------------------------
       Callback(*StringStart, *Cursor-*StringStart, *StructureColor, 0, 0)
