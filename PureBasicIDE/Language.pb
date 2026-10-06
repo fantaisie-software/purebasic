@@ -1723,6 +1723,8 @@ DataSection
   Data$ "Key105",           "Scroll Lock"
   Data$ "Key106",           "Plus"
   Data$ "Key107",           "Minus"
+  Data$ "Key108",           "Period"
+  Data$ "Key109",           "Comma"
   
   
   ; ===================================================
