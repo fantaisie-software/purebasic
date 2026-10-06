@@ -379,9 +379,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         EndIf
         
         If Colors(#COLOR_DebuggerWarning)\Enabled = 0 Or Colors(#COLOR_DebuggerWarning)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
-          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error, #SC_MARK_EMPTY)
+          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning, #SC_MARK_EMPTY)
         Else
-          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error, #SC_MARK_BACKGROUND)
+          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning, #SC_MARK_BACKGROUND)
         EndIf
         
         If Colors(#COLOR_DebuggerError)\Enabled = 0 Or Colors(#COLOR_DebuggerError)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
