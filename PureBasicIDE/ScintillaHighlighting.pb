@@ -3886,10 +3886,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   
+  Structure FindRectangleLine
+    Line.i  ; line of the selected range
+    Start.i ; selected range in the line (offsets from the line start)
+    End.i
+  EndStructure
+  
   Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
 
     MatchesFound = 0
     ContinueQuestionAsked = 0
+    NewList Rectangle.FindRectangleLine() ; selected ranges of a rectangular selection
     
     If FindSearchString$ <> ""
       
@@ -3911,6 +3918,20 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If FindSelectionOnly
         Find\chrg\cpMin = SelectionStart
         Find\chrg\cpMax = SelectionEnd
+        
+        ; With a rectangular selection, the selection start and end cover the whole lines between them,
+        ; so keep the range selected in each line to only accept the matches inside the rectangle
+        ; (https://www.purebasic.fr/english/viewtopic.php?t=43268)
+        ;
+        If SendEditorMessage(#SCI_SELECTIONISRECTANGLE, 0, 0)
+          For i = 0 To SendEditorMessage(#SCI_GETSELECTIONS, 0, 0)-1
+            AddElement(Rectangle())
+            Rectangle()\Line  = SendEditorMessage(#SCI_LINEFROMPOSITION, SendEditorMessage(#SCI_GETSELECTIONNSTART, i, 0), 0)
+            linestart         = SendEditorMessage(#SCI_POSITIONFROMLINE, Rectangle()\Line, 0)
+            Rectangle()\Start = SendEditorMessage(#SCI_GETSELECTIONNSTART, i, 0) - linestart
+            Rectangle()\End   = SendEditorMessage(#SCI_GETSELECTIONNEND, i, 0) - linestart
+          Next i
+        EndIf
         
       ElseIf Mode = 3
         Find\chrg\cpMin = 0
@@ -3947,6 +3968,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
           position = CountCharacters(*ActiveSource\EditorGadget, linestart, Find\chrgText\cpMin)
           Success = CheckSearchStringComment(line, position, 0)
+          
+          If Success And ListSize(Rectangle()) > 0 ; must be inside the range selected on its line
+            Success = 0
+            ForEach Rectangle()
+              If Rectangle()\Line = line
+                If Find\chrgText\cpMin-linestart >= Rectangle()\Start And Find\chrgText\cpMax-linestart <= Rectangle()\End
+                  Success = 1
+                EndIf
+                Break ; keep this element, for the range update after a replace
+              EndIf
+            Next
 
           If Success And FindWholeWord ; not #SCFIND_WHOLEWORD, see IsWholeWordMatch()
             *Text = SendEditorMessage(#SCI_GETCHARACTERPOINTER, 0, 0)
@@ -4010,6 +4042,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               FindLastSetSelection = -1
               FindSearchContinueMarker = 0
               
+              If ListSize(Rectangle()) > 0 ; the end of the selected range moves with the replacement
+                Rectangle()\End + StringByteLength(FindReplaceString$, StringMode) - StringByteLength(FindSearchString$, StringMode)
+              EndIf
+          
           EndSelect
           
           Find\chrg\cpMin = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode)
