@@ -214,6 +214,22 @@ Procedure ExecuteStandaloneDebugger(*Target.CompileTarget, DebuggerCMD$, Executa
 EndProcedure
 
 
+; The standalone debugger saves its window positions in the IDE preference file when it quits.
+; Read them back, else the IDE overwrites them with its old values when saving its preferences
+; (https://www.purebasic.fr/english/viewtopic.php?t=37139). Only the window geometry is read,
+; the other debugger settings can be changed in the IDE preferences while the debugger runs.
+;
+Procedure StandaloneDebuggers_ReloadWindowPositions()
+  
+  If OpenPreferences(PreferencesFile$)
+    PreferenceGroup("Debugger")
+    LoadDebuggerWindowPositions()
+    ClosePreferences()
+  EndIf
+  
+EndProcedure
+
+
 ; checks if a running externaldebugger has quit, and updates
 ; the watchlist that was passed back by it
 ;
@@ -258,7 +274,9 @@ Procedure StandaloneDebuggers_CheckExits()
         ; (these files are deleted on IDE end)
         ; DeleteFile(Standalone_Debuggers()\CommFile$)
       EndIf
-      
+
+      StandaloneDebuggers_ReloadWindowPositions()
+
       DeleteElement(Standalone_Debuggers())
       Break
     EndIf

@@ -1906,6 +1906,7 @@ DataSection
   Data$ "CurrentPosition",  "Current Code position"
   Data$ "ShowVariables",    "Variables"
   Data$ "Updating",         "Updating data, please wait."
+  Data$ "HistoryTruncated", "%count% outer procedure calls are not displayed."
   Data$ "CallCount",        "Call count"
   Data$ "Reset",            "Reset"
   Data$ "ResetAll",         "Reset All"

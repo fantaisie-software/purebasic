@@ -59,6 +59,81 @@ Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
 EndProcedure
 
 
+; Reads the debugger window positions from the opened preferences ("Debugger" group must be selected)
+; Also used to read back the positions saved by the standalone debugger when it quits (StandaloneDebuggerControl.pb)
+;
+Procedure LoadDebuggerWindowPositions()
+  
+  IsDebuggerMaximized        = ReadPreferenceLong("IsDebuggerMaximized", 0)
+  
+  DebugWindowX               = ReadPreferenceLong("DebugWindowX", 50)
+  DebugWindowY               = ReadPreferenceLong("DebugWindowY", 50)
+  DebugWindowWidth           = ReadPreferenceLong("DebugWindowWidth", 300)
+  DebugWindowHeight          = ReadPreferenceLong("DebugWindowHeight", 300)
+  DebugWindowMaximize        = ReadPreferenceLong("DebugWindowMaximize", 0)
+  
+  AsmWindowX                 = ReadPreferenceLong("AsmWindowX", 50)
+  AsmWindowY                 = ReadPreferenceLong("AsmWindowY", 50)
+  AsmWindowWidth             = ReadPreferenceLong("AsmWindowWidth", 370)
+  AsmWindowHeight            = ReadPreferenceLong("AsmWindowHeight", 370)
+  AsmWindowMaximize          = ReadPreferenceLong("AsmWindowMaximize", 0)
+  
+  MemoryViewerX              = ReadPreferenceLong("MemoryViewerX", 50)
+  MemoryViewerY              = ReadPreferenceLong("MemoryViewerY", 50)
+  MemoryViewerWidth          = ReadPreferenceLong("MemoryViewerWidth", 600)
+  MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300)
+  MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0)
+  
+  VariableWindowX            = ReadPreferenceLong("VariableWindowX", 100)
+  VariableWindowY            = ReadPreferenceLong("VariableWindowY", 100)
+  VariableWindowWidth        = ReadPreferenceLong("VariableWindowWidth", 600)
+  VariableWindowHeight       = ReadPreferenceLong("VariableWindowHeight", 400)
+  VariableViewerMaximize     = ReadPreferenceLong("VariableViewerMaximize", 0)
+  
+  HistoryWindowX             = ReadPreferenceLong("HistoryWindowX", 80)
+  HistoryWindowY             = ReadPreferenceLong("HistoryWindowY", 80)
+  HistoryWindowWidth         = ReadPreferenceLong("HistoryWindowWidth", 500)
+  HistoryWindowHeight        = ReadPreferenceLong("HistoryWindowHeight", 500)
+  HistoryMaximize            = ReadPreferenceLong("HistoryMaximize", 0)
+  
+  WatchListWindowX           = ReadPreferenceLong("WatchListWindowX", 50)
+  WatchListWindowY           = ReadPreferenceLong("WatchListWindowY", 50)
+  WatchListWindowWidth       = ReadPreferenceLong("WatchListWindowWidth", 700)
+  WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300)
+  WatchListWindowMaximize    = ReadPreferenceLong("WatchListWindowMaximize", 0)
+  
+  LibraryViewerX             = ReadPreferenceLong("LibraryViewerX", 120)
+  LibraryViewerY             = ReadPreferenceLong("LibraryViewerY", 120)
+  LibraryViewerWidth         = ReadPreferenceLong("LibraryViewerWidth", 600)
+  LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440)
+  LibraryViewerSplitter1     = ReadPreferenceLong("LibraryViewerSplitter1", 300)
+  LibraryViewerSplitter2     = ReadPreferenceLong("LibraryViewerSplitter2", 130)
+  LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", 0)
+  
+  IsMiniDebugger             = ReadPreferenceLong("IsMiniDebugger", 0)
+  DebuggerMainWindowX        = ReadPreferenceLong("DebuggerMainWindowX", 80)
+  DebuggerMainWindowY        = ReadPreferenceLong("DebuggerMainWindowY", 80)
+  DebuggerMainWindowWidth    = ReadPreferenceLong("DebuggerMainWindowWidth", 600)
+  DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)
+  
+  ProfilerX                  = ReadPreferenceLong("ProfilerX", 50)
+  ProfilerY                  = ReadPreferenceLong("ProfilerY", 50)
+  ProfilerWidth              = ReadPreferenceLong("ProfilerWidth", 600)
+  ProfilerHeight             = ReadPreferenceLong("ProfilerHeight", 400)
+  ProfilerSplitter           = ReadPreferenceLong("ProfilerSplitter", 340)
+  ProfilerMaximize           = ReadPreferenceLong("ProfilerMaximize", 0)
+  
+  DataBreakpointWindowX      = ReadPreferenceLong("DataBreakpointWindowX", 75)
+  DataBreakpointWindowY      = ReadPreferenceLong("DataBreakpointWindowY", 75)
+  DataBreakpointWindowWidth  = ReadPreferenceLong("DataBreakpointWindowWidth", 700)
+  DataBreakpointWindowHeight = ReadPreferenceLong("DataBreakpointWindowHeight", 300)
+  DataBreakpointWindowMaximize = ReadPreferenceLong("DataBreakpointWindowMaximize", 0)
+  
+  PurifierWindowX            = ReadPreferenceLong("PurifierWindowX", 50)
+  PurifierWindowY            = ReadPreferenceLong("PurifierWindowY", 50)
+  
+EndProcedure
+
 
 Procedure LoadPreferences()
   
@@ -955,7 +1030,6 @@ Procedure LoadPreferences()
   
   DebuggerMemorizeWindows    = ReadPreferenceLong("MemorizeWindows", 1)
   DebuggerKeepErrorMarks     = ReadPreferenceLong("KeepErrorMarks", 1)
-  IsDebuggerMaximized        = ReadPreferenceLong("IsDebuggerMaximized", 0)
   DebuggerOnTop              = ReadPreferenceLong("StayOnTop", #DEFAULT_DebuggerStayOnTop)
   DebuggerBringToTop         = ReadPreferenceLong("AutoBringToTop", #DEFAULT_DebuggerBringToTop)
   CallDebuggerOnStart        = ReadPreferenceLong("CallOnStart", 0)
@@ -981,11 +1055,6 @@ Procedure LoadPreferences()
   DebugOutFont$              = ReadPreferenceString("DebugOutFont", "")
   DebugOutFontSize           = ReadPreferenceLong("DebugOutFontSize", 12)
   DebugOutFontStyle$         = ReadPreferenceString("DebugOutFontStyle", "None")
-  DebugWindowX               = ReadPreferenceLong("DebugWindowX", 50)
-  DebugWindowY               = ReadPreferenceLong("DebugWindowY", 50)
-  DebugWindowWidth           = ReadPreferenceLong("DebugWindowWidth", 300)
-  DebugWindowHeight          = ReadPreferenceLong("DebugWindowHeight", 300)
-  DebugWindowMaximize        = ReadPreferenceLong("DebugWindowMaximize", 0)
   
   DebugOutFontStyle = 0
   If FindString(UCase(DebugOutFontStyle$),"BOLD",1)
@@ -1004,53 +1073,12 @@ Procedure LoadPreferences()
   RegisterIsHex              = ReadPreferenceLong("RegisterIsHex", 0)
   StackIsHex                 = ReadPreferenceLong("StackIsHex", 0)
   AutoStackUpdate            = ReadPreferenceLong("AutoStackUpdate", 1)
-  AsmWindowX                 = ReadPreferenceLong("AsmWindowX", 50)
-  AsmWindowY                 = ReadPreferenceLong("AsmWindowY", 50)
-  AsmWindowWidth             = ReadPreferenceLong("AsmWindowWidth", 370)
-  AsmWindowHeight            = ReadPreferenceLong("AsmWindowHeight", 370)
-  AsmWindowMaximize          = ReadPreferenceLong("AsmWindowMaximize", 0)
   
   MemoryDisplayType          = ReadPreferenceLong("MemoryDisplayType", 0)
   MemoryIsHex                = ReadPreferenceLong("MemoryIsHex", 0)
   MemoryOneColumnOnly        = ReadPreferenceLong("MemoryOneColumnOnly", 0)
-  MemoryViewerX              = ReadPreferenceLong("MemoryViewerX", 50)
-  MemoryViewerY              = ReadPreferenceLong("MemoryViewerY", 50)
-  MemoryViewerWidth          = ReadPreferenceLong("MemoryViewerWidth", 600)
-  MemoryViewerHeight         = ReadPreferenceLong("MemoryViewerHeight", 300)
-  MemoryViewerMaximize       = ReadPreferenceLong("MemoryViewerMaximize", 0)
   
   VariableIsHex              = ReadPreferenceLong("VariableIsHex", 0)
-  VariableWindowX            = ReadPreferenceLong("VariableWindowX", 100)
-  VariableWindowY            = ReadPreferenceLong("VariableWindowY", 100)
-  VariableWindowWidth        = ReadPreferenceLong("VariableWindowWidth", 600)
-  VariableWindowHeight       = ReadPreferenceLong("VariableWindowHeight", 400)
-  VariableViewerMaximize     = ReadPreferenceLong("VariableViewerMaximize", 0)
-  
-  HistoryWindowX             = ReadPreferenceLong("HistoryWindowX", 80)
-  HistoryWindowY             = ReadPreferenceLong("HistoryWindowY", 80)
-  HistoryWindowWidth         = ReadPreferenceLong("HistoryWindowWidth", 500)
-  HistoryWindowHeight        = ReadPreferenceLong("HistoryWindowHeight", 500)
-  HistoryMaximize            = ReadPreferenceLong("HistoryMaximize", 0)
-  
-  WatchListWindowX           = ReadPreferenceLong("WatchListWindowX", 50)
-  WatchListWindowY           = ReadPreferenceLong("WatchListWindowY", 50)
-  WatchListWindowWidth       = ReadPreferenceLong("WatchListWindowWidth", 700)
-  WatchListWindowHeight      = ReadPreferenceLong("WatchListWindowHeight", 300)
-  WatchListWindowMaximize    = ReadPreferenceLong("WatchListWindowMaximize", 0)
-  
-  LibraryViewerX             = ReadPreferenceLong("LibraryViewerX", 120)
-  LibraryViewerY             = ReadPreferenceLong("LibraryViewerY", 120)
-  LibraryViewerWidth         = ReadPreferenceLong("LibraryViewerWidth", 600)
-  LibraryViewerHeight        = ReadPreferenceLong("LibraryViewerHeight", 440)
-  LibraryViewerSplitter1     = ReadPreferenceLong("LibraryViewerSplitter1", 300)
-  LibraryViewerSplitter2     = ReadPreferenceLong("LibraryViewerSplitter2", 130)
-  LibraryViewerMaximize      = ReadPreferenceLong("LibraryViewerMaximize", 0)
-  
-  IsMiniDebugger             = ReadPreferenceLong("IsMiniDebugger", 0)
-  DebuggerMainWindowX        = ReadPreferenceLong("DebuggerMainWindowX", 80)
-  DebuggerMainWindowY        = ReadPreferenceLong("DebuggerMainWindowY", 80)
-  DebuggerMainWindowWidth    = ReadPreferenceLong("DebuggerMainWindowWidth", 600)
-  DebuggerMainWindowHeight   = ReadPreferenceLong("DebuggerMainWindowHeight", 500)
   
   AutoOpenDebugOutput        = ReadPreferenceLong("AutoOpenDebugOutput", 0)
   AutoOpenAsmWindow          = ReadPreferenceLong("AutoOpenAsmWindow", 0)
@@ -1064,21 +1092,8 @@ Procedure LoadPreferences()
   
   AutoOpenProfiler           = ReadPreferenceLong("AutoOpenProfiler", 0)
   ProfilerRunAtStart         = ReadPreferenceLong("ProfilerRunAtStart", 1)
-  ProfilerX                  = ReadPreferenceLong("ProfilerX", 50)
-  ProfilerY                  = ReadPreferenceLong("ProfilerY", 50)
-  ProfilerWidth              = ReadPreferenceLong("ProfilerWidth", 600)
-  ProfilerHeight             = ReadPreferenceLong("ProfilerHeight", 400)
-  ProfilerSplitter           = ReadPreferenceLong("ProfilerSplitter", 340)
-  ProfilerMaximize           = ReadPreferenceLong("ProfilerMaximize", 0)
   
-  DataBreakpointWindowX      = ReadPreferenceLong("DataBreakpointWindowX", 75)
-  DataBreakpointWindowY      = ReadPreferenceLong("DataBreakpointWindowY", 75)
-  DataBreakpointWindowWidth  = ReadPreferenceLong("DataBreakpointWindowWidth", 700)
-  DataBreakpointWindowHeight = ReadPreferenceLong("DataBreakpointWindowHeight", 300)
-  DataBreakpointWindowMaximize = ReadPreferenceLong("DataBreakpointWindowMaximize", 0)
-  
-  PurifierWindowX            = ReadPreferenceLong("PurifierWindowX", 50)
-  PurifierWindowY            = ReadPreferenceLong("PurifierWindowY", 50)
+  LoadDebuggerWindowPositions()
   
   ClosePreferences()
   

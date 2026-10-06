@@ -379,9 +379,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         EndIf
         
         If Colors(#COLOR_DebuggerWarning)\Enabled = 0 Or Colors(#COLOR_DebuggerWarning)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
-          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error, #SC_MARK_EMPTY)
+          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning, #SC_MARK_EMPTY)
         Else
-          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Error, #SC_MARK_BACKGROUND)
+          SendEditorMessage(#SCI_MARKERDEFINE, #MARKER_Warning, #SC_MARK_BACKGROUND)
         EndIf
         
         If Colors(#COLOR_DebuggerError)\Enabled = 0 Or Colors(#COLOR_DebuggerError)\DisplayValue = Colors(#COLOR_GlobalBackground)\DisplayValue
@@ -582,6 +582,14 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETSTART, *StringStart-*HighlightBuffer+HighlightOffset, 0)
       ScintillaSendMessage(HighlightGadget, #SCI_SETTARGETEND, *StringStart-*HighlightBuffer+HighlightOffset+ChangeLength, 0)
       ScintillaSendMessage(HighlightGadget, #SCI_REPLACETARGET, ChangeLength, *StringStart)
+
+      ; The styling position is not reliable after the replacement (the following tokens were styled
+      ; one char off, leaving the last char of a corrected constant unstyled), so restart it at this token
+      ; https://www.purebasic.fr/english/viewtopic.php?t=30448
+      ;
+      If EnableColoring
+        ScintillaSendMessage(HighlightGadget, #SCI_STARTSTYLING, *StringStart-*HighlightBuffer+HighlightOffset, 0)
+      EndIf
     EndIf
     
     
@@ -2502,11 +2510,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               EndIf
               
               ; Mark the original item
+              ; (use *OriginalItem's byte-based Position/Length, not the char-based StartIndex/EndIndex from
+              ; GetWordBoundary(), which would misplace the indicator on lines with multi-byte UTF-8 characters)
               If IsMatch
                 If Colors(#COLOR_GoodBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
-                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)
-                  
+                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+*OriginalItem\Position, *OriginalItem\Length)
+
                   ; Unfortunately, this does not seem to work. Would have been cool to highlight the matching indent guide,
                   ; but it just never changes the color. Dunno what to do about it.
                   ;                 If ShowIndentGuides And FirstMatchColumn = LastMatchColumn
@@ -2515,11 +2525,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   ;                   SendEditorMessage(#SCI_SETHIGHLIGHTGUIDE, Column)
                   ;                 EndIf
                 EndIf
-                
+
               ElseIf IsMismatch
                 If Colors(#COLOR_BadBrace)\Enabled
                   SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
-                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+StartIndex, EndIndex-StartIndex+1)
+                  SendEditorMessage(#SCI_INDICATORFILLRANGE, SendEditorMessage(#SCI_POSITIONFROMLINE, OriginalLine)+*OriginalItem\Position, *OriginalItem\Length)
                 EndIf
                 
               EndIf
@@ -2680,8 +2690,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                     *Item = 0
                     
                     If FindBreakKeywords(@*ActiveSource\Parser, *OriginalItem, OriginalLine, Items())
+                      EndBytePosition = CharsToBytes(Line$, 0, *ActiveSource\Parser\Encoding, EndIndex)
                       ForEach Items()
-                        If Items()\Line > *ActiveSource\CurrentLine-1 Or (Items()\Line = *ActiveSource\CurrentLine-1 And Items()\Item\Position > EndIndex)
+                        If Items()\Line > *ActiveSource\CurrentLine-1 Or (Items()\Line = *ActiveSource\CurrentLine-1 And Items()\Item\Position > EndBytePosition)
                           *Item = Items()\Item
                           Line  = Items()\Line
                           Break
@@ -2758,22 +2769,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     Select *scinotify\nmhdr\code
         
       Case #SCN_FOCUSIN
-        ; Restore the 4 keyboard shortcuts previously removed on #SCN_KILLFOCUS event. They are used in this ScintillaGadget
-        ; #PB_Shortcut_Command will act like #PB_Shortcut_Control on non-macOS 
-        For item = 0 To #MENU_LastShortcutItem
-          Select KeyboardShortcuts(item)
-            Case #PB_Shortcut_Command | #PB_Shortcut_C, #PB_Shortcut_Command | #PB_Shortcut_X, #PB_Shortcut_Command | #PB_Shortcut_V, #PB_Shortcut_Command | #PB_Shortcut_A
-              AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
-          EndSelect
-        Next
+        ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Scintilla component
+        AddStringShortcuts()
         
       Case #SCN_FOCUSOUT
-        ; Remove the 4 main keyboard shortcuts to restore the standard behavior for StringGadget text
-        ; #PB_Shortcut_Command will act like #PB_Shortcut_Control on non-macOS 
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_C)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_X)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_V)
-        RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_A)
+        ; Remove the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) to restore the default StringGadget behavior
+        DelStringShortcuts()
         
       Case #SCN_MODIFYATTEMPTRO
         ChangeStatus(Language("Debugger","EditError"), -1)
@@ -2949,6 +2950,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
           
           If *scinotify\modificationType & (#SC_MOD_INSERTTEXT | #SC_MOD_DELETETEXT) And NoUserChange = 0
+            ; the document just changed, so any position remembered by FindText() for 'Find Next'
+            ; continuation is potentially stale (e.g. Backspace deleting the just-found match
+            ; leaves the caret at the same offset as FindLastSetSelection, but FindSearchContinueMarker
+            ; wasn't shifted back) -> invalidate it, so the next Find/FindNext searches from the
+            ; live caret position instead of the stale marker (https://www.purebasic.fr/english/viewtopic.php?t=88888)
+            FindLastSetSelection = -1
+
             If *scinotify\linesAdded >= 1 Or *scinotify\linesAdded <= -1
               line = ScintillaSendMessage(EditorGadget, #SCI_LINEFROMPOSITION, *scinotify\position, 0)
               
@@ -3879,8 +3887,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   
   Procedure FindText(Mode, Reverse = #False) ; 1=find, 2=replace, 3=replace all
-    Static LastSetSelection, LastSearchString$, SearchContinueMarker
-    
+
     MatchesFound = 0
     ContinueQuestionAsked = 0
     
@@ -3913,16 +3920,16 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         If Reverse
           ; Reverse search: #SCI_FINDTEXT support it if 'max' is lower than 'min'
           ;
-          If Mode <> 2 And SelectionStart = LastSetSelection And LastSearchString$ = FindSearchString$
-            Find\chrg\cpMin = SearchContinueMarker-1
+          If Mode <> 2 And SelectionStart = FindLastSetSelection And FindLastSearchString$ = FindSearchString$
+            Find\chrg\cpMin = FindSearchContinueMarker-1
           Else
             Find\chrg\cpMin = SelectionEnd
           EndIf
           Find\chrg\cpMax = 0
           
         Else
-          If Mode <> 2 And SelectionStart = LastSetSelection And LastSearchString$ = FindSearchString$
-            Find\chrg\cpMin = SearchContinueMarker
+          If Mode <> 2 And SelectionStart = FindLastSetSelection And FindLastSearchString$ = FindSearchString$
+            Find\chrg\cpMin = FindSearchContinueMarker
           Else
             Find\chrg\cpMin = SelectionStart
           EndIf
@@ -3956,8 +3963,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
               SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
-              LastSetSelection = Find\chrgText\cpMin
-              SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindSearchString$, StringMode) ; skip the found string on the next search
+              FindLastSetSelection = Find\chrgText\cpMin
+              FindSearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindSearchString$, StringMode) ; skip the found string on the next search
               Mode = 1                                                                                     ; make sure the 'replace' mode is not done twice
               
             Case 2 ; replace
@@ -3977,8 +3984,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                   UpdateVariableViewer()
                 EndIf
                 
-                LastSetSelection = Find\chrgText\cpMin
-                SearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode) ; skip the replaced string on the next search
+                FindLastSetSelection = Find\chrgText\cpMin
+                FindSearchContinueMarker = Find\chrgText\cpMin + StringByteLength(FindReplaceString$, StringMode) ; skip the replaced string on the next search
                                                                                                               ; after this, a normal "find" is done
                 
                 
@@ -3987,8 +3994,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 SendEditorMessage(#SCI_LINESCROLL, -99999, -99999)
                 SendEditorMessage(#SCI_LINESCROLL, 0, Line-3)
                 SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
-                LastSetSelection = Find\chrgText\cpMin
-                SearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again
+                FindLastSetSelection = Find\chrgText\cpMin
+                FindSearchContinueMarker = Find\chrgText\cpMin ; so the next 'replace' will find this again
                 Mode = 1
               EndIf
               
@@ -3996,8 +4003,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               
               SendEditorMessage(#SCI_SETSEL, Find\chrgText\cpMin, Find\chrgText\cpMax)
               SendEditorMessage(#SCI_REPLACESEL, 0, *ReplaceString)
-              LastSetSelection = -1
-              SearchContinueMarker = 0
+              FindLastSetSelection = -1
+              FindSearchContinueMarker = 0
               
           EndSelect
           
@@ -4050,7 +4057,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         
       Until Result = -1 Or (Success And Mode <> 3)
       
-      LastSearchString$ = FindSearchString$
+      FindLastSearchString$ = FindSearchString$
       
       FreeMemory(Find\lpstrText) ; its the utf8/ascii buffer
       FreeMemory(*ReplaceString)

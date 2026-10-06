@@ -5,6 +5,13 @@
 ; --------------------------------------------------------------------------------------------
 
 
+; Each displayed call creates several gadgets (including a VariableGadget), so a deep recursion
+; (like an endless one ending in a stack overflow) would freeze the IDE. Only the innermost calls are displayed.
+; https://www.purebasic.fr/english/viewtopic.php?t=17174
+;
+#MAX_HistoryDisplay = 30
+
+
 Procedure HistoryWindowEvents(*Debugger.DebuggerData, EventID)
   
   If EventID = #PB_Event_Gadget
@@ -70,6 +77,11 @@ Procedure HistoryWindowEvents(*Debugger.DebuggerData, EventID)
     ContainerWidth  = Width - 55
     ContainerHeight = ButtonHeight * 3 + 25
     
+    If *Debugger\HistoryOffset > 0
+      ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated], 5, Top, ContainerWidth, ButtonHeight)
+      Top + ButtonHeight + 10
+    EndIf
+    
     If *Debugger\History
       *history.Debugger_History = *Debugger\History
       If *Debugger\HistorySize > 0
@@ -131,6 +143,7 @@ Procedure HistoryWindowEvents(*Debugger.DebuggerData, EventID)
       *Debugger\History = 0
       *Debugger\HistorySize = 0
     EndIf
+    *Debugger\HistoryOffset = 0
     
     CloseWindow(*Debugger\Windows[#DEBUGGER_WINDOW_History])
     *Debugger\Windows[#DEBUGGER_WINDOW_History] = 0
@@ -176,6 +189,8 @@ Procedure OpenHistoryWindow(*Debugger.DebuggerData)
       AddGadgetItem(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Panel], -1, Language("Debugger","History"))
       
       *Debugger\Gadgets[#DEBUGGER_GADGET_History_ScrollArea] = ScrollAreaGadget(#PB_Any, 0, 0, 0, 0, 1000, 1000, 10, #PB_ScrollArea_Single)
+      *Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated] = TextGadget(#PB_Any, 0, 0, 0, 0, "")
+      HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated], 1)
       *Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentContainer] = ContainerGadget(#PB_Any, 0, 0, 0, 0, #PB_Container_Single)
       *Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentText] = TextGadget(#PB_Any, 5, 5, 0, 25, Language("Debugger","CurrentPosition"))
       *Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentLine] = TextGadget(#PB_Any, 5, 35, 0, 25, "")
@@ -285,13 +300,21 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
         *Debugger\History = 0
         *Debugger\HistorySize = 0
       EndIf
+      *Debugger\HistoryOffset = 0
       
       If *Debugger\Command\Value1 > 0
-        *Debugger\HistorySize = *Debugger\Command\Value1
+        *Debugger\HistoryOffset = Max(0, *Debugger\Command\Value1 - #MAX_HistoryDisplay)
+        *Debugger\HistorySize = *Debugger\Command\Value1 - *Debugger\HistoryOffset
         *Debugger\History = AllocateMemory(*Debugger\HistorySize * SizeOf(Debugger_HistoryData))
         If *Debugger\History
           *history.Debugger_History = *Debugger\History
           *pointer = *Debugger\CommandData
+          
+          ; skip the outer calls which are not displayed
+          For i = 1 To *Debugger\HistoryOffset
+            *Pointer + 4
+            *Pointer + MemoryStringLengthBytes(*Pointer) + #CharSize ; not ascii!
+          Next i
           
           OpenGadgetList(*Debugger\Gadgets[#DEBUGGER_GADGET_History_ScrollArea])
           
@@ -308,13 +331,23 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
             CloseGadgetList()
             
             Command.CommandInfo\Command = #COMMAND_GetHistoryLocals
-            Command\Value1 = i
+            Command\Value1 = *Debugger\HistoryOffset + i ; index in the full callstack
             SendDebuggerCommand(*Debugger, @Command)
           Next i
           
           CloseGadgetList()
-          
+
+        Else
+          *Debugger\HistorySize = 0
+          *Debugger\HistoryOffset = 0
         EndIf
+      EndIf
+      
+      If *Debugger\HistoryOffset > 0
+        SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated], ReplaceString(Language("Debugger","HistoryTruncated"), "%count%", Str(*Debugger\HistoryOffset)))
+        HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated], 0)
+      Else
+        HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_History_Truncated], 1)
       EndIf
       
       SetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_History_CurrentLine], Language("Debugger","Line")+": "+Str(DebuggerLineGetLine(*Debugger\Command\Value2) + 1))
@@ -331,11 +364,12 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
       
       If *Debugger\History
         *history.Debugger_History = *Debugger\History
-        If *Debugger\Command\Value1 < *Debugger\HistorySize
+        Index = *Debugger\Command\Value1 - *Debugger\HistoryOffset ; Value1 is the index in the full callstack
+        If Index >= 0 And Index < *Debugger\HistorySize
           
-          VariableGadget_Lock(*history\item[*Debugger\Command\Value1]\Variables)
-          VariableGadget_Allocate(*history\item[*Debugger\Command\Value1]\Variables, *Debugger\Command\Value2)
-          VariableGadget_Use(*history\item[*Debugger\Command\Value1]\Variables)
+          VariableGadget_Lock(*history\item[Index]\Variables)
+          VariableGadget_Allocate(*history\item[Index]\Variables, *Debugger\Command\Value2)
+          VariableGadget_Use(*history\item[Index]\Variables)
           
           *Pointer = *Debugger\CommandData
           For i = 1 To *Debugger\Command\Value2
@@ -361,8 +395,8 @@ Procedure History_DebuggerEvent(*Debugger.DebuggerData)
             *Pointer + GetValueSize(type, *Pointer, *Debugger\Is64bit)
           Next i
           
-          VariableGadget_Unlock(*history\item[*Debugger\Command\Value1]\Variables)
-          VariableGadget_Sort(*history\item[*Debugger\Command\Value1]\Variables)
+          VariableGadget_Unlock(*history\item[Index]\Variables)
+          VariableGadget_Sort(*history\item[Index]\Variables)
           
         EndIf
       EndIf

@@ -824,6 +824,15 @@ Procedure.s Parser_Cleanup(Input$)
             While ValidCharacters(*Cursor\c & $FF)
               *Cursor + #CharSize
             Wend
+
+            ; if this word is directly followed by a space and then another word
+            ; (possibly a pointer, i.e. starting with '*') - e.g. an empty macro
+            ; used purely for parameter annotation, like "_IN b" or "_OUT *c" -
+            ; keep that one space too, so the two separate words don't get merged
+            ; into a single one below (Chr(1) marks removed whitespace)
+            If *Cursor\c = ' ' And (ValidCharacters(*Cursor\c[1] & $FF) Or (*Cursor\c[1] = '*' And ValidCharacters(*Cursor\c[2] & $FF)))
+              PreserveSpace = #True
+            EndIf
           EndIf
           
         Else
@@ -2034,16 +2043,25 @@ EndProcedure
 
 
 Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
-  If *Source\Parser\SourceItemArray And *Source\IsCode
+  If *Source\Parser\SourceItemArray And *Source\IsCode And LinesAdded <> 0
     *Array.ParsedLines = *Source\Parser\SourceItemArray
     Count              = *Source\Parser\SourceItemCount
-    
+    LastLine           = Line+Abs(LinesAdded) ; the range [Line, LastLine) is inserted/removed
+
+    ; Sanity check: the affected range must stay inside the currently tracked line count.
+    ; If the array and the real document line count ever drifted apart (which can happen
+    ; after a burst of rapid edits, e.g. holding down Ctrl+Z), blindly trusting Line/LastLine
+    ; below would let MoveMemory()/FreeSourceItems() walk past the allocated buffer and crash.
+    ; Rebuild the whole array from the live document instead - slower, but always safe.
+    If Line < 0 Or (LinesAdded < 0 And LastLine > Count) Or (LinesAdded > 0 And Line > Count)
+      FullSourceScan(*Source)
+      ProcedureReturn
+    EndIf
+
     ; Any parsing makes the sorted data invalid (as old items get freed)
     *Source\Parser\SortedValid = #False
-    
+
     If LinesAdded > 0
-      LastLine = Line+LinesAdded
-      
       ; need to realloc the buffer. Allocate some extra so there is no realloc for every newline
       If Count+LinesAdded > *Source\Parser\SourceItemSize
         *Array = ReAllocateMemory(*Array, (Count+LinesAdded+20) * SizeOf(ParsedLine))
@@ -2051,32 +2069,30 @@ Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
           *Source\Parser\SourceItemSize = Count+LinesAdded+20
         EndIf
       EndIf
-      
+
       If *Array
         MoveMemory(*Array + Line*SizeOf(ParsedLine), *Array + LastLine*SizeOf(ParsedLine), (Count-Line)*SizeOf(ParsedLine))
-        
+
         ; need to zero out the new entries, else we get a double free later!
         For i = Line To LastLine-1
           *Array\Line[i]\First = 0
           *Array\Line[i]\Last  = 0
         Next i
-        
+
         *Source\Parser\SourceItemArray = *Array
         *Source\Parser\SourceItemCount + LinesAdded
       EndIf
     Else
-      LastLine = Line-LinesAdded ; LinesAdded is negative here, so this is right!
-      
       ; free all entries of the gone lines
       For i = Line To LastLine-1
         FreeSourceItems(*Array\Line[i]\First)
         *Array\Line[i]\First = 0 ; just to be sure!
         *Array\Line[i]\Last  = 0
       Next i
-      
+
       ; no realloc needed here
       MoveMemory(*Array + LastLine*SizeOf(ParsedLine), *Array + Line*SizeOf(ParsedLine), (Count-LastLine)*SizeOf(ParsedLine))
-      
+
       *Source\Parser\SourceItemCount + LinesAdded
     EndIf
   EndIf
