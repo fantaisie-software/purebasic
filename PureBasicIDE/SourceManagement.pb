@@ -1431,16 +1431,14 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         *Source\EnablePurifier = 0
         *Source\PurifierGranularity$ = Value$
         
-      Case "CONSTANT"
-        *Source\Constant$[*Source\NbConstants] = Value$
-        *Source\ConstantEnabled[*Source\NbConstants] = #True
-        *Source\NbConstants + 1
-        
-      Case "CONSTANTOFF"
-        *Source\Constant$[*Source\NbConstants] = Value$
-        *Source\ConstantEnabled[*Source\NbConstants] = #False
-        *Source\NbConstants + 1
-        
+      Case "CONSTANT", "CONSTANTOFF"
+        ; the array is fixed size: more lines (like duplicated ones) overwrote the memory after it (https://www.purebasic.fr/english/viewtopic.php?t=49041)
+        If *Source\NbConstants < #MAX_Constants
+          *Source\Constant$[*Source\NbConstants] = Value$
+          *Source\ConstantEnabled[*Source\NbConstants] = Bool(Name$ = "CONSTANT")
+          *Source\NbConstants + 1
+        EndIf
+
       Case "ADDRESOURCE"
         If *Source\NbResourceFiles < #MAX_ResourceFiles
           *Source\ResourceFiles$[*Source\NbResourceFiles] = Value$
