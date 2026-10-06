@@ -1703,7 +1703,8 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         *StringStart = *Cursor
         *Cursor + 1
 
-        While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$')
+        ; include the structure fields, as @Var\Field is the address of the field (https://www.purebasic.fr/english/viewtopic.php?t=43505)
+        While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$' Or (*Cursor\b = '\' And *Cursor+1 < *InBufferEnd And ValidCharacters(*Cursor\a[1])))
           *Cursor + 1
         Wend
 
