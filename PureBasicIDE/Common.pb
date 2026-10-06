@@ -2846,7 +2846,7 @@ Global Dim FoldEnd$(#MAX_FoldWords)
 
 Global Dim ConfigLines$(#MAX_ConfigLines) ; for temporary storage of source settings while loading/saving
 
-#NbShortcutKeys  = 107
+#NbShortcutKeys  = 109
 
 
 Global Dim ShortcutNames.s(#NbShortcutKeys)

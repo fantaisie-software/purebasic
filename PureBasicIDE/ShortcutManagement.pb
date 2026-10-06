@@ -879,9 +879,13 @@ DataSection
   CompilerIf #CompileWindows
     Data.l #VK_OEM_PLUS
     Data.l #VK_OEM_MINUS ; Key107
+    Data.l #VK_OEM_PERIOD
+    Data.l #VK_OEM_COMMA ; Key109 (https://www.purebasic.fr/english/viewtopic.php?t=48514)
   CompilerElse
     Data.l '='
     Data.l '-' ; Key107
+    Data.l '.'
+    Data.l ',' ; Key109
   CompilerEndIf
   
 EndDataSection
