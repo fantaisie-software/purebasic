@@ -2707,6 +2707,7 @@ Global FilesHistorySize, DisplayedRecentFiles, DisplayedRecentProjects, Compiler
 Global EnableLineNumbers, EnableMarkers, EnableAccessibility
 Global AddTools_CompiledFile$, AddTools_PatternStrings$, AddTools_File$
 Global AddTools_RunFileViewer, AddHelpFiles_Count, AddTools_ExecutableName$
+Global AddTools_WaitingTools ; number of tools the IDE is currently waiting for (no file monitor check meanwhile)
 Global CurrentTheme$, CodeFileExtensions$
 
 Global AutoCompleteAddBrackets, AutoCompleteAddSpaces, AutoCompleteAddEndKeywords
