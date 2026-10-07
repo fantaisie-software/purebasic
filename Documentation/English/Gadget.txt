@@ -246,7 +246,8 @@
 @OptionalParameter "ImageID"
   An optional image to use for the item in gadgets that support it.
   The used image should be in the standard 16x16 size. Use the @@ImageID command to get the ID
-  for this parameter.
+  for this parameter. The gadget keeps its own reference to the image, so it can be freed
+  after this call. To change the image of an existing item, use @@SetGadgetItemImage.
 
 @OptionalParameter "Flags"
   This parameter has a meaning only for the following gadget types:
@@ -4857,7 +4858,8 @@
 @Parameter "ImageID"
   The new image to use for the gadget item.
   The used image should be in the standard 16x16 size. Use the @@ImageID command to get the ID
-  for this parameter.
+  for this parameter. The gadget keeps its own reference to the image, so it can be freed
+  after this call.
   
 @NoReturnValue
 

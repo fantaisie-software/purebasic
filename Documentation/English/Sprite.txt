@@ -630,13 +630,20 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function OutputID = SpriteOutput(#Sprite)
+@Function OutputID = SpriteOutput(#Sprite [, Flags])
 
 @Description
-  Returns the OutputID of the sprite to perform @LibraryLink "2ddrawing" "2D rendering operation" on it. 
+  Returns the OutputID of the sprite to perform @LibraryLink "2ddrawing" "2D rendering operation" on it.
 
 @Parameter "#Sprite"
   The sprite to draw on.
+
+@OptionalParameter "Flags"
+  It can be the following value:
+@FixedFont
+  @#PB_Sprite_Overwrite: The previous sprite content is not read, the drawing starts on a fully
+                        transparent output. Faster when the whole sprite is redrawn.
+@EndFixedFont
 
 @ReturnValue
   The output ID or zero if drawing is not possible. This value should be passed directly to the
@@ -652,6 +659,82 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
     ; do some drawing stuff here...
   StopDrawing()
 @EndCode
+
+@SeeAlso
+  @@SpriteVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorOutputID = SpriteVectorOutput(#Sprite [, Flags])
+
+@Description
+  Returns the OutputID of the sprite to perform @LibraryLink "vectordrawing" "2D vector drawing operations" on it.
+  The drawing is done in an intermediate buffer which is copied back to the sprite by @@StopVectorDrawing.
+
+@Parameter "#Sprite"
+  The sprite to draw on.
+
+@OptionalParameter "Flags"
+  Specifies the unit used for measuring distances on the drawing output. The default unit for sprites is @#PB_Unit_Pixel.
+@FixedFont
+  @#PB_Unit_Pixel     : Values are measured in pixels
+  @#PB_Unit_Point     : Values are measured in points (1/72 inch)
+  @#PB_Unit_Inch      : Values are measured in inches
+  @#PB_Unit_Millimeter: Values are measured in millimeters
+@EndFixedFont
+  It can be combined with the following flag using the bitwise OR operator '|':
+@FixedFont
+  @#PB_Sprite_Overwrite: The previous sprite content is not read, the drawing starts on a fully
+                        transparent output. Faster when the whole sprite is redrawn.
+@EndFixedFont
+
+@ReturnValue
+  Returns the output ID or zero if drawing is not possible. This value should be passed directly to the
+  @@StartVectorDrawing function to start the drawing operation. The return-value
+  is valid only for one drawing operation and cannot be reused.
+
+@Remarks
+  SpriteVectorOutput() has to be called in the same thread where @@OpenScreen was called.
+  To keep the transparency of the drawing, the sprite should be created with the @#PB_Sprite_AlphaBlending flag
+  and displayed with @@DisplayTransparentSprite. The pixel collision mask is updated after the drawing if the sprite
+  has been created with the @#PB_Sprite_PixelCollision flag.
+@LineBreak
+@LineBreak
+  This command is not supported on Linux with the QT subsystem (it returns zero).
+
+@Example
+@Code
+  If InitSprite() And OpenWindow(0, 0, 0, 320, 240, "SpriteVectorOutput", #PB_Window_ScreenCentered | #PB_Window_SystemMenu)
+    If OpenWindowedScreen(WindowID(0), 0, 0, 320, 240)
+      CreateSprite(0, 128, 128, #PB_Sprite_AlphaBlending)
+
+      If StartVectorDrawing(SpriteVectorOutput(0, #PB_Sprite_Overwrite))
+        AddPathCircle(64, 64, 60)
+        VectorSourceColor(RGBA(255, 128, 0, 255))
+        FillPath()
+        StopVectorDrawing()
+      EndIf
+
+      Repeat
+        Repeat
+          Event = WindowEvent()
+          If Event = #PB_Event_CloseWindow
+            End
+          EndIf
+        Until Event = 0
+
+        ClearScreen(RGB(0, 0, 64))
+        DisplayTransparentSprite(0, 96, 56)
+        FlipBuffers()
+      ForEver
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartVectorDrawing, @@SpriteOutput
 
 @SupportedOS
 

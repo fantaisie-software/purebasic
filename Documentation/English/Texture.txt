@@ -435,14 +435,21 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function OutputID = TextureOutput(#Texture)
+@Function OutputID = TextureOutput(#Texture [, Flags])
 
 @Description
-  Returns the OutputID of the image to perform @LibraryLink "2ddrawing" "2D rendering operation" on it. 
+  Returns the OutputID of the image to perform @LibraryLink "2ddrawing" "2D rendering operation" on it.
   Textures created with @@CreateRenderTexture are not supported.
 
 @Parameter "#Texture"
   The texture to draw on.
+
+@OptionalParameter "Flags"
+  It can be the following value:
+@FixedFont
+  @#PB_Texture_Overwrite: The previous texture content is not read back from the graphic card, the drawing
+                         starts on a fully transparent output. Faster when the whole texture is redrawn.
+@EndFixedFont
 
 @ReturnValue
   Returns the output ID or zero if drawing is not possible. This value should be passed directly to the
