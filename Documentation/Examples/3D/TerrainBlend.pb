@@ -38,11 +38,10 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "RealTime Terrain Blend Change - [MouseClick] [PageUp]/[PageDown] [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures/nvidia", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Terrain",#PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 MaterialFilteringMode(#PB_Default, #PB_Material_Anisotropic, 8)
@@ -92,7 +91,7 @@ EndIf
 ;
 SkyBox("desert07.jpg")
 
-ShowGUI(128, 1)
+ScreenMouseVisible(0) ; The mouse cursor is only displayed while the left button is pushed
 
 Repeat
   
@@ -101,16 +100,15 @@ Repeat
   If ExamineMouse()
     MouseX = -(MouseDeltaX()/10)
     MouseY = -(MouseDeltaY()/10)
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
     
     TerrainMousePick(0, CameraID(0), MouseX(),  MouseY())
     
     If MouseButton(#PB_MouseButton_Left)
-      ShowGUI(128, 1)
+      If Selected = #False : ScreenMouseVisible(1) : EndIf
       AffichePolygone(PickX(), PickY(), PickZ(), 100)
       Selected = #True
     Else
-      ShowGUI(128, 0)
+      If Selected : ScreenMouseVisible(0) : EndIf
       MoveCamera  (0, KeyX, 0, KeyY)
       AffichePolygone(PickX(), PickY(), PickZ(), 0)
       Selected = #False
@@ -159,6 +157,7 @@ Repeat
   EndIf
   
   TimeSinceLastFrame = RenderWorld() / 1000
+  RenderScreenGadgets()
   FlipBuffers()
   
 Until KeyboardPushed(#PB_Key_Escape)

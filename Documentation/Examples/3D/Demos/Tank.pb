@@ -8,7 +8,7 @@
 ; ------------------------------------------------------------
 ;
 
-#PlayerSpeed = 0.4
+#PlayerSpeed = 25 ; units per second
 #CameraSpeed = 1
 
 Structure s_Key
@@ -25,7 +25,6 @@ Structure s_Entity
   TourelleNode.i
   CanonNode.i
   ShootNode.i
-  ForwardNode.i
   SightNode.i
   CameraNode.i
   SightNode1.i
@@ -121,7 +120,7 @@ CreateMaterial(6, LoadTexture(6, "Caisse.png"))
 GetScriptMaterial(7, "Examples/LightRibbonTrail")
 
 ;Ground
-CreatePlane(0, 100, 100, 10, 10, 10, 10)
+CreatePlane(0, 1000, 1000, 100, 100, 100, 100) ; Large enough so the tank (physics body) doesn't fall from it
 CreateEntity(0, MeshID(0), MaterialID(5), 0, 0, 0)
 EntityRenderMode(0, 0) ; Disable shadow casting for this entity as it's our plan
 CreateEntityBody(0, #PB_Entity_StaticBody)
@@ -131,10 +130,10 @@ CreateCube(1, 1)
 CreateSphere(2, 1.5)
 CreateCylinder(3, 0.5, 8)
 
-;-Corps
-CreateEntity(1, MeshID(1), MaterialID(0))
+;-Corps (physics body, so the tank pushes the cubes. The tank nodes follow it)
+CreateEntity(1, MeshID(1), MaterialID(0), 0, 1, 0)
 ScaleEntity(1, 4, 2, 8)
-MoveEntity(1, 0, 1, 0)
+CreateEntityBody(1, #PB_Entity_BoxBody, 10, 0, 1)
 
 ;-Tourelle
 CreateEntity(2, MeshID(2), MaterialID(0))
@@ -185,15 +184,13 @@ With Tank
   \ShootNode   = CreateNode(#PB_Any,  0, 0.0,  -8)
   \SightNode   = CreateNode(#PB_Any,  0, 2.0, -12) ; For cameraLookAt
   \CameraNode  = CreateNode(#PB_Any,  0, 6.0,  15) ; Camera position
-  \ForwardNode = CreateNode(#PB_Any,  0, 0.0,  -1) ; Direction normalized
-  
+
   \SightNode1  = CreateNode(#PB_Any,  0, 1.0,   0) ; For cameraLookAt
   \CameraNode1 = CreateNode(#PB_Any,  0, 1.0,   0) ; Camera1 position
   
   AttachNodeObject(\MainNode, NodeID(\SightNode))
   AttachNodeObject(\MainNode, NodeID(\TourelleNode))
   AttachNodeObject(\MainNode, NodeID(\CameraNode))
-  AttachNodeObject(\MainNode, NodeID(\ForwardNode))
   
   AttachNodeObject(\TourelleNode, NodeID(\CanonNode))
   AttachNodeObject(\CanonNode   , NodeID(\ShootNode))
@@ -201,7 +198,6 @@ With Tank
   AttachNodeObject(\CanonNode   , NodeID(\CameraNode1))
   AttachNodeObject(\ShootNode   , NodeID(\SightNode1))
   
-  AttachNodeObject(\Mainnode    , EntityID(1))
   AttachNodeObject(\TourelleNode, EntityID(2))
   AttachNodeObject(\CanonNode   , EntityID(3))
   AttachNodeObject(\CameraNode1 , CameraID(1))
@@ -302,19 +298,10 @@ EndProcedure
 
 
 Procedure HandleEntity(*Entity.s_Entity)
-  Protected.Vector3 Forward, PosMain, PosDir
-  Protected Speed.f, Speed2.f, x.f, y.f
-  Protected MouseX.f, MouseY.f
-  Static Rot.Vector3, Trans.Vector3, Clic, AngleCanon.f, Time, FirstShort=1
-  
+  Protected MouseX.f, MouseY.f, Speed.f
+  Static Rot.Vector3, Clic, AngleCanon.f, Time, FirstShort=1
+
   With *Entity
-    GetNodePosition(PosMain, \MainNode)
-    GetNodePosition(PosDir, \ForwardNode)
-    SubVector3(Forward, PosDir, PosMain)
-    
-    Speed = #PlayerSpeed * \elapsedTime
-    Speed2 = Speed / 2
-    
     If ExamineMouse()
       MouseX = -(MouseDeltaX()/5) * \elapsedTime
       MouseY = -(MouseDeltaY()/5) * \elapsedTime
@@ -347,16 +334,12 @@ Procedure HandleEntity(*Entity.s_Entity)
       Rot\x * 0.30
       Rot\y * 0.30
       Rot\z * 0.30
-      Trans\x * 0.30
-      Trans\y = 0
-      Trans\z * 0.30
-      
+
+      Speed = 0
       If KeyboardPushed(\Key\Up)
-        Trans\x + Forward\x * Speed
-        Trans\z + Forward\z * Speed
+        Speed = #PlayerSpeed
       ElseIf KeyboardPushed(\Key\Down)
-        Trans\x + Forward\x * -Speed2
-        Trans\z + Forward\z * -Speed2
+        Speed = -#PlayerSpeed / 2
       EndIf
       
       If KeyboardPushed(\Key\Left)
@@ -367,8 +350,12 @@ Procedure HandleEntity(*Entity.s_Entity)
       
     EndIf
     
-    MoveNode(\MainNode, Trans\x, Trans\y, Trans\z,#PB_Relative|#PB_World)
-    RotateNode(\MainNode, 0, Rot\y, 0, #PB_Relative)
+    ; The hull is a physics body: MoveEntity() sets its velocity (keeping the vertical one for the gravity),
+    ; then the tank nodes follow it
+    MoveEntity(1, 0, GetEntityAttribute(1, #PB_Entity_LinearVelocityY), -Speed, #PB_Relative|#PB_Local)
+    RotateEntity(1, 0, Rot\y, 0, #PB_Relative)
+    MoveNode(\MainNode, EntityX(1), EntityY(1) - 1, EntityZ(1), #PB_Absolute)
+    RotateNode(\MainNode, 0, EntityYaw(1), 0, #PB_Absolute)
     RotateNode(\TourelleNode, 0, MouseX, 0, #PB_Relative)
     RotateNode(\CanonNode, AngleCanon, 0, 0, #PB_Absolute)
     

@@ -74,9 +74,6 @@ Repeat
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-    
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
-    
   EndIf
   
   If ExamineKeyboard()
