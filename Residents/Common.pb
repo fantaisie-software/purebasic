@@ -1214,6 +1214,7 @@ CompilerEndIf
 #PB_Sprite_PixelCollision = 1 << 2
 #PB_Sprite_AlphaBlending  = 1 << 3
 #PB_Sprite_Transparent    = 1 << 4
+#PB_Sprite_Overwrite      = 1 << 5 ; SpriteOutput(), SpriteVectorOutput()
 
 #PB_Sprite_NoFiltering       = 0
 #PB_Sprite_BilinearFiltering = 1
@@ -1934,6 +1935,7 @@ Enumeration
   #PB_Shader_InverseWorldviewMatrix
   #PB_Shader_TransposeWorldviewMatrix
   #PB_Shader_InverseTransposeWorldviewMatrix
+  #PB_Shader_NormalMatrix
   #PB_Shader_WorldviewprojMatrix
   #PB_Shader_InverseWorldviewprojMatrix
   #PB_Shader_TransposeWorldviewprojMatrix
@@ -1947,6 +1949,7 @@ Enumeration
   #PB_Shader_SurfaceSpecularColour
   #PB_Shader_SurfaceEmissiveColour
   #PB_Shader_SurfaceShininess
+  #PB_Shader_SurfaceAlphaRejectionValue
   #PB_Shader_LightCount
   #PB_Shader_AmbientLightColour
   #PB_Shader_LightDiffuseColour
@@ -1985,9 +1988,11 @@ Enumeration
   #PB_Shader_DerivedLightSpecularColourArray
   #PB_Shader_LightNumber
   #PB_Shader_LightCastsShadows
+  #PB_Shader_LightCastsShadowsArray
   #PB_Shader_ShadowExtrusionDistance
   #PB_Shader_CameraPosition
   #PB_Shader_CameraPositionObjectSpace
+  #PB_Shader_CameraRelativePosition
   #PB_Shader_TextureViewprojMatrix
   #PB_Shader_TextureViewprojMatrixArray
   #PB_Shader_TextureWorldviewprojMatrix
@@ -1995,6 +2000,7 @@ Enumeration
   #PB_Shader_SpotlightViewprojMatrix
   #PB_Shader_SpotlightViewprojMatrixArray
   #PB_Shader_SpotlightWorldviewprojMatrix
+  #PB_Shader_SpotlightWorldviewprojMatrixArray
   #PB_Shader_Custom
   #PB_Shader_Time
   #PB_Shader_Time0X
@@ -2031,6 +2037,7 @@ Enumeration
   #PB_Shader_TexelOffsets
   #PB_Shader_SceneDepthRange
   #PB_Shader_ShadowSceneDepthRange
+  #PB_Shader_ShadowSceneDepthRangeArray
   #PB_Shader_ShadowColour
   #PB_Shader_TextureSize
   #PB_Shader_InverseTextureSize
@@ -2039,6 +2046,8 @@ Enumeration
   #PB_Shader_LodCameraPosition
   #PB_Shader_LodCameraPositionObjectSpace
   #PB_Shader_LightCustom
+  #PB_Shader_PointParams
+  #PB_Shader_MaterialLodIndex
 EndEnumeration
 
 ; Mesh
@@ -2130,7 +2139,7 @@ EndStructure
 #PB_Texture_ManualUpdate    = 1 << 1
 #PB_Texture_CameraViewPort  = 1 << 2
 #PB_Texture_VisibilityMask  = 1 << 3
-#PB_Texture_Overwrite       = 1 << 4 ; TextureVectorOutput()
+#PB_Texture_Overwrite       = 1 << 4 ; TextureOutput(), TextureVectorOutput()
 
 ; Text3D
 ;

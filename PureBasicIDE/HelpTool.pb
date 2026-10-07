@@ -25,6 +25,7 @@ DeclareModule pbhelp
   Declare.s PbtoHtml(nom.s)
   Declare CheckFile()
   Declare listfilemef()
+  Declare.s inithelp(source.s,destination.s)
 
   ; IDE embedding
   Declare setup(lg.s, os.s, source.s, userlibsource.s, examplesource.s)
@@ -188,7 +189,8 @@ Procedure WriteTextFile(name.s,txt.s,format=#PB_UTF8)
   If FileSize(name)>=0:DeleteFile(name):EndIf
   n=CreateFile(-1,name,format):If n=0:Debug "WriteTextFile !!!":ProcedureReturn 0:EndIf
   WriteString(n,txt)
-  CloseFile(n)   
+  CloseFile(n)
+  ProcedureReturn 1
 EndProcedure
 
 Procedure.s ReadTextFile(name.s,option=#PB_UTF8,errormessage.b=1)
@@ -802,17 +804,16 @@ Procedure.s htmltopb(t.s) ; temporaire, sert à lire le sommaire html, le conver
   ProcedureReturn tt
 EndProcedure
 
-Procedure filemef(fic.s)
+Procedure filemef(source.s,destination.s) ; conversion d'un fichier source de la doc (DocMaker) au format de l'aide
   #sep=" .,;:()[]{}>@/"+#LF$+Chr(34)+Chr(160)
-  Protected n,p,pre,text,atext,ok,indent
+  Protected n,p,pre,text,atext,ok,indent,file,format
   Protected.s t,tt,c1,c,balise,fl
-  
-  ;OpenFile(0,ReplaceString(rep,"pbaidenv","pbaide")+langue+"/"+fic)
-  OpenFile(0,rep+langue+"/"+fic)
-  ReadStringFormat(0)
+
+  file=ReadFile(#PB_Any,source):If file=0:ProcedureReturn #False:EndIf
+  format=ReadStringFormat(file):If format=#PB_Ascii:format=#PB_UTF8:EndIf ; sources sans BOM: UTF-8
   ok=1
   Repeat
-    t=(ReadString(0))
+    t=(ReadString(file,format))
     c1=Left(t,1)
     If Trim(t)="@LineBreak":c1=" ":EndIf
     If c1="@"
@@ -832,13 +833,13 @@ Procedure filemef(fic.s)
     If pre Or text=0 Or atext=0:t=#LF$+t:Else:t=" "+Trim(t):EndIf
     t=ReplaceString(t,"@LineBreak",#LF$)
     If ok:tt+t:EndIf
-  Until Eof(0)
-  CloseFile(0) 
+  Until Eof(file)
+  CloseFile(file)
   tt=ReplaceString(tt," "+#LF$,#LF$)
-  WriteTextFile(rep+langue+"\"+fic,tt)
-  Debug "=====lg: "+Len(tt)+#TAB$+"  lines: "+CountString(tt,#LF$)+#TAB$+""+fic
+  Debug "=====lg: "+Len(tt)+#TAB$+"  lines: "+CountString(tt,#LF$)+#TAB$+""+source
   ;Debug tt
   If ok=0:Debug " !!! @formatendif missing !!!":EndIf
+  ProcedureReturn WriteTextFile(destination,tt)
 EndProcedure
 
 Procedure listfilemef()
@@ -857,7 +858,7 @@ Procedure listfilemef()
     ;filemef("Reference\general_rules.txt")
     ;filemef("Reference\variables.txt")
     ;filemef("Reference\ascii.txt")
-    FileList(fl(),rep+langue,"txt",1,1):ForEach fl():filemef(fl()):Next
+    FileList(fl(),rep+langue,"txt",1,1):ForEach fl():filemef(rep+langue+"/"+fl(),rep+langue+"/"+fl()):Next
     
     ;--------------------- conversion reference.html au format pb (.txt) insertion "User library" et renommage ascii.txt->asciitable.txt
     ch=rep+langue+"/Reference/reference.html"
@@ -871,6 +872,61 @@ Procedure listfilemef()
     ;DeleteFile(rep+langue+"\Reference\asciitable.txt")
     Debug RenameFile(rep+langue+"\Reference\ascii.txt",rep+langue+"\Reference\asciitable.txt")
   Next
+EndProcedure
+
+Procedure createpath(dir.s) ; cree le dossier et ses parents
+  dir=RTrim(ReplaceString(dir,"\","/"),"/")
+  If dir="" Or FileSize(dir)=-2:ProcedureReturn #True:EndIf
+  createpath(GetPathPart(dir))
+  ProcedureReturn CreateDirectory(dir)
+EndProcedure
+
+Procedure.s inithelp(source.s,destination.s) ; --init: construit le dossier de l'aide depuis les sources de la doc. Retourne les erreurs
+  Protected i,ch.s,fic.s,t.s,errors.s
+  NewList fl.s()
+
+  source=ReplaceString(source,"\","/"):If Right(source,1)<>"/":source+"/":EndIf
+  destination=ReplaceString(destination,"\","/"):If Right(destination,1)<>"/":destination+"/":EndIf
+  If FileSize(source)<>-2:ProcedureReturn "Help source not found: "+source+#LF$:EndIf
+  If createpath(destination)=0:ProcedureReturn "Can't create: "+destination+#LF$:EndIf
+
+  For i=1 To CountString(listlg,",")+1
+    langue=StringField(listlg,i,",")
+    If FileSize(source+langue)<>-2:Continue:EndIf
+    initlang()
+    initbalise()
+    ;--------------------- conversion des fichiers au nvx format (sans formatif et linebreak), ascii.txt -> asciitable.txt
+    FileList(fl(),source+langue,"txt",1,1)
+    ForEach fl()
+      fic=fl()
+      If LCase(fic)="reference/ascii.txt":fic=GetPathPart(fic)+"asciitable.txt":EndIf
+      createpath(GetPathPart(destination+langue+"/"+fic))
+      If filemef(source+langue+"/"+fl(),destination+langue+"/"+fic)=0:errors+"Can't convert: "+source+langue+"/"+fl()+#LF$:EndIf
+    Next
+    ;--------------------- conversion reference.html au format pb (.txt) avec insertion "User library"
+    ch=source+langue+"/Reference/reference.html"
+    If FileSize(ch)>0
+      t="@Title "+_acceuil+#LF$+htmltopb(ReadTextFile(ch,#PB_UTF8,0))
+      t=InsertString(t,"@Section User library"+#LF$+"$userlib"+#LF$,FindString(t,"@Section",FindString(t,"lib_texture")))
+      t=ReplaceString(t,"@Link ascii","@Link asciitable")
+      If WriteTextFile(destination+langue+"/Reference/reference.txt",t)=0:errors+"Can't write: "+destination+langue+"/Reference/reference.txt"+#LF$:EndIf
+    Else
+      errors+"Not found: "+ch+#LF$
+    EndIf
+    ;--------------------- images
+    ch=source+langue+"/Reference/Images"
+    If FileSize(ch)=-2 And CopyDirectory(ch,destination+langue+"/Reference/Images","",#PB_FileSystem_Recursive|#PB_FileSystem_Force)=0
+      errors+"Can't copy: "+ch+#LF$
+    EndIf
+  Next
+
+  If FileSize(source+"HelpPictures")=-2 And CopyDirectory(source+"HelpPictures",destination+"HelpPictures","",#PB_FileSystem_Recursive|#PB_FileSystem_Force)=0
+    errors+"Can't copy: "+source+"HelpPictures"+#LF$
+  EndIf
+  If CopyFile(source+"OSSpecificFunctions.txt",destination+"OSSpecificFunctions.txt")=0
+    errors+"Can't copy: "+source+"OSSpecificFunctions.txt"+#LF$
+  EndIf
+  ProcedureReturn errors
 EndProcedure
 
 ;_____________________________________________________________________________________________________________________interface
@@ -1319,6 +1375,24 @@ CompilerIf #PB_Compiler_IsMainFile
 
   ;pbhelp::CheckFile()
   ;pbhelp::listfilemef()
+
+  ; HelpTool --init <helpsourcepath> <helpdestinationpath>
+  ;   builds the help folder used by the help tool from the documentation sources (the 'Documentation' folder)
+  If ProgramParameter(0)="--init"
+    If CountProgramParameters()<>3
+      Errors$ = "Usage: HelpTool --init <helpsourcepath> <helpdestinationpath>"+#LF$
+    Else
+      Errors$ = pbhelp::inithelp(ProgramParameter(1), ProgramParameter(2))
+    EndIf
+    If Errors$ <> ""
+      If OpenConsole()
+        ConsoleError(RTrim(Errors$, #LF$))
+      EndIf
+      End 1
+    EndIf
+    End
+  EndIf
+
   pbhelp::init("French","Windows")
 
 CompilerElse

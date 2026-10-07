@@ -39,8 +39,7 @@ Procedure ActivateTool(Name$)
     ForEach AvailablePanelTools()
       If AvailablePanelTools()\ToolID$ = Name$
         If AvailablePanelTools()\IsSeparateWindow
-          SetWindowForeground(AvailablePanelTools()\ToolWindowID)
-          SetActiveWindow(AvailablePanelTools()\ToolWindowID)
+          SetWindowForeground(AvailablePanelTools()\ToolWindowID) ; also activates it (not possible on Wayland, see LinuxExtensions.pb)
         Else
           
           Flags = #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget

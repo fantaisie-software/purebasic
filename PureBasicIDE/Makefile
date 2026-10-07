@@ -33,6 +33,8 @@ ifeq ($(PB_WINDOWS),1)
 	DEBUGSYMBOLS =
 	CPUMONITORLIB =
 	DIALOGCOMPILER = ../DialogManager/Build/DialogCompiler.exe
+	HELPTOOL = Build/HelpTool.exe
+	HELPTOOLRUN = Build\HelpTool.exe
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
@@ -52,6 +54,8 @@ else
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
 	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --dpiaware
+	HELPTOOL = Build/HelpTool.app
+	HELPTOOLRUN = $(HELPTOOL)/Contents/MacOS/HelpTool
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
@@ -61,6 +65,8 @@ ifeq ($(PB_MACOS),1)
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
 	IDEFLAGS = --thread --unicode
+	HELPTOOL = Build/helptool
+	HELPTOOLRUN = $(HELPTOOL)
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
@@ -198,6 +204,20 @@ onerror : VERSION $(DEPENDENCIES)
 #
 nocompile :  Build/dummy VERSION  $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
+
+#
+# standalone help tool (HelpTool.pb compiled as main file)
+#
+helptool : $(HELPTOOL)
+
+$(HELPTOOL) : HelpTool.pb Build/dummy
+	$(PBCOMPILER) HelpTool.pb $(MAKEEXE) $(HELPTOOL) $(IDEFLAGS)
+
+#
+# build the help folder used by the help tool from the documentation sources
+#
+help : $(HELPTOOL)
+	$(HELPTOOLRUN) --init ../Documentation "$(HOME)/Help"
 
 #
 # required other targets
