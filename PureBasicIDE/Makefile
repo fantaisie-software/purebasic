@@ -66,7 +66,13 @@ else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
 	IDEFLAGS = --thread --unicode
 	HELPTOOL = Build/helptool
-	HELPTOOLRUN = $(HELPTOOL)
+	# helptool is a GTK program and needs a display even for --init: use a virtual one when available
+	# so 'make help' also works over plain ssh/plink (no or broken X11 forwarding, ie: on the Raspberry Pis)
+	ifneq ($(shell command -v xvfb-run 2>/dev/null),)
+		HELPTOOLRUN = xvfb-run -a $(HELPTOOL)
+	else
+		HELPTOOLRUN = $(HELPTOOL)
+	endif
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
