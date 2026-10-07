@@ -3,7 +3,7 @@
 # 
 
 doc:
-	"$(PUREBASIC_HOME)/SDK/DocMaker/DocMaker.exe" /LANGUAGE English /DOCUMENTATIONPATH "$(PB_SVN)/Documentation" /OUTPUTPATH "$(PB_SVN)/Build/Documentation"
+	"$(PUREBASIC_HOME)/SDK/DocMaker/DocMaker.exe" /LANGUAGE English /DOCUMENTATIONPATH .. /OUTPUTPATH "$(PB_SVN)/Build/Documentation"
 	explorer "$(PB_SVN)\Build\Documentation"
 
 console:

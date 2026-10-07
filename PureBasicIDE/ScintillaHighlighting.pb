@@ -3453,7 +3453,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_KeywordMatch, #INDIC_PLAIN)
     SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_KeywordMismatch, #INDIC_PLAIN)
-    
+
+    ; Scintilla draws the INDIC_PLAIN underline up to 3 pixels below the baseline. Fonts with a small descent
+    ; (like the bitmap 'Courier' font, especially on non-latin Windows) clip it, so the keyword match was invisible.
+    ; https://www.purebasic.fr/english/viewtopic.php?t=82666
+    SendEditorMessage(#SCI_SETEXTRADESCENT, 1, 0)
+
     SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_SelectionRepeat, #INDIC_STRAIGHTBOX)
     SendEditorMessage(#SCI_INDICSETALPHA, #INDICATOR_SelectionRepeat, 255)
     SendEditorMessage(#SCI_INDICSETOUTLINEALPHA, #INDICATOR_SelectionRepeat, 255)
