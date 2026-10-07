@@ -217,7 +217,7 @@ $(HELPTOOL) : HelpTool.pb Build/dummy
 # build the help folder used by the help tool from the documentation sources
 #
 help : $(HELPTOOL)
-	$(HELPTOOLRUN) --init ../Documentation "$(HOME)/Help"
+	$(HELPTOOLRUN) --init "$(CURDIR)/../Documentation" "$(HOME)/Help"
 
 #
 # required other targets
