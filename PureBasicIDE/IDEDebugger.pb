@@ -1155,15 +1155,32 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               WorkAreaWidth  = wr\right - wr\left
               WorkAreaHeight = wr\bottom - wr\top
             CompilerElse
-              DummyWindow = OpenWindow(#PB_Any,0,0,0,0,"",#PB_Window_Invisible | #PB_Window_Maximize | #PB_Window_MaximizeGadget | #PB_Window_NoActivate)
-              WorkAreaWidth  = DesktopScaledX(WindowWidth(DummyWindow, #PB_Window_FrameCoordinate))
-              WorkAreaHeight = DesktopScaledY(WindowHeight(DummyWindow, #PB_Window_FrameCoordinate))
-              CloseWindow(DummyWindow)
+              ; Don't use an invisible maximized window to get the work area: GTK never maximizes a window which isn't shown,
+              ; so it stays 30x30 and the computed MaxLenLine was negative, turning every structure field into " ..."
+              ; Use the size of the desktop under the mouse instead (the mouse coordinates are relative to its origin below).
+              WorkAreaWidth  = 0
+              WorkAreaHeight = 0
+              NbDesktops = ExamineDesktops()
+              For i = 0 To NbDesktops-1
+                If DesktopMouseX() >= DesktopX(i) And DesktopMouseX() < DesktopX(i) + DesktopWidth(i) And DesktopMouseY() >= DesktopY(i) And DesktopMouseY() < DesktopY(i) + DesktopHeight(i)
+                  WorkAreaWidth  = DesktopX(i) + DesktopWidth(i)
+                  WorkAreaHeight = DesktopY(i) + DesktopHeight(i)
+                  Break
+                EndIf
+              Next i
+
+              If WorkAreaWidth = 0 And NbDesktops > 0 ; Mouse not found on any desktop, use the main one
+                WorkAreaWidth  = DesktopX(0) + DesktopWidth(0)
+                WorkAreaHeight = DesktopY(0) + DesktopHeight(0)
+              EndIf
             CompilerEndIf
-            
+
             ; ToolTip width enlarged according to the available space between the mouse position and the right desktop border, rather than 100 hard-coded chars
             ; To be aligned with the mouse position. For a full ToolTip, adjusted to the desktop width, use: MaxLenLine = WorkAreaWidth  / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A"))
             MaxLenLine = (WorkAreaWidth - DesktopMouseX()) / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A")) +1   ; +1 for Chr(10), #LF$
+            If MaxLenLine < 20 ; Always display a meaningful part of each field, even if the work area couldn't be determined correctly
+              MaxLenLine = 20
+            EndIf
 
             ; Number of lines from top: Remove a line for "Structure: " + Name$ and a second line to ensure that the tooltip is displayed with its borders. 
             MaxLineTop = SendEditorMessage(#SCI_LINEFROMPOSITION, MouseDwellPosition, 0) - SendEditorMessage(#SCI_GETFIRSTVISIBLELINE, 0, 0) - 2
