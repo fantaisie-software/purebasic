@@ -348,9 +348,14 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       
       If Program
         If CommandlineBuild = 0
+          ; The tool may modify the source on disk: don't let the file monitor (timer or window activation
+          ; flushed below) ask to reload it before the tool has quit and the source is reloaded below
+          ; https://www.purebasic.fr/english/viewtopic.php?t=55622
+          AddTools_WaitingTools + 1
           While WaitProgram(Program, 10) = 0
             FlushEvents()
           Wend
+          AddTools_WaitingTools - 1
         Else
           WaitProgram(Program)
         EndIf

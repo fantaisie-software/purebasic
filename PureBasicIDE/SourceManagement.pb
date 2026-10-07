@@ -2881,7 +2881,7 @@ EndProcedure
 
 
 Procedure FileMonitorEvent()
-  If MonitorFileChanges And FileMonitorWindowOpen = 0 ; do not check when the requester is open!
+  If MonitorFileChanges And FileMonitorWindowOpen = 0 And AddTools_WaitingTools = 0 ; do not check when the requester is open, or while waiting for a tool to quit!
     
     ForEach FileList()
       If @FileList() <> *ProjectInfo And FileList()\ExistsOnDisk And FileList()\FileName$ And FileList()\IsForm = #False ; only check saved files (ignore form files as they don't use the same save routines)
