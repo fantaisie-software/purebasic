@@ -2610,7 +2610,12 @@ Procedure ApplyPreferences()
   ;
   LoadLanguage()
   LoadEditorFonts()
-  
+
+  ; calc which colors are actually used for display
+  ; must be before UpdateMainWindow(), as the tools are recreated there and some use the editor colors (ie: the help tool)
+  ;
+  CalculateHighlightingColors()
+
   ; updating of the main window must be before the hilighning
   ;
   UpdateMainWindow()
@@ -2671,10 +2676,7 @@ Procedure ApplyPreferences()
     Compilers() = PreferenceCompilers() ; structure copy
   Next PreferenceCompilers()
   SortCompilers()
-  
-  ; calc which colors are actually used for display
-  CalculateHighlightingColors()
-  
+
   ; update all syntax highlighthing
   ;
   *Source = *ActiveSource

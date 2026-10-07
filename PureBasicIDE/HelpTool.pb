@@ -30,7 +30,7 @@ DeclareModule pbhelp
   ; IDE embedding
   Declare setup(lg.s, os.s, source.s, userlibsource.s, examplesource.s)
   Declare setimages(back, forward, home, edit, open.s, run.s)
-  Declare setcolors(css.s)
+  Declare setcolors(css.s, userlibcolor=$008800)
   Declare create(window)
   Declare destroy()
   Declare resize(width, height)
@@ -82,6 +82,7 @@ Global event,etype,nzip,Archive
 Global.s g=Chr(34),Rep,RepL,RepUL,fic,mot,html,style,langue,os,apage,erreur,helpsource
 Global.s txt,lien,ht,*page.spage,*pagesel.spage, pacceuil
 Global.s couleurs
+Global couleurul=$008800 ; couleur des bibliotheques utilisateur dans le sommaire
 Global.s dos,repex ; dos: dossier du fichier de la page courante, repex: dossier des exemples (IDE)
 Global editiondate.q
 Global NewList jsmessages.s()
@@ -509,7 +510,7 @@ Procedure initFichier(enableUI=1)
     EndIf
     AddGadgetItem(gsommaire,-1,mtxt,0,niv)
     SetGadgetItemData(gsommaire,num,page)
-    SetGadgetItemColor(gsommaire,num,#PB_Gadget_FrontColor,$008800*ul)
+    If ul:SetGadgetItemColor(gsommaire,num,#PB_Gadget_FrontColor,couleurul):EndIf ; sinon couleur du gadget (theme de l'IDE)
     num+1
   EndMacro
   
@@ -1328,8 +1329,9 @@ Procedure setimages(back, forward, home, edit, open.s, run.s) ; open, run: image
   If run<>"" :icoexecuter="<img src='data:image/png;base64,"+run+"'>":EndIf
 EndProcedure
 
-Procedure setcolors(css.s) ; css: ":root {--bg:...}" (voir 'couleurs')
+Procedure setcolors(css.s, userlibcolor=$008800) ; css: ":root {--bg:...}" (voir 'couleurs'), userlibcolor: bibliotheques utilisateur dans le sommaire
   couleurs=css
+  couleurul=userlibcolor
 EndProcedure
 
 Procedure create(window) ; cree l'aide dans la liste de gadgets courante
@@ -1606,12 +1608,18 @@ CompilerElse
 
     pbhelp::OpenCodeCallback = @HelpTool_OpenCode()
     pbhelp::EditFileCallback = @HelpTool_EditFile()
+    ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
+    If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
+      UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue
+    Else
+      UserLibColor = $008800
+    EndIf
     If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
       pbhelp::ApplyColorsCallback = @ToolsPanel_ApplyColors()
     Else
       pbhelp::ApplyColorsCallback = 0
     EndIf
-    pbhelp::setcolors(HelpTool_ThemeColors())
+    pbhelp::setcolors(HelpTool_ThemeColors(), UserLibColor)
     pbhelp::setimages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     pbhelp::setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
 
