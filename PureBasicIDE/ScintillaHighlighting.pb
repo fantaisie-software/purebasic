@@ -3979,6 +3979,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 Break ; keep this element, for the range update after a replace
               EndIf
             Next
+          EndIf
 
           If Success And FindWholeWord ; not #SCFIND_WHOLEWORD, see IsWholeWordMatch()
             *Text = SendEditorMessage(#SCI_GETCHARACTERPOINTER, 0, 0)
