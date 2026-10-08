@@ -382,15 +382,30 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           EndIf
           
           LoadTempFile(File$)
-          UpdateSourceStatus(1)
+
+          ; The source is not modified if the reloaded file is the source file on disk, or a copy of it
+          ; (the tool saved the %TEMPFILE over the %FILE: https://www.purebasic.fr/english/viewtopic.php?t=58658)
+          Modified = #True
+          If *ActiveSource And *ActiveSource\FileName$ <> ""
+            If IsEqualFile(File$, *ActiveSource\FileName$)
+              Modified = #False
+            Else
+              Checksum$ = FileFingerprint(*ActiveSource\FileName$, #PB_Cipher_MD5)
+              If Checksum$ <> "" And Checksum$ = FileFingerprint(File$, #PB_Cipher_MD5)
+                Modified = #False
+              EndIf
+            EndIf
+          EndIf
+
+          UpdateSourceStatus(Modified)
           HistoryEvent(*ActiveSource, #HISTORY_Create)
-          
+
           ; update file monitor stats, so there won't be a " do you want to load changes from disk" message
-          If *ActiveSource And IsEqualFile(File$, *ActiveSource\FileName$)
+          If Modified = #False
             *ActiveSource\ExistsOnDisk  = #True
-            *ActiveSource\LastWriteDate = GetFileDate(File$, #PB_Date_Modified)
-            *ActiveSource\DiskFileSize  = FileSize(File$)
-            *ActiveSource\DiskChecksum  = FileFingerprint(File$, #PB_Cipher_MD5)
+            *ActiveSource\LastWriteDate = GetFileDate(*ActiveSource\FileName$, #PB_Date_Modified)
+            *ActiveSource\DiskFileSize  = FileSize(*ActiveSource\FileName$)
+            *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\FileName$, #PB_Cipher_MD5)
           EndIf
           
         EndIf
