@@ -2904,6 +2904,72 @@ EndProcedure
 
 
 
+; Adds the modules opened by UseModule inside the DeclareModule block of the given Module
+; item to the OpenModules() list, as the compiler applies them to the Module block too
+; Only the DeclareModule blocks before the Module in the same file are searched
+;
+Procedure AddDeclareModuleUses(*Parser.ParserData, *Item.SourceItem, Line, List OpenModules.s())
+  Protected Name$ = *Item\Name$
+  Protected NewList UsedModules.s(), NewList ClosedModules.s()
+  
+  Parser_PreviousItem(*Parser, *Item, Line)
+  While *Item
+    Select *Item\Type
+        
+      Case #ITEM_EndDeclareModule
+        ; entering a DeclareModule block (we search backwards)
+        ClearList(UsedModules())
+        ClearList(ClosedModules())
+        InsideDeclare = #True
+        
+      Case #ITEM_DeclareModule
+        If InsideDeclare And CompareMemoryString(@*Item\Name$, @Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
+          ForEach UsedModules()
+            AddElement(OpenModules())
+            OpenModules() = UsedModules()
+          Next UsedModules()
+          Break
+        EndIf
+        InsideDeclare = #False
+        
+      Case #ITEM_UseModule
+        If InsideDeclare
+          Closed = #False
+          ForEach ClosedModules()
+            If CompareMemoryString(@*Item\Name$, PeekI(@ClosedModules()), #PB_String_NoCaseAscii) = #PB_String_Equal
+              Closed = #True
+              Break
+            EndIf
+          Next ClosedModules()
+          
+          If Not Closed
+            AddElement(UsedModules())
+            UsedModules() = *Item\Name$
+          EndIf
+        EndIf
+        
+      Case #ITEM_UnuseModule
+        If InsideDeclare
+          AddElement(ClosedModules())
+          ClosedModules() = *Item\Name$
+        EndIf
+        
+      Case #ITEM_MacroEnd
+        ; skip macro bodies
+        While *Item And *Item\Type <> #ITEM_Macro
+          Parser_PreviousItem(*Parser, *Item, Line)
+        Wend
+        
+        ; The Parser_PreviousItem() below has no 0 check, so break here!
+        If *Item = 0
+          Break
+        EndIf
+        
+    EndSelect
+    Parser_PreviousItem(*Parser, *Item, Line)
+  Wend
+EndProcedure
+
 ; Tries to locate the start of a DeclareModule or Module block (if any)
 ; The search only extends to the beginning of the file
 ; The OpenModules() list may contain duplicates if multiple commands are found for the same module
@@ -2939,6 +3005,11 @@ Procedure FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Lis
         ; found the module decl/impl start
         *pItem\i = *Item
         *Line\i = Line
+        
+        ; the modules used in the DeclareModule block are also open inside the Module block
+        If *Item\Type = #ITEM_Module
+          AddDeclareModuleUses(*Parser, *Item, Line, OpenModules())
+        EndIf
         ProcedureReturn #True
         
       Case #ITEM_EndDeclareModule, #ITEM_EndModule, #ITEM_MacroEnd
