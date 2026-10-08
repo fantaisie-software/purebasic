@@ -439,6 +439,20 @@ Procedure Debugger_AddLog(*Debugger.DebuggerData, Message$, TimeStamp)
   ; add message to the gadget
   ;
   If ((*ActiveSource = *ProjectInfo Or *ActiveSource\ProjectFile) And *Debugger\ID = ProjectDebuggerID) Or (*Debugger = IsDebuggedFile(*ActiveSource))
+    
+    ; limit the gadget to the size of the stored log (which is what a refresh shows anyway),
+    ; as a constantly growing list makes each addition slower (ie: with the debug output in the log)
+    ;
+    If *Debugger\ID = ProjectDebuggerID
+      MaxLines = #MAX_ErrorLog*10
+    Else
+      MaxLines = #MAX_ErrorLog
+    EndIf
+    
+    While CountGadgetItems(#GADGET_ErrorLog) >= MaxLines
+      RemoveGadgetItem(#GADGET_ErrorLog, 0)
+    Wend
+    
     AddGadgetItem(#GADGET_ErrorLog, -1, Message$)
     SetGadgetState(#GADGET_ErrorLog, CountGadgetItems(#GADGET_ErrorLog)-1)
   EndIf
