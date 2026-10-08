@@ -428,9 +428,11 @@ Procedure IsContinuedLineStart(Line$)
   CompilerIf #PB_Compiler_Unicode
     
     ; IsLineContinuation() needs ascii input
+    ; Ascii() uses the system codepage, where a character can take more than one byte (DBCS, UTF-8),
+    ; so the end is taken from the converted buffer and not from the character count
     ;
     *String = Ascii(PeekS(*LineStart, (*Pointer - *LineStart) / #CharSize))
-    Result = IsLineContinuation(*String, *String + (*Pointer - *LineStart) / #CharSize)
+    Result = IsLineContinuation(*String, *String + MemorySize(*String) - 1) ; -1 for the null terminator
     FreeMemory(*String)
     ProcedureReturn Result
     
