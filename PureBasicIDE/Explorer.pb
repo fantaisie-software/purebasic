@@ -9,7 +9,7 @@
 ; as well.
 
 Global Backup_ExplorerMode, Backup_ExplorerSavePath, Backup_ExplorerShowHidden
-Global ExplorerSplitterApplied
+Global ExplorerSplitterApplied, ExplorerSplitterPending
 Global *Explorer.ToolsPanelEntry ; for prefs creation
 Global NewList ExplorerFavorites.s()
 
@@ -196,6 +196,7 @@ Procedure Explorer_CreateFunction(*Entry.ToolsPanelEntry)
   
   ; apply the splitter position after the resize only
   ExplorerSplitterApplied = #False
+  ExplorerSplitterPending = #False
   
   ; fill favorites list
   ForEach ExplorerFavorites()
@@ -246,7 +247,13 @@ Procedure Explorer_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight
   
   If GadgetHeight(#GADGET_Explorer_Splitter) > 0
     If ExplorerSplitterApplied = #False
-      SetGadgetState(#GADGET_Explorer_Splitter, GadgetHeight(#GADGET_Explorer_Splitter)-ExplorerSplitter)
+      Position = GadgetHeight(#GADGET_Explorer_Splitter)-ExplorerSplitter
+      CompilerIf #CompileLinuxGtk
+        ; The splitter doesn't have its real size yet when the tool is first shown, and GTK changes the position
+        ; once it gets it. The splitter reports it with an event, where the position is applied again.
+        ExplorerSplitterPending = Bool(GetGadgetState(#GADGET_Explorer_Splitter) <> Position)
+      CompilerEndIf
+      SetGadgetState(#GADGET_Explorer_Splitter, Position)
       ExplorerSplitterApplied = #True
     Else
       ExplorerSplitter = GadgetHeight(#GADGET_Explorer_Splitter) - GetGadgetState(#GADGET_Explorer_Splitter)
@@ -309,6 +316,15 @@ EndProcedure
 Procedure Explorer_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
   
   Select EventGadgetID
+      
+    Case #GADGET_Explorer_Splitter
+      If ExplorerSplitterPending
+        ExplorerSplitterPending = #False
+        SetGadgetState(#GADGET_Explorer_Splitter, GadgetHeight(#GADGET_Explorer_Splitter)-ExplorerSplitter)
+      ElseIf ExplorerSplitterApplied
+        ; Remember the favorites height when the splitter is moved, as no resize may follow (https://www.purebasic.fr/english/viewtopic.php?t=67647)
+        ExplorerSplitter = GadgetHeight(#GADGET_Explorer_Splitter) - GetGadgetState(#GADGET_Explorer_Splitter)
+      EndIf
       
     Case #GADGET_Explorer_AddFavorite
       ExamineExplorerEntries(#False)
