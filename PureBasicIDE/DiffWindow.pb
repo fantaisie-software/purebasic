@@ -1711,14 +1711,14 @@ Procedure DiffDialogWindowEvents(EventID)
       
     Case #PB_Event_GadgetDrop
       If GadgetID = #GADGET_DiffDialog_File1 Or GadgetID = #GADGET_DiffDialog_File2
-        SetGadgetText(#GADGET_Grep_Directory, StringField(EventDropFiles(), 1, Chr(10)))
+        SetGadgetText(GadgetID, StringField(EventDropFiles(), 1, Chr(10)))
         
       ElseIf GadgetID = #GADGET_DiffDialog_Directory1 Or GadgetID = #GADGET_DiffDialog_Directory2
         Path$ = StringField(EventDropFiles(), 1, Chr(10))
         If FileSize(Path$) <> -2 ; probably a file then
           Path$ = GetPathPart(Path$)
         EndIf
-        SetGadgetText(#GADGET_Grep_Directory, Path$)
+        SetGadgetText(GadgetID, Path$)
         
       EndIf
       
