@@ -1214,8 +1214,9 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\generateeventloop = 0
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        
-        If pbany
+
+        ; only treat as "var = OpenWindow(...)" if '=' is before '(' (the caption can contain a '=')
+        If pbany And pbany < start
           FormWindows()\variable = Trim(Left(line,pbany - 1))
           FormWindows()\pbany = 1
           start = FindString(line,",",start) + 1
@@ -1892,7 +1893,7 @@ Procedure FD_Open(file.s,update = 0)
         OpenTempImg()\inline = 0
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        If pbany
+        If pbany And pbany < start ; the filename can contain a '='
           OpenTempImg()\id = Trim(Left(line,pbany - 1))
           start = FindString(line,",",start + 1) + 1
           OpenTempImg()\pbany = 1
@@ -1914,7 +1915,7 @@ Procedure FD_Open(file.s,update = 0)
         OpenTempImg()\inline = 1
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        If pbany
+        If pbany And pbany < start
           OpenTempImg()\id = Trim(Left(line,pbany - 1))
           start = FindString(line,",",start + 1) + 1
           OpenTempImg()\pbany = 1
