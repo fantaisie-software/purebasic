@@ -291,10 +291,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         CompilerIf #CompileWindows
           If Colors(#COLOR_Selection)\DisplayValue = -1 Or EnableAccessibility ; special accessibility scheme
             SendEditorMessage(#SCI_SETSELBACK,    1, GetSysColor_(#COLOR_HIGHLIGHT))
-            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, GetSysColor_(#COLOR_HIGHLIGHT))
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, GetSysColor_(#COLOR_HIGHLIGHT) | $FF000000) ; RGBA value, see below
           Else
             SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
-            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
+            SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue | $FF000000) ; RGBA value, see below
           EndIf
           
           If Colors(#COLOR_SelectionFront)\DisplayValue = -1 Or EnableAccessibility
@@ -306,11 +306,16 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           EndIf
         CompilerElse
           SendEditorMessage(#SCI_SETSELBACK,    1, Colors(#COLOR_Selection)\DisplayValue)
-          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue)
+          SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_BACK, Colors(#COLOR_Selection)\DisplayValue | $FF000000) ; RGBA value, see below
           
           SendEditorMessage(#SCI_SETSELFORE,    1, Colors(#COLOR_SelectionFront)\DisplayValue)
           SendEditorMessage(#SCI_SETELEMENTCOLOUR, #SC_ELEMENT_SELECTION_INACTIVE_TEXT, Colors(#COLOR_SelectionFront)\DisplayValue | $FF000000) ; Warning, this value requiers an RGBA value, so force the alpha value to be fully visible (https://www.purebasic.fr/english/viewtopic.php?t=84160)
         CompilerEndIf
+        
+        ; Draw the selection on the 'under text' layer instead of the background, so it is drawn over the
+        ; issue indicator (see HighlightCallback()). On this layer, the alpha of the selection colors is used,
+        ; so the inactive selection color above needs to be fully opaque, as on the background layer.
+        SendEditorMessage(#SCI_SETSELECTIONLAYER, #SC_LAYER_UNDER_TEXT)
         
         SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMatch,    Colors(#COLOR_GoodBrace)\DisplayValue)
         SendEditorMessage(#SCI_INDICSETFORE, #INDICATOR_KeywordMismatch, Colors(#COLOR_BadBrace)\DisplayValue)
@@ -397,10 +402,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         EndIf
         
         ; setup markers and styles for issues
+        ReDim IssueStyleColor(ListSize(Issues()))
         ForEach Issues()
           If Issues()\Style <> -1
             SendEditorMessage(#SCI_STYLESETFORE, Issues()\Style , Colors(#COLOR_Comment)\DisplayValue)
             SendEditorMessage(#SCI_STYLESETBACK, Issues()\Style , Issues()\Color)
+            IssueStyleColor(Issues()\Style - #STYLE_FirstIssue) = Issues()\Color
           EndIf
           
           If Issues()\Marker <> -1
@@ -480,6 +487,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           SendEditorMessage(#SCI_SETSELBACK,    1, $C0C0C0)
           SendEditorMessage(#SCI_SETSELFORE,    1, $000000)
         CompilerEndIf
+        
+        ; no issue indicator without coloring, so the selection can be the background again
+        SendEditorMessage(#SCI_SETSELECTIONLAYER, #SC_LAYER_BASE)
+        SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_Issue)
+        SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
         
         SendEditorMessage(#SCI_SETCARETLINEVISIBLE, 0, 0) ; disable the different color for the current line
         
@@ -597,9 +609,17 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ;
     If EnableColoring
       If IsInsideASMBlock(SendEditorMessage(#SCI_LINEFROMPOSITION, *StringStart - *HighlightBuffer + HighlightOffset, 0))
-        ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *ASMKeywordColor)
+        *Color = *ASMKeywordColor
+      EndIf
+      ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
+      
+      ; Issue background (see #INDICATOR_Issue)
+      ScintillaSendMessage(HighlightGadget, #SCI_SETINDICATORCURRENT, #INDICATOR_Issue)
+      If *Color >= #STYLE_FirstIssue And *Color - #STYLE_FirstIssue < ArraySize(IssueStyleColor())
+        ScintillaSendMessage(HighlightGadget, #SCI_SETINDICATORVALUE, IssueStyleColor(*Color - #STYLE_FirstIssue) | #SC_INDICVALUEBIT)
+        ScintillaSendMessage(HighlightGadget, #SCI_INDICATORFILLRANGE, *StringStart - *HighlightBuffer + HighlightOffset, Length)
       Else
-        ScintillaSendMessage(HighlightGadget, #SCI_SETSTYLING, Length, *Color)
+        ScintillaSendMessage(HighlightGadget, #SCI_INDICATORCLEARRANGE, *StringStart - *HighlightBuffer + HighlightOffset, Length)
       EndIf
     EndIf
   EndProcedure
@@ -662,7 +682,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
       SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
       SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
-      
+      SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_Issue)
+      SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
+    
     EndIf
     
     SetBackgroundColor()
@@ -3463,6 +3485,15 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     SendEditorMessage(#SCI_INDICSETALPHA, #INDICATOR_SelectionRepeat, 255)
     SendEditorMessage(#SCI_INDICSETOUTLINEALPHA, #INDICATOR_SelectionRepeat, 255)
     SendEditorMessage(#SCI_INDICSETUNDER, #INDICATOR_SelectionRepeat, #True)
+    
+    ; The issue background can't be the style background: the background markers (procedure background)
+    ; and the current line are drawn over it (https://www.purebasic.fr/english/viewtopic.php?t=61215)
+    ; An indicator under the text is drawn over them. Its color is the indicator value (one per issue).
+    SendEditorMessage(#SCI_INDICSETSTYLE, #INDICATOR_Issue, #INDIC_FULLBOX)
+    SendEditorMessage(#SCI_INDICSETALPHA, #INDICATOR_Issue, 255)
+    SendEditorMessage(#SCI_INDICSETOUTLINEALPHA, #INDICATOR_Issue, 255)
+    SendEditorMessage(#SCI_INDICSETUNDER, #INDICATOR_Issue, #True)
+    SendEditorMessage(#SCI_INDICSETFLAGS, #INDICATOR_Issue, #SC_INDICFLAG_VALUEFORE)
     
     
     ApplyWordChars(*ActiveSource\EditorGadget)
