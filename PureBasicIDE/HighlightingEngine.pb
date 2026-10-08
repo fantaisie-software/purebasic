@@ -1112,6 +1112,26 @@ Procedure IsCommandStart(*LineStart, *Cursor.BYTE)
   ProcedureReturn 1
 EndProcedure
 
+; Checks if the cursor is the first non-whitespace char on a line or since a ':' (but not a '::' module separator)
+;
+Procedure IsLabelStart(*LineStart, *Cursor.BYTE)
+  *Cursor - 1 ; the currently examined cursor position must not be checked
+
+  While *Cursor >= *LineStart
+    If *Cursor\b = ':'
+      If *Cursor > *LineStart And PeekB(*Cursor - 1) = ':'
+        ProcedureReturn 0
+      EndIf
+      ProcedureReturn 1
+    ElseIf *Cursor\b <> ' ' And *Cursor\b <> 9
+      ProcedureReturn 0
+    EndIf
+    *Cursor - 1
+  Wend
+
+  ProcedureReturn 1
+EndProcedure
+
 
 ; callback function
 ;
@@ -1287,7 +1307,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       *Cursor + 2 ; skip both ::
 
 
-    ElseIf SeparatorChar = ':' And IsLineStart(*LineStart, *WordStart) And WordLength > 0
+    ElseIf SeparatorChar = ':' And IsLabelStart(*LineStart, *WordStart) And WordLength > 0
 
       ; --------------------- Labels -------------------------------
 
