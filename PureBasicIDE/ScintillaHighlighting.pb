@@ -2545,6 +2545,43 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
   EndProcedure
   
+  ; Checks if the char at the given position ends an operand (so a following '*' is a multiplication)
+  ;
+  Procedure IsOperandEndAt(Position)
+    If Position < 0
+      ProcedureReturn #False
+    EndIf
+    
+    Char = SendEditorMessage(#SCI_GETCHARAT, Position) & $FF
+    ProcedureReturn Bool((Char >= 'a' And Char <= 'z') Or (Char >= 'A' And Char <= 'Z') Or (Char >= '0' And Char <= '9') Or Char = '_' Or Char = ')' Or Char = ']' Or Char >= 128)
+  EndProcedure
+  
+  ; Checks if the given range is a whole word, using the scintilla definition of a word.
+  ; As '*' is a word char (for pointers), a multiplication like 'a*b' is a single scintilla word,
+  ; so a '*' directly following an operand or directly following the range is considered a word boundary too
+  ;
+  Procedure IsWholeWordRange(Position, Length)
+    If SendEditorMessage(#SCI_GETCHARAT, Position) = '*'
+      ; a pointer name, unless the '*' is actually a multiplication
+      If IsOperandEndAt(Position-1) Or SendEditorMessage(#SCI_WORDSTARTPOSITION, Position, #True) <> Position
+        ProcedureReturn #False
+      EndIf
+      
+    ElseIf SendEditorMessage(#SCI_WORDSTARTPOSITION, Position, #True) <> Position
+      ; only a word start after a multiplication '*'
+      If Position < 1 Or SendEditorMessage(#SCI_GETCHARAT, Position-1) <> '*' Or IsOperandEndAt(Position-2) = #False
+        ProcedureReturn #False
+      EndIf
+      
+    EndIf
+    
+    If SendEditorMessage(#SCI_WORDENDPOSITION, Position, #True) <> Position + Length And SendEditorMessage(#SCI_GETCHARAT, Position + Length) <> '*'
+      ProcedureReturn #False
+    EndIf
+    
+    ProcedureReturn #True
+  EndProcedure
+  
   Procedure UpdateSelectionRepeat(selStart=-1, selEnd=-1)
     Static *LastActiveGadget, LastSelStart, LastSelEnd, LastHasMarks ; reduce number of updates
     
@@ -2573,12 +2610,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     LastHasMarks = #False
     
     ; only mark anything if a full word is selected, to avoid slow updates on large selections
-    ; use the scintilla definition of a full word as the check
     ;
     If Colors(#COLOR_SelectionRepeat)\Enabled And
        selStart <> selEnd And
-       SendEditorMessage(#SCI_WORDSTARTPOSITION, selStart, #True) = selStart And
-       SendEditorMessage(#SCI_WORDENDPOSITION, selStart, #True) = selEnd ; use 'selStart' here too to know if it is the same word!
+       IsWholeWordRange(selStart, selEnd-selStart)
       
       ; do the scan on the scintilla internal buffer to avoid copying the whole source
       ; note that this still has some cost, as Scintilla must close the editing gap within its buffer
@@ -2594,9 +2629,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCaseAscii, SelectionLength, #PB_UTF8) = #PB_String_Equal
           Position = *Pointer-*BufferStart
           ; don't mark the selection itself and check that this is a whole word before marking it
-          If Position <> selStart And
-             SendEditorMessage(#SCI_WORDSTARTPOSITION, Position, #True) = Position And
-             SendEditorMessage(#SCI_WORDENDPOSITION, Position, #True) = Position + SelectionLength
+          If Position <> selStart And IsWholeWordRange(Position, SelectionLength)
             SendEditorMessage(#SCI_INDICATORFILLRANGE, *Pointer-*BufferStart, SelectionLength)
             LastHasMarks = #True
           EndIf
