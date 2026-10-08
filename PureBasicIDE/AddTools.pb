@@ -262,7 +262,28 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       CompilerElseIf #CompileLinux
         AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*Target\EnableWayland))
       CompilerEndIf
-      AddTools_SetEnvVar(EnvVars(), "Debugger", Str(*Target\Debugger))
+      ; Report the debugger state really used by the compiler: an executable (or a dll) is never
+      ; created with the debugger, except for SpiderBasic apps which have their own setting
+      ; https://www.purebasic.fr/english/viewtopic.php?t=69302
+      ;
+      ToolDebugger = *Target\Debugger
+      If Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe
+        CompilerIf #SpiderBasic
+          Select *Target\AppFormat
+            Case #AppFormatWeb     : ToolDebugger = *Target\WebAppEnableDebugger
+            Case #AppFormatiOS     : ToolDebugger = *Target\iOSAppEnableDebugger
+            Case #AppFormatAndroid : ToolDebugger = *Target\AndroidAppEnableDebugger
+          EndSelect
+        CompilerElse
+          ToolDebugger = 0
+        CompilerEndIf
+      EndIf
+      CompilerIf Not #SpiderBasic
+        If *Target\ExecutableFormat = 2
+          ToolDebugger = 0
+        EndIf
+      CompilerEndIf
+      AddTools_SetEnvVar(EnvVars(), "Debugger", Str(ToolDebugger))
       AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)
       
       If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun
