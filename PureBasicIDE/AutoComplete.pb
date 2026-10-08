@@ -219,12 +219,16 @@ Procedure AutoComplete_AddConstantsFromSorted(*Parser.ParserData, Prefix$, *Igno
   ; The source parser detects all constants in the code, even If they are just Read And Not defined).
   ; So we also have builtin PB constants in these lists. In context sensitive mode we do not want them so
   ; they are explicitly ignored in this case.
+  ; With a module prefix (Module::#) they are ignored too, as they are not part of the module.
   
   If *Parser\SortedValid
     ForEach AutoCompleteModules()
       RadixEnumeratePrefix(*Parser\Modules(UCase(AutoCompleteModules()))\Sorted\Constants, Prefix$, *AutoCompleteItems())
       ForEach *AutoCompleteItems()
         *Item.SourceItem = *AutoCompleteItems()
+        If AutoComplete_IsModule And RadixLookupValue(ConstantTree, *Item\Name$)
+          Continue
+        EndIf
         If *Item <> *Ignore And (*Context = 0 Or FindMapElement(PredefinedPBConstants(), *Item\Name$) = 0)
           AutoComplete_AddEntry(*Item\Name$)
         EndIf
@@ -375,7 +379,7 @@ Procedure AutoComplete_FillNormal(WordStart$, ModulePrefix$, EnclosingFunction$,
       If AutoCompleteProject And *ActiveSource\ProjectFile
         ForEach ProjectFiles()
           If ProjectFiles()\Source = 0
-            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, WordStart$, *CurrentItem, *Contex)
+            AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Parser, WordStart$, *CurrentItem, *Context)
           ElseIf ProjectFiles()\Source And ProjectFiles()\Source <> *ActiveSource
             AutoComplete_AddConstantsFromSorted(@ProjectFiles()\Source\Parser, WordStart$, *CurrentItem, *Context)
           EndIf
