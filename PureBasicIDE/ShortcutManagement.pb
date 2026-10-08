@@ -128,8 +128,21 @@ Procedure.s GetShortcutText(Shortcut)
     
   CompilerEndIf
   
-  Text$ + "+" + ShortcutNames(GetBaseKeyIndex(Shortcut))
-  
+  KeyName$ = ShortcutNames(GetBaseKeyIndex(Shortcut))
+
+  CompilerIf #CompileWindows
+    ; The keys which depend on the keyboard layout (like ` or [) are not in the table,
+    ; so display the char typed by the key on the current layout (https://www.purebasic.fr/english/viewtopic.php?t=59882)
+    If KeyName$ = ""
+      Key = MapVirtualKey_(Shortcut & ~(#PB_Shortcut_Control|#PB_Shortcut_Alt|#PB_Shortcut_Shift|#PB_Shortcut_Command), 2) & $FFFF ; #MAPVK_VK_TO_CHAR, the top bit is set for a dead key
+      If Key > ' '
+        KeyName$ = Chr(Key)
+      EndIf
+    EndIf
+  CompilerEndIf
+
+  Text$ + "+" + KeyName$
+
   ProcedureReturn Right(Text$, Len(Text$)-1)
 EndProcedure
 
