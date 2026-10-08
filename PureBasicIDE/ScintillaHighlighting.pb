@@ -1974,6 +1974,19 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     EndIf
   EndProcedure
   
+  ; returns true if the line can be used as anchor for the indentation of the following lines:
+  ; it must not be whitespace only, unless its comment contains an indent keyword (like ";>")
+  Procedure IsIndentAnchor(Line$)
+    If IsWhitespaceOnly(Line$)
+      GetIndentBalance(@Line$, @Before, @After)
+      If Before = 0 And After = 0
+        ProcedureReturn #False
+      EndIf
+    EndIf
+    
+    ProcedureReturn #True
+  EndProcedure
+  
   ; Count the columns that the string takes including real tab chars (starts at 0)
   Procedure CountColumns(String$)
     Position = 0
@@ -2056,11 +2069,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; Use the previous non-empty line as anchor for the balance and the prefix
       line = FirstLine - 1
       Line$ = GetLine(line)
-      While line > 0 And IsWhitespaceOnly(Line$)
+      While line > 0 And IsIndentAnchor(Line$) = #False
         line - 1
         Line$ = GetLine(line)
       Wend
-      If line = 0 And IsWhitespaceOnly(Line$)
+      If line = 0 And IsIndentAnchor(Line$) = #False
         Line$ = GetLine(FirstLine-1)  ; no non-empty line found, just use the previous line then
       Else
         Line$ = GetContinuationLine(line) ; make sure we have a line with all continuations for the prefix and balance
