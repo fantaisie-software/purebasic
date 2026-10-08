@@ -1051,7 +1051,17 @@ Procedure IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
   EndIf
 
   If AddDollar
-    BasicKeyword$ + "$"
+    ; Only the keywords which accept a type can be followed by a '$' (Procedure$, Define$, Data$...),
+    ; otherwise it's a string variable (Next$, List$...) (https://www.purebasic.fr/english/viewtopic.php?t=67560)
+    ;
+    Select Result
+      Case #KEYWORD_Data, #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Define, #KEYWORD_Global,
+           #KEYWORD_Procedure, #KEYWORD_ProcedureC, #KEYWORD_ProcedureCDLL, #KEYWORD_ProcedureDLL, #KEYWORD_Protected, #KEYWORD_Prototype, #KEYWORD_PrototypeC, #KEYWORD_Read
+        BasicKeyword$ + "$"
+
+      Default
+        ProcedureReturn 0
+    EndSelect
   EndIf
 
   If (Result = #KEYWORD_Align Or Result = #KEYWORD_Extends) And *LineStart And *WordStart
