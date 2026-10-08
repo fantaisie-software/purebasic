@@ -189,7 +189,36 @@
   L'outil d'aide est une visionneuse alternative pour le @ReferenceLink "ide_help" "guide de référence" . 
   Il peut être utilisé pour afficher le manuel de PureBasic à côté du code, que ce soit avec 
   le raccourci F1 ou non. Voir @ReferenceLink "ide_preferences" "préférences". 
+@LineBreak
+@LineBreak
  
+@Bold Générateur
+
+@LineBreak
+@LineBreak
+@Image ide_tools_maker.png
+
+L’outil Générateur automatise partiellement la création de blocs de code répétitifs tels que « If...Else...EndIf »
+ou « Select...EndSelect ». Il peut également effectuer des tâches simples de transformation de texte, telles que
+la suppression des déclarations de type d’une liste de membres de structure ou la suppression des commentaires.
+@LineBreak
+@LineBreak
+Il connaît un certain nombre de groupes de constantes intégrés, tels que les événements de fenêtre et de gadget, et 
+connaît également le contenu du Visualisateur de variables afin de recueillir également des informations spécifiques au 
+projet. Des listes peuvent aussi être saisies à la demande.
+@LineBreak
+@LineBreak
+Le Générateur peut également créer des blocs plus complexes à partir de modèles définis par l’utilisateur, qui peuvent 
+être créés à la demande ou enregistrés dans la bibliothèque de modèles de l’outil. Les modèles peuvent également inclure 
+des informations provenant du contexte actuel du Générateur en incluant des jetons dans le texte du modèle, comme suit :
+@LineBreak
+@LineBreak
+^E - valeur actuelle de la liste d’énumération.
+@LineBreak
+^P1, ^P2, ^P3 - valeur actuelle du paramètre définie dans les paramètres de l’outil.
+@LineBreak
+@LineBreak
+
 
 @Section Les autres outils intégrés
 
