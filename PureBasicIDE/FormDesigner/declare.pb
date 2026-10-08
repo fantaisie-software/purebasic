@@ -820,7 +820,7 @@ AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_NoSort"
 Gadgets()\Flags()\value = #PB_Explorer_NoSort : Gadgets()\Flags()\ivalue = #FDI_Explorer_NoSort
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AutoSort"
 Gadgets()\Flags()\value = #PB_Explorer_AutoSort : Gadgets()\Flags()\ivalue = #FDI_Explorer_AutoSort
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_AutoSort"
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Explorer_HiddenFiles"
 Gadgets()\Flags()\value = #PB_Explorer_HiddenFiles : Gadgets()\Flags()\ivalue = #FDI_Explorer_HiddenFiles
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_Change"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftClick"
@@ -902,7 +902,7 @@ Gadgets()\name = "Image"
 Gadgets()\icon = #IMAGE_FormIcons_Image
 AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Image_Border"
 Gadgets()\Flags()\value = #PB_Image_Border : Gadgets()\Flags()\ivalue = #FDI_Image_Border
-AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Image_Border"
+AddElement(Gadgets()\Flags()) : Gadgets()\Flags()\name = "#PB_Image_Raised"
 Gadgets()\Flags()\value = #PB_Image_Raised : Gadgets()\Flags()\ivalue = #FDI_Image_Raised
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_LeftClick"
 AddElement(Gadgets()\Events()) : Gadgets()\Events()\name = "#PB_EventType_RightClick"
