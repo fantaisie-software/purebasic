@@ -1974,6 +1974,7 @@ EndStructure
 #INDICATOR_KeywordMatch    = 0
 #INDICATOR_KeywordMismatch = 1
 #INDICATOR_SelectionRepeat = 2
+#INDICATOR_Issue           = 3 ; issue background (the color is the indicator value)
 
 ;- UpdateCheck
 
@@ -2889,6 +2890,7 @@ Global NewList Compilers.Compiler()
 
 Global NewList Issues.Issue()
 Global NewList PreferenceIssues.Issue()
+Global Dim IssueStyleColor(0) ; color of each issue style (index is Style - #STYLE_FirstIssue)
 
 Global NewList BlockSelectionStack.SelectedBlock()
 Global BlockSelectionUpdated
