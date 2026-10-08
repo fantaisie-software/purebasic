@@ -1121,7 +1121,10 @@ Procedure MainMenuEvent(MenuItemID)
       ReloadSource()
       
     Case #MENU_Close
-      If CheckSourceSaved() = 1  ; -1 means user abort, 0=error
+      If *ActiveSource = *ProjectInfo
+        ; 'Close' on the project tab (tab popup menu, shortcut) closes the project (https://www.purebasic.fr/english/viewtopic.php?t=68181)
+        CloseProject()
+      ElseIf CheckSourceSaved() = 1  ; -1 means user abort, 0=error
         RemoveSource()
       EndIf
       
