@@ -22,6 +22,7 @@ Global AutoComplete_StructureStart
 Global AutoComplete_IsModule
 Global AutoComplete_ModuleStart
 Global AutoComplete_StartColumn
+Global AutoComplete_AutoPopup ; the window was opened by the auto-popup (not by the AutoComplete shortcut)
 
 Global AutoCompleteTree.RadixTree       ; indexes AutoCompleteList() for fast prefix access and ordering
 Global NewList *AutoCompleteItems()     ; for temp storage while enumerating only
@@ -835,7 +836,7 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
   ProcedureReturn ""
 EndProcedure
 
-Procedure OpenAutoCompleteWindow()
+Procedure OpenAutoCompleteWindow(AutoPopup = #False)
   ;
   ; Note: We have a problem here:
   ;   On linux, OpenWindow() contains a PB_FlushEvents(), which can cause the ScintillaCallback
@@ -1063,10 +1064,14 @@ Procedure OpenAutoCompleteWindow()
         ; so the blinking cursor remains visible
         SendEditorMessage(#SCI_SETFOCUS, 1, 0)
         
+        ; The window must be flagged as open before the update, else an AutoComplete_Close() from
+        ; it does nothing and leaves an empty window open
+        AutoCompleteWindowOpen = 1
+        AutoComplete_AutoPopup = AutoPopup
+        
         ; Update the selected item
         ; signal that this is the initial open, so we can select the last inserted item in structure or module mode
         AutoComplete_WordUpdate(#True)
-        AutoCompleteWindowOpen = 1
 
       EndIf
     EndIf
@@ -1137,11 +1142,11 @@ Procedure AutoComplete_Insert()
       
       If AutoComplete_IsStructure And Right(String$, 1) = "\" And AutoComplete_CheckAutoPopup()
         ; In structure mode, when inserting "substruct\", we should trigger a new autocomplete (when autopopup is on)
-        OpenAutoCompleteWindow()
+        OpenAutoCompleteWindow(#True)
         
       ElseIf Right(String$, 2) = "::" And AutoComplete_CheckAutoPopup()
         ; same thing for module prefixes
-        OpenAutoCompleteWindow()
+        OpenAutoCompleteWindow(#True)
         
       EndIf
       
@@ -1317,12 +1322,13 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
   ElseIf AutoComplete_IsModule And (*ActiveSource\CurrentColumnChars <= AutoComplete_ModuleStart Or (Word$ = "" And (Not (LastChar = ':' And BeforeLastChar = ':'))))
     AutoComplete_Close()
     
-  ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And (Word$ = "" Or Word$ = "*" Or Word$ = "#" Or (AutoPopupNormal And Len(Word$) < AutoCompletePopupLength))
+  ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And (Word$ = "" Or Word$ = "*" Or Word$ = "#" Or (AutoComplete_AutoPopup And Len(Word$) < AutoCompletePopupLength))
+    ; the minimum word length only applies to the auto-popup, the AutoComplete shortcut works with any word
     AutoComplete_Close()
     
   ElseIf AutoComplete_IsStructure = 0 And AutoComplete_IsModule = 0 And Column < AutoComplete_StartColumn
     ; We now have a shorter start word than what is indexed in our current tree... must rebuild it
-    OpenAutoCompleteWindow()
+    OpenAutoCompleteWindow(AutoComplete_AutoPopup)
     
   Else
     ; "Only Words that match the typed word" is on, we must find out which

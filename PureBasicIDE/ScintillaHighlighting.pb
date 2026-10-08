@@ -2945,7 +2945,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             line = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)
             position = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0), position)
             If CheckSearchStringComment(line, position, 1)
-              OpenAutoCompleteWindow()
+              OpenAutoCompleteWindow(#True)
             EndIf
           EndIf
           
@@ -3042,7 +3042,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             line = SendEditorMessage(#SCI_LINEFROMPOSITION, position, 0)
             position = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0), position)
             If CheckSearchStringComment(line, position, 1)
-              OpenAutoCompleteWindow()
+              OpenAutoCompleteWindow(#True)
             EndIf
           EndIf
           

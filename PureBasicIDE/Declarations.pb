@@ -229,7 +229,7 @@ Declare AddTools_WindowEvents(EventID)
 ;- AutoComplete.pb
 ;
 Declare CreateAutoCompleteWindow()        ; create the autocomplete window (only called on startup)
-Declare OpenAutoCompleteWindow()          ; display the autocomplete window
+Declare OpenAutoCompleteWindow(AutoPopup = #False) ; display the autocomplete window
 Declare AutoCompleteWindowEvents(EventID) ; handle autocomplete events
 Declare AutoComplete_CheckAutoPopup()     ; checks if the conditions of auto-popup are met
 Declare AutoComplete_WordUpdate(IsInitial=#False); while the autocomplete window is open, call that when the user continues typing
