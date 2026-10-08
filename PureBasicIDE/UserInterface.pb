@@ -856,6 +856,12 @@ Procedure ActivateMainWindow()
   If *ActiveSource
     If *ActiveSource = *ProjectInfo
       ; todo
+    ElseIf *ActiveSource\IsForm
+      ; The editor is hidden in the design view, typing in it crashes the IDE (https://www.purebasic.fr/english/viewtopic.php?t=67111)
+      *Form.FormWindow = *ActiveSource\IsForm
+      If *Form\current_view = 1
+        SetActiveGadget(*ActiveSource\EditorGadget)
+      EndIf
     Else
       SetActiveGadget(*ActiveSource\EditorGadget)
     EndIf
