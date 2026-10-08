@@ -1926,17 +1926,25 @@ Procedure CloseProject(IsIDEShutdown = #False)
       Next FileList()
       ChangeCurrentElement(FileList(), *ActiveSource)
       
-      ; Save the project, and do not close if this is impossible
-      ; (also saves the "last open" state)
-      If IsIDEShutdown
-        Result = SaveProject(#False)
-      Else
-        Result = SaveProject(#True)
-      EndIf
-      
+      ; Save the project (also saves the "last open" state). If this is impossible (ie: the media
+      ; has been removed), let the user choose to close it anyway or keep it open
+      ; https://www.purebasic.fr/english/viewtopic.php?t=71538
+      ;
+      Result = SaveProject(#False)
+
       If Result = #False
-        IsProjectBusy = #False
-        ProcedureReturn #False
+        If IsIDEShutdown Or MessageRequester(Language("Project", "TitleShort"), Language("Project", "SaveError") + #NewLine + Language("Project", "CloseAnyway"), #PB_MessageRequester_YesNo | #FLAG_Warning) = #PB_MessageRequester_No
+          ; the project stays open, so link the remaining sources again
+          ForEach FileList()
+            If @FileList() <> *ProjectInfo
+              LinkSourceToProject(@FileList())
+            EndIf
+          Next FileList()
+          ChangeCurrentElement(FileList(), *ActiveSource)
+
+          IsProjectBusy = #False
+          ProcedureReturn #False
+        EndIf
       EndIf
       
       ; clean up the file list
