@@ -1085,7 +1085,7 @@ EndProcedure
 Procedure IsLineStart(*LineStart, *Cursor.BYTE)
   *Cursor - 1 ; the currently examined cursor position must not be checked
 
-  While *Cursor > *LineStart
+  While *Cursor >= *LineStart ; *LineStart is the first char of the line, so check it too ('a ! 10' is not ASM: https://www.purebasic.fr/english/viewtopic.php?t=60603)
     If *Cursor\b <> ' ' And *Cursor\b <> 9
       ProcedureReturn 0
     EndIf
@@ -1100,7 +1100,7 @@ EndProcedure
 Procedure IsCommandStart(*LineStart, *Cursor.BYTE)
   *Cursor - 1 ; the currently examined cursor position must not be checked
 
-  While *Cursor > *LineStart
+  While *Cursor >= *LineStart
     If *Cursor\b = ':'
       ProcedureReturn 1
     ElseIf *Cursor\b <> ' ' And *Cursor\b <> 9
