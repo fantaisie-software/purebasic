@@ -1002,13 +1002,18 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
   If IsDecNumber(*Start, length) = 0 And (*Start\b <> '*' Or IsDecNumber(*Start+1, length-1) = 0)
     Parser_SkipSpace(*Cursor)
     
-    ; Check if this is actually a label (first text on the line, and followed by a ":")
+    ; Check if this is actually a label (first text on the line or after a ":", and followed by a ":")
     IsLabel = 0
-    If *Cursor\b = ':'
+    If *Cursor\b = ':' And PeekB(*Cursor + 1) <> ':'
       IsLabel = 1
       *BackCursor.BYTE = *Start-1
       While *BackCursor >= *Parser_LineStart
-        If *BackCursor\b <> ' ' And *BackCursor\b <> 9
+        If *BackCursor\b = ':'
+          If *BackCursor > *Parser_LineStart And PeekB(*BackCursor - 1) = ':' ; "::" module separator
+            IsLabel = 0
+          EndIf
+          Break
+        ElseIf *BackCursor\b <> ' ' And *BackCursor\b <> 9
           IsLabel = 0
           Break
         EndIf
