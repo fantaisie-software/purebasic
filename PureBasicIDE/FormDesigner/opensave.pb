@@ -2402,6 +2402,13 @@ Procedure FD_Open(file.s,update = 0)
         
         ForEach FormWindows()\FormGadgets()
           If FormWindows()\FormGadgets()\variable = gadgetid
+            If FormWindows()\FormGadgets()\type = #Form_Type_Splitter ; the splitter position is in pixels, scale it like the gadget positions
+              If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
+                val = DesktopScaledX(val)
+              Else
+                val = DesktopScaledY(val)
+              EndIf
+            EndIf
             FormWindows()\FormGadgets()\state = val
             FD_UpdateSplitter()
             Break
