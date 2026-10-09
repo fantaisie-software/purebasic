@@ -59,6 +59,15 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     *Source = 0
   EndIf
   
+  ; A source which is part of the project (or the project tab) is compiled with the project default target,
+  ; so use it for the compiler related values (executable, options), not the unused source settings
+  *CompileTarget.CompileTarget = *Target
+  If CommandlineBuild = 0 And *Target And *Target\IsProject = 0
+    If *Target = *ProjectInfo Or *Source\ProjectFile
+      *CompileTarget = *DefaultTarget
+    EndIf
+  EndIf
+  
   If Trim(ToolsList()\CommandLine$) <> ""
     
     ; for source specific tools we must check if the given source allows this tool
@@ -158,10 +167,10 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       If FindString(Test$, "%EXECUTABLE", 1)
         If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", AddTools_ExecutableName$, 1)
-        ElseIf *Target = 0
+        ElseIf *CompileTarget = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", "", 1)
         Else ; return the last created executable name for all other triggers
-          ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", *Target\ExecutableName$, 1)
+          ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", *CompileTarget\ExecutableName$, 1)
         EndIf
       EndIf
       
@@ -235,8 +244,8 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
     
     Protected *TargetCompiler.Compiler
-    If *Target And *Target\CustomCompiler
-      *TargetCompiler = FindCompiler(*Target\CompilerVersion$)
+    If *CompileTarget And *CompileTarget\CustomCompiler
+      *TargetCompiler = FindCompiler(*CompileTarget\CompilerVersion$)
       If *TargetCompiler = 0
         *TargetCompiler = @DefaultCompiler
       EndIf
@@ -252,44 +261,44 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Project", ProjectFile$)
     EndIf
     
-    If *Target And *Target <> *ProjectInfo
-      AddTools_SetEnvVar(EnvVars(), "InlineASM", Str(*Target\EnableASM))
+    If *CompileTarget And *CompileTarget <> *ProjectInfo
+      AddTools_SetEnvVar(EnvVars(), "InlineASM", Str(*CompileTarget\EnableASM))
       AddTools_SetEnvVar(EnvVars(), "Unicode", "1") ; for compatibility with old tools
-      AddTools_SetEnvVar(EnvVars(), "Thread", Str(*Target\EnableThread))
+      AddTools_SetEnvVar(EnvVars(), "Thread", Str(*CompileTarget\EnableThread))
       CompilerIf #CompileWindows
-        AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*Target\EnableXP))
-        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))
+        AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*CompileTarget\EnableXP))
+        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*CompileTarget\EnableOnError))
       CompilerElseIf #CompileLinux
-        AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*Target\EnableWayland))
+        AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*CompileTarget\EnableWayland))
       CompilerEndIf
       ; Report the debugger state really used by the compiler: an executable (or a dll) is never
       ; created with the debugger, except for SpiderBasic apps which have their own setting
       ; https://www.purebasic.fr/english/viewtopic.php?t=69302
       ;
-      ToolDebugger = *Target\Debugger
+      ToolDebugger = *CompileTarget\Debugger
       If Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe
         CompilerIf #SpiderBasic
-          Select *Target\AppFormat
-            Case #AppFormatWeb     : ToolDebugger = *Target\WebAppEnableDebugger
-            Case #AppFormatiOS     : ToolDebugger = *Target\iOSAppEnableDebugger
-            Case #AppFormatAndroid : ToolDebugger = *Target\AndroidAppEnableDebugger
+          Select *CompileTarget\AppFormat
+            Case #AppFormatWeb     : ToolDebugger = *CompileTarget\WebAppEnableDebugger
+            Case #AppFormatiOS     : ToolDebugger = *CompileTarget\iOSAppEnableDebugger
+            Case #AppFormatAndroid : ToolDebugger = *CompileTarget\AndroidAppEnableDebugger
           EndSelect
         CompilerElse
           ToolDebugger = 0
         CompilerEndIf
       EndIf
       CompilerIf Not #SpiderBasic
-        If *Target\ExecutableFormat = 2
+        If *CompileTarget\ExecutableFormat = 2
           ToolDebugger = 0
         EndIf
       CompilerEndIf
       AddTools_SetEnvVar(EnvVars(), "Debugger", Str(ToolDebugger))
-      AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)
+      AddTools_SetEnvVar(EnvVars(), "SubSystem", *CompileTarget\SubSystem$)
       
       If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun
         AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)
       Else ; return the last created executable name for all other triggers
-        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)
+        AddTools_SetEnvVar(EnvVars(), "Executable", *CompileTarget\ExecutableName$)
       EndIf
       
     EndIf
