@@ -54,6 +54,13 @@ Procedure LoadConstantList()
     EndIf
   ForEver
   
+  ; Add the constants which are only given to the compiler by the IDE when compiling (see Compiler_SetConstants()),
+  ; so they are available in the AutoComplete and the StructureViewer. Their real value depends on the compile options.
+  ;
+  AddElement(TempList()) : TempList() = "#PB_Editor_CompileCount=0"
+  AddElement(TempList()) : TempList() = "#PB_Editor_BuildCount=0"
+  AddElement(TempList()) : TempList() = "#PB_Editor_CreateExecutable=0"
+  
   ConstantListSize = ListSize(TempList())
   Dim ConstantList.s(ConstantListSize)
   Dim ConstantValueList.s(ConstantListSize)
