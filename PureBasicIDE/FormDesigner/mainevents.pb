@@ -8214,14 +8214,20 @@ Procedure FD_Event(EventID, EventGadgetID, EventType)
                 Case 2 ; move up
                   If row > 0
                     FormAddUndoAction(1,FormWindows(),FormWindows()\FormGadgets())
+                    *column = SelectElement(FormWindows()\FormGadgets()\Columns(),row)
+                    SelectElement(FormWindows()\FormGadgets()\Columns(),row-1)
+                    SwapElements(FormWindows()\FormGadgets()\Columns(),@FormWindows()\FormGadgets()\Columns(),*column)
                     FD_UpdateColumns()
                     FormAddUndoAction(0,FormWindows(),FormWindows()\FormGadgets())
                     FormChanges(1)
                   EndIf
-                  
+
                 Case 3 ; move down
-                  If row < ListSize(FormWindows()\FormGadgets()\Items())-1
+                  If row < ListSize(FormWindows()\FormGadgets()\Columns())-1
                     FormAddUndoAction(1,FormWindows(),FormWindows()\FormGadgets())
+                    *column = SelectElement(FormWindows()\FormGadgets()\Columns(),row)
+                    SelectElement(FormWindows()\FormGadgets()\Columns(),row+1)
+                    SwapElements(FormWindows()\FormGadgets()\Columns(),@FormWindows()\FormGadgets()\Columns(),*column)
                     FD_UpdateColumns()
                     FormAddUndoAction(0,FormWindows(),FormWindows()\FormGadgets())
                     FormChanges(1)
