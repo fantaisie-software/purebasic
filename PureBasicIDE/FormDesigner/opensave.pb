@@ -1806,9 +1806,7 @@ Procedure FD_Open(file.s,update = 0)
         
         FD_UpdateSplitter()
         
-        LastElement(GadgetList())
-        AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
-        ;        AddElement(GadgetList()) : GadgetList()\a = @FormWindows()\FormGadgets() : GadgetList()\b = -1
+        ; a splitter is not a container (there is no CloseGadgetList() for it), so it must not be added to GadgetList()
         Continue
       EndIf ;}
       If procname = "CloseGadgetList" ;{
