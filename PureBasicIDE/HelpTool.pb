@@ -97,6 +97,7 @@ Global.s icoouvrir="&#128194;",icoexecuter="&#9654;" ; boutons des exemples (rem
 ; ---------- traduction
 Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Arguments,_tester,_ouvrir,_executer
 Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer,_sommairevisible
+Global.s _Deprecie,_Deprecietxt,_Indexcommandes,_Constantes,_Fonctionsos
 
 listlg="English,French,German";,Italian,Spanish,Russian"
 
@@ -116,6 +117,13 @@ Procedure initlang()
   _Description=lg("Description,Description,Beschreibung,Descrizione,Descripción,Описание")
   _Generalites=lg("General,Généralités,Allgemeines,Generale,General,Общие")
   _Arguments=lg("Arguments,Arguments,Argumente,Argomenti,Argumentos,Аргументы")
+  _Deprecie=lg("Deprecated,Dépréciée,Veraltet")
+  _Deprecietxt=lg("This function is deprecated and may be removed in a future version. It should not be used in newly written code.,"+
+                  "Cette fonction est dépréciée et sera peut-être supprimée dans une future version. Elle ne doit pas être utilisée dans du nouveau code.,"+
+                  "Diese Funktion ist veraltet und könnte in späteren Versionen entfernt werden. Sie sollte in neuem Code nicht mehr verwendet werden.")
+  _Indexcommandes=lg("Commands Index,Index des commandes,Befehlsindex")
+  _Constantes=lg("PureBasic Constants,Constantes PureBasic,PureBasic-Konstanten")
+  _Fonctionsos=lg("Platform-dependant Functions,Fonctions dépendantes de la plateforme,Plattformabhängige Funktionen")
   ; ui
   _Aide=lg("Help,Aide,Hilfe,Aiuto,Ayuda,Справка")
   _Sommaire=lg("Contents,Sommaire,Inhaltsverzeichnis,Contenuto,Contenido,Содержание")
@@ -133,7 +141,7 @@ EndProcedure
 
 ; couleurs de la page (variables CSS), remplacées par celles du thème de l'IDE (setcolors())
 couleurs=":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;"+
-         " --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
+         " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
 style="body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}"+
       "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}"+
       "h3 {margin-left:-20px;}"+
@@ -141,6 +149,8 @@ style="body {background-color: var(--bg); color: var(--text); font-family: Arial
       ".nav, .nav a {color: var(--link); font-size: 13px;}"+
       ".cst {color: var(--constant);} .fct {color: var(--function);} .kw {color: var(--keyword); font-weight: bold;} .ul {color: var(--userlib);}"+
       ".opt {background-color: var(--optbg);}"+
+      ".note {background-color: var(--notebg);} div.note {font-size: 16px;}"+
+      ".deprecated {padding: 5px; margin: 5px 0px 10px; border: 1px solid var(--border);} .deprecated b {color: #e00;}"+
       ".found {background-color: #ff0; color: #000;}"+
       "img {box-shadow: 2px 2px 5px #0008;}"+
       "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}"+
@@ -354,6 +364,7 @@ Procedure initbalise() ; definition des balises PB (correspondance HTML)
   defbalise(0,0,1,"function","<h3>"+_Syntaxe+"</h3><pre>$p1")
   defbalise(0,0,1,"syntax","<h3>"+_Syntaxe+"</h3><pre>")
   defbalise(0,0,1,"description","</pre><h3>"+_Description+"</h3>")
+  defbalise(0,0,0,"deprecated","<div class='deprecated'><b>"+_Deprecie+"</b><br>"+_Deprecietxt+"</div>")
   defbalise(0,1,1,"parameter","")
   defbalise(0,2,1,"optionalparameter","")
   defbalise(0,3,1,"noparameters","")
@@ -378,7 +389,7 @@ EndProcedure
 
 Procedure.s link(ref.s,txt.s="$")
   ref=LCase(ref)
-  ProcedureReturn "<a href='' onclick='jsmessage("+g+"lk:"+ref+g+")'>"+ReplaceString(txt,"$",*pid(ref)\titre)+"</a>"
+  ProcedureReturn "<a href='#' onclick='jsmessage("+g+"lk:"+ref+g+")'>"+ReplaceString(txt,"$",*pid(ref)\titre)+"</a>"
 EndProcedure
 
 Procedure.s ExtrairePage(che.s,userlib.b=0) ; extrait les pages depuis le fichier (les lib sont ventilées par fcts)
@@ -481,7 +492,115 @@ Procedure sethtml(ht.s)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     If iemode:SetGadgetItemText(gweb, #PB_Web_HtmlCode, iehtml(ht)):ProcedureReturn:EndIf
   CompilerEndIf
+  ; boutons precedent/suivant de la souris et Alt+fleches: notre historique, pas celui du WebView (qui revient sur une ancienne page, parfois vide)
+  ht=ReplaceString(ht,"<head>","<head><script>"+
+                   "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}"+
+                   "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});"+
+                   "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});"+
+                   "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});"+
+                   "</script>",#PB_String_CaseSensitive,1,1)
   SetGadgetItemText(gweb, #PB_WebView_HtmlCode, ht)
+EndProcedure
+
+Procedure ajoutepage(nom.s,titre.s,src.s)
+  LastElement(page()):AddElement(page())
+  page()\nom=nom
+  page()\titre=titre
+  page()\src=src
+  *pid(nom)=page()
+EndProcedure
+
+Procedure pagesgenerees() ; pages construites a partir des autres pages (comme le fait DocMaker)
+  Protected.s t,t1,t2,l,c,info,listeos,fct,colw,coll,colm,lib,lettre,cst,src
+  Protected p,ap,pp,*sp.spage
+  NewList liste.s()
+  NewMap cstpages.s()
+  NewMap vu.i()
+
+  ;------------------------------------------------------------------------------ OSSpecificFunctions (convertion format PB)
+  ClearList(osspe())
+  ClearMap(mosspe())
+  t=RemoveString(_ReadTextFile("OSSpecificFunctions.txt"),#CR$)+#LF$
+  Repeat
+    ap=p:p=FindString(t,#LF$,p+1):If p=0:Break:EndIf
+    l=Trim(Trim(rMid(@t,ap+1,p-ap-1)),#TAB$):c=rmid(@l,1,1)
+    If Len(l)>0 And c<>";"
+      pp=FindString(l+":",":")
+      t1=Trim(Left(l,pp-1))
+      t2=Trim(Mid(l,pp+1))
+      Select LCase(t1)
+        Case "#library"
+        Case "#startgroup":info=t2
+        Case "#endgroup"
+          Default:If t2>"":info=t2:EndIf:AddElement(osspe()):osspe()= t1+#TAB$+ReplaceString(info,"-",#TAB$):mosspe(LCase(t1))=info
+      EndSelect
+    EndIf
+  ForEver
+
+  Macro oscolor(os,col)
+    col="bgcolor="
+    If FindString(listeos,"("+os+")"):col+"#fb0":ElseIf FindString(listeos,os):col+"#0f0":Else:col+"#f00":EndIf
+  EndMacro
+
+  SortList(osspe(),#PB_Sort_Ascending|#PB_Sort_NoCase)
+  t="@<table border=1>"+#LF$
+  ForEach osspe()
+    fct    =StringField(osspe(),1,#TAB$)
+    listeos=StringField(osspe(),2,#TAB$)
+    info   =StringField(osspe(),3,#TAB$)
+    oscolor("Windows",colw)
+    oscolor("Linux",coll)
+    oscolor("MacOS",colm)
+    t+" @<tr> @<td> "+"@@"+fct+" @</td> "+
+      "@<td "+colw+"> windows @</td> "+
+      "@<td "+coll+"> Linux @</td> "+
+      "@<td "+colm+"> Mac @</td> "+
+      "@<td> "+info+" @</td> @</tr>"+#LF$
+  Next
+  t+"@</table>"
+
+  ;------------------------------------------------------------------------------ index des commandes et constantes PureBasic
+  ForEach page()
+    If page()\userlib<>"":Continue:EndIf
+    If Left(page()\nom,4)="lib_" ; fonctions des bibliotheques, par ordre alphabetique
+      lib=page()\titre
+      ForEach page()\sp():*sp=page()\sp()
+        If *sp\userlib="":AddElement(liste()):liste()=*sp\titre+#TAB$+*sp\nom+#TAB$+lib:EndIf
+      Next
+    EndIf
+    p=0:src=page()\src
+    Repeat ; constantes #PB_xxx citees (@#PB_xxx), avec les pages qui les citent
+      p=FindString(src,"@#PB_",p+1):If p=0:Break:EndIf
+      pp=p+1
+      Repeat:pp+1:c=rMid(@src,pp,1):Until c="" Or FindString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_",c)=0
+      cst=rMid(@src,p+1,pp-p-1)
+      If FindMapElement(vu(),cst+#TAB$+page()\nom)=0
+        vu(cst+#TAB$+page()\nom)=1
+        If FindMapElement(cstpages(),cst):cstpages()+", ":Else:AddMapElement(cstpages(),cst):EndIf
+        cstpages()+"@@"+page()\nom
+      EndIf
+    ForEver
+  Next
+
+  ajoutepage("osspecific",_Fonctionsos,t)
+
+  SortList(liste(),#PB_Sort_Ascending|#PB_Sort_NoCase)
+  t="":lettre=""
+  ForEach liste()
+    If UCase(Left(liste(),1))<>lettre:lettre=UCase(Left(liste(),1)):t+"@Section "+lettre+#LF$:EndIf
+    t+"@@"+StringField(liste(),2,#TAB$)+" - "+StringField(liste(),3,#TAB$)+#LF$
+  Next
+  ajoutepage("commandindex",_Indexcommandes,t)
+
+  ClearList(liste())
+  ForEach cstpages():AddElement(liste()):liste()=MapKey(cstpages()):Next
+  SortList(liste(),#PB_Sort_Ascending|#PB_Sort_NoCase)
+  t="":lettre=""
+  ForEach liste()
+    If UCase(Mid(liste(),5,1))<>lettre:lettre=UCase(Mid(liste(),5,1)):t+"@Section "+lettre+#LF$:EndIf ; #PB_x
+    t+"@"+liste()+" : "+cstpages(liste())+#LF$
+  Next
+  ajoutepage("pbconstants",_Constantes,t)
 EndProcedure
 
 Procedure initFichier(enableUI=1)
@@ -513,8 +632,10 @@ Procedure initFichier(enableUI=1)
     EndIf
     ProcedureReturn
   EndIf
+  pagesgenerees() ; avant le sommaire, qui y fait reference
   ForEach page():If page()\nom="reference":Break:EndIf:Next
   ForEach lib():libext=GetFilePart(lib(),#PB_FileSystem_NoExtension):ul+"@Link lib_"+LCase(libext)+" "+g+libext+g+#LF$:Next
+  If ul="":page()\src=ReplaceString(page()\src,"@Section User library"+#LF$,""):EndIf ; pas de lib utilisateur: pas de section vide
   page()\src=ReplaceString(page()\src,"$userlib"+#LF$,ul)
   
   tt=page()\src
@@ -561,56 +682,7 @@ Procedure initFichier(enableUI=1)
     Next
     HideGadget(gsommaire,0)
   EndIf
-  ;------------------------------------------------------------------------------ OSSpecificFunctions (convertion format PB)
-  Protected.s t,t1,t2,l,c,info,listeos,fct,colw,coll,colm
-  p=0
-  ClearList(osspe())
-  t=_ReadTextFile("OSSpecificFunctions.txt")
-  Repeat
-    ap=p:p=FindString(t,#LF$,p+1):If p=0:Break:EndIf
-    l=Trim(rMid(@t,ap+1,p-ap-1)):c=rmid(@l,1,1)
-    If Len(l)>0 And c<>";"
-      pp=FindString(l+":",":")
-      t1= Left(l,pp-1)
-      t2=Trim(Mid(l,pp+1))
-      Select t1
-        Case "#Library"
-        Case "#StartGroup":info=t2
-        Case "#EndGroup"
-          Default:If t2>"":info=t2:EndIf:AddElement(osspe()):osspe()= t1+#TAB$+ReplaceString(info,"-",#TAB$):mosspe(LCase(t1))=info
-      EndSelect
-    EndIf
-  ForEver
-  
-  Macro oscolor(os,col)
-    col="bgcolor="
-    If FindString(listeos,"("+os+")"):col+"#fb0":ElseIf FindString(listeos,os):col+"#0f0":Else:col+"#f00":EndIf
-  EndMacro
-    
-  SortList(osspe(),#PB_Sort_Ascending)
-  t="@<table border=1>"+#LF$
-  ForEach osspe()
-    fct    =StringField(osspe(),1,#TAB$)
-    listeos=StringField(osspe(),2,#TAB$)
-    info   =StringField(osspe(),3,#TAB$)
-    oscolor("Windows",colw)
-    oscolor("Linux",coll)
-    oscolor("MacOS",colm)    
-    t+" @<tr> @<td> "+"@@"+fct+" @</td> "+
-      "@<td "+colw+"> windows @</td> "+
-      "@<td "+coll+"> Linux @</td> "+
-      "@<td "+colm+"> Mac @</td> "+
-      "@<td> "+info+" @</td> "+#LF$
-  Next
-  t+ "@</tr>  @</table>"
-  AddElement(page())
-  With page()
-    \nom="osspecific"
-    \titre="Liste des fonctions dépendantes de la plateforme"
-    \src=t
-    *pid(\nom)=page()
-  EndWith
-   
+
   If enableUI:affiche("reference"):EndIf
 EndProcedure
 
@@ -621,17 +693,46 @@ Procedure.s cvhtml(txt.s,lf=0)
   ProcedureReturn txt.s
 EndProcedure
       
+Procedure.s surligne(ht.s,rec.s) ; surligne la recherche dans le texte du body, sans toucher aux balises html (liens) ni a la casse
+  ; un seul passage (FindString() repart de la longueur de la chaine a chaque appel: trop lent sur les grosses pages)
+  Protected.s res,lht,lrec
+  Protected *c.Character,*deb,pos,pc,lr,dansbalise
+  rec=cvhtml(rec):lr=Len(rec)
+  If lr=0:ProcedureReturn ht:EndIf
+  pos=FindString(ht,"<body"):If pos=0:ProcedureReturn ht:EndIf
+  lht=LCase(ht):lrec=LCase(rec) ; recherche sans la casse, mais le texte d'origine est conserve
+  *deb=@lht
+  *c=*deb+(pos-1)*SizeOf(Character)
+  pc=1 ; debut de la partie pas encore recopiee
+  While *c\c
+    If *c\c='<'
+      dansbalise=1
+    ElseIf *c\c='>'
+      dansbalise=0
+    ElseIf dansbalise=0 And CompareMemoryString(*c,@lrec,#PB_String_CaseSensitive,lr)=#PB_String_Equal ; rec ne contient pas de '<' (cvhtml): ne deborde pas sur une balise
+      pos=(*c-*deb)/SizeOf(Character)+1
+      If pos>pc:res+rMid(@ht,pc,pos-pc):EndIf
+      res+"<font class='found'>"+rMid(@ht,pos,lr)+"</font>"
+      pc=pos+lr
+      *c+(lr-1)*SizeOf(Character)
+    EndIf
+    *c+SizeOf(Character)
+  Wend
+  ProcedureReturn res+PeekS(@ht+(pc-1)*SizeOf(Character))
+EndProcedure
+
 Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
   #sep=" .,;:()[]{}>@/"+#LF$+Chr(34)+Chr(160)
-  Protected.s l,ht,balise,hb,hl,p1,p2,tc,ac,c,param,popt,che,       cl,tt,att,sub,ref,rec,img,fctlink,t,tit,nav,boss
-  Protected tablg,tabfin,ap,p,pp,pi,pb,ptt,codehtml,ajoutebr,btitre,abtitre,preformate,exdeb,exnum,time,ajouteok
+  Protected.s l,ht,balise,hb,hl,p1,p2,tc,ac,c,param,popt,che,       cl,tt,att,sub,ref,rec,img,fctlink,t,tit,nav,boss,lt
+  Protected tablg,tabfin,ap,p,pp,pi,pf,pb,ptt,codehtml,ajoutebr,btitre,abtitre,preformate,exdeb,exnum,time,ajouteok,i
   *page=*pid(LCase(nom))
   t=*page\src
+  If Right(t,1)<>#LF$:t+#LF$:EndIf ; les balises lues jusqu'a la fin de ligne ($lg) en ont besoin (ex: @ExampleFile en fin de fichier)
   tit=*page\titre
   nav=*page\nav
   
   Macro ajerreur(t)
-    tt+"<font style='background-color:#ff8800'>"+t+"</font>"
+    tt+"<font class='note'>"+t+"</font>"
     erreur+t+#LF$
   EndMacro
 
@@ -661,7 +762,7 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
           pp=FindString(txt,"<a",pp+1):If pp=0:Break:EndIf
           che=Stringparse(txt,"href=",">",pp)
           If FindString(che,"#")=0
-            txt=ReplaceString(txt,"href="+che+">","href='' onclick='jsmessage("+g+"lk"+GetFilePart(che,#PB_FileSystem_NoExtension)+g+")'>")
+            txt=ReplaceString(txt,"href="+che+">","href='#' onclick='jsmessage("+g+"lk:"+LCase(GetFilePart(che,#PB_FileSystem_NoExtension))+g+")'>")
           EndIf
         ForEver
     EndSelect
@@ -684,13 +785,18 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
     pb=p:p+1:balise="":c=rMid(@t,p,1)
     Repeat:p+1:balise+c:c=rMid(@t,p,1):Until (FindString(#sep,c) And balise+c<>"</") Or c=""
     c=rMid(@t,pb+1,1)
+    If c="@" Or c="#" ; @@Fonction et @#Constante: comme DocMaker, seulement lettres, chiffres et '_' (ex: "@@RGB-Funktion", "@@SetGadgetText!")
+      p=pb+2
+      While rMid(@t,p,1)<>"" And FindString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_",rMid(@t,p,1)):p+1:Wend
+      balise=rMid(@t,pb+1,p-pb-1)
+    EndIf
     ;----------------------- suppression saut ligne autour des balises "titre" (+@indent)
     abtitre=btitre
     If FindString("#@<",c):btitre=0:EndIf
     If FindMapElement(balise(),LCase(balise)):btitre=balise()\titre:EndIf
     If abtitre And rMid(@t,ap,1)=#LF$:ap+1:EndIf
     If btitre And rMid(@t,pb-1,1)=#LF$:pb-1:EndIf
-    ajoute(rMid(@t,ap,pb-ap),0)
+    If pb>ap:ajoute(rMid(@t,ap,pb-ap),0):EndIf ; pb<ap si 2 balises "titre" se suivent (longueur negative: PeekS lirait jusqu'a la fin)
     
     ajoutebr=1
     Select  c
@@ -722,7 +828,7 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
             Case 3
               If tablg:ht="</td></tr></table>":tablg=0:EndIf
           EndSelect
-          If balise="ExampleFile" And exdeb=0:exdeb=1:ht="<h3>Exemple</h3>":EndIf
+          If balise="ExampleFile" And exdeb=0:exdeb=1:ht="<h3>"+_Exemple+"</h3>":EndIf
          
           codehtml= balise()\html
           ht+balise()\hbalise
@@ -734,9 +840,14 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
             If FindString(ht,"$ex"):p+1:ht=ReplaceString(ht,"$ex",""+exnum):exnum+1:EndIf
             If FindString(ht,"$lg"):pi=p:p=FindString(t,#LF$,p):ht=ReplaceString(ht,"$lg",Mid(t,pi,p-pi)):EndIf
           EndIf
-          If balise="OS"
-            pi=p:p=FindString(t,#LF$,p):
-            If FindString(Mid(t,pi,p-pi),os)=0:ap=p:p=FindString(t,"@EndOS",p)-1:If p=-1:ajerreur("missing @EndOS"):Break:EndIf:EndIf
+          If LCase(balise)="os"
+            ; comme DocMaker: le bloc d'un autre OS est ignore jusqu'au prochain @OS, @EndOS, @CommandList, @SupportedOS ou @Function
+            pi=p:p=FindString(t+#LF$,#LF$,p)
+            If LCase(Trim(Mid(t,pi,p-pi)))<>LCase(os)
+              lt=LCase(t):pf=0
+              For i=1 To 5:pp=FindString(lt,#LF$+StringField("@os ,@endos,@commandlist,@supportedos,@function ",i,","),p):If pp And (pf=0 Or pp<pf):pf=pp:EndIf:Next
+              If pf:p=pf:Else:p=Len(t)+1:EndIf
+            EndIf
           EndIf
           ajoute(ht,1)
           If balise="Code":ap=p:p=FindString(t,"@EndCode",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndCode"):Break:Else:ajoutebr=0:ajoute(rMid(@t,ap,p-ap),0):EndIf:EndIf
@@ -750,13 +861,13 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
     If p<ap:ajerreur("undefined error (maybe line feed missing)"):Break:EndIf
   ForEver 
   
-  If erreur:tt="<font style='background-color:#ff8800'>"+ReplaceString(erreur,#LF$,"<br>")+"</font>"+tt:EndIf
-  
-  If FindMapElement(mosspe(),nom):boss="<div style='background-color:#ff8800; font-size: 16px;'>"+mosspe()+"</div>":EndIf
+  If erreur:tt="<font class='note'>"+ReplaceString(erreur,#LF$,"<br>")+"</font>"+tt:EndIf
+
+  If FindMapElement(mosspe(),nom):boss="<div class='note'>"+mosspe()+"</div>":EndIf
   t="<html><head><title>$titrepage</title><style>"+couleurs+style+"</style></head><body><h2>"+boss+tit+"<br>"+
     "<font class='nav'>"+nav+"</font></h2>"
   t+#LF$+tt+"</body></html>"
-  If IsGadget(grec):rec=GetGadgetText(grec):t=ReplaceString(t,rec,"<font class='found'>"+rec+"</font>",#PB_String_NoCase):EndIf
+  If IsGadget(grec):t=surligne(t,GetGadgetText(grec)):EndIf
   ;ClearDebugOutput():Debug "________________________________________________":Debug t
   ProcedureReturn  t
 EndProcedure
@@ -845,6 +956,7 @@ Procedure filemef(source.s,destination.s) ; conversion d'un fichier source de la
   Repeat
     t=(ReadString(file,format))
     c1=Left(t,1)
+    If pre=0 And LCase(Left(LTrim(t),13))="@examplefile ":t=LTrim(t):c1="@":EndIf ; souvent indente: reste une ligne a part (lue jusqu'a la fin de ligne)
     If Trim(t)="@LineBreak":c1=" ":EndIf
     If c1="@"
       p=1:balise="":c="":Repeat:p+1:balise+c:c=rMid(@t,p,1):Until (FindString(#sep,c) And balise+c<>"</") Or c="":balise=LCase(balise)
@@ -996,8 +1108,8 @@ Procedure affiche(page.s)
   Debug page
   If Len(page)<>1 And FindMapElement(*pid(),page)=0:MessageRequester("PB Help", "not found : "+page):ProcedureReturn :EndIf
   Select page
-    Case "-":PreviousElement(pilepage()):page=pilepage()
-    Case "+":NextElement(pilepage()):page=pilepage()
+    Case "-":If ListIndex(pilepage())<=0:ProcedureReturn:EndIf:PreviousElement(pilepage()):page=pilepage()
+    Case "+":If ListIndex(pilepage())>=ListSize(pilepage())-1:ProcedureReturn:EndIf:NextElement(pilepage()):page=pilepage()
     Default:
       While NextElement(pilepage()):DeleteElement(pilepage()):Wend
       AddElement(pilepage()):pilepage()=page
@@ -1237,7 +1349,7 @@ Procedure initui()
 
   CompilerIf #Standalone
     glangue=DialogGadget(gdialog,"langue"):For i=1 To 3:AddGadgetItem(glangue,-1,StringField(listlg,i,",")):Next:SetGadgetText(glangue,langue)
-    gos=DialogGadget(gdialog,"os"):AddGadgetItem(gos,-1,"Windows"):AddGadgetItem(gos,-1,"Mac"):AddGadgetItem(gos,-1,"Linux"):SetGadgetText(gos,os)
+    gos=DialogGadget(gdialog,"os"):AddGadgetItem(gos,-1,"Windows"):AddGadgetItem(gos,-1,"MacOS"):AddGadgetItem(gos,-1,"Linux"):SetGadgetText(gos,os)
   CompilerElse ; la langue et l'OS sont ceux de l'IDE
     glangue=-1
     gos=-1
@@ -1623,6 +1735,7 @@ CompilerElse
     Css$ + "--tablebg:"  + HelpTool_HtmlColor(TableBackground) + "; "
     Css$ + "--optbg:"    + HelpTool_HtmlColor(HelpTool_MixColor(TableBackground, Text, 0.07)) + "; "
     Css$ + "--border:"   + HelpTool_HtmlColor(HelpTool_MixColor(Background, Text, 0.25)) + "; "
+    Css$ + "--notebg:"   + HelpTool_HtmlColor(HelpTool_MixColor(Background, RGB(255, 136, 0), 0.5)) + "; " ; orange note (platform-specific functions, errors), readable with the theme text color
     Css$ + "--link:"     + HelpTool_HtmlColor(Colors(#COLOR_BasicKeyword)\DisplayValue) + "; "
     Css$ + "--constant:" + HelpTool_HtmlColor(Colors(#COLOR_Constant)\DisplayValue) + "; "
     Css$ + "--function:" + HelpTool_HtmlColor(Colors(#COLOR_PureKeyword)\DisplayValue) + "; "
