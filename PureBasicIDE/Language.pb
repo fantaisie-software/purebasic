@@ -738,6 +738,7 @@ DataSection
   Data$ "VersionHigh",      "The version number of the project file is higher than the current one. %newline%If loaded, some data of the project may be lost."
   Data$ "VersionTooHigh",   "Project files with this version cannot be loaded."
   Data$ "LoadAnyway",       "Do you want to load it anyway?"
+  Data$ "CloseAnyway",      "Do you want to close it anyway?"
   Data$ "ProjectFile",      "Project file"
   Data$ "ProjectVersion",   "Project version"
   Data$ "CurrentVersion",   "Current version"
