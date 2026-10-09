@@ -187,7 +187,10 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ErrorLog_Refresh()   ; always update, even if hidden
   ErrorLog_SyncState(#False) ; update the display state
   
-  ResizeMainWindow()  ; make sure the EditorGadget is correctly sized
+  ; Make sure the EditorGadget is correctly sized. The main window layout doesn't change here (ErrorLog_SyncState()
+  ; does the full resize itself if the log is shown/hidden), and a full ResizeMainWindow() would resize the ToolsSplitter
+  ; and force a redraw of the whole tools panel at each tab change
+  UpdateSourceContainer()
   
   If *ActiveSource = *ProjectInfo
     EnsureListIconSelection(#GADGET_ProjectInfo_Files)
@@ -392,8 +395,8 @@ Procedure NewSource(FileName$, ExecuteTool)
   
   SetTabBarGadgetState(#GADGET_FilesPanel, CountTabBarGadgetItems(#GADGET_FilesPanel)-1)
   UpdateSourceStatus(0)
-  ResizeMainWindow()
-  
+  UpdateSourceContainer() ; the tab bar may need more lines, but the main window layout isn't changed (see ChangeActiveSourcecode())
+
   ; if configured and needed, execute tool for new sources
   If ExecuteTool
     AddTools_Execute(#TRIGGER_NewSource, *ActiveSource)

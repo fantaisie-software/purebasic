@@ -14,9 +14,12 @@ Procedure ActivateTool(Name$)
     ForEach UsedPanelTools()
       *PanelToolData.ToolsPanelEntry = UsedPanelTools()
       If *PanelToolData\ToolID$ = Name$
-        SetGadgetState(#GADGET_ToolsPanel, ListIndex(UsedPanelTools()))
-        CurrentTool = UsedPanelTools()
-        CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+        ; Only switch if it's not already the displayed tool, as the resize can force a full redraw of the tool
+        If CurrentTool <> UsedPanelTools() Or GetGadgetState(#GADGET_ToolsPanel) <> ListIndex(UsedPanelTools())
+          SetGadgetState(#GADGET_ToolsPanel, ListIndex(UsedPanelTools()))
+          CurrentTool = UsedPanelTools()
+          CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+        EndIf
         Opened = 1
         Break
       EndIf
@@ -39,10 +42,12 @@ Procedure ActivateTool(Name$)
     ForEach AvailablePanelTools()
       If AvailablePanelTools()\ToolID$ = Name$
         If AvailablePanelTools()\IsSeparateWindow
+          HideWindow(AvailablePanelTools()\ToolWindowID, #False) ; the window is only hidden when closed
           SetWindowForeground(AvailablePanelTools()\ToolWindowID) ; also activates it (not possible on Wayland, see LinuxExtensions.pb)
         Else
           
-          Flags = #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget
+          ; Created invisible, and shown once the tool is created and resized, to avoid displaying it while being built
+          Flags = #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_MaximizeGadget|#PB_Window_Invisible
           If AvailablePanelTools()\ToolWindowX = 0
             Flags | #PB_Window_ScreenCentered
           EndIf
@@ -88,6 +93,8 @@ Procedure ActivateTool(Name$)
             Else
               Tool\ResizeHandler(WindowWidth(Window), WindowHeight(Window))
             EndIf
+
+            HideWindow(Window, #False)
           EndIf
         EndIf
         
@@ -337,9 +344,9 @@ Procedure ToolsPanel_Update()
         Tool\DestroyFunction()
       EndIf
       
-      If MemorizeWindow
+      If MemorizeWindow And IsWindowMinimized(AvailablePanelTools()\ToolWindowID) = 0 And IsWindowMaximized(AvailablePanelTools()\ToolWindowID) = 0
         Window = AvailablePanelTools()\ToolWindowID
-        AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+        AvailablePanelTools()\ToolWindowX     = WindowX(Window)
         AvailablePanelTools()\ToolWindowY      = WindowY(Window)
         AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
         AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)

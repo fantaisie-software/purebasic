@@ -26,10 +26,11 @@ DeclareModule pbhelp
   Declare CheckFile()
   Declare listfilemef()
   Declare.s inithelp(source.s,destination.s)
+  Declare.s inithelpzip(source.s,destination.s)
 
   ; IDE embedding
   Declare setup(lg.s, os.s, source.s, userlibsource.s, examplesource.s)
-  Declare setimages(back, forward, home, edit, open.s, run.s)
+  Declare setimages(back, forward, home, edit, index, open.s, run.s)
   Declare setcolors(css.s, userlibcolor=$008800)
   Declare create(window)
   Declare destroy()
@@ -48,7 +49,7 @@ Declare packinfo(nzip)
 Declare.s cvhtml(txt.s,lf=0)
 
 #EventJsMessage = #PB_Event_FirstCustomValue + 500 ; WebView callback actions are deferred to the event loop
-#EventSplit     = #PB_Event_FirstCustomValue + 501 ; initial splitter position, once the gadget has its real size
+#ForceIEMode    = #False ; Windows: #True to test the degraded mode (WebGadget/Internet Explorer) even if WebView2 is available
 
 Structure spage
   titre.s
@@ -86,15 +87,16 @@ Global couleurul=$008800 ; couleur des bibliotheques utilisateur dans le sommair
 Global.s dos,repex ; dos: dossier du fichier de la page courante, repex: dossier des exemples (IDE)
 Global editiondate.q
 Global NewList jsmessages.s()
+Global iemode ; Windows: WebView2 indisponible, affichage degrade dans un WebGadget (Internet Explorer)
 ; ---------- pref
 Global waide,waidex,waidey,waidedx,waidedy
 ; ---------- UI
-Global gonglet,gsommaire,grec,grecliste,gweb,gacc,gprec,gsuiv,glangue,gos,gediter,gsep,gdialog,groot
-Global imgprec,imgsuiv,imgacc,imgediter
+Global gonglet,gsommaire,grec,grecliste,gweb,gacc,gprec,gsuiv,glangue,gos,gediter,gsep,gdialog,groot,gsommairevisible=-1
+Global imgprec,imgsuiv,imgacc,imgediter,imgsommaire
 Global.s icoouvrir="&#128194;",icoexecuter="&#9654;" ; boutons des exemples (remplacés par les icônes de l'IDE)
 ; ---------- traduction
 Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Arguments,_tester,_ouvrir,_executer
-Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer
+Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer,_sommairevisible
 
 listlg="English,French,German";,Italian,Spanish,Russian"
 
@@ -122,6 +124,7 @@ Procedure initlang()
   _prec=lg("Back,Précédent,Zurück")
   _suiv=lg("Forward,Suivant,Vorwärts")
   _editer=lg("Edit help source,Editer la source de l'aide,Hilfequelle bearbeiten")
+  _sommairevisible=lg("Show/hide the index,Afficher/masquer le sommaire,Inhaltsverzeichnis ein-/ausblenden")
   ; ui mode edition
   _tester=lg("Test,Tester,testen")
   _ouvrir=lg("Open,Ouvrir,öffnen")
@@ -252,8 +255,8 @@ Procedure.s _ReadTextFile(name.s,option=#PB_UTF8,errormessage.b=1) ; lecture dep
   If Archive
     If FindMapElement(zipfiles(),name)=0:Debug name:If errormessage:MessageRequester("Error loading :","file : "+name):EndIf:ProcedureReturn"":EndIf
     With zipfiles(name)
-      *mem = AllocateMemory(\tailled)
-      UncompressPackMemory(nzip,*mem,\tailled,name)      
+      *mem = AllocateMemory(\tailled+2) ; +2: zero de fin de chaine pour PeekS()
+      UncompressPackMemory(nzip,*mem,\tailled,name)
     EndWith
     ret=PeekS(*mem, -1, option)
     FreeMemory(*mem)
@@ -455,6 +458,32 @@ Procedure.s ExtrairePage(che.s,userlib.b=0) ; extrait les pages depuis le fichie
    ;Debug "---------" +*pp\titre+"    "+ListSize(*pp\sp())
 EndProcedure
 
+Procedure.s iehtml(ht.s) ; mode IE: pas de variables CSS, ni de callback javascript
+  Protected.s v,nom,valeur
+  Protected i
+  ; variables CSS remplacees par leur valeur
+  For i=1 To CountString(couleurs,";")+1
+    v=Trim(StringField(couleurs,i,";"))
+    If Left(v,2)="--"
+      nom=Trim(StringField(v,1,":"))
+      valeur=Trim(RemoveString(StringField(v,2,":"),"}"))
+      ht=ReplaceString(ht,"var("+nom+")",valeur)
+    EndIf
+  Next
+  ; jsmessage() est transmis par une url 'pbhelp:', interceptee par le callback de navigation
+  ht=ReplaceString(ht,"onclick='jsmessage(","onclick='return jsmessage(")
+  ht=ReplaceString(ht,"<head>","<head><meta http-equiv='X-UA-Compatible' content='IE=edge'>"+
+                                "<script>function jsmessage(m) {window.location.href='pbhelp:'+encodeURIComponent(m); return false;}</script>",#PB_String_CaseSensitive,1,1)
+  ProcedureReturn "<!DOCTYPE html>"+ht
+EndProcedure
+
+Procedure sethtml(ht.s)
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+    If iemode:SetGadgetItemText(gweb, #PB_Web_HtmlCode, iehtml(ht)):ProcedureReturn:EndIf
+  CompilerEndIf
+  SetGadgetItemText(gweb, #PB_WebView_HtmlCode, ht)
+EndProcedure
+
 Procedure initFichier(enableUI=1)
   Protected.s tt,libext,txt,lien ,mtxt,ul
   Protected p,ap,pp,num,niv,*p.spage,*sp.spage
@@ -479,8 +508,8 @@ Procedure initFichier(enableUI=1)
   If FindMapElement(*pid(),"reference")=0 ; source de l'aide introuvable
     If enableUI
       ClearGadgetItems(gsommaire)
-      SetGadgetItemText(gweb, #PB_WebView_HtmlCode, "<html><head><style>"+couleurs+style+"</style></head><body><h2>"+_Aide+"</h2>"+
-                                                    "Help source not found: <b>"+cvhtml(rep+RepL)+"</b></body></html>")
+      sethtml("<html><head><style>"+couleurs+style+"</style></head><body><h2>"+_Aide+"</h2>"+
+              "Help source not found: <b>"+cvhtml(rep+RepL)+"</b></body></html>")
     EndIf
     ProcedureReturn
   EndIf
@@ -930,6 +959,32 @@ Procedure.s inithelp(source.s,destination.s) ; --init: construit le dossier de l
   ProcedureReturn errors
 EndProcedure
 
+Procedure.s inithelpzip(source.s,destination.s) ; --initzip: comme inithelp(), mais dans l'archive .zip 'destination'. Retourne les erreurs
+  Protected.s temp,errors
+  Protected pack
+  NewList fl.s()
+
+  ; l'aide est construite dans un dossier temporaire, puis compressee (chemins relatifs avec '/', a la racine de l'archive)
+  temp=GetTemporaryDirectory()+"PBHelp_"+Str(ElapsedMilliseconds())+"/"
+  errors=inithelp(source,temp)
+  If FileSize(temp)=-2
+    UseZipPacker()
+    createpath(GetPathPart(destination))
+    pack=CreatePack(#PB_Any,destination,#PB_PackerPlugin_Zip)
+    If pack
+      FileList(fl(),temp,"",1,1)
+      ForEach fl()
+        If AddPackFile(pack,temp+fl(),fl())=0:errors+"Can't add to the archive: "+fl()+#LF$:EndIf
+      Next
+      ClosePack(pack)
+    Else
+      errors+"Can't create: "+destination+#LF$
+    EndIf
+    DeleteDirectory(temp,"",#PB_FileSystem_Recursive|#PB_FileSystem_Force)
+  EndIf
+  ProcedureReturn errors
+EndProcedure
+
 ;_____________________________________________________________________________________________________________________interface
 
 Global hostwindow,gxml ; hostwindow: fenetre qui contient l'aide (pour les evenements differes)
@@ -949,7 +1004,7 @@ Procedure affiche(page.s)
   EndSelect
   If page=apage:ProcedureReturn:Else:apage=page:EndIf
   ht=PbtoHtml(page)
-  SetGadgetItemText(gweb, #PB_WebView_HtmlCode , ht)
+  sethtml(ht)
   pilepos=ListIndex(pilepage())
   DisableGadget(gprec,Bool(pilepos=0))
   DisableGadget(gsuiv,Bool(pilepos=ListSize(pilepage())-1))
@@ -1030,6 +1085,33 @@ Procedure jsmessage(message.s)
   PostEvent(#EventJsMessage, hostwindow, 0)
 EndProcedure
 
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  Procedure webviewdisponible() ; WebView2 utilisable ? (teste une seule fois, dans une fenetre invisible)
+    Static resultat=-1
+    Protected ancienneliste,fenetre,gadget
+    If resultat=-1
+      resultat=1
+      ancienneliste=UseGadgetList(0)
+      fenetre=OpenWindow(#PB_Any,0,0,10,10,"",#PB_Window_Invisible)
+      If fenetre
+        gadget=WebViewGadget(#PB_Any,0,0,10,10)
+        If gadget:FreeGadget(gadget):Else:resultat=0:EndIf
+        CloseWindow(fenetre)
+      EndIf
+      If ancienneliste:UseGadgetList(ancienneliste):EndIf
+    EndIf
+    ProcedureReturn resultat
+  EndProcedure
+
+  Procedure navigation(gadget,url.s) ; mode IE: les appels a jsmessage() arrivent sous la forme d'une url 'pbhelp:'
+    If LCase(Left(url,7))="pbhelp:"
+      jsmessage("["+g+URLDecoder(Mid(url,8))+g+"]") ; meme format que le callback du WebView
+      ProcedureReturn #False
+    EndIf
+    ProcedureReturn #True
+  EndProcedure
+CompilerEndIf
+
 Procedure jsprocess()
   Protected message.s
   While FirstElement(jsmessages())
@@ -1067,51 +1149,70 @@ Procedure initui()
   initlang()
   Protected xml.s,x,i
 
+  Protected.s onglets = "        <tab text='"+_Sommaire+"'>"+
+                        "          <Tree name='sommaire' flags='#PB_Tree_AlwaysShowSelection'/>"+
+                        "          </tab>"+
+                        "        <tab text='"+_Recherche+"'>"+
+                        "          <vbox expand='item:2'>"+
+                        "            <String name='rec'/>"+
+                        "            <ListView name='recliste'/>"+
+                        "            </vbox>"+
+                        "          </tab>"
   CompilerIf #Standalone
     Macro bouton(nom,texte):"            <button name='"+nom+"' text='"+texte+"' />":EndMacro
     xml = "<window id='#PB_Any' name='aide' text='PureBasic' minwidth='500' minheight='400' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>"+
           "  <hbox>"+
           "    <splitter name='sep' flags='#PB_Splitter_Vertical' firstmin='20' secondmin='auto'>"+
-          "      <panel name='onglet' maxwidth='150'>"
-  CompilerElse ; IDE: panneau d'outils etroit, le sommaire est au dessus de la page
+          "      <panel name='onglet' maxwidth='150'>"+
+          onglets+
+          "        </panel>"+
+          "      <container margin='0'>"+
+          "        <vbox expand='item:2'>"+
+          "          <hbox expand='no'>"+
+          bouton("prec", "&#9664;")+
+          bouton("suiv", "&#9654;")+
+          bouton("acc", "&#8962;")+
+          "            <combobox name='langue' width='100' />"+ ; !sos!  tu peux aligner sur la droite : langue, os , editer ?
+          "            <combobox name='os' width='100' />"+
+          bouton("editer", "&#9998;")+
+          "            </hbox>"+
+          "          <WebView name='Web' />"+
+          "          </vbox>"+
+          "        </container>"+
+          "      </splitter>"+
+          "    </hbox>"+
+          "  </window>"
+  CompilerElse ; IDE: la barre de boutons est au dessus, le sommaire (masque par defaut) a gauche de la page
     Protected taille=28 ; taille des boutons: icone + marge
     If IsImage(imgprec):taille=DesktopUnscaledX(ImageWidth(imgprec))+12:EndIf
-    Macro bouton(nom,texte):"            <buttonimage name='"+nom+"' width='"+taille+"' height='"+taille+"' />":EndMacro
+    Macro bouton(nom,flags):"      <buttonimage name='"+nom+"' width='"+taille+"' height='"+taille+"' flags='"+flags+"' />":EndMacro
     xml = "<window id='#PB_Any' name='aide' margin='0'>"+
-          "  <hbox>"+
-          "    <splitter name='sep' firstmin='20' secondmin='auto'>"+
-          "      <panel name='onglet'>"
+          "  <vbox expand='item:2'>"+
+          "    <hbox expand='no'>"+
+          bouton("sommairevisible", "#PB_Button_Toggle")+
+          bouton("prec", "")+
+          bouton("suiv", "")+
+          bouton("acc", "")+
+          bouton("editer", "")+
+          "      </hbox>"+
+          "    <splitter name='sep' flags='#PB_Splitter_Vertical' firstmin='0' secondmin='auto'>"+
+          "      <panel name='onglet' invisible='yes'>"+
+          onglets+
+          "        </panel>"+
+          "      <WebView name='Web' />"+
+          "      </splitter>"+
+          "    </vbox>"+
+          "  </window>"
   CompilerEndIf
-  xml + "        <tab text='"+_Sommaire+"'>"+
-        "          <Tree name='sommaire'/>"+
-        "          </tab>"+
-        "        <tab text='"+_Recherche+"'>"+
-        "          <vbox expand='item:2'>"+
-        "            <String name='rec'/>"+
-        "            <ListView name='recliste'/>"+
-        "            </vbox>"+
-        "          </tab>"+
-        "        </panel>"+
-        "      <container margin='0'>"+
-        "        <vbox expand='item:2'>"+
-        "          <hbox expand='no'>"+
-        bouton("prec", "&#9664;")+
-        bouton("suiv", "&#9654;")+
-        bouton("acc", "&#8962;")
-  CompilerIf #Standalone
-    xml + "            <combobox name='langue' width='100' />"+ ; !sos!  tu peux aligner sur la droite : langue, os , editer ?
-          "            <combobox name='os' width='100' />"
-  CompilerEndIf
-  xml + bouton("editer", "&#9998;")+
-        "            </hbox>"+
-        "          <WebView name='Web' />"+
-        "          </vbox>"+
-        "        </container>"+
-        "      </splitter>"+
-        "    </hbox>"+
-        "  </window>"
   UndefineMacro bouton
 
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+    iemode=Bool(#ForceIEMode Or webviewdisponible()=0)
+    If iemode ; WebView2 indisponible: WebGadget (Internet Explorer), affichage degrade
+      xml=ReplaceString(xml,"<WebView name='Web' />","<web name='Web' />")
+      UseDialogWebGadget()
+    EndIf
+  CompilerEndIf
   UseDialogWebViewGadget()
   ;xml=ReplaceString(xml,">",">"+#LF$)
   ;Protected.s g=Chr(34),c,ac,nxml=GetClipboardText():Repeat :axml=xml:xml=ReplaceString(xml,g+" ",g):Until axml=xml:For i=1 To Len(xml):ac=c:c=Mid(xml,i,1):If c="<":nxml+Space(pos*2):pos+1:ElseIf c="/":pos-1:If ac="<":pos-1:EndIf:EndIf:nxml+c:Next:Debug nxml:end
@@ -1140,6 +1241,9 @@ Procedure initui()
   CompilerElse ; la langue et l'OS sont ceux de l'IDE
     glangue=-1
     gos=-1
+    gsommairevisible=DialogGadget(gdialog,"sommairevisible")
+    GadgetToolTip(gsommairevisible,_sommairevisible)
+    If IsImage(imgsommaire):SetGadgetAttribute(gsommairevisible,#PB_Button_Image, ImageID(imgsommaire)):EndIf
     If IsImage(imgprec)  :SetGadgetAttribute(gprec,  #PB_Button_Image, ImageID(imgprec))  :EndIf
     If IsImage(imgsuiv)  :SetGadgetAttribute(gsuiv,  #PB_Button_Image, ImageID(imgsuiv))  :EndIf
     If IsImage(imgacc)   :SetGadgetAttribute(gacc,   #PB_Button_Image, ImageID(imgacc))   :EndIf
@@ -1156,13 +1260,22 @@ Procedure initui()
   GadgetToolTip(gacc,_acceuil)
   GadgetToolTip(gediter,_editer)
 
-  gweb=DialogGadget(gdialog,"web"):BindWebViewCallback(gweb, "jsmessage", @jsmessage())
+  gweb=DialogGadget(gdialog,"web")
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+    If iemode
+      SetGadgetAttribute(gweb, #PB_Web_NavigationCallback, @navigation())
+    Else
+      BindWebViewCallback(gweb, "jsmessage", @jsmessage())
+    EndIf
+  CompilerElse
+    BindWebViewCallback(gweb, "jsmessage", @jsmessage())
+  CompilerEndIf
 
   gsep=DialogGadget(gdialog,"sep")
   CompilerIf #Standalone
     SetGadgetState(gsep,150)
   CompilerElse
-    SetGadgetState(gsep,200)
+    SetGadgetState(gsep,0) ; sommaire masque par defaut
   CompilerEndIf
 
   If Archive And IsGadget(glangue)
@@ -1201,7 +1314,7 @@ Procedure editer() ; edition de la source de la page courante
   CompilerEndIf
 EndProcedure
 
-Global splitinit,splitpos ; IDE: position initiale du separateur (0: a faire, 1: a verifier, 2: faite)
+Global sommairevisible,splitpos,largeurbarre=-1 ; IDE: sommaire affiche, position du separateur, largeur de sa barre (-1: pas encore mesuree)
 
 Procedure setsplit(pos) ; IDE: position du separateur
   Protected w,h
@@ -1214,30 +1327,47 @@ Procedure setsplit(pos) ; IDE: position du separateur
   CompilerEndIf
 EndProcedure
 
-Procedure initsplit() ; IDE: position initiale du separateur, des que le splitter a une taille
-  If splitinit=0 And IsGadget(groot) And GadgetHeight(groot)>100 ; taille de la racine (le splitter la remplit), connue tout de suite sur tous les OS
-    splitinit=1
-    splitpos=GadgetHeight(groot)/3
-    setsplit(splitpos)
-  EndIf
+Procedure mesurebarre() ; IDE: largeur de la barre du separateur, en coordonnees ecran (independant du parent reel des gadgets du splitter)
+  Protected l=GadgetX(gweb,#PB_Gadget_ScreenCoordinate)-GadgetX(gsep,#PB_Gadget_ScreenCoordinate)-GetGadgetState(gsep)
+  If l>0 And l<40:largeurbarre=l:EndIf ; sinon la taille n'est pas encore allouee (GTK)
 EndProcedure
 
-Procedure checksplit() ; IDE: verifie la position initiale au timer suivant. Sur GTK la taille est allouee plus tard,
-                       ; et une position donnee avant est tronquee (de meme pour un onglet du panneau non affiche)
-  If splitinit=1 And IsGadget(gsep)
-    splitpos=GadgetHeight(groot)/3 ; la taille finale (au demarrage de l'IDE, le panneau est d'abord plus petit)
-    If GetGadgetState(gsep)<>splitpos
-      setsplit(splitpos)
-    Else
-      splitinit=2
+Procedure placesommaire() ; IDE: sommaire masque: la barre du separateur est placee juste a gauche de la zone visible
+  Protected l
+  If sommairevisible Or IsGadget(gsep)=0:ProcedureReturn:EndIf
+  If GetGadgetState(gsep)<>0:SetGadgetState(gsep,0):EndIf
+  mesurebarre()
+  l=largeurbarre:If l<0:l=8:EndIf
+  ResizeGadget(gsep, -l, #PB_Ignore, GadgetWidth(groot)+l, #PB_Ignore) ; le dialog place le splitter sur toute la largeur de la racine
+EndProcedure
+
+Procedure affichesommaire(visible) ; IDE: affiche/masque le sommaire a gauche de la page
+  If IsGadget(gsep)=0:ProcedureReturn:EndIf
+  sommairevisible=visible
+  SetGadgetState(gsommairevisible,visible)
+  If visible
+    SetGadgetAttribute(gsep,#PB_Splitter_FirstMinimumSize,20)
+    HideGadget(gonglet,0)
+    RefreshDialog(gdialog) ; replace le splitter dans la zone visible
+    If splitpos<=0 ; premier affichage: un tiers de la largeur, sans etre trop etroit
+      splitpos=GadgetWidth(groot)/3
+      If splitpos<150:splitpos=GadgetWidth(groot)/2:EndIf
     EndIf
+    setsplit(splitpos)
+  Else
+    If GetGadgetState(gsep)>0:splitpos=GetGadgetState(gsep):EndIf
+    SetGadgetAttribute(gsep,#PB_Splitter_FirstMinimumSize,0)
+    HideGadget(gonglet,1)
+    placesommaire()
   EndIf
 EndProcedure
 
 Procedure timer() ; recharge l'aide si la source de la page courante a ete modifiee
-  Protected memnom.s
-  checksplit()
-  initsplit()
+  Protected memnom.s,l
+  If sommairevisible=0 And IsGadget(gsep) ; la largeur de la barre n'est connue qu'une fois le splitter affiche (GTK, Cocoa)
+    l=largeurbarre:mesurebarre()
+    If largeurbarre<>l:placesommaire():EndIf
+  EndIf
   If *page And *page\fichier<>""
     dossier
     If GetFileDate(dos+*page\fichier,#PB_Date_Modified)-editiondate>=2
@@ -1257,6 +1387,7 @@ Procedure gadgetevent(gadget, type)
         If GetGadgetState(gsommaire)>=0 And etype=#PB_EventType_Change; Or etype =#PB_EventType_LeftClick
           *pagesel=GetGadgetItemData(gsommaire,GetGadgetState(gsommaire)):If *pagesel:affiche(*pagesel\nom):EndIf
         EndIf
+      Case gsommairevisible:affichesommaire(GetGadgetState(gsommairevisible))
       Case gacc:affiche("reference")
       Case gprec:affiche("-")
       Case gsuiv:affiche("+")
@@ -1320,11 +1451,12 @@ Procedure setup(lg.s, operatingsys.s, source.s, userlibsource.s, examplesource.s
   repex=examplesource
 EndProcedure
 
-Procedure setimages(back, forward, home, edit, open.s, run.s) ; open, run: images png en base64
+Procedure setimages(back, forward, home, edit, index, open.s, run.s) ; open, run: images png en base64
   imgprec=back
   imgsuiv=forward
   imgacc=home
   imgediter=edit
+  imgsommaire=index
   If open<>"":icoouvrir="<img src='data:image/png;base64,"+open+"'>":EndIf
   If run<>"" :icoexecuter="<img src='data:image/png;base64,"+run+"'>":EndIf
 EndProcedure
@@ -1339,7 +1471,6 @@ Procedure create(window) ; cree l'aide dans la liste de gadgets courante
   ClearList(pilepage())
   initui()
   BindEvent(#EventJsMessage, @jsprocess(), hostwindow)
-  BindEvent(#EventSplit, @initsplit(), hostwindow)
   initFichier()
   *pagesel=*page
   editiondate=Date()
@@ -1347,18 +1478,16 @@ EndProcedure
 
 Procedure destroy()
   UnbindEvent(#EventJsMessage, @jsprocess(), hostwindow)
-  UnbindEvent(#EventSplit, @initsplit(), hostwindow)
   ClearList(jsmessages())
   If IsDialog(gdialog):FreeDialog(gdialog):EndIf
   If IsXML(gxml):FreeXML(gxml):EndIf
-  gdialog=0:gxml=0:groot=0:splitinit=0:*page=0:*pagesel=0
+  gdialog=0:gxml=0:groot=0:gsommairevisible=-1:sommairevisible=0:*page=0:*pagesel=0
 EndProcedure
 
 Procedure resize(width, height)
   If IsGadget(groot)
-    ResizeGadget(groot, 0, 0, width, height)
-    initsplit()
-    If splitinit=0:PostEvent(#EventSplit, hostwindow, 0):EndIf ; GTK: la taille est appliquee plus tard
+    ResizeGadget(groot, 0, 0, width, height) ; relayoute le dialog, qui replace le splitter sur toute la largeur
+    placesommaire()
   EndIf
 EndProcedure
 
@@ -1380,9 +1509,14 @@ CompilerIf #PB_Compiler_IsMainFile
 
   ; HelpTool --init <helpsourcepath> <helpdestinationpath>
   ;   builds the help folder used by the help tool from the documentation sources (the 'Documentation' folder)
-  If ProgramParameter(0)="--init"
+  ; HelpTool --initzip <helpsourcepath> <helpdestinationzip>
+  ;   same, but builds a zip archive (ie: 'Help/Help.zip', the default help source of the IDE)
+  If ProgramParameter(0)="--init" Or ProgramParameter(0)="--initzip"
     If CountProgramParameters()<>3
-      Errors$ = "Usage: HelpTool --init <helpsourcepath> <helpdestinationpath>"+#LF$
+      Errors$ = "Usage: HelpTool --init <helpsourcepath> <helpdestinationpath>"+#LF$+
+                "       HelpTool --initzip <helpsourcepath> <helpdestinationzip>"+#LF$
+    ElseIf ProgramParameter(0)="--initzip"
+      Errors$ = pbhelp::inithelpzip(ProgramParameter(1), ProgramParameter(2))
     Else
       Errors$ = pbhelp::inithelp(ProgramParameter(1), ProgramParameter(2))
     EndIf
@@ -1405,7 +1539,7 @@ CompilerElse
 
 
   Procedure.s HelpTool_DefaultSource()
-    ProcedureReturn PureBasicPath$ + "Help" + #Separator
+    ProcedureReturn PureBasicPath$ + "Help" + #Separator + "Help.zip"
   EndProcedure
 
 
@@ -1620,7 +1754,7 @@ CompilerElse
       pbhelp::ApplyColorsCallback = 0
     EndIf
     pbhelp::setcolors(HelpTool_ThemeColors(), UserLibColor)
-    pbhelp::setimages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
+    pbhelp::setimages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     pbhelp::setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
 
     If *Entry\IsSeparateWindow
@@ -1725,6 +1859,9 @@ CompilerElse
       Path$ = GetGadgetText(#GADGET_Preferences_HelpSource)
       If Path$ = ""
         Path$ = HelpTool_DefaultSource()
+      EndIf
+      If LCase(GetExtensionPart(Path$)) = "zip" ; help archive: start in its folder
+        Path$ = GetPathPart(Path$)
       EndIf
 
       Path$ = PathRequester(Language("Help","HelpSource"), Path$)

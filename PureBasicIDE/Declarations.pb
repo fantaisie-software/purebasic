@@ -731,6 +731,7 @@ Declare ChangeStatus(Message$, StickyTime); set a new message to the statusbar
 Declare MainMenuEvent(MenuItemID)         ; handle (or simulate) a main window menu event
 Declare MainWindowEvents(EventID)         ; handle main window events
 Declare ResizeMainWindow()                ; resize all main window components
+Declare UpdateSourceContainer()           ; resize the source container content (tab bar + active editor) only
 Declare UpdateMainWindow()                ; update the main window after prefs update (updating the edit gadgets is done from ApplyPreferences())
 Declare EventLoopCallback()               ; A callback to be called between (Wait)WindowEvent() calls
 Declare DispatchEvent(EventID)            ; Main event processor... dispatches the event to the correct window procedure

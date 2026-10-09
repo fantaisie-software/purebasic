@@ -702,7 +702,7 @@ Procedure ShutdownIDE()
         Tool\DestroyFunction()
       EndIf
       
-      If MemorizeWindow And IsWindowMinimized(AvailablePanelTools()\ToolWindowID) = 0
+      If MemorizeWindow And IsWindowMinimized(AvailablePanelTools()\ToolWindowID) = 0 And IsWindowMaximized(AvailablePanelTools()\ToolWindowID) = 0
         Window = AvailablePanelTools()\ToolWindowID
         AvailablePanelTools()\ToolWindowX      = WindowX(Window)
         AvailablePanelTools()\ToolWindowY      = WindowY(Window)

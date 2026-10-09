@@ -492,7 +492,6 @@ Procedure ResizeTools()
 EndProcedure
 
 
-Declare UpdateSourceContainer()
 Declare ResizeFileViewer()
 
 Procedure RealtimeSizeWindowEventHandler()
@@ -2693,25 +2692,32 @@ Procedure DispatchEvent(EventID)
           ForEach AvailablePanelTools()
             If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
               If EventID = #PB_Event_CloseWindow
-                
-                If AvailablePanelTools()\NeedDestroyFunction
-                  Tool.ToolsPanelInterface = @AvailablePanelTools()
-                  Tool\DestroyFunction()
-                EndIf
-                
+
                 If MemorizeWindow
                   Window = AvailablePanelTools()\ToolWindowID
-                  If IsWindowMinimized(Window) = 0
-                    AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+                  If IsWindowMinimized(Window) = 0 And IsWindowMaximized(Window) = 0
+                    AvailablePanelTools()\ToolWindowX     = WindowX(Window)
                     AvailablePanelTools()\ToolWindowY      = WindowY(Window)
                     AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
                     AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
                   EndIf
                 EndIf
-                CloseWindow(AvailablePanelTools()\ToolWindowID)
-                AvailablePanelTools()\ToolWindowID = -1
-                AvailablePanelTools()\IsSeparateWindow = 0
-                
+
+                If AvailablePanelTools()\ToolID$ = "WebView" ; SpiderBasic
+                  ; Really closed, as it stops the program running in it
+                  If AvailablePanelTools()\NeedDestroyFunction
+                    Tool.ToolsPanelInterface = @AvailablePanelTools()
+                    Tool\DestroyFunction()
+                  EndIf
+                  CloseWindow(AvailablePanelTools()\ToolWindowID)
+                  AvailablePanelTools()\ToolWindowID = -1
+                  AvailablePanelTools()\IsSeparateWindow = 0
+                Else
+                  ; The window is only hidden (the tool stays created), so it can be displayed again instantly with
+                  ; ActivateTool(). It is really closed by ToolsPanel_Update() and when the IDE quits.
+                  HideWindow(AvailablePanelTools()\ToolWindowID, #True)
+                EndIf
+
               ElseIf EventID = #PB_Event_Gadget
                 If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
                   AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)
