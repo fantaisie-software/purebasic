@@ -1470,7 +1470,17 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
   EnclosingFunction$ = FindEnclosingFunction(Line$, cursorposition, @FunctionStart, @Argument)
 
   If EnclosingFunction$ <> ""
-    Message$ = GenerateQuickHelpText(Line$, EnclosingFunction$, line, FunctionStart)
+    ; Line$ may span several lines with continuation, but the source item lookup needs the
+    ; line and column of the function name itself (it can be on a previous line)
+    FunctionLine = line - CountString(Left(Line$, StartOffset), #LF$) + CountString(Left(Line$, FunctionStart), #LF$)
+    FunctionLineStart = FindString(ReverseString(Left(Line$, FunctionStart)), #LF$)
+    If FunctionLineStart
+      FunctionLineStart = FunctionStart - FunctionLineStart + 1
+    EndIf
+    FunctionLine$ = StringField(Mid(Line$, FunctionLineStart + 1), 1, #LF$)
+    FunctionLine$ = RTrim(FunctionLine$, #CR$)
+    
+    Message$ = GenerateQuickHelpText(FunctionLine$, EnclosingFunction$, FunctionLine, FunctionStart - FunctionLineStart)
     
     If Message$ = "" Or FindString(Message$, "(", 1) = 0 Or FindString(Message$, ")", 1) = 0
       ChangeStatus(Message$, 0)
