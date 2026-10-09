@@ -1307,6 +1307,13 @@ Procedure LoadProject(Filename$)
             If MessageRequester(#ProductName$, LanguagePattern("Project","FileMissing", "%filename%", ProjectFiles()\Filename$), #PB_MessageRequester_YesNo|#FLAG_Question) = #PB_MessageRequester_Yes
               NewFileName$ = OpenFileRequester(Language("FileStuff","OpenFileTitle"), ProjectFiles()\FileName$, Language("Compiler","AllFilesPattern"), 0)
               
+              ; A project file can't be a file of the project: LoadSourceFile() would load it as a project,
+              ; while this one is still being loaded (crash). Handle it like an abort.
+              ;
+              If NewFileName$ And IsProjectFile(NewFileName$)
+                NewFileName$ = ""
+              EndIf
+              
               ; If the user aborts, keep the old filename. The file will not be scanable etc,
               ; but it will be saved back to the project file with all options so maybe it is
               ; present on a later run again
