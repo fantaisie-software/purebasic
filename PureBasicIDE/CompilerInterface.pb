@@ -1750,6 +1750,41 @@ CompilerIf #SpiderBasic
   EndProcedure
 CompilerEndIf
 
+CompilerIf #CompileMac
+  ; Quotes a string for the shell
+  Procedure.s Compiler_ShellQuote(String$)
+    ProcedureReturn "'" + ReplaceString(String$, "'", "'" + #DQUOTE$ + "'" + #DQUOTE$ + "'") + "'"
+  EndProcedure
+
+  ; Returns the "open" parameters to run a console program in a new Terminal window.
+  ; "open -a Terminal.app <exe> --args ..." starts the program in the home directory and gives
+  ; the arguments to Terminal instead of the program, so run it through a small script which
+  ; sets the current directory and passes the parameters (the script deletes itself).
+  ;
+  Procedure.s Compiler_TerminalParameters(Executable$, Parameters$, Directory$)
+    Static Count
+
+    Count + 1
+    Script$ = TempPath$ + "PB_RunInTerminal_" + Str(Random($FFFF)) + "_" + Str(Count) + ".command"
+
+    File = CreateFile(#PB_Any, Script$)
+    If File
+      WriteStringN(File, "#!/bin/sh", #PB_UTF8)
+      WriteStringN(File, "rm -f " + #DQUOTE$ + "$0" + #DQUOTE$, #PB_UTF8)
+      If Directory$
+        WriteStringN(File, "cd " + Compiler_ShellQuote(Directory$), #PB_UTF8)
+      EndIf
+      WriteStringN(File, "exec " + Compiler_ShellQuote(Executable$) + " " + Parameters$, #PB_UTF8)
+      CloseFile(File)
+      SetFileAttributes(Script$, #PB_FileSystem_ReadUser | #PB_FileSystem_WriteUser | #PB_FileSystem_ExecUser)
+
+      ProcedureReturn "-a Terminal.app " + #DQUOTE$ + Script$ + #DQUOTE$
+    EndIf
+
+    ProcedureReturn "-a Terminal.app " + #DQUOTE$ + Executable$ + #DQUOTE$ + " --args " + Parameters$
+  EndProcedure
+CompilerEndIf
+
 ; ---------------------------------------------------------------------
 
 Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
@@ -2049,7 +2084,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
                 CompilerIf #CompileLinux
                   *Debugger.DebuggerData = Debugger_ExecuteProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
                 CompilerElse
-                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
+                  *Debugger.DebuggerData = Debugger_ExecuteProgram("open", Compiler_TerminalParameters(Executable$, *Target\CommandLine$, Directory$), Directory$)
                 CompilerEndIf
               Else
                 DebuggerUseFIFO = 0
@@ -2104,7 +2139,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
           CompilerEndIf
           
           CompilerIf #CompileMac
-            RunProgram("open", "-a Terminal.app " +#DQUOTE$+Executable$+#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
+            RunProgram("open", Compiler_TerminalParameters(Executable$, *Target\CommandLine$, Directory$), Directory$)
           CompilerEndIf
           
       EndSelect
@@ -2126,7 +2161,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
       CompilerIf #CompileMac
         ; On OS X, "open" launch automatically the 'Terminal' application, which is just perfect in our case
         If *Target\ExecutableFormat = 1
-          RunProgram("open", "-a Terminal.app "+#DQUOTE$+ Executable$ +#DQUOTE$+ " --args " + *Target\CommandLine$, Directory$)
+          RunProgram("open", Compiler_TerminalParameters(Executable$, *Target\CommandLine$, Directory$), Directory$)
         Else
           RunProgram(Executable$, *Target\CommandLine$, Directory$)
         EndIf
