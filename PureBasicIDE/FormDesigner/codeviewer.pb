@@ -931,7 +931,11 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 Case #Form_Type_Option
                   content + "  SetGadgetState("+variable+", 1)" + #Endline
                 Case #Form_Type_Splitter
-                  content + "  SetGadgetState("+variable+", "+Str(FormWindows()\FormGadgets()\state)+")" + #Endline
+                  If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
+                    content + "  SetGadgetState("+variable+", "+Str(DesktopUnscaledX(FormWindows()\FormGadgets()\state))+")" + #Endline
+                  Else
+                    content + "  SetGadgetState("+variable+", "+Str(DesktopUnscaledY(FormWindows()\FormGadgets()\state))+")" + #Endline
+                  EndIf
               EndSelect
             EndIf
             
