@@ -226,6 +226,12 @@ help : $(HELPTOOL)
 	$(HELPTOOLRUN) --init "$(CURDIR)/../Documentation" "$(HOME)/Help"
 
 #
+# same, but packed into Help/Help.zip (the default help source of the IDE)
+#
+helpzip : $(HELPTOOL)
+	$(HELPTOOLRUN) --initzip "$(CURDIR)/../Documentation" "$(HOME)/Help/Help.zip"
+
+#
 # required other targets
 #
 
