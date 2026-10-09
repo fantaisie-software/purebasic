@@ -380,6 +380,19 @@ Procedure.s GetNumber(Line$, Position) ; position is 0-based
 EndProcedure
 
 
+; Expand the folds hiding any of these lines (0-based), before changing them in one undo action.
+; Changing a hidden line expands its fold in the middle of the change (#SCN_NEEDSHOWN), and the
+; highlighting done then toggles #SCI_SETUNDOCOLLECTION, which ends the undo action. The change
+; could then only be undone line by line.
+;
+Procedure EnsureLinesVisible(FirstLine, LastLine)
+  For Line = FirstLine To LastLine
+    If SendEditorMessage(#SCI_GETLINEVISIBLE, Line, 0) = 0
+      SendEditorMessage(#SCI_ENSUREVISIBLE, Line, 0)
+    EndIf
+  Next Line
+EndProcedure
+
 Procedure InsertComments()
   
   If *ActiveSource\IsCode = 0
@@ -392,6 +405,7 @@ Procedure InsertComments()
     LineEnd - 1
   EndIf
   
+  EnsureLinesVisible(LineStart-1, LineEnd-1)
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
     SetLine(index, "; " + GetLine(index))
@@ -421,6 +435,7 @@ Procedure RemoveComments()
     LineEnd - 1
   EndIf
   
+  EnsureLinesVisible(LineStart-1, LineEnd-1)
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
     Line$ = GetLine(index)
@@ -463,6 +478,7 @@ Procedure InsertTab()
     Add$ = Space(TabLength)
   EndIf
   
+  EnsureLinesVisible(LineStart-1, LineEnd-1)
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
     SetLine(index, Add$ + GetLine(index))
@@ -494,6 +510,7 @@ Procedure RemoveTab()
     LineEnd - 1
   EndIf
   
+  EnsureLinesVisible(LineStart-1, LineEnd-1)
   SendEditorMessage(#SCI_BEGINUNDOACTION, 0, 0)
   For index = LineStart-1 To LineEnd-1
     Line$ = GetLine(index)
