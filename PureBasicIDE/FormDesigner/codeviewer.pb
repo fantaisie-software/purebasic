@@ -609,11 +609,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   gadgetvar.s = "#" + FormWindows()\FormGadgets()\variable
                 EndIf
                 
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  linevars + "GetGadgetAttribute("+gadgetvar+",#PB_Panel_ItemWidth) - "
-                Else
-                  linevars + "GadgetWidth("+gadgetvar+") - "
-                EndIf
+                linevars + "GadgetWidth("+gadgetvar+") - "
                 tempvalue = FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1
                 PopListPosition(FormWindows()\FormGadgets())
                 
@@ -625,7 +621,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
             
             ; y
             If FormWindows()\FormGadgets()\lock_top ;{
-              linevars + codepaddingy + Str(FormWindows()\FormGadgets()\y1)+", "
+              linevars + codepaddingy + Str(DesktopUnscaledY(FormWindows()\FormGadgets()\y1))+", "
             Else
               If FormWindows()\FormGadgets()\parent
                 PushListPosition(FormWindows()\FormGadgets())
@@ -637,22 +633,15 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   gadgetvar.s = "#" + FormWindows()\FormGadgets()\variable
                 EndIf
                 
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  linevars + codepaddingy + "GetGadgetAttribute("+gadgetvar+",#PB_Panel_ItemHeight) - "
-                Else
-                  linevars + codepaddingy + "GadgetHeight("+gadgetvar+") - "
-                EndIf
+                linevars + codepaddingy + "GadgetHeight("+gadgetvar+") - "
                 
                 tempvalue = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
                 
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  tempvalue - Panel_Height
-                EndIf
                 PopListPosition(FormWindows()\FormGadgets())
                 
-                linevars + Str(tempvalue - FormWindows()\FormGadgets()\y1) + ", "
+                linevars + Str(DesktopUnscaledY(tempvalue - FormWindows()\FormGadgets()\y1)) + ", "
               Else
-                linevars + codepaddingy + "FormWindowHeight - " + Str(FormWindows()\height - FormWindows()\FormGadgets()\y1)+", "
+                linevars + codepaddingy + "FormWindowHeight - " + Str(DesktopUnscaledY(FormWindows()\height - FormWindows()\FormGadgets()\y1))+", "
               EndIf
             EndIf ;}
             
@@ -668,11 +657,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   gadgetvar.s = "#" + FormWindows()\FormGadgets()\variable
                 EndIf
                 
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  linevars + "GetGadgetAttribute("+gadgetvar+",#PB_Panel_ItemWidth) - "
-                Else
-                  linevars + "GadgetWidth("+gadgetvar+") - "
-                EndIf
+                linevars + "GadgetWidth("+gadgetvar+") - "
                 tempvalue = FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1
                 PopListPosition(FormWindows()\FormGadgets())
                 
@@ -696,23 +681,15 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   gadgetvar.s = "#" + FormWindows()\FormGadgets()\variable
                 EndIf
                 
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  linevars + "GetGadgetAttribute("+gadgetvar+",#PB_Panel_ItemHeight) - "
-                Else
-                  linevars + "GadgetHeight("+gadgetvar+") - "
-                EndIf
+                linevars + "GadgetHeight("+gadgetvar+") - "
                 tempvalue = FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1
-                
-                If FormWindows()\FormGadgets()\type = #Form_Type_Panel
-                  tempvalue - Panel_Height
-                EndIf
                 
                 PopListPosition(FormWindows()\FormGadgets())
                 
-                linevars + Str(tempvalue - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1))
+                linevars + Str(DesktopUnscaledY(tempvalue - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)))
               Else
                 ;- Change height menu and toolbar calc
-                value = FormWindows()\height - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)
+                value = DesktopUnscaledY(FormWindows()\height - (FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1))
                 If FormSkin = #PB_OS_Windows
 
                   value - bottompaddingsb - toptoolpadding
@@ -736,7 +713,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                 
               EndIf
             Else
-              linevars + Str(FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1)
+              linevars + Str(DesktopUnscaledY(FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1))
             EndIf ;}
             
             line + Str(DesktopUnscaledX(FormWindows()\FormGadgets()\x1)) + ", " + codepaddingy + Str(DesktopUnscaledY(FormWindows()\FormGadgets()\y1)) + ", " + Str(DesktopUnscaledX(FormWindows()\FormGadgets()\x2 - FormWindows()\FormGadgets()\x1)) + ", " + Str(DesktopUnscaledY(FormWindows()\FormGadgets()\y2 - FormWindows()\FormGadgets()\y1))
