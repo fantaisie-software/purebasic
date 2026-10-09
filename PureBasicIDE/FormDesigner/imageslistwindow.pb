@@ -66,6 +66,9 @@ Procedure FormImgListWindowEvents(EventID)
       CloseImgList()
       redraw = 1
       
+    Case #PB_Event_Menu
+      FD_GridClipboardEvent(imglist_grid, EventMenu())
+      
   EndSelect
   
 EndProcedure

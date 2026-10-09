@@ -157,6 +157,9 @@ Procedure FormColumnsWindowEvents(EventID)
       FD_CloseColumns()
       redraw = 1
       
+    Case #PB_Event_Menu
+      FD_GridClipboardEvent(column_grid, EventMenu())
+      
   EndSelect
 EndProcedure
 
@@ -169,6 +172,9 @@ Procedure FormItemsWindowEvents(EventID)
     Case #PB_Event_CloseWindow
       FD_CloseItems()
       redraw = 1
+      
+    Case #PB_Event_Menu
+      FD_GridClipboardEvent(items_grid, EventMenu())
       
   EndSelect
 EndProcedure
