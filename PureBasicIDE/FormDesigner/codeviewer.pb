@@ -1211,6 +1211,12 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
           level = 1
           ForEach FormWindows()\FormMenus()
             If FormWindows()\FormMenus()\separator
+              ; close the submenus deeper than this separator
+              For finishlevel = level To FormWindows()\FormMenus()\level + 1 Step -1
+                content + "  CloseSubMenu()" + #Endline
+              Next
+              level = FormWindows()\FormMenus()\level
+              
               content + "  MenuBar()" + #Endline
             Else
               Select FormWindows()\FormMenus()\level
@@ -1233,15 +1239,15 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
                   EndIf
                   PopListPosition(FormWindows()\FormMenus())
                   
+                  ; close the submenus deeper than this item (also before opening a new submenu)
+                  For finishlevel = level To thislevel + 1 Step -1
+                    content + "  CloseSubMenu()" + #Endline
+                  Next
+                  
                   If next_item
                     content + "  OpenSubMenu("+Chr(34)+FormWindows()\FormMenus()\item+Chr(34)+")" + #Endline
                   Else
-                    If FormWindows()\FormMenus()\level < level
-                      content + "  CloseSubMenu()" + #Endline
-                      content + "  MenuItem("+FormWindows()\FormMenus()\id+", "+Chr(34)+FormWindows()\FormMenus()\item+Chr(34)
-                    Else
-                      content + "  MenuItem("+FormWindows()\FormMenus()\id+", "+Chr(34)+FormWindows()\FormMenus()\item+Chr(34)
-                    EndIf
+                    content + "  MenuItem("+FormWindows()\FormMenus()\id+", "+Chr(34)+FormWindows()\FormMenus()\item+Chr(34)
                     
                     If FormWindows()\FormMenus()\shortcut <> ""
                       content + " + Chr(9) + " + Chr(34) + FormWindows()\FormMenus()\shortcut + Chr(34)
