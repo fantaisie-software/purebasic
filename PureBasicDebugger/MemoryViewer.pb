@@ -632,7 +632,7 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], 0, 0, Width-20, Height-40-2*ButtonHeight)
     
     Y = Height - 10 - ButtonHeight
-    If Width >= CopyWidth+SaveWidth+SaveRawWidth+250
+    If Width >= 220+DisplayWidth+DataWidth+CopyWidth+SaveWidth+SaveRawWidth ; 150 for the view type combo + 7 spaces of 10
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType], 10, Y, 150, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView], 170, Y, DisplayWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],width-40-SaveRawWidth-SaveWidth-CopyWidth-DataWidth,Y,DataWidth,ButtonHeight)
