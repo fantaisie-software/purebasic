@@ -690,12 +690,12 @@ EndProcedure
 
 Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
   
-  MemoryViewTableData = MemoryIsHex
-  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Memory]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Memory])
     
   Else
+    MemoryViewTableData = MemoryIsHex ; only when opening, to keep the one chosen in the window when ShowMemoryViewer() is called again
+    
     Window = OpenWindow(#PB_Any, MemoryViewerX, MemoryViewerY, MemoryViewerWidth, MemoryViewerHeight, Language("Debugger","MemoryWindowTitle") + " - " + DebuggerTitle(*Debugger\FileName$), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget)
     If Window
       *Debugger\Windows[#DEBUGGER_WINDOW_Memory] = Window
