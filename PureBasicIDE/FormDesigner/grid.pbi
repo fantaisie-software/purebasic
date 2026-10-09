@@ -414,7 +414,7 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
   
   current_column = 0
   
-  While drawing_x < *grid\innerwidth
+  While drawing_x < DesktopScaledX(*grid\innerwidth)
     If current_column < *grid\maxnumcols
       
       If FindMapElement(*grid\cols(), Str(*grid\col(current_column)))
@@ -481,7 +481,7 @@ Procedure grid_BuildScrollbarSize(*grid.Grid_Struct)
   
   current_row = 0
   
-  While  drawing_y < *grid\innerheight
+  While  drawing_y < DesktopScaledY(*grid\innerheight)
     If current_row < *grid\maxnumrows
       If FindMapElement(*grid\rows(), Str(*grid\row(current_row)))
         If *grid\rows()\visible ; don't draw
@@ -798,7 +798,7 @@ Procedure grid_SetGadgetAttribute(*grid.Grid_Struct, attribute, value)
     Case #Grid_Caption_Col
       *grid\header_col_hidden = value
       If value = 0
-        *grid\header_col_height = 21
+        *grid\header_col_height = DesktopScaledY(21)
       Else
         *grid\header_col_height = 0
       EndIf
@@ -935,7 +935,7 @@ Procedure.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
       
       current_column = *grid\xscroll
       
-      While drawing_x < *grid\innerwidth
+      While drawing_x < DesktopScaledX(*grid\innerwidth)
         If current_column < *grid\maxnumcols
           indexed_current_column = *grid\col(current_column)
           
@@ -957,11 +957,11 @@ Procedure.i grid_GetGadgetAttribute(*grid.Grid_Struct, attribute)
       EndIf
       
     Case #Grid_VisibleRows
-      drawing_y = 22
+      drawing_y = *grid\header_col_height + 1
       
       current_row = *grid\yscroll
       
-      While  drawing_y < *grid\innerheight
+      While  drawing_y < DesktopScaledY(*grid\innerheight)
         If current_row < *grid\maxnumrows
           indexed_current_row = *grid\row(current_row)
           
@@ -2487,7 +2487,7 @@ Procedure.s grid_GetCurrentCellCombo(*grid.Grid_Struct,x,y)
   
   current_row = *grid\yscroll
   drawing_y = 0
-  While drawing_y < *grid\innerheight
+  While drawing_y < DesktopScaledY(*grid\innerheight)
     If current_row < *grid\maxnumrows
       
       indexed_current_row = *grid\row(current_row)
@@ -2517,7 +2517,7 @@ Procedure.s grid_GetCurrentCellCombo(*grid.Grid_Struct,x,y)
       EndIf
       
       drawing_x = *grid\header_row_width + 1
-      While drawing_x < *grid\innerwidth
+      While drawing_x < DesktopScaledX(*grid\innerwidth)
         If current_column < *grid\maxnumcols
           
           indexed_current_column = *grid\col(current_column)
@@ -2573,7 +2573,7 @@ Procedure.s grid_GetCurrentCell(*grid.Grid_Struct,x,y)
   
   current_row = *grid\yscroll
   drawing_y = 0
-  While drawing_y < *grid\innerheight
+  While drawing_y < DesktopScaledY(*grid\innerheight)
     If current_row < *grid\maxnumrows
       
       indexed_current_row = *grid\row(current_row)
@@ -2604,7 +2604,7 @@ Procedure.s grid_GetCurrentCell(*grid.Grid_Struct,x,y)
       EndIf
       
       drawing_x = *grid\header_row_width + 1
-      While drawing_x < *grid\innerwidth
+      While drawing_x < DesktopScaledX(*grid\innerwidth)
         If current_column < *grid\maxnumcols
           
           indexed_current_column = *grid\col(current_column)
@@ -3313,7 +3313,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
     
     current_row = *grid\yscroll
     drawing_y = 0
-    While drawing_y < *grid\innerheight
+    While drawing_y < DesktopScaledY(*grid\innerheight)
       indexed_current_row = *grid\row(current_row)
       
       If drawing_y < *grid\header_col_height + 1
@@ -3355,7 +3355,7 @@ Procedure grid_DoHoverEvent(*grid.Grid_Struct,x, y)
     Wend
     
     drawing_x = *grid\header_row_width + 1
-    While drawing_x < *grid\innerwidth
+    While drawing_x < DesktopScaledX(*grid\innerwidth)
       indexed_current_column = *grid\col(current_column)
       
       If FindMapElement(*grid\cols(), Str(indexed_current_column))
@@ -3953,7 +3953,7 @@ Procedure grid_DoRedraw(*grid.Grid_Struct,redraw_grid.b = #True)
     
     If redraw_grid
       If *grid\maxnumcols > 0 And Not *grid\header_col_hidden
-        LineXY(0,21,w,21,*grid\color_linedark)
+        LineXY(0, *grid\header_col_height, w, *grid\header_col_height, *grid\color_linedark)
       EndIf
       
       If *grid\header_col_hidden
@@ -5455,8 +5455,8 @@ Procedure grid_DoMouseMoveEvent(*grid.Grid_Struct, mousex, mousey)
     If *grid\resize_col <> -1
       *grid\resize_posy = mousex
       
-      If *grid\resize_posy >= *grid\innerwidth - 2
-        *grid\resize_posy = *grid\innerwidth - 2
+      If *grid\resize_posy >= DesktopScaledX(*grid\innerwidth) - 2
+        *grid\resize_posy = DesktopScaledX(*grid\innerwidth) - 2
       ElseIf *grid\resize_posy <= *grid\resize_posx
         *grid\resize_posy = *grid\resize_posx + 1
       EndIf
@@ -5465,8 +5465,8 @@ Procedure grid_DoMouseMoveEvent(*grid.Grid_Struct, mousex, mousey)
     ElseIf *grid\resize_row <> -1
       *grid\resize_posy = mousey
       
-      If *grid\resize_posy >= *grid\innerheight - 2
-        *grid\resize_posy = *grid\innerheight - 2
+      If *grid\resize_posy >= DesktopScaledY(*grid\innerheight) - 2
+        *grid\resize_posy = DesktopScaledY(*grid\innerheight) - 2
       ElseIf *grid\resize_posy <= *grid\resize_posx
         *grid\resize_posy = *grid\resize_posx + 1
       EndIf
@@ -6076,13 +6076,13 @@ Procedure grid_TimerEvent()
         EndIf
         
         If grid_grids()\resizing = #False And grid_grids()\edit_selecting = #False
-          If (mousey >= (grid_grids()\innerheight) Or mousey <= (grid_grids()\header_col_height) Or mousex >= (grid_grids()\innerwidth)  Or mousex <= (grid_grids()\header_row_width)) And grid_grids()\lbuttondown
+          If (mousey >= (DesktopScaledY(grid_grids()\innerheight)) Or mousey <= (grid_grids()\header_col_height) Or mousex >= (DesktopScaledX(grid_grids()\innerwidth))  Or mousex <= (grid_grids()\header_row_width)) And grid_grids()\lbuttondown
             If grid_grids()\scrolltimer = 0
               grid_grids()\scrolltimer = 1
             EndIf
             
             LastElement(grid_grids()\sel())
-            If (mousey - grid_grids()\innerheight) >= 0 And grid_grids()\sel()\sel_row <> -1
+            If (mousey - DesktopScaledY(grid_grids()\innerheight)) >= 0 And grid_grids()\sel()\sel_row <> -1
               If grid_grids()\yscroll + 1 < grid_grids()\maxnumrows
                 grid_grids()\scroll_time_y = 1
               Else
@@ -6094,7 +6094,7 @@ Procedure grid_TimerEvent()
               grid_grids()\scroll_time_y = 0
             EndIf
             
-            If (mousex - grid_grids()\innerwidth) >= 0 And grid_grids()\sel()\sel_col <> -1
+            If (mousex - DesktopScaledX(grid_grids()\innerwidth)) >= 0 And grid_grids()\sel()\sel_col <> -1
               If grid_grids()\xscroll + 1 < grid_grids()\maxnumcols
                 grid_grids()\scroll_time_x = 1
               Else
