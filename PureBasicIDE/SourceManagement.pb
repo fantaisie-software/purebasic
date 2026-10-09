@@ -72,7 +72,8 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
       
     CompilerElse
       
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      ; Use the system text color (#COLOR_BTNTEXT), as the background is the system one: a fixed black is unreadable with a dark theme
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
     
     CompilerEndIf
