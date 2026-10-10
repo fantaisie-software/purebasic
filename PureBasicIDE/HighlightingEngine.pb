@@ -1051,7 +1051,17 @@ Procedure IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
   EndIf
 
   If AddDollar
-    BasicKeyword$ + "$"
+    ; Only the keywords which accept a type can be followed by a '$' (Procedure$, Define$, Data$...),
+    ; otherwise it's a string variable (Next$, List$...) (https://www.purebasic.fr/english/viewtopic.php?t=67560)
+    ;
+    Select Result
+      Case #KEYWORD_Data, #KEYWORD_Declare, #KEYWORD_DeclareC, #KEYWORD_DeclareCDLL, #KEYWORD_DeclareDLL, #KEYWORD_Define, #KEYWORD_Global,
+           #KEYWORD_Procedure, #KEYWORD_ProcedureC, #KEYWORD_ProcedureCDLL, #KEYWORD_ProcedureDLL, #KEYWORD_Protected, #KEYWORD_Prototype, #KEYWORD_PrototypeC, #KEYWORD_Read
+        BasicKeyword$ + "$"
+
+      Default
+        ProcedureReturn 0
+    EndSelect
   EndIf
 
   If (Result = #KEYWORD_Align Or Result = #KEYWORD_Extends) And *LineStart And *WordStart
@@ -1085,7 +1095,7 @@ EndProcedure
 Procedure IsLineStart(*LineStart, *Cursor.BYTE)
   *Cursor - 1 ; the currently examined cursor position must not be checked
 
-  While *Cursor > *LineStart
+  While *Cursor >= *LineStart ; *LineStart is the first char of the line, so check it too ('a ! 10' is not ASM: https://www.purebasic.fr/english/viewtopic.php?t=60603)
     If *Cursor\b <> ' ' And *Cursor\b <> 9
       ProcedureReturn 0
     EndIf
@@ -1100,8 +1110,28 @@ EndProcedure
 Procedure IsCommandStart(*LineStart, *Cursor.BYTE)
   *Cursor - 1 ; the currently examined cursor position must not be checked
 
-  While *Cursor > *LineStart
+  While *Cursor >= *LineStart
     If *Cursor\b = ':'
+      ProcedureReturn 1
+    ElseIf *Cursor\b <> ' ' And *Cursor\b <> 9
+      ProcedureReturn 0
+    EndIf
+    *Cursor - 1
+  Wend
+
+  ProcedureReturn 1
+EndProcedure
+
+; Checks if the cursor is the first non-whitespace char on a line or since a ':' (but not a '::' module separator)
+;
+Procedure IsLabelStart(*LineStart, *Cursor.BYTE)
+  *Cursor - 1 ; the currently examined cursor position must not be checked
+
+  While *Cursor >= *LineStart
+    If *Cursor\b = ':'
+      If *Cursor > *LineStart And PeekB(*Cursor - 1) = ':'
+        ProcedureReturn 0
+      EndIf
       ProcedureReturn 1
     ElseIf *Cursor\b <> ' ' And *Cursor\b <> 9
       ProcedureReturn 0
@@ -1287,7 +1317,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       *Cursor + 2 ; skip both ::
 
 
-    ElseIf SeparatorChar = ':' And IsLineStart(*LineStart, *WordStart) And WordLength > 0
+    ElseIf SeparatorChar = ':' And IsLabelStart(*LineStart, *WordStart) And WordLength > 0
 
       ; --------------------- Labels -------------------------------
 
@@ -1357,7 +1387,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         Callback(*StringStart, *Cursor-*StringStart, *ASMKeywordColor, 0, 0)
       EndIf
 
-    ElseIf OldSeparatorChar = '\' Or SeparatorChar = '\'
+    ElseIf (OldSeparatorChar = '\' Or SeparatorChar = '\') And SeparatorChar <> '.' ; "\List.s()" is handled below like "List.s()" (https://www.purebasic.fr/english/viewtopic.php?t=45973)
 
       ; ---------------------- Structures --------------------------
       Callback(*StringStart, *Cursor-*StringStart, *StructureColor, 0, 0)
@@ -1703,7 +1733,8 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         *StringStart = *Cursor
         *Cursor + 1
 
-        While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$')
+        ; include the structure fields, as @Var\Field is the address of the field (https://www.purebasic.fr/english/viewtopic.php?t=43505)
+        While *Cursor < *InBufferEnd And (ValidCharacters(*Cursor\a) Or *Cursor\b = '$' Or (*Cursor\b = '\' And *Cursor+1 < *InBufferEnd And ValidCharacters(*Cursor\a[1])))
           *Cursor + 1
         Wend
 

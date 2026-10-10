@@ -39,6 +39,13 @@
 
 @Example
 @Code
+  ; Get the content of this file
+  Debug HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", 0)
+  Debug HTTPInfo(#PB_HTTP_Headers)
+@EndCode
+
+@Example using async mode
+@Code
   Procedure HttpGetEvent(Success, Result$, UserData)
     Debug "----------------------------"
     Debug "IsSuccess: " + Success
@@ -90,7 +97,7 @@
   The parameter list.
 
 @Parameter "Callback"
-  The callback to be called once the request has been executed. It has to use the following syntax:
+  The callback to be called once the request has been executed. If set to zero, the call will be synchronous and the result will be returned. It has to use the following syntax:
 
 @Code
   Procedure Callback(Success, Result$, UserData)
@@ -107,9 +114,17 @@
   A string map of custom headers to set when sending the request.
     
     
-@NoReturnValue
+@ReturnValue
+  If no callback is specified, it will returns the result as a string.
 
 @Example
+@Code
+  ; Get the content of this file, and display it in the debug window
+  ;
+  Debug HTTPRequest(#PB_HTTP_Get, #PB_Compiler_Filename, "", 0)
+@EndCode
+
+@Example using async mode
 @Code
   Procedure HttpGetEvent(Success, Result$, UserData)
     ; HTTPInfo() can also be used to get more info about the request result

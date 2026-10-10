@@ -13,9 +13,9 @@ Procedure ChooseFileEvent()
   If Filename$
     If ReadFile(0, Filename$, 0, #PB_LocalFile)
        
-      ; Read the first 3 lines
+      ; Read the first 10 lines
       ;
-      While Eof(0) = 0 And NbLine < 3 
+      While Eof(0) = 0 And NbLine < 10
         Debug ReadString(0)            
         NbLine+1
       Wend
@@ -29,13 +29,3 @@ OpenWindow(0, 0, 0, 300, 50, "Read file example", #PB_Window_ScreenCentered)
 ButtonGadget(0, 10, 10, 280, 30, "Choose a text file...")
 
 BindGadgetEvent(0, @ChooseFileEvent())
-
-; IDE Options = SpiderBasic 3.30 beta 1 (Windows - x86)
-; CursorPosition = 9
-; Folding = -
-; iOSAppOrientation = 0
-; AndroidAppCode = 0
-; AndroidAppOrientation = 0
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

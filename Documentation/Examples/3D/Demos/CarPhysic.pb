@@ -326,7 +326,6 @@ InitKeyboard()
 OpenWmain()
 OpenWindowedScreen(WindowID(Wmain), DesktopScaledX(300), DesktopScaledY(0), DesktopScaledX(#SCREENWIDTH-300), DesktopScaledY(#SCREENHEIGHT), 0, 0, 0,#PB_Screen_SmartSynchronization)
 
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main", #PB_3DArchive_FileSystem)
 Parse3DScripts()
 
 ;-Textures

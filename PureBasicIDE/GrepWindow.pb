@@ -126,7 +126,7 @@ Procedure SearchStringInFile(FileID, Filename$, String$, InitialPathLength)
           
           If CompareMemoryString(*Buffer, *String, 1-GrepCaseSensitive, StringLength, StringMode) = 0 ; we always need the flag now for UTF8 files support
             
-            If GrepWholeWord = 0 Or ((*Buffer = *LineStart Or ValidCharacters(PeekA(*Buffer-1)) = 0) And (*Buffer+StringLength = *BufferEnd Or ValidCharacters(PeekB(*Buffer+StringLength) & $FF) = 0) )
+            If GrepWholeWord = 0 Or IsWholeWordMatch(*LineStart, *BufferEnd, *Buffer, StringLength)
               
               If BinaryCount > 10 ; its a binary file
                 LogLine$ = Filename$+": " + Language("Find","BinaryFile") + " (" + Str(*Buffer-*BufferStart) + ")"

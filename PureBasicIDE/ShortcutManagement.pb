@@ -128,8 +128,21 @@ Procedure.s GetShortcutText(Shortcut)
     
   CompilerEndIf
   
-  Text$ + "+" + ShortcutNames(GetBaseKeyIndex(Shortcut))
-  
+  KeyName$ = ShortcutNames(GetBaseKeyIndex(Shortcut))
+
+  CompilerIf #CompileWindows
+    ; The keys which depend on the keyboard layout (like ` or [) are not in the table,
+    ; so display the char typed by the key on the current layout (https://www.purebasic.fr/english/viewtopic.php?t=59882)
+    If KeyName$ = ""
+      Key = MapVirtualKey_(Shortcut & ~(#PB_Shortcut_Control|#PB_Shortcut_Alt|#PB_Shortcut_Shift|#PB_Shortcut_Command), 2) & $FFFF ; #MAPVK_VK_TO_CHAR, the top bit is set for a dead key
+      If Key > ' '
+        KeyName$ = Chr(Key)
+      EndIf
+    EndIf
+  CompilerEndIf
+
+  Text$ + "+" + KeyName$
+
   ProcedureReturn Right(Text$, Len(Text$)-1)
 EndProcedure
 
@@ -271,6 +284,27 @@ Procedure.s GetShortcutOwner(Shortcut)
   
 EndProcedure
 
+Procedure AddStringShortcuts()
+  ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Form Designer and Scintilla
+  ; It was previously removed to Restore the Default StringGadget behavior
+  ;
+  For item = 0 To #MENU_LastShortcutItem
+    Select KeyboardShortcuts(item)
+      Case #PB_Shortcut_Command | #PB_Shortcut_C, #PB_Shortcut_Command | #PB_Shortcut_X, #PB_Shortcut_Command | #PB_Shortcut_V, #PB_Shortcut_Command | #PB_Shortcut_A
+        AddKeyboardShortcut(#WINDOW_Main, KeyboardShortcuts(item), item)
+    EndSelect
+  Next
+EndProcedure
+
+Procedure DelStringShortcuts()
+  ; Remove the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) to restore the default StringGadget behavior
+  ;
+  RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_C)
+  RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_X)
+  RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_V)
+  RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Command | #PB_Shortcut_A)
+EndProcedure
+      
 Procedure IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool)
   
   If Shortcut = 0 Or Shortcut = -1
@@ -858,9 +892,13 @@ DataSection
   CompilerIf #CompileWindows
     Data.l #VK_OEM_PLUS
     Data.l #VK_OEM_MINUS ; Key107
+    Data.l #VK_OEM_PERIOD
+    Data.l #VK_OEM_COMMA ; Key109 (https://www.purebasic.fr/english/viewtopic.php?t=48514)
   CompilerElse
     Data.l '='
     Data.l '-' ; Key107
+    Data.l '.'
+    Data.l ',' ; Key109
   CompilerEndIf
   
 EndDataSection

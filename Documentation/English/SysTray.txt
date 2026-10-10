@@ -49,6 +49,9 @@
 @Remarks
   All SysTray icons are automatically removed when the program ends. @LineBreak
   With the QT subsystem, the left-click returns a double-left-click event and the middle-click returns a left-click event. @LineBreak
+  With the GTK subsystem (Linux), the SysTray icon is handled by the AppIndicator library which doesn't report any click
+  to the program: no @#PB_Event_SysTray event is sent, and the associated menu is opened by the desktop on any click (left or right).
+  It's therefore not possible to distinguish between a left-click and a right-click on this subsystem. @LineBreak
   For normal operation, a systray event must always be associated with a @LibraryLink "menu" "menu".
 @Example
 @Code

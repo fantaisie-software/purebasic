@@ -35,7 +35,7 @@ Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, 
   *WordStart.Character = *Buffer
   *WordEnd.Character   = *Buffer + BufferLength * #CharSize
   
-  If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position < BufferLength)
+  If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position <= BufferLength)
     *Cursor.Character = *Buffer + Position*#CharSize
     
     If Mode = 1 ; Needed for Auto-complete
@@ -102,6 +102,24 @@ Procedure.s GetWord(*Buffer, BufferLength, Position)
       ProcedureReturn PeekS(*Buffer + StartIndex * #CharSize, EndIndex-StartIndex+1)
     EndIf
   EndIf
+EndProcedure
+
+; Check that a match is a whole word: the chars around it must not be identifier chars (ascii/utf8 buffer)
+; Used by Find and Find in Files. Scintilla's #SCFIND_WHOLEWORD can't be used, as the editor word chars also
+; contain the extra chars for the double-click selection ("$#*%" by default, see #WORDCHARS_Default), so "Abc"
+; was not found in "3*Abc" (https://www.purebasic.fr/english/viewtopic.php?t=43010)
+;
+Procedure IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)
+  
+  If *Match > *BufferStart And ValidCharacters(PeekA(*Match-1))
+    ProcedureReturn #False
+  EndIf
+  
+  If *Match+Length < *BufferEnd And ValidCharacters(PeekA(*Match+Length))
+    ProcedureReturn #False
+  EndIf
+  
+  ProcedureReturn #True
 EndProcedure
 
 
@@ -1452,7 +1470,17 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
   EnclosingFunction$ = FindEnclosingFunction(Line$, cursorposition, @FunctionStart, @Argument)
 
   If EnclosingFunction$ <> ""
-    Message$ = GenerateQuickHelpText(Line$, EnclosingFunction$, line, FunctionStart)
+    ; Line$ may span several lines with continuation, but the source item lookup needs the
+    ; line and column of the function name itself (it can be on a previous line)
+    FunctionLine = line - CountString(Left(Line$, StartOffset), #LF$) + CountString(Left(Line$, FunctionStart), #LF$)
+    FunctionLineStart = FindString(ReverseString(Left(Line$, FunctionStart)), #LF$)
+    If FunctionLineStart
+      FunctionLineStart = FunctionStart - FunctionLineStart + 1
+    EndIf
+    FunctionLine$ = StringField(Mid(Line$, FunctionLineStart + 1), 1, #LF$)
+    FunctionLine$ = RTrim(FunctionLine$, #CR$)
+    
+    Message$ = GenerateQuickHelpText(FunctionLine$, EnclosingFunction$, FunctionLine, FunctionStart - FunctionLineStart)
     
     If Message$ = "" Or FindString(Message$, "(", 1) = 0 Or FindString(Message$, ")", 1) = 0
       ChangeStatus(Message$, 0)

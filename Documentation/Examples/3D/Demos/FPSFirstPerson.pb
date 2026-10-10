@@ -21,6 +21,8 @@ Barrel(0)\x =  0 : Barrel(0)\y =  0 : Barrel(0)\z = 0
 Barrel(1)\x = 60 : Barrel(1)\y =  0 : Barrel(1)\z = 0
 Barrel(2)\x = 30 : Barrel(2)\y = 70 : Barrel(2)\z = 0
 
+UsePNGImageDecoder()
+
 InitEngine3D()
 InitSprite()
 InitKeyboard()
@@ -40,10 +42,12 @@ Parse3DScripts()
 
 ;- Material
 CreateMaterial(0, LoadTexture(0, "r2skin.jpg"))
-CreateMaterial(1, LoadTexture(1,"viseur-jeux.png"))
-MaterialBlendingMode(1, #PB_Material_AlphaBlend)
 GetScriptMaterial(3, "Color/Red")
 CreateMaterial(4, LoadTexture(4, "RustyBarrel.png"))
+
+;- Aim
+LoadSprite(0, #PB_Compiler_Home + "examples/3d/Data/Textures/viseur-jeux.png", #PB_Sprite_AlphaBlending)
+ZoomSprite(0, ScreenHeight()/16, ScreenHeight()/16)
 
 ;- Bullet
 CreateSphere(3,10)
@@ -51,7 +55,7 @@ CreateSphere(3,10)
 ;- Robot Body
 LoadMesh   (0, "robot.mesh")
 CreateEntity(0, MeshID(0), #PB_Material_None, -400, 300, -100)
-;HideEntity(0, 1)
+HideEntity(0, 1)
 
 ;- Ground
 LoadMesh(2, "waterworld.mesh")
@@ -94,7 +98,8 @@ CreatePlane(8,4000,4000,16,16,1,1)
 CreateEntity(-1,MeshID(8),MaterialID(8),0,-250,0)
 
 
-WorldGravity(-500)
+#Gravity = 500
+WorldGravity(-#Gravity)
 ;Body
 CreateEntityBody(0, #PB_Entity_ConvexHullBody, 0.45,0,0)
 CreateEntityBody(2, #PB_Entity_StaticBody)
@@ -105,13 +110,15 @@ AttachNodeObject(0,CameraID(0))
 Procedure EntityOnGround(entity)
   ;CreateLine3D(100,EntityX(entity),  EntityY(entity)+50, EntityZ(entity),$ffffff, EntityX(entity), EntityY(entity)-10,  EntityZ(entity),$ff)
   ;Debug ""+EntityX(entity)+"   "+  EntityY(entity)+"   "+ EntityZ(entity)
-  ProcedureReturn RayCollide(EntityX(entity),  EntityY(entity)+50, EntityZ(entity), EntityX(entity), EntityY(entity)-10,  EntityZ(entity))
+  ProcedureReturn RayCollide(EntityX(entity),  EntityY(entity)+50, EntityZ(entity), EntityX(entity), EntityY(entity)-30,  EntityZ(entity))
 EndProcedure
 
-#PlayerSpeed = 16
+#PlayerSpeed = 300 ; units per second
+#ShootSpeed  = 1600 ; units per second
+#ShootMass   = 0.3
 Procedure main()
-  Protected.Vector3 Forward, Strafe, PosMain, PosDir, PosStrafe
-  Protected.f Speed, Speed2, SpeedShoot, x, y,fov
+  Protected.Vector3 Dir, Start, Target, Hand
+  Protected.f Length, FlightTime, fov
   Protected.f anglex, angleY
   Static Jump.f, MemJump.i, Rot.Vector3, Trans.Vector3, Clic
   
@@ -122,19 +129,32 @@ Repeat
   ExamineKeyboard()
   ExamineMouse()
   
-  Speed = #PlayerSpeed 
-  Speed2 = Speed * 0.5
-  SpeedShoot = Speed * 20
-   
   If MouseButton(#PB_MouseButton_Left)
     If Clic = 0
-      x = ScreenWidth() / 2
-      y = ScreenHeight() / 2
-      PointPick(0, x, y)
       Clic = 1
-      Shoot = CreateEntity(#PB_Any, MeshID(3), MaterialID(3), EntityBoneX(0,"Joint18"), EntityBoneY(0,"Joint18"), EntityBoneZ(0,"Joint18"))
-      CreateEntityBody(Shoot, #PB_Entity_SphereBody, 0.3)
-      ApplyEntityImpulse(Shoot, PickX() * SpeedShoot, PickY() * SpeedShoot, PickZ() * SpeedShoot)
+      ; Point under the aim: cast a ray from the camera (past the robot) through the screen center
+      PointPick(0, ScreenWidth() / 2, ScreenHeight() / 2)
+      Dir\x = PickX() : Dir\y = PickY() : Dir\z = PickZ()
+      Start\x = CameraX(0) + Dir\x * (distance + 30)
+      Start\y = CameraY(0) + Dir\y * (distance + 30)
+      Start\z = CameraZ(0) + Dir\z * (distance + 30)
+      If RayCollide(Start\x, Start\y, Start\z, Start\x + Dir\x * 5000, Start\y + Dir\y * 5000, Start\z + Dir\z * 5000) >= 0
+        Target\x = PickX() : Target\y = PickY() : Target\z = PickZ()
+      Else
+        Target\x = Start\x + Dir\x * 5000 : Target\y = Start\y + Dir\y * 5000 : Target\z = Start\z + Dir\z * 5000
+      EndIf
+
+      ; Fire from the hand toward that point, aiming a bit higher to compensate the gravity drop
+      Hand\x = EntityBoneX(0,"Joint18") : Hand\y = EntityBoneY(0,"Joint18") : Hand\z = EntityBoneZ(0,"Joint18")
+      Dir\x = Target\x - Hand\x : Dir\y = Target\y - Hand\y : Dir\z = Target\z - Hand\z
+      Length = Sqr(Dir\x * Dir\x + Dir\y * Dir\y + Dir\z * Dir\z)
+      If Length > 0
+        Dir\x / Length : Dir\y / Length : Dir\z / Length
+        FlightTime = Length / #ShootSpeed
+        Shoot = CreateEntity(#PB_Any, MeshID(3), MaterialID(3), Hand\x + Dir\x * 20, Hand\y + Dir\y * 20, Hand\z + Dir\z * 20)
+        CreateEntityBody(Shoot, #PB_Entity_SphereBody, #ShootMass)
+        ApplyEntityImpulse(Shoot, Dir\x * #ShootSpeed * #ShootMass, (Dir\y * #ShootSpeed + 0.5 * #Gravity * FlightTime) * #ShootMass, Dir\z * #ShootSpeed * #ShootMass)
+      EndIf
     EndIf
   Else
     Clic = 0
@@ -147,18 +167,17 @@ Repeat
   MoveCamera(0,-distance+10,70,0,#PB_Absolute|#PB_Parent)
   
   angley=clamp(angleY -MouseDeltaY() *0.1,-80,80)
+  angleX -MouseDeltaX() *0.1
   RotateCamera(0,  angley,-90,0,#PB_Absolute)
   RotateEntity(0,  0,angleX,0,#PB_Absolute)
   
   OnGround=EntityOnGround(0)
   
-  If OnGround=-1
-    vity-6
-  Else
-    vity=0
-    angleX -MouseDeltaX() *0.1
-    vitx = (KeyboardPushed(#PB_Key_Right)-KeyboardPushed(#PB_Key_Left))*TimeSinceLastFrame*#PlayerSpeed/2
-    vitz = (KeyboardPushed(#PB_Key_Down)-KeyboardPushed(#PB_Key_Up))*TimeSinceLastFrame*#PlayerSpeed
+  ; MoveEntity() sets the body velocity, so keep the vertical one computed by the physics (gravity, slopes)
+  vity = GetEntityAttribute(0, #PB_Entity_LinearVelocityY)
+  If OnGround>=0
+    vitx = (KeyboardPushed(#PB_Key_Right)-KeyboardPushed(#PB_Key_Left))*#PlayerSpeed/2
+    vitz = (KeyboardPushed(#PB_Key_Down)-KeyboardPushed(#PB_Key_Up))*#PlayerSpeed
     If KeyboardPushed(#PB_Key_Space):vity = 300:EndIf
   EndIf
   
@@ -172,6 +191,7 @@ Repeat
   EndIf
     
   TimeSinceLastFrame=RenderWorld()
+  DisplayTransparentSprite(0, (ScreenWidth()-SpriteWidth(0))/2, (ScreenHeight()-SpriteHeight(0))/2)
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
 EndProcedure

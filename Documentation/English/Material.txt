@@ -893,9 +893,17 @@
 @Parameter "Mode"
   It can be one of the following values:
 @FixedFont
-  @#PB_Material_Add       : Performs a pixel 'Add' operation over the scene (black color is like transparent).
-  @#PB_Material_AlphaBlend: Uses the AlphaChannel layer of the texture (should be a TGA or PNG one) to blend it with the scene.
-  @#PB_Material_Color     : Uses the texture transparent color value when blending the material with the scene.
+  @#PB_Material_Replace          : Replaces the scene with the material (no blending, default).
+  @#PB_Material_Add              : Performs a pixel 'Add' operation over the scene (black color is like transparent).
+  @#PB_Material_AddSigned        : Performs a pixel signed 'Add' operation over the scene.
+  @#PB_Material_Substract        : Performs a pixel 'Substract' operation over the scene.
+  @#PB_Material_Modulate         : Performs a pixel 'Multiply' operation over the scene.
+  @#PB_Material_ModulateX2       : Performs a pixel 'Multiply' operation over the scene and brighten afterwards (x2).
+  @#PB_Material_ModulateX4       : Performs a pixel 'Multiply' operation over the scene and brighten afterwards (x4).
+  @#PB_Material_AlphaBlend       : Uses the AlphaChannel layer of the texture (should be a TGA or PNG one) to blend it with the scene.
+  @#PB_Material_BlendDiffuseAlpha: Uses the diffuse alpha value to blend the material with the scene.
+  @#PB_Material_BlendCurrentAlpha: Uses the alpha value of the current stage to blend the material with the scene.
+  @#PB_Material_Color            : Uses the texture transparent color value when blending the material with the scene.
 @EndFixedFont
 
 @NoReturnValue

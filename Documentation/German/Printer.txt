@@ -1,7 +1,7 @@
 ﻿;
 ;     Printer library documentation - MultiOS version !
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Printer
@@ -125,6 +125,12 @@
 
 @ReturnValue
   Die AusgabeID des aktuellen Druckers, die mit der @@StartVectorDrawing-Funktion verwendet werden soll.
+
+@Remarks
+  Die Zeichenkoordinaten beziehen sich immer auf die physische Seite (deren linke obere Ecke bei (0,0)
+  liegt) und nicht auf den bedruckbaren Bereich: verfügt der Drucker über einen hardwarebedingten Rand,
+  so wird dieser automatisch berücksichtigt, sodass eine bestimmte Koordinate unabhängig von diesem Rand
+  an derselben physischen Position gedruckt wird.
 
 @Example
 @Code

@@ -29,7 +29,7 @@ CompilerCase #PB_OS_Windows
          Api(wglSwapLayerBuffers, (arg1, arg2), 8)
          Api(wglSwapMultipleBuffers, (arg1, arg2), 8)
     AnsiWide(wglUseFontBitmaps, (arg1, arg2, arg3, arg4), 16)
-    AnsiWide(wglUseFontOutlines, (arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8), 32)
+    AnsiWide(wglUseFontOutlines, (arg1, arg2, arg3, arg4, arg5.f, arg6.f, arg7, arg8), 32)
 
 CompilerCase #PB_OS_MacOS
 
@@ -214,7 +214,7 @@ CompilerEndSelect
   Api(glMapGrid1f, (arg1, arg2.f, arg3.f), 12)
   Api(glMapGrid2d, (arg1, arg2.d, arg3.d, arg4, arg5.d, arg6.d), 40)
   Api(glMapGrid2f, (arg1, arg2.f, arg3.f, arg4, arg5.f, arg6.f), 24)
-  Api(glMaterialf, (arg1, arg2.f, arg3.f), 12)
+  Api(glMaterialf, (arg1, arg2, arg3.f), 12)
   Api(glMaterialfv, (arg1, arg2, arg3), 12)
   Api(glMateriali, (arg1, arg2, arg3), 12)
   Api(glMaterialiv, (arg1, arg2, arg3), 12)
@@ -248,10 +248,10 @@ CompilerEndSelect
   Api(glPixelStorei, (arg1, arg2), 8)
   Api(glPixelTransferf, (arg1, arg2.f), 8)
   Api(glPixelTransferi, (arg1, arg2), 8)
-  Api(glPixelZoom, (arg1, arg2), 8)
+  Api(glPixelZoom, (arg1.f, arg2.f), 8)
   Api(glPointSize, (arg1.f), 4)
   Api(glPolygonMode, (arg1, arg2), 8)
-  Api(glPolygonOffset, (arg1, arg2), 8)
+  Api(glPolygonOffset, (arg1.f, arg2.f), 8)
   Api(glPolygonStipple, (arg1), 4)
   Api(glPopAttrib, (), 0)
   Api(glPopClientAttrib, (), 0)

@@ -111,7 +111,15 @@
                 <checkbox id="#GADGET_Option_EnableWayland"      lang="Compiler:EnableWayland"   colspan="2" />
               </compiler>
 
-              <checkbox id="#GADGET_Option_DPIAware"      lang="Compiler:DPIAware"       colspan="2" />
+              <hbox spacing="5" colspan="2">
+                <checkbox id="#GADGET_Option_DPIAware"      lang="Compiler:DPIAware" />
+                <compiler if="#CompileWindows">
+                  <combobox id="#GADGET_Option_DPIAwareMode" width="100">
+                    <item lang="Compiler:DPIAwareModeSystem" />
+                    <item lang="Compiler:DPIAwareModePerMonitor" />
+                  </combobox>
+                </compiler>
+              </hbox>
               <checkbox id="#GADGET_Option_EnableXP"      lang="Compiler:EnableXP"       colspan="2" />
               <checkbox id="#GADGET_Option_EnableAdmin"   lang="Compiler:EnableAdmin"    colspan="2" />
               <checkbox id="#GADGET_Option_EnableUser"    lang="Compiler:EnableUser"     colspan="2" />

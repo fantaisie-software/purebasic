@@ -738,6 +738,7 @@ DataSection
   Data$ "VersionHigh",      "The version number of the project file is higher than the current one. %newline%If loaded, some data of the project may be lost."
   Data$ "VersionTooHigh",   "Project files with this version cannot be loaded."
   Data$ "LoadAnyway",       "Do you want to load it anyway?"
+  Data$ "CloseAnyway",      "Do you want to close it anyway?"
   Data$ "ProjectFile",      "Project file"
   Data$ "ProjectVersion",   "Project version"
   Data$ "CurrentVersion",   "Current version"
@@ -1318,6 +1319,8 @@ DataSection
     Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
     Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
+    Data$ "DPIAwareModeSystem",     "System"
+    Data$ "DPIAwareModePerMonitor", "Per-Monitor"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
   CompilerEndIf
   
@@ -1721,6 +1724,8 @@ DataSection
   Data$ "Key105",           "Scroll Lock"
   Data$ "Key106",           "Plus"
   Data$ "Key107",           "Minus"
+  Data$ "Key108",           "Period"
+  Data$ "Key109",           "Comma"
   
   
   ; ===================================================
@@ -1728,24 +1733,8 @@ DataSection
   Data$ "_GROUP_",            "Help"
   ; ===================================================
   
-  Data$ "Title",            "Help"
-  Data$ "Contents",         "Contents"
-  Data$ "Index",            "Index"
-  Data$ "Search",           "Search"
-  Data$ "StartSearch",      "Search"
-  Data$ "Back",             "Go back"
-  Data$ "Forward",          "Go forward"
-  Data$ "Home",             "Reference"
-  Data$ "Next",             "Next Topic"
-  Data$ "Previous",         "Previous Topic"
-  Data$ "OpenHelp",         "Open Help"
-  Data$ "OpenF1",           "Open sidebar help on F1"
-  Data$ "NoResults",        "No results found."
-  
-  ; for Linux viewer
-  Data$ "Parent",           "Up"
-  Data$ "Back",             "Back"
-  
+  Data$ "HelpSource",       "Help source directory (or .zip archive):"
+
   
   ; ===================================================
   ;- Group - FileViewer
@@ -1917,6 +1906,7 @@ DataSection
   Data$ "CurrentPosition",  "Current Code position"
   Data$ "ShowVariables",    "Variables"
   Data$ "Updating",         "Updating data, please wait."
+  Data$ "HistoryTruncated", "%count% outer procedure calls are not displayed."
   Data$ "CallCount",        "Call count"
   Data$ "Reset",            "Reset"
   Data$ "ResetAll",         "Reset All"

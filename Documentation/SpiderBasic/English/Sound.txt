@@ -154,16 +154,25 @@ of available hardware.
   The filename to use to load the sound.
 
 @OptionalParameter "Flags"
-  Ignored.
-
+  Can be one of the following values:
+@FixedFont
+  @#PB_ASync: the sound will be loaded in async mode. This function will return immediately and the sound will be available only once the binded loading callbacks will be called.
+@EndFixedFont
+  
 @ReturnValue
   Nonzero if the sound has been created, zero otherwise.
-  The sound is still not loaded, the callbacks binded to @#PB_Event_Loading and @#PB_Event_LoadingError
-  will be called once the loading is done.
   If @#PB_Any was used for the #Sound parameter then the generated number is returned on success.
 
-
 @Example
+@Code
+  InitSound()
+  
+  LoadSound(0, "Data/Lazer.wav") ; Be sure this sound is available (the source file should be saved in the SpiderBasic/Examples drawer)
+  PlaySound(0) ; play the sound
+@EndCode
+
+
+@Example using async loading
 @Code
   InitSound()
   
@@ -181,8 +190,12 @@ of available hardware.
   BindEvent(#PB_Event_Loading, @Loading())
   BindEvent(#PB_Event_LoadingError, @LoadingError())
   
-  LoadSound(0, "Data/Lazer.wav") ; Be sure this sound is available (the source file should be saved in the SpiderBasic/Examples drawer)
+  ; With the async flag, the sound is loaded in the background, and will be only available when the binded callback is called.
+  ; It can be faster when loading a lot of sound from distant server than using sync mode.
+  ;
+  LoadSound(0, "Data/Lazer.wav", #PB_Async) ; Be sure this sound is available (the source file should be saved in the SpiderBasic/Examples drawer)
 @EndCode
+
 @SeeAlso
   @@FreeSound, @@PlaySound
   

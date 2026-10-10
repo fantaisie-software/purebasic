@@ -48,7 +48,7 @@ ParticleEmitterDirection(0, 0, -1, 0)
 CreateCamera(0, 0, 0, 100, 100)
 MoveCamera(0, 0, 0, 200, #PB_Absolute)
 
-LoadSprite(0, #PB_Compiler_Home + "examples/3d/Data/Textures/Geebee2.bmp")
+LoadSprite(0, #PB_Compiler_Home + "examples/3d/Data/Textures/Geebee2.bmp", #PB_Sprite_AlphaBlending)
 TransparentSpriteColor(0, RGB(255, 0, 255))
 
 Repeat

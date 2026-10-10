@@ -111,7 +111,6 @@ Runtime Enumeration 1 ; 0 is reserved
   #WINDOW_Warnings
   #WINDOW_ProjectOptions
   #WINDOW_Build
-  #WINDOW_Help
   #WINDOW_Diff
   #WINDOW_DiffDirectory
   #WINDOW_DiffDialog
@@ -203,13 +202,6 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Ascii_InsertAscii
   #GADGET_Ascii_InsertHex
   #GADGET_Ascii_InsertHtml
-  
-  ; help viewer gadget (windows only right now)
-  #GADGET_HelpTool_Viewer
-  #GADGET_HelpTool_Back
-  #GADGET_HelpTool_Forward
-  #GADGET_HelpTool_Home
-  #GADGET_HelpTool_Help
   
   CompilerIf #SpiderBasic
     #GADGET_WebView_Url
@@ -468,7 +460,9 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_IndentAfter
   #GADGET_Preferences_IndentAdd
   #GADGET_Preferences_IndentRemove  ; last to auto disable
-  #GADGET_Preferences_UseHelpToolF1
+  #GADGET_Preferences_HelpSourceText
+  #GADGET_Preferences_HelpSource
+  #GADGET_Preferences_HelpSourceBrowse
   #GADGET_Preferences_FormVariable
   #GADGET_Preferences_FormVariableCaption
   #GADGET_Preferences_FormGrid
@@ -601,6 +595,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Option_SelectCompiler
   #GADGET_Option_Optimizer
   #GADGET_Option_DPIAware
+  #GADGET_Option_DPIAwareMode
   CompilerIf #SpiderBasic
     #GADGET_Option_WindowTheme
     #GADGET_Option_SelectWindowTheme
@@ -876,28 +871,7 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Issues_SingleFile
   #GADGET_Issues_MultiFile
   #GADGET_Issues_Export
-  
-  ; Help viewer for Linux and OSX
-  #GADGET_Help_Panel
-  #GADGET_Help_Tree
-  #GADGET_Help_Index
-  #GADGET_Help_IndexText
-  #GADGET_Help_SearchValue
-  #GADGET_Help_SearchGo
-  #GADGET_Help_SearchResults
-  #GADGET_Help_Forward
-  #GADGET_Help_Back
-  #GADGET_Help_Home
-  #GADGET_Help_Next
-  #GADGET_Help_Previous
-  #GADGET_Help_Viewer
-  #GADGET_Help_Container
-  #GADGET_Help_Splitter
-  
-  ; Linux only
-  #GADGET_Help_Editor
-  #GADGET_Help_Parent
-  
+
   CompilerIf #SpiderBasic
     #GADGET_WebApp_Name
     #GADGET_WebApp_Icon
@@ -1520,9 +1494,10 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Help_Back
   #IMAGE_Help_Forward
   #IMAGE_Help_Home
-  #IMAGE_Help_Previous
-  #IMAGE_Help_Next
-  #IMAGE_Help_OpenHelp
+  #IMAGE_Help_LoadCode
+  #IMAGE_Help_RunCode
+  #IMAGE_Help_Edit
+  #IMAGE_Help_Index
   
   #IMAGE_Diff_Open1
   #IMAGE_Diff_Open2
@@ -1597,13 +1572,14 @@ Enumeration 1
   #TIMER_ToolPanelAutoHide
   ; Timer for the 'Multicolored Procedure List' for automatic selection of the procedure according to the cursor position in the editor.
   #TIMER_ProcedureBrowser
+  ; Timer for the help tool, to reload the help when its source is edited
+  #TIMER_HelpTool
 EndEnumeration
 
 ;- Custom PostEvent event types
 ;
 Enumeration #PB_EventType_FirstCustomValue
   #EVENTTYPE_WordUpdate       ; Linux specific
-  #EVENTTYPE_LoadHelpPage     ; Linux specific
 EndEnumeration
   
 ;- Some predefined color values
@@ -1999,6 +1975,7 @@ EndStructure
 #INDICATOR_KeywordMatch    = 0
 #INDICATOR_KeywordMismatch = 1
 #INDICATOR_SelectionRepeat = 2
+#INDICATOR_Issue           = 3 ; issue background (the color is the indicator value)
 
 ;- UpdateCheck
 
@@ -2182,6 +2159,7 @@ Structure CompileTarget
   EnableAdmin.l
   EnableUser.l
   DPIAware.l
+  DPIAwareMode.l      ; 0 = System, 1 = Per-Monitor (DPIWINDOWAWARE), Windows only
   DllProtection.l
   SharedUCRT.l
   EnableOnError.l
@@ -2621,7 +2599,6 @@ Global AutoReload, MemorizeWindow, CurrentLanguage$, EnableColoring, EnableCaseC
 Global AutoSave, AutoSaveAll, Editor_RunOnce, ShowMainToolbar, TabLength, MemorizeCursor, VisualDesigner$
 Global ToolsPanelMode, ToolsPanelWidth, ToolsPanelSide, SplitterMoving, SplitterCursor, SelectedFilePattern
 Global FileViewerX, FileViewerY, FileViewerWidth, FileViewerHeight, FileViewerPattern, FileViewerMaximize
-Global HelpWindowX, HelpWindowY, HelpWindowWidth, HelpWindowHeight, HelpWindowMaximized, HelpWindowSplitter
 Global ProcedureBrowserMode, ProcedureBrowserSort, RealTab, EnableFolding, NbFoldStartWords, NbFoldEndWords
 Global ToolbarItemCount.l, PreferenceToolbarCount.l, ToolbarPreferenceMode, ToolbarPreferenceAction
 Global SaveProjectSettings
@@ -2643,6 +2620,7 @@ Global FindWindowDialog.DialogWindow, FindWindowPosition.DialogPosition
 Global FindDoReplace, FindCaseSensitive, FindWholeWord, FindSelectionOnly, FindNoComments, FindNoStrings
 Global FindAutoWrap
 Global FindHistorySize, FindSearchString$, FindReplaceString$
+Global FindLastSetSelection = -1, FindLastSearchString$, FindSearchContinueMarker ; tracks FindText() continuation state; invalidated on document edits
 Global WarningWindowPosition.DialogPosition
 Global *WarningWindowSource.SourceFile
 Global FileMonitorWindowDialog.DialogWindow
@@ -2731,6 +2709,7 @@ Global FilesHistorySize, DisplayedRecentFiles, DisplayedRecentProjects, Compiler
 Global EnableLineNumbers, EnableMarkers, EnableAccessibility
 Global AddTools_CompiledFile$, AddTools_PatternStrings$, AddTools_File$
 Global AddTools_RunFileViewer, AddHelpFiles_Count, AddTools_ExecutableName$
+Global AddTools_WaitingTools ; number of tools the IDE is currently waiting for (no file monitor check meanwhile)
 Global CurrentTheme$, CodeFileExtensions$
 
 Global AutoCompleteAddBrackets, AutoCompleteAddSpaces, AutoCompleteAddEndKeywords
@@ -2741,7 +2720,7 @@ Global AutoCompleteProject, AutoCompleteAllFiles
 Global AutoPopupNormal, AutoPopupStructures, AutoPopupModules
 Global CtrlDoubleClickHappened
 
-Global UseHelpToolF1, HelpToolOpen
+Global HelpToolOpen
 Global IssueMultiFile, IssueToolOpen, SelectedIssue, IssuesCol1, IssuesCol2, IssuesCol3, IssuesCol4, IssuesCol5
 
 Global CurrentTool.ToolsPanelInterface, CurrentPreferenceTool.ToolsPanelInterface
@@ -2870,7 +2849,7 @@ Global Dim FoldEnd$(#MAX_FoldWords)
 
 Global Dim ConfigLines$(#MAX_ConfigLines) ; for temporary storage of source settings while loading/saving
 
-#NbShortcutKeys  = 107
+#NbShortcutKeys  = 109
 
 
 Global Dim ShortcutNames.s(#NbShortcutKeys)
@@ -2912,6 +2891,7 @@ Global NewList Compilers.Compiler()
 
 Global NewList Issues.Issue()
 Global NewList PreferenceIssues.Issue()
+Global Dim IssueStyleColor(0) ; color of each issue style (index is Style - #STYLE_FirstIssue)
 
 Global NewList BlockSelectionStack.SelectedBlock()
 Global BlockSelectionUpdated

@@ -11,36 +11,11 @@ Procedure FD_CopyGadget(gadget,parent)
   duplicates() = FormWindows()\FormGadgets()
   
   AddElement(clipboard())
+  oldgadget = FormWindows()\FormGadgets()
   newgadget = clipboard()
-  clipboard()\backcolor = FormWindows()\FormGadgets()\backcolor
-  clipboard()\caption = FormWindows()\FormGadgets()\caption
-  clipboard()\current_item =FormWindows()\FormGadgets()\current_item
-  clipboard()\flags = FormWindows()\FormGadgets()\flags
-  clipboard()\frontcolor =FormWindows()\FormGadgets()\frontcolor
-  clipboard()\g_data = FormWindows()\FormGadgets()\g_data
-  clipboard()\gadgetfont = FormWindows()\FormGadgets()\gadgetfont
-  clipboard()\gadgetfontflags = FormWindows()\FormGadgets()\gadgetfontflags
-  clipboard()\gadgetfontsize = FormWindows()\FormGadgets()\gadgetfontsize
-  clipboard()\image = FormWindows()\FormGadgets()\image
-  clipboard()\max = FormWindows()\FormGadgets()\max
-  clipboard()\min = FormWindows()\FormGadgets()\min
-  clipboard()\pbany = FormWindows()\FormGadgets()\pbany
-  clipboard()\type = FormWindows()\FormGadgets()\type
+  CopyStructure(oldgadget, newgadget, FormGadget)
   clipboard()\variable = FormWindows()\FormGadgets()\variable + "_Copy"
-  clipboard()\x1 = FormWindows()\FormGadgets()\x1
-  clipboard()\x2 = FormWindows()\FormGadgets()\x2
-  clipboard()\y1 = FormWindows()\FormGadgets()\y1
-  clipboard()\y2 = FormWindows()\FormGadgets()\y2
-  clipboard()\cust_init = FormWindows()\FormGadgets()\cust_init
-  clipboard()\cust_create = FormWindows()\FormGadgets()\cust_create
-  clipboard()\cust_free = FormWindows()\FormGadgets()\cust_free
-  clipboard()\state = FormWindows()\FormGadgets()\state
   clipboard()\parent = parent
-  clipboard()\parent_item = FormWindows()\FormGadgets()\parent_item
-  clipboard()\lock_left = FormWindows()\FormGadgets()\lock_left
-  clipboard()\lock_right = FormWindows()\FormGadgets()\lock_right
-  clipboard()\lock_top = FormWindows()\FormGadgets()\lock_top
-  clipboard()\lock_bottom = FormWindows()\FormGadgets()\lock_bottom
   
   CopyList(FormWindows()\FormGadgets()\Items(),clipboard()\Items())
   CopyList(FormWindows()\FormGadgets()\Columns(),clipboard()\Columns())
@@ -112,29 +87,12 @@ Procedure FD_Paste()
       twins()\a = FormWindows()\FormGadgets()\itemnumber
       twins()\b = clipboard()
       
-      FormWindows()\FormGadgets()\backcolor = clipboard()\backcolor
-      FormWindows()\FormGadgets()\caption = clipboard()\caption
-      FormWindows()\FormGadgets()\current_item =clipboard()\current_item
-      FormWindows()\FormGadgets()\flags = clipboard()\flags
-      FormWindows()\FormGadgets()\frontcolor =clipboard()\frontcolor
-      FormWindows()\FormGadgets()\g_data = clipboard()\g_data
-      FormWindows()\FormGadgets()\gadgetfont = clipboard()\gadgetfont
-      FormWindows()\FormGadgets()\gadgetfontflags = clipboard()\gadgetfontflags
-      FormWindows()\FormGadgets()\gadgetfontsize = clipboard()\gadgetfontsize
-      FormWindows()\FormGadgets()\image = clipboard()\image
-      FormWindows()\FormGadgets()\max = clipboard()\max
-      FormWindows()\FormGadgets()\min = clipboard()\min
-      FormWindows()\FormGadgets()\pbany = clipboard()\pbany
-      FormWindows()\FormGadgets()\type = clipboard()\type
-      FormWindows()\FormGadgets()\state = clipboard()\state
+      oldgadget = clipboard()
+      newgadget = FormWindows()\FormGadgets()
+      CopyStructure(oldgadget, newgadget, FormGadget)
+      CopyList(clipboard()\Items(),FormWindows()\FormGadgets()\Items())
+      CopyList(clipboard()\Columns(),FormWindows()\FormGadgets()\Columns())
       FormWindows()\FormGadgets()\variable = clipboard()\variable + Str(countpaste)
-      FormWindows()\FormGadgets()\x1 = clipboard()\x1
-      FormWindows()\FormGadgets()\x2 = clipboard()\x2
-      FormWindows()\FormGadgets()\y1 = clipboard()\y1
-      FormWindows()\FormGadgets()\y2 = clipboard()\y2
-      FormWindows()\FormGadgets()\cust_init = clipboard()\cust_init
-      FormWindows()\FormGadgets()\cust_create = clipboard()\cust_create
-      FormWindows()\FormGadgets()\cust_free = clipboard()\cust_free
       
       PushListPosition(FormWindows()\FormGadgets())
       
@@ -155,15 +113,9 @@ Procedure FD_Paste()
       
       
       FormWindows()\FormGadgets()\selected = 1
-      FormWindows()\FormGadgets()\lock_left = clipboard()\lock_left
-      FormWindows()\FormGadgets()\lock_right = clipboard()\lock_right
-      FormWindows()\FormGadgets()\lock_top = clipboard()\lock_top
-      FormWindows()\FormGadgets()\lock_bottom = clipboard()\lock_bottom
       FormWindows()\FormGadgets()\itemnumber = itemnumbers
       itemnumbers + 1
       
-      CopyList(clipboard()\Items(),FormWindows()\FormGadgets()\Items())
-      CopyList(clipboard()\Columns(),FormWindows()\FormGadgets()\Columns())
     Next
     FD_SelectGadget(FormWindows()\FormGadgets())
     
@@ -180,8 +132,6 @@ Procedure FD_Paste()
         EndIf
       Next
     Next
-    
-    
     
     FD_UpdateObjList()
     redraw = 1
@@ -312,38 +262,12 @@ Procedure FD_DuplicateGadget()
       countpaste + 1
       
       AddElement(clipboard())
-      clipboard()\backcolor = FormWindows()\FormGadgets()\backcolor
-      clipboard()\caption = FormWindows()\FormGadgets()\caption
-      clipboard()\current_item =FormWindows()\FormGadgets()\current_item
-      clipboard()\flags = FormWindows()\FormGadgets()\flags
-      clipboard()\frontcolor =FormWindows()\FormGadgets()\frontcolor
-      clipboard()\g_data = FormWindows()\FormGadgets()\g_data
-      clipboard()\gadgetfont = FormWindows()\FormGadgets()\gadgetfont
-      clipboard()\gadgetfontflags = FormWindows()\FormGadgets()\gadgetfontflags
-      clipboard()\gadgetfontsize = FormWindows()\FormGadgets()\gadgetfontsize
-      clipboard()\image = FormWindows()\FormGadgets()\image
-      clipboard()\max = FormWindows()\FormGadgets()\max
-      clipboard()\min = FormWindows()\FormGadgets()\min
-      clipboard()\pbany = FormWindows()\FormGadgets()\pbany
-      clipboard()\type = FormWindows()\FormGadgets()\type
-      clipboard()\variable = FormWindows()\FormGadgets()\variable
-      clipboard()\x1 = FormWindows()\FormGadgets()\x1
-      clipboard()\x2 = FormWindows()\FormGadgets()\x2
-      clipboard()\y1 = FormWindows()\FormGadgets()\y1
-      clipboard()\y2 = FormWindows()\FormGadgets()\y2
-      clipboard()\cust_init = FormWindows()\FormGadgets()\cust_init
-      clipboard()\cust_create = FormWindows()\FormGadgets()\cust_create
-      clipboard()\cust_free = FormWindows()\FormGadgets()\cust_free
-      clipboard()\state = FormWindows()\FormGadgets()\state
-      clipboard()\parent = FormWindows()\FormGadgets()\parent
-      clipboard()\parent_item = FormWindows()\FormGadgets()\parent_item
-      clipboard()\lock_left = FormWindows()\FormGadgets()\lock_left
-      clipboard()\lock_right = FormWindows()\FormGadgets()\lock_right
-      clipboard()\lock_top = FormWindows()\FormGadgets()\lock_top
-      clipboard()\lock_bottom = FormWindows()\FormGadgets()\lock_bottom
-      
+      oldgadget = FormWindows()\FormGadgets()
+      newgadget = clipboard()
+      CopyStructure(oldgadget, newgadget, FormGadget)
       CopyList(FormWindows()\FormGadgets()\Items(),clipboard()\Items())
       CopyList(FormWindows()\FormGadgets()\Columns(),clipboard()\Columns())
+      
       FormWindows()\FormGadgets()\selected = 0
       
       c = CountString(clipboard()\variable, "_")
@@ -361,38 +285,16 @@ Procedure FD_DuplicateGadget()
       EndIf
       
       AddElement(FormWindows()\FormGadgets())
-      FormWindows()\FormGadgets()\backcolor = clipboard()\backcolor
-      FormWindows()\FormGadgets()\caption = clipboard()\caption
-      FormWindows()\FormGadgets()\current_item =clipboard()\current_item
-      FormWindows()\FormGadgets()\flags = clipboard()\flags
-      FormWindows()\FormGadgets()\frontcolor =clipboard()\frontcolor
-      FormWindows()\FormGadgets()\g_data = clipboard()\g_data
-      FormWindows()\FormGadgets()\gadgetfont = clipboard()\gadgetfont
-      FormWindows()\FormGadgets()\gadgetfontflags = clipboard()\gadgetfontflags
-      FormWindows()\FormGadgets()\gadgetfontsize = clipboard()\gadgetfontsize
-      FormWindows()\FormGadgets()\image = clipboard()\image
-      FormWindows()\FormGadgets()\max = clipboard()\max
-      FormWindows()\FormGadgets()\min = clipboard()\min
-      FormWindows()\FormGadgets()\pbany = clipboard()\pbany
-      FormWindows()\FormGadgets()\type = clipboard()\type
-      FormWindows()\FormGadgets()\state = clipboard()\state
-      FormWindows()\FormGadgets()\variable = clipboard()\variable + Str(countpaste)
-      FormWindows()\FormGadgets()\x1 = clipboard()\x1
-      FormWindows()\FormGadgets()\x2 = clipboard()\x2
-      FormWindows()\FormGadgets()\y1 = clipboard()\y2
-      FormWindows()\FormGadgets()\y2 = clipboard()\y2 + (clipboard()\y2 - clipboard()\y1)
-      FormWindows()\FormGadgets()\cust_init = clipboard()\cust_init
-      FormWindows()\FormGadgets()\cust_create = clipboard()\cust_create
-      FormWindows()\FormGadgets()\cust_free = clipboard()\cust_free
-      FormWindows()\FormGadgets()\parent = clipboard()\parent
-      FormWindows()\FormGadgets()\parent_item = clipboard()\parent_item
-      FormWindows()\FormGadgets()\selected = 1
-      FormWindows()\FormGadgets()\lock_left = clipboard()\lock_left
-      FormWindows()\FormGadgets()\lock_right = clipboard()\lock_right
-      FormWindows()\FormGadgets()\lock_top = clipboard()\lock_top
-      FormWindows()\FormGadgets()\lock_bottom = clipboard()\lock_bottom
+      oldgadget = clipboard()
+      newgadget = FormWindows()\FormGadgets() 
+      CopyStructure(oldgadget, newgadget, FormGadget)
       CopyList(clipboard()\Items(),FormWindows()\FormGadgets()\Items())
       CopyList(clipboard()\Columns(),FormWindows()\FormGadgets()\Columns())
+      
+      FormWindows()\FormGadgets()\variable = clipboard()\variable + Str(countpaste)
+      FormWindows()\FormGadgets()\y1 = clipboard()\y2
+      FormWindows()\FormGadgets()\y2 = clipboard()\y2 + (clipboard()\y2 - clipboard()\y1)
+      FormWindows()\FormGadgets()\selected = 1
       FormWindows()\FormGadgets()\itemnumber = itemnumbers
       itemnumbers + 1
       FormAddUndoAction(1,FormWindows(),FormWindows()\FormGadgets(),#Undo_Create)

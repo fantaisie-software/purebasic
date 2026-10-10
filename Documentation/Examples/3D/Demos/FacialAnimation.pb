@@ -53,7 +53,6 @@ If InitEngine3D()
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
   Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts",#PB_3DArchive_FileSystem)
-  Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
   Parse3DScripts()
 
   SetupContent()
@@ -199,3 +198,9 @@ Procedure sliderMoved(Slider)
   ; update animation state since we're fudging this manually
   UpdateEntityAnimation(#Entity, Animation$)
 EndProcedure
+; IDE Options = PureBasic 6.50 beta 2 (Windows - x64)
+; CursorPosition = 57
+; FirstLine = 39
+; Folding = -
+; EnableXP
+; DPIAware

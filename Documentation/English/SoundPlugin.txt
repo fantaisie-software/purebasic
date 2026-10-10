@@ -45,6 +45,20 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function UseFLACSoundEncoder()
+
+@Description
+  Enables the FLAC (Free Lossless Audio Codec) sound support for @@SaveSound and @@EncodeSound.
+  Only 16-bit mono/stereo sounds are supported.
+
+@NoParameters
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function UseOGGSoundDecoder()
 
 @Description
@@ -62,5 +76,103 @@
 @LineBreak
 @LineBreak
   For more information: @InternetLink "http://en.wikipedia.org/wiki/Vorbis" "Wikipedia - OGG".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOGGSoundEncoder()
+
+@Description
+  Enables the OGG (OGG Vorbis) sound support for @@SaveSound and @@EncodeSound.
+  Only 16-bit mono/stereo sounds are supported.
+
+@NoParameters
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundDecoder()
+
+@Description
+  Enables the MP3 (MPEG-1/2 Audio Layer III) sound support for @@CatchSound and @@LoadSound.
+  Sound streaming is supported for this plug-in.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  The MP3 format uses destructive compression (lossy) which entails the loss of some of the original information when it is
+  compressed. It is one of the most widely supported audio formats, offering a good ratio between file size and sound quality.
+@LineBreak
+@LineBreak
+  This decoder is built on the MP3 decoder bundled with miniaudio. Since the MP3 format has no reliable file signature, this
+  decoder should be enabled last when several decoders are used, so it doesn't interfere with the automatic detection of the
+  other sound formats.
+@LineBreak
+@LineBreak
+  For more information: @InternetLink "https://en.wikipedia.org/wiki/MP3" "Wikipedia - MP3".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundEncoder([LibraryName$])
+
+@Description
+  Enables the MP3 sound support for @@SaveSound and @@EncodeSound.
+  Only 16-bit mono/stereo sounds are supported.
+@LineBreak
+@LineBreak
+  Unlike the other sound encoders, this one is not built into PureBasic: MP3 encoding is provided by the
+  LAME library (LGPL-licensed), which is loaded dynamically at runtime from libmp3lame.dll / libmp3lame.so /
+  libmp3lame.dylib. If the library can't be found or loaded, @@SaveSound and @@EncodeSound simply fail
+  (return zero) for the MP3 format.
+
+@OptionalParameter "LibraryName$"
+  The name (or full path) of the LAME library to load, if it isn't the default one PureBasic looks for.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundDecoder()
+
+@Description
+  Enables the Opus sound support for @@CatchSound and @@LoadSound.
+  Sound streaming is supported for this plug-in.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  The Opus format uses destructive compression (lossy) which entails the loss of some of the original information when it is compressed.
+  It is a modern, royalty-free codec designed to cover both speech and general audio at a wide range of bitrates, and is commonly used
+  for real-time streaming and voice communication.
+@LineBreak
+@LineBreak
+  For more information: @InternetLink "https://en.wikipedia.org/wiki/Opus_(audio_format)" "Wikipedia - Opus".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundEncoder()
+
+@Description
+  Enables the Opus sound support for @@SaveSound and @@EncodeSound.
+  Only 16-bit mono/stereo sounds are supported, and the sound's sample rate must already be one of
+  8000, 12000, 16000, 24000 or 48000 hz (the fixed set of rates the Opus encoder accepts).
+
+@NoParameters
+
+@NoReturnValue
 
 @SupportedOS

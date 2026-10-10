@@ -797,10 +797,14 @@
   @#PB_Window_Minimize      : Opens the window minimized.
   @#PB_Window_NoGadgets     : Prevents the creation of a GadgetList. @@UseGadgetList can be used to do this later.
   @#PB_Window_NoActivate    : Don't activate the window after opening.
+  @#PB_Window_Modal         : Disables the parent window ('ParentID' parameter must be specified) until the new
+                             window is closed, so the user has to deal with the new window first. The parent
+                             window is automatically re-enabled by @@CloseWindow.
 @EndFixedFont
 
 @OptionalParameter "ParentID"
   The parent window identifier. A valid window identifier can be retrieved with @@WindowID.
+  It is required when the @#PB_Window_WindowCentered or @#PB_Window_Modal flag is used.
 
 @ReturnValue
   Nonzero if the window was successfully created, zero otherwise. If @#PB_Any was used
@@ -1258,7 +1262,8 @@
   @#PB_Event_RightClick      : a right mouse button click has occurred on the window. This can be useful to display a popup menu
   @#PB_Event_LeftClick       : a left mouse button click has occurred on the window
   @#PB_Event_LeftDoubleClick : a left mouse button double-click has occurred on the window
-  
+  @#PB_Event_WindowResolutionChanged : the window has been moved to a screen with a different DPI, and it (and its gadgets) have been rescaled. The new scale factor is available from @@WindowResolutionX / @@WindowResolutionY. Only fired on Windows, for executables compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" set to 'Per-Monitor'.
+
 @EndFixedFont
   A basic example for event handling can be found in the @@WaitWindowEvent description.
 
@@ -1762,7 +1767,167 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = WindowX(#Window [, Mode])  
+@Function Result.d = WindowResolutionX(#Window)
+
+@Description
+  Returns the DPI resolution factor, on the 'x' axis, of the screen the given window is currently displayed on.
+@LineBreak
+@LineBreak
+  Unlike @@DesktopResolutionX (which always reports the primary screen), this follows the window: on a 'Per-Monitor' @ReferenceLink "ide_compiler" "'DPI Aware'" executable the returned value changes when the window is moved to a screen with another DPI, right after the @#PB_Event_WindowResolutionChanged event.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The DPI resolution factor on the 'x' axis. '1' means no scaling, '1.5' means a 150% factor is applied, etc.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the result is always '1'.
+
+@Example
+@Code
+  Debug "Window 'x' factor: " + WindowResolutionX(0)
+@EndCode
+
+@SeeAlso
+  @@WindowResolutionY, @@DesktopResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result.d = WindowResolutionY(#Window)
+
+@Description
+  Returns the DPI resolution factor, on the 'y' axis, of the screen the given window is currently displayed on.
+@LineBreak
+@LineBreak
+  Unlike @@DesktopResolutionY (which always reports the primary screen), this follows the window: on a 'Per-Monitor' @ReferenceLink "ide_compiler" "'DPI Aware'" executable the returned value changes when the window is moved to a screen with another DPI, right after the @#PB_Event_WindowResolutionChanged event.
+
+@Parameter "#Window"
+  The window to use.
+
+@ReturnValue
+  The DPI resolution factor on the 'y' axis. '1' means no scaling, '1.5' means a 150% factor is applied, etc.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the result is always '1'.
+
+@SeeAlso
+  @@WindowResolutionX, @@DesktopResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowScaledX(#Window, x)
+
+@Description
+  Scales a value on the 'x' axis according to the DPI of the screen the given window is currently displayed on.
+@LineBreak
+@LineBreak
+  Same as @@DesktopScaledX, but relative to the window's screen instead of the primary one: on a 'Per-Monitor' @ReferenceLink "ide_compiler" "'DPI Aware'" executable the scaling follows the window across screens with different DPI.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "x"
+  The value to scale.
+
+@ReturnValue
+  The scaled value. For example, on a screen with a 125% DPI factor, a value of 100 returns 125.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+
+@Example
+@Code
+  Debug "100 scaled for this window: " + WindowScaledX(0, 100)
+@EndCode
+
+@SeeAlso
+  @@WindowScaledY, @@WindowUnscaledX, @@WindowResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowScaledY(#Window, y)
+
+@Description
+  Scales a value on the 'y' axis according to the DPI of the screen the given window is currently displayed on.
+@LineBreak
+@LineBreak
+  Same as @@DesktopScaledY, but relative to the window's screen instead of the primary one: on a 'Per-Monitor' @ReferenceLink "ide_compiler" "'DPI Aware'" executable the scaling follows the window across screens with different DPI.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "y"
+  The value to scale.
+
+@ReturnValue
+  The scaled value. For example, on a screen with a 125% DPI factor, a value of 100 returns 125.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+
+@SeeAlso
+  @@WindowScaledX, @@WindowUnscaledY, @@WindowResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowUnscaledX(#Window, x)
+
+@Description
+  Unscales a value on the 'x' axis according to the DPI of the screen the given window is currently displayed on. This is the exact reverse of @@WindowScaledX.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "x"
+  The value to unscale.
+
+@ReturnValue
+  The unscaled value. For example, on a screen with a 125% DPI factor, a value of 125 returns 100.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+
+@SeeAlso
+  @@WindowUnscaledY, @@WindowScaledX, @@WindowResolutionX, @@DesktopUnscaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowUnscaledY(#Window, y)
+
+@Description
+  Unscales a value on the 'y' axis according to the DPI of the screen the given window is currently displayed on. This is the exact reverse of @@WindowScaledY.
+
+@Parameter "#Window"
+  The window to use.
+
+@Parameter "y"
+  The value to unscale.
+
+@ReturnValue
+  The unscaled value. For example, on a screen with a 125% DPI factor, a value of 125 returns 100.
+@LineBreak
+@LineBreak
+  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+
+@SeeAlso
+  @@WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WindowX(#Window [, Mode])
 
 @Description
   Returns the x position on the screen of the given window.

@@ -235,6 +235,7 @@
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
   @@UseGIFImageDecoder @LineBreak
+  @@UseWebPImageDecoder @LineBreak
 
 @Example
 @Code
@@ -376,6 +377,7 @@
   @#PB_ImagePlugin_JPEG     : kodiert das Bild in JPEG (es muss @@UseJPEGImageEncoder verwendet werden)
   @#PB_ImagePlugin_JPEG2000 : kodiert das Bild in JPEG2000 (es muss @@UseJPEG2000ImageEncoder verwendet werden)
   @#PB_ImagePlugin_PNG      : kodiert das Bild in PNG (es muss @@UsePNGImageEncoder verwendet werden)
+  @#PB_ImagePlugin_WEBP     : kodiert das Bild in WebP (es muss @@UseWebPImageEncoder verwendet werden)
 @EndFixedFont
 
 @OptionalParameter "Flags"
@@ -522,6 +524,7 @@
   @#PB_ImagePlugin_BMP
   @#PB_ImagePlugin_ICON
   @#PB_ImagePlugin_GIF
+  @#PB_ImagePlugin_WEBP
 @EndFixedFont
   Wenn das Bild nicht in einem dieser Formate geladen wurde, dann wird Null zurückgegeben. Dies ist der Fall
   bei Bildern, welche mit @@CreateImage oder @@GrabImage erstellt wurden.
@@ -745,6 +748,7 @@ Bestimmt die Maßeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standar
   - @@UseTIFFImageDecoder @LineBreak
   - @@UseTGAImageDecoder @LineBreak
   - @@UseGIFImageDecoder @LineBreak
+  - @@UseWebPImageDecoder @LineBreak
 @LineBreak
   Sie können verschiedene andere Funktionen benutzen, um auf das geladene Bild zuzugreifen:
 @LineBreak
@@ -833,9 +837,10 @@ Bestimmt die Maßeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standar
   Das Format, in welchem das Bild gespeichert werden soll. Dies kann einer der folgenden Werte sein:
 @FixedFont
   @#PB_ImagePlugin_BMP      : Speichert das Bild als BMP (Standard)
-  @#PB_ImagePlugin_JPEG     : Speichert das Bild als JPEG (der Befehl @@UseJPEGImageEncoder muss verwendet werden).
-  @#PB_ImagePlugin_JPEG2000 : Speichert das Bild als JPEG2000 (der Befehl @@UseJPEG2000ImageEncoder muss verwendet werden).
-  @#PB_ImagePlugin_PNG      : Speichert das Bild als PNG  (der Befehl @@UsePNGImageEncoder muss verwendet werden).
+  @#PB_ImagePlugin_JPEG     : Speichert das Bild als JPEG (@@UseJPEGImageEncoder muss verwendet werden).
+  @#PB_ImagePlugin_JPEG2000 : Speichert das Bild als JPEG2000 (@@UseJPEG2000ImageEncoder muss verwendet werden).
+  @#PB_ImagePlugin_PNG      : Speichert das Bild als PNG  (@@UsePNGImageEncoder muss verwendet werden).
+  @#PB_ImagePlugin_WEBP     : Speichert das Bild als WebP (@@UseWebPImageEncoder muss verwendet werden).
 @EndFixedFont
 
 @OptionalParameter "Flags"

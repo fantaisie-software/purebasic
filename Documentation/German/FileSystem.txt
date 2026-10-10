@@ -27,6 +27,12 @@
   OS-spezifische Pfadtrennzeichen sind verfügbar: @#PS, @#NPS, @ConstantColor "#PS$" ('\') und @ConstantColor "#NPS$" ('/').
 @LineBreak
 @LineBreak
+  Unter Windows werden Pfade, die das herkömmliche Limit von 260 Zeichen überschreiten, transparent unterstützt:
+  Sie müssen nicht mit dem speziellen Präfix "\\?\" für lange Pfade versehen werden, da PureBasic dieses bei Bedarf
+  automatisch verwendet. Ein vom Programm explizit angegebenes Präfix "\\?" (oder "\\?\UNC") wird hingegen
+  unverändert berücksichtigt.
+@LineBreak
+@LineBreak
   In Ergänzung zu den Befehlen dieser Bibliothek finden Sie auch Befehle zum Manipulieren von Datei-Inhalten
   in der @LibraryLink "file" "File" Bibliothek. Um den Namen eines laufenden Programms zu erhalten, verwenden Sie den
   Befehl @@ProgramFilename aus der @LibraryLink "process" "Process" Bibliothek.
@@ -159,6 +165,13 @@
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
+
+@Remarks
+  Ein symbolischer Link oder (unter Windows) eine Verzeichnisverknüpfung (Directory Junction) innerhalb
+  des zu löschenden Verzeichnisbaums wird als Link-Eintrag selbst entfernt – genau wie eine normale Datei:
+  Das Ziel des Links wird dabei niemals angetastet, selbst wenn der Link auf einen Ort außerhalb des zu
+  löschenden Verzeichnisses verweist oder wenn es sich um einen "hängenden" Link handelt (dessen Ziel
+  nicht mehr existiert).
 
 @SeeAlso
   @@CreateDirectory, @@ExamineDirectory, @@CopyDirectory

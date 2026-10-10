@@ -31,6 +31,26 @@ Procedure InitSplitterWin()
     EndIf
   Next
   
+  ; Combo boxes and labels can be bigger than the fixed sizes above (Linux), so layout from their required sizes.
+  ; A GTK combo box gets taller once it displays an item, so measure it with one selected
+  SetGadgetState(#Form_Splitter_1st, 0)
+  LabelWidth   = Max(110, Max(GetRequiredWidth(Text_0), GetRequiredWidth(Text_0_1)))
+  LabelHeight  = GetRequiredHeight(Text_0)
+  RowHeight    = Max(22, Max(LabelHeight, GetRequiredHeight(#Form_Splitter_1st)))
+  SetGadgetState(#Form_Splitter_1st, -1)
+  ButtonHeight = Max(25, GetRequiredHeight(#Form_Splitter_OK))
+  ComboX = 20 + LabelWidth + 10
+  y = 20
+  ResizeGadget(Text_0, 20, y + (RowHeight - LabelHeight) / 2, LabelWidth, LabelHeight)
+  ResizeGadget(#Form_Splitter_1st, ComboX, y, 250, RowHeight)
+  y + RowHeight + 10
+  ResizeGadget(Text_0_1, 20, y + (RowHeight - LabelHeight) / 2, LabelWidth, LabelHeight)
+  ResizeGadget(#Form_Splitter_2nd, ComboX, y, 250, RowHeight)
+  y + RowHeight + 26
+  ResizeGadget(#Form_Splitter_OK, ComboX + 60, y, #PB_Ignore, ButtonHeight)
+  ResizeGadget(#Form_Splitter_Cancel, ComboX - 50, y, #PB_Ignore, ButtonHeight)
+  ResizeWindow(#Form_SplitterWin, #PB_Ignore, #PB_Ignore, ComboX + 250 + 22, y + ButtonHeight + 17)
+  
 EndProcedure
 Procedure CloseSplitterWin()
   CloseWindow(#Form_SplitterWin)

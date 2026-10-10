@@ -23,6 +23,11 @@ possible to read a directory content, create a new directory and more...
   Specific OS path separator characters are available @#PS, @#NPS, @ConstantColor "#PS$" ('\') and @ConstantColor "#NPS$" ('/').
 @LineBreak
 @LineBreak
+  On Windows, a path longer than the historical 260 character limit is supported transparently: it doesn't need to be prefixed
+  with the special "\\?\" long path form, PureBasic will use it automatically when needed. An explicit "\\?\" (or "\\?\UNC\")
+  prefix supplied by the program is still honored as-is.
+@LineBreak
+@LineBreak
   In addition to the functions in this library you will also find functions for manipulating file contents in the @LibraryLink "file" "File"
   library. To get the name of a running program use the function @@ProgramFilename from the
   @LibraryLink "process" "Process" library.
@@ -151,6 +156,11 @@ possible to read a directory content, create a new directory and more...
 @ReturnValue
   Returns nonzero if the operation was successful or zero if it failed.
 
+@Remarks
+  A symbolic link or (on Windows) a directory junction found inside the deleted tree is removed
+  as the link entry itself, exactly like a normal file: its target is never touched, even if the
+  link points outside the directory being deleted, and even if the link is dangling (its target
+  no longer exists).
 
 @SeeAlso
   @@CreateDirectory, @@ExamineDirectory, @@CopyDirectory

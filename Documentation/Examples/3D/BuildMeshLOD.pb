@@ -16,7 +16,7 @@ OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "BuildMeshLOD - [F
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home+"Examples/3D/Data/Packs/Sinbad.zip", #PB_3DArchive_Zip)
+Add3DArchive(#PB_Compiler_Home+"examples/3d/Data/Packs/Sinbad.zip", #PB_3DArchive_Zip)
 
 Parse3DScripts()
 

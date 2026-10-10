@@ -87,6 +87,29 @@ Procedure DebugOutput_EvaluateExpression(*Debugger.DebuggerData)
   
 EndProcedure
 
+CompilerIf #CompileWindows
+  ; The rich edit scrolls to the caret when it gets the focus. New output puts the caret at the end,
+  ; so the first click after scrolling up jumped back to the end: keep the scroll position instead
+  ; https://www.purebasic.fr/english/viewtopic.php?t=66634
+  ;
+  Procedure DebugOutput_EditorCallback(Window, Message, wParam, lParam)
+    Callback = GetProp_(Window, @"DebugOutput_Callback")
+    
+    If Message = #WM_SETFOCUS
+      SendMessage_(Window, #EM_GETSCROLLPOS, 0, @Position.POINT)
+      Result = CallWindowProc_(Callback, Window, Message, wParam, lParam)
+      SendMessage_(Window, #EM_SETSCROLLPOS, 0, @Position)
+      ProcedureReturn Result
+      
+    ElseIf Message = #WM_NCDESTROY
+      RemoveProp_(Window, @"DebugOutput_Callback")
+      
+    EndIf
+    
+    ProcedureReturn CallWindowProc_(Callback, Window, Message, wParam, lParam)
+  EndProcedure
+CompilerEndIf
+
 Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
   
   If EventID = #PB_Event_ActivateWindow
@@ -234,6 +257,10 @@ Procedure CreateDebugWindow(*Debugger.DebuggerData)
     *Debugger\Windows[#DEBUGGER_WINDOW_Debug] = Window
     
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List]    = EditorGadget(#PB_Any, 0, 0, 0, 0, #PB_Editor_ReadOnly)
+    CompilerIf #CompileWindows
+      EditorID = GadgetID(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])
+      SetProp_(EditorID, @"DebugOutput_Callback", SetWindowLongPtr_(EditorID, #GWL_WNDPROC, @DebugOutput_EditorCallback()))
+    CompilerEndIf
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Entry]   = ComboBoxGadget(#PB_Any, 0, 0, 0, 0, #PB_ComboBox_Editable)
     *Debugger\Gadgets[#DEBUGGER_GADGET_Debug_Display] = ButtonGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Display"))
     *Debugger\Gadgets[#DEBUGGER_Gadget_Debug_Text]    = TextGadget(#PB_Any, 0, 0, 0, 0, Language("Debugger","Debug")+":")

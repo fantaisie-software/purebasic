@@ -90,6 +90,7 @@ EXAMPLES =  Demos\CarPhysic.exe \
             TerrainPhysic.exe \
             TerrainShadow.exe \
             Text3D.exe \
+            TextureVectorOutput.exe \
             Vehicle.exe \
             VehicleTerrain.exe \
             VertexAnimation.exe \

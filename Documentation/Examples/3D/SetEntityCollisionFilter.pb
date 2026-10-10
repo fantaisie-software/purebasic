@@ -90,8 +90,6 @@ Repeat
     MouseX = -MouseDeltaX() * 0.05
     MouseY = -MouseDeltaY() * 0.05
     
-    InputEvent3D(MouseX(), MouseY(), MouseButton(#PB_MouseButton_Left))
-    
     If MouseButton(#PB_MouseButton_Left)
       If Clic = 0
         If PointPick(0, MouseX(), MouseY())

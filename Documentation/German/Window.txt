@@ -841,10 +841,15 @@
   @#PB_Window_Minimize      : Öffnet das Fenster minimiert.
   @#PB_Window_NoGadgets     : Verhindert das Erstellen einer Gadgetliste. @@UseGadgetList kann verwendet werden, um dies später zu tun.
   @#PB_Window_NoActivate    : Aktiviert das Fenster nach dem Öffnen nicht.
+  @#PB_Window_Modal         : Deaktiviert das übergeordnete Fenster (der Parameter 'ParentID' muss angegeben werden),
+                             bis das neue Fenster geschlossen wird, sodass der Benutzer sich zunächst mit dem neuen
+                             Fenster befassen muss. Das übergeordnete Fenster wird nach @@CloseWindow automatisch
+                             wieder aktiviert.
 @EndFixedFont
 
 @OptionalParameter "ParentID"
   Der Bezeichner des übergeordneten Fensters. Eine gültige Fensterkennung kann mit @@WindowID abgerufen werden.
+  Erforderlich, wenn das Flag @#PB_Window_WindowCentered oder @#PB_Window_Modal verwendet wird.
 
 @ReturnValue
   Gibt einen Wert ungleich Null zurück, wenn das Fensters erfolgreich erstellt wurde, andernfalls Null.
@@ -1346,6 +1351,11 @@
                               sein, um ein @Link "menu/CreatePopupMenu" "Popup-Menü" anzuzeigen.
   @#PB_Event_LeftClick       : ein linker Mausklick hat auf dem Fenster stattgefunden
   @#PB_Event_LeftDoubleClick : ein linker Maus-Doppelklick hat auf dem Fenster stattgefunden
+  @#PB_Event_WindowResolutionChanged : Das Fenster wurde auf einen Bildschirm mit abweichender DPI-Auflösung verschoben,
+                              und es (sowie seine Gadgets) wurden skaliert. Der neue Skalierungsfaktor ist über
+                              @@WindowResolutionX / @@WindowResolutionY abrufbar. Dieses Ereignis wird nur unter Windows
+                              ausgelöst, und zwar für ausführbare Dateien, die mit der Einstellung 'Pro-Monitor' bei der
+                              Option @ReferenceLink "ide_compiler" "'DPI-Aware' Switch") kompiliert wurden.
 @EndFixedFont
   Ein einfaches Beispiel zum Event-Handling finden Sie in der @@WaitWindowEvent Beschreibung.
 
@@ -1873,6 +1883,192 @@
 @SeeAlso
   @@OpenWindow, @@WindowHeight
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = WindowResolutionX(#Window)
+
+@Description
+  Gibt den DPI-Auflösungsfaktor auf der x-Achse des Bildschirms zurück, auf dem das angegebene Fenster
+  aktuell angezeigt wird.
+@LineBreak
+@LineBreak
+  Im Gegensatz zu @@DesktopResolutionX (das stets den primären Bildschirm meldet) folgt dieser Wert dem
+  Fenster: Bei einer ausführbaren Datei, die für 'Pro-Monitor' @ReferenceLink "ide_compiler" "DPI-Unterstützung"
+  konfiguriert ist, ändert sich der zurückgegebene Wert, sobald das Fenster auf einen Bildschirm mit abweichender
+  DPI-Auflösung verschoben wird – und zwar unmittelbar nach dem Ereignis @#PB_Event_WindowResolutionChanged.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@ReturnValue
+  Der DPI-Auflösungsfaktor auf der x-Achse. '1' bedeutet keine Skalierung, '1.5' bedeutet, dass ein Faktor
+  von 150% angewendet wird, usw.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen
+  (Linux), ist das Ergebnis immer '1'.
+
+@Example
+@Code
+  Debug "Window 'x' Faktor: " + WindowResolutionX(0)
+@EndCode
+
+@SeeAlso
+  @@WindowResolutionY, @@DesktopResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis.d = WindowResolutionY(#Window)
+
+@Description
+  Gibt den DPI-Auflösungsfaktor auf der y-Achse des Bildschirms zurück, auf dem das angegebene Fenster
+  aktuell angezeigt wird.
+@LineBreak
+@LineBreak
+  Im Gegensatz zu @@DesktopResolutionY (das stets den primären Bildschirm meldet) folgt dieser Wert dem
+  Fenster: Bei einer ausführbaren Datei, die für 'Pro-Monitor' @ReferenceLink "ide_compiler" "DPI-Unterstützung"
+  konfiguriert ist, ändert sich der zurückgegebene Wert, sobald das Fenster auf einen Bildschirm mit abweichender
+  DPI-Auflösung verschoben wird – und zwar unmittelbar nach dem Ereignis @#PB_Event_WindowResolutionChanged.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@ReturnValue
+  Der DPI-Auflösungsfaktor auf der y-Achse. '1' bedeutet keine Skalierung, '1.5' bedeutet, dass ein Faktor
+  von 150% angewendet wird, usw.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen
+  (Linux), ist das Ergebnis immer '1'.
+
+@SeeAlso
+  @@WindowResolutionX, @@DesktopResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WindowScaledX(#Window, x)
+
+@Description
+  Skaliert einen Wert auf der x-Achse entsprechend der DPI des Bildschirms, auf dem das jeweilige Fenster
+  aktuell angezeigt wird.
+@LineBreak
+@LineBreak
+  Analog zu @@DesktopScaledX, aber relativ zum Bildschirm des Fensters statt zum primären Bildschirm:
+  Bei einer ausführbaren Datei, die für 'Pro-Monitor' @ReferenceLink "ide_compiler" "DPI-Unterstützung"
+  konfiguriert ist, folgt die Skalierung dem Fenster über Bildschirme mit unterschiedlichen DPI-Werten hinweg.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@Parameter "x"
+  Der zu skalierende Wert.
+
+@ReturnValue
+  Der skalierte Wert. Auf einem Bildschirm mit einem DPI-Faktor von 125% ergibt ein Wert von 100 beispielsweise 125.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen (Linux),
+  wird der Wert unverändert zurückgegeben.
+
+@Example
+@Code
+  Debug "100, skaliert für dieses Fenster: " + WindowScaledX(0, 100)
+@EndCode
+
+@SeeAlso
+  @@WindowScaledY, @@WindowUnscaledX, @@WindowResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WindowScaledY(#Window, y)
+
+@Description
+  Skaliert einen Wert auf der y-Achse entsprechend der DPI des Bildschirms, auf dem das jeweilige Fenster
+  aktuell angezeigt wird.
+@LineBreak
+@LineBreak
+  Analog zu @@DesktopScaledY, aber relativ zum Bildschirm des Fensters statt zum primären Bildschirm:
+  Bei einer ausführbaren Datei, die für 'Pro-Monitor' @ReferenceLink "ide_compiler" "DPI-Unterstützung"
+  konfiguriert ist, folgt die Skalierung dem Fenster über Bildschirme mit unterschiedlichen DPI-Werten hinweg.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@Parameter "y"
+  Der zu skalierende Wert.
+
+@ReturnValue
+  Der skalierte Wert. Auf einem Bildschirm mit einem DPI-Faktor von 125% ergibt ein Wert von 100 beispielsweise 125.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen (Linux),
+  wird der Wert unverändert zurückgegeben.
+
+@SeeAlso
+  @@WindowScaledX, @@WindowUnscaledY, @@WindowResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WindowUnscaledX(#Window, x)
+
+@Description
+  Hebt die Skalierung eines Werts auf der x-Achse entsprechend der DPI des Bildschirms auf, auf dem das
+  jeweilige Fenster aktuell angezeigt wird. Dies ist das genaue Gegenstück zu @@WindowScaledX.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@Parameter "x"
+  Der zu de-skalierende Wert.
+
+@ReturnValue
+  Der unskalierte Wert. Auf einem Bildschirm mit einem DPI-Faktor von 125% ergibt ein Wert von 125
+  beispielsweise 100.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen (Linux),
+  wird der Wert unverändert zurückgegeben.
+
+@SeeAlso
+  @@WindowUnscaledY, @@WindowScaledX, @@WindowResolutionX, @@DesktopUnscaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WindowUnscaledY(#Window, y)
+
+@Description
+  Hebt die Skalierung eines Werts auf der y-Achse entsprechend der DPI des Bildschirms auf, auf dem das
+  jeweilige Fenster aktuell angezeigt wird. Dies ist das genaue Gegenstück zu @@WindowScaledY.
+
+@Parameter "#Window"
+  Das zu verwendende Fenster.
+
+@Parameter "y"
+  Der zu de-skalierende Wert.
+
+@ReturnValue
+  Der unskalierte Wert. Auf einem Bildschirm mit einem DPI-Faktor von 125% ergibt ein Wert von 125
+  beispielsweise 100.
+@LineBreak
+@LineBreak
+  Ohne die Compiler-Option 'DPI Aware' oder auf Plattformen, die keine Skalierung pro Fenster unterstützen (Linux),
+  wird der Wert unverändert zurückgegeben.
+
+@SeeAlso
+  @@WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

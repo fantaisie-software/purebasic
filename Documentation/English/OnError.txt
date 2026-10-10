@@ -58,6 +58,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "The debugger must be disabled to test this feature"
+  CompilerEndIf
+
   MessageRequester("OnError test", "Test start")
 
   OnErrorExit()
@@ -89,6 +93,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "The debugger must be disabled to test this feature"
+  CompilerEndIf
+  
   Procedure ErrorHandler()
     MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
   EndProcedure
@@ -126,6 +134,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "The debugger must be disabled to test this feature"
+  CompilerEndIf
+  
   MessageRequester("OnError test", "Test start")
 
   OnErrorGoto(?ErrorHandler)
@@ -162,6 +174,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "The debugger must be disabled to test this feature"
+  CompilerEndIf
+  
   Procedure ErrorHandler()
     MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
   EndProcedure
@@ -366,6 +382,10 @@
 
 @Example
 @Code
+  CompilerIf #PB_Compiler_Debugger
+    CompilerError "The debugger must be disabled to test this feature"
+  CompilerEndIf
+  
   Procedure ErrorHandler()
     MessageRequester("OnError test", "The following error happened: " + ErrorMessage())
   EndProcedure

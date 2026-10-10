@@ -428,9 +428,11 @@ Procedure IsContinuedLineStart(Line$)
   CompilerIf #PB_Compiler_Unicode
     
     ; IsLineContinuation() needs ascii input
+    ; Ascii() uses the system codepage, where a character can take more than one byte (DBCS, UTF-8),
+    ; so the end is taken from the converted buffer and not from the character count
     ;
     *String = Ascii(PeekS(*LineStart, (*Pointer - *LineStart) / #CharSize))
-    Result = IsLineContinuation(*String, *String + (*Pointer - *LineStart) / #CharSize)
+    Result = IsLineContinuation(*String, *String + MemorySize(*String) - 1) ; -1 for the null terminator
     FreeMemory(*String)
     ProcedureReturn Result
     
@@ -506,12 +508,13 @@ Procedure Parser_Comment(*pCursor.PTR)
   *Cursor.PTR = *pCursor\p ; We could use *pCursor\p\b, but this way should be faster
   
   ; Check folding keywords. A Fold can start with a ;
+  ; A word boundary is only needed after a fold word ending with a word character (";}text" is a fold end, ";endtext" is not ";end")
   ;
   If EnableFolding And Parser_IgnoreCommentItems = #False
     If FoldStartVT(*Cursor\a)
       For i = FoldStartVT(*Cursor\a) To FoldStartVT2(*Cursor\a)
         length = Len(FoldStart$(i))
-        If CompareMemoryString(*Cursor, ToAscii(FoldStart$(i)), 1, length, #PB_Ascii) = 0 And ValidCharacters(PeekA(*Cursor + length)) = 0
+        If CompareMemoryString(*Cursor, ToAscii(FoldStart$(i)), 1, length, #PB_Ascii) = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or ValidCharacters(PeekA(*Cursor + length - 1)) = 0)
           AddSourceItem(#ITEM_FoldStart, Parser_CurrentLine, -1, -1)
           Break
         EndIf
@@ -521,14 +524,14 @@ Procedure Parser_Comment(*pCursor.PTR)
     If FoldEndVT(*Cursor\a)
       For i = FoldEndVT(*Cursor\a) To FoldEndVT2(*Cursor\a)
         length = Len(FoldEnd$(i))
-        If CompareMemoryString(*Cursor, ToAscii(FoldEnd$(i)), 1, length, #PB_Ascii) = 0 And ValidCharacters(PeekA(*Cursor + length)) = 0
+        If CompareMemoryString(*Cursor, ToAscii(FoldEnd$(i)), 1, length, #PB_Ascii) = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or ValidCharacters(PeekA(*Cursor + length - 1)) = 0)
           AddSourceItem(#ITEM_FoldEnd, Parser_CurrentLine, -1, -1)
           Break
         EndIf
       Next i
     EndIf
   EndIf
-  
+
   *Cursor + 1 ; skip comment start
   
   If *Cursor\b = '-' And Parser_IgnoreCommentItems = #False ; marker detected
@@ -824,6 +827,15 @@ Procedure.s Parser_Cleanup(Input$)
             While ValidCharacters(*Cursor\c & $FF)
               *Cursor + #CharSize
             Wend
+
+            ; if this word is directly followed by a space and then another word
+            ; (possibly a pointer, i.e. starting with '*') - e.g. an empty macro
+            ; used purely for parameter annotation, like "_IN b" or "_OUT *c" -
+            ; keep that one space too, so the two separate words don't get merged
+            ; into a single one below (Chr(1) marks removed whitespace)
+            If *Cursor\c = ' ' And (ValidCharacters(*Cursor\c[1] & $FF) Or (*Cursor\c[1] = '*' And ValidCharacters(*Cursor\c[2] & $FF)))
+              PreserveSpace = #True
+            EndIf
           EndIf
           
         Else
@@ -993,13 +1005,18 @@ Procedure Parser_GetUnknownWord(*pCursor.PTR, InImport, ModulePrefix$)
   If IsDecNumber(*Start, length) = 0 And (*Start\b <> '*' Or IsDecNumber(*Start+1, length-1) = 0)
     Parser_SkipSpace(*Cursor)
     
-    ; Check if this is actually a label (first text on the line, and followed by a ":")
+    ; Check if this is actually a label (first text on the line or after a ":", and followed by a ":")
     IsLabel = 0
-    If *Cursor\b = ':'
+    If *Cursor\b = ':' And PeekB(*Cursor + 1) <> ':'
       IsLabel = 1
       *BackCursor.BYTE = *Start-1
       While *BackCursor >= *Parser_LineStart
-        If *BackCursor\b <> ' ' And *BackCursor\b <> 9
+        If *BackCursor\b = ':'
+          If *BackCursor > *Parser_LineStart And PeekB(*BackCursor - 1) = ':' ; "::" module separator
+            IsLabel = 0
+          EndIf
+          Break
+        ElseIf *BackCursor\b <> ' ' And *BackCursor\b <> 9
           IsLabel = 0
           Break
         EndIf
@@ -2034,16 +2051,25 @@ EndProcedure
 
 
 Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
-  If *Source\Parser\SourceItemArray And *Source\IsCode
+  If *Source\Parser\SourceItemArray And *Source\IsCode And LinesAdded <> 0
     *Array.ParsedLines = *Source\Parser\SourceItemArray
     Count              = *Source\Parser\SourceItemCount
-    
+    LastLine           = Line+Abs(LinesAdded) ; the range [Line, LastLine) is inserted/removed
+
+    ; Sanity check: the affected range must stay inside the currently tracked line count.
+    ; If the array and the real document line count ever drifted apart (which can happen
+    ; after a burst of rapid edits, e.g. holding down Ctrl+Z), blindly trusting Line/LastLine
+    ; below would let MoveMemory()/FreeSourceItems() walk past the allocated buffer and crash.
+    ; Rebuild the whole array from the live document instead - slower, but always safe.
+    If Line < 0 Or (LinesAdded < 0 And LastLine > Count) Or (LinesAdded > 0 And Line > Count)
+      FullSourceScan(*Source)
+      ProcedureReturn
+    EndIf
+
     ; Any parsing makes the sorted data invalid (as old items get freed)
     *Source\Parser\SortedValid = #False
-    
+
     If LinesAdded > 0
-      LastLine = Line+LinesAdded
-      
       ; need to realloc the buffer. Allocate some extra so there is no realloc for every newline
       If Count+LinesAdded > *Source\Parser\SourceItemSize
         *Array = ReAllocateMemory(*Array, (Count+LinesAdded+20) * SizeOf(ParsedLine))
@@ -2051,32 +2077,30 @@ Procedure SourceLineCorrection(*Source.SourceFile, Line, LinesAdded)
           *Source\Parser\SourceItemSize = Count+LinesAdded+20
         EndIf
       EndIf
-      
+
       If *Array
         MoveMemory(*Array + Line*SizeOf(ParsedLine), *Array + LastLine*SizeOf(ParsedLine), (Count-Line)*SizeOf(ParsedLine))
-        
+
         ; need to zero out the new entries, else we get a double free later!
         For i = Line To LastLine-1
           *Array\Line[i]\First = 0
           *Array\Line[i]\Last  = 0
         Next i
-        
+
         *Source\Parser\SourceItemArray = *Array
         *Source\Parser\SourceItemCount + LinesAdded
       EndIf
     Else
-      LastLine = Line-LinesAdded ; LinesAdded is negative here, so this is right!
-      
       ; free all entries of the gone lines
       For i = Line To LastLine-1
         FreeSourceItems(*Array\Line[i]\First)
         *Array\Line[i]\First = 0 ; just to be sure!
         *Array\Line[i]\Last  = 0
       Next i
-      
+
       ; no realloc needed here
       MoveMemory(*Array + LastLine*SizeOf(ParsedLine), *Array + Line*SizeOf(ParsedLine), (Count-LastLine)*SizeOf(ParsedLine))
-      
+
       *Source\Parser\SourceItemCount + LinesAdded
     EndIf
   EndIf
@@ -2888,6 +2912,72 @@ EndProcedure
 
 
 
+; Adds the modules opened by UseModule inside the DeclareModule block of the given Module
+; item to the OpenModules() list, as the compiler applies them to the Module block too
+; Only the DeclareModule blocks before the Module in the same file are searched
+;
+Procedure AddDeclareModuleUses(*Parser.ParserData, *Item.SourceItem, Line, List OpenModules.s())
+  Protected Name$ = *Item\Name$
+  Protected NewList UsedModules.s(), NewList ClosedModules.s()
+  
+  Parser_PreviousItem(*Parser, *Item, Line)
+  While *Item
+    Select *Item\Type
+        
+      Case #ITEM_EndDeclareModule
+        ; entering a DeclareModule block (we search backwards)
+        ClearList(UsedModules())
+        ClearList(ClosedModules())
+        InsideDeclare = #True
+        
+      Case #ITEM_DeclareModule
+        If InsideDeclare And CompareMemoryString(@*Item\Name$, @Name$, #PB_String_NoCaseAscii) = #PB_String_Equal
+          ForEach UsedModules()
+            AddElement(OpenModules())
+            OpenModules() = UsedModules()
+          Next UsedModules()
+          Break
+        EndIf
+        InsideDeclare = #False
+        
+      Case #ITEM_UseModule
+        If InsideDeclare
+          Closed = #False
+          ForEach ClosedModules()
+            If CompareMemoryString(@*Item\Name$, PeekI(@ClosedModules()), #PB_String_NoCaseAscii) = #PB_String_Equal
+              Closed = #True
+              Break
+            EndIf
+          Next ClosedModules()
+          
+          If Not Closed
+            AddElement(UsedModules())
+            UsedModules() = *Item\Name$
+          EndIf
+        EndIf
+        
+      Case #ITEM_UnuseModule
+        If InsideDeclare
+          AddElement(ClosedModules())
+          ClosedModules() = *Item\Name$
+        EndIf
+        
+      Case #ITEM_MacroEnd
+        ; skip macro bodies
+        While *Item And *Item\Type <> #ITEM_Macro
+          Parser_PreviousItem(*Parser, *Item, Line)
+        Wend
+        
+        ; The Parser_PreviousItem() below has no 0 check, so break here!
+        If *Item = 0
+          Break
+        EndIf
+        
+    EndSelect
+    Parser_PreviousItem(*Parser, *Item, Line)
+  Wend
+EndProcedure
+
 ; Tries to locate the start of a DeclareModule or Module block (if any)
 ; The search only extends to the beginning of the file
 ; The OpenModules() list may contain duplicates if multiple commands are found for the same module
@@ -2923,6 +3013,11 @@ Procedure FindModuleStart(*Parser.ParserData, *Line.INTEGER, *pItem.INTEGER, Lis
         ; found the module decl/impl start
         *pItem\i = *Item
         *Line\i = Line
+        
+        ; the modules used in the DeclareModule block are also open inside the Module block
+        If *Item\Type = #ITEM_Module
+          AddDeclareModuleUses(*Parser, *Item, Line, OpenModules())
+        EndIf
         ProcedureReturn #True
         
       Case #ITEM_EndDeclareModule, #ITEM_EndModule, #ITEM_MacroEnd

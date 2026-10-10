@@ -72,7 +72,8 @@ Procedure RefreshSourceTitle(*Source.SourceFile)
       
     CompilerElse
       
-      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, #COLOR_FilePanelFront)
+      ; Use the system text color (#COLOR_BTNTEXT), as the background is the system one: a fixed black is unreadable with a dark theme
+      SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_FrontColor, TabBarGadgetInclude\TextColor)
       SetTabBarGadgetItemColor(#GADGET_FilesPanel, Index, #PB_Gadget_BackColor, #PB_Default)
     
     CompilerEndIf
@@ -187,12 +188,19 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ErrorLog_Refresh()   ; always update, even if hidden
   ErrorLog_SyncState(#False) ; update the display state
   
-  ResizeMainWindow()  ; make sure the EditorGadget is correctly sized
+  ; Make sure the EditorGadget is correctly sized. The main window layout doesn't change here (ErrorLog_SyncState()
+  ; does the full resize itself if the log is shown/hidden), and a full ResizeMainWindow() would resize the ToolsSplitter
+  ; and force a redraw of the whole tools panel at each tab change
+  UpdateSourceContainer()
   
   If *ActiveSource = *ProjectInfo
     EnsureListIconSelection(#GADGET_ProjectInfo_Files)
     HideGadget(#GADGET_ProjectInfo, 0)
     SetActiveGadget(#GADGET_ProjectInfo_Files)
+    
+    ; Remove the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) to restore the default StringGadget behavior
+    ; Useful here, if the previous tab was a Form, with shortcuts created. For other tabs (Scintilla), it's already done on #SCN_FOCUSOUT event
+    DelStringShortcuts()
     
   Else
     If *ProjectInfo
@@ -243,6 +251,9 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Tab)
       RemoveKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Shift | #PB_Shortcut_Tab)
+      
+      ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Form Designer
+      AddStringShortcuts()
     Else
       HideGadget(#GADGET_Form, 1)
       HideEditorGadget(*ActiveSource\EditorGadget, 0)
@@ -385,8 +396,8 @@ Procedure NewSource(FileName$, ExecuteTool)
   
   SetTabBarGadgetState(#GADGET_FilesPanel, CountTabBarGadgetItems(#GADGET_FilesPanel)-1)
   UpdateSourceStatus(0)
-  ResizeMainWindow()
-  
+  UpdateSourceContainer() ; the tab bar may need more lines, but the main window layout isn't changed (see ChangeActiveSourcecode())
+
   ; if configured and needed, execute tool for new sources
   If ExecuteTool
     AddTools_Execute(#TRIGGER_NewSource, *ActiveSource)
@@ -883,7 +894,11 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
   EndIf
   If *Target\DPIAware And IsCodeFile
     NbLines + 1
-    ConfigLines$(NbLines) = "DPIAware"
+    If *Target\DPIAwareMode = 1
+      ConfigLines$(NbLines) = "DPIWindowAware"
+    Else
+      ConfigLines$(NbLines) = "DPIAware"
+    EndIf
   EndIf
   If *Target\DllProtection And IsCodeFile
     NbLines + 1
@@ -1246,6 +1261,7 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
   ; These configs are enabled by default, so if not present, should be 0
   *Source\EnableXP      = 0
   *Source\DPIAware      = 0
+  *Source\DPIAwareMode  = 0
   *Source\DllProtection = 0
   *Source\SharedUCRT    = 0
   *Source\EnableWayland = 0
@@ -1340,7 +1356,8 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
       Case "ENABLEWAYLAND":    *Source\EnableWayland = 1
       Case "ENABLEADMIN":      *Source\EnableAdmin = 1
       Case "ENABLEUSER":       *Source\EnableUser = 1
-      Case "DPIAWARE":         *Source\DPIAware = 1
+      Case "DPIAWARE":         *Source\DPIAware = 1: *Source\DPIAwareMode = 0
+      Case "DPIWINDOWAWARE":   *Source\DPIAware = 1: *Source\DPIAwareMode = 1
       Case "DLLPROTECTION":    *Source\DllProtection = 1
       Case "SHAREDUCRT":       *Source\SharedUCRT = 1
       Case "ENABLETHREAD":     *Source\EnableThread = 1
@@ -1418,16 +1435,22 @@ Procedure AnalyzeSettings_Common(*Source.SourceFile, NbLines)  ; analyze the Con
         *Source\EnablePurifier = 0
         *Source\PurifierGranularity$ = Value$
         
-      Case "CONSTANT"
-        *Source\Constant$[*Source\NbConstants] = Value$
-        *Source\ConstantEnabled[*Source\NbConstants] = #True
-        *Source\NbConstants + 1
-        
-      Case "CONSTANTOFF"
-        *Source\Constant$[*Source\NbConstants] = Value$
-        *Source\ConstantEnabled[*Source\NbConstants] = #False
-        *Source\NbConstants + 1
-        
+      Case "CONSTANT", "CONSTANTOFF"
+        ; only keep unique constants, as some files have the same line many times (https://www.purebasic.fr/english/viewtopic.php?t=49041)
+        IsDuplicateConstant = #False
+        For ConstantIndex = 0 To *Source\NbConstants-1
+          If LCase(*Source\Constant$[ConstantIndex]) = LCase(Value$)
+            IsDuplicateConstant = #True
+            Break
+          EndIf
+        Next ConstantIndex
+        ; the array is fixed size: more lines overwrote the memory after it
+        If IsDuplicateConstant = #False And *Source\NbConstants < #MAX_Constants
+          *Source\Constant$[*Source\NbConstants] = Value$
+          *Source\ConstantEnabled[*Source\NbConstants] = Bool(Name$ = "CONSTANT")
+          *Source\NbConstants + 1
+        EndIf
+
       Case "ADDRESOURCE"
         If *Source\NbResourceFiles < #MAX_ResourceFiles
           *Source\ResourceFiles$[*Source\NbResourceFiles] = Value$
@@ -1625,6 +1648,7 @@ Procedure AnalyzeProjectSettings(*Source.SourceFile, *Buffer, Length, IsTempFile
     *Source\EnableAdmin   = 0
     *Source\EnableUser    = 0
     *Source\DPIAware      = 1
+    *Source\DPIAwareMode  = 0
     *Source\DllProtection = 0
     *Source\SharedUCRT    = 0
     *Source\EnableOnError = 0
@@ -2861,7 +2885,7 @@ EndProcedure
 
 
 Procedure FileMonitorEvent()
-  If MonitorFileChanges And FileMonitorWindowOpen = 0 ; do not check when the requester is open!
+  If MonitorFileChanges And FileMonitorWindowOpen = 0 And AddTools_WaitingTools = 0 ; do not check when the requester is open, or while waiting for a tool to quit!
     
     ForEach FileList()
       If @FileList() <> *ProjectInfo And FileList()\ExistsOnDisk And FileList()\FileName$ And FileList()\IsForm = #False ; only check saved files (ignore form files as they don't use the same save routines)

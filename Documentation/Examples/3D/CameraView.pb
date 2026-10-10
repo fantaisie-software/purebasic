@@ -208,7 +208,6 @@ Fog($ffffff,1,10000,10001);     <---  !!!   required to use these shaders !!!
 
 ;CreateLight(0, $111111* 8*10, 8000, 4000,0)
 
-CompilerIf 0
 Macro lt(face):LoadTexture(#PB_Any,"desert07_"+face+".jpg"):EndMacro
 CompilerIf #PB_Compiler_Version < 620
   CreateCubicTexture(0,lt("RT"),lt("LF"),lt("UP"),lt("DN"),lt("FR"),lt("BK"))
@@ -230,7 +229,6 @@ For i=-1 To 1
     If i<>0 Or j<>0:CreateEntity(-1,CreateCube(1,1000), MaterialID(2),i*1000,-480,j*1000):EndIf
   Next
 Next
-CompilerEndIf
 
 ;Define Mesh = CreateCube(#PB_Any, 0.000000001)
 Define Mesh = LoadMesh(#PB_Any, "robot.mesh")

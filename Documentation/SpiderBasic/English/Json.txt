@@ -1331,6 +1331,10 @@
   @#PB_LocalFile: the filename is a local file, @@OpenFileRequester needs to be called before
                  to have access to local files.
 @EndFixedFont
+  Combined with:
+@FixedFont
+  @#PB_ASync: the JSON will be loaded in async mode. This function will return immediately and the JSON will be available only once the binded loading callbacks will be called.
+@EndFixedFont  
   
 @ReturnValue
   Nonzero if the JSON data was parsed correctly, zero otherwise. If @#PB_Any was used

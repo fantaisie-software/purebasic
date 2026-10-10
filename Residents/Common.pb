@@ -428,6 +428,7 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ImagePlugin_TIFF     = $46464954
   #PB_ImagePlugin_ICON     = $4E4F4349
   #PB_ImagePlugin_GIF      = $474946
+  #PB_ImagePlugin_WEBP     = $50424557
 
 CompilerEndIf
 
@@ -639,6 +640,9 @@ CompilerEndIf
 #PB_Editor_ReadOnly      = 1 << 0
 #PB_Editor_WordWrap      = 1 << 1
 #PB_Editor_TabNavigation = 1 << 2
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Editor_Centered      = 1 << 3
+CompilerEndIf
 
 ; HyperLink flags
 ;
@@ -806,6 +810,9 @@ CompilerIf #PB_Compiler_OS = #PB_OS_Web
   #PB_Canvas_Transparent = 1 << 4
 CompilerEndIf
 #PB_Canvas_Container = 1 << 5
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Canvas_NoTabNavigation = 1 << 6 ; Not supported in JS
+CompilerEndIf
 
 
 ; Get/SetGadgetAttribute for CanvasGadget
@@ -1053,11 +1060,11 @@ CompilerEndIf
 
 ; RegularExpression
 ;
-#PB_RegularExpression_DotAll     = $00000004 ; #PCRE_DOTALL
-#PB_RegularExpression_Extended   = $00000008 ; #PCRE_EXTENDED
-#PB_RegularExpression_MultiLine  = $00000002 ; #PCRE_MULTILINE
-#PB_RegularExpression_AnyNewLine = $00500000 ; #PCRE_NEWLINE_ANYCRLF
-#PB_RegularExpression_NoCase     = $00000001 ; #PCRE_CASELESS
+#PB_RegularExpression_DotAll     = $00000020 ; #PCRE2_DOTALL
+#PB_RegularExpression_Extended   = $00000080 ; #PCRE2_EXTENDED
+#PB_RegularExpression_MultiLine  = $00000400 ; #PCRE2_MULTILINE
+#PB_RegularExpression_AnyNewLine = $10000000 ; PureBasic-private bit (PCRE2 has no newline option flag); mapped to PCRE2_NEWLINE_ANYCRLF via pcre2_set_newline()
+#PB_RegularExpression_NoCase     = $00000008 ; #PCRE2_CASELESS
 
 
 ; Javascript doesn't support them
@@ -1182,6 +1189,7 @@ CompilerEndIf
 
 #PB_Packer_Gzip    = (1 << 16)
 #PB_Packer_Bzip2   = (1 << 17)
+#PB_Packer_Xz      = (1 << 18)
 
 #PB_Packer_UncompressedSize = 0
 #PB_Packer_CompressedSize   = 1
@@ -1206,6 +1214,7 @@ CompilerEndIf
 #PB_Sprite_PixelCollision = 1 << 2
 #PB_Sprite_AlphaBlending  = 1 << 3
 #PB_Sprite_Transparent    = 1 << 4
+#PB_Sprite_Overwrite      = 1 << 5 ; SpriteOutput(), SpriteVectorOutput()
 
 #PB_Sprite_NoFiltering       = 0
 #PB_Sprite_BilinearFiltering = 1
@@ -1249,6 +1258,12 @@ CompilerEndIf
 
 #PB_Sound_Millisecond = 1
 #PB_Sound_Frame       = 0
+
+#PB_SoundPlugin_WAV   = $564157
+#PB_SoundPlugin_FLAC  = $43414C46
+#PB_SoundPlugin_OGG   = $47474F
+#PB_SoundPlugin_MP3   = $33504D
+#PB_SoundPlugin_Opus  = $5355504F
 
 ; ToolBar library
 ;
@@ -1920,6 +1935,7 @@ Enumeration
   #PB_Shader_InverseWorldviewMatrix
   #PB_Shader_TransposeWorldviewMatrix
   #PB_Shader_InverseTransposeWorldviewMatrix
+  #PB_Shader_NormalMatrix
   #PB_Shader_WorldviewprojMatrix
   #PB_Shader_InverseWorldviewprojMatrix
   #PB_Shader_TransposeWorldviewprojMatrix
@@ -1933,6 +1949,7 @@ Enumeration
   #PB_Shader_SurfaceSpecularColour
   #PB_Shader_SurfaceEmissiveColour
   #PB_Shader_SurfaceShininess
+  #PB_Shader_SurfaceAlphaRejectionValue
   #PB_Shader_LightCount
   #PB_Shader_AmbientLightColour
   #PB_Shader_LightDiffuseColour
@@ -1971,9 +1988,11 @@ Enumeration
   #PB_Shader_DerivedLightSpecularColourArray
   #PB_Shader_LightNumber
   #PB_Shader_LightCastsShadows
+  #PB_Shader_LightCastsShadowsArray
   #PB_Shader_ShadowExtrusionDistance
   #PB_Shader_CameraPosition
   #PB_Shader_CameraPositionObjectSpace
+  #PB_Shader_CameraRelativePosition
   #PB_Shader_TextureViewprojMatrix
   #PB_Shader_TextureViewprojMatrixArray
   #PB_Shader_TextureWorldviewprojMatrix
@@ -1981,6 +2000,7 @@ Enumeration
   #PB_Shader_SpotlightViewprojMatrix
   #PB_Shader_SpotlightViewprojMatrixArray
   #PB_Shader_SpotlightWorldviewprojMatrix
+  #PB_Shader_SpotlightWorldviewprojMatrixArray
   #PB_Shader_Custom
   #PB_Shader_Time
   #PB_Shader_Time0X
@@ -2017,6 +2037,7 @@ Enumeration
   #PB_Shader_TexelOffsets
   #PB_Shader_SceneDepthRange
   #PB_Shader_ShadowSceneDepthRange
+  #PB_Shader_ShadowSceneDepthRangeArray
   #PB_Shader_ShadowColour
   #PB_Shader_TextureSize
   #PB_Shader_InverseTextureSize
@@ -2025,6 +2046,8 @@ Enumeration
   #PB_Shader_LodCameraPosition
   #PB_Shader_LodCameraPositionObjectSpace
   #PB_Shader_LightCustom
+  #PB_Shader_PointParams
+  #PB_Shader_MaterialLodIndex
 EndEnumeration
 
 ; Mesh
@@ -2116,6 +2139,7 @@ EndStructure
 #PB_Texture_ManualUpdate    = 1 << 1
 #PB_Texture_CameraViewPort  = 1 << 2
 #PB_Texture_VisibilityMask  = 1 << 3
+#PB_Texture_Overwrite       = 1 << 4 ; TextureOutput(), TextureVectorOutput()
 
 ; Text3D
 ;

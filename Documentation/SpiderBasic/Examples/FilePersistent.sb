@@ -21,7 +21,9 @@ If ReadFile(0, Filename$, 0, #PB_LocalStorage)
   ; Read the file content as string
   Debug ReadString(File, #PB_File_IgnoreEOL)
   CloseFile(File)
-Else
+  
+Else ; File is not found yet on the local storage
+  
   Debug "File not found in localstorage: " + Filename$
   Debug "Creating a new file..."
  
@@ -37,11 +39,3 @@ Else
     Debug "CreateFile() failed"
   EndIf
 EndIf
-
-; IDE Options = SpiderBasic 4.00 beta 1 (Windows - x86)
-; CursorPosition = 39
-; iOSAppOrientation = 0
-; AndroidAppCode = 0
-; AndroidAppOrientation = 0
-; EnableXP
-; CompileSourceDirectory

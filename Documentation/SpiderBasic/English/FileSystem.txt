@@ -263,31 +263,27 @@
 
 @Example
 @Code
-  If RequestFileSystem(#PB_FileSystem_Persistent)
-    Directory$ = GetHomeDirectory()
+  Directory$ = GetHomeDirectory()
+  
+  CreateDirectory(GetHomeDirectory()+"Data") ; Create something to have it on the listing
+  
+  If ExamineDirectory(0, Directory$, "*")
+    Debug "Listing directory: " + Directory$
     
-    CreateDirectory(GetHomeDirectory()+"Data") ; Create something to have it on the listing
-    
-    If ExamineDirectory(0, Directory$, "*")
-      Debug "Listing directory: " + Directory$
-      
-      While NextDirectoryEntry(0)
-        If DirectoryEntryType(0) = #PB_DirectoryEntry_File
-          Type$ = "[File] "
-          Size$ = " (Size: " + DirectoryEntrySize(0) + ")"
-        Else
-          Type$ = "[Directory] "
-          Size$ = "" ; A directory doesn't have a size
-        EndIf
-    
-        Debug Type$ + DirectoryEntryName(0) + Size$
-      Wend
-      FinishDirectory(0)
-    Else
-      Debug "Error: can't examine directory: "+Directory$
-    EndIf
+    While NextDirectoryEntry(0)
+      If DirectoryEntryType(0) = #PB_DirectoryEntry_File
+        Type$ = "[File] "
+        Size$ = " (Size: " + DirectoryEntrySize(0) + ")"
+      Else
+        Type$ = "[Directory] "
+        Size$ = "" ; A directory doesn't have a size
+      EndIf
+  
+      Debug Type$ + DirectoryEntryName(0) + Size$
+    Wend
+    FinishDirectory(0)
   Else
-    Debug "Error: can't request filesystem."
+    Debug "Error: can't examine directory: "+Directory$
   EndIf
 @EndCode
 
@@ -594,12 +590,10 @@
 
 @Example
 @Code
-  If RequestFileSystem(#PB_FileSystem_Persistent)
-    If RenameFile("test.txt", "test_backup.txt")
-      Debug "Moving and renaming successful."    ; Moving and renaming of the file was successful
-    Else
-      Debug "Moving and renaming failed."        ; Moving and renaming failed, e.g. because of a not found source file
-    EndIf
+  If RenameFile("test.txt", "test_backup.txt")
+    Debug "Moving and renaming successful."    ; Moving and renaming of the file was successful
+  Else
+    Debug "Moving and renaming failed."        ; Moving and renaming failed, e.g. because of a not found source file
   EndIf
 @EndCode
 

@@ -59,6 +59,15 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     *Source = 0
   EndIf
   
+  ; A source which is part of the project (or the project tab) is compiled with the project default target,
+  ; so use it for the compiler related values (executable, options), not the unused source settings
+  *CompileTarget.CompileTarget = *Target
+  If CommandlineBuild = 0 And *Target And *Target\IsProject = 0
+    If *Target = *ProjectInfo Or *Source\ProjectFile
+      *CompileTarget = *DefaultTarget
+    EndIf
+  EndIf
+  
   If Trim(ToolsList()\CommandLine$) <> ""
     
     ; for source specific tools we must check if the given source allows this tool
@@ -158,10 +167,10 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       If FindString(Test$, "%EXECUTABLE", 1)
         If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_AfterCreateExe Or Trigger = #TRIGGER_ProgramRun
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", AddTools_ExecutableName$, 1)
-        ElseIf *Target = 0
+        ElseIf *CompileTarget = 0
           ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", "", 1)
         Else ; return the last created executable name for all other triggers
-          ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", *Target\ExecutableName$, 1)
+          ToolArguments$ = ReplaceString(ToolArguments$, "%EXECUTABLE", *CompileTarget\ExecutableName$, 1)
         EndIf
       EndIf
       
@@ -235,8 +244,8 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
     AddTools_SetEnvVar(EnvVars(), "IDE", ProgramFilename())
     
     Protected *TargetCompiler.Compiler
-    If *Target And *Target\CustomCompiler
-      *TargetCompiler = FindCompiler(*Target\CompilerVersion$)
+    If *CompileTarget And *CompileTarget\CustomCompiler
+      *TargetCompiler = FindCompiler(*CompileTarget\CompilerVersion$)
       If *TargetCompiler = 0
         *TargetCompiler = @DefaultCompiler
       EndIf
@@ -252,23 +261,44 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       AddTools_SetEnvVar(EnvVars(), "Project", ProjectFile$)
     EndIf
     
-    If *Target And *Target <> *ProjectInfo
-      AddTools_SetEnvVar(EnvVars(), "InlineASM", Str(*Target\EnableASM))
+    If *CompileTarget And *CompileTarget <> *ProjectInfo
+      AddTools_SetEnvVar(EnvVars(), "InlineASM", Str(*CompileTarget\EnableASM))
       AddTools_SetEnvVar(EnvVars(), "Unicode", "1") ; for compatibility with old tools
-      AddTools_SetEnvVar(EnvVars(), "Thread", Str(*Target\EnableThread))
+      AddTools_SetEnvVar(EnvVars(), "Thread", Str(*CompileTarget\EnableThread))
       CompilerIf #CompileWindows
-        AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*Target\EnableXP))
-        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*Target\EnableOnError))
+        AddTools_SetEnvVar(EnvVars(), "XPSkin", Str(*CompileTarget\EnableXP))
+        AddTools_SetEnvVar(EnvVars(), "OnError", Str(*CompileTarget\EnableOnError))
       CompilerElseIf #CompileLinux
-        AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*Target\EnableWayland))
+        AddTools_SetEnvVar(EnvVars(), "Wayland", Str(*CompileTarget\EnableWayland))
       CompilerEndIf
-      AddTools_SetEnvVar(EnvVars(), "Debugger", Str(*Target\Debugger))
-      AddTools_SetEnvVar(EnvVars(), "SubSystem", *Target\SubSystem$)
+      ; Report the debugger state really used by the compiler: an executable (or a dll) is never
+      ; created with the debugger, except for SpiderBasic apps which have their own setting
+      ; https://www.purebasic.fr/english/viewtopic.php?t=69302
+      ;
+      ToolDebugger = *CompileTarget\Debugger
+      If Trigger = #TRIGGER_BeforeCreateExe Or Trigger = #TRIGGER_AfterCreateExe
+        CompilerIf #SpiderBasic
+          Select *CompileTarget\AppFormat
+            Case #AppFormatWeb     : ToolDebugger = *CompileTarget\WebAppEnableDebugger
+            Case #AppFormatiOS     : ToolDebugger = *CompileTarget\iOSAppEnableDebugger
+            Case #AppFormatAndroid : ToolDebugger = *CompileTarget\AndroidAppEnableDebugger
+          EndSelect
+        CompilerElse
+          ToolDebugger = 0
+        CompilerEndIf
+      EndIf
+      CompilerIf Not #SpiderBasic
+        If *CompileTarget\ExecutableFormat = 2
+          ToolDebugger = 0
+        EndIf
+      CompilerEndIf
+      AddTools_SetEnvVar(EnvVars(), "Debugger", Str(ToolDebugger))
+      AddTools_SetEnvVar(EnvVars(), "SubSystem", *CompileTarget\SubSystem$)
       
       If Trigger = #TRIGGER_AfterCompile Or Trigger = #TRIGGER_ProgramRun
         AddTools_SetEnvVar(EnvVars(), "Executable", AddTools_ExecutableName$)
       Else ; return the last created executable name for all other triggers
-        AddTools_SetEnvVar(EnvVars(), "Executable", *Target\ExecutableName$)
+        AddTools_SetEnvVar(EnvVars(), "Executable", *CompileTarget\ExecutableName$)
       EndIf
       
     EndIf
@@ -348,9 +378,14 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
       
       If Program
         If CommandlineBuild = 0
+          ; The tool may modify the source on disk: don't let the file monitor (timer or window activation
+          ; flushed below) ask to reload it before the tool has quit and the source is reloaded below
+          ; https://www.purebasic.fr/english/viewtopic.php?t=55622
+          AddTools_WaitingTools + 1
           While WaitProgram(Program, 10) = 0
             FlushEvents()
           Wend
+          AddTools_WaitingTools - 1
         Else
           WaitProgram(Program)
         EndIf
@@ -377,15 +412,30 @@ Procedure AddTools_ExecuteCurrent(Trigger, *Target.CompileTarget)
           EndIf
           
           LoadTempFile(File$)
-          UpdateSourceStatus(1)
+
+          ; The source is not modified if the reloaded file is the source file on disk, or a copy of it
+          ; (the tool saved the %TEMPFILE over the %FILE: https://www.purebasic.fr/english/viewtopic.php?t=58658)
+          Modified = #True
+          If *ActiveSource And *ActiveSource\FileName$ <> ""
+            If IsEqualFile(File$, *ActiveSource\FileName$)
+              Modified = #False
+            Else
+              Checksum$ = FileFingerprint(*ActiveSource\FileName$, #PB_Cipher_MD5)
+              If Checksum$ <> "" And Checksum$ = FileFingerprint(File$, #PB_Cipher_MD5)
+                Modified = #False
+              EndIf
+            EndIf
+          EndIf
+
+          UpdateSourceStatus(Modified)
           HistoryEvent(*ActiveSource, #HISTORY_Create)
-          
+
           ; update file monitor stats, so there won't be a " do you want to load changes from disk" message
-          If *ActiveSource And IsEqualFile(File$, *ActiveSource\FileName$)
+          If Modified = #False
             *ActiveSource\ExistsOnDisk  = #True
-            *ActiveSource\LastWriteDate = GetFileDate(File$, #PB_Date_Modified)
-            *ActiveSource\DiskFileSize  = FileSize(File$)
-            *ActiveSource\DiskChecksum  = FileFingerprint(File$, #PB_Cipher_MD5)
+            *ActiveSource\LastWriteDate = GetFileDate(*ActiveSource\FileName$, #PB_Date_Modified)
+            *ActiveSource\DiskFileSize  = FileSize(*ActiveSource\FileName$)
+            *ActiveSource\DiskChecksum  = FileFingerprint(*ActiveSource\FileName$, #PB_Cipher_MD5)
           EndIf
           
         EndIf

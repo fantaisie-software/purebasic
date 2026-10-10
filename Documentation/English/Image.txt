@@ -215,6 +215,7 @@
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
   @@UseGIFImageDecoder @LineBreak
+  @@UseWebPImageDecoder @LineBreak
 
 @Example
 @Code
@@ -341,6 +342,7 @@
   @#PB_ImagePlugin_JPEG     : encode the image in JPEG (@@UseJPEGImageEncoder has to be used)
   @#PB_ImagePlugin_JPEG2000 : encode the image in JPEG2000 (@@UseJPEG2000ImageEncoder has to be used)
   @#PB_ImagePlugin_PNG      : encode the image in PNG (@@UsePNGImageEncoder has to be used)
+  @#PB_ImagePlugin_WEBP     : encode the image in WebP (@@UseWebPImageEncoder has to be used)
 @EndFixedFont
 
 @OptionalParameter "Flags"
@@ -481,6 +483,7 @@
   @#PB_ImagePlugin_BMP
   @#PB_ImagePlugin_ICON
   @#PB_ImagePlugin_GIF
+  @#PB_ImagePlugin_WEBP
 @EndFixedFont
   If the image was not loaded from one of these formats, it will return zero. This is the case for images created with
   @@CreateImage or @@GrabImage.
@@ -687,6 +690,7 @@
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
   @@UseGIFImageDecoder @LineBreak
+  @@UseWebPImageDecoder @LineBreak
 @LineBreak
   You can use the several other functions for acting with the loaded image:
 @LineBreak
@@ -774,6 +778,7 @@
   @#PB_ImagePlugin_JPEG     : Save the image in JPEG (@@UseJPEGImageEncoder has to be used)
   @#PB_ImagePlugin_JPEG2000 : Save the image in JPEG2000 (@@UseJPEG2000ImageEncoder has to be used)
   @#PB_ImagePlugin_PNG      : Save the image in PNG (@@UsePNGImageEncoder has to be used)
+  @#PB_ImagePlugin_WEBP     : Save the image in WebP (@@UseWebPImageEncoder has to be used)
 @EndFixedFont
 
 @OptionalParameter "Flags"

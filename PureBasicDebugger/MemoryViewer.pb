@@ -632,7 +632,7 @@ Procedure MemoryViewerWindowEvents(*Debugger.DebuggerData, EventID)
     ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], 0, 0, Width-20, Height-40-2*ButtonHeight)
     
     Y = Height - 10 - ButtonHeight
-    If Width >= CopyWidth+SaveWidth+SaveRawWidth+250
+    If Width >= 220+DisplayWidth+DataWidth+CopyWidth+SaveWidth+SaveRawWidth ; 150 for the view type combo + 7 spaces of 10
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ViewType], 10, Y, 150, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_Display_DataView], 170, Y, DisplayWidth, ButtonHeight)
       ResizeGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_ChkformatDataSection],width-40-SaveRawWidth-SaveWidth-CopyWidth-DataWidth,Y,DataWidth,ButtonHeight)
@@ -690,12 +690,12 @@ EndProcedure
 
 Procedure OpenMemoryViewerWindow(*Debugger.DebuggerData)
   
-  MemoryViewTableData = MemoryIsHex
-  
   If *Debugger\Windows[#DEBUGGER_WINDOW_Memory]
     SetWindowForeground(*Debugger\Windows[#DEBUGGER_WINDOW_Memory])
     
   Else
+    MemoryViewTableData = MemoryIsHex ; only when opening, to keep the one chosen in the window when ShowMemoryViewer() is called again
+    
     Window = OpenWindow(#PB_Any, MemoryViewerX, MemoryViewerY, MemoryViewerWidth, MemoryViewerHeight, Language("Debugger","MemoryWindowTitle") + " - " + DebuggerTitle(*Debugger\FileName$), #PB_Window_SystemMenu|#PB_Window_SizeGadget|#PB_Window_MinimizeGadget|#PB_Window_Invisible|#PB_Window_MaximizeGadget)
     If Window
       *Debugger\Windows[#DEBUGGER_WINDOW_Memory] = Window

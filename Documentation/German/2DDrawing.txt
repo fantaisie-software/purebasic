@@ -1,7 +1,7 @@
 ﻿;
 ;     2DDrawing library documentation - MultiOS version !
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library 2DDrawing
@@ -411,7 +411,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function DrawImage(ImageID, x, y [, NeueBreite, NeueHöhe])  
+@Function DrawImage(ImageID, x, y [, Breite, Höhe [, Modus]])
 
 @Description
   Zeichnet ein Bild auf den aktuellen Ausgabekanal.
@@ -426,11 +426,19 @@
 @Parameter "x, y"
   Die Position der linken oberen Ecke des Bildes auf dem Ausgabekanal.
 
-@OptionalParameter "NeueBreite, NeueHöhe"
+@OptionalParameter "Breite, Höhe"
   Das Bild wird auf die angegebene Größe angepasst und dann gezeichnet. Werden diese Parameter nicht
   angegeben, dann wird das Bild in seiner Original-Größe gezeichnet.
 
 @NoReturnValue
+
+@OptionalParameter "Modus"
+  Die zu verwendende Methode zur Größenänderung, wenn "Breite" und "Höhe" angegeben sind.
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Image_Smooth: Ändert die Größe des Bildes mit Glättung (Standard).
+  @#PB_Image_Raw   : Ändert die Größe des Bildes ohne Interpolation.
+@EndFixedFont
 
 @Remarks
   Das Bild wird "alpha-blended", d.h. gemischt mit dem Zeichen-Hintergrund, wenn der

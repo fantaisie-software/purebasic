@@ -145,6 +145,82 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function UseOSImageDecoder()
+
+@Description
+  Enables image loading through the imaging library provided by the operating system for the
+  @@CatchImage, @@LoadImage, @@CatchSprite and @@LoadSprite functions.
+  @LineBreak
+  @LineBreak
+  The following system libraries are used: GDI+ on Windows, ImageIO on macOS and GdkPixbuf
+  (or Qt) on Linux. As no decoder is embedded in the executable, this plugin adds almost no
+  code to the final program, and the list of supported formats as well as their security fixes
+  automatically follow the operating system updates.
+  @LineBreak
+  @LineBreak
+  A single call to this function replaces @@UseJPEGImageDecoder, @@UsePNGImageDecoder,
+  @@UseGIFImageDecoder and the other individual decoders. It can still be combined with them:
+  the automatic image format detection will pick the right decoder for each file.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  The exact set of supported formats depends on the operating system and on the codecs installed
+  on the machine. JPEG, PNG and GIF are available on every supported platform (BMP is always
+  supported natively by PureBasic). Additional formats such as TIFF, ICO, WebP or HEIC may be
+  available depending on the system.
+  @LineBreak
+  @LineBreak
+  Images which contain an alpha channel are loaded as 32-bit, the others as 24-bit. For
+  multi-frame files (animated GIF, multi-page TIFF), only the first frame is decoded.
+
+@SeeAlso
+  @@UseOSImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOSImageEncoder()
+
+@Description
+  Enables image saving through the imaging library provided by the operating system for the
+  @@SaveImage and @@SaveSprite functions.
+  @LineBreak
+  @LineBreak
+  The following system libraries are used: GDI+ on Windows, ImageIO on macOS and GdkPixbuf
+  (or Qt) on Linux. As no encoder is embedded in the executable, this plugin adds almost no
+  code to the final program.
+  @LineBreak
+  @LineBreak
+  This single call provides the encoders for the @#PB_ImagePlugin_JPEG, @#PB_ImagePlugin_PNG,
+  @#PB_ImagePlugin_BMP, @#PB_ImagePlugin_TIFF and @#PB_ImagePlugin_GIF constants of @@SaveImage,
+  so for example @@SaveImage with @#PB_ImagePlugin_JPEG works without @@UseJPEGImageEncoder. If a
+  dedicated encoder (such as @@UseJPEGImageEncoder) is also used, that one takes precedence.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  JPEG and PNG saving is available on every supported platform. BMP and TIFF are available on
+  almost every system, while GIF saving is not supported by all operating systems (for example
+  it is not available with GdkPixbuf on Linux); in that case @@SaveImage returns zero.
+  @LineBreak
+  @LineBreak
+  32-bit images with an alpha channel are preserved when saving to PNG, BMP or TIFF. JPEG is
+  always saved as 24-bit. The image quality parameter of @@SaveImage is honored for JPEG.
+
+@SeeAlso
+  @@UseOSImageDecoder,
+  @@SaveImage, @@SaveSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function UsePNGImageDecoder()
 
 @Description
@@ -207,7 +283,7 @@
   The TGA image size is usually large, since the compression is very weak (Run Length Encoding - RLE). At this point,
   the TGA alpha channel information (if any) is ignored when using this format.
 
-@SeeAlso 
+@SeeAlso
   @@LoadImage, @@CatchImage,
   @@LoadSprite, @@CatchSprite
 
@@ -219,7 +295,7 @@
 
 @Description
   Enables the TIFF image support for the @@CatchImage, @@LoadImage,
-  @@CatchSprite and @@LoadSprite functions. 
+  @@CatchSprite and @@LoadSprite functions.
 
 @NoParameters
 @NoReturnValue
@@ -229,8 +305,51 @@
   internally supports several sub-compression formats such as: JPEG, LZW, etc. All forms of the TIFF format are supported, using this format
   will result in programs which are quite large.
 
-@SeeAlso 
+@SeeAlso
   @@LoadImage, @@CatchImage,
   @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseWebPImageDecoder()
+
+@Description
+  Enables the WebP image support for the @@CatchImage, @@LoadImage, @@CatchSprite and @@LoadSprite functions.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  Both the lossy and lossless variants of the WebP format are decoded automatically, without the need to
+  specify which one is used. Images with an alpha channel are loaded as 32-bit, the others as 24-bit.
+
+@SeeAlso
+  @@UseWebPImageEncoder,
+  @@LoadImage, @@CatchImage,
+  @@LoadSprite, @@CatchSprite
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseWebPImageEncoder()
+
+@Description
+  Enables the WebP image support for the @@SaveImage and @@SaveSprite functions.
+
+@NoParameters
+@NoReturnValue
+
+@Remarks
+  This encoder always produces the lossy (destructive compression) variant of the WebP format: the picture
+  loses a certain amount of the original information when it is compressed, in exchange for a smaller file
+  size. The image quality parameter of @@SaveImage is honored. This encoder has the capability to encode
+  32-bit images with alpha channel.
+
+@SeeAlso
+  @@UseWebPImageDecoder,
+  @@SaveImage, @@SaveSprite
 
 @SupportedOS

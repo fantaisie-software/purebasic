@@ -13,7 +13,6 @@ Procedure ButtonEvent()
   
   While Filename$
     Debug Filename$
-    
     Filename$ = NextSelectedFilename()
   Wend
 EndProcedure
@@ -22,13 +21,3 @@ If OpenWindow(0, 100, 100, 200, 45, "Requester")
   ButtonGadget(0, 10, 10, 180, 25, "Open local file(s)...")
   BindGadgetEvent(0, @ButtonEvent())
 EndIf
-
-; IDE Options = SpiderBasic 3.30 beta 1 (Windows - x86)
-; CursorPosition = 13
-; Folding = -
-; iOSAppOrientation = 0
-; AndroidAppCode = 0
-; AndroidAppOrientation = 0
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

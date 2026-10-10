@@ -272,20 +272,24 @@ and its own properties like the velocity, speed, emission rate and more.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ParticleVelocity(#ParticleEmitter, Minimum, Maximum)
+@Function ParticleVelocity(#ParticleEmitter, Mode, Value)
 
 @Description
-   Changes the particles velocity. A random velocity value, picked in the 'Minimum' and 'Maximum' range, 
-   will be used by every particle emitted.
+   Changes the particles velocity.
 
 @Parameter "#ParticleEmitter"
   The particle emitter to use.
 
-@Parameter "Minimum"
-  The minimum velocity for a particle.
+@Parameter "Mode"
+  One of the following values:
+@FixedFont
+  #PB_Particle_Velocity        : Set a fixed velocity for every particle
+  #PB_Particle_MinimumVelocity : Set the minimum velocity of the random range every particle picks its velocity from
+  #PB_Particle_MaximumVelocity : Set the maximum velocity of the random range every particle picks its velocity from
+@EndFixedFont
 
-@Parameter "Maximum"
-  The maximum velocity for a particle.
+@Parameter "Value"
+  The velocity to set, according to the specified 'Mode'.
 
 @NoReturnValue
 

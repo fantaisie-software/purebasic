@@ -1,7 +1,7 @@
 ﻿;
 ;     SoundPlugin library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library SoundPlugin
@@ -46,6 +46,20 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function UseFLACSoundEncoder()
+
+@Description
+  Aktiviert die FLAC-Unterstützung (Free Lossless Audio Codec) für @@SaveSound und @@EncodeSound. 
+  Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt.
+
+@NoParameters
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function UseOGGSoundDecoder()
 
 @Description
@@ -65,5 +79,108 @@
 @LineBreak
 @LineBreak
   Für weitere Informationen: @InternetLink "http://de.wikipedia.org/wiki/Vorbis" "Wikipedia - OGG".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOGGSoundEncoder()
+
+@Description
+  Aktiviert die OGG- (OGG Vorbis) Soundunterstützung für @@SaveSound und @@EncodeSound. 
+  Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt.
+
+@NoParameters
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundDecoder()
+
+@Description
+  Aktiviert die MP3-Unterstützung (MPEG-1/2 Audio Layer III) für @@CatchSound und @@LoadSound. 
+  Für dieses Plug-in wird Sound-Streaming unterstützt.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Das MP3-Format verwendet eine verlustbehaftete Kompression, bei der während des Komprimierungsvorgangs ein
+  Teil der ursprünglichen Informationen verloren geht. Es gehört zu den am weitesten verbreiteten Audioformaten
+  und bietet ein gutes Verhältnis zwischen Dateigröße und Klangqualität.
+@LineBreak
+@LineBreak
+  Dieser Decoder basiert auf dem mit miniaudio gelieferten MP3-Decoder. Da das MP3-Format über keine zuverlässige
+  Dateisignatur verfügt, sollte dieser Decoder bei der Verwendung mehrerer Decoder als letzter aktiviert werden,
+  um die automatische Erkennung der anderen Audioformate nicht zu beeinträchtigen.
+@LineBreak
+@LineBreak
+  Für weitere Informationen: @InternetLink "https://en.wikipedia.org/wiki/MP3" "Wikipedia - MP3".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundEncoder([LibraryName$])
+
+@Description
+  Aktiviert die MP3-Soundunterstützung für @@SaveSound und @@EncodeSound. 
+  Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt.
+@LineBreak
+@LineBreak
+  Im Gegensatz zu den anderen Sound-Encodern ist dieser nicht fest in PureBasic integriert: Die MP3-Kodierung
+  erfolgt über die LAME-Bibliothek (unter LGPL-Lizenz), die zur Laufzeit dynamisch aus libmp3lame.dll /
+  libmp3lame.so / libmp3lame.dylib geladen wird. Kann die Bibliothek nicht gefunden oder geladen werden,
+  schlagen @@SaveSound und @@EncodeSound für das MP3-Format einfach fehl (und geben Null zurück).
+
+@OptionalParameter "LibraryName$"
+  Der Name (oder vollständige Pfad) der zu ladenden LAME-Bibliothek, falls es sich nicht um die
+  Standardbibliothek handelt, nach der PureBasic sucht.
+
+@NoReturnValue
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundDecoder()
+
+@Description
+  Aktiviert die Opus-Soundunterstützung für @@CatchSound und @@LoadSound. 
+  Sound-Streaming wird für dieses Plugin unterstützt.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Das Opus-Format verwendet eine verlustbehaftete Kompression, bei der während des Komprimierungsvorgangs
+  ein Teil der ursprünglichen Informationen verloren geht. Es handelt sich um einen modernen,
+  lizenzgebührenfreien Codec, der für die Übertragung von Sprache und allgemeinem Audio über einen weiten
+  Bitratenbereich hinweg konzipiert wurde und häufig für Echtzeit-Streaming sowie Sprachkommunikation zum
+  Einsatz kommt.
+@LineBreak
+@LineBreak
+  Für weitere Informationen: @InternetLink "https://en.wikipedia.org/wiki/Opus_(audio_format)" "Wikipedia - Opus".
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundEncoder()
+
+@Description
+  Aktiviert die Opus-Soundunterstützung für @@SaveSound und @@EncodeSound.
+  Es werden nur 16-Bit-Mono-/Stereo-Sounds unterstützt, und die Abtastrate des Sounds muss einem der
+  folgenden Werte entsprechen: 8000, 12000, 16000, 24000 oder 48000 Hz (die festen Raten, die der
+  Opus-Encoder akzeptiert).
+
+@NoParameters
+
+@NoReturnValue
 
 @SupportedOS

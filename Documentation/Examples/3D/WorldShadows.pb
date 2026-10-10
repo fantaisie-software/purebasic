@@ -22,14 +22,12 @@ ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), " ShadowColor - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
 
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Main", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Models", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
 Parse3DScripts()
 
 WorldShadows(#PB_Shadow_Additive)
-;WorldShadows(#PB_Shadow_TextureAdditive, 1, $444444,2048)
 
 ; Camera
 Camera = CreateCamera(#PB_Any, 0, 0, 100, 100)
@@ -46,7 +44,6 @@ DirtMaterial = CreateMaterial(#PB_Any, TextureID(LoadTexture(#PB_Any, "Dirt.jpg"
 ; Ground
 MeshPlane = CreatePlane(#PB_Any, 100, 100, 10, 10, 15, 15)
 Ground = CreateEntity(#PB_Any, MeshID(MeshPlane), MaterialID(DirtMaterial))
-;EntityRenderMode(Ground, 0) <- for shadow texture : remove cast shadow to enabled receive shadow !?
 
 ; Meshes
 MeshCube = CreateCube(#PB_Any, 4)
@@ -84,3 +81,9 @@ Repeat
   RenderWorld()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
+
+; IDE Options = PureBasic 6.50 beta 2 (Windows - x64)
+; ExecutableFormat = Console
+; CursorPosition = 48
+; EnableXP
+; DPIAware

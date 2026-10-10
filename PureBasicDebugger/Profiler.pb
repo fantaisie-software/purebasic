@@ -609,6 +609,23 @@ CompilerEndIf
 
 
 Global Profiler_CaptureMode, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY
+Global Profiler_DownScrollX, Profiler_DownScrollY ; scrollbar states when the drag started
+
+; set a scrollbar state, limited to the scrollable range
+;
+Procedure Profiler_SetScrollState(ScrollBar, State)
+  MaxState = GetGadgetAttribute(ScrollBar, #PB_ScrollBar_Maximum) - GetGadgetAttribute(ScrollBar, #PB_ScrollBar_PageLength)
+  
+  If MaxState > 0
+    If State < 0
+      State = 0
+    ElseIf State > MaxState
+      State = MaxState
+    EndIf
+    
+    SetGadgetState(ScrollBar, State)
+  EndIf
+EndProcedure
 
 Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y)
   ; if we were in mode 3, we simply switch to the new mode now, else start capturing
@@ -623,6 +640,8 @@ Procedure Profiler_LButtonDown(*Debugger.DebuggerData, x, y)
   
   If GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_Select]) = 0
     Profiler_CaptureMode = 1
+    Profiler_DownScrollX = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX])
+    Profiler_DownScrollY = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY])
   Else
     Profiler_CaptureMode = 2
     Profiler_DrawSelect(*Debugger, Profiler_DownX, Profiler_DownY, Profiler_OldX, Profiler_OldY)
@@ -663,27 +682,8 @@ Procedure Profiler_LButtonUp(*Debugger.DebuggerData)
       
       ; move the origin
       ;
-      maxStart = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_PageLength)
-      If maxStart > 0
-        If countStart < 0
-          countStart = 0
-        ElseIf countStart > maxStart
-          countStart = maxStart
-        EndIf
-        
-        SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], countStart)
-      EndIf
-      
-      maxStart = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength)
-      If maxStart > 0
-        If lineStart < 0
-          lineStart = 0
-        ElseIf lineStart > maxStart
-          lineStart = maxStart
-        EndIf
-        
-        SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], lineStart)
-      EndIf
+      Profiler_SetScrollState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], countStart)
+      Profiler_SetScrollState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], lineStart)
       
       Profiler_DrawAll(*Debugger)
     EndIf
@@ -714,32 +714,10 @@ Procedure Profiler_MouseMove(*Debugger.DebuggerData, x, y)
     EndIf
     
   ElseIf Profiler_CaptureMode = 1 ; drag
-    countStart = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX]) - (x - Profiler_OldX) / *Debugger\ProfilerRatioX
-    maxStart   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], #PB_ScrollBar_PageLength)
-    
-    If maxStart > 0
-      If countStart < 0
-        countStart = 0
-      ElseIf countStart > maxStart
-        countStart = maxStart
-      EndIf
-      
-      SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], countStart)
-    EndIf
-    
-    lineStart  = GetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY]) - (y - Profiler_OldY) / *Debugger\ProfilerRatioY
-    maxStart   = GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_Maximum) - GetGadgetAttribute(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], #PB_ScrollBar_PageLength)
-    
-    If maxStart > 0
-      If lineStart < 0
-        lineStart = 0
-      ElseIf lineStart > maxStart
-        lineStart = maxStart
-      EndIf
-      
-      SetGadgetState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], lineStart)
-    EndIf
-    
+    ; move from the scrollbar states at the drag start by the whole mouse move since then: with the move since the
+    ; last event, a slow move (less than one line/count per event) was always rounded to 0 (https://www.purebasic.fr/english/viewtopic.php?t=41401)
+    Profiler_SetScrollState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollX], Profiler_DownScrollX - (x - Profiler_DownX) / *Debugger\ProfilerRatioX)
+    Profiler_SetScrollState(*Debugger\Gadgets[#DEBUGGER_GADGET_Profiler_ScrollY], Profiler_DownScrollY - (y - Profiler_DownY) / *Debugger\ProfilerRatioY)
     Profiler_DrawAll(*Debugger)
     
   ElseIf Profiler_CaptureMode = 2 ; select

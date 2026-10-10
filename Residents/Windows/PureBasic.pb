@@ -104,6 +104,7 @@ IncludeFile "..\Common.pb"
 #PB_Event_CloseWindow      = 13116
 #PB_Event_MoveWindow       = 13117
 #PB_Event_SizeWindow       = 13118
+#PB_Event_WindowResolutionChanged = 13119
 #PB_Event_None             = 0
 
 ;
@@ -136,6 +137,7 @@ IncludeFile "..\Common.pb"
 #PB_Window_BorderLess     = $80000000 ; WS_POPUP
 #PB_Window_NoGadgets      = $8
 #PB_Window_NoActivate     = $2000000
+#PB_Window_Modal          = $10 ; disable the 'ParentID' window until this one is closed
 
 ; For WindowX/Y/Width/Height()
 ;

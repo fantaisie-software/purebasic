@@ -45,6 +45,7 @@ CompilerIf #CompileLinux
       QT_EventType(*Event)
       QT_EventKey(*Event)
       QT_EventButton(*Event)
+      QT_IsWayland()
     EndImport
   CompilerEndIf
   
@@ -140,6 +141,14 @@ CompilerIf #CompileLinux
     CompilerIf #CompileLinuxGtk
       gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
     CompilerElse
+      If QT_IsWayland()
+        ; Wayland doesn't allow to raise/activate a window, but a window shown again is put on top with the focus
+        If GetActiveWindow() <> Window
+          HideWindow(Window, #True)
+          HideWindow(Window, #False)
+        EndIf
+        ProcedureReturn
+      EndIf
       QtScript("window(" + Window + ").raise()")
     CompilerEndIf
     SetActiveWindow(Window)

@@ -1214,8 +1214,9 @@ Procedure FD_Open(file.s,update = 0)
         FormWindows()\generateeventloop = 0
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        
-        If pbany
+
+        ; only treat as "var = OpenWindow(...)" if '=' is before '(' (the caption can contain a '=')
+        If pbany And pbany < start
           FormWindows()\variable = Trim(Left(line,pbany - 1))
           FormWindows()\pbany = 1
           start = FindString(line,",",start) + 1
@@ -1805,9 +1806,7 @@ Procedure FD_Open(file.s,update = 0)
         
         FD_UpdateSplitter()
         
-        LastElement(GadgetList())
-        AddElement(GadgetList()) : GadgetList()\a = FormWindows()\FormGadgets()\itemnumber : GadgetList()\b = -1
-        ;        AddElement(GadgetList()) : GadgetList()\a = @FormWindows()\FormGadgets() : GadgetList()\b = -1
+        ; a splitter is not a container (there is no CloseGadgetList() for it), so it must not be added to GadgetList()
         Continue
       EndIf ;}
       If procname = "CloseGadgetList" ;{
@@ -1892,7 +1891,7 @@ Procedure FD_Open(file.s,update = 0)
         OpenTempImg()\inline = 0
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        If pbany
+        If pbany And pbany < start ; the filename can contain a '='
           OpenTempImg()\id = Trim(Left(line,pbany - 1))
           start = FindString(line,",",start + 1) + 1
           OpenTempImg()\pbany = 1
@@ -1914,7 +1913,7 @@ Procedure FD_Open(file.s,update = 0)
         OpenTempImg()\inline = 1
         pbany = FindString(line, "=")
         start = FindString(line, "(") + 1
-        If pbany
+        If pbany And pbany < start
           OpenTempImg()\id = Trim(Left(line,pbany - 1))
           start = FindString(line,",",start + 1) + 1
           OpenTempImg()\pbany = 1
@@ -2402,6 +2401,13 @@ Procedure FD_Open(file.s,update = 0)
         
         ForEach FormWindows()\FormGadgets()
           If FormWindows()\FormGadgets()\variable = gadgetid
+            If FormWindows()\FormGadgets()\type = #Form_Type_Splitter ; the splitter position is in pixels, scale it like the gadget positions
+              If FormWindows()\FormGadgets()\flags & FlagValue("#PB_Splitter_Vertical")
+                val = DesktopScaledX(val)
+              Else
+                val = DesktopScaledY(val)
+              EndIf
+            EndIf
             FormWindows()\FormGadgets()\state = val
             FD_UpdateSplitter()
             Break

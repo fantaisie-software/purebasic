@@ -492,13 +492,7 @@ Procedure ResizeTools()
 EndProcedure
 
 
-Declare UpdateSourceContainer()
-Declare ResizeHelpSplitterContent()
 Declare ResizeFileViewer()
-
-CompilerIf #CompileMacCocoa
-  Declare ResizeHelpWindow()
-CompilerEndIf
 
 Procedure RealtimeSizeWindowEventHandler()
   
@@ -509,12 +503,7 @@ Procedure RealtimeSizeWindowEventHandler()
   Select Window
     Case #WINDOW_Main
       ResizeMainWindow()
-      
-      CompilerIf #CompileMacCocoa
-      Case #WINDOW_Help
-        ResizeHelpWindow()
-      CompilerEndIf
-      
+
     Case #WINDOW_FileViewer
       ResizeFileViewer()
       
@@ -636,10 +625,7 @@ CompilerIf #CompileMacCocoa
         If ErrorLogVisible
           UpdateSourceContainer()
         EndIf
-        
-      Case #GADGET_Help_Splitter
-        ResizeHelpSplitterContent()
-        
+
     EndSelect
   EndProcedure
   
@@ -869,6 +855,12 @@ Procedure ActivateMainWindow()
   If *ActiveSource
     If *ActiveSource = *ProjectInfo
       ; todo
+    ElseIf *ActiveSource\IsForm
+      ; The editor is hidden in the design view, typing in it crashes the IDE (https://www.purebasic.fr/english/viewtopic.php?t=67111)
+      *Form.FormWindow = *ActiveSource\IsForm
+      If *Form\current_view = 1
+        SetActiveGadget(*ActiveSource\EditorGadget)
+      EndIf
     Else
       SetActiveGadget(*ActiveSource\EditorGadget)
     EndIf
@@ -1128,7 +1120,10 @@ Procedure MainMenuEvent(MenuItemID)
       ReloadSource()
       
     Case #MENU_Close
-      If CheckSourceSaved() = 1  ; -1 means user abort, 0=error
+      If *ActiveSource = *ProjectInfo
+        ; 'Close' on the project tab (tab popup menu, shortcut) closes the project (https://www.purebasic.fr/english/viewtopic.php?t=68181)
+        CloseProject()
+      ElseIf CheckSourceSaved() = 1  ; -1 means user abort, 0=error
         RemoveSource()
       EndIf
       
@@ -2337,7 +2332,12 @@ EndProcedure
 
 Procedure ResizeMainWindow()
   EditorWindowWidth  = WindowWidth(#WINDOW_Main)   ; update the global variables to speed up things like splitter movement
-  EditorWindowHeight = WindowHeight(#WINDOW_Main)
+
+  CompilerIf #CompileMac
+    EditorWindowHeight = WindowHeight(#WINDOW_Main, #PB_Window_FrameCoordinate)
+  CompilerElse
+    EditorWindowHeight = WindowHeight(#WINDOW_Main)
+  CompilerEndIf
   
   If IsWindowMaximized(#WINDOW_Main) = 0 And IsWindowMinimized(#WINDOW_Main) = 0
     Save_EditorX = WindowX(#WINDOW_Main)
@@ -2673,14 +2673,7 @@ Procedure DispatchEvent(EventID)
       
     Case #WINDOW_Updates
       UpdateWindowEvents(EventID)
-      
-      CompilerIf #CompileLinux | #CompileMac
-        
-      Case #WINDOW_Help
-        HelpWindowEvents(EventID)
-        
-      CompilerEndIf
-      
+
       CompilerIf #DEBUG
         
       Case #WINDOW_Debugging
@@ -2699,25 +2692,32 @@ Procedure DispatchEvent(EventID)
           ForEach AvailablePanelTools()
             If AvailablePanelTools()\IsSeparateWindow And AvailablePanelTools()\ToolWindowID = EventWindow()
               If EventID = #PB_Event_CloseWindow
-                
-                If AvailablePanelTools()\NeedDestroyFunction
-                  Tool.ToolsPanelInterface = @AvailablePanelTools()
-                  Tool\DestroyFunction()
-                EndIf
-                
+
                 If MemorizeWindow
                   Window = AvailablePanelTools()\ToolWindowID
-                  If IsWindowMinimized(Window) = 0
-                    AvailablePanelTools()\ToolWindowX      = WindowX(Window)
+                  If IsWindowMinimized(Window) = 0 And IsWindowMaximized(Window) = 0
+                    AvailablePanelTools()\ToolWindowX     = WindowX(Window)
                     AvailablePanelTools()\ToolWindowY      = WindowY(Window)
                     AvailablePanelTools()\ToolWindowWidth  = WindowWidth(Window)
                     AvailablePanelTools()\ToolWindowHeight = WindowHeight(Window)
                   EndIf
                 EndIf
-                CloseWindow(AvailablePanelTools()\ToolWindowID)
-                AvailablePanelTools()\ToolWindowID = -1
-                AvailablePanelTools()\IsSeparateWindow = 0
-                
+
+                If AvailablePanelTools()\ToolID$ = "WebView" ; SpiderBasic
+                  ; Really closed, as it stops the program running in it
+                  If AvailablePanelTools()\NeedDestroyFunction
+                    Tool.ToolsPanelInterface = @AvailablePanelTools()
+                    Tool\DestroyFunction()
+                  EndIf
+                  CloseWindow(AvailablePanelTools()\ToolWindowID)
+                  AvailablePanelTools()\ToolWindowID = -1
+                  AvailablePanelTools()\IsSeparateWindow = 0
+                Else
+                  ; The window is only hidden (the tool stays created), so it can be displayed again instantly with
+                  ; ActivateTool(). It is really closed by ToolsPanel_Update() and when the IDE quits.
+                  HideWindow(AvailablePanelTools()\ToolWindowID, #True)
+                EndIf
+
               ElseIf EventID = #PB_Event_Gadget
                 If #DEFAULT_CanWindowStayOnTop And EventGadget() = AvailablePanelTools()\ToolStayOnTop
                   AvailablePanelTools()\IsToolStayOnTop = GetGadgetState(AvailablePanelTools()\ToolStayOnTop)

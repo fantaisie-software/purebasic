@@ -21,11 +21,11 @@ InitMouse()
 ExamineDesktops():dx=DesktopWidth(0)*0.8:dy=DesktopHeight(0)*0.8
 OpenWindow(0, 0,0, DesktopUnscaledX(dx),DesktopUnscaledY(dy), "BodyPick - [Esc] quit",#PB_Window_ScreenCentered)
 OpenWindowedScreen(WindowID(0), 0, 0, dx, dy, 0, 0, 0)
+InitScreenGadgets()
 
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Textures", #PB_3DArchive_FileSystem)
 Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Scripts", #PB_3DArchive_FileSystem)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/Desert.zip", #PB_3DArchive_Zip)
-Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/GUI", #PB_3DArchive_FileSystem)
+Add3DArchive(#PB_Compiler_Home + "examples/3d/Data/Packs/desert.zip", #PB_3DArchive_Zip)
 Parse3DScripts()
 
 ;- Materials
@@ -89,19 +89,12 @@ Camera = CreateCamera(#PB_Any, 0, 0, 100, 100)
 MoveCamera(Camera, 100, 30, 20)
 CameraLookAt(Camera, 0,0,0)
 
-;- GUI
-;
-OpenWindow3D(0, 0, 0, 50 , 10 , "")
-HideWindow3D(0,1)
-ShowGUI(128, 1) ; Display the GUI, semi-transparent and display the mouse cursor
-
 Repeat
 While WindowEvent():Wend
   
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.03
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-    InputEvent3D(MouseX(), MouseY(),0)
     BodyPick(CameraID(Camera), MouseButton(#PB_MouseButton_Left), MouseX(), MouseY(), 1)
   EndIf
   
@@ -116,5 +109,6 @@ While WindowEvent():Wend
   EndIf
   
   RenderWorld()
+  RenderScreenGadgets()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1

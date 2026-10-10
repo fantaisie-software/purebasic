@@ -410,7 +410,52 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function *Result = FirstElement(List())  
+@Function Result = ExtractList(List(), Text$ [, Separator$ [, Limit]])
+
+@Description
+  Splits 'Text$' into 'List()', using 'Separator$' to find each element. 'List()' is
+  cleared first.
+
+@Parameter "List()"
+  The destination list, created with the @ReferenceLink "newlist" "NewList" function. It has
+  to be of string, integer or double type.
+
+@Parameter "Text$"
+  The text to split.
+
+@OptionalParameter "Separator$"
+  The separator to use between each element. It defaults to a comma (",") and can be several
+  characters long. If it is an empty string, 'Text$' is not split and is copied as a single
+  element into 'List()'.
+
+@OptionalParameter "Limit"
+  If specified and greater than zero, at most 'Limit' elements are extracted: the last one
+  then contains the remainder of 'Text$', including any separator it may still contain.
+  If omitted, zero or negative, there is no limit.
+
+@ReturnValue
+  Returns the number of elements found (and stored into 'List()').
+
+@Example
+@Code
+  NewList Fruits.s()
+
+  Result = ExtractList(Fruits(), "Apple,Orange,Cherry")
+
+  Debug Result       ; will print '3'
+  ForEach Fruits()
+    Debug Fruits()   ; will print 'Apple', 'Orange' and 'Cherry'
+  Next
+@EndCode
+
+@SeeAlso
+  @@JoinList, @@ExtractArray, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Result = FirstElement(List())
 
 @Description
   Changes the current list element to the first list element.
@@ -536,6 +581,45 @@
 
 @SeeAlso
   @@AddElement, @@DeleteElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result$ = JoinList(List() [, Separator$ [, Limit]])
+
+@Description
+  Joins all the elements of 'List()' into a single string, using 'Separator$' between each
+  element.
+
+@Parameter "List()"
+  The name of your list variable, created with the @ReferenceLink "newlist" "NewList" function.
+  It has to be of string, integer or double type.
+
+@OptionalParameter "Separator$"
+  The separator to insert between each element. It defaults to a comma (",") and can be
+  several characters long.
+
+@OptionalParameter "Limit"
+  If specified and greater than zero, only the first 'Limit' elements of 'List()' are joined.
+  If omitted, zero or negative, every element is joined.
+
+@ReturnValue
+  Returns the resulting string.
+
+@Example
+@Code
+  NewList Fruits.s()
+  AddElement(Fruits()) : Fruits() = "Apple"
+  AddElement(Fruits()) : Fruits() = "Orange"
+  AddElement(Fruits()) : Fruits() = "Cherry"
+
+  Debug JoinList(Fruits())        ; will print 'Apple,Orange,Cherry'
+  Debug JoinList(Fruits(), " - ") ; will print 'Apple - Orange - Cherry'
+@EndCode
+
+@SeeAlso
+  @@ExtractList, @@JoinArray
 
 @SupportedOS
 

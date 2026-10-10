@@ -45,8 +45,6 @@ CameraBackColor(0, RGB(19, 34, 49))
 
 SkyBox("desert07.jpg")
 
-ShowGUI(155, 0)
-
 Repeat
   While WindowEvent():Wend      
   If ExamineMouse()

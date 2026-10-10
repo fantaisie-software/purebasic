@@ -645,7 +645,10 @@ Procedure ProcessEvent(EventID)
     ; dispatch the event to the right procedure
     Debugger_ProcessEvents(EventWindow(), EventID)
     
-    If EventID = #PB_Event_CloseWindow
+    ; Also check the gadget and menu events, as some windows are closed with a button or a shortcut (like 'Ok' in the purifier window)
+    ; https://www.purebasic.fr/english/viewtopic.php?t=67761
+    ;
+    If EventID = #PB_Event_CloseWindow Or EventID = #PB_Event_Gadget Or EventID = #PB_Event_Menu
       ; update the toggle buttons
       ; Note: On OSX, we can get this somehow when the debugger struct is already destroyed (when you end the
       ; program, close all debugger windows and then close the main one), so check this!

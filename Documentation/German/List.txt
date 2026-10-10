@@ -1,7 +1,7 @@
 ﻿;
 ;     List library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library List
@@ -426,6 +426,52 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Ergebnis = ExtractList(Liste(), Text$ [, Separator$ [, Limit]])
+
+@Description
+  Zerlegt 'Text$' in die 'Liste()' und verwendet dabei das Trennzeichen 'Separator$', um die
+  einzelnen Elemente zu finden. 'Liste()' wird zuvor geleert.
+
+@Parameter "Liste()"
+  Die Zielliste, die mit der Funktion @ReferenceLink "newlist" "NewList" erstellt wurde.
+  Sie muss vom Typ String, Integer oder Double sein.
+
+@Parameter "Text$"
+  Der aufzuteilende Text.
+
+@OptionalParameter "Separator$"
+  Das zwischen den einzelnen Elementen zu verwendende Trennzeichen. Standardmäßig ist dies ein
+  Komma (","), es kann auch aus mehreren Zeichen bestehen. Handelt es sich um einen leeren
+  String, wird 'Text$' nicht aufgeteilt, sondern als einzelnes Element in die 'Liste()' kopiert.
+
+@OptionalParameter "Limit"
+  Wenn der Parameter angegeben wird und größer als Null ist, werden höchstens 'Limit' Elemente
+  extrahiert; das letzte Element enthält dann den Rest von 'Text$' einschließlich eventuell darin
+  noch enthaltener Trennzeichen. Wird der Wert weggelassen, ist er Null oder negativ, gibt es
+  keine Begrenzung.
+
+@ReturnValue
+  Gibt die Anzahl der gefundenen (und in die 'Liste()' gespeicherten) Elemente zurück.
+
+@Example
+@Code
+  NewList Fruits.s()
+
+  Result = ExtractList(Fruits(), "Apple,Orange,Cherry")
+
+  Debug Result       ; wird '3' ausgeben
+  ForEach Fruits()
+    Debug Fruits()   ; wird 'Apple', 'Orange' und 'Cherry' ausgeben
+  Next
+@EndCode
+
+@SeeAlso
+  @@JoinList, @@ExtractArray, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function *Ergebnis = FirstElement(Liste())  
 
 @Description
@@ -551,6 +597,46 @@
 
 @SeeAlso
   @@AddElement, @@DeleteElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis$ = JoinList(Liste() [, Separator$ [, Limit]])
+
+@Description
+  Verbindet alle Elemente der 'Liste()' zu einem einzigen String, wobei zwischen den einzelnen
+  Elementen das Trennzeichen 'Separator$' verwendet wird.
+
+@Parameter "Liste()"
+  Der Name der Liste, die mit der Funktion @ReferenceLink "newlist" "NewList" erstellt wurde. 
+  Sie muss vom Typ String, Integer oder Double sein.
+
+@OptionalParameter "Separator$"
+  Das Trennzeichen, das zwischen die einzelnen Elemente eingefügt wird. Standardmäßig ist dies
+  ein Komma (","), es kann auch aus mehreren Zeichen bestehen.
+
+@OptionalParameter "Limit"
+  Wird der Parameter angegeben und ist größer als Null, werden nur die ersten 'Limit' Elemente
+  der 'Liste()' zusammengefügt. Wird der Parameter weggelassen, ist Null oder negativ, werden alle
+  Elemente miteinander verbunden.
+
+@ReturnValue
+  Gibt den resultierenden String zurück.
+
+@Example
+@Code
+  NewList Fruits.s()
+  AddElement(Fruits()) : Fruits() = "Apple"
+  AddElement(Fruits()) : Fruits() = "Orange"
+  AddElement(Fruits()) : Fruits() = "Cherry"
+
+  Debug JoinList(Fruits())        ; wird 'Apple,Orange,Cherry' ausgeben
+  Debug JoinList(Fruits(), " - ") ; wird 'Apple - Orange - Cherry' ausgeben
+@EndCode
+
+@SeeAlso
+  @@ExtractList, @@JoinArray
 
 @SupportedOS
 

@@ -31,15 +31,10 @@ Declare Compiler_CompileRun(SourceFileName$, *Source.SourceFile, CheckSyntax)   
 Declare Compiler_Run(*Target.CompileTarget, IsFirstRun)                                 ; run the target
 Declare Compiler_BuildTarget(SourceFileName$, TargetFileName$, *Target.CompileTarget, CreateExe, CheckSyntax)  ; create executable with the given source
 
-;- HelpViewer.pb
+;- HelpTool.pb
 ;- WindowsHelp.pb
 ;
 Declare DisplayHelp(CurrentWord$)  ; display the help for the given word (all os)
-CompilerIf #CompileLinux | #CompileMac
-  Declare OpenHelpWindow()           ; linux/mac only
-  Declare UpdateHelpWindow()         ; linux/mac only
-  Declare HelpWindowEvents(EventID)  ; linux/mac only
-CompilerEndIf
 CompilerIf #CompileWindows
   Declare ClosePlatformSDKWindow()          ; windows only (called at program end)
 CompilerEndIf
@@ -234,7 +229,7 @@ Declare AddTools_WindowEvents(EventID)
 ;- AutoComplete.pb
 ;
 Declare CreateAutoCompleteWindow()        ; create the autocomplete window (only called on startup)
-Declare OpenAutoCompleteWindow()          ; display the autocomplete window
+Declare OpenAutoCompleteWindow(AutoPopup = #False) ; display the autocomplete window
 Declare AutoCompleteWindowEvents(EventID) ; handle autocomplete events
 Declare AutoComplete_CheckAutoPopup()     ; checks if the conditions of auto-popup are met
 Declare AutoComplete_WordUpdate(IsInitial=#False); while the autocomplete window is open, call that when the user continues typing
@@ -395,6 +390,7 @@ Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 ;
 Declare GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)   ; Retrieve the boundary of a word
 Declare.s GetWord(*Buffer, BufferLength, Position)                                                       ; extract the word at position from *Buffer
+Declare IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)                                       ; check that the chars around a match are not identifier chars
 Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                                               ; get module prefix from the given (Wordstart) position
 Declare.s GetCurrentWord()                                                                               ; get the current word of the source file.
 Declare.s GetCurrentLine()                                                                               ; return the text of the current line
@@ -584,6 +580,8 @@ Declare.s GetShortcutText(Shortcut)         ; get the text for any shortcut
 Declare ShortcutMenuItem(MenuItemID, Text$) ; create a menuitem with or without the shortcut name (when one is set)
 Declare FillShortcutList()                  ; fill the combobox with all shortcut names
 Declare.s GetShortcutOwner(Shortcut)        ; get the name where a shortcut is assigned to
+Declare AddStringShortcuts()
+Declare DelStringShortcuts()
 Declare IsShortcutUsed(Shortcut, CurrentPrefsItem, *CurrentAddTool) ; check if a given shortcut is already used
 Declare.s ShortcutToIndependentName(Shortcut)                       ; translate shortcut into a OS independent name
 Declare IndependentNameToShortcut(Name$)                            ; trandlate os independent name back to shortcut
@@ -711,6 +709,9 @@ Declare ToolsPanel_CheckAutoHide()    ; update the autohide state of the toolspa
 Declare ToolsPanel_Hide()
 Declare ToolsPanel_Show()
 
+;- HelpTool.pb
+Declare HelpTool_DisplayPage(Page$)   ; display a help page in the help tool (for F1), opening the tool if needed. Returns #False if the page doesn't exist
+
 ;- UpdateCheck.pb
 Declare UpdateWindowEvents(EventID)
 Declare UpdateCheckTimer()            ; timer for update check fired
@@ -730,6 +731,7 @@ Declare ChangeStatus(Message$, StickyTime); set a new message to the statusbar
 Declare MainMenuEvent(MenuItemID)         ; handle (or simulate) a main window menu event
 Declare MainWindowEvents(EventID)         ; handle main window events
 Declare ResizeMainWindow()                ; resize all main window components
+Declare UpdateSourceContainer()           ; resize the source container content (tab bar + active editor) only
 Declare UpdateMainWindow()                ; update the main window after prefs update (updating the edit gadgets is done from ApplyPreferences())
 Declare EventLoopCallback()               ; A callback to be called between (Wait)WindowEvent() calls
 Declare DispatchEvent(EventID)            ; Main event processor... dispatches the event to the correct window procedure

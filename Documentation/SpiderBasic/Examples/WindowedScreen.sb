@@ -42,17 +42,7 @@ If LoadSprite(0, "Data/SpiderBasicLogo.png")
   
   ; Start the rendering loop
   BindEvent(#PB_Event_RenderFrame, @RenderFrame())
+  FlipBuffers()
 Else
   Debug "Can't load the sprite"
 EndIf
-
-; IDE Options = SpiderBasic 4.00 beta 1 (Windows - x86)
-; CursorPosition = 44
-; FirstLine = 1
-; Folding = -
-; iOSAppOrientation = 0
-; AndroidAppCode = 0
-; AndroidAppOrientation = 0
-; EnableXP
-; CompileSourceDirectory
-; EnableUnicode

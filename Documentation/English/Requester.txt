@@ -154,14 +154,20 @@ called 'requesters'.
 
 @Example
 @Code
-  Input$ = InputRequester("Title", "Please make your input:", "I'm the default input.")
-
-  If Input$ > ""
+  Input$ = InputRequester("Title", "Please make your input:", "I'm the default input.", #PB_InputRequester_HandleCancel)
+  
+  If Input$ = #PB_InputRequester_Cancel 
+    a$ = "You canceled the requester!"
+  
+  ElseIf Input$ = #Empty$
+    a$ = "You didn't enter anything in the requester!"
+  
+  ElseIf Input$ > ""
     a$ = "You entered in the requester:" + Chr(10)  ; Chr(10) only needed
-    a$ + Input$                                                  ; for line-feed
-  Else  
-    a$ = "The requester was canceled or there was nothing entered."
+    a$ + Input$                                     ; for line-feed
+  
   EndIf
+  
   MessageRequester("Information", a$, 0)
 @EndCode
 @LineBreak
@@ -532,8 +538,10 @@ called 'requesters'.
   The style of the font chosen by the user with the @@FontRequester.
   It can contain one or several of the following values:
 @FixedFont
-  @#PB_Font_Bold  : Font is bold.
-  @#PB_Font_Italic: Font is italic.
+  @#PB_Font_Bold      : Font is bold.
+  @#PB_Font_Italic    : Font is italic.
+  @#PB_Font_StrikeOut : Font is struck out (Windows and QT only).
+  @#PB_Font_Underline : Font is underlined (Windows and QT only).
 @EndFixedFont
   To test if a value is present, use the '&' (bitwise AND) operator:
 @Code

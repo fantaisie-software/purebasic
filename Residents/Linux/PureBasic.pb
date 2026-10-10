@@ -213,6 +213,7 @@ IncludeFile "../Common.pb"
 #PB_Window_Normal         = 0
 #PB_Window_NoGadgets      = 1 << 12
 #PB_Window_NoActivate     = 1 << 13
+#PB_Window_Modal          = 1 << 14 ; disable the 'ParentID' window until this one is closed
 
 ; For WindowX/Y/Width/Height()
 ;
@@ -240,6 +241,7 @@ IncludeFile "../Common.pb"
 #PB_Event_RightClick       = 16
 #PB_Event_LeftClick        = 17
 #PB_Event_LeftDoubleClick  = 18
+#PB_Event_WindowResolutionChanged = 19
 #PB_Event_None             = 0
 
 ; Event type

@@ -33,6 +33,8 @@ ifeq ($(PB_WINDOWS),1)
 	DEBUGSYMBOLS =
 	CPUMONITORLIB =
 	DIALOGCOMPILER = ../DialogManager/Build/DialogCompiler.exe
+	HELPTOOL = Build/HelpTool.exe
+	HELPTOOLRUN = Build\HelpTool.exe
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ONERROR = /LINENUMBERING
@@ -52,6 +54,8 @@ else
 ifeq ($(PB_MACOS),1)
 	IDE = $(HOME)/$(IDENAME).app
 	IDEFLAGS = --thread --unicode -n "$(OSXICOFILE)" --dpiaware
+	HELPTOOL = Build/HelpTool.app
+	HELPTOOLRUN = $(HELPTOOL)/Contents/MacOS/HelpTool
 	MACPLIST = Build/macplist
 	MACPLISTCOMMAND = Build/macplist $(HOME)/$(IDENAME).app
 
@@ -61,6 +65,14 @@ ifeq ($(PB_MACOS),1)
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
 	IDEFLAGS = --thread --unicode
+	HELPTOOL = Build/helptool
+	# helptool is a GTK program and needs a display even for --init: use a virtual one when available
+	# so 'make help' also works over plain ssh/plink (no or broken X11 forwarding, ie: on the Raspberry Pis)
+	ifneq ($(shell command -v xvfb-run 2>/dev/null),)
+		HELPTOOLRUN = xvfb-run -a $(HELPTOOL)
+	else
+		HELPTOOLRUN = $(HELPTOOL)
+	endif
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
@@ -198,6 +210,26 @@ onerror : VERSION $(DEPENDENCIES)
 #
 nocompile :  Build/dummy VERSION  $(DEPENDENCIES)
 	$(MAKEBUILDINFO) Build
+
+#
+# standalone help tool (HelpTool.pb compiled as main file)
+#
+helptool : $(HELPTOOL)
+
+$(HELPTOOL) : HelpTool.pb Build/dummy
+	$(PBCOMPILER) HelpTool.pb $(MAKEEXE) $(HELPTOOL) $(IDEFLAGS)
+
+#
+# build the help folder used by the help tool from the documentation sources
+#
+help : $(HELPTOOL)
+	$(HELPTOOLRUN) --init "$(CURDIR)/../Documentation" "$(HOME)/Help"
+
+#
+# same, but packed into Help/Help.zip (the default help source of the IDE)
+#
+helpzip : $(HELPTOOL)
+	$(HELPTOOLRUN) --initzip "$(CURDIR)/../Documentation" "$(HOME)/Help/Help.zip"
 
 #
 # required other targets

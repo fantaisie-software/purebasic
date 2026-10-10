@@ -200,15 +200,21 @@
 
 @Example
 @Code
-  Saisie$ = InputRequester("InputRequester","Saisissez un texte :","Texte par défaut.")
-
-  If Saisie$ > ""
+  Saisie$ = InputRequester("InputRequester", "Saisissez un texte :", "Texte par défaut.", #PB_InputRequester_HandleCancel)
+  
+  If Saisie$ = #PB_InputRequester_Cancel 
+    a$ = "La saisie a été annulée."
+  
+  ElseIf Saisie$ = #Empty$
+    a$ = "Il n'y a pas de texte saisi."
+    
+  ElseIf Saisie$ > ""
     a$ = "Vous avez écrit le texte suivant :" + Chr(10)  ; Chr(10) nécessaire seulement
     a$ + Saisie$                                         ; pour faire un saut de ligne
-  Else 
-    a$ = "La saisie a été annulée ou il n'y a pas de texte saisi."
+    
   EndIf
-  MessageRequester("Information",a$,0)
+  
+  MessageRequester("Information", a$, 0)
   End
 @EndCode
 @LineBreak
@@ -698,8 +704,8 @@
 @FixedFont
   @#PB_Font_Bold       : Le style de la police est en 'Gras'.
   @#PB_Font_Italic     : Le style de la police est en 'Italique'.
-  @#PB_Font_StrikeOut  : Le style de la police est en 'Barré'.
-  @#PB_Font_Underline  : Le style de la police est en 'Souligné'.  
+  @#PB_Font_StrikeOut  : Le style de la police est en 'Barré' (Windows et QT uniquement).
+  @#PB_Font_Underline  : Le style de la police est en 'Souligné' (Windows et QT uniquement).
 @EndFixedFont
   Pour tester si une valeur est présente, 
   il suffit d'utiliser l'opérateur '&' (And):
