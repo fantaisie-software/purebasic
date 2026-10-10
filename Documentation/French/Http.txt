@@ -174,9 +174,9 @@
   Le nombre d'octets reçu ou 
   une des valeurs suivantes:
 @FixedFont
-  @#PB_Http_Success    : Le téléchargement s'est terminé avec succès.
-  @#PB_Http_Failed     : Le téléchargement a échoué.
-  @#PB_Http_Aborted    : Le téléchargement a été interrompu avec @@AbortHTTP.
+  @#PB_HTTP_Success    : Le téléchargement s'est terminé avec succès.
+  @#PB_HTTP_Failed     : Le téléchargement a échoué.
+  @#PB_HTTP_Aborted    : Le téléchargement a été interrompu avec @@AbortHTTP.
 @EndFixedFont
 
 @Example
@@ -186,18 +186,18 @@
     Repeat
       Progression = HTTPProgress(Telechargement)
       Select Progression
-        Case #PB_Http_Success
+        Case #PB_HTTP_Success
           *Memoire = FinishHTTP(Telechargement)
           Debug "Téléchargement terminé (Taille: " + MemorySize(*Memoire) + ")"
           FreeMemory(*Memoire)
           End
 
-        Case #PB_Http_Failed
+        Case #PB_HTTP_Failed
           Debug "Le téléchargement a échoué"
           FinishHTTP(Telechargement)
           End
 
-        Case #PB_Http_Aborted
+        Case #PB_HTTP_Aborted
           Debug "Le téléchargement a été interrompu"
           FinishHTTP(Telechargement)
           End
@@ -234,10 +234,10 @@
 @Parameter "Type"
   L'information spécifique à obtenir. Cela peut être l'une des valeurs suivantes:
 @FixedFont
-  @#PB_Http_StatusCode  : Le code de l'état du serveur (200: OK, 404: Page non trouvée, etc).
-  @#PB_Http_Response    : La réponse du serveur, sous forme de texte. Pour obtenir la réponse brute (raw) , utilisez @@HTTPMemory.
-  @#PB_Http_Headers     : Les en-têtes de requête.
-  @#PB_Http_ErrorMessage: Le message d'erreur (principalement à des fins de débogage).
+  @#PB_HTTP_StatusCode  : Le code de l'état du serveur (200: OK, 404: Page non trouvée, etc).
+  @#PB_HTTP_Response    : La réponse du serveur, sous forme de texte. Pour obtenir la réponse brute (raw) , utilisez @@HTTPMemory.
+  @#PB_HTTP_Headers     : Les en-têtes de requête.
+  @#PB_HTTP_ErrorMessage: Le message d'erreur (principalement à des fins de débogage).
 @EndFixedFont
 
 @OptionalParameter "Options"
@@ -733,7 +733,7 @@
 @FixedFont
   @#PB_HTTP_Asynchronous: Téléchargement de manière asynchrone.
   @#PB_HTTP_NoRedirect  : Ne pas suivre les redirections automatiques.
-  @#PB_Http_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
+  @#PB_HTTP_NoSSLCheck  : Ne pas vérifier si le certificat SSL est valide (peut être utile à des fins de test).
   @#PB_HTTP_HeadersOnly : Ne télécharge que les en-têtes.
   @#PB_HTTP_WeakSSL     : Support des vieux serveurs.
   @#PB_HTTP_Debug       : Affiche les informations de débogage.

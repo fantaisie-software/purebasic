@@ -115,7 +115,7 @@ DataSection
   ;- D
   Data$ "DashPath,3,#PB_Path_Default,#PB_Path_Preserve,#PB_Path_RoundEnd,#PB_Path_SquareEnd,#PB_Path_RoundCorner,#PB_Path_DiagonalCorner"
   Data$ "DateGadget,1,#PB_Any"
-  Data$ "DateGadget,8,#PB_Date_UpDown,#PB_Date_Checkbox"
+  Data$ "DateGadget,8,#PB_Date_UpDown,#PB_Date_CheckBox"
   Data$ "Defined,2,#PB_Constant,#PB_Variable,#PB_Array,#PB_List,#PB_Map,#PB_Structure,#PB_Interface,#PB_Procedure,#PB_Function,#PB_OSFunction,#PB_Label,#PB_Prototype,#PB_Module,#PB_Enumeration"
   Data$ "DeviceAlwaysOn,1,#True,#False"
   Data$ "DeviceBrightness,1,#Default"

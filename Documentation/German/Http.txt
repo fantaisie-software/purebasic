@@ -150,9 +150,9 @@
   Der Status des Downloads. Dies kann die aktuelle Anzahl der empfangenen Bytes oder einer der
   folgenden Werte sein:
 @FixedFont
-  @#PB_Http_Success    : der Download wurde erfolgreich abgeschlossen.
-  @#PB_Http_Failed     : der Download ist fehlgeschlagen.
-  @#PB_Http_Aborted    : der Download wurde mittels @@AbortHTTP abgebrochen.
+  @#PB_HTTP_Success    : der Download wurde erfolgreich abgeschlossen.
+  @#PB_HTTP_Failed     : der Download ist fehlgeschlagen.
+  @#PB_HTTP_Aborted    : der Download wurde mittels @@AbortHTTP abgebrochen.
 @EndFixedFont
 
 @Example
@@ -162,18 +162,18 @@
     Repeat
       Progress = HTTPProgress(Download)
       Select Progress
-        Case #PB_Http_Success
+        Case #PB_HTTP_Success
           *Buffer = FinishHTTP(Download)
           Debug "Download finished (size: " + MemorySize(*Buffer) + ")"
           FreeMemory(*Buffer)
           End
 
-        Case #PB_Http_Failed
+        Case #PB_HTTP_Failed
           Debug "Download failed"
           FinishHTTP(Download)
           End
 
-        Case #PB_Http_Aborted
+        Case #PB_HTTP_Aborted
           Debug "Download aborted"
           FinishHTTP(Download)
           End
@@ -209,10 +209,10 @@
 @Parameter "Typ"
   Die spezifische Information, die ermittelt werden soll. Dies kann einer der folgenden Werte sein:
 @FixedFont
-  @#PB_Http_StatusCode   : der Server-Status-Code (200: OK, 404: page not found etc.).
-  @#PB_Http_Response     : die Server-Antwort, als Text. Um die "rohe" Server-Antwort zu erhalten, verwenden Sie @@HTTPMemory.
-  @#PB_Http_Headers      : die "Request-Header" (Kopfzeilen / Anforderungsheader).
-  @#PB_Http_ErrorMessage : die HTTP-Request Fehlernachricht, wenn etwas schief geht (meist für Debugging-Zwecke).
+  @#PB_HTTP_StatusCode   : der Server-Status-Code (200: OK, 404: page not found etc.).
+  @#PB_HTTP_Response     : die Server-Antwort, als Text. Um die "rohe" Server-Antwort zu erhalten, verwenden Sie @@HTTPMemory.
+  @#PB_HTTP_Headers      : die "Request-Header" (Kopfzeilen / Anforderungsheader).
+  @#PB_HTTP_ErrorMessage : die HTTP-Request Fehlernachricht, wenn etwas schief geht (meist für Debugging-Zwecke).
 @EndFixedFont
 
 @OptionalParameter "Flags"
