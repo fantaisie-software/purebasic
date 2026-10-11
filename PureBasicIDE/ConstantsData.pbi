@@ -228,7 +228,7 @@ DataSection
   ;- D
   Data$ "DashPath,3,#PB_Path_Default,#PB_Path_Preserve,#PB_Path_RoundEnd,#PB_Path_SquareEnd,#PB_Path_RoundCorner,#PB_Path_DiagonalCorner"
   Data$ "DateGadget,1,#PB_Any"
-  Data$ "DateGadget,8,#PB_Date_UpDown,#PB_Date_Checkbox"
+  Data$ "DateGadget,8,#PB_Date_UpDown,#PB_Date_CheckBox"
   Data$ "Defined,2,#PB_Constant,#PB_Variable,#PB_Array,#PB_List,#PB_Map,#PB_Structure,#PB_Interface,#PB_Procedure,#PB_Function,#PB_OSFunction,#PB_Label,#PB_Prototype,#PB_Module,#PB_Enumeration"
   Data$ "DefineTerrainTile,5,#True,#False"
   Data$ "DefineTerrainTile,6,#True,#False"
@@ -400,7 +400,7 @@ DataSection
   Data$ "HideWindow,2,#True,#False"
   Data$ "HideWindow,3,#PB_Window_NoActivate,#PB_Window_ScreenCentered,#PB_Window_WindowCentered"
   Data$ "HideWindow3D,2,#True,#False"
-  Data$ "HTTPInfo,2,#PB_Http_StatusCode,#PB_Http_Response,#PB_Http_Headers,#PB_Http_ErrorMessage"
+  Data$ "HTTPInfo,2,#PB_HTTP_StatusCode,#PB_HTTP_Response,#PB_HTTP_Headers,#PB_HTTP_ErrorMessage"
   Data$ "HTTPInfo,3,#PB_UTF8,#PB_Ascii"
   Data$ "HTTPRequest,1,#PB_HTTP_Get,#PB_HTTP_Post,#PB_HTTP_Put,#PB_HTTP_Patch,#PB_HTTP_Delete"
   Data$ "HTTPRequest,4,#PB_HTTP_Asynchronous,#PB_HTTP_NoRedirect,#PB_HTTP_NoSSLCheck,#PB_HTTP_HeadersOnly,#PB_HTTP_WeakSSL,#PB_HTTP_Debug"

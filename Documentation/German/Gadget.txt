@@ -261,7 +261,9 @@
   Ein optionales Bild, welches für Einträge in Gadgets verwendet werden kann, die
   dies unterstützen (wie @@ListIconGadget). Das verwendete Bild sollte in der Standard
   16x16 Größe vorliegen. Verwenden Sie den @@ImageID Befehl, um die ID für diesen
-  Parameter zu erhalten.
+  Parameter zu erhalten. Das Gadget behält eine eigene Referenz auf das Bild, sodass dieses
+  nach dem Aufruf freigegeben werden kann. Um das Bild eines vorhandenen Elements zu ändern,
+  verwenden Sie @@SetGadgetItemImage.
 
 @OptionalParameter "Flags"
   Dieser Parameter hat eine Bedeutung nur bei den folgenden Gadget-Typen:
@@ -5087,7 +5089,8 @@
 @Parameter "ImageID"
   Das neue Bild, welches für den Gadget-Eintrag verwendet werden soll.
   Das verwendete Bild sollte in der Standard 16x16 Größe sein. Verwenden Sie den @@ImageID Befehl,
-  um die ID für diesen Parameter zu ermitteln.
+  um die ID für diesen Parameter zu ermitteln. Das Gadget behält eine eigene Referenz auf das Bild,
+  sodass dieses nach dem Aufruf freigegeben werden kann.
   
 @NoReturnValue
 

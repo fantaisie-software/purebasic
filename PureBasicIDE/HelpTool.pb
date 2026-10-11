@@ -18,7 +18,8 @@ DeclareModule pbhelp
   Prototype ProtoOpenCode(File$, Code$, Run) ; File$ is a real file to load, or Code$ is the code to put in a new tab
   Prototype ProtoEditFile(File$, Line)
   Prototype ProtoApplyColors(Gadget) ; IDE colors/font for the contents tree and the search gadgets
-  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors
+  Prototype.s ProtoColorCode(Code$)  ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
+  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode
 
   Declare init(lg.s,os.s)
   Declare affiche(page.s)
@@ -95,7 +96,7 @@ Global gonglet,gsommaire,grec,grecliste,gweb,gacc,gprec,gsuiv,glangue,gos,gedite
 Global imgprec,imgsuiv,imgacc,imgediter,imgsommaire
 Global.s icoouvrir="&#128194;",icoexecuter="&#9654;" ; boutons des exemples (remplacés par les icônes de l'IDE)
 ; ---------- traduction
-Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Arguments,_tester,_ouvrir,_executer
+Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Parametres,_tester,_ouvrir,_executer
 Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer,_sommairevisible
 Global.s _Deprecie,_Deprecietxt,_Indexcommandes,_Constantes,_Fonctionsos
 
@@ -116,7 +117,7 @@ Procedure initlang()
   _Syntaxe=lg("Syntax,Syntaxe,Syntax,Sintassi,Sintaxis,Синтаксис")
   _Description=lg("Description,Description,Beschreibung,Descrizione,Descripción,Описание")
   _Generalites=lg("General,Généralités,Allgemeines,Generale,General,Общие")
-  _Arguments=lg("Arguments,Arguments,Argumente,Argomenti,Argumentos,Аргументы")
+  _Parametres=lg("Parameters,Paramètres,Parameter,Parametri,Parámetros,Параметры")
   _Deprecie=lg("Deprecated,Dépréciée,Veraltet")
   _Deprecietxt=lg("This function is deprecated and may be removed in a future version. It should not be used in newly written code.,"+
                   "Cette fonction est dépréciée et sera peut-être supprimée dans une future version. Elle ne doit pas être utilisée dans du nouveau code.,"+
@@ -155,9 +156,9 @@ style="body {background-color: var(--bg); color: var(--text); font-family: Arial
       "img {box-shadow: 2px 2px 5px #0008;}"+
       "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}"+
       "pre {overflow: auto; font-family:consolas, Courier, monospace; font-size: 9pt;}"+
-      "pre.ex {position: relative; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}"+
+      "pre.ex {position: relative; min-height: 26px; padding: 5px 65px 5px 5px; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}"+
       "button {box-shadow: 2px 2px 2px #0008;}"+
-      ".butcode {position: absolute; top:0px; right:0px; gap:0px; z-index: 1;}"+
+      ".butcode {display: flex; position: absolute; top:4px; right:5px; gap:5px; z-index: 1;}"+
       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}"+
       "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}"+
       "table.param {width:100%;  border-spacing: 0px; border-style: none; }"+
@@ -489,6 +490,7 @@ Procedure.s iehtml(ht.s) ; mode IE: pas de variables CSS, ni de callback javascr
 EndProcedure
 
 Procedure sethtml(ht.s)
+  ht=ReplaceString(ht,"<head>","<head><meta charset='utf-8'>",#PB_String_CaseSensitive,1,1) ; encodage explicite (accents, umlauts)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     If iemode:SetGadgetItemText(gweb, #PB_Web_HtmlCode, iehtml(ht)):ProcedureReturn:EndIf
   CompilerEndIf
@@ -816,12 +818,12 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
         ajoute("<"+Mid(balise,2)+" "+ Mid(t,pi,p-pi)+">",1):p+1
       Default      
         If FindMapElement(balise(),LCase(balise))
-          preformate+balise()\pre
+          preformate+balise()\pre:If preformate<0:preformate=0:EndIf ; @Description sans @Syntax/@Function avant (ex: pages Reference): sinon les sauts de ligne sont ignores
           ht=""
           Select balise()\param
             Case 1,2
               tablg+1
-              If tablg=1:ht="<h3>Arguments</h3><table class='param'>"+#LF$:EndIf
+              If tablg=1:ht="<h3>"+_Parametres+"</h3><table class='param'>"+#LF$:EndIf
               If tablg>1:ht="</td></tr>":EndIf
               If balise()\param=2:popt=" class='opt'":Else: popt="":EndIf
               ht+"<tr"+popt+"><td width='10%'><i>$p1</i></td><td width='90%'>"
@@ -850,7 +852,7 @@ Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
             EndIf
           EndIf
           ajoute(ht,1)
-          If balise="Code":ap=p:p=FindString(t,"@EndCode",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndCode"):Break:Else:ajoutebr=0:ajoute(rMid(@t,ap,p-ap),0):EndIf:EndIf
+          If balise="Code":ap=p:p=FindString(t,"@EndCode",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndCode"):Break:Else:ajoutebr=0:If ColorCodeCallback:ajoute(ColorCodeCallback(rMid(@t,ap,p-ap)),1):Else:ajoute(rMid(@t,ap,p-ap),0):EndIf:EndIf:EndIf
           If balise="FormatIf":ap=p:p=FindString(t,"@FormatEndIf",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @FormatEndIf"):Break:Else:ajoute(rMid(@t,ap,p-ap),2):EndIf:EndIf
           If balise="HTML":ap=p:p=FindString(t,"@EndHTML",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndHTML"):Break:Else:ajoutebr=0:ajoute(rMid(@t,ap,p-ap),2):EndIf:EndIf
         Else
@@ -1238,6 +1240,7 @@ Procedure recherche()
 
   If etype= #PB_EventType_Change
     txt=GetGadgetText(grec)
+    If apage<>"":ht=PbtoHtml(apage):sethtml(ht):EndIf ; met a jour (ou efface) le surlignage de la page affichee
     If Len(txt)<3:ProcedureReturn:EndIf
     ForEach page()
       If FindString(page()\src,txt,1,#PB_String_NoCase)
@@ -1704,6 +1707,77 @@ CompilerElse
   EndProcedure
 
 
+  ; Examples syntax highlighting, with the IDE highlighting engine
+  ;
+  Global *HelpTool_HtmlBuffer, HelpTool_HtmlSize, HelpTool_HtmlLength
+
+  Procedure HelpTool_HtmlWrite(*Text.Ascii, Length, Escape)
+    If HelpTool_HtmlLength + Length * 5 > HelpTool_HtmlSize ; worst case: every char escaped as "&amp;"
+      HelpTool_HtmlSize = (HelpTool_HtmlLength + Length * 5) * 2
+      *HelpTool_HtmlBuffer = ReAllocateMemory(*HelpTool_HtmlBuffer, HelpTool_HtmlSize, #PB_Memory_NoClear)
+    EndIf
+
+    *Output = *HelpTool_HtmlBuffer + HelpTool_HtmlLength
+    *TextEnd = *Text + Length
+    While *Text < *TextEnd
+      If Escape And *Text\a = '<'
+        PokeS(*Output, "&lt;", -1, #PB_Ascii|#PB_String_NoZero) : *Output + 4
+      ElseIf Escape And *Text\a = '>'
+        PokeS(*Output, "&gt;", -1, #PB_Ascii|#PB_String_NoZero) : *Output + 4
+      ElseIf Escape And *Text\a = '&'
+        PokeS(*Output, "&amp;", -1, #PB_Ascii|#PB_String_NoZero) : *Output + 5
+      Else
+        PokeA(*Output, *Text\a) : *Output + 1
+      EndIf
+      *Text + 1
+    Wend
+    HelpTool_HtmlLength = *Output - *HelpTool_HtmlBuffer
+  EndProcedure
+
+  Procedure HelpTool_HtmlWriteTag(Tag$)
+    *Tag = Ascii(Tag$)
+    HelpTool_HtmlWrite(*Tag, MemorySize(*Tag) - 1, #False)
+    FreeMemory(*Tag)
+  EndProcedure
+
+  ; The buffer is UTF-8, written byte by byte, so a token can't split a multi-byte character
+  ;
+  Procedure HelpTool_ColorCodeCallback(*StringStart, Length, *Color, IsBold, TextChanged)
+    Style = *Color
+    If Style >= #STYLE_FirstIssue ; issue highlighting in comments (ie: 'TODO')
+      Style = 3
+    EndIf
+
+    If Style > 1 And Style <= 16
+      HelpTool_HtmlWriteTag("<span class='s" + Str(Style) + "'>")
+      HelpTool_HtmlWrite(*StringStart, Length, #True)
+      HelpTool_HtmlWriteTag("</span>")
+    Else
+      HelpTool_HtmlWrite(*StringStart, Length, #True)
+    EndIf
+  EndProcedure
+
+  Procedure.s HelpTool_ColorCode(Code$)
+    *Buffer = UTF8(Code$)
+    If *Buffer
+      HelpTool_HtmlLength = 0
+      HighlightingEngine(*Buffer, MemorySize(*Buffer) - 1, 0, @HelpTool_ColorCodeCallback(), #False, #True) ; no case correction
+      FreeMemory(*Buffer)
+      If *HelpTool_HtmlBuffer
+        Result$ = PeekS(*HelpTool_HtmlBuffer, HelpTool_HtmlLength, #PB_UTF8|#PB_ByteLength)
+      EndIf
+    EndIf
+
+    ProcedureReturn Result$
+  EndProcedure
+
+  DataSection
+    HelpTool_StyleColors: ; Color for the Scintilla styles 1 to 16 (see SetUpHighlightingColors())
+    Data.l #COLOR_NormalText, #COLOR_BasicKeyword, #COLOR_Comment, #COLOR_Constant, #COLOR_String, #COLOR_PureKeyword, #COLOR_ASMKeyword, #COLOR_Operator
+    Data.l #COLOR_Structure, #COLOR_Number, #COLOR_Pointer, #COLOR_Separator, #COLOR_Label, #COLOR_CustomKeyword, #COLOR_Module, #COLOR_BadBrace
+  EndDataSection
+
+
   ; Build the help page colors (CSS variables) from the current editor color scheme
   ;
   Procedure.s HelpTool_ThemeColors()
@@ -1741,6 +1815,19 @@ CompilerElse
     Css$ + "--function:" + HelpTool_HtmlColor(Colors(#COLOR_PureKeyword)\DisplayValue) + "; "
     Css$ + "--keyword:"  + HelpTool_HtmlColor(Colors(#COLOR_BasicKeyword)\DisplayValue) + "; "
     Css$ + "--userlib:"  + HelpTool_HtmlColor(Colors(#COLOR_CustomKeyword)\DisplayValue) + ";}"
+
+    ; Examples syntax highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
+    If EnableColoring
+      Restore HelpTool_StyleColors
+      For Style = 1 To 16
+        Read.l ColorIndex
+        Css$ + " pre.ex .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
+        If EnableKeywordBolding And (Style = 2 Or Style = 14)
+          Css$ + " font-weight:bold;"
+        EndIf
+        Css$ + "}"
+      Next Style
+    EndIf
 
     ProcedureReturn Css$
   EndProcedure
@@ -1855,6 +1942,7 @@ CompilerElse
 
     pbhelp::OpenCodeCallback = @HelpTool_OpenCode()
     pbhelp::EditFileCallback = @HelpTool_EditFile()
+    pbhelp::ColorCodeCallback = @HelpTool_ColorCode()
     ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
     If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
       UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue

@@ -136,9 +136,9 @@
 @ReturnValue
   The status of the download. It can be the current number of received bytes or one of the following values:
 @FixedFont
-  @#PB_Http_Success    : the download has been successfully finished.
-  @#PB_Http_Failed     : the download has failed.
-  @#PB_Http_Aborted    : the download has been aborted with @@AbortHTTP.
+  @#PB_HTTP_Success    : the download has been successfully finished.
+  @#PB_HTTP_Failed     : the download has failed.
+  @#PB_HTTP_Aborted    : the download has been aborted with @@AbortHTTP.
 @EndFixedFont
 
 @Example
@@ -148,18 +148,18 @@
     Repeat
       Progress = HTTPProgress(Download)
       Select Progress
-        Case #PB_Http_Success
+        Case #PB_HTTP_Success
           *Buffer = FinishHTTP(Download)
           Debug "Download finished (size: " + MemorySize(*Buffer) + ")"
           FreeMemory(*Buffer)
           End
 
-        Case #PB_Http_Failed
+        Case #PB_HTTP_Failed
           Debug "Download failed"
           FinishHTTP(Download)
           End
 
-        Case #PB_Http_Aborted
+        Case #PB_HTTP_Aborted
           Debug "Download aborted"
           FinishHTTP(Download)
           End
@@ -195,10 +195,10 @@
 @Parameter "Type"
   The specific info to get. It can be one of the following values:
 @FixedFont
-  @#PB_Http_StatusCode  : the server status code (200: OK, 404: page not found etc.).
-  @#PB_Http_Response    : the server response, as text. To get the raw server response, use @@HTTPMemory.
-  @#PB_Http_Headers     : the request headers.
-  @#PB_Http_ErrorMessage: the HTTP request error message, if something goes wrong (mostly for debugging purpose).
+  @#PB_HTTP_StatusCode  : the server status code (200: OK, 404: page not found etc.).
+  @#PB_HTTP_Response    : the server response, as text. To get the raw server response, use @@HTTPMemory.
+  @#PB_HTTP_Headers     : the request headers.
+  @#PB_HTTP_ErrorMessage: the HTTP request error message, if something goes wrong (mostly for debugging purpose).
 @EndFixedFont
 
 @OptionalParameter "Flags"
