@@ -14,7 +14,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   ;
   Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)
     *WordStart.Character = *Buffer
-    *WordEnd.Character   = *Buffer + BufferLength
+    *WordEnd.Character   = *Buffer + BufferLength * #CharSize
     
     If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position <= BufferLength)
       *Cursor.Character = *Buffer + Position*#CharSize
@@ -47,7 +47,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; Special case: "var1*var2" is detected as one word! (also handle 1*2*3*4*word correctly)
       If Found
         Repeat
-          *Cursor = FindMemoryCharacter(*WordStart+#CharSize, *WordEnd-*WordStart-1, '*')
+          *Cursor = FindMemoryCharacter(*WordStart+#CharSize, (*WordEnd - *WordStart) / #CharSize - 1, '*')
           If *Cursor
             If *Cursor <= *Buffer + Position*#CharSize ; the cursor is on the second word
               *WordStart = *Cursor+#CharSize
