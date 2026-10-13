@@ -77,6 +77,74 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   EndProcedure
   
   
+  ; Returns the start index of the structure path of a field (ie: 'Var\Field' or 'List()\Sub\Field'),
+  ; so the whole path is evaluated and not a variable with the same name as the field.
+  ; WordStart is the start index of the field name. It is returned unchanged if the word is not a field.
+  ;
+  ; NOTE: When modifying this function, be sure to report to the IDE (HighlightingFunctions.pb)
+  ;
+  Procedure GetStructurePathStart(*Buffer, WordStart)
+    *Cursor.Character = *Buffer + (WordStart-1) * #CharSize
+    
+    Repeat
+      While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9) ; whitespace
+        *Cursor - #CharSize
+      Wend
+      If *Cursor < *Buffer Or *Cursor\c <> '\'
+        Break
+      EndIf
+      *Cursor - #CharSize
+      While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9) ; whitespace
+        *Cursor - #CharSize
+      Wend
+      
+      ; skip the () or [] of a list, map or array
+      If *Cursor >= *Buffer And (*Cursor\c = ')' Or *Cursor\c = ']')
+        CharClose = *Cursor\c
+        If CharClose = ')'
+          CharOpen = '('
+        Else
+          CharOpen = '['
+        EndIf
+        Depth = 0
+        While *Cursor >= *Buffer
+          If *Cursor\c = CharClose
+            Depth + 1
+          ElseIf *Cursor\c = CharOpen
+            Depth - 1
+            If Depth = 0
+              *Cursor - #CharSize
+              Break
+            EndIf
+          EndIf
+          *Cursor - #CharSize
+        Wend
+        If Depth <> 0
+          Break
+        EndIf
+      EndIf
+      
+      ; the name before the '\' (none inside a With block)
+      *NameEnd = *Cursor
+      While *Cursor >= *Buffer And ValidCharacters(*Cursor\c)
+        *Cursor - #CharSize
+      Wend
+      If *Cursor = *NameEnd
+        Break
+      EndIf
+      If *Cursor >= *Buffer And *Cursor\c = '*' ; pointer, but not a multiplication
+        *Previous.Character = *Cursor - #CharSize
+        If *Cursor = *Buffer Or ValidCharacters(*Previous\c) = 0
+          *Cursor - #CharSize
+        EndIf
+      EndIf
+      WordStart = (*Cursor + #CharSize - *Buffer) / #CharSize
+    ForEver
+    
+    ProcedureReturn WordStart
+  EndProcedure
+  
+  
   Procedure.s GetLine(EditorGadget, Index)
     
     range.TextRange\chrg\cpMin = ScintillaSendMessage(EditorGadget, #SCI_POSITIONFROMLINE, Index, 0)
@@ -187,6 +255,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               If Mid(Line$, selStart, 1) = "$" Or Mid(Line$, selStart, 1) = "%"
                 selStart-1
               EndIf
+              selStart = GetStructurePathStart(@Line$, selStart) ; evaluate 'Var\Field', not a variable named like the field
               
               Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1)
               IsVariableExpression = 1
