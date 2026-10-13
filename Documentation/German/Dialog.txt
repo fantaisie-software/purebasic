@@ -710,6 +710,60 @@
   untergeordneten Elemente, sodass diese an die neue Größe angepasst werden – genau wie bei einem
   Dialogfenster, das mit @@OpenXMLDialog geöffnet wurde.
 
+@Example
+
+@Code
+  #Dialog = 0
+  #Xml = 0
+  #Window = 0
+
+  XML$ = "<window name='test'>" +
+         "  <vbox expand='item:3'>" +
+         "    <string name='name' text='Your name' />" +
+         "    <checkbox name='newsletter' text='Subscribe to the newsletter' />" +
+         "    <editor name='comment' height='80' />" +
+         "  </vbox>" +
+         "</window>"
+
+  If OpenWindow(#Window, 0, 0, 320, 240, "XmlDialogGadget", #PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget)
+
+    TextGadget(#PB_Any, 10, 10, 300, 20, "This window hosts a dialog defined in XML:")
+
+    If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+      If CreateDialog(#Dialog) And XmlDialogGadget(#Dialog, #Xml, "test", 10, 35, 300, 160)
+
+        ; Das Dialog-Container-Gadget selbst wird über den Namen seines <window>-Root-Elements abgerufen
+        Container = DialogGadget(#Dialog, "test")
+
+        Ok = ButtonGadget(#PB_Any, 210, 205, 100, 25, "OK")
+
+        Repeat
+          Event = WaitWindowEvent()
+
+          Select Event
+            Case #PB_Event_SizeWindow
+              ; Durch die Größenänderung des Containers werden die darin enthaltenen Dialog-Elemente automatisch neu angeordnet
+              ResizeGadget(Container, #PB_Ignore, #PB_Ignore, WindowWidth(#Window) - 20, WindowHeight(#Window) - 80)
+              ResizeGadget(Ok, WindowWidth(#Window) - 110, WindowHeight(#Window) - 35, #PB_Ignore, #PB_Ignore)
+
+            Case #PB_Event_Gadget
+              If EventGadget() = Ok
+                Debug "Name: " + GetGadgetText(DialogGadget(#Dialog, "name"))
+                Debug "Newsletter: " + GetGadgetState(DialogGadget(#Dialog, "newsletter"))
+              EndIf
+          EndSelect
+        Until Event = #PB_Event_CloseWindow
+
+      Else
+        Debug "Dialog error: " + DialogError(#Dialog)
+      EndIf
+    Else
+      Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+    EndIf
+  EndIf
+@EndCode
+
 @SeeAlso
   @@OpenXMLDialog, @@DialogGadget, @@DialogWindow
 
