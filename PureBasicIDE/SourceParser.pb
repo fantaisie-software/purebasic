@@ -1459,6 +1459,16 @@ Procedure ScanBuffer(*Parser.ParserData, *Buffer, Length, LineOffset, LastLine, 
         length  = Len(BasicKeywords(k))
         compare = CompareMemoryString(ToAscii(BasicKeywords(k)), *Cursor, 1, length, #PB_Ascii)  ; Case insensitive compare
         
+        If compare = 0 And (k = #KEYWORD_Array Or k = #KEYWORD_List Or k = #KEYWORD_Map)
+          ; The Array, List and Map keywords are always followed by a name. Followed by a '(', it is
+          ; an array, list or map named like the keyword (ie: 'NewList List.s()'), so scan it as a normal word
+          *Next.BYTE = *Cursor + length
+          Parser_SkipSpace(*Next)
+          If *Next\b = '('
+            Break
+          EndIf
+        EndIf
+        
         If compare = 0 And (ValidCharacters(PeekA(*Cursor + length)) = 0 Or PeekB(*Cursor + length) = '$') ; if the compare=0, then we have at least length chars left
           
           ; found a keyword here
