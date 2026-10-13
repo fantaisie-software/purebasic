@@ -294,6 +294,16 @@
 @LineBreak
 @LineBreak
 
+@Bold "Gemeinsam genutzte UCRT verwenden (Windows 10 und höher)" (nur auf Windows)
+@LineBreak
+  Verwendet beim Erstellen der ausführbaren Datei oder DLL die dynamische universelle CRT (UCRT) von Windows. Dies wird
+  empfohlen, wenn die ausführbare Datei oder DLL ältere Windows-Versionen vor Windows 10 nicht unterstützen muss. Die
+  resultierende Executable-Datei oder DLL ist kleiner und erhält automatische Sicherheitsfixes vom CRT, wenn Microsoft sie
+  aktualisiert. Diese Option ist unter PureBasic für Windows arm64 immer aktiviert.
+
+@LineBreak
+@LineBreak
+
 @Bold "OnError-Unterstützung einschalten"
 @LineBreak
   Bindet Informationen zu den Zeilennummern zur Verwendung mit der @LibraryLink "onerror" "OnError" Bibliothek in
