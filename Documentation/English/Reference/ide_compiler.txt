@@ -262,6 +262,15 @@ MacOS X: The icon must be in ICNS format (Macintosh Icon). To create such an ico
 @LineBreak
 @LineBreak
 
+@Bold "Use shared UCRT (Windows 10 and above)" (Windows only)
+@LineBreak
+  Uses the dynamic universal CRT (UCRT) of Windows when creating the executable or DLL. It is recommended when the executable
+  or DLL doesn't need to support Windows versions older than Windows 10. The resulting executable or DLL will be smaller and
+  will get automatic security fixes from the CRT when Microsoft updates it. This option is always enabled on PureBasic for Windows arm64.
+
+@LineBreak
+@LineBreak
+
 @Bold "Enable OnError lines support"
 @LineBreak
   Includes line numbers information with the executable for the @LibraryLink "onerror" "OnError-Library".
