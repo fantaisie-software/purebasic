@@ -3022,6 +3022,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           ScintillaSendMessage(EditorGadget, #SCI_ENSUREVISIBLE, line, 0)
         Next line
         
+        ; An empty range (ie: text inserted by an undo in a folded block) is not covered by the loop above
+        If *scinotify\length = 0
+          ScintillaSendMessage(EditorGadget, #SCI_ENSUREVISIBLE, firstLine, 0)
+        EndIf
+        
         ; if the last line needed visible is a fold point we must expand that!
         ; -> fixes a problem when hitting enter on a folded procedure line
         ; -> second problem: typing "Procedure" above a folded procedure expands that one too!
