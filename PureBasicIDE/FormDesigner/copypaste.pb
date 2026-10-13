@@ -247,6 +247,19 @@ Procedure FD_PasteEvent()
     FD_Paste()
   EndIf
 EndProcedure
+Procedure FD_GridClipboardEvent(*grid, MenuID) ; cut/copy/paste shortcut in a separate grid window (items, columns, images)
+  If *grid And grid_EventEditing(*grid)
+    Select MenuID
+      Case #MENU_Cut
+        grid_CutCellCursorSelection(*grid)
+      Case #MENU_Copy
+        grid_CopyCellCursorSelection(*grid)
+      Case #MENU_Paste
+        grid_PasteCellCursorSelection(*grid)
+    EndSelect
+    grid_SetActiveGadget(*grid)
+  EndIf
+EndProcedure
 Procedure FD_DuplicateGadget()
   If ListSize(FormWindows())
     
