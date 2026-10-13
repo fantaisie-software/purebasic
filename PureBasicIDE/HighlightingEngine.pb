@@ -1574,11 +1574,19 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
 
                   Default
                     ; incorrect sequence. mark it with the "bad brace" color
+                    ; include the whole UTF-8 character after the '\', as a split character is displayed as invalid bytes
+                    EscapeLength = 2
+                    If SourceStringFormat = #PB_UTF8 And *Cursor\a[1] & %11000000 = %11000000
+                      While *Cursor+EscapeLength < *InBufferEnd And *Cursor\a[EscapeLength] & %11000000 = %10000000
+                        EscapeLength + 1
+                      Wend
+                    EndIf
+                    
                     If *Cursor > *StringStart
                       Callback(*StringStart, *Cursor-*StringStart, *StringColor, 0, 0)
                     EndIf
-                    Callback(*StringStart, 2, *BadEscapeColor, 0, 0)
-                    *Cursor + 2
+                    Callback(*StringStart, EscapeLength, *BadEscapeColor, 0, 0)
+                    *Cursor + EscapeLength
                     *StringStart = *Cursor
 
                 EndSelect
