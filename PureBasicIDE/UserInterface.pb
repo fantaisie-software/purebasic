@@ -1974,8 +1974,15 @@ Procedure MainWindowEvents(EventID)
   
   If EventID = #PB_Event_ActivateWindow
     If GetActiveWindow() = #WINDOW_Main  ; check if it still got the focus and it is not just a delayed focus event!
-      If *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\IsForm = 0
-        SetActiveGadget(*ActiveSource\EditorGadget) ; Always give back the focus to the editor when the window gets activated
+      If *ActiveSource And *ActiveSource <> *ProjectInfo
+        If *ActiveSource\IsForm = 0
+          SetActiveGadget(*ActiveSource\EditorGadget) ; Always give back the focus to the editor when the window gets activated
+        Else
+          *Form.FormWindow = *ActiveSource\IsForm
+          If *Form\current_view = 0
+            AddStringShortcuts() ; Restore the 4 string shortcuts in Form Designer design view, removed by #SCN_FOCUSOUT after F5 Compile/Run
+          EndIf
+        EndIf
       EndIf
       FileMonitorEvent()
     EndIf

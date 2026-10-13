@@ -1603,6 +1603,7 @@ Procedure Debugger_EvaluateAtCursor(position)
           If Mid(Line$, selStart, 1) = "$" Or Mid(Line$, selStart, 1) = "%"
             selStart-1
           EndIf
+          selStart = GetStructurePathStart(@Line$, selStart) ; evaluate 'Var\Field', not a variable named like the field
           
           Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1)
           IsVariableExpression = 1

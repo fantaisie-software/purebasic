@@ -14,7 +14,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   ;
   Procedure GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)
     *WordStart.Character = *Buffer
-    *WordEnd.Character   = *Buffer + BufferLength
+    *WordEnd.Character   = *Buffer + BufferLength * #CharSize
     
     If Position >= 0 And Position < BufferLength+#CharSize And (Mode = 1 Or Position <= BufferLength)
       *Cursor.Character = *Buffer + Position*#CharSize
@@ -47,7 +47,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; Special case: "var1*var2" is detected as one word! (also handle 1*2*3*4*word correctly)
       If Found
         Repeat
-          *Cursor = FindMemoryCharacter(*WordStart+#CharSize, *WordEnd-*WordStart-1, '*')
+          *Cursor = FindMemoryCharacter(*WordStart+#CharSize, (*WordEnd - *WordStart) / #CharSize - 1, '*')
           If *Cursor
             If *Cursor <= *Buffer + Position*#CharSize ; the cursor is on the second word
               *WordStart = *Cursor+#CharSize
@@ -74,6 +74,74 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     CompilerEndIf
     
     ProcedureReturn Found
+  EndProcedure
+  
+  
+  ; Returns the start index of the structure path of a field (ie: 'Var\Field' or 'List()\Sub\Field'),
+  ; so the whole path is evaluated and not a variable with the same name as the field.
+  ; WordStart is the start index of the field name. It is returned unchanged if the word is not a field.
+  ;
+  ; NOTE: When modifying this function, be sure to report to the IDE (HighlightingFunctions.pb)
+  ;
+  Procedure GetStructurePathStart(*Buffer, WordStart)
+    *Cursor.Character = *Buffer + (WordStart-1) * #CharSize
+    
+    Repeat
+      While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9) ; whitespace
+        *Cursor - #CharSize
+      Wend
+      If *Cursor < *Buffer Or *Cursor\c <> '\'
+        Break
+      EndIf
+      *Cursor - #CharSize
+      While *Cursor >= *Buffer And (*Cursor\c = ' ' Or *Cursor\c = 9) ; whitespace
+        *Cursor - #CharSize
+      Wend
+      
+      ; skip the () or [] of a list, map or array
+      If *Cursor >= *Buffer And (*Cursor\c = ')' Or *Cursor\c = ']')
+        CharClose = *Cursor\c
+        If CharClose = ')'
+          CharOpen = '('
+        Else
+          CharOpen = '['
+        EndIf
+        Depth = 0
+        While *Cursor >= *Buffer
+          If *Cursor\c = CharClose
+            Depth + 1
+          ElseIf *Cursor\c = CharOpen
+            Depth - 1
+            If Depth = 0
+              *Cursor - #CharSize
+              Break
+            EndIf
+          EndIf
+          *Cursor - #CharSize
+        Wend
+        If Depth <> 0
+          Break
+        EndIf
+      EndIf
+      
+      ; the name before the '\' (none inside a With block)
+      *NameEnd = *Cursor
+      While *Cursor >= *Buffer And ValidCharacters(*Cursor\c)
+        *Cursor - #CharSize
+      Wend
+      If *Cursor = *NameEnd
+        Break
+      EndIf
+      If *Cursor >= *Buffer And *Cursor\c = '*' ; pointer, but not a multiplication
+        *Previous.Character = *Cursor - #CharSize
+        If *Cursor = *Buffer Or ValidCharacters(*Previous\c) = 0
+          *Cursor - #CharSize
+        EndIf
+      EndIf
+      WordStart = (*Cursor + #CharSize - *Buffer) / #CharSize
+    ForEver
+    
+    ProcedureReturn WordStart
   EndProcedure
   
   
@@ -187,6 +255,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               If Mid(Line$, selStart, 1) = "$" Or Mid(Line$, selStart, 1) = "%"
                 selStart-1
               EndIf
+              selStart = GetStructurePathStart(@Line$, selStart) ; evaluate 'Var\Field', not a variable named like the field
               
               Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1)
               IsVariableExpression = 1

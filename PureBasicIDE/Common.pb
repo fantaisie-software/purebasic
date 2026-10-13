@@ -1574,6 +1574,8 @@ Enumeration 1
   #TIMER_ProcedureBrowser
   ; Timer for the help tool, to reload the help when its source is edited
   #TIMER_HelpTool
+  ; Timer to check for files sent by another IDE instance (RunOnce on Linux, when there is no client message filter)
+  #TIMER_RunOnce
 EndEnumeration
 
 ;- Custom PostEvent event types
