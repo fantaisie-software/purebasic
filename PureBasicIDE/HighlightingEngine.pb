@@ -1334,7 +1334,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       FunctionPosition = IsAPIFunction(*WordStart, WordLength)
       If FunctionPosition > -1
 
-        If DisableFormatting = #False And EnableCaseCorrection
+        If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '\' ; do not correct interface methods or structure members
           TextChanged = CopyMemoryCheck(APIFunctions(FunctionPosition)\Ascii, *WordStart, WordLength-1)
         EndIf
 
@@ -1342,7 +1342,7 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
         FunctionPosition = IsBasicFunction(UCase(WordStart$))
         If FunctionPosition > -1
 
-          If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '.' ; do not correct structure names
+          If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '.' And OldSeparatorChar <> '\' ; do not correct structure names, interface methods or structure members
             TextChanged = CopyMemoryCheck(BasicFunctions(FunctionPosition)\Ascii, *WordStart, WordLength)
           EndIf
 
