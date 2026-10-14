@@ -1318,7 +1318,7 @@ DataSection
     Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
     Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
-    Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
+    Data$ "DPIAware",         "Enable DPI aware executable"
     Data$ "DPIAwareModeSystem",     "System"
     Data$ "DPIAwareModePerMonitor", "Per-Monitor"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"

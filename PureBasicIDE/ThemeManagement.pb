@@ -206,9 +206,9 @@ Procedure Theme_LoadImage(Image, ImageName$)
             CopyImage(tmpImage, Image)
             FreeImage(tmpImage)
           EndIf
-        CompilerElse
+        CompilerElseIf #CompileWindows
           ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
-        CompilerEndIf
+        CompilerEndIf ; On Linux, GTK displays the toolbar/menu/tree icons in logical units, so no resize is needed
         FreeMemory(*Buffer)
       EndIf
       
@@ -244,8 +244,16 @@ Procedure Theme_AddToPrefslist(Filename$)
       Box(0, 0, PreviewWidth  , PreviewHeight  , $000000)
       Box(DesktopScaledX(1), DesktopScaledY(1), PreviewWidth-2, PreviewHeight-2, $FFFFFF)
       
+      CompilerIf #CompileLinux
+        DrawingMode(#PB_2DDrawing_AlphaBlend) ; the theme icons aren't DPI resized on Linux (see Theme_LoadImage()), so do it here
+      CompilerEndIf
+
       For i = 0 To count-1
-        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
+        CompilerIf #CompileLinux
+          DrawImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3), DesktopScaledX(ImageWidth(#IMAGE_FirstThemePreview+i)), DesktopScaledY(ImageHeight(#IMAGE_FirstThemePreview+i)))
+        CompilerElse
+          DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
+        CompilerEndIf
       Next i
       
       StopDrawing()

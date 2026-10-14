@@ -635,8 +635,8 @@ Procedure CustomizeTabBarGadget()
   TabBarGadgetInclude\EnableDoubleClickForNewTab = #False
   ;TabBarGadgetInclude\EnableMiddleClickForCloseTab = #False
   
-  TabBarGadgetInclude\ArrowWidth = 18
-  TabBarGadgetInclude\ArrowHeight = 18
+  TabBarGadgetInclude\ArrowWidth = DesktopScaledX(18)
+  TabBarGadgetInclude\ArrowHeight = DesktopScaledY(18)
   
   ; determine colors and font in an OS-specific way
   ;
@@ -654,12 +654,12 @@ Procedure CustomizeTabBarGadget()
     TabBarGadgetInclude\TextColor = $FF<<24 | RGB(*Style\fg[#GTK_STATE_NORMAL]\red >> 8, *Style\fg[#GTK_STATE_NORMAL]\green >> 8, *Style\fg[#GTK_STATE_NORMAL]\blue >> 8)
     
     ; some adjustments to the generally larger fonts on Linux
-    TabBarGadgetInclude\CloseButtonSize = 15
+    TabBarGadgetInclude\CloseButtonSize = DesktopScaledX(15)
   CompilerEndIf
   
   CompilerIf #CompileLinuxQt
     TabBarGadgetInclude\TabBarColor = QT_WindowBackgroundColor(WindowID(#WINDOW_Main))
-    TabBarGadgetInclude\CloseButtonSize = 15
+    TabBarGadgetInclude\CloseButtonSize = DesktopScaledX(15)
   CompilerEndIf
   
   CompilerIf #CompileMac

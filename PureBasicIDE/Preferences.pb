@@ -3302,10 +3302,6 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_UseCreateExecutable, OptionUseCreateExe)
   CompilerEndIf
   
-  CompilerIf #CompileLinux And Not #SpiderBasic
-    DisableGadget(#GADGET_Preferences_DPIAware, 1)
-  CompilerEndIf
-  
   CompilerIf Not #CompileWindows
     DisableGadget(#GADGET_Preferences_XPSkin, 1)
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)

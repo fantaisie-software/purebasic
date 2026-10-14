@@ -92,6 +92,7 @@
 @Remarks
   The application needs to be compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" to have this command returning real DPI resolution factor. 
   If not, the result will be always be '1'.
+  On Linux (GTK3), the factor is always an integer, as GTK only supports integer scaling: with a 150% desktop scaling, it returns '2'.
 
 @Example
 @Code
@@ -119,6 +120,7 @@
 @Remarks
   The application needs to be compiled with the @ReferenceLink "ide_compiler" "'DPI Aware' switch" to have this command returning real DPI resolution factor. 
   If not, the result will be always be '1'.
+  On Linux (GTK3), the factor is always an integer, as GTK only supports integer scaling: with a 150% desktop scaling, it returns '2'.
 
 @Example
 @Code
