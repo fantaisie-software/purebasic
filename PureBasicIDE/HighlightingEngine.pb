@@ -374,6 +374,11 @@ CompilerEndIf
 ;
 Prototype HighlightCallback(*StringStart.BYTE, Length, *Color, IsBold, TextChanged)
 
+; Optional, setup by the IDE: corrects the case of an interface method called with '\' to the one of
+; its declaration. Returns #True if the text was changed. Without it, such methods are not case corrected
+Prototype InterfaceMethodCaseCallback(*WordStart.BYTE, WordLength)
+Global InterfaceMethodCase.InterfaceMethodCaseCallback
+
 ; For API/BasicFunction array
 Structure FunctionEntry
   Name$        ; name (in correct case)
@@ -1075,6 +1080,27 @@ Procedure IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 EndProcedure
 
 
+;  Checks if the word is a keyword which can be used inside a Structure or Interface block. Any other
+;  keyword is a field or method name there (like 'Data.i' or 'For()')
+;
+Procedure IsStructureBlockKeyword(Word$, *LineStart, *WordStart)
+  Select IsBasicKeyword(Word$, *LineStart, *WordStart)
+    Case #KEYWORD_Structure, #KEYWORD_EndStructure, #KEYWORD_Interface, #KEYWORD_EndInterface, #KEYWORD_Extends, #KEYWORD_Align,
+         #KEYWORD_Array, #KEYWORD_List, #KEYWORD_Map,
+         #KEYWORD_CompilerIf, #KEYWORD_CompilerElseIf, #KEYWORD_CompilerElse, #KEYWORD_CompilerEndIf,
+         #KEYWORD_CompilerSelect, #KEYWORD_CompilerCase, #KEYWORD_CompilerDefault, #KEYWORD_CompilerEndSelect,
+         #KEYWORD_CompilerError, #KEYWORD_CompilerWarning
+      ProcedureReturn #True
+      
+    CompilerIf Not #SpiderBasic
+      Case #KEYWORD_StructureUnion, #KEYWORD_EndStructureUnion
+        ProcedureReturn #True
+    CompilerEndIf
+  EndSelect
+  
+  ProcedureReturn #False
+EndProcedure
+
 Procedure IsDecNumber(*string.BYTE, length)
   If length < 0 Or ByteUcase(*string\b) = 'E' ; prevent variablenames like e1, e, e1225 from highlighting as numbers
     ProcedureReturn 0
@@ -1151,7 +1177,7 @@ EndProcedure
 #SkipSeparator = -2
 #ModuleSeparator = -2
 
-Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode, DisableFormatting = 0)
+Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback.HighlightCallback, IsSourceCode, DisableFormatting = 0, InsideStructure = 0)
 
   *Cursor.HighlightPTR = *InBuffer
   *InBufferEnd = *InBuffer + InBufferLength
@@ -1276,7 +1302,8 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       ; also not when its the first thing in a command, and a Asm keyword (and asm turned on)
       ; as And, Or, Xor and such only happen as keywords after something else, this will work
       ;
-    ElseIf IsBasicKeyword(WordStart$, *LineStart, *WordStart) And OldSeparatorChar <> '\' And (ASMEnabled = 0 Or IsASMKeyword(WordStart$) = 0 Or IsCommandStart(*LineStart, *WordStart) = 0)
+    ElseIf IsBasicKeyword(WordStart$, *LineStart, *WordStart) And OldSeparatorChar <> '\' And (ASMEnabled = 0 Or IsASMKeyword(WordStart$) = 0 Or IsCommandStart(*LineStart, *WordStart) = 0) And
+           (InsideStructure = #False Or (SeparatorChar <> '.' And IsStructureBlockKeyword(WordStart$, *LineStart, *WordStart)))
 
       ; -------------------- Basic Keywords -------------------------
 
@@ -1302,6 +1329,12 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
           
         Case BasicKeywords(#KEYWORD_DisableASM), BasicKeywords(#KEYWORD_EndHeaderSection)
           DisableFormatting = #False
+          
+        Case BasicKeywords(#KEYWORD_Structure), BasicKeywords(#KEYWORD_Interface)
+          InsideStructure = #True
+          
+        Case BasicKeywords(#KEYWORD_EndStructure), BasicKeywords(#KEYWORD_EndInterface)
+          InsideStructure = #False
       EndSelect
 
     ElseIf SeparatorChar = ':' And *Cursor\a[1] = ':'
@@ -1331,23 +1364,28 @@ Procedure HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, Callback
       ; --------------------- Procedures / Functions --------------------
       TextChanged = 0
 
-      FunctionPosition = IsAPIFunction(*WordStart, WordLength)
-      If FunctionPosition > -1
-
-        If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '\' ; do not correct interface methods or structure members
-          TextChanged = CopyMemoryCheck(APIFunctions(FunctionPosition)\Ascii, *WordStart, WordLength-1)
-        EndIf
-
-      Else
-        FunctionPosition = IsBasicFunction(UCase(WordStart$))
-        If FunctionPosition > -1
-
-          If DisableFormatting = #False And EnableCaseCorrection And OldSeparatorChar <> '.' And OldSeparatorChar <> '\' ; do not correct structure names, interface methods or structure members
-            TextChanged = CopyMemoryCheck(BasicFunctions(FunctionPosition)\Ascii, *WordStart, WordLength)
+      ; Structure fields and interface methods can have the name of a function: keep the case of
+      ; the declaration and use it for the method calls, instead of the case of the function
+      If DisableFormatting = #False And EnableCaseCorrection And InsideStructure = #False
+        If OldSeparatorChar = '\'
+          ; other methods are never corrected, so only look up the declaration when needed
+          If InterfaceMethodCase And (IsAPIFunction(*WordStart, WordLength) > -1 Or IsBasicFunction(UCase(WordStart$)) > -1)
+            TextChanged = InterfaceMethodCase(*WordStart, WordLength)
           EndIf
 
-        EndIf
+        Else
+          FunctionPosition = IsAPIFunction(*WordStart, WordLength)
+          If FunctionPosition > -1
+            TextChanged = CopyMemoryCheck(APIFunctions(FunctionPosition)\Ascii, *WordStart, WordLength-1)
 
+          ElseIf OldSeparatorChar <> '.' ; do not correct structure names
+            FunctionPosition = IsBasicFunction(UCase(WordStart$))
+            If FunctionPosition > -1
+              TextChanged = CopyMemoryCheck(BasicFunctions(FunctionPosition)\Ascii, *WordStart, WordLength)
+            EndIf
+
+          EndIf
+        EndIf
       EndIf
 
       If OldSeparatorChar = '.'
