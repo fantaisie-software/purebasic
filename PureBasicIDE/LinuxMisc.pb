@@ -141,7 +141,10 @@ CompilerIf #CompileLinux
     ;
     If system_(ToAscii("which gnome-terminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = "-- "
-      
+
+    ElseIf system_(ToAscii("which ptyxis > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0 ; default terminal on recent Ubuntu/Fedora GNOME
+      GUITerminalParameters$ = "-- "
+
     ElseIf system_(ToAscii("which konsole > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "
       
@@ -162,7 +165,10 @@ CompilerIf #CompileLinux
       
     ElseIf system_(ToAscii("which io.elementary.terminal > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0
       GUITerminalParameters$ = " -e "
-    
+
+    ElseIf system_(ToAscii("which x-terminal-emulator > "+TempPath$+"PB_TerminalTest.txt 2>/dev/null")) = 0 ; Debian alternative, '-e' is required by the policy
+      GUITerminalParameters$ = " -e "
+
     Else
       GUITerminalParameters$ = ""
       
