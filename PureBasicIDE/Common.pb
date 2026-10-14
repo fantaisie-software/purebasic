@@ -2410,6 +2410,8 @@ Structure Issue
   Regex.i    ; compiled regex (#PB_Any)
   Style.l    ; code style (if ColorMode=1) -1 if not used
   Marker.l   ; code marker (if ColorMode=2) -1 if not used
+  HasDisplayGroup.l ; regex has a 'display' named group
+  HasMarkGroup.l    ; regex has a 'mark' named group
 EndStructure
 
 Structure FoundIssue

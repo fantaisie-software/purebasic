@@ -19,6 +19,14 @@ EndStructure
 Global NewList DisplayedIssues.DisplayIssue()
 Global LastIssueExport$
 
+; Check if the regex defines the given named group, as querying a non existing group is an error
+Procedure IssueHasNamedGroup(Expression$, Name$)
+  If FindString(Expression$, "(?<" + Name$ + ">") Or FindString(Expression$, "(?P<" + Name$ + ">") Or FindString(Expression$, "(?'" + Name$ + "'")
+    ProcedureReturn #True
+  EndIf
+  ProcedureReturn #False
+EndProcedure
+
 Procedure InitIssueList()
   Style = #STYLE_FirstIssue
   Marker = #MARKER_FirstIssue
@@ -29,6 +37,8 @@ Procedure InitIssueList()
     ;       errors at this point. It could only be an error if somebody manually edited the prefs,
     ;       so just ignore this then (a 0 regex is correctly handled later)
     Issues()\Regex = CreateRegularExpression(#PB_Any, Issues()\Expression$)
+    Issues()\HasDisplayGroup = IssueHasNamedGroup(Issues()\Expression$, "display")
+    Issues()\HasMarkGroup    = IssueHasNamedGroup(Issues()\Expression$, "mark")
     
     ; Assign styles and markers
     Issues()\Marker = -1
@@ -69,14 +79,20 @@ Procedure ScanCommentIssues(Comment$, List Found.FoundIssue(), IsHighlight)
     If Regex And (IsHighlight = 0 Or Issues()\Style <> -1) And ExamineRegularExpression(Regex, Comment$)
       While NextRegularExpressionMatch(Regex)
         AddElement(Found())
-        Found()\Text$ = RegularExpressionNamedGroup(Regex, "display") ; first look for a named group with display text
+        Found()\Text$ = ""
+        If Issues()\HasDisplayGroup
+          Found()\Text$ = RegularExpressionNamedGroup(Regex, "display") ; first look for a named group with display text
+        EndIf
         If Found()\Text$ = ""
           Found()\Text$ = RegularExpressionMatchString(Regex) ; if no such group exists, display all text
         EndIf
         Found()\Text$ = Trim(ReplaceString(Found()\Text$, Chr(9), " "))
         
         Found()\Position = RegularExpressionMatchPosition(Regex)
-        GroupPosition = RegularExpressionNamedGroupPosition(Regex, "mark") ; look for a group to define the marked string
+        GroupPosition = 0
+        If Issues()\HasMarkGroup
+          GroupPosition = RegularExpressionNamedGroupPosition(Regex, "mark") ; look for a group to define the marked string
+        EndIf
         If GroupPosition > 0
           Found()\Position + GroupPosition - 1
           Found()\Length = RegularExpressionNamedGroupLength(Regex, "mark")
