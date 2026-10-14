@@ -1203,8 +1203,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     LineStart = SendEditorMessage(#SCI_LINEFROMPOSITION, StartPosition, 0)
     LineEnd   = SendEditorMessage(#SCI_LINEFROMPOSITION, EndPosition, 0)
-    RowStart  = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, LineStart, 0), StartPosition)
-    RowEnd    = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, LineEnd, 0), EndPosition)
+    RowStart  = SendEditorMessage(#SCI_COUNTCODEUNITS, SendEditorMessage(#SCI_POSITIONFROMLINE, LineStart, 0), StartPosition) ; UTF-16 code units, so characters outside the BMP (like emojis) count as 2 PB chars
+    RowEnd    = SendEditorMessage(#SCI_COUNTCODEUNITS, SendEditorMessage(#SCI_POSITIONFROMLINE, LineEnd, 0), EndPosition)
     
     If *LineStart: *LineStart\i = LineStart + 1: EndIf
     If *RowStart : *Rowstart\i  = RowStart  + 1: EndIf
