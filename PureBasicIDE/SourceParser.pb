@@ -2126,6 +2126,24 @@ Procedure Parser_AddSorted(*Tree.RadixTree, *Item.SourceItem, Line)
   
 EndProcedure
 
+; Same as Parser_AddSorted(), but a typed definition replaces an untyped one with the same name,
+; so an earlier untyped use (ie: 'Status\Field = 0' before 'Global Status.StatusType') doesn't hide the type
+;
+Procedure Parser_AddSortedVariable(*Tree.RadixTree, *Item.SourceItem, Line)
+  
+  *Node.RadixNode = RadixFindPrefix(*Tree, *Item\Name$, #True)
+  If *Node And *Node\Value
+    *Sorted.SourceItem = *Node\Value
+    If StringField(*Sorted\Type$, 1, Chr(10)) = "" And StringField(*Item\Type$, 1, Chr(10)) <> ""
+      *Item\SortedLine = Line
+      *Node\Value = *Item
+    EndIf
+  Else
+    Parser_AddSorted(*Tree, *Item, Line)
+  EndIf
+  
+EndProcedure
+
 
 ; Update the Sorted source data for fast access
 ; This is done for all non-active sources
@@ -2288,7 +2306,7 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
           
         Case #ITEM_Variable, #ITEM_Array, #ITEM_LinkedList, #ITEM_Map
           If *Item\Scope = #SCOPE_GLOBAL Or *Item\Scope = #SCOPE_THREADED Or *Item\Scope = #SCOPE_SHARED Or InProcedure = 0 Or InImport
-            Parser_AddSorted(@*CurrentModule\Indexed[*Item\Type], *Item, Line)
+            Parser_AddSortedVariable(@*CurrentModule\Indexed[*Item\Type], *Item, Line)
           EndIf
           
         Case #ITEM_Keyword
