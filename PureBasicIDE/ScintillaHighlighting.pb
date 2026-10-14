@@ -2890,7 +2890,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
-                HighlightLine$ = OldLine$+#NewLine
+                ; the last line has no newline: styling it would go past the end of the document and crash Scintilla
+                HighlightLine$ = OldLine$
+                If *ActiveSource\CurrentLineOld < SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
+                  HighlightLine$ + #NewLine
+                EndIf
                 anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
@@ -3071,7 +3075,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           ; and then directly re-open in structure mode for the structure, so handle this case
           If AutoCompleteWindowOpen
             If *scinotify\ch = '\' ; this always has to force a close! (AutoComplete_WordUpdate() cannot detect this in structure mode)
-              AutoComplete_Close()
+              ; Don't hide the window yet, as it may re-open in structure mode just below: on Linux, the focus-out
+              ; event of the hidden window arrives after the re-open, and closes it again
+              AutoCompleteWindowOpen = 0
+              CloseVisibleWindow = #True
             Else
               AutoComplete_WordUpdate()
             EndIf
@@ -3084,6 +3091,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             If CheckSearchStringComment(line, position, 1)
               OpenAutoCompleteWindow(#True)
             EndIf
+          EndIf
+          
+          If CloseVisibleWindow And AutoCompleteWindowOpen = 0 ; not re-opened, so close the still visible window
+            AutoCompleteWindowOpen = 1
+            AutoComplete_Close()
           EndIf
           
           
