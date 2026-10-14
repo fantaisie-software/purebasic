@@ -825,6 +825,15 @@ Procedure CreateGUI()
   EndIf
   
   GetWindowMetrics()
+  
+  CompilerIf #CompileMac
+    ; Adding the toolbar moves the window down and takes part of its height from the window content,
+    ; so restore the requested position and height, else the window moves down and gets smaller on each start
+    If WindowY(#WINDOW_Main) <> EditorWindowY Or WindowHeight(#WINDOW_Main) <> EditorWindowHeight
+      ResizeWindow(#WINDOW_Main, #PB_Ignore, EditorWindowY, #PB_Ignore, EditorWindowHeight)
+    EndIf
+  CompilerEndIf
+  
   ResizeMainWindow()
   
   ; For the toolpanel auto-hide stuff
@@ -2339,12 +2348,7 @@ EndProcedure
 
 Procedure ResizeMainWindow()
   EditorWindowWidth  = WindowWidth(#WINDOW_Main)   ; update the global variables to speed up things like splitter movement
-
-  CompilerIf #CompileMac
-    EditorWindowHeight = WindowHeight(#WINDOW_Main, #PB_Window_FrameCoordinate)
-  CompilerElse
-    EditorWindowHeight = WindowHeight(#WINDOW_Main)
-  CompilerEndIf
+  EditorWindowHeight = WindowHeight(#WINDOW_Main)
   
   If IsWindowMaximized(#WINDOW_Main) = 0 And IsWindowMinimized(#WINDOW_Main) = 0
     Save_EditorX = WindowX(#WINDOW_Main)
