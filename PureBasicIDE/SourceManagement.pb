@@ -2918,10 +2918,12 @@ Procedure FileMonitorEvent()
           FileList()\LastWriteDate = GetFileDate(FileList()\Filename$, #PB_Date_Modified)
           FileList()\DiskFileSize  = FileSize(FileList()\Filename$)
           FileList()\DiskChecksum  = FileFingerprint(FileList()\Filename$, #PB_Cipher_MD5)
-          
+
+          *Current = @FileList()
           ChangeActiveSourceCode()  ; show the file to the user
           FlushEvents()
-          
+          ChangeCurrentElement(FileList(), *Current) ; FlushEvents() can change the current element
+
           If GetSourceModified() ; different message if the file is modified
             Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", GetFilePart(FileList()\Filename$))
           Else

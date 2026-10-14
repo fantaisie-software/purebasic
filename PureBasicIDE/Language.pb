@@ -640,7 +640,7 @@ DataSection
   Data$ "CloseOverWrite",   "Do you want to close that tab and overwrite it?"
   
   Data$ "SaveConfigError",  "Cannot save Compiler options to file"
-  Data$ "Modified",         "The file '%filename%'has been modified.%newline%Do you want to save the changes?"
+  Data$ "Modified",         "The file '%filename%' has been modified.%newline%Do you want to save the changes?"
   Data$ "ModifiedNew",      "This new file has not been saved yet. Do you want to save it now?"
   Data$ "ReloadModified",   "This file has been modified.%newline%Should the changes be discarded by reloading it?"
   Data$ "DeletedOnDisk",    "The file '%filename%' has been deleted from the disk.%newline%Do you want to save it now?"

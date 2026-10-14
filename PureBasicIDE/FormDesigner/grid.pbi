@@ -234,6 +234,7 @@ Structure Grid_Struct
   *font
   *hwnd
   hidden.b
+  initialized.b ; set at the end of GridGadget(), the timer can fire before (ie: when GTK flushes events during gadget creation)
   gadgetlist.i
   parent_item.i
   
@@ -723,7 +724,9 @@ Procedure GridGadget(x, y, width, height, hwnd, maxcols = 20000, maxrows = 10000
   StickyWindow(*grid\ac_window,1)
   SetActiveWindow(*grid\hwnd)
   UseGadgetList(oldgadgetlist)
-  
+
+  *grid\initialized = #True
+
   ProcedureReturn *grid
 EndProcedure
 
@@ -6055,6 +6058,10 @@ Procedure grid_TimerEvent()
   Protected scrollx, scrolly, mousex, mousey
   
   ForEach grid_grids()
+    If grid_grids()\initialized = #False
+      Continue ; grid still being created, its selection list is not set up yet
+    EndIf
+
     Select EventTimer()
       Case 145875
         mousex = grid_NewWindowMouseX(grid_grids()\hwnd) - grid_grids()\x - grid_deltagadgetposx
