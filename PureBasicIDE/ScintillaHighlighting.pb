@@ -2890,7 +2890,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
-                HighlightLine$ = OldLine$+#NewLine
+                ; the last line has no newline: styling it would go past the end of the document and crash Scintilla
+                HighlightLine$ = OldLine$
+                If *ActiveSource\CurrentLineOld < SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
+                  HighlightLine$ + #NewLine
+                EndIf
                 anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
