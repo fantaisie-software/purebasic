@@ -816,7 +816,7 @@ Procedure LoadPreferences()
     Compilers()\MD5$           = ReadPreferenceString("Compiler"+Str(i)+"_Md5", "")
     Compilers()\VersionString$ = ReadPreferenceString("Compiler"+Str(i)+"_Version", "Unknown")
     
-    If Compilers()\MD5$ <> "" And FileFingerprint(Compilers()\Executable$, #PB_Cipher_MD5) = Compilers()\MD5$
+    If Compilers()\MD5$ <> "" And FileSize(Compilers()\Executable$) >= 0 And FileFingerprint(Compilers()\Executable$, #PB_Cipher_MD5) = Compilers()\MD5$
       ; the compiler is still there and has not been updated
       Compilers()\Validated     = #True
       Compilers()\VersionNumber = Val(LSet(RemoveString(StringField(Compilers()\VersionString$, 2, " "), "."), 3, "0"))
