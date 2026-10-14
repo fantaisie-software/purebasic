@@ -5296,6 +5296,9 @@ Procedure PreferencesWindowEvents(EventID)
               PreferenceIssues()\Name$       = GetGadgetText(#GADGET_Preferences_IssueName)
               PreferenceIssues()\Expression$ = GetGadgetText(#GADGET_Preferences_IssueExpr)
               PreferenceIssues()\Priority    = GetGadgetState(#GADGET_Preferences_IssuePriority)
+              If PreferenceIssues()\Priority < 0 ; nothing selected in the (disabled) priority combo, so use the normal priority
+                PreferenceIssues()\Priority = 2
+              EndIf
               PreferenceIssues()\Color       = PreferenceIssueColor
               PreferenceIssues()\InTool      = GetGadgetState(#GADGET_Preferences_IssueInTool)
               PreferenceIssues()\InBrowser   = GetGadgetState(#GADGET_Preferences_IssueInBrowser)
