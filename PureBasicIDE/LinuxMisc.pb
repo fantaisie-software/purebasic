@@ -197,6 +197,7 @@ CompilerIf #CompileLinux
   
   
   Declare RunOnce_MessageFilter(*XEvent.XClientMessageEvent, *Event.GdkEventClient, user_data)
+  Declare RunOnce_Timer()
   
   
   ; determine things like StatusBarHeight once after the GUI is created.
@@ -220,8 +221,14 @@ CompilerIf #CompileLinux
     ; Set up the callback for the RunOnce event
     ; (don't do this in OSStartupCode(), because at this point it is not determined if there is already an editor Window)
     ;
-    CompilerIf #CompileLinuxGtk2 ; TODO-GTK3 TODO-QT
+    CompilerIf #CompileLinuxGtk2
       gdk_add_client_message_filter_(gdk_atom_intern_("PureBasic_RunOnceSignal", 0), @RunOnce_MessageFilter(), 0)
+    CompilerElse
+      ; GTK3 has no client message filter anymore, so check regularly if another instance has written the RunOnce file
+      ; (and delete any file left over from a previous session first)
+      DeleteFile(RunOnceFile$)
+      AddWindowTimer(#WINDOW_Main, #TIMER_RunOnce, 500)
+      BindEvent(#PB_Event_Timer, @RunOnce_Timer(), #WINDOW_Main, #TIMER_RunOnce)
     CompilerEndIf
     
   EndProcedure
@@ -311,6 +318,12 @@ CompilerIf #CompileLinux
     
   EndProcedure
   
+  Procedure RunOnce_Timer()
+    If Editor_RunOnce And FileSize(RunOnceFile$) >= 0
+      RunOnceSignalReceived()
+    EndIf
+  EndProcedure
+  
   ; Return true of PID is a running instance of this IDE
   Procedure IsRunningIDEInstance(PID)
     IsRunning = 0
@@ -384,7 +397,9 @@ CompilerIf #CompileLinux
     Result = #False ; do not close IDE
     
     If IsEditorRunning()
-      If CreateFile(#FILE_RunOnce, RunOnceFile$)
+      ; Write to a temporary file first, so the running instance never reads it half written (it checks for the file with a timer on GTK3)
+      TempFile$ = RunOnceFile$ + "." + Str(getpid_())
+      If CreateFile(#FILE_RunOnce, TempFile$)
         ForEach OpenFilesCommandline()
           WriteStringN(#FILE_RunOnce, OpenFilesCommandline())
         Next OpenFilesCommandline()
@@ -392,6 +407,7 @@ CompilerIf #CompileLinux
           WriteStringN(#FILE_RunOnce, "--LINE "+Str(InitialSourceLine)) ; send this option on to the opened IDE (always as last one!)
         EndIf
         CloseFile(#FILE_RunOnce)
+        RenameFile(TempFile$, RunOnceFile$)
         
         EmitRunOnceSignal()
         Result = #True ; close IDE
