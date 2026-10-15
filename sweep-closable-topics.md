@@ -23,6 +23,9 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=81751 (Variable Viewer never finishing on a 2M-element list: local Libraries/Debugger fix in SVN)
 - https://www.purebasic.fr/english/viewtopic.php?t=89505 (Ctrl+C/V in the Form Designer properties: fixed by the PR from t=89458, confirmed by the reporter, and #458)
 - https://www.purebasic.fr/english/viewtopic.php?t=89691 (Ctrl+F cut the last character after an emoji, #471)
+- https://www.purebasic.fr/english/viewtopic.php?t=72657 (folder locked after F5 and closing the tab: the resident compiler stayed in the source folder, local Compiler/ExternalCommunication.c fix in SVN, tested on Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=69771 (same as 72657)
+- https://www.purebasic.fr/english/viewtopic.php?t=83765 (French messages: fixed by #493; the linker error is now an English message from the 6.50 linker)
 
 ## Obsolete
 
@@ -37,6 +40,8 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=85450 (EnableASM in a Module no longer stops the highlighting)
 - https://www.purebasic.fr/english/viewtopic.php?t=87238 (Quick Help typos: none of the listed misspellings remain)
 - https://www.purebasic.fr/english/viewtopic.php?t=89631 (Procedure Browser sort by name is correct on current devel)
+- https://www.purebasic.fr/english/viewtopic.php?t=63430 (Form Designer fonts at high DPI are readable on Windows 11 at 200%)
+- https://www.purebasic.fr/english/viewtopic.php?t=66951 (Windows 8 skin issues; the Form Designer is in tabs now)
 
 ## Not a bug
 
@@ -45,6 +50,8 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=86351 (Preferences window on a 1366x768 screen at 125%: Fred, Enter applies the settings)
 - https://www.purebasic.fr/english/viewtopic.php?t=87991 (new sources are UTF-8 with BOM; files opened without a BOM keep their encoding)
 - https://www.purebasic.fr/english/viewtopic.php?t=88686 (Syntax Check shows the compile progress window briefly, like a compile)
+- https://www.purebasic.fr/english/viewtopic.php?t=87810 (the font Script setting doesn't matter: the editor is UTF-8, Central European text displays with the default font)
+- https://www.purebasic.fr/english/viewtopic.php?t=83367 (only when debugging the IDE itself; the release build is fine)
 
 ## Not reproducible on current devel
 
@@ -55,6 +62,13 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=82108 (OnError checkbox follows the selected target)
 - https://www.purebasic.fr/english/viewtopic.php?t=82444 (Find window position: reporter's cause was a stale position from an 8K monitor)
 - https://www.purebasic.fr/english/viewtopic.php?t=85240 (status bar call tip for interface methods)
+- https://www.purebasic.fr/english/viewtopic.php?t=88430 (unsaved source run with F5 works on Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=87955 (Form properties are clickable right away on Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=88533 (selecting text in the About window then OK: no crash on Linux and Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=79633 (property cell in edit mode + F5 + typing: no crash on Linux and Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=65309 (Library Viewer shows all XML nodes of the sample on Linux and Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=82493 (the IDE gets the focus back after the Variable Viewer was used, Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=87520 (Find in Files result opens the already open tab, Linux and Windows 11)
 
 ## Too vague (no steps, image gone, sporadic old crashes)
 
@@ -70,6 +84,5 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 
 ## Not included on purpose
 
-- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#468), 89414 (#502), 65191 (#420), 66473 (#421).
-- 83765: #493 fixed the French title and the debugger messages, but the linker message part still needs a check on Windows.
+- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#468), 89414 (#502), 65191 (#420), 66473 (#421), 85913 (#503), 82386 (#504).
 - Still to check on Windows or macOS, decisions for the maintainer, and feature requests (listed in the sweep report).
