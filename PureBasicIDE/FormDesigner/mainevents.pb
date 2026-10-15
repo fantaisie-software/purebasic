@@ -7184,7 +7184,16 @@ Procedure FD_ProcessMenuEvent(menu_event)
           HideGadget(#GADGET_Form, 1)
           HideEditorGadget(*ActiveSource\EditorGadget, 0)
           
+          ; The debugger makes its sources read-only, so allow writing the generated code here, else the code view
+          ; stays empty and switching back to the design view loads the form from this empty code
+          ReadOnly = SendEditorMessage(#SCI_GETREADONLY)
+          If ReadOnly
+            SendEditorMessage(#SCI_SETREADONLY, 0)
+          EndIf
           FD_PrepareTestCode(0)
+          If ReadOnly
+            SendEditorMessage(#SCI_SETREADONLY, 1)
+          EndIf
           FD_SelectNone()
           
           SetActiveGadget(*ActiveSource\EditorGadget)
