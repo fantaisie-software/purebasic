@@ -7077,7 +7077,7 @@ Procedure FD_ProcessEventGridStatusbar(col,row)
   Select row
     Case 0 ; width
       widthval.s = grid_GetCellString(propgrid, 2, row)
-      If widthval = "#PB_Ignore"
+      If LCase(Trim(widthval)) = "#pb_ignore" Or Val(widthval) < 0 ; any negative width (like -65535, the #PB_Ignore value) means #PB_Ignore
         FormWindows()\FormStatusbars()\width = -1
       Else
         FormWindows()\FormStatusbars()\width = Val(widthval)
