@@ -3033,6 +3033,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 
                 ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
                 
+                ; Styling this line moves the Scintilla 'end styled' position to its end. If the text before it is not styled
+                ; yet (ie: after a redo), it would never get a #SCN_STYLENEEDED, so put the position back afterwards.
+                EndStyled = SendEditorMessage(#SCI_GETENDSTYLED, 0, 0)
+                
                 If EnableColoring
                   SendEditorMessage(#SCI_STARTSTYLING, HighlightOffset, $FFFFFF)
                 EndIf
@@ -3042,6 +3046,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
                 HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1, IsInsideASMBlock(*ActiveSource\CurrentLineOld-1), IsInsideStructureBlock(*ActiveSource\CurrentLineOld-1))
                 SetSourceModified(Modified)
+                
+                If EnableColoring And EndStyled < HighlightOffset
+                  SendEditorMessage(#SCI_STARTSTYLING, EndStyled, $FFFFFF)
+                EndIf
                 
                 FreeMemory(*HighlightBuffer)
                 
