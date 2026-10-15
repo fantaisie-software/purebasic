@@ -299,8 +299,8 @@ Procedure LoadPreferences()
   
   ; default
   
-  NbFoldStartWords = 11
-  NbFoldEndWords = 8
+  NbFoldStartWords = 13
+  NbFoldEndWords = 9
   FoldStart$(1) = ";{"
   FoldStart$(2) = "Macro"
   FoldStart$(3) = "Procedure"
@@ -315,7 +315,9 @@ Procedure LoadPreferences()
   CompilerElse 
     FoldStart$(10) = "EnableASM" 
   CompilerEndIf
-  FoldStart$(11) = "HeaderSection" 
+  FoldStart$(11) = "HeaderSection"
+  FoldStart$(12) = "Import"
+  FoldStart$(13) = "ImportC"
   
   FoldEnd$(1) = ";}"
   FoldEnd$(2) = "EndMacro"
@@ -329,6 +331,7 @@ Procedure LoadPreferences()
     FoldEnd$(7) = "DisableASM"
   CompilerEndIf
   FoldEnd$(8) = "EndHeaderSection"
+  FoldEnd$(9) = "EndImport"
   
   NbFoldStartWords = ReadPreferenceLong("StartWords", NbFoldStartWords)
   NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)
@@ -347,6 +350,29 @@ Procedure LoadPreferences()
     NbFoldStartWords+1 : FoldStart$(NbFoldStartWords) = "DeclareModule"
     NbFoldEndWords+1   : FoldEnd$(NbFoldEndWords) = "EndModule"
     NbFoldEndWords+1   : FoldEnd$(NbFoldEndWords) = "EndDeclareModule"
+  EndIf
+
+  If PrefsVersion > 0 And PrefsVersion < 650 ; Import, ImportC, EndImport added in 6.50 (only if not already added by the user)
+    For k = 1 To 2
+      Word$ = StringField("Import,ImportC", k, ",")
+      For i = 1 To NbFoldStartWords
+        If LCase(FoldStart$(i)) = LCase(Word$)
+          Break
+        EndIf
+      Next i
+      If i > NbFoldStartWords And NbFoldStartWords < #MAX_FoldWords
+        NbFoldStartWords+1 : FoldStart$(NbFoldStartWords) = Word$
+      EndIf
+    Next k
+
+    For i = 1 To NbFoldEndWords
+      If LCase(FoldEnd$(i)) = "endimport"
+        Break
+      EndIf
+    Next i
+    If i > NbFoldEndWords And NbFoldEndWords < #MAX_FoldWords
+      NbFoldEndWords+1 : FoldEnd$(NbFoldEndWords) = "EndImport"
+    EndIf
   EndIf
   
   BuildFoldingVT()
