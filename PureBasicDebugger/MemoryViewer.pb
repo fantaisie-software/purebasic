@@ -857,7 +857,7 @@ Procedure MemoryViewer_DebuggerEvent(*Debugger.DebuggerData)
       Message$ = Language("Debugger","InvalidMemory")
       
       If *Debugger\Command\DataSize > 0 ; there is a message
-        Message$ + #NewLine + #NewLine + "Argument error:" +#NewLine+"  "+ PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_Ascii)
+        Message$ + #NewLine + #NewLine + "Argument error:" +#NewLine+"  "+ PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8 | #PB_ByteLength)
       EndIf
       
       HideGadget(*Debugger\Gadgets[#DEBUGGER_GADGET_Memory_List], 1)

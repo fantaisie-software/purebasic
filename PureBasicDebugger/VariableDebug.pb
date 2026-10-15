@@ -1524,7 +1524,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       ;- #COMMAND_ListData
     Case #COMMAND_ListData
       If *Debugger\Command\Value1 = 0 ; indicates an error
-        MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
+        MessageRequester(Language("Debugger", "ViewArrayList"), PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8 | #PB_ByteLength))
         
       Else ; no error
            ; switch to the correct tab in case the display was started by contextmenu from
@@ -1653,7 +1653,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       ;- #COMMAND_ArrayData
     Case #COMMAND_ArrayData
       If *Debugger\Command\Value1 = 0 ; indicates an error
-        MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
+        MessageRequester(Language("Debugger", "ViewArrayList"), PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8 | #PB_ByteLength))
         
       Else ; no error
            ; switch to the correct tab in case the display was started by contextmenu from
@@ -1775,7 +1775,7 @@ Procedure VariableDebug_DebuggerEvent(*Debugger.DebuggerData)
       ;- #COMMAND_MapData
     Case #COMMAND_MapData
       If *Debugger\Command\Value1 = 0 ; indicates an error
-        MessageRequester(Language("Debugger", "ViewArrayList"), PeekAsciiLength(*Debugger\CommandData, *Debugger\Command\DataSize))
+        MessageRequester(Language("Debugger", "ViewArrayList"), PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8 | #PB_ByteLength))
         
       Else ; no error
            ; switch to the correct tab in case the display was started by contextmenu from another tab
