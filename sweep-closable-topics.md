@@ -21,6 +21,8 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=85553 (DebuggerWarning/DebuggerError with Unicode text, fixed in Libraries/Debugger/DebuggerFunctions)
 - https://www.purebasic.fr/english/viewtopic.php?t=72387 (project file unloadable with an emoji in the computer name: Xml UTF-8 export, local Libraries/Xml fix in SVN)
 - https://www.purebasic.fr/english/viewtopic.php?t=81751 (Variable Viewer never finishing on a 2M-element list: local Libraries/Debugger fix in SVN)
+- https://www.purebasic.fr/english/viewtopic.php?t=89505 (Ctrl+C/V in the Form Designer properties: fixed by the PR from t=89458, confirmed by the reporter, and #458)
+- https://www.purebasic.fr/english/viewtopic.php?t=89691 (Ctrl+F cut the last character after an emoji, #471)
 
 ## Obsolete
 
@@ -34,6 +36,7 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=84624 ('=' in a gadget caption)
 - https://www.purebasic.fr/english/viewtopic.php?t=85450 (EnableASM in a Module no longer stops the highlighting)
 - https://www.purebasic.fr/english/viewtopic.php?t=87238 (Quick Help typos: none of the listed misspellings remain)
+- https://www.purebasic.fr/english/viewtopic.php?t=89631 (Procedure Browser sort by name is correct on current devel)
 
 ## Not a bug
 
