@@ -355,6 +355,7 @@ Procedure ScrollEditorGadgetToEnd(Gadget)
       
       *Buffer = gtk_text_view_get_buffer_(GadgetID(Gadget))
       gtk_text_buffer_get_end_iter_(*Buffer, @iter.GtkTextIter)
+      gtk_text_iter_set_line_offset_(@iter, 0) ; start of the last line, else a long last line scrolls the view horizontally to its end
       gtk_text_buffer_add_mark_(*Buffer, *Mark , @iter)
       gtk_text_view_scroll_to_mark_(GadgetID(Gadget), *Mark , 0.0, #True, 0.0, 0.17) ; gtk_text_view_scroll_to_iter_() is broken, so use the mark system
       gtk_text_buffer_delete_mark_(*Buffer, *Mark)
