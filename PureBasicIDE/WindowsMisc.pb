@@ -694,6 +694,13 @@ CompilerIf #CompileWindows
               ; To not wait the full timeout, the (correct) target will send a 'DONE'
               ; Message, on which we quit
             ElseIf EventwParam() = AsciiConst('D', 'O', 'N', 'E')
+              ; This instance was started by the foreground program (like Explorer), so it can give the foreground to the
+              ; running IDE. AllowSetForegroundWindow() above is not enough on recent Windows, the running IDE can't take it
+              Target = EventlParam() ; main window of the running IDE
+              If IsIconic_(Target)
+                ShowWindow_(Target, #SW_RESTORE)
+              EndIf
+              SetForegroundWindow_(Target)
               Break
               
             EndIf
