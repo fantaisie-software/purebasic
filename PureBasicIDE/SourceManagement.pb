@@ -149,6 +149,13 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ; a quick access. Does nothing if the data is up to date
   If *OldSource And *OldSource <> *ProjectInfo And *OldSource\IsForm = 0
     SortParserData(*OldSource\Parser, *OldSource)
+  ElseIf *OldSource And *OldSource <> *ProjectInfo And *OldSource\IsForm
+    *OldForm.FormWindow = *OldSource\IsForm
+    If *OldForm\current_view = 0 ; design view: the editor gadget is not up to date, so scan the generated code
+      FormSourceScan(*OldSource)
+    Else
+      SortParserData(*OldSource\Parser, *OldSource)
+    EndIf
   EndIf
   
   ; preserve procedure browser scroll position

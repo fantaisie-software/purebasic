@@ -624,6 +624,7 @@ Declare FileMonitorWindowEvents(EventID)                                        
 Declare BuildFoldingVT()                        ; the procedurebrowser also manages folding.
 Declare FreeSourceItemArray(*Parser.ParserData) ; free the SourceItem Array and all contained items
 Declare FullSourceScan(*Source.SourceFile)      ; rescan entire source
+Declare FormSourceScan(*Source.SourceFile)      ; scan the code generated from a form in design view
 Declare PartialSourceScan(*Source.SourceFile, StartLine, EndLine)  ; rescan some lines (returns true if line(s) changed)
 Declare ScanLine(*Source.SourceFile, Line)                         ; scan single line ( + continuations) returns true if line(s) changed
 Declare ScanFile(FileName$, *Parser.ParserData)                    ; scan a file from disk (for project management)
