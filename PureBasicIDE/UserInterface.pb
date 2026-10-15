@@ -1823,7 +1823,9 @@ Procedure MainMenuEvent(MenuItemID)
           If AutoCompleteKeywordInserted And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return
             AutoComplete_InsertEndKEyword()
           Else
+            SendEditorMessage(#SCI_BEGINUNDOACTION) ; undo the newline and its auto indentation in one step
             SendEditorMessage(#SCI_NEWLINE, 0, 0)
+            SendEditorMessage(#SCI_ENDUNDOACTION)
           EndIf
           
         ; See ProjectInfo_EnterKeyHandler() in ProjectManagement.pb for Linux specific handling of this
