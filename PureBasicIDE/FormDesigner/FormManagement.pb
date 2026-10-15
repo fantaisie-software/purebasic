@@ -155,11 +155,16 @@ Procedure FD_PrepareTestCode(compile = 1)
   
   
   code$ = FD_SelectCode(1, compile)
+  Modified = GetSourceModified()
   SendEditorMessage(#SCI_CLEARALL, 0, 0) ; should completely erase the old document and create a new one
   InsertCodeString(code$)
   SendEditorMessage(#SCI_EMPTYUNDOBUFFER, 0, 0) ; so this loading cannot be undone
   
-  SetSourceModified(#True) ; Set the code source as modified
+  If compile
+    SetSourceModified(#True) ; Set the code source as modified
+  Else
+    SetSourceModified(Modified) ; Switch to the code view: the code is generated from the form, so it is only modified if the form is
+  EndIf
   
   If Not compile
     FullSourceScan(*ActiveSource)
