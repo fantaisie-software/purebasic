@@ -409,10 +409,15 @@ renommer, naviguer dans l'arborescence des dossiers, etc.).
   La connexion FTP à utiliser.
 
 @ReturnValue
-  Renvoie le nom du fichier courant sur le 
-  FTP en cours d'examen avec 
-  @@ExamineFTPDirectory et
+  Renvoie le nom du fichier courant sur le FTP en cours d'examen avec @@ExamineFTPDirectory et
   @@NextFTPDirectoryEntry.
+
+@Remarks
+  Le nom de fichier est décodé en UTF-8 uniquement si le serveur a annoncé sa prise en charge 
+  (via une requête "FEAT" effectuée automatiquement à l’ouverture de la connexion, conformément 
+  à la norme RFC 2640). Sinon, il est supposé utiliser l’encodage du système local. Si un serveur 
+  encode les noms de fichiers différemment, utilisez plutôt @@FTPDirectoryEntryRaw et analysez 
+  l’entrée manuellement.
 
 @SeeAlso
   @@ExamineFTPDirectory,
@@ -421,7 +426,7 @@ renommer, naviguer dans l'arborescence des dossiers, etc.).
   @@FTPDirectoryEntryDate,
   @@FTPDirectoryEntrySize,
   @@FTPDirectoryEntryRaw,
-  @@FTPDirectoryEntryAttributes  
+  @@FTPDirectoryEntryAttributes
 
 @SupportedOS
 

@@ -685,23 +685,20 @@ se terminent lorsque @@StopDrawing est appelé.
 
 ;------------------------------------------------------------------------------------
 
-@Function DrawImage(ImageID, X, Y [, Largeur, Hauteur])  
+@Function DrawImage(ImageID, X, Y [, Largeur, Hauteur [, Mode]]) 
 
 @Description
-  Affiche une image sur la surface de 
-  dessin en cours. 
+  Affiche une image sur la surface de dessin en cours. 
   
 @Parameter "ImageID"  
   Le numéro d'identification de l'image.
   @LineBreak
   @LineBreak
-  L'ImageID peut être obtenu facilement
-  en utilisant la fonction @@ImageID de 
+  L'ImageID peut être obtenu facilement en utilisant la fonction @@ImageID de 
   la bibliothèque Image. 
   
 @Parameter "X, Y" 
-  La position du coin en haut et à gauche 
-  de l'image.
+  La position du coin en haut et à gauche de l'image.
 
 @OptionalParameter "Largeur, Hauteur"  
   L'image sera redimensionnée en temps réel avant d'être affichée.
@@ -709,9 +706,21 @@ se terminent lorsque @@StopDrawing est appelé.
   @LineBreak 
   La taille de l'image originale n'est pas modifiée. 
 
+@OptionalParameter "Mode"
+  Méthode de redimensionnement à utiliser lorsque les paramètres "Largeur" et "Hauteur" sont utilisés.@LineBreak
+  Peut prendre l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Image_Smooth : Redimensionne l'image avec lissage (par défaut).
+  @#PB_Image_Raw    : Redimensionne l'image sans interpolation.
+@EndFixedFont
+
 @NoReturnValue
 
-@Remarks  
+@Remarks
+  Le mode de remplissage est déterminé par @@DrawingMode.@LineBreak
+  La sortie en cours est définie par @@StartDrawing.
+  @LineBreak
+  @LineBreak  
   L'image sera transparente si le mode d'affichage courant @@DrawingMode est 
   utilisé avec une des options d'alpha blending (transparence) sinon l'image 
   est simplement copiée sur la surface de dessin en cours. 
@@ -749,6 +758,9 @@ se terminent lorsque @@StopDrawing est appelé.
   EndIf
 @EndCode
 
+@SeeAlso
+  @@DrawAlphaImage, @@ImageID
+  
 @SupportedOS
 
 ;------------------------------------------------------------------------------------

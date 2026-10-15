@@ -42,9 +42,7 @@
 @Function UseFLACSoundDecoder()
 
 @Description
-  Active le support du format FLAC 
-  (Free Lossless Audio Codec) 
-  pour les commandes @@CatchSound 
+  Active le support du format FLAC (Free Lossless Audio Codec) pour les commandes @@CatchSound 
   et @@LoadSound.
 
 @NoParameters
@@ -70,7 +68,26 @@
   pour ce plugin.
 
 @SeeAlso  
-  @@UseOGGSoundDecoder
+  UseFLACSoundEncoder, @@UseOGGSoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseFLACSoundEncoder()
+
+@Description
+  Active la prise en charge du format FLAC (Free Lossless Audio Codec) pour @@SaveSound et @@EncodeSound.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Seuls les sons mono/stéréo 16 bits sont pris en charge.
+
+@SeeAlso  
+  @@UseFLACSoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
 
 @SupportedOS
 
@@ -79,9 +96,7 @@
 @Function UseOGGSoundDecoder()
 
 @Description
-  Active le support du format OGG 
-  (OGG Vorbis) pour les commandes 
-  @@CatchSound et @@LoadSound.
+  Active le support du format OGG (OGG Vorbis) pour les commandes @@CatchSound et @@LoadSound.
 
 @NoParameters
 
@@ -109,7 +124,139 @@
   plugin.
   
 @SeeAlso  
-  @@UseFLACSoundDecoder
+  @@UseFLACSoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+
+@SupportedOS
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOGGSoundEncoder()
+
+@Description
+  Active le support du format OGG (OGG Vorbis) pour @@SaveSound et @@EncodeSound.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Seuls les sons mono/stéréo 16 bits sont pris en charge.
+
+@SeeAlso
+  @@UseOGGSoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundDecoder()
+
+@Description
+  Active le support du format  MP3 (MPEG-1/2 Audio Layer III) pour @@CatchSound et @@LoadSound.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le streaming audio est pris en charge par ce plug-in.
+@LineBreak
+@LineBreak  
+  Le format MP3 utilise une compression destructive, ce qui entraîne la perte d'une partie des 
+  informations originales lors de la compression.
+@LineBreak
+@LineBreak
+  C'est l'un des formats audio les plus répandus, offrant un bon rapport entre la taille du fichier 
+  et la qualité sonore.
+@LineBreak
+@LineBreak
+  Ce décodeur est basé sur le décodeur MP3 intégré à miniaudio. Le format MP3 ne disposant pas de 
+  signature de fichier fiable, il est recommandé d'activer ce décodeur en dernier lorsqu'on utilise 
+  plusieurs décodeurs, afin de ne pas interférer avec la détection automatique des autres formats audio.
+@LineBreak
+@LineBreak
+  Pour plus d'informations : @InternetLink "https://en.wikipedia.org/wiki/MP3" "Wikipedia - MP3".
+
+@SeeAlso
+  @@UseMP3SoundEncoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseMP3SoundEncoder([Bibliothèque$])
+
+@Description
+ Active le support du format MP3 pour @@SaveSound et @@EncodeSound.
+
+@OptionalParameter "Bibliothèque$"
+  Le nom (ou le chemin complet) de la bibliothèque LAME à charger, si ce n'est pas celle utilisée par 
+  défaut par PureBasic.
+
+@NoReturnValue
+
+@Remarks
+  Seuls les sons mono/stéréo 16 bits sont pris en charge. 
+@LineBreak
+@LineBreak
+  Contrairement aux autres encodeurs audio, celui-ci n'est pas intégré à PureBasic : l'encodage MP3 
+  est assuré par la bibliothèque LAME (sous licence LGPL), chargée dynamiquement à l'exécution depuis 
+  libmp3lame.dll / libmp3lame.so / libmp3lame.dylib. Si la bibliothèque est introuvable ou ne peut être 
+  chargée, @@SaveSound et @@EncodeSound échouent simplement et renvoie zéro pour le format MP3.
+
+@SeeAlso
+  @@UseMP3SoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+  
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundDecoder()
+
+@Description
+  Active le support du format Opus pour @@CatchSound et @@LoadSound.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Le streaming audio est pris en charge par ce plug-in.
+@LineBreak
+@LineBreak
+  Le format Opus utilise une compression destructive, ce qui entraîne la perte d'une partie des 
+  informations originales lors de la compression.
+@LineBreak
+@LineBreak
+  Il s'agit d'un codec moderne et libre de droits, conçu pour couvrir la parole et l'audio en 
+  général sur une large gamme de débits binaires. Il est couramment utilisé pour le streaming 
+  en temps réel et la communication vocale.
+@LineBreak
+@LineBreak
+  Pour plus d'informations en français : @InternetLink "https://fr.wikipedia.org/wiki/Opus_Interactive_Audio_Codec" "Wikipedia - Opus".
+  Pour plus d'informations en anglais  : @InternetLink "https://en.wikipedia.org/wiki/Opus_(audio_format)" "Wikipedia - Opus".
+
+@SeeAlso
+  @@UseOpusSoundEncoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
 
 @SupportedOS
 
+;--------------------------------------------------------------------------------------------------------
+
+@Function UseOpusSoundEncoder()
+
+@Description
+ Active le support du format Opus pour @@SaveSound et @@EncodeSound.
+
+@NoParameters
+
+@NoReturnValue
+
+@Remarks
+  Seuls les sons mono/stéréo 16 bits sont pris en charge, et leur fréquence d'échantillonnage doit 
+  être l'une des suivantes : 8 000, 12 000, 16 000, 24 000 ou 48 000 Hz 
+  (les fréquences fixes acceptées par l'encodeur Opus).
+
+@SeeAlso
+  @@UseOpusSoundDecoder, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+
+@SupportedOS

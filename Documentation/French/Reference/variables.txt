@@ -1441,13 +1441,12 @@ RHS |Résultat
   Valeur << 1  ; Equivaut à : Valeur = Valeur << 1
 @EndCode
   
-  Note: Cela peut conduire à des résultats "imprévus" dans quelques rares cas, 
-  si l'assignement est modifiée avant l'affection.
+  Note: Si la partie gauche contient un appel de fonction (par exemple dans un index de tableau ou une clé de map), celui-ci n'est évalué qu'une seule fois.
 
 @Example
 @Code
   Dim MonTableau(10)
-  MonTableau(Random(10)) + 1 ; Equivaut à: MonTableau(Random(10)) = MonTableau(Random(10)) + 1, mais ici Random() ne renverra pas la même valeur à chaque appel.
+  MonTableau(Random(10)) + 1 ; Random() n'est appelé qu'une seule fois, donc c'est le même élément qui est lu et écrit.
 @EndCode
 
 @FormatIf HTML

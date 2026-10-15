@@ -322,14 +322,13 @@
 @EndIndent
   
 @OptionalParameter "ImageID"  
-  Le numéro d'une image (icône) à afficher à 
-  côté de l'élément inséré. @LineBreak
-  La taille de l'image doit être standard, 
-  c'est à dire de 16x16 pixels. 
+  Le numéro d'une image à afficher à côté de l'élément inséré. @LineBreak
+  La taille de l'image doit être standard, c'est à dire de 16x16 pixels. 
 @LineBreak
 @LineBreak
-  'ImageID' peut être récupéré facilement 
-  grâce à la commande @@ImageID. 
+  'ImageID' peut être récupéré facilement grâce à la commande @@ImageID.@LineBreak
+  Le gadget conserve sa propre référence à l'image, ce qui permet de la libérer après cet appel. 
+  Pour modifier l'image d'un élément existant, utilisez @@SetGadgetItemImage.  
 
 @OptionalParameter "Options"
   Ce paramètre n'est utilisable qu'avec les 
@@ -675,24 +674,19 @@ Bouton à bascule: Option @#PB_Button_Toggle
   Crée un canvas dans la GadgetList en cours. 
 @LineBreak
 @LineBreak
-  Ce gadget offre une surface de dessin sans canal alpha et 
-  d'évènements pour la souris et le clavier 
-  dans le but de créer facilement des 
-  affichages personnalisées. 
+  Ce gadget offre une surface de dessin sans canal alpha et d'évènements pour la souris et le clavier 
+  dans le but de créer facilement des affichages personnalisées. 
 
 @Parameter "#Gadget"
   Numéro d'identification du canvas. 
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @Parameter "X, Y, Largeur, Hauteur"
   Position et dimensions du canvas en pixels.
   @LineBreak
-  Les valeurs maximales pour la largeur et la 
-  hauteur sont de 16 000 pixels.
+  Les valeurs maximales pour la largeur et la hauteur sont de 16 000 pixels.
 
 @OptionalParameter "Options"
   Combinaison des constantes suivantes:
@@ -716,7 +710,10 @@ Bouton à bascule: Option @#PB_Button_Toggle
                         Sous Windows, la transparence des gadgets n'est pas prise en compte ainsi le texte des gadgets 
                         suivants sera affiché sur un fond opaque: CheckBoxGadget, FrameGadget, HyperlinkGadget, 
                         OptionGadget, TextGadget et TrackBarGadget.
-
+  
+  @#PB_Canvas_NoTabNavigation : Lors de l’utilisation de la touche TAB ou de la combinaison SHIFT+TAB dans le gadget, 
+                        les touches seront interprétées comme des événements @#PB_EventType_KeyDown classiques, sans 
+						navigation entre les gadgets. L’option @#PB_Canvas_Keyboard est nécessaire à son fonctionnement.
 @EndFixedFont
   
 @LineBreak
@@ -1991,12 +1988,66 @@ EndIf
 @Image disablegadget.png
 
 @SeeAlso
-  @@HideGadget
+  @@HideGadget, @@DisableGadgetRedraw
   
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function DisableGadgetRedraw(#Gadget, Etat)
+
+@Description
+  Active ou désactive le rafraîchissement d'un gadget.
+
+@Parameter "#Gadget"
+  Le gadget à mettre à jour.
+
+@Parameter "Etat"
+@FixedFont
+  @#False : Le gadget sera redessiné et son contenu actualisé.
+  @#True  : Le gadget ne sera pas redessiné tant qu'il n'est pas réactivé.
+@EndFixedFont
+
+@NoReturnValue
+
+@Remarks
+  Lorsqu'un grand nombre d'éléments sont ajoutés à un gadget tel que @@ListIconGadget, @@TreeGadget 
+  ou @@ListViewGadget, chaque insertion déclenche normalement un rafraîchissement, ce qui peut rendre 
+  la mise à jour lente et saccadée. Désactiver le rafraîchissement avant la mise à jour groupée, puis
+  le réactiver ensuite, permet d'effectuer un seul rafraîchissement une fois tous les éléments en place.
+@LineBreak
+@LineBreak
+  Tout appel désactivant le rafraîchissement doit être suivi d'un appel le réactivant. 
+  L'activation du rafraîchissement actualise automatiquement le contenu du gadget. 
+  La sélection et la position de défilement actuelles sont conservées pendant l'opération.
+@LineBreak
+@LineBreak 
+  Sous Linux, l'optimisation s'applique à @@ListIconGadget, @@ListViewGadget et @@TreeGadget. 
+  Pour tout autre gadget, et sous macOS, le kit d'outils graphiques effectue déjà des opérations 
+  de rendu par lots ; cette commande est donc sans effet et n'est fournie que pour assurer la 
+  compatibilité du code source.
+
+@Exemple
+@Code
+  If OpenWindow(0, 0, 0, 320, 250, "DisableGadgetRedraw", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)
+    ListIconGadget(0, 10, 10, 300, 230, "Éléments", 280)
+
+    DisableGadgetRedraw(0, #True)     ; Désactive le rafraîchissement du gadget
+    For i = 1 To 5000
+      AddGadgetItem(0, -1, "Élément " + i)
+    Next
+    DisableGadgetRedraw(0, #False)    ; Réactive le rafraîchissement du gadget
+
+    Repeat : Until WaitWindowEvent() = #PB_Event_CloseWindow
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@AddGadgetItem, @@HideGadget
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function Resultat = EditorGadget(#Gadget, X, Y, Largeur, Hauteur [, Options])
 
 @Description
@@ -4651,11 +4702,11 @@ utiliser l'opérateur '&':
   Le gadget à utiliser  
 
 @Parameter "Colonne"
-  La colonne à supprimer.@LineBreak
-  @#PB_All peut être utilisé pour supprimer toutes les colonnes.  
+  La colonne à supprimer (la première colonne a l'index 0). 
 @LineBreak
 @LineBreak
-  La première colonne commence à 0
+  @#PB_All peut être utilisé pour supprimer toutes les colonnes en une seule fois 
+  (pris en charge à la fois par @@ListIconGadget et @@ExplorerListGadget).
 
 @NoReturnValue
 
@@ -5440,18 +5491,16 @@ utiliser l'opérateur '&':
   
 @Parameter "Attribut"  
    L'attribut à définir.@LineBreak 
-   Voir ci-dessous pour les valeurs prises 
-   en charge.
+   Voir ci-dessous pour les valeurs prises en charge.
   
 @Parameter "Valeur"  
   La valeur à définir pour l'attribut.
   
 @OptionalParameter "Colonne"  
-   La colonne à utiliser pour les gadgets 
-   qui prennent en charge plusieurs colonnes.
+   La colonne à utiliser pour les gadgets qui prennent en charge plusieurs colonnes.
 @LineBreak
 @LineBreak
-   La première colonne a indice 0. 
+   La première colonne a l'index 0. 
 @LineBreak
 @LineBreak
    La valeur par défaut est 0 colonne.
@@ -5459,14 +5508,18 @@ utiliser l'opérateur '&':
 @NoReturnValue
    
 @Remarks
-  Cette fonction est disponible avec les 
-  gadgets suivants: 
+  Cette fonction est disponible avec les gadgets suivants: 
 @FixedFont
   - @@ExplorerListGadget: 
     @#PB_Explorer_ColumnWidth: Change la largeur de la 'Colonne' spécifiée. Le paramètre 'Element' est ignoré.
   
   - @@ListIconGadget: 
     @#PB_ListIcon_ColumnWidth: Change la largeur de la 'Colonne' spécifiée. Le paramètre 'Element' est ignoré.
+    @#PB_ListIcon_ColumnAlignment : Modifie l’alignement du texte de la colonne spécifiée. 
+    Le paramètre 'Valeur' peut prendre l’une des valeurs suivantes :
+           - @#PB_ListIcon_Left   : Texte aligné à gauche (par défaut).
+		   - @#PB_ListIcon_Right  : Texte aligné à droite.
+		   - @#PB_ListIcon_Center : Texte centré.
 @EndFixedFont
 
 @SeeAlso
@@ -5705,10 +5758,10 @@ utiliser l'opérateur '&':
   La nouvelle image à utiliser pour l'élément. 
 @LineBreak
 @LineBreak
-  L'image utilisée doit être dans le format 
-  standard 16x16. @LineBreak
-  Utilisez la commande @@ImageID pour obtenir 
-  l'ID de l'image.
+  L'image utilisée doit être dans le format standard 16x16. @LineBreak
+  Utilisez la commande @@ImageID pour obtenir l'ID de l'image.@LineBreak
+  Le gadget conserve sa propre référence à l'image, ce qui permet de la libérer après cet appel. 
+  Pour modifier l'image d'un élément existant, utilisez @@SetGadgetItemImage.  
   
 @NoReturnValue
 
@@ -6777,7 +6830,7 @@ If OpenWindow(0, 0, 0, 320, 200, "TrackBarGadget", #PB_Window_SystemMenu | #PB_W
   - @@SetGadgetItemText: avec @#PB_Web_HtmlCode comme 'Element' le code html peut être inséré dans le Gadget. (Windows seulement)
 
   - @@GetGadgetItemText: Les constantes suivantes peuvent être utilisées pour obtenir une information: (Windows seulement)
-    @#PB_Web_HtmlCode      : Renvoie le code html du gadget.
+    @#PB_Web_HtmlCode      : Renvoie le code html du gadget, y compris les modifications effectuées par des scripts ou par l'utilisateur (par exemple dans un élément'contenteditable').
     @#PB_Web_PageTitle     : Renvoie le titre de la page affichée.
     @#PB_Web_StatusMessage : Renvoie le message actuel de la barre d'état.
     @#PB_Web_SelectedText  : Renvoie le texte sélectionné à l'intérieur du gadget.

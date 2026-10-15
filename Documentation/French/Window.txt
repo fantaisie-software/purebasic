@@ -1245,23 +1245,6 @@ EndIf
 @OptionalParameter "Options"  
   Peut être une combinaison de :
 @FixedFont
-<<<<<<< HEAD
-  @#PB_Window_SystemMenu     : Autorise le menu syst�me sur la barre de titre (par d�faut).
-  @#PB_Window_MinimizeGadget : Ajoute l'ic�ne 'R�duire' sur la barre de titre. @#PB_Window_SystemMenu est ajout� automatiquement.
-  @#PB_Window_MaximizeGadget : Ajoute l'ic�ne 'Agrandir' sur la barre de titre. @#PB_Window_SystemMenu est ajout� automatiquement.
-                              (MacOS : @#PB_Window_SizeGadget sera �galement ajout� automatiquement).
-  @#PB_Window_SizeGadget     : Ajoute les possibilit�s de redimensionnement � la fen�tre.
-  @#PB_Window_Invisible      : Cr�e la fen�tre mais ne l'affiche pas.
-  @#PB_Window_TitleBar       : Cr�e la fen�tre avec une barre de titre.
-  @#PB_Window_Tool           : Cr�e une fen�tre non visible dans la barre des t�ches.
-  @#PB_Window_BorderLess     : Cr�e une fen�tre sans bordure.
-  @#PB_Window_ScreenCentered : Centre la fen�tre au milieu de l'�cran. Les param�tres X,Y sont ignor�s.
-  @#PB_Window_WindowCentered : Centre la fen�tre au milieu de la fen�tre m�re ('FenetreMereID' doit �tre sp�cifi�). Les param�tres x,y sont ignor�s.
-  @#PB_Window_Maximize       : Ouvre la fen�tre en mode maximis�. (Note: sous Linux, certains gestionnaires de fen�tres ne supportent pas cela)
-  @#PB_Window_Minimize       : Ouvre la fen�tre en mode minimis�.
-  @#PB_Window_NoGadgets      : Emp�che la cr�ation d'une GadgetList. @@UseGadgetList peut �tre utilis� pour le faire plus tard.
-  @#PB_Window_NoActivate     : Ne pas activer la fen�tre apr�s son ouverture.
-=======
   @#PB_Window_SystemMenu     : Autorise le menu système sur la barre de titre (par défaut).
   @#PB_Window_MinimizeGadget : Ajoute l'icône 'Réduire' sur la barre de titre. @#PB_Window_SystemMenu est ajouté automatiquement.
   @#PB_Window_MaximizeGadget : Ajoute l'icône 'Agrandir' sur la barre de titre. @#PB_Window_SystemMenu est ajouté automatiquement.
@@ -1277,12 +1260,14 @@ EndIf
   @#PB_Window_Minimize       : Ouvre la fenêtre en mode minimisé.
   @#PB_Window_NoGadgets      : Empêche la création d'une GadgetList. @@UseGadgetList peut être utilisé pour le faire plus tard.
   @#PB_Window_NoActivate     : Ne pas activer la fenêtre après son ouverture.
->>>>>>> b15b7eaa7f7943196367e54ccb5edb9af57ac416
+  @#PB_Window_Modal          : Désactive la fenêtre parente (le paramètre 'FenetreMereID' doit être spécifié) jusqu’à la fermeture de la nouvelle fenêtre, 
+                                obligeant ainsi l’utilisateur à interagir d’abord avec cette dernière. La fenêtre parente est automatiquement réactivée par @@CloseWindow.
 @EndFixedFont
 
 @OptionalParameter "FenetreMereID"
   L'identifiant de la fenêtre mère. @LineBreak
-  Un identifiant de fenêtre valide peut être récupéré avec @@WindowID.
+  Un identifiant de fenêtre valide peut être récupéré avec @@WindowID. @LineBreak
+  Obligatoire avec l'option @#PB_Window_WindowCentered ou @#PB_Window_Modal.
 
 @ReturnValue    
   Renvoie une valeur non nulle si la 
@@ -2009,7 +1994,10 @@ EndIf
   @#PB_Event_RightClick      : Un clic droit de la souris s'est produit sur la fenêtre. Cela peut être utile pour afficher un menu contextuel
   @#PB_Event_WindowDrop      : Une opération @LibraryLink "dragdrop" "Glisser & Déposer" s'est terminée sur une fenêtre (Voir remarque ci-dessous)
   @#PB_Event_GadgetDrop      : Une opération @LibraryLink "dragdrop" "Glisser & Déposer" s'est terminée sur un @LibraryLink "gadget" "gadget" (Voir remarque ci-dessous)
-
+  @#PB_Event_WindowResolutionChanged : La fenêtre a été déplacée vers un écran avec une résolution différente (DPI) et sa taille (ainsi que celle de ses gadgets) a été modifiée. 
+                                      Le nouveau facteur d'échelle est disponible via @@WindowResolutionX / @@WindowResolutionY. Cet événement se déclenche uniquement sous Windows, 
+                                      pour les exécutables compilés avec l'option "DPI Aware" du compilateur définie sur "Par moniteur".
+  
 @EndFixedFont
   Vous trouverez un exemple dans la 
   description de @@WaitWindowEvent.
@@ -2817,6 +2805,202 @@ EndIf
   
 @SeeAlso
   @@OpenWindow, @@WindowHeight
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = WindowResolutionX(#Fenetre)
+
+@Description
+  Renvoie le facteur de résolution DPI, sur l'axe des 'X', de l'écran sur lequel la fenêtre spécifiée 
+  est actuellement affichée.
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@ReturnValue
+  Le facteur de résolution DPI sur l'axe des X.@LineBreak 
+  '1' signifie aucune mise à l'échelle, '1,5' signifie qu'un facteur de 150 % est appliqué, etc.
+
+@Remarks
+  Contrairement à @@DesktopResolutionX (qui renvoie toujours la résolution de l'écran principal), 
+  cette fonction suit la fenêtre : sur un exécutable 'Par moniteur' 
+  @ReferenceLink "ide_compiler" "DPI Aware", la valeur renvoyée change lorsque la fenêtre est déplacée 
+  vers un écran avec une résolution DPI différente, juste après l'événement @#PB_Event_WindowResolutionChanged.
+  Sans l'option de compilation 'DPI Aware' ou sur les plateformes ne prenant pas en charge 
+  la mise à l'échelle par fenêtre (Linux), le résultat est toujours '1'.
+
+@Example
+@Code
+  If OpenWindow(0, 0, 0, 220, 100, "Exemple")
+    Debug "Résolution en X de la fenêtre 0 : " + WindowResolutionX(0)
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@WindowResolutionY, @@DesktopResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat.d = WindowResolutionY(#Fenetre)
+
+@Description
+  Renvoie le facteur de résolution DPI, sur l'axe 'Y', de l'écran sur lequel la fenêtre donnée est 
+  actuellement affichée.
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@ReturnValue
+  Le facteur de résolution DPI sur l'axe 'Y'.@LineBreak 
+  '1' signifie aucune mise à l'échelle, '1,' signifie qu'un facteur de 150 % est appliqué, etc.
+
+@Remarks  
+  Contrairement à @@DesktopResolutionY (qui renvoie toujours l'écran principal), cette propriété 
+  suit la fenêtre : sur un exécutable'Par moniteur' @ReferenceLink "ide_compiler" "'DPI Aware'", 
+  la valeur renvoyée change lorsque la fenêtre est déplacée vers un écran avec une résolution 
+  différente (DPI), juste après l'événement @#PB_Event_WindowResolutionChanged.
+@LineBreak
+@LineBreak
+  Sans l'option de compilation "DPI Aware", ou sur les plateformes qui ne prennent pas en charge 
+  la mise à l'échelle par fenêtre (Linux), le résultat est toujours '1'.
+
+@SeeAlso
+  @@WindowResolutionX, @@DesktopResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WindowScaledX(#Fenetre, X)
+
+@Description
+  Met à l'échelle une valeur sur l'axe des X en fonction de la résolution (DPI) de l'écran sur 
+  lequel la fenêtre est actuellement affichée.
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@Parameter "X"
+  La valeur à mettre à l'échelle.
+
+@ReturnValue
+  La valeur mise à l'échelle. 
+@LineBreak
+@LineBreak
+  Par exemple, sur un écran avec un facteur de résolution de 125 %, la valeur 100 est renvoyée 125.
+
+@Remarks
+  Identique à @@DesktopScaledX, mais par rapport à l'écran de la fenêtre et non à l'écran principal : 
+  sur un exécutable "Par moniteur" @ReferenceLink "ide_compiler" "DPI Aware", la mise à l'échelle 
+  suit la fenêtre sur les écrans ayant des résolutions différentes.
+@LineBreak
+@LineBreak
+  Sans l'option de compilation "DPI Aware" ou sur les plateformes ne prenant pas en charge la mise 
+  à l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+
+@Example
+@Code
+  Debug "Mis à l'échelle à 100 pour cette fenêtre : " + WindowScaledX(0, 100)
+@EndCode
+
+@SeeAlso
+  @@WindowScaledY, @@WindowUnscaledX, @@WindowResolutionX, @@DesktopScaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WindowScaledY(#Fenetre, Y)
+
+@Description
+  Met à l'échelle une valeur sur l'axe 'Y' en fonction de la résolution de l'écran sur lequel la 
+  fenêtre est actuellement affichée.
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@Parameter "Y"
+  La valeur à mettre à l'échelle.
+
+@ReturnValue
+  La valeur mise à l'échelle. 
+@LineBreak
+@LineBreak
+  Par exemple, sur un écran avec un facteur DPI de 125 %, une valeur de 100 renvoie 125.
+  
+@Remarks
+  Identique à @@DesktopScaledY, mais relatif à l'écran de la fenêtre et non à l'écran principal : 
+  avec un exécutable "Par moniteur" @ReferenceLink "ide_compiler" "DPI Aware", la mise à 
+  l'échelle suit la fenêtre sur les écrans ayant des DPI différents.
+@LineBreak
+@LineBreak
+  Sans l'option de compilation 'DPI Aware', ou sur les plateformes ne prenant pas en charge la mise 
+  à l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+
+@SeeAlso
+  @@WindowScaledX, @@WindowUnscaledY, @@WindowResolutionY, @@DesktopScaledY
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WindowUnscaledX(#Fenetre, X)
+
+@Description
+  Réduit l'échelle d'une valeur sur l'axe des X en fonction de la résolution (DPI) de l'écran sur 
+  lequel la fenêtre est actuellement affichée. 
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@Parameter "X"
+  La valeur à réduire.
+
+@ReturnValue
+  La valeur réduite. 
+@LineBreak
+@LineBreak
+  Par exemple, sur un écran avec un facteur de résolution de 125 %, la valeur 125 est renvoyée à 100.
+
+@Remarks
+  Sans l'option de compilation "DPI Aware", ou sur les plateformes ne prenant pas en charge la mise à 
+  l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+
+@SeeAlso
+  @@WindowUnscaledY, @@WindowScaledX, @@WindowResolutionX, @@DesktopUnscaledX
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = WindowUnscaledY(#Fenetre, Y)
+
+@Description
+  Rétablit l'échelle d'une valeur sur l'axe Y en fonction de la résolution (DPI) de l'écran sur lequel 
+  la fenêtre est actuellement affichée.
+
+@Parameter "#Fenetre"
+  La fenêtre à utiliser.
+
+@Parameter "Y"
+  La valeur à redimensionner.
+
+@ReturnValue
+  La valeur redimensionnée. 
+@LineBreak
+@LineBreak
+  Par exemple, sur un écran avec un facteur de résolution de 125 %, la valeur 125 est renvoyée comme 100.
+
+@Remarks
+  Sans l'option de compilation "DPI Aware" ou sur les plateformes ne prenant pas en charge la mise à 
+  l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+
+@SeeAlso
+  @WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY
 
 @SupportedOS
 

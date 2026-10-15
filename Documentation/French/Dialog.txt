@@ -31,29 +31,25 @@
 @Function Resultat = CreateDialog(#Dialog)
 
 @Description
-  Créer une nouvelle interface utilisateur 
-  non initialisée. @LineBreak
-  Pour l'afficher, utiliser @@OpenXMLDialog.
-
+  Créer une nouvelle interface utilisateur non initialisée. @LineBreak
+  
 @Parameter "#Dialog"
-  Le numéro d'identification de la nouvelle 
-  interface utilisateur. 
+  Le numéro d'identification de la nouvelle interface utilisateur. 
 @LineBreak
 @LineBreak
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'interface 
-  utilisateur a été créée avec succès ou zéro 
-  sinon.@LineBreak
-  Si @#PB_Any a été utilisé comme paramètre 
-  '#Dialog' alors le nombre auto-généré est 
-  renvoyé en cas de succès.
+  Renvoie une valeur non nulle si l'interface utilisateur a été créée avec succès ou zéro sinon.@LineBreak
+  Si @#PB_Any a été utilisé comme paramètre '#Dialog' alors le nombre auto-généré est renvoyé en cas 
+  de succès.
 
+@Remarks
+  Pour initialiser la nouvelle interface utilisateur, utiliser @@OpenXMLDialog pour l'ouvrir dans sa 
+  propre fenêtre ou @@XmlDialogGadget pour la créer en tant que gadget intégré dans une fenêtre existante.
+  
 @SeeAlso
-  @@OpenXMLDialog, @@FreeDialog
+  @@OpenXMLDialog, @@XmlDialogGadget, @@FreeDialog
   
 @SupportedOS
 
@@ -62,21 +58,19 @@
 @Function Resultat$ = DialogError(#Dialog)
 
 @Description
-  Renvoie le dernier message d'erreur 
-  (en anglais) après l'échec de la fonction 
-  @@OpenXMLDialog. 
+  Renvoie le dernier message d'erreur (en anglais) après l'échec de la fonction @@OpenXMLDialog 
+  ou @@XmlDialogGadget.
 
 @Parameter "#Dialog"
   L'interface utilisateur à utiliser.
 
 @ReturnValue
   Renvoie le message d'erreur.  @LineBreak
-  Si aucune information supplémentaire n'est 
-  disponible alors la fonction peut renvoyer 
+  Si aucune information supplémentaire n'est disponible alors la fonction peut renvoyer 
   une chaîne de caractères vide.
 
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -85,23 +79,23 @@
 @Function Resultat = DialogGadget(#Dialog, Nom$)
 
 @Description
-  Renvoie le numéro du gadget associé à son 
-  nom.
+  Renvoie le numéro du gadget associé à son nom.
 
 @Parameter "#Dialog"
   L'interface utilisateur à utiliser.
 
 @Parameter "Nom$"
-  Le nom du gadget spécifié dans le fichier 
-  XML (après l'attribut 'name').
+  Le nom du gadget spécifié dans le fichier XML (après l'attribut 'name').
 
 @ReturnValue
-  Renvoie le numéro du gadget à partir du nom 
-  de gadget spécifié, ou -1 si le gadget n'est 
-  pas trouvé.
+  Renvoie le numéro du gadget à partir du nom de gadget spécifié, ou -1 si le gadget n'est 
+  pas trouvé. @LineBreak
+  Pour une boîte de dialogue créée avec @@XmlDialogGadget, le gadget racine lui-même peut 
+  également être récupéré de cette manière, en donnant à l'élément racine <window> un attribut 
+  'name' dans le XML.
 
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -110,26 +104,22 @@
 @Function Resultat = DialogWindow(#Dialog)
 
 @Description
-  Renvoie le numéro de la fenêtre de 
-  l'interface utilisateur. 
+  Renvoie le numéro de la fenêtre de l'interface utilisateur. 
 
 @Parameter "#Dialog"
   L'interface utilisateur à utiliser.
 
 @ReturnValue
-  Renvoie le numéro de la fenêtre de 
-  l'interface utilisateur spécifiée.
+  Renvoie le numéro de la fenêtre de l'interface utilisateur spécifiée ou -1 si la boîte de dialogue 
+  a été créée avec @@XmlDialogGadget au lieu de @@OpenXMLDialog, car dans ce cas elle n'a pas de fenêtre 
+  propre.
 
 @Remarks  
-  L'interface utilisateur doit être 
-  initialisée avec @@OpenXMLDialog avant 
-  d'utiliser cette commande. @LineBreak
-  Ce numéro peut être utilisé avec n'importe 
-  quelle fonction de la bibliothèque 
-  @LibraryLink "window" "Window".   
+  L'interface utilisateur doit être initialisée avec @@OpenXMLDialog avant d'utiliser cette commande. @LineBreak
+  Ce numéro peut être utilisé avec n'importe quelle fonction de la bibliothèque @LibraryLink "window" "Window".   
   
 @SeeAlso
-  @@CreateDialog, @@OpenXMLDialog
+  @@CreateDialog, @@OpenXMLDialog, @@XmlDialogGadget
 
 @SupportedOS
 
@@ -138,16 +128,13 @@
 @Function Resultat = DialogID(#Dialog)
 
 @Description
-  Renvoie l'identifiant unique (ID) de 
-  l'interface utilisateur dans le système 
-  d'exploitation.
+  Renvoie l'identifiant unique (ID) de l'interface utilisateur dans le système d'exploitation.
 
 @Parameter "#Dialog"
   L'interface utilisateur à utiliser.
 
 @ReturnValue
-  Renvoie l'ID de l'interface utilisateur dans 
-  le système d'exploitation.
+  Renvoie l'ID de l'interface utilisateur dans le système d'exploitation.
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
@@ -159,10 +146,7 @@
 @Function FreeDialog(#Dialog)
 
 @Description
-  Libère l'interface utilisateur ainsi que sa 
-  mémoire associée.@LineBreak
-  Si l'interface utilisateur est toujours 
-  ouverte, elle sera automatiquement fermée.
+  Libère l'interface utilisateur ainsi que sa mémoire associée.
 
 @Parameter "#Dialog"
   L'interface utilisateur à libérer.
@@ -174,8 +158,12 @@
 @NoReturnValue
 
 @Remarks
-  Toutes les interfaces utilisateur restantes 
-  sont automatiquement libérées lorsque le 
+  Si l'interface utilisateur est toujours ouverte, elle sera automatiquement fermée.
+  @LineBreak
+  Pour une boîte de dialogue créée avec @@XmlDialogGadget, c'est son gadget qui est libéré 
+  (la fenêtre qui l'héberge reste intacte).
+  @LineBreak
+  Toutes les interfaces utilisateur restantes sont automatiquement libérées lorsque le 
   programme est fermé.
   
 @SeeAlso
@@ -188,24 +176,17 @@
 @Function Resultat = IsDialog(#Dialog)
 
 @Description
-  Teste si l'interface utilisateur donnée est 
-  une interface utilisateur valide. 
+  Teste si l'interface utilisateur donnée est une interface utilisateur valide. 
 
 @Parameter "#Dialog"
   L'interface utilisateur à tester.
 
 @ReturnValue
-  Renvoie une valeur non nulle si #Dialog est 
-  une interface utilisateur valide ou zéro 
-  sinon.
+  Renvoie une valeur non nulle si #Dialog est une interface utilisateur valide ou zéro sinon.
 
 @Remarks
-  Cette fonction peut être utilisée avec 
-  n'importe quelle valeur sans crainte de 
-  crash. @LineBreak
-  C'est une bonne façon de s'assurer qu'une 
-  interface utilisateur est prête à être 
-  utilisée.
+  Cette fonction peut être utilisée avec n'importe quelle valeur sans crainte de crash. @LineBreak
+  C'est une bonne façon de s'assurer qu'une interface utilisateur est prête à être utilisée.
 
 @SeeAlso
   @@CreateDialog
@@ -339,6 +320,12 @@
     ...
   </dialogs>
 
+  L'élément racine <window> est ouvert comme une véritable fenêtre par @@OpenXMLDialog. 
+  Ce même document XML peut également être transformé en gadget (un @@ContainerGadget) avec 
+  @@XmlDialogGadget ; dans ce cas, tout attribut ou indicateur spécifique à la fenêtre que 
+  l'élément racine <window> pourrait contenir (title, screencentered, systemmenu, etc.) est 
+  simplement ignoré.
+  
 
   III. L'élément fenêtre 
   ----------------------
@@ -724,12 +711,149 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+@Function Resultat = XmlDialogGadget(#Dialog, #XML, Nom$ [, X, Y [, Largeur, Hauteur]])
 
+@Description
+  Crée une boîte de dialogue en tant que @@ContainerGadget.
+@LineBreak
+@LineBreak 
+  Cela permet d'intégrer une boîte de dialogue définie en XML dans une fenêtre existante, 
+  à côté d'autres gadgets.
+
+@Parameter "#Dialog"
+  La boîte de dialogue à utiliser. 
+@LineBreak
+@LineBreak 
+  Elle doit avoir été créée au préalable avec @@CreateDialog.
+
+@Parameter "#XML"
+  Le fichier XML @LibraryLink "xml" à utiliser. 
+@LineBreak
+@LineBreak 
+  Il doit avoir été créé au préalable avec @@LoadXML, @@CreateXML, @@CatchXML ou @@ParseXML.@LineBreak
+  Consultez @@OpenXMLDialog pour connaître les attributs XML pris en charge.
+
+@Parameter "Nom$"
+  Le nom de la boîte de dialogue à utiliser. 
+@LineBreak
+@LineBreak 
+  Un fichier XML peut contenir plusieurs boîtes de dialogue.
+
+@OptionalParameter "X, Y"
+  Les coordonnées X et Y (en pixels) du gadget #Dialog, par rapport à son conteneur.
+
+@OptionalParameter "Largeur, Hauteur"
+  La taille (en pixels) du gadget #Dialog. 
+@LineBreak
+@LineBreak 
+  Si cette taille est inférieure à la taille requise définie dans le fichier XML (après le calcul 
+  de la mise en page), c'est cette dernière qui sera utilisée. Si ce paramètre est omis, la taille 
+  de la boîte de dialogue sera la plus petite possible.
+
+@ReturnValue
+  Renvoie une valeur non nulle si le gadget de boîte de dialogue a été créé avec succès, zéro sinon.
+@LineBreak
+@LineBreak
+  Pour obtenir plus d'informations sur l'erreur survenue, utilisez @@DialogError.
+
+@Remarks
+  Cette procedure utilise exactement le même format XML que @@OpenXMLDialog 
+  (voir sa documentation pour la référence XML complète) : 
+  Le même document XML peut être utilisé avec les deux commandes. 
+  L'élément racine <window> devient le @@ContainerGadget, 
+  et tout attribut ou indicateur spécifique à une fenêtre qu'il 
+  pourrait encore posséder ('title', 'screencentered', 'systemmenu', etc.) 
+  est simplement ignoré. 
+@LineBreak
+@LineBreak
+
+  Le gadget est créé dans la fenêtre active, tout comme un @@ContainerGadget. Par conséquent, 
+  @@XmlDialogGadget doit être appelé après l'ouverture (ou la sélection, avec @@UseGadgetList) 
+  de la fenêtre qui doit l'héberger. 
+@LineBreak
+@LineBreak
+
+  Pour accéder aux gadgets de la boîte de dialogue, y compris le gadget racine, utilisez @@DialogGadget 
+  (attribuez à l'élément racine <window> un attribut 'name' dans le XML pour le récupérer). 
+  Contrairement à une boîte de dialogue ouverte avec @@OpenXMLDialog, @@DialogWindow renvoie -1 pour une 
+  boîte de dialogue créée avec @@XmlDialogGadget, car elle n'a pas de fenêtre propre.
+@LineBreak
+@LineBreak
+
+  Les fonctions @@UseDialogScintillaGadget, @@UseDialogOpenGLGadget, @@UseDialogWebGadget et 
+  @@UseDialogWebViewGadget permettent d'activer la prise en charge de ces gadgets dans la bibliothèque 
+  de boîtes de dialogue. Elles ne sont pas activées par défaut afin de réduire la taille de la bibliothèque.
+@LineBreak
+@LineBreak
+
+  Le redimensionnement du gadget (par exemple avec @@ResizeGadget ou via la gestion de redimensionnement 
+  de la fenêtre hôte) réorganise automatiquement ses éléments enfants pour s'adapter à la nouvelle taille, 
+  de la même manière qu'une boîte de dialogue ouverte avec @@OpenXMLDialog.
+
+@Example
+ 
+@Code
+  #Dialog = 0
+  #Xml = 0
+  #Window = 0
+
+  XML$ = "<window name='test'>" +
+         "  <vbox expand='item:3'>" +
+         "    <string name='name' text='Quel est votrenom svp ?' />" +
+         "    <checkbox name='newsletter' text='Souscrire à la newsletter' />" +
+         "    <editor name='comment' height='80' />" +
+         "  </vbox>" +
+         "</window>"
+
+  If OpenWindow(#Window, 0, 0, 320, 240, "XmlDialogGadget", #PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget)
+
+    TextGadget(#PB_Any, 10, 10, 300, 20, "Cette fenêtre contient une boîte de dialogue définie en XML :")
+
+    If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+      If CreateDialog(#Dialog) And XmlDialogGadget(#Dialog, #Xml, "test", 10, 35, 300, 160)
+
+        ; Le gadget conteneur du dialog lui-même est récupéré avec le nom de son élément racine <window>
+        Container = DialogGadget(#Dialog, "test")
+
+        Ok = ButtonGadget(#PB_Any, 210, 205, 100, 25, "OK")
+
+        Repeat
+          Event = WaitWindowEvent()
+
+          Select Event
+            Case #PB_Event_SizeWindow
+              ; Le redimensionnement du conteneur réorganise automatiquement les éléments du dialog qu'il contient.
+              ResizeGadget(Container, #PB_Ignore, #PB_Ignore, WindowWidth(#Window) - 20, WindowHeight(#Window) - 80)
+              ResizeGadget(Ok, WindowWidth(#Window) - 110, WindowHeight(#Window) - 35, #PB_Ignore, #PB_Ignore)
+
+            Case #PB_Event_Gadget
+              If EventGadget() = Ok
+                Debug "Nom : " + GetGadgetText(DialogGadget(#Dialog, "name"))
+                Debug "Newsletter : " + GetGadgetState(DialogGadget(#Dialog, "newsletter"))
+              EndIf
+          EndSelect
+        Until Event = #PB_Event_CloseWindow
+
+      Else
+        Debug "Erreur Dialog : " + DialogError(#Dialog)
+      EndIf
+    Else
+      Debug "Erreur XML : " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenXMLDialog, @@DialogGadget, @@DialogWindow
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function RefreshDialog(#Dialog)
 
 @Description
-  Met à jour la taille d'un Dialog pour l'ajuster au mieux 
-  après un changement.
+  Met à jour la taille d'un Dialog pour l'ajuster au mieux après un changement.
 
 @Parameter "#Dialog"
   L'interface utilisateur à rafraîchir.
@@ -737,10 +861,12 @@
 @NoReturnValue
 
 @Remarks
-  Par exemple, lorsque vous modifiez le texte d'un gadget, 
-  la taille de la boîte de dialogue aura probablement besoin 
-  d'être réajustée.
-
+  Par exemple, lorsque vous modifiez le texte d'un gadget, la taille de la boîte de dialogue aura 
+  probablement besoin d'être réajustée.@LineBreak
+  Pour une boîte de dialogue créée avec @@XmlDialogGadget, cette fonction réorganise les enfants 
+  avec la taille actuelle du gadget (sa propre taille reste inchangée, car elle est contrôlée par 
+  l'appelant).
+  
 @SeeAlso
   @@CreateDialog
 

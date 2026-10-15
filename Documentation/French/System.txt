@@ -345,11 +345,11 @@
 @Example
 @Code
   Select OSVersion()
-    Case #PB_OS_Windows_98
-      MessageRequester("Info", "Windows 98")
+    Case #PB_OS_Windows_11
+      MessageRequester("Info", "Windows 11")
 
-    Case #PB_OS_Windows_2000
-      MessageRequester("Info", "Windows 2000")
+    Case #PB_OS_Windows_10
+      MessageRequester("Info", "Windows 10")
   
     Case #PB_OS_Windows_XP
       MessageRequester("Info", "Windows XP")
@@ -378,6 +378,38 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat$ = OSLanguage()
+
+@Description
+  Renvoie la langue du système d'exploitation.
+
+@NoParameters
+
+@ReturnValue
+  Renvoie la langue sous la forme d'un code à deux lettres minuscules (par exemple : "en", "f", "de" ou "ja").
+
+@Remarks
+ Toute partie régionale ou de script est supprimée ; seule la langue est affichée.
+@LineBreak
+@LineBreak
+  Une chaîne vide est renvoyée si la langue ne peut pas être déterminée.
+@LineBreak
+@LineBreak
+  Sous Windows, la langue d'interface utilisateur par défaut est utilisée ; sous macOS, la première 
+  entrée de la liste des langues préférées ; et sous Linux, la variable d'environnement "LC_ALL", 
+  "LC_MESSAGES" ou "LANG" (dans cet ordre).
+
+@Example
+@Code
+  Debug OSLanguage() ; Affiche : fr (ou en ; etc)
+@EndCode
+
+@SeeAlso
+  @@OSVersion
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function Resultat$ = ComputerName()
 
 @Description
