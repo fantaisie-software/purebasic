@@ -15,6 +15,7 @@ Structure PrefsThemeList
   ImageGadget.i  ; gadgets (#PB_Any)
   OptionGadget.i
   TextGadget.i
+  Text$          ; theme description, for the TextGadget
 EndStructure
 
 
@@ -273,7 +274,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     If ThemeInfo3$ <> ""
       Text$ + #NewLine + ThemeInfo3$
     EndIf
-    PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, Text$)
+    PrefsThemeList()\Text$ = Text$ ; the TextGadget is created after the OptionGadgets (see CreatePrefsThemeList())
     
     Theme_Close()
   EndIf
@@ -301,6 +302,12 @@ Procedure CreatePrefsThemeList()
   ; Create all OptionGadgets here, to have them all in one group
   ForEach PrefsThemeList()
     PrefsThemeList()\OptionGadget = OptionGadget(#PB_Any, 0, 0, 0, 0, "")
+  Next PrefsThemeList()
+  
+  ; Create the TextGadgets after the OptionGadgets, so the option group ends here. Else the next OptionGadgets
+  ; created by the preferences (the issue options) join this group and unselect the current theme on Linux
+  ForEach PrefsThemeList()
+    PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, PrefsThemeList()\Text$)
   Next PrefsThemeList()
   
   CloseGadgetList()
