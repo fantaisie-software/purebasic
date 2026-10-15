@@ -114,7 +114,8 @@
   @@UseJPEG2000ImageDecoder @LineBreak
   @@UsePNGImageDecoder @LineBreak
   @@UseTIFFImageDecoder @LineBreak
-  @@UseTGAImageDecoder 
+  @@UseTGAImageDecoder @LineBreak
+  @@UseWebPImageDecoder
 @LineBreak
 @LineBreak
   Avant de charger un sprite, un écran doit 
@@ -693,7 +694,8 @@ Delay(3000)
   @@UseJPEG2000ImageDecoder @LineBreak
   @@UsePNGImageDecoder @LineBreak
   @@UseTIFFImageDecoder @LineBreak
-  @@UseTGAImageDecoder 
+  @@UseTGAImageDecoder @LineBreak
+  @@UseWebPImageDecoder 
 @LineBreak 
 @LineBreak  
   Avant de charger un sprite, un écran 
@@ -748,6 +750,7 @@ Delay(3000)
   @#PB_ImagePlugin_JPEG     : Enregistre l'image en JPEG (la commande @@UseJPEGImageEncoder doit être utilisée)
   @#PB_ImagePlugin_JPEG2000 : Enregistre l'image en JPEG2000 (la commande @@UseJPEG2000ImageEncoder doit être utilisée)
   @#PB_ImagePlugin_PNG      : Enregistre l'image en PNG  (la commande @@UsePNGImageEncoder doit être utilisée)
+  @#PB_ImagePlugin_WEBP     : Enregistre l'image en WebP (la commande @@UseWebPImageEncoder doit être utilisée).
 @EndFixedFont
 
 @OptionalParameter "Options"
@@ -1201,7 +1204,7 @@ Delay(5000)
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = SpriteOutput(#Sprite)
+@Function Resultat = SpriteOutput(#Sprite [, Options])
 
 @Description
   Renvoie l'identifiant d'un Sprite 
@@ -1210,6 +1213,13 @@ Delay(5000)
   
 @Parameter "#Sprite"
   Le sprite sur lequel on dessinera.
+  
+@OptionalParameter "Options"
+  Peut prendre la valeur suivante :
+@FixedFont
+  @#PB_Sprite_Overwrite: Le contenu précédent du sprite n'est pas lu ; le dessin commence sur une sortie 
+                        entièrement transparente. C'est plus rapide lorsque le sprite entier est redessiné.
+@EndFixedFont
 
 @ReturnValue
   Renvoie l'OutputID du Sprite s'il est 
@@ -1237,7 +1247,97 @@ Delay(5000)
     ; Dessin ici ...
   StopDrawing()
 @EndCode 
+
+@SeeAlso
+  @@SpriteVectorOutput
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = SpriteVectorOutput(#Sprite [, Options])
+
+@Description
+  Renvoie l'identifiant de sortie du sprite sur lequel effectuer des opérations de dessin vectoriel 2D 
+  (@LibraryLink "vectordrawing").
+
+@Parameter "#Sprite"
+  Le sprite sur lequel dessiner.
+
+@OptionalParameter "Options"
+  Spécifie l'unité de mesure des distances sur le dessin. 
+@LineBreak
+@LineBreak
+  L'unité par défaut pour les sprites est @#PB_Unit_Pixel. 
+@FixedFont
+  @#PB_Unit_Pixel      : Les valeurs sont mesurées en pixels.
+  @#PB_Unit_Point      : Les valeurs sont mesurées en points (1/72 pouce).
+  @#PB_Unit_Inch       : Les valeurs sont mesurées en pouces.
+  @#PB_Unit_Millimeter : Les valeurs sont mesurées en millimètres.
+@EndFixedFont
+  Peut être combiné avec l'option suivante à l'aide de l'opérateur OU binaire "|" :
+@FixedFont
+  @#PB_Sprite_Overwrite : Le contenu du sprite précédent n'est pas lu ; le dessin commence sur une sortie entièrement
+                         transparente. Plus rapide lorsque le sprite entier est redessiné.
+@EndFixedFont
+
+@ReturnValue
+  Renvoie l'ID de sortie ou zéro si le dessin est impossible. 
+@LineBreak
+@LineBreak
+  Cette valeur doit être passée directement à la fonction @StartVectorDrawing pour démarrer l'opération 
+  de dessin.@LineBreak 
+  La valeur de retour est valide pour une seule opération de dessin et ne peut pas être réutilisée.
+
+@Remarks
+  Le dessin est réalisé dans une mémoire tampon intermédiaire, puis recopié sur le sprite par @@StopVectorDrawing.
+@LineBreak
+@LineBreak
+  La fonction SpriteVectorOutput() doit être appelée dans le même thread que @@OpenScreen.
+@LineBreak
+@LineBreak
+  Pour conserver la transparence du dessin, le sprite doit être créé avec l'option @#PB_Sprite_AlphaBlending
+  et affiché avec @@DisplayTransparentSprite. 
+@LineBreak
+@LineBreak
+  Le masque de collision des pixels est mis à jour après le dessin si le sprite a été créé avec l'option 
+  @#PB_Sprite_PixelCollision.
+@LineBreak
+@LineBreak
+  Cette commande n'est pas prise en charge sous Linux avec le sous-système Qt (elle renvoie zéro).
+
+@Exemple
+@Code
+  If InitSprite() And OpenWindow(0, 0, 0, 320, 240, "SpriteVectorOutput", #PB_Window_ScreenCentered | #PB_Window_SystemMenu)
+    If OpenWindowedScreen(WindowID(0), 0, 0, 320, 240)
+      CreateSprite(0, 128, 128, #PB_Sprite_AlphaBlending)
+
+      If StartVectorDrawing(SpriteVectorOutput(0, #PB_Sprite_Overwrite))
+        AddPathCircle(64, 64, 60)
+        VectorSourceColor(RGBA(255, 128, 0, 255))
+        FillPath()
+        StopVectorDrawing()
+      EndIf
+
+      Repeat
+        Repeat
+          Event = WindowEvent()
+          If Event = #PB_Event_CloseWindow
+            End
+          EndIf
+        Until Event = 0
+
+        ClearScreen(RGB(0, 0, 64))
+        DisplayTransparentSprite(0, 96, 56)
+        FlipBuffers()
+      ForEver
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartVectorDrawing, @@SpriteOutput
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

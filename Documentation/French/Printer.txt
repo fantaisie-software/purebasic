@@ -176,6 +176,12 @@
   Le OutputID de l'imprimante en cours afin 
   d'être utilisé avec la fonction @@StartVectorDrawing.
 
+@Remarks
+  Les coordonnées de dessin sont toujours relatives à la page physique (son coin supérieur gauche 
+  est (0,0)), et non à la zone imprimable. Si l'imprimante a une marge matérielle, celle-ci est 
+  automatiquement prise en compte afin qu'une coordonnée donnée s'imprime à la même position physique 
+  quelle que soit cette marge.
+
 @Example
 @Code
   StartVectorDrawing(PrinterVectorOutput(#PB_Unit_Point))

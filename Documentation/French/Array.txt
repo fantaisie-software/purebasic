@@ -8,15 +8,11 @@
 
 @Overview
 
-  Un tableau permet de stocker des éléments 
-  de manière indexée. Contrairement à une 
-  @LibraryLink "List" "liste" ou à une 
-  @LibraryLink "Map" "map", les éléments
+  Un tableau permet de stocker des éléments  de manière indexée. Contrairement à une 
+  @LibraryLink "List" "liste" ou à une @LibraryLink "Map" "map", les éléments
   sont alloués de façon contiguë en mémoire. 
-  C'est pourquoi il n'est pas possible
-  d'insérer ou de supprimer un élément. 
-  D'un autre côté, il permet d'accéder à 
-  n'importe quel élément quasiment 
+  C'est pourquoi il n'est pas possible d'insérer ou de supprimer un élément. 
+  D'un autre côté, il permet d'accéder à n'importe quel élément quasiment 
   instantanément.
 @LineBreak
 @LineBreak
@@ -25,10 +21,8 @@
   @ReferenceLink "dim" "ReDim".
 @LineBreak
 @LineBreak
-  Les tableaux peuvent être triés avec 
-  @@sortArray ou @@SortStructuredArray 
-  Il est également possible de réordonner 
-  les éléments d'un tableau dans un ordre 
+  Les tableaux peuvent être triés avec @@sortArray ou @@SortStructuredArray 
+  Il est également possible de réordonner les éléments d'un tableau dans un ordre 
   aléatoire avec la fonction @@RandomizeArray.
 @LineBreak
 @LineBreak
@@ -45,6 +39,10 @@
   @@SortStructuredArray @LineBreak
   @@RandomizeArray @LineBreak
   
+@Section &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Conversion texte
+  @@ExtractArray @LineBreak
+  @@JoinArray @LineBreak
+
 @ExampleFile All Array.pb
 
 @SupportedOS
@@ -239,6 +237,68 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat = ExtractArray(Tableau(), Texte$ [, Separateur$ [, Limite]])
+
+@Description
+  Sépare le Texte$ en éléments distincts dans le Tableau() en utilisant Separateur$ comme délimiteur.
+
+@Parameter "Tableau()"
+  Le tableau de destination. 
+@LineBreak
+@LineBreak  
+  Il doit être de type chaîne de caractères, entier ou nombre à virgule flottante et avoir une seule
+dimension.
+
+@Parameter "Texte$"
+  Le texte à diviser.
+
+@OptionalParameter "Separateur$"
+  Le séparateur à utiliser entre chaque élément. 
+@LineBreak
+@LineBreak    
+  Par défaut, il s'agit de la virgule (",") et peut contenir plusieurs caractères.@LineBreak 
+  Si c'est une chaîne vide, Texte$ n'est pas divisé et est copié comme seul élément dans Tableau().
+
+@OptionalParameter "Limite"
+  Le nombre maximum d'éléments extraits : Le dernier élément contient alors le reste de Texte$, 
+  y compris tout séparateur qu'il pourrait encore contenir.
+
+@ReturnValue
+  Renvoie le nombre d'éléments trouvés et stockés dans Tableau().
+
+@Remarks
+  Tableau() est dimensionné pour contenir exactement le nombre d'éléments trouvés.
+
+@Example
+@Code
+  Dim Tab.s(0)
+
+  Resultat = ExtractArray(Tab(), "Pomme,Orange,Cerise")
+
+  Debug Resultat ; affiche '3'
+  Debug Tab(0)   ; affiche 'Pomme'
+  Debug Tab(1)   ; affiche 'Orange'
+  Debug Tab(2)   ; affiche 'Cerise'
+@EndCode
+
+@Example
+@Code
+
+; Un tableau numérique peut également être utilisé.
+
+Dim Nombres.i(0)
+
+ExtractArray(Nombres(), "10|20|30", "|")
+
+Debug Nombres(0) + Nombres(1) + Nombres(2) ; affiche '60'
+@EndCode
+
+@SeeAlso
+  @@JoinArray, @@ExtractList, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function FreeArray(Tableau())
 
 @Description
@@ -257,4 +317,49 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
 @SeeAlso
   @@FreeList, @@FreeMap
   
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = JoinArray(Tableau() [, Separateur$ [, Limite]])
+
+@Description
+  Concatène tous les éléments du Tableau() en une chaîne de caractères unique et en ajoutant 
+  le Separateur$ entre chaque élément.
+
+@Parameter "Tableau()"
+  Le tableau source. 
+@LineBreak
+@LineBreak  
+  Il doit être de type chaîne de caractères, entier ou nombre à virgule flottante et avoir une 
+  seule dimension.
+
+@OptionalParameter "Separateur$"
+  Le séparateur à insérer entre chaque élément. 
+@LineBreak
+@LineBreak 
+  Par défaut, il s'agit de la virgule (",") et peut contenir plusieurs caractères.
+
+@OptionalParameter "Limite"
+  Le nombre maximum d'éléments concaténés.
+
+@ReturnValue
+  Renvoie la chaîne de caractères résultante.
+
+@Example
+@Code
+
+Dim MyArray.s(2)
+
+MyArray(0) = "Pomme"
+MyArray(1) = "Orange"
+MyArray(2) = "Cerise"
+
+Debug JoinArray(MyArray())        ; affiche 'Pomme,Orange,Cerise'
+Debug JoinArray(MyArray(), " - ") ; affiche 'Pomme - Orange - Cerise'
+@EndCode
+
+@SeeAlso
+  @@ExtractArray, @@JoinList
+
 @SupportedOS

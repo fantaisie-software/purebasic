@@ -257,9 +257,16 @@
   l'exe est désactivée. 
   @LineBreak
   @LineBreak
-  /DPIAWARE: Activer le support DPI sur l'exécutable. @LineBreak
+  /DPIAWARE: Activer le support DPI sur l'exécutable.
   @LineBreak
-  @LineBreak 
+  @LineBreak
+  /DPIWINDOWAWARE : Active la prise en charge du DPI par moniteur pour l’exécutable. 
+  Contrairement à /DPIAWARE, chaque fenêtre de l’exécutable sera notifiée individuellement 
+  lorsque son DPI change (par exemple, lorsqu’elle est déplacée vers un moniteur avec une mise 
+  à l’échelle différente), au lieu que l’application entière utilise uniquement le DPI du moniteur 
+  principal.
+  @LineBreak
+  @LineBreak  
   /DLLPROTECTION: Active la protection contre le préchargement des DLL sur l'exécutable. 
   Cela empêche que les DLL système soient d'abord recherchées dans le répertoire du programme plutôt 
   que dans le répertoire System32 du système d'exploitation Windows.

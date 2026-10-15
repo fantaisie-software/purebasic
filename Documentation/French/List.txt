@@ -507,6 +507,57 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+@Function Resultat = ExtractList(Liste(), Texte$ [, Separateur$ [, Limite]])
+
+@Description
+  Chaque élément de la chaîne de caratère 'Texte$' séparés par le Separateur$ est sotcké dans la liste
+  'Liste()'.
+
+@Parameter "Liste()"
+  La liste de destination, créée avec la fonction @ReferenceLink "newlist" "NewList".
+@linebreak
+@linebreak
+  Elle doit être de type chaîne de caractères, entier ou nombre à virgule flottante.
+
+@Parameter "Texte$"
+  Le texte à décomposer.
+
+@OptionalParameter "Separateur$"
+  Le séparateur utilisé entre les éléments. 
+@linebreak
+@linebreak  
+  Par défaut, il s'agit de la virgule (",") et peut contenir plusieurs caractères. 
+@linebreak
+@linebreak 
+  Si c'est une chaîne vide, 'Texte$' n'est pas décomposé et est copié comme un seul élément dans 'Liste()'.
+
+@OptionalParameter "Limite"
+  Nombre maximum d'éléments à extraire.
+@linebreak
+@linebreak 
+  Le dernier contient alors le reste de 'Texte$', y compris tout séparateur qu'il pourrait encore contenir.
+
+@ReturnValue
+  Renvoie le nombre d'éléments trouvé et stocké dans 'Liste()'.
+
+@Example
+@Code
+  NewList Fruits.s()
+
+  Resultat = ExtractList(Fruits(), "Pomme,Orange,Cerise")
+  Debug Resultat ; affiche '3'
+
+  ForEach Fruits()
+    Debug Fruits() ; affiche 'Pomme', 'Orange' et 'Cerise' sur 3 lignes
+  Next
+@EndCode
+
+@SeeAlso
+  @@JoinList, @@ExtractArray, @@ExtractRegularExpression, @@StringField
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 
 @Function *Resultat = FirstElement(Liste())
 
@@ -642,6 +693,49 @@
 
 @SeeAlso
   @@AddElement, @@DeleteElement, @@ClearList
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat$ = JoinList(Liste() [, Separateur$ [, Limite]])
+
+@Description
+  Concatène tous les éléments de la liste 'Liste()' en une seule chaîne de caractères, 
+  en utilisant le 'Separateur$' qui est entre chaque élément.
+
+@Parameter "Liste()"
+  La liste à utiliser, créée avec la fonction @ReferenceLink "newlist" "NewList".
+@linebreak
+@linebreak
+  Doit être de type chaîne de caractères, entier ou nombre à virgule flottante.
+
+@OptionalParameter "Separateur$"
+  Le séparateur à insérer entre chaque élément. 
+@linebreak
+@linebreak
+  Par défaut, il s'agit de la virgule (",") et peut contenir plusieurs caractères.
+
+@OptionalParameter "Limite"
+  Le nombre maximum d'éléments de 'Liste()' à concaténer, en partant du premier.
+
+@ReturnValue
+  Renvoie la chaîne de caractères résultante.
+
+@Example
+@Code
+NewList Fruits.s()
+
+AddElement(Fruits()) : Fruits() = "Pomme"
+AddElement(Fruits()) : Fruits() = "Orange"
+AddElement(Fruits()) : Fruits() = "Cerise"
+
+Debug JoinList(Fruits()) ; affiche 'Pomme,Orange,Cerise'
+Debug JoinList(Fruits(), " - ") ; affiche 'Pomme - Orange - Cerise'
+@EndCode
+
+@SeeAlso
+@@ExtractList, @@JoinArray
 
 @SupportedOS
 

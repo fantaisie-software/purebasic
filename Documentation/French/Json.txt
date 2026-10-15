@@ -162,24 +162,19 @@
 @Function Resultat = CatchJSON(#JSON, *Memoire, Taille [, Option])
 
 @Description
-  Parcourt (parse) les données JSON d'une 
-  mémoire tampon. 
+  Parcourt (parse) les données JSON d'une mémoire tampon. 
     
 @Parameter "#JSON"
   Numéro d'identification du nouveau JSON.
 @LineBreak
 @LineBreak   
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer 
-  automatiquement ce numéro.  
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.  
   
 @Parameter "*Memoire"
-  Un emplacement de mémoire accessible en 
-  lecture. 
+  Un emplacement de mémoire accessible en lecture. 
 
 @Parameter "Taille"
-  Longueur (en octets) de l'emplacement en 
-  mémoire.
+  Longueur (en octets) de l'emplacement en mémoire.
 
 @OptionalParameter "Option"
   @#PB_JSON_NoCase : Les données JSON 
@@ -218,6 +213,10 @@
   Pour parcourir les données JSON directement 
   à partir d'une chaîne, la fonction 
   @@ParseJSON peut être utilisée à la place.
+@LineBreak
+@LineBreak
+  Les tableaux et objets imbriqués de plus de 1 000 niveaux sont rejetés comme une erreur, 
+  afin de se prémunir contre les entrées trop profondes.
 @LineBreak
 @LineBreak
   JSON est un format de données sensible à 
@@ -2074,6 +2073,10 @@ La valeur JSON.
   l'erreur.
 @LineBreak
 @LineBreak
+  Les tableaux et objets imbriqués de plus de 1 000 niveaux sont rejetés comme une erreur, 
+  afin de se prémunir contre les entrées trop profondes.
+@LineBreak
+@LineBreak
   JSON est un format de données sensible à 
   la casse. Cependant, dans certaines 
   situations, telles que les structures de 
@@ -2186,6 +2189,10 @@ La valeur JSON.
   Pour parcourir les données JSON 
   directement à partir d'une mémoire tampon, 
   utiliser plutôt la fonction @@CatchJSON.
+@LineBreak
+@LineBreak
+  Les tableaux et objets imbriqués de plus de 1 000 niveaux sont rejetés comme une erreur, 
+  afin de se prémunir contre les entrées trop profondes.
 @LineBreak
 @LineBreak
   JSON est un format de données sensible à 

@@ -1,5 +1,33 @@
 ﻿@Title Historique
 
+@Section xx octobre 2026 : Version 6.50
+
+- @Green "Ajouté" : Mise à l'échelle automatique du DPI par moniteur pour les fenêtres et les gadgets Windows 10 et versions ultérieures !@LineBreak
+- @Green "Ajouté" : @@ExtractArray, @@JoinArray, @@ExtractList, @@JoinList@LineBreak
+- @Green "Ajouté" : @@WindowResolutionX, @@WindowResolutionY, @@WindowScaledX, @@WindowScaledY, @@WindowUnscaledX, @@WindowUnscaledY@LineBreak
+- @Green "Ajouté" : @@XmlDialogGadget pour intégrer les fonctionnalités de la boîte de dialogue XML dans un gadget conteneur.@LineBreak
+- @Green "Ajouté" : @@WebViewGadget pour le sous-système QT (sauf pour Raspberry Pi ARM32)@LineBreak
+- @Green "Ajouté" : Prise en charge du décodage et de l'encodage des images WebP@LineBreak
+- @Green "Ajouté" : @@UseOSImageDecoder et @@UseOSImageEncoder pour charger et enregistrer des images à l'aide de plugins natifs@LineBreak
+- @Green "Ajouté" : @@EncodeSound et @@SaveSound pour enregistrer des sons à l'aide de plugins natifs@LineBreak
+- @Green "Ajouté" : @@UseMP3SoundDecoder pour activer le chargement et l'enregistrement de fichiers MP3@LineBreak
+- @Green "Ajouté" : @@UseOpusSoundDecoder pour activer le chargement et l'enregistrement de fichiers Opus@LineBreak
+- @Green "Ajouté" : @@DisableGadgetRedraw pour une insertion plus rapide d'éléments dans @@ListIconGadget, @@ListViewGadget et @@ComboboxGadget (principalement pour Windows)@LineBreak
+- @Green "Ajouté" : Mode de redimensionnement pour @@DrawImage permettant un redimensionnement brut ou lissé. 
+- @Green "Ajouté" : Ajout de l'indicateur @#PB_Window_Modal à @@OpenWindow pour désactiver la fenêtre sous-jacente.@LineBreak
+- @Green "Ajouté" : Prise en charge de @#PB_Packer_Xz pour la bibliothèque Packer.@LineBreak
+- @Green "Ajouté" : Prise en charge des noms de fichiers longs sous Windows (avec ou sans \\?\) pour toutes les commandes liées aux fichiers.@LineBreak
+- @Green "Ajouté" : Ajout de l'indicateur @#PB_Editor_Centered à @@EditorGadget.@LineBreak
+- @Green "Ajouté" : Ajout de @#PB_All pour RemoveGadgetColumns() à @@ExplorerListGadget également, par souci de cohérence.@LineBreak
+- @Green "Ajouté" : Une page de documentation dédiée listant toutes les dépendances tierces de PureBasic et leurs versions.@LineBreak
+@LineBreak
+- @Green "Mise à jour" : Libjpeg est désormais remplacée par libjpeg-turbo, beaucoup plus rapide.@LineBreak
+- @Green "Mise à jour" : La bibliothèque PCRE1 est obsolète et remplacée par PCRE2.@LineBreak
+- @Green "Mise à jour" : Toutes les dépendances statiques sont à jour !@LineBreak
+@LineBreak
+- @Blue "Corrigé" : De nombreux bogues de bibliothèque ont été corrigés, et de nombreux tests unitaires supplémentaires ont été créés afin d’éviter les régressions et de détecter les incohérences liées au système d’exploitation.@LineBreak
+
+
 @Section 10 Août 2026 : Version 6.41
 
 - @Blue "Corrigé" : Quelques bugs dans le compilateur et les bibliothèques @LineBreak

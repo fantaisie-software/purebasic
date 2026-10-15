@@ -24,48 +24,46 @@
 
 @Description
   Charge un Son qui se trouve déjà en mémoire.
-@LineBreak
-@LineBreak  
-  Les formats reconnus sont le WAV au format 
-  PCM (le format ADPCM n'est pas supporté) 
-  ou n'importe quel format supporté par la 
-  @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".
-  @LineBreak
-  @@UseFLACSoundDecoder @LineBreak
-  @@UseOGGSoundDecoder
   
 @Parameter "#Son"
   Le numéro d'identification du nouveau Son.
   @LineBreak
   @LineBreak  
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro. 
   
 @Parameter "*Memoire"  
   L'adresse de la mémoire où se trouve le Son.
   
 @OptionalParameter "Taille"
-  La taille en octets de la zone mémoire appelée tampon 
-  ou buffer qui contient le Son.
+  La taille en octets de la zone mémoire appelée tampon ou buffer qui contient le Son.
 @LineBreak
 @LineBreak
-  Attention, ce paramètre est facultatif avec les 
-  fichiers WAV, mais il est obligatoire pour les 
+  Attention, ce paramètre est facultatif avec les fichiers WAV, mais il est obligatoire pour les 
   autres formats sonores. 
  
 @OptionalParameter "Options"
   Peut être une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Sound_Streaming: Active le support du streaming
-                       Seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" et 
-                       @Link "SoundPlugin/UseOGGSoundDecoder" "OGG"
+                       Seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC", 
+                       @Link "SoundPlugin/UseOGGSoundDecoder" "OGG"  et @Link "SoundPlugin/UseOpusSoundDecoder" "Opus"
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
   
+@Remarks 
+  Les formats reconnus sont le WAV au format PCM (le format ADPCM n'est pas supporté) 
+  ou n'importe quel format supporté par la @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".  @LineBreak
+  @@UseFLACSoundDecoder @LineBreak
+  @@UseOGGSoundDecoder @LineBreak
+  @@UseOpusSoundDecoder
+@LineBreak
+@LineBreak   
+  Le "?" est un pointeur sur une étiquette (label). @LineBreak 
+  Plus d'informations sur les pointeurs et les accès mémoire peuvent être trouvées dans le 
+  chapitre @ReferenceLink "memory" "ici".
+
 @Example
 @Code
   CatchSound(0, ?Music)
@@ -76,12 +74,6 @@
     IncludeBinary "Sound.wav"
 @EndCode
 
-@Remarks  
-  Le "?" est un pointeur sur une étiquette 
-  (label). 
-  Plus d'informations sur les pointeurs et les 
-  accès mémoire peuvent être trouvées dans le 
-  chapitre @ReferenceLink "memory" "ici".
 
 @SeeAlso
   @@LoadSound, @@FreeSound, @@PlaySound
@@ -349,39 +341,33 @@ EndIf
 
 @Description
   Charge un Son en mémoire depuis un fichier.
-@LineBreak
-@LineBreak  
-  Les formats reconnus sont le WAV au format 
-  PCM (le format ADPCM n'est pas supporté) 
-  ou n'importe quel format supporté par la 
-  @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".
-  @LineBreak
-  @@UseFLACSoundDecoder@LineBreak
-  @@UseOGGSoundDecoder  
    
 @Parameter "#Son"
   Le numéro d'identification du nouveau Son.
   @LineBreak
   @LineBreak  
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro. 
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro. 
   
 @Parameter "NomFichier$"  
-  Le chemin et le nom du fichier sonore à 
-  charger.
+  Le chemin et le nom du fichier sonore à charger.
   
 @OptionalParameter "Options"
   Peut être une combinaison des valeurs suivantes:
 @FixedFont
   @#PB_Sound_Streaming: Active le support du streaming pour jouer le son 
-                      seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC" 
-                      et @Link "SoundPlugin/UseOGGSoundDecoder" "OGG"
+                      seulement pour les formats @Link "SoundPlugin/UseFLACSoundDecoder" "FLAC", 
+                      @Link "SoundPlugin/UseOGGSoundDecoder" "OGG" et @Link "SoundPlugin/UseOpusSoundDecoder" "Opus"
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle en cas de 
-  succès, zéro sinon.
+  Renvoie une valeur non nulle en cas de succès, zéro sinon.
+
+@Remarks 
+  Les formats reconnus sont le WAV au format PCM (le format ADPCM n'est pas supporté) 
+  ou n'importe quel format supporté par la @LibraryLink "SoundPlugin" "bibliothèque SoundPlugin".@LineBreak
+  @@UseFLACSoundDecoder@LineBreak
+  @@UseOGGSoundDecoder@LineBreak
+  @@UseOpusSoundDecoder  
 
 @Example
 @Code  
@@ -410,7 +396,121 @@ EndIf
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+@Function Resultat = SaveSound(#Son, NomFichier$ [,Plugin [, Qualite]])
 
+@Description
+  Enregistre le Son sur le disque. 
+
+@Parameter "#Son"
+  Le Son à enregistrer.
+
+@Parameter "NomFichier$"
+  Le fichier de destination. 
+@LineBreak
+@LineBreak  
+  Si le nom de fichier ne contient pas de chemin complet, il est enregistré dans le répertoire courant 
+  (@Link "FileSystem/GetCurrentDirectory").
+
+@OptionalParameter "Plugin"
+  Format d'enregistrement du son. 
+@LineBreak  
+  Les valeurs possibles sont :
+@FixedFont
+  @#PB_SoundPlugin_WAV  : Enregistrement au format WAV PCM non compressé (par défaut).
+  @#PB_SoundPlugin_FLAC : Enregistrement au format FLAC sans perte (l'encodeur @@UseFLACSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+  @#PB_SoundPlugin_OGG  : Enregistrement au format OGG Vorbis avec compression (l'encodeur @@UseOGGSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+  @#PB_SoundPlugin_Opus : Enregistrement au format Opus avec compression (l'encodeur @@UseOpusSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge,
+  et la fréquence d'échantillonnage du son doit déjà être l'une des suivantes : 8 000, 12 000, 16 000, 24 000 ou 48 000 Hz.
+  @#PB_SoundPlugin_MP3  : Enregistrement au format MP3 avec perte (@@UseMP3SoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+@EndFixedFont
+
+@OptionalParameter "Qualite"
+  Valeur de la qualité sonore comprise entre 0 (fichier le plus petit) et 100 (qualité optimale), 
+  utilisée par les plugins FLAC, OGG, Opus et MP3 pour contrôler leur niveau de compression/qualité 
+  cible/débit binaire.@LineBreak 
+  Si cette valeur n'est pas spécifiée, chaque plugin choisit sa propre valeur par défaut.@LineBreak 
+  Ce paramètre est ignoré par le format WAV, qui est toujours sans perte et non compressé.
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'opération a réussi, zéro sinon.
+
+@Remarks
+  Le son ne doit pas être un flux audio (voir l'option @Link "Sound/LoadSound" "#PB_Sound_Streaming" 
+  de @@LoadSound).
+
+@Example
+@Code
+  If InitSound()
+    UseFLACSoundEncoder()
+
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.wav")
+      SaveSound(0, "Siren.flac", #PB_SoundPlugin_FLAC)
+      FreeSound(0)
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@EncodeSound, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function *Resultat = EncodeSound(#Son [, Plugin [, Qualite]])
+
+@Description
+  Encode le Son en mémoire, en utilisant les mêmes paramètres et encodeurs que @@SaveSound.
+
+  
+
+@Parameter "#Son"
+Le son à encoder.
+
+@OptionalParameter "Plugin"
+  Le format d'encodage du son. 
+  
+  Voir @@SaveSound pour la liste des valeurs prises en charge.
+
+@OptionalParameter "Qualite"
+  Voir @@SaveSound.
+
+@ReturnValue
+  Renvoie une adresse mémoire contenant les données audio encodées si l'opération a réussi, et zéro sinon.
+
+@Remarks
+  Cette fonction est utile, par exemple, pour envoyer des données audio sur un réseau sans les 
+  enregistrer au préalable sur le disque.
+@LineBreak
+@LineBreak  
+  Le son ne doit pas être un flux audio (voir l'option "#PB_Sound_Streaming" de @@LoadSound).
+@LineBreak
+@LineBreak
+  La taille des données renvoyées peut être obtenue avec @@MemorySize.
+@LineBreak
+@LineBreak 
+  La mémoire renvoyée doit être libérée avec @@FreeMemory lorsqu'elle n'est plus nécessaire.
+
+@Example
+@Code
+  If InitSound()
+    If LoadSound(0, #PB_Compiler_Home + "Examples/3D/Data/Siren.wav")
+      *Tampon = EncodeSound(0) ; Encode au format WAV en mémoire
+      If *Tampon
+        Debug "Taille encodé : " + Str(MemorySize(*Tampon))
+        FreeMemory(*Tampon)
+      EndIf
+      FreeSound(0)
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@SaveSound, @@LoadSound, @@CatchSound, @LibraryLink "SoundPlugin" "Bibliothèque SoundPlugin"
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function PauseSound(#Son [, Canal])
 
 @Description

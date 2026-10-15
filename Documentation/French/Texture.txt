@@ -640,7 +640,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = TextureOutput(#Texture)
+@Function Resultat = TextureOutput(#Texturee [, Options])
 
 @Description
   Renvoie le numéro d'une texture.
@@ -648,6 +648,13 @@
 @Parameter "#Texture"
   La texture à utiliser.
   
+@OptionalParameter "Options"
+  Peut être la valeur suivante:
+@FixedFont
+  @#PB_Texture_Overwrite: Le contenu de la texture précédente n'est pas relu depuis la carte graphique ; le rendu commence 
+                         sur une sortie entièrement transparente. Le rendu est plus rapide lorsque la texture entière est redessinée.
+@EndFixedFont  
+
 @ReturnValue 
   Renvoie l'identifiant d'une texture nécessaire 
   à @@StartDrawing pour 

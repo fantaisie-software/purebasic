@@ -197,88 +197,61 @@
 @Function Resultat = CatchImage(#Image, *AdresseMemoire [, Taille])
 
 @Description
-  Charge une image à partir de l'emplacement 
-  mémoire spécifié.
+  Charge une image à partir de l'emplacement mémoire spécifié.
 
 @Parameter "#Image"
   Le numéro d'identification de l'image.
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
   
 @Parameter "*AdresseMemoire"  
-  L'adresse mémoire où se trouve l'image à 
-  charger.
+  L'adresse mémoire où se trouve l'image à charger.
   
 @OptionalParameter "Taille"  
   La taille de l'image en octets. 
 @LineBreak
 @LineBreak   
-  La taille est facultative car le chargeur 
-  (loader) peut déterminer quand arrêter la 
-  lecture, à partir de l'image. Il est cependant 
-  conseillé de prévoir une taille lors du 
-  chargement d'images inconnues, car le chargeur 
-  peut ensuite gérer correctement les images 
-  corrompues (sans préciser la taille de 
-  l'image, une image corrompue peut faire 
-  planter le  programme).
+  La taille est facultative car le chargeur (loader) peut déterminer quand arrêter la 
+  lecture, à partir de l'image. Il est cependant conseillé de prévoir une taille lors du 
+  chargement d'images inconnues, car le chargeur peut ensuite gérer correctement les images 
+  corrompues (sans préciser la taille de l'image, une image corrompue peut faire planter le  programme).
 
 @ReturnValue  
-  Renvoie une valeur non nulle si l'image a été 
-  chargée avec succès , zéro sinon. 
-  Si @#PB_Any a été spécifié comme paramètre 
-  #Image alors le numéro généré automatiquement 
+  Renvoie une valeur non nulle si l'image a été chargée avec succès , zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre #Image alors le numéro généré automatiquement 
   est renvoyé dans 'Resultat' en cas de succès.
 
 @Remarks
-  La taille maximale de l'image est fonction du 
-  système d'exploitation et de la quantité de 
+  La taille maximale de l'image est fonction du système d'exploitation et de la quantité de 
   mémoire disponible. 
-  Si la mémoire disponible est suffisante alors 
-  une image de 8192x8192 pixels au moins peut 
-  être traitée par tous les systèmes 
-  d'exploitation pris en charge par PureBasic.
+  Si la mémoire disponible est suffisante alors une image de 8192x8192 pixels au moins peut 
+  être traitée par tous les systèmes d'exploitation pris en charge par PureBasic.
 @LineBreak
 @LineBreak
-  Quand une image est chargée, elle est 
-  convertie soit en 24 bits (si la profondeur de 
-  l'image est inférieure ou égale à 24 bits) 
-  soit en 32 bits (si l'image a un canal alpha).
+  Quand une image est chargée, elle est convertie soit en 24 bits (si la profondeur de 
+  l'image est inférieure ou égale à 24 bits) soit en 32 bits (si l'image a un canal alpha).
   La transparence des images BMP n'est pas prise en charge.
 @LineBreak
 @LineBreak   
-  Quand une image n'est plus utile, elle peut 
-  être détruite avec la commande @@FreeImage
+  Quand une image n'est plus utile, elle peut être détruite avec la commande @@FreeImage
   pour libérer de la mémoire.
 @LineBreak
 @LineBreak
-  Cette commande est utile pour inclure 
-  des images (logo etc..) directement dans 
-  l'exécutable avec la commande 
-  @ReferenceLink "includes" "IncludeBinary".
-  Néanmoins, n'abusez pas de cette 
-  fonctionnalité car une image incluse
-  dans un exécutable consomme automatiquement 
-  de la mémoire supplémentaire puisque tout 
-  l'exécutable, y compris les images, est 
-  chargé en mémoire.
+  Cette commande est utile pour inclure des images (logo etc..) directement dans 
+  l'exécutable avec la commande @ReferenceLink "includes" "IncludeBinary".
+  Néanmoins, n'abusez pas de cette fonctionnalité car une image incluse
+  dans un exécutable consomme automatiquement de la mémoire supplémentaire puisque tout 
+  l'exécutable, y compris les images, est chargé en mémoire.
 @LineBreak
 @LineBreak   
-  L'image peut être au format BMP, icône (.ico, 
-  seulement supporté sous Windows) ou dans un 
-  des formats supportés par la bibliothèque 
-  ImagePlugin. 
-  Sous Windows, si le format de l'image est une 
-  icône (.ico), les commandes suivantes ne 
-  seront pas disponibles pour la manipuler: 
-  @@SaveImage et @@ImageOutput.
+  L'image peut être au format BMP, icône (.ico, seulement supporté sous Windows) ou dans un 
+  des formats supportés par la bibliothèque ImagePlugin. 
+  Sous Windows, si le format de l'image est une icône (.ico), les commandes suivantes ne 
+  seront pas disponibles pour la manipuler: @@SaveImage et @@ImageOutput.
 @LineBreak
 @LineBreak
-  Les commandes suivantes peuvent être 
-  utilisées pour activer automatiquement le 
+  Les commandes suivantes peuvent être utilisées pour activer automatiquement le 
   support des formats d'images suivants:
 @LineBreak
 @LineBreak
@@ -288,6 +261,7 @@
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
   @@UseGIFImageDecoder @LineBreak
+  @@UseWebPImageDecoder @LineBreak
 
 @Example
 @Code
@@ -306,8 +280,7 @@
 @EndCode
 
   Notes: Le "?" est un pointeur vers un label. 
-  Vous trouverez plus d'informations au sujet 
-  des pointeurs et des accès mémoire
+  Vous trouverez plus d'informations au sujet des pointeurs et des accès mémoire
   @ReferenceLink "memory" "ici"
  
 @SeeAlso
@@ -492,6 +465,7 @@
   @#PB_ImagePlugin_JPEG     : Encoder l'image en JPEG (@@UseJPEGImageEncoder doit être utilisé)
   @#PB_ImagePlugin_JPEG2000 : Encoder l'image en JPEG2000 (@@UseJPEG2000ImageEncoder doit être utilisé)
   @#PB_ImagePlugin_PNG      : Encoder l'image en PNG (@@UsePNGImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_WEBP     : Encoder l'image en WebP (@@UseWebPImageEncoder doit être utilisé)
 @EndFixedFont
 
 @OptionalParameter "Options"
@@ -749,11 +723,10 @@
   @#PB_ImagePlugin_BMP
   @#PB_ImagePlugin_ICON
   @#PB_ImagePlugin_GIF
+  @#PB_ImagePlugin_WEBP
 @EndFixedFont
-  Si l'image n'a pas été chargée avec l'un de 
-  ces formats, la fonction renverra zéro. 
-  C'est le cas pour les images créées avec 
-  @@CreateImage ou @@GrabImage.
+  Si l'image n'a pas été chargée avec l'un de ces formats, la fonction renverra zéro. 
+  C'est le cas pour les images créées avec @@CreateImage ou @@GrabImage.
 
 @Example
 @Code   
@@ -773,7 +746,11 @@
     Case #PB_ImagePlugin_BMP
        Debug "BMP" 
     Case #PB_ImagePlugin_ICON
-       Debug "ICON "
+       Debug "ICON"
+	Case #PB_ImagePlugin_GIF
+	   Debug "GIF"
+    Case #PB_ImagePlugin_WEBP
+       Debug "WEBP"
     Default 
        Debug "Inconnu"
   EndSelect
@@ -1052,63 +1029,47 @@
   Charge une image contenue dans fichier.
 
 @Parameter "#Image"
-  Le numéro d'identification de l'image à 
-  charger. 
+  Le numéro d'identification de l'image à charger. 
 @LineBreak
 @LineBreak 
-  @ReferenceLink "purebasic_objects" "#PB_Any" 
-  peut être utilisé pour générer automatiquement 
-  ce numéro.
+  @ReferenceLink "purebasic_objects" "#PB_Any" peut être utilisé pour générer automatiquement ce numéro.
 
 @Parameter "Fichier$"
   Le chemin et le nom du fichier à charger. 
 @LineBreak
 @LineBreak   
-  Si le nom de fichier ne contient pas de 
-  chemin complet, le chemin est relatif. 
+  Si le nom de fichier ne contient pas de chemin complet, le chemin est relatif. 
   Voir @Link "FileSystem/GetCurrentDirectory" "répertoire courant".
   
 @OptionalParameter "Options"
   Ce paramètre n'a pour l'instant pas d'utilité. 
-  S'il est spécifié, 0 doit être utilisé pour 
-  assurer une future compatibilité.
+  S'il est spécifié, 0 doit être utilisé pour assurer une future compatibilité.
   
 @ReturnValue
-  Renvoie une valeur non nulle si l'image a été 
-  chargée avec succès et zéro sinon. 
-  Si @#PB_Any a été spécifié comme paramètre 
-  #Image alors le numéro généré automatiquement 
+  Renvoie une valeur non nulle si l'image a été chargée avec succès et zéro sinon. 
+  Si @#PB_Any a été spécifié comme paramètre #Image alors le numéro généré automatiquement 
   est renvoyé dans 'Resultat' en cas de succès.
   
 @Remarks
-  La taille maximale de l'image est fonction du 
-  système d'exploitation et de la quantité de 
+  La taille maximale de l'image est fonction du système d'exploitation et de la quantité de 
   mémoire disponible. 
-  Si la mémoire disponible est suffisante alors 
-  une image de 8192x8192 peut être traitée par 
-  tous les systèmes d'exploitation pris en 
-  charge par PureBasic.
+  Si la mémoire disponible est suffisante alors une image de 8192x8192 peut être traitée par 
+  tous les systèmes d'exploitation pris en charge par PureBasic.
 @LineBreak
 @LineBreak
-  Quand une image est chargée, elle est convertie 
-  soit en 24 bits (si la profondeur de l'image
-  est inférieure ou égale à 24 bits) soit en 
-  32 bits (si l'image a un canal alpha).
+  Quand une image est chargée, elle est convertie soit en 24 bits (si la profondeur de l'image
+  est inférieure ou égale à 24 bits) soit en 32 bits (si l'image a un canal alpha).
 @LineBreak
 @LineBreak 
-  Une image chargée peut être libérée en 
-  utilisant la fonction @@FreeImage.
+  Une image chargée peut être libérée en utilisant la fonction @@FreeImage.
 @LineBreak
 @LineBreak
-  L'image peut être au format BMP, icône (.ico, 
-  seulement supporté sous Windows) ou dans un des 
-  formats supportés par la bibliothèque 
-  @LibraryLink "ImagePlugin" "ImagePlugin".
+  L'image peut être au format BMP, icône (.ico, seulement supporté sous Windows) ou dans un des 
+  formats supportés par la bibliothèque @LibraryLink "ImagePlugin" "ImagePlugin".
   Le canal alpha est pris en charge pour les images BMP 32 bits.
 @LineBreak
 @LineBreak  
-  Les commandes suivantes peuvent être utilisées 
-  pour activer automatiquement davantage de 
+  Les commandes suivantes peuvent être utilisées pour activer automatiquement davantage de 
   formats d'images:
 @LineBreak
 @LineBreak
@@ -1117,33 +1078,25 @@
   @@UsePNGImageDecoder @LineBreak
   @@UseTIFFImageDecoder @LineBreak
   @@UseTGAImageDecoder @LineBreak
-  @@UseGIFImageDecoder @LineBreak  
+  @@UseGIFImageDecoder @LineBreak
+  @@UseWebPImageDecoder @LineBreak  
 @LineBreak
-  Avec l'image chargée, vous pouvez notamment 
-  utiliser les commandes suivantes : 
+  Avec l'image chargée, vous pouvez notamment utiliser les commandes suivantes : 
 @LineBreak
-  @@StartDrawing avec @@ImageOutput pour 
-  dessiner dans l'image. 
+  @@StartDrawing avec @@ImageOutput pour dessiner dans l'image. 
   @LineBreak
-  @@StartVectorDrawing avec @@ImageVectorOutput 
-  pour faire du dessin vectoriel dans l'image. 
+  @@StartVectorDrawing avec @@ImageVectorOutput pour faire du dessin vectoriel dans l'image. 
   @LineBreak
   @@CopyImage pour créer une copie de l'image. 
   @LineBreak
-  @@GrabImage pour créer une autre image en 
-  copiant une zone définie dans l'image. 
+  @@GrabImage pour créer une autre image en copiant une zone définie dans l'image. 
   @LineBreak
-  @@DrawImage avec @@ImageID pour dessiner 
-  l'image sur la surface de dessin en cours. 
+  @@DrawImage avec @@ImageID pour dessiner l'image sur la surface de dessin en cours. 
   @LineBreak
-  @@DrawAlphaImage avec @@ImageID pour dessiner 
-  l'image.
-  (avec ses composantes alpha) sur la surface 
-  de dessin en cours. @LineBreak
-  @@ImageGadget pour afficher l'image dans une 
-  application fenêtrée. @LineBreak
-  @@ButtonImageGadget pour créer un bouton avec 
-  image dans une application fenêtrée.
+  @@DrawAlphaImage avec @@ImageID pour dessiner l'image.
+  (avec ses composantes alpha) sur la surface de dessin en cours. @LineBreak
+  @@ImageGadget pour afficher l'image dans une application fenêtrée. @LineBreak
+  @@ButtonImageGadget pour créer un bouton avec image dans une application fenêtrée.
   
 @Example
 @Code 
@@ -1254,8 +1207,7 @@ Peut prendre une des valeurs suivantes:
   Le nom du fichier. 
 @LineBreak
 @LineBreak 
-  Si le nom de fichier ne contient pas de chemin 
-  complet alors le chemin est relatif. 
+  Si le nom de fichier ne contient pas de chemin complet alors le chemin est relatif. 
   Voir @Link "FileSystem/GetCurrentDirectory""répertoire courant".
 
 @OptionalParameter "ImagePlugin"
@@ -1265,21 +1217,17 @@ Peut prendre une des valeurs suivantes:
   @#PB_ImagePlugin_JPEG     : Enregistre l'image en JPEG (@@UseJPEGImageEncoder doit être utilisé)
   @#PB_ImagePlugin_JPEG2000 : Enregistre l'image en JPEG2000 (@@UseJPEG2000ImageEncoder doit être utilisé)
   @#PB_ImagePlugin_PNG      : Enregistre l'image en PNG  (@@UsePNGImageEncoder doit être utilisé)
+  @#PB_ImagePlugin_WEBP     : Enregistre l'image en WebP (@@UseWebPImageEncoder doit être utilisé)
 @EndFixedFont
 
 @OptionalParameter "Options"
-  N'est utilisé qu'avec les plugin JPEG  et 
-  JPEG 2000. Il est possible de régler la 
-  qualité d'une image à l'aide d'une valeur 
-  allant de 0 (plus mauvaise qualité) à 10 
-  (qualité maximale), la qualité par défaut 
-  étant fixée à 7 si aucune option n'est 
+  N'est utilisé qu'avec les plugin JPEG  et  JPEG 2000. Il est possible de régler la 
+  qualité d'une image à l'aide d'une valeur  allant de 0 (plus mauvaise qualité) à 10 
+  (qualité maximale), la qualité par défaut  étant fixée à 7 si aucune option n'est 
   spécifiée avec l'encodeur JPEG ou JPEG 2000.
 @LineBreak
 @LineBreak
-  Quand une image est enregistrée en utilisant 
-  une palette (1, 4 ou 8), l'option suivante est 
-  disponible:
+  Quand une image est enregistrée en utilisant une palette (1, 4 ou 8), l'option suivante est disponible:
 @FixedFont
    @#PB_Image_FloydSteinberg: Appliquer un filtre Floyd-Steinberg.
 @EndFixedFont

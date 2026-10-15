@@ -985,20 +985,24 @@
 @Function MaterialBlendingMode(#Matiere, Mode)
 
 @Description
-  Change la manière dont une matière sera 
-  mixée avec le monde 3D et donc la manière 
-  dont l'objet qui utilise cette matière 
-  sera rendue. 
+  Modifie la façon dont la matiére sera intégrée à la scène (arrière-plan de l'écran).
   
 @Parameter "#Matiere"
   La matière à utiliser. 
   
 @Parameter "Mode"  
 @FixedFont
-  @#PB_Material_Add       : Utilise le mode addition des pixels (Add) pour mixer l'objet avec la scène 
-                           (donc la couleur noire (0,0,0) est considérée comme transparente).
-  @#PB_Material_AlphaBlend: Utilise le canal alpha de la texture (TGA ou PNG) pour le mixage avec la scène.
-  @#PB_Material_Color     : Utilise la couleur transparente de la texture pour le mixage avec la scène.
+@#PB_Material_Replace     : Remplace la scène par le matériau (sans mélange, par défaut).
+@#PB_Material_Add         : Ajoute des pixels à la scène (le noir est transparent).
+@#PB_Material_AddSigned   : Ajoute des pixels signés à la scène.
+@#PB_Material_Substract   : Soustrait des pixels de la scène.
+@#PB_Material_Modulate    : Multiplie les pixels de la scène.
+@#PB_Material_ModulateX2  : Multiplie les pixels de la scène et augmente la luminosité (x2).
+@#PB_Material_ModulateX4  : Multiplie les pixels de la scène et augmente la luminosité (x4).
+ @#PB_Material_AlphaBlend : Utilise le canal alpha de la texture (de préférence au format TGA ou PNG) pour la fusionner avec la scène.
+@#PB_Material_BlendDiffuseAlpha : Utilise la valeur alpha diffuse pour fusionner le matériau avec la scène.
+@#PB_Material_BlendCurrentAlpha : Utilise la valeur alpha de l’étape actuelle pour fusionner le matériau avec la scène.
+@#PB_Material_Color       : Utilise la valeur de transparence de la texture lors de la fusion du matériau avec la scène.
 @EndFixedFont
 
 @NoReturnValue   

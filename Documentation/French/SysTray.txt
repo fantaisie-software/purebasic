@@ -68,6 +68,12 @@
   Avec le sous-système QT, l'évènement clic-gauche renvoie un evènement doubleclic-gauche et l'évènement clic-du-milieu renvoie un clic-gauche. 
 @LineBreak
 @LineBreak
+  Avec le sous-système GTK (Linux), l'icône de la barre d'état système est gérée par la bibliothèque 
+  AppIndicator, qui ne signale aucun clic au programme : Aucun événement @#PB_Event_SysTray n'est envoyé, 
+  et le menu associé s'ouvre depuis le bureau quel que soit le clic (gauche ou droit). Il est donc 
+  impossible de distinguer un clic gauche d'un clic droit sur ce sous-système.
+@LineBreak
+@LineBreak
   Toutes vos icônes SysTray sont automatiquement supprimées à la fermeture du programme.
   @LineBreak
   @LineBreak

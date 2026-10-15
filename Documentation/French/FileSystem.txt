@@ -8,24 +8,17 @@
 
 @Overview
 
-  La bibliothèque FileSystem vous permet de 
-  manipuler les fichiers et répertoires de
+  La bibliothèque FileSystem vous permet de manipuler les fichiers et répertoires de
   vos périphériques de sauvegarde (Clé USB, disques durs, etc...).
-  Vous pourrez par exemple examiner le contenu 
-  d'un répertoire, en créer un nouveau, etc... 
+  Vous pourrez par exemple examiner le contenu d'un répertoire, en créer un nouveau, etc... 
 @LineBreak
 @LineBreak
-  Si vous voulez examiner le contenu d'un 
-  répertoire commencez par la commande 
-  @@ExamineDirectory. 
+  Si vous voulez examiner le contenu d'un répertoire commencez par la commande @@ExamineDirectory. 
 @LineBreak
 @LineBreak
-  Les chemins des fichiers et des répertoires 
-  peuvent être complets ou relatifs. 
-  Les chemins relatifs sont interprétés par 
-  rapport au répertoire courant du programme. 
-  Les fonctions @@GetCurrentDirectory et 
-  @@SetCurrentDirectory peuvent être utilisés pour 
+  Les chemins des fichiers et des répertoires peuvent être complets ou relatifs. 
+  Les chemins relatifs sont interprétés par rapport au répertoire courant du programme. 
+  Les fonctions @@GetCurrentDirectory et @@SetCurrentDirectory peuvent être utilisés pour 
   modifier le répertoire courant.
 @LineBreak
 @LineBreak 
@@ -33,14 +26,17 @@
   d'exploitation sont disponibles: @#PS, @#NPS, @ConstantColor "#PS$" ('\') et @ConstantColor "#NPS$" ('/').
 @LineBreak 
 @LineBreak
-  En complément de cette bibliothèque, vous 
-  pourrez manipuler des fichiers avec les commandes 
+  Sous Windows, les chemins d'accès dépassant la limite historique de 260 caractères sont pris en charge 
+  de manière transparente : il n'est pas nécessaire de les préfixer avec le format spécial '\\?', 
+  PureBasic les utilisera automatiquement si besoin. Un préfixe explicite '\\?' (ou '\\?\UNC') fourni 
+  par le programme est également interprété tel quel.
+@LineBreak 
+@LineBreak
+  En complément de cette bibliothèque, vous pourrez manipuler des fichiers avec les commandes 
   de la bibliothèque @LibraryLink "file" "File".
 @LineBreak 
 @LineBreak
-  Pour obtenir le nom du programme en cours, 
-  utilisez la commande @@ProgramFilename 
-  de la bibliothèque 
+  Pour obtenir le nom du programme en cours, utilisez la commande @@ProgramFilename de la bibliothèque 
   @LibraryLink "process" "Process".
 
 @CommandList
@@ -211,8 +207,13 @@
 @EndFixedFont
 
 @ReturnValue
-  Renvoie une valeur non nulle si l'opération 
-  a réussi, zéro sinon.
+  Renvoie une valeur non nulle si l'opération a réussi, zéro sinon.
+
+@Remarks
+  Un lien symbolique ou (sous Windows) une jonction de répertoire trouvée dans l'arborescence supprimée 
+  est supprimé en tant qu'entrée de lien elle-même, exactement comme un fichier normal : sa cible n'est 
+  jamais touchée, même si le lien pointe en dehors du répertoire supprimé, et même si le lien est orphelin 
+  (sa cible n'existe plus).
   
 @Example
 @Code
