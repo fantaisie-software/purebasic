@@ -2319,7 +2319,18 @@ Procedure SortParserData(*Parser.ParserData, *Source.SourceFile=0)
           
         Case #ITEM_Variable, #ITEM_Array, #ITEM_LinkedList, #ITEM_Map
           If *Item\Scope = #SCOPE_GLOBAL Or *Item\Scope = #SCOPE_THREADED Or *Item\Scope = #SCOPE_SHARED Or InProcedure = 0 Or InImport
-            Parser_AddSorted(@*CurrentModule\Indexed[*Item\Type], *Item, Line)
+            ; Only the first item of a name is indexed, but a typed definition replaces a previous access without type
+            ; (like 'x\Field = 0' in a CompilerIf block before 'Global x.MyStructure'), so the type can be resolved
+            *Node.RadixNode = RadixFindPrefix(@*CurrentModule\Indexed[*Item\Type], *Item\Name$, #True)
+            If *Node And *Node\Value
+              *Indexed.SourceItem = *Node\Value
+              If StringField(*Indexed\Type$, 1, Chr(10)) = "" And StringField(*Item\Type$, 1, Chr(10)) <> ""
+                *Node\Value = *Item
+                *Item\SortedLine = Line
+              EndIf
+            Else
+              Parser_AddSorted(@*CurrentModule\Indexed[*Item\Type], *Item, Line)
+            EndIf
           EndIf
           
         Case #ITEM_Keyword
