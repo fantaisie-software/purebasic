@@ -67,6 +67,6 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 
 ## Not included on purpose
 
-- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#501), 89414 (#502).
+- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#468), 89414 (#502), 65191 (#420), 66473 (#421).
 - 83765: #493 fixed the French title and the debugger messages, but the linker message part still needs a check on Windows.
 - Still to check on Windows or macOS, decisions for the maintainer, and feature requests (listed in the sweep report).
