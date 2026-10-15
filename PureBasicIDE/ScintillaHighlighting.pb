@@ -3293,7 +3293,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
           
         ElseIf *Event\keyval = $FF0D Or *Event\keyval = $FF8D  ; it was an enter (second one is numpad enter)
+          SendEditorMessage(#SCI_BEGINUNDOACTION) ; undo the newline and its auto indentation in one step
           SendEditorMessage(#SCI_NEWLINE, 0, 0)
+          SendEditorMessage(#SCI_ENDUNDOACTION)
           ProcedureReturn 1
           
         EndIf
