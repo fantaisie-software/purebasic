@@ -1699,7 +1699,11 @@ Procedure Compiler_SetConstants(*Target.CompileTarget, CreateExe)
             *Pointer + SizeOf(Character)
           Wend
           
-          Constant$ + GetEnvironmentVariable(Name$)
+          If Name$ = ""
+            Constant$ + "$" ; not a variable, like at the end of a string constant name (#Name$)
+          Else
+            Constant$ + GetEnvironmentVariable(Name$)
+          EndIf
         Else
           Constant$ + Chr(*Pointer\c)
           *Pointer  + SizeOf(Character)
