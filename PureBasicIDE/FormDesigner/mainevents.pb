@@ -6532,7 +6532,9 @@ Procedure FD_EventSelectParent(EventID)
             
             
             redraw = 1
+            PushListPosition(FormWindows()\FormGadgets()) ; FD_UpdateObjList() changes the current gadget
             FD_UpdateObjList()
+            PopListPosition(FormWindows()\FormGadgets())
             FD_SelectGadget(FormWindows()\FormGadgets())
           EndIf
           
