@@ -1217,6 +1217,8 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       StopDrawing()
       
       fd_fontid = 0
+      gadgfrontcolor = -1
+      gadgbackcolor = -1
       If *pointer
         PushListPosition(FormWindows()\FormGadgets())
         ChangeCurrentElement(FormWindows()\FormGadgets(),*pointer)
@@ -1301,8 +1303,6 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       Box(0,0,OutputWidth(),OutputHeight(),  RGBA(0,0,0,0))
       
       DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
-      gadgfrontcolor = -1
-      gadgbackcolor = -1
       
       
       ox1 = x1 : ox2 = x2 : oy1 = y1 : oy2 = y2
