@@ -37,7 +37,6 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=55309 (random old crash)
 - https://www.purebasic.fr/english/viewtopic.php?t=53643 (procedure panel colors, images gone)
 - https://www.purebasic.fr/english/viewtopic.php?t=60766 (random colors)
-- https://www.purebasic.fr/english/viewtopic.php?t=66142 (Form Designer font background color, images gone)
 - https://www.purebasic.fr/english/viewtopic.php?t=71918 (sporadic old crash, Fred could not reproduce)
 - https://www.purebasic.fr/english/viewtopic.php?t=72655 (sporadic GTK2 rbtree assert)
 - https://www.purebasic.fr/english/viewtopic.php?t=81204 (procedure list sometimes empty)
@@ -46,6 +45,6 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 ## Not included on purpose
 
 - Not reproducible on Linux, Windows check still pending: 87520 (Find in Files opens a second tab), 65309 (Library Viewer XML nodes).
-- Now fixed by PRs instead: 65294 (#488), 65656 (#489).
+- Now fixed by PRs instead: 65294 (#488), 65656 (#489), 66142 (#490, its images were still online).
 - 61213 moved to the decisions (Form Designer numbers status bar, toolbar and menu from 0 in each .pbf, see 71489).
 - Feature requests (37332, 45662, 55881, 56552, 56967, 59948, 60162, 64634): your call whether to close or move them.
