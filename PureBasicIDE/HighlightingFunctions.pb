@@ -1403,6 +1403,12 @@ Procedure.s GenerateQuickHelpText(Line$, Word$, Line, Column)
     EndIf
   EndIf
   
+  ; Fields and methods can be named like a function or keyword, so no help for them
+  ;
+  If IsInsideStructureBlock(line) And IsStructureBlockKeyword(Word$, 0, 0) = #False
+    ProcedureReturn ""
+  EndIf
+  
   ; Use the old routine to check for PB functions and other stuff
   ;
   ProcedureReturn GenerateQuickHelpFromWord(Line$, Word$, line, Column)
