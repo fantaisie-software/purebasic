@@ -362,6 +362,7 @@ Declare FD_GridClipboardEvent(*grid, MenuID)
 Declare FD_DuplicateGadget()
 Declare FD_Open(file.s,update = 0)
 Declare FD_PrepareTestCode(compile = 1)
+Declare FD_ProcessMenuEvent(menu_event)
 
 ; Version Warnings Preference Items
 EnumerationBinary 
