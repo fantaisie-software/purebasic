@@ -1,50 +1,72 @@
-# IDE bug sweep: forum topics that can be closed
+# IDE bug sweep: forum topics that can be closed (second batch)
 
-Not meant to be merged: this file only exists so the list can be reviewed on GitHub. The first list (fixed topics) was tagged [Done] already.
+Not meant to be merged: this file only exists so the list can be reviewed on GitHub. The earlier lists were tagged [Done] already, so this one only has the topics handled since.
 
-## Obsolete or fixed since the first list
+## Fixed (merged PR or fixed earlier)
 
-- https://www.purebasic.fr/english/viewtopic.php?t=55109 (Form Designer toolbar offset: designer and runtime match on Linux, Windows code adds `ToolBarHeight()` to the Y)
-- https://www.purebasic.fr/english/viewtopic.php?t=63085 (the Max property label is shown for ProgressBar and similar gadgets)
-- https://www.purebasic.fr/english/viewtopic.php?t=66270 (typing the Turkish İ inserts it correctly and keeps the line; Fred also said fixed)
+- https://www.purebasic.fr/english/viewtopic.php?t=64480 (Form Designer shortcut with Ctrl+Shift lost its key, #485)
+- https://www.purebasic.fr/english/viewtopic.php?t=64531 (Form Designer +/- shortcut keys gave invalid constants, #485)
+- https://www.purebasic.fr/english/viewtopic.php?t=65656 (Issues Update button moved below the settings, #489)
+- https://www.purebasic.fr/english/viewtopic.php?t=67621 (GIF/TGA/TIFF images in the Form Designer and the File Viewer, #486)
+- https://www.purebasic.fr/english/viewtopic.php?t=70414 (negative status bar field width crashed the Form Designer, #487)
+- https://www.purebasic.fr/english/viewtopic.php?t=79682 (adjacent submenus in the Form Designer, #449)
+- https://www.purebasic.fr/english/viewtopic.php?t=79683 (submenu followed by a separator in the Form Designer, #449)
+- https://www.purebasic.fr/english/viewtopic.php?t=81966 (Edit Tool Settings trigger combobox cut off with long translations, #491)
+- https://www.purebasic.fr/english/viewtopic.php?t=82707 (lines left unstyled after MoveLineUp + Undo + Redo, #492)
+- https://www.purebasic.fr/english/viewtopic.php?t=87066 (same bug as 82707: highlight boxes growing after undo, #492)
+- https://www.purebasic.fr/english/viewtopic.php?t=85714 (Ctrl+I on a partial selection after a ";{" line, #429)
+- https://www.purebasic.fr/english/viewtopic.php?t=88200 (project files list not scrolling: wrong FullRowSelect flag removed, #341)
+- https://www.purebasic.fr/english/viewtopic.php?t=88705 ("String not found" priority in the Preferences issue list, #466)
+- https://www.purebasic.fr/english/viewtopic.php?t=86356 (structure AutoComplete on the first "\", Fred replied "Fixed.")
+- https://www.purebasic.fr/english/viewtopic.php?t=85553 (DebuggerWarning/DebuggerError with Unicode text, fixed in Libraries/Debugger/DebuggerFunctions)
+- https://www.purebasic.fr/english/viewtopic.php?t=72387 (project file unloadable with an emoji in the computer name: Xml UTF-8 export, local Libraries/Xml fix in SVN)
+- https://www.purebasic.fr/english/viewtopic.php?t=81751 (Variable Viewer never finishing on a 2M-element list: local Libraries/Debugger fix in SVN)
+
+## Obsolete
+
+- https://www.purebasic.fr/english/viewtopic.php?t=69704 (Save As of a project file now relinks the source to the project)
+- https://www.purebasic.fr/english/viewtopic.php?t=71209 (window position and size are stored; column widths are a feature request)
+- https://www.purebasic.fr/english/viewtopic.php?t=72701 (;TODO/;FIXME highlight with CJK text works)
+- https://www.purebasic.fr/english/viewtopic.php?t=73741 (several files changed on disk: one reload prompt after the other, all reloaded)
+- https://www.purebasic.fr/english/viewtopic.php?t=76264 (help language follows the IDE language without a restart)
+- https://www.purebasic.fr/english/viewtopic.php?t=80654 (Procedure Browser shows ;- markers with bullets correctly)
+- https://www.purebasic.fr/english/viewtopic.php?t=82478 (inactive selection colors now follow the Selection colors)
+- https://www.purebasic.fr/english/viewtopic.php?t=84624 ('=' in a gadget caption)
+- https://www.purebasic.fr/english/viewtopic.php?t=85450 (EnableASM in a Module no longer stops the highlighting)
+- https://www.purebasic.fr/english/viewtopic.php?t=87238 (Quick Help typos: none of the listed misspellings remain)
 
 ## Not a bug
 
-- https://www.purebasic.fr/english/viewtopic.php?t=47316 (blank area above the list is GTK3's combo popup placement; entries are correct)
-- https://www.purebasic.fr/english/viewtopic.php?t=57058 (GTK theme issue on the user's side, solved by the user)
+- https://www.purebasic.fr/english/viewtopic.php?t=65782 (AutoComplete through a macro: the macro was the cause)
+- https://www.purebasic.fr/english/viewtopic.php?t=82329 ('Add Timestamp' is for the Debug Output window, the error log has its own timestamps)
+- https://www.purebasic.fr/english/viewtopic.php?t=86351 (Preferences window on a 1366x768 screen at 125%: Fred, Enter applies the settings)
+- https://www.purebasic.fr/english/viewtopic.php?t=87991 (new sources are UTF-8 with BOM; files opened without a BOM keep their encoding)
+- https://www.purebasic.fr/english/viewtopic.php?t=88686 (Syntax Check shows the compile progress window briefly, like a compile)
 
 ## Not reproducible on current devel
 
-- https://www.purebasic.fr/english/viewtopic.php?t=48951 (48px custom toolbar icons, layout fine (Linux GTK3))
-- https://www.purebasic.fr/english/viewtopic.php?t=50397 (Variable Viewer > Add to Watchlist on a local variable works (Linux))
-- https://www.purebasic.fr/english/viewtopic.php?t=51380 (no steps; Fred could not reproduce either)
-- https://www.purebasic.fr/english/viewtopic.php?t=52263 (standalone debugger keeps its moved position after Preferences OK (Linux; the 2012 report was probably Windows))
-- https://www.purebasic.fr/english/viewtopic.php?t=53597 (quit hang on Windows, nobody else could reproduce)
-- https://www.purebasic.fr/english/viewtopic.php?t=54610 (panel items add/delete in the Form Designer, no error, no crash (Linux))
-- https://www.purebasic.fr/english/viewtopic.php?t=60854 (200k string in the Variable Viewer, stepping is fine (Linux))
-- https://www.purebasic.fr/english/viewtopic.php?t=62093 (disabling the history: dialog closes and the IDE stays responsive; Fred could not reproduce the project slowdown either)
-- https://www.purebasic.fr/english/viewtopic.php?t=63135 (rebuilt form (splitter on a panel tab) reopens correctly; the original zip is gone)
-- https://www.purebasic.fr/english/viewtopic.php?t=65386 (Explorer tool home folder expands fine, valgrind clean (Linux, French locale))
-- https://www.purebasic.fr/english/viewtopic.php?t=71457 (Ctrl+double-click to go to a procedure leaves no selection (Linux))
-- https://www.purebasic.fr/english/viewtopic.php?t=71491 (RunOnce: the file goes to the running IDE, which stays responsive (Linux, PR #460))
-- https://www.purebasic.fr/english/viewtopic.php?t=71532 (project from the thread: AutoComplete edits, compile, 6x undo/redo consistent (Linux))
-- https://www.purebasic.fr/english/viewtopic.php?t=73171 (AutoComplete stuck, sporadic; AutoComplete focus fixes merged in #465)
-- https://www.purebasic.fr/english/viewtopic.php?t=83861 (narrow IDE window: width unchanged, status bar text ellipsized (Linux GTK3))
-- https://www.purebasic.fr/english/viewtopic.php?t=88228 (project with `<log show="0"/>` opens, no crash (Linux))
+- https://www.purebasic.fr/english/viewtopic.php?t=67517 (nested and trailing submenus survive design/code round trips)
+- https://www.purebasic.fr/english/viewtopic.php?t=71983 (dark tools panel color kept after run and tab switch)
+- https://www.purebasic.fr/english/viewtopic.php?t=74404 (reload after an external change always works)
+- https://www.purebasic.fr/english/viewtopic.php?t=80566 (copy/paste of a Procedure line then undo)
+- https://www.purebasic.fr/english/viewtopic.php?t=82108 (OnError checkbox follows the selected target)
+- https://www.purebasic.fr/english/viewtopic.php?t=82444 (Find window position: reporter's cause was a stale position from an 8K monitor)
+- https://www.purebasic.fr/english/viewtopic.php?t=85240 (status bar call tip for interface methods)
 
-## Too vague (no steps, images gone, sporadic old crashes)
+## Too vague (no steps, image gone, sporadic old crashes)
 
-- https://www.purebasic.fr/english/viewtopic.php?t=55309 (random old crash)
-- https://www.purebasic.fr/english/viewtopic.php?t=53643 (procedure panel colors, images gone)
-- https://www.purebasic.fr/english/viewtopic.php?t=60766 (random colors)
-- https://www.purebasic.fr/english/viewtopic.php?t=71918 (sporadic old crash, Fred could not reproduce)
-- https://www.purebasic.fr/english/viewtopic.php?t=72655 (sporadic GTK2 rbtree assert)
-- https://www.purebasic.fr/english/viewtopic.php?t=81204 (procedure list sometimes empty)
-- https://www.purebasic.fr/english/viewtopic.php?t=89345 (IDE slow plus an error message, image only)
+- https://www.purebasic.fr/english/viewtopic.php?t=66867
+- https://www.purebasic.fr/english/viewtopic.php?t=67726
+- https://www.purebasic.fr/english/viewtopic.php?t=72750
+- https://www.purebasic.fr/english/viewtopic.php?t=73215
+- https://www.purebasic.fr/english/viewtopic.php?t=79492
+- https://www.purebasic.fr/english/viewtopic.php?t=82893
+- https://www.purebasic.fr/english/viewtopic.php?t=83564
+- https://www.purebasic.fr/english/viewtopic.php?t=84373
+- https://www.purebasic.fr/english/viewtopic.php?t=86288 (title "HiDPI" and one image, now an "unavailable" placeholder)
 
 ## Not included on purpose
 
-- Not reproducible on Linux, Windows check still pending: 87520 (Find in Files opens a second tab), 65309 (Library Viewer XML nodes).
-- Now fixed by PRs instead: 65294 (#488), 65656 (#489), 66142 (#490, its images were still online).
-- 61213 moved to the decisions (Form Designer numbers status bar, toolbar and menu from 0 in each .pbf, see 71489).
-- Feature requests (37332, 45662, 55881, 56552, 56967, 59948, 60162, 64634): your call whether to close or move them.
+- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#501), 89414 (#502).
+- 83765: #493 fixed the French title and the debugger messages, but the linker message part still needs a check on Windows.
+- Still to check on Windows or macOS, decisions for the maintainer, and feature requests (listed in the sweep report).
