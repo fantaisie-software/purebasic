@@ -467,7 +467,7 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
       Select *Debugger\Command\Value2 ; result code
           
         Case 0 ; error
-          StatusBarText(*Debugger\OutputStatusbar, 0, "Error: "+PeekAscii(*Debugger\CommandData))
+          StatusBarText(*Debugger\OutputStatusbar, 0, "Error: "+PeekS(*Debugger\CommandData, -1, #PB_UTF8))
           
           ; it will select the whole text, so only do it if the focus was lost
           ; (for example when the "display" button was pressed with the mouse.)
