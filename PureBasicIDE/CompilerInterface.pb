@@ -1573,19 +1573,17 @@ Procedure.s Compiler_BuildCommandFlags(*Target.CompileTarget, CheckSyntax, Creat
     EndIf
   EndIf
   
-  CompilerIf #CompileMac | #CompileWindows | #SpiderBasic
-    If *Target\DPIAware
-      CompilerIf #CompileWindows
-        If *Target\DPIAwareMode = 1
-          Command$ + Chr(9) + "DPIWINDOWAWARE"
-        Else
-          Command$ + Chr(9) + "DPIAWARE"
-        EndIf
-      CompilerElse
+  If *Target\DPIAware
+    CompilerIf #CompileWindows
+      If *Target\DPIAwareMode = 1
+        Command$ + Chr(9) + "DPIWINDOWAWARE"
+      Else
         Command$ + Chr(9) + "DPIAWARE"
-      CompilerEndIf
-    EndIf
-  CompilerEndIf
+      EndIf
+    CompilerElse
+      Command$ + Chr(9) + "DPIAWARE"
+    CompilerEndIf
+  EndIf
   
   CompilerIf #CompileWindows
     If *Target\EnableXP           : Command$ + Chr(9) + "XPSKIN"  : EndIf
