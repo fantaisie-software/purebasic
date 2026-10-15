@@ -1976,7 +1976,13 @@ Procedure MainWindowEvents(EventID)
     If GetActiveWindow() = #WINDOW_Main  ; check if it still got the focus and it is not just a delayed focus event!
       If *ActiveSource And *ActiveSource <> *ProjectInfo
         If *ActiveSource\IsForm = 0
-          SetActiveGadget(*ActiveSource\EditorGadget) ; Always give back the focus to the editor when the window gets activated
+          CompilerIf #CompileLinuxGtk
+            ; SetActiveGadget() also presents the window, which takes the focus back when this event comes late, for
+            ; example after the Alt+Tab window switching of the window manager. The window is already active here.
+            gtk_widget_grab_focus_(GadgetID(*ActiveSource\EditorGadget))
+          CompilerElse
+            SetActiveGadget(*ActiveSource\EditorGadget) ; Always give back the focus to the editor when the window gets activated
+          CompilerEndIf
         Else
           *Form.FormWindow = *ActiveSource\IsForm
           If *Form\current_view = 0
