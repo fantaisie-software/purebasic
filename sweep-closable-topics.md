@@ -12,7 +12,6 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 
 - https://www.purebasic.fr/english/viewtopic.php?t=47316 (blank area above the list is GTK3's combo popup placement; entries are correct)
 - https://www.purebasic.fr/english/viewtopic.php?t=57058 (GTK theme issue on the user's side, solved by the user)
-- https://www.purebasic.fr/english/viewtopic.php?t=61213 (Form Designer menu/toolbar/statusbar ids, answered in the thread)
 
 ## Not reproducible on current devel
 
@@ -48,4 +47,5 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 
 - Not reproducible on Linux, Windows check still pending: 87520 (Find in Files opens a second tab), 65309 (Library Viewer XML nodes).
 - Now fixed by PRs instead: 65294 (#488), 65656 (#489).
+- 61213 moved to the decisions (Form Designer numbers status bar, toolbar and menu from 0 in each .pbf, see 71489).
 - Feature requests (37332, 45662, 55881, 56552, 56967, 59948, 60162, 64634): your call whether to close or move them.
