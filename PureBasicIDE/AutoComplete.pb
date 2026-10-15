@@ -857,6 +857,17 @@ Procedure.s AutoComplete_IsOffsetOf(Line$, Column)
   ProcedureReturn ""
 EndProcedure
 
+; An exact single match is not displayed, except a keyword with an 'End' keyword (like Module), so the matching
+; 'End' keyword can still be added, like for the keywords that have other matches (like Procedure)
+;
+Procedure AutoComplete_HideExactMatch(Word$)
+  If AutoCompleteAddEndKeywords And AutoComplete_IsStructure = 0 And BasicKeywordsEndKeywords(IsBasicKeyword(Word$)) <> ""
+    ProcedureReturn #False
+  EndIf
+  
+  ProcedureReturn #True
+EndProcedure
+
 Procedure OpenAutoCompleteWindow(AutoPopup = #False)
   ;
   ; Note: We have a problem here:
@@ -1041,7 +1052,7 @@ Procedure OpenAutoCompleteWindow(AutoPopup = #False)
         ;
         If ListSize(*AutoCompleteDisplay()) = 1 And WordStart$
           FirstElement(*AutoCompleteDisplay())
-          If CompareMemoryString(*AutoCompleteDisplay(), @WordStart$, 1) = 0
+          If CompareMemoryString(*AutoCompleteDisplay(), @WordStart$, 1) = 0 And AutoComplete_HideExactMatch(WordStart$)
             AutoCompleteWindowOpen = 0
             ProcedureReturn
           EndIf
@@ -1369,7 +1380,7 @@ Procedure AutoComplete_WordUpdate(IsInitial=#False)
     ;
     If ListSize(*AutoCompleteDisplay()) = 1
       FirstElement(*AutoCompleteDisplay())
-      If Word$ <> "" And CompareMemoryString(*AutoCompleteDisplay(), @Word$, 1) = 0
+      If Word$ <> "" And CompareMemoryString(*AutoCompleteDisplay(), @Word$, 1) = 0 And AutoComplete_HideExactMatch(Word$)
         AutoComplete_Close()
         ProcedureReturn
       EndIf
