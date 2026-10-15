@@ -1742,7 +1742,7 @@ DataSection
   ; ===================================================
   
   Data$ "Title",            "File Viewer"
-  Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.tga, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.tga;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"
+  Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.gif, *.tga, *.tif, *.tiff, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.gif;*.tga;*.tif;*.tiff;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"
   Data$ "Open",             "Open File"
   Data$ "Close",            "Close File"
   Data$ "Next",             "Show next File"

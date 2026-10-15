@@ -5,6 +5,9 @@
 ; --------------------------------------------------------------------------------------------
 UseJPEGImageDecoder()
 UsePNGImageDecoder()
+UseGIFImageDecoder()
+UseTGAImageDecoder()
+UseTIFFImageDecoder()
 
 Global P_WinHeight, P_Status, P_Menu, P_Toolbar, P_Font.s, P_FontSize, P_FontSizeL
 Global P_FontGadget.s, P_FontGadgetSize, P_FontMenu.s, P_FontMenuSize, P_FontColumn.s, P_FontColumnSize, P_FontGrid.s

@@ -256,7 +256,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   
   If ListSize(Img())
     ;check if image decoder is required
-    jpgdecoder.b = 0 : pngdecoder.b = 0 : tgadecoder.b = 0 : tiffdecoder.b = 0
+    jpgdecoder.b = 0 : pngdecoder.b = 0 : gifdecoder.b = 0 : tgadecoder.b = 0 : tiffdecoder.b = 0
     ForEach Img()
       img.s = LCase(Img()\img)
       If Not jpgdecoder And (FindString(img,"jpg") Or FindString(img,"jpeg"))
@@ -264,6 +264,9 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       EndIf
       If Not pngdecoder And (FindString(img,"png"))
         pngdecoder = 1
+      EndIf
+      If Not gifdecoder And (FindString(img,"gif"))
+        gifdecoder = 1
       EndIf
       If Not tgadecoder And (FindString(img,"tga"))
         tgadecoder = 1
@@ -279,14 +282,17 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     If pngdecoder
       content + "UsePNGImageDecoder()" + #Endline
     EndIf
+    If gifdecoder
+      content + "UseGIFImageDecoder()" + #Endline
+    EndIf
     If tgadecoder
-      content + "UseJTAImageDecoder()" + #Endline
+      content + "UseTGAImageDecoder()" + #Endline
     EndIf
     If tiffdecoder
       content + "UseTIFFImageDecoder()" + #Endline
     EndIf
     
-    If jpgdecoder Or pngdecoder Or tgadecoder Or tiffdecoder
+    If jpgdecoder Or pngdecoder Or gifdecoder Or tgadecoder Or tiffdecoder
       content + "" + #Endline
     EndIf
     
