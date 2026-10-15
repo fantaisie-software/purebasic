@@ -1217,6 +1217,8 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       StopDrawing()
       
       fd_fontid = 0
+      gadgfrontcolor = -1
+      gadgbackcolor = -1
       If *pointer
         PushListPosition(FormWindows()\FormGadgets())
         ChangeCurrentElement(FormWindows()\FormGadgets(),*pointer)
@@ -1301,8 +1303,6 @@ Procedure FD_DrawGadget(x1,y1,x2,y2,type, caption.s = "", flag = 0, g_data = -1,
       Box(0,0,OutputWidth(),OutputHeight(),  RGBA(0,0,0,0))
       
       DrawingMode(#PB_2DDrawing_AlphaBlend|#PB_2DDrawing_Transparent)
-      gadgfrontcolor = -1
-      gadgbackcolor = -1
       
       
       ox1 = x1 : ox2 = x2 : oy1 = y1 : oy2 = y2
@@ -7077,7 +7077,7 @@ Procedure FD_ProcessEventGridStatusbar(col,row)
   Select row
     Case 0 ; width
       widthval.s = grid_GetCellString(propgrid, 2, row)
-      If widthval = "#PB_Ignore"
+      If LCase(Trim(widthval)) = "#pb_ignore" Or Val(widthval) < 0 ; any negative width (like -65535, the #PB_Ignore value) means #PB_Ignore
         FormWindows()\FormStatusbars()\width = -1
       Else
         FormWindows()\FormStatusbars()\width = Val(widthval)
@@ -7184,7 +7184,16 @@ Procedure FD_ProcessMenuEvent(menu_event)
           HideGadget(#GADGET_Form, 1)
           HideEditorGadget(*ActiveSource\EditorGadget, 0)
           
+          ; The debugger makes its sources read-only, so allow writing the generated code here, else the code view
+          ; stays empty and switching back to the design view loads the form from this empty code
+          ReadOnly = SendEditorMessage(#SCI_GETREADONLY)
+          If ReadOnly
+            SendEditorMessage(#SCI_SETREADONLY, 0)
+          EndIf
           FD_PrepareTestCode(0)
+          If ReadOnly
+            SendEditorMessage(#SCI_SETREADONLY, 1)
+          EndIf
           FD_SelectNone()
           
           SetActiveGadget(*ActiveSource\EditorGadget)

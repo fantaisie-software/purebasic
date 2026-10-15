@@ -149,6 +149,13 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
   ; a quick access. Does nothing if the data is up to date
   If *OldSource And *OldSource <> *ProjectInfo And *OldSource\IsForm = 0
     SortParserData(*OldSource\Parser, *OldSource)
+  ElseIf *OldSource And *OldSource <> *ProjectInfo And *OldSource\IsForm
+    *OldForm.FormWindow = *OldSource\IsForm
+    If *OldForm\current_view = 0 ; design view: the editor gadget is not up to date, so scan the generated code
+      FormSourceScan(*OldSource)
+    Else
+      SortParserData(*OldSource\Parser, *OldSource)
+    EndIf
   EndIf
   
   ; preserve procedure browser scroll position
@@ -2918,10 +2925,12 @@ Procedure FileMonitorEvent()
           FileList()\LastWriteDate = GetFileDate(FileList()\Filename$, #PB_Date_Modified)
           FileList()\DiskFileSize  = FileSize(FileList()\Filename$)
           FileList()\DiskChecksum  = FileFingerprint(FileList()\Filename$, #PB_Cipher_MD5)
-          
+
+          *Current = @FileList()
           ChangeActiveSourceCode()  ; show the file to the user
           FlushEvents()
-          
+          ChangeCurrentElement(FileList(), *Current) ; FlushEvents() can change the current element
+
           If GetSourceModified() ; different message if the file is modified
             Message$ = LanguagePattern("FileStuff","ModifiedOnDisk2", "%filename%", GetFilePart(FileList()\Filename$))
           Else

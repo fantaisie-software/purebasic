@@ -15,6 +15,7 @@ Structure PrefsThemeList
   ImageGadget.i  ; gadgets (#PB_Any)
   OptionGadget.i
   TextGadget.i
+  Text$          ; theme description, for the TextGadget
 EndStructure
 
 
@@ -206,9 +207,9 @@ Procedure Theme_LoadImage(Image, ImageName$)
             CopyImage(tmpImage, Image)
             FreeImage(tmpImage)
           EndIf
-        CompilerElse
+        CompilerElseIf #CompileWindows
           ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
-        CompilerEndIf
+        CompilerEndIf ; On Linux, GTK displays the toolbar/menu/tree icons in logical units, so no resize is needed
         FreeMemory(*Buffer)
       EndIf
       
@@ -244,8 +245,16 @@ Procedure Theme_AddToPrefslist(Filename$)
       Box(0, 0, PreviewWidth  , PreviewHeight  , $000000)
       Box(DesktopScaledX(1), DesktopScaledY(1), PreviewWidth-2, PreviewHeight-2, $FFFFFF)
       
+      CompilerIf #CompileLinux
+        DrawingMode(#PB_2DDrawing_AlphaBlend) ; the theme icons aren't DPI resized on Linux (see Theme_LoadImage()), so do it here
+      CompilerEndIf
+
       For i = 0 To count-1
-        DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
+        CompilerIf #CompileLinux
+          DrawImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3), DesktopScaledX(ImageWidth(#IMAGE_FirstThemePreview+i)), DesktopScaledY(ImageHeight(#IMAGE_FirstThemePreview+i)))
+        CompilerElse
+          DrawAlphaImage(ImageID(#IMAGE_FirstThemePreview+i), DesktopScaledX(i*19+3), DesktopScaledY(3))
+        CompilerEndIf
       Next i
       
       StopDrawing()
@@ -265,7 +274,7 @@ Procedure Theme_AddToPrefslist(Filename$)
     If ThemeInfo3$ <> ""
       Text$ + #NewLine + ThemeInfo3$
     EndIf
-    PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, Text$)
+    PrefsThemeList()\Text$ = Text$ ; the TextGadget is created after the OptionGadgets (see CreatePrefsThemeList())
     
     Theme_Close()
   EndIf
@@ -293,6 +302,12 @@ Procedure CreatePrefsThemeList()
   ; Create all OptionGadgets here, to have them all in one group
   ForEach PrefsThemeList()
     PrefsThemeList()\OptionGadget = OptionGadget(#PB_Any, 0, 0, 0, 0, "")
+  Next PrefsThemeList()
+  
+  ; Create the TextGadgets after the OptionGadgets, so the option group ends here. Else the next OptionGadgets
+  ; created by the preferences (the issue options) join this group and unselect the current theme on Linux
+  ForEach PrefsThemeList()
+    PrefsThemeList()\TextGadget = TextGadget(#PB_Any, 0, 0, 0, 0, PrefsThemeList()\Text$)
   Next PrefsThemeList()
   
   CloseGadgetList()

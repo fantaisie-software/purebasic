@@ -16,7 +16,9 @@ Global NewList FileViewer.FileViewer()
 
 UseJPEGImageDecoder()
 UsePNGImageDecoder()
+UseGIFImageDecoder()
 UseTGAImageDecoder()
+UseTIFFImageDecoder()
 
 Global FileViewerOpen
 
@@ -173,7 +175,7 @@ Procedure FileViewer_OpenFile(Filename$)
   EndIf
   
   If AddTools_RunFileViewer
-    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "tga" And Ext$ <> "ico" And Ext$ <> "txt"
+    If Ext$ <> "bmp" And Ext$ <> "png" And Ext$ <> "jpg" And Ext$ <> "jpeg" And Ext$ <> "gif" And Ext$ <> "tga" And Ext$ <> "tif" And Ext$ <> "tiff" And Ext$ <> "ico" And Ext$ <> "txt"
       AddTools_Execute(#TRIGGER_FileViewer_Unknown, 0)
     EndIf
   EndIf
@@ -217,7 +219,7 @@ Procedure FileViewer_OpenFile(Filename$)
   Else
     
     ; find out if it is an image file..
-    If Ext$ = "bmp" Or Ext$ = "png" Or Ext$ = "jpg" Or Ext$ = "jpeg" Or Ext$ = "tga" Or Ext$ = "ico"
+    If Ext$ = "bmp" Or Ext$ = "png" Or Ext$ = "jpg" Or Ext$ = "jpeg" Or Ext$ = "gif" Or Ext$ = "tga" Or Ext$ = "tif" Or Ext$ = "tiff" Or Ext$ = "ico"
       
       Image = LoadImage(#PB_Any, FileName$)
       If Image

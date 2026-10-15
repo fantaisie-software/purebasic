@@ -635,8 +635,8 @@ Procedure CustomizeTabBarGadget()
   TabBarGadgetInclude\EnableDoubleClickForNewTab = #False
   ;TabBarGadgetInclude\EnableMiddleClickForCloseTab = #False
   
-  TabBarGadgetInclude\ArrowWidth = 18
-  TabBarGadgetInclude\ArrowHeight = 18
+  TabBarGadgetInclude\ArrowWidth = DesktopScaledX(18)
+  TabBarGadgetInclude\ArrowHeight = DesktopScaledY(18)
   
   ; determine colors and font in an OS-specific way
   ;
@@ -654,12 +654,12 @@ Procedure CustomizeTabBarGadget()
     TabBarGadgetInclude\TextColor = $FF<<24 | RGB(*Style\fg[#GTK_STATE_NORMAL]\red >> 8, *Style\fg[#GTK_STATE_NORMAL]\green >> 8, *Style\fg[#GTK_STATE_NORMAL]\blue >> 8)
     
     ; some adjustments to the generally larger fonts on Linux
-    TabBarGadgetInclude\CloseButtonSize = 15
+    TabBarGadgetInclude\CloseButtonSize = DesktopScaledX(15)
   CompilerEndIf
   
   CompilerIf #CompileLinuxQt
     TabBarGadgetInclude\TabBarColor = QT_WindowBackgroundColor(WindowID(#WINDOW_Main))
-    TabBarGadgetInclude\CloseButtonSize = 15
+    TabBarGadgetInclude\CloseButtonSize = DesktopScaledX(15)
   CompilerEndIf
   
   CompilerIf #CompileMac
@@ -825,6 +825,15 @@ Procedure CreateGUI()
   EndIf
   
   GetWindowMetrics()
+  
+  CompilerIf #CompileMac
+    ; Adding the toolbar moves the window down and takes part of its height from the window content,
+    ; so restore the requested position and height, else the window moves down and gets smaller on each start
+    If WindowY(#WINDOW_Main) <> EditorWindowY Or WindowHeight(#WINDOW_Main) <> EditorWindowHeight
+      ResizeWindow(#WINDOW_Main, #PB_Ignore, EditorWindowY, #PB_Ignore, EditorWindowHeight)
+    EndIf
+  CompilerEndIf
+  
   ResizeMainWindow()
   
   ; For the toolpanel auto-hide stuff
@@ -1814,7 +1823,9 @@ Procedure MainMenuEvent(MenuItemID)
           If AutoCompleteKeywordInserted And KeyboardShortcuts(#MENU_AutoComplete_OK) = #PB_Shortcut_Return
             AutoComplete_InsertEndKEyword()
           Else
+            SendEditorMessage(#SCI_BEGINUNDOACTION) ; undo the newline and its auto indentation in one step
             SendEditorMessage(#SCI_NEWLINE, 0, 0)
+            SendEditorMessage(#SCI_ENDUNDOACTION)
           EndIf
           
         ; See ProjectInfo_EnterKeyHandler() in ProjectManagement.pb for Linux specific handling of this
@@ -2339,12 +2350,7 @@ EndProcedure
 
 Procedure ResizeMainWindow()
   EditorWindowWidth  = WindowWidth(#WINDOW_Main)   ; update the global variables to speed up things like splitter movement
-
-  CompilerIf #CompileMac
-    EditorWindowHeight = WindowHeight(#WINDOW_Main, #PB_Window_FrameCoordinate)
-  CompilerElse
-    EditorWindowHeight = WindowHeight(#WINDOW_Main)
-  CompilerEndIf
+  EditorWindowHeight = WindowHeight(#WINDOW_Main)
   
   If IsWindowMaximized(#WINDOW_Main) = 0 And IsWindowMinimized(#WINDOW_Main) = 0
     Save_EditorX = WindowX(#WINDOW_Main)

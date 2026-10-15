@@ -806,6 +806,14 @@ Procedure Debugger_SwitchToFile(*Debugger.DebuggerData, Line)
     result = LoadSourceFile(FileName$)
   EndIf
   
+  ; A form file is opened in the design view, so switch it to the code view to see the debugged line
+  If result And *ActiveSource And *ActiveSource <> *ProjectInfo And *ActiveSource\IsForm
+    *Form.FormWindow = *ActiveSource\IsForm
+    If *Form\current_view = 0
+      FD_ProcessMenuEvent(#MENU_FormSwitch)
+    EndIf
+  EndIf
+  
   ProcedureReturn result
 EndProcedure
 

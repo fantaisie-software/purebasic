@@ -143,6 +143,7 @@ Declare.s GetLine(Index, *Source.SourceFile = 0)                                
 Declare HasLineContinuation(Index, *Source.SourceFile = 0)                                     ; Returns true if the given line (0 based) ends with a line continuation
 Declare.s GetContinuationLine(Index, *Offset.INTEGER = 0, *Source.SourceFile = 0)              ; Return the line with given index (0 based) including any continued lines before or after)
 Declare SetLine(Index, NewLine$)                                                               ; replace the indexed line with the given text (and highlight it again)
+Declare IsInsideStructureBlock(Line)                                                           ; returns true if the given line (0 based) starts inside a Structure or Interface block
 Declare CreateEditorGadget()                                                                   ; create the editing gadget for this source (must call ChangeActiveSource() right after creating the gadget!)
 Declare SetReadOnly(Gadget, State)                                                             ; set the editing gadget to readonly
 Declare InsertCodeString(String$, MoveCursor = #False)                                         ; insert given string at the current position (also converts to utf8 if needed)
@@ -383,7 +384,7 @@ Declare GrepWindowEvents(EventID)
 Declare InitSyntaxCheckArrays()       ; create arrays like the ValidCharacters of TriggerCharacters
 Declare InitSyntaxHighlighting()      ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
-Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode, DisableFormatting = 0) ; call the engine
+Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode, DisableFormatting = 0, InsideStructure = 0) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
 
 ;- HighlightingFunctions.pb
@@ -624,6 +625,7 @@ Declare FileMonitorWindowEvents(EventID)                                        
 Declare BuildFoldingVT()                        ; the procedurebrowser also manages folding.
 Declare FreeSourceItemArray(*Parser.ParserData) ; free the SourceItem Array and all contained items
 Declare FullSourceScan(*Source.SourceFile)      ; rescan entire source
+Declare FormSourceScan(*Source.SourceFile)      ; scan the code generated from a form in design view
 Declare PartialSourceScan(*Source.SourceFile, StartLine, EndLine)  ; rescan some lines (returns true if line(s) changed)
 Declare ScanLine(*Source.SourceFile, Line)                         ; scan single line ( + continuations) returns true if line(s) changed
 Declare ScanFile(FileName$, *Parser.ParserData)                    ; scan a file from disk (for project management)

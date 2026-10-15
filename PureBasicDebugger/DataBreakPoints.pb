@@ -341,7 +341,7 @@ Procedure DataBreakpoint_DebuggerEvent(*Debugger.DebuggerData)
             
           Case 3 ; eval error
             If index <> -1
-              SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_Ascii), 2)
+              SetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, PeekS(*Debugger\CommandData, *Debugger\Command\DataSize, #PB_UTF8 | #PB_ByteLength), 2)
               SetGadgetItemColor(*Debugger\Gadgets[#DEBUGGER_GADGET_BreakPoint_List], index, #PB_Gadget_BackColor, $90FFFF, -1)
             EndIf
             

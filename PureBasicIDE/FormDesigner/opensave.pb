@@ -2068,10 +2068,13 @@ Procedure FD_Open(file.s,update = 0)
         startnext = OpenReadNextParam(line,start)
         
         title.s = Trim(Mid(line,start,startnext-start))
-        If title = "#PB_Ignore"
+        If LCase(title) = "#pb_ignore"
           width = -1
         Else
           width = Val(title)
+          If width < 0 ; any negative width (like -65535, the #PB_Ignore value) means #PB_Ignore
+            width = -1
+          EndIf
         EndIf
         
         FormWindows()\FormStatusbars()\width = width

@@ -640,7 +640,7 @@ DataSection
   Data$ "CloseOverWrite",   "Do you want to close that tab and overwrite it?"
   
   Data$ "SaveConfigError",  "Cannot save Compiler options to file"
-  Data$ "Modified",         "The file '%filename%'has been modified.%newline%Do you want to save the changes?"
+  Data$ "Modified",         "The file '%filename%' has been modified.%newline%Do you want to save the changes?"
   Data$ "ModifiedNew",      "This new file has not been saved yet. Do you want to save it now?"
   Data$ "ReloadModified",   "This file has been modified.%newline%Should the changes be discarded by reloading it?"
   Data$ "DeletedOnDisk",    "The file '%filename%' has been deleted from the disk.%newline%Do you want to save it now?"
@@ -1318,7 +1318,7 @@ DataSection
     Data$ "SourcePattern",   "SpiderBasic Files (*.sb, *.sbi)|*.sb;*.sbi|SpiderBasic Sourcecodes (*.sb)|*.sb|PureBasic Includefiles (*.sbi)|*.sbi|All Files (*.*)|*.*"
     Data$ "DPIAware",         "Enable DPI aware application"
   CompilerElse
-    Data$ "DPIAware",         "Enable DPI aware executable (Windows and macOS)"
+    Data$ "DPIAware",         "Enable DPI aware executable"
     Data$ "DPIAwareModeSystem",     "System"
     Data$ "DPIAwareModePerMonitor", "Per-Monitor"
     Data$ "SourcePattern",   "PureBasic Files (*.pb, *.pbi)|*.pb;*.pbi|PureBasic Sourcecodes (*.pb)|*.pb|PureBasic Includefiles (*.pbi)|*.pbi|All Files (*.*)|*.*"
@@ -1742,7 +1742,7 @@ DataSection
   ; ===================================================
   
   Data$ "Title",            "File Viewer"
-  Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.tga, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.tga;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"
+  Data$ "Pattern",          "Image Files (*.bmp, *.png, *.jpg, *.jpeg, *.gif, *.tga, *.tif, *.tiff, *.ico)|*.bmp;*.png;*.jpg;*.jpeg;*.gif;*.tga;*.tif;*.tiff;*.ico|HTML Documents (*.html, *.htm)|*.html;*.htm|Text Documents (*.txt)|*.txt|All Files (*.*)|*.*"
   Data$ "Open",             "Open File"
   Data$ "Close",            "Close File"
   Data$ "Next",             "Show next File"

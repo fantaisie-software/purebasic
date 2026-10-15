@@ -624,6 +624,109 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     EndIf
   EndProcedure
   
+  ; Returns true if the given line starts inside a Structure or Interface block, so the fields and methods
+  ; are not taken as keywords or functions (the highlighting engine tracks the block keywords from there)
+  ;
+  Procedure IsInsideStructureBlock(Line)
+    *Parser.ParserData = @*ActiveSource\Parser
+    If *Parser\SourceItemArray = 0 Or Line > *Parser\SourceItemCount
+      ProcedureReturn #False
+    EndIf
+    
+    *Item.SourceItem = 0
+    While *Item = 0 And Line > 0
+      Line - 1
+      *Item = *Parser\SourceItemArray\Line[Line]\Last
+    Wend
+    
+    ; Fields can be parsed as keywords (like 'Data.i'), so look for the block start or end
+    While *Item
+      Select *Item\Type
+        Case #ITEM_Structure, #ITEM_Interface
+          ProcedureReturn #True
+          
+        Case #ITEM_Procedure, #ITEM_ProcedureEnd, #ITEM_Macro, #ITEM_MacroEnd
+          ProcedureReturn #False
+          
+        Case #ITEM_Keyword
+          If *Item\Keyword = #KEYWORD_EndStructure Or *Item\Keyword = #KEYWORD_EndInterface
+            ProcedureReturn #False
+          EndIf
+      EndSelect
+      
+      Parser_PreviousItem(*Parser, *Item, Line)
+    Wend
+    
+    ProcedureReturn #False
+  EndProcedure
+  
+  ; Called by the highlighting engine for 'Variable\Method(' when the method has the name of a function:
+  ; correct its case to the one of the interface declaration (if found)
+  ;
+  Procedure HighlightInterfaceMethodCase(*WordStart, WordLength)
+    Protected NewList Stack.s(), NewList Fields.s()
+    
+    If *ActiveSource = 0 Or HighlightGadget <> *ActiveSource\EditorGadget
+      ProcedureReturn #False
+    EndIf
+    
+    Position = *WordStart - *HighlightBuffer + HighlightOffset
+    Line     = ScintillaSendMessage(HighlightGadget, #SCI_LINEFROMPOSITION, Position)
+    
+    ; the line must be up to date to find the variable
+    If ScanLine(*ActiveSource, Line)
+      UpdateFolding(*ActiveSource, Line, Line+2)
+      *ActiveSource\ParserDataChanged = #True ; defere any updating to when the current line changes
+    EndIf
+    SortParserData(@*ActiveSource\Parser, *ActiveSource)
+    
+    Line$  = GetLine(Line)
+    Column = BytesToChars(Line$, 0, *ActiveSource\Parser\Encoding, Position - ScintillaSendMessage(HighlightGadget, #SCI_POSITIONFROMLINE, Line))
+    
+    BaseItemLine = Line
+    If LocateStructureBaseItem(Line$, Column-1, @*BaseItem.SourceItem, @BaseItemLine, Stack()) = #False
+      ProcedureReturn #False
+    EndIf
+    
+    Type$ = ResolveItemType(*BaseItem, BaseItemLine, @OutType)
+    If Type$ = "" Or (OutType <> #ITEM_Variable And OutType <> #ITEM_Array And OutType <> #ITEM_LinkedList And OutType <> #ITEM_Map)
+      ProcedureReturn #False
+    EndIf
+    
+    ; resolve any sub-structures up to the interface
+    ForEach Stack()
+      If FindStructure(Type$, Fields()) = #False
+        ProcedureReturn #False
+      EndIf
+      
+      Type$ = ""
+      ForEach Fields()
+        If LCase(StructureFieldName(Fields())) = LCase(Stack())
+          Type$ = StructureFieldType(Fields())
+          Break
+        EndIf
+      Next Fields()
+      
+      If Type$ = ""
+        ProcedureReturn #False
+      EndIf
+    Next Stack()
+    
+    If FindInterface(Type$, Fields())
+      Word$ = LCase(PeekS(*WordStart, WordLength, #PB_Ascii))
+      ForEach Fields()
+        Method$ = InterfaceFieldName(Fields())
+        If Len(Method$) = WordLength And LCase(Method$) = Word$
+          ProcedureReturn CopyMemoryCheck(ToAscii(Method$), *WordStart, WordLength)
+        EndIf
+      Next Fields()
+    EndIf
+    
+    ProcedureReturn #False
+  EndProcedure
+  
+  InterfaceMethodCase = @HighlightInterfaceMethodCase()
+  
   Procedure HighlightArea(*StartPos, *EndPos)
     ;
     ; highlighting is done only on demand (see ScintillaCallback)
@@ -1203,8 +1306,8 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     
     LineStart = SendEditorMessage(#SCI_LINEFROMPOSITION, StartPosition, 0)
     LineEnd   = SendEditorMessage(#SCI_LINEFROMPOSITION, EndPosition, 0)
-    RowStart  = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, LineStart, 0), StartPosition)
-    RowEnd    = CountCharacters(*ActiveSource\EditorGadget, SendEditorMessage(#SCI_POSITIONFROMLINE, LineEnd, 0), EndPosition)
+    RowStart  = SendEditorMessage(#SCI_COUNTCODEUNITS, SendEditorMessage(#SCI_POSITIONFROMLINE, LineStart, 0), StartPosition) ; UTF-16 code units, so characters outside the BMP (like emojis) count as 2 PB chars
+    RowEnd    = SendEditorMessage(#SCI_COUNTCODEUNITS, SendEditorMessage(#SCI_POSITIONFROMLINE, LineEnd, 0), EndPosition)
     
     If *LineStart: *LineStart\i = LineStart + 1: EndIf
     If *RowStart : *Rowstart\i  = RowStart  + 1: EndIf
@@ -1405,7 +1508,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     ProcedureReturn -1
   EndProcedure
   
-  Procedure GetIndentBalance(*Cursor.Character, *Before.INTEGER, *After.INTEGER)
+  ; *InsideStructure (optional): true if the line starts inside a Structure or Interface block. Fields and
+  ;   methods named like a keyword (like 'For.l' or 'Next()') are ignored there. Updated for the next line.
+  ;
+  Procedure GetIndentBalance(*Cursor.Character, *Before.INTEGER, *After.INTEGER, *InsideStructure.INTEGER = 0)
     *Before\i = 0
     *After\i = 0
     
@@ -1424,6 +1530,21 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; Keyword check first, so something like ";>>" could be an indent keyword
       ;
       c = IsIndentKeyword(*Cursor)
+      
+      If c <> -1 And *InsideStructure
+        Keyword$ = IndentKeywords(c)\Keyword$
+        If *InsideStructure\i And IsBasicKeyword(Keyword$) And (PeekC(*Cursor + IndentKeywords(c)\Length * SizeOf(Character)) = '.' Or IsStructureBlockKeyword(Keyword$, 0, 0) = #False)
+          c = -1 ; a field or method, the word is skipped below
+          
+        ElseIf IsBasicKeyword(Keyword$) = #KEYWORD_Structure Or IsBasicKeyword(Keyword$) = #KEYWORD_Interface
+          *InsideStructure\i = #True
+          
+        ElseIf IsBasicKeyword(Keyword$) = #KEYWORD_EndStructure Or IsBasicKeyword(Keyword$) = #KEYWORD_EndInterface
+          *InsideStructure\i = #False
+          
+        EndIf
+      EndIf
+      
       If c = -1
         
         ; Skip things like strings, comments, constants
@@ -2074,19 +2195,22 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         Line$ = GetLine(line)
       Wend
       If line = 0 And IsIndentAnchor(Line$) = #False
-        Line$ = GetLine(FirstLine-1)  ; no non-empty line found, just use the previous line then
+        line = FirstLine-1
+        Line$ = GetLine(line)  ; no non-empty line found, just use the previous line then
       Else
         Line$ = GetContinuationLine(line) ; make sure we have a line with all continuations for the prefix and balance
       EndIf
       
       Prefix$ = GetIndentPrefix(Line$)
-      GetIndentBalance(@Line$, @BalanceBefore, @BalanceAfter)
+      InsideStructure = IsInsideStructureBlock(line)
+      GetIndentBalance(@Line$, @BalanceBefore, @BalanceAfter, @InsideStructure)
       CommentAnchor$ = GetLine(FirstLine - 1)
     Else
       Prefix$ = ""
       CommentAnchor$ = ""
       BalanceBefore = 0
       BalanceAfter = 0
+      InsideStructure = #False
     EndIf
     
     Line = FirstLine
@@ -2112,7 +2236,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       ; use the full one (including continuations) for the balance calc
       FullLine$ = GetContinuationLine(Line)
       Balance = BalanceAfter
-      GetIndentBalance(@FullLine$, @BalanceBefore, @BalanceAfter)
+      GetIndentBalance(@FullLine$, @BalanceBefore, @BalanceAfter, @InsideStructure)
       Balance + BalanceBefore
       
       ; Modify the Prefix$ according to the before balance for this line
@@ -2890,7 +3014,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               ; update highlighting of the old line, as now keywords are not highlighted with the cursor inside (so do it when the mouse is moved away)
               ;
               If (EnableColoring Or EnableCaseCorrection) And OldLine$ <> ""
-                HighlightLine$ = OldLine$+#NewLine
+                ; the last line has no newline: styling it would go past the end of the document and crash Scintilla
+                HighlightLine$ = OldLine$
+                If *ActiveSource\CurrentLineOld < SendEditorMessage(#SCI_GETLINECOUNT, 0, 0)
+                  HighlightLine$ + #NewLine
+                EndIf
                 anchorPos = SendEditorMessage(#SCI_GETANCHOR, 0, 0) ; save & restore the cursor pos
                 currentPos = SendEditorMessage(#SCI_GETCURRENTPOS, 0, 0)
                 
@@ -2905,6 +3033,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 
                 ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #False, 0)
                 
+                ; Styling this line moves the Scintilla 'end styled' position to its end. If the text before it is not styled
+                ; yet (ie: after a redo), it would never get a #SCN_STYLENEEDED, so put the position back afterwards.
+                EndStyled = SendEditorMessage(#SCI_GETENDSTYLED, 0, 0)
+                
                 If EnableColoring
                   SendEditorMessage(#SCI_STARTSTYLING, HighlightOffset, $FFFFFF)
                 EndIf
@@ -2912,8 +3044,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
                 ; now call the highlighting engine
                 ;
                 Modified = GetSourceModified()  ; because the case correction changes the modified state!
-                HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1, IsInsideASMBlock(*ActiveSource\CurrentLineOld-1))
+                HighlightingEngine(*HighlightBuffer, MemoryAsciiLength(*HighlightBuffer), -1, @HighlightCallback(), 1, IsInsideASMBlock(*ActiveSource\CurrentLineOld-1), IsInsideStructureBlock(*ActiveSource\CurrentLineOld-1))
                 SetSourceModified(Modified)
+                
+                If EnableColoring And EndStyled < HighlightOffset
+                  SendEditorMessage(#SCI_STARTSTYLING, EndStyled, $FFFFFF)
+                EndIf
                 
                 FreeMemory(*HighlightBuffer)
                 
@@ -3071,7 +3207,10 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           ; and then directly re-open in structure mode for the structure, so handle this case
           If AutoCompleteWindowOpen
             If *scinotify\ch = '\' ; this always has to force a close! (AutoComplete_WordUpdate() cannot detect this in structure mode)
-              AutoComplete_Close()
+              ; Don't hide the window yet, as it may re-open in structure mode just below: on Linux, the focus-out
+              ; event of the hidden window arrives after the re-open, and closes it again
+              AutoCompleteWindowOpen = 0
+              CloseVisibleWindow = #True
             Else
               AutoComplete_WordUpdate()
             EndIf
@@ -3084,6 +3223,11 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
             If CheckSearchStringComment(line, position, 1)
               OpenAutoCompleteWindow(#True)
             EndIf
+          EndIf
+          
+          If CloseVisibleWindow And AutoCompleteWindowOpen = 0 ; not re-opened, so close the still visible window
+            AutoCompleteWindowOpen = 1
+            AutoComplete_Close()
           EndIf
           
           
@@ -3174,7 +3318,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
               EndIf
               
               Modified = GetSourceModified()
-              HighlightingEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HighlightCallback(), 1, IsInsideASMBlock(lineNumber))
+              HighlightingEngine(*Buffer, reallength, currentPos-range\chrg\cpMin , @HighlightCallback(), 1, IsInsideASMBlock(lineNumber), IsInsideStructureBlock(lineNumber))
               SetSourceModified(Modified)
               
               ScintillaSendMessage(EditorGadget, #SCI_SETUNDOCOLLECTION, #True, 0)
@@ -3281,7 +3425,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           
           
         ElseIf *Event\keyval = $FF0D Or *Event\keyval = $FF8D  ; it was an enter (second one is numpad enter)
+          SendEditorMessage(#SCI_BEGINUNDOACTION) ; undo the newline and its auto indentation in one step
           SendEditorMessage(#SCI_NEWLINE, 0, 0)
+          SendEditorMessage(#SCI_ENDUNDOACTION)
           ProcedureReturn 1
           
         EndIf

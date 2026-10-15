@@ -72,7 +72,6 @@ Procedure DisableOptionGadgets()
     DisableGadget(#GADGET_Option_UseIcon, 1)
     DisableGadget(#GADGET_Option_IconName, 1)
     DisableGadget(#GADGET_Option_SelectIcon, 1)
-    DisableGadget(#GADGET_Option_DPIAware, 1)
   CompilerEndIf
   
   CompilerIf #CompileLinux | #CompileMac And Not #SpiderBasic ; this stuff is Windows only

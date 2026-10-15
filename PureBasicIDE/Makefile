@@ -64,7 +64,7 @@ ifeq ($(PB_MACOS),1)
 	endif
 else
 	IDENAME_LOWERCASE = $(shell echo $(IDENAME) | tr A-Z a-z)
-	IDEFLAGS = --thread --unicode
+	IDEFLAGS = --thread --unicode --dpiaware
 	HELPTOOL = Build/helptool
 	# helptool is a GTK program and needs a display even for --init: use a virtual one when available
 	# so 'make help' also works over plain ssh/plink (no or broken X11 forwarding, ie: on the Raspberry Pis)

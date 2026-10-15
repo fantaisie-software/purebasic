@@ -299,8 +299,8 @@ Procedure LoadPreferences()
   
   ; default
   
-  NbFoldStartWords = 11
-  NbFoldEndWords = 8
+  NbFoldStartWords = 13
+  NbFoldEndWords = 9
   FoldStart$(1) = ";{"
   FoldStart$(2) = "Macro"
   FoldStart$(3) = "Procedure"
@@ -315,7 +315,9 @@ Procedure LoadPreferences()
   CompilerElse 
     FoldStart$(10) = "EnableASM" 
   CompilerEndIf
-  FoldStart$(11) = "HeaderSection" 
+  FoldStart$(11) = "HeaderSection"
+  FoldStart$(12) = "Import"
+  FoldStart$(13) = "ImportC"
   
   FoldEnd$(1) = ";}"
   FoldEnd$(2) = "EndMacro"
@@ -329,6 +331,7 @@ Procedure LoadPreferences()
     FoldEnd$(7) = "DisableASM"
   CompilerEndIf
   FoldEnd$(8) = "EndHeaderSection"
+  FoldEnd$(9) = "EndImport"
   
   NbFoldStartWords = ReadPreferenceLong("StartWords", NbFoldStartWords)
   NbFoldEndWords = ReadPreferenceLong("EndWords", NbFoldEndWords)
@@ -347,6 +350,29 @@ Procedure LoadPreferences()
     NbFoldStartWords+1 : FoldStart$(NbFoldStartWords) = "DeclareModule"
     NbFoldEndWords+1   : FoldEnd$(NbFoldEndWords) = "EndModule"
     NbFoldEndWords+1   : FoldEnd$(NbFoldEndWords) = "EndDeclareModule"
+  EndIf
+
+  If PrefsVersion > 0 And PrefsVersion < 650 ; Import, ImportC, EndImport added in 6.50 (only if not already added by the user)
+    For k = 1 To 2
+      Word$ = StringField("Import,ImportC", k, ",")
+      For i = 1 To NbFoldStartWords
+        If LCase(FoldStart$(i)) = LCase(Word$)
+          Break
+        EndIf
+      Next i
+      If i > NbFoldStartWords And NbFoldStartWords < #MAX_FoldWords
+        NbFoldStartWords+1 : FoldStart$(NbFoldStartWords) = Word$
+      EndIf
+    Next k
+
+    For i = 1 To NbFoldEndWords
+      If LCase(FoldEnd$(i)) = "endimport"
+        Break
+      EndIf
+    Next i
+    If i > NbFoldEndWords And NbFoldEndWords < #MAX_FoldWords
+      NbFoldEndWords+1 : FoldEnd$(NbFoldEndWords) = "EndImport"
+    EndIf
   EndIf
   
   BuildFoldingVT()
@@ -816,7 +842,7 @@ Procedure LoadPreferences()
     Compilers()\MD5$           = ReadPreferenceString("Compiler"+Str(i)+"_Md5", "")
     Compilers()\VersionString$ = ReadPreferenceString("Compiler"+Str(i)+"_Version", "Unknown")
     
-    If Compilers()\MD5$ <> "" And FileFingerprint(Compilers()\Executable$, #PB_Cipher_MD5) = Compilers()\MD5$
+    If Compilers()\MD5$ <> "" And FileSize(Compilers()\Executable$) >= 0 And FileFingerprint(Compilers()\Executable$, #PB_Cipher_MD5) = Compilers()\MD5$
       ; the compiler is still there and has not been updated
       Compilers()\Validated     = #True
       Compilers()\VersionNumber = Val(LSet(RemoveString(StringField(Compilers()\VersionString$, 2, " "), "."), 3, "0"))
@@ -3302,10 +3328,6 @@ Procedure OpenPreferencesWindow()
     SetGadgetState(#GADGET_Preferences_UseCreateExecutable, OptionUseCreateExe)
   CompilerEndIf
   
-  CompilerIf #CompileLinux And Not #SpiderBasic
-    DisableGadget(#GADGET_Preferences_DPIAware, 1)
-  CompilerEndIf
-  
   CompilerIf Not #CompileWindows
     DisableGadget(#GADGET_Preferences_XPSkin, 1)
     DisableGadget(#GADGET_Preferences_VistaAdmin, 1)
@@ -5296,6 +5318,9 @@ Procedure PreferencesWindowEvents(EventID)
               PreferenceIssues()\Name$       = GetGadgetText(#GADGET_Preferences_IssueName)
               PreferenceIssues()\Expression$ = GetGadgetText(#GADGET_Preferences_IssueExpr)
               PreferenceIssues()\Priority    = GetGadgetState(#GADGET_Preferences_IssuePriority)
+              If PreferenceIssues()\Priority < 0 ; nothing selected in the (disabled) priority combo, so use the normal priority
+                PreferenceIssues()\Priority = 2
+              EndIf
               PreferenceIssues()\Color       = PreferenceIssueColor
               PreferenceIssues()\InTool      = GetGadgetState(#GADGET_Preferences_IssueInTool)
               PreferenceIssues()\InBrowser   = GetGadgetState(#GADGET_Preferences_IssueInBrowser)

@@ -1782,7 +1782,7 @@
   The DPI resolution factor on the 'x' axis. '1' means no scaling, '1.5' means a 150% factor is applied, etc.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the result is always '1'.
+  Without the 'DPI Aware' compiler option, the result is always '1'. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopResolutionX.
 
 @Example
 @Code
@@ -1811,7 +1811,7 @@
   The DPI resolution factor on the 'y' axis. '1' means no scaling, '1.5' means a 150% factor is applied, etc.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the result is always '1'.
+  Without the 'DPI Aware' compiler option, the result is always '1'. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopResolutionY.
 
 @SeeAlso
   @@WindowResolutionX, @@DesktopResolutionY, @@DesktopScaledY
@@ -1838,7 +1838,7 @@
   The scaled value. For example, on a screen with a 125% DPI factor, a value of 100 returns 125.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+  Without the 'DPI Aware' compiler option, the value is returned unchanged. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopScaledX.
 
 @Example
 @Code
@@ -1870,7 +1870,7 @@
   The scaled value. For example, on a screen with a 125% DPI factor, a value of 100 returns 125.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+  Without the 'DPI Aware' compiler option, the value is returned unchanged. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopScaledY.
 
 @SeeAlso
   @@WindowScaledX, @@WindowUnscaledY, @@WindowResolutionY, @@DesktopScaledY
@@ -1894,7 +1894,7 @@
   The unscaled value. For example, on a screen with a 125% DPI factor, a value of 125 returns 100.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+  Without the 'DPI Aware' compiler option, the value is returned unchanged. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopUnscaledX.
 
 @SeeAlso
   @@WindowUnscaledY, @@WindowScaledX, @@WindowResolutionX, @@DesktopUnscaledX
@@ -1918,7 +1918,7 @@
   The unscaled value. For example, on a screen with a 125% DPI factor, a value of 125 returns 100.
 @LineBreak
 @LineBreak
-  Without the 'DPI Aware' compiler option, or on the platforms that do not support per-window scaling (Linux), the value is returned unchanged.
+  Without the 'DPI Aware' compiler option, the value is returned unchanged. On Linux, which doesn't support per-window scaling, the result is the same as @@DesktopUnscaledY.
 
 @SeeAlso
   @@WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY

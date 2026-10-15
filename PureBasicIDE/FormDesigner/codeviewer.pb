@@ -4,6 +4,49 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
+; Converts a menu shortcut like "Ctrl+Shift+S", "+" or "Ctrl+-" to its #PB_Shortcut_ constants
+Procedure.s FD_ShortcutConstants(shortcut.s)
+  Protected result.s, key.s, modifier.s, count, i
+
+  shortcut = Trim(shortcut)
+  If Right(shortcut, 1) = "+" ; the '+' key itself, as in "+" or "Ctrl++"
+    key = "+"
+    shortcut = Trim(Left(shortcut, Len(shortcut) - 1))
+    If Right(shortcut, 1) = "+"
+      shortcut = Left(shortcut, Len(shortcut) - 1)
+    EndIf
+    If shortcut <> ""
+      count = CountString(shortcut, "+") + 1
+    EndIf
+  Else
+    count = CountString(shortcut, "+")
+    key = Trim(StringField(shortcut, count + 1, "+"))
+  EndIf
+
+  For i = 1 To count
+    modifier = Trim(StringField(shortcut, i, "+"))
+
+    Select LCase(modifier) ; Use LCase() so it works with CTRL, Ctrl, etc. https://www.purebasic.fr/english/viewtopic.php?f=4&t=71127
+      Case "cmd"
+        modifier = "Command"
+      Case "ctrl"
+        modifier = "Control"
+      Case "strg"
+        modifier = "Control"
+    EndSelect
+
+    result + "#PB_Shortcut_" + modifier + " | "
+  Next
+
+  Select key
+    Case "+"
+      key = "Add"
+    Case "-"
+      key = "Subtract"
+  EndSelect
+
+  ProcedureReturn result + "#PB_Shortcut_" + key
+EndProcedure
 
 Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   If Not contentonly
@@ -213,7 +256,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
   
   If ListSize(Img())
     ;check if image decoder is required
-    jpgdecoder.b = 0 : pngdecoder.b = 0 : tgadecoder.b = 0 : tiffdecoder.b = 0
+    jpgdecoder.b = 0 : pngdecoder.b = 0 : gifdecoder.b = 0 : tgadecoder.b = 0 : tiffdecoder.b = 0
     ForEach Img()
       img.s = LCase(Img()\img)
       If Not jpgdecoder And (FindString(img,"jpg") Or FindString(img,"jpeg"))
@@ -221,6 +264,9 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
       EndIf
       If Not pngdecoder And (FindString(img,"png"))
         pngdecoder = 1
+      EndIf
+      If Not gifdecoder And (FindString(img,"gif"))
+        gifdecoder = 1
       EndIf
       If Not tgadecoder And (FindString(img,"tga"))
         tgadecoder = 1
@@ -236,14 +282,17 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
     If pngdecoder
       content + "UsePNGImageDecoder()" + #Endline
     EndIf
+    If gifdecoder
+      content + "UseGIFImageDecoder()" + #Endline
+    EndIf
     If tgadecoder
-      content + "UseJTAImageDecoder()" + #Endline
+      content + "UseTGAImageDecoder()" + #Endline
     EndIf
     If tiffdecoder
       content + "UseTIFFImageDecoder()" + #Endline
     EndIf
     
-    If jpgdecoder Or pngdecoder Or tgadecoder Or tiffdecoder
+    If jpgdecoder Or pngdecoder Or gifdecoder Or tgadecoder Or tiffdecoder
       content + "" + #Endline
     EndIf
     
@@ -1052,24 +1101,7 @@ Procedure.s FD_SelectCode(contentonly = 0, testcode = 0)
         ForEach FormWindows()\FormMenus()
           If FormWindows()\FormMenus()\shortcut <> ""
             addemptyline = 1
-            
-            If FindString(FormWindows()\FormMenus()\shortcut,"+")
-              mod.s = Trim(StringField(FormWindows()\FormMenus()\shortcut,1,"+"))
-              
-              Select LCase(mod) ; Use LCase() so it works with CTRL, Ctrl, etc. https://www.purebasic.fr/english/viewtopic.php?f=4&t=71127
-                Case "cmd"
-                  mod = "Command"
-                Case "ctrl"
-                  mod = "Control"
-                Case "strg"
-                  mod = "Control"
-              EndSelect
-              
-              shortcut.s = Trim(StringField(FormWindows()\FormMenus()\shortcut,2,"+"))
-              content + "  AddKeyboardShortcut("+ winid + ", #PB_Shortcut_" + mod + " | #PB_Shortcut_" + shortcut + ", " + FormWindows()\FormMenus()\id + ")" + #Endline
-            Else
-              content + "  AddKeyboardShortcut("+ winid + ", #PB_Shortcut_" + FormWindows()\FormMenus()\shortcut + ", " + FormWindows()\FormMenus()\id + ")" + #Endline
-            EndIf
+            content + "  AddKeyboardShortcut("+ winid + ", " + FD_ShortcutConstants(FormWindows()\FormMenus()\shortcut) + ", " + FormWindows()\FormMenus()\id + ")" + #Endline
           EndIf
         Next
         
