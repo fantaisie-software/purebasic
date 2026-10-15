@@ -2013,6 +2013,37 @@ Procedure FullSourceScan(*Source.SourceFile)
   ProcedureReturn #True ; this is always seen as a source modification (as we delete all old list)
 EndProcedure
 
+; Scan the code generated from a form in design view, as its editor gadget is only updated in code view
+; (so its gadgets, windows and constants are known to AutoComplete in the other sources)
+Procedure FormSourceScan(*Source.SourceFile)
+  If *Source\IsForm = 0
+    ProcedureReturn #False
+  EndIf
+  
+  PushListPosition(FormWindows())
+  ChangeCurrentElement(FormWindows(), *Source\IsForm)
+  Code$ = FD_SelectCode(1, 0)
+  PopListPosition(FormWindows())
+  
+  ; free any old data
+  FreeSourceItemArray(@*Source\Parser)
+  
+  *Source\Parser\SourceItemCount = CountString(Code$, #LF$) + 1
+  *Source\Parser\SourceItemSize  = *Source\Parser\SourceItemCount + 20 ; allocate for a few extra lines
+  *Source\Parser\SourceItemArray = AllocateMemory(*Source\Parser\SourceItemSize * SizeOf(ParsedLine))
+  
+  If *Source\Parser\SourceItemArray
+    *Buffer = UTF8(Code$) ; has the NULL at the end needed by ScanBuffer()
+    If *Buffer
+      ScanBuffer(@*Source\Parser, *Buffer, MemorySize(*Buffer) - 1, 0, *Source\Parser\SourceItemCount-1, #False)
+      FreeMemory(*Buffer)
+    EndIf
+    SortParserData(@*Source\Parser) ; no *Source, as the editor gadget doesn't hold this code
+  EndIf
+  
+  ProcedureReturn #True
+EndProcedure
+
 Procedure PartialSourceScan(*Source.SourceFile, StartLine, EndLine)
   Result = #False
   
