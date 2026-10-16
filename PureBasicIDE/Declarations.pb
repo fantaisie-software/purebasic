@@ -386,11 +386,12 @@ Declare InitSyntaxHighlighting()      ; initialize the highlighting
 Declare BuildCustomKeywordTable()     ; build the needed HT etc from the CustomKeywordList() list and file
 Declare HighlightingEngine(*InBuffer, InBufferLength, CursorPosition, *HighlightCallback, IsSourceCode, DisableFormatting = 0, InsideStructure = 0) ; call the engine
 Declare IsBasicKeyword(Word$, *LineStart = 0, *WordStart = 0)
+Declare GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)   ; Retrieve the boundary of a word
+Declare GetStructurePathStart(*Buffer, WordStart) ; Start of the structure path of a field (ie: 'Var\Field')
+Declare.s GetDebuggerTooltipExpression(Line$, Column) ; Expression to evaluate for the debugger tooltip of a word
 
 ;- HighlightingFunctions.pb
 ;
-Declare GetWordBoundary(*Buffer, BufferLength, Position, *StartIndex.INTEGER, *EndIndex.INTEGER, Mode)   ; Retrieve the boundary of a word
-Declare GetStructurePathStart(*Buffer, WordStart) ; Start of the structure path of a field (ie: 'Var\Field')
 Declare.s GetWord(*Buffer, BufferLength, Position)                                                       ; extract the word at position from *Buffer
 Declare IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)                                       ; check that the chars around a match are not identifier chars
 Declare.s GetModulePrefix(*Buffer, BufferLength, Position)                                               ; get module prefix from the given (Wordstart) position
