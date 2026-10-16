@@ -115,11 +115,12 @@ Module HelpTool
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
 
+  ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
   Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
                       "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}" +
                       "h3 {margin-left:-20px;}" +
                       "a, a:visited, a:active {font-size: 10pt; color: var(--link);}" +
-                      ".nav, .nav a {color: var(--link); font-size: 13px;}" +
+                      ".nav, .nav a {color: var(--link); font-size: 13px;} .nav {display: block;}" +
                       ".cst {color: var(--constant);} .fct {color: var(--function);} .kw {color: var(--keyword); font-weight: bold;} .ul {color: var(--userlib);}" +
                       ".opt {background-color: var(--optbg);}" +
                       ".note {background-color: var(--notebg);} div.note {font-size: 16px;}" +
@@ -384,6 +385,9 @@ Module HelpTool
     If *Buffer
       UncompressPackMemory(Pack, *Buffer, PackFiles(), Name$)
       Text$ = PeekS(*Buffer, -1, #PB_UTF8)
+      If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
+        Text$ = Mid(Text$, 2)
+      EndIf
       FreeMemory(*Buffer)
     EndIf
 
