@@ -42,6 +42,7 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=89631 (Procedure Browser sort by name is correct on current devel)
 - https://www.purebasic.fr/english/viewtopic.php?t=63430 (Form Designer fonts at high DPI are readable on Windows 11 at 200%)
 - https://www.purebasic.fr/english/viewtopic.php?t=66951 (Windows 8 skin issues; the Form Designer is in tabs now)
+- https://www.purebasic.fr/english/viewtopic.php?t=87464 (toolbar and image icons with alpha are transparent again on macOS, light and dark appearance)
 
 ## Not a bug
 
@@ -69,6 +70,7 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 - https://www.purebasic.fr/english/viewtopic.php?t=65309 (Library Viewer shows all XML nodes of the sample on Linux and Windows 11)
 - https://www.purebasic.fr/english/viewtopic.php?t=82493 (the IDE gets the focus back after the Variable Viewer was used, Windows 11)
 - https://www.purebasic.fr/english/viewtopic.php?t=87520 (Find in Files result opens the already open tab, Linux and Windows 11)
+- https://www.purebasic.fr/english/viewtopic.php?t=84024 (long lines on macOS arm64: the caret, the horizontal scrollbar and clicks reach the end of the line)
 
 ## Too vague (no steps, image gone, sporadic old crashes)
 
@@ -84,5 +86,5 @@ Not meant to be merged: this file only exists so the list can be reviewed on Git
 
 ## Not included on purpose
 
-- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#468), 89414 (#502), 65191 (#420), 66473 (#421), 85913 (#503), 82386 (#504).
+- Open PRs: 85884 (#495), 86395 (#496), 86810 (#497), 87302 (#498), 88325 (#499), 88326 (#500), 88959 (#468), 89414 (#502), 65191 (#420), 66473 (#421), 85913 (#503), 82386 (#504), 83283 (#506), 89463 (#507).
 - Still to check on Windows or macOS, decisions for the maintainer, and feature requests (listed in the sweep report).
