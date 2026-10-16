@@ -334,6 +334,8 @@
 @LineBreak
   - @@SetGadgetState can be used to set the toggle state of the gadget.
 @LineBreak
+  - @@SetGadgetText can be used to set a label for screen readers (Windows only). The label is not displayed on the button.
+@LineBreak
   - @@GetGadgetAttribute with the following values:
 @FixedFont
   @#PB_Button_Image       : Get the displayed image ID, e.g. ImageID(#MyImage).
@@ -358,7 +360,7 @@
 @Image buttonimagegadget.png
 
 @SeeAlso
-  @@GetGadgetState, @@SetGadgetState, @@GetGadgetAttribute, @@SetGadgetAttribute, @@ButtonGadget, @@ImageID, @@EventGadget
+  @@GetGadgetState, @@SetGadgetState, @@SetGadgetText, @@GetGadgetAttribute, @@SetGadgetAttribute, @@ButtonGadget, @@ImageID, @@EventGadget
 
 @SupportedOS
 
@@ -5083,6 +5085,8 @@
 @LineBreak
 @LineBreak
   - @@ButtonGadget: change the text of the ButtonGadget.
+@LineBreak
+  - @@ButtonImageGadget: set a label for screen readers (Windows only). The label is not displayed on the button.
 @LineBreak
   - @@ComboBoxGadget: Set the displayed text. If the ComboBoxGadget is not editable, the text must be in the dropdown list.
 @LineBreak
