@@ -220,7 +220,20 @@ Procedure OpenDialog(*DataOffset.DialogObjectData, ParentID = 0, *Sizing.DialogP
     EndIf
     
     If UCase(DialogObjectKey(*Window\StaticData, "INVISIBLE")) <> "YES"
-      HideWindow(*Window\Window, 0)
+      CompilerIf #CompileLinuxGtk3
+        ; center the dialog now that it has its real size, as OpenWindow() centered it with a 0x0 size
+        If x = #PB_Ignore And y = #PB_Ignore
+          If *Window\StaticData\Flags & #PB_Window_WindowCentered And DialogParentWindowID
+            HideWindow(*Window\Window, 0, #PB_Window_WindowCentered)
+          Else
+            HideWindow(*Window\Window, 0, #PB_Window_ScreenCentered)
+          EndIf
+        Else
+          HideWindow(*Window\Window, 0)
+        EndIf
+      CompilerElse
+        HideWindow(*Window\Window, 0)
+      CompilerEndIf
       
       ; we try again the resize as it sometimes does not work when the window is hidden it seems
       ;
