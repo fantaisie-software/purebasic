@@ -1644,7 +1644,15 @@ Procedure MainMenuEvent(MenuItemID)
             
     Case #MENU_BreakPoint
       UpdateCursorPosition() ; to get the current line
-      Debugger_BreakPoint(*ActiveSource\CurrentLine-1)
+      Line = *ActiveSource\CurrentLine
+      
+      ; When full lines are selected (like with a click on the line numbers), the caret is at the start of the next line
+      GetSelection(@LineStart, 0, @LineEnd, @RowEnd)
+      If Line = LineEnd And LineEnd > LineStart And RowEnd <= 1
+        Line - 1
+      EndIf
+      
+      Debugger_BreakPoint(Line-1)
       
     Case #MENU_BreakClear
       Debugger_ClearBreakPoints()
