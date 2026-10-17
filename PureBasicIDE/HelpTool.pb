@@ -79,6 +79,7 @@ Module HelpTool
   Global NewList OSSpecificList$()       ; platform-dependant functions: "Function TAB OS TAB Info"
   Global NewMap OSSpecific$()            ; platform-dependant functions: function -> info
   Global NewMap PackFiles()              ; help archive: file -> uncompressed size
+  Global NewMap PackTexts$()             ; help archive: text files preloaded by LoadHelp() (see PreloadPackTexts())
   Global NewList History$()
   Global NewList JsMessages$()
 
@@ -365,13 +366,57 @@ Module HelpTool
   EndProcedure
 
 
+  ; Name$: file to uncompress, or empty for the current pack entry
+  ;
+  Procedure.s UncompressPackText(Length, Name$ = "")
+    Protected *Buffer, Text$
+
+    *Buffer = AllocateMemory(Length + 2) ; +2: string end for PeekS()
+    If *Buffer
+      If Name$
+        UncompressPackMemory(Pack, *Buffer, Length, Name$)
+      Else
+        UncompressPackMemory(Pack, *Buffer, Length)
+      EndIf
+      Text$ = PeekS(*Buffer, -1, #PB_UTF8)
+      If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
+        Text$ = Mid(Text$, 2)
+      EndIf
+      FreeMemory(*Buffer)
+    EndIf
+
+    ProcedureReturn Text$
+  EndProcedure
+
+
+  ; Uncompresses in one pass the .txt files of Directory$ and of the archive root: a search by
+  ; name reopens the archive and reads it from its start, so it's very slow for many files
+  ;
+  Procedure PreloadPackTexts(Directory$)
+    Protected Name$, Length
+
+    ClearMap(PackTexts$())
+    If IsArchive And ExaminePack(Pack)
+      Length = Len(Directory$)
+      While NextPackEntry(Pack)
+        Name$ = PackEntryName(Pack)
+        If PackEntryType(Pack) = #PB_Packer_File And LCase(GetExtensionPart(Name$)) = "txt" And (Left(Name$, Length) = Directory$ Or FindString(Name$, "/") = 0)
+          PackTexts$(Name$) = UncompressPackText(PackEntrySize(Pack, #PB_Packer_UncompressedSize))
+        EndIf
+      Wend
+    EndIf
+  EndProcedure
+
+
   ; Name$ is relative to the help root
   ;
   Procedure.s ReadHelpFile(Name$, ShowError = #True)
-    Protected *Buffer, Text$
-
     If IsArchive = #False
       ProcedureReturn ReadTextFile(HelpPath$ + Name$, ShowError)
+    EndIf
+
+    If FindMapElement(PackTexts$(), Name$) ; preloaded
+      ProcedureReturn PackTexts$()
     EndIf
 
     If FindMapElement(PackFiles(), Name$) = 0
@@ -381,17 +426,7 @@ Module HelpTool
       ProcedureReturn ""
     EndIf
 
-    *Buffer = AllocateMemory(PackFiles() + 2) ; +2: string end for PeekS()
-    If *Buffer
-      UncompressPackMemory(Pack, *Buffer, PackFiles(), Name$)
-      Text$ = PeekS(*Buffer, -1, #PB_UTF8)
-      If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
-        Text$ = Mid(Text$, 2)
-      EndIf
-      FreeMemory(*Buffer)
-    EndIf
-
-    ProcedureReturn Text$
+    ProcedureReturn UncompressPackText(PackFiles(), Name$)
   EndProcedure
 
 
@@ -933,6 +968,7 @@ Module HelpTool
     EndIf
 
     ; Help sources
+    PreloadPackTexts(LanguagePath$)
     ListHelpFiles(Files$(), LanguagePath$, "txt")
     ForEach Files$()
       ExtractPages(Files$())
@@ -949,6 +985,7 @@ Module HelpTool
     EndIf
 
     CreateGeneratedPages() ; before the contents, which links to them
+    ClearMap(PackTexts$()) ; all read: the page sources are in Pages()
 
     ForEach UserLibFiles$()
       Title$ = GetFilePart(UserLibFiles$(), #PB_FileSystem_NoExtension)
