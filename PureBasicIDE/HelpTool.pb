@@ -8,1632 +8,2443 @@
 ; and renders them in a WebViewGadget.
 ;
 ; When this file is compiled directly (main file), it runs as a standalone tool (own window,
-; PBHelp.ini settings). When included in the IDE, it's embedded in the tools panel via XmlDialogGadget().
+; HelpTool.ini settings). When included in the IDE, it's embedded in the tools panel via XmlDialogGadget().
 ;
 
-DeclareModule pbhelp
+DeclareModule HelpTool
   #Standalone = #PB_Compiler_IsMainFile
 
   ; Callbacks used by the IDE to load/run the examples and edit the help sources
   Prototype ProtoOpenCode(File$, Code$, Run) ; File$ is a real file to load, or Code$ is the code to put in a new tab
   Prototype ProtoEditFile(File$, Line)
-  Prototype ProtoApplyColors(Gadget) ; IDE colors/font for the contents tree and the search gadgets
-  Prototype.s ProtoColorCode(Code$)  ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
+  Prototype ProtoApplyColors(Gadget)         ; IDE colors/font for the contents tree and the search gadgets
+  Prototype.s ProtoColorCode(Code$)          ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
   Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode
 
-  Declare init(lg.s,os.s)
-  Declare affiche(page.s)
-  Declare.s PbtoHtml(nom.s)
-  Declare CheckFile()
-  Declare listfilemef()
-  Declare.s inithelp(source.s,destination.s)
-  Declare.s inithelpzip(source.s,destination.s)
+  ; Standalone tool
+  Declare RunStandalone(HelpLanguage$, HelpOS$)
+  Declare CheckSources()
+  Declare.s BuildHelp(Source$, Destination$)
+  Declare.s BuildHelpZip(Source$, Destination$)
 
   ; IDE embedding
-  Declare setup(lg.s, os.s, source.s, userlibsource.s, examplesource.s)
-  Declare setimages(back, forward, home, edit, index, open.s, run.s)
-  Declare setcolors(css.s, userlibcolor=$008800)
-  Declare create(window)
-  Declare destroy()
-  Declare resize(width, height)
-  Declare gadgetevent(gadget, type)
-  Declare timer()
-  Declare show(page.s)
+  Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
+  Declare SetImages(Back, Forward, Home, Edit, Contents, LoadCode$, RunCode$)
+  Declare SetColors(Css$, Color = $008800)
+  Declare Create(Window)
+  Declare Destroy()
+  Declare Resize(Width, Height)
+  Declare GadgetEvent(Gadget, Type)
+  Declare Timer()
+  Declare ShowPage(Name$)
 EndDeclareModule
 
-Module pbhelp
-EnableExplicit
 
-Declare affiche(page.s)
-Declare initui()
-Declare packinfo(nzip)
-Declare.s cvhtml(txt.s,lf=0)
+Module HelpTool
+  EnableExplicit
 
-#EventJsMessage = #PB_Event_FirstCustomValue + 500 ; WebView callback actions are deferred to the event loop
-#ForceIEMode    = #False ; Windows: #True to test the degraded mode (WebGadget/Internet Explorer) even if WebView2 is available
+  #EventJsMessage   = #PB_Event_FirstCustomValue + 500 ; WebView callback actions are deferred to the event loop
+  #ForceIEMode      = #False ; Windows: #True to test the degraded mode (WebGadget/Internet Explorer) even if WebView2 is available
+  #Languages$       = "English,French,German"
+  #TagSeparators$   = " .,;:()[]{}>@/" + #LF$ + #DQUOTE$ + Chr(160)
+  #IdentifierChars$ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
+  #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
 
-Structure spage
-  titre.s
-  nom.s
-  fichier.s
-  pos.l     ; position
-  src.s     ; source
-  nav.s     ; navigation
-  List sp.i()
-  sommaire.w
-  userlib.s
-  libdest.s
-EndStructure
+  Structure HelpPage
+    Title$
+    Name$            ; lowercase: function name, 'lib_' + library file name, or file name
+    File$            ; source file, relative to the language (or user library) folder. Empty for the generated pages
+    Position.l       ; position of the page in its source file
+    Source$          ; page source (DocMaker format)
+    Navigation$      ; library function: links to the previous/next functions and to the library index
+    List SubPages.i() ; library: its functions (*HelpPage)
+    ContentsItem.w   ; item in the contents tree
+    UserLib$         ; user library: its name
+    LibDestination$  ; user library function: library where it is listed (@LibraryDestination)
+  EndStructure
 
-Structure sbalise
-  hbalise.s
-  html.b    ; si 1: le text est du html
-  param.b   ; 1: parametre fct  2: parametre opt  3 :fin parametre  
-  titre.b   ; titre niveau
-  pre.w     ; balise <pre>:1, </pre>:-1
-EndStructure
+  Structure HelpTag
+    Html$            ; html code. $p1, $p2: tag parameters, $lg: rest of the line, $ex: example number, $im: image, $ose: example OS
+    ParameterType.b  ; 1: parameter, 2: optional parameter, 3: end of the parameters
+    IsTitle.b        ; title tag: the line feeds around it are removed
+    Preformatted.w   ; 1: opens a <pre> block, -1: closes it
+  EndStructure
 
-Global NewMap balise.sbalise()
-Global NewList osspe.s()
-Global NewMap mosspe.s()
-Global NewList page.spage()
-Global NewMap ULdest.s()
-Global NewMap *pid.spage()
-Global NewList pilepage.s()
-Global event,etype,nzip,Archive
-Global.s g=Chr(34),Rep,RepL,RepUL,fic,mot,html,style,langue,os,apage,erreur,helpsource
-Global.s txt,lien,ht,*page.spage,*pagesel.spage, pacceuil
-Global.s couleurs
-Global couleurul=$008800 ; couleur des bibliotheques utilisateur dans le sommaire
-Global.s dos,repex ; dos: dossier du fichier de la page courante, repex: dossier des exemples (IDE)
-Global editiondate.q
-Global NewList jsmessages.s()
-Global iemode ; Windows: WebView2 indisponible, affichage degrade dans un WebGadget (Internet Explorer)
-; ---------- pref
-Global waide,waidex,waidey,waidedx,waidedy
-; ---------- UI
-Global gonglet,gsommaire,grec,grecliste,gweb,gacc,gprec,gsuiv,glangue,gos,gediter,gsep,gdialog,groot,gsommairevisible=-1
-Global imgprec,imgsuiv,imgacc,imgediter,imgsommaire
-Global.s icoouvrir="&#128194;",icoexecuter="&#9654;" ; boutons des exemples (remplacés par les icônes de l'IDE)
-; ---------- traduction
-Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Parametres,_tester,_ouvrir,_executer
-Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer,_sommairevisible
-Global.s _Deprecie,_Deprecietxt,_Indexcommandes,_Constantes,_Fonctionsos
+  Declare DisplayPage(Name$)
 
-listlg="English,French,German";,Italian,Spanish,Russian"
+  Global NewMap Tags.HelpTag()
+  Global NewList Pages.HelpPage()
+  Global NewMap *PageMap.HelpPage()      ; pages by name
+  Global NewMap UserLibDestination$()    ; user library function -> library where it is listed
+  Global NewList OSSpecificList$()       ; platform-dependant functions: "Function TAB OS TAB Info"
+  Global NewMap OSSpecific$()            ; platform-dependant functions: function -> info
+  Global NewMap PackFiles()              ; help archive: file -> uncompressed size
+  Global NewMap PackTexts$()             ; help archive: text files preloaded by LoadHelp() (see PreloadPackTexts())
+  Global NewList History$()
+  Global NewList JsMessages$()
 
-Procedure initlang()
-  Protected nl
-  nl= CountString(Left(listlg,FindString(listlg,langue)),",")+1  
-  Macro lg(lg):StringField(lg,nl,","):EndMacro
-  
-  _Sommairec  =lg("Command index,Sommaire des commandes,Übersicht über die Bestellungen,Riepilogo dell'ordine,Resumen del pedido,Сводка заказов")
-  _Valeurr=lg("Return value,Valeur de retour,Rückgabewert,Valore di ritorno,Valor de retorno,Возвращаемое значение")
-  _Aucune=lg("None,Aucune,Keine,Nessuno,Ninguno,Нет")
-  _Remarques=lg("Remarks,Remarques,Bemerkungen,Osservazioni,Observaciones,Примечания")
-  _Exemple=lg("Example,Exemple,Beispiel,Esempio,Ejemplo,Пример")
-  _Voiraussi=lg("See also,Voir aussi,Siehe auch,Vedi anche,Véase también,См. также")
-  _OSSupportes=lg("Supported OS,OS Supportés,Unterstützte OS,Sistemi operativi supportati,SO soportados,Поддерживаемые ОС")
-  _Syntaxe=lg("Syntax,Syntaxe,Syntax,Sintassi,Sintaxis,Синтаксис")
-  _Description=lg("Description,Description,Beschreibung,Descrizione,Descripción,Описание")
-  _Generalites=lg("General,Généralités,Allgemeines,Generale,General,Общие")
-  _Parametres=lg("Parameters,Paramètres,Parameter,Parametri,Parámetros,Параметры")
-  _Deprecie=lg("Deprecated,Dépréciée,Veraltet")
-  _Deprecietxt=lg("This function is deprecated and may be removed in a future version. It should not be used in newly written code.,"+
-                  "Cette fonction est dépréciée et sera peut-être supprimée dans une future version. Elle ne doit pas être utilisée dans du nouveau code.,"+
-                  "Diese Funktion ist veraltet und könnte in späteren Versionen entfernt werden. Sie sollte in neuem Code nicht mehr verwendet werden.")
-  _Indexcommandes=lg("Commands Index,Index des commandes,Befehlsindex")
-  _Constantes=lg("PureBasic Constants,Constantes PureBasic,PureBasic-Konstanten")
-  _Fonctionsos=lg("Platform-dependant Functions,Fonctions dépendantes de la plateforme,Plattformabhängige Funktionen")
-  ; ui
-  _Aide=lg("Help,Aide,Hilfe,Aiuto,Ayuda,Справка")
-  _Sommaire=lg("Contents,Sommaire,Inhaltsverzeichnis,Contenuto,Contenido,Содержание")
-  _Recherche=lg("Search,Recherche,Suche,Ricerca,Búsqueda,Поиск")
-  _acceuil=lg("Home,Accueil,Startseite")
-  _prec=lg("Back,Précédent,Zurück")
-  _suiv=lg("Forward,Suivant,Vorwärts")
-  _editer=lg("Edit help source,Editer la source de l'aide,Hilfequelle bearbeiten")
-  _sommairevisible=lg("Show/hide the index,Afficher/masquer le sommaire,Inhaltsverzeichnis ein-/ausblenden")
-  ; ui mode edition
-  _tester=lg("Test,Tester,testen")
-  _ouvrir=lg("Open,Ouvrir,öffnen")
-  _executer=lg("Run,Executer,ausführen")
-EndProcedure
+  Global Language$, OS$
+  Global HelpSource$                     ; help folder, or .zip archive
+  Global HelpPath$                       ; help folder (or archive path without the extension), with a final separator
+  Global LanguagePath$                   ; language folder ("English/"), relative to HelpPath$
+  Global UserLibPath$                    ; user libraries help folder
+  Global ExamplesPath$                   ; IDE: examples folder
+  Global IsArchive, Pack
+  Global *CurrentPage.HelpPage, CurrentPageName$
+  Global LastReloadDate.q
+  Global IEMode                          ; Windows: WebView2 not available, degraded display in a WebGadget (Internet Explorer)
 
-; couleurs de la page (variables CSS), remplacées par celles du thème de l'IDE (setcolors())
-couleurs=":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;"+
-         " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
-style="body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}"+
-      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}"+
-      "h3 {margin-left:-20px;}"+
-      "a, a:visited, a:active {font-size: 10pt; color: var(--link);}"+
-      ".nav, .nav a {color: var(--link); font-size: 13px;}"+
-      ".cst {color: var(--constant);} .fct {color: var(--function);} .kw {color: var(--keyword); font-weight: bold;} .ul {color: var(--userlib);}"+
-      ".opt {background-color: var(--optbg);}"+
-      ".note {background-color: var(--notebg);} div.note {font-size: 16px;}"+
-      ".deprecated {padding: 5px; margin: 5px 0px 10px; border: 1px solid var(--border);} .deprecated b {color: #e00;}"+
-      ".found {background-color: #ff0; color: #000;}"+
-      "img {box-shadow: 2px 2px 5px #0008;}"+
-      "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}"+
-      "pre {overflow: auto; font-family:consolas, Courier, monospace; font-size: 9pt;}"+
-      "pre.ex {position: relative; min-height: 26px; padding: 5px 65px 5px 5px; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}"+
-      "button {box-shadow: 2px 2px 2px #0008;}"+
-      ".butcode {display: flex; position: absolute; top:4px; right:5px; gap:5px; z-index: 1;}"+
-      "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}"+
-      "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}"+
-      "table.param {width:100%;  border-spacing: 0px; border-style: none; }"+
-      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}"
+  ; Page rendering state (see PageToHtml())
+  Global RenderHtml$, RenderErrors$, RenderLineBreaks, RenderPreformatted
 
-;==================================================================================================================================================
+  ; User interface
+  Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
+  Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
+  Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
+  Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents
+  Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;" ; example buttons (replaced by the IDE icons)
+  Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
+  Global StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight
 
-Procedure WMid(add,pos,txt.s); write mid by ref
-PokeS(add+(pos-1)*2,txt,-1,#PB_String_NoZero ) 
-EndProcedure
+  ; Translations (see InitLanguage())
+  Global Text_CommandList$, Text_ReturnValue$, Text_None$, Text_Remarks$, Text_Example$, Text_SeeAlso$, Text_Syntax$, Text_Description$
+  Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
+  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$
 
-Procedure.s RMid(add,pos,length); read mid by ref
-ProcedureReturn PeekS(add+(pos-1)*2,length) 
-EndProcedure
+  ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
+  Global UserLibColor = $008800 ; user libraries in the contents tree
+  Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
+                       " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
 
-Procedure FindStringRev(t.s,find.s,p=0,mode=#PB_String_CaseSensitive); reverse
-  Protected l=Len(find)
-  If p=0:p=Len(t):EndIf
-  Repeat
-    If p=0 Or rMid(@t,p,L)=find:Break:EndIf
-    p-1
-  ForEver
-  ProcedureReturn p
-EndProcedure
+  ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
+  Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
+                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}" +
+                      "h3 {margin-left:-20px;}" +
+                      "a, a:visited, a:active {font-size: 10pt; color: var(--link);}" +
+                      ".nav, .nav a {color: var(--link); font-size: 13px;} .nav {display: block;}" +
+                      ".cst {color: var(--constant);} .fct {color: var(--function);} .kw {color: var(--keyword); font-weight: bold;} .ul {color: var(--userlib);}" +
+                      ".opt {background-color: var(--optbg);}" +
+                      ".note {background-color: var(--notebg);} div.note {font-size: 16px;}" +
+                      ".deprecated {padding: 5px; margin: 5px 0px 10px; border: 1px solid var(--border);} .deprecated b {color: #e00;}" +
+                      ".found {background-color: #ff0; color: #000;}" +
+                      "img {box-shadow: 2px 2px 5px #0008;}" +
+                      "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}" +
+                      "pre {overflow: auto; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
+                      "pre.ex {position: relative; min-height: 26px; padding: 5px 65px 5px 5px; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
+                      "button {box-shadow: 2px 2px 2px #0008;}" +
+                      ".butcode {display: flex; position: absolute; top:4px; right:5px; gap:5px; z-index: 1;}" +
+                      "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
+                      "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}" +
+                      "table.param {width:100%;  border-spacing: 0px; border-style: none; }" +
+                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}"
 
-Procedure.s Stringparse(t.s,before.s,after.s,pi=0,contain.s="",*pos.integer=0)
-  Protected pf
-  If contain>""
-    pi=FindString(t,contain,pi):If pi=0:ProcedureReturn :EndIf
-    pi=FindStringRev(t,before,pi)
-  Else
-    pi=FindString(t,before,pi+1)
-  EndIf
-  If pi=0:ProcedureReturn:EndIf 
-  pf=FindString(t,after,pi+1):If pf=0:pf=Len(t):EndIf
-  pi+Len(before)
-  If *pos:*pos\i=pf:EndIf
-  ProcedureReturn rMid(@t,pi,pf-pi)
-EndProcedure
 
-Procedure WriteTextFile(name.s,txt.s,format=#PB_UTF8)
-  Protected n
-  If FileSize(name)>=0:DeleteFile(name):EndIf
-  n=CreateFile(-1,name,format):If n=0:Debug "WriteTextFile !!!":ProcedureReturn 0:EndIf
-  WriteString(n,txt)
-  CloseFile(n)
-  ProcedureReturn 1
-EndProcedure
+  ;- ----- Translations
 
-Procedure.s ReadTextFile(name.s,option=#PB_UTF8,errormessage.b=1)
-  Protected txt.s,n,f
-  n=ReadFile(-1,name,option|#PB_File_SharedRead):If n=0:If errormessage:MessageRequester("Error loading :","file : "+name):EndIf: ProcedureReturn "":EndIf
-  f=ReadStringFormat(n)
-  txt=ReadString(n,option|#PB_File_IgnoreEOL)
-  CloseFile(n)   
-  ProcedureReturn txt
-EndProcedure
+  Procedure.s Translate(English$, French$, German$)
+    Select Language$
+      Case "French"
+        ProcedureReturn French$
+      Case "German"
+        ProcedureReturn German$
+      Default
+        ProcedureReturn English$
+    EndSelect
+  EndProcedure
 
-Procedure FileList(List Files.s(), Dir.s,Lext.s="",relatif=1,recursive.b=1,dirlist.b=0,init=1)
-  Protected d, name.s, sep.s="/",isdir
-  Static pos
-  
-  If Right(Dir, 1) <> sep:Dir + sep:EndIf
-  If init:ClearList(Files()):Lext.s=","+LCase(Lext)+",":pos=Len(dir)*relatif+1:EndIf
-  
-  D = ExamineDirectory(#PB_Any, Dir,""):If d=0:ProcedureReturn:EndIf
-  While NextDirectoryEntry(D)
-    name=DirectoryEntryName(D)
-    If name="." Or name="..":Continue:EndIf
-    isdir=Bool(DirectoryEntryType(D)= #PB_DirectoryEntry_Directory)
-    If dirlist
-      If isdir:AddElement(Files()):Files() = Mid(Dir + name,pos):EndIf
-    Else
-      If isdir=0 And(Lext=",," Or FindString(Lext,","+LCase(GetExtensionPart(name))+",")):AddElement(Files()):Files() = Mid(Dir + name,pos):EndIf
+
+  Procedure InitLanguage()
+    ; Pages
+    Text_CommandList$    = Translate("Command index", "Sommaire des commandes", "Befehlsübersicht")
+    Text_ReturnValue$    = Translate("Return value", "Valeur de retour", "Rückgabewert")
+    Text_None$           = Translate("None", "Aucune", "Keine")
+    Text_Remarks$        = Translate("Remarks", "Remarques", "Bemerkungen")
+    Text_Example$        = Translate("Example", "Exemple", "Beispiel")
+    Text_SeeAlso$        = Translate("See also", "Voir aussi", "Siehe auch")
+    Text_Syntax$         = Translate("Syntax", "Syntaxe", "Syntax")
+    Text_Description$    = Translate("Description", "Description", "Beschreibung")
+    Text_Overview$       = Translate("General", "Généralités", "Allgemeines")
+    Text_Parameters$     = Translate("Parameters", "Paramètres", "Parameter")
+    Text_Deprecated$     = Translate("Deprecated", "Dépréciée", "Veraltet")
+    Text_DeprecatedInfo$ = Translate("This function is deprecated and may be removed in a future version. It should not be used in newly written code.",
+                                     "Cette fonction est dépréciée et sera peut-être supprimée dans une future version. Elle ne doit pas être utilisée dans du nouveau code.",
+                                     "Diese Funktion ist veraltet und könnte in späteren Versionen entfernt werden. Sie sollte in neuem Code nicht mehr verwendet werden.")
+    Text_CommandIndex$   = Translate("Commands Index", "Index des commandes", "Befehlsindex")
+    Text_Constants$      = Translate("PureBasic Constants", "Constantes PureBasic", "PureBasic-Konstanten")
+    Text_OSFunctions$    = Translate("Platform-dependant Functions", "Fonctions dépendantes de la plateforme", "Plattformabhängige Funktionen")
+
+    ; User interface
+    Text_Help$           = Translate("Help", "Aide", "Hilfe")
+    Text_Contents$       = Translate("Contents", "Sommaire", "Inhaltsverzeichnis")
+    Text_Search$         = Translate("Search", "Recherche", "Suche")
+    Text_Home$           = Translate("Home", "Accueil", "Startseite")
+    Text_Back$           = Translate("Back", "Précédent", "Zurück")
+    Text_Forward$        = Translate("Forward", "Suivant", "Vorwärts")
+    Text_Edit$           = Translate("Edit help source", "Editer la source de l'aide", "Hilfequelle bearbeiten")
+    Text_ShowContents$   = Translate("Show/hide the index", "Afficher/masquer le sommaire", "Inhaltsverzeichnis ein-/ausblenden")
+    Text_Load$           = Translate("Open", "Ouvrir", "öffnen")
+    Text_Run$            = Translate("Run", "Executer", "ausführen")
+  EndProcedure
+
+
+  ;- ----- Strings and files
+
+  ; Mid() reading directly in the string buffer: no copy of the (big) source string
+  ;
+  Procedure.s PeekMid(*String, Position, Length)
+    ProcedureReturn PeekS(*String + (Position - 1) * SizeOf(Character), Length)
+  EndProcedure
+
+
+  Procedure FindStringReverse(String$, StringToFind$, StartPosition = 0)
+    Protected Length = Len(StringToFind$), Position = StartPosition
+
+    If Position = 0
+      Position = Len(String$)
     EndIf
-    If isdir And recursive:FileList(files(),dir+name,Lext,relatif,recursive,dirlist,0):EndIf
-  Wend
-  FinishDirectory(D)
-EndProcedure
+    While Position > 0 And PeekMid(@String$, Position, Length) <> StringToFind$
+      Position - 1
+    Wend
 
-;----------- pack
-Structure szip
-  nom.s
-  tailled.l
-EndStructure
+    ProcedureReturn Position
+  EndProcedure
 
-Procedure packinfo(nzip)
-  Global NewMap zipfiles.szip()
-  Protected nom.s
-  
-    If ExaminePack(nzip)
-      While NextPackEntry(nzip)
-        If PackEntryType(nzip)=#PB_Packer_File
-          nom=PackEntryName(nzip)
-          AddMapElement(zipfiles(),nom)
-          zipfiles()\nom=nom
-          zipfiles()\tailled=PackEntrySize(nzip,#PB_Packer_UncompressedSize)      
+
+  ; Returns the text between Before$ and After$, searched after StartPosition (up to the end of the string if After$ isn't found)
+  ;
+  Procedure.s ExtractBetween(String$, Before$, After$, StartPosition = 0)
+    Protected Start, Stop
+
+    Start = FindString(String$, Before$, StartPosition + 1)
+    If Start = 0
+      ProcedureReturn ""
+    EndIf
+
+    Stop = FindString(String$, After$, Start + 1)
+    If Stop = 0
+      Stop = Len(String$)
+    EndIf
+    Start + Len(Before$)
+
+    ProcedureReturn PeekMid(@String$, Start, Stop - Start)
+  EndProcedure
+
+
+  Procedure WriteTextFile(FileName$, Text$)
+    Protected File
+
+    If FileSize(FileName$) >= 0
+      DeleteFile(FileName$)
+    EndIf
+
+    File = CreateFile(#PB_Any, FileName$, #PB_UTF8)
+    If File = 0
+      ProcedureReturn #False
+    EndIf
+    WriteString(File, Text$)
+    CloseFile(File)
+
+    ProcedureReturn #True
+  EndProcedure
+
+
+  Procedure.s ReadTextFile(FileName$, ShowError = #True)
+    Protected File, Text$
+
+    File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead)
+    If File
+      ReadStringFormat(File) ; skip the BOM
+      Text$ = ReadString(File, #PB_UTF8 | #PB_File_IgnoreEOL)
+      CloseFile(File)
+    ElseIf ShowError
+      MessageRequester(Text_Help$, "Can't load the file: " + FileName$)
+    EndIf
+
+    ProcedureReturn Text$
+  EndProcedure
+
+
+  ; Extensions$: ",ext1,ext2," (",," for all the files)
+  ;
+  Procedure MatchExtension(FileName$, Extensions$)
+    If Extensions$ = ",," Or FindString(Extensions$, "," + LCase(GetExtensionPart(FileName$)) + ",")
+      ProcedureReturn #True
+    EndIf
+    ProcedureReturn #False
+  EndProcedure
+
+
+  Procedure ListFilesRecursive(List Files$(), Directory$, SubDirectory$, Extensions$)
+    Protected Directory, Name$
+
+    Directory = ExamineDirectory(#PB_Any, Directory$ + SubDirectory$, "")
+    If Directory
+      While NextDirectoryEntry(Directory)
+        Name$ = DirectoryEntryName(Directory)
+        If DirectoryEntryType(Directory) = #PB_DirectoryEntry_Directory
+          If Name$ <> "." And Name$ <> ".."
+            ListFilesRecursive(Files$(), Directory$, SubDirectory$ + Name$ + "/", Extensions$)
+          EndIf
+        ElseIf MatchExtension(Name$, Extensions$)
+          AddElement(Files$())
+          Files$() = SubDirectory$ + Name$
         EndIf
       Wend
-EndIf
-EndProcedure
+      FinishDirectory(Directory)
+    EndIf
+  EndProcedure
 
-Procedure.s _ReadTextFile(name.s,option=#PB_UTF8,errormessage.b=1) ; lecture depuis disque ou zip
-  Protected *mem,ret.s
-  If Archive
-    If FindMapElement(zipfiles(),name)=0:Debug name:If errormessage:MessageRequester("Error loading :","file : "+name):EndIf:ProcedureReturn"":EndIf
-    With zipfiles(name)
-      *mem = AllocateMemory(\tailled+2) ; +2: zero de fin de chaine pour PeekS()
-      UncompressPackMemory(nzip,*mem,\tailled,name)
-    EndWith
-    ret=PeekS(*mem, -1, option)
-    FreeMemory(*mem)
-    ProcedureReturn ret
-  Else
-    ProcedureReturn ReadTextFile(rep+name,option,errormessage)
-  EndIf
-EndProcedure
 
-Procedure _ReadBinaryFile(name.s) ; lecture depuis disque ou zip
-  Protected *mem,n,length
-  
-  If Archive
-    If FindMapElement(zipfiles(),name)=0:ProcedureReturn 0:EndIf
-    With zipfiles(name)
-      length = \tailled
-      *mem = AllocateMemory(length)
-      UncompressPackMemory(nzip,*mem,length,name)      
-    EndWith
-  Else
-    n=ReadFile(-1,rep+name):If n=0:ProcedureReturn 0:EndIf
-    length = Lof(n)
-    *mem = AllocateMemory(length)
-    ReadData(n, *mem, length)
-    CloseFile(n)   
-  EndIf
-  ProcedureReturn *mem
-EndProcedure
+  ; List the files of a directory and its sub-directories, relative to Directory$ ('/' separator)
+  ; Extensions$: "txt,html" (empty for all the files)
+  ;
+  Procedure ListFiles(List Files$(), Directory$, Extensions$ = "")
+    ClearList(Files$())
+    If Right(Directory$, 1) <> "/" And Right(Directory$, 1) <> "\"
+      Directory$ + "/"
+    EndIf
+    ListFilesRecursive(Files$(), Directory$, "", "," + LCase(Extensions$) + ",")
+  EndProcedure
 
-Procedure _FileList(List Files.s(), Dir.s,Lext.s="",recursive.b=1,dirlist.b=0,init=1) ; liste fichiers depuis disque ou zip
-  Protected dirl,fn.s
-  If Archive
-    ClearList(Files()):Lext.s=","+LCase(Lext)+","
-    dirl=Len(dir)
-    ForEach zipfiles()
-      fn=zipfiles()\nom
-      If Left(fn,dirl)=dir And(Lext=",," Or FindString(Lext,","+LCase(GetExtensionPart(fn))+",")):AddElement(Files()):Files()=Mid(fn,dirl+1):EndIf
-    Next
-  Else
-    FileList(Files(),rep+dir,Lext,recursive)
-  EndIf
-EndProcedure
-;==================================================================================================================================================
 
-Procedure initbalise() ; definition des balises PB (correspondance HTML)
-  Macro defbalise(mhtml,mparam,mtitre,nom,code)
-    AddMapElement(balise(),nom):balise()\hbalise=code:balise()\html=mhtml:balise()\param=mparam:balise()\titre=mtitre
-    If FindString(code,"<pre"):balise()\pre=1:ElseIf FindString(code,"</pre"):balise()\pre=-1:EndIf
-  EndMacro
-  ; le html contient les sous balises:
-  ; $p1 : 1er  parametre de la balise PB 
-  ; $p2 : 2eme parametre de la balise PB 
-  ; $lg : ligne complete
-  ; $ex : code d'exemple
-  ; $im : image
-  ; $ose :os specifique exemple
-  
-  defbalise(0,0,0,"linebreak","<br>")
-  defbalise(0,0,0,"red","<font color=Red>$p1</font>")
-  defbalise(0,0,0,"green","<font color=Green>$p1</font>")
-  defbalise(0,0,0,"blue","<font color=Blue>$p1</font>")
-  defbalise(0,0,0,"orange","<font color=Orange>$p1</font>")
-  defbalise(0,0,0,"bold","<b>$p1</b>")
-  defbalise(0,0,0,"underline","<u>$p1</u>")
-  defbalise(0,0,0,"constantcolor","<font class='cst'>$p1</font>")
-  defbalise(0,0,0,"functioncolor","<font class='fct'>$p1</font>")
-  defbalise(1,0,0,"formatif","$lg")
-  defbalise(2,0,0,"formatelse","")
-  defbalise(0,0,0,"formatendif","")
-  defbalise(1,0,0,"html","")
-  defbalise(0,0,0,"endhtml","")
-  defbalise(0,0,0,"code","<pre class='ex'><div class='butcode'><button title='"+_ouvrir+"' onclick='jsmessage("+g+"co:$ex"+g+")'>"+icoouvrir+"</button><button title='"+_executer+"' onclick='jsmessage("+g+"cr:$ex"+g+")'>"+icoexecuter+"</button></div>")
-  defbalise(0,0,0,"endcode","</pre>")
-  defbalise(0,0,0,"os","")
-  defbalise(0,0,0,"endos","")
-  defbalise(0,0,0,"fixedfont","<pre>")
-  defbalise(0,0,0,"endfixedfont","</pre>")
-  defbalise(0,0,1,"indent","<blockquote>")
-  defbalise(0,0,1,"endindent","</blockquote>")        
-  defbalise(0,0,0,"keyword","<font class='kw'>$p1</font>")
-  defbalise(0,0,0,"image","$im<br>")
-  defbalise(0,0,0,"examplefile","$ose<button title='"+_ouvrir+"' onclick='jsmessage("+g+"fo:$lg"+g+")'>"+icoouvrir+"</button> <button title='"+_executer+"' onclick='jsmessage("+g+"fr:$lg"+g+")'>"+icoexecuter+"</button> $lg")
-  
-  defbalise(0,0,1,"library","")
-  defbalise(0,0,1,"section","<h3>$lg</h3>")   
-  defbalise(0,0,1,"overview","<h3>"+_Generalites+"</h3>")
-  defbalise(0,0,1,"commandlist","<h3>"+_Sommairec+"</h3>")
-  defbalise(0,3,1,"returnvalue","<h3>"+_Valeurr+"</h3>")
-  defbalise(0,3,1,"noreturnvalue","<h3>"+_Valeurr+"</h3>"+_Aucune+".")
-  defbalise(0,3,1,"remarks","<h3>"+_Remarques+"</h3>")
-  defbalise(0,0,1,"example","<h3>"+_Exemple+"</h3>")
-  defbalise(0,0,1,"seealso","<h3>"+_Voiraussi+"</h3>")
-  ;defbalise(0,0,1,"supportedos","<h3>"+_OSSupportes+"</h3>")
-  defbalise(0,0,1,"supportedos","")
-  defbalise(0,0,1,"function","<h3>"+_Syntaxe+"</h3><pre>$p1")
-  defbalise(0,0,1,"syntax","<h3>"+_Syntaxe+"</h3><pre>")
-  defbalise(0,0,1,"description","</pre><h3>"+_Description+"</h3>")
-  defbalise(0,0,0,"deprecated","<div class='deprecated'><b>"+_Deprecie+"</b><br>"+_Deprecietxt+"</div>")
-  defbalise(0,1,1,"parameter","")
-  defbalise(0,2,1,"optionalparameter","")
-  defbalise(0,3,1,"noparameters","")
-  
-  defbalise(0,0,0,"internetlink" ,"<a href='$p1'>$p2</a>")
-  defbalise(0,0,0,"link"         ,"<a href='#' onclick='jsmessage("+g+"lk:$p1"+g+")'>$p2</a>")
-  defbalise(0,0,0,"librarylink"  ,"<a href='#' onclick='jsmessage("+g+"lk:lib_$p1"+g+")'>$p2 </a>")
-  defbalise(0,0,0,"fastlink"     ,"<a href='#' onclick='jsmessage("+g+"lk:$p1"+g+")'>$p1 </a>")
-  defbalise(0,0,0,"referencelink","<a href='#' onclick='jsmessage("+g+"lk:$p1"+g+")'>$p2 </a>")
-  defbalise(0,0,0,"mainguidelink","<a href='#' onclick='jsmessage("+g+"lk:$p1"+g+")'>$p2 </a>")
-EndProcedure
+  Procedure MakePath(Path$) ; creates the directory and its parents
+    Path$ = RTrim(ReplaceString(Path$, "\", "/"), "/")
+    If Path$ = "" Or FileSize(Path$) = -2
+      ProcedureReturn #True
+    EndIf
 
-Procedure.s imagetohtml(name.s) ; retourne la chaine base64 de l'image
-  Protected txt.s,n,sf,*mem,dossierimage.s,ret.s
-  *mem=_ReadBinaryFile("HelpPictures/"+name)
-  If *mem=0:*mem=_ReadBinaryFile(RepL+"Reference/Images/"+name):EndIf
-  If *mem=0:ProcedureReturn "":EndIf
-  ret.s="<img src ='Data:image/"+GetExtensionPart(name)+";base64,"+Base64Encoder(*mem, MemorySize(*mem)) +"' />"
-  FreeMemory(*mem)
-  ProcedureReturn ret
-EndProcedure
+    MakePath(GetPathPart(Path$))
+    ProcedureReturn CreateDirectory(Path$)
+  EndProcedure
 
-Procedure.s link(ref.s,txt.s="$")
-  ref=LCase(ref)
-  ProcedureReturn "<a href='#' onclick='jsmessage("+g+"lk:"+ref+g+")'>"+ReplaceString(txt,"$",*pid(ref)\titre)+"</a>"
-EndProcedure
 
-Procedure.s ExtrairePage(che.s,userlib.b=0) ; extrait les pages depuis le fichier (les lib sont ventilées par fcts)
-  Protected.s t,nom,tit,lib,fct,listfct,page,fic,l,navigation,prefix,uld
-  Protected np,n,niv,pos,p,pi,pf,ppi,ppf=1,fin
-  Protected.spage *pp
-  NewList fct.s()
-  
-  fic=GetFilePart(che,#PB_FileSystem_NoExtension)
-  If userlib
-    t=ReadTextFile(repul+che,#PB_UTF8)
-  Else
-    t=_ReadTextFile(RepL+che,#PB_UTF8)
-  EndIf
-  
-  pi=FindString(t,"@Title ")
-  If pi=0:pi=FindString(t,"@Library "):prefix="lib_":EndIf
-  If pi=0:ProcedureReturn:EndIf ; pas un fichier d'aide (ex: readme dans le dossier userlib)
-  pi=FindString(t," ",pi)+1
-  pf=FindString(t,#LF$,pi)
-  tit=Trim(rMid(@t,pi,pf-pi))
-  ppf=pf+1
-  
-  Repeat
-    ppi=ppf:ppf=FindString(t,"@Function ",ppi+1):If ppf=0:ppf=Len(t)+1:fin=1:EndIf
-    page=Mid(t,ppi,ppf-ppi)
-    AddElement(page())
-    
-    If np=0
-      nom=prefix+LCase(fic)
-      *pp=page()
+  Procedure.s EscapeHtml(Text$, ConvertLineFeeds = #False)
+    Text$ = ReplaceString(Text$, "<", "&lt;")
+    Text$ = ReplaceString(Text$, ">", "&gt;")
+    If ConvertLineFeeds
+      Text$ = ReplaceString(Text$, #LF$, "<br>" + #LF$)
+    EndIf
+    ProcedureReturn Text$
+  EndProcedure
+
+
+  ;- ----- Help source (folder or .zip archive)
+
+  Procedure ReadPackFiles()
+    ClearMap(PackFiles())
+    If ExaminePack(Pack)
+      While NextPackEntry(Pack)
+        If PackEntryType(Pack) = #PB_Packer_File
+          PackFiles(PackEntryName(Pack)) = PackEntrySize(Pack, #PB_Packer_UncompressedSize)
+        EndIf
+      Wend
+    EndIf
+  EndProcedure
+
+
+  Procedure OpenSource(Source$)
+    If IsArchive
+      ClosePack(Pack)
+      IsArchive = #False
+    EndIf
+
+    If LCase(GetExtensionPart(Source$)) = "zip" And FileSize(Source$) > 0
+      HelpPath$ = Left(Source$, Len(Source$) - 4)
+      UseZipPacker()
+      Pack = OpenPack(#PB_Any, Source$)
+      If Pack
+        IsArchive = #True
+        ReadPackFiles()
+      EndIf
     Else
-      l=Left(page,FindString(page,#LF$)):l=ReplaceString(l,"(d)",""):l=ReplaceString(l,"(.d)",""); bug math
-      pf=FindString(l,"(")
-      pi=FindStringRev(l," ",pf)
-      fct=Mid(l,pi+1,pf-pi-1)
-      If FindString(fct,"."):Debug "!!!!!!!!!!!! "+fct:EndIf
-      tit=fct
-      nom=LCase(fct)
-      p=FindString(page,"@LibraryDestination"):If p:uld=Stringparse(page,"tion",#LF$,p):page=ReplaceString(page,"@LibraryDestination"+uld+#LF$,""):ULdest(nom)=LCase(Trim(uld)):Else:uld="":EndIf
-      AddElement(fct()):fct()=nom
+      HelpPath$ = Source$
     EndIf
-    
-    With page()
-      \titre=tit
-      \fichier=che
-      \pos=ppi
-      \src=page
-      \nom=nom
-      If userlib:\userlib=fic:\libdest=uld:EndIf
-      *pid(\nom)=page()
-    EndWith
-   ; Debug "------------------------------------------":Debug page
-    np+1
-  Until fin
-  
-  If np
-    ;---------------------------------------- ajout de la liste des fcts pour les lib
-    ForEach ULdest():If ULdest()=LCase(fic):AddElement(fct()):fct()=MapKey(ULdest()):EndIf:Next
-    SortList(fct(),#PB_Sort_Ascending)
-    ForEach fct()
-      listfct+"@@"+fct()+#LF$
-      AddElement(*pp\sp()):*pp\sp()=*pid(fct())
+
+    If Right(HelpPath$, 1) <> "/" And Right(HelpPath$, 1) <> "\"
+      HelpPath$ + "/"
+    EndIf
+  EndProcedure
+
+
+  ; Name$: file to uncompress, or empty for the current pack entry
+  ;
+  Procedure.s UncompressPackText(Length, Name$ = "")
+    Protected *Buffer, Text$
+
+    *Buffer = AllocateMemory(Length + 2) ; +2: string end for PeekS()
+    If *Buffer
+      If Name$
+        UncompressPackMemory(Pack, *Buffer, Length, Name$)
+      Else
+        UncompressPackMemory(Pack, *Buffer, Length)
+      EndIf
+      Text$ = PeekS(*Buffer, -1, #PB_UTF8)
+      If Left(Text$, 1) = Chr($FEFF) ; skip the BOM, like ReadStringFormat() does for the files
+        Text$ = Mid(Text$, 2)
+      EndIf
+      FreeMemory(*Buffer)
+    EndIf
+
+    ProcedureReturn Text$
+  EndProcedure
+
+
+  ; Uncompresses in one pass the .txt files of Directory$ and of the archive root: a search by
+  ; name reopens the archive and reads it from its start, so it's very slow for many files
+  ;
+  Procedure PreloadPackTexts(Directory$)
+    Protected Name$, Length
+
+    ClearMap(PackTexts$())
+    If IsArchive And ExaminePack(Pack)
+      Length = Len(Directory$)
+      While NextPackEntry(Pack)
+        Name$ = PackEntryName(Pack)
+        If PackEntryType(Pack) = #PB_Packer_File And LCase(GetExtensionPart(Name$)) = "txt" And (Left(Name$, Length) = Directory$ Or FindString(Name$, "/") = 0)
+          PackTexts$(Name$) = UncompressPackText(PackEntrySize(Pack, #PB_Packer_UncompressedSize))
+        EndIf
+      Wend
+    EndIf
+  EndProcedure
+
+
+  ; Name$ is relative to the help root
+  ;
+  Procedure.s ReadHelpFile(Name$, ShowError = #True)
+    If IsArchive = #False
+      ProcedureReturn ReadTextFile(HelpPath$ + Name$, ShowError)
+    EndIf
+
+    If FindMapElement(PackTexts$(), Name$) ; preloaded
+      ProcedureReturn PackTexts$()
+    EndIf
+
+    If FindMapElement(PackFiles(), Name$) = 0
+      If ShowError
+        MessageRequester(Text_Help$, "Can't load the file: " + Name$)
+      EndIf
+      ProcedureReturn ""
+    EndIf
+
+    ProcedureReturn UncompressPackText(PackFiles(), Name$)
+  EndProcedure
+
+
+  Procedure ReadHelpBinaryFile(Name$)
+    Protected *Buffer, File, Length
+
+    If IsArchive
+      If FindMapElement(PackFiles(), Name$)
+        Length = PackFiles()
+        *Buffer = AllocateMemory(Length)
+        If *Buffer
+          UncompressPackMemory(Pack, *Buffer, Length, Name$)
+        EndIf
+      EndIf
+
+    Else
+      File = ReadFile(#PB_Any, HelpPath$ + Name$)
+      If File
+        Length = Lof(File)
+        *Buffer = AllocateMemory(Length)
+        If *Buffer
+          ReadData(File, *Buffer, Length)
+        EndIf
+        CloseFile(File)
+      EndIf
+    EndIf
+
+    ProcedureReturn *Buffer
+  EndProcedure
+
+
+  Procedure ListHelpFiles(List Files$(), Directory$, Extensions$)
+    Protected Length, Name$
+
+    If IsArchive = #False
+      ListFiles(Files$(), HelpPath$ + Directory$, Extensions$)
+      ProcedureReturn
+    EndIf
+
+    ClearList(Files$())
+    Extensions$ = "," + LCase(Extensions$) + ","
+    Length = Len(Directory$)
+    ForEach PackFiles()
+      Name$ = MapKey(PackFiles())
+      If Left(Name$, Length) = Directory$ And MatchExtension(Name$, Extensions$)
+        AddElement(Files$())
+        Files$() = Mid(Name$, Length + 1)
+      EndIf
     Next
-      ;If userlib:Debug listfct:EndIf
-    *pp\src=ReplaceString(*pp\src,"@CommandList","@CommandList"+#LF$+listfct)
-    ;---------------------------------------- navigation
-    ForEach fct()
-      navigation=""
-      n+1
-      If n>1 :navigation+"< "+link(Mid(StringField(listfct,n-1,#LF$),3)):EndIf
-      navigation+" | "+link("lib_"+fic,"$ Index")+" | "
-      If n<np-1:navigation+link(Mid(StringField(listfct,n+1,#LF$),3))+" >":EndIf
-      *pid(fct())\nav=navigation
-     Next 
-   EndIf
-   ;Debug "---------" +*pp\titre+"    "+ListSize(*pp\sp())
-EndProcedure
+  EndProcedure
 
-Procedure.s iehtml(ht.s) ; mode IE: pas de variables CSS, ni de callback javascript
-  Protected.s v,nom,valeur
-  Protected i
-  ; variables CSS remplacees par leur valeur
-  For i=1 To CountString(couleurs,";")+1
-    v=Trim(StringField(couleurs,i,";"))
-    If Left(v,2)="--"
-      nom=Trim(StringField(v,1,":"))
-      valeur=Trim(RemoveString(StringField(v,2,":"),"}"))
-      ht=ReplaceString(ht,"var("+nom+")",valeur)
+
+  ;- ----- Help pages
+
+  Procedure.s JsCall(Message$)
+    ProcedureReturn "jsmessage(" + #DQUOTE$ + Message$ + #DQUOTE$ + ")"
+  EndProcedure
+
+
+  Procedure AddTag(Name$, ParameterType, IsTitle, Html$)
+    Protected *Tag.HelpTag = AddMapElement(Tags(), Name$)
+
+    *Tag\Html$         = Html$
+    *Tag\ParameterType = ParameterType
+    *Tag\IsTitle       = IsTitle
+    If FindString(Html$, "<pre")
+      *Tag\Preformatted = 1
+    ElseIf FindString(Html$, "</pre")
+      *Tag\Preformatted = -1
     EndIf
-  Next
-  ; jsmessage() est transmis par une url 'pbhelp:', interceptee par le callback de navigation
-  ht=ReplaceString(ht,"onclick='jsmessage(","onclick='return jsmessage(")
-  ht=ReplaceString(ht,"<head>","<head><meta http-equiv='X-UA-Compatible' content='IE=edge'>"+
-                                "<script>function jsmessage(m) {window.location.href='pbhelp:'+encodeURIComponent(m); return false;}</script>",#PB_String_CaseSensitive,1,1)
-  ProcedureReturn "<!DOCTYPE html>"+ht
-EndProcedure
+  EndProcedure
 
-Procedure sethtml(ht.s)
-  ht=ReplaceString(ht,"<head>","<head><meta charset='utf-8'>",#PB_String_CaseSensitive,1,1) ; encodage explicite (accents, umlauts)
-  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-    If iemode:SetGadgetItemText(gweb, #PB_Web_HtmlCode, iehtml(ht)):ProcedureReturn:EndIf
-  CompilerEndIf
-  ; boutons precedent/suivant de la souris et Alt+fleches: notre historique, pas celui du WebView (qui revient sur une ancienne page, parfois vide)
-  ht=ReplaceString(ht,"<head>","<head><script>"+
-                   "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}"+
-                   "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});"+
-                   "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});"+
-                   "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});"+
-                   "</script>",#PB_String_CaseSensitive,1,1)
-  SetGadgetItemText(gweb, #PB_WebView_HtmlCode, ht)
-EndProcedure
 
-Procedure ajoutepage(nom.s,titre.s,src.s)
-  LastElement(page()):AddElement(page())
-  page()\nom=nom
-  page()\titre=titre
-  page()\src=src
-  *pid(nom)=page()
-EndProcedure
+  ; DocMaker tags and their html code
+  ;
+  Procedure InitTags()
+    Protected LoadButton$, RunButton$
 
-Procedure pagesgenerees() ; pages construites a partir des autres pages (comme le fait DocMaker)
-  Protected.s t,t1,t2,l,c,info,listeos,fct,colw,coll,colm,lib,lettre,cst,src
-  Protected p,ap,pp,*sp.spage
-  NewList liste.s()
-  NewMap cstpages.s()
-  NewMap vu.i()
+    ClearMap(Tags())
 
-  ;------------------------------------------------------------------------------ OSSpecificFunctions (convertion format PB)
-  ClearList(osspe())
-  ClearMap(mosspe())
-  t=RemoveString(_ReadTextFile("OSSpecificFunctions.txt"),#CR$)+#LF$
-  Repeat
-    ap=p:p=FindString(t,#LF$,p+1):If p=0:Break:EndIf
-    l=Trim(Trim(rMid(@t,ap+1,p-ap-1)),#TAB$):c=rmid(@l,1,1)
-    If Len(l)>0 And c<>";"
-      pp=FindString(l+":",":")
-      t1=Trim(Left(l,pp-1))
-      t2=Trim(Mid(l,pp+1))
-      Select LCase(t1)
-        Case "#library"
-        Case "#startgroup":info=t2
-        Case "#endgroup"
-          Default:If t2>"":info=t2:EndIf:AddElement(osspe()):osspe()= t1+#TAB$+ReplaceString(info,"-",#TAB$):mosspe(LCase(t1))=info
-      EndSelect
+    AddTag("linebreak",     0, 0, "<br>")
+    AddTag("red",           0, 0, "<font color=Red>$p1</font>")
+    AddTag("green",         0, 0, "<font color=Green>$p1</font>")
+    AddTag("blue",          0, 0, "<font color=Blue>$p1</font>")
+    AddTag("orange",        0, 0, "<font color=Orange>$p1</font>")
+    AddTag("bold",          0, 0, "<b>$p1</b>")
+    AddTag("underline",     0, 0, "<u>$p1</u>")
+    AddTag("constantcolor", 0, 0, "<font class='cst'>$p1</font>")
+    AddTag("functioncolor", 0, 0, "<font class='fct'>$p1</font>")
+    AddTag("formatif",      0, 0, "$lg")
+    AddTag("formatelse",    0, 0, "")
+    AddTag("formatendif",   0, 0, "")
+    AddTag("html",          0, 0, "")
+    AddTag("endhtml",       0, 0, "")
+    LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("co:$ex") + "'>" + LoadCodeIcon$ + "</button>"
+    RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$  + "</button>"
+    AddTag("code",          0, 0, "<pre class='ex'><div class='butcode'>" + LoadButton$ + RunButton$ + "</div>")
+    AddTag("endcode",       0, 0, "</pre>")
+    AddTag("os",            0, 0, "")
+    AddTag("endos",         0, 0, "")
+    AddTag("fixedfont",     0, 0, "<pre>")
+    AddTag("endfixedfont",  0, 0, "</pre>")
+    AddTag("indent",        0, 1, "<blockquote>")
+    AddTag("endindent",     0, 1, "</blockquote>")
+    AddTag("keyword",       0, 0, "<font class='kw'>$p1</font>")
+    AddTag("image",         0, 0, "$im<br>")
+    LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("fo:$lg") + "'>" + LoadCodeIcon$ + "</button>"
+    RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("fr:$lg") + "'>" + RunCodeIcon$  + "</button>"
+    AddTag("examplefile",   0, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
+
+    AddTag("library",           0, 1, "")
+    AddTag("section",           0, 1, "<h3>$lg</h3>")
+    AddTag("overview",          0, 1, "<h3>" + Text_Overview$ + "</h3>")
+    AddTag("commandlist",       0, 1, "<h3>" + Text_CommandList$ + "</h3>")
+    AddTag("returnvalue",       3, 1, "<h3>" + Text_ReturnValue$ + "</h3>")
+    AddTag("noreturnvalue",     3, 1, "<h3>" + Text_ReturnValue$ + "</h3>" + Text_None$ + ".")
+    AddTag("remarks",           3, 1, "<h3>" + Text_Remarks$ + "</h3>")
+    AddTag("example",           0, 1, "<h3>" + Text_Example$ + "</h3>")
+    AddTag("seealso",           0, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
+    AddTag("supportedos",       0, 1, "")
+    AddTag("function",          0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>$p1")
+    AddTag("syntax",            0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>")
+    AddTag("description",       0, 1, "</pre><h3>" + Text_Description$ + "</h3>")
+    AddTag("deprecated",        0, 0, "<div class='deprecated'><b>" + Text_Deprecated$ + "</b><br>" + Text_DeprecatedInfo$ + "</div>")
+    AddTag("parameter",         1, 1, "")
+    AddTag("optionalparameter", 2, 1, "")
+    AddTag("noparameters",      3, 1, "")
+
+    AddTag("internetlink",  0, 0, "<a href='$p1'>$p2</a>")
+    AddTag("link",          0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2</a>")
+    AddTag("librarylink",   0, 0, "<a href='#' onclick='" + JsCall("lk:lib_$p1") + "'>$p2 </a>")
+    AddTag("fastlink",      0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p1 </a>")
+    AddTag("referencelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2 </a>")
+    AddTag("mainguidelink", 0, 0, "<a href='#' onclick='" + JsCall("lk:$p1") + "'>$p2 </a>")
+  EndProcedure
+
+
+  Procedure FindPage(Name$)
+    If FindMapElement(*PageMap(), Name$)
+      ProcedureReturn *PageMap()
     EndIf
-  ForEver
+    ProcedureReturn 0
+  EndProcedure
 
-  Macro oscolor(os,col)
-    col="bgcolor="
-    If FindString(listeos,"("+os+")"):col+"#fb0":ElseIf FindString(listeos,os):col+"#0f0":Else:col+"#f00":EndIf
-  EndMacro
 
-  SortList(osspe(),#PB_Sort_Ascending|#PB_Sort_NoCase)
-  t="@<table border=1>"+#LF$
-  ForEach osspe()
-    fct    =StringField(osspe(),1,#TAB$)
-    listeos=StringField(osspe(),2,#TAB$)
-    info   =StringField(osspe(),3,#TAB$)
-    oscolor("Windows",colw)
-    oscolor("Linux",coll)
-    oscolor("MacOS",colm)
-    t+" @<tr> @<td> "+"@@"+fct+" @</td> "+
-      "@<td "+colw+"> windows @</td> "+
-      "@<td "+coll+"> Linux @</td> "+
-      "@<td "+colm+"> Mac @</td> "+
-      "@<td> "+info+" @</td> @</tr>"+#LF$
-  Next
-  t+"@</table>"
+  Procedure.s ImageToHtml(Name$) ; the image is embedded in base64
+    Protected *Buffer, Html$
 
-  ;------------------------------------------------------------------------------ index des commandes et constantes PureBasic
-  ForEach page()
-    If page()\userlib<>"":Continue:EndIf
-    If Left(page()\nom,4)="lib_" ; fonctions des bibliotheques, par ordre alphabetique
-      lib=page()\titre
-      ForEach page()\sp():*sp=page()\sp()
-        If *sp\userlib="":AddElement(liste()):liste()=*sp\titre+#TAB$+*sp\nom+#TAB$+lib:EndIf
-      Next
+    *Buffer = ReadHelpBinaryFile("HelpPictures/" + Name$)
+    If *Buffer = 0
+      *Buffer = ReadHelpBinaryFile(LanguagePath$ + "Reference/Images/" + Name$)
     EndIf
-    p=0:src=page()\src
-    Repeat ; constantes #PB_xxx citees (@#PB_xxx), avec les pages qui les citent
-      p=FindString(src,"@#PB_",p+1):If p=0:Break:EndIf
-      pp=p+1
-      Repeat:pp+1:c=rMid(@src,pp,1):Until c="" Or FindString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_",c)=0
-      cst=rMid(@src,p+1,pp-p-1)
-      If FindMapElement(vu(),cst+#TAB$+page()\nom)=0
-        vu(cst+#TAB$+page()\nom)=1
-        If FindMapElement(cstpages(),cst):cstpages()+", ":Else:AddMapElement(cstpages(),cst):EndIf
-        cstpages()+"@@"+page()\nom
+
+    If *Buffer
+      Html$ = "<img src ='Data:image/" + GetExtensionPart(Name$) + ";base64," + Base64Encoder(*Buffer, MemorySize(*Buffer)) + "' />"
+      FreeMemory(*Buffer)
+    EndIf
+
+    ProcedureReturn Html$
+  EndProcedure
+
+
+  ; Text$: link text, '$' is replaced by the page title
+  ;
+  Procedure.s PageLink(Name$, Text$ = "$")
+    Protected *Page.HelpPage, Title$
+
+    Name$ = LCase(Name$)
+    *Page = FindPage(Name$)
+    If *Page
+      Title$ = *Page\Title$
+    EndIf
+
+    ProcedureReturn "<a href='#' onclick='" + JsCall("lk:" + Name$) + "'>" + ReplaceString(Text$, "$", Title$) + "</a>"
+  EndProcedure
+
+
+  ; Extracts the pages of a source file: a library file is split in one page per function
+  ;
+  Procedure ExtractPages(File$, IsUserLib = #False)
+    Protected Text$, Page$, BaseName$, Name$, Title$, Prefix$, Line$, Function$, FunctionList$, Navigation$, Destination$
+    Protected PageCount, Index, Position, Start, Stop, PageStart, PageEnd, IsLastPage
+    Protected *LibraryPage.HelpPage, *Page.HelpPage
+    NewList Functions$()
+
+    BaseName$ = GetFilePart(File$, #PB_FileSystem_NoExtension)
+    If IsUserLib
+      Text$ = ReadTextFile(UserLibPath$ + File$)
+    Else
+      Text$ = ReadHelpFile(LanguagePath$ + File$)
+    EndIf
+
+    Start = FindString(Text$, "@Title ")
+    If Start = 0
+      Start = FindString(Text$, "@Library ")
+      Prefix$ = "lib_"
+    EndIf
+    If Start = 0 ; not a help file (ie: a readme in the user libraries folder)
+      ProcedureReturn
+    EndIf
+
+    Start = FindString(Text$, " ", Start) + 1
+    Stop  = FindString(Text$, #LF$, Start)
+    Title$ = Trim(PeekMid(@Text$, Start, Stop - Start))
+    PageEnd = Stop + 1
+
+    Repeat
+      PageStart = PageEnd
+      PageEnd = FindString(Text$, "@Function ", PageStart + 1)
+      If PageEnd = 0
+        PageEnd = Len(Text$) + 1
+        IsLastPage = #True
+      EndIf
+      Page$ = Mid(Text$, PageStart, PageEnd - PageStart)
+
+      AddElement(Pages())
+      If PageCount = 0 ; file header (or the whole file)
+        Name$ = Prefix$ + LCase(BaseName$)
+        *LibraryPage = @Pages()
+
+      Else ; function: '@Function Result = Name(Parameters)'
+        Line$ = Left(Page$, FindString(Page$, #LF$))
+        Line$ = ReplaceString(Line$, "(d)", "")
+        Line$ = ReplaceString(Line$, "(.d)", "") ; Math library
+        Stop  = FindString(Line$, "(")
+        Start = FindStringReverse(Line$, " ", Stop)
+        Function$ = Mid(Line$, Start + 1, Stop - Start - 1)
+        If FindString(Function$, ".")
+          Debug "HelpTool: invalid function name: " + Function$
+        EndIf
+        Title$ = Function$
+        Name$  = LCase(Function$)
+
+        Position = FindString(Page$, "@LibraryDestination")
+        If Position
+          Destination$ = ExtractBetween(Page$, "tion", #LF$, Position)
+          Page$ = ReplaceString(Page$, "@LibraryDestination" + Destination$ + #LF$, "")
+          UserLibDestination$(Name$) = LCase(Trim(Destination$))
+        Else
+          Destination$ = ""
+        EndIf
+
+        AddElement(Functions$())
+        Functions$() = Name$
+      EndIf
+
+      Pages()\Title$    = Title$
+      Pages()\File$     = File$
+      Pages()\Position  = PageStart
+      Pages()\Source$   = Page$
+      Pages()\Name$     = Name$
+      If IsUserLib
+        Pages()\UserLib$        = BaseName$
+        Pages()\LibDestination$ = Destination$
+      EndIf
+      *PageMap(Name$) = @Pages()
+
+      PageCount + 1
+    Until IsLastPage
+
+    ; Function list of the library, with the user library functions listed in it
+    ForEach UserLibDestination$()
+      If UserLibDestination$() = LCase(BaseName$)
+        AddElement(Functions$())
+        Functions$() = MapKey(UserLibDestination$())
+      EndIf
+    Next
+    SortList(Functions$(), #PB_Sort_Ascending)
+    ForEach Functions$()
+      FunctionList$ + "@@" + Functions$() + #LF$
+      AddElement(*LibraryPage\SubPages())
+      *LibraryPage\SubPages() = FindPage(Functions$())
+    Next
+    *LibraryPage\Source$ = ReplaceString(*LibraryPage\Source$, "@CommandList", "@CommandList" + #LF$ + FunctionList$)
+
+    ; Navigation between the functions
+    ForEach Functions$()
+      Index + 1
+      Navigation$ = ""
+      If Index > 1
+        Navigation$ + "< " + PageLink(Mid(StringField(FunctionList$, Index - 1, #LF$), 3))
+      EndIf
+      Navigation$ + " | " + PageLink("lib_" + BaseName$, "$ Index") + " | "
+      If Index < PageCount - 1
+        Navigation$ + PageLink(Mid(StringField(FunctionList$, Index + 1, #LF$), 3)) + " >"
+      EndIf
+
+      *Page = FindPage(Functions$())
+      If *Page
+        *Page\Navigation$ = Navigation$
+      EndIf
+    Next
+  EndProcedure
+
+
+  Procedure.s IEHtml(Html$) ; IE mode: no CSS variables, no javascript callback
+    Protected Variable$, Name$, Value$, i
+
+    ; CSS variables are replaced by their value
+    For i = 1 To CountString(PageColors$, ";") + 1
+      Variable$ = Trim(StringField(PageColors$, i, ";"))
+      If Left(Variable$, 2) = "--"
+        Name$  = Trim(StringField(Variable$, 1, ":"))
+        Value$ = Trim(RemoveString(StringField(Variable$, 2, ":"), "}"))
+        Html$  = ReplaceString(Html$, "var(" + Name$ + ")", Value$)
+      EndIf
+    Next i
+
+    ; jsmessage() is sent as a navigation to a 'helptool:' url, caught by the navigation callback
+    Html$ = ReplaceString(Html$, "onclick='jsmessage(", "onclick='return jsmessage(")
+    Html$ = ReplaceString(Html$, "<head>", "<head><meta http-equiv='X-UA-Compatible' content='IE=edge'>" +
+                                           "<script>function jsmessage(m) {window.location.href='" + #IEMessageScheme$ + "'+encodeURIComponent(m); return false;}</script>", #PB_String_CaseSensitive, 1, 1)
+
+    ProcedureReturn "<!DOCTYPE html>" + Html$
+  EndProcedure
+
+
+  Procedure SetPageHtml(Html$)
+    Html$ = ReplaceString(Html$, "<head>", "<head><meta charset='utf-8'>", #PB_String_CaseSensitive, 1, 1) ; explicit encoding (accents, umlauts)
+
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      If IEMode
+        SetGadgetItemText(GadgetWeb, #PB_Web_HtmlCode, IEHtml(Html$))
+        ProcedureReturn
+      EndIf
+    CompilerEndIf
+
+    ; Mouse back/forward buttons and Alt+arrows: use our history, not the WebView one (which goes back to an old page, sometimes empty)
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}" +
+                                           "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});" +
+                                           "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});" +
+                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
+    SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
+  EndProcedure
+
+
+  Procedure AddGeneratedPage(Name$, Title$, Source$)
+    LastElement(Pages())
+    AddElement(Pages())
+    Pages()\Name$   = Name$
+    Pages()\Title$  = Title$
+    Pages()\Source$ = Source$
+    *PageMap(Name$) = @Pages()
+  EndProcedure
+
+
+  Procedure.s OSColor(OSList$, OSName$)
+    If FindString(OSList$, "(" + OSName$ + ")")
+      ProcedureReturn "bgcolor=#fb0"
+    ElseIf FindString(OSList$, OSName$)
+      ProcedureReturn "bgcolor=#0f0"
+    Else
+      ProcedureReturn "bgcolor=#f00"
+    EndIf
+  EndProcedure
+
+
+  ; Pages built from the other pages (like DocMaker does)
+  ;
+  Procedure CreateGeneratedPages()
+    Protected Text$, Line$, Key$, Value$, Info$, OSList$, Function$, Library$, Letter$, Constant$, Source$, Char$
+    Protected Position, LineStart, Separator, ConstantEnd, *SubPage.HelpPage
+    NewList Entries$()
+    NewMap ConstantPages$()
+    NewMap Seen()
+
+    ; Platform-dependant functions (OSSpecificFunctions.txt)
+    ClearList(OSSpecificList$())
+    ClearMap(OSSpecific$())
+    Text$ = RemoveString(ReadHelpFile("OSSpecificFunctions.txt"), #CR$) + #LF$
+    Repeat
+      LineStart = Position
+      Position = FindString(Text$, #LF$, Position + 1)
+      If Position = 0
+        Break
+      EndIf
+
+      Line$ = Trim(Trim(PeekMid(@Text$, LineStart + 1, Position - LineStart - 1)), #TAB$)
+      If Len(Line$) > 0 And Left(Line$, 1) <> ";"
+        Separator = FindString(Line$ + ":", ":")
+        Key$   = Trim(Left(Line$, Separator - 1))
+        Value$ = Trim(Mid(Line$, Separator + 1))
+        Select LCase(Key$)
+          Case "#library", "#endgroup"
+          Case "#startgroup"
+            Info$ = Value$
+          Default ; 'Function: OS - Info', or 'Function' in a group
+            If Value$ <> ""
+              Info$ = Value$
+            EndIf
+            AddElement(OSSpecificList$())
+            OSSpecificList$() = Key$ + #TAB$ + ReplaceString(Info$, "-", #TAB$)
+            OSSpecific$(LCase(Key$)) = Info$
+        EndSelect
       EndIf
     ForEver
-  Next
 
-  ajoutepage("osspecific",_Fonctionsos,t)
+    SortList(OSSpecificList$(), #PB_Sort_Ascending | #PB_Sort_NoCase)
+    Text$ = "@<table border=1>" + #LF$
+    ForEach OSSpecificList$()
+      Function$ = StringField(OSSpecificList$(), 1, #TAB$)
+      OSList$   = StringField(OSSpecificList$(), 2, #TAB$)
+      Info$     = StringField(OSSpecificList$(), 3, #TAB$)
+      Text$ + " @<tr> @<td> " + "@@" + Function$ + " @</td> " +
+              "@<td " + OSColor(OSList$, "Windows") + "> windows @</td> " +
+              "@<td " + OSColor(OSList$, "Linux") + "> Linux @</td> " +
+              "@<td " + OSColor(OSList$, "MacOS") + "> Mac @</td> " +
+              "@<td> " + Info$ + " @</td> @</tr>" + #LF$
+    Next
+    Text$ + "@</table>"
 
-  SortList(liste(),#PB_Sort_Ascending|#PB_Sort_NoCase)
-  t="":lettre=""
-  ForEach liste()
-    If UCase(Left(liste(),1))<>lettre:lettre=UCase(Left(liste(),1)):t+"@Section "+lettre+#LF$:EndIf
-    t+"@@"+StringField(liste(),2,#TAB$)+" - "+StringField(liste(),3,#TAB$)+#LF$
-  Next
-  ajoutepage("commandindex",_Indexcommandes,t)
-
-  ClearList(liste())
-  ForEach cstpages():AddElement(liste()):liste()=MapKey(cstpages()):Next
-  SortList(liste(),#PB_Sort_Ascending|#PB_Sort_NoCase)
-  t="":lettre=""
-  ForEach liste()
-    If UCase(Mid(liste(),5,1))<>lettre:lettre=UCase(Mid(liste(),5,1)):t+"@Section "+lettre+#LF$:EndIf ; #PB_x
-    t+"@"+liste()+" : "+cstpages(liste())+#LF$
-  Next
-  ajoutepage("pbconstants",_Constantes,t)
-EndProcedure
-
-Procedure initFichier(enableUI=1)
-  Protected.s tt,libext,txt,lien ,mtxt,ul
-  Protected p,ap,pp,num,niv,*p.spage,*sp.spage
-  NewList so.s()
-  
-  ClearMap(*pid())
-  ClearList(page())
-  apage=""
-  repl=langue+"/"
-  
-  initbalise()
-  
-  NewList fl.s()
-  NewList lib.s()
-  ;------- lecture userlib
-  If RepUL<>"" And FileSize(RepUL)=-2
-    fileList(fl(),RepuL,"txt",1,1):ForEach fl():ExtrairePage(fl(),1):Next:CopyList(fl(),lib())
-  EndIf
-  ;------- lecture des sources
-  _fileList(fl(),RepL,"txt",1,1):ForEach fl():ExtrairePage(fl()):Next
-  ;------------------------------------------------------------------------------ sommaire (acceuil)
-  If FindMapElement(*pid(),"reference")=0 ; source de l'aide introuvable
-    If enableUI
-      ClearGadgetItems(gsommaire)
-      sethtml("<html><head><style>"+couleurs+style+"</style></head><body><h2>"+_Aide+"</h2>"+
-              "Help source not found: <b>"+cvhtml(rep+RepL)+"</b></body></html>")
-    EndIf
-    ProcedureReturn
-  EndIf
-  pagesgenerees() ; avant le sommaire, qui y fait reference
-  ForEach page():If page()\nom="reference":Break:EndIf:Next
-  ForEach lib():libext=GetFilePart(lib(),#PB_FileSystem_NoExtension):ul+"@Link lib_"+LCase(libext)+" "+g+libext+g+#LF$:Next
-  If ul="":page()\src=ReplaceString(page()\src,"@Section User library"+#LF$,""):EndIf ; pas de lib utilisateur: pas de section vide
-  page()\src=ReplaceString(page()\src,"$userlib"+#LF$,ul)
-  
-  tt=page()\src
-  Repeat
-    p=FindString(tt,"@",p+1):If p=0:Break:EndIf
-    Select Stringparse(tt,"@"," ",p-1)
-      Case "Section":AddElement(so()):so()=Stringparse(tt,"Section ",#LF$,p)
-      Case "Link":AddElement(so()):so()=Stringparse(tt," "+g,g+#LF$,p)+#TAB$+Stringparse(tt,"Link "," "+g,p)
-    EndSelect
-  ForEver
- 
-  ; -----------  remplissage du treegadget gsommaire
-  Macro ajoutesommaire(niv,txt,page,ul=0)
-    If ul 
-      If *sp\userlib=*p\userlib
-        If *sp\libdest:mtxt=txt+" ("+*sp\libdest+")":Else:mtxt=txt:EndIf
-      Else
-        mtxt=txt+" ("+*sp\userlib+")"
+    ; Command index, and the PureBasic constants with the pages which use them
+    ForEach Pages()
+      If Pages()\UserLib$ <> ""
+        Continue
       EndIf
-    Else
-      mtxt=txt
-    EndIf
-    AddGadgetItem(gsommaire,-1,mtxt,0,niv)
-    SetGadgetItemData(gsommaire,num,page)
-    If ul:SetGadgetItemColor(gsommaire,num,#PB_Gadget_FrontColor,couleurul):EndIf ; sinon couleur du gadget (theme de l'IDE)
-    num+1
-  EndMacro
-  
-  If enableUI
-    ClearGadgetItems(gsommaire)
-    HideGadget(gsommaire,1)
-    ForEach so()
-      txt=StringField(so(),1,#TAB$)
-      lien=StringField(so(),2,#TAB$)
-      *p=0
-      If lien="":niv=0:Else:niv=1:If FindMapElement(*pid(),lien):*p=*pid():*p\sommaire=num:EndIf:EndIf
-      ajoutesommaire(niv,txt,*p)
-      If *p
-        ForEach *p\sp():*sp=*p\sp()
-          If *sp\sommaire=0:*sp\sommaire=num:EndIf
-          ajoutesommaire(niv+1,*sp\titre,*sp,Bool(*sp\userlib))
+
+      If Left(Pages()\Name$, 4) = "lib_"
+        Library$ = Pages()\Title$
+        ForEach Pages()\SubPages()
+          *SubPage = Pages()\SubPages()
+          If *SubPage\UserLib$ = ""
+            AddElement(Entries$())
+            Entries$() = *SubPage\Title$ + #TAB$ + *SubPage\Name$ + #TAB$ + Library$
+          EndIf
         Next
       EndIf
-    Next
-    HideGadget(gsommaire,0)
-  EndIf
 
-  If enableUI:affiche("reference"):EndIf
-EndProcedure
-
-Procedure.s cvhtml(txt.s,lf=0)
-  txt=ReplaceString(txt,"<","&lt;")
-  txt=ReplaceString(txt,">","&gt;")
-  If lf:txt=ReplaceString(txt,#LF$,"<br>"+#LF$):EndIf
-  ProcedureReturn txt.s
-EndProcedure
-      
-Procedure.s surligne(ht.s,rec.s) ; surligne la recherche dans le texte du body, sans toucher aux balises html (liens) ni a la casse
-  ; un seul passage (FindString() repart de la longueur de la chaine a chaque appel: trop lent sur les grosses pages)
-  Protected.s res,lht,lrec
-  Protected *c.Character,*deb,pos,pc,lr,dansbalise
-  rec=cvhtml(rec):lr=Len(rec)
-  If lr=0:ProcedureReturn ht:EndIf
-  pos=FindString(ht,"<body"):If pos=0:ProcedureReturn ht:EndIf
-  lht=LCase(ht):lrec=LCase(rec) ; recherche sans la casse, mais le texte d'origine est conserve
-  *deb=@lht
-  *c=*deb+(pos-1)*SizeOf(Character)
-  pc=1 ; debut de la partie pas encore recopiee
-  While *c\c
-    If *c\c='<'
-      dansbalise=1
-    ElseIf *c\c='>'
-      dansbalise=0
-    ElseIf dansbalise=0 And CompareMemoryString(*c,@lrec,#PB_String_CaseSensitive,lr)=#PB_String_Equal ; rec ne contient pas de '<' (cvhtml): ne deborde pas sur une balise
-      pos=(*c-*deb)/SizeOf(Character)+1
-      If pos>pc:res+rMid(@ht,pc,pos-pc):EndIf
-      res+"<font class='found'>"+rMid(@ht,pos,lr)+"</font>"
-      pc=pos+lr
-      *c+(lr-1)*SizeOf(Character)
-    EndIf
-    *c+SizeOf(Character)
-  Wend
-  ProcedureReturn res+PeekS(@ht+(pc-1)*SizeOf(Character))
-EndProcedure
-
-Procedure.s PbtoHtml(nom.s) ; convertion format PB -> html
-  #sep=" .,;:()[]{}>@/"+#LF$+Chr(34)+Chr(160)
-  Protected.s l,ht,balise,hb,hl,p1,p2,tc,ac,c,param,popt,che,       cl,tt,att,sub,ref,rec,img,fctlink,t,tit,nav,boss,lt
-  Protected tablg,tabfin,ap,p,pp,pi,pf,pb,ptt,codehtml,ajoutebr,btitre,abtitre,preformate,exdeb,exnum,time,ajouteok,i
-  *page=*pid(LCase(nom))
-  t=*page\src
-  If Right(t,1)<>#LF$:t+#LF$:EndIf ; les balises lues jusqu'a la fin de ligne ($lg) en ont besoin (ex: @ExampleFile en fin de fichier)
-  tit=*page\titre
-  nav=*page\nav
-  
-  Macro ajerreur(t)
-    tt+"<font class='note'>"+t+"</font>"
-    erreur+t+#LF$
-  EndMacro
-
-  Macro lireparam(sep=#sep)
-    While rMid(@t,p,1)=" ":p+1:Wend:If rMid(@t,p,1)=g:cl=g:Else:cl=sep:EndIf:pi=p:p+1
-    While FindString(cl,rMid(@t,p,1))=0:p+1:Wend
-    If cl=g:p+1:param=rMid(@t,pi+1,p-pi-2):Else:param=rMid(@t,pi,p-pi):EndIf
-    ;Debug "-"+param+"_"
-  EndMacro
-  
-  Macro ajoute(mtxt,type=0)
-    txt=mtxt
-    Select type
-      Case 0 ; text
-        txt=cvhtml(txt,Bool(ajoutebr And preformate=0))
-      Case 1 ; balise
-      Case 2 ; html
-        pp=0
-        Repeat
-          pp=FindString(txt,"<img",pp+1):If pp=0:Break:EndIf
-          che=Stringparse(txt,"src=",">",pp)
-          img=imagetohtml(GetFilePart(che))
-          If img<>"":txt=ReplaceString(txt,"src="+che+">",img):pp+Len(img)-Len(che):Else:ajerreur("image not found:* "+che):EndIf
-        ForEver
-        pp=0
-        Repeat
-          pp=FindString(txt,"<a",pp+1):If pp=0:Break:EndIf
-          che=Stringparse(txt,"href=",">",pp)
-          If FindString(che,"#")=0
-            txt=ReplaceString(txt,"href="+che+">","href='#' onclick='jsmessage("+g+"lk:"+LCase(GetFilePart(che,#PB_FileSystem_NoExtension))+g+")'>")
-          EndIf
-        ForEver
-    EndSelect
-    tt+txt
-  EndMacro
-    
-  erreur=""
-  
-  ;----------------------- suppression commentaires
-  Repeat
-    p=FindString(t,#LF$+";"):If p=0 And rmid(@t,1,1)<>";":Break:EndIf
-    t=Left(t,p)+Mid(t,FindString(t+#LF$,#LF$,p+1)+1)
-  ForEver
-  
-  time=ElapsedMilliseconds()
-  ;tt=Space(Len(t)*2)
-  p=1
-  Repeat
-    ap=p:pp=FindString(t,"@",p):If pp=0:ajoute(Mid(t,p),0):Break:Else:p=pp:EndIf
-    pb=p:p+1:balise="":c=rMid(@t,p,1)
-    Repeat:p+1:balise+c:c=rMid(@t,p,1):Until (FindString(#sep,c) And balise+c<>"</") Or c=""
-    c=rMid(@t,pb+1,1)
-    If c="@" Or c="#" ; @@Fonction et @#Constante: comme DocMaker, seulement lettres, chiffres et '_' (ex: "@@RGB-Funktion", "@@SetGadgetText!")
-      p=pb+2
-      While rMid(@t,p,1)<>"" And FindString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_",rMid(@t,p,1)):p+1:Wend
-      balise=rMid(@t,pb+1,p-pb-1)
-    EndIf
-    ;----------------------- suppression saut ligne autour des balises "titre" (+@indent)
-    abtitre=btitre
-    If FindString("#@<",c):btitre=0:EndIf
-    If FindMapElement(balise(),LCase(balise)):btitre=balise()\titre:EndIf
-    If abtitre And rMid(@t,ap,1)=#LF$:ap+1:EndIf
-    If btitre And rMid(@t,pb-1,1)=#LF$:pb-1:EndIf
-    If pb>ap:ajoute(rMid(@t,ap,pb-ap),0):EndIf ; pb<ap si 2 balises "titre" se suivent (longueur negative: PeekS lirait jusqu'a la fin)
-    
-    ajoutebr=1
-    Select  c
-      Case "#"
-        ajoute("<font class='cst'>"+balise+"</font>",1)
-      Case "@"
-        ref=LCase(Mid(balise,2))
-        If *pid(ref)
-          fctlink=*pid(ref)\titre:If *pid(ref)\userlib:fctlink="<font class='ul'>"+fctlink+"</font>":EndIf
-          ajoute("<a href='#' onclick='jsmessage("+g+"lk:"+ref+g+")'>"+fctlink+"</a>",1)
-        Else
-          ajerreur("ref not found: "+ref)
+      ; '@#PB_xxx' constants
+      Position = 0
+      Source$ = Pages()\Source$
+      Repeat
+        Position = FindString(Source$, "@#PB_", Position + 1)
+        If Position = 0
+          Break
         EndIf
-      Case "<"
-        ajoutebr=0
-        pi=p:p=FindString(t,">",p)
-        ajoute("<"+Mid(balise,2)+" "+ Mid(t,pi,p-pi)+">",1):p+1
-      Default      
-        If FindMapElement(balise(),LCase(balise))
-          preformate+balise()\pre:If preformate<0:preformate=0:EndIf ; @Description sans @Syntax/@Function avant (ex: pages Reference): sinon les sauts de ligne sont ignores
-          ht=""
-          Select balise()\param
-            Case 1,2
-              tablg+1
-              If tablg=1:ht="<h3>"+_Parametres+"</h3><table class='param'>"+#LF$:EndIf
-              If tablg>1:ht="</td></tr>":EndIf
-              If balise()\param=2:popt=" class='opt'":Else: popt="":EndIf
-              ht+"<tr"+popt+"><td width='10%'><i>$p1</i></td><td width='90%'>"
-            Case 3
-              If tablg:ht="</td></tr></table>":tablg=0:EndIf
-          EndSelect
-          If balise="ExampleFile" And exdeb=0:exdeb=1:ht="<h3>"+_Exemple+"</h3>":EndIf
-         
-          codehtml= balise()\html
-          ht+balise()\hbalise
-          If FindString(ht,"$")
-            If FindString(ht,"$ose"):lireparam(" "+#LF$):If param="All" Or param=os:ht=ReplaceString(ht,"$ose",""):Else:ht="":p=FindString(t,#LF$,p):EndIf:EndIf
-            If FindString(ht,"$p1"):lireparam():ht=ReplaceString(ht,"$p1",cvhtml(param)):EndIf
-            If FindString(ht,"$p2"):lireparam():ht=ReplaceString(ht,"$p2",cvhtml(param)):EndIf
-            If FindString(ht,"$im"):lireparam(" "+#LF$):img=imagetohtml(param):If img<>"":ht=ReplaceString(ht,"$im",img):Else:ajerreur("image Not found: "+param):EndIf:EndIf
-            If FindString(ht,"$ex"):p+1:ht=ReplaceString(ht,"$ex",""+exnum):exnum+1:EndIf
-            If FindString(ht,"$lg"):pi=p:p=FindString(t,#LF$,p):ht=ReplaceString(ht,"$lg",Mid(t,pi,p-pi)):EndIf
+
+        ConstantEnd = Position + 1
+        Repeat
+          ConstantEnd + 1
+          Char$ = PeekMid(@Source$, ConstantEnd, 1)
+        Until Char$ = "" Or FindString(#IdentifierChars$, Char$) = 0
+        Constant$ = PeekMid(@Source$, Position + 1, ConstantEnd - Position - 1)
+
+        If FindMapElement(Seen(), Constant$ + #TAB$ + Pages()\Name$) = 0
+          Seen(Constant$ + #TAB$ + Pages()\Name$) = 1
+          If FindMapElement(ConstantPages$(), Constant$)
+            ConstantPages$() + ", "
+          Else
+            AddMapElement(ConstantPages$(), Constant$)
           EndIf
-          If LCase(balise)="os"
-            ; comme DocMaker: le bloc d'un autre OS est ignore jusqu'au prochain @OS, @EndOS, @CommandList, @SupportedOS ou @Function
-            pi=p:p=FindString(t+#LF$,#LF$,p)
-            If LCase(Trim(Mid(t,pi,p-pi)))<>LCase(os)
-              lt=LCase(t):pf=0
-              For i=1 To 5:pp=FindString(lt,#LF$+StringField("@os ,@endos,@commandlist,@supportedos,@function ",i,","),p):If pp And (pf=0 Or pp<pf):pf=pp:EndIf:Next
-              If pf:p=pf:Else:p=Len(t)+1:EndIf
+          ConstantPages$() + "@@" + Pages()\Name$
+        EndIf
+      ForEver
+    Next
+
+    AddGeneratedPage("osspecific", Text_OSFunctions$, Text$)
+
+    SortList(Entries$(), #PB_Sort_Ascending | #PB_Sort_NoCase)
+    Text$ = ""
+    Letter$ = ""
+    ForEach Entries$()
+      If UCase(Left(Entries$(), 1)) <> Letter$
+        Letter$ = UCase(Left(Entries$(), 1))
+        Text$ + "@Section " + Letter$ + #LF$
+      EndIf
+      Text$ + "@@" + StringField(Entries$(), 2, #TAB$) + " - " + StringField(Entries$(), 3, #TAB$) + #LF$
+    Next
+    AddGeneratedPage("commandindex", Text_CommandIndex$, Text$)
+
+    ClearList(Entries$())
+    ForEach ConstantPages$()
+      AddElement(Entries$())
+      Entries$() = MapKey(ConstantPages$())
+    Next
+    SortList(Entries$(), #PB_Sort_Ascending | #PB_Sort_NoCase)
+    Text$ = ""
+    Letter$ = ""
+    ForEach Entries$()
+      If UCase(Mid(Entries$(), 5, 1)) <> Letter$ ; '#PB_x'
+        Letter$ = UCase(Mid(Entries$(), 5, 1))
+        Text$ + "@Section " + Letter$ + #LF$
+      EndIf
+      Text$ + "@" + Entries$() + " : " + ConstantPages$(Entries$()) + #LF$
+    Next
+    AddGeneratedPage("pbconstants", Text_Constants$, Text$)
+  EndProcedure
+
+
+  ; *Parent: parent page of a sub-item (library function)
+  ;
+  Procedure AddContentsItem(Level, Text$, *Page.HelpPage, *Parent.HelpPage = 0)
+    Protected Item, IsUserLib
+
+    IsUserLib = Bool(*Parent And *Page\UserLib$ <> "")
+    If IsUserLib
+      If *Page\UserLib$ = *Parent\UserLib$
+        If *Page\LibDestination$
+          Text$ + " (" + *Page\LibDestination$ + ")"
+        EndIf
+      Else
+        Text$ + " (" + *Page\UserLib$ + ")"
+      EndIf
+    EndIf
+
+    Item = CountGadgetItems(GadgetContents)
+    AddGadgetItem(GadgetContents, -1, Text$, 0, Level)
+    SetGadgetItemData(GadgetContents, Item, *Page)
+    If IsUserLib ; else the gadget color (IDE theme)
+      SetGadgetItemColor(GadgetContents, Item, #PB_Gadget_FrontColor, UserLibColor)
+    EndIf
+  EndProcedure
+
+
+  ; Loads all the help pages, and fills the contents tree
+  ;
+  Procedure LoadHelp(EnableUI = #True)
+    Protected Text$, Title$, Link$, UserLibLinks$, Position, Level, *Page.HelpPage, *SubPage.HelpPage, *Reference.HelpPage
+    NewList Files$()
+    NewList UserLibFiles$()
+    NewList Contents$()
+
+    ClearMap(*PageMap())
+    ClearList(Pages())
+    CurrentPageName$ = ""
+    LanguagePath$ = Language$ + "/"
+
+    InitTags()
+
+    ; User libraries
+    If UserLibPath$ <> "" And FileSize(UserLibPath$) = -2
+      ListFiles(Files$(), UserLibPath$, "txt")
+      ForEach Files$()
+        ExtractPages(Files$(), #True)
+      Next
+      CopyList(Files$(), UserLibFiles$())
+    EndIf
+
+    ; Help sources
+    PreloadPackTexts(LanguagePath$)
+    ListHelpFiles(Files$(), LanguagePath$, "txt")
+    ForEach Files$()
+      ExtractPages(Files$())
+    Next
+
+    *Reference = FindPage("reference") ; home page, with the contents
+    If *Reference = 0
+      If EnableUI
+        ClearGadgetItems(GadgetContents)
+        SetPageHtml("<html><head><style>" + PageColors$ + PageStyle$ + "</style></head><body><h2>" + Text_Help$ + "</h2>" +
+                    "Help source not found: <b>" + EscapeHtml(HelpPath$ + LanguagePath$) + "</b></body></html>")
+      EndIf
+      ProcedureReturn
+    EndIf
+
+    CreateGeneratedPages() ; before the contents, which links to them
+    ClearMap(PackTexts$()) ; all read: the page sources are in Pages()
+
+    ForEach UserLibFiles$()
+      Title$ = GetFilePart(UserLibFiles$(), #PB_FileSystem_NoExtension)
+      UserLibLinks$ + "@Link lib_" + LCase(Title$) + " " + #DQUOTE$ + Title$ + #DQUOTE$ + #LF$
+    Next
+    If UserLibLinks$ = "" ; no user library: no empty section
+      *Reference\Source$ = ReplaceString(*Reference\Source$, "@Section User library" + #LF$, "")
+    EndIf
+    *Reference\Source$ = ReplaceString(*Reference\Source$, "$userlib" + #LF$, UserLibLinks$)
+
+    ; Contents: '@Section Title' and '@Link Page "Title"'
+    Text$ = *Reference\Source$
+    Repeat
+      Position = FindString(Text$, "@", Position + 1)
+      If Position = 0
+        Break
+      EndIf
+
+      Select ExtractBetween(Text$, "@", " ", Position - 1)
+        Case "Section"
+          AddElement(Contents$())
+          Contents$() = ExtractBetween(Text$, "Section ", #LF$, Position)
+        Case "Link"
+          AddElement(Contents$())
+          Contents$() = ExtractBetween(Text$, " " + #DQUOTE$, #DQUOTE$ + #LF$, Position) + #TAB$ + ExtractBetween(Text$, "Link ", " " + #DQUOTE$, Position)
+      EndSelect
+    ForEver
+
+    If EnableUI
+      ClearGadgetItems(GadgetContents)
+      HideGadget(GadgetContents, #True)
+      ForEach Contents$()
+        Title$ = StringField(Contents$(), 1, #TAB$)
+        Link$  = StringField(Contents$(), 2, #TAB$)
+        *Page = 0
+        If Link$ = "" ; section
+          Level = 0
+        Else
+          Level = 1
+          *Page = FindPage(Link$)
+          If *Page
+            *Page\ContentsItem = CountGadgetItems(GadgetContents)
+          EndIf
+        EndIf
+        AddContentsItem(Level, Title$, *Page)
+
+        If *Page
+          ForEach *Page\SubPages()
+            *SubPage = *Page\SubPages()
+            If *SubPage\ContentsItem = 0
+              *SubPage\ContentsItem = CountGadgetItems(GadgetContents)
+            EndIf
+            AddContentsItem(Level + 1, *SubPage\Title$, *SubPage, *Page)
+          Next
+        EndIf
+      Next
+      HideGadget(GadgetContents, #False)
+
+      DisplayPage("reference")
+    EndIf
+  EndProcedure
+
+
+  ; Highlights the search in the body text, without touching the html tags (links) and the case.
+  ; Done in a single pass (FindString() goes through the whole string on each call: too slow on big pages)
+  ;
+  Procedure.s HighlightSearch(Html$, Search$)
+    Protected Result$, LowerHtml$, LowerSearch$, *Start, *Cursor.Character, Position, Copied, Length, InTag
+
+    Search$ = EscapeHtml(Search$)
+    Length = Len(Search$)
+    If Length = 0
+      ProcedureReturn Html$
+    EndIf
+
+    Position = FindString(Html$, "<body")
+    If Position = 0
+      ProcedureReturn Html$
+    EndIf
+
+    LowerHtml$   = LCase(Html$) ; case insensitive search, but the original text is kept
+    LowerSearch$ = LCase(Search$)
+    *Start = @LowerHtml$
+    *Cursor = *Start + (Position - 1) * SizeOf(Character)
+    Copied = 1 ; start of the part not yet copied
+    While *Cursor\c
+      If *Cursor\c = '<'
+        InTag = #True
+      ElseIf *Cursor\c = '>'
+        InTag = #False
+      ElseIf InTag = #False And CompareMemoryString(*Cursor, @LowerSearch$, #PB_String_CaseSensitive, Length) = #PB_String_Equal ; Search$ has no '<' (escaped): can't overlap a tag
+        Position = (*Cursor - *Start) / SizeOf(Character) + 1
+        If Position > Copied
+          Result$ + PeekMid(@Html$, Copied, Position - Copied)
+        EndIf
+        Result$ + "<font class='found'>" + PeekMid(@Html$, Position, Length) + "</font>"
+        Copied = Position + Length
+        *Cursor + (Length - 1) * SizeOf(Character)
+      EndIf
+      *Cursor + SizeOf(Character)
+    Wend
+
+    ProcedureReturn Result$ + PeekS(@Html$ + (Copied - 1) * SizeOf(Character))
+  EndProcedure
+
+
+  ;- ----- Page rendering (DocMaker format -> html)
+
+  Procedure AddError(Message$)
+    RenderHtml$   + "<font class='note'>" + Message$ + "</font>"
+    RenderErrors$ + Message$ + #LF$
+  EndProcedure
+
+
+  Procedure AppendText(Text$)
+    RenderHtml$ + EscapeHtml(Text$, Bool(RenderLineBreaks And RenderPreformatted = 0))
+  EndProcedure
+
+
+  Procedure AppendHtml(Html$)
+    RenderHtml$ + Html$
+  EndProcedure
+
+
+  ; Html from a @FormatIf or @HTML block: the images are embedded and the links go through jsmessage()
+  ;
+  Procedure AppendBlockHtml(Html$)
+    Protected Position, Path$, Image$
+
+    Position = 0
+    Repeat
+      Position = FindString(Html$, "<img", Position + 1)
+      If Position = 0
+        Break
+      EndIf
+
+      Path$  = ExtractBetween(Html$, "src=", ">", Position)
+      Image$ = ImageToHtml(GetFilePart(Path$))
+      If Image$ <> ""
+        Html$ = ReplaceString(Html$, "src=" + Path$ + ">", Image$)
+        Position + Len(Image$) - Len(Path$)
+      Else
+        AddError("image not found:* " + Path$)
+      EndIf
+    ForEver
+
+    Position = 0
+    Repeat
+      Position = FindString(Html$, "<a", Position + 1)
+      If Position = 0
+        Break
+      EndIf
+
+      Path$ = ExtractBetween(Html$, "href=", ">", Position)
+      If FindString(Path$, "#") = 0
+        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))) + "'>")
+      EndIf
+    ForEver
+
+    RenderHtml$ + Html$
+  EndProcedure
+
+
+  ; Reads a tag parameter: a word up to one of the Separators$, or a quoted string
+  ;
+  Procedure.s ReadTagParameter(*Text, *Position.Integer, Separators$ = #TagSeparators$)
+    Protected Position = *Position\i, Start, IsQuoted, Parameter$
+
+    While PeekMid(*Text, Position, 1) = " "
+      Position + 1
+    Wend
+
+    If PeekMid(*Text, Position, 1) = #DQUOTE$
+      IsQuoted = #True
+      Separators$ = #DQUOTE$
+    EndIf
+
+    Start = Position
+    Position + 1
+    While PeekMid(*Text, Position, 1) <> "" And FindString(Separators$, PeekMid(*Text, Position, 1)) = 0
+      Position + 1
+    Wend
+
+    If IsQuoted
+      Position + 1
+      Parameter$ = PeekMid(*Text, Start + 1, Position - Start - 2)
+    Else
+      Parameter$ = PeekMid(*Text, Start, Position - Start)
+    EndIf
+
+    *Position\i = Position
+    ProcedureReturn Parameter$
+  EndProcedure
+
+
+  Procedure.s PageToHtml(Name$)
+    Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, *Page.HelpPage
+    Protected Position, TextStart, TagStart, ParameterStart, Found, BlockEnd, i
+    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle
+
+    *CurrentPage = FindPage(LCase(Name$))
+    If *CurrentPage = 0
+      ProcedureReturn ""
+    EndIf
+
+    Text$ = *CurrentPage\Source$
+    If Right(Text$, 1) <> #LF$ ; the tags read up to the end of the line ($lg) need it (ie: @ExampleFile at the end of the file)
+      Text$ + #LF$
+    EndIf
+
+    RenderHtml$ = ""
+    RenderErrors$ = ""
+    RenderLineBreaks = #False
+    RenderPreformatted = 0
+
+    ; Remove the comments
+    Repeat
+      Position = FindString(Text$, #LF$ + ";")
+      If Position = 0 And Left(Text$, 1) <> ";"
+        Break
+      EndIf
+      Text$ = Left(Text$, Position) + Mid(Text$, FindString(Text$ + #LF$, #LF$, Position + 1) + 1)
+    ForEver
+
+    Position = 1
+    Repeat
+      TextStart = Position
+      TagStart = FindString(Text$, "@", Position)
+      If TagStart = 0
+        AppendText(Mid(Text$, Position))
+        Break
+      EndIf
+
+      ; Tag name: up to the next separator ('@</td>' is a closing html tag)
+      Position = TagStart + 1
+      Tag$ = ""
+      Char$ = PeekMid(@Text$, Position, 1)
+      Repeat
+        Position + 1
+        Tag$ + Char$
+        Char$ = PeekMid(@Text$, Position, 1)
+      Until (FindString(#TagSeparators$, Char$) And Tag$ + Char$ <> "</") Or Char$ = ""
+
+      Char$ = PeekMid(@Text$, TagStart + 1, 1)
+      If Char$ = "@" Or Char$ = "#" ; @@Function and @#Constant: like DocMaker, only letters, digits and '_' (ie: "@@RGB-Funktion", "@@SetGadgetText!")
+        Position = TagStart + 2
+        While PeekMid(@Text$, Position, 1) <> "" And FindString(#IdentifierChars$, PeekMid(@Text$, Position, 1))
+          Position + 1
+        Wend
+        Tag$ = PeekMid(@Text$, TagStart + 1, Position - TagStart - 1)
+      EndIf
+
+      ; Remove the line feeds around the title tags (and @Indent)
+      WasTitle = IsTitle
+      If FindString("#@<", Char$)
+        IsTitle = #False
+      EndIf
+      If FindMapElement(Tags(), LCase(Tag$))
+        IsTitle = Tags()\IsTitle
+      EndIf
+      If WasTitle And PeekMid(@Text$, TextStart, 1) = #LF$
+        TextStart + 1
+      EndIf
+      If IsTitle And PeekMid(@Text$, TagStart - 1, 1) = #LF$
+        TagStart - 1
+      EndIf
+      If TagStart > TextStart ; TagStart < TextStart when 2 title tags follow each other (PeekS() would read up to the end with a negative length)
+        AppendText(PeekMid(@Text$, TextStart, TagStart - TextStart))
+      EndIf
+
+      RenderLineBreaks = #True
+      Select Char$
+        Case "#" ; constant
+          AppendHtml("<font class='cst'>" + Tag$ + "</font>")
+
+        Case "@" ; link to a function
+          LinkName$ = LCase(Mid(Tag$, 2))
+          *Page = FindPage(LinkName$)
+          If *Page
+            Link$ = *Page\Title$
+            If *Page\UserLib$
+              Link$ = "<font class='ul'>" + Link$ + "</font>"
+            EndIf
+            AppendHtml("<a href='#' onclick='" + JsCall("lk:" + LinkName$) + "'>" + Link$ + "</a>")
+          Else
+            AddError("ref not found: " + LinkName$)
+          EndIf
+
+        Case "<" ; html tag
+          RenderLineBreaks = #False
+          ParameterStart = Position
+          Position = FindString(Text$, ">", Position)
+          AppendHtml("<" + Mid(Tag$, 2) + " " + Mid(Text$, ParameterStart, Position - ParameterStart) + ">")
+          Position + 1
+
+        Default
+          If FindMapElement(Tags(), LCase(Tag$)) = 0 ; unknown tag
+            AppendText("@" + Tag$)
+
+          Else
+            RenderPreformatted + Tags()\Preformatted
+            If RenderPreformatted < 0 ; @Description without @Syntax/@Function before (ie: Reference pages): the line feeds would be ignored
+              RenderPreformatted = 0
+            EndIf
+
+            TagHtml$ = ""
+            Select Tags()\ParameterType
+              Case 1, 2
+                ParameterCount + 1
+                If ParameterCount = 1
+                  TagHtml$ = "<h3>" + Text_Parameters$ + "</h3><table class='param'>" + #LF$
+                Else
+                  TagHtml$ = "</td></tr>"
+                EndIf
+                If Tags()\ParameterType = 2
+                  TagHtml$ + "<tr class='opt'>"
+                Else
+                  TagHtml$ + "<tr>"
+                EndIf
+                TagHtml$ + "<td width='10%'><i>$p1</i></td><td width='90%'>"
+
+              Case 3
+                If ParameterCount
+                  TagHtml$ = "</td></tr></table>"
+                  ParameterCount = 0
+                EndIf
+            EndSelect
+
+            If Tag$ = "ExampleFile" And ExampleTitleDone = #False
+              ExampleTitleDone = #True
+              TagHtml$ = "<h3>" + Text_Example$ + "</h3>"
+            EndIf
+
+            TagHtml$ + Tags()\Html$
+            If FindString(TagHtml$, "$")
+              If FindString(TagHtml$, "$ose") ; example OS
+                Parameter$ = ReadTagParameter(@Text$, @Position, " " + #LF$)
+                If Parameter$ = "All" Or Parameter$ = OS$
+                  TagHtml$ = ReplaceString(TagHtml$, "$ose", "")
+                Else
+                  TagHtml$ = ""
+                  Position = FindString(Text$, #LF$, Position)
+                EndIf
+              EndIf
+              If FindString(TagHtml$, "$p1")
+                TagHtml$ = ReplaceString(TagHtml$, "$p1", EscapeHtml(ReadTagParameter(@Text$, @Position)))
+              EndIf
+              If FindString(TagHtml$, "$p2")
+                TagHtml$ = ReplaceString(TagHtml$, "$p2", EscapeHtml(ReadTagParameter(@Text$, @Position)))
+              EndIf
+              If FindString(TagHtml$, "$im")
+                Parameter$ = ReadTagParameter(@Text$, @Position, " " + #LF$)
+                Image$ = ImageToHtml(Parameter$)
+                If Image$ <> ""
+                  TagHtml$ = ReplaceString(TagHtml$, "$im", Image$)
+                Else
+                  AddError("image Not found: " + Parameter$)
+                EndIf
+              EndIf
+              If FindString(TagHtml$, "$ex")
+                Position + 1
+                TagHtml$ = ReplaceString(TagHtml$, "$ex", Str(ExampleNumber))
+                ExampleNumber + 1
+              EndIf
+              If FindString(TagHtml$, "$lg")
+                ParameterStart = Position
+                Position = FindString(Text$, #LF$, Position)
+                TagHtml$ = ReplaceString(TagHtml$, "$lg", Mid(Text$, ParameterStart, Position - ParameterStart))
+              EndIf
+            EndIf
+
+            If LCase(Tag$) = "os"
+              ; Like DocMaker: the block of another OS is skipped up to the next @OS, @EndOS, @CommandList, @SupportedOS or @Function
+              ParameterStart = Position
+              Position = FindString(Text$ + #LF$, #LF$, Position)
+              If LCase(Trim(Mid(Text$, ParameterStart, Position - ParameterStart))) <> LCase(OS$)
+                LowerText$ = LCase(Text$)
+                BlockEnd = 0
+                For i = 1 To 5
+                  Found = FindString(LowerText$, #LF$ + StringField("@os ,@endos,@commandlist,@supportedos,@function ", i, ","), Position)
+                  If Found And (BlockEnd = 0 Or Found < BlockEnd)
+                    BlockEnd = Found
+                  EndIf
+                Next i
+                If BlockEnd
+                  Position = BlockEnd
+                Else
+                  Position = Len(Text$) + 1
+                EndIf
+              EndIf
+            EndIf
+
+            AppendHtml(TagHtml$)
+
+            ; Blocks
+            If Tag$ = "Code"
+              TextStart = Position
+              Position = FindString(Text$, "@EndCode", Position, #PB_String_NoCase) - 1
+              If Position = -1
+                AddError("missing : @EndCode")
+                Break
+              EndIf
+              RenderLineBreaks = #False
+              If ColorCodeCallback
+                AppendHtml(ColorCodeCallback(PeekMid(@Text$, TextStart, Position - TextStart)))
+              Else
+                AppendText(PeekMid(@Text$, TextStart, Position - TextStart))
+              EndIf
+            EndIf
+
+            If Tag$ = "FormatIf"
+              TextStart = Position
+              Position = FindString(Text$, "@FormatEndIf", Position, #PB_String_NoCase) - 1
+              If Position = -1
+                AddError("missing : @FormatEndIf")
+                Break
+              EndIf
+              AppendBlockHtml(PeekMid(@Text$, TextStart, Position - TextStart))
+            EndIf
+
+            If Tag$ = "HTML"
+              TextStart = Position
+              Position = FindString(Text$, "@EndHTML", Position, #PB_String_NoCase) - 1
+              If Position = -1
+                AddError("missing : @EndHTML")
+                Break
+              EndIf
+              RenderLineBreaks = #False
+              AppendBlockHtml(PeekMid(@Text$, TextStart, Position - TextStart))
             EndIf
           EndIf
-          ajoute(ht,1)
-          If balise="Code":ap=p:p=FindString(t,"@EndCode",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndCode"):Break:Else:ajoutebr=0:If ColorCodeCallback:ajoute(ColorCodeCallback(rMid(@t,ap,p-ap)),1):Else:ajoute(rMid(@t,ap,p-ap),0):EndIf:EndIf:EndIf
-          If balise="FormatIf":ap=p:p=FindString(t,"@FormatEndIf",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @FormatEndIf"):Break:Else:ajoute(rMid(@t,ap,p-ap),2):EndIf:EndIf
-          If balise="HTML":ap=p:p=FindString(t,"@EndHTML",p,#PB_String_NoCase)-1:If p=-1:ajerreur("missing : @EndHTML"):Break:Else:ajoutebr=0:ajoute(rMid(@t,ap,p-ap),2):EndIf:EndIf
-        Else
-          ;ajerreur("unmanaged tag: @"+balise)
-          ajoute("@"+balise,0)
+      EndSelect
+
+      If Position < TextStart
+        AddError("undefined error (maybe line feed missing)")
+        Break
+      EndIf
+    ForEver
+
+    If RenderErrors$
+      RenderHtml$ = "<font class='note'>" + ReplaceString(RenderErrors$, #LF$, "<br>") + "</font>" + RenderHtml$
+    EndIf
+
+    If FindMapElement(OSSpecific$(), *CurrentPage\Name$)
+      OSNote$ = "<div class='note'>" + OSSpecific$() + "</div>"
+    EndIf
+
+    Html$ = "<html><head><title>" + EscapeHtml(*CurrentPage\Title$) + "</title><style>" + PageColors$ + PageStyle$ + "</style></head><body>" +
+            "<h2>" + OSNote$ + *CurrentPage\Title$ + "<br><font class='nav'>" + *CurrentPage\Navigation$ + "</font></h2>" + #LF$ +
+            RenderHtml$ + "</body></html>"
+    RenderHtml$ = ""
+
+    If IsGadget(GadgetSearch)
+      Html$ = HighlightSearch(Html$, GetGadgetText(GadgetSearch))
+    EndIf
+
+    ProcedureReturn Html$
+  EndProcedure
+
+
+  ;- ----- Help building (from the documentation sources)
+
+  ; Converts reference.html (contents of the html help) to the help format
+  ;
+  Procedure.s ContentsHtmlToSource(Html$)
+    Protected Line$, Tag$, Attributes$, Text$, Link$, Result$, Char$
+    Protected LineStart, LineEnd, Position
+
+    Html$ = RemoveString(Html$, #CR$)
+    Html$ = RemoveString(Html$, #TAB$)
+    Repeat
+      LineStart = LineEnd + 1
+      LineEnd = FindString(Html$, #LF$, LineStart)
+      If LineEnd = 0
+        Break
+      EndIf
+
+      Line$ = Trim(Mid(Html$, LineStart, LineEnd - LineStart))
+      If Left(Line$, 1) = "<"
+        Position = 1
+        Repeat
+          Position + 1
+          Char$ = PeekMid(@Line$, Position, 1)
+        Until Char$ = "" Or FindString(" >", Char$)
+        Tag$        = LCase(PeekMid(@Line$, 2, Position - 2))
+        Attributes$ = PeekMid(@Line$, Position, FindString(Line$, ">") - Position)
+        Text$       = ExtractBetween(Line$, ">", "<")
+
+        Select Tag$
+          Case "table", "tr", "td", "/table", "/tr", "/td"
+            Result$ + "@<" + Tag$ + Attributes$ + ">" + #LF$
+
+          Case "b"
+            Result$ + "@Section " + Text$ + #LF$
+
+          Case "a"
+            If FindString(Line$, "href")
+              If FindString(Line$, "/index") ; library index: 'Library/index.html'
+                Link$ = "lib_" + ExtractBetween(Line$, "/", "/")
+              Else
+                Link$ = ExtractBetween(Line$, #DQUOTE$, ".")
+              EndIf
+              Result$ + "@Link " + Link$ + " " + #DQUOTE$ + Text$ + #DQUOTE$ + #LF$
+            EndIf
+        EndSelect
+      EndIf
+    ForEver
+
+    ProcedureReturn ReplaceString(Result$, "<table", "<table style='all: unset;'")
+  EndProcedure
+
+
+  ; Converts a documentation source file (DocMaker format) to the help format: the lines are joined, and the
+  ; @FormatIf blocks become @HTML blocks (without their @FormatElse part)
+  ;
+  Procedure ConvertSourceFile(Source$, Destination$)
+    Protected File, Format, IsPreformatted, IsText, WasText, IsEnabled, Position
+    Protected Line$, FirstChar$, Char$, Tag$, Result$
+
+    File = ReadFile(#PB_Any, Source$)
+    If File = 0
+      ProcedureReturn #False
+    EndIf
+
+    Format = ReadStringFormat(File)
+    If Format = #PB_Ascii ; sources without BOM: UTF-8
+      Format = #PB_UTF8
+    EndIf
+
+    IsEnabled = #True
+    Repeat
+      Line$ = ReadString(File, Format)
+      FirstChar$ = Left(Line$, 1)
+      If IsPreformatted = #False And LCase(Left(LTrim(Line$), 13)) = "@examplefile " ; often indented: stays on its own line (read up to the end of the line)
+        Line$ = LTrim(Line$)
+        FirstChar$ = "@"
+      EndIf
+      If Trim(Line$) = "@LineBreak"
+        FirstChar$ = " "
+      EndIf
+
+      If FirstChar$ = "@"
+        Position = 1
+        Tag$ = ""
+        Char$ = ""
+        Repeat
+          Position + 1
+          Tag$ + Char$
+          Char$ = PeekMid(@Line$, Position, 1)
+        Until (FindString(#TagSeparators$, Char$) And Tag$ + Char$ <> "</") Or Char$ = ""
+
+        Select LCase(Tag$)
+          Case "code", "fixedfont", "function", "syntax"
+            IsPreformatted = #True
+          Case "endcode", "endfixedfont", "description"
+            IsPreformatted = #False
+          Case "formatif"
+            Line$ = "@HTML"
+            IsPreformatted = #True
+          Case "formatelse"
+            IsEnabled = #False
+          Case "formatendif"
+            Line$ = "@EndHTML"
+            IsEnabled = #True
+            IsPreformatted = #False
+        EndSelect
+      EndIf
+
+      WasText = IsText
+      IsText = Bool(FindString("@;", FirstChar$) = 0)
+      If IsPreformatted = #False
+        Line$ = Trim(Line$)
+      EndIf
+      If LCase(Trim(Line$)) = "@indent"
+        Line$ + #LF$
+      EndIf
+      If LCase(Trim(Line$)) = "@endindent"
+        Line$ = #LF$ + Line$
+      EndIf
+
+      If IsPreformatted Or IsText = #False Or WasText = #False
+        Line$ = #LF$ + Line$
+      Else
+        Line$ = " " + Trim(Line$) ; text lines are joined
+      EndIf
+      Line$ = ReplaceString(Line$, "@LineBreak", #LF$)
+
+      If IsEnabled
+        Result$ + Line$
+      EndIf
+    Until Eof(File)
+    CloseFile(File)
+
+    Result$ = ReplaceString(Result$, " " + #LF$, #LF$)
+    If IsEnabled = #False
+      Debug "HelpTool: @FormatEndIf missing in " + Source$
+    EndIf
+
+    ProcedureReturn WriteTextFile(Destination$, Result$)
+  EndProcedure
+
+
+  ; --init: builds the help folder from the documentation sources. Returns the errors
+  ;
+  Procedure.s BuildHelp(Source$, Destination$)
+    Protected File$, Path$, Text$, Errors$, i
+    NewList Files$()
+
+    Source$ = ReplaceString(Source$, "\", "/")
+    If Right(Source$, 1) <> "/"
+      Source$ + "/"
+    EndIf
+    Destination$ = ReplaceString(Destination$, "\", "/")
+    If Right(Destination$, 1) <> "/"
+      Destination$ + "/"
+    EndIf
+
+    If FileSize(Source$) <> -2
+      ProcedureReturn "Help source not found: " + Source$ + #LF$
+    EndIf
+    If MakePath(Destination$) = 0
+      ProcedureReturn "Can't create: " + Destination$ + #LF$
+    EndIf
+
+    For i = 1 To CountString(#Languages$, ",") + 1
+      Language$ = StringField(#Languages$, i, ",")
+      If FileSize(Source$ + Language$) <> -2
+        Continue
+      EndIf
+      InitLanguage()
+
+      ; Source files (ascii.txt is renamed asciitable.txt)
+      ListFiles(Files$(), Source$ + Language$, "txt")
+      ForEach Files$()
+        File$ = Files$()
+        If LCase(File$) = "reference/ascii.txt"
+          File$ = GetPathPart(File$) + "asciitable.txt"
         EndIf
-    EndSelect      
-    If p<ap:ajerreur("undefined error (maybe line feed missing)"):Break:EndIf
-  ForEver 
-  
-  If erreur:tt="<font class='note'>"+ReplaceString(erreur,#LF$,"<br>")+"</font>"+tt:EndIf
-
-  If FindMapElement(mosspe(),nom):boss="<div class='note'>"+mosspe()+"</div>":EndIf
-  t="<html><head><title>$titrepage</title><style>"+couleurs+style+"</style></head><body><h2>"+boss+tit+"<br>"+
-    "<font class='nav'>"+nav+"</font></h2>"
-  t+#LF$+tt+"</body></html>"
-  If IsGadget(grec):t=surligne(t,GetGadgetText(grec)):EndIf
-  ;ClearDebugOutput():Debug "________________________________________________":Debug t
-  ProcedureReturn  t
-EndProcedure
-
-Procedure pref(sens) ; sens: 0 lecture  /  1 ecriture
-  
-  Macro lectur_ecriture_long(key,val,var,def)
-    If sens:WritePreferenceLong (key,val):Else:var=ReadPreferenceLong (key, def):EndIf
-  EndMacro
-  
-  OpenPreferences(GetCurrentDirectory()+"PBHelp.ini")
-  
-  lectur_ecriture_long("pX", WindowX(waide),waidex,50)
-  lectur_ecriture_long("py", WindowY(waide),waidey,50)
-  lectur_ecriture_long("dX", WindowWidth(waide),waidedx,800)
-  lectur_ecriture_long("dy", WindowHeight(waide),waidedy,600)
-  If sens=0:helpsource=ReadPreferenceString("helpsource",""):EndIf
-  
-  Debug helpsource
-  ClosePreferences()
-EndProcedure
-
-Procedure CheckFile()
-  Protected i,lerr.s
-  
-  pref(0):rep=helpsource+"/"
-  
-  os="Windows"
-  For i=1 To 3
-    langue=StringField(listlg,i,",") :lerr+ "§================§":lerr+ langue:lerr+ "§================§"
-    initlang() 
-    initFichier(0)
-    ForEach page()
-      PbtoHtml(page()\nom)
-      If erreur
-        lerr+ "-------"+page()\fichier+"---"+page()\nom+"§"
-        lerr+ erreur
-      EndIf 
-    Next
-    lerr+ "§=============================="+ListSize(page())
-  Next
-  Debug ReplaceString(lerr,"§",#LF$)
-  MessageRequester("Script Error",ReplaceString(lerr,"§",#LF$))
-EndProcedure
-
-Procedure.s htmltopb(t.s) ; temporaire, sert à lire le sommaire html, le convertir au format PB
-  Protected.s c,l,tt,r,txt,lien,balise,attr
-  Protected pi,pf,pl,p
-  
-  t=ReplaceString(t,#CR$,"")
-  t=ReplaceString(t,#TAB$,"")
-  Repeat
-    pi=pf+1
-    pf=FindString(t,#LF$,pi):If pf=0:Break:EndIf
-    l=Trim(Mid(t,pi,pf-pi))
-    c=RMid(@l,1,1):pl=1
-    If c="<"
-      Repeat:pl+1:c=rMid(@l,pl,1):Until FindString(" >",c)
-      balise=LCase(rMid(@l,2,pl-2))
-      attr=RMid(@l,pl,FindString(l,">")-pl)
-      txt=Stringparse(l,">","<")
-      Select balise
-        Case "table","tr","td","/table","/tr","/td":tt+"@<"+balise+attr+">"+#LF$
-        Case "b":tt+"@Section "+txt+#LF$
-        Case "a":
-          If FindString(l,"href")
-            If FindString(l,"/index"):lien="lib_"+Stringparse(l,"/","/"):Else:lien=Stringparse(l,g,"."):EndIf
-          tt+"@Link "+lien+" "+g+txt+g+#LF$
-          EndIf
-      EndSelect
-    EndIf
-  ForEver
-  tt=ReplaceString(tt,"<table","<table style='all: unset;'")
-  ;Debug tt:End
-  ProcedureReturn tt
-EndProcedure
-
-Procedure filemef(source.s,destination.s) ; conversion d'un fichier source de la doc (DocMaker) au format de l'aide
-  #sep=" .,;:()[]{}>@/"+#LF$+Chr(34)+Chr(160)
-  Protected n,p,pre,text,atext,ok,indent,file,format
-  Protected.s t,tt,c1,c,balise,fl
-
-  file=ReadFile(#PB_Any,source):If file=0:ProcedureReturn #False:EndIf
-  format=ReadStringFormat(file):If format=#PB_Ascii:format=#PB_UTF8:EndIf ; sources sans BOM: UTF-8
-  ok=1
-  Repeat
-    t=(ReadString(file,format))
-    c1=Left(t,1)
-    If pre=0 And LCase(Left(LTrim(t),13))="@examplefile ":t=LTrim(t):c1="@":EndIf ; souvent indente: reste une ligne a part (lue jusqu'a la fin de ligne)
-    If Trim(t)="@LineBreak":c1=" ":EndIf
-    If c1="@"
-      p=1:balise="":c="":Repeat:p+1:balise+c:c=rMid(@t,p,1):Until (FindString(#sep,c) And balise+c<>"</") Or c="":balise=LCase(balise)
-      Select balise
-        Case "code","fixedfont","function","syntax":pre=1
-        Case "endcode","endfixedfont","description":pre=0
-        Case "formatif":t="@HTML":pre=1
-        Case "formatelse":ok=0
-        Case "formatendif":t="@EndHTML":ok=1:pre=0
-      EndSelect
-    EndIf
-    atext=text:text=Bool(FindString("@;",c1)=0)
-    If pre=0:t=Trim(t):EndIf
-    If LCase(Trim(t))="@indent":t+#LF$:EndIf
-    If LCase(Trim(t))="@endindent":t=#LF$+t:EndIf
-    If pre Or text=0 Or atext=0:t=#LF$+t:Else:t=" "+Trim(t):EndIf
-    t=ReplaceString(t,"@LineBreak",#LF$)
-    If ok:tt+t:EndIf
-  Until Eof(file)
-  CloseFile(file)
-  tt=ReplaceString(tt," "+#LF$,#LF$)
-  Debug "=====lg: "+Len(tt)+#TAB$+"  lines: "+CountString(tt,#LF$)+#TAB$+""+source
-  ;Debug tt
-  If ok=0:Debug " !!! @formatendif missing !!!":EndIf
-  ProcedureReturn WriteTextFile(destination,tt)
-EndProcedure
-
-Procedure listfilemef()
-  Protected t.s,ch.s,p,i
-  MessageRequester("!!!","ATTENTION, n'executer qu'une fois !")
-  NewList fl.s()
-  
-  pref(0):rep=helpsource+"/"
-
-  os="Windows"
-  For i=1 To 3
-    langue=StringField(listlg,i,",") :Debug #LF$+"================":Debug langue:Debug "================"
-    ;--------------------- conversion des fichiers au nvx format (sans formatif et linebreak)
-    initlang() 
-    initbalise()
-    ;filemef("Reference\general_rules.txt")
-    ;filemef("Reference\variables.txt")
-    ;filemef("Reference\ascii.txt")
-    FileList(fl(),rep+langue,"txt",1,1):ForEach fl():filemef(rep+langue+"/"+fl(),rep+langue+"/"+fl()):Next
-    
-    ;--------------------- conversion reference.html au format pb (.txt) insertion "User library" et renommage ascii.txt->asciitable.txt
-    ch=rep+langue+"/Reference/reference.html"
-    t="@Title "+_acceuil+#LF$+htmltopb(ReadTextFile(ch))
-    p=FindString(t,"lib_texture")
-    p=FindString(t,"@Section",p)
-    t=InsertString(t,"@Section User library"+#LF$+"$userlib"+#LF$,p)
-    t=ReplaceString(t,"@Link ascii","@Link asciitable")
-    ch=ReplaceString(ch,".html",".txt")
-    WriteTextFile(ch,t)
-    ;DeleteFile(rep+langue+"\Reference\asciitable.txt")
-    Debug RenameFile(rep+langue+"\Reference\ascii.txt",rep+langue+"\Reference\asciitable.txt")
-  Next
-EndProcedure
-
-Procedure createpath(dir.s) ; cree le dossier et ses parents
-  dir=RTrim(ReplaceString(dir,"\","/"),"/")
-  If dir="" Or FileSize(dir)=-2:ProcedureReturn #True:EndIf
-  createpath(GetPathPart(dir))
-  ProcedureReturn CreateDirectory(dir)
-EndProcedure
-
-Procedure.s inithelp(source.s,destination.s) ; --init: construit le dossier de l'aide depuis les sources de la doc. Retourne les erreurs
-  Protected i,ch.s,fic.s,t.s,errors.s
-  NewList fl.s()
-
-  source=ReplaceString(source,"\","/"):If Right(source,1)<>"/":source+"/":EndIf
-  destination=ReplaceString(destination,"\","/"):If Right(destination,1)<>"/":destination+"/":EndIf
-  If FileSize(source)<>-2:ProcedureReturn "Help source not found: "+source+#LF$:EndIf
-  If createpath(destination)=0:ProcedureReturn "Can't create: "+destination+#LF$:EndIf
-
-  For i=1 To CountString(listlg,",")+1
-    langue=StringField(listlg,i,",")
-    If FileSize(source+langue)<>-2:Continue:EndIf
-    initlang()
-    initbalise()
-    ;--------------------- conversion des fichiers au nvx format (sans formatif et linebreak), ascii.txt -> asciitable.txt
-    FileList(fl(),source+langue,"txt",1,1)
-    ForEach fl()
-      fic=fl()
-      If LCase(fic)="reference/ascii.txt":fic=GetPathPart(fic)+"asciitable.txt":EndIf
-      createpath(GetPathPart(destination+langue+"/"+fic))
-      If filemef(source+langue+"/"+fl(),destination+langue+"/"+fic)=0:errors+"Can't convert: "+source+langue+"/"+fl()+#LF$:EndIf
-    Next
-    ;--------------------- conversion reference.html au format pb (.txt) avec insertion "User library"
-    ch=source+langue+"/Reference/reference.html"
-    If FileSize(ch)>0
-      t="@Title "+_acceuil+#LF$+htmltopb(ReadTextFile(ch,#PB_UTF8,0))
-      t=InsertString(t,"@Section User library"+#LF$+"$userlib"+#LF$,FindString(t,"@Section",FindString(t,"lib_texture")))
-      t=ReplaceString(t,"@Link ascii","@Link asciitable")
-      If WriteTextFile(destination+langue+"/Reference/reference.txt",t)=0:errors+"Can't write: "+destination+langue+"/Reference/reference.txt"+#LF$:EndIf
-    Else
-      errors+"Not found: "+ch+#LF$
-    EndIf
-    ;--------------------- images
-    ch=source+langue+"/Reference/Images"
-    If FileSize(ch)=-2 And CopyDirectory(ch,destination+langue+"/Reference/Images","",#PB_FileSystem_Recursive|#PB_FileSystem_Force)=0
-      errors+"Can't copy: "+ch+#LF$
-    EndIf
-  Next
-
-  If FileSize(source+"HelpPictures")=-2 And CopyDirectory(source+"HelpPictures",destination+"HelpPictures","",#PB_FileSystem_Recursive|#PB_FileSystem_Force)=0
-    errors+"Can't copy: "+source+"HelpPictures"+#LF$
-  EndIf
-  If CopyFile(source+"OSSpecificFunctions.txt",destination+"OSSpecificFunctions.txt")=0
-    errors+"Can't copy: "+source+"OSSpecificFunctions.txt"+#LF$
-  EndIf
-  ProcedureReturn errors
-EndProcedure
-
-Procedure.s inithelpzip(source.s,destination.s) ; --initzip: comme inithelp(), mais dans l'archive .zip 'destination'. Retourne les erreurs
-  Protected.s temp,errors
-  Protected pack
-  NewList fl.s()
-
-  ; l'aide est construite dans un dossier temporaire, puis compressee (chemins relatifs avec '/', a la racine de l'archive)
-  temp=GetTemporaryDirectory()+"PBHelp_"+Str(ElapsedMilliseconds())+"/"
-  errors=inithelp(source,temp)
-  If FileSize(temp)=-2
-    UseZipPacker()
-    createpath(GetPathPart(destination))
-    pack=CreatePack(#PB_Any,destination,#PB_PackerPlugin_Zip)
-    If pack
-      FileList(fl(),temp,"",1,1)
-      ForEach fl()
-        If AddPackFile(pack,temp+fl(),fl())=0:errors+"Can't add to the archive: "+fl()+#LF$:EndIf
+        MakePath(GetPathPart(Destination$ + Language$ + "/" + File$))
+        If ConvertSourceFile(Source$ + Language$ + "/" + Files$(), Destination$ + Language$ + "/" + File$) = 0
+          Errors$ + "Can't convert: " + Source$ + Language$ + "/" + Files$() + #LF$
+        EndIf
       Next
-      ClosePack(pack)
-    Else
-      errors+"Can't create: "+destination+#LF$
-    EndIf
-    DeleteDirectory(temp,"",#PB_FileSystem_Recursive|#PB_FileSystem_Force)
-  EndIf
-  ProcedureReturn errors
-EndProcedure
 
-;_____________________________________________________________________________________________________________________interface
-
-Global hostwindow,gxml ; hostwindow: fenetre qui contient l'aide (pour les evenements differes)
-
-Macro dossier:If *page\userlib:dos=repul:Else:dos=rep+RepL:EndIf:EndMacro
-
-Procedure affiche(page.s)
-  Protected pilepos
-  Debug page
-  If Len(page)<>1 And FindMapElement(*pid(),page)=0:MessageRequester("PB Help", "not found : "+page):ProcedureReturn :EndIf
-  Select page
-    Case "-":If ListIndex(pilepage())<=0:ProcedureReturn:EndIf:PreviousElement(pilepage()):page=pilepage()
-    Case "+":If ListIndex(pilepage())>=ListSize(pilepage())-1:ProcedureReturn:EndIf:NextElement(pilepage()):page=pilepage()
-    Default:
-      While NextElement(pilepage()):DeleteElement(pilepage()):Wend
-      AddElement(pilepage()):pilepage()=page
-  EndSelect
-  If page=apage:ProcedureReturn:Else:apage=page:EndIf
-  ht=PbtoHtml(page)
-  sethtml(ht)
-  pilepos=ListIndex(pilepage())
-  DisableGadget(gprec,Bool(pilepos=0))
-  DisableGadget(gsuiv,Bool(pilepos=ListSize(pilepage())-1))
-
-  HideGadget(gediter,Bool(Archive And *page\userlib=""))
-
-  If *pid(page)
-    CompilerIf #Standalone ; dans l'IDE, ne pas voler le focus de l'editeur
-      SetActiveGadget(gsommaire)
-    CompilerEndIf
-    SetGadgetState(gsommaire,*pid(page)\sommaire)
-  EndIf
-EndProcedure
-
-Procedure.s examplefile(name.s) ; IDE: chemin du vrai fichier d'exemple (pour que les chemins relatifs des donnees fonctionnent)
-  Protected.s dir
-  Protected i
-  For i=1 To 2
-    If i=1:dir=rep:Else:dir=repex:EndIf
-    If dir="" Or (i=1 And Archive):Continue:EndIf
-    If FileSize(dir+"Examples/Sources/"+name)>0:ProcedureReturn dir+"Examples/Sources/"+name:EndIf
-    If FileSize(dir+"Examples/3D/"+name)>0:ProcedureReturn dir+"Examples/3D/"+name:EndIf
-    If i=2
-      If FileSize(dir+"Sources/"+name)>0:ProcedureReturn dir+"Sources/"+name:EndIf
-      If FileSize(dir+"3D/"+name)>0:ProcedureReturn dir+"3D/"+name:EndIf
-    EndIf
-  Next
-  ProcedureReturn ""
-EndProcedure
-
-Procedure jsaction(message.s)
-  message=Mid(message,3,Len(message)-4)
-  Protected.s che,ficnom,s,t,type=Left(message,2), val=Trim(Mid(message,4))
-  Protected p,pi,i
-
-
-  If type="lk"  ; ------------------------ link
-    affiche(LCase(val))
-  Else          ; ------------------------ example
-    Select Mid(type,1,1)
-      Case "c" ;----- code
-        s=*page\src
-        For i=0 To Val(val):p=FindString(s,"@Code",p+1):Next
-        ;t=PeekS(Ascii(Stringparse(s,"@Code","@EndCode",p-5)), -1, #PB_UTF8)
-        t=Stringparse(s,"@Code","@EndCode",p-5) ; !sos! bug caractere :exemple openxmldialog
-        ficnom=*page\nom+"_ex"+val+".pb"
-      Case "f" ;----- fichier
-        CompilerIf Not #Standalone
-          che=examplefile(val)
-        CompilerEndIf
-        If che=""
-          t=_ReadTextFile("Examples/Sources/"+val,#PB_UTF8,0)
-          If t="":t=_ReadTextFile("Examples/3D/"+val,#PB_UTF8,0):EndIf
+      ; Contents (home page), with the user libraries section
+      Path$ = Source$ + Language$ + "/Reference/reference.html"
+      If FileSize(Path$) > 0
+        Text$ = "@Title " + Text_Home$ + #LF$ + ContentsHtmlToSource(ReadTextFile(Path$, #False))
+        Text$ = InsertString(Text$, "@Section User library" + #LF$ + "$userlib" + #LF$, FindString(Text$, "@Section", FindString(Text$, "lib_texture")))
+        Text$ = ReplaceString(Text$, "@Link ascii", "@Link asciitable")
+        If WriteTextFile(Destination$ + Language$ + "/Reference/reference.txt", Text$) = 0
+          Errors$ + "Can't write: " + Destination$ + Language$ + "/Reference/reference.txt" + #LF$
         EndIf
-        ficnom=val
+      Else
+        Errors$ + "Not found: " + Path$ + #LF$
+      EndIf
+
+      ; Images
+      Path$ = Source$ + Language$ + "/Reference/Images"
+      If FileSize(Path$) = -2 And CopyDirectory(Path$, Destination$ + Language$ + "/Reference/Images", "", #PB_FileSystem_Recursive | #PB_FileSystem_Force) = 0
+        Errors$ + "Can't copy: " + Path$ + #LF$
+      EndIf
+    Next i
+
+    If FileSize(Source$ + "HelpPictures") = -2 And CopyDirectory(Source$ + "HelpPictures", Destination$ + "HelpPictures", "", #PB_FileSystem_Recursive | #PB_FileSystem_Force) = 0
+      Errors$ + "Can't copy: " + Source$ + "HelpPictures" + #LF$
+    EndIf
+    If CopyFile(Source$ + "OSSpecificFunctions.txt", Destination$ + "OSSpecificFunctions.txt") = 0
+      Errors$ + "Can't copy: " + Source$ + "OSSpecificFunctions.txt" + #LF$
+    EndIf
+
+    ProcedureReturn Errors$
+  EndProcedure
+
+
+  ; --initzip: like BuildHelp(), but in the 'Destination$' .zip archive. Returns the errors
+  ;
+  Procedure.s BuildHelpZip(Source$, Destination$)
+    Protected TempPath$, Errors$, Pack
+    NewList Files$()
+
+    ; The help is built in a temporary folder, then compressed (relative paths with '/', at the archive root)
+    TempPath$ = GetTemporaryDirectory() + "HelpTool_" + Str(ElapsedMilliseconds()) + "/"
+    Errors$ = BuildHelp(Source$, TempPath$)
+    If FileSize(TempPath$) = -2
+      UseZipPacker()
+      MakePath(GetPathPart(Destination$))
+      Pack = CreatePack(#PB_Any, Destination$, #PB_PackerPlugin_Zip)
+      If Pack
+        ListFiles(Files$(), TempPath$)
+        ForEach Files$()
+          If AddPackFile(Pack, TempPath$ + Files$(), Files$()) = 0
+            Errors$ + "Can't add to the archive: " + Files$() + #LF$
+          EndIf
+        Next
+        ClosePack(Pack)
+      Else
+        Errors$ + "Can't create: " + Destination$ + #LF$
+      EndIf
+      DeleteDirectory(TempPath$, "", #PB_FileSystem_Recursive | #PB_FileSystem_Force)
+    EndIf
+
+    ProcedureReturn Errors$
+  EndProcedure
+
+
+  ;- ----- User interface
+
+  Procedure.s PageDirectory(*Page.HelpPage) ; folder of the page source file
+    If *Page\UserLib$
+      ProcedureReturn UserLibPath$
+    EndIf
+    ProcedureReturn HelpPath$ + LanguagePath$
+  EndProcedure
+
+
+  ; Name$: page name, or "-"/"+" to go back/forward in the history
+  ;
+  Procedure DisplayPage(Name$)
+    Protected *Page.HelpPage, HistoryPosition
+
+    If Len(Name$) <> 1 And FindPage(Name$) = 0
+      MessageRequester(Text_Help$, "Page not found: " + Name$)
+      ProcedureReturn
+    EndIf
+
+    Select Name$
+      Case "-"
+        If ListIndex(History$()) <= 0
+          ProcedureReturn
+        EndIf
+        PreviousElement(History$())
+        Name$ = History$()
+
+      Case "+"
+        If ListIndex(History$()) >= ListSize(History$()) - 1
+          ProcedureReturn
+        EndIf
+        NextElement(History$())
+        Name$ = History$()
+
+      Default ; a new page drops the forward history
+        While NextElement(History$())
+          DeleteElement(History$())
+        Wend
+        AddElement(History$())
+        History$() = Name$
+    EndSelect
+
+    If Name$ = CurrentPageName$
+      ProcedureReturn
+    EndIf
+    CurrentPageName$ = Name$
+
+    SetPageHtml(PageToHtml(Name$))
+    HistoryPosition = ListIndex(History$())
+    DisableGadget(GadgetBack, Bool(HistoryPosition = 0))
+    DisableGadget(GadgetForward, Bool(HistoryPosition = ListSize(History$()) - 1))
+    HideGadget(GadgetEdit, Bool(IsArchive And *CurrentPage And *CurrentPage\UserLib$ = ""))
+
+    *Page = FindPage(Name$)
+    If *Page
+      CompilerIf #Standalone ; in the IDE, don't steal the focus from the editor
+        SetActiveGadget(GadgetContents)
+      CompilerEndIf
+      SetGadgetState(GadgetContents, *Page\ContentsItem)
+    EndIf
+  EndProcedure
+
+
+  Procedure.s FindExampleFile(Name$) ; IDE: path of the real example file (so the relative paths to its data are working)
+    Protected Path$, i
+
+    For i = 1 To 2
+      If i = 1
+        Path$ = HelpPath$
+      Else
+        Path$ = ExamplesPath$
+      EndIf
+      If Path$ = "" Or (i = 1 And IsArchive)
+        Continue
+      EndIf
+
+      If FileSize(Path$ + "Examples/Sources/" + Name$) > 0
+        ProcedureReturn Path$ + "Examples/Sources/" + Name$
+      EndIf
+      If FileSize(Path$ + "Examples/3D/" + Name$) > 0
+        ProcedureReturn Path$ + "Examples/3D/" + Name$
+      EndIf
+      If i = 2
+        If FileSize(Path$ + "Sources/" + Name$) > 0
+          ProcedureReturn Path$ + "Sources/" + Name$
+        EndIf
+        If FileSize(Path$ + "3D/" + Name$) > 0
+          ProcedureReturn Path$ + "3D/" + Name$
+        EndIf
+      EndIf
+    Next i
+
+    ProcedureReturn ""
+  EndProcedure
+
+
+  ; Message$: '["xy:Value"]' (json parameters of the WebView callback)
+  ;   lk: link to a page
+  ;   co, cr: load/run the example code number 'Value' of the page
+  ;   fo, fr: load/run the example file 'Value'
+  ;
+  Procedure HandleJsMessage(Message$)
+    Protected Type$, Value$, File$, Code$, FileName$, Source$, Position, i
+
+    Message$ = Mid(Message$, 3, Len(Message$) - 4)
+    Type$  = Left(Message$, 2)
+    Value$ = Trim(Mid(Message$, 4))
+
+    If Type$ = "lk"
+      DisplayPage(LCase(Value$))
+      ProcedureReturn
+    EndIf
+
+    Select Left(Type$, 1)
+      Case "c" ; code in the page
+        Source$ = *CurrentPage\Source$
+        For i = 0 To Val(Value$)
+          Position = FindString(Source$, "@Code", Position + 1)
+        Next i
+        Code$ = ExtractBetween(Source$, "@Code", "@EndCode", Position - 5)
+        FileName$ = *CurrentPage\Name$ + "_ex" + Value$ + ".pb"
+
+      Case "f" ; example file
+        CompilerIf Not #Standalone
+          File$ = FindExampleFile(Value$)
+        CompilerEndIf
+        If File$ = ""
+          Code$ = ReadHelpFile("Examples/Sources/" + Value$, #False)
+          If Code$ = ""
+            Code$ = ReadHelpFile("Examples/3D/" + Value$, #False)
+          EndIf
+        EndIf
+        FileName$ = Value$
     EndSelect
 
     CompilerIf #Standalone
-      If t<>""
-        che=GetTemporaryDirectory()+ficnom
-        WriteTextFile(che, t)
-        Select Mid(type,2,1)
-          Case "o":RunProgram(#PB_Compiler_Home+"PureBasic", g+che+g,GetTemporaryDirectory(),#PB_Program_Hide)
-          Case "r":RunProgram(g+#PB_Compiler_Home+"Compilers\pbcompiler"+g, g+che+g, GetTemporaryDirectory(),#PB_Program_Hide)
+      If Code$ <> ""
+        File$ = GetTemporaryDirectory() + FileName$
+        WriteTextFile(File$, Code$)
+        Select Mid(Type$, 2, 1)
+          Case "o"
+            RunProgram(#PB_Compiler_Home + "PureBasic", #DQUOTE$ + File$ + #DQUOTE$, GetTemporaryDirectory(), #PB_Program_Hide)
+          Case "r"
+            RunProgram(#DQUOTE$ + #PB_Compiler_Home + "Compilers\pbcompiler" + #DQUOTE$, #DQUOTE$ + File$ + #DQUOTE$, GetTemporaryDirectory(), #PB_Program_Hide)
         EndSelect
       EndIf
-    CompilerElse ; IDE: charge dans un nouvel onglet (et execute si demande)
-      If OpenCodeCallback And (che<>"" Or t<>"")
-        OpenCodeCallback(che, t, Bool(Mid(type,2,1)="r"))
+
+    CompilerElse ; IDE: loaded in a new tab (and run if asked)
+      If OpenCodeCallback And (File$ <> "" Or Code$ <> "")
+        OpenCodeCallback(File$, Code$, Bool(Mid(Type$, 2, 1) = "r"))
       EndIf
     CompilerEndIf
-  EndIf
-EndProcedure
-
-Procedure jsmessage(message.s)
-  ; le javascript est bloque pendant le callback: l'action est differee dans la boucle d'evenements
-  LastElement(jsmessages()):AddElement(jsmessages()):jsmessages()=message
-  PostEvent(#EventJsMessage, hostwindow, 0)
-EndProcedure
-
-CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-  Procedure webviewdisponible() ; WebView2 utilisable ? (teste une seule fois, dans une fenetre invisible)
-    Static resultat=-1
-    Protected ancienneliste,fenetre,gadget
-    If resultat=-1
-      resultat=1
-      ancienneliste=UseGadgetList(0)
-      fenetre=OpenWindow(#PB_Any,0,0,10,10,"",#PB_Window_Invisible)
-      If fenetre
-        gadget=WebViewGadget(#PB_Any,0,0,10,10)
-        If gadget:FreeGadget(gadget):Else:resultat=0:EndIf
-        CloseWindow(fenetre)
-      EndIf
-      If ancienneliste:UseGadgetList(ancienneliste):EndIf
-    EndIf
-    ProcedureReturn resultat
   EndProcedure
 
-  Procedure navigation(gadget,url.s) ; mode IE: les appels a jsmessage() arrivent sous la forme d'une url 'pbhelp:'
-    If LCase(Left(url,7))="pbhelp:"
-      jsmessage("["+g+URLDecoder(Mid(url,8))+g+"]") ; meme format que le callback du WebView
+
+  Procedure OnJsMessage(Message$)
+    ; The javascript is blocked during the callback: the action is deferred to the event loop
+    LastElement(JsMessages$())
+    AddElement(JsMessages$())
+    JsMessages$() = Message$
+    PostEvent(#EventJsMessage, HostWindow, 0)
+  EndProcedure
+
+
+  Procedure ProcessJsMessages()
+    Protected Message$
+
+    While FirstElement(JsMessages$())
+      Message$ = JsMessages$()
+      DeleteElement(JsMessages$())
+      HandleJsMessage(Message$)
+    Wend
+  EndProcedure
+
+
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+
+    Procedure IsWebViewAvailable() ; WebView2 usable? (tested only once, in an invisible window)
+      Static Result = -1
+      Protected OldGadgetList, Window, Gadget
+
+      If Result = -1
+        Result = #True
+        OldGadgetList = UseGadgetList(0)
+        Window = OpenWindow(#PB_Any, 0, 0, 10, 10, "", #PB_Window_Invisible)
+        If Window
+          Gadget = WebViewGadget(#PB_Any, 0, 0, 10, 10)
+          If Gadget
+            FreeGadget(Gadget)
+          Else
+            Result = #False
+          EndIf
+          CloseWindow(Window)
+        EndIf
+        If OldGadgetList
+          UseGadgetList(OldGadgetList)
+        EndIf
+      EndIf
+
+      ProcedureReturn Result
+    EndProcedure
+
+
+    Procedure IENavigationCallback(Gadget, Url$) ; IE mode: the jsmessage() calls come as a 'helptool:' url
+      If LCase(Left(Url$, Len(#IEMessageScheme$))) = #IEMessageScheme$
+        OnJsMessage("[" + #DQUOTE$ + URLDecoder(Mid(Url$, Len(#IEMessageScheme$) + 1)) + #DQUOTE$ + "]") ; same format as the WebView callback
+        ProcedureReturn #False
+      EndIf
+      ProcedureReturn #True
+    EndProcedure
+
+  CompilerEndIf
+
+
+  Procedure SearchPages()
+    Protected Search$, Item
+    NewList Results$()
+
+    Search$ = GetGadgetText(GadgetSearch)
+    If CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page
+      SetPageHtml(PageToHtml(CurrentPageName$))
+    EndIf
+    If Len(Search$) < 3
+      ProcedureReturn
+    EndIf
+
+    ForEach Pages()
+      If FindString(Pages()\Source$, Search$, 1, #PB_String_NoCase)
+        AddElement(Results$())
+        Results$() = Pages()\Name$
+      EndIf
+    Next
+    SortList(Results$(), #PB_Sort_Ascending)
+
+    HideGadget(GadgetSearchList, #True)
+    ClearGadgetItems(GadgetSearchList)
+    ForEach Results$()
+      AddGadgetItem(GadgetSearchList, -1, *PageMap(Results$())\Title$)
+      SetGadgetItemData(GadgetSearchList, Item, *PageMap(Results$()))
+      Item + 1
+    Next
+    HideGadget(GadgetSearchList, #False)
+  EndProcedure
+
+
+  Procedure CreateUserInterface()
+    Protected Xml$, Tabs$, ButtonSize, i
+
+    InitLanguage()
+
+    Tabs$ = "        <tab text='" + Text_Contents$ + "'>" +
+            "          <tree name='contents' flags='#PB_Tree_AlwaysShowSelection'/>" +
+            "          </tab>" +
+            "        <tab text='" + Text_Search$ + "'>" +
+            "          <vbox expand='item:2'>" +
+            "            <string name='search'/>" +
+            "            <listview name='searchlist'/>" +
+            "            </vbox>" +
+            "          </tab>"
+
+    CompilerIf #Standalone
+      Xml$ = "<window id='#PB_Any' name='help' text='PureBasic' minwidth='500' minheight='400' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>" +
+             "  <hbox>" +
+             "    <splitter name='splitter' flags='#PB_Splitter_Vertical' firstmin='20' secondmin='auto'>" +
+             "      <panel name='panel' maxwidth='150'>" +
+             Tabs$ +
+             "        </panel>" +
+             "      <container margin='0'>" +
+             "        <vbox expand='item:2'>" +
+             "          <hbox expand='no'>" +
+             "            <button name='back' text='&#9664;' />" +
+             "            <button name='forward' text='&#9654;' />" +
+             "            <button name='home' text='&#8962;' />" +
+             "            <combobox name='language' width='100' />" +
+             "            <combobox name='os' width='100' />" +
+             "            <button name='edit' text='&#9998;' />" +
+             "            </hbox>" +
+             "          <webview name='web' />" +
+             "          </vbox>" +
+             "        </container>" +
+             "      </splitter>" +
+             "    </hbox>" +
+             "  </window>"
+
+    CompilerElse ; IDE: the button bar is on top, the contents (hidden by default) on the left of the page
+      ButtonSize = 28 ; icon + margin
+      If IsImage(ImageBack)
+        ButtonSize = DesktopUnscaledX(ImageWidth(ImageBack)) + 12
+      EndIf
+      Xml$ = "<window id='#PB_Any' name='help' margin='0'>" +
+             "  <vbox expand='item:2'>" +
+             "    <hbox expand='no'>" +
+             "      <buttonimage name='showcontents' width='" + ButtonSize + "' height='" + ButtonSize + "' flags='#PB_Button_Toggle' />" +
+             "      <buttonimage name='back' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      <buttonimage name='forward' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      <buttonimage name='home' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      <buttonimage name='edit' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      </hbox>" +
+             "    <splitter name='splitter' flags='#PB_Splitter_Vertical' firstmin='0' secondmin='auto'>" +
+             "      <panel name='panel' invisible='yes'>" +
+             Tabs$ +
+             "        </panel>" +
+             "      <webview name='web' />" +
+             "      </splitter>" +
+             "    </vbox>" +
+             "  </window>"
+    CompilerEndIf
+
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      IEMode = Bool(#ForceIEMode Or IsWebViewAvailable() = #False)
+      If IEMode ; WebView2 not available: WebGadget (Internet Explorer), degraded display
+        Xml$ = ReplaceString(Xml$, "<webview name='web' />", "<web name='web' />")
+        UseDialogWebGadget()
+      EndIf
+    CompilerEndIf
+    UseDialogWebViewGadget()
+
+    DialogXML = ParseXML(#PB_Any, Xml$)
+    Dialog = CreateDialog(#PB_Any)
+    CompilerIf #Standalone
+      OpenXMLDialog(Dialog, DialogXML, "help")
+      StandaloneWindow = DialogWindow(Dialog)
+    CompilerElse
+      XmlDialogGadget(Dialog, DialogXML, "help")
+      GadgetRoot = DialogGadget(Dialog, "help")
+    CompilerEndIf
+
+    GadgetPanel      = DialogGadget(Dialog, "panel")
+    GadgetContents   = DialogGadget(Dialog, "contents")
+    GadgetSearch     = DialogGadget(Dialog, "search")
+    GadgetSearchList = DialogGadget(Dialog, "searchlist")
+    GadgetBack       = DialogGadget(Dialog, "back")
+    GadgetForward    = DialogGadget(Dialog, "forward")
+    GadgetHome       = DialogGadget(Dialog, "home")
+    GadgetEdit       = DialogGadget(Dialog, "edit")
+    DisableGadget(GadgetContents, #False)
+
+    CompilerIf #Standalone
+      GadgetLanguage = DialogGadget(Dialog, "language")
+      For i = 1 To CountString(#Languages$, ",") + 1
+        AddGadgetItem(GadgetLanguage, -1, StringField(#Languages$, i, ","))
+      Next i
+      SetGadgetText(GadgetLanguage, Language$)
+
+      GadgetOS = DialogGadget(Dialog, "os")
+      AddGadgetItem(GadgetOS, -1, "Windows")
+      AddGadgetItem(GadgetOS, -1, "MacOS")
+      AddGadgetItem(GadgetOS, -1, "Linux")
+      SetGadgetText(GadgetOS, OS$)
+
+    CompilerElse ; the language and the OS are the IDE ones
+      GadgetLanguage = -1
+      GadgetOS = -1
+      GadgetShowContents = DialogGadget(Dialog, "showcontents")
+      GadgetToolTip(GadgetShowContents, Text_ShowContents$)
+      If IsImage(ImageContents) : SetGadgetAttribute(GadgetShowContents, #PB_Button_Image, ImageID(ImageContents)) : EndIf
+      If IsImage(ImageBack)     : SetGadgetAttribute(GadgetBack,         #PB_Button_Image, ImageID(ImageBack))     : EndIf
+      If IsImage(ImageForward)  : SetGadgetAttribute(GadgetForward,      #PB_Button_Image, ImageID(ImageForward))  : EndIf
+      If IsImage(ImageHome)     : SetGadgetAttribute(GadgetHome,         #PB_Button_Image, ImageID(ImageHome))     : EndIf
+      If IsImage(ImageEdit)     : SetGadgetAttribute(GadgetEdit,         #PB_Button_Image, ImageID(ImageEdit))     : EndIf
+      If ApplyColorsCallback
+        ApplyColorsCallback(GadgetContents)
+        ApplyColorsCallback(GadgetSearch)
+        ApplyColorsCallback(GadgetSearchList)
+      EndIf
+      RefreshDialog(Dialog)
+    CompilerEndIf
+
+    GadgetToolTip(GadgetBack, Text_Back$)
+    GadgetToolTip(GadgetForward, Text_Forward$)
+    GadgetToolTip(GadgetHome, Text_Home$)
+    GadgetToolTip(GadgetEdit, Text_Edit$)
+
+    GadgetWeb = DialogGadget(Dialog, "web")
+    CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+      If IEMode
+        SetGadgetAttribute(GadgetWeb, #PB_Web_NavigationCallback, @IENavigationCallback())
+      Else
+        BindWebViewCallback(GadgetWeb, "jsmessage", @OnJsMessage())
+      EndIf
+    CompilerElse
+      BindWebViewCallback(GadgetWeb, "jsmessage", @OnJsMessage())
+    CompilerEndIf
+
+    GadgetSplitter = DialogGadget(Dialog, "splitter")
+    CompilerIf #Standalone
+      SetGadgetState(GadgetSplitter, 150)
+      If IsArchive ; the archive has only one language
+        HideGadget(GadgetLanguage, #True)
+        HideGadget(GadgetOS, #True)
+      EndIf
+      ResizeWindow(StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight)
+    CompilerElse
+      SetGadgetState(GadgetSplitter, 0) ; contents hidden by default
+    CompilerEndIf
+  EndProcedure
+
+
+  Procedure EditCurrentPage() ; edits the source of the current page
+    Protected File$, Text$
+
+    If *CurrentPage = 0 Or *CurrentPage\File$ = ""
+      ProcedureReturn
+    EndIf
+    File$ = PageDirectory(*CurrentPage) + *CurrentPage\File$
+
+    CompilerIf #Standalone
+      RunProgram("notepad++.exe", #DQUOTE$ + File$ + #DQUOTE$ + " -p" + *CurrentPage\Position, "")
+    CompilerElse ; IDE: opens the file in a tab, at the page line
+      If EditFileCallback
+        Text$ = ReadTextFile(File$, #False)
+        EditFileCallback(File$, CountString(Left(Text$, *CurrentPage\Position), #LF$) + 1)
+      EndIf
+    CompilerEndIf
+  EndProcedure
+
+
+  Procedure SetSplitterPosition(Position) ; IDE
+    Protected Width, Height
+
+    SetGadgetState(GadgetSplitter, Position)
+    CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
+      ; Cocoa: SetGadgetState() doesn't layout the dialog panels content again, a resize forces it
+      Width  = GadgetWidth(GadgetRoot)
+      Height = GadgetHeight(GadgetRoot)
+      ResizeGadget(GadgetRoot, #PB_Ignore, #PB_Ignore, Width, Height - 1)
+      ResizeGadget(GadgetRoot, #PB_Ignore, #PB_Ignore, Width, Height)
+    CompilerEndIf
+  EndProcedure
+
+
+  Procedure MeasureSplitterBar() ; IDE: splitter bar width, in screen coordinates (independent of the real parent of the splitter gadgets)
+    Protected Width = GadgetX(GadgetWeb, #PB_Gadget_ScreenCoordinate) - GadgetX(GadgetSplitter, #PB_Gadget_ScreenCoordinate) - GetGadgetState(GadgetSplitter)
+
+    If Width > 0 And Width < 40 ; else the size isn't allocated yet (GTK)
+      SplitterBarWidth = Width
+    EndIf
+  EndProcedure
+
+
+  Procedure PlaceHiddenContents() ; IDE: hidden contents: the splitter bar is placed just on the left of the visible area
+    Protected Width
+
+    If ContentsVisible Or IsGadget(GadgetSplitter) = 0
+      ProcedureReturn
+    EndIf
+
+    If GetGadgetState(GadgetSplitter) <> 0
+      SetGadgetState(GadgetSplitter, 0)
+    EndIf
+    MeasureSplitterBar()
+    Width = SplitterBarWidth
+    If Width < 0
+      Width = 8
+    EndIf
+    ResizeGadget(GadgetSplitter, -Width, #PB_Ignore, GadgetWidth(GadgetRoot) + Width, #PB_Ignore) ; the dialog puts the splitter on the whole root width
+  EndProcedure
+
+
+  Procedure ShowContents(Visible) ; IDE: shows/hides the contents on the left of the page
+    If IsGadget(GadgetSplitter) = 0
+      ProcedureReturn
+    EndIf
+
+    ContentsVisible = Visible
+    SetGadgetState(GadgetShowContents, Visible)
+    If Visible
+      SetGadgetAttribute(GadgetSplitter, #PB_Splitter_FirstMinimumSize, 20)
+      HideGadget(GadgetPanel, #False)
+      RefreshDialog(Dialog) ; puts the splitter back in the visible area
+      If SplitterPosition <= 0 ; first display: a third of the width, without being too narrow
+        SplitterPosition = GadgetWidth(GadgetRoot) / 3
+        If SplitterPosition < 150
+          SplitterPosition = GadgetWidth(GadgetRoot) / 2
+        EndIf
+      EndIf
+      SetSplitterPosition(SplitterPosition)
+    Else
+      If GetGadgetState(GadgetSplitter) > 0
+        SplitterPosition = GetGadgetState(GadgetSplitter)
+      EndIf
+      SetGadgetAttribute(GadgetSplitter, #PB_Splitter_FirstMinimumSize, 0)
+      HideGadget(GadgetPanel, #True)
+      PlaceHiddenContents()
+    EndIf
+  EndProcedure
+
+
+  Procedure Timer() ; reloads the help if the source of the current page has been modified
+    Protected Name$, Width
+
+    If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
+      Width = SplitterBarWidth
+      MeasureSplitterBar()
+      If SplitterBarWidth <> Width
+        PlaceHiddenContents()
+      EndIf
+    EndIf
+
+    If *CurrentPage And *CurrentPage\File$ <> ""
+      If GetFileDate(PageDirectory(*CurrentPage) + *CurrentPage\File$, #PB_Date_Modified) - LastReloadDate >= 2
+        LastReloadDate = Date()
+        Name$ = *CurrentPage\Name$
+        LoadHelp()
+        DisplayPage(Name$)
+      EndIf
+    EndIf
+  EndProcedure
+
+
+  Procedure GadgetEvent(Gadget, Type)
+    Protected *Page.HelpPage
+
+    If Type <> #PB_EventType_Change And Type <> #PB_EventType_LeftClick
+      ProcedureReturn
+    EndIf
+
+    Select Gadget
+      Case GadgetContents
+        If GetGadgetState(GadgetContents) >= 0 And Type = #PB_EventType_Change
+          *Page = GetGadgetItemData(GadgetContents, GetGadgetState(GadgetContents))
+          If *Page
+            DisplayPage(*Page\Name$)
+          EndIf
+        EndIf
+
+      Case GadgetShowContents
+        ShowContents(GetGadgetState(GadgetShowContents))
+
+      Case GadgetHome
+        DisplayPage("reference")
+
+      Case GadgetBack
+        DisplayPage("-")
+
+      Case GadgetForward
+        DisplayPage("+")
+
+      Case GadgetPanel
+        SetActiveGadget(GadgetSearch)
+
+      Case GadgetSearch
+        If Type = #PB_EventType_Change
+          SearchPages()
+        EndIf
+
+      Case GadgetSearchList
+        If GetGadgetState(GadgetSearchList) >= 0
+          *Page = GetGadgetItemData(GadgetSearchList, GetGadgetState(GadgetSearchList))
+          DisplayPage(*Page\Name$)
+        EndIf
+
+      Case GadgetEdit
+        EditCurrentPage()
+
+      Case GadgetLanguage
+        Language$ = GetGadgetText(GadgetLanguage)
+        InitLanguage()
+        LoadHelp()
+
+      Case GadgetOS
+        OS$ = GetGadgetText(GadgetOS)
+    EndSelect
+  EndProcedure
+
+
+  ;- ----- Standalone tool
+
+  Procedure StandalonePreferences(Save)
+    If Save
+      If CreatePreferences(GetCurrentDirectory() + "HelpTool.ini")
+        WritePreferenceLong("X", WindowX(StandaloneWindow))
+        WritePreferenceLong("Y", WindowY(StandaloneWindow))
+        WritePreferenceLong("Width", WindowWidth(StandaloneWindow))
+        WritePreferenceLong("Height", WindowHeight(StandaloneWindow))
+        WritePreferenceString("HelpSource", HelpSource$)
+        ClosePreferences()
+      EndIf
+    Else
+      OpenPreferences(GetCurrentDirectory() + "HelpTool.ini") ; default values if it doesn't exist
+      StandaloneX      = ReadPreferenceLong("X", 50)
+      StandaloneY      = ReadPreferenceLong("Y", 50)
+      StandaloneWidth  = ReadPreferenceLong("Width", 800)
+      StandaloneHeight = ReadPreferenceLong("Height", 600)
+      HelpSource$      = ReadPreferenceString("HelpSource", "")
+      ClosePreferences()
+    EndIf
+  EndProcedure
+
+
+  Procedure RunStandalone(HelpLanguage$, HelpOS$)
+    Protected Event
+
+    Language$ = HelpLanguage$
+    OS$ = HelpOS$
+
+    StandalonePreferences(#False)
+    If FileSize(HelpSource$) <> -2 And LCase(GetExtensionPart(HelpSource$)) <> "zip"
+      HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+    EndIf
+    OpenSource(HelpSource$)
+    UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
+
+    CreateUserInterface()
+    HostWindow = StandaloneWindow
+    BindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    AddWindowTimer(StandaloneWindow, 0, 1000)
+    LoadHelp()
+    LastReloadDate = Date()
+
+    Repeat
+      Event = WaitWindowEvent()
+      If EventWindow() = StandaloneWindow
+        Select Event
+          Case #PB_Event_Gadget
+            GadgetEvent(EventGadget(), EventType())
+          Case #PB_Event_Timer
+            Timer()
+        EndSelect
+      EndIf
+    Until Event = #PB_Event_CloseWindow
+
+    StandalonePreferences(#True)
+  EndProcedure
+
+
+  ; Checks the help sources of all the languages, and displays the errors
+  ;
+  Procedure CheckSources()
+    Protected Errors$, i
+
+    StandalonePreferences(#False)
+    OpenSource(HelpSource$)
+    OS$ = "Windows"
+
+    For i = 1 To CountString(#Languages$, ",") + 1
+      Language$ = StringField(#Languages$, i, ",")
+      Errors$ + "==== " + Language$ + " ====" + #LF$
+      InitLanguage()
+      LoadHelp(#False)
+      ForEach Pages()
+        PageToHtml(Pages()\Name$)
+        If RenderErrors$
+          Errors$ + "---- " + Pages()\File$ + " - " + Pages()\Name$ + #LF$ + RenderErrors$
+        EndIf
+      Next
+      Errors$ + "==== " + Str(ListSize(Pages())) + " pages" + #LF$
+    Next i
+
+    Debug Errors$
+    MessageRequester("Help sources check", Errors$)
+  EndProcedure
+
+
+  ;- ----- IDE embedding
+
+  Procedure Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
+    Language$ = HelpLanguage$
+    OS$ = HelpOS$
+    HelpSource$ = Source$
+    OpenSource(HelpSource$)
+    UserLibPath$ = UserLibraries$
+    ExamplesPath$ = Examples$
+  EndProcedure
+
+
+  Procedure SetImages(Back, Forward, Home, Edit, Contents, LoadCode$, RunCode$) ; LoadCode$, RunCode$: png images in base64
+    ImageBack     = Back
+    ImageForward  = Forward
+    ImageHome     = Home
+    ImageEdit     = Edit
+    ImageContents = Contents
+    If LoadCode$ <> ""
+      LoadCodeIcon$ = "<img src='data:image/png;base64," + LoadCode$ + "'>"
+    EndIf
+    If RunCode$ <> ""
+      RunCodeIcon$ = "<img src='data:image/png;base64," + RunCode$ + "'>"
+    EndIf
+  EndProcedure
+
+
+  Procedure SetColors(Css$, Color = $008800) ; Css$: ":root {--bg:...}" (see PageColors$), Color: user libraries in the contents
+    PageColors$ = Css$
+    UserLibColor = Color
+  EndProcedure
+
+
+  Procedure Create(Window) ; creates the help in the current gadget list
+    HostWindow = Window
+    ClearList(History$())
+    CreateUserInterface()
+    BindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    LoadHelp()
+    LastReloadDate = Date()
+  EndProcedure
+
+
+  Procedure Destroy()
+    UnbindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    ClearList(JsMessages$())
+    If IsDialog(Dialog)
+      FreeDialog(Dialog)
+    EndIf
+    If IsXML(DialogXML)
+      FreeXML(DialogXML)
+    EndIf
+    Dialog = 0
+    DialogXML = 0
+    GadgetRoot = 0
+    GadgetShowContents = -1
+    ContentsVisible = #False
+    *CurrentPage = 0
+  EndProcedure
+
+
+  Procedure Resize(Width, Height)
+    If IsGadget(GadgetRoot)
+      ResizeGadget(GadgetRoot, 0, 0, Width, Height) ; layouts the dialog again, which puts the splitter on the whole width
+      PlaceHiddenContents()
+    EndIf
+  EndProcedure
+
+
+  Procedure ShowPage(Name$) ; displays a page if it exists (F1 contextual help)
+    Name$ = LCase(Name$)
+    If FindPage(Name$) = 0
       ProcedureReturn #False
     EndIf
+    DisplayPage(Name$)
     ProcedureReturn #True
   EndProcedure
-CompilerEndIf
 
-Procedure jsprocess()
-  Protected message.s
-  While FirstElement(jsmessages())
-    message=jsmessages():DeleteElement(jsmessages())
-    jsaction(message)
-  Wend
-EndProcedure
-
-Procedure recherche()
-  Protected txt.s, n
-  NewList result.s()
-
-  If etype= #PB_EventType_Change
-    txt=GetGadgetText(grec)
-    If apage<>"":ht=PbtoHtml(apage):sethtml(ht):EndIf ; met a jour (ou efface) le surlignage de la page affichee
-    If Len(txt)<3:ProcedureReturn:EndIf
-    ForEach page()
-      If FindString(page()\src,txt,1,#PB_String_NoCase)
-        AddElement(result())
-        result()=page()\nom
-      EndIf
-    Next
-    HideGadget(grecliste,1)
-    ClearGadgetItems(grecliste)
-    SortList(result(),#PB_Sort_Ascending)
-    ForEach result()
-      AddGadgetItem(grecliste,-1,*pid(result())\titre)
-      SetGadgetItemData(grecliste,n,*pid(result()))
-      n+1
-    Next
-    HideGadget(grecliste,0)
-  EndIf
-EndProcedure
-
-Procedure initui()
-  initlang()
-  Protected xml.s,x,i
-
-  Protected.s onglets = "        <tab text='"+_Sommaire+"'>"+
-                        "          <Tree name='sommaire' flags='#PB_Tree_AlwaysShowSelection'/>"+
-                        "          </tab>"+
-                        "        <tab text='"+_Recherche+"'>"+
-                        "          <vbox expand='item:2'>"+
-                        "            <String name='rec'/>"+
-                        "            <ListView name='recliste'/>"+
-                        "            </vbox>"+
-                        "          </tab>"
-  CompilerIf #Standalone
-    Macro bouton(nom,texte):"            <button name='"+nom+"' text='"+texte+"' />":EndMacro
-    xml = "<window id='#PB_Any' name='aide' text='PureBasic' minwidth='500' minheight='400' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu | #PB_Window_SizeGadget'>"+
-          "  <hbox>"+
-          "    <splitter name='sep' flags='#PB_Splitter_Vertical' firstmin='20' secondmin='auto'>"+
-          "      <panel name='onglet' maxwidth='150'>"+
-          onglets+
-          "        </panel>"+
-          "      <container margin='0'>"+
-          "        <vbox expand='item:2'>"+
-          "          <hbox expand='no'>"+
-          bouton("prec", "&#9664;")+
-          bouton("suiv", "&#9654;")+
-          bouton("acc", "&#8962;")+
-          "            <combobox name='langue' width='100' />"+ ; !sos!  tu peux aligner sur la droite : langue, os , editer ?
-          "            <combobox name='os' width='100' />"+
-          bouton("editer", "&#9998;")+
-          "            </hbox>"+
-          "          <WebView name='Web' />"+
-          "          </vbox>"+
-          "        </container>"+
-          "      </splitter>"+
-          "    </hbox>"+
-          "  </window>"
-  CompilerElse ; IDE: la barre de boutons est au dessus, le sommaire (masque par defaut) a gauche de la page
-    Protected taille=28 ; taille des boutons: icone + marge
-    If IsImage(imgprec):taille=DesktopUnscaledX(ImageWidth(imgprec))+12:EndIf
-    Macro bouton(nom,flags):"      <buttonimage name='"+nom+"' width='"+taille+"' height='"+taille+"' flags='"+flags+"' />":EndMacro
-    xml = "<window id='#PB_Any' name='aide' margin='0'>"+
-          "  <vbox expand='item:2'>"+
-          "    <hbox expand='no'>"+
-          bouton("sommairevisible", "#PB_Button_Toggle")+
-          bouton("prec", "")+
-          bouton("suiv", "")+
-          bouton("acc", "")+
-          bouton("editer", "")+
-          "      </hbox>"+
-          "    <splitter name='sep' flags='#PB_Splitter_Vertical' firstmin='0' secondmin='auto'>"+
-          "      <panel name='onglet' invisible='yes'>"+
-          onglets+
-          "        </panel>"+
-          "      <WebView name='Web' />"+
-          "      </splitter>"+
-          "    </vbox>"+
-          "  </window>"
-  CompilerEndIf
-  UndefineMacro bouton
-
-  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-    iemode=Bool(#ForceIEMode Or webviewdisponible()=0)
-    If iemode ; WebView2 indisponible: WebGadget (Internet Explorer), affichage degrade
-      xml=ReplaceString(xml,"<WebView name='Web' />","<web name='Web' />")
-      UseDialogWebGadget()
-    EndIf
-  CompilerEndIf
-  UseDialogWebViewGadget()
-  ;xml=ReplaceString(xml,">",">"+#LF$)
-  ;Protected.s g=Chr(34),c,ac,nxml=GetClipboardText():Repeat :axml=xml:xml=ReplaceString(xml,g+" ",g):Until axml=xml:For i=1 To Len(xml):ac=c:c=Mid(xml,i,1):If c="<":nxml+Space(pos*2):pos+1:ElseIf c="/":pos-1:If ac="<":pos-1:EndIf:EndIf:nxml+c:Next:Debug nxml:end
-  x=ParseXML(-1, xml):gxml=x
-  gdialog=CreateDialog(-1)
-  CompilerIf #Standalone
-    OpenXMLDialog(gdialog, x, "aide")
-    waide=DialogWindow(gdialog)
-  CompilerElse
-    XmlDialogGadget(gdialog, x, "aide")
-    groot=DialogGadget(gdialog,"aide")
-  CompilerEndIf
-  gonglet=DialogGadget(gdialog,"onglet")
-  gsommaire=DialogGadget(gdialog,"sommaire"):DisableGadget(gsommaire,0)
-  grec=DialogGadget(gdialog,"rec")
-  grecliste=DialogGadget(gdialog,"recliste")
-
-  gprec=DialogGadget(gdialog,"prec")
-  gsuiv=DialogGadget(gdialog,"suiv")
-  gacc=DialogGadget(gdialog,"acc")
-  gediter=DialogGadget(gdialog,"editer")
-
-  CompilerIf #Standalone
-    glangue=DialogGadget(gdialog,"langue"):For i=1 To 3:AddGadgetItem(glangue,-1,StringField(listlg,i,",")):Next:SetGadgetText(glangue,langue)
-    gos=DialogGadget(gdialog,"os"):AddGadgetItem(gos,-1,"Windows"):AddGadgetItem(gos,-1,"MacOS"):AddGadgetItem(gos,-1,"Linux"):SetGadgetText(gos,os)
-  CompilerElse ; la langue et l'OS sont ceux de l'IDE
-    glangue=-1
-    gos=-1
-    gsommairevisible=DialogGadget(gdialog,"sommairevisible")
-    GadgetToolTip(gsommairevisible,_sommairevisible)
-    If IsImage(imgsommaire):SetGadgetAttribute(gsommairevisible,#PB_Button_Image, ImageID(imgsommaire)):EndIf
-    If IsImage(imgprec)  :SetGadgetAttribute(gprec,  #PB_Button_Image, ImageID(imgprec))  :EndIf
-    If IsImage(imgsuiv)  :SetGadgetAttribute(gsuiv,  #PB_Button_Image, ImageID(imgsuiv))  :EndIf
-    If IsImage(imgacc)   :SetGadgetAttribute(gacc,   #PB_Button_Image, ImageID(imgacc))   :EndIf
-    If IsImage(imgediter):SetGadgetAttribute(gediter,#PB_Button_Image, ImageID(imgediter)):EndIf
-    If ApplyColorsCallback
-      ApplyColorsCallback(gsommaire)
-      ApplyColorsCallback(grec)
-      ApplyColorsCallback(grecliste)
-    EndIf
-    RefreshDialog(gdialog)
-  CompilerEndIf
-  GadgetToolTip(gprec,_prec)
-  GadgetToolTip(gsuiv,_suiv)
-  GadgetToolTip(gacc,_acceuil)
-  GadgetToolTip(gediter,_editer)
-
-  gweb=DialogGadget(gdialog,"web")
-  CompilerIf #PB_Compiler_OS = #PB_OS_Windows
-    If iemode
-      SetGadgetAttribute(gweb, #PB_Web_NavigationCallback, @navigation())
-    Else
-      BindWebViewCallback(gweb, "jsmessage", @jsmessage())
-    EndIf
-  CompilerElse
-    BindWebViewCallback(gweb, "jsmessage", @jsmessage())
-  CompilerEndIf
-
-  gsep=DialogGadget(gdialog,"sep")
-  CompilerIf #Standalone
-    SetGadgetState(gsep,150)
-  CompilerElse
-    SetGadgetState(gsep,0) ; sommaire masque par defaut
-  CompilerEndIf
-
-  If Archive And IsGadget(glangue)
-    HideGadget(glangue,1)
-    HideGadget(gos,1)
-  EndIf
-
-  CompilerIf #Standalone
-    ResizeWindow(waide,waidex, waidey, waidedx, waidedy)
-  CompilerEndIf
-EndProcedure
-
-Procedure opensource(source.s) ; ouvre la source de l'aide: dossier, ou archive .zip
-  If Archive:ClosePack(nzip):Archive=0:EndIf
-  If LCase(GetExtensionPart(source))="zip" And FileSize(source)>0
-    rep=Left(source,Len(source)-4)
-    UseZipPacker():nzip=OpenPack(-1, source)
-    If nzip:archive=1:packinfo(nzip):EndIf
-  Else
-    rep=source
-  EndIf
-  If Right(rep,1)<>"/" And Right(rep,1)<>"\":rep+"/":EndIf
-EndProcedure
-
-Procedure editer() ; edition de la source de la page courante
-  Protected t.s
-  If *page=0 Or *page\fichier="":ProcedureReturn:EndIf
-  dossier
-  CompilerIf #Standalone
-    RunProgram("notepad++.exe",g+dos+*page\fichier+g +" -p"+*page\pos,"")
-  CompilerElse ; IDE: ouvre le fichier dans un onglet, a la ligne de la page
-    If EditFileCallback
-      t=ReadTextFile(dos+*page\fichier,#PB_UTF8,0)
-      EditFileCallback(dos+*page\fichier, CountString(Left(t,*page\pos),#LF$)+1)
-    EndIf
-  CompilerEndIf
-EndProcedure
-
-Global sommairevisible,splitpos,largeurbarre=-1 ; IDE: sommaire affiche, position du separateur, largeur de sa barre (-1: pas encore mesuree)
-
-Procedure setsplit(pos) ; IDE: position du separateur
-  Protected w,h
-  SetGadgetState(gsep, pos)
-  CompilerIf #PB_Compiler_OS = #PB_OS_MacOS
-    ; Cocoa: SetGadgetState() ne relayoute pas le contenu des panneaux du dialog, un redimensionnement le force
-    w=GadgetWidth(groot):h=GadgetHeight(groot)
-    ResizeGadget(groot, #PB_Ignore, #PB_Ignore, w, h-1)
-    ResizeGadget(groot, #PB_Ignore, #PB_Ignore, w, h)
-  CompilerEndIf
-EndProcedure
-
-Procedure mesurebarre() ; IDE: largeur de la barre du separateur, en coordonnees ecran (independant du parent reel des gadgets du splitter)
-  Protected l=GadgetX(gweb,#PB_Gadget_ScreenCoordinate)-GadgetX(gsep,#PB_Gadget_ScreenCoordinate)-GetGadgetState(gsep)
-  If l>0 And l<40:largeurbarre=l:EndIf ; sinon la taille n'est pas encore allouee (GTK)
-EndProcedure
-
-Procedure placesommaire() ; IDE: sommaire masque: la barre du separateur est placee juste a gauche de la zone visible
-  Protected l
-  If sommairevisible Or IsGadget(gsep)=0:ProcedureReturn:EndIf
-  If GetGadgetState(gsep)<>0:SetGadgetState(gsep,0):EndIf
-  mesurebarre()
-  l=largeurbarre:If l<0:l=8:EndIf
-  ResizeGadget(gsep, -l, #PB_Ignore, GadgetWidth(groot)+l, #PB_Ignore) ; le dialog place le splitter sur toute la largeur de la racine
-EndProcedure
-
-Procedure affichesommaire(visible) ; IDE: affiche/masque le sommaire a gauche de la page
-  If IsGadget(gsep)=0:ProcedureReturn:EndIf
-  sommairevisible=visible
-  SetGadgetState(gsommairevisible,visible)
-  If visible
-    SetGadgetAttribute(gsep,#PB_Splitter_FirstMinimumSize,20)
-    HideGadget(gonglet,0)
-    RefreshDialog(gdialog) ; replace le splitter dans la zone visible
-    If splitpos<=0 ; premier affichage: un tiers de la largeur, sans etre trop etroit
-      splitpos=GadgetWidth(groot)/3
-      If splitpos<150:splitpos=GadgetWidth(groot)/2:EndIf
-    EndIf
-    setsplit(splitpos)
-  Else
-    If GetGadgetState(gsep)>0:splitpos=GetGadgetState(gsep):EndIf
-    SetGadgetAttribute(gsep,#PB_Splitter_FirstMinimumSize,0)
-    HideGadget(gonglet,1)
-    placesommaire()
-  EndIf
-EndProcedure
-
-Procedure timer() ; recharge l'aide si la source de la page courante a ete modifiee
-  Protected memnom.s,l
-  If sommairevisible=0 And IsGadget(gsep) ; la largeur de la barre n'est connue qu'une fois le splitter affiche (GTK, Cocoa)
-    l=largeurbarre:mesurebarre()
-    If largeurbarre<>l:placesommaire():EndIf
-  EndIf
-  If *page And *page\fichier<>""
-    dossier
-    If GetFileDate(dos+*page\fichier,#PB_Date_Modified)-editiondate>=2
-      editiondate=Date()
-      memnom=*page\nom
-      initFichier()
-      affiche(memnom)
-    EndIf
-  EndIf
-EndProcedure
-
-Procedure gadgetevent(gadget, type)
-  etype=type
-  If etype=#PB_EventType_Change Or etype =#PB_EventType_LeftClick
-    Select gadget
-      Case gsommaire
-        If GetGadgetState(gsommaire)>=0 And etype=#PB_EventType_Change; Or etype =#PB_EventType_LeftClick
-          *pagesel=GetGadgetItemData(gsommaire,GetGadgetState(gsommaire)):If *pagesel:affiche(*pagesel\nom):EndIf
-        EndIf
-      Case gsommairevisible:affichesommaire(GetGadgetState(gsommairevisible))
-      Case gacc:affiche("reference")
-      Case gprec:affiche("-")
-      Case gsuiv:affiche("+")
-
-      Case gonglet:SetActiveGadget(grec)
-      Case grec:recherche()
-      Case grecliste
-        If GetGadgetState(grecliste)>=0
-          *pagesel=GetGadgetItemData(grecliste,GetGadgetState(grecliste)):affiche(*pagesel\nom)
-        EndIf
-
-      Case gediter:editer()
-      Case glangue:langue=GetGadgetText(glangue):initlang():initFichier()
-      Case gos:os=GetGadgetText(gos)
-    EndSelect
-  EndIf
-EndProcedure
-
-Procedure init(language.s,operatingsys.s) ; outil autonome
-  Protected Event
-
-  langue=language
-  os=operatingsys
-
-  pref(0)
-
-  ; chemin dossier de l'aide (issu de PBHelp.ini), ou archive
-  If FileSize(helpsource)<>-2 And LCase(GetExtensionPart(helpsource))<>"zip"
-    helpsource="C:\Users\shadoko\Desktop\git-pb\pbaidenv.zip"; chemin archive de l'aide (GetCurrentDirectory()+"PureBasicHelp")
-  EndIf
-  opensource(helpsource)
-
-  repUL="C:\PureBasic-code\outils\helplib/" ; chemin dossier lib (GetCurrentDirectory()+"PureLibraries/Userlibraries")
-
-  initui()
-  hostwindow=waide
-  BindEvent(#EventJsMessage, @jsprocess(), hostwindow)
-  AddWindowTimer(waide,0,1000)
-  initFichier()
-  *pagesel=*page
-  editiondate=Date()
-
-  Repeat
-    Event = WaitWindowEvent()
-    If EventWindow()=waide
-      If Event=#PB_Event_Gadget:gadgetevent(EventGadget(),EventType()):EndIf
-      If Event=#PB_Event_Timer:timer():EndIf
-    EndIf
-  Until Event = #PB_Event_CloseWindow
-  pref(1)
-EndProcedure
-
-;_____________________________________________________________________________________________________________________IDE
-
-Procedure setup(lg.s, operatingsys.s, source.s, userlibsource.s, examplesource.s)
-  langue=lg
-  os=operatingsys
-  helpsource=source
-  opensource(helpsource)
-  repUL=userlibsource
-  repex=examplesource
-EndProcedure
-
-Procedure setimages(back, forward, home, edit, index, open.s, run.s) ; open, run: images png en base64
-  imgprec=back
-  imgsuiv=forward
-  imgacc=home
-  imgediter=edit
-  imgsommaire=index
-  If open<>"":icoouvrir="<img src='data:image/png;base64,"+open+"'>":EndIf
-  If run<>"" :icoexecuter="<img src='data:image/png;base64,"+run+"'>":EndIf
-EndProcedure
-
-Procedure setcolors(css.s, userlibcolor=$008800) ; css: ":root {--bg:...}" (voir 'couleurs'), userlibcolor: bibliotheques utilisateur dans le sommaire
-  couleurs=css
-  couleurul=userlibcolor
-EndProcedure
-
-Procedure create(window) ; cree l'aide dans la liste de gadgets courante
-  hostwindow=window
-  ClearList(pilepage())
-  initui()
-  BindEvent(#EventJsMessage, @jsprocess(), hostwindow)
-  initFichier()
-  *pagesel=*page
-  editiondate=Date()
-EndProcedure
-
-Procedure destroy()
-  UnbindEvent(#EventJsMessage, @jsprocess(), hostwindow)
-  ClearList(jsmessages())
-  If IsDialog(gdialog):FreeDialog(gdialog):EndIf
-  If IsXML(gxml):FreeXML(gxml):EndIf
-  gdialog=0:gxml=0:groot=0:gsommairevisible=-1:sommairevisible=0:*page=0:*pagesel=0
-EndProcedure
-
-Procedure resize(width, height)
-  If IsGadget(groot)
-    ResizeGadget(groot, 0, 0, width, height) ; relayoute le dialog, qui replace le splitter sur toute la largeur
-    placesommaire()
-  EndIf
-EndProcedure
-
-Procedure show(page.s) ; affiche une page si elle existe (aide contextuelle F1)
-  page=LCase(page)
-  If FindMapElement(*pid(),page)=0:ProcedureReturn #False:EndIf
-  affiche(page)
-  ProcedureReturn #True
-EndProcedure
-
-DisableExplicit
 EndModule
 
 
 CompilerIf #PB_Compiler_IsMainFile
 
-  ;pbhelp::CheckFile()
-  ;pbhelp::listfilemef()
-
   ; HelpTool --init <helpsourcepath> <helpdestinationpath>
   ;   builds the help folder used by the help tool from the documentation sources (the 'Documentation' folder)
   ; HelpTool --initzip <helpsourcepath> <helpdestinationzip>
   ;   same, but builds a zip archive (ie: 'Help/Help.zip', the default help source of the IDE)
-  If ProgramParameter(0)="--init" Or ProgramParameter(0)="--initzip"
-    If CountProgramParameters()<>3
-      Errors$ = "Usage: HelpTool --init <helpsourcepath> <helpdestinationpath>"+#LF$+
-                "       HelpTool --initzip <helpsourcepath> <helpdestinationzip>"+#LF$
-    ElseIf ProgramParameter(0)="--initzip"
-      Errors$ = pbhelp::inithelpzip(ProgramParameter(1), ProgramParameter(2))
+  ;
+  ; HelpTool::CheckSources() checks the help sources of all the languages for errors
+  ;
+  If ProgramParameter(0) = "--init" Or ProgramParameter(0) = "--initzip"
+    If CountProgramParameters() <> 3
+      Errors$ = "Usage: HelpTool --init <helpsourcepath> <helpdestinationpath>" + #LF$ +
+                "       HelpTool --initzip <helpsourcepath> <helpdestinationzip>" + #LF$
+    ElseIf ProgramParameter(0) = "--initzip"
+      Errors$ = HelpTool::BuildHelpZip(ProgramParameter(1), ProgramParameter(2))
     Else
-      Errors$ = pbhelp::inithelp(ProgramParameter(1), ProgramParameter(2))
+      Errors$ = HelpTool::BuildHelp(ProgramParameter(1), ProgramParameter(2))
     EndIf
     If Errors$ <> ""
       If OpenConsole()
@@ -1644,7 +2455,14 @@ CompilerIf #PB_Compiler_IsMainFile
     End
   EndIf
 
-  pbhelp::init("French","Windows")
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_Windows
+      HelpTool::RunStandalone("English", "Windows")
+    CompilerCase #PB_OS_Linux
+      HelpTool::RunStandalone("English", "Linux")
+    CompilerDefault
+      HelpTool::RunStandalone("English", "MacOS")
+  CompilerEndSelect
 
 CompilerElse
 
@@ -1894,11 +2712,11 @@ CompilerElse
       Name$ = "lib_" + LCase(GetFilePart(RTrim(GetPathPart(Page$), "/")))
     EndIf
 
-    If pbhelp::show(Name$)
+    If HelpTool::ShowPage(Name$)
       ProcedureReturn #True
     EndIf
 
-    pbhelp::show("reference")
+    HelpTool::ShowPage("reference")
     ProcedureReturn #False
   EndProcedure
 
@@ -1921,7 +2739,7 @@ CompilerElse
 
 
   Procedure HelpTool_Timer()
-    pbhelp::timer()
+    HelpTool::Timer()
   EndProcedure
 
 
@@ -1940,9 +2758,9 @@ CompilerElse
       OS$ = "MacOS"
     CompilerEndIf
 
-    pbhelp::OpenCodeCallback = @HelpTool_OpenCode()
-    pbhelp::EditFileCallback = @HelpTool_EditFile()
-    pbhelp::ColorCodeCallback = @HelpTool_ColorCode()
+    HelpTool::OpenCodeCallback = @HelpTool_OpenCode()
+    HelpTool::EditFileCallback = @HelpTool_EditFile()
+    HelpTool::ColorCodeCallback = @HelpTool_ColorCode()
     ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
     If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
       UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue
@@ -1950,18 +2768,18 @@ CompilerElse
       UserLibColor = $008800
     EndIf
     If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
-      pbhelp::ApplyColorsCallback = @ToolsPanel_ApplyColors()
+      HelpTool::ApplyColorsCallback = @ToolsPanel_ApplyColors()
     Else
-      pbhelp::ApplyColorsCallback = 0
+      HelpTool::ApplyColorsCallback = 0
     EndIf
-    pbhelp::setcolors(HelpTool_ThemeColors(), UserLibColor)
-    pbhelp::setimages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    pbhelp::setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
+    HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
+    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
 
     If *Entry\IsSeparateWindow
-      pbhelp::create(*Entry\ToolWindowID)
+      HelpTool::Create(*Entry\ToolWindowID)
     Else
-      pbhelp::create(#WINDOW_Main)
+      HelpTool::Create(#WINDOW_Main)
     EndIf
 
     ; Reload the help when its source is modified (help edition)
@@ -1976,7 +2794,7 @@ CompilerElse
 
     RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
     UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
-    pbhelp::destroy()
+    HelpTool::Destroy()
 
     HelpToolOpen = #False
 
@@ -1985,13 +2803,13 @@ CompilerElse
 
   Procedure Help_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
-    pbhelp::resize(PanelWidth, PanelHeight)
+    HelpTool::Resize(PanelWidth, PanelHeight)
 
   EndProcedure
 
   Procedure Help_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 
-    pbhelp::gadgetevent(EventGadgetID, EventType())
+    HelpTool::GadgetEvent(EventGadgetID, EventType())
 
   EndProcedure
 
