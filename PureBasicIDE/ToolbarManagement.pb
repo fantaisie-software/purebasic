@@ -4,10 +4,11 @@
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
 ; --------------------------------------------------------------------------------------------
 
+; TODO If PR390 is rejected this will need adjusting down.
 CompilerIf #SpiderBasic
-  #NB_ToolbarMenuItems = 99-22 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 102-22 ; menu items specified in the datasection
 CompilerElse
-  #NB_ToolbarMenuItems = 99 ; menu items specified in the datasection
+  #NB_ToolbarMenuItems = 102 ; menu items specified in the datasection
 CompilerEndIf
 ;#NB_InternalIcons = 45
 
@@ -575,6 +576,7 @@ DataSection
   Data.l #MENU_ProjectPanel:        Data$ "Menu:ProjectPanel"
   Data.l #MENU_Templates:           Data$ "Menu:Templates"
   Data.l #MENU_Diff:                Data$ "Menu:Diff"
+  Data.l #MENU_Maker:               Data$ "Menu:Maker"
   CompilerIf #SpiderBasic
     Data.l #MENU_WebView:             Data$ "Menu:WebView"
   CompilerEndIf
