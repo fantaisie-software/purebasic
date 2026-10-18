@@ -420,7 +420,7 @@ EndIf
   @#PB_SoundPlugin_FLAC : Enregistrement au format FLAC sans perte (l'encodeur @@UseFLACSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
   @#PB_SoundPlugin_OGG  : Enregistrement au format OGG Vorbis avec compression (l'encodeur @@UseOGGSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
   @#PB_SoundPlugin_Opus : Enregistrement au format Opus avec compression (l'encodeur @@UseOpusSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge,
-  et la fréquence d'échantillonnage du son doit déjà être l'une des suivantes : 8 000, 12 000, 16 000, 24 000 ou 48 000 Hz.
+                         et la fréquence d'échantillonnage du son doit déjà être l'une des suivantes : 8 000, 12 000, 16 000, 24 000 ou 48 000 Hz.
   @#PB_SoundPlugin_MP3  : Enregistrement au format MP3 avec perte (@@UseMP3SoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
 @EndFixedFont
 
@@ -462,21 +462,31 @@ EndIf
 @Description
   Encode le Son en mémoire, en utilisant les mêmes paramètres et encodeurs que @@SaveSound.
 
-  
-
 @Parameter "#Son"
 Le son à encoder.
 
 @OptionalParameter "Plugin"
-  Le format d'encodage du son. 
-  
-  Voir @@SaveSound pour la liste des valeurs prises en charge.
+  Format d'enregistrement du son. 
+@LineBreak  
+  Les valeurs possibles sont :
+@FixedFont
+  @#PB_SoundPlugin_WAV  : Enregistrement au format WAV PCM non compressé (par défaut).
+  @#PB_SoundPlugin_FLAC : Enregistrement au format FLAC sans perte (l'encodeur @@UseFLACSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+  @#PB_SoundPlugin_OGG  : Enregistrement au format OGG Vorbis avec compression (l'encodeur @@UseOGGSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+  @#PB_SoundPlugin_Opus : Enregistrement au format Opus avec compression (l'encodeur @@UseOpusSoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge,
+                         et la fréquence d'échantillonnage du son doit déjà être l'une des suivantes : 8 000, 12 000, 16 000, 24 000 ou 48 000 Hz.
+  @#PB_SoundPlugin_MP3  : Enregistrement au format MP3 avec perte (@@UseMP3SoundEncoder doit être utilisé). Seuls les sons mono/stéréo 16 bits sont pris en charge.
+@EndFixedFont
 
 @OptionalParameter "Qualite"
-  Voir @@SaveSound.
+  Valeur de la qualité sonore comprise entre 0 (fichier le plus petit) et 100 (qualité optimale), 
+  utilisée par les plugins FLAC, OGG, Opus et MP3 pour contrôler leur niveau de compression/qualité 
+  cible/débit binaire.@LineBreak 
+  Si cette valeur n'est pas spécifiée, chaque plugin choisit sa propre valeur par défaut.@LineBreak 
+  Ce paramètre est ignoré par le format WAV, qui est toujours sans perte et non compressé.
 
 @ReturnValue
-  Renvoie une adresse mémoire contenant les données audio encodées si l'opération a réussi, et zéro sinon.
+  Renvoie une adresse mémoire contenant les données audio encodées si l'opération a réussi, zéro sinon.
 
 @Remarks
   Cette fonction est utile, par exemple, pour envoyer des données audio sur un réseau sans les 

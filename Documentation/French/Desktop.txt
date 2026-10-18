@@ -113,9 +113,12 @@ possibilité d'utiliser plusieurs écrans
   Si la valeur est '1.25', un facteur de 125% a été appliqué sur l'axe 'x'.
    
 @Remarks
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
-
+  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" 
+  pour que cette commande renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
+  @LineBreak
+  Sous Linux (GTK3), le facteur est toujours un entier, car GTK ne prend en charge que la mise à l'échelle 
+  entière : Avec une mise à l'échelle de bureau de 150 %, il renvoie '2'.
+  
 @Example
 @Code
   Debug "DPI du bureau: Facteur d'échelle d'affichage horizontal : " + DesktopResolutionX()
@@ -141,9 +144,12 @@ possibilité d'utiliser plusieurs écrans
   Si la valeur est '1.25', un facteur de 125% a été appliqué sur l'axe 'y'.
    
 @Remarks
-  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" pour que cette commande 
-  renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
-
+  L'application doit être compilée avec le commutateur @ReferenceLink "ide_compiler" "'DPI'" 
+  pour que cette commande renvoie le facteur de résolution DPI réel. Sinon, le résultat sera toujours '1'.
+  @LineBreak
+  Sous Linux (GTK3), le facteur est toujours un entier, car GTK ne prend en charge que la mise à l'échelle 
+  entière : Avec une mise à l'échelle de bureau de 150 %, il renvoie '2'.
+ 
 @Example
 @Code
   Debug "DPI du bureau: Facteur d'échelle d'affichage vertical : " + DesktopResolutionY()
