@@ -1113,6 +1113,13 @@ Procedure FD_UpdateObjList()
       SetGadgetState(#Form_PropObjList,-1)
     EndIf
     
+    ; In design view, the editor gadget doesn't hold the form code, so scan the generated code
+    ; to show the windows, gadgets and constants of this form in the Variable Viewer
+    If *ActiveSource And *ActiveSource\IsForm = @FormWindows() And FormWindows()\current_view = 0
+      FormSourceScan(*ActiveSource)
+      UpdateVariableViewer()
+    EndIf
+    
   EndIf
 EndProcedure
 Global NewList Deletelist.i()
@@ -7186,6 +7193,8 @@ Procedure FD_ProcessMenuEvent(menu_event)
           HideGadget(#GADGET_Form, 1)
           HideEditorGadget(*ActiveSource\EditorGadget, 0)
           
+          FormWindows()\current_view = 1 ; before FD_PrepareTestCode(), so it scans the generated code from the editor gadget
+          
           ; The debugger makes its sources read-only, so allow writing the generated code here, else the code view
           ; stays empty and switching back to the design view loads the form from this empty code
           ReadOnly = SendEditorMessage(#SCI_GETREADONLY)
@@ -7199,8 +7208,6 @@ Procedure FD_ProcessMenuEvent(menu_event)
           FD_SelectNone()
           
           SetActiveGadget(*ActiveSource\EditorGadget)
-          
-          FormWindows()\current_view = 1
           
           CompilerIf #CompileWindows | #CompileMac | #CompileLinuxQt
             AddKeyboardShortcut(#WINDOW_Main, #PB_Shortcut_Return, #MENU_Scintilla_Enter)

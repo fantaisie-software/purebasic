@@ -1989,6 +1989,13 @@ Procedure FullSourceScan(*Source.SourceFile)
     ProcedureReturn #False
   EndIf
   
+  If *Source\IsForm
+    *Form.FormWindow = *Source\IsForm
+    If *Form\current_view = 0 ; design view: the editor gadget doesn't hold the form code
+      ProcedureReturn FormSourceScan(*Source)
+    EndIf
+  EndIf
+  
   ; free any old data
   FreeSourceItemArray(@*Source\Parser)
   
