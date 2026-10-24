@@ -1,7 +1,7 @@
 ﻿;
 ;     Texture library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Texture
@@ -469,7 +469,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function OutputID = TextureOutput(#Textur)
+@Function OutputID = TextureOutput(#Textur [, Flags])
 
 @Description
   Ermittelt den Ausgabe-Identifier ('OutputID') des Bildes, um darauf
@@ -478,6 +478,13 @@
 
 @Parameter "#Textur"
   Die Textur, auf der gezeichnet werden soll.
+
+@OptionalParameter "Flags"
+  Dies kann den folgenden Wert annehmen:
+@FixedFont
+  @#PB_Texture_Overwrite: Der bisherige Texturinhalt wird nicht von der Grafikkarte zurückgelesen; der Zeichenvorgang beginnt auf
+                         einer vollständig transparenten Ausgabefläche. Dies ist schneller, wenn die gesamte Textur neu gezeichnet wird.
+@EndFixedFont
 
 @ReturnValue
   Gibt die AusgabeID zurück - oder Null, wenn Zeichnen nicht möglich ist. Dieser Wert

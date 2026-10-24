@@ -1,7 +1,7 @@
 ﻿;
 ;     SysTray library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library SysTray
@@ -57,6 +57,10 @@
   Alle SysTray-Icons werden automatisch entfernt, wenn das Programm endet. @LineBreak
   Beim QT-Subsystem gibt der Linksklick ein Doppelklick-Linksklick-Ereignis zurück und
   der Mittelklick ein Linksklick-Ereignis. @LineBreak
+  Unter dem GTK-Subsystem (Linux) wird das SysTray-Symbol von der AppIndicator-Bibliothek verwaltet, welche
+  keine Klicks an das Programm weiterleitet: es wird kein @#PB_Event_SysTray Ereignis ausgelöst, und das
+  zugehörige Menü wird bei jedem Klick (links oder rechts) automatisch vom Desktop geöffnet. Daher ist es
+  bei diesem Subsystem nicht möglich, zwischen einem Links- und einem Rechtsklick zu unterscheiden. @LineBreak
   Für den normalen Betrieb muss ein Systray-Ereignis immer mit einem @LibraryLink "menu" "Menü" verknüpft sein.
   
 @Example
