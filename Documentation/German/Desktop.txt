@@ -96,6 +96,9 @@
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
   damit dieser Befehl einen tatsächlichen DPI-Auflösungsfaktor liefert.
   Wenn nicht, ist das Ergebnis immer '1'.
+  @LineBreak
+  Unter Linux (GTK3) ist der Faktor stets eine Ganzzahl, da GTK nur eine ganzzahlige Skalierung unterstützt:
+  Bei einer Desktop-Skalierung von 150% wird daher '2' zurückgegeben.
 
 @Example
 @Code
@@ -125,6 +128,9 @@
   Die Anwendung muss mit der @ReferenceLink "ide_compiler" "Option 'DPI-kompatibel'" kompiliert werden,
   damit dieser Befehl einen tatsächlichen DPI-Auflösungsfaktor liefert.
   Wenn nicht, ist das Ergebnis immer '1'.
+  @LineBreak
+  Unter Linux (GTK3) ist der Faktor stets eine Ganzzahl, da GTK nur eine ganzzahlige Skalierung unterstützt:
+  Bei einer Desktop-Skalierung von 150% wird daher '2' zurückgegeben.
 
 @Example
 @Code
