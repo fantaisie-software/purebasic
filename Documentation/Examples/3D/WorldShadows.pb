@@ -81,9 +81,3 @@ Repeat
   RenderWorld()
   FlipBuffers()
 Until KeyboardPushed(#PB_Key_Escape) Or Quit = 1
-
-; IDE Options = PureBasic 6.50 beta 2 (Windows - x64)
-; ExecutableFormat = Console
-; CursorPosition = 48
-; EnableXP
-; DPIAware

@@ -387,9 +387,3 @@ Procedure CameraTrack(*Camera.s_Camera, *Entity.s_Entity)
   CameraLookAt(*Camera\Camera, NodeX(*Camera\TargetNode), NodeY(*Camera\TargetNode), NodeZ(*Camera\TargetNode))
   
 EndProcedure
-; IDE Options = PureBasic 6.12 LTS (Windows - x86)
-; CursorPosition = 81
-; FirstLine = 66
-; Folding = ---
-; EnableXP
-; DPIAware

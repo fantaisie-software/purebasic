@@ -67,7 +67,9 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @NoReturnValue
 
 @Remarks
-  ClearScreen() has to be always called outside a @@StartDrawing : @@StopDrawing block.
+  ClearScreen() has to be always called outside a @@StartDrawing : @@StopDrawing block. @LineBreak
+  With the 3D engine, call it before @@RenderWorld, to clear the parts of the screen not covered by a camera:
+  called after, it also erases the rendered cameras. The background of a camera is set with @@CameraBackColor.
 
 @SupportedOS
 

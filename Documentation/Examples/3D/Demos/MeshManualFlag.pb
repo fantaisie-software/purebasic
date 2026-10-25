@@ -144,8 +144,3 @@ Procedure UpdateMatrix()
   DrawMatrix()
   FinishMesh(#False)
 EndProcedure
-; IDE Options = PureBasic 6.12 LTS (Windows - x86)
-; CursorPosition = 146
-; Folding = -
-; EnableXP
-; DPIAware

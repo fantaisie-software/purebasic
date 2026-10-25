@@ -509,9 +509,9 @@
 @FixedFont
   @#PB_Gadget_BackColor      : backgroundcolor
   @#PB_Gadget_FrontColor     : textcolor for displayed days (not supported on Windows Vista+)
-  @#PB_Gadget_TitleBackColor : backgroundcolor of the month title (not supported on Windows Vista+)
-  @#PB_Gadget_TitleFrontColor: textcolor of the month title (not supported on Windows Vista+)
-  @#PB_Gadget_GrayTextColor  : textcolor for days not of the current month (not supported on Windows Vista+)
+  @#PB_Gadget_TitleBackColor : backgroundcolor of the month title (not supported on Windows Vista+ and macOS)
+  @#PB_Gadget_TitleFrontColor: textcolor of the month title (not supported on Windows Vista+ and macOS)
+  @#PB_Gadget_GrayTextColor  : textcolor for days not of the current month (not supported on Windows Vista+ and macOS)
 @EndFixedFont
   
 @Example
@@ -731,8 +731,8 @@
   @#PB_Cursor_Arrows         : arrows in all direction (not available on Mac OSX)
   @#PB_Cursor_LeftRight      : left and right arrows
   @#PB_Cursor_UpDown         : up and down arrows
-  @#PB_Cursor_LeftUpRightDown: diagonal arrows (Windows only)
-  @#PB_Cursor_LeftDownRightUp: diagonal arrows (Windows only)
+  @#PB_Cursor_LeftUpRightDown: diagonal arrows (not available on Mac OSX)
+  @#PB_Cursor_LeftDownRightUp: diagonal arrows (not available on Mac OSX)
   @#PB_Cursor_Invisible      : hides the cursor
 @EndFixedFont
 @EndIndent
@@ -1088,8 +1088,8 @@
   @#PB_Cursor_Arrows         : arrows in all direction (not available on Mac OSX)
   @#PB_Cursor_LeftRight      : left and right arrows
   @#PB_Cursor_UpDown         : up and down arrows
-  @#PB_Cursor_LeftUpRightDown: diagonal arrows (Windows only)
-  @#PB_Cursor_LeftDownRightUp: diagonal arrows (Windows only)
+  @#PB_Cursor_LeftUpRightDown: diagonal arrows (not available on Mac OSX)
+  @#PB_Cursor_LeftDownRightUp: diagonal arrows (not available on Mac OSX)
   @#PB_Cursor_Invisible      : hides the cursor
 @EndFixedFont
 @EndIndent
@@ -4593,6 +4593,11 @@
   be used.
 
 @NoReturnValue
+
+@Remarks
+  On Windows, with a 'Per-Monitor' @ReferenceLink "ide_compiler" "'DPI Aware'" executable, the font is
+  resized for the DPI of the screen the gadget is on, and again when its window is moved to a screen
+  with another DPI. @@GetGadgetFont still returns the FontID which was set.
 
 @Example
 @Code
