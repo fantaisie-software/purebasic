@@ -50,6 +50,19 @@ Declare packinfo(nzip)
 Declare.s cvhtml(txt.s,lf=0)
 
 #EventJsMessage = #PB_Event_FirstCustomValue + 500 ; WebView callback actions are deferred to the event loop
+#ChipsHeight    = 150  ; height of the chips area (it scrolls only if the chips do not fit)
+#GroupeReference$ = "Reference" ; chip for the pages outside a library
+CompilerSelect #PB_Compiler_OS
+  CompilerCase #PB_OS_Windows
+    #ChipFontName$ = "Segoe UI"      ; Windows: IDE default Font, size 10 -> chips 8  or a little smaller 7
+    #ChipFontSize  = 8
+  CompilerCase #PB_OS_MacOS
+    #ChipFontName$ = "Lucida Grande" ; MacOS:   IDE default Font, size 13 -> chips 10 or a little smaller 9
+    #ChipFontSize  = 10
+  CompilerDefault
+    #ChipFontName$ = "DejaVu Sans"   ; Linux:   IDE default Font, size 10 -> chips 8 or a little smaller 7 
+    #ChipFontSize  = 8
+CompilerEndSelect
 #ForceIEMode    = #False ; Windows: #True to test the degraded mode (WebGadget/Internet Explorer) even if WebView2 is available
 
 Structure spage
@@ -63,6 +76,7 @@ Structure spage
   sommaire.w
   userlib.s
   libdest.s
+  groupe.s  ; library of the page (search chips)
 EndStructure
 
 Structure sbalise
@@ -71,6 +85,19 @@ Structure sbalise
   param.b   ; 1: parametre fct  2: parametre opt  3 :fin parametre  
   titre.b   ; titre niveau
   pre.w     ; balise <pre>:1, </pre>:-1
+EndStructure
+
+Structure schip ; search chip (one per library, plus All)
+  nom.s
+  caption.s
+  gadget.i
+  w.l
+  tous.b ; 1 = the All chip
+EndStructure
+
+Structure sresult ; search result with its sort key (rank + title)
+  key.s
+  *p.spage
 EndStructure
 
 Global NewMap balise.sbalise()
@@ -88,16 +115,19 @@ Global couleurul=$008800 ; couleur des bibliotheques utilisateur dans le sommair
 Global.s dos,repex ; dos: dossier du fichier de la page courante, repex: dossier des exemples (IDE)
 Global editiondate.q
 Global NewList jsmessages.s()
+Global zoomfactor.f=1.0 ; page zoom (Ctrl+wheel or Ctrl +/-), kept for the next pages
 Global iemode ; Windows: WebView2 indisponible, affichage degrade dans un WebGadget (Internet Explorer)
 ; ---------- pref
 Global waide,waidex,waidey,waidedx,waidedy
 ; ---------- UI
 Global gonglet,gsommaire,grec,grecliste,gweb,gacc,gprec,gsuiv,glangue,gos,gediter,gsep,gdialog,groot,gsommairevisible=-1
 Global imgprec,imgsuiv,imgacc,imgediter,imgsommaire
+Global gchips,chipfont,chipheight
+Global NewList chip.schip()
 Global.s icoouvrir="&#128194;",icoexecuter="&#9654;" ; boutons des exemples (remplacés par les icônes de l'IDE)
 ; ---------- traduction
 Global.s listlg,    _Sommairec,_Valeurr,_Aucune,_Remarques,_Exemple,_Voiraussi,_OSSupportes,_Syntaxe,_Description,_Generalites,_Parametres,_tester,_ouvrir,_executer
-Global.s _Aide,_Sommaire,_Recherche,_acceuil,_prec,_suiv,_editer,_sommairevisible
+Global.s _Aide,_Sommaire,_Recherche,_All,_Reference,_acceuil,_prec,_suiv,_editer,_sommairevisible
 Global.s _Deprecie,_Deprecietxt,_Indexcommandes,_Constantes,_Fonctionsos
 
 listlg="English,French,German";,Italian,Spanish,Russian"
@@ -129,6 +159,8 @@ Procedure initlang()
   _Aide=lg("Help,Aide,Hilfe,Aiuto,Ayuda,Справка")
   _Sommaire=lg("Contents,Sommaire,Inhaltsverzeichnis,Contenuto,Contenido,Содержание")
   _Recherche=lg("Search,Recherche,Suche,Ricerca,Búsqueda,Поиск")
+  _All=lg("All,Tous,Alle,Tutti,Todos,Все")
+  _Reference=lg("Reference,Référence,Referenz,Riferimento,Referencia,Референция")
   _acceuil=lg("Home,Accueil,Startseite")
   _prec=lg("Back,Précédent,Zurück")
   _suiv=lg("Forward,Suivant,Vorwärts")
@@ -494,12 +526,17 @@ Procedure sethtml(ht.s)
   CompilerIf #PB_Compiler_OS = #PB_OS_Windows
     If iemode:SetGadgetItemText(gweb, #PB_Web_HtmlCode, iehtml(ht)):ProcedureReturn:EndIf
   CompilerEndIf
+  ; Zoom (Ctrl+wheel, Ctrl +/-/0) is done by the page (CSS zoom), because the native zoom is lost when another page is loaded; the factor is sent to jsaction() and injected in each new page
   ; boutons precedent/suivant de la souris et Alt+fleches: notre historique, pas celui du WebView (qui revient sur une ancienne page, parfois vide)
   ht=ReplaceString(ht,"<head>","<head><script>"+
                    "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}"+
                    "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});"+
                    "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});"+
                    "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});"+
+                   "var pbzoom="+StrF(zoomfactor,2)+"; document.documentElement.style.zoom=pbzoom;"+
+                   "function pbzoomset(v) {pbzoom=Math.min(3,Math.max(0.5,Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom);}"+
+                   "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); pbzoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});"+
+                   "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); pbzoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); pbzoomset(pbzoom/1.1);} else if (e.key=='0') {e.preventDefault(); pbzoomset(1);}}});"+
                    "</script>",#PB_String_CaseSensitive,1,1)
   SetGadgetItemText(gweb, #PB_WebView_HtmlCode, ht)
 EndProcedure
@@ -605,6 +642,116 @@ Procedure pagesgenerees() ; pages construites a partir des autres pages (comme l
   ajoutepage("pbconstants",_Constantes,t)
 EndProcedure
 
+Procedure layoutchips() ; places the chips line by line (vertical scrollbar only if they do not fit)
+  If IsGadget(gchips)=0:ProcedureReturn:EndIf
+  Protected x,y,pass,larg,haut,innerw,innerh,dummy
+  Protected pad=2,gap=2 ; or a little more space between the buttons with pad=3,gap=3
+  Static scrollbarw
+  If scrollbarw=0
+    ; scrollbar width = required size of a vertical scrollbar (logical units)
+    dummy=ScrollBarGadget(#PB_Any,-10,0,0,100,0,1,1,#PB_ScrollBar_Vertical)
+    scrollbarw=GadgetWidth(dummy,#PB_Gadget_RequiredSize)
+    FreeGadget(dummy)
+  EndIf
+  
+  larg=GadgetWidth(gchips):haut=GadgetHeight(gchips)
+  For pass=0 To 1 ; pass 0: no vertical scrollbar, pass 1: room reserved for it
+    innerw=larg-2*pad-4-pass*scrollbarw
+    x=pad:y=pad
+    ForEach chip()
+      If x+chip()\w>innerw And x>pad:x=pad:y+chipheight+gap:EndIf
+      ResizeGadget(chip()\gadget,x,y,chip()\w,chipheight)
+      x+chip()\w+gap
+    Next
+    innerh=y+chipheight+pad
+    If innerh<=haut:Break:EndIf
+  Next
+  SetGadgetAttribute(gchips,#PB_ScrollArea_InnerWidth,innerw+2*pad)
+  SetGadgetAttribute(gchips,#PB_ScrollArea_InnerHeight,innerh)
+EndProcedure
+
+Procedure placechips(Force=#False) ; relays out the chips when the size of the area (resized by the dialog) has changed; called on every possible resize
+  If IsGadget(gchips)=0:ProcedureReturn:EndIf
+  Protected w,h
+  Static chipsw,chipsh
+  
+  w=GadgetWidth(gchips):h=GadgetHeight(gchips)
+  If w<20 Or h<10:chipsw=-1:ProcedureReturn:EndIf ; in case panel not shown yet
+  If Force Or w<>chipsw Or h<>chipsh
+    chipsw=w:chipsh=h
+    layoutchips()
+  EndIf
+EndProcedure
+
+Procedure buildchips() ; (re)creates the chips: one per library + Reference, from the loaded pages
+  If IsGadget(gchips)=0:ProcedureReturn:EndIf
+  Protected nom$, dummy
+  Protected NewMap libfichier.s(), NewMap libnom.i()
+
+  ForEach chip():If IsGadget(chip()\gadget):FreeGadget(chip()\gadget):EndIf:Next ; only the buttons: the scroll area belongs to the dialog
+  ClearList(chip())
+
+  ; library of a file = title of its lib_ page
+  ForEach page()
+    If Left(page()\nom,4)="lib_" And page()\userlib="":libfichier(page()\fichier)=page()\titre:EndIf
+  Next
+  ForEach page()
+    If page()\userlib<>""
+      page()\groupe=page()\userlib
+    ElseIf FindMapElement(libfichier(),page()\fichier)
+      page()\groupe=libfichier()
+    Else
+      page()\groupe=#GroupeReference$
+    EndIf
+    libnom(page()\groupe)=1
+  Next
+  
+  ; order: All, Reference, then the libraries alphabetically
+  ForEach libnom()
+    nom$=MapKey(libnom())
+    If nom$<>#GroupeReference$:AddElement(chip()):chip()\nom=nom$:EndIf
+  Next
+  SortStructuredList(chip(),#PB_Sort_Ascending|#PB_Sort_NoCase,OffsetOf(schip\nom),#PB_String)
+  If FindMapElement(libnom(),#GroupeReference$)
+    AddElement(chip()):MoveElement(chip(),#PB_List_First):chip()\nom=#GroupeReference$
+  EndIf
+  AddElement(chip()):MoveElement(chip(),#PB_List_First):chip()\nom="All":chip()\tous=#True
+  
+  ForEach chip()
+    If chip()\tous
+      chip()\caption=_All
+    ElseIf chip()\nom=#GroupeReference$
+      chip()\caption=_Reference
+    Else
+      chip()\caption=chip()\nom
+    EndIf
+  Next
+  
+  OpenGadgetList(gchips)
+  ; chip size = required size of a button with the small font
+  If chipfont=0:chipfont=LoadFont(#PB_Any,#ChipFontName$,#ChipFontSize):EndIf
+  dummy=ButtonGadget(#PB_Any,0,0,0,0,"Abc")
+  If chipfont:SetGadgetFont(dummy,FontID(chipfont)):EndIf
+  chipheight=GadgetHeight(dummy,#PB_Gadget_RequiredSize)
+  ;If chipheight<=0:chipheight=18:EndIf ; Claude fallback if the required size is not available but no reason why it shouldn't work
+  ForEach chip()
+    SetGadgetText(dummy,chip()\caption)
+    chip()\w=GadgetWidth(dummy,#PB_Gadget_RequiredSize)
+    ;If chip()\w<=0:chip()\w=Len(chip()\nom)*6+14:EndIf ; Claude fallback if the required size is not available but no reason why it shouldn't work
+  Next
+  FreeGadget(dummy)
+    
+  ; the buttons go inside the scroll area created by the dialog
+  ForEach chip()
+    chip()\gadget=ButtonGadget(#PB_Any,0,0,chip()\w,chipheight,chip()\caption,#PB_Button_Toggle)
+    If chipfont:SetGadgetFont(chip()\gadget,FontID(chipfont)):EndIf
+    If chip()\tous:SetGadgetState(chip()\gadget,1):EndIf ; All pressed: no library selected
+  Next
+  CloseGadgetList()
+  If ApplyColorsCallback:ApplyColorsCallback(gchips):EndIf
+  placechips(#True)
+EndProcedure
+
 Procedure initFichier(enableUI=1)
   Protected.s tt,libext,txt,lien ,mtxt,ul
   Protected p,ap,pp,num,niv,*p.spage,*sp.spage
@@ -686,6 +833,7 @@ Procedure initFichier(enableUI=1)
   EndIf
 
   If enableUI:affiche("reference"):EndIf
+  If enableUI:buildchips():EndIf
 EndProcedure
 
 Procedure.s cvhtml(txt.s,lf=0)
@@ -1105,6 +1253,18 @@ Global hostwindow,gxml ; hostwindow: fenetre qui contient l'aide (pour les evene
 
 Macro dossier:If *page\userlib:dos=repul:Else:dos=rep+RepL:EndIf:EndMacro
 
+Procedure CollapseSommaire(TreeNo) ; collapses all the items of a TreeGadget (the call in show() is commented, see there)
+  If IsGadget(TreeNo)=0:ProcedureReturn:EndIf
+  Protected ItemCnt,i 
+  ItemCnt=CountGadgetItems(TreeNo)-1
+  If ItemCnt<1:ProcedureReturn:EndIf
+  For i=0 To ItemCnt
+    If GetGadgetItemState(TreeNo,i) & #PB_Tree_Expanded
+      SetGadgetItemState(TreeNo, i, #PB_Tree_Collapsed)
+    EndIf
+  Next
+EndProcedure
+
 Procedure affiche(page.s)
   Protected pilepos
   Debug page
@@ -1157,6 +1317,9 @@ Procedure jsaction(message.s)
 
   If type="lk"  ; ------------------------ link
     affiche(LCase(val))
+  ElseIf type="zm" ; ------------------------ page zoom changed: kept for the next pages
+    zoomfactor=ValF(val)
+    If zoomfactor<0.5:zoomfactor=0.5:ElseIf zoomfactor>3:zoomfactor=3:EndIf
   Else          ; ------------------------ example
     Select Mid(type,1,1)
       Case "c" ;----- code
@@ -1178,6 +1341,12 @@ Procedure jsaction(message.s)
 
     CompilerIf #Standalone
       If t<>""
+        If FindString(t,"CreateThread",1,#PB_String_NoCase)
+          t + " /THREAD"
+        EndIf
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          t + " /XP /DPIAWARE"
+        CompilerEndIf
         che=GetTemporaryDirectory()+ficnom
         WriteTextFile(che, t)
         Select Mid(type,2,1)
@@ -1187,6 +1356,13 @@ Procedure jsaction(message.s)
       EndIf
     CompilerElse ; IDE: charge dans un nouvel onglet (et execute si demande)
       If OpenCodeCallback And (che<>"" Or t<>"")
+        t + #LF$ + "; IDE Options"
+        If FindString(t,"CreateThread",1,#PB_String_NoCase)
+            t + #LF$ + "; EnableThread"
+        EndIf
+        CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+          t + #LF$ + "; EnableXP" + #LF$ + "; DPIAware"
+        CompilerEndIf
         OpenCodeCallback(che, t, Bool(Mid(type,2,1)="r"))
       EndIf
     CompilerEndIf
@@ -1234,30 +1410,93 @@ Procedure jsprocess()
   Wend
 EndProcedure
 
-Procedure recherche()
-  Protected txt.s, n
-  NewList result.s()
+Procedure lancerecherche(vide=#False) ; fills the result list: all words must match, sorted by rank, filtered by the checked chips
+  Protected.s txt,q,t
+  Protected.spage *p
+  Protected n,rank,ok,allin
+  NewList result.sresult()
+  NewList words.s()
+  NewMap sel.i()
 
-  If etype= #PB_EventType_Change
-    txt=GetGadgetText(grec)
-    If apage<>"":ht=PbtoHtml(apage):sethtml(ht):EndIf ; met a jour (ou efface) le surlignage de la page affichee
-    If Len(txt)<3:ProcedureReturn:EndIf
-    ForEach page()
-      If FindString(page()\src,txt,1,#PB_String_NoCase)
-        AddElement(result())
-        result()=page()\nom
-      EndIf
-    Next
-    HideGadget(grecliste,1)
-    ClearGadgetItems(grecliste)
-    SortList(result(),#PB_Sort_Ascending)
-    ForEach result()
-      AddGadgetItem(grecliste,-1,*pid(result())\titre)
-      SetGadgetItemData(grecliste,n,*pid(result()))
-      n+1
-    Next
-    HideGadget(grecliste,0)
+  txt=Trim(GetGadgetText(grec))
+  If Len(txt)<3:txt="":EndIf ; text too short: only the chips filter, no search in the sources
+  ForEach chip():If chip()\tous=0 And GetGadgetState(chip()\gadget):sel(chip()\nom)=1:EndIf:Next
+  If txt="" And MapSize(sel())=0 ; nothing to search or filter: keep the list (cleared if vide)
+    If vide:ClearGadgetItems(grecliste):EndIf
+    ProcedureReturn
   EndIf
+
+  ; words (all required) and normalized phrase
+  For n=1 To CountString(txt," ")+1
+    t=LCase(StringField(txt,n," "))
+    If t<>"":AddElement(words()):words()=t:q+t+" ":EndIf
+  Next
+  q=Trim(q)
+
+  ForEach page()
+    *p=@page()
+    If MapSize(sel())=0 Or FindMapElement(sel(),*p\groupe)
+      t=LCase(*p\titre):ok=#True:rank=9 ; rank (9 = Least)
+      ForEach words() ; each word in the title or in the page source
+        If FindString(t,words())=0 And FindString(*p\src,words(),1,#PB_String_NoCase)=0:ok=#False:Break:EndIf
+      Next
+      If ok And ListSize(words())
+        ; rank (0 = best): exact name 0, name starts with 1, name contains 2, all words in the name 3, keyword (@Keyword) 4, rest (description...) 5
+        If t=q
+          rank=0
+        ElseIf Left(t,Len(q))=q
+          rank=1
+        ElseIf FindString(t,q)
+          rank=2
+        Else
+          allin=#True
+          ForEach words():If FindString(t,words())=0:allin=#False:Break:EndIf:Next
+          FirstElement(words())
+          If allin
+            rank=3
+          ElseIf FindString(*p\src,"@Keyword "+words(),1,#PB_String_NoCase)
+            rank=4
+          EndIf
+        EndIf
+      EndIf
+      If ok
+        AddElement(result())
+        result()\p=*p
+        result()\key=Str(rank)+t+#LF$+*p\nom
+      EndIf
+    EndIf
+  Next
+
+  SortStructuredList(result(),#PB_Sort_Ascending,OffsetOf(sresult\key),#PB_String)
+  HideGadget(grecliste,1)
+  ClearGadgetItems(grecliste)
+  n=0
+  ForEach result()
+    AddGadgetItem(grecliste,-1,result()\p\titre)
+    SetGadgetItemData(grecliste,n,result()\p)
+    n+1
+  Next
+  HideGadget(grecliste,0)
+EndProcedure
+
+Procedure recherche()
+  If etype=#PB_EventType_Change
+    If apage<>"":ht=PbtoHtml(apage):sethtml(ht):EndIf ; met a jour (ou efface) le surlignage de la page affichee
+    lancerecherche()
+  EndIf
+EndProcedure
+
+Procedure chipclick(gadget) ; click on a chip: All clears the selection, otherwise All is pressed only if nothing is selected
+  Protected trouve,istous,nsel
+
+  ForEach chip()
+    If chip()\gadget=gadget:trouve=#True:istous=chip()\tous:Break:EndIf
+  Next
+  If trouve=0:ProcedureReturn:EndIf
+  If istous:ForEach chip():If chip()\tous=0:SetGadgetState(chip()\gadget,0):EndIf:Next:EndIf
+  ForEach chip():If chip()\tous=0 And GetGadgetState(chip()\gadget):nsel+1:EndIf:Next
+  ForEach chip():If chip()\tous:SetGadgetState(chip()\gadget,Bool(nsel=0)):EndIf:Next
+  lancerecherche(#True)
 EndProcedure
 
 Procedure initui()
@@ -1271,6 +1510,7 @@ Procedure initui()
                         "          <vbox expand='item:2'>"+
                         "            <String name='rec'/>"+
                         "            <ListView name='recliste'/>"+
+                        "            <scrollarea name='chips' height='"+Str(#ChipsHeight)+"' flags='#PB_ScrollArea_BorderLess'/>"+
                         "            </vbox>"+
                         "          </tab>"
   CompilerIf #Standalone
@@ -1344,6 +1584,7 @@ Procedure initui()
   gsommaire=DialogGadget(gdialog,"sommaire"):DisableGadget(gsommaire,0)
   grec=DialogGadget(gdialog,"rec")
   grecliste=DialogGadget(gdialog,"recliste")
+  gchips=DialogGadget(gdialog,"chips")
 
   gprec=DialogGadget(gdialog,"prec")
   gsuiv=DialogGadget(gdialog,"suiv")
@@ -1448,8 +1689,8 @@ Procedure mesurebarre() ; IDE: largeur de la barre du separateur, en coordonnees
 EndProcedure
 
 Procedure placesommaire() ; IDE: sommaire masque: la barre du separateur est placee juste a gauche de la zone visible
+  If sommairevisible Or IsGadget(gsep)=0 Or IsGadget(groot)=0:ProcedureReturn:EndIf
   Protected l
-  If sommairevisible Or IsGadget(gsep)=0:ProcedureReturn:EndIf
   If GetGadgetState(gsep)<>0:SetGadgetState(gsep,0):EndIf
   mesurebarre()
   l=largeurbarre:If l<0:l=8:EndIf
@@ -1475,10 +1716,12 @@ Procedure affichesommaire(visible) ; IDE: affiche/masque le sommaire a gauche de
     HideGadget(gonglet,1)
     placesommaire()
   EndIf
+  placechips()
 EndProcedure
 
 Procedure timer() ; recharge l'aide si la source de la page courante a ete modifiee
   Protected memnom.s,l
+  placechips() ; catches splitter moves (there is no resize event)
   If sommairevisible=0 And IsGadget(gsep) ; la largeur de la barre n'est connue qu'une fois le splitter affiche (GTK, Cocoa)
     l=largeurbarre:mesurebarre()
     If largeurbarre<>l:placesommaire():EndIf
@@ -1517,6 +1760,7 @@ Procedure gadgetevent(gadget, type)
       Case gediter:editer()
       Case glangue:langue=GetGadgetText(glangue):initlang():initFichier()
       Case gos:os=GetGadgetText(gos)
+      Default:chipclick(gadget)
     EndSelect
   EndIf
 EndProcedure
@@ -1531,7 +1775,12 @@ Procedure init(language.s,operatingsys.s) ; outil autonome
 
   ; chemin dossier de l'aide (issu de PBHelp.ini), ou archive
   If FileSize(helpsource)<>-2 And LCase(GetExtensionPart(helpsource))<>"zip"
-    helpsource="C:\Users\shadoko\Desktop\git-pb\pbaidenv.zip"; chemin archive de l'aide (GetCurrentDirectory()+"PureBasicHelp")
+  helpsource=GetPathPart(ProgramFilename())
+  CompilerIf #PB_Compiler_OS = #PB_OS_Windows; chemin archive de l'aide (GetCurrentDirectory()+"PureBasicHelp")
+    helpsource+"Help\Help.zip"
+  CompilerElse
+    helpsource+"Help/Help.zip"
+  CompilerEndIf
   EndIf
   opensource(helpsource)
 
@@ -1550,6 +1799,7 @@ Procedure init(language.s,operatingsys.s) ; outil autonome
     If EventWindow()=waide
       If Event=#PB_Event_Gadget:gadgetevent(EventGadget(),EventType()):EndIf
       If Event=#PB_Event_Timer:timer():EndIf
+      If Event=#PB_Event_SizeWindow:placechips():EndIf
     EndIf
   Until Event = #PB_Event_CloseWindow
   pref(1)
@@ -1597,19 +1847,29 @@ Procedure destroy()
   If IsDialog(gdialog):FreeDialog(gdialog):EndIf
   If IsXML(gxml):FreeXML(gxml):EndIf
   gdialog=0:gxml=0:groot=0:gsommairevisible=-1:sommairevisible=0:*page=0:*pagesel=0
+  If chipfont And IsFont(chipfont):FreeFont(chipfont):chipfont=0:EndIf
+  ClearList(chip()):gchips=0 ; the chip buttons are freed with the dialog
 EndProcedure
 
 Procedure resize(width, height)
   If IsGadget(groot)
     ResizeGadget(groot, 0, 0, width, height) ; relayoute le dialog, qui replace le splitter sur toute la largeur
     placesommaire()
+    placechips()
   EndIf
 EndProcedure
 
 Procedure show(page.s) ; affiche une page si elle existe (aide contextuelle F1)
   page=LCase(page)
   If FindMapElement(*pid(),page)=0:ProcedureReturn #False:EndIf
+  
+  ; Open question: collapse the whole contents tree before showing the page requested with F1?
+  ; - Collapsed: only the branch of the requested page is open, so every F1 gives the same clean view.
+  ; - Not collapsed (current behaviour): the branches opened by previous F1 stay open for the whole session.
+  ;CollapseSommaire(gsommaire)
+  
   affiche(page)
+  If IsGadget(gonglet):SetGadgetState(gonglet,0):EndIf ; F1: back to the Contents tab, where the page is selected in the tree
   ProcedureReturn #True
 EndProcedure
 
