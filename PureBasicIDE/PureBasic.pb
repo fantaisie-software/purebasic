@@ -11,7 +11,7 @@
 
 XIncludeFile "CompilerFlags.pb"
 XIncludeFile "Build/BuildInfo.pb"
-XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "Common.pb" ; must be before Common.pb
+XIncludeFile "DialogLibrary.pb"                                             ; dialogs (with the Dialog library), must be before Common.pb
 XIncludeFile "Common.pb"                                                    ; must be before DebuggerCommon.pb
 XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; must be before Declarations.pb
 XIncludeFile "Declarations.pb"
@@ -25,15 +25,6 @@ XIncludeFile "ZLib.pb"
 ; include the TabBarGadget. Note: It has an EnableExplicit inside
 XIncludeFile "TabBarGadget.pbi"
 DisableExplicit
-
-; dialog manager
-; We need the explorer and scintilla support for it (for Templates window and Projects)
-#DIALOG_USE_SCINTILLA = 1
-#DIALOG_USE_EXPLORER  = 1
-
-IncludePath ".." + #Separator + "DialogManager" + #Separator ; so that the dialog manager files are found
-XIncludeFile "DialogManager.pb"
-IncludePath ""
 
 ; debugging functions and macros (mostly active in debug mode only)
 XIncludeFile "WindowsDebugging.pb"
@@ -127,49 +118,6 @@ XIncludeFile "RadixTree.pb"
 CompilerIf #SpiderBasic
   XIncludeFile "CreateApp.pb"
 CompilerEndIf
-
-; compiled dialogs
-XIncludeFile "Build/Find.pb"
-XIncludeFile "Build/Grep.pb"
-XIncludeFile "Build/Diff.pb"
-XIncludeFile "Build/Goto.pb"
-XIncludeFile "Build/AddTools.pb"
-XIncludeFile "Build/About.pb"
-XIncludeFile "Build/Preferences.pb"
-XIncludeFile "Build/Templates.pb"
-XIncludeFile "Build/StructureViewer.pb"
-XIncludeFile "Build/Projects.pb"
-XIncludeFile "Build/Build.pb"
-XIncludeFile "Build/FileMonitor.pb"
-XIncludeFile "Build/History.pb"
-XIncludeFile "Build/HistoryShutdown.pb"
-XIncludeFile "Build/Updates.pb"
-
-CompilerIf #SpiderBasic
-  XIncludeFile "Build/CreateApp.pb"
-CompilerEndIf
-
-; Here is the trick:
-;   We need two slightly different versions of the Compiler options dialog,
-;   so to not duplicate all the stuff, we generate the file once from the xml
-;   and then include it here twice, with the #IDE_ProjectCompilerOptions defined
-;   for only one of them to make the few changes.
-;
-;   To not get a duplicate label error, the generated label in the file is actually
-;   a macro which is replaced with the real label on compilation
-;
-Macro Dialog_CompilerOptionsMacro()
-  CompilerIf Defined(IDE_ProjectCompilerOptions, #PB_Constant)
-    Dialog_ProjectCompilerOptions:
-  CompilerElse
-    Dialog_CompilerOptions:
-  CompilerEndIf
-EndMacro
-
-IncludeFile "Build/CompilerOptions.pb"
-#IDE_ProjectCompilerOptions = 1
-IncludeFile "Build/CompilerOptions.pb"
-
 
 ; toolspanel plugins
 XIncludeFile "AsciiTable.pb"

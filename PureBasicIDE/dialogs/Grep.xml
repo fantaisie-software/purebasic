@@ -5,7 +5,7 @@
 <dialoggroup>
 
   <!--  Grep  -->
-  <window id="#WINDOW_Grep" lang="Find:GrepTitle" label="Dialog_Grep" width="580" invisible="yes">
+  <window margin="10" closebutton="yes" id="#WINDOW_Grep" lang="Find:GrepTitle" name="Dialog_Grep" width="580" invisible="yes">
     <vbox spacing="10" expand="item:2">
       <gridbox colexpand="item:2">
         <text lang="Find:SearchFor" text=": " flags="#PB_Text_Right" />
@@ -45,7 +45,7 @@
   
   
   <!-- Grep Results -->
-  <window id="#WINDOW_GrepOutput" lang="Find:OutputTitle" label="Dialog_GrepOutput" width="480" height="400" flags="#PB_Window_SizeGadget">
+  <window margin="10" closebutton="yes" id="#WINDOW_GrepOutput" lang="Find:OutputTitle" name="Dialog_GrepOutput" width="480" height="400" flags="#PB_Window_SizeGadget">
     <vbox expand="item:1">
       <listview id="#GADGET_GrepOutput_List" />
       <hbox expand="item:1">
