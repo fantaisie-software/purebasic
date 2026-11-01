@@ -553,6 +553,10 @@
   
 @OptionalParameter "Parameters$"
   Specifies the command line parameters that will be passed to the program. 
+  The parameters are separated by spaces. A parameter containing spaces can be put between double quotes,
+  and a literal double quote is written \" (for example, 'test \"1234\"' gives the parameters 'test' and '"1234"').
+  On Linux and OS X, the parameters are split with the same rules as on Windows, so the launched program
+  gets the same parameters on all OS.
   
 @OptionalParameter "WorkingDirectory$"
   Specifies the directory that will then be the current directory for the launched program.

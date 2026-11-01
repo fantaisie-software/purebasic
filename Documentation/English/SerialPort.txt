@@ -127,6 +127,7 @@
 
 @Description
   Returns the error on the serial port when @@ReadSerialPortData, @@WriteSerialPortData or @@WriteSerialPortString failed.
+  The errors are reported since the last call to this function, and then cleared.
 
 @Parameter "#SerialPort"
   The serial port to use.
@@ -153,6 +154,10 @@
                                character as XON, regardless of the actual character.
   @#PB_SerialPort_EOFSent: Specifies whether the end-of-file (EOF) character has been received.
 @EndFixedFont
+  On Linux and macOS, @#PB_SerialPort_TxFull, @#PB_SerialPort_WaitingDSR, @#PB_SerialPort_WaitingRLSD,
+  @#PB_SerialPort_XoffReceived, @#PB_SerialPort_XoffSent and @#PB_SerialPort_EOFSent are never returned.
+  @#PB_SerialPort_RxOver, @#PB_SerialPort_OverRun, @#PB_SerialPort_RxParity, @#PB_SerialPort_Frame and
+  @#PB_SerialPort_Break are only returned on Linux, if the serial port driver supports it.
 
 @SeeAlso
   @@ReadSerialPortData, @@WriteSerialPortData, @@WriteSerialPortString
@@ -199,37 +204,41 @@
     50, 75, 110, 150, 300, 600, 1200, 1800, 2400
     4800, 9600, 19200, 38400, 57600 or 115200
 @EndFixedFont
+  Higher speeds (like 230400, 460800 or 921600) are supported if the device supports them. On Windows and macOS,
+  any speed can be used. On Linux, only the standard speeds up to 4000000 are supported.
 
 @Parameter "Parity"
   Defines how the parity will be handled on the connection. It can be one of the following values:
 @FixedFont
   @#PB_SerialPort_NoParity   : No parity
   @#PB_SerialPort_EvenParity : Even parity
-  @#PB_SerialPort_MarkParity : Mark parity
+  @#PB_SerialPort_MarkParity : Mark parity (not supported on macOS)
   @#PB_SerialPort_OddParity  : Odd parity
-  @#PB_SerialPort_SpaceParity: Space parity
+  @#PB_SerialPort_SpaceParity: Space parity (not supported on macOS)
 @EndFixedFont
 
 @Parameter "Data"
   Defines the data length, in byte (usually 7 or 8). 
   
 @Parameter "Stop"
-  Sets the number of stop bits (1, 1.5 or 2).
+  Sets the number of stop bits (1, 1.5 or 2). On Linux and macOS, 1.5 isn't supported and 2 is used instead.
 
 @Parameter "HandshakeMode"
   The handshake mode. It can be one of the following values:
 @FixedFont
-  @#PB_SerialPort_NoHandshake     : No handshaking
+  @#PB_SerialPort_NoHandshake     : No handshaking and RTS is set to 0
   @#PB_SerialPort_RtsHandshake    : No handshaking but RTS is set to 1
   @#PB_SerialPort_RtsCtsHandshake : RTS/CTS
   @#PB_SerialPort_XonXoffHandshake: Xon/Xoff
 @EndFixedFont
 
 @Parameter "InputBufferSize"
-  Defines the size of the input buffer, in bytes. 
+  Defines the size of the input buffer, in bytes. On Linux and macOS, the buffer size is set by the system and
+  this parameter is ignored.
   
 @Parameter "OutputBufferSize"
-  Defines the size of the output buffer, in bytes.
+  Defines the size of the output buffer, in bytes. On Linux and macOS, the buffer size is set by the system and
+  this parameter is ignored.
   
 @ReturnValue
   Nonzero if the serial port was successfully opened, zero otherwise 
@@ -255,8 +264,9 @@
 @Function Result = ReadSerialPortData(#SerialPort, *Buffer, Length)
 
 @Description
-  Reads an arbitrary amount of data from the #SerialPort. If the input buffer was empty, this function will block 
-  until data is available. To check if data is available, use @@AvailableSerialPortInput.
+  Reads an arbitrary amount of data from the #SerialPort. By default, this function blocks until the requested
+  length has been read. To avoid blocking, check how much data is available with @@AvailableSerialPortInput
+  before reading it, or set read timeouts with @@SerialPortTimeouts.
 
 @Parameter "#SerialPort"
   The serial port to use.
@@ -268,11 +278,11 @@
   The length to read from the serial port, in bytes. The specified buffer should be large enough to handle it.
 
 @ReturnValue
-  The number of bytes which are actually read. It can be less than the requested length. 
-  If a read error has occurred, it will return zero.
+  The number of bytes which are actually read. It can be less than the requested length if a read timeout
+  set with @@SerialPortTimeouts has expired. If a read error has occurred, it will return zero.
 
 @SeeAlso
-  @@AvailableSerialPortInput
+  @@AvailableSerialPortInput, @@SerialPortTimeouts
 
 @SupportedOS
 
@@ -281,24 +291,35 @@
 @Function SerialPortTimeouts(#SerialPort, RIT, RTTC, RTTM, WTTC, WTTM)
 
 @Description
-  Changes the default serial port timeouts.
+  Changes the default serial port timeouts. The read timeouts are used by @@ReadSerialPortData,
+  the write timeouts by @@WriteSerialPortData and @@WriteSerialPortString. By default, there is
+  no read timeout: @@ReadSerialPortData blocks until all the requested bytes have been read.
+@LineBreak
+@LineBreak
+  The timeouts work like the Windows COMMTIMEOUTS ones, on all OS. A value of 0 means the timeout isn't used.
+  Two special combinations are supported (-1 is the maximum value):
+@LineBreak
+@LineBreak
+  - RIT = -1, RTTC = 0 and RTTM = 0: @@ReadSerialPortData returns immediately with the bytes already received, even if there are none. @LineBreak
+  - RIT = -1, RTTM = -1 and RTTC greater than 0: @@ReadSerialPortData returns as soon as at least one byte is
+    received, or after RTTC milliseconds if nothing comes.
 
 @Parameter "#SerialPort"
   The serial port to use.
 
 @Parameter "RIT"
   RIT stands for 'ReadIntervalTimeout'. Specifies the maximum time, in milliseconds, which are allowed to elapse
-  between the arrival of two characters on the communications line. Default value is 100 ms.
+  between the arrival of two characters on the communications line. It starts after the first received character. Default value is 0.
   
 @Parameter "RTTC"
   RTTC stands for 'ReadTotalTimeoutConstant'. Specifies the constant, in milliseconds, used to calculate the
   total time-out period for read operations. For each read operation, this value is added to the
-  product of the ReadTotalTimeoutMultiplier member and the requested number of bytes. Default value is 100 ms.
+  product of the ReadTotalTimeoutMultiplier member and the requested number of bytes. Default value is 0.
       
 @Parameter "RTTM"
   RTTM stands for 'ReadTotalTimeoutMultiplier'. Specifies the multiplier, in milliseconds, used to calculate
   the total time-out period for read operations. For each read operation, this value is multiplied
-  by the requested number of bytes to be read. Default value is 10 ms.
+  by the requested number of bytes to be read. Default value is 0.
 
 @Parameter "WTTC"
   WTTC stands for 'WriteTotalTimeoutConstant'. Specifies the constant, in milliseconds, used to calculate the
@@ -376,6 +397,8 @@
   
 @ReturnValue
   The number of bytes written to the serial port, or zero if the operation has failed.
+  It can be less than the requested length if the write timeout set with @@SerialPortTimeouts
+  has expired.
   
 @Remarks
   To check how much data is available in the output buffer, use @@AvailableSerialPortOutput.
@@ -408,6 +431,8 @@
 
 @ReturnValue
   The number of bytes written to the serial port, or zero if the operation has failed.
+  It can be less than the requested length if the write timeout set with @@SerialPortTimeouts
+  has expired.
   
 @Remarks
   To check how much data is available in the output buffer, use @@AvailableSerialPortOutput.
