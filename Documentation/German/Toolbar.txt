@@ -1,13 +1,13 @@
 ﻿;
 ;     ToolBar library documentation
 ;
-;      (c) 2023 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library ToolBar
 
 @Overview
-  Die Toolbars (Werkzeugleisten) sind sehr nützlich, um mit Hilfe von kleinen
+  Die Toolbars (Werkzeugleisten bzw. Symbolleisten) sind sehr nützlich, um mit Hilfe von kleinen
   Icons schnellen Zugriff auf einige Funktionen der Applikation zu erhalten.
   Die Icons sind oftmals 'Shortcuts' (Kürzel) von Menüpunkten. PureBasic ermöglicht die
   Erstellung einer beliebigen Zahl von Toolbars und deren Handhabung als wären
@@ -58,6 +58,10 @@
   @@EventMenu. Werkzeugleisten werden oft als Kürzel für Menü-Einträge verwendet -
   wenn daher die gleiche Menü-Eintrag-Nummer zu einem Werkzeugleisten-Schalter
   zugewiesen wird, werden beide Ereignisse durch den gleichen Code behandelt.
+@LineBreak
+@LineBreak
+  Ein Fenster kann nur eine Symbolleiste haben. Falls das Fenster bereits eine besitzt,
+  wird diese freigegeben und durch die neue Symbolleiste ersetzt.
 
 @Example
 @Code

@@ -1,7 +1,7 @@
 ﻿;
 ;     Process library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Process
@@ -581,6 +581,12 @@
   
 @OptionalParameter "Parameter$"
   Definiert die Kommandozeilen-Parameter, welche an das Programm übergeben werden.
+  @LineBreak
+  Die Parameter werden durch Leerzeichen voneinander getrennt. Ein Parameter, der Leerzeichen enthält, kann
+  in doppelte Anführungszeichen gesetzt werden. Ein tatsächliches doppeltes Anführungszeichen wird als \"
+  geschrieben (zum Beispiel ergibt 'test \"1234\"' die Parameter 'test' und '"1234"').
+  Unter Linux und OS X erfolgt die Aufteilung der Parameter nach denselben Regeln wie unter Windows,
+  sodass das gestartete Programm auf allen Betriebssystemen dieselben Parameter erhält.
   
 @OptionalParameter "Arbeitsverzeichnis$"
   Gibt das Verzeichnis an, welches dann das aktuelles Verzeichnis für das gestartete

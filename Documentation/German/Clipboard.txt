@@ -1,7 +1,7 @@
 ﻿;
 ;     Clipboard library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Clipboard
@@ -60,6 +60,8 @@
   Gibt bei Erfolg einen Wert ungleich Null zurück, und Null bei einem Fehler. 
   Wenn @ReferenceLink "purebasic_objects" "#PB_Any" als #Image Parameter verwendet wurde,
   dann wird die neue Image Nummer zurückgegeben.
+  Wenn die Zwischenablage kein Bild enthält, wird jedes vorherige Bild mit der gleichen
+  #Image-Nummer freigegeben.
 
 @Remarks
   Auf Windows wird die Transparenz möglicherweise nicht erkannt, nachdem das Bild aus der Zwischenablage
