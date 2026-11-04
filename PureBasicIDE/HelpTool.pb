@@ -43,12 +43,12 @@ EndDeclareModule
 Module HelpTool
   EnableExplicit
 
-  #EventJsMessage   = #PB_Event_FirstCustomValue + 500 ; WebView callback actions are deferred to the event loop
   #ForceIEMode      = #False ; Windows: #True to test the degraded mode (WebGadget/Internet Explorer) even if WebView2 is available
   #Languages$       = "English,French,German"
   #TagSeparators$   = " .,;:()[]{}>@/" + #LF$ + #DQUOTE$ + Chr(160)
   #IdentifierChars$ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
   #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
+  #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
 
   Structure HelpPage
     Title$
@@ -1853,7 +1853,7 @@ Module HelpTool
     LastElement(JsMessages$())
     AddElement(JsMessages$())
     JsMessages$() = Message$
-    PostEvent(#EventJsMessage, HostWindow, 0)
+    PostEvent(#EVENTTYPE_JsMessage, HostWindow, 0)
   EndProcedure
 
 
@@ -2298,7 +2298,7 @@ Module HelpTool
 
     CreateUserInterface()
     HostWindow = StandaloneWindow
-    BindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    BindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     AddWindowTimer(StandaloneWindow, 0, 1000)
     LoadHelp()
     LastReloadDate = Date()
@@ -2384,14 +2384,14 @@ Module HelpTool
     HostWindow = Window
     ClearList(History$())
     CreateUserInterface()
-    BindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    BindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     LoadHelp()
     LastReloadDate = Date()
   EndProcedure
 
 
   Procedure Destroy()
-    UnbindEvent(#EventJsMessage, @ProcessJsMessages(), HostWindow)
+    UnbindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     ClearList(JsMessages$())
     If IsDialog(Dialog)
       FreeDialog(Dialog)

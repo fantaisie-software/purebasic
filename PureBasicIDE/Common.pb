@@ -1581,9 +1581,10 @@ EndEnumeration
 ;- Custom PostEvent event types
 ;
 Enumeration #PB_EventType_FirstCustomValue
-  #EVENTTYPE_WordUpdate       ; Linux specific
+  #EVENTTYPE_WordUpdate ; Linux specific
+  #EVENTTYPE_JsMessage  ; WebView callback actions are deferred to the event loop
 EndEnumeration
-  
+ 
 ;- Some predefined color values
 ;
 #COLOR_FilePanelFront  = $000000 ; text color for FilePanel tabs with non-OS color
