@@ -500,9 +500,3 @@ Repeat
 Until KeyboardPushed(#PB_Key_Escape) Or dontQuit = #False
 
 End
-; IDE Options = PureBasic 6.12 LTS (Windows - x86)
-; CursorPosition = 390
-; FirstLine = 363
-; Folding = --
-; EnableXP
-; DPIAware

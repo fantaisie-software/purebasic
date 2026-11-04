@@ -187,6 +187,7 @@
   CompilerEndIf
 
   HeaderSection
+    int printf(const char *format, ...); // die C-Header sind nicht eingebunden, daher muss die Funktion zuerst deklariert werden
     void customPrint()
     {
       printf("%s, %s!\n", "Hello", "World");

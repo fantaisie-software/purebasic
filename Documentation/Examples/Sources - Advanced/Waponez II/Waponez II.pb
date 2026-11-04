@@ -109,38 +109,38 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "Waponez II")
   ;
   ; Load the player sprites
   ;
-  LoadSprite(3, Path$+"Player_1.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite(0, Path$+"Player_2.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite(2, Path$+"Player_3.bmp", #PB_Sprite_PixelCollision)
+  LoadSprite(3, Path$+"Player_1.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite(0, Path$+"Player_2.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite(2, Path$+"Player_3.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
  
   ;
   ; Load the bullets
   ;
-  LoadSprite( 4, Path$+"Bullet_1.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite( 6, Path$+"Bullet_Right.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite( 7, Path$+"Bullet_Left.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite( 8, Path$+"Bullet_Diag1.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite( 9, Path$+"Bullet_Diag2.bmp", #PB_Sprite_PixelCollision)
-  LoadSprite(55, Path$+"Bullet_Bottom.bmp", #PB_Sprite_PixelCollision)
+  LoadSprite( 4, Path$+"Bullet_1.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite( 6, Path$+"Bullet_Right.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite( 7, Path$+"Bullet_Left.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite( 8, Path$+"Bullet_Diag1.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite( 9, Path$+"Bullet_Diag2.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
+  LoadSprite(55, Path$+"Bullet_Bottom.bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
 
   ;
   ; Sprite 10 to 15 reserved for the rotating animated alien..
   ;
   For k=0 To 5
-    LoadSprite(k+10, Path$+"Ennemy_3_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision)
+    LoadSprite(k+10, Path$+"Ennemy_3_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
   Next
  
   ;
   ; Sprite 20 to 30 reserved for the explosions...
   ;
   For k=0 To 7
-    LoadSprite(k+20, Path$+"Explosion_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision)
+    LoadSprite(k+20, Path$+"Explosion_"+Str(k+1)+".bmp", #PB_Sprite_PixelCollision | #PB_Sprite_AlphaBlending)
   Next
     
   ;
   ; Load the background sprite
   ;
-  LoadSprite(20, Path$+"Back_3.bmp", 0)
+  LoadSprite(40, Path$+"Back_3.bmp", 0) ; not 20, it is the first explosion image
   
   PlayerWidth  = SpriteWidth(3)
   PlayerHeight = SpriteHeight(3)
@@ -157,7 +157,7 @@ If OpenScreen(#ScreenWidth, #ScreenHeight, 32, "Waponez II")
       
       For BackX=0 To #ScreenWidth Step 32
         For BackY=-32 To #ScreenHeight Step 32
-          DisplaySprite(20, BackX, BackY+ScrollY)
+          DisplaySprite(40, BackX, BackY+ScrollY)
         Next
       Next
       

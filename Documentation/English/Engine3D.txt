@@ -1169,6 +1169,12 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @NoReturnValue
 
+@Remarks
+  With @#PB_Shadow_Additive and @#PB_Shadow_TextureAdditive, the lit objects are rendered in several passes
+  (ambient, then one per light) which don't use the fragment shader of their material: an entity using a material
+  created with @@CreateShaderMaterial is rendered without its shader. Use @#PB_Shadow_Modulative or
+  @#PB_Shadow_TextureModulative with these materials. The sky created with @@SkyDome isn't affected.
+
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------

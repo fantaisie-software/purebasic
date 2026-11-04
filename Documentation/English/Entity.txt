@@ -1145,7 +1145,8 @@ saving CPU clocks.
   The entity to use.
 
 @Parameter "x, y, z"
-  The rotation to apply, in degree. Valid values are from to 0 to 359.
+  The rotation to apply, in degree: the pitch (around the x axis), the yaw (around the y axis) and the roll (around the z axis),
+  applied in this order. Valid values are from 0 to 359.
 
 @OptionalParameter "Mode"
  The rotation mode. It can be one of the following value:
@@ -1153,8 +1154,22 @@ saving CPU clocks.
   @#PB_Absolute: absolute rotation (default).
   @#PB_Relative: relative rotation based on the previous entity rotation.
 @EndFixedFont
+  combined with one of the following values:
+@FixedFont
+  @#PB_World : rotation around the world axes (default if 'Mode' isn't specified).
+  @#PB_Local : rotation around the entity's own axes (default if 'Mode' is specified without one of these values).
+  @#PB_Parent: rotation around the parent axes.
+@EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  As the rotations are applied one after the other, @#PB_World and @#PB_Local give a different orientation when more than one
+  angle isn't zero: 'RotateEntity(#Entity, x, y, z)' is the same as 'RotateEntity(#Entity, x, y, z, @#PB_Absolute | @#PB_World)',
+  not 'RotateEntity(#Entity, x, y, z, @#PB_Absolute)'. @LineBreak
+  To turn an entity continuously, use @#PB_Relative instead of reading its angles with @@EntityPitch, @@EntityYaw and @@EntityRoll,
+  changing them and putting them back with @#PB_Absolute: these angles can't represent every orientation in a continuous way
+  (see @@EntityYaw).
 
 @SeeAlso
   @@MoveEntity
@@ -1244,7 +1259,8 @@ saving CPU clocks.
   combined with one of the following value:
 @FixedFont
   @#PB_Engine3D_Raw     : the roll is the raw value, but it can't be used in @@RotateEntity to get back the same orientation (default).
-  @#PB_Engine3D_Adjusted: the roll is adjusted, so it can be put back in @@RotateEntity to get back the same orientation.
+  @#PB_Engine3D_Adjusted: the roll is adjusted, so it can be put back in @@RotateEntity to get back the same orientation,
+                         with the default rotation mode (@#PB_Absolute | @#PB_World), along with the adjusted pitch, yaw and roll.
 @EndFixedFont
     
 @ReturnValue
@@ -1274,7 +1290,8 @@ saving CPU clocks.
   combined with one of the following value:
 @FixedFont
   @#PB_Engine3D_Raw     : the pitch is the raw value, but it can't be used in @@RotateEntity to get back the same orientation (default).
-  @#PB_Engine3D_Adjusted: the pitch is adjusted, so it can be put back in @@RotateEntity to get back the same orientation.
+  @#PB_Engine3D_Adjusted: the pitch is adjusted, so it can be put back in @@RotateEntity to get back the same orientation,
+                         with the default rotation mode (@#PB_Absolute | @#PB_World), along with the adjusted pitch, yaw and roll.
 @EndFixedFont
 
 @ReturnValue
@@ -1304,11 +1321,18 @@ saving CPU clocks.
   combined with one of the following value:
 @FixedFont
   @#PB_Engine3D_Raw     : the yaw is the raw value, but it can't be used in @@RotateEntity to get back the same orientation (default).
-  @#PB_Engine3D_Adjusted: the yaw is adjusted, so it can be put back in @@RotateEntity to get back the same orientation.
+  @#PB_Engine3D_Adjusted: the yaw is adjusted, so it can be put back in @@RotateEntity to get back the same orientation,
+                         with the default rotation mode (@#PB_Absolute | @#PB_World), along with the adjusted pitch, yaw and roll.
 @EndFixedFont
 
 @ReturnValue
-  The current yaw value of the specified entity. This value is always between -180.0 and 180.0 degrees.
+  The current yaw value of the specified entity. This value is between -180.0 and 180.0 degrees, or between -90.0 and 90.0 degrees
+  with @#PB_Engine3D_Adjusted.
+
+@Remarks
+  With @#PB_Engine3D_Adjusted, the same orientation can have 2 sets of angles: for example a yaw of 120 degrees is returned as a pitch
+  of 180, a yaw of 60 and a roll of 180 degrees. So adding a value to the adjusted yaw and putting it back with @@RotateEntity
+  can't turn the entity past 90 degrees: use @@RotateEntity with @#PB_Relative to turn it continuously.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll

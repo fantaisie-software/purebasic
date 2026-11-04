@@ -198,9 +198,3 @@ Procedure sliderMoved(Slider)
   ; update animation state since we're fudging this manually
   UpdateEntityAnimation(#Entity, Animation$)
 EndProcedure
-; IDE Options = PureBasic 6.50 beta 2 (Windows - x64)
-; CursorPosition = 57
-; FirstLine = 39
-; Folding = -
-; EnableXP
-; DPIAware
