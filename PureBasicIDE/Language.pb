@@ -1106,9 +1106,9 @@ DataSection
   Data$ "WarnNotRecognized",   "For an unrecognised file"
   Data$ "WarnDowngrade",       "For a version downgrade"
   Data$ "WarnUpgrade",         "For a version upgrade"
-  Data$ "Option_Always",       "Always warn"
-  Data$ "Option_Backward",     "Warn if backward compatibility is affected"
-  Data$ "Option_Never",        "Never warn"
+  Data$ "Option_Always",       "Always"
+  Data$ "Option_Backward",     "If backward compatibility is affected"
+  Data$ "Option_Never",        "Never"
   
   Data$ "Issues",             "Issues"
   Data$ "IssueNameShort",     "Name"
