@@ -227,14 +227,30 @@ CompilerIf #CompileMacCocoa
   
   
   ; Dead session detection
+  ; Several IDE versions can run at the same time (each .app is a separate instance), so check the PID
   Procedure Session_IsRunning(OSSessionID$)
-    ; Only one instance can run on OSX, so any instance that is not the current one must be dead
+    ; The OSSessionID is the PID of the process
+    PID = Val(OSSessionID$)
+    If PID > 0
+      App = CocoaMessage(0, 0, "NSRunningApplication runningApplicationWithProcessIdentifier:", PID)
+      If App
+        ; The PID could be in use by another program after a crash and reboot, so check that it is an IDE
+        ExecutableURL = CocoaMessage(0, App, "executableURL")
+        If ExecutableURL
+          Name$ = PeekS(CocoaMessage(0, CocoaMessage(0, ExecutableURL, "lastPathComponent"), "UTF8String"), -1, #PB_UTF8)
+          If Left(Name$, Len(#ProductName$)) = #ProductName$
+            ProcedureReturn #True
+          EndIf
+        EndIf
+      EndIf
+    EndIf
+    
     ProcedureReturn #False
   EndProcedure
   
   Procedure.s Session_Start()
-    ; no need to track any information
-    ProcedureReturn ""
+    ; Return the current PID as the OSSessionID, to detect if the session is still active
+    ProcedureReturn Str(getpid_())
   EndProcedure
   
   Procedure Session_End(OSSessionID$)
