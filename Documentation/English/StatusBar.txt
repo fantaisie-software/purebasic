@@ -69,6 +69,10 @@
 @ReturnValue
   Nonzero if the status bar has been successfully created, zero otherwise.
 
+@Remarks
+  A window can only have one status bar. If the window already has one, it is freed and replaced
+  by the new status bar.
+
 @Example
 @Code
   If OpenWindow(0, 0, 0, 440, 50, "StatusBar", #PB_Window_SystemMenu | #PB_Window_ScreenCentered | #PB_Window_SizeGadget)

@@ -415,6 +415,14 @@ If ToolsPanelVisible
   Else
     SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth)
   EndIf
+  
+  CompilerIf #CompileMac
+    ; SetGadgetState() doesn't send a splitter event on OS X, so resize the current tool here,
+    ; else it keeps the size it had before the window got its final size
+    If CurrentTool
+      CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+    EndIf
+  CompilerEndIf
 Else
   ToolsPanelWidth_Hidden = ToolsPanelWidth
 EndIf

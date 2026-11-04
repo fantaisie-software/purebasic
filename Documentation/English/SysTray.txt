@@ -47,7 +47,8 @@
   Nonzero if the SysTray icon has been successfully added, zero otherwise.
 
 @Remarks
-  All SysTray icons are automatically removed when the program ends. @LineBreak
+  All SysTray icons are automatically removed when the program ends. The icons of a window are also
+  removed when this window is closed. @LineBreak
   With the QT subsystem, the left-click returns a double-left-click event and the middle-click returns a left-click event. @LineBreak
   With the GTK subsystem (Linux), the SysTray icon is handled by the AppIndicator library which doesn't report any click
   to the program: no @#PB_Event_SysTray event is sent, and the associated menu is opened by the desktop on any click (left or right).

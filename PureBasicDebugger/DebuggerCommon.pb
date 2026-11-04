@@ -197,6 +197,11 @@ Enumeration
   #COMMAND_LastIncoming
 EndEnumeration
 
+; Define #DEBUGGER_ProtocolOnly before including this file to get only the communication
+; structures and commands above (used by the Debugger library unit tests)
+;
+CompilerIf Defined(DEBUGGER_ProtocolOnly, #PB_Constant) = 0
+
 ; For easier debugging of the debugger communications
 ; Don't forget to update this when the enumeration changes ;)
 ;
@@ -1053,3 +1058,4 @@ CompilerIf Defined(PUREBASIC_IDE, #PB_Constant) = 0 ; only define if it is the s
 CompilerEndIf
 
 
+CompilerEndIf ; DEBUGGER_ProtocolOnly

@@ -56,6 +56,7 @@
 @ReturnValue
   Returns nonzero on success and zero on failure.
   If @#PB_Any was used as the #Image parameter, then the new image number is returned.
+  If the clipboard doesn't contain an image, any previous image with the same #Image number is freed.
 
 @Remarks
   On Windows, transparency may not be detected after pasting the clipboard image into third-party 

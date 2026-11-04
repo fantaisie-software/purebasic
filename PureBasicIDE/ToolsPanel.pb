@@ -5,7 +5,9 @@
 ; --------------------------------------------------------------------------------------------
 
 
-Procedure ActivateTool(Name$)
+; PanelOnly: only select the tool if it is in the tools panel (no separate window, and an auto-hidden panel stays hidden)
+;
+Procedure ActivateTool(Name$, PanelOnly = #False)
   Opened = 0
   
   If ToolsPanelMode
@@ -25,7 +27,7 @@ Procedure ActivateTool(Name$)
       EndIf
     Next UsedPanelTools()
     
-    If Opened And ToolsPanelAutoHide And ToolsPanelVisible = 0
+    If Opened And PanelOnly = #False And ToolsPanelAutoHide And ToolsPanelVisible = 0
       If ToolsPanelHideDelay < 2500
         ToolsPanelHideTime.q = ElapsedMilliseconds() + 2500 ; stay open for at least 2.5 seconds!
       Else
@@ -35,7 +37,7 @@ Procedure ActivateTool(Name$)
     EndIf
   EndIf
   
-  If Opened = 0
+  If Opened = 0 And PanelOnly = #False
     
     ; now try the rest and open in external window
     ;

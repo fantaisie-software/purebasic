@@ -1602,20 +1602,8 @@ Procedure Debugger_EvaluateAtCursor(position)
         linestart = SendEditorMessage(#SCI_POSITIONFROMLINE, line, 0)
         column    = CountCharacters(*ActiveSource\EditorGadget, linestart, position)
         Line$     = GetLine(line)
-        
-        If Line$ <> ""
-          GetWordBoundary(@Line$, Len(Line$), column, @selStart, @selEnd, 1) ; include * or #
-          If Mid(Line$, selEnd+2, 2) = "()"
-            selEnd + 2
-          EndIf
-          If Mid(Line$, selStart, 1) = "$" Or Mid(Line$, selStart, 1) = "%"
-            selStart-1
-          EndIf
-          selStart = GetStructurePathStart(@Line$, selStart) ; evaluate 'Var\Field', not a variable named like the field
-          
-          Expr$ = Mid(Line$, selStart+1, selEnd - selStart + 1)
-          IsVariableExpression = 1
-        EndIf
+        Expr$     = GetDebuggerTooltipExpression(Line$, column)
+        IsVariableExpression = 1
       EndIf
       
       ; Evaluate if there is a debugger...

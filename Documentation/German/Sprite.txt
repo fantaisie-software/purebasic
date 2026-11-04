@@ -697,7 +697,7 @@ Hardware-Beschleunigung ermöglicht.
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function OutputID = SpriteOutput(#Sprite)
+@Function OutputID = SpriteOutput(#Sprite [, Flags])
 
 @Description
   Ermittelt die OutputID des angegebenen Sprites, um darauf
@@ -706,6 +706,13 @@ Hardware-Beschleunigung ermöglicht.
 @Parameter "#Sprite"
   Das Sprite, auf dem gezeichnet werden soll.
 
+@OptionalParameter "Flags"
+  Dies kann folgender Wert sein:
+@FixedFont
+  @#PB_Sprite_Overwrite: Der vorherige Inhalt des Sprites wird nicht eingelesen - der Zeichenvorgang beginnt auf einer vollständig
+                        transparenten Ausgabefläche. Dies ist schneller, wenn das gesamte Sprite neu gezeichnet wird.
+@EndFixedFont
+
 @ReturnValue
   Die OutputID - oder Null, wenn Zeichnen nicht möglich ist. Dieser Wert sollte direkt
   an die @@StartDrawing Funktion übergeben werden, um die Zeichenoperation zu starten.
@@ -713,7 +720,7 @@ Hardware-Beschleunigung ermöglicht.
   werden.
 
 @Remarks
-  SpriteOutput() muss im selben Thread aufgerufen werden, in dem @@OpenScreen aufgerufen wurde. 
+  SpriteOutput() muss in demselben Thread aufgerufen werden, in dem auch @@OpenScreen aufgerufen wurde.
 
 @Example
 @Code
@@ -721,6 +728,84 @@ Hardware-Beschleunigung ermöglicht.
     ; hier folgen die Zeichenoperationen...
   StopDrawing()
 @EndCode
+
+@SeeAlso
+  @@SpriteVectorOutput
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function VectorOutputID = SpriteVectorOutput(#Sprite [, Flags])
+
+@Description
+  Gibt die OutputID des Sprites zurück, um darauf @LibraryLink "vectordrawing" "2D-Vektorzeichenoperationen" auszuführen.
+  Der Zeichenvorgang erfolgt in einem Zwischenpuffer, der mit @@StopVectorDrawing zurück in das Sprite kopiert wird.
+
+@Parameter "#Sprite"
+  Das Sprite, auf dem gezeichnet werden soll.
+
+@OptionalParameter "Flags
+  Legt die Einheit fest, die zur Messung von Entfernungen in der Zeichenausgabe verwendet wird. Die Standardeinheit
+  für Sprites ist @#PB_Unit_Pixel.
+@FixedFont
+  @#PB_Unit_Pixel     : Werte werden in Pixeln gemessen
+  @#PB_Unit_Point     : Werte werden in Punkten (1/72 Zoll) gemessen
+  @#PB_Unit_Inch      : Werte werden in Zoll (Inch) gemessen
+  @#PB_Unit_Millimeter: Werte werden in Millimetern gemessen
+@EndFixedFont
+  Dies kann mithilfe des bitweisen OR-Operators '|' mit dem folgenden Flag kombiniert werden:
+@FixedFont
+  @#PB_Sprite_Overwrite: Der vorherige Inhalt des Sprites wird nicht eingelesen - der Zeichenvorgang beginnt auf einer vollständig
+                        transparenten Ausgabefläche. Dies ist schneller, wenn das gesamte Sprite neu gezeichnet wird.
+@EndFixedFont
+
+@ReturnValue
+  Die Ausgabe-ID - oder Null, wenn Zeichnen nicht möglich ist. Dieser Wert sollte direkt
+  an die @@StartDrawing Funktion übergeben werden, um die Zeichenoperation zu starten.
+  Der Rückgabewert ist nur für eine Zeichenoperation gültig und kann nicht wiederverwendet
+  werden.
+
+@Remarks
+  SpriteVectorOutput() muss in demselben Thread aufgerufen werden, in dem auch @@OpenScreen aufgerufen wurde.
+  Um die Transparenz der Zeichnung zu erhalten, sollte das Sprite mit dem Flag @#PB_Sprite_AlphaBlending erstellt
+  und mittels @@DisplayTransparentSprite angezeigt werden. Die Pixel-Kollisionsmaske wird nach dem Zeichnen aktualisiert,
+  sofern das Sprite mit dem Flag @#PB_Sprite_PixelCollision erstellt wurde.
+@LineBreak
+@LineBreak
+  Dieser Befehl wird unter Linux mit dem Qt-Subsystem nicht unterstützt (er liefert null zurück).
+
+@Example
+@Code
+  If InitSprite() And OpenWindow(0, 0, 0, 320, 240, "SpriteVectorOutput", #PB_Window_ScreenCentered | #PB_Window_SystemMenu)
+    If OpenWindowedScreen(WindowID(0), 0, 0, 320, 240)
+      CreateSprite(0, 128, 128, #PB_Sprite_AlphaBlending)
+
+      If StartVectorDrawing(SpriteVectorOutput(0, #PB_Sprite_Overwrite))
+        AddPathCircle(64, 64, 60)
+        VectorSourceColor(RGBA(255, 128, 0, 255))
+        FillPath()
+        StopVectorDrawing()
+      EndIf
+
+      Repeat
+        Repeat
+          Event = WindowEvent()
+          If Event = #PB_Event_CloseWindow
+            End
+          EndIf
+        Until Event = 0
+
+        ClearScreen(RGB(0, 0, 64))
+        DisplayTransparentSprite(0, 96, 56)
+        FlipBuffers()
+      ForEver
+    EndIf
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@StartVectorDrawing, @@SpriteOutput
 
 @SupportedOS
 

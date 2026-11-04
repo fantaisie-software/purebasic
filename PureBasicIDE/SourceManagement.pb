@@ -261,6 +261,8 @@ Procedure ChangeActiveSourcecode(*OldSource.SourceFile = 0)
       
       ; Add the 4 main keyboard shortcuts (Ctrl+C,Ctrl+X,Ctrl+V,Ctrl+A) used by Form Designer
       AddStringShortcuts()
+      
+      ActivateTool("Form", #True) ; show the toolbox and properties of this form
     Else
       HideGadget(#GADGET_Form, 1)
       HideEditorGadget(*ActiveSource\EditorGadget, 0)

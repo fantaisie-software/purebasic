@@ -59,6 +59,27 @@ Procedure UpdatePreferenceSyntaxColor(ColorIndex, Color)
 EndProcedure
 
 
+; When the preferences are stored in the PureBasic folder (/PORTABLE, /LOCAL), the files inside this folder
+; are saved relative to it, so the whole folder can be moved (like an USB stick with another drive letter)
+;
+Procedure.s PreferencePath(FileName$)
+  If FileName$ <> "" And IsEqualFile(GetPathPart(PreferencesFile$), PureBasicPath$) And IsEqualFile(Left(FileName$, Len(PureBasicPath$)), PureBasicPath$)
+    ProcedureReturn Mid(FileName$, Len(PureBasicPath$) + 1)
+  EndIf
+
+  ProcedureReturn FileName$
+EndProcedure
+
+; Full paths are kept as is
+Procedure.s ResolvePreferencePath(FileName$)
+  If FileName$ <> ""
+    ProcedureReturn ResolveRelativePath(PureBasicPath$, FileName$)
+  EndIf
+
+  ProcedureReturn ""
+EndProcedure
+
+
 ; Reads the debugger window positions from the opened preferences ("Debugger" group must be selected)
 ; Also used to read back the positions saved by the standalone debugger when it quits (StandaloneDebuggerControl.pb)
 ;
@@ -147,7 +168,7 @@ Procedure LoadPreferences()
   AutoReload                  = ReadPreferenceLong  ("AutoReload"        , 1)
   MemorizeWindow              = ReadPreferenceLong  ("MemorizeWindow"    , 1)
   CurrentLanguage$            = ReadPreferenceString("CurrentLanguage"   , "English")
-  LanguageFile$               = ReadPreferenceString("LanguageFile"      , "")
+  LanguageFile$               = ResolvePreferencePath(ReadPreferenceString("LanguageFile", ""))
   CurrentTheme$               = ReadPreferenceString("CurrentTheme"      , "SilkTheme.zip")
   EnableBraceMatch            = ReadPreferenceLong  ("EnableBraceMatch"  , 1)
   EnableKeywordMatch          = ReadPreferenceLong  ("EnableKeywordMatch", 1)
@@ -838,7 +859,7 @@ Procedure LoadPreferences()
   Count = ReadPreferenceLong("Count", 0)
   For i = 1 To Count
     AddElement(Compilers())
-    Compilers()\Executable$    = ReadPreferenceString("Compiler"+Str(i)+"_Exe", "")
+    Compilers()\Executable$    = ResolvePreferencePath(ReadPreferenceString("Compiler"+Str(i)+"_Exe", ""))
     Compilers()\MD5$           = ReadPreferenceString("Compiler"+Str(i)+"_Md5", "")
     Compilers()\VersionString$ = ReadPreferenceString("Compiler"+Str(i)+"_Version", "Unknown")
     
@@ -1138,7 +1159,7 @@ Procedure SavePreferences()
     WritePreferenceLong  ("AutoReload",           AutoReload)
     WritePreferenceLong  ("MemorizeWindow",       MemorizeWindow)
     WritePreferenceString("CurrentLanguage",      CurrentLanguage$)
-    WritePreferenceString("LanguageFile",         LanguageFile$)
+    WritePreferenceString("LanguageFile",         PreferencePath(LanguageFile$))
     WritePreferenceString("CurrentTheme",         CurrentTheme$)
     WritePreferenceString("SourceDirectory",      SourcePath$)
     ;WritePreferenceLong  ("EnableColoring",       EnableColoring)
@@ -1525,7 +1546,7 @@ Procedure SavePreferences()
     WritePreferenceLong("Count", ListSize(Compilers()))
     ForEach Compilers()
       Index$ = "Compiler"+Str(ListIndex(Compilers())+1)
-      WritePreferenceString(Index$+"_Exe",     Compilers()\Executable$)
+      WritePreferenceString(Index$+"_Exe",     PreferencePath(Compilers()\Executable$))
       If Compilers()\Validated
         WritePreferenceString(Index$+"_Md5",   Compilers()\MD5$)
       Else

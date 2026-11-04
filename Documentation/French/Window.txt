@@ -1261,7 +1261,7 @@ EndIf
   @#PB_Window_NoGadgets      : Empêche la création d'une GadgetList. @@UseGadgetList peut être utilisé pour le faire plus tard.
   @#PB_Window_NoActivate     : Ne pas activer la fenêtre après son ouverture.
   @#PB_Window_Modal          : Désactive la fenêtre parente (le paramètre 'FenetreMereID' doit être spécifié) jusqu’à la fermeture de la nouvelle fenêtre, 
-                                obligeant ainsi l’utilisateur à interagir d’abord avec cette dernière. La fenêtre parente est automatiquement réactivée par @@CloseWindow.
+                              obligeant ainsi l’utilisateur à interagir d’abord avec cette dernière. La fenêtre parente est automatiquement réactivée par @@CloseWindow.
 @EndFixedFont
 
 @OptionalParameter "FenetreMereID"
@@ -2824,12 +2824,15 @@ EndIf
   '1' signifie aucune mise à l'échelle, '1,5' signifie qu'un facteur de 150 % est appliqué, etc.
 
 @Remarks
-  Contrairement à @@DesktopResolutionX (qui renvoie toujours la résolution de l'écran principal), 
-  cette fonction suit la fenêtre : sur un exécutable 'Par moniteur' 
+  Contrairement à @@DesktopResolutionX qui renvoie toujours la résolution de l'écran principal, 
+  cette fonction suit la fenêtre : Sur un exécutable 'Par moniteur' 
   @ReferenceLink "ide_compiler" "DPI Aware", la valeur renvoyée change lorsque la fenêtre est déplacée 
   vers un écran avec une résolution DPI différente, juste après l'événement @#PB_Event_WindowResolutionChanged.
-  Sans l'option de compilation 'DPI Aware' ou sur les plateformes ne prenant pas en charge 
-  la mise à l'échelle par fenêtre (Linux), le résultat est toujours '1'.
+@LineBreak
+@LineBreak
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopResolutionX.
 
 @Example
 @Code
@@ -2865,8 +2868,9 @@ EndIf
   différente (DPI), juste après l'événement @#PB_Event_WindowResolutionChanged.
 @LineBreak
 @LineBreak
-  Sans l'option de compilation "DPI Aware", ou sur les plateformes qui ne prennent pas en charge 
-  la mise à l'échelle par fenêtre (Linux), le résultat est toujours '1'.
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopResolutionY.
 
 @SeeAlso
   @@WindowResolutionX, @@DesktopResolutionY, @@DesktopScaledY
@@ -2899,8 +2903,9 @@ EndIf
   suit la fenêtre sur les écrans ayant des résolutions différentes.
 @LineBreak
 @LineBreak
-  Sans l'option de compilation "DPI Aware" ou sur les plateformes ne prenant pas en charge la mise 
-  à l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopScaledX.
 
 @Example
 @Code
@@ -2938,8 +2943,9 @@ EndIf
   l'échelle suit la fenêtre sur les écrans ayant des DPI différents.
 @LineBreak
 @LineBreak
-  Sans l'option de compilation 'DPI Aware', ou sur les plateformes ne prenant pas en charge la mise 
-  à l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopScaledY.
 
 @SeeAlso
   @@WindowScaledX, @@WindowUnscaledY, @@WindowResolutionY, @@DesktopScaledY
@@ -2967,8 +2973,9 @@ EndIf
   Par exemple, sur un écran avec un facteur de résolution de 125 %, la valeur 125 est renvoyée à 100.
 
 @Remarks
-  Sans l'option de compilation "DPI Aware", ou sur les plateformes ne prenant pas en charge la mise à 
-  l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopUnscaledX.
 
 @SeeAlso
   @@WindowUnscaledY, @@WindowScaledX, @@WindowResolutionX, @@DesktopUnscaledX
@@ -2996,11 +3003,11 @@ EndIf
   Par exemple, sur un écran avec un facteur de résolution de 125 %, la valeur 125 est renvoyée comme 100.
 
 @Remarks
-  Sans l'option de compilation "DPI Aware" ou sur les plateformes ne prenant pas en charge la mise à 
-  l'échelle par fenêtre (Linux), la valeur est renvoyée sans modification.
-
+  Sans l'option de compilation @ReferenceLink "ide_compiler" "DPI Aware", le résultat est toujours '1'. 
+  Sous Linux, qui ne prend pas en charge la mise à l'échelle par fenêtre, le résultat est identique à 
+  celui de @@DesktopUnscaledY.
 @SeeAlso
-  @WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY
+  @@WindowUnscaledX, @@WindowScaledY, @@WindowResolutionY, @@DesktopUnscaledY
 
 @SupportedOS
 

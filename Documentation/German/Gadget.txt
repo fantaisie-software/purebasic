@@ -358,6 +358,9 @@
 @LineBreak
   - @@SetGadgetState kann verwendet werden, um den Toggle-Status des Gadgets festzulegen.
 @LineBreak
+  - @@SetGadgetText kann verwendet werden, um eine Beschriftung für Screenreader festzulegen (nur unter Windows).
+    Die Beschriftung wird nicht auf dem Gadget angezeigt.
+@LineBreak
   - @@GetGadgetAttribute mit den folgenden Werten:
 @FixedFont
   @#PB_Button_Image       : Ermittelt die ImageID des dargestellten Bildes, z.B. ImageID(#MyImage).
@@ -382,7 +385,7 @@
 @Image buttonimagegadget.png
 
 @SeeAlso
-  @@GetGadgetState, @@SetGadgetState, @@GetGadgetAttribute, @@SetGadgetAttribute, @@ButtonGadget, @@ImageID, @@EventGadget
+  @@GetGadgetState, @@SetGadgetState, @@SetGadgetText, @@GetGadgetAttribute, @@SetGadgetAttribute, @@ButtonGadget, @@ImageID, @@EventGadget
 
 @SupportedOS
 
@@ -5326,6 +5329,9 @@
 @LineBreak
 @LineBreak
   - @@ButtonGadget: ändert den Text des ButtonGadgets.
+@LineBreak
+  - @@ButtonImageGadget: legt eine Beschriftung für Screenreader fest (nur unter Windows). Die Beschriftung
+    wird nicht auf dem Gadget angezeigt.
 @LineBreak
   - @@ComboBoxGadget: ändert den angezeigten Text. Ist das ComboBoxGadget nicht editierbar, muss sich der Text in der Aufklapp-Liste befinden.
 @LineBreak

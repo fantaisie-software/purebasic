@@ -1796,9 +1796,8 @@
 @LineBreak
   Die Abfrage der folgenden Ereignisse wird mittels @@ScreenEventType unterstützt:
 @FixedFont
-  @#PB_ScreenEventType_Change    : Der Text wurde durch den Anwender geändert.
-  @#PB_ScreenEventType_Focus     : Das StringGadget erhielt den Fokus.
-  @#PB_ScreenEventType_LostFocus : Das StringGadget verlor den Fokus.
+  @#PB_EventType_Change    : Der Text wurde durch den Anwender geändert.
+  @#PB_EventType_LeftClick : Das Gadget wurde angeklickt.
 @EndFixedFont
 
   Zu diesem Gadget kann mittels @@ScreenGadgetToolTip eine 'Mini-Hilfe' hinzugefügt werden.
@@ -1911,17 +1910,9 @@
   Die folgenden Werte sind möglich, wenn ein Ereignis des Typs @#PB_Event_Gadget
   (Bibliothek @LibraryLink "ScreenGadget" "ScreenGadget") auftritt:
 @FixedFont
-  @#PB_ScreenEventType_Focus    : Fokus erhalten
-  @#PB_ScreenEventType_LostFocus: Fokus verloren
-  @#PB_ScreenEventType_Change   : Inhalt hat sich geändert
+  @#PB_EventType_Change    : Der Text wurde durch den Anwender geändert.
+  @#PB_EventType_LeftClick : Das Gadget wurde angeklickt.
 @EndFixedFont
-
-  Die folgenden Gadgets unterstützen ScreenEventType():
-@LineBreak
-@LineBreak
-  - @@StringScreenGadget @LineBreak
-@LineBreak
-  (Siehe die Gadget-Beschreibung, welche Ereignisse unterstützt werden.)
 
 @SeeAlso
   @@ScreenWindowEvent
