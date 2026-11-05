@@ -760,11 +760,10 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
     
     ; attempt to compress
     CompilerIf #ENABLE_HISTORY_COMPRESSION
-      CompressedSize = compressBound(*Event\Size) + 4
-      *CompressedBuffer = AllocateMemory(CompressedSize)
+      *CompressedBuffer = AllocateMemory(*Event\Size + 4) ; CompressMemory() fails if the result isn't smaller
       If *CompressedBuffer
-        CompressedSize - 4
-        If compress2(*CompressedBuffer + 4, @CompressedSize, *Event\Content , *Event\Size, #HISTORY_COMPRESSION_LEVEL) = #Z_OK
+        CompressedSize = CompressMemory(*Event\Content, *Event\Size, *CompressedBuffer + 4, *Event\Size, #PB_PackerPlugin_Zip, #HISTORY_COMPRESSION_LEVEL)
+        If CompressedSize
           Type = #DATA_FullZ
           PokeL(*CompressedBuffer, *Event\Size) ; store original size in first 4 bytes
           StorageSize = CompressedSize + 4
@@ -806,11 +805,10 @@ Procedure History_WriteEvent(*Event.HistoryEvent)
     
     ; attempt to compress
     CompilerIf #ENABLE_HISTORY_COMPRESSION
-      CompressedSize = compressBound(StorageSize) + 4
-      *CompressedBuffer = AllocateMemory(CompressedSize)
+      *CompressedBuffer = AllocateMemory(StorageSize + 4) ; CompressMemory() fails if the result isn't smaller
       If *CompressedBuffer
-        CompressedSize - 4
-        If compress2(*CompressedBuffer + 4, @CompressedSize, *StorageBuffer, StorageSize, #HISTORY_COMPRESSION_LEVEL) = #Z_OK
+        CompressedSize = CompressMemory(*StorageBuffer, StorageSize, *CompressedBuffer + 4, StorageSize, #PB_PackerPlugin_Zip, #HISTORY_COMPRESSION_LEVEL)
+        If CompressedSize
           If Type = #DATA_Diff
             Type = #DATA_DiffZ
             FreeMemory(*DiffBuffer) ; diff buffer is no longer needed. storagebuffer is overwritten below
@@ -1104,7 +1102,7 @@ Procedure History_LoadEventSource(EventID)
           GetDatabaseBlob(#DB_History, 3, *Compressed, CompressedSize)
           DiffSize = PeekL(*Compressed)
           *Diff = AllocateMemory(DiffSize)
-          uncompress(*Diff, @DiffSize, *Compressed + 4, CompressedSize - 4)
+          UncompressMemory(*Compressed + 4, CompressedSize - 4, *Diff, DiffSize, #PB_PackerPlugin_Zip)
           FreeMemory(*Compressed)
           FinishDatabaseQuery(#DB_History)
           
@@ -1126,7 +1124,7 @@ Procedure History_LoadEventSource(EventID)
           GetDatabaseBlob(#DB_History, 3, *Compressed, CompressedSize)
           Size = PeekL(*Compressed)
           *Buffer = AllocateMemory(Size + 1) ; need to add a NULL (for scintilla SETTEXT)
-          uncompress(*Buffer, @Size, *Compressed + 4, CompressedSize - 4)
+          UncompressMemory(*Compressed + 4, CompressedSize - 4, *Buffer, Size, #PB_PackerPlugin_Zip)
           FreeMemory(*Compressed)
           FinishDatabaseQuery(#DB_History)
           

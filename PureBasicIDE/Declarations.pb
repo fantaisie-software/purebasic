@@ -757,6 +757,3 @@ CompilerIf #DEBUG
   Declare OpenDebuggingWindow()
 CompilerEndIf
 
-;- ZipManagement.pb
-Declare ScanZip(*Buffer, Size, List Files.ZipEntry())
-Declare ExtractZip(*Entry.ZipEntry)

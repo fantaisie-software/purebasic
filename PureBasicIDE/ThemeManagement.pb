@@ -26,7 +26,7 @@ EndStructure
 
 Global NewList PrefsThemeList.PrefsThemeList()
 
-Global *ThemeFile, ThemeFileSize, ThemeInfo1$, ThemeInfo2$, ThemeInfo3$
+Global ThemeFileSize, ThemeInfo1$, ThemeInfo2$, ThemeInfo3$
 Global NewList ThemeZipEntries.ZipEntry()
 Global NewList ThemeEntries.ThemeEntry()
 
@@ -52,9 +52,46 @@ Procedure CenterImage(Image, NewImage, Width, Height, Depth = 32, BackColor = #P
   ProcedureReturn r1
 EndProcedure
 
+; Extracts all the files of the theme archive in one pass into ThemeZipEntries(): extracting
+; them one by one by name restarts the archive scan each time, which is about 60 times slower
+Procedure ScanThemePack(*Memory, Size)
+  Protected Pack, Length
+  
+  ClearList(ThemeZipEntries())
+  Pack = CatchPack(#PB_Any, *Memory, Size)
+  If Pack
+    If ExaminePack(Pack)
+      While NextPackEntry(Pack)
+        Length = PackEntrySize(Pack, #PB_Packer_UncompressedSize)
+        If PackEntryType(Pack) = #PB_Packer_File And Length > 0
+          AddElement(ThemeZipEntries())
+          ThemeZipEntries()\Name$        = PackEntryName(Pack)
+          ThemeZipEntries()\Uncompressed = Length
+          ThemeZipEntries()\Content      = AllocateMemory(Length)
+          If ThemeZipEntries()\Content = 0 Or UncompressPackMemory(Pack, ThemeZipEntries()\Content, Length) <> Length
+            If ThemeZipEntries()\Content
+              FreeMemory(ThemeZipEntries()\Content)
+            EndIf
+            DeleteElement(ThemeZipEntries())
+          EndIf
+        EndIf
+      Wend
+    EndIf
+    ClosePack(Pack)
+  EndIf
+  ProcedureReturn ListSize(ThemeZipEntries())
+EndProcedure
+
+Procedure FreeThemeZipEntries()
+  ForEach ThemeZipEntries()
+    FreeMemory(ThemeZipEntries()\Content)
+  Next
+  ClearList(ThemeZipEntries())
+EndProcedure
+
 Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   ClearList(ThemeEntries())
-  *ThemeFile      = 0
+  FreeThemeZipEntries()
   *LocalThemeFile = 0
   
   If Filename$ = ""
@@ -67,7 +104,7 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
         *LocalThemeFile = AllocateMemory(ThemeFileSize)
         If *LocalThemeFile
           If ReadData(#FILE_Theme, *LocalThemeFile, ThemeFileSize) <> ThemeFileSize
-            FreeMemory(*ThemeFile)
+            FreeMemory(*LocalThemeFile)
             *LocalThemeFile = 0
           EndIf
         EndIf
@@ -77,14 +114,14 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
   EndIf
   
   If *LocalThemeFile
-    If ScanZip(*LocalThemeFile, ThemeFileSize, ThemeZipEntries()) > 0
+    If ScanThemePack(*LocalThemeFile, ThemeFileSize) > 0
       
       ; Locate the Theme.prefs file
       ForEach ThemeZipEntries()
         If LCase(GetFilePart(ThemeZipEntries()\Name$)) = "theme.prefs" ; all case insensitive here
           
           ; Read the Theme.prefs file
-          *Buffer = ExtractZip(@ThemeZipEntries())
+          *Buffer = ThemeZipEntries()\Content
           If *Buffer
             *BufferEnd  = *Buffer + ThemeZipEntries()\Uncompressed
             *Cursor.PTR = *Buffer
@@ -147,7 +184,6 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
               EndIf
             Wend
             
-            FreeMemory(*Buffer)
           EndIf
           
           Break
@@ -157,14 +193,11 @@ Procedure Theme_Open(Filename$) ; pass "" to open internal theme
     EndIf
     
     If ListSize(ThemeEntries()) = 0
-      If Filename$ <> ""
-        FreeMemory(*LocalThemeFile) ; dynamically allocated
-      EndIf
-      *LocalThemeFile = 0
-    Else
-      If Filename$ <> ""
-        *ThemeFile = *LocalThemeFile ; dynamically allocated (freed later)
-      EndIf
+      FreeThemeZipEntries()
+    EndIf
+    
+    If Filename$ <> ""
+      FreeMemory(*LocalThemeFile) ; dynamically allocated, the content is all extracted
     EndIf
   EndIf
   
@@ -173,10 +206,7 @@ EndProcedure
 
 Procedure Theme_Close()
   ClearList(ThemeEntries())
-  ClearList(ThemeZipEntries())
-  If *ThemeFile
-    FreeMemory(*ThemeFile) ; is 0 when internal theme is used
-  EndIf
+  FreeThemeZipEntries()
 EndProcedure
 
 ; Only frees the old image if the new one cannot be extracted/found
@@ -188,7 +218,7 @@ Procedure Theme_LoadImage(Image, ImageName$)
   ForEach ThemeEntries()
     If ImageName$ = ThemeEntries()\IconName$
       
-      *Buffer = ExtractZip(ThemeEntries()\ZipEntry)
+      *Buffer = ThemeEntries()\ZipEntry\Content
       If *Buffer
         Result = CatchImage(Image, *Buffer, ThemeEntries()\ZipEntry\Uncompressed)
         
@@ -210,7 +240,6 @@ Procedure Theme_LoadImage(Image, ImageName$)
         CompilerElseIf #CompileWindows
           ResizeImage(Image, DesktopScaledX(ImageWidth(Image)), DesktopScaledY(ImageHeight(Image)))
         CompilerEndIf ; On Linux, GTK displays the toolbar/menu/tree icons in logical units, so no resize is needed
-        FreeMemory(*Buffer)
       EndIf
       
       Break
