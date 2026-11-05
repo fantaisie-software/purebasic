@@ -5,7 +5,7 @@
 <dialoggroup>
 
   <!-- Add Tools -->
-  <window margin="10" closebutton="yes" id="#WINDOW_AddTools" name="Dialog_AddTools" lang="AddTools:Title" flags="#PB_Window_SizeGadget">
+  <window margin="10" id="#WINDOW_AddTools" name="Dialog_AddTools" lang="AddTools:Title" flags="#PB_Window_SystemMenu|#PB_Window_SizeGadget">
     <vbox spacing="10" expand="item:1">
       <hbox spacing="10" expand="item:1">
         <listicon id="#GADGET_AddTools_List" flags="#PB_ListIcon_GridLines | #PB_ListIcon_FullRowSelect | #PB_ListIcon_CheckBoxes">
@@ -42,7 +42,7 @@
 
   
   <!-- Edit Tools -->
-  <window margin="10" closebutton="yes" id="#WINDOW_EditTools" name="Dialog_EditTools" lang="AddTools:EditTitle" width="600">
+  <window flags="#PB_Window_SystemMenu" margin="10" id="#WINDOW_EditTools" name="Dialog_EditTools" lang="AddTools:EditTitle" width="600">
     <vbox spacing="10">
       <hbox spacing="10" expand="item:1">
         <vbox spacing="10" width="250">
