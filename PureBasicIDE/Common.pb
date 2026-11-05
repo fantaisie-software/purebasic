@@ -1498,6 +1498,8 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Help_RunCode
   #IMAGE_Help_Edit
   #IMAGE_Help_Index
+  #IMAGE_Help_Branch
+  #IMAGE_Help_Leaf
   
   #IMAGE_Diff_Open1
   #IMAGE_Diff_Open2

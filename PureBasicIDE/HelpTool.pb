@@ -29,7 +29,7 @@ DeclareModule HelpTool
 
   ; IDE embedding
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
-  Declare SetImages(Back, Forward, Home, Edit, Contents, LoadCode$, RunCode$)
+  Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$)
   Declare SetColors(Css$, Color = $008800)
   Declare Create(Window)
   Declare Destroy()
@@ -101,7 +101,7 @@ Module HelpTool
   Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
-  Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents
+  Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
   Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;" ; example buttons (replaced by the IDE icons)
   Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
   Global StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight
@@ -921,9 +921,16 @@ Module HelpTool
   ; *Parent: parent page of a sub-item (library function)
   ;
   Procedure AddContentsItem(Level, Text$, *Page.HelpPage, *Parent.HelpPage = 0)
-    Protected Item, IsUserLib
+    Protected Item, IsUserLib, IsBranch, Icon
 
     IsUserLib = Bool(*Parent And *Page\UserLib$ <> "")
+    IsBranch = Bool(Level = 0 Or (*Page And ListSize(*Page\SubPages()) > 0))
+    If IsBranch
+      Icon = ImageID(ImageBranch)
+    Else
+      Icon = ImageID(ImageLeaf)
+    EndIf
+    
     If IsUserLib
       If *Page\UserLib$ = *Parent\UserLib$
         If *Page\LibDestination$
@@ -935,7 +942,7 @@ Module HelpTool
     EndIf
 
     Item = CountGadgetItems(GadgetContents)
-    AddGadgetItem(GadgetContents, -1, Text$, 0, Level)
+    AddGadgetItem(GadgetContents, -1, Text$, Icon, Level)
     SetGadgetItemData(GadgetContents, Item, *Page)
     If IsUserLib ; else the gadget color (IDE theme)
       SetGadgetItemColor(GadgetContents, Item, #PB_Gadget_FrontColor, UserLibColor)
@@ -2359,12 +2366,14 @@ Module HelpTool
   EndProcedure
 
 
-  Procedure SetImages(Back, Forward, Home, Edit, Contents, LoadCode$, RunCode$) ; LoadCode$, RunCode$: png images in base64
+  Procedure SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$) ; LoadCode$, RunCode$: png images in base64
     ImageBack     = Back
     ImageForward  = Forward
     ImageHome     = Home
     ImageEdit     = Edit
     ImageContents = Contents
+    ImageBranch   = Branch
+    ImageLeaf     = Leaf
     If LoadCode$ <> ""
       LoadCodeIcon$ = "<img src='data:image/png;base64," + LoadCode$ + "'>"
     EndIf
@@ -2424,7 +2433,8 @@ Module HelpTool
     DisplayPage(Name$)
     ProcedureReturn #True
   EndProcedure
-
+  
+  
 EndModule
 
 
@@ -2773,7 +2783,7 @@ CompilerElse
       HelpTool::ApplyColorsCallback = 0
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
-    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
+    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
 
     If *Entry\IsSeparateWindow
