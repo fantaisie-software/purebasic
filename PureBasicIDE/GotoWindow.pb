@@ -56,9 +56,3 @@ Procedure GotoWindowEvents(EventID)
   
 EndProcedure
 
-
-DataSection
-  DialogXml_Goto:
-  IncludeBinary "dialogs/Goto.xml"
-  DialogXml_Goto_End:
-EndDataSection

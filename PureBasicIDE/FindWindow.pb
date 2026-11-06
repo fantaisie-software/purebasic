@@ -83,6 +83,8 @@ EndProcedure
 
 Procedure UpdateFindWindow()
   
+  FindWindowDialog\LanguageUpdate()
+  
   While FindHistorySize < CountGadgetItems(#GADGET_Find_FindWord)
     RemoveGadgetItem(#GADGET_Find_FindWord, CountGadgetItems(#GADGET_Find_FindWord)-1)
   Wend
@@ -236,10 +238,3 @@ Procedure FindWindowEvents(EventID)
   EndIf
   
 EndProcedure
-
-
-DataSection
-  DialogXml_Find:
-  IncludeBinary "dialogs/Find.xml"
-  DialogXml_Find_End:
-EndDataSection

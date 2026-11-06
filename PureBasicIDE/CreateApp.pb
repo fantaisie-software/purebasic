@@ -523,10 +523,3 @@ Procedure CreateAppWindowEvents(EventID)
   EndSelect
   
 EndProcedure
-
-
-DataSection
-  DialogXml_CreateApp:
-  IncludeBinary "dialogs/CreateApp.xml"
-  DialogXml_CreateApp_End:
-EndDataSection

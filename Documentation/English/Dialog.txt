@@ -121,159 +121,7 @@
 
 @SeeAlso
   @@CreateDialog, @@OpenXMLDialog
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function DialogLanguage(Map())
-
-@Description
-  Sets the texts used by the 'lang' attribute of the dialog XML elements, and updates all the dialogs
-  which are already opened. It allows to easily translate a dialog, or to change its language while the
-  program runs. @LineBreak
-@LineBreak
-  In the XML, an element with a 'lang' attribute (like lang="Main:Ok") displays the text found
-  in the map with this key. If the element also has a 'text' attribute, it is appended to the language
-  text (useful for a fixed suffix like ":"). If the key isn't found in the map, the key itself is displayed,
-  so a missing translation is easy to spot. @LineBreak
-@LineBreak
-  The 'lang' attribute is supported by the <window> title, the gadgets text, the panel <tab> elements
-  and the <item> and <column> elements.
-
-@Parameter "Map()"
-  A string map (Map Name$()) with the language texts. The map keys are the values used in the 'lang'
-  attributes, they are not case sensitive. The map is copied, so it can be changed or freed after the call.
-  An empty map removes all the language texts.
-
-@NoReturnValue
-
-@Remarks
-  Only the texts coming from a 'lang' attribute are changed when the language is updated: the content
-  modified by the user (like the text of a @@StringGadget) is kept. As the new texts can have a different
-  size, the opened dialogs are recalculated like with @@RefreshDialog. The dialogs opened after the call
-  use the current language as well.
-
-@Example
-@Code
-  #Dialog = 0
-  #Xml = 0
-
-  XML$ = "<window name='test' lang='Main:Title' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
-         "  <vbox>" +
-         "    <text lang='Main:Name' text=':'/>" +
-         "    <string/>" +
-         "    <combobox name='language'>" +
-         "      <item text='English'/>" +
-         "      <item text='Français'/>" +
-         "    </combobox>" +
-         "  </vbox>" +
-         "</window>"
-
-  NewMap English$()
-  English$("Main:Title") = "Welcome"
-  English$("Main:Name")  = "Your name"
-
-  NewMap French$()
-  French$("Main:Title") = "Bienvenue"
-  French$("Main:Name")  = "Votre nom"
-
-  DialogLanguage(English$())
-
-  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-      SetGadgetState(DialogGadget(#Dialog, "language"), 0)
-
-      Repeat
-        Event = WaitWindowEvent()
-        If Event = #PB_Event_Gadget And EventGadget() = DialogGadget(#Dialog, "language")
-          If GetGadgetState(EventGadget()) = 1
-            DialogLanguage(French$())
-          Else
-            DialogLanguage(English$())
-          EndIf
-        EndIf
-      Until Event = #PB_Event_CloseWindow
-    Else
-      Debug "Dialog error: " + DialogError(#Dialog)
-    EndIf
-  Else
-    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
-  EndIf
-@EndCode
-
-@SeeAlso
-  @@OpenXMLDialog, @@RefreshDialog
-
-@SupportedOS
-
-;--------------------------------------------------------------------------------------------------------
-
-@Function Result = FoldDialogElement(#Dialog, Name$, State)
-
-@Description
-  Folds or unfolds the specified dialog element. A folded element and all its children are hidden
-  and take no room in the layout. It's the same as the 'folded' XML attribute, but at runtime. @LineBreak
-@LineBreak
-  The dialog window is resized by the size of the element: it shrinks when the element is folded and
-  grows when it is unfolded. Any extra size set by the program or the user is kept. A maximized window
-  keeps its size and the other elements use the free space. The dialog is then recalculated like with
-  @@RefreshDialog.
-
-@Parameter "#Dialog"
-  The dialog to use.
-
-@Parameter "Name$"
-  The 'name' attribute of the element to fold or unfold. Any element can be used, including the layout
-  elements like <vbox> or <gridbox> (not only the gadgets).
-
-@Parameter "State"
-  @#True to fold the element, @#False to unfold it.
-
-@ReturnValue
-  Returns nonzero if the element has been found, zero otherwise.
-
-@Remarks
-  When an element is unfolded, its children are only shown again if none of its parents is still folded.
-  The children which are folded themselves stay folded.
-
-@Example
-@Code
-  #Dialog = 0
-  #Xml = 0
-
-  XML$ = "<window name='test' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
-         "  <vbox expand='no'>" +
-         "    <checkbox name='more' text='Show the options'/>" +
-         "    <frame name='options' text='Options' folded='yes'>" +
-         "      <vbox>" +
-         "        <checkbox text='Option 1'/>" +
-         "        <checkbox text='Option 2'/>" +
-         "      </vbox>" +
-         "    </frame>" +
-         "    <button text='OK'/>" +
-         "  </vbox>" +
-         "</window>"
-
-  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-      Repeat
-        Event = WaitWindowEvent()
-        If Event = #PB_Event_Gadget And EventGadget() = DialogGadget(#Dialog, "more")
-          FoldDialogElement(#Dialog, "options", 1 - GetGadgetState(EventGadget()))
-        EndIf
-      Until Event = #PB_Event_CloseWindow
-    Else
-      Debug "Dialog error: " + DialogError(#Dialog)
-    EndIf
-  Else
-    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
-  EndIf
-@EndCode
-
-@SeeAlso
-  @@OpenXMLDialog, @@RefreshDialog
-
+  
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
@@ -345,8 +193,7 @@
   The name of the dialog to open. An XML file can have several dialogs defined.
 
 @OptionalParameter "x, y"
-  The x, y coordinate (in pixels) of the #Dialog. If one of them is @#PB_Ignore, the dialog is centered on the
-  screen (or on its parent window if the XML specifies the @#PB_Window_WindowCentered flag).
+  The x, y coordinate (in pixels) of the #Dialog.
 
 @OptionalParameter "Width, Height"
   The size (in pixels) of the #Dialog. If the size is smaller than the required size as defined in the XML (after layout
@@ -370,18 +217,11 @@
   --------------------
 
   width     - positive integer value or 0 (default="0") (set the "minimum size" of a control)
-  height      or "ignore": the object doesn't request any width/height, so it doesn't make its parent grow
-              (it gets the size given by the layout)
+  height
 
-  id        - #Number identifier for a gadget or a window (default is #PB_Any if not specified). It can be a runtime constant
-              or an expression with runtime constants, like "#Gadget_First + 1" (see <compiler> below for the supported operators).
+  id        - #Number identifier for a gadget or a window (default is #PB_Any if not specified). It can be a runtime constant.
   name      - a string identifying the object (for @@DialogGadget mainly, case insensitive) (default="")
   text      - text string for the object (default="")
-  lang      - language key of the text, like "Main:Ok". The text is taken from the map set with @@DialogLanguage, and the
-              'text' attribute, if any, is appended to it. If the key isn't in the map, the key itself is displayed.
-
-  folded    - if set to "yes", the object and all its children are hidden and take no room in the layout (default="no").
-              Works on any element (layout or gadget). See @@FoldDialogElement to change it at runtime.
 
   flags     - gadget/window flags in the form "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (default="")
 
@@ -414,9 +254,6 @@
     ...
   </dialogs>
 
-  <dialoggroup> is accepted as an alias of <dialogs>, and the <window> elements can be put in <compiler> blocks
-  (see below) to select a different window definition depending of the OS for example.
-
   The root <window> element is opened as a real window by @@OpenXMLDialog. The very same XML document
   can instead be turned into a gadget (a @@ContainerGadget) with @@XmlDialogGadget - in that case any
   window-only attribute or flag the root <window> may carry (title, screencentered, systemmenu, ...)
@@ -439,10 +276,6 @@
 
   It allows to set the window bounds. If set to 'auto', then the
   size is calculated depending of the children size requirement.
-
-  forcesize = 'yes' (default) or 'no' - 'yes' is the same as minwidth="auto" and minheight="auto",
-              'no' removes the minimum size.
-  invisible = 'yes' creates the window invisible (same as the @#PB_Window_Invisible flag)
 
 
   - Creates the a window
@@ -591,9 +424,8 @@
   <panel> - can contain <tab> items only
   <progressbar min max value> 
   <scintilla> - callback remains empty. UseDialogScintillaGadget() needs to be called to enable <scintilla> support.
-  <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior. <scroll> is accepted as an alias.
+  <scrollarea scrolling="vertical,horizontal or both (default)" innerheight="value or auto (default)" innerwidth="value or auto (default)" step> - single element container, scrolling value determines growth behavior.
   <scrollbar min max page value> - page = page length.
-  <shortcutgadget> - a @@ShortcutGadget. <shortcut> without 'key' attribute creates a @@ShortcutGadget as well.
   <spin min max value>
   <splitter firstmin="value or auto" secondmin> - must contain 2 subitems, so its a 2 item container basically, minimum size is determined by contained gadgets. If "auto" is specified, the min value will be the minimum size of the child.
   <string>
@@ -604,39 +436,10 @@
   <webview> - UseDialogWebViewGadget() needs to be called to enable <webview> support.
 
   Gadget related elements:
-  <tab> - single element container, for panel tabs (attributes 'text' and 'lang' are supported).
-
-  <item> - adds an item to its parent <combobox>, <listview>, <tree> or <listicon>.
-           Supported attributes: 'text', 'lang' and 'sublevel' (for <tree> only).
-  <column> - adds a column to its parent <listicon> or <explorerlist>. The default columns of the gadget are
-           removed when the first <column> is added. Supported attributes: 'text', 'lang' and 'width'.
-           See the "Items and columns" example below.
-
+  <tab> - single element container, for panel tabs (attribute 'text' is supported).
+  
   Special elements:
-  <empty> - an empty element, useful when it's needed to have space between element, to align them to borders for example.
-
-  <shortcut key id> - adds a keyboard shortcut to the dialog window, like @@AddKeyboardShortcut. It doesn't take
-           any room in the layout and is only supported with @@OpenXMLDialog.
-           key - the #PB_Shortcut constants, which can be combined with '|' (like "#PB_Shortcut_Control | #PB_Shortcut_S").
-                 Runtime constants and numbers are accepted as well.
-           id  - the menu event number, as a runtime constant or a number. It is received with @@EventMenu.
-           See the "Keyboard shortcuts" example below.
-
-  <compiler if="expression"> ... <compilerelse/> ... </compiler>
-           Includes its children only if the expression is true, or the children after <compilerelse/> if it is false
-           (<compilerelse/> is optional). It can be used anywhere in the dialog, also around <window> elements.
-           As the XML is read when the program runs, the expression is evaluated at runtime when the dialog is opened.
-           The expression supports:
-             - numbers (decimal, or hexadecimal with '$')
-             - constants declared with 'Runtime' in the program (like the 'id' attribute)
-             - variables declared with 'Runtime' in the program
-             - Defined(Name, #PB_Constant) to test if a runtime constant exists
-             - #True, #False, #PB_Compiler_OS, #PB_OS_Windows, #PB_OS_Linux and #PB_OS_MacOS
-             - the operators ( ), unary -, Not, *, /, +, -, =, <>, <, >, <=, >=, And, Or, Xor
-
-           In XML, the '<' character of an attribute value must be written '&lt;' (like "#Value &lt;= 10").
-           A compiler constant like #PB_Compiler_Debugger can be used once declared with 'Runtime' in the program.
-           See the "Compiler conditions" example below.
+  <empty> - an empty element, useful when it's needed to have space between element, to align them to borders for example. 
 
 @EndFixedFont  
 
@@ -796,147 +599,16 @@
          "          <button text='Button 12' />" +
          "    </gridbox>" +
          "  </window>"
-
+  
   If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-
+    
     If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-
+      
       Repeat
         Event = WaitWindowEvent()
-      Until Event = #PB_Event_CloseWindow
-
-    Else
-      Debug "Dialog error: " + DialogError(#Dialog)
-    EndIf
-  Else
-    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
-  EndIf
-@EndCode
-
-@Example Compiler conditions
-
-@Code
-  ; The XML is read when the program runs, so the constants used by <compiler> must be
-  ; declared with 'Runtime'. It works for the compiler constants too.
-  Runtime #PB_Compiler_Debugger
-
-  #Dialog = 0
-  #Xml = 0
-
-  XML$ = "<window name='test' text='Compiler conditions' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
-         "  <vbox>" +
-         "    <compiler if='#PB_Compiler_Debugger'>" +
-         "      <text text='Compiled with the debugger'/>" +
-         "    <compilerelse/>" +
-         "      <text text='Compiled without the debugger'/>" +
-         "    </compiler>" +
-         "    <compiler if='#PB_Compiler_OS = #PB_OS_MacOS'>" +
-         "      <button text='Preferences...'/>" +
-         "    <compilerelse/>" +
-         "      <button text='Options...'/>" +
-         "    </compiler>" +
-         "  </vbox>" +
-         "</window>"
-
-  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-
-    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-
-      Repeat
-        Event = WaitWindowEvent()
-      Until Event = #PB_Event_CloseWindow
-
-    Else
-      Debug "Dialog error: " + DialogError(#Dialog)
-    EndIf
-  Else
-    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
-  EndIf
-@EndCode
-
-@Example Items and columns
-
-@Code
-  #Dialog = 0
-  #Xml = 0
-
-  XML$ = "<window name='test' text='Items and columns' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
-         "  <vbox>" +
-         "    <combobox name='size'>" +
-         "      <item text='Small'/>" +
-         "      <item text='Medium'/>" +
-         "      <item text='Large'/>" +
-         "    </combobox>" +
-         "    <tree height='80'>" +
-         "      <item text='Fruits'/>" +
-         "      <item text='Apple' sublevel='1'/>" +
-         "      <item text='Pear' sublevel='1'/>" +
-         "      <item text='Vegetables'/>" +
-         "    </tree>" +
-         "    <listicon height='100'>" +
-         "      <column text='Name' width='150'/>" +
-         "      <column text='Size' width='80'/>" +
-         "      <item text='First file'/>" +
-         "      <item text='Second file'/>" +
-         "    </listicon>" +
-         "  </vbox>" +
-         "</window>"
-
-  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-
-    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-      SetGadgetState(DialogGadget(#Dialog, "size"), 1) ; select 'Medium'
-
-      Repeat
-        Event = WaitWindowEvent()
-      Until Event = #PB_Event_CloseWindow
-
-    Else
-      Debug "Dialog error: " + DialogError(#Dialog)
-    EndIf
-  Else
-    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
-  EndIf
-@EndCode
-
-@Example Keyboard shortcuts
-
-@Code
-  ; The 'id' of a <shortcut> must be declared with 'Runtime', as the XML is read when the program runs
-  Runtime Enumeration
-    #Menu_Save
-    #Menu_Close
-  EndEnumeration
-
-  #Dialog = 0
-  #Xml = 0
-
-  XML$ = "<window name='test' text='Keyboard shortcuts' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
-         "  <vbox>" +
-         "    <text text='Press Ctrl+S to save, Escape to close.'/>" +
-         "    <shortcut key='#PB_Shortcut_Control | #PB_Shortcut_S' id='#Menu_Save'/>" +
-         "    <shortcut key='#PB_Shortcut_Escape' id='#Menu_Close'/>" +
-         "  </vbox>" +
-         "</window>"
-
-  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-
-    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-
-      Repeat
-        Event = WaitWindowEvent()
-
-        If Event = #PB_Event_Menu
-          Select EventMenu()
-            Case #Menu_Save
-              Debug "Save"
-            Case #Menu_Close
-              Event = #PB_Event_CloseWindow
-          EndSelect
-        EndIf
-      Until Event = #PB_Event_CloseWindow
-
-    Else
+      Until Event = #PB_Event_CloseWindow 
+      
+    Else  
       Debug "Dialog error: " + DialogError(#Dialog)
     EndIf
   Else

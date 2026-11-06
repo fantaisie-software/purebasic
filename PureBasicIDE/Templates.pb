@@ -1110,8 +1110,3 @@ AvailablePanelTools()\ToolMinWindowHeight  = 200
 TemplatePlugin = @AvailablePanelTools()
 
 
-DataSection
-  DialogXml_Templates:
-  IncludeBinary "dialogs/Templates.xml"
-  DialogXml_Templates_End:
-EndDataSection

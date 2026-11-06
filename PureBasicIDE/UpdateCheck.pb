@@ -419,8 +419,3 @@ Procedure CheckForUpdatesSchedule()
 EndProcedure
 
 
-DataSection
-  DialogXml_Updates:
-  IncludeBinary "dialogs/Updates.xml"
-  DialogXml_Updates_End:
-EndDataSection

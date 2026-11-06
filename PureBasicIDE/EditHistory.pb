@@ -1498,6 +1498,7 @@ EndProcedure
 
 Procedure UpdateEditHistoryWindow()
   
+  EditHistoryDialog\LanguageUpdate()
   EditHistoryDialog\GuiUpdate()
   UpdateCodeViewer(#GADGET_History_Source)
   
@@ -1573,13 +1574,3 @@ Procedure EditHistoryWindowEvent(EventID)
   EndSelect
   
 EndProcedure
-
-
-DataSection
-  DialogXml_History:
-  IncludeBinary "dialogs/History.xml"
-  DialogXml_History_End:
-  DialogXml_HistoryShutdown:
-  IncludeBinary "dialogs/HistoryShutdown.xml"
-  DialogXml_HistoryShutdown_End:
-EndDataSection

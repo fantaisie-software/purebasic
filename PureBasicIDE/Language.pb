@@ -303,15 +303,6 @@ Procedure LoadLanguage()
   
   BuildShortcutNamesTable() ; update the array of names for the Shortcuts
   
-  ; The 'lang' attributes of the dialogs (dialogs/*.xml) use the "Group:Key" texts. This also updates the opened dialogs.
-  NewMap DialogTexts$(NbLanguageStrings)
-  For Group = 1 To NbLanguageGroups
-    For StringIndex = LanguageGroups(Group)\GroupStart To LanguageGroups(Group)\GroupEnd
-      DialogTexts$(LanguageGroups(Group)\Name$ + ":" + LanguageNames(StringIndex)) = ReplaceString(LanguageStrings(StringIndex), "%newline%", #NewLine, #PB_String_NoCase)
-    Next StringIndex
-  Next Group
-  DialogLanguage(DialogTexts$())
-  
 EndProcedure
 
 Procedure.s Language(Group$, Name$)

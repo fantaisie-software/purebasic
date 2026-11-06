@@ -22,11 +22,19 @@ CompilerIf #DEBUG
     #DEBUG_SortedTokens
     #DEBUG_SortedIssues
     #DEBUG_ProjectTokens
+    #DEBUG_CompilerDialog
+    #DEBUG_PreferencesDialog
+    #DEBUG_FindDialog
+    #DEBUG_GrepDialog
+    #DEBUG_AddToolsDialog
+    #DEBUG_EditToolsDialog
     #DEBUG_MemoryStats
   EndEnumeration
   
   
   Global Debugging_Combo, Debugging_Editor, Debugging_Display
+  
+  Declare.s DumpDialogHirachy(*Object.DlgBase, Indent)
   
   CompilerIf #CompileWindows
     
@@ -95,6 +103,170 @@ CompilerIf #DEBUG
     EndProcedure
     
   CompilerEndIf
+  
+  Procedure.s DumpDlgBin(*Bin.DlgBinBase, Indent)
+    Text$ = Space(Indent) + "Margins = t:"+Str(*Bin\tMargin)+", b:"+Str(*Bin\bMargin)+", l:"+Str(*Bin\lMargin)+", r:"+Str(*Bin\rMargin)+#NewLine
+    Text$ + Space(Indent) + "Expand = v:"+Str(*Bin\vExpand)+", h:"+Str(*Bin\hExpand)+"  Align = v:"+Str(*Bin\vAlign)+", h:"+Str(*Bin\hAlign)+#NewLine
+    Text$ + Space(Indent) + "Requested Size = "+Str(*Bin\RequestedWidth) + ", "+Str(*Bin\RequestedHeight) + #NewLine
+    
+    If *Bin\Child
+      Text$ + DumpDialogHirachy(*Bin\Child, Indent+2)
+    Else
+      Text$ + Space(Indent) + "-- no child --"
+    EndIf
+    
+    ProcedureReturn Text$
+  EndProcedure
+  
+  Procedure.s DumpDlgBox(*Box.DlgBoxBase, Indent)
+    Text$ = ""
+    
+    ; those have extra data
+    If *Box\StaticData\type = #DIALOG_VBox Or *Box\StaticData\type = #DIALOG_HBox
+      *Box2.DlgBox = *Box
+      Text$ + Space(Indent) + "Spacing = "+Str(*Box2\Spacing)+", Expand = "+Str(*Box2\Expand)+", Item = "+Str(*Box2\ExpandItem) + ", Align = "+Str(*Box2\Align)+#NewLine
+      Text$ + Space(Indent) + "RequestedSize = "+Str(*Box2\RequestedSize) + #NewLine
+      
+      Text$ + Space(Indent) + "ChildSizes ="
+      For i = 0 To *Box\NbChildren-1
+        Text$ + " " + Str(*Box2\ChildSizes[i])
+      Next i
+      Text$ + #NewLine
+    EndIf
+    
+    If *Box\NbChildren = 0
+      Text$ + Space(Indent) + "-- no children --"
+    Else
+      For i = 0 To *Box\NbChildren-1
+        Text$ + DumpDialogHirachy(*Box\Children[i], Indent+2)
+      Next i
+    EndIf
+    
+    ProcedureReturn Text$
+  EndProcedure
+  
+  Procedure.s DumpDlgGadget(*Gadget.DlgGadget, Name$, Indent)
+    Text$ = "----- "+Name$+" -----"+#NewLine
+    Text$ + Space(Indent) + "Position = "+Str(GadgetX(*Gadget\Gadget)) + ", "+Str(GadgetY(*Gadget\Gadget)) + ", "+Str(GadgetWidth(*Gadget\Gadget)) + ", "+Str(GadgetHeight(*Gadget\Gadget))+#NewLine
+    If *Gadget\HasTitle
+      Text$ + Space(Indent) + "Text = "+ReplaceString(GetGadgetText(*Gadget\Gadget), #Newline, "\n") + #NewLine
+    EndIf
+    
+    ProcedureReturn Text$
+  EndProcedure
+  
+  
+  Procedure.s DumpDialogHirachy(*Object.DlgBase, Indent)
+    Text$ = Space(Indent)
+    
+    Select *Object\StaticData\type
+        
+      Case #DIALOG_Window
+        *Window.DlgWindow = *Object
+        Text$ + "----- Window -----"+#NewLine
+        Text$ + Space(Indent) + "Size = "+Str(WindowWidth(*Window\Window)) + ", "+Str(WindowHeight(*Window\Window)) + #NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+      Case #DIALOG_VBox
+        Text$ + "----- VBox -----"+#NewLine
+        Text$ + DumpDlgBox(*Object, Indent)
+        
+      Case #DIALOG_HBox
+        Text$ + "----- HBox -----"+#NewLine
+        Text$ + DumpDlgBox(*Object, Indent)
+        
+      Case #DIALOG_Multibox
+        Text$ + "----- Multibox -----"+#NewLine
+        Text$ + DumpDlgBox(*Object, Indent)
+        
+      Case #DIALOG_Singlebox
+        Text$ + "----- Singlebox -----"+#NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+      Case #DIALOG_Gridbox
+        *Grid.DlgGridBox = *Object
+        Text$ + "----- Gridbox -----"+#NewLine
+        Text$ + Space(Indent) + "NbColumns = "+Str(*Grid\NbColumns) + ", NbRows = "+Str(*Grid\NbRows) + #NewLine
+        Text$ + Space(Indent) + "Spacing = col:"+Str(*Grid\colSpacing)+" row:"+Str(*Grid\rowSpacing)+", Expand = col:"+Str(*Grid\colExpand)+" row:"+Str(*Grid\rowExpand)+", Item = col:"+Str(*Grid\colExpandItem)+" row:"+Str(*Grid\rowExpandItem)+#NewLine
+        Text$ + Space(Indent) + "RequestedWidth = "+Str(*Grid\RequestedWidth)+", RequestedHeight = "+Str(*Grid\RequestedHeight)+#NewLine
+        
+        Text$ + Space(Indent) + "ColSizes ="
+        For i = 0 To *Grid\NbColumns-1
+          Text$ + " " + Str(*Grid\colSize[i])
+        Next i
+        Text$ + #NewLine + Space(Indent) + "RowSizes ="
+        For i = 0 To *Grid\NbRows-1
+          Text$ + " " + Str(*Grid\rowSize[i])
+        Next i
+        Text$ + #NewLine
+        
+        For row = 0 To *Grid\NbRows-1
+          Text$ + Space(Indent+2) + "===== Gridbox new row =====" + #NewLine
+          For col = 0 To *Grid\NbColumns-1
+            Child.DialogObject = *GRid\Rows[row]\Cols[col]\Child
+            If Child <> #DlgGrid_Empty And Child <> #DlgGrid_Span
+              
+              Text$ + DumpDialogHirachy(Child, Indent+2)
+              
+              If *GRid\Rows[row]\Cols[col]\Colspan > 1 Or *GRid\Rows[row]\Cols[col]\Rowspan > 1
+                Text$ + Space(Indent+2)+"(Gridbox: Colspan = "+Str(*GRid\Rows[row]\Cols[col]\Colspan)+", Rowspan = "+Str(*GRid\Rows[row]\Cols[col]\Rowspan)+")"+#NewLine
+              EndIf
+              
+            EndIf
+          Next col
+        Next row
+        
+        
+      Case #DIALOG_Empty
+        Text$ + "----- Empty -----"+#NewLine
+        
+      Case #DIALOG_Button:      Text$ + DumpDlgGadget(*Object, "Button", Indent)
+      Case #DIALOG_Checkbox:    Text$ + DumpDlgGadget(*Object, "Checkbox", Indent)
+      Case #DIALOG_Image:       Text$ + DumpDlgGadget(*Object, "Image", Indent)
+      Case #DIALOG_Option:      Text$ + DumpDlgGadget(*Object, "Option", Indent)
+      Case #DIALOG_ListView:    Text$ + DumpDlgGadget(*Object, "ListView", Indent) ; we ignore the <item> and <column> entries in this display
+      Case #DIALOG_ListIcon:    Text$ + DumpDlgGadget(*Object, "ListIcon", Indent)
+      Case #DIALOG_Tree:        Text$ + DumpDlgGadget(*Object, "Tree", Indent)
+      Case #DIALOG_ComboBox:    Text$ + DumpDlgGadget(*Object, "ComboBox", Indent)
+      Case #DIALOG_Text:        Text$ + DumpDlgGadget(*Object, "Text", Indent)
+      Case #DIALOG_String:      Text$ + DumpDlgGadget(*Object, "String", Indent)
+      Case #DIALOG_Editor:      Text$ + DumpDlgGadget(*Object, "Editor", Indent)
+      Case #DIALOG_Scintilla:   Text$ + DumpDlgGadget(*Object, "Scintilla", Indent)
+      Case #DIALOG_ScrollBar:   Text$ + DumpDlgGadget(*Object, "ScrollBar", Indent)
+      Case #DIALOG_ProgressBar: Text$ + DumpDlgGadget(*Object, "ProgressBar", Indent)
+        
+      Case #DIALOG_Container
+        Text$ + "----- Container -----"+#NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+      Case #DIALOG_Panel
+        Text$ + "----- Panel -----"+#NewLine
+        Text$ + DumpDlgBox(*Object, Indent)
+        
+      Case #DIALOG_Tab
+        *Tab.DlgTab = *Object
+        Text$ + "----- Tab -----"+#NewLine
+        Text$ + Space(Indent) + "Title = "+GetGadgetItemText(*Tab\ParentGadget, *Tab\ItemIndex) + #NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+      Case #DIALOG_Scroll
+        *Scroll.DlgScroll = *Object
+        Text$ + "----- ScrollArea -----"+#NewLine
+        Text$ + Space(Indent) + "InnerWidth = "+Str(*Scroll\InnerWidth) + ", InnerHeight = "+Str(*Scroll\InnerHeight) + ", Scrolling = "+Str(*Scroll\Scrolling)+#NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+      Case #DIALOG_Frame
+        *Frame.DlgFrame = *Object
+        Text$ + "----- Frame -----"+#NewLine
+        Text$ + Space(Indent) + "Title = "+GetGadgetText(*Frame\Gadget) + #NewLine
+        Text$ + Space(Indent) + "Boder = t:"+Str(*Frame\BorderTop)+", b:"+Str(*Frame\BorderBottom)+", l:"+Str(*Frame\BorderLeft)+", r:"+Str(*Frame\BorderRight)+#NewLine
+        Text$ + DumpDlgBin(*Object, Indent)
+        
+        
+    EndSelect
+    
+    ProcedureReturn Text$
+  EndProcedure
   
   Procedure DebuggingWindowEvents(EventID)
     Static NewList *Items()
@@ -275,6 +447,48 @@ CompilerIf #DEBUG
             EndIf
             
             
+          Case #DEBUG_CompilerDialog ; DialogHirachy - OptionWindow
+            If IsWindow(#WINDOW_Option)
+              Content$ = DumpDialogHirachy(OptionWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- Compiler Window not open --"
+            EndIf
+            
+          Case #DEBUG_PreferencesDialog ; DialogHirachy - Preferences
+            If IsWindow(#WINDOW_Preferences)
+              Content$ = DumpDialogHirachy(PreferenceWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- Preferences Window not open --"
+            EndIf
+            
+          Case #DEBUG_FindDialog ; DialogHirachy - Find
+            If IsWindow(#WINDOW_Find)
+              Content$ = DumpDialogHirachy(FindWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- Find Window not open --"
+            EndIf
+            
+          Case #DEBUG_GrepDialog ; DialogHirachy - Grep
+            If IsWindow(#WINDOW_Grep)
+              Content$ = DumpDialogHirachy(GrepWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- Grep Window not open --"
+            EndIf
+            
+          Case #DEBUG_AddToolsDialog ; DialogHirachy - AddTools
+            If IsWindow(#WINDOW_AddTools)
+              Content$ = DumpDialogHirachy(AddToolsWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- AddTools Window not open --"
+            EndIf
+            
+          Case #DEBUG_EditToolsDialog ; DialogHirachy - EditTools
+            If IsWindow(#WINDOW_EditTools)
+              Content$ = DumpDialogHirachy(EditToolsWindowDialog, 0) ; the main object is directly the DlgWindow object
+            Else
+              Content$ = "-- EditTools Window not open --"
+            EndIf
+            
           Case #DEBUG_MemoryStats ; memory stats
             CompilerIf #CompileWindows And  #PB_Compiler_Backend <> #PB_Backend_C
               Protected MemoryBase, MemoryHeap
@@ -354,6 +568,13 @@ CompilerIf #DEBUG
       AddGadgetItem(Debugging_Combo, -1, "SourceToken Sorted Lists")
       AddGadgetItem(Debugging_Combo, -1, "SourceToken Sorted Issues")
       AddGadgetItem(Debugging_Combo, -1, "ProjectFiles SourceToken Sorted Lists")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Compiler Options")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Preferences")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Find")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Grep")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Config Tools")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Edit Tool")
+      AddGadgetItem(Debugging_Combo, -1, "DialogManager - Sort Sources")
       AddGadgetItem(Debugging_Combo, -1, "Memory Stats (Windows Only)")
       
       SetGadgetState(Debugging_Combo, 0)

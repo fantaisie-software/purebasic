@@ -322,9 +322,6 @@ CompilerSelect #PB_Compiler_OS
     
 CompilerEndSelect
 
-; Used in the <compiler if=""> of the dialogs/*.xml files, which are read at runtime by the Dialog library
-Runtime #CompileWindows, #CompileLinux, #CompileMac, #SpiderBasic, #DEFAULT_CanWindowStayOnTop, #DEFAULT_PreferencesTreeWidth
-
 
 
 CompilerIf #SpiderBasic

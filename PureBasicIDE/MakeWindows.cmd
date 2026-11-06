@@ -50,6 +50,11 @@ mkdir Build
 :: Create the "Build/dummy" file for compatibility with using the real makefile
 type NUL > Build\dummy
 
+:: Generate dialog files
+@set DIALOGS=Find;Grep;Goto;CompilerOptions;AddTools;About;Preferences;Templates;StructureViewer;Projects;Build;Diff;FileMonitor;History;HistoryShutdown;CreateApp;Updates
+PBCompiler /QUIET /CONSOLE ..\DialogManager\DialogCompiler.pb /EXE Build\DialogCompiler.exe
+@FOR %%D IN (%DIALOGS%) DO Build\DialogCompiler.exe dialogs\%%D.xml Build\%%D.pb
+
 :: Generate themes
 PBCompiler /QUIET /CONSOLE tools\maketheme.pb /EXE Build\maketheme.exe
 Build\maketheme.exe Build\DefaultTheme.zip data\DefaultTheme

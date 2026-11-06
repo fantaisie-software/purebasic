@@ -30,10 +30,19 @@ EndProcedure
 CompilerIf #PB_Compiler_OS = #PB_OS_Linux
   XIncludeFile "../CompilerFlags.pb"
   
+  IncludePath "../../DialogManager/"
+  XIncludeFile "DialogManager.pb"
+  IncludePath ""
+  
   XIncludeFile "../Common.pb"
   XIncludeFile "../Language.pb"
 CompilerElse
   XIncludeFile "..\CompilerFlags.pb"
+  
+  
+  IncludePath "..\..\DialogManager\"
+  XIncludeFile "DialogManager.pb"
+  IncludePath ""
   
   XIncludeFile "..\Common.pb"
   XIncludeFile "..\Language.pb"
