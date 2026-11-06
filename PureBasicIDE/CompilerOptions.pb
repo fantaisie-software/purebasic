@@ -588,6 +588,15 @@ Procedure OpenOptionWindow(ForceProjectOptions, *InitialTarget.CompileTarget = 0
     If OptionWindowDialog
       EnsureWindowOnDesktop(#WINDOW_Option)
       
+      CompilerIf #CompileWindows
+        ; right align the custom version field names, like the labels above them (no such flag for the StringGadget)
+        For i = 18 To 20
+          If IsGadget(#GADGET_Option_VersionValue0+i)
+            SetWindowLongPtr_(GadgetID(#GADGET_Option_VersionValue0+i), #GWL_STYLE, GetWindowLongPtr_(GadgetID(#GADGET_Option_VersionValue0+i), #GWL_STYLE) | #ES_RIGHT)
+          EndIf
+        Next i
+      CompilerEndIf
+      
       EnableGadgetDrop(#GADGET_Option_MainFile,   #PB_Drop_Files, #PB_Drag_Copy)
       
       CompilerIf #SpiderBasic
@@ -1537,6 +1546,12 @@ Procedure UpdateOptionWindow()
     Next ProjectOptionTargets()
   EndIf
   
-  OptionWindowDialog\LanguageUpdate()
   OptionWindowDialog\GuiUpdate()
 EndProcedure
+
+
+DataSection
+  DialogXml_CompilerOptions:
+  IncludeBinary "dialogs/CompilerOptions.xml"
+  DialogXml_CompilerOptions_End:
+EndDataSection

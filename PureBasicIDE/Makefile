@@ -32,7 +32,6 @@ ifeq ($(PB_WINDOWS),1)
 	PURIFIER = /PURIFIER
 	DEBUGSYMBOLS =
 	CPUMONITORLIB =
-	DIALOGCOMPILER = ../DialogManager/Build/DialogCompiler.exe
 	HELPTOOL = Build/HelpTool.exe
 	HELPTOOLRUN = Build\HelpTool.exe
 	MACPLIST =
@@ -99,7 +98,6 @@ endif
 	DEBUGSYMBOLS = -ds
 	VERSIONFLAG =
 	CPUMONITORLIB =
-	DIALOGCOMPILER = ../DialogManager/Build/dialogcompiler
 	ONERROR = --linenumbering
 	COLORTABLE = $(HOME)/catalogs/ColorTable.xml
 	ECHOQUOTE = "
@@ -117,24 +115,8 @@ THEMES = \
 	Build/DefaultTheme.zip \
 	$(THEMEFOLDER)/SilkTheme.zip
 
-DIALOGS = \
-Build/Find.pb \
-Build/Grep.pb \
-Build/Goto.pb \
-Build/CompilerOptions.pb \
-Build/AddTools.pb \
-Build/About.pb \
-Build/Preferences.pb \
-Build/Templates.pb \
-Build/StructureViewer.pb \
-Build/Projects.pb \
-Build/Build.pb \
-Build/Diff.pb \
-Build/FileMonitor.pb \
-Build/History.pb \
-Build/HistoryShutdown.pb \
-Build/CreateApp.pb \
-Build/Updates.pb
+# the dialogs are included in the IDE executable (see DialogLibrary.pb)
+DIALOGS = dialogs/*.xml
 
 DEPENDENCIES = \
 	$(COLORTABLE) \
@@ -238,12 +220,9 @@ helpzip : $(HELPTOOL)
 $(MAKEBUILDINFO) : tools/makebuildinfo.pb Build/dummy
 	$(PBCOMPILER) tools/makebuildinfo.pb $(MAKEEXE) $(MAKEBUILDINFO) $(TOOLFLAGS)
 
-Build/%.pb : dialogs/%.xml $(DIALOGCOMPILER) Build/dummy
-	$(DIALOGCOMPILER) $< $@
-
 # theme targets (-mkdir suppresses errors if the directory exists)
 #
-Build/DefaultTheme.zip: data/DefaultTheme/*
+Build/DefaultTheme.zip: data/DefaultTheme/* Build/dummy
 	rm -f Build/DefaultTheme.zip
 	zip -jq Build/DefaultTheme.zip data/DefaultTheme/*
 
@@ -261,11 +240,6 @@ $(COLORTABLE): data/ColorTable.xml
 $(COLORSCHEME): data/DefaultColorSchemes/*
 	"mkdir" -p "$(COLORSCHEMEFOLDER)"
 	cp data/DefaultColorSchemes/* "$(COLORSCHEMEFOLDER)"
-
-# this also works on windows
-#
-$(DIALOGCOMPILER) : ../DialogManager/DialogCompiler.pb Build/dummy
-	make --directory ../DialogManager
 
 
 #
@@ -342,4 +316,3 @@ Build/dummy:
 
 clean:
 	rm -rf Build
-	make clean --directory ../DialogManager

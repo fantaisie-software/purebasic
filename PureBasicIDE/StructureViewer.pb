@@ -978,3 +978,10 @@ Procedure StructureViewerWindowEvents(EventID)
   EndSelect
   
 EndProcedure
+
+
+DataSection
+  DialogXml_StructureViewer:
+  IncludeBinary "dialogs/StructureViewer.xml"
+  DialogXml_StructureViewer_End:
+EndDataSection

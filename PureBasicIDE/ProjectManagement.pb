@@ -2819,8 +2819,6 @@ EndProcedure
 
 Procedure UpdateProjectOptionsWindow()
   
-  ProjectOptionsDialog\LanguageUpdate()
-  
   If IsProjectCreation
     SetWindowTitle(#WINDOW_ProjectOptions, Language("Project","TitleNew"))
     SetGadgetText(#GADGET_Project_Ok, Language("Project", "CreateProject"))
@@ -2937,3 +2935,10 @@ Procedure RemoveProjectFile()
     EndIf
   EndIf
 EndProcedure
+
+
+DataSection
+  DialogXml_Projects:
+  IncludeBinary "dialogs/Projects.xml"
+  DialogXml_Projects_End:
+EndDataSection
