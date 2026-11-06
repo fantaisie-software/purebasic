@@ -540,9 +540,9 @@
 @FixedFont
   @#PB_Gadget_BackColor      : Hintergrundfarbe
   @#PB_Gadget_FrontColor     : Textfarbe für angezeigte Tage (nicht unterstützt auf Windows Vista+)
-  @#PB_Gadget_TitleBackColor : Hintergrundfarbe für den Monatstitel (nicht unterstützt auf Windows Vista+)
-  @#PB_Gadget_TitleFrontColor: Textfarbe für den Monatstitel (nicht unterstützt auf Windows Vista+)
-  @#PB_Gadget_GrayTextColor  : Textfarbe für Tage, welche nicht im aktuellen Monat liegen (nicht unterstützt auf Windows Vista+)
+  @#PB_Gadget_TitleBackColor : Hintergrundfarbe für den Monatstitel (nicht unterstützt auf Windows Vista+ und macOS)
+  @#PB_Gadget_TitleFrontColor: Textfarbe für den Monatstitel (nicht unterstützt auf Windows Vista+ und macOS)
+  @#PB_Gadget_GrayTextColor  : Textfarbe für Tage, welche nicht im aktuellen Monat liegen (nicht unterstützt auf Windows Vista+ und macOS)
 @EndFixedFont
 
 @Example
@@ -784,8 +784,8 @@
   @#PB_Cursor_Arrows         : Pfeile in alle Richtungen (nicht verfügbar auf Mac OSX)
   @#PB_Cursor_LeftRight      : links und rechts Pfeile
   @#PB_Cursor_UpDown         : hoch und runter Pfeile
-  @#PB_Cursor_LeftUpRightDown: diagonale Pfeile (nur auf Windows)
-  @#PB_Cursor_LeftDownRightUp: diagonale Pfeile (nur auf Windows)
+  @#PB_Cursor_LeftUpRightDown: diagonale Pfeile (nicht verfügbar auf macOS)
+  @#PB_Cursor_LeftDownRightUp: diagonale Pfeile (nicht verfügbar auf macOS)
   @#PB_Cursor_Invisible      : versteckt den Cursor
 @EndFixedFont
 @EndIndent
@@ -1162,8 +1162,8 @@
   @#PB_Cursor_Arrows         : Pfeile in alle Richtungen (nicht verfügbar auf Mac OSX)
   @#PB_Cursor_LeftRight      : links und rechts Pfeile
   @#PB_Cursor_UpDown         : hoch und runter Pfeile
-  @#PB_Cursor_LeftUpRightDown: diagonale Pfeile (nur auf Windows)
-  @#PB_Cursor_LeftDownRightUp: diagonale Pfeile (nur auf Windows)
+  @#PB_Cursor_LeftUpRightDown: diagonale Pfeile (nicht verfügbar auf macOS)
+  @#PB_Cursor_LeftDownRightUp: diagonale Pfeile (nicht verfügbar auf macOS)
   @#PB_Cursor_Invisible      : versteckt den Cursor
 @EndFixedFont
 @EndIndent
@@ -4821,6 +4821,12 @@
   angegeben, dann wird der Standard-Zeichensatz des Systems verwendet.
 
 @NoReturnValue
+
+@Remarks
+  Unter Windows wird bei einem Executable mit 'Pro-Monitor' @ReferenceLink "ide_compiler" "DPI-Aware"-Einstellung
+  die Schriftgröße an die DPI-Auflösung des Bildschirms angepasst, auf dem sich das Gadget befindet. Dies geschieht
+  erneut, falls sein Fenster auf einen Bildschirm mit einem anderen DPI-Wert verschoben wird. @@GetGadgetFont
+  liefert dabei weiterhin die ursprünglich festgelegte FontID zurück.
 
 @Example
 @Code

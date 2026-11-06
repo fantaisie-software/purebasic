@@ -1,7 +1,7 @@
 ﻿;
 ;     Entity library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Entity
@@ -1200,7 +1200,9 @@
   Das zu verwendende Entity.
 
 @Parameter "x, y, z"
-  Die anzuwendende Rotation, in Grad. Gültige Werte reichen von 0 bis 359.
+  Die anzuwendende Rotation in Grad: Nickwinkel (englisch "pitch", um die x-Achse), Gierwinkel (englisch "yaw",
+  um die y-Achse) und Rollwinkel (englisch "roll", um die z-Achse), in dieser Reihenfolge angewendet.
+  Zulässige Werte liegen im Bereich von 0 bis 359.
 
 @OptionalParameter "Modus"
   Der Rotations-Modus. Dies kann einer der folgenden Werte sein:
@@ -1208,8 +1210,23 @@
   @#PB_Absolute: absolute Rotation (Standard).
   @#PB_Relative: relative Rotation, basierend auf der vorherigen "Entity"-Rotation.
 @EndFixedFont
+  kombiniert mit einem der folgenden Werte:
+@FixedFont
+  @#PB_World : Rotation um die Weltachsen (Standard, falls "Modus" nicht angegeben ist). 
+  @#PB_Local : Rotation um die eigenen Achsen des Objekts (Standard, falls "Modus" angegeben, aber ohne einen dieser Werte). 
+  @#PB_Parent: Rotation um die Achsen des übergeordneten Objekts (Parent).
+@EndFixedFont
 
 @NoReturnValue
+
+@Remarks
+  Da die Rotationen nacheinander angewendet werden, führen @#PB_World und @#PB_Local zu einer unterschiedlichen
+  Ausrichtung, wenn mehr als ein Winkel ungleich null ist: 'RotateEntity(#Entity, x, y, z)' entspricht
+  'RotateEntity(#Entity, x, y, z, @#PB_Absolute | @#PB_World)' - und nicht 'RotateEntity(#Entity, x, y, z, @#PB_Absolute)'.
+  @LineBreak
+  Um ein Entity kontinuierlich zu drehen, sollte @#PB_Relative verwendet werden. Dies ist besser, als die Winkel mittels
+  @@EntityPitch, @@EntityYaw und @@EntityRoll auszulesen, zu verändern und anschließend mit @#PB_Absolute wieder zuzuweisen –
+  denn diese Winkel können nicht jede beliebige Ausrichtung auf kontinuierliche Weise darstellen (siehe @@EntityYaw).
 
 @SeeAlso
   @@MoveEntity
@@ -1303,8 +1320,9 @@
 @FixedFont
   @#PB_Engine3D_Raw     : Der Roll-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
                          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#PB_Engine3D_Adjusted: Der Roll-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
-                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#PB_Engine3D_Adjusted: Der Rollwinkel (Roll) wird angepasst, sodass er wieder an @@RotateEntity übergeben werden kann, um die
+                         ursprüngliche Ausrichtung zu erhalten – unter Verwendung des Standard-Rotationsmodus (@#PB_Absolute | @#PB_World)
+                         sowie der angepassten Werte für Neigung (Pitch), Gier (Yaw) und Rollen (Roll).
 @EndFixedFont  
 
 @ReturnValue
@@ -1336,8 +1354,9 @@
 @FixedFont
   @#PB_Engine3D_Raw     : Der Neigungs-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
                          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#PB_Engine3D_Adjusted: Der Neigungs-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
-                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#PB_Engine3D_Adjusted: Der Neigungswinkel (Pitch) wird angepasst, sodass er wieder an @@RotateEntity übergeben werden kann, um die
+                         ursprüngliche Ausrichtung zu erhalten – unter Verwendung des Standard-Rotationsmodus (@#PB_Absolute | @#PB_World)
+                         sowie der angepassten Werte für Neigung (Pitch), Gier (Yaw) und Rollen (Roll).
 @EndFixedFont  
 
 @ReturnValue
@@ -1369,13 +1388,21 @@
 @FixedFont
   @#PB_Engine3D_Raw     : Der Gier-Wert ist der ursprüngliche (Roh-) Wert, aber er kann nicht mit @@RotateEntity 
                          verwendet werden, um die gleiche Ausrichtung zu erhalten (Standard).
-  @#PB_Engine3D_Adjusted: Der Gier-Wert wird bereinigt/justiert, womit er erneut mit @@RotateEntity verwendet
-                         werden kann, um die gleiche Ausrichtung zurückzuerhalten.
+  @#PB_Engine3D_Adjusted: Der Gierwinkel (Yaw) wird angepasst, sodass er wieder an @@RotateEntity übergeben werden kann, um die
+                         ursprüngliche Ausrichtung zu erhalten – unter Verwendung des Standard-Rotationsmodus (@#PB_Absolute | @#PB_World)
+                         sowie der angepassten Werte für Neigung (Pitch), Gier (Yaw) und Rollen (Roll).
 @EndFixedFont  
 
 @ReturnValue
-  Der aktuelle Gier-Wert (Yaw) des angegebenen Entity. Dieser Wert liegt immer zwischen
-  -180.0 und 180.0 Grad.
+  Der aktuelle Gierwinkel (Yaw-Wert) des angegebenen Entity. Dieser Wert liegt zwischen -180.0 und 180.0 Grad bzw.
+  zwischen -90.0 und 90.0 Grad mit @#PB_Engine3D_Adjusted.
+
+@Remarks
+  Bei Verwendung von @#PB_Engine3D_Adjusted kann dieselbe Ausrichtung durch zwei verschiedene Winkelsätze haben: So
+  entspricht beispielsweise ein Gierwinkel (Yaw) von 120 Grad einem Nickwinkel (Pitch) von 180 Grad, einem Gierwinkel von
+  60 Grad und einem Rollwinkel (Roll) von 180 Grad. Daher führt das Addieren eines Wertes zum 'angepassten' Gierwinkel – bei
+  anschließender Anwendung von @@RotateEntity – dazu, dass das Objekt nicht über die 90-Grad-Marke hinaus gedreht werden kann.
+  Verwenden Sie stattdessen @@RotateEntity mit dem Parameter @#PB_Relative, um das Entity kontinuierlich zu drehen.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll

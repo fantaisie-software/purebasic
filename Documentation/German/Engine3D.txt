@@ -1,7 +1,7 @@
 ﻿;
 ;     Engine3D library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Engine3D
@@ -1335,6 +1335,14 @@
   ist 512, und dieser Wert sollte nicht größer als 4096 sein.
 
 @NoReturnValue
+
+@Remarks
+  Bei Verwendung von @#PB_Shadow_Additive und @#PB_Shadow_TextureAdditive werden beleuchtete Objekte in
+  mehreren Durchgängen gerendert (zuerst die Umgebungsbeleuchtung, dann jeweils ein Durchgang pro Lichtquelle).
+  Dabei kommt der Fragment-Shader des jeweiligen Materials nicht zum Einsatz: Ein Objekt, das ein mit
+  @@CreateShaderMaterial erstelltes Material verwendet, wird also ohne seinen Shader gerendert. Verwenden Sie
+  stattdessen @#PB_Shadow_Modulative oder @#PB_Shadow_TextureModulative für diese Materialien.
+  Der mit @@SkyDome erstellte Himmel ist davon nicht betroffen.
 
 @SupportedOS
 

@@ -1,7 +1,7 @@
 ﻿;
 ;     Screen library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Screen
@@ -75,8 +75,10 @@
 @NoReturnValue
 
 @Remarks
-  ClearScreen() muss stets außerhalb eines @@StartDrawing :
-  @@StopDrawing Blocks aufgerufen werden.
+  ClearScreen() muss immer außerhalb eines @@StartDrawing : @@StopDrawing Blocks aufgerufen werden. @LineBreak
+  Bei Verwendung der 3D-Engine sollte es vor @@RenderWorld aufgerufen werden, um die Bereiche des Bildschirms
+  zu löschen, die nicht von einer Kamera abgedeckt werden; wird es danach aufgerufen, werden auch die gerenderten
+  Kameraansichten gelöscht. Der Hintergrund einer Kamera wird mit @@CameraBackColor festgelegt.
 
 @SupportedOS
 
