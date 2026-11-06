@@ -610,13 +610,7 @@
            Supported attributes: 'text', 'lang' and 'sublevel' (for <tree> only).
   <column> - adds a column to its parent <listicon> or <explorerlist>. The default columns of the gadget are
            removed when the first <column> is added. Supported attributes: 'text', 'lang' and 'width'.
-
-    Example:
-      <listicon>
-        <column text="Name" width="150"/>
-        <column text="Size" width="80"/>
-        <item text="First file"/>
-      </listicon>
+           See the "Items and columns" example below.
 
   Special elements:
   <empty> - an empty element, useful when it's needed to have space between element, to align them to borders for example.
@@ -626,9 +620,7 @@
            key - the #PB_Shortcut constants, which can be combined with '|' (like "#PB_Shortcut_Control | #PB_Shortcut_S").
                  Runtime constants and numbers are accepted as well.
            id  - the menu event number, as a runtime constant or a number. It is received with @@EventMenu.
-
-    Example:
-      <shortcut key="#PB_Shortcut_Escape" id="#Menu_Close"/>
+           See the "Keyboard shortcuts" example below.
 
   <compiler if="expression"> ... <compilerelse/> ... </compiler>
            Includes its children only if the expression is true, or the children after <compilerelse/> if it is false
@@ -643,13 +635,8 @@
              - the operators ( ), unary -, Not, *, /, +, -, =, <>, <, >, <=, >=, And, Or, Xor
 
            In XML, the '<' character of an attribute value must be written '&lt;' (like "#Value &lt;= 10").
-
-    Example:
-      <compiler if="#PB_Compiler_OS = #PB_OS_MacOS">
-        <button text="Preferences..."/>
-      <compilerelse/>
-        <button text="Options..."/>
-      </compiler>
+           A compiler constant like #PB_Compiler_Debugger can be used once declared with 'Runtime' in the program.
+           See the "Compiler conditions" example below.
 
 @EndFixedFont  
 
@@ -809,16 +796,147 @@
          "          <button text='Button 12' />" +
          "    </gridbox>" +
          "  </window>"
-  
+
   If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
-    
+
     If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
-      
+
       Repeat
         Event = WaitWindowEvent()
-      Until Event = #PB_Event_CloseWindow 
-      
-    Else  
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Compiler conditions
+
+@Code
+  ; The XML is read when the program runs, so the constants used by <compiler> must be
+  ; declared with 'Runtime'. It works for the compiler constants too.
+  Runtime #PB_Compiler_Debugger
+
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Compiler conditions' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <compiler if='#PB_Compiler_Debugger'>" +
+         "      <text text='Compiled with the debugger'/>" +
+         "    <compilerelse/>" +
+         "      <text text='Compiled without the debugger'/>" +
+         "    </compiler>" +
+         "    <compiler if='#PB_Compiler_OS = #PB_OS_MacOS'>" +
+         "      <button text='Preferences...'/>" +
+         "    <compilerelse/>" +
+         "      <button text='Options...'/>" +
+         "    </compiler>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Items and columns
+
+@Code
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Items and columns' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <combobox name='size'>" +
+         "      <item text='Small'/>" +
+         "      <item text='Medium'/>" +
+         "      <item text='Large'/>" +
+         "    </combobox>" +
+         "    <tree height='80'>" +
+         "      <item text='Fruits'/>" +
+         "      <item text='Apple' sublevel='1'/>" +
+         "      <item text='Pear' sublevel='1'/>" +
+         "      <item text='Vegetables'/>" +
+         "    </tree>" +
+         "    <listicon height='100'>" +
+         "      <column text='Name' width='150'/>" +
+         "      <column text='Size' width='80'/>" +
+         "      <item text='First file'/>" +
+         "      <item text='Second file'/>" +
+         "    </listicon>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      SetGadgetState(DialogGadget(#Dialog, "size"), 1) ; select 'Medium'
+
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog error: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML error: " + XMLError(#Xml) + " (Line: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Keyboard shortcuts
+
+@Code
+  ; The 'id' of a <shortcut> must be declared with 'Runtime', as the XML is read when the program runs
+  Runtime Enumeration
+    #Menu_Save
+    #Menu_Close
+  EndEnumeration
+
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Keyboard shortcuts' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <text text='Press Ctrl+S to save, Escape to close.'/>" +
+         "    <shortcut key='#PB_Shortcut_Control | #PB_Shortcut_S' id='#Menu_Save'/>" +
+         "    <shortcut key='#PB_Shortcut_Escape' id='#Menu_Close'/>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+
+      Repeat
+        Event = WaitWindowEvent()
+
+        If Event = #PB_Event_Menu
+          Select EventMenu()
+            Case #Menu_Save
+              Debug "Save"
+            Case #Menu_Close
+              Event = #PB_Event_CloseWindow
+          EndSelect
+        EndIf
+      Until Event = #PB_Event_CloseWindow
+
+    Else
       Debug "Dialog error: " + DialogError(#Dialog)
     EndIf
   Else
