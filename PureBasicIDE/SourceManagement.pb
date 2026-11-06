@@ -2265,7 +2265,6 @@ EndProcedure
 
 Procedure OpenIncludeOnDoubleClick()
   UpdateCursorPosition()
-  CurrentWord$ = LCase(GetCurrentWord())
   Line$ = GetCurrentLine()
   
   NameStart = *ActiveSource\CurrentColumnChars
@@ -2290,11 +2289,9 @@ Procedure OpenIncludeOnDoubleClick()
     
     If FileSize(FileName$) > -1  ; check if the result is valid..
       
-      If CurrentWord$ = "includebinary"
-        FileViewer_OpenFile(FileName$)
-      Else
-        LoadSourceFile(FileName$)
-      EndIf
+      ; Also for IncludeBinary: text files (like dialog .xml) are opened in the editor,
+      ; LoadSourceFile() sends binary files (images etc) to the FileViewer
+      LoadSourceFile(FileName$)
       
     EndIf
     
@@ -2962,3 +2959,10 @@ Procedure FileMonitorEvent()
     ChangeCurrentElement(FileList(), *ActiveSource)
   EndIf
 EndProcedure
+
+
+DataSection
+  DialogXml_FileMonitor:
+  IncludeBinary "dialogs/FileMonitor.xml"
+  DialogXml_FileMonitor_End:
+EndDataSection

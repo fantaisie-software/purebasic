@@ -55,7 +55,6 @@ Global NewList Key.Entry()
 Procedure BuildShortcutNamesTable(): EndProcedure
 
 XIncludeFile "../PureBasicIDE/CompilerFlags.pb"
-XIncludeFile "../DialogManager/DialogManager.pb"
 XIncludeFile "../PureBasicIDE/Common.pb"
 XIncludeFile "../PureBasicIDE/Language.pb"
 

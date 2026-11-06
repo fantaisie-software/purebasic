@@ -1929,8 +1929,6 @@ EndProcedure
 
 Procedure UpdateDiffDialogWindow()
   
-  DiffDialogWindowDialog\LanguageUpdate()
-  
   For j = 0 To 4
     Gadget = #GADGET_DiffDialog_File1 + j
     While FindHistorySize < CountGadgetItems(Gadget)
@@ -1941,3 +1939,10 @@ Procedure UpdateDiffDialogWindow()
   DiffDialogWindowDialog\GuiUpdate()
   
 EndProcedure
+
+
+DataSection
+  DialogXml_Diff:
+  IncludeBinary "dialogs/Diff.xml"
+  DialogXml_Diff_End:
+EndDataSection

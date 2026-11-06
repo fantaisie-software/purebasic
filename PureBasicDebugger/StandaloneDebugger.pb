@@ -27,7 +27,7 @@ XIncludeFile ".."+#Separator+"PureBasicIDE"+#Separator+"LinuxWindowIcon.pb"
 
 ; Gadget Size file from dialog manager
 ;
-XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "GetRequiredSize.pb"
+XIncludeFile ".." + #Separator + "GetRequiredSize.pb"
 
 ; include non-debugger files of the IDE
 ;

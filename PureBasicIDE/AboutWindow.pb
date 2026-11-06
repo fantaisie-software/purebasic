@@ -161,3 +161,10 @@ DataSection
     CompilerEndIf
 
 EndDataSection
+
+
+DataSection
+  DialogXml_About:
+  IncludeBinary "dialogs/About.xml"
+  DialogXml_About_End:
+EndDataSection

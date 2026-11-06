@@ -11,8 +11,8 @@
 
 XIncludeFile "CompilerFlags.pb"
 XIncludeFile "Build/BuildInfo.pb"
-XIncludeFile "DialogLibrary.pb"                                             ; dialogs (with the Dialog library), must be before Common.pb
 XIncludeFile "Common.pb"                                                    ; must be before DebuggerCommon.pb
+XIncludeFile "DialogLibrary.pb"                                             ; dialogs (with the Dialog library)
 XIncludeFile #DEFAULT_DebuggerSource + "DebuggerCommon.pb"                  ; must be before Declarations.pb
 XIncludeFile "Declarations.pb"
 XIncludeFile "Macro.pb"

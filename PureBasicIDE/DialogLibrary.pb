@@ -6,33 +6,15 @@
 
 ;
 ; The IDE dialogs (dialogs/*.xml) are created with the PureBasic Dialog library.
-; This file keeps the interface of the old DialogManager, so the IDE code doesn't change:
+; This file keeps the interface of the old DialogManager (DialogWindow in Common.pb), so the IDE code doesn't change:
 ;
 ;   Dialog.DialogWindow = OpenDialog(?Dialog_Find, WindowID(#WINDOW_Main), @FindWindowPosition)
 ;
-; The XML files are included in the executable and parsed when a dialog is opened. As the XML is read at
-; runtime, all the constants used in it (ids, <compiler if="">) must be declared with 'Runtime'.
+; Each XML file is included (IncludeBinary between the DialogXml_<File> and DialogXml_<File>_End labels)
+; at the end of the source file which opens the dialog, so it can be opened from there with a double-click.
+; The XML is parsed when a dialog is opened. As it is read at runtime,
+; all the constants used in it (ids, <compiler if="">) must be declared with 'Runtime'.
 ;
-
-; Represents the size/position info for a dialog
-;
-Structure DialogPosition
-  x.l
-  y.l
-  Width.l
-  Height.l
-  IsMaximized.l
-EndStructure
-
-Interface DialogWindow
-  Window()          ; Get the #Window number of the dialog window
-  Gadget(Name$)     ; Get the #Gadget number of the gadget where the 'name' tag is set to Name$ (case insensitive)
-  Fold(Name$, State); Fold/Unfold an object based on its 'name' tag
-  LanguageUpdate()  ; Update all language strings
-  GuiUpdate()       ; Re-calculate and resize gui (call this when for example font sizes have changed, or after language updates)
-  SizeUpdate()      ; call this after a #PB_Event_SizeWindow for a resizable dialog. (updates all sizes to fit the current window size)
-  Close(*Sizing.DialogPosition = 0) ; close the window and free all data. fill the *Sizing structrue with data if present
-EndInterface
 
 Structure DialogLibraryWindow
   *VTable
@@ -44,7 +26,7 @@ Global IDE_ProjectCompilerOptions
 Runtime IDE_ProjectCompilerOptions
 
 ; Gadget size calculation, also used outside of the dialogs
-XIncludeFile ".." + #Separator + "DialogManager" + #Separator + "GetRequiredSize.pb"
+XIncludeFile ".." + #Separator + "GetRequiredSize.pb"
 
 
 ; Returns the flags attribute of the named <window> (to know if it can be resized or maximized)
@@ -90,12 +72,6 @@ EndProcedure
 
 Procedure DialogLibrary_Fold(*THIS.DialogLibraryWindow, Name$, State)
   FoldDialogElement(*THIS\Dialog, Name$, State)
-EndProcedure
-
-
-; The texts are updated for all the dialogs by DialogLanguage() when the language is loaded (see LoadLanguage())
-;
-Procedure DialogLibrary_LanguageUpdate(*THIS.DialogLibraryWindow)
 EndProcedure
 
 
@@ -203,12 +179,6 @@ Macro DialogLibrary_Dialog(Label, File, Project = 0)
   Data.s DialogLibrary_Quote#Label#DialogLibrary_Quote
 EndMacro
 
-Macro DialogLibrary_IncludeXml(File)
-  DialogXml_#File:
-  IncludeBinary "dialogs" + #Separator + DialogLibrary_Quote#File.xml#DialogLibrary_Quote
-  DialogXml_#File#_End:
-EndMacro
-
 
 DataSection
 
@@ -216,12 +186,11 @@ DataSection
   Data.i @DialogLibrary_Window()
   Data.i @DialogLibrary_Gadget()
   Data.i @DialogLibrary_Fold()
-  Data.i @DialogLibrary_LanguageUpdate()
   Data.i @DialogLibrary_GuiUpdate()
   Data.i @DialogLibrary_SizeUpdate()
   Data.i @DialogLibrary_Close()
 
-  ; Label, XML file (in dialogs/), 1 for the project version of the compiler options
+  ; Label, XML file (DialogXml_<File> label), 1 for the project version of the compiler options
   ;
   DialogLibrary_Dialog(Dialog_About, About)
   DialogLibrary_Dialog(Dialog_AddTools, AddTools)
@@ -244,26 +213,6 @@ DataSection
   DialogLibrary_Dialog(Dialog_Updates, Updates)
   CompilerIf #SpiderBasic
     DialogLibrary_Dialog(Dialog_CreateApp, CreateApp)
-  CompilerEndIf
-
-  DialogLibrary_IncludeXml(About)
-  DialogLibrary_IncludeXml(AddTools)
-  DialogLibrary_IncludeXml(Build)
-  DialogLibrary_IncludeXml(CompilerOptions)
-  DialogLibrary_IncludeXml(Diff)
-  DialogLibrary_IncludeXml(FileMonitor)
-  DialogLibrary_IncludeXml(Find)
-  DialogLibrary_IncludeXml(Goto)
-  DialogLibrary_IncludeXml(Grep)
-  DialogLibrary_IncludeXml(History)
-  DialogLibrary_IncludeXml(HistoryShutdown)
-  DialogLibrary_IncludeXml(Preferences)
-  DialogLibrary_IncludeXml(Projects)
-  DialogLibrary_IncludeXml(StructureViewer)
-  DialogLibrary_IncludeXml(Templates)
-  DialogLibrary_IncludeXml(Updates)
-  CompilerIf #SpiderBasic
-    DialogLibrary_IncludeXml(CreateApp)
   CompilerEndIf
 
 EndDataSection

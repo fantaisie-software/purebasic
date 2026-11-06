@@ -1537,6 +1537,12 @@ Procedure UpdateOptionWindow()
     Next ProjectOptionTargets()
   EndIf
   
-  OptionWindowDialog\LanguageUpdate()
   OptionWindowDialog\GuiUpdate()
 EndProcedure
+
+
+DataSection
+  DialogXml_CompilerOptions:
+  IncludeBinary "dialogs/CompilerOptions.xml"
+  DialogXml_CompilerOptions_End:
+EndDataSection
