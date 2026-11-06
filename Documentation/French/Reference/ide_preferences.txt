@@ -778,15 +778,15 @@
 
   Exemple: Le modèle TODO affiche par défaut uniquement la partie après le TODO dans l'outil @LineBreak
   @LineBreak
-@FixedFont
+  @FixedFont
     \bTODO\b(?<display>.*)
-@EndFixedFont
+  @EndFixedFont
 
   Exemple: Match tout ce qui se trouve dans {}, mais affiche en surbrillance uniquement la partie intérieure (affichz la correspondance complète dans l'outil) @LineBreak
   @LineBreak
-@FixedFont
+  @FixedFont
     {(?<mark>.*)}
-@EndFixedFont
+  @EndFixedFont
 
   Les deux groupes de noms peuvent également être utilisés dans une seule expression régulière pour un contrôle total. 
   Si aucun groupe portant ces noms n’existe dans l’expression régulière, la correspondance complète sera utilisée.

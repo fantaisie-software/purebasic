@@ -807,17 +807,17 @@
     Beispiel: Das Standard TODO Muster, zeigt jedoch nur den Teil nach dem TODO im Tool an
   @LineBreak
   @LineBreak
-@FixedFont
-     \bTODO\b(?<display>.*)
-@EndFixedFont
+  @FixedFont
+    \bTODO\b(?<display>.*)
+  @EndFixedFont
   
     Beispiel: Finde alles in {}, aber markiere nur den inneren Teil (zeigt die vollständige
 	Übereinstimmung im Tool an)
   @LineBreak
   @LineBreak
-@FixedFont
+  @FixedFont
     {(?<mark>.*)}
-@EndFixedFont
+  @EndFixedFont
 
   Für die vollständige Kontrolle können beide Namens-Gruppen auch in einem einzigen regulären
   Ausdruck verwendet werden. Wenn im regulären Ausdruck keine Gruppen mit diesen Namen vorhanden
