@@ -2617,8 +2617,27 @@ Global NbSchemes
 Global ScreenReaderChecked
 Global ProcedureMulticolor
 
-; Dialog Window data
+; Dialog Window data (see DialogLibrary.pb)
 ;
+; Represents the size/position info for a dialog
+;
+Structure DialogPosition
+  x.l
+  y.l
+  Width.l
+  Height.l
+  IsMaximized.l
+EndStructure
+
+Interface DialogWindow
+  Window()          ; Get the #Window number of the dialog window
+  Gadget(Name$)     ; Get the #Gadget number of the gadget where the 'name' tag is set to Name$ (case insensitive)
+  Fold(Name$, State); Fold/Unfold an object based on its 'name' tag
+  GuiUpdate()       ; Re-calculate and resize gui (call this when for example font sizes have changed)
+  SizeUpdate()      ; call this after a #PB_Event_SizeWindow for a resizable dialog. (updates all sizes to fit the current window size)
+  Close(*Sizing.DialogPosition = 0) ; close the window and free all data. fill the *Sizing structrue with data if present
+EndInterface
+
 Global FindWindowDialog.DialogWindow, FindWindowPosition.DialogPosition
 Global FindDoReplace, FindCaseSensitive, FindWholeWord, FindSelectionOnly, FindNoComments, FindNoStrings
 Global FindAutoWrap
