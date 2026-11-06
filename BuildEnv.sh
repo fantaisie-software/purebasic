@@ -65,13 +65,17 @@ if [ -f "$PUREBASIC_HOME/compilers/pbcompiler" ]; then
 
 	unset PB_JAVASCRIPT
 
-	# Detect processor architecture
-	$PUREBASIC_HOME/compilers/pbcompiler --version | grep -q "x64"
-	if [ $? == 0 ]; then
-		export PB_PROCESSOR=X64
-	else
-		export PB_PROCESSOR=X86
-	fi
+	# Detect processor architecture, from the end of the version: "(Linux - x64)", "(MacOS X - arm64)"...
+	case "$($PUREBASIC_HOME/compilers/pbcompiler --version)" in
+		*" - x64)"*)   export PB_PROCESSOR=X64 ;;
+		*" - x86)"*)   export PB_PROCESSOR=X86 ;;
+		*" - arm64)"*) export PB_PROCESSOR=ARM64 ;;
+		*" - arm32)"*) export PB_PROCESSOR=ARM32 ;;
+		*)
+			echo "Failed to detect the processor of $PUREBASIC_HOME/compilers/pbcompiler"
+			exit 1
+			;;
+	esac
 
 	echo "Setting environment for PureBasic $PB_PROCESSOR in $PUREBASIC_HOME"
 	echo

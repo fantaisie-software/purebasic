@@ -40,25 +40,7 @@ ifeq ($(PB_QT),1)
 
 # Build/<processor>, as #BuildDirectory in ../PureBasicIDE/CompilerFlags.pb (see ../PureBasicIDE/Makefile), used for
 # the QtHelpers.a imported by ../PureBasicIDE/LinuxExtensions.pb
-COMPILERVERSION := $(shell $(PBCOMPILER) --version)
-ifneq ($(findstring - x86,$(COMPILERVERSION)),)
-	BUILDPROCESSOR = x86
-endif
-ifneq ($(findstring - x64,$(COMPILERVERSION)),)
-	BUILDPROCESSOR = x64
-endif
-ifneq ($(findstring - arm32,$(COMPILERVERSION)),)
-	BUILDPROCESSOR = arm32
-endif
-ifneq ($(findstring - arm64,$(COMPILERVERSION)),)
-	BUILDPROCESSOR = arm64
-endif
-ifeq ($(BUILDPROCESSOR),)
-  ifneq ($(MAKECMDGOALS),clean)
-    $(error Can't get the processor of the compiler from '$(PBCOMPILER) --version': $(COMPILERVERSION))
-  endif
-endif
-BUILD = Build/$(BUILDPROCESSOR)
+BUILD = Build/$(subst X,x,$(subst ARM,arm,$(PB_PROCESSOR)))
 
 endif
 

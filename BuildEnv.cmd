@@ -60,13 +60,9 @@ exit /b 1
 SET PB_JAVASCRIPT=
 
 :: Detect processor architecture used by the compiler
-%PUREBASIC_HOME%\Compilers\pbcompiler.exe /version | findstr /C:"(Windows - x64)" 1>nul
-
-IF %ERRORLEVEL% EQU 0 (
-    SET PB_PROCESSOR=X64
-) ELSE (
-    SET PB_PROCESSOR=X86
-)
+SET PB_PROCESSOR=X86
+%PUREBASIC_HOME%\Compilers\pbcompiler.exe /version | findstr /C:"(Windows - x64)" 1>nul && SET PB_PROCESSOR=X64
+%PUREBASIC_HOME%\Compilers\pbcompiler.exe /version | findstr /C:"(Windows - arm64)" 1>nul && SET PB_PROCESSOR=ARM64
 
 echo Setting environment for PureBasic %PB_PROCESSOR% in %PUREBASIC_HOME%
 echo.
