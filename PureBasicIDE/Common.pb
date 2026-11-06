@@ -1,4 +1,4 @@
-; --------------------------------------------------------------------------------------------
+﻿; --------------------------------------------------------------------------------------------
 ;  Copyright (c) Fantaisie Software. All rights reserved.
 ;  Dual licensed under the GPL and Fantaisie Software licenses.
 ;  See LICENSE and LICENSE-FANTAISIE in the project root for license information.
@@ -2525,11 +2525,7 @@ EndStructure
 
 Structure ZipEntry
   Name$
-  *Content
-  Crc32.l
-  Compression.l
-  Compressed.l
-  Uncompressed.l
+  Uncompressed.i
 EndStructure
 
 ;- Diff Implementation
@@ -2955,3 +2951,4 @@ CompilerEndIf
 
 UseMD5Fingerprint()
 UseCRC32Fingerprint()
+UseZipPacker()

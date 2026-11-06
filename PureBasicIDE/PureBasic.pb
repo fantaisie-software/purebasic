@@ -20,7 +20,6 @@ XIncludeFile ".." + #Separator + "PureBasicConfigPath.pb" ; for the config direc
 XIncludeFile "FormDesigner/declare.pb"
 ; must be here to affect all OpenWindow() calls with a macro
 XIncludeFile "LinuxWindowIcon.pb"
-XIncludeFile "ZLib.pb"
 
 ; include the TabBarGadget. Note: It has an EnableExplicit inside
 XIncludeFile "TabBarGadget.pbi"
@@ -73,7 +72,6 @@ XIncludeFile "IDEDebugger.pb"
 
 XIncludeFile "CompilerInterface.pb"
 XIncludeFile "Language.pb"
-XIncludeFile "ZipManagement.pb"
 XIncludeFile "ToolbarManagement.pb"
 XIncludeFile "ThemeManagement.pb"
 XIncludeFile "HighlightingEngine.pb"
