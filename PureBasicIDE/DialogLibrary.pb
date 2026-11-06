@@ -109,7 +109,7 @@ EndProcedure
 ;
 Procedure OpenDialog(*DataOffset, ParentID = 0, *Sizing.DialogPosition = 0)
   Static Initialized
-  Protected *THIS.DialogLibraryWindow, Xml, Name$, Flags$, x, y, Width, Height, *XmlStart, *XmlEnd
+  Protected *THIS.DialogLibraryWindow, Xml, Name$, Window$, Flags$, x, y, Width, Height, *XmlStart, *XmlEnd
 
   If Initialized = 0
     UseDialogScintillaGadget() ; for the Templates and Projects dialogs
@@ -120,6 +120,10 @@ Procedure OpenDialog(*DataOffset, ParentID = 0, *Sizing.DialogPosition = 0)
   *XmlEnd   = PeekI(*DataOffset + SizeOf(Integer))
   IDE_ProjectCompilerOptions = PeekI(*DataOffset + 2 * SizeOf(Integer))
   Name$     = PeekS(*DataOffset + 3 * SizeOf(Integer))
+  Window$   = PeekS(*DataOffset + 3 * SizeOf(Integer) + StringByteLength(Name$) + SizeOf(Character))
+  If Window$ ; the <window> has another name than the label (same dialog, opened with a different IDE_ProjectCompilerOptions)
+    Name$ = Window$
+  EndIf
 
   Xml = CatchXML(#PB_Any, *XmlStart, *XmlEnd - *XmlStart)
   If Xml = 0
@@ -172,11 +176,11 @@ Macro DialogLibrary_Quote
   "
 EndMacro
 
-; The window 'name' attribute is the label
-Macro DialogLibrary_Dialog(Label, File, Project = 0)
+; The window 'name' attribute is the label, unless Window is given
+Macro DialogLibrary_Dialog(Label, File, Project = 0, Window = "")
   Label:
   Data.i ?DialogXml_#File, ?DialogXml_#File#_End, Project
-  Data.s DialogLibrary_Quote#Label#DialogLibrary_Quote
+  Data.s DialogLibrary_Quote#Label#DialogLibrary_Quote, Window
 EndMacro
 
 
@@ -190,14 +194,14 @@ DataSection
   Data.i @DialogLibrary_SizeUpdate()
   Data.i @DialogLibrary_Close()
 
-  ; Label, XML file (DialogXml_<File> label), 1 for the project version of the compiler options
+  ; Label, XML file (DialogXml_<File> label), 1 for the project version of the compiler options, <window> name if not the label
   ;
   DialogLibrary_Dialog(Dialog_About, About)
   DialogLibrary_Dialog(Dialog_AddTools, AddTools)
   DialogLibrary_Dialog(Dialog_EditTools, AddTools)
   DialogLibrary_Dialog(Dialog_Build, Build)
   DialogLibrary_Dialog(Dialog_CompilerOptions, CompilerOptions)
-  DialogLibrary_Dialog(Dialog_ProjectCompilerOptions, CompilerOptions, 1)
+  DialogLibrary_Dialog(Dialog_ProjectCompilerOptions, CompilerOptions, 1, "Dialog_CompilerOptions")
   DialogLibrary_Dialog(Dialog_DiffDialog, Diff)
   DialogLibrary_Dialog(Dialog_FileMonitor, FileMonitor)
   DialogLibrary_Dialog(Dialog_Find, Find)
