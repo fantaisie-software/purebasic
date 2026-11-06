@@ -213,8 +213,12 @@
 
 @Description
   Folds or unfolds the specified dialog element. A folded element and all its children are hidden
-  and take no room in the layout, so the other elements use the free space. It's the same as the
-  'folded' XML attribute, but at runtime. The dialog is recalculated like with @@RefreshDialog.
+  and take no room in the layout. It's the same as the 'folded' XML attribute, but at runtime. @LineBreak
+@LineBreak
+  The dialog window is resized by the size of the element: it shrinks when the element is folded and
+  grows when it is unfolded. Any extra size set by the program or the user is kept. A maximized window
+  keeps its size and the other elements use the free space. The dialog is then recalculated like with
+  @@RefreshDialog.
 
 @Parameter "#Dialog"
   The dialog to use.
