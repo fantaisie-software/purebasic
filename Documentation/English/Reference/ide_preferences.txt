@@ -749,15 +749,15 @@
     
   Example: The default TODO pattern, but only display the part after the TODO in the tool @LineBreak
   @LineBreak
-  @FixedFont
+@FixedFont
     \bTODO\b(?<display>.*)
-  @EndFixedFont
+@EndFixedFont
 
   Example: Match everything in {}, but only highlight the inner part (display the full match in the tool) @LineBreak
   @LineBreak
-  @FixedFont
+@FixedFont
     {(?<mark>.*)}
-  @EndFixedFont
+@EndFixedFont
 
   Both named groups can also be used in a single regex for full control. If no groups with these names exist in the regex, the full match will be used.
   
