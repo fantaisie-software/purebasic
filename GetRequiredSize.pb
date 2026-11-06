@@ -62,7 +62,7 @@ Procedure GetRequiredHeight(Gadget)
 EndProcedure
 
 CompilerIf #CompileLinuxQt
-  ImportC "../PureBasicIDE/Build/QtHelpers.a"
+  ImportC "PureBasicIDE/Build/QtHelpers.a" ; relative to this file (repository root)
     QT_Frame3DTopOffset(*Widget)
   EndImport
 CompilerEndIf
