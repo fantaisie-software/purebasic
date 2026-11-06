@@ -13,7 +13,7 @@
 CompilerIf #CompileLinux
   
   CompilerIf #CompileLinuxQt
-    ImportC "Build/QtHelpers.a"
+    ImportC #BuildDirectory + "QtHelpers.a"
       QT_SetDefaultWindowIcon(*Image)
     EndImport
   CompilerEndIf
