@@ -69,7 +69,7 @@ $(QT_HELPERS) : ../PureBasicIDE/qt/QtHelpers.cpp ../PureBasicIDE/qt/QtHelpers.h 
 	ar crs $(QT_HELPERS) $(BUILD)/QtHelpers.o $(BUILD)/QtHelpers.moc.o
 
 $(BUILD)/dummy:
-	"mkdir" -p "$(BUILD)"
+	mkdir -p $(BUILD)
 	touch $(BUILD)/dummy
 
 endif

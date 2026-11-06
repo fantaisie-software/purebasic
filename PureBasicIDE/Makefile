@@ -117,6 +117,11 @@ ifeq ($(PB_PROCESSOR),)
   endif
 endif
 BUILD = Build/$(subst X,x,$(subst ARM,arm,$(PB_PROCESSOR)))
+ifeq ($(PB_WINDOWS),1)
+	BUILDSEPARATOR = \\
+else
+	BUILDSEPARATOR = /
+endif
 
 COLORSCHEME = $(HOME)/ColorSchemes
 
@@ -321,8 +326,10 @@ $(QT_HELPERS) : qt/QtHelpers.cpp qt/QtHelpers.h $(BUILD)/dummy
 
 endif
 
+# Plain mkdir, one level at a time, so it works with cmd as well (Windows, no "-p"). '-': it may already exist
 $(BUILD)/dummy:
-	"mkdir" -p "$(BUILD)"
+	-mkdir Build
+	-mkdir $(subst /,$(BUILDSEPARATOR),$(BUILD))
 	touch $(BUILD)/dummy
 
 clean:
