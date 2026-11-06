@@ -2523,7 +2523,6 @@ EndStructure
 
 Structure ZipEntry
   Name$
-  *Content           ; extracted data
   Uncompressed.i
 EndStructure
 
