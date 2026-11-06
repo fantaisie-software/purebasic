@@ -28,12 +28,38 @@ else
 	endif
 	ifeq ($(PB_QT),1)
 		DEBUGGERFLAGS += --subsystem qt
-		QT_HELPERS = Build/QtHelpers.a
+		QT_HELPERS = $(BUILD)/QtHelpers.a
 	endif
 endif
 
 	MAKEEXE = -e
 	ECHOQUOTE = "
+endif
+
+ifeq ($(PB_QT),1)
+
+# Build/<processor>, as #BuildDirectory in ../PureBasicIDE/CompilerFlags.pb (see ../PureBasicIDE/Makefile), used for
+# the QtHelpers.a imported by ../PureBasicIDE/LinuxExtensions.pb
+COMPILERVERSION := $(shell $(PBCOMPILER) --version)
+ifneq ($(findstring - x86,$(COMPILERVERSION)),)
+	BUILDPROCESSOR = x86
+endif
+ifneq ($(findstring - x64,$(COMPILERVERSION)),)
+	BUILDPROCESSOR = x64
+endif
+ifneq ($(findstring - arm32,$(COMPILERVERSION)),)
+	BUILDPROCESSOR = arm32
+endif
+ifneq ($(findstring - arm64,$(COMPILERVERSION)),)
+	BUILDPROCESSOR = arm64
+endif
+ifeq ($(BUILDPROCESSOR),)
+  ifneq ($(MAKECMDGOALS),clean)
+    $(error Can't get the processor of the compiler from '$(PBCOMPILER) --version': $(COMPILERVERSION))
+  endif
+endif
+BUILD = Build/$(BUILDPROCESSOR)
+
 endif
 
 GuiDebugger : *.pb Data/*.png ../PureBasicIDE/data/DefaultTheme/*.png $(QT_HELPERS)
@@ -54,17 +80,17 @@ ifeq ($(PB_PROCESSOR),ARM64)
   GPP_FLAGS = -fPIC -DPB_64
 endif
 
-$(QT_HELPERS) : ../PureBasicIDE/qt/QtHelpers.cpp ../PureBasicIDE/qt/QtHelpers.h Build/dummy
-	moc -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` ../PureBasicIDE/qt/QtHelpers.h -o Build/QtHelpers.moc.cpp
-	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -c Build/QtHelpers.moc.cpp -o Build/QtHelpers.moc.o
-	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -I../PureBasicIDE/qt -c ../PureBasicIDE/qt/QtHelpers.cpp -o Build/QtHelpers.o
-	ar crs $(QT_HELPERS) Build/QtHelpers.o Build/QtHelpers.moc.o
+$(QT_HELPERS) : ../PureBasicIDE/qt/QtHelpers.cpp ../PureBasicIDE/qt/QtHelpers.h $(BUILD)/dummy
+	moc -D_GNU_SOURCE -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` ../PureBasicIDE/qt/QtHelpers.h -o $(BUILD)/QtHelpers.moc.cpp
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -c $(BUILD)/QtHelpers.moc.cpp -o $(BUILD)/QtHelpers.moc.o
+	g++ $(GPP_FLAGS) -DQT_NO_VERSION_TAGGING -I`qmake -query QT_INSTALL_HEADERS` -I../PureBasicIDE/qt -c ../PureBasicIDE/qt/QtHelpers.cpp -o $(BUILD)/QtHelpers.o
+	ar crs $(QT_HELPERS) $(BUILD)/QtHelpers.o $(BUILD)/QtHelpers.moc.o
+
+$(BUILD)/dummy:
+	"mkdir" -p "$(BUILD)"
+	touch $(BUILD)/dummy
 
 endif
-
-Build/dummy:
-	mkdir "Build"
-	touch Build/dummy
 
 
 clean:

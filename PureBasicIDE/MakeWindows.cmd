@@ -43,25 +43,31 @@ set PATH=%PUREBASIC_HOME%\Compilers;%PUREBASIC_HOME%;%PATH%
 :: Set path of this script as current directory in case it was started from elsewhere
 cd /d %~dp0
 
-:: Clean/Reset the Build directory
-IF EXIST Build\ rmdir /Q /S Build
-mkdir Build
+:: The generated files go to Build\<processor> of the compiler, as #BuildDirectory in CompilerFlags.pb
+:: (see the Makefile)
+SET BUILD=Build\x86
+PBCompiler /VERSION | findstr /C:" - x64)" 1>nul && SET BUILD=Build\x64
+PBCompiler /VERSION | findstr /C:" - arm64)" 1>nul && SET BUILD=Build\arm64
 
-:: Create the "Build/dummy" file for compatibility with using the real makefile
-type NUL > Build\dummy
+:: Clean/Reset the Build directory
+IF EXIST %BUILD%\ rmdir /Q /S %BUILD%
+mkdir %BUILD%
+
+:: Create the "Build/<processor>/dummy" file for compatibility with using the real makefile
+type NUL > %BUILD%\dummy
 
 :: Generate themes
-PBCompiler /QUIET /CONSOLE tools\maketheme.pb /EXE Build\maketheme.exe
-Build\maketheme.exe Build\DefaultTheme.zip data\DefaultTheme
-Build\maketheme.exe %PUREBASIC_HOME%\Themes\SilkTheme.zip data\SilkTheme
+PBCompiler /QUIET /CONSOLE tools\maketheme.pb /EXE %BUILD%\maketheme.exe
+%BUILD%\maketheme.exe %BUILD%\DefaultTheme.zip data\DefaultTheme
+%BUILD%\maketheme.exe %PUREBASIC_HOME%\Themes\SilkTheme.zip data\SilkTheme
 
 :: Generate build info
-PBCompiler /QUIET /CONSOLE tools/makebuildinfo.pb /EXE Build/makebuildinfo.exe
-Build\makebuildinfo.exe Build
+PBCompiler /QUIET /CONSOLE tools/makebuildinfo.pb /EXE %BUILD%\makebuildinfo.exe
+%BUILD%\makebuildinfo.exe %BUILD%
 
 :: Generate version info resource
-PBCompiler /QUIET /CONSOLE tools/makeversion.pb /EXE Build/makeversion.exe
-Build\makeversion.exe ide Build/VersionInfo.rc data/PBSourceFile.ico
+PBCompiler /QUIET /CONSOLE tools/makeversion.pb /EXE %BUILD%\makeversion.exe
+%BUILD%\makeversion.exe ide %BUILD%\VersionInfo.rc data/PBSourceFile.ico
 
 :: Compile the IDE
-PBCompiler /QUIET PureBasic.pb /EXE %PUREBASIC_HOME%\PureBasic.exe /THREAD /UNICODE /XP /USER /ICON data/PBLogoBig.ico /DPIAWARE /RESOURCE Build/VersionInfo.rc
+PBCompiler /QUIET PureBasic.pb /EXE %PUREBASIC_HOME%\PureBasic.exe /THREAD /UNICODE /XP /USER /ICON data/PBLogoBig.ico /DPIAWARE /RESOURCE %BUILD%\VersionInfo.rc

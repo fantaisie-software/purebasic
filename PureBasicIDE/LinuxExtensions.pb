@@ -32,7 +32,7 @@ CompilerIf #CompileLinux
   CompilerEndIf
   
   CompilerIf #CompileLinuxQt
-    ImportC "Build/QtHelpers.a"
+    ImportC #BuildDirectory + "QtHelpers.a"
       Qt_ScrollEditorToBottom(*Widget)
       QT_CenterEditor(*Widget)
       QT_SelectComboBoxText(*Widget)

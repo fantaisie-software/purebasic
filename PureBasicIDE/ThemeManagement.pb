@@ -761,7 +761,7 @@ EndProcedure
 DataSection
   
   DefaultTheme:
-  IncludeBinary "Build/DefaultTheme.zip"
+  IncludeBinary #BuildDirectory + "DefaultTheme.zip"
   EndDefaultTheme:
   
 EndDataSection
