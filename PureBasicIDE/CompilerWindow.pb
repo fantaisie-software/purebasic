@@ -651,7 +651,6 @@ Procedure UpdateBuildWindow()
     EndSelect
   Next i
   
-  BuildWindowDialog\LanguageUpdate()
   BuildWindowDialog\GuiUpdate()
 EndProcedure
 
@@ -1692,3 +1691,10 @@ CompilerIf #CompileWindows
   EndDataSection
   
 CompilerEndIf
+
+
+DataSection
+  DialogXml_Build:
+  IncludeBinary "dialogs/Build.xml"
+  DialogXml_Build_End:
+EndDataSection

@@ -13,6 +13,7 @@ CompilerIf #CompileMacCocoa
   
   ImportC ""
     PB_Gadget_CenterEditorGadget(GadgetID.i)
+    PB_Gadget_CenterWindow(WindowID.i) ; for the EditHistory shutdown window
     PB_Gadget_ShowToolBar(ToolBarID.i, State.l)
     PB_Gadget_SelectAllComboBoxText(*ComboBox)
     PB_Gadget_SetOpenFinderFiles(*Callback)

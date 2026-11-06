@@ -2,21 +2,19 @@
 
 <!-- Compiler Options Dialog for the PureBasic IDE -->
 
-<!--  
+<!--
   Note:
-    The generated output from this file is actually included twice in the IDE source.
-    This way we can have a slightly modified version of the dialog for the projects
-    (the #IDE_ProjectCompilerOptions is defined for the second include)
-    
-    The label for the window below is actually a macro to avoid a duplicate label error.    
+    This dialog is used for the compiler options and the project target options. The
+    IDE_ProjectCompilerOptions runtime variable is set to 1 for the project version
+    (see OpenDialog() in DialogLibrary.pb).
 -->
 
-<window id="#WINDOW_Option" lang="Compiler:OptionsTitle" label="Dialog_CompilerOptionsMacro()" invisible="yes">
+<window flags="#PB_Window_SystemMenu" margin="10" id="#WINDOW_Option" lang="Compiler:OptionsTitle" name="Dialog_CompilerOptions" invisible="yes">
   <vbox spacing="10" expand="item:1">
     <hbox spacing="10">
 
       <!-- Project specific stuff -->
-      <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">
+      <compiler if="IDE_ProjectCompilerOptions">
         <vbox spacing="5" expand="item:2">
           <compiler if="#CompileWindows">
             <hbox spacing="5" expand="equal">
@@ -57,7 +55,7 @@
 
         <tab lang="Resources:CompilerOptions" expand="horizontal">
           <gridbox colexpand="item:2" colspacing="5">
-            <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">                        
+            <compiler if="IDE_ProjectCompilerOptions">                        
               <!-- for projects, we have the input/outputfile settings -->
               <text lang="Compiler:InputFile" text=": " />
               <hbox expand="item:1">
@@ -354,12 +352,12 @@
                   <text lang="Resources:VersionField14" text=": " flags="#PB_Text_Right" />
                   <string id="#GADGET_Option_VersionValue0+14" />
 
-                  <!-- the #PB_Text_Right is only working on windows, but this is windows-only anyway. -->
-                  <string id="#GADGET_Option_VersionValue0+18" flags="#PB_Text_Right" />
+                  <!-- the names (18-20) are right aligned in OpenOptionWindow() -->
+                  <string id="#GADGET_Option_VersionValue0+18" />
                   <string id="#GADGET_Option_VersionValue0+21" />
-                  <string id="#GADGET_Option_VersionValue0+19" flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+19" />
                   <string id="#GADGET_Option_VersionValue0+22" />
-                  <string id="#GADGET_Option_VersionValue0+20" flags="#PB_Text_Right" />
+                  <string id="#GADGET_Option_VersionValue0+20" />
                   <string id="#GADGET_Option_VersionValue0+23" />
 
                   <text lang="Resources:VersionField15" text=": " flags="#PB_Text_Right" />
@@ -409,7 +407,7 @@
     
     <hbox spacing="10" expand="item:2">
       <!-- Project specific stuff -->
-      <compiler if="Defined(IDE_ProjectCompilerOptions, #PB_Constant)">
+      <compiler if="IDE_ProjectCompilerOptions">
         <button id="#GADGET_Option_OpenProject" lang="Project:ProjectOptions" width="90" />
       <compilerelse/>
         <empty />

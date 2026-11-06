@@ -788,8 +788,6 @@ EndProcedure
 
 Procedure UpdateEditToolsWindow()
   
-  EditToolsWindowDialog\LanguageUpdate()
-  
   ;   For i = 0 To #NbShortcutKeys-1
   ;     SetGadgetItemText(#GADGET_EditTools_ShortcutKey, i, ShortcutNames(i), 0)
   ;   Next i
@@ -1279,3 +1277,10 @@ Procedure AddTools_WindowEvents(EventID)
   EndIf
   
 EndProcedure
+
+
+DataSection
+  DialogXml_AddTools:
+  IncludeBinary "dialogs/AddTools.xml"
+  DialogXml_AddTools_End:
+EndDataSection

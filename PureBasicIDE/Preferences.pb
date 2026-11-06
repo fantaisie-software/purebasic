@@ -2787,12 +2787,10 @@ Procedure ApplyPreferences()
   ; now update all open windows
   ;
   If IsWindow(#WINDOW_About)
-    AboutWindowDialog\LanguageUpdate()
     AboutWindowDialog\GuiUpdate()
   EndIf
   
   If IsWindow(#WINDOW_AddTools)
-    AddToolsWindowDialog\LanguageUpdate()
     AddToolsWindowDialog\GuiUpdate()
   EndIf
   
@@ -2817,7 +2815,6 @@ Procedure ApplyPreferences()
   EndIf
   
   If IsWindow(#WINDOW_GrepOutput)
-    GrepOutputDialog\LanguageUpdate()
     GrepOutputDialog\GuiUpdate()
   EndIf
   
@@ -2830,12 +2827,10 @@ Procedure ApplyPreferences()
   EndIf
   
   If IsWindow(#WINDOW_Goto)
-    GotoWindowDialog\LanguageUpdate()
     GotoWindowDialog\GuiUpdate()
   EndIf
   
   If IsWindow(#WINDOW_StructureViewer)
-    StructureViewerDialog\LanguageUpdate()
     StructureViewerDialog\GuiUpdate()
   EndIf
   
@@ -3640,8 +3635,6 @@ EndProcedure
 
 
 Procedure UpdatePreferenceWindow()
-  
-  PreferenceWindowDialog\LanguageUpdate()
   
   SelectElement(AvailableLanguages(), SelectedLanguage)
   Info$ = Language("Preferences", "LanguageInfo") + ":"  + #NewLine + #NewLine
@@ -5721,4 +5714,11 @@ AccessibilityColorScheme:
   Data$ "EndWith":           Data.l -1, 0
   
   
+EndDataSection
+
+
+DataSection
+  DialogXml_Preferences:
+  IncludeBinary "dialogs/Preferences.xml"
+  DialogXml_Preferences_End:
 EndDataSection

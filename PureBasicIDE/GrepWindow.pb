@@ -446,8 +446,6 @@ EndProcedure
 
 Procedure UpdateGrepWindow()
   
-  GrepWindowDialog\LanguageUpdate()
-  
   While FindHistorySize < CountGadgetItems(#GADGET_Grep_FindWord)
     RemoveGadgetItem(#GADGET_Grep_FindWord, CountGadgetItems(#GADGET_Grep_FindWord)-1)
   Wend
@@ -613,3 +611,10 @@ Procedure GrepWindowEvents(EventID)
   EndIf
   
 EndProcedure
+
+
+DataSection
+  DialogXml_Grep:
+  IncludeBinary "dialogs/Grep.xml"
+  DialogXml_Grep_End:
+EndDataSection
