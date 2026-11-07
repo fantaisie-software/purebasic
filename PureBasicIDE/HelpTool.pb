@@ -2443,6 +2443,7 @@ CompilerElse
   UsePNGImageEncoder()
 
   Global HelpToolSource$, Backup_HelpToolSource$
+  Global HelpToolLanguage$, Backup_HelpToolLanguage$ ; "" (IDE language), "English", "German" or "French"
 
 
   Procedure.s HelpTool_DefaultSource()
@@ -2451,16 +2452,21 @@ CompilerElse
 
 
   Procedure.s HelpTool_Language(Source$)
-    Select UCase(CurrentLanguage$)
-      Case "FRANCAIS"
-        Language$ = "French"
-      Case "DEUTSCH"
-        Language$ = "German"
+    Select HelpToolLanguage$
+      Case "English", "German", "French" ; language forced in the preferences
+        Language$ = HelpToolLanguage$
       Default
-        Language$ = "English"
+        Select UCase(CurrentLanguage$)
+          Case "FRANCAIS"
+            Language$ = "French"
+          Case "DEUTSCH"
+            Language$ = "German"
+          Default
+            Language$ = "English"
+        EndSelect
     EndSelect
 
-    ; Fallback to english if the help isn't available in the IDE language
+    ; Fallback to english if the help isn't available in the requested language
     If Right(Source$, 1) <> "/" And Right(Source$, 1) <> "\"
       Source$ + #Separator
     EndIf
@@ -2469,6 +2475,28 @@ CompilerElse
     EndIf
 
     ProcedureReturn Language$
+  EndProcedure
+
+
+  ; Preferences combobox index <-> 'HelpLanguage' preference value
+  ;
+  Procedure HelpTool_LanguageIndex(Language$)
+    Select Language$
+      Case "English" : ProcedureReturn 1
+      Case "German"  : ProcedureReturn 2
+      Case "French"  : ProcedureReturn 3
+    EndSelect
+    ProcedureReturn 0 ; IDE language
+  EndProcedure
+
+
+  Procedure.s HelpTool_LanguageName(Index)
+    Select Index
+      Case 1 : ProcedureReturn "English"
+      Case 2 : ProcedureReturn "German"
+      Case 3 : ProcedureReturn "French"
+    EndSelect
+    ProcedureReturn ""
   EndProcedure
 
 
@@ -2792,6 +2820,7 @@ CompilerElse
 
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
+    HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
 
@@ -2801,6 +2830,7 @@ CompilerElse
     PreferenceComment("")
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
+    WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
   EndProcedure
 
@@ -2809,6 +2839,7 @@ CompilerElse
 
     ; Use the backup variable during the PReferences changing
     Backup_HelpToolSource$ = HelpToolSource$
+    Backup_HelpToolLanguage$ = HelpToolLanguage$
 
   EndProcedure
 
@@ -2817,6 +2848,7 @@ CompilerElse
 
     ; put the backup variable back
     HelpToolSource$ = Backup_HelpToolSource$
+    HelpToolLanguage$ = Backup_HelpToolLanguage$
 
   EndProcedure
 
@@ -2835,6 +2867,23 @@ CompilerElse
     GetRequiredSize(#GADGET_Preferences_HelpSourceBrowse, @Width, @Height)
     StringGadget(#GADGET_Preferences_HelpSource, 10, y, 300-Width-5, Height, Backup_HelpToolSource$)
     ResizeGadget(#GADGET_Preferences_HelpSourceBrowse, 310-Width, y, Width, Height)
+    y + Height + 15
+
+    TextGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, 25, Language("Help","HelpLanguage"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguageText, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, Height)
+    y + Height + 5
+
+    ComboBoxGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, 25)
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageDefault"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageEnglish"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageGerman"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageFrench"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguage, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, Height)
+    SetGadgetState(#GADGET_Preferences_HelpLanguage, HelpTool_LanguageIndex(Backup_HelpToolLanguage$))
+
+    *Entry\PreferencesHeight = y + Height + 10 ; update the size (scroll area)
 
   EndProcedure
 
@@ -2842,6 +2891,7 @@ CompilerElse
   Procedure Help_PreferenceDestroy(*Entry.ToolsPanelEntry)
 
     Backup_HelpToolSource$ = GetGadgetText(#GADGET_Preferences_HelpSource)
+    Backup_HelpToolLanguage$ = HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
 
   EndProcedure
 
@@ -2871,9 +2921,12 @@ CompilerElse
       If HelpToolSource$ <> GetGadgetText(#GADGET_Preferences_HelpSource)
         ProcedureReturn 1
       EndIf
+      If HelpToolLanguage$ <> HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
+        ProcedureReturn 1
+      EndIf
 
     Else
-      If HelpToolSource$ <> Backup_HelpToolSource$
+      If HelpToolSource$ <> Backup_HelpToolSource$ Or HelpToolLanguage$ <> Backup_HelpToolLanguage$
         ProcedureReturn 1
       EndIf
 

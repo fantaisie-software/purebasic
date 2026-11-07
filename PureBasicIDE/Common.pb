@@ -463,6 +463,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_HelpSourceText
   #GADGET_Preferences_HelpSource
   #GADGET_Preferences_HelpSourceBrowse
+  #GADGET_Preferences_HelpLanguageText
+  #GADGET_Preferences_HelpLanguage
   #GADGET_Preferences_FormVariable
   #GADGET_Preferences_FormVariableCaption
   #GADGET_Preferences_FormGrid
