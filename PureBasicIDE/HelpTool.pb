@@ -135,7 +135,9 @@ Module HelpTool
                       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
                       "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}" +
                       "table.param {width:100%;  border-spacing: 0px; border-style: none; }" +
-                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}"
+                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}" +
+                      ".themed [bgcolor], table.themed[bgcolor] {background-color: var(--tablebg);}" + ; html tables with fixed light colors (ascii.txt, number_tab.txt), not the color table
+                      ".themed [bgcolor='#FFFFCC'], .themed [bgcolor='#ffffcc'], .themed [bgcolor='#dddddd'] {background-color: var(--optbg);}"
 
 
   ;- ----- Translations
@@ -501,7 +503,7 @@ Module HelpTool
     AddTag("image",         0, 0, "$im<br>")
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("fo:$lg") + "'>" + LoadCodeIcon$ + "</button>"
     RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("fr:$lg") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("examplefile",   0, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
+    AddTag("examplefile",   3, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
 
     AddTag("library",           0, 1, "")
     AddTag("section",           0, 1, "<h3>$lg</h3>")
@@ -510,9 +512,9 @@ Module HelpTool
     AddTag("returnvalue",       3, 1, "<h3>" + Text_ReturnValue$ + "</h3>")
     AddTag("noreturnvalue",     3, 1, "<h3>" + Text_ReturnValue$ + "</h3>" + Text_None$ + ".")
     AddTag("remarks",           3, 1, "<h3>" + Text_Remarks$ + "</h3>")
-    AddTag("example",           0, 1, "<h3>" + Text_Example$ + "</h3>")
-    AddTag("seealso",           0, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
-    AddTag("supportedos",       0, 1, "")
+    AddTag("example",           3, 1, "<h3>" + Text_Example$ + "</h3>")
+    AddTag("seealso",           3, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
+    AddTag("supportedos",       3, 1, "")
     AddTag("function",          0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>$p1")
     AddTag("syntax",            0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>")
     AddTag("description",       0, 1, "</pre><h3>" + Text_Description$ + "</h3>")
@@ -1084,7 +1086,7 @@ Module HelpTool
   ; Html from a @FormatIf or @HTML block: the images are embedded and the links go through jsmessage()
   ;
   Procedure AppendBlockHtml(Html$)
-    Protected Position, Path$, Image$
+    Protected Position, Path$, Image$, Link$
 
     Position = 0
     Repeat
@@ -1112,7 +1114,11 @@ Module HelpTool
 
       Path$ = ExtractBetween(Html$, "href=", ">", Position)
       If FindString(Path$, "#") = 0
-        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))) + "'>")
+        Link$ = LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))
+        If Link$ = "index" ; library index: 'Library/index.html'
+          Link$ = "lib_" + LCase(GetFilePart(RTrim(GetPathPart(Path$), "/")))
+        EndIf
+        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + Link$) + "'>")
       EndIf
     ForEver
 
@@ -1155,7 +1161,7 @@ Module HelpTool
   Procedure.s PageToHtml(Name$)
     Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, *Page.HelpPage
     Protected Position, TextStart, TagStart, ParameterStart, Found, BlockEnd, i
-    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle
+    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle, SyntaxHtml$
 
     *CurrentPage = FindPage(LCase(Name$))
     If *CurrentPage = 0
@@ -1278,9 +1284,9 @@ Module HelpTool
                 EndIf
                 TagHtml$ + "<td width='10%'><i>$p1</i></td><td width='90%'>"
 
-              Case 3
+              Case 3 ; end of the parameters (appended now: the @ExampleFile html can be emptied below)
                 If ParameterCount
-                  TagHtml$ = "</td></tr></table>"
+                  AppendHtml("</td></tr></table>")
                   ParameterCount = 0
                 EndIf
             EndSelect
@@ -1291,6 +1297,18 @@ Module HelpTool
             EndIf
 
             TagHtml$ + Tags()\Html$
+
+            ; @Function: the syntax is plain code up to @Description, colored like the examples (appended after the '$' replacements below)
+            SyntaxHtml$ = ""
+            If LCase(Tag$) = "function" And ColorCodeCallback
+              BlockEnd = FindString(Text$, #LF$ + "@Description", Position, #PB_String_NoCase)
+              If BlockEnd
+                TagHtml$ = RemoveString(TagHtml$, "$p1")
+                SyntaxHtml$ = ColorCodeCallback(Trim(Trim(Trim(RemoveString(PeekMid(@Text$, Position, BlockEnd - Position), #CR$)), #LF$)))
+                Position = BlockEnd
+              EndIf
+            EndIf
+
             If FindString(TagHtml$, "$")
               If FindString(TagHtml$, "$ose") ; example OS
                 Parameter$ = ReadTagParameter(@Text$, @Position, " " + #LF$)
@@ -1349,7 +1367,7 @@ Module HelpTool
               EndIf
             EndIf
 
-            AppendHtml(TagHtml$)
+            AppendHtml(TagHtml$ + SyntaxHtml$)
 
             ; Blocks
             If Tag$ = "Code"
@@ -2643,12 +2661,12 @@ CompilerElse
     Css$ + "--keyword:"  + HelpTool_HtmlColor(Colors(#COLOR_BasicKeyword)\DisplayValue) + "; "
     Css$ + "--userlib:"  + HelpTool_HtmlColor(Colors(#COLOR_CustomKeyword)\DisplayValue) + ";}"
 
-    ; Examples syntax highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
+    ; Examples and syntax lines highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
     If EnableColoring
       Restore HelpTool_StyleColors
       For Style = 1 To 16
         Read.l ColorIndex
-        Css$ + " pre.ex .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
+        Css$ + " pre .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
         If EnableKeywordBolding And (Style = 2 Or Style = 14)
           Css$ + " font-weight:bold;"
         EndIf

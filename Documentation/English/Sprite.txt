@@ -18,9 +18,9 @@ After initializing the screen and sprite environment via @@InitSprite
 you can start opening a @Link "Screen/OpenScreen" "full-size" or @Link "Screen/OpenWindowedScreen" "windowed" screen.
 @LineBreak
 @LineBreak
-@Bold "Windows": DirectX 9 is used for screen creation which your programs to use hardware acceleration if available.
-Two additional @ReferenceLink "ide_compiler" "Subsystems" are also available, depending of the needs: "OpenGL" and "DirectX11" which
-respectively leverage OpenGL and DirectX11 to handle screen creation.
+@Bold "Windows": OpenGL is used for screen creation which allows your programs to use hardware acceleration if available.
+Two additional @ReferenceLink "ide_compiler" "Subsystems" are also available, depending of the needs: "DirectX9" and "DirectX11" which
+respectively leverage DirectX 9 and DirectX 11 to handle screen creation.
 @LineBreak
 @LineBreak
 @Bold "Linux": OpenGL is used to manage the screen which allows to use hardware acceleration.
@@ -358,8 +358,8 @@ respectively leverage OpenGL and DirectX11 to handle screen creation.
 @OS Windows
 @LineBreak
 @LineBreak
-  This function tries to initialize DirectX 9, so if it fails,
-  it's probably because DirectX is not found or is a previous version.
+  This function tries to initialize OpenGL (or DirectX with the "DirectX9" and "DirectX11" @ReferenceLink "subsystems" "subsystems"),
+  so if it fails, it's probably because it is not found or is a previous version.
 
 @OS Linux
 @LineBreak

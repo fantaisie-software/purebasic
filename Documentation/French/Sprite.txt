@@ -31,18 +31,19 @@
 @LineBreak
 @LineBreak
 @OS Windows
-  DirectX 9 est utilisé pour gérer les 
+  OpenGL est utilisé pour gérer les 
   sprites. Cela permet d'utiliser 
   l'accélération matérielle si elle est 
-  disponible. Une version récente de 
-  DirectX 9 doit être installée (voir ici: 
-  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
+  disponible. 
 @LineBreak
 @LineBreak
   Deux @ReferenceLink "ide_compiler" "sous-systèmes" 
-  supplémentaires, "OpenGL" et "DirectX11", 
+  supplémentaires, "DirectX9" et "DirectX11", 
   sont également disponibles pour gérer 
-  les sprites. 
+  les sprites. Le sous-système "DirectX9" 
+  nécessite une version récente de 
+  DirectX 9 (voir ici: 
+  @InternetLink "http://www.microsoft.com/en-us/download/details.aspx?id=35" "DirectX 9 runtime installer"). 
 @EndOS
 
 @OS Linux
@@ -607,10 +608,12 @@ Delay(3000)
 @OS Windows
 @LineBreak
 @LineBreak
-  Cette fonction tente d'initialiser DirectX 
-  9. Les causes probables d'un échec sont 
-  l'absence de DirectX ou une version trop 
-  ancienne.
+  Cette fonction tente d'initialiser OpenGL 
+  (ou DirectX avec les @ReferenceLink "subsystems" "sous-systèmes" 
+  "DirectX9" et "DirectX11"). Les causes 
+  probables d'un échec sont l'absence 
+  d'OpenGL ou de DirectX, ou une version 
+  trop ancienne.
 @EndOS
 
 @OS Linux
