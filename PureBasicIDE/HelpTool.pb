@@ -893,9 +893,11 @@ Module HelpTool
 
     IsUserLib = Bool(*Parent And *Page\UserLib$ <> "")
     IsBranch = Bool(Level = 0 Or (*Page And ListSize(*Page\SubPages()) > 0))
-    If IsBranch
-      Icon = ImageID(ImageBranch)
-    Else
+    If IsBranch ; no image in the standalone tool (SetImages() is called by the IDE): no icon
+      If IsImage(ImageBranch)
+        Icon = ImageID(ImageBranch)
+      EndIf
+    ElseIf IsImage(ImageLeaf)
       Icon = ImageID(ImageLeaf)
     EndIf
     
@@ -2106,6 +2108,8 @@ Module HelpTool
   EndProcedure
 
 
+  CompilerIf #Standalone = #False ; IDE only: the hidden contents (the splitter of the standalone dialog is a normal one)
+
   Procedure SetSplitterPosition(Position) ; IDE
     Protected Width, Height
 
@@ -2176,17 +2180,21 @@ Module HelpTool
     EndIf
   EndProcedure
 
+  CompilerEndIf
+
 
   Procedure Timer() ; reloads the help if the source of the current page has been modified
     Protected Name$, Width
 
-    If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
-      Width = SplitterBarWidth
-      MeasureSplitterBar()
-      If SplitterBarWidth <> Width
-        PlaceHiddenContents()
+    CompilerIf #Standalone = #False ; IDE only
+      If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
+        Width = SplitterBarWidth
+        MeasureSplitterBar()
+        If SplitterBarWidth <> Width
+          PlaceHiddenContents()
+        EndIf
       EndIf
-    EndIf
+    CompilerEndIf
 
     If *CurrentPage And *CurrentPage\File$ <> ""
       If GetFileDate(PageDirectory(*CurrentPage) + *CurrentPage\File$, #PB_Date_Modified) - LastReloadDate >= 2
@@ -2215,8 +2223,10 @@ Module HelpTool
           EndIf
         EndIf
 
-      Case GadgetShowContents
-        ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerIf #Standalone = #False ; IDE only
+        Case GadgetShowContents
+          ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerEndIf
 
       Case GadgetHome
         DisplayPage("reference")
@@ -2286,8 +2296,12 @@ Module HelpTool
     OS$ = HelpOS$
 
     StandalonePreferences(#False)
-    If FileSize(HelpSource$) <> -2 And LCase(GetExtensionPart(HelpSource$)) <> "zip"
-      HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+    ; help source: a folder, or an existing .zip; else Help.zip next to the program, then Help.zip of PureBasic (compilation path)
+    If FileSize(HelpSource$) <> -2 And (LCase(GetExtensionPart(HelpSource$)) <> "zip" Or FileSize(HelpSource$) < 0)
+      HelpSource$ = GetPathPart(ProgramFilename()) + "Help/Help.zip"
+      If FileSize(HelpSource$) < 0
+        HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+      EndIf
     EndIf
     OpenSource(HelpSource$)
     UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
@@ -2409,7 +2423,9 @@ Module HelpTool
   Procedure Resize(Width, Height)
     If IsGadget(GadgetRoot)
       ResizeGadget(GadgetRoot, 0, 0, Width, Height) ; layouts the dialog again, which puts the splitter on the whole width
-      PlaceHiddenContents()
+      CompilerIf #Standalone = #False ; IDE only
+        PlaceHiddenContents()
+      CompilerEndIf
     EndIf
   EndProcedure
 
