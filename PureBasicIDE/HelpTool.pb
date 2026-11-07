@@ -19,8 +19,7 @@ DeclareModule HelpTool
   Prototype ProtoEditFile(File$, Line)
   Prototype ProtoApplyColors(Gadget)         ; IDE colors/font for the contents tree and the search gadgets
   Prototype.s ProtoColorCode(Code$)          ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
-  Prototype ProtoClose()                     ; Escape in the help: the IDE gives the focus back to the editor
-  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode, CloseCallback.ProtoClose
+  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode
 
   ; Standalone tool
   Declare RunStandalone(HelpLanguage$, HelpOS$)
@@ -38,6 +37,8 @@ DeclareModule HelpTool
   Declare GadgetEvent(Gadget, Type)
   Declare Timer()
   Declare ShowPage(Name$)
+  Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
+  Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
 EndDeclareModule
 
 
@@ -50,6 +51,8 @@ Module HelpTool
   #IdentifierChars$ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
   #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
+  #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
+  #MaxZoom          = 3.0
 
   Structure HelpPage
     Title$
@@ -93,6 +96,7 @@ Module HelpTool
   Global *CurrentPage.HelpPage, CurrentPageName$
   Global LastReloadDate.q
   Global IEMode                          ; Windows: WebView2 not available, degraded display in a WebGadget (Internet Explorer)
+  Global Zoom.f = 1.0                    ; page zoom, kept from page to page (see SetPageHtml())
 
   ; Page rendering state (see PageToHtml())
   Global RenderHtml$, RenderErrors$, RenderLineBreaks, RenderPreformatted
@@ -136,7 +140,9 @@ Module HelpTool
                       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
                       "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}" +
                       "table.param {width:100%;  border-spacing: 0px; border-style: none; }" +
-                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}"
+                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}" +
+                      ".themed [bgcolor], table.themed[bgcolor] {background-color: var(--tablebg);}" + ; html tables with fixed light colors (ascii.txt, number_tab.txt), not the color table
+                      ".themed [bgcolor='#FFFFCC'], .themed [bgcolor='#ffffcc'], .themed [bgcolor='#dddddd'] {background-color: var(--optbg);}"
 
 
   ;- ----- Translations
@@ -502,7 +508,7 @@ Module HelpTool
     AddTag("image",         0, 0, "$im<br>")
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("fo:$lg") + "'>" + LoadCodeIcon$ + "</button>"
     RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("fr:$lg") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("examplefile",   0, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
+    AddTag("examplefile",   3, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
 
     AddTag("library",           0, 1, "")
     AddTag("section",           0, 1, "<h3>$lg</h3>")
@@ -511,9 +517,9 @@ Module HelpTool
     AddTag("returnvalue",       3, 1, "<h3>" + Text_ReturnValue$ + "</h3>")
     AddTag("noreturnvalue",     3, 1, "<h3>" + Text_ReturnValue$ + "</h3>" + Text_None$ + ".")
     AddTag("remarks",           3, 1, "<h3>" + Text_Remarks$ + "</h3>")
-    AddTag("example",           0, 1, "<h3>" + Text_Example$ + "</h3>")
-    AddTag("seealso",           0, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
-    AddTag("supportedos",       0, 1, "")
+    AddTag("example",           3, 1, "<h3>" + Text_Example$ + "</h3>")
+    AddTag("seealso",           3, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
+    AddTag("supportedos",       3, 1, "")
     AddTag("function",          0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>$p1")
     AddTag("syntax",            0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>")
     AddTag("description",       0, 1, "</pre><h3>" + Text_Description$ + "</h3>")
@@ -711,6 +717,21 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure SetZoom(Value.f) ; the zoom is kept between #MinZoom and #MaxZoom
+    If Value < #MinZoom
+      Value = #MinZoom
+    ElseIf Value > #MaxZoom
+      Value = #MaxZoom
+    EndIf
+    Zoom = Value
+  EndProcedure
+
+
+  Procedure.f GetZoom()
+    ProcedureReturn Zoom
+  EndProcedure
+
+
   Procedure SetPageHtml(Html$)
     Html$ = ReplaceString(Html$, "<head>", "<head><meta charset='utf-8'>", #PB_String_CaseSensitive, 1, 1) ; explicit encoding (accents, umlauts)
 
@@ -721,12 +742,21 @@ Module HelpTool
       EndIf
     CompilerEndIf
 
+    ; Zoom (Ctrl+wheel, Ctrl +/-/0) is done by the page (CSS zoom): the native zoom of the WebView is lost when another page is loaded.
+    ; The factor is sent to the tool (zm:) and injected in the next pages. IE mode: no zoom (degraded display).
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
+                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom);}" +
+                                           "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
+                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0') {e.preventDefault(); zoomset(1);}}});" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
+
     ; Mouse back/forward buttons and Alt+arrows: use our history, not the WebView one (which goes back to an old page, sometimes empty)
     Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
                                            "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}" +
                                            "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});" +
                                            "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});" +
-                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+'); else if (e.key=='Escape') {e.preventDefault(); jsmessage('es:');}});" +
+                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
     SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
   EndProcedure
@@ -1085,7 +1115,7 @@ Module HelpTool
   ; Html from a @FormatIf or @HTML block: the images are embedded and the links go through jsmessage()
   ;
   Procedure AppendBlockHtml(Html$)
-    Protected Position, Path$, Image$
+    Protected Position, Path$, Image$, Link$
 
     Position = 0
     Repeat
@@ -1113,7 +1143,11 @@ Module HelpTool
 
       Path$ = ExtractBetween(Html$, "href=", ">", Position)
       If FindString(Path$, "#") = 0
-        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))) + "'>")
+        Link$ = LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))
+        If Link$ = "index" ; library index: 'Library/index.html'
+          Link$ = "lib_" + LCase(GetFilePart(RTrim(GetPathPart(Path$), "/")))
+        EndIf
+        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + Link$) + "'>")
       EndIf
     ForEver
 
@@ -1156,7 +1190,7 @@ Module HelpTool
   Procedure.s PageToHtml(Name$)
     Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, *Page.HelpPage
     Protected Position, TextStart, TagStart, ParameterStart, Found, BlockEnd, i
-    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle
+    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle, SyntaxHtml$
 
     *CurrentPage = FindPage(LCase(Name$))
     If *CurrentPage = 0
@@ -1279,9 +1313,9 @@ Module HelpTool
                 EndIf
                 TagHtml$ + "<td width='10%'><i>$p1</i></td><td width='90%'>"
 
-              Case 3
+              Case 3 ; end of the parameters (appended now: the @ExampleFile html can be emptied below)
                 If ParameterCount
-                  TagHtml$ = "</td></tr></table>"
+                  AppendHtml("</td></tr></table>")
                   ParameterCount = 0
                 EndIf
             EndSelect
@@ -1292,6 +1326,18 @@ Module HelpTool
             EndIf
 
             TagHtml$ + Tags()\Html$
+
+            ; @Function: the syntax is plain code up to @Description, colored like the examples (appended after the '$' replacements below)
+            SyntaxHtml$ = ""
+            If LCase(Tag$) = "function" And ColorCodeCallback
+              BlockEnd = FindString(Text$, #LF$ + "@Description", Position, #PB_String_NoCase)
+              If BlockEnd
+                TagHtml$ = RemoveString(TagHtml$, "$p1")
+                SyntaxHtml$ = ColorCodeCallback(Trim(Trim(Trim(RemoveString(PeekMid(@Text$, Position, BlockEnd - Position), #CR$)), #LF$)))
+                Position = BlockEnd
+              EndIf
+            EndIf
+
             If FindString(TagHtml$, "$")
               If FindString(TagHtml$, "$ose") ; example OS
                 Parameter$ = ReadTagParameter(@Text$, @Position, " " + #LF$)
@@ -1350,7 +1396,7 @@ Module HelpTool
               EndIf
             EndIf
 
-            AppendHtml(TagHtml$)
+            AppendHtml(TagHtml$ + SyntaxHtml$)
 
             ; Blocks
             If Tag$ = "Code"
@@ -1494,6 +1540,13 @@ Module HelpTool
       If IsPreformatted = #False And LCase(Left(LTrim(Line$), 13)) = "@examplefile " ; often indented: stays on its own line (read up to the end of the line)
         Line$ = LTrim(Line$)
         FirstChar$ = "@"
+      EndIf
+      If FirstChar$ <> "@" ; indented block tag (accepted by DocMaker): handled like at the line start, or the block formatting is lost
+        Select LCase(StringField(Trim(ReplaceString(Line$, #TAB$, " ")), 1, " "))
+          Case "@code", "@endcode", "@fixedfont", "@endfixedfont", "@syntax", "@description"
+            Line$ = Trim(ReplaceString(Line$, #TAB$, " "))
+            FirstChar$ = "@"
+        EndSelect
       EndIf
       If Trim(Line$) = "@LineBreak"
         FirstChar$ = " "
@@ -1765,7 +1818,6 @@ Module HelpTool
   ;   lk: link to a page
   ;   co, cr: load/run the example code number 'Value' of the page
   ;   fo, fr: load/run the example file 'Value'
-  ;   es: Escape key
   ;
   Procedure HandleJsMessage(Message$)
     Protected Type$, Value$, File$, Code$, FileName$, Source$, Position, i
@@ -1778,18 +1830,7 @@ Module HelpTool
       DisplayPage(LCase(Value$))
       ProcedureReturn
     EndIf
-    
-    If Type$ = "es" ; Escape: close the help (standalone), or let the IDE go back to the editor
-      CompilerIf #Standalone
-        PostEvent(#PB_Event_CloseWindow, HostWindow, 0)
-      CompilerElse
-        If CloseCallback
-          CloseCallback()
-        EndIf
-      CompilerEndIf
-      ProcedureReturn
-    EndIf
-    
+
     Select Left(Type$, 1)
       Case "c" ; code in the page
         Source$ = *CurrentPage\Source$
@@ -1798,6 +1839,10 @@ Module HelpTool
         Next i
         Code$ = ExtractBetween(Source$, "@Code", "@EndCode", Position - 5)
         FileName$ = *CurrentPage\Name$ + "_ex" + Value$ + ".pb"
+
+      Case "z" ; zm: zoom changed in the page (Ctrl+wheel, Ctrl +/-): kept for the next pages
+        SetZoom(ValF(Value$))
+        ProcedureReturn
 
       Case "f" ; example file
         CompilerIf Not #Standalone
@@ -2253,6 +2298,8 @@ Module HelpTool
         WritePreferenceLong("Width", WindowWidth(StandaloneWindow))
         WritePreferenceLong("Height", WindowHeight(StandaloneWindow))
         WritePreferenceString("HelpSource", HelpSource$)
+        PreferenceGroup("HelpTool")
+        WritePreferenceFloat("Zoom", Zoom)
         ClosePreferences()
       EndIf
     Else
@@ -2262,6 +2309,8 @@ Module HelpTool
       StandaloneWidth  = ReadPreferenceLong("Width", 800)
       StandaloneHeight = ReadPreferenceLong("Height", 600)
       HelpSource$      = ReadPreferenceString("HelpSource", "")
+      PreferenceGroup("HelpTool")
+      SetZoom(ReadPreferenceFloat("Zoom", 1.0))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -2456,7 +2505,8 @@ CompilerElse
   UsePNGImageEncoder()
 
   Global HelpToolSource$, Backup_HelpToolSource$
-  Global HelpToolPreviousTool$, HelpToolIsSeparate, HelpToolWindow ; to go back with Escape: the tool shown before the help, and where the help is
+  Global HelpToolLanguage$, Backup_HelpToolLanguage$ ; "" (IDE language), "English", "German" or "French"
+
 
   Procedure.s HelpTool_DefaultSource()
     ProcedureReturn PureBasicPath$ + "Help" + #Separator + "Help.zip"
@@ -2464,16 +2514,21 @@ CompilerElse
 
 
   Procedure.s HelpTool_Language(Source$)
-    Select UCase(CurrentLanguage$)
-      Case "FRANCAIS"
-        Language$ = "French"
-      Case "DEUTSCH"
-        Language$ = "German"
+    Select HelpToolLanguage$
+      Case "English", "German", "French" ; language forced in the preferences
+        Language$ = HelpToolLanguage$
       Default
-        Language$ = "English"
+        Select UCase(CurrentLanguage$)
+          Case "FRANCAIS"
+            Language$ = "French"
+          Case "DEUTSCH"
+            Language$ = "German"
+          Default
+            Language$ = "English"
+        EndSelect
     EndSelect
 
-    ; Fallback to english if the help isn't available in the IDE language
+    ; Fallback to english if the help isn't available in the requested language
     If Right(Source$, 1) <> "/" And Right(Source$, 1) <> "\"
       Source$ + #Separator
     EndIf
@@ -2482,6 +2537,28 @@ CompilerElse
     EndIf
 
     ProcedureReturn Language$
+  EndProcedure
+
+
+  ; Preferences combobox index <-> 'HelpLanguage' preference value
+  ;
+  Procedure HelpTool_LanguageIndex(Language$)
+    Select Language$
+      Case "English" : ProcedureReturn 1
+      Case "German"  : ProcedureReturn 2
+      Case "French"  : ProcedureReturn 3
+    EndSelect
+    ProcedureReturn 0 ; IDE language
+  EndProcedure
+
+
+  Procedure.s HelpTool_LanguageName(Index)
+    Select Index
+      Case 1 : ProcedureReturn "English"
+      Case 2 : ProcedureReturn "German"
+      Case 3 : ProcedureReturn "French"
+    EndSelect
+    ProcedureReturn ""
   EndProcedure
 
 
@@ -2621,12 +2698,12 @@ CompilerElse
     Css$ + "--keyword:"  + HelpTool_HtmlColor(Colors(#COLOR_BasicKeyword)\DisplayValue) + "; "
     Css$ + "--userlib:"  + HelpTool_HtmlColor(Colors(#COLOR_CustomKeyword)\DisplayValue) + ";}"
 
-    ; Examples syntax highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
+    ; Examples and syntax lines highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
     If EnableColoring
       Restore HelpTool_StyleColors
       For Style = 1 To 16
         Read.l ColorIndex
-        Css$ + " pre.ex .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
+        Css$ + " pre .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
         If EnableKeywordBolding And (Style = 2 Or Style = 14)
           Css$ + " font-weight:bold;"
         EndIf
@@ -2686,18 +2763,6 @@ CompilerElse
   ; in the html help, ie: "2DDrawing/Box.html"). Displays the home page and returns #False if the page doesn't exist
   ;
   Procedure HelpTool_DisplayPage(Page$)
-    Protected *ShownTool.ToolsPanelEntry
-
-    ForEach UsedPanelTools() ; the tool of the panel shown before the help: Escape goes back to it
-      If CurrentTool = UsedPanelTools()
-        *ShownTool = UsedPanelTools()
-        If UCase(*ShownTool\ToolID$) <> "HELPTOOL"
-          HelpToolPreviousTool$ = *ShownTool\ToolID$
-        EndIf
-        Break
-      EndIf
-    Next UsedPanelTools()
-
     ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
     If HelpToolOpen = #False
       ProcedureReturn #False
@@ -2742,18 +2807,6 @@ CompilerElse
   EndProcedure
 
 
-  ; Escape in the help: back to the tool shown before (help in the tools panel) or closes the tool window,
-  ; then gives the focus back to the editor (or to the form)
-  Procedure HelpTool_Close()
-    If HelpToolIsSeparate
-      HideWindow(HelpToolWindow, #True) ; the window of a tool is only hidden when closed
-    ElseIf HelpToolPreviousTool$ <> ""
-      ActivateTool(HelpToolPreviousTool$, #True)
-    EndIf
-    ActivateMainWindow()
-  EndProcedure
-
-
   Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
 
     Source$ = HelpToolSource$
@@ -2772,9 +2825,6 @@ CompilerElse
     HelpTool::OpenCodeCallback = @HelpTool_OpenCode()
     HelpTool::EditFileCallback = @HelpTool_EditFile()
     HelpTool::ColorCodeCallback = @HelpTool_ColorCode()
-    HelpTool::CloseCallback = @HelpTool_Close()
-    HelpToolIsSeparate = *Entry\IsSeparateWindow
-    HelpToolWindow = *Entry\ToolWindowID
     ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
     If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
       UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue
@@ -2832,6 +2882,8 @@ CompilerElse
 
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
+    HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+    HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
 
@@ -2841,6 +2893,8 @@ CompilerElse
     PreferenceComment("")
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
+    WritePreferenceFloat("Zoom", HelpTool::GetZoom())
+    WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
   EndProcedure
 
@@ -2849,6 +2903,7 @@ CompilerElse
 
     ; Use the backup variable during the PReferences changing
     Backup_HelpToolSource$ = HelpToolSource$
+    Backup_HelpToolLanguage$ = HelpToolLanguage$
 
   EndProcedure
 
@@ -2857,6 +2912,7 @@ CompilerElse
 
     ; put the backup variable back
     HelpToolSource$ = Backup_HelpToolSource$
+    HelpToolLanguage$ = Backup_HelpToolLanguage$
 
   EndProcedure
 
@@ -2875,6 +2931,23 @@ CompilerElse
     GetRequiredSize(#GADGET_Preferences_HelpSourceBrowse, @Width, @Height)
     StringGadget(#GADGET_Preferences_HelpSource, 10, y, 300-Width-5, Height, Backup_HelpToolSource$)
     ResizeGadget(#GADGET_Preferences_HelpSourceBrowse, 310-Width, y, Width, Height)
+    y + Height + 15
+
+    TextGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, 25, Language("Help","HelpLanguage"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguageText, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, Height)
+    y + Height + 5
+
+    ComboBoxGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, 25)
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageDefault"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageEnglish"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageGerman"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageFrench"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguage, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, Height)
+    SetGadgetState(#GADGET_Preferences_HelpLanguage, HelpTool_LanguageIndex(Backup_HelpToolLanguage$))
+
+    *Entry\PreferencesHeight = y + Height + 10 ; update the size (scroll area)
 
   EndProcedure
 
@@ -2882,6 +2955,7 @@ CompilerElse
   Procedure Help_PreferenceDestroy(*Entry.ToolsPanelEntry)
 
     Backup_HelpToolSource$ = GetGadgetText(#GADGET_Preferences_HelpSource)
+    Backup_HelpToolLanguage$ = HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
 
   EndProcedure
 
@@ -2911,9 +2985,12 @@ CompilerElse
       If HelpToolSource$ <> GetGadgetText(#GADGET_Preferences_HelpSource)
         ProcedureReturn 1
       EndIf
+      If HelpToolLanguage$ <> HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
+        ProcedureReturn 1
+      EndIf
 
     Else
-      If HelpToolSource$ <> Backup_HelpToolSource$
+      If HelpToolSource$ <> Backup_HelpToolSource$ Or HelpToolLanguage$ <> Backup_HelpToolLanguage$
         ProcedureReturn 1
       EndIf
 
@@ -2950,6 +3027,7 @@ CompilerElse
   AvailablePanelTools()\PreferencesWidth     = 320
   AvailablePanelTools()\PreferencesHeight    = 80
   AvailablePanelTools()\NeedDestroyFunction  = 1
+  AvailablePanelTools()\PanelTabOrder        = 6 ; in the Tools Panel by default (last tab)
   AvailablePanelTools()\ToolID$              = "HelpTool"
   AvailablePanelTools()\PanelTitle$          = "HelpToolShort"
   AvailablePanelTools()\ToolName$            = "HelpToolLong"
