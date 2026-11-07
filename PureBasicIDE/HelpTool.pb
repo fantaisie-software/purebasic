@@ -1494,6 +1494,13 @@ Module HelpTool
         Line$ = LTrim(Line$)
         FirstChar$ = "@"
       EndIf
+      If FirstChar$ <> "@" ; indented block tag (accepted by DocMaker): handled like at the line start, or the block formatting is lost
+        Select LCase(StringField(Trim(ReplaceString(Line$, #TAB$, " ")), 1, " "))
+          Case "@code", "@endcode", "@fixedfont", "@endfixedfont", "@syntax", "@description"
+            Line$ = Trim(ReplaceString(Line$, #TAB$, " "))
+            FirstChar$ = "@"
+        EndSelect
+      EndIf
       If Trim(Line$) = "@LineBreak"
         FirstChar$ = " "
       EndIf
