@@ -2883,6 +2883,8 @@ CompilerElse
     ResizeGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, Height)
     SetGadgetState(#GADGET_Preferences_HelpLanguage, HelpTool_LanguageIndex(Backup_HelpToolLanguage$))
 
+    *Entry\PreferencesHeight = y + Height + 10 ; update the size (scroll area)
+
   EndProcedure
 
 
