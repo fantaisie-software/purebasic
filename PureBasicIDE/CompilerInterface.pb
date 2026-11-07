@@ -2156,7 +2156,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         If *Target\RunExeFormat = 1 And DetectedGUITerminal$ <> ""
           RunProgram(DetectedGUITerminal$, GUITerminalParameters$ +#DQUOTE$+Executable$+#DQUOTE$+ " " + *Target\CommandLine$, Directory$)
         Else
-          RunProgram(Executable$, *Target\CommandLine$, Directory$)
+          RunProgram(Executable$, *Target\CommandLine$, Directory$, #PB_Program_NoInput) ; see Debugger_ExecuteProgram()
         EndIf
       CompilerEndIf
       
@@ -2165,7 +2165,7 @@ Procedure Compiler_Run(*Target.CompileTarget, IsFirstRun)
         If *Target\ExecutableFormat = 1
           RunProgram("open", Compiler_TerminalParameters(Executable$, *Target\CommandLine$, Directory$), Directory$)
         Else
-          RunProgram(Executable$, *Target\CommandLine$, Directory$)
+          RunProgram(Executable$, *Target\CommandLine$, Directory$, #PB_Program_NoInput) ; see Debugger_ExecuteProgram()
         EndIf
       CompilerEndIf
       
