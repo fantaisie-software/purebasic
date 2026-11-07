@@ -2970,6 +2970,7 @@ CompilerElse
   AvailablePanelTools()\PreferencesWidth     = 320
   AvailablePanelTools()\PreferencesHeight    = 80
   AvailablePanelTools()\NeedDestroyFunction  = 1
+  AvailablePanelTools()\PanelTabOrder        = 6 ; in the Tools Panel by default (last tab)
   AvailablePanelTools()\ToolID$              = "HelpTool"
   AvailablePanelTools()\PanelTitle$          = "HelpToolShort"
   AvailablePanelTools()\ToolName$            = "HelpToolLong"
