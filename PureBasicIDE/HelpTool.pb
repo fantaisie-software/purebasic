@@ -31,6 +31,7 @@ DeclareModule HelpTool
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
   Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$)
   Declare SetColors(Css$, Color = $008800)
+  Declare EnableDarkMode(Enable = #True) ; dark colors for the pages (they win over the SetColors() ones), can be called at any time
   Declare Create(Window)
   Declare Destroy()
   Declare Resize(Width, Height)
@@ -114,6 +115,10 @@ Module HelpTool
   Global UserLibColor = $008800 ; user libraries in the contents tree
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
+  Global ThemeColors$ = PageColors$ ; light colors: the default ones, then the IDE theme ones (SetColors())
+  Global DarkMode                   ; #True: the dark colors are used for the pages (EnableDarkMode())
+  Global PageColorsDark$ = ":root {color-scheme: dark; --bg:#1f2023; --text:#e0e0e0; --titlebg:#5a5a1e; --codebg:#2c2e33; --tablebg:#26282c; --optbg:#303338; --border:#ffffff33;" +
+                           " --notebg:#a05a00; --link:#7db7ff; --constant:#ff8f8f; --function:#4fd1c5; --keyword:#4fd1c5; --userlib:#7ddf7d;}"
 
   ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
   Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
@@ -2372,9 +2377,31 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure UpdatePageColors() ; dark mode first, else the theme colors
+    If DarkMode
+      PageColors$ = PageColorsDark$
+    Else
+      PageColors$ = ThemeColors$
+    EndIf
+  EndProcedure
+
+
   Procedure SetColors(Css$, Color = $008800) ; Css$: ":root {--bg:...}" (see PageColors$), Color: user libraries in the contents
-    PageColors$ = Css$
+    ThemeColors$ = Css$
     UserLibColor = Color
+    UpdatePageColors()
+  EndProcedure
+
+
+  ; Dark colors for the pages (the IDE theme colors are not used while it is enabled).
+  ; Can be called before the creation of the help, or while it is shown: the displayed page is drawn again.
+  ;
+  Procedure EnableDarkMode(Enable = #True)
+    DarkMode = Bool(Enable)
+    UpdatePageColors()
+    If IsDialog(Dialog) And *CurrentPage And CurrentPageName$ <> ""
+      SetPageHtml(PageToHtml(CurrentPageName$))
+    EndIf
   EndProcedure
 
 
@@ -2800,6 +2827,9 @@ CompilerElse
       HelpTool::ApplyColorsCallback = 0
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
+    CompilerIf Defined(DisplayDarkMode, #PB_Variable) ; IDE option [Global] DisplayDarkMode of PureBasic.prefs
+      HelpTool::EnableDarkMode(DisplayDarkMode)
+    CompilerEndIf
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
 
