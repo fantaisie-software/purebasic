@@ -70,6 +70,11 @@ Module HelpTool
     Preformatted.w   ; 1: opens a <pre> block, -1: closes it
   EndStructure
 
+  Structure SearchResult
+    Key$             ; sort key: rank, lowercase title, page name (see SearchPages())
+    *Page.HelpPage
+  EndStructure
+
   Declare DisplayPage(Name$)
 
   Global NewMap Tags.HelpTag()
@@ -1427,7 +1432,7 @@ Module HelpTool
             RenderHtml$ + "</body></html>"
     RenderHtml$ = ""
 
-    If IsGadget(GadgetSearch)
+    If IsGadget(GadgetSearch) And GetGadgetState(GadgetPanel) = 1 ; the highlight only in the Search tab (not after F1, in the Contents tab)
       Html$ = HighlightSearch(Html$, GetGadgetText(GadgetSearch))
     EndIf
 
@@ -1903,9 +1908,14 @@ Module HelpTool
   CompilerEndIf
 
 
+  ; Search: all the words must be found in the title or in the page source. The results are sorted by relevance:
+  ;   0 exact name, 1 name starts with the text, 2 name contains it, 3 all the words are in the name,
+  ;   4 @Keyword of the page, 5 the rest (description and page text). Same rank: alphabetical order.
+  ;
   Procedure SearchPages()
-    Protected Search$, Item
-    NewList Results$()
+    Protected Search$, Title$, Phrase$, Word$, FirstWord$, Item, Rank, IsMatch, AllInTitle, i
+    NewList Words$()
+    NewList Results.SearchResult()
 
     Search$ = GetGadgetText(GadgetSearch)
     If CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page
@@ -1915,19 +1925,68 @@ Module HelpTool
       ProcedureReturn
     EndIf
 
+    ; the words (all required) and the normalized text
+    For i = 1 To CountString(Search$, " ") + 1
+      Word$ = LCase(StringField(Search$, i, " "))
+      If Word$ <> ""
+        AddElement(Words$())
+        Words$() = Word$
+        Phrase$ + Word$ + " "
+      EndIf
+    Next i
+    Phrase$ = Trim(Phrase$)
+    If ListSize(Words$()) = 0
+      ProcedureReturn
+    EndIf
+    FirstElement(Words$())
+    FirstWord$ = Words$()
+
     ForEach Pages()
-      If FindString(Pages()\Source$, Search$, 1, #PB_String_NoCase)
-        AddElement(Results$())
-        Results$() = Pages()\Name$
+      Title$  = LCase(Pages()\Title$)
+      IsMatch = #True
+      ForEach Words$()
+        If FindString(Title$, Words$()) = 0 And FindString(Pages()\Source$, Words$(), 1, #PB_String_NoCase) = 0
+          IsMatch = #False
+          Break
+        EndIf
+      Next
+
+      If IsMatch
+        If Title$ = Phrase$
+          Rank = 0
+        ElseIf Left(Title$, Len(Phrase$)) = Phrase$
+          Rank = 1
+        ElseIf FindString(Title$, Phrase$)
+          Rank = 2
+        Else
+          AllInTitle = #True
+          ForEach Words$()
+            If FindString(Title$, Words$()) = 0
+              AllInTitle = #False
+              Break
+            EndIf
+          Next
+          If AllInTitle
+            Rank = 3
+          ElseIf FindString(Pages()\Source$, "@Keyword " + FirstWord$, 1, #PB_String_NoCase)
+            Rank = 4
+          Else
+            Rank = 5
+          EndIf
+        EndIf
+
+        AddElement(Results())
+        Results()\Page = @Pages()
+        Results()\Key$ = Str(Rank) + Title$ + #LF$ + Pages()\Name$
       EndIf
     Next
-    SortList(Results$(), #PB_Sort_Ascending)
+    SortStructuredList(Results(), #PB_Sort_Ascending, OffsetOf(SearchResult\Key$), #PB_String)
 
     HideGadget(GadgetSearchList, #True)
     ClearGadgetItems(GadgetSearchList)
-    ForEach Results$()
-      AddGadgetItem(GadgetSearchList, -1, *PageMap(Results$())\Title$)
-      SetGadgetItemData(GadgetSearchList, Item, *PageMap(Results$()))
+    ForEach Results()
+      AddGadgetItem(GadgetSearchList, -1, Results()\Page\Title$)
+      SetGadgetItemData(GadgetSearchList, Item, Results()\Page)
       Item + 1
     Next
     HideGadget(GadgetSearchList, #False)
@@ -2229,6 +2288,9 @@ Module HelpTool
 
       Case GadgetPanel
         SetActiveGadget(GadgetSearch)
+        If CurrentPageName$ <> "" And GetGadgetText(GadgetSearch) <> "" ; the page is drawn again: highlight in the Search tab only
+          SetPageHtml(PageToHtml(CurrentPageName$))
+        EndIf
 
       Case GadgetSearch
         If Type = #PB_EventType_Change
@@ -2418,6 +2480,9 @@ Module HelpTool
     Name$ = LCase(Name$)
     If FindPage(Name$) = 0
       ProcedureReturn #False
+    EndIf
+    If IsGadget(GadgetPanel) ; back to the Contents tab, where the page is selected in the tree
+      SetGadgetState(GadgetPanel, 0)
     EndIf
     DisplayPage(Name$)
     ProcedureReturn #True
