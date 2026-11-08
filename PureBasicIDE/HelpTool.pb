@@ -19,8 +19,9 @@ DeclareModule HelpTool
   Prototype ProtoEditFile(File$, Line)
   Prototype ProtoApplyColors(Gadget)         ; IDE colors/font for the contents tree and the search gadgets
   Prototype.s ProtoColorCode(Code$)          ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
+  Prototype ProtoClose()                     ; Escape in the help: the IDE gives the focus back to the editor
   Prototype ProtoFirstPageReady()            ; the tool is hidden until its first page is loaded
-  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode
+  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode, CloseCallback.ProtoClose
   Global FirstPageReadyCallback.ProtoFirstPageReady
 
   ; Standalone tool
@@ -813,7 +814,7 @@ Module HelpTool
                                            "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}" +
                                            "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});" +
                                            "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});" +
-                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
+                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+'); else if (e.key=='Escape') {e.preventDefault(); jsmessage('es:');}});" +
                                            ReadyScript$ +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
 
@@ -1935,6 +1936,7 @@ Module HelpTool
   ;   ef: example file 'Value', shown as a page of the help
   ;   co, cr: load/run the example code number 'Value' of the page
   ;   fo, fr: load/run the example file 'Value'
+  ;   es: Escape key
   ;
   Procedure HandleJsMessage(Message$)
     Protected Type$, Value$, File$, Code$, FileName$, Source$, Position, i
@@ -1955,7 +1957,18 @@ Module HelpTool
       FirstPageReady()
       ProcedureReturn
     EndIf
-
+    
+    If Type$ = "es" ; Escape: close the help (standalone), or let the IDE go back to the editor
+      CompilerIf #Standalone
+        PostEvent(#PB_Event_CloseWindow, HostWindow, 0)
+      CompilerElse
+        If CloseCallback
+          CloseCallback()
+        EndIf
+      CompilerEndIf
+      ProcedureReturn
+    EndIf
+    
     Select Left(Type$, 1)
       Case "c" ; code in the page
         Source$ = *CurrentPage\Source$
@@ -2757,6 +2770,7 @@ CompilerElse
 
   Global HelpToolSource$, Backup_HelpToolSource$
   Global HelpToolLanguage$, Backup_HelpToolLanguage$ ; "" (IDE language), "English", "German" or "French"
+  Global HelpToolPreviousTool$, HelpToolIsSeparate, HelpToolWindow ; to go back with Escape: the tool shown before the help, and where the help is
   Global *HelpToolPendingEntry.ToolsPanelEntry       ; tool in the tools panel, not created until it's displayed (see Help_CreateFunction())
   Global HelpToolCreating                            ; the placeholder is displayed, the tool will be created by the timer
   Global HelpToolPlaceholder                         ; "Initializing..." text, until the first page is loaded
@@ -3057,6 +3071,18 @@ CompilerElse
 
 
   Procedure HelpTool_DisplayPage(Page$)
+    Protected *ShownTool.ToolsPanelEntry
+
+    ForEach UsedPanelTools() ; the tool of the panel shown before the help: Escape goes back to it
+      If CurrentTool = UsedPanelTools()
+        *ShownTool = UsedPanelTools()
+        If UCase(*ShownTool\ToolID$) <> "HELPTOOL"
+          HelpToolPreviousTool$ = *ShownTool\ToolID$
+        EndIf
+        Break
+      EndIf
+    Next UsedPanelTools()
+
     ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
     Help_StartCreation()     ; ActivateTool() doesn't resize the tool if it's already the current one
     If HelpToolCreating      ; displayed once the tool is created
@@ -3097,6 +3123,18 @@ CompilerElse
   EndProcedure
 
 
+  ; Escape in the help: back to the tool shown before (help in the tools panel) or closes the tool window,
+  ; then gives the focus back to the editor (or to the form)
+  Procedure HelpTool_Close()
+    If HelpToolIsSeparate
+      HideWindow(HelpToolWindow, #True) ; the window of a tool is only hidden when closed
+    ElseIf HelpToolPreviousTool$ <> ""
+      ActivateTool(HelpToolPreviousTool$, #True)
+    EndIf
+    ActivateMainWindow()
+  EndProcedure
+
+
   Procedure HelpTool_FreePlaceholder()
     If HelpToolPlaceholder And IsGadget(HelpToolPlaceholder)
       FreeGadget(HelpToolPlaceholder)
@@ -3132,6 +3170,9 @@ CompilerElse
     HelpTool::EditFileCallback = @HelpTool_EditFile()
     HelpTool::FirstPageReadyCallback = @HelpTool_FreePlaceholder()
     HelpTool::ColorCodeCallback = @HelpTool_ColorCode()
+    HelpTool::CloseCallback = @HelpTool_Close()
+    HelpToolIsSeparate = *Entry\IsSeparateWindow
+    HelpToolWindow = *Entry\ToolWindowID
     ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
     If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
       UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue
