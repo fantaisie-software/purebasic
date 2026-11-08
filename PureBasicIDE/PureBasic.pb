@@ -124,7 +124,9 @@ XIncludeFile "ProjectPanel.pb"
 XIncludeFile "ColorPicker.pb"
 XIncludeFile "ProcedureBrowser.pb"
 XIncludeFile "VariableViewer.pb"
-XIncludeFile "HelpTool.pb"
+CompilerIf #CompileLinuxGtk2 = 0 ; WebViewGadget needs webkit2gtk, which is GTK3 only and aborts a GTK2 process at startup
+  XIncludeFile "HelpTool.pb"
+CompilerEndIf
 XIncludeFile "Issues.pb"
 CompilerIf #SpiderBasic
   XIncludeFile "WebView.pb"

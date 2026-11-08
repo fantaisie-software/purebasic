@@ -1748,6 +1748,7 @@ DataSection
   Data$ "LanguageEnglish",  "English"
   Data$ "LanguageGerman",   "German"
   Data$ "LanguageFrench",   "French"
+  Data$ "Initializing",     "Initializing..."
 
   
   ; ===================================================

@@ -82,6 +82,7 @@ IncludeFile "..\Common.pb"
 #PB_Program_Ascii   = 1 << 7
 #PB_Program_UTF8    = 1 << 8
 #PB_Program_Unicode = 1 << 9
+#PB_Program_NoInput = 1 << 10
 
 
 #PB_Program_Eof = 1 ; for WriteProgramData()

@@ -944,8 +944,10 @@ Procedure Debugger_ExecuteProgram(FileName$, CommandLine$, Directory$)
   CompilerEndIf
   
   ; try to create the new process
+  ; #PB_Program_NoInput: when the IDE runs in the background of a terminal ('purebasic &'), a read of the
+  ; inherited terminal stdin by the program would stop the IDE as well (SIGTTIN for the whole process group)
   ;
-  RunningDebuggers()\ProcessObject = RunProgram(FileName$, CommandLine$, Directory$, #PB_Program_Open)
+  RunningDebuggers()\ProcessObject = RunProgram(FileName$, CommandLine$, Directory$, #PB_Program_Open | #PB_Program_NoInput)
   If RunningDebuggers()\ProcessObject = 0
     RunningDebuggers()\Communication\Close()
     
