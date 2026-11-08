@@ -31,7 +31,7 @@ DeclareModule HelpTool
 
   ; IDE embedding
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
-  Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$)
+  Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "")
   Declare SetColors(Css$, Color = $008800)
   Declare Create(Window)
   Declare Destroy()
@@ -69,10 +69,11 @@ Module HelpTool
     ContentsItem.w   ; item in the contents tree
     UserLib$         ; user library: its name
     LibDestination$  ; user library function: library where it is listed (@LibraryDestination)
+    ExampleFile$     ; example page: name of the example file ("" for the other pages)
   EndStructure
 
   Structure HelpTag
-    Html$            ; html code. $p1, $p2: tag parameters, $lg: rest of the line, $ex: example number, $im: image, $ose: example OS
+    Html$            ; html code. $p1, $p2: tag parameters, $lg: rest of the line, $ex: example number, $im: image, $ose: example OS, $lt: rest of the line, trimmed
     ParameterType.b  ; 1: parameter, 2: optional parameter, 3: end of the parameters
     IsTitle.b        ; title tag: the line feeds around it are removed
     Preformatted.w   ; 1: opens a <pre> block, -1: closes it
@@ -86,6 +87,7 @@ Module HelpTool
   Declare DisplayPage(Name$)
 
   Global NewMap Tags.HelpTag()
+  Global NewList ExamplePages.HelpPage() ; pages of the example files, created when they are displayed
   Global NewList Pages.HelpPage()
   Global NewMap *PageMap.HelpPage()      ; pages by name
   Global NewMap UserLibDestination$()    ; user library function -> library where it is listed
@@ -116,23 +118,25 @@ Module HelpTool
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
   Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
-  Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;" ; example buttons (replaced by the IDE icons)
+  Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;", CopyCodeIcon$ = "&#128203;" ; example buttons (replaced by the IDE icons)
   Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
   Global StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight
 
   ; Translations (see InitLanguage())
   Global Text_CommandList$, Text_ReturnValue$, Text_None$, Text_Remarks$, Text_Example$, Text_SeeAlso$, Text_Syntax$, Text_Description$
   Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
-  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$
+  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$
 
   ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
   Global UserLibColor = $008800 ; user libraries in the contents tree
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
 
+  ; Layout: the page scrolls, not the code blocks; the text wraps to the visible width. The title bar (h2 .t) and the example buttons (.butcode)
+  ; stay in the visible part of the page: --vw is the visible width and --sw the width of the whole page, set by the script of SetPageHtml().
   ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
   Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
-                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}" +
+                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088; min-width: calc(var(--sw, 0px) - 10px);}" +
                       "h3 {margin-left:-20px;}" +
                       "a, a:visited, a:active {font-size: 10pt; color: var(--link);}" +
                       ".nav, .nav a {color: var(--link); font-size: 13px;} .nav {display: block;}" +
@@ -143,10 +147,12 @@ Module HelpTool
                       ".found {background-color: #ff0; color: #000;}" +
                       "img {box-shadow: 2px 2px 5px #0008;}" +
                       "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}" +
-                      "pre {overflow: auto; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
-                      "pre.ex {position: relative; min-height: 26px; padding: 5px 65px 5px 5px; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
+                      "pre {overflow: visible; width: max-content; min-width: 100%; box-sizing: border-box; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
+                      "pre.ex {padding: 5px; margin-top: 0; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
                       "button {box-shadow: 2px 2px 2px #0008;}" +
-                      ".butcode {display: flex; position: absolute; top:4px; right:5px; gap:5px; z-index: 1;}" +
+                      ".cb {width: max-content; min-width: 100%;}" +
+                      ".butcode {display: flex; gap: 5px; width: fit-content; margin: 8px 0 4px auto; position: sticky; right: 5px;}" +
+                      "h2 .t {position: sticky; left: 0; width: calc(var(--vw, 100%) - 10px);}" +
                       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
                       "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}" +
                       "table.param {width:100%;  border-spacing: 0px; border-style: none; }" +
@@ -200,6 +206,7 @@ Module HelpTool
     Text_ShowContents$   = Translate("Show/hide the index", "Afficher/masquer le sommaire", "Inhaltsverzeichnis ein-/ausblenden")
     Text_Load$           = Translate("Open", "Ouvrir", "öffnen")
     Text_Run$            = Translate("Run", "Executer", "ausführen")
+    Text_Copy$           = Translate("Copy", "Copier", "Kopieren")
   EndProcedure
 
 
@@ -486,7 +493,7 @@ Module HelpTool
   ; DocMaker tags and their html code
   ;
   Procedure InitTags()
-    Protected LoadButton$, RunButton$
+    Protected LoadButton$, CopyButton$, RunButton$
 
     ClearMap(Tags())
 
@@ -506,8 +513,9 @@ Module HelpTool
     AddTag("endhtml",       0, 0, "")
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("co:$ex") + "'>" + LoadCodeIcon$ + "</button>"
     RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("code",          0, 0, "<pre class='ex'><div class='butcode'>" + LoadButton$ + RunButton$ + "</div>")
-    AddTag("endcode",       0, 0, "</pre>")
+    CopyButton$ = "<button title='" + Text_Copy$ + "' onclick='" + JsCall("cc:$ex") + "'>" + CopyCodeIcon$ + "</button>"
+    AddTag("code",          0, 0, "<div class='cb'><div class='butcode'>" + LoadButton$ + CopyButton$ + RunButton$ + "</div><pre class='ex'>")
+    AddTag("endcode",       0, 0, "</pre></div>")
     AddTag("os",            0, 0, "")
     AddTag("endos",         0, 0, "")
     AddTag("fixedfont",     0, 0, "<pre>")
@@ -516,9 +524,7 @@ Module HelpTool
     AddTag("endindent",     0, 1, "</blockquote>")
     AddTag("keyword",       0, 0, "<font class='kw'>$p1</font>")
     AddTag("image",         0, 0, "$im<br>")
-    LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("fo:$lg") + "'>" + LoadCodeIcon$ + "</button>"
-    RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("fr:$lg") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("examplefile",   3, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
+    AddTag("examplefile",   3, 0, "$ose<a href='#' onclick='" + JsCall("ef:$lt") + "'>$lt</a>") ; the example is shown as a page of the help (with the Open, Copy, Run buttons)
 
     AddTag("library",           0, 1, "")
     AddTag("section",           0, 1, "<h3>$lg</h3>")
@@ -803,6 +809,13 @@ Module HelpTool
                                            "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
                                            ReadyScript$ +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
+
+    ; --vw: visible width of the page (without the scrollbar), --sw: width of the whole page, for the title bar and the example buttons (see PageStyle$).
+    ; Both are in CSS pixels of the page: the fixed probe gives the width whatever the zoom is.
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "function setvw() {var r=document.documentElement, p=document.createElement('div'); p.style.cssText='position:fixed;left:0;right:0;height:0'; r.style.setProperty('--sw','0px'); r.appendChild(p); var w=p.offsetWidth, s=r.clientWidth ? r.scrollWidth*w/r.clientWidth : w; r.removeChild(p); r.style.setProperty('--vw',w+'px'); r.style.setProperty('--sw',s+'px');}" +
+                                           "setvw(); window.addEventListener('resize', setvw); window.addEventListener('load', setvw);" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
     SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
   EndProcedure
 
@@ -1004,6 +1017,7 @@ Module HelpTool
 
     ClearMap(*PageMap())
     ClearList(Pages())
+    ClearList(ExamplePages())
     CurrentPageName$ = ""
     LanguagePath$ = Language$ + "/"
 
@@ -1235,7 +1249,7 @@ Module HelpTool
 
 
   Procedure.s PageToHtml(Name$)
-    Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, *Page.HelpPage
+    Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, Line$, *Page.HelpPage
     Protected Position, TextStart, TagStart, ParameterStart, Found, BlockEnd, i
     Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle, SyntaxHtml$
 
@@ -1254,14 +1268,16 @@ Module HelpTool
     RenderLineBreaks = #False
     RenderPreformatted = 0
 
-    ; Remove the comments
-    Repeat
-      Position = FindString(Text$, #LF$ + ";")
-      If Position = 0 And Left(Text$, 1) <> ";"
-        Break
-      EndIf
-      Text$ = Left(Text$, Position) + Mid(Text$, FindString(Text$ + #LF$, #LF$, Position + 1) + 1)
-    ForEver
+    ; Remove the comments (not in an example page: it's the code of a file, its comments are kept)
+    If *CurrentPage\ExampleFile$ = ""
+      Repeat
+        Position = FindString(Text$, #LF$ + ";")
+        If Position = 0 And Left(Text$, 1) <> ";"
+          Break
+        EndIf
+        Text$ = Left(Text$, Position) + Mid(Text$, FindString(Text$ + #LF$, #LF$, Position + 1) + 1)
+      ForEver
+    EndIf
 
     Position = 1
     Repeat
@@ -1415,10 +1431,12 @@ Module HelpTool
                 TagHtml$ = ReplaceString(TagHtml$, "$ex", Str(ExampleNumber))
                 ExampleNumber + 1
               EndIf
-              If FindString(TagHtml$, "$lg")
+              If FindString(TagHtml$, "$lg") Or FindString(TagHtml$, "$lt") ; rest of the line, with / without the spaces around
                 ParameterStart = Position
                 Position = FindString(Text$, #LF$, Position)
-                TagHtml$ = ReplaceString(TagHtml$, "$lg", Mid(Text$, ParameterStart, Position - ParameterStart))
+                Line$ = Mid(Text$, ParameterStart, Position - ParameterStart)
+                TagHtml$ = ReplaceString(TagHtml$, "$lg", Line$)
+                TagHtml$ = ReplaceString(TagHtml$, "$lt", Trim(Line$))
               EndIf
             EndIf
 
@@ -1499,7 +1517,7 @@ Module HelpTool
     EndIf
 
     Html$ = "<html><head><title>" + EscapeHtml(*CurrentPage\Title$) + "</title><style>" + PageColors$ + PageStyle$ + "</style></head><body>" +
-            "<h2>" + OSNote$ + *CurrentPage\Title$ + "<br><font class='nav'>" + *CurrentPage\Navigation$ + "</font></h2>" + #LF$ +
+            "<h2><div class='t'>" + OSNote$ + *CurrentPage\Title$ + "<br><font class='nav'>" + *CurrentPage\Navigation$ + "</font></div></h2>" + #LF$ +
             RenderHtml$ + "</body></html>"
     RenderHtml$ = ""
 
@@ -1823,7 +1841,9 @@ Module HelpTool
       CompilerIf #Standalone ; in the IDE, don't steal the focus from the editor
         SetActiveGadget(GadgetContents)
       CompilerEndIf
-      SetGadgetState(GadgetContents, *Page\ContentsItem)
+      If *Page\ContentsItem >= 0 ; example pages are not in the contents: the selection stays
+        SetGadgetState(GadgetContents, *Page\ContentsItem)
+      EndIf
     EndIf
   EndProcedure
 
@@ -1848,11 +1868,11 @@ Module HelpTool
         ProcedureReturn Path$ + "Examples/3D/" + Name$
       EndIf
       If i = 2
-        If FileSize(Path$ + "Sources/" + Name$) > 0
-          ProcedureReturn Path$ + "Sources/" + Name$
+        If FileSize(Path$ + "sources/" + Name$) > 0 ; lowercase: the Linux install (Windows and macOS are not case sensitive)
+          ProcedureReturn Path$ + "sources/" + Name$
         EndIf
-        If FileSize(Path$ + "3D/" + Name$) > 0
-          ProcedureReturn Path$ + "3D/" + Name$
+        If FileSize(Path$ + "3d/" + Name$) > 0
+          ProcedureReturn Path$ + "3d/" + Name$
         EndIf
       EndIf
     Next i
@@ -1861,8 +1881,51 @@ Module HelpTool
   EndProcedure
 
 
+  ; Shows an example file as a page of the help: the code, with the Open, Copy and Run buttons.
+  ; The page is created the first time (name 'ex_' + file name); its link goes back to the page it comes from.
+  ;
+  Procedure ShowExamplePage(Name$)
+    Protected PageName$ = "ex_" + LCase(Name$)
+    Protected File$, Code$, From$, *Page.HelpPage
+
+    If FindPage(PageName$) = 0
+      CompilerIf Not #Standalone
+        File$ = FindExampleFile(Name$)
+      CompilerEndIf
+      If File$ <> ""
+        Code$ = ReadTextFile(File$, #False)
+      Else
+        Code$ = ReadHelpFile("Examples/Sources/" + Name$, #False)
+        If Code$ = ""
+          Code$ = ReadHelpFile("Examples/3D/" + Name$, #False)
+        EndIf
+      EndIf
+      If Code$ = ""
+        MessageRequester(Text_Help$, "Example not found: " + Name$)
+        ProcedureReturn
+      EndIf
+
+      From$ = CurrentPageName$
+      AddElement(ExamplePages()) ; not in Pages(): an example must not appear in the search results once visited
+      *Page = @ExamplePages()
+      *Page\Name$   = PageName$
+      *Page\Title$  = Name$
+      *Page\Source$ = "@Code" + #LF$ + Code$ + #LF$ + "@EndCode" + #LF$
+      *PageMap(PageName$) = *Page
+      *Page\ExampleFile$  = Name$
+      *Page\ContentsItem  = -1
+      If From$ <> "" And FindPage(From$)
+        *Page\Navigation$ = "< " + PageLink(From$)
+      EndIf
+    EndIf
+    DisplayPage(PageName$)
+  EndProcedure
+
+
   ; Message$: '["xy:Value"]' (json parameters of the WebView callback)
   ;   lk: link to a page
+  ;   cc, fc: copy the example code number 'Value' of the page / the example file 'Value'
+  ;   ef: example file 'Value', shown as a page of the help
   ;   co, cr: load/run the example code number 'Value' of the page
   ;   fo, fr: load/run the example file 'Value'
   ;
@@ -1872,6 +1935,11 @@ Module HelpTool
     Message$ = Mid(Message$, 3, Len(Message$) - 4)
     Type$  = Left(Message$, 2)
     Value$ = Trim(Mid(Message$, 4))
+
+    If Left(Type$, 1) = "c" And *CurrentPage And *CurrentPage\ExampleFile$ <> "" ; buttons of an example page: they work on the file (IDE: the real file)
+      Type$  = "f" + Mid(Type$, 2)
+      Value$ = *CurrentPage\ExampleFile$
+    EndIf
 
     If Type$ = "lk"
       DisplayPage(LCase(Value$))
@@ -1905,7 +1973,21 @@ Module HelpTool
           EndIf
         EndIf
         FileName$ = Value$
+
+      Case "e" ; ef: example file shown as a page of the help
+        ShowExamplePage(Value$)
+        ProcedureReturn
     EndSelect
+
+    If Mid(Type$, 2, 1) = "c" ; Copy: the code goes to the clipboard
+      If Code$ = "" And File$ <> ""
+        Code$ = ReadTextFile(File$, #False)
+      EndIf
+      If Code$ <> ""
+        SetClipboardText(Trim(Code$, #LF$))
+      EndIf
+      ProcedureReturn
+    EndIf
 
     CompilerIf #Standalone
       If Code$ <> ""
@@ -2450,7 +2532,7 @@ Module HelpTool
       EndIf
     EndIf
     OpenSource(HelpSource$)
-    UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
+    UserLibPath$ = #PB_Compiler_Home + "purelibraries/userlibraries/" ; lowercase: the Linux install
 
     CreateUserInterface()
     HostWindow = StandaloneWindow
@@ -2515,7 +2597,7 @@ Module HelpTool
   EndProcedure
 
 
-  Procedure SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$) ; LoadCode$, RunCode$: png images in base64
+  Procedure SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "") ; LoadCode$, RunCode$, CopyCode$: png images in base64
     ImageBack     = Back
     ImageForward  = Forward
     ImageHome     = Home
@@ -2528,6 +2610,9 @@ Module HelpTool
     EndIf
     If RunCode$ <> ""
       RunCodeIcon$ = "<img src='data:image/png;base64," + RunCode$ + "'>"
+    EndIf
+    If CopyCode$ <> ""
+      CopyCodeIcon$ = "<img src='data:image/png;base64," + CopyCode$ + "'>"
     EndIf
   EndProcedure
 
@@ -2671,7 +2756,7 @@ CompilerElse
 
     ; Fallback to english if the help isn't available in the requested language
     If Right(Source$, 1) <> "/" And Right(Source$, 1) <> "\"
-      Source$ + #Separator
+      Source$ + "/"
     EndIf
     If FileSize(Source$) = -2 And FileSize(Source$ + Language$) <> -2
       Language$ = "English"
@@ -3013,7 +3098,7 @@ CompilerElse
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries/userlibraries/", PureBasicPath$ + "examples/") ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
     If *Entry\IsSeparateWindow
       HelpTool::Create(*Entry\ToolWindowID)
