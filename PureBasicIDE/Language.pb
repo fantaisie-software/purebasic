@@ -1743,6 +1743,12 @@ DataSection
   ; ===================================================
   
   Data$ "HelpSource",       "Help source directory (or .zip archive):"
+  Data$ "HelpLanguage",     "Help language:"
+  Data$ "LanguageDefault",  "Default (IDE language)"
+  Data$ "LanguageEnglish",  "English"
+  Data$ "LanguageGerman",   "German"
+  Data$ "LanguageFrench",   "French"
+  Data$ "Initializing",     "Initializing..."
 
   
   ; ===================================================

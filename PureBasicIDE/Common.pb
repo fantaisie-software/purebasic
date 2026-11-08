@@ -463,6 +463,8 @@ Runtime Enumeration 1 ; 0 is reserved for uninitialized #PB_Any
   #GADGET_Preferences_HelpSourceText
   #GADGET_Preferences_HelpSource
   #GADGET_Preferences_HelpSourceBrowse
+  #GADGET_Preferences_HelpLanguageText
+  #GADGET_Preferences_HelpLanguage
   #GADGET_Preferences_FormVariable
   #GADGET_Preferences_FormVariableCaption
   #GADGET_Preferences_FormGrid
@@ -1496,6 +1498,7 @@ Enumeration 1 ; 0 is reserved for uninitialized #PB_Any objects
   #IMAGE_Help_Home
   #IMAGE_Help_LoadCode
   #IMAGE_Help_RunCode
+  #IMAGE_Help_Favorite
   #IMAGE_Help_Edit
   #IMAGE_Help_Index
   #IMAGE_Help_Branch
@@ -2507,7 +2510,7 @@ Structure ToolsPanelEntry
   PanelTitle$        ; title in the PanelGadget
   ToolName$          ; tool name (used in the Preferences)
   
-  ; PanelTabOrder must be > 0 for tools available in the Tool Panel (ProcedureBrowser, ProjectPanel, Explorer, Form and WebView)
+  ; PanelTabOrder must be > 0 for tools available in the Tool Panel (ProcedureBrowser, ProjectPanel, Explorer, Form, WebView and HelpTool)
   ; This defines the default tab (tool) order in the Tool Panel when a new fresh PureBasic is installed or without PureBasic.prefs
   ; Once PureBasic.prefs is used, the tabs (tools) order is defined using KeyName: Tool_1,2,..,5
   ;

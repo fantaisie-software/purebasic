@@ -19,7 +19,10 @@ DeclareModule HelpTool
   Prototype ProtoEditFile(File$, Line)
   Prototype ProtoApplyColors(Gadget)         ; IDE colors/font for the contents tree and the search gadgets
   Prototype.s ProtoColorCode(Code$)          ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
-  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode
+  Prototype ProtoClose()                     ; Escape in the help: the IDE gives the focus back to the editor
+  Prototype ProtoFirstPageReady()            ; the tool is hidden until its first page is loaded
+  Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode, CloseCallback.ProtoClose
+  Global FirstPageReadyCallback.ProtoFirstPageReady
 
   ; Standalone tool
   Declare RunStandalone(HelpLanguage$, HelpOS$)
@@ -29,14 +32,22 @@ DeclareModule HelpTool
 
   ; IDE embedding
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
-  Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$)
+  Declare SetImages(Back, Forward, Home, Favorite, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "")
   Declare SetColors(Css$, Color = $008800)
+  Declare EnableDarkMode(Enable = #True) ; dark colors for the pages (they win over the SetColors() ones), can be called at any time
   Declare Create(Window)
   Declare Destroy()
   Declare Resize(Width, Height)
   Declare GadgetEvent(Gadget, Type)
   Declare Timer()
   Declare ShowPage(Name$)
+  Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
+  Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
+  Declare SetChipsHeight(Value) ; height of the search filters: restored from the preferences
+  Declare GetChipsHeight()      ; height of the search filters: saved in the preferences ([HelpTool] group)
+  Declare SetFavorites(Names$)  ; favorite pages: restored from the preferences
+  Declare.s GetFavorites()      ; favorite pages: saved in the preferences ([HelpTool] group)
+  Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
 
@@ -48,7 +59,26 @@ Module HelpTool
   #TagSeparators$   = " .,;:()[]{}>@/" + #LF$ + #DQUOTE$ + Chr(160)
   #IdentifierChars$ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
   #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
+  #FirstPageTimeout = 15000       ; ms
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
+  #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
+  #MaxZoom          = 3.0
+  #FavoritesSeparator$ = "|" ; in the preferences
+  #ChipsHeight      = 150   ; default height of the filters area (it scrolls only if the chips do not fit)
+  #ChipsListMinimum = 50    ; minimum height of the results list above the filters
+  #GroupReference$  = "Reference" ; group of the pages outside a library
+
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_Windows
+      #ChipFontName$ = "Segoe UI"      ; IDE default font, size 10 -> chips 8 (or a little smaller: 7)
+      #ChipFontSize  = 8
+    CompilerCase #PB_OS_MacOS
+      #ChipFontName$ = "Lucida Grande" ; IDE default font, size 13 -> chips 10 (or 9)
+      #ChipFontSize  = 10
+    CompilerDefault
+      #ChipFontName$ = "DejaVu Sans"   ; IDE default font, size 10 -> chips 8 (or 7)
+      #ChipFontSize  = 8
+  CompilerEndSelect
 
   Structure HelpPage
     Title$
@@ -61,18 +91,34 @@ Module HelpTool
     ContentsItem.w   ; item in the contents tree
     UserLib$         ; user library: its name
     LibDestination$  ; user library function: library where it is listed (@LibraryDestination)
+    ExampleFile$     ; example page: name of the example file ("" for the other pages)
+    Group$           ; library of the page, for the search filters (see ChipsBuild())
+  EndStructure
+
+  Structure ChipInfo ; one search filter (one per library, plus All)
+    Name$            ; group name (library)
+    Caption$
+    Gadget.i
+    Width.l
+    IsAll.b          ; 1: the All chip
   EndStructure
 
   Structure HelpTag
-    Html$            ; html code. $p1, $p2: tag parameters, $lg: rest of the line, $ex: example number, $im: image, $ose: example OS
+    Html$            ; html code. $p1, $p2: tag parameters, $lg: rest of the line, $ex: example number, $im: image, $ose: example OS, $lt: rest of the line, trimmed
     ParameterType.b  ; 1: parameter, 2: optional parameter, 3: end of the parameters
     IsTitle.b        ; title tag: the line feeds around it are removed
     Preformatted.w   ; 1: opens a <pre> block, -1: closes it
   EndStructure
 
+  Structure SearchResult
+    Key$             ; sort key: rank, lowercase title, page name (see SearchPages())
+    *Page.HelpPage
+  EndStructure
+
   Declare DisplayPage(Name$)
 
   Global NewMap Tags.HelpTag()
+  Global NewList ExamplePages.HelpPage() ; pages of the example files, created when they are displayed
   Global NewList Pages.HelpPage()
   Global NewMap *PageMap.HelpPage()      ; pages by name
   Global NewMap UserLibDestination$()    ; user library function -> library where it is listed
@@ -80,6 +126,8 @@ Module HelpTool
   Global NewMap OSSpecific$()            ; platform-dependant functions: function -> info
   Global NewMap PackFiles()              ; help archive: file -> uncompressed size
   Global NewList History$()
+  Global NewMap Favorites()              ; favorite pages, by page name
+  Global NewList FavoriteItems$()        ; page names of the items of the Favorites tab
   Global NewList JsMessages$()
 
   Global Language$, OS$
@@ -92,6 +140,8 @@ Module HelpTool
   Global *CurrentPage.HelpPage, CurrentPageName$
   Global LastReloadDate.q
   Global IEMode                          ; Windows: WebView2 not available, degraded display in a WebGadget (Internet Explorer)
+  Global Zoom.f = 1.0                    ; page zoom, kept from page to page (see SetPageHtml())
+  Global WaitingFirstPage, WaitingFirstPageTime.q
 
   ; Page rendering state (see PageToHtml())
   Global RenderHtml$, RenderErrors$, RenderLineBreaks, RenderPreformatted
@@ -100,24 +150,38 @@ Module HelpTool
   Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
-  Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
-  Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;" ; example buttons (replaced by the IDE icons)
+  Global GadgetFavorite = -1, GadgetFavoritesList = -1
+  Global GadgetChips = -1, GadgetChipsSplitter = -1, ChipFont, ChipHeight ; search filters: scroll area of the dialog, its splitter, font and height of the chips
+  Global ChipsAreaHeight = #ChipsHeight, ChipsHeightPending, ChipsScrollbarWidth ; height of the scroll area (user defined), not applied yet to the splitter, width of a vertical scrollbar
+  Global NewList Chips.ChipInfo()
+  Global ImageBack, ImageForward, ImageHome, ImageFavorite, ImageEdit, ImageContents, ImageBranch, ImageLeaf
+  Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;", CopyCodeIcon$ = "&#128203;" ; example buttons (replaced by the IDE icons)
   Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
   Global StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight
 
   ; Translations (see InitLanguage())
   Global Text_CommandList$, Text_ReturnValue$, Text_None$, Text_Remarks$, Text_Example$, Text_SeeAlso$, Text_Syntax$, Text_Description$
   Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
-  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$
+  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$, Text_All$, Text_Reference$
+
+  Global Text_Favorites$, Text_ToggleFavorite$
 
   ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
   Global UserLibColor = $008800 ; user libraries in the contents tree
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
+  Global ThemeColors$ = PageColors$ ; light colors: the default ones, then the IDE theme ones (SetColors())
+  Global DarkMode                   ; #True: the dark colors are used for the pages (EnableDarkMode())
+  Global PageColorsDark$ = ":root {color-scheme: dark; --bg:#1f2023; --text:#e0e0e0; --titlebg:#5a5a1e; --codebg:#2c2e33; --tablebg:#26282c; --optbg:#303338; --border:#ffffff33;" +
+                           " --notebg:#a05a00; --link:#7db7ff; --constant:#ff8f8f; --function:#4fd1c5; --keyword:#4fd1c5; --userlib:#7ddf7d;}" +
+                           " pre .s1, pre .s8, pre .s10, pre .s11, pre .s12, pre .s13, pre .s15 {color:var(--text);} pre .s2, pre .s7 {color:var(--keyword);} pre .s3 {color:#8fbf8f;}" +
+                           " pre .s4 {color:var(--constant);} pre .s5 {color:#e0b070;} pre .s6, pre .s9 {color:var(--function);} pre .s14 {color:var(--userlib);} pre .s16 {color:#ff6b6b;}"
 
+  ; Layout: the page scrolls, not the code blocks; the text wraps to the visible width. The title bar (h2 .t) and the example buttons (.butcode)
+  ; stay in the visible part of the page: --vw is the visible width and --sw the width of the whole page, set by the script of SetPageHtml().
   ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
   Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
-                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}" +
+                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088; min-width: calc(var(--sw, 0px) - 10px);}" +
                       "h3 {margin-left:-20px;}" +
                       "a, a:visited, a:active {font-size: 10pt; color: var(--link);}" +
                       ".nav, .nav a {color: var(--link); font-size: 13px;} .nav {display: block;}" +
@@ -128,14 +192,18 @@ Module HelpTool
                       ".found {background-color: #ff0; color: #000;}" +
                       "img {box-shadow: 2px 2px 5px #0008;}" +
                       "button img {box-shadow: none; width: 16px; height: 16px; vertical-align: middle;}" +
-                      "pre {overflow: auto; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
-                      "pre.ex {position: relative; min-height: 26px; padding: 5px 65px 5px 5px; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
+                      "pre {overflow: visible; width: max-content; min-width: 100%; box-sizing: border-box; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
+                      "pre.ex {padding: 5px; margin-top: 0; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
                       "button {box-shadow: 2px 2px 2px #0008;}" +
-                      ".butcode {display: flex; position: absolute; top:4px; right:5px; gap:5px; z-index: 1;}" +
+                      ".cb {width: max-content; min-width: 100%;}" +
+                      ".butcode {display: flex; gap: 5px; width: fit-content; margin: 8px 0 4px auto; position: sticky; right: 5px;}" +
+                      "h2 .t {position: sticky; left: 0; width: calc(var(--vw, 100%) - 10px);}" +
                       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
                       "table, th, td {border-collapse: collapse;padding:2px 10px 2px;font-size: 10pt;border-color:var(--border);}" +
                       "table.param {width:100%;  border-spacing: 0px; border-style: none; }" +
-                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}"
+                      "table.param td { border-width: 1px; padding: 6px; border-style: solid;  vertical-align: top;}" +
+                      ".themed [bgcolor], table.themed[bgcolor] {background-color: var(--tablebg);}" + ; html tables with fixed light colors (ascii.txt, number_tab.txt), not the color table
+                      ".themed [bgcolor='#FFFFCC'], .themed [bgcolor='#ffffcc'], .themed [bgcolor='#dddddd'] {background-color: var(--optbg);}"
 
 
   ;- ----- Translations
@@ -183,6 +251,11 @@ Module HelpTool
     Text_ShowContents$   = Translate("Show/hide the index", "Afficher/masquer le sommaire", "Inhaltsverzeichnis ein-/ausblenden")
     Text_Load$           = Translate("Open", "Ouvrir", "öffnen")
     Text_Run$            = Translate("Run", "Executer", "ausführen")
+    Text_Copy$           = Translate("Copy", "Copier", "Kopieren")
+    Text_Favorites$      = Translate("Favorites", "Favoris", "Favoriten")
+    Text_ToggleFavorite$ = Translate("Add/remove this page from the favorites", "Ajouter/retirer cette page des favoris", "Diese Seite zu den Favoriten hinzufügen/daraus entfernen")
+    Text_All$            = Translate("All", "Tous", "Alle")
+    Text_Reference$      = Translate("Reference", "Référence", "Referenz")
   EndProcedure
 
 
@@ -469,7 +542,7 @@ Module HelpTool
   ; DocMaker tags and their html code
   ;
   Procedure InitTags()
-    Protected LoadButton$, RunButton$
+    Protected LoadButton$, CopyButton$, RunButton$
 
     ClearMap(Tags())
 
@@ -489,8 +562,9 @@ Module HelpTool
     AddTag("endhtml",       0, 0, "")
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("co:$ex") + "'>" + LoadCodeIcon$ + "</button>"
     RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("code",          0, 0, "<pre class='ex'><div class='butcode'>" + LoadButton$ + RunButton$ + "</div>")
-    AddTag("endcode",       0, 0, "</pre>")
+    CopyButton$ = "<button title='" + Text_Copy$ + "' onclick='" + JsCall("cc:$ex") + "'>" + CopyCodeIcon$ + "</button>"
+    AddTag("code",          0, 0, "<div class='cb'><div class='butcode'>" + LoadButton$ + CopyButton$ + RunButton$ + "</div><pre class='ex'>")
+    AddTag("endcode",       0, 0, "</pre></div>")
     AddTag("os",            0, 0, "")
     AddTag("endos",         0, 0, "")
     AddTag("fixedfont",     0, 0, "<pre>")
@@ -499,9 +573,7 @@ Module HelpTool
     AddTag("endindent",     0, 1, "</blockquote>")
     AddTag("keyword",       0, 0, "<font class='kw'>$p1</font>")
     AddTag("image",         0, 0, "$im<br>")
-    LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("fo:$lg") + "'>" + LoadCodeIcon$ + "</button>"
-    RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("fr:$lg") + "'>" + RunCodeIcon$  + "</button>"
-    AddTag("examplefile",   0, 0, "$ose" + LoadButton$ + " " + RunButton$ + " $lg")
+    AddTag("examplefile",   3, 0, "$ose<a href='#' onclick='" + JsCall("ef:$lt") + "'>$lt</a>") ; the example is shown as a page of the help (with the Open, Copy, Run buttons)
 
     AddTag("library",           0, 1, "")
     AddTag("section",           0, 1, "<h3>$lg</h3>")
@@ -510,9 +582,9 @@ Module HelpTool
     AddTag("returnvalue",       3, 1, "<h3>" + Text_ReturnValue$ + "</h3>")
     AddTag("noreturnvalue",     3, 1, "<h3>" + Text_ReturnValue$ + "</h3>" + Text_None$ + ".")
     AddTag("remarks",           3, 1, "<h3>" + Text_Remarks$ + "</h3>")
-    AddTag("example",           0, 1, "<h3>" + Text_Example$ + "</h3>")
-    AddTag("seealso",           0, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
-    AddTag("supportedos",       0, 1, "")
+    AddTag("example",           3, 1, "<h3>" + Text_Example$ + "</h3>")
+    AddTag("seealso",           3, 1, "<h3>" + Text_SeeAlso$ + "</h3>")
+    AddTag("supportedos",       3, 1, "")
     AddTag("function",          0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>$p1")
     AddTag("syntax",            0, 1, "<h3>" + Text_Syntax$ + "</h3><pre>")
     AddTag("description",       0, 1, "</pre><h3>" + Text_Description$ + "</h3>")
@@ -710,22 +782,88 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure SetZoom(Value.f) ; the zoom is kept between #MinZoom and #MaxZoom
+    If Value < #MinZoom
+      Value = #MinZoom
+    ElseIf Value > #MaxZoom
+      Value = #MaxZoom
+    EndIf
+    Zoom = Value
+  EndProcedure
+
+
+  Procedure.f GetZoom()
+    ProcedureReturn Zoom
+  EndProcedure
+
+
+  Procedure ResetZoom() ; GTK: the IDE shortcut gets Ctrl+0 before the page
+    If GadgetWeb And IsGadget(GadgetWeb) And IEMode = #False And GetActiveGadget() = GadgetWeb
+      WebViewExecuteScript(GadgetWeb, "zoomset(1)")
+      ProcedureReturn #True
+    EndIf
+    ProcedureReturn #False
+  EndProcedure
+
+
+  CompilerIf #Standalone = #False ; IDE only
+    Declare PlaceHiddenContents()
+  CompilerEndIf
+
+  Procedure FirstPageReady() ; IDE: the tool is hidden until its first page is loaded
+    If WaitingFirstPage
+      WaitingFirstPage = #False
+      HideGadget(GadgetRoot, #False)
+      CompilerIf #Standalone = #False ; IDE only
+        PlaceHiddenContents()
+      CompilerEndIf
+      If FirstPageReadyCallback
+        FirstPageReadyCallback()
+      EndIf
+    EndIf
+  EndProcedure
+
+
   Procedure SetPageHtml(Html$)
+    Protected ReadyScript$
+
     Html$ = ReplaceString(Html$, "<head>", "<head><meta charset='utf-8'>", #PB_String_CaseSensitive, 1, 1) ; explicit encoding (accents, umlauts)
 
     CompilerIf #PB_Compiler_OS = #PB_OS_Windows
       If IEMode
         SetGadgetItemText(GadgetWeb, #PB_Web_HtmlCode, IEHtml(Html$))
+        FirstPageReady() ; no load notification in this mode
         ProcedureReturn
       EndIf
     CompilerEndIf
+
+    ; Zoom (Ctrl+wheel, Ctrl +/-/0) is done by the page (CSS zoom): the native zoom of the WebView is lost when another page is loaded.
+    ; The factor is sent to the tool (zm:) and injected in the next pages. IE mode: no zoom (degraded display).
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
+                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom); window.dispatchEvent(new Event('resize'));}" +
+                                           "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
+                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0' || e.code=='Digit0') {e.preventDefault(); zoomset(1);}}});" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
+
+    If WaitingFirstPage
+      ReadyScript$ = "window.addEventListener('load', function() {jsmessage('rd:');});"
+    EndIf
 
     ; Mouse back/forward buttons and Alt+arrows: use our history, not the WebView one (which goes back to an old page, sometimes empty)
     Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
                                            "function nav(e,s) {e.preventDefault(); jsmessage('lk:'+s);}" +
                                            "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});" +
                                            "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});" +
-                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
+                                           "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+'); else if (e.key=='Escape') {e.preventDefault(); jsmessage('es:');}});" +
+                                           ReadyScript$ +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
+
+    ; --vw: visible width of the page (without the scrollbar), --sw: width of the whole page, for the title bar and the example buttons (see PageStyle$).
+    ; Both are in CSS pixels of the page: the fixed probe gives the width whatever the zoom is.
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "function setvw() {var r=document.documentElement, p=document.createElement('div'); p.style.cssText='position:fixed;left:0;right:0;height:0'; r.style.setProperty('--sw','0px'); r.appendChild(p); var w=p.offsetWidth, s=r.clientWidth ? r.scrollWidth*w/r.clientWidth : w; r.removeChild(p); r.style.setProperty('--vw',w+'px'); r.style.setProperty('--sw',s+'px');}" +
+                                           "setvw(); window.addEventListener('resize', setvw); window.addEventListener('load', setvw);" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
     SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
   EndProcedure
@@ -891,9 +1029,11 @@ Module HelpTool
 
     IsUserLib = Bool(*Parent And *Page\UserLib$ <> "")
     IsBranch = Bool(Level = 0 Or (*Page And ListSize(*Page\SubPages()) > 0))
-    If IsBranch
-      Icon = ImageID(ImageBranch)
-    Else
+    If IsBranch ; no image in the standalone tool (SetImages() is called by the IDE): no icon
+      If IsImage(ImageBranch)
+        Icon = ImageID(ImageBranch)
+      EndIf
+    ElseIf IsImage(ImageLeaf)
       Icon = ImageID(ImageLeaf)
     EndIf
     
@@ -918,6 +1058,9 @@ Module HelpTool
 
   ; Loads all the help pages, and fills the contents tree
   ;
+  Declare ChipsBuild()
+  Declare FavoritesRefresh()
+
   Procedure LoadHelp(EnableUI = #True)
     Protected Text$, Title$, Link$, UserLibLinks$, Position, Level, *Page.HelpPage, *SubPage.HelpPage, *Reference.HelpPage
     NewList Files$()
@@ -926,6 +1069,7 @@ Module HelpTool
 
     ClearMap(*PageMap())
     ClearList(Pages())
+    ClearList(ExamplePages())
     CurrentPageName$ = ""
     LanguagePath$ = Language$ + "/"
 
@@ -952,6 +1096,7 @@ Module HelpTool
         ClearGadgetItems(GadgetContents)
         SetPageHtml("<html><head><style>" + PageColors$ + PageStyle$ + "</style></head><body><h2>" + Text_Help$ + "</h2>" +
                     "Help source not found: <b>" + EscapeHtml(HelpPath$ + LanguagePath$) + "</b></body></html>")
+        FavoritesRefresh()
       EndIf
       ProcedureReturn
     EndIf
@@ -1016,6 +1161,8 @@ Module HelpTool
       HideGadget(GadgetContents, #False)
 
       DisplayPage("reference")
+      ChipsBuild()
+      FavoritesRefresh()
     EndIf
   EndProcedure
 
@@ -1084,7 +1231,7 @@ Module HelpTool
   ; Html from a @FormatIf or @HTML block: the images are embedded and the links go through jsmessage()
   ;
   Procedure AppendBlockHtml(Html$)
-    Protected Position, Path$, Image$
+    Protected Position, Path$, Image$, Link$
 
     Position = 0
     Repeat
@@ -1112,7 +1259,11 @@ Module HelpTool
 
       Path$ = ExtractBetween(Html$, "href=", ">", Position)
       If FindString(Path$, "#") = 0
-        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))) + "'>")
+        Link$ = LCase(GetFilePart(Path$, #PB_FileSystem_NoExtension))
+        If Link$ = "index" ; library index: 'Library/index.html'
+          Link$ = "lib_" + LCase(GetFilePart(RTrim(GetPathPart(Path$), "/")))
+        EndIf
+        Html$ = ReplaceString(Html$, "href=" + Path$ + ">", "href='#' onclick='" + JsCall("lk:" + Link$) + "'>")
       EndIf
     ForEver
 
@@ -1153,9 +1304,9 @@ Module HelpTool
 
 
   Procedure.s PageToHtml(Name$)
-    Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, *Page.HelpPage
+    Protected Text$, LowerText$, Tag$, TagHtml$, Parameter$, Char$, Link$, LinkName$, Image$, OSNote$, Html$, Line$, *Page.HelpPage
     Protected Position, TextStart, TagStart, ParameterStart, Found, BlockEnd, i
-    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle
+    Protected ParameterCount, ExampleNumber, ExampleTitleDone, IsTitle, WasTitle, SyntaxHtml$
 
     *CurrentPage = FindPage(LCase(Name$))
     If *CurrentPage = 0
@@ -1172,14 +1323,16 @@ Module HelpTool
     RenderLineBreaks = #False
     RenderPreformatted = 0
 
-    ; Remove the comments
-    Repeat
-      Position = FindString(Text$, #LF$ + ";")
-      If Position = 0 And Left(Text$, 1) <> ";"
-        Break
-      EndIf
-      Text$ = Left(Text$, Position) + Mid(Text$, FindString(Text$ + #LF$, #LF$, Position + 1) + 1)
-    ForEver
+    ; Remove the comments (not in an example page: it's the code of a file, its comments are kept)
+    If *CurrentPage\ExampleFile$ = ""
+      Repeat
+        Position = FindString(Text$, #LF$ + ";")
+        If Position = 0 And Left(Text$, 1) <> ";"
+          Break
+        EndIf
+        Text$ = Left(Text$, Position) + Mid(Text$, FindString(Text$ + #LF$, #LF$, Position + 1) + 1)
+      ForEver
+    EndIf
 
     Position = 1
     Repeat
@@ -1278,9 +1431,9 @@ Module HelpTool
                 EndIf
                 TagHtml$ + "<td width='10%'><i>$p1</i></td><td width='90%'>"
 
-              Case 3
+              Case 3 ; end of the parameters (appended now: the @ExampleFile html can be emptied below)
                 If ParameterCount
-                  TagHtml$ = "</td></tr></table>"
+                  AppendHtml("</td></tr></table>")
                   ParameterCount = 0
                 EndIf
             EndSelect
@@ -1291,6 +1444,18 @@ Module HelpTool
             EndIf
 
             TagHtml$ + Tags()\Html$
+
+            ; @Function: the syntax is plain code up to @Description, colored like the examples (appended after the '$' replacements below)
+            SyntaxHtml$ = ""
+            If LCase(Tag$) = "function" And ColorCodeCallback
+              BlockEnd = FindString(Text$, #LF$ + "@Description", Position, #PB_String_NoCase)
+              If BlockEnd
+                TagHtml$ = RemoveString(TagHtml$, "$p1")
+                SyntaxHtml$ = ColorCodeCallback(Trim(Trim(Trim(RemoveString(PeekMid(@Text$, Position, BlockEnd - Position), #CR$)), #LF$)))
+                Position = BlockEnd
+              EndIf
+            EndIf
+
             If FindString(TagHtml$, "$")
               If FindString(TagHtml$, "$ose") ; example OS
                 Parameter$ = ReadTagParameter(@Text$, @Position, " " + #LF$)
@@ -1321,10 +1486,12 @@ Module HelpTool
                 TagHtml$ = ReplaceString(TagHtml$, "$ex", Str(ExampleNumber))
                 ExampleNumber + 1
               EndIf
-              If FindString(TagHtml$, "$lg")
+              If FindString(TagHtml$, "$lg") Or FindString(TagHtml$, "$lt") ; rest of the line, with / without the spaces around
                 ParameterStart = Position
                 Position = FindString(Text$, #LF$, Position)
-                TagHtml$ = ReplaceString(TagHtml$, "$lg", Mid(Text$, ParameterStart, Position - ParameterStart))
+                Line$ = Mid(Text$, ParameterStart, Position - ParameterStart)
+                TagHtml$ = ReplaceString(TagHtml$, "$lg", Line$)
+                TagHtml$ = ReplaceString(TagHtml$, "$lt", Trim(Line$))
               EndIf
             EndIf
 
@@ -1349,7 +1516,7 @@ Module HelpTool
               EndIf
             EndIf
 
-            AppendHtml(TagHtml$)
+            AppendHtml(TagHtml$ + SyntaxHtml$)
 
             ; Blocks
             If Tag$ = "Code"
@@ -1405,11 +1572,11 @@ Module HelpTool
     EndIf
 
     Html$ = "<html><head><title>" + EscapeHtml(*CurrentPage\Title$) + "</title><style>" + PageColors$ + PageStyle$ + "</style></head><body>" +
-            "<h2>" + OSNote$ + *CurrentPage\Title$ + "<br><font class='nav'>" + *CurrentPage\Navigation$ + "</font></h2>" + #LF$ +
+            "<h2><div class='t'>" + OSNote$ + *CurrentPage\Title$ + "<br><font class='nav'>" + *CurrentPage\Navigation$ + "</font></div></h2>" + #LF$ +
             RenderHtml$ + "</body></html>"
     RenderHtml$ = ""
 
-    If IsGadget(GadgetSearch)
+    If IsGadget(GadgetSearch) And GetGadgetState(GadgetPanel) = 1 ; the highlight only in the Search tab (not after F1, in the Contents tab)
       Html$ = HighlightSearch(Html$, GetGadgetText(GadgetSearch))
     EndIf
 
@@ -1493,6 +1660,13 @@ Module HelpTool
       If IsPreformatted = #False And LCase(Left(LTrim(Line$), 13)) = "@examplefile " ; often indented: stays on its own line (read up to the end of the line)
         Line$ = LTrim(Line$)
         FirstChar$ = "@"
+      EndIf
+      If FirstChar$ <> "@" ; indented block tag (accepted by DocMaker): handled like at the line start, or the block formatting is lost
+        Select LCase(StringField(Trim(ReplaceString(Line$, #TAB$, " ")), 1, " "))
+          Case "@code", "@endcode", "@fixedfont", "@endfixedfont", "@syntax", "@description"
+            Line$ = Trim(ReplaceString(Line$, #TAB$, " "))
+            FirstChar$ = "@"
+        EndSelect
       EndIf
       If Trim(Line$) = "@LineBreak"
         FirstChar$ = " "
@@ -1673,6 +1847,101 @@ Module HelpTool
   EndProcedure
 
 
+  ;- ----- Favorites
+
+  Procedure SetFavorites(Names$) ; Names$: page names (they don't depend on the language)
+    Protected Name$, i
+
+    ClearMap(Favorites())
+    For i = 1 To CountString(Names$, #FavoritesSeparator$) + 1
+      Name$ = StringField(Names$, i, #FavoritesSeparator$)
+      If Name$ <> ""
+        Favorites(Name$) = 1
+      EndIf
+    Next i
+  EndProcedure
+
+
+  Procedure.s GetFavorites()
+    Protected Names$
+
+    ForEach Favorites()
+      Names$ + MapKey(Favorites()) + #FavoritesSeparator$
+    Next
+    ProcedureReturn RTrim(Names$, #FavoritesSeparator$)
+  EndProcedure
+
+
+  ; The star button and the selection in the Favorites tab follow the displayed page. An example page can't be a favorite: it only exists once displayed.
+  ;
+  Procedure UpdateFavoriteState()
+    Protected *Page.HelpPage = FindPage(CurrentPageName$)
+    Protected Item = -1
+
+    If IsGadget(GadgetFavorite) = 0
+      ProcedureReturn
+    EndIf
+
+    If *Page And *Page\ExampleFile$ = ""
+      DisableGadget(GadgetFavorite, #False)
+      SetGadgetState(GadgetFavorite, Bool(FindMapElement(Favorites(), CurrentPageName$) <> 0))
+    Else
+      DisableGadget(GadgetFavorite, #True)
+      SetGadgetState(GadgetFavorite, #False)
+    EndIf
+
+    ForEach FavoriteItems$()
+      If FavoriteItems$() = CurrentPageName$
+        Item = ListIndex(FavoriteItems$())
+        Break
+      EndIf
+    Next
+    SetGadgetState(GadgetFavoritesList, Item)
+  EndProcedure
+
+
+  ; Fills the Favorites tab, sorted by title. A page which doesn't exist anymore (removed user library) is not listed, but stays in the favorites.
+  ;
+  Procedure FavoritesRefresh()
+    Protected *Page.HelpPage
+    NewList Sorted.SearchResult()
+
+    If IsGadget(GadgetFavoritesList) = 0
+      ProcedureReturn
+    EndIf
+
+    ForEach Favorites()
+      *Page = FindPage(MapKey(Favorites()))
+      If *Page
+        AddElement(Sorted())
+        Sorted()\Page = *Page
+        Sorted()\Key$ = LCase(*Page\Title$) + #LF$ + *Page\Name$
+      EndIf
+    Next
+    SortStructuredList(Sorted(), #PB_Sort_Ascending, OffsetOf(SearchResult\Key$), #PB_String)
+
+    ClearList(FavoriteItems$())
+    ClearGadgetItems(GadgetFavoritesList)
+    ForEach Sorted()
+      AddGadgetItem(GadgetFavoritesList, -1, Sorted()\Page\Title$)
+      AddElement(FavoriteItems$())
+      FavoriteItems$() = Sorted()\Page\Name$
+    Next
+
+    UpdateFavoriteState()
+  EndProcedure
+
+
+  Procedure ToggleFavorite() ; star button: adds or removes the displayed page
+    If GetGadgetState(GadgetFavorite)
+      Favorites(CurrentPageName$) = 1
+    Else
+      DeleteMapElement(Favorites(), CurrentPageName$)
+    EndIf
+    FavoritesRefresh()
+  EndProcedure
+
+
   ; Name$: page name, or "-"/"+" to go back/forward in the history
   ;
   Procedure DisplayPage(Name$)
@@ -1716,13 +1985,16 @@ Module HelpTool
     DisableGadget(GadgetBack, Bool(HistoryPosition = 0))
     DisableGadget(GadgetForward, Bool(HistoryPosition = ListSize(History$()) - 1))
     HideGadget(GadgetEdit, Bool(IsArchive And *CurrentPage And *CurrentPage\UserLib$ = ""))
+    UpdateFavoriteState()
 
     *Page = FindPage(Name$)
     If *Page
       CompilerIf #Standalone ; in the IDE, don't steal the focus from the editor
         SetActiveGadget(GadgetContents)
       CompilerEndIf
-      SetGadgetState(GadgetContents, *Page\ContentsItem)
+      If *Page\ContentsItem >= 0 ; example pages are not in the contents: the selection stays
+        SetGadgetState(GadgetContents, *Page\ContentsItem)
+      EndIf
     EndIf
   EndProcedure
 
@@ -1747,11 +2019,11 @@ Module HelpTool
         ProcedureReturn Path$ + "Examples/3D/" + Name$
       EndIf
       If i = 2
-        If FileSize(Path$ + "Sources/" + Name$) > 0
-          ProcedureReturn Path$ + "Sources/" + Name$
+        If FileSize(Path$ + "sources/" + Name$) > 0 ; lowercase: the Linux install (Windows and macOS are not case sensitive)
+          ProcedureReturn Path$ + "sources/" + Name$
         EndIf
-        If FileSize(Path$ + "3D/" + Name$) > 0
-          ProcedureReturn Path$ + "3D/" + Name$
+        If FileSize(Path$ + "3d/" + Name$) > 0
+          ProcedureReturn Path$ + "3d/" + Name$
         EndIf
       EndIf
     Next i
@@ -1760,10 +2032,54 @@ Module HelpTool
   EndProcedure
 
 
+  ; Shows an example file as a page of the help: the code, with the Open, Copy and Run buttons.
+  ; The page is created the first time (name 'ex_' + file name); its link goes back to the page it comes from.
+  ;
+  Procedure ShowExamplePage(Name$)
+    Protected PageName$ = "ex_" + LCase(Name$)
+    Protected File$, Code$, From$, *Page.HelpPage
+
+    If FindPage(PageName$) = 0
+      CompilerIf Not #Standalone
+        File$ = FindExampleFile(Name$)
+      CompilerEndIf
+      If File$ <> ""
+        Code$ = ReadTextFile(File$, #False)
+      Else
+        Code$ = ReadHelpFile("Examples/Sources/" + Name$, #False)
+        If Code$ = ""
+          Code$ = ReadHelpFile("Examples/3D/" + Name$, #False)
+        EndIf
+      EndIf
+      If Code$ = ""
+        MessageRequester(Text_Help$, "Example not found: " + Name$)
+        ProcedureReturn
+      EndIf
+
+      From$ = CurrentPageName$
+      AddElement(ExamplePages()) ; not in Pages(): an example must not appear in the search results once visited
+      *Page = @ExamplePages()
+      *Page\Name$   = PageName$
+      *Page\Title$  = Name$
+      *Page\Source$ = "@Code" + #LF$ + Code$ + #LF$ + "@EndCode" + #LF$
+      *PageMap(PageName$) = *Page
+      *Page\ExampleFile$  = Name$
+      *Page\ContentsItem  = -1
+      If From$ <> "" And FindPage(From$)
+        *Page\Navigation$ = "< " + PageLink(From$)
+      EndIf
+    EndIf
+    DisplayPage(PageName$)
+  EndProcedure
+
+
   ; Message$: '["xy:Value"]' (json parameters of the WebView callback)
   ;   lk: link to a page
+  ;   cc, fc: copy the example code number 'Value' of the page / the example file 'Value'
+  ;   ef: example file 'Value', shown as a page of the help
   ;   co, cr: load/run the example code number 'Value' of the page
   ;   fo, fr: load/run the example file 'Value'
+  ;   es: Escape key
   ;
   Procedure HandleJsMessage(Message$)
     Protected Type$, Value$, File$, Code$, FileName$, Source$, Position, i
@@ -1772,11 +2088,30 @@ Module HelpTool
     Type$  = Left(Message$, 2)
     Value$ = Trim(Mid(Message$, 4))
 
+    If Left(Type$, 1) = "c" And *CurrentPage And *CurrentPage\ExampleFile$ <> "" ; buttons of an example page: they work on the file (IDE: the real file)
+      Type$  = "f" + Mid(Type$, 2)
+      Value$ = *CurrentPage\ExampleFile$
+    EndIf
+
     If Type$ = "lk"
       DisplayPage(LCase(Value$))
       ProcedureReturn
+    ElseIf Type$ = "rd" ; first page loaded
+      FirstPageReady()
+      ProcedureReturn
     EndIf
-
+    
+    If Type$ = "es" ; Escape: close the help (standalone), or let the IDE go back to the editor
+      CompilerIf #Standalone
+        PostEvent(#PB_Event_CloseWindow, HostWindow, 0)
+      CompilerElse
+        If CloseCallback
+          CloseCallback()
+        EndIf
+      CompilerEndIf
+      ProcedureReturn
+    EndIf
+    
     Select Left(Type$, 1)
       Case "c" ; code in the page
         Source$ = *CurrentPage\Source$
@@ -1785,6 +2120,10 @@ Module HelpTool
         Next i
         Code$ = ExtractBetween(Source$, "@Code", "@EndCode", Position - 5)
         FileName$ = *CurrentPage\Name$ + "_ex" + Value$ + ".pb"
+
+      Case "z" ; zm: zoom changed in the page (Ctrl+wheel, Ctrl +/-): kept for the next pages
+        SetZoom(ValF(Value$))
+        ProcedureReturn
 
       Case "f" ; example file
         CompilerIf Not #Standalone
@@ -1797,7 +2136,21 @@ Module HelpTool
           EndIf
         EndIf
         FileName$ = Value$
+
+      Case "e" ; ef: example file shown as a page of the help
+        ShowExamplePage(Value$)
+        ProcedureReturn
     EndSelect
+
+    If Mid(Type$, 2, 1) = "c" ; Copy: the code goes to the clipboard
+      If Code$ = "" And File$ <> ""
+        Code$ = ReadTextFile(File$, #False)
+      EndIf
+      If Code$ <> ""
+        SetClipboardText(Trim(Code$, #LF$))
+      EndIf
+      ProcedureReturn
+    EndIf
 
     CompilerIf #Standalone
       If Code$ <> ""
@@ -1878,34 +2231,346 @@ Module HelpTool
   CompilerEndIf
 
 
-  Procedure SearchPages()
-    Protected Search$, Item
-    NewList Results$()
+  ; Search: all the words must be found in the title or in the page source (3 characters minimum), filtered by the chips of the libraries.
+  ; The results are sorted by relevance:
+  ;   0 exact name, 1 name starts with the text, 2 name contains it, 3 all the words are in the name,
+  ;   4 @Keyword of the page, 5 the rest (description and page text). Same rank: alphabetical order.
+  ; Without text (or too short) the chips alone list the pages of the selected libraries. Clear: nothing to search, clears the list.
+  ;
+  Procedure SearchPages(Clear = #False)
+    Protected Search$, Title$, Phrase$, Word$, FirstWord$, Item, Rank, IsMatch, AllInTitle, i
+    NewList Words$()
+    NewList Results.SearchResult()
+    NewMap SelectedGroups()
 
     Search$ = GetGadgetText(GadgetSearch)
-    If CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page
+    If Clear = #False And CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page. Not on a chip click: the text didn't change
       SetPageHtml(PageToHtml(CurrentPageName$))
     EndIf
-    If Len(Search$) < 3
+    Search$ = Trim(Search$)
+    If Len(Search$) < 3 ; too short: only the chips filter, no search in the sources
+      Search$ = ""
+    EndIf
+    ForEach Chips()
+      If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget)
+        SelectedGroups(Chips()\Name$) = 1
+      EndIf
+    Next
+    If Search$ = "" And MapSize(SelectedGroups()) = 0 ; nothing to search or filter: the list is kept (cleared if Clear)
+      If Clear
+        ClearGadgetItems(GadgetSearchList)
+      EndIf
       ProcedureReturn
     EndIf
 
+    ; the words (all required) and the normalized text
+    For i = 1 To CountString(Search$, " ") + 1
+      Word$ = LCase(StringField(Search$, i, " "))
+      If Word$ <> ""
+        AddElement(Words$())
+        Words$() = Word$
+        Phrase$ + Word$ + " "
+      EndIf
+    Next i
+    Phrase$ = Trim(Phrase$)
+    If FirstElement(Words$())
+      FirstWord$ = Words$()
+    EndIf
+
     ForEach Pages()
-      If FindString(Pages()\Source$, Search$, 1, #PB_String_NoCase)
-        AddElement(Results$())
-        Results$() = Pages()\Name$
+      If MapSize(SelectedGroups()) And FindMapElement(SelectedGroups(), Pages()\Group$) = 0
+        Continue
+      EndIf
+
+      Title$  = LCase(Pages()\Title$)
+      IsMatch = #True
+      ForEach Words$()
+        If FindString(Title$, Words$()) = 0 And FindString(Pages()\Source$, Words$(), 1, #PB_String_NoCase) = 0
+          IsMatch = #False
+          Break
+        EndIf
+      Next
+
+      If IsMatch
+        Rank = 5 ; the rest (description and page text), or the chips alone (alphabetical order)
+        If ListSize(Words$())
+          If Title$ = Phrase$
+            Rank = 0
+          ElseIf Left(Title$, Len(Phrase$)) = Phrase$
+            Rank = 1
+          ElseIf FindString(Title$, Phrase$)
+            Rank = 2
+          Else
+            AllInTitle = #True
+            ForEach Words$()
+              If FindString(Title$, Words$()) = 0
+                AllInTitle = #False
+                Break
+              EndIf
+            Next
+            If AllInTitle
+              Rank = 3
+            ElseIf FindString(Pages()\Source$, "@Keyword " + FirstWord$, 1, #PB_String_NoCase)
+              Rank = 4
+            EndIf
+          EndIf
+        EndIf
+
+        AddElement(Results())
+        Results()\Page = @Pages()
+        Results()\Key$ = Str(Rank) + Title$ + #LF$ + Pages()\Name$
       EndIf
     Next
-    SortList(Results$(), #PB_Sort_Ascending)
+    SortStructuredList(Results(), #PB_Sort_Ascending, OffsetOf(SearchResult\Key$), #PB_String)
 
     HideGadget(GadgetSearchList, #True)
     ClearGadgetItems(GadgetSearchList)
-    ForEach Results$()
-      AddGadgetItem(GadgetSearchList, -1, *PageMap(Results$())\Title$)
-      SetGadgetItemData(GadgetSearchList, Item, *PageMap(Results$()))
+    ForEach Results()
+      AddGadgetItem(GadgetSearchList, -1, Results()\Page\Title$)
+      SetGadgetItemData(GadgetSearchList, Item, Results()\Page)
       Item + 1
     Next
     HideGadget(GadgetSearchList, #False)
+  EndProcedure
+
+
+  ;- ----- Search filters (chips)
+
+  Procedure SetChipsHeight(Value)
+    If Value > 0
+      ChipsAreaHeight = Value
+    EndIf
+  EndProcedure
+
+
+  Procedure GetChipsHeight()
+    ProcedureReturn ChipsAreaHeight
+  EndProcedure
+
+
+  ; Places the chips line by line (vertical scrollbar only if they do not fit).
+  Procedure ChipsLayout()
+    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight, MaxRight
+    Protected Pad = 2, Gap = 2
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+
+    AreaWidth  = GadgetWidth(GadgetChips)
+    AreaHeight = GadgetHeight(GadgetChips)
+    For Pass = 0 To 1 ; pass 0: no vertical scrollbar, pass 1: room reserved for it
+      InnerWidth = AreaWidth - 2 * Pad - 4 - Pass * ChipsScrollbarWidth
+      x = Pad
+      y = Pad
+      MaxRight = 0
+      ForEach Chips()
+        If x + Chips()\Width > InnerWidth And x > Pad
+          x = Pad
+          y + ChipHeight + Gap
+        EndIf
+        ResizeGadget(Chips()\Gadget, x, y, Chips()\Width, ChipHeight)
+        If x + Chips()\Width > MaxRight
+          MaxRight = x + Chips()\Width
+        EndIf
+        x + Chips()\Width + Gap
+      Next
+      InnerHeight = y + ChipHeight + Pad
+      If InnerHeight <= AreaHeight
+        Break
+      EndIf
+    Next
+    If MaxRight - Pad > InnerWidth ; a chip wider than the area: horizontal scrollbar, so that it can be read
+      InnerWidth = MaxRight - Pad
+    EndIf
+    SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerWidth, InnerWidth + 2 * Pad)
+    SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerHeight, InnerHeight)
+  EndProcedure
+
+
+  ; Lays out the chips again when the size of the area (resized by the dialog) has changed: called on every possible resize.
+  Procedure ChipsPlace(Force = #False)
+    Protected w, h, Height, Bar, Applied
+    Static ChipsW, ChipsH
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+
+    If ChipsHeightPending And IsGadget(GadgetChipsSplitter) ; the user defined height, as soon as the splitter is big enough
+      Height = GadgetHeight(GadgetChipsSplitter)
+      If Height >= ChipsAreaHeight + #ChipsListMinimum
+        Bar = Height - GetGadgetState(GadgetChipsSplitter) - GadgetHeight(GadgetChips)
+        If Bar < 0 Or Bar > 20 ; not laid out yet
+          Bar = 8
+        EndIf
+        SetGadgetState(GadgetChipsSplitter, Height - ChipsAreaHeight - Bar)
+        ChipsHeightPending = #False
+        Applied = #True
+      EndIf
+    EndIf
+
+    w = GadgetWidth(GadgetChips)
+    h = GadgetHeight(GadgetChips)
+    If w < 20 Or h < 10 ; panel not shown yet
+      ChipsW = -1
+      ProcedureReturn
+    EndIf
+    If ChipsHeightPending = #False And Applied = #False ; moved by the user (Applied: the new size is only known after the next layout)
+      ChipsAreaHeight = h
+    EndIf
+    If Force Or w <> ChipsW Or h <> ChipsH
+      ChipsW = w
+      ChipsH = h
+      ChipsLayout()
+    EndIf
+  EndProcedure
+
+
+  ; (Re)creates the chips: one per library, plus Reference (pages outside a library) and All.
+  Procedure ChipsBuild()
+    Protected Dummy, LibName$, Selected
+    NewMap LibraryOfFile$()
+    NewMap LibraryNames()
+    NewMap PreviousSelection()
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+    ClearGadgetItems(GadgetSearchList) ; the previous results point to pages which are freed
+    ForEach Chips() ; only the buttons: the scroll area belongs to the dialog
+      If IsGadget(Chips()\Gadget)
+        If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget) ; selection kept when the help is reloaded
+          PreviousSelection(Chips()\Name$) = 1
+        EndIf
+        FreeGadget(Chips()\Gadget)
+      EndIf
+    Next
+    ClearList(Chips())
+
+    ; library of a file = title of its lib_ page
+    ForEach Pages()
+      If Left(Pages()\Name$, 4) = "lib_" And Pages()\UserLib$ = ""
+        LibraryOfFile$(Pages()\File$) = Pages()\Title$
+      EndIf
+    Next
+    ForEach Pages()
+      If Pages()\UserLib$ <> ""
+        Pages()\Group$ = Pages()\UserLib$
+      ElseIf FindMapElement(LibraryOfFile$(), Pages()\File$)
+        Pages()\Group$ = LibraryOfFile$()
+      Else
+        Pages()\Group$ = #GroupReference$
+      EndIf
+      LibraryNames(Pages()\Group$) = 1
+    Next
+
+    ; order: All, Reference, then the libraries alphabetically
+    ForEach LibraryNames()
+      LibName$ = MapKey(LibraryNames())
+      If LibName$ <> #GroupReference$
+        AddElement(Chips())
+        Chips()\Name$ = LibName$
+      EndIf
+    Next
+    SortStructuredList(Chips(), #PB_Sort_Ascending | #PB_Sort_NoCase, OffsetOf(ChipInfo\Name$), #PB_String)
+    If FindMapElement(LibraryNames(), #GroupReference$)
+      AddElement(Chips())
+      MoveElement(Chips(), #PB_List_First)
+      Chips()\Name$ = #GroupReference$
+    EndIf
+    AddElement(Chips())
+    MoveElement(Chips(), #PB_List_First)
+    Chips()\Name$ = "All"
+    Chips()\IsAll = #True
+
+    ForEach Chips()
+      If Chips()\IsAll
+        Chips()\Caption$ = Text_All$
+      ElseIf Chips()\Name$ = #GroupReference$
+        Chips()\Caption$ = Text_Reference$
+      Else
+        Chips()\Caption$ = Chips()\Name$
+      EndIf
+    Next
+
+    OpenGadgetList(GadgetChips)
+    ; chip size = required size of a button with the small font
+    If ChipFont = 0
+      ChipFont = LoadFont(#PB_Any, #ChipFontName$, #ChipFontSize)
+    EndIf
+    Dummy = ButtonGadget(#PB_Any, 0, 0, 0, 0, "Abc")
+    If ChipFont
+      SetGadgetFont(Dummy, FontID(ChipFont))
+    EndIf
+    ChipHeight = GadgetHeight(Dummy, #PB_Gadget_RequiredSize)
+    ForEach Chips()
+      SetGadgetText(Dummy, Chips()\Caption$)
+      Chips()\Width = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
+    Next
+    FreeGadget(Dummy)
+    If ChipsScrollbarWidth = 0 ; required width of a vertical scrollbar (logical units), measured here: a gadget list must be open
+      Dummy = ScrollBarGadget(#PB_Any, -10, 0, 0, 100, 0, 1, 1, #PB_ScrollBar_Vertical)
+      ChipsScrollbarWidth = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
+      FreeGadget(Dummy)
+    EndIf
+
+    ForEach Chips() ; the buttons go inside the scroll area created by the dialog
+      Chips()\Gadget = ButtonGadget(#PB_Any, 0, 0, Chips()\Width, ChipHeight, Chips()\Caption$, #PB_Button_Toggle)
+      If ChipFont
+        SetGadgetFont(Chips()\Gadget, FontID(ChipFont))
+      EndIf
+      If Chips()\IsAll = #False And FindMapElement(PreviousSelection(), Chips()\Name$)
+        SetGadgetState(Chips()\Gadget, 1)
+        Selected + 1
+      EndIf
+    Next
+    ForEach Chips()
+      If Chips()\IsAll
+        SetGadgetState(Chips()\Gadget, Bool(Selected = 0)) ; All pressed: no library selected
+      EndIf
+    Next
+    CloseGadgetList()
+    If ApplyColorsCallback
+      ApplyColorsCallback(GadgetChips)
+    EndIf
+    ChipsPlace(#True)
+    SearchPages(#True) ; the list has been emptied above: fills it again for the current text and selection
+  EndProcedure
+
+
+  ; Click on a chip: All clears the selection, otherwise All is pressed only if nothing is selected.
+  Procedure ChipClick(Gadget)
+    Protected Found, IsAll, Selected
+
+    ForEach Chips()
+      If Chips()\Gadget = Gadget
+        Found = #True
+        IsAll = Chips()\IsAll
+        Break
+      EndIf
+    Next
+    If Found = #False
+      ProcedureReturn
+    EndIf
+    If IsAll
+      ForEach Chips()
+        If Chips()\IsAll = #False
+          SetGadgetState(Chips()\Gadget, 0)
+        EndIf
+      Next
+    EndIf
+    ForEach Chips()
+      If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget)
+        Selected + 1
+      EndIf
+    Next
+    ForEach Chips()
+      If Chips()\IsAll
+        SetGadgetState(Chips()\Gadget, Bool(Selected = 0))
+      EndIf
+    Next
+    SearchPages(#True)
   EndProcedure
 
 
@@ -1920,8 +2585,14 @@ Module HelpTool
             "        <tab text='" + Text_Search$ + "'>" +
             "          <vbox expand='item:2'>" +
             "            <string name='search'/>" +
-            "            <listview name='searchlist'/>" +
+            "            <splitter name='chipssplitter' flags='#PB_Splitter_SecondFixed' firstmin='" + Str(#ChipsListMinimum) + "' secondmin='32'>" +
+            "              <listview name='searchlist'/>" +
+            "              <scrollarea name='chips' flags='#PB_ScrollArea_BorderLess'/>" +
+            "              </splitter>" +
             "            </vbox>" +
+            "          </tab>" +
+            "        <tab text='" + Text_Favorites$ + "'>" +
+            "          <listview name='favorites'/>" +
             "          </tab>"
 
     CompilerIf #Standalone
@@ -1937,6 +2608,7 @@ Module HelpTool
              "            <button name='back' text='&#9664;' />" +
              "            <button name='forward' text='&#9654;' />" +
              "            <button name='home' text='&#8962;' />" +
+             "            <button name='favorite' text='&#9733;' flags='#PB_Button_Toggle' />" +
              "            <combobox name='language' width='100' />" +
              "            <combobox name='os' width='100' />" +
              "            <button name='edit' text='&#9998;' />" +
@@ -1960,6 +2632,7 @@ Module HelpTool
              "      <buttonimage name='back' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      <buttonimage name='forward' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      <buttonimage name='home' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      <buttonimage name='favorite' width='" + ButtonSize + "' height='" + ButtonSize + "' flags='#PB_Button_Toggle' />" +
              "      <buttonimage name='edit' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      </hbox>" +
              "    <splitter name='splitter' flags='#PB_Splitter_Vertical' firstmin='0' secondmin='auto'>" +
@@ -1995,9 +2668,14 @@ Module HelpTool
     GadgetContents   = DialogGadget(Dialog, "contents")
     GadgetSearch     = DialogGadget(Dialog, "search")
     GadgetSearchList = DialogGadget(Dialog, "searchlist")
+    GadgetChips      = DialogGadget(Dialog, "chips")
+    GadgetChipsSplitter = DialogGadget(Dialog, "chipssplitter")
+    ChipsHeightPending  = #True
     GadgetBack       = DialogGadget(Dialog, "back")
     GadgetForward    = DialogGadget(Dialog, "forward")
     GadgetHome       = DialogGadget(Dialog, "home")
+    GadgetFavorite   = DialogGadget(Dialog, "favorite")
+    GadgetFavoritesList = DialogGadget(Dialog, "favorites")
     GadgetEdit       = DialogGadget(Dialog, "edit")
     DisableGadget(GadgetContents, #False)
 
@@ -2023,11 +2701,14 @@ Module HelpTool
       If IsImage(ImageBack)     : SetGadgetAttribute(GadgetBack,         #PB_Button_Image, ImageID(ImageBack))     : EndIf
       If IsImage(ImageForward)  : SetGadgetAttribute(GadgetForward,      #PB_Button_Image, ImageID(ImageForward))  : EndIf
       If IsImage(ImageHome)     : SetGadgetAttribute(GadgetHome,         #PB_Button_Image, ImageID(ImageHome))     : EndIf
+      If IsImage(ImageFavorite) : SetGadgetAttribute(GadgetFavorite,     #PB_Button_Image, ImageID(ImageFavorite)) : EndIf
       If IsImage(ImageEdit)     : SetGadgetAttribute(GadgetEdit,         #PB_Button_Image, ImageID(ImageEdit))     : EndIf
       If ApplyColorsCallback
         ApplyColorsCallback(GadgetContents)
         ApplyColorsCallback(GadgetSearch)
         ApplyColorsCallback(GadgetSearchList)
+        ApplyColorsCallback(GadgetFavoritesList)
+        ApplyColorsCallback(GadgetChips)
       EndIf
       RefreshDialog(Dialog)
     CompilerEndIf
@@ -2035,6 +2716,7 @@ Module HelpTool
     GadgetToolTip(GadgetBack, Text_Back$)
     GadgetToolTip(GadgetForward, Text_Forward$)
     GadgetToolTip(GadgetHome, Text_Home$)
+    GadgetToolTip(GadgetFavorite, Text_ToggleFavorite$)
     GadgetToolTip(GadgetEdit, Text_Edit$)
 
     GadgetWeb = DialogGadget(Dialog, "web")
@@ -2080,6 +2762,8 @@ Module HelpTool
     CompilerEndIf
   EndProcedure
 
+
+  CompilerIf #Standalone = #False ; IDE only: the hidden contents (the splitter of the standalone dialog is a normal one)
 
   Procedure SetSplitterPosition(Position) ; IDE
     Protected Width, Height
@@ -2149,19 +2833,29 @@ Module HelpTool
       HideGadget(GadgetPanel, #True)
       PlaceHiddenContents()
     EndIf
+    ChipsPlace()
   EndProcedure
+
+  CompilerEndIf
 
 
   Procedure Timer() ; reloads the help if the source of the current page has been modified
     Protected Name$, Width
 
-    If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
-      Width = SplitterBarWidth
-      MeasureSplitterBar()
-      If SplitterBarWidth <> Width
-        PlaceHiddenContents()
-      EndIf
+    If WaitingFirstPage And ElapsedMilliseconds() - WaitingFirstPageTime > #FirstPageTimeout ; never stay hidden, whatever happened to the web engine
+      FirstPageReady()
     EndIf
+
+    ChipsPlace() ; catches the splitter moves (there is no resize event)
+    CompilerIf #Standalone = #False ; IDE only
+      If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
+        Width = SplitterBarWidth
+        MeasureSplitterBar()
+        If SplitterBarWidth <> Width
+          PlaceHiddenContents()
+        EndIf
+      EndIf
+    CompilerEndIf
 
     If *CurrentPage And *CurrentPage\File$ <> ""
       If GetFileDate(PageDirectory(*CurrentPage) + *CurrentPage\File$, #PB_Date_Modified) - LastReloadDate >= 2
@@ -2190,8 +2884,10 @@ Module HelpTool
           EndIf
         EndIf
 
-      Case GadgetShowContents
-        ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerIf #Standalone = #False ; IDE only
+        Case GadgetShowContents
+          ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerEndIf
 
       Case GadgetHome
         DisplayPage("reference")
@@ -2203,7 +2899,12 @@ Module HelpTool
         DisplayPage("+")
 
       Case GadgetPanel
-        SetActiveGadget(GadgetSearch)
+        If GetGadgetState(GadgetPanel) = 1
+          SetActiveGadget(GadgetSearch)
+        EndIf
+        If CurrentPageName$ <> "" And GetGadgetText(GadgetSearch) <> "" ; the page is drawn again: highlight in the Search tab only
+          SetPageHtml(PageToHtml(CurrentPageName$))
+        EndIf
 
       Case GadgetSearch
         If Type = #PB_EventType_Change
@@ -2216,6 +2917,16 @@ Module HelpTool
           DisplayPage(*Page\Name$)
         EndIf
 
+      Case GadgetFavorite
+        ToggleFavorite()
+
+      Case GadgetFavoritesList
+        If GetGadgetState(GadgetFavoritesList) >= 0 And SelectElement(FavoriteItems$(), GetGadgetState(GadgetFavoritesList))
+          If FavoriteItems$() <> CurrentPageName$ ; click + change event for the same item: only one entry in the history
+            DisplayPage(FavoriteItems$())
+          EndIf
+        EndIf
+
       Case GadgetEdit
         EditCurrentPage()
 
@@ -2226,6 +2937,12 @@ Module HelpTool
 
       Case GadgetOS
         OS$ = GetGadgetText(GadgetOS)
+
+      Case GadgetChipsSplitter
+        ChipsPlace()
+
+      Default
+        ChipClick(Gadget)
     EndSelect
   EndProcedure
 
@@ -2240,6 +2957,10 @@ Module HelpTool
         WritePreferenceLong("Width", WindowWidth(StandaloneWindow))
         WritePreferenceLong("Height", WindowHeight(StandaloneWindow))
         WritePreferenceString("HelpSource", HelpSource$)
+        PreferenceGroup("HelpTool")
+        WritePreferenceFloat("Zoom", Zoom)
+        WritePreferenceLong("ChipsHeight", ChipsAreaHeight)
+        WritePreferenceString("Favorites", GetFavorites())
         ClosePreferences()
       EndIf
     Else
@@ -2249,6 +2970,10 @@ Module HelpTool
       StandaloneWidth  = ReadPreferenceLong("Width", 800)
       StandaloneHeight = ReadPreferenceLong("Height", 600)
       HelpSource$      = ReadPreferenceString("HelpSource", "")
+      PreferenceGroup("HelpTool")
+      SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+      SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
+      SetFavorites(ReadPreferenceString("Favorites", ""))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -2261,11 +2986,15 @@ Module HelpTool
     OS$ = HelpOS$
 
     StandalonePreferences(#False)
-    If FileSize(HelpSource$) <> -2 And LCase(GetExtensionPart(HelpSource$)) <> "zip"
-      HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+    ; help source: a folder, or an existing .zip; else Help.zip next to the program, then Help.zip of PureBasic (compilation path)
+    If FileSize(HelpSource$) <> -2 And (LCase(GetExtensionPart(HelpSource$)) <> "zip" Or FileSize(HelpSource$) < 0)
+      HelpSource$ = GetPathPart(ProgramFilename()) + "Help/Help.zip"
+      If FileSize(HelpSource$) < 0
+        HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+      EndIf
     EndIf
     OpenSource(HelpSource$)
-    UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
+    UserLibPath$ = #PB_Compiler_Home + "purelibraries/userlibraries/" ; lowercase: the Linux install
 
     CreateUserInterface()
     HostWindow = StandaloneWindow
@@ -2282,6 +3011,8 @@ Module HelpTool
             GadgetEvent(EventGadget(), EventType())
           Case #PB_Event_Timer
             Timer()
+          Case #PB_Event_SizeWindow
+            ChipsPlace()
         EndSelect
       EndIf
     Until Event = #PB_Event_CloseWindow
@@ -2330,10 +3061,11 @@ Module HelpTool
   EndProcedure
 
 
-  Procedure SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$) ; LoadCode$, RunCode$: png images in base64
+  Procedure SetImages(Back, Forward, Home, Favorite, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "") ; LoadCode$, RunCode$, CopyCode$: png images in base64
     ImageBack     = Back
     ImageForward  = Forward
     ImageHome     = Home
+    ImageFavorite = Favorite
     ImageEdit     = Edit
     ImageContents = Contents
     ImageBranch   = Branch
@@ -2344,12 +3076,37 @@ Module HelpTool
     If RunCode$ <> ""
       RunCodeIcon$ = "<img src='data:image/png;base64," + RunCode$ + "'>"
     EndIf
+    If CopyCode$ <> ""
+      CopyCodeIcon$ = "<img src='data:image/png;base64," + CopyCode$ + "'>"
+    EndIf
+  EndProcedure
+
+
+  Procedure UpdatePageColors() ; dark mode first, else the theme colors
+    If DarkMode
+      PageColors$ = PageColorsDark$
+    Else
+      PageColors$ = ThemeColors$
+    EndIf
   EndProcedure
 
 
   Procedure SetColors(Css$, Color = $008800) ; Css$: ":root {--bg:...}" (see PageColors$), Color: user libraries in the contents
-    PageColors$ = Css$
+    ThemeColors$ = Css$
     UserLibColor = Color
+    UpdatePageColors()
+  EndProcedure
+
+
+  ; Dark colors for the pages (the IDE theme colors are not used while it is enabled).
+  ; Can be called before the creation of the help, or while it is shown: the displayed page is drawn again.
+  ;
+  Procedure EnableDarkMode(Enable = #True)
+    DarkMode = Bool(Enable)
+    UpdatePageColors()
+    If IsDialog(Dialog) And *CurrentPage And CurrentPageName$ <> ""
+      SetPageHtml(PageToHtml(CurrentPageName$))
+    EndIf
   EndProcedure
 
 
@@ -2357,6 +3114,11 @@ Module HelpTool
     HostWindow = Window
     ClearList(History$())
     CreateUserInterface()
+    CompilerIf Not #Standalone
+      WaitingFirstPage = #True
+      WaitingFirstPageTime = ElapsedMilliseconds()
+      HideGadget(GadgetRoot, #True)
+    CompilerEndIf
     BindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     LoadHelp()
     LastReloadDate = Date()
@@ -2366,6 +3128,7 @@ Module HelpTool
   Procedure Destroy()
     UnbindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     ClearList(JsMessages$())
+    WaitingFirstPage = #False
     If IsDialog(Dialog)
       FreeDialog(Dialog)
     EndIf
@@ -2376,6 +3139,16 @@ Module HelpTool
     DialogXML = 0
     GadgetRoot = 0
     GadgetShowContents = -1
+    GadgetFavorite = -1
+    GadgetFavoritesList = -1
+    GadgetChips = -1 ; the chip buttons are freed with the dialog
+    GadgetChipsSplitter = -1
+    ChipsHeightPending = #False
+    ClearList(Chips())
+    If ChipFont And IsFont(ChipFont)
+      FreeFont(ChipFont)
+    EndIf
+    ChipFont = 0
     ContentsVisible = #False
     *CurrentPage = 0
   EndProcedure
@@ -2384,7 +3157,10 @@ Module HelpTool
   Procedure Resize(Width, Height)
     If IsGadget(GadgetRoot)
       ResizeGadget(GadgetRoot, 0, 0, Width, Height) ; layouts the dialog again, which puts the splitter on the whole width
-      PlaceHiddenContents()
+      CompilerIf #Standalone = #False ; IDE only
+        PlaceHiddenContents()
+      CompilerEndIf
+      ChipsPlace()
     EndIf
   EndProcedure
 
@@ -2393,6 +3169,12 @@ Module HelpTool
     Name$ = LCase(Name$)
     If FindPage(Name$) = 0
       ProcedureReturn #False
+    EndIf
+    If IsGadget(GadgetPanel) And GetGadgetState(GadgetPanel) = 1 ; back to the Contents tab, where the page is selected in the tree
+      SetGadgetState(GadgetPanel, 0)
+      If Name$ = CurrentPageName$ And GetGadgetText(GadgetSearch) <> "" ; same page: DisplayPage() doesn't draw it again, removes the highlight here
+        SetPageHtml(PageToHtml(CurrentPageName$))
+      EndIf
     EndIf
     DisplayPage(Name$)
     ProcedureReturn #True
@@ -2443,6 +3225,12 @@ CompilerElse
   UsePNGImageEncoder()
 
   Global HelpToolSource$, Backup_HelpToolSource$
+  Global HelpToolLanguage$, Backup_HelpToolLanguage$ ; "" (IDE language), "English", "German" or "French"
+  Global HelpToolPreviousTool$, HelpToolIsSeparate, HelpToolWindow ; to go back with Escape: the tool shown before the help, and where the help is
+  Global *HelpToolPendingEntry.ToolsPanelEntry       ; tool in the tools panel, not created until it's displayed (see Help_CreateFunction())
+  Global HelpToolCreating                            ; the placeholder is displayed, the tool will be created by the timer
+  Global HelpToolPlaceholder                         ; "Initializing..." text, until the first page is loaded
+  Global HelpToolRequestedPage$                      ; page asked (F1) before the tool is created
 
 
   Procedure.s HelpTool_DefaultSource()
@@ -2451,24 +3239,51 @@ CompilerElse
 
 
   Procedure.s HelpTool_Language(Source$)
-    Select UCase(CurrentLanguage$)
-      Case "FRANCAIS"
-        Language$ = "French"
-      Case "DEUTSCH"
-        Language$ = "German"
+    Select HelpToolLanguage$
+      Case "English", "German", "French" ; language forced in the preferences
+        Language$ = HelpToolLanguage$
       Default
-        Language$ = "English"
+        Select UCase(CurrentLanguage$)
+          Case "FRANCAIS"
+            Language$ = "French"
+          Case "DEUTSCH"
+            Language$ = "German"
+          Default
+            Language$ = "English"
+        EndSelect
     EndSelect
 
-    ; Fallback to english if the help isn't available in the IDE language
+    ; Fallback to english if the help isn't available in the requested language
     If Right(Source$, 1) <> "/" And Right(Source$, 1) <> "\"
-      Source$ + #Separator
+      Source$ + "/"
     EndIf
     If FileSize(Source$) = -2 And FileSize(Source$ + Language$) <> -2
       Language$ = "English"
     EndIf
 
     ProcedureReturn Language$
+  EndProcedure
+
+
+  ; Preferences combobox index <-> 'HelpLanguage' preference value
+  ;
+  Procedure HelpTool_LanguageIndex(Language$)
+    Select Language$
+      Case "English" : ProcedureReturn 1
+      Case "German"  : ProcedureReturn 2
+      Case "French"  : ProcedureReturn 3
+    EndSelect
+    ProcedureReturn 0 ; IDE language
+  EndProcedure
+
+
+  Procedure.s HelpTool_LanguageName(Index)
+    Select Index
+      Case 1 : ProcedureReturn "English"
+      Case 2 : ProcedureReturn "German"
+      Case 3 : ProcedureReturn "French"
+    EndSelect
+    ProcedureReturn ""
   EndProcedure
 
 
@@ -2563,6 +3378,24 @@ CompilerElse
     ProcedureReturn Result$
   EndProcedure
 
+  CompilerIf #CompileMac
+    Procedure HelpTool_IsDarkAppearance() ; the effective appearance of the application: follows the system, and DisplayDarkMode = 0 forces Aqua
+      Protected Appearance, Name, *Utf8
+
+      Appearance = CocoaMessage(0, CocoaMessage(0, 0, "NSApplication sharedApplication"), "effectiveAppearance")
+      If Appearance ; macOS 10.14 and newer
+        Name = CocoaMessage(0, Appearance, "name")
+        If Name
+          *Utf8 = CocoaMessage(0, Name, "UTF8String")
+          If *Utf8
+            ProcedureReturn Bool(FindString(PeekS(*Utf8, -1, #PB_UTF8), "Dark") > 0)
+          EndIf
+        EndIf
+      EndIf
+      ProcedureReturn #False
+    EndProcedure
+  CompilerEndIf
+
   DataSection
     HelpTool_StyleColors: ; Color for the Scintilla styles 1 to 16 (see SetUpHighlightingColors())
     Data.l #COLOR_NormalText, #COLOR_BasicKeyword, #COLOR_Comment, #COLOR_Constant, #COLOR_String, #COLOR_PureKeyword, #COLOR_ASMKeyword, #COLOR_Operator
@@ -2608,12 +3441,12 @@ CompilerElse
     Css$ + "--keyword:"  + HelpTool_HtmlColor(Colors(#COLOR_BasicKeyword)\DisplayValue) + "; "
     Css$ + "--userlib:"  + HelpTool_HtmlColor(Colors(#COLOR_CustomKeyword)\DisplayValue) + ";}"
 
-    ; Examples syntax highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
+    ; Examples and syntax lines highlighting (see HelpTool_ColorCode()): one class per Scintilla style (see SetUpHighlightingColors())
     If EnableColoring
       Restore HelpTool_StyleColors
       For Style = 1 To 16
         Read.l ColorIndex
-        Css$ + " pre.ex .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
+        Css$ + " pre .s" + Str(Style) + " {color:" + HelpTool_HtmlColor(Colors(ColorIndex)\DisplayValue) + ";"
         If EnableKeywordBolding And (Style = 2 Or Style = 14)
           Css$ + " font-weight:bold;"
         EndIf
@@ -2672,12 +3505,10 @@ CompilerElse
   ; Display the given help page in the tool, opening the tool if needed (Page$ is a page name or a path as used
   ; in the html help, ie: "2DDrawing/Box.html"). Displays the home page and returns #False if the page doesn't exist
   ;
-  Procedure HelpTool_DisplayPage(Page$)
-    ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
-    If HelpToolOpen = #False
-      ProcedureReturn #False
-    EndIf
+  Declare Help_StartCreation()
+  Declare Help_FinishCreation()
 
+  Procedure HelpTool_ShowPage(Page$)
     Page$ = ReplaceString(Page$, "\", "/")
     Name$ = LCase(GetFilePart(Page$, #PB_FileSystem_NoExtension))
     If Name$ = ""
@@ -2692,6 +3523,33 @@ CompilerElse
 
     HelpTool::ShowPage("reference")
     ProcedureReturn #False
+  EndProcedure
+
+
+  Procedure HelpTool_DisplayPage(Page$)
+    Protected *ShownTool.ToolsPanelEntry
+
+    ForEach UsedPanelTools() ; the tool of the panel shown before the help: Escape goes back to it
+      If CurrentTool = UsedPanelTools()
+        *ShownTool = UsedPanelTools()
+        If UCase(*ShownTool\ToolID$) <> "HELPTOOL"
+          HelpToolPreviousTool$ = *ShownTool\ToolID$
+        EndIf
+        Break
+      EndIf
+    Next UsedPanelTools()
+
+    ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
+    Help_StartCreation()     ; ActivateTool() doesn't resize the tool if it's already the current one
+    If HelpToolCreating      ; displayed once the tool is created
+      HelpToolRequestedPage$ = Page$
+      ProcedureReturn #True
+    EndIf
+    If HelpToolOpen = #False
+      ProcedureReturn #False
+    EndIf
+
+    ProcedureReturn HelpTool_ShowPage(Page$)
   EndProcedure
 
 
@@ -2713,11 +3571,43 @@ CompilerElse
 
 
   Procedure HelpTool_Timer()
-    HelpTool::Timer()
+    If HelpToolCreating
+      Help_FinishCreation()
+    Else
+      HelpTool::Timer()
+    EndIf
   EndProcedure
 
 
-  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
+  ; Escape in the help: back to the tool shown before (help in the tools panel) or closes the tool window,
+  ; then gives the focus back to the editor (or to the form)
+  Procedure HelpTool_Close()
+    If HelpToolIsSeparate
+      HideWindow(HelpToolWindow, #True) ; the window of a tool is only hidden when closed
+    ElseIf HelpToolPreviousTool$ <> ""
+      ActivateTool(HelpToolPreviousTool$, #True)
+    EndIf
+    ActivateMainWindow()
+  EndProcedure
+
+
+  Procedure HelpTool_FreePlaceholder()
+    If HelpToolPlaceholder And IsGadget(HelpToolPlaceholder)
+      FreeGadget(HelpToolPlaceholder)
+    EndIf
+    HelpToolPlaceholder = 0
+  EndProcedure
+
+
+  Procedure HelpTool_CreatePlaceholder(*Entry.ToolsPanelEntry, Width, Height)
+    HelpToolPlaceholder = TextGadget(#PB_Any, 0, 0, Width, Height, #LF$ + Language("Help","Initializing"), #PB_Text_Center)
+    If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
+      ToolsPanel_ApplyColors(HelpToolPlaceholder)
+    EndIf
+  EndProcedure
+
+
+  Procedure Help_CreateTool(*Entry.ToolsPanelEntry)
 
     Source$ = HelpToolSource$
     If Source$ = ""
@@ -2734,7 +3624,11 @@ CompilerElse
 
     HelpTool::OpenCodeCallback = @HelpTool_OpenCode()
     HelpTool::EditFileCallback = @HelpTool_EditFile()
+    HelpTool::FirstPageReadyCallback = @HelpTool_FreePlaceholder()
     HelpTool::ColorCodeCallback = @HelpTool_ColorCode()
+    HelpTool::CloseCallback = @HelpTool_Close()
+    HelpToolIsSeparate = *Entry\IsSeparateWindow
+    HelpToolWindow = *Entry\ToolWindowID
     ; User libraries in the contents tree: same color as in the help pages, when the tree uses the IDE colors
     If (*Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0) And ToolsPanelUseColors
       UserLibColor = Colors(#COLOR_CustomKeyword)\DisplayValue
@@ -2747,8 +3641,11 @@ CompilerElse
       HelpTool::ApplyColorsCallback = 0
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
-    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
+    CompilerIf #CompileMac ; only macOS has a system appearance here. Elsewhere the pages follow the IDE theme (SetColors()), and DisplayDarkMode isn't a Windows/Linux option
+      HelpTool::EnableDarkMode(HelpTool_IsDarkAppearance())
+    CompilerEndIf
+    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Favorite, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries/userlibraries/", PureBasicPath$ + "examples/") ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
     If *Entry\IsSeparateWindow
       HelpTool::Create(*Entry\ToolWindowID)
@@ -2764,7 +3661,95 @@ CompilerElse
 
   EndProcedure
 
+
+  ; The web engine processes and the help sources are expensive (memory and startup time), so in the tools panel
+  ; the tool is only created the first time it's displayed
+  ;
+  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
+
+    If *Entry\IsSeparateWindow
+      HelpTool_CreatePlaceholder(*Entry, 0, 0) ; sized by the resize handler
+      Help_CreateTool(*Entry)
+    Else
+      *HelpToolPendingEntry = *Entry
+    EndIf
+
+  EndProcedure
+
+
+  Procedure Help_OpenToolPanelItem(*Entry.ToolsPanelEntry) ; returns the previous gadget list
+    PushListPosition(UsedPanelTools())
+    ForEach UsedPanelTools()
+      If UsedPanelTools() = *Entry
+        PanelItem = ListIndex(UsedPanelTools())
+        Break
+      EndIf
+    Next UsedPanelTools()
+    PopListPosition(UsedPanelTools())
+
+    OldGadgetList = UseGadgetList(WindowID(#WINDOW_Main))
+    OpenGadgetList(#GADGET_ToolsPanel, PanelItem)
+    ProcedureReturn OldGadgetList
+  EndProcedure
+
+
+  ; Creating the tool blocks for a while, so the placeholder is displayed first and the tool is created
+  ; by a timer, once the event loop has drawn it (this can be called from a bound event: no FlushEvents() here)
+  ;
+  Procedure Help_StartCreation()
+
+    If *HelpToolPendingEntry And HelpToolCreating = #False
+      HelpToolCreating = #True
+
+      OldGadgetList = Help_OpenToolPanelItem(*HelpToolPendingEntry)
+      HelpTool_CreatePlaceholder(*HelpToolPendingEntry, GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+      CloseGadgetList()
+      UseGadgetList(OldGadgetList)
+
+      AddWindowTimer(#WINDOW_Main, #TIMER_HelpTool, 50)
+      BindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    EndIf
+
+  EndProcedure
+
+
+  Procedure Help_FinishCreation()
+
+    RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
+    UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    HelpToolCreating = #False
+
+    *Entry.ToolsPanelEntry = *HelpToolPendingEntry
+    *HelpToolPendingEntry = 0 ; first, as creating the web view can process events (which can call the resize handler)
+
+    OldGadgetList = Help_OpenToolPanelItem(*Entry)
+    Help_CreateTool(*Entry)
+    CloseGadgetList()
+    UseGadgetList(OldGadgetList)
+
+    HelpTool::Resize(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+
+    If HelpToolRequestedPage$ <> ""
+      HelpTool_ShowPage(HelpToolRequestedPage$)
+      HelpToolRequestedPage$ = ""
+    EndIf
+
+  EndProcedure
+
+
   Procedure Help_DestroyFunction(*Entry.ToolsPanelEntry)
+
+    *HelpToolPendingEntry = 0
+    HelpToolRequestedPage$ = ""
+    HelpTool_FreePlaceholder()
+    If HelpToolCreating
+      HelpToolCreating = #False
+      RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
+      UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    EndIf
+    If HelpToolOpen = #False ; never displayed
+      ProcedureReturn
+    EndIf
 
     RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
     UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
@@ -2777,13 +3762,24 @@ CompilerElse
 
   Procedure Help_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
-    HelpTool::Resize(PanelWidth, PanelHeight)
+    ; Only called for the current tool, so if the tools panel is visible the tool is about to be displayed
+    If *HelpToolPendingEntry And ToolsPanelVisible
+      Help_StartCreation()
+    EndIf
+    If HelpToolPlaceholder And IsGadget(HelpToolPlaceholder)
+      ResizeGadget(HelpToolPlaceholder, 0, 0, PanelWidth, PanelHeight)
+    EndIf
+    If HelpToolOpen
+      HelpTool::Resize(PanelWidth, PanelHeight)
+    EndIf
 
   EndProcedure
 
   Procedure Help_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 
-    HelpTool::GadgetEvent(EventGadgetID, EventType())
+    If HelpToolOpen
+      HelpTool::GadgetEvent(EventGadgetID, EventType())
+    EndIf
 
   EndProcedure
 
@@ -2792,6 +3788,10 @@ CompilerElse
 
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
+    HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+    HelpTool::SetFavorites(ReadPreferenceString("Favorites", ""))
+    HelpTool::SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
+    HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
 
@@ -2801,7 +3801,16 @@ CompilerElse
     PreferenceComment("")
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
+    WritePreferenceFloat("Zoom", HelpTool::GetZoom())
+    WritePreferenceString("Favorites", HelpTool::GetFavorites())
+    WritePreferenceLong("ChipsHeight", HelpTool::GetChipsHeight())
+    WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
+  EndProcedure
+
+
+  Procedure HelpTool_ResetZoom()
+    ProcedureReturn HelpTool::ResetZoom()
   EndProcedure
 
 
@@ -2809,6 +3818,7 @@ CompilerElse
 
     ; Use the backup variable during the PReferences changing
     Backup_HelpToolSource$ = HelpToolSource$
+    Backup_HelpToolLanguage$ = HelpToolLanguage$
 
   EndProcedure
 
@@ -2817,6 +3827,7 @@ CompilerElse
 
     ; put the backup variable back
     HelpToolSource$ = Backup_HelpToolSource$
+    HelpToolLanguage$ = Backup_HelpToolLanguage$
 
   EndProcedure
 
@@ -2835,6 +3846,23 @@ CompilerElse
     GetRequiredSize(#GADGET_Preferences_HelpSourceBrowse, @Width, @Height)
     StringGadget(#GADGET_Preferences_HelpSource, 10, y, 300-Width-5, Height, Backup_HelpToolSource$)
     ResizeGadget(#GADGET_Preferences_HelpSourceBrowse, 310-Width, y, Width, Height)
+    y + Height + 15
+
+    TextGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, 25, Language("Help","HelpLanguage"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguageText, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguageText, 10, y, 300, Height)
+    y + Height + 5
+
+    ComboBoxGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, 25)
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageDefault"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageEnglish"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageGerman"))
+    AddGadgetItem(#GADGET_Preferences_HelpLanguage, -1, Language("Help","LanguageFrench"))
+    GetRequiredSize(#GADGET_Preferences_HelpLanguage, @Width, @Height)
+    ResizeGadget(#GADGET_Preferences_HelpLanguage, 10, y, 300, Height)
+    SetGadgetState(#GADGET_Preferences_HelpLanguage, HelpTool_LanguageIndex(Backup_HelpToolLanguage$))
+
+    *Entry\PreferencesHeight = y + Height + 10 ; update the size (scroll area)
 
   EndProcedure
 
@@ -2842,6 +3870,7 @@ CompilerElse
   Procedure Help_PreferenceDestroy(*Entry.ToolsPanelEntry)
 
     Backup_HelpToolSource$ = GetGadgetText(#GADGET_Preferences_HelpSource)
+    Backup_HelpToolLanguage$ = HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
 
   EndProcedure
 
@@ -2871,9 +3900,12 @@ CompilerElse
       If HelpToolSource$ <> GetGadgetText(#GADGET_Preferences_HelpSource)
         ProcedureReturn 1
       EndIf
+      If HelpToolLanguage$ <> HelpTool_LanguageName(GetGadgetState(#GADGET_Preferences_HelpLanguage))
+        ProcedureReturn 1
+      EndIf
 
     Else
-      If HelpToolSource$ <> Backup_HelpToolSource$
+      If HelpToolSource$ <> Backup_HelpToolSource$ Or HelpToolLanguage$ <> Backup_HelpToolLanguage$
         ProcedureReturn 1
       EndIf
 
@@ -2910,6 +3942,7 @@ CompilerElse
   AvailablePanelTools()\PreferencesWidth     = 320
   AvailablePanelTools()\PreferencesHeight    = 80
   AvailablePanelTools()\NeedDestroyFunction  = 1
+  AvailablePanelTools()\PanelTabOrder        = 6 ; in the Tools Panel by default (last tab)
   AvailablePanelTools()\ToolID$              = "HelpTool"
   AvailablePanelTools()\PanelTitle$          = "HelpToolShort"
   AvailablePanelTools()\ToolName$            = "HelpToolLong"

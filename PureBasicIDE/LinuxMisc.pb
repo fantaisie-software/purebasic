@@ -221,7 +221,7 @@ CompilerIf #CompileLinux
       gtk_widget_size_request_(MenuID(#MENU), @MenuSize)
       MenuHeight = MenuSize\height
     CompilerElse
-      MenuHeight = 0
+      MenuHeight = MenuHeight() ; WindowHeight() includes the menu bar on Qt as well
     CompilerEndIf
     
     ; Set up the callback for the RunOnce event
@@ -601,4 +601,31 @@ CompilerIf #CompileLinux
     ProcedureReturn #False
   EndProcedure
   
+CompilerEndIf
+
+CompilerIf #CompileLinuxGtk2
+
+  ; No help tool on GTK2 (see PureBasic.pb): F1 opens the online documentation in the browser
+  ;
+  Procedure DisplayHelp(CurrentWord$)
+    Url$ = "https://www.purebasic.com/documentation/"
+
+    If CurrentWord$ <> ""
+      If CheckPureBasicKeyWords(CurrentWord$) <> ""
+        Url$ + LCase(CheckPureBasicKeyWords(CurrentWord$)) + ".html"
+      Else
+        ForceDefaultCompiler()
+        If CompilerReady
+          CompilerWrite("HELPDIRECTORY"+Chr(9)+CurrentWord$)
+          HelpDirectory$ = CompilerRead()
+          If HelpDirectory$ <> "" And HelpDirectory$ <> "UNKNOWN" And HelpDirectory$ <> "API"
+            Url$ + LCase(HelpDirectory$ + "/" + CurrentWord$) + ".html"
+          EndIf
+        EndIf
+      EndIf
+    EndIf
+
+    OpenWebBrowser(Url$)
+  EndProcedure
+
 CompilerEndIf

@@ -166,7 +166,7 @@
 
    @Example Pi
 
-@Code  pi
+@Code
   Procedure.d get_pi()
   
   Define.d pi
@@ -186,61 +186,62 @@
 @EndCode 
 
    @Example bswap
-   
-@Code
-  Procedure bswap(v.l) 
-  Protected ret.l 
-  CompilerIf #PB_Compiler_Backend = #PB_Backend_C 
-    !".intel_syntax noprefix";
-    !"mov eax, v_v";
-    !"bswap eax"; 
-    !"mov v_ret, eax";
-  CompilerElse 
-    !mov eax, [p.v_v]
-    !bswap eax 
-    !mov [p.v_ret],eax 
-  CompilerEndIf 
-    ProcedureReturn ret 
-  EndProcedure 
 
-  x.i = $FF000000 
+@Code
+  Procedure bswap(v.l)
+    Protected ret.l
+    CompilerIf #PB_Compiler_Backend = #PB_Backend_C
+      !asm (
+      !    "bswap %[v_ret]
+"
+      !    :[v_ret]"=r"(v_ret)
+      !    :"0"(v_v)
+      !);
+    CompilerElse
+      !mov eax, [p.v_v]
+      !bswap eax
+      !mov [p.v_ret],eax
+    CompilerEndIf
+    ProcedureReturn ret
+  EndProcedure
+
+  x.i = $FF000000
   Debug RSet(Hex(x),8,"0")
-  x = bswap(x) 
+  x = bswap(x)
   Debug RSet(Hex(x),8,"0")
-@EndCode 
+@EndCode
 
    @Example Fibonacci
-   
-   @Code
+
+@Code
   Procedure.q fib(ub.l, *f)
-  If (ub<3) 
-    ProcedureReturn 1
-  EndIf
-  ;  !set_dpfpu();
-  !asm (
-  !    "mov %[p_f], %%rax;"
-  !    "fldz;"
-  !    "fistl (%%rax);"
-  !    "add $8, %%rax;"
-  !    "fld1;"
-  !    "fistl (%%rax);"
-  !    "add $8, %%rax;"
-  !    "mov %[v_ub], %%ecx;"
-  !    "sub $2, %%ecx;"
-  !    "fib2:"
-  !    "fxch %%st(1);"
-  !    "fadd %%st(1),%%st(0);"
-  !    "fld %%st(0);"
-  !    "fistpq (%%rax);"
-  !    "add $8, %%rax;"
-  !    "dec %%ecx;"
-  !    "jg fib2;"
-  !    "fstp %%st(0);"
-  !    "fstp %%st(0);" 
-  !     :[p_f]"=m"(p_f)
-  !     :[v_ub]"m"(v_ub)
-  !     :"rax","ecx"
-  !);
+    If (ub<3)
+      ProcedureReturn 1
+    EndIf
+    !asm (
+    !    "mov %[p_f], %%rax;"
+    !    "fldz;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "fld1;"
+    !    "fistl (%%rax);"
+    !    "add $8, %%rax;"
+    !    "mov %[v_ub], %%ecx;"
+    !    "sub $2, %%ecx;"
+    !    "fib2:"
+    !    "fxch %%st(1);"
+    !    "fadd %%st(1),%%st(0);"
+    !    "fld %%st(0);"
+    !    "fistpq (%%rax);"
+    !    "add $8, %%rax;"
+    !    "dec %%ecx;"
+    !    "jg fib2;"
+    !    "fstp %%st(0);"
+    !    "fstp %%st(0);"
+    !     :
+    !     :[p_f]"m"(p_f),[v_ub]"m"(v_ub)
+    !     :"rax","ecx","memory"
+    !);
     ProcedureReturn
   EndProcedure
 
@@ -250,6 +251,4 @@
   For i.l=0 To n
     Debug fibonacci(i)
   Next
-@EndCode 
-
-    @ExampleFile All AsmInlineBackendC.pb
+@EndCode
