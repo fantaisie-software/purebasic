@@ -2241,7 +2241,7 @@ Module HelpTool
 
   ; Places the chips line by line (vertical scrollbar only if they do not fit).
   Procedure ChipsLayout()
-    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight
+    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight, MaxRight
     Protected Pad = 2, Gap = 2
 
     If IsGadget(GadgetChips) = 0
@@ -2254,12 +2254,16 @@ Module HelpTool
       InnerWidth = AreaWidth - 2 * Pad - 4 - Pass * ChipsScrollbarWidth
       x = Pad
       y = Pad
+      MaxRight = 0
       ForEach Chips()
         If x + Chips()\Width > InnerWidth And x > Pad
           x = Pad
           y + ChipHeight + Gap
         EndIf
         ResizeGadget(Chips()\Gadget, x, y, Chips()\Width, ChipHeight)
+        If x + Chips()\Width > MaxRight
+          MaxRight = x + Chips()\Width
+        EndIf
         x + Chips()\Width + Gap
       Next
       InnerHeight = y + ChipHeight + Pad
@@ -2267,6 +2271,9 @@ Module HelpTool
         Break
       EndIf
     Next
+    If MaxRight - Pad > InnerWidth ; a chip wider than the area: horizontal scrollbar, so that it can be read
+      InnerWidth = MaxRight - Pad
+    EndIf
     SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerWidth, InnerWidth + 2 * Pad)
     SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerHeight, InnerHeight)
   EndProcedure
