@@ -39,6 +39,7 @@ DeclareModule HelpTool
   Declare ShowPage(Name$)
   Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
   Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
+  Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
 
@@ -732,6 +733,15 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure ResetZoom() ; GTK: the IDE shortcut gets Ctrl+0 before the page
+    If GadgetWeb And IsGadget(GadgetWeb) And IEMode = #False And GetActiveGadget() = GadgetWeb
+      WebViewExecuteScript(GadgetWeb, "zoomset(1)")
+      ProcedureReturn #True
+    EndIf
+    ProcedureReturn #False
+  EndProcedure
+
+
   Procedure SetPageHtml(Html$)
     Html$ = ReplaceString(Html$, "<head>", "<head><meta charset='utf-8'>", #PB_String_CaseSensitive, 1, 1) ; explicit encoding (accents, umlauts)
 
@@ -746,7 +756,7 @@ Module HelpTool
     ; The factor is sent to the tool (zm:) and injected in the next pages. IE mode: no zoom (degraded display).
     Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
                                            "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
-                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom);}" +
+                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom); window.dispatchEvent(new Event('resize'));}" +
                                            "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
                                            "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0') {e.preventDefault(); zoomset(1);}}});" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
@@ -2896,6 +2906,11 @@ CompilerElse
     WritePreferenceFloat("Zoom", HelpTool::GetZoom())
     WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
+  EndProcedure
+
+
+  Procedure HelpTool_ResetZoom()
+    ProcedureReturn HelpTool::ResetZoom()
   EndProcedure
 
 

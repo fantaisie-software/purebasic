@@ -1522,7 +1522,8 @@ Procedure MainMenuEvent(MenuItemID)
       EndIf
       
     Case #MENU_ZoomDefault
-      If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+      If HelpTool_ResetZoom() ; the focus is in a help page: its zoom, not the one of the editor
+      ElseIf *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
         ZoomDefault()
       EndIf
       
