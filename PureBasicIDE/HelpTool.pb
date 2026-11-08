@@ -33,6 +33,7 @@ DeclareModule HelpTool
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
   Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "")
   Declare SetColors(Css$, Color = $008800)
+  Declare EnableDarkMode(Enable = #True) ; dark colors for the pages (they win over the SetColors() ones), can be called at any time
   Declare Create(Window)
   Declare Destroy()
   Declare Resize(Width, Height)
@@ -131,6 +132,12 @@ Module HelpTool
   Global UserLibColor = $008800 ; user libraries in the contents tree
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
+  Global ThemeColors$ = PageColors$ ; light colors: the default ones, then the IDE theme ones (SetColors())
+  Global DarkMode                   ; #True: the dark colors are used for the pages (EnableDarkMode())
+  Global PageColorsDark$ = ":root {color-scheme: dark; --bg:#1f2023; --text:#e0e0e0; --titlebg:#5a5a1e; --codebg:#2c2e33; --tablebg:#26282c; --optbg:#303338; --border:#ffffff33;" +
+                           " --notebg:#a05a00; --link:#7db7ff; --constant:#ff8f8f; --function:#4fd1c5; --keyword:#4fd1c5; --userlib:#7ddf7d;}" +
+                           " pre .s1, pre .s8, pre .s10, pre .s11, pre .s12, pre .s13, pre .s15 {color:var(--text);} pre .s2, pre .s7 {color:var(--keyword);} pre .s3 {color:#8fbf8f;}" +
+                           " pre .s4 {color:var(--constant);} pre .s5 {color:#e0b070;} pre .s6, pre .s9 {color:var(--function);} pre .s14 {color:var(--userlib);} pre .s16 {color:#ff6b6b;}"
 
   ; Layout: the page scrolls, not the code blocks; the text wraps to the visible width. The title bar (h2 .t) and the example buttons (.butcode)
   ; stay in the visible part of the page: --vw is the visible width and --sw the width of the whole page, set by the script of SetPageHtml().
@@ -2617,9 +2624,31 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure UpdatePageColors() ; dark mode first, else the theme colors
+    If DarkMode
+      PageColors$ = PageColorsDark$
+    Else
+      PageColors$ = ThemeColors$
+    EndIf
+  EndProcedure
+
+
   Procedure SetColors(Css$, Color = $008800) ; Css$: ":root {--bg:...}" (see PageColors$), Color: user libraries in the contents
-    PageColors$ = Css$
+    ThemeColors$ = Css$
     UserLibColor = Color
+    UpdatePageColors()
+  EndProcedure
+
+
+  ; Dark colors for the pages (the IDE theme colors are not used while it is enabled).
+  ; Can be called before the creation of the help, or while it is shown: the displayed page is drawn again.
+  ;
+  Procedure EnableDarkMode(Enable = #True)
+    DarkMode = Bool(Enable)
+    UpdatePageColors()
+    If IsDialog(Dialog) And *CurrentPage And CurrentPageName$ <> ""
+      SetPageHtml(PageToHtml(CurrentPageName$))
+    EndIf
   EndProcedure
 
 
@@ -2879,6 +2908,24 @@ CompilerElse
     ProcedureReturn Result$
   EndProcedure
 
+  CompilerIf #CompileMac
+    Procedure HelpTool_IsDarkAppearance() ; the effective appearance of the application: follows the system, and DisplayDarkMode = 0 forces Aqua
+      Protected Appearance, Name, *Utf8
+
+      Appearance = CocoaMessage(0, CocoaMessage(0, 0, "NSApplication sharedApplication"), "effectiveAppearance")
+      If Appearance ; macOS 10.14 and newer
+        Name = CocoaMessage(0, Appearance, "name")
+        If Name
+          *Utf8 = CocoaMessage(0, Name, "UTF8String")
+          If *Utf8
+            ProcedureReturn Bool(FindString(PeekS(*Utf8, -1, #PB_UTF8), "Dark") > 0)
+          EndIf
+        EndIf
+      EndIf
+      ProcedureReturn #False
+    EndProcedure
+  CompilerEndIf
+
   DataSection
     HelpTool_StyleColors: ; Color for the Scintilla styles 1 to 16 (see SetUpHighlightingColors())
     Data.l #COLOR_NormalText, #COLOR_BasicKeyword, #COLOR_Comment, #COLOR_Constant, #COLOR_String, #COLOR_PureKeyword, #COLOR_ASMKeyword, #COLOR_Operator
@@ -3097,6 +3144,9 @@ CompilerElse
       HelpTool::ApplyColorsCallback = 0
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
+    CompilerIf #CompileMac ; only macOS has a system appearance here. Elsewhere the pages follow the IDE theme (SetColors()), and DisplayDarkMode isn't a Windows/Linux option
+      HelpTool::EnableDarkMode(HelpTool_IsDarkAppearance())
+    CompilerEndIf
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries/userlibraries/", PureBasicPath$ + "examples/") ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
