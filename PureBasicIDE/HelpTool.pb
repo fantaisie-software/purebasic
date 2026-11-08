@@ -74,6 +74,7 @@ Module HelpTool
   Declare DisplayPage(Name$)
 
   Global NewMap Tags.HelpTag()
+  Global NewList ExamplePages.HelpPage() ; pages of the example files, created when they are displayed
   Global NewList Pages.HelpPage()
   Global NewMap *PageMap.HelpPage()      ; pages by name
   Global NewMap UserLibDestination$()    ; user library function -> library where it is listed
@@ -116,11 +117,11 @@ Module HelpTool
   Global PageColors$ = ":root {color-scheme: light; --bg:#fed; --text:#000; --titlebg:#ff8; --codebg:#edc; --tablebg:#fff; --optbg:#eee; --border:#0002;" +
                        " --notebg:#f80; --link:#00f; --constant:#a00; --function:#088; --keyword:#088; --userlib:#080;}"
 
-  ; Layout: the page scrolls, not the code blocks (the body is as wide as its widest block). The title bar (h2 .t) and the example buttons
-  ; (.butcode) stay in the visible part of the page: --vw is the visible width, set by the script of SetPageHtml().
+  ; Layout: the page scrolls, not the code blocks; the text wraps to the visible width. The title bar (h2 .t) and the example buttons (.butcode)
+  ; stay in the visible part of the page: --vw is the visible width and --sw the width of the whole page, set by the script of SetPageHtml().
   ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
-  Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px; display: inline-block; min-width: calc(100% - 38px); box-sizing: border-box;}" +
-                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088;}" +
+  Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
+                      "h2 {position: sticky;z-index: 10;font-size:20pt; font-weight: normal; top:0; text-align: center; background-color:var(--titlebg);padding: 5px; margin:-8px -8px 8px -30px; box-shadow: 0px 5px 5px #00000088; min-width: calc(var(--sw, 0px) - 10px);}" +
                       "h3 {margin-left:-20px;}" +
                       "a, a:visited, a:active {font-size: 10pt; color: var(--link);}" +
                       ".nav, .nav a {color: var(--link); font-size: 13px;} .nav {display: block;}" +
@@ -134,6 +135,7 @@ Module HelpTool
                       "pre {overflow: visible; width: max-content; min-width: 100%; box-sizing: border-box; font-family:consolas, Courier, monospace; font-size: 9pt;}" +
                       "pre.ex {padding: 5px; margin-top: 0; background-color:var(--codebg);border-style: solid; border-width:1px; border-color:var(--border);}" +
                       "button {box-shadow: 2px 2px 2px #0008;}" +
+                      ".cb {width: max-content; min-width: 100%;}" +
                       ".butcode {display: flex; gap: 5px; width: fit-content; margin: 8px 0 4px auto; position: sticky; right: 5px;}" +
                       "h2 .t {position: sticky; left: 0; width: calc(var(--vw, 100%) - 10px);}" +
                       "table {box-shadow: 2px 2px 3px #0008;background-color: var(--tablebg);}" +
@@ -497,8 +499,8 @@ Module HelpTool
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("co:$ex") + "'>" + LoadCodeIcon$ + "</button>"
     RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$  + "</button>"
     CopyButton$ = "<button title='" + Text_Copy$ + "' onclick='" + JsCall("cc:$ex") + "'>" + CopyCodeIcon$ + "</button>"
-    AddTag("code",          0, 0, "<div class='butcode'>" + LoadButton$ + CopyButton$ + RunButton$ + "</div><pre class='ex'>")
-    AddTag("endcode",       0, 0, "</pre>")
+    AddTag("code",          0, 0, "<div class='cb'><div class='butcode'>" + LoadButton$ + CopyButton$ + RunButton$ + "</div><pre class='ex'>")
+    AddTag("endcode",       0, 0, "</pre></div>")
     AddTag("os",            0, 0, "")
     AddTag("endos",         0, 0, "")
     AddTag("fixedfont",     0, 0, "<pre>")
@@ -734,9 +736,10 @@ Module HelpTool
                                            "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+');});" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
 
-    ; --vw: visible width of the page (without the scrollbar), for the title bar and the example buttons (see PageStyle$)
+    ; --vw: visible width of the page (without the scrollbar), --sw: width of the whole page, for the title bar and the example buttons (see PageStyle$).
+    ; Both are in CSS pixels of the page: the fixed probe gives the width whatever the zoom is.
     Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
-                                           "function setvw() {document.documentElement.style.setProperty('--vw', document.documentElement.clientWidth + 'px');}" +
+                                           "function setvw() {var r=document.documentElement, p=document.createElement('div'); p.style.cssText='position:fixed;left:0;right:0;height:0'; r.style.setProperty('--sw','0px'); r.appendChild(p); var w=p.offsetWidth, s=r.clientWidth ? r.scrollWidth*w/r.clientWidth : w; r.removeChild(p); r.style.setProperty('--vw',w+'px'); r.style.setProperty('--sw',s+'px');}" +
                                            "setvw(); window.addEventListener('resize', setvw); window.addEventListener('load', setvw);" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
     SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
@@ -938,6 +941,7 @@ Module HelpTool
 
     ClearMap(*PageMap())
     ClearList(Pages())
+    ClearList(ExamplePages())
     CurrentPageName$ = ""
     LanguagePath$ = Language$ + "/"
 
@@ -1794,6 +1798,12 @@ Module HelpTool
         If FileSize(Path$ + "3D/" + Name$) > 0
           ProcedureReturn Path$ + "3D/" + Name$
         EndIf
+        If FileSize(Path$ + "sources/" + Name$) > 0 ; Linux install
+          ProcedureReturn Path$ + "sources/" + Name$
+        EndIf
+        If FileSize(Path$ + "3d/" + Name$) > 0
+          ProcedureReturn Path$ + "3d/" + Name$
+        EndIf
       EndIf
     Next i
 
@@ -1821,12 +1831,17 @@ Module HelpTool
         EndIf
       EndIf
       If Code$ = ""
+        MessageRequester(Text_Help$, "Example not found: " + Name$)
         ProcedureReturn
       EndIf
 
       From$ = CurrentPageName$
-      AddGeneratedPage(PageName$, Name$, "@Code" + #LF$ + Code$ + #LF$ + "@EndCode" + #LF$)
-      *Page = FindPage(PageName$)
+      AddElement(ExamplePages()) ; not in Pages(): an example must not appear in the search results once visited
+      *Page = @ExamplePages()
+      *Page\Name$   = PageName$
+      *Page\Title$  = Name$
+      *Page\Source$ = "@Code" + #LF$ + Code$ + #LF$ + "@EndCode" + #LF$
+      *PageMap(PageName$) = *Page
       *Page\ExampleFile$  = Name$
       *Page\ContentsItem  = -1
       If From$ <> "" And FindPage(From$)
@@ -2699,6 +2714,12 @@ CompilerElse
   EndDataSection
 
 
+  CompilerIf #CompileLinux
+    #HelpTool_ExamplesFolder$ = "examples"
+  CompilerElse
+    #HelpTool_ExamplesFolder$ = "Examples"
+  CompilerEndIf
+
   ; Build the help page colors (CSS variables) from the current editor color scheme
   ;
   Procedure.s HelpTool_ThemeColors()
@@ -2877,7 +2898,7 @@ CompilerElse
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + #HelpTool_ExamplesFolder$ + #Separator)
 
     If *Entry\IsSeparateWindow
       HelpTool::Create(*Entry\ToolWindowID)
