@@ -2578,7 +2578,7 @@ CompilerElse
 
     ; Fallback to english if the help isn't available in the requested language
     If Right(Source$, 1) <> "/" And Right(Source$, 1) <> "\"
-      Source$ + #Separator
+      Source$ + "/"
     EndIf
     If FileSize(Source$) = -2 And FileSize(Source$ + Language$) <> -2
       Language$ = "English"
@@ -2886,7 +2886,7 @@ CompilerElse
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries" + #Separator + "userlibraries" + #Separator, PureBasicPath$ + "examples" + #Separator) ; lowercase: the Linux install (Windows and macOS are not case sensitive)
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries/userlibraries/", PureBasicPath$ + "examples/") ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
     If *Entry\IsSeparateWindow
       HelpTool::Create(*Entry\ToolWindowID)
