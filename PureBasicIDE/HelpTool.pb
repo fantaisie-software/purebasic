@@ -2481,8 +2481,11 @@ Module HelpTool
     If FindPage(Name$) = 0
       ProcedureReturn #False
     EndIf
-    If IsGadget(GadgetPanel) ; back to the Contents tab, where the page is selected in the tree
+    If IsGadget(GadgetPanel) And GetGadgetState(GadgetPanel) = 1 ; back to the Contents tab, where the page is selected in the tree
       SetGadgetState(GadgetPanel, 0)
+      If Name$ = CurrentPageName$ And GetGadgetText(GadgetSearch) <> "" ; same page: DisplayPage() doesn't draw it again, removes the highlight here
+        SetPageHtml(PageToHtml(CurrentPageName$))
+      EndIf
     EndIf
     DisplayPage(Name$)
     ProcedureReturn #True
