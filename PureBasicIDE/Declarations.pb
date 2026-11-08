@@ -715,6 +715,7 @@ Declare ToolsPanel_Show()
 
 ;- HelpTool.pb
 Declare HelpTool_DisplayPage(Page$)   ; display a help page in the help tool (for F1), opening the tool if needed. Returns #False if the page doesn't exist
+Declare HelpTool_ResetZoom()          ; Ctrl+0 with the focus in a help page: resets its zoom and returns #True
 
 ;- UpdateCheck.pb
 Declare UpdateWindowEvents(EventID)

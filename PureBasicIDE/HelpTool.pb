@@ -20,7 +20,9 @@ DeclareModule HelpTool
   Prototype ProtoApplyColors(Gadget)         ; IDE colors/font for the contents tree and the search gadgets
   Prototype.s ProtoColorCode(Code$)          ; IDE syntax highlighting of an example: returns the html code (special characters escaped)
   Prototype ProtoClose()                     ; Escape in the help: the IDE gives the focus back to the editor
+  Prototype ProtoFirstPageReady()            ; the tool is hidden until its first page is loaded
   Global OpenCodeCallback.ProtoOpenCode, EditFileCallback.ProtoEditFile, ApplyColorsCallback.ProtoApplyColors, ColorCodeCallback.ProtoColorCode, CloseCallback.ProtoClose
+  Global FirstPageReadyCallback.ProtoFirstPageReady
 
   ; Standalone tool
   Declare RunStandalone(HelpLanguage$, HelpOS$)
@@ -38,6 +40,9 @@ DeclareModule HelpTool
   Declare GadgetEvent(Gadget, Type)
   Declare Timer()
   Declare ShowPage(Name$)
+  Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
+  Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
+  Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
 
@@ -49,7 +54,10 @@ Module HelpTool
   #TagSeparators$   = " .,;:()[]{}>@/" + #LF$ + #DQUOTE$ + Chr(160)
   #IdentifierChars$ = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_"
   #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
+  #FirstPageTimeout = 15000       ; ms
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
+  #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
+  #MaxZoom          = 3.0
 
   Structure HelpPage
     Title$
@@ -93,6 +101,8 @@ Module HelpTool
   Global *CurrentPage.HelpPage, CurrentPageName$
   Global LastReloadDate.q
   Global IEMode                          ; Windows: WebView2 not available, degraded display in a WebGadget (Internet Explorer)
+  Global Zoom.f = 1.0                    ; page zoom, kept from page to page (see SetPageHtml())
+  Global WaitingFirstPage, WaitingFirstPageTime.q
 
   ; Page rendering state (see PageToHtml())
   Global RenderHtml$, RenderErrors$, RenderLineBreaks, RenderPreformatted
@@ -713,15 +723,73 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure SetZoom(Value.f) ; the zoom is kept between #MinZoom and #MaxZoom
+    If Value < #MinZoom
+      Value = #MinZoom
+    ElseIf Value > #MaxZoom
+      Value = #MaxZoom
+    EndIf
+    Zoom = Value
+  EndProcedure
+
+
+  Procedure.f GetZoom()
+    ProcedureReturn Zoom
+  EndProcedure
+
+
+  Procedure ResetZoom() ; GTK: the IDE shortcut gets Ctrl+0 before the page
+    If GadgetWeb And IsGadget(GadgetWeb) And IEMode = #False And GetActiveGadget() = GadgetWeb
+      WebViewExecuteScript(GadgetWeb, "zoomset(1)")
+      ProcedureReturn #True
+    EndIf
+    ProcedureReturn #False
+  EndProcedure
+
+
+  CompilerIf #Standalone = #False ; IDE only
+    Declare PlaceHiddenContents()
+  CompilerEndIf
+
+  Procedure FirstPageReady() ; IDE: the tool is hidden until its first page is loaded
+    If WaitingFirstPage
+      WaitingFirstPage = #False
+      HideGadget(GadgetRoot, #False)
+      CompilerIf #Standalone = #False ; IDE only
+        PlaceHiddenContents()
+      CompilerEndIf
+      If FirstPageReadyCallback
+        FirstPageReadyCallback()
+      EndIf
+    EndIf
+  EndProcedure
+
+
   Procedure SetPageHtml(Html$)
+    Protected ReadyScript$
+
     Html$ = ReplaceString(Html$, "<head>", "<head><meta charset='utf-8'>", #PB_String_CaseSensitive, 1, 1) ; explicit encoding (accents, umlauts)
 
     CompilerIf #PB_Compiler_OS = #PB_OS_Windows
       If IEMode
         SetGadgetItemText(GadgetWeb, #PB_Web_HtmlCode, IEHtml(Html$))
+        FirstPageReady() ; no load notification in this mode
         ProcedureReturn
       EndIf
     CompilerEndIf
+
+    ; Zoom (Ctrl+wheel, Ctrl +/-/0) is done by the page (CSS zoom): the native zoom of the WebView is lost when another page is loaded.
+    ; The factor is sent to the tool (zm:) and injected in the next pages. IE mode: no zoom (degraded display).
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
+                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom); window.dispatchEvent(new Event('resize'));}" +
+                                           "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
+                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0' || e.code=='Digit0') {e.preventDefault(); zoomset(1);}}});" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
+
+    If WaitingFirstPage
+      ReadyScript$ = "window.addEventListener('load', function() {jsmessage('rd:');});"
+    EndIf
 
     ; Mouse back/forward buttons and Alt+arrows: use our history, not the WebView one (which goes back to an old page, sometimes empty)
     Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
@@ -729,6 +797,7 @@ Module HelpTool
                                            "window.addEventListener('mousedown', function(e) {if (e.button==3 || e.button==4) e.preventDefault();});" +
                                            "window.addEventListener('mouseup', function(e) {if (e.button==3) nav(e,'-'); else if (e.button==4) nav(e,'+');});" +
                                            "window.addEventListener('keydown', function(e) {if ((e.altKey && e.key=='ArrowLeft') || e.key=='BrowserBack') nav(e,'-'); else if ((e.altKey && e.key=='ArrowRight') || e.key=='BrowserForward') nav(e,'+'); else if (e.key=='Escape') {e.preventDefault(); jsmessage('es:');}});" +
+                                           ReadyScript$ +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
     SetGadgetItemText(GadgetWeb, #PB_WebView_HtmlCode, Html$)
   EndProcedure
@@ -894,9 +963,11 @@ Module HelpTool
 
     IsUserLib = Bool(*Parent And *Page\UserLib$ <> "")
     IsBranch = Bool(Level = 0 Or (*Page And ListSize(*Page\SubPages()) > 0))
-    If IsBranch
-      Icon = ImageID(ImageBranch)
-    Else
+    If IsBranch ; no image in the standalone tool (SetImages() is called by the IDE): no icon
+      If IsImage(ImageBranch)
+        Icon = ImageID(ImageBranch)
+      EndIf
+    ElseIf IsImage(ImageLeaf)
       Icon = ImageID(ImageLeaf)
     EndIf
     
@@ -1802,6 +1873,9 @@ Module HelpTool
     If Type$ = "lk"
       DisplayPage(LCase(Value$))
       ProcedureReturn
+    ElseIf Type$ = "rd" ; first page loaded
+      FirstPageReady()
+      ProcedureReturn
     EndIf
     
     If Type$ = "es" ; Escape: close the help (standalone), or let the IDE go back to the editor
@@ -1823,6 +1897,10 @@ Module HelpTool
         Next i
         Code$ = ExtractBetween(Source$, "@Code", "@EndCode", Position - 5)
         FileName$ = *CurrentPage\Name$ + "_ex" + Value$ + ".pb"
+
+      Case "z" ; zm: zoom changed in the page (Ctrl+wheel, Ctrl +/-): kept for the next pages
+        SetZoom(ValF(Value$))
+        ProcedureReturn
 
       Case "f" ; example file
         CompilerIf Not #Standalone
@@ -2119,6 +2197,8 @@ Module HelpTool
   EndProcedure
 
 
+  CompilerIf #Standalone = #False ; IDE only: the hidden contents (the splitter of the standalone dialog is a normal one)
+
   Procedure SetSplitterPosition(Position) ; IDE
     Protected Width, Height
 
@@ -2189,17 +2269,25 @@ Module HelpTool
     EndIf
   EndProcedure
 
+  CompilerEndIf
+
 
   Procedure Timer() ; reloads the help if the source of the current page has been modified
     Protected Name$, Width
 
-    If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
-      Width = SplitterBarWidth
-      MeasureSplitterBar()
-      If SplitterBarWidth <> Width
-        PlaceHiddenContents()
-      EndIf
+    If WaitingFirstPage And ElapsedMilliseconds() - WaitingFirstPageTime > #FirstPageTimeout ; never stay hidden, whatever happened to the web engine
+      FirstPageReady()
     EndIf
+
+    CompilerIf #Standalone = #False ; IDE only
+      If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
+        Width = SplitterBarWidth
+        MeasureSplitterBar()
+        If SplitterBarWidth <> Width
+          PlaceHiddenContents()
+        EndIf
+      EndIf
+    CompilerEndIf
 
     If *CurrentPage And *CurrentPage\File$ <> ""
       If GetFileDate(PageDirectory(*CurrentPage) + *CurrentPage\File$, #PB_Date_Modified) - LastReloadDate >= 2
@@ -2228,8 +2316,10 @@ Module HelpTool
           EndIf
         EndIf
 
-      Case GadgetShowContents
-        ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerIf #Standalone = #False ; IDE only
+        Case GadgetShowContents
+          ShowContents(GetGadgetState(GadgetShowContents))
+      CompilerEndIf
 
       Case GadgetHome
         DisplayPage("reference")
@@ -2278,6 +2368,8 @@ Module HelpTool
         WritePreferenceLong("Width", WindowWidth(StandaloneWindow))
         WritePreferenceLong("Height", WindowHeight(StandaloneWindow))
         WritePreferenceString("HelpSource", HelpSource$)
+        PreferenceGroup("HelpTool")
+        WritePreferenceFloat("Zoom", Zoom)
         ClosePreferences()
       EndIf
     Else
@@ -2287,6 +2379,8 @@ Module HelpTool
       StandaloneWidth  = ReadPreferenceLong("Width", 800)
       StandaloneHeight = ReadPreferenceLong("Height", 600)
       HelpSource$      = ReadPreferenceString("HelpSource", "")
+      PreferenceGroup("HelpTool")
+      SetZoom(ReadPreferenceFloat("Zoom", 1.0))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -2299,8 +2393,12 @@ Module HelpTool
     OS$ = HelpOS$
 
     StandalonePreferences(#False)
-    If FileSize(HelpSource$) <> -2 And LCase(GetExtensionPart(HelpSource$)) <> "zip"
-      HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+    ; help source: a folder, or an existing .zip; else Help.zip next to the program, then Help.zip of PureBasic (compilation path)
+    If FileSize(HelpSource$) <> -2 And (LCase(GetExtensionPart(HelpSource$)) <> "zip" Or FileSize(HelpSource$) < 0)
+      HelpSource$ = GetPathPart(ProgramFilename()) + "Help/Help.zip"
+      If FileSize(HelpSource$) < 0
+        HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
+      EndIf
     EndIf
     OpenSource(HelpSource$)
     UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
@@ -2395,6 +2493,11 @@ Module HelpTool
     HostWindow = Window
     ClearList(History$())
     CreateUserInterface()
+    CompilerIf Not #Standalone
+      WaitingFirstPage = #True
+      WaitingFirstPageTime = ElapsedMilliseconds()
+      HideGadget(GadgetRoot, #True)
+    CompilerEndIf
     BindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     LoadHelp()
     LastReloadDate = Date()
@@ -2404,6 +2507,7 @@ Module HelpTool
   Procedure Destroy()
     UnbindEvent(#EVENTTYPE_JsMessage, @ProcessJsMessages(), HostWindow)
     ClearList(JsMessages$())
+    WaitingFirstPage = #False
     If IsDialog(Dialog)
       FreeDialog(Dialog)
     EndIf
@@ -2422,7 +2526,9 @@ Module HelpTool
   Procedure Resize(Width, Height)
     If IsGadget(GadgetRoot)
       ResizeGadget(GadgetRoot, 0, 0, Width, Height) ; layouts the dialog again, which puts the splitter on the whole width
-      PlaceHiddenContents()
+      CompilerIf #Standalone = #False ; IDE only
+        PlaceHiddenContents()
+      CompilerEndIf
     EndIf
   EndProcedure
 
@@ -2483,7 +2589,10 @@ CompilerElse
   Global HelpToolSource$, Backup_HelpToolSource$
   Global HelpToolLanguage$, Backup_HelpToolLanguage$ ; "" (IDE language), "English", "German" or "French"
   Global HelpToolPreviousTool$, HelpToolIsSeparate, HelpToolWindow ; to go back with Escape: the tool shown before the help, and where the help is
-
+  Global *HelpToolPendingEntry.ToolsPanelEntry       ; tool in the tools panel, not created until it's displayed (see Help_CreateFunction())
+  Global HelpToolCreating                            ; the placeholder is displayed, the tool will be created by the timer
+  Global HelpToolPlaceholder                         ; "Initializing..." text, until the first page is loaded
+  Global HelpToolRequestedPage$                      ; page asked (F1) before the tool is created
 
 
   Procedure.s HelpTool_DefaultSource()
@@ -2740,24 +2849,10 @@ CompilerElse
   ; Display the given help page in the tool, opening the tool if needed (Page$ is a page name or a path as used
   ; in the html help, ie: "2DDrawing/Box.html"). Displays the home page and returns #False if the page doesn't exist
   ;
-  Procedure HelpTool_DisplayPage(Page$)
-    Protected *ShownTool.ToolsPanelEntry
+  Declare Help_StartCreation()
+  Declare Help_FinishCreation()
 
-    ForEach UsedPanelTools() ; the tool of the panel shown before the help: Escape goes back to it
-      If CurrentTool = UsedPanelTools()
-        *ShownTool = UsedPanelTools()
-        If UCase(*ShownTool\ToolID$) <> "HELPTOOL"
-          HelpToolPreviousTool$ = *ShownTool\ToolID$
-        EndIf
-        Break
-      EndIf
-    Next UsedPanelTools()
-
-    ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
-    If HelpToolOpen = #False
-      ProcedureReturn #False
-    EndIf
-
+  Procedure HelpTool_ShowPage(Page$)
     Page$ = ReplaceString(Page$, "\", "/")
     Name$ = LCase(GetFilePart(Page$, #PB_FileSystem_NoExtension))
     If Name$ = ""
@@ -2772,6 +2867,33 @@ CompilerElse
 
     HelpTool::ShowPage("reference")
     ProcedureReturn #False
+  EndProcedure
+
+
+  Procedure HelpTool_DisplayPage(Page$)
+    Protected *ShownTool.ToolsPanelEntry
+
+    ForEach UsedPanelTools() ; the tool of the panel shown before the help: Escape goes back to it
+      If CurrentTool = UsedPanelTools()
+        *ShownTool = UsedPanelTools()
+        If UCase(*ShownTool\ToolID$) <> "HELPTOOL"
+          HelpToolPreviousTool$ = *ShownTool\ToolID$
+        EndIf
+        Break
+      EndIf
+    Next UsedPanelTools()
+
+    ActivateTool("HelpTool") ; switches to the tool, or opens it in its own window if it's not in the tools panel
+    Help_StartCreation()     ; ActivateTool() doesn't resize the tool if it's already the current one
+    If HelpToolCreating      ; displayed once the tool is created
+      HelpToolRequestedPage$ = Page$
+      ProcedureReturn #True
+    EndIf
+    If HelpToolOpen = #False
+      ProcedureReturn #False
+    EndIf
+
+    ProcedureReturn HelpTool_ShowPage(Page$)
   EndProcedure
 
 
@@ -2793,7 +2915,11 @@ CompilerElse
 
 
   Procedure HelpTool_Timer()
-    HelpTool::Timer()
+    If HelpToolCreating
+      Help_FinishCreation()
+    Else
+      HelpTool::Timer()
+    EndIf
   EndProcedure
 
 
@@ -2809,7 +2935,23 @@ CompilerElse
   EndProcedure
 
 
-  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
+  Procedure HelpTool_FreePlaceholder()
+    If HelpToolPlaceholder And IsGadget(HelpToolPlaceholder)
+      FreeGadget(HelpToolPlaceholder)
+    EndIf
+    HelpToolPlaceholder = 0
+  EndProcedure
+
+
+  Procedure HelpTool_CreatePlaceholder(*Entry.ToolsPanelEntry, Width, Height)
+    HelpToolPlaceholder = TextGadget(#PB_Any, 0, 0, Width, Height, #LF$ + Language("Help","Initializing"), #PB_Text_Center)
+    If *Entry\IsSeparateWindow = 0 Or NoIndependentToolsColors = 0
+      ToolsPanel_ApplyColors(HelpToolPlaceholder)
+    EndIf
+  EndProcedure
+
+
+  Procedure Help_CreateTool(*Entry.ToolsPanelEntry)
 
     Source$ = HelpToolSource$
     If Source$ = ""
@@ -2826,6 +2968,7 @@ CompilerElse
 
     HelpTool::OpenCodeCallback = @HelpTool_OpenCode()
     HelpTool::EditFileCallback = @HelpTool_EditFile()
+    HelpTool::FirstPageReadyCallback = @HelpTool_FreePlaceholder()
     HelpTool::ColorCodeCallback = @HelpTool_ColorCode()
     HelpTool::CloseCallback = @HelpTool_Close()
     HelpToolIsSeparate = *Entry\IsSeparateWindow
@@ -2859,7 +3002,95 @@ CompilerElse
 
   EndProcedure
 
+
+  ; The web engine processes and the help sources are expensive (memory and startup time), so in the tools panel
+  ; the tool is only created the first time it's displayed
+  ;
+  Procedure Help_CreateFunction(*Entry.ToolsPanelEntry)
+
+    If *Entry\IsSeparateWindow
+      HelpTool_CreatePlaceholder(*Entry, 0, 0) ; sized by the resize handler
+      Help_CreateTool(*Entry)
+    Else
+      *HelpToolPendingEntry = *Entry
+    EndIf
+
+  EndProcedure
+
+
+  Procedure Help_OpenToolPanelItem(*Entry.ToolsPanelEntry) ; returns the previous gadget list
+    PushListPosition(UsedPanelTools())
+    ForEach UsedPanelTools()
+      If UsedPanelTools() = *Entry
+        PanelItem = ListIndex(UsedPanelTools())
+        Break
+      EndIf
+    Next UsedPanelTools()
+    PopListPosition(UsedPanelTools())
+
+    OldGadgetList = UseGadgetList(WindowID(#WINDOW_Main))
+    OpenGadgetList(#GADGET_ToolsPanel, PanelItem)
+    ProcedureReturn OldGadgetList
+  EndProcedure
+
+
+  ; Creating the tool blocks for a while, so the placeholder is displayed first and the tool is created
+  ; by a timer, once the event loop has drawn it (this can be called from a bound event: no FlushEvents() here)
+  ;
+  Procedure Help_StartCreation()
+
+    If *HelpToolPendingEntry And HelpToolCreating = #False
+      HelpToolCreating = #True
+
+      OldGadgetList = Help_OpenToolPanelItem(*HelpToolPendingEntry)
+      HelpTool_CreatePlaceholder(*HelpToolPendingEntry, GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+      CloseGadgetList()
+      UseGadgetList(OldGadgetList)
+
+      AddWindowTimer(#WINDOW_Main, #TIMER_HelpTool, 50)
+      BindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    EndIf
+
+  EndProcedure
+
+
+  Procedure Help_FinishCreation()
+
+    RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
+    UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    HelpToolCreating = #False
+
+    *Entry.ToolsPanelEntry = *HelpToolPendingEntry
+    *HelpToolPendingEntry = 0 ; first, as creating the web view can process events (which can call the resize handler)
+
+    OldGadgetList = Help_OpenToolPanelItem(*Entry)
+    Help_CreateTool(*Entry)
+    CloseGadgetList()
+    UseGadgetList(OldGadgetList)
+
+    HelpTool::Resize(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
+
+    If HelpToolRequestedPage$ <> ""
+      HelpTool_ShowPage(HelpToolRequestedPage$)
+      HelpToolRequestedPage$ = ""
+    EndIf
+
+  EndProcedure
+
+
   Procedure Help_DestroyFunction(*Entry.ToolsPanelEntry)
+
+    *HelpToolPendingEntry = 0
+    HelpToolRequestedPage$ = ""
+    HelpTool_FreePlaceholder()
+    If HelpToolCreating
+      HelpToolCreating = #False
+      RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
+      UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
+    EndIf
+    If HelpToolOpen = #False ; never displayed
+      ProcedureReturn
+    EndIf
 
     RemoveWindowTimer(#WINDOW_Main, #TIMER_HelpTool)
     UnbindEvent(#PB_Event_Timer, @HelpTool_Timer(), #WINDOW_Main, #TIMER_HelpTool)
@@ -2872,13 +3103,24 @@ CompilerElse
 
   Procedure Help_ResizeHandler(*Entry.ToolsPanelEntry, PanelWidth, PanelHeight)
 
-    HelpTool::Resize(PanelWidth, PanelHeight)
+    ; Only called for the current tool, so if the tools panel is visible the tool is about to be displayed
+    If *HelpToolPendingEntry And ToolsPanelVisible
+      Help_StartCreation()
+    EndIf
+    If HelpToolPlaceholder And IsGadget(HelpToolPlaceholder)
+      ResizeGadget(HelpToolPlaceholder, 0, 0, PanelWidth, PanelHeight)
+    EndIf
+    If HelpToolOpen
+      HelpTool::Resize(PanelWidth, PanelHeight)
+    EndIf
 
   EndProcedure
 
   Procedure Help_EventHandler(*Entry.ToolsPanelEntry, EventGadgetID)
 
-    HelpTool::GadgetEvent(EventGadgetID, EventType())
+    If HelpToolOpen
+      HelpTool::GadgetEvent(EventGadgetID, EventType())
+    EndIf
 
   EndProcedure
 
@@ -2887,6 +3129,7 @@ CompilerElse
 
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
+    HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
     HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
@@ -2897,8 +3140,14 @@ CompilerElse
     PreferenceComment("")
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
+    WritePreferenceFloat("Zoom", HelpTool::GetZoom())
     WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
+  EndProcedure
+
+
+  Procedure HelpTool_ResetZoom()
+    ProcedureReturn HelpTool::ResetZoom()
   EndProcedure
 
 

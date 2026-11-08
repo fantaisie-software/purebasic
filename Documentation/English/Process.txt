@@ -571,6 +571,7 @@
   @#PB_Program_Write  : Write to the input of the program. (stdin)
   @#PB_Program_Error  : Read the error output of the program. (stderr)
   @#PB_Program_Connect: Connect another programs output to this programs input.
+  @#PB_Program_NoInput: The program gets an empty input (stdin) instead of the input of this program (Linux and OS X only).
   @#PB_Program_Ascii  : Default read/write operation are in ASCII.
   @#PB_Program_Unicode: Default read/write operation are in Unicode.
   @#PB_Program_UTF8   : Default read/write operation are in UTF8 (default).
@@ -578,6 +579,12 @@
 
   A program executed with @#PB_Program_Open must be closed with @@CloseProgram.
   The 'Read', 'Write', 'Error' and 'Connect' flags require the @#PB_Program_Open flag to be set as well.
+@LineBreak
+@LineBreak
+  On Linux and OS X, the executed program uses the input of this program by default. If this program was started
+  in the background from a terminal (with '&'), the executed program reading this input stops both programs.
+  The @#PB_Program_NoInput flag avoids this: the executed program gets an empty input instead.
+  It has no effect when @#PB_Program_Write or @#PB_Program_Connect is used, and on Windows.
 @LineBreak
 @LineBreak
   When using the @#PB_Program_Connect flag, another program must have been started before with

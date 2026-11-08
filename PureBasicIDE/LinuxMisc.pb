@@ -602,3 +602,30 @@ CompilerIf #CompileLinux
   EndProcedure
   
 CompilerEndIf
+
+CompilerIf #CompileLinuxGtk2
+
+  ; No help tool on GTK2 (see PureBasic.pb): F1 opens the online documentation in the browser
+  ;
+  Procedure DisplayHelp(CurrentWord$)
+    Url$ = "https://www.purebasic.com/documentation/"
+
+    If CurrentWord$ <> ""
+      If CheckPureBasicKeyWords(CurrentWord$) <> ""
+        Url$ + LCase(CheckPureBasicKeyWords(CurrentWord$)) + ".html"
+      Else
+        ForceDefaultCompiler()
+        If CompilerReady
+          CompilerWrite("HELPDIRECTORY"+Chr(9)+CurrentWord$)
+          HelpDirectory$ = CompilerRead()
+          If HelpDirectory$ <> "" And HelpDirectory$ <> "UNKNOWN" And HelpDirectory$ <> "API"
+            Url$ + LCase(HelpDirectory$ + "/" + CurrentWord$) + ".html"
+          EndIf
+        EndIf
+      EndIf
+    EndIf
+
+    OpenWebBrowser(Url$)
+  EndProcedure
+
+CompilerEndIf
