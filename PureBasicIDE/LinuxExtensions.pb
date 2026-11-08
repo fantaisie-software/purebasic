@@ -46,6 +46,8 @@ CompilerIf #CompileLinux
       QT_EventKey(*Event)
       QT_EventButton(*Event)
       QT_IsWayland()
+      QT_RaiseWindow(*Window)
+      QT_UpdateWidget(*Widget)
     EndImport
   CompilerEndIf
   
@@ -149,7 +151,7 @@ CompilerIf #CompileLinux
         EndIf
         ProcedureReturn
       EndIf
-      QtScript("window(" + Window + ").raise()")
+      QT_RaiseWindow(WindowID(Window))
     CompilerEndIf
     SetActiveWindow(Window)
   EndProcedure
@@ -159,7 +161,7 @@ CompilerIf #CompileLinux
     CompilerIf #CompileLinuxGtk
       gdk_window_raise_(gtk_widget_get_window_(WindowID(Window)))
     CompilerElse
-      QtScript("window(" + Window + ").raise()")
+      QT_RaiseWindow(WindowID(Window))
     CompilerEndIf
   EndProcedure
   
@@ -195,7 +197,7 @@ CompilerIf #CompileLinux
     CompilerIf #CompileLinuxGtk
       gtk_widget_queue_draw_(GadgetID(Gadget))
     CompilerElse
-      QtScript("gadget(" + Gadget + ").update()")
+      QT_UpdateWidget(GadgetID(Gadget))
     CompilerEndIf
   EndProcedure
   
