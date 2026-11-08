@@ -39,6 +39,9 @@ DeclareModule HelpTool
   Declare GadgetEvent(Gadget, Type)
   Declare Timer()
   Declare ShowPage(Name$)
+  Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
+  Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
+  Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
 
@@ -52,6 +55,8 @@ Module HelpTool
   #IEMessageScheme$ = "helptool:" ; IE mode: jsmessage() calls are sent as a navigation to this url scheme
   #FirstPageTimeout = 15000       ; ms
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
+  #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
+  #MaxZoom          = 3.0
 
   Structure HelpPage
     Title$
@@ -95,6 +100,7 @@ Module HelpTool
   Global *CurrentPage.HelpPage, CurrentPageName$
   Global LastReloadDate.q
   Global IEMode                          ; Windows: WebView2 not available, degraded display in a WebGadget (Internet Explorer)
+  Global Zoom.f = 1.0                    ; page zoom, kept from page to page (see SetPageHtml())
   Global WaitingFirstPage, WaitingFirstPageTime.q
 
   ; Page rendering state (see PageToHtml())
@@ -716,6 +722,30 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure SetZoom(Value.f) ; the zoom is kept between #MinZoom and #MaxZoom
+    If Value < #MinZoom
+      Value = #MinZoom
+    ElseIf Value > #MaxZoom
+      Value = #MaxZoom
+    EndIf
+    Zoom = Value
+  EndProcedure
+
+
+  Procedure.f GetZoom()
+    ProcedureReturn Zoom
+  EndProcedure
+
+
+  Procedure ResetZoom() ; GTK: the IDE shortcut gets Ctrl+0 before the page
+    If GadgetWeb And IsGadget(GadgetWeb) And IEMode = #False And GetActiveGadget() = GadgetWeb
+      WebViewExecuteScript(GadgetWeb, "zoomset(1)")
+      ProcedureReturn #True
+    EndIf
+    ProcedureReturn #False
+  EndProcedure
+
+
   CompilerIf #Standalone = #False ; IDE only
     Declare PlaceHiddenContents()
   CompilerEndIf
@@ -746,6 +776,15 @@ Module HelpTool
         ProcedureReturn
       EndIf
     CompilerEndIf
+
+    ; Zoom (Ctrl+wheel, Ctrl +/-/0) is done by the page (CSS zoom): the native zoom of the WebView is lost when another page is loaded.
+    ; The factor is sent to the tool (zm:) and injected in the next pages. IE mode: no zoom (degraded display).
+    Html$ = ReplaceString(Html$, "<head>", "<head><script>" +
+                                           "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
+                                           "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom); window.dispatchEvent(new Event('resize'));}" +
+                                           "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
+                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0' || e.code=='Digit0') {e.preventDefault(); zoomset(1);}}});" +
+                                           "</script>", #PB_String_CaseSensitive, 1, 1)
 
     If WaitingFirstPage
       ReadyScript$ = "window.addEventListener('load', function() {jsmessage('rd:');});"
@@ -1846,6 +1885,10 @@ Module HelpTool
         Code$ = ExtractBetween(Source$, "@Code", "@EndCode", Position - 5)
         FileName$ = *CurrentPage\Name$ + "_ex" + Value$ + ".pb"
 
+      Case "z" ; zm: zoom changed in the page (Ctrl+wheel, Ctrl +/-): kept for the next pages
+        SetZoom(ValF(Value$))
+        ProcedureReturn
+
       Case "f" ; example file
         CompilerIf Not #Standalone
           File$ = FindExampleFile(Value$)
@@ -2312,6 +2355,8 @@ Module HelpTool
         WritePreferenceLong("Width", WindowWidth(StandaloneWindow))
         WritePreferenceLong("Height", WindowHeight(StandaloneWindow))
         WritePreferenceString("HelpSource", HelpSource$)
+        PreferenceGroup("HelpTool")
+        WritePreferenceFloat("Zoom", Zoom)
         ClosePreferences()
       EndIf
     Else
@@ -2321,6 +2366,8 @@ Module HelpTool
       StandaloneWidth  = ReadPreferenceLong("Width", 800)
       StandaloneHeight = ReadPreferenceLong("Height", 600)
       HelpSource$      = ReadPreferenceString("HelpSource", "")
+      PreferenceGroup("HelpTool")
+      SetZoom(ReadPreferenceFloat("Zoom", 1.0))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -3041,6 +3088,7 @@ CompilerElse
 
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
+    HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
     HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
@@ -3051,8 +3099,14 @@ CompilerElse
     PreferenceComment("")
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
+    WritePreferenceFloat("Zoom", HelpTool::GetZoom())
     WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
+  EndProcedure
+
+
+  Procedure HelpTool_ResetZoom()
+    ProcedureReturn HelpTool::ResetZoom()
   EndProcedure
 
 
