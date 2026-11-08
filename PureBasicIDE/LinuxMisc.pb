@@ -221,7 +221,7 @@ CompilerIf #CompileLinux
       gtk_widget_size_request_(MenuID(#MENU), @MenuSize)
       MenuHeight = MenuSize\height
     CompilerElse
-      MenuHeight = 0
+      MenuHeight = MenuHeight() ; WindowHeight() includes the menu bar on Qt as well
     CompilerEndIf
     
     ; Set up the callback for the RunOnce event
