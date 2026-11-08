@@ -1792,13 +1792,7 @@ Module HelpTool
         ProcedureReturn Path$ + "Examples/3D/" + Name$
       EndIf
       If i = 2
-        If FileSize(Path$ + "Sources/" + Name$) > 0
-          ProcedureReturn Path$ + "Sources/" + Name$
-        EndIf
-        If FileSize(Path$ + "3D/" + Name$) > 0
-          ProcedureReturn Path$ + "3D/" + Name$
-        EndIf
-        If FileSize(Path$ + "sources/" + Name$) > 0 ; Linux install
+        If FileSize(Path$ + "sources/" + Name$) > 0 ; lowercase: the Linux install (Windows and macOS are not case sensitive)
           ProcedureReturn Path$ + "sources/" + Name$
         EndIf
         If FileSize(Path$ + "3d/" + Name$) > 0
@@ -2378,7 +2372,7 @@ Module HelpTool
       HelpSource$ = #PB_Compiler_Home + "Help/Help.zip"
     EndIf
     OpenSource(HelpSource$)
-    UserLibPath$ = #PB_Compiler_Home + "PureLibraries/UserLibraries/"
+    UserLibPath$ = #PB_Compiler_Home + "purelibraries/userlibraries/" ; lowercase: the Linux install
 
     CreateUserInterface()
     HostWindow = StandaloneWindow
@@ -2714,12 +2708,6 @@ CompilerElse
   EndDataSection
 
 
-  CompilerIf #CompileLinux
-    #HelpTool_ExamplesFolder$ = "examples"
-  CompilerElse
-    #HelpTool_ExamplesFolder$ = "Examples"
-  CompilerEndIf
-
   ; Build the help page colors (CSS variables) from the current editor color scheme
   ;
   Procedure.s HelpTool_ThemeColors()
@@ -2898,7 +2886,7 @@ CompilerElse
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
-    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + #HelpTool_ExamplesFolder$ + #Separator)
+    HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries" + #Separator + "userlibraries" + #Separator, PureBasicPath$ + "examples" + #Separator) ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
     If *Entry\IsSeparateWindow
       HelpTool::Create(*Entry\ToolWindowID)
