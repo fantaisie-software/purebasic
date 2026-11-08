@@ -63,7 +63,7 @@ Module HelpTool
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
   #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
   #MaxZoom          = 3.0
-  #FavoritesSeparator$ = "|" ; in the preferences
+  #FavoritesSeparator$ = "|" ; in the preferences: Favorites = page|page="Name given by the user"|page (the quotes allow a | in the name)
   #ChipsHeight      = 150   ; default height of the filters area (it scrolls only if the chips do not fit)
   #ChipsListMinimum = 50    ; minimum height of the results list above the filters
   #GroupReference$  = "Reference" ; group of the pages outside a library
@@ -126,7 +126,7 @@ Module HelpTool
   Global NewMap OSSpecific$()            ; platform-dependant functions: function -> info
   Global NewMap PackFiles()              ; help archive: file -> uncompressed size
   Global NewList History$()
-  Global NewMap Favorites()              ; favorite pages, by page name
+  Global NewMap Favorites.s()            ; favorite pages: page name -> name given by the user ("": the title of the page is used)
   Global NewList FavoriteItems$()        ; page names of the items of the Favorites tab
   Global NewList JsMessages$()
 
@@ -164,7 +164,7 @@ Module HelpTool
   Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
   Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$, Text_All$, Text_Reference$
 
-  Global Text_Favorites$, Text_ToggleFavorite$
+  Global Text_Favorites$, Text_ToggleFavorite$, Text_AddFavorite$, Text_Add$, Text_Cancel$
 
   ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
   Global UserLibColor = $008800 ; user libraries in the contents tree
@@ -254,6 +254,9 @@ Module HelpTool
     Text_Copy$           = Translate("Copy", "Copier", "Kopieren")
     Text_Favorites$      = Translate("Favorites", "Favoris", "Favoriten")
     Text_ToggleFavorite$ = Translate("Add/remove this page from the favorites", "Ajouter/retirer cette page des favoris", "Diese Seite zu den Favoriten hinzufügen/daraus entfernen")
+    Text_AddFavorite$    = Translate("Add to the favorites", "Ajouter aux favoris", "Zu den Favoriten hinzufügen")
+    Text_Add$            = Translate("Add", "Ajouter", "Hinzufügen")
+    Text_Cancel$         = Translate("Cancel", "Annuler", "Abbrechen")
     Text_All$            = Translate("All", "Tous", "Alle")
     Text_Reference$      = Translate("Reference", "Référence", "Referenz")
   EndProcedure
@@ -1849,14 +1852,38 @@ Module HelpTool
 
   ;- ----- Favorites
 
-  Procedure SetFavorites(Names$) ; Names$: page names (they don't depend on the language)
-    Protected Name$, i
+  ; One entry of the preferences: 'page' or 'page="Name"'
+  Procedure AddFavoriteEntry(Entry$)
+    Protected Position, Page$, Name$
+
+    Position = FindString(Entry$, "=")
+    If Position
+      Page$ = Trim(Left(Entry$, Position - 1))
+      Name$ = Trim(Trim(Mid(Entry$, Position + 1)), #DQUOTE$)
+    Else
+      Page$ = Trim(Entry$)
+    EndIf
+    If Page$ <> ""
+      Favorites(Page$) = Name$
+    EndIf
+  EndProcedure
+
+
+  Procedure SetFavorites(Names$) ; Names$: page names (they don't depend on the language), each with its optional name: page|page="Name"
+    Protected Start = 1, i, InQuote, Char$, Length = Len(Names$)
 
     ClearMap(Favorites())
-    For i = 1 To CountString(Names$, #FavoritesSeparator$) + 1
-      Name$ = StringField(Names$, i, #FavoritesSeparator$)
-      If Name$ <> ""
-        Favorites(Name$) = 1
+    For i = 1 To Length + 1
+      If i <= Length
+        Char$ = Mid(Names$, i, 1)
+      Else
+        Char$ = #FavoritesSeparator$ ; the end closes the last entry
+      EndIf
+      If Char$ = #DQUOTE$
+        InQuote = 1 - InQuote
+      ElseIf Char$ = #FavoritesSeparator$ And InQuote = #False
+        AddFavoriteEntry(Mid(Names$, Start, i - Start))
+        Start = i + 1
       EndIf
     Next i
   EndProcedure
@@ -1866,9 +1893,23 @@ Module HelpTool
     Protected Names$
 
     ForEach Favorites()
-      Names$ + MapKey(Favorites()) + #FavoritesSeparator$
+      Names$ + MapKey(Favorites())
+      If Favorites() <> ""
+        Names$ + "=" + #DQUOTE$ + Favorites() + #DQUOTE$
+      EndIf
+      Names$ + #FavoritesSeparator$
     Next
     ProcedureReturn RTrim(Names$, #FavoritesSeparator$)
+  EndProcedure
+
+
+  Procedure.s FavoriteTitle(*Page.HelpPage) ; name given by the user, else the title of the page
+    If FindMapElement(Favorites(), *Page\Name$)
+      If Favorites() <> ""
+        ProcedureReturn Favorites()
+      EndIf
+    EndIf
+    ProcedureReturn *Page\Title$
   EndProcedure
 
 
@@ -1915,7 +1956,11 @@ Module HelpTool
       If *Page
         AddElement(Sorted())
         Sorted()\Page = *Page
-        Sorted()\Key$ = LCase(*Page\Title$) + #LF$ + *Page\Name$
+        If Favorites() <> ""
+          Sorted()\Key$ = LCase(Favorites()) + #LF$ + *Page\Name$
+        Else
+          Sorted()\Key$ = LCase(*Page\Title$) + #LF$ + *Page\Name$
+        EndIf
       EndIf
     Next
     SortStructuredList(Sorted(), #PB_Sort_Ascending, OffsetOf(SearchResult\Key$), #PB_String)
@@ -1923,7 +1968,7 @@ Module HelpTool
     ClearList(FavoriteItems$())
     ClearGadgetItems(GadgetFavoritesList)
     ForEach Sorted()
-      AddGadgetItem(GadgetFavoritesList, -1, Sorted()\Page\Title$)
+      AddGadgetItem(GadgetFavoritesList, -1, FavoriteTitle(Sorted()\Page))
       AddElement(FavoriteItems$())
       FavoriteItems$() = Sorted()\Page\Name$
     Next
@@ -1932,13 +1977,123 @@ Module HelpTool
   EndProcedure
 
 
-  Procedure ToggleFavorite() ; star button: adds or removes the displayed page
+  Procedure SelectAllText(Gadget) ; the text of a StringGadget is selected: typing replaces it
+    CompilerSelect #PB_Compiler_OS
+      CompilerCase #PB_OS_Windows
+        SendMessage_(GadgetID(Gadget), #EM_SETSEL, 0, -1)
+      CompilerCase #PB_OS_MacOS
+        CocoaMessage(0, GadgetID(Gadget), "selectText:", 0)
+      CompilerCase #PB_OS_Linux
+        gtk_editable_select_region_(GadgetID(Gadget), 0, -1)
+    CompilerEndSelect
+  EndProcedure
+
+
+  ; Small modal dialog, under the star button, to give a name to a favorite: the name is in *Name\s, #True if validated
+  ; (Add button or Return), #False if canceled (Cancel button or Escape). It is not displayed if there is no active window.
+  ;
+  Procedure.i AskFavoriteName(*Name.String, X, Y)
+    Protected Parent = GetActiveWindow(), Window, GadgetText, GadgetAdd, GadgetCancel, Event, Done, Result
+    Protected w = 320, h, Pad = 8, Gap = 8, TextHeight, ButtonWidth, ButtonHeight, d
+
+    If Parent < 0 Or IsWindow(Parent) = 0
+      ProcedureReturn #True
+    EndIf
+    Window = OpenWindow(#PB_Any, X, Y, w, 100, Text_AddFavorite$, #PB_Window_Tool | #PB_Window_SystemMenu | #PB_Window_Invisible, WindowID(Parent))
+    If Window = 0
+      ProcedureReturn #True
+    EndIf
+
+    GadgetText   = StringGadget(#PB_Any, 0, 0, 100, 20, *Name\s)
+    GadgetAdd    = ButtonGadget(#PB_Any, 0, 0, 80, 24, Text_Add$, #PB_Button_Default)
+    GadgetCancel = ButtonGadget(#PB_Any, 0, 0, 80, 24, Text_Cancel$)
+    TextHeight   = GadgetHeight(GadgetText, #PB_Gadget_RequiredSize)
+    ButtonHeight = GadgetHeight(GadgetAdd, #PB_Gadget_RequiredSize)
+    ButtonWidth  = GadgetWidth(GadgetAdd, #PB_Gadget_RequiredSize)
+    If GadgetWidth(GadgetCancel, #PB_Gadget_RequiredSize) > ButtonWidth
+      ButtonWidth = GadgetWidth(GadgetCancel, #PB_Gadget_RequiredSize)
+    EndIf
+    If ButtonWidth < 80
+      ButtonWidth = 80
+    EndIf
+    h = Pad + TextHeight + Gap + ButtonHeight + Pad
+    ResizeGadget(GadgetText, Pad, Pad, w - 2 * Pad, TextHeight)
+    ResizeGadget(GadgetCancel, w - Pad - ButtonWidth, Pad + TextHeight + Gap, ButtonWidth, ButtonHeight)
+    ResizeGadget(GadgetAdd, w - Pad - 2 * ButtonWidth - Gap, Pad + TextHeight + Gap, ButtonWidth, ButtonHeight)
+    AddKeyboardShortcut(Window, #PB_Shortcut_Return, 1)
+    AddKeyboardShortcut(Window, #PB_Shortcut_Escape, 2)
+
+    ExamineDesktops() ; stays on the screen
+    For d = 0 To ExamineDesktops() - 1
+      If X >= DesktopX(d) And X < DesktopX(d) + DesktopWidth(d) And Y >= DesktopY(d) And Y < DesktopY(d) + DesktopHeight(d)
+        If X + w > DesktopX(d) + DesktopWidth(d)
+          X = DesktopX(d) + DesktopWidth(d) - w
+        EndIf
+        If Y + h > DesktopY(d) + DesktopHeight(d)
+          Y = DesktopY(d) + DesktopHeight(d) - h
+        EndIf
+        Break
+      EndIf
+    Next d
+    ResizeWindow(Window, X, Y, w, h)
+
+    DisableWindow(Parent, #True)
+    HideWindow(Window, #False)
+    SetActiveGadget(GadgetText)
+    SelectAllText(GadgetText)
+
+    Repeat
+      Event = WaitWindowEvent()
+      If EventWindow() = Window
+        Select Event
+          Case #PB_Event_Gadget
+            Select EventGadget()
+              Case GadgetAdd
+                Result = #True
+                Done   = #True
+              Case GadgetCancel
+                Done = #True
+            EndSelect
+          Case #PB_Event_Menu
+            If EventMenu() = 1
+              Result = #True
+            EndIf
+            Done = #True
+          Case #PB_Event_CloseWindow
+            Done = #True
+        EndSelect
+      EndIf
+    Until Done
+
+    If Result
+      *Name\s = GetGadgetText(GadgetText)
+    EndIf
+    DisableWindow(Parent, #False)
+    CloseWindow(Window)
+    SetActiveWindow(Parent)
+    ProcedureReturn Result
+  EndProcedure
+
+
+  Procedure ToggleFavorite() ; star button: adds (the name can be changed) or removes the displayed page
+    Protected *Page.HelpPage = FindPage(CurrentPageName$)
+    Protected Name.String
+
     If GetGadgetState(GadgetFavorite)
-      Favorites(CurrentPageName$) = 1
+      If *Page
+        Name\s = *Page\Title$
+        If AskFavoriteName(@Name, GadgetX(GadgetFavorite, #PB_Gadget_ScreenCoordinate), GadgetY(GadgetFavorite, #PB_Gadget_ScreenCoordinate) + GadgetHeight(GadgetFavorite))
+          Name\s = Trim(ReplaceString(ReplaceString(ReplaceString(Name\s, #DQUOTE$, ""), #CR$, " "), #LF$, " "))
+          If Name\s = *Page\Title$ ; the title of the page (it follows the language): no name stored
+            Name\s = ""
+          EndIf
+          Favorites(CurrentPageName$) = Name\s
+        EndIf
+      EndIf
     Else
       DeleteMapElement(Favorites(), CurrentPageName$)
     EndIf
-    FavoritesRefresh()
+    FavoritesRefresh() ; also gives the star its state back if the dialog was canceled
   EndProcedure
 
 
@@ -2578,14 +2733,13 @@ Module HelpTool
     Protected Xml$, Tabs$, ButtonSize, i
 
     InitLanguage()
-
     Tabs$ = "        <tab text='" + Text_Contents$ + "'>" +
             "          <tree name='contents' flags='#PB_Tree_AlwaysShowSelection'/>" +
             "          </tab>" +
             "        <tab text='" + Text_Search$ + "'>" +
             "          <vbox expand='item:2'>" +
             "            <string name='search'/>" +
-            "            <splitter name='chipssplitter' flags='#PB_Splitter_SecondFixed' firstmin='" + Str(#ChipsListMinimum) + "' secondmin='32'>" +
+            "            <splitter name='chipssplitter' flags='#PB_Splitter_SecondFixed|#PB_Splitter_Separator' firstmin='" + Str(#ChipsListMinimum) + "' secondmin='32'>" +
             "              <listview name='searchlist'/>" +
             "              <scrollarea name='chips' flags='#PB_ScrollArea_BorderLess'/>" +
             "              </splitter>" +
