@@ -758,7 +758,7 @@ Module HelpTool
                                            "var pbzoom=" + StrF(Zoom, 2) + ";document.documentElement.style.zoom=pbzoom;" +
                                            "function zoomset(v) {pbzoom=Math.min(" + StrF(#MaxZoom, 2) + ",Math.max(" + StrF(#MinZoom, 2) + ",Math.round(v*100)/100)); document.documentElement.style.zoom=pbzoom; jsmessage('zm:'+pbzoom); window.dispatchEvent(new Event('resize'));}" +
                                            "window.addEventListener('wheel', function(e) {if (e.ctrlKey) {e.preventDefault(); zoomset(e.deltaY<0 ? pbzoom*1.1 : pbzoom/1.1);}}, {passive:false});" +
-                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0') {e.preventDefault(); zoomset(1);}}});" +
+                                           "window.addEventListener('keydown', function(e) {if (e.ctrlKey && !e.altKey) {if (e.key=='+' || e.key=='=') {e.preventDefault(); zoomset(pbzoom*1.1);} else if (e.key=='-') {e.preventDefault(); zoomset(pbzoom/1.1);} else if (e.key=='0' || e.code=='Digit0') {e.preventDefault(); zoomset(1);}}});" +
                                            "</script>", #PB_String_CaseSensitive, 1, 1)
 
     ; Mouse back/forward buttons and Alt+arrows: use our history, not the WebView one (which goes back to an old page, sometimes empty)
