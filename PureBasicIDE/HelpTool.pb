@@ -43,6 +43,8 @@ DeclareModule HelpTool
   Declare ShowPage(Name$)
   Declare SetZoom(Value.f)  ; page zoom: restored from the preferences
   Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
+  Declare SetChipsHeight(Value) ; height of the search filters: restored from the preferences
+  Declare GetChipsHeight()      ; height of the search filters: saved in the preferences ([HelpTool] group)
   Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
@@ -59,7 +61,8 @@ Module HelpTool
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
   #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
   #MaxZoom          = 3.0
-  #ChipsHeight      = 150   ; height of the filters area (it scrolls only if the chips do not fit)
+  #ChipsHeight      = 150   ; default height of the filters area (it scrolls only if the chips do not fit)
+  #ChipsListMinimum = 50    ; minimum height of the results list above the filters
   #GroupReference$  = "Reference" ; group of the pages outside a library
 
   CompilerSelect #PB_Compiler_OS
@@ -142,7 +145,8 @@ Module HelpTool
   Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
-  Global GadgetChips = -1, ChipFont, ChipHeight ; search filters: scroll area of the dialog, font and height of the chips
+  Global GadgetChips = -1, GadgetChipsSplitter = -1, ChipFont, ChipHeight ; search filters: scroll area of the dialog, its splitter, font and height of the chips
+  Global ChipsAreaHeight = #ChipsHeight, ChipsHeightPending, ChipsScrollbarWidth ; height of the scroll area (user defined), not applied yet to the splitter, width of a vertical scrollbar
   Global NewList Chips.ChipInfo()
   Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
   Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;", CopyCodeIcon$ = "&#128203;" ; example buttons (replaced by the IDE icons)
@@ -2131,7 +2135,7 @@ Module HelpTool
     NewMap SelectedGroups()
 
     Search$ = GetGadgetText(GadgetSearch)
-    If CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page
+    If Clear = #False And CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page. Not on a chip click: the text didn't change
       SetPageHtml(PageToHtml(CurrentPageName$))
     EndIf
     Search$ = Trim(Search$)
@@ -2223,25 +2227,31 @@ Module HelpTool
 
   ;- ----- Search filters (chips)
 
+  Procedure SetChipsHeight(Value)
+    If Value > 0
+      ChipsAreaHeight = Value
+    EndIf
+  EndProcedure
+
+
+  Procedure GetChipsHeight()
+    ProcedureReturn ChipsAreaHeight
+  EndProcedure
+
+
   ; Places the chips line by line (vertical scrollbar only if they do not fit).
   Procedure ChipsLayout()
-    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight, Dummy
+    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight
     Protected Pad = 2, Gap = 2
-    Static ScrollbarWidth
 
     If IsGadget(GadgetChips) = 0
       ProcedureReturn
-    EndIf
-    If ScrollbarWidth = 0 ; required width of a vertical scrollbar (logical units)
-      Dummy = ScrollBarGadget(#PB_Any, -10, 0, 0, 100, 0, 1, 1, #PB_ScrollBar_Vertical)
-      ScrollbarWidth = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
-      FreeGadget(Dummy)
     EndIf
 
     AreaWidth  = GadgetWidth(GadgetChips)
     AreaHeight = GadgetHeight(GadgetChips)
     For Pass = 0 To 1 ; pass 0: no vertical scrollbar, pass 1: room reserved for it
-      InnerWidth = AreaWidth - 2 * Pad - 4 - Pass * ScrollbarWidth
+      InnerWidth = AreaWidth - 2 * Pad - 4 - Pass * ChipsScrollbarWidth
       x = Pad
       y = Pad
       ForEach Chips()
@@ -2264,17 +2274,34 @@ Module HelpTool
 
   ; Lays out the chips again when the size of the area (resized by the dialog) has changed: called on every possible resize.
   Procedure ChipsPlace(Force = #False)
-    Protected w, h
+    Protected w, h, Height, Bar, Applied
     Static ChipsW, ChipsH
 
     If IsGadget(GadgetChips) = 0
       ProcedureReturn
     EndIf
+
+    If ChipsHeightPending And IsGadget(GadgetChipsSplitter) ; the user defined height, as soon as the splitter is big enough
+      Height = GadgetHeight(GadgetChipsSplitter)
+      If Height >= ChipsAreaHeight + #ChipsListMinimum
+        Bar = Height - GetGadgetState(GadgetChipsSplitter) - GadgetHeight(GadgetChips)
+        If Bar < 0 Or Bar > 20 ; not laid out yet
+          Bar = 8
+        EndIf
+        SetGadgetState(GadgetChipsSplitter, Height - ChipsAreaHeight - Bar)
+        ChipsHeightPending = #False
+        Applied = #True
+      EndIf
+    EndIf
+
     w = GadgetWidth(GadgetChips)
     h = GadgetHeight(GadgetChips)
     If w < 20 Or h < 10 ; panel not shown yet
       ChipsW = -1
       ProcedureReturn
+    EndIf
+    If ChipsHeightPending = #False And Applied = #False ; moved by the user (Applied: the new size is only known after the next layout)
+      ChipsAreaHeight = h
     EndIf
     If Force Or w <> ChipsW Or h <> ChipsH
       ChipsW = w
@@ -2286,9 +2313,10 @@ Module HelpTool
 
   ; (Re)creates the chips: one per library, plus Reference (pages outside a library) and All.
   Procedure ChipsBuild()
-    Protected Dummy, LibName$
+    Protected Dummy, LibName$, Selected
     NewMap LibraryOfFile$()
     NewMap LibraryNames()
+    NewMap PreviousSelection()
 
     If IsGadget(GadgetChips) = 0
       ProcedureReturn
@@ -2296,6 +2324,9 @@ Module HelpTool
     ClearGadgetItems(GadgetSearchList) ; the previous results point to pages which are freed
     ForEach Chips() ; only the buttons: the scroll area belongs to the dialog
       If IsGadget(Chips()\Gadget)
+        If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget) ; selection kept when the help is reloaded
+          PreviousSelection(Chips()\Name$) = 1
+        EndIf
         FreeGadget(Chips()\Gadget)
       EndIf
     Next
@@ -2362,14 +2393,25 @@ Module HelpTool
       Chips()\Width = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
     Next
     FreeGadget(Dummy)
+    If ChipsScrollbarWidth = 0 ; required width of a vertical scrollbar (logical units), measured here: a gadget list must be open
+      Dummy = ScrollBarGadget(#PB_Any, -10, 0, 0, 100, 0, 1, 1, #PB_ScrollBar_Vertical)
+      ChipsScrollbarWidth = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
+      FreeGadget(Dummy)
+    EndIf
 
     ForEach Chips() ; the buttons go inside the scroll area created by the dialog
       Chips()\Gadget = ButtonGadget(#PB_Any, 0, 0, Chips()\Width, ChipHeight, Chips()\Caption$, #PB_Button_Toggle)
       If ChipFont
         SetGadgetFont(Chips()\Gadget, FontID(ChipFont))
       EndIf
+      If Chips()\IsAll = #False And FindMapElement(PreviousSelection(), Chips()\Name$)
+        SetGadgetState(Chips()\Gadget, 1)
+        Selected + 1
+      EndIf
+    Next
+    ForEach Chips()
       If Chips()\IsAll
-        SetGadgetState(Chips()\Gadget, 1) ; All pressed: no library selected
+        SetGadgetState(Chips()\Gadget, Bool(Selected = 0)) ; All pressed: no library selected
       EndIf
     Next
     CloseGadgetList()
@@ -2377,6 +2419,7 @@ Module HelpTool
       ApplyColorsCallback(GadgetChips)
     EndIf
     ChipsPlace(#True)
+    SearchPages(#True) ; the list has been emptied above: fills it again for the current text and selection
   EndProcedure
 
 
@@ -2426,8 +2469,10 @@ Module HelpTool
             "        <tab text='" + Text_Search$ + "'>" +
             "          <vbox expand='item:2'>" +
             "            <string name='search'/>" +
-            "            <listview name='searchlist'/>" +
-            "            <scrollarea name='chips' height='" + Str(#ChipsHeight) + "' flags='#PB_ScrollArea_BorderLess'/>" +
+            "            <splitter name='chipssplitter' flags='#PB_Splitter_SecondFixed' firstmin='" + Str(#ChipsListMinimum) + "' secondmin='32'>" +
+            "              <listview name='searchlist'/>" +
+            "              <scrollarea name='chips' flags='#PB_ScrollArea_BorderLess'/>" +
+            "              </splitter>" +
             "            </vbox>" +
             "          </tab>"
 
@@ -2503,6 +2548,8 @@ Module HelpTool
     GadgetSearch     = DialogGadget(Dialog, "search")
     GadgetSearchList = DialogGadget(Dialog, "searchlist")
     GadgetChips      = DialogGadget(Dialog, "chips")
+    GadgetChipsSplitter = DialogGadget(Dialog, "chipssplitter")
+    ChipsHeightPending  = #True
     GadgetBack       = DialogGadget(Dialog, "back")
     GadgetForward    = DialogGadget(Dialog, "forward")
     GadgetHome       = DialogGadget(Dialog, "home")
@@ -2753,6 +2800,9 @@ Module HelpTool
       Case GadgetOS
         OS$ = GetGadgetText(GadgetOS)
 
+      Case GadgetChipsSplitter
+        ChipsPlace()
+
       Default
         ChipClick(Gadget)
     EndSelect
@@ -2771,6 +2821,7 @@ Module HelpTool
         WritePreferenceString("HelpSource", HelpSource$)
         PreferenceGroup("HelpTool")
         WritePreferenceFloat("Zoom", Zoom)
+        WritePreferenceLong("ChipsHeight", ChipsAreaHeight)
         ClosePreferences()
       EndIf
     Else
@@ -2782,6 +2833,7 @@ Module HelpTool
       HelpSource$      = ReadPreferenceString("HelpSource", "")
       PreferenceGroup("HelpTool")
       SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+      SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -2947,6 +2999,8 @@ Module HelpTool
     GadgetRoot = 0
     GadgetShowContents = -1
     GadgetChips = -1 ; the chip buttons are freed with the dialog
+    GadgetChipsSplitter = -1
+    ChipsHeightPending = #False
     ClearList(Chips())
     If ChipFont And IsFont(ChipFont)
       FreeFont(ChipFont)
@@ -3592,6 +3646,7 @@ CompilerElse
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
     HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+    HelpTool::SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
     HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
   EndProcedure
@@ -3603,6 +3658,7 @@ CompilerElse
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
     WritePreferenceFloat("Zoom", HelpTool::GetZoom())
+    WritePreferenceLong("ChipsHeight", HelpTool::GetChipsHeight())
     WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
   EndProcedure
