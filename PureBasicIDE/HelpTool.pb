@@ -564,7 +564,7 @@ Module HelpTool
     AddTag("html",          0, 0, "")
     AddTag("endhtml",       0, 0, "")
     LoadButton$ = "<button title='" + Text_Load$ + "' onclick='" + JsCall("co:$ex") + "'>" + LoadCodeIcon$ + "</button>"
-    RunButton$  = "<button title='" + Text_Run$  + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$  + "</button>"
+    RunButton$ = "<button id='Run' title='" + Text_Run$ + "' onclick='" + JsCall("cr:$ex") + "'>" + RunCodeIcon$ + "</button>"
     CopyButton$ = "<button title='" + Text_Copy$ + "' onclick='" + JsCall("cc:$ex") + "'>" + CopyCodeIcon$ + "</button>"
     AddTag("code",          0, 0, "<div class='cb'><div class='butcode'>" + LoadButton$ + CopyButton$ + RunButton$ + "</div><pre class='ex'>")
     AddTag("endcode",       0, 0, "</pre></div>")
@@ -2226,8 +2226,19 @@ Module HelpTool
     EndIf
     DisplayPage(PageName$)
   EndProcedure
-
-
+  
+  ; Animation of the 'Run' button during compilation to indicate that it has been triggered
+  ;
+  Procedure AnimRunButton()
+    Protected i
+    For i = 1 To 2
+      WebViewExecuteScript(GadgetWeb, "document.getElementById('Run').style.opacity='0.4';")
+      Delay(150)
+      WebViewExecuteScript(GadgetWeb, "document.getElementById('Run').style.opacity='1';")
+      Delay(150)
+    Next
+  EndProcedure
+  
   ; Message$: '["xy:Value"]' (json parameters of the WebView callback)
   ;   lk: link to a page
   ;   cc, fc: copy the example code number 'Value' of the page / the example file 'Value'
@@ -2316,12 +2327,16 @@ Module HelpTool
             RunProgram(#PB_Compiler_Home + "PureBasic", #DQUOTE$ + File$ + #DQUOTE$, GetTemporaryDirectory(), #PB_Program_Hide)
           Case "r"
             RunProgram(#DQUOTE$ + #PB_Compiler_Home + "Compilers\pbcompiler" + #DQUOTE$, #DQUOTE$ + File$ + #DQUOTE$, GetTemporaryDirectory(), #PB_Program_Hide)
+            AnimRunButton()
         EndSelect
       EndIf
 
     CompilerElse ; IDE: loaded in a new tab (and run if asked)
       If OpenCodeCallback And (File$ <> "" Or Code$ <> "")
         OpenCodeCallback(File$, Code$, Bool(Mid(Type$, 2, 1) = "r"))
+        If Mid(Type$, 2, 1) = "r"
+          AnimRunButton()
+        EndIf
       EndIf
     CompilerEndIf
   EndProcedure
