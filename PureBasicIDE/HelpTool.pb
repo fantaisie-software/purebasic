@@ -59,6 +59,20 @@ Module HelpTool
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
   #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
   #MaxZoom          = 3.0
+  #ChipsHeight      = 150   ; height of the filters area (it scrolls only if the chips do not fit)
+  #GroupReference$  = "Reference" ; group of the pages outside a library
+
+  CompilerSelect #PB_Compiler_OS
+    CompilerCase #PB_OS_Windows
+      #ChipFontName$ = "Segoe UI"      ; IDE default font, size 10 -> chips 8 (or a little smaller: 7)
+      #ChipFontSize  = 8
+    CompilerCase #PB_OS_MacOS
+      #ChipFontName$ = "Lucida Grande" ; IDE default font, size 13 -> chips 10 (or 9)
+      #ChipFontSize  = 10
+    CompilerDefault
+      #ChipFontName$ = "DejaVu Sans"   ; IDE default font, size 10 -> chips 8 (or 7)
+      #ChipFontSize  = 8
+  CompilerEndSelect
 
   Structure HelpPage
     Title$
@@ -72,6 +86,15 @@ Module HelpTool
     UserLib$         ; user library: its name
     LibDestination$  ; user library function: library where it is listed (@LibraryDestination)
     ExampleFile$     ; example page: name of the example file ("" for the other pages)
+    Group$           ; library of the page, for the search filters (see ChipsBuild())
+  EndStructure
+
+  Structure ChipInfo ; one search filter (one per library, plus All)
+    Name$            ; group name (library)
+    Caption$
+    Gadget.i
+    Width.l
+    IsAll.b          ; 1: the All chip
   EndStructure
 
   Structure HelpTag
@@ -119,6 +142,8 @@ Module HelpTool
   Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
+  Global GadgetChips = -1, ChipFont, ChipHeight ; search filters: scroll area of the dialog, font and height of the chips
+  Global NewList Chips.ChipInfo()
   Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
   Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;", CopyCodeIcon$ = "&#128203;" ; example buttons (replaced by the IDE icons)
   Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
@@ -127,7 +152,7 @@ Module HelpTool
   ; Translations (see InitLanguage())
   Global Text_CommandList$, Text_ReturnValue$, Text_None$, Text_Remarks$, Text_Example$, Text_SeeAlso$, Text_Syntax$, Text_Description$
   Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
-  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$
+  Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$, Text_All$, Text_Reference$
 
   ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
   Global UserLibColor = $008800 ; user libraries in the contents tree
@@ -215,6 +240,8 @@ Module HelpTool
     Text_Load$           = Translate("Open", "Ouvrir", "öffnen")
     Text_Run$            = Translate("Run", "Executer", "ausführen")
     Text_Copy$           = Translate("Copy", "Copier", "Kopieren")
+    Text_All$            = Translate("All", "Tous", "Alle")
+    Text_Reference$      = Translate("Reference", "Référence", "Referenz")
   EndProcedure
 
 
@@ -1017,6 +1044,8 @@ Module HelpTool
 
   ; Loads all the help pages, and fills the contents tree
   ;
+  Declare ChipsBuild()
+
   Procedure LoadHelp(EnableUI = #True)
     Protected Text$, Title$, Link$, UserLibLinks$, Position, Level, *Page.HelpPage, *SubPage.HelpPage, *Reference.HelpPage
     NewList Files$()
@@ -1116,6 +1145,7 @@ Module HelpTool
       HideGadget(GadgetContents, #False)
 
       DisplayPage("reference")
+      ChipsBuild()
     EndIf
   EndProcedure
 
@@ -2088,20 +2118,35 @@ Module HelpTool
   CompilerEndIf
 
 
-  ; Search: all the words must be found in the title or in the page source. The results are sorted by relevance:
+  ; Search: all the words must be found in the title or in the page source (3 characters minimum), filtered by the chips of the libraries.
+  ; The results are sorted by relevance:
   ;   0 exact name, 1 name starts with the text, 2 name contains it, 3 all the words are in the name,
   ;   4 @Keyword of the page, 5 the rest (description and page text). Same rank: alphabetical order.
+  ; Without text (or too short) the chips alone list the pages of the selected libraries. Clear: nothing to search, clears the list.
   ;
-  Procedure SearchPages()
+  Procedure SearchPages(Clear = #False)
     Protected Search$, Title$, Phrase$, Word$, FirstWord$, Item, Rank, IsMatch, AllInTitle, i
     NewList Words$()
     NewList Results.SearchResult()
+    NewMap SelectedGroups()
 
     Search$ = GetGadgetText(GadgetSearch)
     If CurrentPageName$ <> "" ; updates (or removes) the highlighting in the displayed page
       SetPageHtml(PageToHtml(CurrentPageName$))
     EndIf
-    If Len(Search$) < 3
+    Search$ = Trim(Search$)
+    If Len(Search$) < 3 ; too short: only the chips filter, no search in the sources
+      Search$ = ""
+    EndIf
+    ForEach Chips()
+      If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget)
+        SelectedGroups(Chips()\Name$) = 1
+      EndIf
+    Next
+    If Search$ = "" And MapSize(SelectedGroups()) = 0 ; nothing to search or filter: the list is kept (cleared if Clear)
+      If Clear
+        ClearGadgetItems(GadgetSearchList)
+      EndIf
       ProcedureReturn
     EndIf
 
@@ -2115,13 +2160,15 @@ Module HelpTool
       EndIf
     Next i
     Phrase$ = Trim(Phrase$)
-    If ListSize(Words$()) = 0
-      ProcedureReturn
+    If FirstElement(Words$())
+      FirstWord$ = Words$()
     EndIf
-    FirstElement(Words$())
-    FirstWord$ = Words$()
 
     ForEach Pages()
+      If MapSize(SelectedGroups()) And FindMapElement(SelectedGroups(), Pages()\Group$) = 0
+        Continue
+      EndIf
+
       Title$  = LCase(Pages()\Title$)
       IsMatch = #True
       ForEach Words$()
@@ -2132,26 +2179,27 @@ Module HelpTool
       Next
 
       If IsMatch
-        If Title$ = Phrase$
-          Rank = 0
-        ElseIf Left(Title$, Len(Phrase$)) = Phrase$
-          Rank = 1
-        ElseIf FindString(Title$, Phrase$)
-          Rank = 2
-        Else
-          AllInTitle = #True
-          ForEach Words$()
-            If FindString(Title$, Words$()) = 0
-              AllInTitle = #False
-              Break
-            EndIf
-          Next
-          If AllInTitle
-            Rank = 3
-          ElseIf FindString(Pages()\Source$, "@Keyword " + FirstWord$, 1, #PB_String_NoCase)
-            Rank = 4
+        Rank = 5 ; the rest (description and page text), or the chips alone (alphabetical order)
+        If ListSize(Words$())
+          If Title$ = Phrase$
+            Rank = 0
+          ElseIf Left(Title$, Len(Phrase$)) = Phrase$
+            Rank = 1
+          ElseIf FindString(Title$, Phrase$)
+            Rank = 2
           Else
-            Rank = 5
+            AllInTitle = #True
+            ForEach Words$()
+              If FindString(Title$, Words$()) = 0
+                AllInTitle = #False
+                Break
+              EndIf
+            Next
+            If AllInTitle
+              Rank = 3
+            ElseIf FindString(Pages()\Source$, "@Keyword " + FirstWord$, 1, #PB_String_NoCase)
+              Rank = 4
+            EndIf
           EndIf
         EndIf
 
@@ -2173,6 +2221,200 @@ Module HelpTool
   EndProcedure
 
 
+  ;- ----- Search filters (chips)
+
+  ; Places the chips line by line (vertical scrollbar only if they do not fit).
+  Procedure ChipsLayout()
+    Protected x, y, Pass, AreaWidth, AreaHeight, InnerWidth, InnerHeight, Dummy
+    Protected Pad = 2, Gap = 2
+    Static ScrollbarWidth
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+    If ScrollbarWidth = 0 ; required width of a vertical scrollbar (logical units)
+      Dummy = ScrollBarGadget(#PB_Any, -10, 0, 0, 100, 0, 1, 1, #PB_ScrollBar_Vertical)
+      ScrollbarWidth = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
+      FreeGadget(Dummy)
+    EndIf
+
+    AreaWidth  = GadgetWidth(GadgetChips)
+    AreaHeight = GadgetHeight(GadgetChips)
+    For Pass = 0 To 1 ; pass 0: no vertical scrollbar, pass 1: room reserved for it
+      InnerWidth = AreaWidth - 2 * Pad - 4 - Pass * ScrollbarWidth
+      x = Pad
+      y = Pad
+      ForEach Chips()
+        If x + Chips()\Width > InnerWidth And x > Pad
+          x = Pad
+          y + ChipHeight + Gap
+        EndIf
+        ResizeGadget(Chips()\Gadget, x, y, Chips()\Width, ChipHeight)
+        x + Chips()\Width + Gap
+      Next
+      InnerHeight = y + ChipHeight + Pad
+      If InnerHeight <= AreaHeight
+        Break
+      EndIf
+    Next
+    SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerWidth, InnerWidth + 2 * Pad)
+    SetGadgetAttribute(GadgetChips, #PB_ScrollArea_InnerHeight, InnerHeight)
+  EndProcedure
+
+
+  ; Lays out the chips again when the size of the area (resized by the dialog) has changed: called on every possible resize.
+  Procedure ChipsPlace(Force = #False)
+    Protected w, h
+    Static ChipsW, ChipsH
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+    w = GadgetWidth(GadgetChips)
+    h = GadgetHeight(GadgetChips)
+    If w < 20 Or h < 10 ; panel not shown yet
+      ChipsW = -1
+      ProcedureReturn
+    EndIf
+    If Force Or w <> ChipsW Or h <> ChipsH
+      ChipsW = w
+      ChipsH = h
+      ChipsLayout()
+    EndIf
+  EndProcedure
+
+
+  ; (Re)creates the chips: one per library, plus Reference (pages outside a library) and All.
+  Procedure ChipsBuild()
+    Protected Dummy, LibName$
+    NewMap LibraryOfFile$()
+    NewMap LibraryNames()
+
+    If IsGadget(GadgetChips) = 0
+      ProcedureReturn
+    EndIf
+    ClearGadgetItems(GadgetSearchList) ; the previous results point to pages which are freed
+    ForEach Chips() ; only the buttons: the scroll area belongs to the dialog
+      If IsGadget(Chips()\Gadget)
+        FreeGadget(Chips()\Gadget)
+      EndIf
+    Next
+    ClearList(Chips())
+
+    ; library of a file = title of its lib_ page
+    ForEach Pages()
+      If Left(Pages()\Name$, 4) = "lib_" And Pages()\UserLib$ = ""
+        LibraryOfFile$(Pages()\File$) = Pages()\Title$
+      EndIf
+    Next
+    ForEach Pages()
+      If Pages()\UserLib$ <> ""
+        Pages()\Group$ = Pages()\UserLib$
+      ElseIf FindMapElement(LibraryOfFile$(), Pages()\File$)
+        Pages()\Group$ = LibraryOfFile$()
+      Else
+        Pages()\Group$ = #GroupReference$
+      EndIf
+      LibraryNames(Pages()\Group$) = 1
+    Next
+
+    ; order: All, Reference, then the libraries alphabetically
+    ForEach LibraryNames()
+      LibName$ = MapKey(LibraryNames())
+      If LibName$ <> #GroupReference$
+        AddElement(Chips())
+        Chips()\Name$ = LibName$
+      EndIf
+    Next
+    SortStructuredList(Chips(), #PB_Sort_Ascending | #PB_Sort_NoCase, OffsetOf(ChipInfo\Name$), #PB_String)
+    If FindMapElement(LibraryNames(), #GroupReference$)
+      AddElement(Chips())
+      MoveElement(Chips(), #PB_List_First)
+      Chips()\Name$ = #GroupReference$
+    EndIf
+    AddElement(Chips())
+    MoveElement(Chips(), #PB_List_First)
+    Chips()\Name$ = "All"
+    Chips()\IsAll = #True
+
+    ForEach Chips()
+      If Chips()\IsAll
+        Chips()\Caption$ = Text_All$
+      ElseIf Chips()\Name$ = #GroupReference$
+        Chips()\Caption$ = Text_Reference$
+      Else
+        Chips()\Caption$ = Chips()\Name$
+      EndIf
+    Next
+
+    OpenGadgetList(GadgetChips)
+    ; chip size = required size of a button with the small font
+    If ChipFont = 0
+      ChipFont = LoadFont(#PB_Any, #ChipFontName$, #ChipFontSize)
+    EndIf
+    Dummy = ButtonGadget(#PB_Any, 0, 0, 0, 0, "Abc")
+    If ChipFont
+      SetGadgetFont(Dummy, FontID(ChipFont))
+    EndIf
+    ChipHeight = GadgetHeight(Dummy, #PB_Gadget_RequiredSize)
+    ForEach Chips()
+      SetGadgetText(Dummy, Chips()\Caption$)
+      Chips()\Width = GadgetWidth(Dummy, #PB_Gadget_RequiredSize)
+    Next
+    FreeGadget(Dummy)
+
+    ForEach Chips() ; the buttons go inside the scroll area created by the dialog
+      Chips()\Gadget = ButtonGadget(#PB_Any, 0, 0, Chips()\Width, ChipHeight, Chips()\Caption$, #PB_Button_Toggle)
+      If ChipFont
+        SetGadgetFont(Chips()\Gadget, FontID(ChipFont))
+      EndIf
+      If Chips()\IsAll
+        SetGadgetState(Chips()\Gadget, 1) ; All pressed: no library selected
+      EndIf
+    Next
+    CloseGadgetList()
+    If ApplyColorsCallback
+      ApplyColorsCallback(GadgetChips)
+    EndIf
+    ChipsPlace(#True)
+  EndProcedure
+
+
+  ; Click on a chip: All clears the selection, otherwise All is pressed only if nothing is selected.
+  Procedure ChipClick(Gadget)
+    Protected Found, IsAll, Selected
+
+    ForEach Chips()
+      If Chips()\Gadget = Gadget
+        Found = #True
+        IsAll = Chips()\IsAll
+        Break
+      EndIf
+    Next
+    If Found = #False
+      ProcedureReturn
+    EndIf
+    If IsAll
+      ForEach Chips()
+        If Chips()\IsAll = #False
+          SetGadgetState(Chips()\Gadget, 0)
+        EndIf
+      Next
+    EndIf
+    ForEach Chips()
+      If Chips()\IsAll = #False And GetGadgetState(Chips()\Gadget)
+        Selected + 1
+      EndIf
+    Next
+    ForEach Chips()
+      If Chips()\IsAll
+        SetGadgetState(Chips()\Gadget, Bool(Selected = 0))
+      EndIf
+    Next
+    SearchPages(#True)
+  EndProcedure
+
+
   Procedure CreateUserInterface()
     Protected Xml$, Tabs$, ButtonSize, i
 
@@ -2185,6 +2427,7 @@ Module HelpTool
             "          <vbox expand='item:2'>" +
             "            <string name='search'/>" +
             "            <listview name='searchlist'/>" +
+            "            <scrollarea name='chips' height='" + Str(#ChipsHeight) + "' flags='#PB_ScrollArea_BorderLess'/>" +
             "            </vbox>" +
             "          </tab>"
 
@@ -2259,6 +2502,7 @@ Module HelpTool
     GadgetContents   = DialogGadget(Dialog, "contents")
     GadgetSearch     = DialogGadget(Dialog, "search")
     GadgetSearchList = DialogGadget(Dialog, "searchlist")
+    GadgetChips      = DialogGadget(Dialog, "chips")
     GadgetBack       = DialogGadget(Dialog, "back")
     GadgetForward    = DialogGadget(Dialog, "forward")
     GadgetHome       = DialogGadget(Dialog, "home")
@@ -2292,6 +2536,7 @@ Module HelpTool
         ApplyColorsCallback(GadgetContents)
         ApplyColorsCallback(GadgetSearch)
         ApplyColorsCallback(GadgetSearchList)
+        ApplyColorsCallback(GadgetChips)
       EndIf
       RefreshDialog(Dialog)
     CompilerEndIf
@@ -2415,6 +2660,7 @@ Module HelpTool
       HideGadget(GadgetPanel, #True)
       PlaceHiddenContents()
     EndIf
+    ChipsPlace()
   EndProcedure
 
   CompilerEndIf
@@ -2427,6 +2673,7 @@ Module HelpTool
       FirstPageReady()
     EndIf
 
+    ChipsPlace() ; catches the splitter moves (there is no resize event)
     CompilerIf #Standalone = #False ; IDE only
       If ContentsVisible = #False And IsGadget(GadgetSplitter) ; the splitter bar width is only known once the splitter is displayed (GTK, Cocoa)
         Width = SplitterBarWidth
@@ -2505,6 +2752,9 @@ Module HelpTool
 
       Case GadgetOS
         OS$ = GetGadgetText(GadgetOS)
+
+      Default
+        ChipClick(Gadget)
     EndSelect
   EndProcedure
 
@@ -2569,6 +2819,8 @@ Module HelpTool
             GadgetEvent(EventGadget(), EventType())
           Case #PB_Event_Timer
             Timer()
+          Case #PB_Event_SizeWindow
+            ChipsPlace()
         EndSelect
       EndIf
     Until Event = #PB_Event_CloseWindow
@@ -2694,6 +2946,12 @@ Module HelpTool
     DialogXML = 0
     GadgetRoot = 0
     GadgetShowContents = -1
+    GadgetChips = -1 ; the chip buttons are freed with the dialog
+    ClearList(Chips())
+    If ChipFont And IsFont(ChipFont)
+      FreeFont(ChipFont)
+    EndIf
+    ChipFont = 0
     ContentsVisible = #False
     *CurrentPage = 0
   EndProcedure
@@ -2705,6 +2963,7 @@ Module HelpTool
       CompilerIf #Standalone = #False ; IDE only
         PlaceHiddenContents()
       CompilerEndIf
+      ChipsPlace()
     EndIf
   EndProcedure
 
