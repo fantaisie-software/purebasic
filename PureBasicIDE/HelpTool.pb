@@ -32,7 +32,7 @@ DeclareModule HelpTool
 
   ; IDE embedding
   Declare Setup(HelpLanguage$, HelpOS$, Source$, UserLibraries$, Examples$)
-  Declare SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "")
+  Declare SetImages(Back, Forward, Home, Favorite, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "")
   Declare SetColors(Css$, Color = $008800)
   Declare EnableDarkMode(Enable = #True) ; dark colors for the pages (they win over the SetColors() ones), can be called at any time
   Declare Create(Window)
@@ -45,6 +45,8 @@ DeclareModule HelpTool
   Declare.f GetZoom()       ; page zoom: saved in the preferences ([HelpTool] group)
   Declare SetChipsHeight(Value) ; height of the search filters: restored from the preferences
   Declare GetChipsHeight()      ; height of the search filters: saved in the preferences ([HelpTool] group)
+  Declare SetFavorites(Names$)  ; favorite pages: restored from the preferences
+  Declare.s GetFavorites()      ; favorite pages: saved in the preferences ([HelpTool] group)
   Declare ResetZoom()       ; back to 100% if the page has the focus (returns #True), see #MENU_ZoomDefault
 EndDeclareModule
 
@@ -61,6 +63,7 @@ Module HelpTool
   #EVENTTYPE_JsMessage = #PB_EventType_FirstCustomValue + 500
   #MinZoom          = 0.5  ; page zoom limits (Ctrl+wheel, Ctrl +/-, Ctrl+0: back to 100%)
   #MaxZoom          = 3.0
+  #FavoritesSeparator$ = "|" ; in the preferences
   #ChipsHeight      = 150   ; default height of the filters area (it scrolls only if the chips do not fit)
   #ChipsListMinimum = 50    ; minimum height of the results list above the filters
   #GroupReference$  = "Reference" ; group of the pages outside a library
@@ -123,6 +126,8 @@ Module HelpTool
   Global NewMap OSSpecific$()            ; platform-dependant functions: function -> info
   Global NewMap PackFiles()              ; help archive: file -> uncompressed size
   Global NewList History$()
+  Global NewMap Favorites()              ; favorite pages, by page name
+  Global NewList FavoriteItems$()        ; page names of the items of the Favorites tab
   Global NewList JsMessages$()
 
   Global Language$, OS$
@@ -145,10 +150,11 @@ Module HelpTool
   Global HostWindow, Dialog, DialogXML   ; HostWindow: window which contains the help (for the deferred events)
   Global GadgetPanel, GadgetContents, GadgetSearch, GadgetSearchList, GadgetWeb, GadgetHome, GadgetBack, GadgetForward
   Global GadgetLanguage, GadgetOS, GadgetEdit, GadgetSplitter, GadgetRoot, GadgetShowContents = -1
+  Global GadgetFavorite = -1, GadgetFavoritesList = -1
   Global GadgetChips = -1, GadgetChipsSplitter = -1, ChipFont, ChipHeight ; search filters: scroll area of the dialog, its splitter, font and height of the chips
   Global ChipsAreaHeight = #ChipsHeight, ChipsHeightPending, ChipsScrollbarWidth ; height of the scroll area (user defined), not applied yet to the splitter, width of a vertical scrollbar
   Global NewList Chips.ChipInfo()
-  Global ImageBack, ImageForward, ImageHome, ImageEdit, ImageContents, ImageBranch, ImageLeaf
+  Global ImageBack, ImageForward, ImageHome, ImageFavorite, ImageEdit, ImageContents, ImageBranch, ImageLeaf
   Global LoadCodeIcon$ = "&#128194;", RunCodeIcon$ = "&#9654;", CopyCodeIcon$ = "&#128203;" ; example buttons (replaced by the IDE icons)
   Global ContentsVisible, SplitterPosition, SplitterBarWidth = -1 ; IDE: contents tree displayed, splitter position, width of its bar (-1: not measured yet)
   Global StandaloneWindow, StandaloneX, StandaloneY, StandaloneWidth, StandaloneHeight
@@ -157,6 +163,8 @@ Module HelpTool
   Global Text_CommandList$, Text_ReturnValue$, Text_None$, Text_Remarks$, Text_Example$, Text_SeeAlso$, Text_Syntax$, Text_Description$
   Global Text_Overview$, Text_Parameters$, Text_Deprecated$, Text_DeprecatedInfo$, Text_CommandIndex$, Text_Constants$, Text_OSFunctions$
   Global Text_Help$, Text_Contents$, Text_Search$, Text_Home$, Text_Back$, Text_Forward$, Text_Edit$, Text_ShowContents$, Text_Load$, Text_Run$, Text_Copy$, Text_All$, Text_Reference$
+
+  Global Text_Favorites$, Text_ToggleFavorite$
 
   ; Page colors (CSS variables), replaced by the IDE theme ones (SetColors())
   Global UserLibColor = $008800 ; user libraries in the contents tree
@@ -244,6 +252,8 @@ Module HelpTool
     Text_Load$           = Translate("Open", "Ouvrir", "öffnen")
     Text_Run$            = Translate("Run", "Executer", "ausführen")
     Text_Copy$           = Translate("Copy", "Copier", "Kopieren")
+    Text_Favorites$      = Translate("Favorites", "Favoris", "Favoriten")
+    Text_ToggleFavorite$ = Translate("Add/remove this page from the favorites", "Ajouter/retirer cette page des favoris", "Diese Seite zu den Favoriten hinzufügen/daraus entfernen")
     Text_All$            = Translate("All", "Tous", "Alle")
     Text_Reference$      = Translate("Reference", "Référence", "Referenz")
   EndProcedure
@@ -1049,6 +1059,7 @@ Module HelpTool
   ; Loads all the help pages, and fills the contents tree
   ;
   Declare ChipsBuild()
+  Declare FavoritesRefresh()
 
   Procedure LoadHelp(EnableUI = #True)
     Protected Text$, Title$, Link$, UserLibLinks$, Position, Level, *Page.HelpPage, *SubPage.HelpPage, *Reference.HelpPage
@@ -1085,6 +1096,7 @@ Module HelpTool
         ClearGadgetItems(GadgetContents)
         SetPageHtml("<html><head><style>" + PageColors$ + PageStyle$ + "</style></head><body><h2>" + Text_Help$ + "</h2>" +
                     "Help source not found: <b>" + EscapeHtml(HelpPath$ + LanguagePath$) + "</b></body></html>")
+        FavoritesRefresh()
       EndIf
       ProcedureReturn
     EndIf
@@ -1150,6 +1162,7 @@ Module HelpTool
 
       DisplayPage("reference")
       ChipsBuild()
+      FavoritesRefresh()
     EndIf
   EndProcedure
 
@@ -1834,6 +1847,101 @@ Module HelpTool
   EndProcedure
 
 
+  ;- ----- Favorites
+
+  Procedure SetFavorites(Names$) ; Names$: page names (they don't depend on the language)
+    Protected Name$, i
+
+    ClearMap(Favorites())
+    For i = 1 To CountString(Names$, #FavoritesSeparator$) + 1
+      Name$ = StringField(Names$, i, #FavoritesSeparator$)
+      If Name$ <> ""
+        Favorites(Name$) = 1
+      EndIf
+    Next i
+  EndProcedure
+
+
+  Procedure.s GetFavorites()
+    Protected Names$
+
+    ForEach Favorites()
+      Names$ + MapKey(Favorites()) + #FavoritesSeparator$
+    Next
+    ProcedureReturn RTrim(Names$, #FavoritesSeparator$)
+  EndProcedure
+
+
+  ; The star button and the selection in the Favorites tab follow the displayed page. An example page can't be a favorite: it only exists once displayed.
+  ;
+  Procedure UpdateFavoriteState()
+    Protected *Page.HelpPage = FindPage(CurrentPageName$)
+    Protected Item = -1
+
+    If IsGadget(GadgetFavorite) = 0
+      ProcedureReturn
+    EndIf
+
+    If *Page And *Page\ExampleFile$ = ""
+      DisableGadget(GadgetFavorite, #False)
+      SetGadgetState(GadgetFavorite, Bool(FindMapElement(Favorites(), CurrentPageName$) <> 0))
+    Else
+      DisableGadget(GadgetFavorite, #True)
+      SetGadgetState(GadgetFavorite, #False)
+    EndIf
+
+    ForEach FavoriteItems$()
+      If FavoriteItems$() = CurrentPageName$
+        Item = ListIndex(FavoriteItems$())
+        Break
+      EndIf
+    Next
+    SetGadgetState(GadgetFavoritesList, Item)
+  EndProcedure
+
+
+  ; Fills the Favorites tab, sorted by title. A page which doesn't exist anymore (removed user library) is not listed, but stays in the favorites.
+  ;
+  Procedure FavoritesRefresh()
+    Protected *Page.HelpPage
+    NewList Sorted.SearchResult()
+
+    If IsGadget(GadgetFavoritesList) = 0
+      ProcedureReturn
+    EndIf
+
+    ForEach Favorites()
+      *Page = FindPage(MapKey(Favorites()))
+      If *Page
+        AddElement(Sorted())
+        Sorted()\Page = *Page
+        Sorted()\Key$ = LCase(*Page\Title$) + #LF$ + *Page\Name$
+      EndIf
+    Next
+    SortStructuredList(Sorted(), #PB_Sort_Ascending, OffsetOf(SearchResult\Key$), #PB_String)
+
+    ClearList(FavoriteItems$())
+    ClearGadgetItems(GadgetFavoritesList)
+    ForEach Sorted()
+      AddGadgetItem(GadgetFavoritesList, -1, Sorted()\Page\Title$)
+      AddElement(FavoriteItems$())
+      FavoriteItems$() = Sorted()\Page\Name$
+    Next
+
+    UpdateFavoriteState()
+  EndProcedure
+
+
+  Procedure ToggleFavorite() ; star button: adds or removes the displayed page
+    If GetGadgetState(GadgetFavorite)
+      Favorites(CurrentPageName$) = 1
+    Else
+      DeleteMapElement(Favorites(), CurrentPageName$)
+    EndIf
+    FavoritesRefresh()
+  EndProcedure
+
+
   ; Name$: page name, or "-"/"+" to go back/forward in the history
   ;
   Procedure DisplayPage(Name$)
@@ -1877,6 +1985,7 @@ Module HelpTool
     DisableGadget(GadgetBack, Bool(HistoryPosition = 0))
     DisableGadget(GadgetForward, Bool(HistoryPosition = ListSize(History$()) - 1))
     HideGadget(GadgetEdit, Bool(IsArchive And *CurrentPage And *CurrentPage\UserLib$ = ""))
+    UpdateFavoriteState()
 
     *Page = FindPage(Name$)
     If *Page
@@ -2481,6 +2590,9 @@ Module HelpTool
             "              <scrollarea name='chips' flags='#PB_ScrollArea_BorderLess'/>" +
             "              </splitter>" +
             "            </vbox>" +
+            "          </tab>" +
+            "        <tab text='" + Text_Favorites$ + "'>" +
+            "          <listview name='favorites'/>" +
             "          </tab>"
 
     CompilerIf #Standalone
@@ -2496,6 +2608,7 @@ Module HelpTool
              "            <button name='back' text='&#9664;' />" +
              "            <button name='forward' text='&#9654;' />" +
              "            <button name='home' text='&#8962;' />" +
+             "            <button name='favorite' text='&#9733;' flags='#PB_Button_Toggle' />" +
              "            <combobox name='language' width='100' />" +
              "            <combobox name='os' width='100' />" +
              "            <button name='edit' text='&#9998;' />" +
@@ -2519,6 +2632,7 @@ Module HelpTool
              "      <buttonimage name='back' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      <buttonimage name='forward' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      <buttonimage name='home' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
+             "      <buttonimage name='favorite' width='" + ButtonSize + "' height='" + ButtonSize + "' flags='#PB_Button_Toggle' />" +
              "      <buttonimage name='edit' width='" + ButtonSize + "' height='" + ButtonSize + "' />" +
              "      </hbox>" +
              "    <splitter name='splitter' flags='#PB_Splitter_Vertical' firstmin='0' secondmin='auto'>" +
@@ -2560,6 +2674,8 @@ Module HelpTool
     GadgetBack       = DialogGadget(Dialog, "back")
     GadgetForward    = DialogGadget(Dialog, "forward")
     GadgetHome       = DialogGadget(Dialog, "home")
+    GadgetFavorite   = DialogGadget(Dialog, "favorite")
+    GadgetFavoritesList = DialogGadget(Dialog, "favorites")
     GadgetEdit       = DialogGadget(Dialog, "edit")
     DisableGadget(GadgetContents, #False)
 
@@ -2585,11 +2701,13 @@ Module HelpTool
       If IsImage(ImageBack)     : SetGadgetAttribute(GadgetBack,         #PB_Button_Image, ImageID(ImageBack))     : EndIf
       If IsImage(ImageForward)  : SetGadgetAttribute(GadgetForward,      #PB_Button_Image, ImageID(ImageForward))  : EndIf
       If IsImage(ImageHome)     : SetGadgetAttribute(GadgetHome,         #PB_Button_Image, ImageID(ImageHome))     : EndIf
+      If IsImage(ImageFavorite) : SetGadgetAttribute(GadgetFavorite,     #PB_Button_Image, ImageID(ImageFavorite)) : EndIf
       If IsImage(ImageEdit)     : SetGadgetAttribute(GadgetEdit,         #PB_Button_Image, ImageID(ImageEdit))     : EndIf
       If ApplyColorsCallback
         ApplyColorsCallback(GadgetContents)
         ApplyColorsCallback(GadgetSearch)
         ApplyColorsCallback(GadgetSearchList)
+        ApplyColorsCallback(GadgetFavoritesList)
         ApplyColorsCallback(GadgetChips)
       EndIf
       RefreshDialog(Dialog)
@@ -2598,6 +2716,7 @@ Module HelpTool
     GadgetToolTip(GadgetBack, Text_Back$)
     GadgetToolTip(GadgetForward, Text_Forward$)
     GadgetToolTip(GadgetHome, Text_Home$)
+    GadgetToolTip(GadgetFavorite, Text_ToggleFavorite$)
     GadgetToolTip(GadgetEdit, Text_Edit$)
 
     GadgetWeb = DialogGadget(Dialog, "web")
@@ -2780,7 +2899,9 @@ Module HelpTool
         DisplayPage("+")
 
       Case GadgetPanel
-        SetActiveGadget(GadgetSearch)
+        If GetGadgetState(GadgetPanel) = 1
+          SetActiveGadget(GadgetSearch)
+        EndIf
         If CurrentPageName$ <> "" And GetGadgetText(GadgetSearch) <> "" ; the page is drawn again: highlight in the Search tab only
           SetPageHtml(PageToHtml(CurrentPageName$))
         EndIf
@@ -2794,6 +2915,16 @@ Module HelpTool
         If GetGadgetState(GadgetSearchList) >= 0
           *Page = GetGadgetItemData(GadgetSearchList, GetGadgetState(GadgetSearchList))
           DisplayPage(*Page\Name$)
+        EndIf
+
+      Case GadgetFavorite
+        ToggleFavorite()
+
+      Case GadgetFavoritesList
+        If GetGadgetState(GadgetFavoritesList) >= 0 And SelectElement(FavoriteItems$(), GetGadgetState(GadgetFavoritesList))
+          If FavoriteItems$() <> CurrentPageName$ ; click + change event for the same item: only one entry in the history
+            DisplayPage(FavoriteItems$())
+          EndIf
         EndIf
 
       Case GadgetEdit
@@ -2829,6 +2960,7 @@ Module HelpTool
         PreferenceGroup("HelpTool")
         WritePreferenceFloat("Zoom", Zoom)
         WritePreferenceLong("ChipsHeight", ChipsAreaHeight)
+        WritePreferenceString("Favorites", GetFavorites())
         ClosePreferences()
       EndIf
     Else
@@ -2841,6 +2973,7 @@ Module HelpTool
       PreferenceGroup("HelpTool")
       SetZoom(ReadPreferenceFloat("Zoom", 1.0))
       SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
+      SetFavorites(ReadPreferenceString("Favorites", ""))
       ClosePreferences()
     EndIf
   EndProcedure
@@ -2928,10 +3061,11 @@ Module HelpTool
   EndProcedure
 
 
-  Procedure SetImages(Back, Forward, Home, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "") ; LoadCode$, RunCode$, CopyCode$: png images in base64
+  Procedure SetImages(Back, Forward, Home, Favorite, Edit, Contents, Branch, Leaf, LoadCode$, RunCode$, CopyCode$ = "") ; LoadCode$, RunCode$, CopyCode$: png images in base64
     ImageBack     = Back
     ImageForward  = Forward
     ImageHome     = Home
+    ImageFavorite = Favorite
     ImageEdit     = Edit
     ImageContents = Contents
     ImageBranch   = Branch
@@ -3005,6 +3139,8 @@ Module HelpTool
     DialogXML = 0
     GadgetRoot = 0
     GadgetShowContents = -1
+    GadgetFavorite = -1
+    GadgetFavoritesList = -1
     GadgetChips = -1 ; the chip buttons are freed with the dialog
     GadgetChipsSplitter = -1
     ChipsHeightPending = #False
@@ -3508,7 +3644,7 @@ CompilerElse
     CompilerIf #CompileMac ; only macOS has a system appearance here. Elsewhere the pages follow the IDE theme (SetColors()), and DisplayDarkMode isn't a Windows/Linux option
       HelpTool::EnableDarkMode(HelpTool_IsDarkAppearance())
     CompilerEndIf
-    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
+    HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Favorite, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "purelibraries/userlibraries/", PureBasicPath$ + "examples/") ; lowercase: the Linux install (Windows and macOS are not case sensitive)
 
     If *Entry\IsSeparateWindow
@@ -3653,6 +3789,7 @@ CompilerElse
     PreferenceGroup("HelpTool")
     HelpToolSource$ = ReadPreferenceString("HelpSource", "")
     HelpTool::SetZoom(ReadPreferenceFloat("Zoom", 1.0))
+    HelpTool::SetFavorites(ReadPreferenceString("Favorites", ""))
     HelpTool::SetChipsHeight(ReadPreferenceLong("ChipsHeight", 0))
     HelpToolLanguage$ = ReadPreferenceString("HelpLanguage", "")
 
@@ -3665,6 +3802,7 @@ CompilerElse
     PreferenceGroup("HelpTool")
     WritePreferenceString("HelpSource", HelpToolSource$)
     WritePreferenceFloat("Zoom", HelpTool::GetZoom())
+    WritePreferenceString("Favorites", HelpTool::GetFavorites())
     WritePreferenceLong("ChipsHeight", HelpTool::GetChipsHeight())
     WritePreferenceString("HelpLanguage", HelpToolLanguage$)
 
