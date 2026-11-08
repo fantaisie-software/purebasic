@@ -277,8 +277,8 @@ possible to read a directory content, create a new directory and more...
   Returns the specified date of the current directory entry in the format of the PureBasic @LibraryLink "Date" "Date" library.
 
 @Remarks
-  On Linux and Mac OSX, the date returned for @#PB_Date_Created is the same as the date for
-  @#PB_Date_Modified, because most file systems do not store a file creation date.
+  On Linux, @#PB_Date_Created returns the date for @#PB_Date_Modified if the file system
+  doesn't store a file creation date.
 
 @SeeAlso
   @@ExamineDirectory,
@@ -749,8 +749,8 @@ possible to read a directory content, create a new directory and more...
   Returns the requested date in the format of the PureBasic @LibraryLink "Date" "Date" library.
 
 @Remarks
-  On Linux and Mac OSX, the date returned for @#PB_Date_Created is the same as the date for
-  @#PB_Date_Modified, because most file systems do not store a file creation date.
+  On Linux, @#PB_Date_Created returns the date for @#PB_Date_Modified if the file system
+  doesn't store a file creation date.
 
 @SeeAlso
   @@SetFileDate, @@DirectoryEntryDate
@@ -915,8 +915,9 @@ possible to read a directory content, create a new directory and more...
   Returns nonzero if the operation was successful and zero otherwise.
 
 @Remarks
-  On Linux and Mac OSX, the date used for @#PB_Date_Created is the same as the date for
-  @#PB_Date_Modified, because most file systems do not store a file creation date.
+  On Linux, the file creation date can't be changed: @#PB_Date_Created always fails.
+  On Mac OSX, setting a modification date earlier than the creation date changes the creation
+  date as well.
 
 @SeeAlso
   @@GetFileDate

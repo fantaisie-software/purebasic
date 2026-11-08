@@ -410,7 +410,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ExtractList(List(), Text$ [, Separator$ [, Limit]])
+@Function Result = ExtractList(List(), Text$ [, Separator$ [, Start [, Count]]])
 
 @Description
   Splits 'Text$' into 'List()', using 'Separator$' to find each element. 'List()' is
@@ -428,13 +428,17 @@
   characters long. If it is an empty string, 'Text$' is not split and is copied as a single
   element into 'List()'.
 
-@OptionalParameter "Limit"
-  If specified and greater than zero, at most 'Limit' elements are extracted: the last one
-  then contains the remainder of 'Text$', including any separator it may still contain.
-  If omitted, zero or negative, there is no limit.
+@OptionalParameter "Start"
+  The position of the first element to extract. The first element of 'Text$' is at position 1.
+  If omitted or lower than 1, the extraction starts at the first element. If 'Start' is
+  greater than the number of elements in 'Text$', nothing is extracted.
+
+@OptionalParameter "Count"
+  The maximum number of elements to extract, starting at 'Start'. If omitted, zero or
+  negative, all the elements from 'Start' to the end of 'Text$' are extracted.
 
 @ReturnValue
-  Returns the number of elements found (and stored into 'List()').
+  Returns the number of elements extracted (and stored into 'List()').
 
 @Example
 @Code
@@ -445,6 +449,19 @@
   Debug Result       ; will print '3'
   ForEach Fruits()
     Debug Fruits()   ; will print 'Apple', 'Orange' and 'Cherry'
+  Next
+@EndCode
+
+@Example
+@Code
+  ; Extract only a part of the elements
+  NewList Fruits.s()
+
+  Result = ExtractList(Fruits(), "Apple,Orange,Cherry,Banana,Pear", ",", 2, 3)
+
+  Debug Result       ; will print '3'
+  ForEach Fruits()
+    Debug Fruits()   ; will print 'Orange', 'Cherry' and 'Banana'
   Next
 @EndCode
 

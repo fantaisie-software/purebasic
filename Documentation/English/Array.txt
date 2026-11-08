@@ -215,7 +215,7 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = ExtractArray(Array(), Text$ [, Separator$ [, Limit]])
+@Function Result = ExtractArray(Array(), Text$ [, Separator$ [, Start [, Count]]])
 
 @Description
   Splits 'Text$' into 'Array()', using 'Separator$' to find each element. 'Array()' is
@@ -233,13 +233,17 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
   characters long. If it is an empty string, 'Text$' is not split and is copied as a single
   element into 'Array()'.
 
-@OptionalParameter "Limit"
-  If specified and greater than zero, at most 'Limit' elements are extracted: the last one
-  then contains the remainder of 'Text$', including any separator it may still contain.
-  If omitted, zero or negative, there is no limit.
+@OptionalParameter "Start"
+  The position of the first element to extract. The first element of 'Text$' is at position 1.
+  If omitted or lower than 1, the extraction starts at the first element. If 'Start' is
+  greater than the number of elements in 'Text$', nothing is extracted.
+
+@OptionalParameter "Count"
+  The maximum number of elements to extract, starting at 'Start'. If omitted, zero or
+  negative, all the elements from 'Start' to the end of 'Text$' are extracted.
 
 @ReturnValue
-  Returns the number of elements found (and stored into 'Array()').
+  Returns the number of elements extracted (and stored into 'Array()').
 
 @Example
 @Code
@@ -259,6 +263,19 @@ Debug ArraySize(Ex\ArrayDynamic()); Display 4
   Dim Numbers.i(0)
   ExtractArray(Numbers(), "10|20|30", "|")
   Debug Numbers(0) + Numbers(1) + Numbers(2) ; will print '60'
+@EndCode
+
+@Example
+@Code
+  ; Extract only a part of the elements
+  Dim Fruits.s(0)
+
+  Result = ExtractArray(Fruits(), "Apple,Orange,Cherry,Banana,Pear", ",", 2, 3)
+
+  Debug Result     ; will print '3'
+  Debug Fruits(0)  ; will print 'Orange'
+  Debug Fruits(1)  ; will print 'Cherry'
+  Debug Fruits(2)  ; will print 'Banana'
 @EndCode
 
 @SeeAlso

@@ -86,6 +86,7 @@ IncludeFile "../Common.pb"
 #PB_Program_Ascii    = 128
 #PB_Program_UTF8     = 256
 #PB_Program_Unicode  = 512
+#PB_Program_NoInput  = 1024
 
 
 ; StatusBar
