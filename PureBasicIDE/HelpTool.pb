@@ -118,7 +118,9 @@ Module HelpTool
   Global ThemeColors$ = PageColors$ ; light colors: the default ones, then the IDE theme ones (SetColors())
   Global DarkMode                   ; #True: the dark colors are used for the pages (EnableDarkMode())
   Global PageColorsDark$ = ":root {color-scheme: dark; --bg:#1f2023; --text:#e0e0e0; --titlebg:#5a5a1e; --codebg:#2c2e33; --tablebg:#26282c; --optbg:#303338; --border:#ffffff33;" +
-                           " --notebg:#a05a00; --link:#7db7ff; --constant:#ff8f8f; --function:#4fd1c5; --keyword:#4fd1c5; --userlib:#7ddf7d;}"
+                           " --notebg:#a05a00; --link:#7db7ff; --constant:#ff8f8f; --function:#4fd1c5; --keyword:#4fd1c5; --userlib:#7ddf7d;}" +
+                           " pre .s1, pre .s8, pre .s10, pre .s11, pre .s12, pre .s13, pre .s15 {color:var(--text);} pre .s2, pre .s7 {color:var(--keyword);} pre .s3 {color:#8fbf8f;}" +
+                           " pre .s4 {color:var(--constant);} pre .s5 {color:#e0b070;} pre .s6, pre .s9 {color:var(--function);} pre .s14 {color:var(--userlib);} pre .s16 {color:#ff6b6b;}"
 
   ; '.nav' is a block: as inline text after the 20pt title, WebKitGTK misses the clicks on its links in a narrow page
   Global PageStyle$ = "body {background-color: var(--bg); color: var(--text); font-family: Arial, Helvetica, sans-serif; font-size: 10pt;margin-left:30px}" +
@@ -2643,6 +2645,24 @@ CompilerElse
     ProcedureReturn Result$
   EndProcedure
 
+  CompilerIf #CompileMac
+    Procedure HelpTool_IsDarkAppearance() ; the effective appearance of the application: follows the system, and DisplayDarkMode = 0 forces Aqua
+      Protected Appearance, Name, *Utf8
+
+      Appearance = CocoaMessage(0, CocoaMessage(0, 0, "NSApplication sharedApplication"), "effectiveAppearance")
+      If Appearance ; macOS 10.14 and newer
+        Name = CocoaMessage(0, Appearance, "name")
+        If Name
+          *Utf8 = CocoaMessage(0, Name, "UTF8String")
+          If *Utf8
+            ProcedureReturn Bool(FindString(PeekS(*Utf8, -1, #PB_UTF8), "Dark") > 0)
+          EndIf
+        EndIf
+      EndIf
+      ProcedureReturn #False
+    EndProcedure
+  CompilerEndIf
+
   DataSection
     HelpTool_StyleColors: ; Color for the Scintilla styles 1 to 16 (see SetUpHighlightingColors())
     Data.l #COLOR_NormalText, #COLOR_BasicKeyword, #COLOR_Comment, #COLOR_Constant, #COLOR_String, #COLOR_PureKeyword, #COLOR_ASMKeyword, #COLOR_Operator
@@ -2827,8 +2847,8 @@ CompilerElse
       HelpTool::ApplyColorsCallback = 0
     EndIf
     HelpTool::SetColors(HelpTool_ThemeColors(), UserLibColor)
-    CompilerIf Defined(DisplayDarkMode, #PB_Variable) ; IDE option [Global] DisplayDarkMode of PureBasic.prefs
-      HelpTool::EnableDarkMode(DisplayDarkMode)
+    CompilerIf #CompileMac ; only macOS has a system appearance here. Elsewhere the pages follow the IDE theme (SetColors()), and DisplayDarkMode isn't a Windows/Linux option
+      HelpTool::EnableDarkMode(HelpTool_IsDarkAppearance())
     CompilerEndIf
     HelpTool::SetImages(#IMAGE_Help_Back, #IMAGE_Help_Forward, #IMAGE_Help_Home, #IMAGE_Help_Edit, #IMAGE_Help_Index, #IMAGE_Help_Branch, #IMAGE_Help_Leaf, HelpTool_ImageBase64(#IMAGE_Help_LoadCode), HelpTool_ImageBase64(#IMAGE_Help_RunCode))
     HelpTool::Setup(HelpTool_Language(Source$), OS$, Source$, PureBasicPath$ + "PureLibraries" + #Separator + "UserLibraries" + #Separator, PureBasicPath$ + "Examples" + #Separator)
