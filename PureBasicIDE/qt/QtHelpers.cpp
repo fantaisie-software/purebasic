@@ -27,6 +27,19 @@ extern "C" void Qt_ScrollEditorToBottom(QTextEdit *Widget)
 }
 
 
+// Not done with QtScript(): it cuts the #PB_Any numbers above 32-bit, which are valid object addresses
+extern "C" void QT_RaiseWindow(QWidget *Window)
+{
+  Window->raise();
+}
+
+
+extern "C" void QT_UpdateWidget(QWidget *Widget)
+{
+  Widget->update();
+}
+
+
 extern "C" void QT_CenterEditor(QTextEdit *Widget)
 {
   QTextCursor Cursor = Widget->textCursor();
