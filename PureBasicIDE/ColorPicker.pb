@@ -26,6 +26,10 @@ Structure ColorPickerData Extends ToolsPanelEntry
   
   IgnoreInputField.l ; see ColorPicker_UpdateColorField
   
+  ; for the separate window
+  MinWindowHeight.l   ; smallest height that fits what is currently shown
+  HeightBeforeAlpha.l ; window height when the alpha channel was last enabled
+  
   ; callback for current mode
   SetupFunction.ColorPicker_Mode_Setup
   EventFunction.ColorPicker_Mode_Event
@@ -1497,6 +1501,27 @@ Procedure ColorPicker_ResizeHandler(*Entry.ColorPickerData, PanelWidth, PanelHei
   EndIf
   RestHeight + rows*23 + 5 ; history
   
+  ; A separate window must fit everything shown: the alpha row and a narrow window
+  ; both need more height than the fixed minimum of the tool
+  ;
+  If *Entry\IsSeparateWindow
+    MinHeight = y + 115 + RestHeight + 10 ; 115 is the height of the RGB picker, the only one with a fixed size
+    If #DEFAULT_CanWindowStayOnTop
+      StayOnTopHeight = GetRequiredHeight(*Entry\ToolStayOnTop) + 5
+    EndIf
+    
+    *Entry\MinWindowHeight = Max(*Entry\ToolMinWindowHeight, MinHeight + StayOnTopHeight)
+    WindowBounds(*Entry\ToolWindowID, *Entry\ToolMinWindowWidth, *Entry\MinWindowHeight, #PB_Ignore, #PB_Ignore)
+    
+    If PanelHeight < MinHeight
+      ResizeWindow(*Entry\ToolWindowID, #PB_Ignore, #PB_Ignore, #PB_Ignore, MinHeight + StayOnTopHeight)
+      If #DEFAULT_CanWindowStayOnTop
+        ResizeGadget(*Entry\ToolStayOnTop, #PB_Ignore, MinHeight, #PB_Ignore, #PB_Ignore)
+      EndIf
+      PanelHeight = MinHeight
+    EndIf
+  EndIf
+  
   ; resize the canvas (and init it)
   ;
   CanvasWidth = PanelWidth - 10
@@ -1643,7 +1668,22 @@ Procedure ColorPicker_EventHandler(*Entry.ColorPickerData, EventGadgetID)
         HideGadget(#GADGET_Color_Text3, 1)
         HideGadget(#GADGET_Color_Input3, 1)
       EndIf
+      
+      If *Entry\IsSeparateWindow
+        Height = WindowHeight(*Entry\ToolWindowID)
+        OldMinHeight = *Entry\MinWindowHeight
+        If *Entry\UseAlpha
+          *Entry\HeightBeforeAlpha = Height
+        EndIf
+      EndIf
+      
       ColorPicker_TriggerResize(*Entry) ; will resize the shown gadget and redraw everything
+      
+      ; A window that only just fits the alpha row gives that height back when it goes away.
+      ; A larger window was sized by the user, so keep it.
+      If *Entry\IsSeparateWindow And *Entry\UseAlpha = 0 And Abs(Height - OldMinHeight) <= 1
+        ResizeWindow(*Entry\ToolWindowID, #PB_Ignore, #PB_Ignore, #PB_Ignore, Max(*Entry\MinWindowHeight, Min(*Entry\HeightBeforeAlpha, Height)))
+      EndIf
       
     Case #GADGET_Color_CanvasAlpha
       If EventType() = #PB_EventType_LeftButtonDown Or (EventType() = #PB_EventType_MouseMove And GetGadgetAttribute(#GADGET_Color_CanvasAlpha, #PB_Canvas_Buttons) & #PB_Canvas_LeftButton)
