@@ -1013,11 +1013,20 @@ Procedure AddTools_OpenWindow()
       
       EnableGadgetDrop(#GADGET_AddTools_List, #PB_Drop_Private, #PB_Drag_Move, #DRAG_AddTools)
       
-      ; adjust column width
-      ColumnWidth = (GadgetWidth(#GADGET_AddTools_List) - 20) / 6
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*2, 0)
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth, 1)
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*3, 2)
+      ; adjust column width: the saved widths, or proportional to the gadget if there are none yet
+      If AddToolsCol1 > 0 And AddToolsCol2 > 0 And AddToolsCol3 > 0
+        AddToolsOpenCol1 = AddToolsCol1
+        AddToolsOpenCol2 = AddToolsCol2
+        AddToolsOpenCol3 = AddToolsCol3
+      Else
+        ColumnWidth = (GadgetWidth(#GADGET_AddTools_List) - 20) / 6
+        AddToolsOpenCol1 = ColumnWidth*2
+        AddToolsOpenCol2 = ColumnWidth
+        AddToolsOpenCol3 = ColumnWidth*3
+      EndIf
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenCol1, 0)
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenCol2, 1)
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenCol3, 2)
       
       ; duplicate the tools list to work on it, and fill the gadget
       ;
@@ -1268,6 +1277,20 @@ Procedure AddTools_WindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
+      ; only save the columns if the user resized one, so they stay proportional to the window otherwise
+      Column1 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 0)
+      Column2 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 1)
+      Column3 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 2)
+      CompilerIf #CompileLinux ; the last column fills the free space, so it also changes with the window
+        Column3Changed = 0
+      CompilerElse
+        Column3Changed = Bool(Column3 <> AddToolsOpenCol3)
+      CompilerEndIf
+      If Column1 <> AddToolsOpenCol1 Or Column2 <> AddToolsOpenCol2 Or Column3Changed
+        AddToolsCol1 = Column1
+        AddToolsCol2 = Column2
+        AddToolsCol3 = Column3
+      EndIf
       AddToolsWindowDialog\Close(@AddToolsWindowPosition)
     Else
       AddToolsWindowDialog\Close()
