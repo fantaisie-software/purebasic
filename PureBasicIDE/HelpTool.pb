@@ -1636,6 +1636,26 @@ Module HelpTool
   EndProcedure
 
 
+  Procedure.s ContentsLink(Page$, English$, French$, German$)
+    ProcedureReturn "@Link " + Page$ + " " + #DQUOTE$ + Translate(English$, French$, German$) + #DQUOTE$ + #LF$
+  EndProcedure
+
+
+  ; The MainGuide pages aren't in reference.html: DocMaker hard-codes them in the contents of the CHM (same captions)
+  ;
+  Procedure.s MainGuideContents()
+    ProcedureReturn "@Section " + Translate("General", "Général", "Allgemein") + #LF$ +
+                    ContentsLink("intro",   "Introduction",       "Introduction",  "Einführung") +
+                    ContentsLink("avertis", "Terms & Conditions", "Conditions",    "Rechtliches") +
+                    ContentsLink("system",  "Requirements",       "Prérequis",     "Systemvoraussetzungen") +
+                    ContentsLink("install", "Installation",       "Installation",  "Installation") +
+                    ContentsLink("order",   "Ordering",           "Commande",      "Bestellen") +
+                    ContentsLink("contact", "Contact Us",         "Contacts",      "Kontakt zu uns") +
+                    ContentsLink("greats",  "Acknowledgements",   "Remerciements", "Danksagungen") +
+                    ContentsLink("history", "History",            "Historique",    "Geschichte")
+  EndProcedure
+
+
   ; Converts a documentation source file (DocMaker format) to the help format: the lines are joined, and the
   ; @FormatIf blocks become @HTML blocks (without their @FormatElse part)
   ;
@@ -1780,6 +1800,7 @@ Module HelpTool
       If FileSize(Path$) > 0
         Text$ = "@Title " + Text_Home$ + #LF$ + ContentsHtmlToSource(ReadTextFile(Path$, #False))
         Text$ = InsertString(Text$, "@Section User library" + #LF$ + "$userlib" + #LF$, FindString(Text$, "@Section", FindString(Text$, "lib_texture")))
+        Text$ = InsertString(Text$, MainGuideContents(), FindString(Text$, "@Section"))
         Text$ = ReplaceString(Text$, "@Link ascii", "@Link asciitable")
         If WriteTextFile(Destination$ + Language$ + "/Reference/reference.txt", Text$) = 0
           Errors$ + "Can't write: " + Destination$ + Language$ + "/Reference/reference.txt" + #LF$
