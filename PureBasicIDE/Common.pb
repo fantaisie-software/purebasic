@@ -2669,7 +2669,7 @@ Global StructureViewerStayOnTop
 
 Global GotoWindowDialog.DialogWindow
 Global SortSourcesWindowDialog.DialogWindow, SortSourcesWindowPosition.DialogPosition
-Global AddToolsWindowDialog.DialogWindow, AddToolsWindowPosition.DialogPosition, AddToolsCol1, AddToolsCol2, AddToolsCol3, AddToolsOpenCol1, AddToolsOpenCol2, AddToolsOpenCol3
+Global AddToolsWindowDialog.DialogWindow, AddToolsWindowPosition.DialogPosition, AddToolsColumnSize1, AddToolsColumnSize2, AddToolsColumnSize3, AddToolsOpenColumnSize1, AddToolsOpenColumnSize2, AddToolsOpenColumnSize3
 Global EditToolsWindowDialog.DialogWindow, EditToolsWindowPosition.DialogPosition
 Global AboutWindowDialog.DialogWindow, AboutWindowPosition.DialogPosition
 Global PreferenceWindowDialog.DialogWindow, PreferenceWindowPosition.DialogPosition
