@@ -1278,18 +1278,18 @@ Procedure AddTools_WindowEvents(EventID)
   If Quit
     If MemorizeWindow
       ; only save the columns if the user resized one, so they stay proportional to the window otherwise
-      Column1 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 0)
-      Column2 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 1)
-      Column3 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 2)
+      ColumnSize1 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 0)
+      ColumnSize2 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 1)
+      ColumnSize3 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 2)
       CompilerIf #CompileLinux ; the last column fills the free space, so it also changes with the window
         Column3Changed = 0
       CompilerElse
-        Column3Changed = Bool(Column3 <> AddToolsOpenColumnSize3)
+        Column3Changed = Bool(ColumnSize3 <> AddToolsOpenColumnSize3)
       CompilerEndIf
-      If Column1 <> AddToolsOpenColumnSize1 Or Column2 <> AddToolsOpenColumnSize2 Or Column3Changed
-        AddToolsColumnSize1 = Column1
-        AddToolsColumnSize2 = Column2
-        AddToolsColumnSize3 = Column3
+      If ColumnSize1 <> AddToolsOpenColumnSize1 Or ColumnSize2 <> AddToolsOpenColumnSize2 Or Column3Changed
+        AddToolsColumnSize1 = ColumnSize1
+        AddToolsColumnSize2 = ColumnSize2
+        AddToolsColumnSize3 = ColumnSize3
       EndIf
       AddToolsWindowDialog\Close(@AddToolsWindowPosition)
     Else
