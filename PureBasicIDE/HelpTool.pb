@@ -2023,7 +2023,9 @@ Module HelpTool
     AddKeyboardShortcut(Window, #PB_Shortcut_Return, 1)
     AddKeyboardShortcut(Window, #PB_Shortcut_Escape, 2)
 
-    ExamineDesktops() ; stays on the screen
+    X = DesktopScaledX(X)
+    w = DesktopScaledY(w)
+    ExamineDesktops() ; stays on the screen (pixel base)
     For d = 0 To ExamineDesktops() - 1
       If X >= DesktopX(d) And X < DesktopX(d) + DesktopWidth(d) And Y >= DesktopY(d) And Y < DesktopY(d) + DesktopHeight(d)
         If X + w > DesktopX(d) + DesktopWidth(d)
@@ -2035,6 +2037,8 @@ Module HelpTool
         Break
       EndIf
     Next d
+    X = DesktopUnscaledX(X)
+    w = DesktopUnscaledY(w)
     ResizeWindow(Window, X, Y, w, h)
 
     DisableWindow(Parent, #True)
