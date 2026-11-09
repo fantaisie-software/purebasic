@@ -602,6 +602,7 @@
   @#PB_Program_Write  : Schreibt in die Eingabe des Programms (stdin)
   @#PB_Program_Error  : Liest die Fehlerausgabe des Programms (stderr)
   @#PB_Program_Connect: Verbindet die Ausgabe eines anderen Programms mit der Eingabe dieses Programms
+  @#PB_Program_NoInput: Das Programm erhält eine leere Eingabe (stdin) anstelle der Eingabe dieses Programms (nur unter Linux und macOS).
   @#PB_Program_Ascii  : Standard Lese/Schreib Operationen erfolgen in ASCII.
   @#PB_Program_Unicode: Standard Lese/Schreib Operationen erfolgen in Unicode.
   @#PB_Program_UTF8   : Standard Lese/Schreib Operationen erfolgen in UTF8 (Standard).
@@ -610,6 +611,14 @@
   Ein mittels @#PB_Program_Open ausgeführtes Programm muss mit @@CloseProgram
   geschlossen werden. Die 'Read', 'Write', 'Error' und 'Connect' Flags benötigen
   auch ein gleichzeitig gesetztes @#PB_Program_Open Flag.
+@LineBreak
+@LineBreak
+  Unter Linux und macOS verwendet das ausgeführte Programm standardmäßig die Eingabe dieses Programms.
+  Wenn dieses Programm im Hintergrund von einem Terminal aus (mit '&') gestartet wurde, stoppt das
+  ausgeführte Programm, das diese Eingabe liest, beide Programme.
+  Das Flag @#PB_Program_NoInput verhindert dies: das ausgeführte Programm erhält stattdessen eine
+  leere Eingabe. Bei Verwendung von @#PB_Program_Write oder @#PB_Program_Connect sowie unter Windows
+  hat dies keine Auswirkungen.
 @LineBreak
 @LineBreak
   Beim Verwenden des @#PB_Program_Connect Flags muss zuvor ein anderes Programm mit den

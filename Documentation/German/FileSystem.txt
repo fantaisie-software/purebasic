@@ -290,9 +290,8 @@
   Bibliothek zurück.
 
 @Remarks
-  Auf Linux und Mac OSX ist das für @#PB_Date_Created zurückgegebene Datum das gleiche
-  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
-  für Dateien speichern.
+  Unter Linux liefert @#PB_Date_Created das Datum von @#PB_Date_Modified zurück, falls das
+  Dateisystem kein Erstellungsdatum für Dateien speichert.
 
 @SeeAlso
   @@ExamineDirectory,
@@ -780,9 +779,8 @@
   Bibliothek zurück.
 
 @Remarks
-  Auf Linux und Mac OSX ist das für @#PB_Date_Created zurückgegebene Datum das gleiche
-  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
-  für Dateien speichern.
+  Unter Linux liefert @#PB_Date_Created das Datum von @#PB_Date_Modified zurück, falls das
+  Dateisystem kein Erstellungsdatum für Dateien speichert.
 
 @SeeAlso
   @@SetFileDate, @@DirectoryEntryDate
@@ -951,9 +949,9 @@
   Gibt einen Wert ungleich Null zurück, wenn die Operation erfolgreich war, und Null bei einem Fehler.
 
 @Remarks
-  Auf Linux und Mac OSX ist das für @#PB_Date_Created verwendete Datum das gleiche
-  wie bei @#PB_Date_Modified, da die meisten Datei-Systeme kein Erstellungsdatum
-  für Dateien speichern.
+  Unter Linux lässt sich das Erstellungsdatum einer Datei nicht ändern: @#PB_Date_Created schlägt immer fehl.
+  Unter macOS führt das Festlegen eines Änderungsdatums, das vor dem Erstellungsdatum liegt, dazu,
+  dass auch das Erstellungsdatum entsprechend geändert wird.
 
 @SeeAlso
   @@GetFileDate

@@ -225,7 +225,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ExtractArray(Array(), Text$ [, Separator$ [, Limit]])
+@Function Ergebnis = ExtractArray(Array(), Text$ [, Separator$ [, Start [, Anzahl]]])
 
 @Description
   Zerlegt 'Text$' in das 'Array()' und verwendet dabei den 'Separator$', um die einzelnen
@@ -244,13 +244,19 @@
   Komma (",") und kann aus mehreren Zeichen bestehen. Handelt es sich um einen leeren String,
   wird 'Text$' nicht aufgeteilt, sondern als einzelnes Element in das 'Array()' kopiert.
 
-@OptionalParameter "Limit"
-  Falls angegeben und größer als Null, werden höchstens 'Limit' Elemente extrahiert; das letzte
-  Element enthält dann den Rest von 'Text$' einschließlich evtl. noch darin enthaltenen Trennzeichen. 
-  Wird der Parameter weggelassen oder hat einen Wert von Null oder kleiner, gibt es keine Begrenzung.
+@OptionalParameter "Start"
+  Die Position des ersten zu extrahierenden Elements. Das erste Element von 'Text$' befindet
+  sich an Position 1. Wird der Wert weggelassen oder ist er kleiner als 1, beginnt die
+  Extraktion beim ersten Element. Ist 'Start' größer als die Anzahl der Elemente in 'Text$',
+  wird nichts extrahiert.
+
+@OptionalParameter "Anzahl"
+  Die maximale Anzahl der zu extrahierenden Elemente, beginnend bei 'Start'. Wird dieser Wert
+  weggelassen, ist er null oder negativ, so werden alle Elemente von 'Start' bis zum Ende von
+  'Text$' extrahiert.
 
 @ReturnValue
-  Gibt die Anzahl der gefundenen (und in 'Array()' gespeicherten) Elemente zurück.
+  Gibt die Anzahl der extrahierten (und in 'Array()' gespeicherten) Elemente zurück.
 
 @Example
 @Code
@@ -270,6 +276,19 @@
   Dim Numbers.i(0)
   ExtractArray(Numbers(), "10|20|30", "|")
   Debug Numbers(0) + Numbers(1) + Numbers(2) ; wird '60' ausgeben
+@EndCode
+
+@Example
+@Code
+  ; Nur einen Teil der Elemente extrahieren
+  Dim Fruits.s(0)
+
+  Result = ExtractArray(Fruits(), "Apple,Orange,Cherry,Banana,Pear", ",", 2, 3)
+
+  Debug Result     ; wird '3' ausgeben
+  Debug Fruits(0)  ; wird 'Orange' ausgeben
+  Debug Fruits(1)  ; wird 'Cherry' ausgeben
+  Debug Fruits(2)  ; wird 'Banana' ausgeben
 @EndCode
 
 @SeeAlso
