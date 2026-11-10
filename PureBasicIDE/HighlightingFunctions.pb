@@ -42,11 +42,13 @@ EndProcedure
 ;
 Procedure IsWholeWordMatch(*BufferStart, *BufferEnd, *Match, Length)
   
-  If *Match > *BufferStart And ValidCharacters(PeekA(*Match-1))
+  ; Only check an edge where the match itself starts / ends with a word character
+  ; (like Notepad++), so a search such as "[ZC-" or "#" can still be a whole word.
+  If *Match > *BufferStart And ValidCharacters(PeekA(*Match)) And ValidCharacters(PeekA(*Match-1))
     ProcedureReturn #False
   EndIf
   
-  If *Match+Length < *BufferEnd And ValidCharacters(PeekA(*Match+Length))
+  If Length > 0 And *Match+Length < *BufferEnd And ValidCharacters(PeekA(*Match+Length-1)) And ValidCharacters(PeekA(*Match+Length))
     ProcedureReturn #False
   EndIf
   
