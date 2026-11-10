@@ -143,6 +143,186 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function DialogLanguage(Map())
+
+@Description
+  Définit les textes utilisés par l'attribut 'lang' des éléments XML et met à jour toutes les boîtes 
+  de dialogue déjà ouvertes. 
+ 
+@Parameter "Map()"
+  Une map de chaînes de caractères contenant les textes dans une langue donnée.
+@LineBreak
+@LineBreak
+  - Les clés de la map correspondent aux valeurs utilisées dans les attributs 'lang' et ne sont pas 
+  sensibles à la casse. 
+@LineBreak
+  - La map est copiée, ce qui permet de la modifier ou de la libérer après l'appel.
+@LineBreak
+  - Une map vide supprime tous les textes de la langue.
+
+@NoReturnValue
+
+@Remarks
+ Permet de traduire facilement une boîte de dialogue ou de changer sa langue pendant l'exécution du programme.
+@LineBreak
+@LineBreak
+  Dans le XML, un élément avec un attribut 'lang' (ex: lang="Main:Ok") affiche le texte trouvé
+  dans la map avec cette clé ("Main:Ok"). 
+  Si l'élément possède également un attribut 'text', celui-ci est ajouté au texte de la langue 
+  (utile pour un suffixe fixe tel que ":"). 
+  Si la clé est introuvable dans la map, la clé est affichée elle-même, ce qui permet de repérer 
+  facilement une traduction manquante. 
+@LineBreak
+@LineBreak
+  L'attribut 'lang' est pris en charge dans le titre des <window>, le texte des gadgets, les éléments 
+  <tab> d'un @@PanelGadget ainsi que les éléments <item> et <column> des gadgets.
+@LineBreak
+@LineBreak
+  Seuls les textes provenant d'un attribut 'lang' sont modifiés lors de la mise à jour de la langue : Le 
+  contenu modifié par l'utilisateur (comme le texte d'un @@StringGadget) est conservé. Comme les nouveaux 
+  textes peuvent avoir une taille différente, les boîtes de dialogue ouvertes sont recalculées comme 
+  avec @@RefreshDialog. Les boîtes de dialogue ouvertes après l'appel utilisent également la langue 
+  en cours d'utilisation.
+
+@Example
+@Code
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' lang='Main:Titre' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <text lang='Main:Nom' text=':'/>" +
+         "    <string/>" +
+         "    <combobox name='langue' width='150'>" +
+         "      <item text='Français'/>" +
+         "      <item text='English'/>" +
+         "    </combobox>" +
+         "  </vbox>" +
+         "</window>"
+
+  NewMap Anglais$()
+  Anglais$("Main:Titre") = "Welcome"
+  Anglais$("Main:Nom")   = "Your name"
+
+  NewMap Francais$()
+  Francais$("Main:Titre") = "Bienvenue"
+  Francais$("Main:Nom")   = "Votre nom"
+
+  DialogLanguage(Francais$())
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      SetGadgetState(DialogGadget(#Dialog, "langue"), 0)
+
+      Repeat
+        Event = WaitWindowEvent()
+        If Event = #PB_Event_Gadget And EventGadget() = DialogGadget(#Dialog, "langue")
+          If GetGadgetState(EventGadget()) = 0
+            DialogLanguage(Francais$())
+          Else
+            DialogLanguage(Anglais$())
+          EndIf
+        EndIf
+      Until Event = #PB_Event_CloseWindow
+    Else
+      Debug "Dialog erreur: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML erreur: " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+  
+  ForEach Francais$()
+    Debug "Clé = " + MapKey(Francais$()) + "   Contenu = " + Francais$()
+  Next
+@EndCode
+
+@SeeAlso
+  @@OpenXMLDialog, @@RefreshDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Resultat = FoldDialogElement(#Dialog, Nom$, Etat)
+
+@Description
+  Plie ou déplie l'élément de dialogue spécifié. 
+  
+@Parameter "#Dialog"
+  La boîte de dialogue à utiliser.
+
+@Parameter "Nom$"
+  L'attribut 'nom' de l'élément à replier ou à déplier. 
+@LineBreak
+@LineBreak
+  Tout élément peut être utilisé, y compris les éléments de mise en page comme <vbox> ou <gridbox> 
+  (et pas seulement les gadgets).
+
+@Parameter "Etat"
+@FixedFont
+  @#True  : Replie l'élément
+  @#False : Déplie l'élément
+@EndFixedFont
+
+@ReturnValue
+  Renvoie une valeur non nulle si l'élément a été trouvé, zéro sinon.
+
+@Remarks
+  Un élément plié et tous ses enfants sont masqués et n'occupent aucun espace dans le Dialog.
+  C'est le principe de l'attribut XML 'folded', mais à l'exécution. 
+@LineBreak
+@LineBreak
+  La taille de la fenêtre est ajustée en fonction de celle de l'élément : Elle diminue lorsque l'élément 
+  est plié et augmente lorsqu'il est déplié. Toute taille supplémentaire définie par le programme ou 
+  l'utilisateur est conservée. Une fenêtre maximisée conserve sa taille et les autres éléments utilisent 
+  l'espace libre. La boîte de dialogue est ensuite recalculée comme avec @@RefreshDialog.
+@LineBreak
+@LineBreak
+  Lorsqu'un élément est déplié, ses enfants ne sont affichés à nouveau que si aucun de ses parents 
+  n'est encore replié.
+  Les enfants repliés le restent.
+
+@Example
+@Code
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox expand='no'>" +
+         "    <checkbox name='plus' text='Afficher les options'/>" +
+         "    <frame name='options' text='Options' folded='yes'>" +
+         "      <vbox>" +
+         "        <checkbox text='Option 1'/>" +
+         "        <checkbox text='Option 2'/>" +
+         "      </vbox>" +
+         "    </frame>" +
+         "    <button text='OK'/>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      Repeat
+        Event = WaitWindowEvent()
+        If Event = #PB_Event_Gadget And EventGadget() = DialogGadget(#Dialog, "plus")
+          FoldDialogElement(#Dialog, "options", 1 - GetGadgetState(EventGadget()))
+        EndIf
+      Until Event = #PB_Event_CloseWindow
+    Else
+      Debug "Dialog erreur: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML erreur: " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@SeeAlso
+  @@OpenXMLDialog, @@RefreshDialog
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
 @Function FreeDialog(#Dialog)
 
 @Description
@@ -240,8 +420,11 @@
   code de plusieurs interfaces utilisateur.
   
 @OptionalParameter "X, Y"
-  Les coordonnées x, y (en pixels) de 
-  l'interface utilisateur.
+  Les coordonnées x, y (en pixels) de l'interface utilisateur.
+  @LineBreak
+  @LineBreak
+  Si l'un d'eux est @#PB_Ignore, la boîte de dialogue est centrée sur l'écran 
+  (ou sur sa fenêtre parente si l'option @#PB_Window_WindowCentered est utilisée).
 
 @OptionalParameter "Largeur, Hauteur"
   La taille (en pixels) de l'interface 
@@ -282,13 +465,20 @@
   I. Attributs communs 
   --------------------
 
-  width     - Largeur minimale. Valeur positive ou nulle (par défaut="0")
-  height    - Hauteur minimale. Valeur positive ou nulle (par défaut="0")
+  width     - Valeur minimale, positive ou nulle (par défaut="0")
+  height      ou 'ignore' : L'objet n'a pas besoin de largeur/hauteur minimum, il ne modifie donc pas la taille de son parent 
+             (il reçoit la taille définie par la mise en page (layout)).
 
   id        - Numéro d'identification d'un gadget ou d'une fenêtre (par défaut c'est #PB_Any). Il peut être une constante runtime
+              ou une expression avec des constantes runtime, comme "#Gadget_First + 1" (voir <compiler> ci-dessous pour les opérateurs pris en charge).
   name      - Une chaîne de caractères qui identifie l'objet (principalement pour @@DialogGadget, insensible à la casse) (par défaut="")
   text      - Texte associé à l'objet (par défaut="")
+  lang      - Clé de langue du texte, par exemple 'Main:Ok'. Le texte est extrait de la map définie par @@DialogLanguage, et l’attribut 
+              'text', le cas échéant, y est ajouté. Si la clé n’est pas présente dans la table, elle est affichée telle quelle.
 
+  folded    - Si la valeur est 'yes', l’objet et tous ses enfants sont masqués et n’occupent aucun espace dans la mise en page (par défaut : 'no').
+              Fonctionne sur tout élément (mise en page ou gadget). Voir @@FoldDialogElement pour modifier ce comportement à l’exécution.
+			  
   flags     - Options du gadget/fenêtre, comme "@#PB_Window_Borderless | @#PB_Window_ScreenCentered"  (par défaut="")
 
   min        - Valeur minimum 
@@ -320,6 +510,9 @@
     ...
   </dialogs>
 
+  <dialoggroup> est accepté comme un alias de <dialogs>, et les éléments <window> peuvent être placés dans des blocs <compiler>
+  (voir ci-dessous) pour sélectionner une fenêtre différente en fonction du système d'exploitation par exemple.
+
   L'élément racine <window> est ouvert comme une véritable fenêtre par @@OpenXMLDialog. 
   Ce même document XML peut également être transformé en gadget (un @@ContainerGadget) avec 
   @@XmlDialogGadget ; dans ce cas, tout attribut ou indicateur spécifique à la fenêtre que 
@@ -346,7 +539,12 @@
   Permet de définir les tailles minimum et maximum d'une fenêtre. 
   Si la valeur est 'auto' alors la taille est calculée en fonction de la taille 
   (calculée ou prédéfinie) des éléments contenus dans la fenêtre.
-                
+ 
+  forcesize = 'yes' (par défaut) ou 'no' - 'yes' équivaut à minwidth="auto" et minheight="auto".
+              'no' supprime la taille minimale.
+
+
+invisible = 'yes' rend la fenêtre invisible (équivalent à l'indicateur @#PB_Window_Invisible). 
 
    - Crée la fenêtre
    - Peut avoir tous les attributs communs.
@@ -488,27 +686,28 @@
   <canvas>
   <checkbox>
   <combobox> 
-  <container>    - Conteneur à un seul élément
+  <container>      - Conteneur à un seul élément
   <date>
   <editor>
   <explorercombo>
   <explorerlist> 
   <explorertree> 
-  <frame>        - Conteneur à un seul élément (Avec bordures standards seulement)
+  <frame>          - Conteneur à un seul élément (Avec bordures standards seulement)
   <hyperlink>
   <ipaddress>
   <image>
   <listicon> 
   <listview> 
-  <opengl>       - UseDialogOpenGLGadget() doit être appelé pour activer le support <opengl>.
-  <option group> - Utilise le même numéro de 'group' pour créer des @@OptionGadget liés entre eux.
-  <panel>        - Peut contenir <tab> seulement
+  <opengl>         - UseDialogOpenGLGadget() doit être appelé pour activer le support <opengl>.
+  <option group>   - Utilise le même numéro de 'group' pour créer des @@OptionGadget liés entre eux.
+  <panel>          - Peut contenir <tab> seulement
   <progressbar min max valeur>
-  <scintilla>    - Le callback reste vide. UseDialogScintillaGadget() doit être appelé pour activer la prise en charge de <scintilla>.  
+  <scintilla>      - Le callback reste vide. UseDialogScintillaGadget() doit être appelé pour activer la prise en charge de <scintilla>.  
   <scrollarea scrolling="="vertical, horizontal ou les deux (par défaut)" innerheight="valeur ou auto (par défaut)" innerwidth="valeur ou auto (par défaut)" pas> 
-                 - Conteneur à un seul élément
+                   - Conteneur à un seul élément
   <scrollbar min max page value> 
-                 - page = Longueur de la page
+                   - page = Longueur de la page
+  <shortcutgadget> - Un @@ShortcutGadget. <shortcut> sans l'attribut 'key' créé un @@ShortcutGadget quand même.
   <spin min max value>
   <splitter firstmin="valeur ou auto" secondmin> 
                  - Doit contenir 2 éléments, (c'est un container a 2 "éléments-enfants"), 
@@ -518,15 +717,45 @@
   <text>
   <trackbar min max valeur>
   <tree> 
-  <web>       - UseDialogWebGadget() doit être appelé pour activer la prise en charge <web>.
-  <webview>   - UseDialogWebViewGadget() doit être appelé pour activer la prise en charge de <webview>.
+  <web>          - UseDialogWebGadget() doit être appelé pour activer la prise en charge <web>.
+  <webview>      - UseDialogWebViewGadget() doit être appelé pour activer la prise en charge de <webview>.
 
   Éléments liés à Gadget:
-  <tab>          - Onglet, conteneur à un seul élément (l'attribut 'text' est supporté).
+  <tab>          - Onglet, conteneur à un seul élément (les attributs 'text' et 'lang' sont supportés).
   
+  <item>         - Ajoute un élément à son élément parent <combobox>, <listview>, <tree> ou <listicon>.
+                   Attributs pris en charge : 'text', 'lang' et 'sublevel' (pour <tree> uniquement).
+  <column>       - Ajoute une colonne à son élément parent <listicon> ou <explorerlist>. 
+                   Les colonnes par défaut sont supprimées lors de l'ajout de la première colonne. 
+				   Attributs pris en charge : 'text', 'lang' et 'width'.
+                   Voir l'exemple "Éléments et colonnes" ci-dessous.
+
   Element Spécial :
   <empty>        - Un élément vide, utile quand il est nécessaire d'avoir un espace entre l'élément, 
                    afin de les aligner aux bordures par exemple.
+
+  <shortcut key id> - Ajoute un raccourci clavier à la boîte de dialogue, comme `@@AddKeyboardShortcut`. 
+                   Il n'occupe pas d'espace dans la mise en page et est uniquement pris en charge par @@OpenXMLDialog.
+                   key - Les constantes #PB_Shortcut combinées avec '|' (ex : "#PB_Shortcut_Control | #PB_Shortcut_S").
+                   Les constantes runtime et les nombres sont également acceptés.
+                   id  - Le numéro de l'événement de menu, sous forme de constante runtime ou de nombre. À utiliser avec @@EventMenu.
+                   Voir l'exemple "Raccourcis clavier" ci-dessous.
+
+  <compiler if="expression"> ... <compilerelse/> ... </compiler>
+                   Inclut ses enfants uniquement si l'expression est vraie, ou les enfants après <compilerelse/> si elle est fausse.
+                   (<compilerelse/> est facultatif). Il peut être utilisé n'importe où dans la boîte de dialogue, y compris autour des éléments <window>. 
+				   Lors de la lecture du XML à l'exécution du programme, l'expression est évaluée à l'ouverture de la boîte de dialogue.
+                   L'expression prend en charge :
+                     - Les nombres (décimaux ou hexadécimaux avec '$')
+                     - Les constantes déclarées avec 'Runtime' dans le programme (comme l'attribut 'id')
+                     - Les variables déclarées avec 'Runtime' dans le programme
+                     - Defined(Nom, #PB_Constant) pour vérifier l'existence d'une constante runtime
+                     - #True, #False, #PB_Compiler_OS, #PB_OS_Windows, #PB_OS_Linux et #PB_OS_MacOS
+                     - Les opérateurs : ( ), unaire -, Not, *, /, +, -, =, <>, <, >, <=, >=, And, Or, Xor
+
+                   En XML, le caractère '<' d'une valeur d'attribut doit être écrit '&lt;' (par exemple : "#Value &lt;= 10"). 
+				   Une constante de compilation comme #PB_Compiler_Debugger peut être utilisée une fois déclarée avec l'option 'Runtime' dans le programme.
+                   Voir l'exemple "Conditions de compilation" ci-dessous.
 
 @EndFixedFont  
   
@@ -697,11 +926,144 @@
         Event = WaitWindowEvent()
       Until Event = #PB_Event_CloseWindow 
       
-    Else  
+    Else
       Debug "Erreur de la bibliothèque -Dialog- : " + DialogError(#Dialog)
     EndIf
   Else
     Debug "Erreur XML : " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+
+@Example Conditions de compilation
+
+@Code
+  ; Le fichier XML est lu lors de l'exécution du programme par conséquent, les constantes utilisées avec <compiler> doivent être
+  ; déclarées avec l'attribut 'Runtime'. Cela s'applique également aux constantes du compilateur.
+  
+  Runtime #PB_Compiler_Debugger
+
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Conditions de compilation' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <compiler if='#PB_Compiler_Debugger'>" +
+         "      <text text='Compilé avec le debugger'/>" +
+         "    <compilerelse/>" +
+         "      <text text='Compilé sans le debugger'/>" +
+         "    </compiler>" +
+         "    <compiler if='#PB_Compiler_OS = #PB_OS_MacOS'>" +
+         "      <button text='Preferences...'/>" +
+         "    <compilerelse/>" +
+         "      <button text='Options...'/>" +
+         "    </compiler>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog erreur: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML erreur: " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Éléments et colonnes
+
+@Code
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Éléments et colonnes' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <combobox name='taille' width='180'>" +
+         "      <item text='Petit'/>" +
+         "      <item text='Moyen'/>" +
+         "      <item text='Grand'/>" +
+         "    </combobox>" +
+         "    <tree height='80'>" +
+         "      <item text='Fruits'/>" +
+         "      <item text='Pomme' sublevel='1'/>" +
+         "      <item text='Poire' sublevel='1'/>" +
+         "      <item text='Légumes'/>" +
+         "    </tree>" +
+         "    <listicon height='100'>" +
+         "      <column text='Nom' width='150'/>" +
+         "      <column text='Taille' width='80'/>" +
+         "      <item text='Premier fichier'/>" +
+         "      <item text='Second fichier'/>" +
+         "    </listicon>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+      SetGadgetState(DialogGadget(#Dialog, "taille"), 1) ; Selecion de 'Moyen'
+
+      Repeat
+        Event = WaitWindowEvent()
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog erreur: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML erreur: " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
+  EndIf
+@EndCode
+
+@Example Raccourcis clavier
+
+@Code
+  ; L' 'id' de <shortcut> doit être déclaré en 'Runtime', car le XML est lu pendant l'exécution du programme
+  Runtime Enumeration
+    #Menu_Sauve
+    #Menu_Fermer
+  EndEnumeration
+
+  #Dialog = 0
+  #Xml = 0
+
+  XML$ = "<window name='test' text='Raccourcis clavier' flags='#PB_Window_ScreenCentered | #PB_Window_SystemMenu'>" +
+         "  <vbox>" +
+         "    <text text='Faites un Ctrl+S pour sauvegarder, Echap pour fermer.'/>" +
+         "    <shortcut key='#PB_Shortcut_Control | #PB_Shortcut_S' id='#Menu_Sauve'/>" +
+         "    <shortcut key='#PB_Shortcut_Escape' id='#Menu_Fermer'/>" +
+         "  </vbox>" +
+         "</window>"
+
+  If ParseXML(#Xml, XML$) And XMLStatus(#Xml) = #PB_XML_Success
+
+    If CreateDialog(#Dialog) And OpenXMLDialog(#Dialog, #Xml, "test")
+
+      Repeat
+        Event = WaitWindowEvent()
+
+        If Event = #PB_Event_Menu
+          Select EventMenu()
+            Case #Menu_Sauve
+              Debug "Sauvegarder"
+            Case #Menu_Fermer
+              Event = #PB_Event_CloseWindow
+          EndSelect
+        EndIf
+      Until Event = #PB_Event_CloseWindow
+
+    Else
+      Debug "Dialog erreur: " + DialogError(#Dialog)
+    EndIf
+  Else
+    Debug "XML erreur: " + XMLError(#Xml) + " (Ligne: " + XMLErrorLine(#Xml) + ")"
   EndIf
 @EndCode
  
@@ -711,6 +1073,7 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
+
 @Function Resultat = XmlDialogGadget(#Dialog, #XML, Nom$ [, X, Y [, Largeur, Hauteur]])
 
 @Description

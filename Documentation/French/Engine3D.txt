@@ -1817,6 +1817,13 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 @NoReturnValue
 
+@Remarks
+  Avec @#PB_Shadow_Additive et @#PB_Shadow_TextureAdditive, les objets éclairés sont rendus 
+  en plusieurs passes (ambiante, puis une par source de lumière) qui n'utilisent pas le shader 
+  de fragments de leur matériau : une entité utilisant un matériau créé avec @@CreateShaderMaterial 
+  est rendue sans son shader. Utiliser @#PB_Shadow_Modulative ou @#PB_Shadow_TextureModulative avec 
+  ces matériaux. Le ciel créé avec @@SkyDome n'est pas affecté.
+
 @SeeAlso
   @@EnableWorldPhysics
 
