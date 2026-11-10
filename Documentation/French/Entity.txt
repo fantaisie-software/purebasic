@@ -1487,19 +1487,36 @@ Si ce masque correspond au masque spécifié par
   L'entité à utiliser.
   
 @Parameter "X, Y, Z"
-  Angles de rotation.
+  Rotation à appliquer, en degrés : le tangage (autour de l’axe x), le lacet (autour de l’axe y) 
+  et le roulis (autour de l’axe z), appliqués dans cet ordre.
 @LineBreak
 @LineBreak
-  Tous les angles sont en degrés, de 0 à 359.
+  Tous les angles vont de 0 à 359.
 
 @OptionalParameter "Mode"
 @FixedFont
   @#PB_Absolute: Rotation absolue (par défaut).
   @#PB_Relative: Rotation relative basée sur la rotation précédente de l'entité.  
 @EndFixedFont
-  
+  combiné avec l'une des valeurs suivantes :
+@FixedFont
+  @#PB_World  : Rotation autour des axes du monde (par défaut si 'Mode' n'est pas spécifié).
+  @#PB_Local  : Rotation autour des axes propres à l'entité (par défaut si 'Mode' est spécifié sans l'une de ces valeurs).
+  @#PB_Parent : Rotation autour des axes du parent.
+@EndFixedFont
+
 @NoReturnValue  
-   
+
+@Remarks
+  Comme les rotations sont appliquées successivement, @#PB_World et @#PB_Local donnent une orientation 
+  différente lorsqu'il y a plus d'un angle non nul : 'RotateEntity(#Entity, x, y, z)' est équivalent à 
+  'RotateEntity(#Entity, x, y, z, @#PB_Absolute | @#PB_World)', et non à 'RotateEntity(#Entity, x, y, z, 
+  @#PB_Absolute)'. @LineBreak
+  Pour faire pivoter une entité de manière continue, utilisez @#PB_Relative au lieu de lire ses angles 
+  avec @@EntityPitch, @@EntityYaw et @@EntityRoll, de les modifier puis de les rétablir avec 
+  @#PB_Absolute : Ces angles ne peuvent pas représenter toutes les orientations de manière continue 
+  (voir @@EntityYaw).
+
 @SeeAlso
   @@MoveEntity, @@ScaleEntity
 
@@ -1604,7 +1621,8 @@ Si ce masque correspond au masque spécifié par
   Combinée avec
 @FixedFont
   @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation, 
+                          avec le mode de rotation par défaut (@#PB_Absolute | @#PB_World), ainsi que le tangage, le lacet et le roulis ajustés.
 @EndFixedFont  
 
 @ReturnValue
@@ -1639,7 +1657,8 @@ Si ce masque correspond au masque spécifié par
   Combinée avec
 @FixedFont
   @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation, 
+                          avec le mode de rotation par défaut (@#PB_Absolute | @#PB_World), ainsi que le tangage, le lacet et le roulis ajustés.
 @EndFixedFont  
 
 @ReturnValue
@@ -1674,15 +1693,22 @@ Si ce masque correspond au masque spécifié par
   Combinée avec
 @FixedFont
   @#PB_Engine3D_Raw      : Valeur brute, mais elle ne peut pas être utilisée avec @@RotateEntity pour récupérer la même orientation (par défaut).
-  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation.
+  @#PB_Engine3D_Adjusted : Valeur ajustée, de sorte qu'elle peut être réutilisée avec @@RotateEntity pour récupérer la même orientation, 
+                          avec le mode de rotation par défaut (@#PB_Absolute | @#PB_World), ainsi que le tangage, le lacet et le roulis ajustés.
 @EndFixedFont 
 
 @ReturnValue
   La valeur du lacet actuel de l'entité. 
 @linebreak
 @linebreak
-  Valeur toujours comprise entre -180.0 et 
-  180.0 degrés.
+  Valeur comprise entre -180.0 et 180.0 degrés, ou entre -90.0 et 90.0 degrés avec @#PB_Engine3D_Adjusted.
+
+@Remarks
+  Avec @#PB_Engine3D_Adjusted, une même orientation peut correspondre à deux ensembles d'angles : 
+  par exemple, un lacet de 120 degrés est renvoyé comme un tangage de 180 degrés, un lacet de 60 
+  degrés et un roulis de 180 degrés. Par conséquent, ajouter une valeur au lacet ajusté et la 
+  réappliquer avec @@RotateEntity ne permet pas de faire pivoter l'entité au-delà de 90 degrés : 
+  utiliser @@RotateEntity avec @#PB_Relative pour une rotation continue.
 
 @SeeAlso
   @@EntityPitch, @@EntityRoll

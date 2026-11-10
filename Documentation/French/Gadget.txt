@@ -640,10 +640,10 @@ Bouton à bascule: Option @#PB_Button_Toggle
                           
   - @@SetGadgetColor et @@GetGadgetColor avec les constantes suivantes comme 'TypeCouleur':
     @#PB_Gadget_BackColor      : Couleur de fond
-    @#PB_Gadget_FrontColor     : Couleur du texte pour les jours affichés (non pris en charge sous Windows)
-    @#PB_Gadget_TitleBackColor : Couleur du fond du titre du mois (non pris en charge sous Windows)
-    @#PB_Gadget_TitleFrontColor: Couleur du texte du titre du mois (non pris en charge sous Windows)
-    @#PB_Gadget_GrayTextColor  : Couleur du texte pour les jours n'appartenant pas au mois courant (non pris en charge sous Windows)
+    @#PB_Gadget_FrontColor     : Couleur du texte pour les jours affichés (non pris en charge sous Windows Vista+)
+    @#PB_Gadget_TitleBackColor : Couleur du fond du titre du mois (non pris en charge sous Windows Vista+ et macOS)
+    @#PB_Gadget_TitleFrontColor: Couleur du texte du titre du mois (non pris en charge sous Windows Vista+ et macOS)
+    @#PB_Gadget_GrayTextColor  : Couleur du texte pour les jours n'appartenant pas au mois courant (non pris en charge sous Windows Vista+ et macOS)
 @EndFixedFont
 
 @Example
@@ -881,17 +881,17 @@ Connaitre l'état du canvas: @@GetGadgetAttribute avec les options suivantes:
 
   @ConstantColor "- #PB_Canvas_Cursor": Change le curseur lorsque la souris survole le gadget. 
                        Les valeurs suivantes sont possibles: 
-                         @#PB_Cursor_Default   : Flèche du curseur par défaut 
-                         @#PB_Cursor_Cross     : Curseur en forme de croix 
-                         @#PB_Cursor_IBeam     : Barre d'insertion 'I' utilisée pour la sélection de texte  
-                         @#PB_Cursor_Hand      : Curseur main 
-                         @#PB_Cursor_Busy      : Curseur sablier ou une montre 
-                         @#PB_Cursor_Denied    : Curseur cercle barré ou curseur X 
-                         @#PB_Cursor_Arrows    : Flèches dans toutes les directions (non disponible sur OS X) 
-                         @#PB_Cursor_LeftRight : Flèches gauche et droite 
-                         @#PB_Cursor_UpDown    : Flèches haut et bas 
-                         @#PB_Cursor_LeftUpRightDown: Flèches diagonales (Windows uniquement) 
-                         @#PB_Cursor_LeftDownRightUp: Flèches diagonales (Windows uniquement)  
+                         @#PB_Cursor_Default        : Flèche du curseur par défaut 
+                         @#PB_Cursor_Cross          : Curseur en forme de croix 
+                         @#PB_Cursor_IBeam          : Barre d'insertion 'I' utilisée pour la sélection de texte  
+                         @#PB_Cursor_Hand           : Curseur main 
+                         @#PB_Cursor_Busy           : Curseur sablier ou une montre 
+                         @#PB_Cursor_Denied         : Curseur cercle barré ou curseur X 
+                         @#PB_Cursor_Arrows         : Flèches dans toutes les directions (non disponible sur OS X) 
+                         @#PB_Cursor_LeftRight      : Flèches gauche et droite 
+                         @#PB_Cursor_UpDown         : Flèches haut et bas 
+                         @#PB_Cursor_LeftUpRightDown: Flèches diagonales (Non disponible sur Mac OSX) 
+                         @#PB_Cursor_LeftDownRightUp: Flèches diagonales (Non disponible sur Mac OSX)  
                          @#PB_Cursor_Invisible      : Cache le curseur 
 
   @ConstantColor "- #PB_Canvas_CustomCursor": Change le curseur lorsque la souris survole le gadget en un curseur personnalisé créé en utilisant l'API de l'OS correspondant.
@@ -1389,8 +1389,8 @@ EndIf
   @#PB_Cursor_Arrows         : Flèches dans toutes les directions (non disponible sur OS X)
   @#PB_Cursor_LeftRight      : Flèches gauche et droite
   @#PB_Cursor_UpDown         : Flèches haut et bas
-  @#PB_Cursor_LeftUpRightDown: Flèches diagonales (Windows uniquement)
-  @#PB_Cursor_LeftDownRightUp: Flèches diagonales (Windows uniquement)
+  @#PB_Cursor_LeftUpRightDown: Flèches diagonales (Non disponible sur Mac OSX)
+  @#PB_Cursor_LeftDownRightUp: Flèches diagonales (Non disponible sur Mac OSX)
   @#PB_Cursor_Invisible      : Curseur invisible
 @EndFixedFont
 @EndIndent
@@ -5447,7 +5447,13 @@ utiliser l'opérateur '&':
   Font.
 
 @NoReturnValue
-  
+
+@Remarks
+  Sous Windows, avec un exécutable 'Par moniteur' @ReferenceLink "ide_compiler" "'Compatible DPI'", 
+  la taille de la police est redimensionnée en fonction de la résolution (DPI) de l'écran sur lequel 
+  le gadget est affiché, et ce, à nouveau lorsque sa fenêtre est déplacée vers un écran avec un 
+  DPI différent. @@GetGadgetFont renvoie toujours l'identifiant de police (FontID) défini.
+
 @Example
 @Code
   If OpenWindow(0, 0, 0, 222, 130, "SetGadgetFont", #PB_Window_SystemMenu | #PB_Window_ScreenCentered)

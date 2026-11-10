@@ -135,9 +135,10 @@
 @NoReturnValue
 
 @Remarks
-  ClearScreen() doit toujours être appelé 
-  en dehors d'un bloc @@StartDrawing : 
-  @@StopDrawing.
+  ClearScreen() doit toujours être appelé en dehors d'un bloc @@StartDrawing : @@StopDrawing.@LineBreak
+  Avec le moteur 3D, appeler cette fonction avant @@RenderWorld pour effacer les parties de l'écran 
+  non couvertes par une caméra ; appelée après, elle efface également les caméras rendues.@LineBreak 
+  L'arrière-plan d'une caméra est défini avec @@CameraBackColor.
 
 @Example
 @Code
