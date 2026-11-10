@@ -2301,6 +2301,8 @@ Structure SourceFile Extends CompileTarget
   HistoryName.s       ; either the filename or a unique id string for unsaved files
   ExcludeFromHistory.l; exclude from history (too large size)
   FreshFile.l         ; true if the file was new and not saved yet
+  
+  LineNumberDigits.l  ; number of digits the line number margin was last sized for
 EndStructure
 
 ;- ProjectFile structure

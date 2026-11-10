@@ -21,6 +21,8 @@ Global Loading_FirstVisibleLine, Loading_CurrentLine, Loading_CurrentColumn
 Global Loading_FoldingState$
 
 Procedure UpdateCursorPosition()
+  Static LastText$, LastStatusBar ; only update the status bar when the text changed
+  
   GetCursorPosition() ; sets the SourceFile fields also used by other functions
   
   StartPosition = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
@@ -34,7 +36,13 @@ Procedure UpdateCursorPosition()
     
   EndIf
   
-  StatusBarText(#STATUSBAR, 0, Text$, #PB_StatusBar_Center)
+  ; this is called on every key press and caret move, so only set the text if it changed
+  ; (the status bar can be re-created when the GUI is rebuilt, so check that too)
+  If Text$ <> LastText$ Or StatusBarID(#STATUSBAR) <> LastStatusBar
+    LastText$ = Text$
+    LastStatusBar = StatusBarID(#STATUSBAR)
+    StatusBarText(#STATUSBAR, 0, Text$, #PB_StatusBar_Center)
+  EndIf
 EndProcedure
 
 Procedure RefreshSourceTitle(*Source.SourceFile)
