@@ -391,6 +391,7 @@ CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_File_BOM       = 1 << 21
+  #PB_File_Atomic    = 1 << 22
 CompilerEndIf
 
 CompilerIf #PB_Compiler_OS <> #PB_OS_Web

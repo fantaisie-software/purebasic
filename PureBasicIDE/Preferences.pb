@@ -1793,7 +1793,9 @@ Procedure SavePreferences()
     WritePreferenceLong("PurifierWindowX",             PurifierWindowX)
     WritePreferenceLong("PurifierWindowY",             PurifierWindowY)
     
-    ClosePreferences()
+    If ClosePreferences() = 0 ; ie: disk full, the old file is kept
+      MessageRequester(#ProductName$, LanguagePattern("Misc","PreferenceError", "%filename%", PreferencesFile$), #FLAG_Error)
+    EndIf
   Else
     
     MessageRequester(#ProductName$, LanguagePattern("Misc","PreferenceError", "%filename%", PreferencesFile$), #FLAG_Error)

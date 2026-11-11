@@ -1230,7 +1230,7 @@ Procedure CreateExecutable()
       ;
       If SaveTempFile(TempPath$ + "PB_EditorOutput.pb") = 0
         MessageRequester(#ProductName$, Language("Compiler","SaveTempError")+#NewLine+TempPath$+"PB_EditorOutput.pb", #FLAG_ERROR)
-        *InitialActiveSource = *ActiveSource
+        *ActiveSource = *InitialActiveSource ; Restore the active source as the CreateExecutable has been aborted
         ProcedureReturn
       EndIf
       

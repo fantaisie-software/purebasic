@@ -1135,11 +1135,14 @@ Procedure SaveProjectSettings(*Target.CompileTarget, IsCodeFile, IsTempFile, Rep
     Next i
     
   ElseIf *Source And SaveProjectSettings = #SAVESETTINGS_PerFileCfg ; save in "filename.pb.cfg"
-    If CreateFile(#FILE_SaveConfig, *Source\FileName$+".cfg")
+    If CreateFile(#FILE_SaveConfig, *Source\FileName$+".cfg", #PB_File_Atomic)
       For i = 1 To NbLines
         WriteStringN(#FILE_SaveConfig, ConfigLines$(i))
       Next i
-      CloseFile(#FILE_SaveConfig)
+      
+      If CloseFile(#FILE_SaveConfig) = 0 And ReportErrors
+        MessageRequester(#ProductName$, Language("FileStuff","SaveConfigError")+":"+#NewLine+*Source\FileName$+".cfg", #FLAG_Error)
+      EndIf
     ElseIf ReportErrors
       MessageRequester(#ProductName$, Language("FileStuff","SaveConfigError")+":"+#NewLine+*Source\FileName$+".cfg", #FLAG_Error)
     EndIf
@@ -1993,58 +1996,71 @@ Procedure SaveSourceFile(FileName$)
   
   ChangeStatus(Language("FileStuff","StatusSaving"), -1)
   
-  If CreateFile(#FILE_SaveSource, FileName$)
-    If *ActiveSource\Parser\Encoding = 0
-      WriteStringFormat(#FILE_SaveSource, #PB_Ascii)
-    Else
-      WriteStringFormat(#FILE_SaveSource, #PB_UTF8)
-    EndIf
-    
-    FileLength = GetSourceLength()
-    
-    If FileLength > 0
-      *Buffer = AllocateMemory(FileLength+1)
-    EndIf
+  Saved = #False
+  
+  ; The content is prepared first: if this fails, the file on disk is not touched at all
+  FileLength = GetSourceLength()
+  
+  If FileLength > 0
+    *Buffer = AllocateMemory(FileLength+1)
     
     If *Buffer
       StreamTextOut(*Buffer, FileLength)
       
       ; set the newline back to what it was before in the file
       ChangeNewLineType(@*Buffer, @FileLength, *ActiveSource\NewLineType)
-      
-      WriteData(#FILE_SaveSource, *Buffer, FileLength)
-      FreeMemory(*Buffer)
     EndIf
-    
-    If *Buffer Or FileLength = 0
+  EndIf
+  
+  If *Buffer Or FileLength = 0
+    If CreateFile(#FILE_SaveSource, FileName$, #PB_File_Atomic) ; the old file stays until the new one is completely written
+      If *ActiveSource\Parser\Encoding = 0
+        WriteStringFormat(#FILE_SaveSource, #PB_Ascii)
+      Else
+        WriteStringFormat(#FILE_SaveSource, #PB_UTF8)
+      EndIf
+      
+      If *Buffer
+        WriteData(#FILE_SaveSource, *Buffer, FileLength)
+      EndIf
+      
+      OldFileName$ = *ActiveSource\FileName$
+      OldIsCode    = *ActiveSource\IsCode
+      
       *ActiveSource\FileName$ = FileName$ ; SaveProjectSettings() needs an updated FileName$ (https://www.purebasic.fr/english/viewtopic.php?f=4&t=59566)
       *ActiveSource\IsCode = IsCodeFile(FileName$)
       
       SaveProjectSettings(*ActiveSource, *ActiveSource\IsCode, 0, 1)
-      CloseFile(#FILE_SaveSource)
       
-      ; update the file monitor info
-      *ActiveSource\ExistsOnDisk  = #True
-      *ActiveSource\LastWriteDate = GetFileDate(Filename$, #PB_Date_Modified)
-      *ActiveSource\DiskFileSize  = FileSize(Filename$)
-      *ActiveSource\DiskChecksum  = FileFingerprint(Filename$, #PB_Cipher_MD5)
-      
-      ChangeStatus(Language("FileStuff","StatusSaved"), 1000)
-      Result = 1
-      
-      UpdateSourceStatus(0)
-      
-      RecentFiles_AddFile(FileName$, #False)
-      
-      AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
-      
-    Else
-      CloseFile(#FILE_SaveSource)
-      DeleteFile(FileName$)
-      MessageRequester(#ProductName$, Language("FileStuff","SaveError")+#NewLine+FileName$, #FLAG_Error)
-      ChangeStatus(Language("FileStuff","SaveError"), 3000)
-      Result = 0
+      If CloseFile(#FILE_SaveSource)
+        Saved = #True
+      Else
+        *ActiveSource\FileName$ = OldFileName$
+        *ActiveSource\IsCode    = OldIsCode
+      EndIf
     EndIf
+  EndIf
+  
+  If *Buffer
+    FreeMemory(*Buffer)
+  EndIf
+  
+  If Saved
+    ; update the file monitor info
+    *ActiveSource\ExistsOnDisk  = #True
+    *ActiveSource\LastWriteDate = GetFileDate(Filename$, #PB_Date_Modified)
+    *ActiveSource\DiskFileSize  = FileSize(Filename$)
+    *ActiveSource\DiskChecksum  = FileFingerprint(Filename$, #PB_Cipher_MD5)
+    
+    ChangeStatus(Language("FileStuff","StatusSaved"), 1000)
+    Result = 1
+    
+    UpdateSourceStatus(0)
+    
+    RecentFiles_AddFile(FileName$, #False)
+    
+    AddTools_Execute(#TRIGGER_SourceSave, *ActiveSource)
+    
   Else
     MessageRequester(#ProductName$, Language("FileStuff","SaveError")+#NewLine+FileName$, #FLAG_Error)
     ChangeStatus(Language("FileStuff","SaveError"), 3000)

@@ -111,6 +111,7 @@ CompilerIf #CompileWindows
 CompilerEndIf
 
 Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
+  Protected Saved
   
   If EventID = #PB_Event_ActivateWindow
     CompilerIf #CompileWindows
@@ -165,13 +166,20 @@ Procedure DebugWindowEvents(*Debugger.DebuggerData, EventID)
             EndIf
           EndIf
           
-          File = CreateFile(#PB_Any, FileName$)
+          Saved = #False
+          File = CreateFile(#PB_Any, FileName$, #PB_File_Atomic)
           If File
             max = CountGadgetItems(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])-1
             For i = 0 To max
               WriteStringN(File, GetGadgetItemText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List], i, 0))
             Next i
-            CloseFile(File)
+            
+            If CloseFile(File)
+              Saved = #True
+            EndIf
+          EndIf
+          
+          If Saved
             DebuggerOutputFile$ = FileName$ ; store for next time
           Else
             MessageRequester("PureBasic Debugger",ReplaceString(Language("Debugger","SaveError"), "%filename%", FileName$, 1), #FLAG_Error)
@@ -367,6 +375,7 @@ EndProcedure
 ; the command field contains the needed data
 ;
 Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
+  Protected Saved
   
   ; This command does not mean that the Window should be shown
   ; automatically, so handle it first
@@ -386,11 +395,17 @@ Procedure DebugOutput_DebuggerEvent(*Debugger.DebuggerData)
           FileName$ = PeekS(*Debugger\CommandData, *Debugger\Command\DataSize)
           
           UpdateDebugOutputWindow(*Debugger) ; Ensure we are flushing the remaining cached text
-          File = CreateFile(#PB_Any, FileName$)
+          Saved = #False
+          File = CreateFile(#PB_Any, FileName$, #PB_File_Atomic)
           If File
             WriteString(File, GetGadgetText(*Debugger\Gadgets[#DEBUGGER_GADGET_Debug_List])) ; We now use an EditorGadget() so we can get the text in one call
-            CloseFile(File)
-          Else
+            
+            If CloseFile(File)
+              Saved = #True
+            EndIf
+          EndIf
+          
+          If Saved = #False
             MessageRequester("PureBasic Debugger",ReplaceString(Language("Debugger","SaveError"), "%filename%", FileName$, 1), #FLAG_Error)
           EndIf
         EndIf
