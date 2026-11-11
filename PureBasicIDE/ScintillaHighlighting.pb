@@ -2514,16 +2514,22 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
   
   Procedure UpdateKeywordHighlight(selStart, SetHighlight)
     Static NewList Items.SourceItemPair() ; static to avoid re-creation on every call
+    Static *LastGadget, LastHasHighlight     ; avoid clearing the whole source on every caret move
     
-    ; Clear any old highlight
+    ; Clear any old highlight (only if one may be showing, always when switching gadgets to be sure)
     ;
-    SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
-    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
+    If LastHasHighlight Or *LastGadget <> *ActiveGadget
+      SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMatch)
+      SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
+      
+      SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
+      SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
+      
+      SendEditorMessage(#SCI_SETHIGHLIGHTGUIDE, 0)
+    EndIf
     
-    SendEditorMessage(#SCI_SETINDICATORCURRENT, #INDICATOR_KeywordMismatch)
-    SendEditorMessage(#SCI_INDICATORCLEARRANGE, 0, SendEditorMessage(#SCI_GETTEXTLENGTH))
-    
-    SendEditorMessage(#SCI_SETHIGHLIGHTGUIDE, 0)
+    *LastGadget = *ActiveGadget
+    LastHasHighlight = #False
     
     ; Try to locate a matching keyword
     ;
@@ -2536,6 +2542,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
           Keyword = IsBasicKeyword(Word$)
           
           If Keyword
+            LastHasHighlight = #True ; something may get marked below
             OriginalLine = *ActiveSource\CurrentLine-1
             
             ; Re-scan the current line to ensure all scanned tokens are up to date
@@ -2748,9 +2755,19 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       *Selection = *BufferStart + selStart
       SelectionLength = selEnd-selStart
       
+      ; Only call CompareMemoryString() where the first character matches (in either case, the same
+      ; folding as #PB_String_NoCaseAscii), instead of at every byte of the source
+      FirstLower = PeekA(*Selection)
+      FirstUpper = FirstLower
+      If FirstLower >= 'A' And FirstLower <= 'Z'
+        FirstLower + 32
+      ElseIf FirstLower >= 'a' And FirstLower <= 'z'
+        FirstUpper - 32
+      EndIf
+      
       ; Look for repetitions of the selection
       While *Pointer <= *BufferEnd
-        If CompareMemoryString(*Pointer, *Selection, #PB_String_NoCaseAscii, SelectionLength, #PB_UTF8) = #PB_String_Equal
+        If (*Pointer\a = FirstLower Or *Pointer\a = FirstUpper) And CompareMemoryString(*Pointer, *Selection, #PB_String_NoCaseAscii, SelectionLength, #PB_UTF8) = #PB_String_Equal
           Position = *Pointer-*BufferStart
           ; don't mark the selection itself and check that this is a whole word before marking it
           If Position <> selStart And
@@ -2967,7 +2984,9 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         CompilerEndIf
         
       Case #SCN_UPDATEUI
-        If *ActiveSource
+        ; This is also sent when the view only scrolls (#SC_UPDATE_V_SCROLL / #SC_UPDATE_H_SCROLL),
+        ; but nothing below depends on the scroll position, so skip that case
+        If *ActiveSource And *scinotify\updated & (#SC_UPDATE_CONTENT | #SC_UPDATE_SELECTION)
           selStart = SendEditorMessage(#SCI_GETSELECTIONSTART, 0, 0)
           selEnd = SendEditorMessage(#SCI_GETSELECTIONEND  , 0, 0)
           
@@ -3194,7 +3213,7 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
         EndIf
         
       Case #SCN_ZOOM
-        UpdateLineNumbers(*ActiveSource)
+        UpdateLineNumbers(*ActiveSource, #True)
         If SynchronizingZoom = 0
           HandleZoomChange()
         EndIf
@@ -3976,13 +3995,13 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
     If Hide
       ScintillaSendMessage(*Source\EditorGadget, #SCI_SETMARGINWIDTHN, 0, 0)
     Else
-      UpdateLineNumbers(*Source)
+      UpdateLineNumbers(*Source, #True) ; always measure (also called after font / color changes)
     EndIf
     
   EndProcedure
   
   
-  Procedure UpdateLineNumbers(*Source.SourceFile)
+  Procedure UpdateLineNumbers(*Source.SourceFile, Force = #False)
     
     If EnableLineNumbers
       NbLines = ScintillaSendMessage(*Source\EditorGadget, #SCI_GETLINECOUNT, 0, 0)
@@ -3990,6 +4009,12 @@ CompilerIf #CompileWindows | #CompileLinux | #CompileMac
       If NbLines < 10 ; When editing small sources, the width is always jumping from 9<->10, so let's have at least 2 digits space always displayed
         NbLines = 10
       EndIf
+      
+      ; The width only changes with the number of digits, so don't measure the text on every typed character
+      If Force = #False And *Source\LineNumberDigits = Len(Str(NbLines))
+        ProcedureReturn
+      EndIf
+      *Source\LineNumberDigits = Len(Str(NbLines))
       
       Lines$ = "_" + RSet("9", Len(Str(NbLines)), "9")
       ScintillaSendMessage(*Source\EditorGadget, #SCI_SETMARGINWIDTHN, 0, ScintillaSendMessage(*Source\EditorGadget, #SCI_TEXTWIDTH, #STYLE_LINENUMBER, ToAscii(Lines$)))

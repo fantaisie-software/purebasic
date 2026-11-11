@@ -174,7 +174,7 @@ Declare GetFoldState(Line)
 Declare ResizeEditorGadget(Gadget, X, Y, Width, Height) ; resize the editor gadget
 Declare FreeEditorGadget(Gadget)                        ; free the editor gadget
 Declare HideEditorGadget(Gadget, Hide)                  ; hide/show the editor gadget
-Declare UpdateLineNumbers(*Source.SourceFile)           ; update the linenumbers completely (number of lines has changed)
+Declare UpdateLineNumbers(*Source.SourceFile, Force = #False)           ; update the linenumbers completely (number of lines has changed)
 Declare MarkCurrentLine(LineNumber)                     ; mark and show the linenumber as the current line for the debugger (current source) (-1 = remove mark)
 Declare ClearCurrentLine(*Source.SourceFile)            ; clear any current line marks (in the given source)
 Declare MarkErrorLine(LineNumber)                       ; mark the given line for an error (current source)
