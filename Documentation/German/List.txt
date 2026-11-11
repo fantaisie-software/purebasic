@@ -426,7 +426,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = ExtractList(Liste(), Text$ [, Separator$ [, Limit]])
+@Function Ergebnis = ExtractList(Liste(), Text$ [, Separator$ [, Start [, Anzahl]]])
 
 @Description
   Zerlegt 'Text$' in die 'Liste()' und verwendet dabei das Trennzeichen 'Separator$', um die
@@ -444,14 +444,18 @@
   Komma (","), es kann auch aus mehreren Zeichen bestehen. Handelt es sich um einen leeren
   String, wird 'Text$' nicht aufgeteilt, sondern als einzelnes Element in die 'Liste()' kopiert.
 
-@OptionalParameter "Limit"
-  Wenn der Parameter angegeben wird und größer als Null ist, werden höchstens 'Limit' Elemente
-  extrahiert; das letzte Element enthält dann den Rest von 'Text$' einschließlich eventuell darin
-  noch enthaltener Trennzeichen. Wird der Wert weggelassen, ist er Null oder negativ, gibt es
-  keine Begrenzung.
+@OptionalParameter "Start"
+  Die Position des ersten zu extrahierenden Elements. Das erste Element von 'Text$' befindet sich
+  an Position 1. Wird der Wert weggelassen oder ist er kleiner als 1, beginnt die Extraktion beim
+  ersten Element. Ist 'Start' größer als die Anzahl der Elemente in 'Text$', wird nichts extrahiert.
+
+@OptionalParameter "Anzahl"
+  Die maximale Anzahl der zu extrahierenden Elemente, beginnend bei 'Start'. Wird dieser Wert
+  weggelassen, ist er null oder negativ, so werden alle Elemente von 'Start' bis zum Ende von
+  'Text$' extrahiert.
 
 @ReturnValue
-  Gibt die Anzahl der gefundenen (und in die 'Liste()' gespeicherten) Elemente zurück.
+  Gibt die Anzahl der extrahierten (und in die 'Liste()' gespeicherten) Elemente zurück.
 
 @Example
 @Code
@@ -462,6 +466,19 @@
   Debug Result       ; wird '3' ausgeben
   ForEach Fruits()
     Debug Fruits()   ; wird 'Apple', 'Orange' und 'Cherry' ausgeben
+  Next
+@EndCode
+
+@Example
+@Code
+  ; Nur einen Teil der Elemente extrahieren
+  NewList Fruits.s()
+
+  Result = ExtractList(Fruits(), "Apple,Orange,Cherry,Banana,Pear", ",", 2, 3)
+
+  Debug Result       ; wird '3' ausgeben
+  ForEach Fruits()
+    Debug Fruits()   ; wird 'Orange', 'Cherry' und 'Banana' ausgeben
   Next
 @EndCode
 

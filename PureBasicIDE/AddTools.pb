@@ -1013,11 +1013,20 @@ Procedure AddTools_OpenWindow()
       
       EnableGadgetDrop(#GADGET_AddTools_List, #PB_Drop_Private, #PB_Drag_Move, #DRAG_AddTools)
       
-      ; adjust column width
-      ColumnWidth = (GadgetWidth(#GADGET_AddTools_List) - 20) / 6
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*2, 0)
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth, 1)
-      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, ColumnWidth*3, 2)
+      ; adjust column width: the saved widths, or proportional to the gadget if there are none yet
+      If AddToolsColumnSize1 > 0 And AddToolsColumnSize2 > 0 And AddToolsColumnSize3 > 0
+        AddToolsOpenColumnSize1 = AddToolsColumnSize1
+        AddToolsOpenColumnSize2 = AddToolsColumnSize2
+        AddToolsOpenColumnSize3 = AddToolsColumnSize3
+      Else
+        ColumnWidth = (GadgetWidth(#GADGET_AddTools_List) - 20) / 6
+        AddToolsOpenColumnSize1 = ColumnWidth*2
+        AddToolsOpenColumnSize2 = ColumnWidth
+        AddToolsOpenColumnSize3 = ColumnWidth*3
+      EndIf
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenColumnSize1, 0)
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenColumnSize2, 1)
+      SetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, AddToolsOpenColumnSize3, 2)
       
       ; duplicate the tools list to work on it, and fill the gadget
       ;
@@ -1268,6 +1277,20 @@ Procedure AddTools_WindowEvents(EventID)
   
   If Quit
     If MemorizeWindow
+      ; only save the columns if the user resized one, so they stay proportional to the window otherwise
+      ColumnSize1 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 0)
+      ColumnSize2 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 1)
+      ColumnSize3 = GetGadgetItemAttribute(#GADGET_AddTools_List, 0, #PB_ListIcon_ColumnWidth, 2)
+      CompilerIf #CompileLinux ; the last column fills the free space, so it also changes with the window
+        Column3Changed = 0
+      CompilerElse
+        Column3Changed = Bool(ColumnSize3 <> AddToolsOpenColumnSize3)
+      CompilerEndIf
+      If ColumnSize1 <> AddToolsOpenColumnSize1 Or ColumnSize2 <> AddToolsOpenColumnSize2 Or Column3Changed
+        AddToolsColumnSize1 = ColumnSize1
+        AddToolsColumnSize2 = ColumnSize2
+        AddToolsColumnSize3 = ColumnSize3
+      EndIf
       AddToolsWindowDialog\Close(@AddToolsWindowPosition)
     Else
       AddToolsWindowDialog\Close()

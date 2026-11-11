@@ -959,6 +959,9 @@ Procedure LoadPreferences()
   LoadDialogPosition(@AddToolsWindowPosition, -1, -1, 400, 300)
   EditToolsWindowPosition\x = ReadPreferenceLong("EditX",    -1)
   EditToolsWindowPosition\y = ReadPreferenceLong("EditY",    -1)
+  AddToolsColumnSize1 = ReadPreferenceLong("ColumnSize1", 0) ; 0 means not saved yet
+  AddToolsColumnSize2 = ReadPreferenceLong("ColumnSize2", 0)
+  AddToolsColumnSize3 = ReadPreferenceLong("ColumnSize3", 0)
   
   
   ;- - AutoComplete
@@ -1612,6 +1615,9 @@ Procedure SavePreferences()
     SaveDialogPosition(@AddToolsWindowPosition, 1) ; save width/height as well
     WritePreferenceLong("EditX", EditToolsWindowPosition\x)
     WritePreferenceLong("EditY", EditToolsWindowPosition\y)
+    WritePreferenceLong("ColumnSize1", AddToolsColumnSize1)
+    WritePreferenceLong("ColumnSize2", AddToolsColumnSize2)
+    WritePreferenceLong("ColumnSize3", AddToolsColumnSize3)
     
     ;- - AutoComplete
     PreferenceComment("")
