@@ -1657,6 +1657,7 @@
 @Description
   Save the given JSON data to a file. The file will be encoded in
   UTF-8 (without a leading byte-order mark).
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
 
 @Parameter "#JSON"
   The JSON to save.

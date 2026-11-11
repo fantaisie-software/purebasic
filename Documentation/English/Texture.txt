@@ -228,6 +228,7 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
 @Description
   Save the render texture content. It can be useful to do screenshots of a particular scene.
   The save format can only be PNG.
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
 
 @Parameter "#Texture"
   The texture to use.

@@ -1426,6 +1426,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @Description
   Save the mesh. The saved mesh can be loaded back with the @@LoadMesh command.
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
 
 @Parameter "Mesh"
   The mesh to save.

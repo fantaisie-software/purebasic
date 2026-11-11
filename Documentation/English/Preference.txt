@@ -22,14 +22,17 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClosePreferences()
+@Function Result = ClosePreferences()
 
 @Description
   Closes a preference file previously opened with @@OpenPreferences or created with @@CreatePreferences. 
+  Any change is written to disk, replacing the file only once it has been completely written.
   
 @NoParameters
   
-@NoReturnValue
+@ReturnValue
+  Nonzero if the changes were written to disk, or if there was nothing to write. If an error occurred
+  (ie: disk full, disk error), it returns zero and the file on disk keeps its previous content.
 
 @Example
 @Code
@@ -56,7 +59,8 @@
 @Function Result = CreatePreferences(Filename$ [, Flags])
 
 @Description
-  Creates a new empty preference file. If the file already exists, the file is erased.
+  Creates a new empty preference file. If the file already exists, it is replaced when the new preferences
+  are written to disk (see @@FlushPreferenceBuffers and @@ClosePreferences): if an error occurs (ie: disk full), the existing file stays untouched.
   
 @Parameter "Filename$"
   The filename of the new preference file. 

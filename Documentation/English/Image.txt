@@ -763,6 +763,7 @@
 
 @Description
   Saves the specified image to disk.
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
 
 @Parameter "#Image"
   The image to save.

@@ -450,6 +450,7 @@ respectively leverage DirectX 9 and DirectX 11 to handle screen creation.
 @Description
   Saves the specified sprite to a file. By default, the saved image will be in 24-bit BMP format.
   Very useful for screenshots when used with the @@GrabSprite function.
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
   
 @Parameter "#Sprite"
   The sprite to save.
@@ -820,7 +821,8 @@ respectively leverage DirectX 9 and DirectX 11 to handle screen creation.
 @Function SpriteQuality(Quality)
 
 @Description
-  Changes the way the sprites are rendered.
+  Changes the way the sprites are rendered. It can be called before opening a screen, and the
+  setting is kept when a new screen is opened.
 
 @Parameter "Quality"
   The display sprite quality. Can be one the following values:

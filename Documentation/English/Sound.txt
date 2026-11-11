@@ -356,6 +356,7 @@ of available hardware.
 
 @Description
   Saves the specified sound to disk. The sound must not be a streaming sound (see the @Link "Sound/LoadSound" "#PB_Sound_Streaming" flag of @@LoadSound).
+  If the file already exists, it is replaced only once the new content has been completely written: if an error occurs (ie: disk full), the existing file stays untouched.
 
 @Parameter "#Sound"
   The sound to save.

@@ -34,7 +34,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CloseFile(#File)
+@Function Result = CloseFile(#File)
 
 @Description
   Close the specified file.
@@ -42,7 +42,11 @@
 @Parameter "#File"
   The file to close. If @#PB_All is specified, all the remaining files are closed.
 
-@NoReturnValue
+@ReturnValue
+  Returns nonzero if all the data written to the file reached it, and zero if a write failed (for example,
+  if the disk is full). If the file was created with @#PB_File_Atomic, zero also means that the file
+  wasn't replaced: it keeps its previous content. When @#PB_All is specified, the return value
+  is meaningless.
 
 @Remarks
   Once the file is closed, it may not be used anymore. Closing a file ensures the buffer will
@@ -83,6 +87,8 @@
   @#PB_File_NoBuffering: the internal PureBasic file buffering system will be disabled for this file. 
                         @@FileBuffersSize can not be used on this file.
   @#PB_File_BOM        : the file will be created with a BOM.
+  @#PB_File_Atomic     : an existing file is replaced only when @@CloseFile succeeds, so it is never left
+                        half written (for example, if the disk is full). See the remarks below.
   
 @EndFixedFont
   combined with one of the following values (the following flags affect the @@WriteString(), @@WriteStringN,
@@ -105,6 +111,15 @@
 @LineBreak
   To open an existing file for reading/writing, use the @@OpenFile function. To open a file for
   reading only, use @@ReadFile.
+@LineBreak
+@LineBreak
+  With @#PB_File_Atomic, the data is written to a temporary file in the same directory, and the
+  existing file keeps its old content until @@CloseFile. If everything was written successfully, the
+  temporary file then replaces the existing one (with its attributes), else it is deleted and the
+  existing file is left untouched: the return value of @@CloseFile tells which one happened.
+  If the temporary file can't be created because the disk is full, CreateFile() fails. A file which can't be
+  replaced this way (for example a read-only file, or on Linux and OS X a file with several hard links
+  or owned by another user) is written directly, as without the flag.
 
 @Example
 @Code
@@ -119,6 +134,23 @@
     CloseFile(0)                       ; close the previously opened file and store the written data this way
   Else
     MessageRequester("Information","may not create the file!")
+  EndIf
+
+@EndCode
+
+@Example Replacing a file safely
+@Code
+
+  If CreateFile(0, "Settings.txt", #PB_File_Atomic) ; the old file stays as it is until CloseFile()
+    WriteStringN(0, "Width = 640")
+    WriteStringN(0, "Height = 480")
+    If CloseFile(0)
+      Debug "Settings.txt saved"
+    Else
+      Debug "The save failed, Settings.txt still has its previous content"
+    EndIf
+  Else
+    Debug "Can't create the file"
   EndIf
 
 @EndCode
