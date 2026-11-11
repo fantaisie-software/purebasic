@@ -1522,10 +1522,16 @@ Procedure MainMenuEvent(MenuItemID)
       EndIf
       
     Case #MENU_ZoomDefault
-      If HelpTool_ResetZoom() ; the focus is in a help page: its zoom, not the one of the editor
-      ElseIf *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
-        ZoomDefault()
-      EndIf
+      CompilerIf #CompileLinuxGtk2 = 0
+        If HelpTool_ResetZoom() ; the focus is in a help page: its zoom, not the one of the editor
+        ElseIf *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+          ZoomDefault()
+        EndIf
+      CompilerElse ; no help tool with GTK2 (HelpTool.pb isn't included, see PureBasic.pb)
+        If *ActiveSource And *ActiveSource\IsForm = 0 And *ActiveSource <> *ProjectInfo
+          ZoomDefault()
+        EndIf
+      CompilerEndIf
       
     Case #MENU_ToggleFolds
       *ActiveSource\ToggleFolds = 1-*ActiveSource\ToggleFolds
