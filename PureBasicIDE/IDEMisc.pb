@@ -130,6 +130,9 @@ Procedure.s CheckPureBasicKeyWords(CurrentWord$)
     Case "SIZEOF", "OFFSETOF", "TYPEOF", "SUBSYSTEM", "DEFINED", "CLEARSTRUCTURE", "COPYSTRUCTURE", "RESETSTRUCTURE", "INITIALIZESTRUCTURE", "BOOL", "COMPARESTRUCTURE"
       Topic$ = "Reference/compilerfunctions"
       
+    Case "AND", "OR", "XOR", "NOT"
+      Topic$ = "Reference/variables"
+      
   EndSelect
   
   ProcedureReturn Topic$
