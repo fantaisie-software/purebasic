@@ -745,16 +745,22 @@
   @#PB_Program_Write  : Ecriture possible sur l'entrée standard (stdin).
   @#PB_Program_Error  : Lecture possible sur la sortie d'erreur(stderr).
   @#PB_Program_Connect: Connecte la sortie d'un autre programme à l'entrée du programme PureBasic.
+  @#PB_Program_NoInput: Le programme reçoit une entrée vide (stdin) au lieu de l’entrée de ce programme (Linux et OS X uniquement).
   @#PB_Program_Ascii  : Les opérations de lecture/écriture se font en ASCII. 
   @#PB_Program_Unicode: Les opérations de lecture/écriture se font en Unicode.
   @#PB_Program_UTF8   : Les opérations de lecture/écriture se font en UTF8. (Par défaut)
 @EndFixedFont
 
-  Un programme exécuté avec l'option @#PB_Program_Open doit toujours être 
-  fermé avec la commande @@CloseProgram.
+  Un programme exécuté avec l'option @#PB_Program_Open doit toujours être fermé avec la commande @@CloseProgram.
   @LineBreak 
-  Les options 'Read', 'Write', 'Error' et 'Connect' nécessitent aussi l'option 
-  @#PB_Program_Open.
+  Les options 'Read', 'Write', 'Error' et 'Connect' nécessitent aussi l'option @#PB_Program_Open.
+@LineBreak
+@LineBreak
+  Sous Linux et macOS, le programme exécuté utilise par défaut l'entrée de ce programme. Si ce dernier 
+  a été lancé en arrière-plan depuis un terminal (avec '&'), le programme exécuté qui lit cette entrée 
+  interrompt les deux programmes.
+  L'indicateur @#PB_Program_NoInput évite ce problème : le programme exécuté reçoit alors une entrée vide. 
+  Il est sans effet lorsque @#PB_Program_Write ou @#PB_Program_Connect sont utilisés, ni sous Windows.
 @LineBreak
 @LineBreak
   Quand l'option @#PB_Program_Connect est utilisée, un autre programme doit avoir 

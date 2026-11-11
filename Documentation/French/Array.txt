@@ -237,7 +237,7 @@ Debug ArraySize(Ex\TabDynamic()) ; Affiche 4
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = ExtractArray(Tableau(), Texte$ [, Separateur$ [, Limite]])
+@Function Resultat = ExtractArray(Tableau(), Texte$ [, Separateur$ [, Debut [, Max]]])
 
 @Description
   Sépare le Texte$ en éléments distincts dans le Tableau() en utilisant Separateur$ comme délimiteur.
@@ -259,12 +259,23 @@ dimension.
   Par défaut, il s'agit de la virgule (",") et peut contenir plusieurs caractères.@LineBreak 
   Si c'est une chaîne vide, Texte$ n'est pas divisé et est copié comme seul élément dans Tableau().
 
-@OptionalParameter "Limite"
-  Le nombre maximum d'éléments extraits : Le dernier élément contient alors le reste de Texte$, 
-  y compris tout séparateur qu'il pourrait encore contenir.
+@OptionalParameter "Debut"
+  Position du premier élément à extraire. 
+@LineBreak
+@LineBreak
+  Le premier élément de "Texte$" se trouve à la position 1.@LineBreak
+  Si cette valeur est omise ou inférieure à 1, l’extraction commence au premier élément.@LineBreak 
+  Si cette valeur est supérieur au nombre d’éléments dans "Texte$", aucun élément n’est extrait.
+
+@OptionalParameter "Max"
+  Nombre maximal d’éléments à extraire, à partir de "Debut". 
+@LineBreak
+@LineBreak
+  Si cette valeur est omise, nulle ou négative, tous les éléments de "Debut" à la fin de "Texte$" 
+  sont extraits.
 
 @ReturnValue
-  Renvoie le nombre d'éléments trouvés et stockés dans Tableau().
+  Renvoie le nombre d'éléments extraits et stockés dans Tableau().
 
 @Remarks
   Tableau() est dimensionné pour contenir exactement le nombre d'éléments trouvés.
@@ -283,14 +294,25 @@ dimension.
 
 @Example
 @Code
-
 ; Un tableau numérique peut également être utilisé.
 
-Dim Nombres.i(0)
+  Dim Nombres.i(0)
+  ExtractArray(Nombres(), "10|20|30", "|")
+  Debug Nombres(0) + Nombres(1) + Nombres(2) ; affiche '60'
+@EndCode
 
-ExtractArray(Nombres(), "10|20|30", "|")
+@Example
+@Code
+  ; Extraire seulement une partie des éléments
+  
+  Dim Fruits.s(0)
 
-Debug Nombres(0) + Nombres(1) + Nombres(2) ; affiche '60'
+  Resultat = ExtractArray(Fruits(), "Pomme,Orange,Cerise,Banane,Poire", ",", 2, 3)
+
+  Debug Resultat   ;  '3'
+  Debug Fruits(0)  ;  'Orange'
+  Debug Fruits(1)  ;  'Cerise'
+  Debug Fruits(2)  ;  'Banane'
 @EndCode
 
 @SeeAlso
