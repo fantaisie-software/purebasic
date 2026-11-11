@@ -507,7 +507,7 @@
 @SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
-@Function Resultat = ExtractList(Liste(), Texte$ [, Separateur$ [, Limite]])
+@Function Resultat = ExtractList(Liste(), Texte$ [, Separateur$ [, Debut [, Max]]])
 
 @Description
   Chaque élément de la chaîne de caratère 'Texte$' séparés par le Separateur$ est sotcké dans la liste
@@ -531,14 +531,23 @@
 @linebreak 
   Si c'est une chaîne vide, 'Texte$' n'est pas décomposé et est copié comme un seul élément dans 'Liste()'.
 
-@OptionalParameter "Limite"
-  Nombre maximum d'éléments à extraire.
-@linebreak
-@linebreak 
-  Le dernier contient alors le reste de 'Texte$', y compris tout séparateur qu'il pourrait encore contenir.
+@OptionalParameter "Debut"
+  Position du premier élément à extraire. 
+@LineBreak
+@LineBreak
+  Le premier élément de "Texte$" se trouve à la position 1.@LineBreak
+  Si cette valeur est omise ou inférieure à 1, l’extraction commence au premier élément.@LineBreak 
+  Si cette valeur est supérieur au nombre d’éléments dans "Texte$", aucun élément n’est extrait.
 
+@OptionalParameter "Max"
+  Nombre maximal d’éléments à extraire, à partir de "Debut". 
+@LineBreak
+@LineBreak
+  Si cette valeur est omise, nulle ou négative, tous les éléments de "Debut" à la fin de "Texte$" 
+  sont extraits.
+  
 @ReturnValue
-  Renvoie le nombre d'éléments trouvé et stocké dans 'Liste()'.
+  Renvoie le nombre d'éléments extrait et stocké dans 'Liste()'.
 
 @Example
 @Code
@@ -549,6 +558,19 @@
 
   ForEach Fruits()
     Debug Fruits() ; affiche 'Pomme', 'Orange' et 'Cerise' sur 3 lignes
+  Next
+@EndCode
+
+@Example
+@Code
+  ; Extraire seulement une partie des éléments
+  NewList Fruits.s()
+
+  Resultat = ExtractList(Fruits(), "Pomme,Orange,Cerise,Banane,Poire", ",", 2, 3)
+
+  Debug Resultat     ; '3'
+  ForEach Fruits()
+    Debug Fruits()   ; 'Orange', 'Cerise' et 'Banana'
   Next
 @EndCode
 

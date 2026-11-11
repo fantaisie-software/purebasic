@@ -370,11 +370,8 @@
   @@FormatDate peuvent être utilisées.
 
 @Remarks
-  Sous Linux et Mac OSX, la date de retour pour 
-  @#PB_Date_Created est la même que la date de 
-  @#PB_Date_Modified, parce que la plupart des 
-  systèmes de fichiers ne stockent pas une date 
-  de création du fichier.
+  Sous Linux, @#PB_Date_Created renvoie la date de @#PB_Date_Modified si le système de fichiers 
+  ne stocke pas de date de création de fichier.
 
 @Example  
 @Code
@@ -1146,11 +1143,8 @@
   peuvent être utilisées.
 
 @Remarks
-  Sous Linux et Mac OSX, la date de retour pour 
-  @#PB_Date_Created est la même que la date 
-  de @#PB_Date_Modified, parce que la plupart 
-  des systèmes de fichiers ne stockent pas une 
-  date de création de fichier.
+  Sous Linux, @#PB_Date_Created renvoie la date de @#PB_Date_Modified si le système de fichiers 
+  ne stocke pas de date de création de fichier.
   
 @Example  
 @Code
@@ -1416,10 +1410,8 @@
   @@FormatDate peuvent être utilisées.
 @LineBreak
 @LineBreak 
-   Sous Linux et Mac OSX, la date utilisée pour @#PB_Date_Created 
-   est la même que pour @#PB_Date_Modified, parce que la plupart 
-   des systèmes de fichiers ne stockent pas une date de création 
-   de fichier.
+  Sous Linux, @#PB_Date_Created renvoie la date de @#PB_Date_Modified si le système de fichiers 
+  ne stocke pas de date de création de fichier.
  
 @Code
   SetFileDate("F:\Test.txt", #PB_Date_Accessed, Date())
