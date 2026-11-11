@@ -1410,6 +1410,7 @@ EndProcedure
 
 Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
   Shared StatusMessageTimeout.q                   ; shared for the special access in QuickHelpFromLine()
+  Static *LastSource, LastLine, LastFunctionStart, LastLine$, LastFunction$, LastMessage$
   
   If *ActiveSource\IsCode = 0
     ChangeStatus("", 0)
@@ -1436,7 +1437,20 @@ Procedure QuickHelpFromLine(line, cursorposition) ; position is 0 based!
     FunctionLine$ = StringField(Mid(Line$, FunctionLineStart + 1), 1, #LF$)
     FunctionLine$ = RTrim(FunctionLine$, #CR$)
     
-    Message$ = GenerateQuickHelpText(FunctionLine$, EnclosingFunction$, FunctionLine, FunctionStart - FunctionLineStart)
+    ; Only generate the help text again if the function or its line changed (this is called on
+    ; every caret move). Moving to another line always generates it again, as the help may have
+    ; changed meanwhile (for example a procedure's parameters edited elsewhere)
+    If *ActiveSource = *LastSource And line = LastLine And FunctionStart = LastFunctionStart And EnclosingFunction$ = LastFunction$ And Line$ = LastLine$
+      Message$ = LastMessage$
+    Else
+      Message$ = GenerateQuickHelpText(FunctionLine$, EnclosingFunction$, FunctionLine, FunctionStart - FunctionLineStart)
+      *LastSource       = *ActiveSource
+      LastLine          = line
+      LastFunctionStart = FunctionStart
+      LastLine$         = Line$
+      LastFunction$     = EnclosingFunction$
+      LastMessage$      = Message$
+    EndIf
     
     If Message$ = "" Or FindString(Message$, "(", 1) = 0 Or FindString(Message$, ")", 1) = 0
       ChangeStatus(Message$, 0)
