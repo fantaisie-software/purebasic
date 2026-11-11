@@ -56,7 +56,7 @@ Procedure FD_Save(Filename$)
     Format = #PB_UTF8
   EndIf
   
-  handle = CreateFile(#PB_Any, Filename$, Format)
+  handle = CreateFile(#PB_Any, Filename$, Format | #PB_File_Atomic)
   If handle
     If *ActiveSource\Parser\Encoding = 1 ; UTF-8
       WriteStringFormat(handle, #PB_UTF8); Write the BOM: https://www.purebasic.fr/english/viewtopic.php?f=4&t=63080
@@ -70,12 +70,15 @@ Procedure FD_Save(Filename$)
       WriteStringN(handle,StringField(code,i,#Endline))
     Next
     
-    FormWindows()\current_file = Filename$
-    CloseFile(handle)
-    FormChanges(0)
-    
-    ProcedureReturn #True
+    If CloseFile(handle)
+      FormWindows()\current_file = Filename$
+      FormChanges(0)
+      
+      ProcedureReturn #True
+    EndIf
   EndIf
+  
+  MessageRequester(#ProductName$, Language("FileStuff","SaveError")+#NewLine+Filename$, #FLAG_Error)
 EndProcedure
 
 Procedure OpenReadNextParam(line.s,pos,includeequal = 0)
