@@ -373,6 +373,12 @@ The code formatting functionality of the PureBasic IDE offers advanced linting a
 Since every PureBasic user has access to PureBasic IDE, adopting it as the standard linter tool grants 100% code style consistency without requiring [EditorConfig] settings (which are not supported by the PureBasic IDE).
 Just make sure that your IDE is configured to use the default settings for code indentation.
 
+#### Unit Tests
+
+The IDE and the debugger have unit tests, run with PureUnit 1.5 or newer (shipped with PureBasic in `SDK/PureUnit`): run `make test` in `PureBasicIDE` and `PureBasicDebugger` before submitting a pull request.
+When you fix a bug in code that can be tested (below the user interface: source parser, highlighting, find/replace, debugger engine...), please add a test which fails without your fix.
+See [`PureBasicIDE/UnitTests/README.md`](./PureBasicIDE/UnitTests/README.md) for how to run and write the tests.
+
 -------------------------------------------------------------------------------
 
 # Useful Links

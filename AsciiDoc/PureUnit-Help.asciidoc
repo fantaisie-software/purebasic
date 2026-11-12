@@ -1,7 +1,7 @@
 = PureUnit: Automated Testing in PureBasic
 Fantaisie Software <support@purebasic.com>
-:revdate: 2020-12-11
-:PBVer: 5.73
+:revdate: 2026-11-12
+:PBVer: 6.50
 :revremark: PureBasic v{PBVer}
 :revnumber!:
 :lang: en
@@ -204,11 +204,26 @@ The following flags are possible:
 [horizontal]
 `NoUnicode`         :: -> no Unicode tests.
 `Thread`            :: -> test also in thread mode.
+`ThreadOnly`        :: -> test only in thread mode (for code that requires it). Since PureUnit 1.5.
 `SubSystem[<name>]` :: -> test also with the given subsystem.
+`MainCode`          :: -> run the main code of the test code before the tests (see below). Since PureUnit 1.5.
 
 The code will be compiled in all possible combinations of the given flags (on/off), so when using `PureUnitOptions(Thread)`, the code will be compiled once normally, once in Unicode mode, once in thread mode, and once in thread+Unicode mode.
-So every added option (except for `NoUnicode`) actually doubles the number of times the given test source is compiled/executed.
+So every added option (except for `NoUnicode`, `ThreadOnly` and `MainCode`) actually doubles the number of times the given test source is compiled/executed.
 This can be a speed concern when carrying out many tests, so only those options which are truly needed should be enabled here.
+
+`MainCode` is not a compile option.
+By default, the main code of the test code (and of its included files) is never executed: the tests are started before it.
+So the global variables keep their default value (`Global a = 5` leaves `a` at 0), and the global arrays, lists and maps are not created (`Global NewList`, `Global Dim`): using them crashes.
+With `MainCode`, the whole main code is executed first, then the tests.
+Use it to test code which sets up its state in its main code, like a whole program without its startup code.
+
+A test code which needs PureUnit 1.5 or newer can check `#PureUnit_ResidentVersion` (201 or above for PureUnit 1.5):
+
+[source,PureBasic]
+CompilerIf #PureUnit_ResidentVersion < 201
+  CompilerError "PureUnit 1.5 or newer is needed"
+CompilerEndIf
 --
 
 
@@ -397,6 +412,17 @@ The reason for this is to provide a clean state of the program for the remaining
 This switch creates a test report in HTML format in the given file.
 
 Note that in GUI mode, there is also an option to view/save this report after the tests have been done.
+
+
+'''
+.......................
+-s          <name>
+--subsystem <name>
+/SUBSYSTEM  <name>
+.......................
+
+Compiles and runs all the tests with the given subsystem (for example `qt` or `gtk2` on Linux).
+It is added to every compiled combination, including the ones of `PureUnitOptions(SubSystem[<name>])`.
 
 
 '''
