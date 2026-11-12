@@ -2252,8 +2252,10 @@ Procedure MainWindowEvents(EventID)
         
       Case #GADGET_ToolsPanel ; set new current ToolsPanel tool and resize it
         If ToolsPanelMode And GetGadgetState(#GADGET_ToolsPanel) >= 0
+          RememberToolWidth() ; width of the tool we leave (CurrentTool is still the old one)
           SelectElement(UsedPanelTools(), GetGadgetState(#GADGET_ToolsPanel))
           CurrentTool = UsedPanelTools()
+          ApplyToolWidth(CurrentToolId(), #True)
           CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
         EndIf
         

@@ -5,6 +5,62 @@
 ; --------------------------------------------------------------------------------------------
 
 
+; Current width of the tools panel (same formula as ToolsPanel_Hide)
+;
+Procedure GetToolsPanelWidth()
+  If ToolsPanelSide = 0
+    ProcedureReturn GadgetWidth(#GADGET_ToolsSplitter) - GetGadgetState(#GADGET_ToolsSplitter)
+  Else
+    ProcedureReturn GetGadgetState(#GADGET_ToolsSplitter)
+  EndIf
+EndProcedure
+
+; Set the width of the tools panel (same formula as ToolsPanel_Show)
+;
+Procedure SetToolsPanelWidth(Width)
+  If ToolsPanelSide = 0
+    SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter) - Width)
+  Else
+    SetGadgetState(#GADGET_ToolsSplitter, Width)
+  EndIf
+EndProcedure
+
+; ToolID$ of the displayed tool, empty if none
+;
+Procedure.s CurrentToolId()
+  Protected *Tool.ToolsPanelEntry = CurrentTool
+  If *Tool
+    ProcedureReturn *Tool\ToolID$
+  EndIf
+  ProcedureReturn ""
+EndProcedure
+
+; Store the current panel width for the displayed tool (call BEFORE CurrentTool changes)
+;
+Procedure RememberToolWidth()
+  Protected Id$ = LCase(CurrentToolId())
+  Protected Width
+  If Id$ <> "" And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
+    Width = GetToolsPanelWidth()
+    If Width >= #ToolsPanel_MinStoredWidth
+      ToolsPanelWidths(Id$) = Width
+    EndIf
+  EndIf
+EndProcedure
+
+; Apply the stored width of a tool.
+; No stored width: UseDefault = #False keeps the current width, #True sets the default width.
+;
+Procedure ApplyToolWidth(ToolID$, UseDefault = #False)
+  If ToolID$ <> "" And ToolsPanelWidthsReady And ToolsPanelMode And ToolsPanelVisible
+    If FindMapElement(ToolsPanelWidths(), LCase(ToolID$))
+      SetToolsPanelWidth(ToolsPanelWidths())
+    ElseIf UseDefault
+      SetToolsPanelWidth(#ToolsPanel_DefaultToolWidth)
+    EndIf
+  EndIf
+EndProcedure
+
 ; PanelOnly: only select the tool if it is in the tools panel (no separate window, and an auto-hidden panel stays hidden)
 ;
 Procedure ActivateTool(Name$, PanelOnly = #False)
@@ -18,8 +74,10 @@ Procedure ActivateTool(Name$, PanelOnly = #False)
       If *PanelToolData\ToolID$ = Name$
         ; Only switch if it's not already the displayed tool, as the resize can force a full redraw of the tool
         If CurrentTool <> UsedPanelTools() Or GetGadgetState(#GADGET_ToolsPanel) <> ListIndex(UsedPanelTools())
+          RememberToolWidth() ; width of the tool we leave (CurrentTool is still the old one)
           SetGadgetState(#GADGET_ToolsPanel, ListIndex(UsedPanelTools()))
           CurrentTool = UsedPanelTools()
+          ApplyToolWidth(*PanelToolData\ToolID$, #True)
           CurrentTool\ResizeHandler(GetPanelWidth(#GADGET_ToolsPanel), GetPanelHeight(#GADGET_ToolsPanel))
         EndIf
         Opened = 1
@@ -317,6 +375,8 @@ Procedure ToolsPanel_Update()
   ; because you can also change the order of items in the ToolsPanel completely,
   ; we destroy the whole ToolsPanel and recreate it.
   ;
+  RememberToolWidth() ; keep the width of the tool shown before the update
+  
   ForEach UsedPanelTools()
     *ToolData.ToolsPanelEntry = UsedPanelTools()
     If *ToolData\NeedDestroyFunction
@@ -397,6 +457,8 @@ Procedure ToolsPanel_Update()
     
     FreeGadget(DummyGadget)
   EndIf
+  
+  ApplyToolWidth(CurrentToolId()) ; CurrentTool is the first tool of the new list
   
   If ToolsPanelVisible = 0
     HideGadget(#GADGET_ToolsPanelFake, 0)
@@ -479,6 +541,7 @@ Procedure ToolsPanel_Hide()
   CompilerEndIf
   
   If ToolsPanelVisible ; no check for ToolsPanelMode here, as we call this to hide the panel when ToolsPanelMode = 0
+    RememberToolWidth()
     If ErrorLogVisible
       State = GetGadgetState(#GADGET_LogSplitter) ; somehow the reparenting makes the slider jump in the second splitter on linux, so only reset it after ResizeWindow()
     EndIf
@@ -539,6 +602,7 @@ Procedure ToolsPanel_Show()
     Else
       SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth_Hidden)
     EndIf
+    ApplyToolWidth(CurrentToolId()) ; width of the displayed tool, if it has one
     
     If ErrorLogVisible
       SetGadgetState(#GADGET_LogSplitter, State)

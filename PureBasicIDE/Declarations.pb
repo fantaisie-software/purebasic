@@ -706,6 +706,12 @@ Declare UpdatePrefsToolbarItem(FirstCall=#False); update the list of items in th
 Declare UpdatePrefsToolbarList()                ; enable/disable the correct gadgets for the toolbar item prefs
 
 ;- ToolsPanel.pb
+; Per-tool width helpers (defined in ToolsPanel.pb, used by UserInterface.pb which is included before)
+Declare GetToolsPanelWidth()
+Declare SetToolsPanelWidth(Width)
+Declare.s CurrentToolId()
+Declare RememberToolWidth()
+Declare ApplyToolWidth(ToolID$, UseDefault = #False)
 Declare ActivateTool(Name$, PanelOnly = #False) ; used when a toolspanel tool (build in ones) is selected from the menu. (either selects the right tab or opens it in separate window)
 Declare ToolsPanel_Create(IsUpdate)   ; create the initial Panel
 Declare ToolsPanel_Update()           ; toolspanel update after prefs change
