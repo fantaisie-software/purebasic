@@ -357,12 +357,16 @@ Else
   ErrorLogHeight_Hidden = ErrorLogHeight ; simply set the "hidden" value to the prefs one
 EndIf
 
+ToolsPanelWidthsReady = #True ; the events dispatched before this point must not store a width
+
 If ToolsPanelVisible
   If ToolsPanelSide = 0
     SetGadgetState(#GADGET_ToolsSplitter, GadgetWidth(#GADGET_ToolsSplitter)-ToolsPanelWidth)
   Else
     SetGadgetState(#GADGET_ToolsSplitter, ToolsPanelWidth)
   EndIf
+  
+  ApplyToolWidth(CurrentToolId()) ; width of the first tool, if it has one
   
   CompilerIf #CompileMac
     ; SetGadgetState() doesn't send a splitter event on OS X, so resize the current tool here,
@@ -700,6 +704,8 @@ Procedure ShutdownIDE()
   Else
     ErrorLogHeight = ErrorLogHeight_Hidden
   EndIf
+  
+  RememberToolWidth() ; width of the displayed tool, saved by SavePreferences()
   
   If ToolsPanelVisible
     If ToolsPanelSide = 0
