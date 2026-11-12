@@ -141,6 +141,7 @@ CompilerIf #CompileLinux
 CompilerEndIf
 
 DebuggerTimeout = 10000
+DebugOutFontID = #PB_Default ; as the preferences set it without a custom font (0 is no valid font: macOS throws an exception on it)
 CurrentLanguage$ = "English"
 LoadLanguage()
 
