@@ -51,7 +51,7 @@ et à la bibliothèque
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CloseFile(#Fichier)
+@Function Resulat = CloseFile(#Fichier)
 
 @Description
   Ferme un fichier.
@@ -60,28 +60,26 @@ et à la bibliothèque
   Le fichier à fermer.
 @LineBreak
 @LineBreak  
-  Si @#PB_All est spécifié, tous les 
-  fichiers restants sont fermés.
+  Si @#PB_All est spécifié, tous les fichiers restants sont fermés.
 
-@NoReturnValue
+@ReturnValue
+  Renvoie une valeur non nulle si toutes les données ont été écrites dans le fichier, 
+  et zéro en cas d'échec d'écriture (par exemple, si le disque est plein).@LineBreak  
+  Si le fichier a été créé avec @#PB_File_Atomic, zéro signifie également que le fichier n'a pas 
+  été remplacé et conserve son contenu précédent.@LineBreak  
+  Avec @#PB_All, la valeur de retour est sans signification.
 
 @Remarks
-  Une fois que le fichier est fermé, il ne 
-  peut plus être utilisé.
+  Une fois que le fichier est fermé, il ne peut plus être utilisé.
 @LineBreak
 @LineBreak
-  Fermer un fichier permet de s'assurer que 
-  toutes ses informations sont effectivement 
-  écrites  sur le disque. 
+  Fermer un fichier permet de s'assurer que le tampon (buffer) est entièrement écrit sur le disque. 
 @LineBreak
 @LineBreak
-  Tous les fichiers restant ouverts sont 
-  automatiquement fermés quand le programme 
-  se termine. 
+  Tous les fichiers restant ouverts sont automatiquement fermés quand le programme se termine. 
 @LineBreak
 @LineBreak
-  Voir un exemple dans @@ReadFile ou 
-  @@CreateFile.
+  Voir un exemple dans @@ReadFile ou @@CreateFile.
   
 @Example
 @Code
@@ -135,7 +133,9 @@ et à la bibliothèque
   @#PB_File_NoBuffering: Le système interne de mise en mémoire tampon de PureBasic sera désactivé pour ce fichier. 
                         @@FileBuffersSize ne peut pas être utilisé sur ce fichier.
   @#PB_File_BOM        : Le fichier sera créé avec un BOM.
-  
+  @#PB_File_Atomic     : Un fichier existant n'est remplacé que si @@CloseFile réussit ; il n'est donc jamais laissé partiellement écrit 
+                        (par exemple, si le disque est plein). Voir les remarques ci-dessous.
+
 @EndFixedFont
   combiné avec l'une des valeurs suivantes (les options suivantes affectent le comportement de 
   @@WriteString, @@WriteStringN, @@ReadString, @@ReadCharacter et @@WriteCharacter):
@@ -169,6 +169,17 @@ et à la bibliothèque
    @@OpenFile.@LineBreak 
    Pour ouvrir un fichier en lecture seule, 
    utilisez @@ReadFile.
+@LineBreak
+@LineBreak
+  Avec @#PB_File_Atomic, les données sont écrites dans un fichier temporaire du même répertoire 
+  et le fichier existant conserve son contenu jusqu'à l'éxecution de @@CloseFile. Si l'écriture 
+  s'est déroulée avec succès, le fichier temporaire remplace le fichier existant (avec ses attributs) 
+  sinon, il est supprimé et le fichier existant reste inchangé. La valeur de retour de @@CloseFile 
+  indiquera le cas de figure.
+  Si la création du fichier temporaire est impossible en raison d'un disque plein alors @@CreateFile() échoue.
+  Un fichier qui ne peut être remplacé de cette manière (par exemple, un fichier en lecture seule, ou 
+  sous Linux et macOS un fichier comportant plusieurs liens physiques ou appartenant à un autre 
+  utilisateur) est écrit directement (comme sans l'option @#PB_File_Atomic).
 
 @Example
 @Code
@@ -184,6 +195,23 @@ et à la bibliothèque
     MessageRequester("Information","Impossible de créer le fichier!")
   EndIf
 @EndCode  
+
+@Example Remplacer un fichier en toute sécurité
+@Code
+
+  If CreateFile(0, "Preferences.txt", #PB_File_Atomic) ; L'ancien fichier reste tel quel jusqu'à CloseFile()
+    WriteStringN(0, "Width = 640")
+    WriteStringN(0, "Height = 480")
+    If CloseFile(0)
+      Debug "Preferences.txt sauvegardé"
+    Else
+      Debug "L'enregistrement a échoué, le fichier Preferences.txt contient toujours son contenu précédent."
+    EndIf
+  Else
+    Debug "Impossible de créer le fichier"
+  EndIf
+
+@EndCode
 
 @SeeAlso
   @@OpenFile, @@ReadFile, @@CloseFile

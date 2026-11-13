@@ -540,11 +540,11 @@
   Si la valeur est 'auto' alors la taille est calculée en fonction de la taille 
   (calculée ou prédéfinie) des éléments contenus dans la fenêtre.
  
-  forcesize = 'yes' (par défaut) ou 'no' - 'yes' équivaut à minwidth="auto" et minheight="auto".
+  forcesize = 'yes' (par défaut) équivaut à minwidth="auto" et minheight="auto".
               'no' supprime la taille minimale.
 
 
-invisible = 'yes' rend la fenêtre invisible (équivalent à l'indicateur @#PB_Window_Invisible). 
+  invisible = 'yes' rend la fenêtre invisible (équivalent à l'indicateur @#PB_Window_Invisible). 
 
    - Crée la fenêtre
    - Peut avoir tous les attributs communs.
@@ -710,52 +710,52 @@ invisible = 'yes' rend la fenêtre invisible (équivalent à l'indicateur @#PB_W
   <shortcutgadget> - Un @@ShortcutGadget. <shortcut> sans l'attribut 'key' créé un @@ShortcutGadget quand même.
   <spin min max value>
   <splitter firstmin="valeur ou auto" secondmin> 
-                 - Doit contenir 2 éléments, (c'est un container a 2 "éléments-enfants"), 
-                   la taille minimum est déterminée par les gadgets contenus par ces 2 éléments. 
-                   Si 'auto' est spécifié, la valeur min sera la taille minimale de l'enfant.
+                   - Doit contenir 2 éléments, (c'est un container a 2 "éléments-enfants"), 
+                     la taille minimum est déterminée par les gadgets contenus par ces 2 éléments. 
+                     Si 'auto' est spécifié, la valeur min sera la taille minimale de l'enfant.
   <string>
   <text>
   <trackbar min max valeur>
   <tree> 
-  <web>          - UseDialogWebGadget() doit être appelé pour activer la prise en charge <web>.
-  <webview>      - UseDialogWebViewGadget() doit être appelé pour activer la prise en charge de <webview>.
+  <web>            - UseDialogWebGadget() doit être appelé pour activer la prise en charge <web>.
+  <webview>        - UseDialogWebViewGadget() doit être appelé pour activer la prise en charge de <webview>.
 
   Éléments liés à Gadget:
-  <tab>          - Onglet, conteneur à un seul élément (les attributs 'text' et 'lang' sont supportés).
+  <tab>             - Onglet, conteneur à un seul élément (les attributs 'text' et 'lang' sont supportés).
   
-  <item>         - Ajoute un élément à son élément parent <combobox>, <listview>, <tree> ou <listicon>.
-                   Attributs pris en charge : 'text', 'lang' et 'sublevel' (pour <tree> uniquement).
-  <column>       - Ajoute une colonne à son élément parent <listicon> ou <explorerlist>. 
-                   Les colonnes par défaut sont supprimées lors de l'ajout de la première colonne. 
-				   Attributs pris en charge : 'text', 'lang' et 'width'.
-                   Voir l'exemple "Éléments et colonnes" ci-dessous.
+  <item>            - Ajoute un élément à son élément parent <combobox>, <listview>, <tree> ou <listicon>.
+                      Attributs pris en charge : 'text', 'lang' et 'sublevel' (pour <tree> uniquement).
+  <column>          - Ajoute une colonne à son élément parent <listicon> ou <explorerlist>. 
+                      Les colonnes par défaut sont supprimées lors de l'ajout de la première colonne. 
+				      Attributs pris en charge : 'text', 'lang' et 'width'.
+                      Voir l'exemple "Éléments et colonnes" ci-dessous.
 
-  Element Spécial :
-  <empty>        - Un élément vide, utile quand il est nécessaire d'avoir un espace entre l'élément, 
-                   afin de les aligner aux bordures par exemple.
+  Éléments Spéciaux:
+  <empty>           - Un élément vide, utile quand il est nécessaire d'avoir un espace entre l'élément, 
+                      afin de les aligner aux bordures par exemple.
 
   <shortcut key id> - Ajoute un raccourci clavier à la boîte de dialogue, comme `@@AddKeyboardShortcut`. 
-                   Il n'occupe pas d'espace dans la mise en page et est uniquement pris en charge par @@OpenXMLDialog.
-                   key - Les constantes #PB_Shortcut combinées avec '|' (ex : "#PB_Shortcut_Control | #PB_Shortcut_S").
-                   Les constantes runtime et les nombres sont également acceptés.
-                   id  - Le numéro de l'événement de menu, sous forme de constante runtime ou de nombre. À utiliser avec @@EventMenu.
-                   Voir l'exemple "Raccourcis clavier" ci-dessous.
+                      Il n'occupe pas d'espace dans la mise en page et est uniquement pris en charge par @@OpenXMLDialog.
+                      key : Les constantes #PB_Shortcut combinées avec '|' (ex : "#PB_Shortcut_Control | #PB_Shortcut_S").
+                            Les constantes runtime et les nombres sont également acceptés.
+                      id  : Le numéro de l'événement de menu, sous forme de constante runtime ou de nombre. À utiliser avec @@EventMenu.
+                            Voir l'exemple "Raccourcis clavier" ci-dessous.
 
   <compiler if="expression"> ... <compilerelse/> ... </compiler>
-                   Inclut ses enfants uniquement si l'expression est vraie, ou les enfants après <compilerelse/> si elle est fausse.
-                   (<compilerelse/> est facultatif). Il peut être utilisé n'importe où dans la boîte de dialogue, y compris autour des éléments <window>. 
-				   Lors de la lecture du XML à l'exécution du programme, l'expression est évaluée à l'ouverture de la boîte de dialogue.
-                   L'expression prend en charge :
-                     - Les nombres (décimaux ou hexadécimaux avec '$')
-                     - Les constantes déclarées avec 'Runtime' dans le programme (comme l'attribut 'id')
-                     - Les variables déclarées avec 'Runtime' dans le programme
-                     - Defined(Nom, #PB_Constant) pour vérifier l'existence d'une constante runtime
-                     - #True, #False, #PB_Compiler_OS, #PB_OS_Windows, #PB_OS_Linux et #PB_OS_MacOS
-                     - Les opérateurs : ( ), unaire -, Not, *, /, +, -, =, <>, <, >, <=, >=, And, Or, Xor
+                      Inclut ses enfants uniquement si l'expression est vraie, ou les enfants après <compilerelse/> si elle est fausse.
+                      (<compilerelse/> est facultatif). Il peut être utilisé n'importe où dans la boîte de dialogue, y compris autour des éléments <window>. 
+				      Lors de la lecture du XML à l'exécution du programme, l'expression est évaluée à l'ouverture de la boîte de dialogue.
+                      L'expression prend en charge :
+                        - Les nombres (décimaux ou hexadécimaux avec '$')
+                        - Les constantes déclarées avec 'Runtime' dans le programme (comme l'attribut 'id')
+                        - Les variables déclarées avec 'Runtime' dans le programme
+                        - Defined(Nom, #PB_Constant) pour vérifier l'existence d'une constante runtime
+                        - #True, #False, #PB_Compiler_OS, #PB_OS_Windows, #PB_OS_Linux et #PB_OS_MacOS
+                        - Les opérateurs : ( ), unaire -, Not, *, /, +, -, =, <>, <, >, <=, >=, And, Or, Xor
 
-                   En XML, le caractère '<' d'une valeur d'attribut doit être écrit '&lt;' (par exemple : "#Value &lt;= 10"). 
-				   Une constante de compilation comme #PB_Compiler_Debugger peut être utilisée une fois déclarée avec l'option 'Runtime' dans le programme.
-                   Voir l'exemple "Conditions de compilation" ci-dessous.
+                      En XML, le caractère '<' d'une valeur d'attribut doit être écrit '&lt;' (par exemple : "#Value &lt;= 10"). 
+				      Une constante de compilation comme #PB_Compiler_Debugger peut être utilisée une fois déclarée avec l'option 'Runtime' dans le programme.
+                      Voir l'exemple "Conditions de compilation" ci-dessous.
 
 @EndFixedFont  
   
