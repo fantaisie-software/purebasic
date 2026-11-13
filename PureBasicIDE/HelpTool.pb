@@ -313,6 +313,7 @@ Module HelpTool
     If File = 0
       ProcedureReturn #False
     EndIf
+    WriteStringFormat(File, #PB_UTF8) ; BOM: the IDE opens the files without BOM as ascii (help edition, examples)
     WriteString(File, Text$)
     CloseFile(File)
 
