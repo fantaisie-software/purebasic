@@ -261,8 +261,8 @@
   Ein optionales Bild, welches für Einträge in Gadgets verwendet werden kann, die
   dies unterstützen (wie @@ListIconGadget). Das verwendete Bild sollte in der Standard
   16x16 Größe vorliegen. Verwenden Sie den @@ImageID Befehl, um die ID für diesen
-  Parameter zu erhalten. Das Gadget behält eine eigene Referenz auf das Bild, sodass dieses
-  nach dem Aufruf freigegeben werden kann. Um das Bild eines vorhandenen Elements zu ändern,
+  Parameter zu erhalten. Das Gadget behält seine eigene Kopie des Bildes, sodass dieses
+  nach dem Aufruf freigegeben oder verändert werden kann. Um das Bild eines vorhandenen Elements zu ändern,
   verwenden Sie @@SetGadgetItemImage.
 
 @OptionalParameter "Flags"
@@ -2260,6 +2260,11 @@
 @LineBreak
 @LineBreak
   Verknüpfte Ereignisse (mittels @@BindEvent) werden beim Freigeben des Gadgets automatisch aufgelöst.
+@LineBreak
+@LineBreak
+  Ein Child-Element ("Kind") eines @@SplitterGadget kann weder freigegeben noch durch ein neues Gadget
+  mit derselben Nummer ersetzt werden: verwenden Sie stattdessen @@SetGadgetAttribute mit
+  @#PB_Splitter_FirstGadget oder @#PB_Splitter_SecondGadget, um es zunächst auszutauschen.
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -5098,8 +5103,8 @@
 @Parameter "ImageID"
   Das neue Bild, welches für den Gadget-Eintrag verwendet werden soll.
   Das verwendete Bild sollte in der Standard 16x16 Größe sein. Verwenden Sie den @@ImageID Befehl,
-  um die ID für diesen Parameter zu ermitteln. Das Gadget behält eine eigene Referenz auf das Bild,
-  sodass dieses nach dem Aufruf freigegeben werden kann.
+  um die ID für diesen Parameter zu ermitteln. Das Gadget behält seine eigene Kopie des Bildes,
+  sodass dieses nach dem Aufruf freigegeben oder verändert werden kann.
   
 @NoReturnValue
 
@@ -5557,6 +5562,10 @@
 
 @Remarks
   Zu diesem Gadget kann mittels @@GadgetToolTip eine 'Mini-Hilfe' hinzugefügt werden.
+@LineBreak
+@LineBreak
+  #Gadget1 und #Gadget2 können nicht freigegeben oder durch ein neues Gadget mit derselben
+  Nummer ersetzt werden, solange sie sich im Splitter befinden.
 @LineBreak
 @LineBreak
   Die folgenden Befehle können verwendet werden, um auf das SplitterGadget zuzugreifen:

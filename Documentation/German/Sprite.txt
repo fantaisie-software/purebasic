@@ -512,7 +512,9 @@ Hardware-Beschleunigung ermöglicht.
 @Description
   Speichert das angegebene Sprite auf Disk. Standardmäßig wird es im 24Bit
   BMP-Format gespeichert. Sehr nützlich für "Screenshots" (Schnappschüsse vom
-  Bildschirminhalt) in Zusammenspiel mit dem @@GrabSprite Befehl.
+  Bildschirminhalt) in Zusammenspiel mit dem @@GrabSprite Befehl. @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "#Sprite"
   Das zu speichernde Sprite.
@@ -900,7 +902,8 @@ Hardware-Beschleunigung ermöglicht.
 @Function SpriteQuality(Qualität)
 
 @Description
-  Ändert die Art der Sprite-Darstellung ("Rendering"). 
+  Ändert die Art der Sprite-Darstellung ("Rendering"). Der Befehl kann vor dem Öffnen eines Bildschirms
+  aufgerufen werden; die Einstellung bleibt beim Öffnen eines neuen Bildschirms erhalten.
 
 @Parameter "Qualität"
   Die Darstellungsqualität des Sprites. Dies kann einer der folgenden Werte sein:

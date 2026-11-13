@@ -454,7 +454,9 @@
 @Function Ergebnis = SaveXML(#XML, DateiName$ [, Flags])
 
 @Description
-  Speichert den #XML Baum in der angegebenen Datei.
+  Speichert den #XML Baum in der angegebenen Datei. @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "#XML"
   Die zu speichernde XML-Struktur (Baum).

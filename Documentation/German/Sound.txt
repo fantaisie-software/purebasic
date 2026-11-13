@@ -378,7 +378,9 @@
 
 @Description
   Speichert den angegebenen Sound auf der Festplatte. Der Sound darf kein Streaming-Sound sein
-  (siehe das Flag @Link "Sound/LoadSound" "#PB_Sound_Streaming" bei @@LoadSound).
+  (siehe das Flag @Link "Sound/LoadSound" "#PB_Sound_Streaming" bei @@LoadSound). @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "#Sound"
   Der zu speichernde Sound.

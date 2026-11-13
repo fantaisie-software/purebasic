@@ -1698,8 +1698,10 @@
 
 @Description
   Speichert die angegebenen JSON-Daten in eine Datei. Die Datei wird im UTF-8 Format
-  kodiert (ohne ein führendes "Byte-Order Mark").
-
+  kodiert (ohne ein führendes "Byte-Order Mark"). @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
+  
 @Parameter "#JSON"
   Die zu speichernden JSON-Daten.
 

@@ -1,7 +1,7 @@
 ﻿;
 ;     Mesh library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Mesh
@@ -1520,7 +1520,9 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 @Description
   Speichert das Mesh-Objekt. Das gespeicherte Mesh kann mit Hilfe des @@LoadMesh
-  Befehls wieder geladen werden.
+  Befehls wieder geladen werden. @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "Mesh"
   Das zu speichernde Mesh-Objekt.

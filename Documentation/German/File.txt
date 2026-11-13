@@ -1,7 +1,7 @@
 ﻿;
 ;     File library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library File
@@ -33,7 +33,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function CloseFile(#Datei)
+@Function Ergebnis = CloseFile(#Datei)
 
 @Description
   Schließt die angegebene Datei.
@@ -41,7 +41,12 @@
 @Parameter "#Datei"
   Die zu schließende Datei. Wenn @#PB_All angegeben wird, werden alle verbliebenen Dateien geschlossen.
 
-@NoReturnValue
+@ReturnValue
+  Gibt einen Wert ungleich null zurück, wenn alle in die Datei geschriebenen Daten erfolgreich übertragen
+  wurden; schlägt der Schreibvorgang fehl (etwa weil die Festplatte voll ist), wird null zurückgegeben.
+  Wurde die Datei mit @#PB_File_Atomic erstellt, bedeutet der Rückgabewert null zudem, dass die Datei
+  nicht ersetzt wurde – sie behält ihren ursprünglichen Inhalt bei. Wird @#PB_All angegeben, ist der
+  Rückgabewert bedeutungslos.
 
 @Remarks
   Sobald die Datei geschlossen ist, kann sie nicht mehr verwendet werden.
@@ -82,6 +87,10 @@
   @#PB_File_NoBuffering: das PureBasic-interne Datei-Puffersystem wird für diese Datei deaktiviert.
                         @@FileBuffersSize kann bei dieser Datei nicht verwendet werden.
   @#PB_File_BOM        : die Datei wird mit einer BOM ("Byte Order Mark"-Bytefolge) erstellt.
+  @#PB_File_Atomic     : eine vorhandene Datei wird erst dann ersetzt, wenn @@CloseFile erfolgreich ausgeführt
+                        wurde; sie wird also niemals nur teilweise geschrieben (z.B. für den Fall, dass der
+                        Datenträger voll ist). Siehe dazu die nachstehenden Anmerkungen.
+  
 @EndFixedFont
   kombiniert mit einem der folgenden Werte (die folgenden Flags beeinflussen das Verhalten von @@WriteString(), @@WriteStringN, 
   @@ReadString, @@ReadCharacter und @@WriteCharacter):
@@ -105,6 +114,17 @@
 @LineBreak
   Um eine existierende Datei für das Lesen/Schreiben zu öffnen, verwenden Sie die @@OpenFile
   Funktion. Um eine Datei nur für das Lesen zu öffnen, verwenden Sie @@ReadFile.
+@LineBreak
+@LineBreak
+  Bei Verwendung von @#PB_File_Atomic werden die Daten in eine temporäre Datei im selben Verzeichnis geschrieben,
+  während die bereits vorhandene Datei ihren ursprünglichen Inhalt bis zum Aufruf von @@CloseFile beibehält.
+  Wurden alle Daten erfolgreich geschrieben, ersetzt die temporäre Datei die vorhandene Datei (einschließlich
+  deren Attribute); andernfalls wird die temporäre Datei gelöscht und die vorhandene Datei bleibt unverändert.
+  Der Rückgabewert von @@CloseFile gibt Aufschluss darüber, welcher Fall eingetreten ist. @LineBreak
+  Kann die temporäre Datei nicht erstellt werden – etwa weil der Datenträger voll ist – schlägt CreateFile() fehl.
+  Eine Datei, die auf diese Weise nicht ersetzt werden kann (beispielsweise eine schreibgeschützte Datei oder –
+  unter Linux und OS X – eine Datei mit mehreren Hardlinks bzw. eine Datei, die einem anderen Benutzer gehört),
+  wird direkt geschrieben, so als wäre das Flag nicht gesetzt.
 
 @Example
 @Code
@@ -117,7 +137,22 @@
     Next
     CloseFile(0)                       ; schließen der zuvor geöffneten Datei und damit endgültiges Abspeichern der Daten
   Else
-    MessageRequester("Information","Konnte Datei nicht erstellen!")
+    MessageRequester("Information", "Konnte Datei nicht erstellen!")
+  EndIf
+@EndCode
+
+@Example Sicheres Ersetzen einer Datei
+@Code
+  If CreateFile(0, "Settings.txt", #PB_File_Atomic) ; die alte Datei bleibt unverändert, bis CloseFile() aufgerufen wird
+    WriteStringN(0, "Width = 640")
+    WriteStringN(0, "Height = 480")
+    If CloseFile(0)
+      Debug "Settings.txt gespeichert"
+    Else
+      Debug "Speichern ist fehlgeschlagen, Settings.txt enthält weiterhin den ursprünglichen Inhalt."
+    EndIf
+  Else
+    Debug "Konnte Datei nicht erstellen!"
   EndIf
 @EndCode
 

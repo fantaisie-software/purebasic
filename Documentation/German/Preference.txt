@@ -1,7 +1,7 @@
 ﻿;
 ;     Preference library documentation
 ;
-;      (c) 2025 - Fantaisie Software
+;      (c) 2026 - Fantaisie Software
 ;
 
 @Library Preference
@@ -25,20 +25,25 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClosePreferences()
+@Function Ergebnis = ClosePreferences()
 
 @Description
   Schließt eine zuvor mit @@OpenPreferences geöffnete oder mit @@CreatePreferences
-  erstellte Preference-Datei.
+  erstellte Preference-Datei. @LineBreak
+  Jede Änderung wird auf Disk geschrieben, wobei die Datei erst dann ersetzt wird, wenn sie
+  vollständig geschrieben wurde.
 
 @NoParameters
   
-@NoReturnValue
+@ReturnValue
+  Ein Wert ungleich null, wenn die Änderungen auf den Datenträger geschrieben wurden oder wenn es nichts
+  zu schreiben gab. Trat ein Fehler auf (z.B. Datenträger voll, Festplattenfehler), wird null zurückgegeben
+  und die Datei auf dem Datenträger behält ihren ursprünglichen Inhalt bei.
 
 @Example
 @Code
   ; Öffnet eine Preference-Datei
-  OpenPreferences(#PB_Compiler_Home +"examples/sources/Data/test.pref")
+  OpenPreferences(#PB_Compiler_Home + "examples/sources/Data/test.pref")
   
   ; Wählt die Gruppe "Window" aus
   PreferenceGroup("Window")
@@ -60,8 +65,9 @@
 @Function Ergebnis = CreatePreferences(Dateiname$ [, Flags])
 
 @Description
-  Erstellt eine neue leere Preference-Datei. Existiert diese Datei bereits, so wird diese
-  gelöscht. 
+  Erstellt eine neue leere Preference-Datei. Existiert diese Datei bereits, wird sie beim Schreiben der
+  neuen Einstellungen auf die Festplatte ersetzt (siehe @@FlushPreferenceBuffers und @@ClosePreferences):
+  im Fehlerfall (z.B. wenn die Festplatte voll ist) bleibt die vorhandene Datei unverändert.
 
 @Parameter "Dateiname$"
   Der Dateiname der neuen Preference-Datei.

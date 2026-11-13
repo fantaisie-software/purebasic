@@ -248,7 +248,9 @@
 @Description
   Speichert den Inhalt der Render-Textur. Dies kann nützlich sein, um Bildschirmfotos
   (Screenshots) von einer bestimmten Szene zu machen. Das Speicherformat kann
-  nur PNG sein.
+  nur PNG sein. @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "#Textur"
   Die zu verwendende Textur.

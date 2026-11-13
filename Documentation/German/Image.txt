@@ -823,7 +823,9 @@ Bestimmt die Maßeinheit zur Abstandsmessung auf der Zeichenausgabe. Die Standar
 @Function Ergebnis = SaveImage(#Image, Dateiname$ [, ImagePlugin [, Flags [, Tiefe]]])
 
 @Description
-  Speichert das angegebene Bild auf Disk.
+  Speichert das angegebene Bild auf Disk. @LineBreak
+  Falls die Datei bereits existiert, wird sie erst dann ersetzt, wenn der neue Inhalt vollständig
+  geschrieben wurde: tritt ein Fehler auf (z.B. Festplatte voll), bleibt die vorhandene Datei unverändert.
 
 @Parameter "#Image"
   Das zu speichernde Bild.
