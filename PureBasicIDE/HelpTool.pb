@@ -313,6 +313,7 @@ Module HelpTool
     If File = 0
       ProcedureReturn #False
     EndIf
+    WriteStringFormat(File, #PB_UTF8) ; BOM: the sources are opened as UTF-8 by the IDE, and not as ASCII (help source edition)
     WriteString(File, Text$)
     CloseFile(File)
 
