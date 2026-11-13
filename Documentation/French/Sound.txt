@@ -435,6 +435,10 @@ EndIf
   Renvoie une valeur non nulle si l'opération a réussi, zéro sinon.
 
 @Remarks
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
+@LineBreak
+@LineBreak
   Le son ne doit pas être un flux audio (voir l'option @Link "Sound/LoadSound" "#PB_Sound_Streaming" 
   de @@LoadSound).
 

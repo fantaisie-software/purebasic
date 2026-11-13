@@ -1898,8 +1898,11 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 @NoReturnValue
 
 @Remarks
-  Le mesh sauvegardé peut être rechargé 
-  avec la commande @@LoadMesh.
+  Le mesh sauvegardé peut être rechargé avec la commande @@LoadMesh.
+@LineBreak
+@LineBreak
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
 
 
 @SeeAlso

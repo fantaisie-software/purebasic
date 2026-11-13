@@ -327,7 +327,8 @@
 @LineBreak
 @LineBreak
   'ImageID' peut être récupéré facilement grâce à la commande @@ImageID.@LineBreak
-  Le gadget conserve sa propre référence à l'image, ce qui permet de la libérer après cet appel. 
+  Le gadget conserve sa propre copie de l'image, ce qui permet de la libérer ou de la modifier 
+  après cet appel. 
   Pour modifier l'image d'un élément existant, utilisez @@SetGadgetItemImage.  
 
 @OptionalParameter "Options"
@@ -2592,7 +2593,11 @@ EndIf
 @LineBreak
 @LineBreak
     Les événements liés avec @@BindEvent sont automatiquement libérés lors de la libération du gadget.
-
+@LineBreak
+@LineBreak
+  Un enfant d'un @@SplitterGadget ne peut pas être libéré ou remplacé par un nouveau gadget portant 
+  le même numéro. Utiliser @@SetGadgetAttribute avec @#PB_Splitter_FirstGadget ou 
+  @#PB_Splitter_SecondGadget pour le remplacer.
 
 @SeeAlso
   @@IsGadget, @@CloseWindow
@@ -5766,7 +5771,8 @@ utiliser l'opérateur '&':
 @LineBreak
   L'image utilisée doit être dans le format standard 16x16. @LineBreak
   Utilisez la commande @@ImageID pour obtenir l'ID de l'image.@LineBreak
-  Le gadget conserve sa propre référence à l'image, ce qui permet de la libérer après cet appel. 
+  Le gadget conserve sa propre copie de l'image, ce qui permet de la libérer ou de la modifier 
+  après cet appel. 
   Pour modifier l'image d'un élément existant, utilisez @@SetGadgetItemImage.  
   
 @NoReturnValue
@@ -6217,6 +6223,11 @@ utiliser l'opérateur '&':
 @Remarks  
 @FixedFont
   - @@GadgetToolTip permet d'ajouter une 'mini aide' à ce gadget. 
+
+  Les gadgets #Gadget1 et #Gadget2 ne peuvent être libérés ni remplacés par un nouveau gadget portant le même numéro 
+  tant qu'ils se trouvent dans le splitter. Utiliser @@SetGadgetAttribute avec @#PB_Splitter_FirstGadget ou 
+  @#PB_Splitter_SecondGadget pour le remplacer.
+
 
   Les fonctions suivantes peuvent être utilisées pour agir sur le gadget:
   @@GetGadgetState: Renvoie la position de la barre de séparation, en pixels.

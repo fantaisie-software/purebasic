@@ -2380,12 +2380,7 @@ La valeur JSON.
 @Function Resultat = SaveJSON(#JSON, Fichier$ [, Options])
 
 @Description
-  Sauvegarde les données JSON dans un 
-  fichier.
-@LineBreak
-@LineBreak 
-  Le fichier sera encodé en UTF-8 sans 
-  en-tête BOM (byte-order mark).
+  Sauvegarde les données JSON dans un fichier.
 
 @Parameter "#JSON"
   Le JSON à enregistrer.
@@ -2410,6 +2405,13 @@ La valeur JSON.
   l'enregistrement du fichier, le résultat 
   est zéro. 
 
+@Remarks 
+  Le fichier sera encodé en UTF-8 sans en-tête BOM (byte-order mark).
+@LineBreak
+@LineBreak
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
+ 
 @SeeAlso
   @@ComposeJSON, @@ExportJSON, 
   @@ExportJSONSize, @@LoadJSON

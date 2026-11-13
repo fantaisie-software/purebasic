@@ -1252,6 +1252,10 @@ Peut prendre une des valeurs suivantes:
   Renvoie une valeur non nulle si l'opération a 
   réussi et zéro sinon.
   
+@Remarks
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
+  
 @Example
 @Code 
   LoadImage(0, #PB_Compiler_Home+"Examples\Sources\Data\GeeBee2.bmp") ; Charge l'image depuis un fichier

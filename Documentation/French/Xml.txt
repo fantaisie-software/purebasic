@@ -591,7 +591,11 @@
   Renvoie une valeur non nulle si l'enregistrement 
   s'est déroulé avec succès, zéro sinon.
 
-@Remarks  
+@Remarks 
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
+@LineBreak
+@LineBreak
   Le code XML ainsi créé n'est pas reformaté. 
   Il est écrit comme il avait été interprété lors
   de son chargement ou de sa création. Le nombre 

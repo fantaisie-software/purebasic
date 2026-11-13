@@ -774,6 +774,10 @@ Delay(3000)
   a été sauvegardé avec succès, zéro sinon.
   
 @Remarks
+  Si le fichier existe déjà, il n'est remplacé qu'une fois que le nouveau contenu a été entièrement 
+  écrit sur le disque. En cas d'erreur (par exemple : Disque plein), le fichier existant reste intact.
+@LineBreak
+@LineBreak
   Par défaut, le format de sauvegarde est 
   le BMP 24 bits. @LineBreak
   Très utile avec la fonction @@GrabSprite 
@@ -1658,9 +1662,12 @@ Next
 
 @NoReturnValue
 
+@Remarks
+  Cette fonction peut être appelée avant l'ouverture d'un écran, et le paramètre est conservé lors de 
+  l'ouverture d'un nouvel écran.
+
 @Example
 @Code
-
 
 InitSprite()
 OpenScreen(800,600,32,"Sprite")

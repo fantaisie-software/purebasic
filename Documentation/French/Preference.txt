@@ -33,7 +33,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function ClosePreferences()
+@Function Resultat = ClosePreferences()
 
 @Description
   Ferme un fichier de préférences préalablement 
@@ -42,9 +42,16 @@
   
 @NoParameters
   
-@NoReturnValue
+@ReturnValue
+  Renvoie une valeur nonnulle si des modifications ont été écrites sur le disque, ou s'il n'y avait 
+  rien à écrire. En cas d'erreur (disque plein, erreur disque, etc.), la valeur est zéro et le fichier 
+  sur le disque conserve son contenu initial.
 
-@Example
+@Remarks
+  Toute modification est enregistrée sur le disque, le fichier n'étant remplacé qu'une fois l'écriture 
+  terminée.
+  
+@Exam ple
 @Code
   ; Ouvrir un fichier préférence
   OpenPreferences(#PB_Compiler_Home +"Examples/Sources/Data/test.pref")
@@ -91,7 +98,12 @@
   Renvoie une valeur non nulle si le fichier a 
   été créé avec succès, zéro sinon.
   
-@Remarks  
+@Remarks
+  Si le fichier existe déjà, il est remplacé lorsque les nouvelles préférences sont écrites sur le 
+  disque (voir @@FlushPreferenceBuffers et @ClosePreferences). Si une erreur se produit 
+  (par exemple : Disque plein), le fichier existant reste intact.
+@LineBreak
+@LineBreak
   Une fois le fichier créé, les commandes telles 
   que @@WritePreferenceString par exemple 
   permettent d'écrire des informations dedans. 
