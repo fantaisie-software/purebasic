@@ -586,6 +586,11 @@ Enumeration
   #DEBUGGER_GADGET_Variable_ViewerProgress
   #DEBUGGER_GADGET_Variable_ViewerContainer
   
+  #DEBUGGER_GADGET_Variable_StringName
+  #DEBUGGER_GADGET_Variable_StringContent
+  #DEBUGGER_GADGET_Variable_ShowNonPrinting
+  #DEBUGGER_GADGET_Variable_UpdateString
+  
   #DEBUGGER_GADGET_History_Panel
   #DEBUGGER_GADGET_History_ScrollArea
   #DEBUGGER_GADGET_History_Update

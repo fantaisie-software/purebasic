@@ -1912,7 +1912,9 @@ DataSection
   Data$ "NonZeroItems",     "Display Non-zero items only"
   Data$ "AllItems",         "Display all items"
   Data$ "EnterRange",       "Enter range to display"
-  
+  Data$ "ShowString",       "View String"
+  Data$ "ShowNonPrinting",  "Show non-printing characters"
+  Data$ "SelectString",     "Select a string variable or field first."
   Data$ "HistoryWindowTitle", "Procedure Callstack"
   Data$ "History",          "Callstack"
   Data$ "Statistics",       "Statistics"
