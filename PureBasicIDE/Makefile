@@ -14,6 +14,9 @@ else
 endif
 
 
+# PureUnit, for 'make test' (on Linux, run in a virtual display when available, see below)
+PUREUNITRUN = pureunit
+
 ifeq ($(PB_WINDOWS),1)
   ifeq ($(C_BACKEND),1)
   	PBCOMPILER = $(PUREBASIC_HOME)/compilers/pbcompilerc
@@ -69,18 +72,22 @@ else
 	# so 'make help' also works over plain ssh/plink (no or broken X11 forwarding, ie: on the Raspberry Pis)
 	ifneq ($(shell command -v xvfb-run 2>/dev/null),)
 		HELPTOOLRUN = xvfb-run -a $(HELPTOOL)
+		PUREUNITRUN = xvfb-run -a pureunit
 	else
 		HELPTOOLRUN = $(HELPTOOL)
+		PUREUNITRUN = pureunit
 	endif
 	MACPLIST =
 	MACPLISTCOMMAND =
 	ifeq ($(PB_GTK),2)
 		IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_gtk2"
 		IDEFLAGS += --subsystem gtk2
+		TESTFLAGS += --subsystem gtk2
 	else
 		ifeq ($(PB_QT),1)
 			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)_qt"
 			IDEFLAGS += --subsystem qt
+			TESTFLAGS += --subsystem qt
 			QT_HELPERS = $(BUILD)/QtHelpers.a
 		else
 			IDE = "$(HOME)/compilers/$(IDENAME_LOWERCASE)"
@@ -208,6 +215,13 @@ onerror : VERSION $(DEPENDENCIES)
 #
 nocompile :  $(BUILD)/dummy VERSION  $(DEPENDENCIES)
 	$(MAKEBUILDINFO) $(BUILD)
+
+#
+# unit tests (UnitTests/*.pb, run with PureUnit 1.5 or newer, see UnitTests/README.md)
+# They need the generated files (BuildInfo.pb, themes...) but not the IDE itself, so the installed IDE is not touched.
+#
+test : nocompile
+	$(PUREUNITRUN) -q $(TESTFLAGS) UnitTests/*.pb
 
 #
 # standalone help tool (HelpTool.pb compiled as main file)
