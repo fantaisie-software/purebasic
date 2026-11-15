@@ -117,7 +117,7 @@ Repeat
   If ExamineMouse()
     MouseX = -MouseDeltaX() * #CameraSpeed * 0.05
     MouseY = -MouseDeltaY() * #CameraSpeed * 0.05
-    BodyPick(CameraID(0), MouseButton(#PB_MouseButton_Left), MouseX(), MouseY(), 1)
+    BodyPick(0, MouseButton(#PB_MouseButton_Left), MouseX(), MouseY(), 1)
   EndIf
   
   If ExamineKeyboard()

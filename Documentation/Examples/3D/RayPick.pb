@@ -100,7 +100,8 @@ Repeat
     
   EndIf
   
-  Entity = RayPick(NodeX(0), NodeY(0), NodeZ(0), NodeX(1)-NodeX(0), 0, NodeZ(1)-NodeZ(0))
+  ; From node 0 toward node 1, up to 100 units away
+  Entity = RayPick(NodeX(0), NodeY(0), NodeZ(0), NodeX(0) + (NodeX(1)-NodeX(0)) * 100, NodeY(0), NodeZ(0) + (NodeZ(1)-NodeZ(0)) * 100)
   CreateLine3D(10, NodeX(0), NodeY(0), NodeZ(0), RGB(255, 255, 255), NodeX(1), NodeY(1), NodeZ(1), RGB(255, 255, 255))
   
   If Entity>=0
