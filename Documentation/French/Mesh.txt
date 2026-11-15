@@ -1879,7 +1879,7 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SaveMesh(#Mesh, Fichier$)
+@Function Resultat = SaveMesh(#Mesh, Fichier$)
 
 @Description
   Enregistre le mesh. 
@@ -1895,8 +1895,9 @@ Exemple: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   interprété par rapport au dossier 
   @Link "FileSystem/GetCurrentDirectory" "courant".
 
-@NoReturnValue
-
+@ReturnValue
+  Renvoie une valeur non nulle si le mesh a été enregistré, zéro sinon.
+  
 @Remarks
   Le mesh sauvegardé peut être rechargé avec la commande @@LoadMesh.
 @LineBreak
