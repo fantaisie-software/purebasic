@@ -30,12 +30,6 @@ IncludeFile "..\Common.pb"
 #PB_Font_StrikeOut   = 1 << 3
 #PB_Font_HighQuality = 1 << 4
 
-; Image
-;
-#PB_Image_Smooth = 0
-#PB_Image_Raw    = 1
-
-
 ; OnError platform specific error codes
 ; See <WinBase.h> and <WinNT.h>
 ;
@@ -45,18 +39,6 @@ IncludeFile "..\Common.pb"
 #PB_OnError_IllegalInstruction     = $C000001D ; EXCEPTION_ILLEGAL_INSTRUCTION
 #PB_OnError_PriviledgedInstruction = $C0000096 ; EXCEPTION_PRIV_INSTRUCTION
 #PB_OnError_DivideByZero           = $C0000094 ; EXCEPTION_INT_DIVIDE_BY_ZERO
-
-; ToolBar
-;
-#PB_ToolBar_Normal = 0
-#PB_ToolBar_Toggle = 1
-
-; StatusBar
-;
-#PB_StatusBar_Raised     = 1
-#PB_StatusBar_BorderLess = 2
-#PB_StatusBar_Center     = 4
-#PB_StatusBar_Right      = 8
 
 ; Non-common MessageRequester flags
 ;
@@ -85,8 +67,6 @@ IncludeFile "..\Common.pb"
 #PB_Program_NoInput = 1 << 10
 
 
-#PB_Program_Eof = 1 ; for WriteProgramData()
-
 ; Event constants
 ;
 #PB_Event_Gadget           = 13100
@@ -106,7 +86,6 @@ IncludeFile "..\Common.pb"
 #PB_Event_MoveWindow       = 13117
 #PB_Event_SizeWindow       = 13118
 #PB_Event_WindowResolutionChanged = 13119
-#PB_Event_None             = 0
 
 ;
 ; Network related one
@@ -122,6 +101,12 @@ IncludeFile "..\Common.pb"
 #PB_EventType_Focus             = 14000 ; PB reserved value
 #PB_EventType_LostFocus         = 14001 ; PB reserved value
 #PB_EventType_Change            = 768
+
+; ScreenEventType() results: the same values as EventType()
+#PB_ScreenEventType_LeftClick = #PB_EventType_LeftClick
+#PB_ScreenEventType_Change    = #PB_EventType_Change
+#PB_ScreenEventType_Focus     = #PB_EventType_Focus
+#PB_ScreenEventType_LostFocus = #PB_EventType_LostFocus
 
 ; Window flags
 ;
@@ -140,14 +125,8 @@ IncludeFile "..\Common.pb"
 #PB_Window_NoActivate     = $2000000
 #PB_Window_Modal          = $10 ; disable the 'ParentID' window until this one is closed
 
-; For WindowX/Y/Width/Height()
-;
-#PB_Window_FrameCoordinate = 0
-#PB_Window_InnerCoordinate = 1
-
 ; Window states
 ;
-#PB_Window_Normal   = 0
 #PB_Window_Maximize = $1000000 ; #WS_MAXIMIZE
 #PB_Window_Minimize = $20000000 ; #WS_MINIMIZE
 
@@ -160,34 +139,14 @@ IncludeFile "..\Common.pb"
 #PB_FileSystem_ReadOnly   = 1    ; #FILE_ATTRIBUTE_READONLY
 #PB_FileSystem_System     = 4    ; #FILE_ATTRIBUTE_SYSTEM
 
-#PB_FileSystem_Recursive  = 1
-#PB_FileSystem_Force      = 2
-
-#PB_DirectoryEntry_File      = 1
-#PB_DirectoryEntry_Directory = 2
-
-#PB_FileSystem_NoExtension = 1
-
-; Used by Get/SetFileDate() and DirectoryEntryDate()
-;
-#PB_Date_Created  = 0
-#PB_Date_Accessed = 1
-#PB_Date_Modified = 2
-
 #PB_Button_Right     = 512
 #PB_Button_Left      = 256
 #PB_Button_Default   = 1
 #PB_Button_MultiLine = $2000
 #PB_Button_Toggle    = 3 | 4096
 
-; for buttonimage
-#PB_Button_Image = 1
-#PB_Button_PressedImage = 2
-
 #PB_Calendar_Borderless = $800000 ; WS_BORDER
 
-#PB_Calendar_Minimum    = 1 ; Attributes
-#PB_Calendar_Maximum    = 2
 #PB_Calendar_Bold       = 1
 #PB_Calendar_Normal     = 0
 
@@ -199,22 +158,6 @@ IncludeFile "..\Common.pb"
 #PB_ComboBox_LowerCase = $4000   ; #CBS_LOWERCASE
 #PB_ComboBox_UpperCase = $2000   ; #CBS_UPPERCASE
 #PB_ComboBox_Image     = $10000000 ; #WS_VISIBLE (reused for this flag)
-
-#PB_Date_Calendar = 0  ; default
-#PB_Date_UpDown   = $1 ;DTS_UPDOWN
-#PB_Date_CheckBox = $2 ;DTS_SHOWNONE
-
-#PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
-#PB_Date_Maximum  = 2
-
-; Explorerlist standart columns:
-#PB_Explorer_Name                = "PB_Explorer_Column_Name"
-#PB_Explorer_Size                = "PB_Explorer_Column_Size"
-#PB_Explorer_Type                = "PB_Explorer_Column_Type"
-#PB_Explorer_Attributes          = "PB_Explorer_Column_Attributes"
-#PB_Explorer_Created             = "PB_Explorer_Column_Created"
-#PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
-#PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
 
 #PB_ListView_MultiSelect = $800 ; #LBS_EXTENDEDSEL
 #PB_ListView_ClickSelect = $8   ; #LBS_MULTIPLESEL
@@ -229,25 +172,11 @@ IncludeFile "..\Common.pb"
 #PB_ListIcon_ThreeState          = $40       ; #LVS_SHAREIMAGELISTS
 #PB_ListIcon_NoHeaders           = $4000     ; #LVS_NOCOLUMNHEADER
 
-#PB_MDI_BorderLess              = $00000001 ; Flags
-#PB_MDI_AutoSize                = $00000002
-#PB_MDI_NoScrollBars            = $00000004
-
-#PB_MDI_Cascade                 = -1 ; Item States
-#PB_MDI_TileVertically          = -2
-#PB_MDI_TileHorizontally        = -3
-#PB_MDI_Next                    = -4
-#PB_MDI_Previous                = -5
-#PB_MDI_Arrange                 = -6
-
 #PB_MDI_Image     = 3 ; Attributes
 #PB_MDI_TileImage = 4
 
 #PB_Spin_ReadOnly = 1 ; Flags
 #PB_Spin_Numeric  = 2
-
-#PB_Spin_Minimum = 1 ; Attributes
-#PB_Spin_Maximum = 2
 
 ; String Flags
 #PB_String_Password    = $20       ; ES_PASSWORD
@@ -264,22 +193,11 @@ IncludeFile "..\Common.pb"
 #PB_Tree_CheckBoxes  = $100
 #PB_Tree_ThreeState  = $10000 ; WS_TABSTOP reused
 
-#PB_Tree_SubLevel = 1 ; Attribute
-
-#PB_Tree_Selected = 1
-#PB_Tree_Expanded = 2
-#PB_Tree_Checked = 4
-#PB_Tree_Collapsed = 8
-#PB_Tree_Inbetween = 16
-
 #PB_Image_Raised = 1
 #PB_Image_Border = $200
 
 #PB_ProgressBar_Smooth   = 1
 #PB_ProgressBar_Vertical = 4
-
-#PB_ProgressBar_Minimum  = 1  ; Attributes
-#PB_ProgressBar_Maximum  = 2
 
 #PB_Text_Center = 1
 #PB_Text_Right  = 2
@@ -296,29 +214,12 @@ IncludeFile "..\Common.pb"
 #PB_Drop_Files   = 15; #CF_HDROP
 #PB_Drop_Private = 512; #CF_PRIVATEFIRST
 
-#PB_Drag_None    = 0; #DROPEFFECT_NONE
 #PB_Drag_Copy    = 1; #DROPEFFECT_COPY
 #PB_Drag_Move    = 2; #DROPEFFECT_MOVE
 #PB_Drag_Link    = 4; #DROPEFFECT_LINK
 
-#PB_Drag_Enter   = 1
-#PB_Drag_Update  = 2
-#PB_Drag_Leave   = 3
-#PB_Drag_Finish  = 4
-
-
-; For OpenSerialPort() 'Parity' parameter
-;
-#PB_SerialPort_NoParity    = 0 ; #NOPARITY
-#PB_SerialPort_OddParity   = 1 ; #ODDPARITY
-#PB_SerialPort_EvenParity  = 2 ; #EVENPARITY
-#PB_SerialPort_MarkParity  = 3 ; #MARKPARITY
-#PB_SerialPort_SpaceParity = 4 ; #SPACEPARITY
-
 ; Keyboard key
 ;
-
-#PB_Key_All             = -1
 
 #PB_Key_Escape          = $01
 #PB_Key_1               = $02
@@ -423,8 +324,6 @@ IncludeFile "..\Common.pb"
 #PB_Key_Delete          = $D3
 
 
-#PB_Shortcut_All     = -1
-
 #PB_Shortcut_Shift   = $10000
 #PB_Shortcut_Control = $20000
 #PB_Shortcut_Alt     = $40000
@@ -454,16 +353,6 @@ IncludeFile "..\Common.pb"
 #PB_Shortcut_Insert= 45
 #PB_Shortcut_Delete= 46
 #PB_Shortcut_Help= 47
-#PB_Shortcut_0= 48
-#PB_Shortcut_1= 49
-#PB_Shortcut_2= 50
-#PB_Shortcut_3= 51
-#PB_Shortcut_4= 52
-#PB_Shortcut_5= 53
-#PB_Shortcut_6= 54
-#PB_Shortcut_7= 55
-#PB_Shortcut_8= 56
-#PB_Shortcut_9= 57
 #PB_Shortcut_A= 65
 #PB_Shortcut_B= 66
 #PB_Shortcut_C= 67

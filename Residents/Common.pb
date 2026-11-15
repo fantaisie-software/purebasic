@@ -343,6 +343,13 @@ EndStructure
 #PB_Date_LocalTime = 0
 #PB_Date_UTC       = 1
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; Get/SetFileDate() and DirectoryEntryDate()
+  #PB_Date_Created  = 0
+  #PB_Date_Accessed = 1
+  #PB_Date_Modified = 2
+CompilerEndIf
+
 ; Database
 ;
 #PB_Database_ODBC = 1
@@ -380,6 +387,10 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_EventType_ColumnClick       = 8
 CompilerEndIf
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Event_None = 0
+CompilerEndIf
+
 ; File library
 ;
 #PB_File_NoShare     = 0
@@ -409,6 +420,13 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Directory_Pictures    = 8
   #PB_Directory_Public      = 9
 
+  #PB_FileSystem_Recursive   = 1
+  #PB_FileSystem_Force       = 2
+  #PB_FileSystem_NoExtension = 1
+
+  #PB_DirectoryEntry_File      = 1
+  #PB_DirectoryEntry_Directory = 2
+
 CompilerEndIf
 
 ; Image
@@ -430,6 +448,10 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_ImagePlugin_ICON     = $4E4F4349
   #PB_ImagePlugin_GIF      = $474946
   #PB_ImagePlugin_WEBP     = $50424557
+
+  ; For ResizeImage()
+  #PB_Image_Smooth = 0
+  #PB_Image_Raw    = 1
 
 CompilerEndIf
 
@@ -466,6 +488,10 @@ CompilerEndIf
 #PB_Keyboard_Qwerty          = 0
 #PB_Keyboard_International   = (1)
 #PB_Keyboard_AllowSystemKeys = (1 << 1)
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Key_All = -1
+CompilerEndIf
 
 
 ; MouseButton()
@@ -515,6 +541,67 @@ Enumeration  ; gadget types
   #PB_GadgetType_OpenGL
   #PB_GadgetType_WebView
 EndEnumeration
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Button_Image        = 1 ; ButtonImageGadget()
+  #PB_Button_PressedImage = 2
+
+  #PB_Calendar_Minimum = 1 ; Attributes
+  #PB_Calendar_Maximum = 2
+
+  #PB_Date_Calendar = 0  ; default
+  #PB_Date_UpDown   = $1
+  #PB_Date_CheckBox = $2
+
+  #PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
+  #PB_Date_Maximum  = 2
+
+  #PB_MDI_BorderLess   = $00000001 ; Flags
+  #PB_MDI_AutoSize     = $00000002
+  #PB_MDI_NoScrollBars = $00000004
+
+  #PB_MDI_Cascade          = -1 ; Item States
+  #PB_MDI_TileVertically   = -2
+  #PB_MDI_TileHorizontally = -3
+  #PB_MDI_Next             = -4
+  #PB_MDI_Previous         = -5
+  #PB_MDI_Arrange          = -6
+
+  #PB_ProgressBar_Minimum = 1 ; Attributes
+  #PB_ProgressBar_Maximum = 2
+
+  #PB_Spin_Minimum = 1 ; Attributes
+  #PB_Spin_Maximum = 2
+
+  #PB_Tree_SubLevel = 1 ; Attribute
+
+  #PB_Tree_Selected  = 1
+  #PB_Tree_Expanded  = 2
+  #PB_Tree_Checked   = 4
+  #PB_Tree_Collapsed = 8
+  #PB_Tree_Inbetween = 16
+
+  ; Drag & Drop
+  #PB_Drag_None   = 0
+
+  #PB_Drag_Enter  = 1
+  #PB_Drag_Update = 2
+  #PB_Drag_Leave  = 3
+  #PB_Drag_Finish = 4
+
+  ; StatusBar
+  #PB_StatusBar_Raised     = 1
+  #PB_StatusBar_BorderLess = 2
+  #PB_StatusBar_Center     = 4
+  #PB_StatusBar_Right      = 8
+
+  ; Window states
+  #PB_Window_Normal = 0
+
+  ; For WindowX/Y/Width/Height()
+  #PB_Window_FrameCoordinate = 0
+  #PB_Window_InnerCoordinate = 1
+CompilerEndIf
 
 ; Coloring options
 ;
@@ -626,6 +713,15 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   
   ; Get/SetGadgetItemAttribute()
   #PB_Explorer_ColumnWidth = 1
+
+  ; ExplorerList standard columns
+  #PB_Explorer_Name       = "PB_Explorer_Column_Name"
+  #PB_Explorer_Size       = "PB_Explorer_Column_Size"
+  #PB_Explorer_Type       = "PB_Explorer_Column_Type"
+  #PB_Explorer_Attributes = "PB_Explorer_Column_Attributes"
+  #PB_Explorer_Created    = "PB_Explorer_Column_Created"
+  #PB_Explorer_Modified   = "PB_Explorer_Column_Modified"
+  #PB_Explorer_Accessed   = "PB_Explorer_Column_Accessed"
   
 CompilerEndIf
 
@@ -1041,6 +1137,22 @@ CompilerIf #PB_Compiler_OS <> #PB_OS_Web
   #PB_Menu_NativeImageSize  = (1 << 3)
 CompilerEndIf
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; AddKeyboardShortcut() (the modifiers and the other keys are in the OS files)
+  #PB_Shortcut_All = -1
+
+  #PB_Shortcut_0 = 48
+  #PB_Shortcut_1 = 49
+  #PB_Shortcut_2 = 50
+  #PB_Shortcut_3 = 51
+  #PB_Shortcut_4 = 52
+  #PB_Shortcut_5 = 53
+  #PB_Shortcut_6 = 54
+  #PB_Shortcut_7 = 55
+  #PB_Shortcut_8 = 56
+  #PB_Shortcut_9 = 57
+CompilerEndIf
+
 ; Network
 ;
 #PB_Network_TCP      = 0
@@ -1180,6 +1292,12 @@ CompilerIf #PB_Compiler_Processor = #PB_Processor_PowerPC
   EndEnumeration
 CompilerEndIf
 
+; Process library
+;
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_Program_Eof = 1 ; for WriteProgramData()
+CompilerEndIf
+
 ; Packer library
 ;
 #PB_PackerPlugin_Zip      = 1
@@ -1273,6 +1391,11 @@ CompilerEndIf
 #PB_ToolBar_Text       = 1 << 2
 #PB_ToolBar_InlineText = 1 << 3
 
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  #PB_ToolBar_Normal = 0
+  #PB_ToolBar_Toggle = 1
+CompilerEndIf
+
 ; Math library
 ;
 #PB_Round_Down    = 0
@@ -1314,6 +1437,42 @@ Enumeration
   #PB_ScreenGadget_TrackBarV
   #PB_ScreenGadget_Pin
 EndEnumeration
+
+; ScreenGadgetType() results: the same values as GadgetType()
+;
+#PB_ScreenGadgetType_Unknown     = #PB_GadgetType_Unknown
+#PB_ScreenGadgetType_Button      = #PB_GadgetType_Button
+#PB_ScreenGadgetType_ButtonImage = #PB_GadgetType_ButtonImage
+#PB_ScreenGadgetType_CheckBox    = #PB_GadgetType_CheckBox
+#PB_ScreenGadgetType_ComboBox    = #PB_GadgetType_ComboBox
+#PB_ScreenGadgetType_Container   = #PB_GadgetType_Container
+#PB_ScreenGadgetType_Editor      = #PB_GadgetType_Editor
+#PB_ScreenGadgetType_Image       = #PB_GadgetType_Image
+#PB_ScreenGadgetType_ListView    = #PB_GadgetType_ListView
+#PB_ScreenGadgetType_Option      = #PB_GadgetType_Option
+#PB_ScreenGadgetType_Panel       = #PB_GadgetType_Panel
+#PB_ScreenGadgetType_ProgressBar = #PB_GadgetType_ProgressBar
+#PB_ScreenGadgetType_ScrollArea  = #PB_GadgetType_ScrollArea
+#PB_ScreenGadgetType_ScrollBar   = #PB_GadgetType_ScrollBar
+#PB_ScreenGadgetType_Splitter    = #PB_GadgetType_Splitter
+#PB_ScreenGadgetType_String      = #PB_GadgetType_String
+#PB_ScreenGadgetType_Text        = #PB_GadgetType_Text
+#PB_ScreenGadgetType_TrackBar    = #PB_GadgetType_TrackBar
+
+; OpenScreenWindow() flags (#PB_ScreenWindow_BorderLess is the internal 'no title' flag of the ScreenGadget library)
+;
+#PB_ScreenWindow_BorderLess = 1 << 31
+#PB_ScreenWindow_Invisible  = 1 << 30
+#PB_ScreenWindow_SizeGadget = 1 << 29
+
+CompilerIf #PB_Compiler_OS <> #PB_OS_Web
+  ; For OpenSerialPort() 'Parity' parameter
+  #PB_SerialPort_NoParity    = 0
+  #PB_SerialPort_OddParity   = 1
+  #PB_SerialPort_EvenParity  = 2
+  #PB_SerialPort_MarkParity  = 3
+  #PB_SerialPort_SpaceParity = 4
+CompilerEndIf
 
 ; SerialPortError() results
 ;

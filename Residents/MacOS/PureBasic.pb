@@ -19,19 +19,9 @@ IncludeFile "../Common.pb"
 #ESC$  = Chr(27)
 
 
-; Image lib
-#PB_Image_Smooth = 0 ; ignored in the command, just for compatibility
-#PB_Image_Raw = 1
-
 ; Clipboard
 ;
 #PB_Clipboard_Image = 0 ; TODO
-
-; Used by Get/SetFileDate() and DirectoryEntryDate()
-;
-#PB_Date_Created  = 0
-#PB_Date_Accessed = 1
-#PB_Date_Modified = 2
 
 ; FileSystem
 ;
@@ -46,14 +36,6 @@ IncludeFile "../Common.pb"
 #PB_FileSystem_ReadAll    =   $4
 #PB_FileSystem_WriteAll   =   $2
 #PB_FileSystem_ExecAll    =   $1
-
-#PB_FileSystem_Recursive  = 1
-#PB_FileSystem_Force      = 2
-
-#PB_DirectoryEntry_File      = 1
-#PB_DirectoryEntry_Directory = 2
-
-#PB_FileSystem_NoExtension = 1
 
 ; Font
 ;
@@ -85,11 +67,6 @@ IncludeFile "../Common.pb"
 #PB_Sort_Double = 12
 #PB_Sort_Quad = 13
 
-; Toolbar
-;
-#PB_ToolBar_Normal = 0
-#PB_ToolBar_Toggle = 1
-
 ; RunProgram
 ;
 #PB_Program_Wait     = 1
@@ -99,7 +76,6 @@ IncludeFile "../Common.pb"
 #PB_Program_Write    = 16
 #PB_Program_Error    = 32
 #PB_Program_Connect  = 64
-#PB_Program_Eof      = 1  ; for WriteProgramData()
 #PB_Program_Ascii    = 128
 #PB_Program_UTF8     = 256
 #PB_Program_Unicode  = 512
@@ -117,37 +93,14 @@ IncludeFile "../Common.pb"
 #PB_Menu_ShowAll = -8
 
 
-; StatusBar
-;
-#PB_StatusBar_Raised     = 1
-#PB_StatusBar_BorderLess = 2
-#PB_StatusBar_Center     = 4
-#PB_StatusBar_Right      = 8
-
-; For OpenSerialPort() 'Parity' parameter
-;
-#PB_SerialPort_NoParity    = 0
-#PB_SerialPort_OddParity   = 1
-#PB_SerialPort_EvenParity  = 2
-#PB_SerialPort_MarkParity  = 3
-#PB_SerialPort_SpaceParity = 4
-
 ; Gadget
 ;
-
-#PB_Calendar_Minimum = 1
-#PB_Calendar_Maximum = 2
-
 
 #PB_Button_Default = $8
 #PB_Button_Left = $2
 #PB_Button_MultiLine = $10
 #PB_Button_Right = $1
 #PB_Button_Toggle = $4
-
-; for buttonimage
-#PB_Button_Image = 1
-#PB_Button_PressedImage = 2
 
 #PB_Calendar_Borderless = 1
 
@@ -160,36 +113,12 @@ IncludeFile "../Common.pb"
 #PB_ComboBox_UpperCase = $4
 #PB_ComboBox_Image     = $8
 
-#PB_Date_Calendar = 0  ; default
-#PB_Date_UpDown   = $1 ;DTS_UPDOWN
-#PB_Date_Minimum  = 1  ; for Get/SetGadgetAttribute
-#PB_Date_Maximum  = 2
-#PB_Date_CheckBox = $2 ;DTS_SHOWNONE
-
-; Explorerlist standart columns:
-#PB_Explorer_Name                = "PB_Explorer_Column_Name"
-#PB_Explorer_Size                = "PB_Explorer_Column_Size"
-#PB_Explorer_Type                = "PB_Explorer_Column_Type"
-#PB_Explorer_Attributes          = "PB_Explorer_Column_Attributes"
-#PB_Explorer_Created             = "PB_Explorer_Column_Created"
-#PB_Explorer_Modified            = "PB_Explorer_Column_Modified"
-#PB_Explorer_Accessed            = "PB_Explorer_Column_Accessed"
-
 #PB_Image_Border = 1 << 0
 #PB_Image_Raised = 1 << 1
 
 #PB_ListView_MultiSelect = 1
 #PB_ListView_ClickSelect = 2 ; NOT SUPPORTED
 
-#PB_MDI_BorderLess              = $00000001
-#PB_MDI_AutoSize                = $00000002
-#PB_MDI_NoScrollBars            = $00000004
-#PB_MDI_Cascade                 = -1
-#PB_MDI_TileVertically          = -2
-#PB_MDI_TileHorizontally        = -3
-#PB_MDI_Next                    = -4
-#PB_MDI_Previous                = -5
-#PB_MDI_Arrange                 = -6
 #PB_MDI_Normal                  = $00000001
 #PB_MDI_Maximize                = $00000002
 #PB_MDI_Minimize                = $00000004
@@ -201,11 +130,6 @@ IncludeFile "../Common.pb"
 
 #PB_ProgressBar_Smooth = $0
 #PB_ProgressBar_Vertical = $1
-
-; Attributes
-;
-#PB_ProgressBar_Minimum = 1
-#PB_ProgressBar_Maximum = 2
 
 #PB_Editor_ReadOnly = 1
 #PB_Editor_WordWrap = 2
@@ -219,14 +143,6 @@ IncludeFile "../Common.pb"
 #PB_Tree_NoButtons = $2
 #PB_Tree_NoLines = $1
 #PB_Tree_ThreeState = $8
-
-#PB_Tree_SubLevel = 1
-
-#PB_Tree_Selected = 1
-#PB_Tree_Expanded = 2
-#PB_Tree_Checked = 4
-#PB_Tree_Collapsed = 8
-#PB_Tree_Inbetween = 16
 
 ; Window
 ;
@@ -242,29 +158,17 @@ IncludeFile "../Common.pb"
 #PB_Window_Maximize       = 1 << 9
 #PB_Window_Minimize       = 1 << 10
 #PB_Window_Tool           = 1 << 11
-#PB_Window_Normal					= 0        ; for Get/SetWindowState
 #PB_Window_NoGadgets      = 1 << 12
 #PB_Window_NoActivate     = 1 << 13
 #PB_Window_Modal          = 1 << 14 ; disable the 'ParentID' window until this one is closed
-
-; For WindowX/Y/Width/Height()
-;
-#PB_Window_FrameCoordinate = 0
-#PB_Window_InnerCoordinate = 1
 
 ; Flags
 ;
 #PB_Spin_ReadOnly =  4
 #PB_Spin_Numeric = 8
 
-; Attributes
-;
-#PB_Spin_Minimum = 1
-#PB_Spin_Maximum = 2
-
 ; Events
 ;
-#PB_Event_None           = 0
 #PB_Event_Menu           = 1
 #PB_Event_CloseWindow    = 2
 #PB_Event_Gadget         = 3
@@ -292,9 +196,14 @@ IncludeFile "../Common.pb"
 #PB_EventType_LostFocus = $200
 #PB_EventType_DragStart = $800
 
+; ScreenEventType() results: the same values as EventType()
+#PB_ScreenEventType_LeftClick = #PB_EventType_LeftClick
+#PB_ScreenEventType_Change    = #PB_EventType_Change
+#PB_ScreenEventType_Focus     = #PB_EventType_Focus
+#PB_ScreenEventType_LostFocus = #PB_EventType_LostFocus
+
 ; Drag & Drop
 ;
-#PB_Drag_None = 0
 #PB_Drag_Copy = 1
 #PB_Drag_Move = 1 << 4
 #PB_Drag_Link = 1 << 1
@@ -304,16 +213,8 @@ IncludeFile "../Common.pb"
 #PB_Drop_Files   = 1751544608
 #PB_Drop_Private = 1885499492
 
-#PB_Drag_Enter   = 1
-#PB_Drag_Update  = 2
-#PB_Drag_Leave   = 3
-#PB_Drag_Finish  = 4
-
-
 ; Keyboard
 ;
-#PB_Key_All = -1
-
 
 ; Use regular ASCII code
 #PB_Key_Back            = 127
@@ -425,8 +326,6 @@ IncludeFile "../Common.pb"
 #PB_Key_Apostrophe      = 0 ; NOT DONE
 #PB_Key_Capital         = 0 ; NOT DONE
 
-#PB_Shortcut_All     = -1
-
 #PB_Shortcut_Shift   = $10000
 #PB_Shortcut_Control = $20000
 #PB_Shortcut_Alt     = $40000
@@ -458,16 +357,6 @@ IncludeFile "../Common.pb"
 #PB_Shortcut_Insert  = 5
 #PB_Shortcut_Delete  = 127
 #PB_Shortcut_Help    = 0
-#PB_Shortcut_0 = 48
-#PB_Shortcut_1 = 49
-#PB_Shortcut_2 = 50
-#PB_Shortcut_3 = 51
-#PB_Shortcut_4 = 52
-#PB_Shortcut_5 = 53
-#PB_Shortcut_6 = 54
-#PB_Shortcut_7 = 55
-#PB_Shortcut_8 = 56
-#PB_Shortcut_9 = 57
 #PB_Shortcut_A = 97
 #PB_Shortcut_B = 98
 #PB_Shortcut_C = 99
