@@ -180,6 +180,26 @@ debug_c:
 	make debug C_BACKEND=1
 
 #
+# default target, but compiled with the C backend for faster code. Only Windows and Linux x86/x64 have
+# a separate pbcompilerc: on the other targets (macOS, ARM), pbcompiler already is the C backend.
+# OPTIMIZED_TARGET selects the IDE target to build that way: ie 'make optimized OPTIMIZED_TARGET=onerror'
+#
+OPTIMIZED_TARGET = ide
+PBCOMPILERC_AVAILABLE = 0
+ifneq ($(PB_MACOS),1)
+  ifneq ($(filter X86 X64,$(PB_PROCESSOR)),)
+    PBCOMPILERC_AVAILABLE = 1
+  endif
+endif
+
+optimized:
+ifeq ($(PBCOMPILERC_AVAILABLE),1)
+	$(MAKE) $(OPTIMIZED_TARGET) C_BACKEND=1
+else
+	$(MAKE) $(OPTIMIZED_TARGET)
+endif
+
+#
 # debug version + Purifier
 #
 purifier : VERSION_DEBUG $(DEPENDENCIES)
