@@ -81,7 +81,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Add3DArchive(Pfad$, Typ)
+@Function Ergebnis = Add3DArchive(Pfad$, Typ)
 
 @Description
   Fügt der aktuellen 3D Pfad-Liste einen neuen absoluten oder relativen Datei-'Pfad$' hinzu. 
@@ -109,7 +109,8 @@
   @#PB_3DArchive_Zip         : Gepackte Zip-Datei
 @EndFixedFont
 
-@NoReturnValue
+@ReturnValue
+  Gibt einen Wert ungleich null zurück, falls das Archiv hinzugefügt wurde, andernfalls null.
 
 @Example
 @Code
@@ -887,9 +888,9 @@
 @Function Ergebnis = RayCast(x, y, z, ZielX, ZielY, ZielZ, PickMaske)
 
 @Description
-  Wirft einen Strahl zwischen dem ersten Punkt und dem zweiten Punkt, und prüft, ob dieser
-  auf ein Objekt trifft. Die Normalen-Werte am Auftreffpunkt sind verfügbar mit
-  @@NormalX, @@NormalY und @@NormalZ.
+  Es wird ein Strahl zwischen dem ersten und dem zweiten Punkt ausgesendet, um zu prüfen, ob ein Objekt
+  diesen Strahl kreuzt. Dabei werden nur Objekte erfasst, die sich zwischen den beiden Punkten befinden.
+  Die Normalen-Werte am Auftreffpunkt sind über @@NormalX, @@NormalY und @@NormalZ abrufbar.
 @LineBreak
 @LineBreak
   Diese Funktion basiert nicht auf der Physik-Engine.
@@ -908,7 +909,9 @@
   Für weitere Informationen über die Pick-Maske siehe @@CreateEntity.
 
 @ReturnValue
-  Gibt den Wert -1 zurück, wenn der Strahl mit irgendeinem Objekt kollidierte.
+  Gibt -1 zurück, wenn der Strahl kein Objekt gekreuzt hat, andernfalls die Nummer des nächstgelegenen
+  gekreuzten #Entity-Objekts. 
+  Um die Position des Kreuzungspunktes zu erhalten, verwenden Sie @@PickX, @@PickY und @@PickZ.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -1001,8 +1004,9 @@
 @Function Ergebnis = RayPick(x, y, z, ZielX, ZielY, ZielZ [, PickMaske])
 
 @Description
-  Wirft einen Strahl (englisch: "casts a ray") zwischen dem ersten und dem zweiten
-  Punkt, und prüft, ob ein Objekt den Strahl überquert.
+  Es wird ein Strahl zwischen dem ersten und dem zweiten Punkt ausgesendet, und es wird geprüft,
+  ob ein Objekt diesen Strahl kreuzt. Dabei werden nur die Objekte erfasst, die sich zwischen
+  den beiden Punkten befinden.
 
 @Parameter "x, y, z"
   Die Koordinaten des ersten Punkts, in Welt-Einheiten.
@@ -1287,6 +1291,28 @@
 
 @SeeAlso
   @@SkyDome, @@SkyBox
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Ergebnis = WaterHeight(#Camera, x, z)
+
+@Description
+  Gibt die Höhe der mit @@CreateWater erzeugten Wasseroberfläche an der angegebenen Weltposition zurück.
+  Die Wellen bewegen sich im Zeitverlauf, sodass sich die Höhe von einem Frame zum nächsten ändert.
+
+@Parameter "#Camera"
+  Die Kamera, die das Wasser darstellt.
+
+@Parameter "x, z"
+  Die Weltposition, in Welteinheiten.
+
+@ReturnValue
+  Die Weltkoordinate 'y' der Wasseroberfläche an dieser Position, oder Null, wenn kein Wasser vorhanden ist.
+
+@SeeAlso
+  @@CreateWater, @@SetWorldAttribute
 
 @SupportedOS
 

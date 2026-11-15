@@ -270,7 +270,7 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Ergebnis = CreateCubeMapTexture(#Textur, Breite, Höhe, TexturName$ [, HintergrundFarbe])
+@Function Ergebnis = CreateCubeMapTexture(#Textur, Größe, Flags, TexturName$ [, HintergrundFarbe])
 
 @Description
   Erstellt eine neue "Cube Map"-Textur. Eine "Cube Map" Textur (sechsseitiger Würfel)
@@ -280,6 +280,16 @@
 @Parameter "#Textur"
   Die Nummer zum Identifizieren der neuen Textur. @ReferenceLink "purebasic_objects" "#PB_Any"
   kann verwendet werden, um diese Zahl automatisch zu generieren.
+
+@Parameter "Größe"
+  Die Breite und Höhe jeder Seite der neuen Textur (in Pixeln).
+
+@Parameter "Flags"
+  Dies kann einer der folgenden Werte sein:
+@FixedFont
+  @#PB_Texture_AutomaticUpdate: die Textur wird bei jedem @@RenderWorld automatisch gerendert.
+  @#PB_Texture_ManualUpdate   : die Textur wird erst dann gerendert, wenn @@UpdateRenderTexture aufgerufen wird.
+@EndFixedFont
 
 @Parameter "Breite"
   Die Breite der neuen Textur (in Pixel).

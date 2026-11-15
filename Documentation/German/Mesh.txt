@@ -1516,7 +1516,7 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SaveMesh(#Mesh, Dateiname$)
+@Function Ergebnis = SaveMesh(#Mesh, Dateiname$)
 
 @Description
   Speichert das Mesh-Objekt. Das gespeicherte Mesh kann mit Hilfe des @@LoadMesh
@@ -1532,7 +1532,8 @@ Beispiel: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   Pfad beinhaltet, wird dieser relativ zum @Link "FileSystem/GetCurrentDirectory" "aktuellen Verzeichnis"
   interpretiert.
 
-@NoReturnValue
+@ReturnValue
+  Gibt einen Wert ungleich null zurück, wenn das Mesh gespeichert wurde, andernfalls null.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh
