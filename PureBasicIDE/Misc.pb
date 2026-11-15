@@ -33,11 +33,12 @@ Procedure EnsureWindowOnDesktop(Window)
   
   Count = ExamineDesktops()
   
+  ; Convert the desktop coordinates to window units (see DesktopToWindowX())
   For i = 0 To Count-1
-    dl = DesktopX(i)
-    dt = DesktopY(i)
-    dr = dl + DesktopWidth(i)
-    db = dt + DesktopHeight(i)
+    dl = DesktopToWindowX(DesktopX(i))
+    dt = DesktopToWindowY(DesktopY(i))
+    dr = DesktopToWindowX(DesktopX(i) + DesktopWidth(i))
+    db = DesktopToWindowY(DesktopY(i) + DesktopHeight(i))
     
     ; is the window on this desktop (with a margin so it is reachable ?)
     ;
@@ -76,10 +77,10 @@ Procedure EnsureWindowOnDesktop(Window)
     ResizeWindow(Window, 100, 100, #PB_Ignore, #PB_Ignore)
     
   Else
-    dl = DesktopX(monitor)
-    dt = DesktopY(monitor)
-    dr = dl + DesktopWidth(monitor)
-    db = dt + DesktopHeight(monitor)
+    dl = DesktopToWindowX(DesktopX(monitor))
+    dt = DesktopToWindowY(DesktopY(monitor))
+    dr = DesktopToWindowX(DesktopX(monitor) + DesktopWidth(monitor))
+    db = DesktopToWindowY(DesktopY(monitor) + DesktopHeight(monitor))
     
     If mode = 1 ; top/left corner
       If t > db-#DesktopMargin: t = db-#DesktopMargin: EndIf

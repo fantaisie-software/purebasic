@@ -91,3 +91,23 @@ Macro EnsureListIconSelection(Gadget)
     SetGadgetState(Gadget, 0)
   EndIf
 EndMacro
+
+; Converts a DesktopX/Y/Width/Height() or DesktopMouseX/Y() value to the window and gadget units.
+; They are real pixels on Windows and Linux (the IDE is DPI aware), and already points on macOS.
+CompilerIf #CompileMac
+  Macro DesktopToWindowX(Value)
+    (Value)
+  EndMacro
+
+  Macro DesktopToWindowY(Value)
+    (Value)
+  EndMacro
+CompilerElse
+  Macro DesktopToWindowX(Value)
+    DesktopUnscaledX(Value)
+  EndMacro
+
+  Macro DesktopToWindowY(Value)
+    DesktopUnscaledY(Value)
+  EndMacro
+CompilerEndIf

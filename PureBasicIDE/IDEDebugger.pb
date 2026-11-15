@@ -1176,6 +1176,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
               SystemParametersInfo_(#SPI_GETWORKAREA, 0, @wr.RECT, 0)
               WorkAreaWidth  = wr\right - wr\left
               WorkAreaHeight = wr\bottom - wr\top
+              ToolTipMouseX  = DesktopMouseX()
+              ToolTipMouseY  = DesktopMouseY()
             CompilerElse
               ; Don't use an invisible maximized window to get the work area: GTK never maximizes a window which isn't shown,
               ; so it stays 30x30 and the computed MaxLenLine was negative, turning every structure field into " ..."
@@ -1195,11 +1197,18 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
                 WorkAreaWidth  = DesktopX(0) + DesktopWidth(0)
                 WorkAreaHeight = DesktopY(0) + DesktopHeight(0)
               EndIf
+
+              ; The desktop and mouse coordinates are real pixels on Linux (the IDE is DPI aware), but Scintilla measures
+              ; its text in GTK (logical) units: convert them, or the tooltip can be twice too large with a desktop scale.
+              WorkAreaWidth  = DesktopToWindowX(WorkAreaWidth)
+              WorkAreaHeight = DesktopToWindowY(WorkAreaHeight)
+              ToolTipMouseX  = DesktopToWindowX(DesktopMouseX())
+              ToolTipMouseY  = DesktopToWindowY(DesktopMouseY())
             CompilerEndIf
 
             ; ToolTip width enlarged according to the available space between the mouse position and the right desktop border, rather than 100 hard-coded chars
             ; To be aligned with the mouse position. For a full ToolTip, adjusted to the desktop width, use: MaxLenLine = WorkAreaWidth  / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A"))
-            MaxLenLine = (WorkAreaWidth - DesktopMouseX()) / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A")) +1   ; +1 for Chr(10), #LF$
+            MaxLenLine = (WorkAreaWidth - ToolTipMouseX) / SendEditorMessage(#SCI_TEXTWIDTH, #STYLE_DEFAULT, ToAscii("A")) +1   ; +1 for Chr(10), #LF$
             If MaxLenLine < 20 ; Always display a meaningful part of each field, even if the work area couldn't be determined correctly
               MaxLenLine = 20
             EndIf
@@ -1210,8 +1219,8 @@ Procedure DebuggerCallback(*Debugger.DebuggerData)
 
             ; Number of lines to bottom : (from mouse position + height of 1 line) to bottom and remove a line for "Structure: " + Name$
             TextHeight = SendEditorMessage(#SCI_TEXTHEIGHT, 1, 0)
-            MaxLineBottom = Round((WorkAreaHeight -  DesktopMouseY() - TextHeight) / TextHeight, #PB_Round_Down) - 1
-            Debug "ToolTip: Max Line To Bottom = " + Str(MaxLineBottom) + " = Round((" + Str(WorkAreaHeight) + " - " + Str(DesktopMouseY()) + " - " + Str(TextHeight) + ") / " + Str(TextHeight) + ", #PB_Round_Down) - 1"
+            MaxLineBottom = Round((WorkAreaHeight -  ToolTipMouseY - TextHeight) / TextHeight, #PB_Round_Down) - 1
+            Debug "ToolTip: Max Line To Bottom = " + Str(MaxLineBottom) + " = Round((" + Str(WorkAreaHeight) + " - " + Str(ToolTipMouseY) + " - " + Str(TextHeight) + ") / " + Str(TextHeight) + ", #PB_Round_Down) - 1"
             
             MaxLine = Max(MaxLineTop, MaxLineBottom)
             If Count > MaxLine
