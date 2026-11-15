@@ -4088,6 +4088,11 @@ Procedure UpdateToolsPanel_ToolsSettings(Gadget)
       CloseGadgetList()
       CloseGadgetList()
       
+      ; PreferenceCreate() may update the required size (the default ones are only estimations), so apply it,
+      ; or the gadgets outside of the initial inner area are clipped on Windows the first time
+      SetGadgetAttribute(#GADGET_Preferences_ToolSettingsScrollArea, #PB_ScrollArea_InnerWidth, *CurrentPreferenceToolData\PreferencesWidth)
+      SetGadgetAttribute(#GADGET_Preferences_ToolSettingsScrollArea, #PB_ScrollArea_InnerHeight, *CurrentPreferenceToolData\PreferencesHeight)
+      
       If *CurrentPreferenceToolData\ExternalPlugin
         SetGadgetText(#GADGET_Preferences_ToolSettingsTitle, Language("Preferences","Configuration") + " - " + *CurrentPreferenceToolData\ToolName$)
       Else
