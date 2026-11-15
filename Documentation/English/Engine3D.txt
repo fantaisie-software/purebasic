@@ -78,7 +78,7 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Add3DArchive(Path$, Type)
+@Function Result = Add3DArchive(Path$, Type)
 
 @Description
   Add a new absolute or relative path to the current 3D path list. All the 3D functions which need
@@ -101,7 +101,8 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   @#PB_3DArchive_Zip        : Compressed zip file
 @EndFixedFont
 
-@NoReturnValue
+@ReturnValue
+  Returns nonzero if the archive has been added, zero otherwise.
 
 @Example
 @Code
@@ -753,7 +754,8 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @Description
   Casts a ray between the first point and the second point, and checks if an object is 
-  crossing the ray. This function doesn't rely on the physic engine. The normals
+  crossing the ray. Only the objects between the two points are detected.
+  This function doesn't rely on the physic engine. The normals
   value at the impact point are available with @@NormalX, @@NormalY and @@NormalZ.
 
 @Parameter "x, y, z"
@@ -769,7 +771,8 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
   To have more information about pick mask, see @@CreateEntity.
 
 @ReturnValue
-  Returns -1 if the ray has collided with any object.
+  Returns -1 if the ray hasn't crossed any entity, else the number of the closest #Entity crossed.
+  To get the position of the crossed point, use @@PickX, @@PickY and @@PickZ.
 
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
@@ -856,7 +859,7 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @Description
   Casts a ray between the first point and the second point, and checks if an object is 
-  crossing the ray.
+  crossing the ray. Only the objects between the two points are detected.
   
 @Parameter "x, y, z"
   The first point coordinates, in world unit.
@@ -1128,6 +1131,28 @@ The OGRE license file can be consulted @ReferenceLink "license_engine3d" "here" 
 
 @SupportedOS
 
+
+;--------------------------------------------------------------------------------------------------------
+
+@Function Result = WaterHeight(#Camera, x, z)
+
+@Description
+  Returns the height of the water surface created with @@CreateWater, at the given world position. The waves
+  move with the time, so the height changes from one frame to the next.
+
+@Parameter "#Camera"
+  The camera which renders the water.
+
+@Parameter "x, z"
+  The world position, in world units.
+
+@ReturnValue
+  The world 'y' coordinate of the water surface at this position, or zero if there is no water.
+
+@SeeAlso
+  @@CreateWater, @@SetWorldAttribute
+
+@SupportedOS
 
 ;--------------------------------------------------------------------------------------------------------
 

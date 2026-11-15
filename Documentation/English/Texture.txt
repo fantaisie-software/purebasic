@@ -247,7 +247,7 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Result = CreateCubeMapTexture(#Texture, Width, Height, TextureName$ [, BackColor])
+@Function Result = CreateCubeMapTexture(#Texture, Size, Flags, TextureName$ [, BackColor])
 
 @Description
   Creates a new cube map texture. A cube map texture use the surrounding to render itself as reflection on it.
@@ -257,11 +257,15 @@ it from disk. @@InitEngine3D must be called successfully before using the Textur
   The number to identify the new texture. @ReferenceLink "purebasic_objects" "#PB_Any" can
   be used to auto-generate this number.
 
-@Parameter "Width"
-  The width of the new texture (in pixels).
+@Parameter "Size"
+  The width and height of each face of the new texture (in pixels).
 
-@Parameter "Height"
-  The height of the new texture (in pixels).
+@Parameter "Flags"
+  It can be one of the following values:
+@FixedFont
+  @#PB_Texture_AutomaticUpdate: the texture is rendered automatically with every @@RenderWorld.
+  @#PB_Texture_ManualUpdate   : the texture is rendered only when @@UpdateRenderTexture is called.
+@EndFixedFont
 
 @Parameter "TextureName$"
   The name of the texture in the OGRE scripts. This texture has to be defined in the script with the

@@ -1422,7 +1422,7 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function SaveMesh(#Mesh, Filename$)
+@Function Result = SaveMesh(#Mesh, Filename$)
 
 @Description
   Save the mesh. The saved mesh can be loaded back with the @@LoadMesh command.
@@ -1435,7 +1435,8 @@ Example: CreateMeshLodLevels(@#Mesh, 3, 100, 0.75) @LineBreak
   The filename and path to the new mesh file. If the filename does not include a full path, it
   is interpreted relative to the @Link "FileSystem/GetCurrentDirectory" "current directory".
 
-@NoReturnValue
+@ReturnValue
+  Returns nonzero if the mesh has been saved, zero otherwise.
 
 @SeeAlso
   @@CreateMesh, @@LoadMesh
