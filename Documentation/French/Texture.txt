@@ -346,14 +346,10 @@
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Resultat = CreateCubeMapTexture(#Texture, Largeur, Hauteur, NomTexture$ [, CouleurFond])
+@Function Resultat = CreateCubeMapTexture(#Texture, Taille, Options, NomTexture$ [, CouleurFond])
 
 @Description
   Crée une nouvelle texture cube map. 
-@linebreak
-@linebreak
-  Une texture cube map refléchit le milieu 
-  qui l'entoure.
 
 @Parameter "#Texture"
   Le numéro d'identification de la nouvelle 
@@ -363,14 +359,16 @@
   @ReferenceLink "purebasic_objects" "#PB_Any" 
   peut être utilisé pour générer 
   automatiquement ce numéro.
-@linebreak
-@linebreak
 
-@Parameter "Largeur, Hauteur"
-  Les dimensions de la nouvelle texture, 
-  en pixels.
-@linebreak
-@linebreak
+@Parameter "Taille"
+  La largeur et la hauteur de chaque face de la nouvelle texture (en pixels).
+
+@Parameter "Options"
+ Il peut s'agir de l'une des valeurs suivantes :
+@FixedFont
+  @#PB_Texture_AutomaticUpdate : La texture est rendue automatiquement à chaque appel de @@RenderWorld.
+  @#PB_Texture_ManualUpdate    : La texture est rendue uniquement lorsque @@UpdateRenderTexture est appelé.
+@EndFixedFont
 
 @Parameter "NomTexture$"
   Le nom de la texture dans les scripts OGRE. 
@@ -409,8 +407,6 @@
 @linebreak
 @linebreak
   Pour obtenir une couleur valide, utiliser @@RGB.
-@linebreak
-@linebreak
 
 @ReturnValue
   Renvoie une valeur non nulle en cas de 
@@ -421,9 +417,11 @@
   peut être utilisé pour générer automatiquement 
   ce numéro.
 
-@Remarks 
-  Cette texture doit se trouver dans un script 
-  OGRE.
+@Remarks
+  Une texture cube map refléchit le milieu qui l'entoure.
+@linebreak
+@linebreak
+  Cette texture doit se trouver dans un script OGRE.
   
 @SeeAlso
   @@EntityCubeMapTexture

@@ -100,7 +100,7 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
-@Function Add3DArchive(Chemin$, Type)
+@Function Resultat = Add3DArchive(Chemin$, Type)
 
 @Description
   Ajoute un nouveau chemin absolu ou relatif 
@@ -123,7 +123,8 @@ consultable @ReferenceLink "license_engine3d" "ici"
   @#PB_3DArchive_Zip         : Fichier .zip (archive compressée)
 @EndFixedFont
 
-@NoReturnValue
+@ReturnValue
+  Renvoie une valeur non nulle si l'archive a été ajoutée, zéro sinon.
 
 @Remarks
   Ce mode spécial de gestion des accès aux 
@@ -1194,9 +1195,12 @@ consultable @ReferenceLink "license_engine3d" "ici"
   masque de sélection, voir @@CreateEntity.
 
 @ReturnValue
-  Renvoie -1 si le rayon est entré en collision avec un objet.
+  Renvoie -1 si le rayon n'a croisé aucune entité, sinon elle renvoie le numéro de l'entité croisée la plus proche.
 
 @Remarks
+  Seuls les objets situés entre les deux points sont détectés.
+@LineBreak
+@LineBreak
   Cette fonction ne repose pas sur le 
   moteur physique. 
 @LineBreak
@@ -1204,7 +1208,11 @@ consultable @ReferenceLink "license_engine3d" "ici"
   Les valeur des normales au point 
   d'impact sont disponibles avec 
   @@NormalX, @@NormalY et @@NormalZ.
-  
+@LineBreak
+@LineBreak
+  Pour obtenir la position du point de croisement, utiliser @@PickX, @@PickY et @@PickZ.
+
+
 @SeeAlso
   @@NormalX, @@NormalY, @@NormalZ
 
@@ -1352,9 +1360,13 @@ consultable @ReferenceLink "license_engine3d" "ici"
   @#PB_World_WaterPick  : Le rayon traverse l'eau.
 @EndFixedFont
 
+@Remarks
+  Seuls les objets situés entre les deux points sont détectés.
+@LineBreak
+@LineBreak
  Pour obtenir plus d'informations sur la position de l'objet sélectionné, 
  voir @@PickX, @@PickY and @@PickZ.
-    
+
 @SeeAlso
   @@RayCollide
 
@@ -1760,6 +1772,29 @@ consultable @ReferenceLink "license_engine3d" "ici"
 
 ;--------------------------------------------------------------------------------------------------------
 
+@Function Resultat = WaterHeight(#Camera, X, Z)
+
+@Description
+  Renvoie la hauteur de la surface de l'eau créée avec @@CreateWater, à la position dans le monde. 
+
+@Parameter "#Camera"
+  La caméra qui affiche l'eau.
+
+@Parameter "X, Z"
+  La position en unités du monde.
+
+@ReturnValue
+  La coordonnée 'Y' en unités du monde de la surface de l'eau à cette position, ou zéro s'il n'y a pas d'eau.
+
+@Remarks
+  Les vagues se déplacent avec le temps, la hauteur varie donc d'une image à l'autre.
+
+@SeeAlso
+  @@CreateWater, @@SetWorldAttribute
+
+@SupportedOS
+
+;--------------------------------------------------------------------------------------------------------
 @Function WorldShadows(Type [, Distance.f [, Couleur [, TailleTexture]]])
 
 @Description
