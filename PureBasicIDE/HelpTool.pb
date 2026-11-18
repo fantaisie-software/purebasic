@@ -325,17 +325,11 @@ Module HelpTool
   ; edited on Windows (ie: a user library help) can use #CRLF$ (https://www.purebasic.fr/english/viewtopic.php?t=89946)
   ;
   Procedure.s ReadTextFile(FileName$, ShowError = #True)
-    Protected File, Format, Text$
+    Protected File, Text$
 
-    File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead)
+    File = ReadFile(#PB_Any, FileName$, #PB_UTF8 | #PB_File_SharedRead | #PB_File_BOM) ; BOM: skipped and format set (UTF-8 or UTF-16), else UTF-8
     If File
-      Format = ReadStringFormat(File) ; skip the BOM
-      Select Format
-        Case #PB_Unicode ; UTF-16 LE BOM (Windows Notepad 'Unicode')
-        Default          ; UTF-8 BOM, or no BOM: UTF-8
-          Format = #PB_UTF8
-      EndSelect
-      Text$ = RemoveString(ReadString(File, Format | #PB_File_IgnoreEOL), #CR$)
+      Text$ = RemoveString(ReadString(File, #PB_File_IgnoreEOL), #CR$) ; no format: the file one
       CloseFile(File)
     ElseIf ShowError
       MessageRequester(Text_Help$, "Can't load the file: " + FileName$)
